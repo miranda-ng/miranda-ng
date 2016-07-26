@@ -71,18 +71,18 @@ int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
-	odp.ptszGroup = LPGENT("Speak");
+	odp.pwszGroup = LPGENW("Speak");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 
 	if (g_speak_config)
 	{
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONFIG);
-		odp.ptszTitle = LPGENT("Engine/Voice");
+		odp.pwszTitle = LPGENW("Engine/Voice");
 		odp.pfnDlgProc = DialogConfigEngine::process;
 		Options_AddPage(wParam, &odp);
 
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_ACTIVEMODES);
-		odp.ptszTitle = LPGENT("Active Modes");
+		odp.pwszTitle = LPGENW("Active Modes");
 		odp.pfnDlgProc = DialogConfigActive::process;
 		Options_AddPage(wParam, &odp);
 	}
@@ -90,7 +90,7 @@ int dialogOptionsInitialise(WPARAM wParam, LPARAM)
 	if (g_speak_announce)
 	{
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_ANNOUNCE);
-		odp.ptszTitle = LPGENT("Announce");
+		odp.pwszTitle = LPGENW("Announce");
 		odp.pfnDlgProc = AnnounceDialog::process;
 		Options_AddPage(wParam, &odp);
 	}

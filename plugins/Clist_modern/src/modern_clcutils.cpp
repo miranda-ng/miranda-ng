@@ -564,7 +564,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		if (tszLineText)
 			mir_tstrncpy(dat->secondLine.text, tszLineText, _countof(dat->secondLine.text));
 		else
-			dat->secondLine.text[0] = _T('\0');
+			dat->secondLine.text[0] = '\0';
 
 		dat->secondLine.xstatus_has_priority = db_get_b(NULL, "CList", "SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
 		dat->secondLine.show_status_if_no_away = db_get_b(NULL, "CList", "SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
@@ -584,7 +584,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		if (tszLineText)
 			mir_tstrncpy(dat->thirdLine.text, tszLineText, _countof(dat->thirdLine.text));
 		else
-			dat->thirdLine.text[0] = _T('\0');
+			dat->thirdLine.text[0] = '\0';
 
 		dat->thirdLine.xstatus_has_priority = db_get_b(NULL, "CList", "ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
 		dat->thirdLine.show_status_if_no_away = db_get_b(NULL, "CList", "ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
@@ -654,7 +654,7 @@ int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat)
 	return contact->bSubExpanded;
 }
 
-int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
+int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 {
 	ClcGroup *group = &dat->list;
 	int testlen = (int)mir_tstrlen(text);
@@ -673,11 +673,11 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 		if (cc->type != CLCIT_DIVIDER) {
 			bool found;
 			if (dat->bFilterSearch) {
-				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(cc->szText));
-				TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
-				found = _tcsstr(lowered_szText, lowered_text) != NULL;
+				wchar_t *lowered_szText = CharLowerW(NEWWSTR_ALLOCA(cc->szText));
+				wchar_t *lowered_text = CharLowerW(NEWWSTR_ALLOCA(text));
+				found = wcsstr(lowered_szText, lowered_text) != NULL;
 			}
-			else found = (prefixOk && !_tcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText));
+			else found = (prefixOk && !wcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText));
 
 			if (found) {
 				ClcGroup *ccGroup = group;
@@ -704,11 +704,11 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 
 					bool found;
 					if (dat->bFilterSearch) {
-						TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(ccSub.szText));
-						TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
-						found = _tcsstr(lowered_szText, lowered_text) != NULL;
+						wchar_t *lowered_szText = CharLowerW(NEWWSTR_ALLOCA(ccSub.szText));
+						wchar_t *lowered_text = CharLowerW(NEWWSTR_ALLOCA(text));
+						found = wcsstr(lowered_szText, lowered_text) != NULL;
 					}
-					else found = (prefixOk && !_tcsnicmp(text, ccSub.szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, ccSub.szText));
+					else found = (prefixOk && !wcsnicmp(text, ccSub.szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, ccSub.szText));
 
 					if (found) {
 						ClcGroup *ccGroup = group;

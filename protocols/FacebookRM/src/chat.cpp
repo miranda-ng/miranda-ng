@@ -244,7 +244,7 @@ bool FacebookProto::IsChatContact(const char *chat_id, const char *id)
 	return (users != NULL && strstr(users, id) != NULL);
 }
 
-void FacebookProto::AddChat(const char *id, const TCHAR *tname)
+void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 {
 	ptrT tid(mir_a2t(id));
 
@@ -377,8 +377,8 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	{
 		static const struct gc_item Items[] =
 		{
-			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
-			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE }
+			{ LPGENW("&Invite user..."), 10, MENU_ITEM, FALSE },
+			{ LPGENW("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
 		gcmi->nItems = _countof(Items);
 		gcmi->Item = (gc_item*)Items;
@@ -389,10 +389,10 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		{
 			/*static const struct gc_item Items[] =
 			{
-			{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
-			{ LPGENT("User &history"), 20, MENU_ITEM, FALSE },
+			{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
+			{ LPGENW("User &history"), 20, MENU_ITEM, FALSE },
 			{ L"", 100, MENU_SEPARATOR, FALSE },
-			{ LPGENT("&Leave chat session"), 110, MENU_ITEM, FALSE }
+			{ LPGENW("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
 			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;*/
@@ -403,8 +403,8 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		{
 			static const struct gc_item Items[] =
 			{
-				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
-				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE }
+				{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
+				{ LPGENW("User &history"), 20, MENU_ITEM, FALSE }
 			};
 			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
@@ -429,7 +429,7 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 	// Prepare notifications chatroom if not exists
 	MCONTACT hNotificationsChatRoom = ChatIDToHContact(FACEBOOK_NOTIFICATIONS_CHATROOM);
 	if (hNotificationsChatRoom == NULL || getDword(hNotificationsChatRoom, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE) {
-		TCHAR nameT[200];
+		wchar_t nameT[200];
 		mir_sntprintf(nameT, L"%s: %s", m_tszUserName, TranslateT("Notifications"));
 
 		// Create the group chat session

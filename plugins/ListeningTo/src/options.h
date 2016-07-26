@@ -48,8 +48,8 @@ struct Options {
 	bool enable_video;
 	bool enable_others;
 
-	TCHAR templ[1024];
-	TCHAR unknown[128];
+	wchar_t templ[1024];
+	wchar_t unknown[128];
 
 	bool override_contact_template;
 	bool show_adv_icon;
@@ -61,9 +61,9 @@ struct Options {
 	int time_to_pool;
 
 	WORD xstatus_set;
-	TCHAR xstatus_name[1024];
-	TCHAR xstatus_message[1024];
-	TCHAR nothing[128];
+	wchar_t xstatus_name[1024];
+	wchar_t xstatus_message[1024];
+	wchar_t nothing[128];
 };
 
 extern Options opts;

@@ -75,11 +75,11 @@ private:
 	{
 	private:
 		struct SupportInfo {
-			TCHAR* szPlugin;
-			TCHAR* szTeaser;
-			TCHAR* szDescription;
-			TCHAR* szLinkTexts;
-			TCHAR* szLinkURLs;
+			wchar_t* szPlugin;
+			wchar_t* szTeaser;
+			wchar_t* szDescription;
+			wchar_t* szLinkTexts;
+			wchar_t* szLinkURLs;
 		};
 
 	private:

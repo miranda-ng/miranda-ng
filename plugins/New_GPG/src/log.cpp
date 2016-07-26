@@ -17,7 +17,7 @@
 #include "stdafx.h"
 
 
-logtofile& logtofile::operator<<(TCHAR *buf)
+logtofile& logtofile::operator<<(wchar_t *buf)
 {
 	if(_bDebugLog != bDebugLog)
 		init();

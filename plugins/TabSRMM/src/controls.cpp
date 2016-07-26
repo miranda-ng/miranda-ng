@@ -270,12 +270,12 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 		return CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE;
 
 	case CDDS_ITEMPREPAINT:
-		TCHAR	*szText;
+		wchar_t	*szText;
 		bool fDraw;
 		{
 			int iIndex = idToIndex(nmtb->nmcd.dwItemSpec);
 			if (iIndex >= 0 && iIndex < NR_BUTTONS)
-				szText = (TCHAR*)m_TbButtons[iIndex].iString;
+				szText = (wchar_t*)m_TbButtons[iIndex].iString;
 			else
 				szText = NULL;
 
@@ -834,7 +834,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				int height = itemRect.bottom - itemRect.top;
 				HICON hIcon = (HICON)SendMessage(hWnd, SB_GETICON, i, 0);
 
-				TCHAR szText[1024]; szText[0] = 0;
+				wchar_t szText[1024]; szText[0] = 0;
 				LRESULT result = SendMessage(hWnd, SB_GETTEXT, i, (LPARAM)szText);
 				if (i == 2 && pContainer) {
 					TWindowData *pDat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
@@ -952,7 +952,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		if (dat != NULL) {
 			RECT rc;
 			SIZE size;
-			TCHAR wBuf[512]; wBuf[0] = 0;
+			wchar_t wBuf[512]; wBuf[0] = 0;
 			CLCINFOTIP ti = { 0 };
 			ti.cbSize = sizeof(ti);
 			ti.ptCursor = pt;
@@ -975,10 +975,10 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
 					}
 					else if (sid->dwId == MSG_ICON_SESSION)
-						_tcsncpy_s(wBuf, TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"), _TRUNCATE);
+						wcsncpy_s(wBuf, TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"), _TRUNCATE);
 				}
 				else if (sid->tszTooltip)
-					_tcsncpy(wBuf, sid->tszTooltip, _countof(wBuf));
+					wcsncpy(wBuf, sid->tszTooltip, _countof(wBuf));
 
 				if (wBuf[0]) {
 					CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
@@ -995,7 +995,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 				tooltip_active = TRUE;
 
-				const TCHAR *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
+				const wchar_t *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
 
 				mir_sntprintf(wBuf, szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
 				CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);

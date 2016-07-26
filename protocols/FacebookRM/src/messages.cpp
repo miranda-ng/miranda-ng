@@ -217,10 +217,10 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 	std::string b64 = ptrA(mir_base64_encode((PBYTE)sticker.c_str(), (unsigned)sticker.length()));
 	b64 = utils::url::encode(b64);
 
-	std::tstring filename = GetAvatarFolder() + L"\\stickers\\";
+	std::wstring filename = GetAvatarFolder() + L"\\stickers\\";
 	ptrT dir(mir_tstrdup(filename.c_str()));
 
-	filename += (TCHAR*)_A2T(b64.c_str());
+	filename += (wchar_t*)_A2T(b64.c_str());
 	filename += L".png";
 
 	// Check if we have this sticker already and download it it not

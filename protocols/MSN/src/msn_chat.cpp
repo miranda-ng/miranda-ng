@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include <m_history.h>
 
-static const TCHAR *m_ptszRoles[] = {
+static const wchar_t *m_ptszRoles[] = {
 	L"admin",
 	L"user"
 };
@@ -47,14 +47,14 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 {
 	char *szNet, *szEmail;
 
-	_tcsncpy(info->mChatID, _A2T(pszID), _countof(info->mChatID));
+	wcsncpy(info->mChatID, _A2T(pszID), _countof(info->mChatID));
 	parseWLID(NEWSTR_ALLOCA(pszID), &szNet, &szEmail, NULL);
 	info->netId = atoi(szNet);
 	strncpy(info->szEmail, szEmail, sizeof(info->szEmail));
 
-	TCHAR szName[512];
+	wchar_t szName[512];
 	InterlockedIncrement(&m_chatID);
-	if (*pszTopic) _tcsncpy(szName, _A2T(pszTopic), _countof(szName));
+	if (*pszTopic) wcsncpy(szName, _A2T(pszTopic), _countof(szName));
 	else mir_sntprintf(szName, L"%s %s%d",
 		m_tszUserName, TranslateT("Chat #"), m_chatID);
 
@@ -77,7 +77,7 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
 
-	mir_free((TCHAR*)gce.ptszUID);
+	mir_free((wchar_t*)gce.ptszUID);
 	return 0;
 }
 
@@ -143,7 +143,7 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 	}
 }
 
-void CMsnProto::MSN_KillChatSession(const TCHAR* id)
+void CMsnProto::MSN_KillChatSession(const wchar_t* id)
 {
 	GCDEST gcd = { m_szModuleName, id, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -168,7 +168,7 @@ void CMsnProto::MSN_Promoteuser(GCHOOK *gch, const char *pszRole)
 		thread->netId, thread->szEmail, _T2A(gch->ptszUID), pszRole);
 }
 
-const TCHAR *CMsnProto::MSN_GCGetRole(GCThreadData* thread, const char *pszWLID) 
+const wchar_t *CMsnProto::MSN_GCGetRole(GCThreadData* thread, const char *pszWLID) 
 {
 	if (thread)
 		for (int j = 0; j < thread->mJoinedContacts.getCount(); j++)
@@ -178,7 +178,7 @@ const TCHAR *CMsnProto::MSN_GCGetRole(GCThreadData* thread, const char *pszWLID)
 	return NULL;
 }
 
-void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const TCHAR *mChatID)
+void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID)
 {
 	if (!mir_strcmp(xmli->name, "topicupdate")) {
 		ezxml_t initiator = ezxml_child(xmli, "initiator");
@@ -191,8 +191,8 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const TCHAR *mChatID)
 		gce.ptszNick = GetContactNameT(hContInitiator);
 		gce.ptszText = mir_a2t(ezxml_txt(ezxml_child(xmli, "value")));
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-		mir_free((TCHAR*)gce.ptszUID);
-		mir_free((TCHAR*)gce.ptszText);
+		mir_free((wchar_t*)gce.ptszUID);
+		mir_free((wchar_t*)gce.ptszText);
 	}
 	else if (ezxml_t target = ezxml_child(xmli, "target")) {
 		MCONTACT hContInitiator = NULL;
@@ -248,7 +248,7 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const TCHAR *mChatID)
 				MCONTACT hContTarget = MSN_HContactFromEmail(pszTarget);
 				gce.ptszNick = GetContactNameT(hContTarget);
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-				mir_free((TCHAR*)gce.ptszUID);
+				mir_free((wchar_t*)gce.ptszUID);
 				if ((gcd.iType == GC_EVENT_PART || gcd.iType == GC_EVENT_KICK) && gce.bIsMe) {
 					GCDEST gcd2 = { m_szModuleName, mChatID, GC_EVENT_CONTROL };
 					GCEVENT gce2 = { sizeof(gce2), &gcd2 };
@@ -282,7 +282,7 @@ void CMsnProto::MSN_GCRefreshThreadsInfo(void)
 		msnNsThread->sendPacketPayload("GET", "MSGR\\THREADS", "<threads>%s</threads>", buf);
 }
 
-void CMsnProto::MSN_GCAddMessage(TCHAR *mChatID, MCONTACT hContact, char *email, time_t ts, bool sentMsg, char *msgBody)
+void CMsnProto::MSN_GCAddMessage(wchar_t *mChatID, MCONTACT hContact, char *email, time_t ts, bool sentMsg, char *msgBody)
 {
 	GCDEST gcd = { m_szModuleName, mChatID, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -292,7 +292,7 @@ void CMsnProto::MSN_GCAddMessage(TCHAR *mChatID, MCONTACT hContact, char *email,
 	gce.time = ts;
 	gce.bIsMe = sentMsg;
 
-	TCHAR* p = mir_utf8decodeT(msgBody);
+	wchar_t* p = mir_utf8decodeT(msgBody);
 	gce.ptszText = EscapeChatTags(p);
 	mir_free(p);
 
@@ -330,7 +330,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 			int chk = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
 			if (chk) {
 				if (IsHContactInfo(hItem)) {
-					TCHAR buf[128] = L"";
+					wchar_t buf[128] = L"";
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
 					if (buf[0]) str.insert(mir_t2a(buf));
@@ -420,13 +420,13 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		switch (LOWORD(wParam)) {
 		case IDC_ADDSCR:
 			if (param->ppro->msnLoggedIn) {
-				TCHAR email[MSN_MAX_EMAIL_LEN];
+				wchar_t email[MSN_MAX_EMAIL_LEN];
 				GetDlgItemText(hwndDlg, IDC_EDITSCR, email, _countof(email));
 
 				CLCINFOITEM cii = { 0 };
 				cii.cbSize = sizeof(cii);
 				cii.flags = CLCIIF_CHECKBOX | CLCIIF_BELOWCONTACTS;
-				cii.pszText = _tcslwr(email);
+				cii.pszText = wcslwr(email);
 
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CCLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 				SendDlgItemMessage(hwndDlg, IDC_CCLIST, CLM_SETCHECKMARK, (LPARAM)hItem, 1);
@@ -501,7 +501,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		if (gch->ptszText && gch->ptszText[0]) {
 			GCThreadData* thread = MSN_GetThreadByChatId(gch->pDest->ptszID);
 			if (thread) {
-				TCHAR* pszMsg = UnEscapeChatTags(NEWTSTR_ALLOCA(gch->ptszText));
+				wchar_t* pszMsg = UnEscapeChatTags(NEWWSTR_ALLOCA(gch->ptszText));
 				rtrimt(pszMsg); // remove the ending linebreak
 				msnNsThread->sendMessage('N', thread->szEmail, thread->netId, UTF8(pszMsg), 0);
 
@@ -573,7 +573,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 			break;
 
 		case 40:
-			const TCHAR *pszRole = MSN_GCGetRole(MSN_GetThreadByChatId(gch->pDest->ptszID), _T2A(gch->ptszUID));
+			const wchar_t *pszRole = MSN_GCGetRole(MSN_GetThreadByChatId(gch->pDest->ptszID), _T2A(gch->ptszUID));
 			MSN_Promoteuser(gch, (pszRole && !mir_tstrcmp(pszRole, L"admin")) ? "user" : "admin");
 			break;
 		}
@@ -592,8 +592,8 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 	if (gcmi->Type == MENU_ON_LOG) {
 		static const struct gc_item Items[] =
 		{
-			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
-			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE }
+			{ LPGENW("&Invite user..."), 10, MENU_ITEM, FALSE },
+			{ LPGENW("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
 		gcmi->nItems = _countof(Items);
 		gcmi->Item = (gc_item*)Items;
@@ -603,10 +603,10 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 		if (!_stricmp(GetMyUsername(NETID_SKYPE), email)) {
 			static const struct gc_item Items[] =
 			{
-				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
-				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE },
+				{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
+				{ LPGENW("User &history"), 20, MENU_ITEM, FALSE },
 				{ L"", 100, MENU_SEPARATOR, FALSE },
-				{ LPGENT("&Leave chat session"), 110, MENU_ITEM, FALSE }
+				{ LPGENW("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
 			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
@@ -614,10 +614,10 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 		else {
 			static struct gc_item Items[] =
 			{
-				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
-				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE },
-				{ LPGENT("&Kick user")   , 30, MENU_ITEM, FALSE },
-				{ LPGENT("&Op user")     , 40, MENU_ITEM, FALSE }
+				{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
+				{ LPGENW("User &history"), 20, MENU_ITEM, FALSE },
+				{ LPGENW("&Kick user")   , 30, MENU_ITEM, FALSE },
+				{ LPGENW("&Op user")     , 40, MENU_ITEM, FALSE }
 			};
 			GCThreadData* thread = MSN_GetThreadByChatId(gcmi->pszID);
 			if (thread && thread->mMe && mir_tstrcmpi(thread->mMe->role, L"admin")) {
@@ -625,9 +625,9 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 				Items[3].bDisabled = TRUE;
 			}
 			else {
-				const TCHAR *pszRole = MSN_GCGetRole(thread, email);
+				const wchar_t *pszRole = MSN_GCGetRole(thread, email);
 				if (pszRole && !mir_tstrcmpi(pszRole, L"admin"))
-					Items[3].pszDesc = LPGENT("&Deop user");
+					Items[3].pszDesc = LPGENW("&Deop user");
 			}
 			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;

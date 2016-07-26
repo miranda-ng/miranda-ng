@@ -83,7 +83,7 @@ static INT_PTR DbEventTypeGet(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static TCHAR* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
+static wchar_t* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
 {
 	LPSTR in = buf;
 	buf += mir_strlen(buf) + 1;
@@ -323,8 +323,8 @@ static INT_PTR GetProfileNameW(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetDefaultProfile(WPARAM wParam, LPARAM)
 {
-	extern TCHAR* g_defaultProfile;
-	replaceStrT(g_defaultProfile, (TCHAR*)wParam);
+	extern wchar_t* g_defaultProfile;
+	replaceStrT(g_defaultProfile, (wchar_t*)wParam);
 	return 0;
 }
 

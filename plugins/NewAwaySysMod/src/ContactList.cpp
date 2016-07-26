@@ -393,7 +393,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 
 	TVINSERTSTRUCT tvIns = { 0 };
 	tvIns.hParent = TVI_ROOT;
-	tvIns.item.pszText = _tcsrchr(GroupName, '\\');
+	tvIns.item.pszText = wcsrchr(GroupName, '\\');
 	if (tvIns.item.pszText) {
 		TCString ParentGroupName(L"");
 		tvIns.hParent = AddGroup(ParentGroupName.DiffCat(GroupName, tvIns.item.pszText));

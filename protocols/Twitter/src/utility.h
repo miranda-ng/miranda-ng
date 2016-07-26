@@ -90,9 +90,9 @@ protected:
 	PROTO_INTERFACE *ppro_;
 };
 
-inline void mbcs_to_tcs(UINT code_page, const char *mbstr, TCHAR *tstr, int tlen)
+inline void mbcs_to_tcs(UINT code_page, const char *mbstr, wchar_t *tstr, int tlen)
 {
 	MultiByteToWideChar(code_page, 0, mbstr, -1, tstr, tlen);
 }
 
-bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename);
+bool save_url(HANDLE hNetlib,const std::string &url,const std::wstring &filename);

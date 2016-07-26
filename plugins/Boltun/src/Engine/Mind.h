@@ -31,22 +31,22 @@ class Mind;
 typedef struct
 {
 	friend class Mind;
-	std::vector<std::tstring> initial;
-	std::set<std::tstring> question;
-	std::set<std::tstring> special;
-	std::vector<std::tstring> escape;
-	std::vector<std::tstring> failure;
-	std::vector<std::tstring> repeats;
+	std::vector<std::wstring> initial;
+	std::set<std::wstring> question;
+	std::set<std::wstring> special;
+	std::vector<std::wstring> escape;
+	std::vector<std::wstring> failure;
+	std::vector<std::wstring> repeats;
 	unsigned int maxSmileLen;
-	std::set<std::tstring> smiles;
-	std::multimap<WordsList, std::tstring> keywords;
-	std::multimap<WordsList, std::tstring> qkeywords;
-	std::multimap<std::tstring, std::tstring> widelyUsed;
-	std::multimap<WordsList, std::tstring> specialEscapes;
-	std::multimap<WordsList, std::tstring> qspecialEscapes;
-	std::multimap<std::tstring, std::tstring> study;
-	std::map<std::tstring, std::tstring> aliases;
-	std::map<std::tstring, std::vector<std::tstring>> raliases;
+	std::set<std::wstring> smiles;
+	std::multimap<WordsList, std::wstring> keywords;
+	std::multimap<WordsList, std::wstring> qkeywords;
+	std::multimap<std::wstring, std::wstring> widelyUsed;
+	std::multimap<WordsList, std::wstring> specialEscapes;
+	std::multimap<WordsList, std::wstring> qspecialEscapes;
+	std::multimap<std::wstring, std::wstring> study;
+	std::map<std::wstring, std::wstring> aliases;
+	std::map<std::wstring, std::vector<std::wstring>> raliases;
 private:
 	int referenceCount;
 } MindData;
@@ -57,7 +57,7 @@ private:
 	MindData *data;
 	bool fileTypeMark;
 
-	std::vector<std::tstring> Parse(std::tstring s);
+	std::vector<std::wstring> Parse(std::wstring s);
 public:
 	Mind();
 	~Mind();
@@ -75,9 +75,9 @@ public:
 	};
 
 	const MindData *GetData() const;
-	void Load(std::tstring filename);
-	void Save(std::tstring filename) const;
-	void LoadSmiles(std::tstring filename);
+	void Load(std::wstring filename);
+	void Save(std::wstring filename) const;
+	void LoadSmiles(std::wstring filename);
 	void LoadSmiles(void* smiles, size_t size);
 };
 

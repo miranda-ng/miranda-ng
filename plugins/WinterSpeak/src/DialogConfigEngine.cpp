@@ -93,7 +93,7 @@ void DialogConfigEngine::command(HWND window, int control)
 	  case IDC_BUTTON_TEST:
 		if (createTts(window))
 		{
-			m_test_tts->say(TranslateW(L"testing testing 1 2 3"));
+			m_test_tts->say(TranslateT("testing testing 1 2 3"));
 		}
 		break;
 	}

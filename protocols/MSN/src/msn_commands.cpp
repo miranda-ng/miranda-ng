@@ -125,7 +125,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 	int msgBytes;
 	char *nick = NULL, *email = NULL;
-	TCHAR *mChatID = NULL;
+	wchar_t *mChatID = NULL;
 	bool ubmMsg = strncmp(cmdString, "UBM", 3) == 0;
 	bool sdgMsg = strncmp(cmdString, "SDG", 3) == 0;
 	bool nfyMsg = strncmp(cmdString, "NFY", 3) == 0;
@@ -182,7 +182,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		msgBody = tHeader.readFromBuffer(msgBody);
 		if (!(email = NEWSTR_ALLOCA(tHeader["From"]))) return;
 		mChatID = mir_a2t(tHeader["To"]);
-		if (_tcsncmp(mChatID, L"19:", 3)) mChatID[0]=0; // NETID_THREAD
+		if (wcsncmp(mChatID, L"19:", 3)) mChatID[0]=0; // NETID_THREAD
 		msgBody = tHeader.readFromBuffer(msgBody);
 		msgBody = tHeader.readFromBuffer(msgBody);
 		nick = NEWSTR_ALLOCA(tHeader["IM-Display-Name"]);
@@ -274,7 +274,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 									psr[cnt] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
 									psr[cnt]->cbSize = sizeof(psr);
 									psr[cnt]->flags = PSR_TCHAR;
-									psr[cnt]->id.t = psr[cnt]->nick.t = psr[cnt]->email.t = mir_a2t(wlid);
+									psr[cnt]->id.w = psr[cnt]->nick.w = psr[cnt]->email.w = mir_a2t(wlid);
 									cnt++;
 								}
 							}
@@ -286,7 +286,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 							pre.lParam = cnt;
 							ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 							for (cnt=0; cnt<pre.lParam; cnt++) {
-								mir_free(psr[cnt]->email.t);
+								mir_free(psr[cnt]->email.w);
 								mir_free(psr[cnt]);
 							}
 						}
@@ -519,18 +519,18 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				ft->szInvcookie = (char*)mir_calloc(strlen(uri)+16);
 				sprintf(ft->szInvcookie, "%s/content/imgpsh", uri);
 
-				TCHAR tComment[40];
+				wchar_t tComment[40];
 				mir_sntprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.descr.t = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeT(desc->txt):tComment;
-				pre.files.t = &ft->std.tszCurrentFile;
+				pre.descr.w = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeT(desc->txt):tComment;
+				pre.files.w = &ft->std.tszCurrentFile;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(ft->std.hContact, &pre);
-				if (desc) mir_free(pre.descr.t);
+				if (desc) mir_free(pre.descr.w);
 			} else uri=NULL;
 		}
 
@@ -574,9 +574,9 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
 			psr.flags = PSR_TCHAR;
-			psr.id.t = szEmailT;
-			psr.nick.t = szEmailT;
-			psr.email.t = szEmailT;
+			psr.id.w = szEmailT;
+			psr.nick.w = szEmailT;
+			psr.email.w = szEmailT;
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, msnSearchId, (LPARAM)&psr);
 		}
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, msnSearchId, 0);
@@ -808,7 +808,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		char *format = mir_strdup(parts[3]);
 		char *unknown = NULL;
 		if (ServiceExists(MS_LISTENINGTO_GETUNKNOWNTEXT))
-			unknown = mir_utf8encodeT((TCHAR *)CallService(MS_LISTENINGTO_GETUNKNOWNTEXT, 0, 0));
+			unknown = mir_utf8encodeT((wchar_t *)CallService(MS_LISTENINGTO_GETUNKNOWNTEXT, 0, 0));
 
 		for (unsigned i = 4; i < pCount; i++) {
 			char part[16];
@@ -848,7 +848,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		if (pCount > 12) lti.ptszType = mir_utf8decodeT(parts[12]);
 		else lti.ptszType = mir_utf8decodeT(parts[1]);
 
-		TCHAR *cm = (TCHAR *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&lti);
+		wchar_t *cm = (wchar_t *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&lti);
 		setTString(hContact, "ListeningTo", cm);
 
 		mir_free(cm);
@@ -898,7 +898,7 @@ void CMsnProto::MSN_ProcessNotificationMessage(char* buf, size_t len)
 
 		SkinPlaySound(alertsoundname);
 
-		TCHAR* alrt = mir_utf8decodeT(ezxml_txt(xmltxt));
+		wchar_t* alrt = mir_utf8decodeT(ezxml_txt(xmltxt));
 		MSN_ShowPopup(TranslateT("MSN Alert"), alrt, MSN_ALERT_POPUP | MSN_ALLOW_MSGBOX, fullurl);
 		mir_free(alrt);
 	}
@@ -1469,15 +1469,15 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		ft->szInvcookie = mir_strdup(Invcookie);
 		ft->p2p_dest = mir_strdup(email);
 
-		TCHAR tComment[40];
+		wchar_t tComment[40];
 		mir_sntprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 		PROTORECVFILET pre = { 0 };
 		pre.dwFlags = PRFF_TCHAR;
 		pre.fileCount = 1;
 		pre.timestamp = time(NULL);
-		pre.descr.t = tComment;
-		pre.files.t = &ft->std.tszCurrentFile;
+		pre.descr.w = tComment;
+		pre.files.w = &ft->std.tszCurrentFile;
 		pre.lParam = (LPARAM)ft;
 		ProtoChainRecvFile(ft->std.hContact, &pre);
 		return;
@@ -1536,7 +1536,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 
 	// netmeeting receive 1
 	if (Appname != NULL && !_stricmp(Appname, "NetMeeting")) {
-		TCHAR text[512], *tszEmail = mir_a2t(email);
+		wchar_t text[512], *tszEmail = mir_a2t(email);
 		mir_sntprintf(text, TranslateT("Accept NetMeeting request from %s?"), tszEmail);
 		mir_free(tszEmail);
 
@@ -1644,7 +1644,7 @@ void CMsnProto::MSN_CustomSmiley(const char* msgBody, char* email, char* nick, i
 			ptrA buf(mir_base64_encode((PBYTE)lastsml, (unsigned)slen));
 			ptrA smileyName(mir_urlEncode(buf));
 
-			TCHAR path[MAX_PATH];
+			wchar_t path[MAX_PATH];
 			MSN_GetCustomSmileyFileName(hContact, path, _countof(path), smileyName, iSmileyType);
 			ft->std.tszCurrentFile = mir_tstrdup(path);
 

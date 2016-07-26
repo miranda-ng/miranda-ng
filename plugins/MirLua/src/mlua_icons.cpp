@@ -1,17 +1,17 @@
 #include "stdafx.h"
 
-IconItemT Icons[] =
+IconItem Icons[] =
 {
-	{ LPGENT("Script"),			"script",			IDI_SCRIPT		},
-	{ LPGENT("Loaded"),			"loaded",			IDI_LOADED		},
-	{ LPGENT("Failed"),			"failed",			IDI_FAILED		},
-	{ LPGENT("Open"),			"open",				IDI_OPEN		},
-	{ LPGENT("Reload"),			"reload",			IDI_RELOAD		},
+	{ LPGEN("Script"), "script", IDI_SCRIPT },
+	{ LPGEN("Loaded"), "loaded", IDI_LOADED },
+	{ LPGEN("Failed"), "failed", IDI_FAILED },
+	{ LPGEN("Open"),   "open",   IDI_OPEN   },
+	{ LPGEN("Reload"), "reload", IDI_RELOAD },
 };
 
 void InitIcons()
 {
-	Icon_RegisterT(g_hInstance, LPGENT(MODULE), Icons, _countof(Icons), MODULE);
+	Icon_Register(g_hInstance, MODULE, Icons, _countof(Icons), MODULE);
 }
 
 HICON GetIcon(int iconId)

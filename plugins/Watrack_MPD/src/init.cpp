@@ -19,7 +19,7 @@
 HINSTANCE hInst;
 BOOL bWatrackService = FALSE;
 int hLangpack = 0;
-TCHAR *gbHost, *gbPassword;
+wchar_t *gbHost, *gbPassword;
 WORD gbPort;
 HANDLE ghNetlibUser;
 

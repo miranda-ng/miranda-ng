@@ -227,7 +227,7 @@ static INT_PTR AdvSt()
 
 	if ((Enabled == 1)) {
 		POPUPDATAT ppd = {0};
-		TCHAR * lptzText =L"";
+		wchar_t * lptzText =L"";
 		db_set_b(NULL, "Skin", "UseSound", 0);
 		EnablePopupModule();
 
@@ -237,7 +237,7 @@ static INT_PTR AdvSt()
 			ppd.lchContact = NULL;
 			ppd.iSeconds = PopUpTime;
 			wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
-			lptzText = TranslateT(MENU_NAME);
+			lptzText = TranslateW(MENU_NAMEW);
 			wcsncpy_s(ppd.lptzContactName, lptzText, _TRUNCATE);
 			PUAddPopupT(&ppd);
 		}
@@ -267,13 +267,13 @@ INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 	if (MenuItem == 1)
 		UpdateMenu();
 	if (PopUp == 1) {
-		TCHAR * lptzText = Enabled == 1 ? S_MODE_CHANGEDON : S_MODE_CHANGEDOFF;
+		wchar_t * lptzText = Enabled == 1 ? S_MODE_CHANGEDON : S_MODE_CHANGEDOFF;
 		POPUPDATAT ppd = {0};
 		ppd.lchIcon = IcoLib_GetIconByHandle((Enabled == 1) ? GetIconHandle(ENABLE_SILENCE) : GetIconHandle(DISABLE_SILENCE));
 		ppd.lchContact = NULL;
 		ppd.iSeconds = PopUpTime;
 		wcsncpy_s(ppd.lptzText, lptzText, _TRUNCATE);
-		lptzText = TranslateT(MENU_NAME);
+		lptzText = TranslateW(MENU_NAMEW);
 		wcsncpy_s(ppd.lptzContactName, lptzText, _TRUNCATE);
 		PUAddPopupT(&ppd);
 	}

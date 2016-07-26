@@ -182,8 +182,8 @@ MIR_APP_DLL(void) xmlAddAttr(HXML _n, LPCTSTR attrName, LPCTSTR attrValue)
 
 MIR_APP_DLL(void) xmlAddAttrInt(HXML _n, LPCTSTR attrName, int attrValue)
 {
-	TCHAR buf[40];
-	_itot(attrValue, buf, 10);
+	wchar_t buf[40];
+	_itow(attrValue, buf, 10);
 	XMLNode(_n).addAttribute(attrName, buf);
 }
 

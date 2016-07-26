@@ -62,7 +62,7 @@ INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam);
 INT_PTR EnableListeningTo(WPARAM wParam, LPARAM lParam);
 INT_PTR EnableListeningTo(char *proto = NULL, bool enabled = false);
 INT_PTR GetTextFormat(WPARAM wParam, LPARAM lParam);
-TCHAR*  GetParsedFormat(LISTENINGTOINFO *lti);
+wchar_t*  GetParsedFormat(LISTENINGTOINFO *lti);
 INT_PTR GetParsedFormat(WPARAM wParam, LPARAM lParam);
 INT_PTR GetOverrideContactOption(WPARAM wParam, LPARAM lParam);
 INT_PTR GetUnknownText(WPARAM wParam, LPARAM lParam);
@@ -73,21 +73,21 @@ INT_PTR HotkeysEnable(WPARAM wParam, LPARAM lParam);
 INT_PTR HotkeysDisable(WPARAM wParam, LPARAM lParam);
 INT_PTR HotkeysToggle(WPARAM wParam, LPARAM lParam);
 
-TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai);
-TCHAR* VariablesParseType(ARGUMENTSINFO *ai);
-TCHAR* VariablesParseArtist(ARGUMENTSINFO *ai);
-TCHAR* VariablesParseAlbum(ARGUMENTSINFO *ai);
-TCHAR* VariablesParseTitle(ARGUMENTSINFO *ai);
-TCHAR* VariablesParseTrack(ARGUMENTSINFO *ai);
-TCHAR* VariablesParseYear(ARGUMENTSINFO *ai);
-TCHAR* VariablesParseGenre(ARGUMENTSINFO *ai);
-TCHAR* VariablesParseLength(ARGUMENTSINFO *ai);
-TCHAR* VariablesParsePlayer(ARGUMENTSINFO *ai);
+wchar_t* VariablesParseInfo(ARGUMENTSINFO *ai);
+wchar_t* VariablesParseType(ARGUMENTSINFO *ai);
+wchar_t* VariablesParseArtist(ARGUMENTSINFO *ai);
+wchar_t* VariablesParseAlbum(ARGUMENTSINFO *ai);
+wchar_t* VariablesParseTitle(ARGUMENTSINFO *ai);
+wchar_t* VariablesParseTrack(ARGUMENTSINFO *ai);
+wchar_t* VariablesParseYear(ARGUMENTSINFO *ai);
+wchar_t* VariablesParseGenre(ARGUMENTSINFO *ai);
+wchar_t* VariablesParseLength(ARGUMENTSINFO *ai);
+wchar_t* VariablesParsePlayer(ARGUMENTSINFO *ai);
 
 
 #define XSTATUS_MUSIC 11
 
-#define UNKNOWN(_X_) ( _X_ == NULL || _X_[0] == _T('\0') ? opts.unknown : _X_ )
+#define UNKNOWN(_X_) ( _X_ == NULL || _X_[0] == '\0' ? opts.unknown : _X_ )
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
@@ -185,7 +185,7 @@ void RebuildMenu()
 		if (info->hMenu != NULL)
 			Menu_RemoveItem(info->hMenu);
 
-		TCHAR text[512];
+		wchar_t text[512];
 		mir_sntprintf(text, TranslateT("Send to %s"), info->account);
 
 		CMenuItem mi;
@@ -193,7 +193,7 @@ void RebuildMenu()
 		mi.root = hMainMenuGroup;
 		mi.position = 500080000 + i;
 		mi.pszService = MS_LISTENINGTO_MAINMENU;
-		mi.name.t = text;
+		mi.name.w = text;
 		mi.flags = CMIF_TCHAR | CMIF_UNMOVABLE
 			| (ListeningToEnabled(info->proto, TRUE) ? CMIF_CHECKED : 0)
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
@@ -205,7 +205,7 @@ void RebuildMenu()
 	UpdateGlobalStatusMenus();
 }
 
-void RegisterProtocol(char *proto, TCHAR *account)
+void RegisterProtocol(char *proto, wchar_t *account)
 {
 	if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) && !ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX) && !ProtoServiceExists(proto, PS_SETAWAYMSG))
 		return;
@@ -220,8 +220,8 @@ void RegisterProtocol(char *proto, TCHAR *account)
 
 	proto_items[id].hMenu = NULL;
 	proto_items[id].old_xstatus = 0;
-	proto_items[id].old_xstatus_name[0] = _T('\0');
-	proto_items[id].old_xstatus_message[0] = _T('\0');
+	proto_items[id].old_xstatus_name[0] = '\0';
+	proto_items[id].old_xstatus_message[0] = '\0';
 }
 
 
@@ -236,7 +236,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 		if (wParam == PRAC_UPGRADED || wParam == PRAC_CHANGED) {
 			mir_tstrncpy(info->account, proto->tszAccountName, _countof(info->account));
 
-			TCHAR text[512];
+			wchar_t text[512];
 			mir_sntprintf(text, TranslateT("Send to %s"), info->account);
 			Menu_ModifyItem(info->hMenu, text);
 		}
@@ -286,7 +286,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	CMenuItem mi;
 	SET_UID(mi, 0xe8e4e594, 0x255e, 0x434d, 0x83, 0x74, 0x79, 0x44, 0x1b, 0x4e, 0xe7, 0x16);
 	mi.position = 500080000;
-	mi.name.t = LPGENT("Listening to");
+	mi.name.w = LPGENW("Listening to");
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = iconList[0].hIcolib;
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
@@ -298,7 +298,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// Add all protos
 	SET_UID(mi, 0xc396a9dd, 0x9a00, 0x46af, 0x96, 0x2e, 0x5, 0x5a, 0xbc, 0x52, 0xfc, 0x9b);
-	mi.name.t = LPGENT("Send to all protocols");
+	mi.name.w = LPGENW("Send to all protocols");
 	mi.flags = CMIF_TCHAR
 		| (ListeningToEnabled(NULL, true) ? CMIF_CHECKED : 0)
 		| (opts.enable_sending ? 0 : CMIF_GRAYED);
@@ -307,8 +307,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 	proto_items[0].proto[0] = 0;
 	proto_items[0].account[0] = 0;
 	proto_items[0].old_xstatus = 0;
-	proto_items[0].old_xstatus_name[0] = _T('\0');
-	proto_items[0].old_xstatus_message[0] = _T('\0');
+	proto_items[0].old_xstatus_name[0] = '\0';
+	proto_items[0].old_xstatus_message[0] = '\0';
 
 	// Add each proto
 	PROTOACCOUNT **protos;
@@ -529,8 +529,8 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 					ProtocolInfo *pi = GetProtoInfo(proto);
 					if (pi != NULL) {
 						pi->old_xstatus = 0;
-						pi->old_xstatus_name[0] = _T('\0');
-						pi->old_xstatus_message[0] = _T('\0');
+						pi->old_xstatus_name[0] = '\0';
+						pi->old_xstatus_message[0] = '\0';
 					}
 				}
 				return;
@@ -538,13 +538,13 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 
 			if (opts.xstatus_set == CHECK_XSTATUS_MUSIC) {
 				// Set text to nothing
-				TCHAR *fr[] = {
+				wchar_t *fr[] = {
 					L"listening", opts.nothing
 				};
 
-				Buffer<TCHAR> name;
+				Buffer<wchar_t> name;
 				ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, _countof(fr));
-				Buffer<TCHAR> msg;
+				Buffer<wchar_t> msg;
 				ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
 				ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
@@ -577,8 +577,8 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 
 				if (pi != NULL) {
 					pi->old_xstatus = 0;
-					pi->old_xstatus_name[0] = _T('\0');
-					pi->old_xstatus_message[0] = _T('\0');
+					pi->old_xstatus_name[0] = '\0';
+					pi->old_xstatus_message[0] = '\0';
 				}
 			}
 		}
@@ -610,7 +610,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				}
 			}
 
-			TCHAR *fr[] = {
+			wchar_t *fr[] = {
 				L"listening", GetParsedFormat(lti),
 				L"artist", UNKNOWN(lti->ptszArtist),
 				L"album", UNKNOWN(lti->ptszAlbum),
@@ -623,9 +623,9 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				L"type", UNKNOWN(lti->ptszType)
 			};
 
-			Buffer<TCHAR> name;
+			Buffer<wchar_t> name;
 			ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, _countof(fr));
-			Buffer<TCHAR> msg;
+			Buffer<wchar_t> msg;
 			ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
 			status = XSTATUS_MUSIC;
@@ -716,12 +716,12 @@ INT_PTR GetTextFormat(WPARAM, LPARAM)
 	return (INT_PTR)mir_tstrdup(opts.templ);
 }
 
-TCHAR *GetParsedFormat(LISTENINGTOINFO *lti)
+wchar_t *GetParsedFormat(LISTENINGTOINFO *lti)
 {
 	if (lti == NULL)
 		return NULL;
 
-	TCHAR *fr[] = {
+	wchar_t *fr[] = {
 		L"artist", UNKNOWN(lti->ptszArtist),
 		L"album", UNKNOWN(lti->ptszAlbum),
 		L"title", UNKNOWN(lti->ptszTitle),
@@ -733,7 +733,7 @@ TCHAR *GetParsedFormat(LISTENINGTOINFO *lti)
 		L"type", UNKNOWN(lti->ptszType)
 	};
 
-	Buffer<TCHAR> ret;
+	Buffer<wchar_t> ret;
 	ReplaceTemplate(&ret, NULL, opts.templ, fr, _countof(fr));
 	return ret.detach();
 }
@@ -759,7 +759,7 @@ void SetListeningInfos(LISTENINGTOINFO *lti)
 	for (unsigned int i = 1; i < proto_items.size(); ++i)
 		SetListeningInfo(proto_items[i].proto, lti);
 
-	TCHAR *fr = NULL;
+	wchar_t *fr = NULL;
 	char *info = NULL;
 
 	if (lti) {
@@ -902,7 +902,7 @@ INT_PTR SetNewSong(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
+wchar_t* VariablesParseInfo(ARGUMENTSINFO *ai)
 {
 	if (ai->cbSize < sizeof(ARGUMENTSINFO))
 		return NULL;
@@ -913,7 +913,7 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 		return mir_tstrdup(L"");
 	}
 
-	TCHAR *fr[] = {
+	wchar_t *fr[] = {
 		L"artist", UNKNOWN(lti->ptszArtist),
 		L"album", UNKNOWN(lti->ptszAlbum),
 		L"title", UNKNOWN(lti->ptszTitle),
@@ -925,7 +925,7 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 		L"type", UNKNOWN(lti->ptszType)
 	};
 
-	Buffer<TCHAR> ret;
+	Buffer<wchar_t> ret;
 	ReplaceTemplate(&ret, NULL, opts.templ, fr, _countof(fr));
 	return ret.detach();
 }
@@ -948,52 +948,52 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 				else \
 	{ \
 		ai->flags = AIF_DONTPARSE; \
-		TCHAR *ret = mir_tstrdup(lti->__field__); \
+		wchar_t *ret = mir_tstrdup(lti->__field__); \
 		return ret; \
 	}
 
 
-TCHAR* VariablesParseType(ARGUMENTSINFO *ai)
+wchar_t* VariablesParseType(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszType);
 }
 
-TCHAR* VariablesParseArtist(ARGUMENTSINFO *ai)
+wchar_t* VariablesParseArtist(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszArtist);
 }
 
-TCHAR* VariablesParseAlbum(ARGUMENTSINFO *ai)
+wchar_t* VariablesParseAlbum(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszAlbum);
 }
 
-TCHAR* VariablesParseTitle(ARGUMENTSINFO *ai)
+wchar_t* VariablesParseTitle(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszTitle);
 }
 
-TCHAR* VariablesParseTrack(ARGUMENTSINFO *ai)
+wchar_t* VariablesParseTrack(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszTrack);
 }
 
-TCHAR* VariablesParseYear(ARGUMENTSINFO *ai)
+wchar_t* VariablesParseYear(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszYear);
 }
 
-TCHAR* VariablesParseGenre(ARGUMENTSINFO *ai)
+wchar_t* VariablesParseGenre(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszGenre);
 }
 
-TCHAR* VariablesParseLength(ARGUMENTSINFO *ai)
+wchar_t* VariablesParseLength(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszLength);
 }
 
-TCHAR* VariablesParsePlayer(ARGUMENTSINFO *ai)
+wchar_t* VariablesParsePlayer(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszPlayer);
 }

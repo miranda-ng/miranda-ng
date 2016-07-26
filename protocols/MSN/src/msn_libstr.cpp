@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static TCHAR* a2tf(const TCHAR* str, bool unicode)
+static wchar_t* a2tf(const wchar_t* str, bool unicode)
 {
 	if (str == NULL)
 		return NULL;
@@ -30,7 +30,7 @@ static TCHAR* a2tf(const TCHAR* str, bool unicode)
 	return unicode ? mir_tstrdup(str) : mir_a2t((char*)str);
 }
 
-void overrideStr(TCHAR*& dest, const TCHAR* src, bool unicode, const TCHAR* def)
+void overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t* def)
 {
 	mir_free(dest);
 	dest = NULL;
@@ -298,21 +298,21 @@ void  stripHTML(char* str)
 
 // Process a string, and double all % characters, according to chat.dll's restrictions
 // Returns a pointer to the new string (old one is not freed)
-TCHAR* EscapeChatTags(const TCHAR* pszText)
+wchar_t* EscapeChatTags(const wchar_t* pszText)
 {
 	int nChars = 0;
-	for (const TCHAR* p = pszText; (p = _tcschr(p, '%')) != NULL; p++)
+	for (const wchar_t* p = pszText; (p = wcschr(p, '%')) != NULL; p++)
 		nChars++;
 
 	if (nChars == 0)
 		return mir_tstrdup(pszText);
 
-	TCHAR *pszNewText = (TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(pszText) + 1 + nChars));
+	wchar_t *pszNewText = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_tstrlen(pszText) + 1 + nChars));
 	if (pszNewText == NULL)
 		return mir_tstrdup(pszText);
 
-	const TCHAR *s = pszText;
-	TCHAR *d = pszNewText;
+	const wchar_t *s = pszText;
+	wchar_t *d = pszNewText;
 	while (*s) {
 		if (*s == '%')
 			*d++ = '%';
@@ -322,9 +322,9 @@ TCHAR* EscapeChatTags(const TCHAR* pszText)
 	return pszNewText;
 }
 
-TCHAR* UnEscapeChatTags(TCHAR* str_in)
+wchar_t* UnEscapeChatTags(wchar_t* str_in)
 {
-	TCHAR *s = str_in, *d = str_in;
+	wchar_t *s = str_in, *d = str_in;
 	while (*s) {
 		if ((*s == '%' && s[1] == '%') || (*s == '\n' && s[1] == '\n'))
 			s++;

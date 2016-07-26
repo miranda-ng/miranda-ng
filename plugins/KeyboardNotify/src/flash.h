@@ -19,10 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void RestoreLEDState(void);
 BYTE getBlinkingLeds(void);
 void setFlashingSequence(void);
-void useExternSequence(TCHAR *);
-TCHAR *normalizeCustomString(TCHAR *);
-TCHAR *getCurrentSequenceString(void);
-void testSequence(TCHAR *);
+void useExternSequence(wchar_t *);
+wchar_t *normalizeCustomString(wchar_t *);
+wchar_t *getCurrentSequenceString(void);
+void testSequence(wchar_t *);
 void previewFlashing(BOOL);
 
 #define LedState(a) (((BYTE)(GetKeyState(a) & 0xffff))!=0)

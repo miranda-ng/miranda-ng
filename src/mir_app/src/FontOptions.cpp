@@ -131,9 +131,9 @@ static void WriteLine(FILE *out, const char pszText[])
 	fputc('\n', out);
 }
 
-static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInternal>& flist, OBJLIST<ColourInternal>& clist, OBJLIST<EffectInternal>& elist)
+static BOOL ExportSettings(HWND hwndDlg, const wchar_t *filename, OBJLIST<FontInternal>& flist, OBJLIST<ColourInternal>& clist, OBJLIST<EffectInternal>& elist)
 {
-	FILE *out = _tfopen(filename, L"w");
+	FILE *out = _wfopen(filename, L"w");
 	if (out == NULL) {
 		MessageBox(hwndDlg, filename, TranslateT("Failed to create file"), MB_ICONWARNING | MB_OK);
 		return FALSE;
@@ -253,7 +253,7 @@ struct FSUIListItemData
 	int effect_id;
 };
 
-static BOOL sttFsuiBindColourIdToFonts(HWND hwndList, const TCHAR *name, const TCHAR *backgroundGroup, const TCHAR *backgroundName, int colourId)
+static BOOL sttFsuiBindColourIdToFonts(HWND hwndList, const wchar_t *name, const wchar_t *backgroundGroup, const wchar_t *backgroundName, int colourId)
 {
 	BOOL res = FALSE;
 	for (int i = SendMessage(hwndList, LB_GETCOUNT, 0, 0); i--;) {
@@ -276,7 +276,7 @@ static BOOL sttFsuiBindColourIdToFonts(HWND hwndList, const TCHAR *name, const T
 	return res;
 }
 
-static bool sttFsuiBindEffectIdToFonts(HWND hwndList, const TCHAR *name, int effectId)
+static bool sttFsuiBindEffectIdToFonts(HWND hwndList, const wchar_t *name, int effectId)
 {
 	for (int i = SendMessage(hwndList, LB_GETCOUNT, 0, 0); i--;) {
 		FSUIListItemData *itemData = (FSUIListItemData *)SendMessage(hwndList, LB_GETITEMDATA, i, 0);
@@ -293,10 +293,10 @@ static bool sttFsuiBindEffectIdToFonts(HWND hwndList, const TCHAR *name, int eff
 	return false;
 }
 
-static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHAR *name)
+static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar_t *name)
 {
 	TVITEM tvi = { 0 };
-	TCHAR str[MAX_PATH];
+	wchar_t str[MAX_PATH];
 
 	if (hItem)
 		tvi.hItem = TreeView_GetChild(hwndTree, hItem);
@@ -321,10 +321,10 @@ static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TC
 	return NULL;
 }
 
-static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName, int _hLang)
+static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const wchar_t *groupName, int _hLang)
 {
-	TCHAR itemName[1024];
-	TCHAR* sectionName;
+	wchar_t itemName[1024];
+	wchar_t* sectionName;
 	int sectionLevel = 0;
 
 	HTREEITEM hSection = NULL;
@@ -333,11 +333,11 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName,
 
 	while (sectionName) {
 		// allow multi-level tree
-		TCHAR* pItemName = sectionName;
+		wchar_t* pItemName = sectionName;
 		HTREEITEM hItem;
 
 		// one level deeper
-		if (sectionName = _tcschr(sectionName, '/'))
+		if (sectionName = wcschr(sectionName, '/'))
 			*sectionName = 0;
 
 		pItemName = TranslateTH(_hLang, pItemName);
@@ -436,7 +436,7 @@ static void ShowEffectButton(HWND hwndDlg, BOOL bShow)
 	ShowWindow(GetDlgItem(hwndDlg, IDC_EFFECT_STATIC), bShow ? SW_SHOW : SW_HIDE);
 }
 
-TCHAR* ModernEffectNames[] = { LPGENT("<none>"), LPGENT("Shadow at left"), LPGENT("Shadow at right"), LPGENT("Outline"), LPGENT("Outline smooth"), LPGENT("Smooth bump"), LPGENT("Contour thin"), LPGENT("Contour heavy") };
+wchar_t* ModernEffectNames[] = { LPGENW("<none>"), LPGENW("Shadow at left"), LPGENW("Shadow at right"), LPGENW("Outline"), LPGENW("Outline smooth"), LPGENW("Smooth bump"), LPGENW("Contour thin"), LPGENW("Contour heavy") };
 
 static INT_PTR CALLBACK ChooseEffectDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -600,7 +600,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 			TreeView_GetItem(GetDlgItem(hwndDlg, IDC_FONTGROUP), &tvi);
 			treeItem = (TreeItem *)tvi.lParam;
-			TCHAR *group_buff = treeItem->groupName;
+			wchar_t *group_buff = treeItem->groupName;
 
 			sttFreeListItems(GetDlgItem(hwndDlg, IDC_FONTLIST));
 			SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_RESETCONTENT, 0, 0);
@@ -612,7 +612,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				for (int fontId = 0; fontId < font_id_list_w2.getCount(); fontId++) {
 					FontInternal &F = font_id_list_w2[fontId];
-					if (!_tcsncmp(F.group, group_buff, 64)) {
+					if (!wcsncmp(F.group, group_buff, 64)) {
 						FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
 						itemData->colour_id = -1;
 						itemData->effect_id = -1;
@@ -629,7 +629,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				for (int colourId = 0; colourId < colour_id_list_w2.getCount(); colourId++) {
 					ColourInternal &C = colour_id_list_w2[colourId];
-					if (!_tcsncmp(C.group, group_buff, 64)) {
+					if (!wcsncmp(C.group, group_buff, 64)) {
 						if (!sttFsuiBindColourIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), C.name, C.group, C.name, colourId)) {
 							FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
 							itemData->colour_id = colourId;
@@ -649,7 +649,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				for (int effectId = 0; effectId < effect_id_list_w2.getCount(); effectId++) {
 					EffectInternal& E = effect_id_list_w2[effectId];
-					if (!_tcsncmp(E.group, group_buff, 64)) {
+					if (!wcsncmp(E.group, group_buff, 64)) {
 						if (!sttFsuiBindEffectIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), E.name, effectId)) {
 							FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
 							itemData->effect_id = effectId;
@@ -689,7 +689,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			HFONT hFont = NULL, hoFont = NULL;
 			BOOL bIsFont = FALSE;
-			TCHAR *itemName = NULL;
+			wchar_t *itemName = NULL;
 			if (itemData->font_id >= 0) {
 				int iItem = itemData->font_id;
 				bIsFont = TRUE;
@@ -728,7 +728,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			COLORREF clBack = (COLORREF)-1;
 			COLORREF clText = GetSysColor(COLOR_WINDOWTEXT);
 			BOOL bIsFont = FALSE;
-			TCHAR *itemName = NULL;
+			wchar_t *itemName = NULL;
 
 			FSUIListItemData *itemData = (FSUIListItemData *)dis->itemData;
 			FONTEFFECT * pEffect = NULL;
@@ -960,7 +960,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 						F1.value.size = (char)lf.lfHeight;
 						F1.value.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 						F1.value.charset = lf.lfCharSet;
-						_tcsncpy_s(F1.value.szFace, lf.lfFaceName, _TRUNCATE);
+						wcsncpy_s(F1.value.szFace, lf.lfFaceName, _TRUNCATE);
 
 						MEASUREITEMSTRUCT mis = { 0 };
 						mis.CtlID = IDC_FONTLIST;
@@ -1074,7 +1074,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 		case IDC_BTN_EXPORT:
 			{
-				TCHAR fname_buff[MAX_PATH], filter[MAX_PATH];
+				wchar_t fname_buff[MAX_PATH], filter[MAX_PATH];
 				mir_sntprintf(filter, L"%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c", TranslateT("Configuration files"), 0, 0, TranslateT("Text files"), 0, 0, TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = { 0 };
@@ -1298,7 +1298,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 					pf->value.size = (char)lf.lfHeight;
 					pf->value.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 					pf->value.charset = lf.lfCharSet;
-					_tcsncpy_s(pf->value.szFace, lf.lfFaceName, _TRUNCATE);
+					wcsncpy_s(pf->value.szFace, lf.lfFaceName, _TRUNCATE);
 
 					InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEWHEADER), NULL, TRUE);
 					InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEWGENERAL), NULL, TRUE);
@@ -1355,7 +1355,7 @@ int FontsModernOptInit(WPARAM wParam, LPARAM)
 	obj.iSection = MODERNOPT_PAGE_SKINS;
 	obj.iType = MODERNOPT_TYPE_SUBSECTIONPAGE;
 	obj.iBoldControls = iBoldControls;
-	obj.lptzSubsection = LPGENT("Fonts");
+	obj.lptzSubsection = LPGENW("Fonts");
 	obj.lpzClassicGroup = "Customize";
 	obj.lpzClassicPage = "Fonts";
 	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";

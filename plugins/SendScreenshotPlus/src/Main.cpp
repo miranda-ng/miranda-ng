@@ -68,11 +68,11 @@ IconItem ICONS_BTN[ICO_BTN_END_] =
 };
 
 static HANDLE m_hFolderScreenshot = 0;
-TCHAR* GetCustomPath()
+wchar_t* GetCustomPath()
 {
-	TCHAR* pszPath = Utils_ReplaceVarsT(L"%miranda_userdata%\\Screenshots");
+	wchar_t* pszPath = Utils_ReplaceVarsT(L"%miranda_userdata%\\Screenshots");
 	if (m_hFolderScreenshot) {
-		TCHAR szPath[1024] = { 0 };
+		wchar_t szPath[1024] = { 0 };
 		FoldersGetCustomPathT(m_hFolderScreenshot, szPath, 1024, pszPath);
 		mir_free(pszPath);
 		pszPath = mir_tstrdup(szPath);
@@ -83,7 +83,7 @@ TCHAR* GetCustomPath()
 	}
 	int result = CreateDirectoryTreeT(pszPath);
 	if (result) {
-		TCHAR szError[MAX_PATH];
+		wchar_t szError[MAX_PATH];
 		mir_sntprintf(szError, MAX_PATH, TranslateT("Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?"), result, pszPath);
 		MessageBox(NULL, szError, L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		mir_free(pszPath);
@@ -107,7 +107,7 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam)
 		MessageBox(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return -1;
 	}
-	TCHAR* pszPath = GetCustomPath();
+	wchar_t* pszPath = GetCustomPath();
 	if (!pszPath) {
 		delete frmMain;
 		return -1;
@@ -135,7 +135,7 @@ INT_PTR service_SendDesktop(WPARAM wParam, LPARAM)
 		MessageBox(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return -1;
 	}
-	TCHAR* pszPath = GetCustomPath();
+	wchar_t* pszPath = GetCustomPath();
 	if (!pszPath) {
 		delete frmMain;
 		return -1;
@@ -289,19 +289,19 @@ DLL_EXPORT int Load(void)
 	mi.hIcolibItem = GetIconHandle(ICO_MAINXS);
 
 	SET_UID(mi, 0xa559a22e, 0xd0f9, 0x4553, 0x8e, 0x68, 0x55, 0xb3, 0xae, 0xc4, 0x5d, 0x93);
-	mi.name.t = LPGENT("Take a screenshot");
+	mi.name.w = LPGENW("Take a screenshot");
 	mi.pszService = MS_SENDSS_OPENDIALOG;
 	mi.position = 1000001;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xfea0a84, 0x1767, 0x4605, 0x99, 0xf0, 0xa9, 0x48, 0x1a, 0xa6, 0x6f, 0xce);
-	mi.name.t = LPGENT("Send screenshot");
+	mi.name.w = LPGENW("Send screenshot");
 	mi.pszService = MS_SENDSS_OPENDIALOG;
 	mi.position = 1000000;
 	Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x8d5b0d9a, 0x68d4, 0x4594, 0x9f, 0x41, 0x0, 0x64, 0x20, 0xe7, 0xf8, 0x9f);
-	mi.name.t = LPGENT("Send desktop screenshot");
+	mi.name.w = LPGENW("Send desktop screenshot");
 	mi.pszService = MS_SENDSS_SENDDESKTOP;
 	mi.position = 1000001;
 	Menu_AddContactMenuItem(&mi);
@@ -309,7 +309,7 @@ DLL_EXPORT int Load(void)
 	/// hotkey's
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = "Open SendSS+";
-	hkd.ptszDescription = LPGENT("Open SendSS+");
+	hkd.ptszDescription = LPGENW("Open SendSS+");
 	hkd.ptszSection = L"SendSS+";
 	hkd.pszService = MS_SENDSS_OPENDIALOG;
 	//hkd.DefHotKey=HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
@@ -329,6 +329,6 @@ DLL_EXPORT int Load(void)
 DLL_EXPORT int Unload(void)
 {
 	if (g_clsTargetHighlighter)
-		UnregisterClass((TCHAR*)g_clsTargetHighlighter, g_hSendSS), g_clsTargetHighlighter = 0;
+		UnregisterClass((wchar_t*)g_clsTargetHighlighter, g_hSendSS), g_clsTargetHighlighter = 0;
 	return 0;
 }

@@ -68,9 +68,9 @@ struct TopButtonInt : public MZeroedObject
 	HANDLE hIconHandleUp, hIconHandleDn;
 
 	char  *pszService;
-	TCHAR *ptszProgram;
+	wchar_t *ptszProgram;
 	char  *pszName;
-	TCHAR *ptszTooltip;
+	wchar_t *ptszTooltip;
 
 	LPARAM lParamUp;
 	WPARAM wParamUp;
@@ -78,7 +78,7 @@ struct TopButtonInt : public MZeroedObject
 	WPARAM wParamDown;
 
 	int    hLangpack;
-	TCHAR *ptszTooltipUp, *ptszTooltipDn;
+	wchar_t *ptszTooltipUp, *ptszTooltipDn;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

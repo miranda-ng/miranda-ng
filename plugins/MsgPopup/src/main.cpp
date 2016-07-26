@@ -132,7 +132,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID
 
 			if (!VirtualProtect((LPVOID)ppfn, sizeof(void*), PAGE_EXECUTE_READWRITE, &oldProtect)) {
 				if (!g_HookError) {
-					TCHAR buf[200];
+					wchar_t buf[200];
 
 					g_HookError = TRUE;
 					mir_sntprintf(buf, TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
@@ -186,8 +186,8 @@ int HookedOptions(WPARAM wParam, LPARAM)
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-		odp.ptszTitle = LPGENT("MessagePopup");
-		odp.ptszGroup = LPGENT("Popups");
+		odp.pwszTitle = LPGENW("MessagePopup");
+		odp.pwszGroup = LPGENW("Popups");
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 		odp.pfnDlgProc = OptionsDlgProc;
 		Options_AddPage(wParam, &odp);

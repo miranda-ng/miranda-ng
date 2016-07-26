@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HINSTANCE hInst;
 
 /* a copy of those in m_assocmgr.h, as we did not #include those helpers */
-__inline static int AssocMgr_AddNewFileTypeT(const char *ext, const char *mime, const TCHAR *desc, const TCHAR *verb, HINSTANCE hinst, UINT iconid, const char *service, DWORD flags)
+__inline static int AssocMgr_AddNewFileTypeT(const char *ext, const char *mime, const wchar_t *desc, const wchar_t *verb, HINSTANCE hinst, UINT iconid, const char *service, DWORD flags)
 {
 	FILETYPEDESC ftd;
 	ftd.cbSize = sizeof(FILETYPEDESC);
@@ -117,7 +117,7 @@ static int ServiceParseAimLink(WPARAM, LPARAM lParam)
 			acs.psr = &psr;
 			memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
 			psr.cbSize = sizeof(PROTOSEARCHRESULT);
-			psr.nick.t = sn;
+			psr.nick.w = sn;
 			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 		return 0;
@@ -311,7 +311,7 @@ static void MessageIcqUser(ICQFILEINFO *info)
 
 static int IcqOpenFile(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *pszFile = (TCHAR*)lParam; /* TCHAR is specified on AssocMgr_AddNewFileTypeT() */
+	wchar_t *pszFile = (wchar_t*)lParam; /* wchar_t is specified on AssocMgr_AddNewFileTypeT() */
 	FILE *fp;
 	ICQFILEINFO info;
 	char line[4096], *sep;
@@ -331,7 +331,7 @@ static int IcqOpenFile(WPARAM wParam, LPARAM lParam)
 		LastName=
 	*/
 	if (pszFile == NULL) return 1; /* sanity check */
-	fp = _tfopen(pszFile, L"rt");
+	fp = _wfopen(pszFile, L"rt");
 	if (fp == NULL) return 1; /* open failed */
 	info.type = 0;
 	while (!feof(fp)) {
@@ -438,7 +438,7 @@ static int ServiceParseYmsgrLink(WPARAM wParam, LPARAM lParam)
 			acs.psr = &psr;
 			memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
 			psr.cbSize = sizeof(PROTOSEARCHRESULT);
-			psr.nick.t = id;
+			psr.nick.w = id;
 			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 		return 0;
@@ -553,8 +553,8 @@ static int ServiceParseMsnimLink(WPARAM wParam, LPARAM lParam)
 			acs.psr = &psr;
 			memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
 			psr.cbSize = sizeof(PROTOSEARCHRESULT);
-			psr.nick.t = email;
-			psr.email.t = email;
+			psr.nick.w = email;
+			psr.email.w = email;
 			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 		return 0;
@@ -749,7 +749,7 @@ static int ServiceParseXmppURI(WPARAM wParam, LPARAM lParam)
 			acs.psr = &psr;
 			memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
 			psr.cbSize = sizeof(PROTOSEARCHRESULT);
-			psr.nick.t = jid;
+			psr.nick.w = jid;
 			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 		return 0;

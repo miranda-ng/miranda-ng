@@ -162,18 +162,18 @@ void StopSignalFcn(HACCOUNT Which)
 
 void CodeDecodeString(char *Dest, BOOL Encrypt)
 {
-	TCHAR Code = STARTCODEPSW;
+	wchar_t Code = STARTCODEPSW;
 
 	if (Dest == NULL)
 		return;
 
-	for (; *Dest != (TCHAR)0; Dest++)
+	for (; *Dest != (wchar_t)0; Dest++)
 	{
 		if (Encrypt)
 			*Dest = *Dest + Code;
 		else
 			*Dest = *Dest - Code;
-		Code += (TCHAR)ADDCODEPSW;
+		Code += (wchar_t)ADDCODEPSW;
 	}
 }
 
@@ -204,7 +204,7 @@ static DWORD PostFileToMemory(HANDLE File, char **MemFile, char **End)
 	return 0;
 }
 
-DWORD FileToMemory(TCHAR *FileName, char **MemFile, char **End)
+DWORD FileToMemory(wchar_t *FileName, char **MemFile, char **End)
 {
 	HANDLE hFile = CreateFile(FileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -214,23 +214,23 @@ DWORD FileToMemory(TCHAR *FileName, char **MemFile, char **End)
 }
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
-DWORD ReadStringFromMemory(char **Parser,TCHAR *End,char **StoreTo,TCHAR *DebugString)
+DWORD ReadStringFromMemory(char **Parser,wchar_t *End,char **StoreTo,wchar_t *DebugString)
 {
 	//This is the debug version of ReadStringFromMemory function. This version shows MessageBox where
 	//read string is displayed
-	TCHAR *Dest,*Finder;
+	wchar_t *Dest,*Finder;
 	DWORD Size;
-	TCHAR Debug[65536];
+	wchar_t Debug[65536];
 
 	Finder=*Parser;
-	while((*Finder != (TCHAR)0) && (Finder<=End)) Finder++;
+	while((*Finder != (wchar_t)0) && (Finder<=End)) Finder++;
 	mir_sntprintf(Debug, L"%s: %s,length is %d, remaining %d chars", DebugString, *Parser, Finder-*Parser, End-Finder);
 	MessageBox(NULL,Debug,L"debug",MB_OK);
 	if (Finder>=End)
 		return EACC_FILECOMPATIBILITY;
 	if (Size=Finder-*Parser)
 	{
-		if (NULL==(Dest=*StoreTo=new TCHAR[Size+1]))
+		if (NULL==(Dest=*StoreTo=new wchar_t[Size+1]))
 			return EACC_ALLOC;
 		for (;*Parser<=Finder;(*Parser)++,Dest++)
 			*Dest=**Parser;
@@ -250,7 +250,7 @@ DWORD ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
 	DWORD Size;
 
 	Finder = *Parser;
-	while ((*Finder != (TCHAR)0) && (Finder <= End)) Finder++;
+	while ((*Finder != (wchar_t)0) && (Finder <= End)) Finder++;
 	if (Finder >= End)
 		return EACC_FILECOMPATIBILITY;
 	if (Size = Finder - *Parser)
@@ -269,7 +269,7 @@ DWORD ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
 }
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
-DWORD ReadStringFromMemoryW(WCHAR **Parser,TCHAR *End,WCHAR **StoreTo,WCHAR *DebugString)
+DWORD ReadStringFromMemoryW(WCHAR **Parser,wchar_t *End,WCHAR **StoreTo,WCHAR *DebugString)
 {
 	//This is the debug version of ReadStringFromMemoryW function. This version shows MessageBox where
 	//read string is displayed
@@ -327,7 +327,7 @@ static DWORD ReadNotificationFromMemory(char **Parser, char *End, YAMN_NOTIFICAT
 {
 	DWORD Stat;
 #ifdef DEBUG_FILEREAD
-	TCHAR Debug[65536];
+	wchar_t Debug[65536];
 #endif
 
 	Which->Flags = *(DWORD *)(*Parser);
@@ -393,7 +393,7 @@ DWORD ReadMessagesFromMemory(HACCOUNT Which, char **Parser, char *End)
 	do
 	{
 		Finder = *Parser;
-		while ((*Finder != (TCHAR)0) && (Finder <= End)) Finder++;
+		while ((*Finder != (wchar_t)0) && (Finder <= End)) Finder++;
 		if (Finder >= End)
 			return EACC_FILECOMPATIBILITY;
 		if (Size = Finder - *Parser)
@@ -485,7 +485,7 @@ DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, char *End)
 {
 	DWORD Stat;
 #ifdef DEBUG_FILEREAD
-	TCHAR Debug[65536];
+	wchar_t Debug[65536];
 #endif
 	//Read name of account	
 
@@ -735,7 +735,7 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin, char *MemFile, cha
 INT_PTR AddAccountsFromFileSvc(WPARAM wParam, LPARAM lParam)
 {
 	char *MemFile, *End;
-	DWORD Stat = FileToMemory((TCHAR*)lParam, &MemFile, &End);
+	DWORD Stat = FileToMemory((wchar_t*)lParam, &MemFile, &End);
 	if (Stat != NO_ERROR)
 		return (INT_PTR)Stat;
 
@@ -846,7 +846,7 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin, HANDLE File)
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"WriteAccountsToFile:ActualAccountSO-read enter\n");
 #endif
-			if ((ActualAccount->Name == NULL) || (*ActualAccount->Name == (TCHAR)0))
+			if ((ActualAccount->Name == NULL) || (*ActualAccount->Name == (wchar_t)0))
 			{
 #ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile,"WriteAccountsToFile:ActualAccountSO-read done\n");
@@ -976,7 +976,7 @@ INT_PTR WriteAccountsToFileSvc(WPARAM wParam, LPARAM lParam)
 	HYAMNPROTOPLUGIN Plugin = (HYAMNPROTOPLUGIN)wParam;
 
 	mir_cslock lck(csFileWritingCS);
-	HANDLE hFile = CreateFile((TCHAR*)lParam, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile((wchar_t*)lParam, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return EACC_SYSTEM;
 
@@ -1226,7 +1226,7 @@ int DeleteAccounts(HYAMNPROTOPLUGIN Plugin)
 	return 1;
 }
 
-void WINAPI GetStatusFcn(HACCOUNT Which, TCHAR *Value)
+void WINAPI GetStatusFcn(HACCOUNT Which, wchar_t *Value)
 {
 	if (Which == NULL)
 		return;
@@ -1235,7 +1235,7 @@ void WINAPI GetStatusFcn(HACCOUNT Which, TCHAR *Value)
 	mir_tstrcpy(Value, Which->Status);
 }
 
-void WINAPI SetStatusFcn(HACCOUNT Which, TCHAR *Value)
+void WINAPI SetStatusFcn(HACCOUNT Which, wchar_t *Value)
 {
 	if (Which != NULL) {
 		mir_cslock lck(csAccountStatusCS);

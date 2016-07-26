@@ -110,16 +110,16 @@ void ColWordCount::impl_contactDataTransformCleanup(Contact& contact) const
 
 void ColWordCount::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const TCHAR* szTypeDesc[] = {
-		LPGENT("Total word count"),
-		LPGENT("Distinct word count"),
-		LPGENT("Ratio total/distinct words")
+	static const wchar_t* szTypeDesc[] = {
+		LPGENW("Total word count"),
+		LPGENW("Distinct word count"),
+		LPGENW("Ratio total/distinct words")
 	};
 
-	static const TCHAR* szSourceDesc[] = {
-		LPGENT("incoming messages"),
-		LPGENT("outgoing messages"),
-		LPGENT("all messages"),
+	static const wchar_t* szSourceDesc[] = {
+		LPGENW("incoming messages"),
+		LPGENW("outgoing messages"),
+		LPGENW("all messages"),
 	};
 
 	if (row == 1)

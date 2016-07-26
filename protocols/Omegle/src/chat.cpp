@@ -21,10 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void OmegleProto::UpdateChat(const TCHAR *name, const TCHAR *message, bool addtolog)
+void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool addtolog)
 {
 	// replace % to %% to not interfere with chat color codes
-	std::tstring smessage = message;
+	std::wstring smessage = message;
 	utils::text::treplace_all(&smessage, L"%", L"%%");
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
@@ -226,7 +226,7 @@ GCEVENT gce = { sizeof(gce), &gcd };
 CallServiceSync(MS_GC_EVENT,WINDOW_CLEARLOG,reinterpret_cast<LPARAM>(&gce));
 }*/
 
-void OmegleProto::AddChatContact(const TCHAR *name)
+void OmegleProto::AddChatContact(const wchar_t *name)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -248,7 +248,7 @@ void OmegleProto::AddChatContact(const TCHAR *name)
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
-void OmegleProto::DeleteChatContact(const TCHAR *name)
+void OmegleProto::DeleteChatContact(const wchar_t *name)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -296,7 +296,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 	return 0;
 }
 
-void OmegleProto::SetTopic(const TCHAR *topic)
+void OmegleProto::SetTopic(const wchar_t *topic)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
 	GCEVENT gce = { sizeof(gce), &gcd };

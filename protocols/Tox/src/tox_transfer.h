@@ -11,7 +11,7 @@ struct FileTransferParam
 
 	TOX_FILE_KIND transferType;
 
-	FileTransferParam(uint32_t friendNumber, uint32_t fileNumber, const TCHAR *fileName, uint64_t fileSize)
+	FileTransferParam(uint32_t friendNumber, uint32_t fileNumber, const wchar_t *fileName, uint64_t fileSize)
 	{
 		hFile = NULL;
 		this->friendNumber = friendNumber;
@@ -22,7 +22,7 @@ struct FileTransferParam
 		pfts.flags = PFTS_TCHAR;
 		pfts.hContact = NULL;
 		pfts.totalFiles = 1;
-		pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)*(pfts.totalFiles + 1));
+		pfts.ptszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(pfts.totalFiles + 1));
 		pfts.ptszFiles[0] = pfts.tszCurrentFile = mir_tstrdup(fileName);
 		pfts.ptszFiles[pfts.totalFiles] = NULL;
 		pfts.totalBytes = pfts.currentFileSize = fileSize;
@@ -34,13 +34,13 @@ struct FileTransferParam
 		transferType = TOX_FILE_KIND_DATA;
 	}
 
-	bool OpenFile(const TCHAR *mode)
+	bool OpenFile(const wchar_t *mode)
 	{
-		hFile = _tfopen(pfts.tszCurrentFile, mode);
+		hFile = _wfopen(pfts.tszCurrentFile, mode);
 		return hFile != NULL;
 	}
 
-	void ChangeName(const TCHAR *fileName)
+	void ChangeName(const wchar_t *fileName)
 	{
 		pfts.ptszFiles[0] = replaceStrT(pfts.tszCurrentFile, fileName);
 	}
@@ -68,7 +68,7 @@ struct AvatarTransferParam : public FileTransferParam
 {
 	uint8_t hash[TOX_HASH_LENGTH];
 
-	AvatarTransferParam(uint32_t friendNumber, uint32_t fileNumber, const TCHAR *fileName, uint64_t fileSize)
+	AvatarTransferParam(uint32_t friendNumber, uint32_t fileNumber, const wchar_t *fileName, uint64_t fileSize)
 		: FileTransferParam(friendNumber, fileNumber, fileName, fileSize)
 	{
 		transferType = TOX_FILE_KIND_AVATAR;

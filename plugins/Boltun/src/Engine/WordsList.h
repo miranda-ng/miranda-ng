@@ -24,21 +24,21 @@
 class WordsList
 {
 	WordsList();
-	void Parse(std::tstring s/*, bool allowUnstrict = false*/);
+	void Parse(std::wstring s/*, bool allowUnstrict = false*/);
 	//bool unstrict;
 #ifdef _DEBUG
 public:
 #endif
-	std::set<std::tstring> words;
+	std::set<std::wstring> words;
 	bool isQuestion;
 public:
-	WordsList(const std::tstring &data/*, bool allowUnstrict = false*/);
-	operator std::tstring() const;
-	bool MatchesAll(const std::vector<std::tstring>& s/*, bool& WasStrict*/, float& priority) const;
-	bool MatchesAny(const std::vector<std::tstring>& s) const;
-	std::vector<std::tstring> ConsistsOf(const std::set<std::tstring>& list) const;
-	std::vector<std::tstring> DoesntIncludeAny(const std::set<std::tstring>& list) const;
-	WordsList& operator= (const std::tstring& s);
+	WordsList(const std::wstring &data/*, bool allowUnstrict = false*/);
+	operator std::wstring() const;
+	bool MatchesAll(const std::vector<std::wstring>& s/*, bool& WasStrict*/, float& priority) const;
+	bool MatchesAny(const std::vector<std::wstring>& s) const;
+	std::vector<std::wstring> ConsistsOf(const std::set<std::wstring>& list) const;
+	std::vector<std::wstring> DoesntIncludeAny(const std::set<std::wstring>& list) const;
+	WordsList& operator= (const std::wstring& s);
 	bool operator<(const WordsList& value) const;
 	bool operator==(const WordsList& value) const;
 	bool operator!=(const WordsList& value) const;

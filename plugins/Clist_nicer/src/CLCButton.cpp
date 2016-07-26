@@ -102,7 +102,7 @@ int ClcGetButtonId(HWND hwnd)
 struct MButtonExtension : public MButtonCtrl
 {
 	HICON hIconPrivate;
-	TCHAR szText[128];
+	wchar_t szText[128];
 	SIZE sLabel;
 	HIMAGELIST hIml;
 	int iIcon;
@@ -388,7 +388,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_SETTEXT:
-		_tcsncpy_s(bct->szText, (TCHAR*)lParam, _TRUNCATE);
+		wcsncpy_s(bct->szText, (wchar_t*)lParam, _TRUNCATE);
 		break;
 
 	case BM_GETIMAGE:

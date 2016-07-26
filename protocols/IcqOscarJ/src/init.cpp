@@ -65,7 +65,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PROTO_INTERFACE* icqProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
+static PROTO_INTERFACE* icqProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
 {
 	CIcqProto *ppro = new CIcqProto(pszProtoName, tszUserName);
 	g_Instances.insert(ppro);

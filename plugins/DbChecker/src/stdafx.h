@@ -41,10 +41,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct DbToolOptions
 {
-	TCHAR filename[MAX_PATH];
-	TCHAR workingFilename[MAX_PATH];
-	TCHAR outputFilename[MAX_PATH];
-	TCHAR backupFilename[MAX_PATH];
+	wchar_t filename[MAX_PATH];
+	wchar_t workingFilename[MAX_PATH];
+	wchar_t outputFilename[MAX_PATH];
+	wchar_t backupFilename[MAX_PATH];
 	DATABASELINK *dblink;
 	MIDatabaseChecker* dbChecker;
 	HANDLE hOutFile;
@@ -74,6 +74,6 @@ INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 int OpenDatabase(HWND hdlg, INT iNextPage);
 
 #define STATUS_CLASSMASK  0x0f
-void AddToStatus(int flags, const TCHAR* fmt, ...);
+void AddToStatus(int flags, const wchar_t* fmt, ...);
 void SetProgressBar(int perThou);
 

@@ -35,17 +35,17 @@ void EnsureCheckerLoaded(bool);
 #define WM_INPUTCHANGED (WM_USER + 0x3000)
 #define WM_FOCUSTEXTBOX (WM_USER + 0x3001)
 
-typedef BOOL (__cdecl *ENUMPROFILECALLBACK) (TCHAR *tszFullPath, TCHAR *profile, LPARAM lParam);
+typedef BOOL (__cdecl *ENUMPROFILECALLBACK) (wchar_t *tszFullPath, wchar_t *profile, LPARAM lParam);
 
 void SetServiceModePlugin(pluginEntry *p);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Profile creator
 
-static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARAM lParam)
+static int findProfiles(wchar_t *szProfileDir, ENUMPROFILECALLBACK callback, LPARAM lParam)
 {
 	// find in Miranda NG profile subfolders
-	TCHAR searchspec[MAX_PATH];
+	wchar_t searchspec[MAX_PATH];
 	mir_sntprintf(searchspec, L"%s\\*.*", szProfileDir);
 	
 	WIN32_FIND_DATA ffd;
@@ -56,9 +56,9 @@ static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARA
 	do {
 		// find all subfolders except "." and ".."
 		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_tstrcmp(ffd.cFileName, L".") && mir_tstrcmp(ffd.cFileName, L"..")) {
-			TCHAR buf[MAX_PATH], profile[MAX_PATH];
+			wchar_t buf[MAX_PATH], profile[MAX_PATH];
 			mir_sntprintf(buf, L"%s\\%s\\%s.dat", szProfileDir, ffd.cFileName, ffd.cFileName);
-			if (_taccess(buf, 0) == 0) {
+			if (_waccess(buf, 0) == 0) {
 				mir_sntprintf(profile, L"%s.dat", ffd.cFileName);
 				if (!callback(buf, profile, lParam))
 					break;
@@ -74,7 +74,7 @@ static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARA
 static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CHAR) {
-		if (_tcschr(L".?/\\#' ", (TCHAR)wParam) != 0)
+		if (wcschr(L".?/\\#' ", (wchar_t)wParam) != 0)
 			return 0;
 		PostMessage(GetParent(edit), WM_INPUTCHANGED, 0, 0);
 	}
@@ -86,14 +86,14 @@ class CCreateProfileDlg : public CDlgBase
 	CCtrlButton &m_btnOk;
 	PROFILEMANAGERDATA *m_pd;
 
-	int CreateProfile(TCHAR *profile, DATABASELINK *link)
+	int CreateProfile(wchar_t *profile, DATABASELINK *link)
 	{
-		TCHAR buf[256];
+		wchar_t buf[256];
 		int err = 0;
 		// check if the file already exists
-		TCHAR *file = _tcsrchr(profile, '\\');
+		wchar_t *file = wcsrchr(profile, '\\');
 		if (file) file++;
-		if (_taccess(profile, 0) == 0) {
+		if (_waccess(profile, 0) == 0) {
 			// file already exists!
 			mir_sntprintf(buf,
 				TranslateT("The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted."),
@@ -165,13 +165,13 @@ public:
 		mir_subclassWindow(m_profileName.GetHwnd(), ProfileNameValidate);
 
 		// decide if there is a default profile name given in the INI and if it should be used
-		if (m_pd->noProfiles || (shouldAutoCreate(m_pd->ptszProfile) && _taccess(m_pd->ptszProfile, 0))) {
-			TCHAR *profile = _tcsrchr(m_pd->ptszProfile, '\\');
+		if (m_pd->noProfiles || (shouldAutoCreate(m_pd->ptszProfile) && _waccess(m_pd->ptszProfile, 0))) {
+			wchar_t *profile = wcsrchr(m_pd->ptszProfile, '\\');
 			if (profile) ++profile;
 			else profile = m_pd->ptszProfile;
 
-			TCHAR *p = _tcsrchr(profile, '.');
-			TCHAR c = 0;
+			wchar_t *p = wcsrchr(profile, '.');
+			wchar_t c = 0;
 			if (p) { c = *p; *p = 0; }
 
 			m_profileName.SetText(profile);
@@ -239,24 +239,24 @@ class CChooseProfileDlg : public CDlgBase
 
 	struct ProfileEnumData
 	{
-		ProfileEnumData(CCtrlListView &_list, TCHAR *_profile) :
+		ProfileEnumData(CCtrlListView &_list, wchar_t *_profile) :
 			list(_list),
 			szProfile(_profile)
 		{}
 
 		CCtrlListView &list;
-		TCHAR* szProfile;
+		wchar_t* szProfile;
 	};
 
-	static BOOL EnumProfilesForList(TCHAR *tszFullPath, TCHAR *profile, LPARAM lParam)
+	static BOOL EnumProfilesForList(wchar_t *tszFullPath, wchar_t *profile, LPARAM lParam)
 	{
 		ProfileEnumData *ped = (ProfileEnumData*)lParam;
 		CCtrlListView &list = ped->list;
 
-		TCHAR sizeBuf[64];
+		wchar_t sizeBuf[64];
 		bool bFileLocked = true;
 
-		TCHAR *p = _tcsrchr(profile, '.');
+		wchar_t *p = wcsrchr(profile, '.');
 		mir_tstrcpy(sizeBuf, L"0 KB");
 		if (p != NULL) *p = 0;
 
@@ -266,7 +266,7 @@ class CChooseProfileDlg : public CDlgBase
 		item.iItem = 0;
 
 		struct _stat statbuf;
-		if (_tstat(tszFullPath, &statbuf) == 0) {
+		if (_wstat(tszFullPath, &statbuf) == 0) {
 			if (statbuf.st_size > 1000000) {
 				mir_sntprintf(sizeBuf, L"%.3lf", (double)statbuf.st_size / 1048576.0);
 				mir_tstrcpy(sizeBuf + 5, L" MB");
@@ -314,7 +314,7 @@ class CChooseProfileDlg : public CDlgBase
 		if (iItem < 0)
 			return;
 
-		TCHAR profile[MAX_PATH], fullName[MAX_PATH];
+		wchar_t profile[MAX_PATH], fullName[MAX_PATH];
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT | LVIF_IMAGE;
 		item.iItem = iItem;
@@ -332,7 +332,7 @@ class CChooseProfileDlg : public CDlgBase
 		if (iItem < 0)
 			return;
 
-		TCHAR profile[MAX_PATH], profilef[MAX_PATH * 2];
+		wchar_t profile[MAX_PATH], profilef[MAX_PATH * 2];
 
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT;
@@ -360,7 +360,7 @@ class CChooseProfileDlg : public CDlgBase
 	{
 		m_btnOk.Enable(m_profileList.GetSelectedCount() == 1);
 
-		TCHAR profile[MAX_PATH];
+		wchar_t profile[MAX_PATH];
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT | LVIF_IMAGE;
 		item.iItem = m_profileList.GetNextItem(-1, LVNI_SELECTED | LVNI_ALL);
@@ -386,12 +386,12 @@ class CChooseProfileDlg : public CDlgBase
 
 		// profile is placed in "profile_name" subfolder
 
-		TCHAR tmpPath[MAX_PATH];
+		wchar_t tmpPath[MAX_PATH];
 		mir_sntprintf(tmpPath, L"%s\\%s.dat", m_pd->ptszProfileDir, profile);
-		if (_taccess(tmpPath, 2))
+		if (_waccess(tmpPath, 2))
 			mir_sntprintf(m_pd->ptszProfile, MAX_PATH, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
 		else
-			_tcsncpy_s(m_pd->ptszProfile, MAX_PATH, tmpPath, _TRUNCATE);
+			wcsncpy_s(m_pd->ptszProfile, MAX_PATH, tmpPath, _TRUNCATE);
 	}
 
 	void ExecuteMenu(LPARAM lParam)
@@ -521,12 +521,12 @@ public:
 	void list_OnGetTip(CCtrlListView::TEventInfo *evt)
 	{
 		if (auto pTip = evt->nmlvit) {
-			TCHAR profilename[MAX_PATH], tszFullPath[MAX_PATH];
+			wchar_t profilename[MAX_PATH], tszFullPath[MAX_PATH];
 			struct _stat statbuf;
 			m_profileList.GetItemText(pTip->iItem, 0, profilename, _countof(profilename));
 			mir_sntprintf(tszFullPath, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profilename, profilename);
-			_tstat(tszFullPath, &statbuf);
-			mir_sntprintf(pTip->pszText, pTip->cchTextMax, L"%s\n%s: %s\n%s: %s", tszFullPath, TranslateT("Created"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_mtime))));
+			_wstat(tszFullPath, &statbuf);
+			mir_sntprintf(pTip->pszText, pTip->cchTextMax, L"%s\n%s: %s\n%s: %s", tszFullPath, TranslateT("Created"), rtrimt(NEWWSTR_ALLOCA(_wctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWWSTR_ALLOCA(_wctime(&statbuf.st_mtime))));
 		}
 	}
 
@@ -591,8 +591,8 @@ public:
 	{
 		m_btnOk.OnClick = Callback(this, &CProfileManager::onOk);
 
-		m_tab.AddPage(LPGENT("My profiles"), NULL, new CChooseProfileDlg(m_btnOk, m_pd));
-		m_tab.AddPage(LPGENT("New profile"), NULL, new CCreateProfileDlg(m_btnOk, m_pd));
+		m_tab.AddPage(LPGENW("My profiles"), NULL, new CChooseProfileDlg(m_btnOk, m_pd));
+		m_tab.AddPage(LPGENW("New profile"), NULL, new CCreateProfileDlg(m_btnOk, m_pd));
 	}
 	
 	virtual void OnInitDialog()

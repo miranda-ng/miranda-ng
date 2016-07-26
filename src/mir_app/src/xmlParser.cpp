@@ -1100,7 +1100,7 @@ XMLNode::XMLNode(XMLNodeData *pParent, XMLSTR lpszName, char isDeclaration)
 
 	d->lpszNS = NULL;
 	if (lpszName && pParent && pParent->lpszName && !pParent->isDeclaration) {
-		TCHAR* p = _tcschr(lpszName, ':');
+		wchar_t* p = wcschr(lpszName, ':');
 		if (p) {
 			*p = 0;
 			d->lpszNS = d->lpszName;
@@ -1197,7 +1197,7 @@ XMLAttribute *XMLNode::addAttribute_priv(int memoryIncrease, XMLSTR lpszName, XM
 	pAttr->lpszValue = lpszValuev;
 	d->nAttribute++;
 
-	TCHAR* p = _tcschr(lpszName, ':');
+	wchar_t* p = wcschr(lpszName, ':');
 	if (p)
 		if (!mir_tstrcmp(p+1, d->lpszNS) || (d->pParent && !mir_tstrcmp(p+1, d->pParent->lpszNS)))
 			*p = 0;
@@ -1541,7 +1541,7 @@ LBL_Error:
 #endif
 					}
 					else {
-						const TCHAR* p = _tcschr(lpszTemp, ':');
+						const wchar_t* p = wcschr(lpszTemp, ':');
 						if (!p)
 							goto LBL_Error;
 

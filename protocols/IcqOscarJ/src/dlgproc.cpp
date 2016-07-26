@@ -201,7 +201,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			LV_ITEM lvi = { 0 };
 			lvi.mask = LVIF_PARAM | LVIF_TEXT;
 			for (lvi.iItem = 0; lvi.iItem < settingCount; lvi.iItem++) {
-				TCHAR text[MAX_PATH];
+				wchar_t text[MAX_PATH];
 				lvi.lParam = lvi.iItem;
 				lvi.pszText = text;
 				utf8_to_tchar_static(setting[lvi.iItem].szDescription, text, _countof(text));
@@ -464,7 +464,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				dat->hUpload[i] = NULL;
 				for (done = 0, i = 0; i < _countof(dat->hUpload); i++)
 					done += dat->hUpload[i] == NULL;
-				TCHAR buf[MAX_PATH];
+				wchar_t buf[MAX_PATH];
 				mir_sntprintf(buf, TranslateT("Upload in progress...%d%%"), 100 * done / (_countof(dat->hUpload)));
 				SetDlgItemText(hwndDlg, IDC_UPLOADING, buf);
 				if (done < _countof(dat->hUpload)) break;

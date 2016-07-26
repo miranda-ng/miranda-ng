@@ -4,7 +4,6 @@
 
 #include <windows.h>
 #include <stdio.h>
-#include <tchar.h>
 
-void _OutputDebugString(TCHAR* lpOutputString, ...);
+void _OutputDebugString(wchar_t* lpOutputString, ...);
 #endif

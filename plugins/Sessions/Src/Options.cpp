@@ -334,7 +334,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				EnableWindow(GetDlgItem(hdlg, IDC_DEL), FALSE);
 				//EnableWindow(GetDlgItem(hdlg,IDC_SAVE),TRUE);
 				SetDlgItemText(hdlg, IDC_EDIT, TranslateT("View"));
-				hOpClistControl = CreateWindowEx(WS_EX_STATICEDGE, _T(CLISTCONTROL_CLASS), L"",
+				hOpClistControl = CreateWindowEx(WS_EX_STATICEDGE, CLISTCONTROL_CLASSW, L"",
 					WS_TABSTOP | WS_VISIBLE | WS_CHILD,
 					14, 198, 161, 163, hdlg, (HMENU)IDC_EMCLIST, g_hInst, 0);
 
@@ -376,7 +376,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				}
 				if (bSesssionNameChanged) {
 					if (GetWindowTextLength(hComboBoxEdit)) {
-						TCHAR szUserSessionName[MAX_PATH] = { '\0' };
+						wchar_t szUserSessionName[MAX_PATH] = { '\0' };
 						GetWindowText(hComboBoxEdit, szUserSessionName, _countof(szUserSessionName));
 						RenameUserDefSession(opses_count, szUserSessionName);
 						SendDlgItemMessage(hdlg, IDC_LIST, CB_RESETCONTENT, 0, 0);

@@ -110,11 +110,11 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 	node = json_get(data, "realname");
 	if (node != NULL)
 	{
-		std::tstring realname = (TCHAR*)ptrT(json_as_string(node));
+		std::wstring realname = (wchar_t*)ptrT(json_as_string(node));
 		if (!realname.empty())
 		{
 			size_t pos = realname.find(L' ', 1);
-			if (pos != std::tstring::npos)
+			if (pos != std::wstring::npos)
 			{
 				setTString(hContact, "FirstName", realname.substr(0, pos).c_str());
 				setTString(hContact, "LastName", realname.substr(pos + 1).c_str());
@@ -265,7 +265,7 @@ void CSteamProto::ContactIsRemoved(MCONTACT hContact)
 		SetContactStatus(hContact, ID_STATUS_OFFLINE);
 
 		ptrT nick(getTStringA(hContact, "Nick"));
-		TCHAR message[MAX_PATH];
+		wchar_t message[MAX_PATH];
 		mir_sntprintf(message, MAX_PATH, TranslateT("%s has been removed from your contact list"), nick);
 
 		ShowNotification(L"Steam", message);
@@ -283,7 +283,7 @@ void CSteamProto::ContactIsFriend(MCONTACT hContact)
 		delSetting(hContact, "Grant");
 
 		ptrT nick(getTStringA(hContact, "Nick"));
-		TCHAR message[MAX_PATH];
+		wchar_t message[MAX_PATH];
 		mir_sntprintf(message, MAX_PATH, TranslateT("%s is back in your contact list"), nick);
 
 		ShowNotification(L"Steam", message);
@@ -602,7 +602,7 @@ void CSteamProto::OnGotAvatar(const HttpResponse *response, void *arg)
 		return;
 	}
 
-	FILE *fp = _tfopen(ai.filename, L"wb");
+	FILE *fp = _wfopen(ai.filename, L"wb");
 	if (fp)
 	{
 		fwrite(response->pData, sizeof(char), response->dataLength, fp);
@@ -763,25 +763,25 @@ void CSteamProto::OnSearchResults(const HttpResponse *response, void *arg)
 			ssr.hdr.flags = PSR_TCHAR;
 
 			node = json_get(child, "steamid");
-			ssr.hdr.id.t = mir_tstrdup(ptrT(json_as_string(node)));
+			ssr.hdr.id.w = mir_tstrdup(ptrT(json_as_string(node)));
 
 			node = json_get(child, "personaname");
-			ssr.hdr.nick.t = mir_tstrdup(ptrT(json_as_string(node)));
+			ssr.hdr.nick.w = mir_tstrdup(ptrT(json_as_string(node)));
 
 			node = json_get(child, "realname");
 			if (node != NULL)
 			{
-				std::tstring realname = (TCHAR*)ptrT(json_as_string(node));
+				std::wstring realname = (wchar_t*)ptrT(json_as_string(node));
 				if (!realname.empty())
 				{
 					size_t pos = realname.find(' ', 1);
-					if (pos != std::tstring::npos)
+					if (pos != std::wstring::npos)
 					{
-						ssr.hdr.firstName.t = mir_tstrdup(realname.substr(0, pos).c_str());
-						ssr.hdr.lastName.t = mir_tstrdup(realname.substr(pos + 1).c_str());
+						ssr.hdr.firstName.w = mir_tstrdup(realname.substr(0, pos).c_str());
+						ssr.hdr.lastName.w = mir_tstrdup(realname.substr(pos + 1).c_str());
 					}
 					else
-						ssr.hdr.firstName.t = mir_tstrdup(realname.c_str());
+						ssr.hdr.firstName.w = mir_tstrdup(realname.c_str());
 				}
 			}
 

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-void _OutputDebugString(TCHAR* lpOutputString, ...)
+void _OutputDebugString(wchar_t* lpOutputString, ...)
 {
 	CMString format;
 	va_list args;

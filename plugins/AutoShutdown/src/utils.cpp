@@ -47,9 +47,9 @@ char* u2a(const WCHAR *pszUnicode)
 	return psz;
 }
 
-void TrimString(TCHAR *pszStr)
+void TrimString(wchar_t *pszStr)
 {
-	TCHAR *psz, szChars[] = L" \r\n\t";
+	wchar_t *psz, szChars[] = L" \r\n\t";
 	for (int i = 0; i < _countof(szChars); ++i) {
 		/* trim end */
 		psz = &pszStr[mir_tstrlen(pszStr) - 1];
@@ -60,7 +60,7 @@ void TrimString(TCHAR *pszStr)
 		/* trim beginning */
 		for (psz = pszStr; (*psz && *psz == szChars[i]); psz = CharNext(psz))
 			;
-		memmove(pszStr, psz, (mir_tstrlen(psz) + 1)*sizeof(TCHAR));
+		memmove(pszStr, psz, (mir_tstrlen(psz) + 1)*sizeof(wchar_t));
 	}
 }
 
@@ -158,7 +158,7 @@ BOOL TimeStampToSystemTime(time_t timestamp, SYSTEMTIME *st)
 	return TRUE;
 }
 
-BOOL GetFormatedCountdown(TCHAR *pszOut, int nSize, time_t countdown)
+BOOL GetFormatedCountdown(wchar_t *pszOut, int nSize, time_t countdown)
 {
 	static BOOL fInited = FALSE;
 	static int (WINAPI *pfnGetDurationFormat)(LCID, DWORD, const SYSTEMTIME*, double, WCHAR*, WCHAR*, int);
@@ -183,7 +183,7 @@ BOOL GetFormatedCountdown(TCHAR *pszOut, int nSize, time_t countdown)
 	return StrFromTimeInterval(pszOut, nSize, (countdown > (MAXDWORD / 1000)) ? MAXDWORD : (countdown * 1000), 10) != 0;
 }
 
-BOOL GetFormatedDateTime(TCHAR *pszOut, int nSize, time_t timestamp, BOOL fShowDateEvenToday)
+BOOL GetFormatedDateTime(wchar_t *pszOut, int nSize, time_t timestamp, BOOL fShowDateEvenToday)
 {
 	SYSTEMTIME st, stNow;
 	LCID locale = Langpack_GetDefaultLocale();
@@ -194,7 +194,7 @@ BOOL GetFormatedDateTime(TCHAR *pszOut, int nSize, time_t timestamp, BOOL fShowD
 		return GetTimeFormat(locale, ((st.wSecond == 0) ? TIME_NOSECONDS : 0) | TIME_FORCE24HOURFORMAT, &st, NULL, pszOut, nSize) != 0;
 	/* show both date and time */
 	{
-		TCHAR szDate[128], szTime[128];
+		wchar_t szDate[128], szTime[128];
 		if (!GetTimeFormat(locale, ((st.wSecond == 0) ? TIME_NOSECONDS : 0) | TIME_FORCE24HOURFORMAT, &st, NULL, szTime, _countof(szTime)))
 			return FALSE;
 		if (!GetDateFormat(locale, DATE_SHORTDATE, &st, NULL, szDate, _countof(szDate)))
@@ -212,8 +212,8 @@ void AddHotkey()
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "AutoShutdown_Toggle";
-	hkd.ptszDescription = LPGENT("Toggle automatic shutdown");
-	hkd.ptszSection = LPGENT("Main");
+	hkd.ptszDescription = LPGENW("Toggle automatic shutdown");
+	hkd.ptszSection = LPGENW("Main");
 	hkd.pszService = "AutoShutdown/MenuCommand";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;

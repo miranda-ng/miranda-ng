@@ -117,10 +117,10 @@ bool CContactCache::updateNick()
 {
 	bool fChanged = false;
 	if (m_Valid) {
-		TCHAR *tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
+		wchar_t *tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
 		if (tszNick && mir_tstrcmp(m_szNick, tszNick))
 			fChanged = true;
-		_tcsncpy_s(m_szNick, (tszNick ? tszNick : L"<undef>"), _TRUNCATE);
+		wcsncpy_s(m_szNick, (tszNick ? tszNick : L"<undef>"), _TRUNCATE);
 	}
 	return fChanged;
 }
@@ -180,7 +180,7 @@ bool CContactCache::updateUIN()
 	if (m_Valid) {
 		ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, getActiveContact(), getActiveProto()));
 		if (uid != NULL)
-			_tcsncpy_s(m_szUIN, uid, _TRUNCATE);
+			wcsncpy_s(m_szUIN, uid, _TRUNCATE);
 	}
 
 	return false;
@@ -287,12 +287,12 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 				if (m_history[m_iHistoryTop].szText == NULL) {
 					if (iLength < HISTORY_INITIAL_ALLOCSIZE)
 						iLength = HISTORY_INITIAL_ALLOCSIZE;
-					m_history[m_iHistoryTop].szText = (TCHAR*)mir_alloc(iLength);
+					m_history[m_iHistoryTop].szText = (wchar_t*)mir_alloc(iLength);
 					m_history[m_iHistoryTop].lLen = iLength;
 				}
 				else {
 					if (iLength > m_history[m_iHistoryTop].lLen) {
-						m_history[m_iHistoryTop].szText = (TCHAR*)mir_realloc(m_history[m_iHistoryTop].szText, iLength);
+						m_history[m_iHistoryTop].szText = (wchar_t*)mir_realloc(m_history[m_iHistoryTop].szText, iLength);
 						m_history[m_iHistoryTop].lLen = iLength;
 					}
 				}
@@ -329,7 +329,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 			if (::GetWindowTextLength(hwndEdit) > 0)
 				saveHistory(m_iHistorySize, 0);
 			else
-				m_history[m_iHistorySize].szText[0] = (TCHAR)'\0';
+				m_history[m_iHistorySize].szText[0] = (wchar_t)'\0';
 		}
 		if (wParam == VK_UP) {
 			if (m_iHistoryCurrent == 0)
@@ -379,7 +379,7 @@ void CContactCache::allocHistory()
 	m_iHistoryTop = 0;
 	if (m_history)
 		memset(m_history, 0, (sizeof(TInputHistory) * m_iHistorySize));
-	m_history[m_iHistorySize].szText = (TCHAR*)mir_alloc((HISTORY_INITIAL_ALLOCSIZE + 1) * sizeof(TCHAR));
+	m_history[m_iHistorySize].szText = (wchar_t*)mir_alloc((HISTORY_INITIAL_ALLOCSIZE + 1) * sizeof(wchar_t));
 	m_history[m_iHistorySize].lLen = HISTORY_INITIAL_ALLOCSIZE;
 }
 
@@ -517,11 +517,11 @@ int CContactCache::cacheUpdateMetaChanged(WPARAM bMetaEnabled, LPARAM)
 
 /**
  * normalize the status message with proper cr/lf sequences.
- * @param src TCHAR*:		original status message
+ * @param src wchar_t*:		original status message
  * @param fStripAll bool:	strip all cr/lf sequences and replace them with spaces (use for title bar)
- * @return TCHAR*:			converted status message. CALLER is responsible to mir_free it, MUST use mir_free()
+ * @return wchar_t*:			converted status message. CALLER is responsible to mir_free it, MUST use mir_free()
  */
-TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
+wchar_t* CContactCache::getNormalizedStatusMsg(const wchar_t *src, bool fStripAll)
 {
 	if (src == 0 || mir_tstrlen(src) < 2)
 		return 0;
@@ -531,7 +531,7 @@ TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
 	for (int i = 0; src[i] != 0; i++) {
 		if (src[i] == 0x0d || src[i] == '\t')
 			continue;
-		if (i && src[i] == (TCHAR)0x0a) {
+		if (i && src[i] == (wchar_t)0x0a) {
 			if (fStripAll) {
 				dest.AppendChar(' ');
 				continue;

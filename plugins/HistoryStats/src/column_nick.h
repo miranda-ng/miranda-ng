@@ -21,9 +21,9 @@ public:
 	explicit ColNick();
 
 protected:
-	virtual const TCHAR* impl_getUID() const { return con::ColNick; }
-	virtual const TCHAR* impl_getTitle() const { return LPGENT("Nick"); }
-	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding the contact's nick and first/last message time if selected."); }
+	virtual const wchar_t* impl_getUID() const { return con::ColNick; }
+	virtual const wchar_t* impl_getTitle() const { return LPGENW("Nick"); }
+	virtual const wchar_t* impl_getDescription() const { return LPGENW("Column holding the contact's nick and first/last message time if selected."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig; }
 	virtual void impl_configRead(const SettingsTree& settings);

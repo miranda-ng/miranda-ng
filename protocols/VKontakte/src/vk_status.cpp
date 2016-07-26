@@ -160,7 +160,7 @@ void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	const JSONNode &jnAudio = jnResponse["audio"];
 	if (!jnAudio) {
 		CMString tszStatusText(jnResponse["text"].as_mstring());
-		if (tszStatusText[0] != TCHAR(9835))
+		if (tszStatusText[0] != wchar_t(9835))
 			setTString("OldStatusMsg", tszStatusText);
 	}
 }

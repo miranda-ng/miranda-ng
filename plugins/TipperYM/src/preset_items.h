@@ -25,15 +25,15 @@ Boston, MA 02111-1307, USA.
 
 typedef struct {
 	char *szID;
-	TCHAR *swzName;
-	TCHAR *swzLabel;
-	TCHAR *swzValue;
+	wchar_t *swzName;
+	wchar_t *swzLabel;
+	wchar_t *swzValue;
 	char *szNeededSubst[MAX_PRESET_SUBST_COUNT];
 } PRESETITEM;
 
 typedef struct {
 	char *szID;
-	TCHAR *swzName;
+	wchar_t *swzName;
 	DisplaySubstType type;
 	char *szModuleName;
 	char *szSettingName;

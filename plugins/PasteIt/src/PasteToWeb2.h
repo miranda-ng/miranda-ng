@@ -27,7 +27,7 @@ protected:
 public:
 	PasteToWeb2();
 	virtual ~PasteToWeb2();
-	virtual TCHAR* GetName()
+	virtual wchar_t* GetName()
 	{
 		return L"wklej.to";
 	}

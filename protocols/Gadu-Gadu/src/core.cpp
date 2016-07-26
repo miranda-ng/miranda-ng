@@ -236,19 +236,19 @@ void __cdecl GGPROTO::mainthread(void *)
 	int hostnum = 0, hostcount = 0;
 	GGHOST hosts[64];
 	// Gadu-gadu login errors
-	static const struct tagReason { int type; TCHAR *str; } reason[] = {
-		{ GG_FAILURE_RESOLVING,   LPGENT("Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.") },
-		{ GG_FAILURE_CONNECTING,  LPGENT("Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.") },
-		{ GG_FAILURE_INVALID,     LPGENT("Received invalid server response.") },
-		{ GG_FAILURE_READING,     LPGENT("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
-		{ GG_FAILURE_WRITING,     LPGENT("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
-		{ GG_FAILURE_PASSWORD,    LPGENT("Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.") },
-		{ GG_FAILURE_404,         LPGENT("Connecting to Gadu-Gadu hub failed.") },
-		{ GG_FAILURE_TLS,         LPGENT("Cannot establish secure connection.") },
-		{ GG_FAILURE_NEED_EMAIL,  LPGENT("Server disconnected asking you for changing your e-mail.") },
-		{ GG_FAILURE_INTRUDER,    LPGENT("Too many login attempts with invalid password.") },
-		{ GG_FAILURE_UNAVAILABLE, LPGENT("Gadu-Gadu servers are now down. Try again later.") },
-		{ 0,                      LPGENT("Unknown") }
+	static const struct tagReason { int type; wchar_t *str; } reason[] = {
+		{ GG_FAILURE_RESOLVING,   LPGENW("Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.") },
+		{ GG_FAILURE_CONNECTING,  LPGENW("Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.") },
+		{ GG_FAILURE_INVALID,     LPGENW("Received invalid server response.") },
+		{ GG_FAILURE_READING,     LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
+		{ GG_FAILURE_WRITING,     LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
+		{ GG_FAILURE_PASSWORD,    LPGENW("Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.") },
+		{ GG_FAILURE_404,         LPGENW("Connecting to Gadu-Gadu hub failed.") },
+		{ GG_FAILURE_TLS,         LPGENW("Cannot establish secure connection.") },
+		{ GG_FAILURE_NEED_EMAIL,  LPGENW("Server disconnected asking you for changing your e-mail.") },
+		{ GG_FAILURE_INTRUDER,    LPGENW("Too many login attempts with invalid password.") },
+		{ GG_FAILURE_UNAVAILABLE, LPGENW("Gadu-Gadu servers are now down. Try again later.") },
+		{ 0,                      LPGENW("Unknown") }
 	};
 	time_t logonTime = 0;
 	time_t timeDeviation = getWord(GG_KEY_TIMEDEVIATION, GG_KEYDEF_TIMEDEVIATION);
@@ -359,8 +359,8 @@ void __cdecl GGPROTO::mainthread(void *)
 	if (dcc && getByte(GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING)) {
 		if (!getString(GG_KEY_FORWARDHOST, &dbv)) {
 			if (!(p.external_addr = gg_dnslookup(this, dbv.pszVal))) {
-				TCHAR error[128];
-				TCHAR* forwardHostT = mir_a2t(dbv.pszVal);
+				wchar_t error[128];
+				wchar_t* forwardHostT = mir_a2t(dbv.pszVal);
 				mir_sntprintf(error, TranslateT("External direct connections hostname %s is invalid. Disabling external host forwarding."), forwardHostT);
 				mir_free(forwardHostT);
 				showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
@@ -390,8 +390,8 @@ retry:
 	{
 		if (!(p.server_addr = gg_dnslookup(this, hosts[hostnum].hostname)))
 		{
-			TCHAR error[128];
-			TCHAR* hostnameT = mir_a2t(hosts[hostnum].hostname);
+			wchar_t error[128];
+			wchar_t* hostnameT = mir_a2t(hosts[hostnum].hostname);
 			mir_sntprintf(error, TranslateT("Server hostname %s is invalid. Using default hostname provided by the network."), hostnameT);
 			mir_free(hostnameT);
 			showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
@@ -414,7 +414,7 @@ retry:
 		// Check if connection attempt wasn't cancelled by the user
 		if (m_iDesiredStatus != ID_STATUS_OFFLINE)
 		{
-			TCHAR error[128], *perror = NULL;
+			wchar_t error[128], *perror = NULL;
 			// Lookup for error desciption
 			if (errno == EACCES) {
 				for (int i = 0; reason[i].type; i++) if (reason[i].type == gg_failno) {
@@ -480,7 +480,7 @@ retry:
 		{
 			broadcastnewstatus(m_iDesiredStatus);
 			// Change status of the contact with our own UIN (if got yourself added to the contact list)
-			TCHAR *status_descr = mir_utf8decodeT(p.status_descr);
+			wchar_t *status_descr = mir_utf8decodeT(p.status_descr);
 			changecontactstatus(p.uin, p.status, status_descr, 0, 0, 0, 0);
 			mir_free(status_descr);
 		}
@@ -562,7 +562,7 @@ retry:
 
 				for (; n->uin; n++)
 				{
-					TCHAR *descrT = (e->type == GG_EVENT_NOTIFY_DESCR) ? mir_utf8decodeT(e->event.notify_descr.descr) : NULL;
+					wchar_t *descrT = (e->type == GG_EVENT_NOTIFY_DESCR) ? mir_utf8decodeT(e->event.notify_descr.descr) : NULL;
 					changecontactstatus(n->uin, n->status, descrT, 0, n->remote_ip, n->remote_port, n->version);
 					if (descrT) mir_free(descrT);
 				}
@@ -575,7 +575,7 @@ retry:
 				int i;
 				for(i = 0; e->event.notify60[i].uin; i++) {
 					if (e->event.notify60[i].uin == uin) continue;
-					TCHAR *descrT = mir_utf8decodeT(e->event.notify60[i].descr);
+					wchar_t *descrT = mir_utf8decodeT(e->event.notify60[i].descr);
 					changecontactstatus(e->event.notify60[i].uin, e->event.notify60[i].status, descrT,
 						e->event.notify60[i].time, e->event.notify60[i].remote_ip, e->event.notify60[i].remote_port,
 						e->event.notify60[i].version);
@@ -617,12 +617,12 @@ retry:
 					{
 						// Loadup fields
 						const char *__fmnumber = gg_pubdir50_get(res, i, GG_PUBDIR50_UIN);
-						TCHAR *__nickname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_NICKNAME));
-						TCHAR *__firstname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_FIRSTNAME));
-						TCHAR *__lastname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_LASTNAME));
-						TCHAR *__familyname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYNAME));
-						TCHAR *__city = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_CITY));
-						TCHAR *__familycity = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYCITY));
+						wchar_t *__nickname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_NICKNAME));
+						wchar_t *__firstname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_FIRSTNAME));
+						wchar_t *__lastname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_LASTNAME));
+						wchar_t *__familyname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYNAME));
+						wchar_t *__city = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_CITY));
+						wchar_t *__familycity = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYCITY));
 						const char *__birthyear = gg_pubdir50_get(res, i, GG_PUBDIR50_BIRTHYEAR);
 						const char *__gender = gg_pubdir50_get(res, i, GG_PUBDIR50_GENDER);
 						const char *__status = gg_pubdir50_get(res, i, GG_PUBDIR50_STATUS);
@@ -632,10 +632,10 @@ retry:
 						debugLogA("mainthread() (%x): Search result for uin %d, seq %d.", this, uin, res->seq);
 						if (res->seq == GG_SEQ_SEARCH)
 						{
-							TCHAR strFmt1[64];
-							TCHAR strFmt2[64];
+							wchar_t strFmt1[64];
+							wchar_t strFmt2[64];
 
-							_tcsncpy_s(strFmt2, pcli->pfnGetStatusModeDescription( status_gg2m(atoi(__status)), 0), _TRUNCATE);
+							wcsncpy_s(strFmt2, pcli->pfnGetStatusModeDescription( status_gg2m(atoi(__status)), 0), _TRUNCATE);
 							if (__city) {
 								mir_sntprintf(strFmt1, L", %s %s", TranslateT("City:"), __city);
 								mir_tstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_tstrlen(strFmt2));
@@ -655,11 +655,11 @@ retry:
 							memset(&psr, 0, sizeof(psr));
 							psr.cbSize = sizeof(psr);
 							psr.flags = PSR_TCHAR;
-							psr.nick.t = __nickname;
-							psr.firstName.t = __firstname;
-							psr.lastName.t = __lastname;
-							psr.email.t = strFmt2;
-							psr.id.t = _ultot(uin, strFmt1, 10);
+							psr.nick.w = __nickname;
+							psr.firstName.w = __firstname;
+							psr.lastName.w = __lastname;
+							psr.email.w = strFmt2;
+							psr.id.w = _ultot(uin, strFmt1, 10);
 							psr.uin = uin;
 							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM)&psr);
 						}
@@ -757,7 +757,7 @@ retry:
 			// Status (deprecated)
 			case GG_EVENT_STATUS:
 				{
-					TCHAR *descrT = mir_utf8decodeT(e->event.status.descr);
+					wchar_t *descrT = mir_utf8decodeT(e->event.status.descr);
 					changecontactstatus(e->event.status.uin, e->event.status.status, descrT, 0, 0, 0, 0);
 					mir_free(descrT);
 				}
@@ -770,7 +770,7 @@ retry:
 					int oldstatus = getWord(hContact, GG_KEY_STATUS, (WORD)ID_STATUS_OFFLINE);
 					uin_t uin = (uin_t)getDword(GG_KEY_UIN, 0);
 
-					TCHAR *descrT = mir_utf8decodeT(e->event.status60.descr);
+					wchar_t *descrT = mir_utf8decodeT(e->event.status60.descr);
 
 					if (e->event.status60.uin == uin)
 					{
@@ -822,19 +822,19 @@ retry:
 					// Check if groupchat
 					if (e->event.msg.recipients_count && gc_enabled && !getByte(GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF))
 					{
-						TCHAR *chat = gc_getchat(e->event.msg.sender, e->event.msg.recipients, e->event.msg.recipients_count);
+						wchar_t *chat = gc_getchat(e->event.msg.sender, e->event.msg.recipients, e->event.msg.recipients_count);
 						if (chat)
 						{
-							TCHAR id[32];
+							wchar_t id[32];
 							UIN2IDT(e->event.msg.sender, id);
 
 							GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
 							GCEVENT gce = { sizeof(gce), &gcd };
 							time_t t = time(NULL);
 							gce.ptszUID = id;
-							TCHAR* messageT = mir_utf8decodeT(e->event.msg.message);
+							wchar_t* messageT = mir_utf8decodeT(e->event.msg.message);
 							gce.ptszText = messageT;
-							gce.ptszNick = (TCHAR*) pcli->pfnGetContactDisplayName( getcontact(e->event.msg.sender, 1, 0, NULL), 0);
+							gce.ptszNick = (wchar_t*) pcli->pfnGetContactDisplayName( getcontact(e->event.msg.sender, 1, 0, NULL), 0);
 							gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gce.dwFlags = GCEF_ADDTOLOG;
 							debugLog(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
@@ -886,18 +886,18 @@ retry:
 			case GG_EVENT_MULTILOGON_MSG:
 				if (e->event.multilogon_msg.recipients_count && gc_enabled && !getByte(GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF))
 				{
-					TCHAR *chat = gc_getchat(e->event.multilogon_msg.sender, e->event.multilogon_msg.recipients, e->event.multilogon_msg.recipients_count);
+					wchar_t *chat = gc_getchat(e->event.multilogon_msg.sender, e->event.multilogon_msg.recipients, e->event.multilogon_msg.recipients_count);
 					if (chat)
 					{
-						TCHAR id[32];
+						wchar_t id[32];
 						UIN2IDT(getDword(GG_KEY_UIN, 0), id);
 
 						GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
 						GCEVENT gce = { sizeof(gce), &gcd };
 						gce.ptszUID = id;
-						TCHAR* messageT = mir_utf8decodeT(e->event.multilogon_msg.message);
+						wchar_t* messageT = mir_utf8decodeT(e->event.multilogon_msg.message);
 						gce.ptszText = messageT;
-						TCHAR* nickT;
+						wchar_t* nickT;
 						if (!getTString(GG_KEY_NICK, &dbv)){
 							nickT = mir_tstrdup(dbv.ptszVal);
 							db_free(&dbv);
@@ -965,12 +965,12 @@ retry:
 					sessions_updatedlg();
 					if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))
 					{
-						const TCHAR* szText = time(NULL) - logonTime > 3
+						const wchar_t* szText = time(NULL) - logonTime > 3
 							? TranslateT("You have logged in at another location")
 							: TranslateT("You are logged in at another location");
 						for (i = 0; i < e->event.multilogon_info.count; i++)
 						{
-							TCHAR szMsg[MAX_SECONDLINE];
+							wchar_t szMsg[MAX_SECONDLINE];
 							if (iIndexes && iIndexes[i])
 								continue;
 
@@ -1052,14 +1052,14 @@ retry:
 					debugLogA("mainthread() (%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
 						dcc7->filename, dcc7->size);
 
-					TCHAR* filenameT = mir_a2t((char*)dcc7->filename);
+					wchar_t* filenameT = mir_a2t((char*)dcc7->filename);
 
 					PROTORECVFILET pre = {0};
 					pre.dwFlags = PRFF_TCHAR;
 					pre.fileCount = 1;
 					pre.timestamp = time(NULL);
-					pre.descr.t = filenameT;
-					pre.files.t = &filenameT;
+					pre.descr.w = filenameT;
+					pre.files.w = &filenameT;
 					pre.lParam = (LPARAM)dcc7;
 					ProtoChainRecvFile((UINT_PTR)dcc7->contact, &pre);
 
@@ -1146,8 +1146,8 @@ retry:
 			case GG_EVENT_XML_ACTION:
 				if (getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
 					HXML hXml;
-					TCHAR *xmlAction;
-					TCHAR *tag;
+					wchar_t *xmlAction;
+					wchar_t *tag;
 
 					xmlAction = mir_a2t(e->event.xml_action.data);
 					tag = mir_a2t("events");
@@ -1307,7 +1307,7 @@ int GGPROTO::contactdeleted(WPARAM hContact, LPARAM)
 ////////////////////////////////////////////////////////////
 // When db settings changed
 
-static TCHAR* sttSettingToTchar( DBVARIANT* value )
+static wchar_t* sttSettingToTchar( DBVARIANT* value )
 {
 	switch(value->type) {
 	case DBVT_ASCIIZ:
@@ -1342,7 +1342,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 	// Contact is being renamed
 	if (gc_enabled && !strcmp(cws->szModule, m_szModuleName) && !strcmp(cws->szSetting, GG_KEY_NICK)){
 
-		TCHAR* ptszVal = sttSettingToTchar(&(cws->value));
+		wchar_t* ptszVal = sttSettingToTchar(&(cws->value));
 		if(ptszVal==NULL) return 0;
 
 		// Groupchat window contact is being renamed
@@ -1375,7 +1375,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 	{
 		// If name changed... change nick
 		if (!strcmp(cws->szSetting, "MyHandle")){
-			TCHAR* ptszVal = sttSettingToTchar(&(cws->value));
+			wchar_t* ptszVal = sttSettingToTchar(&(cws->value));
 			if(ptszVal==NULL) return 0;
 			setTString(hContact, GG_KEY_NICK, ptszVal);
 			mir_free(ptszVal);
@@ -1518,7 +1518,7 @@ void GGPROTO::notifyall()
 ////////////////////////////////////////////////////////////
 // Get contact by uin
 //
-MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
+MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 {
 #ifdef DEBUGMODE
 	debugLogA("getcontact(): uin=%d create=%d inlist=%d", uin, create, inlist);
@@ -1570,7 +1570,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 			gg_pubdir50(sess, req);
 			gg_LeaveCriticalSection(&sess_mutex, "getcontact", 31, 1, "sess_mutex", 1);
 			gg_pubdir50_free(req);
-			TCHAR* uinT = mir_a2t(ditoa(uin));
+			wchar_t* uinT = mir_a2t(ditoa(uin));
 			setTString(hContact, GG_KEY_NICK, uinT);
 			mir_free(uinT);
 			debugLogA("getcontact(): Search for nick on uin: %d", uin);
@@ -1591,7 +1591,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
 		if (getDword(GG_KEY_UIN, 0) == uin) {
 			gg_EnterCriticalSection(&modemsg_mutex, "getcontact", 33, "modemsg_mutex", 1);
-			TCHAR *szMsg = mir_tstrdup(getstatusmsg(m_iStatus));
+			wchar_t *szMsg = mir_tstrdup(getstatusmsg(m_iStatus));
 			gg_LeaveCriticalSection(&modemsg_mutex, "getcontact", 33, 1, "modemsg_mutex", 1);
 			changecontactstatus(uin, status_m2gg(m_iStatus, szMsg != NULL), szMsg, 0, 0, 0, 0);
 			mir_free(szMsg);
@@ -1685,7 +1685,7 @@ int GGPROTO::status_gg2m(int status)
 ////////////////////////////////////////////////////////////
 // Called when contact status is changed
 //
-void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, int, uint32_t remote_ip, uint16_t remote_port, uint32_t version)
+void GGPROTO::changecontactstatus(uin_t uin, int status, const wchar_t *idescr, int, uint32_t remote_ip, uint16_t remote_port, uint32_t version)
 {
 #ifdef DEBUGMODE
 	debugLogA("changecontactstatus(): uin=%d status=%d", uin, status);

@@ -60,7 +60,7 @@ struct StatusBarData
 {
 	int iItem;
 	int iFlags;
-	TCHAR *pszText;
+	wchar_t *pszText;
 	HICON hIcon;
 };
 
@@ -70,7 +70,7 @@ struct StatusBarData
 struct TitleBarData
 {
 	int iFlags;
-	TCHAR *pszText;
+	wchar_t *pszText;
 	HICON hIcon;
 	HICON hIconBig;
 	HICON hIconNot;
@@ -82,11 +82,11 @@ struct TitleBarData
 struct TabControlData
 {
 	int iFlags;
-	TCHAR *pszText;
+	wchar_t *pszText;
 	HICON hIcon;
 };
 
-TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto);
+wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto);
 HWND   GetParentWindow(MCONTACT hContact, BOOL bChat);
 void   NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type);
 

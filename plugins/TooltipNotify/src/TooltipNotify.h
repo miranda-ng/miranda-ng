@@ -87,8 +87,8 @@ private:
 
 	MapTimerIdProtoIter FindProtoByTimer(UINT idTimer);
 	template<typename T> TooltipsListIter FindBy(T STooltipData::* m, const T& value);
-	TCHAR *StatusToString(int iStatus, TCHAR *szStatus, int iBufSize);
-	TCHAR *MakeTooltipString(MCONTACT hContact, int iStatus, TCHAR *szString, int iBufSize);
+	wchar_t *StatusToString(int iStatus, wchar_t *szStatus, int iBufSize);
+	wchar_t *MakeTooltipString(MCONTACT hContact, int iStatus, wchar_t *szString, int iBufSize);
 	void MigrateSettings();
 	void RegisterFonts();
 	void GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF* bg);

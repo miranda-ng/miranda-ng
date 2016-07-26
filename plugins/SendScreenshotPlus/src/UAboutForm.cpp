@@ -93,7 +93,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM, LPARAM)
 
 	//License
 	{
-		TCHAR* pszText = NULL;
+		wchar_t* pszText = NULL;
 		mir_tstradd(pszText, _T(__COPYRIGHT));
 		mir_tstradd(pszText, L"\r\n\r\n");
 
@@ -102,7 +102,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM, LPARAM)
 		char* data = (char*)mir_alloc(size + 1);
 		memcpy(data, LockResource(LoadResource(g_hSendSS, hRes)), size);
 		data[size] = '\0';
-		TCHAR* pszCopyright = mir_a2t(data);
+		wchar_t* pszCopyright = mir_a2t(data);
 		mir_free(data);
 		mir_tstradd(pszText, pszCopyright);
 		mir_free(pszCopyright);
@@ -117,7 +117,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM, LPARAM)
 		char* data = (char*)mir_alloc(size + 1);
 		memcpy(data, LockResource(LoadResource(g_hSendSS, hRes)), size);
 		data[size] = '\0';
-		TCHAR* pszText = mir_a2t(data);
+		wchar_t* pszText = mir_a2t(data);
 		mir_free(data);
 		SetDlgItemText(m_hWnd, IDC_CREDIT, pszText);
 		mir_free(pszText);
@@ -183,10 +183,10 @@ TfrmAbout::~TfrmAbout()
 void TfrmAbout::btnPageClick()
 {
 	HWND hCtrl = GetDlgItem(m_hWnd, IDA_CONTRIBLINK);
-	const TCHAR* credits = TranslateT("Credits");
-	const TCHAR* copyright = TranslateT("Copyright");
-	const TCHAR* title;
-	const TCHAR* button;
+	const wchar_t* credits = TranslateT("Credits");
+	const wchar_t* copyright = TranslateT("Copyright");
+	const wchar_t* title;
+	const wchar_t* button;
 	if (!m_Page) {
 		ShowWindow(GetDlgItem(m_hWnd, IDC_CREDIT), SW_HIDE);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LICENSE), SW_SHOW);
@@ -202,9 +202,9 @@ void TfrmAbout::btnPageClick()
 		button = copyright;
 	}
 	SetWindowText(hCtrl, button);
-	TCHAR newTitle[128];
-	TCHAR* pszPlug = mir_a2t(__PLUGIN_NAME);
-	TCHAR* pszVer = mir_a2t(__VERSION_STRING_DOTS);
+	wchar_t newTitle[128];
+	wchar_t* pszPlug = mir_a2t(__PLUGIN_NAME);
+	wchar_t* pszVer = mir_a2t(__VERSION_STRING_DOTS);
 	mir_sntprintf(newTitle, L"%s - %s\nv%s", pszPlug, title, pszVer);
 	mir_free(pszPlug);
 	mir_free(pszVer);

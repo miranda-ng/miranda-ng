@@ -233,7 +233,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	GetDynamicStatMsg(hContact); // it updates VarParseData.Message needed for %extratext% in the format
 	TCString Reply(*(TCString*)AutoreplyOptData.GetValue(IDC_REPLYDLG_PREFIX));
 	if (Reply != NULL && ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {
-		TCHAR *szResult = variables_parse(Reply, VarParseData.Message, hContact);
+		wchar_t *szResult = variables_parse(Reply, VarParseData.Message, hContact);
 		if (szResult != NULL) {
 			Reply = szResult;
 			mir_free(szResult);

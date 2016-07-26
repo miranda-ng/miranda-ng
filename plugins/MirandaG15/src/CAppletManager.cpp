@@ -199,10 +199,10 @@ bool CAppletManager::Shutdown()
 //************************************************************************
 // Translates the specified string, and inserts the parameters
 //************************************************************************
-tstring CAppletManager::TranslateString(TCHAR *szString, ...)
+tstring CAppletManager::TranslateString(wchar_t *szString, ...)
 {
-	TCHAR out[1024];
-	TCHAR *szTranslatedString = TranslateTS(szString);
+	wchar_t out[1024];
+	wchar_t *szTranslatedString = TranslateTS(szString);
 
 	va_list body;
 	va_start(body, szString);
@@ -532,19 +532,19 @@ tstring CAppletManager::GetFormattedTimestamp(tm *tm_time)
 	time(&now);
 	localtime_s(&tm_now, &now);
 
-	TCHAR buffer[128];
+	wchar_t buffer[128];
 
 	if (tm_time->tm_mday != tm_now.tm_mday || tm_time->tm_mon != tm_now.tm_mon) {
 		if (CConfig::GetBoolSetting(TIMESTAMP_SECONDS))
-			_tcsftime(buffer, 128, L"[%x %H:%M:%S]", tm_time);
+			wcsftime(buffer, 128, L"[%x %H:%M:%S]", tm_time);
 		else
-			_tcsftime(buffer, 128, L"[%x %H:%M]", tm_time);
+			wcsftime(buffer, 128, L"[%x %H:%M]", tm_time);
 	}
 	else {
 		if (CConfig::GetBoolSetting(TIMESTAMP_SECONDS))
-			_tcsftime(buffer, 128, L"[%H:%M:%S]", tm_time);
+			wcsftime(buffer, 128, L"[%H:%M:%S]", tm_time);
 		else
-			_tcsftime(buffer, 128, L"[%H:%M]", tm_time);
+			wcsftime(buffer, 128, L"[%H:%M]", tm_time);
 	}
 
 	return toTstring(buffer);
@@ -875,7 +875,7 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hd
 			pEvent->strValue = Utf8_Decode((char*)dbevent.pBlob);
 		}
 		else if ((int)dbevent.cbBlob == msglen * 3) {
-			pEvent->strValue = (TCHAR *)& dbevent.pBlob[msglen];
+			pEvent->strValue = (wchar_t *)& dbevent.pBlob[msglen];
 		}
 		else {
 			pEvent->strValue = toTstring((char*)dbevent.pBlob);

@@ -43,7 +43,7 @@ void NetlibUnInit()
 	hNetlibUser = NULL;
 }
 
-void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
+void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 {
 	Netlib_LogfT(hNetlibUser, L"Getting feed data %s.", tszUrl);
 	NETLIBHTTPREQUEST nlhr = { 0 };
@@ -52,7 +52,7 @@ void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	if (_tcsstr(tszUrl, L"https://") != NULL)
+	if (wcsstr(tszUrl, L"https://") != NULL)
 		nlhr.flags |= NLHRF_SSL;
 	char *szUrl = mir_t2a(tszUrl);
 	nlhr.szUrl = szUrl;
@@ -142,14 +142,14 @@ void UpdateList(HWND hwndList)
 		UpdateListFlag = TRUE;
 		lvI.mask = LVIF_TEXT;
 		lvI.iSubItem = 0;
-		TCHAR *ptszNick = db_get_tsa(hContact, MODULE, "Nick");
+		wchar_t *ptszNick = db_get_tsa(hContact, MODULE, "Nick");
 		if (ptszNick) {
 			lvI.pszText = ptszNick;
 			lvI.iItem = i;
 			ListView_InsertItem(hwndList, &lvI);
 			lvI.iSubItem = 1;
 
-			TCHAR *ptszURL = db_get_tsa(hContact, MODULE, "URL");
+			wchar_t *ptszURL = db_get_tsa(hContact, MODULE, "URL");
 			if (ptszURL) {
 				lvI.pszText = ptszURL;
 				ListView_SetItem(hwndList, &lvI);
@@ -168,35 +168,35 @@ void DeleteAllItems(HWND hwndList)
 	ListView_DeleteAllItems(hwndList);
 }
 
-time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
+time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)
 {
 	struct tm timestamp;
-	TCHAR date[9];
+	wchar_t date[9];
 	int i, y;
 	time_t t;
 
 	if (stamp == NULL)
 		return 0;
 
-	TCHAR *p = NEWTSTR_ALLOCA(stamp);
+	wchar_t *p = NEWWSTR_ALLOCA(stamp);
 
 	if (FeedType) {
 		// skip '-' chars
 		int si = 0, sj = 0;
 		while (true) {
-			if (p[si] == _T('-'))
+			if (p[si] == '-')
 				si++;
 			else if (!(p[sj++] = p[si++]))
 				break;
 		}
 	}
 	else {
-		TCHAR *weekday, monthstr[4], timezonesign[2];
+		wchar_t *weekday, monthstr[4], timezonesign[2];
 		int day, month = 0, year, hour, min, sec, timezoneh, timezonem;
-		if (_tcsstr(p, L",")) {
-			weekday = _tcstok(p, L",");
-			p = _tcstok(NULL, L",");
-			_stscanf(p + 1, L"%d %3s %d %d:%d:%d %1s%02d%02d", &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+		if (wcsstr(p, L",")) {
+			weekday = wcstok(p, L",");
+			p = wcstok(NULL, L",");
+			swscanf(p + 1, L"%d %3s %d %d:%d:%d %1s%02d%02d", &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
 			if (!mir_tstrcmpi(monthstr, L"Jan"))
 				month = 1;
 			if (!mir_tstrcmpi(monthstr, L"Feb"))
@@ -230,13 +230,13 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 			else
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
-		else if (_tcsstr(p, L"T")) {
-			_stscanf(p, L"%d-%d-%dT%d:%d:%d", &year, &month, &day, &hour, &min, &sec);
+		else if (wcsstr(p, L"T")) {
+			swscanf(p, L"%d-%d-%dT%d:%d:%d", &year, &month, &day, &hour, &min, &sec);
 			mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
 		else
 		{
-			_stscanf(p, L"%d-%d-%d %d:%d:%d %1s%02d%02d", &year, &month, &day, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			swscanf(p, L"%d-%d-%d %d:%d:%d %1s%02d%02d", &year, &month, &day, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
 			if (!mir_tstrcmp(timezonesign, L"+"))
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
 			else if (!mir_tstrcmp(timezonesign, L"-"))
@@ -273,7 +273,7 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 	for (; *p != '\0' && !isdigit(*p); p++);
 
 	// Parse time
-	if (_stscanf(p, L"%d:%d:%d", &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
+	if (swscanf(p, L"%d:%d:%d", &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
 		return 0;
 
 	timestamp.tm_isdst = 0;	// DST is already present in _timezone below
@@ -320,16 +320,16 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 				}
 			}
 			if (date != NULL && size != NULL) {
-				TCHAR *tdate = mir_a2t(date);
-				TCHAR *tsize = mir_a2t(size);
+				wchar_t *tdate = mir_a2t(date);
+				wchar_t *tsize = mir_a2t(size);
 				struct _stat buf;
 
-				int fh = _topen(tszLocal, _O_RDONLY);
+				int fh = _wopen(tszLocal, _O_RDONLY);
 				if (fh != -1) {
 					_fstat(fh, &buf);
 					time_t modtime = DateToUnixTime(tdate, 0);
 					time_t filemodtime = mktime(localtime(&buf.st_atime));
-					if (modtime > filemodtime && buf.st_size != _ttoi(tsize)) {
+					if (modtime > filemodtime && buf.st_size != _wtoi(tsize)) {
 						DWORD dwBytes;
 						HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
@@ -451,7 +451,7 @@ HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
 	return hr;
 }
 
-LPCTSTR ClearText(CMString &result, const TCHAR *message)
+LPCTSTR ClearText(CMString &result, const wchar_t *message)
 {
 	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(L"");
 	HRESULT hr = TestMarkupServices(bstrHtml, &TestDocumentText, bstrRes);
@@ -465,7 +465,7 @@ LPCTSTR ClearText(CMString &result, const TCHAR *message)
 	return result;
 }
 
-MCONTACT GetContactByNick(const TCHAR *nick)
+MCONTACT GetContactByNick(const wchar_t *nick)
 {
 	MCONTACT hContact = NULL;
 
@@ -477,7 +477,7 @@ MCONTACT GetContactByNick(const TCHAR *nick)
 	return hContact;
 }
 
-MCONTACT GetContactByURL(const TCHAR *url)
+MCONTACT GetContactByURL(const wchar_t *url)
 {
 	MCONTACT hContact = NULL;
 

@@ -84,7 +84,7 @@ void CDlgBase::NotifyChange(void)
 		SendMessage(m_hwndParent, PSM_CHANGED, (WPARAM)m_hwnd, 0);
 }
 
-void CDlgBase::SetCaption(const TCHAR *ptszCaption)
+void CDlgBase::SetCaption(const wchar_t *ptszCaption)
 {
 	if (m_hwnd && ptszCaption)
 		SetWindowText(m_hwnd, ptszCaption);
@@ -310,7 +310,7 @@ void CCtrlCombo::OnApply()
 
 	if (GetDataType() == DBVT_TCHAR) {
 		int len = GetWindowTextLength(m_hwnd) + 1;
-		TCHAR *buf = (TCHAR *)_alloca(sizeof(TCHAR) * len);
+		wchar_t *buf = (wchar_t *)_alloca(sizeof(wchar_t) * len);
 		GetWindowText(m_hwnd, buf, len);
 		SaveText(buf);
 	}
@@ -327,7 +327,7 @@ void CCtrlCombo::OnReset()
 		SetInt(LoadInt());
 }
 
-int CCtrlCombo::AddString(const TCHAR *text, LPARAM data)
+int CCtrlCombo::AddString(const wchar_t *text, LPARAM data)
 {
 	int iItem = SendMessage(m_hwnd, CB_ADDSTRING, 0, (LPARAM)text);
 	if (data)
@@ -347,7 +347,7 @@ void CCtrlCombo::DeleteString(int index)
 {	SendMessage(m_hwnd, CB_DELETESTRING, index, 0);
 }
 
-int CCtrlCombo::FindString(const TCHAR *str, int index, bool exact)
+int CCtrlCombo::FindString(const wchar_t *str, int index, bool exact)
 {	return SendMessage(m_hwnd, exact?CB_FINDSTRINGEXACT:CB_FINDSTRING, index, (LPARAM)str);
 }
 
@@ -371,22 +371,22 @@ LPARAM CCtrlCombo::GetItemData(int index)
 {	return SendMessage(m_hwnd, CB_GETITEMDATA, index, 0);
 }
 
-TCHAR* CCtrlCombo::GetItemText(int index)
+wchar_t* CCtrlCombo::GetItemText(int index)
 {
-	TCHAR *result = (TCHAR *)mir_alloc(sizeof(TCHAR) * (SendMessage(m_hwnd, CB_GETLBTEXTLEN, index, 0) + 1));
+	wchar_t *result = (wchar_t *)mir_alloc(sizeof(wchar_t) * (SendMessage(m_hwnd, CB_GETLBTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, CB_GETLBTEXT, index, (LPARAM)result);
 	return result;
 }
 
-TCHAR* CCtrlCombo::GetItemText(int index, TCHAR *buf, int size)
+wchar_t* CCtrlCombo::GetItemText(int index, wchar_t *buf, int size)
 {
-	TCHAR *result = (TCHAR *)_alloca(sizeof(TCHAR) * (SendMessage(m_hwnd, CB_GETLBTEXTLEN, index, 0) + 1));
+	wchar_t *result = (wchar_t *)_alloca(sizeof(wchar_t) * (SendMessage(m_hwnd, CB_GETLBTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, CB_GETLBTEXT, index, (LPARAM)result);
 	mir_tstrncpy(buf, result, size);
 	return buf;
 }
 
-int CCtrlCombo::InsertString(TCHAR *text, int pos, LPARAM data)
+int CCtrlCombo::InsertString(wchar_t *text, int pos, LPARAM data)
 {
 	int iItem = SendMessage(m_hwnd, CB_INSERTSTRING, pos, (LPARAM)text);
 	SendMessage(m_hwnd, CB_SETITEMDATA, iItem, data);
@@ -397,7 +397,7 @@ void CCtrlCombo::ResetContent()
 {	SendMessage(m_hwnd, CB_RESETCONTENT, 0, 0);
 }
 
-int CCtrlCombo::SelectString(TCHAR *str)
+int CCtrlCombo::SelectString(wchar_t *str)
 {	return SendMessage(m_hwnd, CB_SELECTSTRING, 0, (LPARAM)str);
 }
 
@@ -430,7 +430,7 @@ BOOL CCtrlListBox::OnCommand(HWND, WORD, WORD idCode)
 	return TRUE;
 }
 
-int CCtrlListBox::AddString(TCHAR *text, LPARAM data)
+int CCtrlListBox::AddString(wchar_t *text, LPARAM data)
 {
 	int iItem = SendMessage(m_hwnd, LB_ADDSTRING, 0, (LPARAM)text);
 	SendMessage(m_hwnd, LB_SETITEMDATA, iItem, data);
@@ -441,7 +441,7 @@ void CCtrlListBox::DeleteString(int index)
 {	SendMessage(m_hwnd, LB_DELETESTRING, index, 0);
 }
 
-int CCtrlListBox::FindString(TCHAR *str, int index, bool exact)
+int CCtrlListBox::FindString(wchar_t *str, int index, bool exact)
 {	return SendMessage(m_hwnd, exact?LB_FINDSTRINGEXACT:LB_FINDSTRING, index, (LPARAM)str);
 }
 
@@ -457,16 +457,16 @@ LPARAM CCtrlListBox::GetItemData(int index)
 {	return SendMessage(m_hwnd, LB_GETITEMDATA, index, 0);
 }
 
-TCHAR* CCtrlListBox::GetItemText(int index)
+wchar_t* CCtrlListBox::GetItemText(int index)
 {
-	TCHAR *result = (TCHAR *)mir_alloc(sizeof(TCHAR) * (SendMessage(m_hwnd, LB_GETTEXTLEN, index, 0) + 1));
+	wchar_t *result = (wchar_t *)mir_alloc(sizeof(wchar_t) * (SendMessage(m_hwnd, LB_GETTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, LB_GETTEXT, index, (LPARAM)result);
 	return result;
 }
 
-TCHAR* CCtrlListBox::GetItemText(int index, TCHAR *buf, int size)
+wchar_t* CCtrlListBox::GetItemText(int index, wchar_t *buf, int size)
 {
-	TCHAR *result = (TCHAR *)_alloca(sizeof(TCHAR) * (SendMessage(m_hwnd, LB_GETTEXTLEN, index, 0) + 1));
+	wchar_t *result = (wchar_t *)_alloca(sizeof(wchar_t) * (SendMessage(m_hwnd, LB_GETTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, LB_GETTEXT, index, (LPARAM)result);
 	mir_tstrncpy(buf, result, size);
 	return buf;
@@ -495,7 +495,7 @@ int* CCtrlListBox::GetSelItems()
 	return result;
 }
 
-int CCtrlListBox::InsertString(TCHAR *text, int pos, LPARAM data)
+int CCtrlListBox::InsertString(wchar_t *text, int pos, LPARAM data)
 {
 	int iItem = SendMessage(m_hwnd, CB_INSERTSTRING, pos, (LPARAM)text);
 	SendMessage(m_hwnd, CB_SETITEMDATA, iItem, data);
@@ -506,7 +506,7 @@ void CCtrlListBox::ResetContent()
 {	SendMessage(m_hwnd, LB_RESETCONTENT, 0, 0);
 }
 
-int CCtrlListBox::SelectString(TCHAR *str)
+int CCtrlListBox::SelectString(wchar_t *str)
 {	return SendMessage(m_hwnd, LB_SELECTSTRING, 0, (LPARAM)str);
 }
 
@@ -575,7 +575,7 @@ void CCtrlEdit::OnApply()
 
 	if (GetDataType() == DBVT_TCHAR) {
 		int len = GetWindowTextLength(m_hwnd) + 1;
-		TCHAR *buf = (TCHAR *)_alloca(sizeof(TCHAR) * len);
+		wchar_t *buf = (wchar_t *)_alloca(sizeof(wchar_t) * len);
 		GetWindowText(m_hwnd, buf, len);
 		SaveText(buf);
 	}
@@ -617,7 +617,7 @@ void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, BY
 	m_dbLink = new CDbLink(szModuleName, szSetting, type, iValue);
 }
 
-void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, TCHAR* szValue)
+void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, wchar_t* szValue)
 {
 	m_dbLink = new CDbLink(szModuleName, szSetting, DBVT_TCHAR, szValue);
 }
@@ -949,7 +949,7 @@ HIMAGELIST CCtrlListView::CreateImageList(int iImageList)
 	return hIml;
 }
 
-void CCtrlListView::AddColumn(int iSubItem, TCHAR *name, int cx)
+void CCtrlListView::AddColumn(int iSubItem, wchar_t *name, int cx)
 {
 	LVCOLUMN lvc;
 	lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
@@ -960,7 +960,7 @@ void CCtrlListView::AddColumn(int iSubItem, TCHAR *name, int cx)
 	InsertColumn(iSubItem, &lvc);
 }
 
-void CCtrlListView::AddGroup(int iGroupId, TCHAR *name)
+void CCtrlListView::AddGroup(int iGroupId, wchar_t *name)
 {
 	LVGROUP lvg = { 0 };
 	lvg.cbSize = sizeof(lvg);
@@ -971,7 +971,7 @@ void CCtrlListView::AddGroup(int iGroupId, TCHAR *name)
 	InsertGroup(-1, &lvg);
 }
 
-int CCtrlListView::AddItem(TCHAR *text, int iIcon, LPARAM lParam, int iGroupId)
+int CCtrlListView::AddItem(wchar_t *text, int iIcon, LPARAM lParam, int iGroupId)
 {
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_PARAM | LVIF_TEXT | LVIF_IMAGE;
@@ -987,7 +987,7 @@ int CCtrlListView::AddItem(TCHAR *text, int iIcon, LPARAM lParam, int iGroupId)
 	return InsertItem(&lvi);
 }
 
-void CCtrlListView::SetItem(int iItem, int iSubItem, TCHAR *text, int iIcon)
+void CCtrlListView::SetItem(int iItem, int iSubItem, wchar_t *text, int iIcon)
 {
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_TEXT;
@@ -1300,7 +1300,7 @@ void CCtrlListView::SetItemPosition32(int iItem, int x, int y)
 void CCtrlListView::SetItemState(int i, UINT state, UINT mask)
 {	ListView_SetItemState(m_hwnd, i, state, mask);
 }
-void CCtrlListView::SetItemText(int i, int iSubItem, TCHAR *pszText)
+void CCtrlListView::SetItemText(int i, int iSubItem, wchar_t *pszText)
 {	ListView_SetItemText(m_hwnd, i, iSubItem, pszText);
 }
 COLORREF CCtrlListView::SetOutlineColor(COLORREF color)
@@ -1391,7 +1391,7 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, 
 	if (hItem == hInsertAfter)
 		return hItem;
 
-	TCHAR name[128];
+	wchar_t name[128];
 	TVINSERTSTRUCT tvis = { 0 };
 	tvis.itemex.mask = (UINT)-1;
 	tvis.itemex.pszText = name;
@@ -1630,7 +1630,7 @@ void CCtrlTreeView::InvertCheck(HTREEITEM hItem)
 void CCtrlTreeView::TranslateItem(HTREEITEM hItem)
 {
 	TVITEMEX tvi;
-	TCHAR buf[128];
+	wchar_t buf[128];
 	GetItem(hItem, &tvi, buf, _countof(buf));
 	tvi.pszText = TranslateTS(tvi.pszText);
 	SetItem(&tvi);
@@ -1660,10 +1660,10 @@ void CCtrlTreeView::TranslateTree()
 	}
 }
 
-HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const TCHAR *name)
+HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const wchar_t *name)
 {
 	TVITEMEX tvi = { 0 };
-	TCHAR str[MAX_PATH];
+	wchar_t str[MAX_PATH];
 
 	if (hItem)
 		tvi.hItem = GetChild(hItem);
@@ -1696,7 +1696,7 @@ void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi)
 	GetItem(tvi);
 }
 
-void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi, TCHAR *szText, int iTextLength)
+void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi, wchar_t *szText, int iTextLength)
 {
 	memset(tvi, 0, sizeof(*tvi));
 	tvi->mask = TVIF_CHILDREN | TVIF_HANDLE | TVIF_IMAGE | TVIF_INTEGRAL | TVIF_PARAM | TVIF_SELECTEDIMAGE | TVIF_STATE | TVIF_TEXT;
@@ -2134,7 +2134,7 @@ LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CSuper::CustomWndProc(msg, wParam, lParam);
 }
 
-void CCtrlPages::AddPage(TCHAR *ptszName, HICON hIcon, CDlgBase *pDlg)
+void CCtrlPages::AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
 {
 	TPageInfo *info = new TPageInfo;
 	info->m_pDlg = pDlg;
@@ -2359,7 +2359,7 @@ LRESULT CCtrlBase::SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam)
 	return ::SendMessage(m_hwnd, Msg, wParam, lParam);
 }
 
-void CCtrlBase::SetText(const TCHAR *text)
+void CCtrlBase::SetText(const wchar_t *text)
 {
 	::SetWindowText(m_hwnd, text);
 }
@@ -2371,15 +2371,15 @@ void CCtrlBase::SetTextA(const char *text)
 
 void CCtrlBase::SetInt(int value)
 {
-	TCHAR buf[32] = { 0 };
+	wchar_t buf[32] = { 0 };
 	mir_sntprintf(buf, L"%d", value);
 	SetWindowText(m_hwnd, buf);
 }
 
-TCHAR* CCtrlBase::GetText()
+wchar_t* CCtrlBase::GetText()
 {
 	int length = GetWindowTextLength(m_hwnd) + 1;
-	TCHAR *result = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
+	wchar_t *result = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
 	GetWindowText(m_hwnd, result, length);
 	return result;
 }
@@ -2392,7 +2392,7 @@ char* CCtrlBase::GetTextA()
 	return result;
 }
 
-TCHAR* CCtrlBase::GetText(TCHAR *buf, int size)
+wchar_t* CCtrlBase::GetText(wchar_t *buf, int size)
 {
 	GetWindowText(m_hwnd, buf, size);
 	buf[size - 1] = 0;
@@ -2409,9 +2409,9 @@ char* CCtrlBase::GetTextA(char *buf, int size)
 int CCtrlBase::GetInt()
 {
 	int length = GetWindowTextLength(m_hwnd) + 1;
-	TCHAR *result = (TCHAR *)_alloca(length * sizeof(TCHAR));
+	wchar_t *result = (wchar_t *)_alloca(length * sizeof(wchar_t));
 	GetWindowText(m_hwnd, result, length);
-	return _ttoi(result);
+	return _wtoi(result);
 }
 
 LRESULT CCtrlBase::CustomWndProc(UINT, WPARAM, LPARAM)
@@ -2464,7 +2464,7 @@ CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD i
 	dbv.type = DBVT_DELETED;
 }
 
-CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, TCHAR *szValue)
+CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, wchar_t *szValue)
 	: CDataLink(type)
 {
 	m_szModule = mir_strdup(szModule);
@@ -2501,7 +2501,7 @@ void CDbLink::SaveInt(DWORD value)
 	}
 }
 
-TCHAR* CDbLink::LoadText()
+wchar_t* CDbLink::LoadText()
 {
 	if (dbv.type != DBVT_DELETED) db_free(&dbv);
 	if (!db_get_ts(NULL, m_szModule, m_szSetting, &dbv)) {
@@ -2514,7 +2514,7 @@ TCHAR* CDbLink::LoadText()
 	return m_szDefault;
 }
 
-void CDbLink::SaveText(TCHAR *value)
+void CDbLink::SaveText(wchar_t *value)
 {
 	db_set_ts(NULL, m_szModule, m_szSetting, value);
 }

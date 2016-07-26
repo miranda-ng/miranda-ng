@@ -271,7 +271,7 @@ void SetToDefault(HWND hParent)
 	if (!hMapUser || nContacts <= 0)
 		return;
 
-	TCHAR szTemp[500];
+	wchar_t szTemp[500];
 	if (!GetDlgItemText(hParent, IDC_DEFAULT_FILE, szTemp, _countof(szTemp)))
 		return;
 
@@ -291,7 +291,7 @@ void SetToDefault(HWND hParent)
 		ReplaceTimeVariables(sFileName);
 
 		sItem.mask = LVIF_TEXT;
-		sItem.pszText = (TCHAR*)sFileName.c_str();
+		sItem.pszText = (wchar_t*)sFileName.c_str();
 		ListView_SetItem(hMapUser, &sItem);
 
 		if (!bUnaplyedChanges) {
@@ -318,7 +318,7 @@ BOOL bApplyChanges(HWND hwndDlg)
 {
 	BOOL bTrans;
 	BOOL bRet = true;
-	TCHAR szTemp[500];
+	wchar_t szTemp[500];
 
 	int nTmp = GetDlgItemInt(hwndDlg, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE);
 	if (!bTrans || nTmp < 5) {
@@ -431,7 +431,7 @@ void ClearAllFileNames(HWND hwndDlg)
 
 void AutoFindeFileNames(HWND hwndDlg)
 {
-	TCHAR szDefaultFile[500];
+	wchar_t szDefaultFile[500];
 	GetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, szDefaultFile, _countof(szDefaultFile));
 
 	LVITEM sItem = { 0 };
@@ -439,7 +439,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 	HWND hMapUser = GetDlgItem(hwndDlg, IDC_MAP_USER_LIST);
 	int nCount = ListView_GetItemCount(hMapUser);
 	for (int nCur = 0; nCur < nCount; nCur++) {
-		TCHAR szSearch[100];
+		wchar_t szSearch[100];
 		sItem.pszText = szSearch;
 		sItem.mask = LVIF_TEXT;
 		sItem.iItem = nCur;
@@ -454,7 +454,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 		for (int nSubCur = 0; nSubCur < nCount; nSubCur++) {
 			if (nSubCur == nCur)
 				continue;
-			TCHAR szSubCur[100];
+			wchar_t szSubCur[100];
 			sItem.mask = LVIF_TEXT | LVIF_PARAM;
 			sItem.iItem = nSubCur;
 			sItem.iSubItem = 1;
@@ -462,7 +462,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 			sItem.cchTextMax = _countof(szSubCur);
 			if (ListView_GetItem(hMapUser, &sItem)) {
 				size_t nLen = mir_tstrlen(szSubCur);
-				if (_tcsncicmp(szSubCur, szSearch, nLen) == 0) {
+				if (wcsnicmp(szSubCur, szSearch, nLen) == 0) {
 					if (nLen < (size_t)nShortestMatch) {
 						nShortestMatch = (int)nLen;
 						nStortestIndex = nSubCur;
@@ -493,10 +493,10 @@ void AutoFindeFileNames(HWND hwndDlg)
 			}
 
 			if (!bPriHasFileName)
-				ListView_SetItemText(hMapUser, nCur, 0, (TCHAR*)sFileName.c_str());
+				ListView_SetItemText(hMapUser, nCur, 0, (wchar_t*)sFileName.c_str());
 
 			if (!bSubHasFileName)
-				ListView_SetItemText(hMapUser, nStortestIndex, 0, (TCHAR*)sFileName.c_str());
+				ListView_SetItemText(hMapUser, nStortestIndex, 0, (wchar_t*)sFileName.c_str());
 
 			if (!bUnaplyedChanges) {
 				bUnaplyedChanges = TRUE;
@@ -521,7 +521,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 
 void OpenHelp(HWND hwndDlg)
 {
-	TCHAR szPath[MAX_PATH];
+	wchar_t szPath[MAX_PATH];
 	if (GetModuleFileName(hInstance, szPath, _countof(szPath))) {
 		size_t nLen = mir_tstrlen(szPath);
 		if (nLen > 3) {
@@ -629,7 +629,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sItem.lParam = hContact;
 
 					sTmp = _DBGetString(hContact, MODULE, "FileName", L"");
-					sItem.pszText = (TCHAR*)sTmp.c_str();
+					sItem.pszText = (wchar_t*)sTmp.c_str();
 					ListView_InsertItem(hMapUser, &sItem);
 
 					sItem.mask = LVIF_TEXT;
@@ -642,7 +642,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					ListView_SetItem(hMapUser, &sItem);
 
 					DWORD dwUIN = db_get_dw(hContact, pa->szModuleName, "UIN", 0);
-					TCHAR szTmp[50];
+					wchar_t szTmp[50];
 					mir_sntprintf(szTmp, L"%d", dwUIN);
 					sItem.iSubItem = 3;
 					sItem.pszText = szTmp;
@@ -789,10 +789,10 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			return TRUE;
 
 		case IDC_FILE_VIEWER_BROWSE:
-			TCHAR szFile[260];       // buffer for file name
+			wchar_t szFile[260];       // buffer for file name
 			GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szFile, _countof(szFile));
 
-			TCHAR buf[MAX_PATH];
+			wchar_t buf[MAX_PATH];
 			mir_sntprintf(buf, L"%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c", TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
 			{
 				OPENFILENAME ofn = {};       // common dialog box structure
@@ -823,7 +823,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			}
 
 			// Allocate the Dest Dir buffer to receive browse info
-			TCHAR *lpDestDir = (TCHAR *)pMalloc->Alloc(MAX_PATH + 100);
+			wchar_t *lpDestDir = (wchar_t *)pMalloc->Alloc(MAX_PATH + 100);
 			if (!lpDestDir) {
 				pMalloc->Release();
 				MessageBox(hwndDlg, TranslateT("Failed to Allocate buffer space"), MSG_BOX_TITEL, MB_OK);
@@ -1227,16 +1227,16 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszTitle = LPGENT("Message export");
-	odp.ptszGroup = LPGENT("History");
-	odp.ptszTab = LPGENT("General");
+	odp.pwszTitle = LPGENW("Message export");
+	odp.pwszGroup = LPGENW("History");
+	odp.pwszTab = LPGENW("General");
 	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = DlgProcMsgExportOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.position = 100000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT2);
-	odp.ptszTab = LPGENT("Additional");
+	odp.pwszTab = LPGENW("Additional");
 	odp.pfnDlgProc = DlgProcMsgExportOpts2;
 	Options_AddPage(wParam, &odp);
 	return 0;

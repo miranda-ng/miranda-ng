@@ -28,7 +28,7 @@ void mir_sleep(int time)
 /////////////////////////////////////////////////////////////////////////////////////////
 // substitutes variables and passes our own data path as base
 
-void MyPathToAbsolute(const TCHAR *ptszPath, TCHAR *ptszDest)
+void MyPathToAbsolute(const wchar_t *ptszPath, wchar_t *ptszDest)
 {
 	PathToAbsoluteT(VARST(ptszPath), ptszDest, g_szDataPath);
 }
@@ -37,9 +37,9 @@ void MyPathToAbsolute(const TCHAR *ptszPath, TCHAR *ptszDest)
 // convert the avatar image path to a relative one...
 // given: contact handle, path to image
 
-void MakePathRelative(MCONTACT hContact, TCHAR *path)
+void MakePathRelative(MCONTACT hContact, wchar_t *path)
 {
-	TCHAR szFinalPath[MAX_PATH];
+	wchar_t szFinalPath[MAX_PATH];
 	szFinalPath[0] = '\0';
 
 	size_t result = PathToRelativeT(path, szFinalPath, g_szDataPath);
@@ -68,7 +68,7 @@ void MakePathRelative(MCONTACT hContact)
 int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 {
 	ptrT  tszValue;
-	TCHAR tszFilename[MAX_PATH]; tszFilename[0] = 0;
+	wchar_t tszFilename[MAX_PATH]; tszFilename[0] = 0;
 
 	ace->hbmPic = 0;
 	ace->dwFlags = 0;
@@ -139,8 +139,8 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 	if (mir_tstrlen(tszFilename) < 4)
 		return -1;
 
-	_tcsncpy_s(tszFilename, VARST(tszFilename), _TRUNCATE);
-	if (_taccess(tszFilename, 4) == -1)
+	wcsncpy_s(tszFilename, VARST(tszFilename), _TRUNCATE);
+	if (_waccess(tszFilename, 4) == -1)
 		return -2;
 
 	BOOL isTransparentImage = 0;
@@ -149,7 +149,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 	ace->bmHeight = 0;
 	ace->bmWidth = 0;
 	ace->lpDIBSection = NULL;
-	_tcsncpy(ace->szFilename, tszFilename, MAX_PATH);
+	wcsncpy(ace->szFilename, tszFilename, MAX_PATH);
 	ace->szFilename[MAX_PATH - 1] = 0;
 	if (ace->hbmPic == 0)
 		return -1;
@@ -230,7 +230,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 #define TOPBIT (1 << (WIDTH - 1)) /* MSB */
 #define WIDTH 32
 
-int GetFileHash(TCHAR* filename)
+int GetFileHash(wchar_t* filename)
 {
 	HANDLE hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -435,7 +435,7 @@ void DeleteGlobalUserAvatar()
 	if (db_get_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv))
 		return;
 
-	TCHAR szFilename[MAX_PATH];
+	wchar_t szFilename[MAX_PATH];
 	MyPathToAbsolute(dbv.ptszVal, szFilename);
 	db_free(&dbv);
 
@@ -457,8 +457,8 @@ void SetIgnoreNotify(char *protocol, BOOL ignore)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-DWORD GetFileSize(TCHAR *szFilename)
+DWORD GetFileSize(wchar_t *szFilename)
 {
 	struct _stat info;
-	return (_tstat(szFilename, &info) == -1) ? 0 : info.st_size;
+	return (_wstat(szFilename, &info) == -1) ? 0 : info.st_size;
 }

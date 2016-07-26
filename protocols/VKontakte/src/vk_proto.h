@@ -45,7 +45,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct CVkProto : public PROTO<CVkProto>
 {
-	CVkProto(const char*, const TCHAR*);
+	CVkProto(const char*, const wchar_t*);
 	~CVkProto();
 
 //====================================================================================
@@ -54,16 +54,16 @@ struct CVkProto : public PROTO<CVkProto>
 
 	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
 	virtual	int __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR *szReason);
-	virtual	int __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage);
+	virtual	int __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
+	virtual	int __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int __cdecl GetInfo(MCONTACT hContact, int infoType);
-	virtual	HANDLE __cdecl SearchBasic(const TCHAR *id);
-	virtual	HANDLE __cdecl SearchByEmail(const TCHAR *email);
-	virtual	HANDLE __cdecl SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName);
+	virtual	HANDLE __cdecl SearchBasic(const wchar_t *id);
+	virtual	HANDLE __cdecl SearchByEmail(const wchar_t *email);
+	virtual	HANDLE __cdecl SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
 	virtual	int __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
-	virtual	HANDLE __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int __cdecl SetStatus(int iNewStatus);
 	virtual	int __cdecl UserIsTyping(MCONTACT hContact, int type);
 	virtual	int __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
@@ -118,7 +118,7 @@ struct CVkProto : public PROTO<CVkProto>
 	__forceinline bool IsOnline() const { return m_bOnline; }
 	void OnTimerTic();
 	void ClearAccessToken();
-	TCHAR* GetUserStoredPassword(void);
+	wchar_t* GetUserStoredPassword(void);
 	void ShowCaptchaInBrowser(HBITMAP hBitmap);
 
 	static mir_cs m_csTimer;
@@ -232,7 +232,7 @@ private:
 //==== PopUps ========================================================================
 
 	void InitPopups(void);
-	void MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err = false);
+	void MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle, bool err = false);
 
 //==== Hooks =========================================================================
 
@@ -302,7 +302,7 @@ private:
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void WallPost(MCONTACT hContact, TCHAR *ptszMsg, TCHAR *ptszUrl, bool bFriendsOnly);
+	void WallPost(MCONTACT hContact, wchar_t *ptszMsg, wchar_t *ptszUrl, bool bFriendsOnly);
 	void GetServerHistoryLastNDay(MCONTACT hContact, int NDay);
 	void GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int iTime, int iLastMsgId, bool once = false);
 	void OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq);
@@ -358,7 +358,7 @@ private:
 	void OnLoggedOut();
 	void ShutdownSession();
 	void SetAvatarUrl(MCONTACT hContact, CMString &tszUrl);
-	void GetAvatarFileName(MCONTACT hContact, TCHAR *pszDest, size_t cbLen);
+	void GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void __cdecl SendMsgAck(void *param);
 	void __cdecl ChatContactTypingThread(void *p);

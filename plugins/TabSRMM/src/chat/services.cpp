@@ -34,9 +34,9 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	if (M.FindWindow(hContact) != 0)
 		return 0;
 
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, L"default", 6)) {
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
 		if ((pContainer = FindMatchingContainer(L"default")) == NULL) {
-			TCHAR szName[CONTAINER_NAMELEN + 1];
+			wchar_t szName[CONTAINER_NAMELEN + 1];
 			mir_sntprintf(szName, L"default");
 			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
 				return 0;
@@ -49,17 +49,17 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	newData.szInitialText = NULL;
 	memset(&newData.item, 0, sizeof(newData.item));
 
-	TCHAR *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
+	wchar_t *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
 
 	// cut nickname if larger than x chars...
-	TCHAR newcontactname[128];
+	wchar_t newcontactname[128];
 	if (mir_tstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
 			CutContactName(contactName, newcontactname, _countof(newcontactname));
 		else
-			_tcsncpy_s(newcontactname, contactName, _TRUNCATE);
+			wcsncpy_s(newcontactname, contactName, _TRUNCATE);
 	}
-	else _tcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
+	else wcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
 
 	newData.item.pszText = newcontactname;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
@@ -163,12 +163,12 @@ void ShowRoom(SESSION_INFO *si, WPARAM, BOOL)
 		return;
 	}
 
-	TCHAR szName[CONTAINER_NAMELEN + 2]; szName[0] = 0;
+	wchar_t szName[CONTAINER_NAMELEN + 2]; szName[0] = 0;
 	TContainerData *pContainer = si->pContainer;
 	if (pContainer == NULL) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
 		if (!g_Settings.bOpenInDefault && !mir_tstrcmp(szName, L"default"))
-			_tcsncpy(szName, L"Chat Rooms", CONTAINER_NAMELEN);
+			wcsncpy(szName, L"Chat Rooms", CONTAINER_NAMELEN);
 		szName[CONTAINER_NAMELEN] = 0;
 		pContainer = FindContainerByName(szName);
 	}

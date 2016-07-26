@@ -55,13 +55,13 @@ static int BriefDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 static void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 {
 	WEATHERINFO winfo;
-	TCHAR str[4096];
+	wchar_t str[4096];
 
 	// load weather information from the contact into the WEATHERINFO struct
 	winfo = LoadWeatherInfo(hContact);
 	// check if data exist.  If not, display error message box
 	if (!(BOOL)db_get_b(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
-		_tcsncpy(str, WEATHER_NO_INFO, _countof(str) - 1);
+		wcsncpy(str, WEATHER_NO_INFO, _countof(str) - 1);
 	else
 		// set the display text and show the message box
 		GetDisplay(&winfo, opt.bText, str);
@@ -210,7 +210,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				case WM_LBUTTONUP:
 					TEXTRANGE tr;
 					tr.chrg = enlink->chrg;
-					tr.lpstrText = (LPTSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
+					tr.lpstrText = (LPTSTR)mir_alloc(sizeof(wchar_t)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
 					SendMessage(pNmhdr->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 					Utils_OpenUrlT(tr.lpstrText);
 					mir_free(tr.lpstrText);
@@ -239,7 +239,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WEATHERINFO w;
-	TCHAR str[MAX_TEXT_SIZE];
+	wchar_t str[MAX_TEXT_SIZE];
 
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
@@ -316,7 +316,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.position = 100000000;
-	odp.ptszTitle = _T(WEATHERPROTONAME);
+	odp.pwszTitle = _T(WEATHERPROTONAME);
 
 	if (lParam == 0) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);

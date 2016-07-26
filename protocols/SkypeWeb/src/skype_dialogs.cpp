@@ -45,7 +45,7 @@ void CSkypeInviteDlg::OnInitDialog()
 	{
 		if (!m_proto->isChatRoom(hContact))
 		{
-			TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+			wchar_t *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			m_combo.AddString(ptszNick, hContact);
 		}
 	}

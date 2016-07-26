@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning(disable:4355)
 
-static int compareTransports(const TCHAR *p1, const TCHAR *p2)
+static int compareTransports(const wchar_t *p1, const wchar_t *p2)
 {
 	return mir_tstrcmpi(p1, p2);
 }
@@ -46,13 +46,13 @@ static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *
 		|| (p1->list == LIST_BOOKMARK) || (p1->list == LIST_VCARD_TEMP))
 		return mir_tstrcmpi(p1->jid, p2->jid);
 
-	TCHAR szp1[JABBER_MAX_JID_LEN], szp2[JABBER_MAX_JID_LEN];
+	wchar_t szp1[JABBER_MAX_JID_LEN], szp2[JABBER_MAX_JID_LEN];
 	JabberStripJid(p1->jid, szp1, _countof(szp1));
 	JabberStripJid(p2->jid, szp2, _countof(szp2));
 	return mir_tstrcmpi(szp1, szp2);
 }
 
-CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
+CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	PROTO<CJabberProto>(aProtoName, aUserName),
 	m_options(this),
 	m_lstTransports(50, compareTransports),
@@ -246,7 +246,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 			if (jid == NULL)
 				continue;
 
-			TCHAR *resourcepos = _tcschr(jid, '/');
+			wchar_t *resourcepos = wcschr(jid, '/');
 			if (resourcepos != NULL)
 				*resourcepos = '\0';
 
@@ -295,7 +295,7 @@ int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberAddToList - adds a contact to the contact list
 
-MCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
+MCONTACT CJabberProto::AddToListByJID(const wchar_t *newJid, DWORD flags)
 {
 	debugLog(L"AddToListByJID jid = %s", newJid);
 
@@ -308,10 +308,10 @@ MCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 
 MCONTACT CJabberProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) && psr->id.t == NULL)
+	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) && psr->id.w == NULL)
 		return NULL;
 
-	return AddToListByJID(psr->id.t, flags);
+	return AddToListByJID(psr->id.w, flags);
 }
 
 MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEVENT hDbEvent)
@@ -340,7 +340,7 @@ MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEV
 	char *lastName = firstName + mir_strlen(firstName) + 1;
 	char *jid = lastName + mir_strlen(lastName) + 1;
 
-	TCHAR *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
+	wchar_t *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
 	MCONTACT hContact = (MCONTACT)AddToListByJID(newJid, flags);
 	mir_free(newJid);
 	return hContact;
@@ -373,7 +373,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 
 	debugLog(L"Send 'authorization allowed' to %s", jid);
 
-	TCHAR *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
+	wchar_t *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
 
 	m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", newJid) << XATTR(L"type", L"subscribed"));
 
@@ -398,7 +398,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberAuthDeny - handles the unsuccessful authorization
 
-int CJabberProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
+int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 {
 	if (!m_bJabberOnline)
 		return 1;
@@ -437,7 +437,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileAllow - starts a file transfer
 
-HANDLE __cdecl CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, const TCHAR *szPath)
+HANDLE __cdecl CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, const wchar_t *szPath)
 {
 	if (!m_bJabberOnline)
 		return 0;
@@ -493,7 +493,7 @@ int __cdecl CJabberProto::FileCancel(MCONTACT, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileDeny - denies a file transfer
 
-int __cdecl CJabberProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR *)
+int __cdecl CJabberProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 {
 	if (!m_bJabberOnline)
 		return 1;
@@ -521,7 +521,7 @@ int __cdecl CJabberProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR *)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileResume - processes file renaming etc
 
-int __cdecl CJabberProto::FileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename)
+int __cdecl CJabberProto::FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename)
 {
 	filetransfer *ft = (filetransfer*)hTransfer;
 	if (!m_bJabberOnline || ft == NULL)
@@ -553,7 +553,7 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)"jid";
 	case PFLAG_MAXCONTACTSPERPACKET:
-		TCHAR szClientJid[JABBER_MAX_JID_LEN];
+		wchar_t szClientJid[JABBER_MAX_JID_LEN];
 		if (GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
 			JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
 			return ((~jcb & JABBER_CAPS_ROSTER_EXCHANGE) ? 0 : 50);
@@ -570,7 +570,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 	if (!m_bJabberOnline || isChatRoom(hContact))
 		return 1;
 
-	TCHAR jid[JABBER_MAX_JID_LEN], szBareJid[JABBER_MAX_JID_LEN];
+	wchar_t jid[JABBER_MAX_JID_LEN], szBareJid[JABBER_MAX_JID_LEN];
 	if (!GetClientJID(hContact, jid, _countof(jid)))
 		return 1;
 
@@ -609,7 +609,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			if (item->arResources.getCount()) {
 				for (int i = 0; i < item->arResources.getCount(); i++) {
 					pResourceStatus r(item->arResources[i]);
-					TCHAR tmp[JABBER_MAX_JID_LEN];
+					wchar_t tmp[JABBER_MAX_JID_LEN];
 					mir_sntprintf(tmp, L"%s/%s", szBareJid, r->m_tszResourceName);
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
@@ -649,7 +649,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 struct JABBER_SEARCH_BASIC
 {
 	int hSearch;
-	TCHAR jid[128];
+	wchar_t jid[128];
 };
 
 void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
@@ -660,17 +660,17 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 	PROTOSEARCHRESULT psr = { 0 };
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_TCHAR;
-	psr.nick.t = jsb->jid;
-	psr.firstName.t = L"";
-	psr.lastName.t = L"";
-	psr.id.t = jsb->jid;
+	psr.nick.w = jsb->jid;
+	psr.firstName.w = L"";
+	psr.lastName.w = L"";
+	psr.id.w = jsb->jid;
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&psr);
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)jsb->hSearch, 0);
 	mir_free(jsb);
 }
 
-HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
+HANDLE __cdecl CJabberProto::SearchBasic(const wchar_t *szJid)
 {
 	debugLog(L"JabberBasicSearch called with lParam = '%s'", szJid);
 
@@ -678,12 +678,12 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 	if (!m_bJabberOnline || (jsb = (JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == NULL)
 		return 0;
 
-	if (_tcschr(szJid, '@') == NULL) {
-		TCHAR *szServer = mir_a2t(m_ThreadInfo->conn.server);
-		const TCHAR *p = _tcsstr(szJid, szServer);
+	if (wcschr(szJid, '@') == NULL) {
+		wchar_t *szServer = mir_a2t(m_ThreadInfo->conn.server);
+		const wchar_t *p = wcsstr(szJid, szServer);
 		if (p == NULL) {
 			bool numericjid = true;
-			for (const TCHAR *i = szJid; *i && numericjid; i++)
+			for (const wchar_t *i = szJid; *i && numericjid; i++)
 				numericjid = (*i >= '0') && (*i <= '9');
 
 			mir_free(szServer);
@@ -696,10 +696,10 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 			}
 			mir_sntprintf(jsb->jid, L"%s@%s", szJid, szServer);
 		}
-		else _tcsncpy_s(jsb->jid, szJid, _TRUNCATE);
+		else wcsncpy_s(jsb->jid, szJid, _TRUNCATE);
 		mir_free(szServer);
 	}
-	else _tcsncpy_s(jsb->jid, szJid, _TRUNCATE);
+	else wcsncpy_s(jsb->jid, szJid, _TRUNCATE);
 
 	debugLog(L"Adding '%s' without validation", jsb->jid);
 	jsb->hSearch = SerialNext();
@@ -710,7 +710,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SearchByEmail - searches the contact by its e-mail
 
-HANDLE __cdecl CJabberProto::SearchByEmail(const TCHAR *email)
+HANDLE __cdecl CJabberProto::SearchByEmail(const wchar_t *email)
 {
 	if (!m_bJabberOnline || email == NULL)
 		return 0;
@@ -726,7 +726,7 @@ HANDLE __cdecl CJabberProto::SearchByEmail(const TCHAR *email)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberSearchByName - searches the contact by its first or last name, or by a nickname
 
-HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName)
+HANDLE __cdecl CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	if (!m_bJabberOnline)
 		return NULL;
@@ -790,7 +790,7 @@ int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MC
 	if (!m_bJabberOnline)
 		return 0;
 
-	TCHAR szClientJid[JABBER_MAX_JID_LEN];
+	wchar_t szClientJid[JABBER_MAX_JID_LEN];
 	if (!GetClientJID(hContact, szClientJid, _countof(szClientJid)))
 		return 0;
 
@@ -815,7 +815,7 @@ int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MC
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR** ppszFiles)
+HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t** ppszFiles)
 {
 	if (!m_bJabberOnline) return 0;
 
@@ -867,12 +867,12 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const TCHAR *szDescript
 	while (ppszFiles[ft->std.totalFiles] != NULL)
 		ft->std.totalFiles++;
 
-	ft->std.ptszFiles = (TCHAR**)mir_calloc(sizeof(TCHAR*)* ft->std.totalFiles);
+	ft->std.ptszFiles = (wchar_t**)mir_calloc(sizeof(wchar_t*)* ft->std.totalFiles);
 	ft->fileSize = (unsigned __int64*)mir_calloc(sizeof(unsigned __int64)* ft->std.totalFiles);
 
 	int i, j;
 	for (i = j = 0; i < ft->std.totalFiles; i++) {
-		if (_tstati64(ppszFiles[i], &statbuf))
+		if (_wstat64(ppszFiles[i], &statbuf))
 			debugLog(L"'%s' is an invalid filename", ppszFiles[i]);
 		else {
 			ft->std.ptszFiles[j] = mir_tstrdup(ppszFiles[i]);
@@ -928,7 +928,7 @@ static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 
 int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
-	TCHAR szClientJid[JABBER_MAX_JID_LEN];
+	wchar_t szClientJid[JABBER_MAX_JID_LEN];
 	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
 		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no JID"));
 		ForkThread(&CJabberProto::SendMessageAckThread, param);
@@ -947,13 +947,13 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 	}
 	else isEncrypted = 0;
 
-	TCHAR *msg;
+	wchar_t *msg;
 	mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &msg);
 	if (msg == NULL)
 		return 0;
 
-	TCHAR *msgType;
-	if (ListGetItemPtr(LIST_CHATROOM, szClientJid) && _tcschr(szClientJid, '/') == NULL)
+	wchar_t *msgType;
+	if (ListGetItemPtr(LIST_CHATROOM, szClientJid) && wcschr(szClientJid, '/') == NULL)
 		msgType = L"groupchat";
 	else
 		msgType = L"chat";
@@ -1119,7 +1119,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 					}
 				}
 
-				TCHAR *str = (TCHAR*)alloca(sizeof(TCHAR)*(len + 1));
+				wchar_t *str = (wchar_t*)alloca(sizeof(wchar_t)*(len + 1));
 				str[0] = str[len] = '\0';
 				for (int i = 0; i < item->arResources.getCount(); i++) {
 					JABBER_RESOURCE_STATUS *r = item->arResources[i];
@@ -1138,7 +1138,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 				return;
 			}
 
-			TCHAR *tszStatusMsg = item->getTemp()->m_tszStatusMessage;
+			wchar_t *tszStatusMsg = item->getTemp()->m_tszStatusMessage;
 			if (tszStatusMsg != NULL) {
 				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)tszStatusMsg);
 				return;
@@ -1160,11 +1160,11 @@ HANDLE __cdecl CJabberProto::GetAwayMsg(MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberSetAwayMsg - sets the away status message
 
-int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
+int __cdecl CJabberProto::SetAwayMsg(int status, const wchar_t *msg)
 {
 	debugLog(L"SetAwayMsg called, wParam=%d lParam=%s", status, msg);
 
-	TCHAR **szMsg;
+	wchar_t **szMsg;
 	mir_cslockfull lck(m_csModeMsgMutex);
 
 	switch (status) {
@@ -1217,7 +1217,7 @@ int __cdecl CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (!m_bJabberOnline) return 0;
 
-	TCHAR szClientJid[JABBER_MAX_JID_LEN];
+	wchar_t szClientJid[JABBER_MAX_JID_LEN];
 	if (!GetClientJID(hContact, szClientJid, _countof(szClientJid)))
 		return 0;
 

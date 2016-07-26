@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 
-static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
+static wchar_t *parseGetParent(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -39,7 +39,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		TCHAR tszID[40];
+		wchar_t tszID[40];
 		mir_sntprintf(tszID, L"%p", hContact);
 		szUniqueID = mir_tstrdup(tszID);
 	}
@@ -47,7 +47,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	return CMString(FORMAT, L"<%S:%s>", szProto, szUniqueID).Detach();
 }
 
-static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
+static wchar_t *parseGetDefault(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -67,7 +67,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		TCHAR tszID[40];
+		wchar_t tszID[40];
 		mir_sntprintf(tszID, L"%p", hContact);
 		szUniqueID = mir_tstrdup(tszID);
 	}
@@ -75,7 +75,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	return CMString(FORMAT, L"<%S:%s>", szProto, szUniqueID).Detach();
 }
 
-static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
+static wchar_t *parseGetMostOnline(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -95,7 +95,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		TCHAR tszID[40];
+		wchar_t tszID[40];
 		mir_sntprintf(tszID, L"%p", hContact);
 		szUniqueID = mir_tstrdup(tszID);
 	}

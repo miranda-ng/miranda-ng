@@ -52,8 +52,8 @@ BOOL CJabberProto::OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo *pInfo)
 		FtHandleIbbRequest(iqNode, FALSE);
 	else if (!mir_tstrcmp(pInfo->GetChildNodeName(), L"data")) {
 		BOOL bOk = FALSE;
-		const TCHAR *sid = XmlGetAttrValue(pInfo->GetChildNode(), L"sid");
-		const TCHAR *seq = XmlGetAttrValue(pInfo->GetChildNode(), L"seq");
+		const wchar_t *sid = XmlGetAttrValue(pInfo->GetChildNode(), L"sid");
+		const wchar_t *seq = XmlGetAttrValue(pInfo->GetChildNode(), L"seq");
 		if (sid && seq && XmlGetText(pInfo->GetChildNode()))
 			bOk = OnIbbRecvdData(XmlGetText(pInfo->GetChildNode()), sid, seq);
 
@@ -164,12 +164,12 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 	JabberIbbFreeJibb(jibb);
 }
 
-BOOL CJabberProto::OnIbbRecvdData(const TCHAR *data, const TCHAR *sid, const TCHAR *seq)
+BOOL CJabberProto::OnIbbRecvdData(const wchar_t *data, const wchar_t *sid, const wchar_t *seq)
 {
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
 	if (item == NULL) return FALSE;
 
-	WORD wSeq = (WORD)_ttoi(seq);
+	WORD wSeq = (WORD)_wtoi(seq);
 	if (wSeq != item->jibb->wPacketId) {
 		if (item->jibb->hEvent)
 			SetEvent(item->jibb->hEvent);

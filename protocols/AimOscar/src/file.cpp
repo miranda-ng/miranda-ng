@@ -93,10 +93,10 @@ bool send_init_oft2(file_transfer *ft, char* file)
 	return Netlib_Send(ft->hConn, (char*)oft, len, 0) > 0;
 }
 
-void CAimProto::report_file_error(TCHAR *fname)
+void CAimProto::report_file_error(wchar_t *fname)
 {
-	TCHAR errmsg[512];
-	TCHAR* error = mir_a2t(_strerror(NULL));
+	wchar_t errmsg[512];
+	wchar_t* error = mir_a2t(_strerror(NULL));
 	mir_sntprintf(errmsg, TranslateT("Failed to open file: %s : %s"), fname, error);
 	mir_free(error);
 	ShowPopup((char*)errmsg, ERROR_POPUP | TCHAR_POPUP);
@@ -104,13 +104,13 @@ void CAimProto::report_file_error(TCHAR *fname)
 
 bool setup_next_file_send(file_transfer *ft)
 {
-	TCHAR *file;
+	wchar_t *file;
 	struct _stati64 statbuf;
 	for (;;) {
 		file = ft->pfts.ptszFiles[ft->cf];
 		if (file == NULL) return false;
 
-		if (_tstati64(file, &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
+		if (_wstat64(file, &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
 			break;
 
 		++ft->cf;
@@ -177,7 +177,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 			if (type == 0x0202 || type == 0x0207) {
 				debugLogA("P2P: Buddy Accepts our file transfer.");
 
-				int fid = _topen(ft->pfts.tszCurrentFile, _O_RDONLY | _O_BINARY, _S_IREAD);
+				int fid = _wopen(ft->pfts.tszCurrentFile, _O_RDONLY | _O_BINARY, _S_IREAD);
 				if (fid < 0) {
 					report_file_error(ft->pfts.tszCurrentFile);
 					return 2;
@@ -309,7 +309,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 					memcpy(buf, recv_ft->filename, buflen);
 					enc = _htons(recv_ft->encoding);
 
-					TCHAR *name;
+					wchar_t *name;
 					if (enc == 2) {
 						wchar_t* wbuf = (wchar_t*)buf;
 						wcs_htons(wbuf);
@@ -323,7 +323,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 
 					mir_free(buf);
 
-					TCHAR fname[256];
+					wchar_t fname[256];
 					mir_sntprintf(fname, L"%s%s", ft->pfts.tszWorkingDir, name);
 					mir_free(name);
 					mir_free(ft->pfts.tszCurrentFile);
@@ -334,14 +334,14 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 						WaitForSingleObject(ft->hResumeEvent, INFINITE);
 
 					if (ft->pfts.tszCurrentFile) {
-						TCHAR* dir = get_dir(ft->pfts.tszCurrentFile);
+						wchar_t* dir = get_dir(ft->pfts.tszCurrentFile);
 						CreateDirectoryTreeT(dir);
 						mir_free(dir);
 
 						oft->type = _htons(ft->pfts.currentFileProgress ? 0x0205 : 0x0202);
 
 						const int flag = ft->pfts.currentFileProgress ? 0 : _O_TRUNC;
-						fid = _topen(ft->pfts.tszCurrentFile, _O_CREAT | _O_WRONLY | _O_BINARY | flag, _S_IREAD | _S_IWRITE);
+						fid = _wopen(ft->pfts.tszCurrentFile, _O_CREAT | _O_WRONLY | _O_BINARY | flag, _S_IREAD | _S_IWRITE);
 
 						if (fid < 0) {
 							report_file_error(fname);

@@ -168,10 +168,10 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
+static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 {
-	TCHAR *comment1 = NULL;
-	TCHAR *comment2 = NULL;
+	wchar_t *comment1 = NULL;
+	wchar_t *comment2 = NULL;
 	char  *commentFix = NULL;
 
 	//now get text
@@ -182,9 +182,9 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 				// utf-8 in blob
 				comment1 = mir_utf8decodeT((char*)dbei->pBlob);
 			}
-			else if (dbei->cbBlob == (mir_tstrlen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
+			else if (dbei->cbBlob == (mir_tstrlen((wchar_t *)dbei->pBlob)+1)*(sizeof(wchar_t)+1)) {
 				// wchar in blob (the old hack)
-				comment1 = mir_tstrdup((TCHAR*)dbei->pBlob);
+				comment1 = mir_tstrdup((wchar_t*)dbei->pBlob);
 			}
 			else comment1 = mir_a2t((char *)dbei->pBlob);
 		}
@@ -220,7 +220,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 			char* pcBlob = (char *)dbei->pBlob;
 			char* pcEnd = (char *)(dbei->pBlob + dbei->cbBlob);
 			int nContacts;
-			TCHAR szBuf[512];
+			wchar_t szBuf[512];
 
 			for (nContacts = 1; ; nContacts++) {
 				// Nick
@@ -247,8 +247,8 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 	case EVENTTYPE_ADDED:
 		if (dbei->pBlob) {
 			char szUin[16];
-			TCHAR szBuf[2048];
-			TCHAR* szNick = NULL;
+			wchar_t szBuf[2048];
+			wchar_t* szNick = NULL;
 			char *pszNick = (char *)dbei->pBlob + 8;
 			char *pszFirst = pszNick + mir_strlen(pszNick) + 1;
 			char *pszLast = pszFirst + mir_strlen(pszFirst) + 1;
@@ -283,8 +283,8 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 	case EVENTTYPE_AUTHREQUEST:
 		if (dbei->pBlob) {
 			char szUin[16];
-			TCHAR szBuf[2048];
-			TCHAR* szNick = NULL;
+			wchar_t szBuf[2048];
+			wchar_t* szNick = NULL;
 			char *pszNick = (char *)dbei->pBlob + 8;
 			char *pszFirst = pszNick + mir_strlen(pszNick) + 1;
 			char *pszLast  = pszFirst + mir_strlen(pszFirst) + 1;
@@ -342,9 +342,9 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 				// utf-8 in blob
 				comment1 = mir_utf8decodeT((char*)dbei->pBlob);
 			}
-			else if (dbei->cbBlob == (mir_tstrlen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
+			else if (dbei->cbBlob == (mir_tstrlen((wchar_t *)dbei->pBlob)+1)*(sizeof(wchar_t)+1)) {
 				// wchar in blob (the old hack)
-				comment1 = mir_tstrdup((TCHAR*)dbei->pBlob);
+				comment1 = mir_tstrdup((wchar_t*)dbei->pBlob);
 			}
 			else comment1 = mir_a2t((char *)dbei->pBlob);
 		}
@@ -359,9 +359,9 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 				// utf-8 in blob
 				comment1 = mir_utf8decodeT((char*)dbei->pBlob);
 			}
-			else if (dbei->cbBlob == (mir_tstrlen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
+			else if (dbei->cbBlob == (mir_tstrlen((wchar_t *)dbei->pBlob)+1)*(sizeof(wchar_t)+1)) {
 				// wchar in blob (the old hack)
-				comment1 = mir_tstrdup((TCHAR*)dbei->pBlob);
+				comment1 = mir_tstrdup((wchar_t*)dbei->pBlob);
 			}
 			else comment1 = mir_a2t((char *)dbei->pBlob);
 		}
@@ -374,7 +374,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 			// support for custom database event types
 			if (pei && dbei->pBlob) {
 				DBEVENTGETTEXT svc = {dbei, DBVT_TCHAR, CP_ACP};
-				TCHAR *pet = (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&svc);
+				wchar_t *pet = (wchar_t*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&svc);
 				if (pet) {
 					// we've got event text, move to our memory space
 					comment1 = mir_tstrdup(pet);
@@ -402,7 +402,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 
 int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, UINT eventType)
 {
-	TCHAR* sampleEvent;
+	wchar_t* sampleEvent;
 	long iSeconds;
 
 	//there has to be a maximum number of popups shown at the same time
@@ -490,12 +490,12 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 
 	// if hContact is NULL, && hEvent is NULL then popup is only Test
 	if ((hContact == NULL) && (hEvent == NULL)) {
-		_tcsncpy(pudw.lptzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
-		_tcsncpy(pudw.lptzText, TranslateTS(sampleEvent), MAX_SECONDLINE);
+		wcsncpy(pudw.lptzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
+		wcsncpy(pudw.lptzText, TranslateTS(sampleEvent), MAX_SECONDLINE);
 	}
 	else { // get the needed event data
-		_tcsncpy(pudw.lptzContactName, (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
-		_tcsncpy(pudw.lptzText, ptrT(GetEventPreview(&dbe)), MAX_SECONDLINE);
+		wcsncpy(pudw.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
+		wcsncpy(pudw.lptzText, ptrT(GetEventPreview(&dbe)), MAX_SECONDLINE);
 	}
 
 	PopupCount++;
@@ -538,7 +538,7 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		SetTimer(pdata->hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, NULL);
 	}
 
-	TCHAR lpzText[MAX_SECONDLINE*2] = L"\0\0";
+	wchar_t lpzText[MAX_SECONDLINE*2] = L"\0\0";
 	if (pdata->pluginOptions->bShowHeaders)
 		mir_sntprintf(lpzText, TranslateT("[b]Number of new message(s): %d[/b]\n"), pdata->countEvent);
 
@@ -570,19 +570,19 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 			db_event_get(eventData->hEvent, &dbe);
 
 		if (pdata->pluginOptions->bShowDate || pdata->pluginOptions->bShowTime) {
-			TCHAR timestamp[MAX_DATASIZE];
-			TCHAR formatTime[MAX_DATASIZE];
+			wchar_t timestamp[MAX_DATASIZE];
+			wchar_t formatTime[MAX_DATASIZE];
 			if (pdata->pluginOptions->bShowDate)
-				_tcsncpy(formatTime, L"%Y.%m.%d", _countof(formatTime));
+				wcsncpy(formatTime, L"%Y.%m.%d", _countof(formatTime));
 			else if (pdata->pluginOptions->bShowTime)
 				mir_tstrncat(formatTime, L" %H:%M", _countof(formatTime) - mir_tstrlen(formatTime));
 			time_t localTime = dbe.timestamp;
-			_tcsftime(timestamp, _countof(timestamp), formatTime, localtime(&localTime));
+			wcsftime(timestamp, _countof(timestamp), formatTime, localtime(&localTime));
 			mir_sntprintf(lpzText, L"%s[b][i]%s[/i][/b]\n", lpzText, timestamp);
 		}
 
 		// prepare event preview
-		TCHAR* szEventPreview = GetEventPreview(&dbe);
+		wchar_t* szEventPreview = GetEventPreview(&dbe);
 		mir_sntprintf(lpzText, L"%s%s", lpzText, szEventPreview);
 		mir_free(szEventPreview);
 		

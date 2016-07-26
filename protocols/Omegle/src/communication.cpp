@@ -365,7 +365,7 @@ bool Omegle_client::start()
 			char str[255];
 			mir_snprintf(str, Translate("Connected to server %s. There are %s users online now."), server_.c_str(), count.c_str());
 
-			TCHAR *msg = mir_a2t(str);
+			wchar_t *msg = mir_a2t(str);
 			parent->UpdateChat(NULL, msg);
 			mir_free(msg);
 		}
@@ -374,7 +374,7 @@ bool Omegle_client::start()
 		char str[255];
 		mir_snprintf(str, Translate("Connected to server %s."), server_.c_str());
 
-		TCHAR *msg = mir_a2t(str);
+		wchar_t *msg = mir_a2t(str);
 		parent->UpdateChat(NULL, msg);
 		mir_free(msg);
 	}
@@ -506,7 +506,7 @@ bool Omegle_client::events()
 
 				// We got info about count of connected people there
 				ptrT count(json_as_string(json_get(data, "count")));
-				TCHAR strT[255];
+				wchar_t strT[255];
 				mir_sntprintf(strT, TranslateT("On whole Omegle are %s strangers online now."), count);
 
 				parent->UpdateChat(NULL, strT);
@@ -531,7 +531,7 @@ bool Omegle_client::events()
 				waiting = false;
 			}
 			else if (name == "commonLikes") {
-				std::tstring likes = TranslateT("You and the Stranger both like: ");
+				std::wstring likes = TranslateT("You and the Stranger both like: ");
 
 				JSONNode *items = json_at(item, 1);
 				size_t size = json_size(items);
@@ -614,7 +614,7 @@ bool Omegle_client::events()
 
 				ptrT stranger(json_as_string(json_at(item, 1)));
 
-				TCHAR strT[255];
+				wchar_t strT[255];
 				mir_sntprintf(strT, TranslateT("%s disconnected."), TranslateTS(stranger));
 				parent->UpdateChat(NULL, strT);
 
@@ -639,7 +639,7 @@ bool Omegle_client::events()
 			else if (name == "error") {
 				ptrT error(json_as_string(json_at(item, 1)));
 
-				TCHAR strT[255];
+				wchar_t strT[255];
 				mir_sntprintf(strT, TranslateT("Error: %s"), TranslateTS(error));
 				parent->UpdateChat(NULL, strT);
 			}

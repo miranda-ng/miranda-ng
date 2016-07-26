@@ -46,7 +46,7 @@ typedef struct {
 	char *setting;
 	union {
 		ULONG_PTR dwDefValue;
-		TCHAR *tszDefValue;
+		wchar_t *tszDefValue;
 		char *szDefValue;
 	};
 	union {

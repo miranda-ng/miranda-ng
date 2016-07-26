@@ -19,7 +19,7 @@
 class logtofile
 {
 public:
-	logtofile& operator<<(TCHAR *buf);
+	logtofile& operator<<(wchar_t *buf);
 	logtofile& operator<<(char *buf);
 	logtofile& operator<<(string buf);
 	logtofile& operator<<(wstring buf);
@@ -28,7 +28,7 @@ public:
 	logtofile();
 private:
 	fstream log;
-	TCHAR *path;
+	wchar_t *path;
 	boost::mutex log_mutex;
 	bool _bDebugLog;
 };

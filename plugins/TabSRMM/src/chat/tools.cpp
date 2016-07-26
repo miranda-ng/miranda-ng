@@ -92,11 +92,11 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR*, COLORREF crBkg, const TCHAR* fmt, ...)
+int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t*, COLORREF crBkg, const wchar_t* fmt, ...)
 {
 	POPUPDATAT pd = { 0 };
 	va_list marker;
-	static TCHAR szBuf[4 * 1024];
+	static wchar_t szBuf[4 * 1024];
 
 	if (!fmt || mir_tstrlen(fmt) == 0 || mir_tstrlen(fmt) > 2000)
 		return 0;
@@ -114,7 +114,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
 	mir_sntprintf(pd.lptzContactName, L"%s - %s", (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, pcli->pfnGetContactDisplayName(hContact, 0));
-	_tcsncpy_s(pd.lptzText, TranslateTS(szBuf), _TRUNCATE);
+	wcsncpy_s(pd.lptzText, TranslateTS(szBuf), _TRUNCATE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
 	if (g_Settings.iPopupStyle == 2) {
@@ -144,7 +144,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce)
 	TWindowData *dat = si->dat;
 	TContainerData *pContainer = dat ? dat->pContainer : NULL;
 
-	TCHAR *bbStart, *bbEnd;
+	wchar_t *bbStart, *bbEnd;
 	if (g_Settings.bBBCodeInPopups) {
 		bbStart = L"[b]";
 		bbEnd = L"[/b]";
@@ -474,15 +474,15 @@ int Chat_GetColorIndex(const char* pszModule, COLORREF cr)
 	return -1;
 }
 
-TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
+wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 {
 	int i, j, k;
 
-	_tsetlocale(LC_ALL, L"");
+	_wsetlocale(LC_ALL, L"");
 	for (i = 0; s1[i]; i++)
-		for (j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]); j++, k++)
+		for (j = i, k = 0; towlower(s1[j]) == towlower(s2[k]); j++, k++)
 			if (!s2[k + 1])
-				return (TCHAR*)(s1 + i);
+				return (wchar_t*)(s1 + i);
 
 	return NULL;
 }
@@ -505,7 +505,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	return saveCI.LogToFile(si, gce); // call kernel method
 }
 
-UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
+UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText)
 {
 	HMENU hSubMenu = 0;
 
@@ -531,7 +531,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		}
 
 		if (pszWordText && pszWordText[0]) {
-			TCHAR szMenuText[4096];
+			wchar_t szMenuText[4096];
 			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 		}
@@ -539,14 +539,14 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		gcmi.Type = MENU_ON_LOG;
 	}
 	else if (iIndex == 0) {
-		TCHAR szTemp[50];
+		wchar_t szTemp[50];
 		if (pszWordText)
 			mir_sntprintf(szTemp, TranslateT("&Message %s"), pszWordText);
 		else
-			_tcsncpy_s(szTemp, TranslateT("&Message"), _TRUNCATE);
+			wcsncpy_s(szTemp, TranslateT("&Message"), _TRUNCATE);
 
 		if (mir_tstrlen(szTemp) > 40)
-			_tcsncpy_s(szTemp + 40, 4, L"...", _TRUNCATE);
+			wcsncpy_s(szTemp + 40, 4, L"...", _TRUNCATE);
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}
@@ -557,7 +557,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
 	for (int i = 0; i < gcmi.nItems; i++) {
-		TCHAR *ptszText = TranslateTS(gcmi.Item[i].pszDesc);
+		wchar_t *ptszText = TranslateTS(gcmi.Item[i].pszDesc);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (gcmi.Item[i].uType == MENU_NEWPOPUP) {
@@ -686,7 +686,7 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 		dwMask |= CMUCHighlight::MATCH_NICKNAME;
 		if (si && g_Settings.bLogClassicIndicators) {
 			size_t len = mir_tstrlen(gce->ptszNick) + 1;
-			TCHAR *tmp = (TCHAR*)_alloca(sizeof(TCHAR)*(len + 1));
+			wchar_t *tmp = (wchar_t*)_alloca(sizeof(wchar_t)*(len + 1));
 			*tmp = GetIndicator(si, gce->ptszNick, 0);
 			mir_tstrcpy(tmp + 1, gce->ptszNick);
 			evTmp.ptszNick = tmp;

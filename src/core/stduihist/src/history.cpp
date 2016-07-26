@@ -37,15 +37,15 @@ static HGENMENU hContactMenu = 0;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Fills the events list
 
-static void GetMessageDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
+static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 {
-	TCHAR *msg = DbGetEventTextT(dbei, CP_ACP);
-	_tcsncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
+	wchar_t *msg = DbGetEventTextT(dbei, CP_ACP);
+	wcsncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
 	buf[ cbBuf-1 ] = 0;
 	mir_free(msg);
 }
 
-static void GetUrlDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
+static void GetUrlDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 {
 	int len = dbei->cbBlob;
 	if (len >= cbBuf)
@@ -58,7 +58,7 @@ static void GetUrlDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 		mir_tstrcat(buf, L"\r\n");
 }
 
-static void GetFileDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
+static void GetFileDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 {
 	int len = dbei->cbBlob - sizeof(DWORD);
 	if (len >= cbBuf)
@@ -71,7 +71,7 @@ static void GetFileDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 		mir_tstrcat(buf, L"\r\n");
 }
 
-static void GetObjectDescription(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
+static void GetObjectDescription(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 {
 	switch(dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -94,9 +94,9 @@ static void GetObjectDescription(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
 			*str = 0;
 }	}
 
-static void GetObjectSummary(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
+static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 {
-	TCHAR* pszSrc, *pszTmp = NULL;
+	wchar_t* pszSrc, *pszTmp = NULL;
 
 	switch(dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -125,7 +125,7 @@ static void GetObjectSummary(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
 		return;
 	}
 
-	_tcsncpy(str, (const TCHAR*)pszSrc, cbStr);
+	wcsncpy(str, (const wchar_t*)pszSrc, cbStr);
 	str[cbStr-1] = 0;
 	mir_free(pszTmp);
 }
@@ -161,7 +161,7 @@ static void FillHistoryThread(void* param)
 		dbei.cbBlob = oldBlobSize;
 		db_event_get(hDbEvent, &dbei);
 
-		TCHAR str[200], eventText[256], strdatetime[64];
+		wchar_t str[200], eventText[256], strdatetime[64];
 		GetObjectSummary(&dbei, str, _countof(str));
 		if (str[0]) {
 			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, L"d t", strdatetime, _countof(strdatetime), 0);
@@ -206,7 +206,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		WindowList_Add(hWindowList, hwndDlg, hContact);
 		Utils_RestoreWindowPosition(hwndDlg, hContact, "History", "");
 		{
-			TCHAR* contactName, str[200];
+			wchar_t* contactName, str[200];
 			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 			mir_sntprintf(str, TranslateT("History for %s"), contactName);
 			SetWindowText(hwndDlg, str);
@@ -278,7 +278,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if ((int)dbei.cbBlob != -1) {
 					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 					if (db_event_get(hDbEvent, &dbei) == 0) {
-						TCHAR str[8192];
+						wchar_t str[8192];
 						GetObjectDescription(&dbei, str, _countof(str));
 						if (str[0])
 							SetDlgItemText(hwndDlg, IDC_EDIT, str);
@@ -316,11 +316,11 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dbei.cbBlob = oldBlobSize;
 			db_event_get(hDbEvent, &dbei);
 
-			TCHAR str[1024];
+			wchar_t str[1024];
 			GetObjectDescription(&dbei, str, _countof(str));
 			if (str[0]) {
 				CharUpperBuff(str, (int)mir_tstrlen(str));
-				if (_tcsstr(str, (const TCHAR*)lParam) != NULL) {
+				if (wcsstr(str, (const wchar_t*)lParam) != NULL) {
 					SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, index, 0);
 					SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
 					break;
@@ -349,7 +349,7 @@ static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam
 			return TRUE;
 
 		case IDOK://find Next
-			TCHAR str[128];
+			wchar_t str[128];
 			HWND hwndParent = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			GetDlgItemText(hwndDlg, IDC_FINDWHAT, str, _countof(str));
 			CharUpperBuff(str, (int)mir_tstrlen(str));

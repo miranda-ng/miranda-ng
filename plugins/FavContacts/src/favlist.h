@@ -6,8 +6,8 @@ struct TContactInfo
 private:
 	MCONTACT hContact;
 	DWORD status;
-	TCHAR *name;
-	TCHAR *group;
+	wchar_t *name;
+	wchar_t *group;
 	bool bManual;
 	float fRate;
 
@@ -39,7 +39,7 @@ public:
 		return hContact;
 	}
 
-	TCHAR *getGroup() const
+	wchar_t *getGroup() const
 	{
 		return group;
 	}
@@ -66,7 +66,7 @@ class TFavContacts : public LIST < TContactInfo >
 {
 private:
 	int nGroups;
-	TCHAR *prevGroup;
+	wchar_t *prevGroup;
 	MIDatabase *db;
 
 	int addContact(MCONTACT hContact, bool bManual)
@@ -84,7 +84,7 @@ private:
 
 		TContactInfo *info = new TContactInfo(hContact, bManual);
 		insert(info);
-		TCHAR *group = info->getGroup();
+		wchar_t *group = info->getGroup();
 		if (prevGroup && mir_tstrcmp(prevGroup, group))
 			++nGroups;
 		prevGroup = group;

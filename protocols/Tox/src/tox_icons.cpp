@@ -2,16 +2,16 @@
 
 IconItemT CToxProto::Icons[] =
 {
-	{ LPGENT("Protocol icon"),			"main",				IDI_TOX			},
-	{ LPGENT("Audio call"),				"audio_call",		IDI_AUDIO_CALL	},
-	{ LPGENT("Audio ring"),				"audio_ring",		IDI_AUDIO_RING	},
-	{ LPGENT("Audio start"),			"audio_start",		IDI_AUDIO_START	},
-	{ LPGENT("Audio end"),				"audio_end",		IDI_AUDIO_END	},
+	{ LPGENW("Protocol icon"),			"main",				IDI_TOX			},
+	{ LPGENW("Audio call"),				"audio_call",		IDI_AUDIO_CALL	},
+	{ LPGENW("Audio ring"),				"audio_ring",		IDI_AUDIO_RING	},
+	{ LPGENW("Audio start"),			"audio_start",		IDI_AUDIO_START	},
+	{ LPGENW("Audio end"),				"audio_end",		IDI_AUDIO_END	},
 };
 
 void CToxProto::InitIcons()
 {
-	Icon_RegisterT(g_hInstance, LPGENT("Protocols") L"/" LPGENT(MODULE), Icons, _countof(Icons), MODULE);
+	Icon_RegisterT(g_hInstance, LPGENW("Protocols") L"/" MODULEW, Icons, _countof(Icons), MODULE);
 }
 
 HANDLE CToxProto::GetIconHandle(int iconId)

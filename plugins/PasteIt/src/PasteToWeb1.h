@@ -28,7 +28,7 @@ protected:
 public:
 	PasteToWeb1();
 	virtual ~PasteToWeb1();
-	virtual TCHAR* GetName()
+	virtual wchar_t* GetName()
 	{
 		return L"pastebin.com";
 	}

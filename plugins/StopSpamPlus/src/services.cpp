@@ -27,7 +27,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 		MCONTACT hNext = db_find_next(hContact);
 		ptrT szGroup(db_get_tsa(hContact, "CList", "Group"));
 
-		if (db_get_b(hContact, "CList", "NotOnList", 0) || (szGroup != NULL && (_tcsstr(szGroup, L"Not In List") || _tcsstr(szGroup, TranslateT("Not In List"))))) {
+		if (db_get_b(hContact, "CList", "NotOnList", 0) || (szGroup != NULL && (wcsstr(szGroup, L"Not In List") || wcsstr(szGroup, TranslateT("Not In List"))))) {
 			char *szProto = GetContactProto(hContact);
 			if (szProto != NULL) {
 				// Check if protocol uses server side lists
@@ -47,10 +47,10 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 	}
 
 	int hGroup = 1;
-	TCHAR *group_name;
+	wchar_t *group_name;
 	do {
 		group_name = Clist_GroupGetName(hGroup, 0);
-		if (group_name != NULL && _tcsstr(group_name, TranslateT("Not In List"))) {
+		if (group_name != NULL && wcsstr(group_name, TranslateT("Not In List"))) {
 			BYTE ConfirmDelete = db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
 			if (ConfirmDelete)
 				db_set_b(NULL, "CList", "ConfirmDelete", 0);

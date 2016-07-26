@@ -1,12 +1,12 @@
 #include "StdAfx.h"
 
-static TCHAR InvalidSymbols[] = { _T('\\'), _T('/'), _T(':'), _T('*'), _T('?'), _T('"'), _T('<'), _T('>'), _T('|') };
+static wchar_t InvalidSymbols[] = { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
 
-static TCHAR replace_invalid_symbol(TCHAR chr)
+static wchar_t replace_invalid_symbol(wchar_t chr)
 {
 	for (int i = 0; i < _countof(InvalidSymbols); ++i)
 		if (chr == InvalidSymbols[i])
-			return _T('_');
+			return '_';
 
 	return chr;
 }
@@ -18,10 +18,10 @@ void prepare_name(tstring& rsName)
 
 tstring CreateFilePath(const tstring& rsName)
 {
-	TCHAR szPath[_MAX_PATH];
+	wchar_t szPath[_MAX_PATH];
 	::GetModuleFileName(g_hInstance, szPath, _MAX_PATH);
 
-	TCHAR* p = _tcsrchr(szPath, _T('\\'));
+	wchar_t* p = wcsrchr(szPath, '\\');
 	if (p)
 		*p = 0;
 

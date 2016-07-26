@@ -675,25 +675,25 @@ int OptInit(WPARAM wParam, LPARAM) {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
 	odp.hInstance = hInst;
-	odp.ptszTitle = LPGENT(PLUGIN_OPTIONS_NAME);
-	odp.ptszGroup = LPGENT("Services");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pszTitle = LPGEN(PLUGIN_OPTIONS_NAME);
+	odp.pszGroup = LPGEN("Services");
+	odp.flags = ODPF_BOLDGROUPS;
 
 	//1 - options
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
-	odp.ptszTab = LPGENT("Options");
+	odp.pszTab = LPGEN("Options");
 	odp.pfnDlgProc = DlgProcOpts_Tab1;
 	Options_AddPage(wParam, &odp);
 
 	//2 - contacts
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT2);
-	odp.ptszTab = LPGENT("Contacts");
+	odp.pszTab = LPGEN("Contacts");
 	odp.pfnDlgProc = DlgProcOpts_Tab2;
 	Options_AddPage(wParam, &odp);
 
 	//3 - accounts
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT3);
-	odp.ptszTab = LPGENT("Accounts");
+	odp.pszTab = LPGEN("Accounts");
 	odp.pfnDlgProc = DlgProcOpts_Tab3;
 	Options_AddPage(wParam, &odp);
 	return 0;

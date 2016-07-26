@@ -50,15 +50,15 @@ DWORD mir_tls = 0;
 
 static INT_PTR RestartMiranda(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
+	wchar_t mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
 	if (lParam)
-		_tcsncpy_s(mirandaPath, (const TCHAR*)lParam, _TRUNCATE);
+		wcsncpy_s(mirandaPath, (const wchar_t*)lParam, _TRUNCATE);
 	else
 		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
 
 	if (wParam) {
 		VARST profilename(L"%miranda_profilename%");
-		mir_sntprintf(cmdLine, L"\"%s\" /restart:%d /profile=%s", mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
+		mir_sntprintf(cmdLine, L"\"%s\" /restart:%d /profile=%s", mirandaPath, GetCurrentProcessId(), (wchar_t*)profilename);
 	}
 	else mir_sntprintf(cmdLine, L"\"%s\" /restart:%d", mirandaPath, GetCurrentProcessId());
 

@@ -47,7 +47,7 @@ Features:
 extern HINSTANCE hInst;
 
 extern MCONTACT hForwardFrom, hForwardTo;
-extern TCHAR tszForwardTemplate[MAXTEMPLATESIZE];
+extern wchar_t tszForwardTemplate[MAXTEMPLATESIZE];
 extern int iSplit, iSplitMaxSize, iSendParts, iMarkRead, iSendAndHistory, iForwardOnStatus;
 
 struct MESSAGE_PROC

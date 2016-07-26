@@ -193,7 +193,7 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 
 wchar_t* HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)
 {
-	TCHAR *str = Contact_GetInfo(CNF_DISPLAY, hContact, szProto);
+	wchar_t *str = Contact_GetInfo(CNF_DISPLAY, hContact, szProto);
 	if (str != NULL)
 		return str;
 

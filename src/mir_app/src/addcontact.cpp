@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static TCHAR* sttDecodeString(DWORD dwFlags, MAllStrings &src)
+static wchar_t* sttDecodeString(DWORD dwFlags, MAllStrings &src)
 {
 	if (dwFlags & PSR_UNICODE)
 		return mir_u2t(src.w);
@@ -77,7 +77,7 @@ public:
 		}
 
 		MCONTACT hContact;
-		TCHAR *szName = NULL, *tmpStr = NULL;
+		wchar_t *szName = NULL, *tmpStr = NULL;
 		if (m_acs.handleType == HANDLE_CONTACT)
 			szName = cli.pfnGetContactDisplayName(hContact = m_acs.hContact, 0);
 		else {
@@ -121,7 +121,7 @@ public:
 
 		int groupSel = 0;
 		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
-		TCHAR *grpName;
+		wchar_t *grpName;
 		for (int groupId = 1; (grpName = Clist_GroupGetName(groupId, NULL)) != NULL; groupId++) {
 			int id = m_group.AddString(grpName, groupId);
 			if (!mir_tstrcmpi(tszGroup, grpName))

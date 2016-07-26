@@ -40,7 +40,7 @@ static UINT_PTR timerID;
 
 struct PluginListItemData
 {
-	TCHAR fileName[MAX_PATH];
+	wchar_t fileName[MAX_PATH];
 	HINSTANCE hInst;
 	int   flags, stdPlugin;
 	char* author;
@@ -58,9 +58,9 @@ static int sttSortPlugins(const PluginListItemData *p1, const PluginListItemData
 
 static LIST<PluginListItemData> arPluginList(10, sttSortPlugins);
 
-static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM lParam)
+static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM lParam)
 {
-	TCHAR buf[MAX_PATH];
+	wchar_t buf[MAX_PATH];
 	mir_sntprintf(buf, L"%s\\Plugins\\%s", path, fd->cFileName);
 	HINSTANCE hInst = GetModuleHandle(buf);
 
@@ -85,7 +85,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM l
 	}
 
 	CharLower(fd->cFileName);
-	_tcsncpy_s(dat->fileName, fd->cFileName, _TRUNCATE);
+	wcsncpy_s(dat->fileName, fd->cFileName, _TRUNCATE);
 
 	HWND hwndList = (HWND)lParam;
 
@@ -121,7 +121,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM l
 		else
 			memset(&dat->uuid, 0, sizeof(dat->uuid));
 
-		TCHAR *shortNameT = mir_a2t(pi.pluginInfo->shortName);
+		wchar_t *shortNameT = mir_a2t(pi.pluginInfo->shortName);
 		// column 3: plugin short name
 		if (shortNameT) {
 			ListView_SetItemText(hwndList, iRow, 2, shortNameT);
@@ -183,9 +183,9 @@ static void RemoveAllItems(HWND hwnd)
 
 static bool LoadPluginDynamically(PluginListItemData *dat)
 {
-	TCHAR exe[MAX_PATH];
+	wchar_t exe[MAX_PATH];
 	GetModuleFileName(NULL, exe, _countof(exe));
-	TCHAR *p = _tcsrchr(exe, '\\'); if (p) *p = 0;
+	wchar_t *p = wcsrchr(exe, '\\'); if (p) *p = 0;
 
 	pluginEntry* pPlug = OpenPlugin(dat->fileName, L"Plugins", exe);
 	if (pPlug->pclass & PCLASS_FAILED) {
@@ -230,7 +230,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 			for (int i = 0; i < arPluginList.getCount(); i++) {
 				PluginListItemData *p = arPluginList[i];
-				if (!_tcsnicmp(szFilter, p->fileName, szFilter.GetLength())) {
+				if (!wcsnicmp(szFilter, p->fileName, szFilter.GetLength())) {
 					LVFINDINFO lvfi;
 					lvfi.flags = LVFI_PARAM;
 					lvfi.lParam = (LPARAM)p;
@@ -302,7 +302,7 @@ static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM)
 	return mir_tstrcmp(p1->fileName, p2->fileName);
 }
 
-static TCHAR *latin2t(const char *p)
+static wchar_t *latin2t(const char *p)
 {
 	if (p == NULL)
 		return mir_tstrdup(L"");
@@ -423,7 +423,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					if (ListView_GetItem(hwndList, &lvi)) {
 						PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
 
-						TCHAR buf[1024];
+						wchar_t buf[1024];
 						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, _countof(buf));
 						SetDlgItemText(hwndDlg, IDC_PLUGININFOFRAME, sel ? buf : L"");
 
@@ -454,12 +454,12 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			if (hdr->hdr.code == PSN_APPLY) {
 				bool needRestart = false;
-				TCHAR bufRestart[1024];
+				wchar_t bufRestart[1024];
 				int bufLen = mir_sntprintf(bufRestart, L"%s\n", TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
 
 				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 				for (int iRow = 0; iRow != -1;) {
-					TCHAR buf[1024];
+					wchar_t buf[1024];
 					ListView_GetItemText(hwndList, iRow, 1, buf, _countof(buf));
 					int iState = ListView_GetItemState(hwndList, iRow, LVIS_STATEIMAGEMASK);
 					SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);

@@ -152,15 +152,15 @@ bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void LogEvent(const TCHAR * pszTitle, const char * pszLog)
+void LogEvent(const char * pszTitle, const char * pszLog)
 {
 	HANDLE hFile = CreateFile(sLogFilePath.c_str(), GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		MessageBox(NULL, TranslateT("Failed to open or create log file"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, Translate("Failed to open or create log file"), MSG_BOX_TITEL, MB_OK);
 		return;
 	}
 	if (SetFilePointer(hFile, 0, 0, FILE_END) == INVALID_SET_FILE_POINTER) {
-		MessageBox(NULL, TranslateT("Failed to move to the end of the log file"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, Translate("Failed to move to the end of the log file"), MSG_BOX_TITEL, MB_OK);
 		CloseHandle(hFile);
 		return;
 	}
@@ -179,7 +179,7 @@ void LogEvent(const TCHAR * pszTitle, const char * pszLog)
 		!bWriteToFile(hFile, " : ") ||
 		!bWriteToFile(hFile, pszLog, nLogLen) ||
 		!bWriteToFile(hFile, "\r\n")) {
-		MessageBox(NULL, TranslateT("Failed to write some part of the log file"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, Translate("Failed to write some part of the log file"), MSG_BOX_TITEL, MB_OK);
 	}
 	CloseHandle(hFile);
 }
@@ -251,7 +251,7 @@ bool bReadConfigurationFile()
 		// move rest of buffer to front
 		if (pszCurPos && pszCurPos != szBuf) {
 			dwBytesInBuffer = DWORD(sizeof(szBuf) - (pszCurPos - szBuf));
-			memmove(szBuf, pszCurPos, dwBytesInBuffer * sizeof(TCHAR));
+			memmove(szBuf, pszCurPos, dwBytesInBuffer * sizeof(wchar_t));
 		}
 
 		// append data to buffer
@@ -336,21 +336,19 @@ bool bReadConfigurationFile()
 bool bWriteConfigurationFile()
 {
 	CLFileShareListAccess clCritSection;
-	char szBuf[1000];
+	char szBuf[1000], temp[200];
 	mir_strcpy(szBuf, szPluginPath);
 	mir_strcat(szBuf, szConfigFile);
 	HANDLE hFile = CreateFile(szBuf, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		TCHAR temp[200];
-		mir_sntprintf(temp, "%s%s", TranslateT("Failed to open or create file "), _T(szConfigFile));
+		mir_snprintf(temp, "%s%s", Translate("Failed to open or create file "), szConfigFile);
 		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
 
 	DWORD dwBytesWriten = 0;
 	if (!WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
-		TCHAR temp[200];
-		mir_sntprintf(temp, "%s%s", TranslateT("Failed to write xml header to file "), _T(szConfigFile));
+		mir_snprintf(temp, "%s%s", TranslateT("Failed to write xml header to file "), szConfigFile);
 		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 	}
 	else {
@@ -364,8 +362,7 @@ bool bWriteConfigurationFile()
 				SplitIpAddress(pclCur->st.dwAllowedMask));
 
 			if (!WriteFile(hFile, szBuf, dwBytesToWrite, &dwBytesWriten, NULL)) {
-				TCHAR temp[200];
-				mir_sntprintf(temp, "%s%s", TranslateT("Failed to write xml data to file "), _T(szConfigFile));
+				mir_snprintf(temp, "%s%s", Translate("Failed to write xml data to file "), szConfigFile);
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 				break;
 			}
@@ -373,8 +370,7 @@ bool bWriteConfigurationFile()
 		}
 
 		if (!WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWriten, NULL)) {
-			TCHAR temp[200];
-			mir_sntprintf(temp, "%s%s", TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
+			mir_snprintf(temp, "%s%s", Translate("Failed to write xml tail to file "), szConfigFile);
 			MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		}
 	}
@@ -653,8 +649,8 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 
 		hDirectBoundPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)& nlb);
 		if (!hDirectBoundPort) {
-			TCHAR szTemp[200];
-			mir_snprintf(szTemp, TranslateT("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port"),
+			char szTemp[200];
+			mir_snprintf(szTemp, Translate("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port"),
 				nlb.wPort == 80 ? "80" : nus.szIncomingPorts);
 			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_OK);
 			return 1001;
@@ -746,9 +742,9 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING;
 	nlu.szSettingsModule = MODULE;
-	nlu.ptszDescriptiveName = TranslateT("HTTP Server");
+	nlu.szDescriptiveName = Translate("HTTP Server");
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)& nlu);
 	if (!hNetlibUser) {
 		MessageBox(NULL, "Failed to register NetLib user", MSG_BOX_TITEL, MB_OK);
@@ -931,7 +927,7 @@ extern "C" __declspec(dllexport) int Load()
 		mi.flags = CMIF_TCHAR;
 		mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 		mi.position = 1000085000;
-		mi.name.a = LPGENT("Enable HTTP server");
+		mi.name.a = LPGEN("Enable HTTP server");
 		mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;
 		hAcceptConnectionsMenuItem = Menu_AddMainMenuItem(&mi);
 	}

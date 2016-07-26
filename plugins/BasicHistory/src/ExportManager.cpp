@@ -33,23 +33,23 @@ ExportManager::ExportManager(HWND hwnd, MCONTACT hContact, int filter) :
 {
 }
 
-std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
+std::wstring GetFile(const wchar_t* ext, HWND hwnd, bool open)
 {
-	TCHAR filter[512];
+	wchar_t filter[512];
 	std::locale loc;
-	TCHAR extUpper[32];
+	wchar_t extUpper[32];
 
-	_tcscpy_s(extUpper, ext);
+	wcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
 	mir_sntprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
 	size_t len = mir_tstrlen(filter) + 1;
 	mir_sntprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
 	len += mir_tstrlen(filter + len);
 	filter[++len] = 0;
-	TCHAR stzFilePath[1024];
-	_tcscpy_s(stzFilePath, TranslateT("History"));
-	_tcscat_s(stzFilePath, L".");
-	_tcscat_s(stzFilePath, ext);
+	wchar_t stzFilePath[1024];
+	wcscpy_s(stzFilePath, TranslateT("History"));
+	wcscat_s(stzFilePath, L".");
+	wcscat_s(stzFilePath, ext);
 	len = mir_tstrlen(stzFilePath) + 1;
 	stzFilePath[len] = 0;
 	OPENFILENAME ofn = {0};
@@ -75,7 +75,7 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 	return L"";
 }
 
-std::wstring ReplaceExt(const std::wstring& file, const TCHAR* ext)
+std::wstring ReplaceExt(const std::wstring& file, const wchar_t* ext)
 {
 	size_t pos = file.find(L"<ext>");
 	if (pos < file.length()) {
@@ -178,7 +178,7 @@ bool ExportManager::Export(IExport::ExportType type)
 	return true;
 }
 
-const TCHAR* ExportManager::GetExt(IImport::ImportType type)
+const wchar_t* ExportManager::GetExt(IImport::ImportType type)
 {
 	IImport *imp = NULL;
 	switch(type) {
@@ -192,7 +192,7 @@ const TCHAR* ExportManager::GetExt(IImport::ImportType type)
 		return L"";
 	}
 	
-	const TCHAR *ext = imp->GetExt();
+	const wchar_t *ext = imp->GetExt();
 	delete imp;
 	return ext;
 }
@@ -294,7 +294,7 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 		return;
 	
 	m_exp->WriteGroup(isMe, time, user, eventText);
-	TCHAR str[MAXSELECTSTR + 8]; // for safety reason
+	wchar_t str[MAXSELECTSTR + 8]; // for safety reason
 	str[0] = 0;
 	bool isFirst = true;
 	bool lastMe = false;
@@ -312,8 +312,8 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 		if (GetEventData(hDbEvent, data)) {
 			lastMe = data.isMe;
 
-			TCHAR* formatDate = Options::instance->messagesShowSec ? L"d s" : L"d t";
-			TCHAR* longFormatDate = Options::instance->messagesShowSec ? L"d s" : L"d t";
+			wchar_t* formatDate = Options::instance->messagesShowSec ? L"d s" : L"d t";
+			wchar_t* longFormatDate = Options::instance->messagesShowSec ? L"d s" : L"d t";
 			if (!Options::instance->messagesShowDate) {
 				if (isFirst) {
 					isFirst = false;

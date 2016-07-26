@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR __cdecl CJabberProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *szStatus = NULL;
+	wchar_t *szStatus = NULL;
 
 	mir_cslock lck(m_csModeMsgMutex);
 	switch (wParam ? (int)wParam : m_iStatus) {
@@ -74,7 +74,7 @@ INT_PTR __cdecl CJabberProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::JabberGetAvatar(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *buf = (TCHAR*)wParam;
+	wchar_t *buf = (wchar_t*)wParam;
 	int size = (int)lParam;
 
 	if (buf == NULL || size <= 0)
@@ -129,13 +129,13 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 	}
 
-	TCHAR tszFileName[MAX_PATH];
+	wchar_t tszFileName[MAX_PATH];
 	GetAvatarFileName(pai->hContact, tszFileName, _countof(tszFileName));
-	_tcsncpy_s(pai->filename, tszFileName, _TRUNCATE);
+	wcsncpy_s(pai->filename, tszFileName, _TRUNCATE);
 
 	pai->format = (pai->hContact == NULL) ? PA_FORMAT_PNG : getByte(pai->hContact, "AvatarType", 0);
 
-	if (::_taccess(pai->filename, 0) == 0) {
+	if (::_waccess(pai->filename, 0) == 0) {
 		ptrA szSavedHash( getStringA(pai->hContact, "AvatarSaved"));
 		if (szSavedHash != NULL && !mir_strcmp(szSavedHash, szHashValue)) {
 			debugLogA("Avatar is Ok: %s == %s", szSavedHash, szHashValue);
@@ -150,13 +150,13 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			if (item != NULL) {
 				BOOL isXVcard = getByte(pai->hContact, "AvatarXVcard", 0);
 
-				TCHAR szJid[JABBER_MAX_JID_LEN]; szJid[0] = 0;
+				wchar_t szJid[JABBER_MAX_JID_LEN]; szJid[0] = 0;
 				if (item->arResources.getCount() != NULL && !isXVcard)
-					if (TCHAR *bestResName = ListGetBestClientResourceNamePtr(tszJid))
+					if (wchar_t *bestResName = ListGetBestClientResourceNamePtr(tszJid))
 						mir_sntprintf(szJid, L"%s/%s", tszJid, bestResName);
 
 				if (szJid[0] == 0)
-					_tcsncpy_s(szJid, tszJid, _TRUNCATE);
+					wcsncpy_s(szJid, tszJid, _TRUNCATE);
 
 				debugLog(L"Rereading %s for %s", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
 
@@ -250,7 +250,7 @@ INT_PTR __cdecl CJabberProto::OnGetEventTextPresence(WPARAM, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 {
-	TCHAR *tszFileName = (TCHAR*)lParam;
+	wchar_t *tszFileName = (wchar_t*)lParam;
 
 	if (m_bJabberOnline) {
 		SetServerVcard(TRUE, tszFileName);
@@ -258,7 +258,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 	}
 	else if (tszFileName == NULL || tszFileName[0] == 0) {
 		// Remove avatar
-		TCHAR tFileName[ MAX_PATH ];
+		wchar_t tFileName[ MAX_PATH ];
 		GetAvatarFileName(NULL, tFileName, MAX_PATH);
 		DeleteFile(tFileName);
 
@@ -266,7 +266,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		delSetting("AvatarHash");
 	}
 	else {
-		int fileIn = _topen(tszFileName, O_RDWR | O_BINARY, S_IREAD | S_IWRITE);
+		int fileIn = _wopen(tszFileName, O_RDWR | O_BINARY, S_IREAD | S_IWRITE);
 		if (fileIn == -1) {
 			mir_free(tszFileName);
 			return 1;
@@ -289,7 +289,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		mir_sha1_append(&sha1ctx, (BYTE*)pResult, dwPngSize);
 		mir_sha1_finish(&sha1ctx, digest);
 
-		TCHAR tFileName[MAX_PATH];
+		wchar_t tFileName[MAX_PATH];
 		GetAvatarFileName(NULL, tFileName, MAX_PATH);
 		DeleteFile(tFileName);
 
@@ -299,7 +299,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		m_options.AvatarType = ProtoGetBufferFormat(pResult);
 
 		GetAvatarFileName(NULL, tFileName, MAX_PATH);
-		FILE *out = _tfopen(tFileName, L"wb");
+		FILE *out = _wfopen(tFileName, L"wb");
 		if (out != NULL) {
 			fwrite(pResult, dwPngSize, 1, out);
 			fclose(out);
@@ -317,7 +317,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::JabberSetNickname(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *nickname = (wParam & SMNN_UNICODE) ? mir_u2t((WCHAR*)lParam) : mir_a2t((char*)lParam);
+	wchar_t *nickname = (wParam & SMNN_UNICODE) ? mir_u2t((WCHAR*)lParam) : mir_a2t((char*)lParam);
 
 	setTString("Nick", nickname);
 	SetServerVcard(FALSE, L"");
@@ -335,10 +335,10 @@ INT_PTR __cdecl CJabberProto::ServiceSendXML(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // "/GCGetToolTipText" - gets tooltip text
 
-static const TCHAR *JabberEnum2AffilationStr[] = { LPGENT("None"), LPGENT("Outcast"), LPGENT("Member"), LPGENT("Admin"), LPGENT("Owner") },
-	*JabberEnum2RoleStr[] = { LPGENT("None"), LPGENT("Visitor"), LPGENT("Participant"), LPGENT("Moderator") };
+static const wchar_t *JabberEnum2AffilationStr[] = { LPGENW("None"), LPGENW("Outcast"), LPGENW("Member"), LPGENW("Admin"), LPGENW("Owner") },
+	*JabberEnum2RoleStr[] = { LPGENW("None"), LPGENW("Visitor"), LPGENW("Participant"), LPGENW("Moderator") };
 
-static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tszValue, CMString &out)
+static void appendString(bool bIsTipper, const wchar_t *tszTitle, const wchar_t *tszValue, CMString &out)
 {
 	if (!out.IsEmpty())
 		out.Append(bIsTipper ? L"\n" : L"\r\n");
@@ -346,7 +346,7 @@ static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tsz
 	if (bIsTipper)
 		out.AppendFormat(L"<b>%s</b>\t%s", TranslateTS(tszTitle), tszValue);
 	else {
-		TCHAR *p = TranslateTS(tszTitle);
+		wchar_t *p = TranslateTS(tszTitle);
 		out.AppendFormat(L"%s%s\t%s", p, mir_tstrlen(p) <= 7 ? L"\t" : L"", tszValue);
 	}
 }
@@ -356,11 +356,11 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	if (!wParam || !lParam)
 		return 0; //room global tooltip not supported yet
 
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, (TCHAR*)wParam);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, (wchar_t*)wParam);
 	if (item == NULL)
 		return 0;  //no room found
 
-	pResourceStatus info( item->findResource((TCHAR*)lParam));
+	pResourceStatus info( item->findResource((wchar_t*)lParam));
 	if (info == NULL)
 		return 0; //no info found
 
@@ -375,28 +375,28 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 
 	//JID:
 	CMString outBuf;
-	if (_tcschr(info->m_tszResourceName, _T('@')) != NULL)
-		appendString(bIsTipper, LPGENT("JID:"), info->m_tszResourceName, outBuf);
+	if (wcschr(info->m_tszResourceName, '@') != NULL)
+		appendString(bIsTipper, LPGENW("JID:"), info->m_tszResourceName, outBuf);
 	else if (lParam) //or simple nick
-		appendString(bIsTipper, LPGENT("Nick:"), (TCHAR*)lParam, outBuf);
+		appendString(bIsTipper, LPGENW("Nick:"), (wchar_t*)lParam, outBuf);
 
 	// status
 	if (info->m_iStatus >= ID_STATUS_OFFLINE && info->m_iStatus <= ID_STATUS_IDLE )
-		appendString(bIsTipper, LPGENT("Status:"), pcli->pfnGetStatusModeDescription(info->m_iStatus, 0), outBuf);
+		appendString(bIsTipper, LPGENW("Status:"), pcli->pfnGetStatusModeDescription(info->m_iStatus, 0), outBuf);
 
 	// status text
 	if (info->m_tszStatusMessage)
-		appendString(bIsTipper, LPGENT("Status message:"), info->m_tszStatusMessage, outBuf);
+		appendString(bIsTipper, LPGENW("Status message:"), info->m_tszStatusMessage, outBuf);
 
 	// Role
-	appendString(bIsTipper, LPGENT("Role:"), TranslateTS(JabberEnum2RoleStr[info->m_role]), outBuf);
+	appendString(bIsTipper, LPGENW("Role:"), TranslateTS(JabberEnum2RoleStr[info->m_role]), outBuf);
 
 	// Affiliation
-	appendString(bIsTipper, LPGENT("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->m_affiliation]), outBuf);
+	appendString(bIsTipper, LPGENW("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->m_affiliation]), outBuf);
 
 	// real jid
 	if (info->m_tszRealJid)
-		appendString(bIsTipper, LPGENT("Real JID:"), info->m_tszRealJid, outBuf);
+		appendString(bIsTipper, LPGENW("Real JID:"), info->m_tszRealJid, outBuf);
 
 	return (outBuf.IsEmpty() ? NULL : (INT_PTR)mir_tstrdup(outBuf));
 }
@@ -404,32 +404,32 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 // File Association Manager plugin support
 INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 {
-	TCHAR *arg = (TCHAR *)lParam;
+	wchar_t *arg = (wchar_t *)lParam;
 	if (arg == NULL)
 		return 1;
 
 	// skip leading prefix
-	TCHAR szUri[ 1024 ];
-	_tcsncpy_s(szUri, arg, _TRUNCATE);
-	TCHAR *szJid = _tcschr(szUri, _T(':'));
+	wchar_t szUri[ 1024 ];
+	wcsncpy_s(szUri, arg, _TRUNCATE);
+	wchar_t *szJid = wcschr(szUri, ':');
 	if (szJid == NULL)
 		return 1;
 
 	// skip //
-	for (++szJid; *szJid == _T('/'); ++szJid);
+	for (++szJid; *szJid == '/'; ++szJid);
 
 	// empty jid?
 	if (!*szJid)
 		return 1;
 
 	// command code
-	TCHAR *szCommand = szJid;
-	szCommand = _tcschr(szCommand, _T('?'));
+	wchar_t *szCommand = szJid;
+	szCommand = wcschr(szCommand, '?');
 	if (szCommand)
 		*(szCommand++) = 0;
 
 	// parameters
-	TCHAR *szSecondParam = szCommand ? _tcschr(szCommand, _T(';')) : NULL;
+	wchar_t *szSecondParam = szCommand ? wcschr(szCommand, ';') : NULL;
 	if (szSecondParam)
 		*(szSecondParam++) = 0;
 
@@ -439,7 +439,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		if (!ServiceExists(MS_MSG_SENDMESSAGEW))
 			return 1;
 
-		TCHAR *szMsgBody = NULL;
+		wchar_t *szMsgBody = NULL;
 		MCONTACT hContact = HContactFromJID(szJid, false);
 		if (hContact == NULL)
 			hContact = DBCreateContact(szJid, szJid, true, true);
@@ -447,10 +447,10 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			return 1;
 
 		if (szSecondParam) { //there are parameters to message
-			szMsgBody = _tcsstr(szSecondParam, L"body=");
+			szMsgBody = wcsstr(szSecondParam, L"body=");
 			if (szMsgBody) {
 				szMsgBody += 5;
-				TCHAR *szDelim = _tcschr(szMsgBody, _T(';'));
+				wchar_t *szDelim = wcschr(szMsgBody, ';');
 				if (szDelim)
 					szDelim = 0;
 				JabberHttpUrlDecode(szMsgBody);
@@ -466,8 +466,8 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
 			psr.flags = PSR_TCHAR;
-			psr.nick.t = szJid;
-			psr.id.t = szJid;
+			psr.nick.w = szJid;
+			psr.id.w = szJid;
 
 			ADDCONTACTSTRUCT acs;
 			acs.handleType = HANDLE_SEARCHRESULT;
@@ -493,7 +493,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	// ad-hoc commands
 	if (!mir_tstrcmpi(szCommand, L"command")) {
 		if (szSecondParam) {
-			if (!_tcsnicmp(szSecondParam, L"node=", 5)) {
+			if (!wcsnicmp(szSecondParam, L"node=", 5)) {
 				szSecondParam += 5;
 				if (!*szSecondParam)
 					szSecondParam = NULL;
@@ -529,12 +529,12 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 	if (jid == NULL)
 		return 0;
 
-	TCHAR tszJid[JABBER_MAX_JID_LEN];
-	TCHAR *szResource = ListGetBestClientResourceNamePtr(jid);
+	wchar_t tszJid[JABBER_MAX_JID_LEN];
+	wchar_t *szResource = ListGetBestClientResourceNamePtr(jid);
 	if (szResource)
 		mir_sntprintf(tszJid, L"%s/%s", jid, szResource);
 	else
-		_tcsncpy_s(tszJid, jid, _TRUNCATE);
+		wcsncpy_s(tszJid, jid, _TRUNCATE);
 
 	m_ThreadInfo->send(
 		XmlNode(L"message") << XATTR(L"type", L"headline") << XATTR(L"to", tszJid)

@@ -34,7 +34,7 @@ CSendFile::CSendFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	: CSend(Owner, hContact, true)
 {
 	m_EnableItem = SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND | SS_DLG_DESCRIPTION;
-	m_pszSendTyp = LPGENT("File transfer");
+	m_pszSendTyp = LPGENW("File transfer");
 }
 
 CSendFile::~CSendFile()

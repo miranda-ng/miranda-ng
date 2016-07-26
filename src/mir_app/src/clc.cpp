@@ -781,8 +781,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
 		}
 		else {
-			TCHAR szNew[2];
-			szNew[0] = (TCHAR)wParam;
+			wchar_t szNew[2];
+			szNew[0] = (wchar_t)wParam;
 			szNew[1] = '\0';
 			if (mir_tstrlen(dat->szQuickSearch) >= _countof(dat->szQuickSearch) - 1) {
 				MessageBeep(MB_OK);
@@ -1110,7 +1110,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					if (contacto->type == CLCIT_CONTACT) //dropee is a contact
 						CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
 					else if (contacto->type == CLCIT_GROUP) { //dropee is a group
-						TCHAR szNewName[120];
+						wchar_t szNewName[120];
 						mir_sntprintf(szNewName, L"%s\\%s", Clist_GroupGetName(contactn->groupId, NULL), contacto->szText);
 						Clist_GroupRename(contacto->groupId, szNewName);
 					}
@@ -1149,7 +1149,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (!group->parent)
 					break;
 				if (contact->type == CLCIT_GROUP) { //dropee is a group
-					TCHAR szNewName[120];
+					wchar_t szNewName[120];
 					mir_tstrncpy(szNewName, contact->szText, _countof(szNewName));
 					Clist_GroupRename(contact->groupId, szNewName);
 				}

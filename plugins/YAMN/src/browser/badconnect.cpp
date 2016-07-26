@@ -85,7 +85,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 		DWORD  ErrorCode;
 		char* TitleStrA;
 		char *Message1A = NULL;
-		TCHAR *Message1W = NULL;
+		wchar_t *Message1W = NULL;
 		POPUPDATAT BadConnectPopup;
 
 		ActualAccount = ((struct BadConnectionParam *)lParam)->account;
@@ -125,7 +125,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 		if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != NULL) {
 			Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 			SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-			_tcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
+			wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
 			if (ShowPopup)
 				PUAddPopupT(&BadConnectPopup);
 		}
@@ -133,7 +133,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 		{
 			Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 			SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-			_tcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
+			wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
 			if (ShowPopup)
 				PUAddPopupT(&BadConnectPopup);
 		}
@@ -141,7 +141,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 		{
 			Message1W = TranslateT("Unknown error");
 			SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-			_tcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
+			wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
 			if (ShowPopup)
 				PUAddPopupT(&BadConnectPopup);
 		}
@@ -185,7 +185,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 		}
 		return 0;
 	case WM_CHAR:
-		switch ((TCHAR)wParam)
+		switch ((wchar_t)wParam)
 		{
 		case 27:
 		case 13:

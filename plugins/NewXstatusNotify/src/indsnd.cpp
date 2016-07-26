@@ -23,7 +23,7 @@
 
 void PreviewSound(HWND hList)
 {
-	TCHAR buff[MAX_PATH], stzSoundPath[MAX_PATH];
+	wchar_t buff[MAX_PATH], stzSoundPath[MAX_PATH];
 
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_PARAM;
@@ -33,7 +33,7 @@ void PreviewSound(HWND hList)
 	int hlpStatus = lvi.lParam;
 
 	ListView_GetItemText(hList, lvi.iItem, 1, buff, _countof(buff));
-	if (!mir_tstrcmp(buff, TranslateT(DEFAULT_SOUND))) {
+	if (!mir_tstrcmp(buff, TranslateTS(DEFAULT_SOUND))) {
 		if (hlpStatus < ID_STATUS_MIN)
 			SkinPlaySound(StatusListEx[hlpStatus].lpzSkinSoundName);
 		else
@@ -51,26 +51,26 @@ BOOL RemoveSoundFromList(HWND hList)
 	if (iSel != -1) {
 		iSel = -1;
 		while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
-			ListView_SetItemText(hList, iSel, 1, TranslateT(DEFAULT_SOUND));
+			ListView_SetItemText(hList, iSel, 1, TranslateTS(DEFAULT_SOUND));
 		return TRUE;
 	}
 
 	return FALSE;
 }
 
-TCHAR *SelectSound(HWND hwndDlg, TCHAR *buff, size_t bufflen)
+wchar_t *SelectSound(HWND hwndDlg, wchar_t *buff, size_t bufflen)
 {
 	OPENFILENAME ofn = { 0 };
 
 	HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
 	ListView_GetItemText(hList, ListView_GetNextItem(hList, -1, LVNI_SELECTED), 1, buff, (DWORD)bufflen);
-	if (!mir_tstrcmp(buff, TranslateT(DEFAULT_SOUND)))
+	if (!mir_tstrcmp(buff, TranslateTS(DEFAULT_SOUND)))
 		buff = NULL;
 
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = GetParent(hwndDlg);
 	ofn.hInstance = hInst;
-	TCHAR filter[MAX_PATH];
+	wchar_t filter[MAX_PATH];
 	if (GetModuleHandle(L"bass_interface.dll"))
 		mir_sntprintf(filter, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*.*)%c*%c", TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
 	else
@@ -132,7 +132,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			if (szProto) {
 				DBVARIANT dbv;
-				TCHAR buff[MAX_PATH];
+				wchar_t buff[MAX_PATH];
 
 				for (int i = ID_STATUS_MAX; i >= ID_STATUS_MIN; i--) {
 					int flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0);
@@ -153,8 +153,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							mir_tstrcpy(buff, dbv.ptszVal);
 							db_free(&dbv);
 						}
-						else
-							mir_tstrcpy(buff, TranslateT(DEFAULT_SOUND));
+						else mir_tstrcpy(buff, TranslateTS(DEFAULT_SOUND));
 
 						ListView_SetItemText(hList, lvi.iItem, 1, buff);
 					}
@@ -171,11 +170,10 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					lvi.iItem = ListView_InsertItem(hList, &lvi);
 
 					if (!db_get_ts(hContact, MODULE, StatusList[i].lpzSkinSoundName, &dbv)) {
-						_tcsncpy(buff, dbv.ptszVal, _countof(buff)-1);
+						wcsncpy(buff, dbv.ptszVal, _countof(buff)-1);
 						db_free(&dbv);
 					}
-					else
-						_tcsncpy(buff, TranslateT(DEFAULT_SOUND), _countof(buff)-1);
+					else wcsncpy(buff, TranslateTS(DEFAULT_SOUND), _countof(buff)-1);
 
 					ListView_SetItemText(hList, lvi.iItem, 1, buff);
 				}
@@ -202,7 +200,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 				int iSel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_INDSNDLIST), -1, LVNI_SELECTED);
 				if (iSel != -1) {
-					TCHAR stzFilePath[MAX_PATH];
+					wchar_t stzFilePath[MAX_PATH];
 					if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != NULL) {
 						iSel = -1;
 						while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
@@ -229,7 +227,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			TCHAR buff[MAX_PATH];
+			wchar_t buff[MAX_PATH];
 
 			LVITEM lvi = { 0 };
 			lvi.mask = LVIF_PARAM;
@@ -238,14 +236,14 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ListView_GetItem(hList, &lvi);
 				ListView_GetItemText(hList, lvi.iItem, 1, buff, _countof(buff));
 
-				if (!mir_tstrcmp(buff, TranslateT(DEFAULT_SOUND))) {
+				if (!mir_tstrcmp(buff, TranslateTS(DEFAULT_SOUND))) {
 					if (lvi.lParam < ID_STATUS_MIN)
 						db_unset(hContact, MODULE, StatusListEx[lvi.lParam].lpzSkinSoundName);
 					else
 						db_unset(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName);
 				}
 				else {
-					TCHAR stzSoundPath[MAX_PATH] = { 0 };
+					wchar_t stzSoundPath[MAX_PATH] = { 0 };
 					PathToRelativeT(buff, stzSoundPath);
 					if (lvi.lParam < ID_STATUS_MIN)
 						db_set_ws(hContact, MODULE, StatusListEx[lvi.lParam].lpzSkinSoundName, stzSoundPath);
@@ -261,7 +259,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		switch (hlpControlID) {
 		case IDC_INDSNDLIST:
 			if (((LPNMHDR)lParam)->code == NM_DBLCLK) {
-				TCHAR stzFilePath[MAX_PATH];
+				wchar_t stzFilePath[MAX_PATH];
 				if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != NULL) {
 					int iSel = -1;
 					while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)

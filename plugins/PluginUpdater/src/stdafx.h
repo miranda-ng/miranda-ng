@@ -70,14 +70,14 @@ Boston, MA 02111-1307, USA.
 
 struct FILEURL
 {
-	TCHAR tszDownloadURL[2048];
-	TCHAR tszDiskPath[MAX_PATH];
+	wchar_t tszDownloadURL[2048];
+	wchar_t tszDiskPath[MAX_PATH];
 	int CRCsum;
 };
 
 struct FILEINFO
 {
-	TCHAR   tszOldName[MAX_PATH], tszNewName[MAX_PATH];
+	wchar_t   tszOldName[MAX_PATH], tszNewName[MAX_PATH];
 	FILEURL File;
 	BOOL    bEnabled, bDeleteOnly;
 };
@@ -158,7 +158,7 @@ using namespace std;
 extern HINSTANCE hInst;
 
 extern DWORD g_mirandaVersion;
-extern TCHAR g_tszRoot[MAX_PATH], g_tszTempPath[MAX_PATH];
+extern wchar_t g_tszRoot[MAX_PATH], g_tszTempPath[MAX_PATH];
 extern aPopups PopupsList[POPUPS];
 extern HANDLE hPipe, hNetlibUser;
 #if MIRANDA_VER >= 0x0A00
@@ -199,7 +199,7 @@ struct ServListEntry
 		mir_free(m_name);
 	}
 
-	TCHAR *m_name;
+	wchar_t *m_name;
 	DWORD  m_crc;
 	char   m_szHash[32+1];
 };
@@ -223,12 +223,12 @@ void  UnloadCheck();
 void  UnloadListNew();
 void  UnloadNetlib();
 
-void  BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
+void  BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName);
 
-bool  ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes);
+bool  ParseHashes(const wchar_t *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
-TCHAR* GetDefaultUrl();
+wchar_t* GetDefaultUrl();
 bool   DownloadFile(FILEURL *pFileURL, HANDLE &nlc);
 
 void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
@@ -237,19 +237,19 @@ void  __stdcall OpenPluginOptions(void*);
 void  CheckUpdateOnStartup();
 void  InitTimer(void *type);
 
-bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch);
+bool unzip(const wchar_t *ptszZipFile, wchar_t *ptszDestPath, wchar_t *ptszBackPath,bool ch);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int CalculateModuleHash(const TCHAR *tszFileName, char *dest);
+int CalculateModuleHash(const wchar_t *tszFileName, char *dest);
 
 BOOL IsProcessElevated();
 bool PrepareEscalation();
 
-int SafeCreateDirectory(const TCHAR *ptszDirName);
-int SafeCopyFile(const TCHAR *ptszSrc, const TCHAR *ptszDst);
-int SafeMoveFile(const TCHAR *ptszSrc, const TCHAR *ptszDst);
-int SafeDeleteFile(const TCHAR *ptszSrc);
-int SafeCreateFilePath(TCHAR *pFolder);
+int SafeCreateDirectory(const wchar_t *ptszDirName);
+int SafeCopyFile(const wchar_t *ptszSrc, const wchar_t *ptszDst);
+int SafeMoveFile(const wchar_t *ptszSrc, const wchar_t *ptszDst);
+int SafeDeleteFile(const wchar_t *ptszSrc);
+int SafeCreateFilePath(wchar_t *pFolder);
 
 char *StrToLower(char *str);

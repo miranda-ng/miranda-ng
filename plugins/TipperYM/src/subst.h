@@ -21,25 +21,25 @@ Boston, MA 02111-1307, USA.
 #ifndef _SUBST_INC
 #define _SUBST_INC
 
-bool GetLabelText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, size_t iBufflen);
-bool GetValueText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, size_t iBufflen);
+bool GetLabelText(MCONTACT hContact, const DISPLAYITEM &di, wchar_t *buff, size_t iBufflen);
+bool GetValueText(MCONTACT hContact, const DISPLAYITEM &di, wchar_t *buff, size_t iBufflen);
 
 bool CheckContactType(MCONTACT hContact, const DISPLAYITEM &di);
 
-void StripBBCodesInPlace(TCHAR *text);
+void StripBBCodesInPlace(wchar_t *text);
 
 // can be used with hContact == 0 to get uid for a given proto
-bool UidName(char *szProto, TCHAR *buff, int bufflen); 
-bool Uid(MCONTACT hContact, char *szProto, TCHAR *buff, int bufflen);
+bool UidName(char *szProto, wchar_t *buff, int bufflen); 
+bool Uid(MCONTACT hContact, char *szProto, wchar_t *buff, int bufflen);
 
 // get info for status and tray tooltip
-bool DBGetContactSettingAsString(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen); 
+bool DBGetContactSettingAsString(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen); 
 bool CanRetrieveStatusMsg(MCONTACT hContact, char *szProto);
-TCHAR *GetProtoStatusMessage(char *szProto, WORD status);
-TCHAR *GetProtoExtraStatusTitle(char *szProto);
-TCHAR *GetProtoExtraStatusMessage(char *szProto); 
-TCHAR *GetListeningTo(char *szProto);
-TCHAR *GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szValue); 
+wchar_t *GetProtoStatusMessage(char *szProto, WORD status);
+wchar_t *GetProtoExtraStatusTitle(char *szProto);
+wchar_t *GetProtoExtraStatusMessage(char *szProto); 
+wchar_t *GetListeningTo(char *szProto);
+wchar_t *GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szValue); 
 HICON GetJabberActivityIcon(MCONTACT hContact, char *szProto); 
 
 #endif

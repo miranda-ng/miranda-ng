@@ -446,7 +446,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 			PROTO_AVATAR_INFORMATION ai = { 0 };
 			ai.hContact = ccMeta->contactID;
 			ai.format = PA_FORMAT_UNKNOWN;
-			_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
+			wcsncpy_s(ai.filename, L"X", _TRUNCATE);
 			if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", ai.filename);
 		}
@@ -654,7 +654,7 @@ int Meta_ModulesLoaded(WPARAM, LPARAM)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = META_PROTO;
 	sid.flags = MBF_TCHAR;
-	sid.tszTooltip = LPGENT("Select metacontact");
+	sid.tszTooltip = LPGENW("Select metacontact");
 	sid.hIcon = Skin_LoadProtoIcon(META_PROTO, ID_STATUS_ONLINE);
 	Srmm_AddIcon(&sid);
 	return 0;
@@ -796,7 +796,7 @@ INT_PTR Meta_GetInfo(WPARAM, LPARAM lParam)
 	PROTO_AVATAR_INFORMATION ai;
 	ai.hContact = ccs->hContact;
 	ai.format = PA_FORMAT_UNKNOWN;
-	_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
+	wcsncpy_s(ai.filename, L"X", _TRUNCATE);
 	if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 		db_set_ts(ccs->hContact, "ContactPhoto", "File", ai.filename);
 

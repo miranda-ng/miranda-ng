@@ -515,7 +515,7 @@ void CProxyWindow::Invalidate() const
  * update the thumb title string (usually, the nickname)
  * @param tszTitle: 	new title string
  */
-void CProxyWindow::updateTitle(const TCHAR *tszTitle) const
+void CProxyWindow::updateTitle(const wchar_t *tszTitle) const
 {
 	if (m_hwndProxy && tszTitle)
 		::SetWindowText(m_hwndProxy, tszTitle);

@@ -19,7 +19,7 @@ CSendHost_Imgur::CSendHost_Imgur(HWND Owner, MCONTACT hContact, bool bAsync)
 	: CSend(Owner, hContact, bAsync)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp = LPGENT("Image upload");
+	m_pszSendTyp = LPGENW("Image upload");
 }
 
 CSendHost_Imgur::~CSendHost_Imgur()

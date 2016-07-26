@@ -181,7 +181,7 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 		CMessageBoxDlg* dlg = new CMessageBoxDlg(this, pdci);
 		dlg->Show();
 		HWND hWnd = dlg->GetHwnd();
-		TCHAR szTemp[500];
+		wchar_t szTemp[500];
 		mir_sntprintf(szTemp, TranslateT("%s (%s) is requesting a client-to-client chat connection."),
 			pdci->sContactName.c_str(), pdci->sHostmask.c_str());
 		SetDlgItemText(hWnd, IDC_TEXT, szTemp);
@@ -389,12 +389,12 @@ INT_PTR __cdecl CIrcProto::OnChangeNickMenuCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-static void DoChatFormatting(TCHAR* pszText)
+static void DoChatFormatting(wchar_t* pszText)
 {
-	TCHAR* p1 = pszText;
+	wchar_t* p1 = pszText;
 	int iFG = -1;
 	int iRemoveChars;
-	TCHAR InsertThis[50];
+	wchar_t InsertThis[50];
 
 	while (*p1 != '\0') {
 		iRemoveChars = 0;
@@ -422,9 +422,9 @@ static void DoChatFormatting(TCHAR* pszText)
 				mir_tstrcpy(InsertThis, L"\003");
 				iRemoveChars = 2;
 
-				TCHAR szTemp[3];
+				wchar_t szTemp[3];
 				mir_tstrncpy(szTemp, p1 + 2, 3);
-				iFG = _ttoi(szTemp);
+				iFG = _wtoi(szTemp);
 			}
 				break;
 			case 'C':
@@ -467,8 +467,8 @@ static void DoChatFormatting(TCHAR* pszText)
 				break;
 			}
 
-			memmove(p1 + mir_tstrlen(InsertThis), p1 + iRemoveChars, sizeof(TCHAR)*(mir_tstrlen(p1) - iRemoveChars + 1));
-			memcpy(p1, InsertThis, sizeof(TCHAR)*mir_tstrlen(InsertThis));
+			memmove(p1 + mir_tstrlen(InsertThis), p1 + iRemoveChars, sizeof(wchar_t)*(mir_tstrlen(p1) - iRemoveChars + 1));
+			memcpy(p1, InsertThis, sizeof(wchar_t)*mir_tstrlen(InsertThis));
 			if (iRemoveChars || mir_tstrlen(InsertThis))
 				p1 += mir_tstrlen(InsertThis);
 			else
@@ -488,8 +488,8 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 	// handle the hook
 	if (gch) {
 		if (!mir_strcmpi(gch->pDest->pszModule, m_szModuleName)) {
-			TCHAR *p1 = mir_tstrdup(gch->pDest->ptszID);
-			TCHAR *p2 = _tcsstr(p1, L" - ");
+			wchar_t *p1 = mir_tstrdup(gch->pDest->ptszID);
+			wchar_t *p2 = wcsstr(p1, L" - ");
 			if (p2)
 				*p2 = '\0';
 
@@ -500,7 +500,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 
 			case GC_USER_MESSAGE:
 				if (gch && gch->ptszText && *gch->ptszText) {
-					TCHAR* pszText = new TCHAR[mir_tstrlen(gch->ptszText) + 1000];
+					wchar_t* pszText = new wchar_t[mir_tstrlen(gch->ptszText) + 1000];
 					mir_tstrcpy(pszText, gch->ptszText);
 					DoChatFormatting(pszText);
 					PostIrcMessageWnd(p1, NULL, pszText);
@@ -514,7 +514,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 
 			case GC_USER_PRIVMESS:
 			{
-				TCHAR szTemp[4000];
+				wchar_t szTemp[4000];
 				mir_sntprintf(szTemp, L"/QUERY %s", gch->ptszUID);
 				PostIrcMessageWnd(p1, NULL, szTemp);
 			}
@@ -566,7 +566,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 					SetDlgItemText(question_hWnd, IDC_HIDDENEDIT, L"/nickserv IDENTIFY %question=\"%s\",\"%s\"");
 					SetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE,
 						(LONG)GetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE) | ES_PASSWORD);
-					SendMessage(hEditCtrl, EM_SETPASSWORDCHAR, (WPARAM)_T('*'), 0);
+					SendMessage(hEditCtrl, EM_SETPASSWORDCHAR, (WPARAM)'*', 0);
 					SetFocus(hEditCtrl);
 					dlg->Activate();
 				}
@@ -727,8 +727,8 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 					PROTOSEARCHRESULT psr = { 0 };
 					psr.cbSize = sizeof(psr);
 					psr.flags = PSR_TCHAR;
-					psr.id.t = gch->ptszUID;
-					psr.nick.t = gch->ptszUID;
+					psr.id.w = gch->ptszUID;
+					psr.nick.w = gch->ptszUID;
 
 					ADDCONTACTSTRUCT acs = { 0 };
 					acs.handleType = HANDLE_SEARCHRESULT;
@@ -759,74 +759,74 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static gc_item logItems[] = {
-		{ LPGENT("&Change your nickname"), 1, MENU_ITEM, FALSE },
-		{ LPGENT("Channel &settings"), 2, MENU_ITEM, FALSE },
+		{ LPGENW("&Change your nickname"), 1, MENU_ITEM, FALSE },
+		{ LPGENW("Channel &settings"), 2, MENU_ITEM, FALSE },
 		{ L"", 0, MENU_SEPARATOR, FALSE },
-		{ LPGENT("NickServ"), 0, MENU_NEWPOPUP, FALSE },
-		{ LPGENT("Register nick"), 5, MENU_POPUPITEM, TRUE },
-		{ LPGENT("Auth nick"), 6, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Delete nick"), 7, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Identify nick"), 8, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Remind password"), 9, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Set new password"), 10, MENU_POPUPITEM, TRUE },
-		{ LPGENT("Set language"), 11, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Set homepage"), 12, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Set e-mail"), 13, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Set info"), 14, MENU_POPUPITEM, FALSE },
+		{ LPGENW("NickServ"), 0, MENU_NEWPOPUP, FALSE },
+		{ LPGENW("Register nick"), 5, MENU_POPUPITEM, TRUE },
+		{ LPGENW("Auth nick"), 6, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Delete nick"), 7, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Identify nick"), 8, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Remind password"), 9, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Set new password"), 10, MENU_POPUPITEM, TRUE },
+		{ LPGENW("Set language"), 11, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Set homepage"), 12, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Set e-mail"), 13, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Set info"), 14, MENU_POPUPITEM, FALSE },
 		{ L"", 0, MENU_POPUPSEPARATOR, FALSE },
-		{ LPGENT("Hide e-mail from info"), 20, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Show e-mail in info"), 21, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Hide e-mail from info"), 20, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Show e-mail in info"), 21, MENU_POPUPITEM, FALSE },
 		{ L"", 0, MENU_POPUPSEPARATOR, FALSE },
-		{ LPGENT("Set security for nick"), 22, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Remove security for nick"), 23, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Set security for nick"), 22, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Remove security for nick"), 23, MENU_POPUPITEM, FALSE },
 		{ L"", 0, MENU_POPUPSEPARATOR, FALSE },
-		{ LPGENT("Link nick to current"), 24, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Unlink nick from current"), 25, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Set main nick"), 26, MENU_POPUPITEM, FALSE },
-		{ LPGENT("List all your nicks"), 27, MENU_POPUPITEM, FALSE },
-		{ LPGENT("List your channels"), 28, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Link nick to current"), 24, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Unlink nick from current"), 25, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Set main nick"), 26, MENU_POPUPITEM, FALSE },
+		{ LPGENW("List all your nicks"), 27, MENU_POPUPITEM, FALSE },
+		{ LPGENW("List your channels"), 28, MENU_POPUPITEM, FALSE },
 		{ L"", 0, MENU_POPUPSEPARATOR, FALSE },
-		{ LPGENT("Kill unauthorized: off"), 15, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Kill unauthorized: on"), 16, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Kill unauthorized: quick"), 17, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Kill unauthorized: off"), 15, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Kill unauthorized: on"), 16, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Kill unauthorized: quick"), 17, MENU_POPUPITEM, FALSE },
 		{ L"", 0, MENU_POPUPSEPARATOR, FALSE },
-		{ LPGENT("Hide nick from list"), 18, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Show nick to list"), 19, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Show the server &window"), 4, MENU_ITEM, FALSE },
+		{ LPGENW("Hide nick from list"), 18, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Show nick to list"), 19, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Show the server &window"), 4, MENU_ITEM, FALSE },
 		{ L"", 0, MENU_SEPARATOR, FALSE },
-		{ LPGENT("&Leave the channel"), 3, MENU_ITEM, FALSE }
+		{ LPGENW("&Leave the channel"), 3, MENU_ITEM, FALSE }
 };
 
 static gc_item nickItems[] = {
-		{ LPGENT("&WhoIs info"), 10, MENU_ITEM, FALSE },       //0
-		{ LPGENT("&Invite to channel"), 23, MENU_ITEM, FALSE },
-		{ LPGENT("Send &notice"), 22, MENU_ITEM, FALSE },
-		{ LPGENT("&Slap"), 31, MENU_ITEM, FALSE },
-		{ LPGENT("Nickserv info"), 32, MENU_ITEM, FALSE },
-		{ LPGENT("Nickserv kill ghost"), 33, MENU_ITEM, FALSE },      //5
-		{ LPGENT("&Control"), 0, MENU_NEWPOPUP, FALSE },
-		{ LPGENT("Give Owner"), 18, MENU_POPUPITEM, FALSE },      //7
-		{ LPGENT("Take Owner"), 19, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Give Admin"), 20, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Take Admin"), 21, MENU_POPUPITEM, FALSE },      //10
-		{ LPGENT("Give &Op"), 1, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Take O&p"), 2, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Give &Halfop"), 16, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Take H&alfop"), 17, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Give &Voice"), 3, MENU_POPUPITEM, FALSE },      //15
-		{ LPGENT("Take V&oice"), 4, MENU_POPUPITEM, FALSE },
+		{ LPGENW("&WhoIs info"), 10, MENU_ITEM, FALSE },       //0
+		{ LPGENW("&Invite to channel"), 23, MENU_ITEM, FALSE },
+		{ LPGENW("Send &notice"), 22, MENU_ITEM, FALSE },
+		{ LPGENW("&Slap"), 31, MENU_ITEM, FALSE },
+		{ LPGENW("Nickserv info"), 32, MENU_ITEM, FALSE },
+		{ LPGENW("Nickserv kill ghost"), 33, MENU_ITEM, FALSE },      //5
+		{ LPGENW("&Control"), 0, MENU_NEWPOPUP, FALSE },
+		{ LPGENW("Give Owner"), 18, MENU_POPUPITEM, FALSE },      //7
+		{ LPGENW("Take Owner"), 19, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Give Admin"), 20, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Take Admin"), 21, MENU_POPUPITEM, FALSE },      //10
+		{ LPGENW("Give &Op"), 1, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Take O&p"), 2, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Give &Halfop"), 16, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Take H&alfop"), 17, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Give &Voice"), 3, MENU_POPUPITEM, FALSE },      //15
+		{ LPGENW("Take V&oice"), 4, MENU_POPUPITEM, FALSE },
 		{ L"", 0, MENU_POPUPSEPARATOR, FALSE },
-		{ LPGENT("&Kick"), 5, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Ki&ck (reason)"), 6, MENU_POPUPITEM, FALSE },
-		{ LPGENT("&Ban"), 7, MENU_POPUPITEM, FALSE },      //20
-		{ LPGENT("Ban'&n kick"), 8, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Ban'n kick (&reason)"), 9, MENU_POPUPITEM, FALSE },
-		{ LPGENT("&Direct Connection"), 0, MENU_NEWPOPUP, FALSE },
-		{ LPGENT("Request &Chat"), 13, MENU_POPUPITEM, FALSE },
-		{ LPGENT("Send &File"), 14, MENU_POPUPITEM, FALSE },      //25
-		{ LPGENT("Add to &ignore list"), 15, MENU_ITEM, FALSE },
+		{ LPGENW("&Kick"), 5, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Ki&ck (reason)"), 6, MENU_POPUPITEM, FALSE },
+		{ LPGENW("&Ban"), 7, MENU_POPUPITEM, FALSE },      //20
+		{ LPGENW("Ban'&n kick"), 8, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Ban'n kick (&reason)"), 9, MENU_POPUPITEM, FALSE },
+		{ LPGENW("&Direct Connection"), 0, MENU_NEWPOPUP, FALSE },
+		{ LPGENW("Request &Chat"), 13, MENU_POPUPITEM, FALSE },
+		{ LPGENW("Send &File"), 14, MENU_POPUPITEM, FALSE },      //25
+		{ LPGENW("Add to &ignore list"), 15, MENU_ITEM, FALSE },
 		{ L"", 12, MENU_SEPARATOR, FALSE },
-		{ LPGENT("&Add User"), 30, MENU_ITEM, FALSE }
+		{ LPGENW("&Add User"), 30, MENU_ITEM, FALSE }
 };
 
 int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
@@ -843,7 +843,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 			}
 
 			if (gcmi->Type == MENU_ON_NICKLIST) {
-				CONTACT user = { (TCHAR*)gcmi->pszUID, NULL, NULL, false, false, false };
+				CONTACT user = { (wchar_t*)gcmi->pszUID, NULL, NULL, false, false, false };
 				MCONTACT hContact = CList_FindContact(&user);
 
 				gcmi->nItems = _countof(nickItems);
@@ -858,8 +858,8 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 					ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 				gcmi->Item[23].bDisabled = ulAdr == 0 ? TRUE : FALSE;		//DCC submenu
 
-				TCHAR stzChanName[100];
-				const TCHAR* temp = _tcschr(gcmi->pszID, ' ');
+				wchar_t stzChanName[100];
+				const wchar_t* temp = wcschr(gcmi->pszID, ' ');
 				size_t len = min(((temp == NULL) ? mir_tstrlen(gcmi->pszID) : (int)(temp - gcmi->pszID + 1)), _countof(stzChanName) - 1);
 				mir_tstrncpy(stzChanName, gcmi->pszID, len);
 				stzChanName[len] = 0;
@@ -1036,7 +1036,7 @@ void CIrcProto::ConnectToServer(void)
 	si.sFullName = m_name;
 	si.sPassword = m_password;
 	si.bIdentServer = ((m_ident) ? (true) : (false));
-	si.iIdentServerPort = _ttoi(m_identPort);
+	si.iIdentServerPort = _wtoi(m_identPort);
 	si.sIdentServerType = m_identSystem;
 	si.m_iSSL = m_iSSL;
 	si.sNetwork = m_network;
@@ -1055,7 +1055,7 @@ void CIrcProto::ConnectToServer(void)
 	else if (m_bConnectRequested < 1)
 		InterlockedIncrement((long *)&m_bConnectRequested);
 
-	TCHAR szTemp[300];
+	wchar_t szTemp[300];
 	mir_sntprintf(szTemp, L"\033%s \002%s\002 (%S: %u)",
 		TranslateT("Connecting to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
@@ -1080,7 +1080,7 @@ INT_PTR __cdecl CIrcProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 	if ((int)wParam != m_iStatus)
 		return 0;
 
-	const TCHAR* p = m_statusMessage.c_str();
+	const wchar_t* p = m_statusMessage.c_str();
 
 	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(p) : (INT_PTR)mir_t2a(p);
 }

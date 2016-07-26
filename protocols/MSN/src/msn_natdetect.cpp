@@ -311,7 +311,7 @@ static bool IsIcfEnabled(void)
 	hr = fwProfile->get_AuthorizedApplications(&fwApps);
 	if (FAILED(hr)) goto error;
 
-	TCHAR szFileName[MAX_PATH];
+	wchar_t szFileName[MAX_PATH];
 	GetModuleFileName(NULL, szFileName, _countof(szFileName));
 
 	wszFileName = mir_t2u(szFileName);

@@ -21,10 +21,10 @@ PLUGININFOEX pluginInfo = {
 
 static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 {
-	LPTSTR pszDirName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
-	LPTSTR pszFileName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
+	LPTSTR pszDirName = (LPTSTR)mir_alloc(250*sizeof(wchar_t));
+	LPTSTR pszFileName = (LPTSTR)mir_alloc(250*sizeof(wchar_t));
 
-	TCHAR *ptszHelpFile = db_get_tsa(NULL, "UserGuide", "PathToHelpFile");
+	wchar_t *ptszHelpFile = db_get_tsa(NULL, "UserGuide", "PathToHelpFile");
 	
 	if (ptszHelpFile==0)
 	{
@@ -40,17 +40,17 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 		}
 		else 
 		{
-			LPTSTR pszDivider = _tcsrchr(ptszHelpFile, '\\');
+			LPTSTR pszDivider = wcsrchr(ptszHelpFile, '\\');
 			if (pszDivider == NULL)
 			{	
 				mir_tstrcpy(pszDirName, L"");
-				_tcsncpy(pszFileName, ptszHelpFile, mir_tstrlen(ptszHelpFile));
+				wcsncpy(pszFileName, ptszHelpFile, mir_tstrlen(ptszHelpFile));
 			}
 			else
 			{
-				_tcsncpy(pszFileName, pszDivider + 1, mir_tstrlen(ptszHelpFile) - mir_tstrlen(pszDivider) - 1);
+				wcsncpy(pszFileName, pszDivider + 1, mir_tstrlen(ptszHelpFile) - mir_tstrlen(pszDivider) - 1);
 				pszFileName[mir_tstrlen(ptszHelpFile) - mir_tstrlen(pszDivider) - 1] = 0;
-				_tcsncpy(pszDirName, ptszHelpFile, pszDivider - ptszHelpFile);
+				wcsncpy(pszDirName, ptszHelpFile, pszDivider - ptszHelpFile);
 				pszDirName[pszDivider - ptszHelpFile] = 0;
 			}
 		}
@@ -87,7 +87,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.position = 500000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_HELP);
-	mi.name.t = LPGENT("User Guide");
+	mi.name.w = LPGENW("User Guide");
 	mi.pszService = "UserGuide/ShowGuide";
 	Menu_AddMainMenuItem(&mi);
 	

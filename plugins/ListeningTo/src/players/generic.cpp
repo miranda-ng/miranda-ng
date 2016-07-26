@@ -24,7 +24,7 @@ static HANDLE hLog = NULL;
 
 GenericPlayer *singleton = NULL;
 
-void m_log(const TCHAR *function, const TCHAR *fmt, ...)
+void m_log(const wchar_t *function, const wchar_t *fmt, ...)
 {
 	if (hLog == NULL) {
 		hLog = mir_createLog(MODULE_NAME, L"ListeningTo log", L"c:\\temp\\listeningto.txt", 0);
@@ -80,7 +80,7 @@ GenericPlayer::GenericPlayer()
 
 	RegisterClass(&wc);
 
-	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, LPGENT("Miranda ListeningTo receiver"),
+	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, LPGENW("Miranda ListeningTo receiver"),
 		0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
 }
 
@@ -118,14 +118,14 @@ void GenericPlayer::ProcessReceived()
 	int pCount = 0;
 	WCHAR *p = received;
 	do {
-		*p1 = _T('\0');
+		*p1 = '\0';
 		parts[pCount] = p;
 		pCount++;
 		p = p1 + 2;
 		p1 = wcsstr(p, L"\\0");
 	} while (p1 != NULL && pCount < 10);
 	if (p1 != NULL)
-		*p1 = _T('\0');
+		*p1 = '\0';
 	parts[pCount] = p;
 
 	if (pCount < 5)
@@ -170,7 +170,7 @@ void GenericPlayer::ProcessReceived()
 		if (parts[9] != NULL) {
 			long length = _wtoi(parts[9]);
 			if (length > 0) {
-				li->ptszLength = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
+				li->ptszLength = (wchar_t*)mir_alloc(10 * sizeof(wchar_t));
 
 				int s = length % 60;
 				int m = (length / 60) % 60;
@@ -212,7 +212,7 @@ static VOID CALLBACK SendTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 void GenericPlayer::NewData(const WCHAR *data, size_t len)
 {
-	if (data[0] == _T('\0'))
+	if (data[0] == '\0')
 		return;
 
 	mir_cslock lck(cs);

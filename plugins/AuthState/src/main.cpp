@@ -143,9 +143,9 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	if (db_get_b((MCONTACT)hContact, "AuthState", "ShowIcons", 1))
-		Menu_ModifyItem(hUserMenu, LPGENT("Disable AuthState icons"));
+		Menu_ModifyItem(hUserMenu, LPGENW("Disable AuthState icons"));
 	else
-		Menu_ModifyItem(hUserMenu, LPGENT("Enable AuthState icons"));
+		Menu_ModifyItem(hUserMenu, LPGENW("Enable AuthState icons"));
 
 	Menu_ShowItem(hUserMenu, db_get_b((MCONTACT)hContact, proto, "Auth", 0) || db_get_b((MCONTACT)hContact, proto, "Grant", 0) || !db_get_dw((MCONTACT)hContact, proto, "ServerId", 0));
 	return 0;
@@ -181,7 +181,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	SET_UID(mi, 0xc5a784ea, 0x8b07, 0x4b95, 0xa2, 0xb2, 0x84, 0x9d, 0x87, 0x43, 0x7e, 0xda);
 	mi.position = -1999901005;
 	mi.flags = CMIF_TCHAR;
-	mi.name.t = LPGENT("Enable AuthState icons");
+	mi.name.w = LPGENW("Enable AuthState icons");
 	mi.pszService = "AuthState/MenuItem";
 	hUserMenu = Menu_AddContactMenuItem(&mi);
 

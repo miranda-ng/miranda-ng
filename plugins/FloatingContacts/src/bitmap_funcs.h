@@ -94,7 +94,7 @@ public:
 	void IncreaseAlpha(float q);
 
 	void DrawIcon(HICON hic, int x, int y, int w = 0, int h = 0);
-	void DrawText(TCHAR *str, int x, int y, int blur = 0, int strength = 0);
+	void DrawText(wchar_t *str, int x, int y, int blur = 0, int strength = 0);
 
 	__forceinline COLOR32 *getBits() { return bits; }
 	__forceinline COLOR32 *getRow(int row) { return bits + row * width; }

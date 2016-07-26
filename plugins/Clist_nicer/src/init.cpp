@@ -50,10 +50,10 @@ int ShowHide(WPARAM wParam, LPARAM lParam);
 int ClcShutdown(WPARAM wParam, LPARAM lParam);
 
 CListEvent* AddEvent(CLISTEVENT *cle);
-ClcGroup*   AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
+ClcGroup*   AddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
 
 ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
-ClcContact* AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
+ClcContact* AddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
 LRESULT     ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 int         RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
 INT_PTR     TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
@@ -183,7 +183,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::dat.soundsOff = db_get_b(NULL, "Skin", "UseSound", 1) ? 0 : 1;
 
 	CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)cfg::dat.tszProfilePath);
-	_tcslwr(cfg::dat.tszProfilePath);
+	wcslwr(cfg::dat.tszProfilePath);
 
 	// get the clist interface
 	pcli->hInst = g_hInst;

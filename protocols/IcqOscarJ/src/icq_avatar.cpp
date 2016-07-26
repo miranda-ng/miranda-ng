@@ -54,28 +54,28 @@ avatars_request::~avatars_request()
 	}
 }
 
-TCHAR* CIcqProto::GetOwnAvatarFileName()
+wchar_t* CIcqProto::GetOwnAvatarFileName()
 {
 	DBVARIANT dbvFile = {DBVT_DELETED};
 	if (getTString(NULL, "AvatarFile", &dbvFile))
 		return NULL;
 
-	TCHAR tmp[MAX_PATH * 2];
+	wchar_t tmp[MAX_PATH * 2];
 	PathToAbsoluteT(dbvFile.ptszVal, tmp);
 	db_free(&dbvFile);
 
 	return null_strdup(tmp);
 }
 
-void CIcqProto::GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat, TCHAR *pszDest, size_t cbLen)
+void CIcqProto::GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat, wchar_t *pszDest, size_t cbLen)
 {
 	GetAvatarFileName(dwUin, szUid, pszDest, cbLen);
 	AddAvatarExt(dwFormat, pszDest);
 }
 
-void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, size_t cbLen)
+void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest, size_t cbLen)
 {
-	TCHAR szPath[MAX_PATH * 2];
+	wchar_t szPath[MAX_PATH * 2];
 	mir_sntprintf(szPath, L"%s\\%S\\", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
@@ -91,18 +91,18 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	CreateDirectoryTreeT(szPath);
 
 	if (dwUin != 0)
-		_ltot(dwUin, pszDest + tPathLen, 10);
+		_ltow(dwUin, pszDest + tPathLen, 10);
 	else if (szUid) {
-		TCHAR* p = mir_a2t(szUid);
+		wchar_t* p = mir_a2t(szUid);
 		mir_tstrcpy(pszDest + tPathLen, p);
 		mir_free(p);
 	}
 	else {
-		TCHAR szBuf[MAX_PATH];
+		wchar_t szBuf[MAX_PATH];
 		if (CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)szBuf))
 			mir_tstrcpy(pszDest + tPathLen, L"avatar");
 		else {
-			TCHAR *szLastDot = _tcsrchr(szBuf, '.');
+			wchar_t *szLastDot = wcsrchr(szBuf, '.');
 			if (szLastDot)
 				szLastDot[0] = '\0';
 
@@ -112,15 +112,15 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	}
 }
 
-void AddAvatarExt(int dwFormat, TCHAR *pszDest)
+void AddAvatarExt(int dwFormat, wchar_t *pszDest)
 {
-	const TCHAR *ext = ProtoGetAvatarExtension(dwFormat);
+	const wchar_t *ext = ProtoGetAvatarExtension(dwFormat);
 	mir_tstrcat(pszDest, (*ext == 0) ? L".dat" : ext);
 }
 
 #define MD5_BLOCK_SIZE 1024*1024 /* use 1MB blocks */
 
-BYTE* calcMD5HashOfFile(const TCHAR *tszFile)
+BYTE* calcMD5HashOfFile(const wchar_t *tszFile)
 {
 	BYTE *res = NULL;
 
@@ -244,11 +244,11 @@ void CIcqProto::handleAvatarOwnerHash(BYTE bFlags, BYTE *pData, size_t nDataLen)
 		setUserInfo();
 		{
 			// here we need to find a file, check its hash, if invalid get avatar from server
-			TCHAR *file = GetOwnAvatarFileName();
+			wchar_t *file = GetOwnAvatarFileName();
 			if (!file) { // we have no avatar file, download from server
 				debugLogA("We have no avatar, requesting from server.");
 
-				TCHAR szFile[MAX_PATH * 2 + 4];
+				wchar_t szFile[MAX_PATH * 2 + 4];
 				GetAvatarFileName(0, NULL, szFile, MAX_PATH * 2);
 				GetAvatarData(NULL, m_dwLocalUIN, NULL, pData, 0x14, szFile);
 			}
@@ -258,7 +258,7 @@ void CIcqProto::handleAvatarOwnerHash(BYTE bFlags, BYTE *pData, size_t nDataLen)
 				if (!hash) { // hash could not be calculated - probably missing file, get avatar from server
 					debugLogA("We have no avatar, requesting from server.");
 
-					TCHAR szFile[MAX_PATH * 2 + 4];
+					wchar_t szFile[MAX_PATH * 2 + 4];
 					GetAvatarFileName(0, NULL, szFile, MAX_PATH * 2);
 					GetAvatarData(NULL, m_dwLocalUIN, NULL, pData, 0x14, szFile);
 				}
@@ -280,7 +280,7 @@ void CIcqProto::handleAvatarOwnerHash(BYTE bFlags, BYTE *pData, size_t nDataLen)
 					else { // get avatar from server
 						debugLogA("We have different avatar, requesting new from server.");
 
-						TCHAR tszFile[MAX_PATH * 2 + 4];
+						wchar_t tszFile[MAX_PATH * 2 + 4];
 						GetAvatarFileName(0, NULL, tszFile, MAX_PATH * 2);
 						GetAvatarData(NULL, m_dwLocalUIN, NULL, pData, 0x14, tszFile);
 					}
@@ -295,7 +295,7 @@ void CIcqProto::handleAvatarOwnerHash(BYTE bFlags, BYTE *pData, size_t nDataLen)
 	case 0x81:
 		// request to re-upload avatar data
 		if (m_bSsiEnabled) { // we could not change serv-list if it is disabled...
-			TCHAR *file = GetOwnAvatarFileName();
+			wchar_t *file = GetOwnAvatarFileName();
 			if (!file) { // we have no file to upload, remove hash from server
 				debugLogA("We do not have avatar, removing hash.");
 				SetMyAvatar(0, 0);
@@ -414,7 +414,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 
 	if (avatarType != -1) { // check settings, should we request avatar immediatelly?
 		DBVARIANT dbv = { DBVT_DELETED };
-		TCHAR tszAvatar[MAX_PATH * 2 + 4];
+		wchar_t tszAvatar[MAX_PATH * 2 + 4];
 		BYTE bAutoLoad = getByte("AvatarsAutoLoad", DEFAULT_LOAD_AVATARS);
 
 		if ((avatarType == AVATAR_HASH_STATIC || avatarType == AVATAR_HASH_MINI) && cbAvatarHash == 0x09 && !memcmp(pAvatarHash + 4, hashEmptyAvatar + 4, 0x05)) { // empty avatar - unlink image, clear hash
@@ -437,7 +437,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 				int dwPaFormat = getByte(hContact, "AvatarType", PA_FORMAT_UNKNOWN);
 
 				GetFullAvatarFileName(dwUIN, szUID, dwPaFormat, tszAvatar, MAX_PATH * 2);
-				if (_taccess(tszAvatar, 0) == 0) { // the file is there, link to contactphoto, save hash
+				if (_waccess(tszAvatar, 0) == 0) { // the file is there, link to contactphoto, save hash
 					debugLogA("%s has published Avatar. Image was found in the cache.", strUID(dwUIN, szUID));
 
 					setSettingBlob(hContact, "AvatarHash", pAvatarHash, cbAvatarHash);
@@ -470,7 +470,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 					}
 					else {
 						GetFullAvatarFileName(dwUIN, szUID, dwPaFormat, tszAvatar, MAX_PATH * 2);
-						if (_taccess(tszAvatar, 0) != 0) { // the file was lost, get it again
+						if (_waccess(tszAvatar, 0) != 0) { // the file was lost, get it again
 							debugLogA("%s has Avatar. Image is missing.", strUID(dwUIN, szUID));
 							bJob = 2;
 						}
@@ -523,7 +523,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 }
 
 // request avatar data from server
-int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, size_t hashlen, const TCHAR *file)
+int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, size_t hashlen, const wchar_t *file)
 {
 	uid_str szUidData;
 	char *pszUid = NULL;
@@ -725,7 +725,7 @@ void avatars_server_connection::shutdownConnection()
 		Netlib_Shutdown(hConnection);
 }
 
-DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, size_t hashlen, const TCHAR *file)
+DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, size_t hashlen, const wchar_t *file)
 {
 	int i;
 	DWORD dwNow = GetTickCount();
@@ -1209,22 +1209,22 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 				if (aValid) {
 					ppro->debugLogA("Received user avatar, storing (%d bytes).", datalen);
 
-					const TCHAR *ptszExt;
+					const wchar_t *ptszExt;
 					int dwPaFormat = ProtoGetBufferFormat(pBuffer, &ptszExt);
-					TCHAR tszImageFile[MAX_PATH];
+					wchar_t tszImageFile[MAX_PATH];
 					mir_sntprintf(tszImageFile, L"%s%s", pCookieData->szFile, ptszExt);
 
 					ppro->setByte(pCookieData->hContact, "AvatarType", (BYTE)dwPaFormat);
 					ai.format = dwPaFormat; // set the format
 					mir_tstrncpy(ai.filename, tszImageFile, _countof(ai.filename));
 
-					int out = _topen(tszImageFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
+					int out = _wopen(tszImageFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 					if (out != -1) {
 						_write(out, pBuffer, (int)datalen);
 						_close(out);
 
 						if (!pCookieData->hContact) { // our avatar, set filename
-							TCHAR tmp[MAX_PATH * 2];
+							wchar_t tmp[MAX_PATH * 2];
 							PathToRelativeT(tszImageFile, tmp);
 							ppro->setTString(NULL, "AvatarFile", tmp);
 						}

@@ -2,7 +2,7 @@
 
 #define FILETRANSFER_FAILED(fup) { ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)fup); delete fup; fup = nullptr;} 
 
-HANDLE CSkypeProto::SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
+HANDLE CSkypeProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
 {
 	if (IsOnline())
 	{
@@ -38,7 +38,7 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 		JSONNode node = JSONNode::parse((char*)response->pData);
 		std::string strObjectId = node["id"].as_string();
 		fup->uid = mir_strdup(strObjectId.c_str());
-		FILE *pFile = _tfopen(fup->tszFileName, L"rb");
+		FILE *pFile = _wfopen(fup->tszFileName, L"rb");
 		if (pFile == NULL) return;
 
 		fseek(pFile, 0, SEEK_END);
@@ -75,7 +75,7 @@ void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *a
 		return;
 	}
 
-	TCHAR *tszFile = _tcsrchr(fup->tszFileName, L'\\') + 1;
+	wchar_t *tszFile = wcsrchr(fup->tszFileName, L'\\') + 1;
 
 	HXML xml = xmlCreateNode(L"URIObject", nullptr, 0);
 	xmlAddChild(xml, L"Title", tszFile);

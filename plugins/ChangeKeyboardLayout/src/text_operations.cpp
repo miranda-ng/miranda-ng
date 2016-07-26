@@ -14,7 +14,7 @@ static DWORD CALLBACK EditStreamOutRtf(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG c
 {
 	EditStreamData *esd = (EditStreamData*)dwCookie;
 	esd->cbBuff += cb;
-	esd->pbBuff = (PBYTE)realloc(esd->pbBuff, esd->cbBuff + sizeof(TCHAR));
+	esd->pbBuff = (PBYTE)realloc(esd->pbBuff, esd->cbBuff + sizeof(wchar_t));
 	memcpy(esd->pbBuff + esd->iCurrent, pbBuff, cb);
 	esd->iCurrent += cb;
 	esd->pbBuff[esd->iCurrent] = 0;
@@ -28,8 +28,8 @@ LPTSTR GeTStringFromStreamData(EditStreamData *esd)
 {
 	DWORD i, k;
 
-	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
-	LPTSTR ptszTemp = (TCHAR*)esd->pbBuff;
+	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
+	LPTSTR ptszTemp = (wchar_t*)esd->pbBuff;
 	
 	for (i = k = 0; i < mir_tstrlen(ptszTemp); i++) {
 		if ((ptszTemp[i] == 0x0A) || (ptszTemp[i] == 0x2028))
@@ -52,8 +52,8 @@ BOOL CopyTextToClipboard(LPTSTR ptszText)
 		return FALSE;
 
 	EmptyClipboard(); 
-	HGLOBAL hCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(ptszText) + 1)*sizeof(TCHAR));
-	mir_tstrcpy((TCHAR*)GlobalLock(hCopy), ptszText);
+	HGLOBAL hCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(ptszText) + 1)*sizeof(wchar_t));
+	mir_tstrcpy((wchar_t*)GlobalLock(hCopy), ptszText);
 	GlobalUnlock(hCopy);
 	SetClipboardData(CF_UNICODETEXT, hCopy);
 	CloseClipboard();
@@ -69,8 +69,8 @@ LPSTR GetNameOfLayout(HKL hklLayout)
 
 LPTSTR GetShortNameOfLayout(HKL hklLayout)
 {
-	TCHAR szLI[20];
-	LPTSTR ptszLiShort = (LPTSTR)mir_alloc(3*sizeof(TCHAR));
+	wchar_t szLI[20];
+	LPTSTR ptszLiShort = (LPTSTR)mir_alloc(3*sizeof(wchar_t));
 	DWORD dwLcid = MAKELCID(LOWORD(hklLayout), 0);
 	GetLocaleInfo(dwLcid, LOCALE_SISO639LANGNAME, szLI, 10);
 	ptszLiShort[0] = toupper(szLI[0]);
@@ -92,8 +92,8 @@ LPTSTR GenerateLayoutString(HKL hklLayout)
 {
 	BYTE bState[256] = {0};
 
-	LPTSTR ptszLayStr = (LPTSTR)mir_alloc(100 * sizeof(TCHAR));
-	LPTSTR ptszTemp = (LPTSTR)mir_alloc(3 * sizeof(TCHAR));
+	LPTSTR ptszLayStr = (LPTSTR)mir_alloc(100 * sizeof(wchar_t));
+	LPTSTR ptszTemp = (LPTSTR)mir_alloc(3 * sizeof(wchar_t));
 	ptszTemp[0] = 0;
 
 	DWORD i;
@@ -138,7 +138,7 @@ LPTSTR GetLayoutString(HKL hklLayout)
 
 LPTSTR ChangeTextCase(LPCTSTR ptszInText)
 {
-	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
+	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 	mir_tstrcpy(ptszOutText, ptszInText);
 
 	for (DWORD i = 0; i < mir_tstrlen(ptszInText); i++) {
@@ -151,7 +151,7 @@ LPTSTR ChangeTextCase(LPCTSTR ptszInText)
 
 LPTSTR ChangeTextLayout(LPCTSTR ptszInText, HKL hklCurLay, HKL hklToLay, BOOL TwoWay)
 {
-	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
+	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 	mir_tstrcpy(ptszOutText, ptszInText);
 
 	if (hklCurLay == NULL || hklToLay == NULL)
@@ -189,7 +189,7 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 	DWORD dwMaxSymbols = 0, dwTemp = 0;
 
 	for (DWORD j = 0; j < mir_tstrlen(ptszInText); j++)
-		if (_tcschr(ptszKeybBuff, ptszInText[j]) != NULL)
+		if (wcschr(ptszKeybBuff, ptszInText[j]) != NULL)
 			++dwMaxSymbols;
 
 	for (DWORD i = 1; i < bLayNum; i++) {
@@ -197,7 +197,7 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 		DWORD dwCountSymbols = 0;
 			
 		for (DWORD j = 0; j<mir_tstrlen(ptszInText); j++)
-			if (_tcschr(ptszKeybBuff, ptszInText[j]) != NULL)
+			if (wcschr(ptszKeybBuff, ptszInText[j]) != NULL)
 				++dwCountSymbols;
 		
 		if (dwCountSymbols == dwMaxSymbols)
@@ -240,7 +240,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	if (ServiceExists(MS_HPP_EG_EVENT)) {
 		// То же самое для History++
 		ieEvent.hwnd = hTextWnd;
-		ptszInText = (TCHAR*)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&ieEvent);
+		ptszInText = (wchar_t*)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&ieEvent);
 
 		if (!IsBadStringPtr(ptszInText, MaxTextSize))
 			WindowType = WTYPE_HistoryPP;
@@ -250,17 +250,17 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		// Извращенное определение хэндла IEView
 		ieEvent.hwnd = GetParent(GetParent(hTextWnd));
 
-		ptszInText = (TCHAR*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&ieEvent);
+		ptszInText = (wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&ieEvent);
 		if (!IsBadStringPtr(ptszInText, MaxTextSize))
 			WindowType = WTYPE_IEView;
 	}
 
 	if (WindowType == WTYPE_Unknown) {
-		ptrT ptszTemp((LPTSTR)mir_alloc(255 * sizeof(TCHAR)));
+		ptrT ptszTemp((LPTSTR)mir_alloc(255 * sizeof(wchar_t)));
 		i = GetClassName(hTextWnd, ptszTemp, 255);
 		ptszTemp[i] = 0;
 
-		if (_tcsstr(CharUpper(ptszTemp), L"RICHEDIT") != NULL) {
+		if (wcsstr(CharUpper(ptszTemp), L"RICHEDIT") != NULL) {
 			WindowType = WTYPE_RichEdit;
 			SendMessage(hTextWnd, EM_EXGETSEL, 0, (LPARAM)&crSelection);
 		}
@@ -297,11 +297,11 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				}
 			}
 			if (WindowType == WTYPE_Edit) {
-				ptrT ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR)));
-				ptszInText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
+				ptrT ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t)));
+				ptszInText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 				iRes = GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
 				if (!IsBadStringPtr(ptszInText, MaxTextSize) && (iRes > 0)) {
-					_tcsncpy(ptszInText, &ptszTemp[crSelection.cpMin], crSelection.cpMax - crSelection.cpMin);
+					wcsncpy(ptszInText, &ptszTemp[crSelection.cpMin], crSelection.cpMax - crSelection.cpMin);
 					ptszInText[crSelection.cpMax - crSelection.cpMin] = 0;
 				}
 				else {
@@ -334,7 +334,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				}
 			}
 			if (WindowType == WTYPE_Edit) {
-				ptszInText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
+				ptszInText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 				iRes = GetWindowText(hTextWnd, ptszInText, MaxTextSize);
 
 				if (!IsBadStringPtr(ptszInText, MaxTextSize) && (iRes > 0)) {
@@ -350,8 +350,8 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			}
 			// Получаем текущее слово
 			if (CurrentWord) {
-				for (dwStartWord = crSelection.cpMin; (dwStartWord > 0) && (_tcschr(ptszSeparators, ptszInText[dwStartWord - 1]) == NULL); dwStartWord--);
-				for (dwEndWord = crSelection.cpMin; (dwEndWord < (mir_tstrlen(ptszInText))) && (_tcschr(ptszSeparators, ptszInText[dwEndWord]) == NULL); dwEndWord++);
+				for (dwStartWord = crSelection.cpMin; (dwStartWord > 0) && (wcschr(ptszSeparators, ptszInText[dwStartWord - 1]) == NULL); dwStartWord--);
+				for (dwEndWord = crSelection.cpMin; (dwEndWord < (mir_tstrlen(ptszInText))) && (wcschr(ptszSeparators, ptszInText[dwEndWord]) == NULL); dwEndWord++);
 
 				crTemp.cpMin = dwStartWord;
 				crTemp.cpMax = dwEndWord;
@@ -374,8 +374,8 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				}
 
 				if (WindowType == WTYPE_Edit) {
-					ptrT ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR)));
-					_tcsncpy(ptszTemp, &ptszInText[crTemp.cpMin], crTemp.cpMax - crTemp.cpMin);
+					ptrT ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t)));
+					wcsncpy(ptszTemp, &ptszInText[crTemp.cpMin], crTemp.cpMax - crTemp.cpMin);
 					ptszTemp[crTemp.cpMax - crTemp.cpMin] = 0;
 					mir_tstrcpy(ptszInText, ptszTemp);
 
@@ -403,7 +403,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	// Лог Иевью и ХисториПП в режиме эмуляции Иевью  и поля только для чтения.
 	if (WindowType != WTYPE_Unknown && !IsBadStringPtr(ptszInText, MaxTextSize))
 	if (WindowIsReadOnly) {
-		ptrT ptszMBox((LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR)));
+		ptrT ptszMBox((LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t)));
 		ptszMBox[0] = 0;
 
 		if (TextOperation == TOT_Layout) {
@@ -445,13 +445,13 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 		//-------------------------------Покажем попапы------------------------------------------ 			
 		if (moOptions.ShowPopup) {
-			LPTSTR ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
+			LPTSTR ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 			mir_tstrcpy(ptszPopupText, ptszMBox);
 
 			POPUPDATAT_V2 pdtData = { 0 };
 			pdtData.cbSize = sizeof(pdtData);
-			_tcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
-			_tcsncpy(pdtData.lptzText, ptszPopupText, MAX_SECONDLINE);
+			wcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
+			wcsncpy(pdtData.lptzText, ptszPopupText, MAX_SECONDLINE);
 
 			switch (poOptions.bColourType) {
 			case PPC_POPUP:
@@ -510,7 +510,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
 		}
 		else {
-			ptrT ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR)));
+			ptrT ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t)));
 			GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
 			for (i = crTemp.cpMin; i < crTemp.cpMax; i++)
 				ptszTemp[i] = ptszOutText[i - crTemp.cpMin];

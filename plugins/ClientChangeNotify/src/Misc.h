@@ -20,7 +20,7 @@
 #include "stdafx.h"
 extern BOOL bPopupExists;
 
-__inline void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine = L"", bool IsErrorMsg = false, int Timeout = 0)
+__inline void ShowMsg(wchar_t *FirstLine, wchar_t *SecondLine = L"", bool IsErrorMsg = false, int Timeout = 0)
 {
 	if (bPopupExists)
 	{
@@ -43,7 +43,7 @@ __inline void ShowLog(TCString &LogFilePath)
 	INT_PTR Result = (INT_PTR)ShellExecute(NULL, L"open", LogFilePath, NULL, NULL, SW_SHOW);
 	if (Result <= 32) // Error
 	{
-		TCHAR szError[64];
+		wchar_t szError[64];
 		mir_sntprintf(szError, TranslateT("Error #%d"), Result);
 		ShowMsg(szError, TranslateT("Can't open log file ") + LogFilePath, true);
 	}
@@ -52,10 +52,10 @@ __inline void ShowLog(TCString &LogFilePath)
 __inline void RecompileRegexps(TCString IgnoreSubstrings)
 {
 	FreePcreCompileData();
-	TCHAR *p = _tcstok(IgnoreSubstrings, L";");
+	wchar_t *p = wcstok(IgnoreSubstrings, L";");
 	while (p)
 	{
 		CompileRegexp(p, p[0] != '/');
-		p = _tcstok(NULL, L";");
+		p = wcstok(NULL, L";");
 	}
 }

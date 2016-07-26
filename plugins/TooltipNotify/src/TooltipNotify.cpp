@@ -20,17 +20,17 @@ static const int ID_TTNTF_STATUS_TYPING = ID_STATUS_INVISIBLE + 10;
 static const int ID_TTNTF_STATUS_IDLE = ID_STATUS_INVISIBLE + 11;
 static const int ID_TTNTF_STATUS_NOT_IDLE = ID_STATUS_INVISIBLE + 12;
 
-#define FONTSERV_GROUP   LPGENT("Tooltip Notify")
-#define FONTSERV_ONLINE  LPGENT("Online")
-#define FONTSERV_OFFLINE LPGENT("Offline")
-#define FONTSERV_OTHER   LPGENT("Other status")
-#define FONTSERV_TYPING  LPGENT("Typing")
-#define FONTSERV_IDLE    LPGENT("Idle")
+#define FONTSERV_GROUP   LPGENW("Tooltip Notify")
+#define FONTSERV_ONLINE  LPGENW("Online")
+#define FONTSERV_OFFLINE LPGENW("Offline")
+#define FONTSERV_OTHER   LPGENW("Other status")
+#define FONTSERV_TYPING  LPGENW("Typing")
+#define FONTSERV_IDLE    LPGENW("Idle")
 
 struct FontEntry
 {
 	int status;
-	TCHAR* name;
+	wchar_t* name;
 	char* fontPrefix;
 	char* clrPrefix;
 };
@@ -73,31 +73,31 @@ CTooltipNotify::~CTooltipNotify()
 void CTooltipNotify::RegisterFonts()
 {
 	FontIDT fontId = { sizeof(fontId) };
-	_tcsncpy(fontId.group, FONTSERV_GROUP, _countof(fontId.group) - 1);
+	wcsncpy(fontId.group, FONTSERV_GROUP, _countof(fontId.group) - 1);
 	strncpy(fontId.dbSettingsGroup, MODULENAME, _countof(fontId.dbSettingsGroup) - 1);
 	fontId.flags = FIDF_DEFAULTVALID;
 	fontId.deffontsettings.colour = DEF_SETTING_TXTCOLOR;
 	fontId.deffontsettings.size = -MulDiv(DEF_SETTING_FONT_SIZE, DEF_LOGPIXELSY, 72);
 	fontId.deffontsettings.style = DEF_SETTING_FONT_STYLE;
 	fontId.deffontsettings.charset = DEF_SETTING_FONT_CHARSET;
-	_tcsncpy(fontId.deffontsettings.szFace, DEF_SETTING_FONT_FACE, _countof(fontId.deffontsettings.szFace) - 1);
+	wcsncpy(fontId.deffontsettings.szFace, DEF_SETTING_FONT_FACE, _countof(fontId.deffontsettings.szFace) - 1);
 	fontId.order = 0;
-	_tcsncpy(fontId.backgroundGroup, FONTSERV_GROUP, _countof(fontId.backgroundGroup) - 1);
+	wcsncpy(fontId.backgroundGroup, FONTSERV_GROUP, _countof(fontId.backgroundGroup) - 1);
 
 	ColourIDT colorId = { sizeof(colorId) };
-	_tcsncpy(colorId.group, FONTSERV_GROUP, _countof(colorId.group) - 1);
+	wcsncpy(colorId.group, FONTSERV_GROUP, _countof(colorId.group) - 1);
 	strncpy(colorId.dbSettingsGroup, MODULENAME, _countof(colorId.dbSettingsGroup) - 1);
 	colorId.flags = 0;
 	colorId.defcolour = DEF_SETTING_BGCOLOR;
 	colorId.order = 0;
 
 	for (int i = 0; i < _countof(s_fontTable); i++) {
-		_tcsncpy(fontId.name, s_fontTable[i].name, _countof(fontId.name) - 1);
+		wcsncpy(fontId.name, s_fontTable[i].name, _countof(fontId.name) - 1);
 		strncpy(fontId.prefix, s_fontTable[i].fontPrefix, _countof(fontId.prefix) - 1);
-		_tcsncpy(fontId.backgroundName, s_fontTable[i].name, _countof(fontId.backgroundName) - 1);
+		wcsncpy(fontId.backgroundName, s_fontTable[i].name, _countof(fontId.backgroundName) - 1);
 		::FontRegisterT(&fontId);
 
-		_tcsncpy(colorId.name, s_fontTable[i].name, _countof(colorId.name) - 1);
+		wcsncpy(colorId.name, s_fontTable[i].name, _countof(colorId.name) - 1);
 		strncpy(colorId.setting, s_fontTable[i].clrPrefix, _countof(colorId.setting) - 1);
 		::ColourRegisterT(&colorId);
 	}
@@ -105,7 +105,7 @@ void CTooltipNotify::RegisterFonts()
 
 void CTooltipNotify::GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF* bg)
 {
-	TCHAR* fontName = 0;
+	wchar_t* fontName = 0;
 	for (int i = 0; i < _countof(s_fontTable); i++) {
 		if (s_fontTable[i].status == iStatus) {
 			fontName = s_fontTable[i].name;
@@ -117,10 +117,10 @@ void CTooltipNotify::GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF*
 
 	// name and group only
 	FontIDT fontId = { sizeof(fontId), FONTSERV_GROUP, 0 };
-	_tcsncpy(fontId.name, fontName, _countof(fontId.name) - 1);
+	wcsncpy(fontId.name, fontName, _countof(fontId.name) - 1);
 	*text = (COLORREF)::CallService(MS_FONT_GETT, (WPARAM)&fontId, (LPARAM)lf);
 	ColourIDT colorId = { sizeof(colorId), FONTSERV_GROUP, 0 };
-	_tcsncpy(colorId.name, fontName, _countof(colorId.name) - 1);
+	wcsncpy(colorId.name, fontName, _countof(colorId.name) - 1);
 	*bg = (COLORREF)::CallService(MS_COLOUR_GETT, (WPARAM)&colorId, 0);
 }
 
@@ -276,7 +276,7 @@ int CTooltipNotify::InitializeOptions(WPARAM wParam, LPARAM)
 
 CTooltip *CTooltipNotify::BeginNotify(STooltipData *pTooltipData)
 {
-	TCHAR szTooltipText[64] = { 0 };
+	wchar_t szTooltipText[64] = { 0 };
 	MakeTooltipString(pTooltipData->hContact, pTooltipData->iStatus, szTooltipText, 64);
 
 	LOGFONT lf = { 0 };
@@ -536,7 +536,7 @@ BOOL CTooltipNotify::OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case WM_VSCROLL:
 	case WM_HSCROLL:
-		TCHAR str[10];
+		wchar_t str[10];
 		mir_sntprintf(str, L"%d%%", 100 * SendDlgItemMessage(hDlg, IDC_TRANSPARENCY_SLIDER, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemText(hDlg, IDC_TRANSPERC, str);
 		if (wParam != 0x12345678)
@@ -674,7 +674,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 			int proto_count = ListView_GetItemCount(GetDlgItem(hDlg, IDC_PROTOS));
 
 			for (int i = 0; i < proto_count; i++) {
-				TCHAR szProto[64];
+				wchar_t szProto[64];
 
 				ListView_GetItemText(GetDlgItem(hDlg, IDC_PROTOS), i, 0, szProto, _countof(szProto));
 
@@ -796,7 +796,7 @@ BOOL CTooltipNotify::ContactsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 }
 
-TCHAR* CTooltipNotify::StatusToString(int iStatus, TCHAR *szStatus, int iBufSize)
+wchar_t* CTooltipNotify::StatusToString(int iStatus, wchar_t *szStatus, int iBufSize)
 {
 	if (iStatus >= ID_STATUS_OFFLINE && iStatus <= ID_STATUS_OUTTOLUNCH)
 		mir_tstrncpy(szStatus, pcli->pfnGetStatusModeDescription(iStatus, 0), iBufSize);
@@ -822,24 +822,24 @@ TCHAR* CTooltipNotify::StatusToString(int iStatus, TCHAR *szStatus, int iBufSize
 	return szStatus;
 }
 
-TCHAR* CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, TCHAR *szString, int iBufSize)
+wchar_t* CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, wchar_t *szString, int iBufSize)
 {
-	TCHAR szStatus[32];
+	wchar_t szStatus[32];
 	StatusToString(iStatus, szStatus, _countof(szStatus));
 
 	// "proro: user is online"
-	const TCHAR *szFormatString = m_sOptions.bPrefixProto ? L"%s%s%s" : L"%.0s%.0s%s";
-	const TCHAR* szIs = TranslateT("is");
+	const wchar_t *szFormatString = m_sOptions.bPrefixProto ? L"%s%s%s" : L"%.0s%.0s%s";
+	const wchar_t* szIs = TranslateT("is");
 
 	const char* szProto = hContact == 0 ? "Proto" : ::GetContactProto(hContact);
-	const TCHAR* szContactName = ::pcli->pfnGetContactDisplayName(hContact, 0);
+	const wchar_t* szContactName = ::pcli->pfnGetContactDisplayName(hContact, 0);
 
-	memset(szString, 0, iBufSize*sizeof(TCHAR));
+	memset(szString, 0, iBufSize*sizeof(wchar_t));
 
 
 	WCHAR wszProto[32];
 	long lLen = MultiByteToWideChar(CP_ACP, 0, szProto, (int)mir_strlen(szProto), wszProto, _countof(wszProto));
-	wszProto[lLen] = _T('\0');
+	wszProto[lLen] = '\0';
 
 	mir_sntprintf(szString, iBufSize - 1, szFormatString, wszProto, L": ", szContactName);
 

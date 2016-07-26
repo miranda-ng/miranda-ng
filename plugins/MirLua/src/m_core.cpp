@@ -296,7 +296,7 @@ static int core_Parse(lua_State *L)
 
 static int core_GetFullPath(lua_State *L)
 {
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	GetModuleFileName(NULL, path, MAX_PATH);
 	
 	lua_pushstring(L, ptrA(mir_utf8encodeT(path)));

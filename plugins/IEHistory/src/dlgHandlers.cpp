@@ -69,8 +69,8 @@ void LoadName(HWND hWnd)
 		SetWindowText(hWnd, TranslateT("System History"));
 		return;
 	}
-	TCHAR *szOther = GetContactName(data->contact);
-	TCHAR buffer[1024];
+	wchar_t *szOther = GetContactName(data->contact);
+	wchar_t buffer[1024];
 	sntprintf(buffer, 1024, L"'%s' - IEHistory", szOther);
 	SetWindowText(hWnd, buffer);
 	mir_free(szOther);
@@ -227,7 +227,7 @@ int DoLoadEvents(HWND hWnd, HistoryWindowData *data, IEVIEWEVENT ieEvent)
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&ieEvent);
 		ScrollToBottom(hWnd);
 
-		TCHAR buffer[256];
+		wchar_t buffer[256];
 		itot(data->index + 1, buffer, 10);
 		SendDlgItemMessage(hWnd, IDC_STATUSBAR, SB_SETTEXT, 0 | SBT_POPOUT, (LPARAM)buffer);
 		itot(data->index + ieEvent.count, buffer, 10);
@@ -501,7 +501,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, db_get_b(NULL, ModuleName, "ShowLastPageFirst", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, db_get_b(NULL, ModuleName, "UseWorkerThread", 0) ? BST_CHECKED : BST_UNCHECKED);
 
-			TCHAR buffer[40];
+			wchar_t buffer[40];
 			_itot_s(count, buffer, 10);
 			SetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer);
 		}
@@ -539,7 +539,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				if (IsDlgButtonChecked(hWnd, IDC_LOAD_ALL))
 					count = 0;
 				else {
-					TCHAR buffer[1024];
+					wchar_t buffer[1024];
 					GetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer, _countof(buffer));
 					count = _tstol(buffer);
 					count = (count < 0) ? 0 : count;
@@ -636,7 +636,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				data->hLastFoundEvent = GetNeededEvent(data->hLastFoundEvent, 1, direction);
 
 			if (type == SEARCH_TEXT) { //text search
-				TCHAR text[2048]; //TODO buffer overrun
+				wchar_t text[2048]; //TODO buffer overrun
 				GetDlgItemText(hWnd, IDC_SEARCH_TEXT, text, _countof(text));
 				searchResult = SearchHistory(data->contact, data->hLastFoundEvent, text, direction, type);
 			}

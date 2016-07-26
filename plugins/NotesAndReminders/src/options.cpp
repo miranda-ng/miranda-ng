@@ -19,7 +19,7 @@ int g_NoteWidth,g_NoteHeight;
 int g_Transparency;
 char *g_RemindSMS = NULL;
 
-TCHAR *g_lpszAltBrowser = NULL;
+char *g_lpszAltBrowser = NULL;
 
 int g_reminderListGeom[4] = {0};
 int g_reminderListColGeom[2] = { 150, 205 };
@@ -72,32 +72,32 @@ static timeFormats[] =
 
 struct FontOptionsList
 {
-	TCHAR *szDescr;
+	char *szDescr;
 	COLORREF defColour;
-	TCHAR *szDefFace;
+	char *szDefFace;
 	BYTE defStyle;
-	char defSize;
-	TCHAR *szBkgName;
+	int  defSize;
+	char *szBkgName;
 }
 static fontOptionsList[] =
 {
-	{LPGENT("Sticky Note Caption"), RGB(0,0,0), "Small Fonts", 0, 7, LPGENT("Sticky Note Background Color")},
-	//{LPGENT("Sticky Note Caption"), RGB(0,0,0), L"Terminal", 0, 6, LPGENT("Sticky Note Background Color")},
-	//{LPGENT("Sticky Note Caption"), RGB(0,0,0), L"MS Serif", 0, 7, LPGENT("Sticky Note Background Color")},
-	//{LPGENT("Sticky Note Body"), RGB(0,0,0), L"Tahoma", 0, 8, LPGENT("Sticky Note Background Color")},
-	{LPGENT("Sticky Note Body"), RGB(0,0,0), "System", DBFONTF_BOLD, 10, LPGENT("Sticky Note Background Color")},
+	{ LPGEN("Sticky Note Caption"), RGB(0,0,0), "Small Fonts", 0, 7, LPGEN("Sticky Note Background Color")},
+// { LPGEN("Sticky Note Caption"), RGB(0,0,0), L"Terminal", 0, 6, LPGEN("Sticky Note Background Color")},
+// { LPGEN("Sticky Note Caption"), RGB(0,0,0), L"MS Serif", 0, 7, LPGEN("Sticky Note Background Color")},
+// { LPGEN("Sticky Note Body"), RGB(0,0,0), L"Tahoma", 0, 8, LPGEN("Sticky Note Background Color")},
+	{ LPGEN("Sticky Note Body"), RGB(0,0,0), "System", DBFONTF_BOLD, 10, LPGEN("Sticky Note Background Color")},
 };
 
 
 struct ColourOptionsList
 {
-	TCHAR *szName;
+	char *szName;
 	char *szSettingName;
 	COLORREF defColour;
 }
 static colourOptionsList[] =
 {
-	{LPGENT("Sticky Note Background Color"), "BodyColor", NRCDEFAULT_BODYCLR}
+	{ LPGEN("Sticky Note Background Color"), "BodyColor", NRCDEFAULT_BODYCLR}
 };
 
 
@@ -112,7 +112,7 @@ LPCSTR GetTimeFormatStr()
 }
 
 #if defined( _UNICODE )
-static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
+static BYTE MsgDlgGetFontDefaultCharset(const wchar_t* szFont)
 {
   return DEFAULT_CHARSET;
 }
@@ -161,12 +161,12 @@ static int CALLBACK EnumFontFamExProc(const LOGFONT *lpelfe, const TEXTMETRIC *l
 }
 
 // get font charset according to current CP, if available for specified font
-static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
+static BYTE MsgDlgGetFontDefaultCharset(const char *szFont)
 {
 	LOGFONT lf = {0};
 	int found = 0;
 
-	mir_tstrcpy(lf.lfFaceName, szFont);
+	mir_strcpy(lf.lfFaceName, szFont);
 	lf.lfCharSet = MsgDlgGetCPDefaultCharset();
 
 	// check if the font supports specified charset
@@ -227,11 +227,11 @@ void RegisterFontServiceFonts()
 {
 	char szTemp[100];
 
-	FontIDT fontid = {0};
+	FontID fontid = { 0 };
 	fontid.cbSize = sizeof(FontIDT);
 
-    _tcsncpy(fontid.group, _T(SECTIONNAME), _countof(fontid.group));
-    _tcsncpy(fontid.backgroundGroup, _T(SECTIONNAME), _countof(fontid.backgroundGroup) );
+	strncpy(fontid.group, _T(SECTIONNAME), _countof(fontid.group));
+	strncpy(fontid.backgroundGroup, _T(SECTIONNAME), _countof(fontid.backgroundGroup));
 	strncpy(fontid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 
@@ -239,12 +239,11 @@ void RegisterFontServiceFonts()
 	int nFontScale = GetDeviceCaps(hDC, LOGPIXELSY);
 	ReleaseDC(NULL, hDC);
 
-	for (int i = 0; i < _countof(fontOptionsList); i++)
-	{
+	for (int i = 0; i < _countof(fontOptionsList); i++) {
 		fontid.order = i;
 		mir_snprintf(szTemp, "Font%d", i);
 		strncpy(fontid.prefix, szTemp, _countof(fontid.prefix));
-		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
+		strncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 
 		fontid.deffontsettings.size = (char)-MulDiv(fontOptionsList[i].defSize, nFontScale, 72);
@@ -252,23 +251,22 @@ void RegisterFontServiceFonts()
 
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
-		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
-		_tcsncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, _countof(fontid.backgroundName));
+		strncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
+		strncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, _countof(fontid.backgroundName));
 
 		FontRegisterT(&fontid);
 	}
 
-	ColourIDT colorid = {0};
+	ColourIDT colorid = { 0 };
 	colorid.cbSize = sizeof(ColourIDT);
 
-	_tcsncpy(colorid.group, _T(SECTIONNAME), _countof(colorid.group));
+	strncpy(colorid.group, _T(SECTIONNAME), _countof(colorid.group));
 	strncpy(colorid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
 	colorid.flags = 0;
 
-	for (int i = 0; i < _countof(colourOptionsList); i++)
-	{
+	for (int i = 0; i < _countof(colourOptionsList); i++) {
 		colorid.order = i;
-		_tcsncpy(colorid.name, colourOptionsList[i].szName, _countof(colorid.name));
+		strncpy(colorid.name, colourOptionsList[i].szName, _countof(colorid.name));
 		colorid.defcolour = colourOptionsList[i].defColour;
 		strncpy(colorid.setting, colourOptionsList[i].szSettingName, _countof(colorid.setting));
 
@@ -281,101 +279,94 @@ void RegisterFontServiceFonts()
 
 void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
 {
-    FontIDT fontid = {0};
+	FontIDT fontid = { 0 };
 
-    fontid.cbSize = sizeof(fontid);
-    _tcsncpy(fontid.group, LPGENT(SECTIONNAME), _countof(fontid.group));
-    _tcsncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
+	fontid.cbSize = sizeof(fontid);
+	strncpy(fontid.group, LPGEN(SECTIONNAME), _countof(fontid.group));
+	strncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
 
-    COLORREF col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf);
-
+	COLORREF col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf);
 	if (colour)
-	{
 		*colour = col;
-	}
 }
 
 
-static void TrimString(TCHAR *s)
+static void TrimString(char *s)
 {
 	if (!s || !*s)
 		return;
 
-	TCHAR *start = s;
-	UINT n = UINT(mir_tstrlen(s) - 1);
+	char *start = s;
+	UINT n = UINT(mir_strlen(s) - 1);
 
-	TCHAR *end = s + n;
+	char *end = s + n;
 
-	if (!_istspace(*start) && !_istspace(*end))
-	{
+	if (!iswspace(*start) && !iswspace(*end)) {
 		// nothing to trim
 		return;
 	}
 
 	// scan past leading spaces
-	while (*start && _istspace(*start)) start++;
+	while (*start && iswspace(*start)) start++;
 
-	if (!*start)
-	{
+	if (!*start) {
 		// empty string
 		*s = 0;
 		return;
 	}
 
 	// trim trailing spaces
-	while ( _istspace(*end) ) end--;
+	while (iswspace(*end)) end--;
 	end[1] = 0;
 
-	if (start > s)
-	{
+	if (start > s) {
 		// remove leading spaces
-		memmove(s, start, ((UINT)(end-start)+2)*sizeof(TCHAR));
+		memmove(s, start, ((UINT)(end - start) + 2) * sizeof(wchar_t));
 	}
 }
 
 
-INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptions(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	BOOL LB;
 	WORD SzT;
 	void *P;
 	int i;
 
-	switch (message)
-	{
-	case WM_INITDIALOG: 
+	switch (message) {
+	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hdlg);
-			SendDlgItemMessage(hdlg,IDC_SLIDER_TRANSPARENCY,TBM_SETRANGE,TRUE,MAKELONG(0,255-MIN_ALPHA));
-			SendDlgItemMessage(hdlg,IDC_SLIDER_TRANSPARENCY,TBM_SETPOS,TRUE,255-g_Transparency);
-			
+			SendDlgItemMessage(hdlg, IDC_SLIDER_TRANSPARENCY, TBM_SETRANGE, TRUE, MAKELONG(0, 255 - MIN_ALPHA));
+			SendDlgItemMessage(hdlg, IDC_SLIDER_TRANSPARENCY, TBM_SETPOS, TRUE, 255 - g_Transparency);
+
 			CheckDlgButton(hdlg, IDC_CHECK_HIDENOTES, !g_ShowNotesAtStart ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_CHECK_MENUS, g_AddContListMI ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_CHECK_BUTTONS, g_ShowNoteButtons ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_CHECK_SCROLLBARS, g_ShowScrollbar ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_CHECK_CLOSE, g_CloseAfterAddReminder ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hdlg, IDC_CHECK_MSI, !g_UseDefaultPlaySound ? BST_CHECKED : BST_UNCHECKED);
-			SetDlgItemInt(hdlg,IDC_EDIT_WIDTH,g_NoteWidth,FALSE);
-			SetDlgItemInt(hdlg,IDC_EDIT_HEIGHT,g_NoteHeight,FALSE);
+			SetDlgItemInt(hdlg, IDC_EDIT_WIDTH, g_NoteWidth, FALSE);
+			SetDlgItemInt(hdlg, IDC_EDIT_HEIGHT, g_NoteHeight, FALSE);
 
-			SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_RESETCONTENT,0,0);
-			SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_RESETCONTENT,0,0);
-			for (i=0; i<_countof(dateFormats); i++)
-				SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_ADDSTRING,0,(LPARAM)dateFormats[i].lpszUI);
-			for (i=0; i<_countof(timeFormats); i++)
-				SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_ADDSTRING,0,(LPARAM)timeFormats[i].lpszUI);
-			SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_ADDSTRING,0,(LPARAM)Translate("None"));
-			SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_ADDSTRING,0,(LPARAM)Translate("None"));
+			SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_RESETCONTENT, 0, 0);
+			SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_RESETCONTENT, 0, 0);
+			for (i = 0; i < _countof(dateFormats); i++)
+				SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_ADDSTRING, 0, (LPARAM)dateFormats[i].lpszUI);
+			for (i = 0; i < _countof(timeFormats); i++)
+				SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_ADDSTRING, 0, (LPARAM)timeFormats[i].lpszUI);
+			SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_ADDSTRING, 0, (LPARAM)Translate("None"));
+			SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_ADDSTRING, 0, (LPARAM)Translate("None"));
 
-			SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_SETCURSEL,(WPARAM)(g_NoteTitleDate ? g_NoteTitleDate-1 : SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_GETCOUNT,0,0)-1),0);
-			SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_SETCURSEL,(WPARAM)(g_NoteTitleTime ? g_NoteTitleTime-1 : SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_GETCOUNT,0,0)-1),0);
+			SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_SETCURSEL, (WPARAM)(g_NoteTitleDate ? g_NoteTitleDate - 1 : SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_GETCOUNT, 0, 0) - 1), 0);
+			SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_SETCURSEL, (WPARAM)(g_NoteTitleTime ? g_NoteTitleTime - 1 : SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_GETCOUNT, 0, 0) - 1), 0);
 
-			if (g_RemindSMS) 
-				SetDlgItemText(hdlg,IDC_EDIT_EMAILSMS,g_RemindSMS);
-			else 
-				SetDlgItemText(hdlg,IDC_EDIT_EMAILSMS,"");
+			if (g_RemindSMS)
+				SetDlgItemText(hdlg, IDC_EDIT_EMAILSMS, g_RemindSMS);
+			else
+				SetDlgItemText(hdlg, IDC_EDIT_EMAILSMS, "");
 
-			SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,g_lpszAltBrowser ? g_lpszAltBrowser : "");
+			SetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser ? g_lpszAltBrowser : "");
 			return TRUE;
 		}
 	case WM_HSCROLL:
@@ -384,99 +375,90 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 			return TRUE;
 		}
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY)
-		{
-			g_ShowNotesAtStart = !(BOOL)IsDlgButtonChecked(hdlg,IDC_CHECK_HIDENOTES);
-			g_ShowNoteButtons = (BOOL)IsDlgButtonChecked(hdlg,IDC_CHECK_BUTTONS);
-			g_ShowScrollbar = (BOOL)IsDlgButtonChecked(hdlg,IDC_CHECK_SCROLLBARS);
-			g_AddContListMI = (BOOL)IsDlgButtonChecked(hdlg,IDC_CHECK_MENUS);
-			g_NoteWidth = GetDlgItemInt(hdlg,IDC_EDIT_WIDTH,&LB,FALSE);
-			g_NoteHeight = GetDlgItemInt(hdlg,IDC_EDIT_HEIGHT,&LB,FALSE);
-			g_Transparency = 255-SendDlgItemMessage(hdlg,IDC_SLIDER_TRANSPARENCY,TBM_GETPOS,0,0);
-			g_CloseAfterAddReminder = (BOOL)IsDlgButtonChecked(hdlg,IDC_CHECK_CLOSE);
-			g_UseDefaultPlaySound = !(BOOL)IsDlgButtonChecked(hdlg,IDC_CHECK_MSI);
-			g_NoteTitleDate = (SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_GETCURSEL,0,0) + 1) % SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_GETCOUNT,0,0);
-			g_NoteTitleTime = (SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_GETCURSEL,0,0) + 1) % SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_GETCOUNT,0,0);
-			if (g_NoteWidth < 179)
-			{
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			g_ShowNotesAtStart = !(BOOL)IsDlgButtonChecked(hdlg, IDC_CHECK_HIDENOTES);
+			g_ShowNoteButtons = (BOOL)IsDlgButtonChecked(hdlg, IDC_CHECK_BUTTONS);
+			g_ShowScrollbar = (BOOL)IsDlgButtonChecked(hdlg, IDC_CHECK_SCROLLBARS);
+			g_AddContListMI = (BOOL)IsDlgButtonChecked(hdlg, IDC_CHECK_MENUS);
+			g_NoteWidth = GetDlgItemInt(hdlg, IDC_EDIT_WIDTH, &LB, FALSE);
+			g_NoteHeight = GetDlgItemInt(hdlg, IDC_EDIT_HEIGHT, &LB, FALSE);
+			g_Transparency = 255 - SendDlgItemMessage(hdlg, IDC_SLIDER_TRANSPARENCY, TBM_GETPOS, 0, 0);
+			g_CloseAfterAddReminder = (BOOL)IsDlgButtonChecked(hdlg, IDC_CHECK_CLOSE);
+			g_UseDefaultPlaySound = !(BOOL)IsDlgButtonChecked(hdlg, IDC_CHECK_MSI);
+			g_NoteTitleDate = (SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_GETCURSEL, 0, 0) + 1) % SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_GETCOUNT, 0, 0);
+			g_NoteTitleTime = (SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_GETCURSEL, 0, 0) + 1) % SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_GETCOUNT, 0, 0);
+			if (g_NoteWidth < 179) {
 				g_NoteWidth = 179;
-				SetDlgItemInt(hdlg,IDC_EDIT_WIDTH,g_NoteWidth,FALSE);
+				SetDlgItemInt(hdlg, IDC_EDIT_WIDTH, g_NoteWidth, FALSE);
 			}
-			if (g_NoteHeight < 35) 
-			{
+			if (g_NoteHeight < 35) {
 				g_NoteHeight = 35;
-				SetDlgItemInt(hdlg,IDC_EDIT_HEIGHT,g_NoteHeight,FALSE);
+				SetDlgItemInt(hdlg, IDC_EDIT_HEIGHT, g_NoteHeight, FALSE);
 			}
-			SzT = (WORD)SendDlgItemMessage(hdlg,IDC_EDIT_EMAILSMS,WM_GETTEXTLENGTH,0,0);
-			if (SzT != 0) 
-			{
+			SzT = (WORD)SendDlgItemMessage(hdlg, IDC_EDIT_EMAILSMS, WM_GETTEXTLENGTH, 0, 0);
+			if (SzT != 0) {
 				g_RemindSMS = (char*)realloc(g_RemindSMS, SzT + 1);
 				GetDlgItemText(hdlg, IDC_EDIT_EMAILSMS, g_RemindSMS, SzT + 1);
 			}
 			P = g_RemindSMS;
-			db_set_blob(0,MODULENAME,"RemindEmail",P,SzT);
+			db_set_blob(0, MODULENAME, "RemindEmail", P, SzT);
 
-			SzT = (WORD)SendDlgItemMessage(hdlg,IDC_EDIT_ALTBROWSER,WM_GETTEXTLENGTH,0,0);
-			if (SzT != 0) 
-			{
-				g_lpszAltBrowser = (TCHAR*)mir_realloc(g_lpszAltBrowser, SzT + 1);
+			SzT = (WORD)SendDlgItemMessage(hdlg, IDC_EDIT_ALTBROWSER, WM_GETTEXTLENGTH, 0, 0);
+			if (SzT != 0) {
+				g_lpszAltBrowser = (char*)mir_realloc(g_lpszAltBrowser, SzT + 1);
 				GetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser, SzT + 1);
 				TrimString(g_lpszAltBrowser);
-				if (!*g_lpszAltBrowser)
-				{
+				if (!*g_lpszAltBrowser) {
 					mir_free(g_lpszAltBrowser);
 					g_lpszAltBrowser = NULL;
 				}
 			}
-			else if (g_lpszAltBrowser)
-			{
+			else if (g_lpszAltBrowser) {
 				mir_free(g_lpszAltBrowser);
 				g_lpszAltBrowser = NULL;
 			}
-			SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,g_lpszAltBrowser ? g_lpszAltBrowser : "");
+			SetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser ? g_lpszAltBrowser : "");
 			if (g_lpszAltBrowser)
-				db_set_s(0,MODULENAME,"AltBrowser",g_lpszAltBrowser);
+				db_set_s(0, MODULENAME, "AltBrowser", g_lpszAltBrowser);
 			else
-				db_unset(0,MODULENAME,"AltBrowser");
+				db_unset(0, MODULENAME, "AltBrowser");
 
-			db_set_dw(0,MODULENAME,"ShowNotesAtStart",g_ShowNotesAtStart);
-			db_set_dw(0,MODULENAME,"ShowNoteButtons",g_ShowNoteButtons);
-			db_set_dw(0,MODULENAME,"ShowScrollbar",g_ShowScrollbar);
-			db_set_dw(0,MODULENAME,"AddContactMenuItems",g_AddContListMI);
-			db_set_dw(0,MODULENAME,"NoteWidth",g_NoteWidth);
-			db_set_dw(0,MODULENAME,"NoteHeight",g_NoteHeight);
-			db_set_dw(0,MODULENAME,"Transparency",g_Transparency);
-			db_set_dw(0,MODULENAME,"NoteTitleDate",g_NoteTitleDate);
-			db_set_dw(0,MODULENAME,"NoteTitleTime",g_NoteTitleTime);
-			db_set_dw(0,MODULENAME,"CloseAfterAddReminder",g_CloseAfterAddReminder);
-			db_set_dw(0,MODULENAME,"UseMCI",!g_UseDefaultPlaySound);
+			db_set_dw(0, MODULENAME, "ShowNotesAtStart", g_ShowNotesAtStart);
+			db_set_dw(0, MODULENAME, "ShowNoteButtons", g_ShowNoteButtons);
+			db_set_dw(0, MODULENAME, "ShowScrollbar", g_ShowScrollbar);
+			db_set_dw(0, MODULENAME, "AddContactMenuItems", g_AddContListMI);
+			db_set_dw(0, MODULENAME, "NoteWidth", g_NoteWidth);
+			db_set_dw(0, MODULENAME, "NoteHeight", g_NoteHeight);
+			db_set_dw(0, MODULENAME, "Transparency", g_Transparency);
+			db_set_dw(0, MODULENAME, "NoteTitleDate", g_NoteTitleDate);
+			db_set_dw(0, MODULENAME, "NoteTitleTime", g_NoteTitleTime);
+			db_set_dw(0, MODULENAME, "CloseAfterAddReminder", g_CloseAfterAddReminder);
+			db_set_dw(0, MODULENAME, "UseMCI", !g_UseDefaultPlaySound);
 			SaveNotes();
 			LoadNotes(FALSE);
 			return TRUE;
 		}
 		break;
 	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_BTN_BROWSEBROWSER:
 			{
-				TCHAR s[MAX_PATH];
+				char s[MAX_PATH];
 
-				OPENFILENAME ofn = {0};
+				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hdlg;
-				ofn.lpstrFilter = TranslateT("Executable Files\0*.exe\0All Files\0*.*\0\0");
+				ofn.lpstrFilter = Translate("Executable Files\0*.exe\0All Files\0*.*\0\0");
 				ofn.lpstrFile = s;
 				ofn.nMaxFile = _countof(s);
-				ofn.lpstrTitle = TranslateT("Select Executable");
+				ofn.lpstrTitle = Translate("Select Executable");
 				ofn.lpstrInitialDir = ".";
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_ENABLESIZING | OFN_DONTADDTORECENT;
 
 				GetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, s, ofn.nMaxFile);
 
-				if ( GetOpenFileName(&ofn) )
-				{
-					SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,s);
+				if (GetOpenFileName(&ofn)) {
+					SetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, s);
 					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				}
 			}
@@ -485,8 +467,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 			{
 				SAFE_FREE((void**)&g_RemindSMS);
 				SetDlgItemText(hdlg, IDC_EDIT_EMAILSMS, "");
-				if (g_lpszAltBrowser)
-				{
+				if (g_lpszAltBrowser) {
 					mir_free(g_lpszAltBrowser);
 					g_lpszAltBrowser = NULL;
 				}
@@ -505,16 +486,16 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				CheckDlgButton(hdlg, IDC_CHECK_BUTTONS, g_ShowNoteButtons ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hdlg, IDC_CHECK_CLOSE, g_CloseAfterAddReminder ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hdlg, IDC_CHECK_MSI, !g_UseDefaultPlaySound ? BST_CHECKED : BST_UNCHECKED);
-				SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_SETCURSEL,(WPARAM)(g_NoteTitleDate-1),0);
-				SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_SETCURSEL,(WPARAM)(g_NoteTitleTime-1),0);
+				SendDlgItemMessage(hdlg, IDC_COMBODATE, CB_SETCURSEL, (WPARAM)(g_NoteTitleDate - 1), 0);
+				SendDlgItemMessage(hdlg, IDC_COMBOTIME, CB_SETCURSEL, (WPARAM)(g_NoteTitleTime - 1), 0);
 				g_NoteWidth = 179;
 				g_NoteHeight = 35;
-				SetDlgItemInt(hdlg,IDC_EDIT_WIDTH,g_NoteWidth,FALSE);
-				SetDlgItemInt(hdlg,IDC_EDIT_HEIGHT,g_NoteHeight,FALSE);
+				SetDlgItemInt(hdlg, IDC_EDIT_WIDTH, g_NoteWidth, FALSE);
+				SetDlgItemInt(hdlg, IDC_EDIT_HEIGHT, g_NoteHeight, FALSE);
 				g_Transparency = 255;
-				SendDlgItemMessage(hdlg,IDC_SLIDER_TRANSPARENCY,TBM_SETPOS,TRUE,0);
+				SendDlgItemMessage(hdlg, IDC_SLIDER_TRANSPARENCY, TBM_SETPOS, TRUE, 0);
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0); // JK optim
-				return TRUE;					
+				return TRUE;
 			}
 		case IDC_EDIT_ALTBROWSER:
 		case IDC_EDIT_EMAILSMS:
@@ -549,34 +530,33 @@ void InitSettings(void)
 
 	Sz1 = MAX_PATH; P = NULL;
 	ReadSettingBlob(0, MODULENAME, "RemindEmail", (WORD*)&Sz1, &P);
-	if (!(Sz1 && P)) 
+	if (!(Sz1 && P))
 		g_RemindSMS = NULL;
-	else 
-	{
+	else {
 		g_RemindSMS = (char*)malloc(Sz1 + 1);
 		memcpy(g_RemindSMS, P, Sz1);
 		g_RemindSMS[Sz1] = 0;
 		FreeSettingBlob(Sz1, P);
 	}
 
-	g_lpszAltBrowser = db_get_sa(0,MODULENAME,"AltBrowser");
+	g_lpszAltBrowser = db_get_sa(0, MODULENAME, "AltBrowser");
 
-	g_ShowNotesAtStart = (BOOL)db_get_dw(0,MODULENAME,"ShowNotesAtStart",1);
-	g_ShowNoteButtons = (BOOL)db_get_dw(0,MODULENAME,"ShowNoteButtons",1);
-	g_ShowScrollbar = (BOOL)db_get_dw(0,MODULENAME,"ShowScrollbar",1);
-	g_AddContListMI = (BOOL)db_get_dw(0,MODULENAME,"AddContactMenuItems",1);
-	g_NoteWidth = db_get_dw(0,MODULENAME,"NoteWidth",179);
-	g_NoteHeight = db_get_dw(0,MODULENAME,"NoteHeight",50);
-	g_Transparency = db_get_dw(0,MODULENAME,"Transparency",255);
-	g_NoteTitleDate = db_get_dw(0,MODULENAME,"NoteTitleDate",1);
-	g_NoteTitleTime = db_get_dw(0,MODULENAME,"NoteTitleTime",1);
-	g_CloseAfterAddReminder = (BOOL)db_get_dw(0,MODULENAME,"CloseAfterAddReminder",1);
-	g_UseDefaultPlaySound = !(BOOL)db_get_dw(0,MODULENAME,"UseMCI",1);
+	g_ShowNotesAtStart = (BOOL)db_get_dw(0, MODULENAME, "ShowNotesAtStart", 1);
+	g_ShowNoteButtons = (BOOL)db_get_dw(0, MODULENAME, "ShowNoteButtons", 1);
+	g_ShowScrollbar = (BOOL)db_get_dw(0, MODULENAME, "ShowScrollbar", 1);
+	g_AddContListMI = (BOOL)db_get_dw(0, MODULENAME, "AddContactMenuItems", 1);
+	g_NoteWidth = db_get_dw(0, MODULENAME, "NoteWidth", 179);
+	g_NoteHeight = db_get_dw(0, MODULENAME, "NoteHeight", 50);
+	g_Transparency = db_get_dw(0, MODULENAME, "Transparency", 255);
+	g_NoteTitleDate = db_get_dw(0, MODULENAME, "NoteTitleDate", 1);
+	g_NoteTitleTime = db_get_dw(0, MODULENAME, "NoteTitleTime", 1);
+	g_CloseAfterAddReminder = (BOOL)db_get_dw(0, MODULENAME, "CloseAfterAddReminder", 1);
+	g_UseDefaultPlaySound = !(BOOL)db_get_dw(0, MODULENAME, "UseMCI", 1);
 
-	ReadSettingIntArray(0,MODULENAME,"ReminderListGeom",g_reminderListGeom,_countof(g_reminderListGeom));
-	ReadSettingIntArray(0,MODULENAME,"ReminderListColGeom",g_reminderListColGeom,_countof(g_reminderListColGeom));
-	ReadSettingIntArray(0,MODULENAME,"NotesListGeom",g_notesListGeom,_countof(g_notesListGeom));
-	ReadSettingIntArray(0,MODULENAME,"NotesListColGeom",g_notesListColGeom,_countof(g_notesListColGeom));
+	ReadSettingIntArray(0, MODULENAME, "ReminderListGeom", g_reminderListGeom, _countof(g_reminderListGeom));
+	ReadSettingIntArray(0, MODULENAME, "ReminderListColGeom", g_reminderListColGeom, _countof(g_reminderListColGeom));
+	ReadSettingIntArray(0, MODULENAME, "NotesListGeom", g_notesListGeom, _countof(g_notesListGeom));
+	ReadSettingIntArray(0, MODULENAME, "NotesListColGeom", g_notesListColGeom, _countof(g_notesListColGeom));
 
 	BodyColor = db_get_dw(NULL, MODULENAME, colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
 
@@ -592,19 +572,16 @@ void InitSettings(void)
 
 void TermSettings(void)
 {
-	if (g_reminderListGeom[2] > 0 && g_reminderListGeom[3] > 0)
-	{
-		WriteSettingIntArray(0,MODULENAME,"ReminderListGeom",g_reminderListGeom,_countof(g_reminderListGeom));
-		WriteSettingIntArray(0,MODULENAME,"ReminderListColGeom",g_reminderListColGeom,_countof(g_reminderListColGeom));
+	if (g_reminderListGeom[2] > 0 && g_reminderListGeom[3] > 0) {
+		WriteSettingIntArray(0, MODULENAME, "ReminderListGeom", g_reminderListGeom, _countof(g_reminderListGeom));
+		WriteSettingIntArray(0, MODULENAME, "ReminderListColGeom", g_reminderListColGeom, _countof(g_reminderListColGeom));
 	}
-	if (g_notesListGeom[2] > 0 && g_notesListGeom[3] > 0)
-	{
-		WriteSettingIntArray(0,MODULENAME,"NotesListGeom",g_notesListGeom,_countof(g_notesListGeom));
-		WriteSettingIntArray(0,MODULENAME,"NotesListColGeom",g_notesListColGeom,_countof(g_notesListColGeom));
+	if (g_notesListGeom[2] > 0 && g_notesListGeom[3] > 0) {
+		WriteSettingIntArray(0, MODULENAME, "NotesListGeom", g_notesListGeom, _countof(g_notesListGeom));
+		WriteSettingIntArray(0, MODULENAME, "NotesListColGeom", g_notesListColGeom, _countof(g_notesListColGeom));
 	}
 
-	if (g_lpszAltBrowser)
-	{
+	if (g_lpszAltBrowser) {
 		mir_free(g_lpszAltBrowser);
 		g_lpszAltBrowser = NULL;
 	}

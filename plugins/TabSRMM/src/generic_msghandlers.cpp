@@ -43,13 +43,13 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
 	}
 	else if (dat) {
-		TCHAR szFilter[MAX_PATH], szFilename[MAX_PATH];
+		wchar_t szFilter[MAX_PATH], szFilename[MAX_PATH];
 		mir_sntprintf(szFilter, L"%s%c*.rtf%c%c", TranslateT("Rich Edit file"), 0, 0, 0);
 		mir_sntprintf(szFilename, L"%s.rtf", dat->cache->getNick());
 
 		Utils::sanitizeFilename(szFilename);
 
-		TCHAR szInitialDir[MAX_PATH + 2];
+		wchar_t szInitialDir[MAX_PATH + 2];
 		mir_sntprintf(szInitialDir, L"%s%s\\", M.getDataPath(), L"\\Saved message logs");
 		CreateDirectoryTreeT(szInitialDir);
 
@@ -535,7 +535,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		else {
 			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
 
-			TCHAR *buf = (TCHAR*)mir_alloc((iLen + 2) * sizeof(TCHAR));
+			wchar_t *buf = (wchar_t*)mir_alloc((iLen + 2) * sizeof(wchar_t));
 			GetDlgItemText(hwndDlg, IDC_MESSAGE, buf, iLen + 1);
 			db_set_ts(dat->hContact, "UserInfo", "MyNotes", buf);
 			SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
@@ -612,7 +612,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			WORD v[4];
 			CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)&v);
 
-			TCHAR tStr[80];
+			wchar_t tStr[80];
 			mir_sntprintf(tStr, L"%s %d.%d.%d.%d [build %d]",
 				TranslateT("Version"), __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM, v[3]);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tStr);
@@ -1000,9 +1000,9 @@ void TSAPI DM_LoadLocale(TWindowData *dat)
 	if (!db_get_ts(dat->hContact, SRMSGMOD_T, "locale", &dbv))
 		db_free(&dbv);
 	else {
-		TCHAR szKLName[KL_NAMELENGTH + 1];
+		wchar_t szKLName[KL_NAMELENGTH + 1];
 		if (!PluginConfig.m_bDontUseDefaultKbd) {
-			TCHAR	szBuf[20];
+			wchar_t	szBuf[20];
 			GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_ILANGUAGE, szBuf, 20);
 			mir_sntprintf(szKLName, L"0000%s", szBuf);
 			db_set_ts(dat->hContact, SRMSGMOD_T, "locale", szKLName);
@@ -1039,7 +1039,7 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 	if (dat->pContainer->hwndStatus == 0 || dat->pContainer->hwndActive != dat->hwnd)
 		return;
 
-	TCHAR szBuf[100];
+	wchar_t szBuf[100];
 	if (dat->bShowTyping) {
 		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		mir_sntprintf(szBuf, TranslateT("%s is typing a message..."), dat->cache->getNick());
@@ -1055,7 +1055,7 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 		if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR)
 			mir_sntprintf(szBuf, L"UID: %s", dat->cache->getUIN());
 		else if (dat->lastMessage) {
-			TCHAR date[64], time[64];
+			wchar_t date[64], time[64];
 			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"d", date, _countof(date), 0);
 			if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR && mir_tstrlen(date) > 6)
 				date[mir_tstrlen(date) - 5] = 0;
@@ -1077,7 +1077,7 @@ void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM, LPARAM lParam)
 		return;
 
 	if (PluginConfig.m_bAutoLocaleSupport && dat->hContact && dat->pContainer->hwndActive == dat->hwnd) {
-		TCHAR szKLName[KL_NAMELENGTH + 1];
+		wchar_t szKLName[KL_NAMELENGTH + 1];
 		if ((HKL)lParam != dat->hkl) {
 			dat->hkl = (HKL)lParam;
 			ActivateKeyboardLayout(dat->hkl, 0);
@@ -1591,7 +1591,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 			}
 			dat->hQueuedEvents[dat->iNextQueuedEvent++] = hDbEvent;
 
-			TCHAR szBuf[100];
+			wchar_t szBuf[100];
 			mir_sntprintf(szBuf, TranslateT("Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)"),
 				dat->iNextQueuedEvent);
 			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, szBuf);
@@ -1704,7 +1704,7 @@ void TSAPI DM_HandleAutoSizeRequest(TWindowData *dat, REQRESIZE* rr)
 
 void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 {
-	TCHAR newtitle[128], newcontactname[128];
+	wchar_t newtitle[128], newcontactname[128];
 	DWORD dwOldIdle = dat->idle;
 	const char *szActProto = 0;
 
@@ -1722,7 +1722,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 	TCITEM item = { 0 };
 
 	if (dat->hContact) {
-		const TCHAR *szNick = dat->cache->getNick();
+		const wchar_t *szNick = dat->cache->getNick();
 
 		if (dat->szProto) {
 			szActProto = dat->cache->getProto();
@@ -1732,13 +1732,13 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 			dat->dwFlagsEx = dat->idle ? dat->dwFlagsEx | MWF_SHOW_ISIDLE : dat->dwFlagsEx & ~MWF_SHOW_ISIDLE;
 
 			dat->wStatus = dat->cache->getStatus();
-			_tcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
+			wcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
 
 			if (lParam != 0) {
 				if (PluginConfig.m_bCutContactNameOnTabs)
 					CutContactName(szNick, newcontactname, _countof(newcontactname));
 				else
-					_tcsncpy_s(newcontactname, szNick, _TRUNCATE);
+					wcsncpy_s(newcontactname, szNick, _TRUNCATE);
 
 				Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
 
@@ -1746,15 +1746,15 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 					if (PluginConfig.m_bStatusOnTabs)
 						mir_sntprintf(newtitle, L"%s (%s)", newcontactname, dat->szStatus);
 					else
-						_tcsncpy_s(newtitle, newcontactname, _TRUNCATE);
+						wcsncpy_s(newtitle, newcontactname, _TRUNCATE);
 				}
-				else _tcsncpy_s(newtitle, L"Forward", _TRUNCATE);
+				else wcsncpy_s(newtitle, L"Forward", _TRUNCATE);
 
 				item.mask |= TCIF_TEXT;
 			}
 			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 
-			TCHAR fulluin[256];
+			wchar_t fulluin[256];
 			if (dat->bIsMeta)
 				mir_sntprintf(fulluin,
 					TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
@@ -1767,12 +1767,12 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 			SendDlgItemMessage(hwndDlg, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
 		}
 	}
-	else _tcsncpy_s(newtitle, L"Message Session", _TRUNCATE);
+	else wcsncpy_s(newtitle, L"Message Session", _TRUNCATE);
 
 	if (dat->idle != dwOldIdle || lParam != 0) {
 		if (item.mask & TCIF_TEXT) {
 			item.pszText = newtitle;
-			_tcsncpy(dat->newtitle, newtitle, _countof(dat->newtitle));
+			wcsncpy(dat->newtitle, newtitle, _countof(dat->newtitle));
 			dat->newtitle[127] = 0;
 			if (dat->pWnd)
 				dat->pWnd->updateTitle(dat->cache->getNick());

@@ -77,7 +77,7 @@ static int CompareProtos(const CYahooProto* p1, const CYahooProto* p2)
 
 LIST<CYahooProto> g_instances(1, CompareProtos);
 
-static CYahooProto* yahooProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
+static CYahooProto* yahooProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
 {
 	CYahooProto* ppro = new CYahooProto(pszProtoName, tszUserName);
 

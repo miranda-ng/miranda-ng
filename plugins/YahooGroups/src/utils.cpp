@@ -34,14 +34,14 @@ int Info(char *title, char *format, ...)
 	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);		
 }
 
-int MyPUShowMessage(TCHAR *lpzText, BYTE kind)
+int MyPUShowMessage(wchar_t *lpzText, BYTE kind)
 {
 	if (ServiceExists(MS_POPUP_SHOWMESSAGE))
 	{
 		return PUShowMessageT(lpzText, kind);
 	}
 	else{
-		TCHAR *title = (kind == SM_NOTIFY) ? TranslateT("Notify") : TranslateT("Warning");
+		wchar_t *title = (kind == SM_NOTIFY) ? TranslateT("Notify") : TranslateT("Warning");
 		
 		return MessageBox(NULL, lpzText, title, MB_OK | (kind == SM_NOTIFY) ? MB_ICONINFORMATION : MB_ICONEXCLAMATION);
 	}
@@ -158,10 +158,10 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 	return GetStringFromDatabase(NULL, ModuleName, szSettingName, szError, szResult, count);
 }
 
-TCHAR* GetContactName(MCONTACT hContact, char *szProto)
+wchar_t* GetContactName(MCONTACT hContact, char *szProto)
 {
 	ptrT id(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
-	return (id != NULL) ? _tcsdup(id) : NULL;
+	return (id != NULL) ? wcsdup(id) : NULL;
 }
 
 void GetContactProtocol(MCONTACT hContact, char *szProto, int size)
@@ -169,7 +169,7 @@ void GetContactProtocol(MCONTACT hContact, char *szProto, int size)
 	GetStringFromDatabase(hContact, "Protocol", "p", NULL, szProto, size);
 }
 
-TCHAR *GetContactID(MCONTACT hContact)
+wchar_t *GetContactID(MCONTACT hContact)
 {
 	char protocol[256];
 	GetContactProtocol(hContact, protocol, sizeof(protocol));
@@ -177,18 +177,18 @@ TCHAR *GetContactID(MCONTACT hContact)
 	return GetContactID(hContact, protocol);
 }
 
-TCHAR* GetContactID(MCONTACT hContact, char *szProto)
+wchar_t* GetContactID(MCONTACT hContact, char *szProto)
 {
 	ptrT id(Contact_GetInfo(CNF_DISPLAY, hContact, szProto));
-	return (id != NULL) ? _tcsdup(id) : NULL;
+	return (id != NULL) ? wcsdup(id) : NULL;
 }
 
-MCONTACT GetContactFromID(TCHAR *szID, char *szProto)
+MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 {
-	TCHAR *szHandle;
-	TCHAR dispName[1024];
+	wchar_t *szHandle;
+	wchar_t dispName[1024];
 	char cProtocol[256];
-	TCHAR *tmp;
+	wchar_t *tmp;
 
 	int found = 0;
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -196,7 +196,7 @@ MCONTACT GetContactFromID(TCHAR *szID, char *szProto)
 		szHandle = GetContactID(hContact, cProtocol);
 		
 		tmp = pcli->pfnGetContactDisplayName(hContact, 0);
-		_tcsncpy(dispName, tmp, _countof(dispName));
+		wcsncpy(dispName, tmp, _countof(dispName));
 		
 		if ((szHandle) && ((mir_tstrcmpi(szHandle, szID) == 0) || (mir_tstrcmpi(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
 			found = 1;
@@ -212,7 +212,7 @@ MCONTACT GetContactFromID(TCHAR *szID, char *szProto)
 #pragma warning (default: 4312)
 
 #pragma warning (disable: 4312)
-MCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto)
+MCONTACT GetContactFromID(wchar_t *szID, wchar_t *szProto)
 {
 	char protocol[1024];
 	WideCharToMultiByte(CP_ACP, 0, szProto, -1, protocol, sizeof(protocol), NULL, NULL);

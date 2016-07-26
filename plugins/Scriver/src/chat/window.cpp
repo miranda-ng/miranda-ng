@@ -22,23 +22,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../stdafx.h"
 
 static ToolbarButton toolbarButtons[] = {
-	{ LPGENT("Bold"), IDC_CHAT_BOLD, 0, 4, 24 },
-	{ LPGENT("Italic"), IDC_CHAT_ITALICS, 0, 0, 24 },
-	{ LPGENT("Underline"), IDC_CHAT_UNDERLINE, 0, 0, 24 },
-	{ LPGENT("Text color"), IDC_CHAT_COLOR, 0, 0, 24 },
-	{ LPGENT("Background color"), IDC_CHAT_BKGCOLOR, 0, 0, 24 },
-	{ LPGENT("History"), IDC_CHAT_HISTORY, 1, 0, 24 },
-	{ LPGENT("Filter"), IDC_CHAT_FILTER, 1, 0, 24 },
-	{ LPGENT("Manager"), IDC_CHAT_CHANMGR, 1, 0, 24 },
-	{ LPGENT("Nick list"), IDC_CHAT_SHOWNICKLIST, 1, 0, 24 },
-	{ LPGENT("Send"), IDOK, 1, 0, 38 },
+	{ LPGENW("Bold"), IDC_CHAT_BOLD, 0, 4, 24 },
+	{ LPGENW("Italic"), IDC_CHAT_ITALICS, 0, 0, 24 },
+	{ LPGENW("Underline"), IDC_CHAT_UNDERLINE, 0, 0, 24 },
+	{ LPGENW("Text color"), IDC_CHAT_COLOR, 0, 0, 24 },
+	{ LPGENW("Background color"), IDC_CHAT_BKGCOLOR, 0, 0, 24 },
+	{ LPGENW("History"), IDC_CHAT_HISTORY, 1, 0, 24 },
+	{ LPGENW("Filter"), IDC_CHAT_FILTER, 1, 0, 24 },
+	{ LPGENW("Manager"), IDC_CHAT_CHANMGR, 1, 0, 24 },
+	{ LPGENW("Nick list"), IDC_CHAT_SHOWNICKLIST, 1, 0, 24 },
+	{ LPGENW("Send"), IDOK, 1, 0, 38 },
 };
 
 struct MESSAGESUBDATA
 {
 	time_t lastEnterTime;
-	TCHAR *szSearchQuery;
-	TCHAR *szSearchResult;
+	wchar_t *szSearchQuery;
+	wchar_t *szSearchResult;
 	SESSION_INFO *lastSession;
 };
 
@@ -207,9 +207,9 @@ static void TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 		return;
 
 	bool isTopic = false, isRoom = false;
-	TCHAR *pszName = NULL;
-	TCHAR* pszText = (TCHAR*)mir_alloc(iLen + 100 * sizeof(TCHAR));
-	gt.cb = iLen + 99 * sizeof(TCHAR);
+	wchar_t *pszName = NULL;
+	wchar_t* pszText = (wchar_t*)mir_alloc(iLen + 100 * sizeof(wchar_t));
+	gt.cb = iLen + 99 * sizeof(wchar_t);
 	gt.flags = GT_DEFAULT;
 
 	SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
@@ -218,7 +218,7 @@ static void TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 
 	if (dat->szSearchResult != NULL) {
 		int cbResult = (int)mir_tstrlen(dat->szSearchResult);
-		if (start >= cbResult && !_tcsncicmp(dat->szSearchResult, pszText + start - cbResult, cbResult)) {
+		if (start >= cbResult && !wcsnicmp(dat->szSearchResult, pszText + start - cbResult, cbResult)) {
 			start -= cbResult;
 			goto LBL_SkipEnd;
 		}
@@ -237,12 +237,12 @@ LBL_SkipEnd:
 		int topicStart = start;
 		while (topicStart >0 && (pszText[topicStart - 1] == ' ' || pszText[topicStart - 1] == 13 || pszText[topicStart - 1] == VK_TAB))
 			topicStart--;
-		if (topicStart > 5 && _tcsstr(&pszText[topicStart - 6], L"/topic") == &pszText[topicStart - 6])
+		if (topicStart > 5 && wcsstr(&pszText[topicStart - 6], L"/topic") == &pszText[topicStart - 6])
 			isTopic = true;
 	}
 
 	if (dat->szSearchQuery == NULL) {
-		dat->szSearchQuery = (TCHAR*)mir_alloc(sizeof(TCHAR)*(end - start + 1));
+		dat->szSearchQuery = (wchar_t*)mir_alloc(sizeof(wchar_t)*(end - start + 1));
 		mir_tstrncpy(dat->szSearchQuery, pszText + start, end - start + 1);
 		dat->szSearchResult = mir_tstrdup(dat->szSearchQuery);
 		dat->lastSession = NULL;
@@ -272,7 +272,7 @@ LBL_SkipEnd:
 		if (end != start) {
 			ptrT szReplace;
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
-				szReplace = (TCHAR*)mir_alloc((mir_tstrlen(pszName) + 4) * sizeof(TCHAR));
+				szReplace = (wchar_t*)mir_alloc((mir_tstrlen(pszName) + 4) * sizeof(wchar_t));
 				mir_tstrcpy(szReplace, pszName);
 				mir_tstrcat(szReplace, L": ");
 				pszName = szReplace;
@@ -783,13 +783,13 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO * p
 	ti.uId = 1;
 	ti.rect = clientRect;
 
-	TCHAR tszBuf[1024]; tszBuf[0] = 0;
+	wchar_t tszBuf[1024]; tszBuf[0] = 0;
 	USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
 	if (ui) {
 		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			TCHAR *p = (TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui->pszUID);
+			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui->pszUID);
 			if (p != NULL) {
-				_tcsncpy_s(tszBuf, p, _TRUNCATE);
+				wcsncpy_s(tszBuf, p, _TRUNCATE);
 				mir_free(p);
 			}
 		}
@@ -960,8 +960,8 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		else if (wParam < ' ')
 			break;
 		else {
-			TCHAR szNew[2];
-			szNew[0] = (TCHAR)wParam;
+			wchar_t szNew[2];
+			szNew[0] = (wchar_t)wParam;
 			szNew[1] = '\0';
 			if (mir_tstrlen(si->szSearch) >= _countof(si->szSearch) - 2) {
 				MessageBeep(MB_OK);
@@ -976,7 +976,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			for (int i = 0; i < iItems; i++) {
 				USERINFO *ui = pci->UM_FindUserFromIndex(si->pUsers, i);
 				if (ui) {
-					if (!_tcsnicmp(ui->pszNick, si->szSearch, mir_tstrlen(si->szSearch))) {
+					if (!wcsnicmp(ui->pszNick, si->szSearch, mir_tstrlen(si->szSearch))) {
 						SendMessage(hwnd, LB_SETCURSEL, i, 0);
 						InvalidateRect(hwnd, NULL, FALSE);
 						return 0;
@@ -1018,7 +1018,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	return mir_callNextSubclass(hwnd, NicklistSubclassProc, msg, wParam, lParam);
 }
 
-int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
+int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
 {
 	if (!pszText || !hFont)
 		return 0;
@@ -1051,7 +1051,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 	HICON hIcon;
 	TabControlData tcd;
 	TitleBarData tbd;
-	TCHAR szTemp[512];
+	wchar_t szTemp[512];
 
 	SESSION_INFO *si = (SESSION_INFO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (!si && uMsg != WM_INITDIALOG)
@@ -1088,7 +1088,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_GETEVENTMASK, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, sizeof(TCHAR) * 0x7FFFFFFF, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 
 			if (db_get_b(NULL, CHAT_MODULE, "UseIEView", 0)) {
@@ -1427,7 +1427,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			if (ui) {
 				char szIndicator = SM_GetStatusIndicator(si, ui);
 				if (szIndicator > '\0') {
-					static TCHAR ptszBuf[128];
+					static wchar_t ptszBuf[128];
 					mir_sntprintf(ptszBuf, L"%c%s", szIndicator, ui->pszNick);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ptszBuf);
 				}
@@ -1636,7 +1636,7 @@ LABEL_SHOWWINDOW:
 					int item = LOWORD(SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
 					USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 					if (ui != NULL) {
-						static TCHAR ptszBuf[1024];
+						static wchar_t ptszBuf[1024];
 						mir_sntprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 							TranslateT("Nickname"), ui->pszNick,
 							TranslateT("Unique ID"), ui->pszUID,
@@ -1668,7 +1668,7 @@ LABEL_SHOWWINDOW:
 						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
 						size_t dwNameLenMax = (mir_tstrlen(ui->pszUID) + 4);
-						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * dwNameLenMax);
+						wchar_t* pszName = (wchar_t*)alloca(sizeof(wchar_t) * dwNameLenMax);
 						if (start == 0)
 							mir_sntprintf(pszName, dwNameLenMax, L"%s: ", ui->pszUID);
 						else

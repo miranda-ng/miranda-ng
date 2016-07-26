@@ -38,7 +38,7 @@ CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	: CSend(Owner, hContact, true)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION; //| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp = LPGENT("HTTPServer transfer");
+	m_pszSendTyp = LPGENW("HTTPServer transfer");
 	m_pszFileName = NULL;
 	m_fsi_pszSrvPath = NULL;
 	m_fsi_pszRealPath = NULL;
@@ -56,7 +56,7 @@ int CSendHTTPServer::Send()
 {
 	if (!m_hContact) return 1;
 	if (CallService(MS_HTTP_ACCEPT_CONNECTIONS, TRUE, 0) != 0) {
-		Error(LPGENT("Could not start the HTTP Server plugin."));
+		Error(LPGENW("Could not start the HTTP Server plugin."));
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
 	}
@@ -102,7 +102,7 @@ void CSendHTTPServer::SendThread()
 	}
 
 	if (ret != 0) {
-		Error(LPGENT("%s (%i):\nCould not add a share to the HTTP Server plugin."), TranslateTS(m_pszSendTyp), ret);
+		Error(LPGENW("%s (%i):\nCould not add a share to the HTTP Server plugin."), TranslateTS(m_pszSendTyp), ret);
 		Exit(ret); return;
 	}
 

@@ -57,12 +57,12 @@ int CExchangeServer::Connect(int bForceConnect)
 	}		
 		
 	if ( !IsConnected() && bTryConnect) {
-		TCHAR user[1024]; //lovely
-		TCHAR password[1024]; //i know
-		TCHAR server[1024];
+		wchar_t user[1024]; //lovely
+		wchar_t password[1024]; //i know
+		wchar_t server[1024];
 
 		GetStringFromDatabase("Username", L"", user, _countof(user));
-		_tcsncpy_s(user, VARST(user), _TRUNCATE);
+		wcsncpy_s(user, VARST(user), _TRUNCATE);
 
 		GetStringFromDatabase("Password", L"", password, _countof(password));
 		GetStringFromDatabase("Server", L"", server, _countof(server));
@@ -92,7 +92,7 @@ int CExchangeServer::Disconnect()
 //	return -1; //0 on success, != 0 otherwise
 }
 
-int CExchangeServer::DoConnect(TCHAR *user, TCHAR *password, TCHAR *server, int)
+int CExchangeServer::DoConnect(wchar_t *user, wchar_t *password, wchar_t *server, int)
 {
 	
 	if (bTryConnect)
@@ -152,7 +152,7 @@ int CExchangeServer::IsServerAvailable()
 	if (sServer == INVALID_SOCKET)
 		return 0; //server is not available
 
-	TCHAR szServer[1024];
+	wchar_t szServer[1024];
 	GetStringFromDatabase("Server", L"", szServer, sizeof(szServer));
 	sockaddr_in addrServer;
 	InitSocketAddr(&addrServer, mir_t2a(szServer));
@@ -205,8 +205,8 @@ int CExchangeServer::GetEmailHeader(int iUnreadEmail, TEmailHeader *emailInfo)
 #ifndef NO_EXCHANGE_TEST
 
 	if (NULL != m_HeadersKeeper[iUnreadEmail]) {
-		TCHAR* szSender  = m_HeadersKeeper[iUnreadEmail]->m_szSender;
-		TCHAR* szSubject = m_HeadersKeeper[iUnreadEmail]->m_szSubject;
+		wchar_t* szSender  = m_HeadersKeeper[iUnreadEmail]->m_szSender;
+		wchar_t* szSubject = m_HeadersKeeper[iUnreadEmail]->m_szSubject;
 
 		if (NULL == szSender)
 			szSender = L"";
@@ -229,7 +229,7 @@ int CExchangeServer::GetEmailHeader(int iUnreadEmail, TEmailHeader *emailInfo)
 	return 0;
 }
 
-int CExchangeServer::MarkEmailAsRead(TCHAR *emailID)
+int CExchangeServer::MarkEmailAsRead(wchar_t *emailID)
 {
 	if (!IsConnected())
 		return -1;
@@ -241,7 +241,7 @@ int CExchangeServer::MarkEmailAsRead(TCHAR *emailID)
 	return 0;
 }
 
-int CExchangeServer::OpenMessage(TCHAR *emailID)
+int CExchangeServer::OpenMessage(wchar_t *emailID)
 {
 	if (!IsConnected())
 		return -1;
@@ -277,7 +277,7 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 	}
 
 	if (((count > 0) || ((bNoEmailsNotify) && (count >= 0))) && (count != -1)) {
-		TCHAR buffer[1024];
+		wchar_t buffer[1024];
 		if (count != 1)
 			mir_sntprintf(buffer, TranslateT("You have %d unread emails..."), count);
 		else
@@ -292,7 +292,7 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 	return count;
 }
 
-int ShowMessage(TCHAR *message, int cUnreadEmails)
+int ShowMessage(wchar_t *message, int cUnreadEmails)
 {
 	int usePopups = ServiceExists(MS_POPUP_ADDPOPUPT) ? db_get_b(NULL, ModuleName, "UsePopups", 0) : 0;
 	if (usePopups)
@@ -301,21 +301,21 @@ int ShowMessage(TCHAR *message, int cUnreadEmails)
 	return ShowMessageBoxMessage(TranslateT("Do you want to see the email headers?"), message, cUnreadEmails);
 }
 
-int ShowPopupMessage(TCHAR *title, TCHAR *message, int cUnreadEmails)
+int ShowPopupMessage(wchar_t *title, wchar_t *message, int cUnreadEmails)
 {
 	POPUPDATAT popup = {0};
 	popup.lchContact = NULL;
 	popup.colorBack = NULL;
 	popup.colorText = NULL;
 	popup.lchIcon = hiMailIcon;
-	_tcsncpy_s(popup.lptzContactName, MAX_CONTACTNAME, title, _TRUNCATE);
-	_tcsncpy_s(popup.lptzText, MAX_SECONDLINE, message, _TRUNCATE);
+	wcsncpy_s(popup.lptzContactName, MAX_CONTACTNAME, title, _TRUNCATE);
+	wcsncpy_s(popup.lptzText, MAX_SECONDLINE, message, _TRUNCATE);
 	popup.PluginWindowProc = DlgProcPopup;
 	popup.PluginData = (int *) cUnreadEmails;
 	return PUAddPopupT(&popup);
 }
 
-int ShowMessageBoxMessage(TCHAR *title, TCHAR *message, int cUnreadEmails)
+int ShowMessageBoxMessage(wchar_t *title, wchar_t *message, int cUnreadEmails)
 {
 	if (MessageBox(0, message, title, MB_YESNO) == IDYES)
 		ShowEmailsWindow(cUnreadEmails);

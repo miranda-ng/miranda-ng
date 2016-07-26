@@ -46,7 +46,7 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 	tvi.item.cChildren = 1;
 	
 	char szProto[FLD_SIZE];
-	TCHAR name[NAME_SIZE];
+	wchar_t name[NAME_SIZE];
 
 	for (MCONTACT hContact = db_find_first(); hContact && hwnd2mainWindow; hContact = db_find_next(hContact)) {
 		
@@ -105,7 +105,7 @@ void doItems(ModuleSettingLL* modlist, int count)
 {
 	HWND hwnd = GetParent(hwnd2Tree); //!!! 
 
-	TCHAR percent[128], title[96];
+	wchar_t percent[128], title[96];
 	mir_sntprintf(title, TranslateT("Loading modules..."));
 
 	TVITEM item = { 0 };
@@ -152,7 +152,7 @@ HTREEITEM findItemInTree(MCONTACT hContact, const char* module)
 {
 	TVITEM item;
 	HTREEITEM lastItem;
-	TCHAR text[FLD_SIZE];
+	wchar_t text[FLD_SIZE];
 
 	if (!TreeView_GetCount(hwnd2Tree))
 		return 0;
@@ -231,7 +231,7 @@ http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?t
 	TVITEM item;
 	HTREEITEM lastItem, prelastItem;
 	BOOL Result = 0;
-	TCHAR text[FLD_SIZE];
+	wchar_t text[FLD_SIZE];
 
 	if (!TreeView_GetCount(hwnd2Tree))
 		return Result;
@@ -325,7 +325,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 	switch ((INT_PTR)param) {
 	case 1: // restore after rebuild
 		if (HTREEITEM item = TreeView_GetSelection(hwnd2Tree)) {
-			TCHAR text[FLD_SIZE];
+			wchar_t text[FLD_SIZE];
 			TVITEM tvi = { 0 };
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.pszText = text;
@@ -503,7 +503,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 		{
 			LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
 			TVITEM tvi = { 0 };
-			TCHAR text[FLD_SIZE];
+			wchar_t text[FLD_SIZE];
 			MCONTACT hContact;
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = pnmtv->itemNew.hItem;
@@ -584,7 +584,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 	case TVN_ENDLABELEDIT:
 		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
 		TVITEM tvi = { 0 };
-		TCHAR text[FLD_SIZE];
+		wchar_t text[FLD_SIZE];
 		ModuleTreeInfoStruct *mtis;
 		tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_PARAM;
 		tvi.hItem = ptvdi->item.hItem;
@@ -626,7 +626,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 	TVITEM tvi = { 0 };
 	HMENU hMenu, hSubMenu;
 	int menuNumber;
-	TCHAR text[FLD_SIZE];
+	wchar_t text[FLD_SIZE];
 
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 	tvi.hItem = hti.hItem;
@@ -718,7 +718,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 
 		case MENU_DELETE_CONTACT:
 			if (db_get_b(NULL, "CList", "ConfirmDelete", 1)) {
-				TCHAR str[MSG_SIZE];
+				wchar_t str[MSG_SIZE];
 				mir_sntprintf(str, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
 				if (dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 					break;

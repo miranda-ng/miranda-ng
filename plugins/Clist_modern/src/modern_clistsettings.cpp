@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void InsertContactIntoTree(MCONTACT hContact, int status);
 
-TCHAR* UnknownConctactTranslatedName = NULL;
+wchar_t* UnknownConctactTranslatedName = NULL;
 
 void cliFreeCacheItem(ClcCacheEntry *p)
 {
@@ -78,7 +78,7 @@ int GetStatusForContact(MCONTACT hContact, char *szProto)
 	return (szProto) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE;
 }
 
-int GetContactInfosForSort(MCONTACT hContact, char **Proto, TCHAR **Name, int *Status)
+int GetContactInfosForSort(MCONTACT hContact, char **Proto, wchar_t **Name, int *Status)
 {
 	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
 	if (cacheEntry != NULL) {

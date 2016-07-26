@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CGroupInternal
 {
-	CGroupInternal(int _id, const TCHAR *_name) :
+	CGroupInternal(int _id, const wchar_t *_name) :
 		groupId(_id),
 		groupName(mir_tstrdup(_name))
 		{}
@@ -37,7 +37,7 @@ struct CGroupInternal
 	}
 
 	int    groupId;
-	TCHAR *groupName;
+	wchar_t *groupName;
 
 	void save()
 	{
@@ -79,16 +79,16 @@ static mir_cs csGroups;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int GroupNameExists(const TCHAR *ptszGroupName, int skipGroup)
+static int GroupNameExists(const wchar_t *ptszGroupName, int skipGroup)
 {
 	if (ptszGroupName == 0)
 		return 0;
 
-	TCHAR str[256];
-	_tcsncpy_s(str + 1, _countof(str) - 1, ptszGroupName, _TRUNCATE);
+	wchar_t str[256];
+	wcsncpy_s(str + 1, _countof(str) - 1, ptszGroupName, _TRUNCATE);
 
 	CGroupInternal *tmp = (CGroupInternal*)_alloca(sizeof(CGroupInternal));
-	tmp->groupName = (TCHAR*)str;
+	tmp->groupName = (wchar_t*)str;
 	if (tmp = arByName.find(tmp))
 		return (skipGroup == tmp->groupId) ? 0 : tmp->groupId + 1;
 	return 0;
@@ -101,11 +101,11 @@ MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CreateGroupInternal(MGROUP hParent, const TCHAR *ptszName)
+static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 {
-	TCHAR newBaseName[127], newName[128];
+	wchar_t newBaseName[127], newName[128];
 
-	const TCHAR *grpName = ptszName ? ptszName : TranslateT("New group");
+	const wchar_t *grpName = ptszName ? ptszName : TranslateT("New group");
 	if (hParent) {
 		CGroupInternal *tmp = arByIds.find(hParent-1);
 		if (tmp == NULL)
@@ -113,7 +113,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const TCHAR *ptszName)
 
 		mir_sntprintf(newBaseName, L"%s\\%s", tmp->groupName+1, grpName);
 	}
-	else _tcsncpy_s(newBaseName, grpName, _TRUNCATE);
+	else wcsncpy_s(newBaseName, grpName, _TRUNCATE);
 
 	mir_tstrncpy(newName + 1, newBaseName, _countof(newName) - 1);
 	if (ptszName) {
@@ -150,8 +150,8 @@ MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, LPCTSTR ptszGroupName)
 	if (ptszGroupName == NULL || ptszGroupName[0] == '\0' || ptszGroupName[0] == '\\')
 		return 0;
 
-	TCHAR *tszName = NEWTSTR_ALLOCA(ptszGroupName);
-	for (TCHAR *p = tszName; *p; p++) {
+	wchar_t *tszName = NEWWSTR_ALLOCA(ptszGroupName);
+	for (wchar_t *p = tszName; *p; p++) {
 		if (*p == '\\') {
 			*p = '\0';
 			CreateGroupInternal(hParent, tszName);
@@ -163,7 +163,7 @@ MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, LPCTSTR ptszGroupName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(TCHAR*) Clist_GroupGetName(MGROUP hGroup, DWORD *pdwFlags)
+MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, DWORD *pdwFlags)
 {
 	CGroupInternal *p = arByIds.find(hGroup-1);
 	if (p == NULL)
@@ -184,7 +184,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 		return 1;
 
 	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT)) {
-		TCHAR szQuestion[256 + 100];
+		wchar_t szQuestion[256 + 100];
 		mir_sntprintf(szQuestion, TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), pGroup->groupName+1);
 		if (MessageBox(cli.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO | MB_ICONQUESTION) == IDNO)
 			return 1;
@@ -194,9 +194,9 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	
 	// must remove setting from all child contacts too
 	// children are demoted to the next group up, not deleted.
-	TCHAR *szNewParent = NEWTSTR_ALLOCA(pGroup->groupName+1);
+	wchar_t *szNewParent = NEWWSTR_ALLOCA(pGroup->groupName+1);
 	{
-		TCHAR *pszLastBackslash = _tcsrchr(szNewParent, '\\');
+		wchar_t *pszLastBackslash = wcsrchr(szNewParent, '\\');
 		if (pszLastBackslash)
 			pszLastBackslash[0] = '\0';
 		else
@@ -237,12 +237,12 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	db_unset(NULL, "CListGroups", idstr);
 	
 	// rename subgroups
-	TCHAR szNewName[256];
+	wchar_t szNewName[256];
 	size_t len = mir_tstrlen(pGroup->groupName+1);
 	for (int i = 0; i < arByIds.getCount(); i++) {
 		CGroupInternal *p = arByIds[i];
 		
-		if (!_tcsncmp(pGroup->groupName+1, p->groupName+1, len) && p->groupName[len+1] == '\\' && _tcschr(p->groupName + len + 2, '\\') == NULL) {
+		if (!wcsncmp(pGroup->groupName+1, p->groupName+1, len) && p->groupName[len+1] == '\\' && wcschr(p->groupName + len + 2, '\\') == NULL) {
 			if (szNewParent[0])
 				mir_sntprintf(szNewName, L"%s\\%s", szNewParent, p->groupName + len + 2);
 			else
@@ -315,7 +315,7 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
+static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 {
 	if (GroupNameExists(szName, groupId)) {
 		MessageBox(NULL, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename group"), MB_ICONERROR | MB_OK);
@@ -327,9 +327,9 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 		return 0;
 
 	// do the change
-	TCHAR *oldName = NEWTSTR_ALLOCA(pGroup->groupName+1);
+	wchar_t *oldName = NEWWSTR_ALLOCA(pGroup->groupName+1);
 
-	TCHAR str[256];
+	wchar_t str[256];
 	str[0] = pGroup->groupName[0];
 	mir_tstrncpy(str + 1, szName, _countof(str) - 1);
 
@@ -352,8 +352,8 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 			continue;
 
 		CGroupInternal *p = arByIds[i];
-		if (!_tcsncmp(p->groupName+1, oldName, len) && p->groupName[len+1] == '\\' && _tcschr(p->groupName + len + 2, '\\') == NULL) {
-			TCHAR szNewName[256];
+		if (!wcsncmp(p->groupName+1, oldName, len) && p->groupName[len+1] == '\\' && wcschr(p->groupName + len + 2, '\\') == NULL) {
+			wchar_t szNewName[256];
 			mir_sntprintf(szNewName, L"%s\\%s", szName, p->groupName + len + 2);
 			RenameGroupWithMove(i, szNewName, 0); // luckily, child groups will never need reordering
 		}
@@ -361,8 +361,8 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 
 	// finally must make sure it's after any parent items
 	if (move) {
-		_tcsncpy_s(str, szName, _TRUNCATE);
-		TCHAR *pszLastBackslash = _tcsrchr(str, '\\');
+		wcsncpy_s(str, szName, _TRUNCATE);
+		wchar_t *pszLastBackslash = wcsrchr(str, '\\');
 		if (pszLastBackslash != NULL) {
 			*pszLastBackslash = '\0';
 			for (int i = 0; i < arByIds.getCount(); i++) {
@@ -377,12 +377,12 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 		Clist_BroadcastAsync(CLM_AUTOREBUILD, 0, 0);
 	}
 
-	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), oldName, (TCHAR*)szName };
+	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), oldName, (wchar_t*)szName };
 	NotifyEventHooks(hGroupChangeEvent, 0, (LPARAM)&grpChg);
 	return 0;
 }
 
-MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const TCHAR *ptszNewName)
+MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNewName)
 {
 	return 0 != RenameGroupWithMove(hGroup-1, ptszNewName, 1);
 }
@@ -432,15 +432,15 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu()
 
 	HMENU hRootMenu = CreateMenu();
 	for (int i = 0; i < arByIds.getCount(); i++) {
-		const TCHAR *pNextField = arByIds[i]->groupName + 1;
+		const wchar_t *pNextField = arByIds[i]->groupName + 1;
 		HMENU hThisMenu = hRootMenu;
 
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 
-		TCHAR szThisField[128], szThisMenuItem[128];
+		wchar_t szThisField[128], szThisMenuItem[128];
 		do {
-			const TCHAR *pBackslash = _tcschr(pNextField, '\\');
+			const wchar_t *pBackslash = wcschr(pNextField, '\\');
 			if (pBackslash == NULL) {
 				mir_tstrncpy(szThisField, pNextField, _countof(szThisField));
 				pNextField = NULL;

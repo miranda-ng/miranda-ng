@@ -65,12 +65,12 @@ void CMUCHighlight::init()
 	tokenize(m_NickPatternString, m_NickPatterns, m_iNickPatterns);
 }
 
-void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
+void CMUCHighlight::tokenize(wchar_t *tszString, wchar_t**& patterns, UINT& nr)
 {
 	if (tszString == 0)
 		return;
 
-	TCHAR	*p = tszString;
+	wchar_t	*p = tszString;
 
 	if (*p == 0)
 		return;
@@ -83,14 +83,14 @@ void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
 	while (*p) {
 		if (*p == ' ') {
 			p++;
-			while (*p && _istspace(*p))
+			while (*p && iswspace(*p))
 				p++;
 			if (*p)
 				nr++;
 		}
 		p++;
 	}
-	patterns = (TCHAR **)mir_alloc(nr * sizeof(TCHAR*));
+	patterns = (wchar_t **)mir_alloc(nr * sizeof(wchar_t*));
 
 	p = tszString;
 	nr = 0;
@@ -101,7 +101,7 @@ void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
 	while (*p) {
 		if (*p == ' ') {
 			*p++ = 0;
-			while (*p && _istspace(*p))
+			while (*p && iswspace(*p))
 				p++;
 			if (*p)
 				patterns[nr++] = p;
@@ -118,13 +118,13 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 		return 0;
 
 	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
-		TCHAR	*p = pci->RemoveFormatting(pgce->ptszText);
-		p = NEWTSTR_ALLOCA(p);
+		wchar_t	*p = pci->RemoveFormatting(pgce->ptszText);
+		p = NEWWSTR_ALLOCA(p);
 		if (p == NULL)
 			return 0;
 		CharLower(p);
 
-		TCHAR	*tszMe = ((psi && psi->pMe) ? NEWTSTR_ALLOCA(psi->pMe->pszNick) : 0);
+		wchar_t	*tszMe = ((psi && psi->pMe) ? NEWWSTR_ALLOCA(psi->pMe->pszNick) : 0);
 		if (tszMe)
 			CharLower(tszMe);
 
@@ -141,7 +141,7 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 			if (*p == 0)
 				break;
 
-			TCHAR *p1 = p;
+			wchar_t *p1 = p;
 			while (*p1 && *p1 != ' ' && *p1 != ',' && *p1 != '.' && *p1 != ':' && *p1 != ';' && *p1 != '?' && *p1 != '!')
 				p1++;
 
@@ -250,7 +250,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN));
 				if (iLen) {
-					szBuf = reinterpret_cast<TCHAR *>(mir_realloc(szBuf, sizeof(wchar_t) * (iLen + 2)));
+					szBuf = reinterpret_cast<wchar_t *>(mir_realloc(szBuf, sizeof(wchar_t) * (iLen + 2)));
 					::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, szBuf, iLen + 1);
 					db_set_ts(0, CHAT_MODULE, "HighlightWords", szBuf);
 				}

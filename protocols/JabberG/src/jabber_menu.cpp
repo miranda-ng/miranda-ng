@@ -309,7 +309,7 @@ void g_MenuInit(void)
 		char buf[] = "Jabber/DirectPresenceX";
 		buf[_countof(buf) - 2] = '0' + i;
 		mi.pszService = buf;
-		mi.name.t = pcli->pfnGetStatusModeDescription(PresenceModeArray[i].mode, 0);
+		mi.name.w = pcli->pfnGetStatusModeDescription(PresenceModeArray[i].mode, 0);
 		mi.position = -1999901000;
 		mi.hIcolibItem = Skin_LoadIcon(PresenceModeArray[i].icon);
 		g_hMenuDirectPresence[i + 1] = Menu_AddContactMenuItem(&mi);
@@ -376,7 +376,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if ((bIsChatRoom == GCW_CHATROOM) || bIsChatRoom == 0) {
 		if (ptrT(getTStringA(hContact, bIsChatRoom ? (char*)"ChatRoomID" : (char*)"jid")) != NULL) {
 			Menu_ShowItem(g_hMenuConvert, TRUE);
-			Menu_ModifyItem(g_hMenuConvert, bIsChatRoom ? LPGENT("&Convert to Contact") : LPGENT("&Convert to Chat Room"));
+			Menu_ModifyItem(g_hMenuConvert, bIsChatRoom ? LPGENW("&Convert to Contact") : LPGENW("&Convert to Chat Room"));
 		}
 	}
 
@@ -701,10 +701,10 @@ void CJabberProto::MenuInit()
 	mi.flags = CMIF_UNMOVABLE | CMIF_HIDDEN;
 	m_hMenuPriorityRoot = Menu_AddProtoMenuItem(&mi);
 
-	TCHAR szName[128];
+	wchar_t szName[128];
 	char srvFce[MAX_PATH + 64];
 	mi.pszService = srvFce;
-	mi.name.t = szName;
+	mi.name.w = szName;
 	mi.position = 2000040000;
 	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.root = m_hMenuPriorityRoot;
@@ -770,7 +770,7 @@ void CJabberProto::UpdatePriorityMenu(int priority)
 	if (!m_hMenuPriorityRoot || (m_priorityMenuValSet && priority == m_priorityMenuVal))
 		return;
 
-	TCHAR szName[128];
+	wchar_t szName[128];
 	mir_sntprintf(szName, TranslateT("Resource priority [%d]"), (int)priority);
 	Menu_ModifyItem(m_hMenuPriorityRoot, szName);
 
@@ -788,7 +788,7 @@ void CJabberProto::GlobalMenuInit()
 	CMenuItem mi;
 	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.position = iChooserMenuPos++;
-	mi.name.t = m_tszUserName;
+	mi.name.w = m_tszUserName;
 	m_hChooseMenuItem = Menu_AddItem(hChooserMenu, &mi, this);
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -805,19 +805,19 @@ void CJabberProto::GlobalMenuInit()
 	hkd.dwFlags = HKD_TCHAR;
 
 	mir_strcpy(tDest, "/Groupchat");
-	hkd.ptszDescription = LPGENT("Join conference");
+	hkd.ptszDescription = LPGENW("Join conference");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/Bookmarks");
-	hkd.ptszDescription = LPGENT("Open bookmarks");
+	hkd.ptszDescription = LPGENW("Open bookmarks");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/PrivacyLists");
-	hkd.ptszDescription = LPGENT("Privacy lists");
+	hkd.ptszDescription = LPGENW("Privacy lists");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/ServiceDiscovery");
-	hkd.ptszDescription = LPGENT("Service discovery");
+	hkd.ptszDescription = LPGENW("Service discovery");
 	Hotkey_Register(&hkd);
 }
 
@@ -965,7 +965,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		if (!bSupportTyping || !m_bJabberOnline)
 			return 0;
 
-		TCHAR jid[JABBER_MAX_JID_LEN];
+		wchar_t jid[JABBER_MAX_JID_LEN];
 		if (GetClientJID(event->hContact, jid, _countof(jid))) {
 			pResourceStatus r(ResourceInfoFromJID(jid));
 			if (r && r->m_bMessageSessionActive) {
@@ -996,7 +996,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	HMENU hMenu = CreatePopupMenu();
-	TCHAR buf[256];
+	wchar_t buf[256];
 
 	mir_sntprintf(buf, TranslateT("Last active (%s)"),
 		LI->m_pLastSeenResource ? LI->m_pLastSeenResource->m_tszResourceName : TranslateT("No activity yet, use server's choice"));
@@ -1072,7 +1072,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM
 	if (!m_bJabberOnline || !hContact)
 		return 0;
 
-	TCHAR *jid, text[1024];
+	wchar_t *jid, text[1024];
 	ptrT tszJid(getTStringA(hContact, "jid"));
 	if (tszJid == NULL) {
 		ptrT roomid(getTStringA(hContact, "ChatRoomID"));

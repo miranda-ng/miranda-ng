@@ -58,17 +58,17 @@ void EnablePopupOptDlgControls()
 
 static struct
 {
-	TCHAR *Text;
+	wchar_t *Text;
 	int Action;
 }
 PopupActions[] =
 {
-	LPGENT("Open message window"), PCA_OPENMESSAGEWND,
-	LPGENT("Close popup"), PCA_CLOSEPOPUP,
-	LPGENT("Open contact details window"), PCA_OPENDETAILS,
-	LPGENT("Open contact menu"), PCA_OPENMENU,
-	LPGENT("Open contact history"), PCA_OPENHISTORY,
-	LPGENT("Do nothing"), PCA_DONOTHING
+	LPGENW("Open message window"), PCA_OPENMESSAGEWND,
+	LPGENW("Close popup"), PCA_CLOSEPOPUP,
+	LPGENW("Open contact details window"), PCA_OPENDETAILS,
+	LPGENW("Open contact menu"), PCA_OPENMENU,
+	LPGENW("Open contact history"), PCA_OPENHISTORY,
+	LPGENW("Do nothing"), PCA_DONOTHING
 };
 
 INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -163,11 +163,11 @@ int OptionsDlgInit(WPARAM wParam, LPARAM)
 	if (bPopupExists) {
 		OPTIONSDIALOGPAGE optDi = { sizeof(optDi) };
 		optDi.position = 920000000;
-		optDi.ptszTitle = LPGENT("ClientChangeNotify");
+		optDi.pwszTitle = LPGENW("ClientChangeNotify");
 		optDi.pfnDlgProc = PopupOptDlg;
 		optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
 		optDi.hInstance = g_hInstance;
-		optDi.ptszGroup = LPGENT("Popups");
+		optDi.pwszGroup = LPGENW("Popups");
 		optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 		Options_AddPage(wParam, &optDi);
 	}

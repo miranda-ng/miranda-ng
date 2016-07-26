@@ -124,7 +124,7 @@ int __cdecl CYahooProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = YahooUserInfoDlgProc;
 		odp.position = -1900000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_INFO);
-		odp.ptszTitle = m_tszUserName;
+		odp.pwszTitle = m_tszUserName;
 		UserInfo_AddPage(wParam, &odp);
 	}
 	return 0;

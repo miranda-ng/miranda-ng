@@ -360,20 +360,20 @@ int __cdecl CYahooProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_YAHOO);
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszGroup = LPGENW("Network");
+	odp.pwszTab = LPGENW("Account");
 	odp.pfnDlgProc = DlgProcYahooOpts;
 	odp.dwInitParam = LPARAM(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Connection");
+	odp.pwszTab = LPGENW("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_YAHOO_CONNECTION);
 	odp.pfnDlgProc = DlgProcYahooOptsConn;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Ignore List");
+	odp.pwszTab = LPGENW("Ignore List");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_YAHOO_IGNORE);
 	odp.pfnDlgProc = DlgProcYahooOptsIgnore;
 	Options_AddPage(wParam, &odp);

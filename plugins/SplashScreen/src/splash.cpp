@@ -41,7 +41,7 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	case WM_TIMER:
 
 #ifdef _DEBUG
-		TCHAR b[40];
+		wchar_t b[40];
 		mir_sntprintf(b, L"%d", wParam);
 		logMessage(L"Timer ID", b);
 		mir_sntprintf(b, L"%d", options.showtime);
@@ -152,7 +152,7 @@ void __cdecl SplashThread(void *arg)
 	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = NULL;
-	wcl.lpszClassName = _T(SPLASH_CLASS);
+	wcl.lpszClassName = SPLASH_CLASS;
 	wcl.hIconSm = NULL;
 	RegisterClassEx(&wcl);
 
@@ -172,7 +172,7 @@ void __cdecl SplashThread(void *arg)
 
 	hwndSplash = CreateWindowEx(
 		WS_EX_TOOLWINDOW | WS_EX_TOPMOST,//dwStyleEx
-		_T(SPLASH_CLASS), //Class name
+		SPLASH_CLASS, //Class name
 		NULL, //Title
 		DS_SETFONT | DS_FIXEDSYS | WS_POPUP, //dwStyle
 		WindowRect.left, // x
@@ -227,8 +227,8 @@ void __cdecl SplashThread(void *arg)
 				}
 			}
 
-		TCHAR verString[256] = { 0 };
-		TCHAR *mirandaVerString = mir_a2t(szVersion);
+		wchar_t verString[256] = { 0 };
+		wchar_t *mirandaVerString = mir_a2t(szVersion);
 		mir_sntprintf(verString, L"%s%s", szPrefix, mirandaVerString);
 		mir_free(mirandaVerString);
 		LOGFONT lf = { 0 };
@@ -326,7 +326,7 @@ BOOL ShowSplash(BOOL bpreview)
 	else {
 		timeout = options.showtime;
 #ifdef _DEBUG
-		TCHAR b[40];
+		wchar_t b[40];
 		mir_sntprintf(b, L"%d", options.showtime);
 		logMessage(L"Timeout", b);
 #endif

@@ -132,16 +132,16 @@ SIZE ColInOutGraph::impl_outputMeasureHeader() const
 
 void ColInOutGraph::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const TCHAR* szSourceDesc[] = {
-		LPGENT("Characters"),
-		LPGENT("Messages"),
-		LPGENT("Chats")
+	static const wchar_t* szSourceDesc[] = {
+		LPGENW("Characters"),
+		LPGENW("Messages"),
+		LPGENW("Chats")
 	};
 
-	static const TCHAR* szSourceUnit[] = {
-		LPGENT("day"),
-		LPGENT("week"),
-		LPGENT("month"),
+	static const wchar_t* szSourceUnit[] = {
+		LPGENW("day"),
+		LPGENW("week"),
+		LPGENW("month"),
 	};
 
 	if (row == 1)

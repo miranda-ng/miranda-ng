@@ -14,7 +14,7 @@ protected:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void SetIcon(const char *name);
-	void SetTitle(const TCHAR *title);
+	void SetTitle(const wchar_t *title);
 
 public:
 	CToxCallDlgBase(CToxProto *proto, int idDialog, MCONTACT hContact);

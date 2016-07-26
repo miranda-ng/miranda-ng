@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class OmegleProto : public PROTO < OmegleProto >
 {
 public:
-	OmegleProto(const char *proto_name, const TCHAR *username);
+	OmegleProto(const char *proto_name, const wchar_t *username);
 	~OmegleProto();
 
 	inline const char* ModuleName() const
@@ -88,14 +88,14 @@ public:
 	//bool    IsMyContact(HANDLE, bool include_chat = false);
 
 	// Chat handling
-	void AddChat(const TCHAR *id, const TCHAR *name);
-	void UpdateChat(const TCHAR *name, const TCHAR *message, bool addtochat = true);
+	void AddChat(const wchar_t *id, const wchar_t *name);
+	void UpdateChat(const wchar_t *name, const wchar_t *message, bool addtochat = true);
 	void SendChatMessage(std::string message);
-	void AddChatContact(const TCHAR *nick);
-	void DeleteChatContact(const TCHAR *name);
+	void AddChatContact(const wchar_t *nick);
+	void DeleteChatContact(const wchar_t *name);
 	void SetChatStatus(int);
 	void ClearChat();
-	void SetTopic(const TCHAR *topic = NULL);
+	void SetTopic(const wchar_t *topic = NULL);
 	MCONTACT GetChatHandle();
 
 	// Connection client

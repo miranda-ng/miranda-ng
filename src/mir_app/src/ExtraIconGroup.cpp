@@ -188,7 +188,7 @@ int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, void *value, bool
 	return ret;
 }
 
-const TCHAR* ExtraIconGroup::getDescription() const
+const wchar_t* ExtraIconGroup::getDescription() const
 {
 	return m_tszDescription;
 }

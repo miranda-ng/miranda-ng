@@ -502,12 +502,12 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 		}
 		else if (szString == "micblog.status.id") {
 			buf >> szStringW;
-			DWORDLONG dwBlogStatusID = _ttoi64(szStringW);
+			DWORDLONG dwBlogStatusID = _wtoi64(szStringW);
 			mraWriteContactSettingBlob(NULL, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
 		}
 		else if (szString == "micblog.status.time") {
 			buf >> szStringW;
-			setDword(DBSETTING_BLOGSTATUSTIME, _ttoi(szStringW));
+			setDword(DBSETTING_BLOGSTATUSTIME, _wtoi(szStringW));
 		}
 		else if (szString == "micblog.status.text") {
 			buf >> szStringW;
@@ -652,7 +652,7 @@ bool CMraProto::CmdFileTransferAck(BinBuffer &buf)
 		MraFilesQueueSendMirror(hFilesQueueHandle, dwTemp, szString);
 		break;
 	default:// ## unknown error
-		TCHAR szBuff[1024];
+		wchar_t szBuff[1024];
 		mir_sntprintf(szBuff, TranslateT("MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu"), dwAckType);
 		ShowFormattedErrorMessage(szBuff, NO_ERROR);
 		break;
@@ -749,7 +749,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 			ShowFormattedErrorMessage(L"Group limit is 20", NO_ERROR);
 			break;
 		default:// ## unknown error
-			TCHAR szBuff[1024];
+			wchar_t szBuff[1024];
 			mir_sntprintf(szBuff, TranslateT("MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu"), dwTemp);
 			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
 			break;
@@ -941,7 +941,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 				}
 			}
 			else if (dwAckType == ACKTYPE_SEARCH) {
-				TCHAR szNick[MAX_EMAIL_LEN] = { 0 },
+				wchar_t szNick[MAX_EMAIL_LEN] = { 0 },
 					szFirstName[MAX_EMAIL_LEN] = { 0 },
 					szLastName[MAX_EMAIL_LEN] = { 0 },
 					szEmail[MAX_EMAIL_LEN] = { 0 };
@@ -950,11 +950,11 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 
 				psr.cbSize = sizeof(psr);
 				psr.flags = PSR_UNICODE;
-				psr.nick.t = szNick;
-				psr.firstName.t = szFirstName;
-				psr.lastName.t = szLastName;
-				psr.email.t = szEmail;
-				psr.id.t = szEmail;
+				psr.nick.w = szNick;
+				psr.firstName.w = szFirstName;
+				psr.lastName.w = szLastName;
+				psr.email.w = szEmail;
+				psr.id.w = szEmail;
 
 				for (DWORD i = 0; i < dwFieldsNum; i++) {
 					CMStringA &fld = pmralpsFields[i];
@@ -1043,7 +1043,7 @@ bool CMraProto::CmdGame(BinBuffer &buf)
 	case GAME_MESSAGES_NUMBER:
 		break;
 	default:
-		TCHAR szBuff[1024];
+		wchar_t szBuff[1024];
 		mir_sntprintf(szBuff, TranslateT("MRIM_CS_GAME: unknown internal game message code: %lu"), dwGameMsg);
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
 		break;
@@ -1307,7 +1307,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			CMStringW wszAuthMessage, nick;
 
 			if (mraGetStringW(NULL, "AuthMessage", wszAuthMessage) == FALSE) // def auth message
-				wszAuthMessage = TranslateT(MRA_DEFAULT_AUTH_MESSAGE);
+				wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
 
 			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 				if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, &email, NULL, NULL) == NO_ERROR)
@@ -1350,7 +1350,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 		else if (dwTemp == GET_CONTACTS_INTERR) // произошла внутренн€€ ошибка
 			ShowFormattedErrorMessage(L"MRIM_CS_CONTACT_LIST2: internal server error", NO_ERROR);
 		else {
-			TCHAR szBuff[1024];
+			wchar_t szBuff[1024];
 			mir_sntprintf(szBuff, TranslateT("MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu"), dwTemp);
 			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
 		}

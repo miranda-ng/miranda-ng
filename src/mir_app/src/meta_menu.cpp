@@ -164,7 +164,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 			PROTO_AVATAR_INFORMATION ai = { 0 };
 			ai.hContact = ccMeta->contactID;
 			ai.format = PA_FORMAT_UNKNOWN;
-			_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
+			wcsncpy_s(ai.filename, L"X", _TRUNCATE);
 
 			if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", ai.filename);
@@ -207,7 +207,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 			return 2;
 
 		if (cc->nSubs == 1) {
-			if (IDYES == MessageBox(0, TranslateT(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
+			if (IDYES == MessageBox(0, TranslateTS(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
 				Meta_Delete(cc->contactID, 1);
 
 			return 0;
@@ -263,7 +263,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 		Menu_ShowItem(hMenuDefault, false);
 
 		Menu_ShowItem(hMenuDelete, false);
-		Menu_ModifyItem(hMenuDelete, LPGENT("Remove from metacontact"));
+		Menu_ModifyItem(hMenuDelete, LPGENW("Remove from metacontact"));
 
 		// show subcontact menu items
 		CMString tszNick;
@@ -311,7 +311,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 	if (cc->IsSub()) {
 		Menu_ShowItem(hMenuDefault, true);
 
-		Menu_ModifyItem(hMenuDelete, LPGENT("Remove from metacontact"));
+		Menu_ModifyItem(hMenuDelete, LPGENW("Remove from metacontact"));
 		Menu_ShowItem(hMenuDelete, true);
 
 		Menu_ShowItem(hMenuAdd, false);
@@ -342,9 +342,9 @@ INT_PTR Meta_OnOff(WPARAM, LPARAM)
 	bool bToggled = !db_mc_isEnabled();
 	db_set_b(0, META_PROTO, "Enabled", bToggled);
 	if (bToggled)
-		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts off"), Meta_GetIconHandle(I_MENU));
+		Menu_ModifyItem(hMenuOnOff, LPGENW("Toggle metacontacts off"), Meta_GetIconHandle(I_MENU));
 	else
-		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts on"), Meta_GetIconHandle(I_MENUOFF));
+		Menu_ModifyItem(hMenuOnOff, LPGENW("Toggle metacontacts on"), Meta_GetIconHandle(I_MENUOFF));
 
 	db_mc_enable(bToggled);
 	Meta_HideMetaContacts(!bToggled);
@@ -427,7 +427,7 @@ void InitMenus()
 
 	if (!db_mc_isEnabled()) {
 		// modify main menu item
-		Menu_ModifyItem(hMenuOnOff, LPGENT("Toggle metacontacts on"), Meta_GetIconHandle(I_MENUOFF));
+		Menu_ModifyItem(hMenuOnOff, LPGENW("Toggle metacontacts on"), Meta_GetIconHandle(I_MENUOFF));
 		Meta_HideMetaContacts(true);
 	}
 	else {

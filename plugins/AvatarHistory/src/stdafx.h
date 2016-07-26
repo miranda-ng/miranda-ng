@@ -37,7 +37,7 @@ extern DWORD mirVer;
 extern MWindowList hAvatarWindowsList;
 extern Options opts;
 extern HANDLE hFolder;
-extern TCHAR basedir[];
+extern wchar_t basedir[];
 
 #define MODULE_NAME "AvatarHistory"
 
@@ -51,8 +51,8 @@ extern TCHAR basedir[];
 #define AVH_DEF_DEFPOPUPS 0
 #define AVH_DEF_SHOWMENU 1
 
-#define DEFAULT_TEMPLATE_REMOVED LPGENT("removed his/her avatar")
-#define DEFAULT_TEMPLATE_CHANGED LPGENT("changed his/her avatar")
+#define DEFAULT_TEMPLATE_REMOVED LPGENW("removed his/her avatar")
+#define DEFAULT_TEMPLATE_CHANGED LPGENW("changed his/her avatar")
 
 void LoadOptions();
 
@@ -69,14 +69,14 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn);
 
 // utils
 
-TCHAR* GetCachedAvatar(char *proto, TCHAR *hash);
+wchar_t* GetCachedAvatar(char *proto, wchar_t *hash);
 bool   ProtocolEnabled(const char *proto);
 bool   ContactEnabled(MCONTACT hContact, char *setting, int def);
-BOOL   CopyImageFile(TCHAR *old_file, TCHAR *new_file);
-void   ConvertToFilename(TCHAR *str, size_t size);
+BOOL   CopyImageFile(wchar_t *old_file, wchar_t *new_file);
+void   ConvertToFilename(wchar_t *str, size_t size);
 
-void   CreateOldStyleShortcut(MCONTACT hContact, TCHAR *history_filename);
-BOOL   CreateShortcut(TCHAR *file, TCHAR *shortcut);
+void   CreateOldStyleShortcut(MCONTACT hContact, wchar_t *history_filename);
+BOOL   CreateShortcut(wchar_t *file, wchar_t *shortcut);
 
 #define POPUP_ACTION_DONOTHING 0
 #define POPUP_ACTION_CLOSEPOPUP 1

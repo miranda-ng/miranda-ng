@@ -94,7 +94,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			}
 			else {
 				SIZE size;
-				TCHAR *szText = (TCHAR*)_alloca(Len * sizeof(TCHAR));
+				wchar_t *szText = (wchar_t*)_alloca(Len * sizeof(wchar_t));
 				GetWindowText(hWnd, szText, Len);
 				GetTextExtentPoint32(hdc, szText, (int)mir_tstrlen(szText), &size);
 				rcText.right = size.cx;
@@ -274,7 +274,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			rc.left += CG_CHECKBOX_INDENT + CG_CHECKBOX_WIDTH + CG_TEXT_INDENT;
 
 			int Len = GetWindowTextLength(hWnd) + 1;
-			TCHAR *szTextT = (TCHAR*)_alloca(Len * sizeof(TCHAR));
+			wchar_t *szTextT = (wchar_t*)_alloca(Len * sizeof(wchar_t));
 			GetWindowText(hWnd, szTextT, Len);
 
 			HFONT hOldFont = (HFONT)SelectObject(hdcMem, dat->hFont);

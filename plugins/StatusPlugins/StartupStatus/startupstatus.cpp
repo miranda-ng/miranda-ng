@@ -63,7 +63,7 @@ TSSSetting::TSSSetting(int profile, PROTOACCOUNT *pa)
 
 	szMsg = GetStatusMessage(profile, szName);
 	if (szMsg)
-		szMsg = _tcsdup(szMsg);
+		szMsg = wcsdup(szMsg);
 }
 
 TSSSetting::~TSSSetting()
@@ -173,7 +173,7 @@ static void SetLastStatusMessages(TSettingsList &ps)
 
 		DBVARIANT dbv;
 		if (ps[i].szMsg == NULL && !db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
-			ps[i].szMsg = _tcsdup(dbv.ptszVal); // remember this won't be freed
+			ps[i].szMsg = wcsdup(dbv.ptszVal); // remember this won't be freed
 			db_free(&dbv);
 		}
 	}

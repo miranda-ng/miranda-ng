@@ -201,7 +201,7 @@ void CJabberIqManager::ExpireAll()
 		ExpireInfo(pInfo);
 }
 
-CJabberIqInfo* CJabberIqManager::AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const TCHAR *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority)
+CJabberIqInfo* CJabberIqManager::AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const wchar_t *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority)
 {
 	CJabberIqInfo *pInfo = new CJabberIqInfo();
 	pInfo->m_pHandler = pHandler;
@@ -243,7 +243,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 	if (nIqId == -1 || pNode == NULL)
 		return false;
 
-	const TCHAR *szType = XmlGetAttrValue(pNode, L"type");
+	const wchar_t *szType = XmlGetAttrValue(pNode, L"type");
 	if (!szType)
 		return false;
 
@@ -266,21 +266,21 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 				pInfo->m_pChildNode = XmlGetChild(pNode , 0);
 
 			if (pInfo->m_pChildNode && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NAME))
-				pInfo->m_szChildTagName = (TCHAR*)XmlGetName(pInfo->m_pChildNode);
+				pInfo->m_szChildTagName = (wchar_t*)XmlGetName(pInfo->m_pChildNode);
 			if (pInfo->m_pChildNode && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_XMLNS))
-				pInfo->m_szChildTagXmlns = (TCHAR*)XmlGetAttrValue(pNode, L"xmlns");
+				pInfo->m_szChildTagXmlns = (wchar_t*)XmlGetAttrValue(pNode, L"xmlns");
 		}
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-			pInfo->m_szTo = (TCHAR*)XmlGetAttrValue(pNode, L"to");
+			pInfo->m_szTo = (wchar_t*)XmlGetAttrValue(pNode, L"to");
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
-			pInfo->m_szFrom = (TCHAR*)XmlGetAttrValue(pNode, L"from");
+			pInfo->m_szFrom = (wchar_t*)XmlGetAttrValue(pNode, L"from");
 		if (pInfo->m_szFrom && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT))
 			pInfo->m_hContact = ppro->HContactFromJID(pInfo->m_szFrom);
 
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_ID_STR)
-			pInfo->m_szId = (TCHAR*)XmlGetAttrValue(pNode, L"id");
+			pInfo->m_szId = (wchar_t*)XmlGetAttrValue(pNode, L"id");
 
 		(ppro->*(pInfo->m_pHandler))(pNode, pInfo);
 		delete pInfo;
@@ -294,7 +294,7 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 	for (int i = 0; i < m_arHandlers.getCount(); i++) {
 		CJabberIqPermanentInfo &pInfo = m_arHandlers[i];
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
-		const TCHAR *szType = XmlGetAttrValue(pNode, L"type");
+		const wchar_t *szType = XmlGetAttrValue(pNode, L"type");
 		if (!szType)
 			return FALSE;
 
@@ -314,24 +314,24 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 		if (!pFirstChild || !XmlGetName(pFirstChild))
 			return FALSE;
 
-		const TCHAR *szTagName = XmlGetName(pFirstChild);
-		const TCHAR *szXmlns = XmlGetAttrValue(pFirstChild, L"xmlns");
+		const wchar_t *szTagName = XmlGetName(pFirstChild);
+		const wchar_t *szXmlns = XmlGetAttrValue(pFirstChild, L"xmlns");
 
 		if ((!pInfo.m_szXmlns || (szXmlns && !mir_tstrcmp(pInfo.m_szXmlns, szXmlns))) &&
 			 (!pInfo.m_szTag || !mir_tstrcmp(pInfo.m_szTag, szTagName)))
 		{
 			// node suits handler criteria, call the handler
 			iqInfo.m_pChildNode = pFirstChild;
-			iqInfo.m_szChildTagName = (TCHAR*)szTagName;
-			iqInfo.m_szChildTagXmlns = (TCHAR*)szXmlns;
-			iqInfo.m_szId = (TCHAR*)XmlGetAttrValue(pNode, L"id");
+			iqInfo.m_szChildTagName = (wchar_t*)szTagName;
+			iqInfo.m_szChildTagXmlns = (wchar_t*)szXmlns;
+			iqInfo.m_szId = (wchar_t*)XmlGetAttrValue(pNode, L"id");
 			iqInfo.m_pUserData = pInfo.m_pUserData;
 
 			if (pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_TO)
-				iqInfo.m_szTo = (TCHAR*)XmlGetAttrValue(pNode, L"to");
+				iqInfo.m_szTo = (wchar_t*)XmlGetAttrValue(pNode, L"to");
 
 			if (pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
-				iqInfo.m_szFrom = (TCHAR*)XmlGetAttrValue(pNode, L"from");
+				iqInfo.m_szFrom = (wchar_t*)XmlGetAttrValue(pNode, L"from");
 
 			if ((pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (iqInfo.m_szFrom))
 				iqInfo.m_hContact = ppro->HContactFromJID(iqInfo.m_szFrom);
@@ -406,9 +406,9 @@ CJabberIqPermanentInfo* CJabberIqManager::AddPermanentHandler(
 	JABBER_PERMANENT_IQ_HANDLER pHandler,
 	int nIqTypes,
 	DWORD dwParamsToParse,
-	const TCHAR *szXmlns,
+	const wchar_t *szXmlns,
 	BOOL bAllowPartialNs,
-	const TCHAR *szTag,
+	const wchar_t *szTag,
 	void *pUserData,
 	IQ_USER_DATA_FREE_FUNC pUserDataFree,
 	int iPriority)

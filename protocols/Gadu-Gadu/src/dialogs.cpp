@@ -38,9 +38,9 @@ extern INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam
 static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special, int disableIfUndef)
 {
 	DBVARIANT dbv = {0};
-	TCHAR str[256];
-	TCHAR *ptstr = NULL;
-	TCHAR* valT = NULL;
+	wchar_t str[256];
+	wchar_t *ptstr = NULL;
+	wchar_t* valT = NULL;
 	int unspecified = 0;
 
 	dbv.type = DBVT_DELETED;
@@ -69,7 +69,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				}
 			} else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
-				ptstr = _itot(special == SVS_SIGNED ? dbv.cVal : dbv.bVal, str, 10);
+				ptstr = _itow(special == SVS_SIGNED ? dbv.cVal : dbv.bVal, str, 10);
 			}
 			break;
 		case DBVT_WORD:
@@ -84,7 +84,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			}
 			else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
-				ptstr = _itot(special == SVS_SIGNED ? dbv.sVal : dbv.wVal, str, 10);
+				ptstr = _itow(special == SVS_SIGNED ? dbv.sVal : dbv.wVal, str, 10);
 			}
 			break;
 		case DBVT_DWORD:
@@ -104,7 +104,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				ptstr = str;
 				mir_sntprintf(str, L"%S", (char *)gg_version2string(dbv.dVal));
 			} else {
-				ptstr = _itot(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
+				ptstr = _itow(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
 			}
 			break;
 		case DBVT_ASCIIZ:
@@ -120,7 +120,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			valT = mir_utf8decodeT(dbv.pszVal);
 			ptstr = str;
-			_tcscpy_s(str, _countof(str), valT);
+			wcscpy_s(str, _countof(str), valT);
 			mir_free(valT);
 			break;
 		default:
@@ -170,7 +170,7 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 //
 static void gg_optsdlgcheck(HWND hwndDlg)
 {
-	TCHAR text[128];
+	wchar_t text[128];
 	GetDlgItemText(hwndDlg, IDC_UIN, text, _countof(text));
 	if (text[0]) {
 		GetDlgItemText(hwndDlg, IDC_EMAIL, text, _countof(text));
@@ -785,7 +785,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (!dat || dat->hContact || dat->disableUpdate)
 					break;
 				{
-				TCHAR text[256];
+				wchar_t text[256];
 				GGPROTO *gg = dat->gg;
 
 				if (!gg->isonline())
@@ -873,22 +873,22 @@ int GGPROTO::options_init(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_TCHAR;
 	odp.position = 1003000;
 	odp.hInstance = hInstance;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszGroup = LPGENW("Network");
+	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
 
-	odp.ptszTab = LPGENT("General");
+	odp.pwszTab = LPGENW("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_GENERAL);
 	odp.pfnDlgProc = gg_genoptsdlgproc;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Conference");
+	odp.pwszTab = LPGENW("Conference");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_CONFERENCE);
 	odp.pfnDlgProc = gg_confoptsdlgproc;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Advanced");
+	odp.pwszTab = LPGENW("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_ADVANCED);
 	odp.pfnDlgProc = gg_advoptsdlgproc;
 	Options_AddPage(wParam, &odp);
@@ -923,7 +923,7 @@ int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = gg_detailsdlgproc;
 	odp.position = -1900000000;
 	odp.pszTemplate = pszTemplate;
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
 	UserInfo_AddPage(wParam, &odp);
 

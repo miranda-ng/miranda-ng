@@ -171,7 +171,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	return FALSE;
 }
 
-static int IsOverEmail(HWND hwndDlg, TCHAR* szEmail, int cchEmail)
+static int IsOverEmail(HWND hwndDlg, wchar_t* szEmail, int cchEmail)
 {
 	HWND hwndEmails = GetDlgItem(hwndDlg, IDC_EMAILS);
 
@@ -190,7 +190,7 @@ static int IsOverEmail(HWND hwndDlg, TCHAR* szEmail, int cchEmail)
 
 	ListView_GetSubItemRect(hwndEmails, hti.iItem, 1, LVIR_LABEL, &rc);
 
-	TCHAR szText[256]; szText[0] = 0;
+	wchar_t szText[256]; szText[0] = 0;
 	ListView_GetItemText(hwndEmails, hti.iItem, 1, szText, _countof(szText));
 
 	HDC hdc = GetDC(hwndEmails);
@@ -264,7 +264,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_EMAILS));
 
 				char idstr[33];
-				TCHAR idstr2[33];
+				wchar_t idstr2[33];
 				DBVARIANT dbv;
 
 				LVITEM lvi;
@@ -400,7 +400,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						ListView_GetSubItemRect(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, LVIR_LABEL, &rc);
 						if (nm->iSubItem == 1 && nm->nmcd.hdr.idFrom == IDC_EMAILS) {
 							HFONT hoFont;
-							TCHAR szText[256] = { 0 };
+							wchar_t szText[256] = { 0 };
 							ListView_GetItemText(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, szText, _countof(szText));
 							hoFont = (HFONT)SelectObject(nm->nmcd.hdc, hEmailFont);
 							SetTextColor(nm->nmcd.hdc, RGB(0, 0, 255));
@@ -416,7 +416,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						else if (nm->iSubItem > 1 && nm->nmcd.lItemlParam != -1 && nm->nmcd.lItemlParam != -2) {
 							static int iconResources[3] = { SKINICON_OTHER_RENAME, SKINICON_OTHER_DELETE };
 							if (nm->iSubItem == 2 && nm->nmcd.hdr.idFrom == IDC_PHONES) {
-								TCHAR szText[2];
+								wchar_t szText[2];
 								ListView_GetItemText(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, szText, _countof(szText));
 								if (szText[0]) hIcon = Skin_LoadIcon(SKINICON_OTHER_SMS);
 							}
@@ -436,9 +436,9 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				char *szIdTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "MyPhone%d" : "Mye-mail%d";
 
-				TCHAR szEmail[256];
+				wchar_t szEmail[256];
 				if (IsOverEmail(hwndDlg, szEmail, _countof(szEmail))) {
-					TCHAR szExec[264];
+					wchar_t szExec[264];
 					mir_sntprintf(szExec, L"mailto:%s", szEmail);
 					ShellExecute(hwndDlg, L"open", szExec, NULL, NULL, SW_SHOW);
 					break;

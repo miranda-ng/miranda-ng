@@ -95,7 +95,7 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 }
 
 // helper, from core
-static TCHAR* GetDefaultMessage(int status)
+static wchar_t* GetDefaultMessage(int status)
 {
 	switch (status) {
 	case ID_STATUS_AWAY:       return TranslateT("I've been away since %time%.");
@@ -113,14 +113,14 @@ static TCHAR* GetDefaultMessage(int status)
 	return NULL;
 }
 
-TCHAR* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
+wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 {
 	if (ps->szMsg != NULL) {// custom message set
 		log_infoA("CommonStatus: Status message set by calling plugin");
 		return mir_tstrdup(ps->szMsg);
 	}
 
-	TCHAR *tMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName);
+	wchar_t *tMsg = (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName);
 	log_debugA("CommonStatus: Status message retrieved from general awaysys: %S", tMsg);
 	return tMsg;
 }
@@ -169,28 +169,28 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 
 static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 {
-	TCHAR* tszMsg = GetDefaultStatusMessage(ps, newstatus);
+	wchar_t* tszMsg = GetDefaultStatusMessage(ps, newstatus);
 	if (tszMsg) {
 		/* replace the default vars in msg  (I believe this is from core) */
 		for (int j = 0; tszMsg[j]; j++) {
 			if (tszMsg[j] != '%')
 				continue;
 
-			TCHAR substituteStr[128];
-			if (!_tcsnicmp(tszMsg + j, L"%time%", 6))
+			wchar_t substituteStr[128];
+			if (!wcsnicmp(tszMsg + j, L"%time%", 6))
 				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, 0, 0, substituteStr, _countof(substituteStr));
-			else if (!_tcsnicmp(tszMsg + j, L"%date%", 6))
+			else if (!wcsnicmp(tszMsg + j, L"%date%", 6))
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, 0, 0, substituteStr, _countof(substituteStr));
 			else
 				continue;
 
 			if (mir_tstrlen(substituteStr) > 6)
-				tszMsg = (TCHAR*)mir_realloc(tszMsg, sizeof(TCHAR)*(mir_tstrlen(tszMsg) + 1 + mir_tstrlen(substituteStr) - 6));
-			memmove(tszMsg + j + mir_tstrlen(substituteStr), tszMsg + j + 6, sizeof(TCHAR)*(mir_tstrlen(tszMsg) - j - 5));
-			memcpy(tszMsg + j, substituteStr, sizeof(TCHAR)*mir_tstrlen(substituteStr));
+				tszMsg = (wchar_t*)mir_realloc(tszMsg, sizeof(wchar_t)*(mir_tstrlen(tszMsg) + 1 + mir_tstrlen(substituteStr) - 6));
+			memmove(tszMsg + j + mir_tstrlen(substituteStr), tszMsg + j + 6, sizeof(wchar_t)*(mir_tstrlen(tszMsg) - j - 5));
+			memcpy(tszMsg + j, substituteStr, sizeof(wchar_t)*mir_tstrlen(substituteStr));
 		}
 
-		TCHAR *szFormattedMsg = variables_parsedup(tszMsg, ps->tszAccName, NULL);
+		wchar_t *szFormattedMsg = variables_parsedup(tszMsg, ps->tszAccName, NULL);
 		if (szFormattedMsg != NULL) {
 			mir_free(tszMsg);
 			tszMsg = szFormattedMsg;

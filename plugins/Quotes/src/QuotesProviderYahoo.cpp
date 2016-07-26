@@ -2,10 +2,10 @@
 
 void remove_quotes(tstring& s)
 {
-	if (*s.begin() == _T('"'))
+	if (*s.begin() == '"')
 		s.erase(s.begin());
 
-	if (*s.rbegin() == _T('"')) {
+	if (*s.rbegin() == '"') {
 		tstring::iterator i(s.begin());
 		std::advance(i, s.size() - 1);
 		s.erase(i);
@@ -14,12 +14,12 @@ void remove_quotes(tstring& s)
 
 void remove_end_of_line(tstring& s)
 {
-	if (*s.rbegin() == _T('\n')) {
+	if (*s.rbegin() == '\n') {
 		tstring::iterator i(s.begin());
 		std::advance(i, s.size() - 1);
 		s.erase(i);
 	}
-	if (*s.rbegin() == _T('\r')) {
+	if (*s.rbegin() == '\r') {
 		tstring::iterator i(s.begin());
 		std::advance(i, s.size() - 1);
 		s.erase(i);
@@ -83,7 +83,7 @@ void CQuotesProviderYahoo::RefreshQuotes(TContracts& anContacts)
 						remove_end_of_line(sLine);
 
 						TStrings asStrings;
-						for (tstring::size_type nPos = sLine.find(_T(',')); nPos != tstring::npos; nPos = sLine.find(_T(','))) {
+						for (tstring::size_type nPos = sLine.find(','); nPos != tstring::npos; nPos = sLine.find(',')) {
 							tstring::iterator i(sLine.begin());
 							std::advance(i, nPos);
 							tstring s(sLine.begin(), i);

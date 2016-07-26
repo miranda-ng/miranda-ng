@@ -24,7 +24,7 @@ enum
 	IDM_KICK, IDM_INFO, IDM_CHANGENICK, IDM_VISIT_PROFILE
 };
 
-static LPCTSTR sttStatuses[] = { LPGENT("Participants"), LPGENT("Owners") };
+static LPCTSTR sttStatuses[] = { LPGENW("Participants"), LPGENW("Owners") };
 
 extern JSONNode nullNode;
 
@@ -170,8 +170,8 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				break;
 
 			int uid = jnUser["id"].as_int();
-			TCHAR tszId[20];
-			_itot(uid, tszId, 10);
+			wchar_t tszId[20];
+			_itow(uid, tszId, 10);
 
 			bool bNew;
 			CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
@@ -209,8 +209,8 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			if (!cu.m_bDel)
 				continue;
 
-			TCHAR tszId[20];
-			_itot(cu.m_uid, tszId, 10);
+			wchar_t tszId[20];
+			_itow(cu.m_uid, tszId, 10);
 
 			GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_PART };
 			GCEVENT gce = { sizeof(GCEVENT), &gcd };
@@ -341,7 +341,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 				}
 				else {
 					int a_uid = 0;
-					int iReadCount = _stscanf(tszActionMid, L"%d", &a_uid);
+					int iReadCount = swscanf(tszActionMid, L"%d", &a_uid);
 					if (iReadCount == 1) {
 						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
 						if (cu == NULL)
@@ -364,7 +364,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 					tszBody.AppendFormat(L" (https://vk.com/id%s) %s", tszUid, TranslateT("returned to chat"));
 				else {
 					int a_uid = 0;
-					int iReadCount = _stscanf(tszActionMid, L"%d", &a_uid);
+					int iReadCount = swscanf(tszActionMid, L"%d", &a_uid);
 					if (iReadCount == 1) {
 						CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&a_uid);
 						if (cu == NULL)
@@ -424,8 +424,8 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 		cu->m_bUnknown = true;
 	}
 
-	TCHAR tszId[20];
-	_itot(uid, tszId, 10);
+	wchar_t tszId[20];
+	_itow(uid, tszId, 10);
 
 	GCDEST gcd = { m_szModuleName, cc->m_tszId, bIsAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
@@ -434,7 +434,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
 	gce.ptszNick = cu->m_tszNick ? mir_tstrdup(cu->m_tszNick) : mir_tstrdup(hContact ? ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
-	gce.ptszText = IsEmpty((TCHAR *)ptszBody) ? mir_tstrdup(L"...") : mir_tstrdup(ptszBody);
+	gce.ptszText = IsEmpty((wchar_t *)ptszBody) ? mir_tstrdup(L"...") : mir_tstrdup(ptszBody);
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	StopChatContactTyping(cc->m_chatid, uid);
 }
@@ -469,9 +469,9 @@ void CVkProto::SetChatStatus(MCONTACT hContact, int iStatus)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TCHAR* UnEscapeChatTags(TCHAR *str_in)
+wchar_t* UnEscapeChatTags(wchar_t *str_in)
 {
-	TCHAR *s = str_in, *d = str_in;
+	wchar_t *s = str_in, *d = str_in;
 	while (*s) {
 		if (*s == '%' && s[1] == '%')
 			s++;
@@ -506,13 +506,13 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 	case GC_USER_PRIVMESS:
 		{
-			MCONTACT hContact = FindUser(_ttoi(gch->ptszUID));
+			MCONTACT hContact = FindUser(_wtoi(gch->ptszUID));
 			if (hContact == NULL) {
-				hContact = FindUser(_ttoi(gch->ptszUID), true);
+				hContact = FindUser(_wtoi(gch->ptszUID), true);
 				db_set_b(hContact, "CList", "Hidden", 1);
 				db_set_b(hContact, "CList", "NotOnList", 1);
 				db_set_dw(hContact, "Ignore", "Mask1", 0);
-				RetrieveUserInfo(_ttoi(gch->ptszUID));
+				RetrieveUserInfo(_wtoi(gch->ptszUID));
 			}
 			CallService(MS_MSG_SENDMESSAGET, hContact);
 		}
@@ -796,8 +796,8 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_NICK };
 		GCEVENT gce = { sizeof(GCEVENT), &gcd };
 
-		TCHAR tszId[20];
-		_itot(cu->m_uid, tszId, 10);
+		wchar_t tszId[20];
+		_itow(cu->m_uid, tszId, 10);
 
 		gce.ptszNick = mir_tstrdup(cu->m_tszNick);
 		gce.bIsMe = (cu->m_uid == m_myUserId);
@@ -829,18 +829,18 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 
 static gc_item sttLogListItems[] =
 {
-	{ LPGENT("&Invite a user"), IDM_INVITE, MENU_ITEM },
-	{ LPGENT("View/change &title"), IDM_TOPIC, MENU_ITEM },
+	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
+	{ LPGENW("View/change &title"), IDM_TOPIC, MENU_ITEM },
 	{ NULL, 0, MENU_SEPARATOR },
-	{ LPGENT("&Destroy room"), IDM_DESTROY, MENU_ITEM }
+	{ LPGENW("&Destroy room"), IDM_DESTROY, MENU_ITEM }
 };
 
 static gc_item sttListItems[] =
 {
-	{ LPGENT("&User details"), IDM_INFO, MENU_ITEM },
-	{ LPGENT("Visit profile"), IDM_VISIT_PROFILE, MENU_ITEM },
-	{ LPGENT("Change nick"), IDM_CHANGENICK, MENU_ITEM },
-	{ LPGENT("&Kick"), IDM_KICK, MENU_ITEM }
+	{ LPGENW("&User details"), IDM_INFO, MENU_ITEM },
+	{ LPGENW("Visit profile"), IDM_VISIT_PROFILE, MENU_ITEM },
+	{ LPGENW("Change nick"), IDM_CHANGENICK, MENU_ITEM },
+	{ LPGENW("&Kick"), IDM_KICK, MENU_ITEM }
 };
 
 int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)

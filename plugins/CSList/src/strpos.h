@@ -32,9 +32,9 @@
  */
 
 
-# ifndef TCHAR
-#  define       TCHAR   wchar_t
-# endif /* TCHAR */
+# ifndef wchar_t
+#  define       wchar_t   wchar_t
+# endif /* wchar_t */
 # define        STRING  wchar_t *
 
 
@@ -46,7 +46,7 @@ int strpos( STRING haystack, STRING needle )
 	int position;
 
 #ifdef DEBUG_VERBOSE
-	TCHAR lpBuf[1024];
+	wchar_t lpBuf[1024];
 #endif /* def DEBUG_VERBOSE */
 	
 	pDest = (STRING) wcsstr( haystack, needle );

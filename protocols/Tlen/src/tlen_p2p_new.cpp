@@ -260,13 +260,13 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 						char fileInfo[128];
 						item->ft = ft;
 						mir_snprintf(fileInfo, "%s file(s), %s bytes", c, s);
-						TCHAR* filenameT = mir_utf8decodeT((char*)fileInfo);
+						wchar_t* filenameT = mir_utf8decodeT((char*)fileInfo);
 						PROTORECVFILET pre = { 0 };
 						pre.dwFlags = PRFF_TCHAR;
 						pre.fileCount = 1;
 						pre.timestamp = time(NULL);
-						pre.descr.t = filenameT;
-						pre.files.t = &filenameT;
+						pre.descr.w = filenameT;
+						pre.files.w = &filenameT;
 						pre.lParam = (LPARAM)ft;
 						ft->proto->debugLogA("sending chainrecv");
 						ProtoChainRecvFile(ft->hContact, &pre);

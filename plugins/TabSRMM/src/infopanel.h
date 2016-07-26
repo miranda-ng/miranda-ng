@@ -52,7 +52,7 @@ struct TInfoPanelConfig {
 	UINT		height1, height2;
 };
 
-extern TCHAR *xStatusDescr[];
+extern wchar_t *xStatusDescr[];
 
 /**
  * a simple tooltip class using a richedit control to display its content. Allows
@@ -71,12 +71,12 @@ public:
 		LEFT_BAR_WIDTH = 20
 	};
 
-	CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText = 0, const CInfoPanel *panel = 0);
+	CTip(const HWND hwndParent, const MCONTACT hContact, const wchar_t *pszText = 0, const CInfoPanel *panel = 0);
 	~CTip()
 	{
 		mir_free(m_pszText);
 	}
-	void						show(const RECT& rc, POINT& pt, const HICON hIcon = 0, const TCHAR *szTitle = 0);
+	void						show(const RECT& rc, POINT& pt, const HICON hIcon = 0, const wchar_t *szTitle = 0);
 	const HWND					getHwnd() const { return(m_hwnd); }
 
 	static void					registerClass();

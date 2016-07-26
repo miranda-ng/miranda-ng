@@ -250,7 +250,7 @@ BOOL SendPicture(TlenProtocol *proto, MCONTACT hContact) {
 	if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 		char *jid = dbv.pszVal;
 		
-		TCHAR tszFilter[512], tszFileName[MAX_PATH];
+		wchar_t tszFilter[512], tszFileName[MAX_PATH];
 		Bitmap_GetFilter(tszFilter, _countof(tszFilter));
 		tszFileName[0] = '\0';
 
@@ -263,7 +263,7 @@ BOOL SendPicture(TlenProtocol *proto, MCONTACT hContact) {
 		ofn.Flags = OFN_FILEMUSTEXIST;
 		if (GetOpenFileName(&ofn)) {
 			long size;
-			FILE* fp = _tfopen(tszFileName, L"rb");
+			FILE* fp = _wfopen(tszFileName, L"rb");
 			if (fp) {
 				fseek(fp, 0, SEEK_END);
 				size = ftell(fp);

@@ -35,20 +35,20 @@ PackerJob::PackerJob(MCONTACT hContact, int iFtpNum, EMode mode) :
 
 void PackerJob::getZipFilePath()
 {
-	TCHAR buff[256], stzFileName[256] = { 0 };
-	TCHAR *pch;
+	wchar_t buff[256], stzFileName[256] = { 0 };
+	wchar_t *pch;
 
 	if (m_files.size() == 1) {
 		mir_tstrcpy(stzFileName, Utils::getFileNameFromPath(m_files[0]));
-		pch = _tcsrchr(stzFileName, '.');
+		pch = wcsrchr(stzFileName, '.');
 		if (pch) *pch = 0;
 	}
 	else {
 		mir_tstrcpy(buff, m_files[0]);
-		pch = _tcsrchr(buff, '\\');
+		pch = wcsrchr(buff, '\\');
 		if (pch) {
 			*pch = 0;
-			pch = _tcsrchr(buff, '\\');
+			pch = wcsrchr(buff, '\\');
 			if (pch) mir_tstrcpy(stzFileName, pch + 1);
 		}
 	}
@@ -109,7 +109,7 @@ void PackerJob::pack()
 {
 	struct _stat fileInfo;
 	for (UINT i = 0; i < m_files.size(); i++) {
-		if (_tstat(m_files[i], &fileInfo) == 0)
+		if (_wstat(m_files[i], &fileInfo) == 0)
 			m_uiFileSize += (UINT64)fileInfo.st_size;
 	}
 
@@ -161,7 +161,7 @@ int PackerJob::createZipFile()
 			FREE(file);
 
 			if (err == ZIP_OK) {
-				FILE *fin = _tfopen(m_files[i], L"rb");
+				FILE *fin = _wfopen(m_files[i], L"rb");
 				if (fin) {
 					do {
 						if (isCanceled()) {
@@ -209,7 +209,7 @@ Cleanup:
 	return result;
 }
 
-uLong PackerJob::getFileTime(TCHAR *file, tm_zip*, uLong *dt)
+uLong PackerJob::getFileTime(wchar_t *file, tm_zip*, uLong *dt)
 {
 	FILETIME ftLocal;
 	HANDLE hFind;
@@ -238,7 +238,7 @@ void PackerJob::updateStats()
 		double perc = m_uiFileSize ? ((double)m_uiReaded / m_uiFileSize) * 100 : 0;
 		mir_sntprintf(m_tab->m_stzComplet, TranslateT("%0.1f%% (%d kB/%d kB)"), perc, (int)m_uiReaded / 1024, (int)m_uiFileSize / 1024);
 
-		TCHAR buff[256];
+		wchar_t buff[256];
 		long s = (m_uiFileSize - m_uiReaded) / (long)(speed * 1024);
 		int d = (s / 60 / 60 / 24);
 		int h = (s - d * 60 * 60 * 24) / 60 / 60;

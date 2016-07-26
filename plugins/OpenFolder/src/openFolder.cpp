@@ -29,9 +29,9 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 {
-	TCHAR szMirandaPath[MAX_PATH];
+	wchar_t szMirandaPath[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, _countof(szMirandaPath));
-	TCHAR *p = _tcsrchr(szMirandaPath, '\\');
+	wchar_t *p = wcsrchr(szMirandaPath, '\\');
 	if (p)
 		p[1] = 0;
 
@@ -91,8 +91,8 @@ extern "C" int __declspec(dllexport) Load()
 	hotkey.cbSize = sizeof(hotkey);
 	hotkey.dwFlags = HKD_TCHAR;
 	hotkey.pszName = "Open Folder";
-	hotkey.ptszDescription = LPGENT("Open Folder");
-	hotkey.ptszSection = LPGENT("Main");
+	hotkey.ptszDescription = LPGENW("Open Folder");
+	hotkey.ptszSection = LPGENW("Main");
 	hotkey.pszService = MS_OPENFOLDER_OPEN;
 	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
 	Hotkey_Register(&hotkey);
@@ -102,7 +102,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position = 0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = icon.hIcolib;
-	mi.name.t = LPGENT("Open Folder");
+	mi.name.w = LPGENW("Open Folder");
 	mi.pszService = MS_OPENFOLDER_OPEN;
 	Menu_AddMainMenuItem(&mi);
 

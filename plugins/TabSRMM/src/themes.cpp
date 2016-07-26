@@ -108,10 +108,10 @@ AeroEffect *CSkin::m_pCurrentAeroEffect = 0;
 
 AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 	{
-		LPGENT("No effect"), 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0
+		LPGENW("No effect"), 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0
 	},
 	{
-		LPGENT("Milky Glass"),
+		LPGENW("Milky Glass"),
 		0xf5f5f5, 									/* base color */
 		0xaaaaaa,									/* gradient color */
 		70,											/* base alpha */
@@ -126,7 +126,7 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		AeroEffectCallback_Milk						/* callback function to render the effect */
 	},
 	{
-		LPGENT("Carbon"),
+		LPGENW("Carbon"),
 		0xf0f0f0,
 		0x000000,
 		75,
@@ -141,7 +141,7 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		AeroEffectCallback_Carbon
 	},
 	{
-		LPGENT("Semi transparent, custom colors"),
+		LPGENW("Semi transparent, custom colors"),
 		0xffffff,
 		0x444444,
 		60,
@@ -156,7 +156,7 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		AeroEffectCallback_Solid
 	},
 	{
-		LPGENT("Silver shadow"),
+		LPGENW("Silver shadow"),
 		0xffffff,
 		0xa0a0a0,
 		80,
@@ -171,7 +171,7 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		AeroEffectCallback_Solid
 	},
 	{
-		LPGENT("Custom (use own gradient colors)"),
+		LPGENW("Custom (use own gradient colors)"),
 		0xffffff,
 		0xa0a0a0,
 		80,
@@ -732,7 +732,7 @@ static CSkinItem StatusItem_Default = {
 
 static struct
 {
-	TCHAR *szIniKey, *szIniName;
+	wchar_t *szIniKey, *szIniName;
 	char *szSetting;
 	unsigned int size;
 	int defaultval;
@@ -750,7 +750,7 @@ static struct
 	NULL, NULL, NULL, 0, 0
 };
 
-void CImageItem::Create(const TCHAR *szImageFile)
+void CImageItem::Create(const wchar_t *szImageFile)
 {
 	HBITMAP hbm = LoadPNG(szImageFile);
 	BITMAP bm;
@@ -795,15 +795,15 @@ void CImageItem::Create(const TCHAR *szImageFile)
 // @return char*: full path and filename to the .png image which represents this image item.
 // caller MUST delete it.
 
-TCHAR* CImageItem::Read(const TCHAR *szFilename)
+wchar_t* CImageItem::Read(const wchar_t *szFilename)
 {
-	TCHAR buffer[501];
-	TCHAR szDrive[MAX_PATH], szPath[MAX_PATH];
-	TCHAR	*szFinalName = 0;
+	wchar_t buffer[501];
+	wchar_t szDrive[MAX_PATH], szPath[MAX_PATH];
+	wchar_t	*szFinalName = 0;
 
 	GetPrivateProfileString(m_szName, L"Glyph", L"None", buffer, 500, szFilename);
 	if (mir_tstrcmp(buffer, L"None")) {
-		_stscanf(buffer, L"%d,%d,%d,%d", &m_glyphMetrics[0], &m_glyphMetrics[1],
+		swscanf(buffer, L"%d,%d,%d,%d", &m_glyphMetrics[0], &m_glyphMetrics[1],
 			&m_glyphMetrics[2], &m_glyphMetrics[3]);
 		if (m_glyphMetrics[2] > m_glyphMetrics[0] && m_glyphMetrics[3] > m_glyphMetrics[1]) {
 			m_dwFlags |= IMAGE_GLYPH;
@@ -814,10 +814,10 @@ TCHAR* CImageItem::Read(const TCHAR *szFilename)
 
 	GetPrivateProfileString(m_szName, L"Image", L"None", buffer, 500, szFilename);
 	if (mir_tstrcmp(buffer, L"None") || m_dwFlags & IMAGE_GLYPH) {
-		szFinalName = new TCHAR[MAX_PATH];
+		szFinalName = new wchar_t[MAX_PATH];
 		//strncpy(m_szName, &m_szName[1], sizeof(m_szName));
 		//m_szName[sizeof(m_szName) - 1] = 0;
-		_tsplitpath(szFilename, szDrive, szPath, NULL, NULL);
+		_wsplitpath(szFilename, szDrive, szPath, NULL, NULL);
 		mir_sntprintf(szFinalName, MAX_PATH, L"%s\\%s%s", szDrive, szPath, buffer);
 		if (!PathFileExists(szFinalName)) {
 			delete[] szFinalName;
@@ -999,7 +999,7 @@ void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha
 /////////////////////////////////////////////////////////////////////////////////////////
 // load PNG image using core service(advaimg)
 
-HBITMAP TSAPI CImageItem::LoadPNG(const TCHAR *szFilename)
+HBITMAP TSAPI CImageItem::LoadPNG(const wchar_t *szFilename)
 {
 	HBITMAP hBitmap = 0;
 	hBitmap = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_TCHAR);
@@ -1195,19 +1195,19 @@ void CSkin::Unload()
 	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 }
 
-void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON &hIcon)
+void CSkin::LoadIcon(const wchar_t *szSection, const wchar_t *name, HICON &hIcon)
 {
 	if (hIcon != 0)
 		DestroyIcon(hIcon);
 
-	TCHAR buffer[512];
+	wchar_t buffer[512];
 	GetPrivateProfileString(szSection, name, L"none", buffer, 250, m_tszFileName);
 	buffer[500] = 0;
 
 	if (mir_tstrcmpi(buffer, L"none")) {
-		TCHAR szDrive[MAX_PATH], szDir[MAX_PATH], szImagePath[MAX_PATH];
+		wchar_t szDrive[MAX_PATH], szDir[MAX_PATH], szImagePath[MAX_PATH];
 
-		_tsplitpath(m_tszFileName, szDrive, szDir, NULL, NULL);
+		_wsplitpath(m_tszFileName, szDrive, szDir, NULL, NULL);
 		mir_sntprintf(szImagePath, L"%s\\%s\\%s", szDrive, szDir, buffer);
 		hIcon = (HICON)LoadImage(0, szImagePath, IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
 	}
@@ -1224,10 +1224,10 @@ void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON &hIcon)
 // @param szItem char *: the section name in the ini file which holds the definition for this
 //    item.
 
-void CSkin::ReadItem(const int id, const TCHAR *szItem)
+void CSkin::ReadItem(const int id, const wchar_t *szItem)
 {
-	TCHAR buffer[512];
-	TCHAR def_color[20];
+	wchar_t buffer[512];
+	wchar_t def_color[20];
 	COLORREF clr;
 	CSkinItem *defaults = &StatusItem_Default;
 
@@ -1250,26 +1250,26 @@ void CSkin::ReadItem(const int id, const TCHAR *szItem)
 
 	this_item->CORNER = defaults->CORNER & CORNER_ACTIVE ? defaults->CORNER : 0;
 	GetPrivateProfileString(szItem, L"Corner", L"None", buffer, 400, m_tszFileName);
-	if (_tcsstr(buffer, L"tl"))
+	if (wcsstr(buffer, L"tl"))
 		this_item->CORNER |= CORNER_TL;
-	if (_tcsstr(buffer, L"tr"))
+	if (wcsstr(buffer, L"tr"))
 		this_item->CORNER |= CORNER_TR;
-	if (_tcsstr(buffer, L"bl"))
+	if (wcsstr(buffer, L"bl"))
 		this_item->CORNER |= CORNER_BL;
-	if (_tcsstr(buffer, L"br"))
+	if (wcsstr(buffer, L"br"))
 		this_item->CORNER |= CORNER_BR;
 	if (this_item->CORNER)
 		this_item->CORNER |= CORNER_ACTIVE;
 
 	this_item->GRADIENT = defaults->GRADIENT & GRADIENT_ACTIVE ? defaults->GRADIENT : 0;
 	GetPrivateProfileString(szItem, L"Gradient", L"None", buffer, 400, m_tszFileName);
-	if (_tcsstr(buffer, L"left"))
+	if (wcsstr(buffer, L"left"))
 		this_item->GRADIENT = GRADIENT_RL;
-	else if (_tcsstr(buffer, L"right"))
+	else if (wcsstr(buffer, L"right"))
 		this_item->GRADIENT = GRADIENT_LR;
-	else if (_tcsstr(buffer, L"up"))
+	else if (wcsstr(buffer, L"up"))
 		this_item->GRADIENT = GRADIENT_BT;
-	else if (_tcsstr(buffer, L"down"))
+	else if (wcsstr(buffer, L"down"))
 		this_item->GRADIENT = GRADIENT_TB;
 	if (this_item->GRADIENT)
 		this_item->GRADIENT |= GRADIENT_ACTIVE;
@@ -1291,13 +1291,13 @@ void CSkin::ReadItem(const int id, const TCHAR *szItem)
 //
 // @param itemname char *: image item name, also section name in the .tsk file
 
-void CSkin::ReadImageItem(const TCHAR *itemname)
+void CSkin::ReadImageItem(const wchar_t *itemname)
 {
-	TCHAR buffer[512], szItemNr[30];
+	wchar_t buffer[512], szItemNr[30];
 
 	CImageItem tmpItem(itemname);
 
-	TCHAR *szImageFileName = tmpItem.Read(m_tszFileName);
+	wchar_t *szImageFileName = tmpItem.Read(m_tszFileName);
 
 	if (!mir_tstrcmpi(itemname, L"$glyphs") && szImageFileName != 0) {		// the glyph item MUST have a valid image
 		tmpItem.Create(szImageFileName);
@@ -1370,7 +1370,7 @@ void CSkin::Load(void)
 
 	int i = 1, j = 0;
 	UINT  data;
-	TCHAR buffer[500];
+	wchar_t buffer[500];
 
 	if (!(GetPrivateProfileInt(L"Global", L"Version", 0, m_tszFileName) >= 1 && GetPrivateProfileInt(L"Global", L"Signature", 0, m_tszFileName) == 101))
 		return;
@@ -1401,11 +1401,11 @@ void CSkin::Load(void)
 
 	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 
-	TCHAR *szSections = (TCHAR*)mir_alloc(6004);
+	wchar_t *szSections = (wchar_t*)mir_alloc(6004);
 	memset(szSections, 0, 6000);
 	GetPrivateProfileSectionNames(szSections, 3000, m_tszFileName);
 	szSections[3001] = szSections[3000] = 0;
-	TCHAR *p = szSections;
+	wchar_t *p = szSections;
 	while (mir_tstrlen(p) > 1) {
 		if (p[0] != '%') {
 			p += (mir_tstrlen(p) + 1);
@@ -1464,8 +1464,8 @@ void CSkin::Load(void)
 	m_bClipBorder = GetPrivateProfileInt(L"WindowFrame", L"ClipFrame", 0, m_tszFileName) ? true : false;
 
 	BYTE radius_tl, radius_tr, radius_bl, radius_br;
-	TCHAR 	szFinalName[MAX_PATH];
-	TCHAR 	szDrive[MAX_PATH], szPath[MAX_PATH];
+	wchar_t 	szFinalName[MAX_PATH];
+	wchar_t 	szDrive[MAX_PATH], szPath[MAX_PATH];
 
 	radius_tl = GetPrivateProfileInt(L"WindowFrame", L"RadiusTL", 0, m_tszFileName);
 	radius_tr = GetPrivateProfileInt(L"WindowFrame", L"RadiusTR", 0, m_tszFileName);
@@ -1476,7 +1476,7 @@ void CSkin::Load(void)
 
 	GetPrivateProfileString(L"Theme", L"File", L"None", buffer, MAX_PATH, m_tszFileName);
 
-	_tsplitpath(m_tszFileName, szDrive, szPath, NULL, NULL);
+	_wsplitpath(m_tszFileName, szDrive, szPath, NULL, NULL);
 	mir_sntprintf(szFinalName, L"%s\\%s\\%s", szDrive, szPath, buffer);
 	if (PathFileExists(szFinalName)) {
 		ReadThemeFromINI(szFinalName, 0, FALSE, m_fLoadOnStartup ? 0 : M.GetByte("skin_loadmode", 0));
@@ -1523,8 +1523,8 @@ void CSkin::Load(void)
 
 void CSkin::LoadItems()
 {
-	TCHAR *szSections = NULL;
-	TCHAR *p, *p1;
+	wchar_t *szSections = NULL;
+	wchar_t *p, *p1;
 	TIconDesc tmpIconDesc = { 0 };
 
 	if (m_skinIcons == NULL)
@@ -1532,15 +1532,15 @@ void CSkin::LoadItems()
 
 	m_nrSkinIcons = 0;
 
-	szSections = (TCHAR*)mir_alloc((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
-	memset(szSections, 0, ((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR)));
+	szSections = (wchar_t*)mir_alloc((SECT_BUFFER_SIZE + 2) * sizeof(wchar_t));
+	memset(szSections, 0, ((SECT_BUFFER_SIZE + 2) * sizeof(wchar_t)));
 
 	GetPrivateProfileSection(L"Icons", szSections, SECT_BUFFER_SIZE, m_tszFileName);
 	szSections[SECT_BUFFER_SIZE] = 0;
 
 	p = szSections;
 	while (mir_tstrlen(p) > 1) {
-		p1 = _tcschr(p, (int)'=');
+		p1 = wcschr(p, (int)'=');
 		if (p1)
 			*p1 = 0;
 		if (m_nrSkinIcons < NR_MAXSKINICONS && p1) {
@@ -1549,7 +1549,7 @@ void CSkin::LoadItems()
 				memset(&m_skinIcons[m_nrSkinIcons], 0, sizeof(TIconDesc));
 				m_skinIcons[m_nrSkinIcons].uId = tmpIconDesc.uId;
 				m_skinIcons[m_nrSkinIcons].phIcon = (HICON *)(&m_skinIcons[m_nrSkinIcons].uId);
-				m_skinIcons[m_nrSkinIcons].szName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(p) + 1));
+				m_skinIcons[m_nrSkinIcons].szName = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_tstrlen(p) + 1));
 				mir_tstrcpy(m_skinIcons[m_nrSkinIcons].szName, p);
 				m_nrSkinIcons++;
 			}
@@ -1559,7 +1559,7 @@ void CSkin::LoadItems()
 		p += (mir_tstrlen(p) + 1);
 	}
 
-	memset(szSections, 0, ((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR)));
+	memset(szSections, 0, ((SECT_BUFFER_SIZE + 2) * sizeof(wchar_t)));
 	GetPrivateProfileSectionNames(szSections, SECT_BUFFER_SIZE, m_tszFileName);
 	szSections[SECT_BUFFER_SIZE] = 0;
 
@@ -1666,8 +1666,8 @@ void CSkin::setupAeroSkins()
 	if (!m_fAeroSkinsValid)
 		return;
 
-	TCHAR	tszFilename[MAX_PATH], tszBasePath[MAX_PATH];
-	_tcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
+	wchar_t	tszFilename[MAX_PATH], tszBasePath[MAX_PATH];
+	wcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
 	if (tszBasePath[mir_tstrlen(tszBasePath) - 1] != '\\')
 		mir_tstrcat(tszBasePath, L"\\");
 
@@ -2034,16 +2034,16 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, 
 /////////////////////////////////////////////////////////////////////////////////////////
 // convert a html-style color string (without the #) to a 32bit COLORREF value
 //
-// @param szSource TCHAR*: the color value as string. format:
+// @param szSource wchar_t*: the color value as string. format:
 //  			   html-style without the leading #. e.g.
 //  			   "f3e355"
 //
 // @return COLORREF representation of the string value.
 
-DWORD __fastcall CSkin::HexStringToLong(const TCHAR *szSource)
+DWORD __fastcall CSkin::HexStringToLong(const wchar_t *szSource)
 {
-	TCHAR *stopped;
-	COLORREF clr = _tcstol(szSource, &stopped, 16);
+	wchar_t *stopped;
+	COLORREF clr = wcstol(szSource, &stopped, 16);
 	if (clr == -1)
 		return clr;
 	return(RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr)));
@@ -2053,7 +2053,7 @@ DWORD __fastcall CSkin::HexStringToLong(const TCHAR *szSource)
 // Render text to the given HDC. This function is aero aware and will use uxtheme DrawThemeTextEx() when needed.
 // Paramaters are pretty much comparable to GDI DrawText() API
 
-int CSkin::RenderText(HDC hdc, HANDLE hTheme, const TCHAR *szText, RECT *rc, DWORD dtFlags, const int iGlowSize, COLORREF clr, bool fForceAero)
+int CSkin::RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, DWORD dtFlags, const int iGlowSize, COLORREF clr, bool fForceAero)
 {
 	if ((PluginConfig.m_bIsVista && !CSkin::m_skinEnabled && hTheme) || fForceAero) {
 		DTTOPTS dto = { 0 };
@@ -2437,8 +2437,8 @@ void CSkin::setAeroEffect(LRESULT effect)
 
 void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 {
-	TCHAR tszBasePath[MAX_PATH];
-	_tcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
+	wchar_t tszBasePath[MAX_PATH];
+	wcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
 	if (tszBasePath[mir_tstrlen(tszBasePath) - 1] != '\\')
 		mir_tstrcat(tszBasePath, L"\\");
 

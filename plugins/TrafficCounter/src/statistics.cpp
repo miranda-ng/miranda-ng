@@ -174,7 +174,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						SYSTEMTIME st = { 0 };
 						DWORD Index, Value;
 						double vartime;
-						TCHAR szBufW[64];
+						wchar_t szBufW[64];
 						BYTE EldestAcc;
 
 						if (!(pdi->item.mask & LVIF_TEXT)) return 0;
@@ -229,7 +229,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							break;
 						case 4: // Время
 							{
-								TCHAR *Fmt[5] = { L"m:ss", L"h:mm:ss", L"h:mm:ss", L"d hh:mm:ss", L"d hh:mm:ss" };
+								wchar_t *Fmt[5] = { L"m:ss", L"h:mm:ss", L"h:mm:ss", L"d hh:mm:ss", L"d hh:mm:ss" };
 								GetDurationFormatM(Value, Fmt[unOptions.Stat_Tab], pdi->item.pszText, 32);
 							}
 							break;
@@ -297,7 +297,7 @@ void Stat_ReadFile(BYTE n)
 {
 	LARGE_INTEGER Size;
 	DWORD BytesRead;
-	TCHAR FileName[MAX_PATH], *pszPath;
+	wchar_t FileName[MAX_PATH], *pszPath;
 	SYSTEMTIME stNow;
 
 	pszPath = Utils_ReplaceVarsT(L"%miranda_userdata%\\statistics");
@@ -350,7 +350,7 @@ void Stat_Show(HWND hwndDialog)
 
 void Stat_UpdateTotalTraffic(HWND hwndDialog, DWORD Incoming, DWORD Outgoing)
 {
-	TCHAR tmp[32];
+	wchar_t tmp[32];
 
 	GetFormattedTraffic(Incoming, unOptions.Stat_Units, tmp, 32);
 	SetDlgItemText(hwndDialog, IDC_STATIC_DNL, tmp);

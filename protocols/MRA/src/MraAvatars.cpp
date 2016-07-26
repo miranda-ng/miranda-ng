@@ -55,7 +55,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = new MRA_AVATARS_QUEUE();
 
-	TCHAR szBuffer[MAX_PATH];
+	wchar_t szBuffer[MAX_PATH];
 	mir_sntprintf(szBuffer, L"%s %s", m_tszUserName, TranslateT("Avatars' plugin connections"));
 
 	NETLIBUSER nlu = { sizeof(nlu) };
@@ -316,7 +316,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			ai.hContact = pmraaqiAvatarsQueueItem->hContact;
 			ai.format = dwAvatarFormat;
 			if (db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
-				_tcsncpy_s(ai.filename, wszFileName, _TRUNCATE);
+				wcsncpy_s(ai.filename, wszFileName, _TRUNCATE);
 			else
 				PathToRelativeT(wszFileName, ai.filename);
 
@@ -475,7 +475,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hQueue, MCONTACT hContact, DWORD d
 	if (IsContactChatAgent(hContact))
 		return ERROR_NOT_SUPPORTED;
 
-	TCHAR tszBase[MAX_PATH];
+	wchar_t tszBase[MAX_PATH];
 	mir_sntprintf(tszBase, L"%s\\%s\\", VARST(L"%miranda_avatarcache%"), m_tszUserName);
 	res = tszBase;
 
@@ -631,7 +631,7 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 			db_set_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", IsDlgButtonChecked(hWndDlg, IDC_USE_KEEPALIVE_CONN));
 			db_set_dw(NULL, MRA_AVT_SECT_NAME, "ServerPort", GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
 
-			TCHAR szServer[MAX_PATH];
+			wchar_t szServer[MAX_PATH];
 			GetDlgItemText(hWndDlg, IDC_SERVER, szServer, _countof(szServer));
 			db_set_ts(NULL, MRA_AVT_SECT_NAME, "Server", szServer);
 			return TRUE;

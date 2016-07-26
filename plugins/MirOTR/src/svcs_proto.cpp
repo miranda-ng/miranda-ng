@@ -45,7 +45,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	
 	if (err) { /* Be *sure* not to send out plaintext */
 		DEBUGOUTA("otrl_message_sending err");
-		ShowError(TranslateT(LANG_ENCRYPTION_ERROR));
+		ShowError(TranslateW(LANG_ENCRYPTION_ERROR));
 		otrl_message_free(newmessage);
 		return 1;
 	}
@@ -110,8 +110,8 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	OtrlTLV *tlv = otrl_tlv_find(tlvs, OTRL_TLV_DISCONNECTED);
 	if (tlv && !Miranda_Terminated()) {
 		/* Notify the user that the other side disconnected. */
-		TCHAR buff[256];
-		mir_sntprintf(buff, TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(ccs->hContact));
+		wchar_t buff[256];
+		mir_sntprintf(buff, TranslateW(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(ccs->hContact));
 		SetEncryptionStatus(ccs->hContact, otr_context_get_trust(context)); // required since libotr 4!?
 		ShowMessage(ccs->hContact, buff);
 	}

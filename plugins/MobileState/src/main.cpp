@@ -57,11 +57,11 @@ bool hasMobileClient(MCONTACT hContact, LPARAM)
 	ptrT client(db_get_tsa(hContact, proto, "MirVer"));
 	if (client) {
 		// Make client lower-case
-		_tcslwr(client);
+		wcslwr(client);
 		
 		// Find whether this client contain something from clients list
 		for (size_t i = 0; i < _countof(clients); i++)
-			if (_tcsstr(client, clients[i]))
+			if (wcsstr(client, clients[i]))
 				return true;
 	}
 

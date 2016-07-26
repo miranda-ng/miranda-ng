@@ -365,7 +365,7 @@ BOOL DlgShowAccount(HWND hDlg, WPARAM wParam, LPARAM lParam)
 	int i;
 
 	if ((DWORD)wParam == M_SHOWACTUAL) {
-		TCHAR accstatus[256];
+		wchar_t accstatus[256];
 		#ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "Options:SHOWACCOUNT:ActualAccountSO-read wait\n");
 		#endif
@@ -672,7 +672,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_YAMN_CHANGESTATUS:
 		if ((HPOP3ACCOUNT)wParam == ActualAccount) {
-			TCHAR accstatus[256];
+			wchar_t accstatus[256];
 			GetAccountStatus(ActualAccount, accstatus);
 			SetDlgItemText(hDlg, IDC_STSTATUS, accstatus);
 			return TRUE;
@@ -686,7 +686,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_YAMN_CHANGETIME:
 		if ((HPOP3ACCOUNT)wParam == ActualAccount) {
-			TCHAR Text[256];
+			wchar_t Text[256];
 			mir_sntprintf(Text, TranslateT("Time left to next check [s]: %d"), (DWORD)lParam);
 			SetDlgItemText(hDlg, IDC_STTIMELEFT, Text);
 		}
@@ -829,7 +829,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDC_BTNAPP:
 			{
-				TCHAR filter[MAX_PATH];
+				wchar_t filter[MAX_PATH];
 				mir_sntprintf(filter, L"%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c",
 					TranslateT("Executables"), 0, 0, TranslateT("All Files"), 0, 0);
 
@@ -839,8 +839,8 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 				OFNStruct.lpstrFilter = filter;
 				OFNStruct.nFilterIndex = 1;
 				OFNStruct.nMaxFile = MAX_PATH;
-				OFNStruct.lpstrFile = new TCHAR[MAX_PATH];
-				OFNStruct.lpstrFile[0] = (TCHAR)0;
+				OFNStruct.lpstrFile = new wchar_t[MAX_PATH];
+				OFNStruct.lpstrFile[0] = (wchar_t)0;
 				OFNStruct.lpstrTitle = TranslateT("Select executable used for notification");
 				OFNStruct.Flags = OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR;
 				if (!GetOpenFileName(&OFNStruct)) {
@@ -1373,7 +1373,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				{
-					TCHAR Text[MAX_PATH];
+					wchar_t Text[MAX_PATH];
 					BOOL Translated, CheckPopup, CheckPopupW;
 					BOOL CheckNPopup, CheckNPopupW, CheckFPopup, CheckFPopupW;
 					BOOL CheckPopN;

@@ -43,18 +43,18 @@ private:
 
 	void freemem();
 
-	bool loadFromFile_pixel(const TCHAR *fn);
-	bool loadFromFile_gradient(const TCHAR *fn);
+	bool loadFromFile_pixel(const wchar_t *fn);
+	bool loadFromFile_gradient(const wchar_t *fn);
 	void premultipleChannels();
 
 public:
 	MyBitmap();
 	MyBitmap(int w, int h);
-	MyBitmap(const TCHAR *fn);
+	MyBitmap(const wchar_t *fn);
 	~MyBitmap();
 	void allocate(int w, int h);
 
-	bool loadFromFile(const TCHAR *fn);
+	bool loadFromFile(const wchar_t *fn);
 
 	int getWidth() { return width; }
 	int getHeight() { return height; }
@@ -87,7 +87,7 @@ public:
 	//	void DrawPartColorized(MyBitmap *bmp, int x, int y, int w, int h, COLOR32 color);
 
 	void DrawIcon(HICON hic, int x, int y, int w = 0, int h = 0);
-	void Draw_Text(TCHAR *str, int x, int y);
+	void Draw_Text(wchar_t *str, int x, int y);
 
 	__forceinline COLOR32 *getBits() { return bits; }
 	__forceinline COLOR32 *getRow(int row) { return bits + row * width; }

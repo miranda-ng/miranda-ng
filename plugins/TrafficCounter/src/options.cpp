@@ -126,15 +126,15 @@ static INT_PTR CALLBACK DlgProcPopupsTraffic(HWND hwndDlg, UINT msg, WPARAM wPar
 
 static OPTTREE_OPTION options[] =
 {
-	{0,	LPGENT("Display") L"/" LPGENT("Icon"), OPTTREE_CHECK,	OPTTREE_INVISIBLE, NULL, "DrawProtoIcon"},
-	{0,	LPGENT("Display") L"/" LPGENT("Account name"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawProtoName"},
-	{0,	LPGENT("Display") L"/" LPGENT("Current traffic"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawCurrentTraffic"},
-	{0,	LPGENT("Display") L"/" LPGENT("Total traffic"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawTotalTraffic"},
-	{0,	LPGENT("Display") L"/" LPGENT("Current online"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawCurrentTime"},
-	{0,	LPGENT("Display") L"/" LPGENT("Total online"),OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawTotalTime"},
-	{0,	LPGENT("General") L"/" LPGENT("Draw frame as skin element"), OPTTREE_CHECK, 1, NULL, "DrawFrmAsSkin"},
-	{0,	LPGENT("General") L"/" LPGENT("Show tooltip in traffic window"), OPTTREE_CHECK, 1, NULL, "ShowTooltip"},
-	{0,	LPGENT("General") L"/" LPGENT("\"Toggle traffic counter\" in main menu"), OPTTREE_CHECK, 1, NULL, "ShowMainMenuItem"},
+	{0,	LPGENW("Display") L"/" LPGENW("Icon"), OPTTREE_CHECK,	OPTTREE_INVISIBLE, NULL, "DrawProtoIcon"},
+	{0,	LPGENW("Display") L"/" LPGENW("Account name"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawProtoName"},
+	{0,	LPGENW("Display") L"/" LPGENW("Current traffic"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawCurrentTraffic"},
+	{0,	LPGENW("Display") L"/" LPGENW("Total traffic"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawTotalTraffic"},
+	{0,	LPGENW("Display") L"/" LPGENW("Current online"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawCurrentTime"},
+	{0,	LPGENW("Display") L"/" LPGENW("Total online"),OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawTotalTime"},
+	{0,	LPGENW("General") L"/" LPGENW("Draw frame as skin element"), OPTTREE_CHECK, 1, NULL, "DrawFrmAsSkin"},
+	{0,	LPGENW("General") L"/" LPGENW("Show tooltip in traffic window"), OPTTREE_CHECK, 1, NULL, "ShowTooltip"},
+	{0,	LPGENW("General") L"/" LPGENW("\"Toggle traffic counter\" in main menu"), OPTTREE_CHECK, 1, NULL, "ShowMainMenuItem"},
 	// –езервируем место под активные и видимые протоколы
 	// ћаксимум 16 позиций видимых и 16 активных
 	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
@@ -169,8 +169,8 @@ static OPTTREE_OPTION options[] =
 	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
 	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
 	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	LPGENT("Visible accounts")L"/" LPGENT("Summary traffic for visible accounts"), OPTTREE_CHECK, 1, NULL, "ShowSummary"},
-	{0,	LPGENT("Visible accounts")L"/" LPGENT("Overall traffic"), OPTTREE_CHECK, 1, NULL, "ShowOverall"},
+	{0,	LPGENW("Visible accounts")L"/" LPGENW("Summary traffic for visible accounts"), OPTTREE_CHECK, 1, NULL, "ShowSummary"},
+	{0,	LPGENW("Visible accounts")L"/" LPGENW("Overall traffic"), OPTTREE_CHECK, 1, NULL, "ShowOverall"},
 };
 
 static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -195,7 +195,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				options[i].szSettingName = (char*)mir_alloc(1 + mir_strlen(ProtoList[j].name));
 				mir_strcpy(options[i].szSettingName, ProtoList[j].name);
 				size_t l = 20 + mir_tstrlen(ProtoList[j].tszAccountName);
-				options[i].szOptionName = (TCHAR*)mir_alloc(sizeof(TCHAR) * l);
+				options[i].szOptionName = (wchar_t*)mir_alloc(sizeof(wchar_t) * l);
 				mir_sntprintf(options[i].szOptionName, l, L"Visible accounts/%s", ProtoList[j].tszAccountName);
 				options[i].dwFlag = (ProtoList[j++].Enabled ? 1 : OPTTREE_INVISIBLE) | OPTTREE_NOTRANSLATE;
 			}

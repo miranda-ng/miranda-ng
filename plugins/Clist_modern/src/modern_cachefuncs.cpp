@@ -36,7 +36,7 @@ typedef BOOL(*ExecuteOnAllContactsFuncPtr) (ClcContact *contact, BOOL subcontact
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module static declarations
 
-static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size);
+static int CopySkipUnprintableChars(wchar_t *to, wchar_t * buf, DWORD size);
 
 static BOOL ExecuteOnAllContacts(ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param);
 static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param);
@@ -71,7 +71,7 @@ void Cache_GetText(ClcData *dat, ClcContact *contact)
 	}
 }
 
-void CSmileyString::AddListeningToIcon(ClcData *dat, TCHAR *szText)
+void CSmileyString::AddListeningToIcon(ClcData *dat, wchar_t *szText)
 {
 	iMaxSmileyHeight = 0;
 	DestroySmileyList();
@@ -170,7 +170,7 @@ void CSmileyString::DestroySmileyList()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Parsing of text for smiley
 //
-void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, TCHAR * szText, BOOL replace_smileys)
+void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, wchar_t * szText, BOOL replace_smileys)
 {
 	int last_pos = 0;
 	iMaxSmileyHeight = 0;
@@ -270,7 +270,7 @@ void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, TCHAR * s
 // Getting Status name
 // returns -1 for XStatus, 1 for Status
 //
-int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus_has_priority)
+int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus_has_priority)
 {
 	BOOL noAwayMsg = FALSE;
 	BOOL noXstatus = FALSE;
@@ -293,7 +293,7 @@ int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus
 	}
 
 	// Get Status name
-	TCHAR *tmp = pcli->pfnGetStatusModeDescription(nStatus, 0);
+	wchar_t *tmp = pcli->pfnGetStatusModeDescription(nStatus, 0);
 	if (tmp && *tmp) {
 		mir_tstrncpy(text, tmp, text_size);
 		return 1;
@@ -317,9 +317,9 @@ int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get Listening to information
 //
-void GetListeningTo(TCHAR *text, int text_size, ClcCacheEntry *pdnce)
+void GetListeningTo(wchar_t *text, int text_size, ClcCacheEntry *pdnce)
 {
-	*text = _T('\0');
+	*text = '\0';
 
 	if (pdnce->m_iStatus == ID_STATUS_OFFLINE || pdnce->m_iStatus == 0)
 		return;
@@ -333,7 +333,7 @@ void GetListeningTo(TCHAR *text, int text_size, ClcCacheEntry *pdnce)
 // Getting Status message(Away message)
 // returns -1 for XStatus, 1 for Status
 //
-int GetStatusMessage(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus_has_priority)
+int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus_has_priority)
 {
 	BOOL noAwayMsg = FALSE;
 	WORD wStatus = pdnce->getStatus();
@@ -393,7 +393,7 @@ LBL_Status:
 			// Try to get XStatusMsg
 			ptrT tszXStatusMsg(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
 			if (tszXStatusMsg != NULL && tszXStatusMsg[0] != 0) {
-				TCHAR *tmp = NEWTSTR_ALLOCA(text);
+				wchar_t *tmp = NEWWSTR_ALLOCA(text);
 				mir_sntprintf(text, text_size, L"%s: %s", tmp, tszXStatusMsg);
 				CopySkipUnprintableChars(text, text, text_size - 1);
 			}
@@ -415,7 +415,7 @@ LBL_Status:
 			// Try to get XStatusName
 			ptrT tszXStatusName(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
 			if (tszXStatusName != NULL && tszXStatusName[0] != 0) {
-				TCHAR *tmp = NEWTSTR_ALLOCA(text);
+				wchar_t *tmp = NEWWSTR_ALLOCA(text);
 				mir_sntprintf(text, text_size, L"%s: %s", tszXStatusName, tmp);
 				CopySkipUnprintableChars(text, text, text_size - 1);
 			}
@@ -474,11 +474,11 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 		return;
 
 	ClcCacheEntry *pdnce = contact->pce;
-	TCHAR *name = pcli->pfnGetContactDisplayName(contact->hContact, 0);
+	wchar_t *name = pcli->pfnGetContactDisplayName(contact->hContact, 0);
 	if (dat->first_line_append_nick && !dat->bForceInDialog) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ts(pdnce->hContact, pdnce->m_pszProto, "Nick", &dbv)) {
-			TCHAR nick[_countof(contact->szText)];
+			wchar_t nick[_countof(contact->szText)];
 			mir_tstrncpy(nick, dbv.ptszVal, _countof(contact->szText));
 			db_free(&dbv);
 
@@ -501,9 +501,9 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 
 void Cache_GetNthLineText(ClcData *dat, ClcCacheEntry *pdnce, int n)
 {
-	TCHAR Text[240 - EXTRA_ICON_COUNT]; Text[0] = 0;
+	wchar_t Text[240 - EXTRA_ICON_COUNT]; Text[0] = 0;
 	ClcLineInfo &line = (n == 2) ? dat->secondLine : dat->thirdLine;
-	TCHAR* &szText = (n == 2) ? pdnce->szSecondLineText : pdnce->szThirdLineText;
+	wchar_t* &szText = (n == 2) ? pdnce->szSecondLineText : pdnce->szThirdLineText;
 
 	// in most cases replaceStrT does nothing
 	if (!line.show) {
@@ -521,7 +521,7 @@ void Cache_GetNthLineText(ClcData *dat, ClcCacheEntry *pdnce, int n)
 	replaceStrT(szText, Text);
 
 	CSmileyString &ss = (n == 2) ? pdnce->ssSecondLine : pdnce->ssThirdLine;
-	if (type == TEXT_LISTENING_TO && szText[0] != _T('\0'))
+	if (type == TEXT_LISTENING_TO && szText[0] != '\0')
 		ss.AddListeningToIcon(dat, szText);
 	else
 		ss.ReplaceSmileys(dat, pdnce, szText, line.draw_smileys);
@@ -529,25 +529,25 @@ void Cache_GetNthLineText(ClcData *dat, ClcCacheEntry *pdnce, int n)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void RemoveTag(TCHAR *to, TCHAR *tag)
+void RemoveTag(wchar_t *to, wchar_t *tag)
 {
-	TCHAR *st = to;
+	wchar_t *st = to;
 	int len = (int)mir_tstrlen(tag);
 	int lastsize = (int)mir_tstrlen(to) + 1;
-	while (st = _tcsstr(st, tag)) {
+	while (st = wcsstr(st, tag)) {
 		lastsize -= len;
-		memmove((void*)st, (void*)(st + len), (lastsize)*sizeof(TCHAR));
+		memmove((void*)st, (void*)(st + len), (lastsize)*sizeof(wchar_t));
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Copy string with removing Escape chars from text and BBcodes
 
-static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size)
+static int CopySkipUnprintableChars(wchar_t *to, wchar_t * buf, DWORD size)
 {
 	DWORD i;
 	BOOL keep = 0;
-	TCHAR * cp = to;
+	wchar_t * cp = to;
 	if (!to) return 0;
 	if (!buf) {
 		to[0] = '\0';

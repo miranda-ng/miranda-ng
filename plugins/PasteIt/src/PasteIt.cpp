@@ -70,10 +70,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 std::wstring GetFile()
 {
-	TCHAR filter[512];
+	wchar_t filter[512];
 	mir_tstrncpy(filter, TranslateT("All Files (*.*)"), _countof(filter));
-	memcpy(filter + mir_tstrlen(filter), L"\0*.*\0", 6 * sizeof(TCHAR));
-	TCHAR stzFilePath[1024];
+	memcpy(filter + mir_tstrlen(filter), L"\0*.*\0", 6 * sizeof(wchar_t));
+	wchar_t stzFilePath[1024];
 	stzFilePath[0] = 0;
 	stzFilePath[1] = 0;
 	OPENFILENAME ofn = { 0 };
@@ -297,7 +297,7 @@ void InitMenuItems()
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = icon.hIcolib;
 	mi.position = 3000090005;
-	mi.name.t = LPGENT("Paste It");
+	mi.name.w = LPGENW("Paste It");
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
@@ -305,15 +305,15 @@ void InitMenuItems()
 	mi.flags =  CMIF_TCHAR;
 	mi.pszService = MS_PASTEIT_CONTACTMENU;
 	mi.root = hContactMenu;
-	mi.name.t = LPGENT("Paste from clipboard");
+	mi.name.w = LPGENW("Paste from clipboard");
 	Menu_ConfigureItem(Menu_AddContactMenuItem(&mi), MCI_OPT_EXECPARAM, FROM_CLIPBOARD);
 
 	SET_UID(mi, 0x7af7c3cb, 0xedc4, 0x4f3e, 0xb5, 0xe1, 0x42, 0x64, 0x5b, 0x7d, 0xd8, 0x1e);
-	mi.name.t = LPGENT("Paste from file");
+	mi.name.w = LPGENW("Paste from file");
 	Menu_ConfigureItem(Menu_AddContactMenuItem(&mi), MCI_OPT_EXECPARAM, FROM_FILE);
 
 	SET_UID(mi, 0xe58410ad, 0xa723, 0x48b9, 0xab, 0x7e, 0x5e, 0x42, 0x8b, 0x8, 0x32, 0x2f);
-	mi.name.t = LPGENT("Default web page");
+	mi.name.w = LPGENW("Default web page");
 	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hDefWebMenu, MCI_OPT_EXECPARAM, DEF_PAGES_START - 1);
 
@@ -325,7 +325,7 @@ void InitMenuItems()
 		mi2.flags =  CMIF_TCHAR | CMIF_UNMOVABLE;
 		if (Options::instance->defWeb == i)
 			mi2.flags |= CMIF_CHECKED;
-		mi2.name.t = pasteToWebs[i]->GetName();
+		mi2.name.w = pasteToWebs[i]->GetName();
 		hWebPageMenus[i] = Menu_AddContactMenuItem(&mi2);
 		Menu_ConfigureItem(hWebPageMenus[i], MCI_OPT_EXECPARAM, mi2.position = DEF_PAGES_START + i);
 	}

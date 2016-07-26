@@ -3773,7 +3773,7 @@ load_nameservers_with_getnetworkparams(struct evdns_base *base)
 }
 
 static int
-config_nameserver_from_reg_key(struct evdns_base *base, HKEY key, const TCHAR *subkey)
+config_nameserver_from_reg_key(struct evdns_base *base, HKEY key, const wchar_t *subkey)
 {
 	char *buf;
 	DWORD bufsz = 0, type = 0;

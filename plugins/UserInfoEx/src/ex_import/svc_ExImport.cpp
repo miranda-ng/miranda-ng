@@ -266,7 +266,7 @@ INT_PTR svcExIm_Group_Service(WPARAM wParam, LPARAM)
 {
 	ExImParam ExIm;
 	INT_PTR hItem = 0, hRoot = 0, hParent = 0;
-	TCHAR tszGroup[120], tszItem[120];
+	wchar_t tszGroup[120], tszItem[120];
 	memset(&tszGroup, 0, sizeof(tszGroup));
 	memset(&tszItem, 0, sizeof(tszItem));
 	memset(&ExIm, 0, sizeof(ExIm));

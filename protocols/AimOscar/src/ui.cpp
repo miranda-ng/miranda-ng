@@ -190,7 +190,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				DBVARIANT dbv;
 				if (!db_get_utf(NULL, ppro->m_szModuleName, AIM_KEY_PR, &dbv)) {
 					html_decode(dbv.pszVal);
-					TCHAR *txt = mir_utf8decodeT(dbv.pszVal);
+					wchar_t *txt = mir_utf8decodeT(dbv.pszVal);
 					SetDlgItemText(hwndDlg, IDC_PROFILE, txt);
 					mir_free(txt);
 					db_free(&dbv);
@@ -685,15 +685,15 @@ int CAimProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.position = -1900000000;
 		odp.flags = ODPF_USERINFOTAB | ODPF_TCHAR;
 		odp.hInstance = hInstance;
-		odp.ptszTitle = m_tszUserName;
+		odp.pwszTitle = m_tszUserName;
 		odp.dwInitParam = LPARAM(this);
 
-		odp.ptszTab = LPGENT("Profile");
+		odp.pwszTab = LPGENW("Profile");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
 		odp.pfnDlgProc = userinfo_dialog;
 		UserInfo_AddPage(wParam, &odp);
 
-		odp.ptszTab = LPGENT("Admin");
+		odp.pwszTab = LPGENW("Admin");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADMIN);
 		odp.pfnDlgProc = admin_dialog;
 		UserInfo_AddPage(wParam, &odp);
@@ -1058,17 +1058,17 @@ int CAimProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 1003000;
 	odp.hInstance = hInstance;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszGroup = LPGENW("Network");
+	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
-	odp.ptszTab = LPGENT("Basic");
+	odp.pwszTab = LPGENW("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_AIM);
 	odp.pfnDlgProc = options_dialog;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Privacy");
+	odp.pwszTab = LPGENW("Privacy");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PRIVACY);
 	odp.pfnDlgProc = privacy_dialog;
 	Options_AddPage(wParam, &odp);
@@ -1267,7 +1267,7 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, chat_list_item
 			int chk = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
 			if (chk) {
 				if (IsHContactInfo(hItem)) {
-					TCHAR buf[128] = L"";
+					wchar_t buf[128] = L"";
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
 					char *sn = mir_t2a(buf);
@@ -1364,7 +1364,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			switch (LOWORD(wParam)) {
 			case IDC_ADDSCR:
 				if (param->ppro->m_state == 1) {
-					TCHAR sn[64];
+					wchar_t sn[64];
 					GetDlgItemText(hwndDlg, IDC_EDITSCR, sn, _countof(sn));
 
 					CLCINFOITEM cii = { 0 };

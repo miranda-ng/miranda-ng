@@ -3,4 +3,4 @@
 //
 
 BOOL IsNt50();
-void TruncateWithDots(TCHAR* szString, size_t iNewLen);
+void TruncateWithDots(wchar_t* szString, size_t iNewLen);

@@ -55,6 +55,6 @@ public:
 	void DeleteExportedEvents();
 	int Import(IImport::ImportType type, const std::vector<MCONTACT> &contacts);
 	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage> &eventList, std::wstring *err = NULL, bool *differentContact = NULL, std::vector<MCONTACT> *contacts = NULL);
-	static const TCHAR* GetExt(IImport::ImportType type);
+	static const wchar_t* GetExt(IImport::ImportType type);
 };
 

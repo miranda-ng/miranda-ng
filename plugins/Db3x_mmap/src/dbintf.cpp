@@ -44,7 +44,7 @@ static int stringCompare2(const char *p1, const char *p2)
 	return mir_strcmp(p1, p2);
 }
 
-CDb3Mmap::CDb3Mmap(const TCHAR *tszFileName, int iMode) :
+CDb3Mmap::CDb3Mmap(const wchar_t *tszFileName, int iMode) :
 	m_hDbFile(INVALID_HANDLE_VALUE),
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),

@@ -9,16 +9,16 @@ static int icolib_AddIcon(lua_State *L)
 
 	if (filePath == NULL)
 	{
-		filePath = (TCHAR*)mir_calloc(MAX_PATH + 1);
+		filePath = (wchar_t*)mir_calloc(MAX_PATH + 1);
 		GetModuleFileName(g_hInstance, filePath, MAX_PATH);
 	}
 
 	SKINICONDESC si = { 0 };
 	si.flags = SIDF_ALL_TCHAR;
 	si.pszName = mir_utf8decodeA(name);
-	si.description.t = description;
-	si.section.t = section;
-	si.defaultFile.t = filePath;
+	si.description.w = description;
+	si.section.w = section;
+	si.defaultFile.w = filePath;
 	si.hDefaultIcon = GetIcon(IDI_SCRIPT);
 
 	int hScriptLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);

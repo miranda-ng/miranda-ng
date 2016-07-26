@@ -61,12 +61,12 @@ void Searcher::ClearFind()
 	}
 }
 
-inline TCHAR mytoupper(TCHAR a, std::locale* loc)
+inline wchar_t mytoupper(wchar_t a, std::locale* loc)
 {
-	return std::toupper<TCHAR>(a, *loc);
+	return std::toupper<wchar_t>(a, *loc);
 }
 
-bool Searcher::CompareStr(std::wstring str, TCHAR *strFind)
+bool Searcher::CompareStr(std::wstring str, wchar_t *strFind)
 {
 	std::locale loc;
 	if (!matchCase)
@@ -89,7 +89,7 @@ bool Searcher::CompareStr(std::wstring str, TCHAR *strFind)
 void Searcher::Find()
 {
 	FINDTEXTEX ft;
-	TCHAR str[128];
+	wchar_t str[128];
 	int curSel = 0;
 	bool isStart = false;
 	bool finished = false;
@@ -104,7 +104,7 @@ void Searcher::Find()
 
 	GetWindowText(context->findWindow, str, _countof(str));
 	if (!str[0]) {
-		TCHAR buf[256];
+		wchar_t buf[256];
 		mir_sntprintf(buf, TranslateT("\"%s\" not found"), str);
 		MessageBox(context->m_hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 		return;
@@ -297,20 +297,20 @@ void Searcher::Find()
 	SendMessage(context->editWindow,EM_SETOPTIONS,ECOOP_AND,~ECO_NOHIDESEL);
 	lastFindSelection = -1;
 	if (isStart) {
-		TCHAR buf[256];
+		wchar_t buf[256];
 		GetWindowText(context->findWindow, str, _countof(str));
 		mir_sntprintf(buf, TranslateT("\"%s\" not found"), str);
 		MessageBox(context->m_hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 	}
-	else MessageBox(context->m_hWnd, TranslateTS(onlyGroup ? LPGENT("You have reached the end of the group.") : LPGENT("You have reached the end of the history.")), TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
+	else MessageBox(context->m_hWnd, TranslateTS(onlyGroup ? LPGENW("You have reached the end of the group.") : LPGENW("You have reached the end of the history.")), TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 }
 
-bool Searcher::IsInSel(int sel, TCHAR *strFind)
+bool Searcher::IsInSel(int sel, wchar_t *strFind)
 {
 	if (sel < 0 || sel >= (int)context->m_eventList.size())
 		return false;
 
-	TCHAR str[MAXSELECTSTR + 8]; // for safety reason
+	wchar_t str[MAXSELECTSTR + 8]; // for safety reason
 	HistoryEventList::EventData data;
 	for (std::deque<HistoryEventList::EventIndex>::iterator it = context->m_eventList[sel].begin(); it != context->m_eventList[sel].end(); ++it) {
 		HistoryEventList::EventIndex hDbEvent = *it;
@@ -328,7 +328,7 @@ bool Searcher::IsInSel(int sel, TCHAR *strFind)
 	return false;
 }
 
-bool Searcher::Compare(const bool isMe, const std::wstring& message, TCHAR *strFind)
+bool Searcher::Compare(const bool isMe, const std::wstring& message, wchar_t *strFind)
 {
 	if (onlyIn && isMe || onlyOut && !isMe)
 		return false;

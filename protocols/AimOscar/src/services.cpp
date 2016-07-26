@@ -392,14 +392,14 @@ INT_PTR CAimProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CAimProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR* buf = (TCHAR*)wParam;
+	wchar_t* buf = (wchar_t*)wParam;
 	size_t size = (size_t)lParam;
 	if (buf == NULL || size <= 0)
 		return -1;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	if (GetAvatarInfo(0, (LPARAM)&ai) == GAIR_SUCCESS) {
-		_tcsncpy_s(buf, size, ai.filename, _TRUNCATE);
+		wcsncpy_s(buf, size, ai.filename, _TRUNCATE);
 		return 0;
 	}
 
@@ -408,7 +408,7 @@ INT_PTR CAimProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CAimProto::SetAvatar(WPARAM, LPARAM lParam)
 {
-	TCHAR *szFileName = (TCHAR*)lParam;
+	wchar_t *szFileName = (wchar_t*)lParam;
 
 	if (m_state != 1)
 		return 1;
@@ -461,10 +461,10 @@ INT_PTR CAimProto::SetAvatar(WPARAM, LPARAM lParam)
 		avatar_up_req *req = new avatar_up_req(data, size, data1, size1);
 		ForkThread(&CAimProto::avatar_upload_thread, req);
 
-		TCHAR tFileName[MAX_PATH];
-		TCHAR *ext = _tcsrchr(szFileName, '.');
+		wchar_t tFileName[MAX_PATH];
+		wchar_t *ext = wcsrchr(szFileName, '.');
 		get_avatar_filename(NULL, tFileName, _countof(tFileName), ext);
-		int fileId = _topen(tFileName, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
+		int fileId = _wopen(tFileName, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
 		if (fileId < 0) {
 			char errmsg[512];
 			mir_snprintf(errmsg, "Cannot store avatar. File '%s' could not be created/overwritten", tFileName);

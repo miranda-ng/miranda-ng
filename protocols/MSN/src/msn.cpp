@@ -86,7 +86,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-static CMsnProto* msnProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
+static CMsnProto* msnProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
 {
 	CMsnProto *ppro = new CMsnProto(pszProtoName, tszUserName);
 	g_Instances.insert(ppro);

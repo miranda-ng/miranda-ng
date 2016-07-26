@@ -1169,10 +1169,10 @@ void IMG_LoadItems()
 	if (db_get_ts(NULL, "CLC", "AdvancedSkin", &dbv))
 		return;
 
-	TCHAR tszFileName[MAX_PATH];
+	wchar_t tszFileName[MAX_PATH];
 	MY_pathToAbsolute(dbv.ptszVal, tszFileName);
 
-	// TODO: rewrite the skin loading in TCHAR manner
+	// TODO: rewrite the skin loading in wchar_t manner
 	char szFileName[MAX_PATH];
 	WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, szFileName, MAX_PATH, 0, 0);
 
@@ -1221,7 +1221,7 @@ void IMG_LoadItems()
 	CoolSB_SetupScrollBar();
 }
 
-void LoadPerContactSkins(TCHAR *tszFileName)
+void LoadPerContactSkins(wchar_t *tszFileName)
 {
 	char szItem[100];
 	ptrA szSections(LPSTR(calloc(3002, 1)));
@@ -1441,7 +1441,7 @@ void extbk_import(char *file, HWND hwndDlg)
 static void ApplyCLUISkin()
 {
 	DBVARIANT dbv = { 0 };
-	TCHAR tszFinalName[MAX_PATH];
+	wchar_t tszFinalName[MAX_PATH];
 	char szFinalName[MAX_PATH];
 	if (!db_get_ts(NULL, "CLC", "AdvancedSkin", &dbv)) {
 		MY_pathToAbsolute(dbv.ptszVal, tszFinalName);
@@ -1524,7 +1524,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDC_SELECTSKINFILE:
 			{
 				OPENFILENAME ofn = { 0 };
-				TCHAR str[MAX_PATH] = L"*.clist", final_path[MAX_PATH];
+				wchar_t str[MAX_PATH] = L"*.clist", final_path[MAX_PATH];
 
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hwndDlg;
@@ -1562,7 +1562,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_RELOAD:
-			TCHAR tszFilename[MAX_PATH], tszFinalPath[MAX_PATH];
+			wchar_t tszFilename[MAX_PATH], tszFinalPath[MAX_PATH];
 			GetDlgItemText(hwndDlg, IDC_SKINFILE, tszFilename, _countof(tszFilename));
 			tszFilename[MAX_PATH - 1] = 0;
 			MY_pathToAbsolute(tszFilename, tszFinalPath);

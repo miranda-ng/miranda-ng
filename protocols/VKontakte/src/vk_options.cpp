@@ -74,32 +74,32 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup = LPGENT("Network");
+	odp.pwszGroup = LPGENW("Network");
 
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszTab = LPGENW("Account");
 	odp.position = 1;
 	odp.pDialog = new CVkOptionAccountForm(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Advanced");
+	odp.pwszTab = LPGENW("Advanced");
 	odp.position = 2;
 	odp.pDialog = new CVkOptionAdvancedForm(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("News and notifications");
+	odp.pwszTab = LPGENW("News and notifications");
 	odp.position = 3;
 	odp.pDialog = new CVkOptionFeedsForm(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("View");
+	odp.pwszTab = LPGENW("View");
 	odp.position = 4;
 	odp.pDialog = new CVkOptionViewForm(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Menu");
+	odp.pwszTab = LPGENW("Menu");
 	odp.position = 5;
 	odp.pDialog = new CVkOptionMenuForm(this);
 	Options_AddPage(wParam, &odp);
@@ -110,15 +110,15 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 ////////////////////// Account page //////////////////////////////////////////
 
 static CVKLang vkLangCodes[] = {
-	{ NULL, LPGENT("Account language") },
-	{ L"en", LPGENT("English") },
-	{ L"ru", LPGENT("Russian") },
-	{ L"be", LPGENT("Belarusian") },
-	{ L"ua", LPGENT("Ukrainian") },
-	{ L"es", LPGENT("Spanish") },
-	{ L"fi", LPGENT("Finnish") },
-	{ L"de", LPGENT("German") },
-	{ L"it", LPGENT("Italian") },
+	{ NULL, LPGENW("Account language") },
+	{ L"en", LPGENW("English") },
+	{ L"ru", LPGENW("Russian") },
+	{ L"be", LPGENW("Belarusian") },
+	{ L"ua", LPGENW("Ukrainian") },
+	{ L"es", LPGENW("Spanish") },
+	{ L"fi", LPGENW("Finnish") },
+	{ L"de", LPGENW("German") },
+	{ L"it", LPGENW("Italian") },
 };
 
 static CVKSync vkHistorySyncMethods[] = 
@@ -192,7 +192,7 @@ void CVkOptionAccountForm::OnApply()
 {
 	m_proto->m_vkOptions.iSyncHistoryMetod = m_cbxSyncHistory.GetItemData(m_cbxSyncHistory.GetCurSel());
 	m_proto->m_vkOptions.iMarkMessageReadOn = m_cbxMarkAsRead.GetItemData(m_cbxMarkAsRead.GetCurSel());
-	m_proto->m_vkOptions.ptszVKLang = (TCHAR *)m_cbxVKLang.GetItemData(m_cbxVKLang.GetCurSel());
+	m_proto->m_vkOptions.ptszVKLang = (wchar_t *)m_cbxVKLang.GetItemData(m_cbxVKLang.GetCurSel());
 	
 	ptrT ptszGroupName(m_edtGroupName.GetText());
 	if (mir_tstrcmp(m_ptszOldGroup, ptszGroupName)) {

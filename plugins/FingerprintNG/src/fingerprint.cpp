@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 static UINT g_LPCodePage;
-static TCHAR g_szSkinLib[MAX_PATH];
+static wchar_t g_szSkinLib[MAX_PATH];
 static HANDLE hExtraIcon = NULL;
 static HANDLE hFolderChanged = NULL, hIconFolder = NULL;
 
@@ -37,7 +37,7 @@ static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam);
 *	prepares upperstring masks and registers them in IcoLib
 */
 
-static TCHAR* getSectionName(int flag)
+static wchar_t* getSectionName(int flag)
 {
 	switch (flag)
 	{
@@ -58,19 +58,19 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 		return;
 
 	size_t iMaskLen = mir_tstrlen(mask->szMask) + 1;
-	LPTSTR pszNewMask = (LPTSTR)HeapAlloc(hHeap, HEAP_NO_SERIALIZE, iMaskLen * sizeof(TCHAR));
-	_tcscpy_s(pszNewMask, iMaskLen, mask->szMask);
-	_tcsupr_s(pszNewMask, iMaskLen);
+	LPTSTR pszNewMask = (LPTSTR)HeapAlloc(hHeap, HEAP_NO_SERIALIZE, iMaskLen * sizeof(wchar_t));
+	wcscpy_s(pszNewMask, iMaskLen, mask->szMask);
+	_wcsupr_s(pszNewMask, iMaskLen);
 	mask->szMaskUpper = pszNewMask;
 
-	TCHAR destfile[MAX_PATH];
+	wchar_t destfile[MAX_PATH];
 	if (mask->iIconIndex == IDI_NOTFOUND || mask->iIconIndex == IDI_UNKNOWN || mask->iIconIndex == IDI_UNDETECTED)
 		GetModuleFileName(g_hInst, destfile, MAX_PATH);
 	else {
-		_tcsncpy_s(destfile, g_szSkinLib, _TRUNCATE);
+		wcsncpy_s(destfile, g_szSkinLib, _TRUNCATE);
 
 		struct _stat64i32 stFileInfo;
-		if (_tstat(destfile, &stFileInfo) == -1)
+		if (_wstat(destfile, &stFileInfo) == -1)
 			return;
 	}
 
@@ -80,10 +80,10 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 
 	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_ALL_TCHAR;
-	sid.section.t = SectName;
+	sid.section.w = SectName;
 	sid.pszName = mask->szIconName;
-	sid.description.t = mask->szClientDescription;
-	sid.defaultFile.t = destfile;
+	sid.description.w = mask->szClientDescription;
+	sid.defaultFile.w = destfile;
 	sid.iDefaultIndex = -mask->iIconIndex;
 	mask->hIcolibItem = IcoLib_AddIcon(&sid);
 }
@@ -237,7 +237,7 @@ BOOL __fastcall WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 	return FALSE;
 }
 
-static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
+static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
 {
 	int i = 0, j = -1, k = -1, n = -1, m = -1;
 
@@ -250,11 +250,11 @@ static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay, short *over
 			continue;
 
 		if (p.iIconIndex != IDI_NOTFOUND && p.iIconIndex != IDI_UNKNOWN && p.iIconIndex != IDI_UNDETECTED) {
-			TCHAR destfile[MAX_PATH];
-			_tcsncpy_s(destfile, g_szSkinLib, _TRUNCATE);
+			wchar_t destfile[MAX_PATH];
+			wcsncpy_s(destfile, g_szSkinLib, _TRUNCATE);
 
 			struct _stat64i32 stFileInfo;
-			if (_tstat(destfile, &stFileInfo) == -1)
+			if (_wstat(destfile, &stFileInfo) == -1)
 				i = NOTFOUND_MASK_NUMBER;
 		}
 		break;
@@ -272,7 +272,7 @@ static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay, short *over
 				continue;
 
 			struct _stat64i32 stFileInfo;
-			if (_tstat(g_szSkinLib, &stFileInfo) != -1)
+			if (_wstat(g_szSkinLib, &stFileInfo) != -1)
 				break;
 		}
 
@@ -327,7 +327,7 @@ void __fastcall GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay, sh
 	}
 
 	LPTSTR tszMirVerUp = mir_a2t(szMirVer);
-	_tcsupr(tszMirVerUp);
+	wcsupr(tszMirVerUp);
 	MatchMasks(tszMirVerUp, base, overlay, overlay2, overlay3, overlay4);
 	mir_free(tszMirVerUp);
 }

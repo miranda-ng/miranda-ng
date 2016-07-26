@@ -244,7 +244,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 		case IDC_BROWSE:
 			{
-				TCHAR str[MAX_PATH], filter[512];
+				wchar_t str[MAX_PATH], filter[512];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
 				Bitmap_GetFilter(filter, _countof(filter));
 
@@ -301,7 +301,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 				db_set_b(NULL, MODULE, "BkUseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 
-				TCHAR str[MAX_PATH];
+				wchar_t str[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
 				db_set_ts(NULL, MODULE, "BkBitmap", str);
 

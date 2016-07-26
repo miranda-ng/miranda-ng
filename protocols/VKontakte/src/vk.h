@@ -97,7 +97,7 @@ extern mir_cs csInstances;
 extern HINSTANCE hInst;
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
-bool tlstrstr(TCHAR *_s1, TCHAR *_s2);
+bool tlstrstr(wchar_t *_s1, wchar_t *_s2);
 
 void InitIcons(void);
 HANDLE GetIconHandle(int iCommand);

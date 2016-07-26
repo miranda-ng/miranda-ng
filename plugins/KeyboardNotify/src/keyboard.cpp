@@ -37,7 +37,7 @@ typedef struct _KEYBOARD_INDICATOR_PARAMETERS {
 BOOL OpenKeyboardDevice()
 {
 	int i = 0;
-	TCHAR aux1[MAX_PATH+1], aux2[MAX_PATH+1];
+	wchar_t aux1[MAX_PATH+1], aux2[MAX_PATH+1];
 
 	do {
 		mir_sntprintf(aux1, L"Kbd%d", i);
@@ -74,7 +74,7 @@ BOOL ToggleKeyboardLights(BYTE byte)
 void CloseKeyboardDevice()
 {
 	int i = 0;
-	TCHAR aux[MAX_PATH+1];
+	wchar_t aux[MAX_PATH+1];
 
 	do {
 		if (hKbdDev[i] != INVALID_HANDLE_VALUE)

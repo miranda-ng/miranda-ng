@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ///////////////////////////////////////////////////////////////////////////////
 // JabberAddContactToRoster() - adds a contact to the roster
 
-void CJabberProto::AddContactToRoster(const TCHAR *jid, const TCHAR *nick, const TCHAR *grpName)
+void CJabberProto::AddContactToRoster(const wchar_t *jid, const wchar_t *nick, const wchar_t *grpName)
 {
 	XmlNodeIq iq(L"set", SerialNext());
 	HXML query = iq << XQUERY(JABBER_FEAT_IQ_ROSTER)
@@ -53,7 +53,7 @@ void JabberChatDllError()
 ///////////////////////////////////////////////////////////////////////////////
 // JabberDBAddAuthRequest()
 
-void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
+void CJabberProto::DBAddAuthRequest(const wchar_t *jid, const wchar_t *nick)
 {
 	MCONTACT hContact = DBCreateContact(jid, nick, true, true);
 	delSetting(hContact, "Hidden");
@@ -85,7 +85,7 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberDBCreateContact()
 
-MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool temporary, bool stripResource)
+MCONTACT CJabberProto::DBCreateContact(const wchar_t *jid, const wchar_t *nick, bool temporary, bool stripResource)
 {
 	if (jid == NULL || jid[0] == '\0')
 		return NULL;
@@ -95,11 +95,11 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool
 		return hContact;
 
 	// strip resource if present
-	TCHAR szJid[JABBER_MAX_JID_LEN];
+	wchar_t szJid[JABBER_MAX_JID_LEN];
 	if (stripResource)
 		JabberStripJid(jid, szJid, _countof(szJid));
 	else
-		_tcsncpy_s(szJid, jid, _TRUNCATE);
+		wcsncpy_s(szJid, jid, _TRUNCATE);
 
 	MCONTACT hNewContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	Proto_AddToContact(hNewContact, m_szModuleName);
@@ -112,7 +112,7 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, bool
 		SendGetVcard(szJid);
 	
 	if (JABBER_LIST_ITEM *pItem = ListAdd(LIST_ROSTER, jid, hNewContact))
-		pItem->bUseResource = _tcschr(szJid, '/') != 0;
+		pItem->bUseResource = wcschr(szJid, '/') != 0;
 	
 	debugLog(L"Create Jabber contact jid=%s, nick=%s", szJid, nick);
 	DBCheckIsTransportedContact(szJid, hNewContact);
@@ -154,7 +154,7 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetAvatarFileName() - gets a file name for the avatar image
 
-void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen)
+void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
@@ -164,7 +164,7 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 
 	pszDest[tPathLen++] = '\\';
 
-	const TCHAR* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_PNG));
+	const wchar_t* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_PNG));
 
 	if (hContact != NULL) {
 		char str[256];
@@ -192,7 +192,7 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 ///////////////////////////////////////////////////////////////////////////////
 // JabberResolveTransportNicks - massive vcard update
 
-void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
+void CJabberProto::ResolveTransportNicks(const wchar_t *jid)
 {
 	// Set all contacts to offline
 	MCONTACT hContact = m_ThreadInfo->resolveContact;
@@ -206,7 +206,7 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 		ptrT dbJid(getTStringA(hContact, "jid")); if (dbJid == NULL) continue;
 		ptrT dbNick(getTStringA(hContact, "Nick")); if (dbNick == NULL) continue;
 
-		TCHAR *p = _tcschr(dbJid, '@');
+		wchar_t *p = wcschr(dbJid, '@');
 		if (p == NULL)
 			continue;
 
@@ -264,9 +264,9 @@ void CJabberProto::SetServerStatus(int iNewStatus)
 // Process a string, and double all % characters, according to chat.dll's restrictions
 // Returns a pointer to the new string (old one is not freed)
 
-TCHAR* UnEscapeChatTags(TCHAR* str_in)
+wchar_t* UnEscapeChatTags(wchar_t* str_in)
 {
-	TCHAR *s = str_in, *d = str_in;
+	wchar_t *s = str_in, *d = str_in;
 	while (*s) {
 		if (*s == '%' && s[1] == '%')
 			s++;
@@ -281,8 +281,8 @@ TCHAR* UnEscapeChatTags(TCHAR* str_in)
 
 struct
 {
-	TCHAR *node;
-	TCHAR *name;
+	wchar_t *node;
+	wchar_t *name;
 }
 static sttCapsNodeToName_Map[] =
 {
@@ -321,7 +321,7 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 	// jabber:iq:version info requested and exists?
 	if (resource->m_dwVersionRequestTime && resource->m_tszSoftware) {
 		debugLog(L"JabberUpdateMirVer: for iq:version rc %s: %s", resource->m_tszResourceName, resource->m_tszSoftware);
-		if (!resource->m_tszSoftwareVersion || _tcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
+		if (!resource->m_tszSoftwareVersion || wcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
 			res = resource->m_tszSoftware;
 		else
 			res.Format(L"%s %s", resource->m_tszSoftware, resource->m_tszSoftwareVersion);
@@ -340,7 +340,7 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 
 		// search through known software list
 		for (i = 0; i < _countof(sttCapsNodeToName_Map); i++)
-			if (_tcsstr(resource->m_tszCapsNode, sttCapsNodeToName_Map[i].node)) {
+			if (wcsstr(resource->m_tszCapsNode, sttCapsNodeToName_Map[i].node)) {
 				res.Format(L"%s %s", sttCapsNodeToName_Map[i].name, resource->m_tszCapsVer);
 				break;
 			}
@@ -351,23 +351,23 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 	}
 
 	// attach additional info for fingerprint plguin
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX86) && !_tcsstr(res, L"x86"))
+	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX86) && !wcsstr(res, L"x86"))
 		res.Append(L" x86");
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX64) && !_tcsstr(res, L"x64"))
+	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_PLATFORMX64) && !wcsstr(res, L"x64"))
 		res.Append(L" x64");
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_SECUREIM) && !_tcsstr(res, L"(SecureIM)"))
+	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_SECUREIM) && !wcsstr(res, L"(SecureIM)"))
 		res.Append(L" (SecureIM)");
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_MIROTR) && !_tcsstr(res, L"(MirOTR)"))
+	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_MIROTR) && !wcsstr(res, L"(MirOTR)"))
 		res.Append(L" (MirOTR)");
 
-	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, JABBER_EXT_NEWGPG) && !_tcsstr(res, L"(New_GPG)"))
+	if (resource->m_tszCapsExt && wcsstr(resource->m_tszCapsExt, JABBER_EXT_NEWGPG) && !wcsstr(res, L"(New_GPG)"))
 		res.Append(L" (New_GPG)");
 
-	if (resource->m_tszResourceName && !_tcsstr(res, resource->m_tszResourceName))
-		if (_tcsstr(res, L"Miranda IM") || _tcsstr(res, L"Miranda NG") || m_options.ShowForeignResourceInMirVer)
+	if (resource->m_tszResourceName && !wcsstr(res, resource->m_tszResourceName))
+		if (wcsstr(res, L"Miranda IM") || wcsstr(res, L"Miranda NG") || m_options.ShowForeignResourceInMirVer)
 			res.AppendFormat(L" [%s]", resource->m_tszResourceName);
 }
 
@@ -383,8 +383,8 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 	if (jid == NULL)
 		return;
 
-	TCHAR szFullJid[JABBER_MAX_JID_LEN];
-	if (resource->m_tszResourceName && !_tcschr(jid, '/'))
+	wchar_t szFullJid[JABBER_MAX_JID_LEN];
+	if (resource->m_tszResourceName && !wcschr(jid, '/'))
 		mir_sntprintf(szFullJid, L"%s/%s", jid, resource->m_tszResourceName);
 	else
 		mir_tstrncpy(szFullJid, jid, _countof(szFullJid));
@@ -437,7 +437,7 @@ void CJabberProto::SetContactOfflineStatus(MCONTACT hContact)
 
 void CJabberProto::InitPopups(void)
 {
-	TCHAR desc[256];
+	wchar_t desc[256];
 	mir_sntprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
 
 	char name[256];
@@ -456,14 +456,14 @@ void CJabberProto::InitPopups(void)
 	IcoLib_ReleaseIcon(ppc.hIcon);
 }
 
-void CJabberProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle)
+void CJabberProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		char name[256];
 
 		POPUPDATACLASS ppd = { sizeof(ppd) };
-		ppd.ptszTitle = szTitle;
-		ppd.ptszText = szMsg;
+		ppd.pwszTitle = szTitle;
+		ppd.pwszText = szMsg;
 		ppd.pszClassName = name;
 		ppd.hContact = hContact;
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
@@ -499,11 +499,11 @@ CMString CJabberProto::ExtractImage(HXML node)
 					image.Replace(L"%2F", L"/");
 					image.Replace(L"%3D", L"=");
 
-					TCHAR tszTempPath[MAX_PATH], tszTempFile[MAX_PATH];
+					wchar_t tszTempPath[MAX_PATH], tszTempFile[MAX_PATH];
 					GetTempPath(_countof(tszTempPath), tszTempPath);
 					GetTempFileName(tszTempPath, L"jab", InterlockedIncrement(&g_nTempFileId), tszTempFile);
-					_tcsncat_s(tszTempFile, L".", 1);
-					_tcsncat_s(tszTempFile, ext, ext.GetLength());
+					wcsncat_s(tszTempFile, L".", 1);
+					wcsncat_s(tszTempFile, ext, ext.GetLength());
 
 					HANDLE h = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE,
 						FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,

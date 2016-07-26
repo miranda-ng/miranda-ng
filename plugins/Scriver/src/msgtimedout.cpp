@@ -31,7 +31,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		case WM_INITDIALOG:
 		{
 			RECT rc, rcParent;
-			TCHAR szText[2048];
+			wchar_t szText[2048];
 			ewd = (ErrorWindowData *) lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) ewd);
 			TranslateDialogDefault(hwndDlg);
@@ -52,7 +52,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (ewd->szName)
 					mir_sntprintf(szText, L"%s - %s", TranslateT("Send error"), ewd->szName);
 				else
-					_tcsncpy_s(szText, TranslateT("Send error"), _TRUNCATE);
+					wcsncpy_s(szText, TranslateT("Send error"), _TRUNCATE);
 
 				SetWindowText(hwndDlg, szText);
 				GetWindowRect(hwndDlg, &rc);

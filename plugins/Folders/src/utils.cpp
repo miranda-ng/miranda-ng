@@ -20,12 +20,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CMString ExpandPath(const TCHAR *format)
+CMString ExpandPath(const wchar_t *format)
 {
 	CMString res;
 
 	if (ServiceExists(MS_VARS_FORMATSTRING))
-		res = VARST(ptrT(variables_parse((TCHAR*)format, NULL, NULL)));
+		res = VARST(ptrT(variables_parse((wchar_t*)format, NULL, NULL)));
 	else
 		res = VARST(format);
 
@@ -47,20 +47,20 @@ CMString ExpandPath(const TCHAR *format)
 	return res;
 }
 
-void RemoveDirectories(const TCHAR *path)
+void RemoveDirectories(const wchar_t *path)
 {
-	TCHAR *pos;
-	TCHAR *buffer = NEWWSTR_ALLOCA(path);
+	wchar_t *pos;
+	wchar_t *buffer = NEWWSTR_ALLOCA(path);
 	if (!(GetFileAttributes(buffer) & FILE_ATTRIBUTE_REPARSE_POINT))
 		RemoveDirectory(buffer);
-	while (pos = _tcsrchr(buffer, '\\')) {
+	while (pos = wcsrchr(buffer, '\\')) {
 		pos[0] = '\0';
 		if (!(GetFileAttributes(buffer) & FILE_ATTRIBUTE_REPARSE_POINT))
 			RemoveDirectory(buffer);
 	}
 }
 
-bool DirectoryExists(const TCHAR *path)
+bool DirectoryExists(const wchar_t *path)
 {
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == INVALID_FILE_ATTRIBUTES || !(dwAttributes & FILE_ATTRIBUTE_DIRECTORY))

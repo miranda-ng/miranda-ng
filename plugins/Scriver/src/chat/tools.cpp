@@ -21,17 +21,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../stdafx.h"
 
-TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
+wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 {
 	for (int i = 0; s1[i]; i++)
-		for (int j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]); j++, k++)
+		for (int j = i, k = 0; towlower(s1[j]) == towlower(s2[k]); j++, k++)
 			if (!s2[k + 1])
-				return (TCHAR*)(s1 + i);
+				return (wchar_t*)(s1 + i);
 
 	return NULL;
 }
 
-UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
+UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText)
 {
 	GCMENUITEMS gcmi = { 0 };
 	HMENU hSubMenu = 0;
@@ -52,7 +52,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 		}
 
 		if (pszWordText && pszWordText[0]) {
-			TCHAR szMenuText[4096];
+			wchar_t szMenuText[4096];
 			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 			SetSearchEngineIcons(*hMenu, g_dat.hSearchEngineIconList);
@@ -61,7 +61,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 		gcmi.Type = MENU_ON_LOG;
 	}
 	else if (iIndex == 0) {
-		TCHAR szTemp[50];
+		wchar_t szTemp[50];
 		if (pszWordText)
 			mir_sntprintf(szTemp, TranslateT("&Message %s"), pszWordText);
 		else
@@ -79,7 +79,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
 	for (int i = 0; i < gcmi.nItems; i++) {
-		TCHAR *ptszText = TranslateTS(gcmi.Item[i].pszDesc);
+		wchar_t *ptszText = TranslateTS(gcmi.Item[i].pszDesc);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (gcmi.Item[i].uType == MENU_NEWPOPUP) {

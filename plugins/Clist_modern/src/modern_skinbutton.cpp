@@ -33,7 +33,7 @@ This file contains code related to new modern free positioned skinned buttons
 BOOL ModernSkinButtonModuleIsLoaded = FALSE;
 static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int ModernSkinButtonUnloadModule(WPARAM wParam, LPARAM lParam);
-HWND SetToolTip(HWND hwnd, TCHAR * tip);
+HWND SetToolTip(HWND hwnd, wchar_t * tip);
 
 typedef struct _ModernSkinButtonCtrl
 {
@@ -51,7 +51,7 @@ typedef struct _ModernSkinButtonCtrl
 	char    * ValueTypeDef;
 	int     Left, Top, Bottom, Right;
 	HMENU   hMenu;
-	TCHAR   * Hint;
+	wchar_t   * Hint;
 
 } ModernSkinButtonCtrl;
 typedef struct _HandleServiceParams
@@ -457,7 +457,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 	return DefWindowProc(hwndDlg, msg, wParam, lParam);
 }
 
-HWND SetToolTip(HWND hwnd, TCHAR * tip)
+HWND SetToolTip(HWND hwnd, wchar_t * tip)
 {
 	TOOLINFO ti;
 	if (!tip) return 0;
@@ -483,7 +483,7 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 	}
 	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 	ti.uId = (UINT_PTR)hwnd;
-	ti.lpszText = (TCHAR*)tip;
+	ti.lpszText = (wchar_t*)tip;
 	SendMessage(hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 
 	return hwndToolTips;
@@ -516,7 +516,7 @@ int ModernSkinButton_AddButton(HWND parent,
 	int Right,
 	int Bottom,
 	DWORD sbFlags,
-	TCHAR * Hint,
+	wchar_t * Hint,
 	char * DBkey,
 	char * TypeDef,
 	int MinWidth, int MinHeight)
@@ -607,7 +607,7 @@ static HWND ModernSkinButtonCreateWindow(ModernSkinButtonCtrl * bct, HWND parent
 
 	if (bct == NULL) return FALSE;
 	{
-		TCHAR *UnicodeID = mir_a2u(bct->ID);
+		wchar_t *UnicodeID = mir_a2u(bct->ID);
 		hwnd = CreateWindow(_T(MODERNSKINBUTTONCLASS), UnicodeID, WS_VISIBLE | WS_CHILD, bct->Left, bct->Top, bct->Right - bct->Left, bct->Bottom - bct->Top, parent, NULL, g_hInst, NULL);
 		mir_free(UnicodeID);
 	}

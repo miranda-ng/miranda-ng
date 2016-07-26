@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct Logger
 {
-	Logger(const char* pszName, const TCHAR *ptszDescr, const TCHAR *ptszFilename, unsigned options) :
+	Logger(const char* pszName, const wchar_t *ptszDescr, const wchar_t *ptszFilename, unsigned options) :
 		m_name(mir_strdup(pszName)),
 		m_descr(mir_tstrdup(ptszDescr)),
 		m_fileName(mir_tstrdup(ptszFilename)),
@@ -93,7 +93,7 @@ void CheckLogs()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const TCHAR *ptszDescr, const TCHAR *ptszFile, unsigned options)
+MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const wchar_t *ptszDescr, const wchar_t *ptszFile, unsigned options)
 {
 	if (ptszFile == NULL)
 		return NULL;
@@ -108,10 +108,10 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const TCHAR *ptszDescr, 
 		return &arLoggers[idx];
 	}
 
-	FILE *fp = _tfopen(ptszFile, L"ab");
+	FILE *fp = _wfopen(ptszFile, L"ab");
 	if (fp == NULL) {
-		TCHAR tszPath[MAX_PATH];
-		_tcsncpy_s(tszPath, ptszFile, _TRUNCATE);
+		wchar_t tszPath[MAX_PATH];
+		wcsncpy_s(tszPath, ptszFile, _TRUNCATE);
 		CreatePathToFileT(tszPath);
 	}
 	else fclose(fp);
@@ -149,7 +149,7 @@ MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...)
 
 	mir_cslock lck(p->m_cs);
 	if (p->m_out == NULL)
-		if ((p->m_out = _tfopen(p->m_fileName, L"ab")) == NULL)
+		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == NULL)
 			return 2;
 
 	va_list args;
@@ -171,7 +171,7 @@ MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const WCHAR *format, ...)
 
 	mir_cslock lck(p->m_cs);
 	if (p->m_out == NULL)
-		if ((p->m_out = _tfopen(p->m_fileName, L"ab")) == NULL)
+		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == NULL)
 			return 2;
 
 	va_list args;
@@ -195,7 +195,7 @@ MIR_CORE_DLL(int) mir_writeLogVA(HANDLE hLogger, const char *format, va_list arg
 
 	mir_cslock lck(p->m_cs);
 	if (p->m_out == NULL)
-		if ((p->m_out = _tfopen(p->m_fileName, L"ab")) == NULL)
+		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == NULL)
 			return 2;
 
 	vfprintf(p->m_out, format, args);
@@ -214,7 +214,7 @@ MIR_CORE_DLL(int) mir_writeLogVW(HANDLE hLogger, const WCHAR *format, va_list ar
 
 	mir_cslock lck(p->m_cs);
 	if (p->m_out == NULL)
-		if ((p->m_out = _tfopen(p->m_fileName, L"ab")) == NULL)
+		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == NULL)
 			return 2;
 
 	vfwprintf(p->m_out, format, args);

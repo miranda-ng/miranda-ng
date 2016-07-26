@@ -46,16 +46,16 @@ void ColInOut::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 	              Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per week"));
 	              Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per month (30 days)"));
 
-	static const TCHAR* sourceTexts[] = {
-		LPGENT("Characters (incoming)"),
-		LPGENT("Characters (outgoing)"),
-		LPGENT("Characters (all)"),
-		LPGENT("Messages (incoming)"),
-		LPGENT("Messages (outgoing)"),
-		LPGENT("Messages (all)"),
-		LPGENT("Chats (incoming)"),
-		LPGENT("Chats (outgoing)"),
-		LPGENT("Chats (all)"),
+	static const wchar_t* sourceTexts[] = {
+		LPGENW("Characters (incoming)"),
+		LPGENW("Characters (outgoing)"),
+		LPGENW("Characters (all)"),
+		LPGENW("Messages (incoming)"),
+		LPGENW("Messages (outgoing)"),
+		LPGENW("Messages (all)"),
+		LPGENW("Chats (incoming)"),
+		LPGENW("Chats (outgoing)"),
+		LPGENW("Chats (all)"),
 	};
 
 	array_each_(i, sourceTexts)
@@ -77,28 +77,28 @@ void ColInOut::impl_configFromUI(OptionsCtrl& Opt)
 
 void ColInOut::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const TCHAR* szShortDesc[] = {
-		LPGENT("Characters"),
-		LPGENT("Messages"),
-		LPGENT("Chats")
+	static const wchar_t* szShortDesc[] = {
+		LPGENW("Characters"),
+		LPGENW("Messages"),
+		LPGENW("Chats")
 	};
 
-	static const TCHAR* szSourceDesc[] = {
-		LPGENT("Incoming characters"),
-		LPGENT("Outgoing characters"),
-		LPGENT("Characters"),
-		LPGENT("Incoming messages"),
-		LPGENT("Outgoing messages"),
-		LPGENT("Messages"),
-		LPGENT("Incoming chats"),
-		LPGENT("Outgoing chats"),
-		LPGENT("Chats")
+	static const wchar_t* szSourceDesc[] = {
+		LPGENW("Incoming characters"),
+		LPGENW("Outgoing characters"),
+		LPGENW("Characters"),
+		LPGENW("Incoming messages"),
+		LPGENW("Outgoing messages"),
+		LPGENW("Messages"),
+		LPGENW("Incoming chats"),
+		LPGENW("Outgoing chats"),
+		LPGENW("Chats")
 	};
 
-	static const TCHAR* szUnitDesc[] = {
-		LPGENT("day"),
-		LPGENT("week"),
-		LPGENT("month"),
+	static const wchar_t* szUnitDesc[] = {
+		LPGENW("day"),
+		LPGENW("week"),
+		LPGENW("month"),
 	};
 
 	if (row == 1)

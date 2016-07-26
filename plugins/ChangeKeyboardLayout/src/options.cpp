@@ -201,7 +201,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 
 				WriteMainOptions();
 
-				ptszFormLay = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
+				ptszFormLay = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 				GetDlgItemText(hWnd, IDC_EDIT_SET, ptszFormLay, MaxTextSize);
 				i = SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
 				ptszMemLay = ptszLayStrings[i];
@@ -350,12 +350,12 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 
 		case IDC_BUTTON_PREVIEW:
 			if ((HIWORD(wParam) == BN_CLICKED )) {
-				ptszPopupPreviewText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
+				ptszPopupPreviewText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 
 				POPUPDATAT_V2 pdtData = { 0 };
 				pdtData.cbSize = sizeof(pdtData);
-				_tcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
-				_tcsncpy(pdtData.lptzText, L"Ghbdtn? rfr ltkf&", MAX_SECONDLINE);
+				wcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
+				wcsncpy(pdtData.lptzText, L"Ghbdtn? rfr ltkf&", MAX_SECONDLINE);
 
 				switch(poOptionsTemp.bColourType) {
 				case PPC_POPUP:

@@ -216,16 +216,16 @@ Column::StyleList ColWords::impl_outputGetAdditionalStyles(IDProvider&)
 
 void ColWords::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const TCHAR* szTypeDesc[] = {
-		LPGENT("Most common words"),
-		LPGENT("Least common words"),
-		LPGENT("Longest words"),
+	static const wchar_t* szTypeDesc[] = {
+		LPGENW("Most common words"),
+		LPGENW("Least common words"),
+		LPGENW("Longest words"),
 	};
 
-	static const TCHAR* szSourceDesc[] = {
-		LPGENT("incoming messages"),
-		LPGENT("outgoing messages"),
-		LPGENT("all messages"),
+	static const wchar_t* szSourceDesc[] = {
+		LPGENW("incoming messages"),
+		LPGENW("outgoing messages"),
+		LPGENW("all messages"),
 	};
 
 	if (row == 1)

@@ -23,7 +23,7 @@ Avatar History Plugin
 HGENMENU hMenu = NULL; 
 void __cdecl AvatarDialogThread(void *param);
 static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
-int ShowSaveDialog(HWND hwnd, TCHAR* fn,MCONTACT hContact = NULL);
+int ShowSaveDialog(HWND hwnd, wchar_t* fn,MCONTACT hContact = NULL);
 
 bool ProtocolEnabled(const char *proto);
 int FillAvatarListFromDB(HWND list, MCONTACT hContact);
@@ -31,15 +31,15 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact);
 int FillAvatarListFromFiles(HWND list, MCONTACT hContact);
 int CleanupAvatarPic(HWND hwnd);
 bool UpdateAvatarPic(HWND hwnd);
-TCHAR * GetContactFolder(TCHAR *fn, MCONTACT hContact);
-BOOL ResolveShortcut(TCHAR *shortcut, TCHAR *file);
+wchar_t * GetContactFolder(wchar_t *fn, MCONTACT hContact);
+BOOL ResolveShortcut(wchar_t *shortcut, wchar_t *file);
 
 static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam);
 
 struct AvatarDialogData
 {
 	MCONTACT hContact;
-	TCHAR fn[MAX_PATH];
+	wchar_t fn[MAX_PATH];
 	HWND parent;
 };
 
@@ -61,8 +61,8 @@ public:
 	}
 
 	MEVENT hDbEvent;
-	TCHAR *filename;
-	TCHAR *filelink;
+	wchar_t *filename;
+	wchar_t *filelink;
 };
 
 int OpenAvatarDialog(MCONTACT hContact, char* fn)
@@ -80,7 +80,7 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn)
 	avdlg->hContact = hContact;
 	if (fn == NULL)
 	{
-		avdlg->fn[0] = _T('\0');
+		avdlg->fn[0] = '\0';
 	}
 	else
 	{
@@ -133,9 +133,9 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			else
 				FillAvatarListFromFiles(hwndList, data->hContact);
 
-			TCHAR *displayName = pcli->pfnGetContactDisplayName(data->hContact, 0);
+			wchar_t *displayName = pcli->pfnGetContactDisplayName(data->hContact, 0);
 			if (displayName) {
-				TCHAR title[MAX_PATH];
+				wchar_t title[MAX_PATH];
 				mir_sntprintf(title, TranslateT("Avatar History for %s"), displayName);
 				SetWindowText(hwnd, title);
 			}
@@ -317,7 +317,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 
 		case IDC_OPENFOLDER:
 			if (HIWORD(wParam) == BN_CLICKED && opts.log_per_contact_folders) {
-				TCHAR avfolder[MAX_PATH];
+				wchar_t avfolder[MAX_PATH];
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				GetContactFolder(avfolder, hContact);
 				ShellExecute(NULL, db_get_b(NULL, MODULE_NAME, "OpenFolderMethod", 0) ? L"explore" : L"open", avfolder, NULL, NULL, SW_SHOWNORMAL);
@@ -352,16 +352,16 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 }
 
 
-int AddFileToList(TCHAR *path,TCHAR *lnk,TCHAR *filename, HWND list)
+int AddFileToList(wchar_t *path,wchar_t *lnk,wchar_t *filename, HWND list)
 {
 	// Add to list
 	ListEntry *le = new ListEntry();
 	le->filename = mir_tstrdup(path);
 	le->filelink = mir_tstrdup(lnk);
 
-	TCHAR *p = _tcschr(filename, _T('.'));
+	wchar_t *p = wcschr(filename, '.');
 	if (p != NULL)
-		p[0] = _T('\0');
+		p[0] = '\0';
 	int max_pos = SendMessage(list, LB_ADDSTRING, 0, (LPARAM)filename);
 	SendMessage(list, LB_SETITEMDATA, max_pos, (LPARAM)le);
 	return max_pos;
@@ -370,7 +370,7 @@ int AddFileToList(TCHAR *path,TCHAR *lnk,TCHAR *filename, HWND list)
 int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 {
 	int max_pos = 0;
-	TCHAR dir[MAX_PATH], path[MAX_PATH];
+	wchar_t dir[MAX_PATH], path[MAX_PATH];
 	WIN32_FIND_DATA finddata;
 
 	GetContactFolder(dir, hContact);
@@ -397,7 +397,7 @@ int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 {
 	int max_pos = 0;
-	TCHAR dir[MAX_PATH], path[MAX_PATH];
+	wchar_t dir[MAX_PATH], path[MAX_PATH];
 	WIN32_FIND_DATA finddata;
 
 	GetContactFolder(dir, hContact);
@@ -411,7 +411,7 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 	{
 		if (finddata.cFileName[0] != '.')
 		{
-			TCHAR lnk[MAX_PATH];
+			wchar_t lnk[MAX_PATH];
 			mir_sntprintf(lnk, L"%s\\%s", dir, finddata.cFileName);
 			if (ResolveShortcut(lnk, path))
 				max_pos = AddFileToList(path,lnk,finddata.cFileName,list);
@@ -435,11 +435,11 @@ int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 		if (dbei.eventType != EVENTTYPE_AVATAR_CHANGE) continue;
 
 		// Get time
-		TCHAR date[64];
+		wchar_t date[64];
 		TimeZone_ToStringT(dbei.timestamp, L"d s", date, _countof(date));
 
 		// Get file in disk
-		TCHAR path[MAX_PATH];
+		wchar_t path[MAX_PATH];
 		ptrT tszStoredPath(mir_utf8decodeT((char*)dbei.pBlob));
 		PathToAbsoluteT(tszStoredPath, path);
 
@@ -514,7 +514,7 @@ void InitMenuItem()
 
 	CMenuItem mi;
 	SET_UID(mi,0x2fb5c7eb, 0xa606, 0x4145, 0x9e, 0x86, 0x73, 0x88, 0x73, 0x1d, 0xe7, 0x5c);
-	mi.name.t = LPGENT("View Avatar History");
+	mi.name.w = LPGENW("View Avatar History");
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1000090010;
 	mi.hIcolibItem = createDefaultOverlayedIcon(FALSE);
@@ -530,9 +530,9 @@ static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam)
 }
 
 
-int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
+int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact)
 {
-	TCHAR filter[MAX_PATH], file[MAX_PATH];
+	wchar_t filter[MAX_PATH], file[MAX_PATH];
 	Bitmap_GetFilter(filter, _countof(filter));
 
 	OPENFILENAME ofn = { 0 };
@@ -543,11 +543,11 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	ofn.lpstrFilter = filter;
 	
 	ofn.nFilterIndex = 1;
-	_tcsncpy_s(file, (_tcsrchr(fn, '\\') + 1), _TRUNCATE);
+	wcsncpy_s(file, (wcsrchr(fn, '\\') + 1), _TRUNCATE);
 	ofn.lpstrFile = file;
 
-	TCHAR *displayName = pcli->pfnGetContactDisplayName(hContact, 0);
-	TCHAR title[MAX_PATH];
+	wchar_t *displayName = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t title[MAX_PATH];
 	if (displayName)
 	{
 		mir_sntprintf(title, TranslateT("Save Avatar for %s"), displayName);
@@ -559,7 +559,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	}
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_DONTADDTORECENT;
-	ofn.lpstrDefExt = _tcsrchr(fn, '.')+1;
+	ofn.lpstrDefExt = wcsrchr(fn, '.')+1;
 
 	DBVARIANT dbvInitDir = {0};
 	if (!db_get_ts(hContact,MODULE_NAME,"SavedAvatarFolder",&dbvInitDir))

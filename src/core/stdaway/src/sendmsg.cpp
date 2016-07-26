@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static DWORD protoModeMsgFlags;
 static HWND hwndStatusMsg;
 
-static const TCHAR *GetDefaultMessage(int status)
+static const wchar_t *GetDefaultMessage(int status)
 {
 	switch(status) {
 		case ID_STATUS_AWAY: return TranslateT("I've been away since %time%.");
@@ -79,7 +79,7 @@ static void SetStatusModeByte(int status, const char *suffix, BYTE value)
 	db_set_b(NULL, "SRAway", StatusModeToDbSetting(status, suffix), value);
 }
 
-static TCHAR* GetAwayMessage(int statusMode, char *szProto)
+static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 {
 	if (szProto && !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
 		return NULL;
@@ -100,8 +100,8 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 			if (dbv.ptszVal[i] != '%')
 				continue;
 
-			TCHAR substituteStr[128];
-			if ( !_tcsnicmp(dbv.ptszVal + i, L"%time%", 6)) {
+			wchar_t substituteStr[128];
+			if ( !wcsnicmp(dbv.ptszVal + i, L"%time%", 6)) {
 				MIRANDA_IDLE_INFO mii = { sizeof(mii) };
 				CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
 
@@ -117,14 +117,14 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 				}
 				else GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, NULL, NULL, substituteStr, _countof(substituteStr));
 			}
-			else if ( !_tcsnicmp(dbv.ptszVal + i, L"%date%", 6))
+			else if ( !wcsnicmp(dbv.ptszVal + i, L"%date%", 6))
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, _countof(substituteStr));
 			else continue;
 
 			if (mir_tstrlen(substituteStr) > 6)
-				dbv.ptszVal = (TCHAR*)mir_realloc(dbv.ptszVal, (mir_tstrlen(dbv.ptszVal) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
-			memmove(dbv.ptszVal + i + mir_tstrlen(substituteStr), dbv.ptszVal + i + 6, (mir_tstrlen(dbv.ptszVal) - i - 5) * sizeof(TCHAR));
-			memcpy(dbv.ptszVal+i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+				dbv.ptszVal = (wchar_t*)mir_realloc(dbv.ptszVal, (mir_tstrlen(dbv.ptszVal) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(wchar_t));
+			memmove(dbv.ptszVal + i + mir_tstrlen(substituteStr), dbv.ptszVal + i + 6, (mir_tstrlen(dbv.ptszVal) - i - 5) * sizeof(wchar_t));
+			memcpy(dbv.ptszVal+i, substituteStr, mir_tstrlen(substituteStr) * sizeof(wchar_t));
 		}
 	}
 	return dbv.ptszVal;
@@ -152,15 +152,15 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000) //ctrl-backspace
 		{
 			DWORD start, end;
-			TCHAR *text;
+			wchar_t *text;
 			int textLen;
 			SendMessage(hwnd, EM_GETSEL, (WPARAM)&end, 0);
 			SendMessage(hwnd, WM_KEYDOWN, VK_LEFT, 0);
 			SendMessage(hwnd, EM_GETSEL, (WPARAM)&start, 0);
 			textLen = GetWindowTextLength(hwnd);
-			text = (TCHAR *)alloca(sizeof(TCHAR) * (textLen + 1));
+			text = (wchar_t *)alloca(sizeof(wchar_t) * (textLen + 1));
 			GetWindowText(hwnd, text, textLen + 1);
-			memmove(text + start, text + end, sizeof(TCHAR) * (textLen + 1 - end));
+			memmove(text + start, text + end, sizeof(wchar_t) * (textLen + 1 - end));
 			SetWindowText(hwnd, text);
 			SendMessage(hwnd, EM_SETSEL, start, start);
 			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);
@@ -171,7 +171,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	return mir_callNextSubclass(hwnd, MessageEditSubclassProc, msg, wParam, lParam);
 }
 
-void ChangeAllProtoMessages(char *szProto, int statusMode, TCHAR *msg)
+void ChangeAllProtoMessages(char *szProto, int statusMode, wchar_t *msg)
 {
 	if (szProto == NULL) {
 		int nAccounts;
@@ -194,7 +194,7 @@ struct SetAwayMsgData
 {
 	int statusMode;
 	int countdown;
-	TCHAR okButtonFormat[64];
+	wchar_t okButtonFormat[64];
 	char *szProto;
 	HANDLE hPreshutdown;
 };
@@ -224,14 +224,14 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			SendDlgItemMessage(hwndDlg, IDC_MSG, EM_LIMITTEXT, 1024, 0);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_MSG), MessageEditSubclassProc);
 			{
-				TCHAR str[256], format[128];
+				wchar_t str[256], format[128];
 				GetWindowText(hwndDlg, format, _countof(format));
 				mir_sntprintf(str, format, pcli->pfnGetStatusModeDescription(dat->statusMode, 0));
 				SetWindowText(hwndDlg, str);
 			}
 			GetDlgItemText(hwndDlg, IDOK, dat->okButtonFormat, _countof(dat->okButtonFormat));
 			{
-				TCHAR *msg = GetAwayMessage(dat->statusMode, dat->szProto);
+				wchar_t *msg = GetAwayMessage(dat->statusMode, dat->szProto);
 				SetDlgItemText(hwndDlg, IDC_MSG, msg);
 				mir_free(msg);
 			}
@@ -246,7 +246,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 
 	case WM_TIMER:
 		if (--dat->countdown >= 0) {
-			TCHAR str[64];
+			wchar_t str[64];
 			mir_sntprintf(str, dat->okButtonFormat, dat->countdown);
 			SetDlgItemText(hwndDlg, IDOK, str);
 		}
@@ -258,7 +258,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 
 	case WM_CLOSE:
 		{
-			TCHAR *msg = GetAwayMessage(dat->statusMode, dat->szProto);
+			wchar_t *msg = GetAwayMessage(dat->statusMode, dat->szProto);
 			ChangeAllProtoMessages(dat->szProto, dat->statusMode, msg);
 			mir_free(msg);
 		}
@@ -269,7 +269,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			if (dat->countdown < 0) {
-				TCHAR str[1024];
+				wchar_t str[1024];
 				GetDlgItemText(hwndDlg, IDC_MSG, str, _countof(str));
 				ChangeAllProtoMessages(dat->szProto, dat->statusMode, str);
 				db_set_ts(NULL, "SRAway", StatusModeToDbSetting(dat->statusMode, "Msg"), str);
@@ -329,7 +329,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 		ChangeAllProtoMessages(szProto, statusMode, NULL);
 
 	else if (bScreenSaverRunning || GetStatusModeByte(statusMode, "NoDlg", true)) {
-		TCHAR *msg = GetAwayMessage(statusMode, szProto);
+		wchar_t *msg = GetAwayMessage(statusMode, szProto);
 		ChangeAllProtoMessages(szProto, statusMode, msg);
 		mir_free(msg);
 	}
@@ -355,7 +355,7 @@ struct AwayMsgInfo
 	int ignore;
 	int noDialog;
 	int usePrevious;
-	TCHAR msg[1024];
+	wchar_t msg[1024];
 };
 
 struct AwayMsgDlgData
@@ -422,7 +422,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->CtlID != IDC_LST_STATUS) break;
 
-			TCHAR buf[128];
+			wchar_t buf[128];
 			SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_GETTEXT, dis->itemID, (LPARAM)buf);
 
 			if (dis->itemState & (ODS_SELECTED | ODS_FOCUS)) {

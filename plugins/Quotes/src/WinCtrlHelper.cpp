@@ -15,7 +15,7 @@ static INT_PTR CALLBACK VariableListDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPAR
 			std::for_each(raSpec.begin(), raSpec.end(),
 				[&o](const CQuotesProviderVisitorFormatSpecificator::CFormatSpecificator& spec)
 			{
-				o << spec.m_sSymbol << _T('\t') << spec.m_sDesc << L"\r\n";
+				o << spec.m_sSymbol << '\t' << spec.m_sDesc << L"\r\n";
 			});
 			::SetDlgItemText(hWnd, IDC_EDIT_VARIABLE, o.str().c_str());
 		}

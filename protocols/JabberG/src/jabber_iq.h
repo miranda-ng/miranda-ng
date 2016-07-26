@@ -59,19 +59,19 @@ protected:
 	DWORD    m_dwParamsToParse;
 	DWORD    m_dwRequestTime;
 	DWORD    m_dwTimeout;
-	TCHAR   *m_szReceiver;
+	wchar_t   *m_szReceiver;
 	int      m_iPriority;
 
 public:
 	void    *m_pUserData;
 	int      m_nIqType;
-	TCHAR   *m_szFrom;
-	TCHAR   *m_szChildTagXmlns;
-	TCHAR   *m_szChildTagName;
+	wchar_t   *m_szFrom;
+	wchar_t   *m_szChildTagXmlns;
+	wchar_t   *m_szChildTagName;
 	HXML     m_pChildNode;
 	MCONTACT m_hContact;
-	TCHAR   *m_szTo;
-	TCHAR   *m_szId;
+	wchar_t   *m_szTo;
+	wchar_t   *m_szId;
 
 public:
 	__forceinline CJabberIqInfo()
@@ -81,7 +81,7 @@ public:
 	{	mir_free(m_szReceiver);
 	}
 
-	__forceinline void SetReceiver(const TCHAR *szReceiver) { replaceStrT(m_szReceiver, szReceiver); }
+	__forceinline void SetReceiver(const wchar_t *szReceiver) { replaceStrT(m_szReceiver, szReceiver); }
 	__forceinline void SetParamsToParse(DWORD dwParamsToParse) { m_dwParamsToParse = dwParamsToParse; }
 	__forceinline void SetTimeout(DWORD dwTimeout) { m_dwTimeout = dwTimeout; }
 
@@ -89,13 +89,13 @@ public:
 	__forceinline DWORD    GetRequestTime() const { return m_dwRequestTime; }
 	__forceinline int      GetIqType() const { return m_nIqType; }	
 	__forceinline void*    GetUserData() const {	return m_pUserData; }
-	__forceinline TCHAR*   GetFrom() const {	return m_szFrom; }
-	__forceinline TCHAR*   GetTo() const { return m_szTo; }
-	__forceinline TCHAR*   GetIdStr() const { return m_szId; }
+	__forceinline wchar_t*   GetFrom() const {	return m_szFrom; }
+	__forceinline wchar_t*   GetTo() const { return m_szTo; }
+	__forceinline wchar_t*   GetIdStr() const { return m_szId; }
 	__forceinline MCONTACT GetHContact() const { return m_hContact; }
 	__forceinline HXML     GetChildNode() const { return m_pChildNode; }
-	__forceinline TCHAR*   GetChildNodeName() const { return m_szChildTagName; }
-	__forceinline TCHAR*   GetReceiver() const { return m_szReceiver; }
+	__forceinline wchar_t*   GetChildNodeName() const { return m_szChildTagName; }
+	__forceinline wchar_t*   GetReceiver() const { return m_szReceiver; }
 	__forceinline int      GetPriority() const { return m_iPriority; }
 
 	char* GetCharIqType()
@@ -117,8 +117,8 @@ class CJabberIqPermanentInfo : public MZeroedObject
 	JABBER_PERMANENT_IQ_HANDLER m_pHandler;
 	DWORD m_dwParamsToParse;
 	int m_nIqTypes;
-	TCHAR *m_szXmlns;
-	TCHAR *m_szTag;
+	wchar_t *m_szXmlns;
+	wchar_t *m_szTag;
 	BOOL m_bAllowPartialNs;
 	void *m_pUserData;
 	IQ_USER_DATA_FREE_FUNC m_pUserDataFree;
@@ -165,8 +165,8 @@ public:
 	void Shutdown();
 
 	// fucking params, maybe just return CJabberIqRequestInfo pointer ?
-	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const TCHAR *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority);
-	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const TCHAR *szXmlns, BOOL bAllowPartialNs, const TCHAR *szTag, void *pUserData = NULL, IQ_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const wchar_t *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority);
+	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const wchar_t *szXmlns, BOOL bAllowPartialNs, const wchar_t *szTag, void *pUserData = NULL, IQ_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);
 
 	// returns TRUE when pInfo found, or FALSE otherwise
 	bool DeletePermanentHandler(CJabberIqPermanentInfo *pInfo);

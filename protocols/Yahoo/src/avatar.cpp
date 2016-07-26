@@ -112,10 +112,10 @@ void __cdecl CYahooProto::send_avt_thread(void *psf)
 		setByte("AvatarUL", 0);
 }
 
-void CYahooProto::SendAvatar(const TCHAR *szFile)
+void CYahooProto::SendAvatar(const wchar_t *szFile)
 {
 	struct _stat statbuf;
-	if (_tstat(szFile, &statbuf) != 0) {
+	if (_wstat(szFile, &statbuf) != 0) {
 		LOG(("[YAHOO_SendAvatar] Error reading File information?!"));
 		return;
 	}
@@ -146,7 +146,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 {
 	avatar_info *avt = (avatar_info*)pavt;
 	int 	error = 0;
-	TCHAR  buf[4096];
+	wchar_t  buf[4096];
 
 	if (avt == NULL) {
 		debugLogA("AVT IS NULL!!!");
@@ -241,7 +241,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	PROTO_AVATAR_INFORMATION ai;
 	ai.format = PA_FORMAT_PNG;
 	ai.hContact = hContact;
-	_tcsncpy_s(ai.filename, buf, _TRUNCATE);
+	wcsncpy_s(ai.filename, buf, _TRUNCATE);
 
 	if (error)
 		setDword(hContact, "PictCK", 0);
@@ -295,7 +295,7 @@ void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_
 					// NO avatar URL??
 					if (!getTString("AvatarFile", &dbv)) {
 						struct _stat statbuf;
-						if (_tstat(dbv.ptszVal, &statbuf) != 0) {
+						if (_wstat(dbv.ptszVal, &statbuf) != 0) {
 							LOG(("[ext_yahoo_got_picture] Avatar File Missing? Can't find file: %s", dbv.ptszVal));
 						}
 						else {
@@ -342,10 +342,10 @@ void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_
 				return;
 			}
 
-			TCHAR z[1024];
+			wchar_t z[1024];
 			GetAvatarFileName(hContact, z, 1024, getByte(hContact, "AvatarType", 0));
 
-			if (getDword(hContact, "PictCK", 0) != cksum || _taccess(z, 0) != 0) {
+			if (getDword(hContact, "PictCK", 0) != cksum || _waccess(z, 0) != 0) {
 
 				debugLogA("[ext_yahoo_got_picture] Checksums don't match or avatar file is missing. Current: %d, New: %d",
 					getDword(hContact, "PictCK", 0), cksum);
@@ -460,7 +460,7 @@ void CYahooProto::ext_got_picture_checksum(const char*, const char *who, int cks
 			setDword(hContact, "PictCK", cksum);
 
 			// Need to delete the Avatar File!!
-			TCHAR szFile[MAX_PATH];
+			wchar_t szFile[MAX_PATH];
 			GetAvatarFileName(hContact, szFile, _countof(szFile) - 1, 0);
 			DeleteFile(szFile);
 
@@ -594,11 +594,11 @@ void CYahooProto::request_avatar(const char* who)
 	else LOG(("Avatar Not Available for: %s Last Check: %ld Current: %ld (Flood Check in Effect)", who, last_chk, cur_time));
 }
 
-void CYahooProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, int cbLen, int type)
+void CYahooProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, int cbLen, int type)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
-	if (_taccess(pszDest, 0))
+	if (_waccess(pszDest, 0))
 		CreateDirectoryTreeT(pszDest);
 
 	if (hContact != NULL) {
@@ -608,7 +608,7 @@ void CYahooProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, int cbLen
 	else
 		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%S avatar", m_szModuleName);
 
-	_tcsncpy_s((pszDest + tPathLen), (cbLen - tPathLen), (type == 1 ? L".swf" : L".png"), _TRUNCATE);
+	wcsncpy_s((pszDest + tPathLen), (cbLen - tPathLen), (type == 1 ? L".swf" : L".png"), _TRUNCATE);
 }
 
 INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
@@ -648,7 +648,7 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	pai->format = PA_FORMAT_PNG;
 	debugLogA("[YAHOO_GETAVATARINFO] filename: %s", pai->filename);
 
-	if (_taccess(pai->filename, 0) == 0)
+	if (_waccess(pai->filename, 0) == 0)
 		return GAIR_SUCCESS;
 
 	if ((wParam & GAIF_FORCE) != 0 && pai->hContact != NULL) {
@@ -733,7 +733,7 @@ return=0 on success, else on error
 */
 INT_PTR __cdecl CYahooProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *buffer = (TCHAR*)wParam;
+	wchar_t *buffer = (wchar_t*)wParam;
 	int size = (int)lParam;
 
 	debugLogA("[YahooGetMyAvatar]");
@@ -749,7 +749,7 @@ INT_PTR __cdecl CYahooProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 	if (getDword("AvatarHash", 0)) {
 		if (!getTString("AvatarFile", &dbv)) {
-			if (_taccess(dbv.ptszVal, 0) == 0) {
+			if (_waccess(dbv.ptszVal, 0) == 0) {
 				mir_tstrncpy(buffer, dbv.ptszVal, size - 1);
 				buffer[size - 1] = '\0';
 
@@ -771,8 +771,8 @@ return=0 for sucess
 
 INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
-	TCHAR* tszFile = (TCHAR*)lParam;
-	TCHAR  tszMyFile[MAX_PATH + 1];
+	wchar_t* tszFile = (wchar_t*)lParam;
+	wchar_t  tszMyFile[MAX_PATH + 1];
 
 	GetAvatarFileName(NULL, tszMyFile, MAX_PATH, 2);
 

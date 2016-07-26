@@ -46,7 +46,7 @@ ext::string OptionsCtrlImpl::Combo::getCombinedText()
 	}
 }
 
-OptionsCtrlImpl::Combo::Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::Combo::Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itCombo, szLabel, dwFlags, dwData), m_hComboWnd(NULL), m_nSelected(-1)
 {
 	m_bDisableChildsOnIndex0 = bool_(dwFlags & OCF_DISABLECHILDSONINDEX0);
@@ -177,7 +177,7 @@ void OptionsCtrlImpl::Combo::childAdded(Item* pChild)
 	}
 }
 
-void OptionsCtrlImpl::Combo::setLabel(const TCHAR* szLabel)
+void OptionsCtrlImpl::Combo::setLabel(const wchar_t* szLabel)
 {
 	m_strLabel = szLabel;
 
@@ -188,7 +188,7 @@ void OptionsCtrlImpl::Combo::setLabel(const TCHAR* szLabel)
 	}
 }
 
-void OptionsCtrlImpl::Combo::addItem(const TCHAR* szItem)
+void OptionsCtrlImpl::Combo::addItem(const wchar_t* szItem)
 {
 	m_Items.push_back(szItem);
 }

@@ -35,7 +35,7 @@ public:
 	int GetCharFromPos(const POINT &pt);
 
 	int GetLineCount() const;
-	void GetLine(int line, TCHAR *text, size_t text_len) const;
+	void GetLine(int line, wchar_t *text, size_t text_len) const;
 	int GetLineLength(int line) const;
 	int GetFirstCharOfLine(int line) const;
 	int GetLineFromChar(int charPos) const;
@@ -44,12 +44,12 @@ public:
 	void SetSel(int start, int end);
 	void SetSel(const CHARRANGE &sel);
 
-	TCHAR* GetText(int start, int end) const;
+	wchar_t* GetText(int start, int end) const;
 	int GetTextLength() const;
 
-	void ReplaceSel(const TCHAR *new_text);
-	int Replace(int start, int end, const TCHAR *new_text);
-	int Insert(int pos, const TCHAR *text);
+	void ReplaceSel(const wchar_t *new_text);
+	int Replace(int start, int end, const wchar_t *new_text);
+	int Insert(int pos, const wchar_t *text);
 	int Delete(int start, int end);
 
 private:

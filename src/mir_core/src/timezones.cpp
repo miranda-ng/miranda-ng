@@ -46,7 +46,7 @@ struct MIM_TIMEZONE
 	unsigned hash;
 	int offset;
 
-	TCHAR	tszName[MIM_TZ_NAMELEN];            // windows name for the time zone
+	wchar_t	tszName[MIM_TZ_NAMELEN];            // windows name for the time zone
 	wchar_t szDisplay[MIM_TZ_DISPLAYLEN];    // more descriptive display name (that's what usually appears in dialogs)
 	                                          // every hour should be sufficient.
 	TIME_ZONE_INFORMATION tzi;
@@ -82,13 +82,13 @@ mir_time FileTimeToUnixTime(LPFILETIME pft)
 	return (mir_time)(ll / 10000000);
 }
 
-void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, size_t cbDest)
+void FormatTime(const SYSTEMTIME *st, const wchar_t *szFormat, wchar_t *szDest, size_t cbDest)
 {
 	if (szDest == NULL || cbDest == 0) return;
 
 	CMString tszTemp;
 
-	for (const TCHAR* pFormat = szFormat; *pFormat; ++pFormat) {
+	for (const wchar_t* pFormat = szFormat; *pFormat; ++pFormat) {
 		DWORD fmt = 0;
 		bool date = false, iso = false;
 		switch (*pFormat) {
@@ -126,7 +126,7 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, size
 			continue;
 		}
 
-		TCHAR dateTimeStr[64];
+		wchar_t dateTimeStr[64];
 		if (iso)
 			tszTemp.AppendFormat(L"%d-%02d-%02dT%02d:%02d:%02dZ", st->wYear, st->wMonth, st->wDay, st->wHour, st->wMinute, st->wSecond);
 		else if (date) {
@@ -139,7 +139,7 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, size
 		}
 	}
 
-	_tcsncpy_s(szDest, cbDest, tszTemp, _TRUNCATE);
+	wcsncpy_s(szDest, cbDest, tszTemp, _TRUNCATE);
 }
 
 MIR_CORE_DLL(int) TimeZone_GetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st)
@@ -379,7 +379,7 @@ static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 		return NULL;
 
 	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB))) {
-		TCHAR	tszClassName[128];
+		wchar_t	tszClassName[128];
 		GetClassName(hWnd, tszClassName, _countof(tszClassName));
 		if (!mir_tstrcmpi(tszClassName, L"COMBOBOX"))
 			dwFlags |= TZF_PLF_CB;
@@ -475,7 +475,7 @@ MIR_CORE_DLL(DWORD) TimeZone_ToLocal(DWORD timeVal)
 
 MIR_CORE_DLL(char*) TimeZone_ToString(mir_time timeVal, const char *szFormat, char *szDest, size_t cchDest)
 {
-	TCHAR *szTemp = (TCHAR*)alloca(cchDest*sizeof(TCHAR));
+	wchar_t *szTemp = (wchar_t*)alloca(cchDest*sizeof(wchar_t));
 	TimeZone_PrintTimeStamp(NULL, timeVal, _A2T(szFormat), szTemp, cchDest, 0);
 	WideCharToMultiByte(CP_ACP, 0, szTemp, -1, szDest, (int)cchDest, NULL, NULL);
 	return szDest;
@@ -489,11 +489,11 @@ MIR_CORE_DLL(wchar_t*) TimeZone_ToStringW(mir_time timeVal, const wchar_t *wszFo
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void GetLocalizedString(HKEY hSubKey, const TCHAR *szName, wchar_t *szBuf, DWORD cbLen)
+void GetLocalizedString(HKEY hSubKey, const wchar_t *szName, wchar_t *szBuf, DWORD cbLen)
 {
 	DWORD dwLength = cbLen * sizeof(wchar_t);
 	RegQueryValueEx(hSubKey, szName, NULL, NULL, (unsigned char *)szBuf, &dwLength);
-	szBuf[min(dwLength / sizeof(TCHAR), cbLen - 1)] = 0;
+	szBuf[min(dwLength / sizeof(wchar_t), cbLen - 1)] = 0;
 }
 
 void RecalculateTime(void)
@@ -506,8 +506,8 @@ void RecalculateTime(void)
 	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
 
 	if (pfnGetDynamicTimeZoneInformation && pfnGetDynamicTimeZoneInformation(&dtzi) != TIME_ZONE_ID_INVALID) {
-		TCHAR *myTzKey = mir_u2t(dtzi.TimeZoneKeyName);
-		_tcsncpy_s(myInfo.myTZ.tszName, myTzKey, _TRUNCATE);
+		wchar_t *myTzKey = mir_u2t(dtzi.TimeZoneKeyName);
+		wcsncpy_s(myInfo.myTZ.tszName, myTzKey, _TRUNCATE);
 		mir_free(myTzKey);
 		found = true;
 	}
@@ -519,7 +519,7 @@ void RecalculateTime(void)
 
 		if (!found) {
 			if (!mir_wstrcmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName) || !mir_wstrcmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName)) {
-				_tcsncpy_s(myInfo.myTZ.tszName, tz.tszName, _TRUNCATE);
+				wcsncpy_s(myInfo.myTZ.tszName, tz.tszName, _TRUNCATE);
 				found = true;
 			}
 		}
@@ -531,7 +531,7 @@ void InitTimeZones(void)
 	REG_TZI_FORMAT	tzi;
 	HKEY			hKey;
 
-	const TCHAR *tszKey = L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones";
+	const wchar_t *tszKey = L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones";
 
 	/*
 	 * use GetDynamicTimeZoneInformation() on Vista+ - this will return a structure with
@@ -544,7 +544,7 @@ void InitTimeZones(void)
 	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, tszKey, 0, KEY_ENUMERATE_SUB_KEYS, &hKey)) {
 		DWORD	dwIndex = 0;
 		HKEY	hSubKey;
-		TCHAR	tszName[MIM_TZ_NAMELEN];
+		wchar_t	tszName[MIM_TZ_NAMELEN];
 
 		DWORD dwSize = _countof(tszName);
 		while (ERROR_NO_MORE_ITEMS != RegEnumKeyEx(hKey, dwIndex++, tszName, &dwSize, NULL, NULL, 0, NULL)) {

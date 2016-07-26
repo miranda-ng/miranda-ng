@@ -52,10 +52,10 @@ public:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (msg == WM_JABBER_REGDLG_UPDATE) {
-			if ((TCHAR*)lParam == NULL)
+			if ((wchar_t*)lParam == NULL)
 				SetDlgItemText(m_hwnd, IDC_REG_STATUS, TranslateT("No message"));
 			else
-				SetDlgItemText(m_hwnd, IDC_REG_STATUS, (TCHAR*)lParam);
+				SetDlgItemText(m_hwnd, IDC_REG_STATUS, (wchar_t*)lParam);
 
 			SendDlgItemMessage(m_hwnd, IDC_PROGRESS_REG, PBM_SETPOS, wParam, 0);
 
@@ -82,12 +82,12 @@ class CAgentRegDlg : public CJabberDlgBase
 	int m_formHeight, m_frameHeight;
 	RECT m_frameRect;
 	HXML m_agentRegIqNode;
-	TCHAR *m_jid;
+	wchar_t *m_jid;
 
 	CCtrlButton m_submit;
 
 public:
-	CAgentRegDlg(CJabberProto *_ppro, TCHAR *_jid) :
+	CAgentRegDlg(CJabberProto *_ppro, wchar_t *_jid) :
 		CJabberDlgBase(_ppro, IDD_FORM, false),
 		m_submit(this, IDC_SUBMIT),
 		m_jid(_jid),
@@ -226,14 +226,14 @@ public:
 	void OnSubmit(CCtrlButton*)
 	{
 		HXML queryNode, xNode;
-		const TCHAR *from;
+		const wchar_t *from;
 
 		if (m_agentRegIqNode == NULL) return;
 		if ((from = XmlGetAttrValue(m_agentRegIqNode, L"from")) == NULL) return;
 		if ((queryNode = XmlGetChild(m_agentRegIqNode ,  "query")) == NULL) return;
 		HWND hFrame = GetDlgItem(m_hwnd, IDC_FRAME);
 
-		TCHAR *str2 = (TCHAR*)alloca(sizeof(TCHAR) * 128);
+		wchar_t *str2 = (wchar_t*)alloca(sizeof(wchar_t) * 128);
 		int id = 0;
 
 		XmlNodeIq iq( m_proto->AddIQ(&CJabberProto::OnIqResultSetRegister, JABBER_IQ_TYPE_SET, from));
@@ -277,7 +277,7 @@ public:
 	}
 };
 
-void CJabberProto::RegisterAgent(HWND /*hwndDlg*/, TCHAR* jid)
+void CJabberProto::RegisterAgent(HWND /*hwndDlg*/, wchar_t* jid)
 {
 	(new CAgentRegDlg(this, jid))->Show();
 }

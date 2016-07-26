@@ -180,7 +180,7 @@ ext::string OptionsCtrlImpl::DateTime::getCombinedText()
 	return strTemp;
 }
 
-OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szFormat, time_t timestamp, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szFormat, time_t timestamp, DWORD dwFlags, INT_PTR dwData)
 : Item(pCtrl, itDateTime, szLabel, dwFlags, dwData), m_hDateTimeWnd(NULL), m_strFormat(szFormat), m_timestamp(timestamp)
 {
 	m_bDisableChildsOnNone = bool_(dwFlags & OCF_DISABLECHILDSONNONE);
@@ -313,7 +313,7 @@ void OptionsCtrlImpl::DateTime::childAdded(Item* pChild)
 	}
 }
 
-void OptionsCtrlImpl::DateTime::setLabel(const TCHAR* szLabel)
+void OptionsCtrlImpl::DateTime::setLabel(const wchar_t* szLabel)
 {
 	m_strLabel = szLabel;
 

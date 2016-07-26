@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class TwitterProto : public PROTO<TwitterProto>
 {
 public:
-	TwitterProto(const char*,const TCHAR*);
+	TwitterProto(const char*,const wchar_t*);
 	~TwitterProto();
 
 	//PROTO_INTERFACE
@@ -33,8 +33,8 @@ public:
 	virtual	DWORD_PTR __cdecl GetCaps(int, MCONTACT = 0);
 	virtual	int       __cdecl GetInfo(MCONTACT, int);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *);
-	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *);
+	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t *);
 
 	virtual	int       __cdecl RecvMsg(MCONTACT, PROTORECVEVENT *);
 	virtual	int       __cdecl SendMsg(MCONTACT, int, const char *);
@@ -108,7 +108,7 @@ private:
 
 	void TwitterProto::resetOAuthKeys();
 
-	std::tstring GetAvatarFolder();
+	std::wstring GetAvatarFolder();
 
 	mir_cs signon_lock_;
 	mir_cs avatar_lock_;

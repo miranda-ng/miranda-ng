@@ -222,7 +222,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			int i=0;
 			cmultimap::iterator curContact;
-			std::tstring str;
+			std::wstring str;
 			char strtim[256 + 16];
 
 			string strtimformat;
@@ -237,7 +237,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			for(curContact = DlgDat->Contacts->begin(); curContact != DlgDat->Contacts->end(); curContact++) {
 				if (curContact->second != NULL && db_get_b(curContact->second, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ) {
-					TCHAR *cname = ( TCHAR* )pcli->pfnGetContactDisplayName(curContact->second, 0);
+					wchar_t *cname = ( wchar_t* )pcli->pfnGetContactDisplayName(curContact->second, 0);
 					if ( cname == NULL )
 						continue;
 
@@ -504,9 +504,9 @@ int OnMsgEvent(WPARAM, LPARAM lParam)
 static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
-		Menu_ModifyItem(hMenuItemRemove, LPGENT("Ignore Contact"));
+		Menu_ModifyItem(hMenuItemRemove, LPGENW("Ignore Contact"));
 	else
-		Menu_ModifyItem(hMenuItemRemove, LPGENT("Show Contact"));
+		Menu_ModifyItem(hMenuItemRemove, LPGENW("Show Contact"));
 	return 0;
 }
 

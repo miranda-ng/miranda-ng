@@ -55,25 +55,25 @@ void DeInitPopups()
 
 
 // Show an error popup
-void ShowErrPopup(const TCHAR *description, const TCHAR *title)
+void ShowErrPopup(const wchar_t *description, const wchar_t *title)
 {
 	ShowPopupEx(NULL, title == NULL ? _T(MODULE_NAME) L" Error" : title, description,
 			  NULL, POPUP_TYPE_ERROR, NULL);
 }
 
 
-void ShowTestPopup(MCONTACT hContact,const TCHAR *title, const TCHAR *description, const Options *op)
+void ShowTestPopup(MCONTACT hContact,const wchar_t *title, const wchar_t *description, const Options *op)
 {
 	ShowPopupEx(hContact, title, description, NULL, POPUP_TYPE_TEST, op);
 }
 
 
-void ShowPopup(MCONTACT hContact, const TCHAR *title, const TCHAR *description)
+void ShowPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description)
 {
 	ShowPopupEx(hContact, title, description, (void*)hContact, POPUP_TYPE_NORMAL, &opts);
 }
 
-void ShowDebugPopup(MCONTACT hContact, const TCHAR *title, const TCHAR *description)
+void ShowDebugPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description)
 {
 	if (db_get_b(NULL,MODULE_NAME,"Debug",0))
 	{
@@ -89,7 +89,7 @@ typedef struct
 PopupDataType;
 
 // Show an popup
-void ShowPopupEx(MCONTACT hContact, const TCHAR *title, const TCHAR *description,
+void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *description,
 			   void *plugin_data, int type, const Options *op)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
@@ -107,7 +107,7 @@ void ShowPopupEx(MCONTACT hContact, const TCHAR *title, const TCHAR *description
 		if (title != NULL)
 			mir_tstrncpy(ppd.lptzContactName, title, _countof(ppd.lptzContactName));
 		else if (hContact != NULL)
-			mir_tstrncpy(ppd.lptzContactName, (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0),
+			mir_tstrncpy(ppd.lptzContactName, (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
 					_countof(ppd.lptzContactName));
 
 		if (description != NULL)
@@ -174,7 +174,7 @@ void ShowPopupEx(MCONTACT hContact, const TCHAR *title, const TCHAR *description
 	}
 	else
 	{
-		MessageBox(NULL, description, title ? title : (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0),
+		MessageBox(NULL, description, title ? title : (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
 			MB_OK);
 	}
 

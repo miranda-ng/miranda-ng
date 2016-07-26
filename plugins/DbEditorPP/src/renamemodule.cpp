@@ -30,7 +30,7 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 		TranslateDialogDefault(hwnd);
 
-		TCHAR msg[MSG_SIZE], name[NAME_SIZE];
+		wchar_t msg[MSG_SIZE], name[NAME_SIZE];
 		GetContactName((MCONTACT)lParam, NULL, name, _countof(name));
 
 		mir_sntprintf(msg, TranslateT("Add module to \"%s\""), name);

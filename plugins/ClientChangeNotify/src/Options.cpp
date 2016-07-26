@@ -286,7 +286,7 @@ int TreeReadEnum(const char *szSetting, LPARAM lParam)
 			pItem.Title = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, L"");
 			pItem.User_Str1 = (pData->TreeCtrl->User_Str1_DBName == NULL) ? NULL :
 				db_get_s(NULL, pData->sModule,
-				*pData->sDBSettingPrefix + pData->TreeCtrl->sDBSetting + pData->TreeCtrl->User_Str1_DBName + (szSetting + Len), (TCHAR*)NULL);
+				*pData->sDBSettingPrefix + pData->TreeCtrl->sDBSetting + pData->TreeCtrl->User_Str1_DBName + (szSetting + Len), (wchar_t*)NULL);
 		}
 	}
 	return 0;
@@ -722,7 +722,7 @@ void COptItem_ListCtrl::MemToWnd(HWND hWnd)
 	SendMessage(hListView, LB_RESETCONTENT, 0, 0);
 
 	for (int i = 0; i < m_value.GetSize(); i++)
-		SendMessage(hListView, LB_INSERTSTRING, -1, (LPARAM)(TCHAR*)m_value[i].Text);
+		SendMessage(hListView, LB_INSERTSTRING, -1, (LPARAM)(wchar_t*)m_value[i].Text);
 
 	SendMessage(hListView, WM_SETREDRAW, true, 0);
 	COptItem::MemToWnd(hWnd);
@@ -794,7 +794,7 @@ void COptItem_ListCtrl::ModifyItem(HWND hWnd, int ID, CListItem &Item)
 	int TopIndex = SendMessage(hListView, LB_GETTOPINDEX, 0, 0);
 	int Res = SendMessage(hListView, LB_DELETESTRING, ID, 0);
 	_ASSERT(Res != LB_ERR);
-	Res = SendMessage(hListView, LB_INSERTSTRING, ID, (LPARAM)(TCHAR*)(Item.Text));
+	Res = SendMessage(hListView, LB_INSERTSTRING, ID, (LPARAM)(wchar_t*)(Item.Text));
 	_ASSERT(Res != LB_ERR && Res != LB_ERRSPACE);
 	SendMessage(hListView, LB_SETCURSEL, CurSel, 0);
 	SendMessage(hListView, LB_SETTOPINDEX, TopIndex, 0);
@@ -808,7 +808,7 @@ CListItem* COptItem_ListCtrl::InsertItem(HWND hWnd, int ID, CListItem &Item)
 // ID is position at which to insert the item; -1 = add to the end of the list
 {
 	HWND hListView = GetDlgItem(hWnd, m_dlgItemID);
-	int Res = SendMessage(hListView, LB_INSERTSTRING, ID, (LPARAM)(TCHAR*)(Item.Text)); // LB_INSERTSTRING doesn't sort the lists even with LBS_SORT style
+	int Res = SendMessage(hListView, LB_INSERTSTRING, ID, (LPARAM)(wchar_t*)(Item.Text)); // LB_INSERTSTRING doesn't sort the lists even with LBS_SORT style
 	_ASSERT(Res != LB_ERR && Res != LB_ERRSPACE);
 	int i = m_value.AddElem(Item);
 	m_bModified = true;

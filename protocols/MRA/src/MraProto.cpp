@@ -7,7 +7,7 @@ static int MraExtraIconsApplyAll(WPARAM, LPARAM)
 	return 0;
 }
 
-CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
+CMraProto::CMraProto(const char* _module, const wchar_t* _displayName) :
 	PROTO<CMraProto>(_module, _displayName),
 	m_bLoggedIn(false),
 	m_groups(5, NumericKeySortT)
@@ -35,7 +35,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	if (ServiceExists(MS_NUDGE_SEND))
 		m_heNudgeReceived = CreateProtoEvent(PE_NUDGE);
 
-	TCHAR name[MAX_PATH];
+	wchar_t name[MAX_PATH];
 	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
@@ -155,7 +155,7 @@ MCONTACT CMraProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return 0;
 
-	return AddToListByEmail(psr->email.t, psr->nick.t, psr->firstName.t, psr->lastName.t, flags);
+	return AddToListByEmail(psr->email.w, psr->nick.w, psr->firstName.w, psr->lastName.w, flags);
 }
 
 MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)
@@ -200,7 +200,7 @@ int CMraProto::Authorize(MEVENT hDBEvent)
 	return 0;
 }
 
-int CMraProto::AuthDeny(MEVENT hDBEvent, const TCHAR* szReason)
+int CMraProto::AuthDeny(MEVENT hDBEvent, const wchar_t* szReason)
 {
 	if (!m_bLoggedIn) return 1;
 
@@ -230,7 +230,7 @@ int CMraProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE CMraProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR *szPath)
+HANDLE CMraProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *szPath)
 {
 	if (szPath != NULL)
 		if (MraFilesQueueAccept(hFilesQueueHandle, (DWORD_PTR)hTransfer, szPath, mir_tstrlen(szPath)) == NO_ERROR)
@@ -249,7 +249,7 @@ int CMraProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	return 1;
 }
 
-int CMraProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
+int CMraProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*)
 {
 	return FileCancel(hContact, hTransfer);
 }
@@ -300,12 +300,12 @@ int CMraProto::GetInfo(MCONTACT hContact, int)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE CMraProto::SearchBasic(const TCHAR *id)
+HANDLE CMraProto::SearchBasic(const wchar_t *id)
 {
 	return SearchByEmail(id);
 }
 
-HANDLE CMraProto::SearchByEmail(const TCHAR *email)
+HANDLE CMraProto::SearchByEmail(const wchar_t *email)
 {
 	if (m_bLoggedIn && email) {
 		CMStringA szEmail(email);
@@ -315,7 +315,7 @@ HANDLE CMraProto::SearchByEmail(const TCHAR *email)
 	return NULL;
 }
 
-HANDLE CMraProto::SearchByName(const TCHAR *pszNick, const TCHAR *pszFirstName, const TCHAR *pszLastName)
+HANDLE CMraProto::SearchByName(const wchar_t *pszNick, const wchar_t *pszFirstName, const wchar_t *pszLastName)
 {
 	if (m_bLoggedIn && (*pszNick || *pszFirstName || *pszLastName)) {
 		DWORD dwRequestFlags = 0;
@@ -371,7 +371,7 @@ int CMraProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hCo
 	return iRet;
 }
 
-HANDLE CMraProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles)
+HANDLE CMraProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles)
 {
 	if (!m_bLoggedIn || !hContact || !ppszFiles)
 		return NULL;
@@ -517,7 +517,7 @@ HANDLE CMraProto::GetAwayMsg(MCONTACT hContact)
 	if (!m_bLoggedIn || !hContact)
 		return 0;
 
-	TCHAR szStatusDesc[MICBLOG_STATUS_MAX + MICBLOG_STATUS_MAX + MAX_PATH], szTime[64];
+	wchar_t szStatusDesc[MICBLOG_STATUS_MAX + MICBLOG_STATUS_MAX + MAX_PATH], szTime[64];
 	DWORD dwTime;
 	int iRet = 0;
 
@@ -537,7 +537,7 @@ HANDLE CMraProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)iRet;
 }
 
-int CMraProto::SetAwayMsg(int iStatus, const TCHAR *msg)
+int CMraProto::SetAwayMsg(int iStatus, const wchar_t *msg)
 {
 	if (!m_bLoggedIn)
 		return 1;

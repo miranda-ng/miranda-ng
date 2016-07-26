@@ -30,13 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #if defined(__cplusplus)
 
-#if defined(_STRING_)
-namespace std
-{
-	typedef basic_string<TCHAR, char_traits<TCHAR>, allocator<TCHAR> > tstring;
-}
-#endif
-
 ///////////////////////////////////////////////////////////////////////////////
 // mir_ptr - automatic pointer for buffers, allocated using mir_alloc/mir_calloc
 
@@ -58,7 +51,7 @@ public:
 };
 
 typedef mir_ptr<char>  ptrA;
-typedef mir_ptr<TCHAR> ptrT;
+typedef mir_ptr<wchar_t> ptrT;
 typedef mir_ptr<WCHAR> ptrW;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -272,24 +265,27 @@ template<class T> struct OBJLIST : public LIST<T>
 	__inline T& operator[](int idx) const { return *this->items[idx]; }
 };
 
-class _A2T : public ptrT
+#define __A2W(s) L ## s
+#define _A2W(s) __A2W(s)
+
+class _A2T : public ptrW
 {
 public:
-	__inline _A2T(const char* s) : ptrT(mir_a2t(s)) {}
-	__inline _A2T(const char* s, int cp) : ptrT(mir_a2t_cp(s, cp)) {}
+	__inline _A2T(const char* s) : ptrW(mir_a2u(s)) {}
+	__inline _A2T(const char* s, int cp) : ptrW(mir_a2u_cp(s, cp)) {}
 };
 
 class _T2A : public ptrA
 {
 public:
-	__forceinline _T2A(const TCHAR* s) : ptrA(mir_t2a(s)) {}
-	__forceinline _T2A(const TCHAR* s, int cp) : ptrA(mir_t2a_cp(s, cp)) {}
+	__forceinline _T2A(const wchar_t* s) : ptrA(mir_u2a(s)) {}
+	__forceinline _T2A(const wchar_t* s, int cp) : ptrA(mir_u2a_cp(s, cp)) {}
 };
 
 class T2Utf : public ptrA
 {
 public:
-	__forceinline T2Utf(const TCHAR *str) : ptrA(mir_utf8encodeT(str)) {}
+	__forceinline T2Utf(const wchar_t *str) : ptrA(mir_utf8encodeW(str)) {}
 	__forceinline operator BYTE* () const { return (BYTE*)data; }
 	#ifdef _XSTRING_
 		std::string str() const { return std::string(data); }

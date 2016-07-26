@@ -23,13 +23,13 @@
 struct XSN_Data
 {
 	MCONTACT hContact;
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	BYTE ignore;
 
-	__forceinline XSN_Data(MCONTACT _aContact, TCHAR *_path, BYTE _ignore) :
+	__forceinline XSN_Data(MCONTACT _aContact, wchar_t *_path, BYTE _ignore) :
 		hContact(_aContact)
 	{
-		_tcsncpy(path, _path, _countof(path));
+		wcsncpy(path, _path, _countof(path));
 		ignore = _ignore;
 	}
 };

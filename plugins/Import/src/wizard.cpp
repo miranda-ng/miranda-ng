@@ -146,7 +146,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 	case WIZM_SETCANCELTEXT:
-		SetDlgItemText(hdlg, IDCANCEL, (TCHAR*)lParam);
+		SetDlgItemText(hdlg, IDCANCEL, (wchar_t*)lParam);
 		break;
 
 	case WM_COMMAND:

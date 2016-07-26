@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-HANDLE WhatsAppProto::SendFile(MCONTACT hContact, const TCHAR* desc, TCHAR **ppszFiles) {
+HANDLE WhatsAppProto::SendFile(MCONTACT hContact, const wchar_t* desc, wchar_t **ppszFiles) {
 	if (!isOnline())
 		return 0;
 
@@ -17,7 +17,7 @@ HANDLE WhatsAppProto::SendFile(MCONTACT hContact, const TCHAR* desc, TCHAR **pps
 	}
 
 	// get file size
-	FILE *hFile = _tfopen(ppszFiles[0], L"rb");
+	FILE *hFile = _wfopen(ppszFiles[0], L"rb");
 	if (hFile == NULL) {
 		debugLogA(__FUNCTION__": cannot open file %s", ppszFiles[0]);
 		mir_free(name);
@@ -69,7 +69,7 @@ HANDLE WhatsAppProto::SendFile(MCONTACT hContact, const TCHAR* desc, TCHAR **pps
 	SHA256_CONTEXT sha256;
 	mir_sha256_init(&sha256);
 
-	FILE *fd = _tfopen(ppszFiles[0], L"rb");
+	FILE *fd = _wfopen(ppszFiles[0], L"rb");
 	int read = 0;
 	do {
 		char buf[1024];

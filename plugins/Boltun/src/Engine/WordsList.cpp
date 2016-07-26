@@ -22,17 +22,17 @@
 
 using namespace std;
 
-WordsList::WordsList(const tstring &data/*, bool allowUnstrict*/)
+WordsList::WordsList(const wstring &data/*, bool allowUnstrict*/)
 {
 	Parse(data/*, allowUnstrict*/);
 }
 
-WordsList::operator tstring() const
+WordsList::operator wstring() const
 {
-	tstring res;
+	wstring res;
 	//if (unstrict)
 	//	res = L"~";
-	set<tstring>::const_iterator it = words.begin();
+	set<wstring>::const_iterator it = words.begin();
 	if (!words.empty())
 		while (true)
 		{
@@ -47,16 +47,16 @@ WordsList::operator tstring() const
 	return res;
 }
 
-WordsList& WordsList::operator= (const tstring& s)
+WordsList& WordsList::operator= (const wstring& s)
 {
 	Parse(s);
 	return *this;
 };
 
-void WordsList::Parse(tstring s/*, bool allowUnstrict*/)
+void WordsList::Parse(wstring s/*, bool allowUnstrict*/)
 {
 	isQuestion = false;
-	/*if (allowUnstrict && s.length() && s[0] == _T('~'))
+	/*if (allowUnstrict && s.length() && s[0] == '~')
 	{
 	s = s.substr(1, s.npos);
 	unstrict = true;
@@ -64,7 +64,7 @@ void WordsList::Parse(tstring s/*, bool allowUnstrict*/)
 	else
 	unstrict = false;*/
 	int len = (int)s.length() - 1;
-	while (len != -1 && _istspace(s[len]))
+	while (len != -1 && iswspace(s[len]))
 		len--;
 	if (len < 0)
 		return;
@@ -77,22 +77,22 @@ void WordsList::Parse(tstring s/*, bool allowUnstrict*/)
 	int it = 0;
 	while (it != len)
 	{
-		while (it != len && _istspace(s[it]))
+		while (it != len && iswspace(s[it]))
 			it++;
 		if (it == len)
 			break;
 		int start = it;
-		while (it != len && !_istspace(s[it]))
+		while (it != len && !iswspace(s[it]))
 			it++;
 		words.insert(s.substr(start, it - start));
 	}
 }
 
-bool WordsList::MatchesAll(const vector<tstring>& s/*, bool& WasStrict*/, float& priority) const
+bool WordsList::MatchesAll(const vector<wstring>& s/*, bool& WasStrict*/, float& priority) const
 {
-	std::set<tstring> temp;
+	std::set<wstring> temp;
 	//WasStrict = true;
-	for (vector<tstring>::const_iterator it = s.begin(); it != s.end(); ++it)
+	for (vector<wstring>::const_iterator it = s.begin(); it != s.end(); ++it)
 	{
 		/*		if (words.find(*it) == words.end())
 					if (unstrict)
@@ -112,27 +112,27 @@ bool WordsList::MatchesAll(const vector<tstring>& s/*, bool& WasStrict*/, float&
 	return temp.size() == words.size();
 }
 
-bool WordsList::MatchesAny(const vector<tstring>& s) const
+bool WordsList::MatchesAny(const vector<wstring>& s) const
 {
-	for (vector<tstring>::const_iterator it = s.begin(); it != s.end(); ++it)
+	for (vector<wstring>::const_iterator it = s.begin(); it != s.end(); ++it)
 		if (words.find(*it) != words.end())
 			return true;
 	return false;
 }
 
-vector<tstring> WordsList::ConsistsOf(const set<tstring>& list) const
+vector<wstring> WordsList::ConsistsOf(const set<wstring>& list) const
 {
-	vector<tstring> res;
-	for (set<tstring>::const_iterator it = words.begin(); it != words.end(); ++it)
+	vector<wstring> res;
+	for (set<wstring>::const_iterator it = words.begin(); it != words.end(); ++it)
 		if (list.find(*it) == list.end())
 			res.push_back(*it);
 	return res;
 }
 
-vector<tstring> WordsList::DoesntIncludeAny(const set<tstring>& list) const
+vector<wstring> WordsList::DoesntIncludeAny(const set<wstring>& list) const
 {
-	vector<tstring> res;
-	for (set<tstring>::const_iterator it = words.begin(); it != words.end(); ++it)
+	vector<wstring> res;
+	for (set<wstring>::const_iterator it = words.begin(); it != words.end(); ++it)
 		if (list.find(*it) != list.end())
 			res.push_back(*it);
 	return res;
@@ -140,17 +140,17 @@ vector<tstring> WordsList::DoesntIncludeAny(const set<tstring>& list) const
 
 bool WordsList::operator<(const WordsList& value) const
 {
-	return (tstring)*this < (tstring)value;
+	return (wstring)*this < (wstring)value;
 }
 
 bool WordsList::operator!=(const WordsList& value) const
 {
-	return (tstring)*this != (tstring)value;
+	return (wstring)*this != (wstring)value;
 }
 
 bool WordsList::operator==(const WordsList& value) const
 {
-	return (tstring)*this == (tstring)value;
+	return (wstring)*this == (wstring)value;
 }
 
 size_t WordsList::Size() const

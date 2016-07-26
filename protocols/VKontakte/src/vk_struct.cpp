@@ -98,7 +98,7 @@ void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const TCHAR *_desc, TCHAR **_files) :
+CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const wchar_t *_desc, wchar_t **_files) :
 	hContact(_hContact),
 	Desc(mir_tstrdup(_desc)),
 	FileName(mir_tstrdup(_files[0])),
@@ -125,11 +125,11 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	if (fname)
 		mir_free(fname);
 
-	TCHAR img[] = L".jpg .jpeg .png .bmp";
-	TCHAR audio[] = L".mp3";
+	wchar_t img[] = L".jpg .jpeg .png .bmp";
+	wchar_t audio[] = L".mp3";
 
-	TCHAR DRIVE[3], DIR[256], FNAME[256], EXT[256];
-	_tsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
+	wchar_t DRIVE[3], DIR[256], FNAME[256], EXT[256];
+	_wsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
 
 	T2Utf pszFNAME(FNAME), pszEXT(EXT);
 	CMStringA fn(FORMAT, "%s%s", pszFNAME, pszEXT);
@@ -155,7 +155,7 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 
 CVkChatUser* CVkChatInfo::GetUserById(LPCTSTR ptszId)
 {
-	int user_id = _ttoi(ptszId);
+	int user_id = _wtoi(ptszId);
 	return m_users.find((CVkChatUser*)&user_id);
 }
 

@@ -245,7 +245,7 @@ MirfoxData::getMirandaAccountPtrBySzModuleName(char* szModuleName)
 
 // refresh support
 
-void MirfoxData::refreshAccount_Add(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, TCHAR* tszAccountName, char* szProtoName)
+void MirfoxData::refreshAccount_Add(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, wchar_t* tszAccountName, char* szProtoName)
 {
 	MFLogger* logger = MFLogger::getInstance();
 	logger->log_p(L"MirfoxData::refreshAccount_Add  proto [%S]", szModuleName);
@@ -296,7 +296,7 @@ void MirfoxData::refreshAccount_Add(SharedMemoryUtils& sharedMemoryUtils, char* 
 	return;
 }
 
-void MirfoxData::refreshAccount_Edit(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, TCHAR* tszAccountName)
+void MirfoxData::refreshAccount_Edit(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, wchar_t* tszAccountName)
 {
 	MFLogger* logger = MFLogger::getInstance();
 	logger->log_p(L"MirfoxData::refreshAccount_Edit  proto [%S]", szModuleName);
@@ -779,7 +779,7 @@ void MirfoxData::releaseMirfoxData()
  * class functions implementation
  */
 
-MirandaAccount::MirandaAccount(uint64_t idL, char* szModuleNameL, TCHAR* tszAccountNameL, char* szProtoNameL, int displayOrderL)
+MirandaAccount::MirandaAccount(uint64_t idL, char* szModuleNameL, wchar_t* tszAccountNameL, char* szProtoNameL, int displayOrderL)
 {
 	accountState = MFENUM_MIRANDAACCOUNT_STATE_UNKNOWN;
 	id = idL;

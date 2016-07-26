@@ -388,7 +388,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 		}
 	}
 
-	TCHAR *message = TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?");
+	wchar_t *message = TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?");
 	if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return FALSE;
 
@@ -427,7 +427,7 @@ bool HistoryWindow::IsInList(HWND hWnd)
 
 void ClickLink(HWND hwnd, ENLINK *penLink)
 {
-	TCHAR buf[1024];
+	wchar_t buf[1024];
 	if (penLink->msg != WM_LBUTTONUP)
 		return;
 
@@ -566,14 +566,14 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			if (HIWORD(wParam) == BN_CLICKED) {
 				if (Button_GetCheck(GetDlgItem(hwndDlg, IDC_SHOWHIDE)) & BST_CHECKED) {
 					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)historyWindow->minusIco);
-					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Hide Contacts"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide Contacts"), BATF_TCHAR);
 					historyWindow->isContactList = true;
 					ShowWindow(GetDlgItem(hwndDlg, IDC_LIST_CONTACTS), SW_SHOW);
 					ShowWindow(historyWindow->splitterYhWnd, SW_SHOW);
 				}
 				else {
 					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)historyWindow->plusIco);
-					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Show Contacts"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show Contacts"), BATF_TCHAR);
 					historyWindow->isContactList = false;
 					ShowWindow(GetDlgItem(hwndDlg, IDC_LIST_CONTACTS), SW_HIDE);
 					ShowWindow(historyWindow->splitterYhWnd, SW_HIDE);
@@ -728,7 +728,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 											TEXTRANGE tr;
 											tr.chrg.cpMin = iStart;
 											tr.chrg.cpMax = iEnd;
-											tr.lpstrText = new TCHAR[iEnd - iStart + 1];
+											tr.lpstrText = new wchar_t[iEnd - iStart + 1];
 											SendMessage(historyWindow->editWindow, EM_GETTEXTRANGE, 0, (LPARAM)& tr);
 											historyWindow->FormatQuote(quote, historyWindow->currentGroup[start], tr.lpstrText);
 											delete[] tr.lpstrText;
@@ -988,13 +988,13 @@ void HistoryWindow::Initialise()
 	SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONSETASFLATBTN, TRUE, 0);
 	if (m_hContact == NULL || Options::instance->showContacts) {
 		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)minusIco);
-		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Hide Contacts"), BATF_TCHAR);
+		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide Contacts"), BATF_TCHAR);
 		Button_SetCheck(GetDlgItem(m_hWnd, IDC_SHOWHIDE), BST_CHECKED);
 		isContactList = true;
 	}
 	else {
 		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)plusIco);
-		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Show Contacts"), BATF_TCHAR);
+		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show Contacts"), BATF_TCHAR);
 		Button_SetCheck(GetDlgItem(m_hWnd, IDC_SHOWHIDE), BST_UNCHECKED);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LIST_CONTACTS), SW_HIDE);
 		ShowWindow(splitterYhWnd, SW_HIDE);
@@ -1226,21 +1226,21 @@ void HistoryWindow::FillHistoryThread(void* param)
 
 void HistoryWindow::AddGroup(bool, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico)
 {
-	TCHAR msg[256];
+	wchar_t msg[256];
 	msg[0] = 0;
 	if (Options::instance->groupShowTime)
-		_tcscpy_s(msg, time.c_str());
+		wcscpy_s(msg, time.c_str());
 
 	if (Options::instance->groupShowName) {
 		if (msg[0] != 0)
-			_tcscat_s(msg, L" ");
-		_tcscat_s(msg, user.c_str());
+			wcscat_s(msg, L" ");
+		wcscat_s(msg, user.c_str());
 	}
 
 	if (Options::instance->groupShowMessage) {
 		if (msg[0] != 0)
-			_tcscat_s(msg, L" ");
-		_tcscat_s(msg, eventText.c_str());
+			wcscat_s(msg, L" ");
+		wcscat_s(msg, eventText.c_str());
 	}
 
 	LVITEM item = { 0 };
@@ -1295,8 +1295,8 @@ void HistoryWindow::SelectEventGroup(int sel)
 	if (sel < 0 || sel >= (int)m_eventList.size())
 		return;
 
-	TCHAR _str[MAXSELECTSTR + 8]; // for safety reason
-	TCHAR *str = _str + sizeof(int) / sizeof(TCHAR);
+	wchar_t _str[MAXSELECTSTR + 8]; // for safety reason
+	wchar_t *str = _str + sizeof(int) / sizeof(wchar_t);
 	BSTR pStr = str;
 	unsigned int *strLen = (unsigned int*)_str;
 	str[0] = 0;
@@ -1339,9 +1339,9 @@ void HistoryWindow::SelectEventGroup(int sel)
 			lastMe = data.isMe;
 			backColor = Options::instance->GetColor(lastMe ? Options::OutBackground : Options::InBackground);
 			if (Options::instance->messagesShowEvents) {
-				str[0] = _T('>');
+				str[0] = '>';
 				str[1] = 0;
-				*strLen = 1 * sizeof(TCHAR);
+				*strLen = 1 * sizeof(wchar_t);
 				TextSelection->SetStart(MAXLONG);
 				TextSelection->GetFont(&TextFont);
 				TextFont->SetBackColor(backColor);
@@ -1360,7 +1360,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 				ImageDataObject::InsertIcon(RichEditOle, ico, backColor, 16, 16);
 			}
 
-			TCHAR* formatDate = Options::instance->messagesShowSec ? (isUser ? L"d s " : L"d s\n") : (isUser ? L"d t " : L"d t\n");
+			wchar_t* formatDate = Options::instance->messagesShowSec ? (isUser ? L"d s " : L"d s\n") : (isUser ? L"d t " : L"d t\n");
 			if (!Options::instance->messagesShowDate) {
 				if (isFirst) {
 					isFirst = false;
@@ -1378,7 +1378,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 			}
 
 			TimeZone_PrintTimeStamp(NULL, data.timestamp, formatDate, str, MAXSELECTSTR, 0);
-			*strLen = (unsigned int)mir_tstrlen(str) * sizeof(TCHAR);
+			*strLen = (unsigned int)mir_tstrlen(str) * sizeof(wchar_t);
 			TextSelection->SetStart(MAXLONG);
 			TextSelection->GetFont(&TextFont);
 			SetFontFromOptions(TextFont, caps, lastMe ? Options::OutTimestamp : Options::InTimestamp);
@@ -1388,7 +1388,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 
 			if (isUser) {
 				mir_sntprintf(str, MAXSELECTSTR, L"%s\n", (lastMe) ? m_myName : m_contactName);
-				*strLen = (unsigned int)mir_tstrlen(str) * sizeof(TCHAR);
+				*strLen = (unsigned int)mir_tstrlen(str) * sizeof(wchar_t);
 				TextSelection->SetStart(MAXLONG);
 				TextSelection->GetFont(&TextFont);
 				SetFontFromOptions(TextFont, caps, lastMe ? Options::OutName : Options::InName);
@@ -1401,9 +1401,9 @@ void HistoryWindow::SelectEventGroup(int sel)
 			size_t i = strStl.length();
 			if (i + 1 >= MAXSELECTSTR)
 				continue;
-			str[i++] = _T('\n');
+			str[i++] = '\n';
 			str[i] = 0;
-			*strLen = (unsigned int)i * sizeof(TCHAR);
+			*strLen = (unsigned int)i * sizeof(wchar_t);
 			TextSelection->SetStart(MAXLONG);
 			TextSelection->GetFont(&TextFont);
 			SetFontFromOptions(TextFont, caps, lastMe ? Options::OutMessages : Options::InMessages);
@@ -1944,7 +1944,7 @@ void HistoryWindow::Delete(int what)
 	if (toDelete == 0)
 		return;
 
-	TCHAR message[256];
+	wchar_t message[256];
 	mir_sntprintf(message, TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
 	if (MessageBox(m_hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return;
@@ -1960,7 +1960,7 @@ void HistoryWindow::Delete(int what)
 	rebuild = (start == 0 && end == currentGroup.size());
 
 	if (areImpMessages) {
-		TCHAR *ptszMsg = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
+		wchar_t *ptszMsg = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
 		if (MessageBox(m_hWnd, ptszMsg, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES) {
 			HistoryEventList::DeleteImporter(m_hContact);
 			rebuild = true;
@@ -2030,7 +2030,7 @@ void HistoryWindow::FormatQuote(std::wstring &quote, const MessageData &md, cons
 		quote += m_myName;
 	else
 		quote += m_contactName;
-	TCHAR str[32];
+	wchar_t str[32];
 	TimeZone_PrintTimeStamp(NULL, md.timestamp, L"d t", str, 32, 0);
 	quote += L", ";
 	quote += str;
@@ -2046,7 +2046,7 @@ void HistoryWindow::FormatQuote(std::wstring &quote, const MessageData &md, cons
 			}
 
 			f = nf + 1;
-			if (msg[nf] == _T('\r') && f < (int)msg.length() && msg[f] == _T('\n'))
+			if (msg[nf] == '\r' && f < (int)msg.length() && msg[f] == '\n')
 				++f;
 		}
 		else if (msg.length() - f > 0) {

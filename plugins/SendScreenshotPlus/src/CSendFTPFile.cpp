@@ -35,7 +35,7 @@ CSendFTPFile::CSendFTPFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	: CSend(Owner, hContact, true)
 {
 	m_EnableItem = 0; //SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp = LPGENT("FTPFile transfer");
+	m_pszSendTyp = LPGENW("FTPFile transfer");
 	m_pszFileName = NULL;
 }
 
@@ -74,7 +74,7 @@ void CSendFTPFile::SendThread()
 
 	INT_PTR ret = FTPFileUploadA(m_hContact, FNUM_DEFAULT, FMODE_RAWFILE, &m_pszFileName, 1);
 	if (ret != 0) {
-		Error(LPGENT("%s (%i):\nCould not add a share to the FTP File plugin."), TranslateTS(m_pszSendTyp), ret);
+		Error(LPGENW("%s (%i):\nCould not add a share to the FTP File plugin."), TranslateTS(m_pszSendTyp), ret);
 		Exit(ret); return;
 	}
 

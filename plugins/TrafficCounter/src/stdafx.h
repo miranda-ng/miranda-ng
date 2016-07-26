@@ -107,7 +107,7 @@ typedef struct
 					// дата которой соответствует началу статистики данного аккаунта.
 
 	// 0.1.1.6
-	TCHAR *tszAccountName; // Человеческое имя аккаунта для использования в графическом интерфейсе.
+	wchar_t *tszAccountName; // Человеческое имя аккаунта для использования в графическом интерфейсе.
 } PROTOLIST;
 
 //---------------------------------------------------------------------------------------------
@@ -155,8 +155,8 @@ extern char Traffic_PopupTimeoutDefault;
 extern char Traffic_PopupTimeoutValue;
 extern char Traffic_AdditionSpace;
 
-extern TCHAR Traffic_CounterFormat[512];
-extern TCHAR Traffic_TooltipFormat[512];
+extern wchar_t Traffic_CounterFormat[512];
+extern wchar_t Traffic_TooltipFormat[512];
 
 extern BOOL bPopupExists, bVariablesExists, bTooltipExists;
 

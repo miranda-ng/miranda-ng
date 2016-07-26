@@ -34,7 +34,6 @@
 #include <windows.h>
 #undef WIN32_LEAN_AND_MEAN
 #include <io.h>
-#include <tchar.h>
 #include <process.h>
 #undef _WIN32_WINNT
 /* For structs needed by GetAdaptersAddresses */
@@ -2472,15 +2471,15 @@ evutil_hex_char_to_int_(char c)
 
 #ifdef _WIN32
 HMODULE
-evutil_load_windows_system_library_(const TCHAR *library_name)
+evutil_load_windows_system_library_(const wchar_t *library_name)
 {
-  TCHAR path[MAX_PATH];
+  wchar_t path[MAX_PATH];
   unsigned n;
   n = GetSystemDirectory(path, MAX_PATH);
-  if (n == 0 || n + _tcslen(library_name) + 2 >= MAX_PATH)
+  if (n == 0 || n + wcslen(library_name) + 2 >= MAX_PATH)
     return 0;
-  _tcscat(path, TEXT("\\"));
-  _tcscat(path, library_name);
+  wcscat(path, TEXT("\\"));
+  wcscat(path, library_name);
   return LoadLibrary(path);
 }
 #endif

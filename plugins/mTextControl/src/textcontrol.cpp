@@ -26,7 +26,7 @@ LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM wParam, LPARAM lParam);
 struct TextControlData
 {
 	HANDLE htu;
-	TCHAR *text;
+	wchar_t *text;
 	HANDLE mtext;
 };
 
@@ -43,7 +43,7 @@ void MTextControl_RegisterClass()
 	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = NULL;
-	wcl.lpszClassName = _T(MODULNAME);
+	wcl.lpszClassName = MODULNAMEW;
 	wcl.hIconSm = 0;
 	RegisterClassEx(&wcl);
 }
@@ -74,7 +74,7 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (data->mtext) MTI_MTextDestroy(data->mtext);
 		{
 			int textLength = GetWindowTextLength(hwnd);
-			data->text = new TCHAR[textLength + 1];
+			data->text = new wchar_t[textLength + 1];
 			GetWindowText(hwnd, data->text, textLength + 1);
 			data->mtext = MTI_MTextCreateW(data->htu, data->text);
 

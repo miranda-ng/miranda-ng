@@ -33,7 +33,7 @@
 #define HISTORY_INITIAL_ALLOCSIZE 300
 
 struct TInputHistory {
-	TCHAR*	szText;
+	wchar_t*	szText;
 	size_t	lLen;
 };
 
@@ -68,7 +68,7 @@ struct CContactCache : public MZeroedObject
 	const WORD     getStatus() const { return m_wStatus; }
 	const WORD     getActiveStatus() const { return m_isMeta ? m_wMetaStatus : m_wStatus; }
 	const WORD     getOldStatus() const { return m_wOldStatus; }
-	const TCHAR*   getNick() const { return m_szNick; }
+	const wchar_t*   getNick() const { return m_szNick; }
 	const MCONTACT getContact() const { return m_hContact; }
 	const MCONTACT getActiveContact() const { return (m_isMeta) ? m_hSub : m_hContact; }
 	const DWORD    getIdleTS() const { return m_idleTS; }
@@ -78,11 +78,11 @@ struct CContactCache : public MZeroedObject
 	bool           isSubContact() const { return cc->IsSub(); }
 	bool           isFavorite() const { return m_isFavorite; }
 	bool           isRecent() const { return m_isRecent; }
-	const TCHAR*   getRealAccount() const { return m_szAccount ? m_szAccount : C_INVALID_ACCOUNT; }
-	const TCHAR*   getUIN() const { return m_szUIN; }
-	const TCHAR*   getStatusMsg() const { return m_szStatusMsg; }
-	const TCHAR*   getXStatusMsg() const { return m_xStatusMsg; }
-	const TCHAR*   getListeningInfo() const { return m_ListeningInfo; }
+	const wchar_t*   getRealAccount() const { return m_szAccount ? m_szAccount : C_INVALID_ACCOUNT; }
+	const wchar_t*   getUIN() const { return m_szUIN; }
+	const wchar_t*   getStatusMsg() const { return m_szStatusMsg; }
+	const wchar_t*   getXStatusMsg() const { return m_xStatusMsg; }
+	const wchar_t*   getListeningInfo() const { return m_ListeningInfo; }
 	BYTE           getXStatusId() const { return m_xStatus; }
 	const HWND     getWindowData(TWindowData*& dat) const { dat = m_dat; return m_hwnd; }
 	const HWND     getHwnd() const { return m_hwnd; }
@@ -107,7 +107,7 @@ struct CContactCache : public MZeroedObject
 	void   closeWindow();
 	void   deletedHandler();
 	void   updateFavorite();
-	TCHAR* getNormalizedStatusMsg(const TCHAR *src, bool fStripAll = false);
+	wchar_t* getNormalizedStatusMsg(const wchar_t *src, bool fStripAll = false);
 	HICON  getIcon(int& iSize) const;
 
 	/*
@@ -128,9 +128,9 @@ private:
 	MCONTACT m_hContact, m_hSub;
 	WORD     m_wStatus, m_wOldStatus, m_wMetaStatus;
 	char    *m_szMetaProto;
-	TCHAR   *m_szAccount;
-	TCHAR    m_szNick[80], m_szUIN[80];
-	TCHAR   *m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
+	wchar_t   *m_szAccount;
+	wchar_t    m_szNick[80], m_szUIN[80];
+	wchar_t   *m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
 	BYTE     m_xStatus;
 	DWORD    m_idleTS;
 	bool     m_isMeta;

@@ -43,9 +43,9 @@ void LoadOptions()
 #if MIRANDA_VER >= 0x0A00
 IconItemT iconList[] =
 {
-	{ LPGENT("Check for updates"),"check_update", IDI_MENU },
-	{ LPGENT("Plugin info"), "info", IDI_INFO },
-	{ LPGENT("Component list"),"plg_list", IDI_PLGLIST }
+	{ LPGENW("Check for updates"),"check_update", IDI_MENU },
+	{ LPGENW("Plugin info"), "info", IDI_INFO },
+	{ LPGENW("Component list"),"plg_list", IDI_PLGLIST }
 };
 
 void InitIcoLib()
@@ -128,17 +128,17 @@ int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 	return _tcsicmp(p1->m_name, p2->m_name);
 }
 
-bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
+bool ParseHashes(const wchar_t *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 {
 	REPLACEVARSARRAY vars[2];
 #if MIRANDA_VER >=0x0A00
-	vars[0].key.t = L"platform";
+	vars[0].key.w = L"platform";
 #ifdef _WIN64
-	vars[0].value.t = L"64";
+	vars[0].value.w = L"64";
 #else
-	vars[0].value.t = L"32";
+	vars[0].value.w = L"32";
 #endif
-	vars[1].key.t = vars[1].value.t = 0;
+	vars[1].key.w = vars[1].value.w = 0;
 #else
 	vars[0].lptzKey = L"platform";
 #ifdef _WIN64
@@ -176,9 +176,9 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	
 	DeleteFile(pFileUrl.tszDiskPath);
 
-	TCHAR tszTmpIni[MAX_PATH] = {0};
+	wchar_t tszTmpIni[MAX_PATH] = {0};
 	mir_sntprintf(tszTmpIni, L"%s\\hashes.txt", g_tszTempPath);
-	FILE *fp = _tfopen(tszTmpIni, L"r");
+	FILE *fp = _wfopen(tszTmpIni, L"r");
 	if (!fp) {
 		Netlib_LogfT(hNetlibUser,L"Opening %s failed", g_tszTempPath);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
@@ -284,7 +284,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 				}
 				else {
 					// try to write it via PU stub
-					TCHAR tszTempFile[MAX_PATH];
+					wchar_t tszTempFile[MAX_PATH];
 					mir_sntprintf(tszTempFile, L"%s\\pulocal.tmp", g_tszTempPath);
 					hFile = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 					if (hFile != INVALID_HANDLE_VALUE) {
@@ -482,12 +482,12 @@ Cleanup:
 bool PrepareEscalation()
 {
 	// First try to create a file near Miranda32.exe
-	TCHAR szPath[MAX_PATH];
+	wchar_t szPath[MAX_PATH];
 	GetModuleFileName(NULL, szPath, _countof(szPath));
-	TCHAR *ext = _tcsrchr(szPath, '.');
+	wchar_t *ext = wcsrchr(szPath, '.');
 	if (ext != NULL)
 		*ext = '\0';
-	_tcscat(szPath, L".test");
+	wcscat(szPath, L".test");
 	HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile != INVALID_HANDLE_VALUE) {
 		// we are admins or UAC is disable, cool
@@ -501,17 +501,17 @@ bool PrepareEscalation()
 	}
 	else {
 		// Elevate the process. Create a pipe for a stub first
-		TCHAR tszPipeName[MAX_PATH];
+		wchar_t tszPipeName[MAX_PATH];
 		mir_sntprintf(tszPipeName, L"\\\\.\\pipe\\Miranda_Pu_%d", GetCurrentProcessId());
 		hPipe = CreateNamedPipe(tszPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, NULL);
 		if (hPipe == INVALID_HANDLE_VALUE) {
 			hPipe = NULL;
 		}
 		else {
-			TCHAR cmdLine[100], *p;
+			wchar_t cmdLine[100], *p;
 			GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
-			if ((p = _tcsrchr(szPath, '\\')) != 0)
-				_tcscpy(p+1, L"pu_stub.exe");
+			if ((p = wcsrchr(szPath, '\\')) != 0)
+				wcscpy(p+1, L"pu_stub.exe");
 			mir_sntprintf(cmdLine, L"%d", GetCurrentProcessId());
 
 			// Launch a stub
@@ -540,7 +540,7 @@ bool PrepareEscalation()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int TransactPipe(int opcode, const TCHAR *p1, const TCHAR *p2)
+int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 {
 	BYTE buf[1024];
 	DWORD l1 = lstrlen(p1), l2 = lstrlen(p2);
@@ -548,7 +548,7 @@ int TransactPipe(int opcode, const TCHAR *p1, const TCHAR *p2)
 		return 0;
 
 	*(DWORD*)buf = opcode;
-	TCHAR *dst = (TCHAR*)&buf[sizeof(DWORD)];
+	wchar_t *dst = (wchar_t*)&buf[sizeof(DWORD)];
 	lstrcpy(dst, p1);
 	dst += l1+1;
 	if (p2) {
@@ -568,7 +568,7 @@ int TransactPipe(int opcode, const TCHAR *p1, const TCHAR *p2)
 	return dwError == ERROR_SUCCESS;
 }
 
-int SafeCopyFile(const TCHAR *pSrc, const TCHAR *pDst)
+int SafeCopyFile(const wchar_t *pSrc, const wchar_t *pDst)
 {
 	if (hPipe == NULL)
 		return CopyFile(pSrc, pDst, FALSE);
@@ -576,7 +576,7 @@ int SafeCopyFile(const TCHAR *pSrc, const TCHAR *pDst)
 	return TransactPipe(1, pSrc, pDst);
 }
 
-int SafeMoveFile(const TCHAR *pSrc, const TCHAR *pDst)
+int SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 {
 	if (hPipe == NULL) {
 		DeleteFile(pDst);
@@ -588,7 +588,7 @@ int SafeMoveFile(const TCHAR *pSrc, const TCHAR *pDst)
 	return TransactPipe(2, pSrc, pDst);
 }
 
-int SafeDeleteFile(const TCHAR *pFile)
+int SafeDeleteFile(const wchar_t *pFile)
 {
 	if (hPipe == NULL)
 		return DeleteFile(pFile);
@@ -596,7 +596,7 @@ int SafeDeleteFile(const TCHAR *pFile)
 	return TransactPipe(3, pFile, NULL);
 }
 
-int SafeCreateDirectory(const TCHAR *pFolder)
+int SafeCreateDirectory(const wchar_t *pFolder)
 {
 	if (hPipe == NULL)
 		return CreateDirectoryTreeT(pFolder);
@@ -604,7 +604,7 @@ int SafeCreateDirectory(const TCHAR *pFolder)
 	return TransactPipe(4, pFolder, NULL);
 }
 
-int SafeCreateFilePath(TCHAR *pFolder)
+int SafeCreateFilePath(wchar_t *pFolder)
 {
 	if (hPipe == NULL) {
 		CreatePathToFileT(pFolder);
@@ -614,7 +614,7 @@ int SafeCreateFilePath(TCHAR *pFolder)
 	return TransactPipe(5, pFolder, NULL);
 }
 
-void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName)
+void BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName)
 {
 	SafeCreateFilePath(ptszBackFileName);
 	SafeMoveFile(ptszSrcFileName, ptszBackFileName);

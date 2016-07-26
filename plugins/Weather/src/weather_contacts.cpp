@@ -25,9 +25,9 @@ the contact.
 
 #include "stdafx.h"
 
-static void OpenUrl(TCHAR* format, TCHAR* id)
+static void OpenUrl(wchar_t* format, wchar_t* id)
 {
-	TCHAR loc[512];
+	wchar_t loc[512];
 	GetID(id);
 	mir_sntprintf(loc, format, id);
 	Utils_OpenUrlT(loc);
@@ -56,7 +56,7 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 // wParam = current contact
 INT_PTR LoadForecast(WPARAM wParam, LPARAM)
 {
-	TCHAR id[256], loc2[256];
+	wchar_t id[256], loc2[256];
 	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
 		// check if the complte forecast URL is set. If it is not, display warning and quit
@@ -74,7 +74,7 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM)
 // wParam = current contact
 INT_PTR WeatherMap(WPARAM wParam, LPARAM)
 {
-	TCHAR id[256], loc2[256];
+	wchar_t id[256], loc2[256];
 	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
 		// check if the weather map URL is set. If it is not, display warning and quit
@@ -106,7 +106,7 @@ typedef struct
 static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	TCHAR str[MAX_DATA_LEN], str2[256], city[256], filter[256], *pfilter, *chop;
+	wchar_t str[MAX_DATA_LEN], str2[256], city[256], filter[256], *pfilter, *chop;
 	char loc[512];
 	OPENFILENAME ofn;       // common dialog box structure
 	MCONTACT hContact;
@@ -145,13 +145,13 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONSETASFLATBTN, TRUE, 0);
 
 		// set tooltip for the buttons
-		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Get city name from ID"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_SVCINFO, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Weather INI information"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_BROWSE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Browse"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW1, BUTTONADDTOOLTIP, (WPARAM)LPGENT("View webpage"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_RESET1, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Reset to default"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW2, BUTTONADDTOOLTIP, (WPARAM)LPGENT("View webpage"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Reset to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Get city name from ID"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_SVCINFO, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Weather INI information"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BROWSE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Browse"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW1, BUTTONADDTOOLTIP, (WPARAM)LPGENW("View webpage"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_RESET1, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW2, BUTTONADDTOOLTIP, (WPARAM)LPGENW("View webpage"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset to default"), BATF_TCHAR);
 
 		// save the handle for the contact
 		WindowList_Add(hWindowList, hwndDlg, hContact);
@@ -205,7 +205,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// check if there are 2 parts in the ID (svc/id) seperated by "/"
 			// if not, don't let user change the setting
 			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
-			chop = _tcsstr(str, L"/");
+			chop = wcsstr(str, L"/");
 			if (chop == NULL)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 			else
@@ -236,10 +236,10 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				// load the page
 				mir_snprintf(loc, sData->IDSearch.SearchURL, str);
 				str[0] = 0;
-				TCHAR *pData = NULL;
+				wchar_t *pData = NULL;
 				if (InternetDownloadFile(loc, NULL, sData->UserAgent, &pData) == 0) {
-					TCHAR *szInfo = pData;
-					TCHAR* search = _tcsstr(szInfo, sData->IDSearch.NotFoundStr);
+					wchar_t *szInfo = pData;
+					wchar_t* search = wcsstr(szInfo, sData->IDSearch.NotFoundStr);
 
 					// if the page is found (ie. valid ID), get the name of the city
 					if (search == NULL)
@@ -271,15 +271,15 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			ofn.lpstrFile = str;
 			ofn.nMaxFile = _countof(str);
 			// set filters
-			_tcsncpy(filter, TranslateT("Text Files"), _countof(filter) - 1);
+			wcsncpy(filter, TranslateT("Text Files"), _countof(filter) - 1);
 			mir_tstrncat(filter, L" (*.txt)", _countof(filter) - mir_tstrlen(filter));
 			pfilter = filter + mir_tstrlen(filter) + 1;
-			_tcsncpy(pfilter, L"*.txt", _countof(filter) - 1);
+			wcsncpy(pfilter, L"*.txt", _countof(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-			_tcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - 1);
+			wcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - 1);
 			mir_tstrncat(pfilter, L" (*.*)", _countof(filter) - mir_tstrlen(filter));
 			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-			_tcsncpy(pfilter, L"*.*", _countof(filter) - 1);
+			wcsncpy(pfilter, L"*.*", _countof(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 			*pfilter = '\0';
 			ofn.lpstrFilter = filter;
@@ -452,12 +452,12 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 		// if the station is not a default station, set it as the new default station
 		// this is the first weather station encountered from the search
 		if (mir_tstrcmp(opt.Default, tszID)) {
-			_tcsncpy_s(opt.Default, tszID, _TRUNCATE);
+			wcsncpy_s(opt.Default, tszID, _TRUNCATE);
 			opt.DefStn = hContact;
 			ptrT tszNick(db_get_tsa(hContact, WEATHERPROTONAME, "Nick"));
 			if (tszNick != NULL) {
-				TCHAR str[255];
-				mir_sntprintf(str, TranslateT("%s is now the default weather station"), (TCHAR*)tszNick);
+				wchar_t str[255];
+				mir_sntprintf(str, TranslateT("%s is now the default weather station"), (wchar_t*)tszNick);
 				MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
 			db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);

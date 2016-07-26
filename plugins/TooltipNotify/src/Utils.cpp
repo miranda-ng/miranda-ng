@@ -11,14 +11,14 @@ BOOL IsNt50()
 	return (bMajorVer>=5);
 }
 
-void TruncateWithDots(TCHAR* szString, size_t iNewLen)
+void TruncateWithDots(wchar_t* szString, size_t iNewLen)
 {
 	size_t iOrigLen = mir_tstrlen(szString);
 	if (iNewLen < iOrigLen) {
-		TCHAR* p = szString+iNewLen;
-		*p = _T('\0');
+		wchar_t* p = szString+iNewLen;
+		*p = '\0';
 		for(int i=0; --p>=szString && i<3; i++)
-			*p = _T('.');
+			*p = '.';
 	}
 }
 

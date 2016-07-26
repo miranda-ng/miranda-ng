@@ -21,7 +21,7 @@
 
 static HANDLE hServiceParseLink;
 
-static int SingleHexToDecimal(TCHAR c)
+static int SingleHexToDecimal(wchar_t c)
 {
 	if (c >= '0' && c <= '9') return c - '0';
 	if (c >= 'a' && c <= 'f') return c - 'a' + 10;
@@ -29,9 +29,9 @@ static int SingleHexToDecimal(TCHAR c)
 	return -1;
 }
 
-static void url_decode(TCHAR* str)
+static void url_decode(wchar_t* str)
 {
-	TCHAR* s = str, *d = str;
+	wchar_t* s = str, *d = str;
 
 	while (*s) {
 		if (*s == '%') {
@@ -40,7 +40,7 @@ static void url_decode(TCHAR* str)
 				int digit2 = SingleHexToDecimal(s[2]);
 				if (digit2 != -1) {
 					s += 3;
-					*d++ = (TCHAR)((digit1 << 4) | digit2);
+					*d++ = (wchar_t)((digit1 << 4) | digit2);
 					continue;
 				}
 			}
@@ -51,11 +51,11 @@ static void url_decode(TCHAR* str)
 	*d = 0;
 }
 
-static char* get_buddy(TCHAR ** arg)
+static char* get_buddy(wchar_t ** arg)
 {
-	TCHAR *buf = *arg;
+	wchar_t *buf = *arg;
 
-	TCHAR *tok = _tcschr(buf, '&'); /* first token */
+	wchar_t *tok = wcschr(buf, '&'); /* first token */
 	if (tok) *tok = 0;
 
 	if (!buf[0]) return NULL;
@@ -74,11 +74,11 @@ static char* get_buddy(TCHAR ** arg)
 	*/
 static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 {
-	TCHAR *arg = (TCHAR*)lParam;
+	wchar_t *arg = (wchar_t*)lParam;
 	if (arg == NULL) return 1; /* sanity check */
 
 	/* skip leading prefix */
-	arg = _tcschr(arg, ':');
+	arg = wcschr(arg, ':');
 	if (arg == NULL) return 1; /* parse failed */
 
 	for (++arg; *arg == '/'; ++arg) {}
@@ -95,7 +95,7 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 	if (!proto) return 1;
 
 	/* add a contact to the list */
-	if (!_tcsnicmp(arg, L"addfriend?", 10)) {
+	if (!wcsnicmp(arg, L"addfriend?", 10)) {
 		arg += 10;
 
 		char *id = get_buddy(&arg);
@@ -111,7 +111,7 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 			acs.psr = &psr;
 
 			psr.cbSize = sizeof(PROTOSEARCHRESULT);
-			psr.id.t = (TCHAR*)id;
+			psr.id.w = (wchar_t*)id;
 			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 
@@ -119,22 +119,22 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 		return 0;
 	}
 	/* send a message to a contact */
-	else if (!_tcsnicmp(arg, L"sendim?", 7)) {
+	else if (!wcsnicmp(arg, L"sendim?", 7)) {
 		arg += 7;
 
 		char *id = get_buddy(&arg);
 		if (!id) return 1;
 
-		TCHAR *msg = NULL;
+		wchar_t *msg = NULL;
 
 		while (arg) {
-			if (!_tcsnicmp(arg, L"m=", 2)) {
+			if (!wcsnicmp(arg, L"m=", 2)) {
 				msg = arg + 2;
 				url_decode(msg);
 				break;
 			}
 
-			arg = _tcschr(arg + 1, '&'); /* first token */
+			arg = wcschr(arg + 1, '&'); /* first token */
 			if (arg) *arg = 0;
 		}
 
@@ -146,7 +146,7 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM, LPARAM lParam)
 		return 0;
 	}
 	/* open a chatroom */
-	else if (!_tcsnicmp(arg, L"chat?", 5)) {
+	else if (!wcsnicmp(arg, L"chat?", 5)) {
 		arg += 5;
 
 		//		char *id = get_buddy(&arg);

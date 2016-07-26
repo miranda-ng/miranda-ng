@@ -44,8 +44,8 @@ private:
 	{
 		WORD wID;
 		char* szIconName;
-		TCHAR* szSection;
-		TCHAR* szDescription;
+		wchar_t* szSection;
+		wchar_t* szDescription;
 		HICON hIcon;
 	};
 

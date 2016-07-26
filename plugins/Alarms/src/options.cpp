@@ -26,7 +26,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	ALARM *add_edit_alarm = (ALARM *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	SYSTEMTIME temp_time;
-	TCHAR buff[MAX_PATH];
+	wchar_t buff[MAX_PATH];
 	BOOL bChecked;
 
 	switch (msg) {
@@ -43,7 +43,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SendDlgItemMessage(hwndDlg, IDC_DAY, CB_SETCURSEL, 0, 0);
 
 		for (int i = 1; i <= 31; i++)
-			SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)_itot(i, buff, 10));
+			SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)_itow(i, buff, 10));
 
 		SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_SETCURSEL, 0, 0);
 
@@ -576,7 +576,7 @@ void AddMenuItem()
 
 	CMenuItem mi;
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), mi.position);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Alarms"), mi.position);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "24F03563-01BE-4118-8297-E94375A783E7");
 	}
 

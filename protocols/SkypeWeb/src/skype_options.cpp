@@ -72,11 +72,11 @@ int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup = LPGENT("Network");
+	odp.pwszGroup = LPGENW("Network");
 
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszTab = LPGENW("Account");
 	odp.pDialog = CSkypeOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 

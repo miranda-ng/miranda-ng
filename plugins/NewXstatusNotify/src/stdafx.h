@@ -109,21 +109,21 @@
 
 typedef struct tagSTATUS
 {
-	TCHAR lpzMStatusText[MAX_STATUSTEXT];
-	TCHAR lpzFStatusText[MAX_STATUSTEXT];
-	TCHAR lpzUStatusText[MAX_STATUSTEXT];
-	TCHAR lpzStandardText[MAX_STANDARDTEXT];
+	wchar_t lpzMStatusText[MAX_STATUSTEXT];
+	wchar_t lpzFStatusText[MAX_STATUSTEXT];
+	wchar_t lpzUStatusText[MAX_STATUSTEXT];
+	wchar_t lpzStandardText[MAX_STANDARDTEXT];
 	char lpzSkinSoundName[MAX_SKINSOUNDNAME];
-	TCHAR lpzSkinSoundDesc[MAX_SKINSOUNDDESC];
-	TCHAR lpzSkinSoundFile[MAX_PATH];
+	wchar_t lpzSkinSoundDesc[MAX_SKINSOUNDDESC];
+	wchar_t lpzSkinSoundFile[MAX_PATH];
 	COLORREF colorBack;
 	COLORREF colorText;
 } STATUS;
 
 typedef struct {
 	MCONTACT hContact;
-	TCHAR *oldstatusmsg;
-	TCHAR *newstatusmsg;
+	wchar_t *oldstatusmsg;
+	wchar_t *newstatusmsg;
 	char *proto;
 	int compare;
 } STATUSMSGINFO;
@@ -150,8 +150,8 @@ extern HGENMENU hEnableDisableMenu;
 extern STATUS StatusList[STATUS_COUNT];
 extern STATUS StatusListEx[STATUSEX_COUNT];
 
-TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt);
-void LogSMsgToDB(STATUSMSGINFO *smi, const TCHAR *tmplt);
-void BlinkIcon(MCONTACT hContact, HICON hIcon, TCHAR *stzText);
+wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt);
+void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt);
+void BlinkIcon(MCONTACT hContact, HICON hIcon, wchar_t *stzText);
 void PlayChangeSound(MCONTACT hContact, const char *name);
 #endif //COMMON_H

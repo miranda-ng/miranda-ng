@@ -88,7 +88,7 @@
 #define SUBJECT       L"subject"
 #define MIR_EXTRATEXT L"extratext"
 
-#define VAR_HELP_TEXT LPGENT("--- Special characters ---\r\n\r\n\
+#define VAR_HELP_TEXT LPGENW("--- Special characters ---\r\n\r\n\
 The following characters have a special meaning in a formatting string:\r\n\r\n\
 ?<function>(<arguments>)\r\n\
 This will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n\
@@ -152,16 +152,16 @@ extern int hLangpack;
 
 // variables.c
 //int isValidTokenChar(char c);
-TCHAR *formatString(FORMATINFO *fi);
+wchar_t *formatString(FORMATINFO *fi);
 int  setParseOptions(struct ParseOptions *po);
 int  LoadVarModule();
 int  UnloadVarModule();
 // tokenregister.c
-int  registerIntToken(TCHAR *szToken, TCHAR *(*parseFunction)(ARGUMENTSINFO *ai), int extraFlags, char* szHelpText);
+int  registerIntToken(wchar_t *szToken, wchar_t *(*parseFunction)(ARGUMENTSINFO *ai), int extraFlags, char* szHelpText);
 INT_PTR registerToken(WPARAM wParam, LPARAM lParam);
-int  deRegisterToken(TCHAR *var);
-TOKENREGISTEREX *searchRegister(TCHAR *var, int type);
-TCHAR *parseFromRegister(ARGUMENTSINFO *ai);
+int  deRegisterToken(wchar_t *var);
+TOKENREGISTEREX *searchRegister(wchar_t *var, int type);
+wchar_t *parseFromRegister(ARGUMENTSINFO *ai);
 TOKENREGISTEREX *getTokenRegister(int i);
 int  getTokenRegisterCount();
 TOKENREGISTER *getTokenRegisterByIndex(int i);
@@ -169,9 +169,9 @@ void deRegisterTemporaryVariables();
 int  initTokenRegister();
 int  deinitTokenRegister();
 // contact.c
-BYTE getContactInfoType(TCHAR* type);
-TCHAR* getContactInfoT(BYTE type, MCONTACT hContact);
-MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch = 0);
+BYTE getContactInfoType(wchar_t* type);
+wchar_t* getContactInfoT(BYTE type, MCONTACT hContact);
+MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMatch = 0);
 int  initContactModule();
 int  deinitContactModule();
 // alias
@@ -206,5 +206,5 @@ INT_PTR  showHelpExService(WPARAM wParam, LPARAM lParam);
 INT_PTR  getSkinItemService(WPARAM wParam, LPARAM lParam);
 int  iconsChanged(WPARAM wParam, LPARAM lParam);
 
-int ttoi(TCHAR *string);
-TCHAR *itot(int num);
+int ttoi(wchar_t *string);
+wchar_t *itot(int num);

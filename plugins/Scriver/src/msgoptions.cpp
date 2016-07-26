@@ -51,48 +51,48 @@ static const TabDef tabPages[] = {
 
 typedef struct FontOptionsListStruct
 {
-	const TCHAR *szDescr;
+	const wchar_t *szDescr;
 	COLORREF defColour;
-	const TCHAR *szDefFace;
+	const wchar_t *szDefFace;
 	BYTE defStyle;
 	char defSize;
-	const TCHAR *szBkgName;
+	const wchar_t *szBkgName;
 } FontOptionsList;
 
 static const FontOptionsList fontOptionsList[] = {
-	{ LPGENT("Outgoing messages"), RGB(106, 106, 106), L"Arial", 0, -12, LPGENT("Outgoing background")},
-	{ LPGENT("Incoming messages"), RGB(0, 0, 0), L"Arial", 0, -12, LPGENT("Incoming background")},
-	{ LPGENT("Outgoing name"), RGB(89, 89, 89), L"Arial", FONTF_BOLD, -12, LPGENT("Outgoing background")},
-	{ LPGENT("Outgoing time"), RGB(0, 0, 0), L"Terminal", FONTF_BOLD, -9, LPGENT("Outgoing background")},
-	{ LPGENT("Outgoing colon"), RGB(89, 89, 89), L"Arial", 0, -11, LPGENT("Outgoing background")},
-	{ LPGENT("Incoming name"), RGB(215, 0, 0), L"Arial", FONTF_BOLD, -12, LPGENT("Incoming background")},
-	{ LPGENT("Incoming time"), RGB(0, 0, 0), L"Terminal", FONTF_BOLD, -9, LPGENT("Incoming background")},
-	{ LPGENT("Incoming colon"), RGB(215, 0, 0), L"Arial", 0, -11, LPGENT("Incoming background")},
-	{ LPGENT("Message area"), RGB(0, 0, 0), L"Arial", 0, -12, LPGENT("Input area background")},
-	{ LPGENT("Notices"), RGB(90, 90, 160), L"Arial", 0, -12, LPGENT("Incoming background")},
-	{ LPGENT("Outgoing URL"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENT("Outgoing background")},
-	{ LPGENT("Incoming URL"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENT("Incoming background")},
-	{ LPGENT("Info bar contact name"), RGB(0, 0, 0), L"Arial", FONTF_BOLD, -19, LPGENT("Info bar background")},
-	{ LPGENT("Info bar status message"), RGB(50, 50, 50), L"Arial", FONTF_ITALIC, -11, LPGENT("Info bar background")}
+	{ LPGENW("Outgoing messages"), RGB(106, 106, 106), L"Arial", 0, -12, LPGENW("Outgoing background")},
+	{ LPGENW("Incoming messages"), RGB(0, 0, 0), L"Arial", 0, -12, LPGENW("Incoming background")},
+	{ LPGENW("Outgoing name"), RGB(89, 89, 89), L"Arial", FONTF_BOLD, -12, LPGENW("Outgoing background")},
+	{ LPGENW("Outgoing time"), RGB(0, 0, 0), L"Terminal", FONTF_BOLD, -9, LPGENW("Outgoing background")},
+	{ LPGENW("Outgoing colon"), RGB(89, 89, 89), L"Arial", 0, -11, LPGENW("Outgoing background")},
+	{ LPGENW("Incoming name"), RGB(215, 0, 0), L"Arial", FONTF_BOLD, -12, LPGENW("Incoming background")},
+	{ LPGENW("Incoming time"), RGB(0, 0, 0), L"Terminal", FONTF_BOLD, -9, LPGENW("Incoming background")},
+	{ LPGENW("Incoming colon"), RGB(215, 0, 0), L"Arial", 0, -11, LPGENW("Incoming background")},
+	{ LPGENW("Message area"), RGB(0, 0, 0), L"Arial", 0, -12, LPGENW("Input area background")},
+	{ LPGENW("Notices"), RGB(90, 90, 160), L"Arial", 0, -12, LPGENW("Incoming background")},
+	{ LPGENW("Outgoing URL"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENW("Outgoing background")},
+	{ LPGENW("Incoming URL"), RGB(0, 0, 255), L"Arial", 0, -12, LPGENW("Incoming background")},
+	{ LPGENW("Info bar contact name"), RGB(0, 0, 0), L"Arial", FONTF_BOLD, -19, LPGENW("Info bar background")},
+	{ LPGENW("Info bar status message"), RGB(50, 50, 50), L"Arial", FONTF_ITALIC, -11, LPGENW("Info bar background")}
 };
 
 int fontOptionsListSize = _countof(fontOptionsList);
 
 struct ColourOptionsList
 {
-	const TCHAR *szName;
+	const wchar_t *szName;
 	const char *szSettingName;
 	COLORREF defColour;
 	int systemColor;
 }
 
 static const colourOptionsList[] = {
-	{ LPGENT("Background"), SRMSGSET_BKGCOLOUR, 0, COLOR_WINDOW},
-	{ LPGENT("Input area background"), SRMSGSET_INPUTBKGCOLOUR, 0, COLOR_WINDOW},
-	{ LPGENT("Incoming background"), SRMSGSET_INCOMINGBKGCOLOUR, 0, COLOR_WINDOW},
-	{ LPGENT("Outgoing background"), SRMSGSET_OUTGOINGBKGCOLOUR, 0, COLOR_WINDOW},
-	{ LPGENT("Info bar background"), SRMSGSET_INFOBARBKGCOLOUR, 0, COLOR_3DLIGHT},
-	{ LPGENT("Line between messages"), SRMSGSET_LINECOLOUR, 0, COLOR_3DLIGHT},
+	{ LPGENW("Background"), SRMSGSET_BKGCOLOUR, 0, COLOR_WINDOW},
+	{ LPGENW("Input area background"), SRMSGSET_INPUTBKGCOLOUR, 0, COLOR_WINDOW},
+	{ LPGENW("Incoming background"), SRMSGSET_INCOMINGBKGCOLOUR, 0, COLOR_WINDOW},
+	{ LPGENW("Outgoing background"), SRMSGSET_OUTGOINGBKGCOLOUR, 0, COLOR_WINDOW},
+	{ LPGENW("Info bar background"), SRMSGSET_INFOBARBKGCOLOUR, 0, COLOR_3DLIGHT},
+	{ LPGENW("Line between messages"), SRMSGSET_LINECOLOUR, 0, COLOR_3DLIGHT},
 };
 
 int FontServiceFontsChanged(WPARAM, LPARAM)
@@ -106,8 +106,8 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 void RegisterFontServiceFonts()
 {
 	FontIDT fid = { sizeof(fid) };
-	_tcsncpy_s(fid.group, LPGENT("Messaging"), _TRUNCATE);
-	_tcsncpy_s(fid.backgroundGroup, LPGENT("Messaging"), _TRUNCATE);
+	wcsncpy_s(fid.group, LPGENW("Messaging"), _TRUNCATE);
+	wcsncpy_s(fid.backgroundGroup, LPGENW("Messaging"), _TRUNCATE);
 	strncpy(fid.dbSettingsGroup, SRMMMOD, _countof(fid.dbSettingsGroup));
 	fid.flags = FIDF_DEFAULTVALID | FIDF_DEFAULTVALID;
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
@@ -116,23 +116,23 @@ void RegisterFontServiceFonts()
 		char szTemp[100];
 		mir_snprintf(szTemp, "SRMFont%d", i);
 		strncpy(fid.prefix, szTemp, _countof(fid.prefix));
-		_tcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
+		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fid.deffontsettings.size = fontOptionsList[i].defSize;
 		fid.deffontsettings.style = fontOptionsList[i].defStyle;
 		fid.deffontsettings.charset = DEFAULT_CHARSET;
-		_tcsncpy(fid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fid.deffontsettings.szFace));
-		_tcsncpy(fid.backgroundName, fontOptionsList[i].szBkgName, _countof(fid.backgroundName));
+		wcsncpy(fid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fid.deffontsettings.szFace));
+		wcsncpy(fid.backgroundName, fontOptionsList[i].szBkgName, _countof(fid.backgroundName));
 		FontRegisterT(&fid);
 	}
 
 	ColourIDT cid = { sizeof(cid) };
-	_tcsncpy_s(cid.group, LPGENT("Messaging"), _TRUNCATE);
+	wcsncpy_s(cid.group, LPGENW("Messaging"), _TRUNCATE);
 	strncpy(cid.dbSettingsGroup, SRMMMOD, _countof(fid.dbSettingsGroup));
 	cid.flags = 0;
 	for (int i = 0; i < _countof(colourOptionsList); i++) {
 		cid.order = i;
-		_tcsncpy(cid.name, colourOptionsList[i].szName, _countof(cid.name));
+		wcsncpy(cid.name, colourOptionsList[i].szName, _countof(cid.name));
 		if (colourOptionsList[i].systemColor != -1)
 			cid.defcolour = GetSysColor(colourOptionsList[i].systemColor);
 		else
@@ -192,7 +192,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		if (tszFace == NULL)
 			mir_tstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
 		else
-			_tcsncpy(lf->lfFaceName, tszFace, _countof(lf->lfFaceName));
+			wcsncpy(lf->lfFaceName, tszFace, _countof(lf->lfFaceName));
 
 		mir_snprintf(str, "%s%dSet", "SRMFont", i);
 		lf->lfCharSet = db_get_b(NULL, SRMMMOD, str, DEFAULT_CHARSET);
@@ -202,21 +202,21 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 struct CheckBoxValues_t
 {
 	DWORD style;
-	const TCHAR *szDescr;
+	const wchar_t *szDescr;
 };
 
 static const struct CheckBoxValues_t statusValues[] =
 {
-	{ MODEF_OFFLINE, LPGENT("Offline") },
-	{ PF2_ONLINE, LPGENT("Online") },
-	{ PF2_SHORTAWAY, LPGENT("Away") },
-	{ PF2_LONGAWAY, LPGENT("Not available") },
-	{ PF2_LIGHTDND, LPGENT("Occupied") },
-	{ PF2_HEAVYDND, LPGENT("Do not disturb") },
-	{ PF2_FREECHAT, LPGENT("Free for chat") },
-	{ PF2_INVISIBLE, LPGENT("Invisible") },
-	{ PF2_OUTTOLUNCH, LPGENT("Out to lunch") },
-	{ PF2_ONTHEPHONE, LPGENT("On the phone") }
+	{ MODEF_OFFLINE, LPGENW("Offline") },
+	{ PF2_ONLINE, LPGENW("Online") },
+	{ PF2_SHORTAWAY, LPGENW("Away") },
+	{ PF2_LONGAWAY, LPGENW("Not available") },
+	{ PF2_LIGHTDND, LPGENW("Occupied") },
+	{ PF2_HEAVYDND, LPGENW("Do not disturb") },
+	{ PF2_FREECHAT, LPGENW("Free for chat") },
+	{ PF2_INVISIBLE, LPGENW("Invisible") },
+	{ PF2_OUTTOLUNCH, LPGENW("Out to lunch") },
+	{ PF2_ONTHEPHONE, LPGENW("On the phone") }
 };
 
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
@@ -862,9 +862,9 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			CLCINFOITEM cii = { sizeof(cii) };
 			cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
-			cii.pszText = (TCHAR*)TranslateT("** New contacts **");
+			cii.pszText = (wchar_t*)TranslateT("** New contacts **");
 			hItemNew = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-			cii.pszText = (TCHAR*)TranslateT("** Unknown contacts **");
+			cii.pszText = (wchar_t*)TranslateT("** Unknown contacts **");
 			hItemUnknown = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		}
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_NOHIDEOFFLINE);

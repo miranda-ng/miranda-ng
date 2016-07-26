@@ -24,7 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class ComparatorInterface
 {
 public:
-	virtual bool Compare(const bool isMe, const std::wstring& message, TCHAR *strFind) = 0;
+	virtual bool Compare(const bool isMe, const std::wstring& message, wchar_t *strFind) = 0;
 };
 
 class HistoryEventList
@@ -84,8 +84,8 @@ private:
 	void ImportMessages(const std::vector<IImport::ExternalMessage>& messages);
 
 protected:
-	TCHAR m_contactName[256];
-	TCHAR m_myName[256];
+	wchar_t m_contactName[256];
+	wchar_t m_myName[256];
 	bool  m_isWnd;
 	bool  m_isFlat;
 	int   m_deltaTime;
@@ -117,7 +117,7 @@ public:
 	int GetFilterNr();
 	std::wstring GetFilterName();
 	void RefreshEventList();
-	bool SearchInContact(MCONTACT hContact, TCHAR *strFind, ComparatorInterface* compFun);
+	bool SearchInContact(MCONTACT hContact, wchar_t *strFind, ComparatorInterface* compFun);
 	std::wstring GetContactName();
 	std::wstring GetMyName();
 	std::wstring GetProtocolName();
@@ -129,18 +129,18 @@ public:
 	static int GetContactMessageNumber(MCONTACT hContact);
 	static bool IsImportedHistory(MCONTACT hContact);
 	static void DeleteImporter(MCONTACT hContact);
-	static void GetObjectDescription( DBEVENTINFO *dbei, TCHAR* str, int cbStr );
+	static void GetObjectDescription( DBEVENTINFO *dbei, wchar_t* str, int cbStr );
 	bool GetEventData(const EventIndex& ev, EventData& data);
 	void GetExtEventDBei(const EventIndex& ev);
 	HICON GetEventCoreIcon(const EventIndex& ev);
-	void GetEventMessage(const EventIndex& ev, TCHAR* message) // must be allocated with MAXSELECTSTR len
+	void GetEventMessage(const EventIndex& ev, wchar_t* message) // must be allocated with MAXSELECTSTR len
 	{
 		if (!ev.isExternal)
 			GetObjectDescription(&m_dbei, message, MAXSELECTSTR);
 		else
-			_tcscpy_s(message, MAXSELECTSTR, m_importedMessages[ev.exIdx].message.c_str());
+			wcscpy_s(message, MAXSELECTSTR, m_importedMessages[ev.exIdx].message.c_str());
 	}
-	void GetEventMessage(const EventIndex& ev, TCHAR* message, int strLen)
+	void GetEventMessage(const EventIndex& ev, wchar_t* message, int strLen)
 	{
 		if (!ev.isExternal)
 			GetObjectDescription(&m_dbei, message, strLen);
@@ -149,12 +149,12 @@ public:
 			std::wstring& meg = m_importedMessages[ev.exIdx].message;
 			if ((int)meg.size() >= strLen)
 			{
-				memcpy_s(message, strLen * sizeof(TCHAR), meg.c_str(), (strLen - 1) * sizeof(TCHAR));
+				memcpy_s(message, strLen * sizeof(wchar_t), meg.c_str(), (strLen - 1) * sizeof(wchar_t));
 				message[strLen - 1] = 0;
 			}
 			else
 			{
-				_tcscpy_s(message, strLen,  meg.c_str());
+				wcscpy_s(message, strLen,  meg.c_str());
 			}
 		}
 	}

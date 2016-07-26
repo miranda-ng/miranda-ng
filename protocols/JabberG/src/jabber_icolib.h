@@ -35,7 +35,7 @@ public:
 	CIconPool();
 	~CIconPool();
 
-	void RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHAR *szSection, TCHAR *szDescription);
+	void RegisterIcon(const char *name, wchar_t *filename, int iconid, wchar_t *szSection, wchar_t *szDescription);
 
 	HANDLE GetIcolibHandle(const char *name);
 	char *GetIcolibName(const char *name);

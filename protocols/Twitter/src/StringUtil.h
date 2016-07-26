@@ -25,8 +25,8 @@ THE SOFTWARE.
 #ifndef _STRINGUTIL_H_INCLUDED_
 #define _STRINGUTIL_H_INCLUDED_
 
-void Split(const tstring& str, std::vector<tstring>& out, TCHAR sep, bool includeEmpty);
-tstring GetWord(const tstring& str, unsigned index, bool getRest = false);
+void Split(const wstring& str, std::vector<wstring>& out, wchar_t sep, bool includeEmpty);
+wstring GetWord(const wstring& str, unsigned index, bool getRest = false);
 
 std::string& replaceAll(std::string& context, const std::string& from, const std::string& to);
 
@@ -42,7 +42,7 @@ inline std::wstring UTF8ToWide(const std::string& str)
 	return (wchar_t*)ptrW(mir_utf8decodeW(str.c_str()));
 }
 
-inline bool Compare(const tstring& one, const tstring& two, bool caseSensitive)
+inline bool Compare(const wstring& one, const wstring& two, bool caseSensitive)
 {
 	return caseSensitive ? (one == two) : (mir_tstrcmpi(one.c_str(), two.c_str()) == 0);
 }

@@ -73,7 +73,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static CIrcProto* ircProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
+static CIrcProto* ircProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
 {
 	CIrcProto *ppro = new CIrcProto(pszProtoName, tszUserName);
 	g_Instances.insert(ppro);

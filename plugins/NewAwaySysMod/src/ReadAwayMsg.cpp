@@ -62,10 +62,10 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			awayData->hSeq = (HANDLE)ProtoChainSend(awayData->hContact, PSS_GETAWAYMSG, 0, 0);
 			WindowList_Add(g_hReadWndList, hwndDlg, awayData->hContact);
 
-			TCHAR str[256], format[128];
-			TCHAR *contactName = pcli->pfnGetContactDisplayName(awayData->hContact, 0);
+			wchar_t str[256], format[128];
+			wchar_t *contactName = pcli->pfnGetContactDisplayName(awayData->hContact, 0);
 			char *szProto = GetContactProto(awayData->hContact);
-			TCHAR *status = pcli->pfnGetStatusModeDescription(db_get_w(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+			wchar_t *status = pcli->pfnGetStatusModeDescription(db_get_w(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 			GetWindowText(hwndDlg, format, _countof(format));
 			mir_sntprintf(str, format, status, contactName);
 			SetWindowText(hwndDlg, str);
@@ -88,7 +88,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				UnhookEvent(awayData->hAwayMsgEvent);
 				awayData->hAwayMsgEvent = NULL;
 			}
-			const TCHAR *ptszStatusMsg = (const TCHAR*)ack->lParam;
+			const wchar_t *ptszStatusMsg = (const wchar_t*)ack->lParam;
 			SetDlgItemText(hwndDlg, IDC_READAWAYMSG_MSG, ptszStatusMsg);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_RETRIEVE), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_MSG), SW_SHOW);

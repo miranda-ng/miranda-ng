@@ -95,7 +95,7 @@ void InitContactMenus()
 	SET_UID(mi, 0xfc4e1245, 0xc8e0, 0x4de2, 0x92, 0x15, 0xfc, 0xcf, 0x48, 0xf9, 0x41, 0x56);
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle("reply");
-	mi.name.t = LPGENT("Reply...");
+	mi.name.w = LPGENW("Reply...");
 	mi.pszService = "Twitter/ReplyToTweet";
 	g_hMenuItems[0] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
@@ -103,7 +103,7 @@ void InitContactMenus()
 	SET_UID(mi, 0x7f7e4c24, 0x821c, 0x450f, 0x93, 0x76, 0xbe, 0x65, 0xe9, 0x2f, 0xb6, 0xc2);
 	mi.position = -2000006000;
 	mi.hIcolibItem = GetIconHandle("homepage");
-	mi.name.t = LPGENT("Visit Homepage");
+	mi.name.w = LPGENW("Visit Homepage");
 	mi.pszService = "Twitter/VisitHomepage";
 	g_hMenuItems[1] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::VisitHomepage>);

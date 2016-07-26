@@ -8,7 +8,7 @@
  * BandCtrlImpl
  */
 
-const TCHAR* BandCtrlImpl::m_ClassName = L"HistoryStatsBand";
+const wchar_t* BandCtrlImpl::m_ClassName = L"HistoryStatsBand";
 const int BandCtrlImpl::m_PollId = 100;
 const int BandCtrlImpl::m_PollDelay = 50;
 
@@ -604,7 +604,7 @@ void BandCtrlImpl::recalcButtonRects()
 				m_Items[i].uTTId,									// uId
 				m_Items[i].rItem,									// rect
 				NULL,												// hInstance
-				const_cast<TCHAR*>(m_Items[i].tooltip.c_str()),	// lpszText
+				const_cast<wchar_t*>(m_Items[i].tooltip.c_str()),	// lpszText
 			};
 
 			SendMessage(m_hTooltip, TTM_SETTOOLINFO, 0, reinterpret_cast<LPARAM>(&ti));
@@ -625,7 +625,7 @@ void BandCtrlImpl::recalcButtonRects()
 				m_hTooltip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, g_hInst, NULL);
 
 			TOOLINFO ti = { sizeof(TOOLINFO), TTF_SUBCLASS, m_hWnd, UINT_PTR(i+1), m_Items[i].rItem, NULL,
-				const_cast<TCHAR*>(m_Items[i].tooltip.c_str()),	// lpszText
+				const_cast<wchar_t*>(m_Items[i].tooltip.c_str()),	// lpszText
 			};
 
 			if (SendMessage(m_hTooltip, TTM_ADDTOOL, 0, reinterpret_cast<LPARAM>(&ti)))

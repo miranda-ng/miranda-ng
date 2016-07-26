@@ -26,15 +26,15 @@
 #define ACCOUNT_PROP_NAME             L"{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}"
 #define DIALOG_INITIALIZED_PROP_NAME  L"{5EE59FE5-679A-4A29-B0A1-03092E7AC20E}"
 
-#define POPUPS_OPTIONS_GROUP   LPGENT("Popups")
-#define NETWORK_OPTIONS_GROUP  LPGENT("Network")
+#define POPUPS_OPTIONS_GROUP   LPGENW("Popups")
+#define NETWORK_OPTIONS_GROUP  LPGENW("Network")
 
 #define NOTIFY_SETTINGS_FROM_MOD_NAME SHORT_PLUGIN_NAME ".NotifySettingsFromModName"
 
-#define TEST_LETTER_SUBJECT LPGENT("Why C sucks")
+#define TEST_LETTER_SUBJECT LPGENW("Why C sucks")
 #define TEST_LETTER_INBOX   L"brickstrace@gmail.com [1]"
 #define TEST_LETTER_SENDER  L"    bems\n"
-#define TEST_LETTER_SNIP    LPGENT("* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions")
+#define TEST_LETTER_SNIP    LPGENW("* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions")
 
 void CheckControlsEnabled(HWND wnd)
 {
@@ -159,10 +159,10 @@ void ShowTestPopup(HWND wnd)
 	mir_sntprintf(data.lptzText, TranslateTS(FULL_NOTIFICATION_FORMAT), TranslateTS(TEST_LETTER_SUBJECT), TranslateTS(TEST_LETTER_SENDER), TranslateTS(TEST_LETTER_SNIP));
 
 	int len = SendDlgItemMessage(wnd, IDC_TIMEOUTEDIT, WM_GETTEXTLENGTH, 0, 0) + 1;
-	LPTSTR timeout = (LPTSTR)_alloca(len * sizeof(TCHAR));
+	LPTSTR timeout = (LPTSTR)_alloca(len * sizeof(wchar_t));
 
 	GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, len);
-	data.iSeconds = _ttoi(timeout);
+	data.iSeconds = _wtoi(timeout);
 
 	data.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 	data.colorBack = (COLORREF)SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_GETCOLOUR, 0, 0);
@@ -176,7 +176,7 @@ void ShowTestPopup(HWND wnd)
 
 INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR timeout[20];
+	wchar_t timeout[20];
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -184,7 +184,7 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 		SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0));
 		SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0));
 
-		_itot(db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0), timeout, 10);
+		_itow(db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0), timeout, 10);
 		SetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout);
 
 		SetProp(wnd, DIALOG_INITIALIZED_PROP_NAME, (HANDLE)TRUE);
@@ -212,7 +212,7 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 		db_set_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, (DWORD)SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_GETCOLOUR, 0, 0));
 
 		GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, _countof(timeout));
-		db_set_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _ttoi(timeout));
+		db_set_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _wtoi(timeout));
 	}
 	return 0;
 }
@@ -223,11 +223,11 @@ int OptionsInitialization(WPARAM wParam, LPARAM)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.ptszTitle = MAIL_NOTIFICATIONS;
+		odp.pwszTitle = MAIL_NOTIFICATIONS;
 		odp.pfnDlgProc = PopupsOptionsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPSETTINGS);
 		odp.hInstance = g_hInst;
-		odp.ptszGroup = POPUPS_OPTIONS_GROUP;
+		odp.pwszGroup = POPUPS_OPTIONS_GROUP;
 		odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
 		Options_AddPage(wParam, &odp);
 	}
@@ -237,13 +237,13 @@ int OptionsInitialization(WPARAM wParam, LPARAM)
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa != NULL) {
 			OPTIONSDIALOGPAGE odp = { 0 };
-			odp.ptszTitle = pa->tszAccountName;
+			odp.pwszTitle = pa->tszAccountName;
 			odp.pfnDlgProc = AccOptionsDlgProc;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);
 			odp.hInstance = g_hInst;
-			odp.ptszGroup = NETWORK_OPTIONS_GROUP;
+			odp.pwszGroup = NETWORK_OPTIONS_GROUP;
 			odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
-			odp.ptszTab = MAIL_NOTIFICATIONS;
+			odp.pwszTab = MAIL_NOTIFICATIONS;
 			odp.dwInitParam = (LPARAM)szProto;
 			Options_AddPage(wParam, &odp);
 		}

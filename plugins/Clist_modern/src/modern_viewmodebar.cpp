@@ -245,7 +245,7 @@ static int FillDialog(HWND hwnd)
 		item.pszText = TranslateT("Ungrouped contacts");
 		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
-		TCHAR *szGroup;
+		wchar_t *szGroup;
 		for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++) {
 			item.pszText = szGroup;
 			SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
@@ -344,7 +344,7 @@ static int DeleteAutoModesCallback(char *szsetting)
 }
 
 
-void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD dwStatusMask, DWORD dwStickyStatusMask,
+void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, DWORD dwStatusMask, DWORD dwStickyStatusMask,
 	unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat)
 {
 	CLVM_EnumModes(DeleteAutoModesCallback);
@@ -372,7 +372,7 @@ void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szPr
 
 void SaveState()
 {
-	TCHAR newGroupFilter[2048] = L"|";
+	wchar_t newGroupFilter[2048] = L"|";
 	char newProtoFilter[2048] = "|";
 	DWORD statusMask = 0;
 	DWORD operators = 0;
@@ -400,7 +400,7 @@ void SaveState()
 	}
 	{
 		LVITEM item = { 0 };
-		TCHAR szTemp[256];
+		wchar_t szTemp[256];
 
 		HWND hwndList = GetDlgItem(clvmHwnd, IDC_GROUPS);
 
@@ -430,7 +430,7 @@ void SaveState()
 	if (iLen) {
 		unsigned int stickies = 0;
 
-		TCHAR *szTempModeName = (TCHAR*)mir_alloc((iLen + 1)*sizeof(TCHAR));
+		wchar_t *szTempModeName = (wchar_t*)mir_alloc((iLen + 1)*sizeof(wchar_t));
 		if (szTempModeName) {
 			SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempModeName);
 
@@ -495,13 +495,13 @@ static void UpdateFilters()
 	if (iLen == 0)
 		return;
 
-	TCHAR *szTempBuf = (TCHAR*)_alloca((iLen + 1)*sizeof(TCHAR));
+	wchar_t *szTempBuf = (wchar_t*)_alloca((iLen + 1)*sizeof(wchar_t));
 	SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempBuf);
 
 	T2Utf szBuf(szTempBuf);
 	mir_strncpy(g_szModename, szBuf, _countof(g_szModename));
 	{
-		TCHAR szTemp[100];
+		wchar_t szTemp[100];
 		mir_sntprintf(szTemp, TranslateT("Configuring view mode: %s"), szTempBuf);
 		SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
 	}
@@ -547,8 +547,8 @@ static void UpdateFilters()
 	}
 	{
 		LVITEM item = { 0 };
-		TCHAR szTemp[256];
-		TCHAR szMask[256];
+		wchar_t szTemp[256];
+		wchar_t szMask[256];
 		int i;
 		HWND hwndList = GetDlgItem(clvmHwnd, IDC_GROUPS);
 
@@ -562,7 +562,7 @@ static void UpdateFilters()
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
 			mir_sntprintf(szMask, L"%s|", szTemp);
-			if (szGF && _tcsstr(szGF, szMask))
+			if (szGF && wcsstr(szGF, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
 			ListView_SetCheckState(hwndList, i, FALSE);
@@ -689,7 +689,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			int index = 0;
 
 			if (g_CluiData.current_viewmode[0] != '\0') {
-				TCHAR *temp = mir_utf8decodeW(g_CluiData.current_viewmode);
+				wchar_t *temp = mir_utf8decodeW(g_CluiData.current_viewmode);
 				if (temp) {
 					index = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_FINDSTRING, -1, (LPARAM)temp);
 					mir_free(temp);
@@ -753,7 +753,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (MessageBox(0, TranslateT("Really delete this view mode? This cannot be undone"), TranslateT("Delete a view mode"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 				int iLen = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETTEXTLEN, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
 				if (iLen) {
-					TCHAR *szTempBuf = (TCHAR*)_alloca((iLen + 1)*sizeof(TCHAR));
+					wchar_t *szTempBuf = (wchar_t*)_alloca((iLen + 1)*sizeof(wchar_t));
 					SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), (LPARAM)szTempBuf);
 					DeleteViewMode(T2Utf(szTempBuf));
 
@@ -769,7 +769,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_ADDVIEWMODE:
 		{
-			TCHAR szBuf[256];
+			wchar_t szBuf[256];
 			szBuf[0] = 0;
 			GetDlgItemText(hwndDlg, IDC_NEWVIEMODE, szBuf, _countof(szBuf));
 			szBuf[255] = 0;
@@ -890,7 +890,7 @@ static int FillMenuCallback(char *szSetting)
 	if (szSetting[0] == 13)
 		return 1;
 
-	TCHAR *temp = mir_utf8decodeT(szSetting);
+	wchar_t *temp = mir_utf8decodeT(szSetting);
 	if (temp) {
 		AppendMenu(hViewModeMenu, MFT_STRING, menuCounter++, temp);
 		mir_free(temp);
@@ -1086,7 +1086,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					if (selection == 10002)
 						goto clvm_reset_command;
 
-					TCHAR szTemp[256];
+					wchar_t szTemp[256];
 					MENUITEMINFO mii = { 0 };
 					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_STRING;

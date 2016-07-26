@@ -50,13 +50,13 @@ size_t			MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen);
 BOOL CALLBACK	MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);
 
 FIBITMAP*		CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture);
-FIBITMAP*		CaptureMonitor(const TCHAR* szDevice,const RECT* cropRect=NULL);
-TCHAR*			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const TCHAR* pszFilename, const TCHAR* pszExt, int flag=0);
+FIBITMAP*		CaptureMonitor(const wchar_t* szDevice,const RECT* cropRect=NULL);
+wchar_t*			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const wchar_t* pszFilename, const wchar_t* pszExt, int flag=0);
 
-TCHAR*			GetFileNameW(const TCHAR* pszPath);
-TCHAR*			GetFileExtW (const TCHAR* pszPath);
-char*			GetFileNameA(const TCHAR* pszPath);
-char*			GetFileExtA (const TCHAR* pszPath);
+wchar_t*			GetFileNameW(const wchar_t* pszPath);
+wchar_t*			GetFileExtW (const wchar_t* pszPath);
+char*			GetFileNameA(const wchar_t* pszPath);
+char*			GetFileExtA (const wchar_t* pszPath);
 #ifdef _UNICODE
 #	define GetFileName GetFileNameW
 #	define GetFileExt GetFileExtW
@@ -66,9 +66,9 @@ char*			GetFileExtA (const TCHAR* pszPath);
 #endif // _UNICODE
 
 BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder);
-//void SavePNG(HBITMAP hBmp, TCHAR* szFilename);
-void SaveGIF(HBITMAP hBmp, TCHAR* szFilename);
-void SaveTIF(HBITMAP hBmp, TCHAR* szFilename);
+//void SavePNG(HBITMAP hBmp, wchar_t* szFilename);
+void SaveGIF(HBITMAP hBmp, wchar_t* szFilename);
+void SaveTIF(HBITMAP hBmp, wchar_t* szFilename);
 
 //---------------------------------------------------------------------------
 /* Old stuff from Borland C++

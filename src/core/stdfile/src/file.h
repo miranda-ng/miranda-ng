@@ -40,7 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct FileSendData
 {
 	MCONTACT hContact;
-	const TCHAR **ppFiles;
+	const wchar_t **ppFiles;
 };
 
 #define BYTESRECVEDHISTORYCOUNT  10   //the number of bytes recved is sampled once a second and the last 10 are used to get the transfer speed
@@ -51,7 +51,7 @@ struct FileDlgData
 	MCONTACT hContact;
 	MEVENT hDbEvent;
 	HANDLE hNotifyEvent;
-	TCHAR **files;
+	wchar_t **files;
 	int send;
 	int closeIfFileChooseCancelled;
 	int resumeBehaviour;
@@ -63,8 +63,8 @@ struct FileDlgData
 	HANDLE hPreshutdownEvent;
 	DWORD dwTicks;
 
-	TCHAR szSavePath[MAX_PATH];
-	TCHAR szMsg[450], szFilenames[1024];
+	wchar_t szSavePath[MAX_PATH];
+	wchar_t szMsg[450], szFilenames[1024];
 	HICON hIcon, hIconFolder;
 };
 
@@ -75,21 +75,21 @@ struct FileDlgData
 #define UNITS_MBPOINT2  4   // 1024*1024 <= size: "%.2f MB"
 #define UNITS_GBPOINT3  5   // 1024*1024*1024 <= size: "%.3f GB"
 
-void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
-void FreeFilesMatrix(TCHAR ***files);	  //loving that triple indirection
+void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
+void FreeFilesMatrix(wchar_t ***files);	  //loving that triple indirection
 void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts);
 void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
 void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
-int SRFile_GetRegValue(HKEY hKeyBase, const TCHAR *szSubKey, const TCHAR *szValue, TCHAR *szOutput, int cbOutput);
+int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
 //filesenddlg.c
 INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 //filerecv.c
 INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-void RemoveInvalidFilenameChars(TCHAR *tszString);
-void RemoveInvalidPathChars(TCHAR *tszString);
-void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOOL substVars);
-void GetReceivedFilesDir(TCHAR *szDir, int cchDir);
-int BrowseForFolder(HWND hwnd, TCHAR *szPath);
+void RemoveInvalidFilenameChars(wchar_t *tszString);
+void RemoveInvalidPathChars(wchar_t *tszString);
+void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, BOOL substVars);
+void GetReceivedFilesDir(wchar_t *szDir, int cchDir);
+int BrowseForFolder(HWND hwnd, wchar_t *szPath);
 //fileexistsdlg.c
 struct TDlgProcFileExistsParam
 {
@@ -117,6 +117,6 @@ HWND FtMgr_AddTransfer(FileDlgData *dat);
 
 void FreeFileDlgData(FileDlgData* dat);
 
-TCHAR *GetContactID(MCONTACT hContact);
+wchar_t *GetContactID(MCONTACT hContact);
 
 extern HANDLE hDlgSucceeded, hDlgCanceled;

@@ -103,14 +103,14 @@ BOOL ITunes::FillCache()
 
 	CALL(track->get_Year(&lret));
 	if (lret > 0) {
-		listening_info.ptszYear = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
-		_itot(lret, listening_info.ptszYear, 10);
+		listening_info.ptszYear = (wchar_t*)mir_alloc(10 * sizeof(wchar_t));
+		_itow(lret, listening_info.ptszYear, 10);
 	}
 
 	CALL(track->get_TrackNumber(&lret));
 	if (lret > 0) {
-		listening_info.ptszTrack = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
-		_itot(lret, listening_info.ptszTrack, 10);
+		listening_info.ptszTrack = (wchar_t*)mir_alloc(10 * sizeof(wchar_t));
+		_itow(lret, listening_info.ptszTrack, 10);
 	}
 
 	CALL(track->get_Genre(&ret));
@@ -118,7 +118,7 @@ BOOL ITunes::FillCache()
 
 	CALL(track->get_Duration(&lret));
 	if (lret > 0) {
-		listening_info.ptszLength = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
+		listening_info.ptszLength = (wchar_t*)mir_alloc(10 * sizeof(wchar_t));
 
 		int s = lret % 60;
 		int m = (lret / 60) % 60;
@@ -142,9 +142,9 @@ BOOL ITunes::FillCache()
 
 		listening_info.ptszTitle = mir_u2t(p);
 
-		TCHAR *pt = _tcsrchr(listening_info.ptszTitle, '.');
+		wchar_t *pt = wcsrchr(listening_info.ptszTitle, '.');
 		if (pt != NULL)
-			*p = _T('\0');
+			*p = '\0';
 	}
 
 	listening_info.ptszPlayer = mir_tstrdup(name);

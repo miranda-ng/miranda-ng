@@ -53,54 +53,54 @@ struct ProtoIconIndex
 
 OBJLIST<ProtoIconIndex> protoIconIndex(5);
 
-TCHAR* fnGetStatusModeDescription(int mode, int flags)
+wchar_t* fnGetStatusModeDescription(int mode, int flags)
 {
-	static TCHAR szMode[64];
-	TCHAR* descr;
+	static wchar_t szMode[64];
+	wchar_t* descr;
 	int    noPrefixReqd = 0;
 	switch (mode) {
 	case ID_STATUS_OFFLINE:
-		descr = LPGENT("Offline");
+		descr = LPGENW("Offline");
 		noPrefixReqd = 1;
 		break;
 	case ID_STATUS_CONNECTING:
-		descr = LPGENT("Connecting");
+		descr = LPGENW("Connecting");
 		noPrefixReqd = 1;
 		break;
 	case ID_STATUS_ONLINE:
-		descr = LPGENT("Online");
+		descr = LPGENW("Online");
 		noPrefixReqd = 1;
 		break;
 	case ID_STATUS_AWAY:
-		descr = LPGENT("Away");
+		descr = LPGENW("Away");
 		break;
 	case ID_STATUS_DND:
-		descr = LPGENT("Do not disturb");
+		descr = LPGENW("Do not disturb");
 		break;
 	case ID_STATUS_NA:
-		descr = LPGENT("Not available");
+		descr = LPGENW("Not available");
 		break;
 	case ID_STATUS_OCCUPIED:
-		descr = LPGENT("Occupied");
+		descr = LPGENW("Occupied");
 		break;
 	case ID_STATUS_FREECHAT:
-		descr = LPGENT("Free for chat");
+		descr = LPGENW("Free for chat");
 		break;
 	case ID_STATUS_INVISIBLE:
-		descr = LPGENT("Invisible");
+		descr = LPGENW("Invisible");
 		break;
 	case ID_STATUS_OUTTOLUNCH:
-		descr = LPGENT("Out to lunch");
+		descr = LPGENW("Out to lunch");
 		break;
 	case ID_STATUS_ONTHEPHONE:
-		descr = LPGENT("On the phone");
+		descr = LPGENW("On the phone");
 		break;
 	case ID_STATUS_IDLE:
-		descr = LPGENT("Idle");
+		descr = LPGENW("Idle");
 		break;
 	default:
 		if (IsStatusConnecting(mode)) {
-			const TCHAR* connFmt = LPGENT("Connecting (attempt %d)");
+			const wchar_t* connFmt = LPGENW("Connecting (attempt %d)");
 			mir_sntprintf(szMode, (flags & GSMDF_UNTRANSLATED) ? connFmt : TranslateTS(connFmt), mode - ID_STATUS_CONNECTING + 1);
 			return szMode;
 		}

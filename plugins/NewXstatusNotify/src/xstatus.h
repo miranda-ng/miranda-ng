@@ -88,8 +88,8 @@ typedef struct tagXSTATUSCHANGE
 	char *szProto;
 	int type;
 	int action;
-	TCHAR *stzTitle;
-	TCHAR *stzText;
+	wchar_t *stzTitle;
+	wchar_t *stzText;
 } XSTATUSCHANGE;
 
 typedef struct tagDBEVENT
@@ -101,12 +101,12 @@ typedef struct tagDBEVENT
 typedef struct tagPROTOTEMPLATE
 {
 	char *ProtoName;
-	TCHAR ProtoTemplateMsg[MAX_PATH];
-	TCHAR ProtoTemplateRemoved[MAX_PATH];
+	wchar_t ProtoTemplateMsg[MAX_PATH];
+	wchar_t ProtoTemplateRemoved[MAX_PATH];
 } PROTOTEMPLATE;
 
-TCHAR *GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int bufflen);
-XSTATUSCHANGE *NewXSC(MCONTACT hContact, char *szProto, int xstatusType, int action, TCHAR *stzTitle, TCHAR *stzText);
+wchar_t *GetDefaultXstatusName(int statusID, char *szProto, wchar_t *buff, int bufflen);
+XSTATUSCHANGE *NewXSC(MCONTACT hContact, char *szProto, int xstatusType, int action, wchar_t *stzTitle, wchar_t *stzText);
 void ExtraStatusChanged(XSTATUSCHANGE *xsc);
 void FreeXSC(XSTATUSCHANGE *xsc);
 int OnWindowEvent(WPARAM wParam, LPARAM lParam);

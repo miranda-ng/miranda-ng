@@ -59,11 +59,11 @@ HICON GetDefaultIcon(bool copy)
 	return resIco;
 }
 
-const TCHAR* GetImageExt(CMString &fname)
+const wchar_t* GetImageExt(CMString &fname)
 {
-	const TCHAR *ext = L"";
+	const wchar_t *ext = L"";
 
-	int fileId = _topen(fname.c_str(), O_RDONLY | _O_BINARY);
+	int fileId = _wopen(fname.c_str(), O_RDONLY | _O_BINARY);
 	if (fileId != -1) {
 		BYTE buf[6];
 
@@ -126,18 +126,18 @@ HICON ImageList_GetIconFixed(HIMAGELIST himl, INT i, UINT fStyle)
 
 void pathToRelative(const CMString &pSrc, CMString &pOut)
 {
-	TCHAR szOutPath[MAX_PATH];
+	wchar_t szOutPath[MAX_PATH];
 	PathToRelativeT(pSrc.c_str(), szOutPath);
 	pOut = szOutPath;
 }
 
 void pathToAbsolute(const CMString &pSrc, CMString &pOut)
 {
-	TCHAR szOutPath[MAX_PATH];
+	wchar_t szOutPath[MAX_PATH];
 
-	TCHAR *szVarPath = Utils_ReplaceVarsT(pSrc.c_str());
-	if (szVarPath == (TCHAR*)CALLSERVICE_NOTFOUND || szVarPath == NULL) {
-		TCHAR szExpPath[MAX_PATH];
+	wchar_t *szVarPath = Utils_ReplaceVarsT(pSrc.c_str());
+	if (szVarPath == (wchar_t*)CALLSERVICE_NOTFOUND || szVarPath == NULL) {
+		wchar_t szExpPath[MAX_PATH];
 		ExpandEnvironmentStrings(pSrc.c_str(), szExpPath, _countof(szExpPath));
 		PathToAbsoluteT(szExpPath, szOutPath);
 	}
@@ -186,7 +186,7 @@ bool InitGdiPlus(void)
 {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 
-	static const TCHAR errmsg[] = L"GDI+ not installed.\n"
+	static const wchar_t errmsg[] = L"GDI+ not installed.\n"
 		L"GDI+ can be downloaded here: http://www.microsoft.com/downloads";
 
 	__try {
@@ -227,9 +227,9 @@ bool IsSmileyProto(char *proto)
 	return proto && mir_strcmp(proto, META_PROTO) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & (PF1_IM | PF1_CHAT));
 }
 
-void ReportError(const TCHAR *errmsg)
+void ReportError(const wchar_t *errmsg)
 {
-	static const TCHAR title[] = L"Miranda SmileyAdd";
+	static const wchar_t title[] = L"Miranda SmileyAdd";
 
 	POPUPDATAT pd = { 0 };
 	mir_tstrcpy(pd.lpwzContactName, title);

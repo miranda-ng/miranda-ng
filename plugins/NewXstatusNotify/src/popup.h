@@ -35,7 +35,7 @@
 #define PCA_OPENHISTORY        4   // open contact history
 #define PCA_DONOTHING          5   // do nothing
 
-#define STRING_SHOWPREVIOUSSTATUS LPGENT("(was %s)")
+#define STRING_SHOWPREVIOUSSTATUS LPGENW("(was %s)")
 
 typedef struct tagPLUGINDATA
 {
@@ -47,18 +47,18 @@ typedef struct tagPLUGINDATA
 } PLUGINDATA;
 
 static struct {
-	TCHAR *Text;
+	wchar_t *Text;
 	int Action;
 } PopupActions[] = {
-	LPGENT("Open message window"), PCA_OPENMESSAGEWND,
-	LPGENT("Close popup"), PCA_CLOSEPOPUP,
-	LPGENT("Open contact details window"), PCA_OPENDETAILS,
-	LPGENT("Open contact menu"), PCA_OPENMENU,
-	LPGENT("Open contact history"), PCA_OPENHISTORY,
-	LPGENT("Do nothing"), PCA_DONOTHING
+	LPGENW("Open message window"), PCA_OPENMESSAGEWND,
+	LPGENW("Close popup"), PCA_CLOSEPOPUP,
+	LPGENW("Open contact details window"), PCA_OPENDETAILS,
+	LPGENW("Open contact menu"), PCA_OPENMENU,
+	LPGENW("Open contact history"), PCA_OPENHISTORY,
+	LPGENW("Do nothing"), PCA_DONOTHING
 };
 
-void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const TCHAR *stzText, PLUGINDATA *pdp = NULL);
+void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar_t *stzText, PLUGINDATA *pdp = NULL);
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 #endif

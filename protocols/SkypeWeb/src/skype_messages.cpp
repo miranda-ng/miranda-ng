@@ -290,14 +290,14 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 				HXML xmlContact = xmlGetNthChild(xmlNode, L"c", i);
 				if (xmlContact != NULL)
 				{
-					const TCHAR *tszContactId = xmlGetAttrValue(xmlContact, L"s");
-					//const TCHAR *tszContactName = xmlGetAttrValue(xmlContact, L"f");
+					const wchar_t *tszContactId = xmlGetAttrValue(xmlContact, L"s");
+					//const wchar_t *tszContactName = xmlGetAttrValue(xmlContact, L"f");
 
 					psr[nCount] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
 					psr[nCount]->cbSize = sizeof(psr);
 					psr[nCount]->flags = PSR_TCHAR;
-					psr[nCount]->id.t = mir_tstrdup(tszContactId);
-					//psr[nCount]->nick.t = mir_tstrdup(tszContactName == NULL ? L"" : tszContactName);
+					psr[nCount]->id.w = mir_tstrdup(tszContactId);
+					//psr[nCount]->nick.w = mir_tstrdup(tszContactName == NULL ? L"" : tszContactName);
 					nCount++;
 				}
 			}
@@ -319,7 +319,7 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 				ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 				for (DWORD i = 0; i < *((PDWORD)b); i++)
 				{
-					mir_free(psr[i]->id.t);
+					mir_free(psr[i]->id.w);
 					mir_free(psr[i]);
 				}
 				mir_free(b);

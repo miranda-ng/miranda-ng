@@ -30,11 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define REFRESH_DETAILS_DELAY 3000
 
-
-#define BIRTHDAY_EXTENSION ".bdaysW"
-#define BIRTHDAYS_EXPORT_FORMAT "%s@%S : %02d/%02d/%04d\n"
-#define NOTFOUND_FORMAT LPGEN("Could not find UID '%s [%S]' in current database, skipping")
-
+#define BIRTHDAY_EXTENSION L".bdaysW"
 
 extern int bShouldCheckBirthdays;
 extern int bBirthdayFound;
@@ -45,8 +41,8 @@ int DestroyServices();
 int NotifyContactBirthday(MCONTACT hContact, time_t now, int daysInAdvance);
 int NotifyMissedContactBirthday(MCONTACT hContact, time_t now, int daysAfter);
 
-int DoExport(TCHAR *fileName);
-int DoImport(TCHAR *fileName);
+int DoExport(wchar_t *fileName);
+int DoImport(wchar_t *fileName);
 
 INT_PTR CheckBirthdaysService(WPARAM wParam, LPARAM lParam);
 INT_PTR ShowListService(WPARAM wParam, LPARAM lParam);

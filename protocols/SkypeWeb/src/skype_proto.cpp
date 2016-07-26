@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
+CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CSkypeProto>(protoName, userName),
 		m_PopupClasses(1), 
 		m_InviteDialogs(1),
@@ -42,7 +42,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
 
-	m_tszAvatarFolder = std::tstring(VARST(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
+	m_tszAvatarFolder = std::wstring(VARST(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
@@ -114,7 +114,7 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-int CSkypeProto::SetAwayMsg(int, const TCHAR *msg)
+int CSkypeProto::SetAwayMsg(int, const wchar_t *msg)
 {
 	PushRequest(new SetStatusMsgRequest(msg ? T2Utf(msg) : "", li));
 	return 0;
@@ -148,7 +148,7 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	MCONTACT hContact;
 	
 	if (psr->flags & PSR_UNICODE)
-		hContact = AddContact(T2Utf(psr->id.t));
+		hContact = AddContact(T2Utf(psr->id.w));
 	else 
 		hContact = AddContact(psr->id.a);
 		
@@ -186,7 +186,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 	return 0;
 }
 
-int CSkypeProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
+int CSkypeProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 {
 	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 	if (hContact == INVALID_CONTACT_ID)
@@ -201,7 +201,7 @@ int CSkypeProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
-int CSkypeProto::AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
+int CSkypeProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 {
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
@@ -329,16 +329,16 @@ int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	//if (GetMessageFromDb(hContact, szMessageId, pre->timestamp)) return 0;
 
 	for (i = 0; i < nCount; i++)
-		cbBlob += int(/*mir_tstrlen(isrList[i]->nick.t)*/0 + 2 + mir_tstrlen(isrList[i]->id.t) + mir_strlen(szMessageId));
+		cbBlob += int(/*mir_tstrlen(isrList[i]->nick.w)*/0 + 2 + mir_tstrlen(isrList[i]->id.w) + mir_strlen(szMessageId));
 
 	pBlob = (PBYTE)mir_calloc(cbBlob);
 
 	for (i = 0, pCurBlob = pBlob; i < nCount; i++)
 	{
-		//mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.t));
+		//mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.w));
 		pCurBlob += mir_strlen((PCHAR)pCurBlob) + 1;
 
-		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id.t));
+		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id.w));
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}
 

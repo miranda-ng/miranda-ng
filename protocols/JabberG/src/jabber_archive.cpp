@@ -49,7 +49,7 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 
 	time_t tmLast = getDword(hContact, "LastCollection", 0);
 	if (tmLast) {
-		TCHAR buf[40];
+		wchar_t buf[40];
 		list << XATTR(L"start", time2str(tmLast, buf, _countof(buf)));
 	}
 	m_ThreadInfo->send(iq);
@@ -57,7 +57,7 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 
 void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 {
-	const TCHAR *to = XmlGetAttrValue(iqNode, L"to");
+	const wchar_t *to = XmlGetAttrValue(iqNode, L"to");
 	if (to == NULL || mir_tstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
 		return;
 
@@ -70,8 +70,8 @@ void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 		if (!itemNode)
 			break;
 
-		const TCHAR* start = XmlGetAttrValue(itemNode, L"start");
-		const TCHAR* with = XmlGetAttrValue(itemNode, L"with");
+		const wchar_t* start = XmlGetAttrValue(itemNode, L"start");
+		const wchar_t* with = XmlGetAttrValue(itemNode, L"with");
 		if (!start || !with)
 			continue;
 
@@ -228,8 +228,8 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 	if (!chatNode || mir_tstrcmp(XmlGetAttrValue(chatNode, L"xmlns"), JABBER_FEAT_ARCHIVE))
 		return;
 
-	const TCHAR* start = XmlGetAttrValue(chatNode, L"start");
-	const TCHAR* with = XmlGetAttrValue(chatNode, L"with");
+	const wchar_t* start = XmlGetAttrValue(chatNode, L"start");
+	const wchar_t* with = XmlGetAttrValue(chatNode, L"with");
 	if (!start || !with)
 		return;
 
@@ -248,7 +248,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 			break;
 
 		int from;
-		const TCHAR *itemName = XmlGetName(itemNode);
+		const wchar_t *itemName = XmlGetName(itemNode);
 		if (!mir_tstrcmp(itemName, L"to"))
 			from = DBEF_SENT;
 		else if (!mir_tstrcmp(itemName, L"from"))
@@ -260,8 +260,8 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 		if (!body)
 			continue;
 
-		const TCHAR *tszBody = XmlGetText(body);
-		const TCHAR *tszSecs = XmlGetAttrValue(itemNode, L"secs");
+		const wchar_t *tszBody = XmlGetText(body);
+		const wchar_t *tszSecs = XmlGetAttrValue(itemNode, L"secs");
 		if (!tszBody || !tszSecs)
 			continue;
 
@@ -273,7 +273,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 		dbei.cbBlob = (DWORD)mir_strlen(szEventText)+1;
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
 		dbei.pBlob = szEventText;
-		dbei.timestamp = tmStart + _ttol(tszSecs);
+		dbei.timestamp = tmStart + _wtol(tszSecs);
 		if (!IsDuplicateEvent(hContact, dbei))
 			db_event_add(hContact, &dbei);
 

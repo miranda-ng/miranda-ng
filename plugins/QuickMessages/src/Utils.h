@@ -34,10 +34,10 @@ typedef struct _tagButtonData
 	BYTE  bInQMenu;
 	BYTE  bOpInQMenu;
 	DWORD dwOPFlags;
-	TCHAR *pszName;
-	TCHAR *pszValue;
-	TCHAR *pszOpValue;
-	TCHAR *pszOpName;
+	wchar_t *pszName;
+	wchar_t *pszValue;
+	wchar_t *pszOpValue;
+	wchar_t *pszOpName;
 	}ButtonData;
 
 typedef struct _tagListData
@@ -45,9 +45,9 @@ typedef struct _tagListData
 	SortedList* sl;
 	DWORD dwPos;
 	DWORD dwOPPos;
-	TCHAR* ptszQValue;
-	TCHAR* ptszOPQValue;
-	TCHAR* ptszButtonName;
+	wchar_t* ptszQValue;
+	wchar_t* ptszOPQValue;
+	wchar_t* ptszButtonName;
 	BYTE  bIsServName;
 	BYTE  bIsOpServName;
 	DWORD dwOPFlags;
@@ -58,8 +58,8 @@ typedef struct _tagQuickData
 	DWORD dwPos;
 	BOOL bIsService;
 	BYTE fEntryType;
-	TCHAR* ptszValue;
-	TCHAR* ptszValueName;
+	wchar_t* ptszValue;
+	wchar_t* ptszValueName;
 	}QuickData;
 
 void InitButtonsList();
@@ -68,11 +68,11 @@ int  sstSortButtons(const void * vmtbi1, const void * vmtbi2);
 int  sstOpSortButtons(const void * vmtbi1, const void * vmtbi2);
 int  sstQuickSortButtons(const void * vmtbi1, const void * vmtbi2);
 void li_ZeroQuickList(SortedList *pList);
-TCHAR* getMenuEntry(int entrynum,int buttonnum,BYTE mode) ;
+wchar_t* getMenuEntry(int entrynum,int buttonnum,BYTE mode) ;
 int RegisterCustomButton(WPARAM wParam,LPARAM lParam);
 void RemoveMenuEntryNode(SortedList *pList, int index);
 void DestroyButton(int listnum);
 void SaveModuleSettings(int buttonnum,ButtonData* bd);
 void CleanSettings(int buttonnum,int from);
 DWORD BalanceButtons(int buttonsWas,int buttonsNow);
-TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValueIn,TCHAR* ptszText,TCHAR* ptszClip,int QVSize,int TextSize ,int ClipSize);
+wchar_t* ParseString(MCONTACT hContact,wchar_t* ptszQValueIn,wchar_t* ptszText,wchar_t* ptszClip,int QVSize,int TextSize ,int ClipSize);

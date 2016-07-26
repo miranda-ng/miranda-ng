@@ -50,10 +50,10 @@ int fnFindItem(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contac
 int fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 
 /* clcitems.c */
-ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
+ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
 ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 
-ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
+ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
 ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem);
 ClcContact* fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
 
@@ -72,14 +72,14 @@ int  fnGetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat);
 LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcutils.c */
-TCHAR* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact);
+wchar_t* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact);
 int  fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
 void fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
 void fnEnsureVisible(HWND hwnd, struct ClcData *dat, int iItem, int partialOk);
 void fnRecalcScrollBar(HWND hwnd, struct ClcData *dat);
 void fnSetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
 void fnDoSelectionDefaultAction(HWND hwnd, struct ClcData *dat);
-int  fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
+int  fnFindRowByText(HWND hwnd, struct ClcData *dat, const wchar_t *text, int prefixOk);
 void fnEndRename(HWND hwnd, struct ClcData *dat, int save);
 void fnDeleteFromContactList(HWND hwnd, struct ClcData *dat);
 void fnBeginRenameSelection(HWND hwnd, struct ClcData *dat);
@@ -122,7 +122,7 @@ void RebuildMenuOrder(void);
 INT_PTR  MenuProcessCommand(WPARAM wParam, LPARAM lParam);
 
 /* clistsettings.c */
-TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode);
+wchar_t* fnGetContactDisplayName(MCONTACT hContact, int mode);
 void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF * colour);
 void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact);
 
@@ -151,7 +151,7 @@ int    fnGetContactIcon(MCONTACT hContact);
 int    fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);
 int    fnShowHide(WPARAM wParam, LPARAM lParam);
 HICON  fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);
-TCHAR* fnGetStatusModeDescription(int wParam, int lParam);
+wchar_t* fnGetStatusModeDescription(int wParam, int lParam);
 int    fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
 
 /* clisttray.c */
@@ -164,17 +164,17 @@ int    fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, in
 int    fnTrayIconDestroy(HWND hwnd);
 void   fnTrayIconIconsChanged(void);
 int    fnTrayIconInit(HWND hwnd);
-TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto);
+wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto);
 int    fnTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 INT_PTR    fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
 void   fnTrayIconRemove(HWND hwnd, const char *szProto);
 int    fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto);
 void   fnTrayIconSetToBase(char *szPreferredProto);
 void   fnTrayIconTaskbarCreated(HWND hwnd);
-int    fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPreferredProto, int isBase);
+int    fnTrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
 void   fnTrayIconUpdateBase(const char *szChangedProto);
 int    fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
-void   fnTrayIconUpdateWithImageList(int iImage, const TCHAR *szNewTip, char *szPreferredProto);
+void   fnTrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, char *szPreferredProto);
 
 VOID CALLBACK fnTrayCycleTimerProc(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 

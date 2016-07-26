@@ -41,10 +41,10 @@ int CJabberProto::OnContactDeleted(WPARAM hContact, LPARAM)
 		return 0;
 
 	if (ListGetItemPtr(LIST_ROSTER, jid)) {
-		if (!_tcschr(jid, _T('@'))) {
-			TCHAR szStrippedJid[JABBER_MAX_JID_LEN];
+		if (!wcschr(jid, '@')) {
+			wchar_t szStrippedJid[JABBER_MAX_JID_LEN];
 			JabberStripJid(m_ThreadInfo->fullJID, szStrippedJid, _countof(szStrippedJid));
-			TCHAR *szDog = _tcschr(szStrippedJid, _T('@'));
+			wchar_t *szDog = wcschr(szStrippedJid, '@');
 			if (szDog && mir_tstrcmpi(szDog + 1, jid))
 				m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext(), jid) << XQUERY(JABBER_FEAT_REGISTER) << XCHILD(L"remove"));
 		}
@@ -59,7 +59,7 @@ int CJabberProto::OnContactDeleted(WPARAM hContact, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberDbSettingChanged - process database changes
 
-static TCHAR* sttSettingToTchar(DBCONTACTWRITESETTING *cws)
+static wchar_t* sttSettingToTchar(DBCONTACTWRITESETTING *cws)
 {
 	switch (cws->value.type) {
 	case DBVT_ASCIIZ:
@@ -95,7 +95,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, MCONTACT hC
 		}
 	}
 	else {
-		TCHAR *p = sttSettingToTchar(cws);
+		wchar_t *p = sttSettingToTchar(cws);
 		if (cws->value.pszVal != NULL && mir_tstrcmp(p, item->group)) {
 			debugLog(L"Group set to %s", p);
 			if (p)
@@ -112,7 +112,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT 
 		return;
 
 	if (cws->value.type == DBVT_DELETED) {
-		TCHAR *nick = pcli->pfnGetContactDisplayName(hContact, GCDNF_NOMYHANDLE);
+		wchar_t *nick = pcli->pfnGetContactDisplayName(hContact, GCDNF_NOMYHANDLE);
 		AddContactToRoster(item->jid, nick, item->group);
 		mir_free(nick);
 		return;

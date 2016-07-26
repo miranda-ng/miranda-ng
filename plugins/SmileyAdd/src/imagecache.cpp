@@ -528,7 +528,7 @@ void DestroyImageCache(void)
 ImageBase* AddCacheImage(const CMString &file, int index)
 {
 	CMString tmpfile(file); tmpfile.AppendFormat(L"#%d", index);
-	unsigned id = mir_hash(tmpfile.c_str(), tmpfile.GetLength() * sizeof(TCHAR));
+	unsigned id = mir_hash(tmpfile.c_str(), tmpfile.GetLength() * sizeof(wchar_t));
 
 	WaitForSingleObject(g_hMutexIm, 3000);
 

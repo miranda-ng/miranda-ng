@@ -484,7 +484,7 @@ ext::string SettingsSerializer::getLastStatisticsFile()
 	return m_DB.readStr(con::SettLastStatisticsFile, L"");
 }
 
-void SettingsSerializer::setLastStatisticsFile(const TCHAR* szFileName)
+void SettingsSerializer::setLastStatisticsFile(const wchar_t* szFileName)
 {
 	m_DB.writeStr(con::SettLastStatisticsFile, szFileName);
 }

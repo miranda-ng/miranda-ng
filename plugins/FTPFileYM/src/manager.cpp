@@ -377,7 +377,7 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 				if (item) {
 					if (item->m_tszToolTip[0]) {
-						_tcsncpy(tvInfoTip->pszText, item->m_tszToolTip, tvInfoTip->cchTextMax - 1);
+						wcsncpy(tvInfoTip->pszText, item->m_tszToolTip, tvInfoTip->cchTextMax - 1);
 						tvInfoTip->pszText[tvInfoTip->cchTextMax - 1] = 0;
 					}
 				}

@@ -68,7 +68,7 @@ static void InitLog()
 	if (mir_tstrlen(szBuf)) {
 		logOptions.tszUserFile = szBuf.get();
 
-		TCHAR path[MAX_PATH];
+		wchar_t path[MAX_PATH];
 		PathToAbsoluteT(VARST(szBuf), path);
 		logOptions.tszFile = path;
 	}
@@ -78,20 +78,20 @@ static void InitLog()
 	}
 
 	if (logOptions.toFile)
-		hLogger = mir_createLog("Netlib", LPGENT("Standard Netlib log"), logOptions.tszFile, 0);
+		hLogger = mir_createLog("Netlib", LPGENW("Standard Netlib log"), logOptions.tszFile, 0);
 }
 
-static const TCHAR* szTimeFormats[] =
+static const wchar_t* szTimeFormats[] =
 {
-	LPGENT("No times"),
-	LPGENT("Standard hh:mm:ss times"),
-	LPGENT("Times in milliseconds"),
-	LPGENT("Times in microseconds")
+	LPGENW("No times"),
+	LPGENW("Standard hh:mm:ss times"),
+	LPGENW("Times in milliseconds"),
+	LPGENW("Times in microseconds")
 };
 
 static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR str[MAX_PATH];
+	wchar_t str[MAX_PATH];
 
 	switch (message) {
 	case WM_INITDIALOG:
@@ -147,7 +147,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				if ((HWND)lParam == GetFocus())
 					CheckDlgButton(hwndDlg, IDC_TOFILE, BST_CHECKED);
 
-				TCHAR path[MAX_PATH];
+				wchar_t path[MAX_PATH];
 				GetWindowText((HWND)lParam, path, _countof(path));
 
 				PathToAbsoluteT(VARST(path), path);
@@ -159,7 +159,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		case IDC_RUNATSTARTBROWSE:
 			GetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str, _countof(str));
 			{
-				TCHAR filter[200];
+				wchar_t filter[200];
 				mir_sntprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = { 0 };
@@ -182,8 +182,8 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				else if (!GetOpenFileName(&ofn))
 					return 1;
 
-				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && _tcschr(str, ' ') != NULL) {
-					memmove(str + 1, str, ((_countof(str) - 2) * sizeof(TCHAR)));
+				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && wcschr(str, ' ') != NULL) {
+					memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
 					str[0] = '"';
 					mir_tstrcat(str, L"\"");
 				}

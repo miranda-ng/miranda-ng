@@ -44,7 +44,7 @@ CHAT_MANAGER *pci;
 int g_cbCountries;
 CountryListEntry *g_countries;
 
-TCHAR szCoreVersion[100];
+wchar_t szCoreVersion[100];
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -126,10 +126,10 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	// init fontservice for info frame
 	FontIDT fontid = { 0 };
 	fontid.cbSize = sizeof(fontid);
-	_tcsncpy_s(fontid.group, LPGENT("Jabber"), _TRUNCATE);
+	wcsncpy_s(fontid.group, LPGENW("Jabber"), _TRUNCATE);
 	strncpy_s(fontid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
-	_tcsncpy_s(fontid.backgroundGroup, L"Jabber", _TRUNCATE);
-	_tcsncpy_s(fontid.backgroundName, L"Background", _TRUNCATE);
+	wcsncpy_s(fontid.backgroundGroup, L"Jabber", _TRUNCATE);
+	wcsncpy_s(fontid.backgroundName, L"Background", _TRUNCATE);
 	fontid.flags = FIDF_DEFAULTVALID;
 
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
@@ -138,22 +138,22 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mir_tstrncpy(fontid.deffontsettings.szFace, L"MS Shell Dlg", _countof(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
 
-	_tcsncpy_s(fontid.name, LPGENT("Frame title"), _TRUNCATE);
+	wcsncpy_s(fontid.name, LPGENW("Frame title"), _TRUNCATE);
 	strncpy_s(fontid.prefix, "fntFrameTitle", _TRUNCATE);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	FontRegisterT(&fontid);
 
-	_tcsncpy_s(fontid.name, LPGENT("Frame text"), _TRUNCATE);
+	wcsncpy_s(fontid.name, LPGENW("Frame text"), _TRUNCATE);
 	strncpy_s(fontid.prefix, "fntFrameClock", _TRUNCATE);
 	fontid.deffontsettings.style = 0;
 	FontRegisterT(&fontid);
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	_tcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
+	wcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
 	strncpy_s(colourid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
 
-	_tcsncpy_s(colourid.name, L"Background", _TRUNCATE);
+	wcsncpy_s(colourid.name, L"Background", _TRUNCATE);
 	strncpy_s(colourid.setting, "clFrameBack", _TRUNCATE);
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
@@ -164,7 +164,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 ///////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
-static CJabberProto* jabberProtoInit(const char* pszProtoName, const TCHAR *tszUserName)
+static CJabberProto* jabberProtoInit(const char* pszProtoName, const wchar_t *tszUserName)
 {
 	CJabberProto *ppro = new CJabberProto(pszProtoName, tszUserName);
 	g_Instances.insert(ppro);
@@ -233,7 +233,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	DestroyHookableEvent(hDiscoInfoResult);
 
 	if (g_nTempFileId != 0) {
-		TCHAR tszTempPath[MAX_PATH], tszFilePath[MAX_PATH];
+		wchar_t tszTempPath[MAX_PATH], tszFilePath[MAX_PATH];
 		GetTempPath(_countof(tszTempPath), tszTempPath);
 		mir_sntprintf(tszFilePath, L"%sjab*.tmp.*", tszTempPath);
 

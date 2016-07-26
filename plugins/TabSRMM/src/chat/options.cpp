@@ -33,13 +33,13 @@
 
 struct FontOptionsList
 {
-	TCHAR*   szDescr;
+	wchar_t*   szDescr;
 	COLORREF defColour;
-	TCHAR*   szDefFace;
+	wchar_t*   szDefFace;
 	BYTE     defCharset, defStyle;
 	char     defSize;
 	COLORREF colour;
-	TCHAR    szFace[LF_FACESIZE];
+	wchar_t    szFace[LF_FACESIZE];
 	BYTE     charset, style;
 	char     size;
 };
@@ -47,8 +47,8 @@ struct FontOptionsList
 struct ColorOptionsList
 {
 	int			order;
-	TCHAR*		tszGroup;
-	TCHAR*		tszName;
+	wchar_t*		tszGroup;
+	wchar_t*		tszName;
 	char*		szSetting;
 	COLORREF 	def;
 };
@@ -58,70 +58,70 @@ struct ColorOptionsList
 * (GetSysColor(default_color & 0x00ffffff)), not a rgb value.
 */
 static ColorOptionsList _clrs[] = {
-	{ 0, LPGENT("Message Sessions"), LPGENT("Input area background"), "inputbg", SRMSGDEFSET_BKGCOLOUR },
-	{ 1, LPGENT("Message Sessions"), LPGENT("Log background"), SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR },
-	{ 0, LPGENT("Message Sessions") L"/" LPGENT("Single Messaging"), LPGENT("Outgoing background"), "outbg", SRMSGDEFSET_BKGOUTCOLOUR },
-	{ 1, LPGENT("Message Sessions") L"/" LPGENT("Single Messaging"), LPGENT("Incoming background"), "inbg", SRMSGDEFSET_BKGINCOLOUR },
-	{ 2, LPGENT("Message Sessions") L"/" LPGENT("Single Messaging"), LPGENT("Status background"), "statbg", SRMSGDEFSET_BKGCOLOUR },
-	{ 3, LPGENT("Message Sessions") L"/" LPGENT("Single Messaging"), LPGENT("Incoming background(old)"), "oldinbg", SRMSGDEFSET_BKGINCOLOUR },
-	{ 4, LPGENT("Message Sessions") L"/" LPGENT("Single Messaging"), LPGENT("Outgoing background(old)"), "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR },
-	{ 5, LPGENT("Message Sessions") L"/" LPGENT("Single Messaging"), LPGENT("Horizontal Grid Lines"), "hgrid", RGB(224, 224, 224) },
-	{ 0, LPGENT("Message Sessions") L"/" LPGENT("Info Panel"), LPGENT("Panel background low"), "ipfieldsbg", 0x62caff },
-	{ 1, LPGENT("Message Sessions") L"/" LPGENT("Info Panel"), LPGENT("Panel background high"), "ipfieldsbgHigh", 0xf0f0f0 },
-	{ 0, LPGENT("Message Sessions") L"/" LPGENT("Common colors"), LPGENT("Toolbar background high"), "tbBgHigh", 0 },
-	{ 1, LPGENT("Message Sessions") L"/" LPGENT("Common colors"), LPGENT("Toolbar background low"), "tbBgLow", 0 },
-	{ 2, LPGENT("Message Sessions") L"/" LPGENT("Common colors"), LPGENT("Window fill color"), "fillColor", 0 },
-	{ 3, LPGENT("Message Sessions") L"/" LPGENT("Common colors"), LPGENT("Text area borders"), "cRichBorders", 0 },
-	{ 4, LPGENT("Message Sessions") L"/" LPGENT("Common colors"), LPGENT("Aero glow effect"), "aeroGlow", RGB(40, 40, 255) },
-	{ 4, LPGENT("Message Sessions") L"/" LPGENT("Common colors"), LPGENT("Generic text color (only when fill color is set)"), "genericTxtClr", 0xff000000 | COLOR_BTNTEXT },
+	{ 0, LPGENW("Message Sessions"), LPGENW("Input area background"), "inputbg", SRMSGDEFSET_BKGCOLOUR },
+	{ 1, LPGENW("Message Sessions"), LPGENW("Log background"), SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR },
+	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Outgoing background"), "outbg", SRMSGDEFSET_BKGOUTCOLOUR },
+	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Incoming background"), "inbg", SRMSGDEFSET_BKGINCOLOUR },
+	{ 2, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Status background"), "statbg", SRMSGDEFSET_BKGCOLOUR },
+	{ 3, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Incoming background(old)"), "oldinbg", SRMSGDEFSET_BKGINCOLOUR },
+	{ 4, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Outgoing background(old)"), "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR },
+	{ 5, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), LPGENW("Horizontal Grid Lines"), "hgrid", RGB(224, 224, 224) },
+	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Info Panel"), LPGENW("Panel background low"), "ipfieldsbg", 0x62caff },
+	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Info Panel"), LPGENW("Panel background high"), "ipfieldsbgHigh", 0xf0f0f0 },
+	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Toolbar background high"), "tbBgHigh", 0 },
+	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Toolbar background low"), "tbBgLow", 0 },
+	{ 2, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Window fill color"), "fillColor", 0 },
+	{ 3, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Text area borders"), "cRichBorders", 0 },
+	{ 4, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Aero glow effect"), "aeroGlow", RGB(40, 40, 255) },
+	{ 4, LPGENW("Message Sessions") L"/" LPGENW("Common colors"), LPGENW("Generic text color (only when fill color is set)"), "genericTxtClr", 0xff000000 | COLOR_BTNTEXT },
 };
 
 static ColorOptionsList _tabclrs[] = {
-	{ 0, LPGENT("Message Sessions") L"/" LPGENT("Tabs"), LPGENT("Normal text"), "tab_txt_normal", 0xff000000 | COLOR_BTNTEXT },
-	{ 1, LPGENT("Message Sessions") L"/" LPGENT("Tabs"), LPGENT("Active text"), "tab_txt_active", 0xff000000 | COLOR_BTNTEXT },
-	{ 2, LPGENT("Message Sessions") L"/" LPGENT("Tabs"), LPGENT("Hovered text"), "tab_txt_hottrack", 0xff000000 | COLOR_HOTLIGHT },
-	{ 3, LPGENT("Message Sessions") L"/" LPGENT("Tabs"), LPGENT("Unread text"), "tab_txt_unread", 0xff000000 | COLOR_HOTLIGHT },
+	{ 0, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Normal text"), "tab_txt_normal", 0xff000000 | COLOR_BTNTEXT },
+	{ 1, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Active text"), "tab_txt_active", 0xff000000 | COLOR_BTNTEXT },
+	{ 2, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Hovered text"), "tab_txt_hottrack", 0xff000000 | COLOR_HOTLIGHT },
+	{ 3, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Unread text"), "tab_txt_unread", 0xff000000 | COLOR_HOTLIGHT },
 
-	{ 4, LPGENT("Message Sessions") L"/" LPGENT("Tabs"), LPGENT("Normal background"), "tab_bg_normal", 0xff000000 | COLOR_3DFACE },
-	{ 5, LPGENT("Message Sessions") L"/" LPGENT("Tabs"), LPGENT("Active background"), "tab_bg_active", 0xff000000 | COLOR_3DFACE },
-	{ 6, LPGENT("Message Sessions") L"/" LPGENT("Tabs"), LPGENT("Hovered background"), "tab_bg_hottrack", 0xff000000 | COLOR_3DFACE },
-	{ 7, LPGENT("Message Sessions") L"/" LPGENT("Tabs"), LPGENT("Unread background"), "tab_bg_unread", 0xff000000 | COLOR_3DFACE }
+	{ 4, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Normal background"), "tab_bg_normal", 0xff000000 | COLOR_3DFACE },
+	{ 5, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Active background"), "tab_bg_active", 0xff000000 | COLOR_3DFACE },
+	{ 6, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Hovered background"), "tab_bg_hottrack", 0xff000000 | COLOR_3DFACE },
+	{ 7, LPGENW("Message Sessions") L"/" LPGENW("Tabs"), LPGENW("Unread background"), "tab_bg_unread", 0xff000000 | COLOR_3DFACE }
 };
 
 extern LOGFONT lfDefault;
 
 static FontOptionsList IM_fontOptionsList[] = {
-	{ LPGENT(">> Outgoing messages"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT(">> Outgoing misc events"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("<< Incoming messages"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("<< Incoming misc events"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT(">> Outgoing name"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT(">> Outgoing timestamp"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("<< Incoming name"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("<< Incoming timestamp"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT(">> Outgoing messages (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT(">> Outgoing misc events (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("<< Incoming messages (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("<< Incoming misc events (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT(">> Outgoing name (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT(">> Outgoing timestamp (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("<< Incoming name (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("<< Incoming timestamp (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("* Message Input Area"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("* Status changes"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("* Dividers"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("* Error and warning messages"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("* Symbols (incoming)"), RGB(50, 50, 50), L"Webdings", SYMBOL_CHARSET, 0, -12 },
-	{ LPGENT("* Symbols (outgoing)"), RGB(50, 50, 50), L"Webdings", SYMBOL_CHARSET, 0, -12 },
+	{ LPGENW(">> Outgoing messages"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW(">> Outgoing misc events"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("<< Incoming messages"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("<< Incoming misc events"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW(">> Outgoing name"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW(">> Outgoing timestamp"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW("<< Incoming name"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW("<< Incoming timestamp"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW(">> Outgoing messages (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW(">> Outgoing misc events (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("<< Incoming messages (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("<< Incoming misc events (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW(">> Outgoing name (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW(">> Outgoing timestamp (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW("<< Incoming name (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW("<< Incoming timestamp (old)"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW("* Message Input Area"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("* Status changes"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("* Dividers"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("* Error and warning messages"), RGB(50, 50, 50), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("* Symbols (incoming)"), RGB(50, 50, 50), L"Webdings", SYMBOL_CHARSET, 0, -12 },
+	{ LPGENW("* Symbols (outgoing)"), RGB(50, 50, 50), L"Webdings", SYMBOL_CHARSET, 0, -12 },
 };
 
 static FontOptionsList IP_fontOptionsList[] = {
-	{ LPGENT("Nickname"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("UIN"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Status"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Protocol"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Contacts local time"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Window caption (skinned mode)"), RGB(255, 255, 255), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Nickname"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("UIN"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Status"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Protocol"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Contacts local time"), RGB(0, 0, 0), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Window caption (skinned mode)"), RGB(255, 255, 255), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 };
 
 static FontOptionsList *fontOptionsList = IM_fontOptionsList;
@@ -129,49 +129,49 @@ static int fontCount = MSGDLGFONTCOUNT;
 
 struct branch_t
 {
-	TCHAR*    szDescr;
+	wchar_t*    szDescr;
 	char*     szDBName;
 	int       iMode;
 	BYTE      bDefault;
 	HTREEITEM hItem;
 };
 static branch_t branch1[] = {
-	{ LPGENT("Open new chat rooms in the default container"), "DefaultContainer", 0, 1, NULL },
-	{ LPGENT("Flash window when someone speaks"), "FlashWindow", 0, 0, NULL },
-	{ LPGENT("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, 1, NULL },
-	{ LPGENT("Create tabs or windows for highlight events"), "CreateWindowOnHighlight", 0, 0, NULL },
-	{ LPGENT("Activate chat window on highlight"), "AnnoyingHighlight", 0, 0, NULL },
-	{ LPGENT("Show list of users in the chat room"), "ShowNicklist", 0, 1, NULL },
-	{ LPGENT("Colorize nicknames in member list"), "ColorizeNicks", 0, 1, NULL },
-	{ LPGENT("Show button menus when right clicking the buttons"), "RightClickFilter", 0, 1, NULL },
-	{ LPGENT("Show topic as status message on the contact list"), "TopicOnClist", 0, 1, NULL },
-	{ LPGENT("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0, NULL },
-	{ LPGENT("Hide or show the window by double click in the contact list"), "ToggleVisibility", 0, 0, NULL },
-	{ LPGENT("Sync splitter position with standard IM sessions"), "SyncSplitter", 0, 0, NULL },
-	{ LPGENT("Show contact's status modes if supported by the protocol"), "ShowContactStatus", 0, 1, NULL },
-	{ LPGENT("Display contact's status icon before user role icon"), "ContactStatusFirst", 0, 0, NULL },
-	{ LPGENT("Use IRC style status indicators in the nick list"), "ClassicIndicators", 0, 0, NULL },
-	{ LPGENT("Use alternative sorting method in member list"), "AlternativeSorting", 0, 1, NULL }
+	{ LPGENW("Open new chat rooms in the default container"), "DefaultContainer", 0, 1, NULL },
+	{ LPGENW("Flash window when someone speaks"), "FlashWindow", 0, 0, NULL },
+	{ LPGENW("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, 1, NULL },
+	{ LPGENW("Create tabs or windows for highlight events"), "CreateWindowOnHighlight", 0, 0, NULL },
+	{ LPGENW("Activate chat window on highlight"), "AnnoyingHighlight", 0, 0, NULL },
+	{ LPGENW("Show list of users in the chat room"), "ShowNicklist", 0, 1, NULL },
+	{ LPGENW("Colorize nicknames in member list"), "ColorizeNicks", 0, 1, NULL },
+	{ LPGENW("Show button menus when right clicking the buttons"), "RightClickFilter", 0, 1, NULL },
+	{ LPGENW("Show topic as status message on the contact list"), "TopicOnClist", 0, 1, NULL },
+	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0, NULL },
+	{ LPGENW("Hide or show the window by double click in the contact list"), "ToggleVisibility", 0, 0, NULL },
+	{ LPGENW("Sync splitter position with standard IM sessions"), "SyncSplitter", 0, 0, NULL },
+	{ LPGENW("Show contact's status modes if supported by the protocol"), "ShowContactStatus", 0, 1, NULL },
+	{ LPGENW("Display contact's status icon before user role icon"), "ContactStatusFirst", 0, 0, NULL },
+	{ LPGENW("Use IRC style status indicators in the nick list"), "ClassicIndicators", 0, 0, NULL },
+	{ LPGENW("Use alternative sorting method in member list"), "AlternativeSorting", 0, 1, NULL }
 };
 
 static branch_t branch2[] = {
-	{ LPGENT("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1, NULL },
-	{ LPGENT("Timestamp only when event time differs"), "ShowTimeStampIfChanged", 0, 0, NULL },
-	{ LPGENT("Timestamp has same color as the event"), "TimeStampEventColour", 0, 0, NULL },
-	{ LPGENT("Indent the second line of a message"), "LogIndentEnabled", 0, 1, NULL },
-	{ LPGENT("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, 1, NULL },
-	{ LPGENT("Add a colon (:) to auto-completed user names"), "AddColonToAutoComplete", 0, 1, NULL },
-	{ LPGENT("Add a comma instead of a colon to auto-completed user names"), "UseCommaAsColon", 0, 0, NULL },
-	{ LPGENT("Start private conversation on double click in nick list (insert nick if unchecked)"), "DoubleClick4Privat", 0, 0, NULL },
-	{ LPGENT("Strip colors from messages in the log"), "StripFormatting", 0, 0, NULL },
-	{ LPGENT("Enable the 'event filter' for new rooms"), "FilterEnabled", 0, 0, NULL },
-	{ LPGENT("Use IRC style status indicators in the log"), "LogClassicIndicators", 0, 0, NULL },
-	{ LPGENT("Allow clickable user names in the message log"), "ClickableNicks", 0, 1, NULL },
-	{ LPGENT("Add new line after names"), "NewlineAfterNames", 0, 0, NULL },
-	{ LPGENT("Colorize user names in message log"), "ColorizeNicksInLog", 0, 1, NULL },
-	{ LPGENT("Scale down icons to 10x10 pixels in the chat log"), "ScaleIcons", 0, 1, NULL },
-	{ LPGENT("Place a separator in the log after a window lost its foreground status"), "UseDividers", 0, 1, NULL },
-	{ LPGENT("Only place a separator when an incoming event is announced with a popup"), "DividersUsePopupConfig", 0, 1, NULL }
+	{ LPGENW("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1, NULL },
+	{ LPGENW("Timestamp only when event time differs"), "ShowTimeStampIfChanged", 0, 0, NULL },
+	{ LPGENW("Timestamp has same color as the event"), "TimeStampEventColour", 0, 0, NULL },
+	{ LPGENW("Indent the second line of a message"), "LogIndentEnabled", 0, 1, NULL },
+	{ LPGENW("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, 1, NULL },
+	{ LPGENW("Add a colon (:) to auto-completed user names"), "AddColonToAutoComplete", 0, 1, NULL },
+	{ LPGENW("Add a comma instead of a colon to auto-completed user names"), "UseCommaAsColon", 0, 0, NULL },
+	{ LPGENW("Start private conversation on double click in nick list (insert nick if unchecked)"), "DoubleClick4Privat", 0, 0, NULL },
+	{ LPGENW("Strip colors from messages in the log"), "StripFormatting", 0, 0, NULL },
+	{ LPGENW("Enable the 'event filter' for new rooms"), "FilterEnabled", 0, 0, NULL },
+	{ LPGENW("Use IRC style status indicators in the log"), "LogClassicIndicators", 0, 0, NULL },
+	{ LPGENW("Allow clickable user names in the message log"), "ClickableNicks", 0, 1, NULL },
+	{ LPGENW("Add new line after names"), "NewlineAfterNames", 0, 0, NULL },
+	{ LPGENW("Colorize user names in message log"), "ColorizeNicksInLog", 0, 1, NULL },
+	{ LPGENW("Scale down icons to 10x10 pixels in the chat log"), "ScaleIcons", 0, 1, NULL },
+	{ LPGENW("Place a separator in the log after a window lost its foreground status"), "UseDividers", 0, 1, NULL },
+	{ LPGENW("Only place a separator when an incoming event is announced with a popup"), "DividersUsePopupConfig", 0, 1, NULL }
 };
 
 static HWND hPathTip = 0;
@@ -222,19 +222,19 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 		mir_snprintf(str, "Font%d", i);
 		if ((i == 17 && !mir_strcmp(szMod, CHATFONT_MODULE)) || ((i == 20 || i == 21) && !mir_strcmp(szMod, FONTMODULE))) {
 			lf->lfCharSet = SYMBOL_CHARSET;
-			_tcsncpy_s(lf->lfFaceName, L"Webdings", _TRUNCATE);
+			wcsncpy_s(lf->lfFaceName, L"Webdings", _TRUNCATE);
 		}
 		else {
 			ptrT tszDefFace(db_get_tsa(NULL, szMod, str));
 			if (tszDefFace == NULL)
-				_tcsncpy_s(lf->lfFaceName, fol[j].szDefFace, _TRUNCATE);
+				wcsncpy_s(lf->lfFaceName, fol[j].szDefFace, _TRUNCATE);
 			else
-				_tcsncpy_s(lf->lfFaceName, tszDefFace, _TRUNCATE);
+				wcsncpy_s(lf->lfFaceName, tszDefFace, _TRUNCATE);
 		}
 	}
 }
 
-static HTREEITEM InsertBranch(HWND hwndTree, TCHAR* pszDescr, BOOL bExpanded)
+static HTREEITEM InsertBranch(HWND hwndTree, wchar_t* pszDescr, BOOL bExpanded)
 {
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = NULL;
@@ -354,7 +354,7 @@ HICON LoadIconEx(char *pszIcoLibName)
 	return IcoLib_GetIcon(szTemp);
 }
 
-static void InitSetting(TCHAR* &ppPointer, const char *pszSetting, const TCHAR *pszDefault)
+static void InitSetting(wchar_t* &ppPointer, const char *pszSetting, const wchar_t *pszDefault)
 {
 	ptrT val(db_get_tsa(NULL, CHAT_MODULE, pszSetting));
 	replaceStrT(ppPointer, (val != NULL) ? val : pszDefault);
@@ -410,7 +410,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, _countof(branch1), 0x0000);
 			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, _countof(branch2), 0x0000);
 
-			TCHAR* pszGroup = NULL;
+			wchar_t* pszGroup = NULL;
 			InitSetting(pszGroup, "AddToGroup", L"Chat rooms");
 			SetDlgItemText(hwndDlg, IDC_GROUP, pszGroup);
 			mir_free(pszGroup);
@@ -435,12 +435,12 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				int iLen;
-				TCHAR *pszText = NULL;
+				wchar_t *pszText = NULL;
 				BYTE b;
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_GROUP));
 				if (iLen > 0) {
-					pszText = (TCHAR*)mir_realloc(pszText, (iLen + 2) * sizeof(TCHAR));
+					pszText = (wchar_t*)mir_realloc(pszText, (iLen + 2) * sizeof(wchar_t));
 					GetDlgItemText(hwndDlg, IDC_GROUP, pszText, iLen + 1);
 					db_set_ts(NULL, CHAT_MODULE, "AddToGroup", pszText);
 				}
@@ -472,16 +472,16 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-static TCHAR* chatcolorsnames[] =
+static wchar_t* chatcolorsnames[] =
 {
-	LPGENT("Voiced"),
-	LPGENT("Half operators"),
-	LPGENT("Channel operators"),
-	LPGENT("Extended mode 1"),
-	LPGENT("Extended mode 2"),
-	LPGENT("Selection background"),
-	LPGENT("Selected text"),
-	LPGENT("Incremental search highlight")
+	LPGENW("Voiced"),
+	LPGENW("Half operators"),
+	LPGENW("Channel operators"),
+	LPGENW("Extended mode 1"),
+	LPGENW("Extended mode 2"),
+	LPGENW("Selection background"),
+	LPGENW("Selected text"),
+	LPGENW("Incremental search highlight")
 };
 
 void RegisterFontServiceFonts()
@@ -502,54 +502,54 @@ void RegisterFontServiceFonts()
 		mir_snprintf(szTemp, "Font%d", i);
 		strncpy(fid.prefix, szTemp, _countof(fid.prefix));
 		fid.order = i;
-		_tcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
+		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? FONTF_BOLD : 0) | (lf.lfItalic ? FONTF_ITALIC : 0);
 		fid.deffontsettings.charset = lf.lfCharSet;
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
-		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
-		_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions") L"/" LPGENT("Single Messaging"), _countof(fid.backgroundGroup));
-		_tcsncpy(fid.group, LPGENT("Message Sessions") L"/" LPGENT("Single Messaging"), _countof(fid.group));
+		wcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
+		wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), _countof(fid.backgroundGroup));
+		wcsncpy(fid.group, LPGENW("Message Sessions") L"/" LPGENW("Single Messaging"), _countof(fid.group));
 		switch (i) {
 		case MSGFONTID_MYMSG:
 		case 1:
 		case MSGFONTID_MYNAME:
 		case MSGFONTID_MYTIME:
 		case 21:
-			_tcsncpy(fid.backgroundName, LPGENT("Outgoing background"), _countof(fid.backgroundName));
+			wcsncpy(fid.backgroundName, LPGENW("Outgoing background"), _countof(fid.backgroundName));
 			break;
 		case 8:
 		case 9:
 		case 12:
 		case 13:
-			_tcsncpy(fid.backgroundName, LPGENT("Outgoing background(old)"), _countof(fid.backgroundName));
+			wcsncpy(fid.backgroundName, LPGENW("Outgoing background(old)"), _countof(fid.backgroundName));
 			break;
 		case 10:
 		case 11:
 		case 14:
 		case 15:
-			_tcsncpy(fid.backgroundName, LPGENT("Incoming background(old)"), _countof(fid.backgroundName));
+			wcsncpy(fid.backgroundName, LPGENW("Incoming background(old)"), _countof(fid.backgroundName));
 			break;
 		case MSGFONTID_MESSAGEAREA:
-			_tcsncpy(fid.group, LPGENT("Message Sessions"), _countof(fid.group));
-			_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions"), _countof(fid.backgroundGroup));
-			_tcsncpy(fid.backgroundName, LPGENT("Input area background"), _countof(fid.backgroundName));
+			wcsncpy(fid.group, LPGENW("Message Sessions"), _countof(fid.group));
+			wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions"), _countof(fid.backgroundGroup));
+			wcsncpy(fid.backgroundName, LPGENW("Input area background"), _countof(fid.backgroundName));
 			fid.flags |= FIDF_DISABLESTYLES;
 			fid.flags &= ~FIDF_ALLOWEFFECTS;
 			break;
 		case 17:
-			_tcsncpy(fid.backgroundName, LPGENT("Status background"), _countof(fid.backgroundName));
+			wcsncpy(fid.backgroundName, LPGENW("Status background"), _countof(fid.backgroundName));
 			break;
 		case 18:
-			_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions"), _countof(fid.backgroundGroup));
-			_tcsncpy(fid.backgroundName, LPGENT("Log background"), _countof(fid.backgroundName));
+			wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions"), _countof(fid.backgroundGroup));
+			wcsncpy(fid.backgroundName, LPGENW("Log background"), _countof(fid.backgroundName));
 			break;
 		case 19:
-			_tcsncpy(fid.backgroundName, L"", _countof(fid.backgroundName));
+			wcsncpy(fid.backgroundName, L"", _countof(fid.backgroundName));
 			break;
 		default:
-			_tcsncpy(fid.backgroundName, LPGENT("Incoming background"), _countof(fid.backgroundName));
+			wcsncpy(fid.backgroundName, LPGENW("Incoming background"), _countof(fid.backgroundName));
 			break;
 		}
 		FontRegisterT(&fid);
@@ -557,35 +557,35 @@ void RegisterFontServiceFonts()
 
 	fontOptionsList = IP_fontOptionsList;
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
-	_tcsncpy(fid.group, LPGENT("Message Sessions") L"/" LPGENT("Info Panel"), _countof(fid.group));
-	_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions") L"/" LPGENT("Info Panel"), _countof(fid.backgroundGroup));
-	_tcsncpy(fid.backgroundName, LPGENT("Fields background"), _countof(fid.backgroundName));
+	wcsncpy(fid.group, LPGENW("Message Sessions") L"/" LPGENW("Info Panel"), _countof(fid.group));
+	wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions") L"/" LPGENW("Info Panel"), _countof(fid.backgroundGroup));
+	wcsncpy(fid.backgroundName, LPGENW("Fields background"), _countof(fid.backgroundName));
 	for (int i = 0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i + 100, &lf, &fontOptionsList[i].colour, FONTMODULE);
 		mir_snprintf(szTemp, "Font%d", i + 100);
 		strncpy(fid.prefix, szTemp, _countof(fid.prefix));
 		fid.order = i + 100;
-		_tcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
+		wcsncpy(fid.name, fontOptionsList[i].szDescr, _countof(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? FONTF_BOLD : 0) | (lf.lfItalic ? FONTF_ITALIC : 0);
 		fid.deffontsettings.charset = lf.lfCharSet;
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		fid.deffontsettings.charset = lf.lfCharSet;
-		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
+		wcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
 		if (i == IPFONTCOUNT - 1) {
-			_tcsncpy(fid.backgroundGroup, L"", _countof(fid.backgroundGroup));
-			_tcsncpy(fid.backgroundName, L"", _countof(fid.backgroundName));
-			_tcsncpy(fid.group, LPGENT("Message Sessions"), _countof(fid.group));
+			wcsncpy(fid.backgroundGroup, L"", _countof(fid.backgroundGroup));
+			wcsncpy(fid.backgroundName, L"", _countof(fid.backgroundName));
+			wcsncpy(fid.group, LPGENW("Message Sessions"), _countof(fid.group));
 		}
 		FontRegisterT(&fid);
 	}
 
-	_tcsncpy(cid.group, LPGENT("Message Sessions") L"/" LPGENT("Group chats"), _countof(cid.group));
+	wcsncpy(cid.group, LPGENW("Message Sessions") L"/" LPGENW("Group chats"), _countof(cid.group));
 	strncpy(cid.dbSettingsGroup, CHAT_MODULE, _countof(cid.dbSettingsGroup));
 	for (int i = 0; i <= 7; i++) {
 		mir_snprintf(szTemp, "NickColor%d", i);
-		_tcsncpy(cid.name, chatcolorsnames[i], _countof(cid.name));
+		wcsncpy(cid.name, chatcolorsnames[i], _countof(cid.name));
 		cid.order = i + 1;
 		strncpy(cid.setting, szTemp, _countof(cid.setting));
 		switch (i) {
@@ -602,13 +602,13 @@ void RegisterFontServiceFonts()
 		ColourRegisterT(&cid);
 	}
 	cid.order++;
-	_tcsncpy_s(cid.name, LPGENT("Nick list background"), _TRUNCATE);
+	wcsncpy_s(cid.name, LPGENW("Nick list background"), _TRUNCATE);
 	strncpy_s(cid.setting, "ColorNicklistBG", _TRUNCATE);
 	cid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	ColourRegisterT(&cid);
 
 	cid.order++;
-	_tcsncpy_s(cid.name, LPGENT("Group chat log background"), _TRUNCATE);
+	wcsncpy_s(cid.name, LPGENW("Group chat log background"), _TRUNCATE);
 	strncpy_s(cid.setting, "ColorLogBG", _TRUNCATE);
 	ColourRegisterT(&cid);
 
@@ -618,8 +618,8 @@ void RegisterFontServiceFonts()
 
 	for (int i = 0; i < _countof(_clrs); i++) {
 		cid.order = _clrs[i].order;
-		_tcsncpy(cid.group, _clrs[i].tszGroup, _countof(fid.group));
-		_tcsncpy(cid.name, _clrs[i].tszName, _countof(cid.name));
+		wcsncpy(cid.group, _clrs[i].tszGroup, _countof(fid.group));
+		wcsncpy(cid.name, _clrs[i].tszName, _countof(cid.name));
 		strncpy(cid.setting, _clrs[i].szSetting, _countof(cid.setting));
 		if (_clrs[i].def & 0xff000000)
 			cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
@@ -633,8 +633,8 @@ void RegisterFontServiceFonts()
 	// text and background colors for tabs
 	for (int i = 0; i < _countof(_tabclrs); i++) {
 		cid.order = _tabclrs[i].order;
-		_tcsncpy(cid.group, _tabclrs[i].tszGroup, _countof(fid.group));
-		_tcsncpy(cid.name, _tabclrs[i].tszName, _countof(cid.name));
+		wcsncpy(cid.group, _tabclrs[i].tszGroup, _countof(fid.group));
+		wcsncpy(cid.name, _tabclrs[i].tszName, _countof(cid.name));
 		strncpy(cid.setting, _tabclrs[i].szSetting, _countof(cid.setting));
 		if (_tabclrs[i].def & 0xff000000)
 			cid.defcolour = GetSysColor(_tabclrs[i].def & 0x000000ff);
@@ -689,7 +689,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, CHAT_MODULE, "LoggingLimit", 100), 0));
 			Utils::enableDlgControl(hwndDlg, IDC_LIMIT, g_Settings.bLoggingEnabled);
 
-			TCHAR tszTooltipText[2048];
+			wchar_t tszTooltipText[2048];
 
 			mir_sntprintf(tszTooltipText,
 				L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n"
@@ -745,23 +745,23 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		switch (LOWORD(wParam)) {
 		case IDC_MUC_OPENLOGBASEDIR:
 		{
-			TCHAR	tszTemp[MAX_PATH + 20];
-			_tcsncpy_s(tszTemp, g_Settings.pszLogDir, _TRUNCATE);
+			wchar_t	tszTemp[MAX_PATH + 20];
+			wcsncpy_s(tszTemp, g_Settings.pszLogDir, _TRUNCATE);
 
-			TCHAR *p = tszTemp;
+			wchar_t *p = tszTemp;
 			while (*p && (*p == '\\' || *p == '.'))
 				p++;
 
 			if (*p)
-				if (TCHAR *p1 = _tcschr(p, '\\'))
+				if (wchar_t *p1 = wcschr(p, '\\'))
 					*p1 = 0;
 
-			TCHAR tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
+			wchar_t tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
 			mir_sntprintf(tszInitialDir, L"%s%s", M.getChatLogPath(), p);
 			if (!PathFileExists(tszInitialDir))
-				_tcsncpy_s(tszInitialDir, M.getChatLogPath(), _TRUNCATE);
+				wcsncpy_s(tszInitialDir, M.getChatLogPath(), _TRUNCATE);
 
-			TCHAR	tszReturnName[MAX_PATH]; tszReturnName[0] = 0;
+			wchar_t	tszReturnName[MAX_PATH]; tszReturnName[0] = 0;
 			mir_sntprintf(tszTemp, L"%s%c*.*%c%c", TranslateT("All files"), 0, 0, 0);
 
 			OPENFILENAME ofn = { 0 };
@@ -779,7 +779,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 		case IDC_FONTCHOOSE:
 		{
-			TCHAR tszDirectory[MAX_PATH];
+			wchar_t tszDirectory[MAX_PATH];
 			LPMALLOC psMalloc;
 
 			if (SUCCEEDED(CoGetMalloc(1, &psMalloc))) {
@@ -793,11 +793,11 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 				LPITEMIDLIST idList = SHBrowseForFolder(&bi);
 				if (idList) {
-					const TCHAR *szUserDir = M.getUserDir();
+					const wchar_t *szUserDir = M.getUserDir();
 					SHGetPathFromIDList(idList, tszDirectory);
 					mir_tstrcat(tszDirectory, L"\\");
 
-					TCHAR tszTemp[MAX_PATH];
+					wchar_t tszTemp[MAX_PATH];
 					PathToRelativeT(tszDirectory, tszTemp, szUserDir);
 					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_tstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 				}
@@ -824,7 +824,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY));
 			if (iLen > 0) {
-				TCHAR *pszText1 = (TCHAR*)mir_alloc(iLen*sizeof(TCHAR) + 2);
+				wchar_t *pszText1 = (wchar_t*)mir_alloc(iLen*sizeof(wchar_t) + 2);
 				GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText1, iLen + 1);
 				db_set_ts(NULL, CHAT_MODULE, "LogDirectory", pszText1);
 				mir_free(pszText1);

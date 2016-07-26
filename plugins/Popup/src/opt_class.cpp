@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //---------------------------------------------------------------------------
 // Workaround for MS bug ComboBox_SelectItemData
-int ComboBox_SelectItem(HWND hwndCtl, char* data) {
+int ComboBox_SelectItem(HWND hwndCtl, char *data) {
 	int i = 0;
 	for (i; i < ComboBox_GetCount(hwndCtl); i++) {
 		if (mir_strcmp(data, (char*)ComboBox_GetItemData(hwndCtl, i)) == 0) {
@@ -186,7 +186,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			for (i = 0; i < gTreeData.getCount(); ++i) {
 				POPUPTREEDATA *p = gTreeData[i];
 
-				TCHAR itemName[MAXMODULELABELLENGTH];
+				wchar_t itemName[MAXMODULELABELLENGTH];
 				int iconIndex;
 
 				if (p->typ == 1) { // Treeview part for typ 1 (notification)
@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				}
 				else { // Treeview part typ 2 (popup class api)
 					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, p->pupClass.hIcon);
-					mir_sntprintf(itemName, L"%s/%s", LPGENT("CLASS Plugins"), p->pszDescription);
+					mir_sntprintf(itemName, L"%s/%s", LPGENW("CLASS Plugins"), p->pszDescription);
 				}
 				OptTree_AddItem(hwndTree, itemName, (LPARAM)p, iconIndex);
 			}
@@ -396,14 +396,14 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				switch (idCtrl) {
 				case IDC_LACTION:
 					mir_strncpy(ptd->leftAction,
-						(char *)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam)),
-						sizeof(ptd->leftAction));
+						(char*)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam)),
+						_countof(ptd->leftAction));
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					break;
 				case IDC_RACTION:
 					mir_strncpy(ptd->rightAction,
-						(char *)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam)),
-						sizeof(ptd->rightAction));
+						(char*)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam)),
+						_countof(ptd->rightAction));
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					break;
 				}
@@ -490,8 +490,6 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 void LoadClassSettings(POPUPTREEDATA *ptd, char* szModul)
 {
 	char setting[2 * MAXMODULELABELLENGTH];
-	char *szTmp = NULL;
-
 	mir_snprintf(setting, "%s/enabled", ptd->pupClass.pszName);
 	ptd->enabled =
 		(signed char)db_get_b(NULL, szModul, setting, TRUE);
@@ -506,14 +504,14 @@ void LoadClassSettings(POPUPTREEDATA *ptd, char* szModul)
 		ptd->pupClass.iSeconds ? ptd->pupClass.iSeconds : PopupOptions.Seconds);
 
 	mir_snprintf(setting, "%s/leftAction", ptd->pupClass.pszName);
-	szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_NOTHING);	// standart ??
-	mir_strncpy(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
-	mir_free(szTmp); szTmp = NULL;
+	char *szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_NOTHING);	// standart ??
+	mir_strncpy(ptd->leftAction, szTmp, _countof(ptd->leftAction));
+	mir_free(szTmp);
 
 	mir_snprintf(setting, "%s/rightAction", ptd->pupClass.pszName);
 	szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_DISMISS);	// standart ??
-	mir_strncpy(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
-	mir_free(szTmp); szTmp = NULL;
+	mir_strncpy(ptd->rightAction, szTmp, _countof(ptd->rightAction));
+	mir_free(szTmp);
 }
 
 void SaveClassSettings(POPUPTREEDATA *ptd, char* szModul)

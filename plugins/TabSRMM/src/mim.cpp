@@ -47,7 +47,7 @@ DURT   CMimAPI::m_pfnDwmUnregisterThumbnail = 0;
 DSIT   CMimAPI::m_pfnDwmSetIconicThumbnail = 0;
 DSILP  CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap = 0;
 bool   CMimAPI::m_shutDown = 0;
-TCHAR  CMimAPI::m_userDir[] = L"\0";
+wchar_t  CMimAPI::m_userDir[] = L"\0";
 
 bool   CMimAPI::m_haveBufferedPaint = false;
 
@@ -88,10 +88,10 @@ int CMimAPI::FoldersPathChanged(WPARAM, LPARAM)
 
 void CMimAPI::configureCustomFolders()
 {
-	m_hDataPath = FoldersRegisterCustomPathT(LPGEN("TabSRMM"), LPGEN("Data path"), const_cast<TCHAR *>(getDataPath()));
-	m_hSkinsPath = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("TabSRMM"), const_cast<TCHAR *>(getSkinPath()));
-	m_hAvatarsPath = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("Saved TabSRMM avatars"), const_cast<TCHAR *>(getSavedAvatarPath()));
-	m_hChatLogsPath = FoldersRegisterCustomPathT(LPGEN("TabSRMM"), LPGEN("Group chat logs root"), const_cast<TCHAR *>(getChatLogPath()));
+	m_hDataPath = FoldersRegisterCustomPathT(LPGEN("TabSRMM"), LPGEN("Data path"), const_cast<wchar_t *>(getDataPath()));
+	m_hSkinsPath = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("TabSRMM"), const_cast<wchar_t *>(getSkinPath()));
+	m_hAvatarsPath = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("Saved TabSRMM avatars"), const_cast<wchar_t *>(getSavedAvatarPath()));
+	m_hChatLogsPath = FoldersRegisterCustomPathT(LPGEN("TabSRMM"), LPGEN("Group chat logs root"), const_cast<wchar_t *>(getChatLogPath()));
 
 	if (m_hDataPath)
 		HookEvent(ME_FOLDERS_PATH_CHANGED, CMimAPI::FoldersPathChanged);
@@ -101,25 +101,25 @@ void CMimAPI::configureCustomFolders()
 
 INT_PTR CMimAPI::foldersPathChanged()
 {
-	TCHAR szTemp[MAX_PATH + 2];
+	wchar_t szTemp[MAX_PATH + 2];
 
 	if (m_hDataPath) {
 		szTemp[0] = 0;
-		FoldersGetCustomPathT(m_hDataPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getDataPath()));
-		_tcsncpy_s(m_szProfilePath, szTemp, _TRUNCATE);
+		FoldersGetCustomPathT(m_hDataPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getDataPath()));
+		wcsncpy_s(m_szProfilePath, szTemp, _TRUNCATE);
 
 		szTemp[0] = 0;
-		FoldersGetCustomPathT(m_hSkinsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getSkinPath()));
-		_tcsncpy_s(m_szSkinsPath, (MAX_PATH - 1), szTemp, _TRUNCATE);
+		FoldersGetCustomPathT(m_hSkinsPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getSkinPath()));
+		wcsncpy_s(m_szSkinsPath, (MAX_PATH - 1), szTemp, _TRUNCATE);
 		Utils::ensureTralingBackslash(m_szSkinsPath);
 
 		szTemp[0] = 0;
-		FoldersGetCustomPathT(m_hAvatarsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getSavedAvatarPath()));
-		_tcsncpy_s(m_szSavedAvatarsPath, szTemp, _TRUNCATE);
+		FoldersGetCustomPathT(m_hAvatarsPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getSavedAvatarPath()));
+		wcsncpy_s(m_szSavedAvatarsPath, szTemp, _TRUNCATE);
 
 		szTemp[0] = 0;
-		FoldersGetCustomPathT(m_hChatLogsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getChatLogPath()));
-		_tcsncpy_s(m_szChatLogsPath, (MAX_PATH - 1), szTemp, _TRUNCATE);
+		FoldersGetCustomPathT(m_hChatLogsPath, szTemp, MAX_PATH, const_cast<wchar_t *>(getChatLogPath()));
+		wcsncpy_s(m_szChatLogsPath, (MAX_PATH - 1), szTemp, _TRUNCATE);
 		Utils::ensureTralingBackslash(m_szChatLogsPath);
 	}
 
@@ -132,13 +132,13 @@ INT_PTR CMimAPI::foldersPathChanged()
 	return 0;
 }
 
-const TCHAR* CMimAPI::getUserDir()
+const wchar_t* CMimAPI::getUserDir()
 {
 	if (m_userDir[0] == 0) {
 		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-			_tcsncpy_s(m_userDir, L"%miranda_userdata%", _TRUNCATE);
+			wcsncpy_s(m_userDir, L"%miranda_userdata%", _TRUNCATE);
 		else
-			_tcsncpy_s(m_userDir, VARST(L"%miranda_userdata%"), _TRUNCATE);
+			wcsncpy_s(m_userDir, VARST(L"%miranda_userdata%"), _TRUNCATE);
 
 		Utils::ensureTralingBackslash(m_userDir);
 	}
@@ -147,16 +147,16 @@ const TCHAR* CMimAPI::getUserDir()
 
 void CMimAPI::InitPaths()
 {
-	const TCHAR *szUserdataDir = getUserDir();
+	const wchar_t *szUserdataDir = getUserDir();
 
 	mir_sntprintf(m_szProfilePath, L"%stabSRMM", szUserdataDir);
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		_tcsncpy_s(m_szChatLogsPath, L"%miranda_logpath%", _TRUNCATE);
-		_tcsncpy_s(m_szSkinsPath, L"%miranda_path%\\Skins\\TabSRMM", _TRUNCATE);
+		wcsncpy_s(m_szChatLogsPath, L"%miranda_logpath%", _TRUNCATE);
+		wcsncpy_s(m_szSkinsPath, L"%miranda_path%\\Skins\\TabSRMM", _TRUNCATE);
 	}
 	else {
-		_tcsncpy_s(m_szChatLogsPath, VARST(L"%miranda_logpath%"), _TRUNCATE);
-		_tcsncpy_s(m_szSkinsPath, VARST(L"%miranda_path%\\Skins\\TabSRMM"), _TRUNCATE);
+		wcsncpy_s(m_szChatLogsPath, VARST(L"%miranda_logpath%"), _TRUNCATE);
+		wcsncpy_s(m_szSkinsPath, VARST(L"%miranda_path%\\Skins\\TabSRMM"), _TRUNCATE);
 	}
 
 	Utils::ensureTralingBackslash(m_szChatLogsPath);
@@ -298,7 +298,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	}
 
 	if (mode) {
-		TCHAR szTip[256];
+		wchar_t szTip[256];
 		mir_sntprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 		if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
 			MIRANDASYSTRAYNOTIFY tn;
@@ -411,7 +411,7 @@ int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM hDbEvent)
 
 int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
-	TCHAR szName[CONTAINER_NAMELEN + 1];
+	wchar_t szName[CONTAINER_NAMELEN + 1];
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDbEvent, &dbei);
@@ -542,7 +542,7 @@ nowindowcreate:
 	if (!(dbei.flags & DBEF_READ)) {
 		UpdateTrayMenu(0, 0, dbei.szModule, NULL, hContact, 1);
 		if (!nen_options.bTraySupport) {
-			TCHAR toolTip[256], *contactName;
+			wchar_t toolTip[256], *contactName;
 
 			CLISTEVENT cle = {};
 			cle.hContact = hContact;

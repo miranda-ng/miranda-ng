@@ -118,7 +118,7 @@ void GGPROTO::links_instance_init()
 		CMenuItem mi;
 		mi.flags = CMIF_TCHAR;
 		mi.position = g_Instances.getCount();
-		mi.name.t = m_tszUserName;
+		mi.name.w = m_tszUserName;
 		hInstanceMenuItem = Menu_AddItem(hInstanceMenu, &mi, this);
 	}
 }

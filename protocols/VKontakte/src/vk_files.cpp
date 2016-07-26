@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CVkProto::SendFile(MCONTACT hContact, const TCHAR *desc, TCHAR **files)
+HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **files)
 {
 	debugLogA("CVkProto::SendFile");
 
@@ -155,7 +155,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		return;
 	}
 	
-	FILE *pFile = _tfopen(fup->FileName, L"rb");
+	FILE *pFile = _wfopen(fup->FileName, L"rb");
 	if (pFile == NULL) {
 		SendFileFiled(fup, VKERR_ERR_OPEN_FILE);
 		return;

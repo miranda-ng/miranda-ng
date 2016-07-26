@@ -156,18 +156,18 @@ void AddMainMenu()
 	CreateServiceFunction(con::SvcShowStatistics, MenuShowStatistics);
 	CreateServiceFunction(con::SvcConfigure, MenuConfigure);
 
-	HGENMENU hRoot = bInPopup ? Menu_CreateRoot(MO_MAIN, LPGENT("Statistics"), 1910000000) : NULL;
+	HGENMENU hRoot = bInPopup ? Menu_CreateRoot(MO_MAIN, LPGENW("Statistics"), 1910000000) : NULL;
 	Menu_ConfigureItem(hRoot, MCI_OPT_UID, "7F116B24-9D84-4D04-B6AA-EED95051A184");
 
 	g_hMenuCreateStatistics = mu::clist::addMainMenuItem(
-		LPGENT("Create statistics"), 0, 1910000000, IconLib::getIcon(IconLib::iiMenuCreateStatistics), con::SvcCreateStatistics, hRoot);
+		LPGENW("Create statistics"), 0, 1910000000, IconLib::getIcon(IconLib::iiMenuCreateStatistics), con::SvcCreateStatistics, hRoot);
 
 	g_hMenuShowStatistics = mu::clist::addMainMenuItem(
-		LPGENT("Show statistics"), // MEMO: implicit translation
+		LPGENW("Show statistics"), // MEMO: implicit translation
 		0, 1910000001, IconLib::getIcon(IconLib::iiMenuShowStatistics), con::SvcShowStatistics, hRoot);
 
 	g_hMenuConfigure = mu::clist::addMainMenuItem(
-		bInPopup ? LPGENT("Configure...") : LPGENT("Configure statistics..."), // MEMO: implicit translation
+		bInPopup ? LPGENW("Configure...") : LPGENW("Configure statistics..."), // MEMO: implicit translation
 		0, 1910000002, IconLib::getIcon(IconLib::iiMenuConfigure), con::SvcConfigure, hRoot);
 }
 
@@ -317,7 +317,7 @@ void AddContactMenu()
 	CreateServiceFunction(con::SvcToggleExclude, MenuToggleExclude);
 
 	g_hMenuToggleExclude = mu::clist::addContactMenuItem(
-		LPGENT("Exclude from statistics"), // MEMO: implicit translation
+		LPGENW("Exclude from statistics"), // MEMO: implicit translation
 		0,
 		800000,
 		IconLib::getIcon(IconLib::iiContactMenu),
@@ -328,14 +328,14 @@ void AddContactMenu()
 	CreateServiceFunction(con::SvcHistoryPaste, MenuHistoryPaste);
 
 	g_hMenuHistoryCopy = mu::clist::addContactMenuItem(
-		LPGENT("Copy history")), // MEMO: implicit translation
+		LPGENW("Copy history")), // MEMO: implicit translation
 		0,
 		800001,
 		NULL,
 		con::SvcHistoryCopy);
 
 	g_hMenuHistoryPaste = mu::clist::addContactMenuItem(
-		LPGENT("Paste history...")), // MEMO: implicit translation
+		LPGENW("Paste history...")), // MEMO: implicit translation
 		0,
 		800002,
 		NULL,

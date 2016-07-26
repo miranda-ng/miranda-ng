@@ -697,7 +697,7 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 // Base on code by Artem Shpynov
 // from clist_modern plugin
 // slightly modified and integrated to MyBitmap class
-void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
+void MyBitmap::DrawText(wchar_t *str, int x, int y, int blur, int strength)
 {
 	SIZE sz; GetTextExtentPoint32(this->getDC(), str, (int)mir_tstrlen(str), &sz);
 	sz.cx += (blur + 2) * 2; sz.cy += (blur + 2) * 2;

@@ -583,13 +583,13 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 				}
 
 				if (szFilename[0] != '\0' && ft->iqId != NULL) {
-					TCHAR* filenameT = mir_utf8decodeT((char*)szFilename);
+					wchar_t* filenameT = mir_utf8decodeT((char*)szFilename);
 					PROTORECVFILET pre = { 0 };
 					pre.dwFlags = PRFF_TCHAR;
 					pre.fileCount = 1;
 					pre.timestamp = time(NULL);
-					pre.descr.t = filenameT;
-					pre.files.t = &filenameT;
+					pre.descr.w = filenameT;
+					pre.files.w = &filenameT;
 					pre.lParam = (LPARAM)ft;
 					ft->proto->debugLogA("sending chainrecv");
 					ProtoChainRecvFile(ft->hContact, &pre);

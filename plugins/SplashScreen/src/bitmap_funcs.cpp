@@ -38,7 +38,7 @@ MyBitmap::MyBitmap(int w, int h)
 	allocate(w, h);
 }
 
-MyBitmap::MyBitmap(TCHAR *fn)
+MyBitmap::MyBitmap(wchar_t *fn)
 {
 	dcBmp = 0;
 	hBmp = 0;
@@ -118,7 +118,7 @@ void MyBitmap::restoreAlpha(int x, int y, int w, int h)
 	bitsSave = 0;
 }
 
-void MyBitmap::DrawText(TCHAR *str, int x, int y)
+void MyBitmap::DrawText(wchar_t *str, int x, int y)
 {
 	SIZE sz; GetTextExtentPoint32(this->getDC(), str, (int)mir_tstrlen(str), &sz);
 	RECT rc; SetRect(&rc, x, y, x + 10000, y + 10000);
@@ -127,7 +127,7 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y)
 	this->restoreAlpha(x - 2, y - 2, sz.cx + 2, sz.cy + 2);
 }
 
-bool MyBitmap::loadFromFile(TCHAR *fn)
+bool MyBitmap::loadFromFile(wchar_t *fn)
 {
 	if (bits) free();
 

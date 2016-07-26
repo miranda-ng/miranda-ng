@@ -131,7 +131,7 @@ public:
 			throw L"Could not convert string to ACP";
 		}
 
-		tchar = (TCHAR *) mir_alloc(size * sizeof(char));
+		tchar = (wchar_t *) mir_alloc(size * sizeof(char));
 		if (tchar == NULL)
 		{
 			mir_free(tmp);
@@ -151,30 +151,30 @@ public:
 			mir_free(tchar);
 	}
 
-	TCHAR *detach()
+	wchar_t *detach()
 	{
-		TCHAR *ret = tchar;
+		wchar_t *ret = tchar;
 		tchar = NULL;
 		return ret;
 	}
 
-	TCHAR * get() const
+	wchar_t * get() const
 	{
 		return tchar;
 	}
 
-	operator TCHAR *() const
+	operator wchar_t *() const
 	{
 		return tchar;
 	}
 
-	TCHAR & operator[](int pos)
+	wchar_t & operator[](int pos)
 	{
 		return tchar[pos];
 	}
 
 private:
-	TCHAR *tchar;
+	wchar_t *tchar;
 };
 
 
@@ -206,38 +206,38 @@ public:
 #endif
 	}
 
-	TCHAR *detach()
+	wchar_t *detach()
 	{
 #ifdef UNICODE
-		TCHAR *ret = tchar;
+		wchar_t *ret = tchar;
 #else
-		TCHAR *ret = (tchar == NULL ? NULL : mir_strdup(tchar));
+		wchar_t *ret = (tchar == NULL ? NULL : mir_strdup(tchar));
 #endif
 
 		tchar = NULL;
 		return ret;
 	}
 
-	const TCHAR * get() const
+	const wchar_t * get() const
 	{
 		return tchar;
 	}
 
-	operator const TCHAR *() const
+	operator const wchar_t *() const
 	{
 		return tchar;
 	}
 
-	const TCHAR & operator[](int pos) const
+	const wchar_t & operator[](int pos) const
 	{
 		return tchar[pos];
 	}
 
 private:
 #ifdef UNICODE
-	TCHAR *tchar;
+	wchar_t *tchar;
 #else
-	const TCHAR *tchar;
+	const wchar_t *tchar;
 #endif
 };
 
@@ -270,38 +270,38 @@ public:
 #endif
 	}
 
-	TCHAR *detach()
+	wchar_t *detach()
 	{
 #ifdef UNICODE
-		TCHAR *ret = (tchar == NULL ? NULL : mir_wstrdup(tchar));
+		wchar_t *ret = (tchar == NULL ? NULL : mir_wstrdup(tchar));
 #else
-		TCHAR *ret = tchar;		
+		wchar_t *ret = tchar;		
 #endif
 
 		tchar = NULL;
 		return ret;
 	}
 
-	const TCHAR * get() const
+	const wchar_t * get() const
 	{
 		return tchar;
 	}
 
-	operator const TCHAR *() const
+	operator const wchar_t *() const
 	{
 		return tchar;
 	}
 
-	const TCHAR & operator[](int pos) const
+	const wchar_t & operator[](int pos) const
 	{
 		return tchar[pos];
 	}
 
 private:
 #ifdef UNICODE
-	const TCHAR *tchar;
+	const wchar_t *tchar;
 #else
-	TCHAR *tchar;
+	wchar_t *tchar;
 #endif
 };
 
@@ -357,7 +357,7 @@ private:
 class TcharToChar
 {
 public:
-	TcharToChar(const TCHAR *str) : val(NULL)
+	TcharToChar(const wchar_t *str) : val(NULL)
 	{
 		if (str == NULL)
 			return;
@@ -421,7 +421,7 @@ private:
 class TcharToWchar
 {
 public:
-	TcharToWchar(const TCHAR *str) : val(NULL)
+	TcharToWchar(const wchar_t *str) : val(NULL)
 	{
 		if (str == NULL)
 			return;
@@ -534,7 +534,7 @@ public:
 		return ret;
 	}
 
-	operator const TCHAR *()
+	operator const wchar_t *()
 	{
 #ifdef UNICODE
 
@@ -569,7 +569,7 @@ private:
 
 #ifndef UNICODE
 
-	TCHAR *tchar;
+	wchar_t *tchar;
 
 	void freeTchar()
 	{

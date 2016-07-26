@@ -26,7 +26,7 @@ static void LoadContact(MCONTACT hContact);
 
 // Internal funcs
 static void	RepaintWindow(HWND hwnd, HDC hdc);
-static void	CreateThumbWnd(TCHAR *ptszName, MCONTACT hContact, int nX, int nY);
+static void	CreateThumbWnd(wchar_t *ptszName, MCONTACT hContact, int nX, int nY);
 static void	RegisterWindowClass(void);
 static void	UnregisterWindowClass(void);
 static void LoadDBSettings(void);
@@ -123,11 +123,11 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 static LPCTSTR s_fonts[FLT_FONTIDS] =
 {
-	{ LPGENT("Standard contacts") },
-	{ LPGENT("Online contacts to whom you have a different visibility") },
-	{ LPGENT("Offline contacts") },
-	{ LPGENT("Offline contacts to whom you have a different visibility") },
-	{ LPGENT("Contacts which are 'not on list'") }
+	{ LPGENW("Standard contacts") },
+	{ LPGENW("Online contacts to whom you have a different visibility") },
+	{ LPGENW("Offline contacts") },
+	{ LPGENW("Offline contacts to whom you have a different visibility") },
+	{ LPGENW("Contacts which are 'not on list'") }
 };
 
 ///////////////////////////////////////////////////////
@@ -310,7 +310,7 @@ static void LoadDBSettings()
 		bIsCListShow = (db_get_b(NULL, "CList", "State", 0) == 2);
 }
 
-void SendMsgDialog(HWND hwnd, TCHAR *pText)
+void SendMsgDialog(HWND hwnd, wchar_t *pText)
 {
 	ThumbInfo *pThumb = thumbList.FindThumb(hwnd);
 	if (pThumb != NULL)
@@ -413,7 +413,7 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 	case WM_REFRESH_CONTACT:
 		if (pThumb) {
-			_tcsncpy(pThumb->ptszName, pcli->pfnGetContactDisplayName(pThumb->hContact, 0), USERNAME_LEN - 1);
+			wcsncpy(pThumb->ptszName, pcli->pfnGetContactDisplayName(pThumb->hContact, 0), USERNAME_LEN - 1);
 			pThumb->RefreshContactStatus((int)lParam);
 			pThumb->ResizeThumb();
 		}
@@ -500,7 +500,7 @@ static void UnregisterWindowClass()
 	UnregisterClass(WND_CLASS, hInst);
 }
 
-static void CreateThumbWnd(TCHAR *ptszName, MCONTACT hContact, int nX, int nY)
+static void CreateThumbWnd(wchar_t *ptszName, MCONTACT hContact, int nX, int nY)
 {
 	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb != NULL)
@@ -532,7 +532,7 @@ static void CreateThumbsFont()
 		}
 
 		LOGFONT lf;
-		FontService_GetFont(LPGENT("Floating contacts"), s_fonts[nFontId], &tColor[nFontId], &lf);
+		FontService_GetFont(LPGENW("Floating contacts"), s_fonts[nFontId], &tColor[nFontId], &lf);
 		hFont[nFontId] = CreateFontIndirect(&lf);
 	}
 }
@@ -679,8 +679,8 @@ static void LoadContacts()
 
 static IconItemT g_iconList[] =
 {
-	{ LPGENT("Show all thumbs"), "flt_show", IDI_HIDE },
-	{ LPGENT("Hide all thumbs"), "flt_hide", IDI_SHOW }
+	{ LPGENW("Show all thumbs"), "flt_show", IDI_HIDE },
+	{ LPGENW("Hide all thumbs"), "flt_hide", IDI_SHOW }
 };
 
 static INT_PTR OnMainMenu_HideAll(WPARAM, LPARAM)
@@ -725,7 +725,7 @@ static void LoadMenus()
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));
-	mi.name.t = LPGENT("Remove thumb");
+	mi.name.w = LPGENW("Remove thumb");
 	mi.pszService = MODULE "/RemoveThumb";
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 
@@ -735,7 +735,7 @@ static void LoadMenus()
 	mi.pszService = MODULE "/MainHideAllThumbs";
 	int i = (fcOpt.bHideAll) ? 0 : 1;
 	mi.hIcolibItem = g_iconList[i].hIcolib;
-	mi.name.t = g_iconList[i].tszDescr;
+	mi.name.w = g_iconList[i].tszDescr;
 	hMainMenuItemHideAll = Menu_AddMainMenuItem(&mi);
 
 	// Register hotkeys
@@ -764,7 +764,7 @@ static void LoadContact(MCONTACT hContact)
 
 	DWORD	dwPos = db_get_dw(hContact, MODULE, "ThumbsPos", (DWORD)-1);
 	if (dwPos != -1) {
-		TCHAR	*ptName = pcli->pfnGetContactDisplayName(hContact, 0);
+		wchar_t	*ptName = pcli->pfnGetContactDisplayName(hContact, 0);
 		if (ptName != NULL) {
 			int nX = DB_POS_GETX(dwPos);
 			int nY = DB_POS_GETY(dwPos);
@@ -910,7 +910,7 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
 
-	Icon_RegisterT(hInst, _T(MODULE), g_iconList, _countof(g_iconList));
+	Icon_RegisterT(hInst, MODULEW, g_iconList, _countof(g_iconList));
 	LoadMenus();
 	InitOptions();
 
@@ -924,7 +924,7 @@ extern "C" int __declspec(dllexport) Load()
 
 		char szId[20];
 		mir_snprintf(szId, "Font%d", i);
-		FontService_RegisterFont(MODULE, szId, LPGENT("Floating contacts"), s_fonts[i], NULL, NULL, i + 1, false, &lf, defColor);
+		FontService_RegisterFont(MODULE, szId, LPGENW("Floating contacts"), s_fonts[i], NULL, NULL, i + 1, false, &lf, defColor);
 	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoded);

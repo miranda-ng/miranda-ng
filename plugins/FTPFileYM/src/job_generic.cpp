@@ -54,7 +54,7 @@ GenericJob::~GenericJob()
 
 int GenericJob::openFileDialog()
 {
-	TCHAR temp[MAX_PATH] = L"";
+	wchar_t temp[MAX_PATH] = L"";
 	mir_sntprintf(temp, L"%s\0*.*\0", TranslateT("All Files (*.*)"));
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
@@ -85,12 +85,12 @@ int GenericJob::openFolderDialog()
 
 void GenericJob::getFilesFromOpenDialog()
 {
-	TCHAR stzFile[MAX_PATH];
+	wchar_t stzFile[MAX_PATH];
 
 	size_t length = mir_tstrlen(m_tszFilePath);
 	if (m_tszFilePath[0] && m_tszFilePath[length + 1]) // multiple files
 	{
-		TCHAR *ptr = m_tszFilePath + length + 1;
+		wchar_t *ptr = m_tszFilePath + length + 1;
 		while (ptr[0]) {
 			mir_sntprintf(stzFile, L"%s\\%s", m_tszFilePath, ptr);
 			addFile(stzFile);
@@ -102,9 +102,9 @@ void GenericJob::getFilesFromOpenDialog()
 	}
 }
 
-int GenericJob::getFilesFromFolder(TCHAR *stzFolder)
+int GenericJob::getFilesFromFolder(wchar_t *stzFolder)
 {
-	TCHAR stzFile[MAX_PATH], stzDirSave[MAX_PATH];
+	wchar_t stzFile[MAX_PATH], stzDirSave[MAX_PATH];
 
 	GetCurrentDirectory(MAX_PATH, stzDirSave);
 	if (!SetCurrentDirectory(stzFolder)) {
@@ -152,7 +152,7 @@ int GenericJob::getFiles()
 int GenericJob::getFiles(void **objects, int objCount, DWORD flags)
 {
 	if (m_mode == FTP_ZIPFOLDER) {
-		TCHAR *folder;
+		wchar_t *folder;
 		if (flags & FUPL_UNICODE)
 			folder = mir_u2t((wchar_t *)objects[0]);
 		else
@@ -164,7 +164,7 @@ int GenericJob::getFiles(void **objects, int objCount, DWORD flags)
 	}
 	else {
 		for (int i = 0; i < objCount; i++) {
-			TCHAR *fileName;
+			wchar_t *fileName;
 			if (flags & FUPL_UNICODE)
 				fileName = mir_u2t((wchar_t *)objects[i]);
 			else
@@ -178,9 +178,9 @@ int GenericJob::getFiles(void **objects, int objCount, DWORD flags)
 	return (m_files.size() == 0) ? 0 : 1;
 }
 
-void GenericJob::addFile(TCHAR *fileName)
+void GenericJob::addFile(wchar_t *fileName)
 {
-	TCHAR *buff = mir_tstrdup(fileName);
+	wchar_t *buff = mir_tstrdup(fileName);
 	m_files.push_back(buff);
 }
 
@@ -215,7 +215,7 @@ bool GenericJob::isConnecting()
 	return (m_status == STATUS_CONNECTING || m_status == STATUS_CREATED);
 }
 
-TCHAR *GenericJob::getStatusString()
+wchar_t *GenericJob::getStatusString()
 {
 	switch (m_status) {
 	case STATUS_CANCELED:   return TranslateT("CANCELED");

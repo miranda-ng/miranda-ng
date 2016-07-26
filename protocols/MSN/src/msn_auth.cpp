@@ -358,7 +358,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 	time_t ts = time(NULL);
 
-	TCHAR szTs1[64], szTs2[64];
+	wchar_t szTs1[64], szTs2[64];
 	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts, L"I", szTs1, _countof(szTs1), 0);
 	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts + 20 * 60, L"I", szTs2, _countof(szTs2), 0);
 
@@ -969,7 +969,7 @@ void __cdecl CMsnProto::msn_IEAuthThread(void *pParam)
 	HWND hWnd;
 	MSG msg;
     WNDCLASSEX wc={0};
-    static const TCHAR  *ClassName = L"SkypeLoginWindow";
+    static const wchar_t  *ClassName = L"SkypeLoginWindow";
 
     CoInitialize(NULL);
 

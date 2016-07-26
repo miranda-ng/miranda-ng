@@ -105,7 +105,7 @@ static LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-int CYahooProto::ShowPopup(const TCHAR* nickname, const TCHAR* msg, const char *szURL)
+int CYahooProto::ShowPopup(const wchar_t* nickname, const wchar_t* msg, const char *szURL)
 {
 	if (!ServiceExists(MS_POPUP_ADDPOPUPT))
 		return 0;
@@ -127,14 +127,14 @@ int CYahooProto::ShowPopup(const TCHAR* nickname, const TCHAR* msg, const char *
 	return 1;
 }
 
-int CYahooProto::ShowNotification(const TCHAR *title, const TCHAR *info, DWORD flags)
+int CYahooProto::ShowNotification(const wchar_t *title, const wchar_t *info, DWORD flags)
 {
 	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 		MIRANDASYSTRAYNOTIFY err;
 		err.szProto = m_szModuleName;
 		err.cbSize = sizeof(err);
-		err.tszInfoTitle = (TCHAR*)title;
-		err.tszInfo = (TCHAR*)info;
+		err.tszInfoTitle = (wchar_t*)title;
+		err.tszInfo = (wchar_t*)info;
 		err.dwInfoFlags = flags | NIIF_INTERN_UNICODE;
 		err.uTimeout = 1000 * 3;
 		INT_PTR ret = CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& err);
@@ -146,7 +146,7 @@ int CYahooProto::ShowNotification(const TCHAR *title, const TCHAR *info, DWORD f
 	return 0;
 }
 
-void CYahooProto::ShowError(const TCHAR *title, const TCHAR *buff)
+void CYahooProto::ShowError(const wchar_t *title, const wchar_t *buff)
 {
 	if (getByte("ShowErrors", 1))
 		if (!ShowPopup(title, buff, NULL))

@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 OPTIONS opt;
 ICONSTATE exIcons[EXICONS_COUNT];
 
-extern int IsTrayProto(const TCHAR *swzProto, BOOL bExtendedTip)
+extern int IsTrayProto(const wchar_t *swzProto, BOOL bExtendedTip)
 {
 	if (swzProto == NULL)
 		return 0;
@@ -37,7 +37,7 @@ extern int IsTrayProto(const TCHAR *swzProto, BOOL bExtendedTip)
 	DBVARIANT dbv;
 	int result = 1;
 	if (!db_get_ts(NULL, MODULE, szSetting, &dbv)) {
-		result = _tcsstr(dbv.ptszVal, swzProto) ? 1 : 0;
+		result = wcsstr(dbv.ptszVal, swzProto) ? 1 : 0;
 		db_free(&dbv);
 	}
 
@@ -49,8 +49,8 @@ void CreateDefaultItems()
 	for (int i = 0; defaultItemList[i].szName; i++) {
 		if (defaultItemList[i].szName[0] == '-') {
 			DIListNode *di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
-			_tcsncpy(di_node->di.swzLabel, L"", LABEL_LEN);
-			_tcsncpy(di_node->di.swzValue, L"", VALUE_LEN);
+			wcsncpy(di_node->di.swzLabel, L"", LABEL_LEN);
+			wcsncpy(di_node->di.swzValue, L"", VALUE_LEN);
 			di_node->di.bLineAbove = true;
 			di_node->di.bIsVisible = true;
 			di_node->di.bParseTipperVarsFirst = false;
@@ -67,7 +67,7 @@ void CreateDefaultItems()
 				if (subst == NULL) continue;
 
 				DSListNode *ds_node = (DSListNode *)mir_alloc(sizeof(DSListNode));
-				_tcsncpy(ds_node->ds.swzName, subst->swzName, LABEL_LEN);
+				wcsncpy(ds_node->ds.swzName, subst->swzName, LABEL_LEN);
 				ds_node->ds.type = subst->type;
 				strncpy(ds_node->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN);
 				ds_node->ds.iTranslateFuncId = subst->iTranslateFuncId;
@@ -77,8 +77,8 @@ void CreateDefaultItems()
 			}
 
 			DIListNode *di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
-			_tcsncpy(di_node->di.swzLabel, TranslateTS(item->swzLabel), LABEL_LEN);
-			_tcsncpy(di_node->di.swzValue, item->swzValue, VALUE_LEN);
+			wcsncpy(di_node->di.swzLabel, TranslateTS(item->swzLabel), LABEL_LEN);
+			wcsncpy(di_node->di.swzValue, item->swzValue, VALUE_LEN);
 			di_node->di.bLineAbove = false;
 			di_node->di.bValueNewline = defaultItemList[i].bValueNewline;
 			di_node->di.bIsVisible = true;
@@ -100,7 +100,7 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
 
-	_tcsncpy(ds->swzName, dbv.ptszVal, _countof(ds->swzName));
+	wcsncpy(ds->swzName, dbv.ptszVal, _countof(ds->swzName));
 	ds->swzName[_countof(ds->swzName) - 1] = 0;
 	db_free(&dbv);
 
@@ -161,14 +161,14 @@ bool LoadDI(DISPLAYITEM *di, int index)
 	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
 
-	_tcsncpy(di->swzLabel, dbv.ptszVal, _countof(di->swzLabel));
+	wcsncpy(di->swzLabel, dbv.ptszVal, _countof(di->swzLabel));
 	di->swzLabel[_countof(di->swzLabel) - 1] = 0;
 	db_free(&dbv);
 
 	mir_snprintf(setting, "DIValue%d", index);
 	di->swzValue[0] = 0;
 	if (!db_get_ts(0, MODULE_ITEMS, setting, &dbv)) {
-		_tcsncpy(di->swzValue, dbv.ptszVal, _countof(di->swzValue));
+		wcsncpy(di->swzValue, dbv.ptszVal, _countof(di->swzValue));
 		di->swzValue[_countof(di->swzValue) - 1] = 0;
 		db_free(&dbv);
 	}
@@ -275,7 +275,7 @@ void SaveItems()
 	opt.bWaitForStatusMsg = false;
 	while (di_node) {
 		SaveDI(&di_node->di, index);
-		if (di_node->di.bIsVisible && _tcsstr(di_node->di.swzValue, L"sys:status_msg"))
+		if (di_node->di.bIsVisible && wcsstr(di_node->di.swzValue, L"sys:status_msg"))
 			opt.bWaitForStatusMsg = true;
 		di_node = di_node->next;
 		index++;
@@ -372,7 +372,7 @@ void LoadOptions()
 			di_node->next = opt.diList;
 			opt.diList = di_node;
 			real_count++;
-			if (di_node->di.bIsVisible && _tcsstr(di_node->di.swzValue, L"sys:status_msg"))
+			if (di_node->di.bIsVisible && wcsstr(di_node->di.swzValue, L"sys:status_msg"))
 				opt.bWaitForStatusMsg = true;
 		}
 		else
@@ -411,8 +411,8 @@ void LoadOptions()
 			di_node = opt.diList;
 		}
 
-		_tcsncpy(di_node->di.swzLabel, L"Last message: (%sys:last_msg_reltime% ago)", LABEL_LEN);
-		_tcsncpy(di_node->di.swzValue, L"%sys:last_msg%", VALUE_LEN);
+		wcsncpy(di_node->di.swzLabel, L"Last message: (%sys:last_msg_reltime% ago)", LABEL_LEN);
+		wcsncpy(di_node->di.swzValue, L"%sys:last_msg%", VALUE_LEN);
 		di_node->di.bLineAbove = di_node->di.bValueNewline = true;
 		di_node->next = 0;
 		opt.iDiCount++;
@@ -436,8 +436,8 @@ void LoadOptions()
 			di_node = opt.diList;
 		}
 
-		_tcsncpy(di_node->di.swzLabel, L"Status message:", LABEL_LEN);
-		_tcsncpy(di_node->di.swzValue, L"%sys:status_msg%", VALUE_LEN);
+		wcsncpy(di_node->di.swzLabel, L"Status message:", LABEL_LEN);
+		wcsncpy(di_node->di.swzValue, L"%sys:status_msg%", VALUE_LEN);
 		di_node->di.bLineAbove = di_node->di.bValueNewline = true;
 		di_node->next = 0;
 		opt.iDiCount++;
@@ -516,7 +516,7 @@ void LoadOptions()
 	}
 	else if (opt.skinMode == SM_IMAGE) {
 		if (!db_get_ts(NULL, MODULE, "SkinName", &dbv)) {
-			_tcsncpy(opt.szSkinName, dbv.ptszVal, _countof(opt.szSkinName) - 1);
+			wcsncpy(opt.szSkinName, dbv.ptszVal, _countof(opt.szSkinName) - 1);
 			db_free(&dbv);
 		}
 	}
@@ -584,7 +584,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
 						if (sel != CB_ERR) {
-							TCHAR buff[256];
+							wchar_t buff[256];
 							SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
 							for (int i = 0; presetItems[i].szID; i++) {
 								if (mir_tstrcmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
@@ -620,7 +620,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (LOWORD(wParam) == IDC_CMB_PRESETITEMS) {
 					int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
 					if (sel != CB_ERR) {
-						TCHAR buff[256];
+						wchar_t buff[256];
 						SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
 						for (int i = 0; presetItems[i].szID; i++) {
 							if (mir_tstrcmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
@@ -737,7 +737,7 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	return 0;
 }
 
-static void SetTreeItemText(DIListNode *node, TCHAR **pszText)
+static void SetTreeItemText(DIListNode *node, wchar_t **pszText)
 {
 	if (node->di.swzLabel[0] == 0) {
 		if (node->di.swzValue[0] == 0 && node->di.bLineAbove)
@@ -750,15 +750,15 @@ static void SetTreeItemText(DIListNode *node, TCHAR **pszText)
 }
 
 static OPTBUTTON btns[9] = {
-	IDC_BTN_ADD, SKINICON_OTHER_ADDCONTACT, 0, LPGENT("Add item"),
-	IDC_BTN_SEPARATOR, 0, IDI_SEPARATOR, LPGENT("Add separator"),
-	IDC_BTN_EDIT, SKINICON_OTHER_RENAME, 0, LPGENT("Edit"),
-	IDC_BTN_REMOVE, SKINICON_OTHER_DELETE, 0, LPGENT("Remove"),
-	IDC_BTN_UP, 0, IDI_UP, LPGENT("Move up"),
-	IDC_BTN_DOWN, 0, IDI_DOWN, LPGENT("Move down"),
-	IDC_BTN_ADD2, SKINICON_OTHER_ADDCONTACT, 0, LPGENT("Add"),
-	IDC_BTN_REMOVE2, SKINICON_OTHER_DELETE, 0, LPGENT("Remove"),
-	IDC_BTN_EDIT2, SKINICON_OTHER_RENAME, 0, LPGENT("Edit")
+	IDC_BTN_ADD, SKINICON_OTHER_ADDCONTACT, 0, LPGENW("Add item"),
+	IDC_BTN_SEPARATOR, 0, IDI_SEPARATOR, LPGENW("Add separator"),
+	IDC_BTN_EDIT, SKINICON_OTHER_RENAME, 0, LPGENW("Edit"),
+	IDC_BTN_REMOVE, SKINICON_OTHER_DELETE, 0, LPGENW("Remove"),
+	IDC_BTN_UP, 0, IDI_UP, LPGENW("Move up"),
+	IDC_BTN_DOWN, 0, IDI_DOWN, LPGENW("Move down"),
+	IDC_BTN_ADD2, SKINICON_OTHER_ADDCONTACT, 0, LPGENW("Add"),
+	IDC_BTN_REMOVE2, SKINICON_OTHER_DELETE, 0, LPGENW("Remove"),
+	IDC_BTN_EDIT2, SKINICON_OTHER_RENAME, 0, LPGENW("Edit")
 };
 
 INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -907,7 +907,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 									memset(ds_value, 0, sizeof(DSListNode));
 									ds_value->next = NULL;
 									ds_value->ds.type = subst->type;
-									_tcsncpy(ds_value->ds.swzName, subst->swzName, LABEL_LEN - 1);
+									wcsncpy(ds_value->ds.swzName, subst->swzName, LABEL_LEN - 1);
 
 									if (ds_value->ds.type == DVT_DB && subst->szModuleName)
 										strncpy(ds_value->ds.szModuleName, subst->szModuleName, MODULE_NAME_LEN - 1);
@@ -985,7 +985,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							hNewItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), hItem);
 
 						if (hNewItem) {
-							TCHAR buff[512], buff2[512];
+							wchar_t buff[512], buff2[512];
 							LPARAM tmpParam;
 							UINT tmpState;
 
@@ -1643,7 +1643,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &item);
 			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
 				TVINSERTSTRUCT tvis;
-				TCHAR swzName[256];
+				wchar_t swzName[256];
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 				tvis.item.pszText = swzName;
@@ -1794,7 +1794,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 								EnableControls(hwndDlg, false);
 							}
 							else if (iSel != LB_ERR) {
-								TCHAR swzSkinName[256];
+								wchar_t swzSkinName[256];
 								if (ListBox_GetText(hwndList, iSel, swzSkinName) > 0)
 									ParseSkinFile(swzSkinName, false, true);
 								EnableControls(hwndDlg, true);
@@ -2026,8 +2026,8 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
-				TCHAR buff[256];
-				TCHAR swzProtos[1024] = { 0 };
+				wchar_t buff[256];
+				wchar_t swzProtos[1024] = { 0 };
 
 				TVITEM item;
 				item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS));

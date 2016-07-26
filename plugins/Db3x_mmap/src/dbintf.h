@@ -183,7 +183,7 @@ struct DBCachedContact : public DBCachedContactBase
 
 struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
-	CDb3Mmap(const TCHAR *tszFileName, int mode);
+	CDb3Mmap(const wchar_t *tszFileName, int mode);
 	~CDb3Mmap();
 
 	int Load(bool bSkipInit);
@@ -193,14 +193,14 @@ struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObj
 
 	void ToggleEncryption(void);
 	void StoreKey(void);
-	void SetPassword(const TCHAR *ptszPassword);
+	void SetPassword(const wchar_t *ptszPassword);
 	void UpdateMenuItem(void);
 
 	int  PrepareCheck(int*);
 
-	__forceinline LPTSTR GetMenuTitle() const { return m_bUsesPassword ? LPGENT("Change/remove password") : LPGENT("Set password"); }
+	__forceinline LPTSTR GetMenuTitle() const { return m_bUsesPassword ? LPGENW("Change/remove password") : LPGENW("Set password"); }
 
-	void DatabaseCorruption(TCHAR *text);
+	void DatabaseCorruption(wchar_t *text);
 	void WriteSignature(DBSignature&);
 
 	__forceinline HANDLE getFile() const { return m_hDbFile; }
@@ -282,7 +282,7 @@ public:  // Check functions
 	int WorkFinalTasks(int);
 
 protected:
-	TCHAR*   m_tszProfileName;
+	wchar_t*   m_tszProfileName;
 	HANDLE   m_hDbFile;
 	DBHeader m_dbHeader;
 	DWORD    m_ChunkSize;

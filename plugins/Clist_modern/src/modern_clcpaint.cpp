@@ -184,7 +184,7 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 	}
 }
 
-void CLCPaint::GetTextSize(SIZE *text_size, HDC hdcMem, RECT free_row_rc, TCHAR *szText, SortedList *plText, UINT uTextFormat, int smiley_height)
+void CLCPaint::GetTextSize(SIZE *text_size, HDC hdcMem, RECT free_row_rc, wchar_t *szText, SortedList *plText, UINT uTextFormat, int smiley_height)
 {
 	if (szText == NULL || !szText[0]) {
 		text_size->cy = 0;
@@ -398,7 +398,7 @@ RECT  CLCPaint::_GetRectangle(ClcData *dat, RECT *row_rc, RECT *free_row_rc, int
 
 
 
-void CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, TCHAR *szText, int start, int len, SortedList *plText, UINT uTextFormat, BOOL ResizeSizeSmiley)
+void CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, wchar_t *szText, int start, int len, SortedList *plText, UINT uTextFormat, BOOL ResizeSizeSmiley)
 {
 	if (szText == NULL)
 		return;
@@ -614,19 +614,19 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 	_itoa(index, buf, BUF2SIZE);
 	AddParam(mpModernMask, HASH[hi_Index], buf, 0);
 	{
-		TCHAR *b2 = NEWTSTR_ALLOCA(Drawing->szText);
+		wchar_t *b2 = NEWWSTR_ALLOCA(Drawing->szText);
 		for (int i = 0; b2[i] != 0; i++)
-			if (b2[i] == _T(','))
-				b2[i] = _T('.');
+			if (b2[i] == ',')
+				b2[i] = '.';
 
 		AddParam(mpModernMask, HASH[hi_Name], T2Utf(b2), 0);
 	}
 
 	if (group->parent) {
-		TCHAR *b2 = NEWTSTR_ALLOCA(group->parent->cl[0]->szText);
+		wchar_t *b2 = NEWWSTR_ALLOCA(group->parent->cl[0]->szText);
 		for (int i = 0; b2[i] != 0; i++)
-			if (b2[i] == _T(','))
-				b2[i] = _T('.');
+			if (b2[i] == ',')
+				b2[i] = '.';
 
 		AddParam(mpModernMask, HASH[hi_Group], T2Utf(b2), 0);
 	}
@@ -763,7 +763,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 		// 3 draw text
 		{
 			SIZE text_size = { 0 };
-			TCHAR *szCounts = NULL;
+			wchar_t *szCounts = NULL;
 			RECT text_rect = fr_rc;
 			RECT counts_rc = { 0 };
 			UINT uTextFormat = DT_LEFT | DT_VCENTER | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
@@ -903,9 +903,9 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 			if (((dat->bFilterSearch && Drawing->type != CLCIT_GROUP) || selected) && dat->szQuickSearch[0] != '\0') {
 				int idx = 0;
 				if (dat->bFilterSearch) {
-					TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-					TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
-					TCHAR *p1 = _tcsstr(lowered, lowered_search);
+					wchar_t *lowered = CharLowerW(NEWWSTR_ALLOCA(Drawing->szText));
+					wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
+					wchar_t *p1 = wcsstr(lowered, lowered_search);
 					if (p1)
 						idx = int(p1 - lowered);
 				}
@@ -981,9 +981,9 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						if ((dat->bFilterSearch || selected) && dat->szQuickSearch[0] != '\0') {
 							int idx = 0;
 							if (dat->bFilterSearch) {
-								TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-								TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
-								TCHAR *p1 = _tcsstr(lowered, lowered_search);
+								wchar_t *lowered = CharLowerW(NEWWSTR_ALLOCA(Drawing->szText));
+								wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
+								wchar_t *p1 = wcsstr(lowered, lowered_search);
 								if (p1)
 									idx = int(p1 - lowered);
 							}
@@ -1002,7 +1002,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						RECT count_rc = { 0 };
 						SIZE count_size = { 0 };
 						int space_width = 0;
-						TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
+						wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
 						// Has to draw the count?
 						if (szCounts && mir_tstrlen(szCounts) > 0) {
 							// calc width and height
@@ -1080,7 +1080,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 
 					if (dat->secondLine.show && dat->secondLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 						// Get contact time
-						TCHAR buf[70] = L"";
+						wchar_t buf[70] = L"";
 						mir_free_and_nil(pdnce->szSecondLineText);
 
 						TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
@@ -1108,7 +1108,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 
 					if (dat->thirdLine.show && dat->thirdLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 						// Get contact time
-						TCHAR buf[70] = L"";
+						wchar_t buf[70] = L"";
 						mir_free(pdnce->szThirdLineText);
 
 						TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
@@ -1391,7 +1391,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				break;
 
 			case TC_TIME:
-				TCHAR szResult[80];
+				wchar_t szResult[80];
 				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", szResult, _countof(szResult), 0)) {
 					// Select font
 					ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
@@ -2103,7 +2103,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 		case ITEM_CONTACT_TIME: /////////////////////////////////////////////////////////////////////////////////////////////////////
 			if (Drawing->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
-				TCHAR szResult[80];
+				wchar_t szResult[80];
 
 				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", szResult, _countof(szResult), 0)) {
 					// Select font
@@ -2198,7 +2198,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 		if (Drawing->type == CLCIT_GROUP) {
 			int full_text_width = text_size.cx;
 			// Has to draw the count?
-			TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
+			wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
 			if (szCounts && szCounts[0]) {
 				RECT space_rc = free_row_rc;
 				RECT counts_rc = free_row_rc;
@@ -2265,7 +2265,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 			if (dat->secondLine.show) {
 				if (dat->secondLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
-					TCHAR buf[70] = L"";
+					wchar_t buf[70] = L"";
 					TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
 					replaceStrT(pdnce->szSecondLineText, buf);
 				}
@@ -2298,7 +2298,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 			if (dat->thirdLine.show) {
 				if (dat->thirdLine.type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
 					// Get contact time
-					TCHAR buf[70] = L"";
+					wchar_t buf[70] = L"";
 					TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
 					replaceStrT(pdnce->szThirdLineText, buf);
 				}
@@ -2665,9 +2665,9 @@ void CLCPaint::_DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 		if ((dat->bFilterSearch || selected) && dat->szQuickSearch[0] != '\0') {
 			int idx = 0;
 			if (dat->bFilterSearch) {
-				TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-				TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
-				TCHAR *p1 = _tcsstr(lowered, lowered_search);
+				wchar_t *lowered = CharLowerW(NEWWSTR_ALLOCA(Drawing->szText));
+				wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
+				wchar_t *p1 = wcsstr(lowered, lowered_search);
 				if (p1)
 					idx = int(p1 - lowered);
 			}
@@ -2684,7 +2684,7 @@ void CLCPaint::_DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 void CLCPaint::_DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT *prcItem, UINT uTextFormat, BYTE itemType)
 {
 	if (Drawing->type == CLCIT_GROUP) {
-		TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
+		wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
 
 		// Has to draw the count?
 		if (szCounts && szCounts[0]) {
@@ -2718,7 +2718,7 @@ void CLCPaint::_DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing
 
 void CLCPaint::_DrawContactTime(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *prcItem)
 {
-	TCHAR szResult[80];
+	wchar_t szResult[80];
 	ClcCacheEntry *pdnce = Drawing->pce;
 	if (!pdnce)
 		return;

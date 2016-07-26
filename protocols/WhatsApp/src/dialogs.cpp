@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#define szAskSendSms  LPGEN("An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")
-#define szAskCall  LPGEN("A call with registration code will be made to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")
-#define szPasswordSet LPGEN("Your password has been set automatically. You can proceed with login now.")
-#define szSpecifyCode LPGEN("Please correctly specify your registration code received by SMS/Voice.")
+#define szAskSendSms  LPGENW("An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")
+#define szAskCall  LPGENW("A call with registration code will be made to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")
+#define szPasswordSet LPGENW("Your password has been set automatically. You can proceed with login now.")
+#define szSpecifyCode LPGENW("Please correctly specify your registration code received by SMS/Voice.")
 
 class COptionsDlg : public CProtoDlgBase<WhatsAppProto>
 {
@@ -52,14 +52,14 @@ public:
 
 	void OnRequestVoiceClick(CCtrlButton*)
 	{
-		if (IDYES != MessageBox(GetHwnd(), TranslateT(szAskCall), PRODUCT_NAME, MB_YESNO))
+		if (IDYES != MessageBox(GetHwnd(), TranslateW(szAskCall), PRODUCT_NAME, MB_YESNO))
 			return;
 
 		ptrA cc(m_cc.GetTextA()), number(m_login.GetTextA());
 		string password;
 		if (m_proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), "voice", password)) {
 			if (!password.empty()) {
-				MessageBox(GetHwnd(), TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
+				MessageBox(GetHwnd(), TranslateW(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
 				m_proto->setString(WHATSAPP_KEY_PASS, password.c_str());
 			}
 			else {
@@ -73,14 +73,14 @@ public:
 
 	void OnRequestSMSClick(CCtrlButton*)
 	{
-		if (IDYES != MessageBox(GetHwnd(), TranslateT(szAskSendSms), PRODUCT_NAME, MB_YESNO))
+		if (IDYES != MessageBox(GetHwnd(), TranslateW(szAskSendSms), PRODUCT_NAME, MB_YESNO))
 			return;
 
 		ptrA cc(m_cc.GetTextA()), number(m_login.GetTextA());
 		string password;
 		if (m_proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), "sms", password)) {
 			if (!password.empty()) {
-				MessageBox(GetHwnd(), TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
+				MessageBox(GetHwnd(), TranslateW(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
 				m_proto->setString(WHATSAPP_KEY_PASS, password.c_str());
 			}
 			else {
@@ -95,7 +95,7 @@ public:
 	void OnRegisterClick(CCtrlButton*)
 	{
 		if (GetWindowTextLength(m_pw1.GetHwnd()) != 3 || GetWindowTextLength(m_pw2.GetHwnd()) != 3)
-			MessageBox(GetHwnd(), TranslateT(szSpecifyCode), PRODUCT_NAME, MB_ICONEXCLAMATION);
+			MessageBox(GetHwnd(), TranslateW(szSpecifyCode), PRODUCT_NAME, MB_ICONEXCLAMATION);
 		else {
 			char code[10];
 			GetWindowTextA(m_pw1.GetHwnd(), code, 4);
@@ -105,7 +105,7 @@ public:
 			ptrA cc(m_cc.GetTextA()), number(m_login.GetTextA());
 			if (m_proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code), password)) {
 				m_proto->setString(WHATSAPP_KEY_PASS, password.c_str());
-				MessageBox(GetHwnd(), TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
+				MessageBox(GetHwnd(), TranslateW(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
 			}
 		}
 		m_proto->setByte("CodeRequestDone", 0);
@@ -133,11 +133,11 @@ INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup = LPGENT("Network");
+	odp.pwszGroup = LPGENW("Network");
 
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszTab = LPGENW("Account");
 	odp.pDialog = new COptionsDlg(this, IDD_OPTIONS);
 	Options_AddPage(wParam, &odp);
 	return 0;

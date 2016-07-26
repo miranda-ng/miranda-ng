@@ -60,16 +60,16 @@ public:
 	static INT_PTR CALLBACK dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);		   // for the "add to" dialog
 
 private:
-	void    tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr);
+	void    tokenize(wchar_t *tszString, wchar_t**& patterns, UINT& nr);
 
 	DWORD   m_dwFlags;
 	bool    m_fInitialized;
-	TCHAR** m_NickPatterns;
-	TCHAR** m_TextPatterns;
+	wchar_t** m_NickPatterns;
+	wchar_t** m_TextPatterns;
 	UINT    m_iNickPatterns;
 	UINT    m_iTextPatterns;
-	TCHAR  *m_NickPatternString;
-	TCHAR  *m_TextPatternString;
+	wchar_t  *m_NickPatternString;
+	wchar_t  *m_TextPatternString;
 	bool    m_Valid;
 	bool    m_fHighlightMe;
 };

@@ -141,10 +141,10 @@ int _DebugTraceW(const wchar_t *fmt, ...)
  * can display the message either as systray notification (baloon popup) or using the
  * popup plugin.
  */
-int _DebugPopup(MCONTACT hContact, const TCHAR *fmt, ...)
+int _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...)
 {
 	va_list	va;
-	TCHAR		debug[1024];
+	wchar_t		debug[1024];
 	int			ibsize = 1023;
 
 	va_start(va, fmt);
@@ -152,7 +152,7 @@ int _DebugPopup(MCONTACT hContact, const TCHAR *fmt, ...)
 
 	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 		MIRANDASYSTRAYNOTIFY tn;
-		TCHAR	szTitle[128];
+		wchar_t	szTitle[128];
 		mir_sntprintf(szTitle, TranslateT("TabSRMM message (%s)"),
 			(hContact != 0) ? pcli->pfnGetContactDisplayName(hContact, 0) : TranslateT("Global"));
 

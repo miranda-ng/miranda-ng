@@ -34,7 +34,7 @@ CSendHost_ImageShack::CSendHost_ImageShack(HWND Owner, MCONTACT hContact, bool b
 	: CSend(Owner, hContact, bAsync)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp = LPGENT("Image upload");
+	m_pszSendTyp = LPGENW("Image upload");
 }
 
 CSendHost_ImageShack::~CSendHost_ImageShack()
@@ -100,7 +100,7 @@ void CSendHost_ImageShack::SendThread()
 			}
 			else {/// check error mess from server
 				url = GetHTMLContent(reply->pData, "<error ", "</error>");
-				TCHAR* err = NULL;
+				wchar_t* err = NULL;
 				if (url) err = mir_a2t(url);
 				if (!err || !*err) {/// fallback to server response mess
 					mir_free(err);

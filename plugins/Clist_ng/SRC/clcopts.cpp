@@ -548,11 +548,11 @@ INT_PTR CALLBACK cfg::DlgProcDspClasses(HWND hwndDlg, UINT msg, WPARAM wParam, L
 {
 	switch(msg) {
 		case WM_INITDIALOG:
-			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateW(L"Offline contacts"));
-			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateW(L"Online contacts"));
-			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateW(L"Selected contacts"));
-			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateW(L"Hovered contacts"));
-			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateW(L"Priority contacts"));
+			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Offline contacts"));
+			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Online contacts"));
+			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Selected contacts"));
+			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Hovered contacts"));
+			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Priority contacts"));
 			SendDlgItemMessage(hwndDlg, IDC_DSPCLASS, CB_SETCURSEL, 0, 0);
 			break;
 

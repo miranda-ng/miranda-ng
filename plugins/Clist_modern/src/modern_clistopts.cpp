@@ -508,7 +508,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 		//TODO: init IDC_ALIGNGROUPCOMBO from db_get_b(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT);
 		{
 			int item;
-			TCHAR *align[] = { LPGENT("Left align group names"), LPGENT("Center group names"), LPGENT("Right align group names") };
+			wchar_t *align[] = { LPGENW("Left align group names"), LPGENW("Center group names"), LPGENW("Right align group names") };
 			for (int i = 0; i < sizeof(align) / sizeof(char*); i++)
 				item = SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_ADDSTRING, 0, (LPARAM)TranslateTS(align[i]));
 			SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_SETCURSEL, db_get_b(NULL, "CList", "AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT), 0);
@@ -716,7 +716,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 					radio = TEXT_STATUS_MESSAGE;
 				db_set_w(NULL, "CList", "SecondLineType", (WORD)radio);
 
-				TCHAR t[TEXT_TEXT_MAX_LENGTH];
+				wchar_t t[TEXT_TEXT_MAX_LENGTH];
 				GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, _countof(t));
 				t[TEXT_TEXT_MAX_LENGTH - 1] = '\0';
 				db_set_ts(NULL, "CList", "SecondLineText", t);
@@ -882,7 +882,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 					db_set_w(NULL, "CList", "ThirdLineType", (WORD)radio);
 				}
 				{
-					TCHAR t[TEXT_TEXT_MAX_LENGTH];
+					wchar_t t[TEXT_TEXT_MAX_LENGTH];
 
 					GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, _countof(t));
 					t[TEXT_TEXT_MAX_LENGTH - 1] = '\0';

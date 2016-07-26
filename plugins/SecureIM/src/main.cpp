@@ -43,7 +43,7 @@ static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, LPCSTR szUid, HICON hicon, 
 	mi.flags = flags | CMIF_HIDDEN | CMIF_UNICODE;
 	mi.position = pos;
 	mi.hIcolibItem = hicon;
-	mi.name.t = (TCHAR*)name;
+	mi.name.w = (wchar_t*)name;
 	mi.pszService = (char*)service;
 	HGENMENU res = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(res, MCI_OPT_UID, szUid);

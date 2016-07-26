@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void LoadContactTree(void);
 HTREEITEM GetTreeItemByHContact(MCONTACT hContact);
-int GetContactInfosForSort(MCONTACT hContact, char **Proto, TCHAR **Name, int *Status);
+int GetContactInfosForSort(MCONTACT hContact, char **Proto, wchar_t **Name, int *Status);
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -59,13 +59,13 @@ public:
 		DestroySmileyList();
 	}
 
-	void ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
+	void ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, wchar_t *szText, BOOL replace_smileys);
 
 	/**	Destroy smiley list */
 	void DestroySmileyList();
 	/**  Copy Smiley List */
 	void _CopySmileyList(SortedList *plInput);
-	void AddListeningToIcon(ClcData *dat, TCHAR *szText);
+	void AddListeningToIcon(ClcData *dat, wchar_t *szText);
 
 };
 
@@ -86,10 +86,10 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	void*    ClcContact;
 	int      IsExpanded;
 
-	TCHAR*   szSecondLineText;
+	wchar_t*   szSecondLineText;
 	CSmileyString ssSecondLine;
 
-	TCHAR*   szThirdLineText;
+	wchar_t*   szThirdLineText;
 	CSmileyString ssThirdLine;
 
 	HANDLE   hTimeZone;

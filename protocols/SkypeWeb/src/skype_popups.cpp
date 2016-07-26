@@ -2,7 +2,7 @@
 
 void CSkypeProto::InitPopups()
 {
-	TCHAR desc[256];
+	wchar_t desc[256];
 	char name[256];
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
@@ -47,7 +47,7 @@ void CSkypeProto::UninitPopups()
 	}
 }
 
-void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, MCONTACT hContact, int type)
+void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact, int type)
 {
 	if (Miranda_Terminated())
 		return;
@@ -75,8 +75,8 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, M
 		}
 
 		POPUPDATACLASS ppd = { sizeof(ppd) };
-		ppd.ptszTitle = caption;
-		ppd.ptszText = message;
+		ppd.pwszTitle = caption;
+		ppd.pwszText = message;
 		ppd.pszClassName = className.GetBuffer();
 		ppd.hContact = hContact;
 
@@ -88,7 +88,7 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, M
 	}
 }
 
-void CSkypeProto::ShowNotification(const TCHAR *message, MCONTACT hContact)
+void CSkypeProto::ShowNotification(const wchar_t *message, MCONTACT hContact)
 {
 	ShowNotification(_T(MODULE), message, hContact);
 }

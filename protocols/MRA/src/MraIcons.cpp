@@ -74,7 +74,7 @@ void IconsLoad()
 void InitXStatusIcons()
 {
 	// load libs
-	TCHAR szBuff[MAX_FILEPATH];
+	wchar_t szBuff[MAX_FILEPATH];
 	if (GetModuleFileName(NULL, szBuff, _countof(szBuff))) {
 		LPWSTR lpwszFileName;
 		g_dwMirWorkDirPathLen = GetFullPathName(szBuff, MAX_FILEPATH, g_szMirWorkDirPath, &lpwszFileName);
@@ -89,7 +89,7 @@ void InitXStatusIcons()
 				g_hDLLXStatusIcons = LoadLibraryEx(szBuff, NULL, 0);
 				if (g_hDLLXStatusIcons) {
 					dwBuffLen = LoadString(g_hDLLXStatusIcons, IDS_IDENTIFY, szBuff, MAX_FILEPATH);
-					if (dwBuffLen == 0 || _tcsnicmp(L"# Custom Status Icons #", szBuff, 23)) {
+					if (dwBuffLen == 0 || wcsnicmp(L"# Custom Status Icons #", szBuff, 23)) {
 						FreeLibrary(g_hDLLXStatusIcons);
 						g_hDLLXStatusIcons = NULL;
 					}
@@ -101,8 +101,8 @@ void InitXStatusIcons()
 	GetModuleFileName((g_hDLLXStatusIcons != NULL) ? g_hDLLXStatusIcons : g_hInstance, szBuff, _countof(szBuff));
 
 	SKINICONDESC sid = { 0 };
-	sid.section.t = LPGENT("Protocols")L"/" LPGENT("MRA") L"/" LPGENT("Custom Status");
-	sid.defaultFile.t = szBuff;
+	sid.section.w = LPGENW("Protocols")L"/" LPGENW("MRA") L"/" LPGENW("Custom Status");
+	sid.defaultFile.w = szBuff;
 	sid.flags = SIDF_ALL_TCHAR;
 
 	hXStatusAdvancedStatusIcons[0] = NULL;
@@ -112,7 +112,7 @@ void InitXStatusIcons()
 		sid.pszName = szIconName;
 
 		int iCurIndex = i+IDI_XSTATUS1-1;
-		sid.description.t = (TCHAR*)lpcszXStatusNameDef[i];
+		sid.description.w = (wchar_t*)lpcszXStatusNameDef[i];
 		sid.iDefaultIndex = -iCurIndex;
 
 		hXStatusAdvancedStatusIcons[i] = IcoLib_AddIcon(&sid);

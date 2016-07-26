@@ -76,9 +76,9 @@ DWORD CDb3Mmap::ReallocSpace(DWORD ofs, int oldSize, int newSize)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static DWORD DatabaseCorrupted = 0;
-static TCHAR *msg = NULL;
+static wchar_t *msg = NULL;
 static DWORD dwErr = 0;
-static TCHAR tszPanic[] = LPGENT("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
+static wchar_t tszPanic[] = LPGENW("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
 
 void __cdecl dbpanic(void *)
 {
@@ -86,7 +86,7 @@ void __cdecl dbpanic(void *)
 		if (dwErr == ERROR_DISK_FULL)
 			msg = TranslateT("Disk is full. Miranda will now shut down.");
 
-		TCHAR err[256];
+		wchar_t err[256];
 		mir_sntprintf(err, msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
 
 		MessageBox(0, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
@@ -95,7 +95,7 @@ void __cdecl dbpanic(void *)
 	TerminateProcess(GetCurrentProcess(), 255);
 }
 
-void CDb3Mmap::DatabaseCorruption(TCHAR *text)
+void CDb3Mmap::DatabaseCorruption(wchar_t *text)
 {
 	int kill = 0;
 

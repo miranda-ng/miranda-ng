@@ -63,7 +63,7 @@ namespace utils
 	{
 		void replace_first(std::string* data, const std::string &from, const std::string &to);
 		void replace_all(std::string* data, const std::string &from, const std::string &to);
-		void treplace_all(std::tstring* data, const std::tstring &from, const std::tstring &to);
+		void treplace_all(std::wstring* data, const std::wstring &from, const std::wstring &to);
 		unsigned int count_all(std::string* data, const std::string &term);
 		std::string html_entities_decode(std::string data);
 		std::string remove_html(const std::string &data);
@@ -75,7 +75,7 @@ namespace utils
 		std::string rand_string(int len, const char *chars = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz", unsigned int *number = NULL);
 		void explode(std::string str, const std::string &separator, std::vector<std::string>* results);
 		void append_ordinal(unsigned long value, std::string* data);
-		std::tstring prepare_name(const std::tstring &name, bool withSurnameLetter);
+		std::wstring prepare_name(const std::wstring &name, bool withSurnameLetter);
 	};
 
 	namespace conversion

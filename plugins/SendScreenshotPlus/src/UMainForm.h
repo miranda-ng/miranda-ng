@@ -74,7 +74,7 @@ class TfrmMain{
 		bool		m_bOnExitSave;
 
 		static void Unload();
-		void		Init(TCHAR* DestFolder, MCONTACT Contact);
+		void		Init(wchar_t* DestFolder, MCONTACT Contact);
 		void		Close(){SendMessage(m_hWnd,WM_CLOSE,0,0);}
 		void		Show(){ShowWindow(m_hWnd,SW_SHOW);}
 		void		Hide(){ShowWindow(m_hWnd,SW_HIDE);}
@@ -88,9 +88,9 @@ class TfrmMain{
 		bool		m_bFormAbout;
 		HWND		m_hTargetWindow, m_hLastWin;
 		HWND		m_hTargetHighlighter;
-		TCHAR*		m_FDestFolder;
-		TCHAR*		m_pszFile;
-		TCHAR*		m_pszFileDesc;
+		wchar_t*		m_FDestFolder;
+		wchar_t*		m_pszFile;
+		wchar_t*		m_pszFileDesc;
 		FIBITMAP*	m_Screenshot;//Graphics::TBitmap *Screenshot;
 		RGBQUAD		m_AlphaColor;
 		CSend*		m_cSend;

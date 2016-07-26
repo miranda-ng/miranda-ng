@@ -42,7 +42,7 @@ static g_data; // global CHANGES structure
 
 static void FillContactList(HWND hList)
 {
-	TCHAR buff[256];
+	wchar_t buff[256];
 
 	SendMessage(hList, LVM_DELETEALLITEMS, 0, 0);
 
@@ -52,7 +52,7 @@ static void FillContactList(HWND hList)
 	for (int i = 0; i < g_data.num_contacts; i++) {
 		LvItem.iItem = i;
 
-		TCHAR *ptszCDN = cli.pfnGetContactDisplayName(g_data.hContact[i], 0);
+		wchar_t *ptszCDN = cli.pfnGetContactDisplayName(g_data.hContact[i], 0);
 		if (ptszCDN == NULL)
 			ptszCDN = TranslateT("(Unknown contact)");
 
@@ -71,19 +71,19 @@ static void FillContactList(HWND hList)
 			if (!db_get(g_data.hContact[i], szProto, szField, &dbv)) {
 				switch (dbv.type) {
 				case DBVT_ASCIIZ:
-					_tcsncpy_s(buff, _A2T(dbv.pszVal), _TRUNCATE);
+					wcsncpy_s(buff, _A2T(dbv.pszVal), _TRUNCATE);
 					break;
 				case DBVT_WCHAR:
-					_tcsncpy_s(buff, dbv.ptszVal, _TRUNCATE);
+					wcsncpy_s(buff, dbv.ptszVal, _TRUNCATE);
 					break;
 				case DBVT_BYTE:
-					_itot(dbv.bVal, buff, 10);
+					_itow(dbv.bVal, buff, 10);
 					break;
 				case DBVT_WORD:
-					_itot(dbv.wVal, buff, 10);
+					_itow(dbv.wVal, buff, 10);
 					break;
 				case DBVT_DWORD:
-					_itot(dbv.dVal, buff, 10);
+					_itow(dbv.dVal, buff, 10);
 					break;
 				default:
 					buff[0] = 0;
@@ -96,7 +96,7 @@ static void FillContactList(HWND hList)
 			SendMessage(hList, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
 			LvItem.iSubItem = 2; // protocol
-			_tcsncpy_s(buff, (pa == NULL) ? _A2T(szProto) : pa->tszAccountName, _TRUNCATE);
+			wcsncpy_s(buff, (pa == NULL) ? _A2T(szProto) : pa->tszAccountName, _TRUNCATE);
 			ListView_SetItem(hList, &LvItem);
 		}
 		else {
@@ -167,7 +167,7 @@ static void ApplyChanges()
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = g_data.hMeta;
 		ai.format = PA_FORMAT_UNKNOWN;
-		_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
+		wcsncpy_s(ai.filename, L"X", _TRUNCATE);
 		if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 			db_set_ts(g_data.hMeta, "ContactPhoto", "File", ai.filename);
 	}
@@ -270,7 +270,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 	case WMU_SETTITLE:
 		{
-			TCHAR *ptszCDN = cli.pfnGetContactDisplayName(lParam, 0);
+			wchar_t *ptszCDN = cli.pfnGetContactDisplayName(lParam, 0);
 			if (ptszCDN == NULL)
 				ptszCDN = TranslateT("(Unknown contact)");
 
@@ -304,7 +304,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			switch (LOWORD(wParam)) {
 			case IDC_VALIDATE: // Apply changes, if there is still one contact attached to the metacontact.
 				if (g_data.num_contacts == 0) { // Otherwise, delete the metacontact.
-					if (IDYES == MessageBox(hwndDlg, TranslateT(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
+					if (IDYES == MessageBox(hwndDlg, TranslateTS(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
 						Meta_Delete(g_data.hMeta, 0);
 						DestroyWindow(hwndDlg);
 					}
@@ -319,7 +319,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			case IDOK:
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_VALIDATE))) { // If there are changes that could be made,
 					if (g_data.num_contacts == 0) { // do the work that would have be done if the 'Apply' button was clicked.
-						if (IDYES == MessageBox(hwndDlg, TranslateT(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
+						if (IDYES == MessageBox(hwndDlg, TranslateTS(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
 							Meta_Delete(g_data.hMeta, 0);
 							DestroyWindow(hwndDlg);
 						}

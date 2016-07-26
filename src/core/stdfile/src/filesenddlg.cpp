@@ -32,10 +32,10 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 	int fileCount = 0, dirCount = 0, i;
 	__int64 totalSize = 0;
 	struct _stati64 statbuf;
-	TCHAR str[64];
+	wchar_t str[64];
 
 	for (i = 0; dat->files[i]; i++) {
-		if (_tstati64(dat->files[i], &statbuf) == 0) {
+		if (_wstat64(dat->files[i], &statbuf) == 0) {
 			if (statbuf.st_mode & _S_IFDIR)
 				dirCount++;
 			else
@@ -47,7 +47,7 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 	GetSensiblyFormattedSize(totalSize, str, _countof(str), 0, 1, NULL);
 	SetDlgItemText(hwndDlg, IDC_TOTALSIZE, str);
 	if (i > 1) {
-		TCHAR szFormat[32];
+		wchar_t szFormat[32];
 		if (fileCount && dirCount) {
 			mir_sntprintf(szFormat, L"%s, %s", TranslateTS(fileCount == 1 ? L"%d file" : L"%d files"), TranslateTS(dirCount == 1 ? L"%d directory" : L"%d directories"));
 			mir_sntprintf(str, szFormat, fileCount, dirCount);
@@ -67,7 +67,7 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 	EnableWindow(GetDlgItem(hwndDlg, IDOK), fileCount || dirCount);
 }
 
-static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
+static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *buf)
 {
 	// Make sure that the file matrix is empty (the user may select files several times)
 	FreeFilesMatrix(&dat->files);
@@ -79,7 +79,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 
 	// Check if the selection is a directory or a file
 	if (GetFileAttributes(buf) & FILE_ATTRIBUTE_DIRECTORY) {
-		const TCHAR *pBuf;
+		const wchar_t *pBuf;
 		int nNumberOfFiles = 0;
 		int nTemp;
 
@@ -97,7 +97,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 		}
 
 		// Allocate memory for a pointer array
-		if ((dat->files = (TCHAR**)mir_alloc((nNumberOfFiles + 1) * sizeof(TCHAR*))) == NULL)
+		if ((dat->files = (wchar_t**)mir_alloc((nNumberOfFiles + 1) * sizeof(wchar_t*))) == NULL)
 			return;
 
 		// Fill the array
@@ -106,10 +106,10 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 		while (*pBuf) {
 			// Allocate space for path+filename
 			size_t cbFileNameLen = mir_tstrlen(pBuf);
-			dat->files[nTemp] = (TCHAR*)mir_alloc(sizeof(TCHAR)*(fileOffset + cbFileNameLen + 1));
+			dat->files[nTemp] = (wchar_t*)mir_alloc(sizeof(wchar_t)*(fileOffset + cbFileNameLen + 1));
 
 			// Add path to filename and copy into array
-			memcpy(dat->files[nTemp], buf, (fileOffset - 1)*sizeof(TCHAR));
+			memcpy(dat->files[nTemp], buf, (fileOffset - 1)*sizeof(wchar_t));
 			dat->files[nTemp][fileOffset - 1] = '\\';
 			mir_tstrcpy(dat->files[nTemp] + fileOffset - (buf[fileOffset - 2] == '\\' ? 1 : 0), pBuf);
 
@@ -122,7 +122,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 	}
 	// ...the selection is a single file
 	else {
-		if ((dat->files = (TCHAR **)mir_alloc(2 * sizeof(TCHAR*))) == NULL) // Leaks when aborted
+		if ((dat->files = (wchar_t **)mir_alloc(2 * sizeof(wchar_t*))) == NULL) // Leaks when aborted
 			return;
 
 		dat->files[0] = mir_tstrdup(buf);
@@ -139,16 +139,16 @@ void __cdecl ChooseFilesThread(void* param)
 	HWND hwndDlg = (HWND)param;
 	FileDlgData *dat = (FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	TCHAR *buf = (TCHAR*)mir_alloc(sizeof(TCHAR) * 32767);
+	wchar_t *buf = (wchar_t*)mir_alloc(sizeof(wchar_t) * 32767);
 	if (buf == NULL) {
 		PostMessage(hwndDlg, M_FILECHOOSEDONE, 0, NULL);
 		return;
 	}
 
-	TCHAR filter[128];
+	wchar_t filter[128];
 	mir_tstrcpy(filter, TranslateT("All files"));
 	mir_tstrcat(filter, L" (*)");
-	TCHAR *pfilter = filter + mir_tstrlen(filter) + 1;
+	wchar_t *pfilter = filter + mir_tstrlen(filter) + 1;
 	mir_tstrcpy(pfilter, L"*");
 	pfilter = filter + mir_tstrlen(filter) + 1;
 	pfilter[0] = '\0';
@@ -228,14 +228,14 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			if (fsd->ppFiles != NULL && fsd->ppFiles[0] != NULL) {
 				int totalCount, i;
 				for (totalCount = 0; fsd->ppFiles[totalCount]; totalCount++);
-				dat->files = (TCHAR**)mir_alloc(sizeof(TCHAR*)*(totalCount + 1)); // Leaks
+				dat->files = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(totalCount + 1)); // Leaks
 				for (i = 0; i < totalCount; i++)
 					dat->files[i] = mir_tstrdup(fsd->ppFiles[i]);
 				dat->files[totalCount] = NULL;
 				SetFileListAndSizeControls(hwndDlg, dat);
 			}
 
-			TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+			wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			SetDlgItemText(hwndDlg, IDC_TO, contactName);
 
 			ptrT id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));
@@ -270,8 +270,8 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case M_FILECHOOSEDONE:
 		if (lParam != 0) {
-			FilenameToFileList(hwndDlg, dat, (TCHAR*)lParam);
-			mir_free((TCHAR*)lParam);
+			FilenameToFileList(hwndDlg, dat, (wchar_t*)lParam);
+			mir_free((wchar_t*)lParam);
 			dat->closeIfFileChooseCancelled = 0;
 		}
 		else if (dat->closeIfFileChooseCancelled)

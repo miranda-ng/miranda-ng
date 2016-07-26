@@ -16,7 +16,7 @@
 HWND hHistoryWindow = 0; //the history window
 PopupHistoryList lstPopupHistory; //defined in main.cpp
 
-const TCHAR *szHistoryColumns[] = {L"Title", L"Message", L"Timestamp"}; //need to make sure that the string and size vectors have the same number of elements
+const wchar_t *szHistoryColumns[] = {L"Title", L"Message", L"Timestamp"}; //need to make sure that the string and size vectors have the same number of elements
 const int cxHistoryColumns[] = {100, 450, 115};
 const int cHistoryColumns = sizeof(szHistoryColumns) / sizeof(szHistoryColumns[0]);
 
@@ -118,59 +118,59 @@ struct SortParams{
 
 static int lastColumn = -1; //last sort column
 
-int MatchesFilterCS(const TCHAR *filter, const PopupHistoryData *popupItem) //case sensitive
+int MatchesFilterCS(const wchar_t *filter, const PopupHistoryData *popupItem) //case sensitive
 {
 	if (mir_tstrlen(filter) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
 	int match = 0;
 	
-	match = (_tcsstr(popupItem->messageT, filter)) ? 1 : match; //check message part
+	match = (wcsstr(popupItem->messageT, filter)) ? 1 : match; //check message part
 	
 	if (!match) //check title part of no match has been found
 	{
-		match = (_tcsstr(popupItem->titleT, filter)) ? 1 : match;
+		match = (wcsstr(popupItem->titleT, filter)) ? 1 : match;
 	}
 	
 	if (!match) //if no match has been found yet try to match the timestamp
 	{
-		TCHAR buffer[1024];
+		wchar_t buffer[1024];
 		struct tm *myTime = localtime(&popupItem->timestamp);
-		_tcsftime(buffer, 1024, L"%c", myTime);
-		match = (_tcsstr(buffer, filter)) ? 1 : match;
+		wcsftime(buffer, 1024, L"%c", myTime);
+		match = (wcsstr(buffer, filter)) ? 1 : match;
 	}
 	
 	return match;
 }
 
-__inline void ConvertCase(TCHAR *dest, const TCHAR *source, size_t size)
+__inline void ConvertCase(wchar_t *dest, const wchar_t *source, size_t size)
 {
-	_tcsncpy(dest, source, size);
-	_tcslwr(dest);
+	wcsncpy(dest, source, size);
+	wcslwr(dest);
 }
 
-int MatchesFilterCI(const TCHAR *filterS, const PopupHistoryData *popupItem)
+int MatchesFilterCI(const wchar_t *filterS, const PopupHistoryData *popupItem)
 {
 	if (mir_tstrlen(filterS) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
 	int match = 0;
 	const int BUFFER_SIZE = 1024;
-	TCHAR buffer[BUFFER_SIZE];
-	TCHAR filterI[BUFFER_SIZE];
+	wchar_t buffer[BUFFER_SIZE];
+	wchar_t filterI[BUFFER_SIZE];
 	
 	ConvertCase(filterI, filterS, BUFFER_SIZE);
 	
 	ConvertCase(buffer, popupItem->messageT, BUFFER_SIZE); //check message part
-	match = (_tcsstr(buffer, filterI)) ? 1 : match;
+	match = (wcsstr(buffer, filterI)) ? 1 : match;
 	
 	if (!match) // check title part of no match has been found
 	{
 		ConvertCase(buffer, popupItem->titleT, BUFFER_SIZE);
-		match = (_tcsstr(buffer, filterI)) ? 1 : match;
+		match = (wcsstr(buffer, filterI)) ? 1 : match;
 	}
 	
 	if (!match) //if no match has been found yet try to match the timestamp
 	{
 		struct tm *myTime = localtime(&popupItem->timestamp);
-		_tcsftime(buffer, 1024, L"%c", myTime);
-		match = (_tcsstr(buffer, filterI)) ? 1 : match;
+		wcsftime(buffer, 1024, L"%c", myTime);
+		match = (wcsstr(buffer, filterI)) ? 1 : match;
 	}
 	
 	return match;
@@ -180,8 +180,8 @@ int CALLBACK PopupsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 {
 	SortParams params = *(SortParams *) myParam;
 	const int MAX_SIZE = 512;
-	TCHAR text1[MAX_SIZE];
-	TCHAR text2[MAX_SIZE];
+	wchar_t text1[MAX_SIZE];
+	wchar_t text2[MAX_SIZE];
 	int res;
 	
 	ListView_GetItemText(params.hList, (int) lParam1, params.column, text1, _countof(text1));
@@ -323,8 +323,8 @@ void DeleteOldEvents(HWND hWnd, int renderer)
 	}
 }
 
-typedef int (*SIG_MATCHESFILTER)(const TCHAR *filter, const PopupHistoryData *popupItem);
-typedef void (*SIG_ADDEVENTS)(HWND hWnd, int renderer, TCHAR *filter, SIG_MATCHESFILTER MatchesFilter);
+typedef int (*SIG_MATCHESFILTER)(const wchar_t *filter, const PopupHistoryData *popupItem);
+typedef void (*SIG_ADDEVENTS)(HWND hWnd, int renderer, wchar_t *filter, SIG_MATCHESFILTER MatchesFilter);
 
 IEVIEWEVENTDATA *CreateAndFillEventData(PopupHistoryData *popupItem)
 {
@@ -345,7 +345,7 @@ IEVIEWEVENTDATA *CreateAndFillEventData(PopupHistoryData *popupItem)
 	return eventData;
 }
 
-void AddEventsCustomControl(HWND hWnd, int renderer, TCHAR *filter, SIG_MATCHESFILTER MatchesFilter)
+void AddEventsCustomControl(HWND hWnd, int renderer, wchar_t *filter, SIG_MATCHESFILTER MatchesFilter)
 {
 	PopupHistoryWindowData *pwData = (PopupHistoryWindowData *) GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	if (pwData)
@@ -401,10 +401,10 @@ void AddEventsCustomControl(HWND hWnd, int renderer, TCHAR *filter, SIG_MATCHESF
 	}
 }
 
-void AddEventsDefault(HWND hWnd, int, TCHAR *filter, SIG_MATCHESFILTER MatchesFilter)
+void AddEventsDefault(HWND hWnd, int, wchar_t *filter, SIG_MATCHESFILTER MatchesFilter)
 {
 	HWND hHistoryList = GetDlgItem(hWnd, IDC_LST_HISTORY);
-	TCHAR buffer[1024];
+	wchar_t buffer[1024];
 	struct tm *myTime;
 	
 	LVITEM item = {0};
@@ -423,7 +423,7 @@ void AddEventsDefault(HWND hWnd, int, TCHAR *filter, SIG_MATCHESFILTER MatchesFi
 			ListView_InsertItem(hHistoryList, &item);
 			ListView_SetItemText(hHistoryList, lIndex, 1, popupItem->messageT);
 			myTime = localtime(&popupItem->timestamp);
-			_tcsftime(buffer, 1024, L"%c", myTime);
+			wcsftime(buffer, 1024, L"%c", myTime);
 			ListView_SetItemText(hHistoryList, lIndex++, 2, buffer);
 		}
 	}
@@ -437,7 +437,7 @@ void RefreshPopupHistory(HWND hWnd, int renderer)
 	
 	SIG_ADDEVENTS AddEvents = (renderer == RENDER_DEFAULT) ? AddEventsDefault : AddEventsCustomControl;
 
-	TCHAR filter[MAX_FILTER_SIZE];
+	wchar_t filter[MAX_FILTER_SIZE];
 	DeleteOldEvents(hWnd, renderer); //delete events
 		
 	GetDlgItemText(hWnd, IDC_HISTORY_FILTER, filter, _countof(filter)); //get filter text
@@ -466,9 +466,9 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 	{
 		if (OpenClipboard(hList))
 		{
-			TCHAR buffer[2048];
-			buffer[0] = _T('\0');
-			TCHAR *clipboard;
+			wchar_t buffer[2048];
+			buffer[0] = '\0';
+			wchar_t *clipboard;
 			int i;
 			int found = 0;
 			int count = ListView_GetItemCount(hList);
@@ -491,10 +491,10 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 				EmptyClipboard();
 				int len = (int)mir_tstrlen(buffer);
 				
-				HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, (len + 2) * sizeof(TCHAR));
-				clipboard = (TCHAR *) GlobalLock(hData);
-				_tcsncpy(clipboard, buffer, len);
-				clipboard[len] = _T('\0');
+				HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, (len + 2) * sizeof(wchar_t));
+				clipboard = (wchar_t *) GlobalLock(hData);
+				wcsncpy(clipboard, buffer, len);
+				clipboard[len] = '\0';
 				GlobalUnlock(hData);
 				if (!SetClipboardData(textType, hData))
 				{

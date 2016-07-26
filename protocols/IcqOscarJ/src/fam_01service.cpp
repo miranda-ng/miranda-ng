@@ -405,7 +405,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 				if (m_bAvatarsEnabled && !info->bMyAvatarInited) { // signal the server after login
 					// this refreshes avatar state - it used to work automatically, but now it does not
 					if (getByte("ForceOurAvatar", 0)) { // keep our avatar
-						TCHAR *file = GetOwnAvatarFileName();
+						wchar_t *file = GetOwnAvatarFileName();
 						SetMyAvatar(0, (LPARAM)file);
 						SAFE_FREE(&file);
 					}

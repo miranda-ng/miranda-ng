@@ -150,14 +150,14 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	~JABBER_LIST_ITEM();
 
 	JABBER_LIST list;
-	TCHAR* jid;
+	wchar_t* jid;
 	MCONTACT hContact;
 
 	// LIST_ROSTER
 	// jid = jid of the contact
-	TCHAR* nick;
+	wchar_t* nick;
 
-	pResourceStatus findResource(const TCHAR *resourceName) const;
+	pResourceStatus findResource(const wchar_t *resourceName) const;
 	pResourceStatus getBestResource() const;
 	JABBER_RESOURCE_MODE resourceMode;
 	LIST<JABBER_RESOURCE_STATUS> arResources; // array of resources
@@ -168,18 +168,18 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 		*getTemp();           // allocates m_pItemResource if needed
 
 	JABBER_SUBSCRIPTION subscription;
-	TCHAR* group;
-	TCHAR* photoFileName;
-	TCHAR* messageEventIdStr;
+	wchar_t* group;
+	wchar_t* photoFileName;
+	wchar_t* messageEventIdStr;
 
 	// LIST_AGENT
 	// jid = jid of the agent
-	TCHAR* name;
-	TCHAR* service;
+	wchar_t* name;
+	wchar_t* service;
 
 	// LIST_ROOM
 	// jid = room JID
-	TCHAR* type;	// room type
+	wchar_t* type;	// room type
 
 	// LIST_CHATROOM
 	// jid = room JID
@@ -206,7 +206,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 
 	//LIST_BOOKMARK
 	// jid = room JID
-	TCHAR* password;	// password for room
+	wchar_t* password;	// password for room
 	bool bAutoJoin;
 
 	bool bUseResource;
@@ -220,7 +220,7 @@ struct JABBER_HTTP_AVATARS
 	char * Url;
 	MCONTACT hContact;
 
-	JABBER_HTTP_AVATARS(const TCHAR *tUrl, MCONTACT thContact)
+	JABBER_HTTP_AVATARS(const wchar_t *tUrl, MCONTACT thContact)
 		: Url(mir_t2a(tUrl)), hContact(thContact) {}
 
 	~JABBER_HTTP_AVATARS() { mir_free(Url); }

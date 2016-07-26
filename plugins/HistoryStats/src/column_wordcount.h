@@ -21,9 +21,9 @@ public:
 	explicit ColWordCount();
 
 protected:
-	virtual const TCHAR* impl_getUID() const { return con::ColWordCount; }
-	virtual const TCHAR* impl_getTitle() const { return LPGENT("Word count"); }
-	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding the number of (distinct) words used by you, by your contact, or by both of you."); }
+	virtual const wchar_t* impl_getUID() const { return con::ColWordCount; }
+	virtual const wchar_t* impl_getTitle() const { return LPGENW("Word count"); }
+	virtual const wchar_t* impl_getDescription() const { return LPGENW("Column holding the number of (distinct) words used by you, by your contact, or by both of you."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual void impl_configRead(const SettingsTree& settings);
 	virtual void impl_configWrite(SettingsTree& settings) const;

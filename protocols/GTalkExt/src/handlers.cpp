@@ -31,8 +31,6 @@
 
 LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-#include <tchar.h>
-
 GoogleTalkAcc* isGoogle(LPARAM lParam)
 {
 	return g_accs.find((GoogleTalkAcc*)&lParam);
@@ -42,7 +40,7 @@ GoogleTalkAcc* isGoogle(LPARAM lParam)
 
 void FormatMessageUrl(LPCTSTR format, LPTSTR buf, LPCTSTR mailbox, LPCTSTR tid)
 {
-	ULARGE_INTEGER iTid; iTid.QuadPart = _tstoi64(tid);
+	ULARGE_INTEGER iTid; iTid.QuadPart = _wtoi64(tid);
 	size_t l = mir_tstrlen(buf);
 	mir_sntprintf(buf, l, format, mailbox, iTid.HighPart, iTid.LowPart);
 	assert(l >= mir_tstrlen(buf));
@@ -50,8 +48,8 @@ void FormatMessageUrl(LPCTSTR format, LPTSTR buf, LPCTSTR mailbox, LPCTSTR tid)
 
 void MakeUrlHex(LPTSTR url, LPCTSTR tid)
 {
-	ULARGE_INTEGER iTid; iTid.QuadPart = _tstoi64(tid);
-	LPTSTR tidInUrl = _tcsstr(url, tid);
+	ULARGE_INTEGER iTid; iTid.QuadPart = _wtoi64(tid);
+	LPTSTR tidInUrl = wcsstr(url, tid);
 	LPTSTR trail = tidInUrl + mir_tstrlen(tid);
 	wsprintf(tidInUrl, L"%x%08x", iTid.HighPart, iTid.LowPart); //!!!!!!!!!!!!
 	wmemmove(tidInUrl + mir_tstrlen(tidInUrl), trail, mir_tstrlen(trail) + 1);
@@ -59,13 +57,13 @@ void MakeUrlHex(LPTSTR url, LPCTSTR tid)
 
 LPTSTR ExtractJid(LPCTSTR jidWithRes)
 {
-	LPCTSTR p = _tcsrchr(jidWithRes, '/');
+	LPCTSTR p = wcsrchr(jidWithRes, '/');
 	if (p == NULL)
 		return mir_tstrdup(jidWithRes);
 
 	size_t l = size_t(p - jidWithRes);
-	LPTSTR result = (LPTSTR)mir_alloc((l + 1) * sizeof(TCHAR));
-	_tcsncpy(result, jidWithRes, l);
+	LPTSTR result = (LPTSTR)mir_alloc((l + 1) * sizeof(wchar_t));
+	wcsncpy(result, jidWithRes, l);
 	result[l] = 0;
 	return result;
 }
@@ -166,7 +164,7 @@ BOOL MailListHandler(IJabberInterface *ji, HXML node, void *)
 	__finally {
 		if (jidWithRes)
 			ji->AddTemporaryIqHandler(TimerHandler, JABBER_IQ_TYPE_RESULT, 0,
-			(PVOID)_tcsdup(jidWithRes), TIMER_INTERVAL);
+			(PVOID)wcsdup(jidWithRes), TIMER_INTERVAL);
 		// Never get a real result stanza. Results elapsed request after WAIT_TIMER_INTERVAL ms
 	}
 }
@@ -186,7 +184,7 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 		lastMailTime(ReadJidSetting(LAST_MAIL_TIME_FROM_JID, jid)),
 		lastThreadId(ReadJidSetting(LAST_THREAD_ID_FROM_JID, jid));
 
-	TCHAR id[30];
+	wchar_t id[30];
 	mir_sntprintf(id, JABBER_IQID_FORMAT, uID);
 	xmlAddAttr(node, ATTRNAME_ID, id);
 
@@ -246,7 +244,7 @@ void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 	ptrT jid(ExtractJid(jidWithResource));
 	xmlAddAttr(node, ATTRNAME_TO, jid);
 
-	TCHAR id[30];
+	wchar_t id[30];
 	mir_sntprintf(id, JABBER_IQID_FORMAT, ji->SerialNext());
 	xmlAddAttr(node, ATTRNAME_ID, id);
 
@@ -293,7 +291,7 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *)
 	if (queryNode) {
 		LPCTSTR ptszId = xmlGetAttrValue(node, ATTRNAME_ID);
 		if (ptszId)
-			ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, _ttoi(ptszId + 4), NULL, RESPONSE_TIMEOUT, 500);
+			ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, _wtoi(ptszId + 4), NULL, RESPONSE_TIMEOUT, 500);
 	}
 
 	if (!mir_tstrcmp(xmlGetName(node), L"presence") && xmlGetAttrValue(node, ATTRNAME_TO) == 0) {
@@ -412,7 +410,7 @@ int OnExtListInit(WPARAM wParam, LPARAM lParam)
 {
 	GoogleTalkAcc *gta = isGoogle(lParam);
 	if (gta != NULL) {
-		LIST<TCHAR> *pList = (LIST<TCHAR>*)wParam;
+		LIST<wchar_t> *pList = (LIST<wchar_t>*)wParam;
 		pList->insert(JABBER_EXT_GTALK_PMUC);
 	}
 	return 0;

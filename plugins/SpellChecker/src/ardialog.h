@@ -22,11 +22,11 @@ Boston, MA 02111-1307, USA.
 
 
 typedef void (*AutoReplaceDialogCallback)(BOOL canceled, Dictionary *dict, 
-										  const TCHAR *find, const TCHAR *replace, BOOL useVariables, 
-										  const TCHAR *original_find, void *param);
+										  const wchar_t *find, const wchar_t *replace, BOOL useVariables, 
+										  const wchar_t *original_find, void *param);
 
 BOOL ShowAutoReplaceDialog(HWND parent, BOOL modal, 
-						   Dictionary *dict, const TCHAR *find, const TCHAR *replace, BOOL useVariables,
+						   Dictionary *dict, const wchar_t *find, const wchar_t *replace, BOOL useVariables,
 						   BOOL findReadOnly, AutoReplaceDialogCallback callback, void *param);
 
 

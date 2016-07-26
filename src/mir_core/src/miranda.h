@@ -86,7 +86,7 @@ extern LIST<HINSTANCE__> pluginListAddr;
 // langpack.cpp
 
 char*  LangPackTranslateString(MUUID* pUuid, const char *szEnglish, const int W);
-TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish);
+wchar_t* LangPackTranslateStringT(int hLangpack, const wchar_t* tszEnglish);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // threads.cpp

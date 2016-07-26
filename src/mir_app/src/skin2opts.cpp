@@ -39,10 +39,10 @@ struct IcoLibOptsData
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static HICON ExtractIconFromPath(const TCHAR *path, int cxIcon, int cyIcon)
+static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 {
-	TCHAR *comma;
-	TCHAR file[MAX_PATH], fileFull[MAX_PATH];
+	wchar_t *comma;
+	wchar_t file[MAX_PATH], fileFull[MAX_PATH];
 	int n;
 	HICON hIcon;
 
@@ -50,11 +50,11 @@ static HICON ExtractIconFromPath(const TCHAR *path, int cxIcon, int cyIcon)
 		return (HICON)NULL;
 
 	mir_tstrncpy(file, path, _countof(file));
-	comma = _tcsrchr(file, ',');
+	comma = wcsrchr(file, ',');
 	if (!comma)
 		n = 0;
 	else {
-		n = _ttoi(comma + 1);
+		n = _wtoi(comma + 1);
 		*comma = 0;
 	}
 	PathToAbsoluteT(file, fileFull);
@@ -110,14 +110,14 @@ HICON IconItem_GetIcon_Preview(IcolibItem* item)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib GUI service routines
 
-static void __fastcall MySetCursor(TCHAR* nCursor)
+static void __fastcall MySetCursor(wchar_t* nCursor)
 {
 	SetCursor(LoadCursor(NULL, nCursor));
 }
 
-static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
+static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
 {
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	mir_sntprintf(path, L"%s,", filename);
 	size_t suffIndx = mir_tstrlen(path);
 
@@ -127,7 +127,7 @@ static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 		IcolibItem *item = iconList[indx];
 
 		if (item->default_file && item->section == sectionActive) {
-			_itot(item->default_indx, path + suffIndx, 10);
+			_itow(item->default_indx, path + suffIndx, 10);
 			HICON hIcon = ExtractIconFromPath(path, item->cx, item->cy);
 			if (!hIcon)
 				continue;
@@ -142,7 +142,7 @@ static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 	}
 }
 
-void LoadSubIcons(HWND htv, TCHAR *filename, HTREEITEM hItem)
+void LoadSubIcons(HWND htv, wchar_t *filename, HTREEITEM hItem)
 {
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
@@ -220,10 +220,10 @@ static int OpenPopupMenu(HWND hwndDlg)
 	return cmd;
 }
 
-static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
+static wchar_t* OpenFileDlg(HWND hParent, const wchar_t* szFile, BOOL bAll)
 {
 	OPENFILENAME ofn = { 0 };
-	TCHAR filter[512], *pfilter, file[MAX_PATH * 2];
+	wchar_t filter[512], *pfilter, file[MAX_PATH * 2];
 
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hParent;
@@ -302,10 +302,10 @@ void DoIconsChanged(HWND hwndDlg)
 	}
 }
 
-static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHAR *name)
+static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar_t *name)
 {
 	TVITEM tvi = { 0 };
-	TCHAR str[MAX_PATH];
+	wchar_t str[MAX_PATH];
 
 	if (hItem)
 		tvi.hItem = TreeView_GetChild(hwndTree, hItem);
@@ -397,7 +397,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			HIMAGELIST hIml = ListView_GetImageList(hPreview, LVSIL_NORMAL);
 			ImageList_RemoveAll(hIml);
 
-			TCHAR filename[MAX_PATH], caption[64];
+			wchar_t filename[MAX_PATH], caption[64];
 			GetDlgItemText(hwndDlg, IDC_ICONSET, filename, _countof(filename));
 			{
 				RECT rcPreview, rcGroup;
@@ -407,7 +407,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				//SetWindowPos(hPreview, 0, 0, 0, rcPreview.right-rcPreview.left, rcGroup.bottom-rcPreview.top, SWP_NOZORDER|SWP_NOMOVE);
 			}
 
-			if (_taccess(filename, 0) != 0) {
+			if (_waccess(filename, 0) != 0) {
 				MySetCursor(IDC_ARROW);
 				break;
 			}
@@ -437,7 +437,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		switch (LOWORD(wParam)) {
 		case IDC_BROWSE:
 			{
-				TCHAR str[MAX_PATH], *file;
+				wchar_t str[MAX_PATH], *file;
 				GetDlgItemText(hwndDlg, IDC_ICONSET, str, _countof(str));
 				if (!(file = OpenFileDlg(GetParent(hwndDlg), str, TRUE)))
 					break;
@@ -512,7 +512,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ImageList_EndDrag();
 			dragging = 0;
 			if (dropHiLite != -1) {
-				TCHAR path[MAX_PATH], fullPath[MAX_PATH], filename[MAX_PATH];
+				wchar_t path[MAX_PATH], fullPath[MAX_PATH], filename[MAX_PATH];
 				LVITEM lvi;
 
 				GetDlgItemText(hwndDlg, IDC_ICONSET, fullPath, _countof(fullPath));
@@ -655,7 +655,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		{
 			HWND hwndTree = GetDlgItem(hwndDlg, IDC_CATEGORYLIST);
 			int indx;
-			TCHAR itemName[1024];
+			wchar_t itemName[1024];
 			HTREEITEM hSection;
 
 			if (!hwndTree) break;
@@ -664,7 +664,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			TreeView_DeleteAllItems(hwndTree);
 
 			for (indx = 0; indx < sectionList.getCount(); indx++) {
-				TCHAR* sectionName;
+				wchar_t* sectionName;
 				int sectionLevel = 0;
 
 				hSection = NULL;
@@ -673,10 +673,10 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				while (sectionName) {
 					// allow multi-level tree
-					TCHAR* pItemName = sectionName;
+					wchar_t* pItemName = sectionName;
 					HTREEITEM hItem;
 
-					if (sectionName = _tcschr(sectionName, '/')) {
+					if (sectionName = wcschr(sectionName, '/')) {
 						// one level deeper
 						*sectionName = 0;
 					}
@@ -809,7 +809,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				IcolibItem *item = iconList[lvi.lParam];
 				SafeDestroyIcon(item->temp_icon);
 
-				TCHAR *path = (TCHAR*)lParam;
+				wchar_t *path = (wchar_t*)lParam;
 				replaceStrT(item->temp_file, path);
 				item->temp_icon = (HICON)ExtractIconFromPath(path, item->cx, item->cy);
 				item->temp_reset = FALSE;
@@ -828,12 +828,12 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			break;
 		}
 		else if (LOWORD(wParam) == IDC_LOADICONS) {
-			TCHAR filetmp[1] = { 0 };
-			TCHAR *file;
+			wchar_t filetmp[1] = { 0 };
+			wchar_t *file;
 
 			if (file = OpenFileDlg(hwndDlg, filetmp, FALSE)) {
 				HWND htv = GetDlgItem(hwndDlg, IDC_CATEGORYLIST);
-				TCHAR filename[MAX_PATH];
+				wchar_t filename[MAX_PATH];
 
 				PathToRelativeT(file, filename);
 				mir_free(file);
@@ -932,7 +932,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				if (lvi.lParam < iconList.getCount()) {
 					IcolibItem *item = iconList[lvi.lParam];
 					if (item->temp_file)
-						_tcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, item->temp_file, _TRUNCATE);
+						wcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, item->temp_file, _TRUNCATE);
 					else if (item->default_file)
 						mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, L"%s, %d", item->default_file->file, item->default_indx);
 				}

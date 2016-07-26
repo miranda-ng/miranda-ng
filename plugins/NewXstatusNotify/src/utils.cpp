@@ -41,20 +41,20 @@ bool CheckMsgWnd(MCONTACT hContact)
 	return false;
 }
 
-int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSetting, TCHAR *setting, int size, const TCHAR *defaultValue)
+int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSetting, wchar_t *setting, int size, const wchar_t *defaultValue)
 {
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, szModule, szSetting, &dbv)) {
-		_tcsncpy(setting, dbv.ptszVal, size);
+		wcsncpy(setting, dbv.ptszVal, size);
 		db_free(&dbv);
 		return 0;
 	}
 
-	_tcsncpy(setting, defaultValue, size);
+	wcsncpy(setting, defaultValue, size);
 	return 1;
 }
 
-void ShowLog(TCHAR *file)
+void ShowLog(wchar_t *file)
 {
 	INT_PTR res = (INT_PTR)ShellExecute(NULL, L"open", file, NULL, NULL, SW_SHOW);
 	if (res <= 32) // error
@@ -83,16 +83,16 @@ BOOL StatusHasAwayMessage(char *szProto, int status)
 	}
 }
 
-void LogToFile(TCHAR *stzText)
+void LogToFile(wchar_t *stzText)
 {
-	FILE *fp = _tfopen(opt.LogFilePath, L"a+b, ccs=UTF-8");
+	FILE *fp = _wfopen(opt.LogFilePath, L"a+b, ccs=UTF-8");
 	if (fp) {
 		fprintf(fp, T2Utf(stzText));
 		fclose(fp);
 	}
 }
 
-void AddCR(CMString &str, const TCHAR *stzText)
+void AddCR(CMString &str, const wchar_t *stzText)
 {
 	if (stzText == NULL)
 		return;

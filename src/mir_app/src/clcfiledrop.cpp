@@ -140,14 +140,14 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 HRESULT CDropTarget::DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL pt, DWORD *pdwEffect)
 {
 	HWND hwnd;
-	TCHAR szWindowClass[64];
+	wchar_t szWindowClass[64];
 	POINT shortPt;
 
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;
 	hwnd = WindowFromPoint(shortPt);
 	GetClassName(hwnd, szWindowClass, _countof(szWindowClass));
-	if (!mir_tstrcmp(szWindowClass, _T(CLISTCONTROL_CLASS))) {
+	if (!mir_tstrcmp(szWindowClass, CLISTCONTROL_CLASSW)) {
 		hwndCurrentDrag = hwnd;
 		ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 		originalSelection = dat->selection;
@@ -172,15 +172,15 @@ HRESULT CDropTarget::DragLeave(void)
 	return S_OK;
 }
 
-static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR *szFilename)
+static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t *szFilename)
 {
-	*pppFiles = (TCHAR **) mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(TCHAR *));
+	*pppFiles = (wchar_t **) mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(wchar_t *));
 	(*pppFiles)[*totalCount] = NULL;
 	(*pppFiles)[*totalCount - 1] = mir_tstrdup(szFilename);
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		HANDLE hFind;
-		TCHAR szPath[MAX_PATH];
+		wchar_t szPath[MAX_PATH];
 		mir_tstrcpy(szPath, szFilename);
 		mir_tstrcat(szPath, L"\\*");
 		if (hFind = FindFirstFile(szPath, &fd)) {
@@ -218,8 +218,8 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 	ScreenToClient(hwndCurrentDrag, &shortPt);
 	MCONTACT hContact = HContactFromPoint(hwndCurrentDrag, dat, shortPt.x, shortPt.y, NULL);
 	if (hContact != NULL) {
-		TCHAR **ppFiles = NULL;
-		TCHAR szFilename[MAX_PATH];
+		wchar_t **ppFiles = NULL;
+		wchar_t szFilename[MAX_PATH];
 		int fileCount, totalCount = 0, i;
 
 		fileCount = DragQueryFile(hDrop, -1, NULL, 0);

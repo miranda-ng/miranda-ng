@@ -35,7 +35,7 @@ typedef struct TCbExItem
 	WORD	wMask;
 	WORD	wFlags;
 	DWORD	dwID;
-	TCHAR	szCat[MAX_CAT];
+	wchar_t	szCat[MAX_CAT];
 	LPTSTR	pszVal;
 	LPCSTR	pszIcon;
 	HICON	hIcon;
@@ -158,7 +158,7 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 
 		if (*cbi->pszVal)
-			SetWindowText(hDlg, LPGENT("Edit e-mail"));
+			SetWindowText(hDlg, LPGENW("Edit e-mail"));
 		TranslateDialogDefault(hDlg);
 		SendDlgItemMessage(hDlg, EDIT_CATEGORY, EM_LIMITTEXT, cbi->ccCat - 1, 0);
 		SendDlgItemMessage(hDlg, EDIT_EMAIL, EM_LIMITTEXT, cbi->ccVal - 1, 0);
@@ -169,7 +169,7 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 
 		// translate Userinfo buttons
 		{
-			TCHAR szButton[MAX_PATH];
+			wchar_t szButton[MAX_PATH];
 			HWND hBtn = GetDlgItem(hDlg, IDOK);
 			GetWindowText(hBtn, szButton, _countof(szButton));
 			SetWindowText(hBtn, TranslateTS(szButton));
@@ -202,14 +202,14 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 			}
 			case EDIT_EMAIL:
 				if (HIWORD(wParam) == EN_UPDATE) {
-					TCHAR szText[MAXDATASIZE];
+					wchar_t szText[MAXDATASIZE];
 					LPTSTR pszAdd, pszDot;
 					if (PtrIsValid(cbi)) {
 						GetWindowText((HWND)lParam, szText, _countof(szText));
 						EnableWindow(GetDlgItem(hDlg, IDOK), 
-							((pszAdd = _tcschr(szText, '@')) && 
+							((pszAdd = wcschr(szText, '@')) && 
 							*(pszAdd + 1) != '.' &&
-							(pszDot = _tcschr(pszAdd, '.')) &&
+							(pszDot = wcschr(pszAdd, '.')) &&
 							*(pszDot + 1) &&
 							mir_tstrcmp(szText, cbi->pszVal)));
 					}
@@ -251,7 +251,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 			// translate Userinfo buttons
 			{
-				TCHAR szButton[MAX_PATH];
+				wchar_t szButton[MAX_PATH];
 				HWND hBtn;
 
 				hBtn = GetDlgItem(hDlg, IDOK);
@@ -261,7 +261,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				GetWindowText(hBtn, szButton, _countof(szButton));
 				SetWindowText(hBtn, TranslateTS(szButton));
 			}
-			if (*cbi->pszVal) SetWindowText(hDlg, LPGENT("Edit phone number"));
+			if (*cbi->pszVal) SetWindowText(hDlg, LPGENW("Edit phone number"));
 			if (cbi->wFlags & CBEXIF_SMS) CheckDlgButton(hDlg, CHECK_SMS, BST_CHECKED);
 			TranslateDialogDefault(hDlg);
 
@@ -292,7 +292,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		switch (LOWORD(wParam)) {
 			case IDOK:
 				if (HIWORD(wParam) == BN_CLICKED) {
-					TCHAR szText[MAXDATASIZE];
+					wchar_t szText[MAXDATASIZE];
 					int errorPos;
 
 					if (!GetDlgItemText(hDlg, EDIT_PHONE, szText, _countof(szText)) || !CheckPhoneSyntax(szText, cbi->pszVal, cbi->ccVal, errorPos) || errorPos > -1) {
@@ -322,7 +322,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			if (noRecursion) break;
 			EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);
 			{
-				TCHAR szPhone[MAXDATASIZE], szArea[32], szData[64];
+				wchar_t szPhone[MAXDATASIZE], szArea[32], szData[64];
 				int	 nCurSel = SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_GETCURSEL, 0, 0);
 				UINT	nCountry = (nCurSel != CB_ERR) ? SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_GETITEMDATA, nCurSel, 0) : 0;
 
@@ -340,13 +340,13 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			if (noRecursion) break;
 			noRecursion = 1;
 			{
-				TCHAR szText[MAXDATASIZE], *pText = 0, *pArea, *pNumber;
+				wchar_t szText[MAXDATASIZE], *pText = 0, *pArea, *pNumber;
 				bool isValid = true;
 				GetDlgItemText(hDlg, EDIT_PHONE, szText, _countof(szText));
 				if (szText[0] != '+')
 					isValid = false;
 				if (isValid) {
-					int country = _tcstol(szText + 1, &pText, 10);
+					int country = wcstol(szText + 1, &pText, 10);
 					if (pText - szText > 4)
 						isValid = false;
 					else {
@@ -362,11 +362,11 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					}
 				}
 				if (isValid) {
-					pArea = pText + _tcscspn(pText, L"0123456789");
+					pArea = pText + wcscspn(pText, L"0123456789");
 					pText = pArea + _tcsspn(pArea, L"0123456789");
 					if (*pText) {
 						*pText = '\0';
-						pNumber = pText + 1 + _tcscspn(pText + 1, L"0123456789");
+						pNumber = pText + 1 + wcscspn(pText + 1, L"0123456789");
 						SetDlgItemText(hDlg, EDIT_NUMBER, pNumber);
 					}
 					SetDlgItemText(hDlg, EDIT_AREA, pArea);
@@ -659,8 +659,8 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			if (HIWORD(wParam) == BN_CLICKED) {
 				DLGPROC dlgProc;
 				WORD dlgID;
-				TCHAR szCat[MAX_CAT] = { 0 };
-				TCHAR szVal[MAXDATASIZE] = { 0 };
+				wchar_t szCat[MAX_CAT] = { 0 };
+				wchar_t szVal[MAXDATASIZE] = { 0 };
 				CBEXITEM cbi;
 				HWND hDlgDetails;
 
@@ -716,8 +716,8 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			if (HIWORD(wParam) == BN_CLICKED) {
 				DLGPROC dlgProc;
 				WORD dlgID;
-				TCHAR szCat[MAX_CAT] = { 0 };
-				TCHAR szVal[MAXDATASIZE] = { 0 };
+				wchar_t szCat[MAX_CAT] = { 0 };
+				wchar_t szVal[MAXDATASIZE] = { 0 };
 				CBEXITEM cbi;
 				HWND hDlgDetails;
 
@@ -746,7 +746,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				cbi.ccCat = MAX_CAT;
 				cbi.ccVal = MAXDATASIZE;
 				if (!CtrlContactWndProc(hwnd, CBEXM_GETITEM, NULL, (LPARAM)&cbi)) {
-					MsgErr(hwnd, LPGENT("CRITICAL: Unable to edit current entry!\nThis should not happen!"));
+					MsgErr(hwnd, LPGENW("CRITICAL: Unable to edit current entry!\nThis should not happen!"));
 					return 1;
 				}
 
@@ -772,7 +772,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			if (HIWORD(wParam) == BN_CLICKED) {
 				HWND hDlgDetails;
 				MSGBOX mBox;
-				TCHAR szMsg[MAXDATASIZE];
+				wchar_t szMsg[MAXDATASIZE];
 					
 				SetFocus((HWND)lParam);
 				if (!(hDlgDetails = GetParent(GetParent(hwnd))) ||
@@ -827,7 +827,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			switch (HIWORD(wParam)) {
 				case EN_UPDATE:
 				{
-					TCHAR szVal[MAXDATASIZE] = { 0 };
+					wchar_t szVal[MAXDATASIZE] = { 0 };
 					int ccVal;
 					MCONTACT hContact;
 					HWND hDlgDetails = GetParent(GetParent(hwnd));
@@ -845,7 +845,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						case EDIT_PHONE:
 						{
 							int errorPos;
-							TCHAR szEdit[MAXDATASIZE];
+							wchar_t szEdit[MAXDATASIZE];
 
 							if (ccVal = GetWindowText(cbex->hEdit, szEdit, _countof(szEdit))) {
 								if (!(ccVal = CheckPhoneSyntax(szEdit, szVal, MAXDATASIZE, errorPos)) || errorPos > -1) {
@@ -894,7 +894,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						cbex->bIsChanged = TRUE;
 					}
 					else
-					if (cbex->pItems[cbex->iSelectedItem].pszVal = (LPTSTR)mir_realloc(cbex->pItems[cbex->iSelectedItem].pszVal, (ccText + 2) * sizeof(TCHAR))) {
+					if (cbex->pItems[cbex->iSelectedItem].pszVal = (LPTSTR)mir_realloc(cbex->pItems[cbex->iSelectedItem].pszVal, (ccText + 2) * sizeof(wchar_t))) {
 						cbex->pItems[cbex->iSelectedItem].pszVal[ccText + 1] = 0;
 						GetWindowText(cbex->hEdit, cbex->pItems[cbex->iSelectedItem].pszVal, ccText + 1);
 					}
@@ -1297,7 +1297,7 @@ int CtrlContactAddItemFromDB(
 			cbi.pszVal = NULL;
 		else { // check the database value
 			cbi.pszVal = dbv.ptszVal;
-			if (LPTSTR sms = _tcsstr(cbi.pszVal, L" SMS")) {
+			if (LPTSTR sms = wcsstr(cbi.pszVal, L" SMS")) {
 				cbi.wFlags |= CBEXIF_SMS;
 				*sms = 0;
 			}
@@ -1377,7 +1377,7 @@ int CtrlContactAddMyItemsFromDB(
 				dbv.ptszVal = NULL;
 			}
 		}
-		if (sms = _tcsstr(cbi.pszVal, L" SMS")) {
+		if (sms = wcsstr(cbi.pszVal, L" SMS")) {
 			cbi.wFlags |= CBEXIF_SMS;
 			*sms = 0;
 		}
@@ -1411,7 +1411,7 @@ int CtrlContactWriteItemToDB(
 				LPCSTR pszProto,
 				LPCSTR pszSetting)
 {
-	TCHAR szVal[MAXDATASIZE];
+	wchar_t szVal[MAXDATASIZE];
 	CBEXITEM cbi;
 
 	if (!CtrlContactWndProc(hCtrl, CBEXM_ISCHANGED, NULL, NULL)) return 1;
@@ -1455,8 +1455,8 @@ int CtrlContactWriteMyItemsToDB(
 				LPCSTR szFormatVal)
 {
 	CHAR pszSetting[MAXSETTING];
-	TCHAR szCat[MAX_CAT];
-	TCHAR szVal[MAXDATASIZE];
+	wchar_t szCat[MAX_CAT];
+	wchar_t szVal[MAXDATASIZE];
 	LPTSTR pszOther;
 	CBEXITEM cbi;
 	INT_PTR ccOther;
@@ -1481,7 +1481,7 @@ int CtrlContactWriteMyItemsToDB(
 				mir_tstrncat(szVal, L" SMS", _countof(szVal) - mir_tstrlen(szVal));
 			}
 			mir_snprintf(pszSetting, szFormatCat, i);
-			if (*szCat && _tcsncmp(szCat, pszOther, ccOther)) {
+			if (*szCat && wcsncmp(szCat, pszOther, ccOther)) {
 				if (db_set_ts(hContact, pszModule, pszSetting, szCat)) return 1;
 			}
 			else

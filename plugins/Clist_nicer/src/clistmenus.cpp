@@ -98,7 +98,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					return FALSE;
 				}
 				else {
-					TCHAR szTitle[512];
+					wchar_t szTitle[512];
 					DWORD dwFlags = db_get_dw(hContact, "CList", "CLN_Flags", 0);
 					BYTE bSecondLine = db_get_b(hContact, "CList", "CLN_2ndline", -1);
 

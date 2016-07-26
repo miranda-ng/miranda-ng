@@ -30,9 +30,9 @@
 
 #define MS_HTTPSERVER_ADDFILENAME "HTTPServer/AddFileName"
 
-bool IsStringValidLink(TCHAR* pszText);
+bool IsStringValidLink(wchar_t* pszText);
 
-const TCHAR *pszIDCSAVE_close = 0, *pszIDCSAVE_save = 0;
+const wchar_t *pszIDCSAVE_close = 0, *pszIDCSAVE_save = 0;
 
 static const UINT sendControls[] = { IDC_MESSAGE, IDC_LOG };
 static const UINT formatControls[] = { IDC_SMILEYBTN, IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTFACE, IDC_FONTSTRIKEOUT };
@@ -45,13 +45,13 @@ static COLORREF rtfDefColors[] = { RGB(255, 0, 0), RGB(0, 0, 255), RGB(0, 255, 0
 static struct
 {
 	int id;
-	const TCHAR* text;
+	const wchar_t* text;
 }
 tooltips[] =
 {
-	{ IDC_ADD, LPGENT("Add this contact permanently to your contact list") },
-	{ IDC_CANCELADD, LPGENT("Do not add this contact permanently") },
-	{ IDC_TOGGLESIDEBAR, LPGENT("Expand or collapse the side bar") }
+	{ IDC_ADD, LPGENW("Add this contact permanently to your contact list") },
+	{ IDC_CANCELADD, LPGENW("Do not add this contact permanently") },
+	{ IDC_TOGGLESIDEBAR, LPGENW("Expand or collapse the side bar") }
 };
 
 static struct
@@ -587,7 +587,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			HANDLE hClip = GetClipboardData(CF_TEXT);
 			if (hClip) {
 				if ((int)mir_strlen((char*)hClip) > mwdat->nMax) {
-					TCHAR szBuffer[512];
+					wchar_t szBuffer[512];
 					if (M.GetByte("autosplit", 0))
 						mir_sntprintf(szBuffer, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
 					else
@@ -1189,7 +1189,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		if (dat->hContact && dat->szProto != NULL) {
 			dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-			_tcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
+			wcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
 		}
 		else dat->wStatus = ID_STATUS_OFFLINE;
 
@@ -1353,7 +1353,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		}
 		if (newData->szInitialText) {
 			if (newData->isWchar)
-				SetDlgItemTextW(hwndDlg, IDC_MESSAGE, (TCHAR*)newData->szInitialText);
+				SetDlgItemTextW(hwndDlg, IDC_MESSAGE, (wchar_t*)newData->szInitialText);
 			else
 				SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
 			int len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
@@ -2706,7 +2706,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				MEVENT hDBEvent = 0;
 				if (dat->hwndIEView || dat->hwndHPP) {                // IEView quoting support..
-					TCHAR *selected = 0;
+					wchar_t *selected = 0;
 
 					IEVIEWEVENT event = { sizeof(event) };
 					event.hContact = dat->hContact;
@@ -2715,11 +2715,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					if (dat->hwndIEView) {
 						event.hwnd = dat->hwndIEView;
-						selected = (TCHAR*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
+						selected = (wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
 					}
 					else {
 						event.hwnd = dat->hwndHPP;
-						selected = (TCHAR*)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
+						selected = (wchar_t*)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 					}
 
 					if (selected != NULL) {
@@ -2742,22 +2742,22 @@ quote_from_last:
 				if (sel.cpMin == sel.cpMax) {
 					DBEVENTINFO dbei = { sizeof(dbei) };
 					dbei.cbBlob = db_event_getBlobSize(hDBEvent);
-					TCHAR *szText = (TCHAR*)mir_alloc((dbei.cbBlob + 1) * sizeof(TCHAR));   //URLs are made one char bigger for crlf
+					wchar_t *szText = (wchar_t*)mir_alloc((dbei.cbBlob + 1) * sizeof(wchar_t));   //URLs are made one char bigger for crlf
 					dbei.pBlob = (BYTE*)szText;
 					db_event_get(hDBEvent, &dbei);
 					int iSize = int(mir_strlen((char*)dbei.pBlob)) + 1;
 
 					bool bNeedsFree = false;
-					TCHAR *szConverted;
+					wchar_t *szConverted;
 					if (dbei.flags & DBEF_UTF) {
 						szConverted = mir_utf8decodeW((char*)szText);
 						bNeedsFree = true;
 					}
 					else {
 						if (iSize != (int)dbei.cbBlob)
-							szConverted = (TCHAR*)&dbei.pBlob[iSize];
+							szConverted = (wchar_t*)&dbei.pBlob[iSize];
 						else {
-							szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR) * iSize);
+							szConverted = (wchar_t*)mir_alloc(sizeof(wchar_t) * iSize);
 							bNeedsFree = true;
 							MultiByteToWideChar(CP_ACP, 0, (char*)dbei.pBlob, -1, szConverted, iSize);
 						}
@@ -2768,7 +2768,7 @@ quote_from_last:
 						memmove(szText + iDescr + 2, szText + sizeof(DWORD) + iDescr, dbei.cbBlob - iDescr - sizeof(DWORD)-1);
 						szText[iDescr] = '\r';
 						szText[iDescr + 1] = '\n';
-						szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR)* (1 + mir_strlen((char *)szText)));
+						szConverted = (wchar_t*)mir_alloc(sizeof(wchar_t)* (1 + mir_strlen((char *)szText)));
 						MultiByteToWideChar(CP_ACP, 0, (char *)szText, -1, szConverted, 1 + (int)mir_strlen((char *)szText));
 						bNeedsFree = true;
 					}
@@ -2871,15 +2871,15 @@ quote_from_last:
 		return 0;
 
 		// sent by the select container dialog box when a container was selected...
-		// lParam = (TCHAR*)selected name...
+		// lParam = (wchar_t*)selected name...
 	case DM_CONTAINERSELECTED:
 		{
-			TCHAR *szNewName = (TCHAR*)lParam;
+			wchar_t *szNewName = (wchar_t*)lParam;
 			if (!mir_tstrcmp(szNewName, TranslateT("Default container")))
 				szNewName = CGlobals::m_default_container_name;
 
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);
-			if (!_tcsncmp(m_pContainer->szName, szNewName, CONTAINER_NAMELEN))
+			if (!wcsncmp(m_pContainer->szName, szNewName, CONTAINER_NAMELEN))
 				break;
 
 			TContainerData *pNewContainer = FindContainerByName(szNewName);
@@ -3041,10 +3041,10 @@ quote_from_last:
 			}
 
 			if (dat->hContact != NULL) {
-				TCHAR szFilename[MAX_PATH];
+				wchar_t szFilename[MAX_PATH];
 				HDROP hDrop = (HDROP)wParam;
 				int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
-				TCHAR** ppFiles = NULL;
+				wchar_t** ppFiles = NULL;
 				for (i = 0; i < fileCount; i++) {
 					DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
 					Utils::AddToFileList(&ppFiles, &totalCount, szFilename);

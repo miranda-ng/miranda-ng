@@ -497,18 +497,18 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 				mir_strcpy(szBlob + sizeof(DWORD), pszFileName);
 				mir_strcpy(szBlob + sizeof(DWORD) + mir_strlen(pszFileName) + 1, pszDescription);
 
-				TCHAR* ptszFileName = mir_utf8decodeT(pszFileName);
+				wchar_t* ptszFileName = mir_utf8decodeT(pszFileName);
 
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.descr.t = mir_utf8decodeT(pszDescription);
-				pre.files.t = &ptszFileName;
+				pre.descr.w = mir_utf8decodeT(pszDescription);
+				pre.files.w = &ptszFileName;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(ft->hContact, &pre);
 
-				mir_free(pre.descr.t);
+				mir_free(pre.descr.w);
 				mir_free(ptszFileName);
 			}
 			else if (wAckType == 2) { // First attempt failed, reverse requested
@@ -713,7 +713,7 @@ static char* oftGetFileContainer(oscar_filetransfer* oft, const char** files, in
 }
 
 
-HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, const TCHAR** files, const TCHAR* pszDesc)
+HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, const wchar_t** files, const wchar_t* pszDesc)
 {
 	int i, filesCount;
 	struct _stati64 statbuf;
@@ -728,7 +728,7 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 
 	for (filesCount = 0; files[filesCount]; filesCount++);
 	ft->files = (oft_file_record *)SAFE_MALLOC(sizeof(oft_file_record) * filesCount);
-	ft->files_list = (char**)SAFE_MALLOC(sizeof(TCHAR *) * filesCount);
+	ft->files_list = (char**)SAFE_MALLOC(sizeof(wchar_t *) * filesCount);
 	ft->qwTotalSize = 0;
 
 	char **filesUtf = (char**)SAFE_MALLOC(sizeof(char *) * filesCount);
@@ -736,7 +736,7 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 
 	// Prepare files arrays
 	for (i = 0; i < filesCount; i++) {
-		if (_tstati64(files[i], &statbuf))
+		if (_wstat64(files[i], &statbuf))
 			debugLogA("IcqSendFile() was passed invalid filename \"%s\"", files[i]);
 		else {
 			if (!(statbuf.st_mode & _S_IFDIR)) { // take only files
@@ -854,7 +854,7 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 }
 
 
-HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath)
+HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath)
 {
 	oscar_filetransfer *ft = (oscar_filetransfer*)hTransfer;
 
@@ -884,7 +884,7 @@ HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR 
 	return hTransfer; // Success
 }
 
-DWORD CIcqProto::oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
+DWORD CIcqProto::oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*)
 {
 	oscar_filetransfer *ft = (oscar_filetransfer*)hTransfer;
 
@@ -935,7 +935,7 @@ DWORD CIcqProto::oftFileCancel(MCONTACT hContact, HANDLE hTransfer)
 	return 0; // Success
 }
 
-void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const TCHAR *szFilename)
+void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const wchar_t *szFilename)
 {
 	int openFlags;
 

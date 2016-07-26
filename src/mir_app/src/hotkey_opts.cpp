@@ -26,9 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_hotkeys.h>
 #include "skin.h"
 
-static TCHAR* sttHokeyVkToName(WORD vkKey)
+static wchar_t* sttHokeyVkToName(WORD vkKey)
 {
-	static TCHAR buf[256] = { 0 };
+	static wchar_t buf[256] = { 0 };
 	DWORD code = MapVirtualKey(vkKey, 0) << 16;
 
 	switch (vkKey) {
@@ -99,7 +99,7 @@ static TCHAR* sttHokeyVkToName(WORD vkKey)
 	return buf;
 }
 
-void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key)
+void HotkeyToName(wchar_t *buf, int size, BYTE shift, BYTE key)
 {
 	mir_sntprintf(buf, size, L"%s%s%s%s%s",
 		(shift & HOTKEYF_CONTROL) ? TranslateT("Ctrl + ") : L"",
@@ -124,7 +124,7 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 	case HKM_SETHOTKEY:
 		{
-			TCHAR buf[256] = { 0 };
+			wchar_t buf[256] = { 0 };
 			data->key = (BYTE)LOWORD(wParam);
 			data->shift = (BYTE)HIWORD(wParam);
 			HotkeyToName(buf, _countof(buf), data->shift, data->key);
@@ -151,11 +151,11 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		{
-			TCHAR buf[256] = { 0 };
+			wchar_t buf[256] = { 0 };
 
 			BYTE shift = 0;
 			BYTE key = wParam;
-			TCHAR *name = sttHokeyVkToName(key);
+			wchar_t *name = sttHokeyVkToName(key);
 			if (!*name || !bKeyDown)
 				key = 0;
 
@@ -206,7 +206,7 @@ enum { COL_NAME, COL_TYPE, COL_KEY, COL_RESET, COL_ADDREMOVE };
 
 static void sttOptionsSetupItem(HWND hwndList, int idx, THotkeyItem *item)
 {
-	TCHAR buf[256];
+	wchar_t buf[256];
 	LVITEM lvi = { 0 };
 	lvi.iItem = idx;
 
@@ -261,7 +261,7 @@ static void sttOptionsDeleteHotkey(HWND hwndList, int idx, THotkeyItem *item)
 
 static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	TCHAR title1[256] = { 0 }, title2[256] = { 0 };
+	wchar_t title1[256] = { 0 }, title2[256] = { 0 };
 	THotkeyItem *item1 = NULL, *item2 = NULL;
 	LVITEM lvi = { 0 };
 	int res;
@@ -447,7 +447,7 @@ static void sttOptionsStartEdit(HWND hwndDlg, HWND hwndHotkey)
 	}
 }
 
-static void sttOptionsDrawTextChunk(HDC hdc, TCHAR *text, RECT *rc)
+static void sttOptionsDrawTextChunk(HDC hdc, wchar_t *text, RECT *rc)
 {
 	DrawText(hdc, text, -1, rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
 
@@ -520,7 +520,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			/* load group states */
 			int count = ListView_GetItemCount(hwndHotkey);
-			TCHAR buf[128];
+			wchar_t buf[128];
 			LVITEM lvi = { 0 };
 			lvi.pszText = buf;
 			lvi.cchTextMax = _countof(buf);
@@ -891,7 +891,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						}
 						else if (!item) {
-							TCHAR buf[256];
+							wchar_t buf[256];
 							LVITEM lvi = { 0 };
 							lvi.mask = LVIF_TEXT;
 							lvi.iItem = param->iItem;
@@ -949,7 +949,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						case CDDS_SUBITEM | CDDS_ITEMPREPAINT:
 							{
 								THotkeyItem *item;
-								TCHAR buf[256];
+								wchar_t buf[256];
 								LVITEM lvi = { 0 };
 								lvi.mask = LVIF_TEXT | LVIF_PARAM;
 								lvi.iItem = param->nmcd.dwItemSpec;
@@ -1008,7 +1008,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			KillTimer(hwndDlg, 1024);
 
-			TCHAR buf[128];
+			wchar_t buf[128];
 			LVITEM lvi = { 0 };
 			lvi.pszText = buf;
 			lvi.cchTextMax = _countof(buf);

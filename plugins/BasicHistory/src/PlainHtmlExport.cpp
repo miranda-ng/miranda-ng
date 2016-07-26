@@ -73,7 +73,7 @@ void PlainHtmlExport::WriteFooter()
 
 void PlainHtmlExport::WriteGroup(bool, const std::wstring &time, const std::wstring&, const std::wstring&)
 {
-	TCHAR buf[256];
+	wchar_t buf[256];
 	EXP_FILE << L"<div class=mes id=session>\n";
 	mir_sntprintf(buf, TranslateT("Conversation started at %s"), time.c_str());
 	EXP_FILE << L"<div class=text>" << buf << L"</div>\n";
@@ -82,8 +82,8 @@ void PlainHtmlExport::WriteGroup(bool, const std::wstring &time, const std::wstr
 
 void PlainHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO&)
 {
-	TCHAR *id = isMe ? L"out" : L"inc";
-	TCHAR* ev = (isMe ? L"1" : L"0");
+	wchar_t *id = isMe ? L"out" : L"inc";
+	wchar_t* ev = (isMe ? L"1" : L"0");
 	bool isUrl = false;
 	std::wstring mes = UrlHighlightHtml(MakeTextHtmled(message), isUrl);
 	if (isUrl)

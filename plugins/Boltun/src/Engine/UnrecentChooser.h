@@ -23,20 +23,20 @@
 
 class UnRecentChooser
 {
-	std::map<std::tstring, size_t> items;
-	std::vector<std::tstring> itemsList;
-	std::vector<std::tstring> newItems;
+	std::map<std::wstring, size_t> items;
+	std::vector<std::wstring> itemsList;
+	std::vector<std::wstring> newItems;
 	float newItemsPrio, maxOldPrio;
-	std::map<size_t, std::tstring> oldItems;
-	std::map<std::tstring, float> oldPrios;
+	std::map<size_t, std::wstring> oldItems;
+	std::map<std::wstring, float> oldPrios;
 	size_t last;
 	int minimum;
 	static const size_t maxItems = 100;
 public:
 	UnRecentChooser();
-	void AddChoice(std::tstring value, float prio = 1.0);
-	std::tstring Choose();
-	void SaveChoice(std::tstring choice);
+	void AddChoice(std::wstring value, float prio = 1.0);
+	std::wstring Choose();
+	void SaveChoice(std::wstring choice);
 };
 
 #endif /* UnRecentChooserH */

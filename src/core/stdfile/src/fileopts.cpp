@@ -30,10 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define VSCAN_CA          4
 
 struct virusscannerinfo {
-	const TCHAR *szProductName;
-	const TCHAR *szExeRegPath;
-	const TCHAR *szExeRegValue;
-	const TCHAR *szCommandLine;
+	const wchar_t *szProductName;
+	const wchar_t *szExeRegPath;
+	const wchar_t *szExeRegValue;
+	const wchar_t *szCommandLine;
 } virusScanners[] = {
 	{L"Network Associates/McAfee VirusScan", L"SOFTWARE\\McAfee\\VirusScan", L"Scan32EXE", L"\"%s\" %%f /nosplash /comp /autoscan /autoexit /noboot"},
 	{L"Dr Solomon's VirusScan (Network Associates)", L"SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General", L"szScannerExe", L"\"%s\" %%f /uinone /noboot /comp /prompt /autoexit"},
@@ -62,7 +62,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 			SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILEDIR), SHACF_FILESYS_DIRS);
 
-			TCHAR str[MAX_PATH];
+			wchar_t str[MAX_PATH];
 			GetContactReceivedFilesDir(NULL, str, _countof(str), FALSE);
 			SetDlgItemText(hwndDlg, IDC_FILEDIR, str);
 
@@ -78,7 +78,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CheckDlgButton(hwndDlg, IDC_WARNBEFOREOPENING, db_get_b(NULL, "SRFile", "WarnBeforeOpening", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			for (int i = 0; i < _countof(virusScanners); i++) {
-				TCHAR szScanExe[MAX_PATH];
+				wchar_t szScanExe[MAX_PATH];
 				if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[i].szExeRegPath, virusScanners[i].szExeRegValue, szScanExe, _countof(szScanExe))) {
 					int iItem = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)virusScanners[i].szProductName);
 					SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, i);
@@ -121,8 +121,8 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		break;
 	case M_SCANCMDLINESELCHANGE:
 		{
-			TCHAR str[512];
-			TCHAR szScanExe[MAX_PATH];
+			wchar_t str[512];
+			wchar_t szScanExe[MAX_PATH];
 			int iScanner = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETCURSEL, 0, 0), 0);
 			if (iScanner >= _countof(virusScanners) || iScanner < 0) break;
 			str[0] = '\0';
@@ -140,7 +140,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		case IDC_FILEDIRBROWSE:
 			{
-				TCHAR str[MAX_PATH];
+				wchar_t str[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_FILEDIR, str, _countof(str));
 				if (BrowseForFolder(hwndDlg, str))
 					SetDlgItemText(hwndDlg, IDC_FILEDIR, str);
@@ -162,7 +162,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_SCANCMDLINEBROWSE:
-			TCHAR str[MAX_PATH + 2];
+			wchar_t str[MAX_PATH + 2];
 			GetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str, _countof(str));
 
 			CMString tszFilter;
@@ -177,19 +177,19 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			ofn.lpstrFile = str;
 			ofn.nMaxFile = _countof(str) - 2;
 			if (str[0] == '"') {
-				TCHAR *pszQuote = _tcschr(str + 1, '"');
+				wchar_t *pszQuote = wcschr(str + 1, '"');
 				if (pszQuote)
 					*pszQuote = 0;
-				memmove(str, str + 1, (mir_tstrlen(str) * sizeof(TCHAR)));
+				memmove(str, str + 1, (mir_tstrlen(str) * sizeof(wchar_t)));
 			}
 			else {
-				TCHAR *pszSpace = _tcschr(str, ' ');
+				wchar_t *pszSpace = wcschr(str, ' ');
 				if (pszSpace) *pszSpace = 0;
 			}
 			ofn.nMaxFileTitle = MAX_PATH;
 			if (!GetOpenFileName(&ofn)) break;
-			if (_tcschr(str, ' ') != NULL) {
-				memmove(str + 1, str, ((_countof(str) - 2) * sizeof(TCHAR)));
+			if (wcschr(str, ' ') != NULL) {
+				memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
 				str[0] = '"';
 				mir_tstrcat(str, L"\"");
 			}
@@ -202,7 +202,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			TCHAR str[512];
+			wchar_t str[512];
 			GetDlgItemText(hwndDlg, IDC_FILEDIR, str, _countof(str));
 			RemoveInvalidPathChars(str);
 			db_set_ts(NULL, "SRFile", "RecvFilesDirAdv", str);

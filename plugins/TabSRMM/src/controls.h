@@ -66,7 +66,7 @@ public:
 	void			setAero(bool fState) { m_isAero = fState; }
 	const bool		getAero(void) const { return(m_isAero); }
 
-	const LRESULT	processAccelerator(TCHAR a, UINT& ctlId) const
+	const LRESULT	processAccelerator(wchar_t a, UINT& ctlId) const
 	{
 		UINT		_ctlId;
 

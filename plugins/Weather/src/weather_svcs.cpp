@@ -123,17 +123,17 @@ INT_PTR WeatherGetInfo(WPARAM, LPARAM lParam)
 }
 
 // avatars
-static const TCHAR *statusStr[] = { L"Light", L"Fog", L"SShower", L"Snow", L"RShower", L"Rain", L"PCloudy", L"Cloudy", L"Sunny", L"NA" };
+static const wchar_t *statusStr[] = { L"Light", L"Fog", L"SShower", L"Snow", L"RShower", L"Rain", L"PCloudy", L"Cloudy", L"Sunny", L"NA" };
 static const WORD statusValue[] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
 INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 {
-	TCHAR szSearchPath[MAX_PATH], *chop;
+	wchar_t szSearchPath[MAX_PATH], *chop;
 	unsigned  i;
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, _countof(szSearchPath));
-	chop = _tcsrchr(szSearchPath, '\\');
+	chop = wcsrchr(szSearchPath, '\\');
 
 	if (chop) *chop = '\0';
 	else szSearchPath[0] = 0;
@@ -148,12 +148,12 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 
 	pai->format = PA_FORMAT_PNG;
 	mir_sntprintf(pai->filename, L"%s\\Plugins\\Weather\\%s.png", szSearchPath, statusStr[i]);
-	if (_taccess(pai->filename, 4) == 0)
+	if (_waccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
 	pai->format = PA_FORMAT_GIF;
 	mir_sntprintf(pai->filename, L"%s\\Plugins\\Weather\\%s.gif", szSearchPath, statusStr[i]);
-	if (_taccess(pai->filename, 4) == 0)
+	if (_waccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
 	pai->format = PA_FORMAT_UNKNOWN;
@@ -225,11 +225,11 @@ void UpdateMenu(BOOL State)
 	db_set_b(NULL, WEATHERPROTONAME, "AutoUpdate", (BYTE)State);
 
 	if (State) { // to enable auto-update
-		Menu_ModifyItem(hEnableDisableMenu, LPGENT("Auto Update Enabled"), GetIconHandle("main"));
+		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Enabled"), GetIconHandle("main"));
 		opt.AutoUpdate = 1;
 	}
 	else { // to disable auto-update
-		Menu_ModifyItem(hEnableDisableMenu, LPGENT("Auto Update Disabled"), GetIconHandle("disabled"));
+		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Disabled"), GetIconHandle("disabled"));
 		opt.AutoUpdate = 0;
 	}
 
@@ -243,9 +243,9 @@ void UpdatePopupMenu(BOOL State)
 	db_set_b(NULL, WEATHERPROTONAME, "UsePopup", (BYTE)opt.UsePopup);
 
 	if (State) // to enable popup
-		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENT("Disable &weather notification"), GetIconHandle("popup"));
+		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Disable &weather notification"), GetIconHandle("popup"));
 	else // to disable popup
-		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENT("Enable &weather notification"), GetIconHandle("nopopup"));
+		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Enable &weather notification"), GetIconHandle("nopopup"));
 }
 
 // update the weather auto-update menu item when click on it
@@ -326,7 +326,7 @@ void AddMenuItems(void)
 	Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 
 	// adding main menu items
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Weather"), 500099000);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Weather"), 500099000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "82809D2F-2CF0-4E15-9350-D257A7748552");
 
 	SET_UID(mi, 0x5ad16188, 0xe0a0, 0x4c31, 0x85, 0xc3, 0xe4, 0x85, 0x79, 0x7e, 0x4b, 0x9c);
@@ -361,7 +361,7 @@ void AddMenuItems(void)
 		mi.name.a = LPGEN("Weather Notification");
 		mi.hIcolibItem = GetIconHandle("popup");
 		mi.position = 0;
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
 		mi.pszService = WEATHERPROTONAME "/PopupMenu";
 		hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
 		UpdatePopupMenu(opt.UsePopup);

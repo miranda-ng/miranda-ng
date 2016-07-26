@@ -91,7 +91,7 @@ int Curl_input_negotiate(struct connectdata *conn, bool proxy,
   SecBuffer         in_sec_buff;
   unsigned long     context_attributes;
   TimeStamp         lifetime;
-  TCHAR             *sname;
+  wchar_t             *sname;
   int ret;
   size_t len = 0, input_token_len = 0;
   bool gss = FALSE;
@@ -138,7 +138,7 @@ int Curl_input_negotiate(struct connectdata *conn, bool proxy,
 
   if(!neg_ctx->output_token) {
     PSecPkgInfo SecurityPackage;
-    ret = s_pSecFn->QuerySecurityPackageInfo((TCHAR *) TEXT("Negotiate"),
+    ret = s_pSecFn->QuerySecurityPackageInfo((wchar_t *) TEXT("Negotiate"),
                                              &SecurityPackage);
     if(ret != SEC_E_OK)
       return -1;
@@ -168,7 +168,7 @@ int Curl_input_negotiate(struct connectdata *conn, bool proxy,
 
     neg_ctx->status =
       s_pSecFn->AcquireCredentialsHandle(NULL,
-                                         (TCHAR *) TEXT("Negotiate"),
+                                         (wchar_t *) TEXT("Negotiate"),
                                          SECPKG_CRED_OUTBOUND, NULL, NULL,
                                          NULL, NULL, neg_ctx->credentials,
                                          &lifetime);

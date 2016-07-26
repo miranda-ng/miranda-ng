@@ -87,15 +87,15 @@ void StartTimer();
 struct ProtocolInfo
 {
 	char proto[128];
-	TCHAR account[128];
+	wchar_t account[128];
 	HGENMENU hMenu;
 	int old_xstatus;
-	TCHAR old_xstatus_name[1024];
-	TCHAR old_xstatus_message[1024];
+	wchar_t old_xstatus_name[1024];
+	wchar_t old_xstatus_message[1024];
 };
 
 ProtocolInfo *GetProtoInfo(char *proto);
-void m_log(const TCHAR *function, const TCHAR *fmt, ...);
+void m_log(const wchar_t *function, const wchar_t *fmt, ...);
 
 
 static bool IsEmpty(const char *str)

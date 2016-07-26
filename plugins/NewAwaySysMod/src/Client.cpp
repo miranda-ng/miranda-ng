@@ -47,7 +47,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 				}
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(Status) && g_ProtoStates[p->szModuleName].CurStatusMsg.GetUpdateTimeDifference() >= MinUpdateTimeDifference) {
 					TCString CurMsg(GetDynamicStatMsg(INVALID_CONTACT_ID, p->szModuleName));
-					if ((TCString)g_ProtoStates[p->szModuleName].CurStatusMsg != (const TCHAR*)CurMsg) { // if the message has changed
+					if ((TCString)g_ProtoStates[p->szModuleName].CurStatusMsg != (const wchar_t*)CurMsg) { // if the message has changed
 						g_ProtoStates[p->szModuleName].CurStatusMsg = CurMsg;
 						CallAllowedPS_SETAWAYMSG(p->szModuleName, Status, CurMsg);
 					}
@@ -179,7 +179,7 @@ TCString VariablesEscape(TCString Str)
 	};
 	eState State = ST_QUOTE;
 	TCString Result(L"`");
-	const TCHAR *p = Str;
+	const wchar_t *p = Str;
 	while (*p) {
 		if (*p == '`') {
 			if (State == ST_TEXT) {

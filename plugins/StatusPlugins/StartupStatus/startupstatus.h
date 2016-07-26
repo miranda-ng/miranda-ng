@@ -40,7 +40,7 @@ struct PROFILECE
 {
 	int profile;
 	char *szProto;
-	TCHAR *msg;
+	wchar_t *msg;
 };
 
 struct PROFILEOPTIONS : public MZeroedObject
@@ -51,7 +51,7 @@ struct PROFILEOPTIONS : public MZeroedObject
 		mir_free(tszName);
 	}
 
-	TCHAR *tszName;
+	wchar_t *tszName;
 	TSettingsList* ps;
 	BOOL showDialog;
 	BOOL createTtb;
@@ -144,7 +144,7 @@ TSettingsList* GetCurrentProtoSettings();
 
 // profile
 int GetProfile(int profileID, TSettingsList& arSettings );
-TCHAR *GetStatusMessage(int profile, char *szProto);
+wchar_t *GetStatusMessage(int profile, char *szProto);
 
 INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam);
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam);

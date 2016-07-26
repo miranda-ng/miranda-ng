@@ -45,11 +45,11 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 
 	FileTransferParam *ftp = new FileTransferParam(pccsd->hContact);
 
-	const TCHAR *description = (TCHAR*)pccsd->wParam;
+	const wchar_t *description = (wchar_t*)pccsd->wParam;
 	if (description && description[0])
-		ftp->AppendFormatData(L"%s\r\n", (TCHAR*)pccsd->wParam);
+		ftp->AppendFormatData(L"%s\r\n", (wchar_t*)pccsd->wParam);
 
-	TCHAR **paths = (TCHAR**)pccsd->lParam;
+	wchar_t **paths = (wchar_t**)pccsd->lParam;
 	ftp->SetWorkingDirectory(paths[0]);
 	for (int i = 0; paths[i]; i++) {
 		if (PathIsDirectory(paths[i]))

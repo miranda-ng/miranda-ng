@@ -30,7 +30,7 @@
 
 #include <string>
 
-typedef std::basic_string<TCHAR> tstring;
+typedef std::basic_string<wchar_t> tstring;
 
 #define MWF_LOG_BBCODE 1
 #define MWF_LOG_TEXTFORMAT 0x2000000
@@ -54,11 +54,11 @@ TRTFColorTable* Utils::rtf_ctable = 0;
 
 MWindowList CWarning::hWindowList = 0;
 
-static TCHAR *w_bbcodes_begin[] = { L"[b]", L"[i]", L"[u]", L"[s]", L"[color=" };
-static TCHAR *w_bbcodes_end[] = { L"[/b]", L"[/i]", L"[/u]", L"[/s]", L"[/color]" };
+static wchar_t *w_bbcodes_begin[] = { L"[b]", L"[i]", L"[u]", L"[s]", L"[color=" };
+static wchar_t *w_bbcodes_end[] = { L"[/b]", L"[/i]", L"[/u]", L"[/s]", L"[/color]" };
 
-static TCHAR *formatting_strings_begin[] = { L"b1 ", L"i1 ", L"u1 ", L"s1 ", L"c1 " };
-static TCHAR *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ", L"c0 " };
+static wchar_t *formatting_strings_begin[] = { L"b1 ", L"i1 ", L"u1 ", L"s1 ", L"c1 " };
+static wchar_t *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ", L"c0 " };
 
 #define NR_CODES 5
 
@@ -67,13 +67,13 @@ static TCHAR *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ", L
 // flags: loword = words only for simple  * /_ formatting
 //        hiword = bbcode support (strip bbcodes if 0)
 
-const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOOL isSent)
+const wchar_t* Utils::FormatRaw(TWindowData *dat, const wchar_t *msg, int flags, BOOL isSent)
 {
 	bool 	clr_was_added = false, was_added;
 	static tstring message(msg);
 	size_t beginmark = 0, endmark = 0, tempmark = 0, index;
 	int i, endindex;
-	TCHAR endmarker;
+	wchar_t endmarker;
 	DWORD	dwFlags = dat->dwFlags;
 	message.assign(msg);
 
@@ -103,7 +103,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 search_again:
 				bool clr_found = false;
 				for (int ii = 0; ii < rtf_ctable_size; ii++) {
-					if (!_tcsnicmp((TCHAR*)colorname.c_str(), rtf_ctable[ii].szName, mir_tstrlen(rtf_ctable[ii].szName))) {
+					if (!wcsnicmp((wchar_t*)colorname.c_str(), rtf_ctable[ii].szName, mir_tstrlen(rtf_ctable[ii].szName))) {
 						closing = beginmark + 7 + mir_tstrlen(rtf_ctable[ii].szName);
 						if (endmark != message.npos) {
 							message.erase(endmark, 4);
@@ -111,14 +111,14 @@ search_again:
 						}
 						message.erase(beginmark, (closing - beginmark));
 
-						TCHAR szTemp[5];
+						wchar_t szTemp[5];
 						message.insert(beginmark, L"cxxx ");
 						mir_sntprintf(szTemp, L"%02d", MSGDLGFONTCOUNT + 13 + ii);
 						message[beginmark + 3] = szTemp[0];
 						message[beginmark + 4] = szTemp[1];
 						clr_found = true;
 						if (was_added) {
-							TCHAR wszTemp[100];
+							wchar_t wszTemp[100];
 							mir_sntprintf(wszTemp, L"##col##%06u:%04u", endmark - closing, ii);
 							wszTemp[99] = 0;
 							message.insert(beginmark, wszTemp);
@@ -130,7 +130,7 @@ search_again:
 					size_t c_closing = colorname.find_first_of(L"]", 0);
 					if (c_closing == colorname.npos)
 						c_closing = colorname.length();
-					const TCHAR *wszColname = colorname.c_str();
+					const wchar_t *wszColname = colorname.c_str();
 					if (endmark != message.npos && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing - 1])) {
 						RTF_ColorAdd(wszColname, c_closing);
 						if (!was_added) {
@@ -166,7 +166,7 @@ invalid_code:
 	while ((beginmark = message.find_first_of(L"*/_", beginmark)) != message.npos) {
 		endmarker = message[beginmark];
 		if (LOWORD(flags)) {
-			if (beginmark > 0 && !_istspace(message[beginmark - 1]) && !_istpunct(message[beginmark - 1])) {
+			if (beginmark > 0 && !iswspace(message[beginmark - 1]) && !iswpunct(message[beginmark - 1])) {
 				beginmark++;
 				continue;
 			}
@@ -174,7 +174,7 @@ invalid_code:
 			// search a corresponding endmarker which fulfills the criteria
 			INT_PTR mark = beginmark + 1;
 			while ((endmark = message.find(endmarker, mark)) != message.npos) {
-				if (_istpunct(message[endmark + 1]) || _istspace(message[endmark + 1]) || message[endmark + 1] == 0 || _tcschr(L"*/_", message[endmark + 1]) != NULL)
+				if (iswpunct(message[endmark + 1]) || iswspace(message[endmark + 1]) || message[endmark + 1] == 0 || wcschr(L"*/_", message[endmark + 1]) != NULL)
 					goto ok;
 				mark = endmark + 1;
 			}
@@ -212,7 +212,7 @@ ok:
 			smbp.cbSize = sizeof(smbp);
 			smbp.Protocolname = dat->cache->getActiveProto();
 			smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
-			smbp.str = (TCHAR*)smcode.c_str();
+			smbp.str = (wchar_t*)smcode.c_str();
 			smbp.hContact = dat->hContact;
 			SMADD_BATCHPARSERES *smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
 			if (smbpr) {
@@ -234,19 +234,19 @@ ok:
 // format the title bar string for IM chat sessions using placeholders.
 // the caller must mir_free() the returned string
 
-static TCHAR* Trunc500(TCHAR *str)
+static wchar_t* Trunc500(wchar_t *str)
 {
 	if (mir_tstrlen(str) > 500)
 		str[500] = 0;
 	return str;
 }
 
-bool Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat, CMString &dest)
+bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMString &dest)
 {
 	if (dat == 0)
 		return false;
 
-	for (const TCHAR *src = szFormat; *src; src++) {
+	for (const wchar_t *src = szFormat; *src; src++) {
 		if (*src != '%') {
 			dest.AppendChar(*src);
 			continue;
@@ -361,7 +361,7 @@ WCHAR* Utils::FilterEventMarkers(WCHAR *wszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void Utils::DoubleAmpersands(TCHAR *pszText, size_t len)
+void Utils::DoubleAmpersands(wchar_t *pszText, size_t len)
 {
 	CMString text(pszText);
 	text.Replace(L"&", L"&&");
@@ -373,12 +373,12 @@ void Utils::DoubleAmpersands(TCHAR *pszText, size_t len)
 //
 // @param szText	source text
 // @param iMaxLen	max length of the preview
-// @return TCHAR*   result (caller must mir_free() it)
+// @return wchar_t*   result (caller must mir_free() it)
 
-TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
+wchar_t* Utils::GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen)
 {
 	size_t uRequired;
-	TCHAR *p = 0, cSaved;
+	wchar_t *p = 0, cSaved;
 	bool	 fEllipsis = false;
 
 	if (mir_tstrlen(szText) <= iMaxLen) {
@@ -398,7 +398,7 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 		*p = 0;
 		uRequired = (p - szText) + 6;
 	}
-	TCHAR *szResult = reinterpret_cast<TCHAR *>(mir_alloc((uRequired + 1) * sizeof(TCHAR)));
+	wchar_t *szResult = reinterpret_cast<wchar_t *>(mir_alloc((uRequired + 1) * sizeof(wchar_t)));
 	mir_sntprintf(szResult, (uRequired + 1), fEllipsis ? L"%s..." : L"%s", szText);
 
 	if (p)
@@ -450,17 +450,17 @@ void Utils::RTF_CTableInit()
 /////////////////////////////////////////////////////////////////////////////////////////
 // add a color to the global rtf color table
 
-void Utils::RTF_ColorAdd(const TCHAR *tszColname, size_t length)
+void Utils::RTF_ColorAdd(const wchar_t *tszColname, size_t length)
 {
-	TCHAR *stopped;
+	wchar_t *stopped;
 
 	rtf_ctable_size++;
 	rtf_ctable = (TRTFColorTable *)mir_realloc(rtf_ctable, sizeof(TRTFColorTable) * rtf_ctable_size);
-	COLORREF clr = _tcstol(tszColname, &stopped, 16);
+	COLORREF clr = wcstol(tszColname, &stopped, 16);
 	mir_sntprintf(rtf_ctable[rtf_ctable_size - 1].szName, length + 1, L"%06x", clr);
 	rtf_ctable[rtf_ctable_size - 1].menuid = 0;
 
-	clr = _tcstol(tszColname, &stopped, 16);
+	clr = wcstol(tszColname, &stopped, 16);
 	rtf_ctable[rtf_ctable_size - 1].clr = (RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr)));
 }
 
@@ -710,11 +710,11 @@ void Utils::getIconSize(HICON hIcon, int& sizeX, int& sizeY)
 // @param uID		the item command id
 // @param pos		zero-based position index
 
-void Utils::addMenuItem(const HMENU& m, MENUITEMINFO &mii, HICON hIcon, const TCHAR *szText, UINT uID, UINT pos)
+void Utils::addMenuItem(const HMENU& m, MENUITEMINFO &mii, HICON hIcon, const wchar_t *szText, UINT uID, UINT pos)
 {
 	mii.wID = uID;
 	mii.dwItemData = (ULONG_PTR)hIcon;
-	mii.dwTypeData = const_cast<TCHAR *>(szText);
+	mii.dwTypeData = const_cast<wchar_t *>(szText);
 	mii.cch = (int)mir_tstrlen(mii.dwTypeData) + 1;
 
 	::InsertMenuItem(m, pos, TRUE, &mii);
@@ -772,7 +772,7 @@ void Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
 // stream function to write the contents of the message log to an rtf file
 DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
-	TCHAR *szFilename = (TCHAR*)dwCookie;
+	wchar_t *szFilename = (wchar_t*)dwCookie;
 	HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile != INVALID_HANDLE_VALUE) {
 		SetFilePointer(hFile, 0, NULL, FILE_END);
@@ -789,8 +789,8 @@ DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG
 // extract a resource from the given module
 // tszPath must end with \ 
 
-bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath,
-	const TCHAR *tszFilename, bool fForceOverwrite)
+bool Utils::extractResource(const HMODULE h, const UINT uID, const wchar_t *tszName, const wchar_t *tszPath,
+	const wchar_t *tszFilename, bool fForceOverwrite)
 {
 	HRSRC hRes = FindResource(h, MAKEINTRESOURCE(uID), tszName);
 	if (hRes) {
@@ -799,7 +799,7 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszNam
 			char 	*pData = (char *)LockResource(hResource);
 			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
 
-			TCHAR	szFilename[MAX_PATH];
+			wchar_t	szFilename[MAX_PATH];
 			mir_sntprintf(szFilename, L"%s%s", tszPath, tszFilename);
 			if (!fForceOverwrite)
 				if (PathFileExists(szFilename))
@@ -817,12 +817,12 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszNam
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// extract the clicked URL from a rich edit control. Return the URL as TCHAR*
+// extract the clicked URL from a rich edit control. Return the URL as wchar_t*
 // caller MUST mir_free() the returned string
 // @param 	hwndRich -  rich edit window handle
 // @return	wchar_t*	extracted URL
 
-TCHAR* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
+wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 {
 	CHARRANGE sel = { 0 };
 	::SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&sel);
@@ -831,9 +831,9 @@ TCHAR* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 
 	TEXTRANGE tr;
 	tr.chrg = _e->chrg;
-	tr.lpstrText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
+	tr.lpstrText = (wchar_t*)mir_alloc(sizeof(wchar_t) * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
 	::SendMessage(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-	if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
+	if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
 		mir_tstrncpy(tr.lpstrText, L"mailto:", 7);
 		mir_tstrncpy(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
 	}
@@ -935,7 +935,7 @@ size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
 	if (!OpenClipboard(hwndOwner) || str == 0)
 		return 0;
 
-	size_t i = sizeof(TCHAR) * (mir_tstrlen(str) + 1);
+	size_t i = sizeof(wchar_t) * (mir_tstrlen(str) + 1);
 
 	EmptyClipboard();
 	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
@@ -950,15 +950,15 @@ size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
 /////////////////////////////////////////////////////////////////////////////////////////
 // file list handler
 
-void Utils::AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename)
+void Utils::AddToFileList(wchar_t ***pppFiles, int *totalCount, LPCTSTR szFilename)
 {
-	*pppFiles = (TCHAR**)mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(TCHAR*));
+	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(wchar_t*));
 	(*pppFiles)[*totalCount] = NULL;
 	(*pppFiles)[*totalCount - 1] = mir_tstrdup(szFilename);
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
-		TCHAR szPath[MAX_PATH];
+		wchar_t szPath[MAX_PATH];
 		mir_tstrcpy(szPath, szFilename);
 		mir_tstrcat(szPath, L"\\*");
 		HANDLE hFind = FindFirstFile(szPath, &fd);
@@ -993,20 +993,20 @@ void Utils::AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename
 //  some strings are empty, this is intentional and used for error messages that share
 //  the message with other possible error notifications (popups, tool tips etc.)
 // 
-//  Entries that do not use the LPGENT() macro are NOT TRANSLATABLE, so don't bother translating them.
+//  Entries that do not use the LPGENW() macro are NOT TRANSLATABLE, so don't bother translating them.
 
 static wchar_t* warnings[] = {
-	LPGENT("Important release notes|A test warning message"),							/* WARN_TEST */ /* reserved for important notes after upgrade - NOT translatable */
-	LPGENT("Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0"),			/* WARN_ICONPACKVERSION */
-	LPGENT("Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode"),  /* WARN_EDITUSERNOTES */
-	LPGENT("Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available"),		/* WARN_ICONPACKMISSING */
-	LPGENT("Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature."),	/* WARN_AEROPEEKSKIN */
-	LPGENT("File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list."), /* WARN_IMGSVC_MISSING */
-	LPGENT("Settings problem|The option \\b1 History -> Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?"), /* WARN_HPP_APICHECK */
+	LPGENW("Important release notes|A test warning message"),							/* WARN_TEST */ /* reserved for important notes after upgrade - NOT translatable */
+	LPGENW("Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0"),			/* WARN_ICONPACKVERSION */
+	LPGENW("Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode"),  /* WARN_EDITUSERNOTES */
+	LPGENW("Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available"),		/* WARN_ICONPACKMISSING */
+	LPGENW("Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature."),	/* WARN_AEROPEEKSKIN */
+	LPGENW("File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list."), /* WARN_IMGSVC_MISSING */
+	LPGENW("Settings problem|The option \\b1 History -> Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?"), /* WARN_HPP_APICHECK */
 	L" ", /* WARN_NO_SENDLATER */ /*uses "Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart." */
-	LPGENT("Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?"),		/* WARN_CLOSEWINDOW */
-	LPGENT("Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?"), /* WARN_OPTION_CLOSE */
-	LPGENT("Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?"), /* WARN_THEME_OVERWRITE */
+	LPGENW("Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?"),		/* WARN_CLOSEWINDOW */
+	LPGENW("Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?"), /* WARN_OPTION_CLOSE */
+	LPGENW("Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?"), /* WARN_THEME_OVERWRITE */
 };
 
 CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT uId, const DWORD dwFlags) :
@@ -1168,7 +1168,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			HICON		hIcon = 0;
 			UINT		uResId = 0;
-			TCHAR		temp[1024];
+			wchar_t		temp[1024];
 			SETTEXTEX	stx = { ST_SELECTION, CP_UTF8 };
 			size_t		pos = 0;
 
@@ -1303,7 +1303,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				const wchar_t *wszUrl = Utils::extractURLFromRichEdit(e, ::GetDlgItem(hwnd, IDC_WARNTEXT));
 				if (wszUrl) {
 					Utils_OpenUrlW(wszUrl);
-					mir_free(const_cast<TCHAR *>(wszUrl));
+					mir_free(const_cast<wchar_t *>(wszUrl));
 				}
 			}
 		}

@@ -101,7 +101,7 @@ typedef struct
 {
 	uin_t *recipients;
 	int recipients_count;
-	TCHAR id[32];
+	wchar_t id[32];
 	BOOL ignore;
 } GGGC;
 
@@ -306,11 +306,11 @@ extern IconItem iconList[];
 // Methods
 
 /* Helper functions */
-const TCHAR *http_error_string(int h);
+const wchar_t *http_error_string(int h);
 unsigned long crc_get(char *mem);
 int gg_normalizestatus(int status);
 char *gg_status2db(int status, const char *suffix);
-TCHAR *ws_strerror(int code);
+wchar_t *ws_strerror(int code);
 char *as_strerror(int code);
 uint32_t swap32(uint32_t x);
 const char *gg_version2string(int v);
@@ -329,7 +329,7 @@ void gg_links_instancemenu_init();
 void gg_links_init();
 
 #define UIN2IDA(uin,id) _itoa(uin,id,10)
-#define UIN2IDT(uin,id) _itot(uin,id,10)
+#define UIN2IDT(uin,id) _itow(uin,id,10)
 
 // Debug functions
 const char *ggdebug_eventtype(gg_event *e);

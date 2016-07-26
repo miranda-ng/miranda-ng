@@ -82,25 +82,25 @@ void update_all_controls(HWND hDlg)
 	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_SETTINGS), (bIsCheckedContactSpec&&bIsPopupServiceEnabled));
 }
 
-std::vector<TCHAR> get_filter()
+std::vector<wchar_t> get_filter()
 {
-	std::vector<TCHAR> aFilter;
-	LPCTSTR pszFilterParts[] = { LPGENT("Log Files (*.txt,*.log)"), L"*.txt;*.log", LPGENT("All files (*.*)"), L"*.*" };
+	std::vector<wchar_t> aFilter;
+	LPCTSTR pszFilterParts[] = { LPGENW("Log Files (*.txt,*.log)"), L"*.txt;*.log", LPGENW("All files (*.*)"), L"*.*" };
 	for (int i = 0; i < sizeof(pszFilterParts) / sizeof(pszFilterParts[0]); ++i) {
 		tstring sPart = TranslateTS(pszFilterParts[i]);
 		std::copy(sPart.begin(), sPart.end(), std::back_inserter(aFilter));
-		aFilter.push_back(_T('\0'));
+		aFilter.push_back('\0');
 
 	}
-	aFilter.push_back(_T('\0'));
+	aFilter.push_back('\0');
 	return aFilter;
 }
 void select_log_file(HWND hDlg)
 {
-	std::vector<TCHAR> aFileBuffer(_MAX_PATH * 2, _T('\0'));
+	std::vector<wchar_t> aFileBuffer(_MAX_PATH * 2, '\0');
 	LPTSTR pszFile = &*aFileBuffer.begin();
 
-	std::vector<TCHAR> aFilterBuffer = get_filter();
+	std::vector<wchar_t> aFilterBuffer = get_filter();
 	LPCTSTR pszFilter = &*aFilterBuffer.begin();
 
 	OPENFILENAME ofn = { 0 };
@@ -957,7 +957,7 @@ bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings* pAdvSettings)
 
 static void replace_invalid_char(tstring::value_type& rChar, tstring::value_type repl)
 {
-	static const TCHAR charInvalidSigns[] = { _T('\\'), _T('/'), _T(':'), _T('*'), _T('?'), _T('\"'), _T('<'), _T('>'), _T('|') };
+	static const wchar_t charInvalidSigns[] = { '\\', '/', ':', '*', '?', '\"', '<', '>', '|' };
 
 	for (int i = 0; i < sizeof(charInvalidSigns) / sizeof(charInvalidSigns[0]); ++i) {
 		if (rChar == charInvalidSigns[i]) {
@@ -976,13 +976,13 @@ tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsQu
 		tstring::size_type n = sPath.find(g_pszVariableQuoteName);
 		if (tstring::npos != n) {
 			tstring s = rsQuoteSymbol;
-			std::for_each(s.begin(), s.end(), boost::bind(replace_invalid_char, _1, _T('_')));
+			std::for_each(s.begin(), s.end(), boost::bind(replace_invalid_char, _1, '_'));
 			sPath.replace(n, mir_tstrlen(g_pszVariableQuoteName), s.c_str());
 		}
 	}
 
 	if (nFlags & glfnResolveUserProfile) {
-		TCHAR *ptszParsedName = Utils_ReplaceVarsT(sPath.c_str());
+		wchar_t *ptszParsedName = Utils_ReplaceVarsT(sPath.c_str());
 		if (ptszParsedName) {
 			sPath = ptszParsedName;
 			mir_free(ptszParsedName);

@@ -89,7 +89,7 @@ void DeleteJob::run()
 				DBEntry::remove(m_entry->m_fileID);
 		}
 		else if (manDlg != NULL && m_treeItem) {
-			TCHAR *error = mir_a2t(szError);
+			wchar_t *error = mir_a2t(szError);
 			mir_tstrcpy(m_treeItem->m_tszToolTip, error);
 			m_treeItem->setState(Manager::TreeItem::_ERROR());
 			FREE(error);

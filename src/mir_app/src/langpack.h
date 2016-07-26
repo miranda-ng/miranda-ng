@@ -42,13 +42,13 @@ static INT_PTR srvGetPluginLangpack(WPARAM wParam, LPARAM lParam);
 /* Langpack Info */
 struct LANGPACK_INFO
 {
-	TCHAR tszLanguage[64];
+	wchar_t tszLanguage[64];
 	LCID Locale;
 	WORD codepage;
 	CMStringA szAuthors, szAuthorEmail, szLastModifiedUsing;
 	FILETIME ftFileDate;
-	TCHAR tszFileName[MAX_PATH]; /* just the file name itself */
-	TCHAR tszFullPath[MAX_PATH]; /* full path to the langpack */
+	wchar_t tszFileName[MAX_PATH]; /* just the file name itself */
+	wchar_t tszFullPath[MAX_PATH]; /* full path to the langpack */
 	BYTE flags; /* see LPIF_* flags */
 };
 

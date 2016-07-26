@@ -117,15 +117,15 @@ CKeeper::CKeeper( LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID)
  
 	if (NULL != szSender) {
 		m_nSizeSender = (UINT)mir_tstrlen(szSender)+1;
-		m_szSender = new TCHAR[ m_nSizeSender ];
-		memset(m_szSender, 0, m_nSizeSender * sizeof(TCHAR));
+		m_szSender = new wchar_t[ m_nSizeSender ];
+		memset(m_szSender, 0, m_nSizeSender * sizeof(wchar_t));
 		mir_tstrcpy(m_szSender, szSender);
 	}
 	
 	if (NULL != szSubject) {
 		m_nSizeSubject = (UINT)mir_tstrlen(szSubject) +1;
-		m_szSubject = new TCHAR[m_nSizeSubject];
-		memset(m_szSubject, 0, m_nSizeSubject * sizeof(TCHAR));
+		m_szSubject = new wchar_t[m_nSizeSubject];
+		memset(m_szSubject, 0, m_nSizeSubject * sizeof(wchar_t));
 		mir_tstrcpy(m_szSubject, szSubject);
 	}
 	
@@ -389,13 +389,13 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 {
 	_popupUtil(TranslateT("Connecting to Exchange ..."));
 	UINT  nSize = 0;
-	short nSizeOfTCHAR = sizeof( TCHAR );
+	short nSizeOfTCHAR = sizeof( wchar_t );
 
 	if (m_szUsername == NULL && NULL != szUsername) {
 		nSize = (UINT)mir_tstrlen(szUsername);
 		if (nSize > 0) {	
 			nSize++;
-			m_szUsername = new TCHAR[nSize];
+			m_szUsername = new wchar_t[nSize];
 			memset ( m_szUsername, 0, nSize * nSizeOfTCHAR );
 			mir_tstrcpy( m_szUsername, szUsername );
 		}
@@ -405,7 +405,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 		nSize = (UINT)mir_tstrlen(szPassword);
 		if (nSize > 0) {	
 			nSize++;
-			m_szPassword = new TCHAR[nSize];
+			m_szPassword = new wchar_t[nSize];
 			memset(m_szPassword, 0, nSize * nSizeOfTCHAR);
 			mir_tstrcpy(m_szPassword, szPassword);
 		}
@@ -415,7 +415,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 		nSize = (UINT)mir_tstrlen(szExchangeServer);
 		if (nSize > 0) {	
 			nSize++;
-			m_szExchangeServer = new TCHAR[nSize];
+			m_szExchangeServer = new wchar_t[nSize];
 			memset(m_szExchangeServer, 0, nSize * nSizeOfTCHAR);
 			mir_tstrcpy(m_szExchangeServer, szExchangeServer);
 		}
@@ -431,11 +431,11 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 		}
 		
 		if ( SUCCEEDED(hr)) {
-			TCHAR	szPIDandName[128];
-			TCHAR	szPID[20];
+			wchar_t	szPIDandName[128];
+			wchar_t	szPID[20];
 
 			_tstrtime(szPID);
-			_tcsncpy(szPIDandName, m_szUsername, _countof(szPIDandName)-1);		
+			wcsncpy(szPIDandName, m_szUsername, _countof(szPIDandName)-1);		
 			mir_tstrncat(szPIDandName, szPID, _countof(szPIDandName) - mir_tstrlen(szPIDandName));
 			
 			hr = CreateProfile(szPIDandName);
@@ -514,7 +514,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	ULONG ulFlags = 0;
 	SRestriction sres;
 	SIZE_T nSize;
-	TCHAR* szUniqName;
+	wchar_t* szUniqName;
 	enum {iSvcName, iSvcUID, cptaSvc};
 	
 	SizedSPropTagArray(cptaSvc, sptCols) = 
@@ -563,10 +563,10 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	if (FAILED(hr))
 		return hr;
 	nSize = mir_tstrlen(m_szUsername);
-	szUniqName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (nSize + 4));
+	szUniqName = (wchar_t*)mir_alloc(sizeof(wchar_t) * (nSize + 4));
 	if (szUniqName != NULL) {
-		memcpy(szUniqName, L"=", sizeof(TCHAR));
-		memcpy((szUniqName + 1), m_szUsername, (sizeof(TCHAR) * (nSize + 1)));
+		memcpy(szUniqName, L"=", sizeof(wchar_t));
+		memcpy((szUniqName + 1), m_szUsername, (sizeof(wchar_t) * (nSize + 1)));
 		// Set values for PR_PROFILE_UNRESOLVED_NAME and PR_PROFILE_UNRESOLVED_SERVER
 		SPropValue spval[2];
 		spval[0].ulPropTag = PR_PROFILE_UNRESOLVED_NAME;
@@ -716,8 +716,8 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 	LPSRowSet lpRow = NULL;
 	LPSPropValue lpRowProp = NULL;
 	ULONG i = 0L;
-	TCHAR* szSenderName = NULL;
-	TCHAR* szSubject = NULL;
+	wchar_t* szSenderName = NULL;
+	wchar_t* szSubject = NULL;
 	LPSTR szEntryID = NULL;
 	
 	if ( lpFolder == NULL || !m_bFolderInboxOK )
@@ -842,7 +842,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 	HKEY hTheKey;
 	HRESULT hRes = E_FAIL;
 
-	TCHAR szRegValue[ 512 ];
+	wchar_t szRegValue[ 512 ];
 	DWORD dwLength  = 512 ;
 	DWORD dwType = REG_SZ;
 
@@ -863,11 +863,11 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 		else
 		{
 					
-			TCHAR* szTheEnd = _tcsstr( szRegValue,L".EXE" );
+			wchar_t* szTheEnd = wcsstr( szRegValue,L".EXE" );
 
 			if ( NULL != szTheEnd )
 			{
-				szRegValue[ mir_tstrlen(szRegValue) - mir_tstrlen(szTheEnd) +5 ]  = _T('\0');
+				szRegValue[ mir_tstrlen(szRegValue) - mir_tstrlen(szTheEnd) +5 ]  = '\0';
 				mir_tstrcat( szRegValue, L" /recycle" );
 				STARTUPINFO         si;
 				PROCESS_INFORMATION pi;

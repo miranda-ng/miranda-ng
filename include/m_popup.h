@@ -691,12 +691,10 @@ typedef struct {
 	union {
 		const char *pszTitle;
 		const wchar_t *pwszTitle;
-		const TCHAR *ptszTitle;
 	};
 	union {
 		const char *pszText;
 		const wchar_t *pwszText;
-		const TCHAR *ptszText;
 	};
 	void *PluginData;
 	MCONTACT hContact;

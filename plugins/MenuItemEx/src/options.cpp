@@ -30,7 +30,7 @@ static const checkboxes[] = {
 INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
-	TCHAR buffer[64] = { 0 };
+	wchar_t buffer[64] = { 0 };
 	int i;
 
 	switch (msg) {

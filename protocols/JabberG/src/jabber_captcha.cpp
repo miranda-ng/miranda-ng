@@ -35,7 +35,7 @@ struct CAPTCHA_FORM_PARAMS
 	LPCTSTR hint;
 	HBITMAP bmp;
 	int w,h;
-	TCHAR Result[MAX_PATH];
+	wchar_t Result[MAX_PATH];
 };
 
 INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -165,7 +165,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	return true;
 }
 
-void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData *info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid)
+void CJabberProto::sendCaptchaResult(wchar_t* buf, ThreadData *info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid)
 {
 	XmlNodeIq iq(L"set", SerialNext());
 	HXML query= iq <<XATTR(L"to", from) << XCHILD(L"captcha") << XATTR(L"xmlns", L"urn:xmpp:captcha") << XCHILD (L"x") << XATTR(L"xmlns", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"submit");

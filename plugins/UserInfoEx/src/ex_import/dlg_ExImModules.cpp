@@ -196,7 +196,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 			// Set the Window Title and description
 			{
 				LPCTSTR name = NULL; 
-				TCHAR	oldTitle[MAXDATASIZE], 
+				wchar_t	oldTitle[MAXDATASIZE], 
 						newTitle[MAXDATASIZE];
 				switch (pDat->ExImContact->Typ) {
 					case EXIM_ALL:

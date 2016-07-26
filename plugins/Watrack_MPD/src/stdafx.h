@@ -36,7 +36,7 @@
 extern HINSTANCE hInst;
 extern HANDLE ghNetlibUser;
 extern BOOL bWatrackService;
-extern TCHAR *gbHost, *gbPassword;
+extern wchar_t *gbHost, *gbPassword;
 extern WORD gbPort;
 extern char *date();
 

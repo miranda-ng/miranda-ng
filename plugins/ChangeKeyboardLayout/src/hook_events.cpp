@@ -8,13 +8,13 @@ INT_PTR APIChangeLayout(WPARAM wParam, LPARAM)
 
 INT_PTR APIGetLayoutOfText(WPARAM, LPARAM lParam)
 {
-	LPTSTR ptszInText = (TCHAR*)lParam;
+	LPTSTR ptszInText = (wchar_t*)lParam;
 	return (INT_PTR)GetLayoutOfText(ptszInText);
 }
 
 INT_PTR APIChangeTextLayout(WPARAM wParam, LPARAM lParam)
 {
-	LPTSTR ptszInText = (TCHAR*)wParam;
+	LPTSTR ptszInText = (wchar_t*)wParam;
 	CKLLayouts *ckllFromToLay = (CKLLayouts*)lParam;
 
 	return (INT_PTR)ChangeTextLayout(ptszInText, ckllFromToLay->hklFrom, ckllFromToLay->hklTo, ckllFromToLay->bTwoWay);

@@ -19,7 +19,7 @@ CSendHost_UploadPie::CSendHost_UploadPie(HWND Owner, MCONTACT hContact, bool bAs
 	: m_expire(expire), CSend(Owner, hContact, bAsync)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp = LPGENT("Image upload");
+	m_pszSendTyp = LPGENW("Image upload");
 }
 
 CSendHost_UploadPie::~CSendHost_UploadPie()
@@ -92,7 +92,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 			}
 			else {/// check error mess from server
 				const char* err = GetHTMLContent(reply->pData, "<p id=\"error\"", "</p>");
-				TCHAR* werr;
+				wchar_t* werr;
 				if (err) werr = mir_a2t(err);
 				else werr = mir_a2t(reply->pData);
 				self->Error(L"%s", werr);

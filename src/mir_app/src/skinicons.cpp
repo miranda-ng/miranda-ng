@@ -129,7 +129,7 @@ static HICON LoadSmallIconShared(HINSTANCE hInstance, LPCTSTR lpIconName)
 // load small icon (not shared) it IS NEED to be destroyed
 static HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
 {
-	TCHAR filename[MAX_PATH];
+	wchar_t filename[MAX_PATH];
 	if (GetModuleFileName(hInstance, filename, MAX_PATH) == 0)
 		return NULL;
 
@@ -273,35 +273,35 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 	if (hIcon == NULL && (caps2 == 0 || (caps2 & statusIcons[statusIndx].pf2))) {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa) {
-			TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH], *str;
+			wchar_t szPath[MAX_PATH], szFullPath[MAX_PATH], *str;
 			GetModuleFileName(NULL, szPath, _countof(szPath));
 
 			// Queried protocol isn't in list, adding
-			TCHAR tszSection[MAX_PATH];
+			wchar_t tszSection[MAX_PATH];
 			mir_sntprintf(tszSection, _T(PROTOCOLS_PREFIX)L"/%s", pa->tszAccountName);
 
 			SKINICONDESC sid = { 0 };
-			sid.section.t = tszSection;
+			sid.section.w = tszSection;
 			sid.flags = SIDF_ALL_TCHAR;
 
-			str = _tcsrchr(szPath, '\\');
+			str = wcsrchr(szPath, '\\');
 			if (str != NULL)
 				*str = 0;
 			mir_sntprintf(szFullPath, L"%s\\Icons\\proto_%S.dll", szPath, pa->szProtoName);
 			if (GetFileAttributes(szFullPath) != INVALID_FILE_ATTRIBUTES)
-				sid.defaultFile.t = szFullPath;
+				sid.defaultFile.w = szFullPath;
 			else {
 				mir_sntprintf(szFullPath, L"%s\\Plugins\\%S.dll", szPath, szProto);
 				if (int(ExtractIconEx(szFullPath, statusIcons[statusIndx].resource_id, NULL, &hIcon, 1)) > 0) {
 					DestroyIcon(hIcon);
-					sid.defaultFile.t = szFullPath;
+					sid.defaultFile.w = szFullPath;
 					hIcon = NULL;
 				}
 
 				if (sid.defaultFile.a == NULL) {
 					if (str != NULL)
 						*str = '\\';
-					sid.defaultFile.t = szPath;
+					sid.defaultFile.w = szPath;
 				}
 			}
 
@@ -317,7 +317,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 					// format: core_%s%d
 					mir_snprintf(iconName, "%s%s%d", statusIconsFmt, szProto, i);
 					sid.pszName = iconName;
-					sid.description.t = cli.pfnGetStatusModeDescription(statusIcons[i].id, 0);
+					sid.description.w = cli.pfnGetStatusModeDescription(statusIcons[i].id, 0);
 					sid.iDefaultIndex = statusIcons[i].resource_id;
 					IcoLib_AddIcon(&sid, 0);
 				}
@@ -379,12 +379,12 @@ MIR_APP_DLL(HICON) Skin_LoadIcon(int idx, bool big)
 
 int LoadSkinIcons(void)
 {
-	TCHAR modulePath[MAX_PATH];
+	wchar_t modulePath[MAX_PATH];
 	GetModuleFileName(g_hInst, modulePath, _countof(modulePath));
 
 	char iconName[MAX_PATH];
 	SKINICONDESC sid = { 0 };
-	sid.defaultFile.t = modulePath;
+	sid.defaultFile.w = modulePath;
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszName = iconName;
 

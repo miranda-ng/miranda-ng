@@ -34,7 +34,6 @@
 #include <time.h>
 #include <shellapi.h>
 #include <crtdbg.h>
-#include <tchar.h>
 #include <stdarg.h>
 
 #include "newpluginapi.h"
@@ -137,13 +136,15 @@
 #define WRITE_INTERPRET 4
 #define WRITE_CMSG 8
 
-#define TOGGLE_SOE_COMMAND LPGENT("Toggle autoreply on/off")
-#define DISABLE_SOE_COMMAND LPGENT("Toggle autoreply off")
-#define ENABLE_SOE_COMMAND LPGENT("Toggle autoreply on")
+#define TOGGLE_SOE_COMMAND LPGENW("Toggle autoreply on/off")
+#define DISABLE_SOE_COMMAND LPGENW("Toggle autoreply off")
+#define ENABLE_SOE_COMMAND LPGENW("Toggle autoreply on")
 
 #define STR_XSTATUSDESC TranslateT("extended status")
 
 #define MOD_NAME "NewAwaySys"
+#define MOD_NAMEW L"NewAwaySys"
+
 #define LOG_ID MOD_NAME // LogService log ID
 #define LOG_PREFIX MOD_NAME ": " // netlib.log prefix for all NAS' messages
 
@@ -198,7 +199,7 @@
 #define VPF_XSTATUS 1 // use "extended status" instead of the usual status description in %nas_statdesc%, and XStatus message in %nas_message%
 
 // options dialog
-#define OPT_TITLE LPGENT("Away System")
+#define OPT_TITLE LPGENW("Away System")
 #define OPT_MAINGROUP LPGEN("Status")
 #define OPT_POPUPGROUP LPGEN("Popups")
 
@@ -300,7 +301,7 @@ void InitOptions(); // called once when plugin is loaded
 
 //int ShowPopupNotification(COptPage &PopupNotifyData, MCONTACT hContact, int iStatusMode);
 void ShowLog(TCString &LogFilePath);
-void ShowMsg(TCHAR *szFirstLine, TCHAR *szSecondLine = L"", bool IsErrorMsg = false, int Timeout = 0);
+void ShowMsg(wchar_t *szFirstLine, wchar_t *szSecondLine = L"", bool IsErrorMsg = false, int Timeout = 0);
 
 #define AWAYSYS_STATUSMSGREQUEST_SOUND "AwaySysStatusMsgRequest"
 #define ME_AWAYSYS_WORKAROUND "AwaySys/_CallService"
@@ -323,7 +324,7 @@ static __inline int LogMessage(const char *Format, ...)
 	return CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
 }
 
-__inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const TCHAR *szMsg)
+__inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const wchar_t *szMsg)
 { // we must use this function everywhere we want to call PS_SETAWAYMSG, otherwise NAS won't allow to change the message!
 	LogMessage("PS_SETAWAYMSG called by NAS. szProto=%s, Status=%d, Msg:\n%S", szProto, iMode, szMsg ? szMsg : L"NULL");
 	return CallProtoService(szProto, PS_SETAWAYMSG, iMode, (LPARAM)szMsg);

@@ -34,14 +34,14 @@ public:
 	struct MessageInfo
 	{
 	private:
-		std::tstring Question;
-		MessageInfo(std::tstring q, std::tstring a)
+		std::wstring Question;
+		MessageInfo(std::wstring q, std::wstring a)
 			:Question(q), Answer(a)
 		{
 		}
 	public:
-		std::tstring Answer;
-		MessageInfo(std::tstring q)
+		std::wstring Answer;
+		MessageInfo(std::wstring q)
 			:Question(q)
 		{
 		}
@@ -52,17 +52,17 @@ private:
 	{
 		BEST, LOOKSLIKE/*, LOOKSLIKE2*/, BAD, FAIL, NOTHING
 	} Level;
-	friend std::tstring LevelToStr(TalkBot::Level target);
+	friend std::wstring LevelToStr(TalkBot::Level target);
 
 	struct ContactData
 	{
 		ValueChooser<> initial;
-		//ValueChooser<std::set<std::tstring> > question;
-		//ValueChooser<std::set<std::tstring> > special;
+		//ValueChooser<std::set<std::wstring> > question;
+		//ValueChooser<std::set<std::wstring> > special;
 		ValueChooser<> escape;
 		ValueChooser<> failure;
 		UnRecentChooser chooser;
-		std::tstring lastMessage;
+		std::wstring lastMessage;
 		long long lastMessageTime;
 		int repeatCount;
 		inline ContactData(const Mind& mind)
@@ -81,22 +81,22 @@ private:
 	bool beSilent;
 	bool makeLowercase;
 	bool understandAlways;
-	void UpdateStartChar(std::tstring &str);
-	typedef std::multimap<std::tstring, std::tstring>::const_iterator mm_cit;
-	bool FindExact(ContactData *contactData, const std::tstring &incomingMessage, const std::multimap<std::tstring, std::tstring> &map, std::tstring &res);
-	bool FindAny(ValueChooser<> &ch, std::tstring &res);
-	void FindByKeywords(ContactData *contactData, const std::vector<std::tstring> &keywords, std::tstring &res/*, std::tstring& ures*/, bool isQuestion);
-	bool FindByOthers(ContactData *contactData, const std::vector<std::tstring> &otherwords, std::tstring &res, bool isQuestion);
-	std::tstring AllReplies(const std::tstring &incomingMessage, ContactData *contactData, Level &maxValue, std::multimap<Level, std::tstring> &mm);
-	std::tstring ReplaceAliases(const std::tstring &message);
-	std::tstring ChooseResult(ContactData *contactData, Level maxValue, const std::multimap<Level, std::tstring> &mm);
+	void UpdateStartChar(std::wstring &str);
+	typedef std::multimap<std::wstring, std::wstring>::const_iterator mm_cit;
+	bool FindExact(ContactData *contactData, const std::wstring &incomingMessage, const std::multimap<std::wstring, std::wstring> &map, std::wstring &res);
+	bool FindAny(ValueChooser<> &ch, std::wstring &res);
+	void FindByKeywords(ContactData *contactData, const std::vector<std::wstring> &keywords, std::wstring &res/*, std::wstring& ures*/, bool isQuestion);
+	bool FindByOthers(ContactData *contactData, const std::vector<std::wstring> &otherwords, std::wstring &res, bool isQuestion);
+	std::wstring AllReplies(const std::wstring &incomingMessage, ContactData *contactData, Level &maxValue, std::multimap<Level, std::wstring> &mm);
+	std::wstring ReplaceAliases(const std::wstring &message);
+	std::wstring ChooseResult(ContactData *contactData, Level maxValue, const std::multimap<Level, std::wstring> &mm);
 	void RecordAnswer(ContactData *contactData, const TalkBot::MessageInfo &info);
 #ifdef _DEBUG
 public:
 #endif
-	void SplitSectences(const std::tstring &incomingMessage, std::vector<std::tstring> &vec);
-	void SplitAndSortWords(std::tstring sentence, std::vector<std::tstring> &keywords,
-		std::vector<std::tstring>& otherwords, bool& isQuestion);
+	void SplitSectences(const std::wstring &incomingMessage, std::vector<std::wstring> &vec);
+	void SplitAndSortWords(std::wstring sentence, std::vector<std::wstring> &keywords,
+		std::vector<std::wstring>& otherwords, bool& isQuestion);
 public:
 	TalkBot(const Mind& goodMind);
 	~TalkBot();
@@ -105,8 +105,8 @@ public:
 	void SetLowercase(const bool isLowercase);
 	void SetUnderstandAlways(const bool understandAlways);
 	//const MindData *GetData();
-	std::tstring GetInitMessage(MCONTACT contact);
-	MessageInfo* Reply(MCONTACT contact, const std::tstring incomingMessage, bool saveChoice);
+	std::wstring GetInitMessage(MCONTACT contact);
+	MessageInfo* Reply(MCONTACT contact, const std::wstring incomingMessage, bool saveChoice);
 	void AnswerGiven(MCONTACT contact, const MessageInfo &info);
 };
 

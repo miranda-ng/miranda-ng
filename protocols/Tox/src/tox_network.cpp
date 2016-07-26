@@ -73,7 +73,7 @@ void CToxProto::BootstrapNodesFromJson(CToxThread *toxThread, bool isUdp, bool i
 
 	if (IsFileExists(path))
 	{
-		FILE *hFile = _tfopen(path, L"r");
+		FILE *hFile = _wfopen(path, L"r");
 		if (hFile != NULL)
 		{
 			_fseeki64(hFile, 0, SEEK_END);
@@ -157,7 +157,7 @@ void CToxProto::UpdateNodes()
 	if (lastUpdate <= getDword("NodesUpdate", 0))
 		return;
 
-	ptrT path(mir_tstrdup((TCHAR*)VARST(_T(TOX_JSON_PATH))));
+	ptrT path(mir_tstrdup((wchar_t*)VARST(_T(TOX_JSON_PATH))));
 	if (!IsFileExists(path))
 	{
 		HANDLE hProfile = CreateFile(path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -169,7 +169,7 @@ void CToxProto::UpdateNodes()
 		CloseHandle(hProfile);
 	}
 
-	FILE *hFile = _tfopen(path, L"w");
+	FILE *hFile = _wfopen(path, L"w");
 	if (!hFile)
 	{
 		debugLogA(__FUNCTION__": failed to open tox.json");

@@ -302,7 +302,7 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 				if (NewMsg.IsEmpty())
 					NewMsg = L"";
 
-				if (OldTitle != (const TCHAR*)NewTitle || OldMsg != (const TCHAR*)NewMsg) {
+				if (OldTitle != (const wchar_t*)NewTitle || OldMsg != (const wchar_t*)NewMsg) {
 					// probably it's better to leave nm.ItemOld = NULL, to prevent accidental rewriting of it with old data from an edit control etc.
 					nm.hdr.code = MTN_SELCHANGED;
 					nm.hdr.hwndFrom = hWnd;
@@ -571,7 +571,7 @@ void CMsgTree::UpdateItem(int ID) // updates item title, and expanded/collapsed 
 		tvi.pszText = NewTitle.GetBuffer(TREEITEMTITLE_MAXLEN);
 		tvi.cchTextMax = TREEITEMTITLE_MAXLEN;
 		TreeView_GetItem(hTreeView, &tvi);
-		if (TreeItem->Title != (const TCHAR*)tvi.pszText) {
+		if (TreeItem->Title != (const wchar_t*)tvi.pszText) {
 			TreeCtrl->SetModified(true);
 			NMMSGTREE nm = { 0 };
 			nm.ItemNew = TreeItem;

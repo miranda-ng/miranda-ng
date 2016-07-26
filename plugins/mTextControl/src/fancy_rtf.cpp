@@ -2,9 +2,9 @@
 
 struct BBCodeInfo
 {
-	TCHAR *start;
-	TCHAR *end;
-	bool(*func)(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *txt, DWORD cookie);
+	wchar_t *start;
+	wchar_t *end;
+	bool(*func)(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, DWORD cookie);
 	DWORD cookie;
 };
 
@@ -14,7 +14,7 @@ enum {
 	BBS_IMG1, BBS_IMG2
 };
 
-static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *, DWORD cookie)
+static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *, DWORD cookie)
 {
 	CHARFORMAT cf = { 0 };
 	cf.cbSize = sizeof(cf);
@@ -60,7 +60,7 @@ static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *, 
 	return true;
 }
 
-static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *txt, DWORD)
+static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, DWORD)
 {
 	ITextServices *ts = ftd->getTextService();
 	ITextDocument *td = ftd->getTextDocument();
@@ -73,9 +73,9 @@ static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *txt
 	td->Freeze(&cnt);
 
 #ifdef _WIN64
-	bool res = InsertBitmap(RichEditOle, CacheIconToEmf((HICON)_tstoi64(txt)));
+	bool res = InsertBitmap(RichEditOle, CacheIconToEmf((HICON)_wtoi64(txt)));
 #else
-	bool res = InsertBitmap(RichEditOle, CacheIconToEmf((HICON)_ttoi(txt)));
+	bool res = InsertBitmap(RichEditOle, CacheIconToEmf((HICON)_wtoi(txt)));
 #endif
 
 	td->Unfreeze(&cnt);
@@ -115,7 +115,7 @@ void bbCodeParse(IFormattedTextDraw *ftd)
 	for (bool found = true; found;) {
 		found = false;
 		CHARRANGE fRange; fRange.cpMin = -1;
-		TCHAR *fText = 0;
+		wchar_t *fText = 0;
 		BBCodeInfo *fBBCode = NULL;
 
 		for (int i = 0; i < bbCodeCount; i++) {
@@ -154,7 +154,7 @@ void bbCodeParse(IFormattedTextDraw *ftd)
 					TEXTRANGE trg;
 					trg.chrg.cpMin = fte.chrg.cpMin;
 					trg.chrg.cpMax = fte.chrgText.cpMin;
-					trg.lpstrText = new TCHAR[trg.chrg.cpMax - trg.chrg.cpMin + 1];
+					trg.lpstrText = new wchar_t[trg.chrg.cpMax - trg.chrg.cpMin + 1];
 					ts->TxSendMessage(EM_GETTEXTRANGE, 0, (LPARAM)&trg, &lResult);
 					fText = trg.lpstrText;
 				}

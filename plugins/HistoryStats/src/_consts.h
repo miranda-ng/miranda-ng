@@ -4,11 +4,9 @@
 #include "stdafx.h"
 
 #if defined(HISTORYSTATS_CONST_DEFINE)
-#define CONST_T(nam, txt) extern const TCHAR* nam = _T(txt);
 #define CONST_A(nam, txt) extern const char* nam = txt;
 #define CONST_W(nam, txt) extern const WCHAR* nam = L#txt;
 #else
-#define CONST_T(nam, txt) extern const TCHAR* nam;
 #define CONST_A(nam, txt) extern const char* nam;
 #define CONST_W(nam, txt) extern const WCHAR* nam;
 #endif
@@ -109,72 +107,72 @@ namespace con
 	CONST_A(SettGroup              , "Group"              )
 
 	// column tags
-	CONST_T(ColChatDuration        , "chatduration"       )
-	CONST_T(ColEvents              , "events"             )
-	CONST_T(ColGroup               , "group"              )
-	CONST_T(ColInOut               , "inouttext"          )
-	CONST_T(ColInOutGraph          , "inout"              )
-	CONST_T(ColNick                , "nick"               )
-	CONST_T(ColProtocol            , "protocol"           )
-	CONST_T(ColRank                , "rank"               )
-	CONST_T(ColSplit               , "split"              )
-	CONST_T(ColSplitTimeline       , "splittimeline"      )
-	CONST_T(ColTimeline            , "timeline"           )
-	CONST_T(ColWordCount           , "wordcount"          )
-	CONST_T(ColWords               , "commonwords"        )
+	CONST_W(ColChatDuration        , "chatduration"       )
+	CONST_W(ColEvents              , "events"             )
+	CONST_W(ColGroup               , "group"              )
+	CONST_W(ColInOut               , "inouttext"          )
+	CONST_W(ColInOutGraph          , "inout"              )
+	CONST_W(ColNick                , "nick"               )
+	CONST_W(ColProtocol            , "protocol"           )
+	CONST_W(ColRank                , "rank"               )
+	CONST_W(ColSplit               , "split"              )
+	CONST_W(ColSplitTimeline       , "splittimeline"      )
+	CONST_W(ColTimeline            , "timeline"           )
+	CONST_W(ColWordCount           , "wordcount"          )
+	CONST_W(ColWords               , "commonwords"        )
 
 	// suffix for column-specific settings
-	CONST_T(SuffixData             , "/data"              )
+	CONST_W(SuffixData             , "/data"              )
 
 	// suffix for shared column data (filter words)
-	CONST_T(SuffixWords            , "/words"             )
+	CONST_W(SuffixWords            , "/words"             )
 
 	// keys for common column settings
-	CONST_T(KeyGUID                , "guid"               )
-	CONST_T(KeyEnabled             , "enabled"            )
-	CONST_T(KeyTitle               , "title"              )
+	CONST_W(KeyGUID                , "guid"               )
+	CONST_W(KeyEnabled             , "enabled"            )
+	CONST_W(KeyTitle               , "title"              )
 
 	// keys for column-specific settings
-	CONST_T(KeyAbsolute            , "absolute"           ) // InOut, InOutGraph
-	CONST_T(KeyAbsTime             , "abs_time"           ) // InOut, InOutGraph
-	CONST_T(KeyBlocks              , "blocks"             ) // Split, SplitTimeline
-	CONST_T(KeyBlockUnit           , "block_unit"         ) // Split, SplitTimeline
-	CONST_T(KeyContactCount        , "contact_count"      ) // Nick
-	CONST_T(KeyCustomGroup         , "custom_group"       ) // SplitTimeline
-	CONST_T(KeyDays                , "days"               ) // Timeline
-	CONST_T(KeyDetail              , "detail"             ) // ChatDuration, InOutGraph, Nick, Split, Timeline, WordCount, Words
-	CONST_T(KeyDetailInOut         , "detail_inout"       ) // Words
-	CONST_T(KeyDetailInvert        , "detail_invert"      ) // InOutGraph
-	CONST_T(KeyDetailPercent       , "detail_percent"     ) // InOutGraph
-	CONST_T(KeyDOWGroup            , "dow_group"          ) // SplitTimeline
-	CONST_T(KeyFilterLinks         , "filter_links"       ) // [Base]Words
-	CONST_T(KeyFilterWords         , "filter_words"       ) // [Base]Words
-	CONST_T(KeyGraph               , "graph"              ) // ChatDuration
-	CONST_T(KeyGraphAlign          , "graph_align"        ) // Split, SplitTimeline
-	CONST_T(KeyGraphPercent        , "graph_percent"      ) // InOutGraph
-	CONST_T(KeyHODGroup            , "hod_group"          )	// SplitTimeline
-	CONST_T(KeyIgnoreOld           , "ignore_old"         ) // Timeline
-	CONST_T(KeyInOutColor          , "in_out_color"       ) // Words
-	CONST_T(KeyMaxLength           , "max_length"         ) // [Base]Words
-	CONST_T(KeyMinLength           , "min_length"         ) // [Base]Words
-	CONST_T(KeyNum                 , "num"                ) // Words, **keys for common column settings**
-	CONST_T(KeyOffset              , "offset"             ) // Words
-	CONST_T(KeyShowSum             , "show_sum"           ) // InOutGraph
-	CONST_T(KeySource              , "source"             ) // [Base]Words, Events, InOut, InOutGraph, Split, SplitTimeline, Timeline
-	CONST_T(KeySourceType          , "source_type"        ) // Split, SplitTimeline, Timeline
-	CONST_T(KeyTopPerColumn        , "top_per_column"     ) // SplitTimeline
-	CONST_T(KeyUnitsPerBlock       , "units_per_block"    ) // Split, SplitTimeline
-	CONST_T(KeyVisMode             , "vis_mode"           ) // ChatDuration, Split, SplitTimeline, WordCount, Words
+	CONST_W(KeyAbsolute            , "absolute"           ) // InOut, InOutGraph
+	CONST_W(KeyAbsTime             , "abs_time"           ) // InOut, InOutGraph
+	CONST_W(KeyBlocks              , "blocks"             ) // Split, SplitTimeline
+	CONST_W(KeyBlockUnit           , "block_unit"         ) // Split, SplitTimeline
+	CONST_W(KeyContactCount        , "contact_count"      ) // Nick
+	CONST_W(KeyCustomGroup         , "custom_group"       ) // SplitTimeline
+	CONST_W(KeyDays                , "days"               ) // Timeline
+	CONST_W(KeyDetail              , "detail"             ) // ChatDuration, InOutGraph, Nick, Split, Timeline, WordCount, Words
+	CONST_W(KeyDetailInOut         , "detail_inout"       ) // Words
+	CONST_W(KeyDetailInvert        , "detail_invert"      ) // InOutGraph
+	CONST_W(KeyDetailPercent       , "detail_percent"     ) // InOutGraph
+	CONST_W(KeyDOWGroup            , "dow_group"          ) // SplitTimeline
+	CONST_W(KeyFilterLinks         , "filter_links"       ) // [Base]Words
+	CONST_W(KeyFilterWords         , "filter_words"       ) // [Base]Words
+	CONST_W(KeyGraph               , "graph"              ) // ChatDuration
+	CONST_W(KeyGraphAlign          , "graph_align"        ) // Split, SplitTimeline
+	CONST_W(KeyGraphPercent        , "graph_percent"      ) // InOutGraph
+	CONST_W(KeyHODGroup            , "hod_group"          )	// SplitTimeline
+	CONST_W(KeyIgnoreOld           , "ignore_old"         ) // Timeline
+	CONST_W(KeyInOutColor          , "in_out_color"       ) // Words
+	CONST_W(KeyMaxLength           , "max_length"         ) // [Base]Words
+	CONST_W(KeyMinLength           , "min_length"         ) // [Base]Words
+	CONST_W(KeyNum                 , "num"                ) // Words, **keys for common column settings**
+	CONST_W(KeyOffset              , "offset"             ) // Words
+	CONST_W(KeyShowSum             , "show_sum"           ) // InOutGraph
+	CONST_W(KeySource              , "source"             ) // [Base]Words, Events, InOut, InOutGraph, Split, SplitTimeline, Timeline
+	CONST_W(KeySourceType          , "source_type"        ) // Split, SplitTimeline, Timeline
+	CONST_W(KeyTopPerColumn        , "top_per_column"     ) // SplitTimeline
+	CONST_W(KeyUnitsPerBlock       , "units_per_block"    ) // Split, SplitTimeline
+	CONST_W(KeyVisMode             , "vis_mode"           ) // ChatDuration, Split, SplitTimeline, WordCount, Words
 
 	// keeys for shared column data (filter words)
-	CONST_T(KeyID                  , "id"                 )
-	CONST_T(KeyName                , "name"               )
-	CONST_T(KeyMode                , "mode"               )
-	CONST_T(KeyNumWords            , "num_words"          )
+	CONST_W(KeyID                  , "id"                 )
+	CONST_W(KeyName                , "name"               )
+	CONST_W(KeyMode                , "mode"               )
+	CONST_W(KeyNumWords            , "num_words"          )
 
 	// keys for sort settings
-	CONST_T(KeyAsc                 , "asc"                )
-	CONST_T(KeyBy                  , "by"                 )
+	CONST_W(KeyAsc                 , "asc"                )
+	CONST_W(KeyBy                  , "by"                 )
 
 	// miranda services created by historystats
 	CONST_A(SvcConfigure           , "HistoryStats/Configure"    )
@@ -206,7 +204,7 @@ namespace con
 	const COLORREF ColorTotals  = RGB(0xDF, 0xDF, 0xDF);
 }
 
-#undef CONST_T
+#undef CONST_W
 #undef CONST_A
 #undef CONST_W
 

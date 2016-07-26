@@ -54,11 +54,11 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 		dat->hSeq = (HANDLE)ProtoChainSend(dat->hContact, PSS_GETAWAYMSG, 0, 0);
 		WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 		{
-			TCHAR str[256], format[128];
-			TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+			wchar_t str[256], format[128];
+			wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			char *szProto = GetContactProto(dat->hContact);
 			WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			TCHAR *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
+			wchar_t *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
 
 			GetWindowText(hwndDlg, format, _countof(format));
 			mir_sntprintf(str, format, status, contactName);
@@ -89,7 +89,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			if (ack->result != ACKRESULT_SUCCESS) break;
 			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) { UnhookEvent(dat->hAwayMsgEvent); dat->hAwayMsgEvent = NULL; }
 
-			SetDlgItemText(hwndDlg, IDC_MSG, (const TCHAR*)ack->lParam);
+			SetDlgItemText(hwndDlg, IDC_MSG, (const wchar_t*)ack->lParam);
 
 			ShowWindow(GetDlgItem(hwndDlg, IDC_RETRIEVING), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG), SW_SHOW);
@@ -140,7 +140,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 			int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
-					TCHAR str[128];
+					wchar_t str[128];
 					mir_sntprintf(str, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(status, 0));
 					Menu_ModifyItem(hAwayMsgMenuItem, str, Skin_LoadProtoIcon(szProto, status), CMIF_NOTOFFLINE);
 					return 0;

@@ -58,13 +58,13 @@ int InitCustomMenus(void)
 #define CLUI_FAVSETRATE "CLUI/SetContactRate"  //LParam is rate, Wparam is contact handle
 #define CLUI_FAVTOGGLESHOWOFFLINE "CLUI/ToggleContactShowOffline"
 
-static TCHAR *FAVMENUROOTNAME = LPGENT("&Contact rate");
+static wchar_t *FAVMENUROOTNAME = LPGENW("&Contact rate");
 
-static TCHAR *rates[] = {
-	LPGENT("None"),
-	LPGENT("Low"),
-	LPGENT("Medium"),
-	LPGENT("High")
+static wchar_t *rates[] = {
+	LPGENW("None"),
+	LPGENW("Low"),
+	LPGENW("Medium"),
+	LPGENW("High")
 };
 
 static HGENMENU hFavoriteContactMenu = NULL, hShowIfOflineItem = NULL;
@@ -124,7 +124,7 @@ int LoadFavoriteContactMenu()
 
 	CMenuItem mi;
 	SET_UID(mi, 0xf99a2320, 0xc024, 0x48bd, 0x81, 0xf7, 0x9f, 0xa2, 0x5, 0xb0, 0x7f, 0xdc);
-	mi.name.t = FAVMENUROOTNAME;
+	mi.name.w = FAVMENUROOTNAME;
 	mi.flags = CMIF_TCHAR;
 	hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hFavoriteContactMenu, MCI_OPT_UNIQUENAME, "ModernClistMenu_ContactRate");
@@ -135,7 +135,7 @@ int LoadFavoriteContactMenu()
 	mi.pszService = CLUI_FAVSETRATE;
 	for (int i = 0; i < _countof(rates); i++) {
 		mi.hIcolibItem = iconList[i].hIcolib;
-		mi.name.t = rates[i];
+		mi.name.w = rates[i];
 		hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
 		Menu_ConfigureItem(hFavoriteContactMenuItems[i], MCI_OPT_EXECPARAM, i);
 	}
@@ -143,7 +143,7 @@ int LoadFavoriteContactMenu()
 	mi.hIcolibItem = NULL;
 	mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
 	mi.position = -100000000;
-	mi.name.t = LPGENT("Show even if offline");
+	mi.name.w = LPGENW("Show even if offline");
 	hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hShowIfOflineItem, MCI_OPT_EXECPARAM, _countof(rates) + 100000000);
 	return 0;

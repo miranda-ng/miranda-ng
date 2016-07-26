@@ -27,16 +27,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HANDLE hDlgSucceeded, hDlgCanceled;
 
-TCHAR* PFTS_StringToTchar(int flags, const TCHAR* s);
-int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const TCHAR* s, TCHAR *r);
+wchar_t* PFTS_StringToTchar(int flags, const wchar_t* s);
+int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const wchar_t* s, wchar_t *r);
 
 static HGENMENU hSRFileMenuItem;
 
-TCHAR* GetContactID(MCONTACT hContact)
+wchar_t* GetContactID(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
-		if (TCHAR *theValue = db_get_tsa(hContact, szProto, "ChatRoomID"))
+		if (wchar_t *theValue = db_get_tsa(hContact, szProto, "ChatRoomID"))
 			return theValue;
 
 	return Contact_GetInfo(CNF_UNIQUEID, hContact, szProto);
@@ -60,7 +60,7 @@ static INT_PTR SendSpecificFiles(WPARAM hContact, LPARAM lParam)
 	while (ppFiles[count] != NULL)
 		count++;
 
-	fsd.ppFiles = (const TCHAR**)alloca((count + 1) * sizeof(void*));
+	fsd.ppFiles = (const wchar_t**)alloca((count + 1) * sizeof(void*));
 	for (int i = 0; i < count; i++)
 		fsd.ppFiles[i] = mir_a2t(ppFiles[i]);
 	fsd.ppFiles[count] = NULL;
@@ -75,13 +75,13 @@ static INT_PTR SendSpecificFilesT(WPARAM hContact, LPARAM lParam)
 {
 	FileSendData fsd;
 	fsd.hContact = hContact;
-	fsd.ppFiles = (const TCHAR**)lParam;
+	fsd.ppFiles = (const wchar_t**)lParam;
 	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 }
 
 static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR buf[MAX_PATH];
+	wchar_t buf[MAX_PATH];
 	GetContactReceivedFilesDir(wParam, buf, MAX_PATH, TRUE);
 	char* dir = mir_t2a(buf);
 	mir_strncpy((char*)lParam, dir, MAX_PATH);
@@ -107,7 +107,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 	else {
 		SkinPlaySound("RecvFile");
 
-		TCHAR szTooltip[256];
+		wchar_t szTooltip[256];
 		mir_sntprintf(szTooltip, TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		cle.ptszTooltip = szTooltip;
 
@@ -133,7 +133,7 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int SRFile_GetRegValue(HKEY hKeyBase, const TCHAR *szSubKey, const TCHAR *szValue, TCHAR *szOutput, int cbOutput)
+int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput)
 {
 	HKEY hKey;
 	DWORD cbOut = cbOutput;
@@ -150,7 +150,7 @@ int SRFile_GetRegValue(HKEY hKeyBase, const TCHAR *szSubKey, const TCHAR *szValu
 	return 1;
 }
 
-void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed)
+void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed)
 {
 	if (!unitsOverride) {
 		if (size < 1000) unitsOverride = UNITS_BYTES;
@@ -173,13 +173,13 @@ void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsO
 }
 
 // Tripple redirection sucks but is needed to nullify the array pointer
-void FreeFilesMatrix(TCHAR ***files)
+void FreeFilesMatrix(wchar_t ***files)
 {
 	if (*files == NULL)
 		return;
 
 	// Free each filename in the pointer array
-	TCHAR **pFile = *files;
+	wchar_t **pFile = *files;
 	while (*pFile != NULL) {
 		mir_free(*pFile);
 		*pFile = NULL;
@@ -206,7 +206,7 @@ void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFE
 	*dest = *src;
 	if (src->tszCurrentFile) dest->tszCurrentFile = PFTS_StringToTchar(src->flags, src->tszCurrentFile);
 	if (src->ptszFiles) {
-		dest->ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)*src->totalFiles);
+		dest->ptszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*)*src->totalFiles);
 		for (int i = 0; i < src->totalFiles; i++)
 			dest->ptszFiles[i] = PFTS_StringToTchar(src->flags, src->ptszFiles[i]);
 	}
@@ -227,7 +227,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	}
 	if (src->ptszFiles) {
 		if (!dest->ptszFiles)
-			dest->ptszFiles = (TCHAR**)mir_calloc(sizeof(TCHAR*)*src->totalFiles);
+			dest->ptszFiles = (wchar_t**)mir_calloc(sizeof(wchar_t*)*src->totalFiles);
 		for (int i = 0; i < src->totalFiles; i++)
 			if (!dest->ptszFiles[i] || !src->ptszFiles[i] || PFTS_CompareWithTchar(src, src->ptszFiles[i], dest->ptszFiles[i])) {
 				mir_free(dest->ptszFiles[i]);
@@ -336,7 +336,7 @@ INT_PTR FtMgrShowCommand(WPARAM, LPARAM)
 
 INT_PTR openContRecDir(WPARAM hContact, LPARAM)
 {
-	TCHAR szContRecDir[MAX_PATH];
+	wchar_t szContRecDir[MAX_PATH];
 	GetContactReceivedFilesDir(hContact, szContRecDir, _countof(szContRecDir), TRUE);
 	ShellExecute(0, L"open", szContRecDir, 0, 0, SW_SHOW);
 	return 0;
@@ -344,7 +344,7 @@ INT_PTR openContRecDir(WPARAM hContact, LPARAM)
 
 INT_PTR openRecDir(WPARAM, LPARAM)
 {
-	TCHAR szContRecDir[MAX_PATH];
+	wchar_t szContRecDir[MAX_PATH];
 	GetReceivedFilesDir(szContRecDir, _countof(szContRecDir));
 	ShellExecute(0, L"open", szContRecDir, 0, 0, SW_SHOW);
 	return 0;
@@ -373,9 +373,9 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	if (bUnicode) {
 		pszFiles = (char**)alloca(pre->fileCount * sizeof(char*));
 		for (int i = 0; i < pre->fileCount; i++)
-			pszFiles[i] = Utf8EncodeT(pre->files.t[i]);
+			pszFiles[i] = Utf8EncodeT(pre->files.w[i]);
 		
-		szDescr = Utf8EncodeT(pre->descr.t);
+		szDescr = Utf8EncodeT(pre->descr.w);
 	}
 	else {
 		pszFiles = pre->files.a;

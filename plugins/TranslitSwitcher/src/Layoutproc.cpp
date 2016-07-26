@@ -39,18 +39,18 @@ bool isItSmiley(unsigned int position)
 
 static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	TCHAR **ppText = (TCHAR**)dwCookie;
-	*ppText = mir_tstrndup((TCHAR*)pbBuff, cb / sizeof(TCHAR));
+	wchar_t **ppText = (wchar_t**)dwCookie;
+	*ppText = mir_tstrndup((wchar_t*)pbBuff, cb / sizeof(wchar_t));
 	*pcb = cb;
 	return 0;
 }
 
-TCHAR* Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
+wchar_t* Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 {
 	if (hwndRtf == 0)
 		return NULL;
 
-	TCHAR *pszText = NULL;
+	wchar_t *pszText = NULL;
 	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = StreamOutCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText;
@@ -58,88 +58,88 @@ TCHAR* Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 	return pszText;
 }
 
-void Transliterate(TCHAR *&str)
+void Transliterate(wchar_t *&str)
 {
-	TCHAR *newStr = (TCHAR*)mir_alloc(sizeof(TCHAR) * mir_tstrlen(str) * 3 + 1);
+	wchar_t *newStr = (wchar_t*)mir_alloc(sizeof(wchar_t) * mir_tstrlen(str) * 3 + 1);
 	newStr[0] = 0;
 	for (; *str != 0; str++) {
 		switch (str[0]) {
-		case _T('à'): mir_tstrcat(newStr, L"a"); break;
-		case _T('á'): mir_tstrcat(newStr, L"b"); break;
-		case _T('â'): mir_tstrcat(newStr, L"v"); break;
-		case _T('ã'): mir_tstrcat(newStr, L"g"); break;
-		case _T('ä'): mir_tstrcat(newStr, L"d"); break;
-		case _T('å'): mir_tstrcat(newStr, L"e"); break;
-		case _T('¸'): mir_tstrcat(newStr, L"ye"); break;
-		case _T('æ'): mir_tstrcat(newStr, L"zh"); break;
-		case _T('ç'): mir_tstrcat(newStr, L"z"); break;
-		case _T('è'): mir_tstrcat(newStr, L"i"); break;
-		case _T('é'): mir_tstrcat(newStr, L"y"); break;
-		case _T('ê'): mir_tstrcat(newStr, L"k"); break;
-		case _T('ë'): mir_tstrcat(newStr, L"l"); break;
-		case _T('ì'): mir_tstrcat(newStr, L"m"); break;
-		case _T('í'): mir_tstrcat(newStr, L"n"); break;
-		case _T('î'): mir_tstrcat(newStr, L"o"); break;
-		case _T('ï'): mir_tstrcat(newStr, L"p"); break;
-		case _T('ð'): mir_tstrcat(newStr, L"r"); break;
-		case _T('ñ'): mir_tstrcat(newStr, L"s"); break;
-		case _T('ò'): mir_tstrcat(newStr, L"t"); break;
-		case _T('ó'): mir_tstrcat(newStr, L"u"); break;
-		case _T('ô'): mir_tstrcat(newStr, L"f"); break;
-		case _T('õ'): mir_tstrcat(newStr, L"kh"); break;
-		case _T('ö'): mir_tstrcat(newStr, L"ts"); break;
-		case _T('÷'): mir_tstrcat(newStr, L"ch"); break;
-		case _T('ø'): mir_tstrcat(newStr, L"sh"); break;
-		case _T('ù'): mir_tstrcat(newStr, L"sch"); break;
-		case _T('ú'): mir_tstrcat(newStr, L"'"); break;
-		case _T('û'): mir_tstrcat(newStr, L"yi"); break;
-		case _T('ü'): mir_tstrcat(newStr, L""); break;
-		case _T('ý'): mir_tstrcat(newStr, L"e"); break;
-		case _T('þ'): mir_tstrcat(newStr, L"yu"); break;
-		case _T('ÿ'): mir_tstrcat(newStr, L"ya"); break;
-		case _T('À'): mir_tstrcat(newStr, L"A"); break;
-		case _T('Á'): mir_tstrcat(newStr, L"B"); break;
-		case _T('Â'): mir_tstrcat(newStr, L"V"); break;
-		case _T('Ã'): mir_tstrcat(newStr, L"G"); break;
-		case _T('Ä'): mir_tstrcat(newStr, L"D"); break;
-		case _T('Å'): mir_tstrcat(newStr, L"E"); break;
-		case _T('¨'): mir_tstrcat(newStr, L"Ye"); break;
-		case _T('Æ'): mir_tstrcat(newStr, L"Zh"); break;
-		case _T('Ç'): mir_tstrcat(newStr, L"Z"); break;
-		case _T('È'): mir_tstrcat(newStr, L"I"); break;
-		case _T('É'): mir_tstrcat(newStr, L"Y"); break;
-		case _T('Ê'): mir_tstrcat(newStr, L"K"); break;
-		case _T('Ë'): mir_tstrcat(newStr, L"L"); break;
-		case _T('Ì'): mir_tstrcat(newStr, L"M"); break;
-		case _T('Í'): mir_tstrcat(newStr, L"N"); break;
-		case _T('Î'): mir_tstrcat(newStr, L"O"); break;
-		case _T('Ï'): mir_tstrcat(newStr, L"P"); break;
-		case _T('Ð'): mir_tstrcat(newStr, L"R"); break;
-		case _T('Ñ'): mir_tstrcat(newStr, L"S"); break;
-		case _T('Ò'): mir_tstrcat(newStr, L"T"); break;
-		case _T('Ó'): mir_tstrcat(newStr, L"U"); break;
-		case _T('Ô'): mir_tstrcat(newStr, L"F"); break;
-		case _T('Õ'): mir_tstrcat(newStr, L"Kh"); break;
-		case _T('Ö'): mir_tstrcat(newStr, L"Ts"); break;
-		case _T('×'): mir_tstrcat(newStr, L"Ch"); break;
-		case _T('Ø'): mir_tstrcat(newStr, L"Sh"); break;
-		case _T('Ù'): mir_tstrcat(newStr, L"Sch"); break;
-		case _T('Ú'): mir_tstrcat(newStr, L"'"); break;
-		case _T('Û'): mir_tstrcat(newStr, L"Yi"); break;
-		case _T('Ü'): mir_tstrcat(newStr, L""); break;
-		case _T('Ý'): mir_tstrcat(newStr, L"E"); break;
-		case _T('Þ'): mir_tstrcat(newStr, L"Yu"); break;
-		case _T('ß'): mir_tstrcat(newStr, L"Ya"); break;
+		case 'à': mir_tstrcat(newStr, L"a"); break;
+		case 'á': mir_tstrcat(newStr, L"b"); break;
+		case 'â': mir_tstrcat(newStr, L"v"); break;
+		case 'ã': mir_tstrcat(newStr, L"g"); break;
+		case 'ä': mir_tstrcat(newStr, L"d"); break;
+		case 'å': mir_tstrcat(newStr, L"e"); break;
+		case '¸': mir_tstrcat(newStr, L"ye"); break;
+		case 'æ': mir_tstrcat(newStr, L"zh"); break;
+		case 'ç': mir_tstrcat(newStr, L"z"); break;
+		case 'è': mir_tstrcat(newStr, L"i"); break;
+		case 'é': mir_tstrcat(newStr, L"y"); break;
+		case 'ê': mir_tstrcat(newStr, L"k"); break;
+		case 'ë': mir_tstrcat(newStr, L"l"); break;
+		case 'ì': mir_tstrcat(newStr, L"m"); break;
+		case 'í': mir_tstrcat(newStr, L"n"); break;
+		case 'î': mir_tstrcat(newStr, L"o"); break;
+		case 'ï': mir_tstrcat(newStr, L"p"); break;
+		case 'ð': mir_tstrcat(newStr, L"r"); break;
+		case 'ñ': mir_tstrcat(newStr, L"s"); break;
+		case 'ò': mir_tstrcat(newStr, L"t"); break;
+		case 'ó': mir_tstrcat(newStr, L"u"); break;
+		case 'ô': mir_tstrcat(newStr, L"f"); break;
+		case 'õ': mir_tstrcat(newStr, L"kh"); break;
+		case 'ö': mir_tstrcat(newStr, L"ts"); break;
+		case '÷': mir_tstrcat(newStr, L"ch"); break;
+		case 'ø': mir_tstrcat(newStr, L"sh"); break;
+		case 'ù': mir_tstrcat(newStr, L"sch"); break;
+		case 'ú': mir_tstrcat(newStr, L"'"); break;
+		case 'û': mir_tstrcat(newStr, L"yi"); break;
+		case 'ü': mir_tstrcat(newStr, L""); break;
+		case 'ý': mir_tstrcat(newStr, L"e"); break;
+		case 'þ': mir_tstrcat(newStr, L"yu"); break;
+		case 'ÿ': mir_tstrcat(newStr, L"ya"); break;
+		case 'À': mir_tstrcat(newStr, L"A"); break;
+		case 'Á': mir_tstrcat(newStr, L"B"); break;
+		case 'Â': mir_tstrcat(newStr, L"V"); break;
+		case 'Ã': mir_tstrcat(newStr, L"G"); break;
+		case 'Ä': mir_tstrcat(newStr, L"D"); break;
+		case 'Å': mir_tstrcat(newStr, L"E"); break;
+		case '¨': mir_tstrcat(newStr, L"Ye"); break;
+		case 'Æ': mir_tstrcat(newStr, L"Zh"); break;
+		case 'Ç': mir_tstrcat(newStr, L"Z"); break;
+		case 'È': mir_tstrcat(newStr, L"I"); break;
+		case 'É': mir_tstrcat(newStr, L"Y"); break;
+		case 'Ê': mir_tstrcat(newStr, L"K"); break;
+		case 'Ë': mir_tstrcat(newStr, L"L"); break;
+		case 'Ì': mir_tstrcat(newStr, L"M"); break;
+		case 'Í': mir_tstrcat(newStr, L"N"); break;
+		case 'Î': mir_tstrcat(newStr, L"O"); break;
+		case 'Ï': mir_tstrcat(newStr, L"P"); break;
+		case 'Ð': mir_tstrcat(newStr, L"R"); break;
+		case 'Ñ': mir_tstrcat(newStr, L"S"); break;
+		case 'Ò': mir_tstrcat(newStr, L"T"); break;
+		case 'Ó': mir_tstrcat(newStr, L"U"); break;
+		case 'Ô': mir_tstrcat(newStr, L"F"); break;
+		case 'Õ': mir_tstrcat(newStr, L"Kh"); break;
+		case 'Ö': mir_tstrcat(newStr, L"Ts"); break;
+		case '×': mir_tstrcat(newStr, L"Ch"); break;
+		case 'Ø': mir_tstrcat(newStr, L"Sh"); break;
+		case 'Ù': mir_tstrcat(newStr, L"Sch"); break;
+		case 'Ú': mir_tstrcat(newStr, L"'"); break;
+		case 'Û': mir_tstrcat(newStr, L"Yi"); break;
+		case 'Ü': mir_tstrcat(newStr, L""); break;
+		case 'Ý': mir_tstrcat(newStr, L"E"); break;
+		case 'Þ': mir_tstrcat(newStr, L"Yu"); break;
+		case 'ß': mir_tstrcat(newStr, L"Ya"); break;
 
-		case _T('a'): mir_tstrcat(newStr, L"à"); break;
-		case _T('b'): mir_tstrcat(newStr, L"á"); break;
-		case _T('v'): mir_tstrcat(newStr, L"â"); break;
-		case _T('g'): mir_tstrcat(newStr, L"ã"); break;
-		case _T('d'): mir_tstrcat(newStr, L"ä"); break;
-		case _T('e'): mir_tstrcat(newStr, L"å"); break;
-		case _T('z'):
+		case 'a': mir_tstrcat(newStr, L"à"); break;
+		case 'b': mir_tstrcat(newStr, L"á"); break;
+		case 'v': mir_tstrcat(newStr, L"â"); break;
+		case 'g': mir_tstrcat(newStr, L"ã"); break;
+		case 'd': mir_tstrcat(newStr, L"ä"); break;
+		case 'e': mir_tstrcat(newStr, L"å"); break;
+		case 'z':
 		{
-			if (str[1] == _T('h')) {
+			if (str[1] == 'h') {
 				mir_tstrcat(newStr, L"æ");
 				str++;
 				break;
@@ -149,25 +149,25 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('i'): mir_tstrcat(newStr, L"è"); break;
-		case _T('y'):
+		case 'i': mir_tstrcat(newStr, L"è"); break;
+		case 'y':
 		{
-			if (str[1] == _T('a')) {
+			if (str[1] == 'a') {
 				mir_tstrcat(newStr, L"ÿ");
 				str++;
 				break;
 			}
-			else if (str[1] == _T('e')) {
+			else if (str[1] == 'e') {
 				mir_tstrcat(newStr, L"¸");
 				str++;
 				break;
 			}
-			else if (str[1] == _T('u')) {
+			else if (str[1] == 'u') {
 				mir_tstrcat(newStr, L"þ");
 				str++;
 				break;
 			}
-			else if (str[1] == _T('i')) {
+			else if (str[1] == 'i') {
 				mir_tstrcat(newStr, L"û");
 				str++;
 				break;
@@ -177,9 +177,9 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('k'):
+		case 'k':
 		{
-			if (str[1] == _T('h')) {
+			if (str[1] == 'h') {
 				mir_tstrcat(newStr, L"õ");
 				str++;
 				break;
@@ -189,20 +189,20 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('l'): mir_tstrcat(newStr, L"ë"); break;
-		case _T('m'): mir_tstrcat(newStr, L"ì"); break;
-		case _T('n'): mir_tstrcat(newStr, L"í"); break;
-		case _T('o'): mir_tstrcat(newStr, L"î"); break;
-		case _T('p'): mir_tstrcat(newStr, L"ï"); break;
-		case _T('r'): mir_tstrcat(newStr, L"ð"); break;
-		case _T('s'):
+		case 'l': mir_tstrcat(newStr, L"ë"); break;
+		case 'm': mir_tstrcat(newStr, L"ì"); break;
+		case 'n': mir_tstrcat(newStr, L"í"); break;
+		case 'o': mir_tstrcat(newStr, L"î"); break;
+		case 'p': mir_tstrcat(newStr, L"ï"); break;
+		case 'r': mir_tstrcat(newStr, L"ð"); break;
+		case 's':
 		{
-			if (str[1] == _T('h')) {
+			if (str[1] == 'h') {
 				mir_tstrcat(newStr, L"ø");
 				str++;
 				break;
 			}
-			else if (str[1] == _T('c') && str[2] == _T('h')) {
+			else if (str[1] == 'c' && str[2] == 'h') {
 				mir_tstrcat(newStr, L"ù");
 				str += 2;
 				break;
@@ -212,9 +212,9 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('t'):
+		case 't':
 		{
-			if (str[1] == _T('s')) {
+			if (str[1] == 's') {
 				mir_tstrcat(newStr, L"ö");
 				str++;
 				break;
@@ -224,40 +224,40 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('u'): mir_tstrcat(newStr, L"ó"); break;
-		case _T('f'): mir_tstrcat(newStr, L"ô"); break;
-		case _T('c'):
+		case 'u': mir_tstrcat(newStr, L"ó"); break;
+		case 'f': mir_tstrcat(newStr, L"ô"); break;
+		case 'c':
 		{
-			if (str[1] == _T('h')) {
+			if (str[1] == 'h') {
 				mir_tstrcat(newStr, L"÷");
 				str++;
 				break;
 			}
 		}
-		case _T('A'): mir_tstrcat(newStr, L"À"); break;
-		case _T('B'): mir_tstrcat(newStr, L"Á"); break;
-		case _T('V'): mir_tstrcat(newStr, L"Â"); break;
-		case _T('G'): mir_tstrcat(newStr, L"Ã"); break;
-		case _T('D'): mir_tstrcat(newStr, L"Ä"); break;
-		case _T('E'): mir_tstrcat(newStr, L"Å"); break;
-		case _T('Y'):
+		case 'A': mir_tstrcat(newStr, L"À"); break;
+		case 'B': mir_tstrcat(newStr, L"Á"); break;
+		case 'V': mir_tstrcat(newStr, L"Â"); break;
+		case 'G': mir_tstrcat(newStr, L"Ã"); break;
+		case 'D': mir_tstrcat(newStr, L"Ä"); break;
+		case 'E': mir_tstrcat(newStr, L"Å"); break;
+		case 'Y':
 		{
-			if (str[1] == _T('a')) {
+			if (str[1] == 'a') {
 				mir_tstrcat(newStr, L"ß");
 				str++;
 				break;
 			}
-			else if (str[1] == _T('e')) {
+			else if (str[1] == 'e') {
 				mir_tstrcat(newStr, L"¨");
 				str++;
 				break;
 			}
-			else if (str[1] == _T('u')) {
+			else if (str[1] == 'u') {
 				mir_tstrcat(newStr, L"Þ");
 				str++;
 				break;
 			}
-			else if (str[1] == _T('i')) {
+			else if (str[1] == 'i') {
 				mir_tstrcat(newStr, L"Û");
 				str++;
 				break;
@@ -267,9 +267,9 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('Z'):
+		case 'Z':
 		{
-			if (str[1] == _T('h')) {
+			if (str[1] == 'h') {
 				mir_tstrcat(newStr, L"Æ");
 				str++;
 				break;
@@ -279,10 +279,10 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('I'): mir_tstrcat(newStr, L"È"); break;
-		case _T('K'):
+		case 'I': mir_tstrcat(newStr, L"È"); break;
+		case 'K':
 		{
-			if (str[1] == _T('h')) {
+			if (str[1] == 'h') {
 				mir_tstrcat(newStr, L"Õ");
 				str++;
 				break;
@@ -292,20 +292,20 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('L'): mir_tstrcat(newStr, L"Ë"); break;
-		case _T('M'): mir_tstrcat(newStr, L"Ì"); break;
-		case _T('N'): mir_tstrcat(newStr, L"Í"); break;
-		case _T('O'): mir_tstrcat(newStr, L"Î"); break;
-		case _T('P'): mir_tstrcat(newStr, L"Ï"); break;
-		case _T('R'): mir_tstrcat(newStr, L"Ð"); break;
-		case _T('S'):
+		case 'L': mir_tstrcat(newStr, L"Ë"); break;
+		case 'M': mir_tstrcat(newStr, L"Ì"); break;
+		case 'N': mir_tstrcat(newStr, L"Í"); break;
+		case 'O': mir_tstrcat(newStr, L"Î"); break;
+		case 'P': mir_tstrcat(newStr, L"Ï"); break;
+		case 'R': mir_tstrcat(newStr, L"Ð"); break;
+		case 'S':
 		{
-			if (str[1] == _T('h')) {
+			if (str[1] == 'h') {
 				mir_tstrcat(newStr, L"Ø");
 				str++;
 				break;
 			}
-			else if (str[1] == _T('c') && str[2] == _T('h')) {
+			else if (str[1] == 'c' && str[2] == 'h') {
 				mir_tstrcat(newStr, L"Ù");
 				str += 2;
 				break;
@@ -315,9 +315,9 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('T'):
+		case 'T':
 		{
-			if (str[1] == _T('s')) {
+			if (str[1] == 's') {
 				mir_tstrcat(newStr, L"Ö");
 				str++;
 				break;
@@ -327,35 +327,35 @@ void Transliterate(TCHAR *&str)
 				break;
 			}
 		}
-		case _T('U'): mir_tstrcat(newStr, L"Ó"); break;
-		case _T('F'): mir_tstrcat(newStr, L"Ô"); break;
-		case _T('C'):
+		case 'U': mir_tstrcat(newStr, L"Ó"); break;
+		case 'F': mir_tstrcat(newStr, L"Ô"); break;
+		case 'C':
 		{
-			if (str[1] == _T('h')) {
+			if (str[1] == 'h') {
 				mir_tstrcat(newStr, L"×");
 				str++;
 				break;
 			}
 		}
-		case _T('\''): mir_tstrcat(newStr, L"ú"); break;
+		case '\'': mir_tstrcat(newStr, L"ú"); break;
 
-		default: { TCHAR Temp[2] = { str[0], 0 }; mir_tstrcat(newStr, &Temp[0]); }
+		default: { wchar_t Temp[2] = { str[0], 0 }; mir_tstrcat(newStr, &Temp[0]); }
 		}
 	}
 	size_t len = mir_tstrlen(newStr);
-	str = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
+	str = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
 	str[0] = 0;
 	mir_tstrcpy(str, newStr);
 	mir_free(newStr);
 }
 
-void Invert(TCHAR *str)
+void Invert(wchar_t *str)
 {
 	while (*str) {
 		if (IsCharUpper(*str))
-			*str = (TCHAR)CharLower((LPTSTR)*str);
+			*str = (wchar_t)CharLower((LPTSTR)*str);
 		else if (IsCharLower(*str))
-			*str = (TCHAR)CharUpper((LPTSTR)*str);
+			*str = (wchar_t)CharUpper((LPTSTR)*str);
 		str++;
 	}
 	keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | 0, 0);
@@ -374,10 +374,10 @@ void SwitchLayout(bool lastword)
 	if (hwnd2 == NULL)
 		return;
 
-	TCHAR szClassName[MAX_PATH];
+	wchar_t szClassName[MAX_PATH];
 	GetClassName(hwnd2, szClassName, _countof(szClassName));
 	if ((mir_tstrcmp(szClassName, L"THppRichEdit.UnicodeClass") == 0 || mir_tstrcmp(szClassName, L"THistoryGrid.UnicodeClass") == 0 || mir_tstrcmp(szClassName, L"TExtHistoryGrid.UnicodeClass") == 0 || mir_tstrcmp(szClassName, L"Internet Explorer_Server") == 0) && ServiceExists(MS_POPUP_SHOWMESSAGE)) {	// make popup here
-		TCHAR buf[2048];
+		wchar_t buf[2048];
 		if (mir_tstrcmp(szClassName, L"Internet Explorer_Server") == 0) {
 			IEVIEWEVENT event;
 			HWND hwnd3 = GetParent(GetParent(hwnd2));
@@ -387,7 +387,7 @@ void SwitchLayout(bool lastword)
 			event.dwFlags = 0;
 			event.iType = IEE_GET_SELECTION;
 			event.hwnd = hwnd3;
-			TCHAR *selected = (TCHAR *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
+			wchar_t *selected = (wchar_t *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
 			mir_tstrncpy(buf, selected, _countof(buf));
 		}
 		else GetWindowText(hwnd2, buf, _countof(buf));		// gimme, gimme, gimme...
@@ -418,7 +418,7 @@ void SwitchLayout(bool lastword)
 				keys[VK_MENU] = (HIBYTE(vks) & 4) ? 0xFF : 0x00;	// alt
 
 				if (!isItSmiley(DWORD(i))) {
-					TCHAR tchr;
+					wchar_t tchr;
 					if (ToUnicodeEx(LOBYTE(vks), 0, keys, &tchr, 1, 0, GetKeyboardLayout(dwThreadID)) == 1)
 						buf[i] = tchr;
 				}
@@ -446,7 +446,7 @@ void SwitchLayout(bool lastword)
 		if (somethingIsSelected)
 			dwFlags += SFF_SELECTION;
 
-		TCHAR *sel = Message_GetFromStream(hwnd2, dwFlags);
+		wchar_t *sel = Message_GetFromStream(hwnd2, dwFlags);
 		size_t slen = mir_tstrlen(sel);
 		if (slen != 0) {
 			if (ServiceExists(MS_SMILEYADD_BATCHPARSE)) {
@@ -461,13 +461,13 @@ void SwitchLayout(bool lastword)
 			if (lastword && !somethingIsSelected) {
 				end = (size_t)dwStart;
 				while (end < slen) {
-					if (_istspace(sel[end]) || isItSmiley((int)end))
+					if (iswspace(sel[end]) || isItSmiley((int)end))
 						break;
 					end++;
 				}
 				start = dwStart - 1;
 				while (start > 0 && start < dwStart) {
-					if ((_istspace(sel[start]) && !_istspace(sel[start + 1])) || isItSmiley((int)start))
+					if ((iswspace(sel[start]) && !iswspace(sel[start + 1])) || isItSmiley((int)start))
 						break;
 					start--;
 				}
@@ -483,7 +483,7 @@ void SwitchLayout(bool lastword)
 				keys[VK_MENU] = (HIBYTE(vks) & 4) ? 0xFF : 0x00;	// alt
 
 				if (!isItSmiley((int)i)) {
-					TCHAR tchr;
+					wchar_t tchr;
 					if (ToUnicodeEx(LOBYTE(vks), 0, keys, &tchr, 1, 0, GetKeyboardLayout(dwThreadID)) == 1)
 						sel[i] = tchr;
 				}
@@ -513,7 +513,7 @@ void TranslitLayout(bool lastword)
 	if (hwnd2 == NULL)
 		return;
 
-	TCHAR szClassName[16];
+	wchar_t szClassName[16];
 	GetClassName(hwnd2, szClassName, _countof(szClassName));
 	if (mir_tstrcmpi(szClassName, L"RichEdit50W") != 0)
 		return;
@@ -524,29 +524,29 @@ void TranslitLayout(bool lastword)
 	if (somethingIsSelected)
 		dwFlags += SFF_SELECTION;
 
-	TCHAR *boo, *sel = Message_GetFromStream(hwnd2, dwFlags);
+	wchar_t *boo, *sel = Message_GetFromStream(hwnd2, dwFlags);
 	size_t slen = mir_tstrlen(sel), start = 0, end = 0;
 	if (slen != 0) {
 		end = slen;
 		if (lastword && !somethingIsSelected) {
 			end = (size_t)dwStart;
 			while (end < slen) {
-				if (_istspace(sel[end]) || isItSmiley((int)end))
+				if (iswspace(sel[end]) || isItSmiley((int)end))
 					break;
 				end++;
 			}
 			start = (size_t)dwStart - 1;
 			while (start > 0 && start < (size_t)dwStart) {
-				if ((_istspace(sel[start]) && (end - start > 2)) || isItSmiley((int)start))
+				if ((iswspace(sel[start]) && (end - start > 2)) || isItSmiley((int)start))
 					break;
 				start--;
 			}
-			boo = (TCHAR*)mir_alloc((end - start + 1) * sizeof(TCHAR));
+			boo = (wchar_t*)mir_alloc((end - start + 1) * sizeof(wchar_t));
 			mir_tstrncpy(boo, sel + start, end - start);
 			boo[end - start] = 0;
 		}
 		else {
-			boo = (TCHAR*)mir_alloc((slen + 1) * sizeof(TCHAR));
+			boo = (wchar_t*)mir_alloc((slen + 1) * sizeof(wchar_t));
 			mir_tstrcpy(boo, sel);
 		}
 
@@ -555,7 +555,7 @@ void TranslitLayout(bool lastword)
 		if (somethingIsSelected)
 			SendMessage(hwnd2, EM_REPLACESEL, false, (LPARAM)boo);
 		else {
-			TCHAR *NewText = (TCHAR*)mir_alloc((start + mir_tstrlen(boo) + (slen - start) + 1) * sizeof(TCHAR));
+			wchar_t *NewText = (wchar_t*)mir_alloc((start + mir_tstrlen(boo) + (slen - start) + 1) * sizeof(wchar_t));
 			NewText[0] = 0;
 			mir_tstrncat(NewText, sel, start);
 			mir_tstrcat(NewText, boo);
@@ -580,7 +580,7 @@ void InvertCase(bool lastword)
 	if (hwnd2 == NULL)
 		return;
 
-	TCHAR szClassName[16];
+	wchar_t szClassName[16];
 
 	GetClassName(hwnd2, szClassName, _countof(szClassName));
 	if (mir_tstrcmpi(szClassName, L"RichEdit50W") != 0)
@@ -592,29 +592,29 @@ void InvertCase(bool lastword)
 	if (somethingIsSelected)
 		dwFlags += SFF_SELECTION;
 
-	TCHAR *boo, *sel = Message_GetFromStream(hwnd2, dwFlags);
+	wchar_t *boo, *sel = Message_GetFromStream(hwnd2, dwFlags);
 	size_t slen = mir_tstrlen(sel), start = 0, end = 0;
 	if (slen != 0) {
 		end = slen;
 		if (lastword && !somethingIsSelected) {
 			end = (size_t)dwStart;
 			while (end < slen) {
-				if (_istspace(sel[end]) || isItSmiley((int)end))
+				if (iswspace(sel[end]) || isItSmiley((int)end))
 					break;
 				end++;
 			}
 			start = (size_t)dwStart - 1;
 			while (start > 0 && start < (size_t)dwStart) {
-				if ((_istspace(sel[start]) && (end - start > 2)) || isItSmiley((int)start))
+				if ((iswspace(sel[start]) && (end - start > 2)) || isItSmiley((int)start))
 					break;
 				start--;
 			}
-			boo = (TCHAR*)mir_alloc((end - start + 1) * sizeof(TCHAR));
+			boo = (wchar_t*)mir_alloc((end - start + 1) * sizeof(wchar_t));
 			mir_tstrncpy(boo, sel + start, end - start);
 			boo[end - start] = 0;
 		}
 		else {
-			boo = (TCHAR*)mir_alloc((slen + 1) * sizeof(TCHAR));
+			boo = (wchar_t*)mir_alloc((slen + 1) * sizeof(wchar_t));
 			mir_tstrcpy(boo, sel);
 		}
 
@@ -623,7 +623,7 @@ void InvertCase(bool lastword)
 		if (somethingIsSelected)
 			SendMessage(hwnd2, EM_REPLACESEL, false, (LPARAM)boo);
 		else {
-			TCHAR *NewText = (TCHAR*)mir_alloc((start + mir_tstrlen(boo) + (slen - start) + 1) * sizeof(TCHAR));
+			wchar_t *NewText = (wchar_t*)mir_alloc((start + mir_tstrlen(boo) + (slen - start) + 1) * sizeof(wchar_t));
 			NewText[0] = 0;
 			mir_tstrncat(NewText, sel, start);
 			mir_tstrcat(NewText, boo);
@@ -664,7 +664,7 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 	byKeybState[VK_CONTROL] = 0;
 	SetKeyboardState(byKeybState);
 
-	TCHAR *sel = Message_GetFromStream(hEdit, SF_TEXT | SF_UNICODE);
+	wchar_t *sel = Message_GetFromStream(hEdit, SF_TEXT | SF_UNICODE);
 	size_t slen = mir_tstrlen(sel);
 	if (slen != 0) {
 		switch (iType) {
@@ -686,7 +686,7 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 			ActivateKeyboardLayout((HKL)HKL_PREV, KLF_ACTIVATE);
 
 			for (int i = 0; i < (int)slen; i++) {
-				TCHAR tchr;
+				wchar_t tchr;
 				BYTE keys[256] = { 0 };
 				SHORT vks = VkKeyScanEx(sel[i], hkl);
 

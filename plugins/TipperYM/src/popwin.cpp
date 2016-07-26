@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-__inline void AddRow(PopupWindowData *pwd, TCHAR *swzLabel, TCHAR *swzValue, char *szProto, bool bParseSmileys, bool bNewline, bool bLineAbove, bool bIsTitle = false, HICON hIcon = NULL) 
+__inline void AddRow(PopupWindowData *pwd, wchar_t *swzLabel, wchar_t *swzValue, char *szProto, bool bParseSmileys, bool bNewline, bool bLineAbove, bool bIsTitle = false, HICON hIcon = NULL) 
 {
 	RowData *pRows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData) * (pwd->iRowCount + 1));
 	if (pRows == NULL)
@@ -97,31 +97,31 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				// uid info
-				TCHAR swzUid[256], swzUidName[256];
+				wchar_t swzUid[256], swzUidName[256];
 				if (Uid(0, pwd->clcit.szProto, swzUid, 256) && UidName(pwd->clcit.szProto, swzUidName, 253)) {
 					mir_tstrcat(swzUidName, L": ");
 					AddRow(pwd, swzUidName, swzUid, NULL, false, false, false);
 				}
 
 				// logon info
-				TCHAR swzLogon[64];
+				wchar_t swzLogon[64];
 				if (TimestampToTimeDifference(NULL, pwd->clcit.szProto, "LogonTS", swzLogon, 59)) {
-					TCHAR ago[96];
+					wchar_t ago[96];
 					mir_sntprintf(ago, TranslateT("%s ago"), swzLogon);
 					AddRow(pwd, TranslateT("Log on:"), ago, NULL, false, false, false);
 				}
 
 				// number of unread emails
-				TCHAR swzEmailCount[64];
+				wchar_t swzEmailCount[64];
 				if (ProtoServiceExists(pwd->clcit.szProto, PS_GETUNREADEMAILCOUNT)) {
 					int iCount = (int)CallProtoService(pwd->clcit.szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
 					if (iCount > 0) {
-						_itot(iCount, swzEmailCount, 10);
+						_itow(iCount, swzEmailCount, 10);
 						AddRow(pwd, TranslateT("Unread emails:"), swzEmailCount, NULL, false, false, false);
 					}
 				}
 
-				TCHAR *swzText = pcli->pfnGetStatusModeDescription(wStatus, 0);
+				wchar_t *swzText = pcli->pfnGetStatusModeDescription(wStatus, 0);
 				if (swzText)
 					AddRow(pwd, TranslateT("Status:"), swzText, NULL, false, false, false);
 
@@ -134,7 +134,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 					// jabber mood or icq xstatus
-					TCHAR *swzAdvTitle = GetJabberAdvStatusText(pwd->clcit.szProto, "mood", "title");
+					wchar_t *swzAdvTitle = GetJabberAdvStatusText(pwd->clcit.szProto, "mood", "title");
 					if (swzAdvTitle) {
 						StripBBCodesInPlace(swzAdvTitle);
 						AddRow(pwd, TranslateT("Mood:"), swzAdvTitle, pwd->clcit.szProto, true, false, true);
@@ -217,14 +217,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						SetTimer(hwnd, ID_TIMER_TRAYTIP, opt.iExpandTime, 0);
 				}
 				else {
-					TCHAR buff[2048], *swzText = pwd->clcit.swzText;
+					wchar_t buff[2048], *swzText = pwd->clcit.swzText;
 					size_t iBuffPos, i = 0, iSize = mir_tstrlen(pwd->clcit.swzText);
 					bool bTopMessage = false;
 
-					while (i < iSize && swzText[i] != _T('<')) {
+					while (i < iSize && swzText[i] != '<') {
 						iBuffPos = 0;
-						while (swzText[i] != _T('\n') && swzText[i] != _T('\r') && i < iSize && iBuffPos < 2048) {
-							if (swzText[i] != _T('\t'))
+						while (swzText[i] != '\n' && swzText[i] != '\r' && i < iSize && iBuffPos < 2048) {
+							if (swzText[i] != '\t')
 								buff[iBuffPos++] = swzText[i];
 							i++;
 						}
@@ -236,21 +236,21 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							bTopMessage = true;
 						}
 
-						while (i < iSize && (swzText[i] == _T('\n') || swzText[i] == _T('\r')))
+						while (i < iSize && (swzText[i] == '\n' || swzText[i] == '\r'))
 							i++;
 					}
 
 					// parse bold bits into labels and the rest into items
 					while (i < iSize) {
-						while (i + 2 < iSize && (swzText[i] != _T('<') || swzText[i + 1] != _T('b') || swzText[i + 2] != _T('>')))
+						while (i + 2 < iSize && (swzText[i] != '<' || swzText[i + 1] != 'b' || swzText[i + 2] != '>'))
 							i++;
 
 						i += 3;
 
 						iBuffPos = 0;
-						while (i + 3 < iSize && iBuffPos < 2048 && (swzText[i] != _T('<')
-							|| swzText[i + 1] != _T('/') || swzText[i + 2] != _T('b') || swzText[i + 3] != _T('>'))) {
-							if (swzText[i] != _T('\t'))
+						while (i + 3 < iSize && iBuffPos < 2048 && (swzText[i] != '<'
+							|| swzText[i + 1] != '/' || swzText[i + 2] != 'b' || swzText[i + 3] != '>')) {
+							if (swzText[i] != '\t')
 								buff[iBuffPos++] = swzText[i];
 							i++;
 						}
@@ -269,8 +269,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								pwd->rows[pwd->iRowCount].bLineAbove = false;
 
 							iBuffPos = 0;
-							while (i < iSize && iBuffPos < 2048 && swzText[i] != _T('\n')) {
-								if (swzText[i] != _T('\t') && swzText[i] != _T('\r'))
+							while (i < iSize && iBuffPos < 2048 && swzText[i] != '\n') {
+								if (swzText[i] != '\t' && swzText[i] != '\r')
 									buff[iBuffPos++] = swzText[i];
 								i++;
 							}
@@ -306,7 +306,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (!opt.bWaitForContent)
 					db_unset(pwd->hContact, MODULE, "TempStatusMsg");
 
-				_tcsncpy_s(pwd->swzTitle, pcli->pfnGetContactDisplayName(pwd->hContact, 0), _TRUNCATE);
+				wcsncpy_s(pwd->swzTitle, pcli->pfnGetContactDisplayName(pwd->hContact, 0), _TRUNCATE);
 
 				char *szProto = GetContactProto(pwd->hContact);
 				pwd->spiTitle = Smileys_PreParse(pwd->swzTitle, -1, szProto);
@@ -741,10 +741,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			HBITMAP hbmpAllItems = iconInfo.hbmColor;
 			DestroyIcon(hIcon);
 
-			AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS_LABELS, LPGENT("Copy all items with labels"));
-			AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS, LPGENT("Copy all items"));
+			AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS_LABELS, LPGENW("Copy all items with labels"));
+			AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS, LPGENW("Copy all items"));
 			if (pwd->clcit.szProto || pwd->hContact)
-				AppendMenu(hMenu, MF_STRING, COPYMENU_AVATAR, LPGENT("Copy avatar"));
+				AppendMenu(hMenu, MF_STRING, COPYMENU_AVATAR, LPGENW("Copy avatar"));
 			AppendMenu(hMenu, MF_SEPARATOR, 2000, 0);
 			TranslateMenu(hMenu);
 
@@ -765,11 +765,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			for (int i = 0; i < pwd->iRowCount; i++) {
 				if (pwd->rows[i].swzValue) {
-					TCHAR buff[128];
+					wchar_t buff[128];
 					int iLen = (int)mir_tstrlen(pwd->rows[i].swzValue);
 					if (iLen) {
 						if (iLen > MAX_VALUE_LEN) {
-							_tcsncpy(buff, pwd->rows[i].swzValue, MAX_VALUE_LEN);
+							wcsncpy(buff, pwd->rows[i].swzValue, MAX_VALUE_LEN);
 							buff[MAX_VALUE_LEN] = 0;
 							mir_tstrcat(buff, L"...");
 						}
@@ -816,7 +816,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else { // copy text
 					HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, 4096);
-					TCHAR *pchData = (TCHAR *)GlobalLock(hClipboardData);
+					wchar_t *pchData = (wchar_t *)GlobalLock(hClipboardData);
 					pchData[0] = 0;
 					if (iSelItem == COPYMENU_ALLITEMS_LABELS) { // copy all items with labels
 						for (int i = 0; i < pwd->iRowCount; i++) {
@@ -965,7 +965,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_SETSTATUSTEXT:
 		if (pwd && wParam == pwd->hContact) {
-			db_set_ts(pwd->hContact, MODULE, "TempStatusMsg", (TCHAR *)lParam);
+			db_set_ts(pwd->hContact, MODULE, "TempStatusMsg", (wchar_t *)lParam);
 			pwd->bIsPainted = false;
 			pwd->bNeedRefresh = true;
 			SendMessage(hwnd, PUM_REFRESH_VALUES, TRUE, 0);
@@ -1035,7 +1035,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			pwd->iRowCount = 0;
 
 			DIListNode *node = opt.diList;
-			TCHAR buff_label[LABEL_LEN], buff[VALUE_LEN];
+			wchar_t buff_label[LABEL_LEN], buff[VALUE_LEN];
 			while (node) {
 				if (node->di.bIsVisible && CheckContactType(pwd->hContact, node->di)) {
 					if (GetLabelText(pwd->hContact, node->di, buff_label, LABEL_LEN) && GetValueText(pwd->hContact, node->di, buff, VALUE_LEN)) {
@@ -1453,7 +1453,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		DWORD dwItems = (wParam == 0) ? opt.iFirstItems : opt.iSecondItems;
 		bool bFirstItem = true;
-		TCHAR buff[64];
+		wchar_t buff[64];
 
 		int oldOrder = -1, iProtoCount = 0;
 		PROTOACCOUNT **accs;
@@ -1488,7 +1488,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			else buff[0] = 0;
 
-			TCHAR swzProto[256];
+			wchar_t swzProto[256];
 			mir_tstrcpy(swzProto, pa->tszAccountName);
 			if (dwItems & TRAYTIP_LOCKSTATUS)
 				if (Proto_IsAccountLocked(pa))
@@ -1499,7 +1499,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (dwItems & TRAYTIP_LOGON) {
 				if (TimestampToTimeDifference(NULL, pa->szModuleName, "LogonTS", buff, 59)) {
-					TCHAR ago[96];
+					wchar_t ago[96];
 					mir_sntprintf(ago, TranslateT("%s ago"), buff);
 					AddRow(pwd, TranslateT("Log on:"), ago, NULL, false, false, false);
 				}
@@ -1508,20 +1508,20 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (dwItems & TRAYTIP_UNREAD_EMAILS && ProtoServiceExists(pa->szModuleName, PS_GETUNREADEMAILCOUNT)) {
 				int iCount = (int)CallProtoService(pa->szModuleName, PS_GETUNREADEMAILCOUNT, 0, 0);
 				if (iCount > 0) {
-					_itot(iCount, buff, 10);
+					_itow(iCount, buff, 10);
 					AddRow(pwd, TranslateT("Unread emails:"), buff, NULL, false, false, false);
 				}
 			}
 
 			if (dwItems & TRAYTIP_STATUS) {
-				TCHAR *swzText = pcli->pfnGetStatusModeDescription(wStatus, 0);
+				wchar_t *swzText = pcli->pfnGetStatusModeDescription(wStatus, 0);
 				if (swzText)
 					AddRow(pwd, TranslateT("Status:"), swzText, NULL, false, false, false);
 			}
 
 			if (wStatus >= ID_STATUS_ONLINE && wStatus <= ID_STATUS_OUTTOLUNCH) {
 				if (dwItems & TRAYTIP_STATUS_MSG) {
-					TCHAR *swzText = GetProtoStatusMessage(pa->szModuleName, wStatus);
+					wchar_t *swzText = GetProtoStatusMessage(pa->szModuleName, wStatus);
 					if (swzText) {
 						StripBBCodesInPlace(swzText);
 						AddRow(pwd, TranslateT("Status message:"), swzText, pa->szModuleName, true, true, false);
@@ -1531,13 +1531,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (dwItems & TRAYTIP_EXTRA_STATUS) {
 					// jabber mood or icq xstatus
-					TCHAR *swzAdvTitle = GetJabberAdvStatusText(pa->szModuleName, "mood", "title");
+					wchar_t *swzAdvTitle = GetJabberAdvStatusText(pa->szModuleName, "mood", "title");
 					if (swzAdvTitle) {
 						StripBBCodesInPlace(swzAdvTitle);
 						AddRow(pwd, TranslateT("Mood:"), swzAdvTitle, pa->szModuleName, true, false, false);
 						mir_free(swzAdvTitle);
 
-						TCHAR *swzAdvText = GetJabberAdvStatusText(pa->szModuleName, "mood", "text");
+						wchar_t *swzAdvText = GetJabberAdvStatusText(pa->szModuleName, "mood", "text");
 						if (swzAdvText) {
 							StripBBCodesInPlace(swzAdvText);
 							AddRow(pwd, L"", swzAdvText, pa->szModuleName, true, true, false);
@@ -1555,7 +1555,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 
 							// xstatus message
-							TCHAR *swzAdvText = GetProtoExtraStatusMessage(pa->szModuleName);
+							wchar_t *swzAdvText = GetProtoExtraStatusMessage(pa->szModuleName);
 							if (swzAdvText) {
 								StripBBCodesInPlace(swzAdvText);
 								AddRow(pwd, L"", swzAdvText, pa->szModuleName, true, true, false);
@@ -1564,14 +1564,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						}
 					}
 
-					TCHAR *swzActTitle = GetJabberAdvStatusText(pa->szModuleName, "activity", "title");
+					wchar_t *swzActTitle = GetJabberAdvStatusText(pa->szModuleName, "activity", "title");
 					if (swzActTitle) {
 						StripBBCodesInPlace(swzActTitle);
 						AddRow(pwd, TranslateT("Activity:"), swzActTitle, pa->szModuleName, true, false, false);
 						mir_free(swzActTitle);
 					}
 
-					TCHAR *swzActText = GetJabberAdvStatusText(pa->szModuleName, "activity", "text");
+					wchar_t *swzActText = GetJabberAdvStatusText(pa->szModuleName, "activity", "text");
 					if (swzActText) {
 						StripBBCodesInPlace(swzActText);
 						AddRow(pwd, L"", swzActText, pa->szModuleName, true, true, false);
@@ -1580,7 +1580,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				if (dwItems & TRAYTIP_LISTENINGTO) {
-					TCHAR *swzListening = GetListeningTo(pa->szModuleName);
+					wchar_t *swzListening = GetListeningTo(pa->szModuleName);
 					if (swzListening) {
 						StripBBCodesInPlace(swzListening);
 						AddRow(pwd, TranslateT("Listening to:"), swzListening, NULL, false, true, false);
@@ -1592,8 +1592,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (dwItems & TRAYTIP_FAVCONTACTS) {
 			if (db_get_dw(0, MODULE, "FavouriteContactsCount", 0)) {
-				TCHAR swzName[256];
-				TCHAR swzStatus[256];
+				wchar_t swzName[256];
+				wchar_t swzStatus[256];
 				bool bTitlePainted = false;
 				int iCount = 0, iCountOnline = 0;
 
@@ -1618,9 +1618,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								bTitlePainted = true;
 							}
 
-							TCHAR *swzNick = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
+							wchar_t *swzNick = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
 							if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO) {
-								TCHAR *swzProto = a2t(proto);
+								wchar_t *swzProto = a2t(proto);
 								mir_sntprintf(swzName, L"%s (%s)", swzNick, swzProto);
 								mir_free(swzProto);
 							}
@@ -1652,11 +1652,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 
 		if (dwItems & TRAYTIP_CLIST_EVENT && pwd->clcit.swzText) {
-			TCHAR *pchBr = _tcschr(pwd->clcit.swzText, '\n');
-			TCHAR *pchBold = _tcsstr(pwd->clcit.swzText, L"<b>");
+			wchar_t *pchBr = wcschr(pwd->clcit.swzText, '\n');
+			wchar_t *pchBold = wcsstr(pwd->clcit.swzText, L"<b>");
 
 			if (!pchBold || pchBold != pwd->clcit.swzText) {
-				TCHAR swzText[256];
+				wchar_t swzText[256];
 				mir_tstrcpy(swzText, pwd->clcit.swzText);
 				if (pchBr) swzText[pchBr - pwd->clcit.swzText] = 0;
 				AddRow(pwd, swzText, L"", NULL, false, true, false, true, Skin_LoadIcon(SKINICON_OTHER_FILLEDBLOB));

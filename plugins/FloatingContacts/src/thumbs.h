@@ -14,7 +14,7 @@ struct ThumbInfo
 {
 	MCONTACT     hContact;
 	HWND         hwnd;
-	TCHAR        ptszName[USERNAME_LEN];
+	wchar_t        ptszName[USERNAME_LEN];
 	int          iIcon;
 	CDropTarget *dropTarget;
 	DockOpt      dockOpt;
@@ -60,7 +60,7 @@ public:
 	ThumbList();
 	~ThumbList();
 
-	ThumbInfo* AddThumb(HWND hwnd, TCHAR *ptszName, MCONTACT hContact);
+	ThumbInfo* AddThumb(HWND hwnd, wchar_t *ptszName, MCONTACT hContact);
 	void       RemoveThumb(ThumbInfo *pThumb);
 
 	ThumbInfo* FindThumb(HWND hwnd);

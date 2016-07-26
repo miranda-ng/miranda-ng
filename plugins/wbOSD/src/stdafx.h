@@ -86,7 +86,7 @@ typedef struct _plgsettings {
 	int align, salign, altShadow, showShadow, a_user, distance, onlyfromlist, showmystatus;
 	int showMsgWindow;
 	int messages; //also other events...
-	TCHAR msgformat[256];
+	wchar_t msgformat[256];
 	int winx, winy, winxpos, winypos, alpha, transparent, timeout;
 	COLORREF clr_msg, clr_status, clr_shadow, bkclr;
 	DWORD announce, showWhen;
@@ -94,7 +94,7 @@ typedef struct _plgsettings {
 } plgsettings;
 
 typedef struct _osdmsg {
-	TCHAR *text;
+	wchar_t *text;
 	int timeout; //ms
 	COLORREF color;
 	void (*callback)(unsigned int param);

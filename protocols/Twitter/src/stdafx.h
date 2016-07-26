@@ -10,7 +10,6 @@
 #include <Wincrypt.h>
 #include <stdio.h>
 #include <direct.h>
-#include <tchar.h>
 #include <time.h>
 
 #include <cstdio>
@@ -29,7 +28,7 @@ using std::list;
 using std::min;
 #include <sstream>
 
-typedef std::basic_string<TCHAR> tstring;
+typedef std::basic_string<wchar_t> wstring;
 
 #include "resource.h"
 

@@ -35,9 +35,9 @@ public:
 	ColInOutGraph();
 
 protected:
-	virtual const TCHAR* impl_getUID() const { return con::ColInOutGraph; }
-	virtual const TCHAR* impl_getTitle() const { return LPGENT("In/out graph"); }
-	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding in/out bar graphs for characters, messages or chats."); }
+	virtual const wchar_t* impl_getUID() const { return con::ColInOutGraph; }
+	virtual const wchar_t* impl_getTitle() const { return LPGENW("In/out graph"); }
+	virtual const wchar_t* impl_getDescription() const { return LPGENW("Column holding in/out bar graphs for characters, messages or chats."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig; }
 	virtual void impl_configRead(const SettingsTree& settings);

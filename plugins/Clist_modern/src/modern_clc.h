@@ -220,7 +220,7 @@ struct ClcLineInfo
 	int   top_space;
 	BOOL  draw_smileys;
 	int   type;
-	TCHAR text[TEXT_TEXT_MAX_LENGTH];
+	wchar_t text[TEXT_TEXT_MAX_LENGTH];
 	BOOL  xstatus_has_priority;
 	BOOL  show_status_if_no_away;
 	BOOL  show_listening_if_no_away;
@@ -374,10 +374,10 @@ DWORD GetDefaultExStyle(void);
 void  GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF *eColour1, COLORREF *eColour2);
 
 // clistsettings.c
-TCHAR* GetContactDisplayNameW(MCONTACT hContact, int mode);
+wchar_t* GetContactDisplayNameW(MCONTACT hContact, int mode);
 
 // groups.c
-TCHAR* GetGroupNameTS(int idx, DWORD* pdwFlags);
+wchar_t* GetGroupNameTS(int idx, DWORD* pdwFlags);
 int    RenameGroupT(WPARAM groupID, LPARAM newName);
 
 int    GetContactCachedStatus(MCONTACT hContact);

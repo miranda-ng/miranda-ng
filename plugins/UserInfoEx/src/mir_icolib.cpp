@@ -132,7 +132,7 @@ LPTSTR IcoLib_GetDefaultIconFileName()
 		L"Plugins\\uinfoex_icons.dll",
 		L"Customize\\Icons\\uinfoex_icons.dll"
 	};
-	TCHAR absolute[MAX_PATH];
+	wchar_t absolute[MAX_PATH];
 
 	for (int i = 0; i < _countof(path); i++) {
 		PathToAbsoluteT(path[i], absolute);
@@ -156,7 +156,7 @@ static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 {
 	if (db_get_b(NULL, MODNAME, SET_ICONS_CHECKFILEVERSION, TRUE)) {
 		if (szIconPack) {
-			TCHAR szAbsolutePath[MAX_PATH];
+			wchar_t szAbsolutePath[MAX_PATH];
 			PathToAbsoluteT(szIconPack, szAbsolutePath);
 
 			HMODULE hIconDll = LoadLibrary(szAbsolutePath);
@@ -165,12 +165,12 @@ static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 
 				if (!LoadStringA(hIconDll, IDS_ICOPACKVERSION, szFileVersion, sizeof(szFileVersion))
 					|| mir_strcmp(szFileVersion, "__UserInfoEx_IconPack_1.2__"))
-					MsgErr(NULL, LPGENT("Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly"));
+					MsgErr(NULL, LPGENW("Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly"));
 				FreeLibrary(hIconDll);
 			}
 		}
 		else
-			MsgErr(NULL, LPGENT("Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!"));
+			MsgErr(NULL, LPGENW("Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!"));
 	}
 }
 
@@ -229,10 +229,10 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 		SKINICONDESC sid = { 0 };
 		sid.flags = SIDF_ALL_TCHAR;
 		sid.pszName = szIconID;
-		sid.description.t = mir_a2t(szDescription);
-		sid.section.t = mir_a2t(szSection);
+		sid.description.w = mir_a2t(szDescription);
+		sid.section.w = mir_a2t(szSection);
 
-		if (sid.description.t && sid.section.t) {
+		if (sid.description.w && sid.section.w) {
 			switch (Size) {
 			// small icons (16x16)
 			case 0:
@@ -252,8 +252,8 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 				break;
 			}
 
-			sid.defaultFile.t = szDefaultFile;
-			if (sid.defaultFile.t && sid.defaultFile.t[0])
+			sid.defaultFile.w = szDefaultFile;
+			if (sid.defaultFile.w && sid.defaultFile.w[0])
 				sid.iDefaultIndex = -idIcon;
 			else {
 				sid.hDefaultIcon = hDefIcon;
@@ -261,8 +261,8 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 			}
 			hIconHandle = IcoLib_AddIcon(&sid);
 		}
-		MIR_FREE(sid.description.t);
-		MIR_FREE(sid.section.t);
+		MIR_FREE(sid.description.w);
+		MIR_FREE(sid.section.w);
 	}
 	return hIconHandle;
 }

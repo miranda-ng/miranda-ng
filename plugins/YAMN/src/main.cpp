@@ -12,11 +12,11 @@
 
 //--------------------------------------------------------------------------------------------------
 
-TCHAR ProfileName[MAX_PATH];
-TCHAR UserDirectory[MAX_PATH];
+wchar_t ProfileName[MAX_PATH];
+wchar_t UserDirectory[MAX_PATH];
 
-TCHAR	szMirandaDir[MAX_PATH];
-TCHAR	szProfileDir[MAX_PATH];
+wchar_t	szMirandaDir[MAX_PATH];
+wchar_t	szProfileDir[MAX_PATH];
 
 int YAMN_STATUS;
 
@@ -58,10 +58,10 @@ HGENMENU hMenuItemContApp = 0;
 
 #define FIXED_TAB_SIZE 100                  // default value for fixed width tabs
 
-static void GetProfileDirectory(TCHAR *szPath, int cbPath)
+static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 //This is copied from Miranda's sources. In 0.2.1.0 it is needed, in newer vesions of Miranda use MS_DB_GETPROFILEPATH service
 {
-	TCHAR tszOldPath[MAX_PATH];
+	wchar_t tszOldPath[MAX_PATH];
 	CallService(MS_DB_GETPROFILEPATHT, _countof(tszOldPath), (LPARAM)tszOldPath);
 	mir_tstrcat(tszOldPath, L"\\*.book");
 
@@ -78,7 +78,7 @@ static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 		L"" };
 	SHFileOperation(&file_op);
 
-	_tcsncpy(szPath, ptszNewPath, cbPath);
+	wcsncpy(szPath, ptszNewPath, cbPath);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -99,13 +99,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-static TCHAR unknownCP[1500] = {0};
+static wchar_t unknownCP[1500] = {0};
 #endif
 // The callback function
 BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 {
     //Convert code page string to number
-    UINT cp = _ttoi(cpStr);
+    UINT cp = _wtoi(cpStr);
     if (!IsValidCodePage(cp))
         return TRUE;
 
@@ -206,7 +206,7 @@ void WINAPI g_ReleaseIcon( HICON hIcon )
 
 static void LoadPlugins()
 {
-	TCHAR szSearchPath[MAX_PATH];
+	wchar_t szSearchPath[MAX_PATH];
 	mir_sntprintf(szSearchPath, L"%s\\Plugins\\YAMN\\*.dll", szMirandaDir);
 
 	hDllPlugins = NULL;
@@ -216,19 +216,19 @@ static void LoadPlugins()
 	if (hFind != INVALID_HANDLE_VALUE) {
 		do {
 			//rewritten from Miranda sources... Needed because Win32 API has a bug in FindFirstFile, search is done for *.dlllllll... too
-			TCHAR *dot = _tcsrchr(fd.cFileName, '.');
+			wchar_t *dot = wcsrchr(fd.cFileName, '.');
 			if (dot == NULL )
 				continue;
 
 			// we have a dot
 			int len = (int)mir_tstrlen(fd.cFileName); // find the length of the string
-			TCHAR* end = fd.cFileName+len; // get a pointer to the NULL
+			wchar_t* end = fd.cFileName+len; // get a pointer to the NULL
 			int safe = (end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
 
 			if ((safe != 3) || (mir_tstrcmpi(dot+1, L"dll") != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
 				continue;
 
-			TCHAR szPluginPath[MAX_PATH];
+			wchar_t szPluginPath[MAX_PATH];
 			mir_sntprintf(szPluginPath, L"%s\\Plugins\\YAMN\\%s", szMirandaDir, fd.cFileName);
 			HINSTANCE hDll = LoadLibrary(szPluginPath);
 			if (hDll == NULL)
@@ -269,7 +269,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// retrieve the current profile name
 	CallService(MS_DB_GETPROFILENAMET, (WPARAM)_countof(ProfileName), (LPARAM)ProfileName);	//not to pass entire array to fcn
-	TCHAR *fc = _tcsrchr(ProfileName, '.');
+	wchar_t *fc = wcsrchr(ProfileName, '.');
 	if ( fc != NULL ) *fc = 0;
 
 	//	we get the user path where our yamn-account.book.ini is stored from mirandaboot.ini file

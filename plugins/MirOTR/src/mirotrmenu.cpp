@@ -64,25 +64,25 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 		if (mi.flags & CMIF_NOTNOTPRIVATE && level == TRUST_NOT_PRIVATE) return FALSE;
 
 		if (pcpp->MenuItemHandle == hStatusInfoItem) {
-			TCHAR text[128];
+			wchar_t text[128];
 
 			switch (level) {
 			case TRUST_PRIVATE:
-				mir_sntprintf(text, L"%s [v%i]", TranslateT(LANG_STATUS_PRIVATE), context->protocol_version);
+				mir_sntprintf(text, L"%s [v%i]", TranslateW(LANG_STATUS_PRIVATE), context->protocol_version);
 				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_PRIVATE));
 				break;
 
 			case TRUST_UNVERIFIED:
-				mir_sntprintf(text, L"%s [v%i]", TranslateT(LANG_STATUS_UNVERIFIED), context->protocol_version);
+				mir_sntprintf(text, L"%s [v%i]", TranslateW(LANG_STATUS_UNVERIFIED), context->protocol_version);
 				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_UNVERIFIED));
 				break;
 
 			case TRUST_FINISHED:
-				Menu_ModifyItem(hStatusInfoItem, TranslateT(LANG_STATUS_FINISHED), IcoLib_GetIconHandle(ICON_UNVERIFIED));
+				Menu_ModifyItem(hStatusInfoItem, TranslateW(LANG_STATUS_FINISHED), IcoLib_GetIconHandle(ICON_UNVERIFIED));
 				break;
 
 			default:
-				Menu_ModifyItem(hStatusInfoItem, TranslateT(LANG_STATUS_DISABLED), IcoLib_GetIconHandle(ICON_NOT_PRIVATE));
+				Menu_ModifyItem(hStatusInfoItem, TranslateW(LANG_STATUS_DISABLED), IcoLib_GetIconHandle(ICON_NOT_PRIVATE));
 			}
 		}
 		else if (pcpp->MenuItemHandle == hHTMLConvMenuItem)
@@ -168,36 +168,36 @@ void InitMirOTRMenu(void)
 	// menu items
 	CMenuItem mi;
 	mi.flags = CMIF_DISABLED | CMIF_TCHAR;
-	mi.name.t = LPGENT("OTR Status");
+	mi.name.w = LPGENW("OTR Status");
 	mi.position = 0;
 	hStatusInfoItem = AddMirOTRMenuItem(&mi, NULL);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
-	mi.name.t = LANG_MENU_START;
+	mi.name.w = LANG_MENU_START;
 	mi.position = 100001;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_UNVERIFIED);
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUSTART);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
-	mi.name.t = LANG_MENU_REFRESH;
+	mi.name.w = LANG_MENU_REFRESH;
 	mi.position = 100002;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_FINISHED);
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUREFRESH);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE;
-	mi.name.t = LANG_MENU_STOP;
+	mi.name.w = LANG_MENU_STOP;
 	mi.position = 100003;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUSTOP);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
-	mi.name.t = LANG_MENU_VERIFY;
+	mi.name.w = LANG_MENU_VERIFY;
 	mi.position = 200001;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUVERIFY);
 
 	mi.flags = CMIF_TCHAR | CMIF_CHECKED;
-	mi.name.t = LANG_MENU_TOGGLEHTML;
+	mi.name.w = LANG_MENU_TOGGLEHTML;
 	mi.position = 300001;
 	mi.hIcolibItem = 0;
 	hHTMLConvMenuItem = AddMirOTRMenuItem(&mi, MS_OTR_MENUTOGGLEHTML);

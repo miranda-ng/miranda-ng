@@ -41,15 +41,15 @@ struct CONNECTION *GetConnectionsTable()
 		if (pTcpTable->table[i].dwLocalAddr) {
 			IpAddr.S_un.S_addr = (ULONG)pTcpTable->table[i].dwLocalAddr;
 			//_snprintf(newConn->strIntIp,_countof(newConn->strIntIp),"%d.%d.%d.%d",IpAddr.S_un.S_un_b.s_b1,IpAddr.S_un.S_un_b.s_b2,IpAddr.S_un.S_un_b.s_b3,IpAddr.S_un.S_un_b.s_b4);
-			TCHAR *strIntIp = mir_a2t(inet_ntoa(IpAddr));
-			_tcsncpy(newConn->strIntIp, strIntIp, _countof(newConn->strIntIp) - 1);
+			wchar_t *strIntIp = mir_a2t(inet_ntoa(IpAddr));
+			wcsncpy(newConn->strIntIp, strIntIp, _countof(newConn->strIntIp) - 1);
 			mir_free(strIntIp);
 		}
 
 		if (pTcpTable->table[i].dwRemoteAddr) {
 			IpAddr.S_un.S_addr = (u_long)pTcpTable->table[i].dwRemoteAddr;
-			TCHAR *strExtIp = mir_a2t(inet_ntoa(IpAddr));
-			_tcsncpy(newConn->strExtIp, strExtIp, _countof(newConn->strExtIp) - 1);
+			wchar_t *strExtIp = mir_a2t(inet_ntoa(IpAddr));
+			wcsncpy(newConn->strExtIp, strExtIp, _countof(newConn->strExtIp) - 1);
 			mir_free(strExtIp);
 		}
 		newConn->state = pTcpTable->table[i].dwState;
@@ -123,7 +123,7 @@ void deleteConnectionsTable(struct CONNECTION *head)
 	head = NULL;
 }
 
-struct CONNECTION *searchConnection(struct CONNECTION *head, TCHAR *intIp, TCHAR *extIp, int intPort, int extPort, int state)
+struct CONNECTION *searchConnection(struct CONNECTION *head, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
 {
 	for (struct CONNECTION *cur = head; cur != NULL; cur = cur->next) {
 		if (mir_tstrcmp(cur->strIntIp, intIp) == 0 &&
@@ -136,7 +136,7 @@ struct CONNECTION *searchConnection(struct CONNECTION *head, TCHAR *intIp, TCHAR
 	return NULL;
 }
 
-void getDnsName(TCHAR *strIp, TCHAR *strHostName, size_t len)
+void getDnsName(wchar_t *strIp, wchar_t *strHostName, size_t len)
 {
 	in_addr iaHost;
 
@@ -144,5 +144,5 @@ void getDnsName(TCHAR *strIp, TCHAR *strHostName, size_t len)
 	iaHost.s_addr = inet_addr(szStrIP);
 	mir_free(szStrIP);
 	hostent *h = gethostbyaddr((char *)&iaHost, sizeof(struct in_addr), AF_INET);
-	_tcsncpy_s(strHostName, len, (h == NULL) ? strIp : _A2T(h->h_name), _TRUNCATE);
+	wcsncpy_s(strHostName, len, (h == NULL) ? strIp : _A2T(h->h_name), _TRUNCATE);
 }

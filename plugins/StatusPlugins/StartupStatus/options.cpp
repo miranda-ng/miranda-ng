@@ -128,7 +128,7 @@ static char* GetCMDL(TSettingsList& protoSettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Link processing
 
-static TCHAR* GetLinkDescription(TSettingsList& protoSettings)
+static wchar_t* GetLinkDescription(TSettingsList& protoSettings)
 {
 	if ( protoSettings.getCount() == 0 )
 		return NULL;
@@ -137,7 +137,7 @@ static TCHAR* GetLinkDescription(TSettingsList& protoSettings)
 	for (int i=0; i < protoSettings.getCount(); i++) {
 		TSSSetting &p = protoSettings[i];
 
-		TCHAR *status;
+		wchar_t *status;
 		if ( p.status == ID_STATUS_LAST)
 			status = TranslateT("<last>");
 		else if (p.status == ID_STATUS_CURRENT)
@@ -161,9 +161,9 @@ static TCHAR* GetLinkDescription(TSettingsList& protoSettings)
 
 HRESULT CreateLink(TSettingsList& protoSettings)
 {
-	TCHAR savePath[MAX_PATH];
+	wchar_t savePath[MAX_PATH];
 	if (SHGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
-		_tcsncat_s(savePath, SHORTCUT_FILENAME, _countof(savePath) - mir_tstrlen(savePath));
+		wcsncat_s(savePath, SHORTCUT_FILENAME, _countof(savePath) - mir_tstrlen(savePath));
 	else
 		mir_sntprintf(savePath, L".\\%s", SHORTCUT_FILENAME);
 
@@ -172,11 +172,11 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 	HRESULT hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, ( void** )&psl);
 	if (SUCCEEDED(hres)) {
 		char *args = GetCMDLArguments(protoSettings);
-		TCHAR *desc = GetLinkDescription(protoSettings);
+		wchar_t *desc = GetLinkDescription(protoSettings);
 
 		// Set the path to the shortcut target, and add the
 		// description.
-		TCHAR path[MAX_PATH];
+		wchar_t path[MAX_PATH];
 		GetModuleFileName(NULL, path, _countof(path));
 		psl->SetPath(path);
 		psl->SetDescription(desc);
@@ -323,7 +323,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 			break;
 		}
 		else {
-			TCHAR text[128];
+			wchar_t text[128];
 			mir_sntprintf(text, TranslateT("size: %d x %d"),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_WIDTH, 0),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_HEIGHT, 0));
@@ -343,7 +343,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 			int defProfile;
 			int profileCount = GetProfileCount((WPARAM)&defProfile, 0);
 			for ( int i=0; i < profileCount; i++ ) {
-				TCHAR profileName[128];
+				wchar_t profileName[128];
 				if ( GetProfileName(i, (LPARAM)profileName))
 					continue;
 
@@ -427,7 +427,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 					GetProfile( defProfile, *ps );
 					for ( int i=0; i < ps->getCount(); i++ )
 						if ( (*ps)[i].szMsg != NULL )
-							(*ps)[i].szMsg = _tcsdup( (*ps)[i].szMsg );
+							(*ps)[i].szMsg = wcsdup( (*ps)[i].szMsg );
 
 					CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CMDLOPTIONS), hwndDlg, CmdlOptionsDlgProc, (LPARAM)ps);
 				}
@@ -536,7 +536,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				else {
 					for (int j=0; j < ar.getCount(); j++)
 						if ( ar[j].szMsg != NULL)
-							ar[j].szMsg = _tcsdup( ar[j].szMsg );
+							ar[j].szMsg = wcsdup( ar[j].szMsg );
 
 					ppo->tszName = db_get_tsa(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME));
 					if (ppo->tszName == NULL) {
@@ -660,7 +660,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 
 	case UM_ADDPROFILE:
 		{
-			TCHAR *tszName = (TCHAR*)lParam;
+			wchar_t *tszName = (wchar_t*)lParam;
 			if (tszName == NULL)
 				break;
 
@@ -738,7 +738,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				ps->szMsg = NULL;
 				if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOMMSG)) {
 					len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
-					ps->szMsg = (TCHAR*)calloc(sizeof(TCHAR), len+1);
+					ps->szMsg = (wchar_t*)calloc(sizeof(wchar_t), len+1);
 					GetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->szMsg, (len + 1));
 				}
 				SendMessage(hwndDlg, UM_SETSTATUSMSG, 0, 0);
@@ -757,7 +757,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 					ps->szMsg = NULL;
 				}
 				int len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
-				ps->szMsg = (TCHAR*)calloc(sizeof(TCHAR), len+1);
+				ps->szMsg = (wchar_t*)calloc(sizeof(wchar_t), len+1);
 				GetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->szMsg, (len + 1));
 			}
 			break;
@@ -867,7 +867,7 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lP
 
 		case WM_COMMAND:
 			if (LOWORD(wParam) == IDC_OK) {
-				TCHAR profileName[128];
+				wchar_t profileName[128];
 				GetDlgItemText(hwndDlg, IDC_PROFILENAME, profileName, _countof(profileName));
 				SendMessage(hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName);
 				// done and exit

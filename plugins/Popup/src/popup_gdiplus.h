@@ -26,8 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void LoadGDIPlus();
 void UnloadGDIPlus();
 
-BOOL GDIPlus_IsAnimatedGIF(TCHAR * szName);
-void GDIPlus_GetGIFSize(TCHAR * szName, int * width, int * height);
-void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &pBitmap, int* &pframesDelay, int &pframesCount, SIZE &pSizeAvatar);
+BOOL GDIPlus_IsAnimatedGIF(wchar_t * szName);
+void GDIPlus_GetGIFSize(wchar_t * szName, int * width, int * height);
+void GDIPlus_ExtractAnimatedGIF(wchar_t *szName, int width, int height, HBITMAP &pBitmap, int* &pframesDelay, int &pframesCount, SIZE &pSizeAvatar);
 
 #endif // __popup_gdiplus_h__

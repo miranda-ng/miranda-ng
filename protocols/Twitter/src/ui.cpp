@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "proto.h"
 #include "twitter.h"
 
-static const TCHAR *sites[] = {
+static const wchar_t *sites[] = {
 	L"https://api.twitter.com/",
 	L"https://identi.ca/api/"
 };
@@ -80,7 +80,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) {
 			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			char str[128];
-			TCHAR tstr[128];
+			wchar_t tstr[128];
 
 			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, _countof(str) - 1);
 			if (str[mir_strlen(str) - 1] != '/')
@@ -112,14 +112,14 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 		SetDlgItemText(hwndDlg, IDC_CHARACTERS, L"140");
 
 		// Set window title
-		TCHAR title[512];
+		wchar_t title[512];
 		mir_sntprintf(title, L"Send Tweet for %s", proto->m_tszUserName);
 		SetWindowText(hwndDlg, title);
 		return true;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK) {
-			TCHAR msg[141];
+			wchar_t msg[141];
 			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
 			GetDlgItemText(hwndDlg, IDC_TWEETMSG, msg, _countof(msg));
@@ -295,8 +295,8 @@ namespace popup_options
 
 	struct
 	{
-		TCHAR *name;
-		TCHAR *text;
+		wchar_t *name;
+		wchar_t *text;
 	} const quotes[] = {
 		{
 			L"Dorothy Parker", L"If, with the literate, I am\n"
@@ -329,8 +329,8 @@ namespace popup_options
 
 		// Pick a random quote
 		int q = rand() % _countof(quotes);
-		_tcsncpy(popup.lptzContactName, quotes[q].name, MAX_CONTACTNAME);
-		_tcsncpy(popup.lptzText, quotes[q].text, MAX_SECONDLINE);
+		wcsncpy(popup.lptzContactName, quotes[q].name, MAX_CONTACTNAME);
+		wcsncpy(popup.lptzText, quotes[q].text, MAX_SECONDLINE);
 
 		popup.lchContact = hContact;
 		popup.iSeconds = get_timeout(hwndDlg);

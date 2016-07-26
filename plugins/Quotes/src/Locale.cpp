@@ -16,7 +16,7 @@ tstring get_int_registry_value(LPCTSTR pszValueName)
 		DWORD dwSize = 0;
 		lResult = ::RegQueryValueEx(hKey, pszValueName, nullptr, &dwType, nullptr, &dwSize);
 		if ((ERROR_SUCCESS == lResult) && ((REG_SZ == dwType) || (REG_EXPAND_SZ == dwType))) {
-			std::vector<TCHAR> aBuffer(dwSize);
+			std::vector<wchar_t> aBuffer(dwSize);
 			lResult = ::RegQueryValueEx(hKey, pszValueName, nullptr, nullptr, reinterpret_cast<LPBYTE>(&*aBuffer.begin()), &dwSize);
 			if (ERROR_SUCCESS == lResult)
 				std::copy(aBuffer.begin(), aBuffer.end(), std::back_inserter(sResult));

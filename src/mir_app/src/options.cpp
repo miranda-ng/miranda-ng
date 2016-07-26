@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define FILTER_TIMEOUT_TIMER 10012
 
-#define ALL_MODULES_FILTER LPGEN("<all modules>")
-#define CORE_MODULES_FILTER LPGEN("<core modules>")
+#define ALL_MODULES_FILTER LPGENW("<all modules>")
+#define CORE_MODULES_FILTER LPGENW("<core modules>")
 
 int LangpackOptionsInit(WPARAM, LPARAM);
 
@@ -92,17 +92,17 @@ struct OptionsPageData : public MZeroedObject
 		hLangpack = src->hLangpack;
 
 		if (src->flags & ODPF_UNICODE)
-			ptszTitle = mir_tstrdup(src->ptszTitle);
+			ptszTitle = mir_tstrdup(src->pwszTitle);
 		else
 			ptszTitle = mir_a2t(src->pszTitle);
 
 		if (src->flags & ODPF_UNICODE)
-			ptszGroup = mir_tstrdup(src->ptszGroup);
+			ptszGroup = mir_tstrdup(src->pwszGroup);
 		else
 			ptszGroup = mir_a2t(src->pszGroup);
 
 		if (src->flags & ODPF_UNICODE)
-			ptszTab = mir_tstrdup(src->ptszTab);
+			ptszTab = mir_tstrdup(src->pwszTab);
 		else
 			ptszTab = mir_a2t(src->pszTab);
   	}
@@ -115,7 +115,7 @@ struct OptionsPageData : public MZeroedObject
 
 	CDlgBase *pDialog;
 	int hLangpack;
-	ptrT ptszTitle, ptszGroup, ptszTab;
+	ptrW ptszTitle, ptszGroup, ptszTab;
 	HTREEITEM hTreeItem;
 	int changed;
 	int height;
@@ -126,7 +126,7 @@ struct OptionsPageData : public MZeroedObject
 	__forceinline HWND getHwnd() const { return pDialog->GetHwnd(); }
 	__forceinline HINSTANCE getInst() const { return pDialog->GetInst(); }
 
-	__forceinline TCHAR* getString(TCHAR *ptszStr)
+	__forceinline wchar_t* getString(wchar_t *ptszStr)
 	{
 		if (flags & ODPF_DONTTRANSLATE)
 			return ptszStr;
@@ -146,7 +146,7 @@ struct OptionsDlgData : public MZeroedObject
 	RECT rcDisplay;
 	RECT rcTab;
 	HFONT hBoldFont;
-	TCHAR szFilterString[1024];
+	wchar_t szFilterString[1024];
 	HANDLE hPluginLoad, hPluginUnload;
 
 	OptionsPageData* getCurrent() const
@@ -154,9 +154,9 @@ struct OptionsDlgData : public MZeroedObject
 	}
 };
 
-HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
+HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const wchar_t* name)
 {
-	TCHAR str[128];
+	wchar_t str[128];
 	TVITEM tvi;
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
@@ -172,9 +172,9 @@ HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
 	return NULL;
 }
 
-static HTREEITEM FindNamedTreeItemAtChildren(HWND hwndTree, HTREEITEM hItem, const TCHAR* name)
+static HTREEITEM FindNamedTreeItemAtChildren(HWND hwndTree, HTREEITEM hItem, const wchar_t* name)
 {
-	TCHAR str[128];
+	wchar_t str[128];
 	TVITEM tvi;
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
@@ -192,7 +192,7 @@ static HTREEITEM FindNamedTreeItemAtChildren(HWND hwndTree, HTREEITEM hItem, con
 
 static BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hwnd, LPARAM lParam)
 {
-	TCHAR szClass[64];
+	wchar_t szClass[64];
 	GetClassName(hwnd, szClass, _countof(szClass));
 
 	if (!mir_tstrcmp(szClass, L"Button") && (GetWindowLongPtr(hwnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
@@ -230,17 +230,17 @@ static void ThemeDialogBackground(HWND hwnd, BOOL tabbed)
 	EnableThemeDialogTexture(hwnd, (tabbed ? ETDT_ENABLE : ETDT_DISABLE) | ETDT_USETABTEXTURE);
 }
 
-static TCHAR* GetPluginName(HINSTANCE hInstance, TCHAR *buffer, int size)
+static wchar_t* GetPluginName(HINSTANCE hInstance, wchar_t *buffer, int size)
 {
-	TCHAR tszModuleName[MAX_PATH];
+	wchar_t tszModuleName[MAX_PATH];
 	GetModuleFileName(hInstance, tszModuleName, _countof(tszModuleName));
-	TCHAR *dllName = _tcsrchr(tszModuleName, '\\');
+	wchar_t *dllName = wcsrchr(tszModuleName, '\\');
 	if (!dllName)
 		dllName = tszModuleName;
 	else
 		dllName++;
 
-	_tcsncpy_s(buffer, size, dllName, _TRUNCATE);
+	wcsncpy_s(buffer, size, dllName, _TRUNCATE);
 	return buffer;
 }
 
@@ -270,7 +270,7 @@ static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWnd
 
 	DWORD key = GetPluginPageHash(page); // get the plugin page hash
 
-	TCHAR pluginName[MAX_PATH];
+	wchar_t pluginName[MAX_PATH];
 	char *temp = GetPluginNameByInstance(page->getInst());
 	GetDialogStrings(enableKeywordFiltering, key, GetPluginName(page->getInst(), pluginName, _countof(pluginName)), hWnd, page->ptszGroup, page->ptszTitle, page->ptszTab, _A2T(temp));
 
@@ -278,7 +278,7 @@ static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWnd
 		DestroyWindow(hWnd); // destroy the page, we're done with it
 }
 
-static int MatchesFilter(const OptionsPageData *page, TCHAR *szFilterString)
+static int MatchesFilter(const OptionsPageData *page, wchar_t *szFilterString)
 {
 	return ContainsFilterString(GetPluginPageHash(page), szFilterString);
 }
@@ -297,7 +297,7 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 	PAINTSTRUCT paint;
 	HDC hdc = (message == WM_PAINT) ? BeginPaint(hWnd, &paint) : (HDC)wParam;
 
-	TCHAR buf[255];
+	wchar_t buf[255];
 	if (bSearchState == 1 && FilterLoadProgress < 100 && FilterLoadProgress > 0)
 		mir_sntprintf(buf, TranslateT("Loading... %d%%"), FilterLoadProgress);
 	else
@@ -481,9 +481,9 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 	HINSTANCE *KnownInstances = (HINSTANCE*)alloca(sizeof(HINSTANCE)*dat->arOpd.getCount());
 	int countKnownInst = 0;
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_RESETCONTENT, 0, 0);
-	int index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_ADDSTRING, 0, (LPARAM)TranslateT(ALL_MODULES_FILTER));
+	int index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_ADDSTRING, 0, (LPARAM)ALL_MODULES_FILTER);
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_SETITEMDATA, (WPARAM)index, 0);
-	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_ADDSTRING, 0, (LPARAM)TranslateT(CORE_MODULES_FILTER));
+	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_ADDSTRING, 0, (LPARAM)CORE_MODULES_FILTER);
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_SETITEMDATA, (WPARAM)index, (LPARAM)g_hInst);
 	
 	for (int i = 0; i < dat->arOpd.getCount(); i++) {
@@ -504,11 +504,11 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 		KnownInstances[countKnownInst] = inst;
 		countKnownInst++;
 		
-		TCHAR tszModuleName[MAX_PATH];
+		wchar_t tszModuleName[MAX_PATH];
 		GetModuleFileName(inst, tszModuleName, _countof(tszModuleName));
 
-		TCHAR *dllName = mir_a2t(GetPluginNameByInstance(inst));
-		if (!dllName) dllName = mir_tstrdup(_tcsrchr(tszModuleName, _T('\\')));
+		wchar_t *dllName = mir_a2t(GetPluginNameByInstance(inst));
+		if (!dllName) dllName = mir_tstrdup(wcsrchr(tszModuleName, '\\'));
 		if (!dllName) dllName = mir_tstrdup(tszModuleName);
 		if (dllName) {
 			index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_ADDSTRING, 0, (LPARAM)dllName);
@@ -527,33 +527,33 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 
 	// if filter string is set to all modules then make the filter string empty (this will return all modules)
 	BOOL bRemoveFocusFromFilter = FALSE;
-	if (mir_tstrcmp(dat->szFilterString, TranslateT(ALL_MODULES_FILTER)) == 0) {
+	if (mir_tstrcmp(dat->szFilterString, ALL_MODULES_FILTER) == 0) {
 		dat->szFilterString[0] = 0;
 		bRemoveFocusFromFilter = TRUE;
 	}
 	// if filter string is set to core modules replace it with the name of the executable (this will return all core modules)
-	else if (mir_tstrcmp(dat->szFilterString, TranslateT(CORE_MODULES_FILTER)) == 0) {
+	else if (mir_tstrcmp(dat->szFilterString, CORE_MODULES_FILTER) == 0) {
 		// replace string with process name - that will show core settings
-		TCHAR szFileName[300];
+		wchar_t szFileName[300];
 		GetModuleFileName(g_hInst, szFileName, _countof(szFileName));
-		TCHAR *pos = _tcsrchr(szFileName, _T('\\'));
+		wchar_t *pos = wcsrchr(szFileName, '\\');
 		if (pos)
 			pos++;
 		else
 			pos = szFileName;
 
-		_tcsncpy_s(dat->szFilterString, pos, _TRUNCATE);
+		wcsncpy_s(dat->szFilterString, pos, _TRUNCATE);
 	}
 	else {
 		int sel = SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, (UINT)CB_GETCURSEL, 0, 0);
 		if (sel != -1) {
 			HINSTANCE hinst = (HINSTANCE)SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, (UINT)CB_GETITEMDATA, sel, 0);
-			TCHAR szFileName[300];
+			wchar_t szFileName[300];
 			GetModuleFileName(hinst, szFileName, _countof(szFileName));
-			TCHAR *pos = _tcsrchr(szFileName, _T('\\'));
+			wchar_t *pos = wcsrchr(szFileName, '\\');
 			if (pos) pos++;
 			else pos = szFileName;
-			_tcsncpy_s(dat->szFilterString, pos, _TRUNCATE);
+			wcsncpy_s(dat->szFilterString, pos, _TRUNCATE);
 		}
 	}
 
@@ -588,9 +588,9 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 			continue;
 
 		opd = dat->arOpd[i];
-		TCHAR *ptszGroup = TranslateTH(opd->hLangpack, opd->ptszGroup);
-		TCHAR *ptszTitle = opd->getString(opd->ptszTitle), *useTitle;
-		TCHAR *ptszTab = TranslateTH(opd->hLangpack, opd->ptszTab);
+		wchar_t *ptszGroup = TranslateTH(opd->hLangpack, opd->ptszGroup);
+		wchar_t *ptszTitle = opd->getString(opd->ptszTitle), *useTitle;
+		wchar_t *ptszTab = TranslateTH(opd->hLangpack, opd->ptszTab);
 
 		tvis.hParent = NULL;
 		useTitle = ptszTitle;
@@ -823,8 +823,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				else
 					dat->arOpd.insert(opd);
 
-				if (!mir_tstrcmp(lastPage, odp->ptszTitle) && !mir_tstrcmp(lastGroup, odp->ptszGroup))
-					if ((ood->pszTab == NULL && dat->currentPage == -1) || !mir_tstrcmp(lastTab, odp->ptszTab))
+				if (!mir_tstrcmp(lastPage, odp->pwszTitle) && !mir_tstrcmp(lastGroup, odp->pwszGroup))
+					if ((ood->pszTab == NULL && dat->currentPage == -1) || !mir_tstrcmp(lastTab, odp->pwszTab))
 						dat->currentPage = (int)i;
 			}
 
@@ -1147,7 +1147,7 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 	if (opi.pageCount == 0)
 		return;
 
-	TCHAR tszTitle[100];
+	wchar_t tszTitle[100];
 	mir_sntprintf(tszTitle, TranslateT("%s options"), pa->tszAccountName);
 
 	OPENOPTIONSDIALOG ood = { sizeof(ood) };
@@ -1254,29 +1254,29 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 	dst = opi->odp + opi->pageCount;
 	memcpy(dst, odp, sizeof(OPTIONSDIALOGPAGE));
 
-	if (odp->ptszTitle != NULL) {
+	if (odp->pwszTitle != NULL) {
 		if (odp->flags & ODPF_UNICODE)
-			dst->ptszTitle = mir_wstrdup(odp->ptszTitle);
+			dst->pwszTitle = mir_wstrdup(odp->pwszTitle);
 		else {
-			dst->ptszTitle = mir_a2u(odp->pszTitle);
+			dst->pwszTitle = mir_a2u(odp->pszTitle);
 			dst->flags |= ODPF_UNICODE;
 		}
 	}
 
-	if (odp->ptszGroup != NULL) {
+	if (odp->pwszGroup != NULL) {
 		if (odp->flags & ODPF_UNICODE)
-			dst->ptszGroup = mir_wstrdup(odp->ptszGroup);
+			dst->pwszGroup = mir_wstrdup(odp->pwszGroup);
 		else {
-			dst->ptszGroup = mir_a2t(odp->pszGroup);
+			dst->pwszGroup = mir_a2t(odp->pszGroup);
 			dst->flags |= ODPF_UNICODE;
 		}
 	}
 
-	if (odp->ptszTab != NULL) {
+	if (odp->pwszTab != NULL) {
 		if (odp->flags & ODPF_UNICODE)
-			dst->ptszTab = mir_wstrdup(odp->ptszTab);
+			dst->pwszTab = mir_wstrdup(odp->pwszTab);
 		else {
-			dst->ptszTab = mir_a2t(odp->pszTab);
+			dst->pwszTab = mir_a2t(odp->pszTab);
 			dst->flags |= ODPF_UNICODE;
 		}
 	}

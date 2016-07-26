@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct TOpenUrlInfo
 {
-	TOpenUrlInfo(TCHAR *_url, int _bNew) :
+	TOpenUrlInfo(wchar_t *_url, int _bNew) :
 		szUrl(_url),
 		newWindow(_bNew)
 	{}
@@ -46,10 +46,10 @@ static void OpenURLThread(void *arg)
 		tszUrl.Format(L"file:///%s", hUrlInfo->szUrl);
 	else {
 		int i;
-		for (i = 0; _istalpha(hUrlInfo->szUrl[i]); i++);
+		for (i = 0; iswalpha(hUrlInfo->szUrl[i]); i++);
 		if (hUrlInfo->szUrl[i] == ':')
 			tszUrl = hUrlInfo->szUrl;
-		else if (!_tcsnicmp(hUrlInfo->szUrl, L"ftp.", 4))
+		else if (!wcsnicmp(hUrlInfo->szUrl, L"ftp.", 4))
 			tszUrl.Format(L"ftp://%s", hUrlInfo->szUrl);
 		else
 			tszUrl.Format(L"http://%s", hUrlInfo->szUrl);

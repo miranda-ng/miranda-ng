@@ -120,7 +120,7 @@ schannel_connect_step1(struct connectdata *conn, int sockindex)
 #ifdef ENABLE_IPV6
   struct in6_addr addr6;
 #endif
-  TCHAR *host_name;
+  wchar_t *host_name;
   CURLcode code;
 
   infof(data, "schannel: SSL/TLS connection with %s port %hu (step 1/3)\n",
@@ -197,7 +197,7 @@ schannel_connect_step1(struct connectdata *conn, int sockindex)
     memset(connssl->cred, 0, sizeof(struct curl_schannel_cred));
 
     /* http://msdn.microsoft.com/en-us/library/windows/desktop/aa374716.aspx */
-    sspi_status = s_pSecFn->AcquireCredentialsHandle(NULL, (TCHAR *)UNISP_NAME,
+    sspi_status = s_pSecFn->AcquireCredentialsHandle(NULL, (wchar_t *)UNISP_NAME,
       SECPKG_CRED_OUTBOUND, NULL, &schannel_cred, NULL, NULL,
       &connssl->cred->cred_handle, &connssl->cred->time_stamp);
 
@@ -288,7 +288,7 @@ schannel_connect_step2(struct connectdata *conn, int sockindex)
   SecBuffer inbuf[2];
   SecBufferDesc inbuf_desc;
   SECURITY_STATUS sspi_status = SEC_E_OK;
-  TCHAR *host_name;
+  wchar_t *host_name;
   CURLcode code;
   bool doread;
 
@@ -1075,7 +1075,7 @@ int Curl_schannel_shutdown(struct connectdata *conn, int sockindex)
     SecBuffer outbuf;
     SecBufferDesc outbuf_desc;
     CURLcode code;
-    TCHAR *host_name;
+    wchar_t *host_name;
     DWORD dwshut = SCHANNEL_SHUTDOWN;
 
     InitSecBuffer(&Buffer, SECBUFFER_TOKEN, &dwshut, sizeof(dwshut));
@@ -1257,7 +1257,7 @@ static CURLcode verify_certificate(struct connectdata *conn, int sockindex)
 
   if(result == CURLE_OK) {
     if(data->set.ssl.verifyhost) {
-      TCHAR cert_hostname_buff[128];
+      wchar_t cert_hostname_buff[128];
       xcharp_u hostname;
       xcharp_u cert_hostname;
       DWORD len;

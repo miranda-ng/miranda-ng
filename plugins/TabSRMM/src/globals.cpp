@@ -37,7 +37,7 @@ CGlobals PluginConfig;
 
 static TContainerSettings _cnt_default = { false, CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, L"%n (%s)", 1, 0 };
 
-TCHAR* CGlobals::m_default_container_name = L"default";
+wchar_t* CGlobals::m_default_container_name = L"default";
 
 extern HANDLE 	hHookButtonPressedEvt;
 extern HANDLE 	hHookToolBarLoadedEvt;
@@ -558,7 +558,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 		}
 	}
 
-	TCHAR toolTip[256];
+	wchar_t toolTip[256];
 
 	CLISTEVENT cle = {};
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
@@ -597,8 +597,8 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	if (wStatus == wOldStatus)
 		return;
 
-	TCHAR *szOldStatus = pcli->pfnGetStatusModeDescription(wOldStatus, 0);
-	TCHAR *szNewStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
+	wchar_t *szOldStatus = pcli->pfnGetStatusModeDescription(wOldStatus, 0);
+	wchar_t *szNewStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 	if (szOldStatus == 0 || szNewStatus == 0)
 		return;
 

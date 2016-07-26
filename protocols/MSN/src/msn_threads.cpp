@@ -383,7 +383,7 @@ ThreadData* CMsnProto::MSN_GetThreadByContact(const char* wlid, TInfoType type)
 	return NULL;
 }
 
-GCThreadData* CMsnProto::MSN_GetThreadByChatId(const TCHAR* chatId)
+GCThreadData* CMsnProto::MSN_GetThreadByChatId(const wchar_t* chatId)
 {
 	if (mir_tstrlen(chatId) == 0)
 		return NULL;

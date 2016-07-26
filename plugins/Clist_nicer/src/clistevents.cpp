@@ -254,14 +254,14 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 		}
 
 		char *szProto = GetContactProto(p->hContact);
-		TCHAR *szName = pcli->pfnGetContactDisplayName(p->hContact, 0);
+		wchar_t *szName = pcli->pfnGetContactDisplayName(p->hContact, 0);
 		if (szProto && szName) {
 			NotifyMenuItemExData *nmi = (NotifyMenuItemExData*)malloc(sizeof(NotifyMenuItemExData));
 			if (nmi) {
-				TCHAR szBuffer[128];
-				TCHAR* szStatus = pcli->pfnGetStatusModeDescription(db_get_w(p->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+				wchar_t szBuffer[128];
+				wchar_t* szStatus = pcli->pfnGetStatusModeDescription(db_get_w(p->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
-				TCHAR szwProto[64];
+				wchar_t szwProto[64];
 				MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
 				szwProto[63] = 0;
 				mir_sntprintf(szBuffer, L"%s: %s (%s)", szwProto, szName, szStatus);

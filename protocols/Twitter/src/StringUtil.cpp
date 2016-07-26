@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 #include "stdafx.h"
 
-void Split(const tstring& str, std::vector<tstring>& out, TCHAR sep, bool includeEmpty)
+void Split(const wstring& str, std::vector<wstring>& out, wchar_t sep, bool includeEmpty)
 {
 	unsigned start = 0;
 	unsigned end = 0;
@@ -44,7 +44,7 @@ void Split(const tstring& str, std::vector<tstring>& out, TCHAR sep, bool includ
 	}
 }
 
-tstring GetWord(const tstring& str, unsigned index, bool getRest)
+wstring GetWord(const wstring& str, unsigned index, bool getRest)
 {
 	unsigned start = 0;
 	unsigned end = 0;
@@ -52,7 +52,7 @@ tstring GetWord(const tstring& str, unsigned index, bool getRest)
 	unsigned count = 0;
 
 	while (true) {
-		if (end == str.size() || str[end] == _T(' ')) {
+		if (end == str.size() || str[end] == ' ') {
 			if (end > start) {
 				if (count == index) {
 					if (getRest)

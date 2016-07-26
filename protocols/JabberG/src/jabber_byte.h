@@ -35,11 +35,11 @@ struct JABBER_BYTE_TRANSFER
 {
 	~JABBER_BYTE_TRANSFER();
 
-	TCHAR *sid;
-	TCHAR *srcJID;
-	TCHAR *dstJID;
-	TCHAR *streamhostJID;
-	TCHAR *iqId;
+	wchar_t *sid;
+	wchar_t *srcJID;
+	wchar_t *dstJID;
+	wchar_t *streamhostJID;
+	wchar_t *iqId;
 	JABBER_BYTE_STATE state;
 	HANDLE hConn;
 	HANDLE hEvent;
@@ -52,10 +52,10 @@ struct JABBER_BYTE_TRANSFER
 	// XEP-0065 proxy support
 	BOOL bProxyDiscovered;
 	HANDLE hProxyEvent;
-	TCHAR *szProxyHost;
-	TCHAR *szProxyPort;
-	TCHAR *szProxyJid;
-	TCHAR *szStreamhostUsed;
+	wchar_t *szProxyHost;
+	wchar_t *szProxyPort;
+	wchar_t *szProxyJid;
+	wchar_t *szStreamhostUsed;
 	BOOL bStreamActivated;
 	HANDLE hSendEvent;
 };

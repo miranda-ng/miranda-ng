@@ -45,7 +45,7 @@ static void LoadDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szS
 
 static void StoreDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
-	TCHAR tstr[250 + 1];
+	wchar_t tstr[250 + 1];
 
 	GetDlgItemText(hwnd, idCtrl, tstr, _countof(tstr));
 	if (tstr[0] != '\0') {

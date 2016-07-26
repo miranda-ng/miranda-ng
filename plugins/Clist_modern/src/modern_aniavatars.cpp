@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define IMMEDIATE_DRAW (!s_bSeparateWindow)
 
-void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &pBmp, int* &pframesDelay, int &pframesCount, SIZE &sizeAvatar);
-BOOL GDIPlus_IsAnimatedGif(TCHAR *szName);
+void GDIPlus_ExtractAnimatedGIF(wchar_t *szName, int width, int height, HBITMAP &pBmp, int* &pframesDelay, int &pframesCount, SIZE &sizeAvatar);
+BOOL GDIPlus_IsAnimatedGif(wchar_t *szName);
 
 /* Next is module */
 #define ANIAVAWINDOWCLASS L"MirandaModernAniAvatar"
@@ -43,7 +43,7 @@ BOOL GDIPlus_IsAnimatedGif(TCHAR *szName);
 //messages
 enum {
 	AAM_FIRST = WM_USER,
-	AAM_SETAVATAR,					//sync		WPARAM: TCHAR * filename, LPARAM: SIZE * size, RESULT: actual size
+	AAM_SETAVATAR,					//sync		WPARAM: wchar_t * filename, LPARAM: SIZE * size, RESULT: actual size
 	AAM_SETPOSITION,				//async		LPARAM: pointer to set pos info - the handler will empty it, RESULT: 0
 	AAM_REDRAW,						//async
 	AAM_STOP,						//async		stops animation, timer, hide window - prepeare for deleting
@@ -73,7 +73,7 @@ struct ANIAVA_OBJECT : public MZeroedObject
 struct ANIAVA_INFO
 {
 	DWORD  dwAvatarUniqId;
-	TCHAR *tcsFilename;
+	wchar_t *tcsFilename;
 	int    nRefCount;
 	int    nStripTop;
 	int    nFrameCount;
@@ -229,11 +229,11 @@ static void CALLBACK _AniAva_SyncCallerUserAPCProc(DWORD_PTR dwParam)
 static INT_PTR _AniAva_CreateAvatarWindowSync_Worker(WPARAM tszName, LPARAM)
 {
 	HWND hwnd = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_NOPARENTNOTIFY, ANIAVAWINDOWCLASS,
-		(TCHAR*)tszName, WS_POPUP, 0, 0, 1, 1, pcli->hwndContactList, NULL, pcli->hInst, NULL);
+		(wchar_t*)tszName, WS_POPUP, 0, 0, 1, 1, pcli->hwndContactList, NULL, pcli->hInst, NULL);
 	return (INT_PTR)hwnd;
 }
 
-static HWND _AniAva_CreateAvatarWindowSync(TCHAR *szFileName)
+static HWND _AniAva_CreateAvatarWindowSync(wchar_t *szFileName)
 {
 	if (s_AnimationThreadHandle == 0 || s_AnimationThreadID == 0)
 		return NULL;
@@ -340,7 +340,7 @@ static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
 	}
 }
 
-static int	_AniAva_LoadAvatarFromImage(TCHAR * szFileName, int width, int height, ANIAVATARIMAGEINFO *pRetAII)
+static int	_AniAva_LoadAvatarFromImage(wchar_t * szFileName, int width, int height, ANIAVATARIMAGEINFO *pRetAII)
 {
 	ANIAVA_INFO aai = { 0 };
 	aai.tcsFilename = szFileName;
@@ -774,7 +774,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 //=======================================================================================
 // adds avatars to be displayed
 
-int AniAva_AddAvatar(MCONTACT hContact, TCHAR * szFilename, int width, int heigth)
+int AniAva_AddAvatar(MCONTACT hContact, wchar_t * szFilename, int width, int heigth)
 {
 	aacheck 0;
 	if (!GDIPlus_IsAnimatedGif(szFilename))

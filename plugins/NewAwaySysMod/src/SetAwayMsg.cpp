@@ -78,9 +78,9 @@ static LRESULT CALLBACK MsgEditSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 				SendMessage(hWnd, WM_KEYDOWN, VK_LEFT, 0);
 				SendMessage(hWnd, EM_GETSEL, (WPARAM)&start, NULL);
 				int nLen = GetWindowTextLength(hWnd);
-				TCHAR *text = (TCHAR*)_alloca((nLen + 1) * sizeof(TCHAR));
+				wchar_t *text = (wchar_t*)_alloca((nLen + 1) * sizeof(wchar_t));
 				GetWindowText(hWnd, text, nLen + 1);
-				memmove(text + start, text + end, sizeof(TCHAR)* (mir_tstrlen(text) + 1 - end));
+				memmove(text + start, text + end, sizeof(wchar_t)* (mir_tstrlen(text) + 1 - end));
 				SetWindowText(hWnd, text);
 
 				SendMessage(hWnd, EM_SETSEL, start, start);
@@ -439,24 +439,24 @@ HICON g_LoadIconEx(const char* name, bool big)
 
 struct {
 	int DlgItem, IconIndex;
-	TCHAR* Text;
+	wchar_t* Text;
 }
 static Buttons[] =
 {
-	{ IDC_SAWAYMSG_SAVEMSG, ILI_SAVE, LPGENT("Save, replacing the selected message") },
-	{ IDC_SAWAYMSG_SAVEASNEW, ILI_SAVEASNEW, LPGENT("Save as a new message") },
-	{ IDC_SAWAYMSG_NEWCATEGORY, ILI_NEWCATEGORY, LPGENT("Create new category") },
-	{ IDC_SAWAYMSG_DELETE, ILI_DELETE, LPGENT("Delete") },
-	{ IDC_SAWAYMSG_VARS, ILI_NOICON, LPGENT("Open Variables help dialog") },
-	{ IDC_SAWAYMSG_OPTIONS, ILI_SETTINGS, LPGENT("Show settings menu") }
+	{ IDC_SAWAYMSG_SAVEMSG, ILI_SAVE, LPGENW("Save, replacing the selected message") },
+	{ IDC_SAWAYMSG_SAVEASNEW, ILI_SAVEASNEW, LPGENW("Save as a new message") },
+	{ IDC_SAWAYMSG_NEWCATEGORY, ILI_NEWCATEGORY, LPGENW("Create new category") },
+	{ IDC_SAWAYMSG_DELETE, ILI_DELETE, LPGENW("Delete") },
+	{ IDC_SAWAYMSG_VARS, ILI_NOICON, LPGENW("Open Variables help dialog") },
+	{ IDC_SAWAYMSG_OPTIONS, ILI_SETTINGS, LPGENW("Show settings menu") }
 };
 
 struct {
 	int m_dlgItemID;
-	TCHAR* Text;
+	wchar_t* Text;
 } Tooltips[] = {
-	IDC_SAWAYMSG_IGNOREREQ, LPGENT("Don't send the status message to selected contact(s)"),
-	IDC_SAWAYMSG_SENDMSG, LPGENT("Send an autoreply to selected contact(s)"),
+	IDC_SAWAYMSG_IGNOREREQ, LPGENW("Don't send the status message to selected contact(s)"),
+	IDC_SAWAYMSG_SENDMSG, LPGENW("Send an autoreply to selected contact(s)"),
 };
 
 INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -727,7 +727,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 									if (Message == NULL)
 										Message = CurMessage;
-									else if (CurMessage != (const TCHAR*)Message) {
+									else if (CurMessage != (const wchar_t*)Message) {
 										Message = L"";
 										BtnTitle = TranslateT("Apply");
 										MessageDetermined = true;
@@ -842,7 +842,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				SendMessage(hwndDlg, UM_SAM_APPLYANDCLOSE, 0, 0);
 				return true;
 			}
-			TCHAR BtnTitle[64];
+			wchar_t BtnTitle[64];
 			mir_sntprintf(BtnTitle, TranslateT("Closing in %d"), Countdown);
 			SetDlgItemText(hwndDlg, IDC_OK, BtnTitle);
 			Countdown--;
@@ -1016,7 +1016,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		switch (HIWORD(wParam)) {
 		case EN_CHANGE:
 			if (LOWORD(wParam) == IDC_SAWAYMSG_MSGDATA)
-				SetDlgItemText(hwndDlg, IDC_OK, TranslateTS((GetSelContactsNum(CList) > 1) ? LPGENT("Apply") : LPGENT("OK")));
+				SetDlgItemText(hwndDlg, IDC_OK, TranslateTS((GetSelContactsNum(CList) > 1) ? LPGENW("Apply") : LPGENW("OK")));
 			break;
 
 		case EN_KILLFOCUS:
@@ -1127,7 +1127,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						TCString NewMsg;
 						GetDlgItemText(hwndDlg, IDC_SAWAYMSG_MSGDATA, NewMsg.GetBuffer(AWAY_MSGDATA_MAX), AWAY_MSGDATA_MAX);
 						NewMsg.ReleaseBuffer();
-						if (((CTreeItem*)TreeItem)->User_Str1 != (const TCHAR*)NewMsg) {
+						if (((CTreeItem*)TreeItem)->User_Str1 != (const wchar_t*)NewMsg) {
 							((CTreeItem*)TreeItem)->User_Str1 = NewMsg;
 							MsgTree->SetModified(true);
 						}
@@ -1166,7 +1166,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				GetDlgItemText(hwndDlg, IDC_OK, BtnTitle.GetBuffer(64), 64);
 				BtnTitle.ReleaseBuffer();
 				ApplySelContactsMessage(dat, CList);
-				if (BtnTitle != (const TCHAR*)TranslateT("Apply"))
+				if (BtnTitle != (const wchar_t*)TranslateT("Apply"))
 					SendMessage(hwndDlg, UM_SAM_APPLYANDCLOSE, 0, 0);
 			}
 		}

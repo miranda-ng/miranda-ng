@@ -24,7 +24,7 @@
 
 #pragma warning(disable:4355)
 
-CYahooProto::CYahooProto(const char *aProtoName, const TCHAR *aUserName)
+CYahooProto::CYahooProto(const char *aProtoName, const wchar_t *aUserName)
 	: PROTO<CYahooProto>(aProtoName, aUserName),
 	m_bLoggedIn(FALSE),
 	poll_loop(0),
@@ -35,7 +35,7 @@ CYahooProto::CYahooProto(const char *aProtoName, const TCHAR *aUserName)
 
 	logoff_buddies();
 
-	SkinAddNewSoundExT("mail", m_tszUserName, LPGENT("New E-mail available in Inbox"));
+	SkinAddNewSoundExT("mail", m_tszUserName, LPGENW("New E-mail available in Inbox"));
 
 	LoadYahooServices();
 }
@@ -66,7 +66,7 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	HookProtoEvent(ME_IDLE_CHANGED, &CYahooProto::OnIdleEvent);
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CYahooProto::OnPrebuildContactMenu);
 
-	TCHAR tModuleDescr[100];
+	wchar_t tModuleDescr[100];
 	mir_sntprintf(tModuleDescr, TranslateT("%s plugin connections"), m_tszUserName);
 
 	NETLIBUSER nlu = { 0 };
@@ -113,7 +113,7 @@ MCONTACT CYahooProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		return 0;
 	}
 
-	char *id = psr->flags & PSR_UNICODE ? mir_utf8encodeW((wchar_t*)psr->id.t) : mir_utf8encode((char*)psr->id.t);
+	char *id = psr->flags & PSR_UNICODE ? mir_utf8encodeW((wchar_t*)psr->id.w) : mir_utf8encode((char*)psr->id.w);
 	MCONTACT hContact = getbuddyH(id);
 	if (hContact != NULL) {
 		if (db_get_b(hContact, "CList", "NotOnList")) {
@@ -217,7 +217,7 @@ int CYahooProto::Authorize(MEVENT hdbe)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthDeny - handles the unsuccessful authorization
 
-int CYahooProto::AuthDeny(MEVENT hdbe, const TCHAR *reason)
+int CYahooProto::AuthDeny(MEVENT hdbe, const wchar_t *reason)
 {
 	debugLogA("[YahooAuthDeny]");
 	if (!m_bLoggedIn)
@@ -276,7 +276,7 @@ int __cdecl CYahooProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CYahooProto::AuthRequest(MCONTACT hContact, const TCHAR* msg)
+int __cdecl CYahooProto::AuthRequest(MCONTACT hContact, const wchar_t* msg)
 {
 	debugLogA("[YahooSendAuthRequest]");
 
@@ -539,7 +539,7 @@ HANDLE __cdecl CYahooProto::GetAwayMsg(MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away status message
 
-int __cdecl CYahooProto::SetAwayMsg(int status, const TCHAR* msg)
+int __cdecl CYahooProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	char *c = msg && msg[0] ? mir_utf8encodeT(msg) : NULL;
 

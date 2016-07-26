@@ -76,7 +76,7 @@ public:
 
 	HRESULT STDMETHODCALLTYPE  GetNewStorage(LPSTORAGE * lplpstg)
 	{
-		TCHAR sztName[64];
+		wchar_t sztName[64];
 		mir_sntprintf(sztName, L"s%u", this->nextStgId);
 		if (this->pictStg == NULL)
 			return STG_E_MEDIUMFULL;

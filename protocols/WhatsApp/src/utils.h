@@ -27,7 +27,7 @@ public:
 
 std::string getLastErrorMsg();
 
-__forceinline TCHAR* str2t(const std::string &str)
+__forceinline wchar_t* str2t(const std::string &str)
 {	return mir_utf8decodeT(str.c_str());
 }
 
@@ -36,10 +36,10 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
 
 namespace utils
 {
-	TCHAR* removeA(TCHAR *str);
-	void   copyText(HWND hwnd, const TCHAR *text);
+	wchar_t* removeA(wchar_t *str);
+	void   copyText(HWND hwnd, const wchar_t *text);
 
-	void setStatusMessage(MCONTACT hContact, const TCHAR *ptszMessage);
+	void setStatusMessage(MCONTACT hContact, const wchar_t *ptszMessage);
 		
 	BYTE* md5string(const BYTE*, int, BYTE* digest);
 	__forceinline BYTE* md5string(const std::string &str, BYTE* digest)

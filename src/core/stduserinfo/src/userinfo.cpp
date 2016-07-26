@@ -46,7 +46,7 @@ struct DetailsPageData
 	HWND hwnd;
 	HTREEITEM hItem;
 	int changed, hLangpack;
-	TCHAR *ptszTitle, *ptszTab;
+	wchar_t *ptszTitle, *ptszTab;
 };
 
 struct DetailsData
@@ -60,24 +60,24 @@ struct DetailsData
 	DetailsPageData *opd;
 	RECT rcDisplay,  rcDisplayTab;
 	int updateAnimFrame;
-	TCHAR szUpdating[64];
+	wchar_t szUpdating[64];
 	int *infosUpdated;
 };
 
-TCHAR* getTitle(OPTIONSDIALOGPAGE *p)
+wchar_t* getTitle(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->ptszTitle : TranslateTH(p->hLangpack, p->ptszTitle);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->pwszTitle : TranslateTH(p->hLangpack, p->pwszTitle);
 }
 
-TCHAR* getTab(OPTIONSDIALOGPAGE *p)
+wchar_t* getTab(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->ptszTab : TranslateTH(p->hLangpack, p->ptszTab);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->pwszTab : TranslateTH(p->hLangpack, p->pwszTab);
 }
 
 static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
 {
 	int res;
-	TCHAR *s1 = getTitle(item1), *s2 = getTitle(item2);
+	wchar_t *s1 = getTitle(item1), *s2 = getTitle(item2);
 	if (!mir_tstrcmp(s1, TranslateT("Summary"))) return -1;
 	if (!mir_tstrcmp(s2, TranslateT("Summary"))) return 1;
 	if (res = mir_tstrcmp(s1, s2)) return res;
@@ -115,7 +115,7 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
 	psh.hwndParent = NULL;
 	psh.nPages = opi.pageCount;
 	psh.pStartPage = 0;
-	psh.pszCaption = (TCHAR*)wParam;	  //more abuses of structure: this is hContact
+	psh.pszCaption = (wchar_t*)wParam;	  //more abuses of structure: this is hContact
 	psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
 
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProcDetails, (LPARAM)&psh);
@@ -147,12 +147,12 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	dst->pszTemplate = ((DWORD_PTR)odp->pszTemplate & 0xFFFF0000) ? mir_strdup(odp->pszTemplate) : odp->pszTemplate;
 
 	if (odp->flags & ODPF_UNICODE) {
-		dst->ptszTitle = (odp->ptszTitle == 0) ? NULL : mir_wstrdup(odp->ptszTitle);
-		dst->ptszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->ptszTab) ? NULL : mir_wstrdup(odp->ptszTab);
+		dst->pwszTitle = (odp->pwszTitle == 0) ? NULL : mir_wstrdup(odp->pwszTitle);
+		dst->pwszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->pwszTab) ? NULL : mir_wstrdup(odp->pwszTab);
 	}
 	else {
-		dst->ptszTitle = mir_a2t(odp->pszTitle);
-		dst->ptszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : mir_a2t(odp->pszTab);
+		dst->pwszTitle = mir_a2t(odp->pszTitle);
+		dst->pwszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : mir_a2t(odp->pszTab);
 	}
 
 	dst->hLangpack = odp->hLangpack;
@@ -248,7 +248,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 
 			//////////////////////////////////////////////////////////////////////
-			TCHAR *name, oldTitle[256], newTitle[256];
+			wchar_t *name, oldTitle[256], newTitle[256];
 			if (dat->hContact == NULL)
 				name = TranslateT("Owner");
 			else
@@ -269,7 +269,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			LPTSTR ptszLastTab;
 			DBVARIANT dbv;
 			if (!db_get_ts(NULL, "UserInfo", "LastTab", &dbv)) {
-				ptszLastTab = NEWTSTR_ALLOCA(dbv.ptszVal);
+				ptszLastTab = NEWWSTR_ALLOCA(dbv.ptszVal);
 				db_free(&dbv);
 			}
 			else ptszLastTab = NULL;
@@ -289,8 +289,8 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				p.dlgParam = odp[i].dwInitParam;
 				p.hInst = odp[i].hInstance;
 
-				p.ptszTitle = odp[i].ptszTitle;
-				p.ptszTab = odp[i].ptszTab;
+				p.ptszTitle = odp[i].pwszTitle;
+				p.ptszTab = odp[i].pwszTab;
 				p.hLangpack = odp[i].hLangpack;
 
 				if (i && p.ptszTab && !mir_tstrcmp(dat->opd[i - 1].ptszTitle, p.ptszTitle)) {
@@ -354,7 +354,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_TIMER:
-		TCHAR str[128];
+		wchar_t str[128];
 		mir_sntprintf(str, L"%.*s%s%.*s", dat->updateAnimFrame % 10, L".........", dat->szUpdating, dat->updateAnimFrame % 10, L".........");
 		SetDlgItemText(hwndDlg, IDC_UPDATING, str);
 		if (++dat->updateAnimFrame == UPDATEANIMFRAMES)
@@ -580,7 +580,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
-		TCHAR name[128];
+		wchar_t name[128];
 		TVITEM tvi;
 		tvi.mask = TVIF_TEXT;
 		tvi.hItem = dat->opd[dat->currentPage].hItem;

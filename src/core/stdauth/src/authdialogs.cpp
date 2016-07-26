@@ -55,12 +55,12 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
 
-			TCHAR* lastT = dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2t(last);
-			TCHAR* firstT = dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2t(first);
-			TCHAR* nickT = dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2t(nick);
-			TCHAR* emailT = dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email);
+			wchar_t* lastT = dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2t(last);
+			wchar_t* firstT = dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2t(first);
+			wchar_t* nickT = dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2t(nick);
+			wchar_t* emailT = dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email);
 
-			TCHAR name[128] = L"";
+			wchar_t name[128] = L"";
 			int off = 0;
 			if (firstT[0] && lastT[0])
 				off = mir_sntprintf(name, L"%s %s", firstT, lastT);
@@ -72,12 +72,12 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (off)
 					mir_sntprintf(name + off, _countof(name) - off, L" (%s)", nickT);
 				else
-					_tcsncpy_s(name, nickT, _TRUNCATE);
+					wcsncpy_s(name, nickT, _TRUNCATE);
 			}
 			if (!name[0])
-				_tcsncpy_s(name, TranslateT("<Unknown>"), _TRUNCATE);
+				wcsncpy_s(name, TranslateT("<Unknown>"), _TRUNCATE);
 
-			TCHAR hdr[256];
+			wchar_t hdr[256];
 			if (uin && emailT[0])
 				mir_sntprintf(hdr, TranslateT("%s added you to the contact list\n%u (%s) on %s"), name, uin, emailT, acc->tszAccountName);
 			else if (uin)
@@ -185,30 +185,30 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ptrT emailT(dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email));
 			ptrT reasonT(dbei.flags & DBEF_UTF ? Utf8DecodeT(reason) : mir_a2t(reason));
 
-			TCHAR name[128] = L"";
+			wchar_t name[128] = L"";
 			int off = 0;
 			if (firstT[0] && lastT[0])
-				off = mir_sntprintf(name, L"%s %s", (TCHAR*)firstT, (TCHAR*)lastT);
+				off = mir_sntprintf(name, L"%s %s", (wchar_t*)firstT, (wchar_t*)lastT);
 			else if (firstT[0])
-				off = mir_sntprintf(name, L"%s", (TCHAR*)firstT);
+				off = mir_sntprintf(name, L"%s", (wchar_t*)firstT);
 			else if (lastT[0])
-				off = mir_sntprintf(name, L"%s", (TCHAR*)lastT);
+				off = mir_sntprintf(name, L"%s", (wchar_t*)lastT);
 			if (mir_tstrlen(nickT)) {
 				if (off)
-					mir_sntprintf(name + off, _countof(name) - off, L" (%s)", (TCHAR*)nickT);
+					mir_sntprintf(name + off, _countof(name) - off, L" (%s)", (wchar_t*)nickT);
 				else
-					_tcsncpy_s(name, nickT, _TRUNCATE);
+					wcsncpy_s(name, nickT, _TRUNCATE);
 			}
 			if (!name[0])
-				_tcsncpy_s(name, TranslateT("<Unknown>"), _TRUNCATE);
+				wcsncpy_s(name, TranslateT("<Unknown>"), _TRUNCATE);
 
-			TCHAR hdr[256];
+			wchar_t hdr[256];
 			if (uin && emailT[0])
-				mir_sntprintf(hdr, TranslateT("%s requested authorization\n%u (%s) on %s"), name, uin, (TCHAR*)emailT, acc->tszAccountName);
+				mir_sntprintf(hdr, TranslateT("%s requested authorization\n%u (%s) on %s"), name, uin, (wchar_t*)emailT, acc->tszAccountName);
 			else if (uin)
 				mir_sntprintf(hdr, TranslateT("%s requested authorization\n%u on %s"), name, uin, acc->tszAccountName);
 			else
-				mir_sntprintf(hdr, TranslateT("%s requested authorization\n%s on %s"), name, emailT[0] ? (TCHAR*)emailT : TranslateT("(Unknown)"), acc->tszAccountName);
+				mir_sntprintf(hdr, TranslateT("%s requested authorization\n%s on %s"), name, emailT[0] ? (wchar_t*)emailT : TranslateT("(Unknown)"), acc->tszAccountName);
 
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, hdr);
 			SetDlgItemText(hwndDlg, IDC_REASON, reasonT);
@@ -264,7 +264,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				db_event_get(hDbEvent, &dbei);
 
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_DENYREASON))) {
-					TCHAR tszReason[256];
+					wchar_t tszReason[256];
 					GetDlgItemText(hwndDlg, IDC_DENYREASON, tszReason, _countof(tszReason));
 					CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)tszReason);
 				}

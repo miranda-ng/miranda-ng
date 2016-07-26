@@ -84,7 +84,7 @@ static void LoadTemplatesFrom(TTemplateSet *tSet, MCONTACT hContact, int rtl)
 		if (db_get_ts(hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[i], &dbv))
 			continue;
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR)
-			_tcsncpy_s(tSet->szTemplates[i], dbv.ptszVal, _TRUNCATE);
+			wcsncpy_s(tSet->szTemplates[i], dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 }
@@ -247,10 +247,10 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 		case IDC_SAVETEMPLATE:
 		{
-			TCHAR newTemplate[TEMPLATE_LENGTH + 2];
+			wchar_t newTemplate[TEMPLATE_LENGTH + 2];
 
 			GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, newTemplate, _countof(newTemplate));
-			memcpy(tSet->szTemplates[teInfo->inEdit], newTemplate, sizeof(TCHAR) * TEMPLATE_LENGTH);
+			memcpy(tSet->szTemplates[teInfo->inEdit], newTemplate, sizeof(wchar_t) * TEMPLATE_LENGTH);
 			teInfo->changed = FALSE;
 			teInfo->updateInfo[teInfo->inEdit] = FALSE;
 			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
@@ -282,7 +282,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			teInfo->changed = FALSE;
 			teInfo->updateInfo[teInfo->inEdit] = FALSE;
 			teInfo->selchanging = TRUE;
-			memcpy(tSet->szTemplates[teInfo->inEdit], LTR_Default.szTemplates[teInfo->inEdit], sizeof(TCHAR) * TEMPLATE_LENGTH);
+			memcpy(tSet->szTemplates[teInfo->inEdit], LTR_Default.szTemplates[teInfo->inEdit], sizeof(wchar_t) * TEMPLATE_LENGTH);
 			SetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit]);
 			db_unset(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit]);
 			SetFocus(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE));
@@ -334,10 +334,10 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case DM_UPDATETEMPLATEPREVIEW: {
 		DBEVENTINFO dbei = { 0 };
 		int iIndex = SendDlgItemMessage(hwndDlg, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
-		TCHAR szTemp[TEMPLATE_LENGTH + 2];
+		wchar_t szTemp[TEMPLATE_LENGTH + 2];
 
 		if (teInfo->changed) {
-			memcpy(szTemp, tSet->szTemplates[teInfo->inEdit], (TEMPLATE_LENGTH * sizeof(TCHAR)));
+			memcpy(szTemp, tSet->szTemplates[teInfo->inEdit], (TEMPLATE_LENGTH * sizeof(wchar_t)));
 			GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit], TEMPLATE_LENGTH);
 		}
 		dbei.szModule = dat->szProto;
@@ -361,7 +361,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		StreamInEvents(hwndDlg, 0, 1, 0, &dbei);
 		SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
 		if (teInfo->changed)
-			memcpy(tSet->szTemplates[teInfo->inEdit], szTemp, TEMPLATE_LENGTH * sizeof(TCHAR));
+			memcpy(tSet->szTemplates[teInfo->inEdit], szTemp, TEMPLATE_LENGTH * sizeof(wchar_t));
 		break;
 	}
 	case WM_DESTROY:

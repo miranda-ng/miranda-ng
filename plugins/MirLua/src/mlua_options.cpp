@@ -37,7 +37,7 @@ void CMLuaOptions::LoadScripts()
 	for (int i = 0; i < g_mLua->Scripts.getCount(); i++)
 	{
 		CMLuaScript *script = g_mLua->Scripts[i];
-		TCHAR *fileName = NEWTSTR_ALLOCA(script->GetFileName());
+		wchar_t *fileName = NEWWSTR_ALLOCA(script->GetFileName());
 		int iIcon = script->GetStatus() - 1;
 		int iItem = m_scripts.AddItem(fileName, iIcon, (LPARAM)script);
 		if (db_get_b(NULL, MODULE, _T2A(fileName), 1))
@@ -59,7 +59,7 @@ void CMLuaOptions::OnInitDialog()
 	ImageList_AddIcon(hImageList, GetIcon(IDI_OPEN));
 	ImageList_AddIcon(hImageList, GetIcon(IDI_RELOAD));
 
-	TCHAR scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
+	wchar_t scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
 	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
 	mir_sntprintf(header, L"%s (%s)", TranslateT("Common scripts"), relativeScriptDir);
@@ -78,7 +78,7 @@ void CMLuaOptions::OnApply()
 	int count = m_scripts.GetItemCount();
 	for (int iItem = 0; iItem < count; iItem++)
 	{
-		TCHAR fileName[MAX_PATH];
+		wchar_t fileName[MAX_PATH];
 		m_scripts.GetItemText(iItem, 0, fileName, _countof(fileName));
 		if (!m_scripts.GetCheckState(iItem))
 			db_set_b(NULL, MODULE, _T2A(fileName), 0);
@@ -115,7 +115,7 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 	LVITEM lvi = { 0 };
 	lvi.iItem = evt->nmlvia->iItem;
 	if (lvi.iItem == -1) return;
-	lvi.pszText = (LPTSTR)mir_calloc(MAX_PATH * sizeof(TCHAR));
+	lvi.pszText = (LPTSTR)mir_calloc(MAX_PATH * sizeof(wchar_t));
 	lvi.cchTextMax = MAX_PATH;
 	lvi.mask = LVIF_GROUPID | LVIF_TEXT | LVIF_PARAM;
 	evt->treeviewctrl->GetItem(&lvi);
@@ -161,9 +161,9 @@ int CMLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup = LPGENT("Services");
-	odp.ptszTitle = L"Lua";
-	odp.ptszTab = LPGENT("Scripts");
+	odp.pwszGroup = LPGENW("Services");
+	odp.pwszTitle = L"Lua";
+	odp.pwszTab = LPGENW("Scripts");
 	odp.pDialog = CMLuaOptions::CreateOptionsPage();
 	Options_AddPage(wParam, &odp);
 

@@ -115,18 +115,18 @@ static MODERNEFFECT meCurrentEffect = { 0xFF, { 0 }, 0, 0 };
 //////////////////////////////////////////////////////////////////////////
 // Ini file parser
 
-IniParser::IniParser(TCHAR * tcsFileName, BYTE flags) : _Flags(flags)
+IniParser::IniParser(wchar_t * tcsFileName, BYTE flags) : _Flags(flags)
 {
 	_DoInit();
 	if (!tcsFileName) return;
 
-	if (tcsFileName[0] == _T('%')) {
+	if (tcsFileName[0] == '%') {
 		//TODO: Add parser of resource filename here
 		_LoadResourceIni(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF");
 		return;
 	}
 
-	_hFile = _tfopen(tcsFileName, L"r");
+	_hFile = _wfopen(tcsFileName, L"r");
 	if (_hFile != NULL) {
 		_eType = IT_FILE;
 		_isValid = true;
@@ -200,20 +200,20 @@ HRESULT IniParser::WriteStrToDb(const char * szSection, const char * szName, con
 	return S_OK;
 }
 
-int IniParser::GetSkinFolder(IN const TCHAR * szFileName, OUT TCHAR * pszFolderName)
+int IniParser::GetSkinFolder(IN const wchar_t * szFileName, OUT wchar_t * pszFolderName)
 {
-	TCHAR *szBuff = mir_tstrdup(szFileName);
-	TCHAR *pszPos = szBuff + mir_tstrlen(szBuff);
-	while (pszPos > szBuff && *pszPos != _T('.')) { pszPos--; }
-	*pszPos = _T('\0');
+	wchar_t *szBuff = mir_tstrdup(szFileName);
+	wchar_t *pszPos = szBuff + mir_tstrlen(szBuff);
+	while (pszPos > szBuff && *pszPos != '.') { pszPos--; }
+	*pszPos = '\0';
 	mir_tstrcpy(pszFolderName, szBuff);
 
-	TCHAR custom_folder[MAX_PATH], cus[MAX_PATH];
-	TCHAR *b3;
+	wchar_t custom_folder[MAX_PATH], cus[MAX_PATH];
+	wchar_t *b3;
 	mir_tstrncpy(custom_folder, pszFolderName, _countof(custom_folder));
 	b3 = custom_folder + mir_tstrlen(custom_folder);
-	while (b3 > custom_folder && *b3 != _T('\\')) { b3--; }
-	*b3 = _T('\0');
+	while (b3 > custom_folder && *b3 != '\\') { b3--; }
+	*b3 = '\0';
 
 	GetPrivateProfileString(L"Skin_Description_Section", L"SkinFolder", L"", cus, _countof(custom_folder), szFileName);
 	if (cus[0] != 0)
@@ -1467,13 +1467,13 @@ void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult)
 	return;
 }
 
-int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL madeAbsolute)
+int ske_GetFullFilename(wchar_t *buf, const wchar_t *file, wchar_t *skinfolder, BOOL madeAbsolute)
 {
-	TCHAR *SkinPlace = db_get_tsa(NULL, SKIN, "SkinFolder");
+	wchar_t *SkinPlace = db_get_tsa(NULL, SKIN, "SkinFolder");
 	if (SkinPlace == NULL)
 		SkinPlace = mir_tstrdup(L"\\Skin\\default");
 
-	TCHAR b2[MAX_PATH];
+	wchar_t b2[MAX_PATH];
 	if (file[0] != '\\' && file[1] != ':')
 		mir_sntprintf(b2, L"%s\\%s", (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : L"", file);
 	else
@@ -1557,7 +1557,7 @@ static BOOL ske_ReadTGAImageData(void * From, DWORD fromSize, BYTE * destBuf, DW
 	return TRUE;
 }
 
-static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
+static HBITMAP ske_LoadGlyphImage_TGA(const wchar_t *szFilename)
 {
 	BYTE *colormap = NULL;
 	int cx = 0, cy = 0;
@@ -1566,7 +1566,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 	if (!szFilename) return NULL;
 	if (!wildcmpit(szFilename, L"*\\*%.tga")) {
 		//Loading TGA image from file
-		FILE *fp = _tfopen(szFilename, L"rb");
+		FILE *fp = _wfopen(szFilename, L"rb");
 		if (!fp) {
 			TRACEVAR("error: couldn't open \"%s\"!\n", szFilename);
 			return NULL;
@@ -1618,12 +1618,12 @@ static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 	return NULL;
 }
 
-static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
+static HBITMAP ske_LoadGlyphImageByDecoders(const wchar_t *tszFileName)
 {
-	if (!_tcschr(tszFileName, '%') && !PathFileExists(tszFileName))
+	if (!wcschr(tszFileName, '%') && !PathFileExists(tszFileName))
 		return NULL;
 
-	const TCHAR *ext = _tcsrchr(tszFileName, '.');
+	const wchar_t *ext = wcsrchr(tszFileName, '.');
 	if (ext == NULL)
 		return NULL;
 
@@ -1661,7 +1661,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 	return hBitmap;
 }
 
-static HBITMAP ske_skinLoadGlyphImage(const TCHAR *tszFileName)
+static HBITMAP ske_skinLoadGlyphImage(const wchar_t *tszFileName)
 {
 	if (!wildcmpit(tszFileName, L"*.tga"))
 		return GDIPlus_LoadGlyphImage(tszFileName);
@@ -1669,10 +1669,10 @@ static HBITMAP ske_skinLoadGlyphImage(const TCHAR *tszFileName)
 	return ske_LoadGlyphImageByDecoders(tszFileName);
 }
 
-HBITMAP ske_LoadGlyphImage(const TCHAR *tszFileName)
+HBITMAP ske_LoadGlyphImage(const wchar_t *tszFileName)
 {
 	// try to find image in loaded
-	TCHAR szFile[MAX_PATH] = { 0 };
+	wchar_t szFile[MAX_PATH] = { 0 };
 	ske_GetFullFilename(szFile, tszFileName, g_SkinObjectList.szSkinPlace, TRUE);
 
 	mir_cslock lck(cs_SkinChanging);
@@ -1913,9 +1913,9 @@ static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 	Skin->pMaskList = (LISTMODERNMASK*)mir_alloc(sizeof(LISTMODERNMASK));
 	memset(Skin->pMaskList, 0, sizeof(LISTMODERNMASK));
 	Skin->szSkinPlace = db_get_tsa(NULL, SKIN, "SkinFolder");
-	if (!Skin->szSkinPlace || (_tcschr(Skin->szSkinPlace, '%') && !db_get_b(NULL, SKIN, "Modified", 0))) {
+	if (!Skin->szSkinPlace || (wcschr(Skin->szSkinPlace, '%') && !db_get_b(NULL, SKIN, "Modified", 0))) {
 		BOOL bOnlyObjects = FALSE;
-		if (Skin->szSkinPlace && _tcschr(Skin->szSkinPlace, '%'))
+		if (Skin->szSkinPlace && wcschr(Skin->szSkinPlace, '%'))
 			bOnlyObjects = TRUE;
 		mir_free(Skin->szSkinPlace);
 		Skin->szSkinPlace = mir_tstrdup(L"%Default%");
@@ -1957,9 +1957,9 @@ static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 }
 
 // Load data from ini file
-int ske_LoadSkinFromIniFile(TCHAR *szFileName, BOOL bOnlyObjects)
+int ske_LoadSkinFromIniFile(wchar_t *szFileName, BOOL bOnlyObjects)
 {
-	if (_tcschr(szFileName, _T('%')))
+	if (wcschr(szFileName, '%'))
 		return ske_LoadSkinFromResource(bOnlyObjects);
 
 	IniParser parser(szFileName, bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS);
@@ -1968,7 +1968,7 @@ int ske_LoadSkinFromIniFile(TCHAR *szFileName, BOOL bOnlyObjects)
 
 	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernSkin");
 
-	TCHAR skinFolder[MAX_PATH], skinFile[MAX_PATH];
+	wchar_t skinFolder[MAX_PATH], skinFile[MAX_PATH];
 	IniParser::GetSkinFolder(szFileName, skinFolder);
 	PathToRelativeT(szFileName, skinFile);
 
@@ -2272,10 +2272,10 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 
 		// replace end of string by elipsis
 		bNeedFreeWorkString = TRUE;
-		lpWorkString = (TCHAR*)mir_alloc((visibleCharCount + 4) * sizeof(TCHAR));
+		lpWorkString = (wchar_t*)mir_alloc((visibleCharCount + 4) * sizeof(wchar_t));
 
-		memcpy((void*)lpWorkString, lpString, visibleCharCount * sizeof(TCHAR));
-		memcpy((void*)(lpWorkString + visibleCharCount), L"...", 4 * sizeof(TCHAR)); // 3 + 1
+		memcpy((void*)lpWorkString, lpString, visibleCharCount * sizeof(wchar_t));
+		memcpy((void*)(lpWorkString + visibleCharCount), L"...", 4 * sizeof(wchar_t)); // 3 + 1
 
 		nCount = visibleCharCount + 3;
 	}
@@ -3297,19 +3297,19 @@ static DWORD ske_HexToARGB(char * Hex)
 	return AARRGGBB;
 }
 
-static TCHAR *ske_ReAppend(TCHAR *lfirst, TCHAR * lsecond, int len)
+static wchar_t *ske_ReAppend(wchar_t *lfirst, wchar_t * lsecond, int len)
 {
 	size_t l1 = lfirst ? mir_tstrlen(lfirst) : 0;
 	size_t l2 = (len ? len : (mir_tstrlen(lsecond) + 1));
-	TCHAR *buf = (TCHAR *)mir_alloc((l1 + l2 + 1)*sizeof(TCHAR));
-	if (lfirst) memmove(buf, lfirst, l1*sizeof(TCHAR));
-	memmove(buf + l1, lsecond, l2*sizeof(TCHAR));
+	wchar_t *buf = (wchar_t *)mir_alloc((l1 + l2 + 1)*sizeof(wchar_t));
+	if (lfirst) memmove(buf, lfirst, l1*sizeof(wchar_t));
+	memmove(buf + l1, lsecond, l2*sizeof(wchar_t));
 	mir_free(lfirst);
-	if (len) buf[l1 + l2] = _T('\0');
+	if (len) buf[l1 + l2] = '\0';
 	return buf;
 }
 
-TCHAR* ske_ReplaceVar(TCHAR *var)
+wchar_t* ske_ReplaceVar(wchar_t *var)
 {
 	if (!var) return mir_tstrdup(L"");
 	if (!mir_tstrcmpi(var, L"Profile")) {
@@ -3327,15 +3327,15 @@ TCHAR* ske_ReplaceVar(TCHAR *var)
 	return mir_tstrdup(L"");
 }
 
-TCHAR *ske_ParseText(TCHAR *stzText)
+wchar_t *ske_ParseText(wchar_t *stzText)
 {
 	size_t len = mir_tstrlen(stzText);
-	TCHAR *result = NULL;
+	wchar_t *result = NULL;
 	size_t stpos = 0, curpos = 0;
 
 	while (curpos < len) {
 		//1 find first %
-		while (curpos < len && stzText[curpos] != (TCHAR)'%')
+		while (curpos < len && stzText[curpos] != (wchar_t)'%')
 			curpos++;
 		if (curpos < len) { //% found
 			if (curpos - stpos > 0)
@@ -3343,14 +3343,14 @@ TCHAR *ske_ParseText(TCHAR *stzText)
 			stpos = curpos + 1;
 			curpos++;
 			//3 find second %
-			while (curpos < len && stzText[curpos] != (TCHAR)'%')
+			while (curpos < len && stzText[curpos] != (wchar_t)'%')
 				curpos++;
 			if (curpos >= len)
 				break;
 			if (curpos - stpos > 0) {
-				TCHAR *var = (TCHAR *)mir_alloc((curpos - stpos + 1)*sizeof(TCHAR));
-				memcpy(var, stzText + stpos, (curpos - stpos)*sizeof(TCHAR));
-				var[curpos - stpos] = (TCHAR)'\0';
+				wchar_t *var = (wchar_t *)mir_alloc((curpos - stpos + 1)*sizeof(wchar_t));
+				memcpy(var, stzText + stpos, (curpos - stpos)*sizeof(wchar_t));
+				var[curpos - stpos] = (wchar_t)'\0';
 				var = ske_ReplaceVar(var);
 				result = ske_ReAppend(result, var, 0);
 				mir_free(var);

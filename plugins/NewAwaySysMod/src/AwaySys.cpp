@@ -119,7 +119,7 @@ TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto, DWORD UIN, int iSta
 	VarParseData.UIN = UIN;
 	VarParseData.Flags = 0;
 	if (ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {
-		TCHAR *szResult = variables_parse(VarParseData.Message,  0, hContact);
+		wchar_t *szResult = variables_parse(VarParseData.Message,  0, hContact);
 		if (szResult) {
 			VarParseData.Message = szResult;
 			mir_free(szResult);
@@ -312,7 +312,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 	int iMode = szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : 0;
 	int Flag1 = szProto ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : 0;
 	int iContactMode = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-	TCHAR szSetStr[256], szReadStr[256];
+	wchar_t szSetStr[256], szReadStr[256];
 	szSetStr[0] = szReadStr[0] = 0;
 	HICON hReadMsgIcon = NULL;
 
@@ -466,7 +466,7 @@ static int IconsChanged(WPARAM, LPARAM)
 
 struct
 {
-	TCHAR *Name;
+	wchar_t *Name;
 	char *Descr;
 	int Flags;
 }
@@ -501,7 +501,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	}
 	else if (!mir_tstrcmp(ai->targv[0], VAR_MYNICK)) {
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
-			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (TCHAR*)NULL);
+			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (wchar_t*)NULL);
 
 		if (Result == NULL)
 			Result = pcli->pfnGetContactDisplayName(NULL, 0);
@@ -562,7 +562,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		if (Result == NULL) // if we didn't find a message with specified title
 			return NULL; // return it now, as later we change NULL to ""
 	}
-	TCHAR *szResult = (TCHAR*)malloc((Result.GetLen() + 1) * sizeof(TCHAR));
+	wchar_t *szResult = (wchar_t*)malloc((Result.GetLen() + 1) * sizeof(wchar_t));
 	if (!szResult)
 		return NULL;
 
@@ -635,7 +635,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	mi.position = 1000020000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	mi.hIcolibItem = iconList[SendOnEvent ? 1 : 0].hIcolib;
-	mi.name.t = SendOnEvent ? DISABLE_SOE_COMMAND : ENABLE_SOE_COMMAND;
+	mi.name.w = SendOnEvent ? DISABLE_SOE_COMMAND : ENABLE_SOE_COMMAND;
 	mi.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
 	g_hToggleSOEMenuItem = Menu_AddMainMenuItem(&mi);
 
@@ -643,7 +643,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	SET_UID(mi, 0xd3282acc, 0x9ff1, 0x4ede, 0x8a, 0x1e, 0x36, 0x72, 0x3f, 0x44, 0x4f, 0x84);
 	mi.position = -2000005000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE | CMIF_HIDDEN;
-	mi.name.t = LPGENT("Read status message"); // never seen...
+	mi.name.w = LPGENW("Read status message"); // never seen...
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	g_hReadStatMenuItem = Menu_AddContactMenuItem(&mi);
 
@@ -651,7 +651,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		memset(&mi, 0, sizeof(mi));
 		SET_UID(mi, 0xc42a4fdb, 0x51b8, 0x4bbe, 0x83, 0xee, 0x2d, 0x32, 0x29, 0x5c, 0x2, 0xb3);
 		mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
-		mi.name.t = LPGENT("Set status message"); // will never be shown
+		mi.name.w = LPGENW("Set status message"); // will never be shown
 		mi.position = 1000020000;
 		mi.hIcolibItem = iconList[8].hIcolib;
 		mi.pszService = MS_AWAYSYS_SETCONTACTSTATMSG;
@@ -662,7 +662,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		mi.flags = CMIF_TCHAR;
 		mi.hIcolibItem = NULL;
 		mi.position = 1000020000;
-		mi.name.t = LPGENT("Autoreply");
+		mi.name.w = LPGENW("Autoreply");
 		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
 		UNSET_UID(mi);
 
@@ -671,17 +671,17 @@ int MirandaLoaded(WPARAM, LPARAM)
 		mi.position = 1000020000;
 
 		mi.hIcolibItem = iconList[1].hIcolib;
-		mi.name.t = LPGENT("On");
+		mi.name.w = LPGENW("On");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_ON;
 		g_hAutoreplyOnContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		mi.hIcolibItem = iconList[0].hIcolib;
-		mi.name.t = LPGENT("Off");
+		mi.name.w = LPGENW("Off");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_OFF;
 		g_hAutoreplyOffContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		mi.hIcolibItem = iconList[5].hIcolib;
-		mi.name.t = LPGENT("Use the default setting");
+		mi.name.w = LPGENW("Use the default setting");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_USEDEFAULT;
 		g_hAutoreplyUseDefaultContactMenuItem = Menu_AddContactMenuItem(&mi);
 	}

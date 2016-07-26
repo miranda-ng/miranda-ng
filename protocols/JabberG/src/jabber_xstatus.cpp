@@ -67,7 +67,7 @@ void CJabberDlgPepBase::OnInitDialog()
 
 	SetTimer(m_hwnd, 1, 1000, NULL);
 
-	TCHAR buf[128];
+	wchar_t buf[128];
 	mir_sntprintf(buf, TranslateT("OK (%d)"), m_time);
 	m_btnOk.SetText(buf);
 }
@@ -88,7 +88,7 @@ INT_PTR CJabberDlgPepBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_TIMER:
 		if (wParam == 1) {
-			TCHAR buf[128];
+			wchar_t buf[128];
 			mir_sntprintf(buf, TranslateT("OK (%d)"), --m_time);
 			m_btnOk.SetText(buf);
 
@@ -119,14 +119,14 @@ class CJabberDlgPepSimple: public CJabberDlgPepBase
 {
 	typedef CJabberDlgPepBase CSuper;
 public:
-	CJabberDlgPepSimple(CJabberProto *proto, TCHAR *title);
+	CJabberDlgPepSimple(CJabberProto *proto, wchar_t *title);
 	~CJabberDlgPepSimple();
 
 	bool OkClicked() { return m_bOkClicked; }
-	void AddStatusMode(LPARAM id, char *name, HICON hIcon, TCHAR *title, bool subitem = false);
-	void SetActiveStatus(LPARAM id, TCHAR *text);
+	void AddStatusMode(LPARAM id, char *name, HICON hIcon, wchar_t *title, bool subitem = false);
+	void SetActiveStatus(LPARAM id, wchar_t *text);
 	LPARAM GetStatusMode();
-	TCHAR *GetStatusText();
+	wchar_t *GetStatusText();
 
 protected:
 	CCtrlCombo m_cbModes;
@@ -151,30 +151,30 @@ private:
 		LPARAM m_id;
 		char *m_name;
 		HICON m_hIcon;
-		TCHAR *m_title;
+		wchar_t *m_title;
 		bool m_subitem;
 
-		CStatusMode(LPARAM id, char *name, HICON hIcon, TCHAR *title, bool subitem): m_id(id), m_name(name), m_hIcon(hIcon), m_title(title), m_subitem(subitem) {}
+		CStatusMode(LPARAM id, char *name, HICON hIcon, wchar_t *title, bool subitem): m_id(id), m_name(name), m_hIcon(hIcon), m_title(title), m_subitem(subitem) {}
 		~CStatusMode() { IcoLib_ReleaseIcon(m_hIcon); }
 	};
 
 	OBJLIST<CStatusMode> m_modes;
-	TCHAR *m_text;
-	TCHAR *m_title;
+	wchar_t *m_text;
+	wchar_t *m_title;
 	int m_time;
 	int m_prevSelected;
 	int m_selected;
 	bool m_bOkClicked;
 
 	LPARAM m_active;
-	TCHAR *m_activeText;
+	wchar_t *m_activeText;
 
 	void btnOk_OnClick(CCtrlButton *btn);
 	void global_OnChange(CCtrlData *);
 	void cbModes_OnChange(CCtrlData *);
 };
 
-CJabberDlgPepSimple::CJabberDlgPepSimple(CJabberProto *proto, TCHAR *title):
+CJabberDlgPepSimple::CJabberDlgPepSimple(CJabberProto *proto, wchar_t *title):
 	CJabberDlgPepBase(proto, IDD_PEP_SIMPLE),
 	m_cbModes(this, IDC_CB_MODES),
 	m_txtDescription(this, IDC_TXT_DESCRIPTION),
@@ -199,12 +199,12 @@ CJabberDlgPepSimple::~CJabberDlgPepSimple()
 	mir_free(m_text);
 }
 
-void CJabberDlgPepSimple::AddStatusMode(LPARAM id, char *name, HICON hIcon, TCHAR *title, bool subitem)
+void CJabberDlgPepSimple::AddStatusMode(LPARAM id, char *name, HICON hIcon, wchar_t *title, bool subitem)
 {
 	m_modes.insert(new CStatusMode(id, name, hIcon, title, subitem));
 }
 
-void CJabberDlgPepSimple::SetActiveStatus(LPARAM id, TCHAR *text)
+void CJabberDlgPepSimple::SetActiveStatus(LPARAM id, wchar_t *text)
 {
 	m_active = id;
 	m_activeText = text;
@@ -215,7 +215,7 @@ LPARAM CJabberDlgPepSimple::GetStatusMode()
 	return m_modes[m_selected].m_id;
 }
 
-TCHAR *CJabberDlgPepSimple::GetStatusText()
+wchar_t *CJabberDlgPepSimple::GetStatusText()
 {
 	return m_text;
 }
@@ -275,7 +275,7 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 	char szSetting[128];
 
 	if ((m_prevSelected >= 0) && (m_modes[m_cbModes.GetItemData(m_prevSelected)].m_id >= 0)) {
-		TCHAR *txt = m_txtDescription.GetText();
+		wchar_t *txt = m_txtDescription.GetText();
 		mir_snprintf(szSetting, "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
 		m_proto->setTString(szSetting, txt);
 		mir_free(txt);
@@ -337,7 +337,7 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 	}
 
 	if (!mode->m_subitem || (lpdis->itemState & ODS_COMBOBOXEDIT)) {
-		TCHAR text[128];
+		wchar_t text[128];
 		if (mode->m_subitem) {
 			for (int i = lpdis->itemData; i >= 0; --i)
 				if (!m_modes[i].m_subitem) {
@@ -351,7 +351,7 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		TextOut(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_tstrlen(text));
 	}
 	else {
-		TCHAR text[128];
+		wchar_t text[128];
 		mir_sntprintf(text, L"...%s", mode->m_title);
 		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
 		TextOut(lpdis->hDC, lpdis->rcItem.left + 44, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_tstrlen(text));
@@ -371,7 +371,7 @@ BOOL CJabberDlgPepSimple::OnWmGetMinMaxInfo(UINT, WPARAM, LPARAM lParam)
 ///////////////////////////////////////////////////////////////////////////////
 // CPepService base class
 
-CPepService::CPepService(CJabberProto *proto, char *name, TCHAR *node):
+CPepService::CPepService(CJabberProto *proto, char *name, wchar_t *node):
 	m_proto(proto),
 	m_name(name),
 	m_node(node),
@@ -398,8 +398,8 @@ void CPepService::Publish()
 
 void CPepService::Retract()
 {
-	TCHAR *tempName = mir_a2t(m_name);
-	_tcslwr(tempName);
+	wchar_t *tempName = mir_a2t(m_name);
+	wcslwr(tempName);
 
 	m_proto->m_ThreadInfo->send(
 		XmlNodeIq(L"set", m_proto->SerialNext())
@@ -425,7 +425,7 @@ void CPepService::ForceRepublishOnLogin()
 ///////////////////////////////////////////////////////////////////////////////
 // CPepGuiService base class
 
-CPepGuiService::CPepGuiService(CJabberProto *proto, char *name, TCHAR *node):
+CPepGuiService::CPepGuiService(CJabberProto *proto, char *name, wchar_t *node):
 	CPepService(proto, name, node),
 	m_bGuiOpen(false),
 	m_hIcolibItem(NULL),
@@ -471,7 +471,7 @@ void CPepGuiService::RebuildMenu()
 	mi.position = 200010;
 	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR | CMIF_HIDDEN;
 	mi.hIcolibItem = m_hIcolibItem;
-	mi.name.t = m_szText ? m_szText : LPGENT("<advanced status slot>");
+	mi.name.w = m_szText ? m_szText : LPGENW("<advanced status slot>");
 	m_hMenuItem = Menu_AddProtoMenuItem(&mi, m_proto->m_szModuleName);
 }
 
@@ -486,7 +486,7 @@ bool CPepGuiService::LaunchSetGui(BYTE bQuiet)
 	return true;
 }
 
-void CPepGuiService::UpdateMenuItem(HANDLE hIcolibIcon, TCHAR *text)
+void CPepGuiService::UpdateMenuItem(HANDLE hIcolibIcon, wchar_t *text)
 {
 	m_hIcolibItem = hIcolibIcon;
 	replaceStrT(m_szText, text);
@@ -506,96 +506,96 @@ int CPepGuiService::OnMenuItemClick(WPARAM, LPARAM)
 
 struct
 {
-	TCHAR	*szName;
+	wchar_t	*szName;
 	char* szTag;
 }
 static g_arrMoods[] =
 {
-	{ LPGENT("None"),         NULL            },
-	{ LPGENT("Afraid"),       "afraid"        },
-	{ LPGENT("Amazed"),       "amazed"        },
-	{ LPGENT("Amorous"),      "amorous"       },
-	{ LPGENT("Angry"),        "angry"         },
-	{ LPGENT("Annoyed"),      "annoyed"       },
-	{ LPGENT("Anxious"),      "anxious"       },
-	{ LPGENT("Aroused"),      "aroused"       },
-	{ LPGENT("Ashamed"),      "ashamed"       },
-	{ LPGENT("Bored"),        "bored"         },
-	{ LPGENT("Brave"),        "brave"         },
-	{ LPGENT("Calm"),         "calm"          },
-	{ LPGENT("Cautious"),     "cautious"      },
-	{ LPGENT("Cold"),         "cold"          },
-	{ LPGENT("Confident"),    "confident"     },
-	{ LPGENT("Confused"),     "confused"      },
-	{ LPGENT("Contemplative"),"contemplative" },
-	{ LPGENT("Contented"),    "contented"     },
-	{ LPGENT("Cranky"),       "cranky"        },
-	{ LPGENT("Crazy"),        "crazy"         },
-	{ LPGENT("Creative"),     "creative"      },
-	{ LPGENT("Curious"),      "curious"       },
-	{ LPGENT("Dejected"),     "dejected"      },
-	{ LPGENT("Depressed"),    "depressed"     },
-	{ LPGENT("Disappointed"), "disappointed"  },
-	{ LPGENT("Disgusted"),    "disgusted"     },
-	{ LPGENT("Dismayed"),     "dismayed"      },
-	{ LPGENT("Distracted"),   "distracted"    },
-	{ LPGENT("Embarrassed"),  "embarrassed"   },
-	{ LPGENT("Envious"),      "envious"       },
-	{ LPGENT("Excited"),      "excited"       },
-	{ LPGENT("Flirtatious"),  "flirtatious"   },
-	{ LPGENT("Frustrated"),   "frustrated"    },
-	{ LPGENT("Grateful"),     "grateful"      },
-	{ LPGENT("Grieving"),     "grieving"      },
-	{ LPGENT("Grumpy"),       "grumpy"        },
-	{ LPGENT("Guilty"),       "guilty"        },
-	{ LPGENT("Happy"),        "happy"         },
-	{ LPGENT("Hopeful"),      "hopeful"       },
-	{ LPGENT("Hot"),          "hot"           },
-	{ LPGENT("Humbled"),      "humbled"       },
-	{ LPGENT("Humiliated"),   "humiliated"    },
-	{ LPGENT("Hungry"),       "hungry"        },
-	{ LPGENT("Hurt"),         "hurt"          },
-	{ LPGENT("Impressed"),    "impressed"     },
-	{ LPGENT("In awe"),       "in_awe"        },
-	{ LPGENT("In love"),      "in_love"       },
-	{ LPGENT("Indignant"),    "indignant"     },
-	{ LPGENT("Interested"),   "interested"    },
-	{ LPGENT("Intoxicated"),  "intoxicated"   },
-	{ LPGENT("Invincible"),   "invincible"    },
-	{ LPGENT("Jealous"),      "jealous"       },
-	{ LPGENT("Lonely"),       "lonely"        },
-	{ LPGENT("Lost"),         "lost"          },
-	{ LPGENT("Lucky"),        "lucky"         },
-	{ LPGENT("Mean"),         "mean"          },
-	{ LPGENT("Moody"),        "moody"         },
-	{ LPGENT("Nervous"),      "nervous"       },
-	{ LPGENT("Neutral"),      "neutral"       },
-	{ LPGENT("Offended"),     "offended"      },
-	{ LPGENT("Outraged"),     "outraged"      },
-	{ LPGENT("Playful"),      "playful"       },
-	{ LPGENT("Proud"),        "proud"         },
-	{ LPGENT("Relaxed"),      "relaxed"       },
-	{ LPGENT("Relieved"),     "relieved"      },
-	{ LPGENT("Remorseful"),   "remorseful"    },
-	{ LPGENT("Restless"),     "restless"      },
-	{ LPGENT("Sad"),          "sad"           },
-	{ LPGENT("Sarcastic"),    "sarcastic"     },
-	{ LPGENT("Satisfied"),    "satisfied"     },
-	{ LPGENT("Serious"),      "serious"       },
-	{ LPGENT("Shocked"),      "shocked"       },
-	{ LPGENT("Shy"),          "shy"           },
-	{ LPGENT("Sick"),         "sick"          },
-	{ LPGENT("Sleepy"),       "sleepy"        },
-	{ LPGENT("Spontaneous"),  "spontaneous"   },
-	{ LPGENT("Stressed"),     "stressed"      },
-	{ LPGENT("Strong"),       "strong"        },
-	{ LPGENT("Surprised"),    "surprised"     },
-	{ LPGENT("Thankful"),     "thankful"      },
-	{ LPGENT("Thirsty"),      "thirsty"       },
-	{ LPGENT("Tired"),        "tired"         },
-	{ LPGENT("Undefined"),    "undefined"     },
-	{ LPGENT("Weak"),         "weak"          },
-	{ LPGENT("Worried"),      "worried"       },
+	{ LPGENW("None"),         NULL            },
+	{ LPGENW("Afraid"),       "afraid"        },
+	{ LPGENW("Amazed"),       "amazed"        },
+	{ LPGENW("Amorous"),      "amorous"       },
+	{ LPGENW("Angry"),        "angry"         },
+	{ LPGENW("Annoyed"),      "annoyed"       },
+	{ LPGENW("Anxious"),      "anxious"       },
+	{ LPGENW("Aroused"),      "aroused"       },
+	{ LPGENW("Ashamed"),      "ashamed"       },
+	{ LPGENW("Bored"),        "bored"         },
+	{ LPGENW("Brave"),        "brave"         },
+	{ LPGENW("Calm"),         "calm"          },
+	{ LPGENW("Cautious"),     "cautious"      },
+	{ LPGENW("Cold"),         "cold"          },
+	{ LPGENW("Confident"),    "confident"     },
+	{ LPGENW("Confused"),     "confused"      },
+	{ LPGENW("Contemplative"),"contemplative" },
+	{ LPGENW("Contented"),    "contented"     },
+	{ LPGENW("Cranky"),       "cranky"        },
+	{ LPGENW("Crazy"),        "crazy"         },
+	{ LPGENW("Creative"),     "creative"      },
+	{ LPGENW("Curious"),      "curious"       },
+	{ LPGENW("Dejected"),     "dejected"      },
+	{ LPGENW("Depressed"),    "depressed"     },
+	{ LPGENW("Disappointed"), "disappointed"  },
+	{ LPGENW("Disgusted"),    "disgusted"     },
+	{ LPGENW("Dismayed"),     "dismayed"      },
+	{ LPGENW("Distracted"),   "distracted"    },
+	{ LPGENW("Embarrassed"),  "embarrassed"   },
+	{ LPGENW("Envious"),      "envious"       },
+	{ LPGENW("Excited"),      "excited"       },
+	{ LPGENW("Flirtatious"),  "flirtatious"   },
+	{ LPGENW("Frustrated"),   "frustrated"    },
+	{ LPGENW("Grateful"),     "grateful"      },
+	{ LPGENW("Grieving"),     "grieving"      },
+	{ LPGENW("Grumpy"),       "grumpy"        },
+	{ LPGENW("Guilty"),       "guilty"        },
+	{ LPGENW("Happy"),        "happy"         },
+	{ LPGENW("Hopeful"),      "hopeful"       },
+	{ LPGENW("Hot"),          "hot"           },
+	{ LPGENW("Humbled"),      "humbled"       },
+	{ LPGENW("Humiliated"),   "humiliated"    },
+	{ LPGENW("Hungry"),       "hungry"        },
+	{ LPGENW("Hurt"),         "hurt"          },
+	{ LPGENW("Impressed"),    "impressed"     },
+	{ LPGENW("In awe"),       "in_awe"        },
+	{ LPGENW("In love"),      "in_love"       },
+	{ LPGENW("Indignant"),    "indignant"     },
+	{ LPGENW("Interested"),   "interested"    },
+	{ LPGENW("Intoxicated"),  "intoxicated"   },
+	{ LPGENW("Invincible"),   "invincible"    },
+	{ LPGENW("Jealous"),      "jealous"       },
+	{ LPGENW("Lonely"),       "lonely"        },
+	{ LPGENW("Lost"),         "lost"          },
+	{ LPGENW("Lucky"),        "lucky"         },
+	{ LPGENW("Mean"),         "mean"          },
+	{ LPGENW("Moody"),        "moody"         },
+	{ LPGENW("Nervous"),      "nervous"       },
+	{ LPGENW("Neutral"),      "neutral"       },
+	{ LPGENW("Offended"),     "offended"      },
+	{ LPGENW("Outraged"),     "outraged"      },
+	{ LPGENW("Playful"),      "playful"       },
+	{ LPGENW("Proud"),        "proud"         },
+	{ LPGENW("Relaxed"),      "relaxed"       },
+	{ LPGENW("Relieved"),     "relieved"      },
+	{ LPGENW("Remorseful"),   "remorseful"    },
+	{ LPGENW("Restless"),     "restless"      },
+	{ LPGENW("Sad"),          "sad"           },
+	{ LPGENW("Sarcastic"),    "sarcastic"     },
+	{ LPGENW("Satisfied"),    "satisfied"     },
+	{ LPGENW("Serious"),      "serious"       },
+	{ LPGENW("Shocked"),      "shocked"       },
+	{ LPGENW("Shy"),          "shy"           },
+	{ LPGENW("Sick"),         "sick"          },
+	{ LPGENW("Sleepy"),       "sleepy"        },
+	{ LPGENW("Spontaneous"),  "spontaneous"   },
+	{ LPGENW("Stressed"),     "stressed"      },
+	{ LPGENW("Strong"),       "strong"        },
+	{ LPGENW("Surprised"),    "surprised"     },
+	{ LPGENW("Thankful"),     "thankful"      },
+	{ LPGENW("Thirsty"),      "thirsty"       },
+	{ LPGENW("Tired"),        "tired"         },
+	{ LPGENW("Undefined"),    "undefined"     },
+	{ LPGENW("Weak"),         "weak"          },
+	{ LPGENW("Worried"),      "worried"       },
 };
 
 CPepMood::CPepMood(CJabberProto *proto) :
@@ -603,7 +603,7 @@ CPepMood::CPepMood(CJabberProto *proto) :
 	m_text(NULL),
 	m_mode(-1)
 {
-	UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set mood..."));
+	UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENW("Set mood..."));
 }
 
 CPepMood::~CPepMood()
@@ -611,7 +611,7 @@ CPepMood::~CPepMood()
 	mir_free(m_text);
 }
 
-void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
+void CPepMood::ProcessItems(const wchar_t *from, HXML itemsNode)
 {
 	MCONTACT hContact = NULL, hSelfContact = NULL;
 	if (!m_proto->IsMyOwnJID(from)) {
@@ -638,7 +638,7 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 			moodType = XmlGetName(n);
 	}
 
-	TCHAR *fixedText = JabberStrFixLines(moodText);
+	wchar_t *fixedText = JabberStrFixLines(moodText);
 	if (hSelfContact)
 		SetMood(hSelfContact, moodType, fixedText);
 	SetMood(hContact, moodType, fixedText);
@@ -668,7 +668,7 @@ void CPepMood::SetExtraIcon(MCONTACT hContact, char *szMood)
 	ExtraIcon_SetIcon(hExtraMood, hContact, szMood == NULL ? NULL : g_MoodIcons.GetIcolibHandle(szMood));
 }
 
-void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szText)
+void CPepMood::SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *szText)
 {
 	int mood = -1;
 	if (szMood) {
@@ -691,7 +691,7 @@ void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szTe
 		replaceStrT(m_text, szText);
 
 		HANDLE hIcon;
-		TCHAR title[128];
+		wchar_t title[128];
 		if (mood >= 0) {
 			mir_sntprintf(title, TranslateT("Mood: %s"), TranslateTS(g_arrMoods[mood].szName));
 			hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag);
@@ -745,7 +745,7 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 	}
 
 	HANDLE hIcon;
-	TCHAR *ptszTitle;
+	wchar_t *ptszTitle;
 	if (m_mode >= 0) {
 		Publish();
 		hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag); ptszTitle = TranslateTS(g_arrMoods[m_mode].szName);
@@ -769,89 +769,89 @@ struct
 {
 	char *szFirst;
 	char *szSecond;
-	TCHAR *szTitle;
+	wchar_t *szTitle;
 	int iconid;
 }
 static g_arrActivities[] =
 {
-	{ "doing_chores", NULL,       LPGENT("Doing chores"),       ACTIVITY_ICON(0,  0) },
-	{ NULL, "buying_groceries",   LPGENT("buying groceries"),   ACTIVITY_ICON(0,  1) },
-	{ NULL, "cleaning",           LPGENT("cleaning"),           ACTIVITY_ICON(0,  2) },
-	{ NULL, "cooking",            LPGENT("cooking"),            ACTIVITY_ICON(0,  3) },
-	{ NULL, "doing_maintenance",  LPGENT("doing maintenance"),  ACTIVITY_ICON(0,  4) },
-	{ NULL, "doing_the_dishes",   LPGENT("doing the dishes"),   ACTIVITY_ICON(0,  5) },
-	{ NULL, "doing_the_laundry",  LPGENT("doing the laundry"),  ACTIVITY_ICON(0,  6) },
-	{ NULL, "gardening",          LPGENT("gardening"),          ACTIVITY_ICON(0,  7) },
-	{ NULL, "running_an_errand",  LPGENT("running an errand"),  ACTIVITY_ICON(0,  8) },
-	{ NULL, "walking_the_dog",    LPGENT("walking the dog"),    ACTIVITY_ICON(0,  9) },
-	{ "drinking", NULL,           LPGENT("Drinking"),           ACTIVITY_ICON(1,  0) },
-	{ NULL, "having_a_beer",      LPGENT("having a beer"),      ACTIVITY_ICON(1,  1) },
-	{ NULL, "having_coffee",      LPGENT("having coffee"),      ACTIVITY_ICON(1,  2) },
-	{ NULL, "having_tea",         LPGENT("having tea"),         ACTIVITY_ICON(1,  3) },
-	{ "eating", NULL,             LPGENT("Eating"),             ACTIVITY_ICON(2,  0) },
-	{ NULL, "having_a_snack",     LPGENT("having a snack"),     ACTIVITY_ICON(2,  1) },
-	{ NULL, "having_breakfast",   LPGENT("having breakfast"),   ACTIVITY_ICON(2,  2) },
-	{ NULL, "having_dinner",      LPGENT("having dinner"),      ACTIVITY_ICON(2,  3) },
-	{ NULL, "having_lunch",       LPGENT("having lunch"),       ACTIVITY_ICON(2,  4) },
-	{ "exercising", NULL,         LPGENT("Exercising"),         ACTIVITY_ICON(3,  0) },
-	{ NULL, "cycling",            LPGENT("cycling"),            ACTIVITY_ICON(3,  1) },
-	{ NULL, "dancing",            LPGENT("dancing"),            ACTIVITY_ICON(3,  2) },
-	{ NULL, "hiking",             LPGENT("hiking"),             ACTIVITY_ICON(3,  3) },
-	{ NULL, "jogging",            LPGENT("jogging"),            ACTIVITY_ICON(3,  4) },
-	{ NULL, "playing_sports",     LPGENT("playing sports"),     ACTIVITY_ICON(3,  5) },
-	{ NULL, "running",            LPGENT("running"),            ACTIVITY_ICON(3,  6) },
-	{ NULL, "skiing",             LPGENT("skiing"),             ACTIVITY_ICON(3,  7) },
-	{ NULL, "swimming",           LPGENT("swimming"),           ACTIVITY_ICON(3,  8) },
-	{ NULL, "working_out",        LPGENT("working out"),        ACTIVITY_ICON(3,  9) },
-	{ "grooming", NULL,           LPGENT("Grooming"),           ACTIVITY_ICON(4,  0) },
-	{ NULL, "at_the_spa",         LPGENT("at the spa"),         ACTIVITY_ICON(4,  1) },
-	{ NULL, "brushing_teeth",     LPGENT("brushing teeth"),     ACTIVITY_ICON(4,  2) },
-	{ NULL, "getting_a_haircut",  LPGENT("getting a haircut"),  ACTIVITY_ICON(4,  3) },
-	{ NULL, "shaving",            LPGENT("shaving"),            ACTIVITY_ICON(4,  4) },
-	{ NULL, "taking_a_bath",      LPGENT("taking a bath"),      ACTIVITY_ICON(4,  5) },
-	{ NULL, "taking_a_shower",    LPGENT("taking a shower"),    ACTIVITY_ICON(4,  6) },
-	{ "having_appointment", NULL, LPGENT("Having appointment"), ACTIVITY_ICON(5,  0) },
-	{ "inactive", NULL,           LPGENT("Inactive"),           ACTIVITY_ICON(6,  0) },
-	{ NULL, "day_off",            LPGENT("day off"),            ACTIVITY_ICON(6,  1) },
-	{ NULL, "hanging_out",        LPGENT("hanging out"),        ACTIVITY_ICON(6,  2) },
-	{ NULL, "hiding",             LPGENT("hiding"),             ACTIVITY_ICON(6,  3) },
-	{ NULL, "on_vacation",        LPGENT("on vacation"),        ACTIVITY_ICON(6,  4) },
-	{ NULL, "praying",            LPGENT("praying"),            ACTIVITY_ICON(6,  5) },
-	{ NULL, "scheduled_holiday",  LPGENT("scheduled holiday"),  ACTIVITY_ICON(6,  6) },
-	{ NULL, "sleeping",           LPGENT("sleeping"),           ACTIVITY_ICON(6,  7) },
-	{ NULL, "thinking",           LPGENT("thinking"),           ACTIVITY_ICON(6,  8) },
-	{ "relaxing", NULL,           LPGENT("Relaxing"),           ACTIVITY_ICON(7,  0) },
-	{ NULL, "fishing",            LPGENT("fishing"),            ACTIVITY_ICON(7,  1) },
-	{ NULL, "gaming",             LPGENT("gaming"),             ACTIVITY_ICON(7,  2) },
-	{ NULL, "going_out",          LPGENT("going out"),          ACTIVITY_ICON(7,  3) },
-	{ NULL, "partying",           LPGENT("partying"),           ACTIVITY_ICON(7,  4) },
-	{ NULL, "reading",            LPGENT("reading"),            ACTIVITY_ICON(7,  5) },
-	{ NULL, "rehearsing",         LPGENT("rehearsing"),         ACTIVITY_ICON(7,  6) },
-	{ NULL, "shopping",           LPGENT("shopping"),           ACTIVITY_ICON(7,  7) },
-	{ NULL, "smoking",            LPGENT("smoking"),            ACTIVITY_ICON(7,  8) },
-	{ NULL, "socializing",        LPGENT("socializing"),        ACTIVITY_ICON(7,  9) },
-	{ NULL, "sunbathing",         LPGENT("sunbathing"),         ACTIVITY_ICON(7,  10) },
-	{ NULL, "watching_tv",        LPGENT("watching TV"),        ACTIVITY_ICON(7,  11) },
-	{ NULL, "watching_a_movie",   LPGENT("watching a movie"),   ACTIVITY_ICON(7,  12) },
-	{ "talking", NULL,            LPGENT("Talking"),            ACTIVITY_ICON(8,  0) },
-	{ NULL, "in_real_life",       LPGENT("in real life"),       ACTIVITY_ICON(8,  1) },
-	{ NULL, "on_the_phone",       LPGENT("on the phone"),       ACTIVITY_ICON(8,  2) },
-	{ NULL, "on_video_phone",     LPGENT("on video phone"),     ACTIVITY_ICON(8,  3) },
-	{ "traveling", NULL,          LPGENT("Traveling"),          ACTIVITY_ICON(9,  0) },
-	{ NULL, "commuting",          LPGENT("commuting"),          ACTIVITY_ICON(9,  1) },
-	{ NULL, "cycling",            LPGENT("cycling"),            ACTIVITY_ICON(9,  2) },
-	{ NULL, "driving",            LPGENT("driving"),            ACTIVITY_ICON(9,  3) },
-	{ NULL, "in_a_car",           LPGENT("in a car"),           ACTIVITY_ICON(9,  4) },
-	{ NULL, "on_a_bus",           LPGENT("on a bus"),           ACTIVITY_ICON(9,  5) },
-	{ NULL, "on_a_plane",         LPGENT("on a plane"),         ACTIVITY_ICON(9,  6) },
-	{ NULL, "on_a_train",         LPGENT("on a train"),         ACTIVITY_ICON(9,  7) },
-	{ NULL, "on_a_trip",          LPGENT("on a trip"),          ACTIVITY_ICON(9,  8) },
-	{ NULL, "walking",            LPGENT("walking"),            ACTIVITY_ICON(9,  9) },
-	{ "working", NULL,            LPGENT("Working"),            ACTIVITY_ICON(10,  0) },
-	{ NULL, "coding",             LPGENT("coding"),             ACTIVITY_ICON(10,  1) },
-	{ NULL, "in_a_meeting",       LPGENT("in a meeting"),       ACTIVITY_ICON(10,  2) },
-	{ NULL, "studying",           LPGENT("studying"),           ACTIVITY_ICON(10,  3) },
-	{ NULL, "writing",            LPGENT("writing"),            ACTIVITY_ICON(10,  4) },
+	{ "doing_chores", NULL,       LPGENW("Doing chores"),       ACTIVITY_ICON(0,  0) },
+	{ NULL, "buying_groceries",   LPGENW("buying groceries"),   ACTIVITY_ICON(0,  1) },
+	{ NULL, "cleaning",           LPGENW("cleaning"),           ACTIVITY_ICON(0,  2) },
+	{ NULL, "cooking",            LPGENW("cooking"),            ACTIVITY_ICON(0,  3) },
+	{ NULL, "doing_maintenance",  LPGENW("doing maintenance"),  ACTIVITY_ICON(0,  4) },
+	{ NULL, "doing_the_dishes",   LPGENW("doing the dishes"),   ACTIVITY_ICON(0,  5) },
+	{ NULL, "doing_the_laundry",  LPGENW("doing the laundry"),  ACTIVITY_ICON(0,  6) },
+	{ NULL, "gardening",          LPGENW("gardening"),          ACTIVITY_ICON(0,  7) },
+	{ NULL, "running_an_errand",  LPGENW("running an errand"),  ACTIVITY_ICON(0,  8) },
+	{ NULL, "walking_the_dog",    LPGENW("walking the dog"),    ACTIVITY_ICON(0,  9) },
+	{ "drinking", NULL,           LPGENW("Drinking"),           ACTIVITY_ICON(1,  0) },
+	{ NULL, "having_a_beer",      LPGENW("having a beer"),      ACTIVITY_ICON(1,  1) },
+	{ NULL, "having_coffee",      LPGENW("having coffee"),      ACTIVITY_ICON(1,  2) },
+	{ NULL, "having_tea",         LPGENW("having tea"),         ACTIVITY_ICON(1,  3) },
+	{ "eating", NULL,             LPGENW("Eating"),             ACTIVITY_ICON(2,  0) },
+	{ NULL, "having_a_snack",     LPGENW("having a snack"),     ACTIVITY_ICON(2,  1) },
+	{ NULL, "having_breakfast",   LPGENW("having breakfast"),   ACTIVITY_ICON(2,  2) },
+	{ NULL, "having_dinner",      LPGENW("having dinner"),      ACTIVITY_ICON(2,  3) },
+	{ NULL, "having_lunch",       LPGENW("having lunch"),       ACTIVITY_ICON(2,  4) },
+	{ "exercising", NULL,         LPGENW("Exercising"),         ACTIVITY_ICON(3,  0) },
+	{ NULL, "cycling",            LPGENW("cycling"),            ACTIVITY_ICON(3,  1) },
+	{ NULL, "dancing",            LPGENW("dancing"),            ACTIVITY_ICON(3,  2) },
+	{ NULL, "hiking",             LPGENW("hiking"),             ACTIVITY_ICON(3,  3) },
+	{ NULL, "jogging",            LPGENW("jogging"),            ACTIVITY_ICON(3,  4) },
+	{ NULL, "playing_sports",     LPGENW("playing sports"),     ACTIVITY_ICON(3,  5) },
+	{ NULL, "running",            LPGENW("running"),            ACTIVITY_ICON(3,  6) },
+	{ NULL, "skiing",             LPGENW("skiing"),             ACTIVITY_ICON(3,  7) },
+	{ NULL, "swimming",           LPGENW("swimming"),           ACTIVITY_ICON(3,  8) },
+	{ NULL, "working_out",        LPGENW("working out"),        ACTIVITY_ICON(3,  9) },
+	{ "grooming", NULL,           LPGENW("Grooming"),           ACTIVITY_ICON(4,  0) },
+	{ NULL, "at_the_spa",         LPGENW("at the spa"),         ACTIVITY_ICON(4,  1) },
+	{ NULL, "brushing_teeth",     LPGENW("brushing teeth"),     ACTIVITY_ICON(4,  2) },
+	{ NULL, "getting_a_haircut",  LPGENW("getting a haircut"),  ACTIVITY_ICON(4,  3) },
+	{ NULL, "shaving",            LPGENW("shaving"),            ACTIVITY_ICON(4,  4) },
+	{ NULL, "taking_a_bath",      LPGENW("taking a bath"),      ACTIVITY_ICON(4,  5) },
+	{ NULL, "taking_a_shower",    LPGENW("taking a shower"),    ACTIVITY_ICON(4,  6) },
+	{ "having_appointment", NULL, LPGENW("Having appointment"), ACTIVITY_ICON(5,  0) },
+	{ "inactive", NULL,           LPGENW("Inactive"),           ACTIVITY_ICON(6,  0) },
+	{ NULL, "day_off",            LPGENW("day off"),            ACTIVITY_ICON(6,  1) },
+	{ NULL, "hanging_out",        LPGENW("hanging out"),        ACTIVITY_ICON(6,  2) },
+	{ NULL, "hiding",             LPGENW("hiding"),             ACTIVITY_ICON(6,  3) },
+	{ NULL, "on_vacation",        LPGENW("on vacation"),        ACTIVITY_ICON(6,  4) },
+	{ NULL, "praying",            LPGENW("praying"),            ACTIVITY_ICON(6,  5) },
+	{ NULL, "scheduled_holiday",  LPGENW("scheduled holiday"),  ACTIVITY_ICON(6,  6) },
+	{ NULL, "sleeping",           LPGENW("sleeping"),           ACTIVITY_ICON(6,  7) },
+	{ NULL, "thinking",           LPGENW("thinking"),           ACTIVITY_ICON(6,  8) },
+	{ "relaxing", NULL,           LPGENW("Relaxing"),           ACTIVITY_ICON(7,  0) },
+	{ NULL, "fishing",            LPGENW("fishing"),            ACTIVITY_ICON(7,  1) },
+	{ NULL, "gaming",             LPGENW("gaming"),             ACTIVITY_ICON(7,  2) },
+	{ NULL, "going_out",          LPGENW("going out"),          ACTIVITY_ICON(7,  3) },
+	{ NULL, "partying",           LPGENW("partying"),           ACTIVITY_ICON(7,  4) },
+	{ NULL, "reading",            LPGENW("reading"),            ACTIVITY_ICON(7,  5) },
+	{ NULL, "rehearsing",         LPGENW("rehearsing"),         ACTIVITY_ICON(7,  6) },
+	{ NULL, "shopping",           LPGENW("shopping"),           ACTIVITY_ICON(7,  7) },
+	{ NULL, "smoking",            LPGENW("smoking"),            ACTIVITY_ICON(7,  8) },
+	{ NULL, "socializing",        LPGENW("socializing"),        ACTIVITY_ICON(7,  9) },
+	{ NULL, "sunbathing",         LPGENW("sunbathing"),         ACTIVITY_ICON(7,  10) },
+	{ NULL, "watching_tv",        LPGENW("watching TV"),        ACTIVITY_ICON(7,  11) },
+	{ NULL, "watching_a_movie",   LPGENW("watching a movie"),   ACTIVITY_ICON(7,  12) },
+	{ "talking", NULL,            LPGENW("Talking"),            ACTIVITY_ICON(8,  0) },
+	{ NULL, "in_real_life",       LPGENW("in real life"),       ACTIVITY_ICON(8,  1) },
+	{ NULL, "on_the_phone",       LPGENW("on the phone"),       ACTIVITY_ICON(8,  2) },
+	{ NULL, "on_video_phone",     LPGENW("on video phone"),     ACTIVITY_ICON(8,  3) },
+	{ "traveling", NULL,          LPGENW("Traveling"),          ACTIVITY_ICON(9,  0) },
+	{ NULL, "commuting",          LPGENW("commuting"),          ACTIVITY_ICON(9,  1) },
+	{ NULL, "cycling",            LPGENW("cycling"),            ACTIVITY_ICON(9,  2) },
+	{ NULL, "driving",            LPGENW("driving"),            ACTIVITY_ICON(9,  3) },
+	{ NULL, "in_a_car",           LPGENW("in a car"),           ACTIVITY_ICON(9,  4) },
+	{ NULL, "on_a_bus",           LPGENW("on a bus"),           ACTIVITY_ICON(9,  5) },
+	{ NULL, "on_a_plane",         LPGENW("on a plane"),         ACTIVITY_ICON(9,  6) },
+	{ NULL, "on_a_train",         LPGENW("on a train"),         ACTIVITY_ICON(9,  7) },
+	{ NULL, "on_a_trip",          LPGENW("on a trip"),          ACTIVITY_ICON(9,  8) },
+	{ NULL, "walking",            LPGENW("walking"),            ACTIVITY_ICON(9,  9) },
+	{ "working", NULL,            LPGENW("Working"),            ACTIVITY_ICON(10,  0) },
+	{ NULL, "coding",             LPGENW("coding"),             ACTIVITY_ICON(10,  1) },
+	{ NULL, "in_a_meeting",       LPGENW("in a meeting"),       ACTIVITY_ICON(10,  2) },
+	{ NULL, "studying",           LPGENW("studying"),           ACTIVITY_ICON(10,  3) },
+	{ NULL, "writing",            LPGENW("writing"),            ACTIVITY_ICON(10,  4) },
 	{ NULL, NULL, NULL } // the end, don't delete this
 };
 
@@ -945,7 +945,7 @@ char *ActivityGetSecond(int id)
 	return (id >= 0) ? g_arrActivities[id].szSecond : NULL;
 }
 
-TCHAR *ActivityGetFirstTitle(int id)
+wchar_t *ActivityGetFirstTitle(int id)
 {
 	if (id >= _countof(g_arrActivities) - 1)
 		return NULL;
@@ -959,15 +959,15 @@ TCHAR *ActivityGetFirstTitle(int id)
 	return NULL;
 }
 
-TCHAR *ActivityGetSecondTitle(int id)
+wchar_t *ActivityGetSecondTitle(int id)
 {
 	return ((id >= 0) && g_arrActivities[id].szSecond) ? g_arrActivities[id].szTitle : NULL;
 }
 
-void ActivityBuildTitle(int id, TCHAR *buf, int size)
+void ActivityBuildTitle(int id, wchar_t *buf, int size)
 {
-	TCHAR *szFirst = ActivityGetFirstTitle(id);
-	TCHAR *szSecond = ActivityGetSecondTitle(id);
+	wchar_t *szFirst = ActivityGetFirstTitle(id);
+	wchar_t *szSecond = ActivityGetSecondTitle(id);
 
 	if (szFirst) {
 		if (szSecond)
@@ -983,7 +983,7 @@ CPepActivity::CPepActivity(CJabberProto *proto):
 	m_text(NULL),
 	m_mode(-1)
 {
-	UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set activity..."));
+	UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENW("Set activity..."));
 }
 
 CPepActivity::~CPepActivity()
@@ -991,7 +991,7 @@ CPepActivity::~CPepActivity()
 	mir_free(m_text);
 }
 
-void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
+void CPepActivity::ProcessItems(const wchar_t *from, HXML itemsNode)
 {
 	MCONTACT hContact = NULL, hSelfContact = NULL;
 	if (!m_proto->IsMyOwnJID(from)) {
@@ -1025,7 +1025,7 @@ void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 		}
 	}
 
-	TCHAR *fixedText = JabberStrFixLines(szText);
+	wchar_t *fixedText = JabberStrFixLines(szText);
 	if (hSelfContact)
 		SetActivity(hSelfContact, szFirstNode, szSecondNode, fixedText);
 	SetActivity(hContact, szFirstNode, szSecondNode, fixedText);
@@ -1071,7 +1071,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 			return;
 	}
 
-	TCHAR activityTitle[128];
+	wchar_t activityTitle[128];
 	ActivityBuildTitle(activity, activityTitle, _countof(activityTitle));
 
 	if (!hContact) {
@@ -1079,7 +1079,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 		replaceStrT(m_text, szText);
 
 		HANDLE hIcon;
-		TCHAR title[128];
+		wchar_t title[128];
 
 		if (activity >= 0) {
 			mir_sntprintf(title, TranslateT("Activity: %s"), activityTitle);
@@ -1097,7 +1097,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 	else SetExtraIcon(hContact, activity < 0 ? NULL : returnActivity(activity));
 
 	if (activity >= 0) {
-		TCHAR *p = mir_a2t(ActivityGetId(activity));
+		wchar_t *p = mir_a2t(ActivityGetId(activity));
 		m_proto->WriteAdvStatus(hContact, ADVSTATUS_ACTIVITY, p, g_ActivityIcons.GetIcolibName(returnActivity(activity)), activityTitle, szText);
 		mir_free(p);
 	}
@@ -1127,7 +1127,7 @@ void CPepActivity::ShowSetDialog(BYTE)
 	}
 	else {
 		Retract();
-		UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENT("Set activity..."));
+		UpdateMenuItem(Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), LPGENW("Set activity..."));
 		if (m_proto->m_pInfoFrame)
 			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", Skin_GetIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set activity..."));
 	}
@@ -1169,7 +1169,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusIcon(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // SendPepMood - sends mood
 
-BOOL CJabberProto::SendPepTune(TCHAR* szArtist, TCHAR* szLength, TCHAR* szSource, TCHAR* szTitle, TCHAR* szTrack, TCHAR* szUri)
+BOOL CJabberProto::SendPepTune(wchar_t* szArtist, wchar_t* szLength, wchar_t* szSource, wchar_t* szTitle, wchar_t* szTrack, wchar_t* szUri)
 {
 	if (!m_bJabberOnline || !m_bPepSupported)
 		return FALSE;
@@ -1200,21 +1200,21 @@ void CJabberProto::SetContactTune(MCONTACT hContact, LPCTSTR szArtist, LPCTSTR s
 		return;
 	}
 
-	TCHAR *szListeningTo;
+	wchar_t *szListeningTo;
 	if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT)) {
 		LISTENINGTOINFO li;
 		memset(&li, 0, sizeof(li));
 		li.cbSize = sizeof(li);
 		li.dwFlags = LTI_TCHAR;
-		li.ptszArtist = (TCHAR*)szArtist;
-		li.ptszLength = (TCHAR*)szLength;
-		li.ptszAlbum = (TCHAR*)szSource;
-		li.ptszTitle = (TCHAR*)szTitle;
-		li.ptszTrack = (TCHAR*)szTrack;
-		szListeningTo = (TCHAR*)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&li);
+		li.ptszArtist = (wchar_t*)szArtist;
+		li.ptszLength = (wchar_t*)szLength;
+		li.ptszAlbum = (wchar_t*)szSource;
+		li.ptszTitle = (wchar_t*)szTitle;
+		li.ptszTrack = (wchar_t*)szTrack;
+		szListeningTo = (wchar_t*)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&li);
 	}
 	else {
-		szListeningTo = (TCHAR*)mir_alloc(2048 * sizeof(TCHAR));
+		szListeningTo = (wchar_t*)mir_alloc(2048 * sizeof(wchar_t));
 		mir_sntprintf(szListeningTo, 2047, L"%s - %s", szTitle ? szTitle : L"", szArtist ? szArtist : L"");
 	}
 
@@ -1227,7 +1227,7 @@ void CJabberProto::SetContactTune(MCONTACT hContact, LPCTSTR szArtist, LPCTSTR s
 	mir_free(szListeningTo);
 }
 
-TCHAR* a2tf(const TCHAR *str, BOOL unicode)
+wchar_t* a2tf(const wchar_t *str, BOOL unicode)
 {
 	if (str == NULL)
 		return NULL;
@@ -1235,7 +1235,7 @@ TCHAR* a2tf(const TCHAR *str, BOOL unicode)
 	return (unicode) ? mir_tstrdup(str) : mir_a2t((char*)str);
 }
 
-void overrideStr(TCHAR*& dest, const TCHAR *src, BOOL unicode, const TCHAR *def = NULL)
+void overrideStr(wchar_t*& dest, const wchar_t *src, BOOL unicode, const wchar_t *def = NULL)
 {
 	if (dest != NULL) {
 		mir_free(dest);
@@ -1256,8 +1256,8 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 		delSetting("ListeningTo");
 	}
 	else {
-		TCHAR *szArtist = NULL, *szLength = NULL, *szSource = NULL;
-		TCHAR *szTitle = NULL, *szTrack = NULL;
+		wchar_t *szArtist = NULL, *szLength = NULL, *szSource = NULL;
+		wchar_t *szTitle = NULL, *szTrack = NULL;
 
 		BOOL unicode = cm->dwFlags & LTI_UNICODE;
 
@@ -1267,20 +1267,20 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 		overrideStr(szTrack, cm->ptszTrack, unicode);
 		overrideStr(szLength, cm->ptszLength, unicode);
 
-		TCHAR szLengthInSec[ 32 ];
+		wchar_t szLengthInSec[ 32 ];
 		szLengthInSec[ 0 ] = 0;
 		if (szLength) {
 			unsigned int multiplier = 1, result = 0;
-			for (TCHAR *p = szLength; *p; p++)
-				if (*p == _T(':'))
+			for (wchar_t *p = szLength; *p; p++)
+				if (*p == ':')
 					multiplier *= 60;
 
 			if (multiplier <= 3600) {
-				TCHAR *szTmp = szLength;
+				wchar_t *szTmp = szLength;
 				while (szTmp[0]) {
-					result += (_ttoi(szTmp) * multiplier);
+					result += (_wtoi(szTmp) * multiplier);
 					multiplier /= 60;
-					szTmp = _tcschr(szTmp, _T(':'));
+					szTmp = wcschr(szTmp, ':');
 					if (!szTmp)
 						break;
 					szTmp++;
@@ -1367,7 +1367,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 			if (pData->flags & CSSF_UNICODE) {
 				ptrT title(ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
 				if (title)
-					_tcsncpy_s(pData->ptszName, STATUS_TITLE_MAX, title, _TRUNCATE);
+					wcsncpy_s(pData->ptszName, STATUS_TITLE_MAX, title, _TRUNCATE);
 			}
 			else {
 				ptrA title(ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
@@ -1383,7 +1383,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 		if (pData->flags & CSSF_UNICODE) {
 			ptrT title(ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
 			if (title)
-				_tcsncpy_s(pData->ptszMessage, STATUS_TITLE_MAX, title, _TRUNCATE);
+				wcsncpy_s(pData->ptszMessage, STATUS_TITLE_MAX, title, _TRUNCATE);
 		}
 		else {
 			ptrA title(ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
@@ -1463,7 +1463,7 @@ void CJabberProto::ResetAdvStatus(MCONTACT hContact, const char *pszSlot)
 	db_unset(hContact, "AdvStatus", szSetting);
 }
 
-void CJabberProto::WriteAdvStatus(MCONTACT hContact, const char *pszSlot, const TCHAR *pszMode, const char *pszIcon, const TCHAR *pszTitle, const TCHAR *pszText)
+void CJabberProto::WriteAdvStatus(MCONTACT hContact, const char *pszSlot, const wchar_t *pszMode, const char *pszIcon, const wchar_t *pszTitle, const wchar_t *pszText)
 {
 	char szSetting[128];
 
@@ -1490,7 +1490,7 @@ char* CJabberProto::ReadAdvStatusA(MCONTACT hContact, const char *pszSlot, const
 	return db_get_sa(hContact, "AdvStatus", szSetting);
 }
 
-TCHAR* CJabberProto::ReadAdvStatusT(MCONTACT hContact, const char *pszSlot, const char *pszValue)
+wchar_t* CJabberProto::ReadAdvStatusT(MCONTACT hContact, const char *pszSlot, const char *pszValue)
 {
 	char szSetting[128];
 	mir_snprintf(szSetting, "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
@@ -1502,18 +1502,18 @@ TCHAR* CJabberProto::ReadAdvStatusT(MCONTACT hContact, const char *pszSlot, cons
 
 void g_XstatusIconsInit()
 {
-	TCHAR szFile[MAX_PATH];
+	wchar_t szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, _countof(szFile));
-	if (TCHAR *p = _tcsrchr(szFile, '\\'))
+	if (wchar_t *p = wcsrchr(szFile, '\\'))
 		mir_tstrcpy(p + 1, L"..\\Icons\\xstatus_jabber.dll");
 
-	TCHAR szSection[100];
-	mir_tstrcpy(szSection, L"Protocols/Jabber/" LPGENT("Moods"));
+	wchar_t szSection[100];
+	mir_tstrcpy(szSection, L"Protocols/Jabber/" LPGENW("Moods"));
 
 	for (int i = 1; i < _countof(g_arrMoods); i++)
 		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(200 + i), szSection, TranslateTS(g_arrMoods[i].szName));
 
-	mir_tstrcpy(szSection, L"Protocols/Jabber/" LPGENT("Activities"));
+	mir_tstrcpy(szSection, L"Protocols/Jabber/" LPGENW("Activities"));
 	for (int k = 0; k < _countof(g_arrActivities); k++) {
 		if (g_arrActivities[k].szFirst)
 			g_ActivityIcons.RegisterIcon(g_arrActivities[k].szFirst, szFile, g_arrActivities[k].iconid, szSection, TranslateTS(g_arrActivities[k].szTitle));

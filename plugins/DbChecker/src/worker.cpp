@@ -41,9 +41,9 @@ static void Finalize(time_t& ts)
 	}
 
 	if (opts.bBackup) {
-		TCHAR dbPath[MAX_PATH], dbFile[MAX_PATH];
+		wchar_t dbPath[MAX_PATH], dbFile[MAX_PATH];
 		mir_tstrcpy(dbPath, opts.filename);
-		TCHAR* str2 = _tcsrchr(dbPath, '\\');
+		wchar_t* str2 = wcsrchr(dbPath, '\\');
 		if (str2 != NULL) {
 			mir_tstrcpy(dbFile, str2 + 1);
 			*str2 = 0;
@@ -57,7 +57,7 @@ static void Finalize(time_t& ts)
 				mir_sntprintf(opts.backupFilename, TranslateT("%s\\Backup of %s"), dbPath, dbFile);
 			else
 				mir_sntprintf(opts.backupFilename, TranslateT("%s\\Backup (%d) of %s"), dbPath, i, dbFile);
-			if (_taccess(opts.backupFilename, 0) == -1) break;
+			if (_waccess(opts.backupFilename, 0) == -1) break;
 		}
 
 		if (!MoveFile(opts.filename, opts.backupFilename))
@@ -87,7 +87,7 @@ void __cdecl WorkerThread(void *)
 	}
 	else {
 		mir_tstrcpy(opts.outputFilename, opts.filename);
-		*_tcsrchr(opts.outputFilename, '.') = 0;
+		*wcsrchr(opts.outputFilename, '.') = 0;
 		mir_tstrcat(opts.outputFilename, TranslateT(" (Output).dat"));
 		opts.hOutFile = CreateFile(opts.outputFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 		if (opts.hOutFile == INVALID_HANDLE_VALUE) {

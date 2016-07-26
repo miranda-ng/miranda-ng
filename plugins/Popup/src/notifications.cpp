@@ -87,7 +87,7 @@ void UnloadTreeData()
 	gTreeData.destroy();
 }
 
-void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
+void SaveNotificationSettings(POPUPTREEDATA *ptd, char *szModul)
 {
 	if (ptd->typ == 1) {
 		char setting[2 * MAXMODULELABELLENGTH];
@@ -137,7 +137,6 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 {
 	if (ptd->typ == 1) {
 		char setting[2 * MAXMODULELABELLENGTH];
-		char *szTmp = NULL;
 
 		mir_snprintf(setting, "{%s/%s}enabled", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->enabled =
@@ -157,7 +156,7 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 			db_get_b(NULL, szModul, setting, 0);
 
 		mir_snprintf(setting, "{%s/%s}leftAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
-		szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzLAction);
+		char *szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzLAction);
 		mir_strncpy(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
 		mir_free(szTmp); szTmp = NULL;
 
@@ -186,7 +185,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 
 	FontID fontid = { 0 };
 	fontid.cbSize = sizeof(fontid);
-	mir_snprintf(fontid.group, PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
+	mir_snprintf(fontid.group, PU_FNT_AND_COLOR "/%s", notification->lpzGroup);
 	mir_strcpy(fontid.dbSettingsGroup, "PopupNotifications");
 	fontid.flags = FIDF_DEFAULTVALID;
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
@@ -297,7 +296,7 @@ bool PerformAction(HANDLE hNotification, HWND hwnd, UINT message, WPARAM wparam,
 	}
 
 	for (int i = 0; i < ptd->notification.actionCount; ++i) {
-		if (!(ptd->notification.lpActions[i].dwFlags&PNAF_CALLBACK))
+		if (!(ptd->notification.lpActions[i].dwFlags & PNAF_CALLBACK))
 			continue;
 		if (mir_strcmp(ptd->notification.lpActions[i].lpzTitle, lpzAction))
 			continue;

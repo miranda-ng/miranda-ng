@@ -50,7 +50,7 @@ struct SendJob
 	MCONTACT hContact;
 	HWND     hOwnerWnd;
 	unsigned iStatus;
-	TCHAR    szErrorMsg[128];
+	wchar_t    szErrorMsg[128];
 	DWORD    dwFlags;
 	int      iAcksNeeded;
 	HANDLE   hEventSplit;
@@ -91,7 +91,7 @@ public:
 	int    sendQueued(TWindowData *dat, const int iEntry);
 	size_t getSendLength(const int iEntry);
 	void   checkQueue(const TWindowData *dat) const;
-	void   logError(const TWindowData *dat, int iSendJobIndex, const TCHAR *szErrMsg) const;
+	void   logError(const TWindowData *dat, int iSendJobIndex, const wchar_t *szErrMsg) const;
 	void   recallFailed(const TWindowData *dat, int iEntry) const;
 	void   showErrorControls(TWindowData *dat, const int showCmd) const;
 	int    ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam);

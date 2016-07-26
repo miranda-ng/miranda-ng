@@ -187,19 +187,19 @@ struct MYOPTIONS
 	WORD pUnit;
 	WORD dUnit;
 	WORD eUnit;
-	TCHAR DegreeSign[4];
+	wchar_t DegreeSign[4];
 	BYTE DoNotAppendUnit;
 	BYTE NoFrac;
 
 	// texts
-	TCHAR *cText;
-	TCHAR *bTitle;
-	TCHAR *bText;
-	TCHAR *nText;
-	TCHAR *eText;
-	TCHAR *hText;
-	TCHAR *xText;
-	TCHAR *sText;
+	wchar_t *cText;
+	wchar_t *bTitle;
+	wchar_t *bText;
+	wchar_t *nText;
+	wchar_t *eText;
+	wchar_t *hText;
+	wchar_t *xText;
+	wchar_t *sText;
 
 	// advanced
 	BYTE DisCondIcon;
@@ -224,11 +224,11 @@ struct MYOPTIONS
 	DWORD pDelay;
 
 	// popup texts
-	TCHAR *pTitle;
-	TCHAR *pText;
+	wchar_t *pTitle;
+	wchar_t *pText;
 
 	// other misc stuff
-	TCHAR Default[64];
+	wchar_t Default[64];
 	MCONTACT DefStn;
 };
 
@@ -253,12 +253,12 @@ void DestroyUpdateList(void);
 #define WID_BREAK	2
 
 typedef struct {
-	TCHAR *Name;
-	TCHAR *Start;
-	TCHAR *End;
-	TCHAR *Unit;
+	wchar_t *Name;
+	wchar_t *Start;
+	wchar_t *End;
+	wchar_t *Unit;
 	char  *Url;
-	TCHAR *Break;
+	wchar_t *Break;
 	int Type;
 } WIDATAITEM;
 
@@ -272,27 +272,27 @@ typedef struct WITEMLIST WIDATAITEMLIST;
 typedef struct {
 	BOOL Available;
 	char *SearchURL;
-	TCHAR *NotFoundStr;
+	wchar_t *NotFoundStr;
 	WIDATAITEM Name;
 } WIIDSEARCH;
 
 typedef struct {
 	BOOL Available;
-	TCHAR *First;
+	wchar_t *First;
 	WIDATAITEM Name;
 	WIDATAITEM ID;
 } WINAMESEARCHTYPE;
 
 typedef struct {
 	char *SearchURL;
-	TCHAR *NotFoundStr;
-	TCHAR *SingleStr;
+	wchar_t *NotFoundStr;
+	wchar_t *SingleStr;
 	WINAMESEARCHTYPE Single;
 	WINAMESEARCHTYPE Multiple;
 } WINAMESEARCH;
 
 struct STRLIST {
-	TCHAR *Item;
+	wchar_t *Item;
 	struct STRLIST *Next;
 };
 
@@ -304,22 +304,22 @@ typedef struct {
 } WICONDLIST;
 
 typedef struct {
-	TCHAR *FileName;
-	TCHAR *ShortFileName;
+	wchar_t *FileName;
+	wchar_t *ShortFileName;
 	BOOL Enabled;
 
 	// header
-	TCHAR *DisplayName;
-	TCHAR *InternalName;
-	TCHAR *Description;
-	TCHAR *Author;
-	TCHAR *Version;
+	wchar_t *DisplayName;
+	wchar_t *InternalName;
+	wchar_t *Description;
+	wchar_t *Author;
+	wchar_t *Version;
 	int InternalVer;
 	size_t MemUsed;
 
 	// default
 	char  *DefaultURL;
-	TCHAR *DefaultMap;
+	wchar_t *DefaultMap;
 	char  *UpdateURL;
 	char  *UpdateURL2;
 	char  *UpdateURL3;
@@ -371,8 +371,8 @@ extern BOOL ThreadRunning;
 INT_PTR WeatherAddToList(WPARAM wParam,LPARAM lParam);
 BOOL CheckSearch();
 
-int IDSearch(TCHAR *id, const int searchId);
-int NameSearch(TCHAR *name, const int searchId);
+int IDSearch(wchar_t *id, const int searchId);
+int NameSearch(wchar_t *name, const int searchId);
 
 INT_PTR WeatherBasicSearch(WPARAM wParam,LPARAM lParam);
 INT_PTR WeatherCreateAdvancedSearchUI(WPARAM wParam, LPARAM lParam);
@@ -391,36 +391,36 @@ int ContactDeleted(WPARAM wParam,LPARAM lParam);
 BOOL IsMyContact(MCONTACT hContact);
 
 // functions in weather_conv.c
-void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
-void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
-void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
-void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
-void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
+void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
+void GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
+void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
+void GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
+void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
 
-WORD GetIcon(const TCHAR* cond, WIDATA *Data);
-void CaseConv(TCHAR *str);
+WORD GetIcon(const wchar_t* cond, WIDATA *Data);
+void CaseConv(wchar_t *str);
 void TrimString(char *str);
 void TrimString(WCHAR *str);
 void ConvertBackslashes(char *str);
 char *GetSearchStr(char *dis);
 
-TCHAR *GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str);
+wchar_t *GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str);
 INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam);
 
-void GetSvc(TCHAR *pszID);
-void GetID(TCHAR *pszID);
+void GetSvc(wchar_t *pszID);
+void GetID(wchar_t *pszID);
 
-TCHAR *GetError(int code);
+wchar_t *GetError(int code);
 
 // functions in weather_data.c
-void GetStationID(MCONTACT hContact, TCHAR* id, int idlen);
+void GetStationID(MCONTACT hContact, wchar_t* id, int idlen);
 WEATHERINFO LoadWeatherInfo(MCONTACT Change);
 int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv);
 
 void EraseAllInfo(void);
 
-void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szInfo);
-void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data);
+void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szInfo);
+void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data);
 void wSetData(char **Data, const char *Value);
 void wSetData(WCHAR **Data, const char *Value);
 void wSetData(WCHAR **Data, const WCHAR *Value);
@@ -430,14 +430,14 @@ void wfree(WCHAR **Data);
 void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_http.c
-int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR** szData);
+int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, wchar_t** szData);
 void NetlibInit();
 void NetlibHttpDisconnect(void);
 
 // functions in weather_ini.c
-WIDATA* GetWIData(TCHAR *pszServ);
+WIDATA* GetWIData(wchar_t *pszServ);
 
-bool IsContainedInCondList(const TCHAR *pszStr, WICONDLIST *List);
+bool IsContainedInCondList(const wchar_t *pszStr, WICONDLIST *List);
 
 void DestroyWIList();
 bool LoadWIData(bool dial);
@@ -445,7 +445,7 @@ bool LoadWIData(bool dial);
 INT_PTR CALLBACK DlgPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_info.c
-void GetINIInfo(TCHAR *pszSvc);
+void GetINIInfo(wchar_t *pszSvc);
 
 void MoreVarList();
 
@@ -460,7 +460,7 @@ int OptInit(WPARAM wParam,LPARAM lParam);
 // functions in weather_popup.c
 int WeatherPopup(WPARAM wParam, LPARAM lParam);
 int WeatherError(WPARAM wParam, LPARAM lParam);
-int WPShowMessage(TCHAR* lpzText, WORD kind);
+int WPShowMessage(wchar_t* lpzText, WORD kind);
 
 LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

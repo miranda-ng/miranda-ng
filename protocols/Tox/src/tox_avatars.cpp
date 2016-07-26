@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-TCHAR* CToxProto::GetAvatarFilePath(MCONTACT hContact)
+wchar_t* CToxProto::GetAvatarFilePath(MCONTACT hContact)
 {
-	TCHAR *path = (TCHAR*)mir_calloc(MAX_PATH * sizeof(TCHAR) + 1);
+	wchar_t *path = (wchar_t*)mir_calloc(MAX_PATH * sizeof(wchar_t) + 1);
 	mir_sntprintf(path, MAX_PATH, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(path);
@@ -22,9 +22,9 @@ TCHAR* CToxProto::GetAvatarFilePath(MCONTACT hContact)
 	return path;
 }
 
-void CToxProto::SetToxAvatar(const TCHAR* path)
+void CToxProto::SetToxAvatar(const wchar_t* path)
 {
-	FILE *hFile = _tfopen(path, L"rb");
+	FILE *hFile = _wfopen(path, L"rb");
 	if (!hFile)
 	{
 		debugLogA(__FUNCTION__": failed to open avatar file");
@@ -96,7 +96,7 @@ void CToxProto::SetToxAvatar(const TCHAR* path)
 			transfer->pfts.flags |= PFTS_SENDING;
 			memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
 			transfer->pfts.hContact = hContact;
-			transfer->hFile = _tfopen(path, L"rb");
+			transfer->hFile = _wfopen(path, L"rb");
 			transfers.Add(transfer);
 		}
 	}
@@ -150,7 +150,7 @@ INT_PTR CToxProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	ptrT path(GetAvatarFilePath());
 	if (IsFileExists(path))
-		mir_tstrncpy((TCHAR*)wParam, path, (int)lParam);
+		mir_tstrncpy((wchar_t*)wParam, path, (int)lParam);
 
 	return 0;
 }
@@ -158,7 +158,7 @@ INT_PTR CToxProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
 	debugLogA(__FUNCTION__": setting avatar");
-	TCHAR *path = (TCHAR*)lParam;
+	wchar_t *path = (wchar_t*)lParam;
 	ptrT avatarPath(GetAvatarFilePath());
 	if (path != NULL)
 	{
@@ -230,7 +230,7 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 		db_free(&dbv);
 	}
 
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	mir_sntprintf(path, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 	OnFileAllow(transfer->pfts.hContact, transfer, path);
 }

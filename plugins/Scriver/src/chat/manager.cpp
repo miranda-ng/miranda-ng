@@ -34,13 +34,13 @@ HWND SM_FindWindowByContact(MCONTACT hContact)
 	return NULL;
 }
 
-SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent)
+SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent)
 {
 	SESSION_INFO* pResult = NULL;
 	if (prevSession == NULL && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
 		pResult = currSession;
 	else {
-		TCHAR* pszName = NULL;
+		wchar_t* pszName = NULL;
 		SESSION_INFO* pTemp = pci->wndList;
 		if (currSession == prevSession)
 			pszCurrent = pszOriginal;

@@ -48,7 +48,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				// All protos have the same nick?
 				if (protocols->GetSize() > 0) {
-					TCHAR *nick = protocols->Get(0)->nickname;
+					wchar_t *nick = protocols->Get(0)->nickname;
 
 					bool foundDefNick = true;
 					for (int i = 1; foundDefNick && i < protocols->GetSize(); i++) {
@@ -69,7 +69,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 			else {
 				Protocol *proto = protocols->Get(proto_num);
 
-				TCHAR tmp[128];
+				wchar_t tmp[128];
 				mir_sntprintf(tmp, TranslateT("Set my nickname for %s"), proto->description);
 
 				SetWindowText(hwndDlg, tmp);
@@ -92,7 +92,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 		switch (wParam) {
 		case IDOK:
 			{
-				TCHAR tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
+				wchar_t tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
 				GetDlgItemText(hwndDlg, IDC_NICKNAME, tmp, _countof(tmp));
 
 				LONG_PTR proto_num = GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -168,7 +168,7 @@ INT_PTR PluginCommand_SetMyNickname(WPARAM wParam, LPARAM lParam)
 				if (!protocols->Get(i)->CanSetNick())
 					return -2;
 
-				protocols->Get(i)->SetNick((TCHAR *)lParam);
+				protocols->Get(i)->SetNick((wchar_t *)lParam);
 				return 0;
 			}
 		}
@@ -176,13 +176,13 @@ INT_PTR PluginCommand_SetMyNickname(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 
-	protocols->SetNicks((TCHAR *)lParam);
+	protocols->SetNicks((wchar_t *)lParam);
 	return 0;
 }
 
 INT_PTR PluginCommand_GetMyNickname(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *ret = (TCHAR *)lParam;
+	wchar_t *ret = (wchar_t *)lParam;
 	if (ret == NULL)
 		return -1;
 
@@ -242,7 +242,7 @@ INT_PTR PluginCommand_SetMyAvatar(WPARAM wParam, LPARAM lParam)
 				if (!protocols->Get(i)->CanSetAvatar())
 					return -2;
 
-				protocols->Get(i)->SetAvatar((TCHAR *)lParam);
+				protocols->Get(i)->SetAvatar((wchar_t *)lParam);
 				return 0;
 			}
 		}
@@ -250,13 +250,13 @@ INT_PTR PluginCommand_SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 
-	protocols->SetAvatars((TCHAR *)lParam);
+	protocols->SetAvatars((wchar_t *)lParam);
 	return 0;
 }
 
 INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *ret = (TCHAR *)lParam;
+	wchar_t *ret = (wchar_t *)lParam;
 	char *proto = (char *)wParam;
 
 	if (ret == NULL)
@@ -332,7 +332,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 					DestroyIcon(hIcon);
 				}
 
-				TCHAR title[256];
+				wchar_t title[256];
 				mir_sntprintf(title, TranslateT("Set my status message for %s"), proto->description);
 				SetWindowText(hwndDlg, title);
 
@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 			else if (data->status != 0) {
 				Window_SetProtoIcon_IcoLib(hwndDlg, NULL, data->status);
 
-				TCHAR title[256];
+				wchar_t title[256];
 				mir_sntprintf(title, TranslateT("Set my status message for %s"), pcli->pfnGetStatusModeDescription(data->status, 0));
 				SetWindowText(hwndDlg, title);
 
@@ -359,7 +359,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 		switch (wParam) {
 		case IDOK:
 			{
-				TCHAR tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
+				wchar_t tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
 				GetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, tmp, _countof(tmp));
 
 				SetStatusMessageData *data = (SetStatusMessageData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);

@@ -59,8 +59,8 @@ MIR_CORE_DLL(void) CmdLine_Parse(LPTSTR ptszCmdLine)
 		}
 		else continue;  // skip a text that isn't an option
 
-		TCHAR *pOptionName = p+1;
-		if ((p = _tcspbrk(pOptionName, L" \t=:")) == NULL) { // no more text in string
+		wchar_t *pOptionName = p+1;
+		if ((p = wcspbrk(pOptionName, L" \t=:")) == NULL) { // no more text in string
 			arParams.insert(new CmdLineParam(pOptionName, L""));
 			break;
 		}
@@ -74,14 +74,14 @@ MIR_CORE_DLL(void) CmdLine_Parse(LPTSTR ptszCmdLine)
 		// parameter with value
 		*p = 0;
 		arParams.insert(new CmdLineParam(pOptionName, ++p));
-		if ((p = _tcspbrk(p, L" \t")) == NULL) // no more text in string
+		if ((p = wcspbrk(p, L" \t")) == NULL) // no more text in string
 			break;
 
 		p--; // the cycle will wipe this space automatically
 	}
 }
 
-MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(const TCHAR* ptszParameter)
+MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(const wchar_t* ptszParameter)
 {
 	CmdLineParam tmp(ptszParameter, 0);
 	int idx = arParams.getIndex(&tmp);

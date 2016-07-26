@@ -79,7 +79,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 				// status msg, if needed
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_MAINOPT_STATMSG))) { // meaning we should save it
-					TCHAR tszMsg[1025];
+					wchar_t tszMsg[1025];
 					GetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, tszMsg, _countof(tszMsg));
 					if (tszMsg[0] != 0)
 						db_set_ts(NULL, MOD_NAME, "statmsg", tszMsg);
@@ -115,7 +115,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		BYTE bSelection = (BYTE)SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_GETCURSEL, 0, 0);
 		WORD wMode = STATUS_ARR_TO_ID[bSelection];
 		if (IsDlgButtonChecked(hwndDlg, IDC_MAINOPT_USEDEFMSG) == BST_CHECKED) {
-			TCHAR *ptszDefMsg = GetDefStatusMsg(wMode, 0);
+			wchar_t *ptszDefMsg = GetDefStatusMsg(wMode, 0);
 			SetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, ptszDefMsg);
 			if (ptszDefMsg)
 				mir_free(ptszDefMsg);
@@ -221,8 +221,8 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			g_fOptionsOpen = true;
 
 			minutes = db_get_b(NULL, MOD_NAME, "time", 10);
-			TCHAR szMinutes[4] = { 0 };
-			_itot(minutes, szMinutes, 10);
+			wchar_t szMinutes[4] = { 0 };
+			_itow(minutes, szMinutes, 10);
 			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_TIME, EM_LIMITTEXT, 2, 0);
 			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_SPIN_TIME, UDM_SETRANGE32, 1, (LPARAM)99);
 			SetDlgItemText(hwndDlg, IDC_MAINOPT_TIME, szMinutes);
@@ -257,9 +257,9 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			else if (g_hMenuItem != 0)
 				BossKeyMenuItemUnInit();
 
-			TCHAR szMinutes[4] = { 0 };
+			wchar_t szMinutes[4] = { 0 };
 			GetDlgItemText(hwndDlg, IDC_MAINOPT_TIME, szMinutes, _countof(szMinutes));
-			minutes = _ttoi(szMinutes);
+			minutes = _wtoi(szMinutes);
 			if (minutes < 1) minutes = 1;
 			db_set_b(NULL, MOD_NAME, "time", minutes);
 			db_set_w(NULL, MOD_NAME, "optsmaskadv", wMaskAdv);
@@ -323,15 +323,15 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	optDi.pfnDlgProc = MainOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGMAIN);
 	optDi.hInstance = g_hInstance;
-	optDi.ptszTitle = LPGENT("BossKey");
-	optDi.ptszGroup = LPGENT("Events");
-	optDi.ptszTab = LPGENT("Main");
+	optDi.pwszTitle = LPGENW("BossKey");
+	optDi.pwszGroup = LPGENW("Events");
+	optDi.pwszTab = LPGENW("Main");
 	optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = AdvOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGADV);
-	optDi.ptszTab = LPGENT("Advanced");
+	optDi.pwszTab = LPGENW("Advanced");
 	Options_AddPage(wParam, &optDi);
 	return 0;
 }

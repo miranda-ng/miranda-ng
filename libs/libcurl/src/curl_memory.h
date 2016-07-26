@@ -119,11 +119,11 @@ extern curl_wcsdup_callback Curl_cwcsdup;
 #    define wcsdup(ptr) Curl_cwcsdup(ptr)
 #    undef _wcsdup
 #    define _wcsdup(ptr) Curl_cwcsdup(ptr)
-#    undef _tcsdup
-#    define _tcsdup(ptr) Curl_cwcsdup(ptr)
+#    undef wcsdup
+#    define wcsdup(ptr) Curl_cwcsdup(ptr)
 #  else
-#    undef _tcsdup
-#    define _tcsdup(ptr) Curl_cstrdup(ptr)
+#    undef wcsdup
+#    define wcsdup(ptr) Curl_cstrdup(ptr)
 #  endif
 #endif
 

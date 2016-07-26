@@ -35,13 +35,13 @@ Boston, MA 02111-1307, USA.
 
 typedef struct {
 	UINT id, uintCoreIconId, uintResIconId;
-	TCHAR *swzTooltip;
+	wchar_t *swzTooltip;
 } OPTBUTTON;
 
 typedef enum { DIT_ALL = 0, DIT_CONTACTS = 1, DIT_CHATS = 2 } DisplayItemType;
 typedef struct {
-	TCHAR swzLabel[LABEL_LEN];
-	TCHAR swzValue[VALUE_LEN];
+	wchar_t swzLabel[LABEL_LEN];
+	wchar_t swzValue[VALUE_LEN];
 	DisplayItemType type;
 	bool bLineAbove, bValueNewline;
 	bool bIsVisible;
@@ -51,16 +51,16 @@ typedef struct {
 // display item types
 static struct {
 	DisplayItemType type;
-	TCHAR *title;
+	wchar_t *title;
 } displayItemTypes[] = {
-	{ DIT_ALL, LPGENT("Show for all contact types") },
-	{ DIT_CONTACTS, LPGENT("Show only for contacts") },
-	{ DIT_CHATS, LPGENT("Show only for chatrooms") }
+	{ DIT_ALL, LPGENW("Show for all contact types") },
+	{ DIT_CONTACTS, LPGENW("Show only for contacts") },
+	{ DIT_CHATS, LPGENW("Show only for chatrooms") }
 };
 
 typedef enum { DVT_DB = 0, DVT_PROTODB = 1 } DisplaySubstType;
 typedef struct {
-	TCHAR swzName[LABEL_LEN];
+	wchar_t swzName[LABEL_LEN];
 	DisplaySubstType type;
 	char szModuleName[MODULE_NAME_LEN];
 	char szSettingName[SETTING_NAME_LEN];
@@ -85,28 +85,28 @@ typedef struct {
 } MARGINS;
 
 // tray tooltip items
-static TCHAR *trayTipItems[TRAYTIP_ITEMS_COUNT] = {
-	LPGENT("Number of contacts"),
-	LPGENT("Protocol lock status"),
-	LPGENT("Logon time"),
-	LPGENT("Unread emails"),
-	LPGENT("Status"),
-	LPGENT("Status message"),
-	LPGENT("Extra status"),
-	LPGENT("Listening to"),
-	LPGENT("Favorite contacts"),
-	LPGENT("Miranda uptime"),
-	LPGENT("Contact list event")
+static wchar_t *trayTipItems[TRAYTIP_ITEMS_COUNT] = {
+	LPGENW("Number of contacts"),
+	LPGENW("Protocol lock status"),
+	LPGENW("Logon time"),
+	LPGENW("Unread emails"),
+	LPGENW("Status"),
+	LPGENW("Status message"),
+	LPGENW("Extra status"),
+	LPGENW("Listening to"),
+	LPGENW("Favorite contacts"),
+	LPGENW("Miranda uptime"),
+	LPGENW("Contact list event")
 };
 
 // extra icons
-static TCHAR *extraIconName[6] = {
-	LPGENT("Status"),
-	LPGENT("Extra status"),
-	LPGENT("Jabber activity"),
-	LPGENT("Gender"),
-	LPGENT("Country flag"),
-	LPGENT("Client")
+static wchar_t *extraIconName[6] = {
+	LPGENW("Status"),
+	LPGENW("Extra status"),
+	LPGENW("Jabber activity"),
+	LPGENW("Gender"),
+	LPGENW("Country flag"),
+	LPGENW("Client")
 };
 
 typedef struct {
@@ -148,9 +148,9 @@ typedef struct {
 	
 	// tooltip skin
 	SkinMode skinMode;
-	TCHAR szSkinName[256];
-	TCHAR szPreviewFile[1024];
-	TCHAR *szImgFile[SKIN_ITEMS_COUNT];
+	wchar_t szSkinName[256];
+	wchar_t szPreviewFile[1024];
+	wchar_t *szImgFile[SKIN_ITEMS_COUNT];
 	MARGINS margins[SKIN_ITEMS_COUNT];
 	TransformationMode transfMode[SKIN_ITEMS_COUNT];
 	PopupShowEffect showEffect;

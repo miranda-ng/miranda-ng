@@ -84,9 +84,9 @@ static int OnInitOptions(WPARAM wparam, LPARAM)
 	odp.position = 955000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = MODULENAME;
+	odp.pwszTitle = MODULENAME;
 	odp.pfnDlgProc = CSOptionsProc;
-	odp.pszGroup = LPGEN("Status");
+	odp.pwszGroup = L"Status";
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wparam, &odp);
 	return 0;
@@ -124,20 +124,20 @@ extern "C" __declspec(dllexport) int Load()
 	InitCommonControlsEx(&icc);
 
 	// init icons
-	TCHAR tszFile[MAX_PATH];
+	wchar_t tszFile[MAX_PATH];
 	GetModuleFileName(g_hInst, tszFile, MAX_PATH);
 
 	SKINICONDESC sid = { 0 };
-	sid.defaultFile.t = tszFile;
+	sid.defaultFile.w = tszFile;
 	sid.flags = SIDF_ALL_TCHAR;
-	sid.section.t = _T(MODULENAME);
+	sid.section.w = MODULENAME;
 
 	for (int i = 0; i < _countof(forms); i++) {
 		char szSettingName[64];
 		mir_snprintf(szSettingName, "%s_%s", MODNAME, forms[i].pszIconIcoLib);
 
 		sid.pszName = szSettingName;
-		sid.description.t = forms[i].ptszDescr;
+		sid.description.w = forms[i].ptszDescr;
 		sid.iDefaultIndex = -forms[i].iconNoIcoLib;
 		forms[i].hIcoLibItem = IcoLib_AddIcon(&sid);
 	}
@@ -161,13 +161,13 @@ extern "C" __declspec(dllexport) int Unload()
 
 // ====[ FUN ]================================================================
 
-void RegisterHotkeys(char buf[200], TCHAR* accName, int Number)
+void RegisterHotkeys(char buf[200], wchar_t* accName, int Number)
 {
 	HOTKEYDESC hotkey = { sizeof(hotkey) };
 	hotkey.dwFlags = HKD_TCHAR;
 	hotkey.pszName = buf;
 	hotkey.ptszDescription = accName;
-	hotkey.ptszSection = LPGENT("Custom Status List");
+	hotkey.ptszSection = LPGENW("Custom Status List");
 	hotkey.pszService = buf;
 	hotkey.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, '0' + Number);
 	Hotkey_Register(&hotkey);
@@ -240,7 +240,7 @@ void addProtoStatusMenuItem(char *protoName)
 	CMenuItem mi;
 	mi.flags =  CMIF_TCHAR;
 	mi.hIcolibItem = forms[0].hIcoLibItem;
-	mi.name.t = _T(MODULENAME);
+	mi.name.w = MODULENAME;
 	mi.position = 2000040000;
 	mi.pszService = buf;
 	mi.root = hRoot;
@@ -388,15 +388,15 @@ void CSWindow::toggleEmptyListMessage()
 
 BOOL CSWindow::itemPassedFilter(ListItem< StatusItem >* li)
 {
-	TCHAR filter[MAX_PATH];
+	wchar_t filter[MAX_PATH];
 	GetDlgItemText(m_handle, IDC_FILTER_FIELD, filter, _countof(filter));
 
 	if (mir_tstrlen(filter))
 	{
-		TCHAR title[EXTRASTATUS_TITLE_LIMIT], message[EXTRASTATUS_MESSAGE_LIMIT];
+		wchar_t title[EXTRASTATUS_TITLE_LIMIT], message[EXTRASTATUS_MESSAGE_LIMIT];
 		mir_tstrcpy(title, li->m_item->m_tszTitle); mir_tstrcpy(message, li->m_item->m_tszMessage);
-		if (strpos(_tcslwr(title), _tcslwr(filter)) == -1)
-			if (strpos(_tcslwr(message), _tcslwr(filter)) == -1)
+		if (strpos(wcslwr(title), wcslwr(filter)) == -1)
+			if (strpos(wcslwr(message), wcslwr(filter)) == -1)
 				return FALSE;
 	}
 
@@ -415,7 +415,7 @@ void CSWindow::toggleFilter()
 		SetFocus(hFilter);
 	else
 	{
-		TCHAR filterText[255];
+		wchar_t filterText[255];
 		GetDlgItemText(m_handle, IDC_FILTER_FIELD, filterText, _countof(filterText));
 		if (filterText[0] != 0)
 			SetDlgItemText(m_handle, IDC_FILTER_FIELD, TEXT(""));
@@ -484,7 +484,7 @@ void CSAMWindow::setCombo()
 	db_free(&dbv);
 
 	WPARAM iStatus;
-	TCHAR tszName[100];
+	wchar_t tszName[100];
 	CUSTOM_STATUS cs = { sizeof(cs) };
 	cs.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
 	cs.ptszName = tszName;
@@ -528,13 +528,13 @@ void CSAMWindow::checkFieldLimit(WORD action, WORD item)
 
 	if (action == EN_CHANGE)
 	{
-		TCHAR* ptszInputText = (TCHAR*)mir_alloc((limit + 8) * sizeof(TCHAR));
+		wchar_t* ptszInputText = (wchar_t*)mir_alloc((limit + 8) * sizeof(wchar_t));
 
 		GetDlgItemText(m_handle, item, ptszInputText, limit + 8);
 
 		if (mir_tstrlen(ptszInputText) > limit)
 		{
-			TCHAR tszPopupTip[MAX_PATH];
+			wchar_t tszPopupTip[MAX_PATH];
 			EDITBALLOONTIP ebt = { 0 };
 			ebt.cbStruct = sizeof(ebt);
 			ebt.pszTitle = TranslateT("Warning");
@@ -543,7 +543,7 @@ void CSAMWindow::checkFieldLimit(WORD action, WORD item)
 			ebt.ttiIcon = TTI_WARNING;
 			SendDlgItemMessage(m_handle, item, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
 
-			TCHAR* ptszOutputText = (TCHAR*)mir_alloc((limit + 1) * sizeof(TCHAR));
+			wchar_t* ptszOutputText = (wchar_t*)mir_alloc((limit + 1) * sizeof(wchar_t));
 			GetDlgItemText(m_handle, item, ptszOutputText, limit + 1);
 			SetDlgItemText(m_handle, item, ptszOutputText);
 			mir_free(ptszOutputText);
@@ -562,7 +562,7 @@ void CSAMWindow::checkItemValidity()
 	if (m_item->m_iIcon != cbi.iImage)
 		m_item->m_iIcon = cbi.iImage, m_bChanged = TRUE;
 
-	TCHAR tszInputMessage[EXTRASTATUS_MESSAGE_LIMIT];
+	wchar_t tszInputMessage[EXTRASTATUS_MESSAGE_LIMIT];
 
 	GetDlgItemText(m_handle, IDC_MESSAGE, tszInputMessage, _countof(tszInputMessage));
 
@@ -571,7 +571,7 @@ void CSAMWindow::checkItemValidity()
 		return;
 
 	WPARAM i = SendMessage(m_hCombo, CB_GETCURSEL, 0, 0) + 1;
-	TCHAR tszTitle[100];
+	wchar_t tszTitle[100];
 
 	CUSTOM_STATUS cs = { sizeof(cs) };
 	cs.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
@@ -827,7 +827,7 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 		csw->toggleButtons();
 		csw->toggleEmptyListMessage();
 		csw->loadWindowPosition();
-		SetWindowText(hwnd, TranslateT(MODULENAME));
+		SetWindowText(hwnd, MODULENAME);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -852,7 +852,7 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 
 		case IDC_REMOVE:
 			if (getByte("ConfirmDeletion", DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION))
-				if (MessageBox(hwnd, TranslateT("Do you really want to delete selected item?"), TranslateT(MODULENAME), MB_YESNO | MB_DEFBUTTON2 | MB_ICONQUESTION) == IDNO)
+				if (MessageBox(hwnd, TranslateT("Do you really want to delete selected item?"), TranslateTS(MODULENAME), MB_YESNO | MB_DEFBUTTON2 | MB_ICONQUESTION) == IDNO)
 					break;
 
 			csw->m_itemslist->m_list->remove(csw->m_listview->getPositionInList());
@@ -893,7 +893,7 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 			else {
 				result = MessageBox(hwnd,
 					TranslateT("Do you want old database entries to be deleted after Import?"),
-					TranslateT(MODULENAME), MB_YESNOCANCEL | MB_DEFBUTTON2 | MB_ICONQUESTION);
+					TranslateTS(MODULENAME), MB_YESNOCANCEL | MB_DEFBUTTON2 | MB_ICONQUESTION);
 				if (result == IDCANCEL)
 					break;
 			}

@@ -23,30 +23,30 @@ Options *Options::instance;
 struct TCpTable
 {
 	UINT cpId;
-	TCHAR *cpName;
+	wchar_t *cpName;
 }
 cpTable[] = {
-	{ CP_ACP, LPGENT("Use default codepage") },
-	{ CP_UTF8, LPGENT("UTF-8") },
-	{ 874, LPGENT("Thai") },
-	{ 932, LPGENT("Japanese") },
-	{ 936, LPGENT("Simplified Chinese") },
-	{ 949, LPGENT("Korean") },
-	{ 950, LPGENT("Traditional Chinese") },
-	{ 1250, LPGENT("Central European") },
-	{ 1251, LPGENT("Cyrillic") },
-	{ 20866, LPGENT("Cyrillic KOI8-R") },
-	{ 1252, LPGENT("Latin I") },
-	{ 1253, LPGENT("Greek") },
-	{ 1254, LPGENT("Turkish") },
-	{ 1255, LPGENT("Hebrew") },
-	{ 1256, LPGENT("Arabic") },
-	{ 1257, LPGENT("Baltic") },
-	{ 1258, LPGENT("Vietnamese") },
-	{ 1361, LPGENT("Korean (Johab)") },
-	{ CP_UTF7, LPGENT("UTF-7") },
-	{ 1200, LPGENT("UTF-16") },
-	{ 1201, LPGENT("UTF-16BE") }
+	{ CP_ACP, LPGENW("Use default codepage") },
+	{ CP_UTF8, LPGENW("UTF-8") },
+	{ 874, LPGENW("Thai") },
+	{ 932, LPGENW("Japanese") },
+	{ 936, LPGENW("Simplified Chinese") },
+	{ 949, LPGENW("Korean") },
+	{ 950, LPGENW("Traditional Chinese") },
+	{ 1250, LPGENW("Central European") },
+	{ 1251, LPGENW("Cyrillic") },
+	{ 20866, LPGENW("Cyrillic KOI8-R") },
+	{ 1252, LPGENW("Latin I") },
+	{ 1253, LPGENW("Greek") },
+	{ 1254, LPGENW("Turkish") },
+	{ 1255, LPGENW("Hebrew") },
+	{ 1256, LPGENW("Arabic") },
+	{ 1257, LPGENW("Baltic") },
+	{ 1258, LPGENW("Vietnamese") },
+	{ 1361, LPGENW("Korean (Johab)") },
+	{ CP_UTF7, LPGENW("UTF-7") },
+	{ 1200, LPGENW("UTF-16") },
+	{ 1201, LPGENW("UTF-16BE") }
 };
 
 Options::Options()
@@ -209,7 +209,7 @@ void GetPagesSettings(HWND hwndDlg, OptsPagesData* optsPagesData)
 			optsPagesData->webOptions[selected]->pastebinUserKey = L"";
 		}
 		else {
-			TCHAR buf[100];
+			wchar_t buf[100];
 			Edit_GetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY), buf, 100);
 			optsPagesData->webOptions[selected]->pastebinUserKey = buf;
 		}
@@ -584,7 +584,7 @@ INT_PTR CALLBACK Options::DlgProcOptsLogin(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			if (HIWORD(wParam) == BN_CLICKED) {
 				if (LOWORD(wParam) == IDOK) {
-					TCHAR buf[100];
+					wchar_t buf[100];
 					OptsLoginData* optsLoginData = (OptsLoginData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					Edit_GetText(GetDlgItem(hwndDlg, IDC_PASTEBIN_USER), buf, 100);
 					optsLoginData->user = buf;
@@ -611,10 +611,10 @@ unsigned int Options::GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int 
 {
 	int selCpIdx = ComboBox_GetCurSel(hwndCB);
 	if (selCpIdx < 0) {
-		TCHAR text[128];
+		wchar_t text[128];
 		ComboBox_GetText(hwndCB, text, 128);
-		TCHAR * stopOn = NULL;
-		long cp = _tcstol(text, &stopOn, 10);
+		wchar_t * stopOn = NULL;
+		long cp = wcstol(text, &stopOn, 10);
 		if (errorReport && (stopOn == text || *stopOn != '\0' || cp < 0 || cp > 0xffff)) {
 			MessageBox(GetParent(hwndCB), TranslateT("You've entered invalid codepage. Select codepage from combo box or enter correct number."), TranslateT("Invalid codepage"), MB_OK | MB_ICONERROR);
 			SetFocus(hwndCB);
@@ -645,7 +645,7 @@ void Options::InitCodepageCB(HWND hwndCB, unsigned int codepage)
 	}
 
 	if (selCpIdx == -1) {
-		TCHAR buf[10];
+		wchar_t buf[10];
 		mir_sntprintf(buf, L"%d", codepage);
 		ComboBox_SetText(hwndCB, buf);
 	}
@@ -666,7 +666,7 @@ void Options::SetCodepageCB(HWND hwndCB, unsigned int codepage)
 	}
 
 	if (selCpIdx == -1) {
-		TCHAR buf[10];
+		wchar_t buf[10];
 		mir_sntprintf(buf, L"%d", codepage);
 		ComboBox_SetText(hwndCB, buf);
 	}
@@ -681,15 +681,15 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszTitle = LPGENT("Paste It");
-	odp.ptszGroup = LPGENT("Services");
+	odp.pwszTitle = LPGENW("Paste It");
+	odp.pwszGroup = LPGENW("Services");
 
-	odp.ptszTab = LPGENT("Main");
+	odp.pwszTab = LPGENW("Main");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
 	odp.pfnDlgProc = Options::DlgProcOptsMain;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Web page");
+	odp.pwszTab = LPGENW("Web page");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PAGES);
 	odp.pfnDlgProc = Options::DlgProcOptsPages;
 	Options_AddPage(wParam, &odp);
@@ -705,7 +705,7 @@ void Options::Save()
 	db_set_b(0, MODULE, "autoSend", autoSend ? 1 : 0);
 	for (int i = 0; i < PasteToWeb::pages; ++i) {
 		char buf[256];
-		TCHAR* name = pasteToWebs[i]->GetName();
+		wchar_t* name = pasteToWebs[i]->GetName();
 		int j = 0;
 		while (name[j]) {
 			buf[j] = (char)name[j];
@@ -766,7 +766,7 @@ void Options::Load()
 		char buf[256];
 		int j = 0;
 		{
-			TCHAR *name = pasteToWebs[i]->GetName();
+			wchar_t *name = pasteToWebs[i]->GetName();
 			while (name[j]) {
 				buf[j] = (char)name[j];
 				++j;

@@ -24,15 +24,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 time_t dwSinceDate = 0;
 
-TCHAR importFile[MAX_PATH];
+wchar_t importFile[MAX_PATH];
 
 //=======================================================================================
 // Profile selection dialog
 
-static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *mirandaProf)
+static void SearchForLists(HWND hwndDlg, const wchar_t *mirandaPath, const wchar_t *mirandaProf)
 {
 	// find in Miranda profile subfolders
-	TCHAR searchspec[MAX_PATH];
+	wchar_t searchspec[MAX_PATH];
 	mir_sntprintf(searchspec, L"%s\\*.*", mirandaPath);
 
 	WIN32_FIND_DATA fd;
@@ -49,9 +49,9 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 		if (mirandaProf != NULL && !mir_tstrcmpi(mirandaProf, fd.cFileName))
 			continue;
 
-		TCHAR buf[MAX_PATH], profile[MAX_PATH];
+		wchar_t buf[MAX_PATH], profile[MAX_PATH];
 		mir_sntprintf(buf, L"%s\\%s\\%s.dat", mirandaPath, fd.cFileName, fd.cFileName);
-		if (_taccess(buf, 0) == 0) {
+		if (_waccess(buf, 0) == 0) {
 			mir_sntprintf(profile, L"%s.dat", fd.cFileName);
 
 			int i = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_ADDSTRING, 0, (LPARAM)profile);
@@ -65,7 +65,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 
 INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM)
 {
-	TCHAR filename[MAX_PATH];
+	wchar_t filename[MAX_PATH];
 
 	switch(message) {
 	case WM_INITDIALOG:
@@ -84,7 +84,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 		SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, 0, 0);
 		SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_LIST, LBN_SELCHANGE), 0);
 		GetDlgItemText(hwndDlg, IDC_FILENAME, filename, _countof(filename));
-		if (_taccess(filename, 4))
+		if (_waccess(filename, 4))
 			SendMessage(GetParent(hwndDlg), WIZM_DISABLEBUTTON, 1, 0);
 		return TRUE;
 
@@ -96,7 +96,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 
 		case IDOK:
 			GetDlgItemText(hwndDlg, IDC_FILENAME, filename, _countof(filename));
-			if (_taccess(filename, 4)) {
+			if (_waccess(filename, 4)) {
 				MessageBox(hwndDlg, TranslateT("The given file does not exist. Please check that you have entered the name correctly."), TranslateT("Miranda Import"), MB_OK);
 				break;
 			}
@@ -112,7 +112,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 			if (HIWORD(wParam) == LBN_SELCHANGE) {
 				int sel = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
 				if (sel != LB_ERR) {
-					SetDlgItemText(hwndDlg, IDC_FILENAME, (TCHAR*)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0));
+					SetDlgItemText(hwndDlg, IDC_FILENAME, (wchar_t*)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0));
 					SendMessage(GetParent(hwndDlg), WIZM_ENABLEBUTTON, 1, 0);
 				}
 			}
@@ -121,7 +121,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 		case IDC_OTHER:
 			ptrT pfd(Utils_ReplaceVarsT(L"%miranda_profilesdir%"));
 
-			TCHAR str[MAX_PATH], text[256];
+			wchar_t str[MAX_PATH], text[256];
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
 			mir_sntprintf(text, L"%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c", TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
 

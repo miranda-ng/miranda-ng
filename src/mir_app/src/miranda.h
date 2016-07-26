@@ -64,7 +64,7 @@ void UninitIni(void);
 extern HINSTANCE g_hInst;
 extern DWORD hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModule;
-extern TCHAR mirandabootini[MAX_PATH];
+extern wchar_t mirandabootini[MAX_PATH];
 
 /**** newplugins.cpp *******************************************************************/
 
@@ -92,7 +92,7 @@ __forceinline char* Utf8DecodeA(const char* src)
 
 /**** options.cpp **********************************************************************/
 
-HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name);
+HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const wchar_t* name);
 
 /**** skinicons.cpp ********************************************************************/
 
@@ -137,7 +137,7 @@ extern LIST<PROTOCOLDESCRIPTOR> protos;
 
 INT_PTR ProtoCallService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 
-PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const TCHAR *tszAccountName);
+PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const wchar_t *tszAccountName);
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact);
 
@@ -160,7 +160,7 @@ INT_PTR stubChainRecv(WPARAM, LPARAM);
 
 /**** utils.cpp ************************************************************************/
 
-void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key);
+void HotkeyToName(wchar_t *buf, int size, BYTE shift, BYTE key);
 WORD GetHotkeyValue(INT_PTR idHotkey);
 
 HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId);

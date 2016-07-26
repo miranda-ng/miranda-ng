@@ -95,11 +95,11 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* /*hash*/, c
 	ai.hContact = contact_from_sn(sn);
 
 	if (data_len > 0) {
-		const TCHAR *type;
+		const wchar_t *type;
 		ai.format = ProtoGetBufferFormat(data, &type);
 		get_avatar_filename(ai.hContact, ai.filename, _countof(ai.filename), type);
 
-		int fileId = _topen(ai.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
+		int fileId = _wopen(ai.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
 		if (fileId >= 0) {
 			_write(fileId, data, data_len);
 			_close(fileId);
@@ -116,11 +116,11 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* /*hash*/, c
 	ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &ai, 0);
 }
 
-int CAimProto::get_avatar_filename(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
+int CAimProto::get_avatar_filename(MCONTACT hContact, wchar_t* pszDest, size_t cbLen, const wchar_t *ext)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
-	if (ext && _taccess(pszDest, 0))
+	if (ext && _waccess(pszDest, 0))
 		CreateDirectoryTreeT(pszDest);
 
 	size_t tPathLen2 = tPathLen;
@@ -138,7 +138,7 @@ int CAimProto::get_avatar_filename(MCONTACT hContact, TCHAR* pszDest, size_t cbL
 		long hFile = _tfindfirst(pszDest, &c_file);
 		if (hFile > -1L) {
 			do {
-				if (_tcsrchr(c_file.name, '.')) {
+				if (wcsrchr(c_file.name, '.')) {
 					mir_sntprintf(pszDest + tPathLen2, cbLen - tPathLen2, L"\\%s", c_file.name);
 					found = true;
 				}
@@ -150,15 +150,15 @@ int CAimProto::get_avatar_filename(MCONTACT hContact, TCHAR* pszDest, size_t cbL
 	}
 	else {
 		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
-		found = _taccess(pszDest, 0) == 0;
+		found = _waccess(pszDest, 0) == 0;
 	}
 
 	return found ? GAIR_SUCCESS : GAIR_WAITFOR;
 }
 
-bool get_avatar_hash(const TCHAR* file, char* hash, char** data, unsigned short &size)
+bool get_avatar_hash(const wchar_t* file, char* hash, char** data, unsigned short &size)
 {
-	int fileId = _topen(file, _O_RDONLY | _O_BINARY, _S_IREAD);
+	int fileId = _wopen(file, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (fileId == -1) return false;
 
 	long  lAvatar = _filelength(fileId);

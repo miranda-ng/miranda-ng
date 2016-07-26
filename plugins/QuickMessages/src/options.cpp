@@ -119,7 +119,7 @@ void SetMenuEntryProperties(HWND hdlg)
 
 		if (tvi.lParam) {
 			ListData* ld = (ListData*)tvi.lParam;
-			TCHAR szValue[256];
+			wchar_t szValue[256];
 			GetDlgItemText(hdlg, IDC_RCLICKVALUE, szValue, _countof(szValue));
 			if (mir_tstrlen(szValue)) {
 				if (ld->ptszOPQValue && (ld->ptszOPQValue != ld->ptszQValue))
@@ -137,7 +137,7 @@ void SetMenuEntryProperties(HWND hdlg)
 
 		if (tvi.lParam) {
 			ButtonData *bd = (ButtonData*)tvi.lParam;
-			TCHAR szValue[256];
+			wchar_t szValue[256];
 			GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, _countof(szValue));
 			if (mir_tstrlen(szValue)) {
 				if (mir_tstrlen(bd->pszOpValue) && (bd->pszOpValue != bd->pszValue))
@@ -177,7 +177,7 @@ void SetMenuEntryProperties(HWND hdlg)
 			}
 			else {
 				if (!bd->pszOpValue)
-					bd->pszOpValue = mir_tstrdup(LPGENT("Enter Value"));
+					bd->pszOpValue = mir_tstrdup(LPGENW("Enter Value"));
 			}
 			if (TreeView_GetParent(hMenuTree, tvi.hItem))
 				bd->fEntryOpType |= QMF_EX_CHILD;
@@ -198,7 +198,7 @@ void SaveMenuTree()
 	int iBtd = g_iButtonsCount;
 	BOOL bDeleted = FALSE;
 	char szMEntry[256] = { '\0' };
-	TCHAR strbuf[256];
+	wchar_t strbuf[256];
 	HTREEITEM hti = NULL;
 	TVITEM tvi;
 
@@ -439,7 +439,7 @@ static int BuildButtonsList(HWND hToolBarTree)
 void MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild)
 {
 	TVINSERTSTRUCT tvis;
-	//TCHAR strbuf[128];
+	//wchar_t strbuf[128];
 	HTREEITEM hParent, hChild, hNewItem;
 
 	if (!hItem || !hInsertAfter)
@@ -464,7 +464,7 @@ void MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild)
 
 	// prepare the insert structure
 	{
-		TCHAR strbuf[128];
+		wchar_t strbuf[128];
 		tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 
 		tvis.item.pszText = strbuf;
@@ -737,8 +737,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 				{
 					TVITEM tvi;
 					ButtonData* bd = NULL;
-					TCHAR strbuf[256];
-					TCHAR szLabel[256];
+					wchar_t strbuf[256];
+					wchar_t szLabel[256];
 
 					tvi.pszText = strbuf;
 					tvi.cchTextMax = _countof(strbuf);
@@ -802,7 +802,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 					ButtonData *bd = (ButtonData*)tvi.lParam;
 					if (bd) {
-						TCHAR szValue[256];
+						wchar_t szValue[256];
 						GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, _countof(szValue));
 						if (mir_tstrlen(szValue)) {
 							if (bd->pszOpValue && (bd->pszOpValue != bd->pszValue))
@@ -866,8 +866,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			case TVN_ENDLABELEDIT:
 				{
 					TVITEM tvi;
-					TCHAR strbuf[128];
-					TCHAR szLabel[128];
+					wchar_t strbuf[128];
+					wchar_t szLabel[128];
 
 					tvi.pszText = strbuf;
 					tvi.cchTextMax = _countof(strbuf);
@@ -941,7 +941,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			{
 				TVINSERTSTRUCT tvis;
 				ListData* ld = NULL;
-				TCHAR namebuff[MAX_PATH] = { '\0' };
+				wchar_t namebuff[MAX_PATH] = { '\0' };
 				int count = TreeView_GetCount(hButtonsList);
 				if (count > 10) break;
 				if (g_iOPButtonsCount == 99) {
@@ -1003,7 +1003,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 				TVITEM tvi;
 				ButtonData *bd = NULL;
 				SortedList *sl = NULL;
-				TCHAR namebuff[MAX_PATH] = { '\0' };
+				wchar_t namebuff[MAX_PATH] = { '\0' };
 
 				if (!TreeView_GetCount(hButtonsList)) break;
 				if (!(tvi.hItem = TreeView_GetSelection(hButtonsList))) break;
@@ -1054,7 +1054,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 				bd->dwOPFlags |= QMF_DELETNEEDED;
 
 				if (tvi.hItem = TreeView_GetChild(hMenuTree, tvi.hItem)) {
-					TCHAR strbuf[128];
+					wchar_t strbuf[128];
 					while (tvi.hItem) {
 						tvis.hInsertAfter = hti;
 						tvi.pszText = strbuf;

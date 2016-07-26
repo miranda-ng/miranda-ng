@@ -32,8 +32,8 @@ typedef std::wstring tstring;
 
 #define pluginName LPGEN("StopSpam")
 
-extern TCHAR * pluginDescription;
-extern TCHAR const * infTalkProtPrefix;
+extern wchar_t * pluginDescription;
+extern wchar_t const * infTalkProtPrefix;
 extern char const * answeredSetting;
 extern char const * questCountSetting;
 extern HANDLE hLoadHook;

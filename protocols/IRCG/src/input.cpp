@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CIrcProto::FormatMsg(CMString& text)
 {
-	TCHAR temp[30];
+	wchar_t temp[30];
 	mir_tstrncpy(temp, GetWord(text.c_str(), 0).c_str(), 29);
 	CharLower(temp);
 	CMString command = temp;
@@ -42,7 +42,7 @@ void CIrcProto::FormatMsg(CMString& text)
 		S = GetWord(text.c_str(), 0) + L" " + GetWord(text.c_str(), 1) + L" " + GetWord(text.c_str(), 2) + L" :" + GetWordAddress(text.c_str(), 3);
 	}
 	else if (command == L"/nick") {
-		if (!_tcsstr(GetWord(text.c_str(), 1).c_str(), NICKSUBSTITUTE)) {
+		if (!wcsstr(GetWord(text.c_str(), 1).c_str(), NICKSUBSTITUTE)) {
 			sNick4Perform = GetWord(text.c_str(), 1);
 			S = GetWordAddress(text.c_str(), 0);
 		}
@@ -72,15 +72,15 @@ static void AddCR(CMString& text)
 	text.Replace(L"\r\r", L"\r");
 }
 
-CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
+CMString CIrcProto::DoAlias(const wchar_t *text, wchar_t *window)
 {
 	CMString Messageout = L"";
-	const TCHAR* p1 = text;
-	const TCHAR* p2 = text;
+	const wchar_t* p1 = text;
+	const wchar_t* p2 = text;
 	bool LinebreakFlag = false, hasAlias = false;
-	p2 = _tcsstr(p1, L"\r\n");
+	p2 = wcsstr(p1, L"\r\n");
 	if (!p2)
-		p2 = _tcschr(p1, '\0');
+		p2 = wcschr(p1, '\0');
 	if (p1 == p2)
 		return (CMString)text;
 
@@ -88,38 +88,38 @@ CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
 		if (LinebreakFlag)
 			Messageout += L"\r\n";
 
-		TCHAR* line = new TCHAR[p2 - p1 + 1];
+		wchar_t* line = new wchar_t[p2 - p1 + 1];
 		mir_tstrncpy(line, p1, p2 - p1 + 1);
-		TCHAR* test = line;
+		wchar_t* test = line;
 		while (*test == ' ')
 			test++;
 		if (*test == '/') {
 			mir_tstrncpy(line, GetWordAddress(line, 0), p2 - p1 + 1);
 			CMString S = line;
 			delete[] line;
-			line = new TCHAR[S.GetLength() + 2];
+			line = new wchar_t[S.GetLength() + 2];
 			mir_tstrncpy(line, S.c_str(), S.GetLength() + 1);
 			CMString alias(m_alias);
-			const TCHAR* p3 = _tcsstr(alias.c_str(), (GetWord(line, 0) + L" ").c_str());
+			const wchar_t* p3 = wcsstr(alias.c_str(), (GetWord(line, 0) + L" ").c_str());
 			if (p3 != alias.c_str()) {
 				CMString str = L"\r\n";
 				str += GetWord(line, 0) + L" ";
-				p3 = _tcsstr(alias.c_str(), str.c_str());
+				p3 = wcsstr(alias.c_str(), str.c_str());
 				if (p3)
 					p3 += 2;
 			}
 			if (p3 != NULL) {
 				hasAlias = true;
-				const TCHAR* p4 = _tcsstr(p3, L"\r\n");
+				const wchar_t* p4 = wcsstr(p3, L"\r\n");
 				if (!p4)
-					p4 = _tcschr(p3, '\0');
+					p4 = wcschr(p3, '\0');
 
-				*(TCHAR*)p4 = 0;
+				*(wchar_t*)p4 = 0;
 				CMString str = p3;
 				str.Replace(L"##", window);
 				str.Replace(L"$?", L"%question");
 
-				TCHAR buf[5];
+				wchar_t buf[5];
 				for (int index = 1; index < 8; index++) {
 					mir_sntprintf(buf, L"#$%u", index);
 					if (!GetWord(line, index).IsEmpty() && IsChannel(GetWord(line, index)))
@@ -147,9 +147,9 @@ CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
 		p1 = p2;
 		if (*p1 == '\r')
 			p1 += 2;
-		p2 = _tcsstr(p1, L"\r\n");
+		p2 = wcsstr(p1, L"\r\n");
 		if (!p2)
-			p2 = _tcschr(p1, '\0');
+			p2 = wcschr(p1, '\0');
 		delete[] line;
 		LinebreakFlag = true;
 	}
@@ -158,10 +158,10 @@ CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
 	return hasAlias ? DoIdentifiers(Messageout, window) : Messageout;
 }
 
-CMString CIrcProto::DoIdentifiers(CMString text, const TCHAR*)
+CMString CIrcProto::DoIdentifiers(CMString text, const wchar_t*)
 {
 	SYSTEMTIME time;
-	TCHAR str[2];
+	wchar_t str[2];
 
 	GetLocalTime(&time);
 	text.Replace(L"%mnick", m_nick);
@@ -176,8 +176,7 @@ CMString CIrcProto::DoIdentifiers(CMString text, const TCHAR*)
 	char mirver[100];
 	CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(mirver), LPARAM(mirver));
 	text.Replace(L"%mirver", _A2T(mirver));
-
-	text.Replace(L"%version", _T(__VERSION_STRING_DOTS));
+	text.Replace(L"%version", _A2T(__VERSION_STRING_DOTS));
 
 	str[0] = 3; str[1] = '\0';
 	text.Replace(L"%color", str);
@@ -210,7 +209,7 @@ static void __stdcall sttSetTimerOff(void* _pro)
 	ppro->KillChatTimer(ppro->OnlineNotifTimer3);
 }
 
-BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hContact)
+BOOL CIrcProto::DoHardcodedCommand(CMString text, wchar_t *window, MCONTACT hContact)
 {
 	CMString command(GetWord(text, 0)); command.MakeLower();
 	CMString one = GetWord(text, 1);
@@ -230,7 +229,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 	else if (command == L"/sleep" || command == L"/wait") {
 		if (!one.IsEmpty()) {
 			int ms;
-			if (_stscanf(one.c_str(), L"%d", &ms) == 1 && ms > 0 && ms <= 4000)
+			if (swscanf(one.c_str(), L"%d", &ms) == 1 && ms > 0 && ms <= 4000)
 				Sleep(ms);
 			else
 				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000."), NULL, NULL, NULL, true, false);
@@ -260,7 +259,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 	if (command == L"/ignore") {
 		if (IsConnected()) {
 			CMString IgnoreFlags;
-			TCHAR temp[500];
+			wchar_t temp[500];
 			if (one.IsEmpty()) {
 				if (m_ignore)
 					DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Ignore system is enabled"), NULL, NULL, NULL, true, false);
@@ -278,21 +277,21 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Ignore system is disabled"), NULL, NULL, NULL, true, false);
 				return true;
 			}
-			if (!_tcschr(one.c_str(), '!') && !_tcschr(one.c_str(), '@'))
+			if (!wcschr(one.c_str(), '!') && !wcschr(one.c_str(), '@'))
 				one += L"!*@*";
 
 			if (!two.IsEmpty() && two[0] == '+') {
-				if (_tcschr(two.c_str(), 'q'))
+				if (wcschr(two.c_str(), 'q'))
 					IgnoreFlags += 'q';
-				if (_tcschr(two.c_str(), 'n'))
+				if (wcschr(two.c_str(), 'n'))
 					IgnoreFlags += 'n';
-				if (_tcschr(two.c_str(), 'i'))
+				if (wcschr(two.c_str(), 'i'))
 					IgnoreFlags += 'i';
-				if (_tcschr(two.c_str(), 'd'))
+				if (wcschr(two.c_str(), 'd'))
 					IgnoreFlags += 'd';
-				if (_tcschr(two.c_str(), 'c'))
+				if (wcschr(two.c_str(), 'c'))
 					IgnoreFlags += 'c';
-				if (_tcschr(two.c_str(), 'm'))
+				if (wcschr(two.c_str(), 'm'))
 					IgnoreFlags += 'm';
 			}
 			else IgnoreFlags = L"qnidc";
@@ -312,10 +311,10 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 	}
 
 	if (command == L"/unignore") {
-		if (!_tcschr(one.c_str(), '!') && !_tcschr(one.c_str(), '@'))
+		if (!wcschr(one.c_str(), '!') && !wcschr(one.c_str(), '@'))
 			one += L"!*@*";
 
-		TCHAR temp[500];
+		wchar_t temp[500];
 		if (RemoveIgnore(one.c_str()))
 			mir_sntprintf(temp, TranslateT("%s is not ignored now"), one.c_str());
 		else
@@ -363,7 +362,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 	}
 
 	if (command == L"/nusers") {
-		TCHAR szTemp[40];
+		wchar_t szTemp[40];
 		CMString S = MakeWndID(window);
 		GC_INFO gci = { 0 };
 		gci.Flags = GCF_BYID | GCF_NAME | GCF_COUNT;
@@ -412,14 +411,14 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 			CallFunctionAsync(sttSetTimerOff, this);
 		}
 		if (!mir_tstrcmpi(one.c_str(), L"time") && !two.IsEmpty()) {
-			m_iTempCheckTime = _ttoi(two.c_str());
+			m_iTempCheckTime = _wtoi(two.c_str());
 			if (m_iTempCheckTime < 10 && m_iTempCheckTime != 0)
 				m_iTempCheckTime = 10;
 
 			if (m_iTempCheckTime == 0)
 				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("The time interval for the buddy check function is now at default setting"), NULL, NULL, NULL, true, false);
 			else {
-				TCHAR temp[200];
+				wchar_t temp[200];
 				mir_sntprintf(temp, TranslateT("The time interval for the buddy check function is now %u seconds"), m_iTempCheckTime);
 				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), temp, NULL, NULL, NULL, true, false);
 			}
@@ -507,7 +506,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 		if (one.IsEmpty())
 			return true;
 
-		TCHAR szTemp[4000];
+		wchar_t szTemp[4000];
 		mir_sntprintf(szTemp, L"\001ACTION %s\001", GetWordAddress(text.c_str(), 1));
 		PostIrcMessageWnd(window, hContact, szTemp);
 		return true;
@@ -537,7 +536,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 		if (one.IsEmpty() || two.IsEmpty())
 			return true;
 
-		TCHAR szTemp[4000];
+		wchar_t szTemp[4000];
 		mir_sntprintf(szTemp, L"/PRIVMSG %s", GetWordAddress(text.c_str(), 1));
 
 		PostIrcMessageWnd(window, hContact, szTemp);
@@ -548,7 +547,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 		if (one.IsEmpty() || IsChannel(one.c_str()))
 			return true;
 
-		CONTACT user = { (TCHAR*)one.c_str(), NULL, NULL, false, false, false };
+		CONTACT user = { (wchar_t*)one.c_str(), NULL, NULL, false, false, false };
 		MCONTACT hContact2 = CList_AddContact(&user, false, false);
 		if (hContact2) {
 			if (getByte(hContact, "AdvancedMode", 0) == 0)
@@ -572,7 +571,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 		}
 
 		if (!two.IsEmpty()) {
-			TCHAR szTemp[4000];
+			wchar_t szTemp[4000];
 			mir_sntprintf(szTemp, L"/PRIVMSG %s", GetWordAddress(text.c_str(), 1));
 			PostIrcMessageWnd(window, hContact, szTemp);
 		}
@@ -583,7 +582,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 		if (one.IsEmpty() || two.IsEmpty())
 			return true;
 
-		TCHAR szTemp[1000];
+		wchar_t szTemp[1000];
 		unsigned long ulAdr = 0;
 		if (m_manualHost)
 			ulAdr = ConvertIPToInteger(m_mySpecifiedHostIP);
@@ -612,7 +611,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 			return true;
 
 		if (mir_tstrcmpi(one.c_str(), L"send") == 0) {
-			TCHAR szTemp[1000];
+			wchar_t szTemp[1000];
 			unsigned long ulAdr = 0;
 
 			if (m_manualHost)
@@ -621,7 +620,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 				ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 
 			if (ulAdr) {
-				CONTACT user = { (TCHAR*)two.c_str(), NULL, NULL, false, false, true };
+				CONTACT user = { (wchar_t*)two.c_str(), NULL, NULL, false, false, true };
 				MCONTACT ccNew = CList_AddContact(&user, false, false);
 				if (ccNew) {
 					CMString s;
@@ -646,8 +645,8 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 						CallService(MS_FILE_SENDFILE, ccNew, 0);
 					else {
 						CMString temp = GetWordAddress(text.c_str(), 3);
-						TCHAR* pp[2];
-						TCHAR* p = (TCHAR*)temp.c_str();
+						wchar_t* pp[2];
+						wchar_t* p = (wchar_t*)temp.c_str();
 						pp[0] = p;
 						pp[1] = NULL;
 						CallService(MS_FILE_SENDSPECIFICFILEST, ccNew, (LPARAM)pp);
@@ -662,7 +661,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 		}
 
 		if (mir_tstrcmpi(one.c_str(), L"chat") == 0) {
-			TCHAR szTemp[1000];
+			wchar_t szTemp[1000];
 
 			unsigned long ulAdr = 0;
 			if (m_manualHost)
@@ -672,7 +671,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 
 			if (ulAdr) {
 				CMString contact = two;  contact += DCCSTRING;
-				CONTACT user = { (TCHAR*)contact.c_str(), NULL, NULL, false, false, true };
+				CONTACT user = { (wchar_t*)contact.c_str(), NULL, NULL, false, false, true };
 				MCONTACT ccNew = CList_AddContact(&user, false, false);
 				setByte(ccNew, "DCC", 1);
 
@@ -716,43 +715,43 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hConta
 
 struct DoInputRequestParam
 {
-	DoInputRequestParam(CIrcProto* _pro, const TCHAR* _str) :
+	DoInputRequestParam(CIrcProto* _pro, const wchar_t* _str) :
 	ppro(_pro),
 	str(mir_tstrdup(_str))
 	{}
 
 	CIrcProto *ppro;
-	TCHAR* str;
+	wchar_t* str;
 };
 
 static void __stdcall DoInputRequestAliasApcStub(void* _par)
 {
 	DoInputRequestParam* param = (DoInputRequestParam*)_par;
 	CIrcProto *ppro = param->ppro;
-	TCHAR* str = param->str;
+	wchar_t* str = param->str;
 
-	TCHAR* infotext = NULL;
-	TCHAR* title = NULL;
-	TCHAR* defaulttext = NULL;
-	CMString command = (TCHAR*)str;
-	TCHAR* p = _tcsstr((TCHAR*)str, L"%question");
+	wchar_t* infotext = NULL;
+	wchar_t* title = NULL;
+	wchar_t* defaulttext = NULL;
+	CMString command = (wchar_t*)str;
+	wchar_t* p = wcsstr((wchar_t*)str, L"%question");
 	if (p[9] == '=' && p[10] == '\"') {
 		infotext = &p[11];
-		p = _tcschr(infotext, '\"');
+		p = wcschr(infotext, '\"');
 		if (p) {
 			*p = '\0';
 			p++;
 			if (*p == ',' && p[1] == '\"') {
 				p++; p++;
 				title = p;
-				p = _tcschr(title, '\"');
+				p = wcschr(title, '\"');
 				if (p) {
 					*p = '\0';
 					p++;
 					if (*p == ',' && p[1] == '\"') {
 						p++; p++;
 						defaulttext = p;
-						p = _tcschr(defaulttext, '\"');
+						p = wcschr(defaulttext, '\"');
 						if (p)
 							*p = '\0';
 					}
@@ -785,24 +784,24 @@ static void __stdcall DoInputRequestAliasApcStub(void* _par)
 	delete param;
 }
 
-bool CIrcProto::PostIrcMessage(const TCHAR* fmt, ...)
+bool CIrcProto::PostIrcMessage(const wchar_t* fmt, ...)
 {
 	if (!fmt || mir_tstrlen(fmt) < 1 || mir_tstrlen(fmt) > 4000)
 		return 0;
 
 	va_list marker;
 	va_start(marker, fmt);
-	static TCHAR szBuf[4 * 1024];
+	static wchar_t szBuf[4 * 1024];
 	mir_vsntprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
 	return PostIrcMessageWnd(NULL, NULL, szBuf);
 }
 
-bool CIrcProto::PostIrcMessageWnd(TCHAR *window, MCONTACT hContact, const TCHAR *szBuf)
+bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wchar_t *szBuf)
 {
 	DBVARIANT dbv;
-	TCHAR windowname[256];
+	wchar_t windowname[256];
 	BYTE bDCC = 0;
 
 	if (hContact)
@@ -821,7 +820,7 @@ bool CIrcProto::PostIrcMessageWnd(TCHAR *window, MCONTACT hContact, const TCHAR 
 		mir_tstrncpy(windowname, SERVERWINDOW, 255);
 
 	if (mir_tstrcmpi(window, SERVERWINDOW) != 0) {
-		TCHAR* p1 = _tcschr(windowname, ' ');
+		wchar_t* p1 = wcschr(windowname, ' ');
 		if (p1)
 			*p1 = '\0';
 	}

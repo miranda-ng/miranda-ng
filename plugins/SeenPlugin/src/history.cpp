@@ -50,7 +50,7 @@ void HistoryWrite(MCONTACT hContact)
 	if (historyLast >= historyMax)
 		historyLast = historyMax - 1;
 
-	TCHAR *ptszString;
+	wchar_t *ptszString;
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, S_MOD, "HistoryStamp", &dbv)) {
 		ptszString = ParseString(dbv.ptszVal, hContact);
@@ -167,7 +167,7 @@ void MyResizeGetOffset(HWND hwndControl, int nWidth, int nHeight, int* nDx, int*
 INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARAM lparam)
 {
 	MCONTACT hContact;
-	TCHAR sztemp[1024];
+	wchar_t sztemp[1024];
 
 	switch (Message) {
 	case WM_INITDIALOG:
@@ -234,7 +234,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			break;
 		case IDC_TEST:
-			debug(ParseString(LPGENT("Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r"), hContact));
+			debug(ParseString(LPGENW("Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r"), hContact));
 			break;
 		}
 		break;

@@ -1504,7 +1504,7 @@ static int CLUIFramesLoadMainMenu()
 		mi.hIcolibItem = F.TitleBar.hicon;
 		mi.flags = CMIF_SYSTEM | CMIF_TCHAR;
 		mi.position = separator++;
-		mi.name.t = F.TitleBar.tbname ? F.TitleBar.tbname : F.name;
+		mi.name.w = F.TitleBar.tbname ? F.TitleBar.tbname : F.name;
 		mi.pszService = 0;
 		g_frameMenus.insert(F.MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi));
 		CLUIFramesCreateMenuForFrame(F.id, F.MenuHandles.MainMenuItem, separator, true);
@@ -1565,7 +1565,7 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM)
 	g_pfwFrames[g_nFramesCount].dwFlags = clfrm->Flags;
 
 	if (clfrm->name == NULL || ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->wname) : mir_strlen(clfrm->name)) == 0) {
-		g_pfwFrames[g_nFramesCount].name = (LPTSTR)mir_alloc(255 * sizeof(TCHAR));
+		g_pfwFrames[g_nFramesCount].name = (LPTSTR)mir_alloc(255 * sizeof(wchar_t));
 		GetClassName(g_pfwFrames[g_nFramesCount].hWnd, g_pfwFrames[g_nFramesCount].name, 255);
 	}
 	else g_pfwFrames[g_nFramesCount].name = (clfrm->Flags & F_UNICODE) ? mir_u2t(clfrm->wname) : mir_a2t(clfrm->name);
@@ -2730,7 +2730,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 		int pos;
 		//tbinfo
 		{
-			TCHAR TBcapt[255];
+			wchar_t TBcapt[255];
 			pos = id2pos(Frameid);
 			if (pos != -1) {
 				int oldflags;

@@ -34,7 +34,7 @@ UPDATELIST *UpdateListHead, *UpdateListTail;
 // hContact = current contact
 int UpdateWeather(MCONTACT hContact)
 {
-	TCHAR str[256], str2[MAX_TEXT_SIZE];
+	wchar_t str[256], str2[MAX_TEXT_SIZE];
 	DBVARIANT dbv;
 	BOOL Ch = FALSE;
 
@@ -59,7 +59,7 @@ int UpdateWeather(MCONTACT hContact)
 			mir_sntprintf(str, _countof(str) - 105,
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
 			mir_tstrncat(str, L"\n", _countof(str) - mir_tstrlen(str));
-			TCHAR *tszError = GetError(code);
+			wchar_t *tszError = GetError(code);
 			mir_tstrncat(str, tszError, _countof(str) - mir_tstrlen(str));
 			WPShowMessage(str, SM_WARNING);
 			mir_free(tszError);
@@ -172,12 +172,12 @@ int UpdateWeather(MCONTACT hContact)
 					DeleteFile(dbv.ptszVal);
 
 				// open the file and set point to the end of file
-				FILE *file = _tfopen(dbv.ptszVal, L"a");
+				FILE *file = _wfopen(dbv.ptszVal, L"a");
 				db_free(&dbv);
 				if (file != NULL) {
 					// write data to the file and close
 					GetDisplay(&winfo, opt.eText, str2);
-					_fputts(str2, file);
+					fputws(str2, file);
 					fclose(file);
 				}
 			}
@@ -379,17 +379,17 @@ INT_PTR UpdateAllRemove(WPARAM, LPARAM)
 int GetWeatherData(MCONTACT hContact)
 {
 	// get each part of the id's
-	TCHAR id[256];
+	wchar_t id[256];
 	GetStationID(hContact, id, _countof(id));
 
 	// test ID format
-	TCHAR* szInfo = _tcschr(id, '/');
+	wchar_t* szInfo = wcschr(id, '/');
 	if (szInfo == NULL)
 		return INVALID_ID_FORMAT;
 
 	GetID(id);
 
-	TCHAR Svc[256];
+	wchar_t Svc[256];
 	GetStationID(hContact, Svc, _countof(Svc));
 	GetSvc(Svc);
 
@@ -431,13 +431,13 @@ int GetWeatherData(MCONTACT hContact)
 			continue;
 
 		// download the html file from the internet
-		TCHAR* szData = NULL;
+		wchar_t* szData = NULL;
 		int retval = InternetDownloadFile(loc, Data->Cookie, Data->UserAgent, &szData);
 		if (retval != 0) {
 			mir_free(szData);
 			return retval;
 		}
-		if (_tcsstr(szData, L"Document Not Found") != NULL) {
+		if (wcsstr(szData, L"Document Not Found") != NULL) {
 			mir_free(szData);
 			return DOC_NOT_FOUND;
 		}
@@ -452,21 +452,21 @@ int GetWeatherData(MCONTACT hContact)
 				continue;
 			}
 
-			TCHAR DataValue[MAX_DATA_LEN];
+			wchar_t DataValue[MAX_DATA_LEN];
 			switch (Item->Item.Type) {
 			case WID_NORMAL:
 				// if it is a normal item with start= and end=, then parse through the downloaded string
 				// to get a data value.
 				GetDataValue(&Item->Item, DataValue, &szInfo);
 				if (mir_tstrcmp(Item->Item.Name, L"Condition") && mir_tstrcmpi(Item->Item.Unit, L"Cond"))
-					_tcsncpy(DataValue, TranslateTS(DataValue), MAX_DATA_LEN - 1);
+					wcsncpy(DataValue, TranslateTS(DataValue), MAX_DATA_LEN - 1);
 				break;
 
 			case WID_SET:
 				{
 					// for the "Set Data=" operation
 					DBVARIANT dbv;
-					TCHAR *chop, *str, str2[MAX_DATA_LEN];
+					wchar_t *chop, *str, str2[MAX_DATA_LEN];
 					BOOL hasvar = FALSE;
 					size_t stl;
 
@@ -476,12 +476,12 @@ int GetWeatherData(MCONTACT hContact)
 					// go through each part of the operation string seperated by the & operator
 					do {
 						// the end of the string, last item
-						chop = _tcsstr(str, L" & ");
+						chop = wcsstr(str, L" & ");
 						if (chop == NULL)
-							chop = _tcschr(str, '\0');
+							chop = wcschr(str, '\0');
 
 						stl = min(sizeof(str2) - 1, (unsigned)(chop - str - 2));
-						_tcsncpy(str2, str + 1, stl);
+						wcsncpy(str2, str + 1, stl);
 						str2[stl] = 0;
 
 						switch (str[0]) {
@@ -512,7 +512,7 @@ int GetWeatherData(MCONTACT hContact)
 					// for the "Break Data=" operation
 					DBVARIANT dbv;
 					if (!DBGetData(hContact, _T2A(Item->Item.Start), &dbv)) {
-						_tcsncpy(DataValue, dbv.ptszVal, _countof(DataValue));
+						wcsncpy(DataValue, dbv.ptszVal, _countof(DataValue));
 						DataValue[_countof(DataValue) - 1] = 0;
 						db_free(&dbv);
 					}
@@ -522,7 +522,7 @@ int GetWeatherData(MCONTACT hContact)
 					}
 
 					// generate the strings
-					TCHAR* end = _tcsstr(DataValue, Item->Item.Break);
+					wchar_t* end = wcsstr(DataValue, Item->Item.Break);
 					if (end == NULL) {
 						DataValue[0] = 0;
 						break;	// exit if break string is not found
@@ -552,7 +552,7 @@ int GetWeatherData(MCONTACT hContact)
 				if (!mir_tstrcmp(Svc, opt.Default))
 					db_set_ts(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
 				if (!mir_tstrcmp(Item->Item.Name, L"Condition")) {
-					TCHAR buf[128], *cbuf;
+					wchar_t buf[128], *cbuf;
 					mir_sntprintf(buf, L"#%s Weather", DataValue);
 					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')
@@ -562,7 +562,7 @@ int GetWeatherData(MCONTACT hContact)
 					cond = GetIcon(DataValue, Data);
 				}
 				else if (mir_tstrcmpi(Item->Item.Unit, L"Cond") == 0) {
-					TCHAR buf[128], *cbuf;
+					wchar_t buf[128], *cbuf;
 					mir_sntprintf(buf, L"#%s Weather", DataValue);
 					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')

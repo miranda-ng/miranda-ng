@@ -176,7 +176,7 @@ public:
 					hKeyTz;
 		DWORD		i,
 					cbData;
-		TCHAR		szName[MAX_PATH],
+		wchar_t		szName[MAX_PATH],
 					szDisplay[MAX_PATH];
 		CTimeZone	*pTimeZone;
 

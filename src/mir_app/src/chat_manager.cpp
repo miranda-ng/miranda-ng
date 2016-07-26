@@ -38,7 +38,7 @@ static void SetActiveSessionEx(SESSION_INFO *si)
 	}
 }
 
-static void SetActiveSession(const TCHAR *pszID, const char *pszModule)
+static void SetActiveSession(const wchar_t *pszID, const char *pszModule)
 {
 	SESSION_INFO *si = chatApi.SM_FindSession(pszID, pszModule);
 	if (si)
@@ -60,7 +60,7 @@ static SESSION_INFO* GetActiveSession(void)
 //		Keeps track of all sessions and its windows
 //---------------------------------------------------
 
-static SESSION_INFO* SM_AddSession(const TCHAR *pszID, const char *pszModule)
+static SESSION_INFO* SM_AddSession(const wchar_t *pszID, const char *pszModule)
 {
 	if (!pszID || !pszModule)
 		return NULL;
@@ -114,7 +114,7 @@ static void SM_FreeSession(SESSION_INFO *si)
 	mir_free(si);
 }
 
-static int SM_RemoveSession(const TCHAR *pszID, const char *pszModule, BOOL removeContact)
+static int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, BOOL removeContact)
 {
 	if (!pszModule)
 		return FALSE;
@@ -156,7 +156,7 @@ static int SM_RemoveSession(const TCHAR *pszID, const char *pszModule, BOOL remo
 	return FALSE;
 }
 
-static SESSION_INFO* SM_FindSession(const TCHAR *pszID, const char *pszModule)
+static SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule)
 {
 	if (!pszID || !pszModule)
 		return NULL;
@@ -168,7 +168,7 @@ static SESSION_INFO* SM_FindSession(const TCHAR *pszID, const char *pszModule)
 	return NULL;
 }
 
-static BOOL SM_SetOffline(const TCHAR *pszID, const char *pszModule)
+static BOOL SM_SetOffline(const wchar_t *pszID, const char *pszModule)
 {
 	if (!pszModule)
 		return FALSE;
@@ -190,7 +190,7 @@ static BOOL SM_SetOffline(const TCHAR *pszID, const char *pszModule)
 	return TRUE;
 }
 
-static BOOL SM_SetStatusEx(const TCHAR *pszID, const char *pszModule, const TCHAR* pszText, int flags)
+static BOOL SM_SetStatusEx(const wchar_t *pszID, const char *pszModule, const wchar_t* pszText, int flags)
 {
 	if (!pszModule)
 		return FALSE;
@@ -248,7 +248,7 @@ static BOOL SM_AddEventToAllMatchingUID(GCEVENT *gce)
 	return 0;
 }
 
-static BOOL SM_AddEvent(const TCHAR *pszID, const char *pszModule, GCEVENT *gce, BOOL bIsHighlighted)
+static BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, BOOL bIsHighlighted)
 {
 	SESSION_INFO *p = SM_FindSession(pszID, pszModule);
 	if (p == NULL)
@@ -276,7 +276,7 @@ static BOOL SM_AddEvent(const TCHAR *pszID, const char *pszModule, GCEVENT *gce,
 	return TRUE;
 }
 
-static USERINFO* SM_AddUser(const TCHAR *pszID, const char *pszModule, const TCHAR *pszUID, const TCHAR *pszNick, WORD wStatus)
+static USERINFO* SM_AddUser(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -289,7 +289,7 @@ static USERINFO* SM_AddUser(const TCHAR *pszID, const char *pszModule, const TCH
 	return p;
 }
 
-static BOOL SM_MoveUser(const TCHAR *pszID, const char *pszModule, const TCHAR *pszUID)
+static BOOL SM_MoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID)
 {
 	if (!pszUID)
 		return FALSE;
@@ -302,7 +302,7 @@ static BOOL SM_MoveUser(const TCHAR *pszID, const char *pszModule, const TCHAR *
 	return TRUE;
 }
 
-static BOOL SM_RemoveUser(const TCHAR *pszID, const char *pszModule, const TCHAR *pszUID)
+static BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID)
 {
 	if (!pszModule || !pszUID)
 		return FALSE;
@@ -332,13 +332,13 @@ static BOOL SM_RemoveUser(const TCHAR *pszID, const char *pszModule, const TCHAR
 	return 0;
 }
 
-static USERINFO* SM_GetUserFromIndex(const TCHAR *pszID, const char *pszModule, int index)
+static USERINFO* SM_GetUserFromIndex(const wchar_t *pszID, const char *pszModule, int index)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	return (si == NULL) ? NULL : chatApi.UM_FindUserFromIndex(si->pUsers, index);
 }
 
-STATUSINFO* SM_AddStatus(const TCHAR *pszID, const char *pszModule, const TCHAR *pszStatus)
+STATUSINFO* SM_AddStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszStatus)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -352,7 +352,7 @@ STATUSINFO* SM_AddStatus(const TCHAR *pszID, const char *pszModule, const TCHAR 
 	return ti;
 }
 
-static BOOL SM_GiveStatus(const TCHAR *pszID, const char *pszModule, const TCHAR *pszUID, const TCHAR *pszStatus)
+static BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -367,7 +367,7 @@ static BOOL SM_GiveStatus(const TCHAR *pszID, const char *pszModule, const TCHAR
 	return TRUE;
 }
 
-static BOOL SM_SetContactStatus(const TCHAR *pszID, const char *pszModule, const TCHAR *pszUID, WORD wStatus)
+static BOOL SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, WORD wStatus)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -382,7 +382,7 @@ static BOOL SM_SetContactStatus(const TCHAR *pszID, const char *pszModule, const
 	return TRUE;
 }
 
-static BOOL SM_TakeStatus(const TCHAR *pszID, const char *pszModule, const TCHAR *pszUID, const TCHAR *pszStatus)
+static BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -397,7 +397,7 @@ static BOOL SM_TakeStatus(const TCHAR *pszID, const char *pszModule, const TCHAR
 	return TRUE;
 }
 
-static LRESULT SM_SendMessage(const TCHAR *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT SM_SendMessage(const wchar_t *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (pszModule == NULL)
 		return 0;
@@ -417,7 +417,7 @@ static LRESULT SM_SendMessage(const TCHAR *pszID, const char *pszModule, UINT ms
 	return 0;
 }
 
-static BOOL SM_PostMessage(const TCHAR *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
+static BOOL SM_PostMessage(const wchar_t *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -444,7 +444,7 @@ static BOOL SM_BroadcastMessage(const char *pszModule, UINT msg, WPARAM wParam, 
 	return TRUE;
 }
 
-static BOOL SM_SetStatus(const TCHAR *pszID, const char *pszModule, int wStatus)
+static BOOL SM_SetStatus(const wchar_t *pszID, const char *pszModule, int wStatus)
 {
 	if (!pszModule)
 		return FALSE;
@@ -470,7 +470,7 @@ static BOOL SM_SetStatus(const TCHAR *pszID, const char *pszModule, int wStatus)
 	return TRUE;
 }
 
-static BOOL SM_SendUserMessage(const TCHAR *pszID, const char *pszModule, const TCHAR* pszText)
+static BOOL SM_SendUserMessage(const wchar_t *pszID, const char *pszModule, const wchar_t* pszText)
 {
 	if (!pszModule || !pszText)
 		return FALSE;
@@ -487,7 +487,7 @@ static BOOL SM_SendUserMessage(const TCHAR *pszID, const char *pszModule, const 
 	return TRUE;
 }
 
-static BOOL SM_ChangeUID(const TCHAR *pszID, const char *pszModule, const TCHAR *pszUID, const TCHAR* pszNewUID)
+static BOOL SM_ChangeUID(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t* pszNewUID)
 {
 	if (!pszModule)
 		return FALSE;
@@ -505,7 +505,7 @@ static BOOL SM_ChangeUID(const TCHAR *pszID, const char *pszModule, const TCHAR 
 	return TRUE;
 }
 
-static BOOL SM_ChangeNick(const TCHAR *pszID, const char *pszModule, GCEVENT *gce)
+static BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 {
 	if (!pszModule)
 		return FALSE;
@@ -556,7 +556,7 @@ static BOOL SM_RemoveAll(void)
 	return TRUE;
 }
 
-static void SM_AddCommand(const TCHAR *pszID, const char *pszModule, const char* lpNewCommand)
+static void SM_AddCommand(const wchar_t *pszID, const char *pszModule, const char* lpNewCommand)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -591,7 +591,7 @@ static void SM_AddCommand(const TCHAR *pszID, const char *pszModule, const char*
 	}
 }
 
-static char* SM_GetPrevCommand(const TCHAR *pszID, const char *pszModule) // get previous command. returns NULL if previous command does not exist. current command remains as it was.
+static char* SM_GetPrevCommand(const wchar_t *pszID, const char *pszModule) // get previous command. returns NULL if previous command does not exist. current command remains as it was.
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -610,7 +610,7 @@ static char* SM_GetPrevCommand(const TCHAR *pszID, const char *pszModule) // get
 	return (pPrevCmd) ? pPrevCmd->lpCommand : NULL;
 }
 
-static char* SM_GetNextCommand(const TCHAR *pszID, const char *pszModule) // get next command. returns NULL if next command does not exist. current command becomes NULL (a prev command after this one will get you the last command)
+static char* SM_GetNextCommand(const wchar_t *pszID, const char *pszModule) // get next command. returns NULL if next command does not exist. current command becomes NULL (a prev command after this one will get you the last command)
 {
 	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == NULL)
@@ -787,7 +787,7 @@ static BOOL MM_RemoveAll(void)
 //		per window nicklist that is available
 //---------------------------------------------------
 
-static STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const TCHAR *pszStatus, int *iCount)
+static STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount)
 {
 	if (!ppStatusList || !pszStatus)
 		return NULL;
@@ -816,7 +816,7 @@ static STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const TCHAR *pszStatu
 	return FALSE;
 }
 
-static STATUSINFO* TM_FindStatus(STATUSINFO *pStatusList, const TCHAR *pszStatus)
+static STATUSINFO* TM_FindStatus(STATUSINFO *pStatusList, const wchar_t *pszStatus)
 {
 	if (!pStatusList || !pszStatus)
 		return NULL;
@@ -828,7 +828,7 @@ static STATUSINFO* TM_FindStatus(STATUSINFO *pStatusList, const TCHAR *pszStatus
 	return 0;
 }
 
-static WORD TM_StringToWord(STATUSINFO *pStatusList, const TCHAR *pszStatus)
+static WORD TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus)
 {
 	if (!pStatusList || !pszStatus)
 		return 0;
@@ -843,7 +843,7 @@ static WORD TM_StringToWord(STATUSINFO *pStatusList, const TCHAR *pszStatus)
 	return 0;
 }
 
-static TCHAR* TM_WordToString(STATUSINFO *pStatusList, WORD Status)
+static wchar_t* TM_WordToString(STATUSINFO *pStatusList, WORD Status)
 {
 	if (!pStatusList)
 		return NULL;
@@ -882,7 +882,7 @@ static BOOL TM_RemoveAll(STATUSINFO **ppStatusList)
 //		in a window nicklist
 //---------------------------------------------------
 
-static int UM_CompareItem(USERINFO *u1, const TCHAR *pszNick, WORD wStatus)
+static int UM_CompareItem(USERINFO *u1, const wchar_t *pszNick, WORD wStatus)
 {
 	WORD dw1 = u1->Status;
 	WORD dw2 = wStatus;
@@ -901,7 +901,7 @@ static int UM_CompareItem(USERINFO *u1, const TCHAR *pszNick, WORD wStatus)
 	return mir_tstrcmpi(u1->pszNick, pszNick);
 }
 
-static USERINFO* UM_SortUser(USERINFO **ppUserList, const TCHAR *pszUID)
+static USERINFO* UM_SortUser(USERINFO **ppUserList, const wchar_t *pszUID)
 {
 	USERINFO *ui = *ppUserList, *pLast = NULL;
 	if (!ui || !pszUID)
@@ -947,7 +947,7 @@ static USERINFO* UM_SortUser(USERINFO **ppUserList, const TCHAR *pszUID)
 	return node;
 }
 
-USERINFO* UM_AddUser(STATUSINFO *pStatusList, USERINFO **ppUserList, const TCHAR *pszUID, const TCHAR *pszNick, WORD wStatus)
+USERINFO* UM_AddUser(STATUSINFO *pStatusList, USERINFO **ppUserList, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus)
 {
 	if (pStatusList == NULL || ppUserList == NULL || pszNick == NULL)
 		return NULL;
@@ -980,7 +980,7 @@ USERINFO* UM_AddUser(STATUSINFO *pStatusList, USERINFO **ppUserList, const TCHAR
 	return node;
 }
 
-static USERINFO* UM_FindUser(USERINFO *pUserList, const TCHAR *pszUID)
+static USERINFO* UM_FindUser(USERINFO *pUserList, const wchar_t *pszUID)
 {
 	if (!pUserList || !pszUID)
 		return NULL;
@@ -1006,7 +1006,7 @@ static USERINFO* UM_FindUserFromIndex(USERINFO *pUserList, int index)
 	return NULL;
 }
 
-static USERINFO* UM_GiveStatus(USERINFO *pUserList, const TCHAR *pszUID, WORD status)
+static USERINFO* UM_GiveStatus(USERINFO *pUserList, const wchar_t *pszUID, WORD status)
 {
 	USERINFO *ui = UM_FindUser(pUserList, pszUID);
 	if (ui == NULL)
@@ -1016,7 +1016,7 @@ static USERINFO* UM_GiveStatus(USERINFO *pUserList, const TCHAR *pszUID, WORD st
 	return ui;
 }
 
-static USERINFO* UM_SetContactStatus(USERINFO *pUserList, const TCHAR *pszUID, WORD status)
+static USERINFO* UM_SetContactStatus(USERINFO *pUserList, const wchar_t *pszUID, WORD status)
 {
 	USERINFO *ui = UM_FindUser(pUserList, pszUID);
 	if (ui == NULL)
@@ -1026,7 +1026,7 @@ static USERINFO* UM_SetContactStatus(USERINFO *pUserList, const TCHAR *pszUID, W
 	return ui;
 }
 
-static BOOL UM_SetStatusEx(USERINFO *pUserList, const TCHAR* pszText, int flags)
+static BOOL UM_SetStatusEx(USERINFO *pUserList, const wchar_t* pszText, int flags)
 {
 	int bOnlyMe = (flags & GC_SSE_ONLYLISTED) != 0, bSetStatus = (flags & GC_SSE_ONLINE) != 0;
 	char cDelimiter = (flags & GC_SSE_TABDELIMITED) ? '\t' : ' ';
@@ -1036,7 +1036,7 @@ static BOOL UM_SetStatusEx(USERINFO *pUserList, const TCHAR* pszText, int flags)
 			ui->iStatusEx = 0;
 
 		if (pszText != NULL) {
-			TCHAR *s = (TCHAR *)_tcsstr(pszText, ui->pszUID);
+			wchar_t *s = (wchar_t *)wcsstr(pszText, ui->pszUID);
 			if (s) {
 				ui->iStatusEx = 0;
 				if (s == pszText || s[-1] == cDelimiter) {
@@ -1050,7 +1050,7 @@ static BOOL UM_SetStatusEx(USERINFO *pUserList, const TCHAR* pszText, int flags)
 	return TRUE;
 }
 
-static USERINFO* UM_TakeStatus(USERINFO *pUserList, const TCHAR *pszUID, WORD status)
+static USERINFO* UM_TakeStatus(USERINFO *pUserList, const wchar_t *pszUID, WORD status)
 {
 	USERINFO *ui = UM_FindUser(pUserList, pszUID);
 	if (ui == NULL)
@@ -1060,12 +1060,12 @@ static USERINFO* UM_TakeStatus(USERINFO *pUserList, const TCHAR *pszUID, WORD st
 	return ui;
 }
 
-static TCHAR* UM_FindUserAutoComplete(USERINFO *pUserList, const TCHAR* pszOriginal, const TCHAR* pszCurrent)
+static wchar_t* UM_FindUserAutoComplete(USERINFO *pUserList, const wchar_t* pszOriginal, const wchar_t* pszCurrent)
 {
 	if (!pUserList || !pszOriginal || !pszCurrent)
 		return NULL;
 
-	TCHAR *pszName = NULL;
+	wchar_t *pszName = NULL;
 	for (USERINFO *ui = pUserList; ui != NULL; ui = ui->next)
 		if (ui->pszNick && my_strstri(ui->pszNick, pszOriginal) == ui->pszNick)
 			if (mir_tstrcmpi(ui->pszNick, pszCurrent) > 0 && (!pszName || mir_tstrcmpi(ui->pszNick, pszName) < 0))
@@ -1074,7 +1074,7 @@ static TCHAR* UM_FindUserAutoComplete(USERINFO *pUserList, const TCHAR* pszOrigi
 	return pszName;
 }
 
-static BOOL UM_RemoveUser(USERINFO **ppUserList, const TCHAR *pszUID)
+static BOOL UM_RemoveUser(USERINFO **ppUserList, const wchar_t *pszUID)
 {
 	if (!ppUserList || !pszUID)
 		return FALSE;

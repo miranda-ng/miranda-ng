@@ -19,28 +19,28 @@ TrustLevel otr_context_get_trust(ConnContext *context);
 void VerifyFingerprint(ConnContext *context, bool verify);
 void VerifyFingerprintMessage(ConnContext *context, bool verify);
 
-void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20]);
+void otrl_privkey_hash_to_humanT(wchar_t human[45], const unsigned char hash[20]);
 
 char* contact_get_id(MCONTACT hContact, bool bNameOnError=true);
 __inline const char* contact_get_account(MCONTACT hContact);
-extern __inline const TCHAR* contact_get_nameT(MCONTACT hContact);
+extern __inline const wchar_t* contact_get_nameT(MCONTACT hContact);
 
-TCHAR* ProtoGetNickname(const char* proto);
+wchar_t* ProtoGetNickname(const char* proto);
 
-void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTACT hContact = NULL);
-void ShowWarning(TCHAR* msg);
-void ShowError(TCHAR* msg);
+void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MCONTACT hContact = NULL);
+void ShowWarning(wchar_t* msg);
+void ShowError(wchar_t* msg);
 void ShowPopupUtf(const char* line1, const char* line2, int timeout, const MCONTACT hContact = NULL);
 void ShowWarningUtf(char* msg);
 void ShowErrorUtf(char* msg);
 
-void ShowMessageInline(const MCONTACT hContact, const TCHAR *msg);
+void ShowMessageInline(const MCONTACT hContact, const wchar_t *msg);
 void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg);
 
-void ShowMessage(const MCONTACT hContact, const TCHAR *msg);
+void ShowMessage(const MCONTACT hContact, const wchar_t *msg);
 void ShowMessageUtf(const MCONTACT hContact, const char *msg);
 
-const TCHAR *policy_to_string(OtrlPolicy policy);
-OtrlPolicy policy_from_string(const TCHAR *polstring);
+const wchar_t *policy_to_string(OtrlPolicy policy);
+OtrlPolicy policy_from_string(const wchar_t *polstring);
 
 #endif

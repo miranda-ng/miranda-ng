@@ -152,7 +152,7 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 	DBEVENTINFO info = {0};
 	info.cbSize = sizeof(DBEVENTINFO);
 	info.szModule = GetContactProto(hContact);
-	TCHAR _str[MAXSELECTSTR + 8]; // for safety reason
+	wchar_t _str[MAXSELECTSTR + 8]; // for safety reason
 	std::multimap<DWORD, IImport::ExternalMessage> sortedEvents;
 	while(dataSize > 0) {
 		messageHeader.cbSize = 0;

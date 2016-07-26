@@ -130,10 +130,10 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = ghInst;
 		odp.flags = ODPF_TCHAR;
-		odp.ptszTitle = mir_utf8decodeT(pszGroup);
+		odp.pwszTitle = mir_utf8decodeT(pszGroup);
 		
 		INT_PTR rc = UserInfo_AddPage((WPARAM)&psh, &odp);
-		mir_free(odp.ptszTitle);
+		mir_free(odp.pwszTitle);
 		if (!rc) {
 			_pItems = psh._pPages;
 			_numItems = psh._numPages;
@@ -368,7 +368,7 @@ HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
 		!pti->Name() ||
 		!pti->Label())
 	{
-		MsgErr(GetParent(_hWndTree), LPGENT("Due to a parameter error, one of the treeitems can't be added!"));
+		MsgErr(GetParent(_hWndTree), LPGENW("Due to a parameter error, one of the treeitems can't be added!"));
 		return NULL;
 	}	
 	// item is visible at the moment
@@ -393,7 +393,7 @@ HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
 		// insert item into tree if set visible
 		if ((tvii.itemex.hItem = TreeView_InsertItem(_hWndTree, &tvii)) == NULL) 
 		{
-			MsgErr(GetParent(_hWndTree), LPGENT("A fatal error occurred on adding a property sheet page!\nDialog creation aborted!"));
+			MsgErr(GetParent(_hWndTree), LPGENW("A fatal error occurred on adding a property sheet page!\nDialog creation aborted!"));
 			return NULL;
 		}
 		pti->Hti(tvii.itemex.hItem);
@@ -685,7 +685,7 @@ int CPsTree::BeginLabelEdit(HTREEITEM hItem)
  **/
 int CPsTree::EndLabelEdit(const BYTE bSave)
 {
-	TCHAR szEdit[MAX_TINAME];
+	wchar_t szEdit[MAX_TINAME];
 	TVITEM tvi;
 	WORD cchEdit;
 

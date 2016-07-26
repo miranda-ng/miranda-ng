@@ -108,7 +108,7 @@ WORD   GetMyStatusFlags();
 
 int    IsValidRelativePath(const char *filename);
 LPCSTR ExtractFileName(const char *fullname);
-char*  FileNameToUtf(const TCHAR *filename);
+char*  FileNameToUtf(const wchar_t *filename);
 
 int    FileAccessUtf(const char *path, int mode);
 int    FileStatUtf(const char *path, struct _stati64 *buffer);

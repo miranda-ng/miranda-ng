@@ -24,7 +24,7 @@ namespace
 		tofstream file(rsFileName.c_str(), std::ios::ate | std::ios::app);
 		if (file.good())
 		{
-			TCHAR szTime[20];
+			wchar_t szTime[20];
 			_tstrtime_s(szTime);
 			file << szTime << L" ================================>\n" << rsMsg << L"\n\n";
 		}

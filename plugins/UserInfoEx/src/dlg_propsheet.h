@@ -226,7 +226,7 @@ public:
 	WORD			_numPages;		// number of pages
 	DWORD			_dwFlags;		// some option flags
 	HIMAGELIST		_hImages;		// the imagelist with all tree item icons
-	LIST<TCHAR>		_ignore;		// list of to skipp items when adding metasubcontacts pages
+	LIST<wchar_t>		_ignore;		// list of to skipp items when adding metasubcontacts pages
 	int				_nSubContact;	// index of a current subcontact
 
 	CPsHdr();

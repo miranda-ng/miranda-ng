@@ -21,7 +21,7 @@
 
 #include "gg.h"
 
-GGPROTO::GGPROTO(const char *pszProtoName, const TCHAR *tszUserName) :
+GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
 	PROTO<GGPROTO>(pszProtoName, tszUserName),
 	avatar_requests(1, NumericKeySortT),
 	avatar_transfers(1, NumericKeySortT)
@@ -39,7 +39,7 @@ GGPROTO::GGPROTO(const char *pszProtoName, const TCHAR *tszUserName) :
 	InitializeCriticalSection(&sessions_mutex);
 
 	// Register m_hNetlibUser user
-	TCHAR name[128];
+	wchar_t name[128];
 	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { 0 };
@@ -67,8 +67,8 @@ GGPROTO::GGPROTO(const char *pszProtoName, const TCHAR *tszUserName) :
 
 	db_set_resident(m_szModuleName, GG_KEY_AVATARREQUESTED);
 
-	TCHAR szPath[MAX_PATH];
-	mir_sntprintf(szPath, L"%s\\%s\\ImageCache", (TCHAR*)VARST(L"%miranda_userdata%"), m_tszUserName);
+	wchar_t szPath[MAX_PATH];
+	mir_sntprintf(szPath, L"%s\\%s\\ImageCache", (wchar_t*)VARST(L"%miranda_userdata%"), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
 	DWORD dwVersion;
@@ -131,9 +131,9 @@ MCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 	if (psr->cbSize == sizeof(GGSEARCHRESULT))
 		uin = psr->uin;
 	else
-		uin = _ttoi(psr->id.t);
+		uin = _wtoi(psr->id.w);
 
-	return getcontact(uin, 1, flags & PALF_TEMPORARY ? 0 : 1, psr->nick.t);
+	return getcontact(uin, 1, flags & PALF_TEMPORARY ? 0 : 1, psr->nick.w);
 }
 
 //////////////////////////////////////////////////////////
@@ -252,7 +252,7 @@ void __cdecl GGPROTO::searchthread(void *)
 //////////////////////////////////////////////////////////
 // when basic search
 //
-HANDLE GGPROTO::SearchBasic(const TCHAR *id)
+HANDLE GGPROTO::SearchBasic(const wchar_t *id)
 {
 	if (!isonline())
 		return 0;
@@ -289,7 +289,7 @@ HANDLE GGPROTO::SearchBasic(const TCHAR *id)
 //////////////////////////////////////////////////////////
 // search by details
 //
-HANDLE GGPROTO::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName)
+HANDLE GGPROTO::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	// Check if connected and if there's a search data
 	if (!isonline())
@@ -377,7 +377,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	CMStringA szQuery;
 
 	// Fetch search data
-	TCHAR text[64];
+	wchar_t text[64];
 	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, _countof(text));
 	if (mir_tstrlen(text)) {
 		T2Utf firstName_utf8(text);
@@ -622,10 +622,10 @@ HANDLE GGPROTO::GetAwayMsg(MCONTACT hContact)
 // when away message is being set
 // registered as ProtoService PS_SETAWAYMSGT
 //
-int GGPROTO::SetAwayMsg(int iStatus, const TCHAR *newMsg)
+int GGPROTO::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 {
 	int status = gg_normalizestatus(iStatus);
-	TCHAR **msgPtr;
+	wchar_t **msgPtr;
 
 	debugLog(L"SetAwayMsg(): PS_SETAWAYMSG(%d, \"%s\".)", iStatus, newMsg);
 

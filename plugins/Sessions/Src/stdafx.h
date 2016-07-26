@@ -55,7 +55,7 @@ int DeleteAutoSession(int ses_count);
 int LoadSession(WPARAM, LPARAM);
 int SaveSessionHandles(WPARAM, LPARAM);
 INT_PTR SaveUserSessionHandles(WPARAM, LPARAM);
-int SaveUserSessionName(TCHAR*);
+int SaveUserSessionName(wchar_t*);
 INT_PTR CloseCurrentSession(WPARAM, LPARAM);
 int SaveSessionDate();
 

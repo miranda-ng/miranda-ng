@@ -56,7 +56,7 @@ struct SendPounceDlgProcStruct
 {
 	MCONTACT hContact;
 	int timer;
-	TCHAR *message;
+	wchar_t *message;
 };
 
 extern HINSTANCE hInst;
@@ -66,7 +66,7 @@ extern HINSTANCE hInst;
 //=======================================================
 
 // main.c
-void SendPounce(TCHAR* text, MCONTACT hContact);
+void SendPounce(wchar_t* text, MCONTACT hContact);
 
 //dialog.c
 INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -56,7 +56,7 @@
 typedef struct {
 	int ping_period, ping_timeout;
 	bool show_popup, show_popup2, block_reps, logging;
-	TCHAR log_filename[MAX_PATH];
+	wchar_t log_filename[MAX_PATH];
 	bool no_test_icon;
 	int row_height;
 	int indent;
@@ -83,16 +83,16 @@ typedef LinkedList< HistPair > HistoryList;
 struct PINGADDRESS {
 	int cbSize;	//size in bytes of this structure
 	DWORD item_id;
-	TCHAR pszName[MAX_PINGADDRESS_STRING_LENGTH];		//IP address or domain name
-	TCHAR pszLabel[MAX_PINGADDRESS_STRING_LENGTH];
+	wchar_t pszName[MAX_PINGADDRESS_STRING_LENGTH];		//IP address or domain name
+	wchar_t pszLabel[MAX_PINGADDRESS_STRING_LENGTH];
 	bool responding;
 	int status;
 	short round_trip_time;
 	int miss_count;
 	int port; // -1 for ICMP, non-zero for TCP
 	char pszProto[MAX_PINGADDRESS_STRING_LENGTH];
-	TCHAR pszCommand[MAX_PATH];
-	TCHAR pszParams[MAX_PATH];
+	wchar_t pszCommand[MAX_PATH];
+	wchar_t pszParams[MAX_PATH];
 	unsigned int get_status;		// on success, if status equals this
 	unsigned int set_status;	// set it to this
 	int index;

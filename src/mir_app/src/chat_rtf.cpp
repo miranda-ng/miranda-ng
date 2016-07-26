@@ -28,31 +28,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
 // tags and return plain text
 
-static TCHAR tszRtfBreaks[] = L" \\\n\r";
+static wchar_t tszRtfBreaks[] = L" \\\n\r";
 
 static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst)
 {
-	const TCHAR *pszText = Text;
+	const wchar_t *pszText = Text;
 	int iIndex = 1;
 
-	static const TCHAR *lpszFmt = L"\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];";
-	TCHAR szRed[10], szGreen[10], szBlue[10];
+	static const wchar_t *lpszFmt = L"\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];";
+	wchar_t szRed[10], szGreen[10], szBlue[10];
 
-	const TCHAR *p1 = _tcsstr(pszText, L"\\colortbl");
+	const wchar_t *p1 = wcsstr(pszText, L"\\colortbl");
 	if (!p1)
 		return;
 
-	const TCHAR *pEnd = _tcschr(p1, '}');
+	const wchar_t *pEnd = wcschr(p1, '}');
 
-	const TCHAR *p2 = _tcsstr(p1, L"\\red");
+	const wchar_t *p2 = wcsstr(p1, L"\\red");
 
 	for (int i = 0; i < iCount; i++)
 		pDst[i] = -1;
 
 	while (p2 && p2 < pEnd) {
-		if (_stscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
+		if (swscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
 			for (int i = 0; i < iCount; i++) {
-				if (pSrc[i] == RGB(_ttoi(szRed), _ttoi(szGreen), _ttoi(szBlue)))
+				if (pSrc[i] == RGB(_wtoi(szRed), _wtoi(szGreen), _wtoi(szBlue)))
 					pDst[i] = iIndex;
 			}
 		}
@@ -60,7 +60,7 @@ static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst
 		p1 = p2;
 		p1++;
 
-		p2 = _tcsstr(p1, L"\\red");
+		p2 = wcsstr(p1, L"\\red");
 	}
 }
 
@@ -96,7 +96,7 @@ int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
 	CMString res;
 
 	// iterate through all characters, if rtf control character found then take action
-	for (const TCHAR *p = pszText.GetString() + idx; *p;) {
+	for (const wchar_t *p = pszText.GetString() + idx; *p;) {
 		switch (*p) {
 		case '\\':
 			if (p[1] == '\\' || p[1] == '{' || p[1] == '}') { // escaped characters
@@ -108,79 +108,79 @@ int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
 				p += 2; break;
 			}
 
-			if (!_tcsncmp(p, L"\\cf", 3)) { // foreground color
-				int iCol = _ttoi(p + 3);
+			if (!wcsncmp(p, L"\\cf", 3)) { // foreground color
+				int iCol = _wtoi(p + 3);
 				int iInd = GetRtfIndex(iCol, iNumColors, pIndex);
 				bInsideColor = iInd > 0;
 			}
-			else if (!_tcsncmp(p, L"\\highlight", 10)) { //background color
-				TCHAR szTemp[20];
-				int iCol = _ttoi(p + 10);
+			else if (!wcsncmp(p, L"\\highlight", 10)) { //background color
+				wchar_t szTemp[20];
+				int iCol = _wtoi(p + 10);
 				mir_sntprintf(szTemp, L"%d", iCol);
 			}
-			else if (!_tcsncmp(p, L"\\line", 5)) { // soft line break;
+			else if (!wcsncmp(p, L"\\line", 5)) { // soft line break;
 				res.AppendChar('\n');
 			}
-			else if (!_tcsncmp(p, L"\\endash", 7)) {
+			else if (!wcsncmp(p, L"\\endash", 7)) {
 				res.AppendChar(0x2013);
 			}
-			else if (!_tcsncmp(p, L"\\emdash", 7)) {
+			else if (!wcsncmp(p, L"\\emdash", 7)) {
 				res.AppendChar(0x2014);
 			}
-			else if (!_tcsncmp(p, L"\\bullet", 7)) {
+			else if (!wcsncmp(p, L"\\bullet", 7)) {
 				res.AppendChar(0x2022);
 			}
-			else if (!_tcsncmp(p, L"\\ldblquote", 10)) {
+			else if (!wcsncmp(p, L"\\ldblquote", 10)) {
 				res.AppendChar(0x201C);
 			}
-			else if (!_tcsncmp(p, L"\\rdblquote", 10)) {
+			else if (!wcsncmp(p, L"\\rdblquote", 10)) {
 				res.AppendChar(0x201D);
 			}
-			else if (!_tcsncmp(p, L"\\lquote", 7)) {
+			else if (!wcsncmp(p, L"\\lquote", 7)) {
 				res.AppendChar(0x2018);
 			}
-			else if (!_tcsncmp(p, L"\\rquote", 7)) {
+			else if (!wcsncmp(p, L"\\rquote", 7)) {
 				res.AppendChar(0x2019);
 			}
-			else if (!_tcsncmp(p, L"\\b", 2)) { //bold
+			else if (!wcsncmp(p, L"\\b", 2)) { //bold
 				res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
 			}
-			else if (!_tcsncmp(p, L"\\i", 2)) { // italics
+			else if (!wcsncmp(p, L"\\i", 2)) { // italics
 				res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
 			}
-			else if (!_tcsncmp(p, L"\\strike", 7)) { // strike-out
+			else if (!wcsncmp(p, L"\\strike", 7)) { // strike-out
 				res.Append((p[7] != '0') ? L"[s]" : L"[/s]");
 			}
-			else if (!_tcsncmp(p, L"\\ul", 3)) { // underlined
-				if (p[3] == 0 || _tcschr(tszRtfBreaks, p[3])) {
+			else if (!wcsncmp(p, L"\\ul", 3)) { // underlined
+				if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
 					res.Append(L"[u]");
 					bInsideUl = true;
 				}
-				else if (!_tcsnccmp(p + 3, L"none", 4)) {
+				else if (!wcsncmp(p + 3, L"none", 4)) {
 					if (bInsideUl)
 						res.Append(L"[/u]");
 					bInsideUl = false;
 				}
 			}
-			else if (!_tcsncmp(p, L"\\tab", 4)) { // tab
+			else if (!wcsncmp(p, L"\\tab", 4)) { // tab
 				res.AppendChar('\t');
 			}
 			else if (p[1] == '\'') { // special character
 				if (p[2] != ' ' && p[2] != '\\') {
-					TCHAR tmp[10], *t = tmp;
+					wchar_t tmp[10], *t = tmp;
 					*t++ = p[2];
 					if (p[3] != ' ' && p[3] != '\\')
 						*t++ = p[3];
 					*t = 0;
 
 					// convert string containing char in hex format to int.
-					TCHAR *stoppedHere;
-					res.AppendChar(_tcstol(tmp, &stoppedHere, 16));
+					wchar_t *stoppedHere;
+					res.AppendChar(wcstol(tmp, &stoppedHere, 16));
 				}
 			}
 
 			p++; // skip initial slash
-			p += _tcscspn(p, tszRtfBreaks);
+			p += wcscspn(p, tszRtfBreaks);
 			if (*p == ' ')
 				p++;
 			break;

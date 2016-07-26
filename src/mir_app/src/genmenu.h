@@ -49,7 +49,7 @@ struct TMO_IntMenuItem
 	int          iconId;           // icon index in the section's image list
 	TMO_MenuItem mi;               // user-defined data
 	char*        pszUniqName;      // unique name
-	TCHAR*       ptszCustomName;
+	wchar_t*       ptszCustomName;
 	HANDLE       hIcolibItem;      // handle of iconlib item
 	HBITMAP      hBmp;
 	int          originalPosition; // !!!!!!!!!!!!!!!!!!!!!!!!
@@ -72,7 +72,7 @@ struct TIntMenuObject : public MZeroedObject
 
 	int id;
 	char *pszName;
-	TCHAR *ptszDisplayName;
+	wchar_t *ptszDisplayName;
 
 	//ExecService
 	//LPARAM lParam;//owner data

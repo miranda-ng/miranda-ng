@@ -48,7 +48,7 @@ DWORD argb_from_cola(COLORREF col, BYTE alpha)
 	return((BYTE)(alpha) << 24 | col);
 }
 
-HBITMAP GDIPlus_LoadGlyphImage(const TCHAR *tszFileName)
+HBITMAP GDIPlus_LoadGlyphImage(const wchar_t *tszFileName)
 {
 	// Create a Bitmap object from a JPEG file.
 	Bitmap bitmap(tszFileName, 0);
@@ -149,7 +149,7 @@ COLORREF __inline _revcolref(COLORREF colref)
 // based on routine from http://www.codeproject.com/vcpp/gdiplus/imageexgdi.asp
 //
 
-BOOL GDIPlus_IsAnimatedGif(TCHAR * szName)
+BOOL GDIPlus_IsAnimatedGif(wchar_t * szName)
 {
 	int nFrameCount = 0;
 	Image image(szName);
@@ -169,7 +169,7 @@ BOOL GDIPlus_IsAnimatedGif(TCHAR * szName)
 	return (BOOL)(nFrameCount > 1);
 }
 
-void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &pBitmap, int* &pframesDelay, int &pframesCount, SIZE &pSizeAvatar)
+void GDIPlus_ExtractAnimatedGIF(wchar_t *szName, int width, int height, HBITMAP &pBitmap, int* &pframesDelay, int &pframesCount, SIZE &pSizeAvatar)
 {
 	int nFrameCount = 0;
 	Bitmap image(szName);

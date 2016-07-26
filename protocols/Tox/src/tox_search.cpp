@@ -91,7 +91,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 
 	/*int resolved = 0;
 
-	if (IsFileExists((TCHAR*)VARST(_T(TOX_INI_PATH))))
+	if (IsFileExists((wchar_t*)VARST(_T(TOX_INI_PATH))))
 	{
 		char fileName[MAX_PATH];
 		mir_strcpy(fileName, VARS(TOX_INI_PATH));
@@ -223,7 +223,7 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 	std::smatch match;
 	std::regex regex("^\\s*([A-Fa-f0-9]{76})\\s*$");
 
-	TCHAR text[MAX_PATH];
+	wchar_t text[MAX_PATH];
 	GetDlgItemText(owner, IDC_SEARCH, text, _countof(text));
 
 	const std::string query = T2Utf(text).str();

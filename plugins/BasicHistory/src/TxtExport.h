@@ -23,7 +23,7 @@ class TxtExport :
 	public IExport
 {
 public:
-	virtual const TCHAR* GetExt()
+	virtual const wchar_t* GetExt()
 	{
 		return L"txt";
 	}

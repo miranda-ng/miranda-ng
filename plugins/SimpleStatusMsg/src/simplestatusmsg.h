@@ -81,7 +81,7 @@ int LoadAwayMsgModule(void);
 int AwayMsgPreShutdown(void);
 
 /* main.cpp */
-void SetStatusMessage(const char *szProto, int initial_status_mode, int status_mode, TCHAR *message, BOOL on_startup);
+void SetStatusMessage(const char *szProto, int initial_status_mode, int status_mode, wchar_t *message, BOOL on_startup);
 
 /* msgbox.cpp */
 INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -97,7 +97,7 @@ void ReleaseIconEx(const char* name);
 HANDLE HookProtoEvent(const char *szModule, const char *szEvent, MIRANDAHOOKPARAM hookProc);
 void UnhookProtoEvents(void);
 int GetRandom(int from, int to);
-const TCHAR *GetDefaultMessage(int status);
+const wchar_t *GetDefaultMessage(int status);
 const char *StatusModeToDbSetting(int status, const char *suffix);
 int GetCurrentStatus(const char *szProto);
 int GetStartupStatus(const char *szProto);

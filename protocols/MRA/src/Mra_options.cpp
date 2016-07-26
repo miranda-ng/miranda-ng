@@ -36,7 +36,7 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			TCHAR szBuff[MAX_EMAIL_LEN];
+			wchar_t szBuff[MAX_EMAIL_LEN];
 			GetDlgItemText(hWndDlg, IDC_LOGIN, szBuff, _countof(szBuff));
 			ppro->setTString(NULL, "e-mail", szBuff);
 
@@ -86,7 +86,7 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			TCHAR szBuff[MAX_EMAIL_LEN];
+			wchar_t szBuff[MAX_EMAIL_LEN];
 			GetDlgItemText(hWndDlg, IDC_LOGIN, szBuff, _countof(szBuff));
 			ppro->mraSetStringW(NULL, "e-mail", szBuff);
 
@@ -186,7 +186,7 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			TCHAR szBuff[MAX_PATH];
+			wchar_t szBuff[MAX_PATH];
 			GetDlgItemText(hWndDlg, IDC_SERVER, szBuff, _countof(szBuff));
 			ppro->mraSetStringW(NULL, "Server", szBuff);
 			ppro->setWord("ServerPort", (WORD)GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
@@ -216,26 +216,26 @@ int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.dwInitParam = (LPARAM)this;
 	odp.hInstance = g_hInstance;
-	odp.ptszTitle = m_tszUserName;
-	odp.ptszGroup = LPGENT("Network");
+	odp.pwszTitle = m_tszUserName;
+	odp.pwszGroup = LPGENW("Network");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszTab = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ACCOUNT);
 	odp.pfnDlgProc = DlgProcOptsAccount;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Connections");
+	odp.pwszTab = LPGENW("Connections");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONNECTIONS);
 	odp.pfnDlgProc = DlgProcOptsConnections;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Files");
+	odp.pwszTab = LPGENW("Files");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILES);
 	odp.pfnDlgProc = MraFilesQueueDlgProcOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Avatars");
+	odp.pwszTab = LPGENW("Avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AVATRS);
 	odp.pfnDlgProc = MraAvatarsQueueDlgProcOpts;
 	Options_AddPage(wParam, &odp);

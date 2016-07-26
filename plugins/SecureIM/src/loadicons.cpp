@@ -76,8 +76,8 @@ void InitIcons(void)
 	HINSTANCE hNewIconInst = NULL;
 
 	if (g_hFolders) {
-		TCHAR pathname[MAX_PATH];
-		FoldersGetCustomPathExT(g_hFolders, pathname, MAX_PATH, "icons\\");
+		char pathname[MAX_PATH];
+		FoldersGetCustomPath(g_hFolders, pathname, MAX_PATH, "icons\\");
 		if (hNewIconInst == NULL)
 			hNewIconInst = LoadIconsPack(pathname);
 	}
@@ -93,12 +93,12 @@ void InitIcons(void)
 	else
 		g_hIconInst = hNewIconInst;
 
-	TCHAR tszPath[MAX_PATH];
+	char tszPath[MAX_PATH];
 	GetModuleFileName(g_hIconInst, tszPath, _countof(tszPath));
 
 	SKINICONDESC sid = { 0 };
 	sid.section.a = "SecureIM";
-	sid.defaultFile.t = tszPath;
+	sid.defaultFile.a = tszPath;
 
 	for (int i = 0; i < _countof(icons); i++) {
 		sid.section.a = icons[i].section;

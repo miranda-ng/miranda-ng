@@ -14,9 +14,9 @@ struct send_direct
 
 struct input_box
 {
-	tstring text;
-	tstring title;
-	tstring defaultValue;
+	wstring text;
+	wstring title;
+	wstring defaultValue;
 	int limit;
 
 	void(__cdecl WhatsAppProto::*thread)(void*);

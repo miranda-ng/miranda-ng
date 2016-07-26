@@ -71,7 +71,7 @@ static void LoadDBText(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const 
 
 static void StoreDBText(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
-	TCHAR tstr[250+1];
+	wchar_t tstr[250+1];
 
 	GetDlgItemText(hwnd, idCtrl, tstr, _countof(tstr));
 	if (tstr[0] != '\0') {

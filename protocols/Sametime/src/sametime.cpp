@@ -248,7 +248,7 @@ void CSametimeProto::BroadcastNewStatus(int iNewStatus)
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previous_status, m_iStatus);
 }
 
-static CSametimeProto* sametime_proto_init(const char* pszProtoName, const TCHAR* tszUserName)
+static CSametimeProto* sametime_proto_init(const char* pszProtoName, const wchar_t* tszUserName)
 {
 	CSametimeProto* proto = new CSametimeProto(pszProtoName, tszUserName);
 	g_Instances.insert(proto);

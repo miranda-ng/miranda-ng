@@ -85,7 +85,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define IOPT_HISTORY 		0x000007FE
 
-void AddMessage(const TCHAR* fmt, ...);
+void AddMessage(const wchar_t* fmt, ...);
 
 INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
@@ -96,12 +96,12 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 
 bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 
-int CreateGroup(const TCHAR* name, MCONTACT hContact);
+int CreateGroup(const wchar_t* name, MCONTACT hContact);
 
 extern HINSTANCE hInst;
 extern HWND hwndAccMerge;
 extern int nImportOptions;
-extern TCHAR importFile[];
+extern wchar_t importFile[];
 extern time_t dwSinceDate;
 extern bool g_bServiceMode;
 

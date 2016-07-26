@@ -59,7 +59,7 @@ BOOL IsUnicodeAscii(const WCHAR * pBuffer, int nSize)
 	return TRUE;
 }
 
-void ConvertToFilename(TCHAR *str, size_t size)
+void ConvertToFilename(wchar_t *str, size_t size)
 {
 	for(size_t i = 0; i < size && str[i] != '\0'; i++) {
 		switch(str[i]) {
@@ -77,10 +77,10 @@ void ConvertToFilename(TCHAR *str, size_t size)
 	}
 }
 
-TCHAR* GetExtension(TCHAR *file)
+wchar_t* GetExtension(wchar_t *file)
 {
 	if (file == NULL) return L"";
-	TCHAR *ext = _tcsrchr(file, _T('.'));
+	wchar_t *ext = wcsrchr(file, '.');
 	if (ext != NULL)
 		ext++;
 	else
@@ -89,7 +89,7 @@ TCHAR* GetExtension(TCHAR *file)
 	return ext;
 }
 
-TCHAR* GetHistoryFolder(TCHAR *fn)
+wchar_t* GetHistoryFolder(wchar_t *fn)
 {
 	if (fn == NULL) return NULL;
 	FoldersGetCustomPathT(hFolder, fn, MAX_PATH, basedir);
@@ -97,7 +97,7 @@ TCHAR* GetHistoryFolder(TCHAR *fn)
 	return fn;
 }
 
-TCHAR* GetProtocolFolder(TCHAR *fn, char *proto)
+wchar_t* GetProtocolFolder(wchar_t *fn, char *proto)
 {
 	GetHistoryFolder(fn);
 
@@ -109,20 +109,20 @@ TCHAR* GetProtocolFolder(TCHAR *fn, char *proto)
 	return fn;
 }
 
-TCHAR* GetContactFolder(TCHAR *fn, MCONTACT hContact)
+wchar_t* GetContactFolder(wchar_t *fn, MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	GetProtocolFolder(fn, proto);
 	
-	TCHAR uin[MAX_PATH];
+	wchar_t uin[MAX_PATH];
 	ptrT id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
-	_tcsncpy_s(uin, (id == NULL) ? TranslateT("Unknown UIN") : id, _TRUNCATE);
+	wcsncpy_s(uin, (id == NULL) ? TranslateT("Unknown UIN") : id, _TRUNCATE);
 	ConvertToFilename(uin, MAX_PATH); //added so that weather id's like "yw/CI0000" work
 	mir_sntprintf(fn, MAX_PATH, L"%s\\%s", fn, uin);
 	CreateDirectoryTreeT(fn);
 	
 #ifdef DBGPOPUPS
-	TCHAR log[1024];
+	wchar_t log[1024];
 	mir_sntprintf(log, L"Path: %s\nProto: %S\nUIN: %s", fn, proto, uin);
 	ShowPopup(hContact, L"AVH Debug: GetContactFolder", log);
 #endif
@@ -130,7 +130,7 @@ TCHAR* GetContactFolder(TCHAR *fn, MCONTACT hContact)
 	return fn;
 }
 
-TCHAR* GetOldStyleAvatarName(TCHAR *fn, MCONTACT hContact)
+wchar_t* GetOldStyleAvatarName(wchar_t *fn, MCONTACT hContact)
 {
 	GetContactFolder(fn, hContact);
 
@@ -144,9 +144,9 @@ TCHAR* GetOldStyleAvatarName(TCHAR *fn, MCONTACT hContact)
 	return fn;
 }
 
-void CreateOldStyleShortcut(MCONTACT hContact, TCHAR *history_filename)
+void CreateOldStyleShortcut(MCONTACT hContact, wchar_t *history_filename)
 {
-	TCHAR shortcut[MAX_PATH] = L"";
+	wchar_t shortcut[MAX_PATH] = L"";
 
 	GetOldStyleAvatarName(shortcut, hContact);
 
@@ -163,18 +163,18 @@ void CreateOldStyleShortcut(MCONTACT hContact, TCHAR *history_filename)
 	}
 }
 
-BOOL CopyImageFile(TCHAR *old_file, TCHAR *new_file)
+BOOL CopyImageFile(wchar_t *old_file, wchar_t *new_file)
 {
-	TCHAR *ext = GetExtension(old_file);
+	wchar_t *ext = GetExtension(old_file);
 	mir_sntprintf(new_file, MAX_PATH, L"%s.%s", new_file, ext);
 	return !CopyFile(old_file, new_file, TRUE);
 }
 
-TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
+wchar_t * GetCachedAvatar(char *proto, wchar_t *hash)
 {
-	TCHAR *ret = NULL;
-	TCHAR file[1024] = L"";
-	TCHAR search[1024] = L"";
+	wchar_t *ret = NULL;
+	wchar_t file[1024] = L"";
+	wchar_t search[1024] = L"";
 	if (opts.log_keep_same_folder)
 		GetHistoryFolder(file);
 	else
@@ -207,7 +207,7 @@ TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
 	return ret;
 }
 
-BOOL CreateShortcut(TCHAR *file, TCHAR *shortcut)
+BOOL CreateShortcut(wchar_t *file, wchar_t *shortcut)
 {
 	IShellLink *psl = NULL;
 	HRESULT hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **) &psl);
@@ -227,7 +227,7 @@ BOOL CreateShortcut(TCHAR *file, TCHAR *shortcut)
 	return SUCCEEDED(hr);
 }
 
-BOOL ResolveShortcut(TCHAR *shortcut, TCHAR *file)
+BOOL ResolveShortcut(wchar_t *shortcut, wchar_t *file)
 {
 	IShellLink* psl = NULL;
 

@@ -43,8 +43,8 @@ private:
 	int openFileDialog();
 	int openFolderDialog();
 	void getFilesFromOpenDialog();
-	int getFilesFromFolder(TCHAR *stzFolder);
-	void addFile(TCHAR *fileName);
+	int getFilesFromFolder(wchar_t *stzFolder);
+	void addFile(wchar_t *fileName);
 
 public:
 	enum EMode
@@ -69,15 +69,15 @@ public:
 	MCONTACT m_hContact;
 	int m_iFtpNum, m_fileID;
 	ServerList::FTP *m_ftp;
-	TCHAR m_tszFilePath[1024];
-	TCHAR m_tszFileName[64];
+	wchar_t m_tszFilePath[1024];
+	wchar_t m_tszFileName[64];
 	char m_szSafeFileName[64];
 	EMode m_mode;
 	EStatus m_status;
 
 	UploadDialog::Tab *m_tab;
-	vector<TCHAR *> m_files;
-	TCHAR* operator[] (int i) const { return m_files[i];}
+	vector<wchar_t *> m_files;
+	wchar_t* operator[] (int i) const { return m_files[i];}
 
 	GenericJob(MCONTACT hContact, int m_iFtpNum, EMode mode);
 	GenericJob(GenericJob *job);
@@ -93,7 +93,7 @@ public:
 	bool isConnecting();
 	bool isCanceled();
 
-	TCHAR *getStatusString();
+	wchar_t *getStatusString();
 
 	virtual void start() = 0;
 	virtual void pause() = 0;

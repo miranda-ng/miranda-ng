@@ -23,8 +23,8 @@
 struct PopupData
 {
 	unsigned flags;
-	TCHAR* title;
-	TCHAR* text;
+	wchar_t* title;
+	wchar_t* text;
 	GGPROTO* gg;
 };
 
@@ -72,7 +72,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 //
 void GGPROTO::initpopups()
 {
-	TCHAR szDescr[256];
+	wchar_t szDescr[256];
 	char  szName[256];
 
 	POPUPCLASS puc = {0};
@@ -111,8 +111,8 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		char szName[256];
 		POPUPDATACLASS ppd = {sizeof(ppd)};
-		ppd.ptszTitle = puData->title;
-		ppd.ptszText = puData->text;
+		ppd.pwszTitle = puData->title;
+		ppd.pwszText = puData->text;
 		ppd.PluginData = puData;
 		ppd.pszClassName = szName;
 		
@@ -149,7 +149,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	mir_free(puData);
 }
 
-void GGPROTO::showpopup(const TCHAR* nickname, const TCHAR* msg, int flags)
+void GGPROTO::showpopup(const wchar_t* nickname, const wchar_t* msg, int flags)
 {
 	if (Miranda_Terminated()) return;
 

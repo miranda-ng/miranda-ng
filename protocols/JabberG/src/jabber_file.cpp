@@ -113,8 +113,8 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 			}
 			else {	// FT_INITIALIZING
 				if (str[0] == '\0') {
-					TCHAR *s;
-					if ((s = _tcsrchr(ft->httpPath, '/')) != NULL)
+					wchar_t *s;
+					if ((s = wcsrchr(ft->httpPath, '/')) != NULL)
 						s++;
 					else
 						s = ft->httpPath;
@@ -178,7 +178,7 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConnection, (LPARAM)&connInfo);
 
-	TCHAR szPort[10];
+	wchar_t szPort[10];
 	mir_sntprintf(szPort, L"%d", connInfo.wPort);
 	ppro->debugLogA("File server incoming connection accepted: %s", connInfo.szIpPort);
 
@@ -259,12 +259,12 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	ft->hFileEvent = hEvent;
 
-	TCHAR szPort[20];
+	wchar_t szPort[20];
 	mir_sntprintf(szPort, L"%d", nlb.wPort);
 	JABBER_LIST_ITEM *item = ListAdd(LIST_FILE, szPort);
 	item->ft = ft;
 
-	TCHAR *ptszResource = ListGetBestClientResourceNamePtr(ft->jid);
+	wchar_t *ptszResource = ListGetBestClientResourceNamePtr(ft->jid);
 	if (ptszResource != NULL) {
 		ft->state = FT_CONNECTING;
 		for (int i = 0; i < ft->std.totalFiles && ft->state != FT_ERROR && ft->state != FT_DENIED; i++) {
@@ -273,8 +273,8 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 			if (ft->httpPath) mir_free(ft->httpPath);
 			ft->httpPath = NULL;
 
-			TCHAR *p;
-			if ((p = _tcschr(ft->std.ptszFiles[i], '\\')) != NULL)
+			wchar_t *p;
+			if ((p = wcschr(ft->std.ptszFiles[i], '\\')) != NULL)
 				p++;
 			else
 				p = ft->std.ptszFiles[i];
@@ -293,7 +293,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);
 
 				size_t len = mir_tstrlen(ptszResource) + mir_tstrlen(ft->jid) + 2;
-				TCHAR *fulljid = (TCHAR *)alloca(sizeof(TCHAR) * len);
+				wchar_t *fulljid = (wchar_t *)alloca(sizeof(wchar_t) * len);
 				mir_sntprintf(fulljid, len, L"%s/%s", ft->jid, ptszResource);
 
 				XmlNodeIq iq(L"set", ft->szId, fulljid);
@@ -380,7 +380,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 				num += 2;
 
 				currentFile = ft->std.currentFileNumber;
-				TCHAR *t = _tcsrchr(ft->std.ptszFiles[currentFile], '\\');
+				wchar_t *t = wcsrchr(ft->std.ptszFiles[currentFile], '\\');
 				if (t != NULL)
 					t++;
 				else
@@ -395,8 +395,8 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 					break;
 				}
 				debugLog(L"Sending [%s]", ft->std.ptszFiles[currentFile]);
-				_tstati64(ft->std.ptszFiles[currentFile], &statbuf);	// file size in statbuf.st_size
-				if ((fileId = _topen(ft->std.ptszFiles[currentFile], _O_BINARY | _O_RDONLY)) < 0) {
+				_wstat64(ft->std.ptszFiles[currentFile], &statbuf);	// file size in statbuf.st_size
+				if ((fileId = _wopen(ft->std.ptszFiles[currentFile], _O_BINARY | _O_RDONLY)) < 0) {
 					debugLogA("File cannot be opened");
 					ft->state = FT_ERROR;
 					mir_free(ft->httpPath);
@@ -500,7 +500,7 @@ int filetransfer::create()
 	if (fileId != -1)
 		return fileId;
 
-	TCHAR filefull[MAX_PATH];
+	wchar_t filefull[MAX_PATH];
 	mir_sntprintf(filefull, L"%s\\%s", std.tszWorkingDir, std.tszCurrentFile);
 	replaceStrT(std.tszCurrentFile, filefull);
 
@@ -513,7 +513,7 @@ int filetransfer::create()
 
 	if (fileId == -1) {
 		ppro->debugLog(L"Saving to [%s]", std.tszCurrentFile);
-		fileId = _topen(std.tszCurrentFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
+		fileId = _wopen(std.tszCurrentFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 	}
 
 	if (fileId == -1)

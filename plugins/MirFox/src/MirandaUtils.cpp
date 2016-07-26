@@ -186,7 +186,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 
 		MirandaContact* mirandaContact = args->mirfoxDataPtr->getMirandaContactPtrByHandle((UINT_PTR)args->targetHandle);
 		const wchar_t* contactNameW = NULL;
-		TCHAR* tszAccountName = NULL;
+		wchar_t* tszAccountName = NULL;
 		if (mirandaContact){
 			contactNameW = mirandaContact->contactNameW.c_str();
 			MirandaAccount* mirandaAccount = mirandaContact->mirandaAccountPtr;
@@ -342,7 +342,7 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 	OnHookOpenMvStruct* param = (OnHookOpenMvStruct*)wParam;
 
 	if (param->msgBuffer != NULL){
-		TCHAR *msgBuffer = mir_tstrdup(param->msgBuffer->c_str());
+		wchar_t *msgBuffer = mir_tstrdup(param->msgBuffer->c_str());
 		CallServiceSync(MS_MSG_SENDMESSAGET, (WPARAM)param->targetHandle, (LPARAM)msgBuffer);
 		mir_free(msgBuffer);
 
@@ -392,7 +392,7 @@ void MirandaUtils::setStatusOnAccount(ActionThreadArgStruct* args)
 		result = CallProtoService(args->accountSzModuleName, PS_SETAWAYMSG, status, (LPARAM)args->userActionSelection);
 
 	MirandaAccount* mirandaAccount = args->mirfoxDataPtr->getMirandaAccountPtrBySzModuleName(args->accountSzModuleName);
-	TCHAR* tszAccountName = NULL;
+	wchar_t* tszAccountName = NULL;
 	if (mirandaAccount)
 		tszAccountName = mirandaAccount->tszAccountName;
 

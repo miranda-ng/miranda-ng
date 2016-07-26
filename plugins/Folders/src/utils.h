@@ -21,9 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_FOLDERS_UTILS_H
 #define M_FOLDERS_UTILS_H
 
-CMString ExpandPath(const TCHAR *format);
+CMString ExpandPath(const wchar_t *format);
 
-void RemoveDirectories(const TCHAR *szPath);
-bool DirectoryExists(const TCHAR *szPath);
+void RemoveDirectories(const wchar_t *szPath);
+bool DirectoryExists(const wchar_t *szPath);
 
 #endif

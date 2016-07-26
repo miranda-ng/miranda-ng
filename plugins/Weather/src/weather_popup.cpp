@@ -40,7 +40,7 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 	if (!opt.UsePopup)
 		return 0;
 
-	TCHAR* tszMsg = (TCHAR*)wParam;
+	wchar_t* tszMsg = (wchar_t*)wParam;
 
 	if ((DWORD)lParam == SM_WARNING)
 		PUShowMessageT(tszMsg, SM_WARNING);
@@ -48,19 +48,19 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 		PUShowMessageT(tszMsg, SM_NOTIFY);
 	else if ((DWORD)lParam == SM_WEATHERALERT) {
 		POPUPDATAT ppd = { 0 };
-		TCHAR str1[512], str2[512];
+		wchar_t str1[512], str2[512];
 
 		// get the 2 strings
-		_tcsncpy(str1, tszMsg, _countof(str1) - 1);
-		_tcsncpy(str2, tszMsg, _countof(str2) - 1);
-		TCHAR *chop = _tcschr(str1, 255);
+		wcsncpy(str1, tszMsg, _countof(str1) - 1);
+		wcsncpy(str2, tszMsg, _countof(str2) - 1);
+		wchar_t *chop = wcschr(str1, 255);
 		if (chop != NULL)
 			*chop = '\0';
 		else
 			str1[0] = 0;
-		chop = _tcschr(str2, 255);
+		chop = wcschr(str2, 255);
 		if (chop != NULL)
-			_tcsncpy(str2, chop + 1, _countof(str2) - 1);
+			wcsncpy(str2, chop + 1, _countof(str2) - 1);
 		else
 			str2[0] = 0;
 
@@ -81,7 +81,7 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 //  (threaded)
 // lpzText = error text
 // kind = display type (see m_popup.h)
-int WPShowMessage(TCHAR* lpzText, WORD kind)
+int WPShowMessage(wchar_t* lpzText, WORD kind)
 {
 	NotifyEventHooks(hHookWeatherError, (WPARAM)lpzText, (LPARAM)kind);
 	return 0;
@@ -211,8 +211,8 @@ static void SelectMenuItem(HMENU hMenu, int Check)
 // but does not write to the database
 void ReadPopupOpt(HWND hdlg)
 {
-	TCHAR text[MAX_TEXT_SIZE];
-	TCHAR str[512];
+	wchar_t text[MAX_TEXT_SIZE];
+	wchar_t str[512];
 
 	// popup colour
 	opt.TextColour = SendDlgItemMessage(hdlg, IDC_TEXTCOLOUR, CPM_GETCOLOUR, 0, 0);
@@ -220,7 +220,7 @@ void ReadPopupOpt(HWND hdlg)
 
 	// get delay time
 	GetDlgItemText(hdlg, IDC_DELAY, str, _countof(str));
-	int num = _ttoi(str);
+	int num = _wtoi(str);
 	opt.pDelay = num;
 
 	// other options
@@ -244,7 +244,7 @@ void ReadPopupOpt(HWND hdlg)
 INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ID;
-	TCHAR str[512];
+	wchar_t str[512];
 	HMENU hMenu, hMenu1;
 	RECT pos;
 	HWND button;
@@ -273,7 +273,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SetDlgItemText(hdlg, IDC_PText, opt.pText);
 		SetDlgItemText(hdlg, IDC_PTitle, opt.pTitle);
 		// setting popup delay option
-		_ltot(opt.pDelay, str, 10);
+		_ltow(opt.pDelay, str, 10);
 		SetDlgItemText(hdlg, IDC_DELAY, str);
 		if (opt.pDelay == -1)
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD2);
@@ -394,7 +394,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_VAR3:
 			// display variable list
-			_tcsncpy(str, L"                                                            \n", _countof(str) - 1);		// to make the message box wider
+			wcsncpy(str, L"                                                            \n", _countof(str) - 1);		// to make the message box wider
 			mir_tstrncat(str, VAR_LIST_POPUP, _countof(str) - mir_tstrlen(str));
 			mir_tstrncat(str, L"\n", _countof(str) - mir_tstrlen(str));
 			mir_tstrncat(str, CUSTOM_VARS, _countof(str) - mir_tstrlen(str));

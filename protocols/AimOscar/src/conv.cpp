@@ -538,7 +538,7 @@ char* rtf_to_html(HWND hwndDlg, int DlgItem)
 			isSize = 1;
 		else
 			isSize = 3;
-		TCHAR text[3] = L"";
+		wchar_t text[3] = L"";
 		SendDlgItemMessage(hwndDlg, DlgItem, EM_GETSELTEXT, 0, (LPARAM)&text);
 		if (Bold != isBold) {
 			Bold = isBold;
@@ -724,11 +724,11 @@ char* get_fname(char *path)
 	return pszFile;
 }
 
-TCHAR* get_dir(TCHAR *path)
+wchar_t* get_dir(wchar_t *path)
 {
-	TCHAR *cpath = mir_tstrdup(path);
+	wchar_t *cpath = mir_tstrdup(path);
 
-	TCHAR *swd = _tcsrchr(cpath, '\\');
+	wchar_t *swd = wcsrchr(cpath, '\\');
 	if (swd) swd[1] = 0; else cpath[0] = 0;
 
 	return cpath;

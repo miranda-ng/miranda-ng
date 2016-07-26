@@ -182,16 +182,16 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, 
 	return ret;
 }
 
-TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
+wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt)
 {
-	if (n == NULL || tmplt == NULL || tmplt[0] == _T('\0'))
+	if (n == NULL || tmplt == NULL || tmplt[0] == '\0')
 		return NULL;
 
 	CMString res;
 	size_t len = mir_tstrlen(tmplt);
 
 	for (size_t i = 0; i < len; i++) {
-		if (tmplt[i] == _T('%')) {
+		if (tmplt[i] == '%') {
 			i++;
 			switch (tmplt[i]) {
 			case 'n':
@@ -202,7 +202,7 @@ TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 				break;
 
 			case 'o':
-				if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == _T('\0') || mir_tstrcmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
+				if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == '\0' || mir_tstrcmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
 					res.Append(TranslateT("<no status message>"));
 				else
 					AddCR(res, n->oldstatusmsg);
@@ -228,7 +228,7 @@ TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 				break;
 			}
 		}
-		else if (tmplt[i] == _T('\\')) {
+		else if (tmplt[i] == '\\') {
 			i++;
 			switch (tmplt[i]) {
 			case 'n':
@@ -260,7 +260,7 @@ bool SkipHiddenContact(MCONTACT hContact)
 	return (!opt.HiddenContactsToo && (db_get_b(hContact, "CList", "Hidden", 0) == 1));
 }
 
-void LogSMsgToDB(STATUSMSGINFO *smi, const TCHAR *tmplt)
+void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt)
 {
 	ptrT str(GetStr(smi, tmplt));
 	T2Utf blob(str);
@@ -284,32 +284,32 @@ void LogSMsgToDB(STATUSMSGINFO *smi, const TCHAR *tmplt)
 	}
 }
 
-void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, TCHAR *stzStatusText)
+void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, wchar_t *stzStatusText)
 {
 	if (opt.UseAlternativeText) {
 		switch (GetGender(hContact)) {
 		case GENDER_MALE:
-			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzMStatusText, MAX_STATUSTEXT);
+			wcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzMStatusText, MAX_STATUSTEXT);
 			break;
 		case GENDER_FEMALE:
-			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzFStatusText, MAX_STATUSTEXT);
+			wcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzFStatusText, MAX_STATUSTEXT);
 			break;
 		case GENDER_UNSPECIFIED:
-			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzUStatusText, MAX_STATUSTEXT);
+			wcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzUStatusText, MAX_STATUSTEXT);
 			break;
 		}
 	}
 	else
-		_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
+		wcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
 
 	if (opt.ShowPreviousStatus) {
-		TCHAR buff[MAX_STATUSTEXT];
+		wchar_t buff[MAX_STATUSTEXT];
 		mir_sntprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
 		mir_tstrcat(mir_tstrcat(stzStatusText, L" "), buff);
 	}
 }
 
-void BlinkIcon(MCONTACT hContact, HICON hIcon, TCHAR *stzText)
+void BlinkIcon(MCONTACT hContact, HICON hIcon, wchar_t *stzText)
 {
 	CLISTEVENT cle = {};
 	cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
@@ -325,15 +325,15 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 {
 	if (opt.UseIndSnd) {
 		DBVARIANT dbv;
-		TCHAR stzSoundFile[MAX_PATH] = { 0 };
+		wchar_t stzSoundFile[MAX_PATH] = { 0 };
 		if (!db_get_ts(hContact, MODULE, name, &dbv)) {
-			_tcsncpy(stzSoundFile, dbv.ptszVal, _countof(stzSoundFile)-1);
+			wcsncpy(stzSoundFile, dbv.ptszVal, _countof(stzSoundFile)-1);
 			db_free(&dbv);
 		}
 
 		if (stzSoundFile[0]) {
 			//Now make path to IndSound absolute, as it isn't registered
-			TCHAR stzSoundPath[MAX_PATH];
+			wchar_t stzSoundPath[MAX_PATH];
 			PathToAbsoluteT(stzSoundFile, stzSoundPath);
 			SkinPlaySoundFile(stzSoundPath);
 			return;
@@ -347,7 +347,7 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 {
 	if (opt.LogToDB && (!opt.LogToDB_WinOpen || CheckMsgWnd(hContact))) {
-		TCHAR stzStatusText[MAX_SECONDLINE] = { 0 };
+		wchar_t stzStatusText[MAX_SECONDLINE] = { 0 };
 		GetStatusText(hContact, newStatus, oldStatus, stzStatusText);
 		T2Utf blob(stzStatusText);
 
@@ -423,7 +423,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 
 	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && !opt.TempDisabled) {
 		WORD wStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-		TCHAR str[MAX_SECONDLINE] = { 0 };
+		wchar_t str[MAX_SECONDLINE] = { 0 };
 		if (opt.ShowStatus)
 			GetStatusText(hContact, newStatus, oldStatus, str);
 
@@ -440,7 +440,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 
 	if (opt.BlinkIcon && !opt.TempDisabled) {
 		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, newStatus) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
-		TCHAR str[256];
+		wchar_t str[256];
 		mir_sntprintf(str, TranslateT("%s is now %s"), pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText);
 		BlinkIcon(hContact, hIcon, str);
 	}
@@ -453,7 +453,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	}
 
 	if (opt.LogToFile) {
-		TCHAR stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT], stzText[MAX_TEXT_LEN];
+		wchar_t stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT], stzText[MAX_TEXT_LEN];
 
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", stzTime, _countof(stzTime));
 		GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, L"dd/MM/yyyy", stzDate, _countof(stzDate));
@@ -628,7 +628,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 
 	//don't show popup when mradio connecting and disconnecting
 	if (_stricmp(szProto, "mRadio") == 0 && !cws->value.type == DBVT_DELETED) {
-		TCHAR buf[MAX_PATH];
+		wchar_t buf[MAX_PATH];
 		mir_sntprintf(buf, L" (%s)", TranslateT("connecting"));
 		T2Utf pszUtf(buf);
 		mir_sntprintf(buf, L" (%s)", TranslateT("aborting"));
@@ -680,17 +680,17 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 
 	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && !opt.TempDisabled) {
 		// cut message if needed
-		TCHAR *copyText = NULL;
+		wchar_t *copyText = NULL;
 		if (opt.PSMsgTruncate && (opt.PSMsgLen > 0) && smi.newstatusmsg && (mir_tstrlen(smi.newstatusmsg) > opt.PSMsgLen)) {
-			TCHAR buff[MAX_TEXT_LEN + 3];
+			wchar_t buff[MAX_TEXT_LEN + 3];
 			copyText = mir_tstrdup(smi.newstatusmsg);
-			_tcsncpy(buff, smi.newstatusmsg, opt.PSMsgLen);
+			wcsncpy(buff, smi.newstatusmsg, opt.PSMsgLen);
 			buff[opt.PSMsgLen] = 0;
 			mir_tstrcat(buff, L"...");
 			replaceStrT(smi.newstatusmsg, buff);
 		}
 
-		TCHAR *str;
+		wchar_t *str;
 		if (smi.compare == COMPARE_DEL) {
 			char protoname[MAX_PATH];
 			mir_snprintf(protoname, "%s_TPopupSMsgRemoved", szProto);
@@ -730,7 +730,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 
 	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && !opt.TempDisabled) {
 		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
-		TCHAR str[256];
+		wchar_t str[256];
 		mir_sntprintf(str, TranslateT("%s changed status message to %s"), pcli->pfnGetContactDisplayName(hContact, 0), smi.newstatusmsg);
 		BlinkIcon(hContact, hIcon, str);
 	}
@@ -747,12 +747,12 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		LogSMsgToDB(&smi, smi.compare == COMPARE_DEL ? templates.LogSMsgRemoved : templates.LogSMsgChanged);
 
 	if (opt.SMsgLogToFile && db_get_b(hContact, MODULE, "EnableSMsgLogging", 1)) {
-		TCHAR stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT], stzText[MAX_TEXT_LEN];
+		wchar_t stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT], stzText[MAX_TEXT_LEN];
 
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", stzTime, _countof(stzTime));
 		GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, L"dd/MM/yyyy", stzDate, _countof(stzDate));
 
-		TCHAR *str;
+		wchar_t *str;
 		if (smi.compare == COMPARE_DEL)
 			str = GetStr(&smi, templates.LogSMsgRemoved);
 		else
@@ -855,7 +855,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) is back online!"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Online"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOnline", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Online"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Online"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"global.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40072bg", COLOR_BG_AVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40072tx", COLOR_TX_DEFAULT);
@@ -867,7 +867,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) went offline! :("), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Offline"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOffline", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Offline"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Offline"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"offline.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40071bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40071tx", COLOR_TX_DEFAULT);
@@ -879,7 +879,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) hides in shadows..."), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Invisible"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserInvisible", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Invisible"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Invisible"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"invisible.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40078bg", COLOR_BG_AVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40078tx", COLOR_TX_DEFAULT);
@@ -891,7 +891,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) feels talkative!"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Free for chat"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserFreeForChat", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Free for chat"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Free for chat"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"free4chat.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40077bg", COLOR_BG_AVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40077tx", COLOR_TX_DEFAULT);
@@ -903,7 +903,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) went away"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Away"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserAway", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Away"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Away"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"away.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40073bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40073tx", COLOR_TX_DEFAULT);
@@ -915,7 +915,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) isn't there anymore!"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Not available"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserNA", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Not available"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Not available"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"na.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40075bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40075tx", COLOR_TX_DEFAULT);
@@ -927,7 +927,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) has something else to do"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Occupied"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOccupied", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Occupied"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Occupied"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"occupied.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40076bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40076tx", COLOR_TX_DEFAULT);
@@ -939,7 +939,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) doesn't want to be disturbed!"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Do not disturb"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserDND", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Do not disturb"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Do not disturb"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"dnd.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40074bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40074tx", COLOR_TX_DEFAULT);
@@ -951,7 +951,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) is eating something"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("Out to lunch"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOutToLunch", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Out to lunch"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: Out to lunch"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"lunch.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40080bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40080tx", COLOR_TX_DEFAULT);
@@ -963,7 +963,7 @@ void InitStatusList()
 	mir_tstrncpy(StatusList[index].lpzUStatusText, TranslateT("(U) had to answer the phone"), MAX_STATUSTEXT);
 	mir_tstrncpy(StatusList[index].lpzStandardText, TranslateT("On the phone"), MAX_STANDARDTEXT);
 	mir_strncpy(StatusList[index].lpzSkinSoundName, "UserOnThePhone", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENT("User: On the phone"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusList[index].lpzSkinSoundDesc, LPGENW("User: On the phone"), MAX_SKINSOUNDDESC);
 	mir_tstrncpy(StatusList[index].lpzSkinSoundFile, L"phone.wav", MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40079bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40079tx", COLOR_TX_DEFAULT);
@@ -981,37 +981,37 @@ void InitStatusList()
 	//From offline
 	index = ID_STATUS_FROMOFFLINE;
 	mir_strncpy(StatusListEx[index].lpzSkinSoundName, "UserFromOffline", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENT("User: from offline (has priority!)"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENW("User: from offline (has priority!)"), MAX_SKINSOUNDDESC);
 
 	//Status message removed
 	index = ID_STATUS_SMSGREMOVED;
 	mir_strncpy(StatusListEx[index].lpzSkinSoundName, "StatusMsgRemoved", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENT("Status message removed"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENW("Status message removed"), MAX_SKINSOUNDDESC);
 
 	//Status message changed
 	index = ID_STATUS_SMSGCHANGED;
 	mir_strncpy(StatusListEx[index].lpzSkinSoundName, "StatusMsgChanged", MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENT("Status message changed"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENW("Status message changed"), MAX_SKINSOUNDDESC);
 
 	//Extra status removed
 	index = ID_STATUS_XREMOVED;
 	mir_strncpy(StatusListEx[index].lpzSkinSoundName, XSTATUS_SOUND_REMOVED, MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENT("Extra status removed"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENW("Extra status removed"), MAX_SKINSOUNDDESC);
 
 	//Extra status message changed
 	index = ID_STATUS_XMSGCHANGED;
 	mir_strncpy(StatusListEx[index].lpzSkinSoundName, XSTATUS_SOUND_MSGCHANGED, MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENT("Extra status message changed"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENW("Extra status message changed"), MAX_SKINSOUNDDESC);
 
 	//Extra status changed
 	index = ID_STATUS_XCHANGED;
 	mir_strncpy(StatusListEx[index].lpzSkinSoundName, XSTATUS_SOUND_CHANGED, MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENT("Extra status changed"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENW("Extra status changed"), MAX_SKINSOUNDDESC);
 
 	//Extra status message removed
 	index = ID_STATUS_XMSGREMOVED;
 	mir_strncpy(StatusListEx[index].lpzSkinSoundName, XSTATUS_SOUND_MSGREMOVED, MAX_SKINSOUNDNAME);
-	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENT("Extra status message removed"), MAX_SKINSOUNDDESC);
+	mir_tstrncpy(StatusListEx[index].lpzSkinSoundDesc, LPGENW("Extra status message removed"), MAX_SKINSOUNDDESC);
 }
 
 void CALLBACK ConnectionTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD)
@@ -1060,9 +1060,9 @@ INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 	db_set_b(0, MODULE, "TempDisable", opt.TempDisabled = !opt.TempDisabled);
 
 	if (opt.TempDisabled)
-		Menu_ModifyItem(hEnableDisableMenu, LPGENT("Enable status notification"), GetIconHandle(ICO_NOTIFICATION_OFF));
+		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Enable status notification"), GetIconHandle(ICO_NOTIFICATION_OFF));
 	else
-		Menu_ModifyItem(hEnableDisableMenu, LPGENT("Disable status notification"), GetIconHandle(ICO_NOTIFICATION_ON));
+		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Disable status notification"), GetIconHandle(ICO_NOTIFICATION_ON));
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? 0 : TTBST_PUSHED);
 	return 0;
@@ -1074,7 +1074,7 @@ void InitMainMenuItem()
 	SET_UID(mi, 0x22b7b4db, 0xa9a1, 0x4d43, 0x88, 0x80, 0x4c, 0x23, 0x20, 0x31, 0xc6, 0xa0);
 	mi.flags = CMIF_TCHAR;
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
 	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 
@@ -1096,10 +1096,10 @@ void InitIcolib()
 void InitSound()
 {
 	for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
-		SkinAddNewSoundExT(StatusList[Index(i)].lpzSkinSoundName, LPGENT("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
+		SkinAddNewSoundExT(StatusList[Index(i)].lpzSkinSoundName, LPGENW("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
 
 	for (int i = 0; i <= ID_STATUSEX_MAX; i++)
-		SkinAddNewSoundExT(StatusListEx[i].lpzSkinSoundName, LPGENT("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
+		SkinAddNewSoundExT(StatusListEx[i].lpzSkinSoundName, LPGENW("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
 }
 
 int InitTopToolbar(WPARAM, LPARAM)

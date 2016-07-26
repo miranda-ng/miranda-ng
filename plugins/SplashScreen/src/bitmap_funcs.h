@@ -26,10 +26,10 @@ private:
 public:
 	MyBitmap();
 	MyBitmap(int w, int h);
-	MyBitmap(TCHAR *fn);
+	MyBitmap(wchar_t *fn);
 	~MyBitmap();
 
-	bool loadFromFile(TCHAR *fn);
+	bool loadFromFile(wchar_t *fn);
 
 	int getWidth() { return width; }
 	int getHeight() { return height; }
@@ -43,7 +43,7 @@ public:
 	void saveAlpha(int x = 0, int y = 0, int w = 0, int h = 0);
 	void restoreAlpha(int x = 0, int y = 0, int w = 0, int h = 0);
 	
-	void DrawText(TCHAR *str, int x, int y);
+	void DrawText(wchar_t *str, int x, int y);
 
 	inline COLOR32 *getBits() { return bits; }
 	inline COLOR32 *getRow(int row) { return bits + row * width; }

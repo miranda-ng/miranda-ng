@@ -39,17 +39,17 @@ public:
 	int readByte(const char* szSetting, int bDefault) const;
 	int readWord(const char* szSetting, int wDefault) const;
 	int readDWord(const char* szSetting, int dwDeault) const;
-	ext::string readStr(const char* szSetting, const TCHAR* szDefault) const;
-	ext::string readStrDirect(const char* szSetting, const TCHAR* szDefault) const;
-	void readTree(const char* szSetting, const TCHAR* szDefault, SettingsTree& value) const;
+	ext::string readStr(const char* szSetting, const wchar_t* szDefault) const;
+	ext::string readStrDirect(const char* szSetting, const wchar_t* szDefault) const;
+	void readTree(const char* szSetting, const wchar_t* szDefault, SettingsTree& value) const;
 
 	// writing
 	void writeBool(const char* szSetting, bool bValue) const;
 	void writeByte(const char* szSetting, int bValue) const;
 	void writeWord(const char* szSetting, int wValue) const;
 	void writeDWord(const char* szSetting, int dwValue) const;
-	void writeStr(const char* szSetting, const TCHAR* szValue) const;
-	void writeStrDirect(const char* szSetting, const TCHAR* szValue) const;
+	void writeStr(const char* szSetting, const wchar_t* szValue) const;
+	void writeStrDirect(const char* szSetting, const wchar_t* szValue) const;
 	void writeTree(const char* szSetting, const SettingsTree& value) const;
 
 	// misc functions

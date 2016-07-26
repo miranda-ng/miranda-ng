@@ -131,7 +131,7 @@ class CExtraIconOptsDlg : public CDlgBase
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		tvis.item.iSelectedImage = tvis.item.iImage = img;
 		tvis.item.lParam = (LPARAM)ids;
-		tvis.item.pszText = (TCHAR*)desc.c_str();
+		tvis.item.pszText = (wchar_t*)desc.c_str();
 		tvis.item.state = INDEXTOSTATEIMAGEMASK(selected ? 2 : 1);
 		return m_tree.InsertItem(&tvis);
 	}

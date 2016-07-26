@@ -159,7 +159,7 @@ void TopButtonInt::SetBitmap()
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & SS_ICON)
 			SetWindowLongPtr(hwnd, GWL_STYLE, curstyle | SS_ICON);
 
-		TCHAR *pTooltip;
+		wchar_t *pTooltip;
 		if (bPushed) {
 			SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(hIconDn ? hIconDn : hIconUp));
 			SendMessage(hwnd, BM_SETCHECK, BST_CHECKED, 0);

@@ -315,7 +315,7 @@ int GGPROTO::oauth_receivetoken()
 	if (resp) {
 		nlc = resp->nlc; 
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			TCHAR *xmlAction = mir_a2t(resp->pData);
+			wchar_t *xmlAction = mir_a2t(resp->pData);
 			HXML hXml = xmlParseString(xmlAction, 0, L"result");
 			if (hXml != NULL) {
 				HXML node = xmlGetChildByPath(hXml, L"oauth_token", 0);
@@ -384,7 +384,7 @@ int GGPROTO::oauth_receivetoken()
 	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			TCHAR *xmlAction = mir_a2t(resp->pData);
+			wchar_t *xmlAction = mir_a2t(resp->pData);
 			HXML hXml = xmlParseString(xmlAction, 0, L"result");
 			if (hXml != NULL) {
 				HXML node = xmlGetChildByPath(hXml, L"oauth_token", 0);

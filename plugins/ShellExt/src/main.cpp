@@ -6,7 +6,7 @@ HINSTANCE hInst;
 int hLangpack;
 bool bIsVistaPlus;
 
-TCHAR tszLogPath[MAX_PATH];
+wchar_t tszLogPath[MAX_PATH];
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -28,7 +28,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 		bIsVistaPlus = GetProcAddress( GetModuleHandleA("kernel32.dll"), "GetProductInfo") != NULL;
 
 		GetTempPath(_countof(tszLogPath), tszLogPath);
-		_tcscat_s(tszLogPath, _countof(tszLogPath), L"shlext.log");
+		wcscat_s(tszLogPath, _countof(tszLogPath), L"shlext.log");
 
 		hInst = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);
@@ -83,7 +83,7 @@ STDAPI DllCanUnloadNow()
 
 struct HRegKey
 {
-	HRegKey(HKEY hRoot, const TCHAR *ptszKey) : m_key(NULL)
+	HRegKey(HKEY hRoot, const wchar_t *ptszKey) : m_key(NULL)
 	{	RegCreateKeyEx(hRoot, ptszKey, 0, 0, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, 0, &m_key, 0);
 	}
 	
@@ -127,9 +127,9 @@ STDAPI DllRegisterServer()
 	if (kInprocServer == NULL)
 		return E_FAIL;
 
-	TCHAR tszFileName[MAX_PATH];
+	wchar_t tszFileName[MAX_PATH];
 	GetModuleFileName(hInst, tszFileName, _countof(tszFileName));
-	if ( RegSetValueEx(kInprocServer, NULL, 0, REG_SZ, (LPBYTE)tszFileName, sizeof(TCHAR)*(lstrlen(tszFileName)+1)))
+	if ( RegSetValueEx(kInprocServer, NULL, 0, REG_SZ, (LPBYTE)tszFileName, sizeof(wchar_t)*(lstrlen(tszFileName)+1)))
 		return E_FAIL;
 	if ( RegSetValueExA(kInprocServer, "ThreadingModel", 0, REG_SZ, (PBYTE)str4, sizeof(str4)))
 		return E_FAIL;

@@ -299,7 +299,7 @@ void CustomizeToolbar(HWND hwnd)
 
 static char szUrl[] = "http://miranda-ng.org/p/TopToolBar";
 
-static TCHAR szWarning[] = LPGENT("To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue");
+static wchar_t szWarning[] = LPGENW("To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue");
 
 static void CopySettings(const char* to, const char* from, int defValue)
 {

@@ -51,17 +51,17 @@ struct EventData
 	COLORREF	color;
 	union {
 		char *pszNick;     // Nick, usage depends on type of event
-		TCHAR *pszNickT;
+		wchar_t *pszNickT;
 		wchar_t *pszNickW; // Nick - Unicode
 	};
 	union {
 		char *pszText;     // Text, usage depends on type of event
-		TCHAR *pszTextT;
+		wchar_t *pszTextT;
 		wchar_t *pszTextW; // Text - Unicode
 	};
 	union {
 		char *pszText2;     // Text, usage depends on type of event
-		TCHAR *pszText2T;
+		wchar_t *pszText2T;
 		wchar_t *pszText2W; // Text - Unicode
 	};
 	DWORD	time;
@@ -346,11 +346,11 @@ static char* SetToStyle(int style)
 }
 
 // mode: 0 - date & time, 1 - date, 2 - time
-TCHAR* TimestampToString(DWORD dwFlags, time_t check, int mode)
+wchar_t* TimestampToString(DWORD dwFlags, time_t check, int mode)
 {
-	static TCHAR szResult[512];
-	TCHAR str[80];
-	TCHAR format[20];
+	static wchar_t szResult[512];
+	wchar_t str[80];
+	wchar_t format[20];
 
 	szResult[0] = '\0';
 	format[0] = '\0';
@@ -574,7 +574,7 @@ static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, GlobalMessa
 
 	if (gdat->flags & SMF_SHOWTIME && (evt->eventType != EVENTTYPE_MESSAGE ||
 		(gdat->flags & SMF_MARKFOLLOWUPS || isGroupBreak || !(gdat->flags & SMF_GROUPMESSAGES)))) {
-		TCHAR *timestampString = NULL;
+		wchar_t *timestampString = NULL;
 		if (gdat->flags & SMF_GROUPMESSAGES && evt->eventType == EVENTTYPE_MESSAGE) {
 			if (isGroupBreak) {
 				if (!(gdat->flags & SMF_MARKFOLLOWUPS))

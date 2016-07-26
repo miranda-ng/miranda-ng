@@ -34,16 +34,16 @@ enum SEARCHENGINES {
 	SEARCHENGINE_FOODNETWORK = 8
 };
 
-TCHAR *limitText(TCHAR *text, int limit);
+wchar_t *limitText(wchar_t *text, int limit);
 void logInfo(const char *fmt, ...);
 int GetRichTextLength(HWND hwnd, int codepage, BOOL inBytes);
-TCHAR *GetRichEditSelection(HWND hwnd);
+wchar_t *GetRichEditSelection(HWND hwnd);
 char* GetRichTextRTF(HWND hwnd);
 char* GetRichTextUtf(HWND hwnd);
-TCHAR *GetRichTextWord(HWND hwnd, POINTL *pt);
-int SetRichText(HWND hwnd, const TCHAR *text);
+wchar_t *GetRichTextWord(HWND hwnd, POINTL *pt);
+int SetRichText(HWND hwnd, const wchar_t *text);
 int SetRichTextRTF(HWND hwnd, const char *text);
-void SearchWord(TCHAR * word, int engine);
+void SearchWord(wchar_t * word, int engine);
 HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cControls, const ToolbarButton * buttons, int controlVisibility);
 void ShowToolbarControls(HWND hwndDlg, int cControls, const ToolbarButton * buttons, int controlVisibility, int state);
 void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...);

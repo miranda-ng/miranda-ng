@@ -4,7 +4,7 @@
 class CQuotesProviderVisitorTendency : public CQuotesProviderVisitor
 {
 public:
-	CQuotesProviderVisitorTendency(MCONTACT hContact, TCHAR chr);
+	CQuotesProviderVisitorTendency(MCONTACT hContact, wchar_t chr);
 
 	bool IsValid()const{ return m_bValid; }
 	double GetResult()const{ return m_dResult; }
@@ -19,7 +19,7 @@ private:
 
 private:
 	MCONTACT m_hContact;
-	TCHAR m_chr;
+	wchar_t m_chr;
 	bool m_bValid;
 	double m_dResult;
 };

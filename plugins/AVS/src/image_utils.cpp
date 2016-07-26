@@ -159,7 +159,7 @@ void SetHIMETRICtoDP(HDC hdc, SIZE* sz)
 	sz->cy = pt.y;
 }
 
-HBITMAP BmpFilterLoadBitmap(BOOL *bIsTransparent, const TCHAR *ptszFilename)
+HBITMAP BmpFilterLoadBitmap(BOOL *bIsTransparent, const wchar_t *ptszFilename)
 {
 	if (fei == NULL)
 		return 0;
@@ -203,14 +203,14 @@ static HWND hwndClui = 0;
 // PNG and BMP will be saved as 32bit images, jpg as 24bit with default quality (75)
 // returns 1 on success, 0 on failure
 
-int BmpFilterSaveBitmap(HBITMAP hBmp, const TCHAR *ptszFile, int flags)
+int BmpFilterSaveBitmap(HBITMAP hBmp, const wchar_t *ptszFile, int flags)
 {
 	if (fei == NULL)
 		return -1;
 
-	TCHAR tszFilename[MAX_PATH];
+	wchar_t tszFilename[MAX_PATH];
 	if (!PathToAbsoluteT(ptszFile, tszFilename))
-		_tcsncpy_s(tszFilename, ptszFile, _TRUNCATE);
+		wcsncpy_s(tszFilename, ptszFile, _TRUNCATE);
 
 	if (mir_tstrlen(tszFilename) <= 4)
 		return -1;
@@ -551,7 +551,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Other utils
 
-int SaveAvatar(const char *protocol, const TCHAR *tszFileName)
+int SaveAvatar(const char *protocol, const wchar_t *tszFileName)
 {
 	INT_PTR result = CallProtoService(protocol, PS_SETMYAVATAR, 0, (LPARAM)tszFileName);
 	if (result == CALLSERVICE_NOTFOUND)

@@ -403,7 +403,7 @@ INT_PTR CAnnivEditCtrl::SetCurSel(WORD wIndex)
 		DateTime_SetFormat(_hwndDate, NULL);
 	}
 	else {
-		TCHAR szText[MAX_DESC];
+		wchar_t szText[MAX_DESC];
 		mir_sntprintf(szText, L"'%s'", TranslateT("Unspecified"));
 		DateTime_SetSystemtime(_hwndDate, GDT_NONE, NULL);
 		DateTime_SetFormat(_hwndDate, szText);
@@ -528,7 +528,7 @@ void CAnnivEditCtrl::OnReminderChecked()
 	MCONTACT hContact;
 	LPCSTR pszProto;
 	int state;
-	TCHAR buf[6];
+	wchar_t buf[6];
 	MAnnivDate *pCurrent = Current();
 
 	PSGetContact(_hwndDlg, hContact);
@@ -540,7 +540,7 @@ void CAnnivEditCtrl::OnReminderChecked()
 	{
 		if (IsDlgButtonChecked(_hwndDlg, RADIO_REMIND1))
 		{
-			_itot(db_get_b(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
+			_itow(db_get_b(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
 			EnableWindow(GetDlgItem(_hwndDlg, EDIT_REMIND), FALSE);
 			EnableWindow(GetDlgItem(_hwndDlg, SPIN_REMIND), FALSE);
 			state = BST_INDETERMINATE;
@@ -549,11 +549,11 @@ void CAnnivEditCtrl::OnReminderChecked()
 		{
 			if (pCurrent->RemindOffset() == (WORD)-1)
 			{
-				_itot(db_get_b(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
+				_itow(db_get_b(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
 			}
 			else
 			{
-				_itot(pCurrent->RemindOffset(), buf, 10);
+				_itow(pCurrent->RemindOffset(), buf, 10);
 			}
 			EnableWindow(GetDlgItem(_hwndDlg, EDIT_REMIND), _ReminderEnabled);
 			EnableWindow(GetDlgItem(_hwndDlg, SPIN_REMIND), _ReminderEnabled);

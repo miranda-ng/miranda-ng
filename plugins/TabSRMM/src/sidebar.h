@@ -38,7 +38,7 @@ struct TSideBarNotify
 
 struct TSideBarLayout
 {
-	TCHAR szName[50];  // everything wants a name...
+	wchar_t szName[50];  // everything wants a name...
 	LONG  width;       // width of the switchbar element (a single button)
 	LONG  height;      // height of a single switchbar element
 	DWORD dwFlags;     // flags, obviously :)

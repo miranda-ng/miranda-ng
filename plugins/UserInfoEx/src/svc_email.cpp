@@ -100,7 +100,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 		}
 		else {
 			result = 1;
-			MsgBox((HWND)lParam, MB_OK, LPGENT("Send e-mail"), NULL, LPGENT("Memory allocation error!"));
+			MsgBox((HWND)lParam, MB_OK, LPGENW("Send e-mail"), NULL, LPGENW("Memory allocation error!"));
 		}
 	}
 	__except(GetExceptionCode()==EXCEPTION_ACCESS_VIOLATION ? 
@@ -108,7 +108,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 	{
 		mir_free(val);
 		result = 1;
-		MsgErr((HWND)lParam, LPGENT("Memory allocation error!"));
+		MsgErr((HWND)lParam, LPGENW("Memory allocation error!"));
 	}
 	return result;
 }

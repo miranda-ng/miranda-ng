@@ -23,7 +23,7 @@ CMLua::~CMLua()
 
 void CMLua::SetPaths()
 {
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 
 	lua_getglobal(L, "package");
 

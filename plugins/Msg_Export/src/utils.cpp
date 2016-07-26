@@ -19,11 +19,11 @@
 #include "stdafx.h"
 
 // Default error string used upon errors 
-const TCHAR *pszGroupError = LPGENT("No_Group");
-const TCHAR *pszDbPathError = L".";
+const wchar_t *pszGroupError = LPGENW("No_Group");
+const wchar_t *pszDbPathError = L".";
 
 // Replacement for chareteres not alowed in file names.
-const TCHAR cBadCharReplace = _T('_');
+const wchar_t cBadCharReplace = '_';
 
 // sTimeFormat 
 tstring sTimeFormat;
@@ -49,7 +49,7 @@ map<tstring, string::size_type, less<tstring> > clFileTo1ColWidth;
 // default line width
 int nMaxLineWidth = 80;
 
-const TCHAR *pszReplaceList[] =
+const wchar_t *pszReplaceList[] =
 {
 	L"%FirstName%",
 	L"%LastName%",
@@ -137,7 +137,7 @@ void ShowDebugInfo()
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-int nGetFormatCount(const TCHAR *pszToCheck)
+int nGetFormatCount(const wchar_t *pszToCheck)
 {
 	if (!pszToCheck || pszToCheck[0] == 0)
 		return 0;
@@ -192,12 +192,12 @@ tstring sGetErrorString()
 	return sGetErrorString(GetLastError());
 }
 
-void DisplayLastError(const TCHAR *pszError)
+void DisplayLastError(const wchar_t *pszError)
 {
 	tstring sError = pszError;
 	DWORD error = GetLastError();
 
-	TCHAR szTemp[50];
+	wchar_t szTemp[50];
 	mir_sntprintf(szTemp, L"\r\nErrorCode: %d\r\n", error);
 	sError += szTemp;
 	sError += sGetErrorString(error);
@@ -220,7 +220,7 @@ void DisplayLastError(const TCHAR *pszError)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-tstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *pszError)
+tstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *pszError)
 {
 	tstring ret;
 	DBVARIANT dbv = { 0 };
@@ -230,7 +230,7 @@ tstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSet
 			MessageBox(NULL, TranslateT("Database: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		}
-		else ret = (TCHAR*)dbv.pszVal;
+		else ret = (wchar_t*)dbv.pszVal;
 	}
 	else ret = pszError;
 	
@@ -270,7 +270,7 @@ string _DBGetStringA(MCONTACT hContact, const char *szModule, const char *szSett
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ReplaceAll(tstring &sSrc, const TCHAR *pszReplace, const tstring &sNew)
+void ReplaceAll(tstring &sSrc, const wchar_t *pszReplace, const tstring &sNew)
 {
 	string::size_type nCur = 0;
 	while ((nCur = sSrc.find(pszReplace, nCur)) != sSrc.npos) {
@@ -279,7 +279,7 @@ void ReplaceAll(tstring &sSrc, const TCHAR *pszReplace, const tstring &sNew)
 	}
 }
 
-void ReplaceAll(tstring &sSrc, const TCHAR *pszReplace, const TCHAR *pszNew)
+void ReplaceAll(tstring &sSrc, const wchar_t *pszReplace, const wchar_t *pszNew)
 {
 	tstring sNew = pszNew;
 	ReplaceAll(sSrc, pszReplace, sNew);
@@ -364,10 +364,10 @@ bool bWriteToFile(HANDLE hFile, const char *pszSrc, int nLen = -1)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-static bool bWriteTextToFile(HANDLE hFile, const TCHAR *pszSrc, bool bUtf8File, int nLen = -1)
+static bool bWriteTextToFile(HANDLE hFile, const wchar_t *pszSrc, bool bUtf8File, int nLen = -1)
 {
 	if (nLen != -1) {
-		TCHAR *tmp = (TCHAR*)alloca(sizeof(TCHAR)*(nLen + 1));
+		wchar_t *tmp = (wchar_t*)alloca(sizeof(wchar_t)*(nLen + 1));
 		mir_tstrncpy(tmp, pszSrc, nLen + 1);
 		pszSrc = tmp;
 	}
@@ -463,7 +463,7 @@ bool bWriteHexToFile(HANDLE hFile, void * pData, int nSize)
 
 bool bReadMirandaDirAndPath()
 {
-	TCHAR szDBPath[MAX_PATH], tmp[MAX_PATH];
+	wchar_t szDBPath[MAX_PATH], tmp[MAX_PATH];
 	mir_tstrcpy(szDBPath, pszDbPathError);
 	PathToAbsoluteT(L"miranda32.exe", tmp);
 	sMirandaPath = tmp;
@@ -537,7 +537,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 
 			// Here we will try to avoide the (Unknown Contact) in cases where the protocol for 
 			// this user has been removed.
-			if (bNickUsed && (_tcsstr(pcli->pfnGetContactDisplayName(hContact, 0), LPGENT("(Unknown Contact)")) != 0))
+			if (bNickUsed && (wcsstr(pcli->pfnGetContactDisplayName(hContact, 0), LPGENW("(Unknown Contact)")) != 0))
 				return sPrevFileName; // Then the filename must have changed from a correct path to one including the (Unknown Contact)
 
 			// file name has changed
@@ -555,7 +555,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 
 				if (hPrevFile != INVALID_HANDLE_VALUE) {
 					CloseHandle(hPrevFile);
-					TCHAR szTemp[500];
+					wchar_t szTemp[500];
 					// There is a previous file we can move 
 					// ask user ?
 					bool bTryRename;
@@ -640,10 +640,10 @@ tstring FileNickFromHandle(MCONTACT hContact)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void ReplaceAllNoColon(tstring &sSrc, const TCHAR *pszReplace, tstring &sNew)
+void ReplaceAllNoColon(tstring &sSrc, const wchar_t *pszReplace, tstring &sNew)
 {
 	tstring::size_type nCur = 0;
-	while ((nCur = sNew.find_first_of(_T(':'), nCur)) != sNew.npos)
+	while ((nCur = sNew.find_first_of(':', nCur)) != sNew.npos)
 		sNew[nCur] = cBadCharReplace;
 	ReplaceAll(sSrc, pszReplace, sNew);
 }
@@ -678,7 +678,7 @@ void ReplaceDefines(MCONTACT hContact, tstring & sTarget)
 			DWORD dwUIN = db_get_dw(hContact, sProto.c_str(), "UIN", 0);
 			tstring sReplaceUin;
 			if (dwUIN) {
-				TCHAR sTmp[20];
+				wchar_t sTmp[20];
 				mir_sntprintf(sTmp, L"%d", dwUIN);
 				sReplaceUin = sTmp;
 			}
@@ -759,7 +759,7 @@ void ReplaceTimeVariables(tstring &sRet)
 		sRet.find(L"%day%") != string::npos) {
 		SYSTEMTIME stTime;
 		GetLocalTime(&stTime);
-		TCHAR sTmp[20];
+		wchar_t sTmp[20];
 
 		mir_sntprintf(sTmp, L"%d", stTime.wYear);
 		ReplaceAll(sRet, L"%year%", sTmp);
@@ -810,7 +810,7 @@ void UpdateFileToColWidth()
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-void DisplayErrorDialog(const TCHAR *pszError, tstring& sFilePath, DBEVENTINFO * dbei)
+void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO * dbei)
 {
 	tstring sError = TranslateTS(pszError);
 	sError += sFilePath;
@@ -820,7 +820,7 @@ void DisplayErrorDialog(const TCHAR *pszError, tstring& sFilePath, DBEVENTINFO *
 	sError += TranslateT("Do you wish to save debug information?");
 	if (MessageBox(NULL, sError.c_str(), MSG_BOX_TITEL, MB_YESNO) == IDYES) {
 		OPENFILENAME ofn;       // common dialog box structure
-		TCHAR szFile[260];       // buffer for file name
+		wchar_t szFile[260];       // buffer for file name
 		mir_tstrcpy(szFile, L"DebugInfo.txt");
 
 		// Initialize OPENFILENAME
@@ -879,7 +879,7 @@ void DisplayErrorDialog(const TCHAR *pszError, tstring& sFilePath, DBEVENTINFO *
 
 void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 {
-	TCHAR szTemp[500];
+	wchar_t szTemp[500];
 	tstring sFilePath = GetFilePathFromUser(hContact);
 
 	GetLastError();// Clear last error !!
@@ -894,7 +894,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 	}
 
 	if (hFile == INVALID_HANDLE_VALUE) {
-		DisplayErrorDialog(LPGENT("Failed to open or create file :\n"), sFilePath, NULL);
+		DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, NULL);
 		return;
 	}
 
@@ -931,7 +931,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			if (dwPtr == INVALID_SET_FILE_POINTER) {
 				// we need to aborte mission here because if we continue we risk 
 				// overwriting old log.
-				DisplayErrorDialog(LPGENT("Failed to move to the end of the file :\n"), sFilePath, NULL);
+				DisplayErrorDialog(LPGENW("Failed to move to the end of the file :\n"), sFilePath, NULL);
 				CloseHandle(hFile);
 				return;
 			}
@@ -940,27 +940,27 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			bWriteUTF8Format = bUseUtf8InNewFiles;
 			if (bWriteUTF8Format) {
 				if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1)) {
-					DisplayErrorDialog(LPGENT("Failed to UTF8 byte order code to file :\n"), sFilePath, NULL);
+					DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file :\n"), sFilePath, NULL);
 					CloseHandle(hFile);
 					return;
 				}
 			}
 			tstring output = L"------------------------------------------------\r\n"
-				LPGENT("      History for\r\n")
-				LPGENT("User      : %User%\r\n")
-				LPGENT("Protocol  : %Proto%\r\n")
-				LPGENT("UIN       : %UIN%\r\n")
-				LPGENT("FirstName : %FirstName%\r\n")
-				LPGENT("LastName  : %LastName%\r\n")
-				LPGENT("Age       : %Age%\r\n")
-				LPGENT("Gender    : %Gender%\r\n")
-				LPGENT("e-mail    : %e-mail%\r\n")
-				LPGENT("Nick      : %Nick%\r\n")
-				LPGENT("City      : %City%\r\n")
-				LPGENT("State     : %State%\r\n")
-				LPGENT("Phone     : %Phone%\r\n")
-				LPGENT("Homepage  : %Homepage%\r\n")
-				LPGENT("- About -\r\n%About%\r\n")
+				LPGENW("      History for\r\n")
+				LPGENW("User      : %User%\r\n")
+				LPGENW("Protocol  : %Proto%\r\n")
+				LPGENW("UIN       : %UIN%\r\n")
+				LPGENW("FirstName : %FirstName%\r\n")
+				LPGENW("LastName  : %LastName%\r\n")
+				LPGENW("Age       : %Age%\r\n")
+				LPGENW("Gender    : %Gender%\r\n")
+				LPGENW("e-mail    : %e-mail%\r\n")
+				LPGENW("Nick      : %Nick%\r\n")
+				LPGENW("City      : %City%\r\n")
+				LPGENW("State     : %State%\r\n")
+				LPGENW("Phone     : %Phone%\r\n")
+				LPGENW("Homepage  : %Homepage%\r\n")
+				LPGENW("- About -\r\n%About%\r\n")
 				L"------------------------------------------------\r\n";
 
 			// This is written this way because I expect this will become a string the user may set 
@@ -980,12 +980,12 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 			mir_sntprintf(szTemp, L"%d", db_get_w(hContact, sProto.c_str(), "Age", 0));
 			ReplaceAll(output, L"%Age%", szTemp);
 
-			szTemp[0] = (TCHAR)db_get_b(hContact, sProto.c_str(), "Gender", 0);
+			szTemp[0] = (wchar_t)db_get_b(hContact, sProto.c_str(), "Gender", 0);
 			szTemp[1] = 0;
 			ReplaceAll(output, L"%Gender%", szTemp);
 
 			if (!bWriteTextToFile(hFile, output.data(), bWriteUTF8Format, (int)output.size())) {
-				DisplayErrorDialog(LPGENT("Failed to write user details to file :\n"), sFilePath, NULL);
+				DisplayErrorDialog(LPGENW("Failed to write user details to file :\n"), sFilePath, NULL);
 				CloseHandle(hFile);
 				return;
 			}
@@ -1002,7 +1002,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 
 	// Write first part of line with name and timestamp
 	if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, nIndent)) {
-		DisplayErrorDialog(LPGENT("Failed to write timestamp and username to file :\n"), sFilePath, &dbei);
+		DisplayErrorDialog(LPGENW("Failed to write timestamp and username to file :\n"), sFilePath, &dbei);
 		CloseHandle(hFile);
 		return;
 	}
@@ -1013,9 +1013,9 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
 			{
-				TCHAR *msg = DbGetEventTextT(&dbei, CP_ACP);
+				wchar_t *msg = DbGetEventTextT(&dbei, CP_ACP);
 				if (!bWriteIndentedToFile(hFile, nIndent, msg, bWriteUTF8Format)) {
-					DisplayErrorDialog(LPGENT("Failed to write message to the file :\n"), sFilePath, &dbei);
+					DisplayErrorDialog(LPGENW("Failed to write message to the file :\n"), sFilePath, &dbei);
 				}
 				mir_free(msg);
 			}
@@ -1024,15 +1024,15 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 		case EVENTTYPE_URL:
 		case EVENTTYPE_FILE:
 			{
-				const TCHAR *pszType;
+				const wchar_t *pszType;
 				const char *pszData;
 
 				if (dbei.eventType == EVENTTYPE_URL) {
-					pszType = LPGENT("URL: ");
+					pszType = LPGENW("URL: ");
 					pszData = (char *)dbei.pBlob;
 				}
 				else {
-					pszType = LPGENT("File: ");
+					pszType = LPGENW("File: ");
 					pszData = (char *)(dbei.pBlob + sizeof(DWORD));
 				}
 
@@ -1050,7 +1050,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 							nLen = (int)mir_strlen(pszData);
 							if ((pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob) {
 								if (bWriteNewLine(hFile, nIndent) &&
-									bWriteTextToFile(hFile, LPGENT("Description: "), bWriteUTF8Format) &&
+									bWriteTextToFile(hFile, LPGENW("Description: "), bWriteUTF8Format) &&
 									bWriteIndentedToFile(hFile, nIndent, pszData, bWriteUTF8Format)) {
 									bWriteOk = true;
 								}
@@ -1060,48 +1060,48 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 				}
 
 				if (!bWriteOk)
-					DisplayErrorDialog(LPGENT("Failed to write URL/File to the file :\n"), sFilePath, &dbei);
+					DisplayErrorDialog(LPGENW("Failed to write URL/File to the file :\n"), sFilePath, &dbei);
 			}
 			break;
 
 		case EVENTTYPE_AUTHREQUEST:
 		case EVENTTYPE_ADDED:
 			{
-				const TCHAR *pszTypes[] = {
-					LPGENT("Nick      :"),
-					LPGENT("FirstName :"),
-					LPGENT("LastName  :"),
-					LPGENT("e-mail    :"),
-					LPGENT("Reason    :") };
+				const wchar_t *pszTypes[] = {
+					LPGENW("Nick      :"),
+					LPGENW("FirstName :"),
+					LPGENW("LastName  :"),
+					LPGENW("e-mail    :"),
+					LPGENW("Reason    :") };
 
 				if (dbei.cbBlob < 8 || dbei.cbBlob > 5000) {
 					int n = mir_sntprintf(szTemp, TranslateT("Invalid Database event received. Type %d, size %d"), dbei.eventType, dbei.cbBlob);
 					if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n))
-						DisplayErrorDialog(LPGENT("Failed to write Invalid Database event the file :\n"), sFilePath, &dbei);
+						DisplayErrorDialog(LPGENW("Failed to write Invalid Database event the file :\n"), sFilePath, &dbei);
 					break;
 				}
 
 				bool bWriteOk = false;
 
 				int nStringCount;
-				const TCHAR *pszTitle;
+				const wchar_t *pszTitle;
 				char *pszCurBlobPos;
 				if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {	// request 
 					//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 					nStringCount = 5;
 					pszCurBlobPos = (char *)dbei.pBlob + sizeof(DWORD) * 2;
-					pszTitle = LPGENT("The following user made an authorization request:");
+					pszTitle = LPGENW("The following user made an authorization request:");
 				}
 				else {  // Added
 					//blob is: uin(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 					pszCurBlobPos = (char *)dbei.pBlob + sizeof(DWORD);
 					nStringCount = 4;
-					pszTitle = LPGENT("The following user added you to their contact list:");
+					pszTitle = LPGENW("The following user added you to their contact list:");
 				}
 
 				if (bWriteTextToFile(hFile, pszTitle, bWriteUTF8Format) &&
 					bWriteNewLine(hFile, nIndent) &&
-					bWriteTextToFile(hFile, LPGENT("UIN       :"), bWriteUTF8Format)) {
+					bWriteTextToFile(hFile, LPGENW("UIN       :"), bWriteUTF8Format)) {
 					DWORD uin = *((PDWORD)(dbei.pBlob));
 					int n = mir_sntprintf(szTemp, L"%d", uin);
 					if (bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n)) {
@@ -1122,7 +1122,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 				}
 
 				if (!bWriteOk)
-					DisplayErrorDialog(LPGENT("Failed to write AUTHREQUEST or ADDED to the file :\n"), sFilePath, &dbei);
+					DisplayErrorDialog(LPGENW("Failed to write AUTHREQUEST or ADDED to the file :\n"), sFilePath, &dbei);
 			}
 			break;
 
@@ -1145,9 +1145,9 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 				const char* pszStr = (const char*)dbei.pBlob;
 
 				if (dbei.eventType == ICQEVENTTYPE_EMAILEXPRESS)
-					bWriteTextToFile(hFile, LPGENT("EmailExpress from:"), bWriteUTF8Format);
+					bWriteTextToFile(hFile, LPGENW("EmailExpress from:"), bWriteUTF8Format);
 				else
-					bWriteTextToFile(hFile, LPGENT("WebPager from:"), bWriteUTF8Format);
+					bWriteTextToFile(hFile, LPGENW("WebPager from:"), bWriteUTF8Format);
 
 				bWriteNewLine(hFile, nIndent);
 
@@ -1163,24 +1163,24 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 						bWriteTextToFile(hFile, L">", bWriteUTF8Format);
 					}
 				}
-				else bWriteTextToFile(hFile, LPGENT("No from address"), bWriteUTF8Format);
+				else bWriteTextToFile(hFile, LPGENW("No from address"), bWriteUTF8Format);
 
 				if (!bWriteNewLine(hFile, nIndent) ||
 					!bWriteIndentedToFile(hFile, nIndent, pszStr, bWriteUTF8Format)) {
-					DisplayErrorDialog(LPGENT("Failed to write EmailExpress to the file :\n"), sFilePath, &dbei);
+					DisplayErrorDialog(LPGENW("Failed to write EmailExpress to the file :\n"), sFilePath, &dbei);
 				}
 			}
 			break;
 
 		case ICQEVENTTYPE_SMS:
 			if (!bWriteIndentedToFile(hFile, nIndent, (const char*)dbei.pBlob, bWriteUTF8Format))
-				DisplayErrorDialog(LPGENT("Failed to write SMS to the file :\n"), sFilePath, &dbei);
+				DisplayErrorDialog(LPGENW("Failed to write SMS to the file :\n"), sFilePath, &dbei);
 			break;
 
 		default:
 			int n = mir_sntprintf(szTemp, TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
 			if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n))
-				DisplayErrorDialog(LPGENT("Failed to write Unknown event to the file :\n"), sFilePath, &dbei);
+				DisplayErrorDialog(LPGENW("Failed to write Unknown event to the file :\n"), sFilePath, &dbei);
 			break;
 		}
 	}
@@ -1267,7 +1267,7 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const char *pszSrc, bool bU
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const TCHAR *pszSrc, bool bUtf8File)
+bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool bUtf8File)
 {
 	if (pszSrc == NULL)
 		return true;
@@ -1278,14 +1278,14 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const TCHAR *pszSrc, bool b
 	while (*pszSrc) {	// first we will scan forward in string to finde either new line or "max line with"
 		int nLineLen = 0;
 		do {
-			if (pszSrc[nLineLen] == _T('\n') || pszSrc[nLineLen] == _T('\r'))
+			if (pszSrc[nLineLen] == '\n' || pszSrc[nLineLen] == '\r')
 				break;
 
 			if (nLineLen >= nMaxLineWidth) {	// ok the line was not broken. we need to force a break
 				// we will scan backwards again to finde a space !!
 				// then we will look for a ? and so on.
 
-				const TCHAR ac[] = { _T(' '), _T('?'), _T('-'), _T('.'), _T(',') };
+				const wchar_t ac[] = { ' ', '?', '-', '.', ',' };
 				for (int y = 0; y < _countof(ac); y++) {
 					for (int n = nLineLen; n > 0; n--) {
 						if (pszSrc[n] == ac[y]) {
@@ -1319,9 +1319,9 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const TCHAR *pszSrc, bool b
 
 		// skip any noice chars, MAC style '\r' '\r' '\n' 
 		// and excess spaces 
-		const TCHAR *pszPrev = pszSrc;
+		const wchar_t *pszPrev = pszSrc;
 		pszSrc += nLineLen;
-		while (*pszSrc == _T(' ') || *pszSrc == _T('\n') || *pszSrc == _T('\r'))
+		while (*pszSrc == ' ' || *pszSrc == '\n' || *pszSrc == '\r')
 			pszSrc++;
 
 		if (pszPrev == pszSrc) {
@@ -1379,7 +1379,7 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 	if (hPrevFile != INVALID_HANDLE_VALUE) {
 		CloseHandle(hPrevFile);
 
-		TCHAR szTemp[500];
+		wchar_t szTemp[500];
 		mir_sntprintf(szTemp, L"%s\r\n%s",
 			TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
 
@@ -1431,8 +1431,8 @@ void SaveSettings()
 
 /////////////////////////////////////////////////////////////////////
 
-TCHAR* GetMyOwnNick(MCONTACT hContact)
+wchar_t* GetMyOwnNick(MCONTACT hContact)
 {
-	TCHAR *p = Contact_GetInfo(CNF_DISPLAY, NULL, GetContactProto(hContact));
+	wchar_t *p = Contact_GetInfo(CNF_DISPLAY, NULL, GetContactProto(hContact));
 	return (p != NULL) ? p : mir_tstrdup(TranslateT("No_Nick"));
 }

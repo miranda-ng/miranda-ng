@@ -38,14 +38,14 @@ struct
 {
 	DLGPROC dlgProc;
 	DWORD dlgId;
-	TCHAR *tabName;
+	wchar_t *tabName;
 }
 static tabPages[] =
 {
-	{ IEViewGeneralOptDlgProc, IDD_GENERAL_OPTIONS, LPGENT("General") },
-	{ IEViewSRMMOptDlgProc, IDD_SRMM_OPTIONS, LPGENT("Message Log") },
-	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS, LPGENT("Group chats") },
-	{ IEViewHistoryOptDlgProc, IDD_SRMM_OPTIONS, LPGENT("History") }
+	{ IEViewGeneralOptDlgProc, IDD_GENERAL_OPTIONS, LPGENW("General") },
+	{ IEViewSRMMOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Message Log") },
+	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("Group chats") },
+	{ IEViewHistoryOptDlgProc, IDD_SRMM_OPTIONS, LPGENW("History") }
 };
 
 static LPARAM GetItemParam(HWND hwndTreeView, HTREEITEM hItem)
@@ -437,20 +437,20 @@ int IEViewOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInstance;
-	odp.ptszGroup = LPGENT("Message sessions");
-	odp.ptszTitle = LPGENT("IEView");
+	odp.pwszGroup = LPGENW("Message sessions");
+	odp.pwszTitle = LPGENW("IEView");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(tabPages[0].dlgId);
 	odp.pfnDlgProc = tabPages[0].dlgProc;
-	odp.ptszTab = tabPages[0].tabName;
+	odp.pwszTab = tabPages[0].tabName;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszGroup = LPGENT("Skins");
-	odp.ptszTitle = LPGENT("IEView");
+	odp.pwszGroup = LPGENW("Skins");
+	odp.pwszTitle = LPGENW("IEView");
 	for (size_t i = 1; i < _countof(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
-		odp.ptszTab = tabPages[i].tabName;
+		odp.pwszTab = tabPages[i].tabName;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;
@@ -509,7 +509,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SMILEYS_IN_NAMES), Options::isSmileyAdd());
 		EnableWindow(GetDlgItem(hwndDlg, IDC_EMBED_SIZE), IsDlgButtonChecked(hwndDlg, IDC_ENABLE_EMBED));
 		{
-			TCHAR* size[] = { L"320 x 205", L"480 x 385", L"560 x 349", L"640 x 390" };
+			wchar_t* size[] = { L"320 x 205", L"480 x 385", L"560 x 349", L"640 x 390" };
 			for (int i = 0; i < _countof(size); ++i) {
 				int item = SendDlgItemMessage(hwndDlg, IDC_EMBED_SIZE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(size[i]));
 				SendDlgItemMessage(hwndDlg, IDC_EMBED_SIZE, CB_SETITEMDATA, item, 0);

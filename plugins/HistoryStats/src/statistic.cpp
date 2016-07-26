@@ -193,7 +193,7 @@ DWORD Statistic::getHistoryTime()
 ext::string Statistic::createFile(const ext::string& desiredName)
 {
 	if (!m_Settings.m_OverwriteAlways && utils::fileExists(desiredName)) {
-		TCHAR tempBuf[MAX_PATH];
+		wchar_t tempBuf[MAX_PATH];
 
 		UINT nUnique = GetTempFileName(m_TempPath.c_str(), L"his", 0, tempBuf);
 
@@ -220,7 +220,7 @@ ext::string Statistic::createFile(const ext::string& desiredName)
 	return desiredName;
 }
 
-bool Statistic::newFile(const TCHAR* fileExt, ext::string& writeFile, ext::string& finalURL)
+bool Statistic::newFile(const wchar_t* fileExt, ext::string& writeFile, ext::string& finalURL)
 {
 	++m_nLastFileNr;
 
@@ -352,7 +352,7 @@ void Statistic::stepProgress(bool bSub, int step /* = 1 */)
 bool Statistic::stepInit()
 {
 	// file management
-	TCHAR tempPath[MAX_PATH];
+	wchar_t tempPath[MAX_PATH];
 	int nRes = GetTempPath(MAX_PATH, tempPath);
 
 	if (nRes > 0) {
@@ -1333,19 +1333,19 @@ bool Statistic::createStatisticsSteps()
 	static const struct
 	{
 		bool (Statistic::*stepFn)();
-		TCHAR* stepMsg;
+		wchar_t* stepMsg;
 	}
 	stepsInfo[] = {
-		{ &Statistic::stepInit, LPGENT("Initializing") },
-		{ &Statistic::stepReadDB, LPGENT("Reading database") },
-		{ &Statistic::stepRemoveContacts, LPGENT("Removing contacts") },
-		{ &Statistic::stepSortContacts, LPGENT("Sorting contacts") },
-		{ &Statistic::stepPreOmitContacts, LPGENT("Precollecting column data") },
-		{ &Statistic::stepOmitContacts, LPGENT("Limiting number of contacts") },
-		{ &Statistic::stepCalcTotals, LPGENT("Calculating totals") },
-		{ &Statistic::stepPostOmitContacts, LPGENT("Postcollecting column data") },
-		{ &Statistic::stepTransformData, LPGENT("Transforming data") },
-		{ &Statistic::stepWriteHTML, LPGENT("Creating HTML") }
+		{ &Statistic::stepInit, LPGENW("Initializing") },
+		{ &Statistic::stepReadDB, LPGENW("Reading database") },
+		{ &Statistic::stepRemoveContacts, LPGENW("Removing contacts") },
+		{ &Statistic::stepSortContacts, LPGENW("Sorting contacts") },
+		{ &Statistic::stepPreOmitContacts, LPGENW("Precollecting column data") },
+		{ &Statistic::stepOmitContacts, LPGENW("Limiting number of contacts") },
+		{ &Statistic::stepCalcTotals, LPGENW("Calculating totals") },
+		{ &Statistic::stepPostOmitContacts, LPGENW("Postcollecting column data") },
+		{ &Statistic::stepTransformData, LPGENW("Transforming data") },
+		{ &Statistic::stepWriteHTML, LPGENW("Creating HTML") }
 	};
 
 	setProgressMax(false, _countof(stepsInfo));
@@ -1414,7 +1414,7 @@ INT_PTR CALLBACK Statistic::staticConflictProc(HWND hDlg, UINT uMsg, WPARAM wPar
 		lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_FMT;
 		lvc.fmt = LVCFMT_LEFT;
 		lvc.cx = 400;
-		lvc.pszText = const_cast<TCHAR*>(TranslateT("Already existing file"));
+		lvc.pszText = const_cast<wchar_t*>(TranslateT("Already existing file"));
 		ListView_InsertColumn(hWndFiles, 0, &lvc);
 
 		int nIndex = 0;
@@ -1425,7 +1425,7 @@ INT_PTR CALLBACK Statistic::staticConflictProc(HWND hDlg, UINT uMsg, WPARAM wPar
 			lvi.mask = LVIF_TEXT;
 			lvi.iItem = nIndex++;
 			lvi.iSubItem = 0;
-			lvi.pszText = const_cast<TCHAR*>(fi->first.c_str());
+			lvi.pszText = const_cast<wchar_t*>(fi->first.c_str());
 			ListView_InsertItem(hWndFiles, &lvi);
 		}
 	}

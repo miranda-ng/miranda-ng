@@ -29,7 +29,7 @@ protected:
 public:
 	BOOL enabled;
 	BOOL needPoll;
-	TCHAR *name; 
+	wchar_t *name; 
 
 	Player();
 	virtual ~Player();
@@ -48,7 +48,7 @@ public:
 class ExternalPlayer : public Player
 {
 protected:
-	TCHAR **window_classes;
+	wchar_t **window_classes;
 	int num_window_classes;
 	BOOL found_window;
 
@@ -66,7 +66,7 @@ class CodeInjectionPlayer : public ExternalPlayer
 {
 protected:
 	char *dll_name;
-	TCHAR *message_window_class;
+	wchar_t *message_window_class;
 	DWORD next_request_time;
 
 	virtual void InjectCode();

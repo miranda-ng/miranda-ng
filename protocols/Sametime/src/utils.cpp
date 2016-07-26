@@ -29,7 +29,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 void CSametimeProto::RegisterPopups()
 {
-	TCHAR szDescr[256];
+	wchar_t szDescr[256];
 	char szName[256];
 
 	debugLog(L"CSametimeProto::RegisterPopups()");
@@ -86,8 +86,8 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	if (disp == ED_POP) {
 		POPUPDATACLASS ppd = { sizeof(ppd) };
 		char szName[256];
-		ppd.ptszTitle = puData->title;
-		ppd.ptszText = puData->text;
+		ppd.pwszTitle = puData->title;
+		ppd.pwszText = puData->text;
 		if (puData->flag == SAMETIME_POPUP_ERROR)
 			mir_snprintf(szName, "%s_%s", proto->m_szModuleName, "Error");
 		else
@@ -125,7 +125,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	}
 }
 
-void CSametimeProto::showPopup(const TCHAR* msg, SametimePopupEnum flag)
+void CSametimeProto::showPopup(const wchar_t* msg, SametimePopupEnum flag)
 {
 	if (Miranda_Terminated()) return;
 
@@ -143,7 +143,7 @@ void CSametimeProto::showPopup(guint32 code)
 	struct mwReturnCodeDesc *rcDesc = mwGetReturnCodeDesc(code);
 
 	SametimePopupEnum flag = (rcDesc->type == mwReturnCodeError ? SAMETIME_POPUP_ERROR : SAMETIME_POPUP_INFO);
-	TCHAR buff[512];
+	wchar_t buff[512];
 	mir_sntprintf(buff, TranslateT("%s\n\nSametime error %S\n%s"), TranslateTS(_A2T(rcDesc->name)), rcDesc->codeString, TranslateTS(_A2T(rcDesc->description)));
 
 	showPopup(buff, flag);

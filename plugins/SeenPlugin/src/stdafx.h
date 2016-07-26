@@ -94,7 +94,7 @@ typedef struct{
 } MISSEDCONTACTS;
 
 int IsWatchedProtocol(const char* szProto);
-TCHAR *ParseString(TCHAR*, MCONTACT);
+wchar_t *ParseString(wchar_t*, MCONTACT);
 void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword);
 DWORD GetDWordFromColors(COLORREF First, COLORREF Second);
 int OptionsInit(WPARAM,LPARAM);

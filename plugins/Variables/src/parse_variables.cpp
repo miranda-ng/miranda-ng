@@ -24,7 +24,7 @@ static mir_cs csVarRegister;
 static VARIABLEREGISTER *vr = NULL;
 static int vrCount = 0;
 
-static int addToVariablesRegister(TCHAR *szName, TCHAR *szText)
+static int addToVariablesRegister(wchar_t *szName, wchar_t *szText)
 {
 	if ((szName == NULL) || (szText == NULL) || (mir_tstrlen(szName) <= 0))
 		return -1;
@@ -48,7 +48,7 @@ static int addToVariablesRegister(TCHAR *szName, TCHAR *szText)
 	return 0;
 }
 
-static TCHAR *searchVariableRegister(TCHAR *szName)
+static wchar_t *searchVariableRegister(wchar_t *szName)
 {
 	if ((szName == NULL) || (mir_tstrlen(szName) <= 0))
 		return NULL;
@@ -61,7 +61,7 @@ static TCHAR *searchVariableRegister(TCHAR *szName)
 	return NULL;
 }
 
-static TCHAR *parsePut(ARGUMENTSINFO *ai)
+static wchar_t *parsePut(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -77,7 +77,7 @@ static TCHAR *parsePut(ARGUMENTSINFO *ai)
 	return formatString(&fi);
 }
 
-static TCHAR *parsePuts(ARGUMENTSINFO *ai)
+static wchar_t *parsePuts(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -88,7 +88,7 @@ static TCHAR *parsePuts(ARGUMENTSINFO *ai)
 	return mir_tstrdup(L"");
 }
 
-static TCHAR *parseGet(ARGUMENTSINFO *ai)
+static wchar_t *parseGet(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;

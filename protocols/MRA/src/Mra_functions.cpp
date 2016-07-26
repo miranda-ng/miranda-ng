@@ -648,7 +648,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 		CMStringA szEmail;
 		MCONTACT hContact = NULL;
 
-		TCHAR szMailBoxStatus[MAX_SECONDLINE];
+		wchar_t szMailBoxStatus[MAX_SECONDLINE];
 		mir_sntprintf(szMailBoxStatus, TranslateT("Unread mail is available: %lu/%lu messages"), m_dwEmailMessagesUnread, dwEmailMessagesTotal);
 
 		if (!pszFrom.IsEmpty() || !pszSubject.IsEmpty()) {
@@ -658,7 +658,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 
 			mir_sntprintf(szStatusText, TranslateT("From: %S\r\nSubject: %S\r\n%s"), pszFrom.c_str(), szSubject.c_str(), szMailBoxStatus);
 		}
-		else _tcsncpy_s(szStatusText, szMailBoxStatus, _TRUNCATE);
+		else wcsncpy_s(szStatusText, szMailBoxStatus, _TRUNCATE);
 
 		if (bTrayIconNewMailNotify) {
 			char szServiceFunction[MAX_PATH] = { 0 }, *pszServiceFunctionName;
@@ -870,11 +870,11 @@ bool CMraProto::GetContactFirstEMail(MCONTACT hContact, BOOL bMRAOnly, CMStringA
 
 void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode)
 {
-	TCHAR szErrorText[2048], szErrDescription[1024];
+	wchar_t szErrorText[2048], szErrDescription[1024];
 	size_t dwErrDescriptionSize;
 
 	if (dwErrorCode == NO_ERROR)
-		_tcsncpy_s(szErrorText, TranslateTS(lpwszErrText), _TRUNCATE);
+		wcsncpy_s(szErrorText, TranslateTS(lpwszErrText), _TRUNCATE);
 	else {
 		dwErrDescriptionSize = (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrorCode, 0, szErrDescription, (_countof(szErrDescription) - sizeof(WCHAR)), NULL) - 2);
 		szErrDescription[dwErrDescriptionSize] = 0;
@@ -1019,7 +1019,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 
 	case WM_TIMER:
 		if (dat->dwCountdown != -1) {
-			TCHAR szBuff[MAX_PATH];
+			wchar_t szBuff[MAX_PATH];
 			mir_sntprintf(szBuff, TranslateT("Closing in %ld"), dat->dwCountdown--);
 			SetDlgItemText(hWndDlg, IDOK, szBuff);
 			break;
@@ -1046,7 +1046,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, 0);
 		if (dat) { // set our xStatus
 
-			TCHAR szBuff[STATUS_TITLE_MAX + STATUS_DESC_MAX];
+			wchar_t szBuff[STATUS_TITLE_MAX + STATUS_DESC_MAX];
 			DWORD dwBuffSize = GetDlgItemText(hWndDlg, IDC_XMSG, szBuff, (STATUS_DESC_MAX + 1));
 
 			char szValueName[MAX_PATH];
@@ -1145,7 +1145,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 			{
 				DWORD dwFlags;
 				DWORDLONG dwBlogStatusID;
-				TCHAR szBuff[MICBLOG_STATUS_MAX];
+				wchar_t szBuff[MICBLOG_STATUS_MAX];
 
 				GetDlgItemText(hWndDlg, IDC_MSG_TO_SEND, szBuff, _countof(szBuff));
 
@@ -1172,7 +1172,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 
 		case IDC_MSG_TO_SEND:
 			if (HIWORD(wParam) == EN_CHANGE) {
-				TCHAR tszBuff[MAX_PATH];
+				wchar_t tszBuff[MAX_PATH];
 				size_t dwMessageSize = GetWindowTextLength(GetDlgItem(hWndDlg, IDC_MSG_TO_SEND));
 
 				EnableWindow(GetDlgItem(hWndDlg, IDOK), (int)dwMessageSize);
@@ -1232,7 +1232,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 	DWORD dwRetErrorCode;
 
 	if (lpszFolder && dwFolderLen && lpszFileName && dwFileNameLen) {
-		TCHAR szPath[32768];
+		wchar_t szPath[32768];
 		DWORD dwPathLen, dwRecDeepAllocated, dwRecDeepCurPos, dwFilePathLen;
 		RECURSION_DATA_STACK_ITEM *prdsiItems;
 
@@ -1434,15 +1434,15 @@ static DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplac
 }
 
 static const LPTSTR lpszXMLTags[] = { L"&apos;", L"&quot;", L"&amp;", L"&lt;", L"&gt;" };
-static const size_t dwXMLTagsCount[] = { (6 * sizeof(TCHAR)), (6 * sizeof(TCHAR)), (5 * sizeof(TCHAR)), (4 * sizeof(TCHAR)), (4 * sizeof(TCHAR)) };
+static const size_t dwXMLTagsCount[] = { (6 * sizeof(wchar_t)), (6 * sizeof(wchar_t)), (5 * sizeof(wchar_t)), (4 * sizeof(wchar_t)), (4 * sizeof(wchar_t)) };
 static const LPTSTR lpszXMLSymbols[] = { L"\'", L"\"", L"&", L"<", L">" };
-static const size_t dwXMLSymbolsCount[] = { sizeof(TCHAR), sizeof(TCHAR), sizeof(TCHAR), sizeof(TCHAR), sizeof(TCHAR) };
+static const size_t dwXMLSymbolsCount[] = { sizeof(wchar_t), sizeof(wchar_t), sizeof(wchar_t), sizeof(wchar_t), sizeof(wchar_t) };
 
 //Decode XML coded string. The function translate special xml code into standard characters.
 CMStringW DecodeXML(const CMStringW &lptszMessage)
 {
 	CMStringW ret('\0', (lptszMessage.GetLength() * 4));
-	ReplaceInBuff((void*)lptszMessage.GetString(), lptszMessage.GetLength()*sizeof(TCHAR), _countof(lpszXMLTags), (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, ret);
+	ReplaceInBuff((void*)lptszMessage.GetString(), lptszMessage.GetLength()*sizeof(wchar_t), _countof(lpszXMLTags), (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, ret);
 	return ret;
 }
 
@@ -1450,6 +1450,6 @@ CMStringW DecodeXML(const CMStringW &lptszMessage)
 CMStringW EncodeXML(const CMStringW &lptszMessage)
 {
 	CMStringW ret('\0', (lptszMessage.GetLength() * 4));
-	ReplaceInBuff((void*)lptszMessage.GetString(), lptszMessage.GetLength()*sizeof(TCHAR), _countof(lpszXMLTags), (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, ret);
+	ReplaceInBuff((void*)lptszMessage.GetString(), lptszMessage.GetLength()*sizeof(wchar_t), _countof(lpszXMLTags), (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, ret);
 	return ret;
 }

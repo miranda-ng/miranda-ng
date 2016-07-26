@@ -22,7 +22,7 @@
 /*
 	pattern, subject
 */
-static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai)
+static wchar_t *parseRegExpCheck(ARGUMENTSINFO *ai)
 {
 	const char *err;
 	int erroffset;
@@ -52,17 +52,17 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai)
 /*
 	pattern, subject, substring no (== PCRE string no (starting at 0))
 	*/
-static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
+static wchar_t *parseRegExpSubstr(ARGUMENTSINFO *ai)
 {
 	const char *err;
-	const TCHAR *substring;
+	const wchar_t *substring;
 	int erroffset, number;
 	int offsets[99];
 
 	if (ai->argc != 4)
 		return NULL;
 
-	number = _ttoi(ai->targv[3]);
+	number = _wtoi(ai->targv[3]);
 	if (number < 0)
 		return NULL;
 
@@ -79,7 +79,7 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
 	if (pcre16_get_substring(ai->targv[2], offsets, nmat, number, &substring) < 0)
 		ai->flags |= AIF_FALSE;
 	else {
-		TCHAR *tres = mir_tstrdup(substring);
+		wchar_t *tres = mir_tstrdup(substring);
 		pcre16_free_substring(substring);
 		return tres;
 	}

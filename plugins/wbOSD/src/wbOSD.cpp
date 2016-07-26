@@ -9,10 +9,10 @@ Distributed under GNU's GPL 2 or later
 
 #include "stdafx.h"
 
-TCHAR szClassName[] = L"wbOSD";
+wchar_t szClassName[] = L"wbOSD";
 const static osdmsg defstr = { L"", 0, RGB(0, 0, 0), 0, 0 };
 
-int DrawMe(HWND hwnd, TCHAR *string, COLORREF color)
+int DrawMe(HWND hwnd, wchar_t *string, COLORREF color)
 {
 	logmsg("DrawMe");
 	if (!string) string = L"bullshit";
@@ -161,7 +161,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		logmsg("WindowProcedure::USER+1");
 
 		ms = (osdmsg*)mir_alloc(sizeof(osdmsg));
-		ms->text = mir_tstrdup((TCHAR *)wParam);
+		ms->text = mir_tstrdup((wchar_t *)wParam);
 		if (lParam == 0)
 			lParam = db_get_dw(NULL, THIS_MODULE, "timeout", DEFAULT_TIMEOUT);
 		ms->timeout = lParam;

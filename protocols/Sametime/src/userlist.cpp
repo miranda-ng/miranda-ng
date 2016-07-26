@@ -298,7 +298,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 	}
 }
 
-void CSametimeProto::ImportContactsFromFile(TCHAR* filename)
+void CSametimeProto::ImportContactsFromFile(wchar_t* filename)
 {
 	debugLog(L"CSametimeProto::ImportContactsFromFile() start");
 	std::ifstream in(filename);
@@ -654,8 +654,8 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 	mcsr.psr.nick.a = mcsr.name;
 
 	mcsr.nFieldCount = 4;
-	TCHAR fields[4][512];
-	TCHAR *fields_addr[4];
+	wchar_t fields[4][512];
+	wchar_t *fields_addr[4];
 	mcsr.pszFields = fields_addr;
 	mcsr.pszFields[0] = fields[0];
 	mcsr.pszFields[1] = fields[1];
@@ -665,10 +665,10 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 	if (advanced == TRUE) {
 		// send column names
 		mcsr.psr.cbSize = 0;
-		_tcsncpy(mcsr.pszFields[0], TranslateT("ID"), 512);
-		_tcsncpy(mcsr.pszFields[1], TranslateT("Name"), 512);
-		_tcsncpy(mcsr.pszFields[2], TranslateT("Description"), 512);
-		_tcsncpy(mcsr.pszFields[3], TranslateT("Group?"), 512);
+		wcsncpy(mcsr.pszFields[0], TranslateT("ID"), 512);
+		wcsncpy(mcsr.pszFields[1], TranslateT("Name"), 512);
+		wcsncpy(mcsr.pszFields[2], TranslateT("Description"), 512);
+		wcsncpy(mcsr.pszFields[3], TranslateT("Group?"), 512);
 		proto->ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, (HANDLE)id, (LPARAM)&mcsr);
 	}
 
@@ -689,7 +689,7 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 					mcsr.pszFields[2][0] = 0;
 
 				mcsr.group = (((mwResolveMatch *)mri->data)->type == mwResolveMatch_GROUP);
-				_tcsncpy_s(mcsr.pszFields[3], 512, mcsr.group ? TranslateT("True") : TranslateT("False"), _TRUNCATE);
+				wcsncpy_s(mcsr.pszFields[3], 512, mcsr.group ? TranslateT("True") : TranslateT("False"), _TRUNCATE);
 
 				if (advanced == TRUE)
 					proto->ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, (HANDLE)id, (LPARAM)&mcsr);

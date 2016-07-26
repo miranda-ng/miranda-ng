@@ -142,7 +142,7 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 	return dib;
 }
 
-FIBITMAP* CaptureMonitor(const TCHAR* szDevice, const RECT* cropRect/*=NULL*/)
+FIBITMAP* CaptureMonitor(const wchar_t* szDevice, const RECT* cropRect/*=NULL*/)
 {
 	HDC hScrDC;
 	RECT rect;
@@ -308,11 +308,11 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	return dib;
 }
 
-TCHAR* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const TCHAR* pszFilename, const TCHAR* pszExt, int flag)
+wchar_t* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const wchar_t* pszFilename, const wchar_t* pszExt, int flag)
 {
 	int ret = 0;
-	TCHAR* pszFile = NULL;
-	TCHAR* FileExt = GetFileExt(pszFilename);
+	wchar_t* pszFile = NULL;
+	wchar_t* FileExt = GetFileExt(pszFilename);
 	if (!FileExt) {
 		if (!pszExt) return NULL;
 		mir_tstradd(pszFile, pszFilename);
@@ -338,35 +338,35 @@ TCHAR* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const TCHAR* pszFilename,
 }
 
 //---------------------------------------------------------------------------
-TCHAR* GetFileNameW(const TCHAR* pszPath)
+wchar_t* GetFileNameW(const wchar_t* pszPath)
 {
-	const TCHAR* slash = _tcsrchr(pszPath, _T('\\'));
-	if (!slash) slash = _tcsrchr(pszPath, _T('/'));
+	const wchar_t* slash = wcsrchr(pszPath, '\\');
+	if (!slash) slash = wcsrchr(pszPath, '/');
 	if (slash)
 		return mir_t2u(slash + 1);
 	else
 		return mir_t2u(pszPath);
 }
-TCHAR* GetFileExtW(const TCHAR* pszPath)
+wchar_t* GetFileExtW(const wchar_t* pszPath)
 {
-	const TCHAR* slash = _tcsrchr(pszPath, _T('.'));
+	const wchar_t* slash = wcsrchr(pszPath, '.');
 	if (slash)
 		return mir_t2u(slash);
 	return NULL;
 }
 
-char* GetFileNameA(const TCHAR* pszPath)
+char* GetFileNameA(const wchar_t* pszPath)
 {
-	const TCHAR* slash = _tcsrchr(pszPath, _T('\\'));
-	if (!slash) slash = _tcsrchr(pszPath, _T('/'));
+	const wchar_t* slash = wcsrchr(pszPath, '\\');
+	if (!slash) slash = wcsrchr(pszPath, '/');
 	if (slash)
 		return mir_t2a(slash + 1);
 	else
 		return mir_t2a(pszPath);
 }
-char* GetFileExtA(const TCHAR* pszPath)
+char* GetFileExtA(const wchar_t* pszPath)
 {
-	const TCHAR* slash = _tcsrchr(pszPath, _T('.'));
+	const wchar_t* slash = wcsrchr(pszPath, '.');
 	if (slash)
 		return mir_t2a(slash);
 	return NULL;
@@ -395,7 +395,7 @@ BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder)
 	return bOk;
 }
 
-void SaveGIF(HBITMAP hBmp, TCHAR* szFilename)
+void SaveGIF(HBITMAP hBmp, wchar_t* szFilename)
 {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR                    gdiplusToken;
@@ -415,7 +415,7 @@ void SaveGIF(HBITMAP hBmp, TCHAR* szFilename)
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
-void SaveTIF(HBITMAP hBmp, TCHAR* szFilename)
+void SaveTIF(HBITMAP hBmp, wchar_t* szFilename)
 {
 	//http://www.codeproject.com/Messages/1406708/How-to-reduce-the-size-of-an-Image-using-GDIplus.aspx
 	ULONG_PTR						gdiplusToken;

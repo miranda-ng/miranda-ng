@@ -147,7 +147,7 @@ CLUI* CLUI::m_pCLUI = NULL;
 BOOL CLUI::m_fMainMenuInited = FALSE;
 HWND CLUI::m_hWnd = NULL;
 
-static TCHAR tszFolderPath[MAX_PATH];
+static wchar_t tszFolderPath[MAX_PATH];
 
 void CLUI::cliOnCreateClc(void)
 {
@@ -184,9 +184,9 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM, LPARAM)
 		return 0;
 
 	HWND hwndClist = GetFocus();
-	TCHAR cls[128];
+	wchar_t cls[128];
 	GetClassName(hwndClist, cls, _countof(cls));
-	if (mir_tstrcmp(_T(CLISTCONTROL_CLASS), cls))
+	if (mir_tstrcmp(CLISTCONTROL_CLASSW, cls))
 		hwndClist = pcli->hwndContactList;
 
 	MCONTACT hItem = (MCONTACT)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
@@ -316,13 +316,13 @@ HRESULT CLUI::LoadDllsRuntime()
 }
 
 static IconItemT iconItem[] = {
-	{ LPGENT("Show avatar"), "ShowAvatar", IDI_SHOW_AVATAR },
-	{ LPGENT("Hide avatar"), "HideAvatar", IDI_HIDE_AVATAR }
+	{ LPGENW("Show avatar"), "ShowAvatar", IDI_SHOW_AVATAR },
+	{ LPGENW("Hide avatar"), "HideAvatar", IDI_HIDE_AVATAR }
 };
 
 HRESULT CLUI::RegisterAvatarMenu()
 {
-	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, _countof(iconItem));
+	Icon_RegisterT(g_hInst, LPGENW("Contact list"), iconItem, _countof(iconItem));
 
 	CMenuItem mi;
 
@@ -348,7 +348,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 
 HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 {
-	pcli->hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), L"",
+	pcli->hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
 		WS_CHILD | WS_CLIPCHILDREN | CLS_CONTACTLIST
 		| (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
 		| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
@@ -412,7 +412,7 @@ HRESULT CLUI::CreateCLC()
 	Frame.align = alClient;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	Frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NO_SUBCONTAINER | F_TCHAR;
-	Frame.tname = LPGENT("My contacts");
+	Frame.tname = LPGENW("My contacts");
 	Frame.TBtname = TranslateT("My contacts");
 	hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
@@ -496,7 +496,7 @@ BOOL CLUI_CheckOwnedByClui(HWND hWnd)
 	if (hWndMid == hWndClui)
 		return TRUE;
 
-	TCHAR buf[255];
+	wchar_t buf[255];
 	GetClassName(hWndMid, buf, 254);
 	if (!mir_tstrcmpi(buf, CLUIFrameSubContainerClassName))
 		return TRUE;
@@ -664,7 +664,7 @@ void CLUI_ChangeWindowMode()
 		styleEx |= WS_EX_LAYERED;
 
 	// 4 - Set Title
-	TCHAR titleText[255] = { 0 };
+	wchar_t titleText[255] = { 0 };
 	DBVARIANT dbv;
 	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
 		mir_tstrncpy(titleText, _T(MIRANDANAME), _countof(titleText));
@@ -880,12 +880,12 @@ int CLUI_OnSkinLoad(WPARAM, LPARAM)
 static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 {
 	int count;
-	TCHAR fileFull[MAX_PATH];
+	wchar_t fileFull[MAX_PATH];
 
 	if (!tszFolderPath[0]) {
-		TCHAR szRelativePath[MAX_PATH];
+		wchar_t szRelativePath[MAX_PATH];
 		GetModuleFileName(GetModuleHandle(NULL), szRelativePath, MAX_PATH);
-		TCHAR *str = _tcsrchr(szRelativePath, '\\');
+		wchar_t *str = wcsrchr(szRelativePath, '\\');
 		if (str != NULL)
 			*str = 0;
 		PathToAbsoluteT(szRelativePath, tszFolderPath);
@@ -916,12 +916,12 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 	return 8;
 }
 
-static HICON CLUI_LoadIconFromExternalFile(TCHAR *filename, int i)
+static HICON CLUI_LoadIconFromExternalFile(wchar_t *filename, int i)
 {
-	TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH];
+	wchar_t szPath[MAX_PATH], szFullPath[MAX_PATH];
 	mir_sntprintf(szPath, L"Icons\\%s", filename);
 	PathToAbsoluteT(szPath, szFullPath);
-	if (_taccess(szPath, 0))
+	if (_waccess(szPath, 0))
 		return NULL;
 
 	HICON hIcon = NULL;
@@ -931,7 +931,7 @@ static HICON CLUI_LoadIconFromExternalFile(TCHAR *filename, int i)
 
 static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 {
-	TCHAR szFullPath[MAX_PATH];
+	wchar_t szFullPath[MAX_PATH];
 	HICON hIcon;
 
 	if (szAccoName) {
@@ -1498,35 +1498,35 @@ BOOL cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase)
 	return InvalidateRect(hWnd, lpRect, bErase);
 }
 
-static BOOL FileExists(TCHAR * tszFilename)
+static BOOL FileExists(wchar_t * tszFilename)
 {
-	FILE * f = _tfopen(tszFilename, L"r");
+	FILE * f = _wfopen(tszFilename, L"r");
 	if (f == NULL) return FALSE;
 	fclose(f);
 	return TRUE;
 }
 
-HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDescription, TCHAR *tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModuleInst, int iDefaultResource)
+HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDescription, wchar_t *tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModuleInst, int iDefaultResource)
 {
 	if (hDefaultModuleInst == NULL)
 		return Skin_GetIconHandle(iDefaultResource);
 
-	TCHAR fileFull[MAX_PATH] = { 0 };
+	wchar_t fileFull[MAX_PATH] = { 0 };
 
 	SKINICONDESC sid = { 0 };
 	sid.section.a = szSectionName;
 	sid.pszName = szIcoID;
 	sid.flags |= SIDF_PATH_TCHAR;
 	sid.description.a = szDescription;
-	sid.defaultFile.t = fileFull;
+	sid.defaultFile.w = fileFull;
 
 	if (tszDefaultFile) {
 		PathToAbsoluteT(tszDefaultFile, fileFull);
 		if (!FileExists(fileFull))
-			fileFull[0] = _T('\0');
+			fileFull[0] = '\0';
 	}
 
-	if (fileFull[0] != _T('\0'))
+	if (fileFull[0] != '\0')
 		sid.iDefaultIndex = -iDefaultIndex;
 	else {
 		GetModuleFileName(hDefaultModuleInst, fileFull, _countof(fileFull));
@@ -2419,7 +2419,7 @@ LRESULT CLUI::OnMeasureItem(UINT, WPARAM, LPARAM lParam)
 
 	case MENU_STATUSMENU:
 		HDC hdc = GetDC(m_hWnd);
-		TCHAR *ptszStr = TranslateT("Status");
+		wchar_t *ptszStr = TranslateT("Status");
 		SIZE textSize;
 		GetTextExtentPoint32(hdc, ptszStr, (int)mir_tstrlen(ptszStr), &textSize);
 		pmis->itemWidth = textSize.cx;

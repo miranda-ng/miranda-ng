@@ -60,7 +60,7 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase
 
 struct SESSION_INFO : public GCSessionInfoBase, public CommonWindowData
 {
-	TCHAR szSearch[255];
+	wchar_t szSearch[255];
 	int   desiredInputAreaHeight;
 };
 
@@ -79,7 +79,7 @@ void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);
 
 // window.c
-int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
+int GetTextPixelSize( wchar_t* pszText, HFONT hFont, BOOL bWidth);
 
 // options.c
 int OptionsInit(void);
@@ -89,13 +89,13 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 
 // manager.c
 HWND          SM_FindWindowByContact(MCONTACT hContact);
-SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
+SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui);
 
 // tools.c
 BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
-TCHAR*        my_strstri(const TCHAR* s1, const TCHAR* s2) ;
-UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
+wchar_t*        my_strstri(const wchar_t* s1, const wchar_t* s2) ;
+UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 
 //////////////////////////////////////////////////////////////////////////////////

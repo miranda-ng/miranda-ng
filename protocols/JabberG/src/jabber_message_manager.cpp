@@ -115,9 +115,9 @@ CJabberMessagePermanentInfo* CJabberMessageManager::AddPermanentHandler(
 	JABBER_PERMANENT_MESSAGE_HANDLER pHandler,
 	int nMessageTypes,
 	DWORD dwParamsToParse,
-	const TCHAR *szXmlns,
+	const wchar_t *szXmlns,
 	BOOL bAllowPartialNs,
-	const TCHAR *szTag,
+	const wchar_t *szTag,
 	void *pUserData,
 	MESSAGE_USER_DATA_FREE_FUNC pUserDataFree,
 	int iPriority)

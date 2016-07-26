@@ -68,7 +68,7 @@ int Log(char *format, ...);
 void ScreenToClient(HWND hWnd, LPRECT rect);
 
 int Info(char *title, char *format, ...);
-TCHAR *GetContactName(MCONTACT contact);
+wchar_t *GetContactName(MCONTACT contact);
 void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors);
 RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos, int anchors);
 

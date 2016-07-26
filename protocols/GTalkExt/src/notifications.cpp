@@ -177,7 +177,7 @@ MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 	// SetAvatar(hContact);
 
 	if (displayName == NULL) {
-		TCHAR *tszTemp = (TCHAR*)alloca((mir_tstrlen(jid) + mir_tstrlen(unreadCount) + 3 + 1) * sizeof(TCHAR));
+		wchar_t *tszTemp = (wchar_t*)alloca((mir_tstrlen(jid) + mir_tstrlen(unreadCount) + 3 + 1) * sizeof(wchar_t));
 		FormatPseudocontactDisplayName(tszTemp, jid, unreadCount);
 		db_set_ts(hContact, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, tszTemp);
 	}
@@ -230,8 +230,8 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 	}
 
 	data->PluginWindowProc = PopupProc;
-	size_t lurl = (mir_tstrlen(url) + 1) * sizeof(TCHAR);
-	size_t ljid = (mir_tstrlen(jid) + 1) * sizeof(TCHAR);
+	size_t lurl = (mir_tstrlen(url) + 1) * sizeof(wchar_t);
+	size_t ljid = (mir_tstrlen(jid) + 1) * sizeof(wchar_t);
 
 	POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)malloc(sizeof(POPUP_DATA_HEADER) + lurl + ljid);
 	ppdh->MarkRead = FALSE;

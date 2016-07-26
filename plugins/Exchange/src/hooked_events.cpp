@@ -66,7 +66,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	mi.position = 10000000;
 	mi.pszService = MS_EXCHANGE_CHECKEMAIL;
 	mi.flags = CMIF_TCHAR;
-	mi.name.t = LPGENT("Check exchange mailbox");
+	mi.name.w = LPGENW("Check exchange mailbox");
 	Menu_AddMainMenuItem(&mi);
 	
 	hEmailsDlg = NULL; //CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails); //create emails window
@@ -82,8 +82,8 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXCHANGE);
-	odp.ptszTitle = LPGENT("Exchange notify");
-	odp.ptszGroup = LPGENT("Plugins");
+	odp.pwszTitle = LPGENW("Exchange notify");
+	odp.pwszGroup = LPGENW("Plugins");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcOptions;

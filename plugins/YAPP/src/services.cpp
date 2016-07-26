@@ -195,11 +195,11 @@ void UpdateMenu()
 {
 	bool isEnabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) == 1;
 	if (isEnabled) {
-		Menu_ModifyItem(hMenuItem, LPGENT("Disable Popups"), IcoLib_GetIcon(ICO_POPUP_ON));
+		Menu_ModifyItem(hMenuItem, LPGENW("Disable Popups"), IcoLib_GetIcon(ICO_POPUP_ON));
 		Menu_ModifyItem(hMenuRoot, NULL, IcoLib_GetIcon(ICO_POPUP_ON));
 	}
 	else {
-		Menu_ModifyItem(hMenuItem, LPGENT("Enable Popups"), IcoLib_GetIcon(ICO_POPUP_OFF));
+		Menu_ModifyItem(hMenuItem, LPGENW("Enable Popups"), IcoLib_GetIcon(ICO_POPUP_OFF));
 		Menu_ModifyItem(hMenuRoot, NULL, IcoLib_GetIcon(ICO_POPUP_OFF));
 	}
 
@@ -291,7 +291,7 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 		POPUPDATAT pd = {0};
 		mir_tstrcpy(pd.lptzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
 		pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
-		_tcsncpy(pd.lptzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lptzText[MAX_SECONDLINE-1] = 0;
+		wcsncpy(pd.lptzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lptzText[MAX_SECONDLINE-1] = 0;
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, 0);
 	}
 	return 0;

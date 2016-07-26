@@ -1348,7 +1348,7 @@ static int CLUIFramesLoadMainMenu()
 		FRAMEWND &F = Frames[i];
 		mi.hIcolibItem = F.TitleBar.hicon;
 		mi.position = separator;
-		mi.name.t = F.TitleBar.tbname ? F.TitleBar.tbname : F.name;
+		mi.name.w = F.TitleBar.tbname ? F.TitleBar.tbname : F.name;
 		mi.pszService = 0;
 		g_frameMenus.insert(F.MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi));
 		CLUIFramesCreateMenuForFrame(F.id, F.MenuHandles.MainMenuItem, separator, true);
@@ -1597,7 +1597,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM)
 	Frames[nFramescount].dwFlags = clfrm->Flags;
 
 	if (clfrm->name == NULL || ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->wname) : mir_strlen(clfrm->name)) == 0) {
-		TCHAR ptszClassName[256];
+		wchar_t ptszClassName[256];
 		GetClassName(Frames[nFramescount].hWnd, ptszClassName, _countof(ptszClassName));
 		Frames[nFramescount].name = mir_tstrdup(ptszClassName);
 	}
@@ -2892,7 +2892,7 @@ INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-TCHAR g_ptszEventName[100];
+wchar_t g_ptszEventName[100];
 
 static int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 {

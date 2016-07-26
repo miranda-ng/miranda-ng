@@ -76,9 +76,9 @@ public:
 	explicit ColSplitTimeline();
 
 protected:
-	virtual const TCHAR* impl_getUID() const { return con::ColSplitTimeline; }
-	virtual const TCHAR* impl_getTitle() const { return LPGENT("\"Split\" timeline"); }
-	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available."); }
+	virtual const wchar_t* impl_getUID() const { return con::ColSplitTimeline; }
+	virtual const wchar_t* impl_getTitle() const { return LPGENW("\"Split\" timeline"); }
+	virtual const wchar_t* impl_getDescription() const { return LPGENW("Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig | cfAcquiresData; }
 	virtual void impl_configRead(const SettingsTree& settings);

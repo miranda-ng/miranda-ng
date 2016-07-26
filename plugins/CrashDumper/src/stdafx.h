@@ -92,8 +92,8 @@ extern DWORD mirandaVersion;
 extern LCID packlcid;
 extern bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart;
 
-extern TCHAR CrashLogFolder[MAX_PATH];
-extern TCHAR VersionInfoFolder[MAX_PATH];
+extern wchar_t CrashLogFolder[MAX_PATH];
+extern wchar_t VersionInfoFolder[MAX_PATH];
 
 void WriteBBFile(CMString& buffer, bool hdr);
 void WriteUtfFile(HANDLE hDumpFile, char* bufu);
@@ -119,14 +119,14 @@ void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMString& buffer);
 void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, DWORD dwSize);
 void GetLastWriteTime(FILETIME* ftime, LPTSTR lpszString, DWORD dwSize);
 void StoreStringToClip(CMString& buffer);
-void ShowMessage(int type, const TCHAR* format, ...);
-bool IsPluginEnabled(TCHAR* filename);
+void ShowMessage(int type, const wchar_t* format, ...);
+bool IsPluginEnabled(wchar_t* filename);
 
 PLUGININFOEX* GetMirInfo(HMODULE hModule);
 const PLUGININFOEX* GetPluginInfoEx(void);
 
 void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr);
-void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHAR* msg);
+void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wchar_t* msg);
 void PrintVersionInfo(CMString& buffer, unsigned flags = VI_FLAG_PRNVAR);
 bool ProcessVIHash(bool store);
 

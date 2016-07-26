@@ -24,7 +24,7 @@ struct CustomButtonData : public MZeroedObject
 	DWORD  m_dwButtonCID;
 	DWORD  m_dwArrowCID;    // only use with BBBF_ISARROWBUTTON flag
 
-	TCHAR *m_ptszTooltip;   // button's tooltip
+	wchar_t *m_ptszTooltip;   // button's tooltip
 
 	int    m_iButtonWidth;  // must be 22 for regular button and 33 for button with arrow
 	HANDLE m_hIcon;         // Handle to icolib registred icon
@@ -356,7 +356,7 @@ static int SaveTree(HWND hToolBarTree)
 	bool RSide = false;
 	int count = 10;
 	DWORD loc_sepcout = 0;
-	TCHAR strbuf[128];
+	wchar_t strbuf[128];
 
 	TVITEM tvi;
 	tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE;
@@ -561,7 +561,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			TreeView_GetItem(hToolBarTree, &tvi);
 			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
 				TVINSERTSTRUCT tvis;
-				TCHAR strbuf[128];
+				wchar_t strbuf[128];
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 				tvis.item.stateMask = 0xFFFFFFFF;
 				tvis.item.pszText = strbuf;
@@ -699,7 +699,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			case TVN_SELCHANGING:
 				hItem = TreeView_GetSelection(hToolBarTree);
 				if (hItem != NULL) {
-					TCHAR strbuf[128];
+					wchar_t strbuf[128];
 
 					TVITEM tvi;
 					tvi.hItem = hItem;
@@ -727,7 +727,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			case TVN_SELCHANGED:
 				hItem = TreeView_GetSelection(hToolBarTree);
 				if (hItem != NULL) {
-					TCHAR strbuf[128];
+					wchar_t strbuf[128];
 
 					TVITEM tvi;
 					tvi.pszText = strbuf;
@@ -840,14 +840,14 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 10;
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_CONNECTING);
 	bbd.pszModuleName = "Tabsrmm";
-	bbd.ptszTooltip = LPGENT("Protocol button");
+	bbd.ptszTooltip = LPGENW("Protocol button");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_NAME;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[20];
-	bbd.ptszTooltip = LPGENT("Info button");
+	bbd.ptszTooltip = LPGENW("Info button");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	if (PluginConfig.g_SmileyAddAvail) {
@@ -856,7 +856,7 @@ void CB_InitDefaultButtons()
 		bbd.iButtonWidth = 0;
 		bbd.dwDefPos = 30;
 		bbd.hIcon = PluginConfig.g_buttonBarIconHandles[9];
-		bbd.ptszTooltip = LPGENT("Insert emoticon");
+		bbd.ptszTooltip = LPGENW("Insert emoticon");
 		CB_AddButton(0, (LPARAM)&bbd);
 	}
 
@@ -864,35 +864,35 @@ void CB_InitDefaultButtons()
 	bbd.dwButtonID = IDC_FONTBOLD;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[10];
-	bbd.ptszTooltip = LPGENT("Bold text");
+	bbd.ptszTooltip = LPGENW("Bold text");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTITALIC;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[11];
-	bbd.ptszTooltip = LPGENT("Italic text");
+	bbd.ptszTooltip = LPGENW("Italic text");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTUNDERLINE;
 	bbd.dwDefPos = 60;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[12];
-	bbd.ptszTooltip = LPGENT("Underlined text");
+	bbd.ptszTooltip = LPGENW("Underlined text");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTSTRIKEOUT;
 	bbd.dwDefPos = 70;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[15];
-	bbd.ptszTooltip = LPGENT("Strike-through text");
+	bbd.ptszTooltip = LPGENW("Strike-through text");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTFACE;
 	bbd.dwDefPos = 80;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[14];
-	bbd.ptszTooltip = LPGENT("Select font color");
+	bbd.ptszTooltip = LPGENW("Select font color");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
@@ -900,7 +900,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 10;
 	bbd.iButtonWidth = 51;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[6];
-	bbd.ptszTooltip = LPGENT("Send message\nClick dropdown arrow for sending options");
+	bbd.ptszTooltip = LPGENW("Send message\nClick dropdown arrow for sending options");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -908,7 +908,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 20;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[8];
-	bbd.ptszTooltip = LPGENT("Close session");
+	bbd.ptszTooltip = LPGENW("Close session");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -916,7 +916,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 30;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[4];
-	bbd.ptszTooltip = LPGENT("Quote last message OR selected text");
+	bbd.ptszTooltip = LPGENW("Quote last message OR selected text");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -924,7 +924,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 40;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[2];
-	bbd.ptszTooltip = LPGENT("Message log options");
+	bbd.ptszTooltip = LPGENW("Message log options");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -932,7 +932,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 50;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[0];
-	bbd.ptszTooltip = LPGENT("View user's history");
+	bbd.ptszTooltip = LPGENW("View user's history");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -940,7 +940,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 60;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[7];
-	bbd.ptszTooltip = LPGENT("Edit user notes");
+	bbd.ptszTooltip = LPGENW("Edit user notes");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	//chat buttons
@@ -976,7 +976,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 81;
 	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[16];
-	bbd.ptszTooltip = LPGENT("Change background color");
+	bbd.ptszTooltip = LPGENW("Change background color");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -984,7 +984,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 22;
 	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[19];
-	bbd.ptszTooltip = LPGENT("Toggle nick list");
+	bbd.ptszTooltip = LPGENW("Toggle nick list");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -992,7 +992,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 24;
 	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[18];
-	bbd.ptszTooltip = LPGENT("Event filter - right click to setup, left click to activate/deactivate");
+	bbd.ptszTooltip = LPGENW("Event filter - right click to setup, left click to activate/deactivate");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -1000,7 +1000,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 33;
 	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[17];
-	bbd.ptszTooltip = LPGENT("Channel manager");
+	bbd.ptszTooltip = LPGENW("Channel manager");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	BB_RegisterSeparators();

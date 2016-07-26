@@ -37,7 +37,7 @@ private:
 	static int iRunningJobCount;
 
 	static void waitingThread(void *arg); 
-	static uLong getFileTime(TCHAR *file, tm_zip *tmzip, uLong *dt);
+	static uLong getFileTime(wchar_t *file, tm_zip *tmzip, uLong *dt);
 
 	void pack(); 
 	void getZipFilePath();

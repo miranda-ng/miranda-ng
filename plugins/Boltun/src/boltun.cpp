@@ -30,7 +30,7 @@ TalkBot* bot = NULL;
 HINSTANCE hInst;
 BOOL blInit = FALSE;
 UINT pTimer = 0;
-TCHAR tszPath[MAX_PATH];
+wchar_t tszPath[MAX_PATH];
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -63,13 +63,13 @@ void UpdateEngine()
 	}
 }
 
-TCHAR* GetFullName(const TCHAR *filename)
+wchar_t* GetFullName(const wchar_t *filename)
 {
 	size_t flen = mir_tstrlen(filename);
-	TCHAR* fullname = const_cast<TCHAR*>(filename);
-	if (!_tcschr(filename, _T(':'))) {
+	wchar_t* fullname = const_cast<wchar_t*>(filename);
+	if (!wcschr(filename, ':')) {
 		size_t plen = mir_tstrlen(tszPath);
-		fullname = new TCHAR[plen + flen + 1];
+		fullname = new wchar_t[plen + flen + 1];
 		fullname[0] = NULL;
 		mir_tstrcat(fullname, tszPath);
 		mir_tstrcat(fullname, filename);
@@ -77,9 +77,9 @@ TCHAR* GetFullName(const TCHAR *filename)
 	return fullname;
 }
 
-static bool LoadMind(const TCHAR* filename, int &line)
+static bool LoadMind(const wchar_t* filename, int &line)
 {
-	TCHAR* fullname = GetFullName(filename);
+	wchar_t* fullname = GetFullName(filename);
 	HCURSOR newCur = LoadCursor(NULL, MAKEINTRESOURCE(IDC_WAIT));
 	HCURSOR oldCur = SetCursor(newCur);
 	#ifdef DEBUG_LOAD_TIME
@@ -157,7 +157,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 	return true;
 }
 
-/*static bool SaveMind(const TCHAR* filename)
+/*static bool SaveMind(const wchar_t* filename)
 {
 if (!bot)
 return false;
@@ -220,7 +220,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	egt.codepage = CP_ACP;
 	egt.datatype = DBVT_TCHAR;
 	egt.dbei = &dbei;
-	TCHAR* s = (TCHAR*)(void*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&egt);
+	wchar_t* s = (wchar_t*)(void*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&egt);
 	free(dbei.pBlob);
 	if (Config.MarkAsRead)
 		db_event_markRead(hContact, hDbEvent);
@@ -307,7 +307,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					Config.AnswerThinkTime = GetDlgItemInt(hwndDlg, IDC_THINKTIME, &bTranslated, FALSE);
 					if (!bTranslated)
 						Config.AnswerThinkTime = 4;
-					TCHAR c[MAX_WARN_TEXT];
+					wchar_t c[MAX_WARN_TEXT];
 					bTranslated = GetDlgItemText(hwndDlg, IDC_WARNTXT, c, _countof(c));
 					if (bTranslated)
 						Config.WarnText = c;
@@ -359,8 +359,8 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		case IDC_BTNPATH:
 			{
 				const size_t fileNameSize = 5000;
-				TCHAR *filename = new TCHAR[fileNameSize];
-				TCHAR *fullname = GetFullName(Config.MindFileName);
+				wchar_t *filename = new wchar_t[fileNameSize];
+				wchar_t *fullname = GetFullName(Config.MindFileName);
 				mir_tstrcpy(filename, fullname);
 				if (fullname != Config.MindFileName)
 					delete[] fullname;
@@ -369,8 +369,8 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = GetParent(hwndDlg);
 
-				TCHAR *mind = TranslateTS(MIND_FILE_DESC);
-				TCHAR *anyfile = TranslateTS(ALL_FILES_DESC);
+				wchar_t *mind = TranslateTS(MIND_FILE_DESC);
+				wchar_t *anyfile = TranslateTS(ALL_FILES_DESC);
 				CMString filt(FORMAT, MIND_DIALOG_FILTER, mind, anyfile);
 				filt.Replace('\1', '\0');
 
@@ -384,12 +384,12 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					break;
 				}
 
-				TCHAR *origf = filename;
-				TCHAR *f = filename;
-				TCHAR *p = tszPath;
+				wchar_t *origf = filename;
+				wchar_t *f = filename;
+				wchar_t *p = tszPath;
 				while (*p && *f) {
-					TCHAR p1 = (TCHAR)CharLower((TCHAR*)(long)*p++);
-					TCHAR f1 = (TCHAR)CharLower((TCHAR*)(long)*f++);
+					wchar_t p1 = (wchar_t)CharLower((wchar_t*)(long)*p++);
+					wchar_t f1 = (wchar_t)CharLower((wchar_t*)(long)*f++);
 					if (p1 != f1)
 						break;
 				}
@@ -402,11 +402,11 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 		case IDC_BTNRELOAD:
 			{
-				const TCHAR *c = Config.MindFileName;
+				const wchar_t *c = Config.MindFileName;
 				int line;
 				bTranslated = blInit = LoadMind(c, line);
 				if (!bTranslated) {
-					TCHAR message[5000];
+					wchar_t message[5000];
 					mir_sntprintf(message, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
 					MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 				}
@@ -431,7 +431,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			Config.EngineMakeLowerCase = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_LOWERCASE) == BST_CHECKED ? TRUE : FALSE;
 			Config.EngineUnderstandAlways = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS) == BST_CHECKED ? TRUE : FALSE;
 			UpdateEngine();
-			TCHAR c[MAX_MIND_FILE];
+			wchar_t c[MAX_MIND_FILE];
 			bTranslated = GetDlgItemText(hwndDlg, IDC_MINDFILE, c, _countof(c));
 			if (bTranslated)
 				Config.MindFileName = c;
@@ -536,7 +536,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	GetModuleFileName(hInst, tszPath, _countof(tszPath));
-	*(_tcsrchr(tszPath, _T('\\')) + 1) = _T('\0');
+	*(wcsrchr(tszPath, '\\') + 1) = '\0';
 
 	/*initialize miranda hooks and services on options dialog*/
 	HookEvent(ME_OPT_INITIALISE, MessageOptInit);
@@ -574,8 +574,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	int line;
 	blInit = LoadMind(Config.MindFileName, line);
 	if (!blInit) {
-		TCHAR path[2000];
-		mir_sntprintf(path, TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
+		wchar_t path[2000];
+		mir_sntprintf(path, TranslateTS(FAILED_TO_LOAD_BASE), line, (const wchar_t*)Config.MindFileName);
 		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 	}
 	return 0;
@@ -592,9 +592,9 @@ extern "C" int __declspec(dllexport) Unload(void)
 			//It seems that it's now a Boltun problem.
 			//So in case of saving error we will remain silent
 			#if 0
-			TCHAR path[MAX_PATH];
-			mir_sntprintf(path, TranslateTS(FAILED_TO_SAVE_BASE), (const TCHAR*)Config.MindFileName);
-			TCHAR* err = TranslateTS(BOLTUN_ERROR);
+			wchar_t path[MAX_PATH];
+			mir_sntprintf(path, TranslateTS(FAILED_TO_SAVE_BASE), (const wchar_t*)Config.MindFileName);
+			wchar_t* err = TranslateTS(BOLTUN_ERROR);
 			MessageBox(NULL, path, err, MB_ICONERROR | MB_TASKMODAL | MB_OK); */
 				#endif
 		}

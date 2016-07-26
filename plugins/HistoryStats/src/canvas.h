@@ -48,7 +48,7 @@ public:
 	void endDraw();
 
 	bool getDigest(Digest& digest);
-	bool writePNG(const TCHAR* szFileName);
+	bool writePNG(const wchar_t* szFileName);
 };
 
 #endif // HISTORYSTATS_GUARD_CANVAS_H

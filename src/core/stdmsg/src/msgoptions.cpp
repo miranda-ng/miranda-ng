@@ -26,27 +26,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct FontOptionsList
 {
-	const TCHAR* szDescr;
+	const wchar_t* szDescr;
 	COLORREF     defColour;
-	const TCHAR* szDefFace;
+	const wchar_t* szDefFace;
 	BYTE         defStyle;
 	char         defSize;
 }
 static const fontOptionsList[] =
 {
-	{ LPGENT("Outgoing messages"), RGB(106, 106, 106), L"Arial",    0, -12},
-	{ LPGENT("Incoming messages"), RGB(0, 0, 0),       L"Arial",    0, -12},
-	{ LPGENT("Outgoing name"),     RGB(89, 89, 89),    L"Arial",    DBFONTF_BOLD, -12},
-	{ LPGENT("Outgoing time"),     RGB(0, 0, 0),       L"Terminal", DBFONTF_BOLD, -9},
-	{ LPGENT("Outgoing colon"),    RGB(89, 89, 89),    L"Arial",    0, -11},
-	{ LPGENT("Incoming name"),     RGB(215, 0, 0),     L"Arial",    DBFONTF_BOLD, -12},
-	{ LPGENT("Incoming time"),     RGB(0, 0, 0),       L"Terminal", DBFONTF_BOLD, -9},
-	{ LPGENT("Incoming colon"),    RGB(215, 0, 0),     L"Arial",    0, -11},
-	{ LPGENT("Message area"),      RGB(0, 0, 0),       L"Arial",    0, -12},
-	{ LPGENT("Other events"),      RGB(90, 90, 160),   L"Arial",    0, -12},
+	{ LPGENW("Outgoing messages"), RGB(106, 106, 106), L"Arial",    0, -12},
+	{ LPGENW("Incoming messages"), RGB(0, 0, 0),       L"Arial",    0, -12},
+	{ LPGENW("Outgoing name"),     RGB(89, 89, 89),    L"Arial",    DBFONTF_BOLD, -12},
+	{ LPGENW("Outgoing time"),     RGB(0, 0, 0),       L"Terminal", DBFONTF_BOLD, -9},
+	{ LPGENW("Outgoing colon"),    RGB(89, 89, 89),    L"Arial",    0, -11},
+	{ LPGENW("Incoming name"),     RGB(215, 0, 0),     L"Arial",    DBFONTF_BOLD, -12},
+	{ LPGENW("Incoming time"),     RGB(0, 0, 0),       L"Terminal", DBFONTF_BOLD, -9},
+	{ LPGENW("Incoming colon"),    RGB(215, 0, 0),     L"Arial",    0, -11},
+	{ LPGENW("Message area"),      RGB(0, 0, 0),       L"Arial",    0, -12},
+	{ LPGENW("Other events"),      RGB(90, 90, 160),   L"Arial",    0, -12},
 };
 
-static BYTE MsgDlgGetFontDefaultCharset(const TCHAR*)
+static BYTE MsgDlgGetFontDefaultCharset(const wchar_t*)
 {
   return DEFAULT_CHARSET;
 }
@@ -82,7 +82,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, SRMMMOD, str, &dbv))
-			_tcsncpy(lf->lfFaceName, fontOptionsList[i].szDefFace, _countof(lf->lfFaceName)-1);
+			wcsncpy(lf->lfFaceName, fontOptionsList[i].szDefFace, _countof(lf->lfFaceName)-1);
 		else {
 			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
 			db_free(&dbv);
@@ -101,8 +101,8 @@ void RegisterSRMMFonts(void)
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
 		strncpy_s(fontid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
-		_tcsncpy_s(fontid.group, LPGENT("Message log"), _TRUNCATE);
-		_tcsncpy_s(fontid.name, fontOptionsList[i].szDescr, _TRUNCATE);
+		wcsncpy_s(fontid.group, LPGENW("Message log"), _TRUNCATE);
+		wcsncpy_s(fontid.name, fontOptionsList[i].szDescr, _TRUNCATE);
 		mir_snprintf(idstr, "SRMFont%d", i);
 		strncpy_s(fontid.prefix, idstr, _TRUNCATE);
 		fontid.order = i;
@@ -113,10 +113,10 @@ void RegisterSRMMFonts(void)
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fontid.deffontsettings.size = fontOptionsList[i].defSize;
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
-		_tcsncpy_s(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _TRUNCATE);
+		wcsncpy_s(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _TRUNCATE);
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
-		_tcsncpy_s(fontid.backgroundGroup, LPGENT("Message log"), _TRUNCATE);
-		_tcsncpy_s(fontid.backgroundName, LPGENT("Background"), _TRUNCATE);
+		wcsncpy_s(fontid.backgroundGroup, LPGENW("Message log"), _TRUNCATE);
+		wcsncpy_s(fontid.backgroundName, LPGENW("Background"), _TRUNCATE);
 		FontRegisterT(&fontid);
 	}
 
@@ -124,8 +124,8 @@ void RegisterSRMMFonts(void)
 	strncpy_s(colourid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
 	strncpy_s(colourid.setting, SRMSGSET_BKGCOLOUR, _TRUNCATE);
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;
-	_tcsncpy_s(colourid.name, LPGENT("Background"), _TRUNCATE);
-	_tcsncpy_s(colourid.group, LPGENT("Message log"), _TRUNCATE);
+	wcsncpy_s(colourid.name, LPGENW("Background"), _TRUNCATE);
+	wcsncpy_s(colourid.group, LPGENW("Message log"), _TRUNCATE);
 	ColourRegisterT(&colourid);
 }
 
@@ -134,20 +134,20 @@ void RegisterSRMMFonts(void)
 struct CheckBoxValues_t
 {
 	DWORD  style;
-	TCHAR* szDescr;
+	wchar_t* szDescr;
 }
 statusValues[] =
 {
-	{ MODEF_OFFLINE, LPGENT("Offline") },
-	{ PF2_ONLINE, LPGENT("Online") },
-	{ PF2_SHORTAWAY, LPGENT("Away") },
-	{ PF2_LONGAWAY, LPGENT("Not available") },
-	{ PF2_LIGHTDND, LPGENT("Occupied") },
-	{ PF2_HEAVYDND, LPGENT("Do not disturb") },
-	{ PF2_FREECHAT, LPGENT("Free for chat") },
-	{ PF2_INVISIBLE, LPGENT("Invisible") },
-	{ PF2_OUTTOLUNCH, LPGENT("Out to lunch") },
-	{ PF2_ONTHEPHONE, LPGENT("On the phone") }
+	{ MODEF_OFFLINE, LPGENW("Offline") },
+	{ PF2_ONLINE, LPGENW("Online") },
+	{ PF2_SHORTAWAY, LPGENW("Away") },
+	{ PF2_LONGAWAY, LPGENW("Not available") },
+	{ PF2_LIGHTDND, LPGENW("Occupied") },
+	{ PF2_HEAVYDND, LPGENW("Do not disturb") },
+	{ PF2_FREECHAT, LPGENW("Free for chat") },
+	{ PF2_INVISIBLE, LPGENW("Invisible") },
+	{ PF2_OUTTOLUNCH, LPGENW("Out to lunch") },
+	{ PF2_ONTHEPHONE, LPGENW("On the phone") }
 };
 
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)

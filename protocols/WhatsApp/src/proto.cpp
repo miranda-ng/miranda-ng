@@ -4,15 +4,15 @@
 
 struct SearchParam
 {
-	SearchParam(const TCHAR *_jid, LONG _id) :
+	SearchParam(const wchar_t *_jid, LONG _id) :
 		jid(_jid), id(_id) 
 		{}
 
-	std::tstring jid;
+	std::wstring jid;
 	LONG id;
 };
 
-WhatsAppProto::WhatsAppProto(const char *proto_name, const TCHAR *username)
+WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 	: PROTO<WhatsAppProto>(proto_name, username),
 	m_tszDefaultGroup(getTStringA(WHATSAPP_KEY_DEF_GROUP))
 {
@@ -32,7 +32,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const TCHAR *username)
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
 
 	// Create standard network connection
-	TCHAR descr[512];
+	wchar_t descr[512];
 	mir_sntprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
@@ -41,14 +41,14 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const TCHAR *username)
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (m_hNetlibUser == NULL) {
-		TCHAR error[200];
+		wchar_t error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
 		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	WASocketConnection::initNetwork(m_hNetlibUser);
 
-	m_tszAvatarFolder = std::tstring(VARST(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
+	m_tszAvatarFolder = std::wstring(VARST(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
@@ -173,10 +173,10 @@ int WhatsAppProto::SetStatus(int new_status)
 
 MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	if (psr->id.t == NULL)
+	if (psr->id.w == NULL)
 		return NULL;
 
-	std::string phone(T2Utf(psr->id.t));
+	std::string phone(T2Utf(psr->id.w));
 	std::string jid(phone + "@s.whatsapp.net");
 
 	MCONTACT hContact = AddToContactList(jid, phone.c_str());
@@ -197,8 +197,8 @@ void WhatsAppProto::SearchAckThread(void *targ)
 	PROTOSEARCHRESULT psr = { 0 };
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_TCHAR;
-	psr.nick.t = psr.firstName.t = psr.lastName.t = L"";
-	psr.id.t = (TCHAR*)param->jid.c_str();
+	psr.nick.w = psr.firstName.w = psr.lastName.w = L"";
+	psr.id.w = (wchar_t*)param->jid.c_str();
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)param->id, (LPARAM)&psr);
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)param->id, 0);
@@ -206,7 +206,7 @@ void WhatsAppProto::SearchAckThread(void *targ)
 	delete param;
 }
 
-HANDLE WhatsAppProto::SearchBasic(const TCHAR* id)
+HANDLE WhatsAppProto::SearchBasic(const wchar_t* id)
 {
 	if (isOffline())
 		return 0;
@@ -264,7 +264,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 	NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
 		(WPARAM)WASocketConnection::hNetlibUser, (LPARAM)&nlhr);
 
-	const TCHAR *ptszTitle = TranslateT("Registration");
+	const wchar_t *ptszTitle = TranslateT("Registration");
 	if (pnlhr == NULL) {
 		NotifyEvent(ptszTitle, TranslateT("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
 		return false;
@@ -366,16 +366,16 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, message, wParam, lParam);
 };
 
-void WhatsAppProto::NotifyEvent(const string& title, const string& info, MCONTACT contact, DWORD flags, TCHAR* url)
+void WhatsAppProto::NotifyEvent(const string& title, const string& info, MCONTACT contact, DWORD flags, wchar_t* url)
 {
-	TCHAR *rawTitle = mir_a2t_cp(title.c_str(), CP_UTF8);
-	TCHAR *rawInfo = mir_a2t_cp(info.c_str(), CP_UTF8);
+	wchar_t *rawTitle = mir_a2t_cp(title.c_str(), CP_UTF8);
+	wchar_t *rawInfo = mir_a2t_cp(info.c_str(), CP_UTF8);
 	NotifyEvent(rawTitle, rawInfo, contact, flags, url);
 	mir_free(rawTitle);
 	mir_free(rawInfo);
 }
 
-void WhatsAppProto::NotifyEvent(const TCHAR *title, const TCHAR *info, MCONTACT contact, DWORD flags, TCHAR* szUrl)
+void WhatsAppProto::NotifyEvent(const wchar_t *title, const wchar_t *info, MCONTACT contact, DWORD flags, wchar_t* szUrl)
 {
 	int ret, timeout = 0;
 	COLORREF colorBack = 0, colorText = 0;
@@ -431,8 +431,8 @@ void WhatsAppProto::NotifyEvent(const TCHAR *title, const TCHAR *info, MCONTACT 
 			err.szProto = m_szModuleName;
 			err.cbSize = sizeof(err);
 			err.dwInfoFlags = NIIF_INTERN_TCHAR | niif_flags;
-			err.tszInfoTitle = (TCHAR*)title;
-			err.tszInfo = (TCHAR*)info;
+			err.tszInfoTitle = (wchar_t*)title;
+			err.tszInfo = (wchar_t*)info;
 			err.uTimeout = 1000 * timeout;
 			ret = CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& err);
 

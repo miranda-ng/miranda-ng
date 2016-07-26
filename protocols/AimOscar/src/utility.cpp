@@ -363,7 +363,7 @@ void create_group(const char *group)
 {
 	if (mir_strcmp(group, AIM_DEFAULT_GROUP) == 0) return;
 
-	TCHAR* szGroupName = mir_utf8decodeT(group);
+	wchar_t* szGroupName = mir_utf8decodeT(group);
 	Clist_GroupCreate(0, szGroupName);
 	mir_free(szGroupName);
 }
@@ -529,21 +529,21 @@ int CAimProto::deleteGroupId(MCONTACT hContact, int i)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CAimProto::open_contact_file(const char*, const TCHAR* file, const char*, TCHAR* &path, bool contact_dir)
+int CAimProto::open_contact_file(const char*, const wchar_t* file, const char*, wchar_t* &path, bool contact_dir)
 {
-	path = (TCHAR*)mir_alloc(MAX_PATH * sizeof(TCHAR));
+	path = (wchar_t*)mir_alloc(MAX_PATH * sizeof(wchar_t));
 
 	int pos = mir_sntprintf(path, MAX_PATH, L"%s\\%S", VARST(L"%miranda_userdata%"), m_szModuleName);
 	if (contact_dir)
 		pos += mir_sntprintf(path + pos, MAX_PATH - pos, L"\\%S", m_szModuleName);
 
-	if (_taccess(path, 0))
+	if (_waccess(path, 0))
 		CreateDirectoryTreeT(path);
 
 	mir_sntprintf(path + pos, MAX_PATH - pos, L"\\%s", file);
-	int fid = _topen(path, _O_CREAT | _O_RDWR | _O_BINARY, _S_IREAD);
+	int fid = _wopen(path, _O_CREAT | _O_RDWR | _O_BINARY, _S_IREAD);
 	if (fid < 0) {
-		TCHAR errmsg[512];
+		wchar_t errmsg[512];
 		mir_sntprintf(errmsg, TranslateT("Failed to open file: %s %s"), path, __tcserror(NULL));
 		ShowPopup((char*)errmsg, ERROR_POPUP | TCHAR_POPUP);
 	}
@@ -552,7 +552,7 @@ int CAimProto::open_contact_file(const char*, const TCHAR* file, const char*, TC
 
 void CAimProto::write_away_message(const char* sn, const char* msg, bool utf)
 {
-	TCHAR* path;
+	wchar_t* path;
 	int fid = open_contact_file(sn, L"away.html", "wb", path, 1);
 	if (fid >= 0) {
 		if (utf) _write(fid, "\xEF\xBB\xBF", 3);
@@ -570,7 +570,7 @@ void CAimProto::write_away_message(const char* sn, const char* msg, bool utf)
 
 void CAimProto::write_profile(const char* sn, const char* msg, bool utf)
 {
-	TCHAR* path;
+	wchar_t* path;
 	int fid = open_contact_file(sn, L"profile.html", "wb", path, 1);
 	if (fid >= 0) {
 		if (utf) _write(fid, "\xEF\xBB\xBF", 3);
@@ -604,10 +604,10 @@ unsigned long aim_oft_checksum_chunk(unsigned long dwChecksum, const unsigned ch
 	return checksum << 16;
 }
 
-unsigned int aim_oft_checksum_file(TCHAR *filename, unsigned __int64 size)
+unsigned int aim_oft_checksum_file(wchar_t *filename, unsigned __int64 size)
 {
 	unsigned long checksum = 0xffff0000;
-	int fid = _topen(filename, _O_RDONLY | _O_BINARY, _S_IREAD);
+	int fid = _wopen(filename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (fid >= 0) {
 		unsigned __int64 sz = _filelengthi64(fid);
 		if (size > sz) size = sz;

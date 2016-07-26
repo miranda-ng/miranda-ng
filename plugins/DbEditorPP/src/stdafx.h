@@ -4,8 +4,6 @@
 //	Includes
 //=====================================================
 
-#include <tchar.h>
-
 #include <Windows.h>
 #include <commctrl.h>
 #include <stdio.h>
@@ -134,7 +132,7 @@ struct ModuleSettingLL
 };
 
 struct ColumnsSettings {
-	TCHAR *name;
+	wchar_t *name;
 	int index;
 	char *dbname;
 	int defsize;
@@ -203,14 +201,14 @@ extern bool g_bUsePopups;
 //main
 char *StringFromBlob(BYTE *blob, WORD len);
 int WriteBlobFromString(MCONTACT hContact, const char *module, const char *setting, const char *value, int len);
-TCHAR *DBVType(BYTE type);
+wchar_t *DBVType(BYTE type);
 DWORD getNumericValue(DBVARIANT *dbv);
 int setNumericValue(MCONTACT hContact, const char *module, const char *setting, DWORD value, int type);
-int IsRealUnicode(TCHAR *value);
-int setTextValue(MCONTACT hContact, const char *module, const char *setting, TCHAR *value, int type);
+int IsRealUnicode(wchar_t *value);
+int setTextValue(MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int type);
 int GetValueA(MCONTACT hContact, const char *module, const char *setting, char *value, int length);
 int GetValueW(MCONTACT hContact, const char *module, const char *setting, WCHAR *value, int length);
-int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxlen);
+int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int maxlen);
 int ApplyProtoFilter(MCONTACT hContact);
 void loadListSettings(HWND hwnd, ColumnsSettings *cs);
 void saveListSettings(HWND hwnd, ColumnsSettings *cs);

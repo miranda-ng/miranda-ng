@@ -27,7 +27,7 @@ int MirandaSettings::readDWord(const char* szSetting, int dwDefault) const
 	return db_get_dw(m_hContact, m_strModule.c_str(), szSetting, dwDefault);
 }
 
-ext::string MirandaSettings::readStr(const char* szSetting, const TCHAR* szDefault) const
+ext::string MirandaSettings::readStr(const char* szSetting, const wchar_t* szDefault) const
 {
 	DBVARIANT dbv;
 	if (db_get_s(m_hContact, m_strModule.c_str(), szSetting, &dbv))
@@ -38,7 +38,7 @@ ext::string MirandaSettings::readStr(const char* szSetting, const TCHAR* szDefau
 	return str;
 }
 
-ext::string MirandaSettings::readStrDirect(const char* szSetting, const TCHAR* szDefault) const
+ext::string MirandaSettings::readStrDirect(const char* szSetting, const wchar_t* szDefault) const
 {
 	DBVARIANT dbv;
 
@@ -73,7 +73,7 @@ ext::string MirandaSettings::readStrDirect(const char* szSetting, const TCHAR* s
 	return str;
 }
 
-void MirandaSettings::readTree(const char* szSetting, const TCHAR* szDefault, SettingsTree& value) const
+void MirandaSettings::readTree(const char* szSetting, const wchar_t* szDefault, SettingsTree& value) const
 {
 	value.fromString(readStr(szSetting, szDefault));
 }
@@ -98,12 +98,12 @@ void MirandaSettings::writeDWord(const char* szSetting, int dwValue) const
 	db_set_dw(m_hContact, m_strModule.c_str(), szSetting, dwValue);
 }
 
-void MirandaSettings::writeStr(const char* szSetting, const TCHAR* szValue) const
+void MirandaSettings::writeStr(const char* szSetting, const wchar_t* szValue) const
 {
 	db_set_ts(m_hContact, m_strModule.c_str(), szSetting, szValue);
 }
 
-void MirandaSettings::writeStrDirect(const char* szSetting, const TCHAR* szValue) const
+void MirandaSettings::writeStrDirect(const char* szSetting, const wchar_t* szValue) const
 {
 	db_set_ts(m_hContact, m_strModule.c_str(), szSetting, szValue);
 }

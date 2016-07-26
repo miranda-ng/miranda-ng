@@ -192,7 +192,7 @@ int ParseStatusParam(char *status)
 
 char *PrettyStatusMode(int status, char *buffer, int size)
 {
-	TCHAR *data = pcli->pfnGetStatusModeDescription(status, 0);
+	wchar_t *data = pcli->pfnGetStatusModeDescription(status, 0);
 	if (data)
 		strncpy_s(buffer, size, _T2A(data), _TRUNCATE);
 	else

@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 HINSTANCE hInst = NULL;
-TCHAR g_tszRoot[MAX_PATH] = {0}, g_tszTempPath[MAX_PATH];
+wchar_t g_tszRoot[MAX_PATH] = {0}, g_tszTempPath[MAX_PATH];
 int hLangpack;
 DWORD g_mirandaVersion;
 

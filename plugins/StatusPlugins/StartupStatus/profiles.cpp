@@ -65,12 +65,12 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	mcount = 0;
 	int count = GetProfileCount(0, 0);
 	for (int i = 0; i < count && mcount < MAX_MMITEMS; i++) {
-		TCHAR profilename[128];
+		wchar_t profilename[128];
 		if (!db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
 			continue;
 
 		if (db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1) && !mi.root) {
-			mi.root = Menu_CreateRoot(MO_STATUS, LPGENT("Status profiles"), 2000100000);
+			mi.root = Menu_CreateRoot(MO_STATUS, LPGENW("Status profiles"), 2000100000);
 			Menu_ConfigureItem(mi.root, MCI_OPT_UID, "1AB30D51-BABA-4B27-9288-1A12278BAD8D");
 		}
 
@@ -78,7 +78,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 		mir_snprintf(servicename, "%s%d", MS_SS_MENUSETPROFILEPREFIX, mcount);
 		hProfileServices[mcount] = CreateServiceFunctionParam(servicename, profileService, mcount);
 
-		mi.name.t = profilename;
+		mi.name.w = profilename;
 		mi.position = 2000100000 + mcount;
 		mi.pszService = servicename;
 		if (Menu_AddStatusMenuItem(&mi))
@@ -100,9 +100,9 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	if (profile >= count && count > 0)
 		return -1;
 
-	TCHAR* buf = (TCHAR*)lParam;
+	wchar_t* buf = (wchar_t*)lParam;
 	if (count == 0) {
-		_tcsncpy(buf, TranslateT("default"), 128 - 1);
+		wcsncpy(buf, TranslateT("default"), 128 - 1);
 		return 0;
 	}
 
@@ -112,7 +112,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	if (db_get_ts(NULL, MODULENAME, setting, &dbv))
 		return -1;
 
-	_tcsncpy(buf, dbv.ptszVal, 128 - 1); buf[127] = 0;
+	wcsncpy(buf, dbv.ptszVal, 128 - 1); buf[127] = 0;
 	db_free(&dbv);
 	return 0;
 }
@@ -130,7 +130,7 @@ INT_PTR GetProfileCount(WPARAM wParam, LPARAM)
 	return count;
 }
 
-TCHAR *GetStatusMessage(int profile, char *szProto)
+wchar_t *GetStatusMessage(int profile, char *szProto)
 {
 	char dbSetting[80];
 	DBVARIANT dbv;
@@ -139,7 +139,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 		if ((pce[i].profile == profile) && (!mir_strcmp(pce[i].szProto, szProto))) {
 			mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 			if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
-				pce[i].msg = (TCHAR*)realloc(pce[i].msg, sizeof(TCHAR)*(mir_tstrlen(dbv.ptszVal) + 1));
+				pce[i].msg = (wchar_t*)realloc(pce[i].msg, sizeof(wchar_t)*(mir_tstrlen(dbv.ptszVal) + 1));
 				if (pce[i].msg != NULL) {
 					mir_tstrcpy(pce[i].msg, dbv.ptszVal);
 				}
@@ -163,7 +163,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 	pce[pceCount].msg = NULL;
 	mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 	if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
-		pce[pceCount].msg = _tcsdup(dbv.ptszVal);
+		pce[pceCount].msg = wcsdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
 	pceCount++;

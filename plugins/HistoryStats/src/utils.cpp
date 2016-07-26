@@ -12,23 +12,23 @@
 
 namespace utils
 {
-	ext::string timestampToString(time_t value, const TCHAR* format)
+	ext::string timestampToString(time_t value, const wchar_t* format)
 	{
-		TCHAR temp[100] = { 0 };
+		wchar_t temp[100] = { 0 };
 
 		return (ext::strfunc::ftime(temp, 100, format, gmtime(&value)) > 0) ? temp : L"";
 	}
 
-	ext::string tmStructToString(const tm& value, const TCHAR* format)
+	ext::string tmStructToString(const tm& value, const wchar_t* format)
 	{
-		TCHAR temp[100] = { 0 };
+		wchar_t temp[100] = { 0 };
 
 		return (ext::strfunc::ftime(temp, 100, format, &value) > 0) ? temp : L"";
 	}
 
 	ext::string durationToString(DWORD value)
 	{
-		TCHAR temp[100] = { 0 };
+		wchar_t temp[100] = { 0 };
 
 		value += 59;
 		value /= 60;
@@ -48,9 +48,9 @@ namespace utils
 
 		struct tm dateTM;
 
-		dateTM.tm_year = _ttoi(date.c_str() + 0) - 1900;
-		dateTM.tm_mon = _ttoi(date.c_str() + 5) - 1;
-		dateTM.tm_mday = _ttoi(date.c_str() + 8);
+		dateTM.tm_year = _wtoi(date.c_str() + 0) - 1900;
+		dateTM.tm_mon = _wtoi(date.c_str() + 5) - 1;
+		dateTM.tm_mday = _wtoi(date.c_str() + 8);
 		dateTM.tm_hour = dateTM.tm_min = dateTM.tm_sec = 0;
 		dateTM.tm_isdst = dateTM.tm_wday = dateTM.tm_yday = 0;
 
@@ -75,7 +75,7 @@ namespace utils
 
 	ext::string intToString(int value)
 	{
-		TCHAR temp[100] = { 0 };
+		wchar_t temp[100] = { 0 };
 
 		ext::strfunc::sprintf(temp, L"%d", value);
 
@@ -84,7 +84,7 @@ namespace utils
 
 	ext::string intToPadded(int value, int len)
 	{
-		TCHAR temp[100] = { 0 };
+		wchar_t temp[100] = { 0 };
 
 		ext::strfunc::sprintf(temp, L"%0*d", len, value);
 
@@ -93,7 +93,7 @@ namespace utils
 
 	ext::string intToGrouped(int value)
 	{
-		TCHAR temp[100] = { 0 };
+		wchar_t temp[100] = { 0 };
 		const char* grouping = Locale::grouping();
 
 		ext::strfunc::sprintf(temp, L"%d", value);
@@ -117,7 +117,7 @@ namespace utils
 
 	ext::string floatToString(double value, int precision)
 	{
-		TCHAR temp[100] = { 0 };
+		wchar_t temp[100] = { 0 };
 
 		ext::strfunc::sprintf(temp, L"%.*f", precision, value);
 
@@ -126,7 +126,7 @@ namespace utils
 
 	ext::string floatToGrouped(double value, int precision)
 	{
-		TCHAR temp[100] = { 0 };
+		wchar_t temp[100] = { 0 };
 		const char* grouping = Locale::grouping();
 
 		ext::strfunc::sprintf(temp, L"%.*f", precision, value);
@@ -154,7 +154,7 @@ namespace utils
 	ext::string ratioToPercent(int numerator, int denominator)
 	{
 		float value = 0.0;
-		TCHAR temp[100] = { 0 };
+		wchar_t temp[100] = { 0 };
 
 		if (denominator != 0) {
 			value = 1.0f * numerator / denominator;
@@ -165,7 +165,7 @@ namespace utils
 		return temp;
 	}
 
-	void replaceAllInPlace(ext::string& text, const TCHAR* find, const TCHAR* replace)
+	void replaceAllInPlace(ext::string& text, const wchar_t* find, const wchar_t* replace)
 	{
 		ext::string::size_type pos = 0;
 		ext::string::size_type find_len = ext::strfunc::len(find);
@@ -186,7 +186,7 @@ namespace utils
 		replaceAllInPlace(text, L">", L"&gt;");
 	}
 
-	const TCHAR* stripPrefix(const TCHAR* szPrefix, const TCHAR* szText)
+	const wchar_t* stripPrefix(const wchar_t* szPrefix, const wchar_t* szText)
 	{
 		int i = 0;
 
@@ -199,31 +199,31 @@ namespace utils
 		return szText;
 	}
 
-	ext::string replaceVariables(const ext::string& strFormat, time_t timeValue, const TCHAR* szNick /* = L"" */)
+	ext::string replaceVariables(const ext::string& strFormat, time_t timeValue, const wchar_t* szNick /* = L"" */)
 	{
-		static const TCHAR* szMonthName[][2] = {
-			{ LPGENT("month3:Jan"), LPGENT("monthF:January") },
-			{ LPGENT("month3:Feb"), LPGENT("monthF:February") },
-			{ LPGENT("month3:Mar"), LPGENT("monthF:March") },
-			{ LPGENT("month3:Apr"), LPGENT("monthF:April") },
-			{ LPGENT("month3:May"), LPGENT("monthF:May") },
-			{ LPGENT("month3:Jun"), LPGENT("monthF:June") },
-			{ LPGENT("month3:Jul"), LPGENT("monthF:July") },
-			{ LPGENT("month3:Aug"), LPGENT("monthF:August") },
-			{ LPGENT("month3:Sep"), LPGENT("monthF:September") },
-			{ LPGENT("month3:Oct"), LPGENT("monthF:October") },
-			{ LPGENT("month3:Nov"), LPGENT("monthF:November") },
-			{ LPGENT("month3:Dec"), LPGENT("monthF:December") },
+		static const wchar_t* szMonthName[][2] = {
+			{ LPGENW("month3:Jan"), LPGENW("monthF:January") },
+			{ LPGENW("month3:Feb"), LPGENW("monthF:February") },
+			{ LPGENW("month3:Mar"), LPGENW("monthF:March") },
+			{ LPGENW("month3:Apr"), LPGENW("monthF:April") },
+			{ LPGENW("month3:May"), LPGENW("monthF:May") },
+			{ LPGENW("month3:Jun"), LPGENW("monthF:June") },
+			{ LPGENW("month3:Jul"), LPGENW("monthF:July") },
+			{ LPGENW("month3:Aug"), LPGENW("monthF:August") },
+			{ LPGENW("month3:Sep"), LPGENW("monthF:September") },
+			{ LPGENW("month3:Oct"), LPGENW("monthF:October") },
+			{ LPGENW("month3:Nov"), LPGENW("monthF:November") },
+			{ LPGENW("month3:Dec"), LPGENW("monthF:December") },
 		};
 
-		static const TCHAR* szWDayName[][3] = {
-			{ LPGENT("wday2:Mo"), LPGENT("wday3:Mon"), LPGENT("wdayF:Monday") },
-			{ LPGENT("wday2:Tu"), LPGENT("wday3:Tue"), LPGENT("wdayF:Tuesday") },
-			{ LPGENT("wday2:We"), LPGENT("wday3:Wed"), LPGENT("wdayF:Wednesday") },
-			{ LPGENT("wday2:Th"), LPGENT("wday3:Thu"), LPGENT("wdayF:Thursday") },
-			{ LPGENT("wday2:Fr"), LPGENT("wday3:Fri"), LPGENT("wdayF:Friday") },
-			{ LPGENT("wday2:Sa"), LPGENT("wday3:Sat"), LPGENT("wdayF:Saturday") },
-			{ LPGENT("wday2:Su"), LPGENT("wday3:Sun"), LPGENT("wdayF:Sunday") },
+		static const wchar_t* szWDayName[][3] = {
+			{ LPGENW("wday2:Mo"), LPGENW("wday3:Mon"), LPGENW("wdayF:Monday") },
+			{ LPGENW("wday2:Tu"), LPGENW("wday3:Tue"), LPGENW("wdayF:Tuesday") },
+			{ LPGENW("wday2:We"), LPGENW("wday3:Wed"), LPGENW("wdayF:Wednesday") },
+			{ LPGENW("wday2:Th"), LPGENW("wday3:Thu"), LPGENW("wdayF:Thursday") },
+			{ LPGENW("wday2:Fr"), LPGENW("wday3:Fri"), LPGENW("wdayF:Friday") },
+			{ LPGENW("wday2:Sa"), LPGENW("wday3:Sat"), LPGENW("wdayF:Saturday") },
+			{ LPGENW("wday2:Su"), LPGENW("wday3:Sun"), LPGENW("wdayF:Sunday") },
 		};
 
 		struct tm* timeTM = gmtime(&timeValue);
@@ -337,7 +337,7 @@ namespace utils
 	ext::string toLowerCase(const ext::string& text)
 	{
 		int len = text.length();
-		TCHAR* buf = new TCHAR[len + 1];
+		wchar_t* buf = new wchar_t[len + 1];
 
 		LCID lcid = GetUserDefaultLCID();
 
@@ -355,7 +355,7 @@ namespace utils
 	ext::string toUpperCase(const ext::string& text)
 	{
 		int len = text.length();
-		TCHAR* buf = new TCHAR[len + 1];
+		wchar_t* buf = new wchar_t[len + 1];
 
 		LCID lcid = GetUserDefaultLCID();
 
@@ -387,7 +387,7 @@ namespace utils
 				dotPos = version.length();
 			}
 
-			res.parts[part--] = _ttoi(version.substr(0, dotPos).c_str());
+			res.parts[part--] = _wtoi(version.substr(0, dotPos).c_str());
 
 			version.erase(0, dotPos + 1);
 		}
@@ -397,7 +397,7 @@ namespace utils
 
 	ext::string versionToDotted(DWORD version)
 	{
-		TCHAR temp[16] = { 0 };
+		wchar_t temp[16] = { 0 };
 
 		ext::strfunc::sprintf(
 			temp,
@@ -440,7 +440,7 @@ namespace utils
 		return ret_str;
 	}
 
-	ext::a::string convertTToUTF8(const TCHAR* str, size_t str_len)
+	ext::a::string convertTToUTF8(const wchar_t* str, size_t str_len)
 	{
 #if defined(_UNICODE)
 		const WCHAR* conv_str = str;
@@ -649,7 +649,7 @@ namespace utils
 			return false;
 
 		// check for disallowed names
-		static const TCHAR* disallowedNames[] = {
+		static const wchar_t* disallowedNames[] = {
 			L"clock$",
 			L"aux",
 			L"con",
@@ -776,7 +776,7 @@ namespace utils
 
 	ext::string colorToHTML(COLORREF crColor)
 	{
-		static const TCHAR hexDigits[] = L"0123456789ABCDEF";
+		static const wchar_t hexDigits[] = L"0123456789ABCDEF";
 
 		ext::string htmlColor(7, '#');
 
@@ -823,7 +823,7 @@ namespace utils
 
 	ext::string getGUID()
 	{
-		static const TCHAR hexDigits[] = L"0123456789ABCDEF";
+		static const wchar_t hexDigits[] = L"0123456789ABCDEF";
 		GUID guid;
 
 		CoCreateGuid(&guid);
@@ -893,7 +893,7 @@ namespace utils
 		static ext::string strMirandaPath;
 
 		if (strMirandaPath.empty()) {
-			TCHAR szPath[MAX_PATH] = { 0 };
+			wchar_t szPath[MAX_PATH] = { 0 };
 
 			PathToAbsoluteT(L"x", szPath);
 			strMirandaPath = extractPath(szPath);
@@ -907,7 +907,7 @@ namespace utils
 		static ext::string strProfilePath;
 
 		if (strProfilePath.empty()) {
-			TCHAR szPath[MAX_PATH] = { 0 };
+			wchar_t szPath[MAX_PATH] = { 0 };
 
 			mu::db::getProfilePath(MAX_PATH, szPath);
 			strProfilePath = szPath;
@@ -926,7 +926,7 @@ namespace utils
 		static ext::string strProfileName;
 
 		if (strProfileName.empty()) {
-			TCHAR szName[MAX_PATH] = { 0 };
+			wchar_t szName[MAX_PATH] = { 0 };
 
 			mu::db::getProfileName(MAX_PATH, szName);
 			strProfileName = szName;
@@ -1031,7 +1031,7 @@ ext::t::string RTFFilter::filter(const ext::t::string& str)
 		return str;
 	}
 
-	TCHAR* out_buf = new TCHAR[len / sizeof(TCHAR)];
+	wchar_t* out_buf = new wchar_t[len / sizeof(wchar_t)];
 
 	intptr_t res = m_Data.m_RTFConvString(
 		strA.c_str(),
@@ -1048,7 +1048,7 @@ ext::t::string RTFFilter::filter(const ext::t::string& str)
 		return str;
 	}
 
-	ext::t::string out_str(out_buf, res / sizeof(TCHAR)-1);
+	ext::t::string out_str(out_buf, res / sizeof(wchar_t)-1);
 	delete[] out_buf;
 
 	return out_str;

@@ -28,13 +28,13 @@ void CSteamProto::OnGotConversations(const HttpResponse *response)
 			JSONNode *session = json_at(nsessions, i);
 
 			node = json_get(session, "accountid_friend");
-			const char *who = AccountIdToSteamId(_ttoi64(ptrT(json_as_string(node))));
+			const char *who = AccountIdToSteamId(_wtoi64(ptrT(json_as_string(node))));
 
 			node = json_get(session, "last_message");
-			time_t lastMessageTS = _ttoi64(ptrT(json_as_string(node)));
+			time_t lastMessageTS = _wtoi64(ptrT(json_as_string(node)));
 
 			/*node = json_get(session, "last_view");
-			time_t last_view = _ttoi64(ptrT(json_as_string(node)));
+			time_t last_view = _wtoi64(ptrT(json_as_string(node)));
 
 			node = json_get(session, "unread_message_count");
 			long unread_count = json_as_int(node);*/
@@ -79,14 +79,14 @@ void CSteamProto::OnGotHistoryMessages(const HttpResponse *response, void *arg)
 		JSONNode *message = json_at(nmessages, i - 1);
 
 		node = json_get(message, "accountid");
-		const char *authorSteamId = AccountIdToSteamId(_ttoi64(ptrT(json_as_string(node))));
+		const char *authorSteamId = AccountIdToSteamId(_wtoi64(ptrT(json_as_string(node))));
 
 		node = json_get(message, "message");
 		ptrT text(json_as_string(node));
 		T2Utf szMessage(text);
 
 		node = json_get(message, "timestamp");
-		time_t timestamp = _ttoi64(ptrT(json_as_string(node)));
+		time_t timestamp = _wtoi64(ptrT(json_as_string(node)));
 
 		// Ignore already existing messages
 		if (timestamp <= m_lastMessageTS)

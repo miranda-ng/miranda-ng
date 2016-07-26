@@ -37,7 +37,7 @@ struct SectionItem : public MZeroedObject
 struct IconSourceFile
 {
 	int ref_count;
-	TCHAR file[MAX_PATH];
+	wchar_t file[MAX_PATH];
 };
 
 struct IconSourceItemKey
@@ -78,7 +78,7 @@ struct IcolibItem : public MZeroedObject
 	char*           name;
 	SectionItem*    section;
 	int             orderID;
-	TCHAR*          description;
+	wchar_t*          description;
 	IconSourceFile* default_file;
 	int             default_indx;
 	int             cx, cy;
@@ -88,12 +88,12 @@ struct IcolibItem : public MZeroedObject
 	IconSourceItem* source_big;
 	IconSourceItem* default_icon;
 
-	TCHAR*          temp_file;
+	wchar_t*          temp_file;
 	HICON           temp_icon;
 	BOOL            temp_reset;
 
 	__inline ~IcolibItem() { clear(); }
-	__inline TCHAR* getDescr() const { return TranslateTH(hLangpack, description); }
+	__inline wchar_t* getDescr() const { return TranslateTH(hLangpack, description); }
 
 	void clear();
 };
@@ -104,7 +104,7 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 
 void __fastcall SafeDestroyIcon(HICON &icon);
 
-IconSourceItem* GetIconSourceItem(const TCHAR* file, int indx, int cxIcon, int cyIcon);
+IconSourceItem* GetIconSourceItem(const wchar_t* file, int indx, int cxIcon, int cyIcon);
 
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big);
 IcolibItem* IcoLib_FindIcon(const char* pszIconName);

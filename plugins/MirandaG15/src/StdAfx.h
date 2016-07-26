@@ -8,7 +8,6 @@
 
 #include <Windows.h>
 #include <CommCtrl.h>
-#include <tchar.h>
 #include <time.h>
 #include <string>
 #include <vector>

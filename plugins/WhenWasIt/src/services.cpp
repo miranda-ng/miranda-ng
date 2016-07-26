@@ -176,12 +176,12 @@ INT_PTR AddBirthdayService(WPARAM hContact, LPARAM)
 	return ShowWindow(hWnd, SW_SHOW);
 }
 
-void ShowPopupMessage(const TCHAR *title, const TCHAR *message, HANDLE icon)
+void ShowPopupMessage(const wchar_t *title, const wchar_t *message, HANDLE icon)
 {
 	POPUPDATAT pd = { 0 };
 	pd.lchIcon = IcoLib_GetIconByHandle(icon);
-	_tcsncpy_s(pd.lptzContactName, title, _TRUNCATE);
-	_tcsncpy_s(pd.lptzText, message, _TRUNCATE);
+	wcsncpy_s(pd.lptzContactName, title, _TRUNCATE);
+	wcsncpy_s(pd.lptzText, message, _TRUNCATE);
 	pd.colorText = commonData.foreground;
 	pd.colorBack = commonData.background;
 	PUAddPopupT(&pd);
@@ -212,12 +212,12 @@ INT_PTR RefreshUserDetailsService(WPARAM, LPARAM)
 
 INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
 {
-	TCHAR fileName[1024] = { 0 };
+	wchar_t fileName[1024] = { 0 };
 	OPENFILENAME of = { 0 };
 	of.lStructSize = sizeof(OPENFILENAME);
 	//of.hInstance = hInstance;
-	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, L"%s (*" _T(BIRTHDAY_EXTENSION) L")%c*" _T(BIRTHDAY_EXTENSION) L"%c", TranslateT("Birthdays files"), 0, 0);
+	wchar_t filter[MAX_PATH];
+	mir_sntprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c", TranslateT("Birthdays files"), 0, 0);
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
 	of.nMaxFile = _countof(fileName);
@@ -225,7 +225,7 @@ INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
 	of.Flags = OFN_FILEMUSTEXIST;
 
 	if (GetOpenFileName(&of)) {
-		TCHAR buffer[2048];
+		wchar_t buffer[2048];
 		mir_sntprintf(buffer, TranslateT("Importing birthdays from file: %s"), fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hImportBirthdays);
 		DoImport(fileName);
@@ -237,22 +237,22 @@ INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
 
 INT_PTR ExportBirthdaysService(WPARAM, LPARAM)
 {
-	TCHAR fileName[1024] = { 0 };
+	wchar_t fileName[1024] = { 0 };
 	OPENFILENAME of = { 0 };
 	of.lStructSize = sizeof(OPENFILENAME);
 	//of.hInstance = hInstance;
-	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, L"%s (*" _T(BIRTHDAY_EXTENSION) L")%c*" _T(BIRTHDAY_EXTENSION) L"%c%s (*.*)%c*.*%c", TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0);
+	wchar_t filter[MAX_PATH];
+	mir_sntprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c%s (*.*)%c*.*%c", TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0);
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
 	of.nMaxFile = _countof(fileName);
 	of.lpstrTitle = TranslateT("Please select a file to export birthdays to...");
 
 	if (GetSaveFileName(&of)) {
-		TCHAR buffer[2048];
-		TCHAR *fn = _tcsrchr(fileName, _T('\\')) + 1;
-		if (!_tcschr(fn, _T('.')))
-			mir_tstrcat(fileName, _T(BIRTHDAY_EXTENSION));
+		wchar_t buffer[2048];
+		wchar_t *fn = wcsrchr(fileName, '\\') + 1;
+		if (!wcschr(fn, '.'))
+			mir_tstrcat(fileName, BIRTHDAY_EXTENSION);
 
 		mir_sntprintf(buffer, TranslateT("Exporting birthdays to file: %s"), fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hExportBirthdays);
@@ -263,9 +263,9 @@ INT_PTR ExportBirthdaysService(WPARAM, LPARAM)
 	return 0;
 }
 
-int DoImport(TCHAR *fileName)
+int DoImport(wchar_t *fileName)
 {
-	FILE *fin = _tfopen(fileName, L"rt");
+	FILE *fin = _wfopen(fileName, L"rt");
 	if (!fin) {
 		MessageBox(0, TranslateT("Could not open file to import birthdays"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return 1;
@@ -274,32 +274,32 @@ int DoImport(TCHAR *fileName)
 	int mode = commonData.cDefaultModule;
 
 	while (!feof(fin)) {
-		TCHAR buffer[4096];
-		_fgetts(buffer, _countof(buffer), fin);
-		if (buffer[0] == _T(COMMENT_CHAR))
+		wchar_t buffer[4096];
+		fgetws(buffer, _countof(buffer), fin);
+		if (buffer[0] == COMMENT_CHAR)
 			continue;
 
-		TCHAR *delAccount = _tcsstr(buffer, L" : ");
+		wchar_t *delAccount = wcsstr(buffer, L" : ");
 		if (delAccount) {
 			int tmp = delAccount[0];
-			delAccount[0] = _T('\0');
-			TCHAR *delProto = _tcsrchr(buffer, _T('@'));
+			delAccount[0] = '\0';
+			wchar_t *delProto = wcsrchr(buffer, '@');
 			if (delProto) {
-				delProto[0] = _T('\0');
+				delProto[0] = '\0';
 
-				TCHAR *szHandle = buffer;
-				TCHAR *szProto = delProto + 1;
+				wchar_t *szHandle = buffer;
+				wchar_t *szProto = delProto + 1;
 				MCONTACT hContact = GetContactFromID(szHandle, szProto);
 				if (hContact) {
 					delProto[0] = tmp;
 					delAccount[0] = tmp;
 
 					int year, month, day;
-					_stscanf(delAccount, L" : %02d/%02d/%04d", &day, &month, &year);
+					swscanf(delAccount, L" : %02d/%02d/%04d", &day, &month, &year);
 					SaveBirthday(hContact, year, month, day, mode);
 				}
 				else {
-					CMString msg(FORMAT, TranslateT(NOTFOUND_FORMAT), szHandle, szProto);
+					CMString msg(FORMAT, TranslateT("Could not find UID '%s [%S]' in current database, skipping"), szHandle, szProto);
 					ShowPopupMessage(TranslateT("Warning"), msg, hImportBirthdays);
 				}
 			}
@@ -310,26 +310,26 @@ int DoImport(TCHAR *fileName)
 	return 0;
 }
 
-int DoExport(TCHAR *fileName)
+int DoExport(wchar_t *fileName)
 {
-	FILE *fout = _tfopen(fileName, L"wt");
+	FILE *fout = _wfopen(fileName, L"wt");
 	if (!fout) {
 		MessageBox(0, TranslateT("Could not open file to export birthdays"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
-	_ftprintf(fout, L"%c%s", _T(COMMENT_CHAR), TranslateT("Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n"));
-	_ftprintf(fout, L"%c%s", _T(COMMENT_CHAR), TranslateT("Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n"));
-	_ftprintf(fout, L"%c%s", _T(COMMENT_CHAR), TranslateT("This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n"));
+	fwprintf(fout, L"%c%s", COMMENT_CHAR, TranslateT("Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n"));
+	fwprintf(fout, L"%c%s", COMMENT_CHAR, TranslateT("Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n"));
+	fwprintf(fout, L"%c%s", COMMENT_CHAR, TranslateT("This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n"));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		int year, month, day;
 		GetContactDOB(hContact, year, month, day);
 		if (IsDOBValid(year, month, day)) {
 			char *szProto = GetContactProto(hContact);
-			TCHAR *szHandle = GetContactID(hContact, szProto);
+			wchar_t *szHandle = GetContactID(hContact, szProto);
 
 			if ((szHandle) && (mir_strlen(szProto) > 0))
-				_ftprintf(fout, _T(BIRTHDAYS_EXPORT_FORMAT), szHandle, szProto, day, month, year);
+				fwprintf(fout, L"%s@%S : %02d/%02d/%04d\n", szHandle, szProto, day, month, year);
 
 			if (szHandle)
 				free(szHandle);

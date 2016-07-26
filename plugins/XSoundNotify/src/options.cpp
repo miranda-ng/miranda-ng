@@ -59,10 +59,10 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					if ((INT_PTR)szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != NULL) {
 						DBVARIANT dbvuid = { 0 };
 						if (!db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid)) {
-							TCHAR uid[MAX_PATH];
+							wchar_t uid[MAX_PATH];
 							switch (dbvuid.type) {
 							case DBVT_DWORD:
-								_itot(dbvuid.dVal, uid, 10);
+								_itow(dbvuid.dVal, uid, 10);
 								break;
 
 							case DBVT_ASCIIZ:
@@ -77,9 +77,9 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 								mir_tstrcpy(uid, TranslateT("(Unknown contact)"));
 							}
 
-							TCHAR *nick = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
+							wchar_t *nick = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
 							size_t value_max_len = (mir_tstrlen(uid) + mir_tstrlen(nick) + 4);
-							TCHAR *value = (TCHAR *)mir_alloc(sizeof(TCHAR) * value_max_len);
+							wchar_t *value = (wchar_t *)mir_alloc(sizeof(wchar_t) * value_max_len);
 							mir_sntprintf(value, value_max_len, L"%s (%s)", nick, uid);
 							SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_ADDSTRING, 0, (LPARAM)value), hContact);
 							mir_free(value);
@@ -115,12 +115,12 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_OPT_BUTTON_CHOOSE_SOUND:
 		{
-			TCHAR FileName[MAX_PATH];
-			TCHAR *tszMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
+			wchar_t FileName[MAX_PATH];
+			wchar_t *tszMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = sizeof(ofn);
-			TCHAR tmp[MAX_PATH];
+			wchar_t tmp[MAX_PATH];
 			if (GetModuleHandle(L"bass_interface.dll"))
 				mir_sntprintf(tmp, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c", TranslateT("Sound files"), 0, 0, 0);
 			else
@@ -144,7 +144,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					XSN_Users.insert(new XSN_Data(hContact, FileName, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0));
 				else
 				{
-					_tcsncpy(p->path, FileName, _countof(p->path));
+					wcsncpy(p->path, FileName, _countof(p->path));
 					p->ignore = IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0;
 				}
 				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), TRUE);
@@ -164,14 +164,14 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			if (p == NULL) {
 				DBVARIANT dbv;
 				if (!db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
-					TCHAR longpath[MAX_PATH];
+					wchar_t longpath[MAX_PATH];
 					PathToAbsoluteT(dbv.ptszVal, longpath);
 					SkinPlaySoundFile(longpath);
 					db_free(&dbv);
 				}
 			}
 			else {
-				TCHAR longpath[MAX_PATH] = { 0 };
+				wchar_t longpath[MAX_PATH] = { 0 };
 				PathToAbsoluteT(p->path, longpath);
 				SkinPlaySoundFile(longpath);
 			}
@@ -205,7 +205,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			if (p == NULL) {
 				DBVARIANT dbv;
 				if (!db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
-					TCHAR longpath[MAX_PATH];
+					wchar_t longpath[MAX_PATH];
 					PathToAbsoluteT(dbv.ptszVal, longpath);
 					XSN_Users.insert(new XSN_Data(hContact, longpath, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0));
 					db_free(&dbv);
@@ -225,7 +225,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case PSN_APPLY:
 			for (int i = 0; i < XSN_Users.getCount(); i++) {
 				if (mir_tstrcmpi(XSN_Users[i]->path, L"")) {
-					TCHAR shortpath[MAX_PATH];
+					wchar_t shortpath[MAX_PATH];
 					PathToRelativeT(XSN_Users[i]->path, shortpath);
 					db_set_ts(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
 				}
@@ -244,8 +244,8 @@ INT OptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.ptszGroup = LPGENT("Sounds");
-	odp.ptszTitle = LPGENT("XSound Notify");
+	odp.pwszGroup = LPGENW("Sounds");
+	odp.pwszTitle = LPGENW("XSound Notify");
 	odp.pfnDlgProc = OptsProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

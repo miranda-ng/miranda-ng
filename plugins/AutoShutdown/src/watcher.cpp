@@ -63,7 +63,7 @@ static void __inline ShutdownAndStopWatcher(void)
 /************************* Msg Shutdown *******************************/
 
 // ppBlob might get reallocated, must have been allocated using mir_alloc()
-static TCHAR* GetMessageText(BYTE **ppBlob, DWORD *pcbBlob)
+static wchar_t* GetMessageText(BYTE **ppBlob, DWORD *pcbBlob)
 {
 	(*ppBlob)[*pcbBlob] = 0;
 	size_t cb = mir_strlen((char*)*ppBlob);
@@ -102,8 +102,8 @@ static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 				DBVARIANT dbv;
 				if (!db_get_ts(NULL, "AutoShutdown", "Message", &dbv)) {
 					TrimString(dbv.ptszVal);
-					TCHAR *pszMsg = GetMessageText(&dbe.pBlob, &dbe.cbBlob);
-					if (pszMsg != NULL && _tcsstr(pszMsg, dbv.ptszVal) != NULL)
+					wchar_t *pszMsg = GetMessageText(&dbe.pBlob, &dbe.cbBlob);
+					if (pszMsg != NULL && wcsstr(pszMsg, dbv.ptszVal) != NULL)
 						ShutdownAndStopWatcher(); /* msg with specified text recvd */
 					mir_free(dbv.ptszVal); /* does NULL check */
 				}

@@ -33,9 +33,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct TEmailHeader{
 	int cbSize;
 	DWORD flags; //flags
-	TCHAR *szSender; //pointer to string that receives the sender name
+	wchar_t *szSender; //pointer to string that receives the sender name
 	int cSender; //size of szSender buffer
-	TCHAR *szSubject; //pointer to string that receives the email subject
+	wchar_t *szSubject; //pointer to string that receives the email subject
 	int cSubject; //size of szSubject buffer
 	char *emailID;
 };
@@ -50,7 +50,7 @@ class CExchangeServer{
 		int cConnections; //number of connection attempts
 		int bTryConnect;
 		
-		int DoConnect(TCHAR *user, TCHAR *password, TCHAR *server, int port);
+		int DoConnect(wchar_t *user, wchar_t *password, wchar_t *server, int port);
 		int DoDisconnect();	
 		
 	public:
@@ -76,18 +76,18 @@ class CExchangeServer{
 		
 		/*
 		*/
-		int MarkEmailAsRead(TCHAR *emailID);
+		int MarkEmailAsRead(wchar_t *emailID);
 		
-		int OpenMessage(TCHAR *emailID);
+		int OpenMessage(wchar_t *emailID);
 		
 		int Check(int bNoEmailsNotify = FALSE);
 };
 
 extern CExchangeServer exchangeServer;
 
-int ShowMessage(TCHAR *message, int cUnreadEmails);
-int ShowPopupMessage(TCHAR *title, TCHAR *message, int cUnreadEmails);
-int ShowMessageBoxMessage(TCHAR *title, TCHAR *message, int cUnreadEmails);
+int ShowMessage(wchar_t *message, int cUnreadEmails);
+int ShowPopupMessage(wchar_t *title, wchar_t *message, int cUnreadEmails);
+int ShowMessageBoxMessage(wchar_t *title, wchar_t *message, int cUnreadEmails);
 
 int ShowEmailsWindow(int cUnreadEmails);
 

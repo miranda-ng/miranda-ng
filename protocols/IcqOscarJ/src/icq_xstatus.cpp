@@ -120,9 +120,9 @@ DWORD CIcqProto::requestXStatusDetails(MCONTACT hContact, BOOL bAllowDelay)
 	return -1; // delayed
 }
 
-static HANDLE LoadXStatusIconLibrary(TCHAR *path, const TCHAR *sub)
+static HANDLE LoadXStatusIconLibrary(wchar_t *path, const wchar_t *sub)
 {
-	TCHAR* p = _tcsrchr(path, '\\');
+	wchar_t* p = wcsrchr(path, '\\');
 	HANDLE hLib;
 
 	mir_tstrcpy(p, sub);
@@ -137,9 +137,9 @@ static HANDLE LoadXStatusIconLibrary(TCHAR *path, const TCHAR *sub)
 	return hLib;
 }
 
-static TCHAR* InitXStatusIconLibrary(TCHAR *buf, size_t buf_size)
+static wchar_t* InitXStatusIconLibrary(wchar_t *buf, size_t buf_size)
 {
-	TCHAR path[2 * MAX_PATH];
+	wchar_t path[2 * MAX_PATH];
 	HMODULE hXStatusIconsDLL;
 
 	// get miranda's exe path
@@ -851,12 +851,12 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 
 	HGENMENU hRoot;
 	{
-		TCHAR szItem[MAX_PATH + 64];
+		wchar_t szItem[MAX_PATH + 64];
 		mir_sntprintf(szItem, TranslateT("%s Custom Status"), m_tszUserName);
 
 		CMenuItem mi;
 		mi.root = pcli->pfnGetProtocolMenu(m_szModuleName);
-		mi.name.t = szItem;
+		mi.name.w = szItem;
 		mi.position = 10001;
 		hRoot = Menu_AddStatusMenuItem(&mi, m_szModuleName);
 	}
@@ -889,12 +889,12 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 
 void InitXStatusIcons()
 {
-	TCHAR lib[2 * MAX_PATH] = { 0 };
+	wchar_t lib[2 * MAX_PATH] = { 0 };
 
 	SKINICONDESC sid = { 0 };
 	sid.section.a = "Protocols/" ICQ_PROTOCOL_NAME "/" LPGEN("Custom Status");
 	sid.flags = SIDF_PATH_TCHAR;
-	sid.defaultFile.t = InitXStatusIconLibrary(lib, _countof(lib));
+	sid.defaultFile.w = InitXStatusIconLibrary(lib, _countof(lib));
 
 	for (int i = 0; i < XSTATUS_COUNT; i++) {
 		char szTemp[100];

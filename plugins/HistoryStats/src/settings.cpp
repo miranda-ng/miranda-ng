@@ -13,11 +13,11 @@
 
 Settings::CharMapper::CharMapper(const Settings& settings)
 {
-	static const TCHAR* defaultWordDelimiters = L"\n\r\t";
+	static const wchar_t* defaultWordDelimiters = L"\n\r\t";
 
 	array_each_(i, m_CharMap)
 	{
-		m_CharMap[i] = static_cast<TCHAR>(i);
+		m_CharMap[i] = static_cast<wchar_t>(i);
 	}
 
 	LCID lcid = GetUserDefaultLCID();
@@ -63,12 +63,12 @@ Settings::Filter::Filter(const ext::string& strID)
  * Settings
  */
 
-const TCHAR* Settings::getDefaultWordDelimiters()
+const wchar_t* Settings::getDefaultWordDelimiters()
 {
 	return L".?!,:;()[]{}<>+-*/=\\_^&\"'~%#@|$";
 }
 
-const TCHAR* Settings::getDefaultStyleSheet()
+const wchar_t* Settings::getDefaultStyleSheet()
 {
 	static ext::string StyleSheet;
 
@@ -104,17 +104,17 @@ const TCHAR* Settings::getDefaultStyleSheet()
 	return StyleSheet.c_str();
 }
 
-const TCHAR* Settings::getDefaultHideContactMenuProtos()
+const wchar_t* Settings::getDefaultHideContactMenuProtos()
 {
 	return L"{num:0;}";
 }
 
-const TCHAR* Settings::getDefaultProtosIgnore()
+const wchar_t* Settings::getDefaultProtosIgnore()
 {
 	return L"{num:0;}";
 }
 
-const TCHAR* Settings::getDefaultColumns()
+const wchar_t* Settings::getDefaultColumns()
 {
 	return
 		L"{num:11;}"
@@ -131,7 +131,7 @@ const TCHAR* Settings::getDefaultColumns()
 		L"10{enabled:y;guid:split;}10/data{block_unit:0;blocks:28;detail:y;graph_align:1;source:0;source_type:2;units_per_block:6;vis_mode:0;}";
 }
 
-const TCHAR* Settings::getDefaultSort()
+const wchar_t* Settings::getDefaultSort()
 {
 	return
 		L"0{by:17;asc:n}"
@@ -139,17 +139,17 @@ const TCHAR* Settings::getDefaultSort()
 		L"2{by:-1;asc:y}";
 }
 
-const TCHAR* Settings::getDefaultOutputFile()
+const wchar_t* Settings::getDefaultOutputFile()
 {
 	return L"HistoryStats\\stats.html";
 }
 
-const TCHAR* Settings::getDefaultOutputExtraFolder()
+const wchar_t* Settings::getDefaultOutputExtraFolder()
 {
 	return L"extra";
 }
 
-const TCHAR* Settings::getDefaultFilterWords()
+const wchar_t* Settings::getDefaultFilterWords()
 {
 	return L"{num:0;}";
 }
@@ -566,7 +566,7 @@ void Settings::ensureConstraints()
 	utils::ensureRange(m_TableHeaderRepeat, 0, 1000, 0);
 }
 
-void Settings::openURL(const TCHAR* szURL)
+void Settings::openURL(const wchar_t* szURL)
 {
 	if (m_PathToBrowser.empty())
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);

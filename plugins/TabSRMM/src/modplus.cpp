@@ -40,7 +40,7 @@
 
 #include "stdafx.h"
 
-static TCHAR* getMenuEntry(int i)
+static wchar_t* getMenuEntry(int i)
 {
 	char MEntry[256];
 	mir_snprintf(MEntry, "MenuEntry_%u", i);
@@ -59,7 +59,7 @@ static int RegisterCustomButton(WPARAM, LPARAM)
 	bbd.dwDefPos = 200;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];
 	bbd.pszModuleName = "Tabmodplus";
-	bbd.ptszTooltip = LPGENT("Insert [img] tag / surround selected text with [img][/img]");
+	bbd.ptszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
 	return CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 }
 
@@ -74,14 +74,14 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	bbd.pszModuleName = "Tabmodplus";
 	CallService(MS_BB_GETBUTTONSTATE, wParam, (LPARAM)&bbd);
 
-	TCHAR *pszText = L"";
+	wchar_t *pszText = L"";
 	CHARRANGE cr;
 	cr.cpMin = cr.cpMax = 0;
 	SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&cr);
 	UINT textlenght = cr.cpMax - cr.cpMin;
 	if (textlenght) {
-		pszText = (TCHAR*)mir_alloc((textlenght + 1)*sizeof(TCHAR));
-		memset(pszText, 0, ((textlenght + 1) * sizeof(TCHAR)));
+		pszText = (wchar_t*)mir_alloc((textlenght + 1)*sizeof(wchar_t));
+		memset(pszText, 0, ((textlenght + 1) * sizeof(wchar_t)));
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
 
@@ -95,7 +95,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	else
 		state = 4;
 
-	TCHAR *pszFormatedText = NULL, *pszMenu[256] = { 0 };
+	wchar_t *pszFormatedText = NULL, *pszMenu[256] = { 0 };
 
 	size_t bufSize;
 
@@ -118,7 +118,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 			break;
 
 		bufSize = textlenght + mir_tstrlen(pszMenu[res - 1]) + 2;
-		pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
+		pszFormatedText = (wchar_t*)_alloca(bufSize*sizeof(wchar_t));
 		mir_sntprintf(pszFormatedText, bufSize, pszMenu[res - 1], pszText);
 	}
 	break;
@@ -127,7 +127,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 
 		bufSize = textlenght + 12;
-		pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
+		pszFormatedText = (wchar_t*)_alloca(bufSize*sizeof(wchar_t));
 		mir_sntprintf(pszFormatedText, bufSize, L"[img]%s[/img]", pszText);
 
 		bbd.ptszTooltip = 0;
@@ -139,14 +139,14 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	case 3:
 		pszFormatedText = L"[img]";
 
-		bbd.ptszTooltip = LPGENT("Insert [img] tag / surround selected text with [img][/img]");
+		bbd.ptszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
 		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
 		break;
 
 	case 4:
 		pszFormatedText = L"[/img]";
 
-		bbd.ptszTooltip = LPGENT("Insert [img] tag / surround selected text with [img][/img]");
+		bbd.ptszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
 		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
 		break;
 	}

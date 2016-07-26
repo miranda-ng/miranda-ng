@@ -24,7 +24,7 @@ HANDLE hPluginUpdaterFolder;
 int OnFoldersChanged(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hPluginUpdaterFolder, g_tszRoot, MAX_PATH, L"");
-	size_t len = _tcslen(g_tszRoot);
+	size_t len = wcslen(g_tszRoot);
 	if (g_tszRoot[len-1] == '\\' || g_tszRoot[len-1] == '/')
 		g_tszRoot[len-1] = 0;
 	return 0;

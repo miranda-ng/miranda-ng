@@ -182,7 +182,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	CMenuItem mi;
 
 	// main menu item
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500000000, iconList[0].hIcolib);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Database"), 500000000, iconList[0].hIcolib);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "F7C5567C-D1EE-484B-B4F6-24677A5AAAEF");
 
 	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);

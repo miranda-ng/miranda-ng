@@ -19,7 +19,7 @@
 
 #pragma once
 
-static const TCHAR *clients[] = {
+static const wchar_t *clients[] = {
 	L"android",
 	L"mobile",
 	L"pda",

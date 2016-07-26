@@ -127,7 +127,7 @@ static BOOL IsOverAction(HWND hwndDlg)
 	LVHITTESTINFO hti;
 	RECT rc;
 	HDC hdc;
-	TCHAR szText[256];
+	wchar_t szText[256];
 	SIZE textSize;
 	int textPosX;
 
@@ -164,7 +164,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 
 		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)lParam);
 		{
-			TCHAR oldTitle[256], newTitle[256];
+			wchar_t oldTitle[256], newTitle[256];
 			HANDLE hProtoAckEvent;
 
 			GetWindowText(hwndDlg, oldTitle, _countof(oldTitle));
@@ -265,7 +265,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 							ListView_GetSubItemRect(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, LVIR_LABEL, &rc);
 							if (nm->nmcd.hdr.idFrom == IDC_SESSIONS && nm->iSubItem == 3)
 							{
-								TCHAR szText[256];
+								wchar_t szText[256];
 								szText[0] = 0;
 								ListView_GetItemText(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, szText, _countof(szText));
 								FillRect(nm->nmcd.hdc, &rc, GetSysColorBrush(COLOR_WINDOW));
@@ -320,7 +320,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 				switch (iSelection) {
 				case 10001:
 					{
-						TCHAR szText[512], szClientName[256], szIP[64], szLoginTime[64];
+						wchar_t szText[512], szClientName[256], szIP[64], szLoginTime[64];
 						HGLOBAL hData;
 						if (!OpenClipboard(hwndDlg))
 							break;
@@ -333,7 +333,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						mir_sntprintf(szText, L"%s\t%s\t%s", szClientName, szIP, szLoginTime);
 						if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(szText) + 1)) != NULL)
 						{
-							mir_tstrcpy((TCHAR*)GlobalLock(hData), szText);
+							mir_tstrcpy((wchar_t*)GlobalLock(hData), szText);
 							GlobalUnlock(hData);
 							SetClipboardData(CF_TEXT, hData);
 						}
@@ -343,7 +343,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 
 				case 10002:
 					{
-						TCHAR szUrl[256], szIP[64];
+						wchar_t szUrl[256], szIP[64];
 						szIP[0] = 0;
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
 						mir_sntprintf(szUrl, L"http://whois.domaintools.com/%s", szIP);
@@ -424,6 +424,6 @@ void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 	CreateProtoService(mi.pszService, &GGPROTO::sessions_view);
 	mi.position = 200003;
 	mi.hIcolibItem = iconList[16].hIcolib;
-	mi.name.t = LPGENT("Concurrent &sessions");
+	mi.name.w = LPGENW("Concurrent &sessions");
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }

@@ -20,6 +20,8 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+#include <tchar.h>
+
 int InitTipperSmileys()
 {
 	// Register smiley category
@@ -104,13 +106,13 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 	return text_size.cy;
 }
 
-SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTextFormat, int max_width)
+SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SMILEYPARSEINFO info, UINT uTextFormat, int max_width)
 {
 	SIZE text_size = { 0 };
 	int text_height;
 	int row_count = 0, pos_x = 0;
 
-	if (szText == NULL || _tcsclen(szText) == 0) {
+	if (szText == NULL || wcslen(szText) == 0) {
 		text_size.cy = 0;
 		text_size.cx = 0;
 	}
@@ -177,7 +179,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTe
 	return text_size;
 }
 
-void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMILEYPARSEINFO info, UINT uTextFormat)
+void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, SMILEYPARSEINFO info, UINT uTextFormat)
 {
 	if (szText == NULL)
 		return;
@@ -304,7 +306,7 @@ void DestroySmileyList(SortedList* p_list)
 }
 
 // Generate the list of smileys / text to be drawn
-SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height)
+SortedList *ReplaceSmileys(const wchar_t *text, int text_size, const char *protocol, int *max_smiley_height)
 {
 	*max_smiley_height = 0;
 
@@ -322,7 +324,7 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 	// Parse it!
 	SMADD_BATCHPARSE2 sp = { 0 };
 	sp.cbSize = sizeof(sp);
-	sp.str = (TCHAR *)text;
+	sp.str = (wchar_t *)text;
 	sp.flag = SAFL_TCHAR;
 	sp.Protocolname = (opt.iSmileyAddFlags & SMILEYADD_USEPROTO) ? smileyProto : "tipper";
 	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
@@ -333,11 +335,11 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 	// Lets add smileys
 	SortedList *plText = List_Create(0, 10);
 
-	TCHAR *word_start, *word_end;
-	TCHAR *smiley_start, *smiley_end;
-	TCHAR *last_text_pos = _tcsninc(text, text_size);
+	wchar_t *word_start, *word_end;
+	wchar_t *smiley_start, *smiley_end;
+	wchar_t *last_text_pos = _tcsninc(text, text_size);
 
-	word_start = word_end = (TCHAR *)text;
+	word_start = word_end = (wchar_t *)text;
 
 	for (unsigned i = 0; i < sp.numSmileys; i++) {
 		// Get smile position

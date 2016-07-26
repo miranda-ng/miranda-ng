@@ -113,7 +113,7 @@
 
 struct TTemplateSet {
 	BOOL valid;             // all templates populated (may still contain crap.. so it's only half-assed safety :)
-	TCHAR szTemplates[TMPL_ERRMSG + 1][TEMPLATE_LENGTH];      // the template strings
+	wchar_t szTemplates[TMPL_ERRMSG + 1][TEMPLATE_LENGTH];      // the template strings
 	char szSetName[20];     // everything in this world needs a name. so does this poor template set.
 };
 
@@ -161,7 +161,7 @@ struct TContainerSettings
 	DWORD	dwTransparency;
 	DWORD	panelheight;
 	DWORD	splitterPos;
-	TCHAR	szTitleFormat[TITLE_FORMATLEN + 2];
+	wchar_t	szTitleFormat[TITLE_FORMATLEN + 2];
 	WORD	avatarMode;
 	WORD	ownAvatarMode;
 	WORD	autoCloseSeconds;
@@ -174,7 +174,7 @@ struct TContainerData
 {
 	TContainerData *pNext;
 
-	TCHAR    szName[CONTAINER_NAMELEN + 4];		// container name
+	wchar_t    szName[CONTAINER_NAMELEN + 4];		// container name
 	HWND     hwndActive;		// active message window
 	HWND     hwnd;				// the container handle
 	int      iTabIndex;			// next tab id
@@ -198,7 +198,7 @@ struct TContainerData
 	DWORD    dwFlashingStarted;
 	HWND     hWndOptions;
 	BOOL     bSizingLoop;
-	TCHAR    szRelThemeFile[MAX_PATH], szAbsThemeFile[MAX_PATH];
+	wchar_t    szRelThemeFile[MAX_PATH], szAbsThemeFile[MAX_PATH];
 	TTemplateSet *ltr_templates, *rtl_templates;
 	HDC      cachedDC;
 	HBITMAP  cachedHBM, oldHBM;
@@ -239,11 +239,11 @@ struct TWindowData
 	DWORD    dwFlagsEx;
 	MCONTACT hContact;
 	char    *szProto;
-	TCHAR    szMyNickname[130];
-	TCHAR    szStatusBar[100];
+	wchar_t    szMyNickname[130];
+	wchar_t    szStatusBar[100];
 	StatusTextData *sbCustom;
-	TCHAR    newtitle[130];        // tab title...
-	TCHAR    szStatus[50];
+	wchar_t    newtitle[130];        // tab title...
+	wchar_t    szStatus[50];
 	WORD     wStatus;
 	char    *sendBuffer;
 	size_t   iSendBufferSize;
@@ -287,14 +287,14 @@ struct TWindowData
 	int      iOpenJobs;
 	int      iCurrentQueueError;
 	MEVENT   hFlashingEvent;
-	TCHAR    myUin[80];
+	wchar_t    myUin[80];
 	int      SendFormat;
 	MEVENT  *hQueuedEvents;
 	int      iNextQueuedEvent;
 #define EVENT_QUEUE_SIZE 10
 	int      iEventQueueSize;
 	LCID     lcid;
-	TCHAR    lcID[10];
+	wchar_t    lcID[10];
 	int      iPanelAvatarX, iPanelAvatarY;
 	DWORD    idle;
 	HWND     hwndTip;
@@ -370,8 +370,8 @@ struct TIconDesc
 
 struct TIconDescW
 {
-	TCHAR  *szName;
-	TCHAR  *szDesc;
+	wchar_t  *szName;
+	wchar_t  *szDesc;
 	HICON  *phIcon;       // where the handle is saved...
 	INT_PTR uId;           // icon ID
 	BOOL    bForceSmall;   // true: force 16x16
@@ -754,7 +754,7 @@ struct TLogIcon {
 
 struct TCpTable {
 	UINT cpId;
-	TCHAR *cpName;
+	wchar_t *cpName;
 };
 
 #define LOI_TYPE_FLAG 1
@@ -762,12 +762,12 @@ struct TCpTable {
 
 struct TOptionListGroup {
 	LRESULT handle;
-	TCHAR *szName;
+	wchar_t *szName;
 };
 
 struct TOptionListItem {
 	LRESULT handle;
-	TCHAR *szName;
+	wchar_t *szName;
 	UINT id;
 	UINT uType;
 	UINT_PTR lParam;
@@ -797,10 +797,10 @@ struct SIDEBARITEM {
 	UINT    uId;
 	DWORD   dwFlags;
 	HICON   *hIcon, *hIconPressed, *hIconHover;
-	TCHAR   *szName;
+	wchar_t   *szName;
 	void(*pfnAction)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
 	void(*pfnCallback)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
-	TCHAR   *tszTip;
+	wchar_t   *tszTip;
 };
 
 #define FONTF_BOLD   1
@@ -971,7 +971,7 @@ void CheckStatusIconClick(TWindowData *dat, POINT pt, const RECT &rc, int gap, i
 struct SKINDESC
 {
 	ULONG	ulID;				// resource id
-	TCHAR	tszName[30];
+	wchar_t	tszName[30];
 };
 
 #define SKIN_NR_ELEMENTS 6

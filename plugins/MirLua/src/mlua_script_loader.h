@@ -8,7 +8,7 @@ private:
 
 	CMLuaScriptLoader(lua_State *L);
 
-	void LoadScript(const TCHAR *scriptDir, const TCHAR *file);
+	void LoadScript(const wchar_t *scriptDir, const wchar_t *file);
 	void LoadScripts();
 
 public:

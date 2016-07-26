@@ -42,7 +42,7 @@ int Preview();
 /*
 *
 ****************************/
-void Nudge_ShowPopup(CNudgeElement*, MCONTACT, TCHAR *);
+void Nudge_ShowPopup(CNudgeElement*, MCONTACT, wchar_t *);
 
 /*
 *

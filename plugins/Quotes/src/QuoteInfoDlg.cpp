@@ -60,7 +60,7 @@ INT_PTR CALLBACK QuoteInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT msg, WP
 
 			time_t nFetchTime;
 			if (true == get_fetch_time(nFetchTime, hContact)) {
-				TCHAR szTime[50] = { 0 };
+				wchar_t szTime[50] = { 0 };
 				if (0 == _tctime_s(szTime, 50, &nFetchTime)) {
 					::SetDlgItemText(hdlg, IDC_EDIT_RATE_FETCH_TIME, szTime);
 				}
@@ -253,7 +253,7 @@ int Quotes_PrebuildContactMenu(WPARAM wp, LPARAM)
 
 	tstring sLogFileName;
 	bool bThereIsLogFile = (true == get_log_file(hContact, sLogFileName))
-		&& (false == sLogFileName.empty()) && (0 == _taccess(sLogFileName.c_str(), 04));
+		&& (false == sLogFileName.empty()) && (0 == _waccess(sLogFileName.c_str(), 04));
 	if (true == bThereIsLogFile) {
 		#ifdef CHART_IMPLEMENT
 		Menu_EnableItem(g_hMenuChart, true);

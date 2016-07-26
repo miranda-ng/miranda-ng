@@ -661,7 +661,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hQueue, DWORD dwFlags, MCONTACT 
 		p.dwNameLen = mir_tstrlen(p.lpwszName);
 		p.dwSize = _wtoi(wszCurrSize);
 		dat->dwFilesTotalSize += p.dwSize;
-		dwFileNameTotalSize += p.dwNameLen * sizeof(TCHAR);
+		dwFileNameTotalSize += p.dwNameLen * sizeof(wchar_t);
 
 		dat->dwFilesCount++;
 	}

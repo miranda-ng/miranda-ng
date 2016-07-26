@@ -31,7 +31,7 @@ struct FontInternal : public FontIDT
 	FontSettingsT value;
 	int hLangpack;
 
-	__inline TCHAR* getName() const { return TranslateTH(hLangpack, name); }
+	__inline wchar_t* getName() const { return TranslateTH(hLangpack, name); }
 
 	__inline bool isHeader() const
 	{
@@ -39,7 +39,7 @@ struct FontInternal : public FontIDT
 			return true;
 
 		if ((flags & FIDF_CLASSMASK) == 0)
-			if (_tcsstr(name, L"Incoming nick") || _tcsstr(name, L"Outgoing nick") || _tcsstr(name, L"Incoming timestamp") || _tcsstr(name, L"Outgoing timestamp"))
+			if (wcsstr(name, L"Incoming nick") || wcsstr(name, L"Outgoing nick") || wcsstr(name, L"Incoming timestamp") || wcsstr(name, L"Outgoing timestamp"))
 				return true;
 		return false;
 	}
@@ -47,7 +47,7 @@ struct FontInternal : public FontIDT
 
 struct ColourInternal : public ColourIDT
 {
-	__inline TCHAR* getName() const { return TranslateTH(hLangpack, name); }
+	__inline wchar_t* getName() const { return TranslateTH(hLangpack, name); }
 
 	COLORREF value;
 	int hLangpack;
@@ -55,7 +55,7 @@ struct ColourInternal : public ColourIDT
 
 struct EffectInternal : public EffectIDT
 {
-	__inline TCHAR* getName() const { return TranslateTH(hLangpack, name); }
+	__inline wchar_t* getName() const { return TranslateTH(hLangpack, name); }
 
 	int hLangpack;
 };
@@ -66,7 +66,7 @@ struct EffectInternal : public EffectIDT
 typedef struct
 {
 	char *paramName;
-	TCHAR *groupName;
+	wchar_t *groupName;
 }
 	TreeItem;
 

@@ -550,7 +550,7 @@ void CheckUnregisterServer()
 {
 	if (bIsVistaPlus) {
 		// launches regsvr to remove the dll under admin.
-		TCHAR szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
+		wchar_t szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
 		GetModuleFileName(hInst, szFileName, _countof(szFileName));
 		mir_sntprintf(szBuf, L"/s /u \"%s\"", szFileName);
 
@@ -570,7 +570,7 @@ void CheckUnregisterServer()
 // for permission before installing the shell extension.  note the filepath arg has to be quoted }
 void CheckRegisterServer()
 {
-	TCHAR szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
+	wchar_t szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
 
 	HKEY hRegKey;
 	if (!RegOpenKeyEx(HKEY_CLASSES_ROOT, L"miranda.shlext", 0, KEY_READ, &hRegKey))

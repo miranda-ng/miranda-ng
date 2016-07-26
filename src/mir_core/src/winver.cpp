@@ -69,7 +69,7 @@ MIR_CORE_DLL(BOOL) IsFullScreen()
 	// check foregroundwindow
 	HWND hWnd = GetForegroundWindow();
 	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell) {
-		TCHAR tszClassName[128] = L"";
+		wchar_t tszClassName[128] = L"";
 		GetClassName(hWnd, tszClassName, _countof(tszClassName));
 		if (_tcscmp(tszClassName, L"WorkerW")) {
 			RECT rect, rectw, recti;
@@ -93,7 +93,7 @@ MIR_CORE_DLL(BOOL) IsWorkstationLocked(void)
 	if (hDesk == NULL)
 		return true;
 
-	TCHAR tszName[100];
+	wchar_t tszName[100];
 	DWORD cbName;
 	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, _countof(tszName), &cbName) || mir_tstrcmpi(tszName, L"default") != 0);
 	CloseDesktop(hDesk);
@@ -198,7 +198,7 @@ MIR_CORE_DLL(BOOL) IsScreenSaverRunning(void)
 typedef BOOL(WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef LPCSTR(WINAPI *WGV)(void);
 
-MIR_CORE_DLL(BOOL) GetOSDisplayString(TCHAR *buf, size_t bufSize)
+MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize)
 {
 	if (buf == NULL || bufSize == 0)
 		return 0;

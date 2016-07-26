@@ -75,12 +75,12 @@ void CJabberProto::FtCancel(filetransfer *ft)
 
 ///////////////// File sending using stream initiation /////////////////////////
 
-void CJabberProto::FtInitiate(TCHAR* jid, filetransfer *ft)
+void CJabberProto::FtInitiate(wchar_t* jid, filetransfer *ft)
 {
-	TCHAR *rs;
-	TCHAR *filename, *p;
+	wchar_t *rs;
+	wchar_t *filename, *p;
 	int i;
-	TCHAR sid[9];
+	wchar_t sid[9];
 
 	if (jid == NULL || ft == NULL || !m_bJabberOnline || (rs = ListGetBestClientResourceNamePtr(jid)) == NULL) {
 		if (ft) {
@@ -96,10 +96,10 @@ void CJabberProto::FtInitiate(TCHAR* jid, filetransfer *ft)
 	if (ft->sid != NULL) mir_free(ft->sid);
 	ft->sid = mir_tstrdup(sid);
 	filename = ft->std.ptszFiles[ft->std.currentFileNumber];
-	if ((p = _tcsrchr(filename, '\\')) != NULL)
+	if ((p = wcsrchr(filename, '\\')) != NULL)
 		filename = p + 1;
 
-	TCHAR tszJid[512];
+	wchar_t tszJid[512];
 	mir_sntprintf(tszJid, L"%s/%s", jid, rs);
 
 	XmlNodeIq iq(AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, tszJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO, -1, ft));
@@ -188,8 +188,8 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 	int numRead;
 
 	debugLog(L"Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
-	_tstati64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
-	if ((fd = _topen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY)) < 0) {
+	_wstat64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
+	if ((fd = _wopen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY)) < 0) {
 		debugLog(L"File cannot be opened");
 		return FALSE;
 	}
@@ -220,9 +220,9 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 	debugLog(L"Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
 
 	struct _stati64 statbuf;
-	_tstati64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
+	_wstat64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
 
-	int fd = _topen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY);
+	int fd = _wopen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY);
 	if (fd < 0) {
 		debugLogA("File cannot be opened");
 		return FALSE;
@@ -300,7 +300,7 @@ void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
 
 void CJabberProto::FtHandleSiRequest(HXML iqNode)
 {
-	const TCHAR *from, *sid, *str, *szId, *filename;
+	const wchar_t *from, *sid, *str, *szId, *filename;
 	HXML siNode, fileNode, featureNode, xNode, fieldNode, n;
 	int i;
 	unsigned __int64 filesize;
@@ -317,7 +317,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 		(filename = XmlGetAttrValue(fileNode, L"name")) != NULL &&
 		(str = XmlGetAttrValue(fileNode, L"size")) != NULL) {
 
-		filesize = _ttoi64(str);
+		filesize = _wtoi64(str);
 		if ((featureNode = XmlGetChildByTag(siNode, "feature", "xmlns", JABBER_FEAT_FEATURE_NEG)) != NULL &&
 			(xNode = XmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) != NULL &&
 			(fieldNode = XmlGetChildByTag(xNode, "field", "var", L"stream-method")) != NULL) {
@@ -378,10 +378,10 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.files.t = (TCHAR**)&filename;
+				pre.files.w = (wchar_t**)&filename;
 				pre.lParam = (LPARAM)ft;
 				if ((n = XmlGetChild(fileNode, "desc")) != NULL)
-					pre.descr.t = (TCHAR*)XmlGetText(n);
+					pre.descr.w = (wchar_t*)XmlGetText(n);
 
 				ProtoChainRecvFile(ft->std.hContact, &pre);
 				return;
@@ -446,7 +446,7 @@ BOOL CJabberProto::FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	HXML queryNode = pInfo->GetChildNode();
 
-	const TCHAR *sid;
+	const wchar_t *sid;
 	JABBER_LIST_ITEM *item;
 
 	if ((sid = XmlGetAttrValue(queryNode, L"sid")) != NULL && (item = ListGetItemPtr(LIST_FTRECV, sid)) != NULL) {
@@ -471,15 +471,15 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 {
 	if (iqNode == NULL) return FALSE;
 
-	const TCHAR *id = XmlGetAttrValue(iqNode, L"id");
-	const TCHAR *from = XmlGetAttrValue(iqNode, L"from");
-	const TCHAR *to = XmlGetAttrValue(iqNode, L"to");
+	const wchar_t *id = XmlGetAttrValue(iqNode, L"id");
+	const wchar_t *from = XmlGetAttrValue(iqNode, L"from");
+	const wchar_t *to = XmlGetAttrValue(iqNode, L"to");
 	if (!id || !from || !to) return FALSE;
 
 	HXML ibbNode = XmlGetChildByTag(iqNode, bOpen ? "open" : "close", "xmlns", JABBER_FEAT_IBB);
 	if (!ibbNode) return FALSE;
 
-	const TCHAR *sid = XmlGetAttrValue(ibbNode, L"sid");
+	const wchar_t *sid = XmlGetAttrValue(ibbNode, L"sid");
 	if (!sid) return FALSE;
 
 	// already closed?

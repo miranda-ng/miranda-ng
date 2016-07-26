@@ -5,7 +5,7 @@ COLORREF bkColour;
 HBITMAP hBmpBackground, hBmpSeparator;
 int backgroundBmpUse;
 
-static TCHAR pluginname[] = L"TopToolBar";
+static wchar_t pluginname[] = L"TopToolBar";
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Toolbar window procedure

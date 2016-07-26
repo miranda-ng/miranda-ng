@@ -19,48 +19,48 @@
 
 #include "stdafx.h"
 
-static TCHAR* parseCodeToStatus(ARGUMENTSINFO *ai)
+static wchar_t* parseCodeToStatus(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
 
 	unsigned int status = ttoi(ai->targv[1]);
-	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
+	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
 	return NULL;
 }
 
-static int getContactInfoFlags(TCHAR *tszDesc)
+static int getContactInfoFlags(wchar_t *tszDesc)
 {
 	int flags = 0;
-	for (TCHAR *cur = tszDesc; (cur < (tszDesc + mir_tstrlen(tszDesc))); cur++) {
-		if (!_tcsnicmp(cur, STR_PROTOID, mir_tstrlen(STR_PROTOID))) {
+	for (wchar_t *cur = tszDesc; (cur < (tszDesc + mir_tstrlen(tszDesc))); cur++) {
+		if (!wcsnicmp(cur, STR_PROTOID, mir_tstrlen(STR_PROTOID))) {
 			flags |= CI_PROTOID;
 			cur += mir_tstrlen(STR_PROTOID) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_NICK, mir_tstrlen(STR_NICK))) {
+		else if (!wcsnicmp(cur, STR_NICK, mir_tstrlen(STR_NICK))) {
 			flags |= CI_NICK;
 			cur += mir_tstrlen(STR_NICK) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_FIRSTNAME, mir_tstrlen(STR_FIRSTNAME))) {
+		else if (!wcsnicmp(cur, STR_FIRSTNAME, mir_tstrlen(STR_FIRSTNAME))) {
 			flags |= CI_FIRSTNAME;
 			cur += mir_tstrlen(STR_FIRSTNAME) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_LASTNAME, mir_tstrlen(STR_LASTNAME))) {
+		else if (!wcsnicmp(cur, STR_LASTNAME, mir_tstrlen(STR_LASTNAME))) {
 			flags |= CI_LASTNAME;
 			cur += mir_tstrlen(STR_LASTNAME) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_DISPLAY, mir_tstrlen(STR_DISPLAY))) {
+		else if (!wcsnicmp(cur, STR_DISPLAY, mir_tstrlen(STR_DISPLAY))) {
 			flags |= CI_LISTNAME;
 			cur += mir_tstrlen(STR_DISPLAY) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_EMAIL, mir_tstrlen(STR_EMAIL))) {
+		else if (!wcsnicmp(cur, STR_EMAIL, mir_tstrlen(STR_EMAIL))) {
 			flags |= CI_EMAIL;
 			cur += mir_tstrlen(STR_EMAIL) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_UNIQUEID, mir_tstrlen(STR_UNIQUEID))) {
+		else if (!wcsnicmp(cur, STR_UNIQUEID, mir_tstrlen(STR_UNIQUEID))) {
 			flags |= CI_UNIQUEID;
 			cur += mir_tstrlen(STR_UNIQUEID) - 1;
 		}
@@ -74,7 +74,7 @@ static int getContactInfoFlags(TCHAR *tszDesc)
 	return flags;
 }
 
-static TCHAR* parseContact(ARGUMENTSINFO *ai)
+static wchar_t* parseContact(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3 || ai->argc > 4)
 		return NULL;
@@ -95,7 +95,7 @@ static TCHAR* parseContact(ARGUMENTSINFO *ai)
 	return encodeContactToString(hContact);
 }
 
-static TCHAR* parseContactCount(ARGUMENTSINFO *ai)
+static wchar_t* parseContactCount(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -104,7 +104,7 @@ static TCHAR* parseContactCount(ARGUMENTSINFO *ai)
 	return itot(count);
 }
 
-static TCHAR* parseContactInfo(ARGUMENTSINFO *ai)
+static wchar_t* parseContactInfo(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -120,37 +120,37 @@ static TCHAR* parseContactInfo(ARGUMENTSINFO *ai)
 	return getContactInfoT(type, hContact);
 }
 
-static TCHAR* parseDBProfileName(ARGUMENTSINFO *ai)
+static wchar_t* parseDBProfileName(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
 
-	TCHAR name[MAX_PATH];
+	wchar_t name[MAX_PATH];
 	if (CallService(MS_DB_GETPROFILENAMET, _countof(name), (LPARAM)name))
 		return NULL;
 
 	return mir_tstrdup(name);
 }
 
-static TCHAR* parseDBProfilePath(ARGUMENTSINFO *ai)
+static wchar_t* parseDBProfilePath(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
 
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	if (CallService(MS_DB_GETPROFILEPATHT, _countof(path), (LPARAM)path))
 		return NULL;
 
 	return mir_tstrdup(path);
 }
 
-static TCHAR* getDBSetting(MCONTACT hContact, char* module, char* setting, TCHAR* defaultValue)
+static wchar_t* getDBSetting(MCONTACT hContact, char* module, char* setting, wchar_t* defaultValue)
 {
 	DBVARIANT dbv;
 	if (db_get_s(hContact, module, setting, &dbv, 0))
 		return defaultValue;
 
-	TCHAR *var = NULL;
+	wchar_t *var = NULL;
 	switch (dbv.type) {
 	case DBVT_BYTE:
 		var = itot(dbv.bVal);
@@ -176,7 +176,7 @@ static TCHAR* getDBSetting(MCONTACT hContact, char* module, char* setting, TCHAR
 	return var;
 }
 
-static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
+static wchar_t* parseDBSetting(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 4)
 		return NULL;
@@ -198,15 +198,15 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	TCHAR *szDefaultValue = ((ai->argc > 4 && mir_tstrlen(ai->targv[4]) > 0) ? mir_tstrdup(ai->targv[4]) : NULL);
-	TCHAR *res = getDBSetting(hContact, szModule, szSetting, szDefaultValue);
+	wchar_t *szDefaultValue = ((ai->argc > 4 && mir_tstrlen(ai->targv[4]) > 0) ? mir_tstrdup(ai->targv[4]) : NULL);
+	wchar_t *res = getDBSetting(hContact, szModule, szSetting, szDefaultValue);
 	mir_free(szDefaultValue);
 	mir_free(szSetting);
 	mir_free(szModule);
 	return res;
 }
 
-static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
+static wchar_t* parseLastSeenDate(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
 		return NULL;
@@ -215,7 +215,7 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
 
-	TCHAR *szFormat;
+	wchar_t *szFormat;
 	if (ai->argc == 2 || (ai->argc > 2 && mir_tstrlen(ai->targv[2]) == 0))
 		szFormat = NULL;
 	else
@@ -236,7 +236,7 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 	lsTime.wMonth = db_get_w(hContact, szModule, "Month", 0);
 
 	int len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
+	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
 	if (res == NULL)
 		return NULL;
 
@@ -248,7 +248,7 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
+static wchar_t* parseLastSeenTime(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
 		return NULL;
@@ -257,7 +257,7 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 	if (hContact == INVALID_CONTACT_ID)
 		return NULL;
 
-	TCHAR *szFormat;
+	wchar_t *szFormat;
 	if (ai->argc == 2 || (ai->argc > 2 && mir_tstrlen(ai->targv[2]) == 0))
 		szFormat = NULL;
 	else
@@ -279,7 +279,7 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 
 	int len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
-	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
+	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
 	if (res == NULL)
 		return NULL;
 
@@ -291,7 +291,7 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR* parseLastSeenStatus(ARGUMENTSINFO *ai)
+static wchar_t* parseLastSeenStatus(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -305,27 +305,27 @@ static TCHAR* parseLastSeenStatus(ARGUMENTSINFO *ai)
 	if (status == 0)
 		return NULL;
 
-	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
+	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
 	if (szStatus != NULL)
 		return mir_tstrdup(szStatus);
 
 	return NULL;
 }
 
-static TCHAR* parseMirandaPath(ARGUMENTSINFO *ai)
+static wchar_t* parseMirandaPath(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	if (GetModuleFileName(NULL, path, _countof(path)) == 0)
 		return NULL;
 
 	return mir_tstrdup(path);
 }
 
-static TCHAR* parseMyStatus(ARGUMENTSINFO *ai)
+static wchar_t* parseMyStatus(ARGUMENTSINFO *ai)
 {
 	if (ai->argc > 2)
 		return NULL;
@@ -336,17 +336,17 @@ static TCHAR* parseMyStatus(ARGUMENTSINFO *ai)
 	else
 		status = CallProtoService(_T2A(ai->targv[1]), PS_GETSTATUS, 0, 0);
 
-	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
+	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
 	return (szStatus != NULL) ? mir_tstrdup(szStatus) : NULL;
 }
 
-static TCHAR* parseProtoInfo(ARGUMENTSINFO *ai)
+static wchar_t* parseProtoInfo(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
 
 	char *szRes = NULL;
-	TCHAR *tszRes = NULL;
+	wchar_t *tszRes = NULL;
 	ptrA szProto(mir_t2a(ai->targv[1]));
 
 	if (!mir_tstrcmp(ai->targv[2], _T(STR_PINAME)))
@@ -373,7 +373,7 @@ static TCHAR* parseProtoInfo(ARGUMENTSINFO *ai)
 	return tszRes;
 }
 
-static TCHAR* parseSpecialContact(ARGUMENTSINFO *ai)
+static wchar_t* parseSpecialContact(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1 || ai->fi->hContact == NULL)
 		return NULL;
@@ -386,7 +386,7 @@ static TCHAR* parseSpecialContact(ARGUMENTSINFO *ai)
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		szUniqueID = (TCHAR*)mir_alloc(40);
+		szUniqueID = (wchar_t*)mir_alloc(40);
 		if (szUniqueID == NULL)
 			return NULL;
 		mir_sntprintf(szUniqueID, 20, L"%p", ai->fi->hContact);
@@ -526,7 +526,7 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 }
 
 // ?message(%subject%,last|first,sent|recv,read|unread)
-static TCHAR* parseDbEvent(ARGUMENTSINFO *ai)
+static wchar_t* parseDbEvent(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return NULL;
@@ -579,21 +579,21 @@ static TCHAR* parseDbEvent(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	TCHAR *res = DbGetEventTextT(&dbe, CP_ACP);
+	wchar_t *res = DbGetEventTextT(&dbe, CP_ACP);
 	mir_free(dbe.pBlob);
 	return res;
 }
 
-static TCHAR* parseTranslate(ARGUMENTSINFO *ai)
+static wchar_t* parseTranslate(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
 
-	TCHAR *res = TranslateTS(ai->targv[1]);
+	wchar_t *res = TranslateTS(ai->targv[1]);
 	return (res == NULL) ? NULL : mir_tstrdup(res);
 }
 
-static TCHAR* parseVersionString(ARGUMENTSINFO *ai)
+static wchar_t* parseVersionString(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
@@ -606,40 +606,40 @@ static TCHAR* parseVersionString(ARGUMENTSINFO *ai)
 	return mir_a2t(versionString);
 }
 
-static TCHAR *parseContactNameString(ARGUMENTSINFO *ai)
+static wchar_t *parseContactNameString(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1 || ai->fi->hContact == NULL)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
-	TCHAR *ret = (TCHAR*)pcli->pfnGetContactDisplayName(ai->fi->hContact, 0);
+	wchar_t *ret = (wchar_t*)pcli->pfnGetContactDisplayName(ai->fi->hContact, 0);
 	return (ret == NULL) ? NULL : mir_tstrdup(ret);
 }
 
-static TCHAR *parseMirDateString(ARGUMENTSINFO *ai)
+static wchar_t *parseMirDateString(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
 
-	TCHAR ret[128];
+	wchar_t ret[128];
 	return mir_tstrdup(TimeZone_ToStringT(time(NULL), L"d s", ret, _countof(ret)));
 }
 
-static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)
+static wchar_t *parseMirandaCoreVar(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
 
-	TCHAR corevar[MAX_PATH];
+	wchar_t corevar[MAX_PATH];
 	mir_sntprintf(corevar, L"%%%s%%", ai->targv[0]);
 	return Utils_ReplaceVarsT(corevar);
 }
 
-static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
+static wchar_t *parseMirSrvExists(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;

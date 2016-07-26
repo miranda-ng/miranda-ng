@@ -54,13 +54,13 @@ private:
 
 	// content
 	TextType    m_textType;
-	TCHAR      *m_lptzTitle, *m_lptzText;
+	wchar_t      *m_lptzTitle, *m_lptzText;
 	HANDLE      m_mtTitle, m_mtText;
 	bool        m_bTextEmpty, m_bIcoLib;
 	HFONT       m_hfnTitle, m_hfnText;
 	HICON       m_hIcon;
 	HBITMAP     m_hbmAvatar;
-	TCHAR       m_time[2 + 1 + 2 + 1];
+	wchar_t       m_time[2 + 1 + 2 + 1];
 	ActionInfo* m_actions;
 	int         m_actionCount;
 	HANDLE      m_hNotification;
@@ -131,8 +131,8 @@ public:
 	void	updateData(POPUPDATAW_V2 *ppd);
 	void	updateData(POPUPDATA2 *ppd);
 	void	buildMText();
-	void	updateText(TCHAR *text);
-	void	updateTitle(TCHAR *title);
+	void	updateText(wchar_t *text);
+	void	updateTitle(wchar_t *title);
 
 	void	updateTimer();
 
@@ -146,15 +146,15 @@ public:
 	bool     isTextEmpty()      { return m_bTextEmpty; }
 	bool     isIcolib()         { return m_bIcoLib; }
 	TextType getTextType()      { return m_textType; }
-	TCHAR   *getText()          { return m_lptzText; }
+	wchar_t   *getText()          { return m_lptzText; }
 	HANDLE   getTextM()         { return m_mtText; }
-	TCHAR   *getTitle()         { return m_lptzTitle; }
+	wchar_t   *getTitle()         { return m_lptzTitle; }
 	HANDLE   getTitleM()        { return m_mtTitle; }
 
 	int      getActionCount()   { return m_actionCount; }
 	ActionInfo *getActions()    { return m_actions; }
 
-	TCHAR   *getTime()          { return m_time; }
+	wchar_t   *getTime()          { return m_time; }
 	HICON    getIcon()          { return m_hIcon; }
 	MCONTACT getContact()       { return m_hContact; }
 	MCONTACT getContactPassed() { return m_hContactPassed; }
@@ -210,8 +210,8 @@ public:
 
 	LRESULT m_updateData_POPUPDATAW_V2(LPARAM arg)	{ updateData((POPUPDATAW_V2 *)arg); update(); return 0; }
 	LRESULT m_updateData_POPUPDATA2(LPARAM arg)		{ updateData((POPUPDATA2 *)arg); update(); return 0; }
-	LRESULT m_updateText(LPARAM arg)				{ updateText((TCHAR *)arg); update(); return 0; }
-	LRESULT m_updateTitle(LPARAM arg)				{ updateTitle((TCHAR *)arg); update(); return 0; }
+	LRESULT m_updateText(LPARAM arg)				{ updateText((wchar_t *)arg); update(); return 0; }
+	LRESULT m_updateTitle(LPARAM arg)				{ updateTitle((wchar_t *)arg); update(); return 0; }
 	LRESULT m_show(LPARAM)						{ show(); return 0; }
 	LRESULT m_hide(LPARAM)						{ hide(); return 0; }
 

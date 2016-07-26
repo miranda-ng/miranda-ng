@@ -6,7 +6,6 @@
 #define ASSERT assert
 
 #include <Windows.h>
-#include <tchar.h>
 #include <string>
 #include <vector>
 #include <queue>

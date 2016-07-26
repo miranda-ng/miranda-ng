@@ -89,7 +89,7 @@ int GetRandom(int from, int to)
 }
 
 // From SRAway module
-const TCHAR *GetDefaultMessage(int status)
+const wchar_t *GetDefaultMessage(int status)
 {
 	switch (status) {
 	case ID_STATUS_AWAY: return TranslateT("I've been away since %time%.");

@@ -41,11 +41,11 @@ typedef struct
 	const char *pszName;          /* name to refer to hotkey when playing and in db */
 	union {
 		const char *pszDescription;   /* description for options dialog */
-		const TCHAR *ptszDescription;
+		const wchar_t *ptszDescription;
 	};
 	union {
 		const char *pszSection;       /* section name used to group sounds (NULL is acceptable) */
-		const TCHAR *ptszSection;
+		const wchar_t *ptszSection;
 	};
 	const char *pszService;       /* Service to call when HotKey Pressed */
 	WORD DefHotKey;               /* default hot key for action */

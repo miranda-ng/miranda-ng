@@ -297,7 +297,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	tszValue = jnItem["bdate"].as_mstring();
 	if (!tszValue.IsEmpty()) {
 		int d, m, y, iReadCount;
-		iReadCount = _stscanf(tszValue, L"%d.%d.%d", &d, &m, &y);
+		iReadCount = swscanf(tszValue, L"%d.%d.%d", &d, &m, &y);
 		if (iReadCount > 1) {
 			if (iReadCount == 3)
 				setWord(hContact, "BirthYear", y);
@@ -330,7 +330,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(NULL));
 		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
 
-		int online_app = _ttoi(jnItem["online_app"].as_mstring());
+		int online_app = _wtoi(jnItem["online_app"].as_mstring());
 		int online_mobile = jnItem["online_mobile"].as_int();
 
 		if (online_app == 0 && online_mobile == 0)
@@ -368,7 +368,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 			setTString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
 		}
 	}
-	else if (tszValue[0] == TCHAR(9835) && tszValue.GetLength() > 2) {
+	else if (tszValue[0] == wchar_t(9835) && tszValue.GetLength() > 2) {
 		setTString(hContact, "ListeningTo", &(tszValue.GetBuffer())[2]);
 		db_unset(hContact, m_szModuleName, "AudioUrl");
 	}

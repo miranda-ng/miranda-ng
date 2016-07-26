@@ -50,7 +50,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int   TSAPI NEN_ReadOptions(NEN_OPTIONS *options);
 int   TSAPI NEN_WriteOptions(NEN_OPTIONS *options);
-int   TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, MCONTACT hContact, DWORD fromEvent);
+int   TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const wchar_t *szStatus, MCONTACT hContact, DWORD fromEvent);
 void  TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask);
 
 /*
@@ -61,7 +61,7 @@ void  TSAPI CreateSystrayIcon(int create);
 void  TSAPI FlashTrayIcon(HICON hIcon);
 void  TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced);
 void  TSAPI LoadFavoritesAndRecent();
-void  TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus,
+void  TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, const char *szProto, wchar_t *szStatus,
 	WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu);
 void  TSAPI CreateTrayMenus(int mode);
 void  TSAPI HandleMenuEntryFromhContact(MCONTACT iSelection);
@@ -76,9 +76,9 @@ int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iNum);
 void  TSAPI CreateImageList(BOOL bInitial);
 
-TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName);
-TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hContactFrom);
-TContainerData* TSAPI FindContainerByName(const TCHAR *name);
+TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName);
+TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT hContactFrom);
+TContainerData* TSAPI FindContainerByName(const wchar_t *name);
 
 int   TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd);
 HWND  TSAPI GetHWNDFromTabIndex(HWND hwndTab, int idx);
@@ -90,8 +90,8 @@ void  TSAPI ReflashContainer(TContainerData *pContainer);
 
 void  TSAPI CloseAllContainers();
 void  TSAPI DeleteContainer(int iIndex);
-void  TSAPI RenameContainer(int iIndex, const TCHAR *newName);
-int   TSAPI GetContainerNameForContact(MCONTACT hContact, TCHAR *szName, int iNameLen);
+void  TSAPI RenameContainer(int iIndex, const wchar_t *newName);
+int   TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNameLen);
 HMENU TSAPI BuildContainerMenu();
 void  TSAPI PreTranslateDates();
 void  TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT mode, bool fForceResize);
@@ -142,15 +142,15 @@ int   TSAPI UnloadTSButtonModule();
 #if defined(__LOGDEBUG_)
 int _DebugTraceW(const wchar_t *fmt, ...);
 #endif
-int   _DebugPopup(MCONTACT hContact, const TCHAR *fmt, ...);
+int   _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...);
 int   _DebugMessage(HWND hwndDlg, TWindowData *dat, const char *fmt, ...);
 
 // themes
 
-const TCHAR* TSAPI GetThemeFileName(int iMode);
-int   TSAPI CheckThemeVersion(const TCHAR *szIniFilename);
-void  TSAPI WriteThemeToINI(const TCHAR *szIniFilename, TWindowData *dat);
-void  TSAPI ReadThemeFromINI(const TCHAR *szIniFilename, TContainerData *dat, int noAdvanced, DWORD dwFlags);
+const wchar_t* TSAPI GetThemeFileName(int iMode);
+int   TSAPI CheckThemeVersion(const wchar_t *szIniFilename);
+void  TSAPI WriteThemeToINI(const wchar_t *szIniFilename, TWindowData *dat);
+void  TSAPI ReadThemeFromINI(const wchar_t *szIniFilename, TContainerData *dat, int noAdvanced, DWORD dwFlags);
 
 // user prefs
 

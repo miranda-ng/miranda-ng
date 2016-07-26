@@ -84,7 +84,7 @@ public:
 	__inline BOOL isPending() { return !isLoggedIn; };
 	__inline BOOL isReady() { return isLoggedIn && isActive && !stopThread; };
 
-	DWORD  sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, size_t hashlen, const TCHAR *file);
+	DWORD  sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, size_t hashlen, const wchar_t *file);
 	DWORD  sendUploadAvatarRequest(MCONTACT hContact, WORD wRef, const BYTE *data, size_t datalen);
 };
 
@@ -96,7 +96,7 @@ struct avatars_request : public MZeroedObject
 	uid_str  szUid;
 	BYTE    *hash;
 	size_t   hashlen;
-	TCHAR   *szFile;
+	wchar_t   *szFile;
 	BYTE    *pData;
 	size_t   cbData;
 	WORD     wRef;
@@ -111,8 +111,8 @@ public:
 #define ART_UPLOAD  2
 #define ART_BLOCK   4
 
-void AddAvatarExt(int dwFormat, TCHAR *pszDest);
+void AddAvatarExt(int dwFormat, wchar_t *pszDest);
 
-BYTE* calcMD5HashOfFile(const TCHAR *szFile);
+BYTE* calcMD5HashOfFile(const wchar_t *szFile);
 
 #endif /* __ICQ_AVATAR_H */

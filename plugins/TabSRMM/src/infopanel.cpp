@@ -28,7 +28,7 @@
 
 #include "stdafx.h"
 
-TCHAR *xStatusDescr[] =
+wchar_t *xStatusDescr[] =
 {
 	L"Angry", L"Duck", L"Tired", L"Party", L"Beer", L"Thinking", L"Eating",
 	L"TV", L"Friends", L"Coffee", L"Music", L"Business", L"Camera", L"Funny",
@@ -383,8 +383,8 @@ void CInfoPanel::renderContent(const HDC hdc)
 
 void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 {
-	const TCHAR *szStatusMsg = NULL;
-	const TCHAR *szTextToShow = 0;
+	const wchar_t *szStatusMsg = NULL;
+	const wchar_t *szTextToShow = 0;
 	bool fShowUin = false;
 	COLORREF clr = 0;
 
@@ -488,9 +488,9 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 	else
 		hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
 
-	const TCHAR *tszUin = m_dat->cache->getUIN();
+	const wchar_t *tszUin = m_dat->cache->getUIN();
 	if (tszUin[0]) {
-		TCHAR szBuf[256];
+		wchar_t szBuf[256];
 
 		if (m_dat->idle) {
 			time_t diff = time(NULL) - m_dat->idle;
@@ -498,16 +498,16 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 			int i_mins = (diff - i_hrs * 3600) / 60;
 			mir_sntprintf(szBuf, TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
 		}
-		else _tcscpy_s(szBuf, 256, tszUin);
+		else wcscpy_s(szBuf, 256, tszUin);
 
 		if (M.GetByte("ShowClientDescription", 1)) {
-			TCHAR	temp[256];
+			wchar_t	temp[256];
 			ptrT szVersion(db_get_tsa(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer"));
 			if (szVersion)
 				mir_sntprintf(temp, TranslateT("  Client: %s"), szVersion);
 			else
 				mir_sntprintf(temp, TranslateT("  Client not cached yet"));
-			_tcscat_s(szBuf, 256, temp);
+			wcscat_s(szBuf, 256, temp);
 		}
 
 		SIZE sUIN;
@@ -535,13 +535,13 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 		GetTextExtentPoint32(hdc, m_dat->szStatus, (int)mir_tstrlen(m_dat->szStatus), &sStatus);
 
 	// figure out final account name
-	const TCHAR *szFinalProto = m_dat->cache->getRealAccount();
+	const wchar_t *szFinalProto = m_dat->cache->getRealAccount();
 	if (szFinalProto) {
 		SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_PROTO]);
 		GetTextExtentPoint32(hdc, szFinalProto, (int)mir_tstrlen(szFinalProto), &sProto);
 	}
 
-	TCHAR szResult[80]; szResult[0] = 0;
+	wchar_t szResult[80]; szResult[0] = 0;
 	if (m_dat->hTimeZone) {
 		TimeZone_PrintDateTime(m_dat->hTimeZone, L"t", szResult, _countof(szResult), 0);
 		GetTextExtentPoint32(hdc, szResult, (int)mir_tstrlen(szResult), &sTime);
@@ -612,7 +612,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 	HFONT hOldFont;
 
 	if (m_height < DEGRADE_THRESHOLD) {
-		TCHAR	tszText[2048];
+		wchar_t	tszText[2048];
 		mir_sntprintf(tszText, TranslateT("Topic is: %s"),
 			si->ptszTopic ? si->ptszTopic : TranslateT("no topic set."));
 
@@ -621,7 +621,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 			CSkin::m_glowSize, m_ipConfig.clrs[IPFONTID_UIN]);
 	}
 	else {
-		const TCHAR	*tszNick = m_dat->cache->getNick();
+		const wchar_t	*tszNick = m_dat->cache->getNick();
 
 		hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_NICK]));
 		::GetTextExtentPoint32(hdc, tszNick, (int)mir_tstrlen(tszNick), &m_szNick);
@@ -640,7 +640,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 
 		::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_STATUS]);
 		if (si->ptszStatusbarText) {
-			TCHAR *pTmp = _tcschr(si->ptszStatusbarText, ']');
+			wchar_t *pTmp = wcschr(si->ptszStatusbarText, ']');
 			pTmp += 2;
 
 			if (si->ptszStatusbarText[0] == '[' && pTmp > si->ptszStatusbarText) {
@@ -669,7 +669,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 	COLORREF clr = m_ipConfig.clrs[IPFONTID_UIN];
 
 	SIZE szTitle;
-	TCHAR	szPrefix[100];
+	wchar_t	szPrefix[100];
 	mir_sntprintf(szPrefix, TranslateT("Topic is: %s"), L"");
 	::GetTextExtentPoint32(hdc, szPrefix, (int)mir_tstrlen(szPrefix), &szTitle);
 	mapRealRect(rcItem, m_rcUIN, szTitle);
@@ -865,7 +865,7 @@ void CInfoPanel::trackMouse(POINT &pt)
 /////////////////////////////////////////////////////////////////////////////////////////
 // activate a tooltip
 // @param ctrlId : control id
-// @param lParam : typically a TCHAR * for the tooltip text
+// @param lParam : typically a wchar_t * for the tooltip text
 
 void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 {
@@ -879,7 +879,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		::SendMessage(m_dat->hwndTip, TTM_TRACKPOSITION, 0, (LPARAM)MAKELONG(rc.left, rc.bottom));
 	}
 	if (lParam)
-		m_dat->ti.lpszText = reinterpret_cast<TCHAR *>(lParam);
+		m_dat->ti.lpszText = reinterpret_cast<wchar_t *>(lParam);
 	else {
 		if (m_hwndConfig)
 			return;
@@ -891,7 +891,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 
 		DBVARIANT dbv = { 0 };
 		if (BYTE xStatus = m_dat->cache->getXStatusId()) {
-			TCHAR	*tszXStatusName = 0;
+			wchar_t	*tszXStatusName = 0;
 			if (0 == db_get_ts(m_dat->cache->getContact(), m_dat->cache->getProto(), "XStatusName", &dbv))
 				tszXStatusName = dbv.ptszVal;
 			else if (xStatus > 0 && xStatus <= 31)
@@ -1060,7 +1060,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
-		TCHAR	tszTitle[100];
+		wchar_t	tszTitle[100];
 		mir_sntprintf(tszTitle, TranslateT("Set panel visibility for this %s"),
 			m_isChat ? TranslateT("chat room") : TranslateT("contact"));
 		::SetDlgItemText(hwnd, IDC_STATIC_VISIBILTY, tszTitle);
@@ -1306,10 +1306,10 @@ void CInfoPanel::dismissConfig(bool fForced)
 //
 // @param hwndParent HWND owner (used only for position calculation)
 // @param hContact HANDLE contact handle
-// @param pszText TCHAR* the content of the rich edit control
+// @param pszText wchar_t* the content of the rich edit control
 // @param panel CInfoPanel* the panel which owns it
 
-CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText, const CInfoPanel* panel)
+CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const wchar_t *pszText, const CInfoPanel* panel)
 {
 	m_hwnd = ::CreateWindowEx(WS_EX_TOOLWINDOW, L"RichEditTipClass", L"", (M.isAero() ? WS_THICKFRAME : WS_BORDER) | WS_POPUPWINDOW | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 		0, 0, 40, 40, 0, 0, g_hInst, this);
@@ -1339,7 +1339,7 @@ CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText,
 // @param hIcon optional icon to display in the tip header
 // @param szTitle optional title to display in the tip header
 
-void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const TCHAR *szTitle)
+void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const wchar_t *szTitle)
 {
 	HDC hdc = ::GetDC(m_hwnd);
 
@@ -1492,7 +1492,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		break;
 
 	case WM_ERASEBKGND:
-		TCHAR szTitle[128];
+		wchar_t szTitle[128];
 		{
 			HDC hdc = (HDC)wParam;
 			COLORREF	clr = CInfoPanel::m_ipConfig.clrs[IPFONTID_NICK];

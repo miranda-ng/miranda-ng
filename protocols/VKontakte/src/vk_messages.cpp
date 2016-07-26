@@ -104,7 +104,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			UINT mid;
 			if (jnResponse.type() != JSON_STRING) 
 				mid = jnResponse.as_int();
-			else if (_stscanf(jnResponse.as_mstring(), L"%d", &mid) != 1)
+			else if (swscanf(jnResponse.as_mstring(), L"%d", &mid) != 1)
 				mid = 0;
 
 			if (param->iMsgID != -1)
@@ -281,7 +281,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (chat_id != 0) {
 			debugLogA("CVkProto::OnReceiveMessages chat_id != 0");
 			CMString action_chat = jnMsg["action"].as_mstring();
-			int action_mid = _ttoi(jnMsg["action_mid"].as_mstring());
+			int action_mid = _wtoi(jnMsg["action_mid"].as_mstring());
 			if ((action_chat == "chat_kick_user") && (action_mid == m_myUserId))
 				KickFromChat(chat_id, uid, jnMsg, jnFUsers);
 			else {

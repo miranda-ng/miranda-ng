@@ -175,7 +175,7 @@ int CDbxMdb::Check(void)
 	if (pFile == nullptr)
 		return EGROKPRF_CANTREAD;
 
-	fseek(pFile, iDefHeaderOffset, SEEK_SET);
+	fseek(pFile, (LONG)iDefHeaderOffset, SEEK_SET);
 	BYTE buf[_countof(bDefHeader)];
 	if (fread(buf, 1, _countof(buf), pFile) != _countof(buf))
 		return EGROKPRF_DAMAGED;
@@ -217,7 +217,7 @@ bool CDbxMdb::Remap()
 static DWORD DatabaseCorrupted = 0;
 static const TCHAR *msg = NULL;
 static DWORD dwErr = 0;
-static TCHAR tszPanic[] = LPGENT("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
+static wchar_t tszPanic[] = LPGENW("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
 
 EXTERN_C void __cdecl dbpanic(void *)
 {

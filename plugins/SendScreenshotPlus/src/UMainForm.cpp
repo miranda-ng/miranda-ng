@@ -71,7 +71,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM w
 	case WM_COMMAND:
 		if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == ID_btnExplore) { /// local file tab
 			OPENFILENAME ofn = { sizeof(OPENFILENAME) };
-			TCHAR filename[MAX_PATH];
+			wchar_t filename[MAX_PATH];
 			GetDlgItemText(hDlg, ID_edtSize, filename, _countof(filename));
 			ofn.lStructSize = sizeof(ofn);
 			ofn.hwndOwner = hDlg;
@@ -129,7 +129,7 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 
 	switch (msg) {
 	case WM_DROPFILES:{ /// Drag&Drop of local files
-			TCHAR filename[MAX_PATH];
+			wchar_t filename[MAX_PATH];
 			if (!DragQueryFile((HDROP)wParam, 0, filename, MAX_PATH)) *filename = '\0';
 			DragFinish((HDROP)wParam);
 			if (wnd->second->m_hwndTabPage)
@@ -175,7 +175,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 	/// Taskbar and Window icon
 	Window_SetIcon_IcoLib(m_hWnd, GetIconHandle(ICO_MAIN));
 
-	TCHAR *pt = mir_tstrdup(pcli->pfnGetContactDisplayName(m_hContact, 0));
+	wchar_t *pt = mir_tstrdup(pcli->pfnGetContactDisplayName(m_hContact, 0));
 	if (pt && (m_hContact != 0)) {
 		CMString string;
 		string.AppendFormat(TranslateT("Send screenshot to %s"), pt);
@@ -238,7 +238,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("<Entire Desktop>")), 0);
 		ComboBox_SetCurSel(hCtrl, 0);
 		if (m_MonitorCount > 1) {
-			TCHAR tszTemp[120];
+			wchar_t tszTemp[120];
 			for (size_t mon = 0; mon < m_MonitorCount; ++mon) { /// @todo : fix format for non MSVC compilers
 				mir_sntprintf(tszTemp, L"%Iu. %s%s",
 					mon + 1, TranslateT("Monitor"),
@@ -496,13 +496,13 @@ void TfrmMain::SetTargetWindow(HWND hwnd)
 	}
 	m_hTargetWindow = hwnd;
 	int len = GetWindowTextLength(m_hTargetWindow) + 1;
-	TCHAR* lpTitle;
+	wchar_t* lpTitle;
 	if (len > 1) {
-		lpTitle = (TCHAR*)mir_alloc(len*sizeof(TCHAR));
+		lpTitle = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
 		GetWindowText(m_hTargetWindow, lpTitle, len);
 	}
 	else {//no WindowText present, use WindowClass
-		lpTitle = (TCHAR*)mir_alloc(64 * sizeof(TCHAR));
+		lpTitle = (wchar_t*)mir_alloc(64 * sizeof(wchar_t));
 		RealGetWindowClass(m_hTargetWindow, lpTitle, 64);
 	}
 	SetDlgItemText(m_hwndTabPage, ID_edtCaption, lpTitle);
@@ -516,7 +516,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 		static int primarymouse;
 		if (!m_hTargetHighlighter) {
 			primarymouse = GetSystemMetrics(SM_SWAPBUTTON) ? VK_RBUTTON : VK_LBUTTON;
-			m_hTargetHighlighter = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW, (TCHAR*)g_clsTargetHighlighter, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, g_hSendSS, NULL);
+			m_hTargetHighlighter = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW, (wchar_t*)g_clsTargetHighlighter, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, g_hSendSS, NULL);
 			if (!m_hTargetHighlighter) return;
 			SetLayeredWindowAttributes(m_hTargetHighlighter, 0, 123, LWA_ALPHA);
 			SetSystemCursor(CopyCursor(GetIcon(ICO_TARGET)), OCR_IBEAM);//text cursor
@@ -658,7 +658,7 @@ void TfrmMain::UMevent(WPARAM, LPARAM lParam)
 	switch (lParam) {
 	case EVT_CaptureDone:
 		if (!m_Screenshot && m_opt_tabCapture != 2) {
-			TCHAR *err = TranslateT("Couldn't take a screenshot");
+			wchar_t *err = TranslateT("Couldn't take a screenshot");
 			MessageBox(NULL, err, ERROR_TITLE, MB_OK | MB_ICONWARNING);
 			Show();
 			return;
@@ -781,7 +781,7 @@ void TfrmMain::SaveOptions(void)
 }
 
 //---------------------------------------------------------------------------
-void TfrmMain::Init(TCHAR* DestFolder, MCONTACT Contact)
+void TfrmMain::Init(wchar_t* DestFolder, MCONTACT Contact)
 {
 	m_FDestFolder = mir_tstrdup(DestFolder);
 	m_hContact = Contact;
@@ -801,11 +801,11 @@ void TfrmMain::btnCaptureClick()
 {
 	if (m_opt_tabCapture == 1) m_hTargetWindow = GetDesktopWindow();
 	else if (m_opt_tabCapture == 2) {
-		TCHAR filename[MAX_PATH];
+		wchar_t filename[MAX_PATH];
 		GetDlgItemText(m_hwndTabPage, ID_edtSize, filename, _countof(filename));
 		FILE* fp = _wfopen(filename, L"rb");
 		if (!fp) {
-			TCHAR *err = TranslateT("Select a file");
+			wchar_t *err = TranslateT("Select a file");
 			MessageBox(m_hWnd, err, ERROR_TITLE, MB_OK | MB_ICONWARNING);
 			return;
 		}
@@ -813,7 +813,7 @@ void TfrmMain::btnCaptureClick()
 		mir_free(m_pszFile); m_pszFile = mir_tstrdup(filename);
 	}
 	else if (!m_hTargetWindow) {
-		TCHAR *err = TranslateT("Select a target window.");
+		wchar_t *err = TranslateT("Select a target window.");
 		MessageBox(m_hWnd, err, ERROR_TITLE, MB_OK | MB_ICONWARNING);
 		return;
 	}
@@ -928,7 +928,7 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 	// get window dimensions
 	RECT rect = { 0 };
 	RECT cliRect = { 0 };
-	TCHAR B[33], H[16];
+	wchar_t B[33], H[16];
 	GetWindowRect(hWnd, &rect);
 	if (ClientArea) {
 		POINT pt = { 0 };
@@ -941,9 +941,9 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 		rect = cliRect;
 	}
 	//	_itot_s(rect.right - rect.left, B, 33, 10);
-	_itot(rect.right - rect.left, B, 10);
+	_itow(rect.right - rect.left, B, 10);
 	//	_itot_s(rect.bottom - rect.top, H, 16, 10);
-	_itot(rect.bottom - rect.top, H, 10);
+	_itow(rect.bottom - rect.top, H, 10);
 	mir_tstrncat(B, L"x", _countof(B) - mir_tstrlen(B));
 	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
@@ -951,11 +951,11 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 
 void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl)
 {
-	TCHAR B[33], H[16];
+	wchar_t B[33], H[16];
 	//	_itot_s(ABS(rect.right - rect.left), B, 33, 10);
-	_itot(ABS(rect.right - rect.left), B, 10);
+	_itow(ABS(rect.right - rect.left), B, 10);
 	//	_itot_s(ABS(rect.bottom - rect.top), H, 16, 10);
-	_itot(ABS(rect.bottom - rect.top), H, 10);
+	_itow(ABS(rect.bottom - rect.top), H, 10);
 	mir_tstrncat(B, L"x", _countof(B) - mir_tstrlen(B));
 	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
@@ -966,25 +966,25 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 {
 	//generate File name
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-	TCHAR* ret;
-	TCHAR* path = NULL;
-	TCHAR* pszFilename = NULL;
-	TCHAR* pszFileDesc = NULL;
+	wchar_t* ret;
+	wchar_t* path = NULL;
+	wchar_t* pszFilename = NULL;
+	wchar_t* pszFileDesc = NULL;
 	if (!dib) return 1;		//error
 	unsigned FileNumber = db_get_dw(NULL, SZ_SENDSS, "FileNumber", 0) + 1;
 	if (FileNumber > 99999) FileNumber = 1;
 	//Generate FileName
 	mir_tstradd(path, m_FDestFolder);
-	if (path[mir_tstrlen(path) - 1] != _T('\\')) mir_tstradd(path, L"\\");
+	if (path[mir_tstrlen(path) - 1] != '\\') mir_tstradd(path, L"\\");
 	mir_tstradd(path, L"shot%.5u");//on format change, adapt "len" below
 	size_t len = mir_tstrlen(path) + 2;
-	pszFilename = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len));
+	pszFilename = (wchar_t*)mir_alloc(sizeof(wchar_t)*(len));
 	mir_sntprintf(pszFilename, len, path, FileNumber);
 	mir_free(path);
 
 	//Generate a description according to the screenshot
 
-	TCHAR winText[1024];
+	wchar_t winText[1024];
 	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, _countof(winText));
 
 
@@ -1064,7 +1064,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 
 	case 3: //TIFF (miranda freeimage interface do not support save tiff, we udse GDI+)
 		{
-			TCHAR* pszFile = NULL;
+			wchar_t* pszFile = NULL;
 			mir_tstradd(pszFile, pszFilename);
 			mir_tstradd(pszFile, L".tif");
 
@@ -1085,7 +1085,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 			//dib24 = FIP->FI_ConvertTo8Bits(dib_new);
 			//ret = SaveImage(FIF_GIF,dib24, pszFilename, L"gif");
 			//FIP->FI_Unload(dib24);
-			TCHAR* pszFile = NULL;
+			wchar_t* pszFile = NULL;
 			mir_tstradd(pszFile, pszFilename);
 			mir_tstradd(pszFile, L".gif");
 			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib_new);
@@ -1100,8 +1100,8 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 	}
 	/*	//load PNG and save file in user format (if differ)
 		//this get better result for transparent aereas
-		//TCHAR* pszFormat = (TCHAR*)ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo));
-		TCHAR pszFormat[6];
+		//wchar_t* pszFormat = (wchar_t*)ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo));
+		wchar_t pszFormat[6];
 		ComboBox_GetText(hwndCombo, pszFormat, 6);
 		if(ret && (mir_tstrcmpi (pszFormat,L"png") != 0)) {
 
@@ -1148,7 +1148,7 @@ void TfrmMain::FormClose()
 {
 	bool bCanDelete = m_opt_btnDeleteAfterSend;
 	if (m_opt_tabCapture == 2) { /// existing file
-		TCHAR description[1024];
+		wchar_t description[1024];
 		GetDlgItemText(m_hwndTabPage, ID_edtCaption, description, _countof(description));
 		if (!IsWindowEnabled(GetDlgItem(m_hWnd, ID_chkDesc)) || !m_opt_btnDesc)
 			*description = '\0';

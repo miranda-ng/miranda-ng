@@ -39,19 +39,19 @@ static mir_cs csRegister;
 
 unsigned long int hashlittle(void *key, size_t length, unsigned long int initval);
 
-static DWORD NameHashFunction(TCHAR *tszStr)
+static DWORD NameHashFunction(wchar_t *tszStr)
 {
-	return (DWORD)hashlittle(tszStr, mir_tstrlen(tszStr)*sizeof(TCHAR), 0);
+	return (DWORD)hashlittle(tszStr, mir_tstrlen(tszStr)*sizeof(wchar_t), 0);
 }
 
-static TokenRegisterEntry* FindTokenRegisterByName(TCHAR *name)
+static TokenRegisterEntry* FindTokenRegisterByName(wchar_t *name)
 {
 	TokenRegisterEntry temp;
 	temp.nameHash = NameHashFunction(name);
 	return tokens.find(&temp);
 }
 
-int registerIntToken(TCHAR *szToken, TCHAR *(*parseFunction)(ARGUMENTSINFO *ai), int extraFlags, char* szHelpText)
+int registerIntToken(wchar_t *szToken, wchar_t *(*parseFunction)(ARGUMENTSINFO *ai), int extraFlags, char* szHelpText)
 {
 	TOKENREGISTEREX tr = { 0 };
 	tr.cbSize = sizeof(tr);
@@ -65,7 +65,7 @@ int registerIntToken(TCHAR *szToken, TCHAR *(*parseFunction)(ARGUMENTSINFO *ai),
 	return registerToken(0, (LPARAM)&tr);
 }
 
-int deRegisterToken(TCHAR *token)
+int deRegisterToken(wchar_t *token)
 {
 	if (token == NULL)
 		return -1;
@@ -143,7 +143,7 @@ INT_PTR registerToken(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-TOKENREGISTEREX *searchRegister(TCHAR *tvar, int type)
+TOKENREGISTEREX *searchRegister(wchar_t *tvar, int type)
 {
 	if (tvar == NULL)
 		return 0;
@@ -156,13 +156,13 @@ TOKENREGISTEREX *searchRegister(TCHAR *tvar, int type)
 	return &tre->tr;
 }
 
-TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
+wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 {
 	if (ai == NULL || ai->argc == 0 || ai->targv[0] == NULL)
 		return NULL;
 
 	INT_PTR callRes = 0;
-	TCHAR *res = NULL;
+	wchar_t *res = NULL;
 
 	mir_cslock lck(csRegister);
 
@@ -200,14 +200,14 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		else if (thisVr->szService != NULL)
 			callRes = CallService(thisVr->szService, 0, (LPARAM)ai);
 
-		if ((TCHAR*)callRes != NULL)
-			res = mir_tstrdup((TCHAR*)callRes);
+		if ((wchar_t*)callRes != NULL)
+			res = mir_tstrdup((wchar_t*)callRes);
 	}
 
 	if (callRes != NULL) {
 		if (trCopy.flags & TRF_CLEANUP) {
 			if (trCopy.flags & TRF_CLEANUPFUNC)
-				trCopy.cleanupFunctionT((TCHAR*)callRes);
+				trCopy.cleanupFunctionT((wchar_t*)callRes);
 			else if (trCopy.szCleanupService != NULL)
 				CallService(trCopy.szCleanupService, 0, (LPARAM)callRes);
 		}

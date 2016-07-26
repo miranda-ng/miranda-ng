@@ -105,14 +105,14 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 					mir_free(tmp);
 					f.close();
 				}
-				extern TCHAR *password;
+				extern wchar_t *password;
 				string out;
 				DWORD code;
 				std::vector<wstring> cmd;
 				cmd.push_back(L"--batch");
 				{
 					char *inkeyid = UniGetContactSettingUtf(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, szGPGModuleName, "InKeyID", "");
-					TCHAR *pass = NULL;
+					wchar_t *pass = NULL;
 					if (inkeyid[0]) {
 						string dbsetting = "szKey_";
 						dbsetting += inkeyid;
@@ -422,7 +422,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			db_set_ts(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1, s2 - s1).c_str());
 			{ //gpg execute block
 				std::vector<wstring> cmd;
-				TCHAR tmp2[MAX_PATH] = { 0 };
+				wchar_t tmp2[MAX_PATH] = { 0 };
 				string output;
 				DWORD exitcode;
 				{
@@ -430,7 +430,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					mir_tstrcpy(tmp2, ptmp);
 					mir_free(ptmp);
 					mir_tstrcat(tmp2, L"\\");
-					TCHAR *tmp3 = mir_a2t(get_random(5).c_str());
+					wchar_t *tmp3 = mir_a2t(get_random(5).c_str());
 					mir_tstrcat(tmp2, tmp3);
 					mir_tstrcat(tmp2, L".asc");
 					mir_free(tmp3);
@@ -460,7 +460,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 						}
 					}
 					ptmp = UniGetContactSettingUtf(ccs->hContact, szGPGModuleName, "GPGPubKey", L"");
-					f << (TCHAR*)ptmp;
+					f << (wchar_t*)ptmp;
 					f.close();
 					cmd.push_back(L"--batch");
 					cmd.push_back(L"--import");
@@ -613,14 +613,14 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		}
 		else
 		{
-			TCHAR *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", L"");
+			wchar_t *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", L"");
 			if (jid[0])
 			{
 				extern list <JabberAccount*> Accounts;
 				list<JabberAccount*>::iterator end = Accounts.end();
 				for (list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++)
 				{
-					TCHAR *caps = (*p)->getJabberInterface()->GetResourceFeatures(jid);
+					wchar_t *caps = (*p)->getJabberInterface()->GetResourceFeatures(jid);
 					if (caps)
 					{
 						wstring str1;
@@ -666,7 +666,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	std::vector<std::wstring> cmd;
 	extern bool bJabberAPI, bIsMiranda09;
 	{
-		TCHAR *tmp2;
+		wchar_t *tmp2;
 		{
 			char *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
 			if (!tmp[0]) {
@@ -695,7 +695,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		mir_free(tmp2);
 	}
 	{
-		TCHAR *tmp2 = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+		wchar_t *tmp2 = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 		path = tmp2;
 		cmd.push_back(std::wstring(tmp2) + L"\\tmp\\" + file);
 		mir_free(tmp2);
@@ -813,7 +813,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	str.clear();
 	if (f.is_open()) {
 		std::wifstream::pos_type size = f.tellg();
-		TCHAR *tmp = new TCHAR[(std::ifstream::pos_type)size + (std::ifstream::pos_type)1];
+		wchar_t *tmp = new wchar_t[(std::ifstream::pos_type)size + (std::ifstream::pos_type)1];
 		f.seekg(0, std::ios::beg);
 		f.read(tmp, size);
 		tmp[size] = '\0';
@@ -887,7 +887,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 		return 0;
 	MCONTACT hContact = (MCONTACT)w;
 	if (dbei->flags & DBEF_SENT) {
-		if (isContactSecured(hContact) && strstr((char*)dbei->pBlob, "-----BEGIN PGP MESSAGE-----")) //our service data, can be double added by metacontacts e.t.c.
+		if (isContactSecured(hContact) && strstr((char*)dbei->pBlob, "-----BEGIN PGP MESSAGE-----")) //our service data, can be double added by metacontacts e.w.c.
 		{
 			if (bDebugLog)
 				debuglog << std::string(time_str() + ": info(send handler): block pgp message event, name: " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
@@ -933,14 +933,14 @@ int HookSendMsg(WPARAM w, LPARAM l)
 				}
 			}
 			else {
-				TCHAR *jid = UniGetContactSettingUtf(hContact, proto, "jid", L"");
+				wchar_t *jid = UniGetContactSettingUtf(hContact, proto, "jid", L"");
 				if (jid[0]) {
 					if (bDebugLog)
 						debuglog << std::string(time_str() + ": info(autoexchange): protocol looks like jabber, name: " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 					extern list <JabberAccount*> Accounts;
 					list<JabberAccount*>::iterator end = Accounts.end();
 					for (list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++) {
-						TCHAR *caps = (*p)->getJabberInterface()->GetResourceFeatures(jid);
+						wchar_t *caps = (*p)->getJabberInterface()->GetResourceFeatures(jid);
 						if (caps) {
 							wstring str;
 							for (int i = 0;; i++) {
@@ -1024,10 +1024,10 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			{
-				TCHAR tmp[64];
+				wchar_t tmp[64];
 				GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, tmp, _countof(tmp));
 				if (tmp[0]) {
-					extern TCHAR *password;
+					extern wchar_t *password;
 					if (IsDlgButtonChecked(hwndDlg, IDC_SAVE_PASSWORD)) {
 						inkeyid = UniGetContactSettingUtf(new_key_hcnt, szGPGModuleName, "InKeyID", "");
 						if (inkeyid && inkeyid[0] && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULT_PASSWORD)) {
@@ -1040,7 +1040,7 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 					}
 					if (password)
 						mir_free(password);
-					password = (TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(tmp) + 1));
+					password = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_tstrlen(tmp) + 1));
 					mir_tstrcpy(password, tmp);
 				}
 				mir_free(inkeyid);

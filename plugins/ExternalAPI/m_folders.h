@@ -189,7 +189,7 @@ __inline static INT_PTR FoldersGetCustomPathW(HANDLE hFolderEntry, wchar_t *path
 	if (res) {
 		wchar_t buffer[MAX_PATH];
 		PathToAbsoluteW(notFoundW, buffer);
-		_tcsncpy_s(pathW, size, buffer, _TRUNCATE);
+		wcsncpy_s(pathW, size, buffer, _TRUNCATE);
 	}
 
 	return res;

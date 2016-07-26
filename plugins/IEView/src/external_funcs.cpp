@@ -40,7 +40,7 @@ namespace External
 		WPARAM wParam = Var_To<WPARAM>(pDispParams->rgvarg[1], wType);
 		LPARAM lParam = Var_To<LPARAM>(pDispParams->rgvarg[0], lType);
 
-		INT_PTR res = CallService(_T2A((TCHAR*)szName), wParam, lParam);
+		INT_PTR res = CallService(_T2A((wchar_t*)szName), wParam, lParam);
 
 		if (wType == 'A' || wType == 'U') mir_free((void*)wParam);
 		if (lType == 'A' || lType == 'U') mir_free((void*)lParam);
@@ -67,7 +67,7 @@ namespace External
 		WPARAM wParam = Var_To<WPARAM>(pDispParams->rgvarg[1], wType);
 		LPARAM lParam = Var_To<LPARAM>(pDispParams->rgvarg[0], lType);
 
-		INT_PTR res = ProtoChainSend(hContact, _T2A((TCHAR*)szName), wParam, lParam);
+		INT_PTR res = ProtoChainSend(hContact, _T2A((wchar_t*)szName), wParam, lParam);
 
 		if (wType == 'A' || wType == 'U') mir_free((void*)wParam);
 		if (lType == 'A' || lType == 'U') mir_free((void*)lParam);
@@ -101,7 +101,7 @@ namespace External
 
 		DBVARIANT dbv = { 0 };
 
-		if (db_get(hContact, _T2A((TCHAR*)szModule), _T2A((TCHAR*)szSetting), &dbv)) 
+		if (db_get(hContact, _T2A((wchar_t*)szModule), _T2A((wchar_t*)szSetting), &dbv)) 
 			return S_OK;
 
 		if (pVarResult != nullptr)
@@ -175,7 +175,7 @@ namespace External
 			return E_INVALIDARG;
 		}
 
-		INT_PTR res = ::db_set(hContact, _T2A((TCHAR*)szModule), _T2A((TCHAR*)szSetting), &dbv);
+		INT_PTR res = ::db_set(hContact, _T2A((wchar_t*)szModule), _T2A((wchar_t*)szSetting), &dbv);
 
 		if (pVarResult != nullptr)
 		{
@@ -210,14 +210,14 @@ namespace External
 		if (OpenClipboard(NULL)) 
 		{
 			EmptyClipboard();
-			size_t size = sizeof(TCHAR)* (mir_wstrlen(data) + 1);
+			size_t size = sizeof(wchar_t)* (mir_wstrlen(data) + 1);
 			HGLOBAL hClipboardData = GlobalAlloc(0, size);
 			if (hClipboardData) 
 			{
-				TCHAR *pchData = (TCHAR*)GlobalLock(hClipboardData);
+				wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);
 				if (pchData) 
 				{
-					memcpy(pchData, (TCHAR*)data, size);
+					memcpy(pchData, (wchar_t*)data, size);
 					GlobalUnlock(hClipboardData);
 					SetClipboardData(CF_UNICODETEXT, hClipboardData);
 				}

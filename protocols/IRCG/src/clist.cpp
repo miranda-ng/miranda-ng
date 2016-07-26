@@ -25,18 +25,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask, unsigned long adr, int port)
 {
 	MCONTACT hContact;
-	TCHAR szNick[256];
+	wchar_t szNick[256];
 	char szService[256];
 	bool bFlag = false;
 
-	CONTACT usertemp = { (TCHAR*)name.c_str(), NULL, NULL, false, false, true };
+	CONTACT usertemp = { (wchar_t*)name.c_str(), NULL, NULL, false, false, true };
 	MCONTACT hc = CList_FindContact(&usertemp);
 	if (hc && db_get_b(hc, "CList", "NotOnList", 0) == 0 && db_get_b(hc, "CList", "Hidden", 0) == 0)
 		bFlag = true;
 
 	CMString contactname = name; contactname += DCCSTRING;
 
-	CONTACT user = { (TCHAR*)contactname.c_str(), NULL, NULL, false, false, true };
+	CONTACT user = { (wchar_t*)contactname.c_str(), NULL, NULL, false, false, true };
 	hContact = CList_AddContact(&user, false, false);
 	setByte(hContact, "DCC", 1);
 
@@ -165,7 +165,7 @@ MCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 	if (!user || !user->name)
 		return 0;
 
-	TCHAR* lowercasename = mir_tstrdup(user->name);
+	wchar_t* lowercasename = mir_tstrdup(user->name);
 	CharLower(lowercasename);
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -198,7 +198,7 @@ MCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 				hContact_temp = hContact;
 			}
 		}
-		else if (_tcschr(user->name, ' ') == 0) {
+		else if (wcschr(user->name, ' ') == 0) {
 			if ((DBDefault && !mir_tstrcmpi(DBDefault, user->name) || DBNick && !mir_tstrcmpi(DBNick, user->name) ||
 				DBWildcard && WCCmp(DBWildcard, lowercasename))
 				&& (WCCmp(DBUser, user->user) && WCCmp(DBHost, user->host))) {

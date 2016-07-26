@@ -4,17 +4,17 @@
 
 struct CONNECTION
 {
-	TCHAR strIntIp[16];
-	TCHAR strExtIp[16];
+	wchar_t strIntIp[16];
+	wchar_t strExtIp[16];
 	int intIntPort;
 	int intExtPort;
 	int state;
 	DWORD Pid;
-	TCHAR PName[260];
+	wchar_t PName[260];
 	struct CONNECTION *next;
 };
 
 struct CONNECTION* GetConnectionsTable();
 void deleteConnectionsTable(struct CONNECTION* head);
-struct CONNECTION* searchConnection(struct CONNECTION* head, TCHAR *intIp, TCHAR *extIp, int intPort, int extPort, int state);
-void getDnsName(TCHAR *strIp, TCHAR *strHostName, size_t len);
+struct CONNECTION* searchConnection(struct CONNECTION* head, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state);
+void getDnsName(wchar_t *strIp, wchar_t *strHostName, size_t len);

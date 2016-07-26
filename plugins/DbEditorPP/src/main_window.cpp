@@ -112,7 +112,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case WM_KEYUP:
 		if (wParam == VK_DELETE || wParam == VK_F2 || wParam == VK_F5 || wParam == VK_F3) {
 			TVITEM tvi;
-			TCHAR text[FLD_SIZE];
+			wchar_t text[FLD_SIZE];
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = TreeView_GetSelection(hwnd);
 			tvi.pszText = text;
@@ -129,7 +129,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 					}
 					else if ((mtis->type == CONTACT) && hContact) {
 						if (db_get_b(NULL, "CList", "ConfirmDelete", 1)) {
-							TCHAR str[MSG_SIZE];
+							wchar_t str[MSG_SIZE];
 							mir_sntprintf(str, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
 							if (dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 								break;
@@ -193,7 +193,7 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR text[256];
+	wchar_t text[256];
 
 	switch (msg) {
 	case WM_INITDIALOG:

@@ -33,12 +33,12 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const TCHAR *titleTokenNames[] = { L"%name%", L"%status%", L"%statusmsg%", L"%account%" };
+static const wchar_t *titleTokenNames[] = { L"%name%", L"%status%", L"%statusmsg%", L"%account%" };
 
-TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
+wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto)
 {
 	ptrT tmplt;
-	const TCHAR* tokens[4] = { 0 };
+	const wchar_t* tokens[4] = { 0 };
 
 	CMString tszTemplate, tszStatus, tszTitle;
 	if (hContact && szProto) {
@@ -67,12 +67,12 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		}
 	}
 
-	for (const TCHAR *p = tszTemplate; *p; p++) {
+	for (const wchar_t *p = tszTemplate; *p; p++) {
 		if (*p == '%') {
 			int i;
 			for (i = 0; i < _countof(titleTokenNames); i++) {
 				size_t tnlen = mir_tstrlen(titleTokenNames[i]);
-				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
+				if (!wcsncmp(p, titleTokenNames[i], tnlen)) {
 					if (tokens[i] != NULL)
 						tszTitle.Append(tokens[i]);
 
@@ -461,7 +461,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				dat->destTab = TabCtrl_HitTest(hwnd, &thinfo);
 				if (thinfo.flags != TCHT_NOWHERE && dat->destTab != dat->srcTab) {
 					NMHDR nmh;
-					TCHAR  sBuffer[501];
+					wchar_t  sBuffer[501];
 					TCITEM item;
 					int curSel;
 					curSel = TabCtrl_GetCurSel(hwnd);
@@ -1207,7 +1207,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			TitleBarData *tbd = (TitleBarData *)wParam;
 			if (tbd != NULL && dat->hwndActive == hwnd) {
 				if (tbd->iFlags & TBDF_TEXT) {
-					TCHAR oldtitle[256];
+					wchar_t oldtitle[256];
 					GetWindowText(hwndDlg, oldtitle, _countof(oldtitle));
 					if (mir_tstrcmp(tbd->pszText, oldtitle))
 						SetWindowText(hwndDlg, tbd->pszText);
@@ -1248,7 +1248,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			TabControlData *tcd = (TabControlData*)wParam;
 			int tabId = GetTabFromHWND(dat, (HWND)lParam);
 			if (tabId >= 0 && tcd != NULL) {
-				TCHAR *ptszTemp = NULL;
+				wchar_t *ptszTemp = NULL;
 
 				TCITEM tci;
 				tci.mask = 0;
@@ -1256,7 +1256,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					tci.mask |= TCIF_TEXT;
 					tci.pszText = tcd->pszText;
 					if (g_dat.flags2 & SMF2_LIMITNAMES) {
-						TCHAR *ltext = limitText(tcd->pszText, g_dat.limitNamesLength);
+						wchar_t *ltext = limitText(tcd->pszText, g_dat.limitNamesLength);
 						if (ltext != tcd->pszText)
 							tci.pszText = ptszTemp = ltext;
 					}
@@ -1345,7 +1345,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM, LPARAM lParam)
 	TabCtrlData *tcdat = (TabCtrlData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	HANDLE hTheme = NULL;
 	int tstate = 0;
-	TCHAR szLabel[1024];
+	wchar_t szLabel[1024];
 	TCITEM tci;
 	tci.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_STATE;
 	tci.pszText = szLabel;

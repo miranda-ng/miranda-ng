@@ -93,16 +93,16 @@ static HWND hwndTabConfig = 0;
 //
 // [Global]/Name property is new in TabSRMM version 3.
 
-static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
+static int TSAPI ScanSkinDir(const wchar_t* tszFolder, HWND hwndCombobox)
 {
 	bool fValid = false;
-	TCHAR tszMask[MAX_PATH];
+	wchar_t tszMask[MAX_PATH];
 	mir_sntprintf(tszMask, L"%s*.*", tszFolder);
 
 	WIN32_FIND_DATA fd = { 0 };
 	HANDLE h = FindFirstFile(tszMask, &fd);
 	while (h != INVALID_HANDLE_VALUE) {
-		if (mir_tstrlen(fd.cFileName) >= 5 && !_tcsnicmp(fd.cFileName + mir_tstrlen(fd.cFileName) - 4, L".tsk", 4)) {
+		if (mir_tstrlen(fd.cFileName) >= 5 && !wcsnicmp(fd.cFileName + mir_tstrlen(fd.cFileName) - 4, L".tsk", 4)) {
 			fValid = true;
 			break;
 		}
@@ -113,21 +113,21 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 		FindClose(h);
 
 	if (fValid) {
-		TCHAR	tszFinalName[MAX_PATH], tszRel[MAX_PATH];
+		wchar_t	tszFinalName[MAX_PATH], tszRel[MAX_PATH];
 		LRESULT lr;
-		TCHAR	szBuf[255];
+		wchar_t	szBuf[255];
 
 		mir_sntprintf(tszFinalName, L"%s%s", tszFolder, fd.cFileName);
 
 		GetPrivateProfileString(L"Global", L"Name", L"None", szBuf, _countof(szBuf), tszFinalName);
 		if (!mir_tstrcmp(szBuf, L"None")) {
 			fd.cFileName[mir_tstrlen(fd.cFileName) - 4] = 0;
-			_tcsncpy_s(szBuf, fd.cFileName, _TRUNCATE);
+			wcsncpy_s(szBuf, fd.cFileName, _TRUNCATE);
 		}
 
 		PathToRelativeT(tszFinalName, tszRel, M.getSkinPath());
 		if ((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
-			TCHAR *idata = (TCHAR*)mir_alloc((mir_tstrlen(tszRel) + 1) * sizeof(TCHAR));
+			wchar_t *idata = (wchar_t*)mir_alloc((mir_tstrlen(tszRel) + 1) * sizeof(wchar_t));
 
 			mir_tstrcpy(idata, tszRel);
 			SendMessage(hwndCombobox, CB_SETITEMDATA, lr, (LPARAM)idata);
@@ -149,8 +149,8 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 {
 	DBVARIANT dbv = { 0 };
 
-	TCHAR tszSkinRoot[MAX_PATH], tszFindMask[MAX_PATH];
-	_tcsncpy_s(tszSkinRoot, M.getSkinPath(), _TRUNCATE);
+	wchar_t tszSkinRoot[MAX_PATH], tszFindMask[MAX_PATH];
+	wcsncpy_s(tszSkinRoot, M.getSkinPath(), _TRUNCATE);
 
 	SetDlgItemText(GetParent(hwndCombobox), IDC_SKINROOTFOLDER, tszSkinRoot);
 	mir_sntprintf(tszFindMask, L"%s*.*", tszSkinRoot);
@@ -162,7 +162,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	HANDLE h = FindFirstFile(tszFindMask, &fd);
 	while (h != INVALID_HANDLE_VALUE) {
 		if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != '.') {
-			TCHAR	tszSubDir[MAX_PATH];
+			wchar_t	tszSubDir[MAX_PATH];
 			mir_sntprintf(tszSubDir, L"%s%s\\", tszSkinRoot, fd.cFileName);
 			ScanSkinDir(tszSubDir, hwndCombobox);
 		}
@@ -176,8 +176,8 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	if (0 == db_get_ts(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
 		LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
 		for (int i = 1; i < lr; i++) {
-			TCHAR *idata = (TCHAR*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
-			if (idata && idata != (TCHAR*)CB_ERR) {
+			wchar_t *idata = (wchar_t*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
+			if (idata && idata != (wchar_t*)CB_ERR) {
 				if (!mir_tstrcmpi(dbv.ptszVal, idata)) {
 					SendMessage(hwndCombobox, CB_SETCURSEL, i, 0);
 					break;
@@ -291,7 +291,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		case IDC_THEMEEXPORT:
 		{
-			const TCHAR *szFilename = GetThemeFileName(1);
+			const wchar_t *szFilename = GetThemeFileName(1);
 			if (szFilename != NULL)
 				WriteThemeToINI(szFilename, 0);
 		}
@@ -342,8 +342,8 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				LRESULT lr = SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETCURSEL, 0, 0);
 				if (lr != CB_ERR && lr > 0) {
-					TCHAR	*tszRelPath = (TCHAR*)SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETITEMDATA, lr, 0);
-					if (tszRelPath && tszRelPath != (TCHAR*)CB_ERR)
+					wchar_t	*tszRelPath = (wchar_t*)SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETITEMDATA, lr, 0);
+					if (tszRelPath && tszRelPath != (wchar_t*)CB_ERR)
 						db_set_ts(0, SRMSGMOD_T, "ContainerSkin", tszRelPath);
 					SendMessage(hwndDlg, WM_COMMAND, IDC_RELOADSKIN, 0);
 				}

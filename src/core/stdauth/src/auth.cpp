@@ -44,7 +44,7 @@ INT_PTR ShowAddedWindow(WPARAM, LPARAM lParam)
 
 static int AuthEventAdded(WPARAM, LPARAM lParam)
 {
-	TCHAR szTooltip[256];
+	wchar_t szTooltip[256];
 	MEVENT hDbEvent = (MEVENT)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };

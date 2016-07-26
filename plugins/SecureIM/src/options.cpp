@@ -1573,7 +1573,7 @@ BOOL ShowSelectKeyDlg(HWND hParent, LPSTR KeyPath)
 	char temp[MAX_PATH];
 	mir_snprintf(temp, "%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c", Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
-	ofn.lpstrTitle = TranslateT("Open Key File");
+	ofn.lpstrTitle = Translate("Open Key File");
 	if (!GetOpenFileName(&ofn)) return FALSE;
 
 	return TRUE;
@@ -1622,7 +1622,7 @@ LPSTR LoadKeys(LPCSTR file, BOOL priv)
 
 BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 {
-	TCHAR szFile[MAX_PATH] = "rsa_pub.asc";
+	char szFile[MAX_PATH] = "rsa_pub.asc";
 	if (priv)
 		mir_tstrcpy(szFile, "rsa_priv.asc");
 
@@ -1635,11 +1635,11 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
 	ofn.lpstrFile = szFile;
 
-	ofn.lpstrTitle = (priv) ? TranslateT("Save Private Key File") : TranslateT("Save Public Key File");
+	ofn.lpstrTitle = (priv) ? Translate("Save Private Key File") : Translate("Save Public Key File");
 	if (!GetSaveFileName(&ofn))
 		return FALSE;
 
-	FILE *f = _tfopen(szFile, "wb");
+	FILE *f = fopen(szFile, "wb");
 	if (!f)
 		return FALSE;
 	fwrite(key, mir_strlen(key), 1, f);
@@ -1650,7 +1650,7 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 
 BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 {
-	TCHAR szFile[MAX_PATH] = "rsa_pub.asc";
+	char szFile[MAX_PATH] = "rsa_pub.asc";
 	if (priv)
 		mir_tstrcpy(szFile, "rsa_priv.asc");
 
@@ -1663,11 +1663,11 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	char temp[MAX_PATH];
 	mir_snprintf(temp, "%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c", Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
-	ofn.lpstrTitle = (priv) ? TranslateT("Load Private Key File") : TranslateT("Load Public Key File");
+	ofn.lpstrTitle = (priv) ? Translate("Load Private Key File") : Translate("Load Public Key File");
 	if (!GetOpenFileName(&ofn))
 		return FALSE;
 
-	FILE *f = _tfopen(szFile, "rb");
+	FILE *f = fopen(szFile, "rb");
 	if (!f)
 		return FALSE;
 

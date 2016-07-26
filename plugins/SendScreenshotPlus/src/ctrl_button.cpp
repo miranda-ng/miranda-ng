@@ -42,7 +42,7 @@ typedef struct TMBCtrl
 	int			stateId;		// button state
 	int			defbutton;		// default button
 	int			pbState;
-	TCHAR		cHot;
+	wchar_t		cHot;
 } BTNCTRL, *LPBTNCTRL;
 
 // External theme methods and properties
@@ -258,7 +258,7 @@ static void __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 static void __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 {
 	RECT rcText = { 0, 0, 0, 0 };
-	TCHAR szText[MAX_PATH] = { 0 };
+	wchar_t szText[MAX_PATH] = { 0 };
 	WORD ccText;
 
 	// Draw the flat button
@@ -416,7 +416,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 
 			while (*tmp) {
 				if (*tmp == '&' && *(tmp + 1)) {
-					bct->cHot = _totlower(*(tmp + 1));
+					bct->cHot = towlower(*(tmp + 1));
 					break;
 				}
 				tmp++;
@@ -426,7 +426,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		break;
 
 	case WM_SYSKEYUP:
-		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == _totlower((TCHAR)wParam)) {
+		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == towlower((wchar_t)wParam)) {
 			if (bct->dwStyle & MBS_PUSHBUTTON) {
 				if (bct->pbState) bct->pbState = 0;
 				else bct->pbState = 1;
@@ -564,7 +564,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		break;
 
 	case BUTTONTRANSLATE:
-		TCHAR szButton[MAX_PATH];
+		wchar_t szButton[MAX_PATH];
 		GetWindowText(bct->hwnd, szButton, _countof(szButton));
 		SetWindowText(bct->hwnd, TranslateTS(szButton));
 		break;

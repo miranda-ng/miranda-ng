@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 
-static TCHAR *parseAdd(ARGUMENTSINFO *ai)
+static wchar_t *parseAdd(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return NULL;
@@ -31,7 +31,7 @@ static TCHAR *parseAdd(ARGUMENTSINFO *ai)
 	return itot(result);
 }
 
-static TCHAR *parseDiv(ARGUMENTSINFO *ai)
+static wchar_t *parseDiv(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -44,10 +44,10 @@ static TCHAR *parseDiv(ARGUMENTSINFO *ai)
 	return itot(val1 / val2);
 }
 
-static TCHAR *parseHex(ARGUMENTSINFO *ai)
+static wchar_t *parseHex(ARGUMENTSINFO *ai)
 {
 	unsigned int i;
-	TCHAR szVal[34];
+	wchar_t szVal[34];
 
 	if (ai->argc != 3)
 		return NULL;
@@ -56,11 +56,11 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai)
 	int padding = ttoi(ai->targv[2]);
 	mir_sntprintf(szVal, L"%x", val);
 	unsigned int zeros = max(padding - (signed int)mir_tstrlen(szVal), 0);
-	TCHAR *res = (TCHAR*)mir_alloc((zeros + mir_tstrlen(szVal) + 3)*sizeof(TCHAR));
+	wchar_t *res = (wchar_t*)mir_alloc((zeros + mir_tstrlen(szVal) + 3)*sizeof(wchar_t));
 	if (res == NULL)
 		return NULL;
 
-	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 3) * sizeof(TCHAR)));
+	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 3) * sizeof(wchar_t)));
 	mir_tstrcpy(res, L"0x");
 	for (i = 0; i < zeros; i++)
 		*(res + 2 + i) = '0';
@@ -69,7 +69,7 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseMod(ARGUMENTSINFO *ai)
+static wchar_t *parseMod(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -82,7 +82,7 @@ static TCHAR *parseMod(ARGUMENTSINFO *ai)
 	return itot(val1 % val2);
 }
 
-static TCHAR *parseMul(ARGUMENTSINFO *ai)
+static wchar_t *parseMul(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return NULL;
@@ -94,7 +94,7 @@ static TCHAR *parseMul(ARGUMENTSINFO *ai)
 	return itot(result);
 }
 
-static TCHAR *parseMuldiv(ARGUMENTSINFO *ai)
+static wchar_t *parseMuldiv(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
 		return NULL;
@@ -105,7 +105,7 @@ static TCHAR *parseMuldiv(ARGUMENTSINFO *ai)
 	return itot((ttoi(ai->targv[1])*ttoi(ai->targv[2])) / ttoi(ai->targv[3]));
 }
 
-static TCHAR *parseMin(ARGUMENTSINFO *ai)
+static wchar_t *parseMin(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
 		return NULL;
@@ -117,7 +117,7 @@ static TCHAR *parseMin(ARGUMENTSINFO *ai)
 	return itot(minVal);
 }
 
-static TCHAR *parseMax(ARGUMENTSINFO *ai)
+static wchar_t *parseMax(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
 		return NULL;
@@ -129,26 +129,26 @@ static TCHAR *parseMax(ARGUMENTSINFO *ai)
 	return itot(maxVal);
 }
 
-static TCHAR *parseNum(ARGUMENTSINFO *ai)
+static wchar_t *parseNum(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
 
 	int val = ttoi(ai->targv[1]);
 	int padding = ttoi(ai->targv[2]);
-	TCHAR *szVal = itot(val);
+	wchar_t *szVal = itot(val);
 	if (szVal == NULL)
 		return NULL;
 
 	unsigned zeros = max(padding - (signed int)mir_tstrlen(szVal), 0);
-	TCHAR *res = (TCHAR*)mir_alloc((zeros + mir_tstrlen(szVal) + 1)*sizeof(TCHAR));
+	wchar_t *res = (wchar_t*)mir_alloc((zeros + mir_tstrlen(szVal) + 1)*sizeof(wchar_t));
 	if (res == NULL) {
 		mir_free(szVal);
 		return NULL;
 	}
 
-	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 1) * sizeof(TCHAR)));
-	TCHAR *cur = res;
+	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 1) * sizeof(wchar_t)));
+	wchar_t *cur = res;
 	for (unsigned i = 0; i < zeros; i++)
 		*cur++ = '0';
 
@@ -158,12 +158,12 @@ static TCHAR *parseNum(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseRand(ARGUMENTSINFO *)
+static wchar_t *parseRand(ARGUMENTSINFO *)
 {
 	return itot(rand());
 }
 
-static TCHAR *parseSub(ARGUMENTSINFO *ai)
+static wchar_t *parseSub(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return NULL;

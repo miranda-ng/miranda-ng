@@ -66,7 +66,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		CreateProtoService(mi.pszService, &GGPROTO::gc_openconf);
 		mi.position = 2000050001;
 		mi.hIcolibItem = iconList[14].hIcolib;
-		mi.name.t = LPGENT("Open &conference...");
+		mi.name.w = LPGENW("Open &conference...");
 		hMainMenu[0] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 		// Clear ignored conferences
@@ -74,7 +74,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		CreateProtoService(mi.pszService, &GGPROTO::gc_clearignored);
 		mi.position = 2000050002;
 		mi.hIcolibItem = iconList[15].hIcolib;
-		mi.name.t = LPGENT("&Clear ignored conferences");
+		mi.name.w = LPGENW("&Clear ignored conferences");
 		hMainMenu[1] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	}
 }
@@ -94,7 +94,7 @@ int GGPROTO::gc_destroy()
 	return 1;
 }
 
-GGGC* GGPROTO::gc_lookup(const TCHAR *id)
+GGGC* GGPROTO::gc_lookup(const wchar_t *id)
 {
 	GGGC *chat;
 	list_t l;
@@ -149,7 +149,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 
 	// Message typed / send only if online
 	if (isonline() && (gch->pDest->iType == GC_USER_MESSAGE) && gch->ptszText) {
-		TCHAR id[32];
+		wchar_t id[32];
 		UIN2IDT(uin, id);
 		DBVARIANT dbv;
 
@@ -157,7 +157,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.ptszUID = id;
 		gce.ptszText = gch->ptszText;
-		TCHAR* nickT;
+		wchar_t* nickT;
 		if (!getTString(GG_KEY_NICK, &dbv)){
 			nickT = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
@@ -188,7 +188,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 	if (gch->pDest->iType == GC_USER_PRIVMESS)
 	{
 		MCONTACT hContact = NULL;
-		if ((uin = _ttoi(gch->ptszUID)) && (hContact = getcontact(uin, 1, 0, NULL)))
+		if ((uin = _wtoi(gch->ptszUID)) && (hContact = getcontact(uin, 1, 0, NULL)))
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	}
 	debugLog(L"gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->pDest->iType, chat, uin, gch->ptszText);
@@ -207,11 +207,11 @@ typedef struct _gg_gc_echat
 ////////////////////////////////////////////////////////////////////////////////
 // This is main groupchat initialization routine
 //
-TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
+wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 {
 	list_t l;
 	GGGC *chat;
-	TCHAR id[32];
+	wchar_t id[32];
 	uin_t uin;
 	DBVARIANT dbv;
 	GCDEST gcd = { m_szModuleName, 0, GC_EVENT_ADDGROUP };
@@ -279,9 +279,9 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 		   (getWord(GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 1 &&
 			unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))))
 		{
-			TCHAR *senderName = unknownSender ?
+			wchar_t *senderName = unknownSender ?
 				TranslateT("Unknown") : pcli->pfnGetContactDisplayName(getcontact(sender, 0, 0, NULL), 0);
-			TCHAR error[256];
+			wchar_t error[256];
 			mir_sntprintf(error, TranslateT("%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?"),
 				senderName, recipients_count + 1, unknown);
 			chat->ignore = MessageBox(NULL, error, m_tszUserName, MB_OKCANCEL | MB_ICONEXCLAMATION) != IDOK;
@@ -302,8 +302,8 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	}
 
 	// Create new chat window
-	TCHAR status[256];
-	TCHAR *senderName;
+	wchar_t status[256];
+	wchar_t *senderName;
 	if (sender)
 	{
 		senderName = pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, NULL), 0);
@@ -324,7 +324,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	gcwindow.ptszStatusbarText = status;
 
 	// Here we put nice new hash sign
-	TCHAR *name = (TCHAR*)calloc(mir_tstrlen(gcwindow.ptszName) + 2, sizeof(TCHAR));
+	wchar_t *name = (wchar_t*)calloc(mir_tstrlen(gcwindow.ptszName) + 2, sizeof(wchar_t));
 	*name = '#'; mir_tstrcpy(name + 1, gcwindow.ptszName);
 	gcwindow.ptszName = name;
 
@@ -352,7 +352,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	{
 		UIN2IDT(uin, id);
 
-		TCHAR* nickT;
+		wchar_t* nickT;
 		if (!getTString(GG_KEY_NICK, &dbv)) {
 			nickT = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
@@ -470,7 +470,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 					else if (hwndList && (count = gg_gc_countcheckmarks(hwndList)) >= 2)
 					{
 						// Create new participiants table
-						TCHAR* chat;
+						wchar_t* chat;
 						uin_t* participants = (uin_t*)calloc(count, sizeof(uin_t));
 						gg->debugLogA("gg_gc_openconfdlg(): WM_COMMAND IDOK Opening new conference for %d contacts.", count);
 						for (MCONTACT hContact = db_find_first(); hContact && i < count; hContact = db_find_next(hContact)) {
@@ -617,7 +617,7 @@ INT_PTR GGPROTO::gc_openconf(WPARAM, LPARAM)
 	return 1;
 }
 
-int GGPROTO::gc_changenick(MCONTACT hContact, TCHAR *ptszNick)
+int GGPROTO::gc_changenick(MCONTACT hContact, wchar_t *ptszNick)
 {
 	list_t l;
 	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
@@ -632,7 +632,7 @@ int GGPROTO::gc_changenick(MCONTACT hContact, TCHAR *ptszNick)
 				// Rename this window if it's exising in the chat
 				if (chat->recipients[i] == uin)
 				{
-					TCHAR id[32];
+					wchar_t id[32];
 					UIN2IDT(uin, id);
 					
 					GCDEST gcd = { m_szModuleName, chat->id, GC_EVENT_NICK };

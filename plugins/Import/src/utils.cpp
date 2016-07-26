@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // ------------------------------------------------
 // Returns 1 if successful and 0 when it fails.
 
-int CreateGroup(const TCHAR *group, MCONTACT hContact)
+int CreateGroup(const wchar_t *group, MCONTACT hContact)
 {
 	if (group == NULL)
 		return 0;
@@ -38,7 +38,7 @@ int CreateGroup(const TCHAR *group, MCONTACT hContact)
 		if (hContact)
 			db_set_ts(hContact, "CList", "Group", group);
 		else
-			AddMessage(LPGENT("Skipping duplicate group %s."), group);
+			AddMessage(LPGENW("Skipping duplicate group %s."), group);
 		return 0;
 	}
 

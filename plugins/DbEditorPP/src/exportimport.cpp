@@ -1,15 +1,15 @@
 #include "stdafx.h"
 
-TCHAR *GetFilter()
+wchar_t *GetFilter()
 {
-	static TCHAR filter[MAX_PATH];
+	static wchar_t filter[MAX_PATH];
 	mir_sntprintf(filter, L"%s%c*.ini%c%s%c*.*%c", TranslateT("INI Files"), 0, 0, TranslateT("All Files"), 0, 0);
 	return filter;
 }
 
-int Openfile(TCHAR *outputFile, const char *module, int maxlen)
+int Openfile(wchar_t *outputFile, const char *module, int maxlen)
 {
-	TCHAR filename[MAX_PATH];
+	wchar_t filename[MAX_PATH];
 
 	if (module) {
 		int n = 0;
@@ -17,13 +17,13 @@ int Openfile(TCHAR *outputFile, const char *module, int maxlen)
 
 		while (filename[n]) {
 			switch (filename[n]) {
-			case _T('*'):
-			case _T(':'):
-			case _T('/'):
-			case _T('?'):
-			case _T('|'):
-			case _T('\\'):
-				filename[n] = _T('_');
+			case '*':
+			case ':':
+			case '/':
+			case '?':
+			case '|':
+			case '\\':
+				filename[n] = '_';
 				break;
 			}
 			n++;
@@ -148,10 +148,10 @@ void exportDB(MCONTACT hContact, const char *module)
 	if (!EnumModules(&modlist))
 		return;
 
-	TCHAR fileName[MAX_PATH];
+	wchar_t fileName[MAX_PATH];
 
 	if (Openfile(fileName, (hContact == INVALID_CONTACT_ID) ? NULL : module, MAX_PATH)) {
-		FILE *file = _tfopen(fileName, L"wt");
+		FILE *file = _wfopen(fileName, L"wt");
 		if (!file) {
 			msg(TranslateT("Couldn't open file for writing"));
 			return;
@@ -427,7 +427,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hwnd);
 		SendDlgItemMessage(hwnd, IDC_TEXT, EM_LIMITTEXT, (WPARAM)0x7FFFFFFF, 0);
 
-		TCHAR name[NAME_SIZE], msg[MSG_SIZE];
+		wchar_t name[NAME_SIZE], msg[MSG_SIZE];
 
 		GetContactName((MCONTACT)lParam, NULL, name, _countof(name));
 
@@ -446,7 +446,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_TEXT));
 			if (length) {
-				TCHAR *data = (TCHAR*)mir_alloc((length + 1)*sizeof(TCHAR));
+				wchar_t *data = (wchar_t*)mir_alloc((length + 1)*sizeof(wchar_t));
 				GetDlgItemText(hwnd, IDC_TEXT, data, length + 1);
 				importSettings(hContact, T2Utf(data));
 				mir_free(data);
@@ -463,7 +463,7 @@ void ImportSettingsMenuItem(MCONTACT hContact)
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_IMPORT), hwnd2mainWindow, ImportDlgProc, hContact);
 }
 
-int Openfile2Import(TCHAR *outputFiles, int maxlen)
+int Openfile2Import(wchar_t *outputFiles, int maxlen)
 {
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
@@ -486,9 +486,9 @@ BOOL Exists(LPCTSTR strName)
 
 void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 {
-	TCHAR szFileNames[MAX_PATH * 10];
-	TCHAR szPath[MAX_PATH] = { 0 };
-	TCHAR szFile[MAX_PATH];
+	wchar_t szFileNames[MAX_PATH * 10];
+	wchar_t szPath[MAX_PATH] = { 0 };
+	wchar_t szFile[MAX_PATH];
 
 	DWORD offset = 0;
 

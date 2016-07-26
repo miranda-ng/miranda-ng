@@ -34,7 +34,7 @@ static int GetUpdateMode()
 	// Check if there is url for custom mode
 	if (UpdateMode == UPDATE_MODE_CUSTOM) {
 		ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
-		if (url == NULL || !_tcslen(url)) {
+		if (url == NULL || !wcslen(url)) {
 			// No url for custom mode, reset that setting so it will be determined automatically
 			db_unset(NULL, MODNAME, DB_SETTING_UPDATE_MODE);
 			UpdateMode = -1;
@@ -51,9 +51,9 @@ static int GetUpdateMode()
 	return UpdateMode;
 }
 
-TCHAR* GetDefaultUrl()
+wchar_t* GetDefaultUrl()
 {
-	TCHAR url[MAX_PATH];
+	wchar_t url[MAX_PATH];
 	switch (GetUpdateMode()) {
 	case UPDATE_MODE_STABLE:
 		mir_sntprintf(url, _T(DEFAULT_UPDATE_URL), opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
@@ -71,7 +71,7 @@ TCHAR* GetDefaultUrl()
 
 static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR defurl[MAX_PATH];
+	wchar_t defurl[MAX_PATH];
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -98,7 +98,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		if (ServiceExists(MS_AB_BACKUP)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BACKUP), TRUE);
-			SetDlgItemText(hwndDlg, IDC_BACKUP, LPGENT("Backup database before update"));
+			SetDlgItemText(hwndDlg, IDC_BACKUP, LPGENW("Backup database before update"));
 			if(opts.bBackup)
 				CheckDlgButton(hwndDlg, IDC_BACKUP, BST_CHECKED);
 		}
@@ -111,7 +111,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
 			if (UpdateMode == UPDATE_MODE_STABLE)
 				db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
-			SetDlgItemText(hwndDlg,IDC_STABLE,LPGENT("Stable version (incompatible with current development version)"));
+			SetDlgItemText(hwndDlg,IDC_STABLE,LPGENW("Stable version (incompatible with current development version)"));
 		}
 		TranslateDialogDefault(hwndDlg);
 
@@ -266,9 +266,9 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				db_set_b(NULL, MODNAME, "PeriodMeasure", opts.bPeriodMeasure = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE)));
 				db_set_b(NULL, MODNAME, "SilentMode", opts.bSilentMode = IsDlgButtonChecked(hwndDlg, IDC_SILENTMODE));
 				db_set_b(NULL, MODNAME, "Backup", opts.bBackup = IsDlgButtonChecked(hwndDlg, IDC_BACKUP));
-				TCHAR buffer[3] = {0};
+				wchar_t buffer[3] = {0};
 				Edit_GetText(GetDlgItem(hwndDlg, IDC_PERIOD), buffer, _countof(buffer));
-				db_set_dw(NULL, MODNAME, "Period", opts.Period = _ttoi(buffer));
+				db_set_dw(NULL, MODNAME, "Period", opts.Period = _wtoi(buffer));
 
 				mir_forkthread(InitTimer, (void*)1);
 				
@@ -293,7 +293,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					}
 				}
 				else {
-					TCHAR tszUrl[100];
+					wchar_t tszUrl[100];
 					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, tszUrl, _countof(tszUrl));
 					db_set_ts(NULL, MODNAME, DB_SETTING_UPDATE_URL, tszUrl);
 					db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
@@ -512,15 +512,15 @@ static int OptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_UPDATENOTIFY);
-	odp.ptszGroup = LPGENT("Services");
-	odp.ptszTitle = LPGENT("Plugin Updater");
+	odp.pwszGroup = LPGENW("Services");
+	odp.pwszTitle = LPGENW("Plugin Updater");
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	Options_AddPage(wParam, &odp);
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.ptszGroup = LPGENT("Popups");
-		odp.ptszTitle = LPGENT("Plugin Updater");
+		odp.pwszGroup = LPGENW("Popups");
+		odp.pwszTitle = LPGENW("Plugin Updater");
 		odp.pfnDlgProc = DlgPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}

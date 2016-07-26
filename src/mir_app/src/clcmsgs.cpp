@@ -43,7 +43,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 	case CLM_ADDGROUP:
 		{
 			DWORD groupFlags;
-			TCHAR *szName = Clist_GroupGetName(wParam, &groupFlags);
+			wchar_t *szName = Clist_GroupGetName(wParam, &groupFlags);
 			if (szName == NULL)
 				break;
 			cli.pfnAddGroup(hwnd, dat, szName, groupFlags, wParam, 0);
@@ -171,13 +171,13 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		return dat->groupIndent;
 
 	case CLM_GETISEARCHSTRING:
-		mir_tstrcpy((TCHAR*)lParam, dat->szQuickSearch);
+		mir_tstrcpy((wchar_t*)lParam, dat->szQuickSearch);
 		return mir_tstrlen(dat->szQuickSearch);
 
 	case CLM_GETITEMTEXT:
 		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			return 0;
-		mir_tstrcpy((TCHAR*)lParam, contact->szText);
+		mir_tstrcpy((wchar_t*)lParam, contact->szText);
 		return mir_tstrlen(contact->szText);
 
 	case CLM_GETITEMTYPE:
@@ -398,7 +398,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 	case CLM_SETITEMTEXT:
 		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
-		mir_tstrncpy(contact->szText, (TCHAR*)lParam, _countof(contact->szText));
+		mir_tstrncpy(contact->szText, (wchar_t*)lParam, _countof(contact->szText));
 		cli.pfnSortCLC(hwnd, dat, 1);
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		break;

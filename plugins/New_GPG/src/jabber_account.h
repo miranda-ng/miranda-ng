@@ -18,14 +18,14 @@
 class JabberAccount 
 {
 public:
-	void setAccountName(TCHAR *Name);
+	void setAccountName(wchar_t *Name);
 	void setAccountNumber(int Number);
 	void setJabberInterface(IJabberInterface *JIf);
 	void setSendHandler(HJHANDLER hHandler);
 	void setPrescenseHandler(HJHANDLER hHandler);
 	void setMessageHandler(HJHANDLER hHandler);
 
-	TCHAR *getAccountName();
+	wchar_t *getAccountName();
 	int getAccountNumber();
 	IJabberInterface *getJabberInterface();
 	HJHANDLER getSendHandler();
@@ -34,7 +34,7 @@ public:
 	~JabberAccount();
 	JabberAccount();
 private:
-	TCHAR *AccountName;
+	wchar_t *AccountName;
 	int AccountNumber;
 	IJabberInterface *JabberInterface;
 	HJHANDLER hSendHandler, hPrescenseHandler, hMessageHandler;

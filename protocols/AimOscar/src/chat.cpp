@@ -36,7 +36,7 @@ void CAimProto::chat_register(void)
 
 void CAimProto::chat_start(const char* id, unsigned short exchange)
 {
-	TCHAR *idt = mir_a2t(id);
+	wchar_t *idt = mir_a2t(id);
 
 	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
@@ -64,13 +64,13 @@ void CAimProto::chat_start(const char* id, unsigned short exchange)
 	mir_free(idt);
 }
 
-void CAimProto::chat_event(const char* id, const char* sn, int evt, const TCHAR* msg)
+void CAimProto::chat_event(const char* id, const char* sn, int evt, const wchar_t* msg)
 {
-	TCHAR *idt = mir_a2t(id);
-	TCHAR *snt = mir_a2t(sn);
+	wchar_t *idt = mir_a2t(id);
+	wchar_t *snt = mir_a2t(sn);
 
 	MCONTACT hContact = contact_from_sn(sn);
-	TCHAR *nick = hContact ? (TCHAR*)pcli->pfnGetContactDisplayName(
+	wchar_t *nick = hContact ? (wchar_t*)pcli->pfnGetContactDisplayName(
 		WPARAM(hContact), 0) : snt;
 
 	GCDEST gcd = { m_szModuleName, idt, evt };
@@ -91,7 +91,7 @@ void CAimProto::chat_event(const char* id, const char* sn, int evt, const TCHAR*
 
 void CAimProto::chat_leave(const char* id)
 {
-	TCHAR *idt = mir_a2t(id);
+	wchar_t *idt = mir_a2t(id);
 
 	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };

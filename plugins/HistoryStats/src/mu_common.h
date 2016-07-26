@@ -13,8 +13,8 @@ namespace mu
 
 	namespace clist
 	{
-		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot = 0);
-		HGENMENU addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService);
+		HGENMENU addMainMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot = 0);
+		HGENMENU addContactMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService);
 	}
 
 	/*
@@ -23,8 +23,8 @@ namespace mu
 
 	namespace db
 	{
-		int getProfilePath(int cbName, TCHAR* pszName);
-		int getProfileName(int cbName, TCHAR* pszName);
+		int getProfilePath(int cbName, wchar_t* pszName);
+		int getProfileName(int cbName, wchar_t* pszName);
 		void setSafetyMode(bool safetyMode);
 	}
 
@@ -45,7 +45,7 @@ namespace mu
 	namespace icolib
 	{
 		bool _available();
-		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex);
+		void addIcon(const wchar_t* szSection, const wchar_t* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex);
 		HICON getIcon(const char* szIconName);
 	}
 
@@ -55,7 +55,7 @@ namespace mu
 
 	namespace opt
 	{
-		void addPage(WPARAM addInfo, const TCHAR* pszGroup, const TCHAR* pszTitle, const TCHAR* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags = ODPF_BOLDGROUPS);
+		void addPage(WPARAM addInfo, const wchar_t* pszGroup, const wchar_t* pszTitle, const wchar_t* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags = ODPF_BOLDGROUPS);
 	}
 
 	/*

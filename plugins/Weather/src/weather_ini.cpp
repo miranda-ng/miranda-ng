@@ -48,7 +48,7 @@ static void WIListAdd(WIDATA Data)
 // get the service data (from loaded ini file) by internal name
 // pszServ = internal name for the service
 // return value = the matching WIDATA struct for pszServ, NULL if no match found
-WIDATA* GetWIData(TCHAR *pszServ)
+WIDATA* GetWIData(wchar_t *pszServ)
 {
 	// loop through the list to find matching internal name
 	for (WIDATALIST *Item = WIHead; Item != NULL; Item = Item->next)
@@ -76,7 +76,7 @@ void WIItemListAdd(WIDATAITEM *DataItem, WIDATA *Data)
 // reset the data item by using empty string
 // Item = the item to set
 // name = the string to store in the "name" field
-void ResetDataItem(WIDATAITEM *Item, const TCHAR *name)
+void ResetDataItem(WIDATAITEM *Item, const wchar_t *name)
 {
 	Item->Name = mir_tstrdup(name);
 	Item->Start = L"";
@@ -121,12 +121,12 @@ void WICondListAdd(char *str, WICONDLIST *List)
 }
 
 // check if the condition string matched for the assignment
-bool IsContainedInCondList(const TCHAR *pszStr, WICONDLIST *List)
+bool IsContainedInCondList(const wchar_t *pszStr, WICONDLIST *List)
 {
 	// loop through the list to find matching internal name
 	for (WICONDITEM *Item = List->Head; Item != NULL; Item = Item->Next) {
 		// if internal name found, return true indicating that the data is found
-		if (_tcsstr(pszStr, Item->Item))
+		if (wcsstr(pszStr, Item->Item))
 			return true;
 
 	}
@@ -178,13 +178,13 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_STEP2:
 		{
-			TCHAR szPath[1024];
+			wchar_t szPath[1024];
 			GetModuleFileName(GetModuleHandle(NULL), szPath, _countof(szPath));
-			TCHAR *chop = _tcsrchr(szPath, '\\');
+			wchar_t *chop = wcsrchr(szPath, '\\');
 			if (chop) {
 				*chop = '\0';
 				mir_tstrncat(szPath, L"\\Plugins\\weather\\", _countof(szPath) - mir_tstrlen(szPath));
-				if (_tmkdir(szPath) == 0)
+				if (_wmkdir(szPath) == 0)
 					ShellExecute((HWND)lParam, L"open", szPath, L"", L"", SW_SHOW);
 			}
 			break;
@@ -222,7 +222,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 // pszFile = the file name + path for the ini file to be loaded
 // pszShortFile = the file name of the ini file, but not including the path
 // Data = the struct to load the ini content to, and return to previous function
-static void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
+static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Data)
 {
 	WIDATAITEM DataItem;
 	char *Group, *Temp;
@@ -269,7 +269,7 @@ static void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 		else if (!mir_strcmp(Line, "[Weather 0.3.x Update Data 1.5]"))
 			Data->InternalVer = 7;
 		else {
-			TCHAR str[4096];
+			wchar_t str[4096];
 			mir_sntprintf(str, TranslateT("Invalid ini format for: %s"), pszFile);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
 			fclose(pfile);
@@ -323,7 +323,7 @@ static void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 
 		// initialize the linked list for update items
 		Data->UpdateDataCount = 0;
-		Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (mir_tstrlen(pszShortFile) + mir_tstrlen(pszFile) + 20)*sizeof(TCHAR);
+		Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (mir_tstrlen(pszShortFile) + mir_tstrlen(pszFile) + 20)*sizeof(wchar_t);
 		Data->UpdateData = NULL;
 		Data->UpdateDataTail = NULL;
 
@@ -446,11 +446,11 @@ static void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 				else if (!_stricmp(ValName, "URL")) 		wSetData(&Data->UpdateDataTail->Item.Url, Value);
 				else if (!_stricmp(ValName, "HIDDEN")) {
 					if (!_stricmp(Value, "TRUE")) {
-						TCHAR *nm = Data->UpdateDataTail->Item.Name;
+						wchar_t *nm = Data->UpdateDataTail->Item.Name;
 						size_t len = mir_tstrlen(nm) + 1;
 
-						Data->UpdateDataTail->Item.Name = nm = (TCHAR*)mir_realloc(nm, sizeof(TCHAR)*(len + 3));
-						memmove(nm + 1, nm, len*sizeof(TCHAR));
+						Data->UpdateDataTail->Item.Name = nm = (wchar_t*)mir_realloc(nm, sizeof(wchar_t)*(len + 3));
+						memmove(nm + 1, nm, len*sizeof(wchar_t));
 						*nm = '#';
 					}
 				}
@@ -485,14 +485,14 @@ bool LoadWIData(bool dial)
 	WIHead = WITail;
 
 	// find all *.ini file in the plugin\weather directory
-	TCHAR szSearchPath[MAX_PATH], FileName[MAX_PATH];
+	wchar_t szSearchPath[MAX_PATH], FileName[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, _countof(szSearchPath));
-	TCHAR *chop = _tcsrchr(szSearchPath, '\\');
+	wchar_t *chop = wcsrchr(szSearchPath, '\\');
 	if (chop == NULL)
 		return false;
 	*chop = '\0';
 	mir_tstrncat(szSearchPath, L"\\Plugins\\Weather\\*.ini", _countof(szSearchPath) - mir_tstrlen(szSearchPath));
-	_tcsncpy(FileName, szSearchPath, MAX_PATH - 1);
+	wcsncpy(FileName, szSearchPath, MAX_PATH - 1);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szSearchPath, &fd);
@@ -501,7 +501,7 @@ bool LoadWIData(bool dial)
 	// load the content of the ini file into memory
 	if (hFind != INVALID_HANDLE_VALUE) {
 		do {
-			chop = _tcsrchr(FileName, '\\');
+			chop = wcsrchr(FileName, '\\');
 			chop[1] = '\0';
 			mir_tstrncat(FileName, fd.cFileName, _countof(FileName) - mir_tstrlen(FileName));
 			if (mir_tstrcmpi(fd.cFileName, L"SAMPLE_INI.INI")) {

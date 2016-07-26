@@ -62,7 +62,7 @@ SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 
 		SIZE szText, szSpace;
 		LPTSTR wname = mir_a2t(name);
-		TCHAR *str = TranslateTS(wname);
+		wchar_t *str = TranslateTS(wname);
 		GetTextExtentPoint32(hdc, str, (int)mir_tstrlen(str), &szText);
 		mir_free(wname);
 		GetTextExtentPoint32(hdc, L" ", 1, &szSpace);
@@ -125,7 +125,7 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 		GetTextExtentPoint32(bmp->getDC(), L" ", 1, &szSpace);
 
 		LPTSTR wname = mir_a2t(name);
-		TCHAR *str = TranslateTS(wname);
+		wchar_t *str = TranslateTS(wname);
 		GetTextExtentPoint32(bmp->getDC(), str, (int)mir_tstrlen(str), &szText);
 		bmp->Draw_Text(str,
 			(PopupOptions.actions&ACT_LARGE) ? (x + szSpace.cx + 32) : (x + szSpace.cx + 16),
@@ -185,7 +185,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 		SIZE szNew;
 		szNew.cx = head->clocksize[CLOCK_LEFT] + head->clocksize[CLOCK_RIGHT];
 		szNew.cy = head->myBmp->getHeight();
-		for (TCHAR *p = wnd->getTime(); *p; p++) {
+		for (wchar_t *p = wnd->getTime(); *p; p++) {
 			if (*p == ':')
 				szNew.cx += head->clocksize[CLOCK_SEPARATOR];
 			else if ((*p >= '0') && (*p <= '9'))
@@ -333,7 +333,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 			if (head && head->myBmp) {
 				szNew.cx = head->clocksize[CLOCK_LEFT] + head->clocksize[CLOCK_RIGHT];
 				szNew.cy = head->myBmp->getHeight();
-				for (TCHAR *p = wnd->getTime(); *p; p++) {
+				for (wchar_t *p = wnd->getTime(); *p; p++) {
 					if (*p == ':')
 						szNew.cx += head->clocksize[CLOCK_SEPARATOR];
 					else if ((*p >= '0') && (*p <= '9'))
@@ -429,7 +429,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 		SIZE szNew;
 		szNew.cx = head->clocksize[CLOCK_LEFT] + head->clocksize[CLOCK_RIGHT];
 		szNew.cy = head->myBmp->getHeight();
-		for (TCHAR *p = wnd->getTime(); *p; p++) {
+		for (wchar_t *p = wnd->getTime(); *p; p++) {
 			if (*p == ':')
 				szNew.cx += head->clocksize[CLOCK_SEPARATOR];
 			else if ((*p >= '0') && (*p <= '9'))
@@ -661,7 +661,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 						bmp->BlendPart(head->myBmp, head->clockstart[CLOCK_LEFT], 0, head->clocksize[CLOCK_LEFT], sy, x, y, head->clocksize[CLOCK_LEFT], sy);
 
 					x += head->clocksize[CLOCK_LEFT];
-					for (TCHAR *p = wnd->getTime(); *p; p++) {
+					for (wchar_t *p = wnd->getTime(); *p; p++) {
 						int clock_idx = -1;
 						if (*p == ':')
 							clock_idx = CLOCK_SEPARATOR;
@@ -741,7 +741,7 @@ bool PopupSkin::onMouseLeave(PopupWnd2 *wnd) const
 
 void PopupSkin::loadOptions(std::wistream &f)
 {
-	TCHAR *buf = new TCHAR[1024];
+	wchar_t *buf = new wchar_t[1024];
 	while (!f.eof()) {
 		f >> buf;
 		if (*buf == '#') {
@@ -755,10 +755,10 @@ void PopupSkin::loadOptions(std::wistream &f)
 			id--;
 			if (m_flag_names[id])
 				mir_free(m_flag_names[id]);
-			TCHAR *p = buf;
+			wchar_t *p = buf;
 			while (isspace(*p))
 				p++;
-			TCHAR *q = p + mir_tstrlen(p) - 1;
+			wchar_t *q = p + mir_tstrlen(p) - 1;
 			while ((q >= p) && isspace(*q))
 				*q-- = 0;
 			m_flag_names[id] = mir_t2a(p);
@@ -783,11 +783,11 @@ bool PopupSkin::load(LPCTSTR dir)
 	}
 	m_flags = 0;
 
-	if (!_tcsncmp(L"res:", dir, 4)) // resource
+	if (!wcsncmp(L"res:", dir, 4)) // resource
 		loadSkin(dir + 4, L"Skin");
 	else { // filesystem
 		// skin info
-		TCHAR dir_save[1024];
+		wchar_t dir_save[1024];
 		GetCurrentDirectory(1024, dir_save);
 		SetCurrentDirectory(dir);
 
@@ -829,7 +829,7 @@ void PopupSkin::loadSkin(std::wistream &f)
 	head->next = NULL;
 
 	while (!f.eof()) {
-		TCHAR buf[1024];
+		wchar_t buf[1024];
 		f >> buf;
 
 		if (!*buf)
@@ -900,7 +900,7 @@ void PopupSkin::loadSkin(LPCTSTR lpName, LPCTSTR lpType)
 	HRSRC hRes = FindResource(hInst, lpName, lpType);
 	HRSRC hResLoad = (HRSRC)LoadResource(hInst, hRes);
 	char *lpResLock = (char *)LockResource(hResLoad);
-	std::wistringstream stream((TCHAR*)_A2T(lpResLock));
+	std::wistringstream stream((wchar_t*)_A2T(lpResLock));
 	loadSkin(stream);
 	UnlockResource(lpResLock);
 	FreeResource(hRes);
@@ -917,7 +917,7 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 	element->myBmp = NULL;
 
 	while (!f.eof()) {
-		TCHAR buf[1024];
+		wchar_t buf[1024];
 		f >> buf;
 
 		if (!*buf)
@@ -1087,11 +1087,11 @@ bool Skins::load()
 	skin->next = m_skins;
 	m_skins = skin;
 	m_skins->name = mir_tstrdup(L"* Popup Classic");
-	m_skins->dir = new TCHAR[1024];
+	m_skins->dir = new wchar_t[1024];
 	mir_tstrcpy(m_skins->dir, L"res:classic.popupskin");
 	m_skins->skin = 0;
 
-	TCHAR dir[1024] = { '\0' };
+	wchar_t dir[1024] = { '\0' };
 
 	if (ServiceExists(MS_FOLDERS_GET_PATH)) {
 		if (FoldersGetCustomPathT(folderId, dir, _countof(dir), NULL) != 0)
@@ -1104,7 +1104,7 @@ bool Skins::load()
 			return false;
 	}
 
-	TCHAR dir_save[1024];
+	wchar_t dir_save[1024];
 	GetCurrentDirectory(1024, dir_save);
 	SetCurrentDirectory(dir);
 
@@ -1118,7 +1118,7 @@ bool Skins::load()
 			skin->next = m_skins;
 			m_skins = skin;
 			m_skins->name = mir_tstrdup(ffd.cFileName);
-			m_skins->dir = new TCHAR[1024];
+			m_skins->dir = new wchar_t[1024];
 			GetCurrentDirectory(1024, m_skins->dir);
 			m_skins->skin = 0;
 
@@ -1158,7 +1158,7 @@ const PopupSkin *Skins::getSkin(LPCTSTR name)
 	if (!any->skin->isCompatible())
 		MessageBox(NULL,
 		TranslateT("The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin."),
-		_T(MODULNAME_LONG), MB_ICONSTOP | MB_OK);
+		MODULNAME_LONG, MB_ICONSTOP | MB_OK);
 
 	return any->skin;
 }

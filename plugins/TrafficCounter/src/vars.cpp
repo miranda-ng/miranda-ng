@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
+static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 {
 	DWORD tmp, tmpsn = 0, tmprn = 0, tmpst = 0, tmprt = 0;
 	BYTE ed;
@@ -54,7 +54,7 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 		for (tmp = ed = 0; ed < NumberOfAccounts; ed++)
 		{
 			if (!ProtoList[ed].name) continue;
-			TCHAR *buf = mir_a2t(ProtoList[ed].name);
+			wchar_t *buf = mir_a2t(ProtoList[ed].name);
 			if (!mir_tstrcmp(buf, ai->targv[1]))
 			{
 				tmpsn = ProtoList[ed].CurrentSentTraffic;
@@ -101,7 +101,7 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 	// Получаем форматированную строку и возвращаем указатель на неё.
 	// Сначала узнаем размер буфера.
 	size_t l = GetFormattedTraffic(tmp, ed, NULL, 0);
-	TCHAR *res = (TCHAR*)mir_alloc(l * sizeof(TCHAR));
+	wchar_t *res = (wchar_t*)mir_alloc(l * sizeof(wchar_t));
 	if (!res) return NULL;
 	if (GetFormattedTraffic(tmp, ed, res, l))
 		return res;
@@ -110,7 +110,7 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 	return NULL;
 }
 
-static TCHAR* GetTime(ARGUMENTSINFO *ai)
+static wchar_t* GetTime(ARGUMENTSINFO *ai)
 {
 	BYTE ed, flag;
 	DWORD Duration;
@@ -120,7 +120,7 @@ static TCHAR* GetTime(ARGUMENTSINFO *ai)
 	// Ищем индекс протокола, переданного первым аргументом
 	for (flag = ed = 0; ed < NumberOfAccounts; ed++)
 	{
-		TCHAR *buf;
+		wchar_t *buf;
 		if (!ProtoList[ed].name) continue;
 		buf = mir_a2t(ProtoList[ed].name);
 		if (!mir_tstrcmp(buf, ai->targv[1]))
@@ -150,7 +150,7 @@ static TCHAR* GetTime(ARGUMENTSINFO *ai)
 	// Получаем форматированную строку и возвращаем указатель на неё.
 	// Сначала узнаем размер буфера.
 	size_t l = GetDurationFormatM(Duration, ai->targv[3], NULL, 0);
-	TCHAR *res = (TCHAR*)mir_alloc(l * sizeof(TCHAR));
+	wchar_t *res = (wchar_t*)mir_alloc(l * sizeof(wchar_t));
 	if (!res) return NULL;
 	GetDurationFormatM(Duration, ai->targv[3], res, l);
 

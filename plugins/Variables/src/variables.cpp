@@ -36,16 +36,16 @@ HCURSOR hCurSplitNS;
 
 struct ParseOptions gParseOpts;
 
-TCHAR* getArguments(TCHAR *string, TArgList &argv)
+wchar_t* getArguments(wchar_t *string, TArgList &argv)
 {
-	TCHAR *cur = string;
+	wchar_t *cur = string;
 	while (*cur == ' ')
 		cur++;
 
 	if (*cur != '(')
 		return NULL;
 
-	TCHAR *scur = cur;
+	wchar_t *scur = cur;
 	cur++;
 	int brackets = 0;
 	bool bDontParse = false, bNewArg = false, bDone = false;
@@ -74,7 +74,7 @@ TCHAR* getArguments(TCHAR *string, TArgList &argv)
 		}
 		
 		if (bNewArg) {
-			TCHAR *tszArg = NULL;
+			wchar_t *tszArg = NULL;
 			if (cur > scur)
 				tszArg = mir_tstrndup(scur + 1, cur - (scur + 1));
 			if (tszArg == NULL)
@@ -96,7 +96,7 @@ TCHAR* getArguments(TCHAR *string, TArgList &argv)
 	return cur;
 }
 
-int isValidTokenChar(TCHAR tc)
+int isValidTokenChar(wchar_t tc)
 {
 
 	return
@@ -111,14 +111,14 @@ int isValidTokenChar(TCHAR tc)
 }
 
 /* pretty much the main loop */
-static TCHAR* replaceDynVars(FORMATINFO *fi)
+static wchar_t* replaceDynVars(FORMATINFO *fi)
 {
 	if (fi->tszFormat == NULL)
 		return NULL;
 
 	int i, scurPos, curPos, tmpVarPos;
 
-	TCHAR *string = mir_tstrdup(fi->tszFormat);
+	wchar_t *string = mir_tstrdup(fi->tszFormat);
 	if (string == NULL)
 		return NULL;
 
@@ -129,56 +129,56 @@ static TCHAR* replaceDynVars(FORMATINFO *fi)
 
 	for (size_t pos = 0; pos < mir_tstrlen(string); pos++) {
 		// string may move in memory, iterate by remembering the position in the string
-		TCHAR *cur = string + pos;
+		wchar_t *cur = string + pos;
 
 		// new round
 		if (*cur == DONTPARSE_CHAR) {
-			memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(TCHAR));
+			memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(wchar_t));
 			if (*cur == DONTPARSE_CHAR)
 				continue;
 
 			while ((*cur != DONTPARSE_CHAR) && (*cur != 0))
 				cur++;
 
-			memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(TCHAR));
+			memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(wchar_t));
 			pos = cur - string - 1;
 			continue;
 		}
 		// remove end of lines
-		else if ((!_tcsncmp(cur, L"\r\n", 2)) && (gParseOpts.bStripEOL)) {
-			memmove(cur, cur + 2, (mir_tstrlen(cur + 2) + 1)*sizeof(TCHAR));
+		else if ((!wcsncmp(cur, L"\r\n", 2)) && (gParseOpts.bStripEOL)) {
+			memmove(cur, cur + 2, (mir_tstrlen(cur + 2) + 1)*sizeof(wchar_t));
 			pos = cur - string - 1;
 			continue;
 		}
 		else if ((*cur == '\n' && gParseOpts.bStripEOL) || (*cur == ' ' && gParseOpts.bStripWS)) {
-			memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(TCHAR));
+			memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(wchar_t));
 			pos = cur - string - 1;
 			continue;
 		}
 		// remove comments
-		else if (!_tcsncmp(cur, _T(COMMENT_STRING), mir_tstrlen(_T(COMMENT_STRING)))) {
-			TCHAR *scur = cur;
-			while (_tcsncmp(cur, L"\r\n", 2) && *cur != '\n' && *cur != 0)
+		else if (!wcsncmp(cur, _T(COMMENT_STRING), mir_tstrlen(_T(COMMENT_STRING)))) {
+			wchar_t *scur = cur;
+			while (wcsncmp(cur, L"\r\n", 2) && *cur != '\n' && *cur != 0)
 				cur++;
 
 			if (*cur == 0) {
 				*scur = 0;
-				string = (TCHAR*)mir_realloc(string, (mir_tstrlen(string) + 1)*sizeof(TCHAR));
+				string = (wchar_t*)mir_realloc(string, (mir_tstrlen(string) + 1)*sizeof(wchar_t));
 				continue;
 			}
-			memmove(scur, cur, (mir_tstrlen(cur) + 1)*sizeof(TCHAR));
+			memmove(scur, cur, (mir_tstrlen(cur) + 1)*sizeof(wchar_t));
 			pos = scur - string - 1;
 			continue;
 		}
 		else if ((*cur != FIELD_CHAR) && (*cur != FUNC_CHAR) && (*cur != FUNC_ONCE_CHAR)) {
 			if (gParseOpts.bStripAll) {
-				memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(TCHAR));
+				memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(wchar_t));
 				pos = cur - string - 1;
 			}
 			continue;
 		}
 
-		TCHAR *scur = cur + 1, *tcur = scur;
+		wchar_t *scur = cur + 1, *tcur = scur;
 		while (isValidTokenChar(*tcur))
 			tcur++;
 
@@ -224,7 +224,7 @@ static TCHAR* replaceDynVars(FORMATINFO *fi)
 		}
 		else if ((*cur == FUNC_CHAR) || (*cur == FUNC_ONCE_CHAR)) {
 			cur += mir_tstrlen(tr->tszTokenString) + 1;
-			TCHAR *argcur = getArguments(cur, argv);
+			wchar_t *argcur = getArguments(cur, argv);
 			if (argcur == cur || argcur == NULL) {
 				fi->eCount++;
 				// error getting arguments
@@ -282,7 +282,7 @@ static TCHAR* replaceDynVars(FORMATINFO *fi)
 		curPos = cur - string;
 		if (tokenLen < parsedTokenLen) {
 			// string needs more memory
-			string = (TCHAR*)mir_realloc(string, (initStrLen - tokenLen + parsedTokenLen + 1)*sizeof(TCHAR));
+			string = (wchar_t*)mir_realloc(string, (initStrLen - tokenLen + parsedTokenLen + 1)*sizeof(wchar_t));
 			if (string == NULL) {
 				fi->eCount++;
 				return NULL;
@@ -290,11 +290,11 @@ static TCHAR* replaceDynVars(FORMATINFO *fi)
 		}
 		scur = string + scurPos;
 		cur = string + curPos;
-		memmove(scur + parsedTokenLen, cur, (mir_tstrlen(cur) + 1)*sizeof(TCHAR));
-		memcpy(scur, parsedToken, parsedTokenLen*sizeof(TCHAR));
+		memmove(scur + parsedTokenLen, cur, (mir_tstrlen(cur) + 1)*sizeof(wchar_t));
+		memcpy(scur, parsedToken, parsedTokenLen*sizeof(wchar_t));
 		{
 			size_t len = mir_tstrlen(string);
-			string = (TCHAR*)mir_realloc(string, (len + 1)*sizeof(TCHAR));
+			string = (wchar_t*)mir_realloc(string, (len + 1)*sizeof(wchar_t));
 		}
 		if ((ai.flags & AIF_DONTPARSE) || tmpVarPos >= 0)
 			pos += parsedTokenLen;
@@ -302,7 +302,7 @@ static TCHAR* replaceDynVars(FORMATINFO *fi)
 		pos--; // parse the same pos again, it changed
 	}
 
-	return (TCHAR*)mir_realloc(string, (mir_tstrlen(string) + 1)*sizeof(TCHAR));
+	return (wchar_t*)mir_realloc(string, (mir_tstrlen(string) + 1)*sizeof(wchar_t));
 }
 
 /*
@@ -314,7 +314,7 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 	int i;
 	BOOL copied;
 	FORMATINFO *fi, tempFi;
-	TCHAR *tszFormat, *orgFormat, *tszSource, *orgSource, *tRes;
+	wchar_t *tszFormat, *orgFormat, *tszSource, *orgSource, *tRes;
 
 	if (((FORMATINFO *)wParam)->cbSize >= sizeof(FORMATINFO)) {
 		memset(&tempFi, 0, sizeof(FORMATINFO));
@@ -384,7 +384,7 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 	return res;
 }
 
-TCHAR* formatString(FORMATINFO *fi)
+wchar_t* formatString(FORMATINFO *fi)
 {
 	if (fi == NULL)
 		return NULL;

@@ -277,7 +277,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 		RECT rcText;
 		CopyRect(&rcText, &rcClient);
 
-		TCHAR szText[MAX_PATH];
+		wchar_t szText[MAX_PATH];
 		GetWindowText(ctl->hwnd, szText, _countof(szText));
 		SetBkMode(hdcMem, TRANSPARENT);
 		HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);

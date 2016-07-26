@@ -48,7 +48,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 static INT_PTR ChangePM(WPARAM, LPARAM)
 {
-	TCHAR fn[MAX_PATH];
+	wchar_t fn[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(NULL), fn, _countof(fn));
 	ShellExecute(0, L"open", fn, L"/ForceShowPM", L"", 1);
 	CallService("CloseAction", 0, 0);
@@ -57,7 +57,7 @@ static INT_PTR ChangePM(WPARAM, LPARAM)
 
 static INT_PTR LoadPM(WPARAM, LPARAM)
 {
-	TCHAR fn[MAX_PATH];
+	wchar_t fn[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(NULL), fn, _countof(fn));
 	ShellExecute(0, L"open", fn, L"/ForceShowPM", L"", 1);
 	return 0;
@@ -66,7 +66,7 @@ static INT_PTR LoadPM(WPARAM, LPARAM)
 static INT_PTR CheckDb(WPARAM, LPARAM)
 {
 	if (MessageBox(0, TranslateT("Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?"), TranslateT("Check database"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
-		TCHAR mirandaPath[MAX_PATH], cmdLine[100];
+		wchar_t mirandaPath[MAX_PATH], cmdLine[100];
 		PROCESS_INFORMATION pi;
 		STARTUPINFO si = { 0 };
 		si.cb = sizeof(si);
@@ -112,7 +112,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(SRV_RESTART_ME, RestartMe);
 
 	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), -500200000);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Database"), -500200000);
 
 	for (int i = 0; i < _countof(iconList); i++) {
 		mi.name.a = iconList[i].szDescr;

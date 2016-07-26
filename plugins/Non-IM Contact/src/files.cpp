@@ -293,9 +293,9 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				char string[1000];
 				mir_snprintf(fn, "fn%d", i);
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_WWW_TIMER))) {
-					TCHAR text[5];
+					wchar_t text[5];
 					GetDlgItemText(hwnd, IDC_WWW_TIMER, text, _countof(text));
-					timer = _ttoi(text);
+					timer = _wtoi(text);
 				}
 				else timer = 60;
 

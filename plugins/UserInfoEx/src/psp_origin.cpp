@@ -86,7 +86,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 										mt.FromStampAsUTC(dwStamp);
 								}
 								if (mt.IsValid()) {
-									TCHAR szTime[MAX_PATH];
+									wchar_t szTime[MAX_PATH];
 									LPTSTR ptr;
 									
 									mt.UTCToLocal();
@@ -133,7 +133,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 	case WM_TIMER:
 		{
-			TCHAR szTime[32];
+			wchar_t szTime[32];
 			CTzCombo::GetObj(hDlg, EDIT_TIMEZONE)->GetTime(szTime, _countof(szTime));
 			SetDlgItemText(hDlg, TXT_TIME, szTime);
 			break;

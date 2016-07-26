@@ -19,9 +19,9 @@ public:
 	explicit ColEvents();
 
 protected:
-	virtual const TCHAR* impl_getUID() const { return con::ColEvents; }
-	virtual const TCHAR* impl_getTitle() const { return LPGENT("Events"); }
-	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding event counts for incoming, outgoing or total number of files or URLs."); }
+	virtual const wchar_t* impl_getUID() const { return con::ColEvents; }
+	virtual const wchar_t* impl_getTitle() const { return LPGENW("Events"); }
+	virtual const wchar_t* impl_getDescription() const { return LPGENW("Column holding event counts for incoming, outgoing or total number of files or URLs."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig; }
 	virtual void impl_configRead(const SettingsTree& settings);

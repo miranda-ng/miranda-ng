@@ -481,8 +481,8 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			ppd.lchContact = NULL;
 			ppd.lchIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
-			_tcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
-			_tcsncpy(ppd.lptzText, TranslateT("You broke the Internet!"), MAX_SECONDLINE);
+			wcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
+			wcsncpy(ppd.lptzText, TranslateT("You broke the Internet!"), MAX_SECONDLINE);
 			if (IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS))
 			{
 				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -568,8 +568,8 @@ int OptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.ptszGroup = LPGENT("Status");
-	odp.ptszTitle = LPGENT("KeepStatus");
+	odp.pwszGroup = LPGENW("Status");
+	odp.pwszTitle = LPGENW("KeepStatus");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
 	odp.pfnDlgProc = DlgProcKsTabs;
@@ -578,11 +578,11 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		memset(&odp, 0, sizeof(odp));
 		odp.position = 150000000;
-		odp.ptszGroup = LPGENT("Popups");
+		odp.pwszGroup = LPGENW("Popups");
 		odp.groupPosition = 910000000;
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
-		odp.ptszTitle = LPGENT("KeepStatus");
+		odp.pwszTitle = LPGENW("KeepStatus");
 		odp.pfnDlgProc = PopupOptDlgProc;
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 		Options_AddPage(wparam, &odp);

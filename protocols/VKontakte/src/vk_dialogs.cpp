@@ -160,7 +160,7 @@ void CVkInviteChatForm::OnInitDialog()
 {
 	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
 		if (!m_proto->isChatRoom(hContact)) {
-			TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+			wchar_t *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			m_cbxCombo.AddString(ptszNick, hContact);
 		}	
 	}

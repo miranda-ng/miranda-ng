@@ -95,9 +95,9 @@ void mwIm_place_invite(struct mwConversation* conv, const char* message, const c
 
 	///TODO unimplemented
 
-	TCHAR* tszMessage = mir_utf8decodeT(message);
+	wchar_t* tszMessage = mir_utf8decodeT(message);
 
-	TCHAR msg[512];
+	wchar_t msg[512];
 	mir_sntprintf(msg, TranslateT("SERVICE NOT IMPLEMENTED. %s"), tszMessage);
 	proto->showPopup(msg, SAMETIME_POPUP_INFO);
 

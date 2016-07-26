@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 
 
 struct Suggestions {
-	TCHAR ** words;
+	wchar_t ** words;
 	size_t count;
 };
 
@@ -32,37 +32,37 @@ struct Suggestions {
 // All dictionaries use a lazy interface
 class Dictionary {
 public:
-	TCHAR language[128];
-	TCHAR localized_name[128];
-	TCHAR english_name[128];
-	TCHAR full_name[256];
-	TCHAR source[128];
+	wchar_t language[128];
+	wchar_t localized_name[128];
+	wchar_t english_name[128];
+	wchar_t full_name[256];
+	wchar_t source[128];
 	AutoReplaceMap *autoReplace;
 	HANDLE hIcolib;
 
 	virtual ~Dictionary();
 
 	// Return TRUE if the word is correct
-	virtual BOOL spell(const TCHAR *) = 0;
+	virtual BOOL spell(const wchar_t *) = 0;
 
 	// Return a list of suggestions to a word
-	virtual Suggestions suggest(const TCHAR * word) = 0;
+	virtual Suggestions suggest(const wchar_t * word) = 0;
 
 	// Return a list of auto suggestions to a word
-	virtual Suggestions autoSuggest(const TCHAR * word) = 0;
+	virtual Suggestions autoSuggest(const wchar_t * word) = 0;
 
 	// Return a auto suggestions to a word
 	// You have to free the item
-	virtual TCHAR * autoSuggestOne(const TCHAR * word) = 0;
+	virtual wchar_t * autoSuggestOne(const wchar_t * word) = 0;
 
 	// Return TRUE if the char is a word char
-	virtual BOOL isWordChar(TCHAR c) = 0;
+	virtual BOOL isWordChar(wchar_t c) = 0;
 
 	// Add a word to the user custom dict
-	virtual void addWord(const TCHAR * word) = 0;
+	virtual void addWord(const wchar_t * word) = 0;
 
 	// Add a word to the list of ignored words
-	virtual void ignoreWord(const TCHAR * word) = 0;
+	virtual void ignoreWord(const wchar_t * word) = 0;
 
 	// Assert that all needed data is loaded
 	virtual void load() = 0;
@@ -74,7 +74,7 @@ public:
 
 
 // Return a list of avaible languages
-void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_path);
+void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *user_path);
 
 // Free the list returned by GetAvaibleDictionaries
 void FreeDictionaries(LIST<Dictionary> &dicts);

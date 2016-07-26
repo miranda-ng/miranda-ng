@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static MessageSendQueueItem *global_sendQueue = NULL;
 static mir_cs queueMutex;
 
-TCHAR* GetSendBufferMsg(MessageSendQueueItem *item)
+wchar_t* GetSendBufferMsg(MessageSendQueueItem *item)
 {
 	return mir_utf8decodeW(item->sendBuffer);
 }

@@ -18,7 +18,7 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Name");
-	mi.name.t = mir_utf8decodeT(luaL_checkstring(L, -1));
+	mi.name.w = mir_utf8decodeT(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Position");

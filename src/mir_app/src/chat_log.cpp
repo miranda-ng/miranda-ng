@@ -104,11 +104,11 @@ static void Log_Append(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloc
 	cbBufferEnd += charsDone;
 }
 
-static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const TCHAR *fmt, ...)
+static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const wchar_t *fmt, ...)
 {
 	va_list va;
 	int lineLen, textCharsCount = 0;
-	TCHAR* line = (TCHAR*)alloca(8001 * sizeof(TCHAR));
+	wchar_t* line = (wchar_t*)alloca(8001 * sizeof(wchar_t));
 
 	va_start(va, fmt);
 	lineLen = mir_vsntprintf(line, 8000, fmt, va);
@@ -150,14 +150,14 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 					line += 2;
 
 				else if (line[1] != '\0' && line[2] != '\0') {
-					TCHAR szTemp3[3], c = *line;
+					wchar_t szTemp3[3], c = *line;
 					int col;
 					szTemp3[0] = line[1];
 					szTemp3[1] = line[2];
 					szTemp3[2] = '\0';
 					line += 2;
 
-					col = _ttoi(szTemp3);
+					col = _wtoi(szTemp3);
 					col += (OPTIONS_FONTCOUNT + 1);
 					mir_snprintf(szTemp, (c == 'c') ? "\\cf%u " : "\\highlight%u ", col);
 				}
@@ -222,8 +222,8 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 
 static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAlloced, LOGSTREAMDATA *streamData)
 {
-	TCHAR szTemp[512], szTemp2[512];
-	TCHAR* pszNick = NULL;
+	wchar_t szTemp[512], szTemp2[512];
+	wchar_t* pszNick = NULL;
 	if (streamData->lin->ptszNick) {
 		if (g_Settings->bLogLimitNames && mir_tstrlen(streamData->lin->ptszNick) > 20) {
 			mir_tstrncpy(szTemp2, streamData->lin->ptszNick, 20);
@@ -234,7 +234,7 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 		if (streamData->lin->ptszUserInfo)
 			mir_sntprintf(szTemp, L"%s (%s)", szTemp2, streamData->lin->ptszUserInfo);
 		else
-			_tcsncpy_s(szTemp, szTemp2, _TRUNCATE);
+			wcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;
 	}
 
@@ -312,11 +312,11 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 	}
 }
 
-TCHAR* MakeTimeStamp(TCHAR *pszStamp, time_t time)
+wchar_t* MakeTimeStamp(wchar_t *pszStamp, time_t time)
 {
-	static TCHAR szTime[30];
-	if (!_tcsftime(szTime, _countof(szTime)-1, pszStamp, localtime(&time)))
-		_tcsncpy_s(szTime, TranslateT("<invalid>"), _TRUNCATE);
+	static wchar_t szTime[30];
+	if (!wcsftime(szTime, _countof(szTime)-1, pszStamp, localtime(&time)))
+		wcsncpy_s(szTime, TranslateT("<invalid>"), _TRUNCATE);
 	return szTime;
 }
 
@@ -380,7 +380,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 		//insert timestamp
 		if (g_Settings->bShowTime) {
-			TCHAR szTimeStamp[30], szOldTimeStamp[30];
+			wchar_t szTimeStamp[30], szOldTimeStamp[30];
 
 			mir_tstrncpy(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
 			mir_tstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
@@ -393,11 +393,11 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 		// Insert the nick
 		if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
-			TCHAR pszTemp[300], *p1;
+			wchar_t pszTemp[300], *p1;
 
 			Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
 			mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
-			p1 = _tcsstr(pszTemp, L"%n");
+			p1 = wcsstr(pszTemp, L"%n");
 			if (p1)
 				p1[1] = 's';
 

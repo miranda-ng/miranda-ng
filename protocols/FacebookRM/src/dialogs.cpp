@@ -272,9 +272,9 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		{
 			data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-			TCHAR mindMessageT[FACEBOOK_MIND_LIMIT + 1];
-			TCHAR urlT[1024];
-			TCHAR placeT[100];
+			wchar_t mindMessageT[FACEBOOK_MIND_LIMIT + 1];
+			wchar_t urlT[1024];
+			wchar_t placeT[100];
 
 			GetDlgItemText(hwnd, IDC_MINDMSG, mindMessageT, _countof(mindMessageT));
 			GetDlgItemText(hwnd, IDC_PLACE, placeT, _countof(placeT));
@@ -394,7 +394,7 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
-			char str[128]; TCHAR tstr[128];
+			char str[128]; wchar_t tstr[128];
 
 			GetDlgItemTextA(hwnd, IDC_UN, str, _countof(str));
 			db_set_s(0, proto->ModuleName(), FACEBOOK_KEY_LOGIN, str);

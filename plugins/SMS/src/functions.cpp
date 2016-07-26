@@ -402,31 +402,31 @@ DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplaceItemsC
 
 
 static const LPTSTR lpszXMLTags[] = { TEXT("&apos;"),		TEXT("&quot;"),		TEXT("&amp;"),		TEXT("&lt;"),		TEXT("&gt;") };
-static const size_t dwXMLTagsCount[] = { (6 * sizeof(TCHAR)),	(6 * sizeof(TCHAR)),	(5 * sizeof(TCHAR)),	(4 * sizeof(TCHAR)),	(4 * sizeof(TCHAR)) };
+static const size_t dwXMLTagsCount[] = { (6 * sizeof(wchar_t)),	(6 * sizeof(wchar_t)),	(5 * sizeof(wchar_t)),	(4 * sizeof(wchar_t)),	(4 * sizeof(wchar_t)) };
 static const LPTSTR lpszXMLSymbols[] = { TEXT("\'"),			TEXT("\""),			TEXT("&"),			TEXT("<"),			TEXT(">") };
-static const size_t dwXMLSymbolsCount[] = { sizeof(TCHAR),		sizeof(TCHAR),		sizeof(TCHAR),		sizeof(TCHAR),		sizeof(TCHAR) };
+static const size_t dwXMLSymbolsCount[] = { sizeof(wchar_t),		sizeof(wchar_t),		sizeof(wchar_t),		sizeof(wchar_t),		sizeof(wchar_t) };
 
 //Decode XML coded string. The function translate special xml code into standard characters.
 DWORD DecodeXML(LPTSTR lptszMessage, size_t dwMessageSize, LPTSTR lptszMessageConverted, size_t dwMessageConvertedBuffSize, size_t *pdwMessageConvertedSize)
 {
-	DWORD dwRet = ReplaceInBuff(lptszMessage, (dwMessageSize*sizeof(TCHAR)), _countof(lpszXMLTags), (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, lptszMessageConverted, (dwMessageConvertedBuffSize*sizeof(TCHAR)), pdwMessageConvertedSize);
+	DWORD dwRet = ReplaceInBuff(lptszMessage, (dwMessageSize*sizeof(wchar_t)), _countof(lpszXMLTags), (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, lptszMessageConverted, (dwMessageConvertedBuffSize*sizeof(wchar_t)), pdwMessageConvertedSize);
 
-	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize) /= sizeof(TCHAR);
+	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize) /= sizeof(wchar_t);
 	return(dwRet);
 }
 
 //Encode XML coded string. The function translate special saved xml characters into special characters.
 DWORD EncodeXML(LPTSTR lptszMessage, size_t dwMessageSize, LPTSTR lptszMessageConverted, size_t dwMessageConvertedBuffSize, size_t *pdwMessageConvertedSize)
 {
-	DWORD dwRet = ReplaceInBuff(lptszMessage, (dwMessageSize*sizeof(TCHAR)), _countof(lpszXMLTags), (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, lptszMessageConverted, (dwMessageConvertedBuffSize*sizeof(TCHAR)), pdwMessageConvertedSize);
+	DWORD dwRet = ReplaceInBuff(lptszMessage, (dwMessageSize*sizeof(wchar_t)), _countof(lpszXMLTags), (LPVOID*)lpszXMLSymbols, (size_t*)dwXMLSymbolsCount, (LPVOID*)lpszXMLTags, (size_t*)dwXMLTagsCount, lptszMessageConverted, (dwMessageConvertedBuffSize*sizeof(wchar_t)), pdwMessageConvertedSize);
 
-	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize) /= sizeof(TCHAR);
+	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize) /= sizeof(wchar_t);
 	return(dwRet);
 }
 
 
 //(Taken from Miranda-IM source code:)
-BYTE MsgDlgGetFontDefaultCharset(const TCHAR*)
+BYTE MsgDlgGetFontDefaultCharset(const wchar_t*)
 {
 	return(DEFAULT_CHARSET);
 }

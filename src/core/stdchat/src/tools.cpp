@@ -109,7 +109,7 @@ void CheckColorsInModule(const char* pszModule)
 	}
 }
 
-UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
+UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText)
 {
 	HMENU hSubMenu = 0;
 	*hMenu = GetSubMenu(g_hMenu, iIndex);
@@ -134,7 +134,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		}
 
 		if (pszWordText && pszWordText[0]) {
-			TCHAR szMenuText[4096];
+			wchar_t szMenuText[4096];
 			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 		}
@@ -142,7 +142,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		gcmi.Type = MENU_ON_LOG;
 	}
 	else if (iIndex == 0) {
-		TCHAR szTemp[50];
+		wchar_t szTemp[50];
 		if (pszWordText)
 			mir_sntprintf(szTemp, TranslateT("&Message %s"), pszWordText);
 		else
@@ -160,7 +160,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
 	for (int i = 0; i < gcmi.nItems; i++) {
-		TCHAR* ptszText = TranslateTS(gcmi.Item[i].pszDesc);
+		wchar_t* ptszText = TranslateTS(gcmi.Item[i].pszDesc);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (gcmi.Item[i].uType == MENU_NEWPOPUP) {
@@ -199,12 +199,12 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 	}
 }
 
-void ValidateFilename(TCHAR *filename)
+void ValidateFilename(wchar_t *filename)
 {
-	TCHAR *p1 = filename;
-	TCHAR szForbidden[] = L"\\/:*?\"<>|";
+	wchar_t *p1 = filename;
+	wchar_t szForbidden[] = L"\\/:*?\"<>|";
 	while (*p1 != '\0') {
-		if (_tcschr(szForbidden, *p1))
+		if (wcschr(szForbidden, *p1))
 			*p1 = '_';
 		p1 += 1;
 	}

@@ -46,13 +46,13 @@ public:
 	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
 
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR *szReason);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR * szMessage);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t * szMessage);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
-	virtual HANDLE    __cdecl SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *id);
+	virtual HANDLE    __cdecl SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName);
 
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
@@ -74,7 +74,7 @@ public:
 	static void UninitMenus();
 
 protected:
-	TCHAR *password;
+	wchar_t *password;
 	bool isLoginAgain;
 	time_t m_idleTS;
 	HANDLE m_evRequestsQueue, m_hQueueThread;
@@ -192,7 +192,7 @@ protected:
 	void OnInitStatusMenu();
 
 	// avatars
-	TCHAR* GetAvatarFilePath(MCONTACT hContact);
+	wchar_t* GetAvatarFilePath(MCONTACT hContact);
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai);
 	void CheckAvatarChange(MCONTACT hContact, std::string avatarUrl);
 
@@ -223,8 +223,8 @@ protected:
 
 	static int RsaEncrypt(const char *pszModulus, const char *data, BYTE *encrypted, DWORD &encryptedSize);
 
-	static void CSteamProto::ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
-	static void CSteamProto::ShowNotification(const TCHAR *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void CSteamProto::ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
 	INT_PTR __cdecl OnGetEventTextChatStates(WPARAM wParam, LPARAM lParam);
 

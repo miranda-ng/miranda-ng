@@ -161,7 +161,7 @@ bool p2p_IsDlFileOk(filetransfer* ft)
 
 	bool res = false;
 
-	int fileId = _topen(ft->std.tszCurrentFile, O_RDONLY | _O_BINARY, _S_IREAD);
+	int fileId = _wopen(ft->std.tszCurrentFile, O_RDONLY | _O_BINARY, _S_IREAD);
 	if (fileId != -1) {
 		BYTE buf[4096];
 		int bytes;
@@ -201,7 +201,7 @@ void CMsnProto::p2p_pictureTransferFailed(filetransfer* ft)
 	}
 	break;
 	}
-	_tremove(ft->std.tszCurrentFile);
+	_wremove(ft->std.tszCurrentFile);
 }
 
 void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
@@ -209,13 +209,13 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 	ft->close();
 
 	if (p2p_IsDlFileOk(ft)) {
-		int fileId = _topen(ft->std.tszCurrentFile, O_RDONLY | _O_BINARY, _S_IREAD);
+		int fileId = _wopen(ft->std.tszCurrentFile, O_RDONLY | _O_BINARY, _S_IREAD);
 		if (fileId == -1) {
 			p2p_pictureTransferFailed(ft);
 			return;
 		}
 
-		const TCHAR* ext;
+		const wchar_t* ext;
 		int format;
 		BYTE buf[6];
 
@@ -237,7 +237,7 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 			ai.hContact = ft->std.hContact;
 			MSN_GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename), ext);
 
-			_trename(ft->std.tszCurrentFile, ai.filename);
+			_wrename(ft->std.tszCurrentFile, ai.filename);
 
 			// Store also avatar hash
 			char *szAvatarHash = MSN_GetAvatarHash(ft->p2p_object);
@@ -259,9 +259,9 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 			cont.hContact = ft->std.hContact;
 			cont.type = 1;
 
-			TCHAR* pathcpy = mir_tstrdup(ft->std.tszCurrentFile);
-			mir_tstrcpy(_tcsrchr(pathcpy, '.') + 1, ext);
-			_trename(ft->std.tszCurrentFile, pathcpy);
+			wchar_t* pathcpy = mir_tstrdup(ft->std.tszCurrentFile);
+			mir_tstrcpy(wcsrchr(pathcpy, '.') + 1, ext);
+			_wrename(ft->std.tszCurrentFile, pathcpy);
 
 			cont.path = pathcpy;
 
@@ -1173,9 +1173,9 @@ void CMsnProto::p2p_InitFileTransfer(
 				db_free(&dbv);
 			}
 			if (pictmatch) {
-				TCHAR szFileName[MAX_PATH];
+				wchar_t szFileName[MAX_PATH];
 				MSN_GetAvatarFileName(NULL, szFileName, _countof(szFileName), NULL);
-				ft->fileId = _topen(szFileName, O_RDONLY | _O_BINARY, _S_IREAD);
+				ft->fileId = _wopen(szFileName, O_RDONLY | _O_BINARY, _S_IREAD);
 				if (ft->fileId == -1) {
 					p2p_sendStatus(ft, 603);
 					MSN_ShowError("Your avatar not set correctly. Avatar should be set in View/Change My Details | Avatar");
@@ -1223,15 +1223,15 @@ void CMsnProto::p2p_InitFileTransfer(
 			ft->std.totalBytes = ft->std.currentFileSize = ((HFileContext*)szContext)->dwSize;
 			ft->std.totalFiles = 1;
 
-			TCHAR tComment[40];
+			wchar_t tComment[40];
 			mir_sntprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 			PROTORECVFILET pre = { 0 };
 			pre.dwFlags = PRFF_TCHAR;
 			pre.fileCount = 1;
 			pre.timestamp = time(NULL);
-			pre.descr.t = tComment;
-			pre.files.t = &ft->std.tszCurrentFile;
+			pre.descr.w = tComment;
+			pre.files.w = &ft->std.tszCurrentFile;
 			pre.lParam = (LPARAM)ft;
 			ProtoChainRecvFile(ft->std.hContact, &pre);
 		}
@@ -1698,7 +1698,7 @@ void CMsnProto::p2p_processSIP(ThreadData* info, char* msgbody, P2PB_Header* hdr
 			break;
 
 		ft->close();
-		if (!(ft->std.flags & PFTS_SENDING)) _tremove(ft->std.tszCurrentFile);
+		if (!(ft->std.flags & PFTS_SENDING)) _wremove(ft->std.tszCurrentFile);
 
 		p2p_unregisterSession(ft);
 	}
@@ -2024,7 +2024,7 @@ void CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 			ctx->type = MSN_TYPEID_FTNOPREVIEW;
 			ctx->dwSize = ft->std.currentFileSize;
 
-			TCHAR* pszFiles = _tcsrchr(ft->std.tszCurrentFile, '\\');
+			wchar_t* pszFiles = wcsrchr(ft->std.tszCurrentFile, '\\');
 			if (pszFiles)
 				pszFiles++;
 			else

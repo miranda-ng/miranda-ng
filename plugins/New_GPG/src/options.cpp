@@ -43,25 +43,25 @@ int GpgOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG);
-	odp.ptszTitle = _T(szGPGModuleName);
-	odp.ptszGroup = LPGENT("Services");
-	odp.ptszTab = LPGENT("Main");
+	odp.pwszTitle = _T(szGPGModuleName);
+	odp.pwszGroup = LPGENW("Services");
+	odp.pwszTab = LPGENW("Main");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcGpgOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_BIN);
-	odp.ptszTab = LPGENT("GnuPG Variables");
+	odp.pwszTab = LPGENW("GnuPG Variables");
 	odp.pfnDlgProc = DlgProcGpgBinOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_MESSAGES);
-	odp.ptszTab = LPGENT("Messages");
+	odp.pwszTab = LPGENW("Messages");
 	odp.pfnDlgProc = DlgProcGpgMsgOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_ADVANCED);
-	odp.ptszTab = LPGENT("Advanced");
+	odp.pwszTab = LPGENW("Advanced");
 	odp.pfnDlgProc = DlgProcGpgAdvOpts;
 	Options_AddPage(wParam, &odp);
 	return 0;
@@ -120,7 +120,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			int i = 1, iRow = 0;
 			for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 				if (isContactHaveKey(hContact)) {
-					TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
+					wchar_t *name = pcli->pfnGetContactDisplayName(hContact, 0);
 					item.mask = LVIF_TEXT;
 					item.iItem = i;
 					item.iSubItem = 0;
@@ -128,7 +128,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					iRow = ListView_InsertItem(hwndList, &item);
 					ListView_SetItemText(hwndList, iRow, 0, name);
 					
-					TCHAR *tmp = mir_a2t(GetContactProto(hContact));
+					wchar_t *tmp = mir_a2t(GetContactProto(hContact));
 					ListView_SetItemText(hwndList, iRow, 4, tmp);
 					mir_free(tmp);
 					
@@ -168,7 +168,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					i++;
 				}
 			}
-			TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szLogFilePath", L"");
+			wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szLogFilePath", L"");
 			SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, (mir_tstrlen(tmp) > 1) ? tmp : L"c:\\GPGdebug.log");
 			mir_free(tmp);
 			CheckStateLoadDB(hwndDlg, IDC_DEBUG_LOG, "bDebugLog", 0);
@@ -195,7 +195,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			void setClistIcon(MCONTACT hContact);
 			void setSrmmIcon(MCONTACT hContact);
 			{ //gpg execute block
-				TCHAR *ptmp;
+				wchar_t *ptmp;
 				char *tmp;
 				bool keep = false;
 				bool ismetacontact = false;
@@ -304,7 +304,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 		case IDC_SAVE_KEY_BUTTON:
 			{
-				TCHAR *tmp = GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true);
+				wchar_t *tmp = GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true);
 				if (tmp) {
 					wstring str(ptrT(UniGetContactSettingUtf(user_data[item_num + 1], szGPGModuleName, "GPGPubKey", L"")));
 					wstring::size_type s = 0;
@@ -332,7 +332,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				}
 				szKey = (char*)GlobalLock(hMem);
 				if (!szKey) {
-					TCHAR msg[64];
+					wchar_t msg[64];
 					mir_sntprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
 					MessageBox(0, msg, TranslateT("Error"), MB_OK);
 					GlobalFree(hMem);
@@ -345,7 +345,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					GlobalUnlock(hMem);
 					if (!SetClipboardData(CF_OEMTEXT, hMem)) {
 						GlobalFree(hMem);
-						TCHAR msg[64];
+						wchar_t msg[64];
 						mir_sntprintf(msg, TranslateT("Failed write to clipboard with error %d"), GetLastError());
 						MessageBox(0, msg, TranslateT("Error"), MB_OK);
 					}
@@ -353,7 +353,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				}
 			}
 			else {
-				TCHAR msg[64];
+				wchar_t msg[64];
 				mir_sntprintf(msg, TranslateT("Failed to open clipboard with error %d"), GetLastError());
 				MessageBox(0, msg, TranslateT("Error"), MB_OK);
 			}
@@ -397,7 +397,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			}
 			bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange") != 0;
 			{
-				TCHAR tmp[512];
+				wchar_t tmp[512];
 				GetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, tmp, _countof(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szLogFilePath", tmp);
 			}
@@ -424,7 +424,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_SET_BIN_PATH:
 			{
 				GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", L"*.exe", TranslateT("EXE Executables"));
-				TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe");
+				wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe");
 				SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 				bool gpg_exists = false;
 				{
@@ -432,7 +432,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						gpg_exists = true;
 					if (gpg_exists) {
 						bool bad_version = false;
-						TCHAR *tmp_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
+						wchar_t *tmp_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
 						db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 						string out;
 						DWORD code;
@@ -478,7 +478,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_SET_HOME_DIR:
 			{
 				GetFolderPath(TranslateT("Set home directory"), "szHomePath");
-				TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+				wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 				SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 				char mir_path[MAX_PATH];
 				char *atmp = mir_t2a(tmp);
@@ -503,7 +503,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			TCHAR tmp[512];
+			wchar_t tmp[512];
 			GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, _countof(tmp));
 			db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
@@ -526,7 +526,7 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			CheckStateLoadDB(hwndDlg, IDC_APPEND_TAGS, "bAppendTags", 0);
 			CheckStateLoadDB(hwndDlg, IDC_STRIP_TAGS, "bStripTags", 0);
 			{
-				TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInOpenTag", L"<GPGdec>");
+				wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInOpenTag", L"<GPGdec>");
 				SetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp);
 				mir_free(tmp);
 				tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInCloseTag", L"</GPGdec>");
@@ -565,26 +565,26 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					bAppendTags = CheckStateStoreDB(hwndDlg, IDC_APPEND_TAGS, "bAppendTags") != 0;
 					bStripTags = CheckStateStoreDB(hwndDlg, IDC_STRIP_TAGS, "bStripTags") != 0;
 					{
-						TCHAR tmp[128];
+						wchar_t tmp[128];
 						GetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp, _countof(tmp));
 						db_set_ts(NULL, szGPGModuleName, "szInOpenTag", tmp);
 						mir_free(inopentag);
-						inopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (mir_tstrlen(tmp) + 1));
+						inopentag = (wchar_t*)mir_alloc(sizeof(wchar_t)* (mir_tstrlen(tmp) + 1));
 						mir_tstrcpy(inopentag, tmp);
 						GetDlgItemText(hwndDlg, IDC_IN_CLOSE_TAG, tmp, _countof(tmp));
 						db_set_ts(NULL, szGPGModuleName, "szInCloseTag", tmp);
 						mir_free(inclosetag);
-						inclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (mir_tstrlen(tmp) + 1));
+						inclosetag = (wchar_t*)mir_alloc(sizeof(wchar_t)* (mir_tstrlen(tmp) + 1));
 						mir_tstrcpy(inclosetag, tmp);
 						GetDlgItemText(hwndDlg, IDC_OUT_OPEN_TAG, tmp, _countof(tmp));
 						db_set_ts(NULL, szGPGModuleName, "szOutOpenTag", tmp);
 						mir_free(outopentag);
-						outopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (mir_tstrlen(tmp) + 1));
+						outopentag = (wchar_t*)mir_alloc(sizeof(wchar_t)* (mir_tstrlen(tmp) + 1));
 						mir_tstrcpy(outopentag, tmp);
 						GetDlgItemText(hwndDlg, IDC_OUT_CLOSE_TAG, tmp, _countof(tmp));
 						db_set_ts(NULL, szGPGModuleName, "szOutCloseTag", tmp);
 						mir_free(outclosetag);
-						outclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(tmp) + 1));
+						outclosetag = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_tstrlen(tmp) + 1));
 						mir_tstrcpy(outclosetag, tmp);
 					}
 					return TRUE;
@@ -679,7 +679,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				CheckDlgButton(hwndDlg, IDC_ENABLE_ENCRYPTION, BST_CHECKED);
 			}
 			if (hcnt) {
-				TCHAR *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", L"");
+				wchar_t *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", L"");
 				wstring str = tmp;
 				mir_free(tmp); tmp = NULL;
 				if (!str.empty()) {
@@ -713,7 +713,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 						if ((out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----") != string::npos) && (out.find("-----END PGP PUBLIC KEY BLOCK-----") != string::npos)) {
 							boost::algorithm::replace_all(out, "\n", "\r\n");
 
-							TCHAR *tmp3 = mir_a2t(out.c_str());
+							wchar_t *tmp3 = mir_a2t(out.c_str());
 							str.clear();
 							str.append(tmp3);
 							mir_free(tmp3);
@@ -747,8 +747,8 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			switch (LOWORD(wParam)) {
 			case ID_OK:
 				{
-					TCHAR *tmp = new TCHAR[40960];
-					TCHAR *begin, *end;
+					wchar_t *tmp = new wchar_t[40960];
+					wchar_t *begin, *end;
 					GetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, tmp, 40960);
 					key_buf.append(tmp);
 					key_buf.append(L"\n"); //no new line at end of file )
@@ -758,15 +758,15 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					}
 					ws1 = 0;
 					if (((ws2 = key_buf.find(L"-----END PGP PUBLIC KEY BLOCK-----")) != wstring::npos) && ((ws1 = key_buf.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----")) != wstring::npos)) {
-						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(L"-----BEGIN PGP PUBLIC KEY BLOCK-----") + 1));
+						begin = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_tstrlen(L"-----BEGIN PGP PUBLIC KEY BLOCK-----") + 1));
 						mir_tstrcpy(begin, L"-----BEGIN PGP PUBLIC KEY BLOCK-----");
-						end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(L"-----END PGP PUBLIC KEY BLOCK-----") + 1));
+						end = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_tstrlen(L"-----END PGP PUBLIC KEY BLOCK-----") + 1));
 						mir_tstrcpy(end, L"-----END PGP PUBLIC KEY BLOCK-----");
 					}
 					else if (((ws2 = key_buf.find(L"-----END PGP PRIVATE KEY BLOCK-----")) != wstring::npos) && ((ws1 = key_buf.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----")) != wstring::npos)) {
-						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(L"-----BEGIN PGP PRIVATE KEY BLOCK-----") + 1));
+						begin = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_tstrlen(L"-----BEGIN PGP PRIVATE KEY BLOCK-----") + 1));
 						mir_tstrcpy(begin, L"-----BEGIN PGP PRIVATE KEY BLOCK-----");
-						end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(L"-----END PGP PRIVATE KEY BLOCK-----") + 1));
+						end = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_tstrlen(L"-----END PGP PRIVATE KEY BLOCK-----") + 1));
 						mir_tstrcpy(end, L"-----END PGP PRIVATE KEY BLOCK-----");
 					}
 					else {
@@ -790,18 +790,18 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 						}
 						else db_set_ts(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
 					}
-					tmp = (TCHAR*)mir_alloc(sizeof(TCHAR) * (key_buf.length() + 1));
+					tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * (key_buf.length() + 1));
 					mir_tstrcpy(tmp, key_buf.substr(ws1, ws2 - ws1).c_str());
 					{ //gpg execute block
 						std::vector<wstring> cmd;
-						TCHAR tmp2[MAX_PATH] = { 0 };
-						TCHAR *ptmp;
+						wchar_t tmp2[MAX_PATH] = { 0 };
+						wchar_t *ptmp;
 						string output;
 						DWORD exitcode;
 						{
 							MCONTACT hcnt = db_mc_tryMeta(hContact);
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
-							_tcsncpy(tmp2, ptmp, MAX_PATH - 1);
+							wcsncpy(tmp2, ptmp, MAX_PATH - 1);
 							mir_free(ptmp);
 							mir_tstrncat(tmp2, L"\\", _countof(tmp2) - mir_tstrlen(tmp2));
 							mir_tstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_tstrlen(tmp2));
@@ -1004,7 +1004,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 							}
 						}
 						if (!hContact) {
-							TCHAR *fp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", L"");
+							wchar_t *fp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", L"");
 							{
 								string out;
 								DWORD code;
@@ -1069,7 +1069,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				break;
 			case ID_LOAD_FROM_FILE:
 				{
-					TCHAR *tmp = GetFilePath(TranslateT("Set file containing GPG public key"), L"*", TranslateT("GPG public key file"));
+					wchar_t *tmp = GetFilePath(TranslateT("Set file containing GPG public key"), L"*", TranslateT("GPG public key file"));
 					if (!tmp)
 						break;
 
@@ -1081,7 +1081,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					}
 					if (f.is_open()) {
 						std::wifstream::pos_type size = f.tellg();
-						TCHAR *temp = new TCHAR[(std::ifstream::pos_type)size + (std::ifstream::pos_type)1];
+						wchar_t *temp = new wchar_t[(std::ifstream::pos_type)size + (std::ifstream::pos_type)1];
 						f.seekg(0, std::ios::beg);
 						f.read(temp, size);
 						temp[size] = '\0';

@@ -143,7 +143,7 @@ int RichEdit::GetLineCount() const
 	return SendMessage(EM_GETLINECOUNT, 0, 0);
 }
 
-void RichEdit::GetLine(int line, TCHAR *text, size_t text_len) const
+void RichEdit::GetLine(int line, wchar_t *text, size_t text_len) const
 {
 	*((WORD*)text) = WORD(text_len - 1);
 	unsigned size = (unsigned)SendMessage(EM_GETLINE, (WPARAM)line, (LPARAM)text);
@@ -152,7 +152,7 @@ void RichEdit::GetLine(int line, TCHAR *text, size_t text_len) const
 	// to make both implementations return same size
 	int lineLen = GetLineLength(line);
 	size = (unsigned)max(0, min((int)text_len - 1, min((int)size, lineLen)));
-	text[size] = _T('\0');
+	text[size] = '\0';
 }
 
 int RichEdit::GetLineLength(int line) const
@@ -193,7 +193,7 @@ int RichEdit::GetTextLength() const
 	return GetWindowTextLength(m_hwnd);
 }
 
-TCHAR* RichEdit::GetText(int start, int end) const
+wchar_t* RichEdit::GetText(int start, int end) const
 {
 	if (end <= start)
 		end = GetTextLength();
@@ -211,26 +211,26 @@ TCHAR* RichEdit::GetText(int start, int end) const
 			return mir_tstrdup(L"");
 		}
 
-		TCHAR *res = mir_u2t(text);
+		wchar_t *res = mir_u2t(text);
 		range->Release();
 		::SysFreeString(text);
 		return res;
 	}
 
 	int len = (GetTextLength() + 1);
-	TCHAR *tmp = (TCHAR *)mir_alloc(len * sizeof(TCHAR));
+	wchar_t *tmp = (wchar_t *)mir_alloc(len * sizeof(wchar_t));
 	GetWindowText(m_hwnd, tmp, len);
 	tmp[len] = 0;
 
-	TCHAR *ret = (TCHAR *)mir_alloc((end - start + 1) * sizeof(TCHAR));
-	memmove(ret, &tmp[start], (end - start) * sizeof(TCHAR));
+	wchar_t *ret = (wchar_t *)mir_alloc((end - start + 1) * sizeof(wchar_t));
+	memmove(ret, &tmp[start], (end - start) * sizeof(wchar_t));
 	ret[end - start] = 0;
 
 	mir_free(tmp);
 	return ret;
 }
 
-void RichEdit::ReplaceSel(const TCHAR *new_text)
+void RichEdit::ReplaceSel(const wchar_t *new_text)
 {
 	if (m_stopped) {
 		CHARRANGE sel = GetSel();
@@ -249,7 +249,7 @@ void RichEdit::ReplaceSel(const TCHAR *new_text)
 	else SendMessage(EM_REPLACESEL, m_undoEnabled, (LPARAM)new_text);
 }
 
-int RichEdit::Replace(int start, int end, const TCHAR *new_text)
+int RichEdit::Replace(int start, int end, const wchar_t *new_text)
 {
 	CHARRANGE sel = GetSel();
 	CHARRANGE replace_sel = { start, end };
@@ -262,7 +262,7 @@ int RichEdit::Replace(int start, int end, const TCHAR *new_text)
 	return dif;
 }
 
-int RichEdit::Insert(int pos, const TCHAR *text)
+int RichEdit::Insert(int pos, const wchar_t *text)
 {
 	CHARRANGE sel = GetSel();
 	CHARRANGE replace_sel = { pos, pos };

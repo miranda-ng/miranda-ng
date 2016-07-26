@@ -22,7 +22,7 @@
 
 void __cdecl CYahooProto::search_simplethread(void *snsearch)
 {
-	TCHAR *id = (TCHAR *)snsearch;
+	wchar_t *id = (wchar_t *)snsearch;
 
 	if (mir_tstrlen(id) < 4) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
@@ -30,14 +30,14 @@ void __cdecl CYahooProto::search_simplethread(void *snsearch)
 		return;
 	}
 
-	TCHAR *c = _tcschr(id, '@');
+	wchar_t *c = wcschr(id, '@');
 	if (c) *c = 0;
 
 	YAHOO_SEARCH_RESULT psr;
 	memset(&psr, 0, sizeof(psr));
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_TCHAR;
-	psr.id.t = (TCHAR*)_tcslwr(id);
+	psr.id.w = (wchar_t*)wcslwr(id);
 	psr.protocol = YAHOO_IM_YAHOO;
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
@@ -47,14 +47,14 @@ void __cdecl CYahooProto::search_simplethread(void *snsearch)
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
-HANDLE __cdecl CYahooProto::SearchBasic(const TCHAR* nick)
+HANDLE __cdecl CYahooProto::SearchBasic(const wchar_t* nick)
 {
 	LOG(("[YahooBasicSearch] Searching for: %S", nick));
 
 	if (!m_bLoggedIn)
 		return 0;
 
-	ForkThread(&CYahooProto::search_simplethread, _tcsdup(nick));
+	ForkThread(&CYahooProto::search_simplethread, wcsdup(nick));
 	return (HANDLE)1;
 }
 
@@ -158,7 +158,7 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 {
 	HWND hwndDlg = (HWND)pHWND;
 
-	TCHAR searchid[128];
+	wchar_t searchid[128];
 	GetDlgItemText(hwndDlg, IDC_SEARCH_ID, searchid, _countof(searchid));
 
 	if (mir_tstrlen(searchid) == 0) {
@@ -171,13 +171,13 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 	memset(&psr, 0, sizeof(psr));
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_UNICODE;
-	psr.id.t = _tcslwr(searchid);
+	psr.id.w = wcslwr(searchid);
 
 	switch (SendDlgItemMessage(hwndDlg, IDC_SEARCH_PROTOCOL, CB_GETCURSEL, 0, 0)) {
-		case 0: psr.firstName.t = L"<Yahoo>";  psr.protocol = YAHOO_IM_YAHOO; break;
-		case 1: psr.firstName.t = L"<Lotus Sametime>"; psr.protocol = YAHOO_IM_SAMETIME; break;
-		case 2: psr.firstName.t = L"<LCS>"; psr.protocol = YAHOO_IM_LCS; break;
-		case 3: psr.firstName.t = L"<Windows Live (MSN)>"; psr.protocol = YAHOO_IM_MSN; break;
+		case 0: psr.firstName.w = L"<Yahoo>";  psr.protocol = YAHOO_IM_YAHOO; break;
+		case 1: psr.firstName.w = L"<Lotus Sametime>"; psr.protocol = YAHOO_IM_SAMETIME; break;
+		case 2: psr.firstName.w = L"<LCS>"; psr.protocol = YAHOO_IM_LCS; break;
+		case 3: psr.firstName.w = L"<Windows Live (MSN)>"; psr.protocol = YAHOO_IM_MSN; break;
 	}
 
 	/*

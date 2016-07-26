@@ -38,16 +38,16 @@ ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 	return newItem;
 }
 
-ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
+ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
 	dat->bNeedsResort = true;
 	if (!(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_USEGROUPS))
 		return &dat->list;
 
 	ClcGroup *group = &dat->list;
-	TCHAR *pNextField = NEWTSTR_ALLOCA(szName);
+	wchar_t *pNextField = NEWWSTR_ALLOCA(szName);
 	do {
-		TCHAR *pBackslash = _tcschr(pNextField, '\\'), *pThisField = pNextField;
+		wchar_t *pBackslash = wcschr(pNextField, '\\'), *pThisField = pNextField;
 		if (pBackslash == NULL) {
 			pNextField = NULL;
 		}
@@ -137,7 +137,7 @@ void fnFreeGroup(ClcGroup *group)
 }
 
 static int iInfoItemUniqueHandle = 0;
-ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
+ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText)
 {
 	int i = 0;
 
@@ -235,7 +235,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 
 			if (checkHideOffline && cli.pfnIsHiddenMode(dat, status)) {
 				for (i = 1;; i++) {
-					TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags);
+					wchar_t *szGroupName = Clist_GroupGetName(i, &groupFlags);
 					if (szGroupName == NULL)
 						return;
 
@@ -246,7 +246,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 					return;
 			}
 			for (i = 1;; i++) {
-				TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags);
+				wchar_t *szGroupName = Clist_GroupGetName(i, &groupFlags);
 				if (szGroupName == NULL)
 					return;
 
@@ -254,7 +254,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 					break;
 
 				size_t len = mir_tstrlen(szGroupName);
-				if (!_tcsncmp(szGroupName, tszGroup, len) && tszGroup[len] == '\\')
+				if (!wcsncmp(szGroupName, tszGroup, len) && tszGroup[len] == '\\')
 					cli.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 1);
 			}
 			group = cli.pfnAddGroup(hwnd, dat, tszGroup, groupFlags, i, 1);
@@ -323,7 +323,7 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 			ClcContact *cc = group->cl[i];
 			if (cc->type == CLCIT_GROUP) {
 				size_t len = mir_tstrlen(cc->szText);
-				if (!_tcsncmp(cc->szText, dbv.ptszVal + nameOffset, len) &&
+				if (!wcsncmp(cc->szText, dbv.ptszVal + nameOffset, len) &&
 					(dbv.ptszVal[nameOffset + len] == '\\' || dbv.ptszVal[nameOffset + len] == '\0')) {
 					group->totalMembers--;
 					if (dbv.ptszVal[nameOffset + len] == '\0')
@@ -353,7 +353,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 
 	for (int i = 1;; i++) {
 		DWORD groupFlags;
-		TCHAR *szGroupName = Clist_GroupGetName(i, &groupFlags);
+		wchar_t *szGroupName = Clist_GroupGetName(i, &groupFlags);
 		if (szGroupName == NULL)
 			break;
 		cli.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);
@@ -378,11 +378,11 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 				group->totalMembers++;
 
 				if (dat->bFilterSearch && dat->szQuickSearch[0] != '\0') {
-					TCHAR *name = cli.pfnGetContactDisplayName(hContact, 0);
-					TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(name));
-					TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
+					wchar_t *name = cli.pfnGetContactDisplayName(hContact, 0);
+					wchar_t *lowered_name = CharLowerW(NEWWSTR_ALLOCA(name));
+					wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
 
-					if (_tcsstr(lowered_name, lowered_search))
+					if (wcsstr(lowered_name, lowered_search))
 						cli.pfnAddContactToGroup(dat, group, hContact);
 				}
 				else if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {

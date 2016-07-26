@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CPageList filterStrings(1);
 
-void AddFilterString(const PageHash key, TCHAR *data)
+void AddFilterString(const PageHash key, wchar_t *data)
 {
 	if (ContainsFilterString(key, data)) return;
 
@@ -44,7 +44,7 @@ void ClearFilterStrings()
 	filterStrings.destroy();
 }
 
-BOOL ContainsFilterString(const PageHash key, TCHAR *data)
+BOOL ContainsFilterString(const PageHash key, wchar_t *data)
 {
 	CPageKeywords* values = filterStrings[key];
 	return (values) ? values->ContainsString(data) : FALSE;
@@ -53,7 +53,7 @@ BOOL ContainsFilterString(const PageHash key, TCHAR *data)
 void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 {
 	if (root) {
-		TCHAR title[2048] = {0};
+		wchar_t title[2048] = {0};
 
 		TVITEM item = {0};
 		item.mask = TVIF_TEXT;
@@ -77,12 +77,12 @@ void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 
 void AddDialogString(HWND hWndDlg, const PageHash key)
 {
-	TCHAR title[2048];
+	wchar_t title[2048];
 	GetWindowText(hWndDlg, title, _countof(title));
 	if (mir_tstrlen(title) > 0)
 		AddFilterString(key, title);
 
-	TCHAR szClass[64];
+	wchar_t szClass[64];
 	GetClassName(hWndDlg, szClass, _countof(szClass));
 
 	if (mir_tstrcmpi(szClass, L"SysTreeView32") == 0) {
@@ -143,7 +143,7 @@ static BOOL CALLBACK GetDialogStringsCallback(HWND hWnd, LPARAM lParam)
 	return TRUE;
 }
 
-void GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *pluginName, HWND hWnd, TCHAR *group, TCHAR *title, TCHAR *tab, TCHAR *name)
+void GetDialogStrings(int enableKeywordFiltering, const PageHash key, wchar_t *pluginName, HWND hWnd, wchar_t *group, wchar_t *title, wchar_t *tab, wchar_t *name)
 {
 	AddFilterString(key, pluginName); //add the plugin name as keyword
 	if (group) AddFilterString(key, group);

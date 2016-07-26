@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 
-static TCHAR *parseAnd(ARGUMENTSINFO *ai)
+static wchar_t *parseAnd(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
 		return NULL;
@@ -39,7 +39,7 @@ static TCHAR *parseAnd(ARGUMENTSINFO *ai)
 	return mir_tstrdup(L"");
 }
 
-static TCHAR *parseFalse(ARGUMENTSINFO *ai)
+static wchar_t *parseFalse(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
@@ -48,7 +48,7 @@ static TCHAR *parseFalse(ARGUMENTSINFO *ai)
 	return mir_tstrdup(L"");
 }
 
-static TCHAR *parseIf(ARGUMENTSINFO *ai)
+static wchar_t *parseIf(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
 		return NULL;
@@ -62,7 +62,7 @@ static TCHAR *parseIf(ARGUMENTSINFO *ai)
 	return mir_tstrdup((fi.eCount == 0) ? ai->targv[2] : ai->targv[3]);
 }
 
-static TCHAR *parseIf2(ARGUMENTSINFO *ai)
+static wchar_t *parseIf2(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -71,7 +71,7 @@ static TCHAR *parseIf2(ARGUMENTSINFO *ai)
 	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.eCount = fi.pCount = 0;
 	fi.tszFormat = ai->targv[1];
-	TCHAR *szCondition = formatString(&fi);
+	wchar_t *szCondition = formatString(&fi);
 	if (fi.eCount == 0)
 		return szCondition;
 
@@ -79,14 +79,14 @@ static TCHAR *parseIf2(ARGUMENTSINFO *ai)
 	return mir_tstrdup(ai->targv[2]);
 }
 
-static TCHAR *parseIf3(ARGUMENTSINFO *ai)
+static wchar_t *parseIf3(ARGUMENTSINFO *ai)
 {
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
 	for (unsigned i = 1; i < ai->argc; i++) {
 		fi.eCount = fi.pCount = 0;
 		fi.tszFormat = ai->targv[i];
-		TCHAR *szCondition = formatString(&fi);
+		wchar_t *szCondition = formatString(&fi);
 		if (fi.eCount == 0)
 			return szCondition;
 
@@ -96,7 +96,7 @@ static TCHAR *parseIf3(ARGUMENTSINFO *ai)
 	return NULL;
 }
 
-static TCHAR *parseIfequal(ARGUMENTSINFO *ai)
+static wchar_t *parseIfequal(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return NULL;
@@ -116,7 +116,7 @@ static TCHAR *parseIfequal(ARGUMENTSINFO *ai)
 	return mir_tstrdup(ai->targv[4]);
 }
 
-static TCHAR *parseIfgreater(ARGUMENTSINFO *ai)
+static wchar_t *parseIfgreater(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return NULL;
@@ -136,7 +136,7 @@ static TCHAR *parseIfgreater(ARGUMENTSINFO *ai)
 	return mir_tstrdup(ai->targv[4]);
 }
 
-static TCHAR *parseIflonger(ARGUMENTSINFO *ai)
+static wchar_t *parseIflonger(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return NULL;
@@ -161,12 +161,12 @@ static TCHAR *parseIflonger(ARGUMENTSINFO *ai)
   ?for(init, cond, incr, show)
 
   */
-static TCHAR *parseFor(ARGUMENTSINFO *ai)
+static wchar_t *parseFor(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
 		return NULL;
 
-	TCHAR *res = mir_tstrdup(L"");
+	wchar_t *res = mir_tstrdup(L"");
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -177,16 +177,16 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai)
 	mir_free(formatString(&fi));
 	while (fi.eCount == 0) {
 		fi.tszFormat = ai->targv[4];
-		TCHAR *parsed = formatString(&fi);
+		wchar_t *parsed = formatString(&fi);
 		if (parsed != NULL) {
 			if (res == NULL) {
-				res = (TCHAR*)mir_alloc(mir_tstrlen(parsed) + 1 * sizeof(TCHAR));
+				res = (wchar_t*)mir_alloc(mir_tstrlen(parsed) + 1 * sizeof(wchar_t));
 				if (res == NULL) {
 					mir_free(parsed);
 					return NULL;
 				}
 			}
-			else res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + mir_tstrlen(parsed) + 1)*sizeof(TCHAR));
+			else res = (wchar_t*)mir_realloc(res, (mir_tstrlen(res) + mir_tstrlen(parsed) + 1)*sizeof(wchar_t));
 
 			mir_tstrcat(res, parsed);
 			mir_free(parsed);
@@ -201,7 +201,7 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseEqual(ARGUMENTSINFO *ai)
+static wchar_t *parseEqual(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -212,7 +212,7 @@ static TCHAR *parseEqual(ARGUMENTSINFO *ai)
 	return mir_tstrdup(L"");
 }
 
-static TCHAR *parseGreater(ARGUMENTSINFO *ai)
+static wchar_t *parseGreater(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -223,7 +223,7 @@ static TCHAR *parseGreater(ARGUMENTSINFO *ai)
 	return mir_tstrdup(L"");
 }
 
-static TCHAR *parseLonger(ARGUMENTSINFO *ai)
+static wchar_t *parseLonger(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;
@@ -234,7 +234,7 @@ static TCHAR *parseLonger(ARGUMENTSINFO *ai)
 	return mir_tstrdup(L"");
 }
 
-static TCHAR *parseNot(ARGUMENTSINFO *ai)
+static wchar_t *parseNot(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2) {
 		return NULL;
@@ -251,7 +251,7 @@ static TCHAR *parseNot(ARGUMENTSINFO *ai)
 	return mir_tstrdup(L"");
 }
 
-static TCHAR *parseOr(ARGUMENTSINFO *ai)
+static wchar_t *parseOr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
 		return NULL;
@@ -271,12 +271,12 @@ static TCHAR *parseOr(ARGUMENTSINFO *ai)
 	return mir_tstrdup(L"");
 }
 
-static TCHAR *parseTrue(ARGUMENTSINFO *ai)
+static wchar_t *parseTrue(ARGUMENTSINFO *ai)
 {
 	return (ai->argc != 1) ? NULL : mir_tstrdup(L"");
 }
 
-static TCHAR *parseXor(ARGUMENTSINFO *ai)
+static wchar_t *parseXor(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
 		return NULL;

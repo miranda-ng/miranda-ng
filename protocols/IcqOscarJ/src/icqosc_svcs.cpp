@@ -66,7 +66,7 @@ static int LookupDatabaseSetting(const FieldNamesItem* table, int code, DBVARIAN
 	}
 	else if (type == DBVT_WCHAR) {
 		WCHAR* wtext = make_unicode_string(text);
-		dbv->pwszVal = mir_wstrdup(TranslateW(wtext));
+		dbv->pwszVal = mir_wstrdup(TranslateTS(wtext));
 		dbv->type = DBVT_WCHAR;
 		SAFE_FREE((void**)&wtext);
 	}
@@ -348,7 +348,7 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	int dwPaFormat = getByte(pai->hContact, "AvatarType", PA_FORMAT_UNKNOWN);
 
 	if (dwPaFormat != PA_FORMAT_UNKNOWN) { // we know the format, test file
-		TCHAR tszFile[MAX_PATH * 2 + 4];
+		wchar_t tszFile[MAX_PATH * 2 + 4];
 
 		GetFullAvatarFileName(dwUIN, szUID, dwPaFormat, tszFile, MAX_PATH * 2);
 
@@ -356,7 +356,7 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		pai->format = dwPaFormat;
 
 		if (!IsAvatarChanged(pai->hContact, dbv.pbVal, dbv.cpbVal)) { // hashes are the same
-			if (_taccess(tszFile, 0) == 0) {
+			if (_waccess(tszFile, 0) == 0) {
 				db_free(&dbv);
 
 				return GAIR_SUCCESS; // we have found the avatar file, whoala
@@ -366,7 +366,7 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if (IsAvatarChanged(pai->hContact, dbv.pbVal, dbv.cpbVal)) { // we didn't received the avatar before - this ensures we will not request avatar again and again
 		if ((wParam & GAIF_FORCE) != 0 && pai->hContact != 0) { // request avatar data
-			TCHAR tszFile[MAX_PATH * 2 + 4];
+			wchar_t tszFile[MAX_PATH * 2 + 4];
 
 			GetAvatarFileName(dwUIN, szUID, tszFile, MAX_PATH * 2);
 			GetAvatarData(pai->hContact, dwUIN, szUID, dbv.pbVal, dbv.cpbVal, tszFile);
@@ -389,9 +389,9 @@ INT_PTR CIcqProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 	if (!wParam) return -3;
 
-	TCHAR *tszFile = GetOwnAvatarFileName();
-	if (tszFile && !_taccess(tszFile, 0)) {
-		_tcsncpy((TCHAR*)wParam, tszFile, (int)lParam);
+	wchar_t *tszFile = GetOwnAvatarFileName();
+	if (tszFile && !_waccess(tszFile, 0)) {
+		wcsncpy((wchar_t*)wParam, tszFile, (int)lParam);
 		SAFE_FREE(&tszFile);
 		return 0;
 	}
@@ -485,7 +485,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	if (!m_bAvatarsEnabled || !m_bSsiEnabled)
 		return -2;
 
-	TCHAR *tszFile = (TCHAR*)lParam;
+	wchar_t *tszFile = (wchar_t*)lParam;
 	if (tszFile) { // set file for avatar
 		int dwPaFormat = ::ProtoGetAvatarFileFormat(tszFile);
 		if (dwPaFormat != PA_FORMAT_XML) {
@@ -497,7 +497,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			DeleteObject(avt);
 		}
 
-		TCHAR tszMyFile[MAX_PATH + 1];
+		wchar_t tszMyFile[MAX_PATH + 1];
 		GetFullAvatarFileName(0, NULL, dwPaFormat, tszMyFile, MAX_PATH);
 		
 		// if not in our storage, copy
@@ -522,7 +522,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		if (setSettingBlob(NULL, "AvatarHash", ihash, 0x14))
 			debugLogA("Failed to save avatar hash.");
 
-		TCHAR tmp[MAX_PATH];
+		wchar_t tmp[MAX_PATH];
 		PathToRelativeT(tszMyFile, tmp);
 		setTString(NULL, "AvatarFile", tmp);
 		SAFE_FREE((void**)&hash);
@@ -668,7 +668,7 @@ INT_PTR icq_getEventTextMissedMessage(WPARAM, LPARAM lParam)
 
 			MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, (int)mir_strlen(pszText), pwszText, wchars);
 
-			nRetVal = (INT_PTR)mir_wstrdup(TranslateW(pwszText));
+			nRetVal = (INT_PTR)mir_wstrdup(TranslateTS(pwszText));
 		}
 		else if (pEvent->datatype == DBVT_ASCIIZ)
 			nRetVal = (INT_PTR)mir_strdup(Translate(pszText));

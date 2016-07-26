@@ -60,7 +60,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	int wdsize = GetCurrentDirectory(0, NULL);
-	TCHAR *workingDir = new TCHAR[wdsize];
+	wchar_t *workingDir = new wchar_t[wdsize];
 	GetCurrentDirectory(wdsize, workingDir);
 	Utils::convertPath(workingDir);
 	workingDirUtf8 = mir_utf8encodeT(workingDir);

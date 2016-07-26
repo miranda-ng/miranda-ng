@@ -30,20 +30,20 @@ public:
 	void fromString(const ext::string& config);
 	ext::string toString() const;
 
-	void setKey(const TCHAR* key);
+	void setKey(const wchar_t* key);
 	const ext::string& getKey() const { return m_CurKey; }
 
-	bool readBool(const TCHAR* setting, bool errorValue) const;
-	int readInt(const TCHAR* setting, int errorValue) const;
-	int readIntRanged(const TCHAR* setting, int errorValue, int minValue, int maxValue) const;
-	ext::string readStr(const TCHAR* setting, const TCHAR* errorValue) const;
+	bool readBool(const wchar_t* setting, bool errorValue) const;
+	int readInt(const wchar_t* setting, int errorValue) const;
+	int readIntRanged(const wchar_t* setting, int errorValue, int minValue, int maxValue) const;
+	ext::string readStr(const wchar_t* setting, const wchar_t* errorValue) const;
 
-	void writeBool(const TCHAR* setting, bool value);
-	void writeInt(const TCHAR* setting, int value);
-	void writeStr(const TCHAR* setting, const TCHAR* value);
+	void writeBool(const wchar_t* setting, bool value);
+	void writeInt(const wchar_t* setting, int value);
+	void writeStr(const wchar_t* setting, const wchar_t* value);
 
-	bool hasSetting(const TCHAR* setting) const;
-	bool delSetting(const TCHAR* setting);
+	bool hasSetting(const wchar_t* setting) const;
+	bool delSetting(const wchar_t* setting);
 };
 
 #endif // HISTORYSTATS_GUARD_SETTINGSTREE_H

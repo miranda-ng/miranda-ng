@@ -97,8 +97,8 @@ struct CFileUploadParam : public MZeroedObject {
 	size_t size;
 	MCONTACT hContact;
 
-	__forceinline CFileUploadParam(MCONTACT _hContact, const TCHAR* _desc, TCHAR** _files) : hContact(_hContact), tszDesc(mir_tstrdup(_desc)), tszFileName(mir_tstrdup(_files[0])) {};
-	__forceinline bool IsAccess() { return ::_taccess(tszFileName, 0) == 0; }
+	__forceinline CFileUploadParam(MCONTACT _hContact, const wchar_t* _desc, wchar_t** _files) : hContact(_hContact), tszDesc(mir_tstrdup(_desc)), tszFileName(mir_tstrdup(_files[0])) {};
+	__forceinline bool IsAccess() { return ::_waccess(tszFileName, 0) == 0; }
 };
 
 

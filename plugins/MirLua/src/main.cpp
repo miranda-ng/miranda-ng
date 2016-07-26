@@ -62,8 +62,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_NOOPTIONS | NUF_UNICODE;
-	nlu.ptszDescriptiveName = _T(MODULE);
+	nlu.flags = NUF_NOOPTIONS;
+	nlu.szDescriptiveName = MODULE;
 	nlu.szSettingsModule = MODULE;
 	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 

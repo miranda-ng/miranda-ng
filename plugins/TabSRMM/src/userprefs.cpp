@@ -415,7 +415,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			RECT rcClient;
 			GetClientRect(hwndDlg, &rcClient);
 
-			TCHAR szBuffer[180];
+			wchar_t szBuffer[180];
 			mir_sntprintf(szBuffer, TranslateT("Set messaging options for %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 			SetWindowText(hwndDlg, szBuffer);
 

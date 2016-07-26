@@ -99,7 +99,7 @@ static void RemoveProtoPic(const char *szProto)
 
 static void SetProtoPic(char *szProto)
 {
-	TCHAR FileName[MAX_PATH], filter[256];
+	wchar_t FileName[MAX_PATH], filter[256];
 	Bitmap_GetFilter(filter, _countof(filter));
 
 	OPENFILENAME ofn = { 0 };
@@ -116,10 +116,10 @@ static void SetProtoPic(char *szProto)
 	if (!GetOpenFileName(&ofn))
 		return;
 
-	if (_taccess(FileName, 4) == -1)
+	if (_waccess(FileName, 4) == -1)
 		return;
 
-	TCHAR szNewPath[MAX_PATH];
+	wchar_t szNewPath[MAX_PATH];
 	PathToRelativeT(FileName, szNewPath, g_szDataPath);
 	db_set_ts(NULL, PPICT_MODULE, szProto, szNewPath);
 
@@ -387,7 +387,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 					DBVARIANT dbv;
 					if (!db_get_ts(NULL, PPICT_MODULE, g_selectedProto, &dbv)) {
 						if (!PathIsAbsoluteT(VARST(dbv.ptszVal))) {
-							TCHAR szFinalPath[MAX_PATH];
+							wchar_t szFinalPath[MAX_PATH];
 							mir_sntprintf(szFinalPath, L"%%miranda_path%%\\%s", dbv.ptszVal);
 							SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, szFinalPath);
 						}
@@ -488,7 +488,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		TranslateDialogDefault(hwndDlg);
 		if (hContact) {
-			TCHAR szTitle[512];
+			wchar_t szTitle[512];
 			mir_sntprintf(szTitle, TranslateT("Set avatar options for %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 			SetWindowText(hwndDlg, szTitle);
 		}
@@ -660,7 +660,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	case DM_SETAVATARNAME:
 	{
-		TCHAR szFinalName[MAX_PATH];
+		wchar_t szFinalName[MAX_PATH];
 		DBVARIANT dbv = { 0 };
 		BYTE is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
@@ -744,7 +744,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			HWND protopic = GetDlgItem(hwndDlg, IDC_PROTOPIC);
 			SendMessage(protopic, AVATAR_SETCONTACT, 0, (LPARAM)hContact);
 			SendMessage(protopic, AVATAR_SETAVATARBORDERCOLOR, 0, (LPARAM)GetSysColor(COLOR_BTNSHADOW));
-			SendMessage(protopic, AVATAR_SETNOAVATARTEXT, 0, (LPARAM)LPGENT("Contact has no avatar"));
+			SendMessage(protopic, AVATAR_SETNOAVATARTEXT, 0, (LPARAM)LPGENW("Contact has no avatar"));
 			SendMessage(protopic, AVATAR_RESPECTHIDDEN, 0, (LPARAM)FALSE);
 			SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM)FALSE);
 		}
@@ -986,7 +986,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 		{
 			HWND protopic = GetDlgItem(hwndDlg, IDC_PROTOPIC);
 			SendMessage(protopic, AVATAR_SETAVATARBORDERCOLOR, 0, (LPARAM)GetSysColor(COLOR_BTNSHADOW));
-			SendMessage(protopic, AVATAR_SETNOAVATARTEXT, 0, (LPARAM)LPGENT("No avatar"));
+			SendMessage(protopic, AVATAR_SETNOAVATARTEXT, 0, (LPARAM)LPGENW("No avatar"));
 			SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM)FALSE);
 
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_PROTOCOLS);
@@ -1082,7 +1082,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 
 				char description[256];
 				CallProtoService(proto, PS_GETNAME, _countof(description), (LPARAM)description);
-				TCHAR *descr = mir_a2t(description);
+				wchar_t *descr = mir_a2t(description);
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), descr, MB_YESNO) == IDYES)
 					avSetMyAvatar(proto, L"");
 				mir_free(descr);

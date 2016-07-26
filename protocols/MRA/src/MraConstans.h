@@ -40,7 +40,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define EMAILS_MIN_COUNT                     16 //internal   // колличество элементов обязательно проверяемых при извлечении email адреса из инфы юзера
 #define PHONES_MIN_COUNT                     4 //internal   // колличество элементов обязательно проверяемых при извлечении email адреса из инфы юзера
 
-#define MRA_ALARM_MESSAGE                    LPGENT("Your contact wakes you")
+#define MRA_ALARM_MESSAGE                    LPGENW("Your contact wakes you")
 
 #define MRA_GOTO_INBOX                       "/GotoInbox"
 #define MRA_GOTO_INBOX_STR                   LPGEN("Display &Inbox")
@@ -157,7 +157,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_DEFAULT_SLOW_SEND                TRUE
 #define MRA_DEFAULT_CVT_SMILES_TO_TAGS       TRUE
 #define MRA_DEFAULT_MIRVER_RAW               FALSE // hidden option
-#define MRA_DEFAULT_AUTH_MESSAGE             LPGEN("Please authorize me")
+#define MRA_DEFAULT_AUTH_MESSAGE             LPGENW("Please authorize me")
 
 #define MRA_DEFAULT_RTF_RECEIVE_ENABLE       FALSE
 #define MRA_DEFAULT_RTF_SEND_ENABLE          TRUE

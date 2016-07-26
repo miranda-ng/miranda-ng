@@ -120,7 +120,7 @@ int UpdateSrmmDlg(WPARAM wParam, LPARAM lParam);
 
 //functions for general use (defined in general.cpp)
 int CalculateTextHeight(HDC hdc, CHARFORMAT2 *chf);
-const TCHAR* GetImageExt(CMString &fname);
+const wchar_t* GetImageExt(CMString &fname);
 
 MCONTACT DecodeMetaContact(MCONTACT hContact);
 bool IsSmileyProto(char *proto);
@@ -133,7 +133,7 @@ void pathToAbsolute(const CMString &pSrc, CMString &pOut);
 bool InitGdiPlus(void);
 void DestroyGdiPlus(void);
 
-void ReportError(const TCHAR *errmsg);
+void ReportError(const wchar_t *errmsg);
 HICON GetDefaultIcon(bool copy = true);
 
 void CloseRichCallback(HWND hwnd);
@@ -144,7 +144,7 @@ void ProcessAllInputAreas(bool restoreText);
 void RichEditData_Destroy(void);
 
 void CloseSmileys(void);
-int CheckForTip(int x, int y, HWND hwnd, TCHAR **smltxt);
+int CheckForTip(int x, int y, HWND hwnd, wchar_t **smltxt);
 
 void UrlDecode(char *str);
 

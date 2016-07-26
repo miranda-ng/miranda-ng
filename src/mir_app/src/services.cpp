@@ -144,7 +144,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 	int retval = 0;
 	ptrT tszGroup(db_get_tsa(NULL, settings_group, idstr));
 	if (tszGroup != NULL)
-		_tcsncpy_s(lf->lfFaceName, tszGroup, _TRUNCATE);
+		wcsncpy_s(lf->lfFaceName, tszGroup, _TRUNCATE);
 	else
 		retval = 1;
 
@@ -200,7 +200,7 @@ int CreateFromFontSettings(FontSettingsT *fs, LOGFONT *lf)
 {
 	GetDefaultFontSetting(lf, 0);
 
-	_tcsncpy_s(lf->lfFaceName, fs->szFace, _TRUNCATE);
+	wcsncpy_s(lf->lfFaceName, fs->szFace, _TRUNCATE);
 
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
 	lf->lfWeight = fs->style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
@@ -232,7 +232,7 @@ void UpdateFontSettings(FontIDW *font_id, FontSettingsT *fontsettings)
 	fontsettings->size = (char)lf.lfHeight;
 	fontsettings->charset = lf.lfCharSet;
 	fontsettings->colour = colour;
-	_tcsncpy_s(fontsettings->szFace, lf.lfFaceName, _TRUNCATE);
+	wcsncpy_s(fontsettings->szFace, lf.lfFaceName, _TRUNCATE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -292,7 +292,7 @@ static INT_PTR sttGetFontWorker(FontIDW *font_id, LOGFONT *lf)
 
 	for (int i = 0; i < font_id_list.getCount(); i++) {
 		FontInternal& F = font_id_list[i];
-		if (!_tcsncmp(F.name, font_id->name, _countof(F.name)) && !_tcsncmp(F.group, font_id->group, _countof(F.group))) {
+		if (!wcsncmp(F.name, font_id->name, _countof(F.name)) && !wcsncmp(F.group, font_id->group, _countof(F.group))) {
 			if (GetFontSettingFromDB(F.dbSettingsGroup, F.prefix, lf, &colour, F.flags) && (F.flags & FIDF_DEFAULTVALID)) {
 				CreateFromFontSettings(&F.deffontsettings, lf);
 				colour = F.deffontsettings.colour;
@@ -477,7 +477,7 @@ static INT_PTR sttGetEffectWorker(EffectIDW *effect_id, FONTEFFECT *effect)
 {
 	for (int i = 0; i < effect_id_list.getCount(); i++) {
 		EffectInternal& E = effect_id_list[i];
-		if (!_tcsncmp(E.name, effect_id->name, _countof(E.name)) && !_tcsncmp(E.group, effect_id->group, _countof(E.group))) {
+		if (!wcsncmp(E.name, effect_id->name, _countof(E.name)) && !wcsncmp(E.group, effect_id->group, _countof(E.group))) {
 			FONTEFFECT temp;
 			UpdateEffectSettings(effect_id, &temp);
 

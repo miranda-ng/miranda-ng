@@ -88,14 +88,14 @@ void WATrack::GetData()
 	listening_info.ptszYear = DUP(si->year);
 
 	if (si->track > 0) {
-		listening_info.ptszTrack = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
-		_itot(si->track, listening_info.ptszTrack, 10);
+		listening_info.ptszTrack = (wchar_t*)mir_alloc(10 * sizeof(wchar_t));
+		_itow(si->track, listening_info.ptszTrack, 10);
 	}
 
 	listening_info.ptszGenre = DUP(si->genre);
 
 	if (si->total > 0) {
-		listening_info.ptszLength = (TCHAR*)mir_alloc(10 * sizeof(TCHAR));
+		listening_info.ptszLength = (wchar_t*)mir_alloc(10 * sizeof(wchar_t));
 
 		int s = si->total % 60;
 		int m = (si->total / 60) % 60;

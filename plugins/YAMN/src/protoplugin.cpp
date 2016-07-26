@@ -175,7 +175,7 @@ INT_PTR UnregisterProtoPlugins()
 
 INT_PTR GetFileNameSvc(WPARAM wParam,LPARAM)
 {
-	TCHAR *FileName = new TCHAR[MAX_PATH];
+	wchar_t *FileName = new wchar_t[MAX_PATH];
 	if (FileName == NULL)
 		return NULL;
 
@@ -185,8 +185,8 @@ INT_PTR GetFileNameSvc(WPARAM wParam,LPARAM)
 
 INT_PTR DeleteFileNameSvc(WPARAM wParam,LPARAM)
 {
-	if (( TCHAR* )wParam != NULL)
-		delete[] ( TCHAR* ) wParam;
+	if (( wchar_t* )wParam != NULL)
+		delete[] ( wchar_t* ) wParam;
 
 	return 0;
 }

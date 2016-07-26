@@ -46,16 +46,16 @@ LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 	return NULL;
 }
 
-bool tlstrstr(TCHAR *_s1, TCHAR *_s2)
+bool tlstrstr(wchar_t *_s1, wchar_t *_s2)
 {
-	TCHAR s1[1024], s2[1024];
+	wchar_t s1[1024], s2[1024];
 
-	_tcsncpy_s(s1, _s1, _TRUNCATE);
+	wcsncpy_s(s1, _s1, _TRUNCATE);
 	CharLowerBuff(s1, _countof(s1));
-	_tcsncpy_s(s2, _s2, _TRUNCATE);
+	wcsncpy_s(s2, _s2, _TRUNCATE);
 	CharLowerBuff(s2, _countof(s2));
 
-	return _tcsstr(s1, s2) != NULL;
+	return wcsstr(s1, s2) != NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -148,7 +148,7 @@ void CVkProto::ClearAccessToken()
 	ShutdownSession();
 }
 
-TCHAR* CVkProto::GetUserStoredPassword()
+wchar_t* CVkProto::GetUserStoredPassword()
 {
 	debugLogA("CVkProto::GetUserStoredPassword");
 	ptrA szRawPass(getStringA("Password"));
@@ -677,7 +677,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	if (!time)
 		return;
 
-	TCHAR ttime[64];
+	wchar_t ttime[64];
 	_locale_t locale = _create_locale(LC_ALL, "");
 	_tcsftime_l(ttime, _countof(ttime), L"%X - %x", localtime(&time), locale);
 	_free_locale(locale);
@@ -955,7 +955,7 @@ CMString CVkProto::SetBBCString(LPCTSTR ptszString, BBCSupport iBBC, VKBBCType b
 	if (IsEmpty(ptszString))
 		return CMString();
 
-	TCHAR *ptszFormat = NULL;
+	wchar_t *ptszFormat = NULL;
 	for (int i = 0; i < _countof(bbcItem); i++)
 		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == iBBC) {
 			ptszFormat = bbcItem[i].ptszTempate;
@@ -1252,7 +1252,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		}
 
 		time_t datetime = (time_t)jnMsg["date"].as_int();
-		TCHAR ttime[64];
+		wchar_t ttime[64];
 		_locale_t locale = _create_locale(LC_ALL, "");
 		_tcsftime_l(ttime, _countof(ttime), L"%x %X", localtime(&datetime), locale);
 		_free_locale(locale);
@@ -1276,7 +1276,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		}
 
 		tszBody.Replace(L"\n", L"\n\t");
-		TCHAR tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
+		wchar_t tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
 		CMString tszMes(FORMAT, L"%s %s%c%s %s:\n\n%s\n",
 			SetBBCString(TranslateT("Message from"), iBBC, vkbbcB),
 			SetBBCString(tszNick, iBBC, vkbbcUrl, tszUrl),
@@ -1286,7 +1286,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 			SetBBCString(tszBody, iBBC, vkbbcCode));
 
 		if (!res.IsEmpty())
-			res.AppendChar(_T('\n'));
+			res.AppendChar('\n');
 		res += tszMes;
 	}
 
@@ -1312,14 +1312,14 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 
 CMString CVkProto::RemoveBBC(CMString& tszSrc) 
 {
-	static const TCHAR *tszSimpleBBCodes[][2] = {
+	static const wchar_t *tszSimpleBBCodes[][2] = {
 		{ L"[b]", L"[/b]" },
 		{ L"[u]", L"[/u]" },
 		{ L"[i]", L"[/i]" },
 		{ L"[s]", L"[/s]" },
 	};
 
-	static const TCHAR *tszParamBBCodes[][2] = {
+	static const wchar_t *tszParamBBCodes[][2] = {
 		{ L"[url=", L"[/url]" },
 		{ L"[img=", L"[/img]" },
 		{ L"[size=", L"[/size]" },
@@ -1392,13 +1392,13 @@ CMString CVkProto::RemoveBBC(CMString& tszSrc)
 
 void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 {
-	TCHAR tszTempDir[MAX_PATH];
+	wchar_t tszTempDir[MAX_PATH];
 	if (!GetEnvironmentVariable(L"TEMP", tszTempDir, MAX_PATH))
 		return;
 
 	CMString tszHTMLPath(FORMAT, L"%s\\miranda_captcha.html", tszTempDir);
 		
-	FILE *pFile = _tfopen(tszHTMLPath, L"w");
+	FILE *pFile = _wfopen(tszHTMLPath, L"w");
 	if (pFile == NULL)
 		return;
 

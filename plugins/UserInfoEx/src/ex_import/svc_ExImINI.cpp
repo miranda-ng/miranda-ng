@@ -172,7 +172,7 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		if (err != NULL)
 		{
 			MsgErr(NULL, 
-				LPGENT("The ini-file \"%s\"\nfor saving contact information could not be opened."),
+				LPGENW("The ini-file \"%s\"\nfor saving contact information could not be opened."),
 				pszFileName);
 			return 1;
 		}
@@ -500,19 +500,19 @@ int SvcExImINI_Import(MCONTACT hContact, LPCSTR pszFileName)
 		// the contact was not found in the file
 		if (numContactsInFile > 0 && !numContactsAdded) {
 			MsgErr(NULL,
-				LPGENT("None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported"),
+				LPGENW("None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported"),
 				numContactsInFile);
 		}
 		// Import complete
 		else{
-			MsgBox(NULL, MB_ICON_INFO, LPGENT("Import complete"), LPGENT("Some basic statistics"),
-				LPGENT("Added %d of %d contacts stored in the ini-file."),
+			MsgBox(NULL, MB_ICON_INFO, LPGENW("Import complete"), LPGENW("Some basic statistics"),
+				LPGENW("Added %d of %d contacts stored in the ini-file."),
 				numContactsAdded, numContactsInFile);
 		}
 		return 0;
 	}
 	MsgErr(NULL, 
-		LPGENT("The ini-file \"%s\"\nfor reading contact information could not be opened."),
+		LPGENW("The ini-file \"%s\"\nfor reading contact information could not be opened."),
 		pszFileName);
 	return 1;
 }

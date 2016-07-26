@@ -77,7 +77,7 @@ void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fS
 		return;
 
 	HWND hwndTab = GetParent(hwndDlg);
-	TCHAR oldText[512];
+	wchar_t oldText[512];
 
 	TCITEM item = { 0 };
 	item.mask = TCIF_IMAGE | TCIF_TEXT | TCIF_PARAM;
@@ -129,17 +129,17 @@ static UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM, LPARAM lP
 
 static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 {
-	TCHAR szFinalFilename[MAX_PATH];
+	wchar_t szFinalFilename[MAX_PATH];
 	time_t t = time(NULL);
 	struct tm *lt = localtime(&t);
 	DWORD setView = 1;
 
-	TCHAR szTimestamp[100];
+	wchar_t szTimestamp[100];
 	mir_sntprintf(szTimestamp, L"%04u %02u %02u_%02u%02u", lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min);
 
-	TCHAR *szProto = mir_a2t(dat->cache->getActiveProto());
+	wchar_t *szProto = mir_a2t(dat->cache->getActiveProto());
 
-	TCHAR szFinalPath[MAX_PATH];
+	wchar_t szFinalPath[MAX_PATH];
 	mir_sntprintf(szFinalPath, L"%s\\%s", M.getSavedAvatarPath(), szProto);
 	mir_free(szProto);
 
@@ -151,7 +151,7 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 		}
 	}
 
-	TCHAR szBaseName[MAX_PATH];
+	wchar_t szBaseName[MAX_PATH];
 	if (isOwnPic)
 		mir_sntprintf(szBaseName, L"My Avatar_%s", szTimestamp);
 	else
@@ -162,7 +162,7 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	// do not allow / or \ or % in the filename
 	Utils::sanitizeFilename(szFinalFilename);
 
-	TCHAR filter[MAX_PATH];
+	wchar_t filter[MAX_PATH];
 	mir_sntprintf(filter, L"%s%c*.bmp;*.png;*.jpg;*.gif%c%c", TranslateT("Image files"), 0, 0, 0);
 
 	OPENFILENAME ofn = { 0 };
@@ -259,7 +259,7 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 		EnableMenuItem(submenu, ID_TABMENU_CLEARSAVEDTABPOSITION, (M.GetDword(dat->hContact, "tabindex", -1) != -1) ? MF_ENABLED : MF_GRAYED);
 	}
 	else if (menuID == MENU_PICMENU) {
-		TCHAR *szText = NULL;
+		wchar_t *szText = NULL;
 		char  avOverride = (char)M.GetByte(dat->hContact, "hideavatar", -1);
 		HMENU visMenu = GetSubMenu(submenu, 0);
 		BOOL picValid = bInfoPanel ? (dat->hOwnPic != 0) : (dat->ace && dat->ace->hbmPic && dat->ace->hbmPic != PluginConfig.g_hbmUnknown);
@@ -424,7 +424,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 void TSAPI UpdateReadChars(const TWindowData *dat)
 {
 	if (dat && (dat->pContainer->hwndStatus && dat->pContainer->hwndActive == dat->hwnd)) {
-		TCHAR buf[128];
+		wchar_t buf[128];
 		int len;
 
 		if (dat->bType == SESSIONTYPE_CHAT)
@@ -441,7 +441,7 @@ void TSAPI UpdateReadChars(const TWindowData *dat)
 		BOOL fCaps = (GetKeyState(VK_CAPITAL) & 1);
 		BOOL fNum = (GetKeyState(VK_NUMLOCK) & 1);
 
-		TCHAR szBuf[20]; szBuf[0] = 0;
+		wchar_t szBuf[20]; szBuf[0] = 0;
 		if (dat->fInsertMode)
 			mir_tstrcat(szBuf, L"O");
 		if (fCaps)
@@ -646,19 +646,19 @@ int TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 // return value MUST be mir_free()'d by caller.
 
-TCHAR* TSAPI QuoteText(const TCHAR *text)
+wchar_t* TSAPI QuoteText(const wchar_t *text)
 {
 	int outChar, lineChar;
 	int iCharsPerLine = M.GetDword("quoteLineLength", 64);
 
 	size_t bufSize = mir_wstrlen(text) + 23;
-	TCHAR *strout = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR));
+	wchar_t *strout = (wchar_t*)mir_alloc(bufSize * sizeof(wchar_t));
 	int inChar = 0;
 	int justDoneLineBreak = 1;
 	for (outChar = 0, lineChar = 0; text[inChar];) {
 		if (outChar >= bufSize - 8) {
 			bufSize += 20;
-			strout = (TCHAR*)mir_realloc(strout, bufSize * sizeof(TCHAR));
+			strout = (wchar_t*)mir_realloc(strout, bufSize * sizeof(wchar_t));
 		}
 		if (justDoneLineBreak && text[inChar] != '\r' && text[inChar] != '\n') {
 			strout[outChar++] = '>';
@@ -832,31 +832,31 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 	return pszText; // pszText contains the text
 }
 
-static TCHAR tszRtfBreaks[] = L" \\\n\r";
+static wchar_t tszRtfBreaks[] = L" \\\n\r";
 
 static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst)
 {
-	const TCHAR *pszText = Text;
+	const wchar_t *pszText = Text;
 	int iIndex = 1;
 
-	static const TCHAR *lpszFmt = L"\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];";
-	TCHAR szRed[10], szGreen[10], szBlue[10];
+	static const wchar_t *lpszFmt = L"\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];";
+	wchar_t szRed[10], szGreen[10], szBlue[10];
 
-	const TCHAR *p1 = _tcsstr(pszText, L"\\colortbl");
+	const wchar_t *p1 = wcsstr(pszText, L"\\colortbl");
 	if (!p1)
 		return;
 
-	const TCHAR *pEnd = _tcschr(p1, '}');
+	const wchar_t *pEnd = wcschr(p1, '}');
 
-	const TCHAR *p2 = _tcsstr(p1, L"\\red");
+	const wchar_t *p2 = wcsstr(p1, L"\\red");
 
 	for (int i = 0; i < iCount; i++)
 		pDst[i] = -1;
 
 	while (p2 && p2 < pEnd) {
-		if (_stscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
+		if (swscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
 			for (int i = 0; i < iCount; i++) {
-				if (pSrc[i] == RGB(_ttoi(szRed), _ttoi(szGreen), _ttoi(szBlue)))
+				if (pSrc[i] == RGB(_wtoi(szRed), _wtoi(szGreen), _wtoi(szBlue)))
 					pDst[i] = iIndex;
 			}
 		}
@@ -864,7 +864,7 @@ static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst
 		p1 = p2;
 		p1++;
 
-		p2 = _tcsstr(p1, L"\\red");
+		p2 = wcsstr(p1, L"\\red");
 	}
 }
 
@@ -907,7 +907,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 	CMString res;
 
 	// iterate through all characters, if rtf control character found then take action
-	for (const TCHAR *p = pszText.GetString() + idx; *p;) {
+	for (const wchar_t *p = pszText.GetString() + idx; *p;) {
 		switch (*p) {
 		case '\\':
 			if (p[1] == '\\' || p[1] == '{' || p[1] == '}') { // escaped characters
@@ -919,8 +919,8 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 				p += 2; break;
 			}
 
-			if (!_tcsncmp(p, L"\\cf", 3)) { // foreground color
-				int iCol = _ttoi(p + 3);
+			if (!wcsncmp(p, L"\\cf", 3)) { // foreground color
+				int iCol = _wtoi(p + 3);
 				int iInd = GetRtfIndex(iCol, iNumColors, pIndex);
 
 				if (iCol && dat->bType != SESSIONTYPE_CHAT)
@@ -928,85 +928,85 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 
 				bInsideColor = iInd > 0;
 			}
-			else if (!_tcsncmp(p, L"\\highlight", 10)) { //background color
-				TCHAR szTemp[20];
-				int iCol = _ttoi(p + 10);
+			else if (!wcsncmp(p, L"\\highlight", 10)) { //background color
+				wchar_t szTemp[20];
+				int iCol = _wtoi(p + 10);
 				mir_sntprintf(szTemp, L"%d", iCol);
 			}
-			else if (!_tcsncmp(p, L"\\line", 5)) { // soft line break;
+			else if (!wcsncmp(p, L"\\line", 5)) { // soft line break;
 				res.AppendChar('\n');
 			}
-			else if (!_tcsncmp(p, L"\\endash", 7)) {
+			else if (!wcsncmp(p, L"\\endash", 7)) {
 				res.AppendChar(0x2013);
 			}
-			else if (!_tcsncmp(p, L"\\emdash", 7)) {
+			else if (!wcsncmp(p, L"\\emdash", 7)) {
 				res.AppendChar(0x2014);
 			}
-			else if (!_tcsncmp(p, L"\\bullet", 7)) {
+			else if (!wcsncmp(p, L"\\bullet", 7)) {
 				res.AppendChar(0x2022);
 			}
-			else if (!_tcsncmp(p, L"\\ldblquote", 10)) {
+			else if (!wcsncmp(p, L"\\ldblquote", 10)) {
 				res.AppendChar(0x201C);
 			}
-			else if (!_tcsncmp(p, L"\\rdblquote", 10)) {
+			else if (!wcsncmp(p, L"\\rdblquote", 10)) {
 				res.AppendChar(0x201D);
 			}
-			else if (!_tcsncmp(p, L"\\lquote", 7)) {
+			else if (!wcsncmp(p, L"\\lquote", 7)) {
 				res.AppendChar(0x2018);
 			}
-			else if (!_tcsncmp(p, L"\\rquote", 7)) {
+			else if (!wcsncmp(p, L"\\rquote", 7)) {
 				res.AppendChar(0x2019);
 			}
-			else if (!_tcsncmp(p, L"\\b", 2)) { //bold
+			else if (!wcsncmp(p, L"\\b", 2)) { //bold
 				if (!(lf.lfWeight == FW_BOLD)) // only allow bold if the font itself isn't a bold one, otherwise just strip it..
 					if (dat->SendFormat)
 						res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
 			}
-			else if (!_tcsncmp(p, L"\\i", 2)) { // italics
+			else if (!wcsncmp(p, L"\\i", 2)) { // italics
 				if (!lf.lfItalic && dat->SendFormat)
 					res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
 			}
-			else if (!_tcsncmp(p, L"\\strike", 7)) { // strike-out
+			else if (!wcsncmp(p, L"\\strike", 7)) { // strike-out
 				if (!lf.lfStrikeOut && dat->SendFormat)
 					res.Append((p[7] != '0') ? L"[s]" : L"[/s]");
 			}
-			else if (!_tcsncmp(p, L"\\ul", 3)) { // underlined
+			else if (!wcsncmp(p, L"\\ul", 3)) { // underlined
 				if (!lf.lfUnderline && dat->SendFormat) {
-					if (p[3] == 0 || _tcschr(tszRtfBreaks, p[3])) {
+					if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
 						res.Append(L"[u]");
 						bInsideUl = true;
 					}
-					else if (!_tcsnccmp(p + 3, L"none", 4)) {
+					else if (!wcsncmp(p + 3, L"none", 4)) {
 						if (bInsideUl)
 							res.Append(L"[/u]");
 						bInsideUl = false;
 					}
 				}
 			}
-			else if (!_tcsncmp(p, L"\\tab", 4)) { // tab
+			else if (!wcsncmp(p, L"\\tab", 4)) { // tab
 				res.AppendChar('\t');
 			}
 			else if (p[1] == '\'') { // special character
 				if (p[2] != ' ' && p[2] != '\\') {
-					TCHAR tmp[10];
+					wchar_t tmp[10];
 
 					if (p[3] != ' ' && p[3] != '\\') {
-						_tcsncpy(tmp, p + 2, 3);
+						wcsncpy(tmp, p + 2, 3);
 						tmp[3] = 0;
 					}
 					else {
-						_tcsncpy(tmp, p + 2, 2);
+						wcsncpy(tmp, p + 2, 2);
 						tmp[2] = 0;
 					}
 
 					// convert string containing char in hex format to int.
-					TCHAR *stoppedHere;
-					res.AppendChar(_tcstol(tmp, &stoppedHere, 16));
+					wchar_t *stoppedHere;
+					res.AppendChar(wcstol(tmp, &stoppedHere, 16));
 				}
 			}
 
 			p++; // skip initial slash
-			p += _tcscspn(p, tszRtfBreaks);
+			p += wcscspn(p, tszRtfBreaks);
 			if (*p == ' ')
 				p++;
 			break;
@@ -1039,7 +1039,7 @@ void TSAPI GetMYUIN(TWindowData *dat)
 {
 	ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, NULL, dat->cache->getActiveProto()));
 	if (uid != NULL)
-		_tcsncpy_s(dat->myUin, uid, _TRUNCATE);
+		wcsncpy_s(dat->myUin, uid, _TRUNCATE);
 	else
 		dat->myUin[0] = 0;
 }
@@ -1249,9 +1249,9 @@ void TSAPI GetSendFormat(TWindowData *dat)
 //
 // GetLocaleInfo() should no longer be used on Vista and later
 
-void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
+void TSAPI GetLocaleID(TWindowData *dat, const wchar_t *szKLName)
 {
-	TCHAR szLI[256], *stopped = NULL;
+	wchar_t szLI[256], *stopped = NULL;
 	USHORT langID;
 	WORD   wCtype2[3];
 	PARAFORMAT2 pf2;
@@ -1261,34 +1261,34 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 	szLI[0] = szLI[1] = 0;
 
 	memset(&pf2, 0, sizeof(PARAFORMAT2));
-	langID = (USHORT)_tcstol(szKLName, &stopped, 16);
+	langID = (USHORT)wcstol(szKLName, &stopped, 16);
 	dat->lcid = MAKELCID(langID, 0);
 	/*
 	 * Vista+: read ISO locale names from the registry
 	 */
 	if (PluginConfig.m_bIsVista) {
 		HKEY	hKey = 0;
-		TCHAR	szKey[20];
-		DWORD	dwLID = _tcstoul(szKLName, &stopped, 16);
+		wchar_t	szKey[20];
+		DWORD	dwLID = wcstoul(szKLName, &stopped, 16);
 
 		mir_sntprintf(szKey, L"%04.04x", LOWORD(dwLID));
 		if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CLASSES_ROOT, L"MIME\\Database\\Rfc1766", 0, KEY_READ, &hKey)) {
 			DWORD dwLength = 255;
 			if (ERROR_SUCCESS == RegQueryValueEx(hKey, szKey, 0, 0, (unsigned char *)szLI, &dwLength)) {
-				TCHAR*	p;
+				wchar_t*	p;
 
 				szLI[255] = 0;
-				if ((p = _tcschr(szLI, ';')) != 0)
+				if ((p = wcschr(szLI, ';')) != 0)
 					*p = 0;
 			}
 			RegCloseKey(hKey);
 		}
-		szLI[0] = _totupper(szLI[0]);
-		szLI[1] = _totupper(szLI[1]);
+		szLI[0] = towupper(szLI[0]);
+		szLI[1] = towupper(szLI[1]);
 	}
 	else {
 		GetLocaleInfo(dat->lcid, LOCALE_SISO639LANGNAME, szLI, 10);
-		_tcsupr(szLI);
+		wcsupr(szLI);
 	}
 	fLocaleNotSet = (dat->lcID[0] == 0 && dat->lcID[1] == 0);
 	mir_sntprintf(dat->lcID, szLI);
@@ -1557,7 +1557,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM, LPARAM lParam, TWindowData *dat)
 	}
 
 	if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_STATICTEXT) || dis->hwndItem == GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT)) {
-		TCHAR szWindowText[256];
+		wchar_t szWindowText[256];
 		if (CSkin::m_skinEnabled) {
 			SetTextColor(dis->hDC, CSkin::m_DefaultFontColor);
 			CSkin::SkinDrawBG(dis->hwndItem, dat->pContainer->hwnd, dat->pContainer, &dis->rcItem, dis->hDC);
@@ -1737,11 +1737,11 @@ void TSAPI GetMyNick(TWindowData *dat)
 	ptrT tszNick(Contact_GetInfo(CNF_NICK, NULL, dat->cache->getActiveProto()));
 	if (tszNick != NULL) {
 		if (mir_tstrlen(tszNick) == 0 || !mir_tstrcmp(tszNick, TranslateT("'(Unknown contact)'")))
-			_tcsncpy_s(dat->szMyNickname, (dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
+			wcsncpy_s(dat->szMyNickname, (dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 		else
-			_tcsncpy_s(dat->szMyNickname, tszNick, _TRUNCATE);
+			wcsncpy_s(dat->szMyNickname, tszNick, _TRUNCATE);
 	}
-	else _tcsncpy_s(dat->szMyNickname, L"<undef>", _TRUNCATE); // same here
+	else wcsncpy_s(dat->szMyNickname, L"<undef>", _TRUNCATE); // same here
 }
 
 HICON TSAPI MY_GetContactIcon(const TWindowData *dat, LPCSTR szSetting)
@@ -1849,14 +1849,14 @@ LONG TSAPI GetDefaultMinimumInputHeight(const TWindowData *dat)
 	return(height);
 }
 
-static LIST<TCHAR> vTempFilenames(5);
+static LIST<wchar_t> vTempFilenames(5);
 
 // send a pasted bitmap by file transfer.
 void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 {
 	const wchar_t* 	mirandatempdir = L"Miranda";
 	const wchar_t* 	filenametemplate = L"\\clp-%Y%m%d-%H%M%S0.jpg";
-	TCHAR 			filename[MAX_PATH];
+	wchar_t 			filename[MAX_PATH];
 	size_t 			tempdirlen = GetTempPath(MAX_PATH, filename);
 	bool			fSend = true;
 
@@ -1899,7 +1899,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 			time(&rawtime);
 			const tm* timeinfo;
 			timeinfo = _localtime32((__time32_t *)&rawtime);
-			_tcsftime(filename + tempdirlen, MAX_PATH - tempdirlen, filenametemplate, timeinfo);
+			wcsftime(filename + tempdirlen, MAX_PATH - tempdirlen, filenametemplate, timeinfo);
 			size_t firstnumberpos = tempdirlen + 14;
 			size_t lastnumberpos = tempdirlen + 20;
 			while (GetFileAttributes(filename) != INVALID_FILE_ATTRIBUTES) {	// while it exists
@@ -1916,7 +1916,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 	}
 
 	if (filename[0] == 0) {	// prompting to save
-		TCHAR filter[MAX_PATH];
+		wchar_t filter[MAX_PATH];
 		mir_sntprintf(filter, L"%s%c*.jpg%c%c", TranslateT("JPEG-compressed images"), 0, 0, 0);
 
 		OPENFILENAME dlg;
@@ -1940,7 +1940,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 	CallService(MS_IMG_SAVE, (WPARAM)&ii, IMGL_TCHAR);
 
 	int totalCount = 0;
-	TCHAR **ppFiles = NULL;
+	wchar_t **ppFiles = NULL;
 	Utils::AddToFileList(&ppFiles, &totalCount, filename);
 
 	wchar_t* _t = mir_tstrdup(filename);

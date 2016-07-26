@@ -234,8 +234,8 @@ class CAnnivList
 		int result;
 
 		if (pDlg) {
-			TCHAR szText1[MAX_PATH];
-			TCHAR szText2[MAX_PATH];
+			wchar_t szText1[MAX_PATH];
+			wchar_t szText2[MAX_PATH];
 
 			szText1[0] = szText2[0] = 0;
 			switch (pDlg->_sortHeader) {
@@ -251,7 +251,7 @@ class CAnnivList
 			case COLUMN_ETA:
 				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, _countof(szText1));
 				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, _countof(szText2));
-				result = pDlg->_sortOrder * (_ttoi(szText1) - _ttoi(szText2));
+				result = pDlg->_sortOrder * (_wtoi(szText1) - _wtoi(szText2));
 				break;
 
 			case COLUMN_DATE: 
@@ -314,12 +314,12 @@ class CAnnivList
 				ListView_SetExtendedListViewStyle(pDlg->_hList, LVS_EX_FULLROWSELECT);
 
 				// add columns
-				if (pDlg->AddColumn(CAnnivList::COLUMN_ETA, LPGENT("ETA"), 40)
-					|| pDlg->AddColumn(CAnnivList::COLUMN_CONTACT, LPGENT("Contact"), 160)
-					|| pDlg->AddColumn(CAnnivList::COLUMN_PROTO, LPGENT("Proto"), 50)
-					|| pDlg->AddColumn(CAnnivList::COLUMN_AGE, LPGENT("Age/Nr."), 40)
-					|| pDlg->AddColumn(CAnnivList::COLUMN_DESC, LPGENT("Anniversary"), 100)
-					|| pDlg->AddColumn(CAnnivList::COLUMN_DATE, LPGENT("Date"), 80))
+				if (pDlg->AddColumn(CAnnivList::COLUMN_ETA, LPGENW("ETA"), 40)
+					|| pDlg->AddColumn(CAnnivList::COLUMN_CONTACT, LPGENW("Contact"), 160)
+					|| pDlg->AddColumn(CAnnivList::COLUMN_PROTO, LPGENW("Proto"), 50)
+					|| pDlg->AddColumn(CAnnivList::COLUMN_AGE, LPGENW("Age/Nr."), 40)
+					|| pDlg->AddColumn(CAnnivList::COLUMN_DESC, LPGENW("Anniversary"), 100)
+					|| pDlg->AddColumn(CAnnivList::COLUMN_DATE, LPGENW("Date"), 80))
 					break;
 
 				TranslateDialogDefault(hDlg);
@@ -666,7 +666,7 @@ class CAnnivList
 	 **/
 	BYTE AddRow(MCONTACT hContact, LPCSTR pszProto, MAnnivDate &ad, MTime &mtNow, WORD wDaysBefore) 
 	{
-		TCHAR szText[MAX_PATH];
+		wchar_t szText[MAX_PATH];
 		int diff, iItem = -1;
 		CItemData *pdata;
 	
@@ -688,7 +688,7 @@ class CAnnivList
 					if (!pdata)
 						return FALSE;
 					// add item
-					iItem = AddItem(_itot(diff, szText, 10), (LPARAM)pdata);
+					iItem = AddItem(_itow(diff, szText, 10), (LPARAM)pdata);
 					if (iItem == -1) {
 						delete pdata;
 						return FALSE;
@@ -698,13 +698,13 @@ class CAnnivList
 					AddSubItem(iItem, COLUMN_CONTACT, DB::Contact::DisplayName(hContact));
 
 					// third column: protocol
-					TCHAR *ptszProto = mir_a2t(pszProto);
+					wchar_t *ptszProto = mir_a2t(pszProto);
 					AddSubItem(iItem, COLUMN_PROTO, ptszProto);
 					mir_free(ptszProto);
 
 					// forth line: age
 					if (ad.Age(&mtNow))
-						AddSubItem(iItem, COLUMN_AGE, _itot(ad.Age(&mtNow), szText, 10));
+						AddSubItem(iItem, COLUMN_AGE, _itow(ad.Age(&mtNow), szText, 10));
 					else
 						AddSubItem(iItem, COLUMN_AGE, L"???");
 

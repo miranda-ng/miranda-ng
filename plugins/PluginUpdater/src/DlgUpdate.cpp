@@ -36,7 +36,7 @@ static void SelectAll(HWND hDlg, bool bEnable)
 	}
 }
 
-static void SetStringText(HWND hWnd, size_t i, TCHAR *ptszText)
+static void SetStringText(HWND hWnd, size_t i, wchar_t *ptszText)
 {
 	ListView_SetItemText(hWnd, i, 1, ptszText);
 }
@@ -60,7 +60,7 @@ static void ApplyUpdates(void *param)
 	AutoHandle pipe(hPipe);
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
-	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+	wchar_t tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 	mir_sntprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
 	mir_sntprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
@@ -102,7 +102,7 @@ static void ApplyUpdates(void *param)
 		if (p.bEnabled) {
 			if (p.bDeleteOnly) {
 				// we need only to backup the old file
-				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
+				wchar_t *ptszRelPath = p.tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
 				mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
@@ -110,7 +110,7 @@ static void ApplyUpdates(void *param)
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
 				if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
-					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
+					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
 					mir_sntprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
 					mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
@@ -136,7 +136,7 @@ static void ApplyUpdates(void *param)
 		CallService(MS_AB_BACKUP);
 
 	if (opts.bChangePlatform) {
-		TCHAR mirandaPath[MAX_PATH];
+		wchar_t mirandaPath[MAX_PATH];
 		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
 		db_set_ts(NULL, MODNAME, "OldBin2", mirandaPath);
 
@@ -162,7 +162,7 @@ static void ApplyUpdates(void *param)
 #if MIRANDA_VER >= 0x0A00
 		BOOL bRestartCurrentProfile = db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0;
 		if (opts.bChangePlatform) {
-			TCHAR mirstartpath[MAX_PATH];
+			wchar_t mirstartpath[MAX_PATH];
 
 #ifdef _WIN64
 			mir_sntprintf(mirstartpath, L"%s\\miranda32.exe", tszMirandaPath);
@@ -207,10 +207,10 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			{
 				wchar_t szPath[MAX_PATH];
 				GetModuleFileName(NULL, szPath, _countof(szPath));
-				TCHAR *ext = _tcsrchr(szPath, '.');
+				wchar_t *ext = wcsrchr(szPath, '.');
 				if (ext != NULL)
 					*ext = '\0';
-				_tcscat(szPath, L".test");
+				wcscat(szPath, L".test");
 				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 				if (hFile == INVALID_HANDLE_VALUE)
 					// Running Windows Vista or later (major version >= 6).
@@ -268,9 +268,9 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			for (int i = 0; i < todo.getCount(); ++i) {
 				LVITEM lvI = {0};
 				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_GROUPID | LVIF_NORECOMPUTE;
-				lvI.iGroupId = (_tcsstr(todo[i].tszOldName, L"Plugins") != NULL) ? 1 :
-					((_tcsstr(todo[i].tszOldName, L"Languages") != NULL) ? 3 :
-						((_tcsstr(todo[i].tszOldName, L"Icons") != NULL) ? 4 : 2));
+				lvI.iGroupId = (wcsstr(todo[i].tszOldName, L"Plugins") != NULL) ? 1 :
+					((wcsstr(todo[i].tszOldName, L"Languages") != NULL) ? 3 :
+						((wcsstr(todo[i].tszOldName, L"Icons") != NULL) ? 4 : 2));
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)&todo[i];
 				lvI.pszText = todo[i].tszOldName;
@@ -410,7 +410,7 @@ static void DlgUpdateSilent(void *param)
 
 	AutoHandle pipe(hPipe);
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
-	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+	wchar_t tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
 	mir_sntprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
@@ -452,7 +452,7 @@ static void DlgUpdateSilent(void *param)
 		if (p.bEnabled) {
 			if (p.bDeleteOnly) {
 				// we need only to backup the old file
-				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
+				wchar_t *ptszRelPath = p.tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
 				mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
@@ -460,7 +460,7 @@ static void DlgUpdateSilent(void *param)
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
 				if (_tcsicmp(p.tszOldName, p.tszNewName)) {
-					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
+					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
 					mir_sntprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
 					mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
@@ -492,7 +492,7 @@ static void DlgUpdateSilent(void *param)
 	db_set_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 1);
 
 	// 5) Prepare Restart
-	TCHAR tszTitle[100];
+	wchar_t tszTitle[100];
 	mir_sntprintf(tszTitle, TranslateT("%d component(s) was updated"), count);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
@@ -514,7 +514,7 @@ static void DlgUpdateSilent(void *param)
 
 		if (!notified) {
 			// Error, let's try to show MessageBox as last way to inform user about successful update
-			TCHAR tszText[200];
+			wchar_t tszText[200];
 			mir_sntprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 			if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
@@ -540,7 +540,7 @@ static void __stdcall LaunchDialog(void *param)
 
 struct
 {
-	TCHAR *oldName, *newName;
+	wchar_t *oldName, *newName;
 }
 static renameTable[] =
 {
@@ -603,18 +603,18 @@ static renameTable[] =
 
 // Checks if file needs to be renamed and copies it in pNewName
 // Returns true if smth. was copied
-static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
+static bool CheckFileRename(const wchar_t *ptszOldName, wchar_t *pNewName)
 {
 	for (int i = 0; i < _countof(renameTable); i++) {
 		if (wildcmpit(ptszOldName, renameTable[i].oldName)) {
-			TCHAR *ptszDest = renameTable[i].newName;
+			wchar_t *ptszDest = renameTable[i].newName;
 			if (ptszDest == NULL)
 				*pNewName = 0;
 			else {
-				_tcsncpy_s(pNewName, MAX_PATH, ptszDest, _TRUNCATE);
-				size_t cbLen = _tcslen(ptszDest) - 1;
+				wcsncpy_s(pNewName, MAX_PATH, ptszDest, _TRUNCATE);
+				size_t cbLen = wcslen(ptszDest) - 1;
 				if (pNewName[cbLen] == '*')
-					_tcsncpy_s(pNewName + cbLen, MAX_PATH - cbLen, ptszOldName, _TRUNCATE);
+					wcsncpy_s(pNewName + cbLen, MAX_PATH - cbLen, ptszOldName, _TRUNCATE);
 			}
 			return true;
 		}
@@ -625,23 +625,23 @@ static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // We only update ".dll", ".exe" and ".ico"
-static bool isValidExtension(const TCHAR *ptszFileName)
+static bool isValidExtension(const wchar_t *ptszFileName)
 {
-	const TCHAR *pExt = _tcsrchr(ptszFileName, '.');
+	const wchar_t *pExt = wcsrchr(ptszFileName, '.');
 
 	return (pExt != NULL) && (!_tcsicmp(pExt, L".dll") || !_tcsicmp(pExt, L".exe") || !_tcsicmp(pExt, L".txt"));
 }
 
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
-static bool isValidDirectory(const TCHAR *ptszDirName)
+static bool isValidDirectory(const wchar_t *ptszDirName)
 {
 	return !_tcsicmp(ptszDirName, L"Plugins") || !_tcsicmp(ptszDirName, L"Icons") || !_tcsicmp(ptszDirName, L"Languages") || !_tcsicmp(ptszDirName, L"Libs") || !_tcsicmp(ptszDirName, L"Core");
 }
 
 // Scans folders recursively
-static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
+static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
 {
-	TCHAR tszBuf[MAX_PATH];
+	wchar_t tszBuf[MAX_PATH];
 	mir_sntprintf(tszBuf, L"%s\\*", tszFolder);
 
 	WIN32_FIND_DATA ffd;
@@ -662,7 +662,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 		}
 		else if (isValidExtension(ffd.cFileName)) {
 			// calculate the current file's relative name and store it into tszNewName
-			TCHAR tszNewName[MAX_PATH];
+			wchar_t tszNewName[MAX_PATH];
 			if (CheckFileRename(ffd.cFileName, tszNewName)) {
 				Netlib_LogfT(hNetlibUser, L"File %s will be renamed to %s.", ffd.cFileName, tszNewName);
 				// Yes, we need the old file name, because this will be hashed later
@@ -671,7 +671,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 			else {
 				if (level == 0) {
 					// Rename Miranda*.exe
-					_tcsncpy_s(tszNewName, opts.bChangePlatform && !mir_tstrcmpi(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
+					wcsncpy_s(tszNewName, opts.bChangePlatform && !mir_tstrcmpi(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
 					mir_sntprintf(tszBuf, L"%s\\%s", tszFolder, tszNewName);
 				}
 				else {
@@ -680,17 +680,17 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 				}
 			}
 
-			TCHAR *ptszUrl;
+			wchar_t *ptszUrl;
 			int MyCRC;
 
 			bool bDeleteOnly = (tszNewName[0] == 0);
 			// this file is not marked for deletion
 			if (!bDeleteOnly) {
-				TCHAR *pName = tszNewName;
+				wchar_t *pName = tszNewName;
 				ServListEntry *item = hashes.find((ServListEntry*)&pName);
 				// Not in list? Check for trailing 'W' or 'w'
 				if (item == NULL) {
-					TCHAR *p = _tcsrchr(tszNewName, '.');
+					wchar_t *p = wcsrchr(tszNewName, '.');
 					if (p[-1] != 'w' && p[-1] != 'W') {
 						Netlib_LogfT(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
 						continue;
@@ -744,26 +744,26 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, const TCHAR *tsz
 			// Yeah, we've got new version.
 			FILEINFO *FileInfo = new FILEINFO;
 			// copy the relative old name
-			_tcsncpy(FileInfo->tszOldName, tszBuf + cbBaseLen, _countof(FileInfo->tszOldName));
+			wcsncpy(FileInfo->tszOldName, tszBuf + cbBaseLen, _countof(FileInfo->tszOldName));
 			FileInfo->bDeleteOnly = bDeleteOnly;
 			if (FileInfo->bDeleteOnly) {
 				// save the full old name for deletion
-				_tcsncpy(FileInfo->tszNewName, tszBuf, _countof(FileInfo->tszNewName));
+				wcsncpy(FileInfo->tszNewName, tszBuf, _countof(FileInfo->tszNewName));
 			}
 			else {
-				_tcsncpy(FileInfo->tszNewName, ptszUrl, _countof(FileInfo->tszNewName));
+				wcsncpy(FileInfo->tszNewName, ptszUrl, _countof(FileInfo->tszNewName));
 			}
 
-			_tcsncpy(tszBuf, ptszUrl, _countof(tszBuf));
-			TCHAR *p = _tcsrchr(tszBuf, '.');
+			wcsncpy(tszBuf, ptszUrl, _countof(tszBuf));
+			wchar_t *p = wcsrchr(tszBuf, '.');
 			if (p) *p = 0;
-			p = _tcsrchr(tszBuf, '\\');
+			p = wcsrchr(tszBuf, '\\');
 			p = (p) ? p + 1 : tszBuf;
-			_tcslwr(p);
+			wcslwr(p);
 
 			mir_sntprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, p);
 			mir_sntprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszBuf);
-			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
+			for (p = wcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = wcschr(p, '\\'))
 				*p++ = '/';
 
 			// remember whether the user has decided not to update this component with this particular new version
@@ -789,7 +789,7 @@ static void CheckUpdates(void *)
 	Netlib_LogfT(hNetlibUser, L"Checking for updates");
 	Thread_SetName("PluginUpdater: CheckUpdates");
 
-	TCHAR tszTempPath[MAX_PATH];
+	wchar_t tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(_countof(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen - 1] == '\\')
 		tszTempPath[dwLen - 1] = 0;

@@ -81,17 +81,17 @@ static int RecvDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP; // default
 }
 
-static TCHAR* ListView_GetItemTextEx(HWND hLV, int iItem, int iSubItem)
+static wchar_t* ListView_GetItemTextEx(HWND hLV, int iItem, int iSubItem)
 {
 	LVITEM lvi = {0};
 	lvi.mask = LVIF_TEXT;
 	lvi.iSubItem = iSubItem;
 	lvi.cchTextMax = 64;
-	lvi.pszText = (TCHAR*)mir_alloc(lvi.cchTextMax * sizeof(TCHAR));
+	lvi.pszText = (wchar_t*)mir_alloc(lvi.cchTextMax * sizeof(wchar_t));
 	// loop until the returned size is smaller than buffer size
 	while (SendMessage(hLV, LVM_GETITEMTEXT, iItem, (LPARAM)&lvi) == lvi.cchTextMax - 1) { 
 		lvi.cchTextMax += 64;
-		lvi.pszText = (TCHAR*)mir_realloc(lvi.pszText, lvi.cchTextMax * sizeof(TCHAR));
+		lvi.pszText = (wchar_t*)mir_realloc(lvi.pszText, lvi.cchTextMax * sizeof(wchar_t));
 	}
 	return lvi.pszText;
 }
@@ -108,18 +108,18 @@ static void RebuildGroupCombo(HWND hwndDlg)
 
 	if (bHasGroups) {
 		int curs = SendMessage(hGroupsCombo, CB_GETCURSEL, 0, 0);
-		TCHAR *curst = NULL;
+		wchar_t *curst = NULL;
 
 		EnableDlgItem(hwndDlg, IDC_ENABLEGROUPS, TRUE);
 		EnableGroupCombo(hwndDlg);
 
 		if (curs != CB_ERR) {
-			curst = (TCHAR*)_alloca((SendMessage(hGroupsCombo, CB_GETLBTEXTLEN, curs, 0) + 1) * sizeof(TCHAR));
+			curst = (wchar_t*)_alloca((SendMessage(hGroupsCombo, CB_GETLBTEXTLEN, curs, 0) + 1) * sizeof(wchar_t));
 			SendMessage(hGroupsCombo, CB_GETLBTEXT, curs, (LPARAM)curst);
 		}
 		SendMessage(hGroupsCombo, CB_RESETCONTENT, 0, 0);
 
-		TCHAR *szGroup;
+		wchar_t *szGroup;
 		for (int i=1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++) {
 			int nIndex = SendMessage(hGroupsCombo, CB_ADDSTRING, 0, (LPARAM)szGroup);
 			SendMessage(hGroupsCombo, CB_SETITEMDATA, nIndex, i);
@@ -138,7 +138,7 @@ static void RebuildGroupCombo(HWND hwndDlg)
 
 static MCONTACT CreateTemporaryContactForItem(HWND hwndDlg, TRecvContactsData *wndData, int iItem)
 {
-	TCHAR *caUIN = ListView_GetItemTextEx(GetDlgItem(hwndDlg, IDC_CONTACTS), iItem, 0);
+	wchar_t *caUIN = ListView_GetItemTextEx(GetDlgItem(hwndDlg, IDC_CONTACTS), iItem, 0);
 	char *szProto = GetContactProto(wndData->mhContact);
 	wndData->rhSearch = (HANDLE)CallProtoService(szProto, PS_BASICSEARCH, 0, (LPARAM)caUIN); // find it
 	replaceStrT(wndData->haUin, caUIN);
@@ -148,7 +148,7 @@ static MCONTACT CreateTemporaryContactForItem(HWND hwndDlg, TRecvContactsData *w
 	return NULL;
 }
 
-void RecvListView_AddColumn(HWND hList, int nWidth, TCHAR *szTitle, int nItem)
+void RecvListView_AddColumn(HWND hList, int nWidth, wchar_t *szTitle, int nItem)
 {
 	LVCOLUMN col;
 	col.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
@@ -239,10 +239,10 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				}
 			}
 			// new dlg init
-			wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGENT("Add Contact Permanently to List"));
-			wndData->hIcons[1] = InitMButton(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGENT("View User's Details"));
-			wndData->hIcons[2] = InitMButton(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGENT("View User's History"));
-			wndData->hIcons[3] = InitMButton(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGENT("User Menu"));
+			wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGENW("Add Contact Permanently to List"));
+			wndData->hIcons[1] = InitMButton(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGENW("View User's Details"));
+			wndData->hIcons[2] = InitMButton(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGENW("View User's History"));
+			wndData->hIcons[3] = InitMButton(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGENW("User Menu"));
 
 			SendMessage(hwndDlg,DM_UPDATETITLE,0,0);
 			// new dialog init done
@@ -301,11 +301,11 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					HWND hGroupsCombo = GetDlgItem(hwndDlg, IDC_GROUPS);
 					HWND hGroupsCheck = GetDlgItem(hwndDlg, IDC_ENABLEGROUPS);
 					int curs = SendMessage(hGroupsCombo, CB_GETCURSEL, 0, 0);
-					TCHAR* caGroup = NULL;
+					wchar_t* caGroup = NULL;
 					int nGroupId = -1;
 					if (curs != CB_ERR && IsWindowEnabled(hGroupsCheck) && SendMessage(hGroupsCheck, BM_GETCHECK, 0, 0))
 					{ //got groups, get the one selected in combo
-						caGroup = (TCHAR*)_alloca((SendMessage(hGroupsCombo, CB_GETLBTEXTLEN, curs, 0) + 1) * sizeof(TCHAR));
+						caGroup = (wchar_t*)_alloca((SendMessage(hGroupsCombo, CB_GETLBTEXTLEN, curs, 0) + 1) * sizeof(wchar_t));
 						SendMessage(hGroupsCombo, CB_GETLBTEXT, curs, (LPARAM)caGroup);
 						nGroupId = SendMessage(hGroupsCombo, CB_GETITEMDATA, curs, 0);
 					}
@@ -313,7 +313,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					for (int i = 0; i < ListView_GetItemCount(hLV); i++)
 						if (ListView_GetCheckState(hLV, i)) {
 							// found checked contact item, add it
-							TCHAR *caUIN = ListView_GetItemTextEx(hLV, i, 0);
+							wchar_t *caUIN = ListView_GetItemTextEx(hLV, i, 0);
 							for (int j = 0; j < wndData->cbReceived; j++)   // determine item index in packet
 								if (!mir_tstrcmp(wndData->maReceived[j]->mcaUIN, caUIN)) {
 									char *szProto =GetContactProto(wndData->mhContact);
@@ -437,10 +437,10 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				fi.psz = wndData->haUin;
 				int iLPos = ListView_FindItem(hLV, -1, &fi);
 				if (iLPos == -1) iLPos = 0;
-				if (mir_tstrcmp(psr->nick.t, L"") && psr->nick.t)
-					ListView_SetItemText(hLV, iLPos, 1, psr->nick.t);
-				ListView_SetItemText(hLV, iLPos, 2, psr->firstName.t);
-				ListView_SetItemText(hLV, iLPos, 3, psr->lastName.t);
+				if (mir_tstrcmp(psr->nick.w, L"") && psr->nick.w)
+					ListView_SetItemText(hLV, iLPos, 1, psr->nick.w);
+				ListView_SetItemText(hLV, iLPos, 2, psr->firstName.w);
+				ListView_SetItemText(hLV, iLPos, 3, psr->lastName.w);
 				break;
 			}
 			mir_free(wndData->haUin);
@@ -482,7 +482,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case DM_UPDATETITLE:
-		UpdateDialogTitle(hwndDlg, wndData ? wndData->mhContact : NULL, LPGENT("Contacts from"));
+		UpdateDialogTitle(hwndDlg, wndData ? wndData->mhContact : NULL, LPGENW("Contacts from"));
 		if (wndData)
 			UpdateDialogAddButton(hwndDlg, wndData->mhContact);
 		break;        

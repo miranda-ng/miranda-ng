@@ -273,14 +273,14 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	odp.dwInitParam = LPARAM(this);
 	odp.pfnDlgProc = IcqDlgProc;
 	odp.position = -1900000000;
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQ);
 	UserInfo_AddPage(wParam, &odp);
 
 	if (!lParam) {
-		TCHAR buf[200];
+		wchar_t buf[200];
 		mir_sntprintf(buf, TranslateT("%s Details"), m_tszUserName);
-		odp.ptszTitle = buf;
+		odp.pwszTitle = buf;
 
 		odp.position = -1899999999;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO);

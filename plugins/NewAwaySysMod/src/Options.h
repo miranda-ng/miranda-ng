@@ -92,7 +92,7 @@ class COptItem_Edit : public COptItem
 {
 public:
 	COptItem_Edit() {}
-	COptItem_Edit(int m_dlgItemID, char *szDBSetting, int nMaxLen, TCHAR *szDefValue, int lParam = 0, bool m_bReadOnly = false)
+	COptItem_Edit(int m_dlgItemID, char *szDBSetting, int nMaxLen, wchar_t *szDefValue, int lParam = 0, bool m_bReadOnly = false)
 		: COptItem(m_dlgItemID, szDBSetting, nMaxLen, lParam, m_bReadOnly), sDefValue(szDefValue)
 		{}
 
@@ -323,7 +323,7 @@ class COptItem_StrDBSetting : public COptItem
 {
 public:
 	COptItem_StrDBSetting() {}
-	COptItem_StrDBSetting(int m_dlgItemID, char *szDBSetting, int nMaxLen, TCHAR *szDefValue, int lParam = 0, bool m_bReadOnly = false) : COptItem(m_dlgItemID, szDBSetting, nMaxLen, lParam, m_bReadOnly), sDefValue(szDefValue) {}
+	COptItem_StrDBSetting(int m_dlgItemID, char *szDBSetting, int nMaxLen, wchar_t *szDefValue, int lParam = 0, bool m_bReadOnly = false) : COptItem(m_dlgItemID, szDBSetting, nMaxLen, lParam, m_bReadOnly), sDefValue(szDefValue) {}
 	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { sValue = GetStrDBVal(sModule, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
 	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetStrDBVal(sModule, sValue, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { COptItem::WndToMem(hWnd); }

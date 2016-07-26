@@ -7,7 +7,7 @@
  * OptionsCtrlImpl::Button
  */
 
-OptionsCtrlImpl::Button::Button(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szButton, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::Button::Button(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szButton, DWORD dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itButton, szLabel, dwFlags, dwData)
 	, m_hButtonWnd(NULL)
 	, m_strButton(szButton)
@@ -113,7 +113,7 @@ void OptionsCtrlImpl::Button::childAdded(Item* pChild)
 	}
 }
 
-void OptionsCtrlImpl::Button::setLabel(const TCHAR* szLabel)
+void OptionsCtrlImpl::Button::setLabel(const wchar_t* szLabel)
 {
 	m_strLabel = szLabel;
 	

@@ -6,7 +6,7 @@
 
 #define NUM_IDS		24
 
-TCHAR* client_names[NUM_IDS] = {
+wchar_t* client_names[NUM_IDS] = {
 	L"Official Binary Library",
 	L"Official Java Applet",
 	L"Official Binary Application", 
@@ -65,7 +65,7 @@ int client_ids[NUM_IDS] = {
 
 #define NUM_CVS		5
 
-TCHAR* CV_names[NUM_CVS] = {
+wchar_t* CV_names[NUM_CVS] = {
 	L"Sametime (Use old client version)",
 	L"Sametime (Miranda default)",
 	L"Sametime 8",
@@ -102,19 +102,19 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		WORD client_ver = proto->GetClientVersion();
 		if (client_ver) {
-			TCHAR verbuf[100];
+			wchar_t verbuf[100];
 			mir_sntprintf(verbuf, TranslateT("Client protocol version: %03d.%03d"), (client_ver & 0xFF00) >> 8, client_ver & 0xFF);
 			SetDlgItemText(hwndDlg, IDC_ST_CLIENTVER, verbuf);
 		}
 
 		WORD server_ver = proto->GetServerVersion();
 		if (server_ver) {
-			TCHAR verbuf[100];
+			wchar_t verbuf[100];
 			mir_sntprintf(verbuf, TranslateT("Server protocol version: %03d.%03d"), (server_ver & 0xFF00) >> 8, server_ver & 0xFF);
 			SetDlgItemText(hwndDlg, IDC_ST_SERVERVER, verbuf);
 		}
 
-		TCHAR *s = mir_utf8decodeT(proto->options.server_name); SetDlgItemText(hwndDlg, IDC_ED_SNAME, s); mir_free(s);
+		wchar_t *s = mir_utf8decodeT(proto->options.server_name); SetDlgItemText(hwndDlg, IDC_ED_SNAME, s); mir_free(s);
 		s = mir_utf8decodeT(proto->options.id); SetDlgItemText(hwndDlg, IDC_ED_NAME, s); mir_free(s);
 		s = mir_utf8decodeT(proto->options.pword); SetDlgItemText(hwndDlg, IDC_ED_PWORD, s); mir_free(s);
 
@@ -230,7 +230,7 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 			case IDC_BTN_IMPORTCONTACTS:
 				{
-					TCHAR import_filename[MAX_PATH]; import_filename[0] = 0;
+					wchar_t import_filename[MAX_PATH]; import_filename[0] = 0;
 
 					OPENFILENAME ofn = { 0 };
 					ofn.lStructSize = sizeof(ofn);
@@ -291,7 +291,7 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			TCHAR ws[2048];
+			wchar_t ws[2048];
 
 			GetDlgItemText(hwndDlg, IDC_ED_SNAME, ws, LSTRINGLEN);
 			mir_strcpy(proto->options.server_name, T2Utf(ws));
@@ -350,8 +350,8 @@ int CSametimeProto::OptInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTNET);
-	odp.ptszTitle = m_tszUserName;
-	odp.ptszGroup = LPGENT("Network");
+	odp.pwszTitle = m_tszUserName;
+	odp.pwszGroup = LPGENW("Network");
 	odp.pfnDlgProc = DlgProcOptNet;
 	odp.dwInitParam = (LPARAM)this;
 	Options_AddPage(wParam, &odp);

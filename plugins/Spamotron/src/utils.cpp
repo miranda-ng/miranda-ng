@@ -2,36 +2,36 @@
 #include <locale.h>
 
 
-TCHAR *_tcstolower(TCHAR *dst)
+wchar_t *_tcstolower(wchar_t *dst)
 {
 	if (dst == NULL)
 		return NULL;
 	
 	SIZE_T dst_len = mir_tstrlen(dst);
 	for (SIZE_T i = 0; i < dst_len; i ++)
-		dst[i] = _totlower(dst[i]);
+		dst[i] = towlower(dst[i]);
 	return dst;
 }
 
-TCHAR *_tcstoupper(TCHAR *dst)
+wchar_t *_tcstoupper(wchar_t *dst)
 {
 	if (dst == NULL)
 		return NULL;
 	
 	SIZE_T dst_len = mir_tstrlen(dst);
 	for (SIZE_T i = 0; i < dst_len; i ++)
-		dst[i] = _totupper(dst[i]);
+		dst[i] = towupper(dst[i]);
 	return dst;
 }
 
-BOOL _isregex(TCHAR* strSearch)
+BOOL _isregex(wchar_t* strSearch)
 {
 	BOOL ret = FALSE;
 	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	TCHAR *regex;
-	TCHAR regex_parse[] = L"/(.*)/([igsm]*)";
+	wchar_t *regex;
+	wchar_t regex_parse[] = L"/(.*)/([igsm]*)";
 	int ovector[9];
 
 	if (strSearch == NULL)
@@ -52,15 +52,15 @@ err_out:
 	return ret;
 }
 
-BOOL _isvalidregex(TCHAR* strSearch)
+BOOL _isvalidregex(wchar_t* strSearch)
 {
 	BOOL ret = FALSE;
 	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	TCHAR *regex, *regexp, *mod;
+	wchar_t *regex, *regexp, *mod;
 	int opts = 0;
-	TCHAR regex_parse[] = L"/(.*)/([igsm]*)";
+	wchar_t regex_parse[] = L"/(.*)/([igsm]*)";
 	int ovector[9];
 
 	if (strSearch == NULL)
@@ -82,11 +82,11 @@ BOOL _isvalidregex(TCHAR* strSearch)
 	mod = regex + ovector[4];
 	mod[ovector[5] - ovector[4]] = 0;
 
-	if (_tcsstr(mod, L"i"))
+	if (wcsstr(mod, L"i"))
 		opts |= PCRE_CASELESS;
-	if (_tcsstr(mod, L"m"))
+	if (wcsstr(mod, L"m"))
 		opts |= PCRE_MULTILINE;
-	if (_tcsstr(mod, L"s"))
+	if (wcsstr(mod, L"s"))
 		opts |= PCRE_DOTALL;
 
 	re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
@@ -100,15 +100,15 @@ err_out:
 	return ret;
 }
 
-BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
+BOOL _regmatch(wchar_t* str, wchar_t* strSearch)
 {
 	BOOL ret = FALSE;
 	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	TCHAR *regex, *regexp, *data = NULL, *mod;
+	wchar_t *regex, *regexp, *data = NULL, *mod;
 	int opts = 0;
-	TCHAR regex_parse[] = L"^/(.*)/([igsm]*)";
+	wchar_t regex_parse[] = L"^/(.*)/([igsm]*)";
 	int ovector[9];
 
 	if (str == NULL || strSearch == NULL)
@@ -133,11 +133,11 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 	data = mir_tstrdup(str);
 	if (data == NULL)
 		goto err_out;
-	if (_tcsstr(mod, L"i"))
+	if (wcsstr(mod, L"i"))
 		opts |= PCRE_CASELESS;
-	if (_tcsstr(mod, L"m"))
+	if (wcsstr(mod, L"m"))
 		opts |= PCRE_MULTILINE;
-	if (_tcsstr(mod, L"s"))
+	if (wcsstr(mod, L"s"))
 		opts |= PCRE_DOTALL;
 
 	re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
@@ -154,14 +154,14 @@ err_out:
 	return ret;
 }
 
-int get_response_id(const TCHAR* strvar)
+int get_response_id(const wchar_t* strvar)
 {
 	int ret = 0;
 	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	TCHAR *_str, *_strvar;
-	TCHAR regex[] = L"^%response([#-_]([0-9]+))?%$";
+	wchar_t *_str, *_strvar;
+	wchar_t regex[] = L"^%response([#-_]([0-9]+))?%$";
 	int ovector[9];
 
 	if (strvar == NULL)
@@ -181,45 +181,45 @@ int get_response_id(const TCHAR* strvar)
 	} else if (rc == 3) {
 		_str = _strvar + ovector[4];
 		_str[ovector[5] - ovector[4]] = 0;
-		ret = _ttoi(_str);
+		ret = _wtoi(_str);
 	}
 	mir_free(_strvar);
 
 	return ret;
 }
 
-int get_response_num(const TCHAR *str)
+int get_response_num(const wchar_t *str)
 {
 	int i = 0;
-	TCHAR *tmp, *strc;
+	wchar_t *tmp, *strc;
 	
 	if (str == NULL)
 		return 0;
 	strc = mir_tstrdup(str);
 	if (strc == NULL)
 		return 0;
-	tmp = _tcstok(strc, L"\r\n");
+	tmp = wcstok(strc, L"\r\n");
 	while (tmp) {
 		i ++;
-		tmp = _tcstok(NULL, L"\r\n"); /* Move next. */
+		tmp = wcstok(NULL, L"\r\n"); /* Move next. */
 	}
 	mir_free(strc);
 
 	return i;
 }
 
-TCHAR* get_response(TCHAR* dst, unsigned int dstlen, int num)
+wchar_t* get_response(wchar_t* dst, unsigned int dstlen, int num)
 {
 	int i = 0;
-	TCHAR *tmp, *src;
+	wchar_t *tmp, *src;
 
 	if (dst == NULL || dstlen == 0 || num < 0)
 		return dst;
-	src = (TCHAR*)mir_alloc(MAX_BUFFER_LENGTH * sizeof(TCHAR));
+	src = (wchar_t*)mir_alloc(MAX_BUFFER_LENGTH * sizeof(wchar_t));
 	if (src == NULL)
 		goto err_out;
 	_getOptS(src, MAX_BUFFER_LENGTH, "Response", defaultResponse);
-	tmp = _tcstok(src, L"\r\n");
+	tmp = wcstok(src, L"\r\n");
 	while (tmp) {
 		if (i == num) {
 			mir_tstrcpy(dst, tmp);
@@ -227,7 +227,7 @@ TCHAR* get_response(TCHAR* dst, unsigned int dstlen, int num)
 			return dst;
 		}
 		i ++;
-		tmp = _tcstok(NULL, L"\r\n"); /* Move next. */
+		tmp = wcstok(NULL, L"\r\n"); /* Move next. */
 	}
 	mir_free(src);
 err_out:
@@ -235,12 +235,12 @@ err_out:
 	return dst;
 }
 
-TCHAR* _tcsstr_cc(TCHAR* str, TCHAR* strSearch, BOOL cc)
+wchar_t* _tcsstr_cc(wchar_t* str, wchar_t* strSearch, BOOL cc)
 {
-	TCHAR *ret = NULL, *_str = NULL, *_strSearch = NULL;
+	wchar_t *ret = NULL, *_str = NULL, *_strSearch = NULL;
 
 	if (cc)
-		return _tcsstr(str, strSearch);
+		return wcsstr(str, strSearch);
 
 	_str = mir_tstrdup(str);
 	if (_str == NULL)
@@ -248,7 +248,7 @@ TCHAR* _tcsstr_cc(TCHAR* str, TCHAR* strSearch, BOOL cc)
 	_strSearch = mir_tstrdup(strSearch);
 	if (_strSearch == NULL)
 		goto err_out;
-	ret = _tcsstr(_tcstolower(_str), _tcstolower(_strSearch));
+	ret = wcsstr(_tcstolower(_str), _tcstolower(_strSearch));
 	if (ret != NULL)
 		ret = ((ret - _str) + str);
 err_out:
@@ -258,10 +258,10 @@ err_out:
 	return ret;
 }
 
-BOOL Contains(TCHAR* dst, TCHAR* src) // Checks for occurence of substring from src in dst
+BOOL Contains(wchar_t* dst, wchar_t* src) // Checks for occurence of substring from src in dst
 {
 	BOOL ret = FALSE;
-	TCHAR *tsrc = NULL, *tdst = NULL, *token, *token_end;
+	wchar_t *tsrc = NULL, *tdst = NULL, *token, *token_end;
 	SIZE_T dst_len;
 
 	if (dst == NULL || src == NULL)
@@ -274,24 +274,24 @@ BOOL Contains(TCHAR* dst, TCHAR* src) // Checks for occurence of substring from 
 		goto err_out;
 	tdst = _tcstoupper(tdst);
 	dst_len = mir_tstrlen(tdst);
-	token = _tcstok(tsrc, L",");
+	token = wcstok(tsrc, L",");
 	while (token) {
 		token_end = (token + mir_tstrlen(token));
-		while (!_tcsncmp(token, L" ", 1)) { /* Skeep spaces at start. */
+		while (!wcsncmp(token, L" ", 1)) { /* Skeep spaces at start. */
 			token ++;
 		}
 		/* Skeep spaces at end. */
-		while (token > token_end && _tcschr((token_end - 1), _T(' '))) {
+		while (token > token_end && wcschr((token_end - 1), ' ')) {
 			token_end --;
 			token_end[0] = 0;
 		}
 		/* Compare. */
 		if (dst_len == (token_end - token) &&
-		    0 == memcmp(tdst, _tcstoupper(token), (dst_len * sizeof(TCHAR)))) {
+		    0 == memcmp(tdst, _tcstoupper(token), (dst_len * sizeof(wchar_t)))) {
 			ret = TRUE;
 			break;		
 		}
-		token = _tcstok(NULL, L","); /* Move next. */
+		token = wcstok(NULL, L","); /* Move next. */
 	}
 err_out:
 	mir_free(tsrc);
@@ -321,9 +321,9 @@ BOOL isOneDay(DWORD timestamp1, DWORD timestamp2)
 	return FALSE;
 }
 
-TCHAR* ReplaceVar(TCHAR *dst, unsigned int len, const TCHAR *var, const TCHAR *rvar)
+wchar_t* ReplaceVar(wchar_t *dst, unsigned int len, const wchar_t *var, const wchar_t *rvar)
 {
-	TCHAR *var_start;
+	wchar_t *var_start;
 	SIZE_T dst_len, var_len, rvar_len;
 
 	if (dst == NULL || var == NULL || rvar == NULL)
@@ -331,39 +331,39 @@ TCHAR* ReplaceVar(TCHAR *dst, unsigned int len, const TCHAR *var, const TCHAR *r
 	dst_len = mir_tstrlen(dst);
 	var_len = mir_tstrlen(var);
 	rvar_len = mir_tstrlen(rvar);
-	var_start = _tcsstr(dst, var);
+	var_start = wcsstr(dst, var);
 	while (var_start) {
 		if (len < (dst_len + rvar_len - var_len + 1))
 			return NULL; /* Out of buf space. */
 		memmove((var_start + rvar_len),
 		    (var_start + var_len),
-		    (((dst + dst_len + 1) - (var_start + var_len)) * sizeof(TCHAR)));
+		    (((dst + dst_len + 1) - (var_start + var_len)) * sizeof(wchar_t)));
 		if (var_len >= rvar_len) { /* Buf data size not changed or decreased. */
 			dst_len -= (var_len - rvar_len);
 		} else { /* Buf data size increased. */
 			dst_len += (rvar_len - var_len);
 		}
-		memcpy(var_start, rvar, (rvar_len * sizeof(TCHAR)));
-		var_start = _tcsstr(dst, var); /* Move next. */
+		memcpy(var_start, rvar, (rvar_len * sizeof(wchar_t)));
+		var_start = wcsstr(dst, var); /* Move next. */
 	}
 
 	return dst;
 }
 
-TCHAR* ReplaceVars(TCHAR *dst, unsigned int len)
+wchar_t* ReplaceVars(wchar_t *dst, unsigned int len)
 {
 	return ReplaceVarsNum(dst, len, -1);
 }
 
-TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
+wchar_t* ReplaceVarsNum(wchar_t *dst, unsigned int len, int num)
 {
-	TCHAR response[MAX_BUFFER_LENGTH];
+	wchar_t response[MAX_BUFFER_LENGTH];
 	int ret, i;
 	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	TCHAR *_str, *tmp, **r = NULL, **tr, *ttmp, *dstcopy;
-	TCHAR regex[] = L"%response([#-_]([0-9]+))?%";
+	wchar_t *_str, *tmp, **r = NULL, **tr, *ttmp, *dstcopy;
+	wchar_t regex[] = L"%response([#-_]([0-9]+))?%";
 	int ovector[9];
 
 	re = pcre16_compile(regex, 0, &error, &erroroffs, NULL);
@@ -371,14 +371,14 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 		return FALSE; // [TODO] and log some error
 	_getOptS(response, _countof(response), "Response", defaultResponse);	
 
-	ttmp = _tcstok(response, L"\r\n");
+	ttmp = wcstok(response, L"\r\n");
 	for (i = 0; ttmp != NULL; i ++) {
-		tr = (TCHAR**)mir_realloc(r, ((i + 1) * sizeof(TCHAR*)));
+		tr = (wchar_t**)mir_realloc(r, ((i + 1) * sizeof(wchar_t*)));
 		if (tr == NULL)
 			goto err_out;
 		r = tr;
 		r[i] = ttmp;
-		ttmp = _tcstok(NULL, L"\r\n"); /* Move next. */
+		ttmp = wcstok(NULL, L"\r\n"); /* Move next. */
 	}
 
 	do {
@@ -397,7 +397,7 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 			ttmp[ovector[1] - ovector[0]] = 0;
 			tmp = _str + ovector[4];
 			tmp[ovector[5] - ovector[4]] = 0;
-			ret = _ttoi(tmp);
+			ret = _wtoi(tmp);
 		} else {
 			ttmp = dstcopy + ovector[0];
 			ttmp[ovector[1] - ovector[0]] = 0;
@@ -423,10 +423,10 @@ err_out:
 	return dst;
 } 
 
-int _notify(MCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage)
+int _notify(MCONTACT hContact, BYTE type, wchar_t *message, wchar_t *origmessage)
 {
 	char *tmp, *tmporig;
-	TCHAR msg[MAX_BUFFER_LENGTH];
+	wchar_t msg[MAX_BUFFER_LENGTH];
 	mir_sntprintf(msg, message, pcli->pfnGetContactDisplayName(hContact, 0));
 
 	if (_getOptB("LogActions", defaultLogActions)) {

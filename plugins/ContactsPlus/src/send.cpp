@@ -234,10 +234,10 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		wndData = new TSendContactsData(lParam);
 		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)wndData);
 		// new dlg init 
-		wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGENT("Add Contact Permanently to List"));
-		wndData->hIcons[1] = InitMButton(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGENT("View User's Details"));
-		wndData->hIcons[2] = InitMButton(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGENT("View User's History"));
-		wndData->hIcons[3] = InitMButton(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGENT("User Menu"));
+		wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGENW("Add Contact Permanently to List"));
+		wndData->hIcons[1] = InitMButton(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGENW("View User's Details"));
+		wndData->hIcons[2] = InitMButton(hwndDlg, IDC_HISTORY, SKINICON_OTHER_HISTORY, LPGENW("View User's History"));
+		wndData->hIcons[3] = InitMButton(hwndDlg, IDC_USERMENU, SKINICON_OTHER_DOWNARROW, LPGENW("User Menu"));
 
 		SendMessage(hwndDlg, DM_UPDATETITLE, 0, 0);
 		// new dialog init done
@@ -479,7 +479,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		TranslateDialogDefault(hwndDlg);
 		{
 			if (lParam)
-				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateTS((TCHAR*)lParam));
+				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateTS((wchar_t*)lParam));
 
 			RECT rc, rcParent;
 			GetWindowRect(hwndDlg, &rc);

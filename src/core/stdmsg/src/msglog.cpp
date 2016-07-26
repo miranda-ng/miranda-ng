@@ -50,10 +50,10 @@ struct LogStreamData
 static int logPixelSY;
 static char szSep2[40], szSep2_RTL[50];
 
-static const TCHAR *bbcodes[] = { L"[b]", L"[i]", L"[u]", L"[s]", L"[/b]", L"[/i]", L"[/u]", L"[/s]" };
+static const wchar_t *bbcodes[] = { L"[b]", L"[i]", L"[u]", L"[s]", L"[/b]", L"[/i]", L"[/u]", L"[/s]" };
 static const char *bbcodefmt[] = { "\\b ", "\\i ", "\\ul ", "\\strike ", "\\b0 ", "\\i0 ", "\\ul0 ", "\\strike0 " };
 
-static void AppendPlainUnicode(CMStringA &buf, const TCHAR *str)
+static void AppendPlainUnicode(CMStringA &buf, const wchar_t *str)
 {
 	for (; *str; str++) {
 		if (*str < 128)
@@ -63,7 +63,7 @@ static void AppendPlainUnicode(CMStringA &buf, const TCHAR *str)
 	}
 }
 
-static void AppendToBufferWithRTF(CMStringA &buf, const TCHAR *line)
+static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 {
 	if (line == NULL)
 		return;
@@ -90,7 +90,7 @@ static void AppendToBufferWithRTF(CMStringA &buf, const TCHAR *line)
 			for (i = 0; i < _countof(bbcodes); ++i) {
 				if (line[1] == bbcodes[i][1]) {
 					size_t lenb = mir_tstrlen(bbcodes[i]);
-					if (!_tcsnicmp(line, bbcodes[i], lenb)) {
+					if (!wcsnicmp(line, bbcodes[i], lenb)) {
 						buf.Append(bbcodefmt[i]);
 						line += lenb - 1;
 						found = 1;
@@ -99,15 +99,15 @@ static void AppendToBufferWithRTF(CMStringA &buf, const TCHAR *line)
 				}
 			}
 			if (!found) {
-				if (!_tcsnicmp(line, L"[url", 4)) {
-					const TCHAR* tag = _tcschr(line + 4, ']');
+				if (!wcsnicmp(line, L"[url", 4)) {
+					const wchar_t* tag = wcschr(line + 4, ']');
 					if (tag) {
-						const TCHAR *tagu = (line[4] == '=') ? line + 5 : tag + 1;
-						const TCHAR *tage = _tcsstr(tag, L"[/url]");
-						if (!tage) tage = _tcsstr(tag, L"[/URL]");
+						const wchar_t *tagu = (line[4] == '=') ? line + 5 : tag + 1;
+						const wchar_t *tage = wcsstr(tag, L"[/url]");
+						if (!tage) tage = wcsstr(tag, L"[/URL]");
 						if (tage) {
-							*(TCHAR*)tag = 0;
-							*(TCHAR*)tage = 0;
+							*(wchar_t*)tag = 0;
+							*(wchar_t*)tage = 0;
 							buf.Append("{\\field{\\*\\fldinst HYPERLINK \"");
 							AppendPlainUnicode(buf, tagu);
 							buf.Append("\"}{\\fldrslt ");
@@ -118,14 +118,14 @@ static void AppendToBufferWithRTF(CMStringA &buf, const TCHAR *line)
 						}
 					}
 				}
-				else if (!_tcsnicmp(line, L"[color=", 7)) {
-					const TCHAR* tag = _tcschr(line + 7, ']');
+				else if (!wcsnicmp(line, L"[color=", 7)) {
+					const wchar_t* tag = wcschr(line + 7, ']');
 					if (tag) {
 						line = tag;
 						found = 1;
 					}
 				}
-				else if (!_tcsnicmp(line, L"[/color]", 8)) {
+				else if (!wcsnicmp(line, L"[/color]", 8)) {
 					line += 7;
 					found = 1;
 				}
@@ -254,8 +254,8 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 	}
 
 	if (g_dat.flags & SMF_SHOWTIME) {
-		const TCHAR* szFormat;
-		TCHAR str[64];
+		const wchar_t* szFormat;
+		wchar_t str[64];
 
 		if (g_dat.flags & SMF_SHOWSECS)
 			szFormat = g_dat.flags & SMF_SHOWDATE ? L"d s" : L"s";
@@ -270,11 +270,11 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 	}
 
 	if (!(g_dat.flags & SMF_HIDENAMES) && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
-		TCHAR *szName;
+		wchar_t *szName;
 
 		if (dbei.flags & DBEF_SENT) {
-			if (TCHAR *p = Contact_GetInfo(CNF_DISPLAY, NULL, dbei.szModule))
-				szName = NEWTSTR_ALLOCA(p);
+			if (wchar_t *p = Contact_GetInfo(CNF_DISPLAY, NULL, dbei.szModule))
+				szName = NEWWSTR_ALLOCA(p);
 			else
 				szName = TranslateT("Me");
 		}
@@ -288,13 +288,13 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 	if (showColon)
 		buffer.AppendFormat("%s :", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 
-	TCHAR *msg, *szName;
+	wchar_t *msg, *szName;
 	switch (dbei.eventType) {
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
 		if (dbei.flags & DBEF_SENT) {
-			if (TCHAR *p = Contact_GetInfo(CNF_DISPLAY, NULL, dbei.szModule)) {
-				szName = NEWTSTR_ALLOCA(p);
+			if (wchar_t *p = Contact_GetInfo(CNF_DISPLAY, NULL, dbei.szModule)) {
+				szName = NEWWSTR_ALLOCA(p);
 				mir_free(p);
 			}
 			else szName = L"";

@@ -208,14 +208,14 @@ SmileyType* SmileyPackType::GetSmiley(unsigned index)
 	return (index < (unsigned)m_SmileyList.getCount()) ? &m_SmileyList[index] : NULL;
 }
 
-static DWORD_PTR ConvertServiceParam(MCONTACT hContact, const TCHAR *param)
+static DWORD_PTR ConvertServiceParam(MCONTACT hContact, const wchar_t *param)
 {
 	if (param == NULL)
 		return 0;
 	if (mir_tstrcmpi(L"hContact", param) == 0)
 		return hContact;
-	if (_istdigit(*param))
-		return _ttoi(param);
+	if (iswdigit(*param))
+		return _wtoi(param);
 
 	return (DWORD_PTR)param;
 }
@@ -253,10 +253,10 @@ SmileyPackType::~SmileyPackType()
 	if (m_hSmList != NULL) ImageList_Destroy(m_hSmList);
 }
 
-static const TCHAR urlRegEx[] =
+static const wchar_t urlRegEx[] =
 L"(?:ftp|https|http|file|aim|webcal|irc|msnim|xmpp|gopher|mailto|news|nntp|telnet|wais|prospero)://?[\\w.?%:/$+;]*";
-static const TCHAR pathRegEx[] = L"[\\s\"][a-zA-Z]:[\\\\/][\\w.\\-\\\\/]*";
-static const TCHAR timeRegEx[] = L"\\d{1,2}:\\d{2}:\\d{2}|\\d{1,2}:\\d{2}";
+static const wchar_t pathRegEx[] = L"[\\s\"][a-zA-Z]:[\\\\/][\\w.\\-\\\\/]*";
+static const wchar_t timeRegEx[] = L"\\d{1,2}:\\d{2}:\\d{2}|\\d{1,2}:\\d{2}";
 
 void SmileyPackType::AddTriggersToSmileyLookup(void)
 {
@@ -354,11 +354,11 @@ bool SmileyPackType::LoadSmileyFile(const CMString &filename, const CMString &pa
 	pathToAbsolute(filename, modpath);
 
 	// Load xep file
-	int fh = _topen(modpath.c_str(), _O_BINARY | _O_RDONLY);
+	int fh = _wopen(modpath.c_str(), _O_BINARY | _O_RDONLY);
 	if (fh == -1) {
 		if (!noerr) {
-			static const TCHAR errmsg[] = LPGENT("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
-			TCHAR msgtxt[1024];
+			static const wchar_t errmsg[] = LPGENW("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
+			wchar_t msgtxt[1024];
 			mir_sntprintf(msgtxt, TranslateTS(errmsg), modpath.c_str(), packname);
 			ReportError(msgtxt);
 		}
@@ -443,8 +443,8 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString &tbuf, bool onlyInfo, CMString &
 			_TMatcher *m0 = pat->createTMatcher(tbuf);
 			while (m0->findNextMatch()) {
 				POINT tpt;
-				tpt.x = _ttol(m0->getGroup(2).c_str());
-				tpt.y = _ttol(m0->getGroup(3).c_str());
+				tpt.x = _wtol(m0->getGroup(2).c_str());
+				tpt.y = _wtol(m0->getGroup(3).c_str());
 
 				if (m0->getGroup(1) == L"Selection")
 					selec = tpt;
@@ -479,7 +479,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString &tbuf, bool onlyInfo, CMString &
 
 				SmileyType *dat = new SmileyType;
 
-				const int iconIndex = _ttol(m0->getGroup(3).c_str());
+				const int iconIndex = _wtol(m0->getGroup(3).c_str());
 
 				dat->SetHidden(m0->getStartingIndex(1) >= 0);
 				if (m0->getStartingIndex(4) >= 0) {
@@ -517,8 +517,8 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString &tbuf, bool onlyInfo, CMString &
 					m_SmileyList.insert(dat);
 
 				if (!noerr) {
-					static const TCHAR errmsg[] = LPGENT("Smiley #%u in file %s for smiley pack %s not found.");
-					TCHAR msgtxt[1024];
+					static const wchar_t errmsg[] = LPGENW("Smiley #%u in file %s for smiley pack %s not found.");
+					wchar_t msgtxt[1024];
 					mir_sntprintf(msgtxt, TranslateTS(errmsg), smnum, resname.c_str(), modpath.c_str());
 					CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, _T2A(msgtxt));
 					errorFound = true;
@@ -642,7 +642,7 @@ bool SmileyPackType::LoadSmileyFileXEP(CMString &tbuf, bool onlyInfo, CMString&)
 			SmileyType *dat = new SmileyType;
 
 			dat->SetRegEx(true);
-			dat->SetImList(m_hSmList, _ttol(m0->getGroup(1).c_str()));
+			dat->SetImList(m_hSmList, _wtol(m0->getGroup(1).c_str()));
 			dat->m_ToolText = m0->getGroup(2);
 			DecodeHTML(dat->m_ToolText);
 
@@ -897,7 +897,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 			CMString patha;
 			pathToAbsolute(paths, patha);
 
-			if (_taccess(patha.c_str(), 0) != 0)
+			if (_waccess(patha.c_str(), 0) != 0)
 				paths = defaultFile;
 		}
 
@@ -923,7 +923,7 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMString &defau
 	CMString paths = _A2T(path), patha;
 	pathToAbsolute(paths, patha);
 
-	if (_taccess(patha.c_str(), 0) != 0)
+	if (_waccess(patha.c_str(), 0) != 0)
 		paths = defaultFile;
 	CMString dName(acc), displayName;
 	displayName.AppendFormat(TranslateT("%s global smiley pack"), dName.GetBuffer());
@@ -995,7 +995,7 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 			CMString paths = _A2T(path), patha;
 			pathToAbsolute(paths, patha);
 
-			if (_taccess(patha.c_str(), 0) != 0)
+			if (_waccess(patha.c_str(), 0) != 0)
 				paths = defaultFile;
 
 			AddCategory(displayName, displayName, smcTransportProto, paths);
@@ -1055,7 +1055,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 
 SmileyLookup::SmileyLookup(const CMString &str, const bool regexs, const int ind, const CMString &smpt)
 {
-	TCHAR msgtxt[1024];
+	wchar_t msgtxt[1024];
 
 	m_ind = ind;
 	if (regexs) {
@@ -1067,13 +1067,13 @@ SmileyLookup::SmileyLookup(const CMString &str, const bool regexs, const int ind
 			m_valid &= (!matcher->findFirstMatch() ||
 				matcher->getStartingIndex() != matcher->getEndingIndex());
 			if (!m_valid) {
-				static const TCHAR errmsg[] = LPGENT("Regular expression \"%s\" in smiley pack \"%s\" could produce \"empty matches\".");
+				static const wchar_t errmsg[] = LPGENW("Regular expression \"%s\" in smiley pack \"%s\" could produce \"empty matches\".");
 				mir_sntprintf(msgtxt, TranslateTS(errmsg), str.c_str(), smpt.c_str());
 			}
 			delete matcher;
 		}
 		else {
-			static const TCHAR errmsg[] = LPGENT("Regular expression \"%s\" in smiley pack \"%s\" malformed.");
+			static const wchar_t errmsg[] = LPGENW("Regular expression \"%s\" in smiley pack \"%s\" malformed.");
 			mir_sntprintf(msgtxt, TranslateTS(errmsg), str.c_str(), smpt.c_str());
 		}
 
@@ -1112,8 +1112,8 @@ void SmileyLookup::Find(const CMString &str, SmileyLocVecType &smlcur, bool firs
 		delete matcher;
 	}
 	else {
-		const TCHAR *pos = str.c_str();
-		while ((pos = _tcsstr(pos, m_text.c_str())) != NULL) {
+		const wchar_t *pos = str.c_str();
+		while ((pos = wcsstr(pos, m_text.c_str())) != NULL) {
 			smlcur.insert(new SmileyLocType(pos - str.c_str(), m_text.GetLength()));
 			pos += m_text.GetLength();
 			if (firstOnly && m_ind != -1)

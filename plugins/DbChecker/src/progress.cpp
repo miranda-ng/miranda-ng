@@ -28,12 +28,12 @@ HANDLE hEventRun = NULL, hEventAbort = NULL;
 int errorCount;
 LRESULT wizardResult;
 
-void AddToStatus(int flags, const TCHAR* fmt, ...)
+void AddToStatus(int flags, const wchar_t* fmt, ...)
 {
 	va_list vararg;
 	va_start(vararg, fmt);
 
-	TCHAR str[256];
+	wchar_t str[256];
 	mir_vsntprintf(str, _countof(str), fmt, vararg);
 	va_end(vararg);
 
@@ -120,7 +120,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		return TRUE;
 
 	case WM_DRAWITEM:
-		TCHAR str[256];
+		wchar_t str[256];
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			int bold = 0;

@@ -32,7 +32,7 @@ time_t CSkypeProto::IsoToUnixTime(const char *stamp)
 	// skip '-' chars
 	int si = 0, sj = 0;
 	while (true) {
-		if (p[si] == _T('-'))
+		if (p[si] == '-')
 			si++;
 		else if (!(p[sj++] = p[si++]))
 			break;
@@ -426,9 +426,9 @@ int CSkypeProto::SkypeToMirandaStatus(const char *status)
 		return ID_STATUS_OFFLINE;
 }
 
-bool CSkypeProto::IsFileExists(std::tstring path)
+bool CSkypeProto::IsFileExists(std::wstring path)
 {
-	return _taccess(path.c_str(), 0) == 0;
+	return _waccess(path.c_str(), 0) == 0;
 }
 
 // url parsing
@@ -480,14 +480,14 @@ CMStringA CSkypeProto::GetServerFromUrl(const char *url)
 
 INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 {
-	TCHAR *arg = (TCHAR *)lParam;
+	wchar_t *arg = (wchar_t *)lParam;
 	if (arg == NULL)
 		return 1;
 
 	// skip leading prefix
-	TCHAR szUri[1024];
-	_tcsncpy_s(szUri, arg, _TRUNCATE);
-	TCHAR *szJid = _tcschr(szUri, _T(':'));
+	wchar_t szUri[1024];
+	wcsncpy_s(szUri, arg, _TRUNCATE);
+	wchar_t *szJid = wcschr(szUri, ':');
 	if (szJid == NULL)
 		return 1;
 
@@ -496,13 +496,13 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		return 1;
 
 	// command code
-	TCHAR *szCommand = szJid;
-	szCommand = _tcschr(szCommand, _T('?'));
+	wchar_t *szCommand = szJid;
+	szCommand = wcschr(szCommand, '?');
 	if (szCommand)
 		*(szCommand++) = 0;
 
 	// parameters
-	TCHAR *szSecondParam = szCommand ? _tcschr(szCommand, _T('&')) : NULL;
+	wchar_t *szSecondParam = szCommand ? wcschr(szCommand, '&') : NULL;
 	if (szSecondParam)
 		*(szSecondParam++) = 0;
 
@@ -511,7 +511,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 	{
 		if (szSecondParam)
 		{
-			TCHAR *szChatId = _tcsstr(szSecondParam, L"id=");
+			wchar_t *szChatId = wcsstr(szSecondParam, L"id=");
 			if (szChatId)
 			{
 				szChatId += 5;
@@ -537,8 +537,8 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		{
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
-			psr.id.t = mir_tstrdup(szJid);
-			psr.nick.t = mir_tstrdup(szJid);
+			psr.id.w = mir_tstrdup(szJid);
+			psr.nick.w = mir_tstrdup(szJid);
 			psr.flags = PSR_UNICODE;
 
 			ADDCONTACTSTRUCT acs = { 0 };

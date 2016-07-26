@@ -93,7 +93,7 @@ public:
 
 	// Client vs protocol communication
 
-	void    client_notify(TCHAR* message);
+	void    client_notify(wchar_t* message);
 
 	////////////////////////////////////////////////////////////
 
@@ -209,7 +209,7 @@ public:
 	// HTTP communication
 
 	http::response flap(RequestType request_type, std::string *post_data = NULL, std::string *get_data = NULL);
-	bool save_url(const std::string &url,const std::tstring &filename, HANDLE &nlc);
+	bool save_url(const std::string &url,const std::wstring &filename, HANDLE &nlc);
 
 	bool notify_errors(RequestType);
 	std::string choose_server(RequestType);

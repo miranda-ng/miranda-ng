@@ -35,7 +35,7 @@ extern int /*g_isConnecting,*/ during_sizing;
 
 extern void ( *saveRecalcScrollBar )(HWND hwnd, struct ClcData *dat);
 
-static int MY_pathIsAbsolute(const TCHAR *path)
+static int MY_pathIsAbsolute(const wchar_t *path)
 {
 	if (!path || !(mir_tstrlen(path) > 2))
 		return 0;
@@ -46,7 +46,7 @@ static int MY_pathIsAbsolute(const TCHAR *path)
 	return 0;
 }
 
-size_t MY_pathToRelative(const TCHAR *pSrc, TCHAR *pOut)
+size_t MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut)
 {
 	size_t dwSrcLen, dwProfilePathLen;
 
@@ -58,25 +58,25 @@ size_t MY_pathToRelative(const TCHAR *pSrc, TCHAR *pOut)
 	if (!MY_pathIsAbsolute(pSrc))
 		goto path_not_abs;
 
-	TCHAR szTmp[MAX_PATH];
-	memcpy(szTmp, pSrc, (dwSrcLen * sizeof(TCHAR)));
+	wchar_t szTmp[MAX_PATH];
+	memcpy(szTmp, pSrc, (dwSrcLen * sizeof(wchar_t)));
 	szTmp[dwSrcLen] = 0;
-	_tcslwr(szTmp);
-	if (_tcsstr(szTmp, cfg::dat.tszProfilePath)) {
+	wcslwr(szTmp);
+	if (wcsstr(szTmp, cfg::dat.tszProfilePath)) {
 		dwProfilePathLen = mir_tstrlen(cfg::dat.tszProfilePath);
-		memcpy(pOut, (pSrc + (dwProfilePathLen - 1)), ((dwSrcLen - (dwProfilePathLen - 1)) * sizeof(TCHAR)));
+		memcpy(pOut, (pSrc + (dwProfilePathLen - 1)), ((dwSrcLen - (dwProfilePathLen - 1)) * sizeof(wchar_t)));
 		pOut[0] = '.';
 		pOut[dwSrcLen] = 0;
 		return (dwSrcLen - (dwProfilePathLen - 1));
 	}
 
 path_not_abs:
-	memcpy(pOut, pSrc, (dwSrcLen * sizeof(TCHAR)));
+	memcpy(pOut, pSrc, (dwSrcLen * sizeof(wchar_t)));
 	pOut[dwSrcLen] = 0;
 	return dwSrcLen;
 }
 
-size_t MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
+size_t MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut)
 {
 	size_t dwSrcLen;
 
@@ -87,7 +87,7 @@ size_t MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
 		return 0;
 
 	if (MY_pathIsAbsolute(pSrc) && pSrc[0] != '.') {
-		memcpy(pOut, pSrc, (dwSrcLen * sizeof(TCHAR)));
+		memcpy(pOut, pSrc, (dwSrcLen * sizeof(wchar_t)));
 		pOut[dwSrcLen] = 0;
 		return dwSrcLen;
 	}
@@ -167,7 +167,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_tstrlen(hitcontact->szText), &textSize);
 	width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
-		TCHAR *szCounts;
+		wchar_t *szCounts;
 		szCounts = pcli->pfnGetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
 			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
@@ -308,7 +308,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_tstrlen(hitcontact->szText), &textSize);
 	width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
-		TCHAR *szCounts;
+		wchar_t *szCounts;
 		szCounts = pcli->pfnGetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
 			GetTextExtentPoint32(hdc, L" ", 1, &textSize);

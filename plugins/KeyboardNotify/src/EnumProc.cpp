@@ -18,8 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-BOOL findFilename(TCHAR *);
-TCHAR *filename(TCHAR *);
+BOOL findFilename(wchar_t *);
+wchar_t *filename(wchar_t *);
 
 // Globals
 extern PROCESS_LIST ProcessList;
@@ -40,7 +40,7 @@ BOOL areThereProcessesRunning(void)
 
     // While there are processes, keep looping.
     for (procentry.dwSize=sizeof(PROCESSENTRY32), bFlag=Process32First(hSnapShot, &procentry); bFlag; procentry.dwSize=sizeof(PROCESSENTRY32), bFlag=Process32Next(hSnapShot, &procentry)) {
-		TCHAR *szFileNameAux = filename(procentry.szExeFile);
+		wchar_t *szFileNameAux = filename(procentry.szExeFile);
 
 		// Search szFileName in user-defined list
 		if (findFilename(szFileNameAux))
@@ -50,7 +50,7 @@ BOOL areThereProcessesRunning(void)
 	return FALSE;
 }
 
-BOOL findFilename(TCHAR *fileName)
+BOOL findFilename(wchar_t *fileName)
 {
 	for (int i=0; i < ProcessList.count; i++)
 		if (ProcessList.szFileName[i] && !_wcsicmp(ProcessList.szFileName[i], fileName))
@@ -60,9 +60,9 @@ BOOL findFilename(TCHAR *fileName)
 }
 
 
-TCHAR *filename(TCHAR *fullFileName)
+wchar_t *filename(wchar_t *fullFileName)
 {
-	TCHAR *str;
+	wchar_t *str;
 
 	str = wcsrchr(fullFileName, '\\');
 	if (!str)

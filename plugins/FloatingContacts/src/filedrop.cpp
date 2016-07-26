@@ -113,7 +113,7 @@ HRESULT STDMETHODCALLTYPE CDropTarget::Drop(IDataObject *pData, DWORD, POINTL, D
 		}
 	}
 	else {
-		TCHAR *pText = (TCHAR*)GlobalLock(stg.hGlobal);
+		wchar_t *pText = (wchar_t*)GlobalLock(stg.hGlobal);
 		if (pText != NULL) {
 			SendMsgDialog(hwndCurDrag, pText);
 			GlobalUnlock(stg.hGlobal);

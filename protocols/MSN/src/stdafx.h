@@ -239,10 +239,10 @@ char*		getNewUuid(void);
 time_t		IsoToUnixTime(const char *stamp);
 time_t		MsnTSToUnixtime(const char *pszTS);
 
-TCHAR* EscapeChatTags(const TCHAR* pszText);
-TCHAR* UnEscapeChatTags(TCHAR* str_in);
+wchar_t* EscapeChatTags(const wchar_t* pszText);
+wchar_t* UnEscapeChatTags(wchar_t* str_in);
 
-void   overrideStr(TCHAR*& dest, const TCHAR* src, bool unicode, const TCHAR* def = NULL);
+void   overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t* def = NULL);
 
 char* arrayToHex(BYTE* data, size_t datasz);
 
@@ -268,8 +268,8 @@ typedef struct _tag_PopupData
 {
 	unsigned flags;
 	char* url;
-	TCHAR* title;
-	TCHAR* text;
+	wchar_t* title;
+	wchar_t* text;
 	CMsnProto* proto;
 } PopupData;
 
@@ -542,7 +542,7 @@ typedef void (__cdecl CMsnProto::*MsnThreadFunc)(void*);
 struct GCUserItem
 {
 	char	WLID[MSN_MAX_EMAIL_LEN];
-	TCHAR   role[8];
+	wchar_t   role[8];
 	BYTE    btag;
 };
 
@@ -554,7 +554,7 @@ struct GCThreadData
    LIST<GCUserItem> mJoinedContacts;
    GCUserItem*   mCreator;
    GCUserItem*   mMe;
-   TCHAR         mChatID[MSN_MAX_EMAIL_LEN];
+   wchar_t         mChatID[MSN_MAX_EMAIL_LEN];
    int			 netId;			// from mChatID
    char			 szEmail[MSN_MAX_EMAIL_LEN];	// frim mChatID
 };
@@ -577,7 +577,7 @@ struct ThreadData
    HANDLE        mIncomingBoundPort; // Netlib listen for the thread
    HANDLE        hWaitEvent;
    WORD          mIncomingPort;
-   TCHAR         mChatID[10];
+   wchar_t         mChatID[10];
    bool          mIsMainThread;
    clock_t       mWaitPeriod;
 
@@ -1028,11 +1028,11 @@ INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 struct InviteChatParam
 {
-	TCHAR* id;
+	wchar_t* id;
 	MCONTACT hContact;
 	CMsnProto* ppro;
 
-	InviteChatParam(const TCHAR* id, MCONTACT hContact, CMsnProto* ppro)
+	InviteChatParam(const wchar_t* id, MCONTACT hContact, CMsnProto* ppro)
 		: id(mir_tstrdup(id)), hContact(hContact), ppro(ppro) {}
 
 	~InviteChatParam() {

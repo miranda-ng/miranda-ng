@@ -41,10 +41,10 @@ bool CMsnProto::APISkypeComRequest(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *he
 	return true;
 }
 
-static TCHAR* get_json_str(JSONNode *item, const char *pszValue)
+static wchar_t* get_json_str(JSONNode *item, const char *pszValue)
 {
 	if (JSONNode *node = json_get(item, pszValue)) {
-		TCHAR *ret = json_as_string(node);
+		wchar_t *ret = json_as_string(node);
 		if (!mir_tstrcmp(ret, L"null")) {
 			mir_free(ret);
 			return NULL;
@@ -194,10 +194,10 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 				if (value = get_json_str(item, "firstname")) setTString(hContact, "FirstName", value);
 				if (value = get_json_str(item, "lastname")) setTString(hContact, "LastName", value);
 				if (value = get_json_str(item, "displayname")) setTString(hContact, "Nick", value);
-				if (value = get_json_str(item, "gender")) setByte(hContact, "Gender", (BYTE)(_ttoi(value) == 1 ? 'M' : 'F'));
+				if (value = get_json_str(item, "gender")) setByte(hContact, "Gender", (BYTE)(_wtoi(value) == 1 ? 'M' : 'F'));
 				if (value = get_json_str(item, "birthday")) {
 					int d, m, y;
-					_stscanf(value, L"%d-%d-%d", &y, &m, &d);
+					swscanf(value, L"%d-%d-%d", &y, &m, &d);
 					setWord(hContact, "BirthYear", y);
 					setByte(hContact, "BirthDay", d);
 					setByte(hContact, "BirthMonth", m);
@@ -387,13 +387,13 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 				JSONNode *ContactCards = json_get(item, "ContactCards");
 				JSONNode *Skype = json_get(ContactCards, "Skype");
 
-				TCHAR *sDisplayName = json_as_string(json_get(Skype, "DisplayName"));
-				TCHAR *sSkypeName = json_as_string(json_get(Skype, "SkypeName"));
+				wchar_t *sDisplayName = json_as_string(json_get(Skype, "DisplayName"));
+				wchar_t *sSkypeName = json_as_string(json_get(Skype, "SkypeName"));
 
 				PROTOSEARCHRESULT psr = { sizeof(psr) };
 				psr.flags = PSR_TCHAR;
-				psr.id.t = sSkypeName;
-				psr.nick.t = sDisplayName;
+				psr.id.w = sSkypeName;
+				psr.nick.w = sDisplayName;
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, hSearch, (LPARAM)&psr);
 			}
 			json_free(items);

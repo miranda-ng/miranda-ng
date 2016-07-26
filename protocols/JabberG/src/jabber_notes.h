@@ -30,26 +30,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class CNoteItem
 {
 private:
-	TCHAR *m_szTitle;
-	TCHAR *m_szFrom;
-	TCHAR *m_szText;
-	TCHAR *m_szTags;
-	TCHAR *m_szTagsStr;
+	wchar_t *m_szTitle;
+	wchar_t *m_szFrom;
+	wchar_t *m_szText;
+	wchar_t *m_szTags;
+	wchar_t *m_szTagsStr;
 
 public:
 	CNoteItem();
-	CNoteItem(HXML hXml, TCHAR *szFrom = 0);
+	CNoteItem(HXML hXml, wchar_t *szFrom = 0);
 	~CNoteItem();
 
-	void SetData(TCHAR *title, TCHAR *from, TCHAR *text, TCHAR *tags);
+	void SetData(wchar_t *title, wchar_t *from, wchar_t *text, wchar_t *tags);
 
-	TCHAR *GetTitle() const { return m_szTitle; }
-	TCHAR *GetFrom() const { return m_szFrom; }
-	TCHAR *GetText() const { return m_szText; }
-	TCHAR *GetTags() const { return m_szTags; }
-	TCHAR *GetTagsStr() const { return m_szTagsStr; }
+	wchar_t *GetTitle() const { return m_szTitle; }
+	wchar_t *GetFrom() const { return m_szFrom; }
+	wchar_t *GetText() const { return m_szText; }
+	wchar_t *GetTags() const { return m_szTags; }
+	wchar_t *GetTagsStr() const { return m_szTagsStr; }
 
-	bool HasTag(const TCHAR *szTag);
+	bool HasTag(const wchar_t *szTag);
 
 	bool IsNotEmpty()
 	{
@@ -76,7 +76,7 @@ public:
 		OBJLIST<CNoteItem>::remove(p);
 	}
 
-	void AddNote(HXML hXml, TCHAR *szFrom = 0);
+	void AddNote(HXML hXml, wchar_t *szFrom = 0);
 	void LoadXml(HXML hXml);
 	void SaveXml(HXML hXmlParent);
 

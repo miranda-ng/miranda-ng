@@ -62,14 +62,14 @@ extern UINT_PTR timerId;
 // check if Feeds is currently updating
 extern bool ThreadRunning;
 extern bool UpdateListFlag;
-extern TCHAR tszRoot[MAX_PATH];
+extern wchar_t tszRoot[MAX_PATH];
 struct ItemInfo
 {
 	HWND hwndList;
 	MCONTACT hContact;
 	int SelNumber;
-	TCHAR nick[MAX_PATH];
-	TCHAR url[MAX_PATH];
+	wchar_t nick[MAX_PATH];
+	wchar_t url[MAX_PATH];
 };
 
 //============  STRUCT USED TO MAKE AN UPDATE LIST  ============
@@ -125,24 +125,24 @@ void     CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime
 void     CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 bool     IsMyContact(MCONTACT hContact);
-void     GetNewsData(TCHAR *szUrl, char **szData, MCONTACT hContact, HWND hwndDlg);
+void     GetNewsData(wchar_t *szUrl, char **szData, MCONTACT hContact, HWND hwndDlg);
 void     CreateList(HWND hwndList);
 void     UpdateList(HWND hwndList);
 void     DeleteAllItems(HWND hwndList);
-time_t   __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType);
+time_t   __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType);
 void     CheckCurrentFeed(MCONTACT hContact);
 void     CheckCurrentFeedAvatar(MCONTACT hContact);
-LPCTSTR  CheckFeed(TCHAR* tszURL, HWND hwndDlg);
+LPCTSTR  CheckFeed(wchar_t* tszURL, HWND hwndDlg);
 void     UpdateMenu(bool State);
 int      ImportFeedsDialog();
-LPCTSTR  ClearText(CMString &value, const TCHAR *message);
+LPCTSTR  ClearText(CMString &value, const wchar_t *message);
 bool     DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 void     CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg);
 INT_PTR  CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR  CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR  CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-MCONTACT GetContactByNick(const TCHAR *nick);
-MCONTACT GetContactByURL(const TCHAR *url);
+MCONTACT GetContactByNick(const wchar_t *nick);
+MCONTACT GetContactByURL(const wchar_t *url);
 
 // ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info

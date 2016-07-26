@@ -133,11 +133,11 @@ void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
 	bool denied = getBool(hContact, WHATSAPP_KEY_LAST_SEEN_DENIED, false);
 	if (lastSeen > 0) {
 		time_t ts = lastSeen;
-		TCHAR stzLastSeen[MAX_PATH];
+		wchar_t stzLastSeen[MAX_PATH];
 		if (status == ID_STATUS_ONLINE)
-			 _tcsftime(stzLastSeen, _countof(stzLastSeen), TranslateT("Last online on %x at %X"), localtime(&ts));
+			 wcsftime(stzLastSeen, _countof(stzLastSeen), TranslateT("Last online on %x at %X"), localtime(&ts));
 		else
-			_tcsftime(stzLastSeen, _countof(stzLastSeen), denied ? TranslateT("Denied: Last online on %x at %X") : TranslateT("Last seen on %x at %X"), localtime(&ts));
+			wcsftime(stzLastSeen, _countof(stzLastSeen), denied ? TranslateT("Denied: Last online on %x at %X") : TranslateT("Last seen on %x at %X"), localtime(&ts));
 
 		ss << stzLastSeen;
 	}
@@ -162,15 +162,15 @@ void WhatsAppProto::onSendGetPicture(const std::string &jid, const std::vector<u
 		debugLogA("Updating avatar for jid %s", jid.c_str());
 
 		// Save avatar
-		std::tstring filename = GetAvatarFileName(hContact);
-		FILE *f = _tfopen(filename.c_str(), L"wb");
+		std::wstring filename = GetAvatarFileName(hContact);
+		FILE *f = _wfopen(filename.c_str(), L"wb");
 		size_t r = fwrite(std::string(data.begin(), data.end()).c_str(), 1, data.size(), f);
 		fclose(f);
 
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = hContact;
 		ai.format = PA_FORMAT_JPEG;
-		_tcsncpy_s(ai.filename, filename.c_str(), _TRUNCATE);
+		wcsncpy_s(ai.filename, filename.c_str(), _TRUNCATE);
 
 		int ackResult;
 		if (r > 0) {
@@ -184,7 +184,7 @@ void WhatsAppProto::onSendGetPicture(const std::string &jid, const std::vector<u
 	}
 }
 
-TCHAR* WhatsAppProto::GetContactDisplayName(const string& jid)
+wchar_t* WhatsAppProto::GetContactDisplayName(const string& jid)
 {
 	MCONTACT hContact = ContactIDToHContact(jid);
 	return (hContact) ? pcli->pfnGetContactDisplayName(hContact, 0) : L"none";

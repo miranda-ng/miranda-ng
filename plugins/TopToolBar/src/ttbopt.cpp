@@ -18,7 +18,7 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
 	int index;
-	TCHAR* tmp;
+	wchar_t* tmp;
 
 	if (b->dwFlags & TTBBF_ISSEPARATOR) {
 		tvis.item.pszText = L"------------------";
@@ -239,7 +239,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			//----- Launch buttons -----
 
 			if (ctrlid == IDC_BROWSE) {
-				TCHAR str[MAX_PATH];
+				wchar_t str[MAX_PATH];
 				OPENFILENAME ofn = {0};
 
 				GetDlgItemText(hwndDlg, IDC_EPATH, str, _countof(str));
@@ -272,7 +272,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				TreeView_GetItem(hTree, &tvi);
 
 				TopButtonInt* btn = (TopButtonInt*)tvi.lParam;
-				TCHAR buf [256];
+				wchar_t buf [256];
 				// probably, condition not needs
 				if (btn->dwFlags & TTBBF_ISLBUTTON) {
 					if (!(btn->dwFlags & TTBBF_OPTIONAL)) {
@@ -509,7 +509,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			TreeView_GetItem(hTree, &tvi);
 			if ( (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) || (hti.hItem==TVI_FIRST)) {
 				TVINSERTSTRUCT tvis;
-				TCHAR name[128];
+				wchar_t name[128];
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 				tvis.item.stateMask = 0xFFFFFFFF;
 				tvis.item.pszText = name;

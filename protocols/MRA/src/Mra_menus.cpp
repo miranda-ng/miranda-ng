@@ -76,7 +76,7 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM hContact, LPARAM)
 
 	CMStringW wszAuthMessage;
 	if (!mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
-		wszAuthMessage = TranslateT(MRA_DEFAULT_AUTH_MESSAGE);
+		wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
 
 	if (wszAuthMessage.IsEmpty())
 		return 1;
@@ -281,12 +281,12 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 
 	HGENMENU hRoot;
 	{
-		TCHAR szItem[MAX_PATH + 64];
+		wchar_t szItem[MAX_PATH + 64];
 		mir_sntprintf(szItem, L"%s Custom Status", m_tszUserName);
 
 		CMenuItem mi;
 		mi.root = pcli->pfnGetProtocolMenu(m_szModuleName);
-		mi.name.t = szItem;
+		mi.name.w = szItem;
 		mi.position = 10001;
 		hRoot = Menu_AddStatusMenuItem(&mi, m_szModuleName);
 	}
@@ -308,14 +308,14 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 		if (i) {
 			mir_snprintf(szValueName, "XStatus%ldName", i);
 			if (mraGetStringW(NULL, szValueName, szStatusTitle))
-				mi.name.t = (TCHAR*)szStatusTitle.c_str();
+				mi.name.w = (wchar_t*)szStatusTitle.c_str();
 			else
-				mi.name.t = (TCHAR*)lpcszXStatusNameDef[i];
+				mi.name.w = (wchar_t*)lpcszXStatusNameDef[i];
 
 			mi.hIcolibItem = hXStatusAdvancedStatusIcons[i];
 		}
 		else {
-			mi.name.t = (TCHAR*)lpcszXStatusNameDef[i];
+			mi.name.w = (wchar_t*)lpcszXStatusNameDef[i];
 			mi.hIcolibItem = NULL;
 		}
 		hXStatusMenuItems[i] = Menu_AddStatusMenuItem(&mi, m_szModuleName);
@@ -340,7 +340,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 
 		hRootMenu = Menu_GetProtocolRoot(this);
 		if (hRootMenu == NULL) {
-			mi.name.t = m_tszUserName;
+			mi.name.w = m_tszUserName;
 			mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.hIcolibItem = g_hMainIcon;
 			hRootMenu = Menu_AddProtoMenuItem(&mi);

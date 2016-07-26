@@ -67,7 +67,7 @@ bool CLCItems_IsShowOfflineGroup(ClcGroup *group);
 int CListMod_HideWindow();
 
 /* CLUI */
-HANDLE  RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDescription, TCHAR *tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModule, int iDefaultResource);
+HANDLE  RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDescription, wchar_t *tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModule, int iDefaultResource);
 void    CLUI_UpdateAeroGlass();
 void    CLUI_ChangeWindowMode();
 BOOL    CLUI_CheckOwnedByClui(HWND hwnd);
@@ -91,13 +91,13 @@ int     CLUIUnreadEmailCountChanged(WPARAM wParam, LPARAM lParam);
 
 /* GDIPlus */
 BOOL    GDIPlus_AlphaBlend(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, BLENDFUNCTION *blendFunction);
-HBITMAP GDIPlus_LoadGlyphImage(const TCHAR *szFileName);
+HBITMAP GDIPlus_LoadGlyphImage(const wchar_t *szFileName);
 
 /* EventArea */
 void    EventArea_ConfigureEventArea();
 
 /* ModernSkinButton */
-int     ModernSkinButton_AddButton(HWND parent, char *ID, char *CommandService, char *StateDefService, char *HandeService, int Left, int Top, int Right, int Bottom, DWORD AlignedTo, TCHAR *Hint, char *DBkey, char *TypeDef, int MinWidth, int MinHeight);
+int     ModernSkinButton_AddButton(HWND parent, char *ID, char *CommandService, char *StateDefService, char *HandeService, int Left, int Top, int Right, int Bottom, DWORD AlignedTo, wchar_t *Hint, char *DBkey, char *TypeDef, int MinWidth, int MinHeight);
 int     ModernSkinButtonLoadModule();
 int     ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT *r);
 int     ModernSkinButtonUnloadModule(WPARAM, LPARAM);
@@ -119,16 +119,16 @@ int     ske_DrawNonFramedObjects(BOOL Erase, RECT *r);
 BOOL    ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format);
 LPSKINOBJECTDESCRIPTOR ske_FindObjectByName(const char *szName, BYTE objType, SKINOBJECTSLIST *Skin);
 HBITMAP ske_GetCurrentWindowImage();
-int     ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL madeAbsolute);
-int     ske_GetSkinFolder(TCHAR *szFileName, char *t2);
+int     ske_GetFullFilename(wchar_t *buf, const wchar_t *file, wchar_t *skinfolder, BOOL madeAbsolute);
+int     ske_GetSkinFolder(wchar_t *szFileName, char *t2);
 BOOL    ske_ImageList_DrawEx(HIMAGELIST himl, int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
 HICON   ske_ImageList_GetIcon(HIMAGELIST himl, int i);
 int     ske_JustUpdateWindowImageRect(RECT *rty);
-HBITMAP ske_LoadGlyphImage(const TCHAR *szFileName);
+HBITMAP ske_LoadGlyphImage(const wchar_t *szFileName);
 HRESULT SkinEngineLoadModule();
 void    ske_LoadSkinFromDB(void);
-int     ske_LoadSkinFromIniFile(TCHAR*, BOOL);
-TCHAR*  ske_ParseText(TCHAR *stzText);
+int     ske_LoadSkinFromIniFile(wchar_t*, BOOL);
+wchar_t*  ske_ParseText(wchar_t *stzText);
 int     ske_PrepareImageButDontUpdateIt(RECT *r);
 int     ske_ReCreateBackImage(BOOL Erase, RECT *w);
 int     ske_RedrawCompleteWindow();
@@ -214,7 +214,7 @@ void    UnLoadContactListModule();                                             /
 void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
 
 void ApplyViewMode(const char *Name, bool onlySelector = false);
-void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
+void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
 
 // cluiframes.c
 int     ExtraImage_ExtraIDToColumnNum(int extra);
@@ -238,7 +238,7 @@ void    cliRebuildEntireList(HWND hwnd, ClcData *dat);
 void    cliRecalcScrollBar(HWND hwnd, ClcData *dat);
 void    CLUI_cliOnCreateClc(void);
 int     cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
-int     cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk);
+int     cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
 int     cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 int     cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact);
 int     cli_GetContactIcon(MCONTACT hContact);

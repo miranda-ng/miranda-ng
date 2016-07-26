@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CLIST_INTERFACE cli = { 0 };
 
-static TCHAR szTip[MAX_TIP_SIZE+1];
+static wchar_t szTip[MAX_TIP_SIZE+1];
 
 int LoadContactListModule2(void);
 int LoadCLCModule(void);

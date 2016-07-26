@@ -21,7 +21,7 @@
 #ifndef StringChooserH
 #define StringChooserH
 
-template<class container = std::vector<std::tstring> >
+template<class container = std::vector<std::wstring> >
 class ValueChooser
 {
 private:

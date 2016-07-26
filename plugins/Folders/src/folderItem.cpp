@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CFolderItem::CFolderItem(const char *sectionName, const char *name, const TCHAR *format, const TCHAR *userName)
+CFolderItem::CFolderItem(const char *sectionName, const char *name, const wchar_t *format, const wchar_t *userName)
 {
 	m_szSection = mir_strdup(sectionName);
 	m_szName = mir_strdup(name);
@@ -43,7 +43,7 @@ CFolderItem::~CFolderItem()
 	mir_free(m_tszUserName);
 }
 
-void CFolderItem::SetFormat(const TCHAR *newFormat)
+void CFolderItem::SetFormat(const wchar_t *newFormat)
 {
 	mir_free(m_tszOldFormat);
 	m_tszOldFormat = m_tszFormat;
@@ -55,12 +55,12 @@ int CFolderItem::IsEqual(const CFolderItem *other)
 	return (IsEqual(other->GetSection(), other->GetUserName()));
 }
 
-int CFolderItem::IsEqual(const char *section, const TCHAR *name)
+int CFolderItem::IsEqual(const char *section, const wchar_t *name)
 {
 	return !mir_tstrcmp(m_tszUserName, name) && !mir_strcmp(m_szSection, section);
 }
 
-int CFolderItem::IsEqualTranslated(const char *trSection, const TCHAR *trName)
+int CFolderItem::IsEqualTranslated(const char *trSection, const wchar_t *trName)
 {
 	return !mir_tstrcmp(TranslateTS(m_tszUserName), trName) && !mir_strcmp(Translate(m_szSection), trSection);
 }
@@ -111,7 +111,7 @@ int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 	return res;
 }
 
-void CFolderItem::GetDataFromDatabase(const TCHAR *szNotFound)
+void CFolderItem::GetDataFromDatabase(const wchar_t *szNotFound)
 {
 	char szSettingName[256];
 	strcpy_s(szSettingName, _countof(szSettingName), m_szSection);

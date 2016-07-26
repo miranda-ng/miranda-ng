@@ -42,7 +42,7 @@ struct StatusIconChild : public MZeroedObject
 	MCONTACT hContact;
 	HICON  hIcon, hIconDisabled;
 	int    flags;
-	TCHAR *tszTooltip;
+	wchar_t *tszTooltip;
 };
 
 struct StatusIconMain : public MZeroedObject

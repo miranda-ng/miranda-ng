@@ -129,7 +129,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 			cacn.cbSize = sizeof(CONTACTAVATARCHANGEDNOTIFICATION);
 			cacn.hContact = hContact;
 			cacn.format = node->pa_format;
-			_tcsncpy_s(cacn.filename, node->szFilename, _TRUNCATE);
+			wcsncpy_s(cacn.filename, node->szFilename, _TRUNCATE);
 
 			// Get hash
 			char *szProto = GetContactProto(hContact);
@@ -137,12 +137,12 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 				DBVARIANT dbv = { 0 };
 				if (!db_get_s(hContact, szProto, "AvatarHash", &dbv)) {
 					if (dbv.type == DBVT_TCHAR)
-						_tcsncpy_s(cacn.hash, dbv.ptszVal, _TRUNCATE);
+						wcsncpy_s(cacn.hash, dbv.ptszVal, _TRUNCATE);
 					else if (dbv.type == DBVT_ASCIIZ)
-						_tcsncpy_s(cacn.hash, _A2T(dbv.pszVal), _TRUNCATE);
+						wcsncpy_s(cacn.hash, _A2T(dbv.pszVal), _TRUNCATE);
 					else if (dbv.type == DBVT_BLOB) {
 						ptrA szHash(mir_base64_encode(dbv.pbVal, dbv.cpbVal));
-						_tcsncpy_s(cacn.hash, _A2T(szHash), _TRUNCATE);
+						wcsncpy_s(cacn.hash, _A2T(szHash), _TRUNCATE);
 					}
 					db_free(&dbv);
 				}

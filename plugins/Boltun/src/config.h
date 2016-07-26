@@ -133,8 +133,8 @@ class BoltunConfig
 	BUILDDEFETTERS(AnswerThinkTime, int);
 	BUILDDEFETTERS(PauseDepends, bool);
 	BUILDDEFETTERS(PauseRandom, bool);
-	BUILDDEFETTERS(WarnText, TCHAR*);
-	BUILDDEFETTERS(MindFileName, TCHAR*);
+	BUILDDEFETTERS(WarnText, wchar_t*);
+	BUILDDEFETTERS(MindFileName, wchar_t*);
 	BUILDDEFETTERS(EngineStaySilent, bool);
 	BUILDDEFETTERS(EngineMakeLowerCase, bool);
 	BUILDDEFETTERS(EngineUnderstandAlways, bool);
@@ -151,8 +151,8 @@ public:
 	Property<int, BoltunConfig> AnswerThinkTime;
 	Property<bool, BoltunConfig> PauseDepends;
 	Property<bool, BoltunConfig> PauseRandom;
-	PtrProperty<TCHAR, BoltunConfig> WarnText;
-	PtrProperty<TCHAR, BoltunConfig> MindFileName;
+	PtrProperty<wchar_t, BoltunConfig> WarnText;
+	PtrProperty<wchar_t, BoltunConfig> MindFileName;
 	Property<bool, BoltunConfig> EngineStaySilent;
 	Property<bool, BoltunConfig> EngineMakeLowerCase;
 	Property<bool, BoltunConfig> EngineUnderstandAlways;

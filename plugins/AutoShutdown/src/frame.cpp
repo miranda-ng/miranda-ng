@@ -327,7 +327,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 			dat->flags |= FWPDF_PAUSEDSHOWN;
 		}
 		else {
-			TCHAR szOutput[256];
+			wchar_t szOutput[256];
 			if (dat->fTimeFlags&SDWTF_ST_TIME)
 				GetFormatedDateTime(szOutput, _countof(szOutput), dat->settingLastTime, TRUE);
 			else GetFormatedCountdown(szOutput, _countof(szOutput), dat->countdown);
@@ -414,7 +414,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 			HDC hdc;
 			SIZE size;
 			HFONT hFontPrev = NULL;
-			TCHAR szOutput[256];
+			wchar_t szOutput[256];
 			dat->flags &= ~FWPDF_TIMEISCLIPPED;
 			if (GetWindowText(dat->hwndTime, szOutput, _countof(szOutput)))
 				if (GetClientRect(dat->hwndTime, &rc)) {
@@ -464,7 +464,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 					else if ((HWND)wParam == dat->hwndIcon)
 						ttdi->lpszText = TranslateT("Automatic shutdown");
 					else {
-						TCHAR szTime[_countof(ttdi->szText)];
+						wchar_t szTime[_countof(ttdi->szText)];
 						if (dat->fTimeFlags&SDWTF_ST_TIME)
 							GetFormatedDateTime(szTime, _countof(szTime), dat->settingLastTime, FALSE);
 						else GetFormatedCountdown(szTime, _countof(szTime), dat->countdown);
@@ -556,9 +556,9 @@ static int FrameModulesLoaded(WPARAM, LPARAM)
 		LOGFONT lf;
 		/* built-in font module is not available before this hook */
 		COLORREF clr = GetDefaultColor(FRAMEELEMENT_TEXT);
-		FontService_RegisterFont("AutoShutdown", "CountdownFont", LPGENT("Automatic shutdown"), LPGENT("Countdown on frame"), LPGENT("Automatic shutdown"), LPGENT("Background"), 0, FALSE, GetDefaultFont(&lf), clr);
+		FontService_RegisterFont("AutoShutdown", "CountdownFont", LPGENW("Automatic shutdown"), LPGENW("Countdown on frame"), LPGENW("Automatic shutdown"), LPGENW("Background"), 0, FALSE, GetDefaultFont(&lf), clr);
 		clr = GetDefaultColor(FRAMEELEMENT_BKGRND);
-		FontService_RegisterColor("AutoShutdown", "BkgColor", LPGENT("Automatic shutdown"), LPGENT("Background"), clr);
+		FontService_RegisterColor("AutoShutdown", "BkgColor", LPGENW("Automatic shutdown"), LPGENW("Background"), clr);
 		if (!IsThemeActive()) {
 			/* progressbar color can only be changed with classic theme */
 			clr = GetDefaultColor(FRAMEELEMENT_BAR);

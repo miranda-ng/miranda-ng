@@ -53,7 +53,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern JSONNode nullNode;
 
-inline TCHAR* toCString(const json_string & str)
+inline wchar_t* toCString(const json_string & str)
 {
 	return mir_utf8decodeT( str.c_str());
 }
@@ -102,7 +102,7 @@ LIBJSON_DLL(JSONNode*) json_parse(const json_char *json) {
 	return 0;
 }
 
-LIBJSON_DLL(TCHAR*) json_strip_white_space(const json_char *json) {
+LIBJSON_DLL(wchar_t*) json_strip_white_space(const json_char *json) {
 	JSON_ASSERT_SAFE(json, JSON_TEXT("null ptr to json_strip_white_space"), return 0;);
 	return toCString(JSONWorker::RemoveWhiteSpaceAndComments(json));
 }
@@ -277,7 +277,7 @@ LIBJSON_DLL(const json_char*) json_name(const JSONNode *node) {
 	}
 #endif
 
-LIBJSON_DLL(TCHAR*) json_as_string(const JSONNode *node) {
+LIBJSON_DLL(wchar_t*) json_as_string(const JSONNode *node) {
 	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_as_string"), return toCString(EMPTY_CSTRING););
 	return toCString(node->as_string());
 }
@@ -325,12 +325,12 @@ LIBJSON_DLL(JSONNode*) json_as_array(const JSONNode *node) {
 #endif
 
 #ifdef JSON_WRITER
-	LIBJSON_DLL(TCHAR*) json_write(const JSONNode *node) {
+	LIBJSON_DLL(wchar_t*) json_write(const JSONNode *node) {
 		JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_write"), return toCString(EMPTY_CSTRING););
 		return toCString(node->write());
 	}
 
-	LIBJSON_DLL(TCHAR*) json_write_formatted(const JSONNode *node) {
+	LIBJSON_DLL(wchar_t*) json_write_formatted(const JSONNode *node) {
 		JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_write_formatted"), return toCString(EMPTY_CSTRING););
 		return toCString(node->write_formatted());
 	}

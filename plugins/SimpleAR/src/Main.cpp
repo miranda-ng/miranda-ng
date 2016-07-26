@@ -24,13 +24,13 @@ BOOL gbVarsServiceExist = FALSE;
 INT interval;
 int hLangpack;
 
-TCHAR* ptszDefaultMsg[] = {
-	LPGENT("I am currently away. I will reply to you when I am back."),
-	LPGENT("I am currently very busy and can't spare any time to talk with you. Sorry..."),
-	LPGENT("I am not available right now."),
-	LPGENT("I am now doing something, I will talk to you later."),
-	LPGENT("I am on the phone right now. I will get back to you very soon."),
-	LPGENT("I am having meal right now. I will get back to you very soon.")
+wchar_t* ptszDefaultMsg[] = {
+	LPGENW("I am currently away. I will reply to you when I am back."),
+	LPGENW("I am currently very busy and can't spare any time to talk with you. Sorry..."),
+	LPGENW("I am not available right now."),
+	LPGENW("I am now doing something, I will talk to you later."),
+	LPGENW("I am on the phone right now. I will get back to you very soon."),
+	LPGENW("I am having meal right now. I will get back to you very soon.")
 };
 
 PLUGININFOEX pluginInfoEx = {
@@ -64,9 +64,9 @@ INT_PTR ToggleEnable(WPARAM, LPARAM)
 	db_set_b(NULL, protocolname, KEY_ENABLED, fEnabled);
 
 	if (fEnabled)
-		Menu_ModifyItem(hEnableMenu, LPGENT("Disable Auto&reply"), iconList[0].hIcolib);
+		Menu_ModifyItem(hEnableMenu, LPGENW("Disable Auto&reply"), iconList[0].hIcolib);
 	else
-		Menu_ModifyItem(hEnableMenu, LPGENT("Enable Auto&reply"), iconList[1].hIcolib);
+		Menu_ModifyItem(hEnableMenu, LPGENW("Enable Auto&reply"), iconList[1].hIcolib);
 	return 0;
 }
 
@@ -77,9 +77,9 @@ INT_PTR Toggle(WPARAM hContact, LPARAM)
 	on = !on;
 
 	if (on)
-		Menu_ModifyItem(hToggle, LPGENT("Turn off Autoanswer"), iconList[0].hIcolib);
+		Menu_ModifyItem(hToggle, LPGENW("Turn off Autoanswer"), iconList[0].hIcolib);
 	else
-		Menu_ModifyItem(hToggle, LPGENT("Turn on Autoanswer"), iconList[1].hIcolib);
+		Menu_ModifyItem(hToggle, LPGENW("Turn on Autoanswer"), iconList[1].hIcolib);
 	return 0;
 }
 
@@ -87,9 +87,9 @@ INT OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	BOOL on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
 	if (on)
-		Menu_ModifyItem(hToggle, LPGENT("Turn off Autoanswer"), iconList[0].hIcolib);
+		Menu_ModifyItem(hToggle, LPGENW("Turn off Autoanswer"), iconList[0].hIcolib);
 	else
-		Menu_ModifyItem(hToggle, LPGENT("Turn on Autoanswer"), iconList[1].hIcolib);
+		Menu_ModifyItem(hToggle, LPGENW("Turn on Autoanswer"), iconList[1].hIcolib);
 	return 0;
 }
 
@@ -97,7 +97,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 {
 	interval = db_get_w(NULL, protocolname, KEY_REPEATINTERVAL, 300);
 
-	TCHAR *ptszVal = db_get_tsa(NULL, protocolname, KEY_HEADING);
+	wchar_t *ptszVal = db_get_tsa(NULL, protocolname, KEY_HEADING);
 	if (ptszVal == 0)
 		// Heading not set
 		db_set_ts(NULL, protocolname, KEY_HEADING, TranslateT("Dear %user%, the owner left the following message:"));
@@ -112,7 +112,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 			mir_snprintf(szStatus, "%d", c);
 			ptszVal = db_get_tsa(NULL, protocolname, szStatus);
 			if (ptszVal == 0) {
-				TCHAR *ptszDefault;
+				wchar_t *ptszDefault;
 				if (c < ID_STATUS_FREECHAT)
 					// This mode does not have a preset message
 					ptszDefault = ptszDefaultMsg[c - ID_STATUS_ONLINE - 1];
@@ -133,9 +133,9 @@ INT CheckDefaults(WPARAM, LPARAM)
 
 	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
 	if (fEnabled)
-		Menu_ModifyItem(hEnableMenu, LPGENT("Disable Auto&reply"), iconList[0].hIcolib);
+		Menu_ModifyItem(hEnableMenu, LPGENW("Disable Auto&reply"), iconList[0].hIcolib);
 	else
-		Menu_ModifyItem(hEnableMenu, LPGENT("Enable Auto&reply"), iconList[1].hIcolib);
+		Menu_ModifyItem(hEnableMenu, LPGENW("Enable Auto&reply"), iconList[1].hIcolib);
 	return 0;
 }
 
@@ -164,7 +164,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 		if (!dbei.cbBlob)	/// invalid size
 			return FALSE;
 
-		TCHAR *ptszVal = db_get_tsa(hContact, "Protocol", "p");
+		wchar_t *ptszVal = db_get_tsa(hContact, "Protocol", "p");
 		if (ptszVal == NULL) // Contact with no protocol ?!!
 			return FALSE;
 		mir_free(ptszVal);
@@ -190,7 +190,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 					if (*ptszVal) {
 						CMString ptszTemp;
 
-						TCHAR *ptszNick = db_get_tsa(hContact, pszProto, "Nick");
+						wchar_t *ptszNick = db_get_tsa(hContact, pszProto, "Nick");
 						if (ptszNick == 0) {
 							mir_free(ptszVal);
 							return FALSE;
@@ -198,7 +198,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 
 						msgLen += mir_tstrlen(ptszVal);
 
-						TCHAR *ptszHead = db_get_tsa(NULL, protocolname, KEY_HEADING);
+						wchar_t *ptszHead = db_get_tsa(NULL, protocolname, KEY_HEADING);
 						if (ptszHead != NULL) {
 							ptszTemp = ptszHead;
 							ptszTemp.Replace(L"%user%", ptszNick);
@@ -206,7 +206,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 							mir_free(ptszHead);
 						}
 
-						TCHAR *ptszTemp2 = (TCHAR*)mir_alloc(sizeof(TCHAR) * (msgLen + 5));
+						wchar_t *ptszTemp2 = (wchar_t*)mir_alloc(sizeof(wchar_t) * (msgLen + 5));
 						mir_sntprintf(ptszTemp2, msgLen + 5, L"%s\r\n\r\n%s", ptszTemp.c_str(), ptszVal);
 						if (ServiceExists(MS_VARS_FORMATSTRING)) {
 							ptszTemp = variables_parse(ptszTemp2, 0, hContact);
@@ -241,8 +241,8 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 
 IconItemT iconList[] =
 {
-	{ LPGENT("Disable Auto&reply"), "Disable Auto&reply", IDI_OFF },
-	{ LPGENT("Enable Auto&reply"), "Enable Auto&reply", IDI_ON }
+	{ LPGENW("Disable Auto&reply"), "Disable Auto&reply", IDI_OFF },
+	{ LPGENW("Enable Auto&reply"), "Enable Auto&reply", IDI_ON }
 };
 
 extern "C" int __declspec(dllexport)Load(void)
@@ -257,13 +257,13 @@ extern "C" int __declspec(dllexport)Load(void)
 
 	SET_UID(mi, 0xac1c64a, 0x82ca, 0x4845, 0x86, 0x89, 0x59, 0x76, 0x12, 0x74, 0x72, 0x7b);
 	mi.position = 500090000;
-	mi.name.t = L"";
+	mi.name.w = L"";
 	mi.pszService = protocolname"/ToggleEnable";
 	hEnableMenu = Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xb290cccd, 0x4ecc, 0x475e, 0x87, 0xcb, 0x51, 0xf4, 0x3b, 0xc3, 0x44, 0x9c);
 	mi.position = -0x7FFFFFFF;
-	mi.name.t = L"";
+	mi.name.w = L"";
 	mi.pszService = protocolname"/ToggleAutoanswer";
 	hToggle = Menu_AddContactMenuItem(&mi);
 

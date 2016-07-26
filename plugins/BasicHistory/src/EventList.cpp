@@ -300,7 +300,7 @@ void HistoryEventList::RefreshEventList()
 	}
 }
 
-bool HistoryEventList::SearchInContact(MCONTACT hContact, TCHAR *strFind, ComparatorInterface* compFun)
+bool HistoryEventList::SearchInContact(MCONTACT hContact, wchar_t *strFind, ComparatorInterface* compFun)
 {
 	InitFilters();
 
@@ -327,7 +327,7 @@ bool HistoryEventList::SearchInContact(MCONTACT hContact, TCHAR *strFind, Compar
 
 	EventIndex ei;
 	EventData ed;
-	TCHAR str[MAXSELECTSTR + 8]; // for safety reason
+	wchar_t str[MAXSELECTSTR + 8]; // for safety reason
 	for (std::list<EventTempIndex>::iterator itL = tempList.begin(); itL != tempList.end(); ++itL) {
 		ei.isExternal = itL->isExternal;
 		ei.hEvent = itL->hEvent;
@@ -343,27 +343,27 @@ bool HistoryEventList::SearchInContact(MCONTACT hContact, TCHAR *strFind, Compar
 
 void HistoryEventList::InitNames()
 {
-	TCHAR str[200];
+	wchar_t str[200];
 	if (m_hContact) {
-		_tcscpy_s(m_contactName, pcli->pfnGetContactDisplayName(m_hContact, 0));
+		wcscpy_s(m_contactName, pcli->pfnGetContactDisplayName(m_hContact, 0));
 		mir_sntprintf(str, TranslateT("History for %s"), m_contactName);
 	}
 	else {
-		_tcscpy_s(m_contactName, TranslateT("System"));
+		wcscpy_s(m_contactName, TranslateT("System"));
 		mir_sntprintf(str, TranslateT("History"));
 	}
 
 	if (m_isWnd)
 		SetWindowText(m_hWnd, str);
 
-	_tcscpy_s(m_myName, GetMyName().c_str());
+	wcscpy_s(m_myName, GetMyName().c_str());
 }
 
 void HistoryEventList::AddGroup(const EventIndex& ev)
 {
 	EventData data;
 	GetEventData(ev, data);
-	TCHAR eventText[256];
+	wchar_t eventText[256];
 	int i;
 	eventText[0] = 0;
 	TimeZone_PrintTimeStamp(NULL, data.timestamp, L"d t", eventText, 64, 0);
@@ -374,7 +374,7 @@ void HistoryEventList::AddGroup(const EventIndex& ev)
 	else
 		user = m_contactName;
 	GetEventMessage(ev, eventText, 256);
-	for (i = 0; eventText[i] != 0 && eventText[i] != _T('\r') && eventText[i] != _T('\n'); ++i);
+	for (i = 0; eventText[i] != 0 && eventText[i] != '\r' && eventText[i] != '\n'; ++i);
 	eventText[i] = 0;
 	if (i > Options::instance->groupMessageLen) {
 		eventText[Options::instance->groupMessageLen - 3] = '.';
@@ -446,15 +446,15 @@ std::wstring HistoryEventList::GetContactId()
 	return ::GetContactId(m_hContact);
 }
 
-static void GetMessageDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
+static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 {
-	TCHAR *msg = DbGetEventTextT(dbei, CP_ACP);
-	_tcsncpy_s(buf, cbBuf, msg ? msg : TranslateT("Invalid Message"), _TRUNCATE);
+	wchar_t *msg = DbGetEventTextT(dbei, CP_ACP);
+	wcsncpy_s(buf, cbBuf, msg ? msg : TranslateT("Invalid Message"), _TRUNCATE);
 	buf[cbBuf - 1] = 0;
 	mir_free(msg);
 }
 
-void HistoryEventList::GetObjectDescription(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
+void HistoryEventList::GetObjectDescription(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 {
 	GetMessageDescription(dbei, str, cbStr);
 }
@@ -599,7 +599,7 @@ void HistoryEventList::AddImporter(MCONTACT hContact, IImport::ImportType type, 
 {
 	mir_cslock lck(csEventList);
 
-	TCHAR buf[32];
+	wchar_t buf[32];
 	mir_sntprintf(buf, L"%016llx", (unsigned long long int)hContact);
 	ImportDiscData data;
 	data.file = m_contactFileDir + buf;
@@ -610,7 +610,7 @@ void HistoryEventList::AddImporter(MCONTACT hContact, IImport::ImportType type, 
 
 void HistoryEventList::Init()
 {
-	TCHAR temp[MAX_PATH];
+	wchar_t temp[MAX_PATH];
 	temp[0] = 0;
 	GetTempPath(MAX_PATH, temp);
 	m_contactFileDir = temp;

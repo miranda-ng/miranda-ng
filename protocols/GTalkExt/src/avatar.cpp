@@ -32,19 +32,19 @@
 
 LPTSTR CreateAvaFile(HANDLE *hFile)
 {
-	TCHAR name[MAX_PATH + 2];
+	wchar_t name[MAX_PATH + 2];
 	if (CallService(MS_DB_GETPROFILENAMET, (WPARAM)_countof(name), (LPARAM)&name))
 		return NULL;
 
-	TCHAR *p = _tcsrchr(name, '.');
+	wchar_t *p = wcsrchr(name, '.');
 	if (p)
 		*p = 0;
 
-	TCHAR path[MAX_PATH + 2];
+	wchar_t path[MAX_PATH + 2];
 	if (CallService(MS_DB_GETPROFILEPATHT, (WPARAM)_countof(path), (LPARAM)&path))
 		return NULL;
 
-	TCHAR full[MAX_PATH + 2];
+	wchar_t full[MAX_PATH + 2];
 	mir_sntprintf(full, AVA_FILE_NAME_FORMAT, path, name);
 	CreateDirectoryTreeT(full);
 

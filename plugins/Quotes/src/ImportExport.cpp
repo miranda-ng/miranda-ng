@@ -164,15 +164,15 @@ LPCTSTR prepare_filter(LPTSTR pszBuffer, size_t cBuffer)
 	}
 
 	if (nLen < cBuffer)
-		*p = _T('\0');
+		*p = '\0';
 
 	return pszBuffer;
 }
 
 bool show_open_file_dialog(bool bOpen, tstring& rsFile)
 {
-	TCHAR szBuffer[MAX_PATH];
-	TCHAR szFilter[MAX_PATH];
+	wchar_t szBuffer[MAX_PATH];
+	wchar_t szFilter[MAX_PATH];
 	OPENFILENAME ofn;
 	memset(&ofn, 0, sizeof(ofn));
 
@@ -189,7 +189,7 @@ bool show_open_file_dialog(bool bOpen, tstring& rsFile)
 
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrFile = szBuffer;
-	ofn.lpstrFile[0] = _T('\0');
+	ofn.lpstrFile[0] = '\0';
 
 	if (bOpen) {
 		if (FALSE == GetOpenFileName(&ofn))

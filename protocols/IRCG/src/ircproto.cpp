@@ -31,7 +31,7 @@ static int CompareSessions(const CDccSession* p1, const CDccSession* p2)
 	return INT_PTR(p1->di->hContact) - INT_PTR(p2->di->hContact);
 }
 
-CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
+CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 	PROTO<CIrcProto>(szModuleName, tszUserName),
 	m_dcc_chats(10, CompareSessions),
 	m_dcc_xfers(10, CompareSessions),
@@ -174,7 +174,7 @@ static int sttCheckPerform(const char *szSetting, LPARAM lParam)
 int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	NETLIBUSER nlu = { 0 };
-	TCHAR name[128];
+	wchar_t name[128];
 
 	db_unset(NULL, m_szModuleName, "JTemp");
 
@@ -208,7 +208,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcw.iType = GCW_SERVER;
 	gcw.ptszID = SERVERWINDOW;
 	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = NEWTSTR_ALLOCA((TCHAR*)_A2T(m_network));
+	gcw.ptszName = NEWWSTR_ALLOCA((wchar_t*)_A2T(m_network));
 	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
 	GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
@@ -218,9 +218,9 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	else
 		CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
 
-	TCHAR szTemp[MAX_PATH];
+	wchar_t szTemp[MAX_PATH];
 	mir_sntprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_perform.ini", m_szModuleName);
-	TCHAR *szLoadFileName = Utils_ReplaceVarsT(szTemp);
+	wchar_t *szLoadFileName = Utils_ReplaceVarsT(szTemp);
 	char* pszPerformData = IrcLoadFile(szLoadFileName);
 	if (pszPerformData != NULL) {
 		char *p1 = pszPerformData, *p2 = pszPerformData;
@@ -240,7 +240,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 			setString(("PERFORM:" + sNetwork).c_str(), rtrim(p1));
 		}
 		delete[] pszPerformData;
-		::_tremove(szLoadFileName);
+		::_wremove(szLoadFileName);
 	}
 	mir_free(szLoadFileName);
 
@@ -272,7 +272,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages);
 
 	if (m_nick[0]) {
-		TCHAR szBuf[40];
+		wchar_t szBuf[40];
 		if (mir_tstrlen(m_alternativeNick) == 0) {
 			mir_sntprintf(szBuf, L"%s%u", m_nick, rand() % 9999);
 			setTString("AlernativeNick", szBuf);
@@ -297,7 +297,7 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 	if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)
 		return 0;
 
-	TCHAR *id = psr->id.t ? psr->id.t : psr->nick.t;
+	wchar_t *id = psr->id.w ? psr->id.w : psr->nick.w;
 	id = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)id) : mir_a2t((char*)id);
 
 	CONTACT user = { id, NULL, NULL, true, false, false };
@@ -341,7 +341,7 @@ int __cdecl CIrcProto::Authorize(MEVENT)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthDeny - handles the unsuccessful authorization
 
-int __cdecl CIrcProto::AuthDeny(MEVENT, const TCHAR*)
+int __cdecl CIrcProto::AuthDeny(MEVENT, const wchar_t*)
 {
 	return 0;
 }
@@ -349,7 +349,7 @@ int __cdecl CIrcProto::AuthDeny(MEVENT, const TCHAR*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CIrcProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
+HANDLE __cdecl CIrcProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 
@@ -386,7 +386,7 @@ int __cdecl CIrcProto::FileCancel(MCONTACT, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CIrcProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR*)
+int __cdecl CIrcProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t*)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 	delete di;
@@ -396,7 +396,7 @@ int __cdecl CIrcProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileResume - processes file renaming etc
 
-int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
+int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 
@@ -406,7 +406,7 @@ int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** s
 	if (dcc) {
 		InterlockedExchange(&dcc->dwWhatNeedsDoing, i);
 		if (*action == FILERESUME_RENAME) {
-			TCHAR* szTemp = _tcsdup(*szFilename);
+			wchar_t* szTemp = wcsdup(*szFilename);
 			InterlockedExchangePointer((PVOID*)&dcc->NewFileName, szTemp);
 		}
 
@@ -414,7 +414,7 @@ int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** s
 			unsigned __int64 dwPos = 0;
 
 			struct _stati64 statbuf;
-			if (_tstati64(di->sFileAndPath.c_str(), &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
+			if (_wstat64(di->sFileAndPath.c_str(), &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
 				dwPos = statbuf.st_size;
 
 			CMString sFileWithQuotes = di->sFile;
@@ -475,7 +475,7 @@ DWORD_PTR __cdecl CIrcProto::GetCaps(int type, MCONTACT)
 
 struct AckBasicSearchParam
 {
-	TCHAR buf[50];
+	wchar_t buf[50];
 };
 
 void __cdecl CIrcProto::AckBasicSearch(void *arg)
@@ -485,13 +485,13 @@ void __cdecl CIrcProto::AckBasicSearch(void *arg)
 	AckBasicSearchParam *param = (AckBasicSearchParam*)arg;
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_TCHAR;
-	psr.id.t = psr.nick.t = param->buf;
+	psr.id.w = psr.nick.w = param->buf;
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	delete param;
 }
 
-HANDLE __cdecl CIrcProto::SearchBasic(const TCHAR* szId)
+HANDLE __cdecl CIrcProto::SearchBasic(const wchar_t* szId)
 {
 	if (szId) {
 		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&
@@ -509,7 +509,7 @@ HANDLE __cdecl CIrcProto::SearchBasic(const TCHAR* szId)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppszFiles)
+HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFiles)
 {
 	DCCINFO* dci = NULL;
 	int iPort = 0;
@@ -537,7 +537,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 		//get file size
 		while (ppszFiles[index]) {
 			struct _stati64 statbuf;
-			if (_tstati64(ppszFiles[index], &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0) {
+			if (_wstat64(ppszFiles[index], &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0) {
 				size = statbuf.st_size;
 				break;
 			}
@@ -588,7 +588,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 
 			// is it an reverse filetransfer (receiver acts as server)
 			if (dci->bReverse) {
-				TCHAR szTemp[256];
+				wchar_t szTemp[256];
 				PostIrcMessage(L"/CTCP %s DCC SEND %s 200 0 %I64u %u",
 					dci->sContactName.c_str(), sFileWithQuotes.c_str(), dci->dwSize, dcc->iToken);
 
@@ -607,7 +607,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 			else { // ... normal filetransfer.
 				iPort = dcc->Connect();
 				if (iPort) {
-					TCHAR szTemp[256];
+					wchar_t szTemp[256];
 					PostIrcMessage(L"/CTCP %s DCC SEND %s %u %u %I64u",
 						dci->sContactName.c_str(), sFileWithQuotes.c_str(), ulAdr, iPort, dci->dwSize);
 
@@ -619,7 +619,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 					if (m_sendNotice) {
 						mir_sntprintf(szTemp,
 							L"/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [IP: %s]",
-							dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024, (TCHAR*)_A2T(ConvertIntegerToIP(ulAdr)));
+							dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024, (wchar_t*)_A2T(ConvertIntegerToIP(ulAdr)));
 						PostIrcMessage(szTemp);
 					}
 				}
@@ -630,7 +630,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 			// fix for sending multiple files
 			index++;
 			while (ppszFiles[index]) {
-				if (_taccess(ppszFiles[index], 0) == 0) {
+				if (_waccess(ppszFiles[index], 0) == 0) {
 					PostIrcMessage(L"/DCC SEND %s %S", dci->sContactName.c_str(), ppszFiles[index]);
 				}
 				index++;
@@ -692,7 +692,7 @@ int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 		return 0;
 	}
 
-	TCHAR *result;
+	wchar_t *result;
 	mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &result);
 	PostIrcMessageWnd(NULL, hContact, result);
 	mir_free(result);
@@ -806,7 +806,7 @@ HANDLE __cdecl CIrcProto::GetAwayMsg(MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away status message
 
-int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
+int __cdecl CIrcProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	switch (status) {
 	case ID_STATUS_ONLINE:     case ID_STATUS_INVISIBLE:   case ID_STATUS_FREECHAT:

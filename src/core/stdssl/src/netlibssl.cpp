@@ -60,26 +60,26 @@ struct SslHandle
 
 static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 {
-	TCHAR szMsgBuf[256];
+	wchar_t szMsgBuf[256];
 	switch (scRet) {
 	case 0:
 	case ERROR_NOT_READY:
 		return;
 
 	case SEC_E_INVALID_TOKEN:
-		_tcsncpy_s(szMsgBuf, TranslateT("Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package"), _TRUNCATE);
+		wcsncpy_s(szMsgBuf, TranslateT("Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package"), _TRUNCATE);
 		break;
 
 	case CERT_E_CN_NO_MATCH:
 	case SEC_E_WRONG_PRINCIPAL:
-		_tcsncpy_s(szMsgBuf, TranslateT("Host we are connecting to is not the one certificate was issued for"), _TRUNCATE);
+		wcsncpy_s(szMsgBuf, TranslateT("Host we are connecting to is not the one certificate was issued for"), _TRUNCATE);
 		break;
 
 	default:
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), NULL);
 	}
 
-	TCHAR szMsgBuf2[512];
+	wchar_t szMsgBuf2[512];
 	mir_sntprintf(szMsgBuf2, L"SSL connection failure (%x %u): %s", scRet, line, szMsgBuf);
 
 	char* szMsg = Utf8EncodeT(szMsgBuf2);

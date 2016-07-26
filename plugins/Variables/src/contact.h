@@ -96,4 +96,4 @@
                                     // CNF_ type possible
 #define CI_NEEDCOUNT    0x80000000  // returns contacts count
 
-TCHAR *encodeContactToString(MCONTACT hContact);
+wchar_t *encodeContactToString(MCONTACT hContact);

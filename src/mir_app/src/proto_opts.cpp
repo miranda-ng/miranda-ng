@@ -56,9 +56,9 @@ static HWND hAccMgr = NULL;
 
 extern HANDLE hAccListChanged;
 
-int UnloadPlugin(TCHAR* buf, int bufLen);
+int UnloadPlugin(wchar_t* buf, int bufLen);
 
-PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const TCHAR *tszAccountName)
+PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const wchar_t *tszAccountName)
 {
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 	if (pa == NULL)
@@ -123,7 +123,7 @@ static bool OnCreateAccount(HWND hwndDlg)
 	AccFormDlgParam* param = (AccFormDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	PROTOACCOUNT *pa = param->pa;
 
-	TCHAR tszAccName[256];
+	wchar_t tszAccName[256];
 	GetDlgItemText(hwndDlg, IDC_ACCNAME, tszAccName, _countof(tszAccName));
 	rtrimt(tszAccName);
 	if (tszAccName[0] == 0) {
@@ -142,13 +142,13 @@ static bool OnCreateAccount(HWND hwndDlg)
 
 	if (param->action == PRAC_UPGRADED) {
 		BOOL oldProto = pa->bOldProto;
-		TCHAR szPlugin[MAX_PATH];
+		wchar_t szPlugin[MAX_PATH];
 		mir_sntprintf(szPlugin, L"%s.dll", _A2T(pa->szProtoName));
 		int idx = accounts.getIndex(pa);
 		UnloadAccount(pa, false, false);
 		accounts.remove(idx);
 		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
-			TCHAR szNewName[MAX_PATH];
+			wchar_t szNewName[MAX_PATH];
 			mir_sntprintf(szNewName, L"%s~", szPlugin);
 			MoveFile(szPlugin, szNewName);
 		}
@@ -199,7 +199,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 			if (param->action == PRAC_ADDED) // new account
 				SetWindowText(hwndDlg, TranslateT("Create new account"));
 			else {
-				TCHAR str[200];
+				wchar_t str[200];
 				if (param->action == PRAC_CHANGED) { // update
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOTYPECOMBO), FALSE);
 					mir_sntprintf(str, L"%s: %s", TranslateT("Editing account"), param->pa->tszAccountName);
@@ -280,7 +280,7 @@ static LRESULT CALLBACK sttEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case WM_KILLFOCUS:
 		int length = GetWindowTextLength(hwnd) + 1;
-		TCHAR *str = (TCHAR*)mir_alloc(sizeof(TCHAR) * length);
+		wchar_t *str = (wchar_t*)mir_alloc(sizeof(wchar_t) * length);
 		GetWindowText(hwnd, str, length);
 		SendMessage(GetParent(GetParent(hwnd)), WM_COMMAND, MAKEWPARAM(GetWindowLongPtr(GetParent(hwnd), GWL_ID), LBN_MY_RENAME), (LPARAM)str);
 		DestroyWindow(hwnd);
@@ -605,7 +605,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 			int length = SendDlgItemMessage(hwndDlg, IDC_ACCLIST, LB_GETTEXTLEN, lps->itemID, 0);
 			int size = max(length + 1, 256);
-			TCHAR *text = (TCHAR *)_alloca(sizeof(TCHAR) * size);
+			wchar_t *text = (wchar_t *)_alloca(sizeof(wchar_t) * size);
 			SendDlgItemMessage(hwndDlg, IDC_ACCLIST, LB_GETTEXT, lps->itemID, (LPARAM)text);
 
 			SelectObject(lps->hDC, dat->hfntTitle);
@@ -770,7 +770,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					else {
 						DWORD dwStatus = CallProtoServiceInt(NULL, pa->szModuleName, PS_GETSTATUS, 0, 0);
 						if (dwStatus >= ID_STATUS_ONLINE) {
-							TCHAR buf[200];
+							wchar_t buf[200];
 							mir_sntprintf(buf, TranslateT("Account %s is being disabled"), pa->tszAccountName);
 							if (IDNO == ::MessageBox(hwndDlg,
 								TranslateT("Account is online. Disable account?"),
@@ -795,7 +795,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				pa = (PROTOACCOUNT *)ListBox_GetItemData(hwndList, iItem);
 				if (pa) {
 					mir_free(pa->tszAccountName);
-					pa->tszAccountName = (TCHAR*)lParam;
+					pa->tszAccountName = (wchar_t*)lParam;
 					WriteDbAccounts();
 					NotifyEventHooks(hAccListChanged, PRAC_CHANGED, (LPARAM)pa);
 
@@ -808,7 +808,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 					RedrawWindow(hwndList, NULL, NULL, RDW_INVALIDATE);
 				}
-				else mir_free((TCHAR*)lParam);
+				else mir_free((wchar_t*)lParam);
 			}
 			break;
 
@@ -830,7 +830,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			idx = ListBox_GetCurSel(hwndList);
 			if (idx != -1) {
 				pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, idx);
-				TCHAR buf[200];
+				wchar_t buf[200];
 				mir_sntprintf(buf, TranslateT("Account %s is being deleted"), pa->tszAccountName);
 				if (pa->bOldProto) {
 					MessageBox(hwndDlg, TranslateT("You need to disable plugin to delete this account"), buf, MB_ICONERROR | MB_OK);

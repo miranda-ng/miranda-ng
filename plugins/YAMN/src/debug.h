@@ -33,7 +33,7 @@ extern HANDLE DecodeFile;
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
 DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
 	
-DWORD ReadStringFromMemoryW(char **Parser,TCHAR *End,char **StoreTo,TCHAR *DebugString);
+DWORD ReadStringFromMemoryW(char **Parser,wchar_t *End,char **StoreTo,wchar_t *DebugString);
 	
 #else
 DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo);

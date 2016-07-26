@@ -17,8 +17,8 @@
 
 #include "stdafx.h"
 
-TCHAR* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, TCHAR* szDef)
+wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, wchar_t* szDef)
 {
-	TCHAR *szRes = db_get_tsa(hContact, szModule, szSetting);
+	wchar_t *szRes = db_get_tsa(hContact, szModule, szSetting);
 	return szRes ? szRes  : mir_tstrdup(szDef);
 }

@@ -51,19 +51,19 @@ typedef std::wstring tString;
 
 struct FILEURL
 {
-	TCHAR tszDownloadURL[2048];
-	TCHAR tszDiskPath[MAX_PATH];
+	wchar_t tszDownloadURL[2048];
+	wchar_t tszDiskPath[MAX_PATH];
 };
 
 struct FILEINFO
 {
-	TCHAR tszCurVer[16];
-	TCHAR tszNewVer[16];
-	TCHAR tszLastVer[16];
-	TCHAR tszAdvFolder[256];
-	TCHAR tszInfoURL[2048];
-	TCHAR tszMessage[5000];
-	TCHAR tszDescr[256];
+	wchar_t tszCurVer[16];
+	wchar_t tszNewVer[16];
+	wchar_t tszLastVer[16];
+	wchar_t tszAdvFolder[256];
+	wchar_t tszInfoURL[2048];
+	wchar_t tszMessage[5000];
+	wchar_t tszDescr[256];
 	FILEURL File;
 	BOOL enabled;
 	BYTE FileType;
@@ -91,7 +91,7 @@ extern HINSTANCE hInst;
 extern INT FileCount, CurrentFile, Number, UpdatesCount, Period;
 extern BOOL Silent, DlgDld;
 extern BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
-extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
+extern wchar_t tszRoot[MAX_PATH], tszDialogMsg[2048];
 extern FILEINFO* pFileInfo;
 extern FILEURL* pFileUrl;
 extern HANDLE hCheckThread;

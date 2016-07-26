@@ -29,7 +29,7 @@ LRESULT CALLBACK AvatarTrackBarWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 LRESULT CALLBACK AlphaTrackBarWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // effekt name for drop down box
-LIST<TCHAR> g_lstPopupVfx(5, _tcsicmp);
+LIST<wchar_t> g_lstPopupVfx(5, wcsicmp);
 void OptAdv_RegisterVfx(char *name)
 {
 	g_lstPopupVfx.insert(mir_a2t(name));
@@ -78,7 +78,7 @@ void LoadOption_AdvOpts()
 
 INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR tstr[64];
+	wchar_t tstr[64];
 	static bool bDlgInit = false;	// some controls send WM_COMMAND before or during WM_INITDIALOG
 	UINT idCtrl;
 
@@ -88,7 +88,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	{
 		hwndBox = CreateWindowEx(
 			WS_EX_TOOLWINDOW | WS_EX_TOPMOST,		//  dwStyleEx
-			_T(BOXPREVIEW_WNDCLASS),			//  Class name
+			BOXPREVIEW_WNDCLASS,			//  Class name
 			NULL,								//  Title
 			DS_SETFONT | DS_FIXEDSYS | WS_POPUP,	//  dwStyle
 			CW_USEDEFAULT,						//  x

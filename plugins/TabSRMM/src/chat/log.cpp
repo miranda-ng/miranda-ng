@@ -54,16 +54,16 @@ static char* u2a(const wchar_t* src, int codepage)
 	return result;
 }
 
-static char* t2acp(const TCHAR* src, int codepage)
+static char* t2acp(const wchar_t* src, int codepage)
 {
 	return u2a(src, codepage);
 }
 
-static TCHAR *a2tcp(const char *text, int cp)
+static wchar_t *a2tcp(const char *text, int cp)
 {
 	if (text != NULL) {
 		int cbLen = MultiByteToWideChar(cp, 0, text, -1, NULL, 0);
-		TCHAR* result = (TCHAR*)mir_alloc(sizeof(TCHAR)*(cbLen + 1));
+		wchar_t* result = (wchar_t*)mir_alloc(sizeof(wchar_t)*(cbLen + 1));
 		if (result == NULL)
 			return NULL;
 		MultiByteToWideChar(cp, 0, text, -1, result, cbLen);
@@ -72,12 +72,12 @@ static TCHAR *a2tcp(const char *text, int cp)
 	return NULL;
 }
 
-static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **buffer, int *cbBufferEnd, int *cbBufferAlloced, const TCHAR *fmt, ...)
+static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, wchar_t **buffer, int *cbBufferEnd, int *cbBufferAlloced, const wchar_t *fmt, ...)
 {
 	va_list va;
 	int lineLen, textCharsCount = 0;
-	TCHAR* line = (TCHAR*)_alloca(8001 * sizeof(TCHAR));
-	TCHAR* d;
+	wchar_t* line = (wchar_t*)_alloca(8001 * sizeof(wchar_t));
+	wchar_t* d;
 	MODULEINFO *mi = pci->MM_FindModule(streamData->si->pszModule);
 
 	va_start(va, fmt);
@@ -89,14 +89,14 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 	lineLen = lineLen * 9 + 8;
 	if (*cbBufferEnd + lineLen > *cbBufferAlloced) {
 		cbBufferAlloced[0] += (lineLen + 1024 - lineLen % 1024);
-		*buffer = (TCHAR*)mir_realloc(*buffer, *cbBufferAlloced * sizeof(TCHAR));
+		*buffer = (wchar_t*)mir_realloc(*buffer, *cbBufferAlloced * sizeof(wchar_t));
 	}
 
 	d = *buffer + *cbBufferEnd;
 
 	for (; *line; line++, textCharsCount++) {
 		if (*line == '%' && !simpleMode) {
-			TCHAR szTemp[200];
+			wchar_t szTemp[200];
 
 			szTemp[0] = '\0';
 			switch (*++line) {
@@ -109,12 +109,12 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 			case 'f':
 				if (!g_Settings.bStripFormat && !streamData->bStripFormat) {
 					if (line[1] != '\0' && line[2] != '\0') {
-						TCHAR szTemp3[3], c = *line;
+						wchar_t szTemp3[3], c = *line;
 						int col;
 						szTemp3[0] = line[1];
 						szTemp3[1] = line[2];
 						szTemp3[2] = '\0';
-						col = _ttoi(szTemp3);
+						col = _wtoi(szTemp3);
 						mir_sntprintf(szTemp, L"%%%c#%02X%02X%02X", c, GetRValue(mi->crColors[col]), GetGValue(mi->crColors[col]), GetBValue(mi->crColors[col]));
 					}
 				}
@@ -141,7 +141,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 
 			if (szTemp[0]) {
 				size_t iLen = mir_tstrlen(szTemp);
-				memcpy(d, szTemp, iLen * sizeof(TCHAR));
+				memcpy(d, szTemp, iLen * sizeof(wchar_t));
 				d += iLen;
 			}
 		}
@@ -150,7 +150,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 			*d++ = (char)*line;
 		}
 		else {
-			*d++ = (TCHAR)*line;
+			*d++ = (wchar_t)*line;
 		}
 	}
 	*d = '\0';
@@ -158,21 +158,21 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 	return textCharsCount;
 }
 
-static void AddEventTextToBufferIEView(TCHAR **buffer, int *bufferEnd, int *bufferAlloced, LOGSTREAMDATA *streamData)
+static void AddEventTextToBufferIEView(wchar_t **buffer, int *bufferEnd, int *bufferAlloced, LOGSTREAMDATA *streamData)
 {
 	if (streamData->lin->ptszText)
 		Log_AppendIEView(streamData, FALSE, str, L": %s", streamData->lin->ptszText);
 }
 
-static void AddEventToBufferIEView(TCHAR **buffer, int *bufferEnd, int *bufferAlloced, LOGSTREAMDATA *streamData, TCHAR *pszNick)
+static void AddEventToBufferIEView(wchar_t **buffer, int *bufferEnd, int *bufferAlloced, LOGSTREAMDATA *streamData, wchar_t *pszNick)
 {
 
 	if (streamData && streamData->lin) {
 		switch (streamData->lin->iType) {
 		case GC_EVENT_MESSAGE:
 			if (streamData->lin->ptszText) {
-				TCHAR *ptszTemp = NULL;
-				TCHAR *ptszText = streamData->lin->ptszText;
+				wchar_t *ptszTemp = NULL;
+				wchar_t *ptszText = streamData->lin->ptszText;
 				if (streamData->dat->codePage != CP_ACP) {
 					char *aText = t2acp(streamData->lin->ptszText, CP_ACP);
 					ptszText = ptszTemp = a2tcp(aText, streamData->dat->codePage);
@@ -249,9 +249,9 @@ static void AddEventToBufferIEView(TCHAR **buffer, int *bufferEnd, int *bufferAl
 	}
 }
 
-static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
+static void LogEventIEView(LOGSTREAMDATA *streamData, wchar_t *ptszNick)
 {
-	TCHAR *buffer = NULL;
+	wchar_t *buffer = NULL;
 	int bufferEnd = 0;
 	int bufferAlloced = 0;
 	IEVIEWEVENTDATA ied;
@@ -422,10 +422,10 @@ static int EventToIcon(LOGINFO * lin)
 	return 0;
 }
 
-static void Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, CMStringA &str, const TCHAR *fmt, ...)
+static void Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, CMStringA &str, const wchar_t *fmt, ...)
 {
 	int textCharsCount = 0;
-	TCHAR *line = (TCHAR*)_alloca(8001 * sizeof(TCHAR));
+	wchar_t *line = (wchar_t*)_alloca(8001 * sizeof(wchar_t));
 
 	va_list va;
 	va_start(va, fmt);
@@ -458,14 +458,14 @@ static void Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, CMStringA 
 				if (g_Settings.bStripFormat || streamData->bStripFormat)
 					line += 2;
 				else if (line[1] != '\0' && line[2] != '\0') {
-					TCHAR szTemp3[3], c = *line;
+					wchar_t szTemp3[3], c = *line;
 					int col;
 					szTemp3[0] = line[1];
 					szTemp3[1] = line[2];
 					szTemp3[2] = '\0';
 					line += 2;
 
-					col = _ttoi(szTemp3);
+					col = _wtoi(szTemp3);
 					col += (OPTIONS_FONTCOUNT + 1);
 					res.AppendFormat((c == 'c') ? "\\cf%u " : "\\highlight%u ", col);
 				}
@@ -520,8 +520,8 @@ static void Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, CMStringA 
 
 static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 {
-	TCHAR szTemp[512], szTemp2[512];
-	TCHAR* pszNick = NULL;
+	wchar_t szTemp[512], szTemp2[512];
+	wchar_t* pszNick = NULL;
 
 	if (streamData == NULL)
 		return;
@@ -531,20 +531,20 @@ static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 
 	if (streamData->lin->ptszNick) {
 		if (g_Settings.bLogLimitNames && mir_tstrlen(streamData->lin->ptszNick) > 20) {
-			_tcsncpy_s(szTemp, 20, streamData->lin->ptszNick, _TRUNCATE);
-			_tcsncpy_s(szTemp + 20, 4, L"...", _TRUNCATE);
+			wcsncpy_s(szTemp, 20, streamData->lin->ptszNick, _TRUNCATE);
+			wcsncpy_s(szTemp + 20, 4, L"...", _TRUNCATE);
 		}
-		else _tcsncpy_s(szTemp, streamData->lin->ptszNick, _TRUNCATE);
+		else wcsncpy_s(szTemp, streamData->lin->ptszNick, _TRUNCATE);
 
 		if (g_Settings.bClickableNicks)
 			mir_sntprintf(szTemp2, L"~~++#%s#++~~", szTemp);
 		else
-			_tcsncpy_s(szTemp2, szTemp, _TRUNCATE);
+			wcsncpy_s(szTemp2, szTemp, _TRUNCATE);
 
 		if (streamData->lin->ptszUserInfo && streamData->lin->iType != GC_EVENT_TOPIC)
 			mir_sntprintf(szTemp, L"%s (%s)", szTemp2, streamData->lin->ptszUserInfo);
 		else
-			_tcsncpy_s(szTemp, szTemp2, _TRUNCATE);
+			wcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;
 	}
 
@@ -669,7 +669,7 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	int iIndent = 0;
 
 	if (g_Settings.bLogSymbols) {
-		TCHAR szString[2];
+		wchar_t szString[2];
 		LOGFONT lf;
 
 		szString[1] = 0;
@@ -770,10 +770,10 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 			//insert timestamp
 			if (g_Settings.bShowTime) {
-				TCHAR szTimeStamp[30], szOldTimeStamp[30];
+				wchar_t szTimeStamp[30], szOldTimeStamp[30];
 
-				_tcsncpy_s(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), _TRUNCATE);
-				_tcsncpy_s(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), _TRUNCATE);
+				wcsncpy_s(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), _TRUNCATE);
+				wcsncpy_s(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), _TRUNCATE);
 				if (!g_Settings.bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_tstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, str, L"%s", szTimeStamp);
@@ -984,7 +984,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedra
 	// trim the message log to the number of most recent events
 	// this uses hidden marks in the rich text to find the events which should be deleted
 	if (si->bTrimmed) {
-		TCHAR szPattern[50];
+		wchar_t szPattern[50];
 		mir_sntprintf(szPattern, L"~-+%d+-~", si->pLogEnd);
 
 		FINDTEXTEX fi;

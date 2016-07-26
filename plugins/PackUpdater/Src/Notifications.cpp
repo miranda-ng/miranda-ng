@@ -326,8 +326,8 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			{
 				vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 				ShowWindow(hDlg, SW_HIDE);
-				TCHAR tszBuff[2048] = { 0 }, tszFileDest[MAX_PATH] = { 0 }, tszFilePathDest[MAX_PATH] = { 0 }, tszFilePathBack[MAX_PATH] = { 0 }, tszFileName[MAX_PATH] = { 0 };
-				TCHAR* tszExt = NULL;
+				wchar_t tszBuff[2048] = { 0 }, tszFileDest[MAX_PATH] = { 0 }, tszFilePathDest[MAX_PATH] = { 0 }, tszFilePathBack[MAX_PATH] = { 0 }, tszFileName[MAX_PATH] = { 0 };
+				wchar_t* tszExt = NULL;
 				char szKey[64] = { 0 };
 				vector<int> arFileType;
 				vector<tString> arFilePath;
@@ -426,10 +426,10 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 						rc = MessageBox(NULL, tszBuff, Title, MB_YESNO | MB_ICONQUESTION);
 					if (rc == IDYES) {
 						for (int i = 0; i < UpdatesCount; i++) {
-							TCHAR* tszUtilRootPlug = NULL;
-							TCHAR* tszUtilRootIco = NULL;
-							TCHAR* tszUtilRoot = NULL;
-							TCHAR  tszCurrentDir[MAX_PATH];
+							wchar_t* tszUtilRootPlug = NULL;
+							wchar_t* tszUtilRootIco = NULL;
+							wchar_t* tszUtilRoot = NULL;
+							wchar_t  tszCurrentDir[MAX_PATH];
 
 							switch (arFileType[i]) {
 							case 0:
@@ -441,8 +441,8 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 								memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 								si.cb = sizeof(STARTUPINFO);
 								{
-									_tcsncpy_s(tszCurrentDir, arFilePath[i].c_str(), _TRUNCATE);
-									TCHAR *p = _tcsrchr(tszCurrentDir, '\\');
+									wcsncpy_s(tszCurrentDir, arFilePath[i].c_str(), _TRUNCATE);
+									wchar_t *p = wcsrchr(tszCurrentDir, '\\');
 									if (p) *p = 0;
 								}
 								CreateProcess(arFilePath[i].c_str(), L"", NULL, NULL, FALSE, NULL, NULL, tszCurrentDir, &si, &pi);

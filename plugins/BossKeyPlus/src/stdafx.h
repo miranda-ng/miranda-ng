@@ -88,10 +88,10 @@ int OptsDlgInit(WPARAM wParam, LPARAM lParam);
 INT_PTR BossKeyHideMiranda(WPARAM wParam, LPARAM lParam);
 void BossKeyMenuItemInit(void);
 void BossKeyMenuItemUnInit(void);
-static TCHAR *GetBossKeyText(void);
+static wchar_t *GetBossKeyText(void);
 void InitIdleTimer(void);
 void UninitIdleTimer(void);
-TCHAR* GetDefStatusMsg(unsigned uMode, const char* szProto);
+wchar_t* GetDefStatusMsg(unsigned uMode, const char* szProto);
 
 // I never really liked STL's vector... hmm this is nicer anyway, more flexible
 typedef struct HWND_ITEM_TYPE

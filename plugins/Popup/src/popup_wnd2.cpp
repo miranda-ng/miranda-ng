@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "bitmap_funcs.h"
 #include <math.h>
 
-#define POPUP_WNDCLASS "PopupWnd2"
+#define POPUP_WNDCLASS L"PopupWnd2"
 
 #ifndef CS_DROPSHADOW
 #define CS_DROPSHADOW 0x00020000
@@ -54,15 +54,15 @@ bool	LoadPopupWnd2()
 	wcl.hInstance = hInst;
 	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszClassName = _T(POPUP_WNDCLASS);
+	wcl.lpszClassName = POPUP_WNDCLASS;
 	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupWnd2 = RegisterClassEx(&wcl);
 	DWORD err = GetLastError();
 	if (!g_wndClass.cPopupWnd2) {
 		res = false;
-		TCHAR msg[1024];
+		wchar_t msg[1024];
 		mir_sntprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
-		MessageBox(NULL, msg, _T(MODULNAME_LONG), MB_ICONSTOP | MB_OK);
+		MessageBox(NULL, msg, MODULNAME_LONG, MB_ICONSTOP | MB_OK);
 	}
 
 	WNDCLASSEX wclw = { 0 };
@@ -75,7 +75,7 @@ bool	LoadPopupWnd2()
 	g_wndClass.cPopupEditBox = RegisterClassEx(&wclw);
 	err = GetLastError();
 	if (!g_wndClass.cPopupEditBox) {
-		TCHAR msg[2048];
+		wchar_t msg[2048];
 		mir_sntprintf(msg, TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
 			wclw.cbSize, wclw.style, wclw.lpfnWndProc, wclw.cbClsExtra, wclw.cbWndExtra, wclw.hInstance, wclw.hIcon, wclw.hCursor,
 			wclw.hbrBackground, wclw.lpszMenuName, wclw.lpszClassName, wclw.hIconSm);
@@ -100,7 +100,7 @@ bool	LoadPopupWnd2()
 	err = GetLastError();
 	if (!g_wndClass.cPopupMenuHostWnd) {
 		res = false;
-		TCHAR msg[1024];
+		wchar_t msg[1024];
 		mir_sntprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
@@ -166,7 +166,7 @@ void PopupWnd2::create()
 	m_hwnd = CreateWindowEx(
 		WS_EX_TRANSPARENT |					//  prevents unwanted clicks
 		WS_EX_TOOLWINDOW | WS_EX_TOPMOST,		//  dwStyleEx
-		_T(POPUP_WNDCLASS),					//  Class name
+		POPUP_WNDCLASS,					//  Class name
 		NULL,								//  Title
 		DS_SETFONT | DS_FIXEDSYS | WS_POPUP,	//  dwStyle
 		CW_USEDEFAULT,						//  x
@@ -485,7 +485,7 @@ void PopupWnd2::hide()
 	//	hwnd = 0;
 }
 
-bool __forceinline isTextEmpty(TCHAR *text)
+bool __forceinline isTextEmpty(wchar_t *text)
 {
 	if (!text)
 		return true;
@@ -765,7 +765,7 @@ void PopupWnd2::buildMText()
 	}
 }
 
-void PopupWnd2::updateText(TCHAR *text)
+void PopupWnd2::updateText(wchar_t *text)
 {
 	if (m_lptzText) {
 		replaceStrT(m_lptzText, text);
@@ -775,7 +775,7 @@ void PopupWnd2::updateText(TCHAR *text)
 	m_bTextEmpty = ::isTextEmpty(m_lptzText);
 }
 
-void PopupWnd2::updateTitle(TCHAR *title)
+void PopupWnd2::updateTitle(wchar_t *title)
 {
 	if (m_lptzTitle) {
 		replaceStrT(m_lptzTitle, title);
@@ -831,7 +831,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
-			TCHAR msg[2048];
+			wchar_t msg[2048];
 			GetWindowText(hwnd, msg, _countof(msg));
 			if (mir_wstrlen(msg) == 0) {
 				DestroyWindow(hwnd);
@@ -983,8 +983,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 				if (OpenClipboard(m_hwnd)) {
 					EmptyClipboard();
-					HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (tszText.GetLength() + 1) * sizeof(TCHAR));
-					TCHAR *buffer = (TCHAR *)GlobalLock(clipbuffer);
+					HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (tszText.GetLength() + 1) * sizeof(wchar_t));
+					wchar_t *buffer = (wchar_t *)GlobalLock(clipbuffer);
 					mir_tstrcpy(buffer, tszText);
 					GlobalUnlock(clipbuffer);
 					SetClipboardData(CF_UNICODETEXT, clipbuffer);
@@ -1132,8 +1132,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 	case UM_CHANGEPOPUP:
 		switch (wParam) {
-		case CPT_TEXTW:  updateText((TCHAR *)lParam);       mir_free((void *)lParam); break;
-		case CPT_TITLEW: updateTitle((TCHAR *)lParam);      mir_free((void *)lParam); break;
+		case CPT_TEXTW:  updateText((wchar_t *)lParam);       mir_free((void *)lParam); break;
+		case CPT_TITLEW: updateTitle((wchar_t *)lParam);      mir_free((void *)lParam); break;
 		case CPT_DATAW:  updateData((POPUPDATAW_V2 *)lParam);  mir_free((void *)lParam); break;
 		}
 		update();

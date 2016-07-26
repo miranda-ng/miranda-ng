@@ -19,12 +19,12 @@ struct PopupData
 	HICON hIcon;
 	union {
 		char *pszTitle;
-		TCHAR *ptzTitle;
+		wchar_t *ptzTitle;
 		wchar_t *pwzTitle;
 	};
 	union {
 		char *pszText;
-		TCHAR *ptzText;
+		wchar_t *ptzText;
 		wchar_t *pwzText;
 	};
 	COLORREF colorBack;		// if colorBack and colorText are equal, defaults will be used

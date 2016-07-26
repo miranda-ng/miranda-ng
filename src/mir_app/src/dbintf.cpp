@@ -106,7 +106,7 @@ static INT_PTR srvRegisterPlugin(WPARAM, LPARAM lParam)
 static INT_PTR srvFindPlugin(WPARAM, LPARAM lParam)
 {
 	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
-		int error = arDbPlugins[i]->grokHeader((TCHAR*)lParam);
+		int error = arDbPlugins[i]->grokHeader((wchar_t*)lParam);
 		if (error == ERROR_SUCCESS || error == EGROKPRF_OBSOLETE)
 			return (INT_PTR)arDbPlugins[i];
 	}

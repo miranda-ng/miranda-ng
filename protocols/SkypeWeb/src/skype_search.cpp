@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CSkypeProto::SearchBasic(const TCHAR* id)
+HANDLE CSkypeProto::SearchBasic(const wchar_t* id)
 {
 	ForkThread(&CSkypeProto::SearchBasicThread, (void *)id);
 	return (HANDLE)1;
@@ -28,7 +28,7 @@ void CSkypeProto::SearchBasicThread(void* id)
 	debugLogA("CSkypeProto::OnSearchBasicThread");
 	if (IsOnline())
 	{
-		ptrA szString(mir_urlEncode(T2Utf((TCHAR*)id)));
+		ptrA szString(mir_urlEncode(T2Utf((wchar_t*)id)));
 		SendRequest(new GetSearchRequest(szString, li), &CSkypeProto::OnSearch);
 	}
 }

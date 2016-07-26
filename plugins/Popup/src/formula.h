@@ -72,17 +72,17 @@ public:
 	};
 
 private:
-	TCHAR *m_str;
-	int eval_neq(TCHAR *&s, Args *args, bool *vars) const;
-	int eval_sum(TCHAR *&s, Args *args, bool *vars) const;
-	int eval_mul(TCHAR *&s, Args *args, bool *vars) const;
-	int eval_atom(TCHAR *&s, Args *args, bool *vars) const;
+	wchar_t *m_str;
+	int eval_neq(wchar_t *&s, Args *args, bool *vars) const;
+	int eval_sum(wchar_t *&s, Args *args, bool *vars) const;
+	int eval_mul(wchar_t *&s, Args *args, bool *vars) const;
+	int eval_atom(wchar_t *&s, Args *args, bool *vars) const;
 
 public:
 	Formula() :m_str(mir_tstrdup(L"")) {}
-	Formula(TCHAR *s) :m_str(mir_tstrdup(s)) {}
+	Formula(wchar_t *s) :m_str(mir_tstrdup(s)) {}
 	~Formula() { mir_free(m_str); }
-	void	set(TCHAR *s){ mir_free(m_str); m_str = mir_tstrdup(s); }
+	void	set(wchar_t *s){ mir_free(m_str); m_str = mir_tstrdup(s); }
 	int		eval(Args *args, bool *vars = 0) const;
 };
 

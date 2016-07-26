@@ -24,7 +24,7 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM 
     {
 		TranslateDialogDefault(hwndDlg);
 		SetDlgItemInt(hwndDlg, IDC_PORT, db_get_w(NULL, szModuleName, "Port", 6600), FALSE);
-		TCHAR *tmp = UniGetContactSettingUtf(NULL, szModuleName, "Server", L"127.0.0.1");
+		wchar_t *tmp = UniGetContactSettingUtf(NULL, szModuleName, "Server", L"127.0.0.1");
 		SetDlgItemText(hwndDlg, IDC_SERVER, tmp);
 		mir_free(tmp);
 		tmp = UniGetContactSettingUtf(NULL, szModuleName, "Password", L"");
@@ -47,7 +47,7 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM 
         
       case PSN_APPLY:
         {
-			TCHAR szText[256];
+			wchar_t szText[256];
 			db_set_w(NULL, szModuleName, "Port", (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
 			gbPort = (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE);
 			GetDlgItemText(hwndDlg, IDC_SERVER, szText, _countof(szText));
@@ -71,9 +71,9 @@ int WaMpdOptInit(WPARAM wParam,LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WA_MPD);
-	odp.ptszTitle = LPGENT("Winamp Track");
-	odp.ptszGroup = LPGENT("Plugins");
-	odp.ptszTab = LPGENT("Watrack MPD");
+	odp.pwszTitle = LPGENW("Winamp Track");
+	odp.pwszGroup = LPGENW("Plugins");
+	odp.pwszTab = LPGENW("Watrack MPD");
 	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcWaMpdOpts;
 	Options_AddPage(wParam, &odp);

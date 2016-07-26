@@ -22,12 +22,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
-MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType)
+MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType)
 {
-	TCHAR pszGroup[50]; *pszGroup = '\0';
+	wchar_t pszGroup[50]; *pszGroup = '\0';
 	ptrT groupName(db_get_tsa(NULL, CHAT_MODULE, "AddToGroup"));
 	if (groupName)
-		_tcsncpy_s(pszGroup, groupName, _TRUNCATE);
+		wcsncpy_s(pszGroup, groupName, _TRUNCATE);
 	else
 		mir_tstrcpy(pszGroup, L"Chat rooms");
 
@@ -176,12 +176,12 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE) {
 					if (ProtoServiceExists(szProto, PS_JOINCHAT)) {
 						bEnabledJoin = true;
-						Menu_ModifyItem(hJoinMenuItem, LPGENT("&Join chat"));
+						Menu_ModifyItem(hJoinMenuItem, LPGENW("&Join chat"));
 					}
 				}
 				else {
 					bEnabledJoin = true;
-					Menu_ModifyItem(hJoinMenuItem, LPGENT("&Open chat window"));
+					Menu_ModifyItem(hJoinMenuItem, LPGENW("&Open chat window"));
 				}
 			}
 			bEnabledLeave = ProtoServiceExists(szProto, PS_LEAVECHAT) != 0;
@@ -198,9 +198,9 @@ INT_PTR PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam)
 	return PrebuildContactMenu(wParam, lParam);
 }
 
-BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, TCHAR* fmt, ...)
+BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* fmt, ...)
 {
-	TCHAR szBuf[4096];
+	wchar_t szBuf[4096];
 
 	if (!fmt || !fmt[0] || mir_tstrlen(fmt) > 2000)
 		return FALSE;
@@ -229,7 +229,7 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, TCHAR* fm
 	return TRUE;
 }
 
-MCONTACT FindRoom(const char *pszModule, const TCHAR *pszRoom)
+MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
 {
 	for (MCONTACT hContact = db_find_first(pszModule); hContact; hContact = db_find_next(hContact, pszModule)) {
 		if (!db_get_b(hContact, pszModule, "ChatRoom", 0))

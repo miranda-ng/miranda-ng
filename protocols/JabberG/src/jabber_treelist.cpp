@@ -41,7 +41,7 @@ struct TTreeList_ItemInfo
 
 	struct TTreeList_ItemInfo *parent;
 	int iIcon, iOverlay;
-	LIST<TCHAR> text;
+	LIST<wchar_t> text;
 	LPARAM data;
 	LIST<TTreeList_ItemInfo> subItems;
 
@@ -61,7 +61,7 @@ struct TTreeList_ItemInfo
 struct TTreeList_Data
 {
 	int mode, sortMode;
-	TCHAR *filter;
+	wchar_t *filter;
 	HTREELISTITEM hItemSelected;
 	TTreeList_ItemInfo *root;
 
@@ -178,7 +178,7 @@ void TreeList_SetSortMode(HWND hwnd, int col, BOOL descending)
 	TreeList_Update(hwnd);
 }
 
-void TreeList_SetFilter(HWND hwnd, TCHAR *filter)
+void TreeList_SetFilter(HWND hwnd, wchar_t *filter)
 {
 	TTreeList_Data *data = (TTreeList_Data *)sttTreeList_GeWindowData(hwnd);
 	if (data->filter) mir_free(data->filter);
@@ -199,7 +199,7 @@ HTREELISTITEM TreeList_GetActiveItem(HWND hwnd)
 	return (HTREELISTITEM)lvi.lParam;
 }
 
-HTREELISTITEM TreeList_AddItem(HWND hwnd, HTREELISTITEM hParent, TCHAR *text, LPARAM nodeDdata)
+HTREELISTITEM TreeList_AddItem(HWND hwnd, HTREELISTITEM hParent, wchar_t *text, LPARAM nodeDdata)
 {
 	TTreeList_Data *data = (TTreeList_Data *)sttTreeList_GeWindowData(hwnd);
 	if (!hParent) hParent = data->root;
@@ -239,7 +239,7 @@ void TreeList_MakeFakeParent(HTREELISTITEM hItem, BOOL flag)
 	hItem->flags |= TLIF_MODIFIED;
 }
 
-void TreeList_AppendColumn(HTREELISTITEM hItem, TCHAR *text)
+void TreeList_AppendColumn(HTREELISTITEM hItem, wchar_t *text)
 {
 	hItem->text.insert(mir_tstrdup(text));
 	hItem->flags |= TLIF_MODIFIED;
@@ -509,7 +509,7 @@ static void sttTreeList_FilterItems(HTREELISTITEM hItem, LPARAM data)
 {
 	int i = 0;
 	for (i=0; i < hItem->text.getCount(); i++)
-		if (JabberStrIStr(hItem->text[i], (TCHAR *)data))
+		if (JabberStrIStr(hItem->text[i], (wchar_t *)data))
 			break;
 
 	if (i < hItem->text.getCount()) {

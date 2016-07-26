@@ -47,7 +47,7 @@ bool read_log_file(MCONTACT hContact, TChart& rChart)
 			line.imbue(loc);
 
 			tstring sName;
-			std::getline(line, sName, _T('\t'));
+			std::getline(line, sName, '\t');
 			line >> oDateTime >> dRate;
 			if ((false == line.fail()) && (true == line.eof())) {
 				rChart.AddValue(oDateTime, dRate);
@@ -205,8 +205,8 @@ INT_PTR CALLBACK ChartDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 
 			::SetWindowLongPtr(hDlg, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(hContact));
 
-			static LPCTSTR szSources[] = { LPGENT("Log File"), LPGENT("Miranda's History") };
-			static LPCTSTR szFilters[] = { LPGENT("All"), LPGENT("Last Day"), LPGENT("Last Week"), LPGENT("Last Month"), LPGENT("Last Year"), LPGENT("User-Defined") };
+			static LPCTSTR szSources[] = { LPGENW("Log File"), LPGENW("Miranda's History") };
+			static LPCTSTR szFilters[] = { LPGENW("All"), LPGENW("Last Day"), LPGENW("Last Week"), LPGENW("Last Month"), LPGENW("Last Year"), LPGENW("User-Defined") };
 
 			for (int i = 0; i < sizeof(szSources) / sizeof(szSources[0]); ++i) {
 				LPCTSTR p = TranslateTS(szSources[i]);

@@ -33,7 +33,7 @@ class UploadDialog
 private:
 	static UploadDialog *instance;
 	static mir_cs mutexTabs;
-	TCHAR m_tszToolTipText[1024];
+	wchar_t m_tszToolTipText[1024];
 
 	UploadDialog();
 
@@ -48,9 +48,9 @@ public:
 		bool m_bOptAutosend;
 		int  m_iOptAutoDelete;
 
-		TCHAR m_stzSpeed[64];
-		TCHAR m_stzComplet[64];
-		TCHAR m_stzRemain[64];
+		wchar_t m_stzSpeed[64];
+		wchar_t m_stzComplet[64];
+		wchar_t m_stzRemain[64];
 
 		Tab(GenericJob *Job);
 		~Tab();

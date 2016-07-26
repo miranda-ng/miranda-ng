@@ -144,11 +144,11 @@ extern "C" int __declspec(dllexport) Unload(void)
 INT_PTR RemoveAllService(WPARAM, LPARAM)
 {
 	if (gIniFile[0] == '\0') {
-		MessageBox(NULL, TranslateT("Configuration file could not be found!"), TranslateT(MSGBOX_TITLE), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, TranslateT("Configuration file could not be found!"), TranslateW(MSGBOX_TITLE), MB_OK | MB_ICONERROR);
 		return -1;
 	}
 
-	if (MessageBox(NULL, TranslateT(NOTICE_TEXT), TranslateT(MSGBOX_TITLE), MB_YESNO) == IDYES) {
+	if (MessageBox(NULL, TranslateW(NOTICE_TEXT), TranslateW(MSGBOX_TITLE), MB_YESNO) == IDYES) {
 		SetProtocolsOffline();
 		RemoveUsers();
 		RemoveSettings();
@@ -156,7 +156,7 @@ INT_PTR RemoveAllService(WPARAM, LPARAM)
 		RemoveDirectories();
 		DisablePlugins();
 
-		MessageBox(NULL, TranslateT("Settings are deleted now."), TranslateT(MSGBOX_TITLE), MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, TranslateT("Settings are deleted now."), TranslateW(MSGBOX_TITLE), MB_OK | MB_ICONINFORMATION);
 	}
 
 	return 0;

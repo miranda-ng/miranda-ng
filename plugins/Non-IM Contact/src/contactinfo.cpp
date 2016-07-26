@@ -131,7 +131,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			}
 
 			/* group*/
-			TCHAR *szGroup;
+			wchar_t *szGroup;
 			for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++)
 				SendDlgItemMessage(hwnd, IDC_GROUP, CB_INSERTSTRING, 0, LPARAM(szGroup));
 
@@ -154,8 +154,8 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (db_get_w(hContact, MODNAME, "Timer", 15)) {
 				CheckDlgButton(hwnd, CHK_USE_TIMER, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER), 1);
-				TCHAR string[512];
-				SetDlgItemText(hwnd, IDC_TIMER, _itot(db_get_w(hContact, MODNAME, "Timer", 15), string, 10));
+				wchar_t string[512];
+				SetDlgItemText(hwnd, IDC_TIMER, _itow(db_get_w(hContact, MODNAME, "Timer", 15), string, 10));
 				if (!db_get_w(NULL, MODNAME, "Timer", 1))
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, TranslateT("Non-IM Contact protocol timer is Disabled"));
 				else {
@@ -234,7 +234,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				else db_unset(hContact, MODNAME, "ProgramParamsString");
 
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_GROUP))) {
-					TCHAR text[512];
+					wchar_t text[512];
 					GetDlgItemText(hwnd, IDC_GROUP, text, _countof(text));
 					Clist_GroupCreate(NULL, text);
 					db_set_ts(hContact, "CList", "Group", text);
@@ -253,9 +253,9 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (IsDlgButtonChecked(hwnd, CHK_USE_TIMER)) {
 					if (GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER))) {
-						TCHAR text[512];
+						wchar_t text[512];
 						GetDlgItemText(hwnd, IDC_TIMER, text, _countof(text));
-						db_set_w(hContact, MODNAME, "Timer", (WORD)_ttoi(text));
+						db_set_w(hContact, MODNAME, "Timer", (WORD)_wtoi(text));
 					}
 					else db_set_w(hContact, MODNAME, "Timer", 15);
 				}

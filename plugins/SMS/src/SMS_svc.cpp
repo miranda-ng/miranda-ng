@@ -32,7 +32,7 @@ int LoadModules(void)
 	SET_UID(mi, 0x3ce387db, 0xbaac, 0x490f, 0xac, 0xab, 0x8c, 0xf7, 0xe9, 0xcd, 0x86, 0xa1);
 	mi.position = 300050000;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_SMS);
-	mi.name.t = SMS_SEND_STR;
+	mi.name.w = SMS_SEND_STR;
 	mi.pszService = szServiceFunction;
 	mi.flags = CMIF_TCHAR;
 	Menu_AddMainMenuItem(&mi);
@@ -40,7 +40,7 @@ int LoadModules(void)
 	SET_UID(mi, 0x736e4cff, 0x769e, 0x45dc, 0x8b, 0x78, 0x83, 0xf9, 0xe4, 0xbb, 0x81, 0x9e);
 	mi.position = -2000070000;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_SMS);
-	mi.name.t = SMS_SEND_CM_STR;
+	mi.name.w = SMS_SEND_CM_STR;
 	mi.pszService = szServiceFunction;
 	mi.flags = CMIF_TCHAR;
 	ssSMSSettings.hContactMenuItems[0] = Menu_AddContactMenuItem(&mi);

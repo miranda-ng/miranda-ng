@@ -10,7 +10,7 @@ void BandCtrl::setLayout(int nLayout)
 	SendMessage(m_hBandWnd, BCM_SETLAYOUT, nLayout, 0);
 }
 
-HANDLE BandCtrl::addButton(DWORD dwFlags, HICON hIcon, INT_PTR dwData, const TCHAR *szTooltip, const TCHAR *szText)
+HANDLE BandCtrl::addButton(DWORD dwFlags, HICON hIcon, INT_PTR dwData, const wchar_t *szTooltip, const wchar_t *szText)
 {
 	BCBUTTON bcb;
 

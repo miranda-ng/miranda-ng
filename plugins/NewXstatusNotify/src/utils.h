@@ -23,10 +23,10 @@
 #define UTILS_H
 
 bool CheckMsgWnd(MCONTACT hContact);
-int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSetting, TCHAR *setting, int size, const TCHAR *defaultValue);
-void ShowLog(TCHAR *file);
+int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSetting, wchar_t *setting, int size, const wchar_t *defaultValue);
+void ShowLog(wchar_t *file);
 BOOL StatusHasAwayMessage(char *szProto, int status);
-void LogToFile(TCHAR *stzText);
-void AddCR(CMString &str, const TCHAR *statusmsg);
+void LogToFile(wchar_t *stzText);
+void AddCR(CMString &str, const wchar_t *statusmsg);
 
 #endif

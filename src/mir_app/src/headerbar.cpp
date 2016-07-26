@@ -132,10 +132,10 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 	PAINTSTRUCT ps;
 
 	int titleLength = GetWindowTextLength(hwndDlg) + 1;
-	TCHAR *szTitle = (TCHAR *)mir_alloc(sizeof(TCHAR) * titleLength);
+	wchar_t *szTitle = (wchar_t *)mir_alloc(sizeof(wchar_t) * titleLength);
 	GetWindowText(hwndDlg, szTitle, titleLength);
 
-	TCHAR *szSubTitle = _tcschr(szTitle, _T('\n'));
+	wchar_t *szSubTitle = wcschr(szTitle, '\n');
 	if (szSubTitle)
 		*szSubTitle++ = 0;
 

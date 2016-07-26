@@ -2,7 +2,7 @@
 
 int	hLangpack;
 HINSTANCE g_hInstance;
-TCHAR	*profilePath;
+wchar_t	*profilePath;
 HANDLE	hFolder;
 char g_szMirVer[100];
 
@@ -34,7 +34,7 @@ static INT_PTR ABService(WPARAM, LPARAM)
 
 static INT_PTR DBSaveAs(WPARAM, LPARAM)
 {
-	TCHAR fname_buff[MAX_PATH], tszFilter[200];
+	wchar_t fname_buff[MAX_PATH], tszFilter[200];
 	OPENFILENAME ofn = { 0 };
 	CallService(MS_DB_GETPROFILENAMET, _countof(fname_buff), (LPARAM)fname_buff);
 
@@ -65,7 +65,7 @@ static int FoldersGetBackupPath(WPARAM, LPARAM)
 static int ModulesLoad(WPARAM, LPARAM)
 {
 	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500100000);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Database"), 500100000);
 
 	SET_UID(mi, 0x1439b1db, 0x7d95, 0x495b, 0xbf, 0x5, 0x3d, 0x21, 0xc1, 0xeb, 0xf7, 0x58);
 	mi.name.a = LPGEN("Backup profile");

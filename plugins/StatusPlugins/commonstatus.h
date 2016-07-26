@@ -28,7 +28,6 @@
 #include <shlobj.h>
 #include <uxtheme.h>
 #include <stdio.h>
-#include <tchar.h>
 
 #include <newpluginapi.h>
 #include <m_system.h>
@@ -71,7 +70,7 @@
 static int statusModeList[] = { ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND, ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE, ID_STATUS_ONTHEPHONE, ID_STATUS_OUTTOLUNCH };
 static int statusModePf2List[] = { PF2_OFFLINE, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND, PF2_HEAVYDND, PF2_FREECHAT, PF2_INVISIBLE, PF2_ONTHEPHONE, PF2_OUTTOLUNCH };
 
-TCHAR *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int status);
+wchar_t *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int status);
 int GetActualStatus(PROTOCOLSETTINGEX *protoSetting);
 int InitCommonStatus();
 bool IsSuitableProto(PROTOACCOUNT *pa);

@@ -49,7 +49,7 @@ typedef struct tagOPTIONS {
 	BYTE BlinkIcon;
 	BYTE BlinkIcon_Status;
 	BYTE BlinkIcon_ForMsgs;
-	TCHAR LogFilePath[MAX_PATH];
+	wchar_t LogFilePath[MAX_PATH];
 	// IDD_AUTODISABLE
 	BYTE OnlyGlobalChanges;
 	BYTE DisableSoundGlobally;
@@ -86,18 +86,18 @@ typedef struct tagTEMPLATES {
 	BYTE PopupSMsgFlags;
 	BYTE LogXFlags;
 	BYTE LogSMsgFlags;
-	TCHAR PopupXstatusChanged[256];
-	TCHAR PopupXstatusRemoved[256];
-	TCHAR PopupXMsgChanged[256];
-	TCHAR PopupXMsgRemoved[256];
-	TCHAR LogXstatusChanged[256];
-	TCHAR LogXstatusRemoved[256];
-	TCHAR LogXMsgChanged[256];
-	TCHAR LogXMsgRemoved[256];
-	TCHAR LogXstatusOpening[256];
-	TCHAR LogSMsgChanged[256];
-	TCHAR LogSMsgRemoved[256];
-	TCHAR LogSMsgOpening[256];
+	wchar_t PopupXstatusChanged[256];
+	wchar_t PopupXstatusRemoved[256];
+	wchar_t PopupXMsgChanged[256];
+	wchar_t PopupXMsgRemoved[256];
+	wchar_t LogXstatusChanged[256];
+	wchar_t LogXstatusRemoved[256];
+	wchar_t LogXMsgChanged[256];
+	wchar_t LogXMsgRemoved[256];
+	wchar_t LogXstatusOpening[256];
+	wchar_t LogSMsgChanged[256];
+	wchar_t LogSMsgRemoved[256];
+	wchar_t LogSMsgOpening[256];
 } TEMPLATES;
 
 int OptionsInitialize(WPARAM wParam, LPARAM lParam);

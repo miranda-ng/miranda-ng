@@ -20,6 +20,8 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+#include <tchar.h>
+
 HMODULE hDwmapiDll = 0;
 HRESULT (WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind) = 0;
 
@@ -150,7 +152,7 @@ unsigned int CALLBACK MessagePumpThread(void*)
 		case MUM_GOTSTATUS:
 			{
 				MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
-				TCHAR *swzMsg = (TCHAR *)hwndMsg.lParam;
+				wchar_t *swzMsg = (wchar_t *)hwndMsg.lParam;
 
 				if (opt.bWaitForContent && !bStatusMsgReady && clcitex && clcitex->hItem == (HANDLE)hContact) {
 					if (WaitForContentTimerID) {
@@ -282,7 +284,7 @@ INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
 
 	if (wParam) // wParam is char pointer containing text - e.g. status bar tooltip
 	{
-		clcit2->swzText = mir_tstrdup((TCHAR *)wParam);
+		clcit2->swzText = mir_tstrdup((wchar_t *)wParam);
 		GetCursorPos(&clcit2->ptCursor);
 	}
 
@@ -313,7 +315,7 @@ int ProtoAck(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (ack->type == ACKTYPE_AWAYMSG) {
-		TCHAR *tszMsg = (TCHAR*)ack->lParam;
+		wchar_t *tszMsg = (wchar_t*)ack->lParam;
 		if (mir_tstrlen(tszMsg))
 			PostMPMessage(MUM_GOTSTATUS, (WPARAM)ack->hContact, (LPARAM)mir_tstrdup(tszMsg));
 	}

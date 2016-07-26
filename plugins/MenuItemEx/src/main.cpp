@@ -30,16 +30,16 @@ int hLangpack;
 struct {
 	char *module;
 	char *name;
-	TCHAR *fullName;
+	wchar_t *fullName;
 	char flag;
 }
 static const statusMsg[] = {
-	{ "CList", "StatusMsg", LPGENT("Status message"), 1 },
-	{ 0, "XStatusName", LPGENT("xStatus title"), 4 },
-	{ 0, "XStatusMsg", LPGENT("xStatus message"), 2 },
-	{ "AdvStatus", "tune/text", LPGENT("Listening to"), 8 },
-	{ "AdvStatus", "activity/title", LPGENT("Activity title"), 8 },
-	{ "AdvStatus", "activity/text", LPGENT("Activity text"), 8 }
+	{ "CList", "StatusMsg", LPGENW("Status message"), 1 },
+	{ 0, "XStatusName", LPGENW("xStatus title"), 4 },
+	{ 0, "XStatusMsg", LPGENW("xStatus message"), 2 },
+	{ "AdvStatus", "tune/text", LPGENW("Listening to"), 8 },
+	{ "AdvStatus", "activity/title", LPGENW("Activity title"), 8 },
+	{ "AdvStatus", "activity/text", LPGENW("Activity text"), 8 }
 };
 
 static IconItem iconList[] = {
@@ -61,19 +61,19 @@ static IconItem overlayIconList[] = {
 };
 
 struct {
-	TCHAR* name;
+	wchar_t* name;
 	int type;
 	int icon;
 }
 static const ii[] = {
-	{ LPGENT("All"), IGNOREEVENT_ALL, SKINICON_OTHER_FILLEDBLOB },
-	{ LPGENT("Messages"), IGNOREEVENT_MESSAGE, SKINICON_EVENT_MESSAGE },
-	{ LPGENT("URL"), IGNOREEVENT_URL, SKINICON_EVENT_URL },
-	{ LPGENT("Files"), IGNOREEVENT_FILE, SKINICON_EVENT_FILE },
-	{ LPGENT("User Online"), IGNOREEVENT_USERONLINE, SKINICON_OTHER_USERONLINE },
-	{ LPGENT("Authorization"), IGNOREEVENT_AUTHORIZATION, SKINICON_AUTH_REQUEST },
-	{ LPGENT("You Were Added"), IGNOREEVENT_YOUWEREADDED, SKINICON_AUTH_ADD },
-	{ LPGENT("Typing Notify"), IGNOREEVENT_TYPINGNOTIFY, SKINICON_OTHER_TYPING }
+	{ LPGENW("All"), IGNOREEVENT_ALL, SKINICON_OTHER_FILLEDBLOB },
+	{ LPGENW("Messages"), IGNOREEVENT_MESSAGE, SKINICON_EVENT_MESSAGE },
+	{ LPGENW("URL"), IGNOREEVENT_URL, SKINICON_EVENT_URL },
+	{ LPGENW("Files"), IGNOREEVENT_FILE, SKINICON_EVENT_FILE },
+	{ LPGENW("User Online"), IGNOREEVENT_USERONLINE, SKINICON_OTHER_USERONLINE },
+	{ LPGENW("Authorization"), IGNOREEVENT_AUTHORIZATION, SKINICON_AUTH_REQUEST },
+	{ LPGENW("You Were Added"), IGNOREEVENT_YOUWEREADDED, SKINICON_AUTH_ADD },
+	{ LPGENW("Typing Notify"), IGNOREEVENT_TYPINGNOTIFY, SKINICON_OTHER_TYPING }
 };
 
 PLUGININFOEX pluginInfoEx = {
@@ -203,10 +203,10 @@ void RenameDbProto(MCONTACT hContact, MCONTACT hContactNew, char* oldName, char*
 	FreeModuleSettingLL(&settinglist);
 } // end code from dbe++
 
-void ShowPopup(char* szText, TCHAR* tszText, MCONTACT hContact)
+void ShowPopup(char* szText, wchar_t* tszText, MCONTACT hContact)
 {
 	POPUPDATAT ppd = { 0 };
-	TCHAR* text = 0;
+	wchar_t* text = 0;
 
 	if (tszText)
 		text = mir_tstrdup(tszText);
@@ -216,8 +216,8 @@ void ShowPopup(char* szText, TCHAR* tszText, MCONTACT hContact)
 
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	ppd.lchContact = hContact;
-	_tcsncpy(ppd.lptzContactName, pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME - 1);
-	_tcsncpy(ppd.lptzText, text, MAX_SECONDLINE - 1);
+	wcsncpy(ppd.lptzContactName, pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME - 1);
+	wcsncpy(ppd.lptzText, text, MAX_SECONDLINE - 1);
 	ppd.iSeconds = -1;
 
 	PUAddPopupT(&ppd);
@@ -243,7 +243,7 @@ void CopyToClipboard(HWND, LPSTR pszMsg, LPTSTR ptszMsg)
 	if (buf == 0)
 		return;
 
-	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(buf) + 1)*sizeof(TCHAR));
+	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(buf) + 1)*sizeof(wchar_t));
 	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
 	mir_tstrcpy(lptstrCopy, buf);
 	mir_free(buf);
@@ -401,7 +401,7 @@ INT_PTR CALLBACK AuthReqWndProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpara
 		switch (LOWORD(wparam)) {
 		case IDOK:
 		{
-			TCHAR tszReason[256] = { 0 };
+			wchar_t tszReason[256] = { 0 };
 			GetDlgItemText(hdlg, IDC_REASON, tszReason, _countof(tszReason));
 			ProtoChainSend(hcontact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
 		} // fall through
@@ -497,7 +497,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 		hIconCID = hIcon;
 	}
 
-	TCHAR buffer[256];
+	wchar_t buffer[256];
 	char szID[256];
 	GetID(hContact, szProto, (LPSTR)&szID, _countof(szID));
 	if (szID[0])  {
@@ -510,7 +510,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 			mir_sntprintf(buffer, L"%s [%S]", TranslateT("Copy ID"), szID);
 			Menu_ModifyItem(hmenuCopyID, buffer, hIconCID);
 		}
-		else Menu_ModifyItem(hmenuCopyID, LPGENT("Copy ID"), hIconCID);
+		else Menu_ModifyItem(hmenuCopyID, LPGENW("Copy ID"), hIconCID);
 	}
 	else Menu_ShowItem(hmenuCopyID, false);
 
@@ -610,7 +610,7 @@ INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 {
 	MCONTACT hContact = (MCONTACT) wparam;
 	char par[32];
-	TCHAR buffer[2048];
+	wchar_t buffer[2048];
 	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
 
 	LPSTR module = GetContactProto((MCONTACT)wparam);
@@ -626,13 +626,13 @@ INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 
 		LPTSTR msg = db_get_tsa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
 		if (msg) {
-			if (_tcsclen(msg)) {
+			if (wcslen(msg)) {
 				if (flags & VF_SMNAME) {
-					mir_tstrncat(buffer, TranslateTS(statusMsg[i].fullName), (_countof(buffer) - _tcsclen(buffer) - 1));
-					mir_tstrncat(buffer, L": ", (_countof(buffer) - _tcsclen(buffer) - 1));
+					mir_tstrncat(buffer, TranslateTS(statusMsg[i].fullName), (_countof(buffer) - wcslen(buffer) - 1));
+					mir_tstrncat(buffer, L": ", (_countof(buffer) - wcslen(buffer) - 1));
 				}
-				mir_tstrncat(buffer, msg, (_countof(buffer) - _tcsclen(buffer) - 1));
-				mir_tstrncat(buffer, L"\r\n", (_countof(buffer) - _tcsclen(buffer) - 1));
+				mir_tstrncat(buffer, msg, (_countof(buffer) - wcslen(buffer) - 1));
+				mir_tstrncat(buffer, L"\r\n", (_countof(buffer) - wcslen(buffer) - 1));
 			}
 			mir_free(msg);
 		}
@@ -733,12 +733,12 @@ INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-static HGENMENU AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD flag, char* service, int pos, INT_PTR param)
+static HGENMENU AddSubmenuItem(HGENMENU hRoot, wchar_t* name, HICON icon, DWORD flag, char* service, int pos, INT_PTR param)
 {
 	CMenuItem mi;
 	mi.root = hRoot;
 	mi.position = pos;
-	mi.name.t = name;
+	mi.name.w = name;
 	mi.hIcolibItem = icon;
 	mi.flags = CMIF_UNICODE | CMIF_UNMOVABLE | flag;
 	mi.pszService = service;
@@ -779,9 +779,9 @@ int BuildMenu(WPARAM wparam, LPARAM)
 	if (bEnabled) {
 		BYTE bHidden = db_get_b(hContact, "CList", "Hidden", 0);
 		if (bHidden)
-			Menu_ModifyItem(hmenuHide, LPGENT("Show in list"), IcoLib_GetIcon("miex_showil"));
+			Menu_ModifyItem(hmenuHide, LPGENW("Show in list"), IcoLib_GetIcon("miex_showil"));
 		else 
-			Menu_ModifyItem(hmenuHide, LPGENT("Hide from list"), IcoLib_GetIcon("miex_hidefl"));
+			Menu_ModifyItem(hmenuHide, LPGENW("Hide from list"), IcoLib_GetIcon("miex_hidefl"));
 	}
 
 	bEnabled = bShowAll || (flags & VF_IGN);
@@ -903,7 +903,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 	bbd.pszModuleName = MODULENAME;
 	bbd.dwButtonID = 0;
 	bbd.dwDefPos = 1000;
-	bbd.ptszTooltip = LPGENT("Browse Received Files");
+	bbd.ptszTooltip = LPGENW("Browse Received Files");
 	bbd.bbbFlags = BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = IcoLib_GetIconHandle("miex_recfiles");
 	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
@@ -965,25 +965,25 @@ static int PluginInit(WPARAM, LPARAM)
 
 	SET_UID(mi, 0x2616aa3f, 0x535a, 0x464c, 0xbd, 0x26, 0x1b, 0x15, 0xbe, 0xfa, 0x1f, 0xf);
 	mi.position = 120000;
-	mi.name.t = LPGENT("Always visible");
+	mi.name.w = LPGENW("Always visible");
 	mi.pszService = MS_SETVIS;
 	hmenuVis = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x7d93de78, 0xb1c, 0x4c51, 0x8c, 0x88, 0x33, 0x72, 0x12, 0xb5, 0xb8, 0xe7);
 	mi.position++;
-	mi.name.t = LPGENT("Never visible");
+	mi.name.w = LPGENW("Never visible");
 	mi.pszService = MS_SETINVIS;
 	hmenuOff = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x724f6ac0, 0x7f69, 0x407d, 0x85, 0x98, 0x9c, 0x80, 0x32, 0xdb, 0x66, 0x2d);
 	mi.position++;
-	mi.name.t = LPGENT("Hide from list");
+	mi.name.w = LPGENW("Hide from list");
 	mi.pszService = MS_HIDE;
 	hmenuHide = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0xe09c04d4, 0xc6b1, 0x4048, 0x98, 0xd6, 0xbe, 0x11, 0xf6, 0x91, 0x15, 0xba);
 	mi.position++;
-	mi.name.t = LPGENT("Ignore");
+	mi.name.w = LPGENW("Ignore");
 	mi.pszService = 0;
 	mi.hIcolibItem = IcoLib_GetIcon("miex_ignore");
 	hmenuIgnore = Menu_AddContactMenuItem(&mi);
@@ -997,11 +997,11 @@ static int PluginInit(WPARAM, LPARAM)
 	ood.cbSize = sizeof(ood);
 	ood.pszGroup = "Contacts";
 	ood.pszPage = "Ignore";
-	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), IcoLib_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (INT_PTR)&ood);
+	AddSubmenuItem(hmenuIgnore, LPGENW("Open ignore settings"), IcoLib_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (INT_PTR)&ood);
 
 	SET_UID(mi, 0x820f4637, 0xbcc4, 0x46b7, 0x9c, 0x67, 0xf9, 0x69, 0xed, 0xc2, 0x46, 0xa2);
 	mi.position++;
-	mi.name.t = LPGENT("Copy to Account");
+	mi.name.w = LPGENW("Copy to Account");
 	mi.pszService = MS_PROTO;
 	mi.hIcolibItem = IcoLib_GetIcon("miex_protocol");
 	hmenuProto = Menu_AddContactMenuItem(&mi);
@@ -1012,47 +1012,47 @@ static int PluginInit(WPARAM, LPARAM)
 
 	SET_UID(mi, 0x3f031688, 0xe947, 0x4aba, 0xa3, 0xc4, 0xa7, 0x2c, 0xd0, 0xda, 0x88, 0xb4);
 	mi.position++;
-	mi.name.t = LPGENT("Send 'You were added'");
+	mi.name.w = LPGENW("Send 'You were added'");
 	mi.pszService = MS_ADDED;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_AUTH_ADD);
 	hmenuAdded = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x332c5564, 0x6283, 0x43ff, 0xa2, 0xfc, 0x58, 0x29, 0x27, 0x83, 0xea, 0x1a);
 	mi.position++;
-	mi.name.t = LPGENT("Request authorization");
+	mi.name.w = LPGENW("Request authorization");
 	mi.pszService = MS_AUTHREQ;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_AUTH_REQUEST);
 	hmenuAuthReq = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x92826bf6, 0xd44c, 0x4dc2, 0xb2, 0xdd, 0xfe, 0xaf, 0x9b, 0x86, 0xe1, 0x53);
 	mi.position++;
-	mi.name.t = LPGENT("Copy ID");
+	mi.name.w = LPGENW("Copy ID");
 	mi.pszService = MS_COPYID;
 	hmenuCopyID = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x54d45bf1, 0x1c6d, 0x49c9, 0xbd, 0xde, 0x63, 0xb2, 0x3d, 0xb0, 0x89, 0xbf);
 	mi.position++;
-	mi.name.t = LPGENT("Browse Received Files");
+	mi.name.w = LPGENW("Browse Received Files");
 	mi.pszService = MS_RECVFILES;
 	mi.hIcolibItem = IcoLib_GetIcon("miex_recfiles");
 	hmenuRecvFiles = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0xf750f36b, 0x284f, 0x4841, 0x83, 0x18, 0xc7, 0x10, 0x4, 0x73, 0xea, 0x22);
 	mi.position++;
-	mi.name.t = LPGENT("Copy Status Message");
+	mi.name.w = LPGENW("Copy Status Message");
 	mi.pszService = MS_STATUSMSG;
 	mi.hIcolibItem = NULL;
 	hmenuStatusMsg = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x3847bfcd, 0xfcd5, 0x4435, 0xa6, 0x54, 0x2e, 0x9, 0xc5, 0xba, 0xcf, 0x71);
 	mi.position++;
-	mi.name.t = LPGENT("Copy IP");
+	mi.name.w = LPGENW("Copy IP");
 	mi.pszService = MS_COPYIP;
 	hmenuCopyIP = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x8c6ad48, 0x882d, 0x47ed, 0xa6, 0x6e, 0xba, 0x26, 0xa3, 0x50, 0x17, 0x82);
 	mi.position++;
-	mi.name.t = LPGENT("Copy MirVer");
+	mi.name.w = LPGENW("Copy MirVer");
 	mi.pszService = MS_COPYMIRVER;
 	hmenuCopyMirVer = Menu_AddContactMenuItem(&mi);
 

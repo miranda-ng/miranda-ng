@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url, std::string *notification_id, const char *icon)
+HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* info, MCONTACT contact, DWORD flags, std::string *url, std::string *notification_id, const char *icon)
 {
 	if (title == NULL || info == NULL)
 		return NULL;
@@ -83,8 +83,8 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 				}*/
 
 			POPUPDATACLASS pd = { sizeof(pd) };
-			pd.ptszTitle = title;
-			pd.ptszText = info;
+			pd.pwszTitle = title;
+			pd.pwszText = info;
 			pd.pszClassName = name;
 			pd.hContact = contact;
 			if (icon != NULL) {

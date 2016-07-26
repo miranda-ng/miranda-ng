@@ -108,8 +108,8 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 	CSametimeProto* proto = getProtoFromMwConference(conf);
 	proto->debugLog(L"mwServiceConf_conf_opened() start");
 
-	TCHAR* tszConfId = mir_utf8decodeT(mwConference_getName(conf));
-	TCHAR* tszConfTitle = mir_utf8decodeT(mwConference_getTitle(conf));
+	wchar_t* tszConfId = mir_utf8decodeT(mwConference_getName(conf));
+	wchar_t* tszConfTitle = mir_utf8decodeT(mwConference_getTitle(conf));
 
 	// create new chat session
 	GCSESSION gcs = { sizeof(gcs) };
@@ -141,8 +141,8 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 	for (;user; user=user->next) {
 		proto->debugLog(L"mwServiceConf_conf_opened() add user");
 
-		TCHAR* tszUserName = mir_utf8decodeT(((mwLoginInfo*)user->data)->user_name);
-		TCHAR* tszUserId = mir_utf8decodeT(((mwLoginInfo*)user->data)->login_id);
+		wchar_t* tszUserName = mir_utf8decodeT(((mwLoginInfo*)user->data)->user_name);
+		wchar_t* tszUserId = mir_utf8decodeT(((mwLoginInfo*)user->data)->login_id);
 		gce.ptszNick = tszUserName;
 		gce.ptszUID = tszUserId;
 		gce.bIsMe = (strcmp(((mwLoginInfo*)user->data)->login_id, proto->my_login_info->login_id) == 0);
@@ -173,7 +173,7 @@ void mwServiceConf_conf_closed(mwConference* conf, guint32 reason)
 	CSametimeProto* proto = getProtoFromMwConference(conf);
 	proto->debugLog(L"mwServiceConf_conf_closed() start");
 
-	TCHAR* tszConfId = mir_utf8decodeT(mwConference_getName(conf));
+	wchar_t* tszConfId = mir_utf8decodeT(mwConference_getName(conf));
 
 	GCDEST gcd = { proto->m_szModuleName };
 	gcd.ptszID = tszConfId;
@@ -261,7 +261,7 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 	CSametimeProto* proto = getProtoFromMwConference(conf);
 	proto->debugLog(L"mwServiceConf_on_text() start");
 
-	TCHAR* tszConfId = mir_utf8decodeT(mwConference_getName(conf));
+	wchar_t* tszConfId = mir_utf8decodeT(mwConference_getName(conf));
 
 	GCDEST gcd = { proto->m_szModuleName };
 	gcd.ptszID = tszConfId;
@@ -270,9 +270,9 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 
-	TCHAR* textT = mir_utf8decodeT(what);
-	TCHAR* tszUserName = mir_utf8decodeT(user->user_name);
-	TCHAR* tszUserId = mir_utf8decodeT(user->login_id);
+	wchar_t* textT = mir_utf8decodeT(what);
+	wchar_t* tszUserName = mir_utf8decodeT(user->user_name);
+	wchar_t* tszUserId = mir_utf8decodeT(user->login_id);
 	gce.ptszText = textT;
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;
@@ -319,7 +319,7 @@ void CSametimeProto::TerminateConference(char* name)
 	for (;conf;conf = conf->next) {
 		if (strcmp(name, mwConference_getName((mwConference*)conf->data)) == 0) {
 
-			TCHAR* idt = mir_utf8decodeT(name);
+			wchar_t* idt = mir_utf8decodeT(name);
 			GCDEST gcd = {m_szModuleName, idt, GC_EVENT_CONTROL};
 
 			GCEVENT gce = { sizeof(gce), &gcd };
@@ -341,7 +341,7 @@ int CSametimeProto::GcEventHook(WPARAM wParam, LPARAM lParam) {
 
 	GList *conferences = mwServiceConference_getConferences(service_conference);
 	for (GList *conf = conferences;conf;conf = conf->next) {
-		TCHAR* tszConfId = mir_utf8decodeT(mwConference_getName((mwConference*)conf->data));
+		wchar_t* tszConfId = mir_utf8decodeT(mwConference_getName((mwConference*)conf->data));
 		if (mir_tstrcmp(gch->pDest->ptszID, tszConfId) == 0) {
 			switch(gch->pDest->iType) {
 			case GC_USER_MESSAGE:
@@ -405,8 +405,8 @@ INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM lParam)
 	mwAwareIdBlock id_block;
 	mwIdBlock idb;
 	if (my_login_info && GetAwareIdFromContact(hContact, &id_block)) {
-		TCHAR title[512];
-		TCHAR* ts = mir_utf8decodeT(my_login_info->user_name);
+		wchar_t title[512];
+		wchar_t* ts = mir_utf8decodeT(my_login_info->user_name);
 		mir_sntprintf(title, TranslateT("%s's conference"), ts);
 		mir_free(ts);
 
@@ -509,13 +509,13 @@ void CSametimeProto::InitConferenceMenu()
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
 	
 	SET_UID(mi, 0x98cf8a8c, 0x75ba, 0x46f2, 0xa3, 0x35, 0x65, 0x46, 0x4a, 0x38, 0x20, 0x7d);
-	mi.name.t = LPGENT("Leave conference");
+	mi.name.w = LPGENW("Leave conference");
 	mi.pszService = MS_SAMETIME_MENULEAVECHAT;
 	mi.hIcolibItem = GetIconHandle(IDI_ICON_LEAVE);
 	hLeaveChatMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	SET_UID(mi, 0x45501e10, 0x2914, 0x4daa, 0xb4, 0xcf, 0x83, 0x8a, 0x6a, 0x14, 0xd, 0x7);
-	mi.name.t = LPGENT("Start conference");
+	mi.name.w = LPGENW("Start conference");
 	mi.pszService = MS_SAMETIME_MENUCREATECHAT;
 	mi.hIcolibItem = GetIconHandle(IDI_ICON_INVITE);
 	hCreateChatMenuItem = Menu_AddContactMenuItem(&mi);

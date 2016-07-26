@@ -119,7 +119,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 
 #define DEFAULT_SKIN_FOLDER		"Skins\\Modern contact list"
-extern TCHAR SkinsFolder[MAX_PATH];
+extern wchar_t SkinsFolder[MAX_PATH];
 
 //macros to free data and set it pointer to NULL
 #define mir_free_and_nil(x) {mir_free((void*)x); x=NULL;}
@@ -224,7 +224,7 @@ int AniAva_InitModule();								   // HAVE TO BE AFTER GDI+ INITIALIZED
 int AniAva_UnloadModule();
 int AniAva_UpdateOptions();								   //reload options, //hot enable/disable engine
 
-int AniAva_AddAvatar(MCONTACT hContact, TCHAR * szFilename, int width, int heigth);  // adds avatars to be displayed
+int AniAva_AddAvatar(MCONTACT hContact, wchar_t * szFilename, int width, int heigth);  // adds avatars to be displayed
 int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha);	   // update avatars pos
 int AniAva_InvalidateAvatarPositions(MCONTACT hContact);	   // reset positions of avatars to be drawn (still be painted at same place)
 int AniAva_RemoveInvalidatedAvatars();					   // all avatars without validated position will be stop painted and probably removed

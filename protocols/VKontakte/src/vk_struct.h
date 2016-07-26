@@ -81,17 +81,17 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest*, const TCHAR_PARAM&);
 
 struct CVkFileUploadParam : public MZeroedObject {
 	enum VKFileType { typeInvalid, typeImg, typeAudio, typeDoc, typeNotSupported };
-	TCHAR *FileName;
-	TCHAR *Desc;
+	wchar_t *FileName;
+	wchar_t *Desc;
 	char *atr;
 	char *fname;
 	MCONTACT hContact;
 	VKFileType filetype;
 
-	CVkFileUploadParam(MCONTACT _hContact, const TCHAR *_desc, TCHAR **_files);
+	CVkFileUploadParam(MCONTACT _hContact, const wchar_t *_desc, wchar_t **_files);
 	~CVkFileUploadParam();
 	VKFileType GetType();
-	__forceinline bool IsAccess() { return ::_taccess(FileName, 0) == 0; }
+	__forceinline bool IsAccess() { return ::_waccess(FileName, 0) == 0; }
 	__forceinline char* atrName() { GetType();  return atr; }
 	__forceinline char* fileName() { GetType();  return fname; }
 };
@@ -203,9 +203,9 @@ struct CVkUserInfo : public MZeroedObject {
 enum VKObjType { vkNull, vkPost, vkPhoto, vkVideo, vkComment, vkTopic, vkUsers, vkCopy, vkInvite };
 
 struct CVKNotification {
-	TCHAR *ptszType;
+	wchar_t *ptszType;
 	VKObjType vkParent, vkFeedback;
-	TCHAR *ptszTranslate;
+	wchar_t *ptszTranslate;
 };
 
 struct CVKNewsItem : public MZeroedObject {
@@ -237,7 +237,7 @@ enum BBCSupport : BYTE { bbcNo, bbcBasic, bbcAdvanced };
 struct CVKBBCItem {
 	VKBBCType vkBBCType;
 	BBCSupport vkBBCSettings;
-	TCHAR *ptszTempate;
+	wchar_t *ptszTempate;
 };
 
 struct CVKChatContactTypingParam {
@@ -252,12 +252,12 @@ struct CVKChatContactTypingParam {
 
 struct CVKInteres {
 	const char *szField;
-	TCHAR *ptszTranslate;
+	wchar_t *ptszTranslate;
 };
 
 struct CVKLang { 
-	TCHAR *szCode; 
-	TCHAR *szDescription; 
+	wchar_t *szCode; 
+	wchar_t *szDescription; 
 };
 
 enum MarkMsgReadOn : BYTE { markOnRead, markOnReceive, markOnReply, markOnTyping };
@@ -266,12 +266,12 @@ enum MusicSendMetod : BYTE { sendNone, sendStatusOnly, sendBroadcastOnly, sendBr
 enum IMGBBCSypport : BYTE { imgNo, imgFullSize, imgPreview130, imgPreview604 };
 
 struct CVKSync {
-	const TCHAR *type;
+	const wchar_t *type;
 	SyncHistoryMetod data;
 };
 
 struct CVKMarkMsgRead {
-	const TCHAR *type;
+	const wchar_t *type;
 	MarkMsgReadOn data;
 };
 
@@ -351,9 +351,9 @@ struct CVKOptions {
 	CMOption<DWORD> iInvisibleInterval;
 	CMOption<DWORD> iMaxFriendsCount;
 
-	CMOption<TCHAR*> ptszDefaultGroup;
-	CMOption<TCHAR*> ptszReturnChatMessage;
-	CMOption<TCHAR*> ptszVKLang;
+	CMOption<wchar_t*> ptszDefaultGroup;
+	CMOption<wchar_t*> ptszReturnChatMessage;
+	CMOption<wchar_t*> ptszVKLang;
 
 	CVKOptions(PROTO_INTERFACE *proto);
 	

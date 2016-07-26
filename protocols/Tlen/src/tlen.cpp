@@ -335,7 +335,7 @@ void TlenProtocol::initMenuItems()
 	hMenuContactGrantAuth = Menu_AddContactMenuItem(&mi, m_szModuleName);
 }
 
-TlenProtocol* tlenProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
+TlenProtocol* tlenProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
 {
 	TlenProtocol* ppro = new TlenProtocol(pszProtoName, tszUserName);
 	return ppro;

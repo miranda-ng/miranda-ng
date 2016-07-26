@@ -31,7 +31,7 @@ void CToxCallDlgBase::SetIcon(const char *name)
 	Window_SetIcon_IcoLib(m_hwnd, IcoLib_GetIconHandle(iconName));
 }
 
-void CToxCallDlgBase::SetTitle(const TCHAR *title)
+void CToxCallDlgBase::SetTitle(const wchar_t *title)
 {
 	SetWindowText(m_hwnd, title);
 }
@@ -51,10 +51,10 @@ void CToxIncomingCall::OnInitDialog()
 	CToxCallDlgBase::OnInitDialog();
 	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "IncomingCallWindow_");
 
-	TCHAR *nick = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *nick = pcli->pfnGetContactDisplayName(hContact, 0);
 	from.SetText(nick);
 
-	TCHAR title[MAX_PATH];
+	wchar_t title[MAX_PATH];
 	mir_sntprintf(title, TranslateT("Incoming call from %s"), nick);
 	SetTitle(title);
 	SetIcon("audio_ring");
@@ -105,10 +105,10 @@ void CToxOutgoingCall::OnInitDialog()
 	CToxCallDlgBase::OnInitDialog();
 	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "OutgoingCallWindow_");
 
-	TCHAR *nick = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *nick = pcli->pfnGetContactDisplayName(hContact, 0);
 	to.SetText(nick);
 
-	TCHAR title[MAX_PATH];
+	wchar_t title[MAX_PATH];
 	mir_sntprintf(title, TranslateT("Outgoing call to %s"), nick);
 	SetTitle(title);
 	SetIcon("audio_end");
@@ -147,7 +147,7 @@ void CToxOutgoingCall::OnCall(CCtrlBase*)
 	//mir_free(cSettings);
 
 	char *message = NULL;
-	TCHAR title[MAX_PATH];
+	wchar_t title[MAX_PATH];
 	if (GetWindowText(m_hwnd, title, _countof(title)))
 		message = mir_utf8encodeT(title);
 	else
@@ -216,7 +216,7 @@ void CToxCallDialog::OnClose()
 	{
 		debugLogA(__FUNCTION__": failed to get input device caps (%d)", error);
 
-		TCHAR errorMessage[MAX_PATH];
+		wchar_t errorMessage[MAX_PATH];
 		waveInGetErrorText(error, errorMessage, _countof(errorMessage));
 		CToxProto::ShowNotification(
 			TranslateT("Unable to find input audio device"),
@@ -315,7 +315,7 @@ void CToxProto::OnFriendCall(ToxAV *toxAV, uint32_t friend_number, bool audio_en
 		return;
 	}
 
-	TCHAR message[MAX_PATH];
+	wchar_t message[MAX_PATH];
 	mir_sntprintf(message, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	T2Utf szMessage(message);
 
@@ -350,7 +350,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 	cle.lParam = DB_EVENT_CALL;
 	cle.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_AUDIO_RING));
 
-	TCHAR szTooltip[MAX_PATH];
+	wchar_t szTooltip[MAX_PATH];
 	mir_sntprintf(szTooltip, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	cle.ptszTooltip = szTooltip;
 
@@ -520,7 +520,7 @@ static void CALLBACK ToxShowDialogApcProc(void *arg)
 		proto->debugLogA(__FUNCTION__": failed to open audio device (%d)", error);
 		toxav_hangup(proto->toxThread->Tox()AV, callId);
 
-		TCHAR errorMessage[MAX_PATH];
+		wchar_t errorMessage[MAX_PATH];
 		waveInGetErrorText(error, errorMessage, _countof(errorMessage));
 		CToxProto::ShowNotification(
 			TranslateT("Unable to find output audio device"),

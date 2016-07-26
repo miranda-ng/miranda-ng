@@ -58,7 +58,7 @@ MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 	return si ? si->hContact : 0;
 }
 
-void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
+void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 {
 	// Create the group chat session
 	GCSESSION gcw = { sizeof(gcw) };
@@ -408,9 +408,9 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	}
 }
 
-TCHAR* UnEscapeChatTags(TCHAR* str_in)
+wchar_t* UnEscapeChatTags(wchar_t* str_in)
 {
-	TCHAR *s = str_in, *d = str_in;
+	wchar_t *s = str_in, *d = str_in;
 	while (*s) {
 		if (*s == '%' && s[1] == '%')
 			s++;
@@ -420,12 +420,12 @@ TCHAR* UnEscapeChatTags(TCHAR* str_in)
 	return str_in;
 }
 
-void CSkypeProto::OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessage)
+void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszMessage)
 {
 	if (!IsOnline())
 		return;
 
-	TCHAR *buf = NEWTSTR_ALLOCA(tszMessage);
+	wchar_t *buf = NEWWSTR_ALLOCA(tszMessage);
 	rtrimt(buf);
 	UnEscapeChatTags(buf);
 
@@ -438,7 +438,7 @@ void CSkypeProto::OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessa
 		SendRequest(new SendChatMessageRequest(szChatId, time(NULL), szMessage, li));
 }
 
-void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
+void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
 {
 	GCDEST gcd = { m_szModuleName, chat_id, isAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
@@ -468,7 +468,7 @@ void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, cons
 
 void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 {
-	ptrT topic((TCHAR*)p); // memory must be freed in any case
+	ptrT topic((wchar_t*)p); // memory must be freed in any case
 	if (response == NULL || response->pData == NULL)
 		return;
 
@@ -520,13 +520,13 @@ void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const 
 	CallService(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
-bool CSkypeProto::IsChatContact(const TCHAR *chat_id, const char *id)
+bool CSkypeProto::IsChatContact(const wchar_t *chat_id, const char *id)
 {
 	ptrA users(GetChatUsers(chat_id));
 	return (users != NULL && strstr(users, id) != NULL);
 }
 
-char *CSkypeProto::GetChatUsers(const TCHAR *chat_id)
+char *CSkypeProto::GetChatUsers(const wchar_t *chat_id)
 {
 	GC_INFO gci = { 0 };
 	gci.Flags = GCF_USERS;
@@ -536,13 +536,13 @@ char *CSkypeProto::GetChatUsers(const TCHAR *chat_id)
 	return gci.pszUsers;
 }
 
-void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role, bool isChange)
+void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const char *name, const wchar_t *role, bool isChange)
 {
 	if (IsChatContact(tchat_id, id))
 		return;
 
 	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
-	if (TCHAR *tmp = db_get_tsa(FindChatRoom(_T2A(tchat_id)), "UsersNicks", id))
+	if (wchar_t *tmp = db_get_tsa(FindChatRoom(_T2A(tchat_id)), "UsersNicks", id))
 		tnick = tmp;
 
 	ptrT tid(mir_a2t(id));
@@ -560,7 +560,7 @@ void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const ch
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
-void CSkypeProto::RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name, bool isKick, const char *initiator)
+void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, const char *name, bool isKick, const char *initiator)
 {
 	if (IsMe(id))
 		return;
@@ -619,9 +619,9 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 	{
 		static const struct gc_item Items[] =
 		{
-			{ LPGENT("&Invite user..."),     10, MENU_ITEM, FALSE },
-			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE },
-			{ LPGENT("&Change topic"),       30, MENU_ITEM, FALSE }
+			{ LPGENW("&Invite user..."),     10, MENU_ITEM, FALSE },
+			{ LPGENW("&Leave chat session"), 20, MENU_ITEM, FALSE },
+			{ LPGENW("&Change topic"),       30, MENU_ITEM, FALSE }
 		};
 		gcmi->nItems = _countof(Items);
 		gcmi->Item = (gc_item*)Items;
@@ -637,12 +637,12 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 		{*/
 			static const struct gc_item Items[] =
 			{
-				{ LPGENT("Kick &user"),  10, MENU_ITEM      },
+				{ LPGENW("Kick &user"),  10, MENU_ITEM      },
 				{ NULL,                  0,  MENU_SEPARATOR },
-				{ LPGENT("Set &role"),   20, MENU_NEWPOPUP  },
-				{ LPGENT("&Admin"),      30, MENU_POPUPITEM },
-				{ LPGENT("&User"),       40, MENU_POPUPITEM },
-				{ LPGENT("Change nick"), 50, MENU_ITEM },
+				{ LPGENW("Set &role"),   20, MENU_NEWPOPUP  },
+				{ LPGENW("&Admin"),      30, MENU_POPUPITEM },
+				{ LPGENW("&User"),       40, MENU_POPUPITEM },
+				{ LPGENW("Change nick"), 50, MENU_ITEM },
 			};
 			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;

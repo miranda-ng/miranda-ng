@@ -30,16 +30,16 @@ DWORD mirVer;
 
 HANDLE hFolder = NULL;
 
-TCHAR profilePath[MAX_PATH];		// database profile path (read at startup only)
-TCHAR basedir[MAX_PATH];
+wchar_t profilePath[MAX_PATH];		// database profile path (read at startup only)
+wchar_t basedir[MAX_PATH];
 int hLangpack = 0;
 MWindowList hAvatarWindowsList = NULL;
 
 int OptInit(WPARAM wParam,LPARAM lParam);
 
-TCHAR* GetHistoryFolder(TCHAR *fn);
-TCHAR* GetProtocolFolder(TCHAR *fn, char *proto);
-TCHAR* GetOldStyleAvatarName(TCHAR *fn, MCONTACT hContact);
+wchar_t* GetHistoryFolder(wchar_t *fn);
+wchar_t* GetProtocolFolder(wchar_t *fn, char *proto);
+wchar_t* GetOldStyleAvatarName(wchar_t *fn, MCONTACT hContact);
 
 void InitMenuItem();
 
@@ -75,9 +75,9 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 static INT_PTR GetCachedAvatar(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR hash[128];
+	wchar_t hash[128];
 
-	_tcsncpy_s(hash, (TCHAR*)lParam, _TRUNCATE);
+	wcsncpy_s(hash, (wchar_t*)lParam, _TRUNCATE);
 	ConvertToFilename(hash, _countof(hash));
 	return (INT_PTR)GetCachedAvatar((char*)wParam, hash);
 }
@@ -145,7 +145,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		SkinPlaySound("avatar_changed");
 		db_set_ts(hContact, "AvatarHistory", "AvatarHash", avatar->hash);
 
-		TCHAR history_filename[MAX_PATH] = L"";
+		wchar_t history_filename[MAX_PATH] = L"";
 
 		if (ContactEnabled(hContact, "LogToDisk", AVH_DEF_LOGTODISK)) {
 			if (!opts.log_store_as_hash) {
@@ -158,7 +158,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 					MCONTACT hMetaContact = db_mc_getMeta(hContact);
 					if (hMetaContact && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY)) {
-						TCHAR filename[MAX_PATH] = L"";
+						wchar_t filename[MAX_PATH] = L"";
 
 						GetOldStyleAvatarName(filename, hMetaContact);
 						if (CopyImageFile(avatar->filename, filename))
@@ -170,12 +170,12 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			}
 			else {
 				// See if we already have the avatar
-				TCHAR hash[128];
+				wchar_t hash[128];
 
-				_tcsncpy_s(hash, avatar->hash, _TRUNCATE);
+				wcsncpy_s(hash, avatar->hash, _TRUNCATE);
 				ConvertToFilename(hash, _countof(hash));
 
-				TCHAR *file = GetCachedAvatar(proto, hash);
+				wchar_t *file = GetCachedAvatar(proto, hash);
 
 				if (file != NULL) {
 					mir_tstrncpy(history_filename, file, _countof(history_filename));
@@ -210,7 +210,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			ShowPopup(hContact, NULL, opts.popup_changed);
 
 		if (ContactEnabled(hContact, "LogToHistory", AVH_DEF_LOGTOHISTORY)) {
-			TCHAR rel_path[MAX_PATH];
+			wchar_t rel_path[MAX_PATH];
 			PathToRelativeT(history_filename, rel_path);
 			T2Utf blob(rel_path);
 
@@ -346,8 +346,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)profilePath) != 0)
 		mir_tstrcpy(profilePath, L"."); // Failed, use current dir
 
-	SkinAddNewSoundExT("avatar_changed",LPGENT("Avatar History"),LPGENT("Contact changed avatar"));
-	SkinAddNewSoundExT("avatar_removed",LPGENT("Avatar History"),LPGENT("Contact removed avatar"));
+	SkinAddNewSoundExT("avatar_changed",LPGENW("Avatar History"),LPGENW("Contact changed avatar"));
+	SkinAddNewSoundExT("avatar_removed",LPGENW("Avatar History"),LPGENW("Contact removed avatar"));
 
 	hAvatarWindowsList = WindowList_Create();
 

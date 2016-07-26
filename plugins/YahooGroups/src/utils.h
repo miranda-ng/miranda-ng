@@ -44,11 +44,11 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, int size);
 int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, int count);
 
-TCHAR   *GetContactName(MCONTACT hContact, char *szProto);
-TCHAR   *GetContactID(MCONTACT hContact);
-TCHAR   *GetContactID(MCONTACT hContact, char *szProto);
-MCONTACT GetContactFromID(TCHAR *szID, char *szProto);
-MCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto);
+wchar_t   *GetContactName(MCONTACT hContact, char *szProto);
+wchar_t   *GetContactID(MCONTACT hContact);
+wchar_t   *GetContactID(MCONTACT hContact, char *szProto);
+MCONTACT GetContactFromID(wchar_t *szID, char *szProto);
+MCONTACT GetContactFromID(wchar_t *szID, wchar_t *szProto);
 void     GetContactProtocol(MCONTACT hContact, char *szProto, int size);
 
 int MyPUShowMessage(char *lpzText, BYTE kind);

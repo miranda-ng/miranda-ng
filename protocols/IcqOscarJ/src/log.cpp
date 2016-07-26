@@ -119,7 +119,7 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 		break;
 
 	default:
-		TCHAR err[512];
+		wchar_t err[512];
 		if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, err, _countof(err), NULL)) {
 			pszErrorMsg = make_utf8_string(err);
 			bNeedFree = TRUE;

@@ -248,11 +248,11 @@ static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 		si->bBGSet = TRUE;
 	}
 
-	TCHAR szTemp[256];
+	wchar_t szTemp[256];
 	if (si->iType == GCW_SERVER)
 		mir_sntprintf(szTemp, L"Server: %s", si->ptszName);
 	else
-		_tcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
+		wcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
 	si->hContact = chatApi.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
 	db_set_s(si->hContact, si->pszModule, "Topic", "");
 	db_unset(si->hContact, "CList", "StatusMsg");

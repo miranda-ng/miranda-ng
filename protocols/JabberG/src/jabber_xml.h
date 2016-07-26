@@ -83,13 +83,13 @@ class CJabberIqInfo;
 
 struct XmlNodeIq : public XmlNode
 {
-	XmlNodeIq(const TCHAR *type, int id = -1, const TCHAR *to = NULL);
-	XmlNodeIq(const TCHAR *type, const TCHAR *idStr, const TCHAR *to);
-	XmlNodeIq(const TCHAR *type, HXML node, const TCHAR *to);
+	XmlNodeIq(const wchar_t *type, int id = -1, const wchar_t *to = NULL);
+	XmlNodeIq(const wchar_t *type, const wchar_t *idStr, const wchar_t *to);
+	XmlNodeIq(const wchar_t *type, HXML node, const wchar_t *to);
 	// new request
 	XmlNodeIq(CJabberIqInfo *pInfo);
 	// answer to request
-	XmlNodeIq(const TCHAR *type, CJabberIqInfo *pInfo);
+	XmlNodeIq(const wchar_t *type, CJabberIqInfo *pInfo);
 };
 
 typedef void (*JABBER_XML_CALLBACK)(HXML, void*);
@@ -224,7 +224,7 @@ HXML __fastcall operator<<(HXML node, const XQUERY& child);
 class XPath
 {
 public:
-	__forceinline XPath(HXML hXml, TCHAR *path):
+	__forceinline XPath(HXML hXml, wchar_t *path):
 		m_type(T_UNKNOWN),
 		m_hXml(hXml),
 		m_szPath(path),
@@ -245,22 +245,22 @@ public:
 	{
 		switch (Lookup())
 		{
-			case T_ATTRIBUTE: return (TCHAR *)XmlGetAttrValue(m_hXml, m_szParam);
-			case T_NODE: return (TCHAR *)XmlGetText(m_hXml);
-			case T_NODESET: return (TCHAR *)XmlGetText(XmlGetNthChild(m_hXml, m_szParam, 1));
+			case T_ATTRIBUTE: return (wchar_t *)XmlGetAttrValue(m_hXml, m_szParam);
+			case T_NODE: return (wchar_t *)XmlGetText(m_hXml);
+			case T_NODESET: return (wchar_t *)XmlGetText(XmlGetNthChild(m_hXml, m_szParam, 1));
 		}
 		return NULL;
 	}
 	operator int()
 	{
-		if (TCHAR *s = *this) return _ttoi(s);
+		if (wchar_t *s = *this) return _wtoi(s);
 		return 0;
 	}
-	__forceinline bool operator== (TCHAR *str)
+	__forceinline bool operator== (wchar_t *str)
 	{
 		return !mir_tstrcmp((LPCTSTR)*this, str);
 	}
-	__forceinline bool operator!= (TCHAR *str)
+	__forceinline bool operator!= (wchar_t *str)
 	{
 		return mir_tstrcmp((LPCTSTR)*this, str) ? true : false;
 	}
@@ -280,8 +280,8 @@ public:
 	}
 	void operator= (int value)
 	{
-		TCHAR buf[16];
-		_itot(value, buf, 10);
+		wchar_t buf[16];
+		_itow(value, buf, 10);
 		*this = buf;
 	}
 
@@ -322,11 +322,11 @@ private:
 
 	struct LookupString
 	{
-		void Begin(const TCHAR *p_) { p = p_; }
-		void End(const TCHAR *p_) { length = p_ - p; }
+		void Begin(const wchar_t *p_) { p = p_; }
+		void End(const wchar_t *p_) { length = p_ - p; }
 		operator bool() { return p ? true : false; }
 
-		const TCHAR *p;
+		const wchar_t *p;
 		int length;
 
 	};
@@ -353,7 +353,7 @@ class XPathFmt: public XPath
 {
 public:
 	enum { BUFSIZE = 512 };
-	XPathFmt(HXML hXml, TCHAR *path, ...): XPath(hXml, m_buf)
+	XPathFmt(HXML hXml, wchar_t *path, ...): XPath(hXml, m_buf)
 	{
 		*m_buf = 0;
 
@@ -378,7 +378,7 @@ public:
 	}
 
 private:
-	TCHAR m_buf[BUFSIZE];
+	wchar_t m_buf[BUFSIZE];
 };
 
 #endif

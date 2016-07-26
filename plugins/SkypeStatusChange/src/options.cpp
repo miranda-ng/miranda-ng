@@ -26,7 +26,7 @@ enum ETreeCheckBoxState
 	TCBS_DISABLE_CHECKED = 4,
 };
 
-HTREEITEM tree_insert_item(HWND hwndTree, TCHAR *pName, HTREEITEM htiParent, ETreeCheckBoxState nState, CTreeItemData *pData)
+HTREEITEM tree_insert_item(HWND hwndTree, wchar_t *pName, HTREEITEM htiParent, ETreeCheckBoxState nState, CTreeItemData *pData)
 {
 	TVINSERTSTRUCT tvi = { 0 };
 	tvi.hParent = htiParent;

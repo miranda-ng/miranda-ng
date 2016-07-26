@@ -28,7 +28,7 @@ extern SESSION_INFO g_TabSession;
 
 GlobalLogSettingsBase *g_Settings;
 int g_cbSession, g_cbModuleInfo, g_iFontMode, g_iChatLang;
-TCHAR *g_szFontGroup;
+wchar_t *g_szFontGroup;
 
 #define FONTF_BOLD   1
 #define FONTF_ITALIC 2
@@ -47,26 +47,26 @@ static LOGFONT lfDefault;
 
 static FontOptionsList fontOptionsList[] =
 {
-	{ LPGENT("Timestamp"),                    RGB(50, 50, 240),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Others nicknames"),             RGB(0, 0, 192),     lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("Your nickname"),                RGB(0, 0, 192),     lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
-	{ LPGENT("User has joined"),              RGB(90, 160, 90),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User has left"),                RGB(160, 160, 90),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User has disconnected"),        RGB(160, 90, 90),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User kicked ..."),              RGB(100, 100, 100), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User is now known as ..."),     RGB(90, 90, 160),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Notice from user"),             RGB(160, 130, 60),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Incoming message"),             RGB(90, 90, 90),    lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Outgoing message"),             RGB(90, 90, 90),    lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("The topic is ..."),             RGB(70, 70, 160),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Information messages"),         RGB(130, 130, 195), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User enables status for ..."),  RGB(70, 150, 70),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("User disables status for ..."), RGB(150, 70, 70),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Action message"),               RGB(160, 90, 160),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Highlighted message"),          RGB(180, 150, 80),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Timestamp"),                    RGB(50, 50, 240),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Others nicknames"),             RGB(0, 0, 192),     lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW("Your nickname"),                RGB(0, 0, 192),     lfDefault.lfFaceName, DEFAULT_CHARSET, FONTF_BOLD, -12 },
+	{ LPGENW("User has joined"),              RGB(90, 160, 90),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("User has left"),                RGB(160, 160, 90),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("User has disconnected"),        RGB(160, 90, 90),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("User kicked ..."),              RGB(100, 100, 100), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("User is now known as ..."),     RGB(90, 90, 160),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Notice from user"),             RGB(160, 130, 60),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Incoming message"),             RGB(90, 90, 90),    lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Outgoing message"),             RGB(90, 90, 90),    lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("The topic is ..."),             RGB(70, 70, 160),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Information messages"),         RGB(130, 130, 195), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("User enables status for ..."),  RGB(70, 150, 70),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("User disables status for ..."), RGB(150, 70, 70),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Action message"),               RGB(160, 90, 160),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Highlighted message"),          RGB(180, 150, 80),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ L"",                                 0,                  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Nick list members (online)"),   RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ LPGENT("Nick list members (away)"),     RGB(170, 170, 170), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 }
+	{ LPGENW("Nick list members (online)"),   RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ LPGENW("Nick list members (away)"),     RGB(170, 170, 170), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 }
 };
 
 static void LoadColors()
@@ -124,7 +124,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		if (tszFace == NULL)
 			mir_tstrcpy(lf->lfFaceName, FO.szDefFace);
 		else
-			_tcsncpy_s(lf->lfFaceName, tszFace, _TRUNCATE);
+			wcsncpy_s(lf->lfFaceName, tszFace, _TRUNCATE);
 	}
 }
 
@@ -136,13 +136,13 @@ void RegisterFonts(void)
 
 	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
-	_tcsncpy_s(fontid.backgroundGroup, g_szFontGroup, _TRUNCATE);
-	_tcsncpy_s(fontid.group, g_szFontGroup, _TRUNCATE);
+	wcsncpy_s(fontid.backgroundGroup, g_szFontGroup, _TRUNCATE);
+	wcsncpy_s(fontid.group, g_szFontGroup, _TRUNCATE);
 
 	for (int i = 0; i < _countof(fontOptionsList); i++, index++) {
 		FontOptionsList &FO = fontOptionsList[i];
 		strncpy_s(fontid.dbSettingsGroup, CHATFONT_MODULE, _TRUNCATE);
-		_tcsncpy_s(fontid.name, FO.szDescr, _TRUNCATE);
+		wcsncpy_s(fontid.name, FO.szDescr, _TRUNCATE);
 
 		mir_snprintf(fontid.prefix, "Font%d", index);
 		fontid.order = index;
@@ -150,28 +150,28 @@ void RegisterFonts(void)
 		switch (i) {
 		case 18:
 		case 19:
-			_tcsncpy_s(fontid.backgroundName, LPGENT("Nick list background"), _TRUNCATE);
+			wcsncpy_s(fontid.backgroundName, LPGENW("Nick list background"), _TRUNCATE);
 			break;
 		case 17:
 			if (g_iFontMode == FONTMODE_SKIP)
 				continue;
 			if (g_iFontMode == FONTMODE_USE) {
-				_tcsncpy_s(fontid.name, LPGENT("Message typing area"), _TRUNCATE);
-				_tcsncpy_s(fontid.backgroundName, LPGENT("Message background"), _TRUNCATE);
+				wcsncpy_s(fontid.name, LPGENW("Message typing area"), _TRUNCATE);
+				wcsncpy_s(fontid.backgroundName, LPGENW("Message background"), _TRUNCATE);
 				FO.defColour = RGB(0, 0, 40);
 				break;
 			}
 
-			_tcsncpy_s(fontid.name, LPGENT("Chat log symbols (Webdings)"), _TRUNCATE);
+			wcsncpy_s(fontid.name, LPGENW("Chat log symbols (Webdings)"), _TRUNCATE);
 			FO.szDefFace = L"Webdings";
 			FO.defColour = RGB(170, 170, 170);
 			FO.defCharset = SYMBOL_CHARSET;
 			// fall through
 		default:
-			_tcsncpy_s(fontid.backgroundName, LPGENT("Group chat log background"), _TRUNCATE);
+			wcsncpy_s(fontid.backgroundName, LPGENW("Group chat log background"), _TRUNCATE);
 			break;
 		}
-		_tcsncpy_s(fontid.deffontsettings.szFace, FO.szDefFace, _TRUNCATE);
+		wcsncpy_s(fontid.deffontsettings.szFace, FO.szDefFace, _TRUNCATE);
 		fontid.deffontsettings.charset = FO.defCharset;
 		fontid.deffontsettings.colour = FO.defColour;
 		fontid.deffontsettings.size = FO.defSize;
@@ -189,7 +189,7 @@ HICON LoadIconEx(char* pszIcoLibName, bool big)
 	return IcoLib_GetIcon(szTemp, big);
 }
 
-static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
+static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefault)
 {
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, CHAT_MODULE, pszSetting, &dbv)) {
@@ -292,7 +292,7 @@ void SetIndentSize()
 	else g_Settings->LogTextIndent = 0;
 }
 
-int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
+int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
 {
 	if (!pszText || !hFont)
 		return 0;

@@ -10,7 +10,7 @@
 ext::string OptionsCtrlImpl::Edit::getEditText()
 {
 	int nLen = GetWindowTextLength(m_hEditWnd);
-	TCHAR* szBuf = new TCHAR[nLen + 1];
+	wchar_t* szBuf = new wchar_t[nLen + 1];
 
 	GetWindowText(m_hEditWnd, szBuf, nLen + 1);
 
@@ -38,7 +38,7 @@ ext::string OptionsCtrlImpl::Edit::getCombinedText()
 	}
 }
 
-OptionsCtrlImpl::Edit::Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const TCHAR* szLabel, const TCHAR* szEdit, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::Edit::Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szEdit, DWORD dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itEdit, szLabel, dwFlags, dwData), m_hEditWnd(NULL)
 {
 	m_strEdit = szEdit;
@@ -154,7 +154,7 @@ void OptionsCtrlImpl::Edit::childAdded(Item* pChild)
 	}
 }
 
-const TCHAR* OptionsCtrlImpl::Edit::getString()
+const wchar_t* OptionsCtrlImpl::Edit::getString()
 {
 	if (m_hEditWnd)
 	{
@@ -164,7 +164,7 @@ const TCHAR* OptionsCtrlImpl::Edit::getString()
 	return m_strEdit.c_str();
 }
 
-void OptionsCtrlImpl::Edit::setString(const TCHAR* szString)
+void OptionsCtrlImpl::Edit::setString(const wchar_t* szString)
 {
 	m_strEdit = szString;
 
@@ -178,7 +178,7 @@ void OptionsCtrlImpl::Edit::setString(const TCHAR* szString)
 	}
 }
 
-void OptionsCtrlImpl::Edit::setLabel(const TCHAR* szLabel)
+void OptionsCtrlImpl::Edit::setLabel(const wchar_t* szLabel)
 {
 	m_strLabel = szLabel;
 

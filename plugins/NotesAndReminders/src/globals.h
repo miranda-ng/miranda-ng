@@ -122,7 +122,7 @@ extern int g_Transparency;
 
 extern char *g_RemindSMS;
 
-extern TCHAR *g_lpszAltBrowser;
+extern char *g_lpszAltBrowser;
 
 extern int g_reminderListGeom[4];
 extern int g_reminderListColGeom[2];

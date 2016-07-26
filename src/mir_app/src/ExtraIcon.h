@@ -43,7 +43,7 @@ public:
 	virtual void storeIcon(MCONTACT, void*) {};
 
 	virtual const char *getName() const;
-	virtual const TCHAR *getDescription() const = 0;
+	virtual const wchar_t *getDescription() const = 0;
 	virtual const char *getDescIcon() const = 0;
 	virtual int getType() const = 0;
 
@@ -72,12 +72,12 @@ protected:
 class BaseExtraIcon : public ExtraIcon
 {
 public:
-	BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
+	BaseExtraIcon(int id, const char *name, const wchar_t *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
 	virtual ~BaseExtraIcon();
 
 	virtual int getID() const;
-	virtual const TCHAR *getDescription() const;
-	virtual void setDescription(const TCHAR *desc);
+	virtual const wchar_t *getDescription() const;
+	virtual void setDescription(const wchar_t *desc);
 	virtual const char *getDescIcon() const;
 	virtual void setDescIcon(const char *icon);
 	virtual int getType() const =0;
@@ -101,7 +101,7 @@ protected:
 class CallbackExtraIcon : public BaseExtraIcon
 {
 public:
-	CallbackExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon,
+	CallbackExtraIcon(int id, const char *name, const wchar_t *description, const char *descIcon,
 			MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
 	virtual ~CallbackExtraIcon();
 
@@ -126,7 +126,7 @@ private:
 class IcolibExtraIcon : public BaseExtraIcon
 {
 public:
-	IcolibExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
+	IcolibExtraIcon(int id, const char *name, const wchar_t *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
 	virtual ~IcolibExtraIcon();
 
 	virtual int getType() const;
@@ -158,7 +158,7 @@ public:
 	virtual int  setIcon(int id, MCONTACT hContact, HANDLE icon);
 	virtual int  setIconByName(int id, MCONTACT hContact, const char *icon);
 
-	virtual const TCHAR* getDescription() const;
+	virtual const wchar_t* getDescription() const;
 	virtual const char* getDescIcon() const;
 	virtual int getType() const;
 

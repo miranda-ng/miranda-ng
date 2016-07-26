@@ -59,29 +59,29 @@ static HWND LV;
 
 struct ColorPreset
 {
-	TCHAR *szName;
+	char *szName;
 	COLORREF color;
 };
 
 static struct ColorPreset clrPresets[] =
 {
-	{LPGENT("Black"), RGB(0,0,0)},
-	{LPGENT("Maroon"), RGB(128,0,0)},
-	{LPGENT("Green"), RGB(0,128,0)},
-	{LPGENT("Olive"), RGB(128,128,0)},
-	{LPGENT("Navy"), RGB(0,0,128)},
-	{LPGENT("Purple"), RGB(128,0,128)},
-	{LPGENT("Teal"), RGB(0,128,128)},
-	{LPGENT("Gray"), RGB(128,128,128)},
-	{LPGENT("Silver"), RGB(192,192,192)},
-	{LPGENT("Red"), RGB(255,0,0)},
-	{LPGENT("Orange"), RGB(255,155,0)},
-	{LPGENT("Lime"), RGB(0,255,0)},
-	{LPGENT("Yellow"), RGB(255,255,0)},
-	{LPGENT("Blue"), RGB(0,0,255)},
-	{LPGENT("Fuchsia"), RGB(255,0,255)},
-	{LPGENT("Aqua"), RGB(0,255,255)},
-	{LPGENT("White"), RGB(255,255,255)}
+	{ LPGEN("Black"),   RGB(0,0,0)       },
+	{ LPGEN("Maroon"),  RGB(128,0,0)     },
+	{ LPGEN("Green"),   RGB(0,128,0)     },
+	{ LPGEN("Olive"),   RGB(128,128,0)   },
+	{ LPGEN("Navy"),    RGB(0,0,128)     },
+	{ LPGEN("Purple"),  RGB(128,0,128)   },
+	{ LPGEN("Teal"),    RGB(0,128,128)   },
+	{ LPGEN("Gray"),    RGB(128,128,128) },
+	{ LPGEN("Silver"),  RGB(192,192,192) },
+	{ LPGEN("Red"),     RGB(255,0,0)     },
+	{ LPGEN("Orange"),  RGB(255,155,0)   },
+	{ LPGEN("Lime"),    RGB(0,255,0)     },
+	{ LPGEN("Yellow"),  RGB(255,255,0)   },
+	{ LPGEN("Blue"),    RGB(0,0,255)     },
+	{ LPGEN("Fuchsia"), RGB(255,0,255)   },
+	{ LPGEN("Aqua"),    RGB(0,255,255)   },
+	{ LPGEN("White"),   RGB(255,255,255) }
 };
 
 
@@ -701,7 +701,7 @@ void PurgeNotes(void)
 
 void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 {
-	if (MessageBox(hdlg, TranslateT("Are you sure you want to delete this note?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
+	if (MessageBoxW(hdlg, TranslateT("Are you sure you want to delete this note?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
 	{
 		if (SN->SNHwnd)
 			DestroyWindow(SN->SNHwnd);
@@ -975,7 +975,7 @@ __inline void JustSaveNotes(void)
 static int FindMenuItem(HMENU h, LPTSTR lpszName)
 {
 	UINT i;
-	TCHAR s[128];
+	char s[128];
 
 	int n = GetMenuItemCount(h);
 
@@ -1040,7 +1040,7 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureItem, struct ColorPreset *clrPresets)
 {
 	HDC hdc = GetDC(hdlg);
-	LPTSTR lpsz = TranslateTS(clrPresets->szName);
+	LPSTR lpsz = TranslateTS(clrPresets->szName);
 	SIZE sz;
 	GetTextExtentPoint32(hdc, lpsz, (int)mir_tstrlen(lpsz), &sz);
 	ReleaseDC(hdlg, hdc);
@@ -1567,7 +1567,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 							SN->pCustomFont = NULL;
 						}
 
-						// clear text first to force a reformatting w.r.t scrollbar
+						// clear text first to force a reformatting w.r.w scrollbar
 						SetWindowText(H, "");
 						SendMessage(H, WM_SETFONT, (WPARAM)(SN->pCustomFont ? SN->pCustomFont->hFont : hBodyFont), FALSE);
 						SetNoteTextControl(SN);
@@ -1604,7 +1604,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 						free(SN->pCustomFont);
 						SN->pCustomFont = NULL;
 
-						// clear text first to force a reformatting w.r.t scrollbar
+						// clear text first to force a reformatting w.r.w scrollbar
 						SetWindowText(H, "");
 						SendMessage(H, WM_SETFONT, (WPARAM)hBodyFont, FALSE);
 						SetNoteTextControl(SN);
@@ -1873,7 +1873,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 {
     LV_COLUMN lvCol;
     NMLISTVIEW *NM;
-    TCHAR *S;
+    char *S;
     int I;
 
 	switch (Message)
@@ -1923,7 +1923,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 		{
 			Window_SetIcon_IcoLib(Dialog, iconList[13].hIcolib);
 
-			SetWindowText(Dialog, LPGENT("Notes"));
+			SetWindowText(Dialog, LPGEN("Notes"));
 
 			TranslateDialogDefault(Dialog);
 
@@ -1932,25 +1932,25 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 			HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = TranslateT("Note text");
+			S = Translate("Note text");
 			lvCol.pszText = S;
 			lvCol.cx = g_notesListColGeom[3];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = TranslateT("Top");
+			S = Translate("Top");
 			lvCol.pszText = S;
 			lvCol.cx = g_notesListColGeom[2];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = TranslateT("Visible");
+			S = Translate("Visible");
 			lvCol.pszText = S;
 			lvCol.cx = g_notesListColGeom[1];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = TranslateT("Date/Title");
+			S = Translate("Date/Title");
 			lvCol.pszText = S;
 			lvCol.cx = g_notesListColGeom[0];
 			ListView_InsertColumn(H,0,&lvCol);

@@ -44,7 +44,7 @@ static int Proto_GetContactInfoSetting(MCONTACT hContact, const char *szProto, c
 	return CallProtoService(szProto, PS_GETINFOSETTING, hContact, (LPARAM)&cgs);
 }
 
-static TCHAR* Proto_GetContactInfoSettingStr(bool proto_service, MCONTACT hContact, const char *szModule, const char *szSetting)
+static wchar_t* Proto_GetContactInfoSettingStr(bool proto_service, MCONTACT hContact, const char *szModule, const char *szSetting)
 {
 	if (!proto_service)
 		return db_get_tsa(hContact, szModule, szSetting);
@@ -61,7 +61,7 @@ static TCHAR* Proto_GetContactInfoSettingStr(bool proto_service, MCONTACT hConta
 static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special)
 {
 	char str[80], *pstr = NULL;
-	TCHAR *ptstr = NULL;
+	wchar_t *ptstr = NULL;
 	char *szProto = GetContactProto(hContact);
 	bool proto_service = szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC);
 
@@ -253,7 +253,7 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 		case IDC_EMAIL:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EMAIL))) {
-				TCHAR szExec[264], szEmail[256];
+				wchar_t szExec[264], szEmail[256];
 				GetDlgItemText(hwndDlg, IDC_EMAIL, szEmail, _countof(szEmail));
 				mir_sntprintf(szExec, L"mailto:%s", szEmail);
 				ShellExecute(hwndDlg, L"open", szExec, NULL, NULL, SW_SHOW);
@@ -282,7 +282,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (hContact != NULL) {
-				TCHAR szTime[80];
+				wchar_t szTime[80];
 				if (printDateTimeByContact(hContact, L"s", szTime, _countof(szTime), TZF_KNOWNONLY)) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_LOCALTIME), FALSE);
 					SetDlgItemText(hwndDlg, IDC_LOCALTIME, TranslateT("<not specified>"));

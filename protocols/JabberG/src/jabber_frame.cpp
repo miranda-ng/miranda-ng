@@ -34,7 +34,7 @@ class CJabberInfoFrameItem : public MZeroedObject
 public:
 	char  *m_pszName;
 	HANDLE m_hIcolibIcon;
-	TCHAR *m_pszText;
+	wchar_t *m_pszText;
 	LPARAM m_pUserData;
 	bool   m_bCompact;
 	bool   m_bShow;
@@ -56,7 +56,7 @@ public:
 		mir_free(m_pszText);
 	}
 
-	void SetInfo(HANDLE hIcolibIcon, TCHAR *pszText)
+	void SetInfo(HANDLE hIcolibIcon, wchar_t *pszText)
 	{
 		mir_free(m_pszText);
 		m_pszText = pszText ? mir_tstrdup(pszText) : NULL;
@@ -242,21 +242,21 @@ void CJabberInfoFrame::ReloadFonts()
 
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	_tcsncpy_s(fontid.group, L"Jabber", _TRUNCATE);
-	_tcsncpy_s(fontid.name, L"Frame title", _TRUNCATE);
+	wcsncpy_s(fontid.group, L"Jabber", _TRUNCATE);
+	wcsncpy_s(fontid.name, L"Frame title", _TRUNCATE);
 	m_clTitle = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntTitle);
 	m_hfntTitle = CreateFontIndirect(&lfFont);
 
-	_tcsncpy_s(fontid.name, L"Frame text", _TRUNCATE);
+	wcsncpy_s(fontid.name, L"Frame text", _TRUNCATE);
 	m_clText = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntText);
 	m_hfntText = CreateFontIndirect(&lfFont);
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	_tcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
-	_tcsncpy_s(colourid.name, L"Background", _TRUNCATE);
+	wcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
+	wcsncpy_s(colourid.name, L"Background", _TRUNCATE);
 	m_clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
 	UpdateSize();
@@ -295,7 +295,7 @@ void CJabberInfoFrame::RemoveTooltip(int id)
 	SendMessage(m_hwndToolTip, TTM_DELTOOLW, 0, (LPARAM)&ti);
 }
 
-void CJabberInfoFrame::SetToolTip(int id, RECT *rc, TCHAR *pszText)
+void CJabberInfoFrame::SetToolTip(int id, RECT *rc, wchar_t *pszText)
 {
 	TOOLINFO ti = {0};
 	ti.cbSize = sizeof(TOOLINFO);
@@ -459,7 +459,7 @@ void CJabberInfoFrame::SetInfoItemCallback(char *pszName, void (CJabberProto::*o
 		pItem->m_onEvent = onEvent;
 }
 
-void CJabberInfoFrame::UpdateInfoItem(char *pszName, HANDLE hIcolibIcon, TCHAR *pszText)
+void CJabberInfoFrame::UpdateInfoItem(char *pszName, HANDLE hIcolibIcon, wchar_t *pszText)
 {
 	if (CJabberInfoFrameItem *pItem = m_pItems.find((CJabberInfoFrameItem*)&pszName))
 		pItem->SetInfo(hIcolibIcon, pszText);

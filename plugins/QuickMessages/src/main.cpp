@@ -74,26 +74,26 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 				AppendMenu(hSubMenu, MF_STRING, qd->dwPos + 254, qd->ptszValueName);
 		}
 	}
-	else if (mwpd->uType == MSG_WINDOWPOPUP_SELECTED&&mwpd->selection >= 254) {
+	else if (mwpd->uType == MSG_WINDOWPOPUP_SELECTED && mwpd->selection >= 254) {
 		for (i = 0; i < QuickList->realCount; i++) {
 			QuickData* qd = (QuickData *)QuickList->items[i];
 			if ((qd->dwPos + 254) == mwpd->selection) {
 				CHARRANGE cr;
 				UINT textlenght = 0;
-				TCHAR* pszText = NULL;
-				TCHAR* ptszQValue = NULL;
-				TCHAR* pszCBText = NULL;
+				wchar_t* pszText = NULL;
+				wchar_t* ptszQValue = NULL;
+				wchar_t* pszCBText = NULL;
 				BOOL bIsService = 0;
 
 				if (IsClipboardFormatAvailable(CF_TEXT)) {
 					if (OpenClipboard(mwpd->hwnd)) {
 						HANDLE hData = NULL;
-						TCHAR* chBuffer = NULL;
+						wchar_t* chBuffer = NULL;
 						int textLength = 0;
 
 						hData = GetClipboardData(CF_UNICODETEXT);
 
-						chBuffer = (TCHAR*)GlobalLock(hData);
+						chBuffer = (wchar_t*)GlobalLock(hData);
 						textLength = (int)mir_tstrlen(chBuffer);
 						pszCBText = mir_tstrdup(chBuffer);
 						GlobalUnlock(hData);
@@ -105,8 +105,8 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 				textlenght = cr.cpMax - cr.cpMin;
 
 				if (textlenght) {
-					pszText = (TCHAR *)mir_alloc((textlenght + 10)*sizeof(TCHAR));
-					memset(pszText, 0, ((textlenght + 10) * sizeof(TCHAR)));
+					pszText = (wchar_t *)mir_alloc((textlenght + 10)*sizeof(wchar_t));
+					memset(pszText, 0, ((textlenght + 10) * sizeof(wchar_t)));
 					SendMessage(mwpd->hwnd, EM_GETSELTEXT, 0, (LPARAM)pszText);
 				}
 				if (qd->ptszValue) {
@@ -139,9 +139,9 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 	HWND hEdit = NULL;
 	BOOL bCTRL = 0;
 	BOOL bIsService = 0;
-	TCHAR* pszText = NULL;
-	TCHAR* pszCBText = NULL;
-	TCHAR* ptszQValue = NULL;
+	wchar_t* pszText = NULL;
+	wchar_t* pszCBText = NULL;
+	wchar_t* ptszQValue = NULL;
 	UINT textlenght = 0;
 	SortedList* sl = NULL;
 	int state = 0;
@@ -157,12 +157,12 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 	if (IsClipboardFormatAvailable(CF_TEXT)) {
 		if (OpenClipboard(cbcd->hwndFrom)) {
 			HANDLE hData = NULL;
-			TCHAR* chBuffer = NULL;
+			wchar_t* chBuffer = NULL;
 			int textLength = 0;
 
 			hData = GetClipboardData(CF_UNICODETEXT);
 
-			chBuffer = (TCHAR*)GlobalLock(hData);
+			chBuffer = (wchar_t*)GlobalLock(hData);
 			textLength = (int)mir_tstrlen(chBuffer);
 			pszCBText = mir_tstrdup(chBuffer);
 			GlobalUnlock(hData);
@@ -180,8 +180,8 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 
 	textlenght = cr.cpMax - cr.cpMin;
 	if (textlenght) {
-		pszText = (TCHAR *)mir_alloc((textlenght + 10)*sizeof(TCHAR));
-		memset(pszText, 0, ((textlenght + 10) * sizeof(TCHAR)));
+		pszText = (wchar_t *)mir_alloc((textlenght + 10)*sizeof(wchar_t));
+		memset(pszText, 0, ((textlenght + 10) * sizeof(wchar_t)));
 		SendMessage(hEdit, EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
 

@@ -68,7 +68,7 @@ static void ComboLoadRecentStrings(HWND hwndDlg, EnterStringFormParam *pForm)
 
 static void ComboAddRecentString(HWND hwndDlg, EnterStringFormParam *pForm)
 {
-	TCHAR *string = pForm->ptszResult;
+	wchar_t *string = pForm->ptszResult;
 	if (!string || !*string)
 		return;
 	
@@ -141,7 +141,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		if (params->timeout > 0) {
 			SetTimer(hwndDlg, 1001, 1000, NULL);
-			TCHAR buf[128];
+			wchar_t buf[128];
 			mir_sntprintf(buf, TranslateT("OK (%d)"), params->timeout);
 			SetDlgItemText(hwndDlg, IDOK, buf);
 		}
@@ -160,7 +160,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			break;
 
 		case 1001:
-			TCHAR buf[128];
+			wchar_t buf[128];
 			mir_sntprintf(buf, TranslateT("OK (%d)"), --params->timeout);
 			SetDlgItemText(hwndDlg, IDOK, buf);
 
@@ -196,7 +196,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			TEXTRANGE tr;
 			tr.chrg = param->chrg;
-			tr.lpstrText = (TCHAR *)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 2));
+			tr.lpstrText = (wchar_t *)mir_alloc(sizeof(wchar_t)*(tr.chrg.cpMax - tr.chrg.cpMin + 2));
 			SendMessage(param->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 			Utils_OpenUrlT(tr.lpstrText);
@@ -231,7 +231,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		case IDOK:
 			HWND hWnd = GetDlgItem(hwndDlg, params->idcControl);
 			int len = GetWindowTextLength(hWnd)+1;
-			params->ptszResult = (LPTSTR)mir_alloc(sizeof(TCHAR)*len);
+			params->ptszResult = (LPTSTR)mir_alloc(sizeof(wchar_t)*len);
 			GetWindowText(hWnd, params->ptszResult, len);
 
 			if ((params->type == ESF_COMBO) && params->szDataPrefix && params->recentCount)

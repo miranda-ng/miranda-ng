@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 		case IDC_BT_CHOOSELOGFILE:
 		{
-			TCHAR buff[MAX_PATH];
+			wchar_t buff[MAX_PATH];
 			OPENFILENAME ofn = { 0 };
 
 			GetDlgItemText(hwndDlg, IDC_LOGFILE, buff, _countof(buff));
@@ -255,7 +255,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ofn.lpstrFile = buff;
 			ofn.nMaxFile = MAX_PATH;
 			ofn.hwndOwner = hwndDlg;
-			TCHAR filter[MAX_PATH];
+			wchar_t filter[MAX_PATH];
 			mir_sntprintf(filter, L"%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c", TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
 			ofn.lpstrFilter = filter;
 			ofn.nFilterIndex = 2;
@@ -379,18 +379,18 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				break;
 			case IDC_PREVIEW:
 			{
-				TCHAR str[MAX_SECONDLINE] = { 0 };
+				wchar_t str[MAX_SECONDLINE] = { 0 };
 				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
-					_tcsncpy(str, L"", _countof(str));
+					wcsncpy(str, L"", _countof(str));
 
 					if (opt.ShowStatus) {
 						if (opt.UseAlternativeText == 1)
-							_tcsncpy(str, StatusList[Index(i)].lpzUStatusText, _countof(str));
+							wcsncpy(str, StatusList[Index(i)].lpzUStatusText, _countof(str));
 						else
-							_tcsncpy(str, StatusList[Index(i)].lpzStandardText, _countof(str));
+							wcsncpy(str, StatusList[Index(i)].lpzStandardText, _countof(str));
 
 						if (opt.ShowPreviousStatus) {
-							TCHAR buff[MAX_STATUSTEXT];
+							wchar_t buff[MAX_STATUSTEXT];
 							mir_sntprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
 							mir_tstrcat(str, L" ");
 							mir_tstrcat(str, buff);
@@ -405,9 +405,9 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 					ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, i), i, str);
 				}
-				_tcsncpy(str, TranslateT("This is extra status"), _countof(str));
+				wcsncpy(str, TranslateT("This is extra status"), _countof(str));
 				ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
-				_tcsncpy(str, TranslateT("This is status message"), _countof(str));
+				wcsncpy(str, TranslateT("This is status message"), _countof(str));
 				ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
 
 				return FALSE;
@@ -557,12 +557,12 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TREMOVEMSG), templates.PopupXFlags & NOTIFY_REMOVE_MESSAGE);
 
 		// Buttons
-		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Show available variables"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show available variables"), BATF_TCHAR);
 		HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_VARIABLES));
 		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
 
-		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Reset all templates to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset all templates to default"), BATF_TCHAR);
 		hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RESET));
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
@@ -691,12 +691,12 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TSMSGREMOVE), templates.PopupSMsgFlags & NOTIFY_REMOVE_MESSAGE);
 
 		// Buttons
-		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Show available variables"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show available variables"), BATF_TCHAR);
 		HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_VARIABLES));
 		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
 
-		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Reset all templates to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset all templates to default"), BATF_TCHAR);
 		hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RESET));
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
@@ -731,17 +731,17 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				char protoname[MAX_PATH] = { 0 };
 				mir_snprintf(protoname, "%s_TPopupSMsgChanged", protos[i]->szModuleName);
 				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
-					_tcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, _countof(prototemplate->ProtoTemplateMsg));
+					wcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, _countof(prototemplate->ProtoTemplateMsg));
 				else {
-					_tcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateMsg));
+					wcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateMsg));
 					db_free(&dbVar);
 				}
 
 				mir_snprintf(protoname, "%s_TPopupSMsgRemoved", protos[i]->szModuleName);
 				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
-					_tcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, _countof(prototemplate->ProtoTemplateRemoved));
+					wcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, _countof(prototemplate->ProtoTemplateRemoved));
 				else {
-					_tcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateRemoved));
+					wcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateRemoved));
 					db_free(&dbVar);
 				}
 

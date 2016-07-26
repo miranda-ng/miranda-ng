@@ -40,7 +40,7 @@
 typedef struct _GGIMAGEENTRY
 {
 	HBITMAP hBitmap;
-	TCHAR *lpszFileName;
+	wchar_t *lpszFileName;
 	char *lpData;
 	unsigned long nSize;
 	struct _GGIMAGEENTRY *lpNext;
@@ -212,20 +212,20 @@ int gg_img_paint(HWND hwnd, GGIMAGEENTRY *dat)
 ////////////////////////////////////////////////////////////////////////////////
 // Returns supported image filters
 //
-TCHAR *gg_img_getfilter(TCHAR *szFilter, int nSize)
+wchar_t *gg_img_getfilter(wchar_t *szFilter, int nSize)
 {
-	TCHAR *szFilterName, *szFilterMask;
-	TCHAR *pFilter = szFilter;
+	wchar_t *szFilterName, *szFilterMask;
+	wchar_t *pFilter = szFilter;
 
 	// Match relative to ImgDecoder presence
 	szFilterName = TranslateT("Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)");
 	szFilterMask = L"*.bmp;*.gif;*.jpeg;*.jpg;*.png";
 
 	// Make up filter
-	_tcsncpy(pFilter, szFilterName, nSize);
+	wcsncpy(pFilter, szFilterName, nSize);
 	pFilter += mir_tstrlen(pFilter) + 1;
 	if (pFilter >= szFilter + nSize) return NULL;
-	_tcsncpy(pFilter, szFilterMask, nSize - (pFilter - szFilter));
+	wcsncpy(pFilter, szFilterMask, nSize - (pFilter - szFilter));
 	pFilter += mir_tstrlen(pFilter) + 1;
 	if (pFilter >= szFilter + nSize) return NULL;
 	*pFilter = 0;
@@ -243,11 +243,11 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 
 	GGPROTO* gg = ((GGIMAGEDLGDATA *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->gg;
 
-	TCHAR szFilter[128];
+	wchar_t szFilter[128];
 	gg_img_getfilter(szFilter, _countof(szFilter));
 
-	TCHAR szFileName[MAX_PATH];
-	_tcsncpy(szFileName, dat->lpszFileName, _countof(szFileName));
+	wchar_t szFileName[MAX_PATH];
+	wcsncpy(szFileName, dat->lpszFileName, _countof(szFileName));
 
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -259,7 +259,7 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR | OFN_OVERWRITEPROMPT;
 	if (GetSaveFileName(&ofn))
 	{
-		FILE *fp = _tfopen(szFileName, L"w+b");
+		FILE *fp = _wfopen(szFileName, L"w+b");
 		if (fp)
 		{
 			fwrite(dat->lpData, dat->nSize, 1, fp);
@@ -418,7 +418,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			// Set main window image
 			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_IMAGE));
 
-			TCHAR *szName = pcli->pfnGetContactDisplayName(dat->hContact, 0), szTitle[128];
+			wchar_t *szName = pcli->pfnGetContactDisplayName(dat->hContact, 0), szTitle[128];
 			if (dat->bReceiving)
 				mir_sntprintf(szTitle, TranslateT("Image from %s"), szName);
 			else
@@ -494,7 +494,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			if (dat->bReceiving)
 			{
-				TCHAR szTitle[128];
+				wchar_t szTitle[128];
 				mir_sntprintf(szTitle, L"%s (%d / %d)", img->lpszFileName, dat->nImg, dat->nImgTotal);
 				SetDlgItemText(hwndDlg, IDC_IMG_NAME, szTitle);
 			}
@@ -660,8 +660,8 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_CHOOSEIMG:
 		{
-			TCHAR szFilter[128];
-			TCHAR szFileName[MAX_PATH];
+			wchar_t szFilter[128];
+			wchar_t szFileName[MAX_PATH];
 			OPENFILENAME ofn = {0};
 
 			gg_img_getfilter(szFilter, _countof(szFilter));
@@ -738,16 +738,16 @@ GGIMAGEDLGDATA *gg_img_recvdlg(GGPROTO *gg, MCONTACT hContact)
 // Checks if an image is already saved to the specified path
 // Returns 1 if yes, 0 if no or -1 if different image on this path is found
 //
-int gg_img_isexists(TCHAR *szPath, GGIMAGEENTRY *dat)
+int gg_img_isexists(wchar_t *szPath, GGIMAGEENTRY *dat)
 {
 	struct _stat st;
 
-	if (_tstat(szPath, &st) != 0)
+	if (_wstat(szPath, &st) != 0)
 		return 0;
 
 	if (st.st_size == dat->nSize)
 	{
-		FILE *fp = _tfopen(szPath, L"rb");
+		FILE *fp = _wfopen(szPath, L"rb");
 		if (!fp) return 0;
 		char *lpData = (char*)mir_alloc(dat->nSize);
 		if (fread(lpData, 1, dat->nSize, fp) == dat->nSize)
@@ -770,11 +770,11 @@ int gg_img_isexists(TCHAR *szPath, GGIMAGEENTRY *dat)
 ////////////////////////////////////////////////////////////////////////////
 // Determine if image's file name has the proper extension
 //
-TCHAR *gg_img_hasextension(TCHAR *filename)
+wchar_t *gg_img_hasextension(wchar_t *filename)
 {
 	if (filename != NULL && *filename != '\0')
 	{
-		TCHAR *imgtype = _tcsrchr(filename, '.');
+		wchar_t *imgtype = wcsrchr(filename, '.');
 		if (imgtype != NULL)
 		{
 			size_t len = mir_tstrlen(imgtype);
@@ -797,12 +797,12 @@ TCHAR *gg_img_hasextension(TCHAR *filename)
 int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 {
 	GGIMAGEENTRY *dat = (GGIMAGEENTRY *)img;
-	TCHAR szPath[MAX_PATH], path[MAX_PATH], *pImgext, imgext[6];
+	wchar_t szPath[MAX_PATH], path[MAX_PATH], *pImgext, imgext[6];
 	size_t tPathLen;
 	int i, res;
 
 	if (hImagesFolder == NULL || FoldersGetCustomPathT(hImagesFolder, path, MAX_PATH, L"")) {
-		TCHAR *tmpPath = Utils_ReplaceVarsT( L"%miranda_userdata%");
+		wchar_t *tmpPath = Utils_ReplaceVarsT( L"%miranda_userdata%");
 		tPathLen = mir_sntprintf(szPath, L"%s\\%s\\ImageCache", tmpPath, m_tszUserName);
 		mir_free(tmpPath);
 	}
@@ -811,13 +811,13 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 		tPathLen = mir_tstrlen(szPath);
 	}
 
-	if ( _taccess(szPath, 0)){
+	if ( _waccess(szPath, 0)){
 		int ret = CreateDirectoryTreeT(szPath);
 		if (ret == 0){
 			debugLog(L"img_displayasmsg(): Created new directory for image cache: %s.", szPath);
 		} else {
 			debugLog(L"img_displayasmsg(): Can not create directory for image cache: %s. errno=%d: %s", szPath, errno, strerror(errno));
-			TCHAR error[512];
+			wchar_t error[512];
 			mir_sntprintf(error, TranslateT("Cannot create image cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 		}
@@ -826,7 +826,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	mir_sntprintf(szPath + tPathLen, MAX_PATH - tPathLen, L"\\%s", dat->lpszFileName);
 	if ((pImgext = gg_img_hasextension(szPath)) == NULL)
 		pImgext = szPath + mir_tstrlen(szPath);
-	_tcsncpy_s(imgext, pImgext, _TRUNCATE);
+	wcsncpy_s(imgext, pImgext, _TRUNCATE);
 	for (i = 1; ; ++i)
 	{
 		if ((res = gg_img_isexists(szPath, dat)) != -1) break;
@@ -835,13 +835,13 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 
 	if (res == 0) {
 		// Image file not found, thus create it
-		FILE *fp = _tfopen(szPath, L"w+b");
+		FILE *fp = _wfopen(szPath, L"w+b");
 		if (fp) {
 			res = fwrite(dat->lpData, dat->nSize, 1, fp) > 0;
 			fclose(fp);
 		} else {
 			debugLog(L"img_displayasmsg(): Cannot open file %s for write image. errno=%d: %s", szPath, errno, strerror(errno));
-			TCHAR error[512];
+			wchar_t error[512];
 			mir_sntprintf(error, TranslateT("Cannot save received image to file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			return 0;
@@ -849,7 +849,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	}
 
 	if (res != 0) {
-		TCHAR image_msg[MAX_PATH + 11];
+		wchar_t image_msg[MAX_PATH + 11];
 		mir_sntprintf(image_msg, L"[img]%s[/img]", szPath);
 
 		T2Utf szMessage(image_msg);
@@ -926,7 +926,7 @@ int GGPROTO::img_display(MCONTACT hContact, void *img)
 ////////////////////////////////////////////////////////////////////////////
 // Helper function to determine image file format and the right extension
 //
-const TCHAR *gg_img_guessfileextension(const char *lpData)
+const wchar_t *gg_img_guessfileextension(const char *lpData)
 {
 	if (lpData != NULL)
 	{
@@ -945,7 +945,7 @@ const TCHAR *gg_img_guessfileextension(const char *lpData)
 ////////////////////////////////////////////////////////////////////////////
 // Image Window : Loading picture and sending for display
 //
-void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
+void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 {
 	if (!szFileName &&
 		(!e || !e->event.image_reply.size || !e->event.image_reply.image || !e->event.image_reply.filename))
@@ -958,11 +958,11 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 	// Copy the file name
 	if (szFileName)
 	{
-		FILE *fp = _tfopen(szFileName, L"rb");
+		FILE *fp = _wfopen(szFileName, L"rb");
 		if (!fp) {
 			free(dat);
 			debugLog(L"img_loadpicture(): fopen(\"%s\", \"rb\" failed. errno=%d: %s)", szFileName, errno, strerror(errno));
-			TCHAR error[512];
+			wchar_t error[512];
 			mir_sntprintf(error, TranslateT("Cannot open image file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFileName);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			return NULL;
@@ -996,7 +996,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 			return NULL;
 		}
 		fclose(fp);
-		dat->lpszFileName = _tcsdup(szFileName);
+		dat->lpszFileName = wcsdup(szFileName);
 	}
 	// Copy picture from packet
 	else if (e && e->event.image_reply.filename)
@@ -1008,9 +1008,9 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		ptrT tmpFileName( mir_a2t(e->event.image_reply.filename));
 		if (!gg_img_hasextension(tmpFileName)) {
 			// Add missing file extension
-			const TCHAR *szImgType = gg_img_guessfileextension(dat->lpData);
+			const wchar_t *szImgType = gg_img_guessfileextension(dat->lpData);
 			if (*szImgType) {
-				dat->lpszFileName = (TCHAR*)calloc(sizeof(TCHAR), mir_tstrlen(tmpFileName) + mir_tstrlen(szImgType) + 1);
+				dat->lpszFileName = (wchar_t*)calloc(sizeof(wchar_t), mir_tstrlen(tmpFileName) + mir_tstrlen(szImgType) + 1);
 				if (dat->lpszFileName != NULL) {
 					mir_tstrcpy(dat->lpszFileName, tmpFileName);
 					mir_tstrcat(dat->lpszFileName, szImgType);
@@ -1019,7 +1019,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		}
 
 		if (dat->lpszFileName == NULL)
-			dat->lpszFileName = _tcsdup( _A2T( e->event.image_reply.filename));
+			dat->lpszFileName = wcsdup( _A2T( e->event.image_reply.filename));
 	}
 
 	////////////////////////////////////////////////////////////////////

@@ -340,7 +340,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			wPacketLen -= 4;
 			sr.uin = dwUin;
 			_itoa(dwUin, szUin, 10);
-			sr.hdr.id.t = (TCHAR*)szUin;
+			sr.hdr.id.w = (wchar_t*)szUin;
 
 			// Nick
 			if (wPacketLen < 2)
@@ -350,11 +350,11 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			if (wLen > 0) {
 				if (wPacketLen < wLen || (databuf[wLen - 1] != 0))
 					break;
-				sr.hdr.nick.t = (TCHAR*)databuf;
+				sr.hdr.nick.w = (wchar_t*)databuf;
 				databuf += wLen;
 			}
 			else {
-				sr.hdr.nick.t = NULL;
+				sr.hdr.nick.w = NULL;
 			}
 
 			// First name
@@ -365,10 +365,10 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			if (wLen > 0) {
 				if (wPacketLen < wLen || (databuf[wLen - 1] != 0))
 					break;
-				sr.hdr.firstName.t = (TCHAR*)databuf;
+				sr.hdr.firstName.w = (wchar_t*)databuf;
 				databuf += wLen;
 			}
-			else sr.hdr.firstName.t = NULL;
+			else sr.hdr.firstName.w = NULL;
 
 			// Last name
 			if (wPacketLen < 2)
@@ -378,10 +378,10 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			if (wLen > 0) {
 				if (wPacketLen < wLen || (databuf[wLen - 1] != 0))
 					break;
-				sr.hdr.lastName.t = (TCHAR*)databuf;
+				sr.hdr.lastName.w = (wchar_t*)databuf;
 				databuf += wLen;
 			}
-			else sr.hdr.lastName.t = NULL;
+			else sr.hdr.lastName.w = NULL;
 
 			// E-mail name
 			if (wPacketLen < 2)
@@ -391,10 +391,10 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			if (wLen > 0) {
 				if (wPacketLen < wLen || (databuf[wLen - 1] != 0))
 					break;
-				sr.hdr.email.t = (TCHAR*)databuf;
+				sr.hdr.email.w = (wchar_t*)databuf;
 				databuf += wLen;
 			}
-			else sr.hdr.email.t = NULL;
+			else sr.hdr.email.w = NULL;
 
 			// Authentication needed flag
 			if (wPacketLen < 1)

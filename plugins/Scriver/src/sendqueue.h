@@ -41,7 +41,7 @@ struct MessageSendQueueItem
 };
 
 MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender);
-TCHAR * GetSendBufferMsg(MessageSendQueueItem *item);
+wchar_t * GetSendBufferMsg(MessageSendQueueItem *item);
 MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, MCONTACT hContact);
 MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId);
 BOOL RemoveSendQueueItem(MessageSendQueueItem* item);

@@ -31,11 +31,11 @@ private:
 	bool isFindContactChanged;
 	bool findBack, matchCase, matchWholeWords, onlyIn, onlyOut, onlyGroup, allUsers, searchForInLG, searchForInMes;
 
-	bool CompareStr(std::wstring str, TCHAR *strFind);
-	bool IsInSel(int sel, TCHAR *strFind);
+	bool CompareStr(std::wstring str, wchar_t *strFind);
+	bool IsInSel(int sel, wchar_t *strFind);
 public:
 	Searcher();
-	virtual bool Compare(const bool isMe, const std::wstring& message, TCHAR *strFind);
+	virtual bool Compare(const bool isMe, const std::wstring& message, wchar_t *strFind);
 	void Find();
 	void ChangeFindDirection(bool isBack);
 	void ClearFind();

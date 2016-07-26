@@ -40,7 +40,7 @@
 #define MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
 #define FREE(x) HeapFree(GetProcessHeap(), 0, (x))
 
-void showMsg(TCHAR *pName,DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int extPort,int state);
+void showMsg(wchar_t *pName,DWORD pid,wchar_t *intIp,wchar_t *extIp,int intPort,int extPort,int state);
 //int __declspec(dllexport) Load(PLUGINLINK *link);
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 static unsigned __stdcall checkthread(void *dummy);

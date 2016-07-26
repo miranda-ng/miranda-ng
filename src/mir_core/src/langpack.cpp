@@ -49,7 +49,7 @@ struct LangPackEntry
 };
 
 static LANGPACK_INFO langPack;
-static TCHAR g_tszRoot[MAX_PATH];
+static wchar_t g_tszRoot[MAX_PATH];
 
 static LangPackEntry *g_pEntries;
 static int g_entryCount, g_entriesAlloced;
@@ -215,15 +215,15 @@ static void LoadLangPackFile(FILE *fp, char *line)
 			strlwr(line);
 
 			if (!memcmp(line + 1, "include", 7)) {
-				TCHAR tszFileName[MAX_PATH];
-				TCHAR	*p = _tcsrchr(langPack.tszFullPath, '\\');
+				wchar_t tszFileName[MAX_PATH];
+				wchar_t	*p = wcsrchr(langPack.tszFullPath, '\\');
 				if (p)
 					*p = 0;
 				mir_sntprintf(tszFileName, L"%s\\%S", langPack.tszFullPath, ltrim(line + 9));
 				if (p)
 					*p = '\\';
 
-				FILE *fpNew = _tfopen(tszFileName, L"r");
+				FILE *fpNew = _wfopen(tszFileName, L"r");
 				if (fpNew) {
 					line[0] = 0;
 					fgets(line, LANGPACK_BUF_SIZE, fpNew);
@@ -364,25 +364,25 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 	MultiByteToWideChar(lpinfo.codepage, 0, szLanguage, -1, lpinfo.tszLanguage, _countof(lpinfo.tszLanguage));
 
 	if (!lpinfo.tszLanguage[0] && (lpinfo.Locale == 0) || !GetLocaleInfo(lpinfo.Locale, LOCALE_SENGLANGUAGE, lpinfo.tszLanguage, _countof(lpinfo.tszLanguage))) {
-		TCHAR *p = _tcschr(lpinfo.tszFileName, '_');
-		_tcsncpy_s(lpinfo.tszLanguage, ((p != NULL) ? (p + 1) : lpinfo.tszFileName), _TRUNCATE);
-		p = _tcsrchr(lpinfo.tszLanguage, _T('.'));
+		wchar_t *p = wcschr(lpinfo.tszFileName, '_');
+		wcsncpy_s(lpinfo.tszLanguage, ((p != NULL) ? (p + 1) : lpinfo.tszFileName), _TRUNCATE);
+		p = wcsrchr(lpinfo.tszLanguage, '.');
 		if (p != NULL) *p = '\0';
 	}
 	return 0;
 }
 
-MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
+MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 {
 	if (ptszLangPack == NULL || !mir_tstrcmpi(ptszLangPack, L""))
 		return 1;
 
 	// ensure that a lang's name is a full file name
-	TCHAR tszFullPath[MAX_PATH];
+	wchar_t tszFullPath[MAX_PATH];
 	if (!PathIsAbsoluteT(ptszLangPack))
 		mir_sntprintf(tszFullPath, L"%s\\%s", g_tszRoot, ptszLangPack);
 	else
-		_tcsncpy_s(tszFullPath, ptszLangPack, _TRUNCATE);
+		wcsncpy_s(tszFullPath, ptszLangPack, _TRUNCATE);
 
 	// this lang is already loaded? nothing to do then
 	if (!mir_tstrcmp(tszFullPath, langPack.tszFullPath))
@@ -398,12 +398,12 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 		return 3;
 
 	// copy the full file name and extract a file name from it
-	_tcsncpy_s(langPack.tszFullPath, tszFullPath, _TRUNCATE);
-	TCHAR *p = _tcsrchr(langPack.tszFullPath, '\\');
-	_tcsncpy_s(langPack.tszFileName, (p == NULL) ? tszFullPath : p + 1, _TRUNCATE);
+	wcsncpy_s(langPack.tszFullPath, tszFullPath, _TRUNCATE);
+	wchar_t *p = wcsrchr(langPack.tszFullPath, '\\');
+	wcsncpy_s(langPack.tszFileName, (p == NULL) ? tszFullPath : p + 1, _TRUNCATE);
 	CharLower(langPack.tszFileName);
 
-	FILE *fp = _tfopen(tszFullPath, L"rt");
+	FILE *fp = _wfopen(tszFullPath, L"rt");
 	if (fp == NULL)
 		return 1;
 
@@ -425,17 +425,17 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 	return 0;
 }
 
-MIR_CORE_DLL(int) LoadLangPackDescr(const TCHAR *ptszLangPack, LANGPACK_INFO *lpInfo)
+MIR_CORE_DLL(int) LoadLangPackDescr(const wchar_t *ptszLangPack, LANGPACK_INFO *lpInfo)
 {
 	if (lpInfo == NULL)
 		return 1;
 
-	_tcsncpy_s(lpInfo->tszFullPath, ptszLangPack, _TRUNCATE);
-	TCHAR *p = _tcsrchr(lpInfo->tszFullPath, '\\');
-	_tcsncpy_s(lpInfo->tszFileName, (p == NULL) ? ptszLangPack : p+1, _TRUNCATE);
+	wcsncpy_s(lpInfo->tszFullPath, ptszLangPack, _TRUNCATE);
+	wchar_t *p = wcsrchr(lpInfo->tszFullPath, '\\');
+	wcsncpy_s(lpInfo->tszFileName, (p == NULL) ? ptszLangPack : p+1, _TRUNCATE);
 	CharLower(lpInfo->tszFileName);
 
-	FILE *fp = _tfopen(ptszLangPack, L"rt");
+	FILE *fp = _wfopen(ptszLangPack, L"rt");
 	if (fp == NULL)
 		return 1;
 
@@ -494,16 +494,16 @@ MIR_CORE_DLL(int) Langpack_GetDefaultLocale()
 	return (langPack.Locale == 0) ? LOCALE_USER_DEFAULT : langPack.Locale;
 }
 
-MIR_CORE_DLL(TCHAR*) Langpack_PcharToTchar(const char *pszStr)
+MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr)
 {
 	if (pszStr == NULL)
 		return NULL;
 
 	int len = (int)strlen(pszStr);
-	TCHAR *result = (TCHAR*)alloca((len + 1)*sizeof(TCHAR));
+	wchar_t *result = (wchar_t*)alloca((len + 1)*sizeof(wchar_t));
 	MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pszStr, -1, result, len);
 	result[len] = 0;
-	return mir_wstrdup(TranslateW(result));
+	return mir_wstrdup(TranslateTS(result));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -526,14 +526,14 @@ MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int _hLangpack)
 	mii.cbSize = sizeof(mii);
 
 	for (int i = GetMenuItemCount(hMenu) - 1; i >= 0; i--) {
-		TCHAR str[256];
+		wchar_t str[256];
 		mii.fMask = MIIM_TYPE | MIIM_SUBMENU;
-		mii.dwTypeData = (TCHAR*)str;
+		mii.dwTypeData = (wchar_t*)str;
 		mii.cch = _countof(str);
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
 
 		if (mii.cch && mii.dwTypeData) {
-			TCHAR *result = (TCHAR*)LangPackTranslateString(uuid, (const char*)mii.dwTypeData, TRUE);
+			wchar_t *result = (wchar_t*)LangPackTranslateString(uuid, (const char*)mii.dwTypeData, TRUE);
 			if (result != mii.dwTypeData) {
 				mii.dwTypeData = result;
 				mii.fMask = MIIM_TYPE;
@@ -548,10 +548,10 @@ MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int _hLangpack)
 
 static void TranslateWindow(MUUID *pUuid, HWND hwnd)
 {
-	TCHAR title[2048];
+	wchar_t title[2048];
 	GetWindowText(hwnd, title, _countof(title));
 
-	TCHAR *result = (TCHAR*)LangPackTranslateString(pUuid, (const char*)title, TRUE);
+	wchar_t *result = (wchar_t*)LangPackTranslateString(pUuid, (const char*)title, TRUE);
 	if (result != title)
 		SetWindowText(hwnd, result);
 }
@@ -561,7 +561,7 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 	int _hLangpack = (int)lParam;
 	MUUID *uuid = Langpack_LookupUuid(_hLangpack);
 
-	TCHAR szClass[32];
+	wchar_t szClass[32];
 	GetClassName(hwnd, szClass, _countof(szClass));
 	if (!mir_tstrcmpi(szClass, L"static") || !mir_tstrcmpi(szClass, L"hyperlink") || !mir_tstrcmpi(szClass, L"button") || !mir_tstrcmpi(szClass, L"MButtonClass") || !mir_tstrcmpi(szClass, L"MHeaderbarCtrl"))
 		TranslateWindow(uuid, hwnd);
@@ -633,11 +633,11 @@ void GetDefaultLang()
 {
 	// calculate the langpacks' root
 	PathToAbsoluteT(L"\\Languages", g_tszRoot);
-	if (_taccess(g_tszRoot, 0) != 0) // directory Languages exists
+	if (_waccess(g_tszRoot, 0) != 0) // directory Languages exists
 		PathToAbsoluteT(L".", g_tszRoot);
 
 	// look into mirandaboot.ini
-	TCHAR tszPath[MAX_PATH], tszLangName[256];
+	wchar_t tszPath[MAX_PATH], tszLangName[256];
 	PathToAbsoluteT(L"\\mirandaboot.ini", tszPath);
 	GetPrivateProfileString(L"Language", L"DefaultLanguage", L"", tszLangName, _countof(tszLangName), tszPath);
 	if (tszLangName[0]) {
@@ -653,7 +653,7 @@ void GetDefaultLang()
 	
 	// try to load langpack that matches UserDefaultUILanguage
 	if (GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, tszLangName, _countof(tszLangName))) {
-		mir_sntprintf(tszPath, L"langpack_%s.txt", _tcslwr(tszLangName));
+		mir_sntprintf(tszPath, L"langpack_%s.txt", wcslwr(tszLangName));
 		if (!LoadLangPack(tszPath)) {
 			db_set_ts(NULL, "Langpack", "Current", tszPath);
 			return;
@@ -691,10 +691,10 @@ MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(void) ReloadLangpack(TCHAR *pszStr)
+MIR_CORE_DLL(void) ReloadLangpack(wchar_t *pszStr)
 {
 	if (pszStr == NULL)
-		pszStr = NEWTSTR_ALLOCA(langPack.tszFileName);
+		pszStr = NEWWSTR_ALLOCA(langPack.tszFileName);
 
 	UnloadLangPackModule();
 	LoadLangPack(pszStr);
@@ -705,7 +705,7 @@ MIR_CORE_DLL(void) ReloadLangpack(TCHAR *pszStr)
 
 static INT_PTR srvReloadLangpack(WPARAM, LPARAM lParam)
 {
-	ReloadLangpack((TCHAR*)lParam);
+	ReloadLangpack((wchar_t*)lParam);
 	return 0;
 }
 

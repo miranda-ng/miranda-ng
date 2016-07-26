@@ -218,19 +218,19 @@ struct
 	LPCSTR szZodiacIcon;
 }
 static zodiac[] = {
-	{ 80,  110,	LPGENT("Aries"),       ICO_ZOD_ARIES       }, // Widder
-	{ 111, 140,	LPGENT("Taurus"),      ICO_ZOD_TAURUS      }, // Stier
-	{ 141, 172,	LPGENT("Gemini"),      ICO_ZOD_GEMINI      }, // Zwillinge
-	{ 173, 203,	LPGENT("Cancer"),      ICO_ZOD_CANCER      }, // Krebs
-	{ 204, 235,	LPGENT("Leo"),         ICO_ZOD_LEO         }, // Löwe
-	{ 236, 266,	LPGENT("Virgo"),       ICO_ZOD_VIRGO       }, // Jungfrau
-	{ 267, 296,	LPGENT("Libra"),       ICO_ZOD_LIBRA       }, // Waage
-	{ 297, 326,	LPGENT("Scorpio"),     ICO_ZOD_SCORPIO     }, // Scorpion
-	{ 327, 355,	LPGENT("Sagittarius"), ICO_ZOD_SAGITTARIUS }, // Schütze
-	{ 356, 364,	LPGENT("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
-	{   1,  19, LPGENT("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
-	{  20,  49, LPGENT("Aquarius"),    ICO_ZOD_AQUARIUS    }, // Wassermann
-	{  50,  79, LPGENT("Pisces"),      ICO_ZOD_PISCES      }, // Fische
+	{ 80,  110,	LPGENW("Aries"),       ICO_ZOD_ARIES       }, // Widder
+	{ 111, 140,	LPGENW("Taurus"),      ICO_ZOD_TAURUS      }, // Stier
+	{ 141, 172,	LPGENW("Gemini"),      ICO_ZOD_GEMINI      }, // Zwillinge
+	{ 173, 203,	LPGENW("Cancer"),      ICO_ZOD_CANCER      }, // Krebs
+	{ 204, 235,	LPGENW("Leo"),         ICO_ZOD_LEO         }, // Löwe
+	{ 236, 266,	LPGENW("Virgo"),       ICO_ZOD_VIRGO       }, // Jungfrau
+	{ 267, 296,	LPGENW("Libra"),       ICO_ZOD_LIBRA       }, // Waage
+	{ 297, 326,	LPGENW("Scorpio"),     ICO_ZOD_SCORPIO     }, // Scorpion
+	{ 327, 355,	LPGENW("Sagittarius"), ICO_ZOD_SAGITTARIUS }, // Schütze
+	{ 356, 364,	LPGENW("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
+	{   1,  19, LPGENW("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
+	{  20,  49, LPGENW("Aquarius"),    ICO_ZOD_AQUARIUS    }, // Wassermann
+	{  50,  79, LPGENW("Pisces"),      ICO_ZOD_PISCES      }, // Fische
 	{   0,	0,	NULL,                  ""                  }  // end of array
 };
 
@@ -680,9 +680,9 @@ int MAnnivDate::DBWriteAnniversaryDate(MCONTACT hContact, WORD wIndex)
 static WORD AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *pNewProtoDate)
 {
 	MSGBOX	MB;
-	TCHAR	 szMsg[MAXDATASIZE];
-	TCHAR	 szDate[MAX_PATH];
-	TCHAR	 szoldDate[MAX_PATH];
+	wchar_t	 szMsg[MAXDATASIZE];
+	wchar_t	 szDate[MAX_PATH];
+	wchar_t	 szoldDate[MAX_PATH];
 
 	pOldCustomDate->DateFormat(szoldDate, _countof(szoldDate));
 	pNewProtoDate->DateFormat(szDate, _countof(szDate));
@@ -696,8 +696,8 @@ static WORD AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *p
 	MB.hiLogo = IcoLib_GetIcon(ICO_DLG_ANNIVERSARY);
 	MB.hiMsg = NULL;
 	MB.uType = MB_YESALLNO|MB_ICON_QUESTION|MB_INFOBAR|MB_NOPOPUP;
-	MB.ptszTitle = LPGENT("Update custom birthday");
-	MB.ptszInfoText = LPGENT("Keeps your custom birthday up to date.");
+	MB.ptszTitle = LPGENW("Update custom birthday");
+	MB.ptszInfoText = LPGENW("Keeps your custom birthday up to date.");
 	MB.ptszMsg = szMsg;
 	return MsgBoxService(NULL, (LPARAM)&MB);
 }

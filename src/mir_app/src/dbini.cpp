@@ -33,18 +33,18 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetDlgItemText(hwndDlg, IDC_ININAME, (TCHAR*)lParam);
+		SetDlgItemText(hwndDlg, IDC_ININAME, (wchar_t*)lParam);
 		{
-			TCHAR szSecurity[11];
-			const TCHAR *pszSecurityInfo;
+			wchar_t szSecurity[11];
+			const wchar_t *pszSecurityInfo;
 
 			GetPrivateProfileString(L"AutoExec", L"Warn", L"notsafe", szSecurity, _countof(szSecurity), mirandabootini);
 			if (!mir_tstrcmpi(szSecurity, L"all"))
-				pszSecurityInfo = LPGENT("Security systems to prevent malicious changes are in place and you will be warned before every change that is made.");
+				pszSecurityInfo = LPGENW("Security systems to prevent malicious changes are in place and you will be warned before every change that is made.");
 			else if (!mir_tstrcmpi(szSecurity, L"onlyunsafe"))
-				pszSecurityInfo = LPGENT("Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.");
+				pszSecurityInfo = LPGENW("Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.");
 			else if (!mir_tstrcmpi(szSecurity, L"none"))
-				pszSecurityInfo = LPGENT("Security systems to prevent malicious changes have been disabled. You will receive no further warnings.");
+				pszSecurityInfo = LPGENW("Security systems to prevent malicious changes have been disabled. You will receive no further warnings.");
 			else pszSecurityInfo = NULL;
 			if (pszSecurityInfo) SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateTS(pszSecurityInfo));
 		}
@@ -54,7 +54,7 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		switch (LOWORD(wParam)) {
 		case IDC_VIEWINI:
 			{
-				TCHAR szPath[MAX_PATH];
+				wchar_t szPath[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_ININAME, szPath, _countof(szPath));
 				ShellExecute(hwndDlg, L"open", szPath, NULL, NULL, SW_SHOW);
 			}
@@ -90,7 +90,7 @@ static bool IsInSpaceSeparatedList(const char *szWord, const char *szList)
 }
 
 struct warnSettingChangeInfo_t {
-	TCHAR *szIniPath;
+	wchar_t *szIniPath;
 	char *szSection;
 	char *szSafeSections;
 	char *szUnsafeSections;
@@ -107,7 +107,7 @@ static INT_PTR CALLBACK WarnIniChangeDlgProc(HWND hwndDlg, UINT message, WPARAM 
 	case WM_INITDIALOG:
 		{
 			char szSettingName[256];
-			const TCHAR *pszSecurityInfo;
+			const wchar_t *pszSecurityInfo;
 			warnInfo = (warnSettingChangeInfo_t*)lParam;
 			TranslateDialogDefault(hwndDlg);
 			SetDlgItemText(hwndDlg, IDC_ININAME, warnInfo->szIniPath);
@@ -117,11 +117,11 @@ static INT_PTR CALLBACK WarnIniChangeDlgProc(HWND hwndDlg, UINT message, WPARAM 
 			SetDlgItemTextA(hwndDlg, IDC_SETTINGNAME, szSettingName);
 			SetDlgItemTextA(hwndDlg, IDC_NEWVALUE, warnInfo->szValue);
 			if (IsInSpaceSeparatedList(warnInfo->szSection, warnInfo->szSafeSections))
-				pszSecurityInfo = LPGENT("This change is known to be safe.");
+				pszSecurityInfo = LPGENW("This change is known to be safe.");
 			else if (IsInSpaceSeparatedList(warnInfo->szSection, warnInfo->szUnsafeSections))
-				pszSecurityInfo = LPGENT("This change is known to be potentially hazardous.");
+				pszSecurityInfo = LPGENW("This change is known to be potentially hazardous.");
 			else
-				pszSecurityInfo = LPGENT("This change is not known to be safe.");
+				pszSecurityInfo = LPGENW("This change is not known to be safe.");
 			SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateTS(pszSecurityInfo));
 		}
 		return TRUE;
@@ -144,13 +144,13 @@ static INT_PTR CALLBACK WarnIniChangeDlgProc(HWND hwndDlg, UINT message, WPARAM 
 
 static INT_PTR CALLBACK IniImportDoneDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR szIniPath[MAX_PATH];
+	wchar_t szIniPath[MAX_PATH];
 
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetDlgItemText(hwndDlg, IDC_ININAME, (TCHAR*)lParam);
-		SetDlgItemText(hwndDlg, IDC_NEWNAME, (TCHAR*)lParam);
+		SetDlgItemText(hwndDlg, IDC_ININAME, (wchar_t*)lParam);
+		SetDlgItemText(hwndDlg, IDC_NEWNAME, (wchar_t*)lParam);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -173,7 +173,7 @@ static INT_PTR CALLBACK IniImportDoneDlgProc(HWND hwndDlg, UINT message, WPARAM 
 			EndDialog(hwndDlg, LOWORD(wParam));
 			break;
 		case IDC_MOVE:
-			TCHAR szNewPath[MAX_PATH];
+			wchar_t szNewPath[MAX_PATH];
 			GetDlgItemText(hwndDlg, IDC_NEWNAME, szNewPath, _countof(szNewPath));
 			MoveFile(szIniPath, szNewPath);
 			EndDialog(hwndDlg, LOWORD(wParam));
@@ -230,9 +230,9 @@ static int EnumSettingsForDeletion(const char *szSetting, LPARAM param)
 	return 0;
 }
 
-static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsafeSections, int secur, bool secFN)
+static void ProcessIniFile(wchar_t* szIniPath, char *szSafeSections, char *szUnsafeSections, int secur, bool secFN)
 {
-	FILE *fp = _tfopen(szIniPath, L"rt");
+	FILE *fp = _wfopen(szIniPath, L"rt");
 	if (fp == NULL)
 		return;
 
@@ -423,7 +423,7 @@ LBL_NewLine:
 			}
 			break;
 		default:
-			TCHAR buf[250];
+			wchar_t buf[250];
 			mir_sntprintf(buf, TranslateT("Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n."), _A2T(szName));
 			MessageBox(NULL, buf, TranslateT("Install database settings"), MB_ICONWARNING | MB_OK);
 			break;
@@ -434,8 +434,8 @@ LBL_NewLine:
 
 static void DoAutoExec(void)
 {
-	TCHAR szUse[7], szIniPath[MAX_PATH], szFindPath[MAX_PATH];
-	TCHAR buf[2048], szSecurity[11], szOverrideSecurityFilename[MAX_PATH], szOnCreateFilename[MAX_PATH];
+	wchar_t szUse[7], szIniPath[MAX_PATH], szFindPath[MAX_PATH];
+	wchar_t buf[2048], szSecurity[11], szOverrideSecurityFilename[MAX_PATH], szOnCreateFilename[MAX_PATH];
 
 	GetPrivateProfileString(L"AutoExec", L"Use", L"prompt", szUse, _countof(szUse), mirandabootini);
 	if (!mir_tstrcmpi(szUse, L"no")) return;
@@ -466,7 +466,7 @@ static void DoAutoExec(void)
 	if (hFind == INVALID_HANDLE_VALUE)
 		return;
 
-	TCHAR *str2 = _tcsrchr(szFindPath, '\\');
+	wchar_t *str2 = wcsrchr(szFindPath, '\\');
 	if (str2 == NULL)
 		szFindPath[0] = 0;
 	else
@@ -487,7 +487,7 @@ static void DoAutoExec(void)
 		if (secFN)
 			DeleteFile(szIniPath);
 		else {
-			TCHAR szOnCompletion[8];
+			wchar_t szOnCompletion[8];
 			GetPrivateProfileString(L"AutoExec", L"OnCompletion", L"recycle", szOnCompletion, _countof(szOnCompletion), mirandabootini);
 			if (!mir_tstrcmpi(szOnCompletion, L"delete"))
 				DeleteFile(szIniPath);
@@ -500,7 +500,7 @@ static void DoAutoExec(void)
 				SHFileOperation(&shfo);
 			}
 			else if (!mir_tstrcmpi(szOnCompletion, L"rename")) {
-				TCHAR szRenamePrefix[MAX_PATH], szNewPath[MAX_PATH];
+				wchar_t szRenamePrefix[MAX_PATH], szNewPath[MAX_PATH];
 				GetPrivateProfileString(L"AutoExec", L"RenamePrefix", L"done_", szRenamePrefix, _countof(szRenamePrefix), mirandabootini);
 				mir_tstrcpy(szNewPath, szFindPath);
 				mir_tstrcat(szNewPath, szRenamePrefix);
@@ -536,7 +536,7 @@ int InitIni(void)
 	CreateServiceFunction("DB/Ini/ImportFile", ImportINI);
 	DoAutoExec();
 
-	TCHAR szMirandaDir[MAX_PATH];
+	wchar_t szMirandaDir[MAX_PATH];
 	PathToAbsoluteT(L".", szMirandaDir);
 	hIniChangeNotification = FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
 	if (hIniChangeNotification != INVALID_HANDLE_VALUE) {

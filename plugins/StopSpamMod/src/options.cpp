@@ -18,7 +18,7 @@
 #include "stdafx.h"
 
 char *pluginDescription = LPGEN("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.");
-TCHAR const *defQuestion = TranslateT("Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.");
+wchar_t const *defQuestion = TranslateT("Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.");
 
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -143,7 +143,7 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (LB_ERR != n) {
 				size_t len = SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETTEXTLEN, n, 0);
 				if (LB_ERR != len) {
-					TCHAR * buf = new TCHAR[len + 1];
+					wchar_t * buf = new wchar_t[len + 1];
 					SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETTEXT, n, (LPARAM)buf);
 					SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_ADDSTRING, 0, (LPARAM)buf);
 					delete[]buf;
@@ -157,7 +157,7 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (LB_ERR != n) {
 				size_t len = SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETTEXTLEN, n, 0);
 				if (LB_ERR != len) {
-					TCHAR * buf = new TCHAR[len + 1];
+					wchar_t * buf = new wchar_t[len + 1];
 					SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETTEXT, n, (LPARAM)buf);
 					SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_ADDSTRING, 0, (LPARAM)buf);
 					delete[]buf;
@@ -270,7 +270,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			db_set_b(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_CASE_INSENSITIVE));
 			db_set_b(NULL, pluginName, "DisableInInvis", gbInvisDisable = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_INVIS_DISABLE));
 			{
-				static tstring NewGroupName, CurrentGroupName;
+				static wstring NewGroupName, CurrentGroupName;
 				NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);
 				CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"0");
 				if (mir_wstrcmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
@@ -294,7 +294,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			db_set_b(NULL, pluginName, "HistoryLog", gbHistoryLog = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_HISTORY_LOG));
 			db_set_b(NULL, pluginName, "MathExpression", gbMathExpression = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_MATH_QUESTION));
 			{
-				static tstring NewAGroupName, CurrentAGroupName;
+				static wstring NewAGroupName, CurrentAGroupName;
 				NewAGroupName = GetDlgItemString(hwnd, IDC_AUTOADDGROUP);
 				CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", L"0");
 				if (mir_wstrcmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
@@ -318,29 +318,29 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	UNREFERENCED_PARAMETER(l);
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.ptszGroup = LPGENT("Message sessions");
-	odp.ptszTitle = LPGENT("StopSpam");
+	odp.pwszGroup = LPGENW("Message sessions");
+	odp.pwszTitle = LPGENW("StopSpam");
 	odp.position = -1;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_TCHAR;
 
-	odp.ptszTab = LPGENT("General");
+	odp.pwszTab = LPGENW("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pfnDlgProc = MainDlgProc;
 	Options_AddPage(w, &odp);
 
 
-	odp.ptszTab = LPGENT("Messages");
+	odp.pwszTab = LPGENW("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
 	odp.pfnDlgProc = MessagesDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.ptszTab = LPGENT("Accounts");
+	odp.pwszTab = LPGENW("Accounts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
 	odp.pfnDlgProc = ProtoDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.ptszTab = LPGENT("Advanced");
+	odp.pwszTab = LPGENW("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADVANCED);
 	odp.pfnDlgProc = AdvancedDlgProc;
 	Options_AddPage(w, &odp);

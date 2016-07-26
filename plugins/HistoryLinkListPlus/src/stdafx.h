@@ -76,9 +76,9 @@
 struct LISTELEMENT {
 	BYTE direction;
 	BYTE type;
-	TCHAR date[DATE_SIZE];
-	TCHAR time[TIME_SIZE];
-	TCHAR link[LINK_MAX];
+	wchar_t date[DATE_SIZE];
+	wchar_t time[TIME_SIZE];
+	wchar_t link[LINK_MAX];
 	MEVENT hEvent;
 	int	linePos;
 	struct LISTELEMENT *nextElement;

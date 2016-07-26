@@ -36,7 +36,7 @@ extern char *im_clients[];
 extern HICON im_clienthIcons[];
 extern HICON overlayicons[];
 
-extern TCHAR *statusNames[];
+extern wchar_t *statusNames[];
 
 extern LONG g_cxsmIcon, g_cysmIcon;
 
@@ -200,7 +200,7 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 	rc->left += 26;
 	int iCount = GetMenuItemCount(cfg::dat.hMenuNotify);
 	if (cfg::dat.hUpdateContact != 0) {
-		TCHAR *szName = pcli->pfnGetContactDisplayName(cfg::dat.hUpdateContact, 0);
+		wchar_t *szName = pcli->pfnGetContactDisplayName(cfg::dat.hUpdateContact, 0);
 		int iIcon = pcli->pfnGetContactIcon(cfg::dat.hUpdateContact);
 
 		ImageList_DrawEx(hCListImages, iIcon, hDC, rc->left, (rc->bottom + rc->top - g_cysmIcon) / 2, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
@@ -215,7 +215,7 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 		GetMenuItemInfo(cfg::dat.hMenuNotify, iCount - 1, TRUE, &mii);
 
 		NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-		TCHAR *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
+		wchar_t *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
 		int iIcon = pcli->pfnGetContactIcon(nmi->hContact);
 		ImageList_DrawEx(hCListImages, iIcon, hDC, rc->left, (rc->bottom + rc->top - g_cysmIcon) / 2, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 		rc->left += 18;
@@ -499,7 +499,7 @@ set_bg_l:
 	else
 		ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
 
-	TCHAR *szCounts = NULL;
+	wchar_t *szCounts = NULL;
 	if (type == CLCIT_GROUP) {
 		GetTextExtentPoint32(hdcMem, contact->szText, (int)mir_tstrlen(contact->szText), &textSize);
 		int width = textSize.cx;
@@ -1061,7 +1061,7 @@ bgskipped:
 		}
 	}
 	else {
-		TCHAR *szText = contact->szText;
+		wchar_t *szText = contact->szText;
 
 		rcContent.top = y + ((rowHeight - fontHeight) >> 1);
 
@@ -1103,7 +1103,7 @@ bgskipped:
 				RECT rc2 = rcContent;
 				int fHeight = 0;
 
-				TCHAR szResult[80];
+				wchar_t szResult[80];
 				if (TimeZone_PrintDateTime(cEntry->hTimeZone, L"t", szResult, _countof(szResult), 0))
 					goto nodisplay;
 

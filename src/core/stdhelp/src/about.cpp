@@ -32,7 +32,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{	TCHAR filename[MAX_PATH], *productCopyright;
+		{	wchar_t filename[MAX_PATH], *productCopyright;
 			DWORD unused;
 			DWORD verInfoSize;
 			UINT blockSize;
@@ -50,7 +50,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			char productVersion[56];
 			CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(productVersion), (LPARAM)productVersion);
 
-			TCHAR str[64];
+			wchar_t str[64];
 			mir_sntprintf(str, STR_VERSION_FORMAT, productVersion);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, str);
 		}
@@ -65,7 +65,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				char* pszMsgt = (char*)alloca(ResSize + 1);
 				memcpy(pszMsgt, pszMsg, ResSize); pszMsgt[ResSize] = 0;
 
-				TCHAR *ptszMsg;
+				wchar_t *ptszMsg;
 				if (ResSize >=3 && pszMsgt[0] == '\xef' && pszMsgt[1] == '\xbb' && pszMsgt[2] == '\xbf')
 					ptszMsg = Utf8DecodeT(pszMsgt + 3);
 				else

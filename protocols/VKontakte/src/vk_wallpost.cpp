@@ -30,7 +30,7 @@ INT_PTR __cdecl CVkProto::SvcWallPost(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CVkProto::WallPost(MCONTACT hContact, TCHAR *ptszMsg, TCHAR *ptszUrl, bool bFriendsOnly)
+void CVkProto::WallPost(MCONTACT hContact, wchar_t *ptszMsg, wchar_t *ptszUrl, bool bFriendsOnly)
 {
 	debugLogA("CVkProto::WallPost");
 	if (!IsOnline() || (IsEmpty(ptszMsg) && IsEmpty(ptszUrl)))

@@ -3,8 +3,8 @@
 struct ToastData : public MZeroedObject
 {
 	MCONTACT hContact;
-	TCHAR *tszTitle;
-	TCHAR *tszText;
+	wchar_t *tszTitle;
+	wchar_t *tszText;
 	union
 	{
 		HICON hIcon;
@@ -15,7 +15,7 @@ struct ToastData : public MZeroedObject
 	WNDPROC pPopupProc;
 	void *vPopupData;
 
-	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HICON _hIcon = NULL) : 
+	ToastData(MCONTACT _hContact, const wchar_t *_tszTitle, const wchar_t *_tszText, HICON _hIcon = NULL) : 
 		hContact(_hContact),
 		tszTitle(mir_tstrdup(_tszTitle)), 
 		tszText(mir_tstrdup(_tszText)), 
@@ -24,7 +24,7 @@ struct ToastData : public MZeroedObject
 		pPopupProc(NULL),
 		vPopupData(NULL)
 	{}
-	ToastData(MCONTACT _hContact, const TCHAR *_tszTitle, const TCHAR *_tszText, HBITMAP bmp = NULL) :
+	ToastData(MCONTACT _hContact, const wchar_t *_tszTitle, const wchar_t *_tszText, HBITMAP bmp = NULL) :
 		hContact(_hContact),
 		tszTitle(mir_tstrdup(_tszTitle)),
 		tszText(mir_tstrdup(_tszText)),

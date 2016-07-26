@@ -27,7 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_core.h>
 
 // standard module for all mc-related information
-#define META_PROTO "MetaContacts"
+#define META_PROTO   "MetaContacts"
+#define META_PROTOW L"MetaContacts"
 
 //gets the handle for the 'most online' contact
 //wParam=(HANDLE)hMetaContact

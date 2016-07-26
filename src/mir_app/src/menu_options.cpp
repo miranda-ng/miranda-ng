@@ -62,7 +62,7 @@ class CGenMenuOptionsPage : public CDlgBase
 {
 	int iInitMenuValue;
 
-	TCHAR idstr[100];
+	wchar_t idstr[100];
 
 	void SaveTreeInternal(MenuItemOptData *pParent, HTREEITEM hRootItem, const char *szModule)
 	{
@@ -90,7 +90,7 @@ class CGenMenuOptionsPage : public CDlgBase
 					bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
 					int visible = tvi.iImage != 0;
-					TCHAR *ptszCustomName;
+					wchar_t *ptszCustomName;
 					if (iod->name != NULL && iod->defname != NULL && mir_tstrcmp(iod->name, iod->defname) != 0)
 						ptszCustomName = iod->name;
 					else
@@ -401,7 +401,7 @@ public:
 
 		MenuItemOptData *PD = new MenuItemOptData();
 		PD->id = -1;
-		PD->name = mir_tstrdup(pimi->mi.name.t);
+		PD->name = mir_tstrdup(pimi->mi.name.w);
 		PD->pos = pimi->mi.position;
 		PD->pimi = pimi;
 
@@ -437,7 +437,7 @@ public:
 		m_menuItems.GetItem(&tvi);
 
 		MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
-		if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
+		if (iod->name && wcsstr(iod->name, STR_SEPARATOR))
 			return;
 
 		iod->name = mir_tstrdup(iod->defname);
@@ -461,7 +461,7 @@ public:
 		m_menuItems.GetItem(&tvi);
 
 		MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
-		if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
+		if (iod->name && wcsstr(iod->name, STR_SEPARATOR))
 			return;
 
 		iod->name = m_customName.GetText();
@@ -501,7 +501,7 @@ public:
 			return;
 
 		MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
-		if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
+		if (iod->name && wcsstr(iod->name, STR_SEPARATOR))
 			return;
 
 		m_customName.SetText(iod->name);

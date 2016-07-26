@@ -40,7 +40,7 @@ static void DumpMenuItem(TMO_IntMenuItem* pParent, int level = 0)
 	temp[level] = 0;
 
 	for (TMO_IntMenuItem *pimi = pParent; pimi != NULL; pimi = pimi->next) {
-		Netlib_Logf(NULL, "%sMenu item %08p [%08p]: %S", temp, pimi, pimi->mi.root, pimi->mi.name.t);
+		Netlib_Logf(NULL, "%sMenu item %08p [%08p]: %S", temp, pimi, pimi->mi.root, pimi->mi.name.w);
 
 		TMO_IntMenuItem *submenu = pimi->submenu.first;
 		if (submenu)
@@ -76,9 +76,9 @@ TIntMenuObject* GetMenuObjbyId(int id)
 LPTSTR GetMenuItemText(TMO_IntMenuItem *pimi)
 {
 	if (pimi->mi.flags & CMIF_KEEPUNTRANSLATED)
-		return pimi->mi.name.t;
+		return pimi->mi.name.w;
 
-	return TranslateTH(pimi->mi.hLangpack, pimi->mi.name.t);
+	return TranslateTH(pimi->mi.hLangpack, pimi->mi.name.w);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -239,7 +239,7 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 
 	// create protocol root in the main menu
 	CMenuItem mi;
-	mi.name.t = pThis->m_tszUserName;
+	mi.name.w = pThis->m_tszUserName;
 	mi.position = 500090000;
 	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	mi.hIcolibItem = pThis->m_hProtoIcon;
@@ -331,7 +331,7 @@ MIR_APP_DLL(void) Menu_SetChecked(HGENMENU hMenuItem, bool bSet)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HANDLE hIcolib, int iFlags)
+MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const wchar_t *ptszName, HANDLE hIcolib, int iFlags)
 {
 	if (!bIsGenMenuInited)
 		return -1;
@@ -343,7 +343,7 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const TCHAR *ptszName, HAND
 		return -1;
 
 	if (ptszName != NULL)
-		replaceStrT(pimi->mi.name.t, ptszName);
+		replaceStrT(pimi->mi.name.w, ptszName);
 
 	if (iFlags != -1) {
 		Menu_SetItemFlags(hMenuItem, true, iFlags);
@@ -666,8 +666,8 @@ static int GetNextObjectMenuItemId()
 
 static int FindRoot(TMO_IntMenuItem *pimi, void *param)
 {
-	if (pimi->mi.name.t != NULL)
-		if (pimi->submenu.first && !mir_tstrcmp(pimi->mi.name.t, (TCHAR*)param))
+	if (pimi->mi.name.w != NULL)
+		if (pimi->submenu.first && !mir_tstrcmp(pimi->mi.name.w, (wchar_t*)param))
 			return TRUE;
 
 	return FALSE;
@@ -688,7 +688,7 @@ MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int pos
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = hIcoLib;
 	mi.hLangpack = _hLang;
-	mi.name.t = (TCHAR*)ptszName;
+	mi.name.w = (wchar_t*)ptszName;
 	mi.position = position;
 	return Menu_AddItem(hMenuObject, &mi, NULL);
 }
@@ -718,9 +718,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	p->pUserData = pUserData;
 
 	if (pmi->flags & CMIF_UNICODE)
-		p->mi.name.t = mir_tstrdup(pmi->name.t);
+		p->mi.name.w = mir_tstrdup(pmi->name.w);
 	else
-		p->mi.name.t = mir_a2u(pmi->name.a);
+		p->mi.name.w = mir_a2u(pmi->name.a);
 
 	if (pmi->hIcon != NULL && !bIconsDisabled) {
 		HANDLE hIcolibItem = IcoLib_IsManaged(pmi->hIcon);
@@ -861,9 +861,9 @@ static int sttReadOldItem(TMO_IntMenuItem *pmi, void *szModule)
 	if (pmi->pszUniqName)
 		mir_snprintf(menuItemName, "{%s}", pmi->pszUniqName);
 	else if (pmi->mi.flags & CMIF_UNICODE)
-		mir_snprintf(menuItemName, "{%s}", (char*)_T2A(pmi->mi.name.t));
+		mir_snprintf(menuItemName, "{%s}", (char*)_T2A(pmi->mi.name.w));
 	else
-		mir_snprintf(menuItemName, "{%s}", pmi->mi.name.t);
+		mir_snprintf(menuItemName, "{%s}", pmi->mi.name.w);
 
 	// check if it visible
 	mir_snprintf(szSetting, "%s_visible", menuItemName);
@@ -873,9 +873,9 @@ static int sttReadOldItem(TMO_IntMenuItem *pmi, void *szModule)
 	else
 		pmi->mi.flags |= CMIF_HIDDEN;
 
-	// mi.name.t
+	// mi.name.w
 	mir_snprintf(szSetting, "%s_name", menuItemName);
-	TCHAR *tszCustomName = db_get_tsa(NULL, (char*)szModule, szSetting);
+	wchar_t *tszCustomName = db_get_tsa(NULL, (char*)szModule, szSetting);
 	if (tszCustomName != NULL) {
 		mir_free(pmi->ptszCustomName);
 		pmi->ptszCustomName = tszCustomName;
@@ -898,7 +898,7 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 		bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), menuItemName);
 
 		int bVisible = (pmi->mi.flags & CMIF_HIDDEN) == 0;
-		const TCHAR *ptszName = (pmi->ptszCustomName != NULL) ? pmi->ptszCustomName : L"";
+		const wchar_t *ptszName = (pmi->ptszCustomName != NULL) ? pmi->ptszCustomName : L"";
 		
 		char szRootUid[33];
 		if (pmi->mi.root == NULL)
@@ -993,17 +993,17 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 	if (szValue == NULL)
 		return 0;
 
-	TCHAR *ptszToken = szValue, *pDelim = _tcschr(szValue, ';');
+	wchar_t *ptszToken = szValue, *pDelim = wcschr(szValue, ';');
 	int bVisible = true, pos = 0;
-	TCHAR tszCustomName[201]; tszCustomName[0] = 0;
+	wchar_t tszCustomName[201]; tszCustomName[0] = 0;
 	MUUID customRoot = {};
 	for (int i = 0; i < 4; i++) {
 		if (pDelim)
 			*pDelim = 0;
 		
 		switch (i) {
-		case 0: bVisible = _ttoi(ptszToken); break;
-		case 1: pos = _ttoi(ptszToken); break;
+		case 0: bVisible = _wtoi(ptszToken); break;
+		case 1: pos = _wtoi(ptszToken); break;
 		case 2:
 			hex2binT(ptszToken, &customRoot, sizeof(customRoot));
 			if (customRoot == pimi->mi.uid) // prevent a loop
@@ -1012,9 +1012,9 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 		}
 
 		ptszToken = pDelim + 1;
-		if ((pDelim = _tcschr(ptszToken, ';')) == NULL) {
+		if ((pDelim = wcschr(ptszToken, ';')) == NULL) {
 			if (i == 2 && *ptszToken != 0)
-				_tcsncpy_s(tszCustomName, ptszToken, _TRUNCATE);
+				wcsncpy_s(tszCustomName, ptszToken, _TRUNCATE);
 			break;
 		}
 	}
@@ -1118,7 +1118,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 		if (pmi->mi.flags & CMIF_DEFAULT)
 			mii.fState |= MFS_DEFAULT;
 
-		mii.dwTypeData = (pmi->ptszCustomName) ? pmi->ptszCustomName : mi->name.t;
+		mii.dwTypeData = (pmi->ptszCustomName) ? pmi->ptszCustomName : mi->name.w;
 
 		// it's a submenu
 		if (pmi->submenu.first) {
@@ -1127,7 +1127,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 
 #ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
-				TCHAR str[256];
+				wchar_t str[256];
 				mir_sntprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
 				mii.dwTypeData = str;
 			}
@@ -1141,7 +1141,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 
 #ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
-				TCHAR str[256];
+				wchar_t str[256];
 				mir_sntprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
 				mii.dwTypeData = str;
 			}
@@ -1214,14 +1214,14 @@ int OnIconLibChanges(WPARAM, LPARAM)
 
 static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 {
-	TCHAR *descr = GetMenuItemText(pmi);
+	wchar_t *descr = GetMenuItemText(pmi);
 	if (!descr || pmi->hIcolibItem != NULL || pmi->mi.uid == miid_last)
 		return FALSE;
 
 	HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
 
-	TCHAR sectionName[256];
-	mir_sntprintf(sectionName, LPGENT("Menu icons") L"/%s", TranslateTS(pmi->parent->ptszDisplayName));
+	wchar_t sectionName[256];
+	mir_sntprintf(sectionName, LPGENW("Menu icons") L"/%s", TranslateTS(pmi->parent->ptszDisplayName));
 
 	char iconame[256], uname[100];
 	bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), uname);
@@ -1229,13 +1229,13 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 
 	// remove '&'
 	if (descr) {
-		descr = NEWTSTR_ALLOCA(descr);
+		descr = NEWWSTR_ALLOCA(descr);
 
-		for (TCHAR *p = descr; *p; p++) {
-			if ((p = _tcschr(p, '&')) == NULL)
+		for (wchar_t *p = descr; *p; p++) {
+			if ((p = wcschr(p, '&')) == NULL)
 				break;
 
-			memmove(p, p + 1, sizeof(TCHAR)*(mir_tstrlen(p + 1) + 1));
+			memmove(p, p + 1, sizeof(wchar_t)*(mir_tstrlen(p + 1) + 1));
 			if (*p == '\0')
 				p++;
 		}
@@ -1243,9 +1243,9 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 
 	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_TCHAR;
-	sid.section.t = sectionName;
+	sid.section.w = sectionName;
 	sid.pszName = iconame;
-	sid.description.t = descr;
+	sid.description.w = descr;
 	sid.hDefaultIcon = hIcon;
 	pmi->hIcolibItem = IcoLib_AddIcon(&sid, 0);
 
@@ -1351,7 +1351,7 @@ void TIntMenuObject::freeItem(TMO_IntMenuItem *p)
 		CallService(FreeService, (WPARAM)p, (LPARAM)p->pUserData);
 
 	p->signature = 0;
-	mir_free(p->mi.name.t);
+	mir_free(p->mi.name.w);
 	mir_free(p->pszUniqName);
 	mir_free(p->ptszCustomName);
 	if (p->hBmp) DeleteObject(p->hBmp);

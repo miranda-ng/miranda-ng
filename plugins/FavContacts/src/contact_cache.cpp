@@ -114,7 +114,7 @@ float CContactCache::getWeight(int rate)
 	return -1;
 }
 
-static bool AppendInfo(TCHAR *buf, int size, MCONTACT hContact, int info)
+static bool AppendInfo(wchar_t *buf, int size, MCONTACT hContact, int info)
 {
 	ptrT str(Contact_GetInfo(info, hContact));
 	if (str != NULL) {
@@ -128,7 +128,7 @@ static bool AppendInfo(TCHAR *buf, int size, MCONTACT hContact, int info)
 void CContactCache::TContactInfo::LoadInfo()
 {
 	if (infoLoaded) return;
-	TCHAR *p = info;
+	wchar_t *p = info;
 
 	p[0] = p[1] = 0;
 
@@ -147,22 +147,22 @@ void CContactCache::TContactInfo::LoadInfo()
 	infoLoaded = true;
 }
 
-TCHAR *nb_stristr(TCHAR *str, TCHAR *substr)
+wchar_t *nb_stristr(wchar_t *str, wchar_t *substr)
 {
 	if (!substr || !*substr) return str;
 	if (!str || !*str) return NULL;
 
-	TCHAR *str_up = NEWTSTR_ALLOCA(str);
-	TCHAR *substr_up = NEWTSTR_ALLOCA(substr);
+	wchar_t *str_up = NEWWSTR_ALLOCA(str);
+	wchar_t *substr_up = NEWWSTR_ALLOCA(substr);
 
 	CharUpperBuff(str_up, (DWORD)mir_tstrlen(str_up));
 	CharUpperBuff(substr_up, (DWORD)mir_tstrlen(substr_up));
 
-	TCHAR *p = _tcsstr(str_up, substr_up);
+	wchar_t *p = wcsstr(str_up, substr_up);
 	return p ? (str + (p - str_up)) : NULL;
 }
 
-bool CContactCache::filter(int rate, TCHAR *str)
+bool CContactCache::filter(int rate, wchar_t *str)
 {
 	if (!str || !*str)
 		return true;
@@ -172,7 +172,7 @@ bool CContactCache::filter(int rate, TCHAR *str)
 	HKL kbdLayouts[10];
 	int nKbdLayouts = GetKeyboardLayoutList(_countof(kbdLayouts), kbdLayouts);
 
-	TCHAR buf[256];
+	wchar_t buf[256];
 	BYTE keyState[256] = { 0 };
 
 	for (int iLayout = 0; iLayout < nKbdLayouts; ++iLayout) {
@@ -188,7 +188,7 @@ bool CContactCache::filter(int rate, TCHAR *str)
 			buf[i] = 0;
 		}
 
-		for (TCHAR *p = m_cache[rate]->info; p && *p; p = p + mir_tstrlen(p) + 1)
+		for (wchar_t *p = m_cache[rate]->info; p && *p; p = p + mir_tstrlen(p) + 1)
 			if (nb_stristr(p, buf))
 				return true;
 	}

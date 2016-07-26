@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-bool DBGetContactSettingAsString(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen)
+bool DBGetContactSettingAsString(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
 	DBVARIANT dbv;
 	buff[0] = 0;
@@ -31,13 +31,13 @@ bool DBGetContactSettingAsString(MCONTACT hContact, const char *szModuleName, co
 	if (!db_get(hContact, szModuleName, szSettingName, &dbv)) {
 		switch (dbv.type) {
 		case DBVT_BYTE:
-			_itot(dbv.bVal, buff, 10);
+			_itow(dbv.bVal, buff, 10);
 			break;
 		case DBVT_WORD:
-			_ltot(dbv.wVal, buff, 10);
+			_ltow(dbv.wVal, buff, 10);
 			break;
 		case DBVT_DWORD:
-			_ltot(dbv.dVal, buff, 10);
+			_ltow(dbv.dVal, buff, 10);
 			break;
 		case DBVT_ASCIIZ:
 			if (dbv.pszVal) a2t(dbv.pszVal, buff, bufflen);
@@ -76,7 +76,7 @@ bool CheckContactType(MCONTACT hContact, const DISPLAYITEM &di)
 	return false;
 }
 
-void StripBBCodesInPlace(TCHAR *ptszText)
+void StripBBCodesInPlace(wchar_t *ptszText)
 {
 	if (!db_get_b(0, MODULE, "StripBBCodes", 1))
 		return;
@@ -96,21 +96,21 @@ void StripBBCodesInPlace(TCHAR *ptszText)
 		if (iRead > iLen)
 			break;
 
-		if (iLen - iRead >= 3 && (_tcsnicmp(ptszText + iRead, L"[b]", 3) == 0 || _tcsnicmp(ptszText + iRead, L"[i]", 3) == 0))
+		if (iLen - iRead >= 3 && (wcsnicmp(ptszText + iRead, L"[b]", 3) == 0 || wcsnicmp(ptszText + iRead, L"[i]", 3) == 0))
 			iRead += 3;
-		else if (iLen - iRead >= 4 && (_tcsnicmp(ptszText + iRead, L"[/b]", 4) == 0 || _tcsnicmp(ptszText + iRead, L"[/i]", 4) == 0))
+		else if (iLen - iRead >= 4 && (wcsnicmp(ptszText + iRead, L"[/b]", 4) == 0 || wcsnicmp(ptszText + iRead, L"[/i]", 4) == 0))
 			iRead += 4;
-		else if (iLen - iRead >= 6 && (_tcsnicmp(ptszText + iRead, L"[color", 6) == 0)) {
+		else if (iLen - iRead >= 6 && (wcsnicmp(ptszText + iRead, L"[color", 6) == 0)) {
 			while (iRead < iLen && ptszText[iRead] != ']') iRead++;
 			iRead++;// skip the ']'
 		}
-		else if (iLen - iRead >= 8 && (_tcsnicmp(ptszText + iRead, L"[/color]", 8) == 0))
+		else if (iLen - iRead >= 8 && (wcsnicmp(ptszText + iRead, L"[/color]", 8) == 0))
 			iRead += 8;
-		else if (iLen - iRead >= 5 && (_tcsnicmp(ptszText + iRead, L"[size", 5) == 0)) {
+		else if (iLen - iRead >= 5 && (wcsnicmp(ptszText + iRead, L"[size", 5) == 0)) {
 			while (iRead < iLen && ptszText[iRead] != ']') iRead++;
 			iRead++;// skip the ']'
 		}
-		else if (iLen - iRead >= 7 && (_tcsnicmp(ptszText + iRead, L"[/size]", 7) == 0))
+		else if (iLen - iRead >= 7 && (wcsnicmp(ptszText + iRead, L"[/size]", 7) == 0))
 			iRead += 7;
 		else {
 			if (ptszText[iRead] != ptszText[iWrite]) ptszText[iWrite] = ptszText[iRead];
@@ -131,14 +131,14 @@ DWORD LastMessageTimestamp(MCONTACT hContact, bool received)
 	return 0;
 }
 
-void FormatTimestamp(DWORD ts, char *szFormat, TCHAR *buff, int bufflen)
+void FormatTimestamp(DWORD ts, char *szFormat, wchar_t *buff, int bufflen)
 {
-	TCHAR swzForm[16];
+	wchar_t swzForm[16];
 	a2t(szFormat, swzForm, 16);
 	TimeZone_ToStringT(ts, swzForm, buff, bufflen);
 }
 
-bool Uid(MCONTACT hContact, char *szProto, TCHAR *buff, int bufflen)
+bool Uid(MCONTACT hContact, char *szProto, wchar_t *buff, int bufflen)
 {
 	char *tmpProto = (hContact ? GetContactProto(hContact) : szProto);
 	if (tmpProto) {
@@ -150,7 +150,7 @@ bool Uid(MCONTACT hContact, char *szProto, TCHAR *buff, int bufflen)
 	return false;
 }
 
-bool UidName(char *szProto, TCHAR *buff, int bufflen)
+bool UidName(char *szProto, wchar_t *buff, int bufflen)
 {
 	if (szProto) {
 		char *szUidName = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
@@ -162,7 +162,7 @@ bool UidName(char *szProto, TCHAR *buff, int bufflen)
 	return false;
 }
 
-TCHAR* GetLastMessageText(MCONTACT hContact, bool received)
+wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 {
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = {	sizeof(dbei) };
@@ -173,8 +173,8 @@ TCHAR* GetLastMessageText(MCONTACT hContact, bool received)
 			if (dbei.cbBlob == 0 || dbei.pBlob == 0)
 				return 0;
 
-			TCHAR *buff = DbGetEventTextT( &dbei, CP_ACP );
-			TCHAR *swzMsg = mir_tstrdup(buff);
+			wchar_t *buff = DbGetEventTextT( &dbei, CP_ACP );
+			wchar_t *swzMsg = mir_tstrdup(buff);
 			mir_free(buff);
 
 			StripBBCodesInPlace(swzMsg);
@@ -206,9 +206,9 @@ bool CanRetrieveStatusMsg(MCONTACT hContact, char *szProto)
 	return false;
 }
 
-TCHAR* GetStatusMessageText(MCONTACT hContact)
+wchar_t* GetStatusMessageText(MCONTACT hContact)
 {
-	TCHAR *swzMsg = NULL;
+	wchar_t *swzMsg = NULL;
 	DBVARIANT dbv;
 
 	char *szProto = GetContactProto(hContact);
@@ -246,7 +246,7 @@ TCHAR* GetStatusMessageText(MCONTACT hContact)
 	return swzMsg;
 }
 
-bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int bufflen)
+bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int bufflen)
 {
 	bool recv = false;
 
@@ -268,7 +268,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		else if (szProto) {
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			if (pa && pa->tszAccountName) {
-				_tcsncpy(buff, pa->tszAccountName, bufflen);
+				wcsncpy(buff, pa->tszAccountName, bufflen);
 				return true;
 			}
 			else
@@ -284,17 +284,17 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		return UidName(szProto, buff, bufflen);
 	}
 	else if (!mir_tstrcmp(swzRawSpec, L"status_msg")) {
-		TCHAR *swzMsg = GetStatusMessageText(hContact);
+		wchar_t *swzMsg = GetStatusMessageText(hContact);
 		if (swzMsg) {
-			_tcsncpy(buff, swzMsg, bufflen);
+			wcsncpy(buff, swzMsg, bufflen);
 			mir_free(swzMsg);
 			return true;
 		}
 	}
 	else if ((recv = !mir_tstrcmp(swzRawSpec, L"last_msg")) || !mir_tstrcmp(swzRawSpec, L"last_msg_out")) {
-		TCHAR *swzMsg = GetLastMessageText(hContact, recv);
+		wchar_t *swzMsg = GetLastMessageText(hContact, recv);
 		if (swzMsg) {
-			_tcsncpy(buff, swzMsg, bufflen);
+			wcsncpy(buff, swzMsg, bufflen);
 			mir_free(swzMsg);
 			return true;
 		}
@@ -305,9 +305,9 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		if (!hSubContact)
 			return false;
 		
-		TCHAR *swzNick = pcli->pfnGetContactDisplayName(hSubContact, 0);
+		wchar_t *swzNick = pcli->pfnGetContactDisplayName(hSubContact, 0);
 		if (swzNick)
-			_tcsncpy(buff, swzNick, bufflen);
+			wcsncpy(buff, swzNick, bufflen);
 		return true;
 	}
 	else if (!mir_tstrcmp(swzRawSpec, L"meta_subuid")) {
@@ -418,7 +418,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	return false;
 }
 
-bool GetSubstText(MCONTACT hContact, const DISPLAYSUBST &ds, TCHAR *buff, int bufflen)
+bool GetSubstText(MCONTACT hContact, const DISPLAYSUBST &ds, wchar_t *buff, int bufflen)
 {
 	TranslateFunc *transFunc = 0;
 	for (int i = 0; i < iTransFuncsCount; i++)
@@ -445,7 +445,7 @@ bool GetSubstText(MCONTACT hContact, const DISPLAYSUBST &ds, TCHAR *buff, int bu
 	return false;
 }
 
-bool GetRawSubstText(MCONTACT hContact, char *szRawSpec, TCHAR *buff, int bufflen)
+bool GetRawSubstText(MCONTACT hContact, char *szRawSpec, wchar_t *buff, int bufflen)
 {
 	size_t lenght = mir_strlen(szRawSpec);
 	for (size_t i = 0; i < lenght; i++) {
@@ -466,7 +466,7 @@ bool GetRawSubstText(MCONTACT hContact, char *szRawSpec, TCHAR *buff, int buffle
 	return false;
 }
 
-bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsFirst, TCHAR *swzDest, size_t iDestLen)
+bool ApplySubst(MCONTACT hContact, const wchar_t *swzSource, bool parseTipperVarsFirst, wchar_t *swzDest, size_t iDestLen)
 {
 	// hack - allow empty strings before passing to variables (note - zero length strings return false after this)
 	if (swzDest && swzSource && (*swzSource == 0)) {
@@ -475,18 +475,18 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 	}
 
 	// pass to variables plugin if available
-	TCHAR *swzVarSrc = (parseTipperVarsFirst ? mir_tstrdup(swzSource) : variables_parsedup((TCHAR *)swzSource, 0, hContact));
+	wchar_t *swzVarSrc = (parseTipperVarsFirst ? mir_tstrdup(swzSource) : variables_parsedup((wchar_t *)swzSource, 0, hContact));
 
 	size_t iSourceLen = mir_tstrlen(swzVarSrc);
 	size_t si = 0, di = 0, v = 0;
 
-	TCHAR swzVName[LABEL_LEN], swzRep[VALUE_LEN], swzAlt[VALUE_LEN];
+	wchar_t swzVName[LABEL_LEN], swzRep[VALUE_LEN], swzAlt[VALUE_LEN];
 	while (si < iSourceLen && di < iDestLen - 1) {
-		if (swzVarSrc[si] == _T('%')) {
+		if (swzVarSrc[si] == '%') {
 			si++;
 			v = 0;
 			while (si < iSourceLen && v < LABEL_LEN - 1) {
-				if (swzVarSrc[si] == _T('%'))
+				if (swzVarSrc[si] == '%')
 					break;
 
 				swzVName[v] = swzVarSrc[si];
@@ -494,7 +494,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 			}
 
 			if (v == 0)  // bSubst len is 0 - just a % symbol
-				swzDest[di] = _T('%');
+				swzDest[di] = '%';
 			else if (si < iSourceLen) // we found end %
 			{
 				swzVName[v] = 0;
@@ -502,7 +502,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 				bool bAltSubst = false, bSubst = false;
 
 				// apply only to specific protocols
-				TCHAR *p = _tcsrchr(swzVName, _T('^')); // use last '^', so if you want a ^ in swzAlt text, you can just put a '^' on the end
+				wchar_t *p = wcsrchr(swzVName, '^'); // use last '^', so if you want a ^ in swzAlt text, you can just put a '^' on the end
 				if (p) {
 					*p = 0;
 					p++;
@@ -519,7 +519,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 							goto empty;
 
 						bool negate = false;
-						if (*p == _T('!')) {
+						if (*p == '!') {
 							p++;
 							if (*p == 0) goto error;
 							negate = true;
@@ -529,11 +529,11 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 						bool spec = false;
 						int len;
 
-						TCHAR *last = _tcsrchr(p, _T(','));
+						wchar_t *last = wcsrchr(p, ',');
 						if (!last) last = p;
 
 						while (p <= last + 1) {
-							len = (int)_tcscspn(p, L",");
+							len = (int)wcscspn(p, L",");
 							t2a(p, sproto, len);
 							sproto[len] = 0;
 							p += len + 1;
@@ -551,17 +551,17 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 
 				// get alternate text, if bSubst fails
 				swzAlt[0] = 0;
-				p = _tcschr(swzVName, _T('|')); // use first '|' - so you can use the '|' symbol in swzAlt text
+				p = wcschr(swzVName, '|'); // use first '|' - so you can use the '|' symbol in swzAlt text
 				if (p) {
 					*p = 0; // clip swzAlt from swzVName
 					p++;
-					if (mir_tstrlen(p) > 4 && _tcsncmp(p, L"raw:", 4) == 0) { // raw db substitution
+					if (mir_tstrlen(p) > 4 && wcsncmp(p, L"raw:", 4) == 0) { // raw db substitution
 						char raw_spec[LABEL_LEN];
 						p += 4;
 						t2a(p, raw_spec, LABEL_LEN);
 						GetRawSubstText(hContact, raw_spec, swzAlt, VALUE_LEN);
 					}
-					else if (mir_tstrlen(p) > 4 && _tcsncmp(p, L"sys:", 4) == 0) { // 'system' substitution
+					else if (mir_tstrlen(p) > 4 && wcsncmp(p, L"sys:", 4) == 0) { // 'system' substitution
 						p += 4;
 						GetSysSubstText(hContact, p, swzAlt, VALUE_LEN);
 					}
@@ -578,7 +578,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 						if (ds_node)
 							GetSubstText(hContact, ds_node->ds, swzAlt, VALUE_LEN);
 						else {
-							_tcsncpy(swzAlt, p, VALUE_LEN);
+							wcsncpy(swzAlt, p, VALUE_LEN);
 							bAltSubst = true;
 						}
 					}
@@ -588,13 +588,13 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 				}
 
 				// get bSubst text
-				if (v > 4 && _tcsncmp(swzVName, L"raw:", 4) == 0) // raw db substitution
+				if (v > 4 && wcsncmp(swzVName, L"raw:", 4) == 0) // raw db substitution
 				{
 					char raw_spec[LABEL_LEN];
 					t2a(&swzVName[4], raw_spec, LABEL_LEN);
 					bSubst = GetRawSubstText(hContact, raw_spec, swzRep, VALUE_LEN);
 				}
-				else if (v > 4 && _tcsncmp(swzVName, L"sys:", 4) == 0) // 'system' substitution
+				else if (v > 4 && wcsncmp(swzVName, L"sys:", 4) == 0) // 'system' substitution
 				{
 					bSubst = GetSysSubstText(hContact, &swzVName[4], swzRep, VALUE_LEN);
 				}
@@ -616,12 +616,12 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 
 				if (bSubst) {
 					size_t rep_len = mir_tstrlen(swzRep);
-					_tcsncpy(&swzDest[di], swzRep, min(rep_len, iDestLen - di));
+					wcsncpy(&swzDest[di], swzRep, min(rep_len, iDestLen - di));
 					di += rep_len - 1; // -1 because we inc at bottom of loop
 				}
 				else if (bAltSubst) {
 					size_t alt_len = mir_tstrlen(swzAlt);
-					_tcsncpy(&swzDest[di], swzAlt, min(alt_len, iDestLen - di));
+					wcsncpy(&swzDest[di], swzAlt, min(alt_len, iDestLen - di));
 					di += alt_len - 1; // -1 because we inc at bottom of loop
 				}
 				else goto empty; // empty value
@@ -640,14 +640,14 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 
 	if (parseTipperVarsFirst) {
 		swzVarSrc = variables_parsedup(swzDest, 0, hContact);
-		_tcsncpy(swzDest, swzVarSrc, iDestLen);
+		wcsncpy(swzDest, swzVarSrc, iDestLen);
 		mir_free(swzVarSrc);
 	}
 
 
 	// check for a 'blank' string - just spaces etc
 	for (si = 0; si <= di; si++) {
-		if (swzDest[si] != 0 && swzDest[si] != _T(' ') && swzDest[si] != _T('\t') && swzDest[si] != _T('\r') && swzDest[si] != _T('\n'))
+		if (swzDest[si] != 0 && swzDest[si] != ' ' && swzDest[si] != '\t' && swzDest[si] != '\r' && swzDest[si] != '\n')
 			return true;
 	}
 
@@ -658,23 +658,23 @@ empty:
 	return false;
 
 error:
-	swzDest[0] = _T('*');
+	swzDest[0] = '*';
 	swzDest[1] = 0;
 	mir_free(swzVarSrc);
 	return true;
 }
 
-bool GetLabelText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, size_t bufflen)
+bool GetLabelText(MCONTACT hContact, const DISPLAYITEM &di, wchar_t *buff, size_t bufflen)
 {
 	return ApplySubst(hContact, di.swzLabel, false, buff, bufflen);
 }
 
-bool GetValueText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, size_t bufflen)
+bool GetValueText(MCONTACT hContact, const DISPLAYITEM &di, wchar_t *buff, size_t bufflen)
 {
 	return ApplySubst(hContact, di.swzValue, di.bParseTipperVarsFirst, buff, bufflen);
 }
 
-void TruncateString(TCHAR *ptszText)
+void TruncateString(wchar_t *ptszText)
 {
 	if (ptszText && opt.iLimitCharCount > 3) {
 		if ((int)mir_tstrlen(ptszText) > opt.iLimitCharCount) {
@@ -684,7 +684,7 @@ void TruncateString(TCHAR *ptszText)
 	}
 }
 
-TCHAR* GetProtoStatusMessage(char *szProto, WORD wStatus)
+wchar_t* GetProtoStatusMessage(char *szProto, WORD wStatus)
 {
 	if (!szProto || wStatus == ID_STATUS_OFFLINE)
 		return NULL;
@@ -694,9 +694,9 @@ TCHAR* GetProtoStatusMessage(char *szProto, WORD wStatus)
 	if (!(flags & Proto_Status2Flag(wStatus)))
 		return NULL;
 
-	TCHAR *ptszText = (TCHAR *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
+	wchar_t *ptszText = (wchar_t *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
 	if ((INT_PTR)ptszText == CALLSERVICE_NOTFOUND)
-		ptszText = (TCHAR *)CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, (LPARAM)szProto);
+		ptszText = (wchar_t *)CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, (LPARAM)szProto);
 
 	else if (ptszText == NULL) {
 		// try to use service without SGMA_TCHAR
@@ -719,14 +719,14 @@ TCHAR* GetProtoStatusMessage(char *szProto, WORD wStatus)
 	return ptszText;
 }
 
-TCHAR* GetProtoExtraStatusTitle(char *szProto)
+wchar_t* GetProtoExtraStatusTitle(char *szProto)
 {
 	if (!szProto)
 		return NULL;
 
-	TCHAR *ptszText = db_get_tsa(0, szProto, "XStatusName");
+	wchar_t *ptszText = db_get_tsa(0, szProto, "XStatusName");
 	if (!ptszText) {
-		TCHAR buff[256];
+		wchar_t buff[256];
 		if (EmptyXStatusToDefaultName(0, szProto, 0, buff, 256))
 			ptszText = mir_tstrdup(buff);
 	}
@@ -737,12 +737,12 @@ TCHAR* GetProtoExtraStatusTitle(char *szProto)
 	return ptszText;
 }
 
-TCHAR* GetProtoExtraStatusMessage(char *szProto)
+wchar_t* GetProtoExtraStatusMessage(char *szProto)
 {
 	if (!szProto)
 		return NULL;
 
-	TCHAR *ptszText = db_get_tsa(0, szProto, "XStatusMsg");
+	wchar_t *ptszText = db_get_tsa(0, szProto, "XStatusMsg");
 	if (ptszText == NULL)
 		return NULL;
 
@@ -759,7 +759,7 @@ TCHAR* GetProtoExtraStatusMessage(char *szProto)
 			}
 		}
 
-		TCHAR *tszParsed = variables_parse(ptszText, NULL, hContact);
+		wchar_t *tszParsed = variables_parse(ptszText, NULL, hContact);
 		if (tszParsed)
 		{
 			mir_free(ptszText);
@@ -773,26 +773,26 @@ TCHAR* GetProtoExtraStatusMessage(char *szProto)
 	return ptszText;
 }
 
-TCHAR* GetListeningTo(char *szProto)
+wchar_t* GetListeningTo(char *szProto)
 {
 	if (!szProto)
 		return NULL;
 
-	TCHAR *ptszText = db_get_tsa(0, szProto, "ListeningTo");
+	wchar_t *ptszText = db_get_tsa(0, szProto, "ListeningTo");
 	if (opt.bLimitMsg)
 		TruncateString(ptszText);
 
 	return ptszText;
 }
 
-TCHAR* GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szValue)
+wchar_t* GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szValue)
 {
 	if (!szProto)
 		return NULL;
 
 	char szSetting[128];
 	mir_snprintf(szSetting, "%s/%s/%s", szProto, szSlot, szValue);
-	TCHAR *ptszText = db_get_tsa(0, "AdvStatus", szSetting);
+	wchar_t *ptszText = db_get_tsa(0, "AdvStatus", szSetting);
 	if (opt.bLimitMsg)
 		TruncateString(ptszText);
 

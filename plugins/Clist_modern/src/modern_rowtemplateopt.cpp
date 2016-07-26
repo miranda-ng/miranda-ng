@@ -28,7 +28,7 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti);
 static char* rowOptTmplStr;
 static ROWCELL* rowOptTmplRoot;
 static ROWCELL* rowOptTA[100];
-TCHAR *types[] = {
+wchar_t *types[] = {
 	L"none", L"text1", L"text2", L"text3", L"status",
 	L"avatar", L"extra", L"extra1", L"extra2", L"extra3",
 	L"extra4", L"extra5", L"extra6", L"extra7", L"extra8",
@@ -308,7 +308,7 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 		cell = (pROWCELL)tvi.lParam;
 		if (cell)
 		{
-			TCHAR buf[200] = { 0 };
+			wchar_t buf[200] = { 0 };
 			if (!cell->child)
 			{
 				if (cell->type == 0)
@@ -362,14 +362,14 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 		SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_SETCURSEL, 0, 0);
 
-		TCHAR *h_alignment[] = { L"left", L"hCenter", L"right" };
+		wchar_t *h_alignment[] = { L"left", L"hCenter", L"right" };
 		for (i = 0; i < _countof(h_alignment); i++) {
 			item = SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateTS(h_alignment[i]));
 			SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETITEMDATA, item, 0);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETCURSEL, 0, 0);
 
-		TCHAR *v_alignment[] = { L"top", L"vCenter", L"bottom" };
+		wchar_t *v_alignment[] = { L"top", L"vCenter", L"bottom" };
 		for (i = 0; i < _countof(v_alignment); i++) {
 			item = SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateTS(v_alignment[i]));
 			SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETITEMDATA, item, 0);

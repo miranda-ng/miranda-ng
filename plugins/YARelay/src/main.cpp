@@ -26,7 +26,7 @@ HINSTANCE hInst;
 int hLangpack;
 
 MCONTACT hForwardFrom, hForwardTo;
-TCHAR tszForwardTemplate[MAXTEMPLATESIZE]; 
+wchar_t tszForwardTemplate[MAXTEMPLATESIZE]; 
 int iSplit, iSplitMaxSize, iSendParts, iMarkRead, iSendAndHistory, iForwardOnStatus;
 
 LIST<MESSAGE_PROC> arMessageProcs(10, HandleKeySortT);
@@ -141,7 +141,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 			continue;
 		}
 
-		TCHAR buf[100];
+		wchar_t buf[100];
 		switch(*++p) {
 		case 'u':
 		case 'U':
@@ -153,7 +153,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 			{
 				ptrT id(Contact_GetInfo(CNF_UNIQUEID, NULL));
 				if (id != NULL)
-					_tcsncpy_s(buf, id, _TRUNCATE);
+					wcsncpy_s(buf, id, _TRUNCATE);
 				else
 					mir_sntprintf(buf, L"%p", hContact);
 			}
@@ -162,13 +162,13 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 
 		case 't':
 		case 'T':
-			_tcsftime(buf, 10, L"%H:%M", tm_time);
+			wcsftime(buf, 10, L"%H:%M", tm_time);
 			szUtfMsg.append(T2Utf(buf));
 			break;
 
 		case 'd':
 		case 'D':
-			_tcsftime(buf, 12, L"%d/%m/%Y", tm_time);
+			wcsftime(buf, 12, L"%d/%m/%Y", tm_time);
 			szUtfMsg.append(T2Utf(buf));
 			break;
 
@@ -230,12 +230,12 @@ extern "C" int __declspec(dllexport) Load()
 
 	iForwardOnStatus = db_get_dw(NULL, "yaRelay", "ForwardOnStatus", STATUS_OFFLINE | STATUS_AWAY | STATUS_NA);
 
-	TCHAR *szForwardTemplate = db_get_tsa(NULL, "yaRelay", "ForwardTemplate");
+	wchar_t *szForwardTemplate = db_get_tsa(NULL, "yaRelay", "ForwardTemplate");
 	if (szForwardTemplate){
-		_tcsncpy(tszForwardTemplate, szForwardTemplate, _countof(tszForwardTemplate));
+		wcsncpy(tszForwardTemplate, szForwardTemplate, _countof(tszForwardTemplate));
 		mir_free(szForwardTemplate);
 	}
-	else _tcsncpy(tszForwardTemplate, L"%u: %m", MAXTEMPLATESIZE-1);
+	else wcsncpy(tszForwardTemplate, L"%u: %m", MAXTEMPLATESIZE-1);
 
 	iSplit          = db_get_dw(NULL, "yaRelay", "Split", 0);
 	iSplitMaxSize   = db_get_dw(NULL, "yaRelay", "SplitMaxSize", 100);

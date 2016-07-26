@@ -55,7 +55,7 @@ void set_list_changed(bool f)
 	list_changed = f;
 }
 
-void SetProtoStatus(TCHAR *pszLabel, char *pszProto, int if_status, int new_status)
+void SetProtoStatus(wchar_t *pszLabel, char *pszProto, int if_status, int new_status)
 {
 	if (mir_strcmp(pszProto, Translate("<all>")) == 0) {
 		int num_protocols;
@@ -69,7 +69,7 @@ void SetProtoStatus(TCHAR *pszLabel, char *pszProto, int if_status, int new_stat
 		if (ProtoServiceExists(pszProto, PS_GETSTATUS)) {
 			if (CallProtoService(pszProto, PS_GETSTATUS, 0, 0) == if_status) {
 				if (options.logging) {
-					TCHAR buf[1024];
+					wchar_t buf[1024];
 					mir_sntprintf(buf, TranslateT("%s - setting status of protocol '%S' (%d)"), pszLabel, pszProto, new_status);
 					CallService(PLUG "/Log", (WPARAM)buf, 0);
 				}
@@ -194,7 +194,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 						}
 					}
 					if (pa.miss_count == -1 - options.retries && options.logging) {
-						TCHAR buf[512];
+						wchar_t buf[512];
 						mir_sntprintf(buf, TranslateT("%s - reply, %d"), pa.pszLabel, pa.round_trip_time);
 						CallService(PLUG "/Log", (WPARAM)buf, 0);
 					}
@@ -208,7 +208,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 							ShowPopup(TranslateT("Ping Timeout"), pa.pszLabel, 0);
 					}
 					if (pa.miss_count == 1 + options.retries && options.logging) {
-						TCHAR buf[512];
+						wchar_t buf[512];
 						mir_sntprintf(buf, TranslateT("%s - timeout"), pa.pszLabel);
 						CallService(PLUG "/Log", (WPARAM)buf, 0);
 					}
@@ -306,7 +306,7 @@ INT_PTR PingPlugShowWindow(WPARAM, LPARAM)
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	if (frame_id != -1 && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		TCHAR TBcapt[255];
+		wchar_t TBcapt[255];
 		if (total > 0)
 			mir_sntprintf(TBcapt, L"Ping (%d/%d)", upCount, total);
 		else
@@ -388,7 +388,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				TextOut(dis->hDC, dis->rcItem.left + 16 + 4, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, itemData.pszLabel, (int)mir_tstrlen(itemData.pszLabel));
 
 				if (itemData.status != PS_DISABLED) {
-					TCHAR buf[256];
+					wchar_t buf[256];
 					if (itemData.responding) {
 						mir_sntprintf(buf, TranslateT("%d ms"), itemData.round_trip_time);
 						GetTextExtentPoint32(dis->hDC, buf, (int)mir_tstrlen(buf), &textSize);
@@ -716,7 +716,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						if (wake) SetEvent(hWakeEvent);
 
 						if (options.logging) {
-							TCHAR buf[1024];
+							wchar_t buf[1024];
 							mir_sntprintf(buf, L"%s - %s", pItemData->pszLabel, (wake ? TranslateT("enabled") : TranslateT("double clicked")));
 							CallService(PLUG "/Log", (WPARAM)buf, 0);
 						}
@@ -902,13 +902,13 @@ void InitList()
 		CreateServiceFunction(PLUG "/ShowWindow", PingPlugShowWindow);
 
 		CMenuItem mi;
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Ping"), 1000200001);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Ping"), 1000200001);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "7CFBF239-86B5-48B2-8D5B-39E09A7DB514");
 
 		SET_UID(mi, 0x4adbd753, 0x27d6, 0x457a, 0xa6, 0x6, 0xdf, 0x4f, 0x2c, 0xd8, 0xb9, 0x3b);
 		mi.flags = CMIF_TCHAR;
 		mi.position = 3000320001;
-		mi.name.t = LPGENT("Show/Hide &Ping Window");
+		mi.name.w = LPGENW("Show/Hide &Ping Window");
 		mi.pszService = PLUG "/ShowWindow";
 		Menu_AddMainMenuItem(&mi);
 
@@ -917,8 +917,8 @@ void InitList()
 	}
 
 	font_id.cbSize = sizeof(FontIDT);
-	mir_tstrncpy(font_id.group, LPGENT("Ping"), _countof(font_id.group));
-	mir_tstrncpy(font_id.name, LPGENT("List"), _countof(font_id.name));
+	mir_tstrncpy(font_id.group, LPGENW("Ping"), _countof(font_id.group));
+	mir_tstrncpy(font_id.name, LPGENW("List"), _countof(font_id.name));
 	mir_strncpy(font_id.dbSettingsGroup, "PING", _countof(font_id.dbSettingsGroup));
 	mir_strncpy(font_id.prefix, "Font", _countof(font_id.prefix));
 	mir_tstrncpy(font_id.backgroundGroup, L"Ping", _countof(font_id.backgroundGroup));

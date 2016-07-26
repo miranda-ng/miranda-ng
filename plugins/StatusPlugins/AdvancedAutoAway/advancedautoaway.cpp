@@ -242,7 +242,7 @@ static int changeState(TAAAProtoSetting &setting, STATES newState)
 		if (db_get_b(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_MSGCUSTOM), FALSE)) {
 			DBVARIANT dbv;
 			if (!db_get_ts(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
-				setting.szMsg = _tcsdup(dbv.ptszVal);
+				setting.szMsg = wcsdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
 		}
@@ -375,7 +375,7 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DW
 		TAAAProtoSettingList ps = autoAwaySettings;
 		for (int i = 0; i < ps.getCount(); i++) {
 			if (ps[i].szMsg)
-				ps[i].szMsg = _tcsdup(ps[i].szMsg);
+				ps[i].szMsg = wcsdup(ps[i].szMsg);
 
 			if (ps[i].status == ID_STATUS_DISABLED)
 				ps[i].szName = "";

@@ -69,17 +69,17 @@ public :
 	int  m_codePage;
 
 	//CIrcMessage( CIrcProto* ); // default constructor
-	CIrcMessage( CIrcProto*, const TCHAR* lpszCmdLine, int codepage, bool bIncoming=false, bool bNotify = true); // parser constructor
+	CIrcMessage( CIrcProto*, const wchar_t* lpszCmdLine, int codepage, bool bIncoming=false, bool bNotify = true); // parser constructor
 	CIrcMessage( const CIrcMessage& m ); // copy constructor
 	~CIrcMessage();
 
 	void Reset();
 
 	CIrcMessage& operator = (const CIrcMessage& m);
-	CIrcMessage& operator = (const TCHAR* lpszCmdLine);
+	CIrcMessage& operator = (const wchar_t* lpszCmdLine);
 
 private :
-	void ParseIrcCommand(const TCHAR* lpszCmdLine);
+	void ParseIrcCommand(const wchar_t* lpszCmdLine);
 };
 
 ////////////////////////////////////////////////////////////////////
@@ -110,7 +110,7 @@ struct CIrcSessionInfo
 
 struct CIrcIgnoreItem
 {
-	CIrcIgnoreItem( const TCHAR*, const TCHAR*, const TCHAR* );
+	CIrcIgnoreItem( const wchar_t*, const wchar_t*, const wchar_t* );
 	CIrcIgnoreItem( int codepage, const char*, const char*, const char* );
 	~CIrcIgnoreItem();
 
@@ -132,7 +132,7 @@ protected:
 	int iGlobalToken;
 
 	PROTOFILETRANSFERSTATUS pfts; // structure used to setup and update the filetransfer dialogs of miranda
-	TCHAR* file[2];
+	wchar_t* file[2];
 
 	int SetupConnection();	
 	void DoSendFile();
@@ -154,7 +154,7 @@ public:
 
 	HANDLE hEvent;                // Manual object
 	long   dwWhatNeedsDoing;      // Set to indicate what FILERESUME_ action is chosen by the user
-	TCHAR* NewFileName;           // contains new file name if FILERESUME_RENAME chosen
+	wchar_t* NewFileName;           // contains new file name if FILERESUME_RENAME chosen
 	unsigned __int64 dwResumePos;           // position to resume from if FILERESUME_RESUME
 
 	int iToken;                   // used to identify (find) objects in reverse dcc filetransfers
@@ -163,7 +163,7 @@ public:
 
 	int Connect();					
 	void SetupPassive( DWORD adr, DWORD port );
-	int SendStuff(const TCHAR* fmt);
+	int SendStuff(const wchar_t* fmt);
 	int IncomingConnection(HANDLE hConnection, DWORD dwIP);
 	int Disconnect();
 };

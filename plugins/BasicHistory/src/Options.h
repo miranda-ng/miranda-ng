@@ -114,7 +114,7 @@ struct TaskOptions
 		dayOfMonth = 1;
 		deltaTime = 24;
 		orderNr = 0;
-		TCHAR buf[MAX_PATH];
+		wchar_t buf[MAX_PATH];
 		if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, buf)))
 		{
 			filePath = buf;

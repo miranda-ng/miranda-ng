@@ -249,7 +249,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		SendDlgItemMessage(hDlg, IDC_SLIDER1, TBM_SETPOS, TRUE, (LPARAM)ps->alpha);
 
 		{
-			TCHAR buf[20];
+			wchar_t buf[20];
 			mir_sntprintf(buf, L"%d %%", ps->alpha * 100 / 255);
 			SetDlgItemText(hDlg, IDC_ALPHATXT, buf);
 		}
@@ -265,7 +265,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		ps = (plgsettings*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		ps->alpha = SendDlgItemMessage(hDlg, IDC_SLIDER1, TBM_GETPOS, 0, 0);
 		{
-			TCHAR buf[20];
+			wchar_t buf[20];
 			mir_sntprintf(buf, L"%d %%", ps->alpha * 100 / 255);
 			SetDlgItemText(hDlg, IDC_ALPHATXT, buf);
 		}
@@ -414,8 +414,8 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.groupPosition = 950000000;
 	odp.hInstance = hI;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG1);
-	odp.ptszGroup = LPGENT("Plugins");
-	odp.ptszTitle = LPGENT("OSD");
+	odp.pwszGroup = LPGENW("Plugins");
+	odp.pwszTitle = LPGENW("OSD");
 	odp.pfnDlgProc = OptDlgProc;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wparam, &odp);

@@ -390,15 +390,15 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_UPDATENOTIFY);
-	odp.ptszGroup = LPGENT("Services");
-	odp.ptszTitle = LPGENT("Pack Updater");
+	odp.pwszGroup = LPGENW("Services");
+	odp.pwszTitle = LPGENW("Pack Updater");
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.ptszGroup = LPGENT("Popups");
-		odp.ptszTitle = LPGENT("Pack Updater");
+		odp.pwszGroup = LPGENW("Popups");
+		odp.pwszTitle = LPGENW("Pack Updater");
 		odp.pfnDlgProc = DlgPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}

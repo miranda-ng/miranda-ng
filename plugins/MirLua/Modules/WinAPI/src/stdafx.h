@@ -52,7 +52,6 @@
 #include <stddef.h>
 #include <process.h>
 #include <direct.h>
-#include <tchar.h>
 #include <shlwapi.h>
 #include <shlobj.h>
 

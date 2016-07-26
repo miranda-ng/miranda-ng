@@ -44,13 +44,13 @@ void StartThread(bool init);
 void StopThread();
 bool GetNextExportTime(bool init, time_t now);
 bool ExecuteCurrentTask(time_t now);
-void GetZipFileTime(const TCHAR *file, uLong *dt);
-std::wstring ReplaceExt(const std::wstring& file, const TCHAR* ext);
+void GetZipFileTime(const wchar_t *file, uLong *dt);
+std::wstring ReplaceExt(const std::wstring& file, const wchar_t* ext);
 bool ZipFiles(const std::wstring& dir, std::wstring zipFilePath, const std::string& password);
 bool UnzipFiles(const std::wstring& dir, std::wstring& zipFilePath, const std::string& password);
 bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::wstring& ftpName);
 bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, const std::wstring& ftpName);
-void CreatePath(const TCHAR *szDir);
+void CreatePath(const wchar_t *szDir);
 void DoError(const TaskOptions& to, const std::wstring error);
 
 static HANDLE hPopupClass;
@@ -169,7 +169,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 			*errDescr = TranslateT("To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.");
 		return false;
 	}
-	if (to.useFtp && (to.filePath.find(_T('\\')) < to.filePath.length() || to.filePath.find(_T(':')) < to.filePath.length() || to.filePath[0] != L'/')) {
+	if (to.useFtp && (to.filePath.find('\\') < to.filePath.length() || to.filePath.find(':') < to.filePath.length() || to.filePath[0] != L'/')) {
 		if (err != NULL)
 			*err = TranslateT("Path to file");
 		if (errDescr != NULL)
@@ -232,9 +232,9 @@ bool DoTask(TaskOptions& to)
 	std::wstring err;
 	std::wstring errDescr;
 	if (!IsValidTask(to, NULL, &err, &errDescr)) {
-		TCHAR msg[256];
+		wchar_t msg[256];
 		if (err.empty())
-			_tcscpy_s(msg, TranslateT("Some value is invalid"));
+			wcscpy_s(msg, TranslateT("Some value is invalid"));
 		else if (errDescr.empty())
 			mir_sntprintf(msg, TranslateT("Invalid '%s' value."), err.c_str());
 		else
@@ -280,14 +280,14 @@ bool DoTask(TaskOptions& to)
 		std::vector<MCONTACT> contacts;
 		if (to.useFtp || to.compress) {
 			std::map<std::wstring, bool> existingContacts;
-			TCHAR temp[MAX_PATH];
+			wchar_t temp[MAX_PATH];
 			temp[0] = 0;
 			GetTempPath(MAX_PATH, temp);
 			dir = temp;
 			dir += GetName(filePath);
 			dir = GetFileName(dir, L"", existingContacts, true);
 			dir = ReplaceExt(dir, L"");
-			size_t pos = dir.find_last_of(_T('.'));
+			size_t pos = dir.find_last_of('.');
 			if (pos < dir.length())
 				dir = dir.substr(0, pos);
 
@@ -295,7 +295,7 @@ bool DoTask(TaskOptions& to)
 			CreateDirectory(dir.c_str(), NULL);
 		}
 
-		const TCHAR* ext = ExportManager::GetExt(to.importType);
+		const wchar_t* ext = ExportManager::GetExt(to.importType);
 		if (to.isSystem) {
 			std::wstring n = GetFileName(filePath, mExp.GetContactName(), existingContacts1, true);
 			n = ReplaceExt(n, ext);
@@ -394,7 +394,7 @@ bool DoTask(TaskOptions& to)
 					if (!errorStr.empty())
 						errorStr += L"\n";
 
-					TCHAR msg[1024];
+					wchar_t msg[1024];
 					mir_sntprintf(msg, TranslateT("Incorrect file format: %s."), GetName(*it).c_str());
 					errorStr += msg;
 				}
@@ -402,7 +402,7 @@ bool DoTask(TaskOptions& to)
 					if (!errorStr.empty())
 						errorStr += L"\n";
 
-					TCHAR msg[1024];
+					wchar_t msg[1024];
 					
 					mir_sntprintf(msg, TranslateT("Unknown contact in file: %s."), GetName(*it).c_str());
 					errorStr += msg;
@@ -434,14 +434,14 @@ bool DoTask(TaskOptions& to)
 		}
 		else {
 			filePath = GetName(filePath);
-			TCHAR temp[MAX_PATH];
+			wchar_t temp[MAX_PATH];
 			temp[0] = 0;
 			GetTempPath(MAX_PATH, temp);
 			dir = temp;
 			dir += filePath;
 			dir = GetFileName(dir, L"", existingContacts, true);
 			dir = ReplaceExt(dir, L"");
-			size_t pos = dir.find_last_of(_T('.'));
+			size_t pos = dir.find_last_of('.');
 			if (pos < dir.length())
 				dir = dir.substr(0, pos);
 
@@ -458,7 +458,7 @@ bool DoTask(TaskOptions& to)
 				if (!errorStr.empty())
 					errorStr += L"\n";
 
-				TCHAR msg[1024];
+				wchar_t msg[1024];
 					
 				mir_sntprintf(msg, TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
 				errorStr += msg;
@@ -480,7 +480,7 @@ bool DoTask(TaskOptions& to)
 					if (!errorStr.empty())
 						errorStr += L"\n";
 
-					TCHAR msg[1024];
+					wchar_t msg[1024];
 					mir_sntprintf(msg, TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
 					errorStr += msg;
 					break;
@@ -507,7 +507,7 @@ bool DoTask(TaskOptions& to)
 			}
 			else {
 				zipFilePath = GetName(zipFilePath);
-				TCHAR temp[MAX_PATH];
+				wchar_t temp[MAX_PATH];
 				temp[0] = 0;
 				GetTempPath(MAX_PATH, temp);
 				zipDir = temp;
@@ -567,7 +567,7 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 		if (!baseName1.empty()) {
 			std::wstring name = baseName1;
 			int i = 0;
-			TCHAR buf[32];
+			wchar_t buf[32];
 			std::map<std::wstring, bool>::iterator it = existingContacts.find(name);
 			while(it != existingContacts.end()) {
 				_itot_s(++i, buf, 10);
@@ -583,7 +583,7 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 
 	pos = str.find(L"<date>");
 	if (pos < str.length()) {
-		TCHAR time[256];
+		wchar_t time[256];
 		SYSTEMTIME st;
 		GetLocalTime(&st);
 		mir_sntprintf(time, L"%d-%02d-%02d %02d%02d", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute);
@@ -793,7 +793,7 @@ bool GetNextExportTime(bool init, time_t now)
 
 static void CALLBACK DoTaskFinishInMainAPCFunc(ULONG_PTR dwParam)
 {
-	TCHAR *item = (TCHAR*) dwParam;
+	wchar_t *item = (wchar_t*) dwParam;
 	MessageBox(NULL, item, TranslateT("Task finished"), MB_OK | MB_ICONINFORMATION);
 	delete[] item;
 }
@@ -841,7 +841,7 @@ bool ExecuteCurrentTask(time_t now)
 
 			if (to.showMBAfterExecute) {
 				size_t size = to.taskName.size() + 1024;
-				TCHAR *name = new TCHAR[size];
+				wchar_t *name = new wchar_t[size];
 				if (error)
 					mir_sntprintf(name, size, TranslateT("Task '%s' execution failed"), to.taskName.c_str());
 				else
@@ -854,7 +854,7 @@ bool ExecuteCurrentTask(time_t now)
 	return GetNextExportTime(false, now);
 }
 
-void GetZipFileTime(const TCHAR *file, uLong *dt)
+void GetZipFileTime(const wchar_t *file, uLong *dt)
 {
 	FILETIME ftLocal;
 	WIN32_FIND_DATA ff32;
@@ -868,7 +868,7 @@ void GetZipFileTime(const TCHAR *file, uLong *dt)
 
 /* calculate the CRC32 of a file,
    because to encrypt a file, we need known the CRC32 of the file before */
-bool GetFileCrc(const TCHAR *filenameinzip, unsigned char *buf, unsigned long, unsigned long *result_crc)
+bool GetFileCrc(const wchar_t *filenameinzip, unsigned char *buf, unsigned long, unsigned long *result_crc)
 {
 	unsigned long calculate_crc = 0;
 	bool error = true;
@@ -1128,7 +1128,7 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 			CreateDirectory(GetDirectoryName(log).c_str(), NULL);
 			DeleteFile(log.c_str());
 
-			TCHAR cmdLine[MAX_PATH];
+			wchar_t cmdLine[MAX_PATH];
 			mir_sntprintf(cmdLine, L"\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc", Options::instance->ftpExePath.c_str(), log.c_str());
 
 			STARTUPINFO startupInfo = { 0 };
@@ -1219,7 +1219,7 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 		std::wstring &log = Options::instance->ftpLogPath;
 		CreateDirectory(GetDirectoryName(log).c_str(), NULL);
 		DeleteFile(log.c_str());
-		TCHAR cmdLine[MAX_PATH];
+		wchar_t cmdLine[MAX_PATH];
 		mir_sntprintf(cmdLine, L"\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc", Options::instance->ftpExePath.c_str(), log.c_str());
 		STARTUPINFO				startupInfo = { 0 };
 		PROCESS_INFORMATION		processInfo;
@@ -1243,18 +1243,18 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 	return true;
 }
 
-void CreatePath(const TCHAR *szDir)
+void CreatePath(const wchar_t *szDir)
 {
 	if (!szDir) return;
 
 	DWORD dwAttributes;
-	TCHAR *pszLastBackslash, szTestDir[MAX_PATH];
+	wchar_t *pszLastBackslash, szTestDir[MAX_PATH];
 
 	mir_tstrncpy(szTestDir, szDir, _countof(szTestDir));
 	if ((dwAttributes = GetFileAttributes(szTestDir)) != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return;
 
-	pszLastBackslash = _tcsrchr(szTestDir, '\\');
+	pszLastBackslash = wcsrchr(szTestDir, '\\');
 	if (pszLastBackslash == NULL)
 		return;
 
@@ -1282,7 +1282,7 @@ INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM)
 
 void DoError(const TaskOptions& to, const std::wstring _error)
 {
-	TCHAR msg[256];
+	wchar_t msg[256];
 	mir_sntprintf(msg, TranslateT("Task '%s' execution failed:"), to.taskName.c_str());
 	if (Options::instance->schedulerHistoryAlerts) {
 		std::wstring error = msg;
@@ -1312,8 +1312,8 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		else if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 			POPUPDATAT ppd = { 0 };
 			ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
-			_tcscpy_s(ppd.lptzContactName, msg);
-			_tcscpy_s(ppd.lptzText, _error.c_str());
+			wcscpy_s(ppd.lptzContactName, msg);
+			wcscpy_s(ppd.lptzText, _error.c_str());
 			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
 		}
 	}

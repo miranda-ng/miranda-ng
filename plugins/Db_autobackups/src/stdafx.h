@@ -39,7 +39,7 @@
 int	SetBackupTimer(void);
 int	OptionsInit(WPARAM wParam, LPARAM lParam);
 int	LoadOptions(void);
-void BackupStart(TCHAR *backup_filename);
+void BackupStart(wchar_t *backup_filename);
 
 struct ZipFile
 {
@@ -51,7 +51,7 @@ struct ZipFile
 int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback);
 
 extern HINSTANCE g_hInstance;
-extern TCHAR *profilePath;
+extern wchar_t *profilePath;
 extern char g_szMirVer[];
 
 static IconItem iconList[] = {

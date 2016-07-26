@@ -70,13 +70,13 @@ struct WUMF_OPTIONS
 	COLORREF ColorText;
 	COLORREF ColorBack;
 
-	TCHAR    LogFile[255];
+	wchar_t    LogFile[255];
 };
 
 struct Wumf
 {
 	DWORD  dwID;
-	TCHAR  szID[10], szPerm[10];
+	wchar_t  szID[10], szPerm[10];
 	LPTSTR szUser;
 	LPTSTR szPath;
 	LPTSTR szComp;

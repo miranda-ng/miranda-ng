@@ -31,7 +31,7 @@ WORD wSMSSignControlsList[] = { IDC_BEGIN, IDC_END, IDC_SIGNATURE, IDC_SIGNGROUP
 
 INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR tszSign[1024];
+	wchar_t tszSign[1024];
 
 	switch(msg){
 	case WM_INITDIALOG:

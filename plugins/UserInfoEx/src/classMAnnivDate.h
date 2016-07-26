@@ -44,7 +44,7 @@ public:
 
 private:
 	WORD	_wID;			// index to anniversary in database or ANID_BIRTHDAY
-	tstring	_strDesc;		// descripes the anniversary (e.g. birthday)
+	wstring	_strDesc;		// descripes the anniversary (e.g. birthday)
 	string	_strModule;		// the module the anniversary has been read from
 	WORD	_wFlags;		// the flags
 	BYTE	_bRemind;		// per user setting for reminder (0 - disabled, 1 - use local offset, 2 - use global offset)

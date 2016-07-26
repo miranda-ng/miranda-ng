@@ -130,7 +130,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 	return resp_data;
 }
 
-bool save_url(HANDLE hNetlib, const std::string &url, const std::tstring &filename)
+bool save_url(HANDLE hNetlib, const std::string &url, const std::wstring &filename)
 {
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
@@ -144,12 +144,12 @@ bool save_url(HANDLE hNetlib, const std::string &url, const std::tstring &filena
 		bool success = (resp->resultCode == 200);
 		if (success) {
 			// Create folder if necessary
-			std::tstring dir = filename.substr(0, filename.rfind('\\'));
-			if (_taccess(dir.c_str(), 0))
+			std::wstring dir = filename.substr(0, filename.rfind('\\'));
+			if (_waccess(dir.c_str(), 0))
 				CreateDirectoryTreeT(dir.c_str());
 
 			// Write to file
-			FILE *f = _tfopen(filename.c_str(), L"wb");
+			FILE *f = _wfopen(filename.c_str(), L"wb");
 			fwrite(resp->pData, 1, resp->dataLength, f);
 			fclose(f);
 		}

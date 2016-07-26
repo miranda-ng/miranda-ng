@@ -59,7 +59,6 @@ public:
 	WORD AdjustYear(const int nDiffDays);
 
 	WORD TimeFormat(LPTSTR ptszTimeFormat, WORD cchTimeFormat);
-	WORD TimeFormat(tstring& str);
 	WORD DateFormat(LPTSTR ptszTimeFormat, WORD cchTimeFormat);
 	WORD DateFormatAlt(LPTSTR ptszTimeFormat, WORD cchTimeFormat);
 	WORD DateFormatLong(LPTSTR ptszTimeFormat, WORD cchTimeFormat);

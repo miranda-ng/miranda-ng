@@ -33,7 +33,7 @@ static int CompareLists(const MsnContact *p1, const MsnContact *p2)
 	return _stricmp(p1->email, p2->email);
 }
 
-CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
+CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 	PROTO<CMsnProto>(aProtoName, aUserName),
 	m_arContacts(10, CompareLists),
 	m_arGroups(10, CompareId),
@@ -125,16 +125,16 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	mailsoundname = (char*)mir_alloc(64);
 	mir_snprintf(mailsoundname, 64, "%s:Hotmail", m_szModuleName);
-	SkinAddNewSoundExT(mailsoundname, m_tszUserName, LPGENT("Live Mail"));
+	SkinAddNewSoundExT(mailsoundname, m_tszUserName, LPGENW("Live Mail"));
 
 	alertsoundname = (char*)mir_alloc(64);
 	mir_snprintf(alertsoundname, 64, "%s:Alerts", m_szModuleName);
-	SkinAddNewSoundExT(alertsoundname, m_tszUserName, LPGENT("Live Alert"));
+	SkinAddNewSoundExT(alertsoundname, m_tszUserName, LPGENW("Live Alert"));
 
 	AvatarQueue_Init();
 	InitCustomFolders();
 
-	TCHAR szBuffer[MAX_PATH];
+	wchar_t szBuffer[MAX_PATH];
 	char  szDbsettings[64];
 
 	NETLIBUSER nlu1 = { 0 };
@@ -261,10 +261,10 @@ MCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD 
 
 MCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	TCHAR *id = psr->id.t ? psr->id.t : psr->email.t;
+	wchar_t *id = psr->id.w ? psr->id.w : psr->email.w;
 	return AddToListByEmail(
 		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)id) : UTF8((char*)id),
-		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)psr->nick.t) : UTF8((char*)psr->nick.t),
+		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)psr->nick.w) : UTF8((char*)psr->nick.w),
 		flags);
 }
 
@@ -294,7 +294,7 @@ int CMsnProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 }
 
 // PSS_AUTHREQUEST
-int __cdecl CMsnProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
+int __cdecl CMsnProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
 	if (msnLoggedIn) {
 		char email[MSN_MAX_EMAIL_LEN];
@@ -353,7 +353,7 @@ int CMsnProto::Authorize(MEVENT hDbEvent)
 }
 
 // MsnAuthDeny - called after unsuccessful authorization
-int CMsnProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
+int CMsnProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 {
 	if (!msnLoggedIn)
 		return 1;
@@ -397,7 +397,7 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 // MsnBasicSearch - search contacts by e-mail
 void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 {
-	const TCHAR* emailT = (TCHAR*)arg;
+	const wchar_t* emailT = (wchar_t*)arg;
 	T2Utf email(emailT);
 
 	if (Lists_IsInList(LIST_FL, email)) {
@@ -418,9 +418,9 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
 			psr.flags = PSR_TCHAR;
-			psr.id.t = (TCHAR*)emailT;
-			psr.nick.t = (TCHAR*)emailT;
-			psr.email.t = (TCHAR*)emailT;
+			psr.id.w = (wchar_t*)emailT;
+			psr.nick.w = (wchar_t*)emailT;
+			psr.email.w = (wchar_t*)emailT;
 
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&psr);
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
@@ -447,17 +447,17 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 }
 
 
-HANDLE __cdecl CMsnProto::SearchBasic(const TCHAR* id)
+HANDLE __cdecl CMsnProto::SearchBasic(const wchar_t* id)
 {
 	if (!msnLoggedIn) return 0;
 
-	TCHAR* email = mir_tstrdup(id);
+	wchar_t* email = mir_tstrdup(id);
 	ForkThread(&CMsnProto::MsnSearchAckThread, email);
 
 	return email;
 }
 
-HANDLE __cdecl CMsnProto::SearchByEmail(const TCHAR* email)
+HANDLE __cdecl CMsnProto::SearchByEmail(const wchar_t* email)
 {
 	return SearchBasic(email);
 }
@@ -491,7 +491,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 {
 	filetransfer* ft = (filetransfer*)arg;
 
-	TCHAR filefull[MAX_PATH];
+	wchar_t filefull[MAX_PATH];
 	mir_sntprintf(filefull, L"%s\\%s", ft->std.tszWorkingDir, ft->std.tszCurrentFile);
 	replaceStrT(ft->std.tszCurrentFile, filefull);
 
@@ -574,7 +574,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 }
 
 // MsnFileAllow - starts the file transfer
-HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
+HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -584,7 +584,7 @@ HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szP
 #endif
 
 	if ((ft->std.tszWorkingDir = mir_tstrdup(szPath)) == NULL) {
-		TCHAR szCurrDir[MAX_PATH];
+		wchar_t szCurrDir[MAX_PATH];
 		GetCurrentDirectory(_countof(szCurrDir), szCurrDir);
 		ft->std.tszWorkingDir = mir_tstrdup(szCurrDir);
 	}
@@ -633,7 +633,7 @@ int __cdecl CMsnProto::FileCancel(MCONTACT, HANDLE hTransfer)
 }
 
 // MsnFileDeny - rejects the file transfer request
-int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR* /*szReason*/)
+int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t* /*szReason*/)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -661,7 +661,7 @@ int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR* /*szRea
 }
 
 // MsnFileResume - renames a file
-int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
+int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -680,7 +680,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** s
 			case FILERESUME_RESUME:
 				{
 					struct _stati64 statbuf;
-					_tstati64(ft->std.tszCurrentFile, &statbuf);
+					_wstat64(ft->std.tszCurrentFile, &statbuf);
 					ft->std.currentFileProgress = statbuf.st_size;
 				}
 				break;
@@ -829,12 +829,12 @@ int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	int i;
 
 	for (i = 0; i < pre->lParam; i++)
-		dbei.cbBlob += int(mir_tstrlen(isrList[i]->nick.t) + 2 + mir_tstrlen(isrList[i]->id.t));
+		dbei.cbBlob += int(mir_tstrlen(isrList[i]->nick.w) + 2 + mir_tstrlen(isrList[i]->id.w));
 	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
 	for (i = 0, pCurBlob = dbei.pBlob; i < pre->lParam; i++) {
-		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.t));
+		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.w));
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id.t));
+		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id.w));
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}
 
@@ -849,7 +849,7 @@ int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 
 #ifdef OBSOLETE
 // MsnSendFile - initiates a file transfer
-HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppszFiles)
+HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFiles)
 {
 	if (!msnLoggedIn)
 		return 0;
@@ -871,7 +871,7 @@ HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 	int count = 0;
 	while (ppszFiles[count] != NULL) {
 		struct _stati64 statbuf;
-		if (_tstati64(ppszFiles[count++], &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0) {
+		if (_wstat64(ppszFiles[count++], &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0) {
 			sft->std.totalBytes += statbuf.st_size;
 			++sft->std.totalFiles;
 		}
@@ -1046,7 +1046,7 @@ int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 }
 
 // MsnSetAwayMsg - sets the current status message for a user
-int __cdecl CMsnProto::SetAwayMsg(int status, const TCHAR* msg)
+int __cdecl CMsnProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	char** msgptr = GetStatusMsgLoc(status);
 

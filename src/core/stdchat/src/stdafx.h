@@ -67,7 +67,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct TABLIST
 {
-	TCHAR *pszID;
+	wchar_t *pszID;
 	char *pszModule;
 	TABLIST *next;
 };
@@ -135,12 +135,12 @@ void LoadIcons(void);
 
 // log.c
 void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw, BOOL bPhaseTwo);
-void ValidateFilename (TCHAR * filename);
+void ValidateFilename (wchar_t * filename);
 char* Log_CreateRtfHeader(MODULEINFO * mi);
 
 // window.c
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
-int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
+int GetTextPixelSize( wchar_t* pszText, HFONT hFont, BOOL bWidth);
 
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si);
 SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si);
@@ -158,14 +158,14 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 int  GetColorIndex(const char* pszModule, COLORREF cr);
 void CheckColorsInModule(const char* pszModule);
 int  GetRichTextLength(HWND hwnd);
-UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
+UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
 void DestroyGCMenu(HMENU *hMenu, int iIndex);
 bool LoadMessageFont(LOGFONT *lf, COLORREF *colour);
 
 // message.c
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
 
-BOOL TabM_AddTab(const TCHAR *pszID, const char* pszModule);
+BOOL TabM_AddTab(const wchar_t *pszID, const char* pszModule);
 BOOL TabM_RemoveAll(void);
 
 #pragma comment(lib,"comctl32.lib")

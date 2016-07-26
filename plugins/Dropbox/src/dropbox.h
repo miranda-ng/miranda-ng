@@ -109,7 +109,7 @@ private:
 
 	// utils
 	static char* PreparePath(const char *oldPath, char *newPath);
-	static char* PreparePath(const TCHAR *oldPath, char *newPath);
+	static char* PreparePath(const wchar_t *oldPath, char *newPath);
 
 	static bool IsAccountIntercepted(const char *module);
 
@@ -118,10 +118,10 @@ private:
 
 	static MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 
-	void SendToContact(MCONTACT hContact, const TCHAR *data);
-	void PasteToInputArea(MCONTACT hContact, const TCHAR *data);
-	void PasteToClipboard(const TCHAR *data);
-	void Report(MCONTACT hContact, const TCHAR *data);
+	void SendToContact(MCONTACT hContact, const wchar_t *data);
+	void PasteToInputArea(MCONTACT hContact, const wchar_t *data);
+	void PasteToClipboard(const wchar_t *data);
+	void Report(MCONTACT hContact, const wchar_t *data);
 
 	template<int(CDropbox::*Event)(WPARAM, LPARAM)>
 	static int GlobalEvent(void *obj, WPARAM wParam, LPARAM lParam)

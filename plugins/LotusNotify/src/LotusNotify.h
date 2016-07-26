@@ -27,6 +27,6 @@ typedef struct {
 
 __declspec(dllexport) STATUS LNPUBLIC MainEntryPoint (void);
 
-void ErMsgT(TCHAR* msg);
+void ErMsgT(wchar_t* msg);
 
 void checkthread(void*);

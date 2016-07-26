@@ -129,7 +129,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			MCONTACT hItem, hContact = wParam;
 			log_debugA("VARM_SETSUBJECT: %u", hContact);
 			if (hContact == INVALID_CONTACT_ID) {
-				TCHAR *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);
+				wchar_t *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);
 				log_debugA("VARM_SETSUBJECT: %s", tszContact);
 				if (tszContact != NULL) {
 					hContact = getContactFromString(tszContact, CI_PROTOID);
@@ -202,7 +202,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 		MCONTACT hContact = (MCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 		if (hContact != NULL) {
-			TCHAR *tszContact = encodeContactToString(hContact);
+			wchar_t *tszContact = encodeContactToString(hContact);
 			if (tszContact != NULL) {
 				db_set_ts(NULL, MODULENAME, SETTING_SUBJECT, tszContact);
 				mir_free(tszContact);
@@ -214,7 +214,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 }
 
 // dialog box for the tokens
-static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
+static wchar_t *getTokenCategory(TOKENREGISTEREX *tr) {
 	if (tr == NULL) {
 		return NULL;
 	}
@@ -228,20 +228,20 @@ static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 			*cur = 0;
 			helpText = ( char* )mir_realloc(helpText, mir_strlen(helpText)+1);
 
-			TCHAR *res = mir_a2t(helpText);
+			wchar_t *res = mir_a2t(helpText);
 			mir_free(helpText);
 			return res;
 		}
 		cur++;
 	}
 
-	TCHAR *res = mir_a2t(helpText);
+	wchar_t *res = mir_a2t(helpText);
 	mir_free(helpText);
 	return res;
 
 }
 
-static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
+static wchar_t *getHelpDescription(TOKENREGISTEREX *tr)
 {
 	if (tr == NULL)
 		return NULL;
@@ -251,7 +251,7 @@ static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
 		if (*cur == '\t') {
 
 			cur = mir_strdup(cur+1);
-			TCHAR *res = mir_a2t(cur);
+			wchar_t *res = mir_a2t(cur);
 			mir_free(cur);
 			return res;
 
@@ -263,7 +263,7 @@ static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
 
 }
 
-static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
+static wchar_t *getTokenDescription(TOKENREGISTEREX *tr)
 {
 	if (tr == NULL)
 		return NULL;
@@ -276,7 +276,7 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 		return NULL;
 
 	char *cur = helpText;
-	TCHAR *tArgs = NULL;
+	wchar_t *tArgs = NULL;
 	char *args = NULL, *first = NULL, *second = NULL;
 	while (*cur != 0) {
 		if (*cur == '\t') {
@@ -295,7 +295,7 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 	else args = NULL;
 
 	size_t len = mir_tstrlen(tr->tszTokenString) + (args!=NULL?mir_strlen(args):0) + 3;
-	TCHAR *desc = (TCHAR*)mir_calloc(len * sizeof(TCHAR));
+	wchar_t *desc = (wchar_t*)mir_calloc(len * sizeof(wchar_t));
 	if (desc == NULL) {
 		mir_free(helpText);
 		return NULL;
@@ -344,7 +344,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 	case WM_INITDIALOG:
 		{
 			TOKENREGISTEREX *tr;
-			TCHAR *tszTokenDesc, *tszHelpDesc, *last, *cat, *text;
+			wchar_t *tszTokenDesc, *tszHelpDesc, *last, *cat, *text;
 
 			// token list things
 			HWND hList = GetDlgItem(hwndDlg, IDC_TOKENLIST);
@@ -465,11 +465,11 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 				break;
 
 			size_t len = mir_tstrlen(tr->tszTokenString) + 2;
-			TCHAR *tokenString = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+			wchar_t *tokenString = (wchar_t*)mir_alloc((len+1)*sizeof(wchar_t));
 			if (tokenString == NULL)
 				break;
 
-			memset(tokenString, 0, ((len + 1) * sizeof(TCHAR)));
+			memset(tokenString, 0, ((len + 1) * sizeof(wchar_t)));
 			mir_sntprintf(tokenString, len + 1, L"%c%s%c", (tr->flags & TRF_FIELD) ? FIELD_CHAR : FUNC_CHAR, tr->tszTokenString, (tr->flags & TRF_FIELD) ? FIELD_CHAR : '(');
 			SendDlgItemMessage(hwndInputDlg, IDC_TESTSTRING, EM_REPLACESEL, TRUE, (LPARAM)tokenString);
 			mir_free(tokenString);
@@ -673,18 +673,18 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case VARM_PARSE:
 		{
-			TCHAR *string = Hlp_GetDlgItemText(hwndDlg, IDC_TESTSTRING), *extraText;
+			wchar_t *string = Hlp_GetDlgItemText(hwndDlg, IDC_TESTSTRING), *extraText;
 			int len = SendMessage(GetParent(hwndDlg), VARM_GETEXTRATEXTLENGTH, 0, 0);
 			if (len > 0) {
-				extraText = (TCHAR*)mir_calloc((len + 1)* sizeof(TCHAR));
+				extraText = (wchar_t*)mir_calloc((len + 1)* sizeof(wchar_t));
 				SendMessage(GetParent(hwndDlg), VARM_GETEXTRATEXT, (WPARAM)len + 1, (LPARAM)extraText);
 			}
 			else extraText = NULL;
 
 			if (string != NULL) {
-				TCHAR *newString = variables_parsedup(string, extraText, (MCONTACT)SendMessage(GetParent(hwndDlg), VARM_GETSUBJECT, 0, 0));
+				wchar_t *newString = variables_parsedup(string, extraText, (MCONTACT)SendMessage(GetParent(hwndDlg), VARM_GETSUBJECT, 0, 0));
 				if (newString != NULL) {
-					TCHAR *oldString = Hlp_GetDlgItemText(hwndDlg, IDC_RESULT);
+					wchar_t *oldString = Hlp_GetDlgItemText(hwndDlg, IDC_RESULT);
 					if (oldString == NULL || mir_tstrcmp(oldString, newString))
 						SetDlgItemText(hwndDlg, IDC_RESULT, newString);
 
@@ -819,7 +819,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 					}
 				}
 				else if (dat->vhs->hwndCtrl != NULL) {
-					TCHAR *tszText = Hlp_GetWindowText(dat->vhs->hwndCtrl);
+					wchar_t *tszText = Hlp_GetWindowText(dat->vhs->hwndCtrl);
 					if (tszText != NULL) {
 						SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)tszText);
 						mir_free(tszText);
@@ -908,7 +908,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				if (len > 0) {
 					if ((dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
 						if (dat->vhs->fi->flags&FIF_UNICODE) {
-							dat->vhs->fi->tszFormat = (TCHAR*)mir_calloc((len + 1)*sizeof(WCHAR));
+							dat->vhs->fi->tszFormat = (wchar_t*)mir_calloc((len + 1)*sizeof(WCHAR));
 							SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len + 1, (LPARAM)dat->vhs->fi->tszFormat);
 						}
 						else {
@@ -922,9 +922,9 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			if (dat->vhs->hwndCtrl != NULL) {
 				int len = SendMessage(hwndDlg, VARM_GETINPUTTEXTLENGTH, 0, 0);
 				if (len > 0) {
-					TCHAR *tszText;
+					wchar_t *tszText;
 
-					tszText = (TCHAR*)mir_calloc((len + 1)*sizeof(TCHAR));
+					tszText = (wchar_t*)mir_calloc((len + 1)*sizeof(wchar_t));
 					if (tszText != NULL) {
 						SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len + 1, (LPARAM)tszText);
 						SetWindowText(dat->vhs->hwndCtrl, tszText);
@@ -942,7 +942,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				int len = SendMessage(hwndDlg, VARM_GETEXTRATEXTLENGTH, 0, 0);
 				if (len > 0) {
 					if (dat->vhs->fi->flags&FIF_UNICODE) {
-						dat->vhs->fi->tszExtraText = (TCHAR*)mir_calloc((len + 1)*sizeof(WCHAR));
+						dat->vhs->fi->tszExtraText = (wchar_t*)mir_calloc((len + 1)*sizeof(WCHAR));
 						SendMessage(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len + 1, (LPARAM)dat->vhs->fi->tszExtraText);
 					}
 					else {

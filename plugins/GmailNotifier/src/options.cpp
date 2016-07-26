@@ -126,7 +126,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_PRGBROWSE:
 			{
 				OPENFILENAME OpenFileName;
-				TCHAR szName[_MAX_PATH];
+				wchar_t szName[_MAX_PATH];
 				memset(&OpenFileName, 0, sizeof(OPENFILENAME));
 				GetDlgItemText(hwndDlg, IDC_PRG, szName, _countof(szName));
 				OpenFileName.lStructSize = sizeof(OPENFILENAME);

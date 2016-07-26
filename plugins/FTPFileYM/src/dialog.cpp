@@ -79,7 +79,7 @@ UploadDialog::Tab::Tab(GenericJob *Job) :
 	m_stzComplet[0] = 0;
 	m_stzRemain[0] = 0;
 
-	TCHAR buff[256];
+	wchar_t buff[256];
 	TCITEM tab = { 0 };
 	tab.mask = TCIF_TEXT;
 	tab.pszText = Utils::getTextFragment(m_job->m_tszFileName, 20, buff);
@@ -130,7 +130,7 @@ void UploadDialog::Tab::select()
 
 void UploadDialog::Tab::labelCompleted()
 {
-	TCHAR buff[64], buff2[256];
+	wchar_t buff[64], buff2[256];
 	mir_sntprintf(buff2, L"* %s", Utils::getTextFragment(m_job->m_tszFileName, 20, buff));
 
 	TCITEM tab = { 0 };
@@ -286,7 +286,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 						int times[10] = { 5, 15, 30, 1 * 60, 2 * 60, 5 * 60, 10 * 60,  1 * 24 * 60, 2 * 24 * 60, 7 * 24 * 60 };
 						bool bChecked = (tab->m_iOptAutoDelete == -1);
-						TCHAR buff[256];
+						wchar_t buff[256];
 
 						for (int i = 0; i < _countof(times); i++) {
 							if (i == 3 || i == 7)

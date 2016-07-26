@@ -33,7 +33,7 @@ FLASHING_SEQUENCE *getTrillianSeq(void);
 void updateTrillianSeq(void);
 static void __cdecl TestThread(void *param);
 static void PreviewThread(void *);
-FLASHING_SEQUENCE str2FS(TCHAR *);
+FLASHING_SEQUENCE str2FS(wchar_t *);
 BYTE KbdChar2Byte(char);
 void countUnopenEvents(int *, int *, int *, int *);
 
@@ -195,11 +195,11 @@ void updateTrillianSeq(void)
 		}
 }
 
-void useExternSequence(TCHAR *extStr)
+void useExternSequence(wchar_t *extStr)
 {
 	static FLASHING_SEQUENCE Extern = {0};
 
-	TCHAR externStr[MAX_PATH+1];
+	wchar_t externStr[MAX_PATH+1];
 	mir_wstrcpy(externStr, extStr);
 
 	Extern = str2FS(normalizeCustomString(externStr));
@@ -209,98 +209,98 @@ void useExternSequence(TCHAR *extStr)
 }
 
 
-TCHAR *normalizeCustomString(TCHAR *customStr)
+wchar_t *normalizeCustomString(wchar_t *customStr)
 {
 	int len=0, status=0;
 	BOOL used[4];
-	TCHAR strAux[MAX_PATH+1], *str;
+	wchar_t strAux[MAX_PATH+1], *str;
 
 	for (mir_wstrcpy(str=strAux, customStr); *str; str++) {
 		switch (*str) {
-		case _T('['):
+		case '[':
 			if (status == 0) {
 				status = 1;
 				customStr[len++] = *str;
 				used[0] = used [1] = used[2] = used[3] = FALSE;
 			}
 			break;
-		case _T(']'):
+		case ']':
 			if (status == 1) {
 				status = 0;
 				customStr[len++] = *str;
 			}
 			break;
-		case _T('0'):
-		case _T('1'):
-		case _T('2'):
-		case _T('3'):
+		case '0':
+		case '1':
+		case '2':
+		case '3':
 			if (status == 0)
 				customStr[len++] = *str;
-			else if (!used[*str - _T('0')]) {
+			else if (!used[*str - '0']) {
 				customStr[len++] = *str;
-				used[*str - _T('0')] = TRUE;
+				used[*str - '0'] = TRUE;
 			}
 			break;
 		}
 	}
 	if (status == 1)
-		customStr[len++] = _T(']');
-	customStr[len] = _T('\0');
+		customStr[len++] = ']';
+	customStr[len] = '\0';
 
 	return customStr;
 }
 
-TCHAR* getCurrentSequenceString(void)
+wchar_t* getCurrentSequenceString(void)
 {
-	static TCHAR CurrentSeqString[MAX_PATH+1];
-	TCHAR *str = CurrentSeqString;
+	static wchar_t CurrentSeqString[MAX_PATH+1];
+	wchar_t *str = CurrentSeqString;
 
 	for (unsigned i=0; i < pFS->size; i++) {
 		switch (pFS->frame[i]) {
 		case 0:
-			*(str++) = _T('0');
+			*(str++) = '0';
 			break;
 		case 1:
-			*(str++) = _T('3');
+			*(str++) = '3';
 			break;
 		case 2:
-			*(str++) = _T('1');
+			*(str++) = '1';
 			break;
 		case 3:
-			*(str++) = _T('[');
-			*(str++) = _T('1');
-			*(str++) = _T('3');
-			*(str++) = _T(']');
+			*(str++) = '[';
+			*(str++) = '1';
+			*(str++) = '3';
+			*(str++) = ']';
 			break;
 		case 4:
-			*(str++) = _T('2');
+			*(str++) = '2';
 			break;
 		case 5:
-			*(str++) = _T('[');
-			*(str++) = _T('2');
-			*(str++) = _T('3');
-			*(str++) = _T(']');
+			*(str++) = '[';
+			*(str++) = '2';
+			*(str++) = '3';
+			*(str++) = ']';
 			break;
 		case 6:
-			*(str++) = _T('[');
-			*(str++) = _T('1');
-			*(str++) = _T('2');
-			*(str++) = _T(']');
+			*(str++) = '[';
+			*(str++) = '1';
+			*(str++) = '2';
+			*(str++) = ']';
 			break;
 		case 7:
-			*(str++) = _T('[');
-			*(str++) = _T('1');
-			*(str++) = _T('2');
-			*(str++) = _T('3');
-			*(str++) = _T(']');
+			*(str++) = '[';
+			*(str++) = '1';
+			*(str++) = '2';
+			*(str++) = '3';
+			*(str++) = ']';
 		}
 	}
-	*str = _T('\0');
+	*str = '\0';
 
 	return CurrentSeqString;
 }
 
-void testSequence(TCHAR *testStr)
+void testSequence(wchar_t *testStr)
 {
 	if (bTestSemaphore) // we try to avoid concurrent test threads
 		return;
@@ -362,15 +362,15 @@ static void PreviewThread(void*)
 }
 
 
-FLASHING_SEQUENCE str2FS(TCHAR *str)
+FLASHING_SEQUENCE str2FS(wchar_t *str)
 {
 	FLASHING_SEQUENCE Temp = {0};
 
 	for (Temp.size=Temp.index=0; *str; str++) {
 		Temp.size++;
-		if (*str == _T('[')) {
+		if (*str == '[') {
 			Temp.frame[Temp.size - 1] = 0;
-			for (str++; *str && *str != _T(']'); str++)
+			for (str++; *str && *str != ']'; str++)
 				Temp.frame[Temp.size - 1] += KbdChar2Byte(*str) & Leds2Flash;
 			if (!*str) break;
 		}

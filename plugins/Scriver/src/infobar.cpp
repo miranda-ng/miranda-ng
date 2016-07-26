@@ -40,7 +40,7 @@ void SetupInfobar(InfobarWindowData* idat)
 	cf2.cbSize = sizeof(cf2);
 	cf2.crTextColor = colour;
 	cf2.bCharSet = lf.lfCharSet;
-	_tcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+	wcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 	cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
 	cf2.wWeight = (WORD)lf.lfWeight;
 	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
@@ -54,7 +54,7 @@ void SetupInfobar(InfobarWindowData* idat)
 	cf2.cbSize = sizeof(cf2);
 	cf2.crTextColor = colour;
 	cf2.bCharSet = lf.lfCharSet;
-	_tcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+	wcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 	cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
 	cf2.wWeight = (WORD)lf.lfWeight;
 	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
@@ -83,12 +83,12 @@ void RefreshInfobar(InfobarWindowData* idat)
 	ptrT szXStatusName(db_get_tsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusName"));
 	ptrT szXStatusMsg(db_get_tsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusMsg"));
 	HICON hIcon = GetExtraStatusIcon(idat);
-	TCHAR szText[2048];
+	wchar_t szText[2048];
 	SETTEXTEX st;
 	if (szXStatusMsg && *szXStatusMsg)
 		mir_sntprintf(szText, L"%s (%s)", TranslateTS(szXStatusName), szXStatusMsg);
 	else
-		_tcsncpy_s(szText, TranslateTS(szXStatusName), _TRUNCATE);
+		wcsncpy_s(szText, TranslateTS(szXStatusName), _TRUNCATE);
 	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
 	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)pcli->pfnGetContactDisplayName(dat->hContact, 0));

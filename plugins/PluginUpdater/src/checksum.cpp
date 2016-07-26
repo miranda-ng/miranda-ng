@@ -23,7 +23,7 @@ struct MFileMapping
 	PBYTE  ptr;
 	HANDLE hMap, hFile;
 
-	MFileMapping(const TCHAR* ptszFileName)
+	MFileMapping(const wchar_t* ptszFileName)
 	{
 		ptr = NULL;
 		hMap = NULL;
@@ -69,7 +69,7 @@ static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase)
 		PatchResourceEntry(pIRDE, pBase);
 }
 
-int CalculateModuleHash(const TCHAR *filename, char *szDest)
+int CalculateModuleHash(const wchar_t *filename, char *szDest)
 {
 	MFileMapping map(filename);
 	if (map.hFile == INVALID_HANDLE_VALUE)

@@ -25,12 +25,12 @@ public:
 
 	virtual	int      __cdecl Authorize(MEVENT hDbEvent);
 	virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
+	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
 
-	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* tszPath);
+	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* tszPath);
 	virtual	int      __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* tszReason);
-	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** tszFilename);
+	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* tszReason);
+	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const wchar_t** tszFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	
@@ -39,19 +39,19 @@ public:
 
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles);
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const TCHAR* msg);
+	virtual	int       __cdecl SetAwayMsg(int iStatus, const wchar_t* msg);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
 	// accounts
-	static CToxProto* InitAccount(const char *protoName, const TCHAR *userName);
+	static CToxProto* InitAccount(const char *protoName, const wchar_t *userName);
 	static int        UninitAccount(CToxProto *proto);
 
 	// icons
@@ -68,7 +68,7 @@ public:
 private:
 	CToxThread *toxThread;
 	mir_cs profileLock;
-	TCHAR *accountName;
+	wchar_t *accountName;
 	HANDLE hPollingThread;
 	CTransferList transfers;
 	ULONG hMessageProcess;
@@ -76,8 +76,8 @@ private:
 	static HANDLE hProfileFolderPath;
 
 	// tox profile
-	TCHAR* GetToxProfilePath();
-	static TCHAR* GetToxProfilePath(const TCHAR *accountName);
+	wchar_t* GetToxProfilePath();
+	static wchar_t* GetToxProfilePath(const wchar_t *accountName);
 
 	bool LoadToxProfile(Tox_Options *options);
 	void SaveToxProfile(CToxThread *toxThread);
@@ -225,9 +225,9 @@ private:
 	int __cdecl OnPreCreateMessage(WPARAM wParam, LPARAM lParam);
 
 	// transfer
-	HANDLE OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *tszPath);
-	int OnFileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename);
-	HANDLE OnSendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles);
+	HANDLE OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *tszPath);
+	int OnFileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename);
+	HANDLE OnSendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles);
 
 	int CancelTransfer(MCONTACT hContact, HANDLE hTransfer);
 
@@ -244,8 +244,8 @@ private:
 	void CancelAllTransfers(CToxThread *toxThread);
 
 	// avatars
-	TCHAR* GetAvatarFilePath(MCONTACT hContact = NULL);
-	void SetToxAvatar(const TCHAR* path);
+	wchar_t* GetAvatarFilePath(MCONTACT hContact = NULL);
+	void SetToxAvatar(const wchar_t* path);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM lParam);
@@ -284,13 +284,13 @@ private:
 	static TOX_USER_STATUS MirandaToToxStatus(int status);
 	static int ToxToMirandaStatus(TOX_USER_STATUS userstatus);
 
-	static TCHAR* ToxErrorToString(TOX_ERR_NEW error);
-	static TCHAR* ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error);
+	static wchar_t* ToxErrorToString(TOX_ERR_NEW error);
+	static wchar_t* ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error);
 
-	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
-	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
-	static bool IsFileExists(const TCHAR* path);
+	static bool IsFileExists(const wchar_t* path);
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob);
 

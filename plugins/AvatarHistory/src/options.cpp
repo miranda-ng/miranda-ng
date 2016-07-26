@@ -148,16 +148,16 @@ int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.ptszGroup = LPGENT("History"); // group to put your item under
-	odp.ptszTitle = LPGENT("Avatar"); // name of the item
+	odp.pwszGroup = LPGENW("History"); // group to put your item under
+	odp.pwszTitle = LPGENW("Avatar"); // name of the item
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		odp.ptszGroup = LPGENT("Popups");
-		odp.ptszTitle = LPGENT("Avatar Change");
+		odp.pwszGroup = LPGENW("Popups");
+		odp.pwszTitle = LPGENW("Avatar Change");
 		odp.pfnDlgProc = PopupsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;

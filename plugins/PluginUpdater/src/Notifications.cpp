@@ -70,7 +70,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hPopup, UINT uMsg, WPARAM wParam, LPAR
 
 static void _stdcall RestartPrompt(void *)
 {
-	TCHAR tszText[200];
+	wchar_t tszText[200];
 	mir_sntprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 	if (MessageBox(0, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST) == IDYES)

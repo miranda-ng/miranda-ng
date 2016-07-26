@@ -46,7 +46,7 @@ int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
 
 void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 {
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	SYSTEMTIME st;
 	HANDLE hDumpFile = NULL;
 

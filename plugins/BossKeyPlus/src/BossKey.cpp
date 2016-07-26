@@ -35,7 +35,7 @@ HKL oldLangID, oldLayout;
 int protoCount, hLangpack;
 PROTOACCOUNT **proto;
 unsigned *oldStatus;
-TCHAR **oldStatusMsg;
+wchar_t **oldStatusMsg;
 BYTE g_bOldSetting;
 
 PFNDwmIsCompositionEnabled dwmIsCompositionEnabled;
@@ -171,7 +171,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 
 	if ((g_dwMirandaPID == dwWndPID) && hWnd != g_hDlgPass && IsWindowVisible(hWnd))
 	{
-		TCHAR szTemp[32];
+		wchar_t szTemp[32];
 		GetClassName(hWnd, szTemp, 32);
 
 		if (mir_tstrcmp(szTemp, L"MirandaThumbsWnd") == 0) // hide floating contacts
@@ -194,12 +194,12 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 	return true;
 }
 
-TCHAR* GetDefStatusMsg(unsigned uStatus, const char* szProto)
+wchar_t* GetDefStatusMsg(unsigned uStatus, const char* szProto)
 {
-	return (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, uStatus, (LPARAM)szProto);
+	return (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGT, uStatus, (LPARAM)szProto);
 }
 
-void SetStatus(const char* szProto, unsigned status, TCHAR *tszAwayMsg)
+void SetStatus(const char* szProto, unsigned status, wchar_t *tszAwayMsg)
 {
 	if (tszAwayMsg && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)
 		CallProtoService(szProto, PS_SETAWAYMSG, status, (LPARAM)tszAwayMsg);
@@ -207,7 +207,7 @@ void SetStatus(const char* szProto, unsigned status, TCHAR *tszAwayMsg)
 	CallProtoService(szProto, PS_SETSTATUS, status, 0);
 }
 
-static int ChangeAllProtoStatuses(unsigned statusMode, TCHAR *msg)
+static int ChangeAllProtoStatuses(unsigned statusMode, wchar_t *msg)
 {
 	for (int i = 0; i < protoCount; i++)
 	{
@@ -221,7 +221,7 @@ static int ChangeAllProtoStatuses(unsigned statusMode, TCHAR *msg)
 			if (g_wMask & OPT_SETONLINEBACK){ // need to save old statuses & status messages
 				oldStatus[i] = status;
 				if (ProtoServiceExists(proto[i]->szModuleName, PS_GETMYAWAYMSG))
-					oldStatusMsg[i] = (TCHAR*)CallProtoService(proto[i]->szModuleName, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
+					oldStatusMsg[i] = (wchar_t*)CallProtoService(proto[i]->szModuleName, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
 				else
 					oldStatusMsg[i] = GetDefStatusMsg(status, proto[i]->szModuleName);
 			}
@@ -254,11 +254,11 @@ static void CreateTrayIcon(bool create)
 	NOTIFYICONDATA nim;
 	DBVARIANT dbVar;
 	if (!db_get_ts(NULL, MOD_NAME, "ToolTipText", &dbVar)) {
-		_tcsncpy_s(nim.szTip, dbVar.ptszVal, _TRUNCATE);
+		wcsncpy_s(nim.szTip, dbVar.ptszVal, _TRUNCATE);
 		db_free(&dbVar);
 	}
 	else
-		_tcsncpy_s(nim.szTip, L"Miranda NG", _TRUNCATE);
+		wcsncpy_s(nim.szTip, L"Miranda NG", _TRUNCATE);
 
 	nim.cbSize = sizeof(nim);
 	nim.hWnd = g_hListenWindow;
@@ -321,7 +321,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			DBVARIANT dbVar;
 			if (g_wMask & OPT_USEDEFMSG || db_get_ts(NULL, MOD_NAME, "statmsg", &dbVar))
 			{
-				TCHAR *ptszDefMsg = GetDefStatusMsg(uMode, 0);
+				wchar_t *ptszDefMsg = GetDefStatusMsg(uMode, 0);
 				ChangeAllProtoStatuses(uMode, ptszDefMsg);
 				mir_free(ptszDefMsg);
 			}
@@ -329,7 +329,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			{
 				if (ServiceExists(MS_VARS_FORMATSTRING))
 				{
-					TCHAR *ptszParsed = variables_parse(dbVar.ptszVal, 0, 0);
+					wchar_t *ptszParsed = variables_parse(dbVar.ptszVal, 0, 0);
 					ChangeAllProtoStatuses(uMode, ptszParsed);
 					mir_free(ptszParsed);
 				}
@@ -395,7 +395,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		while (pCurWnd != NULL)
 		{
 			HWND_ITEM *pNextWnd = pCurWnd->next;
-			TCHAR szTemp[32];
+			wchar_t szTemp[32];
 			GetClassName(pCurWnd->hWnd, szTemp, 32);
 
 			if (IsWindow(pCurWnd->hWnd) && mir_tstrcmp(szTemp, L"SysShadow") != 0) // precaution
@@ -458,9 +458,9 @@ INT_PTR BossKeyHideMiranda(WPARAM, LPARAM) // for service :)
 	return 0;
 }
 
-static TCHAR *HokeyVkToName(WORD vkKey)
+static wchar_t *HokeyVkToName(WORD vkKey)
 {
-	static TCHAR buf[32] = { 0 };
+	static wchar_t buf[32] = { 0 };
 	DWORD code = MapVirtualKey(vkKey, 0) << 16;
 
 	switch (vkKey)
@@ -495,13 +495,13 @@ static TCHAR *HokeyVkToName(WORD vkKey)
 	return buf;
 }
 
-static TCHAR *GetBossKeyText(void)
+static wchar_t *GetBossKeyText(void)
 {
 	WORD wHotKey = db_get_w(NULL, "SkinHotKeys", "Hide/Show Miranda", HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
 
 	BYTE key = LOBYTE(wHotKey);
 	BYTE shift = HIBYTE(wHotKey);
-	static TCHAR buf[128] = { 0 };
+	static wchar_t buf[128] = { 0 };
 
 	mir_sntprintf(buf, L"%s%s%s%s%s",
 		(shift & HOTKEYF_CONTROL) ? L"Ctrl + " : L"",
@@ -521,7 +521,7 @@ static IconItem iconList[] =
 static int GenMenuInit(WPARAM, LPARAM) // Modify menu item text before to show the main menu
 {
 	if (g_hMenuItem) {
-		TCHAR buf[128];
+		wchar_t buf[128];
 		mir_sntprintf(buf, L"%s [%s]", TranslateT("Hide"), GetBossKeyText());
 		Menu_ModifyItem(g_hMenuItem, buf);
 	}
@@ -535,7 +535,7 @@ void BossKeyMenuItemInit(void) // Add menu item
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000100000;
 	mi.hIcolibItem = IcoLib_GetIcon("hidemim");
-	mi.name.t = LPGENT("Hide");
+	mi.name.w = LPGENW("Hide");
 	mi.pszService = MS_BOSSKEY_HIDE;
 	g_hMenuItem = Menu_AddMainMenuItem(&mi);
 
@@ -590,7 +590,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 	bbd.cbSize = sizeof(BBButton);
 	bbd.pszModuleName = MOD_NAME;
 	bbd.dwDefPos = 5000;
-	bbd.ptszTooltip = LPGENT("Hide Miranda NG");
+	bbd.ptszTooltip = LPGENW("Hide Miranda NG");
 	bbd.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;
 	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
@@ -598,7 +598,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 	return 0;
 }
 
-static TCHAR *VariablesBossKey(ARGUMENTSINFO *ai) {
+static wchar_t *VariablesBossKey(ARGUMENTSINFO *ai) {
 	if (ai->cbSize < sizeof(ARGUMENTSINFO))	return NULL;
 	if (ai->argc != 1) return NULL;
 
@@ -615,7 +615,7 @@ static int EnumProtos(WPARAM, LPARAM)
 	delete[] oldStatusMsg;
 
 	oldStatus = new unsigned[protoCount];
-	oldStatusMsg = new TCHAR*[protoCount];
+	oldStatusMsg = new wchar_t*[protoCount];
 	for (int i = 0; i < protoCount; i++)
 	{
 		oldStatus[i] = 0;

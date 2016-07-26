@@ -37,7 +37,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			TCHAR str[MAX_PATH];
+			wchar_t str[MAX_PATH];
 			char passw[MAX_PATH];
 			{
 				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str))) {
@@ -94,7 +94,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case IDC_TAGHELP:
-			TCHAR tszTagHelp[1024];
+			wchar_t tszTagHelp[1024];
 			mir_sntprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 				L"#<title>#", TranslateT("The title of the item."),
 				L"#<description>#", TranslateT("The item synopsis."),
@@ -114,10 +114,10 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_DISCOVERY:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-			TCHAR tszURL[MAX_PATH] = { 0 };
-			TCHAR *tszTitle = NULL;
+			wchar_t tszURL[MAX_PATH] = { 0 };
+			wchar_t *tszTitle = NULL;
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, L"http://") != 0)
-				tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
+				tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
 			else
 				MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 			SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
@@ -167,7 +167,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
 				SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
 
-				TCHAR *szMsgFormat = db_get_tsa(hContact, MODULE, "MsgFormat");
+				wchar_t *szMsgFormat = db_get_tsa(hContact, MODULE, "MsgFormat");
 				if (szMsgFormat) {
 					SetDlgItemText(hwndDlg, IDC_TAGSEDIT, szMsgFormat);
 					mir_free(szMsgFormat);
@@ -177,7 +177,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
 
-					TCHAR *szLogin = db_get_tsa(hContact, MODULE, "Login");
+					wchar_t *szLogin = db_get_tsa(hContact, MODULE, "Login");
 					if (szLogin) {
 						SetDlgItemText(hwndDlg, IDC_LOGIN, szLogin);
 						mir_free(szLogin);
@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			TCHAR str[MAX_PATH];
+			wchar_t str[MAX_PATH];
 			{
 				ItemInfo *SelItem = (ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				char passw[MAX_PATH];
@@ -254,7 +254,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_TAGHELP:
-			TCHAR tszTagHelp[1024];
+			wchar_t tszTagHelp[1024];
 			mir_sntprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 				L"#<title>#", TranslateT("The title of the item."),
 				L"#<description>#", TranslateT("The item synopsis."),
@@ -272,11 +272,11 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_DISCOVERY:
-			TCHAR tszURL[MAX_PATH] = { 0 };
+			wchar_t tszURL[MAX_PATH] = { 0 };
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, L"http://") != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				TCHAR *tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
+				wchar_t *tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
 				mir_free(tszTitle);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
@@ -314,13 +314,13 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
 
-			TCHAR *ptszNick = db_get_tsa(hContact, MODULE, "Nick");
+			wchar_t *ptszNick = db_get_tsa(hContact, MODULE, "Nick");
 			if (ptszNick) {
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, ptszNick);
 				mir_free(ptszNick);
 			}
 
-			TCHAR *ptszURL = db_get_tsa(hContact, MODULE, "URL");
+			wchar_t *ptszURL = db_get_tsa(hContact, MODULE, "URL");
 			if (ptszNick) {
 				SetDlgItemText(hwndDlg, IDC_FEEDURL, ptszURL);
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
@@ -329,7 +329,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
 
-			TCHAR *ptszMsgFormat = db_get_tsa(hContact, MODULE, "MsgFormat");
+			wchar_t *ptszMsgFormat = db_get_tsa(hContact, MODULE, "MsgFormat");
 			if (ptszMsgFormat) {
 				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, ptszMsgFormat);
 				mir_free(ptszMsgFormat);
@@ -339,7 +339,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-				TCHAR *ptszLogin = db_get_tsa(hContact, MODULE, "Login");
+				wchar_t *ptszLogin = db_get_tsa(hContact, MODULE, "Login");
 				if (ptszLogin) {
 					SetDlgItemText(hwndDlg, IDC_LOGIN, ptszLogin);
 					mir_free(ptszLogin);
@@ -353,7 +353,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			TCHAR str[MAX_PATH];
+			wchar_t str[MAX_PATH];
 			{
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				char passw[MAX_PATH];
@@ -410,7 +410,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_TAGHELP:
-			TCHAR tszTagHelp[1024];
+			wchar_t tszTagHelp[1024];
 			mir_sntprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 				L"#<title>#", TranslateT("The title of the item."),
 				L"#<description>#", TranslateT("The item synopsis."),
@@ -428,11 +428,11 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_DISCOVERY:
-			TCHAR tszURL[MAX_PATH] = { 0 };
+			wchar_t tszURL[MAX_PATH] = { 0 };
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, L"http://") != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				TCHAR *tszTitle = (TCHAR*)CheckFeed(tszURL, hwndDlg);
+				wchar_t *tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
 				mir_free(tszTitle);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
@@ -492,7 +492,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		case IDC_REMOVE:
 			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
-				TCHAR nick[MAX_PATH], url[MAX_PATH];
+				wchar_t nick[MAX_PATH], url[MAX_PATH];
 				sel = ListView_GetSelectionMark(hwndList);
 				ListView_GetItemText(hwndList, sel, 0, nick, _countof(nick));
 				ListView_GetItemText(hwndList, sel, 1, url, _countof(url));

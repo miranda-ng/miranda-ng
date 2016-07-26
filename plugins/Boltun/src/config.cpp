@@ -36,31 +36,31 @@
 #define DB_ENGINE_LOWERCASE "MakeLowerCase"
 #define DB_ENGINE_UNDERSTAND_ALWAYS "UnderstandAlways"
 
-inline TCHAR* GetString(char* key, const TCHAR* def)
+inline wchar_t* GetString(char* key, const wchar_t* def)
 {
 	DBVARIANT dbv;
-	TCHAR* val;
+	wchar_t* val;
 	if (!db_get_ts(NULL, BOLTUN_KEY, key, &dbv))
 	{
 		size_t len = mir_wstrlen(dbv.ptszVal) + 1;
-		val = new TCHAR[len];
-		_tcscpy_s(val, len, dbv.ptszVal);
+		val = new wchar_t[len];
+		wcscpy_s(val, len, dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else
 	{
 		size_t len = mir_wstrlen(def) + 1;
-		val = new TCHAR[len];
-		_tcscpy_s(val, len, def);
+		val = new wchar_t[len];
+		wcscpy_s(val, len, def);
 	}
 	return val;
 }
 
-inline const TCHAR* SetString(char* key, const TCHAR* value)
+inline const wchar_t* SetString(char* key, const wchar_t* value)
 {
 	size_t len = mir_tstrlen(value) + 1;
-	TCHAR* val = new TCHAR[len];
-	_tcscpy_s(val, len, value);
+	wchar_t* val = new wchar_t[len];
+	wcscpy_s(val, len, value);
 	db_set_ts(NULL, BOLTUN_KEY, key, val);
 	return val;
 }
@@ -80,9 +80,9 @@ inline const TCHAR* SetString(char* key, const TCHAR* value)
 	return value; }
 
 #define BUILDSTRETTERS(x, str, def) \
-	const TCHAR* BoltunConfig::Get##x() { \
+	const wchar_t* BoltunConfig::Get##x() { \
 	return GetString(str, def); } \
-	const TCHAR* BoltunConfig::Set##x(const TCHAR* value) { \
+	const wchar_t* BoltunConfig::Set##x(const wchar_t* value) { \
 	return SetString(str, value); }
 
 #define BUILDINIT(x) \

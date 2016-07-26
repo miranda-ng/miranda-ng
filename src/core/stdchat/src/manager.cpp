@@ -78,7 +78,7 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 //		be restored
 //---------------------------------------------------
 
-BOOL TabM_AddTab(const TCHAR *pszID, const char* pszModule)
+BOOL TabM_AddTab(const wchar_t *pszID, const char* pszModule)
 {
 	TABLIST *node = NULL;
 	if (!pszID || !pszModule)

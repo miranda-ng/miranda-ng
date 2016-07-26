@@ -172,5 +172,5 @@ extern NOTESTERMTHREAD NotesTermThread1;
 
 
 BOOL HookLotusFunctions();
-void GetLotusPath(TCHAR *sTemp, DWORD size);
+void GetLotusPath(wchar_t *sTemp, DWORD size);
 

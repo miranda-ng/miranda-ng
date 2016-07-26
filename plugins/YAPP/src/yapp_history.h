@@ -39,12 +39,12 @@ struct PopupHistoryData{
 	union{
 		char *message;
 		wchar_t *messageW;
-		TCHAR *messageT;
+		wchar_t *messageT;
 	};
 	union{
 		char *title;
 		wchar_t *titleW;
-		TCHAR *titleT;
+		wchar_t *titleT;
 	};
 	time_t timestamp;
 };

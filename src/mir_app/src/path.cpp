@@ -27,12 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../../plugins/ExternalAPI/m_folders.h"
 
-extern TCHAR g_profileDir[MAX_PATH], g_shortProfileName[MAX_PATH];
+extern wchar_t g_profileDir[MAX_PATH], g_shortProfileName[MAX_PATH];
 
 static HANDLE hAvatarFolder;
-static TCHAR tszAvatarRoot[MAX_PATH];
+static wchar_t tszAvatarRoot[MAX_PATH];
 
-TCHAR* GetContactID(MCONTACT hContact)
+wchar_t* GetContactID(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
@@ -51,7 +51,7 @@ static __forceinline int _xcsncmp(const char *s1, const char *s2, size_t n) { re
 static __forceinline size_t _xcslen(const char *s1) { return strlen(s1); }
 static __forceinline char *_xcscpy(char *s1, const char *s2) { return strcpy(s1, s2); }
 static __forceinline char *_xcsncpy(char *s1, const char *s2, size_t n) { return strncpy(s1, s2, n); }
-static __forceinline const char *_xstrselect(const char*, const char *s1, TCHAR*) { return s1; }
+static __forceinline const char *_xstrselect(const char*, const char *s1, wchar_t*) { return s1; }
 static __forceinline char *_itox(char*, int a) { return itoa(a, (char *)mir_alloc(sizeof(char)*20), 10); }
 static __forceinline char *mir_a2x(const char*, const char *s) { return mir_strdup(s); }
 
@@ -62,7 +62,7 @@ static __forceinline char *GetContactNickX(const char*, MCONTACT hContact)
 
 static __forceinline char *GetContactIDX(const char*, MCONTACT hContact)
 {
-	TCHAR *id = GetContactID(hContact);
+	wchar_t *id = GetContactID(hContact);
 	char* res = mir_t2a(id);
 	mir_free(id);
 	return res;
@@ -114,12 +114,12 @@ static __forceinline char *GetProfileNameX(const char*)
 
 static __forceinline char* GetPathVarX(const char*, int code)
 {
-	TCHAR szFullPath[MAX_PATH];
+	wchar_t szFullPath[MAX_PATH];
 
 	switch(code) {
 	case 1:
 		if (hAvatarFolder != NULL)
-			_tcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
+			wcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
 			mir_sntprintf(szFullPath, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
 		break;
@@ -133,77 +133,77 @@ static __forceinline char* GetPathVarX(const char*, int code)
 	return makeFileName(szFullPath);
 }
 
-static __forceinline int _xcscmp(const TCHAR *s1, const TCHAR *s2) { return _tcscmp(s1, s2); }
-static __forceinline int _xcsncmp(const TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncmp(s1, s2, n); }
-static __forceinline size_t _xcslen(const TCHAR *s1) { return _tcslen(s1); }
-static __forceinline TCHAR* _xcscpy(TCHAR *s1, const TCHAR *s2) { return _tcscpy(s1, s2); }
-static __forceinline TCHAR* _xcsncpy(TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncpy(s1, s2, n); }
-static __forceinline const TCHAR* _xstrselect(const TCHAR*, const char*, const TCHAR *s2) { return s2; }
-static __forceinline TCHAR* _itox(TCHAR *, int a) { return _itot(a, (TCHAR *)mir_alloc(sizeof(TCHAR)*20), 10); }
-static __forceinline TCHAR* mir_a2x(const TCHAR *, const char *s) { return mir_a2t(s); }
+static __forceinline int _xcscmp(const wchar_t *s1, const wchar_t *s2) { return _tcscmp(s1, s2); }
+static __forceinline int _xcsncmp(const wchar_t *s1, const wchar_t *s2, size_t n) { return wcsncmp(s1, s2, n); }
+static __forceinline size_t _xcslen(const wchar_t *s1) { return wcslen(s1); }
+static __forceinline wchar_t* _xcscpy(wchar_t *s1, const wchar_t *s2) { return wcscpy(s1, s2); }
+static __forceinline wchar_t* _xcsncpy(wchar_t *s1, const wchar_t *s2, size_t n) { return wcsncpy(s1, s2, n); }
+static __forceinline const wchar_t* _xstrselect(const wchar_t*, const char*, const wchar_t *s2) { return s2; }
+static __forceinline wchar_t* _itox(wchar_t *, int a) { return _itow(a, (wchar_t *)mir_alloc(sizeof(wchar_t)*20), 10); }
+static __forceinline wchar_t* mir_a2x(const wchar_t *, const char *s) { return mir_a2t(s); }
 
-static __forceinline TCHAR* GetContactNickX(const TCHAR*, MCONTACT hContact)
+static __forceinline wchar_t* GetContactNickX(const wchar_t*, MCONTACT hContact)
 {
 	return mir_tstrdup(cli.pfnGetContactDisplayName(hContact, 0));
 }
 
-static __forceinline TCHAR* GetContactIDX(const TCHAR*, MCONTACT hContact)
+static __forceinline wchar_t* GetContactIDX(const wchar_t*, MCONTACT hContact)
 {
 	return GetContactID(hContact);
 }
 
-static __forceinline TCHAR* GetEnvironmentVariableX(const TCHAR *variable)
+static __forceinline wchar_t* GetEnvironmentVariableX(const wchar_t *variable)
 {
-	TCHAR result[512];
+	wchar_t result[512];
 	if (GetEnvironmentVariable(variable, result, _countof(result)))
 		return mir_tstrdup(result);
 	return NULL;
 }
 
-static __forceinline TCHAR* SHGetSpecialFolderPathX(int iCSIDL, TCHAR*)
+static __forceinline wchar_t* SHGetSpecialFolderPathX(int iCSIDL, wchar_t*)
 {
-	TCHAR result[512];
+	wchar_t result[512];
 	if (SHGetSpecialFolderPath(NULL, result, iCSIDL, FALSE))
 		return mir_tstrdup(result);
 	return NULL;
 }
 
-static __forceinline TCHAR* GetProfileDirX(const TCHAR*)
+static __forceinline wchar_t* GetProfileDirX(const wchar_t*)
 {
 	return mir_tstrdup(g_profileDir);
 }
 
-static __forceinline TCHAR* GetModulePathX(const TCHAR*, HMODULE hModule)
+static __forceinline wchar_t* GetModulePathX(const wchar_t*, HMODULE hModule)
 {
-	TCHAR result[MAX_PATH];
+	wchar_t result[MAX_PATH];
 	GetModuleFileName(hModule, result, _countof(result));
-	TCHAR* str = _tcsrchr(result, '\\');
+	wchar_t* str = wcsrchr(result, '\\');
 	if (str) *str = 0;
 	return mir_tstrdup(result);
 }
 
-static __forceinline TCHAR* GetUserNameX(const TCHAR*)
+static __forceinline wchar_t* GetUserNameX(const wchar_t*)
 {
-	TCHAR result[128];
+	wchar_t result[128];
 	DWORD size = _countof(result);
 	if (GetUserName(result, &size))
 		return mir_tstrdup(result);
 	return NULL;
 }
 
-static __forceinline TCHAR* GetProfileNameX(const TCHAR*)
+static __forceinline wchar_t* GetProfileNameX(const wchar_t*)
 {
 	return mir_tstrdup(g_shortProfileName);
 }
 
-static __forceinline TCHAR* GetPathVarX(const TCHAR*, int code)
+static __forceinline wchar_t* GetPathVarX(const wchar_t*, int code)
 {
-	TCHAR szFullPath[MAX_PATH];
+	wchar_t szFullPath[MAX_PATH];
 
 	switch(code) {
 	case 1:
 		if (hAvatarFolder != NULL)
-			_tcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
+			wcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
 			mir_sntprintf(szFullPath, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
 		break;
@@ -366,9 +366,9 @@ static int OnFoldersChanged(WPARAM, LPARAM)
 {
 	mir_sntprintf(tszAvatarRoot, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
 
-	TCHAR tmpVar[MAX_PATH];
+	wchar_t tmpVar[MAX_PATH];
 	if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
-		_tcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
+		wcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
 	return 0;
 }
 
@@ -376,9 +376,9 @@ void InitPathVar()
 {
 	mir_sntprintf(tszAvatarRoot, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
 	if (hAvatarFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatars root folder"), tszAvatarRoot)) {
-		TCHAR tmpVar[MAX_PATH];
+		wchar_t tmpVar[MAX_PATH];
 		if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
-			_tcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
+			wcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 	}
 }

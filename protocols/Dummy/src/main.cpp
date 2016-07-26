@@ -63,7 +63,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
-static CDummyProto* dummyProtoInit(const char* pszProtoName, const TCHAR *tszUserName)
+static CDummyProto* dummyProtoInit(const char* pszProtoName, const wchar_t *tszUserName)
 {
 	CDummyProto *ppro = new CDummyProto(pszProtoName, tszUserName);
 	return ppro;

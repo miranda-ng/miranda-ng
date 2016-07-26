@@ -60,13 +60,13 @@ void CJabberProto::IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		HXML queryNode = XmlGetChild(iqNode , "query");
 		if (queryNode) {
-			const TCHAR *queryXmlns = XmlGetAttrValue(queryNode, L"xmlns");
+			const wchar_t *queryXmlns = XmlGetAttrValue(queryNode, L"xmlns");
 			if (queryXmlns && !mir_tstrcmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
 				HXML streamHostNode = XmlGetChild(queryNode , "streamhost");
 				if (streamHostNode) {
-					const TCHAR *streamJid = XmlGetAttrValue(streamHostNode, L"jid");
-					const TCHAR *streamHost = XmlGetAttrValue(streamHostNode, L"host");
-					const TCHAR *streamPort = XmlGetAttrValue(streamHostNode, L"port");
+					const wchar_t *streamJid = XmlGetAttrValue(streamHostNode, L"jid");
+					const wchar_t *streamHost = XmlGetAttrValue(streamHostNode, L"host");
+					const wchar_t *streamPort = XmlGetAttrValue(streamHostNode, L"port");
 					if (streamJid && streamHost && streamPort) {
 						jbt->szProxyHost = mir_tstrdup(streamHost);
 						jbt->szProxyJid = mir_tstrdup(streamJid);
@@ -83,7 +83,7 @@ void CJabberProto::IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 {
 	CJabberProto *ppro = (CJabberProto*)extra;
-	TCHAR szPort[8];
+	wchar_t szPort[8];
 	JABBER_BYTE_TRANSFER *jbt;
 	int recvResult, bytesParsed;
 	HANDLE hListen;
@@ -142,7 +142,7 @@ void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 
 void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 {
-	TCHAR szPort[8];
+	wchar_t szPort[8];
 	HANDLE hEvent = NULL;
 	CJabberIqInfo *pInfo = NULL;
 	int nIqId = 0;
@@ -299,11 +299,11 @@ void CJabberProto::ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo)
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		HXML queryNode = XmlGetChild(iqNode , "query");
 		if (queryNode) {
-			const TCHAR *queryXmlns = XmlGetAttrValue(queryNode, L"xmlns");
+			const wchar_t *queryXmlns = XmlGetAttrValue(queryNode, L"xmlns");
 			if (queryXmlns && !mir_tstrcmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
 				HXML streamHostNode = XmlGetChild(queryNode ,  "streamhost-used");
 				if (streamHostNode) {
-					const TCHAR *streamJid = XmlGetAttrValue(streamHostNode, L"jid");
+					const wchar_t *streamJid = XmlGetAttrValue(streamHostNode, L"jid");
 					if (streamJid)
 						jbt->szStreamhostUsed = mir_tstrdup(streamJid);
 	}	}	}	}
@@ -360,10 +360,10 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 		// 04-07 bnd.addr server bound address
 		// 08-09 bnd.port server bound port
 		if (datalen == 47 && *((DWORD*)buffer)==0x03000105 && buffer[4]==40 && *((WORD*)(buffer+45))==0) {
-			TCHAR text[256];
+			wchar_t text[256];
 
-			TCHAR *szInitiatorJid = JabberPrepareJid(jbt->srcJID);
-			TCHAR *szTargetJid = JabberPrepareJid(jbt->dstJID);
+			wchar_t *szInitiatorJid = JabberPrepareJid(jbt->srcJID);
+			wchar_t *szTargetJid = JabberPrepareJid(jbt->dstJID);
 			mir_sntprintf(text, L"%s%s%s", jbt->sid, szInitiatorJid, szTargetJid);
 			mir_free(szInitiatorJid);
 			mir_free(szTargetJid);
@@ -406,7 +406,7 @@ void CJabberProto::IqResultStreamActivate(HXML iqNode, CJabberIqInfo*)
 {
 	int id = JabberGetPacketID(iqNode);
 
-	TCHAR listJid[JABBER_MAX_JID_LEN];
+	wchar_t listJid[JABBER_MAX_JID_LEN];
 	mir_sntprintf(listJid, L"ftproxy_%d", id);
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTIQID, listJid);
@@ -423,7 +423,7 @@ void CJabberProto::IqResultStreamActivate(HXML iqNode, CJabberIqInfo*)
 
 void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 {
-	TCHAR *szHost, *szPort;
+	wchar_t *szHost, *szPort;
 	WORD port;
 	HANDLE hConn;
 	char data[3];
@@ -444,7 +444,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	szPort = jbt->szProxyPort;
 	szHost = jbt->szProxyHost;
 
-	port = (WORD)_ttoi(szPort);
+	port = (WORD)_wtoi(szPort);
 	replaceStrT(jbt->streamhostJID, jbt->szProxyJid);
 
 	NETLIBOPENCONNECTION nloc = { 0 };
@@ -509,10 +509,10 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 			*((DWORD*)data) = 0x03000105;
 			data[4] = 40;
 
-			TCHAR text[256];
+			wchar_t text[256];
 
-			TCHAR *szInitiatorJid = JabberPrepareJid(jbt->srcJID);
-			TCHAR *szTargetJid = JabberPrepareJid(jbt->dstJID);
+			wchar_t *szInitiatorJid = JabberPrepareJid(jbt->srcJID);
+			wchar_t *szTargetJid = JabberPrepareJid(jbt->dstJID);
 			mir_sntprintf(text, L"%s%s%s", jbt->sid, szInitiatorJid, szTargetJid);
 			mir_free(szInitiatorJid);
 			mir_free(szTargetJid);
@@ -555,7 +555,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 
 			int iqId = SerialNext();
 
-			TCHAR listJid[256];
+			wchar_t listJid[256];
 			mir_sntprintf(listJid, L"ftproxy_%d", iqId);
 
 			JABBER_LIST_ITEM *item = ListAdd(LIST_FTIQID, listJid);
@@ -587,7 +587,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 {
 	HXML iqNode, queryNode = NULL, n;
-	const TCHAR *sid = NULL, *from = NULL, *to = NULL, *szId = NULL, *szHost, *szPort, *str;
+	const wchar_t *sid = NULL, *from = NULL, *to = NULL, *szId = NULL, *szHost, *szPort, *str;
 	int i;
 	WORD port;
 	HANDLE hConn;
@@ -623,7 +623,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 					 (szPort = XmlGetAttrValue(n, L"port")) != NULL &&
 					 (str = XmlGetAttrValue(n, L"jid")) != NULL) {
 
-					port = (WORD)_ttoi(szPort);
+					port = (WORD)_wtoi(szPort);
 					replaceStrT(jbt->streamhostJID, str);
 
 					debugLog(L"bytestream_recv connecting to %s:%d", szHost, port);
@@ -705,7 +705,7 @@ int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char
 			*((DWORD*)data) = 0x03000105;
 			data[4] = 40;
 
-			TCHAR text[JABBER_MAX_JID_LEN * 2];
+			wchar_t text[JABBER_MAX_JID_LEN * 2];
 			{
 				ptrT szInitiatorJid(JabberPrepareJid(jbt->srcJID));
 				ptrT szTargetJid(JabberPrepareJid(jbt->dstJID));

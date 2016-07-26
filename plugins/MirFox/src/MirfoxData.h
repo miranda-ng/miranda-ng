@@ -118,8 +118,8 @@ public:
 	MirandaAccount* getMirandaAccountPtrBySzModuleName(char* szModuleName);
 
 	//refresh data support
-	void refreshAccount_Add(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, TCHAR* tszAccountName, char* szProtoName);
-	void refreshAccount_Edit(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, TCHAR* tszAccountName);
+	void refreshAccount_Add(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, wchar_t* tszAccountName, char* szProtoName);
+	void refreshAccount_Edit(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName, wchar_t* tszAccountName);
 	void refreshAccount_Delete(SharedMemoryUtils& sharedMemoryUtils, char* szModuleName);
 	void refreshContact_Add(SharedMemoryUtils& sharedMemoryUtils, MCONTACT hContact);
 	void refreshContact_Edit(SharedMemoryUtils& sharedMemoryUtils, MCONTACT hContact);
@@ -247,13 +247,13 @@ class MirandaAccount
 {
 public:
 
-	MirandaAccount(uint64_t idL, char* szModuleNameL, TCHAR* tszAccountNameL, char* szProtoNameL, int displayOrderL);
+	MirandaAccount(uint64_t idL, char* szModuleNameL, wchar_t* tszAccountNameL, char* szProtoNameL, int displayOrderL);
 	~MirandaAccount(void);
 	MirandaAccount*	getObjectPtr();
 
 	uint64_t					id;					//selfgenerated id, used in sm
 	char*						szModuleName;		//unique string id of account
-	TCHAR*						tszAccountName;		//account name
+	wchar_t*						tszAccountName;		//account name
 	char*						szProtoName;		//physical protocol name
 	int							displayOrder;		//presentation order - not used now
 	MFENUM_MIRANDAACCOUNT_STATE accountState;		//state in options

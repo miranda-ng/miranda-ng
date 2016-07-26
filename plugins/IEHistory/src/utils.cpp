@@ -78,10 +78,10 @@ int Info(char *title, char *format, ...)
 returns the name of a contact
 */
 
-TCHAR* GetContactName(MCONTACT contact)
+wchar_t* GetContactName(MCONTACT contact)
 {
 	ptrT name(Contact_GetInfo(CNF_DISPLAY, contact));
-	return (name) ? _tcsdup(name) : NULL;
+	return (name) ? wcsdup(name) : NULL;
 }
 
 /*
@@ -211,7 +211,7 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 	int index = 0;
 	MEVENT hEvent = hFirstEvent;
 	void *buffer = NULL;
-	TCHAR *search;
+	wchar_t *search;
 	bool found = false;
 	int oldSize, newSize;
 	oldSize = newSize = 0;
@@ -223,7 +223,7 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 		newSize = db_event_getBlobSize(hEvent);
 		if (newSize > oldSize)
 		{
-			buffer = (TCHAR *)realloc(buffer, newSize);
+			buffer = (wchar_t *)realloc(buffer, newSize);
 			oldSize = newSize;
 		}
 		dbEvent.pBlob = (PBYTE)buffer;
@@ -247,8 +247,8 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 #else
 				search = (char *) buffer;
 #endif
-				TCHAR *data = (TCHAR *)searchData;
-				TCHAR *tmp = _tcsstr(search, data);
+				wchar_t *data = (wchar_t *)searchData;
+				wchar_t *tmp = wcsstr(search, data);
 				if (tmp)
 				{
 					found = true;

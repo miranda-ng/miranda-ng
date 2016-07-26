@@ -49,10 +49,10 @@ void SendQueue::handleError(TWindowData *dat, const int iEntry) const
 {
 	if (!dat) return;
 
-	TCHAR szErrorMsg[500];
+	wchar_t szErrorMsg[500];
 
 	dat->iCurrentQueueError = iEntry;
-	_tcsncpy_s(szErrorMsg, m_jobs[iEntry].szErrorMsg, _TRUNCATE);
+	wcsncpy_s(szErrorMsg, m_jobs[iEntry].szErrorMsg, _TRUNCATE);
 	logError(dat, iEntry, szErrorMsg);
 	recallFailed(dat, iEntry);
 	showErrorControls(dat, TRUE);
@@ -218,7 +218,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		}
 
 		if (iSendLength >= iMinLength) {
-			TCHAR	tszError[256];
+			wchar_t	tszError[256];
 			mir_sntprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
 			::SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 			sendQueue->clearJob(iEntry);
@@ -270,7 +270,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].iAcksNeeded = 1;
 		if (dat->sendMode & SMODE_SENDLATER) {
-			TCHAR	tszError[256];
+			wchar_t	tszError[256];
 
 			size_t iSendLength = getSendLength(iEntry);
 			if (iSendLength >= dat->nMax) {
@@ -344,7 +344,7 @@ void SendQueue::checkQueue(const TWindowData *dat) const
 // logs an error message to the message window.Optionally, appends the original message
 // from the given sendJob (queue index)
 
-void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const TCHAR *szErrMsg) const
+void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const wchar_t *szErrMsg) const
 {
 	if (dat == 0)
 		return;
@@ -473,8 +473,8 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = dat->hContact;
-	_tcsncpy_s(ppd.lptzContactName, dat->cache->getNick(), _TRUNCATE);
-	_tcsncpy_s(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
+	wcsncpy_s(ppd.lptzContactName, dat->cache->getNick(), _TRUNCATE);
+	wcsncpy_s(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
 
 	if (!(BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
 		ppd.colorText = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
@@ -543,7 +543,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 				SkinPlaySound("SendError");
 
-			TCHAR *szAckMsg = mir_a2t((char *)ack->lParam);
+			wchar_t *szAckMsg = mir_a2t((char *)ack->lParam);
 			mir_sntprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), szAckMsg);
 			job.iStatus = SQ_ERROR;
 			mir_free(szAckMsg);
@@ -642,7 +642,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 {
 	bool  fAvail = sendLater->isAvail();
 
-	const TCHAR *szNote = 0;
+	const wchar_t *szNote = 0;
 
 	if (fIsSendLater && dat) {
 		if (fAvail)
@@ -677,12 +677,12 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 	if (iJobIndex >= 0 && iJobIndex < NR_SENDJOBS) {
 		SendJob *job = &m_jobs[iJobIndex];
 		char szKeyName[20];
-		TCHAR tszHeader[150];
+		wchar_t tszHeader[150];
 
 		if (fIsSendLater) {
 			time_t now = time(0);
-			TCHAR tszTimestamp[30];
-			_tcsftime(tszTimestamp, _countof(tszTimestamp), L"%Y.%m.%d - %H:%M", _localtime32((__time32_t *)&now));
+			wchar_t tszTimestamp[30];
+			wcsftime(tszTimestamp, _countof(tszTimestamp), L"%Y.%m.%d - %H:%M", _localtime32((__time32_t *)&now));
 			mir_snprintf(szKeyName, "S%d", now);
 			mir_sntprintf(tszHeader, TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 		}

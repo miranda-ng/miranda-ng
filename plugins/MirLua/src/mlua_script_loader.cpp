@@ -4,9 +4,9 @@ CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L) : L(L)
 {
 }
 
-void CMLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
+void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file)
 {
-	TCHAR fullPath[MAX_PATH], path[MAX_PATH];
+	wchar_t fullPath[MAX_PATH], path[MAX_PATH];
 	mir_sntprintf(fullPath, L"%s\\%s", scriptDir, file);
 	PathToRelativeT(fullPath, path);
 
@@ -25,12 +25,12 @@ void CMLuaScriptLoader::LoadScript(const TCHAR *scriptDir, const TCHAR *file)
 
 void CMLuaScriptLoader::LoadScripts()
 {
-	TCHAR scriptDir[MAX_PATH];
+	wchar_t scriptDir[MAX_PATH];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
 
 	Log(L"Loading scripts from %s", scriptDir);
 
-	TCHAR searchMask[MAX_PATH];
+	wchar_t searchMask[MAX_PATH];
 	mir_sntprintf(searchMask, L"%s\\%s", scriptDir, L"*.lua");
 
 	WIN32_FIND_DATA fd;

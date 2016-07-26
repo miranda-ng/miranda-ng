@@ -8,7 +8,7 @@
  * OptionsCtrlImpl
  */
 
-const TCHAR* OptionsCtrlImpl::m_ClassName = L"HistoryStatsOptions";
+const wchar_t* OptionsCtrlImpl::m_ClassName = L"HistoryStatsOptions";
 HIMAGELIST OptionsCtrlImpl::m_hStateIcons = NULL;
 int OptionsCtrlImpl::m_nStateIconsRef = 0;
 
@@ -140,7 +140,7 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 		return reinterpret_cast<LRESULT>(pCtrl->onOCMGetItemLabel(reinterpret_cast<HTREEITEM>(wParam)));
 
 	case OCM_SETITEMLABEL:
-		pCtrl->onOCMSetItemLabel(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const TCHAR*>(lParam));
+		pCtrl->onOCMSetItemLabel(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const wchar_t*>(lParam));
 		return 0;
 
 	case OCM_ISITEMENABLED:
@@ -182,11 +182,11 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 		return reinterpret_cast<LPARAM>(pCtrl->onOCMGetEditString(reinterpret_cast<HTREEITEM>(wParam)));
 
 	case OCM_SETEDITSTRING:
-		pCtrl->onOCMSetEditString(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const TCHAR*>(lParam));
+		pCtrl->onOCMSetEditString(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const wchar_t*>(lParam));
 		return 0;
 
 	case OCM_ADDCOMBOITEM:
-		pCtrl->onOCMAddComboItem(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const TCHAR*>(lParam));
+		pCtrl->onOCMAddComboItem(reinterpret_cast<HTREEITEM>(wParam), reinterpret_cast<const wchar_t*>(lParam));
 		return 0;
 
 	case OCM_GETCOMBOSELECTED:
@@ -839,12 +839,12 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertColor(HTREEITEM hParent, OCCOLOR* pColor)
 	return (new Color(this, hParent ? getItem(hParent) : NULL, pColor->szLabel, pColor->crColor, pColor->dwFlags, pColor->dwData))->m_hItem;
 }
 
-const TCHAR* OptionsCtrlImpl::onOCMGetItemLabel(HTREEITEM hItem)
+const wchar_t* OptionsCtrlImpl::onOCMGetItemLabel(HTREEITEM hItem)
 {
 	return getItem(hItem)->getLabel();
 }
 
-void OptionsCtrlImpl::onOCMSetItemLabel(HTREEITEM hItem, const TCHAR* szLabel)
+void OptionsCtrlImpl::onOCMSetItemLabel(HTREEITEM hItem, const wchar_t* szLabel)
 {
 	assert(szLabel);
 
@@ -928,7 +928,7 @@ void OptionsCtrlImpl::onOCMSetEditNumber(HTREEITEM hEdit, int nNumber)
 	reinterpret_cast<Edit*>(pEdit)->setNumber(nNumber);
 }
 
-const TCHAR* OptionsCtrlImpl::onOCMGetEditString(HTREEITEM hEdit)
+const wchar_t* OptionsCtrlImpl::onOCMGetEditString(HTREEITEM hEdit)
 {
 	Item* pEdit = getItem(hEdit);
 
@@ -937,7 +937,7 @@ const TCHAR* OptionsCtrlImpl::onOCMGetEditString(HTREEITEM hEdit)
 	return reinterpret_cast<Edit*>(pEdit)->getString();
 }
 
-void OptionsCtrlImpl::onOCMSetEditString(HTREEITEM hEdit, const TCHAR *szString)
+void OptionsCtrlImpl::onOCMSetEditString(HTREEITEM hEdit, const wchar_t *szString)
 {
 	assert(szString);
 
@@ -948,7 +948,7 @@ void OptionsCtrlImpl::onOCMSetEditString(HTREEITEM hEdit, const TCHAR *szString)
 	reinterpret_cast<Edit*>(pEdit)->setString(szString);
 }
 
-void OptionsCtrlImpl::onOCMAddComboItem(HTREEITEM hCombo, const TCHAR* szItem)
+void OptionsCtrlImpl::onOCMAddComboItem(HTREEITEM hCombo, const wchar_t* szItem)
 {
 	assert(szItem);
 
@@ -1111,7 +1111,7 @@ void OptionsCtrlImpl::onOCMSetItemColor(HTREEITEM hColor, COLORREF crColor)
 	reinterpret_cast<Color*>(pColor)->setColor(crColor);
 }
 
-void OptionsCtrlImpl::insertItem(Item* pParent, Item* pItem, const TCHAR* szNodeText, DWORD dwFlags, int iImage)
+void OptionsCtrlImpl::insertItem(Item* pParent, Item* pItem, const wchar_t* szNodeText, DWORD dwFlags, int iImage)
 {
 	assert(!pParent || pParent->m_hItem);
 	assert(pItem);
@@ -1121,7 +1121,7 @@ void OptionsCtrlImpl::insertItem(Item* pParent, Item* pItem, const TCHAR* szNode
 	tvis.hParent = pParent ? pParent->m_hItem : TVI_ROOT;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE | TVIF_PARAM;
-	tvis.item.pszText = const_cast<TCHAR*>(szNodeText);
+	tvis.item.pszText = const_cast<wchar_t*>(szNodeText);
 	tvis.item.iImage = iImage;
 	tvis.item.iSelectedImage = iImage;
 	tvis.item.stateMask = TVIS_EXPANDED | ((dwFlags & OCF_BOLD) ? TVIS_BOLD : 0);
@@ -1192,7 +1192,7 @@ void OptionsCtrlImpl::setStateImage(HTREEITEM hItem, int iImage)
 	TreeView_SetItem(m_hTree, &tvi);
 }
 
-void OptionsCtrlImpl::setNodeText(HTREEITEM hItem, const TCHAR* szNodeText)
+void OptionsCtrlImpl::setNodeText(HTREEITEM hItem, const wchar_t* szNodeText)
 {
 	assert(hItem);
 	assert(szNodeText);
@@ -1200,7 +1200,7 @@ void OptionsCtrlImpl::setNodeText(HTREEITEM hItem, const TCHAR* szNodeText)
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 	tvi.hItem = hItem;
-	tvi.pszText = const_cast<TCHAR*>(szNodeText);
+	tvi.pszText = const_cast<wchar_t*>(szNodeText);
 	TreeView_SetItem(m_hTree, &tvi);
 }
 

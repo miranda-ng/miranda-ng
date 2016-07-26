@@ -20,7 +20,7 @@ int hLangpack;
 struct CheckBoxValues_t
 {
 	DWORD style;
-	TCHAR *szDescr;
+	wchar_t *szDescr;
 };
 
 static const struct CheckBoxValues_t statusValues[] = {
@@ -208,8 +208,8 @@ static int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.flags = ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOSOUND);
-	odp.ptszTitle = LPGENT("Zero Notifications");
-	odp.ptszGroup = LPGENT("Plugins");
+	odp.pwszTitle = LPGENW("Zero Notifications");
+	odp.pwszGroup = LPGENW("Plugins");
 	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = DlgProcNoSoundOpts;
 	Options_AddPage(wParam, &odp);

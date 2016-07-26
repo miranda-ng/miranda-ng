@@ -31,22 +31,22 @@ Options *Options::instance;
 struct EventNamesType
 {
 	int id;
-	TCHAR* name;
+	wchar_t* name;
 }
 EventNames[] = 
 {
-	EVENTTYPE_MESSAGE, LPGENT("Message"),
-	EVENTTYPE_FILE, LPGENT("File transfer"),
-	EVENTTYPE_URL, LPGENT("Link"),
-	EVENTTYPE_AUTHREQUEST, LPGENT("Authorization request"),
-	EVENTTYPE_ADDED, LPGENT("You were added"),
-	EVENTTYPE_CONTACTS, LPGENT("Contacts received"),
-	ICQEVENTTYPE_SMS, LPGENT("SMS message")
+	EVENTTYPE_MESSAGE, LPGENW("Message"),
+	EVENTTYPE_FILE, LPGENW("File transfer"),
+	EVENTTYPE_URL, LPGENW("Link"),
+	EVENTTYPE_AUTHREQUEST, LPGENW("Authorization request"),
+	EVENTTYPE_ADDED, LPGENW("You were added"),
+	EVENTTYPE_CONTACTS, LPGENW("Contacts received"),
+	ICQEVENTTYPE_SMS, LPGENW("SMS message")
 };
 
 struct TCpTable {
 	UINT cpId;
-	TCHAR *cpName;
+	wchar_t *cpName;
 }
 cpTable[] = {
 	{ CP_UTF8,	L"UTF-8"	 },
@@ -123,34 +123,34 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszTitle = LPGENT("History");
+	odp.pwszTitle = LPGENW("History");
 
-	odp.ptszTab = LPGENT("Group list");
+	odp.pwszTab = LPGENW("Group list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GROUPLIST);
 	odp.pfnDlgProc = Options::DlgProcOptsGroupList;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Messages");
+	odp.pwszTab = LPGENW("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MESSAGES);
 	odp.pfnDlgProc = Options::DlgProcOptsMessages;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Searching");
+	odp.pwszTab = LPGENW("Searching");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SEARCHING);
 	odp.pfnDlgProc = Options::DlgProcOptsSearching;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Export");
+	odp.pwszTab = LPGENW("Export");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXPORT);
 	odp.pfnDlgProc = Options::DlgProcOptsExport;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Scheduler");
+	odp.pwszTab = LPGENW("Scheduler");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SCHEDULER);
 	odp.pfnDlgProc = Options::DlgProcOptsScheduler;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Advanced");
+	odp.pwszTab = LPGENW("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
 	odp.pfnDlgProc = Options::DlgProcOptsMain;
 	Options_AddPage(wParam, &odp);
@@ -158,69 +158,69 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 }
 
 struct FontOptionsList {
-	TCHAR*   szDescr;
+	wchar_t*   szDescr;
 	COLORREF defColour;
-	TCHAR*   szDefFace;
+	wchar_t*   szDefFace;
 	BYTE     defStyle;
 	char     defSize;
-	TCHAR*   szBackgroundName;
+	wchar_t*   szBackgroundName;
 	DWORD     flags;
 };
 
 struct ColorOptionsList {
-	TCHAR*		tszName;
+	wchar_t*		tszName;
 	COLORREF 	def;
 };
 
 struct HotkeyOptionsList {
 	const char *pszName;
-	const TCHAR *ptszDescription;
-	const TCHAR *ptszSection;
+	const wchar_t *ptszDescription;
+	const wchar_t *ptszSection;
 	const char *pszService;
 	WORD DefHotKey;
 	LPARAM lParam;
 };
 
 static FontOptionsList g_FontOptionsList[] = {
-	{LPGENT(">> Outgoing timestamp"), RGB(0, 0, 0), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
-	{LPGENT("<< Incoming timestamp"), RGB(0, 0, 0), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
-	{LPGENT(">> Outgoing name"), RGB(100,100,100), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
-	{LPGENT("<< Incoming name"), RGB(90,160,90), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
-	{LPGENT(">> Outgoing messages"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
-	{LPGENT("<< Incoming messages"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
-	{LPGENT("Group list"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENT("Group list background"), FIDF_DISABLESTYLES},
-	{LPGENT("Find window"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENT("Find window background"), FIDF_DISABLESTYLES},
+	{LPGENW(">> Outgoing timestamp"), RGB(0, 0, 0), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENW("Outgoing background"), FIDF_ALLOWEFFECTS},
+	{LPGENW("<< Incoming timestamp"), RGB(0, 0, 0), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENW("Incoming background"), FIDF_ALLOWEFFECTS},
+	{LPGENW(">> Outgoing name"), RGB(100,100,100), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENW("Outgoing background"), FIDF_ALLOWEFFECTS},
+	{LPGENW("<< Incoming name"), RGB(90,160,90), L"MS Shell Dlg 2", DBFONTF_BOLD, -11, LPGENW("Incoming background"), FIDF_ALLOWEFFECTS},
+	{LPGENW(">> Outgoing messages"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENW("Outgoing background"), FIDF_ALLOWEFFECTS},
+	{LPGENW("<< Incoming messages"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENW("Incoming background"), FIDF_ALLOWEFFECTS},
+	{LPGENW("Group list"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENW("Group list background"), FIDF_DISABLESTYLES},
+	{LPGENW("Find window"), RGB(0, 0, 0), L"MS Shell Dlg 2", 0, -11, LPGENW("Find window background"), FIDF_DISABLESTYLES},
 };
 
 static ColorOptionsList g_ColorOptionsList[] = {
-	LPGENT("Outgoing background"), RGB(245,245,255),
-	LPGENT("Incoming background"), RGB(245,255,245),
-	LPGENT("Group list background"), GetSysColor(COLOR_3DFACE),
-	LPGENT("Window background"), GetSysColor(COLOR_3DFACE),
-	LPGENT("Contact list background"), GetSysColor(COLOR_3DFACE),
-	LPGENT("Find window background"), GetSysColor(COLOR_WINDOW),
+	LPGENW("Outgoing background"), RGB(245,245,255),
+	LPGENW("Incoming background"), RGB(245,255,245),
+	LPGENW("Group list background"), GetSysColor(COLOR_3DFACE),
+	LPGENW("Window background"), GetSysColor(COLOR_3DFACE),
+	LPGENW("Contact list background"), GetSysColor(COLOR_3DFACE),
+	LPGENW("Find window background"), GetSysColor(COLOR_WINDOW),
 };
 
 static HotkeyOptionsList g_HotkeyOptionsList[] = {
-	{ "basichistory_hot_showall", LPGENT("Open global history"), LPGENT("History"), MS_HISTORY_SHOWCONTACTHISTORY, HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'H') | HKF_MIRANDA_LOCAL, 0 },
-	{ "basichistory_hot_find", LPGENT("Find"), LPGENT("History"), 0, HOTKEYCODE(HOTKEYF_CONTROL, 'F'), HISTORY_HK_FIND },
-	{ "basichistory_hot_findnext", LPGENT("Find Next"), LPGENT("History"), 0, VK_F3, HISTORY_HK_FINDNEXT },
-	{ "basichistory_hot_findprev", LPGENT("Find Previous"), LPGENT("History"), 0, VK_F2, HISTORY_HK_FINDPREV },
-	{ "basichistory_hot_matchcase", LPGENT("Switch Match Case"), LPGENT("History"), 0, 0, HISTORY_HK_MATCHCASE },
-	{ "basichistory_hot_matchwhole", LPGENT("Switch Match Whole Word"), LPGENT("History"), 0, 0, HISTORY_HK_MATCHWHOLE },
-	{ "basichistory_hot_showcontacts", LPGENT("Show/Hide Contacts"), LPGENT("History"), 0, 0, HISTORY_HK_SHOWCONTACTS },
-	{ "basichistory_hot_onlyin", LPGENT("Switch Only Incoming Messages"), LPGENT("History"), 0, 0, HISTORY_HK_ONLYIN },
-	{ "basichistory_hot_onlyout", LPGENT("Switch Only Outgoing Messages"), LPGENT("History"), 0, 0, HISTORY_HK_ONLYOUT },
-	{ "basichistory_hot_onlygroup", LPGENT("Switch Only Selected Group"), LPGENT("History"), 0, 0, HISTORY_HK_ONLYGROUP },
-	{ "basichistory_hot_allcontacts", LPGENT("Switch All Contacts"), LPGENT("History"), 0, 0, HISTORY_HK_ALLCONTACTS },
-	{ "basichistory_hot_delete", LPGENT("Delete"), LPGENT("History"), 0, VK_DELETE, HISTORY_HK_DELETE },
-	{ "basichistory_hot_exrhtml", LPGENT("Export To Rich Html"), LPGENT("History"), 0, 0, HISTORY_HK_EXRHTML },
-	{ "basichistory_hot_exphtml", LPGENT("Export To Plain Html"), LPGENT("History"), 0, 0, HISTORY_HK_EXPHTML },
-	{ "basichistory_hot_extxt", LPGENT("Export To Txt"), LPGENT("History"), 0, 0, HISTORY_HK_EXTXT },
-	{ "basichistory_hot_exbin", LPGENT("Export To Binary"), LPGENT("History"), 0, 0, HISTORY_HK_EXBIN },
-	{ "basichistory_hot_impbin", LPGENT("Import From Binary"), LPGENT("History"), 0, 0, HISTORY_HK_IMPBIN },
-	{ "basichistory_hot_exdat", LPGENT("Export To Dat (mContacts)"), LPGENT("History"), 0, 0, HISTORY_HK_EXDAT },
-	{ "basichistory_hot_impdat", LPGENT("Import From Dat (mContacts)"), LPGENT("History"), 0, 0, HISTORY_HK_IMPDAT },
+	{ "basichistory_hot_showall", LPGENW("Open global history"), LPGENW("History"), MS_HISTORY_SHOWCONTACTHISTORY, HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'H') | HKF_MIRANDA_LOCAL, 0 },
+	{ "basichistory_hot_find", LPGENW("Find"), LPGENW("History"), 0, HOTKEYCODE(HOTKEYF_CONTROL, 'F'), HISTORY_HK_FIND },
+	{ "basichistory_hot_findnext", LPGENW("Find Next"), LPGENW("History"), 0, VK_F3, HISTORY_HK_FINDNEXT },
+	{ "basichistory_hot_findprev", LPGENW("Find Previous"), LPGENW("History"), 0, VK_F2, HISTORY_HK_FINDPREV },
+	{ "basichistory_hot_matchcase", LPGENW("Switch Match Case"), LPGENW("History"), 0, 0, HISTORY_HK_MATCHCASE },
+	{ "basichistory_hot_matchwhole", LPGENW("Switch Match Whole Word"), LPGENW("History"), 0, 0, HISTORY_HK_MATCHWHOLE },
+	{ "basichistory_hot_showcontacts", LPGENW("Show/Hide Contacts"), LPGENW("History"), 0, 0, HISTORY_HK_SHOWCONTACTS },
+	{ "basichistory_hot_onlyin", LPGENW("Switch Only Incoming Messages"), LPGENW("History"), 0, 0, HISTORY_HK_ONLYIN },
+	{ "basichistory_hot_onlyout", LPGENW("Switch Only Outgoing Messages"), LPGENW("History"), 0, 0, HISTORY_HK_ONLYOUT },
+	{ "basichistory_hot_onlygroup", LPGENW("Switch Only Selected Group"), LPGENW("History"), 0, 0, HISTORY_HK_ONLYGROUP },
+	{ "basichistory_hot_allcontacts", LPGENW("Switch All Contacts"), LPGENW("History"), 0, 0, HISTORY_HK_ALLCONTACTS },
+	{ "basichistory_hot_delete", LPGENW("Delete"), LPGENW("History"), 0, VK_DELETE, HISTORY_HK_DELETE },
+	{ "basichistory_hot_exrhtml", LPGENW("Export To Rich Html"), LPGENW("History"), 0, 0, HISTORY_HK_EXRHTML },
+	{ "basichistory_hot_exphtml", LPGENW("Export To Plain Html"), LPGENW("History"), 0, 0, HISTORY_HK_EXPHTML },
+	{ "basichistory_hot_extxt", LPGENW("Export To Txt"), LPGENW("History"), 0, 0, HISTORY_HK_EXTXT },
+	{ "basichistory_hot_exbin", LPGENW("Export To Binary"), LPGENW("History"), 0, 0, HISTORY_HK_EXBIN },
+	{ "basichistory_hot_impbin", LPGENW("Import From Binary"), LPGENW("History"), 0, 0, HISTORY_HK_IMPBIN },
+	{ "basichistory_hot_exdat", LPGENW("Export To Dat (mContacts)"), LPGENW("History"), 0, 0, HISTORY_HK_EXDAT },
+	{ "basichistory_hot_impdat", LPGENW("Import From Dat (mContacts)"), LPGENW("History"), 0, 0, HISTORY_HK_IMPDAT },
 };
 
 const int g_fontsSize = _countof(g_FontOptionsList);
@@ -238,26 +238,26 @@ void Options::Load(void)
 	cid.cbSize = sizeof(ColourIDT);
 	hid.cbSize = sizeof(HOTKEYDESC);
 	strncpy_s(fid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
-	_tcsncpy_s(fid.backgroundGroup, L"History", _TRUNCATE);
-	_tcsncpy_s(fid.group, LPGENT("History"), _TRUNCATE);
+	wcsncpy_s(fid.backgroundGroup, L"History", _TRUNCATE);
+	wcsncpy_s(fid.group, LPGENW("History"), _TRUNCATE);
 	for (int i = 0; i < g_fontsSize; ++i) {
 		fid.order = i;
-		_tcsncpy_s(fid.deffontsettings.szFace, g_FontOptionsList[i].szDefFace, _TRUNCATE);
+		wcsncpy_s(fid.deffontsettings.szFace, g_FontOptionsList[i].szDefFace, _TRUNCATE);
 		fid.deffontsettings.size = g_FontOptionsList[i].defSize; 
 		fid.deffontsettings.colour = g_FontOptionsList[i].defColour;
 		fid.deffontsettings.style = g_FontOptionsList[i].defStyle;
 		fid.deffontsettings.charset = DEFAULT_CHARSET;
 		mir_snprintf(fid.prefix, _countof(fid.prefix), "Font%d", i);
-		_tcsncpy_s(fid.name, g_FontOptionsList[i].szDescr, _TRUNCATE);
-		_tcsncpy_s(fid.backgroundName, g_FontOptionsList[i].szBackgroundName, _TRUNCATE);
+		wcsncpy_s(fid.name, g_FontOptionsList[i].szDescr, _TRUNCATE);
+		wcsncpy_s(fid.backgroundName, g_FontOptionsList[i].szBackgroundName, _TRUNCATE);
 		fid.flags = FIDF_DEFAULTVALID | FIDF_CLASSGENERAL | g_FontOptionsList[i].flags;
 		FontRegisterT(&fid);
 	}
 	
 	strncpy_s(cid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
-	_tcsncpy_s(cid.group, LPGENT("History"), _TRUNCATE);
+	wcsncpy_s(cid.group, LPGENW("History"), _TRUNCATE);
 	for (int i = 0; i < g_colorsSize; ++i) {
-		_tcsncpy_s(cid.name, g_ColorOptionsList[i].tszName, _TRUNCATE);
+		wcsncpy_s(cid.name, g_ColorOptionsList[i].tszName, _TRUNCATE);
 		mir_snprintf(cid.setting, _countof(cid.setting), "Color%d", i);
 		cid.order = i;
 		cid.defcolour = g_ColorOptionsList[i].def;
@@ -410,8 +410,8 @@ COLORREF Options::GetFont(Fonts fontId, PLOGFONT font)
 {
 	FontIDT fid = {0};
 	fid.cbSize = sizeof(FontIDT);
-	_tcsncpy_s(fid.group, LPGENT("History"), _TRUNCATE);
-	_tcsncpy_s(fid.name, g_FontOptionsList[fontId].szDescr, _TRUNCATE);
+	wcsncpy_s(fid.group, LPGENW("History"), _TRUNCATE);
+	wcsncpy_s(fid.name, g_FontOptionsList[fontId].szDescr, _TRUNCATE);
 	return (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)font);
 }
 
@@ -419,8 +419,8 @@ COLORREF Options::GetColor(Colors colorId)
 {
 	ColourIDT cid = {0};
 	cid.cbSize = sizeof(ColourIDT);
-	_tcsncpy_s(cid.group, LPGENT("History"), _TRUNCATE);
-	_tcsncpy_s(cid.name, g_ColorOptionsList[colorId].tszName, _TRUNCATE);
+	wcsncpy_s(cid.group, LPGENW("History"), _TRUNCATE);
+	wcsncpy_s(cid.name, g_ColorOptionsList[colorId].tszName, _TRUNCATE);
 	return (COLORREF)CallService(MS_COLOUR_GETT, (WPARAM)&cid, NULL);
 }
 
@@ -721,7 +721,7 @@ void SetEventCB(HWND hwndCB, int eventId)
 			selCpIdx = i;
 
 	if (selCpIdx == -1) {
-		TCHAR buf[24];
+		wchar_t buf[24];
 		mir_sntprintf(buf, L"%d", eventId);
 		ComboBox_SetText(hwndCB, buf);	
 	}
@@ -732,10 +732,10 @@ int GetEventCB(HWND hwndCB, bool errorReport, int &eventId)
 {
 	int selCpIdx = ComboBox_GetCurSel(hwndCB);
 	if (selCpIdx < 0) {
-		TCHAR text[24];
+		wchar_t text[24];
 		ComboBox_GetText(hwndCB, text, 24);
-		TCHAR * stopOn = NULL;
-		long cp = _tcstol(text, &stopOn, 10);
+		wchar_t * stopOn = NULL;
+		long cp = wcstol(text, &stopOn, 10);
 		if (errorReport && (stopOn == text || *stopOn != '\0' || cp < 0)) {
 			MessageBox(GetParent(hwndCB), TranslateT("Invalid event number"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 			SetFocus(hwndCB);
@@ -776,7 +776,7 @@ void ReloadEventLB(HWND hwndLB, const FilterOptions &sel)
 				selCpIdx = i;
 
 		if (selCpIdx == -1) {
-			TCHAR buf[24];
+			wchar_t buf[24];
 			mir_sntprintf(buf, L"%d", *it);
 			ListBox_AddString(hwndLB, buf);	
 		}
@@ -786,7 +786,7 @@ void ReloadEventLB(HWND hwndLB, const FilterOptions &sel)
 
 bool CheckFile(HWND hwndEdit)
 {
-	TCHAR buf[MAX_PATH];
+	wchar_t buf[MAX_PATH];
 	Edit_GetText(hwndEdit, buf, MAX_PATH);
 	DWORD atr = GetFileAttributes(buf);
 	if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY) {
@@ -798,27 +798,27 @@ bool CheckFile(HWND hwndEdit)
 	return true;
 }
 
-bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const TCHAR* defName, const TCHAR* ext, const TCHAR* title, bool open)
+bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const wchar_t* defName, const wchar_t* ext, const wchar_t* title, bool open)
 {
-	TCHAR filter[1024];
+	wchar_t filter[1024];
 	std::locale loc;
-	TCHAR extUpper[32];
-	_tcscpy_s(extUpper, ext);
+	wchar_t extUpper[32];
+	wcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
 	mir_sntprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
 	size_t len = mir_tstrlen(filter) + 1;
 	mir_sntprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
 	len += mir_tstrlen(filter + len) + 1;
-	_tcscpy_s(filter + len, 1024 - len, TranslateT("All Files (*.*)"));
+	wcscpy_s(filter + len, 1024 - len, TranslateT("All Files (*.*)"));
 	len += mir_tstrlen(filter + len) + 1;
-	_tcscpy_s(filter + len, 1024 - len, L"*.*");
+	wcscpy_s(filter + len, 1024 - len, L"*.*");
 	len += mir_tstrlen(filter + len) + 1;
 	filter[len] = 0;
-	TCHAR stzFilePath[1024];
+	wchar_t stzFilePath[1024];
 
 	Edit_GetText(hwndEdit, stzFilePath, 1023);
 	if (stzFilePath[0] == 0) {
-		_tcscpy_s(stzFilePath, defName);
+		wcscpy_s(stzFilePath, defName);
 		len = mir_tstrlen(stzFilePath) + 1;
 		stzFilePath[len] = 0;
 	}
@@ -911,7 +911,7 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 				switch(LOWORD(wParam)) {
 				case IDC_ADD_FILTER:
 					{
-						TCHAR name[24];
+						wchar_t name[24];
 						Edit_GetText(nameFilter, name, 24);
 						if (name[0] == 0) {
 							MessageBox(hwndDlg, TranslateT("Enter filter name"), TranslateT("Error"), MB_ICONERROR);
@@ -1079,7 +1079,7 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			HWND ftp = GetDlgItem(hwndDlg, IDC_WINSCP);
-			TCHAR buf[MAX_PATH];
+			wchar_t buf[MAX_PATH];
 			Edit_GetText(ftp, buf, MAX_PATH);
 			if (buf[0] != 0 && !CheckFile(ftp)) {
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1282,7 +1282,7 @@ void InitCodepageCB(HWND hwndCB, unsigned int codepage, const std::wstring& name
 	}
 
 	if (selCpIdx == -1) {
-		TCHAR buf[300];
+		wchar_t buf[300];
 		mir_sntprintf(buf, L"%d;%s", codepage, name.c_str());
 		ComboBox_SetText(hwndCB, buf);	
 	}
@@ -1295,18 +1295,18 @@ unsigned int GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int, const st
 {
 	int selCpIdx = ComboBox_GetCurSel(hwndCB);
 	if (selCpIdx < 0) {
-		TCHAR text[128];
+		wchar_t text[128];
 		ComboBox_GetText(hwndCB, text, 128);
 		std::wstring str = text;
 		name = L"";
-		size_t pos = str.find_first_of(_T(';'));
+		size_t pos = str.find_first_of(';');
 		if (pos < str.length()) {
 			text[pos] = 0;
 			name = str.substr(pos + 1);
 		}
 
-		TCHAR * stopOn = NULL;
-		long cp = _tcstol(text, &stopOn, 10);
+		wchar_t * stopOn = NULL;
+		long cp = wcstol(text, &stopOn, 10);
 		if ((pos >= str.length() || name.empty() || stopOn == text || *stopOn != '\0' || cp < 0 || cp > 0xffff)) {
 			if (errorReport) {
 				MessageBox(GetParent(hwndCB), TranslateT("You've entered invalid codepage. Select codepage from combo box or enter correct number."), TranslateT("Invalid codepage"), MB_OK | MB_ICONERROR);
@@ -1399,7 +1399,7 @@ INT_PTR CALLBACK Options::DlgProcOptsExport(HWND hwndDlg, UINT msg, WPARAM wPara
 					return TRUE;
 				}
 
-				TCHAR buf[MAX_PATH];
+				wchar_t buf[MAX_PATH];
 				Edit_GetText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), buf, MAX_PATH);
 				instance->extCssHtml2 = buf;
 			}
@@ -1696,9 +1696,9 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			Edit_LimitText(deltaTime, 4);
 			SetDlgItemInt(hwndDlg, IDC_TRIGER_DELTA_TIME, to->deltaTime, FALSE);
 
-			TCHAR timeFormat[10];
+			wchar_t timeFormat[10];
 			if (GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SSHORTTIME, timeFormat, 10) == 0) {
-				TCHAR sep = _T(':');
+				wchar_t sep = ':';
 				if (GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_STIME, timeFormat, 10) > 0)
 					sep = timeFormat[0];
 				mir_sntprintf(timeFormat, L"HH%cmm", sep);
@@ -1747,7 +1747,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				BOOL isOK = FALSE;
 				toCp.eventDeltaTime = GetDlgItemInt(hwndDlg, IDC_EVENT_TIME, &isOK, TRUE);
 				if (!isOK) {
-					TCHAR tszBuf[256];
+					wchar_t tszBuf[256];
 					mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Events older than"));
 					MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 					break;
@@ -1778,7 +1778,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				toCp.dayOfMonth = GetDlgItemInt(hwndDlg, IDC_TRIGER_DAY, &isOK, FALSE);
 				if (!isOK) {
 					if (toCp.trigerType == TaskOptions::Monthly) {
-						TCHAR tszBuf[256];
+						wchar_t tszBuf[256];
 						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Day"));
 						MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 						break;
@@ -1788,7 +1788,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				toCp.deltaTime = GetDlgItemInt(hwndDlg, IDC_TRIGER_DELTA_TIME, &isOK, FALSE);
 				if (!isOK) {
 					if (toCp.trigerType == TaskOptions::DeltaMin || toCp.trigerType == TaskOptions::DeltaHour) {
-						TCHAR tszBuf[256];
+						wchar_t tszBuf[256];
 						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Delta time"));
 						MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 						break;
@@ -1802,9 +1802,9 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				to->taskName = L"";
 				if (!IsValidTask(toCp, top->tasks, &err, &errDescr)) {
 					to->taskName = lastName;
-					TCHAR tszBuf[256];
+					wchar_t tszBuf[256];
 					if (err.empty())
-						_tcscpy_s(tszBuf, TranslateT("Some value is invalid"));
+						wcscpy_s(tszBuf, TranslateT("Some value is invalid"));
 					else if (errDescr.empty())
 						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), err.c_str());
 					else
@@ -1868,9 +1868,9 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				ShowWindow(GetDlgItem(hwndDlg, IDC_IMPORT_TYPE), showImport);
 				std::wstring str;
-				TCHAR* compressText = TranslateT("Compress output files");
-				TCHAR* uploadText = TranslateT("Upload to FTP (WinSCP requred)");
-				TCHAR* typeText = TranslateT("Export to");
+				wchar_t* compressText = TranslateT("Compress output files");
+				wchar_t* uploadText = TranslateT("Upload to FTP (WinSCP requred)");
+				wchar_t* typeText = TranslateT("Export to");
 				if (showFilter == SW_HIDE) {
 					str = TranslateT("** Use <ext> to insert extension, <contact> to insert contact name");
 					compressText = TranslateT("Input files are compressed");

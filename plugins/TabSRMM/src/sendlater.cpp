@@ -116,12 +116,12 @@ CSendLaterJob::~CSendLaterJob()
 			 * show a popup notification, unless they are disabled
 			 */
 			if (PluginConfig.g_bPopupAvail && fShowPopup) {
-				TCHAR	*tszName = pcli->pfnGetContactDisplayName(hContact, 0);
+				wchar_t	*tszName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 				POPUPDATAT ppd = { 0 };
 				ppd.lchContact = hContact;
-				_tcsncpy_s(ppd.lptzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
-				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);
+				wcsncpy_s(ppd.lptzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
+				wchar_t *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<wchar_t *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);
 				if (fSuccess) {
 					mir_sntprintf(ppd.lptzText, TranslateT("A send later job completed successfully.\nThe original message: %s"),
 						msgPreview);
@@ -479,7 +479,7 @@ void CSendLater::qMgrUpdate(bool fReEnable)
 	}
 }
 
-LRESULT CSendLater::qMgrAddFilter(const MCONTACT hContact, const TCHAR* tszNick)
+LRESULT CSendLater::qMgrAddFilter(const MCONTACT hContact, const wchar_t* tszNick)
 {
 	LRESULT lr = ::SendMessage(m_hwndFilter, CB_FINDSTRING, 0, LPARAM(tszNick));
 	if (lr == CB_ERR) {
@@ -495,7 +495,7 @@ LRESULT CSendLater::qMgrAddFilter(const MCONTACT hContact, const TCHAR* tszNick)
 // filters by m_hFilter (contact handle)
 void CSendLater::qMgrFillList(bool fClear)
 {
-	TCHAR *formatTime = L"%Y.%m.%d - %H:%M";
+	wchar_t *formatTime = L"%Y.%m.%d - %H:%M";
 
 	if (fClear) {
 		::SendMessage(m_hwndList, LVM_DELETEALLITEMS, 0, 0);
@@ -515,14 +515,14 @@ void CSendLater::qMgrFillList(bool fClear)
 		CSendLaterJob *p = m_sendLaterJobList[i];
 		CContactCache *c = CContactCache::getContactCache(p->hContact);
 		if (c) {
-			const TCHAR *tszNick = c->getNick();
+			const wchar_t *tszNick = c->getNick();
 			if (m_hFilter && m_hFilter != p->hContact) {
 				qMgrAddFilter(c->getContact(), tszNick);
 				continue;
 			}
 
 			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
-			TCHAR tszBuf[255];
+			wchar_t tszBuf[255];
 			mir_sntprintf(tszBuf, L"%s [%s]", tszNick, c->getRealAccount());
 			lvItem.pszText = tszBuf;
 			lvItem.cchTextMax = _countof(tszBuf);
@@ -533,22 +533,22 @@ void CSendLater::qMgrFillList(bool fClear)
 			qMgrAddFilter(c->getContact(), tszNick);
 
 			lvItem.mask = LVIF_TEXT;
-			TCHAR tszTimestamp[30];
-			_tcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->created));
+			wchar_t tszTimestamp[30];
+			wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->created));
 			tszTimestamp[29] = 0;
 			lvItem.pszText = tszTimestamp;
 			lvItem.iSubItem = 1;
 			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
 
-			TCHAR *msg = mir_utf8decodeT(p->sendBuffer);
-			TCHAR *preview = Utils::GetPreviewWithEllipsis(msg, 255);
+			wchar_t *msg = mir_utf8decodeT(p->sendBuffer);
+			wchar_t *preview = Utils::GetPreviewWithEllipsis(msg, 255);
 			lvItem.pszText = preview;
 			lvItem.iSubItem = 2;
 			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
 			mir_free(preview);
 			mir_free(msg);
 
-			const TCHAR *tszStatusText = 0;
+			const wchar_t *tszStatusText = 0;
 			if (p->fFailed) {
 				tszStatusText = p->bCode == CSendLaterJob::JOB_REMOVABLE ?
 					TranslateT("Removed") : TranslateT("Failed");
@@ -574,7 +574,7 @@ void CSendLater::qMgrFillList(bool fClear)
 			if (p->bCode)
 				bCode = p->bCode;
 
-			TCHAR tszStatus[20];
+			wchar_t tszStatus[20];
 			mir_sntprintf(tszStatus, L"X/%s[%c] (%d)", tszStatusText, bCode, p->iSendCount);
 			tszStatus[0] = p->szId[0];
 			lvItem.pszText = tszStatus;
@@ -582,9 +582,9 @@ void CSendLater::qMgrFillList(bool fClear)
 			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
 
 			if (p->lastSent == 0)
-				_tcsncpy_s(tszTimestamp, L"Never", _TRUNCATE);
+				wcsncpy_s(tszTimestamp, L"Never", _TRUNCATE);
 			else {
-				_tcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->lastSent));
+				wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->lastSent));
 				tszTimestamp[29] = 0;
 			}
 			lvItem.pszText = tszTimestamp;
@@ -807,7 +807,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							job->writeFlags();
 							break;
 						case ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD:
-							Utils::CopyToClipBoard((TCHAR*)ptrT(mir_utf8decodeT(job->sendBuffer)), m_hwndDlg);
+							Utils::CopyToClipBoard((wchar_t*)ptrT(mir_utf8decodeT(job->sendBuffer)), m_hwndDlg);
 							break;
 						case ID_QUEUEMANAGER_RESETSELECTED:
 							if (job->bCode == CSendLaterJob::JOB_DEFERRED) {

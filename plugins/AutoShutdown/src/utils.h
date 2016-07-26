@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* String */
 WCHAR *a2u(const char *pszAnsi);
 char *u2a(const WCHAR *pszUnicode);
-void TrimString(TCHAR *pszStr);
+void TrimString(wchar_t *pszStr);
 
 /* Error Output */
 void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...);
@@ -31,8 +31,8 @@ char* GetWinErrorDescription(DWORD dwLastError);
 /* Time */
 BOOL SystemTimeToTimeStamp(SYSTEMTIME *st,time_t *timestamp);
 BOOL TimeStampToSystemTime(time_t timestamp,SYSTEMTIME *st);
-BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown);
-BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDateEvenToday);
+BOOL GetFormatedCountdown(wchar_t *pszOut,int nSize,time_t countdown);
+BOOL GetFormatedDateTime(wchar_t *pszOut,int nSize,time_t timestamp,BOOL fShowDateEvenToday);
 
 /* Skin */
 void AddHotkey();

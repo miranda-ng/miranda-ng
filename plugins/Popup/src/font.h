@@ -25,26 +25,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __font_h__
 
 //basic constants for all popup plugins
-#define PU_FNT_AND_COLOR		LPGEN("Popups")			//common main group for customice\font&color
-#define PU_FNT_AND_COLOR_DB		MODULNAME		//use eg mir_strcpy(fid.dbSettingsGroup, PU_FNT_GROUP_DB);
+#define PU_FNT_AND_COLOR      LPGEN("Popups")			//common main group for customice\font&color
+#define PU_FNT_AND_COLORW     LPGENW("Popups")			//common main group for customice\font&color
+#define PU_FNT_AND_COLOR_DB   MODULNAME		//use eg mir_strcpy(fid.dbSettingsGroup, PU_FNT_GROUP_DB);
 
 #define PU_FNT_PREFIX			"fnt%s"				//use eg mir_snprintf(fid.prefix, _countof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_....);
-#define PU_FNT_NAME_TITLE		LPGEN("Title")				//use eg mir_tstrcpy(fid.name, _T(FNT_NAME_....)) for FontIDT
-#define PU_FNT_NAME_CLOCK		LPGEN("Clock")
-#define PU_FNT_NAME_TEXT		LPGEN("Text")
-#define PU_FNT_NAME_ACTION		LPGEN("Action")
-#define PU_FNT_NAME_HOVERED_ACTION LPGEN("Hovered action")
+#define PU_FNT_NAME_TITLE     LPGENW("Title")				//use eg mir_tstrcpy(fid.name, _T(FNT_NAME_....)) for FontIDT
+#define PU_FNT_NAME_CLOCK     LPGENW("Clock")
+#define PU_FNT_NAME_TEXT      LPGENW("Text")
+#define PU_FNT_NAME_ACTION    LPGENW("Action")
+#define PU_FNT_NAME_HOVERED_ACTION LPGENW("Hovered action")
 
-#define PU_COL_BACK_NAME		LPGENT("Background")
-#define PU_COL_BACK_SETTING		"ColourBg"
-#define PU_COL_BORD_NAME		LPGENT("Border")
-#define PU_COL_BORD_SETTING		"ColourBorder"
-#define PU_COL_SIDE_NAME		LPGENT("Sidebar")
-#define PU_COL_SIDE_SETTING		"ColourSidebar"
-#define PU_COL_LINE_NAME		LPGENT("Title underline")
-#define PU_COL_LINE_SETTING		"ColourUnderline"
-#define PU_COL_AVAT_NAME		LPGENT("Avatar border")
-#define PU_COL_AVAT_SETTING		"ColourAvatarBorder"
+#define PU_COL_BACK_NAME      LPGENW("Background")
+#define PU_COL_BACK_SETTING   "ColourBg"
+#define PU_COL_BORD_NAME      LPGENW("Border")
+#define PU_COL_BORD_SETTING   "ColourBorder"
+#define PU_COL_SIDE_NAME      LPGENW("Sidebar")
+#define PU_COL_SIDE_SETTING   "ColourSidebar"
+#define PU_COL_LINE_NAME      LPGENW("Title underline")
+#define PU_COL_LINE_SETTING   "ColourUnderline"
+#define PU_COL_AVAT_NAME      LPGENW("Avatar border")
+#define PU_COL_AVAT_SETTING   "ColourAvatarBorder"
 
 struct PopupFonts
 {

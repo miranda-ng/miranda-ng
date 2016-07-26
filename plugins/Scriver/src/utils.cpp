@@ -81,7 +81,7 @@ char* GetRichTextUtf(HWND hwnd)
 	return textBuffer;
 }
 
-int SetRichText(HWND hwnd, const TCHAR *text)
+int SetRichText(HWND hwnd, const wchar_t *text)
 {
 	SETTEXTEX st;
 	st.flags = ST_DEFAULT;
@@ -140,32 +140,32 @@ char* GetRichTextRTF(HWND hwnd)
 	return pszText; // pszText contains the text
 }
 
-void rtrimText(TCHAR *text)
+void rtrimText(wchar_t *text)
 {
-	static TCHAR szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
+	static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 	size_t iLen = mir_tstrlen(text) - 1;
-	while (_tcschr(szTrimString, text[iLen])) {
-		text[iLen] = _T('\0');
+	while (wcschr(szTrimString, text[iLen])) {
+		text[iLen] = '\0';
 		iLen--;
 	}
 }
 
-TCHAR* limitText(TCHAR *text, int limit)
+wchar_t* limitText(wchar_t *text, int limit)
 {
 	size_t len = mir_tstrlen(text);
 	if (len > g_dat.limitNamesLength) {
-		TCHAR *ptszTemp = (TCHAR*)mir_alloc(sizeof(TCHAR) * (limit + 4));
-		_tcsncpy(ptszTemp, text, limit + 1);
-		_tcsncpy(ptszTemp + limit, L"...", 4);
+		wchar_t *ptszTemp = (wchar_t*)mir_alloc(sizeof(wchar_t) * (limit + 4));
+		wcsncpy(ptszTemp, text, limit + 1);
+		wcsncpy(ptszTemp + limit, L"...", 4);
 		return ptszTemp;
 	}
 	return text;
 }
 
-TCHAR* GetRichTextWord(HWND hwnd, POINTL *ptl)
+wchar_t* GetRichTextWord(HWND hwnd, POINTL *ptl)
 {
 	long iCharIndex, start, end, iRes;
-	TCHAR *pszWord = GetRichEditSelection(hwnd);
+	wchar_t *pszWord = GetRichEditSelection(hwnd);
 	if (pszWord == NULL) {
 		iCharIndex = SendMessage(hwnd, EM_CHARFROMPOS, 0, (LPARAM)ptl);
 		if (iCharIndex >= 0) {
@@ -175,7 +175,7 @@ TCHAR* GetRichTextWord(HWND hwnd, POINTL *ptl)
 				TEXTRANGE tr;
 				CHARRANGE cr;
 				memset(&tr, 0, sizeof(TEXTRANGE));
-				pszWord = (TCHAR*)mir_alloc(sizeof(TCHAR) * (end - start + 1));
+				pszWord = (wchar_t*)mir_alloc(sizeof(wchar_t) * (end - start + 1));
 				cr.cpMin = start;
 				cr.cpMax = end;
 				tr.chrg = cr;
@@ -200,12 +200,12 @@ static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	msi->sendBuffer = (char*)mir_realloc(msi->sendBuffer, msi->sendBufferSize + cb + 2);
 	memcpy(msi->sendBuffer + msi->sendBufferSize, pbBuff, cb);
 	msi->sendBufferSize += cb;
-	*((TCHAR*)(msi->sendBuffer + msi->sendBufferSize)) = '\0';
+	*((wchar_t*)(msi->sendBuffer + msi->sendBufferSize)) = '\0';
 	*pcb = cb;
 	return 0;
 }
 
-TCHAR *GetRichEditSelection(HWND hwnd)
+wchar_t *GetRichEditSelection(HWND hwnd)
 {
 	CHARRANGE sel;
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
@@ -221,7 +221,7 @@ TCHAR *GetRichEditSelection(HWND hwnd)
 	stream.pfnCallback = StreamOutCallback;
 	stream.dwCookie = (DWORD_PTR)&msi;
 	SendMessage(hwnd, EM_STREAMOUT, SF_TEXT | SF_UNICODE | SFF_SELECTION, (LPARAM)&stream);
-	return (TCHAR*)msi.sendBuffer;
+	return (wchar_t*)msi.sendBuffer;
 }
 
 void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
@@ -245,9 +245,9 @@ void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced,
 int MeasureMenuItem(WPARAM, LPARAM lParam)
 {
 	LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
-	if (mis->itemData != (ULONG_PTR)g_dat.hButtonIconList && mis->itemData != (ULONG_PTR)g_dat.hSearchEngineIconList && mis->itemData != (ULONG_PTR)g_dat.hChatButtonIconList) {
+	if (mis->itemData != (ULONG_PTR)g_dat.hButtonIconList && mis->itemData != (ULONG_PTR)g_dat.hSearchEngineIconList && mis->itemData != (ULONG_PTR)g_dat.hChatButtonIconList)
 		return FALSE;
-	}
+
 	mis->itemWidth = max(0, GetSystemMetrics(SM_CXSMICON) - GetSystemMetrics(SM_CXMENUCHECK) + 4);
 	mis->itemHeight = GetSystemMetrics(SM_CYSMICON) + 2;
 	return TRUE;
@@ -335,7 +335,7 @@ char *url_encode(char *str)
 	return buf;
 }
 
-void SearchWord(TCHAR *word, int engine)
+void SearchWord(wchar_t *word, int engine)
 {
 	char szURL[4096];
 	if (word && word[0]) {

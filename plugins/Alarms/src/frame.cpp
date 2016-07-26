@@ -138,7 +138,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			GetTextExtentPoint32(dis->hDC,alarm.szTitle,(int)mir_tstrlen(alarm.szTitle),&textSize);
 
-			TCHAR buff[100];
+			wchar_t buff[100];
 			if (min >= 60)
 				mir_sntprintf(buff, TranslateT("%dh %dm"), min / 60, min % 60);
 			else
@@ -148,12 +148,12 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			if (textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
 				// need elipsis
-				TCHAR titlebuff[512];
+				wchar_t titlebuff[512];
 				size_t len = mir_tstrlen(alarm.szTitle);
 				if (len > 511) len = 511;
 				while(len > 0 && textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
 					len--;
-					_tcsncpy(titlebuff, alarm.szTitle, len);
+					wcsncpy(titlebuff, alarm.szTitle, len);
 					titlebuff[len] = 0;
 					mir_tstrcat(titlebuff, L"...");
 					GetTextExtentPoint32(dis->hDC,titlebuff,(int)mir_tstrlen(titlebuff),&textSize);
@@ -453,7 +453,7 @@ void FixMainMenu()
 			Menu_EnableItem(hMenuShowReminders, false);
 		else
 			Menu_ModifyItem(hMenuShowReminders,
-				ReminderFrameVisible() ? LPGENT("Hide reminders") : LPGENT("Show reminders"), INVALID_HANDLE_VALUE, 0);
+				ReminderFrameVisible() ? LPGENW("Hide reminders") : LPGENW("Show reminders"), INVALID_HANDLE_VALUE, 0);
 	}
 }
 
@@ -542,7 +542,7 @@ int CreateFrame()
 		CreateServiceFunction(MODULE "/ShowHideReminders", ShowHideMenuFunc);
 
 		CMenuItem mi;
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Alarms"), 0);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Alarms"), 0);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "8A3C1906-4809-4EE8-A32A-858003A2AAA7");
 
 		SET_UID(mi, 0x27556ea9, 0xfa19, 0x4c2e, 0xb0, 0xc9, 0x48, 0x2, 0x5c, 0x17, 0xba, 0x5);

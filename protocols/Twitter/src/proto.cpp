@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static volatile LONG g_msgid = 1;
 
-TwitterProto::TwitterProto(const char *proto_name, const TCHAR *username) :
+TwitterProto::TwitterProto(const char *proto_name, const wchar_t *username) :
 	PROTO<TwitterProto>(proto_name, username)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &TwitterProto::SvcCreateAccMgrUI);
@@ -264,7 +264,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	// "Send Tweet..."
 	mi.pszService = "/Tweet";
 	CreateProtoService(mi.pszService, &TwitterProto::OnTweet);
-	mi.name.t = LPGENT("Send Tweet...");
+	mi.name.w = LPGENW("Send Tweet...");
 	mi.position = 200001;
 	mi.hIcolibItem = GetIconHandle("tweet");
 	Menu_AddStatusMenuItem(&mi, m_szModuleName);
@@ -276,18 +276,18 @@ int TwitterProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 271828;
 	odp.hInstance = g_hInstance;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszGroup = LPGENW("Network");
+	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 
-	odp.ptszTab = LPGENT("Basic");
+	odp.pwszTab = LPGENW("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = options_proc;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		odp.ptszTab = LPGENT("Popups");
+		odp.pwszTab = LPGENW("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
 		odp.pfnDlgProc = popup_options_proc;
 		Options_AddPage(wParam, &odp);
@@ -307,7 +307,7 @@ INT_PTR TwitterProto::OnTweet(WPARAM, LPARAM)
 
 int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	TCHAR descr[512];
+	wchar_t descr[512];
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
@@ -317,7 +317,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (m_hNetlibUser == NULL) {
-		TCHAR error[200];
+		wchar_t error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
 		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
@@ -330,7 +330,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.ptszDescriptiveName = descr;
 	hAvatarNetlib_ = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (hAvatarNetlib_ == NULL) {
-		TCHAR error[200];
+		wchar_t error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));
 		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
@@ -421,7 +421,7 @@ void TwitterProto::SendTweetWorker(void *p)
 
 	char *text = static_cast<char*>(p);
 	if (mir_strlen(mir_utf8decodeA(text)) > 140) { // looks like the chat max outgoing msg thing doesn't work, so i'll do it here.
-		TCHAR errorPopup[280];
+		wchar_t errorPopup[280];
 		mir_sntprintf(errorPopup, TranslateT("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), mir_strlen(text));
 		ShowPopup(errorPopup, 1);
 		return;
@@ -452,9 +452,9 @@ void TwitterProto::UpdateSettings()
 	}
 }
 
-std::tstring TwitterProto::GetAvatarFolder()
+std::wstring TwitterProto::GetAvatarFolder()
 {
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	mir_sntprintf(path, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
 	return path;
 }

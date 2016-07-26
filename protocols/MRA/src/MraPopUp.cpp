@@ -4,13 +4,13 @@
 #define POPUPS_TYPES_COUNT	7
 static LPCWSTR lpcwszPopupsTypes[] =
 {
-	LPGENT("None"),
-	LPGENT("Debug"),
-	LPGENT("Information"),
-	LPGENT("Question"),
-	LPGENT("Warning"),
-	LPGENT("Error"),
-	LPGENT("NewMail"),
+	LPGENW("None"),
+	LPGENW("Debug"),
+	LPGENW("Information"),
+	LPGENW("Question"),
+	LPGENW("Warning"),
+	LPGENW("Error"),
+	LPGENW("NewMail"),
 	NULL
 };
 
@@ -131,8 +131,8 @@ int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM)
 		odp.position = 100000000;
 		odp.hInstance = g_hInstance;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
-		odp.ptszTitle = m_tszUserName;
-		odp.ptszGroup = LPGENT("Popups");
+		odp.pwszTitle = m_tszUserName;
+		odp.pwszGroup = LPGENW("Popups");
 		odp.groupPosition = 900000000;
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 		odp.pfnDlgProc = MraPopupDlgProcOpts;

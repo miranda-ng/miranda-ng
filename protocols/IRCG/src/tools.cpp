@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIrcProto::AddToJTemp(TCHAR op, CMString& sCommand)
+void CIrcProto::AddToJTemp(wchar_t op, CMString& sCommand)
 {
 	CMString res;
 
@@ -49,20 +49,20 @@ void CIrcProto::AddToJTemp(TCHAR op, CMString& sCommand)
 	setTString("JTemp", res.c_str());
 }
 
-CMString __stdcall GetWord(const TCHAR* text, int index)
+CMString __stdcall GetWord(const wchar_t* text, int index)
 {
 	if (text && *text) {
-		TCHAR* p1 = (TCHAR*)text;
-		TCHAR* p2 = NULL;
+		wchar_t* p1 = (wchar_t*)text;
+		wchar_t* p2 = NULL;
 
 		while (*p1 == ' ')
 			p1++;
 
 		if (*p1 != '\0') {
 			for (int i = 0; i < index; i++) {
-				p2 = _tcschr(p1, ' ');
+				p2 = wcschr(p1, ' ');
 				if (!p2)
-					p2 = _tcschr(p1, '\0');
+					p2 = wcschr(p1, '\0');
 				else
 				while (*p2 == ' ')
 					p2++;
@@ -70,9 +70,9 @@ CMString __stdcall GetWord(const TCHAR* text, int index)
 				p1 = p2;
 			}
 
-			p2 = _tcschr(p1, ' ');
+			p2 = wcschr(p1, ' ');
 			if (!p2)
-				p2 = _tcschr(p1, '\0');
+				p2 = wcschr(p1, '\0');
 
 			if (p1 != p2)
 				return CMString(p1, p2 - p1);
@@ -82,12 +82,12 @@ CMString __stdcall GetWord(const TCHAR* text, int index)
 	return CMString();
 }
 
-const TCHAR* __stdcall GetWordAddress(const TCHAR* text, int index)
+const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index)
 {
 	if (!text || !mir_tstrlen(text))
 		return text;
 
-	const TCHAR* temp = text;
+	const wchar_t* temp = text;
 
 	while (*temp == ' ')
 		temp++;
@@ -96,9 +96,9 @@ const TCHAR* __stdcall GetWordAddress(const TCHAR* text, int index)
 		return temp;
 
 	for (int i = 0; i < index; i++) {
-		temp = _tcschr(temp, ' ');
+		temp = wcschr(temp, ' ');
 		if (!temp)
-			temp = (TCHAR*)_tcschr(text, '\0');
+			temp = (wchar_t*)wcschr(text, '\0');
 		else
 		while (*temp == ' ')
 			temp++;
@@ -120,11 +120,11 @@ void __stdcall RemoveLinebreaks(CMString &Message)
 		Message.Delete(Message.GetLength() - 2, 2);
 }
 
-char* __stdcall IrcLoadFile(TCHAR* szPath)
+char* __stdcall IrcLoadFile(wchar_t* szPath)
 {
 	char * szContainer = NULL;
 	DWORD dwSiz = 0;
-	FILE *hFile = _tfopen(szPath, L"rb");
+	FILE *hFile = _wfopen(szPath, L"rb");
 	if (hFile != NULL) {
 		fseek(hFile, 0, SEEK_END); // seek to end
 		dwSiz = ftell(hFile); // size
@@ -139,12 +139,12 @@ char* __stdcall IrcLoadFile(TCHAR* szPath)
 	return 0;
 }
 
-int __stdcall WCCmp(const TCHAR* wild, const TCHAR* string)
+int __stdcall WCCmp(const wchar_t* wild, const wchar_t* string)
 {
 	if (wild == NULL || !mir_tstrlen(wild) || string == NULL || !mir_tstrlen(string))
 		return 1;
 
-	const TCHAR *cp = NULL, *mp = NULL;
+	const wchar_t *cp = NULL, *mp = NULL;
 	while ((*string) && (*wild != '*')) {
 		if ((*wild != *string) && (*wild != '?'))
 			return 0;
@@ -177,7 +177,7 @@ int __stdcall WCCmp(const TCHAR* wild, const TCHAR* string)
 	return !*wild;
 }
 
-bool CIrcProto::IsChannel(const TCHAR* sName)
+bool CIrcProto::IsChannel(const wchar_t* sName)
 {
 	return (sChannelPrefixes.Find(sName[0]) != -1);
 }
@@ -220,21 +220,21 @@ bool CIrcProto::IsChannel(const char* sName)
 	return (sChannelPrefixes.Find(sName[0]) != -1);
 }
 
-TCHAR* __stdcall my_strstri(const TCHAR* s1, const TCHAR* s2)
+wchar_t* __stdcall my_strstri(const wchar_t* s1, const wchar_t* s2)
 {
 	int i, j, k;
 	for (i = 0; s1[i]; i++)
-	for (j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]); j++, k++)
+	for (j = i, k = 0; towlower(s1[j]) == towlower(s2[k]); j++, k++)
 	if (!s2[k + 1])
-		return (TCHAR*)(s1 + i);
+		return (wchar_t*)(s1 + i);
 
 	return NULL;
 }
 
-TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePercent)
+wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplacePercent)
 {
-	static TCHAR szTemp[4000]; szTemp[0] = '\0';
-	TCHAR* p = szTemp;
+	static wchar_t szTemp[4000]; szTemp[0] = '\0';
+	wchar_t* p = szTemp;
 	bool bBold = false;
 	bool bUnderline = false;
 	bool bItalics = false;
@@ -305,7 +305,7 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 				break;
 			}
 			else { // some colors should be set... need to find out who
-				TCHAR buf[3];
+				wchar_t buf[3];
 
 				// fix foreground index
 				if (text[1] > 47 && text[1] < 58 && text[1] != '\0')
@@ -313,7 +313,7 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 				else
 					mir_tstrncpy(buf, text, 2);
 				text += mir_tstrlen(buf);
-				iFG = _ttoi(buf);
+				iFG = _wtoi(buf);
 
 				// fix background color
 				if (*text == ',' && text[1] > 47 && text[1] < 58 && text[1] != '\0') {
@@ -324,7 +324,7 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 					else
 						mir_tstrncpy(buf, text, 2);
 					text += mir_tstrlen(buf);
-					iBG = _ttoi(buf);
+					iBG = _wtoi(buf);
 				}
 			}
 
@@ -337,7 +337,7 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 
 			// create tag for chat.dll
 			if (!bStrip) {
-				TCHAR buf[10];
+				wchar_t buf[10];
 				if (iFG >= 0 && iFG != 99) {
 					*p++ = '%';
 					*p++ = 'c';
@@ -381,8 +381,8 @@ INT_PTR CIrcProto::CallChatEvent(WPARAM wParam, LPARAM lParam)
 	return CallServiceSync(MS_GC_EVENT, wParam, (LPARAM)lParam);
 }
 
-INT_PTR CIrcProto::DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszNick,
-	const TCHAR* pszText, const TCHAR* pszStatus, const TCHAR* pszUserInfo,
+INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* pszNick,
+	const wchar_t* pszText, const wchar_t* pszStatus, const wchar_t* pszUserInfo,
 	DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe, time_t timestamp)
 {
 	GCDEST gcd = { m_szModuleName, NULL, iEvent };
@@ -404,7 +404,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszN
 			sID = pszWindow + (CMString)L" - " + m_info.sNetwork;
 		else
 			sID = pszWindow;
-		gcd.ptszID = (TCHAR*)sID.c_str();
+		gcd.ptszID = (wchar_t*)sID.c_str();
 	}
 	else gcd.ptszID = NULL;
 
@@ -454,7 +454,7 @@ CMString CIrcProto::ModeToStatus(int sMode)
 
 CMString CIrcProto::PrefixToStatus(int cPrefix)
 {
-	const TCHAR* p = _tcschr(sUserModePrefixes.c_str(), cPrefix);
+	const wchar_t* p = wcschr(sUserModePrefixes.c_str(), cPrefix);
 	if (p) {
 		int index = int(p - sUserModePrefixes.c_str());
 		return ModeToStatus(sUserModes[index]);
@@ -545,9 +545,9 @@ int CIrcProto::SetChannelSBText(CMString sWindow, CHANNELINFO * wi)
 	return DoEvent(GC_EVENT_SETSBTEXT, sWindow.c_str(), NULL, sTemp.c_str(), NULL, NULL, NULL, FALSE, FALSE, 0);
 }
 
-CMString CIrcProto::MakeWndID(const TCHAR* sWindow)
+CMString CIrcProto::MakeWndID(const wchar_t* sWindow)
 {
-	TCHAR buf[200];
+	wchar_t buf[200];
 	mir_sntprintf(buf, L"%s - %s", sWindow, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline"));
 	return CMString(buf);
 }
@@ -570,24 +570,24 @@ bool CIrcProto::FreeWindowItemData(CMString window, CHANNELINFO* wis)
 	return false;
 }
 
-bool CIrcProto::AddWindowItemData(CMString window, const TCHAR* pszLimit, const TCHAR* pszMode, const TCHAR* pszPassword, const TCHAR* pszTopic)
+bool CIrcProto::AddWindowItemData(CMString window, const wchar_t* pszLimit, const wchar_t* pszMode, const wchar_t* pszPassword, const wchar_t* pszTopic)
 {
 	CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, window.c_str(), NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	if (wi) {
 		if (pszLimit) {
-			wi->pszLimit = (TCHAR*)realloc(wi->pszLimit, sizeof(TCHAR)*(mir_tstrlen(pszLimit) + 1));
+			wi->pszLimit = (wchar_t*)realloc(wi->pszLimit, sizeof(wchar_t)*(mir_tstrlen(pszLimit) + 1));
 			mir_tstrcpy(wi->pszLimit, pszLimit);
 		}
 		if (pszMode) {
-			wi->pszMode = (TCHAR*)realloc(wi->pszMode, sizeof(TCHAR)*(mir_tstrlen(pszMode) + 1));
+			wi->pszMode = (wchar_t*)realloc(wi->pszMode, sizeof(wchar_t)*(mir_tstrlen(pszMode) + 1));
 			mir_tstrcpy(wi->pszMode, pszMode);
 		}
 		if (pszPassword) {
-			wi->pszPassword = (TCHAR*)realloc(wi->pszPassword, sizeof(TCHAR)*(mir_tstrlen(pszPassword) + 1));
+			wi->pszPassword = (wchar_t*)realloc(wi->pszPassword, sizeof(wchar_t)*(mir_tstrlen(pszPassword) + 1));
 			mir_tstrcpy(wi->pszPassword, pszPassword);
 		}
 		if (pszTopic) {
-			wi->pszTopic = (TCHAR*)realloc(wi->pszTopic, sizeof(TCHAR)*(mir_tstrlen(pszTopic) + 1));
+			wi->pszTopic = (wchar_t*)realloc(wi->pszTopic, sizeof(wchar_t)*(mir_tstrlen(pszTopic) + 1));
 			mir_tstrcpy(wi->pszTopic, pszTopic);
 		}
 
@@ -612,7 +612,7 @@ void CIrcProto::FindLocalIP(HANDLE hConn) // inspiration from jabber
 
 void CIrcProto::DoUserhostWithReason(int type, CMString reason, bool bSendCommand, CMString userhostparams, ...)
 {
-	TCHAR temp[4096];
+	wchar_t temp[4096];
 	CMString S = L"";
 	switch (type) {
 	case 1:

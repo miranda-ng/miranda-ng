@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "../stdafx.h"
 
-static TCHAR *wcs[] = {
+static wchar_t *wcs[] = {
 	L"{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}/1",	// Foobar 0.9.1
 	L"{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}",
 	L"{97E27FAA-C0B3-4b8e-A693-ED7881E99FC1}",	// Foobar 0.9.5.3

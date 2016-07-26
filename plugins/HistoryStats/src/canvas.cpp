@@ -131,13 +131,13 @@ bool Canvas::getDigest(Digest& digest)
 	return true;
 }
 
-bool Canvas::writePNG(const TCHAR* szFileName)
+bool Canvas::writePNG(const wchar_t* szFileName)
 {
 	IMGSRVC_INFO img = { 0 };
 	img.cbSize = sizeof(img);
 	img.dwMask = IMGI_HBITMAP;
 	img.hbm = m_hBmp;
 	img.fif = FIF_PNG;
-	img.tszName = (TCHAR*)szFileName;
+	img.tszName = (wchar_t*)szFileName;
 	return CallService(MS_IMG_SAVE, (WPARAM)&img, IMGL_TCHAR) == 0;
 }

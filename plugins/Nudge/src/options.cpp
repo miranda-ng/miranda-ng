@@ -93,7 +93,7 @@ static INT_PTR CALLBACK DlgProcShakeOpt(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		{
-			TCHAR szBuf[20];
+			wchar_t szBuf[20];
 			mir_sntprintf(szBuf, L"%d", shake.nMoveClist);
 			SetDlgItemText(hwnd, IDC_LNUMBER_CLIST, szBuf);
 			mir_sntprintf(szBuf, L"%d", shake.nMoveChat);
@@ -130,7 +130,7 @@ static INT_PTR CALLBACK DlgProcShakeOpt(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 		if ((HWND)lParam == GetDlgItem(hwnd, IDC_SNUMBER_CLIST) || (HWND)lParam == GetDlgItem(hwnd, IDC_SNUMBER_CHAT)
 			|| (HWND)lParam == GetDlgItem(hwnd, IDC_SSCALE_CLIST) || (HWND)lParam == GetDlgItem(hwnd, IDC_SSCALE_CHAT))
 		{
-			TCHAR szBuf[20];
+			wchar_t szBuf[20];
 			DWORD dwPos = SendMessage((HWND)lParam, TBM_GETPOS, 0, 0);
 			mir_sntprintf(szBuf, L"%d", dwPos);
 			if ((HWND)lParam == GetDlgItem(hwnd, IDC_SNUMBER_CLIST))

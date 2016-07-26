@@ -404,7 +404,7 @@ INT_PTR CMLan::AddToContactList(u_int flags, EMPSEARCHRESULT *psr)
 
 	bool TempAdd = flags&PALF_TEMPORARY;
 
-	MCONTACT contact = FindContact(addr, psr->nick.t, true, !TempAdd, !TempAdd, psr->stat);
+	MCONTACT contact = FindContact(addr, psr->nick.a, true, !TempAdd, !TempAdd, psr->stat);
 	if (contact != NULL) {
 		db_set_w(contact, PROTONAME, "Status", psr->stat);
 		db_set_w(contact, PROTONAME, "RemoteVersion", psr->ver);
@@ -483,10 +483,10 @@ void CMLan::SearchExt(TDataHolder* hold)
 			size_t len = mir_tstrlen(buf);
 			buf[len] = '@';
 			mir_tstrcpy(buf + len + 1, inet_ntoa(cont->m_addr));
-			psr.nick.t = cont->m_nick;
-			psr.firstName.t = "";
-			psr.lastName.t = "";
-			psr.email.t = buf;
+			psr.nick.a = cont->m_nick;
+			psr.firstName.a = "";
+			psr.lastName.a = "";
+			psr.email.a = buf;
 			psr.ipaddr = cont->m_addr.S_un.S_addr;
 			psr.stat = cont->m_status;
 			psr.ver = cont->m_ver;

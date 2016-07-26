@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-TCHAR* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def);
+wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* setting, wchar_t* out, size_t len, wchar_t *def);
 
 #define DBFONTF_BOLD       1
 #define DBFONTF_ITALIC     2
@@ -55,34 +55,34 @@ static const checkBoxToStyleEx[] = {
 struct CheckBoxValues_t
 {
 	DWORD  style;
-	TCHAR* szDescr;
+	wchar_t* szDescr;
 };
 
 static const struct CheckBoxValues_t greyoutValues[] = {
-	{ GREYF_UNFOCUS,  LPGENT("Not focused")   },
-	{ MODEF_OFFLINE,  LPGENT("Offline")       },
-	{ PF2_ONLINE,     LPGENT("Online")        },
-	{ PF2_SHORTAWAY,  LPGENT("Away")          },
-	{ PF2_LONGAWAY,   LPGENT("Not available") },
-	{ PF2_LIGHTDND,   LPGENT("Occupied")      },
-	{ PF2_HEAVYDND,   LPGENT("Do not disturb")},
-	{ PF2_FREECHAT,   LPGENT("Free for chat") },
-	{ PF2_INVISIBLE,  LPGENT("Invisible")     },
-	{ PF2_OUTTOLUNCH, LPGENT("Out to lunch")  },
-	{ PF2_ONTHEPHONE, LPGENT("On the phone")  }
+	{ GREYF_UNFOCUS,  LPGENW("Not focused")   },
+	{ MODEF_OFFLINE,  LPGENW("Offline")       },
+	{ PF2_ONLINE,     LPGENW("Online")        },
+	{ PF2_SHORTAWAY,  LPGENW("Away")          },
+	{ PF2_LONGAWAY,   LPGENW("Not available") },
+	{ PF2_LIGHTDND,   LPGENW("Occupied")      },
+	{ PF2_HEAVYDND,   LPGENW("Do not disturb")},
+	{ PF2_FREECHAT,   LPGENW("Free for chat") },
+	{ PF2_INVISIBLE,  LPGENW("Invisible")     },
+	{ PF2_OUTTOLUNCH, LPGENW("Out to lunch")  },
+	{ PF2_ONTHEPHONE, LPGENW("On the phone")  }
 };
 
 static const struct CheckBoxValues_t offlineValues[] = {
-	{ MODEF_OFFLINE,  LPGENT("Offline")       },
-	{ PF2_ONLINE,     LPGENT("Online")        },
-	{ PF2_SHORTAWAY,  LPGENT("Away")          },
-	{ PF2_LONGAWAY,   LPGENT("Not available") },
-	{ PF2_LIGHTDND,   LPGENT("Occupied")      },
-	{ PF2_HEAVYDND,   LPGENT("Do not disturb")},
-	{ PF2_FREECHAT,   LPGENT("Free for chat") },
-	{ PF2_INVISIBLE,  LPGENT("Invisible")     },
-	{ PF2_OUTTOLUNCH, LPGENT("Out to lunch")  },
-	{ PF2_ONTHEPHONE, LPGENT("On the phone")  }
+	{ MODEF_OFFLINE,  LPGENW("Offline")       },
+	{ PF2_ONLINE,     LPGENW("Online")        },
+	{ PF2_SHORTAWAY,  LPGENW("Away")          },
+	{ PF2_LONGAWAY,   LPGENW("Not available") },
+	{ PF2_LIGHTDND,   LPGENW("Occupied")      },
+	{ PF2_HEAVYDND,   LPGENW("Do not disturb")},
+	{ PF2_FREECHAT,   LPGENW("Free for chat") },
+	{ PF2_INVISIBLE,  LPGENW("Invisible")     },
+	{ PF2_OUTTOLUNCH, LPGENW("Out to lunch")  },
+	{ PF2_ONTHEPHONE, LPGENW("On the phone")  }
 };
 
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
@@ -118,7 +118,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 
 static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR tmp[1024];
+	wchar_t tmp[1024];
 
 	switch (msg) {
 	case WM_INITDIALOG:

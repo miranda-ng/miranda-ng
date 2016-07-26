@@ -62,7 +62,7 @@ MIR_CORE_DLL(WCHAR*) rtrimw(WCHAR *str)
 	if (str == NULL)
 		return NULL;
 
-	WCHAR *p = _tcschr(str, 0);
+	WCHAR *p = wcschr(str, 0);
 	while (--p >= str) {
 		switch (*p) {
 		case ' ': case '\t': case '\n': case '\r':

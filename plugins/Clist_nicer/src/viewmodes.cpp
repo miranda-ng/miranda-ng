@@ -199,7 +199,7 @@ static int FillDialog(HWND hwnd)
 	item.pszText = TranslateT("Ungrouped contacts");
 	SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
-	TCHAR *grpName;
+	wchar_t *grpName;
 	for (i = 1; (grpName = Clist_GroupGetName(i, NULL)) != NULL; i++) {
 		item.pszText = grpName;
 		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
@@ -296,7 +296,7 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 	}
 }
 
-void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options,
+void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options,
 	unsigned int stickies, unsigned int operators, unsigned int lmdat)
 {
 	char szSetting[512];
@@ -346,7 +346,7 @@ void SaveState()
 
 	{
 		LVITEM item = { 0 };
-		TCHAR szTemp[256];
+		wchar_t szTemp[256];
 
 		HWND hwndList = GetDlgItem(sttClvmHwnd, IDC_GROUPS);
 
@@ -433,7 +433,7 @@ void UpdateFilters()
 	SendDlgItemMessageA(sttClvmHwnd, IDC_VIEWMODES, LB_GETTEXT, sttClvm_curItem, (LPARAM)szBuf);
 	mir_strncpy(sttModeName, szBuf, sizeof(sttModeName));
 	{
-		TCHAR szTemp[100];
+		wchar_t szTemp[100];
 		mir_sntprintf(szTemp, TranslateT("Current view mode: %S"), sttModeName);
 		SetDlgItemText(sttClvmHwnd, IDC_CURVIEWMODE2, szTemp);
 	}
@@ -480,8 +480,8 @@ void UpdateFilters()
 
 	{
 		LVITEM item = { 0 };
-		TCHAR szTemp[256];
-		TCHAR szMask[256];
+		wchar_t szTemp[256];
+		wchar_t szMask[256];
 		HWND hwndList = GetDlgItem(sttClvmHwnd, IDC_GROUPS);
 
 		item.mask = LVIF_TEXT;
@@ -494,7 +494,7 @@ void UpdateFilters()
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
 			mir_sntprintf(szMask, L"%s|", szTemp);
-			if (dbv_gf.ptszVal && _tcsstr(dbv_gf.ptszVal, szMask)) {
+			if (dbv_gf.ptszVal && wcsstr(dbv_gf.ptszVal, szMask)) {
 				ListView_SetCheckState(hwndList, i, TRUE);
 			}
 			else {
@@ -587,7 +587,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CLCINFOITEM cii = { 0 };
 			cii.cbSize = sizeof(cii);
 			cii.hParentGroup = 0;
-			cii.pszText = LPGENT("*** All contacts ***");
+			cii.pszText = LPGENW("*** All contacts ***");
 			hInfoItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
@@ -1044,7 +1044,7 @@ void ApplyViewMode(const char *name)
 	mir_snprintf(szSetting, "%c%s_GF", 246, name);
 	ptrT tszGroups(db_get_tsa(NULL, CLVM_MODULE, szSetting));
 	if (mir_tstrlen(tszGroups) >= 2) {
-		_tcsncpy_s(cfg::dat.groupFilter, tszGroups, _TRUNCATE);
+		wcsncpy_s(cfg::dat.groupFilter, tszGroups, _TRUNCATE);
 		cfg::dat.bFilterEffective |= CLVM_FILTER_GROUPS;
 	}
 

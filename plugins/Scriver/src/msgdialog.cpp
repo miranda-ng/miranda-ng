@@ -34,24 +34,24 @@ static void UpdateReadChars(HWND hwndDlg, SrmmWindowData * dat);
 
 static ToolbarButton toolbarButtons[] =
 {
-	{ LPGENT("Quote"), IDC_QUOTE, 0, 4, 24 },
-	{ LPGENT("Add contact"), IDC_ADD, 0, 10, 24 },
-	{ LPGENT("User menu"), IDC_USERMENU, 1, 0, 24 },
-	{ LPGENT("User details"), IDC_DETAILS, 1, 0, 24 },
-	{ LPGENT("History"), IDC_HISTORY, 1, 0, 24 },
-	{ LPGENT("Send"), IDOK, 1, 0, 38 }
+	{ LPGENW("Quote"), IDC_QUOTE, 0, 4, 24 },
+	{ LPGENW("Add contact"), IDC_ADD, 0, 10, 24 },
+	{ LPGENW("User menu"), IDC_USERMENU, 1, 0, 24 },
+	{ LPGENW("User details"), IDC_DETAILS, 1, 0, 24 },
+	{ LPGENW("History"), IDC_HISTORY, 1, 0, 24 },
+	{ LPGENW("Send"), IDOK, 1, 0, 38 }
 };
 
-static TCHAR* GetIEViewSelection(SrmmWindowData *dat)
+static wchar_t* GetIEViewSelection(SrmmWindowData *dat)
 {
 	IEVIEWEVENT evt = { sizeof(evt) };
 	evt.hwnd = dat->hwndLog;
 	evt.hContact = dat->hContact;
 	evt.iType = IEE_GET_SELECTION;
-	return mir_tstrdup((TCHAR*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
+	return mir_tstrdup((wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
 }
 
-static TCHAR* GetQuotedTextW(TCHAR *text)
+static wchar_t* GetQuotedTextW(wchar_t *text)
 {
 	size_t i, j, l = mir_wstrlen(text);
 	int newLine = 1;
@@ -79,7 +79,7 @@ static TCHAR* GetQuotedTextW(TCHAR *text)
 	}
 	j += 3;
 
-	TCHAR *out = (TCHAR*)mir_alloc(sizeof(TCHAR)* j);
+	wchar_t *out = (wchar_t*)mir_alloc(sizeof(wchar_t)* j);
 	newLine = 1;
 	wasCR = 0;
 	for (i = j = 0; i < l; i++) {
@@ -156,15 +156,15 @@ int RTL_Detect(WCHAR *pszwText)
 	return 0;
 }
 
-static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFilename)
+static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t* szFilename)
 {
-	*pppFiles = (TCHAR**)mir_realloc(*pppFiles, (++*totalCount + 1)*sizeof(TCHAR*));
+	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1)*sizeof(wchar_t*));
 	(*pppFiles)[*totalCount] = NULL;
 	(*pppFiles)[*totalCount - 1] = mir_tstrdup(szFilename);
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
-		TCHAR szPath[MAX_PATH];
+		wchar_t szPath[MAX_PATH];
 		mir_sntprintf(szPath, L"%s\\*", szFilename);
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
@@ -297,7 +297,7 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		ScreenToClient(hwnd, (LPPOINT)&ptl);
 		ptrT pszWord(GetRichTextWord(hwnd, &ptl));
 		if (pszWord && pszWord[0]) {
-			TCHAR szMenuText[4096];
+			wchar_t szMenuText[4096];
 			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWord);
 			ModifyMenu(hSubMenu, 5, MF_STRING | MF_BYPOSITION, 5, szMenuText);
 			SetSearchEngineIcons(hMenu, g_dat.hSearchEngineIconList);
@@ -544,7 +544,7 @@ static void MessageDialogResize(HWND hwndDlg, SrmmWindowData *dat, int w, int h)
 static void UpdateReadChars(HWND hwndDlg, SrmmWindowData *dat)
 {
 	if (dat->parent->hwndActive == hwndDlg) {
-		TCHAR szText[256];
+		wchar_t szText[256];
 		int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, FALSE);
 
 		StatusBarData sbd;
@@ -754,7 +754,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (newData->szInitialText) {
 				if (newData->isWchar)
-					SetDlgItemText(hwndDlg, IDC_MESSAGE, (TCHAR*)newData->szInitialText);
+					SetDlgItemText(hwndDlg, IDC_MESSAGE, (wchar_t*)newData->szInitialText);
 				else
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
 			}
@@ -795,7 +795,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_LIMITTEXT, nMax, 0);
 			}
 			/* get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF */
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LIMITTEXT, sizeof(TCHAR) * 0x7FFFFFFF, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
 			SubclassLogEdit(GetDlgItem(hwndDlg, IDC_LOG));
 			SubclassMessageEdit(GetDlgItem(hwndDlg, IDC_MESSAGE));
 			dat->infobarData = CreateInfobar(hwndDlg, dat);
@@ -951,10 +951,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (!(CallProtoService(dat->szProto, PS_GETCAPS, PFLAGNUM_1, 0)&PF1_FILESEND)) break;
 		if (dat->wStatus == ID_STATUS_OFFLINE) break;
 		if (dat->hContact != NULL) {
-			TCHAR szFilename[MAX_PATH];
+			wchar_t szFilename[MAX_PATH];
 			HDROP hDrop = (HDROP)wParam;
 			int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
-			TCHAR** ppFiles = NULL;
+			wchar_t** ppFiles = NULL;
 			for (i = 0; i < fileCount; i++) {
 				DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
 				AddToFileList(&ppFiles, &totalCount, szFilename);
@@ -1088,7 +1088,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
 		cf2.crTextColor = colour;
 		cf2.bCharSet = lf.lfCharSet;
-		_tcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+		wcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 		cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
 		cf2.wWeight = (WORD)lf.lfWeight;
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
@@ -1345,7 +1345,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_UPDATESTATUSBAR:
 		if (dat->parent->hwndActive == hwndDlg) {
-			TCHAR szText[256];
+			wchar_t szText[256];
 			StatusBarData sbd = { 0 };
 			sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 			if (dat->messagesInProgress && (g_dat.flags & SMF_SHOWPROGRESS)) {
@@ -1360,7 +1360,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				dat->nTypeSecs--;
 			}
 			else if (dat->lastMessage) {
-				TCHAR date[64], time[64];
+				wchar_t date[64], time[64];
 				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"d", date, _countof(date), 0);
 				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"t", time, _countof(time), 0);
 				mir_sntprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
@@ -1576,7 +1576,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 
 				int bufSize = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, TRUE) + 2;
-				ptrT ptszUnicode((TCHAR*)mir_alloc(bufSize * sizeof(TCHAR)));
+				ptrT ptszUnicode((wchar_t*)mir_alloc(bufSize * sizeof(wchar_t)));
 
 				MessageSendQueueItem msi = { 0 };
 				if (pf2.wEffects & PFE_RTLPARA)
@@ -1650,14 +1650,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				st.flags = ST_SELECTION;
 				st.codepage = 1200;
 
-				TCHAR *buffer = NULL;
+				wchar_t *buffer = NULL;
 				if (dat->hwndLog != NULL)
 					buffer = GetIEViewSelection(dat);
 				else
 					buffer = GetRichEditSelection(GetDlgItem(hwndDlg, IDC_LOG));
 
 				if (buffer != NULL) {
-					TCHAR *quotedBuffer = GetQuotedTextW(buffer);
+					wchar_t *quotedBuffer = GetQuotedTextW(buffer);
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
 					mir_free(quotedBuffer);
 					mir_free(buffer);
@@ -1672,7 +1672,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (DbEventIsMessageOrCustom(&dbei)) {
 						buffer = DbGetEventTextT(&dbei, CP_ACP);
 						if (buffer != NULL) {
-							TCHAR *quotedBuffer = GetQuotedTextW(buffer);
+							wchar_t *quotedBuffer = GetQuotedTextW(buffer);
 							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
 							mir_free(quotedBuffer);
 							mir_free(buffer);

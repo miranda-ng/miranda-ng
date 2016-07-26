@@ -177,7 +177,7 @@ int get_token_score(int type, char *token)
 	return score;
 }
 
-double get_msg_score(TCHAR *msg)
+double get_msg_score(wchar_t *msg)
 {
 	char *message, *token;
 	double spam_prob, ham_prob, tmp1 = 1, tmp2 = 1;
@@ -220,7 +220,7 @@ double get_msg_score(TCHAR *msg)
 	return tmp1 / (tmp1 + tmp2);
 }
 
-void queue_message(MCONTACT hContact, DWORD msgtime, TCHAR *message)
+void queue_message(MCONTACT hContact, DWORD msgtime, wchar_t *message)
 {
 	char *tmp;
 	sqlite3_stmt *stmt;
@@ -247,7 +247,7 @@ void queue_message(MCONTACT hContact, DWORD msgtime, TCHAR *message)
 void bayes_approve_contact(MCONTACT hContact)
 {
 	const char *message;
-	TCHAR *messageW;
+	wchar_t *messageW;
 	int d = 0;
 	sqlite3_stmt *stmt;
 
@@ -279,7 +279,7 @@ void dequeue_messages()
 	time_t t = time(NULL);
 	sqlite3_stmt *stmt;
 	const char *message;
-	TCHAR *messageW;
+	wchar_t *messageW;
 	int d = 0;
 
 	if (bayesdb == NULL)
@@ -306,7 +306,7 @@ void dequeue_messages()
 }
 
 /* Learn one message as either SPAM or HAM as specified in type parameter */
-void learn(int type, TCHAR *msg)
+void learn(int type, wchar_t *msg)
 {
 	char *tok, *message;
 	BYTE digest[16];
@@ -375,12 +375,12 @@ void learn(int type, TCHAR *msg)
 	mir_free(message);
 }
 
-void learn_ham(TCHAR *msg)
+void learn_ham(wchar_t *msg)
 {
 	learn(0, msg);
 }
 
-void learn_spam(TCHAR *msg)
+void learn_spam(wchar_t *msg)
 {
 	learn(1, msg);
 }

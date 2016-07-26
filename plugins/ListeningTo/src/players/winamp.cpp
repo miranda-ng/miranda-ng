@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "../stdafx.h"
 
-static TCHAR *wcs[] = {
+static wchar_t *wcs[] = {
 	L"Winamp v1.x"
 };
 

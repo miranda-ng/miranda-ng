@@ -31,16 +31,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* TlenGetAvatarFileName() - gets a file name for the avatar image */
 
-void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, TCHAR* ptszDest, int cbLen)
+void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, wchar_t* ptszDest, int cbLen)
 {
 	int tPathLen = mir_sntprintf(ptszDest, cbLen, TEXT("%s\\%S"), VARST(TEXT("%miranda_avatarcache%")), proto->m_szModuleName);
-	if (_taccess(ptszDest, 0)) {
+	if (_waccess(ptszDest, 0)) {
 		int ret = CreateDirectoryTreeT(ptszDest);
 		if (ret == 0)
 			proto->debugLog(L"getAvatarFilename(): Created new directory for avatar cache: %s.", ptszDest);
 		else {
 			proto->debugLog(L"getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s", ptszDest, errno, strerror(errno));
-			TCHAR buffer[512];
+			wchar_t buffer[512];
 			mir_sntprintf(buffer, TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), ptszDest);
 			PUShowMessageT(buffer, SM_WARNING);
 		}
@@ -56,7 +56,7 @@ void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, TCHAR* pts
 	else
 		format = db_get_dw(NULL, proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
 
-	const TCHAR *tszFileType = ProtoGetAvatarExtension(format);
+	const wchar_t *tszFileType = ProtoGetAvatarExtension(format);
 	if (item != NULL)
 		mir_sntprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S%s"), ptrA(TlenSha1(item->jid)), tszFileType);
 	else
@@ -65,7 +65,7 @@ void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, TCHAR* pts
 
 static void RemoveAvatar(TlenProtocol *proto, MCONTACT hContact)
 {
-	TCHAR tFileName[MAX_PATH];
+	wchar_t tFileName[MAX_PATH];
 	if (hContact == NULL)
 		proto->threadData->avatarHash[0] = '\0';
 
@@ -79,7 +79,7 @@ static void RemoveAvatar(TlenProtocol *proto, MCONTACT hContact)
 
 static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *item, char *data, int len, DWORD format)
 {
-	TCHAR filename[MAX_PATH];
+	wchar_t filename[MAX_PATH];
 	char md5[33];
 	mir_md5_state_t ctx;
 	DWORD digest[4];
@@ -104,7 +104,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 	}
 	TlenGetAvatarFileName(proto, item, filename, _countof(filename) - 1);
 	DeleteFile(filename);
-	FILE *out = _tfopen(filename, TEXT("wb"));
+	FILE *out = _wfopen(filename, TEXT("wb"));
 	if (out != NULL) {
 		fwrite(data, len, 1, out);
 		fclose(out);
@@ -113,7 +113,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 		db_set_dw(hContact, proto->m_szModuleName, "AvatarFormat", format);
 	}
 	else {
-		TCHAR buffer[128];
+		wchar_t buffer[128];
 		mir_sntprintf(buffer, TranslateT("Cannot save new avatar file \"%s\" Error:\n\t%s (Error: %d)"), filename, _tcserror(errno), errno);
 		PUShowMessageT(buffer, SM_WARNING);
 		proto->debugLog(buffer);

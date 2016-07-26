@@ -31,10 +31,10 @@ static LIST<HANDLE> lphGroupsItems(5);
 
 struct GroupItemSort
 {
-	TCHAR* name;
+	wchar_t* name;
 	int position;
 
-	GroupItemSort(TCHAR* pname, int pos)
+	GroupItemSort(wchar_t* pname, int pos)
 		: name(mir_tstrdup(pname)), position(pos)
 	{
 	}
@@ -47,13 +47,13 @@ struct GroupItemSort
 	}
 };
 
-static TCHAR* PrepareGroupName(TCHAR* str)
+static wchar_t* PrepareGroupName(wchar_t* str)
 {
-	TCHAR* p = _tcschr(str, '&'), *d;
+	wchar_t* p = wcschr(str, '&'), *d;
 	if (p == NULL)
 		return mir_tstrdup(str);
 
-	d = p = (TCHAR*)mir_alloc(sizeof(TCHAR)*(2 * mir_tstrlen(str) + 1));
+	d = p = (wchar_t*)mir_alloc(sizeof(wchar_t)*(2 * mir_tstrlen(str) + 1));
 	while (*str) {
 		if (*str == '&')
 			*d++ = '&';
@@ -64,12 +64,12 @@ static TCHAR* PrepareGroupName(TCHAR* str)
 	return p;
 }
 
-static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, bool checked)
+static void AddGroupItem(HGENMENU hRoot, wchar_t* name, int pos, WPARAM param, bool checked)
 {
 	CMenuItem mi;
 	mi.root = hRoot;
 	mi.position = pos;
-	mi.name.t = PrepareGroupName(name);
+	mi.name.w = PrepareGroupName(name);
 	mi.flags = CMIF_SYSTEM | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 	if (checked)
 		mi.flags |= CMIF_CHECKED;
@@ -78,7 +78,7 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 	Menu_ConfigureItem(result, MCI_OPT_EXECPARAM, param);
 
 	lphGroupsItems.insert((HANDLE*)result);
-	mir_free(mi.name.t);
+	mir_free(mi.name.w);
 }
 
 // service

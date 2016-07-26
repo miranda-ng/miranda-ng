@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "stdafx.h"
 
-CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
+CAimProto::CAimProto(const char* aProtoName, const wchar_t* aUserName) :
 	PROTO<CAimProto>(aProtoName, aUserName),
 	m_chat_rooms(5)
 {
@@ -46,7 +46,7 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	offline_contacts();
 
-	TCHAR descr[MAX_PATH];
+	wchar_t descr[MAX_PATH];
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
@@ -122,7 +122,7 @@ MCONTACT CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	if (m_state != 1)
 		return 0;
 	
-	TCHAR *id = psr->id.t ? psr->id.t : psr->nick.t;
+	wchar_t *id = psr->id.w ? psr->id.w : psr->nick.w;
 	char *sn = psr->flags & PSR_UNICODE ? mir_u2a((wchar_t*)id) : mir_strdup((char*)id);
 	MCONTACT hContact = contact_from_sn(sn, true, (flags & PALF_TEMPORARY) != 0);
 	mir_free(sn);
@@ -132,7 +132,7 @@ MCONTACT CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CAimProto::AuthRequest(MCONTACT hContact, const TCHAR*)
+int __cdecl CAimProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 {
 	//Not a real authrequest- only used b/c we don't know the group until now.
 	if (m_state != 1)
@@ -151,7 +151,7 @@ int __cdecl CAimProto::AuthRequest(MCONTACT hContact, const TCHAR*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CAimProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR *szPath)
+HANDLE __cdecl CAimProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *szPath)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (ft && m_ft_list.find_by_ft(ft)) {
@@ -199,7 +199,7 @@ int __cdecl CAimProto::FileCancel(MCONTACT, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CAimProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR* /*szReason*/)
+int __cdecl CAimProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t* /*szReason*/)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!m_ft_list.find_by_ft(ft))
@@ -214,7 +214,7 @@ int __cdecl CAimProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR* /*szRea
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileResume - processes file renaming etc
 
-int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
+int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!m_ft_list.find_by_ft(ft))
@@ -224,7 +224,7 @@ int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** s
 	case FILERESUME_RESUME:
 		{
 			struct _stati64 statbuf;
-			_tstati64(ft->pfts.tszCurrentFile, &statbuf);
+			_wstat64(ft->pfts.tszCurrentFile, &statbuf);
 			ft->pfts.currentFileProgress = statbuf.st_size;
 		}
 		break;
@@ -306,7 +306,7 @@ void __cdecl CAimProto::basic_search_ack_success(void *p)
 		else {
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
-			psr.id.t = (TCHAR*)sn;
+			psr.id.w = (wchar_t*)sn;
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		}
@@ -315,7 +315,7 @@ void __cdecl CAimProto::basic_search_ack_success(void *p)
 	mir_free(p);
 }
 
-HANDLE __cdecl CAimProto::SearchBasic(const TCHAR *szId)
+HANDLE __cdecl CAimProto::SearchBasic(const wchar_t *szId)
 {
 	if (m_state != 1)
 		return 0;
@@ -328,7 +328,7 @@ HANDLE __cdecl CAimProto::SearchBasic(const TCHAR *szId)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SearchByEmail - searches the contact by its e-mail
 
-HANDLE __cdecl CAimProto::SearchByEmail(const TCHAR *email)
+HANDLE __cdecl CAimProto::SearchByEmail(const wchar_t *email)
 {
 	// Maximum email size should really be 320, but the char string is limited to 255.
 	if (m_state != 1 || email == NULL || mir_tstrlen(email) >= 254)
@@ -363,7 +363,7 @@ int __cdecl CAimProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
+HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)
 {
 	if (m_state != 1)
 		return 0;
@@ -377,7 +377,7 @@ HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const TCHAR* szDescription
 			int count = 0;
 			while (ppszFiles[count] != NULL) {
 				struct _stati64 statbuf;
-				if (_tstati64(ppszFiles[count++], &statbuf) == 0) {
+				if (_wstat64(ppszFiles[count++], &statbuf) == 0) {
 					if (statbuf.st_mode & _S_IFDIR) {
 						if (ft->pfts.totalFiles == 0) isDir = true;
 					}
@@ -593,7 +593,7 @@ int __cdecl CAimProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away m_iStatus message
 
-int __cdecl CAimProto::SetAwayMsg(int status, const TCHAR* msg)
+int __cdecl CAimProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	char **msgptr = get_status_msg_loc(status);
 	if (msgptr == NULL) return 1;

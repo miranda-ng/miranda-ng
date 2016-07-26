@@ -157,7 +157,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	
 	case WM_CREATE:
 	case HLK_MEASURETEXT:
-		TCHAR szText[256];
+		wchar_t szText[256];
 		if (!GetWindowText(hwnd, szText, _countof(szText))) return 0;
 		lParam = (LPARAM)szText;
 		/* fall thru */
@@ -172,7 +172,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			if (dat->hEnableFont != NULL) hPrevFont = (HFONT)SelectObject(hdc, dat->hEnableFont);
 			if (dat->hEnableFont == NULL || hPrevFont != NULL) { /* select failed? */
 				SIZE textSize;
-				if (GetTextExtentPoint32(hdc, (TCHAR*)lParam, (int)mir_tstrlen((TCHAR*)lParam), &textSize)) {
+				if (GetTextExtentPoint32(hdc, (wchar_t*)lParam, (int)mir_tstrlen((wchar_t*)lParam), &textSize)) {
 					if (GetClientRect(hwnd, &rc)) {
 						dat->rcText.top = 0;
 						dat->rcText.bottom = dat->rcText.top + textSize.cy;

@@ -32,14 +32,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct SkinListData
 {
-	TCHAR Name[MAX_NAME];
-	TCHAR File[MAX_PATH];
+	wchar_t Name[MAX_NAME];
+	wchar_t File[MAX_PATH];
 };
 
 HBITMAP hPreviewBitmap = NULL;
-HTREEITEM AddItemToTree(HWND hTree, TCHAR *itemName, void *data);
-HTREEITEM AddSkinToListFullName(HWND hwndDlg, TCHAR *fullName);
-HTREEITEM AddSkinToList(HWND hwndDlg, TCHAR *path, TCHAR *file);
+HTREEITEM AddItemToTree(HWND hTree, wchar_t *itemName, void *data);
+HTREEITEM AddSkinToListFullName(HWND hwndDlg, wchar_t *fullName);
+HTREEITEM AddSkinToList(HWND hwndDlg, wchar_t *path, wchar_t *file);
 HTREEITEM FillAvailableSkinList(HWND hwndDlg);
 
 INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -53,8 +53,8 @@ int SkinOptInit(WPARAM wParam, LPARAM)
 		odp.hInstance = g_hInst;
 		odp.pfnDlgProc = DlgSkinOpts;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
-		odp.ptszGroup = LPGENT("Skins");
-		odp.ptszTitle = LPGENT("Contact list");
+		odp.pwszGroup = LPGENW("Skins");
+		odp.pwszTitle = LPGENW("Contact list");
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 		Options_AddPage(wParam, &odp);
 	}
@@ -117,8 +117,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				if (!sd)
 					return 0;
 
-				TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
-				if (!_tcschr(sd->File, _T('%'))) {
+				wchar_t Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
+				if (!wcschr(sd->File, '%')) {
 					GetPrivateProfileString(L"Skin_Description_Section", L"Author", TranslateT("( unknown )"), Author, _countof(Author), sd->File);
 					GetPrivateProfileString(L"Skin_Description_Section", L"URL", L"", URL, _countof(URL), sd->File);
 					GetPrivateProfileString(L"Skin_Description_Section", L"Contact", L"", Contact, _countof(Contact), sd->File);
@@ -254,11 +254,11 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				if (nmtv->itemNew.lParam) {
 					SkinListData *sd = (SkinListData*)nmtv->itemNew.lParam;
 
-					TCHAR buf[MAX_PATH];
+					wchar_t buf[MAX_PATH];
 					PathToRelativeT(sd->File, buf);
 					SetDlgItemText(hwndDlg, IDC_EDIT_SKIN_FILENAME, buf);
 
-					TCHAR prfn[MAX_PATH] = { 0 }, imfn[MAX_PATH] = { 0 }, skinfolder[MAX_PATH] = { 0 };
+					wchar_t prfn[MAX_PATH] = { 0 }, imfn[MAX_PATH] = { 0 }, skinfolder[MAX_PATH] = { 0 };
 					GetPrivateProfileString(L"Skin_Description_Section", L"Preview", L"", imfn, _countof(imfn), sd->File);
 					IniParser::GetSkinFolder(sd->File, skinfolder);
 					mir_sntprintf(prfn, L"%s\\%s", skinfolder, imfn);
@@ -282,8 +282,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						if (!sd2)
 							return 0;
 
-						TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
-						if (sd2->File && !_tcschr(sd2->File, _T('%'))) {
+						wchar_t Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
+						if (sd2->File && !wcschr(sd2->File, '%')) {
 							GetPrivateProfileString(L"Skin_Description_Section", L"Author", TranslateT("( unknown )"), Author, _countof(Author), sd2->File);
 							GetPrivateProfileString(L"Skin_Description_Section", L"URL", L"", URL, _countof(URL), sd2->File);
 							GetPrivateProfileString(L"Skin_Description_Section", L"Contact", L"", Contact, _countof(Contact), sd2->File);
@@ -325,10 +325,10 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-int SearchSkinFiles(HWND hwndDlg, TCHAR * Folder)
+int SearchSkinFiles(HWND hwndDlg, wchar_t * Folder)
 {
 	struct _tfinddata_t fd = { 0 };
-	TCHAR mask[MAX_PATH];
+	wchar_t mask[MAX_PATH];
 	long hFile;
 	mir_sntprintf(mask, L"%s\\*.msf", Folder);
 	//fd.attrib = _A_SUBDIR;
@@ -344,7 +344,7 @@ int SearchSkinFiles(HWND hwndDlg, TCHAR * Folder)
 	{
 		do {
 			if (fd.attrib&_A_SUBDIR && !(mir_tstrcmpi(fd.name, L".") == 0 || mir_tstrcmpi(fd.name, L"..") == 0)) {//Next level of subfolders
-				TCHAR path[MAX_PATH];
+				wchar_t path[MAX_PATH];
 				mir_sntprintf(path, L"%s\\%s", Folder, fd.name);
 				SearchSkinFiles(hwndDlg, path);
 			}
@@ -366,7 +366,7 @@ HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 	if (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_DIRECTORY))
 		SearchSkinFiles(hwndDlg, SkinsFolder);
 	{
-		TCHAR skinfull[MAX_PATH];
+		wchar_t skinfull[MAX_PATH];
 		ptrT skinfile(db_get_tsa(NULL, SKIN, "SkinFile"));
 		if (skinfile) {
 			PathToAbsoluteT(skinfile, skinfull);
@@ -375,16 +375,16 @@ HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 	}
 	return res;
 }
-HTREEITEM AddSkinToListFullName(HWND hwndDlg, TCHAR * fullName)
+HTREEITEM AddSkinToListFullName(HWND hwndDlg, wchar_t * fullName)
 {
-	TCHAR path[MAX_PATH] = { 0 };
-	TCHAR file[MAX_PATH] = { 0 };
-	TCHAR *buf;
+	wchar_t path[MAX_PATH] = { 0 };
+	wchar_t file[MAX_PATH] = { 0 };
+	wchar_t *buf;
 	mir_tstrncpy(path, fullName, _countof(path));
 	buf = path + mir_tstrlen(path);
 	while (buf > path) {
-		if (*buf == _T('\\')) {
-			*buf = _T('\0');
+		if (*buf == '\\') {
+			*buf = '\0';
 			break;
 		}
 		buf--;
@@ -395,29 +395,29 @@ HTREEITEM AddSkinToListFullName(HWND hwndDlg, TCHAR * fullName)
 }
 
 
-HTREEITEM AddSkinToList(HWND hwndDlg, TCHAR * path, TCHAR* file)
+HTREEITEM AddSkinToList(HWND hwndDlg, wchar_t * path, wchar_t* file)
 {
-	TCHAR fullName[MAX_PATH], defskinname[MAX_PATH];
+	wchar_t fullName[MAX_PATH], defskinname[MAX_PATH];
 	SkinListData *sd = (SkinListData *)mir_alloc(sizeof(SkinListData));
 	if (!sd)
 		return 0;
 
-	if (!file || _tcschr(file, _T('%'))) {
+	if (!file || wcschr(file, '%')) {
 		mir_sntprintf(sd->File, L"%%Default Skin%%");
 		mir_sntprintf(sd->Name, TranslateT("%Default Skin%"));
-		_tcsncpy_s(fullName, TranslateT("Default Skin"), _TRUNCATE);
+		wcsncpy_s(fullName, TranslateT("Default Skin"), _TRUNCATE);
 	}
 	else {
 		mir_sntprintf(fullName, L"%s\\%s", path, file);
-		_tcsncpy_s(defskinname, file, _TRUNCATE);
-		TCHAR *p = _tcsrchr(defskinname, '.'); if (p) *p = 0;
+		wcsncpy_s(defskinname, file, _TRUNCATE);
+		wchar_t *p = wcsrchr(defskinname, '.'); if (p) *p = 0;
 		GetPrivateProfileString(L"Skin_Description_Section", L"Name", defskinname, sd->Name, _countof(sd->Name), fullName);
-		_tcsncpy_s(sd->File, fullName, _TRUNCATE);
+		wcsncpy_s(sd->File, fullName, _TRUNCATE);
 	}
 	return AddItemToTree(GetDlgItem(hwndDlg, IDC_TREE1), sd->Name, sd);
 }
 
-HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data)
+HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, wchar_t * Caption, void * data)
 {
 	HTREEITEM tmp = NULL;
 	if (Parent)
@@ -427,7 +427,7 @@ HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data)
 
 	while (tmp) {
 		TVITEM tvi;
-		TCHAR buf[255];
+		wchar_t buf[255];
 		tvi.hItem = tmp;
 		tvi.mask = TVIF_TEXT | TVIF_HANDLE;
 		tvi.pszText = buf;
@@ -451,7 +451,7 @@ HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data)
 	return tmp;
 }
 
-HTREEITEM AddItemToTree(HWND hTree, TCHAR *itemName, void *data)
+HTREEITEM AddItemToTree(HWND hTree, wchar_t *itemName, void *data)
 {
 	HTREEITEM cItem = NULL;
 	//Insert item node
@@ -473,7 +473,7 @@ INT_PTR SvcActiveSkin(WPARAM, LPARAM)
 {
 	ptrT skinfile(db_get_tsa(NULL, SKIN, "SkinFile"));
 	if (skinfile) {
-		TCHAR skinfull[MAX_PATH];
+		wchar_t skinfull[MAX_PATH];
 		PathToAbsoluteT(skinfile, skinfull);
 		return (INT_PTR)mir_tstrdup(skinfull);
 	}
@@ -483,7 +483,7 @@ INT_PTR SvcActiveSkin(WPARAM, LPARAM)
 
 INT_PTR SvcApplySkin(WPARAM, LPARAM lParam)
 {
-	ske_LoadSkinFromIniFile((TCHAR *)lParam, FALSE);
+	ske_LoadSkinFromIniFile((wchar_t *)lParam, FALSE);
 	ske_LoadSkinFromDB();
 	Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 	Sync(CLUIFrames_OnClistResize_mod, 0, 0);
@@ -519,9 +519,9 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 	OffsetRect(&workRect, -workRect.left, -workRect.top);
 
 	if (lParam) {
-		TCHAR prfn[MAX_PATH] = { 0 };
-		TCHAR imfn[MAX_PATH] = { 0 };
-		TCHAR skinfolder[MAX_PATH] = { 0 };
+		wchar_t prfn[MAX_PATH] = { 0 };
+		wchar_t imfn[MAX_PATH] = { 0 };
+		wchar_t skinfolder[MAX_PATH] = { 0 };
 		GetPrivateProfileString(L"Skin_Description_Section", L"Preview", L"", imfn, _countof(imfn), (LPCTSTR)lParam);
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder);
 		mir_sntprintf(prfn, L"%s\\%s", skinfolder, imfn);

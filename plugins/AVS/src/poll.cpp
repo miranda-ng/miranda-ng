@@ -44,7 +44,7 @@ static void RequestThread(void *vParam);
 
 extern HANDLE hShutdownEvent;
 extern int DeleteAvatar(MCONTACT hContact);
-extern void MakePathRelative(MCONTACT hContact, TCHAR *path);
+extern void MakePathRelative(MCONTACT hContact, wchar_t *path);
 int Proto_GetDelayAfterFail(const char *proto);
 BOOL Proto_IsFetchingWhenProtoNotVisibleAllowed(const char *proto);
 BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto);

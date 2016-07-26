@@ -65,7 +65,7 @@ char* u2a(const WCHAR *pszUnicode,BOOL fMirCp)
 }
 
 // mir_free() the return value
-TCHAR* s2t(const void *pszStr,DWORD fUnicode,BOOL fMirCp)
+wchar_t* s2t(const void *pszStr,DWORD fUnicode,BOOL fMirCp)
 {
 
 	if(fUnicode) return mir_wstrdup((WCHAR*)pszStr);
@@ -74,7 +74,7 @@ TCHAR* s2t(const void *pszStr,DWORD fUnicode,BOOL fMirCp)
 }
 
 // mir_free() the return value
-void* t2s(const TCHAR *pszStr,DWORD fUnicode,BOOL fMirCp)
+void* t2s(const wchar_t *pszStr,DWORD fUnicode,BOOL fMirCp)
 {
 
 	if (!fUnicode) return (void*)u2a(pszStr,fMirCp);

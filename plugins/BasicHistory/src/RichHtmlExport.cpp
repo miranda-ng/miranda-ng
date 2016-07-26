@@ -39,19 +39,19 @@ std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<si
 	while((find = message.find_first_of(search, start)) < message.length()) {
 		ret += message.substr(start, find - start);
 		switch(message[find]) {
-		case _T('&'):
+		case '&':
 			ret += L"&amp;";
 			break;
-		case _T('<'):
+		case '<':
 			ret += L"&lt;";
 			break;
-		case _T('>'):
+		case '>':
 			ret += L"&gt;";
 			break;
-		case _T('\t'):
+		case '\t':
 			ret += L" ";
 			break;
-		case _T('\n'):
+		case '\n':
 			ret += L"<br>";
 			break;
 		}
@@ -257,8 +257,8 @@ void IcoSave(const std::wstring &fileName, HICON hicon)
 bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true)
 {
   size_t len = mir_tstrlen(lpszDir);
-  TCHAR *pszFrom = new TCHAR[len+2];
-  _tcscpy_s(pszFrom, len+2, lpszDir);
+  wchar_t *pszFrom = new wchar_t[len+2];
+  wcscpy_s(pszFrom, len+2, lpszDir);
   pszFrom[len] = 0;
   pszFrom[len+1] = 0;
   
@@ -365,8 +365,8 @@ void RichHtmlExport::WriteFooter()
 
 void RichHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::wstring&, const std::wstring &eventText)
 {
-	TCHAR *id = isMe ? L"out" : L"inc";
-	TCHAR* ev = (isMe ? L"1" : L"0");
+	wchar_t *id = isMe ? L"out" : L"inc";
+	wchar_t* ev = (isMe ? L"1" : L"0");
 	if (groupId > 0)
 		EXP_FILE << L"</div>\n";
 	
@@ -383,9 +383,9 @@ void RichHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::
 
 void RichHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const std::wstring &shortDate, const std::wstring &user, const std::wstring &message, const DBEVENTINFO&)
 {
-	TCHAR *id = isMe ? L"out" : L"inc";
-	TCHAR* ev = (isMe ? L"1" : L"0");
-	TCHAR* ev1 = ev;
+	wchar_t *id = isMe ? L"out" : L"inc";
+	wchar_t* ev = (isMe ? L"1" : L"0");
+	wchar_t* ev1 = ev;
 	bool isUrl = false;
 	std::wstring mes = ReplaceSmileys(isMe, message, isUrl);
 	if (isUrl)
@@ -405,8 +405,8 @@ std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, 
 	if (!Options::instance->exportHtml2UseSmileys || !g_SmileyAddAvail)
 		return UrlHighlightHtml(MakeTextHtmled(msg), isUrl);
 
-	TCHAR* msgbuf = new TCHAR[msg.length() + 1];
-	memcpy_s(msgbuf, (msg.length() + 1) * sizeof(TCHAR), msg.c_str(), (msg.length() + 1) * sizeof(TCHAR));
+	wchar_t* msgbuf = new wchar_t[msg.length() + 1];
+	memcpy_s(msgbuf, (msg.length() + 1) * sizeof(wchar_t), msg.c_str(), (msg.length() + 1) * sizeof(wchar_t));
 	SMADD_BATCHPARSE2 sp = {0};
 	SMADD_BATCHPARSERES *spr;
 	sp.cbSize = sizeof(sp);

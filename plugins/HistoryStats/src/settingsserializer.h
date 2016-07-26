@@ -33,7 +33,7 @@ public:
 	void setShowSupportInfo(bool bShow);
 
 	ext::string getLastStatisticsFile();
-	void setLastStatisticsFile(const TCHAR* szFileName);
+	void setLastStatisticsFile(const wchar_t* szFileName);
 	bool canShowStatistics();
 	void showStatistics();
 };

@@ -25,7 +25,7 @@ public:
 
 public:
 	void setLayout(int nLayout);
-	HANDLE addButton(DWORD dwFlags, HICON hIcon, INT_PTR dwData, const TCHAR* szTooltip = NULL, const TCHAR* szText = NULL);
+	HANDLE addButton(DWORD dwFlags, HICON hIcon, INT_PTR dwData, const wchar_t* szTooltip = NULL, const wchar_t* szText = NULL);
 	bool isButtonChecked(HANDLE hButton);
     void checkButton(HANDLE hButton, bool bCheck);
 	DWORD getButtonData(HANDLE hButton);

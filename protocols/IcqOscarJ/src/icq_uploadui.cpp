@@ -826,7 +826,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 						CLCINFOITEM cii = { 0 };
 						cii.cbSize = sizeof(cii);
 						cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
-						cii.pszText = TranslateT(LPGEN("** All contacts **"));
+						cii.pszText = TranslateT("** All contacts **");
 						hItemAll = (HANDLE)SendMessage(hClist, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 					}
 

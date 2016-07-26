@@ -45,13 +45,13 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 	return TRUE;
 }
 
-static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
+static void InstallFile(const wchar_t *pszFileName,const wchar_t *pszDestSubDir)
 {
-	TCHAR szFileFrom[MAX_PATH+1],szFileTo[MAX_PATH+1];
+	wchar_t szFileFrom[MAX_PATH+1],szFileTo[MAX_PATH+1];
 	if (!GetModuleFileName(hInst, szFileFrom, _countof(szFileFrom) - (int)mir_tstrlen(pszFileName)))
 		return;
 
-	TCHAR *p = _tcsrchr(szFileFrom,_T('\\'));
+	wchar_t *p = wcsrchr(szFileFrom,'\\');
 	if (p != NULL)
 		*(++p) = 0;
 	mir_tstrcat(szFileFrom,pszFileName); /* buffer safe */
@@ -63,7 +63,7 @@ static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
 
 	if (!GetModuleFileName(NULL, szFileTo, _countof(szFileTo)-(int)mir_tstrlen(pszDestSubDir)-(int)mir_tstrlen(pszFileName)))
 		return;
-	p = _tcsrchr(szFileTo,_T('\\'));
+	p = wcsrchr(szFileTo,'\\');
 	if (p)
 		*(++p)=0;
 	mir_tstrcat(szFileTo,pszDestSubDir); /* buffer safe */

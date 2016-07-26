@@ -42,10 +42,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define GC_RESULT_ERROR				202
 #define GC_RESULT_NOSESSION			209
 
-const TCHAR SS_ERR_INIT[]			=LPGENT("Unable to initiate %s.");
-const TCHAR SS_ERR_MAPI[]			=LPGENT("MAPI error (%i):\n%s.");
-const TCHAR SS_ERR_RESPONSE[]		=LPGENT("Unknown response from %s (%i)");
-const TCHAR SS_ERR_NORESPONSE[]		=LPGENT("Got no response from %s (%i)");
+const wchar_t SS_ERR_INIT[]			=LPGENW("Unable to initiate %s.");
+const wchar_t SS_ERR_MAPI[]			=LPGENW("MAPI error (%i):\n%s.");
+const wchar_t SS_ERR_RESPONSE[]		=LPGENW("Unknown response from %s (%i)");
+const wchar_t SS_ERR_NORESPONSE[]		=LPGENW("Got no response from %s (%i)");
 
 //---------------------------------------------------------------------------
 class CSend {
@@ -56,25 +56,25 @@ class CSend {
 		virtual int Send() = NULL; // returns 1 if sent (you must delete class) and 0 when still sending (class deletes itself)
 		int SendSilent() {m_bAsync=m_bSilent=true; return Send();};
 		
-		void SetFile(TCHAR* file){mir_free(m_pszFile), m_pszFile=mir_tstrdup(file);};
+		void SetFile(wchar_t* file){mir_free(m_pszFile), m_pszFile=mir_tstrdup(file);};
 		void SetFile(char* file){mir_free(m_pszFile), m_pszFile=mir_a2t(file);};
-		void SetDescription(TCHAR* descr){mir_free(m_pszFileDesc), m_pszFileDesc=mir_tstrdup(descr);};
+		void SetDescription(wchar_t* descr){mir_free(m_pszFileDesc), m_pszFileDesc=mir_tstrdup(descr);};
 		void SetContact(MCONTACT hContact);
 		char* GetURL(){return m_URL;};
 		char* GetURLthumbnail(){return m_URLthumb;};
 		BYTE GetEnableItem() {return m_EnableItem;};
-		TCHAR* GetErrorMsg() {return m_ErrorMsg;};
+		wchar_t* GetErrorMsg() {return m_ErrorMsg;};
 
 		bool			m_bDeleteAfterSend;
 	protected:
 		bool			m_bAsync;
 		bool			m_bSilent;
-		TCHAR*			m_pszFile;
-		TCHAR*			m_pszFileDesc;
+		wchar_t*			m_pszFile;
+		wchar_t*			m_pszFileDesc;
 		char*			m_URL;
 		char*			m_URLthumb;
 		static int OnSend(void *obj, WPARAM wParam, LPARAM lParam);
-		TCHAR*			m_pszSendTyp;		//hold string for error mess
+		wchar_t*			m_pszSendTyp;		//hold string for error mess
 		char*			m_pszProto;			//Contact Proto Modul
 		MCONTACT		m_hContact;			//Contact handle
 		BYTE			m_EnableItem;		//hold flag for send type
@@ -94,8 +94,8 @@ class CSend {
 		HANDLE			m_hOnSend;							//HookEventObj on ME_PROTO_ACK
 
 		MSGBOX			m_box;
-		TCHAR*			m_ErrorMsg;
-		TCHAR*			m_ErrorTitle;
+		wchar_t*			m_ErrorMsg;
+		wchar_t*			m_ErrorTitle;
 		
 		void Unhook(){if(m_hOnSend) {UnhookEvent(m_hOnSend);m_hOnSend = NULL;}}
 		void DB_EventAdd(WORD EventType);

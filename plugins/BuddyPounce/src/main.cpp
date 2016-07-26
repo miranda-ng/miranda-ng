@@ -98,8 +98,8 @@ int BuddyPounceOptInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.ptszGroup = LPGENT("Message sessions");
-	odp.ptszTitle = LPGENT("Buddy Pounce");
+	odp.pwszGroup = LPGENW("Message sessions");
+	odp.pwszTitle = LPGENW("Buddy Pounce");
 	odp.pfnDlgProc = BuddyPounceOptionsDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
@@ -142,7 +142,7 @@ int CheckDate(MCONTACT hContact)
 	return 0;
 }
 
-void SendPounce(TCHAR *text, MCONTACT hContact)
+void SendPounce(wchar_t *text, MCONTACT hContact)
 {
 	if (HANDLE hSendId = (HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(text))) 
 		WindowList_Add(hWindowList, (HWND)hSendId, hContact);
@@ -169,7 +169,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 					if (CheckDate(hContact)) {
 						if (db_get_w(hContact, modname, "ConfirmTimeout", 0)) {
 							SendPounceDlgProcStruct *spdps = (SendPounceDlgProcStruct *)mir_alloc(sizeof(SendPounceDlgProcStruct));
-							TCHAR *message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
+							wchar_t *message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
 							spdps->message = message;
 							CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, SendPounceDlgProc, (LPARAM)spdps);
@@ -198,7 +198,7 @@ INT_PTR BuddyPounceMenuCommand(WPARAM hContact, LPARAM)
 INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
-	TCHAR* message = (TCHAR*)lParam;
+	wchar_t* message = (wchar_t*)lParam;
 	db_set_ws(hContact, modname, "PounceMsg", message);
 	db_set_w(hContact, modname, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfMyStatusIsFLAG",1));
 	db_set_w(hContact, modname, "SendIfTheirStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfTheirStatusIsFLAG",1));
@@ -211,11 +211,11 @@ INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
-	TCHAR* message = (TCHAR*)lParam;
+	wchar_t* message = (wchar_t*)lParam;
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, modname, "PounceMsg",&dbv))
 	{
-		TCHAR* newPounce = (TCHAR*)mir_alloc(mir_tstrlen(dbv.ptszVal) + mir_tstrlen(message) + 1);
+		wchar_t* newPounce = (wchar_t*)mir_alloc(mir_tstrlen(dbv.ptszVal) + mir_tstrlen(message) + 1);
 		if (!newPounce) return 1;
 		mir_tstrcpy(newPounce, dbv.ptszVal);
 		mir_tstrcat(newPounce, message);

@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct DlgChangePassParam
 {
 	CDb3Mmap *db;
-	TCHAR newPass[100];
+	wchar_t newPass[100];
 	int wrongPass;
 };
 
@@ -141,7 +141,7 @@ bool CDb3Mmap::EnterPassword(const BYTE *pKey, const size_t keyLen)
 static bool CheckOldPassword(HWND hwndDlg, CDb3Mmap *db)
 {
 	if (db->usesPassword()) {
-		TCHAR buf[100];
+		wchar_t buf[100];
 		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, _countof(buf));
 		if (!db->m_crypto->checkPassword(T2Utf(buf))) {
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Wrong old password entered!"));
@@ -154,7 +154,7 @@ static bool CheckOldPassword(HWND hwndDlg, CDb3Mmap *db)
 static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	DlgChangePassParam *param = (DlgChangePassParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	TCHAR buf[100];
+	wchar_t buf[100];
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -199,7 +199,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			break;
 
 		case IDOK:
-			TCHAR buf2[100];
+			wchar_t buf2[100];
 			GetDlgItemText(hwndDlg, IDC_USERPASS1, buf2, _countof(buf2));
 			if (mir_tstrlen(buf2) < 3) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));
@@ -313,13 +313,13 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	CMenuItem mi;
 
 	// main menu item
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 500000000, iconList[0].hIcolib);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Database"), 500000000, iconList[0].hIcolib);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "F7C5567C-D1EE-484B-B4F6-24677A5AAAEF");
 
 	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = iconList[1].hIcolib;
-	mi.name.t = db->GetMenuTitle();
+	mi.name.w = db->GetMenuTitle();
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;

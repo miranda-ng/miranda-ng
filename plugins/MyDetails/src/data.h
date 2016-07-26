@@ -34,18 +34,18 @@ protected:
 	bool can_have_listening_to;
 	int PF3;
 
-	void lcopystr(TCHAR *dest, TCHAR *src, size_t maxlen);
+	void lcopystr(wchar_t *dest, wchar_t *src, size_t maxlen);
 
 public:
 	// Name of protocol
 	char name[256];
-	TCHAR description[256];
-	TCHAR nickname[256];
-	TCHAR status_name[256];
-	TCHAR status_message[1024];
-	TCHAR listening_to[1024];
+	wchar_t description[256];
+	wchar_t nickname[256];
+	wchar_t status_name[256];
+	wchar_t status_message[1024];
+	wchar_t listening_to[1024];
 	AVATARCACHEENTRY *ace;
-	TCHAR avatar_file[1024];
+	wchar_t avatar_file[1024];
 	HBITMAP avatar_bmp;
 	int status;
 	int custom_status;
@@ -57,7 +57,7 @@ public:
 
 	// Methods ///////////////
 
-	Protocol(const char *name, const TCHAR *descr);
+	Protocol(const char *name, const wchar_t *descr);
 	~Protocol();
 
 	bool IsValid();
@@ -70,27 +70,27 @@ public:
 	void GetAvatar();		// Copy to cache
 
 	bool CanSetAvatar();
-	void SetAvatar(const TCHAR *file_name);
+	void SetAvatar(const wchar_t *file_name);
 	//void SetAvatar(const char *file_name, HBITMAP hBmp);
 
-	TCHAR *GetNick();			// Copy to cache and return a copy
+	wchar_t *GetNick();			// Copy to cache and return a copy
 	int GetNickMaxLength();
 	bool CanSetNick();
-	void SetNick(const TCHAR *nick);
+	void SetNick(const wchar_t *nick);
 
 	bool CanGetListeningTo();
 	bool CanSetListeningTo();
 	bool ListeningToEnabled();
-	TCHAR *GetListeningTo();	// Copy to cache and return a copy
+	wchar_t *GetListeningTo();	// Copy to cache and return a copy
 
 	bool CanGetStatusMsg();
 	bool CanGetStatusMsg(int aStatus);
-	TCHAR *GetStatusMsg();	// Copy to cache and return a copy
-	void GetStatusMsg(int aStatus, TCHAR *msg, size_t msg_size);
+	wchar_t *GetStatusMsg();	// Copy to cache and return a copy
+	void GetStatusMsg(int aStatus, wchar_t *msg, size_t msg_size);
 	bool CanSetStatusMsg();
 	bool CanSetStatusMsg(int aStatus);
-	void SetStatusMsg(const TCHAR *message);
-	void SetStatusMsg(int aStatus, const TCHAR *message);
+	void SetStatusMsg(const wchar_t *message);
+	void SetStatusMsg(int aStatus, const wchar_t *message);
 };
 
 
@@ -103,9 +103,9 @@ protected:
 	int buffer_len;
 
 public:
-	TCHAR default_nick[256];
-	TCHAR default_avatar_file[256];
-	TCHAR default_status_message[256];
+	wchar_t default_nick[256];
+	wchar_t default_avatar_file[256];
+	wchar_t default_status_message[256];
 
 	// Methods ///////////////
 
@@ -120,14 +120,14 @@ public:
 
 	void GetAvatars();
 	bool CanSetAvatars();
-	void SetAvatars(const TCHAR *file);
+	void SetAvatars(const wchar_t *file);
 
-	void SetNicks(const TCHAR *nick);
+	void SetNicks(const wchar_t *nick);
 
 	void SetStatus(int aStatus);
 
-	void SetStatusMsgs(const TCHAR *message);
-	void SetStatusMsgs(int status, const TCHAR *message);
+	void SetStatusMsgs(const wchar_t *message);
+	void SetStatusMsgs(int status, const wchar_t *message);
 
 	void GetStatusMsgs();
 	void GetStatuses();
@@ -137,8 +137,8 @@ public:
 
 	void GetDefaultNick();	// Copy to cache
 	void GetDefaultAvatar();	// Copy to cache
-	TCHAR *GetDefaultStatusMsg();	// Copy to cache
-	TCHAR *GetDefaultStatusMsg(int status);
+	wchar_t *GetDefaultStatusMsg();	// Copy to cache
+	wchar_t *GetDefaultStatusMsg(int status);
 
 	bool CanSetListeningTo();
 	bool ListeningToEnabled();

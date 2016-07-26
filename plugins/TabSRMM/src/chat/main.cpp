@@ -269,7 +269,7 @@ int Chat_Load()
 {
 	CheckUpdate();
 
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Message Sessions") L"/" LPGENT("Group chats"), FONTMODE_ALTER };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message Sessions") L"/" LPGENW("Group chats"), FONTMODE_ALTER };
 	mir_getCI(&data);
 	saveCI = *pci;
 	pci->OnCreateModule = OnCreateModule;

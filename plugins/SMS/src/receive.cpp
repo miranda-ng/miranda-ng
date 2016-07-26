@@ -36,7 +36,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	char szPhone[MAX_PHONE_LEN] = { 0 };
-	TCHAR tszPhone[MAX_PHONE_LEN] = { 0 };
+	wchar_t tszPhone[MAX_PHONE_LEN] = { 0 };
 	LPSTR lpszXML = (LPSTR)((ACKDATA*)lParam)->lParam, lpszData, lpszPhone;
 	size_t dwXMLSize = 0, dwDataSize, dwPhoneSize;
 	ACKDATA *ack = ((ACKDATA*)lParam);
@@ -138,7 +138,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 
 					if (ack->result == ACKRESULT_FAILED || CompareStringA(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, lpszData, (int)dwDataSize, "no", 2) == CSTR_EQUAL) {
 						char szBuff[1024];
-						TCHAR tszErrorMessage[1028];
+						wchar_t tszErrorMessage[1028];
 						LPSTR lpszErrorDescription;
 
 						if (SendSMSWindowMultipleGet(hWndDlg)) {
@@ -209,7 +209,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 {
 	char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
-	TCHAR szToolTip[MAX_PATH];
+	wchar_t szToolTip[MAX_PATH];
 	DBEVENTINFO dbei = { sizeof(dbei) };
 
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)

@@ -79,11 +79,11 @@ Column::StyleList ColChatDuration::impl_outputGetAdditionalStyles(IDProvider& id
 
 void ColChatDuration::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const TCHAR* szVisModeDesc[] = {
-		LPGENT("Minimum chat duration"),
-		LPGENT("Average chat duration"),
-		LPGENT("Maximum chat duration"),
-		LPGENT("Total chat duration"),
+	static const wchar_t* szVisModeDesc[] = {
+		LPGENW("Minimum chat duration"),
+		LPGENW("Average chat duration"),
+		LPGENW("Maximum chat duration"),
+		LPGENW("Total chat duration"),
 	};
 
 	if (row == 1)
@@ -162,11 +162,11 @@ void ColChatDuration::impl_outputRenderRow(ext::ostream& tos, const Contact& con
 	// output tooltip
 	if (m_bDetail)
 	{
-		static const TCHAR* szPrefixes[] = {
-			LPGENT("[Min] #{amount}"),
-			LPGENT("[Avg] #{amount}"),
-			LPGENT("[Max] #{amount}"),
-			LPGENT("[Sum] #{amount}"),
+		static const wchar_t* szPrefixes[] = {
+			LPGENW("[Min] #{amount}"),
+			LPGENW("[Avg] #{amount}"),
+			LPGENW("[Max] #{amount}"),
+			LPGENW("[Sum] #{amount}"),
 		};
 
 		ext::string strTooltip;

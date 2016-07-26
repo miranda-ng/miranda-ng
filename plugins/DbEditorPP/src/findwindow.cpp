@@ -37,18 +37,18 @@ static int lastColumn = -1;
 
 typedef struct {
 	HWND hwnd; // hwnd to item list
-	TCHAR* search; // text to find
-	TCHAR* replace; // text to replace
+	wchar_t* search; // text to find
+	wchar_t* replace; // text to replace
 	int options; // or'd about items
 } FindInfo;
 
 
 ColumnsSettings csResultList[] = {
-	{ LPGENT("Result"),  0, "Search0width", 100 },
-	{ LPGENT("Contact"), 1, "Search1width", 100 },
-	{ LPGENT("Module"),  2, "Search2width", 100 },
-	{ LPGENT("Setting"), 3, "Search3width", 100 },
-	{ LPGENT("Value"),   4, "Search4width", 150 },
+	{ LPGENW("Result"),  0, "Search0width", 100 },
+	{ LPGENW("Contact"), 1, "Search1width", 100 },
+	{ LPGENW("Module"),  2, "Search2width", 100 },
+	{ LPGENW("Setting"), 3, "Search3width", 100 },
+	{ LPGENW("Value"),   4, "Search4width", 150 },
 	{0}
 };
 
@@ -95,8 +95,8 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (GetWindowLongPtr(GetDlgItem(hwnd, IDC_SEARCH), GWLP_USERDATA)) // stop the search
 				SetWindowLongPtr(GetDlgItem(hwnd, IDC_SEARCH), GWLP_USERDATA, 0);
 			else {
-				TCHAR text[FLD_SIZE];
-				TCHAR replace[FLD_SIZE] = {0};
+				wchar_t text[FLD_SIZE];
+				wchar_t replace[FLD_SIZE] = {0};
 
 				if (!GetDlgItemText(hwnd, IDC_TEXT, text, _countof(text)) && !IsDlgButtonChecked(hwnd, IDC_EXACT)) break;
 
@@ -225,10 +225,10 @@ void newFindWindow() {
 	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FIND), hwnd2mainWindow, FindWindowDlgProc);	
 }
 
-void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *setting, TCHAR* value, int type)
+void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *setting, wchar_t* value, int type)
 {
-	TCHAR name[NAME_SIZE];
-	TCHAR* mode;
+	wchar_t name[NAME_SIZE];
+	wchar_t* mode;
 
 	if (type & F_REPLACED)
 		mode = TranslateT("Replaced");
@@ -429,7 +429,7 @@ void __cdecl FindSettings(LPVOID param)
 					// check in settings value				
 					if (fi->options & F_SETVAL) {
 
-						TCHAR *value = NULL;
+						wchar_t *value = NULL;
 
 					    switch(dbv.type) {
 
@@ -437,7 +437,7 @@ void __cdecl FindSettings(LPVOID param)
 						case DBVT_WORD: 
 						case DBVT_DWORD:
 							if ((fi->options & F_NUMSRCH) && numsearch == getNumericValue(&dbv)) {
-								TCHAR *val = fi->search;
+								wchar_t *val = fi->search;
 								int flag = F_SETVAL;
 
 								if (fi->options & F_NUMREPL) {
@@ -468,7 +468,7 @@ void __cdecl FindSettings(LPVOID param)
 							if (FindMatchT(value, fi->search, fi->options)) {
 								foundCount++;
 								ptrT ptr;
-								TCHAR *newValue = value;
+								wchar_t *newValue = value;
 								int flag = F_SETVAL;
 
 								if (fi->replace) {
@@ -567,7 +567,7 @@ void __cdecl FindSettings(LPVOID param)
 		} // for(module)
 	}
 
-	TCHAR msg[MSG_SIZE];	
+	wchar_t msg[MSG_SIZE];	
 	mir_sntprintf(msg, TranslateT("Finished. Items found: %d / replaced: %d / deleted: %d"), foundCount, replaceCount, deleteCount);
 	SendDlgItemMessage(hwndParent, IDC_SBAR, SB_SETTEXT, 0, (LPARAM)msg);
 

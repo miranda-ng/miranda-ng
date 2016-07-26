@@ -74,7 +74,7 @@ void __fastcall SafeDestroyIcon(HICON &hIcon)
 
 // Helper functions to manage Icon resources
 
-static IconSourceFile* IconSourceFile_Get(const TCHAR *file, bool isPath)
+static IconSourceFile* IconSourceFile_Get(const wchar_t *file, bool isPath)
 {
 	if (!file)
 		return NULL;
@@ -83,7 +83,7 @@ static IconSourceFile* IconSourceFile_Get(const TCHAR *file, bool isPath)
 	if (isPath)
 		PathToAbsoluteT(file, key.file); /// TODO: convert path to long - eliminate duplicate items
 	else
-		_tcsncpy_s(key.file, file, _TRUNCATE);
+		wcsncpy_s(key.file, file, _TRUNCATE);
 
 	IconSourceFile *p = iconSourceFileList.find(&key);
 	if (p != NULL) {
@@ -92,10 +92,10 @@ static IconSourceFile* IconSourceFile_Get(const TCHAR *file, bool isPath)
 	}
 
 	// store only needed number of chars
-	size_t cbLen = _tcslen(key.file) + 1;
-	p = (IconSourceFile*)mir_alloc(sizeof(int) + sizeof(TCHAR)*cbLen);
+	size_t cbLen = wcslen(key.file) + 1;
+	p = (IconSourceFile*)mir_alloc(sizeof(int) + sizeof(wchar_t)*cbLen);
 	p->ref_count = 1;
-	_tcsncpy_s(p->file, cbLen, key.file, _TRUNCATE);
+	wcsncpy_s(p->file, cbLen, key.file, _TRUNCATE);
 	iconSourceFileList.insert(p);
 	return p;
 }
@@ -311,7 +311,7 @@ int IconSourceItem::compare(const IconSourceItem *p1, const IconSourceItem *p2)
 	return (p1->key.file > p2->key.file) ? 1 : -1;
 }
 
-IconSourceItem* GetIconSourceItem(const TCHAR *file, int indx, int cxIcon, int cyIcon)
+IconSourceItem* GetIconSourceItem(const wchar_t *file, int indx, int cxIcon, int cyIcon)
 {
 	if (!file)
 		return NULL;
@@ -330,20 +330,20 @@ IconSourceItem* GetIconSourceItem(const TCHAR *file, int indx, int cxIcon, int c
 	return newItem;
 }
 
-IconSourceItem* GetIconSourceItemFromPath(const TCHAR *path, int cxIcon, int cyIcon)
+IconSourceItem* GetIconSourceItemFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 {
 	if (!path)
 		return NULL;
 
-	TCHAR file[MAX_PATH];
+	wchar_t file[MAX_PATH];
 	mir_tstrncpy(file, path, _countof(file));
-	TCHAR *comma = _tcsrchr(file, ',');
+	wchar_t *comma = wcsrchr(file, ',');
 
 	int n;
 	if (!comma)
 		n = 0;
 	else {
-		n = _ttoi(comma + 1);
+		n = _wtoi(comma + 1);
 		*comma = 0;
 	}
 	return GetIconSourceItem(file, n, cxIcon, cyIcon);
@@ -351,7 +351,7 @@ IconSourceItem* GetIconSourceItemFromPath(const TCHAR *path, int cxIcon, int cyI
 
 IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 {
-	TCHAR tszName[100];
+	wchar_t tszName[100];
 	mir_sntprintf(tszName, L"*StaticIcon_%d", iStaticCount++);
 
 	IconSourceItemKey key = { IconSourceFile_Get(tszName, false), 0, cxIcon, cyIcon };
@@ -379,7 +379,7 @@ int IconSourceItem::release()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service functions
 
-static SectionItem* IcoLib_AddSection(TCHAR *sectionName, BOOL create_new)
+static SectionItem* IcoLib_AddSection(wchar_t *sectionName, BOOL create_new)
 {
 	if (!sectionName)
 		return NULL;
@@ -669,7 +669,7 @@ HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 	if (source == NULL) {
 		ptrT tszCustomPath(db_get_tsa(NULL, "SkinIcons", item->name));
 		if (tszCustomPath != NULL) {
-			TCHAR tszFullPath[MAX_PATH];
+			wchar_t tszFullPath[MAX_PATH];
 			PathToAbsoluteT(tszCustomPath, tszFullPath);
 			int cx = item->cx ? item->cx : (big ? g_iIconX : g_iIconSX);
 			int cy = item->cy ? item->cy : (big ? g_iIconY : g_iIconSY);

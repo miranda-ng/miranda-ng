@@ -250,15 +250,15 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszTitle = LPGENT("FTP File");
-	odp.ptszGroup = LPGENT("Services");
+	odp.pwszTitle = LPGENW("FTP File");
+	odp.pwszGroup = LPGENW("Services");
 
-	odp.ptszTab = LPGENT("Accounts");
+	odp.pwszTab = LPGENW("Accounts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FTPFILE);
 	odp.pfnDlgProc = Options::DlgProcOptsAccounts;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Advanced");
+	odp.pwszTab = LPGENW("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = Options::DlgProcOptsAdvanced;
 	Options_AddPage(wParam, &odp);

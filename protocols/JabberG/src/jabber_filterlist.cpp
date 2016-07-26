@@ -35,7 +35,7 @@ struct CFilterData : public MZeroedObject
 	HFONT m_hfntNormal;
 	HFONT m_hfntEmpty;
 	COLORREF m_clGray;
-	TCHAR *m_filterText;
+	wchar_t *m_filterText;
 
 	RECT m_rcButtonClear;
 	RECT m_rcEditBox;
@@ -69,7 +69,7 @@ CCtrlFilterListView::~CCtrlFilterListView()
 	delete fdat;
 }
 
-TCHAR *CCtrlFilterListView::GetFilterText()
+wchar_t *CCtrlFilterListView::GetFilterText()
 {
 	return fdat->m_filterText;
 }
@@ -100,7 +100,7 @@ static LRESULT CALLBACK sttEditBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			if (length == 1)
 				fdat->m_filterText = 0;
 			else {
-				fdat->m_filterText = (TCHAR *)mir_alloc(sizeof(TCHAR) * length);
+				fdat->m_filterText = (wchar_t *)mir_alloc(sizeof(wchar_t) * length);
 				GetWindowText(hwnd, fdat->m_filterText, length);
 			}
 
@@ -127,9 +127,9 @@ static LRESULT CALLBACK sttEditBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	return CallWindowProc(fdat->m_oldWndProc, hwnd, msg, wParam, lParam);
 }
 
-void CCtrlFilterListView::FilterHighlight(TCHAR *str)
+void CCtrlFilterListView::FilterHighlight(wchar_t *str)
 {
-	TCHAR buf[256];
+	wchar_t buf[256];
 	int count = GetItemCount();
 	for (int i=0; i < count; i++) {
 		bool found = false;
@@ -139,7 +139,7 @@ void CCtrlFilterListView::FilterHighlight(TCHAR *str)
 				if (!*buf)
 					break;
 
-				if (_tcsstr(buf, str)) {
+				if (wcsstr(buf, str)) {
 					found = true;
 					break;
 				}
@@ -165,12 +165,12 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 
 		case 1:
 			if (m_trackFilter && fdat->m_hwndEditBox) {
-				TCHAR *str = 0;
+				wchar_t *str = 0;
 				int length = GetWindowTextLength(fdat->m_hwndEditBox) + 1;
 				if (length == 1)
 					str = 0;
 				else {
-					str = (TCHAR *)mir_alloc(sizeof(TCHAR) * length);
+					str = (wchar_t *)mir_alloc(sizeof(wchar_t) * length);
 					GetWindowText(fdat->m_hwndEditBox, str, length);
 				}
 				FilterHighlight(str);

@@ -435,7 +435,7 @@ class Buffer
 };
 
 
-static void ReplaceVars(Buffer<TCHAR> *buffer, MCONTACT hContact, TCHAR **variables, int numVariables)
+static void ReplaceVars(Buffer<wchar_t> *buffer, MCONTACT hContact, wchar_t **variables, int numVariables)
 {
 	if (buffer->len < 3)
 		return;
@@ -445,25 +445,25 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, MCONTACT hContact, TCHAR **variab
 
 	for(size_t i = buffer->len - 1; i > 0; i--)
 	{
-		if (buffer->str[i] == _T('%'))
+		if (buffer->str[i] == '%')
 		{
 			// Find previous
 			size_t j;
-			for(j = i - 1; j > 0 && ((buffer->str[j] >= _T('a') && buffer->str[j] <= _T('z'))
-								    || (buffer->str[j] >= _T('A') && buffer->str[j] <= _T('Z'))
-									|| buffer->str[j] == _T('-')
-									|| buffer->str[j] == _T('_')); j--) ;
+			for(j = i - 1; j > 0 && ((buffer->str[j] >= 'a' && buffer->str[j] <= 'z')
+								    || (buffer->str[j] >= 'A' && buffer->str[j] <= 'Z')
+									|| buffer->str[j] == '-'
+									|| buffer->str[j] == '_'); j--) ;
 
-			if (buffer->str[j] == _T('%'))
+			if (buffer->str[j] == '%')
 			{
 				size_t foundLen = i - j + 1;
-				if (foundLen == 9 && _tcsncmp(&buffer->str[j], L"%contact%", 9) == 0)
+				if (foundLen == 9 && wcsncmp(&buffer->str[j], L"%contact%", 9) == 0)
 				{
 					buffer->replace(j, i + 1, pcli->pfnGetContactDisplayName(hContact, 0));
 				}
-				else if (foundLen == 6 && _tcsncmp(&buffer->str[j], L"%date%", 6) == 0)
+				else if (foundLen == 6 && wcsncmp(&buffer->str[j], L"%date%", 6) == 0)
 				{
-					TCHAR tmp[128];
+					wchar_t tmp[128];
 					TimeZone_ToStringT(time(NULL), L"d s", tmp, _countof(tmp));
 					buffer->replace(j, i + 1, tmp);
 				}
@@ -472,7 +472,7 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, MCONTACT hContact, TCHAR **variab
 					for(int k = 0; k < numVariables; k += 2)
 					{
 						size_t len = mir_tstrlen(variables[k]);
-						if (foundLen == len + 2 && _tcsncmp(&buffer->str[j]+1, variables[k], len) == 0)
+						if (foundLen == len + 2 && wcsncmp(&buffer->str[j]+1, variables[k], len) == 0)
 						{
 							buffer->replace(j, i + 1, variables[k + 1]);
 							break;
@@ -485,21 +485,21 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, MCONTACT hContact, TCHAR **variab
 			if (i == 0)
 				break;
 		}
-		else if (buffer->str[i] == _T('\\') && i+1 <= buffer->len-1 && buffer->str[i+1] == _T('n'))
+		else if (buffer->str[i] == '\\' && i+1 <= buffer->len-1 && buffer->str[i+1] == 'n')
 		{
-			buffer->str[i] = _T('\r');
-			buffer->str[i+1] = _T('\n');
+			buffer->str[i] = '\r';
+			buffer->str[i+1] = '\n';
 		}
 	}
 }
 
 
-static void ReplaceTemplate(Buffer<TCHAR> *out, MCONTACT hContact, TCHAR *templ, TCHAR **vars, int numVars)
+static void ReplaceTemplate(Buffer<wchar_t> *out, MCONTACT hContact, wchar_t *templ, wchar_t **vars, int numVars)
 {
 
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 	{
-		TCHAR *tmp = variables_parse_ex(templ, NULL, hContact, vars, numVars);
+		wchar_t *tmp = variables_parse_ex(templ, NULL, hContact, vars, numVars);
 		if (tmp != NULL)
 		{
 			out->append(tmp);

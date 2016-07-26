@@ -4,14 +4,14 @@
 
 UserInformation::UserInformation() : m_status_info(), m_status_strings() {
 	// insert the status strings into a map for easy access
-	m_status_strings[ID_STATUS_OFFLINE]   = LPGENT("%u is now offline");
-	m_status_strings[ID_STATUS_ONLINE]    = LPGENT("%u is now online");
-	m_status_strings[ID_STATUS_AWAY]      = LPGENT("%u is away");
-	m_status_strings[ID_STATUS_INVISIBLE] = LPGENT("%u is invisible");
-	m_status_strings[ID_STATUS_NA]        = LPGENT("%u is not available");
-	m_status_strings[ID_STATUS_DND]       = LPGENT("%u does not want to be disturbed");
-	m_status_strings[ID_STATUS_OCCUPIED]  = LPGENT("%u is occupied");
-	m_status_strings[ID_STATUS_FREECHAT]  = LPGENT("%u is free for chat");
+	m_status_strings[ID_STATUS_OFFLINE]   = LPGENW("%u is now offline");
+	m_status_strings[ID_STATUS_ONLINE]    = LPGENW("%u is now online");
+	m_status_strings[ID_STATUS_AWAY]      = LPGENW("%u is away");
+	m_status_strings[ID_STATUS_INVISIBLE] = LPGENW("%u is invisible");
+	m_status_strings[ID_STATUS_NA]        = LPGENW("%u is not available");
+	m_status_strings[ID_STATUS_DND]       = LPGENW("%u does not want to be disturbed");
+	m_status_strings[ID_STATUS_OCCUPIED]  = LPGENW("%u is occupied");
+	m_status_strings[ID_STATUS_FREECHAT]  = LPGENW("%u is free for chat");
 }
 
 //------------------------------------------------------------------------------

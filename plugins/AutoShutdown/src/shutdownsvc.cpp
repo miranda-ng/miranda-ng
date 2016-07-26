@@ -30,20 +30,20 @@ static HANDLE hEventOkToShutdown,hEventShutdown;
 
 /************************* Utils **************************************/
 
-TCHAR *desc[] =
+wchar_t *desc[] =
 {
-	LPGENT("Miranda NG is going to be automatically closed in %u second(s)."),
-	LPGENT("All Miranda NG protocols are going to be set to offline in %u second(s)."),
-	LPGENT("You will be logged off automatically in %u second(s)."),
-	LPGENT("The computer will automatically be restarted in %u second(s)."),
-	LPGENT("The computer will automatically be set to standby mode in %u second(s)."),
-	LPGENT("The computer will automatically be set to hibernate mode in %u second(s)."),
-	LPGENT("The workstation will automatically get locked in %u second(s)."),
-	LPGENT("All dial-up connections will be closed in %u second(s)."),
-	LPGENT("The computer will automatically be shut down in %u second(s).")
+	LPGENW("Miranda NG is going to be automatically closed in %u second(s)."),
+	LPGENW("All Miranda NG protocols are going to be set to offline in %u second(s)."),
+	LPGENW("You will be logged off automatically in %u second(s)."),
+	LPGENW("The computer will automatically be restarted in %u second(s)."),
+	LPGENW("The computer will automatically be set to standby mode in %u second(s)."),
+	LPGENW("The computer will automatically be set to hibernate mode in %u second(s)."),
+	LPGENW("The workstation will automatically get locked in %u second(s)."),
+	LPGENW("All dial-up connections will be closed in %u second(s)."),
+	LPGENW("The computer will automatically be shut down in %u second(s).")
 };
 
-static BOOL WinNT_SetPrivilege(TCHAR *pszPrivName, BOOL bEnable)
+static BOOL WinNT_SetPrivilege(wchar_t *pszPrivName, BOOL bEnable)
 {
 	BOOL bReturn = FALSE;
 	HANDLE hToken;
@@ -383,7 +383,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case M_UPDATE_COUNTDOWN:  /* lParam=(WORD)countdown */
 		{
-			TCHAR szText[256];
+			wchar_t szText[256];
 			mir_sntprintf(szText, TranslateTS(desc[shutdownType - 1]), lParam);
 			SetDlgItemText(hwndDlg, IDC_TEXT_HEADER, szText);
 			/* countdown finished */
@@ -451,24 +451,24 @@ INT_PTR ServiceIsTypeEnabled(WPARAM wParam, LPARAM)
 	return IsShutdownTypeEnabled((BYTE)wParam); /* does shutdownType range check */
 }
 
-const TCHAR *apszShort[] = {
-	LPGENT("Close Miranda NG"),LPGENT("Set Miranda NG offline"),LPGENT("Log off user"),
-	LPGENT("Restart computer"),LPGENT("Shutdown computer"),LPGENT("Standby mode"),LPGENT("Hibernate mode"),
-	LPGENT("Lock workstation"),LPGENT("Hang up dial-up connections"),LPGENT("Close Miranda NG"),
-	LPGENT("Set Miranda NG offline"),LPGENT("Log off user"),LPGENT("Restart computer"),LPGENT("Shutdown computer"),
-	LPGENT("Standby mode"),LPGENT("Hibernate mode"),LPGENT("Lock workstation"),LPGENT("Hang up dial-up connections")
+const wchar_t *apszShort[] = {
+	LPGENW("Close Miranda NG"),LPGENW("Set Miranda NG offline"),LPGENW("Log off user"),
+	LPGENW("Restart computer"),LPGENW("Shutdown computer"),LPGENW("Standby mode"),LPGENW("Hibernate mode"),
+	LPGENW("Lock workstation"),LPGENW("Hang up dial-up connections"),LPGENW("Close Miranda NG"),
+	LPGENW("Set Miranda NG offline"),LPGENW("Log off user"),LPGENW("Restart computer"),LPGENW("Shutdown computer"),
+	LPGENW("Standby mode"),LPGENW("Hibernate mode"),LPGENW("Lock workstation"),LPGENW("Hang up dial-up connections")
 };
 
-const TCHAR *apszLong[] = {
-	LPGENT("Sets all Miranda NG protocols to offline and closes Miranda NG."),
-	LPGENT("Sets all Miranda NG protocols to offline."),
-	LPGENT("Logs the current Windows user off so that another user can log in."),
-	LPGENT("Shuts down Windows and then restarts Windows."),
-	LPGENT("Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power."),
-	LPGENT("Saves the current Windows session in memory and sets the system to suspend mode."),
-	LPGENT("Saves the current Windows session on hard drive, so that the power can be turned off."),
-	LPGENT("Locks the computer. To unlock the computer, you must log in."),
-	LPGENT("Sets all protocols to offline and closes all RAS connections.")
+const wchar_t *apszLong[] = {
+	LPGENW("Sets all Miranda NG protocols to offline and closes Miranda NG."),
+	LPGENW("Sets all Miranda NG protocols to offline."),
+	LPGENW("Logs the current Windows user off so that another user can log in."),
+	LPGENW("Shuts down Windows and then restarts Windows."),
+	LPGENW("Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power."),
+	LPGENW("Saves the current Windows session in memory and sets the system to suspend mode."),
+	LPGENW("Saves the current Windows session on hard drive, so that the power can be turned off."),
+	LPGENW("Locks the computer. To unlock the computer, you must log in."),
+	LPGENW("Sets all protocols to offline and closes all RAS connections.")
 };
 
 INT_PTR ServiceGetTypeDescription(WPARAM wParam, LPARAM lParam)
@@ -476,7 +476,7 @@ INT_PTR ServiceGetTypeDescription(WPARAM wParam, LPARAM lParam)
 	/* shutdownType range check */
 	if (!wParam || (BYTE)wParam > SDSDT_MAX) return 0;
 	/* select description */
-	TCHAR *pszDesc = (TCHAR*)((lParam&GSTDF_LONGDESC) ? apszLong : apszShort)[wParam - 1];
+	wchar_t *pszDesc = (wchar_t*)((lParam&GSTDF_LONGDESC) ? apszLong : apszShort)[wParam - 1];
 	if (!(lParam&GSTDF_UNTRANSLATED)) pszDesc = TranslateTS(pszDesc);
 	/* convert as needed */
 	if (!(lParam&GSTDF_UNICODE)) {
@@ -496,7 +496,7 @@ void InitShutdownSvc(void)
 {
 	/* Shutdown Dialog */
 	hwndShutdownDlg = NULL;
-	SkinAddNewSoundExT("AutoShutdown_Countdown", LPGENT("Alerts"), LPGENT("Automatic shutdown countdown"));
+	SkinAddNewSoundExT("AutoShutdown_Countdown", LPGENW("Alerts"), LPGENW("Automatic shutdown countdown"));
 
 	/* Events */
 	hEventOkToShutdown = CreateHookableEvent(ME_AUTOSHUTDOWN_OKTOSHUTDOWN);

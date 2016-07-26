@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hHideInfoTipEvent;
 
-TCHAR* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
+wchar_t* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
 {
 	if (contact->type != CLCIT_GROUP || !(dat->exStyle & CLS_EX_SHOWGROUPCOUNTS))
 		return L"";
@@ -62,7 +62,7 @@ TCHAR* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
 	if (onlineCount == 0 && dat->exStyle & CLS_EX_HIDECOUNTSWHENEMPTY)
 		return L"";
 
-	static TCHAR szName[32];
+	static wchar_t szName[32];
 	mir_sntprintf(szName, L"(%u/%u)", onlineCount, totalCount);
 	return szName;
 }
@@ -171,7 +171,7 @@ int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contac
 	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_tstrlen(hitcontact->szText), &textSize);
 	int width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
-		TCHAR *szCounts;
+		wchar_t *szCounts;
 		szCounts = cli.pfnGetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
 			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
@@ -360,7 +360,7 @@ void fnDoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 		CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)contact->hContact, 0);
 }
 
-int fnFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
+int fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 {
 	ClcGroup *group = &dat->list;
 	size_t testlen = mir_tstrlen(text);
@@ -378,11 +378,11 @@ int fnFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 		if (cc->type != CLCIT_DIVIDER) {
 			bool show;
 			if (dat->bFilterSearch) {
-				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(cc->szText));
-				TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
-				show = _tcsstr(lowered_szText, lowered_text) != NULL;
+				wchar_t *lowered_szText = CharLowerW(NEWWSTR_ALLOCA(cc->szText));
+				wchar_t *lowered_text = CharLowerW(NEWWSTR_ALLOCA(text));
+				show = wcsstr(lowered_szText, lowered_text) != NULL;
 			}
-			else show = ((prefixOk && !_tcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText)));
+			else show = ((prefixOk && !wcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText)));
 
 			if (show) {
 				ClcGroup *contactGroup = group;
@@ -412,15 +412,15 @@ void fnEndRename(HWND, ClcData *dat, int save)
 
 	dat->hwndRenameEdit = NULL;
 	if (save) {
-		TCHAR text[120]; text[0] = 0;
+		wchar_t text[120]; text[0] = 0;
 		GetWindowText(hwndEdit, text, _countof(text));
 
 		ClcContact *contact;
 		if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL) != -1) {
-			if (mir_tstrcmp(contact->szText, text) && !_tcsstr(text, L"\\")) {
+			if (mir_tstrcmp(contact->szText, text) && !wcsstr(text, L"\\")) {
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
-						TCHAR szFullName[256];
+						wchar_t szFullName[256];
 						mir_sntprintf(szFullName, L"%s\\%s",
 							Clist_GroupGetName(contact->group->parent->groupId, NULL), text);
 						Clist_GroupRename(contact->groupId, szFullName);
@@ -430,7 +430,7 @@ void fnEndRename(HWND, ClcData *dat, int save)
 				}
 				else if (contact->type == CLCIT_CONTACT) {
 					cli.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
-					TCHAR* otherName = cli.pfnGetContactDisplayName(contact->hContact, GCDNF_NOMYHANDLE);
+					wchar_t* otherName = cli.pfnGetContactDisplayName(contact->hContact, GCDNF_NOMYHANDLE);
 					if (!text[0] || !mir_tstrcmp(otherName, text))
 						db_unset(contact->hContact, "CList", "MyHandle");
 					else

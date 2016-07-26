@@ -52,9 +52,9 @@ public:
 	explicit ColTimeline();
 
 protected:
-	virtual const TCHAR* impl_getUID() const { return con::ColTimeline; }
-	virtual const TCHAR* impl_getTitle() const { return LPGENT("Timeline"); }
-	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available."); }
+	virtual const wchar_t* impl_getUID() const { return con::ColTimeline; }
+	virtual const wchar_t* impl_getTitle() const { return LPGENW("Timeline"); }
+	virtual const wchar_t* impl_getDescription() const { return LPGENW("Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig | cfAcquiresData; }
 	virtual void impl_configRead(const SettingsTree& settings);

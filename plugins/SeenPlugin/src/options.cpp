@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	DBVARIANT dbv;
-	TCHAR szstamp[256];
+	wchar_t szstamp[256];
 	BOOL hasPopups;
 	BYTE bchecked;
 
@@ -91,10 +91,10 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			ppd.lchIcon = Skin_LoadProtoIcon(NULL, idBack);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, _countof(szstamp));
-			_tcsncpy(ppd.lptzContactName, ParseString(szstamp, NULL), MAX_CONTACTNAME);
+			wcsncpy(ppd.lptzContactName, ParseString(szstamp, NULL), MAX_CONTACTNAME);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, szstamp, _countof(szstamp));
-			_tcsncpy(ppd.lptzText, ParseString(szstamp, NULL), MAX_SECONDLINE);
+			wcsncpy(ppd.lptzText, ParseString(szstamp, NULL), MAX_SECONDLINE);
 
 			PUAddPopupT(&ppd);
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
@@ -164,7 +164,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	DBVARIANT dbv;
-	TCHAR szstamp[256];
+	wchar_t szstamp[256];
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -434,15 +434,15 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.hInstance = hInstance;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
-	odp.ptszGroup = LPGENT("Contacts");
-	odp.ptszTitle = LPGENT("Last seen");
+	odp.pwszGroup = LPGENW("Contacts");
+	odp.pwszTitle = LPGENW("Last seen");
 	odp.pfnDlgProc = OptsSettingsDlgProc;
 	Options_AddPage(wparam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
-		odp.ptszGroup = LPGENT("Popups");
-		odp.ptszTitle = LPGENT("Last seen");
+		odp.pwszGroup = LPGENW("Popups");
+		odp.pwszTitle = LPGENW("Last seen");
 		odp.pfnDlgProc = OptsPopupsDlgProc;
 		Options_AddPage(wparam, &odp);
 	}

@@ -21,7 +21,7 @@ struct SKINOBJECTSLIST
 {
 	DWORD dwObjLPReserved;
 	DWORD dwObjLPAlocated;
-	TCHAR *szSkinPlace;
+	wchar_t *szSkinPlace;
 	LISTMODERNMASK	*pMaskList;
 	SKINOBJECTDESCRIPTOR  *pObjects;
 	SortedList *pTextList;
@@ -29,7 +29,7 @@ struct SKINOBJECTSLIST
 
 struct GLYPHIMAGE
 {
-	TCHAR  *szFileName;
+	wchar_t  *szFileName;
 	DWORD   dwLoadedTimes;
 	HBITMAP hGlyph;
 	BYTE    isSemiTransp;
@@ -69,7 +69,7 @@ public:
 
 	typedef HRESULT(*ParserCallback_t)(const char *szSection, const char *szKey, const char *szValue, IniParser *This);
 
-	IniParser(TCHAR *szFileName, BYTE flags = FLAG_WITH_SETTINGS);
+	IniParser(wchar_t *szFileName, BYTE flags = FLAG_WITH_SETTINGS);
 	IniParser(HINSTANCE hInst, const char *resourceName, const char *resourceType, BYTE flags = FLAG_ONLY_OBJECTS);
 	~IniParser();
 
@@ -77,7 +77,7 @@ public:
 	HRESULT Parse(ParserCallback_t pLineCallBackProc, LPARAM lParam);
 
 	static HRESULT WriteStrToDb(const char *szSection, const char *szKey, const char *szValue, IniParser *This);
-	static int GetSkinFolder(IN const TCHAR *szFileName, OUT TCHAR *pszFolderName);
+	static int GetSkinFolder(IN const wchar_t *szFileName, OUT wchar_t *pszFolderName);
 
 private:
 	// common

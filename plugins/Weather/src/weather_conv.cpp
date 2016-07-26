@@ -30,7 +30,7 @@ string conversions, display text parsing, etc
 // see if a string is a number
 // s = the string to be determined
 // return value = true if the string is a number, false if it isn't
-BOOL is_number(TCHAR *s)
+BOOL is_number(wchar_t *s)
 {
 	BOOL tag = FALSE;
 	// looking character by character
@@ -47,7 +47,7 @@ BOOL is_number(TCHAR *s)
 	return FALSE;
 }
 
-static void numToStr(double num, TCHAR *str, size_t strSize)
+static void numToStr(double num, wchar_t *str, size_t strSize)
 {
 	int i = (int)(num * (opt.NoFrac ? 10 : 100));
 	int u = abs(i);
@@ -75,15 +75,15 @@ static void numToStr(double num, TCHAR *str, size_t strSize)
 // tempchar = the string containing the temperature value
 // unit = the unit for temperature
 // return value = the converted temperature with degree sign and unit; if fails, return N/A
-void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
+void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 {
 	// unit can be C, F
 	double temp;
-	TCHAR tstr[20];
+	wchar_t tstr[20];
 
 	TrimString(tempchar);
 	if (tempchar[0] == '-' && tempchar[1] == ' ')
-		memmove(&tempchar[1], &tempchar[2], sizeof(TCHAR)*(mir_tstrlen(&tempchar[2]) + 1));
+		memmove(&tempchar[1], &tempchar[2], sizeof(wchar_t)*(mir_tstrlen(&tempchar[2]) + 1));
 
 	// quit if the value obtained is N/A or not a number
 	if (!mir_tstrcmp(tempchar, NODATA) || !mir_tstrcmp(tempchar, L"N/A")) {
@@ -108,7 +108,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 		// rounding
 		numToStr((temp - 32) / 9 * 5, tstr, _countof(tstr));
 		if (opt.DoNotAppendUnit)
-			_tcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
+			wcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
 		else
 			mir_sntprintf(str, MAX_DATA_LEN, L"%s%sC", tstr, opt.DegreeSign);
 		break;
@@ -116,7 +116,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	case 2:
 		numToStr(temp, tstr, _countof(tstr));
 		if (opt.DoNotAppendUnit)
-			_tcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
+			wcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
 		else
 			mir_sntprintf(str, MAX_DATA_LEN, L"%s%sF", tstr, opt.DegreeSign);
 		break;
@@ -127,7 +127,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 // tempchar = the string containing the pressure value
 // unit = the unit for pressure
 // return value = the converted pressure with unit; if fail, return the original string
-void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
+void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 {
 	// unit can be kPa, hPa, mb, in, mm, torr
 	double tempunit = 0, output;
@@ -184,11 +184,11 @@ void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 // tempchar = the string containing the speed value
 // unit = the unit for speed
 // return value = the converted speed with unit; if fail, return _T(""
-void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
+void GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be km/h, mph, m/s, knots
 	double tempunit;
-	TCHAR tstr[20];
+	wchar_t tstr[20];
 
 	str[0] = 0;
 
@@ -233,7 +233,7 @@ void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 // tempchar = the string containing the distance value
 // unit = the unit for distance
 // return value = the converted distance with unit; if fail, return original string
-void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
+void GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be km, miles
 	double tempunit = 0, output;
@@ -273,7 +273,7 @@ void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 // tempchar = the string containing the elevation value
 // unit = the unit for elevation
 // return value = the converted elevation with unit; if fail, return original string
-void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
+void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be ft, m
 	double tempunit = 0, output;
@@ -316,10 +316,10 @@ void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 // cond = the string for weather condition
 // return value = status for the icon (ONLINE, OFFLINE, etc)
 
-static const TCHAR *statusStr[10] = { L"Lightning", L"Fog", L"Snow Shower", L"Snow", L"Rain Shower", L"Rain", L"Partly Cloudy", L"Cloudy", L"Sunny", L"N/A" };
+static const wchar_t *statusStr[10] = { L"Lightning", L"Fog", L"Snow Shower", L"Snow", L"Rain Shower", L"Rain", L"Partly Cloudy", L"Cloudy", L"Sunny", L"N/A" };
 static const WORD statusValue[10] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
-WORD GetIcon(const TCHAR* cond, WIDATA *Data)
+WORD GetIcon(const wchar_t* cond, WIDATA *Data)
 {
 	// set the icon using ini
 	for (int i = 0; i < 10; i++)
@@ -328,72 +328,72 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 
 	// internal detection
 	if (
-		_tcsstr(cond, L"mainy sunny") != NULL ||
-		_tcsstr(cond, L"mainy clear") != NULL ||
-		_tcsstr(cond, L"partly cloudy") != NULL ||
-		_tcsstr(cond, L"mostly") != NULL ||
-		_tcsstr(cond, L"clouds") != NULL) {
+		wcsstr(cond, L"mainy sunny") != NULL ||
+		wcsstr(cond, L"mainy clear") != NULL ||
+		wcsstr(cond, L"partly cloudy") != NULL ||
+		wcsstr(cond, L"mostly") != NULL ||
+		wcsstr(cond, L"clouds") != NULL) {
 		return PCLOUDY;
 	}
 	else if (
-		_tcsstr(cond, L"sunny") != NULL ||
-		_tcsstr(cond, L"clear") != NULL ||
-		_tcsstr(cond, L"fair") != NULL) {
+		wcsstr(cond, L"sunny") != NULL ||
+		wcsstr(cond, L"clear") != NULL ||
+		wcsstr(cond, L"fair") != NULL) {
 		return SUNNY;
 	}
 	else if (
-		_tcsstr(cond, L"thunder") != NULL ||
-		_tcsstr(cond, L"t-storm") != NULL) {
+		wcsstr(cond, L"thunder") != NULL ||
+		wcsstr(cond, L"t-storm") != NULL) {
 		return LIGHT;
 	}
 	else if (
-		_tcsstr(cond, L"cloud") != NULL ||
-		_tcsstr(cond, L"overcast") != NULL) {
+		wcsstr(cond, L"cloud") != NULL ||
+		wcsstr(cond, L"overcast") != NULL) {
 		return CLOUDY;
 	}
 	else if (
-		_tcsstr(cond, L"fog") != NULL ||
-		_tcsstr(cond, L"mist") != NULL ||
-		_tcsstr(cond, L"smoke") != NULL ||
-		_tcsstr(cond, L"sand") != NULL ||
-		_tcsstr(cond, L"dust") != NULL ||
-		_tcsstr(cond, L"haze") != NULL) {
+		wcsstr(cond, L"fog") != NULL ||
+		wcsstr(cond, L"mist") != NULL ||
+		wcsstr(cond, L"smoke") != NULL ||
+		wcsstr(cond, L"sand") != NULL ||
+		wcsstr(cond, L"dust") != NULL ||
+		wcsstr(cond, L"haze") != NULL) {
 		return FOG;
 	}
 	else if (
-		(_tcsstr(cond, L"shower") != NULL && _tcsstr(cond, L"snow") != NULL) ||
-		_tcsstr(cond, L"flurries") != NULL) {
+		(wcsstr(cond, L"shower") != NULL && wcsstr(cond, L"snow") != NULL) ||
+		wcsstr(cond, L"flurries") != NULL) {
 		return SSHOWER;
 	}
 	else if (
-		_tcsstr(cond, L"rain shower") != NULL ||
-		_tcsstr(cond, L"shower") != NULL) {
+		wcsstr(cond, L"rain shower") != NULL ||
+		wcsstr(cond, L"shower") != NULL) {
 		return RSHOWER;
 	}
 	else if (
-		_tcsstr(cond, L"snow") != NULL ||
-		_tcsstr(cond, L"ice") != NULL ||
-		_tcsstr(cond, L"freezing") != NULL ||
-		_tcsstr(cond, L"wintry") != NULL) {
+		wcsstr(cond, L"snow") != NULL ||
+		wcsstr(cond, L"ice") != NULL ||
+		wcsstr(cond, L"freezing") != NULL ||
+		wcsstr(cond, L"wintry") != NULL) {
 		return SNOW;
 	}
 	else if (
-		_tcsstr(cond, L"drizzle") != NULL ||
-		_tcsstr(cond, L"rain") != NULL) {
+		wcsstr(cond, L"drizzle") != NULL ||
+		wcsstr(cond, L"rain") != NULL) {
 		return RAIN;
 	}
 
 	// set the icon using langpack
 	for (int i = 0; i < 9; i++) {
-		TCHAR LangPackStr[64], LangPackStr1[128];
+		wchar_t LangPackStr[64], LangPackStr1[128];
 		int j = 0;
 		do {
 			j++;
 			// using the format _T("# Weather <condition name> <counter> #"
 			mir_sntprintf(LangPackStr, L"# Weather %s %i #", statusStr[i], j);
-			_tcsncpy_s(LangPackStr1, TranslateTS(LangPackStr), _TRUNCATE);
+			wcsncpy_s(LangPackStr1, TranslateTS(LangPackStr), _TRUNCATE);
 			CharLowerBuff(LangPackStr1, (DWORD)mir_tstrlen(LangPackStr1));
-			if (_tcsstr(cond, LangPackStr1) != NULL)
+			if (wcsstr(cond, LangPackStr1) != NULL)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
 		} while (mir_tstrcmp(TranslateTS(LangPackStr), LangPackStr));
@@ -405,18 +405,18 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 //============  STRING CONVERSIONS  ============
 //
 // this function convert the string to the format with 1 upper case followed by lower case char
-void CaseConv(TCHAR *str)
+void CaseConv(wchar_t *str)
 {
 	BOOL nextUp = TRUE;
 
 	CharLowerBuff(str, (DWORD)mir_tstrlen(str));
-	for (TCHAR *pstr = str; *pstr; pstr++) {
+	for (wchar_t *pstr = str; *pstr; pstr++) {
 		if (*pstr == ' ' || *pstr == '-')
 			nextUp = TRUE;
 		else {
-			TCHAR ch = *pstr;
+			wchar_t ch = *pstr;
 			if (nextUp)
-				*pstr = (TCHAR)CharUpper((LPTSTR)ch);
+				*pstr = (wchar_t)CharUpper((LPTSTR)ch);
 			nextUp = FALSE;
 		}
 	}
@@ -485,9 +485,9 @@ char *GetSearchStr(char *dis)
 // w = WEATHERINFO data to be parsed
 // dis = the string to parse
 // return value = the parsed string
-TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
+wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str)
 {
-	TCHAR lpzDate[32], chr;
+	wchar_t lpzDate[32], chr;
 	char name[256], temp[2];
 	DBVARIANT dbv;
 	size_t i;
@@ -566,11 +566,11 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 	return str;
 }
 
-TCHAR svcReturnText[MAX_TEXT_SIZE];
+wchar_t svcReturnText[MAX_TEXT_SIZE];
 INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam)
 {
 	WEATHERINFO winfo = LoadWeatherInfo(wParam);
-	return (INT_PTR)GetDisplay(&winfo, (TCHAR*)lParam, svcReturnText);
+	return (INT_PTR)GetDisplay(&winfo, (wchar_t*)lParam, svcReturnText);
 }
 
 //============  ID MANAGEMENT  ============
@@ -578,9 +578,9 @@ INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam)
 // get service data module internal name
 //   mod/id  <- the mod part
 // pszID = original 2-part id, return the service internal name
-void GetSvc(TCHAR *pszID)
+void GetSvc(wchar_t *pszID)
 {
-	TCHAR *chop = _tcsstr(pszID, L"/");
+	wchar_t *chop = wcsstr(pszID, L"/");
 	if (chop != NULL)	*chop = '\0';
 	else				pszID[0] = 0;
 }
@@ -588,9 +588,9 @@ void GetSvc(TCHAR *pszID)
 // get the id use for update without the service internal name
 //   mod/id  <- the id part
 // pszID = original 2-part id, return the single part id
-void GetID(TCHAR *pszID)
+void GetID(wchar_t *pszID)
 {
-	TCHAR *chop = _tcsstr(pszID, L"/");
+	wchar_t *chop = wcsstr(pszID, L"/");
 	if (chop != NULL)	mir_tstrcpy(pszID, chop + 1);
 	else				pszID[0] = 0;
 }
@@ -601,9 +601,9 @@ void GetID(TCHAR *pszID)
 // code = the error code obtained when updating weather
 // str = the string for the error
 //
-TCHAR *GetError(int code)
+wchar_t *GetError(int code)
 {
-	TCHAR *str, str2[100];
+	wchar_t *str, str2[100];
 	switch (code) {
 	case 10:	str = E10; break;
 	case 11:	str = E11; break;

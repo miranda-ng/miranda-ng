@@ -26,18 +26,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static void sttApplySkin(MODERNOPTOBJECT *obj, TCHAR *fn)
+static void sttApplySkin(MODERNOPTOBJECT *obj, wchar_t *fn)
 {
 	CallProtoService(obj->lpzThemeModuleName, TS_SKIN_APPLY, NULL, (LPARAM)fn);
 }
 
-static TCHAR *sttGetActiveSkin(MODERNOPTOBJECT *obj)
+static wchar_t *sttGetActiveSkin(MODERNOPTOBJECT *obj)
 {
 	return ProtoServiceExists(obj->lpzThemeModuleName, TS_SKIN_ACTIVE) ?
-		(TCHAR*)CallProtoService(obj->lpzThemeModuleName, TS_SKIN_ACTIVE, 0, 0) : 0;
+		(wchar_t*)CallProtoService(obj->lpzThemeModuleName, TS_SKIN_ACTIVE, 0, 0) : 0;
 }
 
-static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps)
+static void sttPreviewSkin(MODERNOPTOBJECT *obj, wchar_t *fn, LPDRAWITEMSTRUCT lps)
 {
 	if (!fn) return;
 
@@ -75,24 +75,24 @@ static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps
 
 struct TSkinListItem
 {
-	TCHAR *path;
-	TCHAR *title;
-	TCHAR *filename;
+	wchar_t *path;
+	wchar_t *title;
+	wchar_t *filename;
 
-	TSkinListItem(TCHAR *fn)
+	TSkinListItem(wchar_t *fn)
 	{
 		title = mir_tstrdup(fn);
-		if (TCHAR *p = _tcsrchr(title, _T('.')))
+		if (wchar_t *p = wcsrchr(title, '.'))
 			*p = 0;
 
-		TCHAR curPath[MAX_PATH];
+		wchar_t curPath[MAX_PATH];
 		GetCurrentDirectory(_countof(curPath), curPath);
 
-		path = (TCHAR *)mir_alloc(MAX_PATH * sizeof(TCHAR));
+		path = (wchar_t *)mir_alloc(MAX_PATH * sizeof(wchar_t));
 		PathToRelativeT(curPath, path);
 
 		size_t length = mir_tstrlen(curPath) + mir_tstrlen(fn) + 2;
-		filename = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
+		filename = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
 		mir_sntprintf(filename, length, L"%s\\%s", curPath, fn);
 	}
 
@@ -107,7 +107,7 @@ struct TSkinListItem
 struct TSelectorData
 {
 	MODERNOPTOBJECT *obj;
-	TCHAR *active;
+	wchar_t *active;
 	HBITMAP hbmpPreview;
 
 	TSelectorData()
@@ -121,18 +121,18 @@ struct TSelectorData
 	}
 };
 
-static bool CheckExt(TCHAR *fn, TCHAR *ext, int n)
+static bool CheckExt(wchar_t *fn, wchar_t *ext, int n)
 {
 	size_t l = mir_tstrlen(fn);
 	return (l > n) && !mir_tstrcmp(fn + l - n, ext);
 }
 
-static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool start = true)
+static void BuildSkinList(HWND hwndList, wchar_t *szExt, int nExtLength = -1, bool start = true)
 {
 	if (start) {
-		static TCHAR mirPath[MAX_PATH];
+		static wchar_t mirPath[MAX_PATH];
 		GetModuleFileName(NULL, mirPath, _countof(mirPath));
-		if (TCHAR *p = _tcsrchr(mirPath, _T('\\'))) *p = 0;
+		if (wchar_t *p = wcsrchr(mirPath, '\\')) *p = 0;
 		SetCurrentDirectory(mirPath);
 		SendMessage(hwndList, LB_RESETCONTENT, 0, 0);
 		nExtLength = (int)mir_tstrlen(szExt);
@@ -168,7 +168,7 @@ static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool
 	}
 }
 
-static void CreatePreview(TSelectorData *sd, TCHAR *fn, LPDRAWITEMSTRUCT lps)
+static void CreatePreview(TSelectorData *sd, wchar_t *fn, LPDRAWITEMSTRUCT lps)
 {
 	HDC hdc = CreateCompatibleDC(lps->hDC);
 	sd->hbmpPreview = CreateCompatibleBitmap(lps->hDC, lps->rcItem.right - lps->rcItem.left, lps->rcItem.bottom - lps->rcItem.top);

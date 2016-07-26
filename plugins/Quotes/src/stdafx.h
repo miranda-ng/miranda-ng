@@ -50,7 +50,7 @@ typedef std::wistream tistream;
 typedef boost::posix_time::wtime_input_facet ttime_input_facet;
 typedef boost::posix_time::wtime_facet ttime_facet;
 
-inline std::string quotes_t2a(const TCHAR* t)
+inline std::string quotes_t2a(const wchar_t* t)
 {
 	std::string s;
 	char* p = mir_t2a(t);
@@ -64,7 +64,7 @@ inline std::string quotes_t2a(const TCHAR* t)
 inline tstring quotes_a2t(const char* s)
 {
 	tstring t;
-	TCHAR* p = mir_a2t(s);
+	wchar_t* p = mir_a2t(s);
 	if (p) {
 		t = p;
 		mir_free(p);

@@ -129,8 +129,9 @@ http://miranda-ng.org/distr/
 
 #define PU_MODULCLASS  "PopupCLASS" // temp DB modul for this plugin
 #define MODULNAME      "Popup"
-#define MODULNAME_LONG "Popup Plus"
+#define MODULNAME_LONG L"Popup Plus"
 #define MODULNAME_PLU  "Popups"
+#define MODULNAME_PLUW L"Popups"
 
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM);
 

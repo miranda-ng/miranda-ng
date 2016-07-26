@@ -29,12 +29,12 @@
 
 extern BOOL bPopupService;
 
-static const TCHAR* szLogLevelDescr[] = {
-	LPGENT("Display all problems"),
-	LPGENT("Display problems causing possible loss of data"),
-	LPGENT("Display explanations for disconnection"),
-	LPGENT("Display problems requiring user intervention"),
-	LPGENT("Do not display any problems (not recommended)")
+static const wchar_t* szLogLevelDescr[] = {
+	LPGENW("Display all problems"),
+	LPGENW("Display problems causing possible loss of data"),
+	LPGENW("Display explanations for disconnection"),
+	LPGENW("Display problems requiring user intervention"),
+	LPGENW("Do not display any problems (not recommended)")
 };
 
 static void LoadDBCheckState(CIcqProto* ppro, HWND hwndDlg, int idCtrl, const char* szSetting, BYTE bDef)
@@ -511,27 +511,27 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -800000000;
 	odp.hInstance = hInst;
-	odp.ptszGroup = LPGENT("Network");
+	odp.pwszGroup = LPGENW("Network");
 	odp.dwInitParam = LPARAM(this);
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszTab = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQ);
 	odp.pfnDlgProc = DlgProcIcqOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Contacts");
+	odp.pwszTab = LPGENW("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQCONTACTS);
 	odp.pfnDlgProc = DlgProcIcqContactsOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Features");
+	odp.pwszTab = LPGENW("Features");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQFEATURES);
 	odp.pfnDlgProc = DlgProcIcqFeaturesOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Privacy");
+	odp.pwszTab = LPGENW("Privacy");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQPRIVACY);
 	odp.pfnDlgProc = DlgProcIcqPrivacyOpts;
 	Options_AddPage(wParam, &odp);
@@ -541,8 +541,8 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.groupPosition = 900000000;
 		odp.pfnDlgProc = DlgProcIcqPopupOpts;
-		odp.ptszGroup = LPGENT("Popups");
-		odp.ptszTab = NULL;
+		odp.pwszGroup = LPGENW("Popups");
+		odp.pwszTab = NULL;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

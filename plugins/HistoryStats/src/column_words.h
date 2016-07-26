@@ -64,9 +64,9 @@ public:
 	explicit ColWords();
 
 protected:
-	virtual const TCHAR* impl_getUID() const { return con::ColWords; }
-	virtual const TCHAR* impl_getTitle() const { return LPGENT("Words"); }
-	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you."); }
+	virtual const wchar_t* impl_getUID() const { return con::ColWords; }
+	virtual const wchar_t* impl_getTitle() const { return LPGENW("Words"); }
+	virtual const wchar_t* impl_getDescription() const { return LPGENW("Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual void impl_configRead(const SettingsTree& settings);
 	virtual void impl_configWrite(SettingsTree& settings) const;

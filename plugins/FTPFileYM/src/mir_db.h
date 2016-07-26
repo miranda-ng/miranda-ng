@@ -28,7 +28,7 @@ public:
 	static int setDwordF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iValue);
 
 	static int setAStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, char *szValue);
-	static int setStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, TCHAR *stzValue);
+	static int setStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, wchar_t *stzValue);
 
 	static int getByteF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
 	static int getWordF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
@@ -37,8 +37,8 @@ public:
 	// !!!!!!!!!!!!!!!!!!! dangerous as hell
 	static int getAString(MCONTACT hContact, char *szModule, char *szSetting, char *buff); 
 	static int getAStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, char *buff);
-	static int getString(MCONTACT hContact, char *szModule, char *szSetting, TCHAR *buff);
-	static int getStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, TCHAR *buff);
+	static int getString(MCONTACT hContact, char *szModule, char *szSetting, wchar_t *buff);
+	static int getStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, wchar_t *buff);
 
 	static int deleteSettingF(MCONTACT hContact, char *szModule, char *szSetting, int id);
 };

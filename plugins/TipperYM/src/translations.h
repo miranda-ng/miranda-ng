@@ -117,9 +117,9 @@ static char *months[12] = {
 void InitTranslations();
 void DeinitTranslations();
 
-TCHAR *TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen);
-TCHAR *EmptyXStatusToDefaultName(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen);
-TCHAR *WordToStatusDesc(MCONTACT hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen);
+wchar_t *TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen);
+wchar_t *EmptyXStatusToDefaultName(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen);
+wchar_t *WordToStatusDesc(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen);
 
 
 #endif

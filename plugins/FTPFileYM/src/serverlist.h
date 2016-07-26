@@ -40,7 +40,7 @@ public:
 		};
 
 		bool m_bEnabled;	
-		TCHAR m_stzName[64];
+		wchar_t m_stzName[64];
 		char m_szServer[256];
 		char m_szUser[64];
 		char m_szPass[64];

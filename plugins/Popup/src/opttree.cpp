@@ -27,7 +27,7 @@ enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_RCHECK, IMG_NORCHECK, IMG_GRPOPEN,
 
 static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 {
-	TCHAR buf[64];
+	wchar_t buf[64];
 
 	TVITEM tvi = { 0 };
 	tvi.mask = TVIF_HANDLE | TVIF_TEXT;
@@ -65,10 +65,10 @@ void OptTree_Translate(HWND hwndTree)
 	}
 }
 
-HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHAR *name)
+HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar_t *name)
 {
 	TVITEM tvi = { 0 };
-	TCHAR str[MAX_PATH];
+	wchar_t str[MAX_PATH];
 
 	if (hItem)
 		tvi.hItem = TreeView_GetChild(hwndTree, hItem);
@@ -95,9 +95,9 @@ HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHA
 
 HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconIndex)
 {
-	TCHAR itemName[1024];
+	wchar_t itemName[1024];
 
-	TCHAR *sectionName;
+	wchar_t *sectionName;
 	int sectionLevel = 0;
 
 	HTREEITEM hSection = NULL, result = NULL;
@@ -106,10 +106,10 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconInd
 
 	while (sectionName) {
 		//  allow multi-level tree
-		TCHAR *pItemName = sectionName;
+		wchar_t *pItemName = sectionName;
 		HTREEITEM hItem;
 
-		if (sectionName = _tcschr(sectionName, '/')) {
+		if (sectionName = wcschr(sectionName, '/')) {
 			//  one level deeper
 			*sectionName = 0;
 			sectionName++;
@@ -154,7 +154,7 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, int *res
 	case WM_INITDIALOG:
 	{
 		int indx;
-		TCHAR itemName[1024];
+		wchar_t itemName[1024];
 		HIMAGELIST hImgLst;
 
 		TreeView_SelectItem(hwndTree, NULL);
@@ -172,7 +172,7 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, int *res
 
 		/* build options tree. based on code from IcoLib */
 		for (indx = 0; indx < optionCount; indx++) {
-			TCHAR *sectionName;
+			wchar_t *sectionName;
 			int sectionLevel = 0;
 
 			HTREEITEM hSection = NULL;
@@ -181,10 +181,10 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, int *res
 
 			while (sectionName) {
 				//  allow multi-level tree
-				TCHAR *pItemName = sectionName;
+				wchar_t *pItemName = sectionName;
 				HTREEITEM hItem;
 
-				if (sectionName = _tcschr(sectionName, '/')) {
+				if (sectionName = wcschr(sectionName, '/')) {
 					//  one level deeper
 					*sectionName = 0;
 					sectionName++;

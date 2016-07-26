@@ -15,7 +15,7 @@ public:
 	BOOL   IsForegroundWindow(HWND hWnd);
 	HFONT  ChangeToFont(HDC hdc, ClcData *dat, int id, int *fontHeight);
 	int    GetBasicFontID(ClcContact *contact);
-	void   GetTextSize(SIZE *text_size, HDC hdcMem, RECT free_row_rc, TCHAR *szText, SortedList *plText, UINT uTextFormat, int smiley_height);
+	void   GetTextSize(SIZE *text_size, HDC hdcMem, RECT free_row_rc, wchar_t *szText, SortedList *plText, UINT uTextFormat, int smiley_height);
 	void   AddParam(MODERNMASK *mpModernMask, DWORD dwParamHash, const char* szValue, DWORD dwValueHash);
 	BOOL   CheckMiniMode(ClcData *dat, BOOL selected);
 
@@ -101,7 +101,7 @@ private:
 	int  _GetGeneralisedStatus();
 	int  _GetRealStatus(ClcContact *pContact, int nStatus);
 	RECT _GetRectangle(ClcData *dat, RECT *row_rc, RECT *free_row_rc, int *left_pos, int *right_pos, BOOL left, int real_width, int width, int height, int horizontal_space);
-	void _DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, TCHAR *szText, int start, int len, SortedList *plText, UINT uTextFormat, BOOL ResizeSizeSmiley);
+	void _DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, wchar_t *szText, int start, int len, SortedList *plText, UINT uTextFormat, BOOL ResizeSizeSmiley);
 	void _AddParameter(MODERNMASK *mpModernMask, MASKPARAM * lpParam);
 	void _AddParamShort(MODERNMASK *mpModernMask, DWORD dwParamIndex, DWORD dwValueIndex);
 	void _FillParam(MASKPARAM * lpParam, DWORD dwParamHash, const char* szValue, DWORD dwValueHash);

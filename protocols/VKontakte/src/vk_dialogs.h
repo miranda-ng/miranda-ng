@@ -52,12 +52,12 @@ public:
 
 struct WALLPOST_FORM_PARAMS
 {
-	TCHAR *ptszMsg;
-	TCHAR *ptszUrl;
-	TCHAR *ptszNick;
+	wchar_t *ptszMsg;
+	wchar_t *ptszUrl;
+	wchar_t *ptszNick;
 	bool bFriendsOnly;
 
-	WALLPOST_FORM_PARAMS(TCHAR *nick) :
+	WALLPOST_FORM_PARAMS(wchar_t *nick) :
 		ptszNick(nick),
 		bFriendsOnly(false)
 	{

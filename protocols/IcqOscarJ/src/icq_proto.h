@@ -47,7 +47,7 @@ struct userinfo
 
 struct CIcqProto : public PROTO<CIcqProto>
 {
-				CIcqProto(const char*, const TCHAR*);
+				CIcqProto(const char*, const wchar_t*);
 				~CIcqProto();
 
 	//====================================================================================
@@ -58,21 +58,21 @@ struct CIcqProto : public PROTO<CIcqProto>
 	virtual	MCONTACT  __cdecl AddToListByEvent( int flags, int iContact, MEVENT hDbEvent);
 
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR *szReason);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage);
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath);
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
-	virtual	int       __cdecl FileResume( HANDLE hTransfer, int *action, const TCHAR **szFilename);
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason);
+	virtual	int       __cdecl FileResume( HANDLE hTransfer, int *action, const wchar_t **szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
-	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *email);
-	virtual	HANDLE    __cdecl SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *id);
+	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t *email);
+	virtual	HANDLE    __cdecl SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
@@ -80,7 +80,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 
 	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
 	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char *url);
 
@@ -89,7 +89,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
 	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
+	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t *msg);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
@@ -392,12 +392,12 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   handleAvatarOwnerHash(BYTE bFlags, BYTE *pData, size_t nDataLen);
 	void   handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hContact, BYTE *pHash, size_t nHashLen);
 
-	TCHAR* GetOwnAvatarFileName();
-	void   GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat, TCHAR *pszDest, size_t cbLen);
-	void   GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, size_t cbLen);
+	wchar_t* GetOwnAvatarFileName();
+	void   GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat, wchar_t *pszDest, size_t cbLen);
+	void   GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest, size_t cbLen);
 	int    IsAvatarChanged(MCONTACT hContact, const BYTE *pHash, size_t nHashLen);
 
-	int    GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, size_t hashlen, const TCHAR *file);
+	int    GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, size_t hashlen, const wchar_t *file);
 	int    SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, size_t datalen);
 
 	void   StartAvatarThread(HANDLE hConn, char* cookie, size_t cookieLen);
@@ -715,7 +715,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   icq_sendRevokeAuthServ(DWORD dwUin, char *szUid);
 	void   icq_sendGrantAuthServ(DWORD dwUin, const char *szUid, const char *szMsg);
 	void   icq_sendAuthReqServ(DWORD dwUin, char* szUid, const char *szMsg);
-	void   icq_sendAuthResponseServ(DWORD dwUin, char* szUid,int auth,const TCHAR *szReason);
+	void   icq_sendAuthResponseServ(DWORD dwUin, char* szUid,int auth,const wchar_t *szReason);
 	void   icq_sendYouWereAddedServ(DWORD,DWORD);
 
 	DWORD  sendDirectorySearchPacket(const BYTE *pSearchData, size_t wDataLen, WORD wPage, BOOL bOnlineUsersOnly);
@@ -823,11 +823,11 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand);
 	void   handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, void* ft);
 
-	HANDLE oftInitTransfer(MCONTACT hContact, DWORD dwUin, char *szUid, const TCHAR **pszFiles, const TCHAR *szDescription);
-	HANDLE oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
-	DWORD  oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
+	HANDLE oftInitTransfer(MCONTACT hContact, DWORD dwUin, char *szUid, const wchar_t **pszFiles, const wchar_t *szDescription);
+	HANDLE oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath);
+	DWORD  oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason);
 	DWORD  oftFileCancel(MCONTACT hContact, HANDLE hTransfer);
-	void   oftFileResume(oscar_filetransfer *ft, int action, const TCHAR *szFilename);
+	void   oftFileResume(oscar_filetransfer *ft, int action, const wchar_t *szFilename);
 
 	void   sendOscarPacket(oscar_connection *oc, icq_packet *packet);
 	void   handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE *pBuffer, size_t wLen);

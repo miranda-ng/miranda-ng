@@ -11,7 +11,7 @@ public:
 		MCONTACT hContact;
 		float rate;
 		bool infoLoaded;
-		TCHAR info[INFOSIZE];
+		wchar_t info[INFOSIZE];
 	
 		TContactInfo()
 		{
@@ -39,7 +39,7 @@ public:
 
 	MCONTACT get(int rate);
 	float getWeight(int rate);
-	bool filter(int rate, TCHAR *str);
+	bool filter(int rate, wchar_t *str);
 };
 
 #endif // __contact_cache__

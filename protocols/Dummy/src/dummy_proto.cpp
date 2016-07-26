@@ -39,7 +39,7 @@ void CDummyProto::SearchIdAckThread(void *targ)
 	PROTOSEARCHRESULT psr = { 0 };
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_TCHAR;
-	psr.id.t = (TCHAR*)targ;
+	psr.id.w = (wchar_t*)targ;
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
 	
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
@@ -54,7 +54,7 @@ static int sttCompareProtocols(const CDummyProto *p1, const CDummyProto *p2)
 
 LIST<CDummyProto> dummy_Instances(1, sttCompareProtocols);
 
-CDummyProto::CDummyProto(const char *szModuleName, const TCHAR *ptszUserName) :
+CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	PROTO<CDummyProto>(szModuleName, ptszUserName)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CDummyProto::SvcCreateAccMgrUI);
@@ -142,19 +142,19 @@ int CDummyProto::SetStatus(int)
 	return 0;
 }
 
-HANDLE CDummyProto::SearchBasic(const TCHAR* id)
+HANDLE CDummyProto::SearchBasic(const wchar_t* id)
 {
 	if (uniqueIdSetting[0] == '\0')
 		return 0;
 
-	TCHAR *tid = mir_tstrdup(id);
+	wchar_t *tid = mir_tstrdup(id);
 	ForkThread(&CDummyProto::SearchIdAckThread, tid);
 	return tid;
 }
 
 MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	if (psr->id.t == NULL)
+	if (psr->id.w == NULL)
 		return NULL;
 
 	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD);
@@ -173,8 +173,8 @@ MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 			db_unset(hContact, "CList", "Hidden");
 			db_unset(hContact, "CList", "NotOnList");
 		}
-		setTString(hContact, uniqueIdSetting, psr->id.t);
-		setTString(hContact, "Nick", psr->id.t);
+		setTString(hContact, uniqueIdSetting, psr->id.w);
+		setTString(hContact, "Nick", psr->id.w);
 	}
 
 	return hContact;

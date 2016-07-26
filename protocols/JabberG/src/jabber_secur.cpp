@@ -28,13 +28,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // ntlm auth - LanServer based authorization
 
-TNtlmAuth::TNtlmAuth(ThreadData *info, const char* mechanism, const TCHAR *hostname) :
+TNtlmAuth::TNtlmAuth(ThreadData *info, const char* mechanism, const wchar_t *hostname) :
 	TJabberAuth(info)
 {
 	szName = mechanism;
 	szHostName = hostname;
 
-	const TCHAR *szProvider;
+	const wchar_t *szProvider;
 	if (!mir_strcmp(mechanism, "GSS-SPNEGO"))
 		szProvider = L"Negotiate";
 	else if (!mir_strcmp(mechanism, "GSSAPI"))
@@ -48,7 +48,7 @@ LBL_Invalid:
 		return;
 	}
 
-	TCHAR szSpn[1024] = L"";
+	wchar_t szSpn[1024] = L"";
 	if (mir_strcmp(mechanism, "NTLM"))
 		if (!getSpn(szSpn, _countof(szSpn)) && !mir_strcmp(mechanism, "GSSAPI"))
 			goto LBL_Invalid;
@@ -63,9 +63,9 @@ TNtlmAuth::~TNtlmAuth()
 		Netlib_DestroySecurityProvider(NULL, hProvider);
 }
 
-bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
+bool TNtlmAuth::getSpn(wchar_t* szSpn, size_t dwSpnLen)
 {
-	TCHAR szFullUserName[128] = L"";
+	wchar_t szFullUserName[128] = L"";
 	ULONG szFullUserNameLen = _countof(szFullUserName);
 	if (!GetUserNameEx(NameDnsDomain, szFullUserName, &szFullUserNameLen)) {
 		szFullUserName[0] = 0;
@@ -73,12 +73,12 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 		GetUserNameEx(NameSamCompatible, szFullUserName, &szFullUserNameLen);
 	}
 
-	TCHAR *name = _tcsrchr(szFullUserName, '\\');
+	wchar_t *name = wcsrchr(szFullUserName, '\\');
 	if (name) *name = 0;
 	else return false;
 
 	if (szHostName && szHostName[0]) {
-		TCHAR *szFullUserNameU = _tcsupr(mir_tstrdup(szFullUserName));
+		wchar_t *szFullUserNameU = wcsupr(mir_tstrdup(szFullUserName));
 		mir_sntprintf(szSpn, dwSpnLen, L"xmpp/%s/%s@%s", szHostName, szFullUserName, szFullUserNameU);
 		mir_free(szFullUserNameU);
 	}
@@ -90,8 +90,8 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 		if (host && host->h_name)
 			connectHost = host->h_name;
 
-		TCHAR *connectHostT = mir_a2t(connectHost);
-		mir_sntprintf(szSpn, dwSpnLen, L"xmpp/%s@%s", connectHostT, _tcsupr(szFullUserName));
+		wchar_t *connectHostT = mir_a2t(connectHost);
+		mir_sntprintf(szSpn, dwSpnLen, L"xmpp/%s@%s", connectHostT, wcsupr(szFullUserName));
 		mir_free(connectHostT);
 	}
 
@@ -111,7 +111,7 @@ char* TNtlmAuth::getInitialRequest()
 	return Netlib_NtlmCreateResponse2(hProvider, "", NULL, NULL, &complete);
 }
 
-char* TNtlmAuth::getChallenge(const TCHAR *challenge)
+char* TNtlmAuth::getChallenge(const wchar_t *challenge)
 {
 	if (!hProvider)
 		return NULL;
@@ -137,7 +137,7 @@ TMD5Auth::~TMD5Auth()
 {
 }
 
-char* TMD5Auth::getChallenge(const TCHAR *challenge)
+char* TMD5Auth::getChallenge(const wchar_t *challenge)
 {
 	if (iCallCount > 0)
 		return NULL;
@@ -238,7 +238,7 @@ void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t 
 	}
 }
 
-char* TScramAuth::getChallenge(const TCHAR *challenge)
+char* TScramAuth::getChallenge(const wchar_t *challenge)
 {
 	unsigned chlLen, saltLen = 0;
 	ptrA snonce, salt;
@@ -315,7 +315,7 @@ char* TScramAuth::getInitialRequest()
 	return mir_base64_encode((PBYTE)buf, cbLen);
 }
 
-bool TScramAuth::validateLogin(const TCHAR *challenge)
+bool TScramAuth::validateLogin(const wchar_t *challenge)
 {
 	unsigned chlLen;
 	ptrA chl((char*)mir_base64_decode(_T2A(challenge), &chlLen));
@@ -370,12 +370,12 @@ char* TJabberAuth::getInitialRequest()
 	return NULL;
 }
 
-char* TJabberAuth::getChallenge(const TCHAR*)
+char* TJabberAuth::getChallenge(const wchar_t*)
 {
 	return NULL;
 }
 
-bool TJabberAuth::validateLogin(const TCHAR*)
+bool TJabberAuth::validateLogin(const wchar_t*)
 {
 	return true;
 }

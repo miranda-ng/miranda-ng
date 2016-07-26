@@ -20,7 +20,7 @@ typedef struct tagCLUIDATA
 	MCONTACT hUpdateContact;
 
 	// Contact List View Mode
-	TCHAR  groupFilter[2048];
+	wchar_t  groupFilter[2048];
 	char   protoFilter[2048];
 	char   varFilter[2048];
 	DWORD  lastMsgFilter;

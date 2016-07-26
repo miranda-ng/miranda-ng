@@ -17,11 +17,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-std::map<std::tstring, std::tstring> CSkypeProto::languages;
+std::map<std::wstring, std::wstring> CSkypeProto::languages;
 
 void CSkypeProto::InitLanguages()
 {
-	std::map<std::tstring, std::tstring> result;
+	std::map<std::wstring, std::wstring> result;
 	result[L"ab"] = L"Abkhazian";
 	result[L"aa"] = L"Afar";
 	result[L"af"] = L"Afrikaans";
@@ -288,7 +288,7 @@ void CSkypeProto::UpdateProfileGender(const JSONNode &root, MCONTACT hContact)
 {
 	CMString gender = root["gender"].as_mstring();
 	if (!gender.IsEmpty() && gender != "null")
-		setByte(hContact, "Gender", (BYTE)(_ttoi(gender) == 1 ? 'M' : 'F'));
+		setByte(hContact, "Gender", (BYTE)(_wtoi(gender) == 1 ? 'M' : 'F'));
 	else
 		delSetting(hContact, "Gender");
 }
@@ -299,7 +299,7 @@ void CSkypeProto::UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact)
 	if (!birthday.IsEmpty() && birthday != "null")
 	{
 		int d, m, y;
-		_stscanf(birthday.GetBuffer(), L"%d-%d-%d", &y, &m, &d);
+		swscanf(birthday.GetBuffer(), L"%d-%d-%d", &y, &m, &d);
 		setWord(hContact, "BirthYear", y);
 		setByte(hContact, "BirthDay", d);
 		setByte(hContact, "BirthMonth", m);

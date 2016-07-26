@@ -19,7 +19,7 @@ static NETLIBHTTPHEADER s_imageHeaders[] =
 	{ "Content-Type", "multipart/form-data; boundary=zzXXzzYYzzXXzzQQ" }
 };
 
-static std::vector<unsigned char>* sttFileToMem(const TCHAR *ptszFileName)
+static std::vector<unsigned char>* sttFileToMem(const wchar_t *ptszFileName)
 {
 	HANDLE hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)

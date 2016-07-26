@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 
-static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai)
+static wchar_t *parseUrlEnc(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -45,12 +45,12 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai)
 		cur += mir_strlen(hex);
 	}
 
-	TCHAR *tres = mir_a2t(res);
+	wchar_t *tres = mir_a2t(res);
 	mir_free(res);
 	return tres;
 }
 
-static TCHAR *parseUrlDec(ARGUMENTSINFO *ai)
+static wchar_t *parseUrlDec(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -72,12 +72,12 @@ static TCHAR *parseUrlDec(ARGUMENTSINFO *ai)
 	}
 
 	res = (char*)mir_realloc(res, mir_strlen(res) + 1);
-	TCHAR *tres = mir_a2t(res);
+	wchar_t *tres = mir_a2t(res);
 	mir_free(res);
 	return tres;
 }
 
-static TCHAR *parseNToA(ARGUMENTSINFO *ai)
+static wchar_t *parseNToA(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;
@@ -87,7 +87,7 @@ static TCHAR *parseNToA(ARGUMENTSINFO *ai)
 	return mir_a2t(inet_ntoa(in));
 }
 
-static TCHAR *parseHToA(ARGUMENTSINFO *ai)
+static wchar_t *parseHToA(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
 		return NULL;

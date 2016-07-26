@@ -56,9 +56,9 @@ INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM, LPARAM lParam)
 		}
 		TranslateDialogDefault(hWndDlg);
 		SetClassLongPtr(hWndDlg, GCLP_HICON, (LONG_PTR)IcoLib_GetIcon(ICON_OTR, 1));
-		TCHAR buff[256];
-		TCHAR *proto = mir_a2t((char*)lParam);
-		mir_sntprintf(buff, TranslateT(LANG_GENERATE_KEY), proto);
+		wchar_t buff[256];
+		wchar_t *proto = mir_a2t((char*)lParam);
+		mir_sntprintf(buff, TranslateW(LANG_GENERATE_KEY), proto);
 		mir_free(proto);
 		SetDlgItemText(hWndDlg, IDC_GENERATE, buff);
 		GenKeyData *data = (GenKeyData *)mir_calloc(sizeof(GenKeyData));
@@ -175,20 +175,20 @@ extern "C" {
 		MCONTACT hContact = (UINT_PTR)opdata;
 		TrustLevel trusted = otr_context_get_trust(context);
 		SetEncryptionStatus(hContact, trusted);
-		TCHAR buff[512];
+		wchar_t buff[512];
 		if (trusted == TRUST_PRIVATE) {
-			mir_sntprintf(buff, TranslateT(LANG_SESSION_START_OTR), contact_get_nameT(hContact));
+			mir_sntprintf(buff, TranslateW(LANG_SESSION_START_OTR), contact_get_nameT(hContact));
 		}
 		else if (trusted == TRUST_UNVERIFIED) {
 			if (options.autoshow_verify) SMPInitDialog(context); //VerifyContextDialog(context);
-			mir_sntprintf(buff, TranslateT(LANG_SESSION_START_OTR_VERIFY), contact_get_nameT(hContact));
+			mir_sntprintf(buff, TranslateW(LANG_SESSION_START_OTR_VERIFY), contact_get_nameT(hContact));
 		}
 		else { // should never happen
-			mir_sntprintf(buff, TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
+			mir_sntprintf(buff, TranslateW(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 		}
 		if (context->protocol_version < MIROTR_PROTO_LATEST){
 			size_t remaining = mir_tstrlen(buff);
-			TCHAR *offset = buff + remaining;
+			wchar_t *offset = buff + remaining;
 			remaining = _countof(buff) - remaining;
 			mir_sntprintf(offset, remaining, TranslateT("\nusing older protocol version %i"), context->protocol_version);
 		}
@@ -200,8 +200,8 @@ extern "C" {
 	void otr_gui_gone_insecure(void *opdata, ConnContext *context) {
 		MCONTACT hContact = (UINT_PTR)opdata;
 		DEBUGOUTA("OTR_GUI_GONE_INSECURE\n");
-		TCHAR buff[512];
-		mir_sntprintf(buff, TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(hContact));
+		wchar_t buff[512];
+		mir_sntprintf(buff, TranslateW(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(hContact));
 		//MessageBox(0, buff, Translate("OTR Information"), MB_OK);
 		if (!Miranda_Terminated()) {
 			ShowMessage(hContact, buff);
@@ -218,30 +218,30 @@ extern "C" {
 		DEBUGOUTA("OTR_GUI_STILL_SECURE\n");
 		TrustLevel trusted = otr_context_get_trust(context);
 		SetEncryptionStatus(hContact, trusted);
-		TCHAR buff[1024];
+		wchar_t buff[1024];
 		if (!is_reply) {
 			if (trusted == TRUST_PRIVATE) {
-				mir_sntprintf(buff, TranslateT(LANG_SESSION_CONTINUE_OTR), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateW(LANG_SESSION_CONTINUE_OTR), contact_get_nameT(hContact));
 			}
 			else if (trusted == TRUST_UNVERIFIED) {
 				if (options.autoshow_verify) SMPInitDialog(context); //VerifyContextDialog(context);
-				mir_sntprintf(buff, TranslateT(LANG_SESSION_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateW(LANG_SESSION_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
 			}
 			else { // should never happen
-				mir_sntprintf(buff, TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateW(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 			}
 			// opdata is hContact
 			ShowMessage(hContact, buff);
 		}
 		else {
 			if (trusted == TRUST_PRIVATE) {
-				mir_sntprintf(buff, TranslateT(LANG_SESSION_HAS_CONTINUE_OTR), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateW(LANG_SESSION_HAS_CONTINUE_OTR), contact_get_nameT(hContact));
 			}
 			else if (trusted == TRUST_UNVERIFIED) {
-				mir_sntprintf(buff, TranslateT(LANG_SESSION_HAS_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateW(LANG_SESSION_HAS_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
 			}
 			else { // should never happen
-				mir_sntprintf(buff, TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateW(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 			}
 
 		}
@@ -313,12 +313,12 @@ extern "C" {
 	void handle_msg_event(void *opdata, OtrlMessageEvent msg_event, ConnContext *, const char *message, gcry_error_t err) {
 		DEBUGOUTA("HANDLE_MSG_EVENT\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
-		const TCHAR* contact = contact_get_nameT(hContact);
+		const wchar_t* contact = contact_get_nameT(hContact);
 
-		typedef void(*msgfunc_t)(const MCONTACT, const TCHAR*);
+		typedef void(*msgfunc_t)(const MCONTACT, const wchar_t*);
 		msgfunc_t msgfunc = ShowMessage;
-		//		TCHAR* title = NULL;
-		TCHAR msg[512];
+		//		wchar_t* title = NULL;
+		wchar_t msg[512];
 		msg[0] = '\0';
 		switch (msg_event){
 		case OTRL_MSGEVENT_NONE:
@@ -346,7 +346,7 @@ extern "C" {
 				mir_snwprintf(msg, _countof(msg), TranslateT("Error setting up private conversation: %s"), TranslateT("Malformed message received"));
 				break;
 			default:{
-				TCHAR* tmp = mir_utf8decodeT(gcry_strerror(err));
+				wchar_t* tmp = mir_utf8decodeT(gcry_strerror(err));
 				mir_snwprintf(msg, _countof(msg), TranslateT("Error setting up private conversation: %s"), tmp);
 				mir_free(tmp); }
 			}
@@ -373,14 +373,14 @@ extern "C" {
 			break;
 		case OTRL_MSGEVENT_RCVDMSG_GENERAL_ERR:{
 			//			title = TranslateT("OTR Error");
-			TCHAR* tmp = mir_utf8decodeT(message);
+			wchar_t* tmp = mir_utf8decodeT(message);
 			mir_tstrncpy(msg, tmp, _countof(msg));
 			mir_free(tmp);
 			break; }
 		case OTRL_MSGEVENT_RCVDMSG_UNENCRYPTED:{
 			//			title = TranslateT("Received unencrypted message");
 			msgfunc = ShowMessageInline;
-			TCHAR* tmp = mir_utf8decodeT(message);
+			wchar_t* tmp = mir_utf8decodeT(message);
 			mir_snwprintf(msg, _countof(msg), TranslateT("The following message received from '%s' was NOT encrypted:\n\n%s"), contact, tmp);
 			mir_free(tmp);
 			ProtoChainSend(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
@@ -400,7 +400,7 @@ extern "C" {
 	//void otr_create_instag(void *opdata, const char *accountname, const char *protocol) {
 	void otr_create_instag(void *, const char *accountname, const char *protocol){
 		DEBUGOUTA("OTR_CREATE_INSTAG\n");
-		FILE* instagf = _tfopen(g_instag_filename, L"w+b");
+		FILE* instagf = _wfopen(g_instag_filename, L"w+b");
 		if (!instagf)
 			return;
 		otrl_instag_generate_FILEp(otr_user_state, instagf, accountname, protocol);

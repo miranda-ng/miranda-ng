@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef CS_DROPSHADOW
 #define CS_DROPSHADOW 0x00020000
 #endif
-#define BOXPREVIEW_WNDCLASS "PopupPreviewBoxWndclass"
+#define BOXPREVIEW_WNDCLASS L"PopupPreviewBoxWndclass"
 
 void RegisterOptPrevBox();
 

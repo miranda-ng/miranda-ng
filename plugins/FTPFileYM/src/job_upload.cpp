@@ -245,8 +245,8 @@ INT_PTR CALLBACK UploadJob::DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			TCHAR buff[256];
-			TCHAR *fileName = mir_a2t((char *)lParam);
+			wchar_t buff[256];
+			wchar_t *fileName = mir_a2t((char *)lParam);
 			mir_sntprintf(buff, TranslateT("File exists - %s"), fileName);
 			SetWindowText(hwndDlg, buff);
 			FREE(fileName);
@@ -266,7 +266,7 @@ void UploadJob::upload()
 {
 	refreshTab(true);
 
-	m_fp = _tfopen(m_tszFilePath, L"rb");
+	m_fp = _wfopen(m_tszFilePath, L"rb");
 	if (m_fp == NULL) {
 		Utils::msgBox(TranslateT("Error occurred when opening local file.\nAborting file upload..."), MB_OK | MB_ICONERROR);
 		return;
@@ -277,7 +277,7 @@ void UploadJob::upload()
 		headerList = curl_slist_append(headerList, getChmodString());
 
 	struct _stat fileInfo;
-	_tstat(m_tszFilePath, &fileInfo);
+	_wstat(m_tszFilePath, &fileInfo);
 	m_uiFileSize = (UINT64)fileInfo.st_size;
 
 	CURL *hCurl = curlInit(getUrlString(), headerList);
@@ -402,7 +402,7 @@ void UploadJob::updateStats()
 		int m = (s - d * 60 * 60 * 24 - h * 60 * 60) / 60;
 		s = s - (d * 24 * 60 * 60) - (h * 60 * 60) - (m * 60);
 
-		TCHAR buff[256];
+		wchar_t buff[256];
 		if (d > 0) mir_sntprintf(buff, L"%dd %02d:%02d:%02d", d, h, m, s);
 		else mir_sntprintf(buff, L"%02d:%02d:%02d", h, m, s);
 		mir_sntprintf(m_tab->m_stzRemain, L"%s (%d kB/%d kB)", buff, (m_uiFileSize - m_uiTotalSent) / 1024, m_uiFileSize / 1024);

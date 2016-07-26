@@ -94,7 +94,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(ICO_MAIN));
 		{
 			CSend* self = (CSend*)lParam;
-			TCHAR* tmp = mir_tstrdup(TranslateT("Resulting URL from\n"));
+			wchar_t* tmp = mir_tstrdup(TranslateT("Resulting URL from\n"));
 			mir_tstradd(tmp, self->m_pszSendTyp);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tmp);
 			mir_free(tmp);
@@ -124,16 +124,16 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				case ID_btnCopy:
 				case ID_btnThumbCopy:
 					SendDlgItemMessage(hwndDlg, i, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIconBtn(ICO_BTN_COPY));
-					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Copy"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Copy"), BATF_TCHAR);
 					break;
 				case ID_btnBBC:
 				case ID_btnThumbBBC:
 					SendDlgItemMessage(hwndDlg, i, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIconBtn(ICO_BTN_BBC));
-					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Copy BBCode"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Copy BBCode"), BATF_TCHAR);
 					break;
 				default:
 					SendDlgItemMessage(hwndDlg, i, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIconBtn(ICO_BTN_BBCLNK));
-					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Copy BBCode w/ link"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Copy BBCode w/ link"), BATF_TCHAR);
 				}
 			}
 		}
@@ -151,7 +151,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		case ID_btnBBC:
 		case ID_btnThumbBBC:
 		case ID_btnThumbBBC2:
-			TCHAR tmp[2048];
+			wchar_t tmp[2048];
 			int edtID = ID_edtURL;
 			int bbc = 0;
 			switch (LOWORD(wParam)) {
@@ -166,16 +166,16 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			size_t len;
 			if (bbc) {
 				if (bbc == 1) {
-					memcpy(tmp, L"[img]", 5 * sizeof(TCHAR)); len = 5;
+					memcpy(tmp, L"[img]", 5 * sizeof(wchar_t)); len = 5;
 					len += GetDlgItemText(hwndDlg, edtID, tmp + len, 2048 - 11);
-					memcpy(tmp + len, L"[/img]", 7 * sizeof(TCHAR)); len += 7;
+					memcpy(tmp + len, L"[/img]", 7 * sizeof(wchar_t)); len += 7;
 				}
 				else {
-					memcpy(tmp, L"[url=", 5 * sizeof(TCHAR)); len = 5;
+					memcpy(tmp, L"[url=", 5 * sizeof(wchar_t)); len = 5;
 					len += GetDlgItemText(hwndDlg, ID_edtURL, tmp + len, 1024);
-					memcpy(tmp + len, L"][img]", 6 * sizeof(TCHAR)); len += 6;
+					memcpy(tmp + len, L"][img]", 6 * sizeof(wchar_t)); len += 6;
 					len += GetDlgItemText(hwndDlg, edtID, tmp + len, 1024);
-					memcpy(tmp + len, L"[/img][/url]", 13 * sizeof(TCHAR)); len += 12;
+					memcpy(tmp + len, L"[/img][/url]", 13 * sizeof(wchar_t)); len += 12;
 				}
 			}
 			else
@@ -187,8 +187,8 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 					continue;
 				}
 				EmptyClipboard();
-				HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE, len*sizeof(TCHAR) + sizeof(TCHAR));
-				TCHAR* tmp2 = (TCHAR*)GlobalLock(clipbuffer);
+				HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE, len*sizeof(wchar_t) + sizeof(wchar_t));
+				wchar_t* tmp2 = (wchar_t*)GlobalLock(clipbuffer);
 				mir_tstrncpy(tmp2, tmp, len + 1); tmp2[len] = '\0';
 				GlobalUnlock(clipbuffer);
 				SetClipboardData(CF_UNICODETEXT, clipbuffer);
@@ -215,7 +215,7 @@ void CSend::svcSendMsgExit(const char* szMessage)
 		Exit(CSEND_DIALOG); return;
 	}
 	if (m_ChatRoom) {
-		TCHAR* tmp = mir_a2t(szMessage);
+		wchar_t* tmp = mir_a2t(szMessage);
 		if (m_pszFileDesc) {
 			mir_tstradd(tmp, L"\r\n");
 			mir_tstradd(tmp, m_pszFileDesc);
@@ -282,7 +282,7 @@ void CSend::svcSendFileExit()
 		Exit(ACKRESULT_SUCCESS); return;
 	}
 	if (!m_hContact) {
-		Error(LPGENT("%s requires a valid contact!"), m_pszSendTyp);
+		Error(LPGENW("%s requires a valid contact!"), m_pszSendTyp);
 		Exit(ACKRESULT_FAILED); return;
 	}
 	mir_freeAndNil(m_szEventMsg);
@@ -307,8 +307,8 @@ void CSend::svcSendFileExit()
 	}
 
 	// Start miranda PSS_FILE based on mir ver (T)
-	TCHAR* ppFile[2] = { 0, 0 };
-	TCHAR* pDesc = mir_tstrdup(m_pszFileDesc);
+	wchar_t* ppFile[2] = { 0, 0 };
+	wchar_t* pDesc = mir_tstrdup(m_pszFileDesc);
 	ppFile[0] = mir_tstrdup(m_pszFile);
 	ppFile[1] = NULL;
 	m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_FILE, (WPARAM)pDesc, (LPARAM)ppFile);
@@ -336,13 +336,13 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 			*/
 
 	switch (ack->result) {
-	case ACKRESULT_INITIALISING:	//SetFtStatus(hwndDlg, LPGENT("Initialising..."), FTS_TEXT); break;
-	case ACKRESULT_CONNECTING:		//SetFtStatus(hwndDlg, LPGENT("Connecting..."), FTS_TEXT); break;
-	case ACKRESULT_CONNECTPROXY:	//SetFtStatus(hwndDlg, LPGENT("Connecting to proxy..."), FTS_TEXT); break;
-	case ACKRESULT_LISTENING:		//SetFtStatus(hwndDlg, LPGENT("Waiting for connection..."), FTS_TEXT); break;
-	case ACKRESULT_CONNECTED:		//SetFtStatus(hwndDlg, LPGENT("Connected"), FTS_TEXT); break;
-	case ACKRESULT_SENTREQUEST:		//SetFtStatus(hwndDlg, LPGENT("Decision sent"), FTS_TEXT); break;
-	case ACKRESULT_NEXTFILE:		//SetFtStatus(hwndDlg, LPGENT("Moving to next file..."), FTS_TEXT);
+	case ACKRESULT_INITIALISING:	//SetFtStatus(hwndDlg, LPGENW("Initialising..."), FTS_TEXT); break;
+	case ACKRESULT_CONNECTING:		//SetFtStatus(hwndDlg, LPGENW("Connecting..."), FTS_TEXT); break;
+	case ACKRESULT_CONNECTPROXY:	//SetFtStatus(hwndDlg, LPGENW("Connecting to proxy..."), FTS_TEXT); break;
+	case ACKRESULT_LISTENING:		//SetFtStatus(hwndDlg, LPGENW("Waiting for connection..."), FTS_TEXT); break;
+	case ACKRESULT_CONNECTED:		//SetFtStatus(hwndDlg, LPGENW("Connected"), FTS_TEXT); break;
+	case ACKRESULT_SENTREQUEST:		//SetFtStatus(hwndDlg, LPGENW("Decision sent"), FTS_TEXT); break;
+	case ACKRESULT_NEXTFILE:		//SetFtStatus(hwndDlg, LPGENW("Moving to next file..."), FTS_TEXT);
 	case ACKRESULT_FILERESUME:		//
 	case ACKRESULT_DATA:			//transfer is on progress
 		break;
@@ -397,7 +397,7 @@ void CSend::DB_EventAdd(WORD EventType)
 //---------------------------------------------------------------------------
 void CSend::Error(LPCTSTR pszFormat, ...)
 {
-	TCHAR tszMsg[MAX_SECONDLINE];
+	wchar_t tszMsg[MAX_SECONDLINE];
 
 	mir_sntprintf(tszMsg, L"%s - %s", _T(SZ_SENDSS), TranslateT("Error"));
 	mir_free(m_ErrorTitle), m_ErrorTitle = mir_tstrdup(tszMsg);
@@ -456,7 +456,7 @@ void CSend::Exit(unsigned int Result)
 		if (err) {
 			SkinPlaySound("FileFailed");
 			if (m_ErrorMsg) MsgBoxService(NULL, (LPARAM)&m_box);
-			else MsgErr(NULL, LPGENT("An unknown error has occurred."));
+			else MsgErr(NULL, LPGENW("An unknown error has occurred."));
 		}
 	}
 	if (m_pszFile && *m_pszFile && m_bDeleteAfterSend && m_EnableItem&SS_DLG_DELETEAFTERSSEND) {

@@ -163,16 +163,16 @@ void DlgOption::SubColumns::onWMInitDialog()
 	static const struct
 	{
 		WORD iconId;
-		TCHAR* szTooltip;
+		wchar_t* szTooltip;
 		bool bRight;
 		bool bDropDown;
 		bool bDisabled;
 	}
 	columnBand[] = {
-		{ IDI_COL_ADD, LPGENT("Add column..."), false, true, false },
-		{ IDI_COL_DEL, LPGENT("Delete column"), false, false, true },
-		{ IDI_COL_DOWN, LPGENT("Move down"), true, false, true },
-		{ IDI_COL_UP, LPGENT("Move up"), true, false, true },
+		{ IDI_COL_ADD, LPGENW("Add column..."), false, true, false },
+		{ IDI_COL_DEL, LPGENW("Delete column"), false, false, true },
+		{ IDI_COL_DOWN, LPGENW("Move down"), true, false, true },
+		{ IDI_COL_UP, LPGENW("Move up"), true, false, true },
 	};
 
 	array_each_(i, columnBand)
@@ -311,7 +311,7 @@ void DlgOption::SubColumns::rearrangeControls()
 void DlgOption::SubColumns::toggleInfo()
 {
 	HWND hInfo = GetDlgItem(getHWnd(), IDC_INFO);
-	const TCHAR* szInfoLabelText = m_bShowInfo ? LPGENT("Hide additional column info...") : LPGENT("Show additional column info...");
+	const wchar_t* szInfoLabelText = m_bShowInfo ? LPGENW("Hide additional column info...") : LPGENW("Show additional column info...");
 
 	SetDlgItemText(getHWnd(), IDC_INFOLABEL, TranslateTS(szInfoLabelText));
 	ShowWindow(hInfo, m_bShowInfo ? SW_SHOW : SW_HIDE);
@@ -407,7 +407,7 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR)
 		tvi.item.state = TVIS_EXPANDED;
 		tvi.item.stateMask = TVIS_EXPANDED;
 
-		tvi.item.pszText = const_cast<TCHAR*>(TranslateT("For this config the selected column..."));
+		tvi.item.pszText = const_cast<wchar_t*>(TranslateT("For this config the selected column..."));
 		tvi.hParent = TreeView_InsertItem(hInfo, &tvi);
 
 		// show capabilities of column
@@ -425,7 +425,7 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR)
 			msg += ((restrictions & Column::crPNGMask) == Column::crPNGPartial) ? TranslateT("PNG (partial)") : L"PNG";
 		}
 
-		tvi.item.pszText = const_cast<TCHAR*>(msg.c_str());
+		tvi.item.pszText = const_cast<wchar_t*>(msg.c_str());
 		TreeView_InsertItem(hInfo, &tvi);
 
 		// show effect of current config
@@ -464,7 +464,7 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR)
 			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? L"HTML" : L"PNG";
 		}
 
-		tvi.item.pszText = const_cast<TCHAR*>(msg.c_str());
+		tvi.item.pszText = const_cast<wchar_t*>(msg.c_str());
 		TreeView_InsertItem(hInfo, &tvi);
 
 		SendMessage(hInfo, WM_SETREDRAW, TRUE, 0);

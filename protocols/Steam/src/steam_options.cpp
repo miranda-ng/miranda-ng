@@ -25,7 +25,7 @@ void CSteamOptionsMain::OnInitDialog()
 
 void CSteamOptionsMain::OnApply()
 {
-	TCHAR *group = m_group.GetText();
+	wchar_t *group = m_group.GetText();
 	if (mir_tstrlen(group) > 0 && !Clist_GroupExists(group))
 		Clist_GroupCreate(0, group);
 

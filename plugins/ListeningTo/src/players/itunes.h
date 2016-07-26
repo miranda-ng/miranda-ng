@@ -38,7 +38,7 @@ protected:
 	BOOL InitTempData();
 	void FreeTempData();
 	BOOL InitAndGetFilename();
-	int GetMetadata(char *metadata, TCHAR **data);
+	int GetMetadata(char *metadata, wchar_t **data);
 	BOOL FillCache();
 
 public:

@@ -66,8 +66,8 @@ tstring get_var_value(const tstring& rsHTML, LPCTSTR pszVarName, size_t cVarName
 	if (tstring::npos != n) {
 		size_t cLengthHTML = rsHTML.size();
 		for (size_t i = n + cVarNameLength; i < cLengthHTML; ++i) {
-			TCHAR c = rsHTML[i];
-			if (_T(';') == c)
+			wchar_t c = rsHTML[i];
+			if (';' == c)
 				break;
 
 			sResult.push_back(c);
@@ -87,8 +87,8 @@ tstring get_company_id(const tstring& rsHTML)
 	if (tstring::npos != n) {
 		size_t cLengthHTML = rsHTML.size();
 		for (size_t i = n + cVarNameLength; i < cLengthHTML; ++i) {
-			TCHAR c = rsHTML[i];
-			if (_T(')') == c)
+			wchar_t c = rsHTML[i];
+			if (')' == c)
 				break;
 
 			sResult.push_back(c);
@@ -103,10 +103,10 @@ tstring get_company_name(const tstring& rsHTML)
 	static size_t cVarNameLength = mir_tstrlen(pszVarName);
 
 	tstring s = get_var_value(rsHTML, pszVarName, cVarNameLength);
-	if (s.size() > 0 && _T('\'') == s[0])
+	if (s.size() > 0 && '\'' == s[0])
 		s.erase(s.begin());
 
-	if (s.size() > 0 && _T('\'') == s[s.size() - 1])
+	if (s.size() > 0 && '\'' == s[s.size() - 1])
 		s.erase(s.rbegin().base() - 1);
 
 	return s;
@@ -171,8 +171,8 @@ bool get_dif_value(const IHTMLNode::THTMLNodePtr& pNode, CGoogleInfo& rInfo, int
 	// this value is in brackets and it has percentage sign. 
 	// Remove these symbols.
 	for (tstring::iterator i = sDiff.begin(); i != sDiff.end();) {
-		TCHAR s = *i;
-		if (_T('(') == s || _T(')') == s || _T('%') == s)
+		wchar_t s = *i;
+		if ('(' == s || ')' == s || '%' == s)
 			i = sDiff.erase(i);
 		else
 			++i;

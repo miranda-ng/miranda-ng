@@ -86,7 +86,7 @@ void TlenResetSearchQuery(TlenProtocol *proto) {
 	proto->searchID = TlenSerialNext(proto);
 }
 
-HANDLE TlenProtocol::SearchBasic(const TCHAR* id)
+HANDLE TlenProtocol::SearchBasic(const wchar_t* id)
 {
 	int iqId = 0;
 	if (!isOnline) return 0;
@@ -104,7 +104,7 @@ HANDLE TlenProtocol::SearchBasic(const TCHAR* id)
 	return (HANDLE)iqId;
 }
 
-HANDLE TlenProtocol::SearchByEmail(const TCHAR* email)
+HANDLE TlenProtocol::SearchByEmail(const wchar_t* email)
 {
 	int iqId = 0;
 
@@ -123,7 +123,7 @@ HANDLE TlenProtocol::SearchByEmail(const TCHAR* email)
 	return (HANDLE)iqId;
 }
 
-HANDLE TlenProtocol::SearchByName(const TCHAR* nickT, const TCHAR* firstNameT, const TCHAR* lastNameT)
+HANDLE TlenProtocol::SearchByName(const wchar_t* nickT, const wchar_t* firstNameT, const wchar_t* lastNameT)
 {
 	if (!isOnline) return 0;
 
@@ -310,7 +310,7 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 	return 0;
 }
 
-int TlenProtocol::AuthDeny(MEVENT hDbEvent, const TCHAR*)
+int TlenProtocol::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 {
 	if (!isOnline)
 		return 1;
@@ -413,7 +413,7 @@ INT_PTR TlenProtocol::GetStatus(WPARAM, LPARAM)
 	return m_iStatus;
 }
 
-int TlenProtocol::SetAwayMsg(int iStatus, const TCHAR* msg)
+int TlenProtocol::SetAwayMsg(int iStatus, const wchar_t* msg)
 {
 	char **szMsg;
 	char *newModeMsg;
@@ -716,12 +716,12 @@ int TlenProtocol::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
 	return 0;
 }
 
-HANDLE TlenProtocol::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
+HANDLE TlenProtocol::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	if (!isOnline) return 0;
 
 	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)hTransfer;
-	ft->szSavePath = mir_strdup(mir_t2a(szPath));	//TODO convert to TCHAR*
+	ft->szSavePath = mir_strdup(mir_t2a(szPath));	//TODO convert to wchar_t*
 	TLEN_LIST_ITEM *item = TlenListAdd(this, LIST_FILE, ft->iqId);
 	if (item != NULL) {
 		item->ft = ft;
@@ -737,7 +737,7 @@ HANDLE TlenProtocol::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
 	return (HANDLE)hTransfer;
 }
 
-int TlenProtocol::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR*)
+int TlenProtocol::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t*)
 {
 	if (!isOnline) return 1;
 
@@ -754,7 +754,7 @@ int TlenProtocol::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR*)
 	return 0;
 }
 
-int TlenProtocol::FileResume(HANDLE, int*, const TCHAR**)
+int TlenProtocol::FileResume(HANDLE, int*, const wchar_t**)
 {
 	return 0;
 }
@@ -779,7 +779,7 @@ int TlenProtocol::FileCancel(MCONTACT, HANDLE hTransfer)
 	return 0;
 }
 
-HANDLE TlenProtocol::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
+HANDLE TlenProtocol::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)
 {
 	int i, j;
 	struct _stat statbuf;
@@ -1043,7 +1043,7 @@ int TlenProtocol::UserIsTyping(MCONTACT hContact, int type)
 
 INT_PTR TlenProtocol::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR* buf = (TCHAR*)wParam;
+	wchar_t* buf = (wchar_t*)wParam;
 	int  size = (int)lParam;
 	if (buf == NULL || size <= 0)
 		return -1;
@@ -1084,8 +1084,8 @@ INT_PTR TlenProtocol::SetMyAvatar(WPARAM, LPARAM lParam)
 		PUShowMessageT(TranslateT("You need to be connected to Tlen account to set avatar."), SM_WARNING);
 		return 1;
 	}
-	TCHAR* szFileName = (TCHAR*)lParam;
-	TCHAR tFileName[MAX_PATH];
+	wchar_t* szFileName = (wchar_t*)lParam;
+	wchar_t tFileName[MAX_PATH];
 	if (szFileName != NULL) {
 		int result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_USER_CHANGEAVATAR), NULL, TlenChangeAvatarDlgProc, (LPARAM)NULL);
 		TlenGetAvatarFileName(this, NULL, tFileName, MAX_PATH);
@@ -1173,7 +1173,7 @@ void TlenInitServicesVTbl(TlenProtocol *proto)
 	proto->CreateProtoService(PS_CREATEACCMGRUI, &TlenProtocol::AccMgrUI);
 }
 
-TlenProtocol::TlenProtocol(const char *aProtoName, const TCHAR *aUserName) :
+TlenProtocol::TlenProtocol(const char *aProtoName, const wchar_t *aUserName) :
 	PROTO<TlenProtocol>(aProtoName, aUserName)
 {
 	TlenInitServicesVTbl(this);

@@ -200,7 +200,7 @@ void CYahooProto::logout()
 	poll_loop = 0;
 }
 
-void CYahooProto::AddBuddy(MCONTACT hContact, const char *group, const TCHAR *msg)
+void CYahooProto::AddBuddy(MCONTACT hContact, const char *group, const wchar_t *msg)
 {
 	/* We adding a buddy to our list.
 	  2 Stages.
@@ -675,8 +675,8 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 	ptrT tszWho(mir_utf8decodeT(who));
 	ptrT tszMsg(mir_utf8decodeT(msg));
 
-	TCHAR buff[1024];
-	mir_sntprintf(buff, TranslateT("%s has rejected your request and sent the following message:"), (TCHAR*)tszWho);
+	wchar_t buff[1024];
+	mir_sntprintf(buff, TranslateT("%s has rejected your request and sent the following message:"), (wchar_t*)tszWho);
 	MessageBox(NULL, tszMsg, buff, MB_OK | MB_ICONINFORMATION);
 }
 
@@ -923,7 +923,7 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 		SkinPlaySound("mail");
 
 		if (!getByte("DisableYahoomail", 0)) {
-			TCHAR z[MAX_SECONDLINE], title[MAX_CONTACTNAME];
+			wchar_t z[MAX_SECONDLINE], title[MAX_CONTACTNAME];
 
 			if (from == NULL) {
 				mir_sntprintf(title, L"%s: %s", m_tszUserName, TranslateT("New Mail"));
@@ -934,7 +934,7 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 
 				ptrT tszFrom(mir_utf8decodeT(from));
 				ptrT tszSubj(mir_utf8decodeT(subj));
-				mir_sntprintf(z, TranslateT("From: %s\nSubject: %s"), (TCHAR*)tszFrom, (TCHAR*)tszSubj);
+				mir_sntprintf(z, TranslateT("From: %s\nSubject: %s"), (wchar_t*)tszFrom, (wchar_t*)tszSubj);
 			}
 
 			if (!ShowPopup(title, z, "http://mail.yahoo.com"))
@@ -1046,7 +1046,7 @@ void CYahooProto::ext_got_ping(const char *errormsg)
 
 void CYahooProto::ext_login_response(int succ, const char *url)
 {
-	TCHAR buff[1024];
+	wchar_t buff[1024];
 
 	LOG(("[ext_login_response] succ: %d, url: %s", succ, url));
 
@@ -1111,34 +1111,34 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 void CYahooProto::ext_error(const char *err, int fatal, int num)
 {
 	ptrT tszErr(mir_utf8decodeT(err));
-	TCHAR buff[1024];
+	wchar_t buff[1024];
 
 	LOG(("[ext_error] Error: fatal: %d, num: %d, err: %s", fatal, num, err));
 
 	switch (num) {
 	case E_UNKNOWN:
-		mir_sntprintf(buff, TranslateT("Unknown error %s"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("Unknown error %s"), (wchar_t*)tszErr);
 		break;
 	case E_CUSTOM:
-		mir_sntprintf(buff, TranslateT("Custom error %s"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("Custom error %s"), (wchar_t*)tszErr);
 		break;
 	case E_CONFNOTAVAIL:
-		mir_sntprintf(buff, TranslateT("%s is not available for the conference"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("%s is not available for the conference"), (wchar_t*)tszErr);
 		break;
 	case E_IGNOREDUP:
-		mir_sntprintf(buff, TranslateT("%s is already ignored"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("%s is already ignored"), (wchar_t*)tszErr);
 		break;
 	case E_IGNORENONE:
-		mir_sntprintf(buff, TranslateT("%s is not in the ignore list"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("%s is not in the ignore list"), (wchar_t*)tszErr);
 		break;
 	case E_IGNORECONF:
-		mir_sntprintf(buff, TranslateT("%s is in buddy list - cannot ignore"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("%s is in buddy list - cannot ignore"), (wchar_t*)tszErr);
 		break;
 	case E_SYSTEM:
-		mir_sntprintf(buff, TranslateT("System Error: %s"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("System Error: %s"), (wchar_t*)tszErr);
 		break;
 	case E_CONNECTION:
-		mir_sntprintf(buff, TranslateT("Server Connection Error: %s"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("Server Connection Error: %s"), (wchar_t*)tszErr);
 		debugLogA("Error: %S", buff);
 		return;
 	}

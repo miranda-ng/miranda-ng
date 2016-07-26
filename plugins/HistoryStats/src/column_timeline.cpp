@@ -47,19 +47,19 @@ void ColTimeline::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 	m_hDetail    = Opt.insertCheck(hGroup, TranslateT("Details for every bar (tooltip)"));
 	m_hDays      = Opt.insertEdit (hGroup, TranslateT("Number of days to group"), L"", OptionsCtrl::OCF_NUMBER);
 
-	static const TCHAR* sourceTexts[] = {
-		LPGENT("Characters (incoming)"),
-		LPGENT("Characters (outgoing)"),
-		LPGENT("Characters (all)"),
-		LPGENT("Characters (in/out ratio)"),
-		LPGENT("Messages (incoming)"),
-		LPGENT("Messages (outgoing)"),
-		LPGENT("Messages (all)"),
-		LPGENT("Messages (in/out ratio)"),
-		LPGENT("Chats (incoming)"),
-		LPGENT("Chats (outgoing)"),
-		LPGENT("Chats (all)"),
-		LPGENT("Chats (in/out ratio)"),
+	static const wchar_t* sourceTexts[] = {
+		LPGENW("Characters (incoming)"),
+		LPGENW("Characters (outgoing)"),
+		LPGENW("Characters (all)"),
+		LPGENW("Characters (in/out ratio)"),
+		LPGENW("Messages (incoming)"),
+		LPGENW("Messages (outgoing)"),
+		LPGENW("Messages (all)"),
+		LPGENW("Messages (in/out ratio)"),
+		LPGENW("Chats (incoming)"),
+		LPGENW("Chats (outgoing)"),
+		LPGENW("Chats (all)"),
+		LPGENW("Chats (in/out ratio)"),
 	};
 
 	array_each_(i, sourceTexts)
@@ -190,19 +190,19 @@ Column::StyleList ColTimeline::impl_outputGetAdditionalStyles(IDProvider& idp)
 
 void ColTimeline::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const TCHAR* szSourceDesc[] = {
-		LPGENT("incoming characters"),
-		LPGENT("outgoing characters"),
-		LPGENT("all characters"),
-		LPGENT("in/out ratio of characters"),
-		LPGENT("incoming messages"),
-		LPGENT("outgoing messages"),
-		LPGENT("all messages"),
-		LPGENT("in/out ratio of messages"),
-		LPGENT("incoming chats"),
-		LPGENT("outgoing chats"),
-		LPGENT("all chats"),
-		LPGENT("in/out ratio of chats"),
+	static const wchar_t* szSourceDesc[] = {
+		LPGENW("incoming characters"),
+		LPGENW("outgoing characters"),
+		LPGENW("all characters"),
+		LPGENW("in/out ratio of characters"),
+		LPGENW("incoming messages"),
+		LPGENW("outgoing messages"),
+		LPGENW("all messages"),
+		LPGENW("in/out ratio of messages"),
+		LPGENW("incoming chats"),
+		LPGENW("outgoing chats"),
+		LPGENW("all chats"),
+		LPGENW("in/out ratio of chats"),
 	};
 
 	if (row == 1)

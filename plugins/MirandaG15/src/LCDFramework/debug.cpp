@@ -25,9 +25,9 @@
 	}
 #endif
 
-void _trace(TCHAR *fmt, ...)
+void _trace(wchar_t *fmt, ...)
 {
-	TCHAR out[1024];
+	wchar_t out[1024];
 	va_list body;
 	va_start(body, fmt);
 #ifdef _UNICODE

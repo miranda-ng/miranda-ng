@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 
 #include "extraicons.h"
 
-BaseExtraIcon::BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param) :
+BaseExtraIcon::BaseExtraIcon(int id, const char *name, const wchar_t *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param) :
 	ExtraIcon(name),
 	m_id(id),
 	m_OnClick(OnClick),
@@ -48,12 +48,12 @@ int BaseExtraIcon::getID() const
 	return m_id;
 }
 
-const TCHAR* BaseExtraIcon::getDescription() const
+const wchar_t* BaseExtraIcon::getDescription() const
 {
 	return m_tszDescription;
 }
 
-void BaseExtraIcon::setDescription(const TCHAR *desc)
+void BaseExtraIcon::setDescription(const wchar_t *desc)
 {
 	m_tszDescription = mir_tstrdup(desc);
 }

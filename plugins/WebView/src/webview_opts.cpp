@@ -23,38 +23,38 @@
 #include "stdafx.h"
 #include "webview.h"
 
-const TCHAR *szTrackerBarDescr[] = {
-	LPGENT("No whitespace removal"),
-	LPGENT("Minimal level of whitespace removal"),
-	LPGENT("Medium level of whitespace removal"),
-	LPGENT("Large level of whitespace removal"),
-	LPGENT("Remove all whitespace")
+const wchar_t *szTrackerBarDescr[] = {
+	LPGENW("No whitespace removal"),
+	LPGENW("Minimal level of whitespace removal"),
+	LPGENW("Medium level of whitespace removal"),
+	LPGENW("Large level of whitespace removal"),
+	LPGENW("Remove all whitespace")
 };
 
 static char  *fontSizes[] = { "8", "10", "14", "16", "18", "20", "24", "28" };
-static TCHAR *AlertTypes[] = { LPGENT("Popup plugin"), LPGENT("Log to file"), LPGENT("Open data display window"), LPGENT("Use OSD plugin") };
-static TCHAR *EventTypes[] = { LPGENT("A string is present"), LPGENT("The web page changes"), LPGENT("A specific part of web page changes") };
+static wchar_t *AlertTypes[] = { LPGENW("Popup plugin"), LPGENW("Log to file"), LPGENW("Open data display window"), LPGENW("Use OSD plugin") };
+static wchar_t *EventTypes[] = { LPGENW("A string is present"), LPGENW("The web page changes"), LPGENW("A specific part of web page changes") };
 
 #define M_FILLSCRIPTCOMBO    (WM_USER+16)
 
-TCHAR* FixButtonText(TCHAR *url, size_t len)
+wchar_t* FixButtonText(wchar_t *url, size_t len)
 {
-	TCHAR buttontext[256], stringbefore[256], newbuttontext[256];
-	_tcsncpy_s(buttontext, url, _TRUNCATE);
-	_tcsncpy_s(newbuttontext, url, _TRUNCATE);
+	wchar_t buttontext[256], stringbefore[256], newbuttontext[256];
+	wcsncpy_s(buttontext, url, _TRUNCATE);
+	wcsncpy_s(newbuttontext, url, _TRUNCATE);
 
-	if (_tcschr(newbuttontext, '&') != 0) {
+	if (wcschr(newbuttontext, '&') != 0) {
 		while (true) {
-			if (_tcschr(newbuttontext, '&') == 0)
+			if (wcschr(newbuttontext, '&') == 0)
 				break;
 
-			_tcsncpy_s(buttontext, newbuttontext, _TRUNCATE);
-			TCHAR *stringafter = _tcschr(buttontext, '&');
+			wcsncpy_s(buttontext, newbuttontext, _TRUNCATE);
+			wchar_t *stringafter = wcschr(buttontext, '&');
 			int pos = (stringafter - buttontext);
 			int posbefore = (stringafter - buttontext) - 1;
 			int posafter = (stringafter - buttontext) + 1;
 			strdelt(stringafter, 1);
-			_tcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
+			wcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
 			mir_sntprintf(newbuttontext, L"%s!!%s", stringbefore, stringafter);
 
 			posafter = 0;
@@ -62,17 +62,17 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 		}
 
 		while (true) {
-			if (_tcschr(newbuttontext, '!') != 0) {
-				TCHAR *stringafter = _tcschr(newbuttontext, '!');
+			if (wcschr(newbuttontext, '!') != 0) {
+				wchar_t *stringafter = wcschr(newbuttontext, '!');
 				int pos = (stringafter - newbuttontext);
 				newbuttontext[pos] = '&';
 			}
-			if (_tcschr(newbuttontext, '!') == 0)
+			if (wcschr(newbuttontext, '!') == 0)
 				break;
 		}
 	}
 
-	_tcsncpy_s(url, len, newbuttontext, _TRUNCATE);
+	wcsncpy_s(url, len, newbuttontext, _TRUNCATE);
 	return url;
 }
 
@@ -188,7 +188,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_PREVIEW:
 			{
-				TCHAR str3[512];
+				wchar_t str3[512];
 				POPUPDATAT ppd = { 0 };
 
 				GetDlgItemText(hdlg, IDC_DELAY, str3, _countof(str3));
@@ -212,7 +212,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				ppd.colorBack = BGColour;
 				ppd.colorText = TextColour;
 				ppd.PluginWindowProc = NULL;
-				ppd.iSeconds = _ttol(str3);
+				ppd.iSeconds = _wtol(str3);
 				// display popups
 				PUAddPopupT(&ppd);
 			}
@@ -224,10 +224,10 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case PSN_APPLY:
 			{
 				int popupdelayval = 0;
-				TCHAR str2[512];
+				wchar_t str2[512];
 				GetDlgItemText(hdlg, IDC_DELAY, str2, _countof(str2));
 
-				popupdelayval = _ttol(str2);
+				popupdelayval = _wtol(str2);
 				db_set_dw(NULL, MODULENAME, POP_DELAY_KEY, popupdelayval);
 
 				db_set_b(NULL, MODULENAME, LCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WINDOW));
@@ -439,7 +439,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		switch (LOWORD(wParam)) {
 		case IDC_BROWSE:
 			{
-				TCHAR szFileName[MAX_PATH];
+				wchar_t szFileName[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, szFileName, _countof(szFileName));
 
 				OPENFILENAME ofn = { 0 };
@@ -698,7 +698,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_OK2:
 			{
 				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				TCHAR buf[MAX_PATH];
+				wchar_t buf[MAX_PATH];
 
 				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
 				alertIndex = db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0);
@@ -799,7 +799,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	TCHAR url[300];
+	wchar_t url[300];
 	HWND ParentHwnd = GetParent(hwndDlg);
 	static int test;
 	static int test2;
@@ -914,7 +914,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		case IDC_CPY_STRINGS:
 			{
-				TCHAR string[128];
+				wchar_t string[128];
 				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				GetDlgItemText(hwndDlg, IDC_START, string, _countof(string));
@@ -950,7 +950,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDC_OPT_APPLY:
 		case IDOK:
 			{
-				TCHAR str[128], contactname[128];
+				wchar_t str[128], contactname[128];
 				if (!GetWindowTextLength(GetDlgItem(hwndDlg, IDC_URL))) {
 					MessageBox(NULL, TranslateT("You need to supply a URL."), _T(MODULENAME), MB_OK);
 					break;
@@ -973,39 +973,39 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				}
 
 				GetDlgItemText(hwndDlg, IDC_SITE_NAME, contactname, _countof(contactname));
-				if (_tcschr(contactname, '\\') != NULL) {
+				if (wcschr(contactname, '\\') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
 				}
-				if (_tcschr(contactname, '/') != NULL) {
+				if (wcschr(contactname, '/') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
 				}
-				if (_tcschr(contactname, ':') != NULL) {
+				if (wcschr(contactname, ':') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
 				}
-				if (_tcschr(contactname, '*') != NULL) {
+				if (wcschr(contactname, '*') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
 				}
-				if (_tcschr(contactname, '?') != NULL) {
+				if (wcschr(contactname, '?') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
 				}
-				if (_tcschr(contactname, '\"') != NULL) {
+				if (wcschr(contactname, '\"') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
 				}
-				if (_tcschr(contactname, '<') != NULL) {
+				if (wcschr(contactname, '<') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
 				}
-				if (_tcschr(contactname, '>') != NULL) {
+				if (wcschr(contactname, '>') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
 				}
-				if (_tcschr(contactname, '|') != NULL) {
+				if (wcschr(contactname, '|') != NULL) {
 					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _T(MODULENAME), MB_OK);
 					break;
 				}
@@ -1267,7 +1267,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			db_set_b(NULL, MODULENAME, NO_PROTECT_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NO_PROTECT));
 			db_set_b(NULL, MODULENAME, DATA_POPUP_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DATAPOPUP));
 
-			TCHAR str[100];
+			wchar_t str[100];
 			GetDlgItemText(hwndDlg, IDC_TYPEFACE, str, _countof(str));
 			db_set_ts(NULL, MODULENAME, FONT_FACE_KEY, str);
 

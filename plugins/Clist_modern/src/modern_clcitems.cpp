@@ -406,9 +406,9 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 
 	if (dat != NULL && dat->bFilterSearch && pdnce && pdnce->tszName) {
 		// search filtering
-		TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(pdnce->tszName));
-		TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
-		searchResult = _tcsstr(lowered_name, lowered_search) ? 0 : 1;
+		wchar_t *lowered_name = CharLowerW(NEWWSTR_ALLOCA(pdnce->tszName));
+		wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
+		searchResult = wcsstr(lowered_name, lowered_search) ? 0 : 1;
 	}
 	
 	if (pdnce && g_CluiData.bFilterEffective && dat != NULL && !dat->bForceInDialog) {
@@ -435,9 +435,9 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
 			ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 			if (tszGroup != NULL) {
-				TCHAR szGroupMask[256];
+				wchar_t szGroupMask[256];
 				mir_sntprintf(szGroupMask, L"%s|", tszGroup);
-				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));
+				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (wcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));
 			}
 			else if (g_CluiData.filterFlags & CLVM_INCLUDED_UNGROUPED)
 				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? filterResult : filterResult & 1;

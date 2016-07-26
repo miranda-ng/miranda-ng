@@ -148,7 +148,7 @@ public:
 	TSplitterBroadCast lastSPlitterPos;
 	TContainerSettings globalContainerSettings;
 
-	static TCHAR* m_default_container_name;
+	static wchar_t* m_default_container_name;
 
 	static void logStatusChange(WPARAM wParam, const CContactCache *c);
 

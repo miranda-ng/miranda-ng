@@ -25,7 +25,7 @@ INT FileCount = 0, CurrentFile = 0, Number = 0;
 BYTE Reminder, AutoUpdate;
 BYTE UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
 INT Period;
-TCHAR tszDialogMsg[2048] = { 0 };
+wchar_t tszDialogMsg[2048] = { 0 };
 FILEINFO* pFileInfo = NULL;
 FILEURL* pFileUrl = NULL;
 HANDLE hCheckThread = NULL, hNetlibUser = NULL;
@@ -162,7 +162,7 @@ BOOL Exists(LPCTSTR strName)
 	return GetFileAttributes(strName) != INVALID_FILE_ATTRIBUTES;
 }
 
-BOOL IsPluginDisabled(TCHAR* filename)
+BOOL IsPluginDisabled(wchar_t* filename)
 {
 	char* fname = mir_t2a(filename);
 	int res = db_get_b(NULL, "PluginDisable", fname, 0);
@@ -170,16 +170,16 @@ BOOL IsPluginDisabled(TCHAR* filename)
 	return res;
 }
 
-size_t getVer(const TCHAR* verStr)
+size_t getVer(const wchar_t* verStr)
 {
 	int v1 = 0, v2 = 0, v3 = 0, v4 = 0;
-	_stscanf(verStr, L"%d.%d.%d.%d", &v1, &v2, &v3, &v4);
+	swscanf(verStr, L"%d.%d.%d.%d", &v1, &v2, &v3, &v4);
 	return v1 * 10000000 + v2 * 100000 + v3 * 1000 + v4;
 }
 
 static void CheckUpdates(void *)
 {
-	TCHAR tszBuff[2048] = { 0 }, tszFileInfo[30] = { 0 }, tszTmpIni[MAX_PATH] = { 0 };
+	wchar_t tszBuff[2048] = { 0 }, tszFileInfo[30] = { 0 }, tszTmpIni[MAX_PATH] = { 0 };
 	char szKey[64] = { 0 };
 	vector<FILEINFO> UpdateFiles;
 
@@ -246,7 +246,7 @@ static void CheckUpdates(void *)
 		GetPrivateProfileString(tszFileInfo, L"Descr", L"", Files[CurrentFile].tszDescr, _countof(Files[CurrentFile].tszDescr), tszTmpIni);
 		GetPrivateProfileString(tszFileInfo, L"DiskFileName", L"", tszBuff, MAX_PATH, tszTmpIni);
 
-		if (_tcsstr(tszBuff, L"\\")) { //check update name
+		if (wcsstr(tszBuff, L"\\")) { //check update name
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Name of Update's file is not supported.");
 			if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
@@ -268,7 +268,7 @@ static void CheckUpdates(void *)
 				mir_sntprintf(tszBuff, L"Plugins\\%s", Files[CurrentFile].File.tszDiskPath);
 			else
 				mir_sntprintf(tszBuff, L"Plugins\\%s\\%s", Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
-			TCHAR pluginFolderName[MAX_PATH];
+			wchar_t pluginFolderName[MAX_PATH];
 			PathToAbsoluteT(tszBuff, pluginFolderName);
 			if (!Files[CurrentFile].Force && (IsPluginDisabled(Files[CurrentFile].File.tszDiskPath) || !Exists(pluginFolderName))) //check if plugin disabled or not exists
 				continue;
@@ -278,7 +278,7 @@ static void CheckUpdates(void *)
 			VARST tszSysRoot(L"%SystemRoot%");
 			VARST tszProgFiles(L"%ProgramFiles%");
 
-			if (Files[CurrentFile].FileType != 1 && !IsUserAnAdmin() && (_tcsstr(tszRoot, tszSysRoot) || _tcsstr(tszRoot, tszProgFiles))) {
+			if (Files[CurrentFile].FileType != 1 && !IsUserAnAdmin() && (wcsstr(tszRoot, tszSysRoot) || wcsstr(tszRoot, tszProgFiles))) {
 				MessageBox(NULL, TranslateT("Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights."), Title, MB_ICONINFORMATION);
 				DeleteFile(tszTmpIni);
 				hCheckThread = NULL;
@@ -286,7 +286,7 @@ static void CheckUpdates(void *)
 			} // user have not admin's rights
 
 			//добавить проверку на существование файла
-			TCHAR tszFilePathDest[MAX_PATH] = { 0 };
+			wchar_t tszFilePathDest[MAX_PATH] = { 0 };
 			switch (Files[CurrentFile].FileType) {
 			case 0:
 			case 1:
@@ -309,7 +309,7 @@ static void CheckUpdates(void *)
 				break;
 			case 4:
 			case 5: {
-				TCHAR *tszUtilRoot = VARST(L"%miranda_path%");
+				wchar_t *tszUtilRoot = VARST(L"%miranda_path%");
 				if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
 					mir_sntprintf(tszFilePathDest, L"%s\\%s", tszUtilRoot, Files[CurrentFile].File.tszDiskPath);
 				else

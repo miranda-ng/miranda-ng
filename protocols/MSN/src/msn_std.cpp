@@ -43,12 +43,12 @@ void CMsnProto::setStringUtf(MCONTACT hContact, const char* name, const char* va
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TCHAR* CMsnProto::GetContactNameT(MCONTACT hContact)
+wchar_t* CMsnProto::GetContactNameT(MCONTACT hContact)
 {
 	if (hContact)
-		return (TCHAR*)pcli->pfnGetContactDisplayName(WPARAM(hContact), 0);
+		return (wchar_t*)pcli->pfnGetContactDisplayName(WPARAM(hContact), 0);
 
-	TCHAR *str = Contact_GetInfo(CNF_DISPLAY, NULL, m_szModuleName);
+	wchar_t *str = Contact_GetInfo(CNF_DISPLAY, NULL, m_szModuleName);
 	if (str != NULL) {
 		mir_free(m_DisplayNameCache);
 		return m_DisplayNameCache = str;

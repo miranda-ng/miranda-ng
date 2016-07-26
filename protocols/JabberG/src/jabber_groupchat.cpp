@@ -40,12 +40,12 @@ struct JabberGcRecentInfo
 	{
 		ppro = proto;
 	}
-	JabberGcRecentInfo(CJabberProto *proto, const TCHAR *room, const TCHAR *server, const TCHAR *nick = NULL, const TCHAR *password = NULL)
+	JabberGcRecentInfo(CJabberProto *proto, const wchar_t *room, const wchar_t *server, const wchar_t *nick = NULL, const wchar_t *password = NULL)
 	{
 		ppro = proto;
 		fillData(room, server, nick, password);
 	}
-	JabberGcRecentInfo(CJabberProto *proto, const TCHAR *jid)
+	JabberGcRecentInfo(CJabberProto *proto, const wchar_t *jid)
 	{
 		ppro = proto;
 		fillData(jid);
@@ -65,7 +65,7 @@ struct JabberGcRecentInfo
 		m_room = m_server = m_nick = m_password = NULL;
 	}
 
-	BOOL equals(const TCHAR *room, const TCHAR *server, const TCHAR *nick = NULL, const TCHAR *password = NULL)
+	BOOL equals(const wchar_t *room, const wchar_t *server, const wchar_t *nick = NULL, const wchar_t *password = NULL)
 	{
 		return
 			null_strequals(m_room, room) &&
@@ -74,7 +74,7 @@ struct JabberGcRecentInfo
 			null_strequals(m_password, password);
 	}
 
-	BOOL equalsnp(const TCHAR *room, const TCHAR *server, const TCHAR *nick = NULL)
+	BOOL equalsnp(const wchar_t *room, const wchar_t *server, const wchar_t *nick = NULL)
 	{
 		return
 			null_strequals(m_room, room) &&
@@ -90,7 +90,7 @@ struct JabberGcRecentInfo
 		SetDlgItemText(hwndDlg, IDC_PASSWORD, m_password ? m_password : L"");
 	}
 
-	void fillData(const TCHAR *room, const TCHAR *server, const TCHAR *nick = NULL, const TCHAR *password = NULL)
+	void fillData(const wchar_t *room, const wchar_t *server, const wchar_t *nick = NULL, const wchar_t *password = NULL)
 	{
 		m_room = mir_tstrdup(room);
 		m_server = mir_tstrdup(server);
@@ -98,14 +98,14 @@ struct JabberGcRecentInfo
 		m_password = mir_tstrdup(password);
 	}
 
-	void fillData(const TCHAR *jid)
+	void fillData(const wchar_t *jid)
 	{
-		TCHAR *room, *server, *nick = NULL;
-		room = NEWTSTR_ALLOCA(jid);
-		server = _tcschr(room, _T('@'));
+		wchar_t *room, *server, *nick = NULL;
+		room = NEWWSTR_ALLOCA(jid);
+		server = wcschr(room, '@');
 		if (server) {
 			*server++ = 0;
-			nick = _tcschr(server, _T('/'));
+			nick = wcschr(server, '/');
 			if (nick) *nick++ = 0;
 		}
 		else {
@@ -164,7 +164,7 @@ struct JabberGcRecentInfo
 	}
 
 private:
-	BOOL null_strequals(const TCHAR *str1, const TCHAR *str2)
+	BOOL null_strequals(const wchar_t *str1, const wchar_t *str2)
 	{
 		if (!str1 && !str2) return TRUE;
 		if (!str1 && str2 && !*str2) return TRUE;
@@ -197,7 +197,7 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM hContact, LPARAM)
 	ptrT password(getTStringA(hContact, "Password"));
 
 	if (getWord(hContact, "Status", 0) != ID_STATUS_ONLINE) {
-		TCHAR *p = _tcschr(jid, '@');
+		wchar_t *p = wcschr(jid, '@');
 		if (p != NULL) {
 			*p++ = 0;
 			GroupchatJoinRoom(p, jid, nick, password);
@@ -220,7 +220,7 @@ INT_PTR __cdecl CJabberProto::OnLeaveChat(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, const TCHAR *nick, const TCHAR *password, bool autojoin)
+void CJabberProto::GroupchatJoinRoom(const wchar_t *server, const wchar_t *room, const wchar_t *nick, const wchar_t *password, bool autojoin)
 {
 	JabberGcRecentInfo info(this);
 
@@ -245,7 +245,7 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 		info.saveRecent(0);
 	}
 
-	TCHAR text[JABBER_MAX_JID_LEN + 1];
+	wchar_t text[JABBER_MAX_JID_LEN + 1];
 	mir_sntprintf(text, L"%s@%s/%s", room, server, nick);
 
 	JABBER_LIST_ITEM *item = ListAdd(LIST_CHATROOM, text);
@@ -270,10 +270,10 @@ struct RoomInfo
 {
 	enum Overlay { ROOM_WAIT, ROOM_FAIL, ROOM_BOOKMARK, ROOM_DEFAULT };
 	Overlay	overlay;
-	TCHAR	*line1, *line2;
+	wchar_t	*line1, *line2;
 };
 
-static int sttRoomListAppend(HWND hwndList, RoomInfo::Overlay overlay, const TCHAR *line1, const TCHAR *line2, const TCHAR *name)
+static int sttRoomListAppend(HWND hwndList, RoomInfo::Overlay overlay, const wchar_t *line1, const wchar_t *line2, const wchar_t *name)
 {
 	RoomInfo *info = (RoomInfo *)mir_alloc(sizeof(RoomInfo));
 	info->overlay = overlay;
@@ -307,10 +307,10 @@ void CJabberProto::OnIqResultDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 			bool found = false;
 			HXML item;
 			for (int i = 1; item = XmlGetNthChild(query, L"item", i); i++) {
-				const TCHAR *jid = XmlGetAttrValue(item, L"jid");
-				TCHAR *name = NEWTSTR_ALLOCA(jid);
+				const wchar_t *jid = XmlGetAttrValue(item, L"jid");
+				wchar_t *name = NEWWSTR_ALLOCA(jid);
 				if (name) {
-					if (TCHAR *p = _tcschr(name, _T('@')))
+					if (wchar_t *p = wcschr(name, '@'))
 						*p = 0;
 				}
 				else name = L"";
@@ -333,7 +333,7 @@ void CJabberProto::OnIqResultDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 	}
 	else if (pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR) {
 		HXML errorNode = XmlGetChild(iqNode, "error");
-		TCHAR *str = JabberErrorMsg(errorNode);
+		wchar_t *str = JabberErrorMsg(errorNode);
 		sttRoomListAppend(hwndList, RoomInfo::ROOM_FAIL,
 			TranslateT("Jabber Error"),
 			str,
@@ -386,11 +386,11 @@ class CJabberDlgGcJoin : public CJabberDlgBase
 	CCtrlButton btnOk;
 
 public:
-	CJabberDlgGcJoin(CJabberProto *proto, TCHAR *jid);
+	CJabberDlgGcJoin(CJabberProto *proto, wchar_t *jid);
 	~CJabberDlgGcJoin();
 
 protected:
-	TCHAR *m_jid;
+	wchar_t *m_jid;
 
 	void OnInitDialog();
 	void OnDestroy();
@@ -400,7 +400,7 @@ protected:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
-CJabberDlgGcJoin::CJabberDlgGcJoin(CJabberProto *proto, TCHAR *jid) :
+CJabberDlgGcJoin::CJabberDlgGcJoin(CJabberProto *proto, wchar_t *jid) :
 	CSuper(proto, IDD_GROUPCHAT_JOIN, NULL),
 	btnOk(this, IDOK),
 	m_jid(mir_tstrdup(jid))
@@ -426,8 +426,8 @@ void CJabberDlgGcJoin::OnInitDialog()
 		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
 
 		if (hData) {
-			TCHAR *buf = (TCHAR *)GlobalLock(hData);
-			if (buf && _tcschr(buf, _T('@')) && !_tcschr(buf, _T(' ')))
+			wchar_t *buf = (wchar_t *)GlobalLock(hData);
+			if (buf && wcschr(buf, '@') && !wcschr(buf, ' '))
 				pInfo = new JabberGcRecentInfo(m_proto, buf);
 			GlobalUnlock(hData);
 		}
@@ -466,7 +466,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 
 	int i;
 	for (i = 0; i < 5; i++) {
-		TCHAR jid[JABBER_MAX_JID_LEN];
+		wchar_t jid[JABBER_MAX_JID_LEN];
 		JabberGcRecentInfo info(m_proto);
 		if (!info.loadRecent(i))
 			break;
@@ -490,20 +490,20 @@ void CJabberDlgGcJoin::OnDestroy()
 
 void CJabberDlgGcJoin::OnBtnOk(CCtrlButton*)
 {
-	TCHAR text[128];
+	wchar_t text[128];
 	GetDlgItemText(m_hwnd, IDC_SERVER, text, _countof(text));
-	TCHAR *server = NEWTSTR_ALLOCA(text), *room;
+	wchar_t *server = NEWWSTR_ALLOCA(text), *room;
 
 	m_proto->ComboAddRecentString(m_hwnd, IDC_SERVER, "joinWnd_rcSvr", server);
 
 	GetDlgItemText(m_hwnd, IDC_ROOM, text, _countof(text));
-	room = NEWTSTR_ALLOCA(text);
+	room = NEWWSTR_ALLOCA(text);
 
 	GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
-	TCHAR *nick = NEWTSTR_ALLOCA(text);
+	wchar_t *nick = NEWWSTR_ALLOCA(text);
 
 	GetDlgItemText(m_hwnd, IDC_PASSWORD, text, _countof(text));
-	TCHAR *password = NEWTSTR_ALLOCA(text);
+	wchar_t *password = NEWWSTR_ALLOCA(text);
 	m_proto->GroupchatJoinRoom(server, room, nick, password);
 }
 
@@ -620,7 +620,7 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					SendDlgItemMessage(m_hwnd, IDC_ROOM, CB_RESETCONTENT, 0, 0);
 
 					int len = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_SERVER)) + 1;
-					TCHAR *server = (TCHAR*)_alloca(len * sizeof(TCHAR));
+					wchar_t *server = (wchar_t*)_alloca(len * sizeof(wchar_t));
 					GetDlgItemText(m_hwnd, IDC_SERVER, server, len);
 
 					if (*server) {
@@ -669,9 +669,9 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					m_proto->OnMenuHandleBookmarks(0, 0);
 				else if (res) {
 					JABBER_LIST_ITEM *item = (JABBER_LIST_ITEM *)res;
-					TCHAR *room = NEWTSTR_ALLOCA(item->jid);
+					wchar_t *room = NEWWSTR_ALLOCA(item->jid);
 					if (room) {
-						TCHAR *server = _tcschr(room, _T('@'));
+						wchar_t *server = wcschr(room, '@');
 						if (server) {
 							*server++ = 0;
 
@@ -711,7 +711,7 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CSuper::DlgProc(msg, wParam, lParam);
 }
 
-void CJabberProto::GroupchatJoinRoomByJid(HWND, TCHAR *jid)
+void CJabberProto::GroupchatJoinRoomByJid(HWND, wchar_t *jid)
 {
 	if (m_pDlgJabberJoinGroupchat)
 		SetForegroundWindow(m_pDlgJabberJoinGroupchat->GetHwnd());
@@ -726,7 +726,7 @@ void CJabberProto::GroupchatJoinRoomByJid(HWND, TCHAR *jid)
 
 struct JabberGroupchatChangeNicknameParam
 {
-	JabberGroupchatChangeNicknameParam(CJabberProto* ppro_, const TCHAR *jid_) :
+	JabberGroupchatChangeNicknameParam(CJabberProto* ppro_, const wchar_t *jid_) :
 		ppro(ppro_),
 		jid(mir_tstrdup(jid_))
 		{}
@@ -736,7 +736,7 @@ struct JabberGroupchatChangeNicknameParam
 	}
 
 	CJabberProto *ppro;
-	TCHAR *jid;
+	wchar_t *jid;
 };
 
 static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
@@ -767,17 +767,17 @@ static int sttGetStatusCode(HXML node)
 	if (statusNode == NULL)
 		return -1;
 
-	const TCHAR *statusCode = XmlGetAttrValue(statusNode, L"code");
+	const wchar_t *statusCode = XmlGetAttrValue(statusNode, L"code");
 	if (statusCode == NULL)
 		return -1;
 
-	return _ttol(statusCode);
+	return _wtol(statusCode);
 }
 
-void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *oldNick, HXML itemNode)
+void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const wchar_t *oldNick, HXML itemNode)
 {
-	const TCHAR *jid = XmlGetAttrValue(itemNode, L"jid");
-	const TCHAR *newNick = XmlGetAttrValue(itemNode, L"nick");
+	const wchar_t *jid = XmlGetAttrValue(itemNode, L"jid");
+	const wchar_t *newNick = XmlGetAttrValue(itemNode, L"nick");
 	if (newNick == NULL)
 		return;
 
@@ -813,12 +813,12 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *ol
 
 void CJabberProto::GroupchatProcessPresence(HXML node)
 {
-	const TCHAR *from;
+	const wchar_t *from;
 
 	if (!node || !XmlGetName(node) || mir_tstrcmp(XmlGetName(node), L"presence")) return;
 	if ((from = XmlGetAttrValue(node, L"from")) == NULL) return;
 
-	const TCHAR *resource = _tcschr(from, '/');
+	const wchar_t *resource = wcschr(from, '/');
 	if (resource == NULL || *++resource == '\0')
 		return;
 
@@ -829,8 +829,8 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	pResourceStatus r(item->findResource(resource));
 
 	HXML nNode = XmlGetChildByTag(node, "nick", "xmlns", JABBER_FEAT_NICK);
-	const TCHAR *cnick = XmlGetText(nNode);
-	const TCHAR *nick = cnick ? cnick : (r && r->m_tszNick ? r->m_tszNick : resource);
+	const wchar_t *cnick = XmlGetText(nNode);
+	const wchar_t *nick = cnick ? cnick : (r && r->m_tszNick ? r->m_tszNick : resource);
 
 	// process custom nick change
 	if (cnick && r && r->m_tszNick && mir_tstrcmp(cnick, r->m_tszNick))
@@ -839,7 +839,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	HXML xNode = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_MUC_USER);
 	HXML itemNode = XmlGetChild(xNode, "item");
 
-	const TCHAR *type = XmlGetAttrValue(node, L"type");
+	const wchar_t *type = XmlGetAttrValue(node, L"type");
 
 	// entering room or a usual room presence
 	if (type == NULL || !mir_tstrcmp(type, L"available")) {
@@ -863,7 +863,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 		char priority = 0;
 		if (LPCTSTR ptszPriority = XmlGetText(XmlGetChild(node, "priority")))
-			priority = (char)_ttoi(ptszPriority);
+			priority = (char)_wtoi(ptszPriority);
 
 		bool bStatusChanged = false, bRoomCreated = false, bAffiliationChanged = false, bRoleChanged = false;
 		int  newRes = ListAddResource(LIST_CHATROOM, from, status, str, priority, cnick) ? GC_EVENT_JOIN : 0;
@@ -947,7 +947,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 	// leaving room
 	else if (!mir_tstrcmp(type, L"unavailable")) {
-		const TCHAR *str = 0;
+		const wchar_t *str = 0;
 		if (xNode != NULL && item->nick != NULL) {
 			HXML reasonNode = XmlGetChild(itemNode, "reason");
 			str = XmlGetAttrValue(itemNode, L"jid");
@@ -1003,7 +1003,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 			ptrT newNick(getTStringA("GcAltNick"));
 			if (++item->iChatState == 1 && newNick != NULL && newNick[0] != 0) {
 				replaceStrT(item->nick, newNick);
-				TCHAR text[1024] = { 0 };
+				wchar_t text[1024] = { 0 };
 				mir_sntprintf(text, L"%s/%s", item->jid, newNick);
 				SendPresenceTo(m_iStatus, text, NULL);
 			}
@@ -1024,7 +1024,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 void CJabberProto::GroupchatProcessMessage(HXML node)
 {
 	HXML n, m;
-	const TCHAR *from, *type, *p, *nick, *resource;
+	const wchar_t *from, *type, *p, *nick, *resource;
 	JABBER_LIST_ITEM *item;
 	CMString imgLink;
 
@@ -1038,9 +1038,9 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 
 	GCDEST gcd = { m_szModuleName, item->jid, 0 };
 
-	const TCHAR *msgText = NULL;
+	const wchar_t *msgText = NULL;
 
-	resource = _tcschr(from, '/');
+	resource = wcschr(from, '/');
 	if (resource != NULL && *++resource == '\0')
 		resource = NULL;
 
@@ -1052,15 +1052,15 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		gcd.iType = GC_EVENT_TOPIC;
 
 		if (resource == NULL && (m = XmlGetChild(node, "body")) != NULL) {
-			const TCHAR *tmpnick = XmlGetText(m);
+			const wchar_t *tmpnick = XmlGetText(m);
 			if (tmpnick == NULL || *tmpnick == 0)
 				return;
 
-			const TCHAR *tmptr = _tcsstr(tmpnick, L"has set the subject to:"); //ejabberd
+			const wchar_t *tmptr = wcsstr(tmpnick, L"has set the subject to:"); //ejabberd
 			if (tmptr == NULL)
-				tmptr = _tcsstr(tmpnick, TranslateT("has set the subject to:")); //ejabberd
+				tmptr = wcsstr(tmpnick, TranslateT("has set the subject to:")); //ejabberd
 			if (tmptr != NULL && *tmptr != 0) {
-				*(TCHAR*)(--tmptr) = 0;
+				*(wchar_t*)(--tmptr) = 0;
 				resource = tmpnick;
 			}
 		}
@@ -1079,7 +1079,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 
 		if (resource == NULL)
 			gcd.iType = GC_EVENT_INFORMATION;
-		else if (_tcsncmp(msgText, L"/me ", 4) == 0 && mir_tstrlen(msgText) > 4) {
+		else if (wcsncmp(msgText, L"/me ", 4) == 0 && mir_tstrlen(msgText) > 4) {
 			msgText += 4;
 			gcd.iType = GC_EVENT_ACTION;
 		}
@@ -1144,7 +1144,7 @@ class CGroupchatInviteAcceptDlg : public CJabberDlgBase
 	CMString m_roomJid, m_from, m_reason, m_password;
 
 public:
-	CGroupchatInviteAcceptDlg(CJabberProto *ppro, const TCHAR *roomJid, const TCHAR *from, const TCHAR *reason, const TCHAR *password) :
+	CGroupchatInviteAcceptDlg(CJabberProto *ppro, const wchar_t *roomJid, const wchar_t *from, const wchar_t *reason, const wchar_t *password) :
 		CSuper(ppro, IDD_GROUPCHAT_INVITE_ACCEPT, NULL),
 		m_roomJid(roomJid), m_from(from), m_reason(reason), m_password(password),
 		m_accept(this, IDC_ACCEPT)
@@ -1156,7 +1156,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		TCHAR buf[256];
+		wchar_t buf[256];
 		mir_sntprintf(buf, TranslateT("Group chat invitation to\n%s"), m_roomJid);
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 
@@ -1171,7 +1171,7 @@ public:
 
 	void OnCommand_Accept(CCtrlButton*)
 	{
-		TCHAR text[128];
+		wchar_t text[128];
 		GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
 		m_proto->AcceptGroupchatInvite(m_roomJid, text, m_password);
 		EndDialog(m_hwnd, 0);
@@ -1184,7 +1184,7 @@ static void __stdcall sttShowDialog(void *pArg)
 	pDlg->Show();
 }
 
-void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *from, const TCHAR *reason, const TCHAR *password)
+void CJabberProto::GroupchatProcessInvite(const wchar_t *roomJid, const wchar_t *from, const wchar_t *reason, const wchar_t *password)
 {
 	if (roomJid == NULL)
 		return;
@@ -1203,11 +1203,11 @@ void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *fro
 	else CallFunctionAsync(sttShowDialog, new CGroupchatInviteAcceptDlg(this, roomJid, from, reason, password));
 }
 
-void CJabberProto::AcceptGroupchatInvite(const TCHAR *roomJid, const TCHAR *reason, const TCHAR *password)
+void CJabberProto::AcceptGroupchatInvite(const wchar_t *roomJid, const wchar_t *reason, const wchar_t *password)
 {
-	TCHAR room[256], *server, *p;
-	_tcsncpy_s(room, roomJid, _TRUNCATE);
-	p = _tcstok(room, L"@");
-	server = _tcstok(NULL, L"@");
+	wchar_t room[256], *server, *p;
+	wcsncpy_s(room, roomJid, _TRUNCATE);
+	p = wcstok(room, L"@");
+	server = wcstok(NULL, L"@");
 	GroupchatJoinRoom(server, p, reason, password);
 }

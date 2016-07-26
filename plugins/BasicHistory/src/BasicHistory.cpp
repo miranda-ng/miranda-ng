@@ -146,7 +146,7 @@ void InitTaskMenuItems()
 			mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.root = hTaskMainMenu;
-			mi.name.t = (TCHAR*)taskIt->taskName.c_str();
+			mi.name.w = (wchar_t*)taskIt->taskName.c_str();
 			HGENMENU menu = Menu_AddMainMenuItem(&mi);
 			Menu_ConfigureItem(menu, MCI_OPT_EXECPARAM, pos++);
 			taskMenus.push_back(menu);
@@ -205,14 +205,14 @@ int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitMenuItems();
 	
-	TCHAR ftpExe[MAX_PATH];
+	wchar_t ftpExe[MAX_PATH];
 	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, ftpExe))) {
-		_tcscat_s(ftpExe, L"\\WinSCP\\WinSCP.exe");
+		wcscat_s(ftpExe, L"\\WinSCP\\WinSCP.exe");
 		DWORD atr = GetFileAttributes(ftpExe);
 		if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY) {
 #ifdef _WIN64
 			if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILESX86, NULL, SHGFP_TYPE_CURRENT, ftpExe))) {
-				_tcscat_s(ftpExe, L"\\WinSCP\\WinSCP.exe");
+				wcscat_s(ftpExe, L"\\WinSCP\\WinSCP.exe");
 				atr = GetFileAttributes(ftpExe);
 				if (!(atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY))
 					Options::instance->ftpExePathDef = ftpExe;
@@ -222,8 +222,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 		else Options::instance->ftpExePathDef = ftpExe;
 	}
 
-	TCHAR *log = L"%miranda_logpath%\\BasicHistory\\ftplog.txt";
-	TCHAR *logAbsolute = Utils_ReplaceVarsT(log);
+	wchar_t *log = L"%miranda_logpath%\\BasicHistory\\ftplog.txt";
+	wchar_t *logAbsolute = Utils_ReplaceVarsT(log);
 	Options::instance->ftpLogPath = logAbsolute;
 	mir_free(logAbsolute);
 	Options::instance->Load();

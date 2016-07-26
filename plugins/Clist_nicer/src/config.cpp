@@ -42,7 +42,7 @@ EXCEPTION_RECORD API::exRecord = { 0 };
 CONTEXT API::exCtx = { 0 };
 LRESULT API::exLastResult = 0;
 char    API::exSzFile[MAX_PATH] = "";
-TCHAR   API::exReason[256] = L"";
+wchar_t   API::exReason[256] = L"";
 int     API::exLine = 0;
 bool    API::exAllowContinue = false;
 HMODULE API::hDwm = 0;
@@ -193,7 +193,7 @@ void API::Ex_Handler()
 		ExitProcess(1);
 }
 
-int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, TCHAR* szReason, bool fAllowContinue)
+int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, wchar_t* szReason, bool fAllowContinue)
 {
 	char szDrive[MAX_PATH], szDir[MAX_PATH], szName[MAX_PATH], szExt[MAX_PATH];
 
@@ -230,9 +230,9 @@ void TSAPI Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
  *
  * return 0 and throw an exception if something goes wrong.
  */
-HMODULE Utils::loadSystemLibrary(const TCHAR* szFilename, bool useGetHandle)
+HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename, bool useGetHandle)
 {
-	TCHAR sysPathName[MAX_PATH + 2];
+	wchar_t sysPathName[MAX_PATH + 2];
 	HMODULE _h = 0;
 
 	try {
@@ -258,16 +258,16 @@ HMODULE Utils::loadSystemLibrary(const TCHAR* szFilename, bool useGetHandle)
 	return (_h);
 }
 
-CRTException::CRTException(const char *szMsg, const TCHAR *szParam) : std::runtime_error(std::string(szMsg))
+CRTException::CRTException(const char *szMsg, const wchar_t *szParam) : std::runtime_error(std::string(szMsg))
 {
 	mir_sntprintf(m_szParam, MAX_PATH, szParam);
 }
 
 void CRTException::display() const
 {
-	TCHAR *tszMsg = mir_a2t(what());
+	wchar_t *tszMsg = mir_a2t(what());
 
-	TCHAR tszBoxMsg[500];
+	wchar_t tszBoxMsg[500];
 	mir_sntprintf(tszBoxMsg, L"%s\n\n(%s)", tszMsg, m_szParam);
 	::MessageBox(0, tszBoxMsg, L"Clist_nicer runtime error", MB_OK | MB_ICONERROR);
 	mir_free(tszMsg);

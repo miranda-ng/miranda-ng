@@ -30,11 +30,11 @@ inline std::string toNarrowString( const std::string& str )
 
 #ifdef _UNICODE
 	#define tstring wstring
-    inline TCHAR toTchar( char ch )
+    inline wchar_t toTchar( char ch )
     {
         return (wchar_t)ch ;
     }
-    inline TCHAR toTchar( wchar_t ch )
+    inline wchar_t toTchar( wchar_t ch )
     {
         return ch ;
     }
@@ -61,11 +61,11 @@ inline std::string toNarrowString( const std::string& str )
 	extern string Utf8_Encode(const WCHAR *str);
 #else 
 	#define tstring string
-    inline TCHAR toTchar( char ch )
+    inline wchar_t toTchar( char ch )
     {
         return ch ;
     }
-    inline TCHAR toTchar( wchar_t ch )
+    inline wchar_t toTchar( wchar_t ch )
     {
         return (ch >= 0 && ch <= 0xFF) ? (char)ch : '?' ;
     } 

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-TCHAR* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
+wchar_t* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 {
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	mir_sntprintf(path, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(path);
@@ -24,7 +24,7 @@ bool CSteamProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai)
 	if (!path)
 		return false;
 
-	_tcsncpy_s(pai.filename, path, _TRUNCATE);
+	wcsncpy_s(pai.filename, path, _TRUNCATE);
 	pai.format = PA_FORMAT_JPEG;
 
 	return true;
@@ -68,7 +68,7 @@ INT_PTR CSteamProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if (GetDbAvatarInfo(*pai))
 	{
-		bool fileExist = _taccess(pai->filename, 0) == 0;
+		bool fileExist = _waccess(pai->filename, 0) == 0;
 
 		bool needLoad;
 		if (pai->hContact)
@@ -141,13 +141,13 @@ INT_PTR CSteamProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (!wParam || !lParam)
 		return -3;
 
-	TCHAR* buf = (TCHAR*)wParam;
+	wchar_t* buf = (wchar_t*)wParam;
 	int  size = (int)lParam;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	switch (GetAvatarInfo(0, (LPARAM)&ai)) {
 	case GAIR_SUCCESS:
-		_tcsncpy(buf, ai.filename, size);
+		wcsncpy(buf, ai.filename, size);
 		buf[size - 1] = 0;
 		return 0;
 

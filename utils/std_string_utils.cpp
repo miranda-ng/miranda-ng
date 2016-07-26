@@ -112,11 +112,11 @@ void utils::text::replace_all(std::string* data, const std::string &from, const 
 	}
 }
 
-void utils::text::treplace_all(std::tstring* data, const std::tstring &from, const std::tstring &to)
+void utils::text::treplace_all(std::wstring* data, const std::wstring &from, const std::wstring &to)
 {
-	std::tstring::size_type position = 0;
+	std::wstring::size_type position = 0;
 
-	while ((position = data->find(from, position)) != std::tstring::npos)
+	while ((position = data->find(from, position)) != std::wstring::npos)
 	{
 		data->replace(position, from.size(), to);
 		position++;
@@ -379,19 +379,19 @@ std::string utils::text::source_get_form_data(std::string* data, boolean hiddenO
 	return values;
 }
 
-std::tstring utils::text::prepare_name(const std::tstring &name, bool withSurnameLetter)
+std::wstring utils::text::prepare_name(const std::wstring &name, bool withSurnameLetter)
 {
-	std::tstring::size_type pos = name.find(L" ");
-	if (pos == std::tstring::npos)
+	std::wstring::size_type pos = name.find(L" ");
+	if (pos == std::wstring::npos)
 		return name;
 
-	std::tstring result = name.substr(0, pos);
+	std::wstring result = name.substr(0, pos);
 
 	if (withSurnameLetter) {
 		pos = name.rfind(L" ") + 1; // we're sure there is some space in name so we can do +1 safely
 
 		if (pos < name.length())
-			result += L" " + name.substr(pos, 1) + std::tstring(L".");
+			result += L" " + name.substr(pos, 1) + std::wstring(L".");
 	}
 
 	return result;

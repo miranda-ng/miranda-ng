@@ -97,7 +97,7 @@ static void SetPosition(HWND hwnd)
 
 static void SetTooltip(long x, long y, HWND hwnd, RichEditData *rdt)
 {
-	TCHAR *smltxt;
+	wchar_t *smltxt;
 	int needtip = CheckForTip(x, y, hwnd, &smltxt);
 	if (needtip == rdt->tipActive)
 		return;

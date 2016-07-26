@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const TCHAR* username) :
+MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const wchar_t* username) :
 	PROTO<MinecraftDynmapProto>(proto_name, username), m_interval(0), hConnection(0), hEventsConnection(0),
 	m_updateRate(5000), m_nick("")
 {
@@ -42,7 +42,7 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const TCHAR* 
 	HookProtoEvent(ME_GC_EVENT, &MinecraftDynmapProto::OnChatEvent);
 
 	// Create standard network connection
-	TCHAR descr[512];
+	wchar_t descr[512];
 	NETLIBUSER nlu = {sizeof(nlu)};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
@@ -50,7 +50,7 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const TCHAR* 
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (m_hNetlibUser == NULL) {
-		TCHAR error[200];
+		wchar_t error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
 		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
@@ -176,13 +176,13 @@ int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance   = g_hInstance;
-	odp.ptszTitle   = m_tszUserName;
+	odp.pwszTitle   = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
 	odp.position    = 271828;
-	odp.ptszGroup   = LPGENT("Network");
-	odp.ptszTab     = LPGENT("Account");
+	odp.pwszGroup   = LPGENW("Network");
+	odp.pwszTab     = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc  = MinecraftDynmapOptionsProc;
 	Options_AddPage(wParam, &odp);

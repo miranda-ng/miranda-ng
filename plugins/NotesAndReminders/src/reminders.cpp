@@ -1786,7 +1786,7 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 									m += h * 60;
 									if (!m)
 									{
-										MessageBox(Dialog, TranslateT("The specified time offset is invalid."), _T(SECTIONNAME), MB_OK | MB_ICONWARNING);
+										MessageBox(Dialog, Translate("The specified time offset is invalid."), _T(SECTIONNAME), MB_OK | MB_ICONWARNING);
 										return TRUE;
 									}
 
@@ -1881,8 +1881,8 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 			if (NewReminderVisible == 2)
 			{
 				// opening the edit reminder dialog (uses same dialog resource as add reminder)
-				SetWindowText(Dialog, TranslateT("Reminder"));
-				SetDlgItemText(Dialog, IDC_ADDREMINDER, TranslateT("&Update Reminder"));
+				SetWindowText(Dialog, Translate("Reminder"));
+				SetDlgItemText(Dialog, IDC_ADDREMINDER, Translate("&Update Reminder"));
 				ShowWindow(GetDlgItem(Dialog, IDC_VIEWREMINDERS), SW_HIDE);
 
 				li = pEditReminder->When;
@@ -2510,7 +2510,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 					return TRUE;
 				}
 			case IDM_DELETEALLREMINDERS:
-				if (RemindersList && MessageBox(Dialog, TranslateT("Are you sure you want to delete all reminders?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
+				if (RemindersList && MessageBox(Dialog, Translate("Are you sure you want to delete all reminders?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK)
 				{
 					SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
 					DeleteReminders();
@@ -2526,7 +2526,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 					{
 						I = ListView_GetSelectionMark(H);
 						if (I != -1
-							&& MessageBox(Dialog, TranslateT("Are you sure you want to delete this reminder?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
+							&& MessageBox(Dialog, Translate("Are you sure you want to delete this reminder?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK)
 						{
 							SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
 							DeleteReminder((REMINDERDATA*)TreeGetAt(RemindersList, I));

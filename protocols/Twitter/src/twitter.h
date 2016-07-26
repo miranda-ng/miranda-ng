@@ -25,7 +25,7 @@ using std::vector;
 
 #include "http.h"
 
-#define tstring wstring 
+#define wstring wstring 
 
 typedef unsigned long long twitter_id;
 typedef std::map<std::wstring, std::wstring> OAuthParameters;

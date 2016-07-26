@@ -123,7 +123,7 @@ bool CJabberProto::FilterXml(HXML node, DWORD flags)
 
 	mir_cslock lck(m_filterInfo.csPatternLock);
 
-	const TCHAR *attrValue;
+	const wchar_t *attrValue;
 	switch (m_filterInfo.type) {
 	case TFilterInfo::T_JID:
 		attrValue = XmlGetAttrValue(node, (flags & JCPF_OUT) ? L"to" : L"from");
@@ -202,18 +202,18 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 	if (flags&JCPF_OUT)	sttAppendBufRaw(buf, "\\highlight4 ");
 	sttAppendBufRaw(buf, "<");
 	sttAppendBufRaw(buf, RTF_BEGINTAGNAME);
-	sttAppendBufW(buf, (TCHAR*)XmlGetName(node));
+	sttAppendBufW(buf, (wchar_t*)XmlGetName(node));
 	sttAppendBufRaw(buf, RTF_ENDTAGNAME);
 
 	for (int i = 0; i < XmlGetAttrCount(node); i++) {
-		TCHAR *attr = (TCHAR*)xmlGetAttrName(node, i);
+		wchar_t *attr = (wchar_t*)xmlGetAttrName(node, i);
 		sttAppendBufRaw(buf, " ");
 		sttAppendBufRaw(buf, RTF_BEGINATTRNAME);
 		sttAppendBufW(buf, attr);
 		sttAppendBufRaw(buf, RTF_ENDATTRNAME);
 		sttAppendBufRaw(buf, "=\"");
 		sttAppendBufRaw(buf, RTF_BEGINATTRVAL);
-		sttAppendBufT(buf, (TCHAR*)XmlGetAttr(node, i));
+		sttAppendBufT(buf, (wchar_t*)XmlGetAttr(node, i));
 		sttAppendBufRaw(buf, "\"");
 		sttAppendBufRaw(buf, RTF_ENDATTRVAL);
 	}
@@ -274,7 +274,7 @@ static void sttJabberConsoleRebuildStrings(CJabberProto *ppro, HWND hwndCombo)
 	JABBER_LIST_ITEM *item = NULL;
 
 	int len = GetWindowTextLength(hwndCombo) + 1;
-	TCHAR *buf = (TCHAR *)_alloca(len * sizeof(TCHAR));
+	wchar_t *buf = (wchar_t *)_alloca(len * sizeof(wchar_t));
 	GetWindowText(hwndCombo, buf, len);
 
 	SendMessage(hwndCombo, CB_RESETCONTENT, 0, 0);
@@ -300,7 +300,7 @@ static void sttJabberConsoleRebuildStrings(CJabberProto *ppro, HWND hwndCombo)
 struct
 {
 	int type;
-	TCHAR *title;
+	wchar_t *title;
 	char *icon;
 }
 static filter_modes[] =
@@ -501,7 +501,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				MessageBox(m_hwnd, TranslateT("Can't send data while you are offline."), TranslateT("Jabber Error"), MB_ICONSTOP | MB_OK);
 			else {
 				int length = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_CONSOLEIN)) + 1;
-				TCHAR *textToSend = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
+				wchar_t *textToSend = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
 				GetDlgItemText(m_hwnd, IDC_CONSOLEIN, textToSend, length);
 
 				int bytesProcessed = 0;
@@ -550,7 +550,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
 
 				if (len > _countof(m_proto->m_filterInfo.pattern)) {
-					TCHAR *buf = (TCHAR *)_alloca(len * sizeof(TCHAR));
+					wchar_t *buf = (wchar_t *)_alloca(len * sizeof(wchar_t));
 					SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)buf);
 					mir_tstrncpy(m_proto->m_filterInfo.pattern, buf, _countof(m_proto->m_filterInfo.pattern));
 				}

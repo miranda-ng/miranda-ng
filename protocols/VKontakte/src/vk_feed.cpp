@@ -84,7 +84,7 @@ void CVkProto::AddCListEvent(bool bNews)
 	cle.flags = CLEF_URGENT | CLEF_TCHAR;
 	cle.hContact = hContact;
 	cle.hDbEvent = NULL;
-	TCHAR toolTip[255];
+	wchar_t toolTip[255];
 	mir_sntprintf(toolTip, bNews ? TranslateT("New news") : TranslateT("New notifications"));
 	cle.ptszTooltip = toolTip;
 	pcli->pfnAddEvent(&cle);
@@ -238,9 +238,9 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 		const JSONNode &jnAttachments = jnItem["attachments"];
 		if (jnAttachments) {
 			if (!tszText.IsEmpty())
-				tszText.AppendChar(_T('\n'));
+				tszText.AppendChar('\n');
 			if (!tszPopupText.IsEmpty())
-				tszPopupText.AppendChar(_T('\n'));
+				tszPopupText.AppendChar('\n');
 			tszPopupText += TranslateT("(attachments)");
 			tszText += GetAttachmentDescr(jnAttachments, m_vkOptions.bUseBBCOnAttacmentsAsNews ? m_vkOptions.BBCForNews() : m_vkOptions.BBCForAttachments());
 		}
@@ -267,7 +267,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 	vkNewsItem->tszId.AppendFormat(L"%d_%d", vkNewsItem->vkUser->m_UserId, iPostId);
 	if (bPostLink) {
 		vkNewsItem->tszLink = CMString(L"https://vk.com/wall") + vkNewsItem->tszId;
-		vkNewsItem->tszText.AppendChar(_T('\n'));
+		vkNewsItem->tszText.AppendChar('\n');
 		vkNewsItem->tszText += SetBBCString(TranslateT("Link"), m_vkOptions.BBCForNews(), vkbbcUrl, vkNewsItem->tszLink);
 	}
 

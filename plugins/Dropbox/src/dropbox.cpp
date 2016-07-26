@@ -167,7 +167,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("server does not respond"));
 		/*else
-			ShowNotification((TCHAR*)error_description, MB_ICONERROR);*/
+			ShowNotification((wchar_t*)error_description, MB_ICONERROR);*/
 		return 0;
 	}
 
@@ -178,7 +178,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, error_description);
 		/*else
-			ShowNotification((TCHAR*)error_description, MB_ICONERROR);*/
+			ShowNotification((wchar_t*)error_description, MB_ICONERROR);*/
 		return 0;
 	}
 

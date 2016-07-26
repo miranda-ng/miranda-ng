@@ -41,11 +41,11 @@ struct CSkypeOptions
 	CMOption<BYTE> bMarkAllAsUnread;
 
 	CMOption<BYTE> bUseHostnameAsPlace;
-	CMOption<TCHAR*> wstrPlace;
+	CMOption<wchar_t*> wstrPlace;
 
 	CMOption<BYTE> bUseBBCodes;
 
-	CMOption<TCHAR*> wstrCListGroup;
+	CMOption<wchar_t*> wstrCListGroup;
 
 	CSkypeOptions(PROTO_INTERFACE *proto) :
 

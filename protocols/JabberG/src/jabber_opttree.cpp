@@ -41,7 +41,7 @@ CCtrlTreeOpts::~CCtrlTreeOpts()
 		delete m_options[i];
 }
 
-void CCtrlTreeOpts::AddOption(TCHAR *szOption, CMOption<BYTE> &option)
+void CCtrlTreeOpts::AddOption(wchar_t *szOption, CMOption<BYTE> &option)
 {
 	m_options.insert(new COptionsItem(szOption, option), m_options.getCount());
 }
@@ -90,7 +90,7 @@ void CCtrlTreeOpts::OnInit()
 {
 	CCtrlTreeView::OnInit();
 
-	TCHAR itemName[1024];
+	wchar_t itemName[1024];
 	HIMAGELIST hImgLst;
 
 	SelectItem(NULL);
@@ -108,7 +108,7 @@ void CCtrlTreeOpts::OnInit()
 
 	/* build options tree. based on code from IcoLib */
 	for (int i = 0; i < m_options.getCount(); i++) {
-		TCHAR *sectionName;
+		wchar_t *sectionName;
 		int sectionLevel = 0;
 
 		HTREEITEM hSection = NULL;
@@ -117,10 +117,10 @@ void CCtrlTreeOpts::OnInit()
 
 		while (sectionName) {
 			// allow multi-level tree
-			TCHAR *pItemName = sectionName;
+			wchar_t *pItemName = sectionName;
 			HTREEITEM hItem;
 
-			if (sectionName = _tcschr(sectionName, '/')) {
+			if (sectionName = wcschr(sectionName, '/')) {
 				// one level deeper
 				*sectionName = 0;
 				sectionName++;
@@ -225,7 +225,7 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 	SetItem(&tvi);
 }
 
-CCtrlTreeOpts::COptionsItem::COptionsItem(TCHAR *szOption, CMOption<BYTE> &option) :
+CCtrlTreeOpts::COptionsItem::COptionsItem(wchar_t *szOption, CMOption<BYTE> &option) :
 m_option(&option), m_groupId(OPTTREE_CHECK), m_hItem(NULL)
 {
 	m_szOptionName = mir_tstrdup(szOption);

@@ -7,38 +7,37 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>
-#include <tchar.h>
 #include <varargs.h>
 #include <stdio.h>
 
 // Global Variables:
 HINSTANCE hInst;								// current instance
 
-void log(const TCHAR *tszFormat, ...)
+void log(const wchar_t *tszFormat, ...)
 {
 	#if defined(_DEBUG)
-		FILE *out = fopen("c:\\temp\\pu.log", "a");
-		if (out) {
-			va_list params;
-			va_start(params, tszFormat);
-			_vftprintf(out, tszFormat, params);
-			va_end(params);
-			fputc('\n', out);
-			fclose(out);
-		}
+	FILE *out = fopen("c:\\temp\\pu.log", "a");
+	if (out) {
+		va_list params;
+		va_start(params, tszFormat);
+		vfwprintf(out, tszFormat, params);
+		va_end(params);
+		fputc('\n', out);
+		fclose(out);
+	}
 	#endif
 }
 
 int CreateDirectoryTreeW(const WCHAR* szDir)
 {
-	DWORD  dwAttributes;
-	WCHAR* pszLastBackslash, szTestDir[ MAX_PATH ];
-
+	wchar_t szTestDir[MAX_PATH];
 	lstrcpynW(szTestDir, szDir, MAX_PATH);
-	if ((dwAttributes = GetFileAttributesW(szTestDir)) != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
+
+	DWORD dwAttributes = GetFileAttributesW(szTestDir);
+	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 
-	pszLastBackslash = wcsrchr(szTestDir, '\\');
+	WCHAR *pszLastBackslash = wcsrchr(szTestDir, '\\');
 	if (pszLastBackslash == NULL)
 		return 0;
 
@@ -59,42 +58,42 @@ void CreatePathToFileW(WCHAR* wszFilePath)
 	*pszLastBackslash = '\\';
 }
 
-int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR lpCmdLine, int)
+int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR lpCmdLine, int)
 {
 	DWORD dwError;
 	hInst = hInstance;
 
-	TCHAR tszPipeName[MAX_PATH];
+	wchar_t tszPipeName[MAX_PATH];
 	#if _MSC_VER < 1400
-		_stprintf(tszPipeName,  L"\\\\.\\pipe\\Miranda_Pu_%s", lpCmdLine);
+	swprintf(tszPipeName, L"\\\\.\\pipe\\Miranda_Pu_%s", lpCmdLine);
 	#else
-		_stprintf_s(tszPipeName, MAX_PATH, L"\\\\.\\pipe\\Miranda_Pu_%s", lpCmdLine);
+	swprintf_s(tszPipeName, L"\\\\.\\pipe\\Miranda_Pu_%s", lpCmdLine);
 	#endif
-	log( L"Opening pipe %s...", tszPipeName);
+	log(L"Opening pipe %s...", tszPipeName);
 	HANDLE hPipe = CreateFile(tszPipeName, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 	if (hPipe == INVALID_HANDLE_VALUE) {
 		dwError = GetLastError();
-		log( L"Failed to open a pipe: error %d", dwError);
+		log(L"Failed to open a pipe: error %d", dwError);
 		return dwError;
 	}
 
-	log( L"Entering the reading cycle...");
+	log(L"Entering the reading cycle...");
 
 	BYTE szReadBuffer[1024] = { 0 };
 	DWORD dwBytes;
-	while ( ReadFile(hPipe, szReadBuffer, sizeof(szReadBuffer), &dwBytes, NULL)) {
+	while (ReadFile(hPipe, szReadBuffer, sizeof(szReadBuffer), &dwBytes, NULL)) {
 		DWORD dwAction = *(DWORD*)szReadBuffer;
-		TCHAR *ptszFile1 = (TCHAR*)(szReadBuffer + sizeof(DWORD));
-		TCHAR *ptszFile2 = ptszFile1 + _tcslen(ptszFile1)+1;
-		log( L"Received command: %d <%s> <%s>", dwAction, ptszFile1, ptszFile2);
-		switch(dwAction) {
+		wchar_t *ptszFile1 = (wchar_t*)(szReadBuffer + sizeof(DWORD));
+		wchar_t *ptszFile2 = ptszFile1 + wcslen(ptszFile1) + 1;
+		log(L"Received command: %d <%s> <%s>", dwAction, ptszFile1, ptszFile2);
+		switch (dwAction) {
 		case 1:  // copy
 			dwError = CopyFile(ptszFile1, ptszFile2, FALSE);
 			break;
 
 		case 2: // move
 			DeleteFile(ptszFile2);
-			if ( MoveFile(ptszFile1, ptszFile2) == 0) // use copy on error
+			if (MoveFile(ptszFile1, ptszFile2) == 0) // use copy on error
 				dwError = CopyFile(ptszFile1, ptszFile2, FALSE);
 			else
 				dwError = 0;
@@ -122,7 +121,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR lpCmdLine, int)
 	}
 
 	dwError = GetLastError();
-	log( L"Pipe is closed (%d), exiting", dwError);
+	log(L"Pipe is closed (%d), exiting", dwError);
 	CloseHandle(hPipe);
 	return 0;
 }

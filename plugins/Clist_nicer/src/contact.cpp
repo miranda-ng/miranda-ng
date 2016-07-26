@@ -101,7 +101,7 @@ static void MF_CalcFrequency(MCONTACT hContact, DWORD dwCutoffDays, int doSleep)
 	db_set_dw(hContact, "CList", "mf_count", eventCount);
 }
 
-extern TCHAR g_ptszEventName[];
+extern wchar_t g_ptszEventName[];
 
 void MF_UpdateThread(LPVOID)
 {
@@ -158,7 +158,7 @@ int __forceinline GetProtoIndex(char * szName)
 
 int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact* c2, UINT bywhat)
 {
-	TCHAR *namea, *nameb;
+	wchar_t *namea, *nameb;
 	int statusa, statusb;
 	char *szProto1, *szProto2;
 	int rc;
@@ -201,8 +201,8 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 
 	switch (bywhat) {
 	case SORTBY_NAME:
-		namea = (TCHAR *)c1->szText;
-		nameb = (TCHAR *)c2->szText;
+		namea = (wchar_t *)c1->szText;
+		nameb = (wchar_t *)c2->szText;
 		return CompareString(LOCALE_USER_DEFAULT, NORM_IGNORECASE, namea, -1, nameb, -1) - 2;
 
 	case SORTBY_LASTMSG:

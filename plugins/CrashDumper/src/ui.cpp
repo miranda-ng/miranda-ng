@@ -278,7 +278,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case 3:
-			TCHAR path[MAX_PATH];
+			wchar_t path[MAX_PATH];
 			mir_sntprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 			ShellExecute(NULL, TEXT("open"), path, NULL, NULL, SW_SHOW);
 			break;
@@ -295,7 +295,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-void ShowMessage(int type, const TCHAR* format, ...)
+void ShowMessage(int type, const wchar_t* format, ...)
 {
 	POPUPDATAT pi = { 0 };
 

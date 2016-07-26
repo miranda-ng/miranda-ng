@@ -120,10 +120,10 @@ struct IPRESOLVE      // Contains info about the channels
 
 struct CHANNELINFO   // Contains info about the channels
 {
-	TCHAR* pszTopic;
-	TCHAR* pszMode;
-	TCHAR* pszPassword;
-	TCHAR* pszLimit;
+	wchar_t* pszTopic;
+	wchar_t* pszMode;
+	wchar_t* pszPassword;
+	wchar_t* pszLimit;
 	BYTE   OwnMode;	/* own mode on the channel. Bitmask:
 												0: voice
 												1: halfop
@@ -143,7 +143,7 @@ struct SERVER_INFO  // Contains info about different servers
 
 struct PERFORM_INFO  // Contains 'm_perform buffer' for different networks
 {
-	PERFORM_INFO( const char* szSetting, const TCHAR* value ) :
+	PERFORM_INFO( const char* szSetting, const wchar_t* value ) :
 		mSetting( szSetting ),
 		mText( value )
 	{}
@@ -157,9 +157,9 @@ struct PERFORM_INFO  // Contains 'm_perform buffer' for different networks
 
 struct CONTACT // Contains info about users
 {
-	TCHAR* name;
-	TCHAR* user;
-	TCHAR* host;
+	wchar_t* name;
+	wchar_t* user;
+	wchar_t* host;
 	bool ExactOnly;
 	bool ExactWCOnly;
 	bool ExactNick;
@@ -174,7 +174,7 @@ struct TDbSetting
 	union
 	{
 		int    defValue;
-		TCHAR* defStr;
+		wchar_t* defStr;
 	};
 };
 
@@ -189,18 +189,18 @@ typedef bool (CIrcProto::*PfnIrcMessageHandler)(const CIrcMessage* pmsg);
 
 struct CIrcHandler
 {
-	CIrcHandler( const TCHAR* _name, PfnIrcMessageHandler _handler ) :
+	CIrcHandler( const wchar_t* _name, PfnIrcMessageHandler _handler ) :
 		m_name( _name ),
 		m_handler( _handler )
 	{}
 
-	const TCHAR* m_name;
+	const wchar_t* m_name;
 	PfnIrcMessageHandler m_handler;
 };
 
 struct CIrcProto : public PROTO<CIrcProto>
 {
-				CIrcProto(const char*, const TCHAR*);
+				CIrcProto(const char*, const wchar_t*);
 			   ~CIrcProto();
 
 				// Protocol interface
@@ -208,24 +208,24 @@ struct CIrcProto : public PROTO<CIrcProto>
 	virtual	MCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
 
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath);
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer );
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
-	virtual	int       __cdecl FileResume( HANDLE hTransfer, int *action, const TCHAR **szFilename);
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason);
+	virtual	int       __cdecl FileResume( HANDLE hTransfer, int *action, const wchar_t **szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
+	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t *msg);
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
@@ -262,24 +262,24 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 	char     m_serverName[100];
 	char     m_password [500];
-	TCHAR    m_identSystem[10];
+	wchar_t    m_identSystem[10];
 	char     m_network[30];
 	char     m_portStart[10];
 	char     m_portEnd[10];
 	int      m_iSSL;
-	TCHAR    m_identPort[10];
-	TCHAR    m_nick[30], m_pNick[30];
-	TCHAR    m_alternativeNick[30];
-	TCHAR    m_name[200];
-	TCHAR    m_userID[200];
-	TCHAR    m_quitMessage[400];
-	TCHAR    m_userInfo[500];
+	wchar_t    m_identPort[10];
+	wchar_t    m_nick[30], m_pNick[30];
+	wchar_t    m_alternativeNick[30];
+	wchar_t    m_name[200];
+	wchar_t    m_userID[200];
+	wchar_t    m_quitMessage[400];
+	wchar_t    m_userInfo[500];
 	char     m_myHost[50];
 	char     m_mySpecifiedHost[500];
 	char     m_mySpecifiedHostIP[50];
 	char     m_myLocalHost[50];
 	WORD     m_myLocalPort;
-	TCHAR*   m_alias;
+	wchar_t*   m_alias;
 	int      m_serverComboSelection;
 	int      m_quickComboSelection;
 	int      m_onlineNotificationTime;
@@ -368,27 +368,27 @@ struct CIrcProto : public PROTO<CIrcProto>
 	//commandmonitor.cpp
 	UINT_PTR IdentTimer, InitTimer, KeepAliveTimer, OnlineNotifTimer, OnlineNotifTimer3;
 
-	int  AddOutgoingMessageToDB(MCONTACT hContact, TCHAR *msg);
+	int  AddOutgoingMessageToDB(MCONTACT hContact, wchar_t *msg);
 	bool DoOnConnect(const CIrcMessage *pmsg);
 	int  DoPerform(const char *event);
 	void __cdecl ResolveIPThread(void *di);
 
-	bool AddIgnore(const TCHAR *mask, const TCHAR *mode, const TCHAR *network) ;
+	bool AddIgnore(const wchar_t *mask, const wchar_t *mode, const wchar_t *network) ;
 	int  IsIgnored(const CMString &nick, const CMString &address, const CMString &host, char type) ;
 	int  IsIgnored(CMString user, char type);
-	bool RemoveIgnore(const TCHAR *mask) ;
+	bool RemoveIgnore(const wchar_t *mask) ;
 
 	//input.cpp
-	CMString DoAlias( const TCHAR *text, TCHAR *window);
-	BOOL     DoHardcodedCommand(CMString text, TCHAR *window, MCONTACT hContact);
-	CMString DoIdentifiers(CMString text, const TCHAR *window);
+	CMString DoAlias( const wchar_t *text, wchar_t *window);
+	BOOL     DoHardcodedCommand(CMString text, wchar_t *window, MCONTACT hContact);
+	CMString DoIdentifiers(CMString text, const wchar_t *window);
 	void     FormatMsg(CMString &text);
-	bool     PostIrcMessageWnd(TCHAR *pszWindow, MCONTACT hContact, const TCHAR *szBuf);
-	bool     PostIrcMessage(const TCHAR *fmt, ...);
+	bool     PostIrcMessageWnd(wchar_t *pszWindow, MCONTACT hContact, const wchar_t *szBuf);
+	bool     PostIrcMessage(const wchar_t *fmt, ...);
 
 	// irclib.cpp
 	UINT_PTR	DCCTimer;
-	void     SendIrcMessage(const TCHAR*, bool bNotify = true, int codepage = -1);
+	void     SendIrcMessage(const wchar_t*, bool bNotify = true, int codepage = -1);
 
 	// ircproto.cpp
 	void __cdecl AckBasicSearch(void* param);
@@ -439,16 +439,16 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void __cdecl DisconnectServerThread( void* );
 
 	//tools.cpp
-	void     AddToJTemp(TCHAR op, CMString& sCommand);
-	bool     AddWindowItemData(CMString window, const TCHAR* pszLimit, const TCHAR* pszMode, const TCHAR* pszPassword, const TCHAR* pszTopic);
+	void     AddToJTemp(wchar_t op, CMString& sCommand);
+	bool     AddWindowItemData(CMString window, const wchar_t* pszLimit, const wchar_t* pszMode, const wchar_t* pszPassword, const wchar_t* pszTopic);
 	INT_PTR  CallChatEvent(WPARAM wParam, LPARAM lParam);
-	INT_PTR  DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszNick, const TCHAR* pszText, const TCHAR* pszStatus, const TCHAR* pszUserInfo, DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe,time_t timestamp = 1);
+	INT_PTR  DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* pszNick, const wchar_t* pszText, const wchar_t* pszStatus, const wchar_t* pszUserInfo, DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe,time_t timestamp = 1);
 	void     FindLocalIP(HANDLE con);
 	bool     FreeWindowItemData(CMString window, CHANNELINFO* wis);
 	bool     IsChannel(const char* sName);
-	bool     IsChannel(const TCHAR* sName);
+	bool     IsChannel(const wchar_t* sName);
 	void     KillChatTimer(UINT_PTR &nIDEvent);
-	CMString MakeWndID(const TCHAR* sWindow);
+	CMString MakeWndID(const wchar_t* sWindow);
 	CMString ModeToStatus(int sMode);
 	CMString PrefixToStatus(int cPrefix);
 	int      SetChannelSBText(CMString sWindow, CHANNELINFO * wi);
@@ -473,7 +473,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CDccSession* FindDCCSession(MCONTACT hContact);
 	CDccSession* FindDCCSession(DCCINFO* pdci);
 	CDccSession* FindDCCSendByPort(int iPort);
-	CDccSession* FindDCCRecvByPortAndName(int iPort, const TCHAR* szName);
+	CDccSession* FindDCCRecvByPortAndName(int iPort, const wchar_t* szName);
 	CDccSession* FindPassiveDCCSend(int iToken);
 	CDccSession* FindPassiveDCCRecv(CMString sName, CMString sToken);
 
@@ -484,12 +484,12 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void Disconnect(void);
 	void KillIdent(void);
 
-	int NLSend(const TCHAR* fmt, ...);
+	int NLSend(const wchar_t* fmt, ...);
 	int NLSend(const char* fmt, ...);
 	int NLSend(const unsigned char* buf, int cbBuf);
 	int NLSendNoScript( const unsigned char* buf, int cbBuf);
 	int NLReceive(unsigned char* buf, int cbBuf);
-	void InsertIncomingEvent(TCHAR* pszRaw);
+	void InsertIncomingEvent(wchar_t* pszRaw);
 
 	__inline bool IsConnected() const { return con != NULL; }
 
@@ -572,7 +572,7 @@ private :
 
 	static OBJLIST<CIrcHandler> m_handlers;
 
-	PfnIrcMessageHandler FindMethod(const TCHAR* lpszName);
+	PfnIrcMessageHandler FindMethod(const wchar_t* lpszName);
 
 	void OnIrcMessage(const CIrcMessage* pmsg);
 	CMString sNick4Perform;
@@ -581,7 +581,7 @@ private :
 // map actual member functions to their associated IRC command.
 // put any number of this macro in the class's constructor.
 #define	IRC_MAP_ENTRY(name, member)	\
-	m_handlers.insert( new CIrcHandler( _T(name), &CIrcProto::OnIrc_##member ));
+	m_handlers.insert( new CIrcHandler( L##name, &CIrcProto::OnIrc_##member ));
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Functions
@@ -617,13 +617,13 @@ HICON   LoadIconEx(int iIndex, bool big = false);
 HANDLE  GetIconHandle(int iconId);
 
 //tools.cpp
-int          __stdcall WCCmp(const TCHAR* wild, const TCHAR* string);
-char*        __stdcall IrcLoadFile(TCHAR * szPath);
-CMString     __stdcall GetWord(const TCHAR* text, int index);
-const TCHAR* __stdcall GetWordAddress(const TCHAR* text, int index);
+int          __stdcall WCCmp(const wchar_t* wild, const wchar_t* string);
+char*        __stdcall IrcLoadFile(wchar_t * szPath);
+CMString     __stdcall GetWord(const wchar_t* text, int index);
+const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index);
 void         __stdcall RemoveLinebreaks( CMString& Message );
-TCHAR*       __stdcall my_strstri(const TCHAR *s1, const TCHAR *s2) ;
-TCHAR*       __stdcall DoColorCodes (const TCHAR* text, bool bStrip, bool bReplacePercent);
+wchar_t*       __stdcall my_strstri(const wchar_t *s1, const wchar_t *s2) ;
+wchar_t*       __stdcall DoColorCodes (const wchar_t* text, bool bStrip, bool bReplacePercent);
 
 CMStringA   __stdcall GetWord(const char* text, int index);
 

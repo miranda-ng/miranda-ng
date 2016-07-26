@@ -33,46 +33,46 @@ int RedrawFrame(WPARAM wParam, LPARAM lParam);
 // in = string to determine which field to set default "CBNEHXPp"
 void SetTextDefault(const char* in)
 {
-	TCHAR str[MAX_TEXT_SIZE];
+	wchar_t str[MAX_TEXT_SIZE];
 
 	if (strchr(in, 'C') != NULL) {
-		_tcsncpy(str, C_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, C_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.cText, str);
 	}
 	if (strchr(in, 'b') != NULL) {
-		_tcsncpy(str, b_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, b_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.bTitle, str);
 	}
 	if (strchr(in, 'B') != NULL) {
-		_tcsncpy(str, B_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, B_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.bText, str);
 	}
 	if (strchr(in, 'N') != NULL) {
-		_tcsncpy(str, N_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, N_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.nText, str);
 	}
 	if (strchr(in, 'E') != NULL) {
-		_tcsncpy(str, E_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, E_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.eText, str);
 	}
 	if (strchr(in, 'H') != NULL) {
-		_tcsncpy(str, H_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, H_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.hText, str);
 	}
 	if (strchr(in, 'X') != NULL) {
-		_tcsncpy(str, X_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, X_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.xText, str);
 	}
 	if (strchr(in, 'P') != NULL) {
-		_tcsncpy(str, P_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, P_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.pTitle, str);
 	}
 	if (strchr(in, 'p') != NULL) {
-		_tcsncpy(str, p_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, p_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.pText, str);
 	}
 	if (strchr(in, 'S') != NULL) {
-		_tcsncpy(str, s_DEFAULT, MAX_TEXT_SIZE - 1);
+		wcsncpy(str, s_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.sText, str);
 	}
 }
@@ -115,7 +115,7 @@ void LoadOptions(void)
 	opt.eUnit = db_get_w(NULL, WEATHERPROTONAME, "eUnit", 2);
 
 	ptrT szValue(db_get_tsa(NULL, WEATHERPROTONAME, "DegreeSign"));
-	_tcsncpy_s(opt.DegreeSign, (szValue == NULL) ? L"" : szValue, _TRUNCATE);
+	wcsncpy_s(opt.DegreeSign, (szValue == NULL) ? L"" : szValue, _TRUNCATE);
 
 	opt.DoNotAppendUnit = db_get_b(NULL, WEATHERPROTONAME, "DoNotAppendUnit", 0);
 	opt.NoFrac = db_get_b(NULL, WEATHERPROTONAME, "NoFractions", 0);
@@ -191,7 +191,7 @@ void LoadOptions(void)
 
 	// misc
 	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "Default"))
-		_tcsncpy_s(opt.Default, szValue, _TRUNCATE);
+		wcsncpy_s(opt.Default, szValue, _TRUNCATE);
 	else
 		opt.Default[0] = 0;
 }
@@ -255,14 +255,14 @@ void SaveOptions(void)
 // weather options
 static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	TCHAR str[512];
+	wchar_t str[512];
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		opt_startup = TRUE;
 		TranslateDialogDefault(hdlg);
 		// load settings
-		_ltot(opt.UpdateTime, str, 10);
+		_ltow(opt.UpdateTime, str, 10);
 		SetDlgItemText(hdlg, IDC_UPDATETIME, str);
 		SetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign);
 
@@ -335,7 +335,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 
 			// get update time and remove the old timer
 			GetDlgItemText(hdlg, IDC_UPDATETIME, str, _countof(str));
-			opt.UpdateTime = (WORD)_ttoi(str);
+			opt.UpdateTime = (WORD)_wtoi(str);
 			if (opt.UpdateTime < 1)	opt.UpdateTime = 1;
 			KillTimer(NULL, timerId);
 			timerId = SetTimer(NULL, 0, opt.UpdateTime * 60000, timerProc);
@@ -417,14 +417,14 @@ static void FreeTextVar(void)
 
 static const char *varname[8] = { "C", "b", "B", "N", "X", "E", "H", "S" };
 static const int cname[8] = { IDC_CTEXT, IDC_BTITLE, IDC_BTEXT, IDC_NTEXT, IDC_XTEXT, IDC_ETEXT, IDC_HTEXT, IDC_BTITLE2 };
-static TCHAR* const *var[8] = { &opt.cText, &opt.bTitle, &opt.bText, &opt.nText, &opt.xText, &opt.eText, &opt.hText, &opt.sText };
+static wchar_t* const *var[8] = { &opt.cText, &opt.bTitle, &opt.bText, &opt.nText, &opt.xText, &opt.eText, &opt.hText, &opt.sText };
 
 static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc, pos;
 	HWND button;
 	HMENU hMenu, hMenu1;
-	TCHAR str[4096];
+	wchar_t str[4096];
 	switch (msg) {
 	case WM_INITDIALOG:
 		opt_startup = TRUE;
@@ -433,7 +433,7 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 		SetWindowPos(hdlg, HWND_TOPMOST, rc.left, rc.top, 0, 0, SWP_NOSIZE);
 		TranslateDialogDefault(hdlg);
 		// generate the display text for variable list
-		_tcsncpy(str, VAR_LIST_OPT, _countof(str) - 1);
+		wcsncpy(str, VAR_LIST_OPT, _countof(str) - 1);
 		SetDlgItemText(hdlg, IDC_VARLIST, str);
 
 		// make the more variable and other buttons flat
@@ -498,7 +498,7 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 			case ID_MRESET:
 				unsigned varo = LOWORD(wParam) - IDC_TM1;
 				// remove the old setting from db and free memory
-				TCHAR* vartmp = *var[varo];
+				wchar_t* vartmp = *var[varo];
 				wfree(&vartmp);
 				SetTextDefault(varname[varo]);
 				SetDlgItemText(hdlg, cname[varo], *var[varo]);
@@ -535,7 +535,7 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			// save the option
-			TCHAR textstr[MAX_TEXT_SIZE];
+			wchar_t textstr[MAX_TEXT_SIZE];
 			// free memory for old settings
 			FreeTextVar();
 			// save new settings to memory
@@ -577,25 +577,25 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.position = 95600;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = OptionsProc;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTitle = _T(WEATHERPROTOTEXT);
-	odp.ptszTab = LPGENT("General");
+	odp.pwszGroup = LPGENW("Network");
+	odp.pwszTitle = _T(WEATHERPROTOTEXT);
+	odp.pwszTab = LPGENW("General");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
 
 	// text options
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TEXTOPT);
 	odp.pfnDlgProc = DlgProcText;
-	odp.ptszTab = LPGENT("Display");
+	odp.pwszTab = LPGENW("Display");
 	Options_AddPage(wParam, &odp);
 
 	// if popup service exists, load the weather popup options
 	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.ptszGroup = LPGENT("Popups");
+		odp.pwszGroup = LPGENW("Popups");
 		odp.groupPosition = 910000000;
-		odp.ptszTab = NULL;
+		odp.pwszTab = NULL;
 		odp.pfnDlgProc = DlgPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}

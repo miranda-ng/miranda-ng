@@ -104,11 +104,11 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 {
-	TCHAR filter[MAX_PATH];
+	wchar_t filter[MAX_PATH];
 	mir_sntprintf(filter, L"%s(*.tox)%c*.tox%c%s(*.*)%c*.*%c%c",
 		TranslateT("Tox profile"), 0, 0, TranslateT("All files"), 0, 0, 0);
 
-	TCHAR profilePath[MAX_PATH] = { 0 };
+	wchar_t profilePath[MAX_PATH] = { 0 };
 
 	OPENFILENAME ofn = { sizeof(ofn) };
 	ofn.hwndOwner = m_hwnd;
@@ -162,11 +162,11 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 {
-	TCHAR filter[MAX_PATH];
+	wchar_t filter[MAX_PATH];
 	mir_sntprintf(filter, L"%s(*.tox)%c*.tox%c%c",
 		TranslateT("Tox profile"), 0, 0, 0);
 
-	TCHAR profilePath[MAX_PATH];
+	wchar_t profilePath[MAX_PATH];
 	mir_tstrncpy(profilePath, L"tox_save.tox", _countof(profilePath));
 
 	OPENFILENAME ofn = { sizeof(ofn) };
@@ -337,7 +337,7 @@ void CToxNodeEditor::OnInitDialog()
 		lvi.mask = LVIF_TEXT;
 		lvi.iItem = m_iItem;
 		lvi.cchTextMax = MAX_PATH;
-		lvi.pszText = (TCHAR*)alloca(MAX_PATH * sizeof(TCHAR));
+		lvi.pszText = (wchar_t*)alloca(MAX_PATH * sizeof(wchar_t));
 
 		lvi.iSubItem = 0;
 		m_list->GetItem(&lvi);
@@ -542,7 +542,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 	{
 		ptrA json;
 
-		FILE *hFile = _tfopen(path, L"r");
+		FILE *hFile = _wfopen(path, L"r");
 		if (hFile != NULL)
 		{
 			_fseeki64(hFile, 0, SEEK_END);
@@ -614,7 +614,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 void CToxOptionsNodeList::OnApply()
 {
 	char setting[MAX_PATH];
-	TCHAR tszText[MAX_PATH];
+	wchar_t tszText[MAX_PATH];
 
 	LVITEM lvi = { 0 };
 	lvi.cchTextMax = MAX_PATH;
@@ -650,7 +650,7 @@ void CToxOptionsNodeList::OnApply()
 		lvi.iSubItem = 2;
 		m_nodes.GetItem(&lvi);
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, iItem);
-		db_set_w(NULL, module, setting, _ttoi(lvi.pszText));
+		db_set_w(NULL, module, setting, _wtoi(lvi.pszText));
 
 		lvi.iSubItem = 3;
 		m_nodes.GetItem(&lvi);
@@ -680,19 +680,19 @@ void CToxOptionsNodeList::OnApply()
 int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup = LPGENT("Network");
+	odp.pwszGroup = LPGENW("Network");
 
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszTab = LPGENW("Account");
 	odp.pDialog = CToxOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
-	/*odp.ptszTab = LPGENT("Multimedia");
+	/*odp.pwszTab = LPGENW("Multimedia");
 	odp.pDialog = CToxOptionsMultimedia::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);*/
 
-	odp.ptszTab = LPGENT("Nodes");
+	odp.pwszTab = LPGENW("Nodes");
 	odp.pDialog = CToxOptionsNodeList::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 

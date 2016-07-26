@@ -31,10 +31,10 @@ struct CNudge
 struct CNudgeElement : public MZeroedObject
 {
 	char ProtocolName[64];
-	TCHAR AccountName[128];
+	wchar_t AccountName[128];
 	char NudgeSoundname[100];
-	TCHAR recText[TEXT_LEN];
-	TCHAR senText[TEXT_LEN];
+	wchar_t recText[TEXT_LEN];
+	wchar_t senText[TEXT_LEN];
 	bool showPopup;
 	bool showStatus;
 	bool openMessageWindow;

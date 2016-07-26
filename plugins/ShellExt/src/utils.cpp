@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
 #ifdef LOG_ENABLED
-extern TCHAR tszLogPath[];
+extern wchar_t tszLogPath[];
 
 void logA(const char *format, ...)
 {
-	FILE *out = _tfopen(tszLogPath, L"a+");
+	FILE *out = _wfopen(tszLogPath, L"a+");
 	if (out) {
 		va_list args;
 		va_start(args, format);

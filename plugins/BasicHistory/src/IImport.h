@@ -42,7 +42,7 @@ public:
 		stream = str;
 	}
 
-	virtual const TCHAR* GetExt() = 0;
+	virtual const wchar_t* GetExt() = 0;
 	virtual int IsContactInFile(const std::vector<MCONTACT>& contacts) = 0;
 	virtual bool GetEventList(std::vector<ExternalMessage>& eventList) = 0;
 

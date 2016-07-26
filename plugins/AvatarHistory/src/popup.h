@@ -29,9 +29,9 @@ struct Options {
 
 	// Popup
 	BOOL popup_show_changed;
-	TCHAR popup_changed[1024];
+	wchar_t popup_changed[1024];
 	BOOL popup_show_removed;
-	TCHAR popup_removed[1024];
+	wchar_t popup_removed[1024];
 	WORD popup_delay_type;
 	WORD popup_timeout;
 	BYTE popup_use_win_colors;
@@ -54,16 +54,16 @@ void DeInitPopups();
 #define POPUP_TYPE_ERROR	2
 
 // Show an popup
-void ShowPopup(MCONTACT hContact, const TCHAR *title, const TCHAR *description);
-void ShowDebugPopup(MCONTACT hContact, const TCHAR *title, const TCHAR *description);
+void ShowPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description);
+void ShowDebugPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description);
 
 // Show an test
-void ShowTestPopup(MCONTACT hContact,const TCHAR *title, const TCHAR *description, const Options *op);
+void ShowTestPopup(MCONTACT hContact,const wchar_t *title, const wchar_t *description, const Options *op);
 
 // Show an error popup
 void ShowErrPopup(const char *description, const char *title = NULL);
 
-void ShowPopupEx(MCONTACT hContact, const TCHAR *title, const TCHAR *description, 
+void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *description, 
 			   void *plugin_data, int type, const Options *op);
 
 

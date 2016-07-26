@@ -49,7 +49,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, hContact, hDbEvent)
 					db_set_ws(hcntct, "CList", "Group", gbSpammersGroup.c_str());
 				BYTE msg = 1;
 				if (gbIgnoreURL) {
-					TCHAR* EventText = ReqGetText(&dbei); //else return NULL
+					wchar_t* EventText = ReqGetText(&dbei); //else return NULL
 					msg = !IsUrlContains(EventText);
 					mir_free(EventText);
 				}
@@ -110,7 +110,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		// reject processing of the event
 		return 1;
 
-	tstring message;
+	wstring message;
 
 	if (dbei->flags & DBEF_UTF) {
 		wchar_t* msg_u;
@@ -136,7 +136,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	bool answered = false;
 	if (gbMathExpression) {
 		if (boost::algorithm::all(message, boost::is_digit())) {
-			int num = _ttoi(message.c_str());
+			int num = _wtoi(message.c_str());
 			int math_answer = db_get_dw(hContact, pluginName, "MathAnswer", 0);
 			if (num && math_answer)
 				answered = (num == math_answer);
@@ -173,7 +173,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 		// send congratulation
 		if (bSendMsg) {
-			tstring prot = DBGetContactSettingStringPAN(NULL, dbei->szModule, "AM_BaseProto", L"");
+			wstring prot = DBGetContactSettingStringPAN(NULL, dbei->szModule, "AM_BaseProto", L"");
 			// for notICQ protocols or disable auto auth. reqwest
 			if ((Stricmp(L"ICQ", prot.c_str())) || (!gbAutoReqAuth)) {
 				char * buf = mir_utf8encodeW(variables_parse(gbCongratulation, hContact).c_str());
@@ -199,23 +199,23 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		return 0;
 	}
 	// URL contains check
-	bSendMsg = (bSendMsg && gbIgnoreURL) ? (!IsUrlContains((TCHAR *)message.c_str())) : bSendMsg;
+	bSendMsg = (bSendMsg && gbIgnoreURL) ? (!IsUrlContains((wchar_t *)message.c_str())) : bSendMsg;
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	if (bSendMsg) {
-		if ((!gbInfTalkProtection || tstring::npos == message.find(L"StopSpam automatic message:\r\n"))
+		if ((!gbInfTalkProtection || wstring::npos == message.find(L"StopSpam automatic message:\r\n"))
 			&& (!gbMaxQuestCount || db_get_dw(hContact, pluginName, "QuestionCount", 0) < gbMaxQuestCount)) {
 			// send question
-			tstring q;
+			wstring q;
 			if (gbInfTalkProtection)
 				q += L"StopSpam automatic message:\r\n";
 			if (gbMathExpression) { //parse math expression in question
-				tstring tmp_question = gbQuestion;
+				wstring tmp_question = gbQuestion;
 				std::list<int> args;
-				std::list<TCHAR> actions;
-				tstring::size_type p1 = gbQuestion.find(L"X"), p2 = 0;
-				const tstring expr_chars = L"X+-/*", expr_acts = L"+-/*";
-				while (p1 < gbQuestion.length() && p1 != tstring::npos && expr_chars.find(gbQuestion[p1]) != tstring::npos) {
+				std::list<wchar_t> actions;
+				wstring::size_type p1 = gbQuestion.find(L"X"), p2 = 0;
+				const wstring expr_chars = L"X+-/*", expr_acts = L"+-/*";
+				while (p1 < gbQuestion.length() && p1 != wstring::npos && expr_chars.find(gbQuestion[p1]) != wstring::npos) {
 					std::string arg;
 					p2 = p1;
 					for (p1 = gbQuestion.find(L"X", p1); (p1 < gbQuestion.length()) && (gbQuestion[p1] == L'X'); ++p1)
@@ -224,7 +224,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 					tmp_question.replace(p2, arg.size(), toUTF16(arg));
 					args.push_back(atoi(arg.c_str()));
 
-					if ((p1 < gbQuestion.length()) && (p1 != tstring::npos) && (expr_acts.find(gbQuestion[p1]) != tstring::npos))
+					if ((p1 < gbQuestion.length()) && (p1 != wstring::npos) && (expr_acts.find(gbQuestion[p1]) != wstring::npos))
 						actions.push_back(gbQuestion[p1]);
 					++p1;
 				}
@@ -234,25 +234,25 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 				while (!args.empty()) {
 					if (!actions.empty()) {
 						switch (actions.front()) {
-						case _T('+'):
+						case '+':
 							{
 								math_answer += args.front();
 								args.pop_front();
 							}
 							break;
-						case _T('-'):
+						case '-':
 							{
 								math_answer -= args.front();
 								args.pop_front();
 							}
 							break;
-						case _T('/'):
+						case '/':
 							{
 								math_answer /= args.front();
 								args.pop_front();
 							}
 							break;
-						case _T('*'):
+						case '*':
 							{
 								math_answer *= args.front();
 								args.pop_front();

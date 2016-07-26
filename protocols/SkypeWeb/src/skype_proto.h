@@ -41,24 +41,24 @@ public:
 
 	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
 	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
-	virtual int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
+	virtual int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
+	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t *msg);
 
 	// accounts
-	static CSkypeProto* InitAccount(const char *protoName, const TCHAR *userName);
+	static CSkypeProto* InitAccount(const char *protoName, const wchar_t *userName);
 	static int          UninitAccount(CSkypeProto *proto);
 
 	// icons
@@ -137,7 +137,7 @@ private:
 	std::map<HANDLE, time_t> m_mpOutMessages;
 
 	std::map<std::string, std::string> cookies;
-	static std::map<std::tstring, std::tstring> languages;
+	static std::map<std::wstring, std::wstring> languages;
 
 	HANDLE m_pollingConnection,
 		m_hPollingThread,
@@ -174,14 +174,14 @@ private:
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
-	std::tstring m_tszAvatarFolder;
+	std::wstring m_tszAvatarFolder;
 
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 
-	int InternalSetAvatar(MCONTACT hContact, const char *szJid, const TCHAR *ptszFileName);
+	int InternalSetAvatar(MCONTACT hContact, const char *szJid, const wchar_t *ptszFileName);
 
 	// requests
 
@@ -282,7 +282,7 @@ private:
 
 	void SetAvatarUrl(MCONTACT hContact, CMString &tszUrl);
 	void ReloadAvatarInfo(MCONTACT hContact);
-	void GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen);
+	void GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen);
 
 	void OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg);
 	void OnSentAvatar(const NETLIBHTTPREQUEST *response);
@@ -339,17 +339,17 @@ private:
 	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 
-	void StartChatRoom(const TCHAR *tid, const TCHAR *tname);
+	void StartChatRoom(const wchar_t *tid, const wchar_t *tname);
 	void OnLoadChats(const NETLIBHTTPREQUEST *response);
 	void OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p);
 
 	void OnChatEvent(const JSONNode &node);
-	void OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessage);
-	char *GetChatUsers(const TCHAR *chat_id);
-	bool IsChatContact(const TCHAR *chat_id, const char *id);
-	void AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
-	void AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role, bool isChange = false);
-	void RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
+	void OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszMessage);
+	char *GetChatUsers(const wchar_t *chat_id);
+	bool IsChatContact(const wchar_t *chat_id, const char *id);
+	void AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
+	void AddChatContact(const wchar_t *tchat_id, const char *id, const char *name, const wchar_t *role, bool isChange = false);
+	void RemoveChatContact(const wchar_t *tchat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
 
 	void RenameChat(const char *chat_id, const char *name);
 	void ChangeChatTopic(const char * chat_id, const char *topic, const char *initiator);
@@ -389,9 +389,9 @@ private:
 	static int SkypeToMirandaStatus(const char *status);
 	static const char *MirandaToSkypeStatus(int status);
 
-	void ShowNotification(const TCHAR *message, MCONTACT hContact = NULL);
-	void ShowNotification(const TCHAR *caption, const TCHAR *message, MCONTACT hContact = NULL, int type = 0);
-	static bool IsFileExists(std::tstring path);
+	void ShowNotification(const wchar_t *message, MCONTACT hContact = NULL);
+	void ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact = NULL, int type = 0);
+	static bool IsFileExists(std::wstring path);
 
 	static LRESULT CALLBACK PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

@@ -117,12 +117,12 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 /*****************************************************************************/
 
-static TCHAR tszSizeString[] = L"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+static wchar_t tszSizeString[] = L"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
 static MCONTACT FindContactByUrl(HWND hwndDlg)
 {
 	MCONTACT res = NULL;
-	TCHAR urltext[300], titlebartxt[300];
+	wchar_t urltext[300], titlebartxt[300];
 	int contactcount = 0;
 
 	GetDlgItemText(hwndDlg, IDC_OPEN_URL, urltext, _countof(urltext));
@@ -148,7 +148,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 {
 	DBVARIANT dbv;
 	RECT rc;
-	TCHAR url[300];
+	wchar_t url[300];
 	MCONTACT hContact;
 
 	switch (msg) {
@@ -162,7 +162,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			url[0] = '\0';
 			if (!db_get_ts(hContact2, MODULENAME, URL_KEY, &dbv)) {
-				_tcsncpy_s(url, dbv.ptszVal, _TRUNCATE);
+				wcsncpy_s(url, dbv.ptszVal, _TRUNCATE);
 				db_free(&dbv);
 			}
 			SetDlgItemText(hwndDlg, IDC_OPEN_URL, FixButtonText(url, _countof(url)));
@@ -358,7 +358,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (hContact = FindContactByUrl(hwndDlg))
 				OnTopMenuCommand(wParam, lParam, hContact);
 			{
-				TCHAR *ptszToolTip;
+				wchar_t *ptszToolTip;
 				HWND hTopmost;
 				if (!db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0)) {
 					hTopmost = HWND_NOTOPMOST;

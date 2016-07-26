@@ -7,7 +7,7 @@ tstring tstringprintf(tstring strFormat,...) {
 	va_start(vlist, strFormat);
 	
 	int mlen = (int)strFormat.length()+128;
-	TCHAR *text = (TCHAR*)malloc(mlen*sizeof(TCHAR));
+	wchar_t *text = (wchar_t*)malloc(mlen*sizeof(wchar_t));
 	_vsntprintf(text,mlen,strFormat.c_str(),vlist);
 	va_end(vlist);
 
@@ -122,7 +122,7 @@ tstring Utf8_Decode(const char *str)
 
 	size_t len = mir_strlen(str);
 
-    if ((wszTemp = (WCHAR *) malloc(sizeof(TCHAR) * (len + 2))) == NULL)
+    if ((wszTemp = (WCHAR *) malloc(sizeof(wchar_t) * (len + 2))) == NULL)
 		return strRes;
 	
 	p = (char *) str;
@@ -140,7 +140,7 @@ tstring Utf8_Decode(const char *str)
 			wszTemp[i++] |= (*(p++) & 0x3f);
 		}
 	}
-	wszTemp[i] = (TCHAR)'\0';
+	wszTemp[i] = (wchar_t)'\0';
 
 	strRes = wszTemp;
 	free(wszTemp);

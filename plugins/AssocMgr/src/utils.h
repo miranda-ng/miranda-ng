@@ -22,8 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* String Conv */
 WCHAR* a2u(const char *pszAnsi,BOOL fMirCp);
 char* u2a(const WCHAR *pszUnicode,BOOL fMirCp);
-TCHAR* s2t(const void *pszStr,DWORD fUnicode,BOOL fMirCp);
-void* t2s(const TCHAR *pszStr,DWORD fUnicode,BOOL fMirCp);
+wchar_t* s2t(const void *pszStr,DWORD fUnicode,BOOL fMirCp);
+void* t2s(const wchar_t *pszStr,DWORD fUnicode,BOOL fMirCp);
 
  #define t2a(s) u2a(s,FALSE)
  #define a2t(s) a2u(s,FALSE)

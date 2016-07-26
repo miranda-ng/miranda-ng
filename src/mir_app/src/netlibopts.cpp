@@ -67,7 +67,7 @@ static const UINT specifyPortsControls[] = {
 	IDC_PORTSRANGE,
 	IDC_STATIC52};
 
-static const TCHAR* szProxyTypes[] = {LPGENT("<mixed>"), L"SOCKS4", L"SOCKS5", L"HTTP", L"HTTPS", L"Internet Explorer"};
+static const wchar_t* szProxyTypes[] = {LPGENW("<mixed>"), L"SOCKS4", L"SOCKS5", L"HTTP", L"HTTPS", L"Internet Explorer"};
 static const WORD oftenProxyPorts[] = {1080, 1080, 1080, 8080, 8080, 8080};
 
 #define M_REFRESHALL      (WM_USER+100)
@@ -338,7 +338,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		break;
 
 	case M_REFRESHENABLING:
-		TCHAR str[80];
+		wchar_t str[80];
 		{
 			int selectedProxyType = SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETCURSEL, 0, 0), 0);
 			mir_sntprintf(str, TranslateT("(often %d)"), oftenProxyPorts[selectedProxyType]);

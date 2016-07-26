@@ -71,8 +71,8 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 		{
 			TCString OrigRegexp = Regexp;
 			Regexp = Regexp.Right(Regexp.GetLen() - 1);
-			TCHAR *pRegexpEnd = (TCHAR*)Regexp + Regexp.GetLen();
-			TCHAR *p = _tcsrchr(Regexp.GetBuffer(), '/');
+			wchar_t *pRegexpEnd = (wchar_t*)Regexp + Regexp.GetLen();
+			wchar_t *p = wcsrchr(Regexp.GetBuffer(), '/');
 			if (!p)
 			{
 				Regexp = OrigRegexp;
@@ -126,7 +126,7 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 			PcreCompileData[NewID].pExtra = pcre16_study(PcreCompileData[NewID].pPcre, 0, &Err);
 		} 
 		else {
-			// Result += LogMessage(TranslateT("Syntax error in regexp\n%s\nat offset %d: %s."), (TCHAR*)Regexp, ErrOffs, (TCHAR*)ANSI2TCHAR(Err)) + L"\n\n";
+			// Result += LogMessage(TranslateT("Syntax error in regexp\n%s\nat offset %d: %s."), (wchar_t*)Regexp, ErrOffs, (wchar_t*)ANSI2TCHAR(Err)) + L"\n\n";
 			PcreCompileData[NewID].Pattern = Regexp;
 	 	}
 	} 
@@ -165,7 +165,7 @@ int PcreCheck(TCString Str, int StartingID)
 			}
 		} else
 		{
-			if (_tcsstr(Str.ToLower(), PcreCompileData[I].Pattern.ToLower()))
+			if (wcsstr(Str.ToLower(), PcreCompileData[I].Pattern.ToLower()))
 			{
 				return PcreCompileData[I].ID;
 			}

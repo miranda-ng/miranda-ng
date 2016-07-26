@@ -39,7 +39,7 @@ class ISmileyBase : public IOleObject, public IViewObject2, public ITooltipData
 	DWORD  m_advf;
 	LONG   m_lRefCount;
 
-	TCHAR* m_smltxt;
+	wchar_t* m_smltxt;
 
 protected:
 	SIZEL  m_sizeExtent;
@@ -56,8 +56,8 @@ public:
 	virtual void OnClose(void);
 	void SendOnViewChange(void);
 
-	bool QueryHitPointSpecial(int x, int y, HWND hwnd, TCHAR **smltxt);
-	void SetHint(TCHAR *smltxt);
+	bool QueryHitPointSpecial(int x, int y, HWND hwnd, wchar_t **smltxt);
+	void SetHint(wchar_t *smltxt);
 
 	virtual void Draw() PURE;
 	virtual void SetPosition(HWND hwnd, LPCRECT lpRect);

@@ -27,21 +27,21 @@ private:
 	static INT_PTR CALLBACK DlgProcSetFileName(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam); 
 
 public:	
-	static int msgBox(TCHAR *szMsg, UINT uType);
+	static int msgBox(wchar_t *szMsg, UINT uType);
 	static int msgBoxA(char *szMsg, UINT uType);
 	static int getDeleteTimeMin();
 
 	static HICON loadIconEx(const char *szName);
 	static HANDLE getIconHandle(const char *szName);
 
-	static TCHAR *getFileNameFromPath(TCHAR *stzPath);
-	static TCHAR *getTextFragment(TCHAR *stzText, size_t length, TCHAR *buff);
-	static char *makeSafeString(TCHAR *input, char *output);
+	static wchar_t *getFileNameFromPath(wchar_t *stzPath);
+	static wchar_t *getTextFragment(wchar_t *stzText, size_t length, wchar_t *buff);
+	static char *makeSafeString(wchar_t *input, char *output);
 
 	static void createFileDownloadLink(char *szUrl, char *fileName, char *buff, int buffSize);
 	static void copyToClipboard(char *szText);
 	static void curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl_slist *headerList, char *errorBuff);
 
-	static bool setFileNameDlg(TCHAR *nameBuff);
+	static bool setFileNameDlg(wchar_t *nameBuff);
 	static bool setFileNameDlgA(char *nameBuff);
 };

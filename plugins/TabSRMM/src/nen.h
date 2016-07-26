@@ -133,7 +133,7 @@ struct NEN_OPTIONS
 struct EVENT_DATAT
 {
 	MEVENT hEvent;
-	TCHAR  tszText[MAX_SECONDLINE + 2];
+	wchar_t  tszText[MAX_SECONDLINE + 2];
 	DWORD  timestamp;
 };
 

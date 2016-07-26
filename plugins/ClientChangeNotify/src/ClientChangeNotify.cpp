@@ -149,11 +149,11 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 {
 	TCString PopupText;
 	if (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_SHOWPREVCLIENT)) {
-		mir_sntprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s (was %s)"), (const TCHAR*)sd->MirVer, (const TCHAR*)sd->OldMirVer);
+		mir_sntprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s (was %s)"), (const wchar_t*)sd->MirVer, (const wchar_t*)sd->OldMirVer);
 		PopupText.ReleaseBuffer();
 	}
 	else {
-		mir_sntprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s"), (const TCHAR*)sd->MirVer);
+		mir_sntprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s"), (const wchar_t*)sd->MirVer);
 		PopupText.ReleaseBuffer();
 	}
 
@@ -168,8 +168,8 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 		ppd.lchIcon = Skin_LoadProtoIcon(szProto, db_get_w(sd->hContact, szProto, "Status", ID_STATUS_OFFLINE));
 		pdata->hIcon = NULL;
 	}
-	_tcsncpy(ppd.lptzContactName, (TCHAR*)pcli->pfnGetContactDisplayName(sd->hContact, 0), _countof(ppd.lptzContactName) - 1);
-	_tcsncpy(ppd.lptzText, PopupText, _countof(ppd.lptzText) - 1);
+	wcsncpy(ppd.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(sd->hContact, 0), _countof(ppd.lptzContactName) - 1);
+	wcsncpy(ppd.lptzText, PopupText, _countof(ppd.lptzText) - 1);
 	ppd.colorBack = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFBGCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_BGCOLOUR));
 	ppd.colorText = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFTEXTCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_TEXTCOLOUR));
 	ppd.PluginWindowProc = PopupWndProc;
@@ -244,7 +244,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				}
 			}
 		}
-		if (sd.MirVer == (const TCHAR*)sd.OldMirVer) {
+		if (sd.MirVer == (const wchar_t*)sd.OldMirVer) {
 			_ASSERT(hContact);
 			return 0;
 		}
@@ -257,7 +257,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact) {
 		TCString ClientName;
 		if (PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWPREVCLIENT) && sd.OldMirVer.GetLen()) {
-			mir_sntprintf(ClientName.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("%s (was %s)"), (const TCHAR*)sd.MirVer, (const TCHAR*)sd.OldMirVer);
+			mir_sntprintf(ClientName.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("%s (was %s)"), (const wchar_t*)sd.MirVer, (const wchar_t*)sd.OldMirVer);
 			ClientName.ReleaseBuffer();
 		}
 		else ClientName = sd.MirVer;
@@ -277,9 +277,9 @@ static int PrebuildMainMenu(WPARAM, LPARAM)
 	// we have to use ME_CLIST_PREBUILDMAINMENU instead of updating menu items only on settings change, because "popup_enabled" and "popup_disabled" icons are not always available yet in ModulesLoaded
 	if (bPopupExists) {
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
-			Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENT("Disable c&lient change notification"), IcoLib_GetIcon("popup_enabled"));
+			Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Disable c&lient change notification"), IcoLib_GetIcon("popup_enabled"));
 		else
-			Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENT("Enable c&lient change notification"), IcoLib_GetIcon("popup_disabled"));
+			Menu_ModifyItem(g_hTogglePopupsMenuItem, LPGENW("Enable c&lient change notification"), IcoLib_GetIcon("popup_disabled"));
 	}
 	return 0;
 }
@@ -330,12 +330,12 @@ int MirandaLoaded(WPARAM, LPARAM)
 	
 		CMenuItem mi;
 		SET_UID(mi, 0xfabb9181, 0xdb92, 0x43f4, 0x86, 0x40, 0xca, 0xb6, 0x4c, 0x93, 0x34, 0x27);
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
 		mi.flags = CMIF_TCHAR;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
-			mi.name.t = LPGENT("Disable c&lient change notification");
+			mi.name.w = LPGENW("Disable c&lient change notification");
 		else
-			mi.name.t = LPGENT("Enable c&lient change notification");
+			mi.name.w = LPGENW("Enable c&lient change notification");
 
 		mi.pszService = MS_CCN_TOGGLEPOPUPS;
 		g_hTogglePopupsMenuItem = Menu_AddMainMenuItem(&mi);

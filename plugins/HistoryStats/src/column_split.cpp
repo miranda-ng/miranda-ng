@@ -73,16 +73,16 @@ void ColSplit::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 				                   Opt.insertRadio(hTemp, m_hGraphAlign, TranslateT("Align on week boundary"));
 	m_hDetail                 = Opt.insertCheck(hGroup, TranslateT("Details for every bar (tooltip)"));
 
-	static const TCHAR* sourceTexts[] = {
-		LPGENT("Characters (incoming)"),
-		LPGENT("Characters (outgoing)"),
-		LPGENT("Characters (all)"),
-		LPGENT("Messages (incoming)"),
-		LPGENT("Messages (outgoing)"),
-		LPGENT("Messages (all)"),
-		LPGENT("Chats (incoming)"),
-		LPGENT("Chats (outgoing)"),
-		LPGENT("Chats (all)"),
+	static const wchar_t* sourceTexts[] = {
+		LPGENW("Characters (incoming)"),
+		LPGENW("Characters (outgoing)"),
+		LPGENW("Characters (all)"),
+		LPGENW("Messages (incoming)"),
+		LPGENW("Messages (outgoing)"),
+		LPGENW("Messages (all)"),
+		LPGENW("Chats (incoming)"),
+		LPGENW("Chats (outgoing)"),
+		LPGENW("Chats (all)"),
 	};
 
 	array_each_(i, sourceTexts)
@@ -90,10 +90,10 @@ void ColSplit::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
 	}
 
-	static const TCHAR* unitTexts[] = {
-		LPGENT("Hours"),
-		LPGENT("Days"),
-		LPGENT("Weeks"),
+	static const wchar_t* unitTexts[] = {
+		LPGENW("Hours"),
+		LPGENW("Days"),
+		LPGENW("Weeks"),
 	};
 
 	array_each_(i, unitTexts)
@@ -263,22 +263,22 @@ Column::StyleList ColSplit::impl_outputGetAdditionalStyles(IDProvider& idp)
 
 void ColSplit::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const TCHAR* szTypeDesc[] = {
-		LPGENT("Hours of day"),
-		LPGENT("Days of week"),
-		LPGENT("\"Split\""),
+	static const wchar_t* szTypeDesc[] = {
+		LPGENW("Hours of day"),
+		LPGENW("Days of week"),
+		LPGENW("\"Split\""),
 	};
 
-	static const TCHAR* szSourceDesc[] = {
-		LPGENT("incoming characters"),
-		LPGENT("outgoing characters"),
-		LPGENT("all characters"),
-		LPGENT("incoming messages"),
-		LPGENT("outgoing messages"),
-		LPGENT("all messages"),
-		LPGENT("incoming chats"),
-		LPGENT("outgoing chats"),
-		LPGENT("all chats"),
+	static const wchar_t* szSourceDesc[] = {
+		LPGENW("incoming characters"),
+		LPGENW("outgoing characters"),
+		LPGENW("all characters"),
+		LPGENW("incoming messages"),
+		LPGENW("outgoing messages"),
+		LPGENW("all messages"),
+		LPGENW("incoming chats"),
+		LPGENW("outgoing chats"),
+		LPGENW("all chats"),
 	};
 
 	if (row == 1)
@@ -344,14 +344,14 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 {
 	SplitParams params = getParams();
 
-	static const TCHAR* szWDayName[] = {
-		LPGENT("wday3:Mon"),
-		LPGENT("wday3:Tue"),
-		LPGENT("wday3:Wed"),
-		LPGENT("wday3:Thu"),
-		LPGENT("wday3:Fri"),
-		LPGENT("wday3:Sat"),
-		LPGENT("wday3:Sun")
+	static const wchar_t* szWDayName[] = {
+		LPGENW("wday3:Mon"),
+		LPGENW("wday3:Tue"),
+		LPGENW("wday3:Wed"),
+		LPGENW("wday3:Thu"),
+		LPGENW("wday3:Fri"),
+		LPGENW("wday3:Sat"),
+		LPGENW("wday3:Sun")
 	};
 
 	const int* pData = reinterpret_cast<const int*>(contact.getSlot(contactDataSlotGet()));

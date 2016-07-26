@@ -33,7 +33,7 @@
 struct FontOptionsList
 {
 	COLORREF defColour;
-	TCHAR*   szDefFace;
+	wchar_t*   szDefFace;
 	BYTE     defStyle;
 	char     defSize;
 }
@@ -66,8 +66,8 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam);
 #define SMS_READ			"/ReadSms"
 #define SMS_READ_ACK			"/ReadSmsAck"
 #define SMS_SEND			"/SendSMS"
-#define SMS_SEND_STR			LPGENT("Send &SMS...")
-#define SMS_SEND_CM_STR			LPGENT("&SMS Message")
+#define SMS_SEND_STR			LPGENW("Send &SMS...")
+#define SMS_SEND_CM_STR			LPGENW("&SMS Message")
 
 // структура содержащая информацию о сервисах/функциях
 struct SERVICE_ITEM

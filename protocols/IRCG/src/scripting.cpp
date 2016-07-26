@@ -26,7 +26,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawIn(WPARAM, LPARAM lParam)
 	char* pszRaw = (char*)lParam;
 
 	if (m_scriptingEnabled && pszRaw && IsConnected()) {
-		TCHAR* p = mir_a2t(pszRaw);
+		wchar_t* p = mir_a2t(pszRaw);
 		InsertIncomingEvent(p);
 		mir_free(p);
 		return 0;
@@ -83,17 +83,17 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
 		gchook->dwData = gch->dwData;
 		gchook->pDest->iType = gch->pDest->iType;
 		if (gch->ptszText)
-			gchook->ptszText = _tcsdup(gch->ptszText);
+			gchook->ptszText = wcsdup(gch->ptszText);
 		else gchook->ptszText = NULL;
 
 		if (gch->ptszUID)
-			gchook->ptszUID = _tcsdup(gch->ptszUID);
+			gchook->ptszUID = wcsdup(gch->ptszUID);
 		else
 			gchook->ptszUID = NULL;
 
 		if (gch->pDest->ptszID) {
 			CMString S = MakeWndID(gch->pDest->ptszID);
-			gchook->pDest->ptszID = _tcsdup(S.c_str());
+			gchook->pDest->ptszID = wcsdup(S.c_str());
 		}
 		else gchook->pDest->ptszID = NULL;
 
@@ -117,7 +117,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 		int i = sString.Find("|");
 		if (i != -1) {
 			sRequest = sString.Mid(0, i);
-			TCHAR* p = mir_a2t(sString.Mid(i + 1));
+			wchar_t* p = mir_a2t(sString.Mid(i + 1));
 			sChannel = p;
 			mir_free(p);
 		}
@@ -148,7 +148,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			gci.pszModule = m_szModuleName;
 			gci.pszID = S.c_str();
 			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
-				TCHAR szTemp[40];
+				wchar_t szTemp[40];
 				mir_sntprintf(szTemp, L"%u", gci.iCount);
 				sOutput = szTemp;
 			}
@@ -186,7 +186,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			}
 
 			if (!S.IsEmpty())
-				sOutput = (TCHAR*)S.c_str();
+				sOutput = (wchar_t*)S.c_str();
 		}
 		// send it to mbot
 		if (!sOutput.IsEmpty())

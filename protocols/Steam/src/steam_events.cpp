@@ -34,15 +34,15 @@ int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszGroup = LPGENT("Network");
+	odp.pwszGroup = LPGENW("Network");
 
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszTab = LPGENW("Account");
 	odp.pDialog = CSteamOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Blocked contacts");
+	odp.pwszTab = LPGENW("Blocked contacts");
 	odp.pDialog = CSteamOptionsBlockList::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 	return 0;

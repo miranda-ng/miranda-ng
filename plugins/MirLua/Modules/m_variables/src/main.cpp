@@ -11,7 +11,7 @@ static int lua_Parse(lua_State *L)
 	ptrT format(mir_utf8decodeT(luaL_checkstring(L, 1)));
 	MCONTACT hContact = lua_tointeger(L, 2);
 
-	TCHAR *res = variables_parse_ex(format, NULL, hContact, NULL, 0);
+	wchar_t *res = variables_parse_ex(format, NULL, hContact, NULL, 0);
 	lua_pushstring(L, T2Utf(res));
 
 	return 1;

@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class FacebookProto : public PROTO<FacebookProto>
 {
 public:
-	FacebookProto(const char *proto_name, const TCHAR *username);
+	FacebookProto(const char *proto_name, const wchar_t *username);
 	~FacebookProto();
 
 	inline const char* ModuleName() const
@@ -83,15 +83,15 @@ public:
 	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
 
 	virtual	int      __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
-	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
+	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
+	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
-	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR* email);
-	virtual	HANDLE    __cdecl SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
+	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t* email);
+	virtual	HANDLE    __cdecl SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName);
 
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
@@ -99,7 +99,7 @@ public:
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const TCHAR* msg);
+	virtual	int       __cdecl SetAwayMsg(int iStatus, const wchar_t* msg);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
@@ -208,7 +208,7 @@ public:
 	void		StopTyping(MCONTACT hContact);
 
 	// Chats handling
-	void AddChat(const char *chat_id, const TCHAR *name);
+	void AddChat(const char *chat_id, const wchar_t *name);
 	void UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0, bool is_old = false);
 	void RenameChat(const char *chat_id, const char *name);
 	bool IsChatContact(const char *chat_id, const char *id);
@@ -228,7 +228,7 @@ public:
 	facebook_client facy; // TODO: Refactor to "client" and make dynamic
 
 	// Helpers
-	std::tstring GetAvatarFolder();
+	std::wstring GetAvatarFolder();
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &ai, std::string *url);
 	void CheckAvatarChange(MCONTACT hContact, const std::string &image_url);
 	void ToggleStatusMenuItems(bool bEnable);
@@ -260,6 +260,6 @@ public:
 	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	// Information providing
-	HWND NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWORD flags, std::string *url = NULL, std::string *notification_id = NULL, const char *icon = NULL);
+	HWND NotifyEvent(wchar_t* title, wchar_t* info, MCONTACT contact, DWORD flags, std::string *url = NULL, std::string *notification_id = NULL, const char *icon = NULL);
 	void ShowNotifications();
 };

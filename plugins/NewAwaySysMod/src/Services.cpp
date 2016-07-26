@@ -29,7 +29,7 @@ struct NAS_PROTOINFOv1
 	union {
 		char *szMsg;
 		WCHAR *wszMsg;
-		TCHAR *tszMsg;
+		wchar_t *tszMsg;
 	};
 	WORD status;
 };
@@ -68,7 +68,7 @@ INT_PTR SetStatusMode(WPARAM wParam, LPARAM lParam) // called by GamerStatus and
 
 	_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)NULL].m_status == wParam);
 	g_fNoProcessing = false;
-	CProtoSettings(NULL, wParam).SetMsgFormat(SMF_TEMPORARY, lParam ? (TCHAR*)_A2T((char*)lParam) : CProtoSettings(NULL, wParam).GetMsgFormat(GMF_LASTORDEFAULT));
+	CProtoSettings(NULL, wParam).SetMsgFormat(SMF_TEMPORARY, lParam ? (wchar_t*)_A2T((char*)lParam) : CProtoSettings(NULL, wParam).GetMsgFormat(GMF_LASTORDEFAULT));
 	ChangeProtoMessages(NULL, wParam, TCString());
 	return 0;
 }

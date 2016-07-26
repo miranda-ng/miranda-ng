@@ -17,13 +17,13 @@ private:
 	int id;
 	int unloadRef;
 	char *moduleName;
-	TCHAR *fileName;
-	TCHAR filePath[MAX_PATH];
+	wchar_t *fileName;
+	wchar_t filePath[MAX_PATH];
 	Status status;
 
 
 public:
-	CMLuaScript(lua_State *L, const TCHAR *path);
+	CMLuaScript(lua_State *L, const wchar_t *path);
 	~CMLuaScript();
 
 	static CMLuaScript* GetScriptFromEnviroment(lua_State *L);
@@ -34,8 +34,8 @@ public:
 
 	const char* GetModuleName() const;
 
-	const TCHAR* GetFilePath() const;
-	const TCHAR* GetFileName() const;
+	const wchar_t* GetFilePath() const;
+	const wchar_t* GetFileName() const;
 
 	const Status GetStatus() const;
 

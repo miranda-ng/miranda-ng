@@ -254,23 +254,23 @@ void LoadGlobalIcons()
 	}
 }
 
-static struct { UINT cpId; const TCHAR *cpName; } cpTable[] =
+static struct { UINT cpId; const wchar_t *cpName; } cpTable[] =
 {
-	{ 874, LPGENT("Thai") }, //
-	{ 932, LPGENT("Japanese") }, //
-	{ 936, LPGENT("Simplified Chinese") }, //
-	{ 949, LPGENT("Korean") }, //
-	{ 950, LPGENT("Traditional Chinese") }, //
-	{ 1250, LPGENT("Central European") }, //
-	{ 1251, LPGENT("Cyrillic") }, //
-	{ 1252, LPGENT("Latin I") }, //
-	{ 1253, LPGENT("Greek") }, //
-	{ 1254, LPGENT("Turkish") }, //
-	{ 1255, LPGENT("Hebrew") }, //
-	{ 1256, LPGENT("Arabic") }, //
-	{ 1257, LPGENT("Baltic") }, //
-	{ 1258, LPGENT("Vietnamese") }, //
-	{ 1361, LPGENT("Korean (Johab)") }
+	{ 874, LPGENW("Thai") }, //
+	{ 932, LPGENW("Japanese") }, //
+	{ 936, LPGENW("Simplified Chinese") }, //
+	{ 949, LPGENW("Korean") }, //
+	{ 950, LPGENW("Traditional Chinese") }, //
+	{ 1250, LPGENW("Central European") }, //
+	{ 1251, LPGENW("Cyrillic") }, //
+	{ 1252, LPGENW("Latin I") }, //
+	{ 1253, LPGENW("Greek") }, //
+	{ 1254, LPGENW("Turkish") }, //
+	{ 1255, LPGENW("Hebrew") }, //
+	{ 1256, LPGENW("Arabic") }, //
+	{ 1257, LPGENW("Baltic") }, //
+	{ 1258, LPGENW("Vietnamese") }, //
+	{ 1361, LPGENW("Korean (Johab)") }
 };
 
 void LoadInfobarFonts()

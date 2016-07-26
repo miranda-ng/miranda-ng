@@ -30,9 +30,9 @@ EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup)
 	// CLC does this automatically unless it's a new group
 	HWND hwndFocus = GetFocus();
 
-	TCHAR szFocusClass[64];
+	wchar_t szFocusClass[64];
 	GetClassName(hwndFocus, szFocusClass, _countof(szFocusClass));
-	if (!mir_tstrcmp(szFocusClass, _T(CLISTCONTROL_CLASS))) {
+	if (!mir_tstrcmp(szFocusClass, CLISTCONTROL_CLASSW)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndFocus, CLM_FINDGROUP, hGroup, 0);
 		if (hItem)
 			SendMessage(hwndFocus, CLM_EDITLABEL, (WPARAM)hItem, 0);
@@ -111,7 +111,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 			if (showOpts & 1)
 				x += g_IconWidth;
 			if (showOpts & 2) {
-				TCHAR tszName[64];
+				wchar_t tszName[64];
 				PROTOACCOUNT *pa = Proto_GetAccount(cli.menuProtos[i].szProto);
 				if (pa)
 					mir_sntprintf(tszName, L"%s ", pa->tszAccountName);
@@ -125,7 +125,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
-				TCHAR* modeDescr = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
+				wchar_t* modeDescr = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
 				GetTextExtentPoint32(hdc, modeDescr, (int)mir_tstrlen(modeDescr), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room

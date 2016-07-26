@@ -233,7 +233,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			else
 				SetMenu(pcli->hwndContactList, pcli->hMenuMain);
 
-			TCHAR title[256];
+			wchar_t title[256];
 			GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, _countof(title));
 			db_set_ts(NULL, "CList", "TitleText", title);
 			SetWindowText(pcli->hwndContactList, title);

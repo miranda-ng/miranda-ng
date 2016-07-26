@@ -50,7 +50,7 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 	char *protoName = GetContactProto(hContact);
 	int diff = time(NULL) - db_get_dw(hContact, "Nudge", "LastSent", time(NULL) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
-		TCHAR msg[500];
+		wchar_t msg[500];
 		mir_sntprintf(msg, TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
 		if (GlobalNudge.useByProtocol) {
 			for (int i = 0; i < arNudges.getCount(); i++) {
@@ -250,7 +250,7 @@ static int TabsrmmButtonInit(WPARAM, LPARAM)
 {
 	BBButton bbd = { sizeof(bbd) };
 	bbd.pszModuleName = "Nudge";
-	bbd.ptszTooltip = LPGENT("Send Nudge");
+	bbd.ptszTooltip = LPGENW("Send Nudge");
 	bbd.dwDefPos = 300;
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;
@@ -341,7 +341,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 	mi.position = -500050004;
 	mi.hIcolibItem = iconList[0].hIcolib;
-	mi.name.t = LPGENT("Send &Nudge");
+	mi.name.w = LPGENW("Send &Nudge");
 	mi.pszService = MS_NUDGE_SEND;
 	g_hContactMenu = Menu_AddContactMenuItem(&mi);
 
@@ -393,7 +393,7 @@ void LoadPopupClass()
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
 	ppc.pszName = "Nudge";
-	ppc.ptszDescription = LPGENT("Show Nudge");
+	ppc.ptszDescription = LPGENW("Show Nudge");
 	ppc.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 	ppc.colorBack = NULL;
 	ppc.colorText = NULL;
@@ -442,17 +442,17 @@ int Preview()
 	return 0;
 }
 
-void Nudge_ShowPopup(CNudgeElement*, MCONTACT hContact, TCHAR * Message)
+void Nudge_ShowPopup(CNudgeElement*, MCONTACT hContact, wchar_t * Message)
 {
 	hContact = db_mc_tryMeta(hContact);
-	TCHAR *lpzContactName = (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *lpzContactName = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		POPUPDATACLASS NudgePopup = { 0 };
 		NudgePopup.cbSize = sizeof(NudgePopup);
 		NudgePopup.hContact = hContact;
-		NudgePopup.ptszText = Message;
-		NudgePopup.ptszTitle = lpzContactName;
+		NudgePopup.pwszText = Message;
+		NudgePopup.pwszTitle = lpzContactName;
 		NudgePopup.pszClassName = "nudge";
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&NudgePopup);
 	}
@@ -466,8 +466,8 @@ void Nudge_ShowPopup(CNudgeElement*, MCONTACT hContact, TCHAR * Message)
 		NudgePopup.PluginWindowProc = NudgePopupProc;
 		NudgePopup.PluginData = (void *)1;
 
-		_tcscpy_s(NudgePopup.lptzText, Message);
-		_tcscpy_s(NudgePopup.lptzContactName, lpzContactName);
+		wcscpy_s(NudgePopup.lptzText, Message);
+		wcscpy_s(NudgePopup.lptzContactName, lpzContactName);
 
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&NudgePopup, 0);
 	}
@@ -517,14 +517,14 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	mir_snprintf(p->NudgeSoundname, "%s: Nudge", proto->szModuleName);
 
 	strcpy_s(p->ProtocolName, proto->szModuleName);
-	_tcscpy_s(p->AccountName, proto->tszAccountName);
+	wcscpy_s(p->AccountName, proto->tszAccountName);
 
 	p->Load();
 	p->hEvent = hevent;
 
-	TCHAR soundDesc[MAXMODULELABELLENGTH + 10];
-	mir_sntprintf(soundDesc, LPGENT("Nudge for %s"), proto->tszAccountName);
-	SkinAddNewSoundExT(p->NudgeSoundname, LPGENT("Nudge"), soundDesc);
+	wchar_t soundDesc[MAXMODULELABELLENGTH + 10];
+	mir_sntprintf(soundDesc, LPGENW("Nudge for %s"), proto->tszAccountName);
+	SkinAddNewSoundExT(p->NudgeSoundname, LPGENW("Nudge"), soundDesc);
 
 	arNudges.insert(p);
 }

@@ -24,11 +24,11 @@ Boston, MA 02111-1307, USA.
 
 struct AutoReplacement
 {
-	tstring replace;
+	std::wstring replace;
 	BOOL useVariables;
 
 	AutoReplacement();
-	AutoReplacement(const TCHAR *replace, BOOL useVariables);
+	AutoReplacement(const wchar_t *replace, BOOL useVariables);
 };
 
 
@@ -38,31 +38,31 @@ class Dictionary;
 class AutoReplaceMap 
 {
 private:
-	TCHAR m_filename[1024];
+	wchar_t m_filename[1024];
 	Dictionary *m_dict;
-	map<tstring, AutoReplacement> m_replacements;
+	map<std::wstring, AutoReplacement> m_replacements;
 
 	void loadAutoReplaceMap();
 	void writeAutoReplaceMap();
 
 public:
-	AutoReplaceMap(TCHAR *filename, Dictionary *dict);
+	AutoReplaceMap(wchar_t *filename, Dictionary *dict);
 
-	TCHAR* filterText(const TCHAR *find);
-	BOOL isWordChar(TCHAR c);
+	wchar_t* filterText(const wchar_t *find);
+	BOOL isWordChar(wchar_t c);
 
 	/// Return an auto replacement to a word or NULL if none exists.
 	/// You have to free the item.
-	TCHAR* autoReplace(const TCHAR *word);
+	wchar_t* autoReplace(const wchar_t *word);
 
 	/// Add a word to the list of auto-replaced words
-	void add(const TCHAR *from, const TCHAR *to, BOOL useVariables = FALSE);
+	void add(const wchar_t *from, const wchar_t *to, BOOL useVariables = FALSE);
 
 	/// Make a copy of the auto replace map
-	void copyMap(map<tstring, AutoReplacement> *replacements);
+	void copyMap(map<std::wstring, AutoReplacement> *replacements);
 
 	/// Make a copy of the auto replace map
-	void setMap(const map<tstring, AutoReplacement> &replacements);
+	void setMap(const map<std::wstring, AutoReplacement> &replacements);
 };
 
 

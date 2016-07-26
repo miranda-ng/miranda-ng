@@ -463,7 +463,7 @@ static INT_PTR StartBlinkService(WPARAM wParam, LPARAM lParam)
 	nExternCount += (unsigned int)wParam;
 	if (bFlashOnOther && checkNotifyOptions() && checkGlobalStatus() && checkGlobalXstatus()) {
 		if (lParam)
-			useExternSequence((TCHAR *)lParam);
+			useExternSequence((wchar_t *)lParam);
 		SetEvent(hFlashEvent);
 	}
 
@@ -490,10 +490,10 @@ static INT_PTR IsFlashingActiveService(WPARAM, LPARAM)
 
 INT_PTR NormalizeSequenceService(WPARAM, LPARAM lParam)
 {
-	TCHAR strAux[MAX_PATH + 1], *strIn = (TCHAR*)lParam;
+	wchar_t strAux[MAX_PATH + 1], *strIn = (wchar_t*)lParam;
 
-	_tcsncpy_s(strAux, strIn, _TRUNCATE);
-	_tcsncpy_s(strIn, MAX_PATH, normalizeCustomString(strAux), _TRUNCATE);
+	wcsncpy_s(strAux, strIn, _TRUNCATE);
+	wcsncpy_s(strIn, MAX_PATH, normalizeCustomString(strAux), _TRUNCATE);
 
 	return (INT_PTR)strIn;
 }
@@ -518,7 +518,7 @@ void createProcessList(void)
 	int count = db_get_w(NULL, KEYBDMODULE, "processcount", 0);
 
 	ProcessList.count = 0;
-	ProcessList.szFileName = (TCHAR **)mir_alloc(count * sizeof(TCHAR *));
+	ProcessList.szFileName = (wchar_t **)mir_alloc(count * sizeof(wchar_t *));
 	if (ProcessList.szFileName) {
 		for (int i = 0; i < count; i++)
 			ProcessList.szFileName[i] = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i));
@@ -820,20 +820,20 @@ static void destroyProtocolList(void)
 
 // We use the profile name to create the first part of each event name
 // We do so to avoid problems between different instances of the plugin concurrently running
-void createEventPrefix(TCHAR *prefixName, size_t maxLen)
+void createEventPrefix(wchar_t *prefixName, size_t maxLen)
 {
 	size_t len;
-	TCHAR profileName[MAX_PATH + 1], *str;
+	wchar_t profileName[MAX_PATH + 1], *str;
 
 	getAbsoluteProfileName(profileName, MAX_PATH);
 
-	while (str = _tcschr(profileName, _T('\\')))
-		*str = _T('/');
+	while (str = wcschr(profileName, '\\'))
+		*str = '/';
 	if ((len = mir_tstrlen(profileName)) <= maxLen)
-		_tcsncpy_s(prefixName, maxLen, profileName, _TRUNCATE);
+		wcsncpy_s(prefixName, maxLen, profileName, _TRUNCATE);
 	else {
 		str = profileName + len - maxLen / 2;
-		_tcsncpy_s(prefixName, (maxLen / 2), profileName, _TRUNCATE);
+		wcsncpy_s(prefixName, (maxLen / 2), profileName, _TRUNCATE);
 		mir_tstrcat(prefixName, str);
 	}
 }
@@ -907,7 +907,7 @@ static int OnPreshutdown(WPARAM, LPARAM)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	TCHAR eventPrefix[MAX_PATH + 1], eventName[MAX_PATH + 1];
+	wchar_t eventPrefix[MAX_PATH + 1], eventName[MAX_PATH + 1];
 
 	createProtocolList();
 	LoadSettings();

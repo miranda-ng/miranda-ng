@@ -41,7 +41,7 @@ struct BASIC_PLUGIN_INFO
 
 struct pluginEntry
 {
-	TCHAR pluginname[64];
+	wchar_t pluginname[64];
 	unsigned int pclass; // PCLASS_*
 	int hLangpack;
 	BASIC_PLUGIN_INFO bpi;
@@ -54,30 +54,30 @@ int PluginOptionsInit(WPARAM, LPARAM);
 void LoadPluginOptions();
 void UnloadPluginOptions();
 
-int isPluginOnWhiteList(const TCHAR* pluginname);
-void SetPluginOnWhiteList(const TCHAR* pluginname, int allow);
+int isPluginOnWhiteList(const wchar_t* pluginname);
+void SetPluginOnWhiteList(const wchar_t* pluginname, int allow);
 
 int  getDefaultPluginIdx(const MUUID& muuid);
 bool hasMuuid(const BASIC_PLUGIN_INFO&, const MUUID&);
 bool hasMuuid(const MUUID* pFirst, const MUUID&);
-int  checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI);
+int  checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI);
 
-pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path);
+pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path);
 
 bool TryLoadPlugin(pluginEntry *p, bool bDynamic);
 void Plugin_Uninit(pluginEntry *p);
 int  Plugin_UnloadDyn(pluginEntry *p);
 
-typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA * fd, TCHAR *path, WPARAM wParam, LPARAM lParam);
+typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA * fd, wchar_t *path, WPARAM wParam, LPARAM lParam);
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam);
 
 struct MuuidReplacement
 {
 	MUUID uuid;  // default interface plugin
-	TCHAR* stdplugname;
+	wchar_t* stdplugname;
 	pluginEntry* pImpl; // replacement plugin
 };
 
 bool LoadCorePlugin( MuuidReplacement& );
 
-MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin);
+MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin);

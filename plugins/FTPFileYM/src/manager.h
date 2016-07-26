@@ -49,7 +49,7 @@ public:
 	public:
 		HTREEITEM m_handle;
 		HTREEITEM m_parent;
-		TCHAR m_tszToolTip[256];
+		wchar_t m_tszToolTip[256];
 		int m_fileID;
 
 		TreeItem(HTREEITEM _handle, HTREEITEM _parent, int _id);

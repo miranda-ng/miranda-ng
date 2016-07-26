@@ -244,12 +244,12 @@ void CMsnProto::MSN_CleanupLists(void)
 		if (p.hContact && !(p.list & (LIST_LL | LIST_FL | LIST_PL)) && p.list != LIST_RL) {
 			int count = db_event_count(p.hContact);
 			if (count) {
-				TCHAR text[256];
-				TCHAR *sze = mir_a2t(p.email);
+				wchar_t text[256];
+				wchar_t *sze = mir_a2t(p.email);
 				mir_sntprintf(text, TranslateT("Contact %s has been removed from the server.\nWould you like to keep it as \"Local Only\" contact to preserve history?"), sze);
 				mir_free(sze);
 
-				TCHAR title[128];
+				wchar_t title[128];
 				mir_sntprintf(title, TranslateT("%s protocol"), m_tszUserName);
 
 				if (MessageBox(NULL, text, title, MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND) == IDYES) {
@@ -266,7 +266,7 @@ void CMsnProto::MSN_CleanupLists(void)
 		}
 
 		if (p.list & (LIST_LL | LIST_FL) && p.hContact) {
-			TCHAR path[MAX_PATH];
+			wchar_t path[MAX_PATH];
 			MSN_GetCustomSmileyFileName(p.hContact, path, _countof(path), "", 0);
 			if (path[0]) {
 				SMADD_CONT cont;
@@ -369,7 +369,7 @@ static void AddPrivacyListEntries(HWND hwndList, CMsnProto *proto)
 	for (int i = 0; i < proto->m_arContacts.getCount(); ++i) {
 		MsnContact &cont = proto->m_arContacts[i];
 		if (!(cont.list & (LIST_FL | LIST_LL))) {
-			cii.pszText = (TCHAR*)cont.email;
+			cii.pszText = (wchar_t*)cont.email;
 			hItem = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEMA, 0, (LPARAM)&cii);
 
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, (cont.list & LIST_LL) ? 1 : 0));
@@ -461,7 +461,7 @@ static void SaveSettings(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 					continue;
 			}
 			else if (IsHContactInfo(hItem)) {
-				TCHAR buf[MSN_MAX_EMAIL_LEN];
+				wchar_t buf[MSN_MAX_EMAIL_LEN];
 				SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 				WideCharToMultiByte(CP_ACP, 0, buf, -1, szEmail, sizeof(szEmail), 0, 0);
 

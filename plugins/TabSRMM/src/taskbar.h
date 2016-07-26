@@ -101,7 +101,7 @@ public:
 	~CProxyWindow();
 
 	void updateIcon(const HICON hIcon) const;
-	void updateTitle(const TCHAR *tszTitle) const;
+	void updateTitle(const wchar_t *tszTitle) const;
 	void setBigIcon(const HICON hIcon, bool fInvalidate = true);
 	void setOverlayIcon(const HICON hIcon, bool fInvalidate = true);
 	void activateTab() const;
@@ -181,7 +181,7 @@ public:
 	void unRegisterTab(const HWND hwndTab) const;
 	void SetTabActive(const HWND hwndTab, const HWND hwndGroup) const;
 
-	//const TCHAR*	getFileNameFromWindow			(const HWND hWnd);
+	//const wchar_t*	getFileNameFromWindow			(const HWND hWnd);
 private:
 	ITaskbarList3 *m_pTaskbarInterface;
 

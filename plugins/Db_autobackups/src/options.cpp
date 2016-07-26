@@ -43,10 +43,10 @@ int LoadOptions(void)
 		DBVARIANT dbv;
 
 		if (!db_get_ts(0, "AutoBackups", "Folder", &dbv)) {
-			TCHAR *tmp = Utils_ReplaceVarsT(dbv.ptszVal);
+			wchar_t *tmp = Utils_ReplaceVarsT(dbv.ptszVal);
 
 			if (mir_tstrlen(tmp) >= 2 && tmp[1] == ':')
-				_tcsncpy_s(options.folder, dbv.ptszVal, _TRUNCATE);
+				wcsncpy_s(options.folder, dbv.ptszVal, _TRUNCATE);
 			else
 				mir_sntprintf(options.folder, L"%s\\%s", profilePath, dbv.ptszVal);
 
@@ -69,7 +69,7 @@ int LoadOptions(void)
 
 int SaveOptions(void)
 {
-	TCHAR prof_dir[MAX_PATH];
+	wchar_t prof_dir[MAX_PATH];
 
 	db_set_b(0, "AutoBackups", "BackupType", (BYTE)options.backup_types);
 	if (options.period < 1)
@@ -81,15 +81,15 @@ int SaveOptions(void)
 	size_t prof_len = mir_tstrlen(prof_dir);
 	size_t opt_len = mir_tstrlen(options.folder);
 
-	if (opt_len > prof_len && _tcsncmp(options.folder, prof_dir, prof_len) == 0) {
+	if (opt_len > prof_len && wcsncmp(options.folder, prof_dir, prof_len) == 0) {
 		db_set_ts(0, "AutoBackups", "Folder", (options.folder + prof_len));
 	}
 	else
 		db_set_ts(0, "AutoBackups", "Folder", options.folder);
 
-	TCHAR *tmp = Utils_ReplaceVarsT(options.folder);
+	wchar_t *tmp = Utils_ReplaceVarsT(options.folder);
 	if (mir_tstrlen(tmp) < 2 || tmp[1] != ':') {
-		_tcsncpy_s(prof_dir, options.folder, _TRUNCATE);
+		wcsncpy_s(prof_dir, options.folder, _TRUNCATE);
 		mir_sntprintf(options.folder, L"%s\\%s", profilePath, prof_dir);
 	}
 	mir_free(tmp);
@@ -108,7 +108,7 @@ Options new_options;
 
 int SetDlgState(HWND hwndDlg)
 {
-	TCHAR buff[10];
+	wchar_t buff[10];
 
 	if (new_options.backup_types == BT_DISABLED) {
 		CheckDlgButton(hwndDlg, IDC_RAD_DISABLED, BST_CHECKED);
@@ -148,10 +148,10 @@ int SetDlgState(HWND hwndDlg)
 	}
 
 	SendDlgItemMessage(hwndDlg, SPIN_PERIOD, UDM_SETRANGE32, 1, (LPARAM)60);
-	SetDlgItemText(hwndDlg, IDC_ED_PERIOD, _itot(new_options.period, buff, 10));
+	SetDlgItemText(hwndDlg, IDC_ED_PERIOD, _itow(new_options.period, buff, 10));
 
 	SendDlgItemMessage(hwndDlg, SPIN_NUMBACKUPS, UDM_SETRANGE32, 1, (LPARAM)100);
-	SetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, _itot(new_options.num_backups, buff, 10));
+	SetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, _itow(new_options.num_backups, buff, 10));
 
 	SetDlgItemText(hwndDlg, IDC_ED_FOLDER, new_options.folder);
 
@@ -171,7 +171,7 @@ int CALLBACK BrowseProc(HWND hwnd, UINT uMsg, LPARAM, LPARAM)
 	switch (uMsg)
 	{
 	case BFFM_INITIALIZED:
-		TCHAR *folder = Utils_ReplaceVarsT(options.folder);
+		wchar_t *folder = Utils_ReplaceVarsT(options.folder);
 		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)folder);
 		mir_free(folder);
 		break;
@@ -181,7 +181,7 @@ int CALLBACK BrowseProc(HWND hwnd, UINT uMsg, LPARAM, LPARAM)
 
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR folder_buff[MAX_PATH] = { 0 };
+	wchar_t folder_buff[MAX_PATH] = { 0 };
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -194,7 +194,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ShowWindow(GetDlgItem(hwndDlg, IDC_LNK_FOLDERS), SW_SHOW);
 		}
 		else {
-			TCHAR tszTooltipText[4096];
+			wchar_t tszTooltipText[4096];
 			mir_sntprintf(tszTooltipText, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 				L"%miranda_path%", TranslateT("path to Miranda root folder"),
 				L"%miranda_profilesdir%", TranslateT("path to folder containing Miranda profiles"),
@@ -341,11 +341,11 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			TCHAR buff[10];
+			wchar_t buff[10];
 			GetDlgItemText(hwndDlg, IDC_ED_PERIOD, buff, _countof(buff));
-			new_options.period = _ttoi(buff);
+			new_options.period = _wtoi(buff);
 			GetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, buff, _countof(buff));
-			new_options.num_backups = _ttoi(buff);
+			new_options.num_backups = _wtoi(buff);
 
 			switch (SendDlgItemMessage(hwndDlg, IDC_PT, CB_GETCURSEL, 0, 0)) {
 			case 0: new_options.period_type = PT_DAYS; break;
@@ -355,26 +355,26 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			GetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff, _countof(folder_buff));
 			{
-				TCHAR backupfolder[MAX_PATH] = { 0 };
+				wchar_t backupfolder[MAX_PATH] = { 0 };
 				BOOL folder_ok = TRUE;
-				TCHAR *tmp = Utils_ReplaceVarsT(folder_buff);
+				wchar_t *tmp = Utils_ReplaceVarsT(folder_buff);
 
 				if (mir_tstrlen(tmp) >= 2 && tmp[1] == ':')
-					_tcsncpy_s(backupfolder, tmp, _TRUNCATE);
+					wcsncpy_s(backupfolder, tmp, _TRUNCATE);
 				else
 					mir_sntprintf(backupfolder, L"%s\\%s", profilePath, tmp);
 				mir_free(tmp);
 
 				int err = CreateDirectoryTreeT(backupfolder);
 				if (err != ERROR_ALREADY_EXISTS && err != 0) {
-					TCHAR msg_buff[512];
+					wchar_t msg_buff[512];
 					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, err, 0, msg_buff, 512, 0);
 					MessageBox(0, msg_buff, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
 					folder_ok = FALSE;
 				}
 
 				if (folder_ok) {
-					_tcsncpy_s(new_options.folder, folder_buff, _TRUNCATE);
+					wcsncpy_s(new_options.folder, folder_buff, _TRUNCATE);
 					memcpy(&options, &new_options, sizeof(Options));
 					SaveOptions();
 				}

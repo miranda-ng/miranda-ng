@@ -88,7 +88,7 @@ void LoadOptions()
 	LoadOpts(autoReplaceControls, _countof(autoReplaceControls), MODULE_NAME);
 
 	if (languages.getCount() <= 0) {
-		opts.default_language[0] = _T('\0');
+		opts.default_language[0] = '\0';
 		return;
 	}
 
@@ -213,7 +213,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (sel >= languages.getCount())
 				sel = 0;
 			db_set_ts(NULL, MODULE_NAME, "DefaultLanguage",
-				(TCHAR *)languages[sel]->language);
+				(wchar_t *)languages[sel]->language);
 			mir_tstrcpy(opts.default_language, languages[sel]->language);
 		}
 	}
@@ -247,21 +247,21 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 struct AutoreplaceData
 {
 	Dictionary *dict;
-	map<tstring, AutoReplacement> autoReplaceMap;
+	map<std::wstring, AutoReplacement> autoReplaceMap;
 	BOOL initialized;
 	BOOL changed;
 
 	AutoreplaceData(Dictionary *dict) : dict(dict), initialized(FALSE), changed(FALSE) {}
 
-	void RemoveWord(const TCHAR *aWord)
+	void RemoveWord(const wchar_t *aWord)
 	{
-		map<tstring, AutoReplacement>::iterator it = autoReplaceMap.find(aWord);
+		map<std::wstring, AutoReplacement>::iterator it = autoReplaceMap.find(aWord);
 		if (it != autoReplaceMap.end())
 			autoReplaceMap.erase(it);
 		changed = TRUE;
 	}
 
-	void AddWord(const TCHAR *find, const TCHAR *replace, BOOL useVars)
+	void AddWord(const wchar_t *find, const wchar_t *replace, BOOL useVars)
 	{
 		autoReplaceMap[find] = AutoReplacement(replace, useVars);
 		changed = TRUE;
@@ -302,26 +302,26 @@ static void LoadReplacements(HWND hwndDlg)
 		data->initialized = TRUE;
 	}
 
-	map<tstring, AutoReplacement>::iterator it = data->autoReplaceMap.begin();
+	map<std::wstring, AutoReplacement>::iterator it = data->autoReplaceMap.begin();
 	for (int i = 0; it != data->autoReplaceMap.end(); it++, i++) {
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT | LVIF_PARAM;
 		item.iItem = i;
 		item.iSubItem = 0;
-		item.pszText = (TCHAR *)it->first.c_str();
+		item.pszText = (wchar_t *)it->first.c_str();
 		item.lParam = i;
 
 		ListView_InsertItem(hList, &item);
 
-		ListView_SetItemText(hList, i, 1, (TCHAR *)it->second.replace.c_str());
+		ListView_SetItemText(hList, i, 1, (wchar_t *)it->second.replace.c_str());
 	}
 
 	EnableDisableCtrls(hwndDlg);
 }
 
 static void SaveNewReplacements(BOOL canceled, Dictionary*,
-	const TCHAR *find, const TCHAR *replace, BOOL useVariables,
-	const TCHAR *original_find, void *param)
+	const wchar_t *find, const wchar_t *replace, BOOL useVariables,
+	const wchar_t *original_find, void *param)
 {
 	if (canceled)
 		return;
@@ -342,8 +342,8 @@ static void ShowAddReplacement(HWND hwndDlg, int item = -1)
 
 	AutoreplaceData *data = (AutoreplaceData *)SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_GETITEMDATA, sel, 0);
 
-	TCHAR find[256];
-	const TCHAR *replace = NULL;
+	wchar_t find[256];
+	const wchar_t *replace = NULL;
 	BOOL useVariables = FALSE;
 
 	if (item < 0)
@@ -430,7 +430,7 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			sel = SendMessage(hList, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
 			while (sel >= 0) {
-				TCHAR tmp[256];
+				wchar_t tmp[256];
 				ListView_GetItemText(hList, sel, 0, tmp, _countof(tmp));
 
 				data->RemoveWord(tmp);

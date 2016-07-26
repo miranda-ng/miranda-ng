@@ -16,7 +16,7 @@ char* CDropbox::PreparePath(const char *oldPath, char *newPath)
 	return newPath;
 }
 
-char* CDropbox::PreparePath(const TCHAR *oldPath, char *newPath)
+char* CDropbox::PreparePath(const wchar_t *oldPath, char *newPath)
 {
 	return PreparePath(ptrA(mir_utf8encodeW(oldPath)), newPath);
 }
@@ -95,7 +95,7 @@ MEVENT CDropbox::AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD c
 	return db_event_add(hContact, &dbei);
 }
 
-void CDropbox::SendToContact(MCONTACT hContact, const TCHAR *data)
+void CDropbox::SendToContact(MCONTACT hContact, const wchar_t *data)
 {
 	if (hContact == GetDefaultContact()) {
 		char *message = mir_utf8encodeT(data);
@@ -122,7 +122,7 @@ void CDropbox::SendToContact(MCONTACT hContact, const TCHAR *data)
 		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, (DWORD)mir_strlen(message), (PBYTE)message);
 }
 
-void CDropbox::PasteToInputArea(MCONTACT hContact, const TCHAR *data)
+void CDropbox::PasteToInputArea(MCONTACT hContact, const wchar_t *data)
 {
 	MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
 	mwid.hContact = hContact;
@@ -137,17 +137,17 @@ void CDropbox::PasteToInputArea(MCONTACT hContact, const TCHAR *data)
 	}
 }
 
-void CDropbox::PasteToClipboard(const TCHAR *data)
+void CDropbox::PasteToClipboard(const wchar_t *data)
 {
 	if (OpenClipboard(NULL)) {
 		EmptyClipboard();
 
-		size_t size = sizeof(TCHAR) * (mir_tstrlen(data) + 1);
+		size_t size = sizeof(wchar_t) * (mir_tstrlen(data) + 1);
 		HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
 		if (hClipboardData) {
-			TCHAR *pchData = (TCHAR*)GlobalLock(hClipboardData);
+			wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);
 			if (pchData) {
-				memcpy(pchData, (TCHAR*)data, size);
+				memcpy(pchData, (wchar_t*)data, size);
 				GlobalUnlock(hClipboardData);
 				SetClipboardData(CF_UNICODETEXT, hClipboardData);
 			}
@@ -156,7 +156,7 @@ void CDropbox::PasteToClipboard(const TCHAR *data)
 	}
 }
 
-void CDropbox::Report(MCONTACT hContact, const TCHAR *data)
+void CDropbox::Report(MCONTACT hContact, const wchar_t *data)
 {
 	if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
 		SendToContact(hContact, data);

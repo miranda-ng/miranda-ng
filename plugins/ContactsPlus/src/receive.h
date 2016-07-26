@@ -35,8 +35,8 @@
 #define IDI_DOWNARROW                   264
 
 struct TReceivedItem {
-	TCHAR* mcaUIN;
-	TCHAR* mcaNick;
+	wchar_t* mcaUIN;
+	wchar_t* mcaNick;
 	~TReceivedItem() { mir_free(mcaUIN); mir_free(mcaNick); }
 	TReceivedItem() { mcaUIN = NULL; mcaNick = NULL; }
 };
@@ -52,7 +52,7 @@ struct TRecvContactsData
 	HMENU      mhPopup;      // popup menu for listview
 	HANDLE     hHook;        // hook to event
 	HANDLE     rhSearch;     // handle to uin-search
-	TCHAR*     haUin;
+	wchar_t*     haUin;
 	int        iPopupItem;
 	TReceivedItem** maReceived;// received contacts
 	int        cbReceived;

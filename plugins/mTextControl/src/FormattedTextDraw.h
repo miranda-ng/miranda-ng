@@ -151,7 +151,7 @@ public:
 	HRESULT	TxGetBackStyle(TXTBACKSTYLE *pstyle);
 	HRESULT	TxGetMaxLength(DWORD *plength);
 	HRESULT	TxGetScrollBars(DWORD *pdwScrollBar);
-	HRESULT	TxGetPasswordChar(TCHAR *pch);
+	HRESULT	TxGetPasswordChar(wchar_t *pch);
 	HRESULT	TxGetAcceleratorPos(LONG *pcp);
 	HRESULT	TxGetExtent(LPSIZEL lpExtent);
 	HRESULT OnTxCharFormatChange(const CHARFORMATW * pcf);

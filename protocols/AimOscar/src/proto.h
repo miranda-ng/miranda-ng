@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct CAimProto : public PROTO<CAimProto>
 {
-	CAimProto(const char*, const TCHAR*);
+	CAimProto(const char*, const wchar_t*);
 	~CAimProto();
 
 	//====================================================================================
@@ -30,28 +30,28 @@ struct CAimProto : public PROTO<CAimProto>
 
 	virtual	MCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
 
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage );
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage );
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath );
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath );
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer );
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason );
-	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename );
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason );
+	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const wchar_t** szFilename );
 
 	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL );
 
-	virtual	HANDLE    __cdecl SearchBasic( const TCHAR* id );
-	virtual	HANDLE    __cdecl SearchByEmail( const TCHAR* email );
+	virtual	HANDLE    __cdecl SearchBasic( const wchar_t* id );
+	virtual	HANDLE    __cdecl SearchByEmail( const wchar_t* email );
 
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT* );
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg );
 
 	virtual	int       __cdecl SetStatus( int iNewStatus );
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact );
 	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt );
-	virtual	int       __cdecl SetAwayMsg( int m_iStatus, const TCHAR* msg );
+	virtual	int       __cdecl SetAwayMsg( int m_iStatus, const wchar_t* msg );
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type );
 
@@ -196,7 +196,7 @@ struct CAimProto : public PROTO<CAimProto>
 
 	void   avatar_request_handler(MCONTACT hContact, char* hash, unsigned char type);
 	void   avatar_retrieval_handler(const char* sn, const char* hash, const char* data, int data_len);
-	int    get_avatar_filename(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
+	int    get_avatar_filename(MCONTACT hContact, wchar_t* pszDest, size_t cbLen, const wchar_t *ext);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// away.cpp
@@ -217,7 +217,7 @@ struct CAimProto : public PROTO<CAimProto>
 
 	void chat_register(void);
 	void chat_start(const char* id, unsigned short exchange);
-	void chat_event(const char* id, const char* sn, int evt, const TCHAR* msg = NULL);
+	void chat_event(const char* id, const char* sn, int evt, const wchar_t* msg = NULL);
 	void chat_leave(const char* id);
 
 	chat_list_item* find_chat_by_cid(unsigned short cid);
@@ -321,7 +321,7 @@ struct CAimProto : public PROTO<CAimProto>
 
 	int    sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLIBPACKETRECVER &packetRecv);
 	int    receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLIBPACKETRECVER &packetRecv);
-	void   report_file_error(TCHAR* fname);
+	void   report_file_error(wchar_t* fname);
 	void   shutdown_file_transfers(void);
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -413,7 +413,7 @@ struct CAimProto : public PROTO<CAimProto>
 	void   offline_contact(MCONTACT hContact, bool remove_settings);
 	unsigned short get_default_port(void);
 
-	int    open_contact_file(const char* sn, const TCHAR* file, const char* mode, TCHAR* &path, bool contact_dir);
+	int    open_contact_file(const char* sn, const wchar_t* file, const char* mode, wchar_t* &path, bool contact_dir);
 	void   write_away_message(const char* sn, const char* msg, bool utf);
 	void   write_profile(const char* sn, const char* msg, bool utf);
 

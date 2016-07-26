@@ -33,7 +33,7 @@ static HANDLE  hTrayAnimThread = 0;
 static HICON   hIconTrayCurrent = 0;
 HANDLE  g_hEvent = 0;
 
-static TCHAR g_eventName[100];
+static wchar_t g_eventName[100];
 
 static void TrayAnimThread(LPVOID)
 {
@@ -142,7 +142,7 @@ void TSAPI CreateSystrayIcon(int create)
 	nim.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 	nim.hIcon = PluginConfig.g_iconContainer;
 	nim.uCallbackMessage = DM_TRAYICONNOTIFY;
-	_tcsncpy_s(nim.szTip, L"tabSRMM", _TRUNCATE);
+	wcsncpy_s(nim.szTip, L"tabSRMM", _TRUNCATE);
 	if (create && !nen_options.bTrayExist) {
 		Shell_NotifyIcon(NIM_ADD, &nim);
 		nen_options.bTrayExist = TRUE;
@@ -189,15 +189,15 @@ void TSAPI FlashTrayIcon(HICON hIcon)
  * maximum number of allowed entries (20 at the moment). The oldest (topmost) entry
  * is deleted, if necessary.
  */
-void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus, WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu)
+void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, const char *szProto, wchar_t *szStatus, WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu)
 {
-	TCHAR szMenuEntry[80];
-	TCHAR	szFinalNick[100];
+	wchar_t szMenuEntry[80];
+	wchar_t	szFinalNick[100];
 
 	if (szNickname == NULL)
-		_tcsncpy_s(szFinalNick, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
+		wcsncpy_s(szFinalNick, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
 	else
-		_tcsncpy_s(szFinalNick, szNickname, _TRUNCATE);
+		wcsncpy_s(szFinalNick, szNickname, _TRUNCATE);
 
 	if (szProto == NULL)
 		szProto = GetContactProto(hContact);
@@ -236,7 +236,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 				AppendMenu(hMenu, MF_BYCOMMAND, (UINT_PTR)hContact, szMenuEntry);
 			}
 			else if (hMenu == PluginConfig.g_hMenuFavorites) {            // insert the item sorted...
-				TCHAR szBuffer[142];
+				wchar_t szBuffer[142];
 				int i, c = GetMenuItemCount(PluginConfig.g_hMenuFavorites);
 
 				MENUITEMINFO mii2 = { 0 };
@@ -252,7 +252,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 						mii2.cch++;
 						mii2.dwTypeData = szBuffer;
 						GetMenuItemInfo(PluginConfig.g_hMenuFavorites, i, TRUE, &mii2);
-						if (_tcsncmp((TCHAR*)mii2.dwTypeData, szMenuEntry, 140) > 0 || i == c) {
+						if (wcsncmp((wchar_t*)mii2.dwTypeData, szMenuEntry, 140) > 0 || i == c) {
 							InsertMenu(PluginConfig.g_hMenuFavorites, i, MF_BYPOSITION, (UINT_PTR)hContact, szMenuEntry);
 							break;
 						}

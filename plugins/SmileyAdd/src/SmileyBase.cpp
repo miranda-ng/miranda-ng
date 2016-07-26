@@ -91,7 +91,7 @@ void ISmileyBase::SendOnViewChange(void)
 	}
 }
 
-bool ISmileyBase::QueryHitPointSpecial(int x, int y, HWND hwnd, TCHAR **smltxt)
+bool ISmileyBase::QueryHitPointSpecial(int x, int y, HWND hwnd, wchar_t **smltxt)
 {
 	bool result = m_visible && m_hwnd == hwnd;
 	if (result)
@@ -101,9 +101,9 @@ bool ISmileyBase::QueryHitPointSpecial(int x, int y, HWND hwnd, TCHAR **smltxt)
 	return result;
 }
 
-void ISmileyBase::SetHint(TCHAR *smltxt)
+void ISmileyBase::SetHint(wchar_t *smltxt)
 {
-	m_smltxt = _tcsdup(smltxt);
+	m_smltxt = wcsdup(smltxt);
 }
 
 
@@ -374,7 +374,7 @@ void CloseSmileys(void)
 	}
 }
 
-int CheckForTip(int x, int y, HWND hwnd, TCHAR **smltxt)
+int CheckForTip(int x, int y, HWND hwnd, wchar_t **smltxt)
 {
 	for (int i = 0; i < regSmileys.getCount(); i++)
 		if (regSmileys[i]->QueryHitPointSpecial(x, y, hwnd, smltxt))

@@ -54,7 +54,7 @@ void SaveColumnSizes(HWND hwndResults)
 	db_set_b(NULL, "FindAdd", "SortAscending", (BYTE)dat->bSortAscending);
 }
 
-static const TCHAR *szColumnNames[] = { NULL, NULL, L"Nick", L"First Name", L"Last Name", L"E-mail" };
+static const wchar_t *szColumnNames[] = { NULL, NULL, L"Nick", L"First Name", L"Last Name", L"E-mail" };
 static int defaultColumnSizes[] = { 0, 90, 100, 100, 100, 2000 };
 void LoadColumnSizes(HWND hwndResults, const char *szProto)
 {
@@ -139,19 +139,19 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 		case COLUMNID_PROTO:
 			return mir_strcmp(lsr1->szProto, lsr2->szProto)*sortMultiplier;
 		case COLUMNID_HANDLE:
-			return mir_tstrcmpi(lsr1->psr.id.t, lsr2->psr.id.t)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.id.w, lsr2->psr.id.w)*sortMultiplier;
 		case COLUMNID_NICK:
-			return mir_tstrcmpi(lsr1->psr.nick.t, lsr2->psr.nick.t)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.nick.w, lsr2->psr.nick.w)*sortMultiplier;
 		case COLUMNID_FIRST:
-			return mir_tstrcmpi(lsr1->psr.firstName.t, lsr2->psr.firstName.t)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.firstName.w, lsr2->psr.firstName.w)*sortMultiplier;
 		case COLUMNID_LAST:
-			return mir_tstrcmpi(lsr1->psr.lastName.t, lsr2->psr.lastName.t)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.lastName.w, lsr2->psr.lastName.w)*sortMultiplier;
 		case COLUMNID_EMAIL:
-			return mir_tstrcmpi(lsr1->psr.email.t, lsr2->psr.email.t)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.email.w, lsr2->psr.email.w)*sortMultiplier;
 		}
 	}
 	else {
-		TCHAR szText1[100], szText2[100];
+		wchar_t szText1[100], szText2[100];
 		ListView_GetItemText(hList, (int)lParam1, sortCol, szText1, _countof(szText1));
 		ListView_GetItemText(hList, (int)lParam2, sortCol, szText2, _countof(szText2));
 		return mir_tstrcmpi(szText1, szText2)*sortMultiplier;
@@ -167,11 +167,11 @@ void FreeSearchResults(HWND hwndResults)
 		ListView_GetItem(hwndResults, &lvi);
 		ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
 		if (lsr == NULL) continue;
-		mir_free(lsr->psr.id.t);
-		mir_free(lsr->psr.email.t);
-		mir_free(lsr->psr.nick.t);
-		mir_free(lsr->psr.firstName.t);
-		mir_free(lsr->psr.lastName.t);
+		mir_free(lsr->psr.id.w);
+		mir_free(lsr->psr.email.w);
+		mir_free(lsr->psr.nick.w);
+		mir_free(lsr->psr.firstName.w);
+		mir_free(lsr->psr.lastName.w);
 		mir_free(lsr);
 	}
 	ListView_DeleteAllItems(hwndResults);
@@ -181,9 +181,9 @@ void FreeSearchResults(HWND hwndResults)
 // on its own thread
 static void BeginSearchFailed(void *arg)
 {
-	TCHAR buf[128];
+	wchar_t buf[128];
 	if (arg != NULL) {
-		const TCHAR *protoName = (TCHAR*)arg;
+		const wchar_t *protoName = (wchar_t*)arg;
 		mir_sntprintf(buf,
 			TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
 			protoName, protoName);

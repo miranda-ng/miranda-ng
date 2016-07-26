@@ -7,7 +7,7 @@ inline tstring get_window_text(HWND hWnd)
 {
 	int cBytes = ::GetWindowTextLength(hWnd);
 
-	std::vector<TCHAR> aBuf(cBytes + 1);
+	std::vector<wchar_t> aBuf(cBytes + 1);
 	LPTSTR pBuffer = &*(aBuf.begin());
 	::GetWindowText(hWnd, pBuffer, cBytes + 1);
 

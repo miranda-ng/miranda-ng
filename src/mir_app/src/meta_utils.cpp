@@ -140,7 +140,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	// write status string
 	mir_snprintf(buffer, "StatusString%d", ccDest->nSubs);
 
-	TCHAR *szStatus = cli.pfnGetStatusModeDescription(status, 0);
+	wchar_t *szStatus = cli.pfnGetStatusModeDescription(status, 0);
 	db_set_ts(hMeta, META_PROTO, buffer, szStatus);
 
 	// Write the link in the contact
@@ -170,7 +170,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 		PROTO_AVATAR_INFORMATION ai;
 		ai.hContact = hMeta;
 		ai.format = PA_FORMAT_UNKNOWN;
-		_tcsncpy_s(ai.filename, L"X", _TRUNCATE);
+		wcsncpy_s(ai.filename, L"X", _TRUNCATE);
 
 		if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
 			db_set_ts(hMeta, "ContactPhoto", "File", ai.filename);
@@ -438,7 +438,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 		}
 	}
 	else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
-		TCHAR *name = cli.pfnGetContactDisplayName(hContact, 0);
+		wchar_t *name = cli.pfnGetContactDisplayName(hContact, 0);
 		if (name && mir_tstrcmp(name, TranslateT("(Unknown contact)")) != 0) {
 			db_set_ts(ccMeta->contactID, META_PROTO, "Nick", name);
 			return 0;

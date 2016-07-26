@@ -41,7 +41,7 @@ HIMAGELIST hAdvancedStatusIcon = NULL;
 
 struct CTransportProtoTableItem
 {
-	TCHAR *mask;
+	wchar_t *mask;
 	char*  proto;
 };
 
@@ -110,7 +110,7 @@ CIconPool::~CIconPool()
 {
 }
 
-void CIconPool::RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHAR *szSection, TCHAR *szDescription)
+void CIconPool::RegisterIcon(const char *name, wchar_t *filename, int iconid, wchar_t *szSection, wchar_t *szDescription)
 {
 	char szSettingName[128];
 	mir_snprintf(szSettingName, "jabber_%s", name);
@@ -120,10 +120,10 @@ void CIconPool::RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHA
 	item->m_szIcolibName = mir_strdup(szSettingName);
 
 	SKINICONDESC sid = { 0 };
-	sid.defaultFile.t = filename;
+	sid.defaultFile.w = filename;
 	sid.pszName = szSettingName;
-	sid.section.t = szSection;
-	sid.description.t = szDescription;
+	sid.section.w = szSection;
+	sid.description.w = szDescription;
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.iDefaultIndex = iconid;
 	item->m_hIcolibItem = IcoLib_AddIcon(&sid);
@@ -194,14 +194,14 @@ HICON CJabberProto::LoadIconEx(const char* name, bool big)
 /////////////////////////////////////////////////////////////////////////////////////////
 // internal functions
 
-static inline TCHAR qtoupper(TCHAR c)
+static inline wchar_t qtoupper(wchar_t c)
 {
 	return (c >= 'a' && c <= 'z') ? c - 'a' + 'A' : c;
 }
 
-static BOOL WildComparei(const TCHAR *name, const TCHAR *mask)
+static BOOL WildComparei(const wchar_t *name, const wchar_t *mask)
 {
-	const TCHAR *last = '\0';
+	const wchar_t *last = '\0';
 	for (;; mask++, name++) {
 		if (*mask != '?' && qtoupper(*mask) != qtoupper(*name))
 			break;
@@ -226,7 +226,7 @@ static BOOL WildComparei(const TCHAR *name, const TCHAR *mask)
 	}
 }
 
-static BOOL MatchMask(const TCHAR *name, const TCHAR *mask)
+static BOOL MatchMask(const wchar_t *name, const wchar_t *mask)
 {
 	if (!mask || !name)
 		return mask == name;
@@ -234,7 +234,7 @@ static BOOL MatchMask(const TCHAR *name, const TCHAR *mask)
 	if (*mask != '|')
 		return WildComparei(name, mask);
 
-	TCHAR *temp = NEWTSTR_ALLOCA(mask);
+	wchar_t *temp = NEWWSTR_ALLOCA(mask);
 	for (int e = 1; mask[e] != '\0'; e++) {
 		int s = e;
 		while (mask[e] != '\0' && mask[e] != '|')
@@ -270,7 +270,7 @@ static HICON ExtractIconFromPath(const char *path, BOOL * needFree)
 	return hIcon;
 }
 
-static HICON LoadTransportIcon(char *filename, int i, char *IconName, TCHAR *SectName, TCHAR *Description, int internalidx, BOOL *needFree)
+static HICON LoadTransportIcon(char *filename, int i, char *IconName, wchar_t *SectName, wchar_t *Description, int internalidx, BOOL *needFree)
 {
 	char szPath[MAX_PATH], szMyPath[MAX_PATH], szFullPath[MAX_PATH], *str;
 	BOOL has_proto_icon = FALSE;
@@ -287,9 +287,9 @@ static HICON LoadTransportIcon(char *filename, int i, char *IconName, TCHAR *Sec
 	if (IconName != NULL && SectName != NULL) {
 		SKINICONDESC sid = { 0 };
 		sid.hDefaultIcon = (has_proto_icon) ? NULL : Skin_LoadProtoIcon(0, -internalidx);
-		sid.section.t = SectName;
+		sid.section.w = SectName;
 		sid.pszName = IconName;
-		sid.description.t = Description;
+		sid.description.w = Description;
 		sid.defaultFile.a = szMyPath;
 		sid.iDefaultIndex = i;
 		sid.flags = SIDF_TCHAR;
@@ -302,12 +302,12 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 {
 	char *proto = TransportProtoTable[iID].proto;
 	char defFile[MAX_PATH] = { 0 };
-	TCHAR Group[255];
+	wchar_t Group[255];
 	char Uname[255];
 	int first = -1;
 	HICON empty = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 
-	mir_sntprintf(Group, LPGENT("Status icons")L"/%s/%S %s", m_tszUserName, proto, TranslateT("transport"));
+	mir_sntprintf(Group, LPGENW("Status icons")L"/%s/%S %s", m_tszUserName, proto, TranslateT("transport"));
 	mir_snprintf(defFile, "proto_%s.dll", proto);
 	if (!hAdvancedStatusIcon)
 		hAdvancedStatusIcon = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
@@ -316,7 +316,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	for (int i = 0; i < ID_STATUS_ONTHEPHONE - ID_STATUS_OFFLINE; i++) {
 		BOOL needFree;
 		int n = skinStatusToJabberStatus[i];
-		TCHAR *descr = pcli->pfnGetStatusModeDescription(n + ID_STATUS_OFFLINE, 0);
+		wchar_t *descr = pcli->pfnGetStatusModeDescription(n + ID_STATUS_OFFLINE, 0);
 		mir_snprintf(Uname, "%s_Transport_%s_%d", m_szModuleName, proto, n);
 		HICON hicon = LoadTransportIcon(defFile, -skinIconStatusToResourceId[i], Uname, Group, descr, -(n + ID_STATUS_OFFLINE), &needFree);
 		int index = (m_transportProtoTableStartIndex[iID] == -1) ? -1 : m_transportProtoTableStartIndex[iID] + n;
@@ -332,7 +332,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	return 0;
 }
 
-int CJabberProto::GetTransportProtoID(TCHAR* TransportDomain)
+int CJabberProto::GetTransportProtoID(wchar_t* TransportDomain)
 {
 	for (int i = 0; i < _countof(TransportProtoTable); i++)
 		if (MatchMask(TransportDomain, TransportProtoTable[i].mask))
@@ -404,22 +404,22 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Transport check functions
 
-BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, MCONTACT hContact)
+BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hContact)
 {
 	// check if transport is already set
 	if (!jid || !hContact)
 		return FALSE;
 
 	// strip domain part from jid
-	TCHAR *domain = _tcschr((TCHAR*)jid, '@');
+	wchar_t *domain = wcschr((wchar_t*)jid, '@');
 	BOOL isAgent = (domain == NULL) ? TRUE : FALSE;
 	BOOL isTransported = FALSE;
 	if (domain != NULL)
-		domain = NEWTSTR_ALLOCA(domain + 1);
+		domain = NEWWSTR_ALLOCA(domain + 1);
 	else
-		domain = NEWTSTR_ALLOCA(jid);
+		domain = NEWWSTR_ALLOCA(jid);
 
-	TCHAR *resourcepos = _tcschr(domain, '/');
+	wchar_t *resourcepos = wcschr(domain, '/');
 	if (resourcepos != NULL)
 		*resourcepos = '\0';
 

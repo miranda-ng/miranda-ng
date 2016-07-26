@@ -22,9 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* Backup to DB */
 void CleanupRegTreeBackupSettings(void);
 /* Class */
-BOOL AddRegClass(const char *pszClassName,const TCHAR *pszTypeDescription,const TCHAR *pszIconLoc,const TCHAR *pszAppName,const TCHAR *pszRunCmd,const TCHAR *pszDdeCmd,const TCHAR *pszDdeApp,const TCHAR *pszDdeTopic,const TCHAR *pszVerbDesc,BOOL fBrowserAutoOpen,BOOL fUrlProto,BOOL fIsShortcut);
+BOOL AddRegClass(const char *pszClassName,const wchar_t *pszTypeDescription,const wchar_t *pszIconLoc,const wchar_t *pszAppName,const wchar_t *pszRunCmd,const wchar_t *pszDdeCmd,const wchar_t *pszDdeApp,const wchar_t *pszDdeTopic,const wchar_t *pszVerbDesc,BOOL fBrowserAutoOpen,BOOL fUrlProto,BOOL fIsShortcut);
 BOOL RemoveRegClass(const char *pszClassName);
-BOOL IsRegClass(const char *pszClassName,const TCHAR *pszRunCmd);
+BOOL IsRegClass(const char *pszClassName,const wchar_t *pszRunCmd);
 HICON LoadRegClassSmallIcon(const char *pszClassName);
 /* Extension */
 BOOL AddRegFileExt(const char *pszFileExt,const char *pszClassName,const char *pszMimeType,BOOL fIsText);
@@ -34,18 +34,18 @@ BOOL IsRegFileExt(const char *pszFileExt,const char *pszClassName);
 BOOL AddRegMimeType(const char *pszMimeType,const char *pszFileExt);
 void RemoveRegMimeType(const char *pszMimeType,const char *pszFileExt);
 /* Open-With App */
-void AddRegOpenWith(const TCHAR *pszAppFileName,BOOL fAllowOpenWith,const TCHAR *pszAppName,const TCHAR *pszIconLoc,const TCHAR *pszRunCmd,const TCHAR *pszDdeCmd,const TCHAR *pszDdeApp,const TCHAR *pszDdeTopic);
-void RemoveRegOpenWith(const TCHAR *pszAppFileName);
-void AddRegOpenWithExtEntry(const TCHAR *pszAppFileName,const char *pszFileExt,const TCHAR *pszFileDesc);
-void RemoveRegOpenWithExtEntry(const TCHAR *pszAppFileName,const char *pszFileExt);
+void AddRegOpenWith(const wchar_t *pszAppFileName,BOOL fAllowOpenWith,const wchar_t *pszAppName,const wchar_t *pszIconLoc,const wchar_t *pszRunCmd,const wchar_t *pszDdeCmd,const wchar_t *pszDdeApp,const wchar_t *pszDdeTopic);
+void RemoveRegOpenWith(const wchar_t *pszAppFileName);
+void AddRegOpenWithExtEntry(const wchar_t *pszAppFileName,const char *pszFileExt,const wchar_t *pszFileDesc);
+void RemoveRegOpenWithExtEntry(const wchar_t *pszAppFileName,const char *pszFileExt);
 /* Autostart */
-BOOL AddRegRunEntry(const TCHAR *pszAppName,const TCHAR *pszRunCmd);
-BOOL RemoveRegRunEntry(const TCHAR *pszAppName,const TCHAR *pszRunCmd);
-BOOL IsRegRunEntry(const TCHAR *pszAppName,const TCHAR *pszRunCmd);
+BOOL AddRegRunEntry(const wchar_t *pszAppName,const wchar_t *pszRunCmd);
+BOOL RemoveRegRunEntry(const wchar_t *pszAppName,const wchar_t *pszRunCmd);
+BOOL IsRegRunEntry(const wchar_t *pszAppName,const wchar_t *pszRunCmd);
 
 /* Strings */
 char *MakeFileClassName(const char *pszFileExt);
 char *MakeUrlClassName(const char *pszUrl);
-TCHAR *MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile);
-TCHAR *MakeIconLocation(HMODULE hModule,WORD nIconResID);
-TCHAR *MakeAppFileName(BOOL fMirExe);
+wchar_t *MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile);
+wchar_t *MakeIconLocation(HMODULE hModule,WORD nIconResID);
+wchar_t *MakeAppFileName(BOOL fMirExe);

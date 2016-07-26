@@ -45,7 +45,7 @@ void CToxProto::InitMenus()
 	// Request authorization
 	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
 	mi.pszService = MODULE"/RequestAuth";
-	mi.name.t = LPGENT("Request authorization");
+	mi.name.w = LPGENW("Request authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_REQUEST;
 	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
 	ContactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
@@ -54,7 +54,7 @@ void CToxProto::InitMenus()
 	// Grant authorization
 	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
 	mi.pszService = MODULE"/GrantAuth";
-	mi.name.t = LPGENT("Grant authorization");
+	mi.name.w = LPGENW("Grant authorization");
 	mi.position = CMI_POSITION + CMI_AUTH_GRANT;
 	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
@@ -63,7 +63,7 @@ void CToxProto::InitMenus()
 	// Start audio call
 	SET_UID(mi, 0x116cb7fe, 0xce37, 0x429c, 0xb0, 0xa9, 0x7d, 0xe7, 0x70, 0x59, 0xc3, 0x95);
 	mi.pszService = MODULE"/Audio/Call";
-	mi.name.t = LPGENT("Call");
+	mi.name.w = LPGENW("Call");
 	mi.position = -2000020000 + CMI_AUDIO_CALL;
 	mi.hIcolibItem = GetIconHandle(IDI_AUDIO_START);
 	ContactMenuItems[CMI_AUDIO_CALL] = Menu_AddContactMenuItem(&mi);
@@ -79,7 +79,7 @@ int CToxProto::OnInitStatusMenu()
 	// Create copy tox id command
 	mi.pszService = "/CopyToxID";
 	CreateProtoService(mi.pszService, &CToxProto::OnCopyToxID);
-	mi.name.t = LPGENT("Copy Tox ID");
+	mi.name.w = LPGENW("Copy Tox ID");
 	mi.position = SMI_POSITION + SMI_TOXID_COPY;
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 	
@@ -87,7 +87,7 @@ int CToxProto::OnInitStatusMenu()
 	/*
 	mi.pszService = "/CreateChatRoom";
 	CreateProtoService(mi.pszService, &CToxProto::OnCreateChatRoom);
-	mi.name.t = LPGENT("Create group chat");
+	mi.name.w = LPGENW("Create group chat");
 	mi.position = SMI_POSITION + SMI_GROUPCHAT_CREATE;
 	mi.hIcolibItem = Skin_GetIconHandle("conference");
 	HGENMENU hCreateChatRoom = Menu_AddProtoMenuItem(&mi, m_szModuleName);*/

@@ -17,6 +17,6 @@
 #define DEFAULT_NOBLINK 	0x00000000
 #define DEFAULT_NOCLCBLINK 0x00000000
 
-#define DISABLE_SOUND LPGENT("Disable &Sounds")
-#define ENABLE_SOUND LPGENT("Enable &Sounds")
+#define DISABLE_SOUND LPGENW("Disable &Sounds")
+#define ENABLE_SOUND LPGENW("Enable &Sounds")
 

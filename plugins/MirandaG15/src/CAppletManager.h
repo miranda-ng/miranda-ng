@@ -108,7 +108,7 @@ public:
 	// checks if the patched IRC protocol is in place
 	bool IsIRCHookEnabled();
 
-	static tstring TranslateString(TCHAR *szString,...);
+	static tstring TranslateString(wchar_t *szString,...);
 
 private:
 	list<CIRCHistory*> m_LIRCHistorys;

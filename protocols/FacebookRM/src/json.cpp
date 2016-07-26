@@ -311,7 +311,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 		*message_text += "\n\n";
 
 	if (!attachments_text.empty()) {
-		std::tstring newText;
+		std::wstring newText;
 		if (type == "sticker")
 			newText = TranslateT("a sticker");
 		else if (type == "share")
@@ -327,7 +327,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 		else
 			newText = _A2T(type.c_str());
 
-		TCHAR title[200];
+		wchar_t title[200];
 		mir_sntprintf(title, TranslateT("User sent %s:"), newText.c_str());
 
 		*message_text += T2Utf(title);
@@ -760,7 +760,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				// Probably means client: guess 0 = web, 8 = messenger, 10 = something else?
 				if (vc_) {
 					int vc = vc_.as_int();
-					TCHAR *client;
+					wchar_t *client;
 
 					if (vc == 0) {
 						client = _T(FACEBOOK_CLIENT_WEB);
@@ -877,7 +877,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				}
 				// Probably means client: guess 0 = web, 8 = messenger, 10 = something else?
 				if (vc_) {
-					TCHAR *client = _T(FACEBOOK_CLIENT_WEB);
+					wchar_t *client = _T(FACEBOOK_CLIENT_WEB);
 
 					/*if (vc == 0) {
 						// means active some time ago? (on messenger or also on web)
@@ -1073,7 +1073,7 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 				chatrooms->erase(iter); // this is not chatroom
 			}
 			else {
-				iter->second->chat_name = std::tstring(ptrT(mir_utf8decodeT(name.as_string().c_str()))); // TODO: create name from users if there is no name...
+				iter->second->chat_name = std::wstring(ptrT(mir_utf8decodeT(name.as_string().c_str()))); // TODO: create name from users if there is no name...
 
 				const JSONNode &participants = (*it)["participants"];
 				for (auto jt = participants.begin(); jt != participants.end(); ++jt) {
@@ -1275,7 +1275,7 @@ int facebook_json_parser::parse_chat_info(std::string *data, facebook_chatroom* 
 		fbc->is_archived = (*it)["is_archived"].as_bool();
 		fbc->is_subscribed = (*it)["is_subscribed"].as_bool();
 		fbc->read_only = (*it)["read_only"].as_bool();
-		fbc->chat_name = std::tstring(ptrT(mir_utf8decodeT(name_.as_string().c_str())));
+		fbc->chat_name = std::wstring(ptrT(mir_utf8decodeT(name_.as_string().c_str())));
 	}
 
 	return EXIT_SUCCESS;

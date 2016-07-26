@@ -24,11 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 // sections
 #define SECT_COMMON           LPGEN("Extended user info")
-#define SECT_ZODIAC           "Extended user info/Zodiacs"
-#define SECT_DLG              "Extended user info/Dialogs"
-#define SECT_BUTTONS          "Extended user info/Buttons"
-#define SECT_TREE             "Extended user info/Treeview"
-#define SECT_REMIND           "Extended user info/Reminder"
+#define SECT_ZODIAC           LPGEN("Extended user info/Zodiacs")
+#define SECT_DLG              LPGEN("Extended user info/Dialogs")
+#define SECT_BUTTONS          LPGEN("Extended user info/Buttons")
+#define SECT_TREE             LPGEN("Extended user info/Treeview")
+#define SECT_REMIND           LPGEN("Extended user info/Reminder")
 
 // icons
 #define ICO_COMMON_MAIN        MODNAME"_common_main"

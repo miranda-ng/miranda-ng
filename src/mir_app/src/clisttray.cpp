@@ -44,10 +44,10 @@ static bool hasTips()
 
 static bool fTrayInited;
 
-static TCHAR* sttGetXStatus(const char *szProto)
+static wchar_t* sttGetXStatus(const char *szProto)
 {
 	if (CallProtoServiceInt(NULL, szProto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE) {
-		TCHAR tszStatus[512];
+		wchar_t tszStatus[512];
 		CUSTOM_STATUS cs = { sizeof(cs) };
 		cs.flags = CSSF_MASK_MESSAGE | CSSF_TCHAR;
 		cs.ptszMessage = tszStatus;
@@ -59,7 +59,7 @@ static TCHAR* sttGetXStatus(const char *szProto)
 }
 
 static HICON lastTaskBarIcon;
-static void SetTaskBarIcon(const HICON hIcon, const TCHAR *szNewTip)
+static void SetTaskBarIcon(const HICON hIcon, const wchar_t *szNewTip)
 {
 	if (pTaskbarInterface) {
 		pTaskbarInterface->SetOverlayIcon(cli.hwndContactList, hIcon, szNewTip);
@@ -67,12 +67,12 @@ static void SetTaskBarIcon(const HICON hIcon, const TCHAR *szNewTip)
 	}
 }
 
-TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
+wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto)
 {
 	initcheck NULL;
 
 	mir_cslock lck(trayLockCS);
-	TCHAR *szSeparator = L"\n";
+	wchar_t *szSeparator = L"\n";
 
 	if (szProto == NULL) {
 		if (accounts.getCount() == 0)
@@ -85,7 +85,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 
 		if (szPrefix && szPrefix[0]) {
 			if (!db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
-				_tcsncpy_s(cli.szTip, MAX_TIP_SIZE, szPrefix, _TRUNCATE);
+				wcsncpy_s(cli.szTip, MAX_TIP_SIZE, szPrefix, _TRUNCATE);
 				return cli.szTip;
 			}
 			tszTip.Append(szPrefix);
@@ -100,7 +100,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 			if (!cli.pfnGetProtocolVisibility(pa->szModuleName))
 				continue;
 
-			TCHAR *szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, pa->szModuleName, PS_GETSTATUS, 0, 0), 0);
+			wchar_t *szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, pa->szModuleName, PS_GETSTATUS, 0, 0), 0);
 			if (!szStatus)
 				continue;
 
@@ -119,13 +119,13 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 			else tszTip.AppendFormat(L"%s %s", pa->tszAccountName, szStatus);
 		}
 
-		_tcsncpy_s(cli.szTip, MAX_TIP_SIZE, tszTip, _TRUNCATE);
+		wcsncpy_s(cli.szTip, MAX_TIP_SIZE, tszTip, _TRUNCATE);
 	}
 	else {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa != NULL) {
 			ptrT ProtoXStatus(sttGetXStatus(szProto));
-			TCHAR *szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, szProto, PS_GETSTATUS, 0, 0), 0);
+			wchar_t *szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, szProto, PS_GETSTATUS, 0, 0), 0);
 			if (szPrefix && szPrefix[0]) {
 				if (db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
 					if (hasTips()) {
@@ -314,7 +314,7 @@ static VOID CALLBACK RefreshTimerProc(HWND, UINT, UINT_PTR, DWORD)
 		cli.pfnTrayIconUpdateBase(accounts[i]->szModuleName);
 }
 
-int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPreferredProto, int isBase)
+int fnTrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase)
 {
 	initcheck - 1;
 	mir_cslock lck(trayLockCS);
@@ -426,7 +426,7 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 	goto LBL_Error;
 }
 
-void fnTrayIconUpdateWithImageList(int iImage, const TCHAR *szNewTip, char *szPreferredProto)
+void fnTrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, char *szPreferredProto)
 {
 	HICON hIcon = ImageList_GetIcon(hCListImages, iImage, ILD_NORMAL);
 	cli.pfnTrayIconUpdate(hIcon, szNewTip, szPreferredProto, 0);
@@ -616,7 +616,7 @@ static void CALLBACK TrayToolTipTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 		POINT pt;
 		GetCursorPos(&pt);
 		if (abs(pt.x - tray_hover_pos.x) <= TOOLTIP_TOLERANCE && abs(pt.y - tray_hover_pos.y) <= TOOLTIP_TOLERANCE) {
-			TCHAR* szTipCur = cli.szTip;
+			wchar_t* szTipCur = cli.szTip;
 			{
 				int n = s_LastHoverIconID - 100;
 				if (n >= 0 && n < cli.trayIconCount)

@@ -281,7 +281,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	if (hwndExisting != 0)
 		SendMessage(hwndExisting, DM_ACTIVATEME, 0, 0);
 	else {
-		TCHAR szName[CONTAINER_NAMELEN + 1];
+		wchar_t szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
@@ -330,7 +330,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);
 	}
 	else {
-		TCHAR szName[CONTAINER_NAMELEN + 1];
+		wchar_t szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
 		TContainerData *pContainer = FindContainerByName(szName);
@@ -473,7 +473,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	}
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, L"default", 6))
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6))
 		if ((pContainer = FindMatchingContainer(L"default")) == NULL)
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == NULL)
 				return 0;
@@ -487,21 +487,21 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	memset(&newData.item, 0, sizeof(newData.item));
 
 	// obtain various status information about the contact
-	TCHAR *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
+	wchar_t *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
 
 	// cut nickname if larger than x chars...
-	TCHAR newcontactname[128], tabtitle[128];
+	wchar_t newcontactname[128], tabtitle[128];
 	if (contactName && mir_tstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
 			CutContactName(contactName, newcontactname, _countof(newcontactname));
 		else
-			_tcsncpy_s(newcontactname, contactName, _TRUNCATE);
+			wcsncpy_s(newcontactname, contactName, _TRUNCATE);
 
 		Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
 	}
-	else _tcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
+	else wcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
 
-	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	if (M.GetByte("tabstatus", 1))
 		mir_sntprintf(tabtitle, L"%s (%s)  ", newcontactname, szStatus);
@@ -618,13 +618,13 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 // it searches a container with "room" for the new tabs or otherwise creates
 // a new (cloned) one.
 
-TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName)
+TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName)
 {
 	int iMaxTabs = M.GetDword("maxtabs", 0);
-	if (iMaxTabs > 0 && M.GetByte("limittabs", 0) && !_tcsncmp(szName, L"default", 6)) {
+	if (iMaxTabs > 0 && M.GetByte("limittabs", 0) && !wcsncmp(szName, L"default", 6)) {
 		// search a "default" with less than iMaxTabs opened...
 		for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-			if (!_tcsncmp(p->szName, L"default", 6) && p->iChilds < iMaxTabs)
+			if (!wcsncmp(p->szName, L"default", 6) && p->iChilds < iMaxTabs)
 				return p;
 
 		return NULL;
@@ -800,8 +800,8 @@ static int TSAPI SetupIconLibConfig()
 {
 	int j = 2, version = 0;
 
-	TCHAR szFilename[MAX_PATH];
-	_tcsncpy(szFilename, L"icons\\tabsrmm_icons.dll", MAX_PATH);
+	wchar_t szFilename[MAX_PATH];
+	wcsncpy(szFilename, L"icons\\tabsrmm_icons.dll", MAX_PATH);
 	g_hIconDLL = LoadLibrary(szFilename);
 	if (g_hIconDLL == 0) {
 		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE | MB_ICONERROR | MB_OK);
@@ -815,7 +815,7 @@ static int TSAPI SetupIconLibConfig()
 	g_hIconDLL = 0;
 
 	SKINICONDESC sid = { 0 };
-	sid.defaultFile.t = szFilename;
+	sid.defaultFile.w = szFilename;
 	sid.flags = SIDF_PATH_TCHAR;
 
 	for (int n = 0; n < _countof(ICONBLOCKS); n++) {
@@ -838,7 +838,7 @@ static int TSAPI SetupIconLibConfig()
 	sid.iDefaultIndex = -IDI_CLOCK;
 	IcoLib_AddIcon(&sid);
 
-	_tcsncpy(szFilename, L"plugins\\tabsrmm.dll", MAX_PATH);
+	wcsncpy(szFilename, L"plugins\\tabsrmm.dll", MAX_PATH);
 
 	sid.pszName = "tabSRMM_overlay_disabled";
 	sid.description.a = LPGEN("Feature disabled (used as overlay)");
@@ -1068,7 +1068,7 @@ STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEU
 
 STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
-	TCHAR sztName[64];
+	wchar_t sztName[64];
 	mir_sntprintf(sztName, L"s%u", nextStgId++);
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;

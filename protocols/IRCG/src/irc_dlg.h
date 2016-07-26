@@ -165,7 +165,7 @@ struct CManagerDlg : public CCoolIrcDlg
 
 	void ApplyQuestion();
 	void CloseQuestion();
-	void InitManager(int mode, const TCHAR* window);
+	void InitManager(int mode, const wchar_t* window);
 };
 
 struct CQuestionDlg : public CCoolIrcDlg
@@ -302,9 +302,9 @@ struct CAddIgnoreDlg : public CProtoDlgBase < CIrcProto >
 	CCtrlButton m_Ok;
 	CIgnorePrefsDlg* m_owner;
 
-	TCHAR szOldMask[500];
+	wchar_t szOldMask[500];
 
-	CAddIgnoreDlg(CIrcProto* _pro, const TCHAR* mask, CIgnorePrefsDlg* parent);
+	CAddIgnoreDlg(CIrcProto* _pro, const wchar_t* mask, CIgnorePrefsDlg* parent);
 
 	virtual void OnInitDialog();
 	virtual void OnClose();

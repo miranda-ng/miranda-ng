@@ -23,7 +23,7 @@
 //General
 extern HINSTANCE hinstance;
 extern INT interval;
-extern TCHAR *ptszDefaultMsg[6];
+extern wchar_t *ptszDefaultMsg[6];
 extern HGENMENU hEnableMenu;
 extern IconItemT iconList[];
 

@@ -58,6 +58,7 @@ enum
 //
 
 #define MODULE "FloatingContacts"
+#define MODULEW L"FloatingContacts"
 
 #define TOTOPTIME_P	1000
 #define TOTOPTIME_MAX	(15*(60000/TOTOPTIME_P))
@@ -135,7 +136,7 @@ static __forceinline BOOL ImageList_GetIconSize_my(HIMAGELIST himl, SIZE &sz)
 void RegHotkey				( MCONTACT hContact, HWND hwnd );
 BOOL IsStatusVisible		( int status );
 BOOL HideOnFullScreen		();
-void SendMsgDialog			( HWND hwnd, TCHAR *pText );
+void SendMsgDialog			( HWND hwnd, wchar_t *pText );
 void SaveContactsPos		( void );
 
 /////////////////////////////////////////////////////////////////////////////

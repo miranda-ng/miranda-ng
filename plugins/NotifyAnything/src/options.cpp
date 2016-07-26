@@ -25,9 +25,9 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 
 		{
-			TCHAR buf[10];
+			wchar_t buf[10];
 			SetDlgItemText(hwndDlg, NA_LOG_FILENAME, g_settings.log_filename.c_str());
-			SetDlgItemText(hwndDlg, NA_PORT, _itot(g_settings.port, buf, 10));
+			SetDlgItemText(hwndDlg, NA_PORT, _itow(g_settings.port, buf, 10));
 			SetDlgItemText(hwndDlg, NA_PASSWORD, g_settings.password.c_str());
 			UINT state;
 			switch (g_settings.sound) {
@@ -56,7 +56,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		case NA_LOG_BROWSE:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				TCHAR szTemp[MAX_PATH + 1], szTemp1[MAX_PATH + 1], szProfileDir[MAX_PATH + 1];
+				wchar_t szTemp[MAX_PATH + 1], szTemp1[MAX_PATH + 1], szProfileDir[MAX_PATH + 1];
 				GetDlgItemText(hwndDlg, NA_LOG_FILENAME, szTemp, _countof(szTemp));
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
@@ -107,10 +107,10 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			s.use_pcspeaker = IsDlgButtonChecked(hwndDlg, NA_PCSPEAKER_CHECK) != BST_UNCHECKED;
 			s.allow_execute = IsDlgButtonChecked(hwndDlg, NA_ALLOW_EXECUTE) != BST_UNCHECKED;
 
-			TCHAR buf[1000];
+			wchar_t buf[1000];
 			if (!GetDlgItemText(hwndDlg, NA_PORT, buf, _countof(buf)))
 				buf[0] = '\0';
-			int port = _ttoi(buf);
+			int port = _wtoi(buf);
 			if (port <= 0 || port > 65535)
 				MessageBox(0, TranslateT("Invalid port number"), TranslateT("NotifyAnything"), MB_ICONWARNING | MB_OK);
 			else

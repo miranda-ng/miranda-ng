@@ -187,7 +187,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			SetBkMode(hdc, TRANSPARENT);
 			SetTextColor(hdc, GetSysColor(COLOR_3DDKSHADOW));
-			TCHAR buff[64];
+			wchar_t buff[64];
 			if (wd->show_grid)
 			{
 				mir_sntprintf(buff, TranslateT("%d ms"), MARK_TIME);
@@ -275,11 +275,11 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wndclass.lpszClassName = _T(PLUG) L"GraphWindow";
 	RegisterClass(&wndclass);
 
-	TCHAR title[256];
+	wchar_t title[256];
 	mir_tstrncpy(title, TranslateT("Ping Graph"), _countof(title));
 	if (lParam) {
 		mir_tstrncat(title, L" - ", _countof(title) - mir_tstrlen(title));
-		mir_tstrncat(title, (TCHAR *)lParam, _countof(title) - mir_tstrlen(title));
+		mir_tstrncat(title, (wchar_t *)lParam, _countof(title) - mir_tstrlen(title));
 	}
 
 	HWND parent = 0;

@@ -55,14 +55,14 @@ static unsigned long crc_table[256];
 //////////////////////////////////////////////////////////
 // Extra winsock function for error description
 //
-TCHAR* ws_strerror(int code)
+wchar_t* ws_strerror(int code)
 {
-   static TCHAR err_desc[160];
+   static wchar_t err_desc[160];
 
    // Not a windows error display WinSock
    if (code == 0)
    {
-      TCHAR buff[128];
+      wchar_t buff[128];
       int len = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(), 0, buff, _countof(buff), NULL);
       if (len == 0)
          mir_sntprintf(err_desc, L"WinSock %u: Unknown error.", WSAGetLastError());
@@ -132,7 +132,7 @@ unsigned long crc_get(char *mem)
 // http_error_string()
 //
 // returns http error text
-const TCHAR *http_error_string(int h)
+const wchar_t *http_error_string(int h)
 {
    switch (h)
    {
@@ -173,22 +173,22 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)){
 		debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
-		TCHAR avatarsPath[MAX_PATH];
+		wchar_t avatarsPath[MAX_PATH];
 		mir_sntprintf(avatarsPath, L"%s\\%s", VARST( L"%miranda_avatarcache%"), m_tszUserName);
 
 		debugLog(L"cleanuplastplugin() 1: miranda_avatarcache = %s", avatarsPath);
 
-		TCHAR spec[MAX_PATH + 10];
+		wchar_t spec[MAX_PATH + 10];
 		mir_sntprintf(spec, L"%s\\*.(null)", avatarsPath);
 		WIN32_FIND_DATA ffd;
 		HANDLE hFind = FindFirstFile(spec, &ffd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				TCHAR filePathT [2*MAX_PATH + 10];
+				wchar_t filePathT [2*MAX_PATH + 10];
 				mir_sntprintf(filePathT, L"%s\\%s", avatarsPath, ffd.cFileName);
-				if (!_taccess(filePathT, 0)){
+				if (!_waccess(filePathT, 0)){
 					debugLog(L"cleanuplastplugin() 1: remove file = %s", filePathT);
-					_tremove(filePathT);
+					_wremove(filePathT);
 				}
 			} while (FindNextFile(hFind, &ffd) != 0);
 			FindClose(hFind);
@@ -238,7 +238,7 @@ static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
    if (gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) || gg->isChatRoom(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
       Menu_ShowItem(gg->hBlockMenuItem, false);
 	else
-		Menu_ModifyItem(gg->hBlockMenuItem, gg->getByte(hContact, GG_KEY_BLOCK, 0) ? LPGENT("&Unblock") : LPGENT("&Block"));
+		Menu_ModifyItem(gg->hBlockMenuItem, gg->getByte(hContact, GG_KEY_BLOCK, 0) ? LPGENW("&Unblock") : LPGENW("&Block"));
    return 0;
 }
 
@@ -289,12 +289,12 @@ void GGPROTO::menus_init()
 	mi.root = hRoot;
    mi.flags = CMIF_TCHAR;
 
-   mi.name.t = LPGENT("Conference");
+   mi.name.w = LPGENW("Conference");
    mi.position = 200001;
    mi.hIcolibItem = iconList[14].hIcolib;
 	HGENMENU hGCRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-   mi.name.t = LPGENT("Contact list");
+   mi.name.w = LPGENW("Contact list");
    mi.position = 200002;
    mi.hIcolibItem = iconList[7].hIcolib;
    HGENMENU hCLRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
@@ -307,7 +307,7 @@ void GGPROTO::menus_init()
 //////////////////////////////////////////////////////////
 // Module instance initialization
 //
-static GGPROTO *gg_proto_init(const char* pszProtoName, const TCHAR* tszUserName)
+static GGPROTO *gg_proto_init(const char* pszProtoName, const wchar_t* tszUserName)
 {
    GGPROTO *gg = new GGPROTO(pszProtoName, tszUserName);
    g_Instances.insert(gg);

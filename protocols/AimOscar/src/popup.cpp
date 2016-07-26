@@ -71,7 +71,7 @@ void CAimProto::ShowPopup(const char* msg, int flags, char* url)
 	{
 		if (flags & TCHAR_POPUP)
 		{
-			char* errmsg = mir_t2a((TCHAR*)msg);
+			char* errmsg = mir_t2a((wchar_t*)msg);
 			debugLogA(errmsg);
 			mir_free(errmsg);
 		}
@@ -79,8 +79,8 @@ void CAimProto::ShowPopup(const char* msg, int flags, char* url)
 			debugLogA(msg);
 	}
 
-	TCHAR *msgt = (flags & TCHAR_POPUP) ? mir_tstrdup((TCHAR*)msg) : mir_a2t(msg);
-	_tcsncpy_s(ppd.lptzText, TranslateTS(msgt), _TRUNCATE);
+	wchar_t *msgt = (flags & TCHAR_POPUP) ? mir_tstrdup((wchar_t*)msg) : mir_a2t(msg);
+	wcsncpy_s(ppd.lptzText, TranslateTS(msgt), _TRUNCATE);
 	mir_free(msgt);
 
 	if (!ServiceExists(MS_POPUP_ADDPOPUPT))

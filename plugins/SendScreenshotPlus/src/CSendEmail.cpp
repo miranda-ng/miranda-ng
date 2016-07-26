@@ -35,7 +35,7 @@ CSendEmail::CSendEmail(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 	: CSend(Owner, hContact, true)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_DELETEAFTERSSEND; // SS_DLG_AUTOSEND | ;
-	m_pszSendTyp = LPGENT("Email transfer");
+	m_pszSendTyp = LPGENW("Email transfer");
 	m_pszFileA = NULL;
 	m_pszFileName = NULL;
 	m_Email = NULL;
@@ -136,53 +136,53 @@ void CSendEmail::SendThread()
 		int res = lpMAPISendMail(NULL, NULL, &Msg, MAPI_LOGON_UI | MAPI_DIALOG, 0);
 		::FreeLibrary(hMAPILib);
 
-		TCHAR* err;
+		wchar_t* err;
 		switch (res) {
 		case SUCCESS_SUCCESS:
 			//The call succeeded and the message was sent.
 			Exit(ACKRESULT_SUCCESS); return;
 			// No message was sent
 		case MAPI_E_AMBIGUOUS_RECIPIENT:
-			err = LPGENT("A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set");
+			err = LPGENW("A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set");
 			break;
 		case MAPI_E_ATTACHMENT_NOT_FOUND:
-			err = LPGENT("The specified attachment was not found");
+			err = LPGENW("The specified attachment was not found");
 			break;
 		case MAPI_E_ATTACHMENT_OPEN_FAILURE:
-			err = LPGENT("The specified attachment could not be opened");
+			err = LPGENW("The specified attachment could not be opened");
 			break;
 		case MAPI_E_BAD_RECIPTYPE:
-			err = LPGENT("The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC");
+			err = LPGENW("The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC");
 			break;
 		case MAPI_E_FAILURE:
-			err = LPGENT("One or more unspecified errors occurred");
+			err = LPGENW("One or more unspecified errors occurred");
 			break;
 		case MAPI_E_INSUFFICIENT_MEMORY:
-			err = LPGENT("There was insufficient memory to proceed");
+			err = LPGENW("There was insufficient memory to proceed");
 			break;
 		case MAPI_E_INVALID_RECIPS:
-			err = LPGENT("One or more recipients were invalid or did not resolve to any address");
+			err = LPGENW("One or more recipients were invalid or did not resolve to any address");
 			break;
 		case MAPI_E_LOGIN_FAILURE:
-			err = LPGENT("There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed");
+			err = LPGENW("There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed");
 			break;
 		case MAPI_E_TEXT_TOO_LARGE:
-			err = LPGENT("The text in the message was too large");
+			err = LPGENW("The text in the message was too large");
 			break;
 		case MAPI_E_TOO_MANY_FILES:
-			err = LPGENT("There were too many file attachments");
+			err = LPGENW("There were too many file attachments");
 			break;
 		case MAPI_E_TOO_MANY_RECIPIENTS:
-			err = LPGENT("There were too many recipients");
+			err = LPGENW("There were too many recipients");
 			break;
 		case MAPI_E_UNKNOWN_RECIPIENT:
-			err = LPGENT("A recipient did not appear in the address list");
+			err = LPGENW("A recipient did not appear in the address list");
 			break;
 		case MAPI_E_USER_ABORT:
-			err = LPGENT("The user canceled one of the dialog boxes");
+			err = LPGENW("The user canceled one of the dialog boxes");
 			break;
 		default:
-			err = LPGENT("Unknown Error");
+			err = LPGENW("Unknown Error");
 			break;
 		}
 		Error(SS_ERR_MAPI, res, err);

@@ -94,7 +94,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct _OrderTreeData
 {
 	BYTE			ID;
-	const TCHAR *	Name;
+	const wchar_t *	Name;
 	BYTE			Position;
 	BOOL			Visible;
 	BOOL			fReserved;
@@ -105,7 +105,7 @@ struct TExtraCache
 	MCONTACT	hContact;
 	HANDLE		hTimeZone;
 	BYTE		valid;
-	TCHAR		*statusMsg;
+	wchar_t		*statusMsg;
 	BYTE		bStatusMsgValid;
 	DWORD		dwCFlags;
 	DWORD		dwDFlags; // display flags for caching only
@@ -274,7 +274,7 @@ struct TCluiData {
 	BOOL bUsePerProto;
 	BOOL bOverridePerStatusColors;
 	BOOL bDontSeparateOffline;
-	TCHAR groupFilter[2048];
+	wchar_t groupFilter[2048];
 	char protoFilter[2048];
 	char varFilter[2048];
 	DWORD lastMsgFilter;
@@ -308,7 +308,7 @@ struct TCluiData {
 	int group_padding;
 	DWORD t_now;
 	BOOL realTimeSaving;
-	TCHAR tszProfilePath[MAX_PATH];
+	wchar_t tszProfilePath[MAX_PATH];
 	FILETIME ft;
 	SYSTEMTIME st;
 };
@@ -373,13 +373,13 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 // clcutils.c
 void 	SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
 void 	DoSelectionDefaultAction(HWND hwnd, struct ClcData *dat);
-int 	FindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
+int 	FindRowByText(HWND hwnd, struct ClcData *dat, const wchar_t *text, int prefixOk);
 void 	BeginRenameSelection(HWND hwnd, struct ClcData *dat);
 int 	HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags);
 void 	ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
 void 	RecalcScrollBar(HWND hwnd, struct ClcData *dat);
-size_t 	MY_pathToRelative(const TCHAR *pSrc, TCHAR *pOut);
-size_t 	MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut);
+size_t 	MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut);
+size_t 	MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut);
 
 #define DROPTARGET_OUTSIDE		0
 #define DROPTARGET_ONSELF		1

@@ -29,7 +29,7 @@ private:
 	std::unordered_set<std::wstring> smileys;
 	std::wstring ReplaceSmileys(bool isMe, const std::wstring &msg, bool &isUrl);
 public:
-	virtual const TCHAR* GetExt()
+	virtual const wchar_t* GetExt()
 	{
 		return L"html";
 	}

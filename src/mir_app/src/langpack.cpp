@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "langpack.h"
 
-MIR_CORE_DLL(int) LoadLangPackDescr(const TCHAR *szLangPack, LANGPACK_INFO *lpInfo);
+MIR_CORE_DLL(int) LoadLangPackDescr(const wchar_t *szLangPack, LANGPACK_INFO *lpInfo);
 
 BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 {
@@ -36,7 +36,7 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 	/* language folder */
 	ptrT langpack(db_get_tsa(NULL, "Langpack", "Current"));
 	
-	TCHAR tszFullPath[MAX_PATH];
+	wchar_t tszFullPath[MAX_PATH];
 	PathToAbsoluteT(L"\\Languages\\langpack_*.txt", tszFullPath);
 
 	BOOL fPackFound = FALSE;

@@ -106,7 +106,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 {
 	if (uMsg == TB_ADDBUTTONS) {
 		TBBUTTON *tbb = (TBBUTTON *)lParam;
-		TCHAR szBtnText[MAX_PATH];
+		wchar_t szBtnText[MAX_PATH];
 		int iString;
 		HWND hWndToolTip;
 
@@ -280,7 +280,7 @@ int DlgExIm_OpenFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPS
 	ofn.Flags |= OFN_PATHMUSTEXIST;
 	if (!GetOpenFileNameA(&ofn)) {
 		DWORD dwError = CommDlgExtendedError();
-		if (dwError) MsgErr(ofn.hwndOwner, LPGENT("The OpenFileDialog returned an error: %d!"), dwError);
+		if (dwError) MsgErr(ofn.hwndOwner, LPGENW("The OpenFileDialog returned an error: %d!"), dwError);
 		return -1;
 	}
 	SaveInitialDir(pszFile);
@@ -307,7 +307,7 @@ int DlgExIm_SaveFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPS
 	if (!GetSaveFileNameA(&ofn)) {
 		DWORD dwError = CommDlgExtendedError();
 
-		if (dwError) MsgErr(ofn.hwndOwner, LPGENT("The SaveFileDialog returned an error: %d!"), dwError);
+		if (dwError) MsgErr(ofn.hwndOwner, LPGENW("The SaveFileDialog returned an error: %d!"), dwError);
 		return -1;
 	}
 	SaveInitialDir(pszFile);

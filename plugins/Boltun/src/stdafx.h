@@ -74,20 +74,20 @@
 //Plugin name
 #define BOLTUN_NAME  "Boltun"
 
-#define MIND_FILE_DESC LPGENT("Mind Files")
-#define ALL_FILES_DESC LPGENT("All Files")
+#define MIND_FILE_DESC LPGENW("Mind Files")
+#define ALL_FILES_DESC LPGENW("All Files")
 
 //UI strings
 #define BOLTUN_AUTO_CHAT   LPGEN("Boltun/Auto Chat")
 #define BOLTUN_NOT_TO_CHAT LPGEN("Boltun/Not to Chat")
 #define BOLTUN_START_CHATTING LPGEN("Boltun/Start Chatting")
 
-#define DEFAULT_WARN_TEXT LPGENT("Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!")
+#define DEFAULT_WARN_TEXT LPGENW("Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!")
 
 // Error messages
-#define BOLTUN_ERROR         LPGENT("Boltun Error")
-#define FAILED_TO_LOAD_BASE  LPGENT("Failed to load base of remarks. Error at line %d of %s. (Or few lines before).")
-#define FAILED_TO_SAVE_BASE  LPGENT("Failed to save base of remarks to %s")
+#define BOLTUN_ERROR         LPGENW("Boltun Error")
+#define FAILED_TO_LOAD_BASE  LPGENW("Failed to load base of remarks. Error at line %d of %s. (Or few lines before).")
+#define FAILED_TO_SAVE_BASE  LPGENW("Failed to save base of remarks to %s")
 
 //Settings tab names
 #define TAB_GENERAL LPGEN("General Settings")

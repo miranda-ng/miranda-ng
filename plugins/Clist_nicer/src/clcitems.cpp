@@ -52,14 +52,14 @@ ClcContact* CreateClcContact(void)
 	return p;
 }
 
-ClcContact* AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
+ClcContact* AddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText)
 {
 	ClcContact *p = coreCli.pfnAddInfoItemToGroup(group, flags, pszText);
 	p->avatarLeft = p->extraIconRightBegin = -1;
 	return p;
 }
 
-ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
+ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
 	ClcGroup *p = coreCli.pfnAddGroup(hwnd, dat, szName, flags, groupId, calcTotalMembers);
 	if (p && p->parent)
@@ -188,13 +188,13 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		if (!result && mir_tstrlen(dbv.ptszVal) > 1) {
 			size_t iLen = mir_tstrlen(dbv.ptszVal);
 			p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
-			p->statusMsg = (TCHAR *)realloc(p->statusMsg, (iLen + 2) * sizeof(TCHAR));
-			_tcsncpy(p->statusMsg, dbv.ptszVal, iLen + 1);
+			p->statusMsg = (wchar_t *)realloc(p->statusMsg, (iLen + 2) * sizeof(wchar_t));
+			wcsncpy(p->statusMsg, dbv.ptszVal, iLen + 1);
 		}
 		else {
 			int xStatus;
 			WPARAM xStatus2;
-			TCHAR xStatusName[128];
+			wchar_t xStatusName[128];
 
 			CUSTOM_STATUS cst = { sizeof(cst) };
 			cst.flags = CSSF_MASK_STATUS;
@@ -204,9 +204,9 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 				cst.wParam = &xStatus2;
 				cst.ptszName = xStatusName;
 				if (!CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst)) {
-					TCHAR *szwXstatusName = TranslateTS(xStatusName);
-					p->statusMsg = (TCHAR *)realloc(p->statusMsg, (mir_tstrlen(szwXstatusName) + 2) * sizeof(TCHAR));
-					_tcsncpy(p->statusMsg, szwXstatusName, mir_tstrlen(szwXstatusName) + 1);
+					wchar_t *szwXstatusName = TranslateTS(xStatusName);
+					p->statusMsg = (wchar_t *)realloc(p->statusMsg, (mir_tstrlen(szwXstatusName) + 2) * sizeof(wchar_t));
+					wcsncpy(p->statusMsg, szwXstatusName, mir_tstrlen(szwXstatusName) + 1);
 					p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
 				}
 			}
@@ -215,9 +215,9 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 
 	if (p->bStatusMsgValid > STATUSMSG_XSTATUSNAME) {
 		int j = 0;
-		p->statusMsg = (TCHAR *)realloc(p->statusMsg, (mir_tstrlen(dbv.ptszVal) + 2) * sizeof(TCHAR));
+		p->statusMsg = (wchar_t *)realloc(p->statusMsg, (mir_tstrlen(dbv.ptszVal) + 2) * sizeof(wchar_t));
 		for (int i = 0; dbv.ptszVal[i]; i++) {
-			if (dbv.ptszVal[i] == (TCHAR)0x0d)
+			if (dbv.ptszVal[i] == (wchar_t)0x0d)
 				continue;
 			p->statusMsg[j] = dbv.ptszVal[i] == (wchar_t)0x0a ? (wchar_t)' ' : dbv.ptszVal[i];
 			j++;
@@ -265,7 +265,7 @@ void ReloadExtraInfo(MCONTACT hContact)
 void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact)
 {
 	WORD infoTypeC2[12];
-	TCHAR *szText;
+	wchar_t *szText;
 	TExtraCache *p;
 
 	memset(infoTypeC2, 0, sizeof(infoTypeC2));
@@ -409,9 +409,9 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
 		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		if (tszGroup != NULL) {
-			TCHAR szGroupMask[256];
+			wchar_t szGroupMask[256];
 			mir_sntprintf(szGroupMask, L"%s|", tszGroup);
-			int bHasGroup = _tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0;
+			int bHasGroup = wcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0;
 			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | bHasGroup) : (filterResult & bHasGroup);
 		}
 		else if (cfg::dat.filterFlags & CLVM_INCLUDED_UNGROUPED)

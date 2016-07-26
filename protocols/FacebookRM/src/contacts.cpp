@@ -400,7 +400,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 				if (namesUsed > 0)
 					fbc->chat_name += L", ";
 
-				std::tstring tname = _A2T(participant.c_str(), CP_UTF8);
+				std::wstring tname = _A2T(participant.c_str(), CP_UTF8);
 				fbc->chat_name += utils::text::prepare_name(tname, false);
 				
 				if (++namesUsed >= FACEBOOK_CHATROOM_NAMES_COUNT)
@@ -408,14 +408,14 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 			}
 
 			if (fbc->participants.size() > namesUsed) {
-				TCHAR more[200];
+				wchar_t more[200];
 				mir_sntprintf(more, TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - namesUsed);
 				fbc->chat_name = more;
 			}
 
 			// If there are no participants to create a name from, use just thread_id
 			if (fbc->chat_name.empty())
-				fbc->chat_name = std::tstring(_A2T(fbc->thread_id.c_str())); // TODO: is this needed? Isn't it showed automatically as id if there is no name?
+				fbc->chat_name = std::wstring(_A2T(fbc->thread_id.c_str())); // TODO: is this needed? Isn't it showed automatically as id if there is no name?
 		}
 
 		debugLogA("*** Chat thread info processed");

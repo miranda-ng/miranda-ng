@@ -83,9 +83,9 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 			return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 	}
 
-	TCHAR namea[128];
-	TCHAR *nameb = pcli->pfnGetContactDisplayName(a, 0);
-	_tcsncpy_s(namea, nameb, _TRUNCATE);
+	wchar_t namea[128];
+	wchar_t *nameb = pcli->pfnGetContactDisplayName(a, 0);
+	wcsncpy_s(namea, nameb, _TRUNCATE);
 	namea[ _countof(namea)-1 ] = 0;
 	nameb = pcli->pfnGetContactDisplayName(b, 0);
 

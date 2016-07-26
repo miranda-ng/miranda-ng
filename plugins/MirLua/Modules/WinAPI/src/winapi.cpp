@@ -38,7 +38,7 @@ static int lua_ShellExecute(lua_State *L)
 static int lua_FindIterator(lua_State *L)
 {
 	HANDLE hFind = lua_touserdata(L, lua_upvalueindex(1));
-	TCHAR* path = (TCHAR*)lua_touserdata(L, lua_upvalueindex(2));
+	wchar_t* path = (wchar_t*)lua_touserdata(L, lua_upvalueindex(2));
 
 	WIN32_FIND_DATA ffd = { 0 };
 	if (hFind == NULL)
@@ -98,7 +98,7 @@ static int lua_FindIterator(lua_State *L)
 
 static int lua_Find(lua_State *L)
 {
-	TCHAR *path = mir_utf8decodeT(luaL_checkstring(L, 1));
+	wchar_t *path = mir_utf8decodeT(luaL_checkstring(L, 1));
 
 	lua_pushlightuserdata(L, NULL);
 	lua_pushlightuserdata(L, path);
@@ -137,7 +137,7 @@ static int lua_GetIniValue(lua_State *L)
 
 	ptrT default(mir_utf8decodeT(lua_tostring(L, 4)));
 
-	TCHAR value[MAX_PATH] = { 0 };
+	wchar_t value[MAX_PATH] = { 0 };
 	if (!::GetPrivateProfileString(section, key, default, value, _countof(value), path))
 	{
 		lua_pushvalue(L, 4);
@@ -218,7 +218,7 @@ static int lua_GetRegValue(lua_State *L)
 		case REG_LINK:
 		case REG_EXPAND_SZ:
 		{
-			ptrA str(Utf8EncodeT((TCHAR*)value));
+			ptrA str(Utf8EncodeT((wchar_t*)value));
 			lua_pushlstring(L, str, mir_strlen(str));
 		}
 			break;
@@ -274,7 +274,7 @@ static int lua_SetRegValue(lua_State *L)
 
 	case LUA_TSTRING:
 		type = REG_SZ;
-		length = mir_strlen(lua_tostring(L, 4)) * sizeof(TCHAR);
+		length = mir_strlen(lua_tostring(L, 4)) * sizeof(wchar_t);
 		value = (BYTE*)mir_utf8decodeT(lua_tostring(L, 4));
 		break;
 
@@ -1708,7 +1708,7 @@ static int global_GetOpenFileName(lua_State *L)
 {
 	_A2T tszExt(lua_tostring(L, 1));
 
-	TCHAR buff[MAX_PATH] = L"";
+	wchar_t buff[MAX_PATH] = L"";
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);

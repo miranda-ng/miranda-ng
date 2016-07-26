@@ -34,16 +34,16 @@ int Log(char *format, ...);
 int Info(char *title, char *format, ...);
 
 char *BinToHex(int size, PBYTE data);
-void HexToBin(TCHAR *inData, ULONG &size, PBYTE &outData);
+void HexToBin(wchar_t *inData, ULONG &size, PBYTE &outData);
 
 
 void ScreenToClient(HWND hWnd, LPRECT rect);
 void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors);
 RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos, int anchors);
 
-int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, int size);
+int GetStringFromDatabase(char *szSettingName, wchar_t *szError, wchar_t *szResult, int size);
 
 int ThreadCheckEmail(int bForceAttempt);
 
-void _popupUtil(TCHAR *szMsg);
+void _popupUtil(wchar_t *szMsg);
 #endif

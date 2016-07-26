@@ -266,16 +266,16 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 				#define AddItem(x) \
 					mii.wID++; \
-					mii.dwTypeData = TranslateT(x); \
+					mii.dwTypeData = TranslateW(x); \
 					mii.cch = ( UINT )mir_tstrlen(mii.dwTypeData); \
 					InsertMenuItem(hMenu, mii.wID, FALSE, &mii);
 
-				AddItem(LPGEN("5 mins"));
-				AddItem(LPGEN("15 mins"));
-				AddItem(LPGEN("30 mins"));
-				AddItem(LPGEN("1 hour"));
-				AddItem(LPGEN("1 day"));
-				AddItem(LPGEN("1 week"));
+				AddItem(LPGENW("5 mins"));
+				AddItem(LPGENW("15 mins"));
+				AddItem(LPGENW("30 mins"));
+				AddItem(LPGENW("1 hour"));
+				AddItem(LPGENW("1 day"));
+				AddItem(LPGENW("1 week"));
 
 				TPMPARAMS tpmp = { 0 };
 				tpmp.cbSize = sizeof(tpmp);
@@ -350,31 +350,31 @@ int ReloadFonts(WPARAM, LPARAM)
 int AlarmWinModulesLoaded(WPARAM, LPARAM)
 {
 	title_font_id.cbSize = sizeof(FontIDT);
-	mir_tstrcpy(title_font_id.group, LPGENT("Alarms"));
-	mir_tstrcpy(title_font_id.name, LPGENT("Title"));
+	mir_tstrcpy(title_font_id.group, LPGENW("Alarms"));
+	mir_tstrcpy(title_font_id.name, LPGENW("Title"));
 	mir_strcpy(title_font_id.dbSettingsGroup, MODULE);
 	mir_strcpy(title_font_id.prefix, "FontTitle");
-	mir_tstrcpy(title_font_id.backgroundGroup, LPGENT("Alarms"));
-	mir_tstrcpy(title_font_id.backgroundName, LPGENT("Background"));
+	mir_tstrcpy(title_font_id.backgroundGroup, LPGENW("Alarms"));
+	mir_tstrcpy(title_font_id.backgroundName, LPGENW("Background"));
 	title_font_id.flags = 0;
 	title_font_id.order = 0;
 	FontRegisterT(&title_font_id);
 
 	window_font_id.cbSize = sizeof(FontIDT);
-	mir_tstrcpy(window_font_id.group, LPGENT("Alarms"));
-	mir_tstrcpy(window_font_id.name, LPGENT("Window"));
+	mir_tstrcpy(window_font_id.group, LPGENW("Alarms"));
+	mir_tstrcpy(window_font_id.name, LPGENW("Window"));
 	mir_strcpy(window_font_id.dbSettingsGroup, MODULE);
 	mir_strcpy(window_font_id.prefix, "FontWindow");
-	mir_tstrcpy(window_font_id.backgroundGroup, LPGENT("Alarms"));
-	mir_tstrcpy(window_font_id.backgroundName, LPGENT("Background"));
+	mir_tstrcpy(window_font_id.backgroundGroup, LPGENW("Alarms"));
+	mir_tstrcpy(window_font_id.backgroundName, LPGENW("Background"));
 	window_font_id.flags = 0;
 	window_font_id.order = 1;
 	FontRegisterT(&window_font_id);
 
 	bk_colour_id.cbSize = sizeof(ColourIDT);
 	mir_strcpy(bk_colour_id.dbSettingsGroup, MODULE);
-	mir_tstrcpy(bk_colour_id.group, LPGENT("Alarms"));
-	mir_tstrcpy(bk_colour_id.name, LPGENT("Background"));
+	mir_tstrcpy(bk_colour_id.group, LPGENW("Alarms"));
+	mir_tstrcpy(bk_colour_id.name, LPGENW("Background"));
 	mir_strcpy(bk_colour_id.setting, "BkColour");
 	bk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
 	bk_colour_id.flags = 0;

@@ -372,11 +372,11 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 
 	TEXTRANGE tr;
 	tr.chrg = lParam->chrg;
-	tr.lpstrText = (LPWSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
+	tr.lpstrText = (LPWSTR)mir_alloc(sizeof(wchar_t)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
 	SendMessage(lParam->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-	if (_tcschr(tr.lpstrText, _T('@')) != NULL && _tcschr(tr.lpstrText, _T(':')) == NULL && _tcschr(tr.lpstrText, _T('/')) == NULL) {
-		memmove(tr.lpstrText + 7, tr.lpstrText, sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
-		memcpy(tr.lpstrText, L"mailto:", sizeof(TCHAR) * 7);
+	if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
+		memmove(tr.lpstrText + 7, tr.lpstrText, sizeof(wchar_t)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
+		memcpy(tr.lpstrText, L"mailto:", sizeof(wchar_t) * 7);
 	}
 
 	BOOL bOpenLink = TRUE;
@@ -399,7 +399,7 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 			if (!OpenClipboard(hwndDlg))
 				break;
 			EmptyClipboard();
-			HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(tr.lpstrText) + 1));
+			HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_tstrlen(tr.lpstrText) + 1));
 			mir_tstrcpy((LPWSTR)GlobalLock(hData), tr.lpstrText);
 			GlobalUnlock(hData);
 			SetClipboardData(CF_UNICODETEXT, hData);

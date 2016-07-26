@@ -35,7 +35,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			PROTORECVEVENT recv = { 0 };
 			recv.timestamp = timestamp;
 			recv.szMessage = szMessage;
-			if (_tcsstr(type, L"my_") == NULL)
+			if (wcsstr(type, L"my_") == NULL)
 			{
 				ProtoChainRecvMsg(hContact, &recv);
 			}
@@ -223,7 +223,7 @@ void CSteamProto::PollingThread(void*)
 					{
 						// Remember last message timestamp
 						node = json_get(root, "utc_timestamp");
-						time_t timestamp = _ttoi64(ptrT(json_as_string(node)));
+						time_t timestamp = _wtoi64(ptrT(json_as_string(node)));
 						if (timestamp > getDword("LastMessageTS", 0))
 							setDword("LastMessageTS", timestamp);
 

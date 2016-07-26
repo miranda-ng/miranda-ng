@@ -22,7 +22,7 @@ void Message::makeRawAvailable()
 			break;
 		}
 
-		m_Raw.assign(reinterpret_cast<const TCHAR*>(m_RawSource), m_nLength);
+		m_Raw.assign(reinterpret_cast<const wchar_t*>(m_RawSource), m_nLength);
 		m_Available |= Raw;
 	}
 	while (false);
@@ -42,14 +42,14 @@ void Message::stripRawRTF()
 
 void Message::stripBBCodes()
 {
-	static const TCHAR* szSimpleBBCodes[][2] = {
+	static const wchar_t* szSimpleBBCodes[][2] = {
 		{ L"[b]", L"[/b]" },
 		{ L"[u]", L"[/u]" },
 		{ L"[i]", L"[/i]" },
 		{ L"[s]", L"[/s]" },
 	};
 
-	static const TCHAR* szParamBBCodes[][2] = {
+	static const wchar_t* szParamBBCodes[][2] = {
 		{ L"[url=", L"[/url]" },
 		{ L"[color=", L"[/color]" },
 	};
@@ -60,8 +60,8 @@ void Message::stripBBCodes()
 	// remove simple BBcodes
 	array_each_(i, szSimpleBBCodes)
 	{
-		const TCHAR* szOpenTag = szSimpleBBCodes[i][0];
-		const TCHAR* szCloseTag = szSimpleBBCodes[i][1];
+		const wchar_t* szOpenTag = szSimpleBBCodes[i][0];
+		const wchar_t* szCloseTag = szSimpleBBCodes[i][1];
 
 		int lenOpen = ext::strfunc::len(szOpenTag);
 		int lenClose = ext::strfunc::len(szCloseTag);
@@ -88,8 +88,8 @@ void Message::stripBBCodes()
 	// remove BBcodes with parameters
 	array_each_(i, szParamBBCodes)
 	{
-		const TCHAR* szOpenTag = szParamBBCodes[i][0];
-		const TCHAR* szCloseTag = szParamBBCodes[i][1];
+		const wchar_t* szOpenTag = szParamBBCodes[i][0];
+		const wchar_t* szCloseTag = szParamBBCodes[i][1];
 
 		int lenOpen = ext::strfunc::len(szOpenTag);
 		int lenClose = ext::strfunc::len(szCloseTag);
@@ -120,11 +120,11 @@ void Message::stripBBCodes()
 
 void Message::filterLinks()
 {
-	static const TCHAR* szSpaces = L" \r\r\n";
-	static const TCHAR* szPrefixes = L"([{<:\"'";
-	static const TCHAR* szSuffixes = L".,:;!?)]}>\"'";
-	static const TCHAR* szValidProtocol = L"abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	static const TCHAR* szValidHost = L".-abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	static const wchar_t* szSpaces = L" \r\r\n";
+	static const wchar_t* szPrefixes = L"([{<:\"'";
+	static const wchar_t* szSuffixes = L".,:;!?)]}>\"'";
+	static const wchar_t* szValidProtocol = L"abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	static const wchar_t* szValidHost = L".-abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	// init with raw text
 	m_WithoutLinks = getRaw();

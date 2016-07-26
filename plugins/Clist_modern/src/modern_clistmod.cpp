@@ -290,7 +290,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 					hAuxOld = hAux;
 					hAux = GetAncestor(hAux, GA_ROOTOWNER);
 					if (hAuxOld == hAux) {
-						TCHAR buf[255];
+						wchar_t buf[255];
 						GetClassName(hAux, buf, _countof(buf));
 						if (!mir_tstrcmp(buf, CLUIFrameSubContainerClassName)) {
 							hWndFound = TRUE;

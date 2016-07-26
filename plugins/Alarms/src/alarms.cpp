@@ -17,7 +17,7 @@ There is no warranty.
 #define WMP_PAUSE	32808
 #define WMP_NEXT	0x497B
 
-TCHAR szGamePrefix[] = COMMANDPREFIX;
+wchar_t szGamePrefix[] = COMMANDPREFIX;
 
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
@@ -65,10 +65,10 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-void ShowPopup(MCONTACT hContact, const TCHAR *msg)
+void ShowPopup(MCONTACT hContact, const wchar_t *msg)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		TCHAR *lpzContactName = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
+		wchar_t *lpzContactName = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
 
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.

@@ -105,9 +105,9 @@ int ShowMissed(void)
 	if (!mcs.count)
 		return 0;
 
-	TCHAR sztemp[1024], szcount[7];
+	wchar_t sztemp[1024], szcount[7];
 	for (int loop = 0; loop < mcs.count; loop++) {
-		mir_tstrncat(sztemp, (TCHAR*)pcli->pfnGetContactDisplayName(mcs.wpcontact[loop], 0), _countof(sztemp) - mir_tstrlen(sztemp));
+		mir_tstrncat(sztemp, (wchar_t*)pcli->pfnGetContactDisplayName(mcs.wpcontact[loop], 0), _countof(sztemp) - mir_tstrlen(sztemp));
 		if (db_get_b(NULL, S_MOD, "MissedOnes_Count", 0)) {
 			mir_sntprintf(szcount, L" [%i]", mcs.times[loop]);
 			mir_tstrcat(sztemp, szcount);

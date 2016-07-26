@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // XmlNodeIq class members
 
-XmlNodeIq::XmlNodeIq(const TCHAR *type, int id, LPCTSTR to) :
+XmlNodeIq::XmlNodeIq(const wchar_t *type, int id, LPCTSTR to) :
 	XmlNode(L"iq")
 {
 	if (type != NULL) *this << XATTR(L"type", type);
@@ -41,7 +41,7 @@ XmlNodeIq::XmlNodeIq(const TCHAR *type, int id, LPCTSTR to) :
 	if (id   != -1  ) *this << XATTRID(id);
 }
 
-XmlNodeIq::XmlNodeIq(const TCHAR *type, LPCTSTR idStr, LPCTSTR to) :
+XmlNodeIq::XmlNodeIq(const wchar_t *type, LPCTSTR idStr, LPCTSTR to) :
 	XmlNode(L"iq")
 {
 	if (type  != NULL) *this << XATTR(L"type", type );
@@ -49,13 +49,13 @@ XmlNodeIq::XmlNodeIq(const TCHAR *type, LPCTSTR idStr, LPCTSTR to) :
 	if (idStr != NULL) *this << XATTR(L"id",   idStr);
 }
 
-XmlNodeIq::XmlNodeIq(const TCHAR *type, HXML node, LPCTSTR to) :
+XmlNodeIq::XmlNodeIq(const wchar_t *type, HXML node, LPCTSTR to) :
 	XmlNode(L"iq")
 {
 	if (type  != NULL) *this << XATTR(L"type", type );
 	if (to    != NULL) *this << XATTR(L"to",   to   );
 	if (node  != NULL) {
-		const TCHAR *iqId = XmlGetAttrValue(*this, L"id");
+		const wchar_t *iqId = XmlGetAttrValue(*this, L"id");
 		if (iqId != NULL) *this << XATTR(L"id", iqId);
 	}
 }
@@ -70,7 +70,7 @@ XmlNodeIq::XmlNodeIq(CJabberIqInfo *pInfo) :
 	}
 }
 
-XmlNodeIq::XmlNodeIq(const TCHAR *type, CJabberIqInfo *pInfo) :
+XmlNodeIq::XmlNodeIq(const wchar_t *type, CJabberIqInfo *pInfo) :
 	XmlNode(L"iq")
 {
 	if (type != NULL) *this << XATTR(L"type", type);
@@ -145,7 +145,7 @@ void __fastcall XmlAddAttr(HXML hXml, LPCTSTR pszName, int value)
 
 void __fastcall XmlAddAttr(HXML hXml, LPCTSTR pszName, unsigned __int64 value)
 {
-	TCHAR buf[60];
+	wchar_t buf[60];
 	_ui64tot(value, buf, 10);
 
     xmlAddAttr(hXml, T2UTF(pszName), T2UTF(buf));
@@ -153,7 +153,7 @@ void __fastcall XmlAddAttr(HXML hXml, LPCTSTR pszName, unsigned __int64 value)
 
 void __fastcall XmlAddAttrID(HXML hXml, int id)
 {
-	TCHAR text[100];
+	wchar_t text[100];
 	mir_sntprintf(text, _T(JABBER_IQID) L"%d", id);
 	XmlAddAttr(hXml, L"id", text);
 }
@@ -194,8 +194,8 @@ HXML __fastcall XmlAddChild(HXML hXml, LPCTSTR name, LPCTSTR value)
 
 HXML __fastcall XmlAddChild(HXML hXml, LPCTSTR name, int value)
 {
-	TCHAR buf[40];
-	_itot(value, buf, 10);
+	wchar_t buf[40];
+	_itow(value, buf, 10);
 	return xmlAddChild(hXml, T2UTF(name), buf);
 }
 
@@ -280,20 +280,20 @@ void XPath::ProcessPath(LookupInfo &info, bool bCreate)
 {
 	if (!info.nodeName) return;
 
-	TCHAR *nodeName = (TCHAR *)alloca(sizeof(TCHAR) * (info.nodeName.length+1));
+	wchar_t *nodeName = (wchar_t *)alloca(sizeof(wchar_t) * (info.nodeName.length+1));
 	mir_tstrncpy(nodeName, info.nodeName.p, info.nodeName.length+1);
 
 	if (info.attrName && info.attrValue) {
-		TCHAR *attrName = (TCHAR *)alloca(sizeof(TCHAR)* (info.attrName.length + 1));
+		wchar_t *attrName = (wchar_t *)alloca(sizeof(wchar_t)* (info.attrName.length + 1));
 		mir_tstrncpy(attrName, info.attrName.p, info.attrName.length + 1);
-		TCHAR *attrValue = (TCHAR *)alloca(sizeof(TCHAR)* (info.attrValue.length + 1));
+		wchar_t *attrValue = (wchar_t *)alloca(sizeof(wchar_t)* (info.attrValue.length + 1));
 		mir_tstrncpy(attrValue, info.attrValue.p, info.attrValue.length + 1);
 		HXML hXml = XmlGetChildByTag(m_hXml, nodeName, attrName, attrValue);
 
 		m_hXml = (hXml || !bCreate) ? hXml : (m_hXml << XCHILD(nodeName) << XATTR(attrName, attrValue));
 	}
 	else if (info.nodeIndex) {
-		int idx = _ttoi(info.nodeIndex.p);
+		int idx = _wtoi(info.nodeIndex.p);
 		m_hXml = mir_tstrcmp(nodeName, L"*") ? XmlGetNthChild(m_hXml, nodeName, idx) : XmlGetChild(m_hXml, idx - 1);
 	}
 	else {
@@ -322,11 +322,11 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 			case 0:
 				state = S_FINAL_ERROR;
 				break;
-			case _T('@'):
+			case '@':
 				info.attrName.Begin(p + 1);
 				state = S_ATTR_STEP;
 				break;
-			case _T('/'):
+			case '/':
 				break;
 			default:
 				info.nodeName.Begin(p);
@@ -352,11 +352,11 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 				info.nodeName.End(p);
 				state = S_FINAL_NODESET;
 				break;
-			case _T('['):
+			case '[':
 				info.nodeName.End(p);
 				state = S_NODE_OPENBRACKET;
 				break;
-			case _T('/'):
+			case '/':
 				info.nodeName.End(p);
 				state = S_START;
 				break;
@@ -370,12 +370,12 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 			case 0:
 				state = S_FINAL_ERROR;
 				break;
-			case _T('@'):
+			case '@':
 				info.attrName.Begin(p + 1);
 				state = S_NODE_ATTRNAME;
 				break;
-			case _T('0'): case _T('1'): case _T('2'): case _T('3'): case _T('4'):
-			case _T('5'): case _T('6'): case _T('7'): case _T('8'): case _T('9'):
+			case '0': case '1': case '2': case '3': case '4':
+			case '5': case '6': case '7': case '8': case '9':
 				info.nodeIndex.Begin(p);
 				state = S_NODE_INDEX;
 				break;
@@ -390,12 +390,12 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 			case 0:
 				state = S_FINAL_ERROR;
 				break;
-			case _T(']'):
+			case ']':
 				info.nodeIndex.End(p);
 				state = S_NODE_CLOSEBRACKET;
 				break;
-			case _T('0'): case _T('1'): case _T('2'): case _T('3'): case _T('4'):
-			case _T('5'): case _T('6'): case _T('7'): case _T('8'): case _T('9'):
+			case '0': case '1': case '2': case '3': case '4':
+			case '5': case '6': case '7': case '8': case '9':
 				break;
 			default:
 				state = S_FINAL_ERROR;
@@ -408,7 +408,7 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 			case 0:
 				state = S_FINAL_ERROR;
 				break;
-			case _T('='):
+			case '=':
 				info.attrName.End(p);
 				state = S_NODE_ATTREQUALS;
 				break;
@@ -422,7 +422,7 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 			case 0:
 				state = S_FINAL_ERROR;
 				break;
-			case _T('\''):
+			case '\'':
 				info.attrValue.Begin(p + 1);
 				state = S_NODE_ATTRVALUE;
 				break;
@@ -437,7 +437,7 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 			case 0:
 				state = S_FINAL_ERROR;
 				break;
-			case _T('\''):
+			case '\'':
 				info.attrValue.End(p);
 				state = S_NODE_ATTRCLOSEVALUE;
 				break;
@@ -451,7 +451,7 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 			case 0:
 				state = S_FINAL_ERROR;
 				break;
-			case _T(']'):
+			case ']':
 				state = S_NODE_CLOSEBRACKET;
 				break;
 			default:
@@ -465,7 +465,7 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 			case 0:
 				state = S_FINAL_NODE;
 				break;
-			case _T('/'):
+			case '/':
 				state = S_START;
 				break;
 			default:

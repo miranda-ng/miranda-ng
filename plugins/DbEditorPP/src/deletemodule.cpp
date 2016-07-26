@@ -9,7 +9,7 @@ int deleteModule(MCONTACT hContact, const char *module, int confirm)
 		return 0;
 
 	if (confirm && db_get_b(NULL, modname, "WarnOnDelete", 1)) {
-		TCHAR text[MSG_SIZE];
+		wchar_t text[MSG_SIZE];
 		mir_sntprintf(text, TranslateT("Are you sure you want to delete module \"%s\"?"), _A2T(module));
 		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 			return 0;
@@ -75,11 +75,11 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		SetWindowText(hwnd, LPGENT("Delete module from database... Loading"));
+		SetWindowText(hwnd, LPGENW("Delete module from database... Loading"));
 		EnableWindow(GetDlgItem(hwnd, IDC_CONTACTS), 0);
 		EnableWindow(GetDlgItem(hwnd, IDOK), 0);
-		SetDlgItemText(hwnd, IDC_INFOTEXT, LPGENT("Delete module from database"));
-		SetDlgItemText(hwnd, CHK_COPY2ALL, LPGENT("Delete from all contacts (including Settings)"));
+		SetDlgItemText(hwnd, IDC_INFOTEXT, LPGENW("Delete module from database"));
+		SetDlgItemText(hwnd, CHK_COPY2ALL, LPGENW("Delete from all contacts (including Settings)"));
 		EnableWindow(GetDlgItem(hwnd, CHK_COPY2ALL), 0);
 		CheckDlgButton(hwnd, CHK_COPY2ALL, BST_CHECKED);
 		TranslateDialogDefault(hwnd);

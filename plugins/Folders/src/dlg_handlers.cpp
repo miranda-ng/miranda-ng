@@ -13,19 +13,19 @@ static PFolderItem GetSelectedItem(HWND hWnd)
 	return (PFolderItem)SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_GETITEMDATA, index, 0);
 }
 
-static void GetEditText(HWND hWnd, TCHAR *buffer, int size)
+static void GetEditText(HWND hWnd, wchar_t *buffer, int size)
 {
 	GetWindowText(GetDlgItem(hWnd, IDC_FOLDER_EDIT), buffer, size);
 }
 
-static void SetEditText(HWND hWnd, const TCHAR *buffer)
+static void SetEditText(HWND hWnd, const wchar_t *buffer)
 {
 	bInitializing = 1;
 	SetDlgItemText(hWnd, IDC_FOLDER_EDIT, buffer);
 	bInitializing = 0;
 }
 
-static int ContainsSection(HWND hWnd, const TCHAR *section)
+static int ContainsSection(HWND hWnd, const wchar_t *section)
 {
 	int index = SendDlgItemMessage(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_FINDSTRINGEXACT, -1, (LPARAM)section);
 	return (index != LB_ERR);
@@ -37,7 +37,7 @@ static void LoadRegisteredFolderSections(HWND hWnd)
 
 	for (int i = 0; i < lstRegisteredFolders.getCount(); i++) {
 		CFolderItem &tmp = lstRegisteredFolders[i];
-		TCHAR *translated = mir_a2t(tmp.GetSection());
+		wchar_t *translated = mir_a2t(tmp.GetSection());
 		if (!ContainsSection(hWnd, TranslateTS(translated))) {
 			int idx = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)TranslateTS(translated));
 			SendMessage(hwndList, LB_SETITEMDATA, idx, (LPARAM)tmp.GetSection());
@@ -71,7 +71,7 @@ static void LoadRegisteredFolderItems(HWND hWnd)
 
 static void RefreshPreview(HWND hWnd)
 {
-	TCHAR tmp[MAX_FOLDER_SIZE];
+	wchar_t tmp[MAX_FOLDER_SIZE];
 	GetEditText(hWnd, tmp, MAX_FOLDER_SIZE);
 	SetDlgItemText(hWnd, IDC_PREVIEW_EDIT, ExpandPath(tmp));
 }
@@ -90,7 +90,7 @@ static void SaveItem(HWND hWnd, PFolderItem item, int bEnableApply)
 	if (!item)
 		return;
 
-	TCHAR buffer[MAX_FOLDER_SIZE];
+	wchar_t buffer[MAX_FOLDER_SIZE];
 	GetEditText(hWnd, buffer, _countof(buffer));
 	item->SetFormat(buffer);
 
@@ -103,7 +103,7 @@ static int ChangesNotSaved(HWND hWnd, PFolderItem item)
 	if (!item)
 		return 0;
 
-	TCHAR buffer[MAX_FOLDER_SIZE];
+	wchar_t buffer[MAX_FOLDER_SIZE];
 	GetEditText(hWnd, buffer, MAX_FOLDER_SIZE);
 	return mir_tstrcmp(item->GetFormat(), buffer) != 0;
 }
@@ -119,7 +119,7 @@ static void CheckForChanges(HWND hWnd, int bNeedConfirmation = 1)
 
 static INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPARAM)
 {
-	TCHAR tszMessage[2048];
+	wchar_t tszMessage[2048];
 
 	switch (msg) {
 	case WM_INITDIALOG:

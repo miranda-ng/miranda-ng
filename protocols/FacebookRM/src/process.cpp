@@ -516,9 +516,9 @@ void FacebookProto::SyncThreads(void*)
 }
 
 std::string truncateUtf8(std::string &text, size_t maxLength) {
-	// To not split some unicode character we need to transform it to TCHAR first, then split it, and then convert it back, because we want std::string as result
+	// To not split some unicode character we need to transform it to wchar_t first, then split it, and then convert it back, because we want std::string as result
 	// TODO: Probably there is much simpler and nicer way
-	std::tstring ttext = ptrT(mir_utf8decodeT(text.c_str()));
+	std::wstring ttext = ptrT(mir_utf8decodeT(text.c_str()));
 	if (ttext.length() > maxLength) {
 		ttext = ttext.substr(0, maxLength) + L"\x2026"; // unicode ellipsis
 		return std::string(_T2A(ttext.c_str(), CP_UTF8));
@@ -1192,7 +1192,7 @@ void FacebookProto::SearchAckThread(void *targ)
 
 	int count = 0;
 
-	std::string search = utils::url::encode(T2Utf((TCHAR *)targ).str());
+	std::string search = utils::url::encode(T2Utf((wchar_t *)targ).str());
 	std::string ssid;
 
 	while (count < 50 && !isOffline())
@@ -1246,11 +1246,11 @@ void FacebookProto::SearchAckThread(void *targ)
 				PROTOSEARCHRESULT psr = { 0 };
 				psr.cbSize = sizeof(psr);
 				psr.flags = PSR_TCHAR;
-				psr.id.t = tid;
-				psr.nick.t = tnick;
-				psr.firstName.t = tname;
-				psr.lastName.t = tsurname;
-				psr.email.t = tcommon;
+				psr.id.w = tid;
+				psr.nick.w = tnick;
+				psr.firstName.w = tname;
+				psr.lastName.w = tsurname;
+				psr.email.w = tcommon;
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
 			}
 
@@ -1271,7 +1271,7 @@ void FacebookProto::SearchIdAckThread(void *targ)
 {
 	facy.handle_entry("searchIdAckThread");
 
-	std::string search = utils::url::encode(T2Utf((TCHAR*)targ).str()) + "?";
+	std::string search = utils::url::encode(T2Utf((wchar_t*)targ).str()) + "?";
 
 	if (!isOffline())
 	{
@@ -1307,9 +1307,9 @@ void FacebookProto::SearchIdAckThread(void *targ)
 				PROTOSEARCHRESULT psr = { 0 };
 				psr.cbSize = sizeof(psr);
 				psr.flags = PSR_TCHAR;
-				psr.id.t = tid;
-				psr.firstName.t = tname;
-				psr.lastName.t = tsurname;
+				psr.id.w = tid;
+				psr.firstName.w = tname;
+				psr.lastName.w = tsurname;
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
 			}
 		}

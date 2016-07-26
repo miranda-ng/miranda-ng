@@ -55,7 +55,7 @@ MyBitmap::MyBitmap(int w, int h)
 	allocate(w, h);
 }
 
-MyBitmap::MyBitmap(const TCHAR *fn)
+MyBitmap::MyBitmap(const wchar_t *fn)
 {
 	dcBmp = 0;
 	hBmp = 0;
@@ -594,7 +594,7 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 	DeleteObject(info.hbmMask);
 }
 
-void MyBitmap::Draw_Text(TCHAR *str, int x, int y)
+void MyBitmap::Draw_Text(wchar_t *str, int x, int y)
 {
 	SIZE sz; GetTextExtentPoint32(this->getDC(), str, (int)mir_tstrlen(str), &sz);
 	RECT rc; SetRect(&rc, x, y, x + 10000, y + 10000);
@@ -676,11 +676,11 @@ static int hex2dec(char hex)
 	return 0;
 }
 
-bool MyBitmap::loadFromFile_pixel(const TCHAR *fn)
+bool MyBitmap::loadFromFile_pixel(const wchar_t *fn)
 {
 	allocate(1, 1);
 	int r, g, b, a = 255;
-	const TCHAR *p = fn + mir_tstrlen(L"pixel:");
+	const wchar_t *p = fn + mir_tstrlen(L"pixel:");
 	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
 	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
 	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
@@ -688,9 +688,9 @@ bool MyBitmap::loadFromFile_pixel(const TCHAR *fn)
 	return true;
 }
 
-bool MyBitmap::loadFromFile_gradient(const TCHAR *fn)
+bool MyBitmap::loadFromFile_gradient(const wchar_t *fn)
 {
-	const TCHAR *p = fn + mir_tstrlen(L"gradient:");
+	const wchar_t *p = fn + mir_tstrlen(L"gradient:");
 
 	if (*p == 'h') allocate(256, 1);
 	else allocate(1, 256);
@@ -720,14 +720,14 @@ bool MyBitmap::loadFromFile_gradient(const TCHAR *fn)
 	return true;
 }
 
-bool MyBitmap::loadFromFile(const TCHAR *fn)
+bool MyBitmap::loadFromFile(const wchar_t *fn)
 {
 	if (bits) freemem();
 
-	if (!_tcsncmp(fn, L"pixel:", mir_tstrlen(L"pixel:")))
+	if (!wcsncmp(fn, L"pixel:", mir_tstrlen(L"pixel:")))
 		return loadFromFile_pixel(fn);
 
-	if (!_tcsncmp(fn, L"gradient:", mir_tstrlen(L"gradient:")))
+	if (!wcsncmp(fn, L"gradient:", mir_tstrlen(L"gradient:")))
 		return loadFromFile_gradient(fn);
 
 	SIZE sz;

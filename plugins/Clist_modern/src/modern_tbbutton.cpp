@@ -21,7 +21,7 @@ struct TBBUTTONDATA : public MButtonCtrl
 	bool   bHotMark;        // button is hot marked (e.g. current state)
 	bool   bFocused;
 	int    nFontID;         // internal font ID
-	TCHAR  szText[128];     // text on the button
+	wchar_t  szText[128];     // text on the button
 	RECT   rcMargins;       // margins of inner content
 
 	HANDLE hIcolibHandle;   // handle of icon in iconlib
@@ -238,7 +238,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		break;
 
 	case WM_SETTEXT:
-		mir_tstrncpy(bct->szText, (TCHAR*)lParam, _countof(bct->szText));
+		mir_tstrncpy(bct->szText, (wchar_t*)lParam, _countof(bct->szText));
 		break;
 
 	case WM_SETFONT:

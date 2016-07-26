@@ -570,7 +570,7 @@ char* NickFromHandleUtf(MCONTACT hContact)
 	if (hContact == INVALID_CONTACT_ID)
 		return ICQTranslateUtf(LPGEN("<invalid>"));
 
-	return tchar_to_utf8((TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0));
+	return tchar_to_utf8((wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0));
 }
 
 char* strUID(DWORD dwUIN, char *pszUID)
@@ -1443,7 +1443,7 @@ char* __fastcall ICQTranslateUtf(const char *src)
 	{ // we can use unicode translate (0.5+)
 		WCHAR* usrc = make_unicode_string(src);
 
-		szRes = make_utf8_string(TranslateW(usrc));
+		szRes = make_utf8_string(TranslateTS(usrc));
 
 		SAFE_FREE((void**)&usrc);
 	}
@@ -1455,7 +1455,7 @@ char* __fastcall ICQTranslateUtfStatic(const char *src, char *buf, size_t bufsiz
 	if (mir_strlen(src)) { // we can use unicode translate (0.5+)
 		WCHAR *usrc = make_unicode_string(src);
 
-		make_utf8_string_static(TranslateW(usrc), buf, bufsize);
+		make_utf8_string_static(TranslateTS(usrc), buf, bufsize);
 
 		SAFE_FREE((void**)&usrc);
 	}
@@ -1541,7 +1541,7 @@ const char* ExtractFileName(const char *fullname)
 }
 
 
-char* FileNameToUtf(const TCHAR *filename)
+char* FileNameToUtf(const wchar_t *filename)
 {
 	WCHAR *usFileName = NULL;
 	int wchars = GetLongPathName(filename, usFileName, 0);
@@ -1555,10 +1555,10 @@ char* FileNameToUtf(const TCHAR *filename)
 int FileAccessUtf(const char *path, int mode)
 {
 	size_t size = mir_strlen(path) + 2;
-	TCHAR *szPath = (TCHAR*)_alloca(size * sizeof(TCHAR));
+	wchar_t *szPath = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
 	if (utf8_to_tchar_static(path, szPath, size))
-		return _taccess(szPath, mode);
+		return _waccess(szPath, mode);
 
 	return -1;
 }
@@ -1567,10 +1567,10 @@ int FileAccessUtf(const char *path, int mode)
 int FileStatUtf(const char *path, struct _stati64 *buffer)
 {
 	size_t size = mir_strlen(path) + 2;
-	TCHAR *szPath = (TCHAR*)_alloca(size * sizeof(TCHAR));
+	wchar_t *szPath = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
 	if (utf8_to_tchar_static(path, szPath, size))
-		return _tstati64(szPath, buffer);
+		return _wstat64(szPath, buffer);
 
 	return -1;
 }
@@ -1580,10 +1580,10 @@ int MakeDirUtf(const char *dir)
 {
 	int wRes = -1;
 	size_t size = mir_strlen(dir) + 2;
-	TCHAR *szDir = (TCHAR*)_alloca(size * sizeof(TCHAR));
+	wchar_t *szDir = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
-	if (utf8_to_tchar_static(dir, szDir, size)) { // _tmkdir can created only one dir at once
-		wRes = _tmkdir(szDir);
+	if (utf8_to_tchar_static(dir, szDir, size)) { // _wmkdir can created only one dir at once
+		wRes = _wmkdir(szDir);
 		// check if dir not already existed - return success if yes
 		if (wRes == -1 && errno == 17 /* EEXIST */)
 			wRes = 0;
@@ -1595,7 +1595,7 @@ int MakeDirUtf(const char *dir)
 
 				*szLast = '\0';
 				if (!MakeDirUtf(dir))
-					wRes = _tmkdir(szDir);
+					wRes = _wmkdir(szDir);
 
 				*szLast = cOld;
 			}
@@ -1609,10 +1609,10 @@ int MakeDirUtf(const char *dir)
 int OpenFileUtf(const char *filename, int oflag, int pmode)
 {
 	size_t size = mir_strlen(filename) + 2;
-	TCHAR *szFile = (TCHAR*)_alloca(size * sizeof(TCHAR));
+	wchar_t *szFile = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
 	if (utf8_to_tchar_static(filename, szFile, size))
-		return _topen(szFile, oflag, pmode);
+		return _wopen(szFile, oflag, pmode);
 
 	return -1;
 }
@@ -1636,7 +1636,7 @@ void SetWindowTextUcs(HWND hWnd, WCHAR *text)
 char* GetWindowTextUtf(HWND hWnd)
 {
 	int nLen = GetWindowTextLength(hWnd);
-	TCHAR *szText = (TCHAR*)_alloca((nLen + 2) * sizeof(TCHAR));
+	wchar_t *szText = (wchar_t*)_alloca((nLen + 2) * sizeof(wchar_t));
 
 	GetWindowText(hWnd, szText, nLen + 1);
 
@@ -1653,7 +1653,7 @@ char* GetDlgItemTextUtf(HWND hwndDlg, int iItem)
 void SetWindowTextUtf(HWND hWnd, const char *szText)
 {
 	size_t size = mir_strlen(szText) + 2;
-	TCHAR *tszText = (TCHAR*)_alloca(size * sizeof(TCHAR));
+	wchar_t *tszText = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
 	if (utf8_to_tchar_static(szText, tszText, size))
 		SetWindowText(hWnd, tszText);

@@ -23,10 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_FOLDERS_PATH 512
 
-extern TCHAR szCurrentProfilePath[MAX_FOLDERS_PATH];
-extern TCHAR szCurrentProfile[MAX_FOLDERS_PATH];
-extern TCHAR szMirandaPath[MAX_FOLDERS_PATH];
-extern TCHAR szUserDataPath[MAX_FOLDERS_PATH];
+extern wchar_t szCurrentProfilePath[MAX_FOLDERS_PATH];
+extern wchar_t szCurrentProfile[MAX_FOLDERS_PATH];
+extern wchar_t szMirandaPath[MAX_FOLDERS_PATH];
+extern wchar_t szUserDataPath[MAX_FOLDERS_PATH];
 
 int InitServices();
 void InitOptions();

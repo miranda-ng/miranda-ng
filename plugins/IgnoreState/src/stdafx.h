@@ -41,7 +41,7 @@
 
 struct IGNOREITEMS
 {
-	TCHAR* name;
+	wchar_t* name;
 	int   type;
 	int   icon;
 	bool  filtered;

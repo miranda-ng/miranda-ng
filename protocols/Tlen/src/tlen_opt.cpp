@@ -35,14 +35,14 @@ static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 typedef struct TabDefStruct {
 	DLGPROC dlgProc;
 	DWORD dlgId;
-	TCHAR *tabName;
+	wchar_t *tabName;
 } TabDef;
 
 static TabDef tabPages[] = {
-						{TlenBasicOptDlgProc, IDD_OPTIONS_BASIC, LPGENT("General")},
-						{TlenVoiceOptDlgProc, IDD_OPTIONS_VOICE, LPGENT("Voice Chats")},
-						{TlenAdvOptDlgProc, IDD_OPTIONS_ADVANCED, LPGENT("Advanced")},
-						{TlenPopupsDlgProc, IDD_OPTIONS_POPUPS, LPGENT("Notifications")}
+						{TlenBasicOptDlgProc, IDD_OPTIONS_BASIC, LPGENW("General")},
+						{TlenVoiceOptDlgProc, IDD_OPTIONS_VOICE, LPGENW("Voice Chats")},
+						{TlenAdvOptDlgProc, IDD_OPTIONS_ADVANCED, LPGENW("Advanced")},
+						{TlenPopupsDlgProc, IDD_OPTIONS_POPUPS, LPGENW("Notifications")}
 						};
 
 void TlenLoadOptions(TlenProtocol *proto)
@@ -86,14 +86,14 @@ int TlenProtocol::OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszGroup = LPGENW("Network");
+	odp.pwszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.dwInitParam = (LPARAM)this;
 	for (int i = 0; i < _countof(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
-		odp.ptszTab = tabPages[i].tabName;
+		odp.pwszTab = tabPages[i].tabName;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;
@@ -594,7 +594,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 #define POPUP_DEFAULT_COLORBKG 0xDCBDA5
 #define POPUP_DEFAULT_COLORTXT 0x000000
 
-static void MailPopupPreview(DWORD colorBack, DWORD colorText, TCHAR *title, TCHAR *emailInfo, int delay)
+static void MailPopupPreview(DWORD colorBack, DWORD colorText, wchar_t *title, wchar_t *emailInfo, int delay)
 {
 	if (!ServiceExists(MS_POPUP_ADDPOPUPT))
 		return;
@@ -602,8 +602,8 @@ static void MailPopupPreview(DWORD colorBack, DWORD colorText, TCHAR *title, TCH
 	HICON hIcon = GetIcolibIcon(IDI_MAIL);
 	ppd.lchIcon = CopyIcon(hIcon);
 	ReleaseIcolibIcon(hIcon);
-	_tcsncpy(ppd.lptzContactName, title, MAX_CONTACTNAME-1);
-	_tcsncpy(ppd.lptzText, emailInfo,MAX_SECONDLINE-1);
+	wcsncpy(ppd.lptzContactName, title, MAX_CONTACTNAME-1);
+	wcsncpy(ppd.lptzText, emailInfo,MAX_SECONDLINE-1);
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
 	ppd.iSeconds = delay;
@@ -648,7 +648,7 @@ static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			case IDC_PREVIEW:
 				{
 					int delay;
-					TCHAR title[256];
+					wchar_t title[256];
 					if (IsDlgButtonChecked(hwndDlg, IDC_DELAY_POPUP)) {
 						delay=0;
 					} else if (IsDlgButtonChecked(hwndDlg, IDC_DELAY_PERMANENT)) {

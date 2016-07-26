@@ -33,7 +33,7 @@ HANDLE hShowTipService, hShowTipWService, hHideTipService;
 HANDLE hReloadFonts = NULL;
 
 HANDLE hFolderChanged, hSkinFolder;
-TCHAR SKIN_FOLDER[256];
+wchar_t SKIN_FOLDER[256];
 
 CLIST_INTERFACE *pcli = NULL;
 FI_INTERFACE *fii = NULL;
@@ -117,15 +117,15 @@ int EventDeleted(WPARAM wParam, LPARAM lParam)
 
 int ReloadSkinFolder(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), _T(DEFAULT_SKIN_FOLDER));
+	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), DEFAULT_SKIN_FOLDER);
 	return 0;
 }
 
 void InitFonts()
 {
 	colourBg.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(colourBg.group, LPGENT("Tooltips"));
-	mir_tstrcpy(colourBg.name, LPGENT("Background"));
+	mir_tstrcpy(colourBg.group, LPGENW("Tooltips"));
+	mir_tstrcpy(colourBg.name, LPGENW("Background"));
 	mir_strcpy(colourBg.dbSettingsGroup, MODULE);
 	mir_strcpy(colourBg.setting, "ColourBg");
 	colourBg.defcolour = RGB(219, 219, 219);
@@ -133,8 +133,8 @@ void InitFonts()
 	ColourRegisterT(&colourBg);
 
 	colourBorder.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(colourBorder.group, LPGENT("Tooltips"));
-	mir_tstrcpy(colourBorder.name, LPGENT("Border"));
+	mir_tstrcpy(colourBorder.group, LPGENW("Tooltips"));
+	mir_tstrcpy(colourBorder.name, LPGENW("Border"));
 	mir_strcpy(colourBorder.dbSettingsGroup, MODULE);
 	mir_strcpy(colourBorder.setting, "BorderCol");
 	colourBorder.defcolour = 0;
@@ -142,8 +142,8 @@ void InitFonts()
 	ColourRegisterT(&colourBorder);
 
 	colourAvatarBorder.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(colourAvatarBorder.group, LPGENT("Tooltips"));
-	mir_tstrcpy(colourAvatarBorder.name, LPGENT("Avatar border"));
+	mir_tstrcpy(colourAvatarBorder.group, LPGENW("Tooltips"));
+	mir_tstrcpy(colourAvatarBorder.name, LPGENW("Avatar border"));
 	mir_strcpy(colourAvatarBorder.dbSettingsGroup, MODULE);
 	mir_strcpy(colourAvatarBorder.setting, "AvBorderCol");
 	colourAvatarBorder.defcolour = 0;
@@ -151,8 +151,8 @@ void InitFonts()
 	ColourRegisterT(&colourAvatarBorder);
 
 	colourDivider.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(colourDivider.group, LPGENT("Tooltips"));
-	mir_tstrcpy(colourDivider.name, LPGENT("Dividers"));
+	mir_tstrcpy(colourDivider.group, LPGENW("Tooltips"));
+	mir_tstrcpy(colourDivider.name, LPGENW("Dividers"));
 	mir_strcpy(colourDivider.dbSettingsGroup, MODULE);
 	mir_strcpy(colourDivider.setting, "DividerCol");
 	colourDivider.defcolour = 0;
@@ -160,8 +160,8 @@ void InitFonts()
 	ColourRegisterT(&colourDivider);
 
 	colourSidebar.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(colourSidebar.group, LPGENT("Tooltips"));
-	mir_tstrcpy(colourSidebar.name, LPGENT("Sidebar"));
+	mir_tstrcpy(colourSidebar.group, LPGENW("Tooltips"));
+	mir_tstrcpy(colourSidebar.name, LPGENW("Sidebar"));
 	mir_strcpy(colourSidebar.dbSettingsGroup, MODULE);
 	mir_strcpy(colourSidebar.setting, "SidebarCol");
 	colourSidebar.defcolour = RGB(192, 192, 192);
@@ -170,12 +170,12 @@ void InitFonts()
 
 	fontTitle.cbSize = sizeof(FontIDT);
 	fontTitle.flags = FIDF_ALLOWEFFECTS;
-	mir_tstrcpy(fontTitle.group, LPGENT("Tooltips"));
-	mir_tstrcpy(fontTitle.name, LPGENT("Title"));
+	mir_tstrcpy(fontTitle.group, LPGENW("Tooltips"));
+	mir_tstrcpy(fontTitle.name, LPGENW("Title"));
 	mir_strcpy(fontTitle.dbSettingsGroup, MODULE);
 	mir_strcpy(fontTitle.prefix, "FontFirst");
-	mir_tstrcpy(fontTitle.backgroundGroup, LPGENT("Tooltips"));
-	mir_tstrcpy(fontTitle.backgroundName, LPGENT("Background"));
+	mir_tstrcpy(fontTitle.backgroundGroup, LPGENW("Tooltips"));
+	mir_tstrcpy(fontTitle.backgroundName, LPGENW("Background"));
 	fontTitle.order = 0;
 
 	fontTitle.deffontsettings.charset = DEFAULT_CHARSET;
@@ -186,12 +186,12 @@ void InitFonts()
 
 	fontLabels.cbSize = sizeof(FontIDT);
 	fontLabels.flags = FIDF_ALLOWEFFECTS;
-	mir_tstrcpy(fontLabels.group, LPGENT("Tooltips"));
-	mir_tstrcpy(fontLabels.name, LPGENT("Labels"));
+	mir_tstrcpy(fontLabels.group, LPGENW("Tooltips"));
+	mir_tstrcpy(fontLabels.name, LPGENW("Labels"));
 	mir_strcpy(fontLabels.dbSettingsGroup, MODULE);
 	mir_strcpy(fontLabels.prefix, "FontLabels");
-	mir_tstrcpy(fontLabels.backgroundGroup, LPGENT("Tooltips"));
-	mir_tstrcpy(fontLabels.backgroundName, LPGENT("Background"));
+	mir_tstrcpy(fontLabels.backgroundGroup, LPGENW("Tooltips"));
+	mir_tstrcpy(fontLabels.backgroundName, LPGENW("Background"));
 	fontLabels.order = 1;
 
 	fontLabels.deffontsettings.charset = DEFAULT_CHARSET;
@@ -202,12 +202,12 @@ void InitFonts()
 
 	fontValues.cbSize = sizeof(FontIDT);
 	fontValues.flags = FIDF_ALLOWEFFECTS;
-	mir_tstrcpy(fontValues.group, LPGENT("Tooltips"));
-	mir_tstrcpy(fontValues.name, LPGENT("Values"));
+	mir_tstrcpy(fontValues.group, LPGENW("Tooltips"));
+	mir_tstrcpy(fontValues.name, LPGENW("Values"));
 	mir_strcpy(fontValues.dbSettingsGroup, MODULE);
 	mir_strcpy(fontValues.prefix, "FontValues");
-	mir_tstrcpy(fontValues.backgroundGroup, LPGENT("Tooltips"));
-	mir_tstrcpy(fontValues.backgroundName, LPGENT("Background"));
+	mir_tstrcpy(fontValues.backgroundGroup, LPGENW("Tooltips"));
+	mir_tstrcpy(fontValues.backgroundName, LPGENW("Background"));
 	fontValues.order = 2;
 
 	fontValues.deffontsettings.charset = DEFAULT_CHARSET;
@@ -218,12 +218,12 @@ void InitFonts()
 
 	fontTrayTitle.cbSize = sizeof(FontIDT);
 	fontTrayTitle.flags = FIDF_ALLOWEFFECTS;
-	mir_tstrcpy(fontTrayTitle.group, LPGENT("Tooltips"));
-	mir_tstrcpy(fontTrayTitle.name, LPGENT("Tray title"));
+	mir_tstrcpy(fontTrayTitle.group, LPGENW("Tooltips"));
+	mir_tstrcpy(fontTrayTitle.name, LPGENW("Tray title"));
 	mir_strcpy(fontTrayTitle.dbSettingsGroup, MODULE);
 	mir_strcpy(fontTrayTitle.prefix, "FontTrayTitle");
-	mir_tstrcpy(fontTrayTitle.backgroundGroup, LPGENT("Tooltips"));
-	mir_tstrcpy(fontTrayTitle.backgroundName, LPGENT("Background"));
+	mir_tstrcpy(fontTrayTitle.backgroundGroup, LPGENW("Tooltips"));
+	mir_tstrcpy(fontTrayTitle.backgroundName, LPGENW("Background"));
 	fontTrayTitle.order = 0;
 
 	fontTrayTitle.deffontsettings.charset = DEFAULT_CHARSET;
@@ -254,8 +254,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	hFolderChanged = HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
 
-	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Tipper"), MIRANDA_PATHT L"\\" _T(DEFAULT_SKIN_FOLDER));
-	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), _T(DEFAULT_SKIN_FOLDER));
+	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Tipper"), MIRANDA_PATHT L"\\" DEFAULT_SKIN_FOLDER);
+	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, _countof(SKIN_FOLDER), DEFAULT_SKIN_FOLDER);
 
 	InitTipperSmileys();
 	LoadOptions();
@@ -298,7 +298,7 @@ static INT_PTR ReloadSkin(WPARAM wParam, LPARAM lParam)
 	LoadOptions();
 	opt.skinMode = (SkinMode)wParam;
 	if (lParam != 0)
-		_tcscpy_s(opt.szSkinName, _A2T((char*)(lParam)));
+		wcscpy_s(opt.szSkinName, _A2T((char*)(lParam)));
 	ParseSkinFile(opt.szSkinName, false, false);
 	ReloadFont(0, 0);
 	SaveOptions();

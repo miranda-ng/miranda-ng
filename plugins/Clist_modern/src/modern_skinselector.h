@@ -71,6 +71,6 @@ DWORD mod_CalcHash(const char *a);
 int RegisterObjectByParce(char *ObjectName, char *Params);
 SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue, LISTMODERNMASK *mmTemplateList);
 SKINOBJECTDESCRIPTOR* skin_FindObjectByMask(MODERNMASK *mm, LISTMODERNMASK *mmTemplateList);
-TCHAR * GetParamNT(char *string, TCHAR *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);
+wchar_t * GetParamNT(char *string, wchar_t *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);
 int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMask);
 #endif

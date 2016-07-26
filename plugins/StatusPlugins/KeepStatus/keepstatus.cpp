@@ -67,7 +67,7 @@ static int StartTimer(int timer, int timeout, BOOL restart);
 static int StopTimer(int timer);
 int LoadMainOptions();
 static void GetCurrentConnectionSettings();
-static int AssignStatus(TConnectionSettings* connSetting, int status, int lastStatus, TCHAR *szMsg);
+static int AssignStatus(TConnectionSettings* connSetting, int status, int lastStatus, wchar_t *szMsg);
 static int ProcessProtoAck(WPARAM wParam, LPARAM lParam);
 static VOID CALLBACK CheckConnectingTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 static VOID CALLBACK CheckAckStatusTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
@@ -83,7 +83,7 @@ static VOID CALLBACK CheckContinueslyTimer(HWND hwnd, UINT message, UINT_PTR idE
 INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
 
 static int ProcessPopup(int reason, LPARAM lParam);
-static INT_PTR ShowPopup(TCHAR *msg, HICON hIcon);
+static INT_PTR ShowPopup(wchar_t *msg, HICON hIcon);
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -205,7 +205,7 @@ static void FreeProtoSettings(PROTOCOLSETTINGEX** ps)
 	free(ps);
 }
 
-static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCHAR *szMsg)
+static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, wchar_t *szMsg)
 {
 	if (status < MIN_STATUS || status > MAX_STATUS)
 		return -1;
@@ -228,7 +228,7 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCH
 		if (cs->szMsg != NULL)
 			free(cs->szMsg);
 
-		cs->szMsg = _tcsdup(szMsg);
+		cs->szMsg = wcsdup(szMsg);
 	}
 	else if (szMsg != cs->szMsg) {
 		if (cs->szMsg != NULL)
@@ -877,7 +877,7 @@ static VOID CALLBACK CheckContinueslyTimer(HWND, UINT, UINT_PTR, DWORD)
 }
 
 // =============== popup ======================
-static TCHAR* GetHumanName(LPARAM lParam)
+static wchar_t* GetHumanName(LPARAM lParam)
 {
 	PROTOACCOUNT *ProtoAccount = Proto_GetAccount((char*)lParam);
 	return (ProtoAccount != NULL) ? ProtoAccount->tszAccountName : TranslateT("Protocol");
@@ -886,7 +886,7 @@ static TCHAR* GetHumanName(LPARAM lParam)
 static int ProcessPopup(int reason, LPARAM lParam)
 {
 	HICON hIcon = NULL;
-	TCHAR text[MAX_SECONDLINE];
+	wchar_t text[MAX_SECONDLINE];
 
 	if (!db_get_b(NULL, MODULENAME, SETTING_SHOWCONNECTIONPOPUPS, FALSE) || !ServiceExists(MS_POPUP_ADDPOPUPT))
 		return -1;
@@ -929,7 +929,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			return -1;
 		if (lParam) {
 			PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX **)lParam;
-			TCHAR protoInfoLine[512], protoInfo[MAX_SECONDLINE];
+			wchar_t protoInfoLine[512], protoInfo[MAX_SECONDLINE];
 			memset(protoInfoLine, '\0', sizeof(protoInfoLine));
 			memset(protoInfo, '\0', sizeof(protoInfo));
 			mir_tstrcpy(protoInfo, L"\r\n");
@@ -979,12 +979,12 @@ static int ProcessPopup(int reason, LPARAM lParam)
 	return ShowPopup(text, hIcon);
 }
 
-static INT_PTR ShowPopup(TCHAR *msg, HICON hIcon)
+static INT_PTR ShowPopup(wchar_t *msg, HICON hIcon)
 {
 	POPUPDATAT ppd = { 0 };
 	ppd.lchIcon = hIcon;
-	_tcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
-	_tcsncpy(ppd.lptzText, msg, MAX_SECONDLINE);
+	wcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
+	wcsncpy(ppd.lptzText, msg, MAX_SECONDLINE);
 	if (db_get_b(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0)) {
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);

@@ -51,7 +51,7 @@ void TRACE_ERROR()
 // load small icon (not shared) it IS NEED to be destroyed
 HICON LoadSmallIcon(HINSTANCE hInstance, int index)
 {
-	TCHAR filename[MAX_PATH] = { 0 };
+	wchar_t filename[MAX_PATH] = { 0 };
 	GetModuleFileName(hInstance, filename, MAX_PATH);
 
 	HICON hIcon = NULL;

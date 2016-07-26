@@ -73,7 +73,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	SkinPlaySound("RecvContacts");
 	{
 		//add event to the contact list
-		TCHAR caToolTip[128];
+		wchar_t caToolTip[128];
 		mir_sntprintf(caToolTip, L"%s %s", TranslateT("Contacts received from"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		CLISTEVENT cle = {};

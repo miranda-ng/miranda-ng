@@ -26,12 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef int (WINAPI *pfnMain)(LPTSTR);
 
-int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 {
-	TCHAR tszPath[MAX_PATH];
+	wchar_t tszPath[MAX_PATH];
 	GetModuleFileName(hInstance, tszPath, _countof(tszPath));
 
-	TCHAR *p = _tcsrchr(tszPath, '\\');
+	wchar_t *p = wcsrchr(tszPath, '\\');
 	if (p == NULL)
 		return 4;
 
@@ -39,13 +39,13 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	p[1] = 0;
 	SetCurrentDirectory(tszPath);
 
-	_tcsncat_s(tszPath, L"libs", _TRUNCATE);
-	DWORD cbPath = (DWORD)_tcslen(tszPath);
+	wcsncat_s(tszPath, L"libs", _TRUNCATE);
+	DWORD cbPath = (DWORD)wcslen(tszPath);
 
 	DWORD cbSize = GetEnvironmentVariable(L"PATH", NULL, 0);
-	TCHAR *ptszVal = new TCHAR[cbSize + MAX_PATH + 2];
-	_tcscpy(ptszVal, tszPath);
-	_tcscat(ptszVal, L";");
+	wchar_t *ptszVal = new wchar_t[cbSize + MAX_PATH + 2];
+	wcscpy(ptszVal, tszPath);
+	wcscat(ptszVal, L";");
 	GetEnvironmentVariable(L"PATH", ptszVal + cbPath + 1, cbSize);
 	SetEnvironmentVariable(L"PATH", ptszVal);
 

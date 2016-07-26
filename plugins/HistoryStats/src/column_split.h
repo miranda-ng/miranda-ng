@@ -49,9 +49,9 @@ public:
 	explicit ColSplit();
 
 protected:
-	virtual const TCHAR* impl_getUID() const { return con::ColSplit; }
-	virtual const TCHAR* impl_getTitle() const { return LPGENT("\"Split\""); }
-	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available."); }
+	virtual const wchar_t* impl_getUID() const { return con::ColSplit; }
+	virtual const wchar_t* impl_getTitle() const { return LPGENW("\"Split\""); }
+	virtual const wchar_t* impl_getDescription() const { return LPGENW("Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig | cfAcquiresData; }
 	virtual void impl_configRead(const SettingsTree& settings);

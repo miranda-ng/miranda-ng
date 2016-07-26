@@ -25,7 +25,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	extern logtofile debuglog;
 
 	
-	TCHAR *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
+	wchar_t *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
 	{
 		if(!boost::filesystem::exists(bin_path))
 		{
@@ -48,7 +48,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	env.push_back(L"LC_ALL=English");
 	env.push_back(L"LANG=C");
 	argv.push_back(bin_path);
-	TCHAR *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+	wchar_t *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 	if(mir_tstrlen(home_dir)) //this check are required for first run gpg binary validation
 	{
 		argv.push_back(L"--homedir");
@@ -80,7 +80,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		file_descriptor_sink sout(pout.sink, close_handle);
 		file_descriptor_sink serr(perr.sink, close_handle);
 
-		TCHAR *mir_path = new TCHAR [MAX_PATH];
+		wchar_t *mir_path = new wchar_t [MAX_PATH];
 		PathToAbsoluteW(L"\\", mir_path);
 
 		c = new child(execute(set_args(argv), bind_stdout(sout), bind_stderr(serr), close_stdin(),/*bind_stdin(sin),*/ show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(mir_path)));
@@ -175,7 +175,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 		return pxNotConfigured;
 	extern logtofile debuglog;
 
-	TCHAR *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
+	wchar_t *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
 	{
 		if(!boost::filesystem::exists(bin_path))
 		{
@@ -197,7 +197,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 	env.push_back(L"LC_ALL=English");
 	argv.push_back(bin_path);
 	argv.push_back(L"--homedir");
-	TCHAR *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+	wchar_t *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 	argv.push_back(home_dir);
 	mir_free(home_dir);
 	argv.push_back(L"--display-charset");

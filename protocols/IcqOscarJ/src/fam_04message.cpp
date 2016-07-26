@@ -948,8 +948,8 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 						contacts[iContact] = (ICQSEARCHRESULT*)SAFE_MALLOC(sizeof(ICQSEARCHRESULT));
 						contacts[iContact]->hdr.cbSize = sizeof(ICQSEARCHRESULT);
 						contacts[iContact]->hdr.flags = PSR_TCHAR;
-						contacts[iContact]->hdr.nick.t = null_strdup(L"");
-						contacts[iContact]->hdr.id.t = ansi_to_tchar(szUid);
+						contacts[iContact]->hdr.nick.w = null_strdup(L"");
+						contacts[iContact]->hdr.id.w = ansi_to_tchar(szUid);
 
 						if (IsStringUIN(szUid)) { // icq contact
 							contacts[iContact]->uin = atoi(szUid);
@@ -976,8 +976,8 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 				debugLogA("Malformed '%s' message", "contacts");
 				disposeChain(&chain);
 				for (int i = 0; i < iContact; i++) {
-					SAFE_FREE(&contacts[i]->hdr.id.t);
-					SAFE_FREE(&contacts[i]->hdr.nick.t);
+					SAFE_FREE(&contacts[i]->hdr.id.w);
+					SAFE_FREE(&contacts[i]->hdr.nick.w);
 					SAFE_FREE((void**)&contacts[i]);
 				}
 				SAFE_FREE((void**)&contacts);
@@ -1015,8 +1015,8 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 
 							unpackTypedTLV(pBuffer, wNickLen, 0x01, &wNickTLV, &wNickTLVLen, (LPBYTE*)&pNick);
 							if (wNickTLV == 0x01) {
-								SAFE_FREE(&contacts[iContact]->hdr.nick.t);
-								contacts[iContact]->hdr.nick.t = utf8_to_tchar(pNick);
+								SAFE_FREE(&contacts[iContact]->hdr.nick.w);
+								contacts[iContact]->hdr.nick.w = utf8_to_tchar(pNick);
 							}
 							else
 								SAFE_FREE(&pNick);
@@ -1051,8 +1051,8 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 			}
 
 			for (int i = 0; i < iContact; i++) {
-				SAFE_FREE(&contacts[i]->hdr.id.t);
-				SAFE_FREE(&contacts[i]->hdr.nick.t);
+				SAFE_FREE(&contacts[i]->hdr.id.w);
+				SAFE_FREE(&contacts[i]->hdr.nick.w);
 				SAFE_FREE((void**)&contacts[i]);
 			}
 			SAFE_FREE((void**)&contacts);
@@ -1692,8 +1692,8 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 						if (!mir_strlen(pszMsgField[1 + i * 2]))
 							valid = 0;
 					}
-					isrList[i]->hdr.id.t = ansi_to_tchar(pszMsgField[1 + i * 2]);
-					isrList[i]->hdr.nick.t = ansi_to_tchar(pszMsgField[2 + i * 2]);
+					isrList[i]->hdr.id.w = ansi_to_tchar(pszMsgField[1 + i * 2]);
+					isrList[i]->hdr.nick.w = ansi_to_tchar(pszMsgField[2 + i * 2]);
 				}
 
 				if (!valid)
@@ -1710,8 +1710,8 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 				}
 
 				for (int i = 0; i < nContacts; i++) {
-					SAFE_FREE(&isrList[i]->hdr.id.t);
-					SAFE_FREE(&isrList[i]->hdr.nick.t);
+					SAFE_FREE(&isrList[i]->hdr.id.w);
+					SAFE_FREE(&isrList[i]->hdr.nick.w);
 					SAFE_FREE((void**)&isrList[i]);
 				}
 			}

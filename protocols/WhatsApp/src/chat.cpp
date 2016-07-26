@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static const TCHAR *sttStatuses[] = { LPGENT("Members"), LPGENT("Owners") };
+static const wchar_t *sttStatuses[] = { LPGENW("Members"), LPGENW("Owners") };
 
 enum
 {
@@ -100,17 +100,17 @@ int WhatsAppProto::onGroupChatEvent(WPARAM, LPARAM lParam)
 
 static gc_item sttLogListItems[] =
 {
-	{ LPGENT("&Invite a user"),      IDM_INVITE,    MENU_ITEM },
+	{ LPGENW("&Invite a user"),      IDM_INVITE,    MENU_ITEM },
 	{ NULL, 0, MENU_SEPARATOR },
-	{ LPGENT("&Room options"),       0,             MENU_NEWPOPUP },
-	{ LPGENT("View/change &topic"),  IDM_TOPIC,     MENU_POPUPITEM },
-	{ LPGENT("&Quit chat session"),  IDM_LEAVE,     MENU_POPUPITEM },
+	{ LPGENW("&Room options"),       0,             MENU_NEWPOPUP },
+	{ LPGENW("View/change &topic"),  IDM_TOPIC,     MENU_POPUPITEM },
+	{ LPGENW("&Quit chat session"),  IDM_LEAVE,     MENU_POPUPITEM },
 #ifdef _DEBUG
-	{ LPGENT("Set &avatar"),         IDM_AVATAR,    MENU_POPUPITEM }, // doesn't work, therefore commented out
+	{ LPGENW("Set &avatar"),         IDM_AVATAR,    MENU_POPUPITEM }, // doesn't work, therefore commented out
 #endif
 	{ NULL, 0, MENU_SEPARATOR },
-	{ LPGENT("Copy room &JID"),      IDM_CPY_RJID,  MENU_ITEM },
-	{ LPGENT("Copy room topic"),     IDM_CPY_TOPIC, MENU_ITEM },
+	{ LPGENW("Copy room &JID"),      IDM_CPY_RJID,  MENU_ITEM },
+	{ LPGENW("Copy room topic"),     IDM_CPY_TOPIC, MENU_ITEM },
 };
 
 void WhatsAppProto::ChatLogMenuHook(WAChatInfo *pInfo, struct GCHOOK *gch)
@@ -165,7 +165,7 @@ void WhatsAppProto::EditChatSubject(WAChatInfo *pInfo)
 
 void WhatsAppProto::SetChatAvatar(WAChatInfo *pInfo)
 {
-	TCHAR tszFileName[MAX_PATH], filter[256];
+	wchar_t tszFileName[MAX_PATH], filter[256];
 	Bitmap_GetFilter(filter, _countof(filter));
 
 	OPENFILENAME ofn = { 0 };
@@ -178,7 +178,7 @@ void WhatsAppProto::SetChatAvatar(WAChatInfo *pInfo)
 	ofn.lpstrInitialDir = L".";
 	ofn.lpstrDefExt = L"";
 	if (GetOpenFileName(&ofn))
-		if (_taccess(tszFileName, 4) != -1)
+		if (_waccess(tszFileName, 4) != -1)
 			InternalSetAvatar(pInfo->hContact, _T2A(pInfo->tszJid), tszFileName);
 }
 
@@ -187,12 +187,12 @@ void WhatsAppProto::SetChatAvatar(WAChatInfo *pInfo)
 
 static gc_item sttNickListItems[] =
 {
-	{ LPGENT("&Add to roster"), IDM_ADD_RJID, MENU_POPUPITEM },
+	{ LPGENW("&Add to roster"), IDM_ADD_RJID, MENU_POPUPITEM },
 	{ NULL, 0, MENU_SEPARATOR },
-	{ LPGENT("&Kick"), IDM_KICK, MENU_ITEM },
+	{ LPGENW("&Kick"), IDM_KICK, MENU_ITEM },
 	{ NULL, 0, MENU_SEPARATOR },
-	{ LPGENT("Copy &nickname"), IDM_CPY_NICK, MENU_ITEM },
-	{ LPGENT("Copy real &JID"), IDM_CPY_RJID, MENU_ITEM },
+	{ LPGENW("Copy &nickname"), IDM_CPY_NICK, MENU_ITEM },
+	{ LPGENW("Copy real &JID"), IDM_CPY_RJID, MENU_ITEM },
 };
 
 void WhatsAppProto::NickListMenuHook(WAChatInfo *pInfo, struct GCHOOK *gch)
@@ -216,7 +216,7 @@ void WhatsAppProto::NickListMenuHook(WAChatInfo *pInfo, struct GCHOOK *gch)
 	}
 }
 
-void WhatsAppProto::AddChatUser(WAChatInfo*, const TCHAR *ptszJid)
+void WhatsAppProto::AddChatUser(WAChatInfo*, const wchar_t *ptszJid)
 {
 	std::string jid((char*)_T2A(ptszJid));
 	MCONTACT hContact = ContactIDToHContact(jid);
@@ -226,8 +226,8 @@ void WhatsAppProto::AddChatUser(WAChatInfo*, const TCHAR *ptszJid)
 	PROTOSEARCHRESULT psr = { 0 };
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_TCHAR;
-	psr.id.t = (TCHAR*)ptszJid;
-	psr.nick.t = GetChatUserNick(jid);
+	psr.id.w = (wchar_t*)ptszJid;
+	psr.nick.w = GetChatUserNick(jid);
 
 	ADDCONTACTSTRUCT acs = { 0 };
 	acs.handleType = HANDLE_SEARCHRESULT;
@@ -236,7 +236,7 @@ void WhatsAppProto::AddChatUser(WAChatInfo*, const TCHAR *ptszJid)
 	CallService(MS_ADDCONTACT_SHOW, (WPARAM)pcli->hwndContactList, (LPARAM)&acs);
 }
 
-void WhatsAppProto::KickChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid)
+void WhatsAppProto::KickChatUser(WAChatInfo *pInfo, const wchar_t *ptszJid)
 {
 	if (!isOnline())
 		return;
@@ -290,7 +290,7 @@ int WhatsAppProto::OnChatMenu(WPARAM, LPARAM lParam)
 
 WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &nick)
 {
-	TCHAR *ptszJid = str2t(jid), *ptszNick = str2t(nick);
+	wchar_t *ptszJid = str2t(jid), *ptszNick = str2t(nick);
 
 	WAChatInfo *pInfo = new WAChatInfo(ptszJid, ptszNick);
 	m_chats[jid] = pInfo;
@@ -328,9 +328,9 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	return pInfo;
 }
 
-TCHAR* WhatsAppProto::GetChatUserNick(const std::string &jid)
+wchar_t* WhatsAppProto::GetChatUserNick(const std::string &jid)
 {
-	TCHAR* tszNick;
+	wchar_t* tszNick;
 	if (m_szJid != jid) {
 		MCONTACT hContact = ContactIDToHContact(jid);
 		tszNick = (hContact == 0) ? utils::removeA(str2t(jid)) : mir_tstrdup(pcli->pfnGetContactDisplayName(hContact, 0));

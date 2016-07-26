@@ -28,7 +28,7 @@ PROTOACCOUNTS *accounts;
 
 static int g_iIdleTime = -1;
 UINT_PTR g_uUpdateMsgTimer = 0, *g_uSetStatusTimer;
-static TCHAR *g_ptszWinampSong;
+static wchar_t *g_ptszWinampSong;
 HANDLE hTTBButton = 0, h_statusmodechange;
 HWND hwndSAMsgDialog;
 static HANDLE *hProtoStatusMenuItem;
@@ -90,9 +90,9 @@ void log2file(const char *fmt, ...)
 }
 #endif
 
-static TCHAR *GetWinampSong(void)
+static wchar_t *GetWinampSong(void)
 {
-	TCHAR *szTitle, *pstr, *res = NULL;
+	wchar_t *szTitle, *pstr, *res = NULL;
 	HWND hwndWinamp = FindWindow(L"STUDIO", NULL);
 	int iTitleLen;
 
@@ -103,7 +103,7 @@ static TCHAR *GetWinampSong(void)
 		return NULL;
 
 	iTitleLen = GetWindowTextLength(hwndWinamp);
-	szTitle = (TCHAR *)mir_alloc((iTitleLen + 1) * sizeof(TCHAR));
+	szTitle = (wchar_t *)mir_alloc((iTitleLen + 1) * sizeof(wchar_t));
 	if (szTitle == NULL)
 		return NULL;
 
@@ -113,7 +113,7 @@ static TCHAR *GetWinampSong(void)
 		return NULL;
 	}
 
-	pstr = _tcsstr(szTitle, L" - Winamp");
+	pstr = wcsstr(szTitle, L" - Winamp");
 	if (pstr == NULL)
 	{
 		mir_free(szTitle);
@@ -122,8 +122,8 @@ static TCHAR *GetWinampSong(void)
 
 	if (pstr < szTitle + (iTitleLen / 2))
 	{
-		memmove(szTitle, pstr + 9, mir_tstrlen(pstr + 9) * sizeof(TCHAR));
-		pstr = _tcsstr(pstr + 1, L" - Winamp");
+		memmove(szTitle, pstr + 9, mir_tstrlen(pstr + 9) * sizeof(wchar_t));
+		pstr = wcsstr(pstr + 1, L" - Winamp");
 		if (pstr == NULL)
 		{
 			mir_free(szTitle);
@@ -132,7 +132,7 @@ static TCHAR *GetWinampSong(void)
 	}
 	*pstr = 0;
 
-	pstr = _tcschr(szTitle, _T('.'));
+	pstr = wcschr(szTitle, '.');
 	if (pstr == NULL)
 	{
 		mir_free(szTitle);
@@ -146,16 +146,16 @@ static TCHAR *GetWinampSong(void)
 	return res;
 }
 
-TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
+wchar_t* InsertBuiltinVarsIntoMsg(wchar_t *in, const char *szProto, int)
 {
 	int i, count = 0, len;
-	TCHAR substituteStr[1024], *msg = mir_tstrdup(in);
+	wchar_t substituteStr[1024], *msg = mir_tstrdup(in);
 
 	for (i = 0; msg[i]; i++)
 	{
 		if (msg[i] == 0x0D && db_get_b(NULL, "SimpleStatusMsg", "RemoveCR", 0))
 		{
-			TCHAR *p = msg + i;
+			wchar_t *p = msg + i;
 			if (i + 1 <= 1024 && msg[i + 1])
 			{
 				if (msg[i + 1] == 0x0A)
@@ -163,7 +163,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 					if (i + 2 <= 1024 && msg[i + 2])
 					{
 						count++;
-						memmove(p, p + 1, (mir_tstrlen(p) - 1) * sizeof(TCHAR));
+						memmove(p, p + 1, (mir_tstrlen(p) - 1) * sizeof(wchar_t));
 					}
 					else
 					{
@@ -177,9 +177,9 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 		if (msg[i] != '%')
 			continue;
 
-		if (!_tcsnicmp(msg+i, L"%winampsong%", 12))
+		if (!wcsnicmp(msg+i, L"%winampsong%", 12))
 		{
-			TCHAR *ptszWinampTitle = GetWinampSong();
+			wchar_t *ptszWinampTitle = GetWinampSong();
 
 			if (ptszWinampTitle != NULL)
 			{
@@ -195,14 +195,14 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 				continue;
 
 			if (mir_tstrlen(ptszWinampTitle) > 12)
-				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(ptszWinampTitle) - 12) * sizeof(TCHAR));
+				msg = (wchar_t *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(ptszWinampTitle) - 12) * sizeof(wchar_t));
 
-			memmove(msg + i + mir_tstrlen(ptszWinampTitle), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(TCHAR));
-			memcpy(msg + i, ptszWinampTitle, mir_tstrlen(ptszWinampTitle) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(ptszWinampTitle), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(wchar_t));
+			memcpy(msg + i, ptszWinampTitle, mir_tstrlen(ptszWinampTitle) * sizeof(wchar_t));
 
 			mir_free(ptszWinampTitle);
 		}
-		else if (!_tcsnicmp(msg + i, L"%time%", 6))
+		else if (!wcsnicmp(msg + i, L"%time%", 6))
 		{
 			MIRANDA_IDLE_INFO mii = {0};
 			mii.cbSize = sizeof(mii);
@@ -230,31 +230,31 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 			else GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, NULL, NULL, substituteStr, _countof(substituteStr));
 
 			if (mir_tstrlen(substituteStr) > 6)
-				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
+				msg = (wchar_t *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(wchar_t));
 
-			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
-			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(wchar_t));
+			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(wchar_t));
 		}
-		else if (!_tcsnicmp(msg + i, L"%date%", 6))
+		else if (!wcsnicmp(msg + i, L"%date%", 6))
 		{
 			GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, _countof(substituteStr));
 
 			if (mir_tstrlen(substituteStr) > 6)
-				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
+				msg = (wchar_t *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(wchar_t));
 
-			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
-			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(wchar_t));
+			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(wchar_t));
 		}
-		else if (!_tcsnicmp(msg+i, L"%rand(", 6))
+		else if (!wcsnicmp(msg+i, L"%rand(", 6))
 		{
-			TCHAR *temp, *token;
+			wchar_t *temp, *token;
 			int ran_from, ran_to, k;
 
 			temp = mir_tstrdup(msg + i + 6);
-			token = _tcstok(temp, L",)");
-			ran_from = _ttoi(token);
-			token = _tcstok(NULL, L",)%%");
-			ran_to = _ttoi(token);
+			token = wcstok(temp, L",)");
+			ran_from = _wtoi(token);
+			token = wcstok(NULL, L",)%%");
+			ran_to = _wtoi(token);
 
 			if (ran_to > ran_from)
 			{
@@ -262,14 +262,14 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 				for (k = i + 1; msg[k]; k++) if (msg[k] == '%') { k++; break; }
 
 				if (mir_tstrlen(substituteStr) > k - i)
-					msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - (k - i)) * sizeof(TCHAR));
+					msg = (wchar_t *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - (k - i)) * sizeof(wchar_t));
 
-				memmove(msg + i + mir_tstrlen(substituteStr), msg + i + (k - i), (mir_tstrlen(msg) - i - (k - i - 1)) * sizeof(TCHAR));
-				memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+				memmove(msg + i + mir_tstrlen(substituteStr), msg + i + (k - i), (mir_tstrlen(msg) - i - (k - i - 1)) * sizeof(wchar_t));
+				memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(wchar_t));
 			}
 			mir_free(temp);
 		}
-		else if (!_tcsnicmp(msg+i, L"%randmsg%", 9))
+		else if (!wcsnicmp(msg+i, L"%randmsg%", 9))
 		{
 			char buff[16];
 			int k, k2 = 0;
@@ -289,7 +289,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 
 				mir_snprintf(buff, "SMsg%d", k);
 
-				TCHAR *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", buff);
+				wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", buff);
 				if (tszStatusMsg == NULL)
 					continue;
 
@@ -299,7 +299,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 				if (!mir_tstrlen(substituteStr))
 					continue;
 
-				if (_tcsstr(substituteStr, L"%randmsg%") != NULL || _tcsstr(substituteStr, L"%randdefmsg%") != NULL)
+				if (wcsstr(substituteStr, L"%randmsg%") != NULL || wcsstr(substituteStr, L"%randdefmsg%") != NULL)
 				{
 					if (k == maxk) maxk--;
 				}
@@ -309,12 +309,12 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 			if (k2 == maxk || k2 > maxk) mir_tstrcpy(substituteStr, L"");
 
 			if (mir_tstrlen(substituteStr) > 9)
-				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 9) * sizeof(TCHAR));
+				msg = (wchar_t *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 9) * sizeof(wchar_t));
 
-			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 9, (mir_tstrlen(msg) - i - 8) * sizeof(TCHAR));
-			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 9, (mir_tstrlen(msg) - i - 8) * sizeof(wchar_t));
+			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(wchar_t));
 		}
-		else if (!_tcsnicmp(msg+i, L"%randdefmsg%", 12))
+		else if (!wcsnicmp(msg+i, L"%randdefmsg%", 12))
 		{
 			char buff[16];
 			int k, k2 = 0;
@@ -334,7 +334,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 
 				mir_snprintf(buff, "DefMsg%d", k);
 
-				TCHAR *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", buff);
+				wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", buff);
 				if (tszStatusMsg == NULL)
 					continue;
 
@@ -344,7 +344,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 				if (!mir_tstrlen(substituteStr))
 					continue;
 
-				if (_tcsstr(substituteStr, L"%randmsg%") != NULL || _tcsstr(substituteStr, L"%randdefmsg%") != NULL)
+				if (wcsstr(substituteStr, L"%randmsg%") != NULL || wcsstr(substituteStr, L"%randdefmsg%") != NULL)
 				{
 					if (k == maxk) maxk--;
 				}
@@ -354,10 +354,10 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 			if (k2 == maxk || k2 > maxk) mir_tstrcpy(substituteStr, L"");
 
 			if (mir_tstrlen(substituteStr) > 12)
-				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg)+1+mir_tstrlen(substituteStr)-12) * sizeof(TCHAR));
+				msg = (wchar_t *)mir_realloc(msg, (mir_tstrlen(msg)+1+mir_tstrlen(substituteStr)-12) * sizeof(wchar_t));
 
-			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(TCHAR));
-			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(wchar_t));
+			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(wchar_t));
 		}
 	}
 
@@ -370,7 +370,7 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 		len = db_get_w(NULL, "SimpleStatusMsg", szSetting, 1024);
 		if (len < mir_tstrlen(msg))
 		{
-			msg = (TCHAR *)mir_realloc(msg, len * sizeof(TCHAR));
+			msg = (wchar_t *)mir_realloc(msg, len * sizeof(wchar_t));
 			msg[len] = 0;
 		}
 	}
@@ -378,14 +378,14 @@ TCHAR* InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int)
 	return msg;
 }
 
-TCHAR *InsertVarsIntoMsg(TCHAR *tszMsg, const char *szProto, int iStatus, MCONTACT hContact)
+wchar_t *InsertVarsIntoMsg(wchar_t *tszMsg, const char *szProto, int iStatus, MCONTACT hContact)
 {
 	if (ServiceExists(MS_VARS_FORMATSTRING) && db_get_b(NULL, "SimpleStatusMsg", "EnableVariables", 1))
 	{
-		TCHAR *tszVarsMsg = variables_parse(tszMsg, NULL, hContact);
+		wchar_t *tszVarsMsg = variables_parse(tszMsg, NULL, hContact);
 		if (tszVarsMsg != NULL)
 		{
-			TCHAR *format = InsertBuiltinVarsIntoMsg(tszVarsMsg, szProto, iStatus);
+			wchar_t *format = InsertBuiltinVarsIntoMsg(tszVarsMsg, szProto, iStatus);
 			mir_free(tszVarsMsg);
 			return format;
 		}
@@ -394,10 +394,10 @@ TCHAR *InsertVarsIntoMsg(TCHAR *tszMsg, const char *szProto, int iStatus, MCONTA
 	return InsertBuiltinVarsIntoMsg(tszMsg, szProto, iStatus);
 }
 
-static TCHAR *GetAwayMessageFormat(int iStatus, const char *szProto)
+static wchar_t *GetAwayMessageFormat(int iStatus, const char *szProto)
 {
 	char szSetting[80];
-	TCHAR *format;
+	wchar_t *format;
 
 	mir_snprintf(szSetting, "%sFlags", szProto ? szProto : "");
 	int flags = db_get_b(NULL, "SimpleStatusMsg", StatusModeToDbSetting(iStatus, szSetting), STATUS_DEFAULT);
@@ -446,7 +446,7 @@ static TCHAR *GetAwayMessageFormat(int iStatus, const char *szProto)
 	return format;
 }
 
-void DBWriteMessage(char *szSetting, TCHAR *tszMsg)
+void DBWriteMessage(char *szSetting, wchar_t *tszMsg)
 {
 	if (tszMsg && mir_tstrlen(tszMsg))
 		db_set_ts(NULL, "SimpleStatusMsg", szSetting, tszMsg);
@@ -454,7 +454,7 @@ void DBWriteMessage(char *szSetting, TCHAR *tszMsg)
 		db_unset(NULL, "SimpleStatusMsg", szSetting);
 }
 
-void SaveMessageToDB(const char *szProto, TCHAR *tszMsg, BOOL bIsFormat)
+void SaveMessageToDB(const char *szProto, wchar_t *tszMsg, BOOL bIsFormat)
 {
 	char szSetting[80];
 
@@ -504,9 +504,9 @@ void SaveStatusAsCurrent(const char *szProto, int iStatus)
 	db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)iStatus);
 }
 
-static TCHAR *GetAwayMessage(int iStatus, const char *szProto, BOOL bInsertVars, MCONTACT hContact)
+static wchar_t *GetAwayMessage(int iStatus, const char *szProto, BOOL bInsertVars, MCONTACT hContact)
 {
-	TCHAR *format;
+	wchar_t *format;
 	char szSetting[80];
 
 	if ((!iStatus || iStatus == ID_STATUS_CURRENT) && szProto)
@@ -553,7 +553,7 @@ static TCHAR *GetAwayMessage(int iStatus, const char *szProto, BOOL bInsertVars,
 
 	if (bInsertVars && format != NULL)
 	{
-		TCHAR *tszVarsMsg = InsertVarsIntoMsg(format, szProto, iStatus, hContact); // TODO random values not the same!
+		wchar_t *tszVarsMsg = InsertVarsIntoMsg(format, szProto, iStatus, hContact); // TODO random values not the same!
 		mir_free(format);
 		return tszVarsMsg;
 	}
@@ -583,13 +583,13 @@ int CheckProtoSettings(const char *szProto, int iInitialStatus)
 	return iInitialStatus;
 }
 
-static void Proto_SetAwayMsgT(const char *szProto, int iStatus, TCHAR *tszMsg)
+static void Proto_SetAwayMsgT(const char *szProto, int iStatus, wchar_t *tszMsg)
 {
 	if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_INDIVMODEMSG))
 		CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iStatus, (LPARAM)tszMsg);
 }
 
-static void Proto_SetStatus(const char *szProto, int iInitialStatus, int iStatus, TCHAR *tszMsg)
+static void Proto_SetStatus(const char *szProto, int iInitialStatus, int iStatus, wchar_t *tszMsg)
 {
 	if (iStatus == ID_STATUS_OFFLINE && iStatus != iInitialStatus)
 	{
@@ -627,11 +627,11 @@ int HasProtoStaticStatusMsg(const char *szProto, int iInitialStatus, int iStatus
 	else if (flags & PROTO_THIS_MSG)
 	{
 		mir_snprintf(szSetting, "Proto%sDefault", szProto);
-		TCHAR *szSimpleStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+		wchar_t *szSimpleStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
 		if (szSimpleStatusMsg != NULL)
 		{
 			SaveMessageToDB(szProto, szSimpleStatusMsg, TRUE);
-			TCHAR *msg = InsertVarsIntoMsg(szSimpleStatusMsg, szProto, iStatus, NULL);
+			wchar_t *msg = InsertVarsIntoMsg(szSimpleStatusMsg, szProto, iStatus, NULL);
 			mir_free(szSimpleStatusMsg);
 			Proto_SetStatus(szProto, iInitialStatus, iStatus, msg);
 			SaveMessageToDB(szProto, msg, FALSE);
@@ -679,15 +679,15 @@ INT_PTR SetStatusModeFromExtern(WPARAM wParam, LPARAM lParam)
 
 		if ((Proto_Status2Flag(newStatus) & status_modes_msg) || (newStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & status_modes_msg)))
 		{
-			TCHAR *msg = NULL;
+			wchar_t *msg = NULL;
 
 			if (HasProtoStaticStatusMsg(accounts->pa[i]->szModuleName, GetCurrentStatus(accounts->pa[i]->szModuleName), newStatus))
 				continue;
 
 			if (lParam)
-				msg = InsertVarsIntoMsg((TCHAR *)lParam, accounts->pa[i]->szModuleName, newStatus, NULL);
+				msg = InsertVarsIntoMsg((wchar_t *)lParam, accounts->pa[i]->szModuleName, newStatus, NULL);
 
-			SaveMessageToDB(accounts->pa[i]->szModuleName, (TCHAR *)lParam, TRUE);
+			SaveMessageToDB(accounts->pa[i]->szModuleName, (wchar_t *)lParam, TRUE);
 			SaveMessageToDB(accounts->pa[i]->szModuleName, msg, FALSE);
 			Proto_SetStatus(accounts->pa[i]->szModuleName, GetCurrentStatus(accounts->pa[i]->szModuleName), newStatus, msg /*? msg : L""*/);
 			mir_free(msg);
@@ -701,9 +701,9 @@ INT_PTR SetStatusModeFromExtern(WPARAM wParam, LPARAM lParam)
 
 int ChangeStatusMessage(WPARAM wParam, LPARAM lParam);
 
-void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, TCHAR *message, BOOL bOnStartup)
+void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, wchar_t *message, BOOL bOnStartup)
 {
-	TCHAR *msg = NULL;
+	wchar_t *msg = NULL;
 #ifdef _DEBUG
 	log2file("SetStatusMessage(\"%s\", %d, %d, \"%S\", %d)", szProto, iInitialStatus, iStatus, message, bOnStartup);
 #endif
@@ -1012,7 +1012,7 @@ int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 		}
 		else if (iProtoFlags & PROTO_NOCHANGE && !bOnStartup) {
 			mir_snprintf(szSetting, "FCur%sMsg", szProto);
-			TCHAR *msg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+			wchar_t *msg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
 
 #ifdef _DEBUG
 			log2file("ChangeStatusMessage(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, szProto);
@@ -1023,7 +1023,7 @@ int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 		}
 
 		if (!bShowDlg || bScreenSaverRunning) {
-			TCHAR *msg = GetAwayMessageFormat(iStatus, szProto);
+			wchar_t *msg = GetAwayMessageFormat(iStatus, szProto);
 #ifdef _DEBUG
 			log2file("ChangeStatusMessage(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, szProto);
 #endif
@@ -1073,7 +1073,7 @@ int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 					!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 					continue;
 
-				TCHAR *msg;
+				wchar_t *msg;
 				if (iProtoFlags & PROTO_NOCHANGE) {
 					mir_snprintf(szSetting, "FCur%sMsg", accounts->pa[i]->szModuleName);
 					msg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
@@ -1134,7 +1134,7 @@ static int ProcessProtoAck(WPARAM , LPARAM lParam)
 int SetStartupStatus(int i)
 {
 	char szSetting[80];
-	TCHAR *fmsg, *msg = NULL;
+	wchar_t *fmsg, *msg = NULL;
 	int iStatus = GetStartupStatus(accounts->pa[i]->szModuleName);
 
 	if (iStatus == ID_STATUS_OFFLINE)
@@ -1277,7 +1277,7 @@ VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD)
 	if (!hwndSAMsgDialog)
 	{
 		char szBuffer[64];
-		TCHAR *tszMsg;
+		wchar_t *tszMsg;
 		int iCurrentStatus;
 
 		for (int i = 0; i < accounts->count; ++i)
@@ -1296,7 +1296,7 @@ VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD)
 				continue;
 
 			mir_snprintf(szBuffer, "FCur%sMsg", accounts->pa[i]->szModuleName);
-			TCHAR *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szBuffer);
+			wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szBuffer);
 			if (tszStatusMsg == NULL)
 				continue;
 
@@ -1348,8 +1348,8 @@ void RegisterHotkey(void)
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "SimpleStatusMsg_OpenDialog";
-	hkd.ptszDescription = LPGENT("Open status message dialog");
-	hkd.ptszSection = LPGENT("Status message");
+	hkd.ptszDescription = LPGENW("Open status message dialog");
+	hkd.ptszSection = LPGENW("Status message");
 	hkd.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_OEM_3);
 	Hotkey_Register(&hkd);
@@ -1389,7 +1389,7 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 		mi.flags |= CMIF_HIDDEN;
 	mi.hIcolibItem = GetIconHandle(IDI_CSMSG);
 	mi.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
-	mi.name.t = LPGENT("Status message...");
+	mi.name.w = LPGENW("Status message...");
 	mi.position = 2000200000;
 	Menu_AddStatusMenuItem(&mi);
 
@@ -1418,7 +1418,7 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 
 		if (Proto_IsAccountLocked(pa[i]))
 		{
-			TCHAR szBuffer[256];
+			wchar_t szBuffer[256];
 			mir_sntprintf(szBuffer, TranslateT("%s (locked)"), pa[i]->tszAccountName);
 			mi.root = Menu_CreateRoot(MO_STATUS, szBuffer, mi.position);
 		}
@@ -1477,8 +1477,8 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 		{
 			if (!(lParam & IDF_ISIDLE))
 				iStatus = ID_STATUS_ONLINE;
-			TCHAR *tszMsg = GetAwayMessage(iStatus, accounts->pa[i]->szModuleName, FALSE, NULL);
-			TCHAR *tszVarsMsg = InsertVarsIntoMsg(tszMsg, accounts->pa[i]->szModuleName, iStatus, NULL);
+			wchar_t *tszMsg = GetAwayMessage(iStatus, accounts->pa[i]->szModuleName, FALSE, NULL);
+			wchar_t *tszVarsMsg = InsertVarsIntoMsg(tszMsg, accounts->pa[i]->szModuleName, iStatus, NULL);
 			SaveMessageToDB(accounts->pa[i]->szModuleName, tszMsg, TRUE);
 			SaveMessageToDB(accounts->pa[i]->szModuleName, tszVarsMsg, FALSE);
 			mir_free(tszMsg);
@@ -1494,7 +1494,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 	PROTOCOLSETTINGEX **ps = *(PROTOCOLSETTINGEX***)wParam;
 	int status_mode, CSProtoCount;
 	char szSetting[80];
-	TCHAR *msg = NULL;
+	wchar_t *msg = NULL;
 
 	if (ps == NULL) return -1;
 
@@ -1530,7 +1530,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 			for (int j = 1; j <= max_hist_msgs; j++)
 			{
 				mir_snprintf(buff, "SMsg%d", j);
-				TCHAR *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", buff);
+				wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", buff);
 				if (tszStatusMsg != NULL)
 				{
 					if (!mir_tstrcmp(tszStatusMsg, szMsgW))
@@ -1568,13 +1568,13 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static TCHAR *ParseWinampSong(ARGUMENTSINFO *ai)
+static wchar_t *ParseWinampSong(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
-	TCHAR *ptszWinampTitle = GetWinampSong();
+	wchar_t *ptszWinampTitle = GetWinampSong();
 
 	if (ptszWinampTitle != NULL) {
 		mir_free(g_ptszWinampSong);
@@ -1586,12 +1586,12 @@ static TCHAR *ParseWinampSong(ARGUMENTSINFO *ai)
 	return ptszWinampTitle;
 }
 
-static TCHAR *ParseDate(ARGUMENTSINFO *ai)
+static wchar_t *ParseDate(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
 		return NULL;
 
-	TCHAR szStr[128] = {0};
+	wchar_t szStr[128] = {0};
 	ai->flags |= AIF_DONTPARSE;
 	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, szStr, _countof(szStr));
 
@@ -1634,7 +1634,7 @@ static int OnICQStatusMsgRequest(WPARAM wParam, LPARAM lParam, LPARAM lMirParam)
 		return 0;
 
 	int iStatus = ICQMsgTypeToStatus(wParam);
-	TCHAR *tszMsg = GetAwayMessage(iStatus, szProto, TRUE, hContact);
+	wchar_t *tszMsg = GetAwayMessage(iStatus, szProto, TRUE, hContact);
 	Proto_SetAwayMsgT(szProto, iStatus, tszMsg);
 	mir_free(tszMsg);
 

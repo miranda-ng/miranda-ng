@@ -55,7 +55,7 @@ char* __fastcall null_strdup(const char *string)
 	return NULL;
 }
 
-TCHAR* GetContactUID(MCONTACT hContact)
+wchar_t* GetContactUID(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -67,19 +67,19 @@ TCHAR* GetContactUID(MCONTACT hContact)
 		return NULL;
 
 	if (vrUid.type == DBVT_DWORD) {
-		TCHAR tmp[100];
-		_itot(vrUid.dVal, tmp, 10);
+		wchar_t tmp[100];
+		_itow(vrUid.dVal, tmp, 10);
 		return mir_tstrdup(tmp);
 	}
 
 	if (vrUid.type == DBVT_ASCIIZ) {
-		TCHAR *res = mir_a2t(vrUid.pszVal);
+		wchar_t *res = mir_a2t(vrUid.pszVal);
 		mir_free(vrUid.pszVal);
 		return res;
 	}
 
 	if (vrUid.type == DBVT_UTF8) {
-		TCHAR *res = mir_utf8decodeT(vrUid.pszVal);
+		wchar_t *res = mir_utf8decodeT(vrUid.pszVal);
 		mir_free(vrUid.pszVal);
 		return res;
 	}
@@ -112,24 +112,24 @@ void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, MCONTACT hContact)
 }
 
 
-void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, TCHAR *pszTitleStart)
+void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, wchar_t *pszTitleStart)
 {
-	TCHAR newtitle[512];
+	wchar_t newtitle[512];
 	mir_tstrncpy(newtitle, TranslateTS(pszTitleStart), _countof(newtitle));
 	
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
 			ptrT uid(GetContactUID(hContact));
-			TCHAR *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
+			wchar_t *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 
-			TCHAR oldTitle[MAX_PATH];
+			wchar_t oldTitle[MAX_PATH];
 			GetDlgItemText(hwndDlg, IDC_NAME, oldTitle, _countof(oldTitle));
 
 			if (mir_tstrcmp(uid ? uid : contactName, oldTitle))
 				SetDlgItemText(hwndDlg, IDC_NAME, uid ? uid : contactName);
 
-			TCHAR *szStatus = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+			wchar_t *szStatus = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 			mir_sntprintf(newtitle, L"%s %s (%s)", TranslateTS(pszTitleStart), contactName, szStatus);
 		}
 	}
@@ -145,7 +145,7 @@ void UpdateDialogAddButton(HWND hwndDlg, MCONTACT hContact)
 }
 
 
-HICON InitMButton(HWND hDlg, int idButton, int idIcon, TCHAR *szTip)
+HICON InitMButton(HWND hDlg, int idButton, int idIcon, wchar_t *szTip)
 {
 	HWND hButton = GetDlgItem(hDlg, idButton);
 	HICON hIcon = Skin_LoadIcon(idIcon);
@@ -172,10 +172,10 @@ void EnableDlgItem(HWND hwndDlg, UINT control, int state)
 }
 
 
-TCHAR* GetWindowTextT(HWND hWnd)
+wchar_t* GetWindowTextT(HWND hWnd)
 {
 	int len = GetWindowTextLength(hWnd) + 1;
-	TCHAR* txt = (TCHAR*)mir_alloc(len * sizeof(TCHAR));
+	wchar_t* txt = (wchar_t*)mir_alloc(len * sizeof(wchar_t));
 	if (txt) {
 		txt[0] = 0;
 		GetWindowText(hWnd, txt, len);
@@ -183,9 +183,9 @@ TCHAR* GetWindowTextT(HWND hWnd)
 	return txt;
 }
 
-TCHAR* __fastcall strdupT(const TCHAR *string)
+wchar_t* __fastcall strdupT(const wchar_t *string)
 {
 	if (string)
-		return (TCHAR*)wcsdup((TCHAR*)string);
+		return (wchar_t*)wcsdup((wchar_t*)string);
 	return NULL;
 }

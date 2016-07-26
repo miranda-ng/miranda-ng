@@ -130,7 +130,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 		TranslateDialogDefault(hwnd);
 		{
-			TCHAR text[MSG_SIZE];
+			wchar_t text[MSG_SIZE];
 			mir_sntprintf(text, dbsetting->setting?TranslateT("Edit setting (%s)"):TranslateT("New setting (%s)"), DBVType(dbsetting->dbv.type));
 			SetWindowText(hwnd, text);
 		}
@@ -157,21 +157,21 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		case CHK_DECIMAL:
 			CheckRadioButton(hwnd, CHK_HEX, CHK_DECIMAL, LOWORD(wParam));
 			{
-				TCHAR *setting, text[32];
+				wchar_t *setting, text[32];
 				int settingLength, tmp;
 				settingLength = GetWindowTextLength(GetDlgItem(hwnd, IDC_SETTINGVALUE));
 				if (settingLength)
 				{
-					setting = (TCHAR*)mir_alloc((settingLength+1)*sizeof(TCHAR));
+					setting = (wchar_t*)mir_alloc((settingLength+1)*sizeof(wchar_t));
 					GetDlgItemText(hwnd, IDC_SETTINGVALUE, setting, settingLength + 1);
 					if (LOWORD(wParam) == CHK_DECIMAL && IsDlgButtonChecked(hwnd, CHK_DECIMAL))
 					{
-						_stscanf(setting, L"%X", &tmp);
+						swscanf(setting, L"%X", &tmp);
 						mir_sntprintf(text, L"%u", tmp);
 					}
 					else
 					{
-						_stscanf(setting, L"%u", &tmp);
+						swscanf(setting, L"%u", &tmp);
 						mir_sntprintf(text, L"%X", tmp);
 					}
 					SetDlgItemText(hwnd, IDC_SETTINGVALUE, text);
@@ -188,7 +188,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		{
 			struct DBsetting *dbsetting = (struct DBsetting*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-			TCHAR settingname[FLD_SIZE];
+			wchar_t settingname[FLD_SIZE];
 			GetDlgItemText(hwnd, IDC_SETTINGNAME, settingname, _countof(settingname));
 
 			if (settingname[0])
@@ -221,7 +221,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					break;
 
 				int len = GetWindowTextLength(GetDlgItem(hwnd, valueID))+1;
-				TCHAR *value = (TCHAR*)mir_alloc(len*sizeof(TCHAR));
+				wchar_t *value = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
 
 				GetDlgItemText(hwnd, valueID, value, len);
 				_T2A setting(settingname);
@@ -235,7 +235,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				case DBVT_BYTE:
 				case DBVT_WORD:
 				case DBVT_DWORD:
-					res = setNumericValue(dbsetting->hContact, dbsetting->module, setting, _tcstoul(value, NULL, IsDlgButtonChecked(hwnd, CHK_HEX)? 16 : 10), type);
+					res = setNumericValue(dbsetting->hContact, dbsetting->module, setting, wcstoul(value, NULL, IsDlgButtonChecked(hwnd, CHK_HEX)? 16 : 10), type);
 					break;
 				case DBVT_ASCIIZ:
 				case DBVT_UTF8:

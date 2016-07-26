@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-void pid2name(DWORD procid, TCHAR *buffer, size_t bufLen)
+void pid2name(DWORD procid, wchar_t *buffer, size_t bufLen)
 {
 	PROCESSENTRY32 ProcessStruct;
 	ProcessStruct.dwSize = sizeof(PROCESSENTRY32);
@@ -12,7 +12,7 @@ void pid2name(DWORD procid, TCHAR *buffer, size_t bufLen)
 
 	do {
 		if (ProcessStruct.th32ProcessID == procid) {
-			_tcsncpy_s(buffer, bufLen, ProcessStruct.szExeFile, _TRUNCATE);
+			wcsncpy_s(buffer, bufLen, ProcessStruct.szExeFile, _TRUNCATE);
 			break;
 		}
 	} while (Process32Next(hSnap, &ProcessStruct));

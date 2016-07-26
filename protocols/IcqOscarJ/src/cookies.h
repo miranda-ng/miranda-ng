@@ -109,7 +109,7 @@ struct cookie_avatar
 	size_t hashlen;
 	BYTE *hash;
 	size_t cbData;
-	TCHAR *szFile;
+	wchar_t *szFile;
 };
 
 struct cookie_reverse_connect : public cookie_message_data

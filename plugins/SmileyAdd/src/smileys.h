@@ -69,7 +69,7 @@ public:
 	bool IsSound(void) const { return (m_flags & SoundSmiley) != 0; }
 	bool IsText(void) const { return (m_flags & TextSmiley) != 0; }
 
-	bool IsFileFound(void) { return _taccess(m_filepath.c_str(), 0) == 0; }
+	bool IsFileFound(void) { return _waccess(m_filepath.c_str(), 0) == 0; }
 	bool IsValid(void) { return m_size.cx != 0; }
 
 	ImageBase* CreateCachedImage(void);
@@ -203,7 +203,7 @@ public:
 
 	SmileyType* GetSmiley(unsigned index);
 
-	const TCHAR* GetButtonSmiley(void) const { return m_ButtonSmiley.c_str(); }
+	const wchar_t* GetButtonSmiley(void) const { return m_ButtonSmiley.c_str(); }
 
 	bool LoadSmileyFile(const CMString &filename, const CMString &packname, bool onlyInfo, bool noerr = false);
 

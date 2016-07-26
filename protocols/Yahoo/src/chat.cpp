@@ -37,7 +37,7 @@ struct InviteChatReqParam
 {
 	char* room;
 	char* who;
-	TCHAR* msg;
+	wchar_t* msg;
 	CYahooProto* ppro;
 
 	InviteChatReqParam(const char* room, const char* who, const char* msg, CYahooProto* ppro)
@@ -51,9 +51,9 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 void ext_yahoo_conf_userdecline(int id, const char*, const char *who, const char *room, const char *msg)
 {
-	TCHAR info[1024];
-	TCHAR *whot = mir_utf8decodeT(who);
-	TCHAR *msgt = mir_utf8decodeT(msg);
+	wchar_t info[1024];
+	wchar_t *whot = mir_utf8decodeT(who);
+	wchar_t *msgt = mir_utf8decodeT(msg);
 	mir_sntprintf(info, TranslateT("%s denied invitation with message: %s"), whot, msgt ? msgt : L"");
 	GETPROTOBYID(id)->ChatEvent(room, who, GC_EVENT_INFORMATION, info);
 	mir_free(msgt);
@@ -98,7 +98,7 @@ void ext_yahoo_conf_userleave(int id, const char*, const char *who, const char *
 
 void ext_yahoo_conf_message(int id, const char*, const char *who, const char *room, const char *msg, int utf8)
 {
-	TCHAR *msgt = utf8 ? mir_utf8decodeT(msg) : mir_a2t(msg);
+	wchar_t *msgt = utf8 ? mir_utf8decodeT(msg) : mir_a2t(msg);
 	GETPROTOBYID(id)->ChatEvent(room, who, GC_EVENT_MESSAGE, msgt);
 	mir_free(msgt);
 }
@@ -150,7 +150,7 @@ void CYahooProto::ChatRegister(void)
 
 void CYahooProto::ChatStart(const char* room)
 {
-	TCHAR* idt = mir_a2t(room);
+	wchar_t* idt = mir_a2t(room);
 
 	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
@@ -178,7 +178,7 @@ void CYahooProto::ChatStart(const char* room)
 
 void CYahooProto::ChatLeave(const char* room)
 {
-	TCHAR* idt = mir_a2t(room);
+	wchar_t* idt = mir_a2t(room);
 
 	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -195,13 +195,13 @@ void CYahooProto::ChatLeaveAll(void)
 		ChatLeave(m_chatrooms[i].name);
 }
 
-void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const TCHAR* msg)
+void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const wchar_t* msg)
 {
-	TCHAR* idt = mir_a2t(room);
-	TCHAR* snt = mir_a2t(who);
+	wchar_t* idt = mir_a2t(room);
+	wchar_t* snt = mir_a2t(who);
 
 	MCONTACT hContact = getbuddyH(who);
-	TCHAR* nick = hContact ? (TCHAR*)pcli->pfnGetContactDisplayName(WPARAM(hContact), 0) : snt;
+	wchar_t* nick = hContact ? (wchar_t*)pcli->pfnGetContactDisplayName(WPARAM(hContact), 0) : snt;
 
 	GCDEST gcd = { m_szModuleName, idt, evt };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -340,7 +340,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Invite to chat dialog
 
-static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, YList* &who, char* room, CYahooProto* ppro, TCHAR *msg)
+static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, YList* &who, char* room, CYahooProto* ppro, wchar_t *msg)
 {
 	bool root = !hItem;
 	if (root)
@@ -356,7 +356,7 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, YList* &who, c
 			int chk = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
 			if (chk) {
 				if (IsHContactInfo(hItem)) {
-					TCHAR buf[128] = L"";
+					wchar_t buf[128] = L"";
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
 					who = y_list_append(who, mir_t2a(buf));
@@ -462,7 +462,7 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			switch (LOWORD(wParam)) {
 			case IDC_ADDSCR:
 				if (param->ppro->m_bLoggedIn) {
-					TCHAR sn[64];
+					wchar_t sn[64];
 					GetDlgItemText(hwndDlg, IDC_EDITSCR, sn, _countof(sn));
 
 					CLCINFOITEM cii = { 0 };
@@ -477,7 +477,7 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 			case IDOK:
 				{
-					TCHAR msg[1024];
+					wchar_t msg[1024];
 					GetDlgItemText(hwndDlg, IDC_MSG, msg, _countof(msg));
 
 					HWND hwndList = GetDlgItem(hwndDlg, IDC_CCLIST);
@@ -548,7 +548,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			case IDCANCEL:
 				if (cm) {
-					TCHAR msg[1024];
+					wchar_t msg[1024];
 					GetDlgItemText(hwndDlg, IDC_MSG2, msg, _countof(msg));
 					yahoo_conference_decline(param->ppro->m_id, NULL, cm->members, param->room, T2Utf(msg));
 

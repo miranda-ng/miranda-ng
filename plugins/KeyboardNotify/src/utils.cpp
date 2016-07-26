@@ -31,9 +31,9 @@ char *fmtDBSettingName(const char *fmt, ...)
 }
 
 
-TCHAR *getAbsoluteProfileName(TCHAR *absoluteProfileName, size_t maxLen)
+wchar_t *getAbsoluteProfileName(wchar_t *absoluteProfileName, size_t maxLen)
 {
-	TCHAR profilePath[MAX_PATH+1], profileName[MAX_PATH+1];
+	wchar_t profilePath[MAX_PATH+1], profileName[MAX_PATH+1];
 
 	profilePath[0] = profileName[0] = '\0';
 	CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)profilePath);

@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 # define __M_ACC_H__
 
 
-#define AVATAR_CONTROL_CLASS	_T( "MAvatarControlClass" ) // Class of the control
+#define AVATAR_CONTROL_CLASS	L"MAvatarControlClass" // Class of the control
 
 
 // Sets the contact that this avatar represents. This invalidates

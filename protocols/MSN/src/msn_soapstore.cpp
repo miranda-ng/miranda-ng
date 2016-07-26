@@ -504,7 +504,7 @@ bool CMsnProto::MSN_StoreDeleteRelationships(bool tile, bool allowRecurse)
 }
 
 
-bool CMsnProto::MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMimeType, const char *szPicData, bool allowRecurse)
+bool CMsnProto::MSN_StoreCreateDocument(const wchar_t *sztName, const char *szMimeType, const char *szPicData, bool allowRecurse)
 {
 	char* reqHdr;
 	ezxml_t tbdy;
@@ -586,7 +586,7 @@ bool CMsnProto::MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMime
 }
 
 
-bool CMsnProto::MSN_StoreUpdateDocument(const TCHAR *sztName, const char *szMimeType, const char *szPicData, bool allowRecurse)
+bool CMsnProto::MSN_StoreUpdateDocument(const wchar_t *sztName, const char *szMimeType, const char *szPicData, bool allowRecurse)
 {
 	char* reqHdr;
 	T2Utf szName(sztName);

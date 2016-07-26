@@ -26,14 +26,14 @@
 
 #include "../stdafx.h"
 
-static int sttCompareNicknames(const TCHAR *s1, const TCHAR *s2)
+static int sttCompareNicknames(const wchar_t *s1, const wchar_t *s2)
 {
 	if (s2 == NULL)
 		return 1;
 
 	// skip rubbish
-	while (*s1 && !_istalpha(*s1)) ++s1;
-	while (*s2 && !_istalpha(*s2)) ++s2;
+	while (*s1 && !iswalpha(*s1)) ++s1;
+	while (*s2 && !iswalpha(*s2)) ++s2;
 
 	// are there ~0veRy^kEwL_n1kz?
 	if (!*s1 && !*s2) return 0;
@@ -44,7 +44,7 @@ static int sttCompareNicknames(const TCHAR *s1, const TCHAR *s2)
 	return mir_tstrcmpi(s1, s2);
 }
 
-int UM_CompareItem(USERINFO *u1, const TCHAR* pszNick, WORD wStatus)
+int UM_CompareItem(USERINFO *u1, const wchar_t* pszNick, WORD wStatus)
 {
 	WORD dw1 = u1->Status;
 	WORD dw2 = wStatus;
@@ -108,12 +108,12 @@ SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h)
 	return NULL;
 }
 
-SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent)
+SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent)
 {
 	if (prevSession == NULL && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
 		return currSession;
 
-	TCHAR* pszName = NULL;
+	wchar_t* pszName = NULL;
 	if (currSession == prevSession)
 		pszCurrent = pszOriginal;
 

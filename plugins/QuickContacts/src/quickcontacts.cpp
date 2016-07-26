@@ -126,8 +126,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "Quick Contacts/Open dialog";
-	hkd.ptszDescription = LPGENT("Open dialog");
-	hkd.ptszSection = LPGENT("Quick Contacts");
+	hkd.ptszDescription = LPGENW("Open dialog");
+	hkd.ptszSection = LPGENW("Quick Contacts");
 	hkd.pszService = MS_QC_SHOW_DIALOG;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_ALT, 'Q');
 	Hotkey_Register(&hkd);
@@ -137,37 +137,37 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hkd.lParam = HOTKEY_FILE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'F');
 	hkd.pszName = "Quick Contacts/File";
-	hkd.ptszDescription = LPGENT("Send file");
+	hkd.ptszDescription = LPGENW("Send file");
 	Hotkey_Register(&hkd);
 
 	hkd.lParam = HOTKEY_URL;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'U');
 	hkd.pszName = "Quick Contacts/URL";
-	hkd.ptszDescription = LPGENT("Send URL");
+	hkd.ptszDescription = LPGENW("Send URL");
 	Hotkey_Register(&hkd);
 
 	hkd.lParam = HOTKEY_INFO;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'I');
 	hkd.pszName = "Quick Contacts/Info";
-	hkd.ptszDescription = LPGENT("Open user info");
+	hkd.ptszDescription = LPGENW("Open user info");
 	Hotkey_Register(&hkd);
 		
 	hkd.lParam = HOTKEY_HISTORY;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'H');
 	hkd.pszName = "Quick Contacts/History";
-	hkd.ptszDescription = LPGENT("Open history");
+	hkd.ptszDescription = LPGENW("Open history");
 	Hotkey_Register(&hkd);
 		
 	hkd.lParam = HOTKEY_MENU;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'M');
 	hkd.pszName = "Quick Contacts/Menu";
-	hkd.ptszDescription = LPGENT("Open contact menu");
+	hkd.ptszDescription = LPGENW("Open contact menu");
 	Hotkey_Register(&hkd);
 		
 	hkd.lParam = HOTKEY_ALL_CONTACTS;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'A');
 	hkd.pszName = "Quick Contacts/All Contacts";
-	hkd.ptszDescription = LPGENT("Show all contacts");
+	hkd.ptszDescription = LPGENW("Show all contacts");
 	Hotkey_Register(&hkd);
 
 	if (ServiceExists(MS_SKIN_ADDHOTKEY))
@@ -190,7 +190,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	SET_UID(mi, 0x3a3f768a, 0xcf47, 0x43d5, 0x92, 0x16, 0xe4, 0xeb, 0x93, 0xf6, 0x72, 0xfa);
 	mi.position = 500100001;
 	mi.flags = CMIF_TCHAR;
-	mi.name.t = LPGENT("Quick Contacts...");
+	mi.name.w = LPGENW("Quick Contacts...");
 	mi.pszService = MS_QC_SHOW_DIALOG;
 	Menu_AddMainMenuItem(&mi);
 	return 0;
@@ -223,10 +223,10 @@ int EventAdded(WPARAM wparam, LPARAM hDbEvent)
 
 // array where the contacts are put into
 struct c_struct {
-	TCHAR szname[120];
-	TCHAR szgroup[50];
+	wchar_t szname[120];
+	wchar_t szgroup[50];
 	MCONTACT hcontact;
-	TCHAR proto[20];
+	wchar_t proto[20];
 
 	c_struct()
 	{
@@ -243,11 +243,11 @@ long max_proto_width;
 
 // Get the name the contact has in list
 // This was not made to be called by more than one thread!
-TCHAR tmp_list_name[120];
+wchar_t tmp_list_name[120];
 
-TCHAR *GetListName(c_struct *cs)
+wchar_t *GetListName(c_struct *cs)
 {
-	if (opts.group_append && cs->szgroup[0] != _T('\0'))
+	if (opts.group_append && cs->szgroup[0] != '\0')
 	{
 		mir_sntprintf(tmp_list_name, L"%s (%s)", cs->szname, cs->szgroup);
 		return tmp_list_name;
@@ -259,13 +259,13 @@ TCHAR *GetListName(c_struct *cs)
 }
 
 
-int lstreq(TCHAR *a, TCHAR *b, size_t len = -1)
+int lstreq(wchar_t *a, wchar_t *b, size_t len = -1)
 {
-	a = CharLower(_tcsdup(a));
-	b = CharLower(_tcsdup(b));
+	a = CharLower(wcsdup(a));
+	b = CharLower(wcsdup(b));
 	int ret;
 	if (len > 0)
-		ret = _tcsncmp(a, b, len);
+		ret = wcsncmp(a, b, len);
 	else
 		ret = mir_tstrcmp(a, b);
 	free(a);
@@ -410,7 +410,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		}
 
 		// Make contact name
-		TCHAR *tmp = (TCHAR *) pcli->pfnGetContactDisplayName(hContact, 0);
+		wchar_t *tmp = (wchar_t *) pcli->pfnGetContactDisplayName(hContact, 0);
 		mir_tstrncpy(contact->szname, tmp, _countof(contact->szname));
 
 		PROTOACCOUNT *acc = Proto_GetAccount(pszProto);
@@ -476,11 +476,11 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 
 
 // check if the char(s) entered appears in a contacts name
-int CheckText(HWND hdlg, TCHAR *sztext, BOOL only_enable = FALSE)
+int CheckText(HWND hdlg, wchar_t *sztext, BOOL only_enable = FALSE)
 {
 	EnableButtons(hwndMain, NULL);
 
-	if(sztext == NULL || sztext[0] == _T('\0'))
+	if(sztext == NULL || sztext[0] == '\0')
 		return 0;
 
 	size_t len = mir_tstrlen(sztext);
@@ -527,7 +527,7 @@ MCONTACT GetSelectedContact(HWND hwndDlg)
 	}
 
 	// Now try the name
-	TCHAR cname[120] = L"";
+	wchar_t cname[120] = L"";
 
 	GetDlgItemText(hwndDlg, IDC_USERNAME, cname, _countof(cname));
 			
@@ -562,7 +562,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			if (wparam<32 && wparam != VK_BACK) 
 				break;
 
-			TCHAR sztext[120] = L"";
+			wchar_t sztext[120] = L"";
 			DWORD start;
 			DWORD end;
 
@@ -597,7 +597,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		}
 	case WM_KEYUP:
 		{
-			TCHAR sztext[120] = L"";
+			wchar_t sztext[120] = L"";
 
 			if (wparam == VK_RETURN)
 			{
@@ -708,10 +708,10 @@ BOOL MoveWindow(HWND hWnd, const RECT &rect, BOOL bRepaint)
 }
 
 
-static void FillButton(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key, HICON icon)
+static void FillButton(HWND hwndDlg, int dlgItem, wchar_t *name, wchar_t *key, HICON icon)
 {
-	TCHAR tmp[256];
-	TCHAR *full = tmp;
+	wchar_t tmp[256];
+	wchar_t *full = tmp;
 
 	if (key == NULL)
 		full = TranslateTS(name);
@@ -724,10 +724,10 @@ static void FillButton(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key, HICON
 }
 
 
-static void FillCheckbox(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key)
+static void FillCheckbox(HWND hwndDlg, int dlgItem, wchar_t *name, wchar_t *key)
 {
-	TCHAR tmp[256];
-	TCHAR *full = tmp;
+	wchar_t tmp[256];
+	wchar_t *full = tmp;
 
 	if (key == NULL)
 		full = TranslateTS(name);
@@ -762,13 +762,13 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			mir_subclassWindow(GetWindow(GetDlgItem(hwndDlg, IDC_USERNAME),GW_CHILD), EditProc);
 
 			// Buttons
-			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENT("Show all contacts"), hasNewHotkeyModule ? NULL : L"Ctrl+A");
-			FillButton(hwndDlg, IDC_MESSAGE, LPGENT("Send message"), NULL, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-			FillButton(hwndDlg, IDC_FILE, LPGENT("Send file"), hasNewHotkeyModule ? NULL : L"Ctrl+F", Skin_LoadIcon(SKINICON_EVENT_FILE));
-			FillButton(hwndDlg, IDC_URL, LPGENT("Send URL"), hasNewHotkeyModule ? NULL : L"Ctrl+U", Skin_LoadIcon(SKINICON_EVENT_URL));
-			FillButton(hwndDlg, IDC_USERINFO, LPGENT("Open user info"), hasNewHotkeyModule ? NULL : L"Ctrl+I", Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
-			FillButton(hwndDlg, IDC_HISTORY, LPGENT("Open history"), hasNewHotkeyModule ? NULL : L"Ctrl+H", Skin_LoadIcon(SKINICON_OTHER_HISTORY));
-			FillButton(hwndDlg, IDC_MENU, LPGENT("Open contact menu"), hasNewHotkeyModule ? NULL : L"Ctrl+M", Skin_LoadIcon(SKINICON_OTHER_DOWNARROW));
+			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENW("Show all contacts"), hasNewHotkeyModule ? NULL : L"Ctrl+A");
+			FillButton(hwndDlg, IDC_MESSAGE, LPGENW("Send message"), NULL, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+			FillButton(hwndDlg, IDC_FILE, LPGENW("Send file"), hasNewHotkeyModule ? NULL : L"Ctrl+F", Skin_LoadIcon(SKINICON_EVENT_FILE));
+			FillButton(hwndDlg, IDC_URL, LPGENW("Send URL"), hasNewHotkeyModule ? NULL : L"Ctrl+U", Skin_LoadIcon(SKINICON_EVENT_URL));
+			FillButton(hwndDlg, IDC_USERINFO, LPGENW("Open user info"), hasNewHotkeyModule ? NULL : L"Ctrl+I", Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
+			FillButton(hwndDlg, IDC_HISTORY, LPGENW("Open history"), hasNewHotkeyModule ? NULL : L"Ctrl+H", Skin_LoadIcon(SKINICON_OTHER_HISTORY));
+			FillButton(hwndDlg, IDC_MENU, LPGENW("Open contact menu"), hasNewHotkeyModule ? NULL : L"Ctrl+M", Skin_LoadIcon(SKINICON_OTHER_DOWNARROW));
 
 			SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETEXTENDEDUI, TRUE, 0);
 
@@ -956,7 +956,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 				// Get old text
 				HWND hEdit = GetWindow(GetWindow(hwndDlg,GW_CHILD),GW_CHILD);
-				TCHAR sztext[120] = L"";
+				wchar_t sztext[120] = L"";
 
 				if (SendMessage(hEdit, EM_GETSEL, 0, 0) != -1)
 					SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM)L"");
@@ -1076,7 +1076,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 
 			// Draw text
-			TCHAR *name;
+			wchar_t *name;
 			if (opts.group_append && !opts.group_column)
 				name = GetListName(contacts[lpdis->itemData]);
 			else

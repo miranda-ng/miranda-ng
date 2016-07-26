@@ -65,7 +65,7 @@ struct SrmmWindowData : public MZeroedObject
 	WORD wStatus;
 	WORD wOldStatus;
 	int cmdListInd;
-	LIST<TCHAR> cmdList;
+	LIST<wchar_t> cmdList;
 	bool bIsAutoRTL, bIsMeta;
 	WORD wMinute;
 
@@ -126,7 +126,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 int  DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 int  DbEventIsShown(DBEVENTINFO *dbei);
 void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend);
-int  SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto);
+int  SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact, char *szProto);
 INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar);
 
 void LoadMsgLogIcons(void);

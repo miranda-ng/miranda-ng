@@ -139,7 +139,7 @@ void LogWumf(PWumf w)
 	if (hLogger == NULL) {
 		hLogger = mir_createLog("wumf", L"WhoIsUsingMyFiles log file", WumfOptions.LogFile, 0);
 		if (hLogger == NULL) {
-			TCHAR str[256];
+			wchar_t str[256];
 			mir_sntprintf(str, L"Can't open log file %s", WumfOptions.LogFile);
 			MessageBox(NULL, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);
 			WumfOptions.LogToFile = FALSE;
@@ -150,7 +150,7 @@ void LogWumf(PWumf w)
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
-	TCHAR lpDateStr[20], lpTimeStr[20];
+	wchar_t lpDateStr[20], lpTimeStr[20];
 	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &time, NULL, lpDateStr, 20);
 	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &time, NULL, lpTimeStr, 20);
 	mir_writeLogT(hLogger, L"%s %s %20s\t%s\r\n", lpDateStr, lpTimeStr, w->szUser, w->szPath);

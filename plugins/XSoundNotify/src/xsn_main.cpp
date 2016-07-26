@@ -76,7 +76,7 @@ void InitSelfSounds()
 			char namebuf[128];
 			mir_snprintf(namebuf, "%s%s", protos[i]->szModuleName, selfSounds[j].szName);
 
-			TCHAR infobuf[256];
+			wchar_t infobuf[256];
 			mir_sntprintf(infobuf, L"%s [%s]", TranslateT("Self status"), protos[i]->tszAccountName);
 			SkinAddNewSoundExT(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
 		}
@@ -118,7 +118,7 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 	isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
 	DBVARIANT dbv;
 	if (!isIgnoreSound && !db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
-		TCHAR PlaySoundPath[MAX_PATH] = { 0 };
+		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 		PathToAbsoluteT(dbv.ptszVal, PlaySoundPath);
 		isOwnSound = 0;
 		SkinPlaySoundFile(PlaySoundPath);
@@ -144,11 +144,11 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 		ptrT nick(db_get_tsa(hContact, gcd->pszModule, "MyNick"));
 		if (nick == NULL || gce->ptszText == NULL)
 			return 0;
-		if (_tcsstr(gce->ptszText, nick)) {
+		if (wcsstr(gce->ptszText, nick)) {
 			isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
 			DBVARIANT dbv;
 			if (!isIgnoreSound && !db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
-				TCHAR PlaySoundPath[MAX_PATH] = { 0 };
+				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 				PathToAbsoluteT(dbv.ptszVal, PlaySoundPath);
 				isOwnSound = 0;
 				SkinPlaySoundFile(PlaySoundPath);
@@ -182,7 +182,7 @@ static int OnLoadInit(WPARAM, LPARAM)
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.t = LPGENT("Custom contact sound");
+	mi.name.w = LPGENW("Custom contact sound");
 	mi.pszService = "XSoundNotify/ContactMenuCommand";
 	hChangeSound = Menu_AddContactMenuItem(&mi);
 

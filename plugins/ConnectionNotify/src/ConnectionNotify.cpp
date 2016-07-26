@@ -39,7 +39,7 @@ struct CONNECTION *connExceptionsTmp = NULL;
 struct CONNECTION *connCurrentEditModal = NULL;
 int currentStatus = ID_STATUS_OFFLINE, diffstat = 0;
 BOOL bOptionsOpen = FALSE;
-TCHAR *tcpStates[] = { L"CLOSED", L"LISTEN", L"SYN_SENT", L"SYN_RCVD", L"ESTAB", L"FIN_WAIT1", L"FIN_WAIT2", L"CLOSE_WAIT", L"CLOSING", L"LAST_ACK", L"TIME_WAIT", L"DELETE_TCB" };
+wchar_t *tcpStates[] = { L"CLOSED", L"LISTEN", L"SYN_SENT", L"SYN_RCVD", L"ESTAB", L"FIN_WAIT1", L"FIN_WAIT2", L"CLOSE_WAIT", L"CLOSING", L"LAST_ACK", L"TIME_WAIT", L"DELETE_TCB" };
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -62,22 +62,22 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CONNEC
 //=========================================================================================
 
 
-BOOL strrep(TCHAR *src, TCHAR *needle, TCHAR *newstring)
+BOOL strrep(wchar_t *src, wchar_t *needle, wchar_t *newstring)
 {
-	TCHAR *found, begining[MAX_SETTING_STR], tail[MAX_SETTING_STR];
+	wchar_t *found, begining[MAX_SETTING_STR], tail[MAX_SETTING_STR];
 	size_t pos = 0;
 
 	//strset(begining, ' ');
 	//strset(tail, ' ');
-	if (!(found = _tcsstr(src, needle)))
+	if (!(found = wcsstr(src, needle)))
 		return FALSE;
 
 	pos = (found - src);
-	_tcsncpy_s(begining, src, pos);
+	wcsncpy_s(begining, src, pos);
 	begining[pos] = 0;
 
 	pos = pos + mir_tstrlen(needle);
-	_tcsncpy_s(tail, src + pos, _TRUNCATE);
+	wcsncpy_s(tail, src + pos, _TRUNCATE);
 	begining[pos] = 0;
 
 	pos = mir_sntprintf(src, mir_tstrlen(src), L"%s%s%s", begining, newstring, tail);
@@ -187,7 +187,7 @@ void fillExceptionsListView(HWND hwndDlg)
 	// items. 
 	lvI.mask = LVIF_TEXT;
 	while (tmp) {
-		TCHAR tmpAddress[25];
+		wchar_t tmpAddress[25];
 		lvI.iItem = i++;
 		lvI.iSubItem = 0;
 		lvI.pszText = tmp->PName;
@@ -207,7 +207,7 @@ void fillExceptionsListView(HWND hwndDlg)
 		lvI.pszText = tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem = 3;
-		lvI.pszText = tmp->Pid ? LPGENT("Show") : LPGENT("Hide");
+		lvI.pszText = tmp->Pid ? LPGENW("Show") : LPGENW("Hide");
 		ListView_SetItem(hwndList, &lvI);
 
 		tmp = tmp->next;
@@ -246,7 +246,7 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 		switch (LOWORD(wParam)) {
 		case ID_OK:
 			{
-				TCHAR tmpPort[6];
+				wchar_t tmpPort[6];
 				GetDlgItemText(hWnd, ID_TXT_LOCAL_PORT, tmpPort, _countof(tmpPort));
 				if (tmpPort[0] == '*')
 					connCurrentEditModal->intIntPort = -1;
@@ -294,7 +294,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			LVCOLUMN lvc = { 0 };
 			LVITEM lvI = { 0 };
-			TCHAR buff[256];
+			wchar_t buff[256];
 			bOptionsOpen = TRUE;
 			TranslateDialogDefault(hwndDlg);//translate miranda function
 			#ifdef _WIN64
@@ -588,8 +588,8 @@ int ConnectionNotifyOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
-	odp.ptszTitle = _T(PLUGINNAME);
-	odp.ptszGroup = LPGENT("Plugins");
+	odp.pwszTitle = _T(PLUGINNAME);
+	odp.pwszGroup = LPGENW("Plugins");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcConnectionNotifyOpts;//callback function name
 	Options_AddPage(wParam, &odp);
@@ -698,7 +698,7 @@ static unsigned __stdcall checkthread(void *)
 			if (searchConnection(first, cur->strIntIp, cur->strExtIp, cur->intIntPort, cur->intExtPort, cur->state) == NULL && (settingStatusMask & (1 << (cur->state - 1)))) {
 
 				#ifdef _DEBUG
-				TCHAR msg[1024];
+				wchar_t msg[1024];
 				mir_sntprintf(msg, L"%s:%d\n%s:%d", cur->strIntIp, cur->intIntPort, cur->strExtIp, cur->intExtPort);
 				_OutputDebugString(L"New connection: %s", msg);
 				#endif
@@ -759,7 +759,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 
 //show popup
-void showMsg(TCHAR *pName, DWORD pid, TCHAR *intIp, TCHAR *extIp, int intPort, int extPort, int state)
+void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
 {
 
 	POPUPDATAT ppd;
@@ -777,7 +777,7 @@ void showMsg(TCHAR *pName, DWORD pid, TCHAR *intIp, TCHAR *extIp, int intPort, i
 	ppd.lchContact = NULL;//(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 	if (settingResolveIp) {
-		TCHAR hostName[128];
+		wchar_t hostName[128];
 		getDnsName(extIp, hostName, _countof(hostName));
 		mir_sntprintf(ppd.lptzText, L"%s:%d\n%s:%d", hostName, extPort, intIp, intPort);
 	}
@@ -793,9 +793,9 @@ void showMsg(TCHAR *pName, DWORD pid, TCHAR *intIp, TCHAR *extIp, int intPort, i
 
 	ppd.iSeconds = settingInterval1;
 	//Now the "additional" data.
-	_tcsncpy_s(mpd->strIntIp, intIp, _TRUNCATE);
-	_tcsncpy_s(mpd->strExtIp, extIp, _TRUNCATE);
-	_tcsncpy_s(mpd->PName, pName, _TRUNCATE);
+	wcsncpy_s(mpd->strIntIp, intIp, _TRUNCATE);
+	wcsncpy_s(mpd->strExtIp, extIp, _TRUNCATE);
+	wcsncpy_s(mpd->PName, pName, _TRUNCATE);
 	mpd->intIntPort = intPort;
 	mpd->intExtPort = extPort;
 	mpd->Pid = pid;

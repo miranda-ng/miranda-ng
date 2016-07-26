@@ -126,7 +126,7 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 		break;
 
 	default:
-		TCHAR szMsgBuf[256];
+		wchar_t szMsgBuf[256];
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), NULL);
 		tszMsg += szMsgBuf;
 	}

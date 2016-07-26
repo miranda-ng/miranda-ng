@@ -96,7 +96,7 @@ UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
 	try {
-		const TCHAR *folderName = ftp->GetFolderName();
+		const wchar_t *folderName = ftp->GetFolderName();
 		if (folderName) {
 			char path[MAX_PATH], url[MAX_PATH];
 			PreparePath(folderName, path);
@@ -108,7 +108,7 @@ UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 		ftp->FirstFile();
 		do
 		{
-			const TCHAR *fileName = ftp->GetCurrentRelativeFilePath();
+			const wchar_t *fileName = ftp->GetCurrentRelativeFilePath();
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
 			int chunkSize = ftp->GetCurrentFileChunkSize();
@@ -139,9 +139,9 @@ UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 				size = 0;
 
 			char path[MAX_PATH];
-			const TCHAR *serverFolder = ftp->GetServerFolder();
+			const wchar_t *serverFolder = ftp->GetServerFolder();
 			if (serverFolder) {
-				TCHAR serverPath[MAX_PATH] = { 0 };
+				wchar_t serverPath[MAX_PATH] = { 0 };
 				mir_sntprintf(serverPath, L"%s\\%s", serverFolder, fileName);
 				PreparePath(serverPath, path);
 			}
@@ -151,7 +151,7 @@ UINT CDropbox::UploadToDropbox(void *owner, void *arg)
 
 			ftp->Progress(size);
 
-			if (!_tcschr(fileName, L'\\')) {
+			if (!wcschr(fileName, L'\\')) {
 				char url[MAX_PATH];
 				instance->CreateDownloadUrl(path, url);
 				ftp->AppendFormatData(L"%s\r\n", ptrT(mir_utf8decodeT(url)));

@@ -47,8 +47,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "fancy_rtf.h"
 #include "textcontrol.h"
 
-#define MODULNAME					"MTextControl"		//DB modul for this plugin
-#define MODULTITLE					"Text Display"
+#define MODULNAME "MTextControl" // DB module for this plugin
+#define MODULNAMEW L"MTextControl" // DB module for this plugin
+
+#define MODULTITLE "Text Display"
 
 // globals
 extern HINSTANCE		hInst;

@@ -179,7 +179,7 @@ INT_PTR CheckRestart()
 {
 	LPCTSTR tszPID = CmdLine_GetOption(L"restart");
 	if (tszPID) {
-		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _ttol(tszPID));
+		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _wtol(tszPID));
 		if (hProcess) {
 			INT_PTR result = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WAITRESTART), NULL, WaitForProcessDlgProc, (LPARAM)hProcess);
 			CloseHandle(hProcess);
@@ -324,7 +324,7 @@ static INT_PTR OkToExit(WPARAM, LPARAM)
 
 static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 {
-	TCHAR filename[MAX_PATH];
+	wchar_t filename[MAX_PATH];
 	GetModuleFileName(g_hInst, filename, _countof(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
@@ -343,7 +343,7 @@ static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 
 static INT_PTR GetMirandaFileVersion(WPARAM, LPARAM lParam)
 {
-	TCHAR filename[MAX_PATH];
+	wchar_t filename[MAX_PATH];
 	GetModuleFileName(g_hInst, filename, _countof(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
@@ -364,7 +364,7 @@ static INT_PTR GetMirandaFileVersion(WPARAM, LPARAM lParam)
 
 static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR filename[MAX_PATH], *productVersion;
+	wchar_t filename[MAX_PATH], *productVersion;
 	GetModuleFileName(g_hInst, filename, _countof(filename));
 
 	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);

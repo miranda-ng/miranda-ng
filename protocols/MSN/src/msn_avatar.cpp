@@ -71,7 +71,7 @@ LBL_Error:
 		return false;
 	}
 
-	const TCHAR *szExt;
+	const wchar_t *szExt;
 	int fmt = ProtoGetBufferFormat(nlhrReply->pData, &szExt);
 	if (fmt == PA_FORMAT_UNKNOWN)
 		goto LBL_Error;
@@ -80,9 +80,9 @@ LBL_Error:
 	ai.format = fmt;
 	ai.hContact = p->hContact;
 	MSN_GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename), szExt);
-	_tremove(ai.filename);
+	_wremove(ai.filename);
 
-	int fileId = _topen(ai.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
+	int fileId = _wopen(ai.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
 	if (fileId == -1)
 		goto LBL_Error;
 

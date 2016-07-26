@@ -42,10 +42,10 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	char *msgblob;
 	char protoOption[256] = {0};
 	int buflen = MAX_BUFFER_LENGTH;
-	TCHAR buf[MAX_BUFFER_LENGTH];
-	TCHAR *message = NULL, *challengeW = NULL, *tmpW = NULL;
-	TCHAR *whitelist = NULL, *ptok;
-	TCHAR mexpr[64];
+	wchar_t buf[MAX_BUFFER_LENGTH];
+	wchar_t *message = NULL, *challengeW = NULL, *tmpW = NULL;
+	wchar_t *whitelist = NULL, *ptok;
+	wchar_t mexpr[64];
 	int maxmsglen = 0, a, b, i;
 	BOOL bayesEnabled = _getOptB("BayesEnabled", defaultBayesEnabled);
 	BOOL bCorrectResponse = FALSE;
@@ -132,20 +132,20 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	/*** Check for words in white-list ***/
 
 	if (_getOptB("ApproveOnMsgIn", defaultApproveOnMsgIn)) {
-		whitelist = (TCHAR*)malloc(2048 * sizeof(TCHAR));
+		whitelist = (wchar_t*)malloc(2048 * sizeof(wchar_t));
 		if (whitelist != NULL) {
 			_getOptS(whitelist, 2048, "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist);
 			if (_isregex(whitelist)) {
 				if (_regmatch(message, whitelist))
 					bCorrectResponse = TRUE;
 			} else {
-				ptok = _tcstok(whitelist, L" ");
+				ptok = wcstok(whitelist, L" ");
 				while (ptok != NULL) {
-					if (_tcsstr(message, ptok)) {
+					if (wcsstr(message, ptok)) {
 						bCorrectResponse = TRUE;
 						break;
 					}
-					ptok = _tcstok(NULL, L" ");
+					ptok = wcstok(NULL, L" ");
 				}
 			}
 			free(whitelist);
@@ -207,8 +207,8 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		case SPAMOTRON_MODE_MATH:
 			if (message == NULL)
 				break;
-			_itot(_getCOptD(hContact, "ResponseMath", -1), buf, 10);
-			if (_tcsstr(message, buf) && (mir_tstrlen(buf) == mir_tstrlen(message))) {
+			_itow(_getCOptD(hContact, "ResponseMath", -1), buf, 10);
+			if (wcsstr(message, buf) && (mir_tstrlen(buf) == mir_tstrlen(message))) {
 				bCorrectResponse = TRUE;
 			}
 			break;
@@ -232,7 +232,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		// Resubmit pending authorization request
 		if (_getCOptB(hContact, "AuthEventPending", FALSE)) {
 			DBVARIANT _dbv;
-			TCHAR AuthEventModule[100];
+			wchar_t AuthEventModule[100];
 			char* szAuthEventModule;
 			if (db_get(hContact, PLUGIN_NAME, "AuthEvent", &_dbv) == 0) {
 				DBEVENTINFO *_dbei = (DBEVENTINFO *)malloc(sizeof(DBEVENTINFO));
@@ -344,8 +344,8 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		
 	/*** Send Challenge ***/
 
-	challengeW = (TCHAR *)malloc(maxmsglen*sizeof(TCHAR));
-	tmpW = (TCHAR *)malloc(maxmsglen*sizeof(TCHAR));
+	challengeW = (wchar_t *)malloc(maxmsglen*sizeof(wchar_t));
+	tmpW = (wchar_t *)malloc(maxmsglen*sizeof(wchar_t));
 	switch (_getOptB("Mode", defaultMode)) {
 	case SPAMOTRON_MODE_PLAIN:
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST)

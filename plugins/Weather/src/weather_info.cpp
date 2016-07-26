@@ -32,7 +32,7 @@ regrading the loading of ini contents
 // List INI Information for all loaded INI files
 static void INIInfo(HWND hwndDlg)
 {
-	TCHAR str[16];
+	wchar_t str[16];
 	size_t memused = 0;
 
 
@@ -67,7 +67,7 @@ static void INIInfo(HWND hwndDlg)
 		}
 		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 4;
-		lvi.pszText = _ltot(Item->Data.UpdateDataCount, str, 10);
+		lvi.pszText = _ltow(Item->Data.UpdateDataCount, str, 10);
 		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 5;
 		lvi.pszText = Item->Data.DisplayName;
@@ -80,24 +80,24 @@ static void INIInfo(HWND hwndDlg)
 
 		++lvi.iItem;
 	}
-	SetDlgItemText(hwndDlg, IDC_INICOUNT, _itot(lvi.iItem, str, 10));
-	SetDlgItemText(hwndDlg, IDC_MEMUSED, _ltot((long)memused, str, 10));
+	SetDlgItemText(hwndDlg, IDC_INICOUNT, _itow(lvi.iItem, str, 10));
+	SetDlgItemText(hwndDlg, IDC_MEMUSED, _ltow((long)memused, str, 10));
 }
 
 static const struct tag_Columns
 {
-	const TCHAR *name;
+	const wchar_t *name;
 	unsigned size;
 }
 columns[] =
 {
-	{ LPGENT("Name"), 70 },
-	{ LPGENT("Author"), 100 },
-	{ LPGENT("File Version"), 70 },
-	{ LPGENT("INI Version"), 70 },
-	{ LPGENT("Items"), 40 },
-	{ LPGENT("Display Name"), 200 },
-	{ LPGENT("File Name"), 150 },
+	{ LPGENW("Name"), 70 },
+	{ LPGENW("Author"), 100 },
+	{ LPGENW("File Version"), 70 },
+	{ LPGENW("INI Version"), 70 },
+	{ LPGENW("Items"), 40 },
+	{ LPGENW("Display Name"), 200 },
+	{ LPGENW("File Name"), 150 },
 };
 
 
@@ -141,9 +141,9 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 
 // get the info of individual ini file
 // pszSvc = the internal name of the service to get the data
-void GetINIInfo(TCHAR *pszSvc)
+void GetINIInfo(wchar_t *pszSvc)
 {
-	TCHAR str2[2048];
+	wchar_t str2[2048];
 	WIDATA *sData = GetWIData(pszSvc);
 	// if the service does not exist among the loaded INI's
 	if (sData == NULL) {
@@ -207,10 +207,10 @@ void GetINIInfo(TCHAR *pszSvc)
 // can be found when click on "More" in text option dialog
 void MoreVarList(void)
 {
-	TCHAR str[10240], tempstr[1024];
+	wchar_t str[10240], tempstr[1024];
 
 	// heading
-	_tcsncpy(str, VARS_LIST, _countof(str) - 1);
+	wcsncpy(str, VARS_LIST, _countof(str) - 1);
 	mir_tstrncat(str, L"\n\n", _countof(str) - mir_tstrlen(str));
 	// loop through all weather services to find custom variables
 	for (WIDATALIST *Item = WIHead; Item != NULL; Item = Item->next) {
@@ -220,7 +220,7 @@ void MoreVarList(void)
 			// ignore the "hi" item and hidden items
 			if (mir_tstrcmp(WItem->Item.Name, L"Ignore") && WItem->Item.Name[0] != '#') {
 				mir_sntprintf(tempstr, L"%c[%s]", '%', WItem->Item.Name);
-				TCHAR *find = _tcsstr(str, tempstr);
+				wchar_t *find = wcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == NULL) {
 					mir_tstrncat(str, tempstr, _countof(str) - mir_tstrlen(str));
@@ -230,7 +230,7 @@ void MoreVarList(void)
 		}
 	}
 	// remove the last comma in the list
-	TCHAR* find = _tcsrchr(str, ',');
+	wchar_t* find = wcsrchr(str, ',');
 	if (find != NULL)
 		*find = '\0';
 

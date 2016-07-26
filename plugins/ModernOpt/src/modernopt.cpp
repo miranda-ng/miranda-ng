@@ -69,15 +69,15 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 // Main option pages
 struct ModernOptMainPageInfo g_ModernOptPages[MODERNOPT_PAGE_COUNT] =
 {
-	{0,					FALSE,	IDI_MIRANDA,		LPGENT("Home"),			LPGENT("Miranda NG configuration center")},
-	{IDC_BTN_ACCOUNTS,	TRUE,	IDI_BIG_NETWORK,	LPGENT("Accounts"),		LPGENT("Setup your account information to start messaging.")},
-	{IDC_BTN_SKINS,		TRUE,	IDI_BIG_SKINS,		LPGENT("Style"),		LPGENT("Change the look of Miranda NG according to your taste.")},
-	{IDC_BTN_CLIST,		TRUE,	IDI_BIG_BUDDYLIST,	LPGENT("Contacts"),		LPGENT("Configure behavior of your contact list.")},
-	{IDC_BTN_MESSAGING,	TRUE,	IDI_BIG_MESSAGE,	LPGENT("Chats"),		LPGENT("Customize look&&feel of your chat windows here.")},
-	{IDC_BTN_IGNORE,	TRUE,	IDI_BIG_IGNORE,		LPGENT("Ignore"),		LPGENT("Ban those users and events, you are annoyed with.")},
-	{IDC_BTN_STATUS,	TRUE,	IDI_BIG_STATUS,		LPGENT("Status"),		LPGENT("Set your status messages and idle reporting.")},
-	{IDC_BTN_ADVANCED,	TRUE,	IDI_BIG_ADVANCED,	LPGENT("Advanced"),		LPGENT("")},
-	{IDC_BTN_PLUGINS,	TRUE,	IDI_BIG_MODULES,	LPGENT("Plugins"),		LPGENT("Miranda NG is all about plugins. Manage all the plugins you have here.")},
+	{0,					FALSE,	IDI_MIRANDA,		LPGENW("Home"),			LPGENW("Miranda NG configuration center")},
+	{IDC_BTN_ACCOUNTS,	TRUE,	IDI_BIG_NETWORK,	LPGENW("Accounts"),		LPGENW("Setup your account information to start messaging.")},
+	{IDC_BTN_SKINS,		TRUE,	IDI_BIG_SKINS,		LPGENW("Style"),		LPGENW("Change the look of Miranda NG according to your taste.")},
+	{IDC_BTN_CLIST,		TRUE,	IDI_BIG_BUDDYLIST,	LPGENW("Contacts"),		LPGENW("Configure behavior of your contact list.")},
+	{IDC_BTN_MESSAGING,	TRUE,	IDI_BIG_MESSAGE,	LPGENW("Chats"),		LPGENW("Customize look&&feel of your chat windows here.")},
+	{IDC_BTN_IGNORE,	TRUE,	IDI_BIG_IGNORE,		LPGENW("Ignore"),		LPGENW("Ban those users and events, you are annoyed with.")},
+	{IDC_BTN_STATUS,	TRUE,	IDI_BIG_STATUS,		LPGENW("Status"),		LPGENW("Set your status messages and idle reporting.")},
+	{IDC_BTN_ADVANCED,	TRUE,	IDI_BIG_ADVANCED,	LPGENW("Advanced"),		LPGENW("")},
+	{IDC_BTN_PLUGINS,	TRUE,	IDI_BIG_MODULES,	LPGENW("Plugins"),		LPGENW("Miranda NG is all about plugins. Manage all the plugins you have here.")},
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -371,7 +371,7 @@ static HWND ModernOptUI_ShowPage_Impl(HWND hwndDlg, struct ModernOptionsData *da
 	return obj->hwnd;
 }
 
-static int lstrcmp_null(TCHAR *p1, TCHAR *p2)
+static int lstrcmp_null(wchar_t *p1, wchar_t *p2)
 {
 	if (!p1 && !p2) return 0;
 	if (!p1) return -1;

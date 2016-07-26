@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 BOOL g_bFileActive;
-static TCHAR *g_ptszFileStamp, *g_ptszFileName;
+static wchar_t *g_ptszFileStamp, *g_ptszFileName;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Prepares the log file:
@@ -35,8 +35,8 @@ void InitFileOutput(void)
 		tszFileName = mir_tstrdup(DEFAULT_FILENAME);
 	replaceStrT(g_ptszFileName, VARST(tszFileName));
 
-	TCHAR *tszPath = NEWTSTR_ALLOCA(g_ptszFileName);
-	TCHAR *p = _tcsrchr(tszPath, '\\');
+	wchar_t *tszPath = NEWWSTR_ALLOCA(g_ptszFileName);
+	wchar_t *p = wcsrchr(tszPath, '\\');
 	if (p) *p = 0;
 	CreateDirectoryTreeT(tszPath);
 	
@@ -55,9 +55,9 @@ void UninitFileOutput()
 
 void FileWrite(MCONTACT hcontact)
 {
-	FILE *log = _tfopen(ParseString(g_ptszFileName, hcontact), L"a");
+	FILE *log = _wfopen(ParseString(g_ptszFileName, hcontact), L"a");
 	if (log != NULL) {
-		_fputts(ParseString(g_ptszFileStamp, hcontact), log);
+		fputws(ParseString(g_ptszFileStamp, hcontact), log);
 		fputs("\r\n", log);
 		fclose(log);
 	}

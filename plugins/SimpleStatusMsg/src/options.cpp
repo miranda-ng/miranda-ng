@@ -61,15 +61,15 @@ static LRESULT CALLBACK OptEditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000)	// Ctrl + Backspace
 		{
 			DWORD start, end;
-			TCHAR *text;
+			wchar_t *text;
 			int textLen;
 			SendMessage(hwndDlg, EM_GETSEL, (WPARAM)&end, NULL);
 			SendMessage(hwndDlg, WM_KEYDOWN, VK_LEFT, 0);
 			SendMessage(hwndDlg, EM_GETSEL, (WPARAM)&start, NULL);
 			textLen = GetWindowTextLength(hwndDlg);
-			text = (TCHAR *)mir_alloc(sizeof(TCHAR) * (textLen + 1));
+			text = (wchar_t *)mir_alloc(sizeof(wchar_t) * (textLen + 1));
 			GetWindowText(hwndDlg, text, textLen + 1);
-			memmove(text + start, text + end, sizeof(TCHAR) * (textLen + 1 - end));
+			memmove(text + start, text + end, sizeof(wchar_t) * (textLen + 1 - end));
 			SetWindowText(hwndDlg, text);
 			mir_free(text);
 			SendMessage(hwndDlg, EM_SETSEL, start, start);
@@ -85,14 +85,14 @@ static LRESULT CALLBACK OptEditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 struct SingleProtoMsg
 {
 	int flags;
-	TCHAR *msg;
+	wchar_t *msg;
 	int max_length;
 };
 
 struct SingleStatusMsg
 {
 	int flags[9];
-	TCHAR msg[9][1024];
+	wchar_t msg[9][1024];
 };
 
 struct OptDlgData
@@ -451,7 +451,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 							if (szSetting)
 							{
-								TCHAR *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+								wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
 								if (tszStatusMsg && mir_tstrlen(tszStatusMsg))
 								{
 									if (tszStatusMsg && mir_tstrlen(tszStatusMsg))
@@ -489,7 +489,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							else
 								mir_snprintf(setting, "Msg");
 
-							TCHAR *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
+							wchar_t *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
 							if (tszStatusMsg)
 							{
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -602,7 +602,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 							if (szSetting != NULL)
 							{
-								TCHAR *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+								wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
 								if (tszStatusMsg)
 								{
 									if (tszStatusMsg[0])
@@ -639,7 +639,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							else
 								mir_snprintf(setting, "Msg");
 
-							TCHAR *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
+							wchar_t *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
 							if (tszStatusMsg != NULL)
 							{
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -697,7 +697,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 						if (szSetting != NULL)
 						{
-							TCHAR *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+							wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
 							if (tszStatusMsg)
 							{
 								if (tszStatusMsg[0])
@@ -726,7 +726,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						else
 							mir_snprintf(setting, "Msg");
 
-						TCHAR *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
+						wchar_t *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
 						if (tszStatusMsg != NULL)
 						{
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -807,7 +807,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 						if (szSetting != NULL)
 						{
-							TCHAR *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+							wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
 							if (tszStatusMsg)
 							{
 								if (tszStatusMsg[0])
@@ -837,7 +837,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						else
 							mir_snprintf(setting, "Msg");
 
-						TCHAR *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i + ID_STATUS_ONLINE, setting));
+						wchar_t *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i + ID_STATUS_ONLINE, setting));
 						if (tszStatusMsg != NULL)
 						{
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -862,7 +862,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				if (HIWORD(wParam) == EN_KILLFOCUS)
 				{
-					TCHAR msg[1024];
+					wchar_t msg[1024];
 
 					if (data->proto_msg[j].flags & PROTO_THIS_MSG)
 					{
@@ -1181,7 +1181,7 @@ static bool IsHistoryMsgsFound(HWND, int histMax)
 		if (j < 1)
 			j = histMax;
 		mir_snprintf(szSetting, "SMsg%d", j);
-		TCHAR *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+		wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
 		if (tszStatusMsg != NULL) {
 			if (*tszStatusMsg != '\0') {
 				mir_free(tszStatusMsg);
@@ -1234,7 +1234,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETCURSEL, (WPARAM)i_btnhide, 0);
 
 			if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
-				TCHAR szText[100];
+				wchar_t szText[100];
 				mir_sntprintf(szText, L"%s *", TranslateT("Show status profiles in status list"));
 				SetDlgItemText(hwndDlg, IDC_CPROFILES, szText);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CPROFILES), FALSE);

@@ -78,11 +78,11 @@ void DlgFilterWords::onWMInitDialog()
 	static const struct
 	{
 		WORD iconId;
-		TCHAR* szTooltip;
+		wchar_t* szTooltip;
 		bool bDisabled;
 	} columnBand[] = {
-		{ IDI_COL_ADD, LPGENT("Add set"), false },
-		{ IDI_COL_DEL, LPGENT("Delete set"), true },
+		{ IDI_COL_ADD, LPGENW("Add set"), false },
+		{ IDI_COL_DEL, LPGENW("Delete set"), true },
 	};
 
 	array_each_(i, columnBand)
@@ -109,15 +109,15 @@ void DlgFilterWords::onWMInitDialog()
 	}
 
 	// init other controls
-	static const TCHAR* szWordFilterModes[] = {
-		LPGENT("Filter words matching"),
-		LPGENT("Filter words containing"),
-		LPGENT("Filter words starting with"),
-		LPGENT("Filter words ending with"),
-		LPGENT("Filter messages matching"),
-		LPGENT("Filter messages containing"),
-		LPGENT("Filter messages starting with"),
-		LPGENT("Filter messages ending with"),
+	static const wchar_t* szWordFilterModes[] = {
+		LPGENW("Filter words matching"),
+		LPGENW("Filter words containing"),
+		LPGENW("Filter words starting with"),
+		LPGENW("Filter words ending with"),
+		LPGENW("Filter messages matching"),
+		LPGENW("Filter messages containing"),
+		LPGENW("Filter messages starting with"),
+		LPGENW("Filter messages ending with"),
 	};
 
 	array_each_(i, szWordFilterModes)
@@ -209,7 +209,7 @@ void DlgFilterWords::onSetSelChanging(HANDLE hItem, INT_PTR dwData)
 		// set name
 		HWND hText = GetDlgItem(m_hWnd, IDC_SETNAME);
 		int nLen = GetWindowTextLength(hText);
-		TCHAR* szText = new TCHAR[nLen + 1];
+		wchar_t* szText = new wchar_t[nLen + 1];
 
 		if (GetWindowText(hText, szText, nLen + 1)) {
 			pFilter->setName(szText);
@@ -221,7 +221,7 @@ void DlgFilterWords::onSetSelChanging(HANDLE hItem, INT_PTR dwData)
 		// words
 		hText = GetDlgItem(m_hWnd, IDC_WORDS);
 		nLen = GetWindowTextLength(hText);
-		szText = new TCHAR[nLen + 1];
+		szText = new wchar_t[nLen + 1];
 
 		if (GetWindowText(hText, szText, nLen + 1)) {
 			ext::string strText = szText;

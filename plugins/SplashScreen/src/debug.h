@@ -2,7 +2,7 @@
 #define __debug_h__
 
 #define PlugName "SplashScreen"
-extern TCHAR szLogFile[MAX_PATH];
+extern wchar_t szLogFile[MAX_PATH];
 
 /*
  * output a notification message.
@@ -11,10 +11,10 @@ extern TCHAR szLogFile[MAX_PATH];
  *
  */
 
-int inline _DebugPopup(MCONTACT hContact, TCHAR *fmt, ...)
+int inline _DebugPopup(MCONTACT hContact, wchar_t *fmt, ...)
 {
 	va_list va;
-	TCHAR debug[1024];
+	wchar_t debug[1024];
 
 	va_start(va, fmt);
 	mir_sntprintf(debug, fmt, va);
@@ -24,9 +24,9 @@ int inline _DebugPopup(MCONTACT hContact, TCHAR *fmt, ...)
 		ppd.lchContact = hContact;
 		ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		if(hContact != 0)
-			mir_tstrncpy(ppd.lptzContactName, (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
+			mir_tstrncpy(ppd.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
 		else
-			mir_tstrncpy(ppd.lptzContactName, _T(PlugName), MAX_CONTACTNAME);
+			mir_tstrncpy(ppd.lptzContactName, _A2W(PlugName), MAX_CONTACTNAME);
 		mir_tstrncpy(ppd.lptzText, debug, MAX_SECONDLINE - 20);
 		ppd.colorText = RGB(255,255,255);
 		ppd.colorBack = RGB(255,0,0);
@@ -41,7 +41,7 @@ int inline _DebugPopup(MCONTACT hContact, TCHAR *fmt, ...)
 
 int inline initLog()
 {
-	fclose(_tfopen(szLogFile, L"w"));
+	fclose(_wfopen(szLogFile, L"w"));
 	return 0;
 }
 
@@ -49,10 +49,10 @@ int inline initLog()
  * logging func
  */
 
-void inline logMessage(TCHAR *func, TCHAR *msg)
+void inline logMessage(wchar_t *func, wchar_t *msg)
 {
-	FILE *f = _tfopen(szLogFile, L"a");
-	_ftprintf(f, L"%s:\t\t%s\n", func, msg);
+	FILE *f = _wfopen(szLogFile, L"a");
+	fwprintf(f, L"%s:\t\t%s\n", func, msg);
 	fclose(f);
 }
 

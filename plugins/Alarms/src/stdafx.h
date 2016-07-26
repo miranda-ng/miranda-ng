@@ -35,14 +35,14 @@ extern HANDLE hTopToolbarButton;
 
 typedef struct ALARM_tag {
 	unsigned short id;
-	TCHAR *szTitle;
-	TCHAR *szDesc;
+	wchar_t *szTitle;
+	wchar_t *szDesc;
 	Occurrence occurrence;
 	BOOL snoozer;
 	SYSTEMTIME time;
 	unsigned short action;
-	TCHAR *szCommand;
-	TCHAR *szCommandParams;
+	wchar_t *szCommand;
+	wchar_t *szCommandParams;
 	BYTE sound_num;
 	int flags;
 } ALARM;

@@ -400,7 +400,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 		return;
 
 	std::string ext = data->url.substr(data->url.rfind('.')); // finds the filetype of the avatar
-	std::tstring filename = GetAvatarFolder() + _T('\\') + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str()); // local filename and path
+	std::wstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (wchar_t*)_A2T(ext.c_str()); // local filename and path
 	db_free(&dbv);
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
@@ -412,7 +412,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 		return; // lets just ignore unknown formats... if not it crashes miranda. should probably speak to borkra about this.
 	}
 
-	_tcsncpy(ai.filename, filename.c_str(), MAX_PATH); // puts the local file name in the avatar struct, to a max of 260 chars (as of now)
+	wcsncpy(ai.filename, filename.c_str(), MAX_PATH); // puts the local file name in the avatar struct, to a max of 260 chars (as of now)
 
 	debugLogA("***** Updating avatar: %s", data->url.c_str());
 	mir_cslock lck(avatar_lock_);
@@ -536,7 +536,7 @@ void TwitterProto::ShowContactPopup(MCONTACT hContact, const std::string &text, 
 
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, "CList", "MyHandle", &dbv) || !getTString(hContact, TWITTER_KEY_UN, &dbv)) {
-		_tcsncpy(popup.lptzContactName, dbv.ptszVal, MAX_CONTACTNAME);
+		wcsncpy(popup.lptzContactName, dbv.ptszVal, MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
 

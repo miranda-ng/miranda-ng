@@ -263,7 +263,7 @@ public:
 		bool bValid = true;
 		int nCurValue = 0;
 		for (tstring::const_iterator i = rsFrmt.begin(); i != rsFrmt.end() && bValid && nCurValue < NumValues;) {
-			TCHAR chr = *i;
+			wchar_t chr = *i;
 			switch (chr) {
 			default:
 				if (false == std::isspace(chr))
@@ -272,10 +272,10 @@ public:
 					++i;
 				break;
 
-			case _T('%'):
+			case '%':
 				++i;
 				if (i != rsFrmt.end()) {
-					TCHAR t = *i;
+					wchar_t t = *i;
 					++i;
 					CQuotesProviderVisitorTendency visitor(hContact, t);
 					pProvider->Accept(visitor);
@@ -291,15 +291,15 @@ public:
 				}
 				else bValid = false;
 				break;
-			case _T('>'):
+			case '>':
 				m_nComparison = Greater;
 				++i;
 				break;
-			case _T('<'):
+			case '<':
 				m_nComparison = Less;
 				++i;
 				break;
-			case _T('='):
+			case '=':
 				switch (m_nComparison) {
 				default:
 					bValid = false;
@@ -372,22 +372,22 @@ tstring format_rate(const IQuotesProvider *pProvider, MCONTACT hContact, const t
 	tstring sResult;
 
 	for (tstring::const_iterator i = rsFrmt.begin(); i != rsFrmt.end();) {
-		TCHAR chr = *i;
+		wchar_t chr = *i;
 		switch (chr) {
 		default:
 			sResult += chr;
 			++i;
 			break;
 		
-		case _T('\\'):
+		case '\\':
 			++i;
 			if (i != rsFrmt.end()) {
-				TCHAR t = *i;
+				wchar_t t = *i;
 				switch (t) {
-					case _T('%'):  sResult += L"%"; break;
-					case _T('t'):  sResult += L"\t"; break;
-					case _T('n'):  sResult += L"\n"; break;
-					case _T('\\'): sResult += L"\\"; break;
+					case '%':  sResult += L"%"; break;
+					case 't':  sResult += L"\t"; break;
+					case 'n':  sResult += L"\n"; break;
+					case '\\': sResult += L"\\"; break;
 					default:       sResult += chr; sResult += t; break;
 				}
 				++i;
@@ -395,7 +395,7 @@ tstring format_rate(const IQuotesProvider *pProvider, MCONTACT hContact, const t
 			else sResult += chr;
 			break;
 
-		case _T('%'):
+		case '%':
 			++i;
 			if (i != rsFrmt.end()) {
 				chr = *i;
@@ -505,12 +505,12 @@ bool show_popup(const IQuotesProvider* pProvider,
 			ppd.lchIcon = Quotes_LoadIconEx(IDI_ICON_DOWN);
 	}
 
-	CQuotesProviderVisitorFormater visitor(hContact, _T('s'), 0);
+	CQuotesProviderVisitorFormater visitor(hContact, 's', 0);
 	pProvider->Accept(visitor);
 	const tstring& sTitle = visitor.GetResult();
 	mir_tstrncpy(ppd.lptzContactName, sTitle.c_str(), MAX_CONTACTNAME);
 	{
-		ptrT ss(variables_parsedup((TCHAR*)rsFormat.c_str(), 0, hContact));
+		ptrT ss(variables_parsedup((wchar_t*)rsFormat.c_str(), 0, hContact));
 		tstring sText = format_rate(pProvider, hContact, tstring(ss));
 		mir_tstrncpy(ppd.lptzText, sText.c_str(), MAX_SECONDLINE);
 	}
@@ -572,7 +572,7 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 		if (true == sSymbol.empty())
 			sSymbol = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
 
-		oNick << std::setfill(_T(' ')) << std::setw(10) << std::left << sSymbol << std::setw(6) << std::right << dRate;
+		oNick << std::setfill(L' ') << std::setw(10) << std::left << sSymbol << std::setw(6) << std::right << dRate;
 	}
 	CTendency tendency;
 

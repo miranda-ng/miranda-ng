@@ -166,7 +166,7 @@ static struct _tagFontBlocks {
 	NULL, 0, 0, NULL
 };
 
-int TSAPI CheckThemeVersion(const TCHAR *szIniFilename)
+int TSAPI CheckThemeVersion(const wchar_t *szIniFilename)
 {
 	int cookie = GetPrivateProfileInt(L"TabSRMM Theme", L"Cookie", 0, szIniFilename);
 	int version = GetPrivateProfileInt(L"TabSRMM Theme", L"Version", 0, szIniFilename);
@@ -176,7 +176,7 @@ int TSAPI CheckThemeVersion(const TCHAR *szIniFilename)
 	return 0;
 }
 
-void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
+void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, TWindowData *dat)
 {
 	int i, n = 0;
 	DBVARIANT dbv;
@@ -244,7 +244,7 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
 	mir_free(szIniFilename);
 }
 
-void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, int noAdvanced, DWORD dwFlags)
+void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, int noAdvanced, DWORD dwFlags)
 {
 	char szBuf[512], szTemp[100], szAppname[100];
 	int i, n = 0;
@@ -385,9 +385,9 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 						db_set_utf(NULL, TEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
 					if (dat == 0)
-						_tcsncpy_s(LTR_Active.szTemplates[i], decoded, _TRUNCATE);
+						wcsncpy_s(LTR_Active.szTemplates[i], decoded, _TRUNCATE);
 					else
-						_tcsncpy_s(dat->ltr_templates->szTemplates[i], decoded, _TRUNCATE);
+						wcsncpy_s(dat->ltr_templates->szTemplates[i], decoded, _TRUNCATE);
 					mir_free(decoded);
 				}
 
@@ -398,9 +398,9 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 						db_set_utf(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
 					if (dat == 0)
-						_tcsncpy_s(RTL_Active.szTemplates[i], decoded, _TRUNCATE);
+						wcsncpy_s(RTL_Active.szTemplates[i], decoded, _TRUNCATE);
 					else
-						_tcsncpy_s(dat->rtl_templates->szTemplates[i], decoded, _TRUNCATE);
+						wcsncpy_s(dat->rtl_templates->szTemplates[i], decoded, _TRUNCATE);
 					mir_free(decoded);
 				}
 			}
@@ -414,17 +414,17 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
  * iMode = 0 - GetOpenFilename, otherwise, GetSaveAs...
  */
 
-const TCHAR* TSAPI GetThemeFileName(int iMode)
+const wchar_t* TSAPI GetThemeFileName(int iMode)
 {
-	static TCHAR szFilename[MAX_PATH];
+	static wchar_t szFilename[MAX_PATH];
 	OPENFILENAME ofn = { 0 };
-	TCHAR szInitialDir[MAX_PATH];
+	wchar_t szInitialDir[MAX_PATH];
 
-	_tcsncpy_s(szInitialDir, M.getSkinPath(), _TRUNCATE);
+	wcsncpy_s(szInitialDir, M.getSkinPath(), _TRUNCATE);
 
 	szFilename[0] = 0;
 
-	TCHAR filter[MAX_PATH];
+	wchar_t filter[MAX_PATH];
 	mir_sntprintf(filter, L"%s%c*.tabsrmm%c%c", TranslateT("TabSRMM themes"), 0, 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;

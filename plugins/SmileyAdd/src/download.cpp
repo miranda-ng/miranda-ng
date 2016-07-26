@@ -36,7 +36,7 @@ struct QueueElem
 static HANDLE g_hDlMutex;
 static OBJLIST<QueueElem> dlQueue(10);
 
-static TCHAR cachepath[MAX_PATH];
+static wchar_t cachepath[MAX_PATH];
 static bool threadRunning;
 
 bool InternetDownloadFile(const char *szUrl, char *szDest, HANDLE &hHttpDwnl)
@@ -131,13 +131,13 @@ void __cdecl SmileyDownloadThread(void*)
 	WaitForSingleObject(g_hDlMutex, 3000);
 	while (!Miranda_Terminated() && dlQueue.getCount()) {
 		ReleaseMutex(g_hDlMutex);
-		if (_taccess(dlQueue[0].fname.c_str(), 0) != 0) {
+		if (_waccess(dlQueue[0].fname.c_str(), 0) != 0) {
 			InternetDownloadFile(_T2A(dlQueue[0].url.c_str()), _T2A(dlQueue[0].fname.c_str()), hHttpDwnl);
 			WaitForSingleObject(g_hDlMutex, 3000);
 
 			CMString fname(dlQueue[0].fname);
 			if (dlQueue[0].needext) { fname += GetImageExt(fname); needext = true; }
-			_trename(dlQueue[0].fname.c_str(), fname.c_str());
+			_wrename(dlQueue[0].fname.c_str(), fname.c_str());
 		}
 		else WaitForSingleObject(g_hDlMutex, 3000);
 
@@ -175,8 +175,8 @@ bool GetSmileyFile(CMString &url, const CMString &packstr)
 	if (needext)
 		filename += L".*";
 
-	_tfinddata_t c_file;
-	INT_PTR hFile = _tfindfirst((TCHAR*)filename.c_str(), &c_file);
+	_wfinddata_t c_file;
+	INT_PTR hFile = _wfindfirst((wchar_t*)filename.c_str(), &c_file);
 	if (hFile > -1) {
 		_findclose(hFile);
 		filename.Truncate(pathpos);

@@ -9,12 +9,12 @@ IconItem Icons[] =
 	{ LPGEN("Unread clist extra icon"), "clist_unread_icon", IDI_EXTRA },
 };
 
-const TCHAR* Tooltips[] = 
+const wchar_t* Tooltips[] = 
 {
-	LPGENT("Last message is not read"),
-	LPGENT("Last message read"),
-	LPGENT("Last message was not sent"),
-	LPGENT("Sending...")
+	LPGENW("Last message is not read"),
+	LPGENW("Last message read"),
+	LPGENW("Last message was not sent"),
+	LPGENW("Sending...")
 };
 
 void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
@@ -34,7 +34,7 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 		{
 			if (db_get_dw(hContact, MODULENAME, DBKEY_MESSAGE_READ_TIME_TYPE, -1) == MRD_TYPE_READTIME)
 			{
-				_tcsftime(tszTooltip.GetBuffer(64), 64, TranslateT("Last message read at %X %x"), localtime(&time));
+				wcsftime(tszTooltip.GetBuffer(64), 64, TranslateT("Last message read at %X %x"), localtime(&time));
 				tszTooltip.ReleaseBuffer();
 			}
 			else

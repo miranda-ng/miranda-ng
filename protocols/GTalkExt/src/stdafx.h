@@ -27,7 +27,6 @@
 #include <malloc.h>
 #include <time.h>
 #include <stdlib.h>
-#include <tchar.h>
 
 // Windows Header Files:
 #include <windows.h>

@@ -43,8 +43,8 @@ struct MDescButtonCtrl
 	HWND     hwnd;
 	BOOL     bSharedIcon;
 	HICON    hIcon;
-	TCHAR   *lpzTitle;
-	TCHAR   *lpzDescription;
+	wchar_t   *lpzTitle;
+	wchar_t   *lpzDescription;
 
 	// UI info
 	BOOL     bMouseInside;

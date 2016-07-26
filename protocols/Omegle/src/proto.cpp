@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
+OmegleProto::OmegleProto(const char* proto_name, const wchar_t* username) :
 PROTO<OmegleProto>(proto_name, username)
 {
 	this->facy.parent = this;
@@ -42,7 +42,7 @@ PROTO<OmegleProto>(proto_name, username)
 	HookProtoEvent(ME_GC_EVENT, &OmegleProto::OnChatEvent);
 
 	// Create standard network connection
-	TCHAR descr[512];
+	wchar_t descr[512];
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
@@ -50,17 +50,17 @@ PROTO<OmegleProto>(proto_name, username)
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (m_hNetlibUser == NULL) {
-		TCHAR error[200];
+		wchar_t error[200];
 		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
 		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	facy.set_handle(m_hNetlibUser);
 
-	SkinAddNewSoundExT("StrangerTyp", m_tszUserName, LPGENT("Stranger is typing"));
-	SkinAddNewSoundExT("StrangerTypStop", m_tszUserName, LPGENT("Stranger stopped typing"));
-	SkinAddNewSoundExT("StrangerChange", m_tszUserName, LPGENT("Changing stranger"));
-	SkinAddNewSoundExT("StrangerMessage", m_tszUserName, LPGENT("Receive message"));
+	SkinAddNewSoundExT("StrangerTyp", m_tszUserName, LPGENW("Stranger is typing"));
+	SkinAddNewSoundExT("StrangerTypStop", m_tszUserName, LPGENW("Stranger stopped typing"));
+	SkinAddNewSoundExT("StrangerChange", m_tszUserName, LPGENW("Changing stranger"));
+	SkinAddNewSoundExT("StrangerMessage", m_tszUserName, LPGENW("Receive message"));
 }
 
 OmegleProto::~OmegleProto()
@@ -181,13 +181,13 @@ int OmegleProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
 	odp.position = 271828;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszGroup = LPGENW("Network");
+	odp.pwszTab = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = OmegleOptionsProc;
 	Options_AddPage(wParam, &odp);

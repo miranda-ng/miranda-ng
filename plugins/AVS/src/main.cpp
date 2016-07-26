@@ -32,7 +32,7 @@ bool g_shutDown = false;
 
 int hLangpack;
 
-TCHAR  g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
+wchar_t  g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
 BOOL   g_AvatarHistoryAvail = FALSE;
 HWND   hwndSetMyAvatar = 0;
 
@@ -144,7 +144,7 @@ static void LoadProtoInfo(PROTOCOLDESCRIPTOR *proto)
 	char protoName[MAX_PATH];
 	mir_snprintf(protoName, "Global avatar for %s accounts", proto->szName);
 
-	TCHAR protoNameTmp[MAX_PATH];
+	wchar_t protoNameTmp[MAX_PATH];
 	mir_sntprintf(protoNameTmp, TranslateT("Global avatar for %s accounts"), _A2T(proto->szName));
 	protoPicCacheEntry *pce = new protoPicCacheEntry;
 	if (CreateAvatarInCache(0, pce, protoName) != 1)
@@ -322,7 +322,7 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	TCHAR szEventName[100];
+	wchar_t szEventName[100];
 	mir_sntprintf(szEventName, L"avs_loaderthread_%d", GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
 
@@ -381,8 +381,8 @@ static int LoadAvatarModule()
 	InitServices();
 	InitPolls();
 
-	_tcsncpy_s(g_szDataPath, _countof(g_szDataPath), VARST(L"%miranda_userdata%\\"), _TRUNCATE);
-	_tcslwr(g_szDataPath);
+	wcsncpy_s(g_szDataPath, _countof(g_szDataPath), VARST(L"%miranda_userdata%\\"), _TRUNCATE);
+	wcslwr(g_szDataPath);
 	return 0;
 }
 

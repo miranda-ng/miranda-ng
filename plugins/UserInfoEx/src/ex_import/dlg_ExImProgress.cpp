@@ -187,7 +187,7 @@ BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
 	if (_hDlg != NULL) {
 		HWND hProg = GetDlgItem(_hDlg, IDC_PROGRESS2);
 		if (pszFormat) {
-			TCHAR buf[MAX_PATH];
+			wchar_t buf[MAX_PATH];
 			va_list vl;
 
 			va_start(vl, pszFormat);
@@ -213,8 +213,8 @@ BYTE CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 	if (_hDlg != NULL) {
 		HWND hProg = GetDlgItem(_hDlg, IDC_PROGRESS);
 		if (pszFormat) {
-			TCHAR buf[MAX_PATH];
-			TCHAR tmp[MAX_PATH];
+			wchar_t buf[MAX_PATH];
+			wchar_t tmp[MAX_PATH];
 			va_list vl;
 
 			va_start(vl, pszFormat);

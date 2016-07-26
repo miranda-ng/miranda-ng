@@ -66,7 +66,7 @@ BOOL HookLotusFunctions()
 	) ? TRUE : FALSE;
 }
 
-void GetLotusPath(TCHAR *sTemp, DWORD size)
+void GetLotusPath(wchar_t *sTemp, DWORD size)
 {
 	DWORD rc; 
 	HKEY dmKey;

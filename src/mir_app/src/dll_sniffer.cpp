@@ -34,7 +34,7 @@ static IMAGE_SECTION_HEADER *getSectionByRVA(IMAGE_SECTION_HEADER *pISH, int nSe
 	return NULL;
 }
 
-MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
+MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 {
 	bIsPlugin = false;
 

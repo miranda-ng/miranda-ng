@@ -19,7 +19,7 @@
 #ifndef MSG_EXP_FILE_VIEWER
 #define MSG_EXP_FILE_VIEWER
 
-void UpdateFileViews(const TCHAR *pszFile);
+void UpdateFileViews(const wchar_t *pszFile);
 
 bool bOpenExternaly(MCONTACT hContact);
 bool bShowFileViewer(MCONTACT hContact);

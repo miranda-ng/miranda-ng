@@ -89,12 +89,12 @@ void LoadOptions()
 
 void PopupPreview()
 {
-	TCHAR *lptzTitle1Eng = TranslateT("The Jabberwocky");
-	TCHAR *lptzText1Eng = TranslateT("`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]");
+	wchar_t *lptzTitle1Eng = TranslateT("The Jabberwocky");
+	wchar_t *lptzText1Eng = TranslateT("`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]");
 
-	TCHAR *lptzTitle2 = TranslateT("Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...");
-	TCHAR *lptzText2 = TranslateTS(
-		LPGENT("This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)")
+	wchar_t *lptzTitle2 = TranslateT("Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...");
+	wchar_t *lptzText2 = TranslateTS(
+		LPGENW("This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)")
 		);
 
 	POPUPDATA2 ppd = { 0 };

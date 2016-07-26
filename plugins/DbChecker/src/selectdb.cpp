@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static bool CheckBroken(const TCHAR *ptszFullPath)
+static bool CheckBroken(const wchar_t *ptszFullPath)
 {
 	DATABASELINK *dblink = FindDatabasePlugin(ptszFullPath);
 	if (dblink == NULL || dblink->CheckDB == NULL)
@@ -30,7 +30,7 @@ static bool CheckBroken(const TCHAR *ptszFullPath)
 
 int OpenDatabase(HWND hdlg, INT iNextPage)
 {
-	TCHAR tszMsg[1024];
+	wchar_t tszMsg[1024];
 	int error = 0;
 
 	if (opts.dbChecker == NULL) {
@@ -73,9 +73,9 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 	return true;
 }
 
-void GetProfileDirectory(TCHAR* szMirandaDir, TCHAR* szPath, int cbPath)
+void GetProfileDirectory(wchar_t* szMirandaDir, wchar_t* szPath, int cbPath)
 {
-	TCHAR szProfileDir[MAX_PATH], szExpandedProfileDir[MAX_PATH], szMirandaBootIni[MAX_PATH];
+	wchar_t szProfileDir[MAX_PATH], szExpandedProfileDir[MAX_PATH], szMirandaBootIni[MAX_PATH];
 
 	mir_tstrcpy(szMirandaBootIni, szMirandaDir);
 	mir_tstrcat(szMirandaBootIni, L"\\mirandaboot.ini");
@@ -88,57 +88,57 @@ void GetProfileDirectory(TCHAR* szMirandaDir, TCHAR* szPath, int cbPath)
 		szPath[mir_tstrlen(szPath) - 1] = 0;
 }
 
-static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
+static int AddDatabaseToList(HWND hwndList, const wchar_t* filename, wchar_t* dir)
 {
 	LV_ITEM lvi;
 	lvi.mask = LVIF_PARAM;
 	lvi.iSubItem = 0;
 	for (lvi.iItem = ListView_GetItemCount(hwndList) - 1; lvi.iItem >= 0; lvi.iItem--) {
 		ListView_GetItem(hwndList, &lvi);
-		if (!mir_tstrcmpi((TCHAR*)lvi.lParam, filename))
+		if (!mir_tstrcmpi((wchar_t*)lvi.lParam, filename))
 			return lvi.iItem;
 	}
 
 	struct _stat st;
-	if (_tstat(filename, &st) == -1)
+	if (_wstat(filename, &st) == -1)
 		return -1;
 
 	DWORD totalSize = st.st_size;
 
 	bool isBroken = CheckBroken(filename);
 
-	const TCHAR *pName = _tcsrchr(filename, '\\');
+	const wchar_t *pName = wcsrchr(filename, '\\');
 	if (pName == NULL)
 		pName = (LPTSTR)filename;
 	else
 		pName++;
 
-	TCHAR szName[MAX_PATH];
+	wchar_t szName[MAX_PATH];
 	mir_sntprintf(szName, L"%s%s", dir, pName);
 
-	TCHAR *pDot = _tcsrchr(szName, '.');
+	wchar_t *pDot = wcsrchr(szName, '.');
 	if (pDot != NULL && !mir_tstrcmpi(pDot, L".dat"))
 		*pDot = 0;
 
 	lvi.iItem = 0;
 	lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 	lvi.iSubItem = 0;
-	lvi.lParam = (LPARAM)_tcsdup(filename);
+	lvi.lParam = (LPARAM)wcsdup(filename);
 	lvi.pszText = szName;
 	lvi.iImage = (isBroken) ? 1 : 0;
 
 	int iNewItem = ListView_InsertItem(hwndList, &lvi);
-	TCHAR szSize[20];
+	wchar_t szSize[20];
 	mir_sntprintf(szSize, L"%.2lf MB", totalSize / 1048576.0);
 	ListView_SetItemText(hwndList, iNewItem, 1, szSize);
 	return iNewItem;
 }
 
-void FindAdd(HWND hdlg, TCHAR *szProfileDir, TCHAR *szPrefix)
+void FindAdd(HWND hdlg, wchar_t *szProfileDir, wchar_t *szPrefix)
 {
 	HANDLE hFind;
 	WIN32_FIND_DATA fd;
-	TCHAR szSearchPath[MAX_PATH], szFilename[MAX_PATH];
+	wchar_t szSearchPath[MAX_PATH], szFilename[MAX_PATH];
 
 	mir_tstrcpy(szSearchPath, szProfileDir);
 	mir_tstrcat(szSearchPath, L"\\*.*");
@@ -150,14 +150,14 @@ void FindAdd(HWND hdlg, TCHAR *szProfileDir, TCHAR *szPrefix)
 				continue;
 
 			mir_sntprintf(szFilename, L"%s\\%s\\%s.dat", szProfileDir, fd.cFileName, fd.cFileName);
-			if (_taccess(szFilename, 0) == 0)
+			if (_waccess(szFilename, 0) == 0)
 				AddDatabaseToList(GetDlgItem(hdlg, IDC_DBLIST), szFilename, szPrefix);
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
 }
 
-TCHAR *addstring(TCHAR *str, TCHAR *add)
+wchar_t *addstring(wchar_t *str, wchar_t *add)
 {
 	mir_tstrcpy(str, add);
 	return str + mir_tstrlen(add) + 1;
@@ -191,16 +191,16 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			lvc.pszText = TranslateT("Total size");
 			ListView_InsertColumn(GetDlgItem(hdlg, IDC_DBLIST), 1, &lvc);
 
-			TCHAR szMirandaPath[MAX_PATH];
+			wchar_t szMirandaPath[MAX_PATH];
 			GetModuleFileName(NULL, szMirandaPath, _countof(szMirandaPath));
-			TCHAR *str2 = _tcsrchr(szMirandaPath, '\\');
+			wchar_t *str2 = wcsrchr(szMirandaPath, '\\');
 			if (str2 != NULL)
 				*str2 = 0;
 
 			int i = 0;
 			HKEY hKey;
-			TCHAR szProfileDir[MAX_PATH];
-			TCHAR szMirandaProfiles[MAX_PATH];
+			wchar_t szProfileDir[MAX_PATH];
+			wchar_t szMirandaProfiles[MAX_PATH];
 			DWORD cbData = _countof(szMirandaPath);
 
 			mir_tstrcpy(szMirandaProfiles, szMirandaPath);
@@ -259,13 +259,13 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		case IDC_OTHER:
 		{
 			OPENFILENAME ofn = { 0 };
-			TCHAR str[MAX_PATH];
+			wchar_t str[MAX_PATH];
 
 			// L"Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0";
-			TCHAR *filter, *tmp, *tmp1, *tmp2;
+			wchar_t *filter, *tmp, *tmp1, *tmp2;
 			tmp1 = TranslateT("Miranda Databases (*.dat)");
 			tmp2 = TranslateT("All Files");
-			filter = tmp = (TCHAR*)_alloca((mir_tstrlen(tmp1) + mir_tstrlen(tmp2) + 11)*sizeof(TCHAR));
+			filter = tmp = (wchar_t*)_alloca((mir_tstrlen(tmp1) + mir_tstrlen(tmp2) + 11)*sizeof(wchar_t));
 			tmp = addstring(tmp, tmp1);
 			tmp = addstring(tmp, L"*.DAT");
 			tmp = addstring(tmp, tmp2);
@@ -312,7 +312,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 				if (lvi.iItem == -1) break;
 				lvi.mask = LVIF_PARAM;
 				ListView_GetItem(GetDlgItem(hdlg, IDC_DBLIST), &lvi);
-				SetDlgItemText(hdlg, IDC_FILE, (TCHAR*)lvi.lParam);
+				SetDlgItemText(hdlg, IDC_FILE, (wchar_t*)lvi.lParam);
 				SendMessage(hdlg, WM_COMMAND, MAKEWPARAM(IDC_FILE, EN_CHANGE), (LPARAM)GetDlgItem(hdlg, IDC_FILE));
 			}
 			break;

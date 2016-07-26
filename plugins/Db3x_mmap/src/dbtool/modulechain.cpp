@@ -96,9 +96,9 @@ int CDb3Mmap::WorkModuleChain(int firstTime)
 					n++;
 				}
 			if (n) {
-				TCHAR szModuleName[257];
+				wchar_t szModuleName[257];
 				MultiByteToWideChar(CP_ACP, 0, modChain[iCurrentModName].name, -1, szModuleName, _countof(szModuleName));
-				TCHAR *pszModuleName = szModuleName;
+				wchar_t *pszModuleName = szModuleName;
 
 				cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Module name '%s' is not unique: %d duplicates found"), pszModuleName, n);
 			}

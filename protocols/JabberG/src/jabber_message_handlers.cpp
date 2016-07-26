@@ -34,14 +34,14 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 	if (item == NULL)
 		item = ListGetItemPtr(LIST_CHATROOM, pInfo->GetFrom());
 	if (item != NULL) { // yes, it is
-		TCHAR *szErrText = JabberErrorMsg(pInfo->GetChildNode());
+		wchar_t *szErrText = JabberErrorMsg(pInfo->GetChildNode());
 		if (id != -1) {
 			char *errText = mir_t2a(szErrText);
 			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)errText);
 			mir_free(errText);
 		}
 		else {
-			TCHAR buf[512];
+			wchar_t buf[512];
 			HXML bodyNode = XmlGetChild(node, "body");
 			if (bodyNode)
 				mir_sntprintf(buf, L"%s:\n%s\n%s", pInfo->GetFrom(), XmlGetText(bodyNode), szErrText);
@@ -58,8 +58,8 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 BOOL CJabberProto::OnMessageIbb(HXML, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	BOOL bOk = FALSE;
-	const TCHAR *sid = XmlGetAttrValue(pInfo->GetChildNode(), L"sid");
-	const TCHAR *seq = XmlGetAttrValue(pInfo->GetChildNode(), L"seq");
+	const wchar_t *sid = XmlGetAttrValue(pInfo->GetChildNode(), L"sid");
+	const wchar_t *seq = XmlGetAttrValue(pInfo->GetChildNode(), L"seq");
 	if (sid && seq && XmlGetText(pInfo->GetChildNode()))
 		bOk = OnIbbRecvdData(XmlGetText(pInfo->GetChildNode()), sid, seq);
 
@@ -80,8 +80,8 @@ BOOL CJabberProto::OnMessageGroupchat(HXML node, ThreadData*, CJabberMessageInfo
 	
 	// got message from unknown conference... let's leave it :)
 	else { 
-//			TCHAR *conference = NEWTSTR_ALLOCA(from);
-//			if (TCHAR *s = _tcschr(conference, _T('/'))) *s = 0;
+//			wchar_t *conference = NEWWSTR_ALLOCA(from);
+//			if (wchar_t *s = wcschr(conference, '/')) *s = 0;
 //			XmlNode p("presence"); XmlAddAttr(p, "to", conference); XmlAddAttr(p, "type", "unavailable");
 //			info->send(p);
 	}

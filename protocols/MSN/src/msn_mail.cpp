@@ -207,8 +207,8 @@ void CMsnProto::processMailData(char* mailData)
 
 void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 {
-	TCHAR tBuffer[512];
-	TCHAR tBuffer2[512];
+	wchar_t tBuffer[512];
+	wchar_t tBuffer2[512];
 	int  UnreadMessages = mUnreadMessages;
 	int  UnreadJunkEmails = mUnreadJunkEmails;
 	bool ShowPopup = isInitial;
@@ -259,7 +259,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 
 
-		TCHAR* msgtxt = _stricmp(From, Fromaddr) ?
+		wchar_t* msgtxt = _stricmp(From, Fromaddr) ?
 			TranslateT("Hotmail from %s (%S)") : TranslateT("Hotmail from %s");
 
 		mir_sntprintf(tBuffer, msgtxt, mimeFromW, Fromaddr);
@@ -377,17 +377,17 @@ void CMsnProto::displayEmailCount(MCONTACT hContact)
 {
 	if (!emailEnabled || getByte("DisableHotmailCL", 0)) return;
 
-	TCHAR* name = GetContactNameT(hContact);
+	wchar_t* name = GetContactNameT(hContact);
 	if (name == NULL) return;
 
-	TCHAR* ch = name - 1;
+	wchar_t* ch = name - 1;
 	do {
-		ch = _tcschr(ch + 1, '[');
-	} while (ch && !_istdigit(ch[1]));
+		ch = wcschr(ch + 1, '[');
+	} while (ch && !iswdigit(ch[1]));
 	if (ch) *ch = 0;
 	rtrimt(name);
 
-	TCHAR szNick[128];
+	wchar_t szNick[128];
 	mir_sntprintf(szNick, getByte("DisableHotmailJunk", 0) ? L"%s [%d]" : L"%s [%d][%d]", name, mUnreadMessages, mUnreadJunkEmails);
 
 	nickChg = true;

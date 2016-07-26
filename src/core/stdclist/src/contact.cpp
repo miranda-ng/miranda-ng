@@ -54,7 +54,7 @@ int GetStatusModeOrdering(int statusMode)
 int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 {
 	MCONTACT a = c1->hContact, b = c2->hContact;
-	TCHAR namea[128], *nameb;
+	wchar_t namea[128], *nameb;
 	int statusa, statusb;
 	int rc;
 
@@ -88,7 +88,7 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 	}
 
 	nameb = pcli->pfnGetContactDisplayName(a, 0);
-	_tcsncpy_s(namea, nameb, _TRUNCATE);
+	wcsncpy_s(namea, nameb, _TRUNCATE);
 	namea[ _countof(namea)-1 ] = 0;
 	nameb = pcli->pfnGetContactDisplayName(b, 0);
 

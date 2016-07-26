@@ -101,7 +101,7 @@ bool CLCDInput::Draw(CLCDGfx *pGfx)
 	int iLine = m_iLinePosition;
 	int iEndLine = m_iLinePosition + m_iLineCount;
 	int iLen = 0;
-	TCHAR *pcOffset = NULL;
+	wchar_t *pcOffset = NULL;
 	while(iLine <  iEndLine && iLine < m_vLineOffsets.size())
 	{
 		// Calculate the text length
@@ -115,7 +115,7 @@ bool CLCDInput::Draw(CLCDGfx *pGfx)
 		else iLen = (int)m_strText.length() - m_vLineOffsets[iLine].iOffset;
 		
 		// Draw the text
-		pcOffset = (TCHAR*)m_strText.c_str() + m_vLineOffsets[iLine].iOffset;
+		pcOffset = (wchar_t*)m_strText.c_str() + m_vLineOffsets[iLine].iOffset;
 		DrawTextEx(pGfx->GetHDC(),
 					(LPTSTR)pcOffset,
 					iLen,
@@ -380,7 +380,7 @@ LRESULT CLCDInput::ProcessKeyEvent(int Code, WPARAM wParam, LPARAM lParam)
 			{
 
 #ifdef _UNICODE
-				TCHAR output[4];
+				wchar_t output[4];
 #else
 				unsigned char output[2];
 #endif
@@ -419,9 +419,9 @@ LRESULT CLCDInput::ProcessKeyEvent(int Code, WPARAM wParam, LPARAM lParam)
 						return 1;
 
 					if(m_bInsert || m_strText[m_Marker[0].iPosition] == '\r')
-						m_strText.insert(m_Marker[0].iPosition,(TCHAR*)output,res);
+						m_strText.insert(m_Marker[0].iPosition,(wchar_t*)output,res);
 					else
-						m_strText.replace(m_Marker[0].iPosition,res,(TCHAR*)output);
+						m_strText.replace(m_Marker[0].iPosition,res,(wchar_t*)output);
 					
 					scroll = 1;
 					size = res;
@@ -601,7 +601,7 @@ void CLCDInput::UpdateOffsets(int iModified)
 	// Initialize variables
 	int iLen = (int)m_strText.length();
 	int *piWidths = new int[iLen];
-	TCHAR *pszText = (TCHAR*)m_strText.c_str();
+	wchar_t *pszText = (wchar_t*)m_strText.c_str();
 	tstring::size_type pos = 0;
 	int iMaxChars = 0;
 

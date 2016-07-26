@@ -26,7 +26,7 @@ void CALLBACK sttMainThreadCallback(ULONG_PTR dwParam)
 	free(ppd);
 }
 
-void __stdcall	ShowPopup(TCHAR *line1, TCHAR *line2, int flags)
+void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags)
 {
 	if (CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
 

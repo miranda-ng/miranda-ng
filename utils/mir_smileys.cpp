@@ -27,7 +27,6 @@ Boston, MA 02111-1307, USA.
 #include <m_database.h>
 #include <commctrl.h>
 #include <m_skin_eng.h>
-#include <tchar.h>
 
 // Prototypes
 
@@ -53,10 +52,10 @@ typedef struct
 }
 TextPiece;
 
-SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height);
-void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height);
+SortedList * ReplaceSmileys(const wchar_t *text, int text_size, const char *protocol, int *max_smiley_height);
+void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height);
 void DestroySmileyList(SortedList* p_list);
-SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height);
+SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height);
 
 // Functions
 
@@ -77,7 +76,7 @@ int InitContactListSmileys()
 	return 0;
 }
 
-SmileysParseInfo Smileys_PreParse(const TCHAR* lpString, int nCount, const char *protocol)
+SmileysParseInfo Smileys_PreParse(const wchar_t* lpString, int nCount, const char *protocol)
 {
 	SmileysParseInfo info = (SmileysParseInfo)mir_calloc(sizeof(_SmileysParseInfo));
 
@@ -207,7 +206,7 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 
 
 
-SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height)
+SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height)
 {
 	SIZE text_size;
 
@@ -257,7 +256,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 	return text_size;
 }
 
-void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height)
+void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height)
 {
 	if (szText == NULL)
 		return;
@@ -388,7 +387,7 @@ void DestroySmileyList(SortedList* p_list)
 
 
 // Generete the list of smileys / text to be drawn
-SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height)
+SortedList * ReplaceSmileys(const wchar_t *text, int text_size, const char *protocol, int *max_smiley_height)
 {
 	*max_smiley_height = 0;
 
@@ -398,7 +397,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 	// Parse it!
 	SMADD_BATCHPARSE2 sp = { sizeof(sp) };
 	sp.Protocolname = protocol;
-	sp.str = (TCHAR*)text;
+	sp.str = (wchar_t*)text;
 	sp.flag = SAFL_TCHAR;
 	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	if (spres == NULL)
@@ -408,12 +407,12 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 	// Lets add smileys
 	SortedList *plText = List_Create(0, 10);
 
-	const TCHAR *next_text_pos = text;
-	const TCHAR *last_text_pos = _tcsninc(text, text_size);
+	const wchar_t *next_text_pos = text;
+	const wchar_t *last_text_pos = _tcsninc(text, text_size);
 
 	for (unsigned int i = 0; i < sp.numSmileys; i++) {
-		TCHAR* start = _tcsninc(text, spres[i].startChar);
-		TCHAR* end = _tcsninc(start, spres[i].size);
+		wchar_t* start = _tcsninc(text, spres[i].startChar);
+		wchar_t* end = _tcsninc(start, spres[i].size);
 
 		if (spres[i].hIcon != NULL) { // For defective smileypacks
 			// Add text

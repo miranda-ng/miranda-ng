@@ -37,7 +37,7 @@ public:
 	CCtrlTreeOpts(CDlgBase* dlg, int ctrlId);
 	~CCtrlTreeOpts();
 
-	void AddOption(TCHAR *szOption, CMOption<BYTE> &option);
+	void AddOption(wchar_t *szOption, CMOption<BYTE> &option);
 
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh);
 	void OnDestroy();
@@ -47,14 +47,14 @@ public:
 protected:
 	struct COptionsItem
 	{
-		TCHAR *m_szOptionName;
+		wchar_t *m_szOptionName;
 		int m_groupId;
 
 		CMOption<BYTE> *m_option;
 
 		HTREEITEM m_hItem;
 
-		COptionsItem(TCHAR *szOption, CMOption<BYTE> &option);
+		COptionsItem(wchar_t *szOption, CMOption<BYTE> &option);
 		~COptionsItem();
 	};
 

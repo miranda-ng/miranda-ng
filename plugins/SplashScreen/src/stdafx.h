@@ -22,8 +22,8 @@
 
 #define _CRT_SECURE_NO_DEPRECATE
 
-#include <windows.h>
 #include <tchar.h>
+#include <windows.h>
 #include <time.h>
 #include <dshow.h>
 
@@ -48,7 +48,7 @@
 #endif
 
 // Internal defines
-#define SPLASH_CLASS "MirandaSplash"
+#define SPLASH_CLASS L"MirandaSplash"
 #define MODNAME "SplashScreen"
 #define WM_LOADED (WM_USER + 10)
 
@@ -68,8 +68,8 @@ struct SPLASHOPTS
 
 extern HWND hwndSplash;
 extern SPLASHOPTS options;
-extern TCHAR szSplashFile[MAX_PATH], szSoundFile[MAX_PATH], szPrefix[128];
-extern TCHAR *szMirDir;
+extern wchar_t szSplashFile[MAX_PATH], szSoundFile[MAX_PATH], szPrefix[128];
+extern wchar_t *szMirDir;
 extern char szVersion[MAX_PATH];
 extern BOOL bserviceinvoked, bmodulesloaded, png2dibavail;
 extern HINSTANCE hInst;

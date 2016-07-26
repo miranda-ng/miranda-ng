@@ -19,13 +19,13 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
+LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
 {
 	Netlib_LogfT(hNetlibUser, L"Started validating feed %s.", tszURL);
 	char *szData = NULL;
 	GetNewsData(tszURL, &szData, NULL, hwndDlg);
 	if (szData) {
-		TCHAR *tszData = mir_utf8decodeT(szData);
+		wchar_t *tszData = mir_utf8decodeT(szData);
 		if (!tszData)
 			tszData = mir_a2t(szData);
 		int bytesParsed = 0;
@@ -56,11 +56,11 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 					for (int j = 0; j < xmlGetChildCount(chan); j++) {
 						HXML child = xmlGetChild(chan, j);
 						if (!mir_tstrcmpi(xmlGetName(child), L"title")) {
-							TCHAR mes[MAX_PATH];
+							wchar_t mes[MAX_PATH];
 							mir_sntprintf(mes, TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								return mir_tstrdup(buf);
 							}
@@ -73,11 +73,11 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 					for (int j = 0; j < xmlGetChildCount(node); j++) {
 						HXML child = xmlGetChild(node, j);
 						if (!mir_tstrcmpi(xmlGetName(child), L"title")) {
-							TCHAR mes[MAX_PATH];
+							wchar_t mes[MAX_PATH];
 							mir_sntprintf(mes, TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								return mir_tstrdup(buf);
 							}
@@ -92,7 +92,7 @@ LPCTSTR CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 		xmlDestroyNode(hXml);
 	}
 	Netlib_LogfT(hNetlibUser, L"%s is not a valid feed's address.", tszURL);
-	TCHAR mes[MAX_PATH];
+	wchar_t mes[MAX_PATH];
 	mir_sntprintf(mes, TranslateT("%s\nis not a valid feed's address."), tszURL);
 	MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONERROR);
 	return NULL;
@@ -183,7 +183,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 	if (!db_get_b(hContact, MODULE, "CheckState", 1) != 0)
 		return;
 
-	TCHAR *szURL = db_get_tsa(hContact, MODULE, "URL");
+	wchar_t *szURL = db_get_tsa(hContact, MODULE, "URL");
 	if (szURL == NULL)
 		return;
 
@@ -194,7 +194,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 	mir_free(szURL);
 
 	if (szData) {
-		TCHAR *tszData = mir_utf8decodeT(szData);
+		wchar_t *tszData = mir_utf8decodeT(szData);
 		if (!tszData)
 			tszData = mir_a2t(szData);
 		int bytesParsed = 0;
@@ -228,7 +228,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						for (int i = 0; i < xmlGetAttrCount(node); i++) {
 							LPCTSTR szAttrName = xmlGetAttrName(node, i);
 							if (!mir_tstrcmpi(szAttrName, L"version")) {
-								TCHAR ver[MAX_PATH];
+								wchar_t ver[MAX_PATH];
 								mir_sntprintf(ver, L"RSS %s", xmlGetAttrValue(node, szAttrName));
 								db_set_ts(hContact, MODULE, "MirVer", ver);
 								break;
@@ -245,7 +245,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						if (!mir_tstrcmpi(childName, L"title")) {
 							LPCTSTR szChildText = NULL;
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								szChildText = buf;
 							}
@@ -257,7 +257,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_tstrcmpi(childName, L"link")) {
 							LPCTSTR szChildText = NULL;
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								szChildText = buf;
 							}
@@ -269,7 +269,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_tstrcmpi(childName, L"description")) {
 							LPCTSTR szChildText = NULL;
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								szChildText = buf;
 							}
@@ -284,7 +284,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_tstrcmpi(childName, L"language")) {
 							LPCTSTR szChildText = NULL;
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								szChildText = buf;
 							}
@@ -296,7 +296,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_tstrcmpi(childName, L"managingEditor")) {
 							LPCTSTR szChildText = NULL;
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								szChildText = buf;
 							}
@@ -308,7 +308,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_tstrcmpi(childName, L"category")) {
 							LPCTSTR szChildText = NULL;
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								szChildText = buf;
 							}
@@ -320,7 +320,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_tstrcmpi(childName, L"copyright")) {
 							LPCTSTR szChildText = NULL;
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								szChildText = buf;
 							}
@@ -339,9 +339,9 @@ void CheckCurrentFeed(MCONTACT hContact)
 									PROTO_AVATAR_INFORMATION ai = { 0 };
 									ai.hContact = hContact;
 
-									TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
+									wchar_t *szNick = db_get_tsa(hContact, MODULE, "Nick");
 									if (szNick) {
-										TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
+										wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
 										ai.format = ProtoGetAvatarFormat(url);
 
 										CMString filename = szNick;
@@ -362,7 +362,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_tstrcmpi(childName, L"lastBuildDate")) {
 							LPCTSTR szChildText = NULL;
 							if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-								TCHAR buf[MAX_PATH];
+								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
 								szChildText = buf;
 							}
@@ -387,7 +387,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								LPCTSTR itemName = xmlGetName(itemval);
 								LPCTSTR value = NULL;
 								if (!mir_tstrcmpi(codepage, L"koi8-r")) {
-									TCHAR buf[MAX_PATH];
+									wchar_t buf[MAX_PATH];
 									MultiByteToWideChar(20866, 0, _T2A(xmlGetText(itemval)), -1, buf, _countof(buf));
 									value = buf;
 								}
@@ -483,10 +483,10 @@ void CheckCurrentFeed(MCONTACT hContact)
 									if (szNick) {
 										PROTO_AVATAR_INFORMATION ai = { 0 };
 										ai.hContact = hContact;
-										TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
+										wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
 										ai.format = ProtoGetAvatarFormat(ext);
 
-										TCHAR *filename = szNick;
+										wchar_t *filename = szNick;
 										mir_sntprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
 										if (DownloadFile(url, ai.filename)) {
 											db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
@@ -501,7 +501,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_tstrcmpi(szChildName, L"updated")) {
 							LPCTSTR szChildText = xmlGetText(child);
 							if (szChildText) {
-								TCHAR *lastupdtime = (TCHAR *)szChildText;
+								wchar_t *lastupdtime = (wchar_t *)szChildText;
 								time_t stamp = DateToUnixTime(lastupdtime, 1);
 								double deltaupd = difftime(time(NULL), stamp);
 								double deltacheck = difftime(time(NULL), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
@@ -587,7 +587,7 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 	if (!db_get_b(hContact, MODULE, "CheckState", 1))
 		return;
 
-	TCHAR *szURL = db_get_tsa(hContact, MODULE, "URL");
+	wchar_t *szURL = db_get_tsa(hContact, MODULE, "URL");
 	if (szURL == NULL)
 		return;
 
@@ -598,7 +598,7 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 	if (szData == NULL)
 		return;
 
-	TCHAR *tszData = mir_utf8decodeT(szData);
+	wchar_t *tszData = mir_utf8decodeT(szData);
 	if (!tszData)
 		tszData = mir_a2t(szData);
 	int bytesParsed = 0;
@@ -626,12 +626,12 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 							PROTO_AVATAR_INFORMATION ai = { 0 };
 							ai.hContact = hContact;
 
-							TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
+							wchar_t *szNick = db_get_tsa(hContact, MODULE, "Nick");
 							if (szNick) {
-								TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
+								wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
 								ai.format = ProtoGetAvatarFormat(ext);
 
-								TCHAR *filename = szNick;
+								wchar_t *filename = szNick;
 								mir_sntprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
 								if (DownloadFile(url, ai.filename)) {
 									db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
@@ -661,10 +661,10 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 								PROTO_AVATAR_INFORMATION ai = { 0 };
 								ai.hContact = hContact;
 
-								TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
+								wchar_t *ext = wcsrchr((wchar_t *)url, '.') + 1;
 								ai.format = ProtoGetAvatarFormat(ext);
 
-								TCHAR *filename = szNick;
+								wchar_t *filename = szNick;
 								mir_sntprintf(ai.filename, L"%s\\%s.%s", tszRoot, filename, ext);
 								if (DownloadFile(url, ai.filename)) {
 									db_set_ts(hContact, MODULE, "ImagePath", ai.filename);

@@ -59,28 +59,28 @@ DLUs.
 typedef struct {
 	int position;        //a position number, lower numbers are topmost
 	union {
-		char* pszTitle; // [TRANSLATED-BY-CORE]
-		TCHAR* ptszTitle;
+		char *pszTitle; // [TRANSLATED-BY-CORE]
+		wchar_t *pwszTitle;
 	};
 	DLGPROC pfnDlgProc;
 	char *pszTemplate;
 	HINSTANCE hInstance;
-	HICON hIcon;		 //v0.1.0.1+
+	HICON hIcon;
 	union {
-		char* pszGroup;		 //v0.1.0.1+ [TRANSLATED-BY-CORE]
-		TCHAR* ptszGroup;		 //v0.1.0.1+
+		char *pszGroup;
+		wchar_t *pwszGroup;
 	};
-	int groupPosition;	 //v0.1.0.1+
-	HICON hGroupIcon;	 //v0.1.0.1+
-	DWORD flags;         //v0.1.2.1+
+	int groupPosition;
+	HICON hGroupIcon;
+	DWORD flags;
 
 	union {
-		char* pszTab;		 //v0.6.0.0+ [TRANSLATED-BY-CORE]
-		TCHAR* ptszTab;		 //v0.6.0.0+
+		char *pszTab;
+		wchar_t *pwszTab;
 	};
 
 	union {
-		LPARAM dwInitParam;	 //v0.8.0.0+  a value to pass to lParam of WM_INITDIALOG message
+		LPARAM dwInitParam; // a value to pass to lParam of WM_INITDIALOG message
 		class CDlgBase *pDialog;
 	};
 	int hLangpack;

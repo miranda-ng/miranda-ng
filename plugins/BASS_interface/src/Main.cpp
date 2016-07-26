@@ -58,7 +58,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 }
 
 #define MAXCHAN 5
-static TCHAR CurrBassPath[MAX_PATH], tmp[MAX_PATH];
+static wchar_t CurrBassPath[MAX_PATH], tmp[MAX_PATH];
 static int sndNSnd = 0, sndLimSnd;
 static HSTREAM sndSSnd[MAXCHAN] = { 0 };
 
@@ -76,7 +76,7 @@ HANDLE hBASSFolder = NULL, hPlaySound = NULL;
 
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR* ptszFile = (TCHAR*)lParam;
+	wchar_t* ptszFile = (wchar_t*)lParam;
 	SYSTEMTIME systime;
 	BOOL doPlay = TRUE;
 
@@ -139,7 +139,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 		SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_RESETCONTENT, 0, 0);
 		for (int i = 1; i <= MAXCHAN; i++)
-			SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_ADDSTRING, 0, (LPARAM)_itot(i, tmp, 10));
+			SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_ADDSTRING, 0, (LPARAM)_itow(i, tmp, 10));
 
 		SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_SETCURSEL, sndLimSnd - 1, 0);
 
@@ -425,7 +425,7 @@ int ReloadColors(WPARAM, LPARAM)
 	ColourIDT colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
 	mir_tstrcpy(colourid.group, _T(ModuleName));
-	mir_tstrcpy(colourid.name, LPGENT("Frame background"));
+	mir_tstrcpy(colourid.name, LPGENW("Frame background"));
 	clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
 	if (hBkgBrush)
@@ -486,7 +486,7 @@ void DeleteFrame()
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
 }
 
-void LoadBassLibrary(const TCHAR *ptszPath)
+void LoadBassLibrary(const wchar_t *ptszPath)
 {
 	hBass = LoadLibrary(ptszPath);
 

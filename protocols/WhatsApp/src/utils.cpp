@@ -1,16 +1,16 @@
 #include "stdafx.h"
 
-TCHAR* utils::removeA(TCHAR *str)
+wchar_t* utils::removeA(wchar_t *str)
 {
 	if (str == NULL)
 		return NULL;
 
-	TCHAR *p = _tcschr(str, '@');
+	wchar_t *p = wcschr(str, '@');
 	if (p) *p = 0;
 	return str;
 }
 
-void utils::copyText(HWND hwnd, const TCHAR *text)
+void utils::copyText(HWND hwnd, const wchar_t *text)
 {
 	if (!hwnd || !text) return;
 
@@ -18,8 +18,8 @@ void utils::copyText(HWND hwnd, const TCHAR *text)
 		return;
 
 	EmptyClipboard();
-	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(text) + 1));
-	mir_tstrcpy((TCHAR*)GlobalLock(hMem), text);
+	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_tstrlen(text) + 1));
+	mir_tstrcpy((wchar_t*)GlobalLock(hMem), text);
 	GlobalUnlock(hMem);
 	SetClipboardData(CF_UNICODETEXT, hMem);
 	CloseClipboard();
@@ -45,13 +45,13 @@ std::string getLastErrorMsg()
 	return ret;
 }
 
-void utils::setStatusMessage(MCONTACT hContact, const TCHAR *ptszMessage)
+void utils::setStatusMessage(MCONTACT hContact, const wchar_t *ptszMessage)
 {
 	if (ptszMessage != NULL) {
 		StatusTextData st = { 0 };
 		st.cbSize = sizeof(st);
 		st.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		_tcsncpy_s(st.tszText, ptszMessage, _TRUNCATE);
+		wcsncpy_s(st.tszText, ptszMessage, _TRUNCATE);
 		CallService(MS_MSG_SETSTATUSTEXT, hContact, (LPARAM)&st);
 	}
 	else CallService(MS_MSG_SETSTATUSTEXT, hContact, NULL);

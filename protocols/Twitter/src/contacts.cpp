@@ -49,8 +49,8 @@ MCONTACT TwitterProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	ForkThread(&TwitterProto::AddToListWorker, mir_utf8encodeT(psr->nick.t));
-	return AddToClientList(_T2A(psr->nick.t), "");
+	ForkThread(&TwitterProto::AddToListWorker, mir_utf8encodeT(psr->nick.w));
+	return AddToClientList(_T2A(psr->nick.w), "");
 }
 
 // *************************
@@ -93,10 +93,10 @@ int TwitterProto::GetInfo(MCONTACT hContact, int info_type)
 
 struct search_query
 {
-	search_query(const std::tstring &_query, bool _by_email) : query(_query), by_email(_by_email)
+	search_query(const std::wstring &_query, bool _by_email) : query(_query), by_email(_by_email)
 	{
 	}
-	std::tstring query;
+	std::wstring query;
 	bool by_email;
 };
 
@@ -127,27 +127,27 @@ void TwitterProto::DoSearch(void *pArg)
 	if (found) {
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
-		psr.nick.t = mir_a2t(info.username.c_str());
-		psr.firstName.t = mir_a2t(info.real_name.c_str());
+		psr.nick.w = mir_a2t(info.username.c_str());
+		psr.firstName.w = mir_a2t(info.real_name.c_str());
 
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 
-		mir_free(psr.nick.t);
-		mir_free(psr.firstName.t);
+		mir_free(psr.nick.w);
+		mir_free(psr.firstName.w);
 	}
 	else ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 
 	delete query;
 }
 
-HANDLE TwitterProto::SearchBasic(const TCHAR *username)
+HANDLE TwitterProto::SearchBasic(const wchar_t *username)
 {
 	ForkThread(&TwitterProto::DoSearch, new search_query(username, false));
 	return (HANDLE)1;
 }
 
-HANDLE TwitterProto::SearchByEmail(const TCHAR *email)
+HANDLE TwitterProto::SearchByEmail(const wchar_t *email)
 {
 	ForkThread(&TwitterProto::DoSearch, new search_query(email, true));
 	return (HANDLE)1;

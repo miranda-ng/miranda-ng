@@ -120,7 +120,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		}
 	}
 	if (hwnd == NULL || !IsWindowVisible(GetParent(hwnd))) {
-		TCHAR toolTip[256];
+		wchar_t toolTip[256];
 		mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		CLISTEVENT cle = {};
@@ -205,7 +205,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
-		TCHAR szTip[256];
+		wchar_t szTip[256];
 		mir_sntprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags2 & SMF2_SHOWTYPINGCLIST)) {
@@ -292,7 +292,7 @@ static void RestoreUnreadMessageAlerts(void)
 		}
 	}
 
-	TCHAR toolTip[256];
+	wchar_t toolTip[256];
 
 	CLISTEVENT cle = {};
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
@@ -523,8 +523,7 @@ int OnLoadModule(void)
 	hMsftEdit = LoadLibrary(L"Msftedit.dll");
 	if (hMsftEdit == NULL) {
 		if (IDYES != MessageBox(0,
-			TranslateT
-			("Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."),
+			TranslateT("Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."),
 			TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;
 		return 0;
@@ -647,7 +646,7 @@ STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEU
 
 STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
-	TCHAR sztName[64];
+	wchar_t sztName[64];
 	mir_sntprintf(sztName, L"s%u", nextStgId++);
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;

@@ -25,9 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CLC_H__
 #define M_CLC_H__ 1
 
-//This module is new in 0.1.2.1
-
-#define CLISTCONTROL_CLASS  "CListControl"
+#define CLISTCONTROL_CLASS   "CListControl"
+#define CLISTCONTROL_CLASSW L"CListControl"
 
 //styles
 #define CLS_MANUALUPDATE    0x0001	 //todo

@@ -381,14 +381,14 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								// Make new ggtransfer struct
 								local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, NULL);
-								TCHAR* filenameT = mir_utf8decodeT((char*)dcc->file_info.filename);
+								wchar_t* filenameT = mir_utf8decodeT((char*)dcc->file_info.filename);
 
 								PROTORECVFILET pre = {0};
 								pre.dwFlags = PRFF_TCHAR;
 								pre.fileCount = 1;
 								pre.timestamp = time(NULL);
-								pre.descr.t = filenameT;
-								pre.files.t = &filenameT;
+								pre.descr.w = filenameT;
+								pre.files.w = &filenameT;
 								pre.lParam = (LPARAM)local_dcc;
 
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 7, "ft_mutex", 1);
@@ -659,7 +659,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	debugLogA("dccmainthread(): end. DCC Server Thread Ending");
 }
 
-HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const TCHAR* szPath)
+HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
 {
 	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
@@ -677,7 +677,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const TCHAR* szPath)
 	if ((dcc->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
 	{
 		debugLogA("dccfileallow(): Failed to create file \"%s\". errno=%d: %s", fileName, errno, strerror(errno));
-		TCHAR error[512];
+		wchar_t error[512];
 		mir_sntprintf(error, TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc)\n%s"), errno, _tcserror(errno), szPath);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		ProtoBroadcastAck((UINT_PTR)dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
@@ -699,7 +699,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const TCHAR* szPath)
 	return hTransfer;
 }
 
-HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const TCHAR* szPath)
+HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 {
 	struct gg_dcc7 *dcc7 = (struct gg_dcc7 *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
@@ -726,7 +726,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const TCHAR* szPath)
 	if ((dcc7->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
 	{
 		debugLogA("dcc7fileallow(): Failed to create file \"%s\". errno=%d: %s", fileName, errno, strerror(errno));
-		TCHAR error[512];
+		wchar_t error[512];
 		mir_sntprintf(error, TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s"), errno, _tcserror(errno), szPath);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		gg_dcc7_reject(dcc7, GG_DCC7_REJECT_USER);
@@ -850,7 +850,7 @@ int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 ////////////////////////////////////////////////////////////
 // File receiving allowed
 //
-HANDLE GGPROTO::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
+HANDLE GGPROTO::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	// Check if its proper dcc
 	struct gg_common *c = (struct gg_common *) hTransfer;
@@ -882,7 +882,7 @@ int GGPROTO::FileCancel(MCONTACT, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////
 // File receiving denied
 //
-int GGPROTO::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR *)
+int GGPROTO::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 {
 	// Check if its proper dcc
 	struct gg_common *c = (struct gg_common *) hTransfer;
@@ -906,7 +906,7 @@ int GGPROTO::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 ////////////////////////////////////////////////////////////
 // Called when user sends a file
 //
-HANDLE GGPROTO::SendFile(MCONTACT hContact, const TCHAR *, TCHAR** ppszFiles)
+HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles)
 {
 	char *bslash, *filename;
 	DWORD ip, ver;

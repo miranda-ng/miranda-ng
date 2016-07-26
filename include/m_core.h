@@ -429,13 +429,11 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 typedef union {
 	char *a; // utf8 or ansi strings
-	TCHAR *t; // strings of TCHARs
 	wchar_t *w; // strings of WCHARs
 } MAllStrings;
 
 typedef union {
 	char **a; // array of utf8 or ansi strings
-	TCHAR **t; // array of strings of TCHARs
 	wchar_t **w; // array of strings of WCHARs
 } MAllStringArray;
 

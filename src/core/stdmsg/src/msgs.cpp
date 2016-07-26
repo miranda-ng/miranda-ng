@@ -88,7 +88,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	TCHAR toolTip[256];
+	wchar_t toolTip[256];
 	mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 	CLISTEVENT cle = {};
@@ -166,7 +166,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags & SMF_SHOWTYPINGTRAY)) {
-		TCHAR szTip[256];
+		wchar_t szTip[256];
 		mir_sntprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags & SMF_SHOWTYPINGCLIST)) {
@@ -271,7 +271,7 @@ static void RestoreUnreadMessageAlerts(void)
 		}
 	}
 
-	TCHAR toolTip[256];
+	wchar_t toolTip[256];
 
 	CLISTEVENT cle = {};
 	cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
@@ -402,7 +402,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static TCHAR tszError[] = LPGENT("Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.");
+static wchar_t tszError[] = LPGENW("Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.");
 
 int LoadSendRecvMessageModule(void)
 {

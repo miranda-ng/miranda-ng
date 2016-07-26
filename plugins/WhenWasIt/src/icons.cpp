@@ -29,21 +29,21 @@ HANDLE hDTBMore = NULL;
 
 HANDLE hWWIExtraIcons = (HANDLE)-1;
 
-static HANDLE AddIcon(char *name, char *description, TCHAR *tszPath, int iDefaultIdx)
+static HANDLE AddIcon(char *name, char *description, wchar_t *tszPath, int iDefaultIdx)
 {
 	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.section.a = LPGEN("WhenWasIt");
 	sid.description.a = description;
 	sid.pszName = name;
-	sid.defaultFile.t = tszPath;
+	sid.defaultFile.w = tszPath;
 	sid.iDefaultIndex = -iDefaultIdx;
 	return IcoLib_AddIcon(&sid);
 }
 
 int AddIcons()
 {
-	TCHAR tszPath[MAX_PATH];
+	wchar_t tszPath[MAX_PATH];
 	GetModuleFileName(hInstance, tszPath, _countof(tszPath));
 
 	hCheckMenu = AddIcon("MenuCheck", LPGEN("Check birthdays menu item"), tszPath, IDI_CHECK);

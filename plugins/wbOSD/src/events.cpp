@@ -23,7 +23,7 @@ void showmsgwnd(unsigned int param)
 		CallService(MS_MSG_SENDMESSAGET, (WPARAM)param, 0);
 }
 
-LRESULT ShowOSD(TCHAR *str, int timeout, COLORREF color, MCONTACT user)
+LRESULT ShowOSD(wchar_t *str, int timeout, COLORREF color, MCONTACT user)
 {
 	logmsg("ShowOSD");
 
@@ -62,7 +62,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 		if ( ack->result == ACKRESULT_SUCCESS && (LPARAM)ack->hProcess != ack->lParam ) {
 			DWORD ann = db_get_dw( NULL, THIS_MODULE, "announce", DEFAULT_ANNOUNCE );
 			if ( ann & ( 1 << ( ack->lParam - ID_STATUS_OFFLINE ))) {
-				TCHAR buffer[512];
+				wchar_t buffer[512];
 				mir_sntprintf(buffer, TranslateT("%s is %s"), pcli->pfnGetContactDisplayName(ack->hContact, 0), pcli->pfnGetStatusModeDescription(ack->lParam, 0));
 				ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_status", DEFAULT_CLRSTATUS), ack->hContact);
 	}	}	}
@@ -120,7 +120,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	)
 		return 0;
 
-	TCHAR bufferW[512];
+	wchar_t bufferW[512];
 	mir_sntprintf(bufferW, TranslateT("%s is %s"), pcli->pfnGetContactDisplayName(wParam, 0), pcli->pfnGetStatusModeDescription(newStatus, 0));
 	ShowOSD(bufferW, 0, db_get_dw(NULL,THIS_MODULE, "clr_status", DEFAULT_CLRSTATUS), hContact);
 	return 0;
@@ -150,8 +150,8 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	
 	logmsg("HookedNewEvent2");
 
-	TCHAR buf[512];
-	_tcsncpy(buf, DEFAULT_MESSAGEFORMAT,_countof(buf));
+	wchar_t buf[512];
+	wcsncpy(buf, DEFAULT_MESSAGEFORMAT,_countof(buf));
 
 	DBVARIANT dbv;
 	if(!db_get_ts(NULL,THIS_MODULE,"message_format",&dbv)) {
@@ -160,7 +160,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	}
 
 	int i1=-1, i2=-1;
-	TCHAR* pbuf = buf;
+	wchar_t* pbuf = buf;
 	while (*pbuf) {
 		if (*pbuf=='%') {
 			if (*(pbuf+1)=='n') {
@@ -181,7 +181,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 		pbuf++;
 	}
 
-	TCHAR *c1 = 0, *c2 = 0;
+	wchar_t *c1 = 0, *c2 = 0;
 	if ( i1 == 1 )
 		c1 = mir_tstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
 	else if ( i1 == 2 )
@@ -192,7 +192,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	else if ( i2 == 2 )
 		c2 = DbGetEventTextT( &dbe, 0 );
 
-	TCHAR buffer[512];
+	wchar_t buffer[512];
 	mir_sntprintf(buffer, buf, c1, c2);
 	ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_msg", DEFAULT_CLRMSG), wParam);
 

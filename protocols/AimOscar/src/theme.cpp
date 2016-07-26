@@ -179,19 +179,19 @@ int CAimProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 	switch (m_pd_mode) {
 	case 1:
-		Menu_ModifyItem(m_hBlockContextMenuItem, LPGENT("&Block"));
+		Menu_ModifyItem(m_hBlockContextMenuItem, LPGENW("&Block"));
 		break;
 
 	case 2:
-		Menu_ModifyItem(m_hBlockContextMenuItem, LPGENT("&Unblock"));
+		Menu_ModifyItem(m_hBlockContextMenuItem, LPGENW("&Unblock"));
 		break;
 
 	case 3:
-		Menu_ModifyItem(m_hBlockContextMenuItem, m_allow_list.find_id(id) ? LPGENT("&Block") : LPGENT("&Unblock"));
+		Menu_ModifyItem(m_hBlockContextMenuItem, m_allow_list.find_id(id) ? LPGENW("&Block") : LPGENW("&Unblock"));
 		break;
 
 	case 4:
-		Menu_ModifyItem(m_hBlockContextMenuItem, m_block_list.find_id(id) ? LPGENT("&Unblock") : LPGENT("&Block"));
+		Menu_ModifyItem(m_hBlockContextMenuItem, m_block_list.find_id(id) ? LPGENW("&Unblock") : LPGENW("&Block"));
 		break;
 
 	default:

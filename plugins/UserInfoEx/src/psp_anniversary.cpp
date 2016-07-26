@@ -78,10 +78,10 @@ static INT_PTR CALLBACK DlgProc_AnniversaryEditor(HWND hDlg, UINT uMsg, WPARAM w
 			LPTSTR pszText;
 
 			if (len == 0
-				|| (pszText = (LPTSTR)_alloca((len + 1) * sizeof(TCHAR))) == NULL
+				|| (pszText = (LPTSTR)_alloca((len + 1) * sizeof(wchar_t))) == NULL
 				|| !Edit_GetText(hEdit, pszText, len + 1))
 			{
-				MsgErr(hDlg, LPGENT("Please enter a valid description first!"));
+				MsgErr(hDlg, LPGENW("Please enter a valid description first!"));
 				break;
 			}
 
@@ -213,7 +213,7 @@ INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (HIWORD(wParam) == BN_CLICKED && PtrIsValid(pDateCtrl)) {
 				MAnnivDate *pDate = pDateCtrl->Current();
 				if (!pDate)
-					MsgErr(hDlg, LPGENT("No valid date selected for editing!"));
+					MsgErr(hDlg, LPGENW("No valid date selected for editing!"));
 				else if (
 					IDOK == DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_ANNIVERSARY_EDITOR), hDlg, DlgProc_AnniversaryEditor, (LPARAM)pDate) &&
 					(pDate->Flags() & (MAnnivDate::MADF_CHANGED | MAnnivDate::MADF_REMINDER_CHANGED)))
@@ -232,8 +232,8 @@ INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (HIWORD(wParam) == BN_CLICKED && PtrIsValid(pDateCtrl)) {
 				MAnnivDate *pCurrent = pDateCtrl->Current();
 				if (pCurrent) {
-					int rc = MsgBox(hDlg, MB_YESNO | MB_ICON_QUESTION | MB_NOPOPUP, LPGENT("Delete"), NULL,
-						LPGENT("Do you really want to delete the %s?"), pCurrent->Description());
+					int rc = MsgBox(hDlg, MB_YESNO | MB_ICON_QUESTION | MB_NOPOPUP, LPGENW("Delete"), NULL,
+						LPGENW("Do you really want to delete the %s?"), pCurrent->Description());
 
 					if (rc == IDYES)
 						pDateCtrl->DeleteDate(pDateCtrl->CurrentIndex());

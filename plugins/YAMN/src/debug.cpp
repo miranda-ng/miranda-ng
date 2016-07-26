@@ -14,21 +14,21 @@
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-TCHAR DebugUserDirectory[MAX_PATH] = L".";
+wchar_t DebugUserDirectory[MAX_PATH] = L".";
 CRITICAL_SECTION FileAccessCS;
 
 #ifdef DEBUG_SYNCHRO
-TCHAR DebugSynchroFileName2[]=L"%s\\yamn-debug.synchro.log";
+wchar_t DebugSynchroFileName2[]=L"%s\\yamn-debug.synchro.log";
 HANDLE SynchroFile;
 #endif
 
 #ifdef DEBUG_COMM
-TCHAR DebugCommFileName2[]=L"%s\\yamn-debug.comm.log";
+wchar_t DebugCommFileName2[]=L"%s\\yamn-debug.comm.log";
 HANDLE CommFile;
 #endif
 
 #ifdef DEBUG_DECODE
-TCHAR DebugDecodeFileName2[]=L"%s\\yamn-debug.decode.log";
+wchar_t DebugDecodeFileName2[]=L"%s\\yamn-debug.decode.log";
 HANDLE DecodeFile;
 #endif
 
@@ -38,7 +38,7 @@ HANDLE DecodeFile;
 void InitDebug()
 {
 #if defined (DEBUG_SYNCHRO) || defined (DEBUG_COMM) || defined (DEBUG_DECODE)
-	TCHAR DebugFileName[MAX_PATH];
+	wchar_t DebugFileName[MAX_PATH];
 #endif
 	InitializeCriticalSection(&FileAccessCS);
 

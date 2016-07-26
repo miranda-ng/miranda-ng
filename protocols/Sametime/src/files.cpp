@@ -28,22 +28,22 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 
 	proto->ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)ft, 0);
 
-	TCHAR* filenameT = mir_utf8decodeT(mwFileTransfer_getFileName(ft));
+	wchar_t* filenameT = mir_utf8decodeT(mwFileTransfer_getFileName(ft));
 	const char* message = mwFileTransfer_getMessage(ft);
-	TCHAR descriptionT[512];
+	wchar_t descriptionT[512];
 	if (message) {
-		TCHAR* messageT = mir_utf8decodeT(message);
+		wchar_t* messageT = mir_utf8decodeT(message);
 		mir_sntprintf(descriptionT, L"%s - %s", filenameT, messageT);
 		mir_free(messageT);
 	} else
-		_tcsncpy_s(descriptionT, filenameT, _TRUNCATE);
+		wcsncpy_s(descriptionT, filenameT, _TRUNCATE);
 
 	PROTORECVFILET pre = {0};
 	pre.dwFlags = PRFF_TCHAR;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
-	pre.descr.t = descriptionT;
-	pre.files.t = &filenameT;
+	pre.descr.w = descriptionT;
+	pre.files.w = &filenameT;
 	pre.lParam = (LPARAM)ft;
 
 	ProtoChainRecvFile(hContact, &pre);
@@ -282,7 +282,7 @@ mwFileTransferHandler mwFileTransfer_handler = {
 	mwFileTransfer_clear
 };
 
-HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, TCHAR** files, const TCHAR* ptszDesc)
+HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, wchar_t** files, const wchar_t* ptszDesc)
 {
 	debugLog(L"CSametimeProto::SendFilesToUser() start");
 
@@ -300,7 +300,7 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, TCHAR** files, const T
 			if (hFile != INVALID_HANDLE_VALUE) {
 				DWORD filesize = GetFileSize(hFile, 0);
 
-				TCHAR *fn = _tcsrchr(files[i], '\\');
+				wchar_t *fn = wcsrchr(files[i], '\\');
 				if (fn)
 					fn++;
 				else

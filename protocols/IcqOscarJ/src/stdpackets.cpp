@@ -1547,7 +1547,7 @@ void CIcqProto::icq_sendAuthReqServ(DWORD dwUin, char *szUid, const char *szMsg)
 	sendServPacket(&packet);
 }
 
-void CIcqProto::icq_sendAuthResponseServ(DWORD dwUin, char* szUid, int auth, const TCHAR *szReason)
+void CIcqProto::icq_sendAuthResponseServ(DWORD dwUin, char* szUid, int auth, const wchar_t *szReason)
 {
 	BYTE nUinLen = getUIDLen(dwUin, szUid);
 

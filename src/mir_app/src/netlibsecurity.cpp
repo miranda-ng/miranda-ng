@@ -35,8 +35,8 @@ struct NtlmHandleType
 {
 	CtxtHandle hClientContext;
 	CredHandle hClientCredential;
-	TCHAR* szProvider;
-	TCHAR* szPrincipal;
+	wchar_t* szProvider;
+	wchar_t* szPrincipal;
 	unsigned cbMaxToken;
 	bool hasDomain;
 };
@@ -73,7 +73,7 @@ static void ReportSecError(SECURITY_STATUS scRet, int line)
 	NetlibLogf(NULL, "Security error 0x%x on line %u (%s)", scRet, line, szMsgBuf);
 }
 
-HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrincipal)
+HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPrincipal)
 {
 	HANDLE hSecurity = NULL;
 
@@ -91,7 +91,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 
 	PSecPkgInfo ntlmSecurityPackageInfo;
 	bool isGSSAPI = mir_tstrcmpi(szProvider, L"GSSAPI") == 0;
-	const TCHAR *szProviderC = isGSSAPI ? L"Kerberos" : szProvider;
+	const wchar_t *szProviderC = isGSSAPI ? L"Kerberos" : szProvider;
 	SECURITY_STATUS sc = QuerySecurityPackageInfo((LPTSTR)szProviderC, &ntlmSecurityPackageInfo);
 	if (sc == SEC_E_OK) {
 		NtlmHandleType* hNtlm;
@@ -201,7 +201,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	return mir_base64_encode(response, ressz);
 }
 
-char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const TCHAR* login, const TCHAR* psw, bool http, unsigned& complete)
+char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const wchar_t* login, const wchar_t* psw, bool http, unsigned& complete)
 {
 	if (hSecurity == NULL || ntlmCnt == 0)
 		return NULL;
@@ -215,7 +215,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
 	if (mir_tstrcmpi(hNtlm->szProvider, L"Basic")) {
 		bool isGSSAPI = mir_tstrcmpi(hNtlm->szProvider, L"GSSAPI") == 0;
-		TCHAR *szProvider = isGSSAPI ? (TCHAR*)L"Kerberos" : hNtlm->szProvider;
+		wchar_t *szProvider = isGSSAPI ? (wchar_t*)L"Kerberos" : hNtlm->szProvider;
 		bool hasChallenge = szChallenge != NULL && szChallenge[0] != '\0';
 		if (hasChallenge) {
 			unsigned tokenLen;
@@ -252,9 +252,9 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 					if (domainLen) {
 						size_t newLoginLen = mir_tstrlen(login) + domainLen + 1;
-						TCHAR *newLogin = (TCHAR*)alloca(newLoginLen * sizeof(TCHAR));
+						wchar_t *newLogin = (wchar_t*)alloca(newLoginLen * sizeof(wchar_t));
 
-						_tcsncpy(newLogin, domainName, domainLen);
+						wcsncpy(newLogin, domainName, domainLen);
 						newLogin[domainLen] = '\\';
 						mir_tstrcpy(newLogin + domainLen + 1, login);
 
@@ -277,8 +277,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 				NetlibLogf(NULL, "Security login requested, user: %S pssw: %s", login, psw ? "(exist)" : "(no psw)");
 
-				const TCHAR* loginName = login;
-				const TCHAR* domainName = _tcschr(login, '\\');
+				const wchar_t* loginName = login;
+				const wchar_t* domainName = wcschr(login, '\\');
 				size_t domainLen = 0;
 				size_t loginLen = mir_tstrlen(loginName);
 				if (domainName != NULL) {
@@ -287,7 +287,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 					domainLen = domainName - login;
 					domainName = login;
 				}
-				else if ((domainName = _tcschr(login, '@')) != NULL) {
+				else if ((domainName = wcschr(login, '@')) != NULL) {
 					loginName = login;
 					loginLen = domainName - login;
 					domainLen = mir_tstrlen(++domainName);

@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void facebook_client::client_notify(TCHAR* message)
+void facebook_client::client_notify(wchar_t* message)
 {
 	parent->NotifyEvent(parent->m_tszUserName, message, NULL, FACEBOOK_EVENT_CLIENT);
 }
@@ -723,13 +723,13 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 			}
 		}
 		
-		std::tstring treaderName = _A2T(name.c_str(), CP_UTF8);
-		std::tstring treaders;
+		std::wstring treaderName = _A2T(name.c_str(), CP_UTF8);
+		std::wstring treaders;
 
 		// Load old readers
 		ptrT told(parent->getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
 		if (told)
-			treaders = std::tstring(told) + L", ";
+			treaders = std::wstring(told) + L", ";
 
 		// Append new reader name and remember them
 		treaders += utils::text::prepare_name(treaderName, true);
@@ -771,7 +771,7 @@ void loginError(FacebookProto *proto, std::string error_str) {
 
 	proto->debugLogA("!!! Login error: %s", !error_str.empty() ? error_str.c_str() : "Unknown error");
 
-	TCHAR buf[200];
+	wchar_t buf[200];
 	mir_sntprintf(buf, TranslateT("Login error: %s"),
 		(error_str.empty()) ? TranslateT("Unknown error") : ptrT(mir_utf8decodeT(error_str.c_str())));
 	proto->facy.client_notify(buf);
@@ -1664,7 +1664,7 @@ bool facebook_client::post_status(status_data *status)
 
 //////////////////////////////////////////////////////////////////////////////
 
-bool facebook_client::save_url(const std::string &url, const std::tstring &filename, HANDLE &nlc)
+bool facebook_client::save_url(const std::string &url, const std::wstring &filename, HANDLE &nlc)
 {
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	NETLIBHTTPREQUEST *resp;
@@ -1683,17 +1683,17 @@ bool facebook_client::save_url(const std::string &url, const std::tstring &filen
 		parent->debugLogA("@@@ Saving URL %s to file %s", url.c_str(), _T2A(filename.c_str()));
 
 		// Create folder if necessary
-		std::tstring dir = filename.substr(0, filename.rfind('\\'));
-		if (_taccess(dir.c_str(), 0))
+		std::wstring dir = filename.substr(0, filename.rfind('\\'));
+		if (_waccess(dir.c_str(), 0))
 			CreateDirectoryTreeT(dir.c_str());
 
 		// Write to file
-		FILE *f = _tfopen(filename.c_str(), L"wb");
+		FILE *f = _wfopen(filename.c_str(), L"wb");
 		if (f != NULL) {
 			fwrite(resp->pData, 1, resp->dataLength, f);
 			fclose(f);
 
-			ret = _taccess(filename.c_str(), 0) == 0;
+			ret = _waccess(filename.c_str(), 0) == 0;
 		}
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);

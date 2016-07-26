@@ -224,7 +224,7 @@ BYTE getEntryByte(int buttonnum, int entrynum, BOOL mode)
 
 static HANDLE AddIcon(char* szIcoName)
 {
-	TCHAR tszPath[MAX_PATH];
+	wchar_t tszPath[MAX_PATH];
 	GetModuleFileName(hinstance, tszPath, _countof(tszPath));
 
 	SKINICONDESC sid = { 0 };
@@ -232,7 +232,7 @@ static HANDLE AddIcon(char* szIcoName)
 	sid.section.a = "Quick Messages";
 	sid.description.a = szIcoName;
 	sid.pszName = szIcoName;
-	sid.defaultFile.t = tszPath;
+	sid.defaultFile.w = tszPath;
 	sid.iDefaultIndex = -IDI_QICON;
 	return IcoLib_AddIcon(&sid);
 }
@@ -269,7 +269,7 @@ void InitButtonsList()
 	int i, j, k = 0;
 	QuickList = List_Create(0, 1);
 	for (i = 0; i < g_iButtonsCount; i++) {
-		TCHAR* pszBName = NULL;
+		wchar_t* pszBName = NULL;
 		ListData* ld = NULL;
 		if (!(pszBName = getMenuEntry(i, 0, 3))) {
 			g_iButtonsCount = i;
@@ -286,7 +286,7 @@ void InitButtonsList()
 		ld->dwOPFlags = 0;
 		ld->bIsServName = ld->bIsOpServName = getEntryByte(i, 0, 3);
 		for (j = 0;; j++) {
-			TCHAR* pszEntry = NULL;
+			wchar_t* pszEntry = NULL;
 			ButtonData *bd = NULL;
 
 			if (!(pszEntry = getMenuEntry(i, j, 0)))
@@ -331,9 +331,9 @@ void DestructButtonsList()
 	}
 }
 
-TCHAR* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
+wchar_t* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
 {
-	TCHAR* buffer = NULL;
+	wchar_t* buffer = NULL;
 	char szMEntry[256];
 	DBVARIANT dbv;
 
@@ -387,18 +387,18 @@ int RegisterCustomButton(WPARAM, LPARAM)
 	return 0;
 }
 
-TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR* ptszClip, int QVSize, int TextSize, int ClipSize)
+wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, wchar_t* ptszClip, int QVSize, int TextSize, int ClipSize)
 {
 	int i = 0, iOffset = 0;
-	TCHAR* tempPointer = NULL;
-	TCHAR* ptszQValue = _tcsdup(ptszQValIn);
-	TCHAR* tempQValue = ptszQValue;
-	TCHAR varstr = _T('%');
-	TCHAR* p = NULL;
+	wchar_t* tempPointer = NULL;
+	wchar_t* ptszQValue = wcsdup(ptszQValIn);
+	wchar_t* tempQValue = ptszQValue;
+	wchar_t varstr = '%';
+	wchar_t* p = NULL;
 	int NameLenght = 0;
-	TCHAR* ptszName = NULL;
+	wchar_t* ptszName = NULL;
 
-	if (!_tcschr(ptszQValue, varstr))
+	if (!wcschr(ptszQValue, varstr))
 		return ptszQValue;
 
 	if (TextSize && ptszText[TextSize - 1] == '\0')
@@ -414,18 +414,18 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 
 		switch (ptszQValue[i + 1]) {
 		case 't':
-			p = (TCHAR *)realloc(tempQValue, (QVSize + TextSize + 1) * sizeof(TCHAR));
+			p = (wchar_t *)realloc(tempQValue, (QVSize + TextSize + 1) * sizeof(wchar_t));
 			if (!p)
 				break;
 			i = iOffset;
 			tempQValue = ptszQValue = p;
 
-			tempPointer = (TCHAR *)memmove(ptszQValue + i + TextSize, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
-			memcpy(ptszQValue + i, ptszText, TextSize * sizeof(TCHAR));
+			tempPointer = (wchar_t *)memmove(ptszQValue + i + TextSize, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(wchar_t));
+			memcpy(ptszQValue + i, ptszText, TextSize * sizeof(wchar_t));
 			QVSize += (TextSize - 2);
 			ptszQValue[QVSize] = '\0';
 
-			if (!_tcschr(ptszQValue, varstr))
+			if (!wcschr(ptszQValue, varstr))
 				return ptszQValue;
 
 			ptszQValue = tempPointer;
@@ -433,18 +433,18 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 			i = -1;
 			break;
 		case 'c':
-			p = (TCHAR *)realloc(tempQValue, (QVSize + ClipSize + 1) * sizeof(TCHAR));
+			p = (wchar_t *)realloc(tempQValue, (QVSize + ClipSize + 1) * sizeof(wchar_t));
 			if (!p)
 				break;
 			i = iOffset;
 			tempQValue = ptszQValue = p;
 
-			tempPointer = (TCHAR *)memmove(ptszQValue + i + ClipSize, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
-			memcpy(ptszQValue + i, ptszClip, ClipSize * sizeof(TCHAR));
+			tempPointer = (wchar_t *)memmove(ptszQValue + i + ClipSize, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(wchar_t));
+			memcpy(ptszQValue + i, ptszClip, ClipSize * sizeof(wchar_t));
 			QVSize += (ClipSize - 2);
 			ptszQValue[QVSize] = '\0';
 
-			if (!_tcschr(ptszQValue, varstr))
+			if (!wcschr(ptszQValue, varstr))
 				return ptszQValue;
 
 			ptszQValue = tempPointer;
@@ -454,7 +454,7 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 		case 'P':
 			ptszName = mir_a2u(GetContactProto(hContact));
 			NameLenght = (int)mir_tstrlen(ptszName);
-			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
+			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p) {
 				mir_free(ptszName);
 				break;
@@ -462,13 +462,13 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 			i = iOffset;
 			tempQValue = ptszQValue = p;
 
-			tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
-			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(TCHAR));
+			tempPointer = (wchar_t *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(wchar_t));
+			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(wchar_t));
 			QVSize += (NameLenght - 2);
 			mir_free(ptszName);
 			ptszQValue[QVSize] = '\0';
 
-			if (!_tcschr(ptszQValue, varstr))
+			if (!wcschr(ptszQValue, varstr))
 				return ptszQValue;
 
 			ptszQValue = tempPointer;
@@ -477,20 +477,20 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 			break;
 
 		case 'n':
-			ptszName = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
+			ptszName = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
 			NameLenght = (int)mir_tstrlen(ptszName);
-			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
+			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p)
 				break;
 			i = iOffset;
 			tempQValue = ptszQValue = p;
 
-			tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
-			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(TCHAR));
+			tempPointer = (wchar_t *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(wchar_t));
+			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(wchar_t));
 			QVSize += (NameLenght - 2);
 			ptszQValue[QVSize] = '\0';
 
-			if (!_tcschr(ptszQValue, varstr))
+			if (!wcschr(ptszQValue, varstr))
 				return ptszQValue;
 
 			ptszQValue = tempPointer;
@@ -502,7 +502,7 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 			if (ptszName == NULL)
 				break;
 			NameLenght = (int)mir_tstrlen(ptszName);
-			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
+			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p) {
 				mir_free(ptszName);
 				break;
@@ -510,13 +510,13 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 			i = iOffset;
 			tempQValue = ptszQValue = p;
 
-			tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
-			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(TCHAR));
+			tempPointer = (wchar_t *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(wchar_t));
+			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(wchar_t));
 			QVSize += (NameLenght - 2);
 			mir_free(ptszName);
 			ptszQValue[QVSize] = '\0';
 
-			if (!_tcschr(ptszQValue, varstr))
+			if (!wcschr(ptszQValue, varstr))
 				return ptszQValue;
 
 			ptszQValue = tempPointer;
@@ -529,7 +529,7 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 				break;
 
 			NameLenght = (int)mir_tstrlen(ptszName);
-			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
+			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p) {
 				mir_free(ptszName);
 				break;
@@ -537,13 +537,13 @@ TCHAR* ParseString(MCONTACT hContact, TCHAR* ptszQValIn, TCHAR* ptszText, TCHAR*
 			i = iOffset;
 			tempQValue = ptszQValue = p;
 
-			tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
-			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(TCHAR));
+			tempPointer = (wchar_t *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(wchar_t));
+			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(wchar_t));
 			QVSize += (NameLenght - 2);
 			mir_free(ptszName);
 			ptszQValue[QVSize] = '\0';
 
-			if (!_tcschr(ptszQValue, varstr))
+			if (!wcschr(ptszQValue, varstr))
 				return ptszQValue;
 
 			ptszQValue = tempPointer;

@@ -19,7 +19,7 @@ struct CDummyProto;
 
 struct CDummyProto : public PROTO<CDummyProto>
 {
-				CDummyProto(const char*, const TCHAR*);
+				CDummyProto(const char*, const wchar_t*);
 				~CDummyProto();
 
 	//====================================================================================
@@ -32,7 +32,7 @@ struct CDummyProto : public PROTO<CDummyProto>
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
 
 	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
 

@@ -46,7 +46,7 @@ struct avatar_up_req
     { mir_free(data1); mir_free(data2); }
 };
 
-bool get_avatar_hash(const TCHAR* file, char* hash, char** data, unsigned short &size);
+bool get_avatar_hash(const wchar_t* file, char* hash, char** data, unsigned short &size);
 void rescale_image(char *data, unsigned short size, char *&data1, unsigned short &size1);
 
 #endif

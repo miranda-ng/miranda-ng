@@ -25,11 +25,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconItem *pIcons, size_t iCount, char *prefix, int _hLang)
 {
-	TCHAR szFile[MAX_PATH];
+	wchar_t szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
 	SKINICONDESC sid = { 0 };
-	sid.defaultFile.t = szFile;
+	sid.defaultFile.w = szFile;
 	sid.section.a = (char*)szSection;
 	sid.flags = SIDF_PATH_TCHAR;
 
@@ -48,14 +48,14 @@ MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconIte
 	}
 }
 
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR *szSection, IconItemT *pIcons, size_t iCount, char *prefix, int _hLang)
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t *szSection, IconItemT *pIcons, size_t iCount, char *prefix, int _hLang)
 {
-	TCHAR szFile[MAX_PATH];
+	wchar_t szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
 	SKINICONDESC sid = { 0 };
-	sid.defaultFile.t = szFile;
-	sid.section.t = (TCHAR*)szSection;
+	sid.defaultFile.w = szFile;
+	sid.section.w = (wchar_t*)szSection;
 	sid.flags = SIDF_ALL_TCHAR;
 
 	for (unsigned i = 0; i < iCount; i++) {
@@ -67,7 +67,7 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR *szSection, IconI
 		else sid.pszName = pIcons[i].szName;
 
 		sid.cx = sid.cy = pIcons[i].size;
-		sid.description.t = pIcons[i].tszDescr;
+		sid.description.w = pIcons[i].tszDescr;
 		sid.iDefaultIndex = -pIcons[i].defIconID;
 		pIcons[i].hIcolib = IcoLib_AddIcon(&sid, _hLang);
 	}

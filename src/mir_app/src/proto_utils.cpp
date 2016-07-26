@@ -172,12 +172,12 @@ MIR_APP_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
 	return L"";
 }
 
-MIR_APP_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
+MIR_APP_DLL(int) ProtoGetAvatarFormat(const wchar_t *ptszFileName)
 {
 	if (ptszFileName == NULL)
 		return PA_FORMAT_UNKNOWN;
 
-	const TCHAR *ptszExt = _tcsrchr(ptszFileName, '.');
+	const wchar_t *ptszExt = wcsrchr(ptszFileName, '.');
 	if (ptszExt == NULL)
 		return PA_FORMAT_UNKNOWN;
 
@@ -205,7 +205,7 @@ MIR_APP_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
 	return PA_FORMAT_UNKNOWN;
 }
 
-MIR_APP_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const TCHAR **ptszExtension)
+MIR_APP_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const wchar_t **ptszExtension)
 {
 	if (!memcmp(pBuffer, "\x89PNG", 4)) {
 		if (ptszExtension) *ptszExtension = L".png";
@@ -236,7 +236,7 @@ MIR_APP_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const TCHAR **ptszExt
 	return PA_FORMAT_UNKNOWN;
 }
 
-MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName)
+MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const wchar_t *ptszFileName)
 {
 	HANDLE hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -268,7 +268,7 @@ int PROTO_INTERFACE::Authorize(MEVENT)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::AuthDeny(MEVENT, const TCHAR*)
+int PROTO_INTERFACE::AuthDeny(MEVENT, const wchar_t*)
 {
 	return 1; // error
 }
@@ -278,12 +278,12 @@ int PROTO_INTERFACE::AuthRecv(MCONTACT, PROTORECVEVENT*)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::AuthRequest(MCONTACT, const TCHAR*)
+int PROTO_INTERFACE::AuthRequest(MCONTACT, const wchar_t*)
 {
 	return 1; // error
 }
 
-HANDLE PROTO_INTERFACE::FileAllow(MCONTACT, HANDLE, const TCHAR*)
+HANDLE PROTO_INTERFACE::FileAllow(MCONTACT, HANDLE, const wchar_t*)
 {
 	return NULL; // error
 }
@@ -293,12 +293,12 @@ int PROTO_INTERFACE::FileCancel(MCONTACT, HANDLE)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::FileDeny(MCONTACT, HANDLE, const TCHAR*)
+int PROTO_INTERFACE::FileDeny(MCONTACT, HANDLE, const wchar_t*)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::FileResume(HANDLE, int*, const TCHAR**)
+int PROTO_INTERFACE::FileResume(HANDLE, int*, const wchar_t**)
 {
 	return 1; // error
 }
@@ -313,17 +313,17 @@ int PROTO_INTERFACE::GetInfo(MCONTACT, int)
 	return 1; // error
 }
 
-HANDLE PROTO_INTERFACE::SearchBasic(const TCHAR*)
+HANDLE PROTO_INTERFACE::SearchBasic(const wchar_t*)
 {
 	return NULL; // error
 }
 
-HANDLE PROTO_INTERFACE::SearchByEmail(const TCHAR*)
+HANDLE PROTO_INTERFACE::SearchByEmail(const wchar_t*)
 {
 	return NULL; // error
 }
 
-HANDLE PROTO_INTERFACE::SearchByName(const TCHAR*, const TCHAR*, const TCHAR*)
+HANDLE PROTO_INTERFACE::SearchByName(const wchar_t*, const wchar_t*, const wchar_t*)
 {
 	return NULL; // error
 }
@@ -364,7 +364,7 @@ int PROTO_INTERFACE::SendContacts(MCONTACT, int, int, MCONTACT*)
 	return 1; // error
 }
 
-HANDLE PROTO_INTERFACE::SendFile(MCONTACT, const TCHAR*, TCHAR**)
+HANDLE PROTO_INTERFACE::SendFile(MCONTACT, const wchar_t*, wchar_t**)
 {
 	return NULL; // error
 }
@@ -399,7 +399,7 @@ int PROTO_INTERFACE::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::SetAwayMsg(int, const TCHAR*)
+int PROTO_INTERFACE::SetAwayMsg(int, const wchar_t*)
 {
 	return 1; // error
 }

@@ -107,7 +107,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		FILE *xmlfile = fopen(pszFileName, "wt");
 		if (!xmlfile)
 		{
-			MsgErr(NULL, LPGENT("Can't create xml file!\n%S"), pszFileName);
+			MsgErr(NULL, LPGENW("Can't create xml file!\n%S"), pszFileName);
 			return 1;
 		}
 		
@@ -183,7 +183,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 			} // *end for
 #ifdef _DEBUG
 			QueryPerformanceCounter(&t2);
-			MsgErr(NULL, LPGENT("Export took %f ms"),
+			MsgErr(NULL, LPGENW("Export took %f ms"),
 				(long double)(t2.QuadPart - t1.QuadPart) / freq.QuadPart * 1000.);
 #endif
 		}// *end other export mode
@@ -255,7 +255,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 			// update progressbar and abort if user clicked cancel
 			LPTSTR pszNick = mir_utf8decodeT(xContact->Attribute("nick"));
 			// user clicked abort button
-			if (_progress.UpdateContact(LPGENT("Contact: %s (%S)"), pszNick, xContact->Attribute("proto"))) {
+			if (_progress.UpdateContact(LPGENW("Contact: %s (%S)"), pszNick, xContact->Attribute("proto"))) {
 				int result = vContact.LoadXmlElemnt(xContact);
 				switch (result) {
 					case ERROR_OK:
@@ -271,7 +271,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 									return ERROR_ABORTED;
 #ifdef _DEBUG
 								default:
-									MsgErr(NULL, LPGENT("Importing %s caused error %d"), pszNick, result);
+									MsgErr(NULL, LPGENW("Importing %s caused error %d"), pszNick, result);
 									break;
 #endif
 							}
@@ -282,7 +282,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 						return ERROR_ABORTED;
 #ifdef _DEBUG
 					default:
-						MsgErr(NULL, LPGENT("Loading contact %s from xml failed with error %d"), pszNick, result);
+						MsgErr(NULL, LPGENW("Loading contact %s from xml failed with error %d"), pszNick, result);
 						break;
 #endif
 				}
@@ -300,7 +300,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 					return ERROR_ABORTED;
 #ifdef _DEBUG
 				default:
-					MsgErr(NULL, LPGENT("Importing Owner caused error %d"), result);
+					MsgErr(NULL, LPGENW("Importing Owner caused error %d"), result);
 #endif
 			}
 		}
@@ -345,19 +345,19 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 		// load xml file
 		TiXmlDocument doc;
 		if (!doc.LoadFile(pszFileName)) {
-			MsgErr(NULL, LPGENT("Parser is unable to load XMLCard \"%s\"\nError: %d\nDescription: %s"),
+			MsgErr(NULL, LPGENW("Parser is unable to load XMLCard \"%s\"\nError: %d\nDescription: %s"),
 				pszFileName, doc.ErrorId(), doc.ErrorDesc());
 			return 1;
 		}
 		// is xmlfile a XMLCard ?
 		TiXmlElement *xmlCard = doc.FirstChildElement("XMLCard");
 		if (xmlCard == NULL) {
-			MsgErr(NULL, LPGENT("The selected file is no valid XMLCard"));
+			MsgErr(NULL, LPGENW("The selected file is no valid XMLCard"));
 			return 1;
 		}
 		// check version
 		if (mir_strcmp(xmlCard->Attribute("ver"), XMLCARD_VERSION)) {
-			MsgErr(NULL, LPGENT("The version of the XMLCard is not supported by UserInfoEx"));
+			MsgErr(NULL, LPGENW("The version of the XMLCard is not supported by UserInfoEx"));
 			return 1;
 		}
 
@@ -374,12 +374,12 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 
 			if (!ret) {
 				MsgBox(NULL, MB_ICONINFORMATION, 
-					LPGENT("Complete"),
-					LPGENT("Import complete"),
-					LPGENT("Owner contact successfully imported."));
+					LPGENW("Complete"),
+					LPGENW("Import complete"),
+					LPGENW("Owner contact successfully imported."));
 				return 0;
 			} else {
-				MsgErr(NULL, LPGENT("Selected XMLCard does not contain an owner contact!"));
+				MsgErr(NULL, LPGENW("Selected XMLCard does not contain an owner contact!"));
 				return 1;
 			}
 		}
@@ -406,12 +406,12 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 
 #ifdef _DEBUG
 			QueryPerformanceCounter(&t2);
-			MsgErr(NULL, LPGENT("Import took %f ms"),
+			MsgErr(NULL, LPGENW("Import took %f ms"),
 				(long double)(t2.QuadPart - t1.QuadPart) / freq.QuadPart * 1000.);
 #endif
 			// show results
-			MsgBox(NULL, MB_ICONINFORMATION, LPGENT("Import complete"), LPGENT("Some basic statistics"), 
-				LPGENT("added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u"),
+			MsgBox(NULL, MB_ICONINFORMATION, LPGENW("Import complete"), LPGENW("Some basic statistics"), 
+				LPGENW("added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u"),
 				_numContactsDone, _numContactsTodo,
 				_numSettingsDone, _numSettingsTodo,
 				_numEventsDone, _numEventsTodo,
@@ -421,7 +421,7 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 		return 0;
 	}	
 	catch(...) {
-		MsgErr(NULL, LPGENT("FATAL: An exception was thrown while importing contacts from xmlCard!"));
+		MsgErr(NULL, LPGENW("FATAL: An exception was thrown while importing contacts from xmlCard!"));
 		return 1;
 	}
 }

@@ -17,19 +17,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CVkProto::SearchBasic(const TCHAR *id)
+HANDLE CVkProto::SearchBasic(const wchar_t *id)
 {
 	ForkThread(&CVkProto::SearchBasicThread, (void *)id);
 	return (HANDLE)1;
 }
 
-HANDLE CVkProto::SearchByEmail(const TCHAR *email)
+HANDLE CVkProto::SearchByEmail(const wchar_t *email)
 {
 	ForkThread(&CVkProto::SearchByMailThread, (void *)email);
 	return (HANDLE)1;
 }
 
-HANDLE CVkProto::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName)
+HANDLE CVkProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	PROTOSEARCHBYNAME *psr = new (PROTOSEARCHBYNAME);
 
@@ -47,7 +47,7 @@ void CVkProto::SearchBasicThread(void *id)
 	if (!IsOnline())
 		return;
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
-		<< TCHAR_PARAM("user_ids", (TCHAR *)id)
+		<< TCHAR_PARAM("user_ids", (wchar_t *)id)
 		<< CHAR_PARAM("fields", "nickname, domain");
 	pReq->pUserInfo = NULL;
 	Push(pReq);
@@ -59,7 +59,7 @@ void CVkProto::SearchByMailThread(void *email)
 	if (!IsOnline())
 		return;
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/account.lookupContacts.json", true, &CVkProto::OnSearchByMail)
-		<< TCHAR_PARAM("contacts", (TCHAR *)email)
+		<< TCHAR_PARAM("contacts", (wchar_t *)email)
 		<< CHAR_PARAM("service", "email");
 	Push(pReq);
 }
@@ -68,14 +68,14 @@ void __cdecl CVkProto::SearchThread(void *p)
 {
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)p;
 
-	TCHAR arg[200];
+	wchar_t arg[200];
 	mir_sntprintf(arg, L"%s %s %s", pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
 	debugLog(L"CVkProto::SearchThread %s", arg);
 	if (!IsOnline())
 		return;
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/users.search.json", true, &CVkProto::OnSearch)
-		<< TCHAR_PARAM("q", (TCHAR *)arg)
+		<< TCHAR_PARAM("q", (wchar_t *)arg)
 		<< CHAR_PARAM("fields", "nickname, domain")
 		<< INT_PARAM("count", 200);
 	pReq->pUserInfo = p;
@@ -126,19 +126,19 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		CMString Nick(jnRecord["nickname"].as_mstring());
 		CMString Domain(jnRecord["domain"].as_mstring());
 
-		psr.id.t = mir_tstrdup(Id);
-		psr.firstName.t = mir_tstrdup(FirstName);
-		psr.lastName.t = mir_tstrdup(LastName);
-		psr.nick.t = Nick.IsEmpty() ? mir_tstrdup(Domain) : mir_tstrdup(Nick);
+		psr.id.w = mir_tstrdup(Id);
+		psr.firstName.w = mir_tstrdup(FirstName);
+		psr.lastName.w = mir_tstrdup(LastName);
+		psr.nick.w = Nick.IsEmpty() ? mir_tstrdup(Domain) : mir_tstrdup(Nick);
 
 		bool filter = true;
 		if (pParam) {
-			if (psr.firstName.t && pParam->pszFirstName)
-				filter = tlstrstr(psr.firstName.t, pParam->pszFirstName) && filter;
-			if (psr.lastName.t && pParam->pszLastName)
-				filter = tlstrstr(psr.lastName.t, pParam->pszLastName) && filter;
-			if (psr.nick.t && pParam->pszNick)
-				filter = tlstrstr(psr.nick.t, pParam->pszNick) && filter;
+			if (psr.firstName.w && pParam->pszFirstName)
+				filter = tlstrstr(psr.firstName.w, pParam->pszFirstName) && filter;
+			if (psr.lastName.w && pParam->pszLastName)
+				filter = tlstrstr(psr.lastName.w, pParam->pszLastName) && filter;
+			if (psr.nick.w && pParam->pszNick)
+				filter = tlstrstr(psr.nick.w, pParam->pszNick) && filter;
 		}
 
 		if (filter)
@@ -184,11 +184,11 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		CMString Nick(jnRecord["nickname"].as_mstring());
 		CMString Email(jnRecord["contact"].as_mstring());
 
-		psr.id.t = mir_tstrdup(Id);
-		psr.firstName.t = mir_tstrdup(FirstName);
-		psr.lastName.t = mir_tstrdup(LastName);
-		psr.nick.t = Nick.IsEmpty() ? mir_tstrdup(Email) : mir_tstrdup(Nick);
-		psr.email.t = mir_tstrdup(Email);
+		psr.id.w = mir_tstrdup(Id);
+		psr.firstName.w = mir_tstrdup(FirstName);
+		psr.lastName.w = mir_tstrdup(LastName);
+		psr.nick.w = Nick.IsEmpty() ? mir_tstrdup(Email) : mir_tstrdup(Nick);
+		psr.email.w = mir_tstrdup(Email);
 
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}

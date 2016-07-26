@@ -95,11 +95,11 @@ CURL_EXTERN int curl_fclose(FILE *file, int line, const char *source);
 #    define wcsdup(ptr) curl_dowcsdup(ptr, __LINE__, __FILE__)
 #    undef _wcsdup
 #    define _wcsdup(ptr) curl_dowcsdup(ptr, __LINE__, __FILE__)
-#    undef _tcsdup
-#    define _tcsdup(ptr) curl_dowcsdup(ptr, __LINE__, __FILE__)
+#    undef wcsdup
+#    define wcsdup(ptr) curl_dowcsdup(ptr, __LINE__, __FILE__)
 #  else
-#    undef _tcsdup
-#    define _tcsdup(ptr) curl_dostrdup(ptr, __LINE__, __FILE__)
+#    undef wcsdup
+#    define wcsdup(ptr) curl_dostrdup(ptr, __LINE__, __FILE__)
 #  endif
 #endif
 

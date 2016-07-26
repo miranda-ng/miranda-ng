@@ -1377,11 +1377,11 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 		return 0;
 
 	size_t size = mir_strlen(szGroup) + 2;
-	TCHAR *tszGroup = (TCHAR*)_alloca(size * sizeof(TCHAR));
+	wchar_t *tszGroup = (wchar_t*)_alloca(size * sizeof(wchar_t));
 
 	if (utf8_to_tchar_static(szGroup, tszGroup, size))
 		for (int i = 1; TRUE; i++) {
-			TCHAR *tszGroupName = (TCHAR*)Clist_GroupGetName(i, NULL);
+			wchar_t *tszGroupName = (wchar_t*)Clist_GroupGetName(i, NULL);
 			if (!tszGroupName)
 				break;
 

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-CToxProto::CToxProto(const char* protoName, const TCHAR* userName)
+CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CToxProto>(protoName, userName),
 	hPollingThread(NULL), toxThread(NULL),
 	hOutDevice(NULL), hMessageProcess(1)
@@ -90,13 +90,13 @@ int CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
-int CToxProto::AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
+int CToxProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 {
 	ptrA reason(mir_utf8encodeW(szMessage));
 	return OnRequestAuth(hContact, (LPARAM)reason);
 }
 
-HANDLE CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *tszPath)
+HANDLE CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *tszPath)
 {
 	return OnFileAllow(hContact, hTransfer, tszPath);
 }
@@ -106,12 +106,12 @@ int CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	return CancelTransfer(hContact, hTransfer);
 }
 
-int CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
+int CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*)
 {
 	return FileCancel(hContact, hTransfer);
 }
 
-int CToxProto::FileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename)
+int CToxProto::FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename)
 {
 	return OnFileResume(hTransfer, action, szFilename);
 }
@@ -131,7 +131,7 @@ int CToxProto::SendMsg(MCONTACT hContact, int, const char *msg)
 	return OnSendMessage(hContact, msg);
 }
 
-HANDLE CToxProto::SendFile(MCONTACT hContact, const TCHAR *msg, TCHAR **ppszFiles)
+HANDLE CToxProto::SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles)
 {
 	return OnSendFile(hContact, msg, ppszFiles);
 }
@@ -200,7 +200,7 @@ HANDLE CToxProto::GetAwayMsg(MCONTACT hContact)
 	return 0;
 }
 
-int CToxProto::SetAwayMsg(int, const TCHAR *msg)
+int CToxProto::SetAwayMsg(int, const wchar_t *msg)
 {
 	if (IsOnline())
 	{

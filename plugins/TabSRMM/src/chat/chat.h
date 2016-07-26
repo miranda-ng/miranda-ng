@@ -52,7 +52,7 @@ struct MODULEINFO : public GCModuleInfoBase
 {
 	DWORD          idleTimeStamp;
 	DWORD          lastIdleCheck;
-	TCHAR          tszIdleMsg[60];
+	wchar_t          tszIdleMsg[60];
 };
 
 struct SESSION_INFO : public GCSessionInfoBase
@@ -62,7 +62,7 @@ struct SESSION_INFO : public GCSessionInfoBase
 	int             iLogTrayFlags, iLogPopupFlags, iDiskLogFlags;
 
 	int             iSearchItem;
-	TCHAR           szSearch[255];
+	wchar_t           szSearch[255];
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase
@@ -116,7 +116,7 @@ char*  Log_CreateRtfHeader(MODULEINFO *mi);
 
 // window.c
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-int GetTextPixelSize(TCHAR* pszText, HFONT hFont, bool bWidth);
+int GetTextPixelSize(wchar_t* pszText, HFONT hFont, bool bWidth);
 
 // options.c
 enum { FONTSECTION_AUTO, FONTSECTION_IM, FONTSECTION_IP };
@@ -132,28 +132,28 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 // manager.c
 SESSION_INFO* SM_FindSessionByHWND(HWND h);
 SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h);
-SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent);
+SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 
 void SM_RemoveContainer(TContainerData *pContainer);
 BOOL SM_ReconfigureFilters();
 
-int UM_CompareItem(USERINFO *u1, const TCHAR* pszNick, WORD wStatus);
+int UM_CompareItem(USERINFO *u1, const wchar_t* pszNick, WORD wStatus);
 
 //clist.c
 
 //tools.c
 BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 int           Chat_GetColorIndex(const char* pszModule, COLORREF cr);
-TCHAR*        my_strstri(const TCHAR* s1, const TCHAR* s2);
+wchar_t*        my_strstri(const wchar_t* s1, const wchar_t* s2);
 int           GetRichTextLength(HWND hwnd);
 BOOL          IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 char          GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex);
-UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
+UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 void          Chat_SetFilters(SESSION_INFO *si);
 void TSAPI    DoFlashAndSoundWorker(FLASH_PARAMS* p);
 BOOL          DoPopup(SESSION_INFO *si, GCEVENT* gce);
-int           ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
+int           ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t* pszRoomName, COLORREF crBkg, const wchar_t* fmt, ...);
 BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 
 #include "chat_resource.h"

@@ -61,7 +61,7 @@ MUUID miid_ssl = MIID_SSL;
 
 static BOOL bModuleInitialized = FALSE;
 
-TCHAR  mirandabootini[MAX_PATH];
+wchar_t  mirandabootini[MAX_PATH];
 static DWORD mirandaVersion;
 static int sttFakeID = -100;
 static HANDLE hPluginListHeap = NULL;
@@ -256,7 +256,7 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 	return TRUE;
 }
 
-int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD dwMirVer, int checkTypeAPI)
+int checkAPI(wchar_t* plugin, BASIC_PLUGIN_INFO* bpi, DWORD dwMirVer, int checkTypeAPI)
 {
 	HINSTANCE h = LoadLibrary(plugin);
 	if (h == NULL)
@@ -370,9 +370,9 @@ int Plugin_UnloadDyn(pluginEntry *p)
 }
 
 // returns true if the given file is <anything>.dll exactly
-static int valid_library_name(TCHAR *name)
+static int valid_library_name(wchar_t *name)
 {
-	TCHAR *dot = _tcsrchr(name, '.');
+	wchar_t *dot = wcsrchr(name, '.');
 	if (dot != NULL && mir_tstrcmpi(dot + 1, L"dll") == 0)
 		if (dot[4] == 0)
 			return 1;
@@ -383,12 +383,12 @@ static int valid_library_name(TCHAR *name)
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 {
 	// get miranda's exe path
-	TCHAR exe[MAX_PATH];
+	wchar_t exe[MAX_PATH];
 	GetModuleFileName(NULL, exe, _countof(exe));
-	TCHAR *p = _tcsrchr(exe, '\\'); if (p) *p = 0;
+	wchar_t *p = wcsrchr(exe, '\\'); if (p) *p = 0;
 
 	// create the search filter
-	TCHAR search[MAX_PATH];
+	wchar_t search[MAX_PATH];
 	mir_sntprintf(search, L"%s\\Plugins\\*.dll", exe);
 
 	// FFFN will return filenames for things like dot dll+ or dot dllx
@@ -404,15 +404,15 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 	FindClose(hFind);
 }
 
-pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
+pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 {
 	pluginEntry *p = (pluginEntry*)HeapAlloc(hPluginListHeap, HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, sizeof(pluginEntry));
-	_tcsncpy_s(p->pluginname, tszFileName, _TRUNCATE);
+	wcsncpy_s(p->pluginname, tszFileName, _TRUNCATE);
 
 	// add it to the list anyway
 	pluginList.insert(p);
 
-	TCHAR tszFullPath[MAX_PATH];
+	wchar_t tszFullPath[MAX_PATH];
 	mir_sntprintf(tszFullPath, L"%s\\%s\\%s", path, dir, tszFileName);
 
 	// map dll into the memory and check its exports
@@ -471,17 +471,17 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 	return p;
 }
 
-void SetPluginOnWhiteList(const TCHAR* pluginname, int allow)
+void SetPluginOnWhiteList(const wchar_t* pluginname, int allow)
 {
 	db_set_b(NULL, PLUGINDISABLELIST, _strlwr(_T2A(pluginname)), allow == 0);
 }
 
 // returns 1 if the plugin should be enabled within this profile, filename is always lower case
-int isPluginOnWhiteList(const TCHAR* pluginname)
+int isPluginOnWhiteList(const wchar_t* pluginname)
 {
 	int rc = db_get_b(NULL, PLUGINDISABLELIST, _strlwr(_T2A(pluginname)), 0);
 	if (rc != 0 && askAboutIgnoredPlugins) {
-		TCHAR buf[256];
+		wchar_t buf[256];
 		mir_sntprintf(buf, TranslateT("'%s' is disabled, re-enable?"), pluginname);
 		if (MessageBox(NULL, buf, TranslateT("Re-enable Miranda plugin?"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 			SetPluginOnWhiteList(pluginname, 1);
@@ -494,9 +494,9 @@ int isPluginOnWhiteList(const TCHAR* pluginname)
 
 bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 {
-	TCHAR exe[MAX_PATH], tszFullPath[MAX_PATH];
+	wchar_t exe[MAX_PATH], tszFullPath[MAX_PATH];
 	GetModuleFileName(NULL, exe, _countof(exe));
-	TCHAR* slice = _tcsrchr(exe, '\\');
+	wchar_t* slice = wcsrchr(exe, '\\');
 	if (slice)
 		*slice = 0;
 
@@ -557,13 +557,13 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Core plugins support
 
-static TCHAR tszCoreErr[] = LPGENT("Core plugin '%s' cannot be loaded or missing. Miranda will exit now");
+static wchar_t tszCoreErr[] = LPGENW("Core plugin '%s' cannot be loaded or missing. Miranda will exit now");
 
 bool LoadCorePlugin(MuuidReplacement &mr)
 {
-	TCHAR exe[MAX_PATH], tszPlugName[MAX_PATH];
+	wchar_t exe[MAX_PATH], tszPlugName[MAX_PATH];
 	GetModuleFileName(NULL, exe, _countof(exe));
-	TCHAR *p = _tcsrchr(exe, '\\'); if (p) *p = 0;
+	wchar_t *p = wcsrchr(exe, '\\'); if (p) *p = 0;
 
 	mir_sntprintf(tszPlugName, L"%s.dll", mr.stdplugname);
 	pluginEntry* pPlug = OpenPlugin(tszPlugName, L"Core", exe);
@@ -594,7 +594,7 @@ LBL_Error:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact list plugins support
 
-static bool loadClistModule(TCHAR* exe, pluginEntry *p)
+static bool loadClistModule(wchar_t* exe, pluginEntry *p)
 {
 	BASIC_PLUGIN_INFO bpi;
 	if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
@@ -614,9 +614,9 @@ static bool loadClistModule(TCHAR* exe, pluginEntry *p)
 	return false;
 }
 
-static pluginEntry* getCListModule(TCHAR *exe)
+static pluginEntry* getCListModule(wchar_t *exe)
 {
-	TCHAR tszFullPath[MAX_PATH];
+	wchar_t tszFullPath[MAX_PATH];
 
 	for (int i = 0; i < clistPlugins.getCount(); i++) {
 		pluginEntry *p = clistPlugins[i];
@@ -638,7 +638,7 @@ static pluginEntry* getCListModule(TCHAR *exe)
 	return NULL;
 }
 
-int UnloadPlugin(TCHAR* buf, int bufLen)
+int UnloadPlugin(wchar_t* buf, int bufLen)
 {
 	for (int i = pluginList.getCount() - 1; i >= 0; i--) {
 		pluginEntry *p = pluginList[i];
@@ -689,7 +689,7 @@ int LoadDefaultServiceModePlugin()
 	size_t cbLen = mir_tstrlen(param);
 	for (int i = 0; i < servicePlugins.getCount(); i++) {
 		pluginEntry *p = servicePlugins[i];
-		if (!_tcsnicmp(p->pluginname, param, cbLen)) {
+		if (!wcsnicmp(p->pluginname, param, cbLen)) {
 			int res = LaunchServicePlugin(p);
 			if (res == SERVICE_ONLYDB) // load it later
 				serviceModePlugin = p;
@@ -772,9 +772,9 @@ void UnloadNewPlugins(void)
 int LoadNewPluginsModule(void)
 {
 	// make full path to the plugin
-	TCHAR exe[MAX_PATH], fullPath[MAX_PATH];
+	wchar_t exe[MAX_PATH], fullPath[MAX_PATH];
 	GetModuleFileName(NULL, exe, _countof(exe));
-	TCHAR *slice = _tcsrchr(exe, '\\');
+	wchar_t *slice = wcsrchr(exe, '\\');
 	if (slice)
 		*slice = 0;
 
@@ -834,7 +834,7 @@ int LoadNewPluginsModule(void)
 // Plugins module initialization
 // called before anything real is loaded, incl. database
 
-static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM)
+static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM)
 {
 	pluginEntry *p = OpenPlugin(fd->cFileName, L"Plugins", path);
 	if (!(p->pclass & PCLASS_FAILED)) {

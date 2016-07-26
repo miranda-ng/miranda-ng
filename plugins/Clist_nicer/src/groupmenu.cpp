@@ -80,12 +80,12 @@ static int OnBuildGroupMenu(WPARAM, LPARAM)
 }
 
 IconItemT iconItem[] = {
-	{ LPGENT("Contact list"), "clist", IDI_CLIST }
+	{ LPGENW("Contact list"), "clist", IDI_CLIST }
 };
 
 void InitIconLibMenuIcons(void)
 {
-	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, _countof(iconItem));
+	Icon_RegisterT(g_hInst, LPGENW("Contact list"), iconItem, _countof(iconItem));
 }
 
 void InitGroupMenus(void)

@@ -36,7 +36,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 {
 	JabberAddBookmarkDlgParam* param = (JabberAddBookmarkDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	TCHAR text[512];
+	wchar_t text[512];
 	JABBER_LIST_ITEM *item;
 
 	switch (msg) {
@@ -48,7 +48,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		TranslateDialogDefault(hwndDlg);
 		if (item = param->m_item) {
 			if (!mir_tstrcmp(item->type, L"conference")) {
-				if (!_tcschr(item->jid, _T('@'))) {	  //no room name - consider it is transport
+				if (!wcschr(item->jid, '@')) {	  //no room name - consider it is transport
 					CheckDlgButton(hwndDlg, IDC_AGENT_RADIO, BST_CHECKED);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
@@ -110,7 +110,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		case IDOK:
 			{
 				GetDlgItemText(hwndDlg, IDC_ROOM_JID, text, _countof(text));
-				TCHAR *roomJID = NEWTSTR_ALLOCA(text);
+				wchar_t *roomJID = NEWWSTR_ALLOCA(text);
 
 				if (param->m_item)
 					param->ppro->ListRemove(LIST_BOOKMARK, param->m_item->jid);
@@ -207,7 +207,7 @@ private:
 		int iItem = m_lvBookmarks.GetNextItem(-1, LVNI_SELECTED);
 		if (iItem < 0) return;
 
-		TCHAR *address = (TCHAR *)m_lvBookmarks.GetItemData(iItem);
+		wchar_t *address = (wchar_t *)m_lvBookmarks.GetItemData(iItem);
 		if (address == NULL) return;
 
 		JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
@@ -226,7 +226,7 @@ private:
 		int iItem = m_lvBookmarks.GetNextItem(-1, LVNI_SELECTED);
 		if (iItem < 0) return;
 
-		TCHAR *address = (TCHAR *)m_lvBookmarks.GetItemData(iItem);
+		wchar_t *address = (wchar_t *)m_lvBookmarks.GetItemData(iItem);
 		if (address == NULL) return;
 
 		JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
@@ -323,7 +323,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 	int iItem = m_lvBookmarks.GetNextItem(-1, LVNI_SELECTED);
 	if (iItem < 0) return;
 
-	TCHAR *address = (TCHAR *)m_lvBookmarks.GetItemData(iItem);
+	wchar_t *address = (wchar_t *)m_lvBookmarks.GetItemData(iItem);
 	if (address == NULL) return;
 
 	JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
@@ -333,12 +333,12 @@ void CJabberDlgBookmarks::OpenBookmark()
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
 
 		/* some hack for using bookmark to transport not under XEP-0048 */
-		if (!_tcschr(item->jid, _T('@')))
+		if (!wcschr(item->jid, '@'))
 			//the room name is not provided let consider that it is transport and send request to registration
 			m_proto->RegisterAgent(NULL, item->jid);
 		else {
-			TCHAR *room = NEWTSTR_ALLOCA(item->jid);
-			TCHAR *server = _tcschr(room, _T('@'));
+			wchar_t *room = NEWWSTR_ALLOCA(item->jid);
+			wchar_t *server = wcschr(room, '@');
 			*(server++) = 0;
 
 			if (item->nick && *item->nick)

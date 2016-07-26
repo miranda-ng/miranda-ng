@@ -23,6 +23,7 @@
 #define CFM_BACKCOLOR   0x04000000
 
 #define MODULENAME "WebView"
+#define MODULENAMEW L"WebView"
 
 #define MENU_OFF    "DisableMenu"
 #define REFRESH_KEY "Refresh interval"
@@ -156,7 +157,7 @@ void SavewinSettings(void);
 void ValidatePosition(HWND hwndDlg);
 int  ModulesLoaded(WPARAM wParam, LPARAM lParam);
 void ChangeMenuItem3();
-TCHAR* FixButtonText(TCHAR *url, size_t len);
+wchar_t* FixButtonText(wchar_t *url, size_t len);
 int  ContactMenuItemUpdateData (WPARAM wParam, LPARAM lParam);
 
 int Doubleclick(WPARAM wParam, LPARAM lParam);
@@ -224,8 +225,8 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 void AckFunc(void *dummy);
 int  SiteDeleted(WPARAM wParam, LPARAM lParam);
 
-int  WErrorPopup(MCONTACT hContact, TCHAR *textdisplay);
-int  WAlertPopup(MCONTACT hContact, TCHAR *displaytext);
+int  WErrorPopup(MCONTACT hContact, wchar_t *textdisplay);
+int  WAlertPopup(MCONTACT hContact, wchar_t *displaytext);
 
 //////////////////////
 // wrappers

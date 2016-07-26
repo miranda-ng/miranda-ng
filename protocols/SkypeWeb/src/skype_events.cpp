@@ -73,7 +73,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 						
 						if (xmlDuration != NULL)
 						{
-							callDuration = _ttol(xmlGetText(xmlDuration));
+							callDuration = _wtol(xmlGetText(xmlDuration));
 							break;
 						}
 					}
@@ -115,7 +115,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 					HXML xmlNode = xmlGetNthChild(xml, L"file", i);
 					if (xmlNode != NULL)
 					{
-						fileSize = _ttol(xmlGetAttrValue(xmlNode, L"size"));
+						fileSize = _wtol(xmlGetAttrValue(xmlNode, L"size"));
 						char *fileName = _T2A(xmlGetText(xmlNode));
 						if (fileName != NULL)
 						{

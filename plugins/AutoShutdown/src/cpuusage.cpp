@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define Li2Double(x) ((double)((x).HighPart)*4.294967296E9+(double)((x).LowPart)) 
 
-static BOOL WinNT_PerfStatsSwitch(TCHAR *pszServiceName, BOOL fDisable)
+static BOOL WinNT_PerfStatsSwitch(wchar_t *pszServiceName, BOOL fDisable)
 {
 	HKEY hKeyServices, hKeyService, hKeyPerf;
 	DWORD dwData, dwDataSize;

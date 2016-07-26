@@ -69,7 +69,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_TO, CB_SETCURSEL, (WPARAM)idx, 0);
 
 		for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+			wchar_t *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			if (ptszNick){
 				idx = SendDlgItemMessage(hwndDlg, IDC_COMBO_TO, CB_ADDSTRING, 0, (LPARAM)ptszNick);
 				SendDlgItemMessage(hwndDlg, IDC_COMBO_TO, CB_SETITEMDATA, (WPARAM)idx, hContact);

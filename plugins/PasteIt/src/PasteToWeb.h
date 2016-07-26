@@ -30,14 +30,14 @@ protected:
 	virtual void SendToServer(std::wstring str, std::wstring fileName, std::wstring format) = 0;
 	wchar_t* SendToWeb(char* url, std::map<std::string, std::string>& headers, std::wstring content);
 	PasteToWeb();
-	TCHAR bufErr[1024];
+	wchar_t bufErr[1024];
 public:
 	virtual ~PasteToWeb();
 	char szFileLink[256];
-	TCHAR* error;
+	wchar_t* error;
 	void FromClipboard();
 	void FromFile(std::wstring file);
-	virtual TCHAR* GetName() = 0;
+	virtual wchar_t* GetName() = 0;
 	virtual void ConfigureSettings() = 0;
 	int pageIndex;
 	virtual std::list<PasteFormat> GetFormats() = 0;

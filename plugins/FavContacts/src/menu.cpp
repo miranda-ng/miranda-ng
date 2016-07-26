@@ -23,11 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 UINT g_maxItemWidth = 0;
 float g_widthMultiplier = 0;
 
-TCHAR g_filter[1024] = { 0 };
+wchar_t g_filter[1024] = { 0 };
 
 HWND g_hwndMenuHost = NULL;
 
-static TCHAR* sttGetGroupName(int id)
+static wchar_t* sttGetGroupName(int id)
 {
 	if (id == 1) {
 		if (g_Options.bUseGroups)
@@ -42,7 +42,7 @@ static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)
 {
 	HDC hdc = GetDC(g_hwndMenuHost);
 	HFONT hfntSave = (HFONT)SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-	TCHAR *name = sttGetGroupName(-INT_PTR(lpmis->itemData));
+	wchar_t *name = sttGetGroupName(-INT_PTR(lpmis->itemData));
 	if (!options->bSysColors)
 		SelectObject(hdc, g_Options.hfntName);
 
@@ -71,7 +71,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 
 	if (options->bSecondLine) {
 		bool bFree = false;
-		TCHAR *title = db_get_tsa(hContact, "CList", "StatusMsg");
+		wchar_t *title = db_get_tsa(hContact, "CList", "StatusMsg");
 		if (title == NULL) {
 			char *proto = GetContactProto(hContact);
 			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
@@ -89,7 +89,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 			mir_free(title);
 	}
 
-	TCHAR *name = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *name = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
 
 	if (!options->bSysColors) SelectObject(hdc, g_Options.hfntName);
 	GetTextExtentPoint32(hdc, name, (int)mir_tstrlen(name), &sz);
@@ -155,7 +155,7 @@ static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		SetTextColor(lpdis->hDC, g_Options.clLine1Sel);
 	}
 
-	TCHAR *name = sttGetGroupName(-INT_PTR(lpdis->itemData));
+	wchar_t *name = sttGetGroupName(-INT_PTR(lpdis->itemData));
 	if (!options->bSysColors)
 		SelectObject(lpdis->hDC, g_Options.hfntName);
 	DrawText(lpdis->hDC, name, -1, &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_CENTER);
@@ -301,7 +301,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	}
 
 	if (true) {
-		TCHAR *name = (TCHAR *)pcli->pfnGetContactDisplayName(hContact, 0);
+		wchar_t *name = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
 
 		if (!options->bSysColors)
 			SelectObject(hdcTemp, g_Options.hfntName);
@@ -315,7 +315,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 	if (options->bSecondLine) {
 		bool bFree = false;
-		TCHAR *title = db_get_tsa(hContact, "CList", "StatusMsg");
+		wchar_t *title = db_get_tsa(hContact, "CList", "StatusMsg");
 		if (title == NULL) {
 			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 			title = pcli->pfnGetStatusModeDescription(status, 0);
@@ -393,9 +393,9 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			if (size_t l = mir_tstrlen(g_filter))
 				g_filter[l - 1] = 0;
 		}
-		else if (_istalnum(LOWORD(wParam))) {
+		else if (iswalnum(LOWORD(wParam))) {
 			if (mir_tstrlen(g_filter) < _countof(g_filter) - 1) {
-				TCHAR s[] = { LOWORD(wParam), 0 };
+				wchar_t s[] = { LOWORD(wParam), 0 };
 				mir_tstrcat(g_filter, s);
 			}
 		}
@@ -444,7 +444,7 @@ int ShowMenu(bool centered)
 	HMENU hMenu = CreatePopupMenu();
 	SIZE szMenu = { 0 };
 	SIZE szColumn = { 0 };
-	TCHAR *prevGroup = NULL;
+	wchar_t *prevGroup = NULL;
 	int idItem = 100;
 	MCONTACT hContact;
 

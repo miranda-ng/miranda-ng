@@ -59,9 +59,9 @@ int InitTipperSmileys();
 SMILEYPARSEINFO Smileys_PreParse(LPCTSTR lpString, int nCount, const char *protocol);
 void Smileys_FreeParse(SMILEYPARSEINFO parseInfo);
 
-SortedList* ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height);
-SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTextFormat, int max_width);
-void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMILEYPARSEINFO info, UINT uTextFormat);
+SortedList* ReplaceSmileys(const wchar_t *text, int text_size, const char *protocol, int *max_smiley_height);
+SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SMILEYPARSEINFO info, UINT uTextFormat, int max_width);
+void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, SMILEYPARSEINFO info, UINT uTextFormat);
 void DestroySmileyList(SortedList* p_list);
 
 int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, SMILEYPARSEINFO parseInfo);

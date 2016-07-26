@@ -40,7 +40,7 @@ static LPSTR TipperItemProps[] =
 #define TIPPER_ITEMS_MOD_NAME     "Tipper_Items"
 #define TIPPER_ITEM_COUNT_SETTING "DINumValues"
 #define UNREAD_THREADS_RAW        L"%raw:" _T(SHORT_PLUGIN_NAME) L"/UnreadThreads%"
-#define UNREAD_THREADS_LABEL      LPGENT("Unread threads:")
+#define UNREAD_THREADS_LABEL      LPGENW("Unread threads:")
 
 void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 {
@@ -99,7 +99,7 @@ void AddTipperItem()
 	for (i = itemCount; i > 0; i /= 10) l++; // var setting path
 	l += 30; // const setting part
 
-	LPSTR setting = (LPSTR)_alloca(l * sizeof(TCHAR));
+	LPSTR setting = (LPSTR)_alloca(l * sizeof(wchar_t));
 
 	for (i = 0; i < itemCount; i++) {
 		mir_snprintf(setting, l, VALUE_SETTING_PROP, i);

@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName)
+CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CSteamProto>(protoName, userName),
 	hAuthProcess(1), hMessageProcess(1)
 {
@@ -18,22 +18,22 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName)
 	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
 
 	wchar_t sectionName[100];
-	mir_sntprintf(sectionName, L"%s/%s", LPGENT("Protocols"), LPGENT(MODULE));
+	mir_sntprintf(sectionName, L"%s/%s", LPGENW("Protocols"), MODULEW);
 
 	char settingName[100];
 	mir_snprintf(settingName, "%s_%s", MODULE, "main");
 
 	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_ALL_TCHAR;
-	sid.defaultFile.t = filePath;
+	sid.defaultFile.w = filePath;
 	sid.pszName = settingName;
-	sid.section.t = sectionName;
-	sid.description.t = LPGENT("Protocol icon");
+	sid.section.w = sectionName;
+	sid.description.w = LPGENW("Protocol icon");
 	sid.iDefaultIndex = -IDI_STEAM;
 	IcoLib_AddIcon(&sid);
 
 	mir_snprintf(settingName, "%s_%s", MODULE, "gaming");
-	sid.description.t = LPGENT("Gaming icon");
+	sid.description.w = LPGENW("Gaming icon");
 	sid.iDefaultIndex = -IDI_GAMING;
 	IcoLib_AddIcon(&sid);
 
@@ -65,7 +65,7 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName)
 	CreateProtoService(STEAM_DB_GETEVENTTEXT_CHATSTATES, &CSteamProto::OnGetEventTextChatStates);
 
 	// netlib support
-	TCHAR name[128];
+	wchar_t name[128];
 	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
@@ -85,7 +85,7 @@ CSteamProto::~CSteamProto()
 MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
 {
 	MCONTACT hContact = NULL;
-	ptrA steamId(mir_u2a(psr->id.t));
+	ptrA steamId(mir_u2a(psr->id.w));
 	if (psr->cbSize == sizeof(PROTOSEARCHRESULT))
 	{
 		if (!FindContact(steamId))
@@ -136,7 +136,7 @@ int CSteamProto::Authorize(MEVENT hDbEvent)
 	return 1;
 }
 
-int CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
+int CSteamProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 {
 	if (IsOnline() && hDbEvent)
 	{
@@ -162,7 +162,7 @@ int CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 	return 1;
 }
 
-int CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR*)
+int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 {
 	if (IsOnline() && hContact)
 	{
@@ -222,7 +222,7 @@ DWORD_PTR CSteamProto:: GetCaps(int type, MCONTACT)
 	}
 }
 
-HANDLE CSteamProto::SearchBasic(const TCHAR* id)
+HANDLE CSteamProto::SearchBasic(const wchar_t* id)
 {
 	if (!this->IsOnline())
 		return 0;
@@ -238,13 +238,13 @@ HANDLE CSteamProto::SearchBasic(const TCHAR* id)
 	return (HANDLE)STEAM_SEARCH_BYID;
 }
 
-HANDLE CSteamProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
+HANDLE CSteamProto::SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName)
 {
 	if (!this->IsOnline())
 		return 0;
 
 	// Combine all fields to single text
-	TCHAR keywordsT[200];
+	wchar_t keywordsT[200];
 	mir_sntprintf(keywordsT, L"%s %s %s", nick, firstName, lastName);
 
 	ptrA token(getStringA("TokenSecret"));

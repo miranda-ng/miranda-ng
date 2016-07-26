@@ -738,13 +738,13 @@ ThumbList::ThumbList() : OBJLIST<ThumbInfo>(1, NumericKeySortT)
 ThumbList::~ThumbList()
 {}
 
-ThumbInfo *ThumbList::AddThumb(HWND hwnd, TCHAR *ptszName, MCONTACT hContact)
+ThumbInfo *ThumbList::AddThumb(HWND hwnd, wchar_t *ptszName, MCONTACT hContact)
 {
 	if (ptszName == NULL || hContact == NULL || hwnd == NULL)
 		return NULL;
 
 	ThumbInfo *pThumb = new ThumbInfo;
-	_tcsncpy_s(pThumb->ptszName, ptszName, _TRUNCATE);
+	wcsncpy_s(pThumb->ptszName, ptszName, _TRUNCATE);
 	pThumb->hContact = hContact;
 	pThumb->hwnd = hwnd;
 

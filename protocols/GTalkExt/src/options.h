@@ -25,9 +25,9 @@
 
 #define JABBER_FEAT_GTALK_PMUC L"http://www.google.com/xmpp/protocol/pmuc/v1"
 
-#define MAIL_NOTIFICATIONS        LPGENT("GMail notifications")
-#define FULL_NOTIFICATION_FORMAT  LPGENT("subject\n    %s\nfrom\n%s\n%s\n")
-#define SHORT_NOTIFICATION_FORMAT LPGENT("subject\n    %s\nfrom\n%s")
+#define MAIL_NOTIFICATIONS        LPGENW("GMail notifications")
+#define FULL_NOTIFICATION_FORMAT  LPGENW("subject\n    %s\nfrom\n%s\n%s\n")
+#define SHORT_NOTIFICATION_FORMAT LPGENW("subject\n    %s\nfrom\n%s")
 
 #define PSEUDOCONTACT_LINK  "GTalkExtNotifyContact"
 #define PSEUDOCONTACT_FLAG  "IsNotifyContact"

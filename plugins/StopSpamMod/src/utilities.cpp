@@ -17,7 +17,7 @@
 
 #include "stdafx.h"
 
-tstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, tstring errorValue)
+wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, wstring errorValue)
 {
 	DBVARIANT dbv;
 	//if(db_get(hContact, szModule, szSetting, &dbv))
@@ -41,13 +41,13 @@ std::string DBGetContactSettingStringPAN_A(MCONTACT hContact, char const * szMod
 	return errorValue;
 }
 
-tstring &GetDlgItemString(HWND hwnd, int id)
+wstring &GetDlgItemString(HWND hwnd, int id)
 {
 	HWND h = GetDlgItem(hwnd, id);
 	int len = GetWindowTextLength(h);
-	TCHAR * buf = new TCHAR[len + 1];
+	wchar_t * buf = new wchar_t[len + 1];
 	GetWindowText(h, buf, len + 1);
-	static tstring s;
+	static wstring s;
 	s = buf;
 	delete[]buf;
 	return s;
@@ -64,13 +64,13 @@ bool ProtoInList(std::string proto)
 	return std::string::npos != GetProtoList().find(proto + "\r\n");
 }
 
-void DeleteCListGroupsByName(TCHAR* szGroupName)
+void DeleteCListGroupsByName(wchar_t* szGroupName)
 {
 	BYTE ConfirmDelete = db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
 	if (ConfirmDelete)
 		db_set_b(NULL, "CList", "ConfirmDelete", 0);
 
-	TCHAR *szGroup;
+	wchar_t *szGroup;
 	for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++)
 		if (!mir_wstrcmp(szGroupName, szGroup))
 			Clist_GroupDelete(i);
@@ -86,19 +86,19 @@ int RemoveTmp(WPARAM, LPARAM)
 	return 0;
 }
 
-tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact)
+wstring variables_parse(wstring const &tstrFormat, MCONTACT hContact)
 {
 	if (gbVarsServiceExist) {
 		FORMATINFO fi;
-		TCHAR *tszParsed;
-		tstring tstrResult;
+		wchar_t *tszParsed;
+		wstring tstrResult;
 
 		memset(&fi, 0, sizeof(fi));
 		fi.cbSize = sizeof(fi);
-		fi.tszFormat = _tcsdup(tstrFormat.c_str());
+		fi.tszFormat = wcsdup(tstrFormat.c_str());
 		fi.hContact = hContact;
 		fi.flags |= FIF_TCHAR;
-		tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+		tszParsed = (wchar_t *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
 		free(fi.tszFormat);
 		if (tszParsed) {
 			tstrResult = tszParsed;
@@ -111,13 +111,13 @@ tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact)
 
 // case-insensitive mir_tstrcmp
 //by nullbie as i remember...
-#define NEWTSTR_MALLOC(A) (A==NULL) ? NULL : mir_tstrcpy((TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(A)+1)),A)
-const int Stricmp(const TCHAR *str, const TCHAR *substr)
+#define NEWTSTR_MALLOC(A) (A==NULL) ? NULL : mir_tstrcpy((wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_tstrlen(A)+1)),A)
+const int Stricmp(const wchar_t *str, const wchar_t *substr)
 {
 	int i = 0;
 
-	TCHAR *str_up = NEWTSTR_MALLOC(str);
-	TCHAR *substr_up = NEWTSTR_MALLOC(substr);
+	wchar_t *str_up = NEWTSTR_MALLOC(str);
+	wchar_t *substr_up = NEWTSTR_MALLOC(substr);
 
 	CharUpperBuff(str_up, (int)mir_tstrlen(str_up));
 	CharUpperBuff(substr_up, (int)mir_tstrlen(substr_up));
@@ -130,7 +130,7 @@ const int Stricmp(const TCHAR *str, const TCHAR *substr)
 	return i;
 }
 
-TCHAR* ReqGetText(DBEVENTINFO* dbei)
+wchar_t* ReqGetText(DBEVENTINFO* dbei)
 {
 	if (!dbei->pBlob)
 		return 0;
@@ -152,15 +152,15 @@ TCHAR* ReqGetText(DBEVENTINFO* dbei)
 		WCHAR* msg = NULL;
 		msg = (dbei->flags&DBEF_UTF) ? mir_utf8decodeW(tstr) : mir_a2u(tstr);
 		mir_free(tstr);
-		return (TCHAR *)msg;
+		return (wchar_t *)msg;
 	};
 	return 0;
 }
 
-BOOL IsUrlContains(TCHAR * Str)
+BOOL IsUrlContains(wchar_t * Str)
 {
 	const int CountUrl = 11;
-	const TCHAR  URL[CountUrl][5] =
+	const wchar_t  URL[CountUrl][5] =
 	{
 		L"http",
 		L"www",
@@ -176,10 +176,10 @@ BOOL IsUrlContains(TCHAR * Str)
 	};
 
 	if (Str && mir_tstrlen(Str) > 0) {
-		TCHAR *StrLower = NEWTSTR_MALLOC(Str);
+		wchar_t *StrLower = NEWTSTR_MALLOC(Str);
 		CharLowerBuff(StrLower, (int)mir_tstrlen(StrLower));
 		for (int i = 0; i < CountUrl; i++)
-			if (_tcsstr(StrLower, URL[i])) {
+			if (wcsstr(StrLower, URL[i])) {
 				mir_free(StrLower);
 				return 1;
 			}
@@ -188,27 +188,27 @@ BOOL IsUrlContains(TCHAR * Str)
 	return 0;
 }
 
-tstring GetContactUid(MCONTACT hContact, tstring Protocol)
+wstring GetContactUid(MCONTACT hContact, wstring Protocol)
 {
 	char *szProto = mir_utf8encodeW(Protocol.c_str());
 	ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
 	return (uid) ? uid : L"";
 }
 
-void LogSpamToFile(MCONTACT hContact, tstring message)
+void LogSpamToFile(MCONTACT hContact, wstring message)
 {
 	if (!gbLogToFile) return;
 
-	tstring LogStrW, LogTime, LogProtocol, LogContactId, LogContactName;
+	wstring LogStrW, LogTime, LogProtocol, LogContactId, LogContactName;
 	std::fstream file;
-	TCHAR pszName[MAX_PATH];
+	wchar_t pszName[MAX_PATH];
 
 	if (hStopSpamLogDirH)
 		FoldersGetCustomPathT(hStopSpamLogDirH, pszName, MAX_PATH, L"");
 	else
 		mir_tstrncpy(pszName, VARST(L"%miranda_logpath%"), _countof(pszName));
 
-	tstring filename = pszName;
+	wstring filename = pszName;
 	filename += L"\\stopspam_mod.log";
 	file.open(filename.c_str(), std::ios::out | std::ios::app);
 
@@ -222,7 +222,7 @@ void LogSpamToFile(MCONTACT hContact, tstring message)
 
 	// Name, UID and Protocol Log line
 	LogProtocol = DBGetContactSettingStringPAN(hContact, "Protocol", "p", L"");
-	LogContactName = (TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0);
+	LogContactName = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
 	LogContactId = (LogProtocol == L"") ? L"" : GetContactUid(hContact, LogProtocol);
 	// Name, UID  and Protocol Log line
 
@@ -331,7 +331,7 @@ void HistoryLogFunc(MCONTACT hContact, std::string message)
 		std::string msg = message;
 		msg.append("\n");
 		msg.append("Protocol: ").append(GetContactProto(hContact)).append(" Contact: ");
-		msg.append(toUTF8((TCHAR*)pcli->pfnGetContactDisplayName(hContact, 0))).append(" ID: ");
+		msg.append(toUTF8((wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0))).append(" ID: ");
 		msg.append(toUTF8(GetContactUid(hContact, toUTF16(GetContactProto(hContact)))));
 		HistoryLog(NULL, (char*)msg.c_str(), EVENTTYPE_MESSAGE, DBEF_READ);
 	}

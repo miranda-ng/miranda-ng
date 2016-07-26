@@ -395,7 +395,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 		return 0;
 
 	ptrT tszDesc(mir_a2t(description));
-	TCHAR *desc = TranslateTH(_hLang, tszDesc);
+	wchar_t *desc = TranslateTH(_hLang, tszDesc);
 
 	int id = registeredExtraIcons.getCount() + 1;
 	BaseExtraIcon *extra = new CallbackExtraIcon(id, name, desc, descIcon == NULL ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
@@ -410,7 +410,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 		return 0;
 
 	ptrT tszDesc(mir_a2t(description));
-	TCHAR *desc = TranslateTH(_hLang, tszDesc);
+	wchar_t *desc = TranslateTH(_hLang, tszDesc);
 
 	BaseExtraIcon *extra = GetExtraIconByName(name);
 	if (extra != NULL) {

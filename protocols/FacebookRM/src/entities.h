@@ -55,7 +55,7 @@ struct facebook_user
 		this->type = CONTACT_NONE;
 	}
 
-	TCHAR *getMirVer()
+	wchar_t *getMirVer()
 	{
 		switch (this->client) {
 		case CLIENT_APP:
@@ -87,7 +87,7 @@ struct chatroom_participant
 struct facebook_chatroom
 {	
 	std::string thread_id;
-	std::tstring chat_name;
+	std::wstring chat_name;
 	std::map<std::string, chatroom_participant> participants;
 	bool can_reply;
 	bool is_archived;
@@ -219,9 +219,9 @@ struct wall_data
 		this->title = NULL;
 		this->isPage = false;
 	}
-	wall_data(std::string user_id, TCHAR *title, bool isPage = false) : user_id(user_id), title(title), isPage(isPage) {}
+	wall_data(std::string user_id, wchar_t *title, bool isPage = false) : user_id(user_id), title(title), isPage(isPage) {}
 	std::string user_id;
-	TCHAR *title;
+	wchar_t *title;
 	bool isPage;
 };
 
@@ -236,7 +236,7 @@ struct post_status_data {
 
 struct open_url
 {
-	open_url(TCHAR *browser, TCHAR *url) : browser(browser), url(url) {}
-	TCHAR *browser;
-	TCHAR *url;	
+	open_url(wchar_t *browser, wchar_t *url) : browser(browser), url(url) {}
+	wchar_t *browser;
+	wchar_t *url;	
 };

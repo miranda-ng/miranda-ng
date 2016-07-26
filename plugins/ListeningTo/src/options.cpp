@@ -52,10 +52,10 @@ static OptPageControl optionsControls[] = {
 
 static OptPageControl formatControls[] = {
 	{ &opts.templ, CONTROL_TEXT, IDC_TEMPLATE, "Template", (ULONG_PTR)L"%artist% - %title%" },
-	{ &opts.unknown, CONTROL_TEXT, IDC_UNKNOWN, "Unknown", (ULONG_PTR)LPGENT("<Unknown>"), 0, 0, 128 },
-	{ &opts.xstatus_name, CONTROL_TEXT, IDC_XSTATUS_NAME, "XStatusName", (ULONG_PTR)LPGENT("Listening to") },
+	{ &opts.unknown, CONTROL_TEXT, IDC_UNKNOWN, "Unknown", (ULONG_PTR)LPGENW("<Unknown>"), 0, 0, 128 },
+	{ &opts.xstatus_name, CONTROL_TEXT, IDC_XSTATUS_NAME, "XStatusName", (ULONG_PTR)LPGENW("Listening to") },
 	{ &opts.xstatus_message, CONTROL_TEXT, IDC_XSTATUS_MESSAGE, "XStatusMessage", (ULONG_PTR)L"%listening%" },
-	{ &opts.nothing, CONTROL_TEXT, IDC_NOTHING, "Nothing", (ULONG_PTR)LPGENT("<Nothing is playing now>"), 0, 0, 128 }
+	{ &opts.nothing, CONTROL_TEXT, IDC_NOTHING, "Nothing", (ULONG_PTR)LPGENW("<Nothing is playing now>"), 0, 0, 128 }
 };
 
 static OptPageControl playersControls[] = {
@@ -131,11 +131,11 @@ BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 		return TRUE;
 
 	if (lti->dwFlags & LTI_UNICODE) {
-		if (mir_tstrcmpi(lti->ptszType, LPGENT("Music")) == 0)
+		if (mir_tstrcmpi(lti->ptszType, LPGENW("Music")) == 0)
 			return opts.enable_music;
-		if (mir_tstrcmpi(lti->ptszType, LPGENT("Radio")) == 0)
+		if (mir_tstrcmpi(lti->ptszType, LPGENW("Radio")) == 0)
 			return opts.enable_radio;
-		if (mir_tstrcmpi(lti->ptszType, LPGENT("Video")) == 0)
+		if (mir_tstrcmpi(lti->ptszType, LPGENW("Video")) == 0)
 			return opts.enable_video;
 		return opts.enable_others;
 	}
@@ -192,9 +192,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)L"2");
 
 			if (total > 0) {
-				TCHAR tmp[10];
+				wchar_t tmp[10];
 				for (int i = first; i <= total; i++)
-					SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)_itot(i - first + 3, tmp, 10));
+					SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)_itow(i - first + 3, tmp, 10));
 			}
 		}
 

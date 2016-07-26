@@ -25,11 +25,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_imgsrvc.h>
 
-MIR_CORE_DLL(HBITMAP) Bitmap_Load(const TCHAR *ptszFileName)
+MIR_CORE_DLL(HBITMAP) Bitmap_Load(const wchar_t *ptszFileName)
 {
-	TCHAR szFilename[MAX_PATH];
+	wchar_t szFilename[MAX_PATH];
 	if (!PathToAbsoluteT(ptszFileName, szFilename))
-		_tcsncpy_s(szFilename, ptszFileName, _TRUNCATE);
+		wcsncpy_s(szFilename, ptszFileName, _TRUNCATE);
 
 	if (!ServiceExists(MS_IMG_LOAD))
 		return NULL;
@@ -37,7 +37,7 @@ MIR_CORE_DLL(HBITMAP) Bitmap_Load(const TCHAR *ptszFileName)
 	return (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_TCHAR);
 }
 
-MIR_CORE_DLL(void) Bitmap_GetFilter(TCHAR *dest, size_t destLen)
+MIR_CORE_DLL(void) Bitmap_GetFilter(wchar_t *dest, size_t destLen)
 {
 	if (dest == NULL)
 		return;

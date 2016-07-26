@@ -68,7 +68,7 @@ COLORREF font_colour[NUM_FONTS];
 
 // Defaults
 char *font_settings[] = { "NicknameFont", "AccountFont", "StatusFont", "StatusMessageFont", "ListeningToFont" };
-TCHAR *font_names[] = { LPGENT("Nickname"), LPGENT("Account"), LPGENT("Status"), LPGENT("Status message"), LPGENT("Listening to") };
+wchar_t *font_names[] = { LPGENW("Nickname"), LPGENW("Account"), LPGENW("Status"), LPGENW("Status message"), LPGENW("Listening to") };
 char font_sizes[] = { 13, 8, 8, 8, 8 };
 BYTE font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
 COLORREF font_colors[] = { RGB(0, 0, 0), RGB(0, 0, 0), RGB(0, 0, 0), RGB(150, 150, 150), RGB(150, 150, 150) };
@@ -234,11 +234,11 @@ int CreateFrame()
 		memset(&font_id[i], 0, sizeof(font_id[i]));
 
 		font_id[i].cbSize = sizeof(FontIDT);
-		mir_tstrncpy(font_id[i].group, LPGENT("My details"), _countof(font_id[i].group));
+		mir_tstrncpy(font_id[i].group, LPGENW("My details"), _countof(font_id[i].group));
 		mir_tstrncpy(font_id[i].name, font_names[i], _countof(font_id[i].name));
 		mir_strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, _countof(font_id[i].dbSettingsGroup));
-		mir_tstrncpy(font_id[i].backgroundName, LPGENT("Background"), _countof(font_id[i].backgroundName));
-		mir_tstrncpy(font_id[i].backgroundGroup, LPGENT("My details"), _countof(font_id[i].backgroundGroup));
+		mir_tstrncpy(font_id[i].backgroundName, LPGENW("Background"), _countof(font_id[i].backgroundName));
+		mir_tstrncpy(font_id[i].backgroundGroup, LPGENW("My details"), _countof(font_id[i].backgroundGroup));
 
 		mir_strncpy(font_id[i].prefix, font_settings[i], _countof(font_id[i].prefix));
 
@@ -328,14 +328,14 @@ int CreateFrame()
 		// Create menu item
 
 		CMenuItem mi;
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("My details"), 500010000);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("My details"), 500010000);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "8C1C981C-4F28-4C4C-9121-544156210CE9");
 
 		SET_UID(mi, 0x69a43f1d, 0x6ebd, 0x4e41, 0xa6, 0xbd, 0x18, 0xea, 0xc4, 0x3, 0x90, 0x35);
 		mi.flags = CMIF_TCHAR;
 		mi.position = 1;
 		mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
-		mi.name.t = LPGENT("Show my details");
+		mi.name.w = LPGENW("Show my details");
 		mi.pszService = MODULE_NAME"/ShowHideMyDetails";
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);
 		Menu_ConfigureItem(hMenuShowHideFrame, MCI_OPT_EXECPARAM, -0x7FFFFFFF);
@@ -477,10 +477,10 @@ RECT GetRect(HDC hdc, RECT rc, SIZE s, UINT uFormat, int next_top, int text_left
 	return r;
 }
 
-RECT GetRect(HDC hdc, RECT rc, const TCHAR *text, const TCHAR *def_text, Protocol *proto, UINT uFormat,
+RECT GetRect(HDC hdc, RECT rc, const wchar_t *text, const wchar_t *def_text, Protocol *proto, UINT uFormat,
 	int next_top, int text_left, bool smileys = true, bool frame = true, bool end_elipsis_on_frame = true)
 {
-	const TCHAR *tmp;
+	const wchar_t *tmp;
 
 	if (text[0] == '\0')
 		tmp = TranslateTS(def_text);
@@ -493,11 +493,11 @@ RECT GetRect(HDC hdc, RECT rc, const TCHAR *text, const TCHAR *def_text, Protoco
 	RECT r_tmp = rc;
 
 	// Only first line
-	TCHAR *tmp2 = mir_tstrdup(tmp);
-	TCHAR *pos = _tcschr(tmp2, '\r');
+	wchar_t *tmp2 = mir_tstrdup(tmp);
+	wchar_t *pos = wcschr(tmp2, '\r');
 	if (pos != NULL)
 		pos[0] = '\0';
-	pos = _tcschr(tmp2, '\n');
+	pos = wcschr(tmp2, '\n');
 	if (pos != NULL)
 		pos[0] = '\0';
 
@@ -1021,20 +1021,20 @@ void EraseBackground(HWND hwnd, HDC hdc)
 	}
 }
 
-void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc, UINT uFormat, bool mouse_over, Protocol *proto)
+void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, RECT rc, UINT uFormat, bool mouse_over, Protocol *proto)
 {
-	const TCHAR *tmp;
+	const wchar_t *tmp;
 	if (text[0] == '\0')
 		tmp = TranslateTS(def_text);
 	else
 		tmp = text;
 
 	// Only first line
-	TCHAR *tmp2 = mir_tstrdup(tmp);
-	TCHAR *pos = _tcsrchr(tmp2, '\r');
+	wchar_t *tmp2 = mir_tstrdup(tmp);
+	wchar_t *pos = wcsrchr(tmp2, '\r');
 	if (pos != NULL)
 		pos[0] = '\0';
-	pos = _tcschr(tmp2, '\n');
+	pos = wcschr(tmp2, '\n');
 	if (pos != NULL)
 		pos[0] = '\0';
 
@@ -1418,7 +1418,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 
 			if (mii.cch != 0) {
 				mii.cch++;
-				mii.dwTypeData = (TCHAR *)malloc(sizeof(TCHAR) * mii.cch);
+				mii.dwTypeData = (wchar_t *)malloc(sizeof(wchar_t) * mii.cch);
 				GetMenuItemInfo(menu, i, TRUE, &mii);
 
 				if (mir_tstrcmp(mii.dwTypeData, proto->description) == 0)
@@ -1477,7 +1477,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 	TranslateMenu(submenu);
 
 	// Add this proto to menu
-	TCHAR tmp[128];
+	wchar_t tmp[128];
 	mir_sntprintf(tmp, TranslateT("Enable listening to for %s"), proto->description);
 
 	MENUITEMINFO mii = { 0 };
@@ -1715,7 +1715,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				TranslateMenu(submenu);
 
 				// Add this proto to menu
-				TCHAR tmp[128];
+				wchar_t tmp[128];
 				mir_sntprintf(tmp, TranslateT("Set my avatar for %s..."), proto->description);
 
 				MENUITEMINFO mii = { 0 };
@@ -1755,7 +1755,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				TranslateMenu(submenu);
 
 				// Add this proto to menu
-				TCHAR tmp[128];
+				wchar_t tmp[128];
 				mir_sntprintf(tmp, TranslateT("Set my nickname for %s..."), proto->description);
 
 				MENUITEMINFO mii = { 0 };
@@ -1796,7 +1796,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			// In status message?
 			else if (data->draw_away_msg && InsideRect(&p, &data->away_msg_rect)) {
-				TCHAR tmp[128];
+				wchar_t tmp[128];
 
 				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
 				HMENU submenu = GetSubMenu(menu, 3);
@@ -1885,7 +1885,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					RemoveMenu(submenu, ID_DONT_CYCLE_THROUGH_PROTOS, MF_BYCOMMAND);
 
 				// Add this proto to menu
-				TCHAR tmp[128];
+				wchar_t tmp[128];
 				mir_sntprintf(tmp, TranslateT("Enable listening to for %s"), proto->description);
 
 				MENUITEMINFO mii = { 0 };
@@ -2231,7 +2231,7 @@ INT_PTR HideFrameFunc(WPARAM, LPARAM)
 
 void FixMainMenu()
 {
-	Menu_ModifyItem(hMenuShowHideFrame, MyDetailsFrameVisible() ? LPGENT("Hide my details") : LPGENT("Show my details"));
+	Menu_ModifyItem(hMenuShowHideFrame, MyDetailsFrameVisible() ? LPGENW("Hide my details") : LPGENW("Show my details"));
 }
 
 #include <math.h>

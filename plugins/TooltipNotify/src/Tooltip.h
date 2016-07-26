@@ -19,7 +19,7 @@ public:
 	void get_Rect(RECT *Rect) const;
 	void set_TransparentInput(BOOL bOnOff);
 	void set_Translucency(BYTE bAlpha);
-	void set_Text(const TCHAR* szText);
+	void set_Text(const wchar_t* szText);
 	void set_Font(const LOGFONT& Font) { m_lfFont = Font; }
 	void set_TextColor(DWORD TextColor) { m_dwTextColor = TextColor; }
 	void set_BgColor(DWORD BgColor) { m_dwBgColor = BgColor; }
@@ -43,11 +43,11 @@ private:
 	DWORD m_dwTextColor;
 	DWORD m_dwBgColor;
 	LOGFONT m_lfFont;
-	TCHAR *m_szText;
+	wchar_t *m_szText;
 	BYTE m_bAlpha;
 	BOOL m_bTranspInput;
 	BYTE m_bLDblClick;
 	
 	CTooltipNotify *m_pTooltipNotify;	
-	static const TCHAR *s_szTooltipClass;
+	static const wchar_t *s_szTooltipClass;
 };

@@ -487,7 +487,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 									char* msg_s = process_status_msg(msg, sn);
 									db_set_utf(hContact, MOD_KEY_CL, OTH_KEY_SM, msg_s);
 
-									TCHAR* tszMsg = mir_utf8decodeT(msg_s);
+									wchar_t* tszMsg = mir_utf8decodeT(msg_s);
 									ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszMsg);
 									mir_free(tszMsg);
 									mir_free(msg);
@@ -1247,18 +1247,18 @@ void CAimProto::snac_received_message(SNAC &snac, HANDLE hServerConn, unsigned s
 
 				if (!descr_included) msg_buf = NULL;
 
-				TCHAR* filenameT = mir_utf8decodeT(filename);
+				wchar_t* filenameT = mir_utf8decodeT(filename);
 
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.descr.t = mir_utf8decodeT(msg_buf);
-				pre.files.t = &filenameT;
+				pre.descr.w = mir_utf8decodeT(msg_buf);
+				pre.files.w = &filenameT;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(hContact, &pre);
 
-				mir_free(pre.descr.t);
+				mir_free(pre.descr.w);
 				mir_free(filenameT);
 
 				char cip[20];
@@ -1659,7 +1659,7 @@ void CAimProto::snac_mail_response(SNAC &snac)//family 0x0018
 			position += TLV_HEADER_SIZE + tlv.len();
 		}
 		if (new_mail && num_msgs) {
-			TCHAR msg[1024];
+			wchar_t msg[1024];
 
 			int len = mir_sntprintf(msg, L"%S@%S (%d)\r\n%s ", sn, address, num_msgs,
 				TranslateT("You've got mail! Checked at"));
@@ -1733,10 +1733,10 @@ void CAimProto::snac_email_search_results(SNAC &snac)//family 0x000A
 		while (offset < snac.len()) { // Loop through all the TLVs and pull out the buddy name
 			TLV tlv(snac.val(offset));
 			offset += TLV_HEADER_SIZE;
-			psr.id.t = (TCHAR*)tlv.dup();
+			psr.id.w = (wchar_t*)tlv.dup();
 			offset += tlv.len();
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
-			mir_free(psr.nick.t);
+			mir_free(psr.nick.w);
 		}
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	}
@@ -1834,7 +1834,7 @@ void CAimProto::snac_chat_joined_left_users(SNAC &snac, chat_list_item* item)//f
 void CAimProto::snac_chat_received_message(SNAC &snac, chat_list_item* item)//family 0x000E
 {
 	if (snac.subcmp(0x0006)) {
-		TCHAR* message = NULL;
+		wchar_t* message = NULL;
 		char* sn = NULL;
 
 		//		unsigned long cookie = snac.ulong(0);

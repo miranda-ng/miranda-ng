@@ -43,14 +43,14 @@ BOOL gbMathExpression = 0;
 
 HANDLE hStopSpamLogDirH=0;
 
-tstring gbSpammersGroup = L"Spammers";
-tstring gbAutoAuthGroup	= L"NotSpammers";
+wstring gbSpammersGroup = L"Spammers";
+wstring gbAutoAuthGroup	= L"NotSpammers";
 
-tstring gbQuestion;
-tstring gbAnswer;
-tstring gbCongratulation;
+wstring gbQuestion;
+wstring gbAnswer;
+wstring gbCongratulation;
 std::wstring gbAuthRepl;
-extern TCHAR const * defQuestion;
+extern wchar_t const * defQuestion;
 extern int RemoveTmp(WPARAM,LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfoEx;
 }
 
-extern tstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, tstring errorValue);
+extern wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, wstring errorValue);
 
 void InitVars()
 {

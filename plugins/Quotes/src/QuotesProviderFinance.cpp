@@ -260,6 +260,6 @@ void CQuotesProviderFinance::ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_OPT_FINANCE);
 	odp.pfnDlgProc = GoogleFinanceOptDlgProc;
 	odp.dwInitParam = LPARAM(this);
-	odp.ptszTab = const_cast<LPTSTR>(GetInfo().m_sName.c_str());
+	odp.pwszTab = const_cast<LPTSTR>(GetInfo().m_sName.c_str());
 	Options_AddPage(wp, &odp);
 }

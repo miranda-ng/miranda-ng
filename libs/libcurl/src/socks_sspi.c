@@ -141,7 +141,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(int sockindex,
   cred_handle.dwUpper = 0;
 
   status = s_pSecFn->AcquireCredentialsHandle(NULL,
-                                              (TCHAR *) TEXT("Kerberos"),
+                                              (wchar_t *) TEXT("Kerberos"),
                                               SECPKG_CRED_OUTBOUND,
                                               NULL,
                                               NULL,
@@ -160,7 +160,7 @@ CURLcode Curl_SOCKS5_gssapi_negotiate(int sockindex,
   /* As long as we need to keep sending some context info, and there's no  */
   /* errors, keep sending it...                                            */
   for(;;) {
-    TCHAR *sname;
+    wchar_t *sname;
 
     sname = Curl_convert_UTF8_to_tchar(service_name);
     if(!sname)

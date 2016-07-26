@@ -139,7 +139,7 @@ void GetData(void *param)
 			if (nlhrReply->resultCode < 200 || nlhrReply->resultCode >= 300) {
 				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
 
-				TCHAR *statusText = TranslateT("The server replied with a failure code");
+				wchar_t *statusText = TranslateT("The server replied with a failure code");
 				SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
 				WErrorPopup(hContact, statusText);
 				db_set_ts(hContact, "CList", "StatusMsg", statusText);
@@ -155,7 +155,7 @@ void GetData(void *param)
 		if (!nlhrReply) {
 			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_NA);
 
-			TCHAR *statusText = TranslateT("The server is down or lagging.");
+			wchar_t *statusText = TranslateT("The server is down or lagging.");
 			SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
 			WErrorPopup(hContact, statusText);
 			db_set_ts(hContact, "CList", "StatusMsg", statusText);
@@ -232,7 +232,7 @@ void GetData(void *param)
 						DownloadSuccess = 1;
 					}
 					else if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0) {
-						TCHAR *szStatusText = TranslateT("Invalid search parameters.");
+						wchar_t *szStatusText = TranslateT("Invalid search parameters.");
 						WErrorPopup(hContact, szStatusText);
 
 						DownloadSuccess = 0;
@@ -246,7 +246,7 @@ void GetData(void *param)
 		if (DownloadSuccess) { // download success
 			if (statpos == 0 && statposend == 0) {
 				if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0) {
-					TCHAR *statusText = TranslateT("Both search strings not found or strings not set.");
+					wchar_t *statusText = TranslateT("Both search strings not found or strings not set.");
 					WErrorPopup(hContact, statusText);
 					db_set_ts(hContact, "CList", "StatusMsg", statusText);
 
@@ -355,7 +355,7 @@ void GetData(void *param)
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Processing data (Stage 1)"));
 
 					if (db_get_b(hContact, MODULENAME, STOP_KEY, 1) == 1) {
-LBL_Stop:			TCHAR *statusText = TranslateT("Processing data stopped by user.");
+LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.");
 						SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
 						db_set_b(hContact, MODULENAME, STOP_KEY, 0);
 						db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);  

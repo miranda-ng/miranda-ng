@@ -16,7 +16,7 @@
 
 #include "stdafx.h"
 
-void JabberAccount::setAccountName(TCHAR *Name)
+void JabberAccount::setAccountName(wchar_t *Name)
 {
 	AccountName = Name;
 }
@@ -42,7 +42,7 @@ void JabberAccount::setMessageHandler(HJHANDLER hHandler)
 }
 
 
-TCHAR *JabberAccount::getAccountName()
+wchar_t *JabberAccount::getAccountName()
 {
 	return AccountName;
 }

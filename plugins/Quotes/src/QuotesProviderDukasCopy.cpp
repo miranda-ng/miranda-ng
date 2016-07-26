@@ -86,7 +86,7 @@ struct CEconomicRateInfo
 typedef std::vector<CEconomicRateInfo> TEconomicRates;
 typedef IHTMLNode::THTMLNodePtr THTMLNodePtr;
 
-bool string2double(const TCHAR* pszText, double& rValue)
+bool string2double(const wchar_t* pszText, double& rValue)
 {
 	assert(pszText);
 	try {

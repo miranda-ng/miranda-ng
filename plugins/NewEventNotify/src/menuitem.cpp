@@ -50,7 +50,7 @@ int MenuitemInit(BOOL bStatus)
 {
 	CreateServiceFunction(MS_NEN_MENUNOTIFY, MenuitemNotifyCmd);
 
-	HGENMENU hRoot = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
+	HGENMENU hRoot = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
 
 	CMenuItem mi;
 	SET_UID(mi, 0x7aed93f7, 0x835, 0x4ff6, 0xb1, 0x34, 0xae, 0x0, 0x21, 0x2a, 0xd7, 0x81);

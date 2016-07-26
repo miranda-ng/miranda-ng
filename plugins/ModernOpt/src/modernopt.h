@@ -32,8 +32,8 @@ struct ModernOptMainPageInfo
 	int		idcButton;
 	BOOL	bShowTab;
 	int		iIcon;
-	TCHAR	*lpzTitle;
-	TCHAR	*lpzDescription;
+	wchar_t	*lpzTitle;
+	wchar_t	*lpzDescription;
 	int		iPageType;
 	BOOL	bShow;
 };

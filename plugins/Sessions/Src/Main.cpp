@@ -161,7 +161,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 					dy = 20;
 					dx = 150;
 					dd = 5;
-					hClistControl = CreateWindowEx(WS_EX_CLIENTEDGE, _T(CLISTCONTROL_CLASS), L"",
+					hClistControl = CreateWindowEx(WS_EX_CLIENTEDGE, CLISTCONTROL_CLASSW, L"",
 						WS_TABSTOP | WS_VISIBLE | WS_CHILD,
 						x, y, dx, dy, hdlg, (HMENU)IDC_CLIST, g_hInst, 0);
 
@@ -196,7 +196,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 			break;
 
 		case IDOK:
-			TCHAR szUserSessionName[MAX_PATH];
+			wchar_t szUserSessionName[MAX_PATH];
 			{
 				DWORD session_list_temp[255] = { 0 };
 				int i = 0, length = GetWindowTextLength(GetDlgItem(hdlg, IDC_LIST));
@@ -475,21 +475,21 @@ int SaveSessionDate()
 {
 	if (session_list[0] != 0) {
 		int TimeSize = GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, NULL, NULL, NULL, 0);
-		TCHAR *szTimeBuf = (TCHAR*)mir_alloc((TimeSize + 1)*sizeof(TCHAR));
+		wchar_t *szTimeBuf = (wchar_t*)mir_alloc((TimeSize + 1)*sizeof(wchar_t));
 
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, NULL, NULL, szTimeBuf, TimeSize);
 
 		int DateSize = GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, NULL, 0);
-		TCHAR *szDateBuf = (TCHAR*)mir_alloc((DateSize + 1)*sizeof(TCHAR));
+		wchar_t *szDateBuf = (wchar_t*)mir_alloc((DateSize + 1)*sizeof(wchar_t));
 
 		GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, szDateBuf, DateSize);
 		int lenn = (DateSize + TimeSize + 5);
-		TCHAR *szSessionTime = (TCHAR*)mir_alloc(lenn*sizeof(TCHAR));
+		wchar_t *szSessionTime = (wchar_t*)mir_alloc(lenn*sizeof(wchar_t));
 		mir_sntprintf(szSessionTime, lenn, L"%s - %s", szTimeBuf, szDateBuf);
 
 		char szSetting[256];
 		mir_snprintf(szSetting, "%s_%d", "SessionDate", 0);
-		TCHAR *ptszSaveSessionDate = db_get_tsa(NULL, MODNAME, szSetting);
+		wchar_t *ptszSaveSessionDate = db_get_tsa(NULL, MODNAME, szSetting);
 
 		db_set_ts(NULL, MODNAME, szSetting, szSessionTime);
 		mir_free(szSessionTime);
@@ -507,14 +507,14 @@ int SaveSessionDate()
 	return 0;
 }
 
-int SaveUserSessionName(TCHAR *szUSessionName)
+int SaveUserSessionName(wchar_t *szUSessionName)
 {
 	if (session_list[0] == 0)
 		return 1;
 
 	char szSetting[256];
 	mir_snprintf(szSetting, "%s_%u", "UserSessionDsc", 0);
-	TCHAR *ptszUserSessionName = db_get_tsa(NULL, MODNAME, szSetting);
+	wchar_t *ptszUserSessionName = db_get_tsa(NULL, MODNAME, szSetting);
 	if (ptszUserSessionName)
 		ResaveSettings("UserSessionDsc", 1, 255, ptszUserSessionName);
 
@@ -789,7 +789,7 @@ static int PluginInit(WPARAM, LPARAM)
 	// Main menu
 	CMenuItem mi;
 	mi.position = 1000000000;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Sessions Manager"), 1000000000);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Sessions Manager"), 1000000000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "D77B9AB4-AF7E-43DB-A487-BD581704D635");
 
 	SET_UID(mi, 0xd35302fa, 0x8326, 0x4323, 0xa3, 0xe5, 0xb4, 0x41, 0xff, 0xfb, 0xaa, 0x2d);

@@ -12,7 +12,7 @@ extern void UnInitDebug();
 	#include "ConStream.h"
 #endif
 #define TRACE _trace
-extern void _trace(TCHAR *fmt, ...);
+extern void _trace(wchar_t *fmt, ...);
 #else
 inline void _trace(LPCTSTR, ...) { }
 #define TRACE  1 ? (void)0 : _trace

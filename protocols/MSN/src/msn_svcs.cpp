@@ -41,14 +41,14 @@ INT_PTR CMsnProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMsnProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR* buf = (TCHAR*)wParam;
+	wchar_t* buf = (wchar_t*)wParam;
 	int  size = (int)lParam;
 
 	if (buf == NULL || size <= 0)
 		return -1;
 
 	MSN_GetAvatarFileName(NULL, buf, size, NULL);
-	return _taccess(buf, 0);
+	return _waccess(buf, 0);
 }
 
 
@@ -64,7 +64,7 @@ void CMsnProto::sttFakeAvatarAck(void* arg)
 INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
-	TCHAR filename[MAX_PATH];
+	wchar_t filename[MAX_PATH];
 	MsnContact *cont = NULL;
 
 	if (pai->hContact) {
@@ -185,11 +185,11 @@ INT_PTR CMsnProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMsnProto::SetAvatar(WPARAM, LPARAM lParam)
 {
-	TCHAR* szFileName = (TCHAR*)lParam;
+	wchar_t* szFileName = (wchar_t*)lParam;
 
-	TCHAR tFileName[MAX_PATH];
+	wchar_t tFileName[MAX_PATH];
 	MSN_GetAvatarFileName(NULL, tFileName, _countof(tFileName), NULL);
-	_tremove(tFileName);
+	_wremove(tFileName);
 
 	if (szFileName == NULL) {
 		delSetting("PictObject");
@@ -197,7 +197,7 @@ INT_PTR CMsnProto::SetAvatar(WPARAM, LPARAM lParam)
 		ForkThread(&CMsnProto::msn_storeAvatarThread, NULL);
 	}
 	else {
-		int fileId = _topen(szFileName, _O_RDONLY | _O_BINARY, _S_IREAD);
+		int fileId = _wopen(szFileName, _O_RDONLY | _O_BINARY, _S_IREAD);
 		if (fileId < 0) return 1;
 
 		size_t dwPngSize = _filelengthi64(fileId);
@@ -210,8 +210,8 @@ INT_PTR CMsnProto::SetAvatar(WPARAM, LPARAM lParam)
 		_read(fileId, pData, (unsigned)dwPngSize);
 		_close(fileId);
 
-		TCHAR drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME], ext[_MAX_EXT];
-		_tsplitpath(szFileName, drive, dir, fname, ext);
+		wchar_t drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME], ext[_MAX_EXT];
+		_wsplitpath(szFileName, drive, dir, fname, ext);
 
 		MSN_SetMyAvatar(fname, pData, dwPngSize);
 
@@ -355,11 +355,11 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM, LPARAM lParam)
 	if (msnCurrentMedia.cbSize == 0)
 		delSetting("ListeningTo");
 	else {
-		TCHAR *text;
+		wchar_t *text;
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			text = (TCHAR *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&msnCurrentMedia);
+			text = (wchar_t *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&msnCurrentMedia);
 		else {
-			text = (TCHAR *)mir_alloc(128 * sizeof(TCHAR));
+			text = (wchar_t *)mir_alloc(128 * sizeof(wchar_t));
 			mir_sntprintf(text, 128, L"%s - %s", (msnCurrentMedia.ptszTitle ? msnCurrentMedia.ptszTitle : L""),
 				(msnCurrentMedia.ptszArtist ? msnCurrentMedia.ptszArtist : L""));
 		}

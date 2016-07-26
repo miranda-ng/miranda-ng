@@ -219,7 +219,7 @@ LBL_Continue:
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY) {
 			bool reconnectRequired = false;
-			TCHAR screenStr[MAX_PATH];
+			wchar_t screenStr[MAX_PATH];
 			char  password[100], szEmail[MSN_MAX_EMAIL_LEN];
 			DBVARIANT dbv;
 
@@ -567,7 +567,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			else proto->setString("Password", password);
 
-			TCHAR szPlace[64];
+			wchar_t szPlace[64];
 			GetDlgItemText(hwndDlg, IDC_PLACE, szPlace, _countof(szPlace));
 			if (szPlace[0])
 				proto->setTString("Place", szPlace);
@@ -627,25 +627,25 @@ int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSN);
-	odp.ptszTitle = m_tszUserName;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTab = LPGENT("Account");
+	odp.pwszTitle = m_tszUserName;
+	odp.pwszGroup = LPGENW("Network");
+	odp.pwszTab = LPGENW("Account");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.pfnDlgProc = DlgProcMsnOpts;
 	odp.dwInitParam = (LPARAM)this;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Connection");
+	odp.pwszTab = LPGENW("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSN_CONN);
 	odp.pfnDlgProc = DlgProcMsnConnOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Server list");
+	odp.pwszTab = LPGENW("Server list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_LISTSMGR);
 	odp.pfnDlgProc = DlgProcMsnServLists;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Notifications");
+	odp.pwszTab = LPGENW("Notifications");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
 	odp.pfnDlgProc = DlgProcHotmailPopupOpts;
 	Options_AddPage(wParam, &odp);

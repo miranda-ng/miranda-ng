@@ -76,14 +76,14 @@ int InitAccount(HACCOUNT Which);
 void DeInitAccount(HACCOUNT Which);
 void StopSignalFcn(HACCOUNT Which);
 void CodeDecodeString(char *Dest, BOOL Encrypt);
-DWORD FileToMemory(TCHAR *FileName, char **MemFile, char **End);
+DWORD FileToMemory(wchar_t *FileName, char **MemFile, char **End);
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
 DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
 #endif
 DWORD ReadStringFromMemory(char **Parser, char *End, char **StoreTo);
 DWORD ReadMessagesFromMemory(HACCOUNT Which, char **Parser, char *End);
-DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, TCHAR *End);
+DWORD ReadAccountFromMemory(HACCOUNT Which, char **Parser, wchar_t *End);
 INT_PTR AddAccountsFromFileSvc(WPARAM wParam, LPARAM lParam);
 
 DWORD WriteStringToFile(HANDLE File, char *Source);
@@ -102,8 +102,8 @@ int StopAccounts(HYAMNPROTOPLUGIN Plugin);
 int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin, BOOL GetAccountBrowserAccess = FALSE);
 int DeleteAccounts(HYAMNPROTOPLUGIN Plugin);
 
-void WINAPI GetStatusFcn(HACCOUNT Which, TCHAR *Value);
-void WINAPI SetStatusFcn(HACCOUNT Which, TCHAR *Value);
+void WINAPI GetStatusFcn(HACCOUNT Which, wchar_t *Value);
+void WINAPI SetStatusFcn(HACCOUNT Which, wchar_t *Value);
 
 INT_PTR UnregisterProtoPlugins();
 INT_PTR RegisterProtocolPluginSvc(WPARAM, LPARAM);
@@ -162,8 +162,8 @@ int PostLoad(WPARAM, LPARAM);				//Executed after all plugins loaded YAMN reads 
 int Shutdown(WPARAM, LPARAM);				//Executed before Miranda is going to shutdown
 int AddTopToolbarIcon(WPARAM, LPARAM);	//Executed when TopToolBar plugin loaded Adds bitmap to toolbar
 
-extern TCHAR UserDirectory[];		//e.g. "F:\WINNT\Profiles\UserXYZ"
-extern TCHAR ProfileName[];		//e.g. "majvan"
+extern wchar_t UserDirectory[];		//e.g. "F:\WINNT\Profiles\UserXYZ"
+extern wchar_t ProfileName[];		//e.g. "majvan"
 extern SWMRG *AccountBrowserSO;
 extern YAMN_VARIABLES YAMNVar;
 extern HANDLE hNewMailHook;
@@ -183,7 +183,7 @@ DWORD WINAPI WaitToReadFcn(PSWMRG SObject);
 void  WINAPI ReadDoneFcn(PSWMRG SObject);
 DWORD WINAPI SCIncFcn(PSCOUNTER SCounter);
 DWORD WINAPI SCDecFcn(PSCOUNTER SCounter);
-BOOL  WINAPI SWMRGInitialize(PSWMRG, TCHAR *);
+BOOL  WINAPI SWMRGInitialize(PSWMRG, wchar_t *);
 void  WINAPI SWMRGDelete(PSWMRG);
 DWORD WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG, DWORD dwTimeout);
 void  WINAPI SWMRGDoneWriting(PSWMRG pSWMRG);
@@ -203,7 +203,7 @@ char *ExtractFromContentType(char *ContentType, char *value);
 WCHAR *ParseMultipartBody(char *src, char *bond);
 
 //From account.cpp
-void WINAPI GetStatusFcn(HACCOUNT Which, TCHAR *Value);
+void WINAPI GetStatusFcn(HACCOUNT Which, wchar_t *Value);
 
 extern HYAMNPROTOPLUGIN POP3Plugin;
 

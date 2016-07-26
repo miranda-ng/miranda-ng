@@ -19,7 +19,6 @@
 
 #pragma comment(lib, "UxTheme.lib")
 
-#include <tchar.h>
 #include <stdio.h>
 
 #include <cstdio>

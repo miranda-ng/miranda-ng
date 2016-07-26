@@ -25,17 +25,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #define NAMEORDERCOUNT 9
-static TCHAR* nameOrderDescr[ NAMEORDERCOUNT ] =
+static wchar_t* nameOrderDescr[ NAMEORDERCOUNT ] =
 {
-	LPGENT("My custom name (not movable)"),
-	LPGENT("Nick"),
-	LPGENT("FirstName"),
-	LPGENT("E-mail"),
-	LPGENT("LastName"),
-	LPGENT("Username"),
-	LPGENT("FirstName LastName"),
-	LPGENT("LastName FirstName"),
-	LPGENT("'(Unknown contact)' (not movable)")
+	LPGENW("My custom name (not movable)"),
+	LPGENW("Nick"),
+	LPGENW("FirstName"),
+	LPGENW("E-mail"),
+	LPGENW("LastName"),
+	LPGENW("Username"),
+	LPGENW("FirstName LastName"),
+	LPGENW("LastName FirstName"),
+	LPGENW("'(Unknown contact)' (not movable)")
 };
 
 BYTE nameOrder[NAMEORDERCOUNT];
@@ -54,7 +54,7 @@ static int GetDatabaseString(MCONTACT hContact, const char *szProto, const char 
 	return db_get_ws(hContact, szProto, szSetting, dbv);
 }
 
-static TCHAR* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szProto, const char *szSetting)
+static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szProto, const char *szSetting)
 {
 	DBVARIANT dbv;
 	if (!GetDatabaseString(hContact, szProto, szSetting, &dbv)) {
@@ -71,21 +71,21 @@ static TCHAR* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szProto
 	if (db_get(hContact, szProto, szSetting, &dbv))
 		return NULL;
 
-	TCHAR buf[40];
+	wchar_t buf[40];
 	switch (dbv.type) {
 	case DBVT_BYTE:
-		return mir_tstrdup(_itot(dbv.bVal, buf, 10));
+		return mir_tstrdup(_itow(dbv.bVal, buf, 10));
 	case DBVT_WORD:
-		return mir_tstrdup(_itot(dbv.wVal, buf, 10));
+		return mir_tstrdup(_itow(dbv.wVal, buf, 10));
 	case DBVT_DWORD:
-		return mir_tstrdup(_itot(dbv.dVal, buf, 10));
+		return mir_tstrdup(_itow(dbv.dVal, buf, 10));
 	}
 
 	db_free(&dbv);
 	return NULL;
 }
 
-MIR_APP_DLL(TCHAR*) Contact_GetInfo(int type, MCONTACT hContact, const char *szProto)
+MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *szProto)
 {
 	if (hContact == NULL && szProto == NULL)
 		return NULL;
@@ -96,7 +96,7 @@ MIR_APP_DLL(TCHAR*) Contact_GetInfo(int type, MCONTACT hContact, const char *szP
 		return NULL;
 
 	char *uid;
-	TCHAR *res;
+	wchar_t *res;
 	DBVARIANT dbv;
 	switch (type) {
 	case CNF_FIRSTNAME:  return ProcessDatabaseValueDefault(hContact, szProto, "FirstName");
@@ -179,8 +179,8 @@ MIR_APP_DLL(TCHAR*) Contact_GetInfo(int type, MCONTACT hContact, const char *szP
 
 	case CNF_UNIQUEID:
 		if (db_mc_isMeta(hContact)) {
-			TCHAR buf[40];
-			_itot(hContact, buf, 10);
+			wchar_t buf[40];
+			_itow(hContact, buf, 10);
 			return mir_tstrdup(buf);
 		}
 	

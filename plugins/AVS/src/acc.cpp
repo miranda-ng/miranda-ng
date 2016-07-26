@@ -43,7 +43,7 @@ typedef struct
 	COLORREF bkgColor;
 	COLORREF avatarBorderColor;
 	int avatarRoundCornerRadius;
-	TCHAR noAvatarText[128];
+	wchar_t noAvatarText[128];
 	BOOL respectHidden;
 	BOOL resizeIfSmaller;
 	BOOL fAero;
@@ -347,7 +347,7 @@ static void NotifyAvatarChange(HWND hwnd)
 	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&pshn);
 }
 
-static void DrawText(HDC hdc, HFONT hFont, const RECT &rc, const TCHAR *text)
+static void DrawText(HDC hdc, HFONT hFont, const RECT &rc, const wchar_t *text)
 {
 	HGDIOBJ oldFont = SelectObject(hdc, hFont);
 
@@ -469,7 +469,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case AVATAR_SETNOAVATARTEXT:
-		mir_tstrncpy(data->noAvatarText, TranslateTS((TCHAR*)lParam), _countof(data->noAvatarText));
+		mir_tstrncpy(data->noAvatarText, TranslateTS((wchar_t*)lParam), _countof(data->noAvatarText));
 		Invalidate(hwnd);
 		return TRUE;
 

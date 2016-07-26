@@ -5,15 +5,15 @@
 #include <string>
 
 class UTF8Buffer
-	: public std::basic_streambuf<TCHAR, std::char_traits<TCHAR> >
+	: public std::basic_streambuf<wchar_t, std::char_traits<wchar_t> >
 	, private pattern::NotCopyable<UTF8Buffer>
 {
 private:
-	typedef std::char_traits<TCHAR> _Tr;
+	typedef std::char_traits<wchar_t> _Tr;
 
 private:
 	int m_BufSize;
-	TCHAR* m_pBuf;
+	wchar_t* m_pBuf;
 	ext::a::ostream& m_Stream;
 	char* m_pUTF8Buf;
 	WCHAR* m_pBufW;
@@ -23,7 +23,7 @@ private:
 #endif // _UNICODE
 
 private:
-	void dump(const TCHAR* pBegin, const TCHAR* pEnd)
+	void dump(const wchar_t* pBegin, const wchar_t* pEnd)
 	{
 		size_t len = pEnd - pBegin;
 
@@ -81,7 +81,7 @@ public:
 	explicit UTF8Buffer(ext::a::ostream& outStream, int bufferSize = 4096)
 		: m_BufSize(bufferSize), m_Stream(outStream)
 	{
-		m_pBuf = new TCHAR[m_BufSize];
+		m_pBuf = new wchar_t[m_BufSize];
 		m_pUTF8Buf = new char[3 * m_BufSize];
 
 #if defined(_UNICODE)

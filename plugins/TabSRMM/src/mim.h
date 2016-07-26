@@ -216,7 +216,7 @@ public:
 	static bool   m_shutDown, m_haveBufferedPaint;
 
 private:
-	TCHAR   m_szProfilePath[MAX_PATH + 2], m_szSkinsPath[MAX_PATH + 2], m_szSavedAvatarsPath[MAX_PATH + 2], m_szChatLogsPath[MAX_PATH + 2];
+	wchar_t   m_szProfilePath[MAX_PATH + 2], m_szSkinsPath[MAX_PATH + 2], m_szSavedAvatarsPath[MAX_PATH + 2], m_szChatLogsPath[MAX_PATH + 2];
 	HMODULE m_hUxTheme, m_hDwmApi;
 	bool    m_isAero, m_DwmActive, m_isVsThemed;
 	HANDLE  m_hDataPath, m_hSkinsPath, m_hAvatarsPath, m_hChatLogsPath;
@@ -231,7 +231,7 @@ private:
 	void 	InitPaths();
 
 private:
-	static TCHAR m_userDir[MAX_PATH + 2];
+	static wchar_t m_userDir[MAX_PATH + 2];
 };
 
 extern  CMimAPI M;

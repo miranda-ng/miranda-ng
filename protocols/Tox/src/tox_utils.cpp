@@ -55,7 +55,7 @@ int CToxProto::ToxToMirandaStatus(TOX_USER_STATUS userstatus)
 	return status;
 }
 
-TCHAR* CToxProto::ToxErrorToString(TOX_ERR_NEW error)
+wchar_t* CToxProto::ToxErrorToString(TOX_ERR_NEW error)
 {
 	switch (error)
 	{
@@ -82,7 +82,7 @@ TCHAR* CToxProto::ToxErrorToString(TOX_ERR_NEW error)
 	}
 }
 
-TCHAR* CToxProto::ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error)
+wchar_t* CToxProto::ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error)
 {
 	switch (error)
 	{
@@ -103,7 +103,7 @@ TCHAR* CToxProto::ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error)
 	}
 }
 
-void CToxProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact)
+void CToxProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_Terminated())
 	{
@@ -125,14 +125,14 @@ void CToxProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int
 	MessageBox(NULL, message, caption, MB_OK | flags);
 }
 
-void CToxProto::ShowNotification(const TCHAR *message, int flags, MCONTACT hContact)
+void CToxProto::ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
 {
 	ShowNotification(_T(MODULE), message, flags, hContact);
 }
 
-bool CToxProto::IsFileExists(const TCHAR* path)
+bool CToxProto::IsFileExists(const wchar_t* path)
 {
-	return _taccess(path, 0) == 0;
+	return _waccess(path, 0) == 0;
 }
 
 MEVENT CToxProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob)
@@ -149,7 +149,7 @@ MEVENT CToxProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DW
 
 INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 {
-	TCHAR *uri = (TCHAR*)lParam;
+	wchar_t *uri = (wchar_t*)lParam;
 	if (mir_tstrlen(uri) <= 4)
 		return 1;
 
@@ -168,7 +168,7 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 	if (proto == NULL)
 		return 1;
 
-	if (_tcschr(uri, _T('@')) != NULL)
+	if (wcschr(uri, '@') != NULL)
 		return 1;
 
 	PROTOSEARCHRESULT psr = { sizeof(psr) };

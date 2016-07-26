@@ -86,7 +86,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static PROTO_INTERFACE* protoInit(const char* pszProtoName, const TCHAR* tszUserName)
+static PROTO_INTERFACE* protoInit(const char* pszProtoName, const wchar_t* tszUserName)
 {
 	CAimProto *ppro = new CAimProto(pszProtoName, tszUserName);
 	g_Instances.insert(ppro);

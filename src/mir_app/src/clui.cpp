@@ -89,10 +89,10 @@ static HGENMENU hRenameMenuItem;
 
 static int MenuItem_PreBuild(WPARAM, LPARAM)
 {
-	TCHAR cls[128];
+	wchar_t cls[128];
 	HWND hwndClist = GetFocus();
 	GetClassName(hwndClist, cls, _countof(cls));
-	hwndClist = (!mir_tstrcmp(_T(CLISTCONTROL_CLASS), cls)) ? hwndClist : cli.hwndContactList;
+	hwndClist = (!mir_tstrcmp(CLISTCONTROL_CLASSW, cls)) ? hwndClist : cli.hwndContactList;
 	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	Menu_ShowItem(hRenameMenuItem, hItem != 0);
 	return 0;
@@ -100,11 +100,11 @@ static int MenuItem_PreBuild(WPARAM, LPARAM)
 
 static INT_PTR MenuItem_RenameContact(WPARAM, LPARAM)
 {
-	TCHAR cls[128];
+	wchar_t cls[128];
 	HWND hwndClist = GetFocus();
 	GetClassName(hwndClist, cls, _countof(cls));
 	// worst case scenario, the rename is sent to the main contact list
-	hwndClist = (!mir_tstrcmp(_T(CLISTCONTROL_CLASS), cls)) ? hwndClist : cli.hwndContactList;
+	hwndClist = (!mir_tstrcmp(CLISTCONTROL_CLASSW, cls)) ? hwndClist : cli.hwndContactList;
 	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	if (hItem) {
 		SetFocus(hwndClist);
@@ -125,7 +125,7 @@ static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wP
 			lf.lfWeight = FW_BOLD;
 			SendDlgItemMessage(hWnd, IDC_TOPLINE, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
 
-			TCHAR szFormat[256], szFinal[256];
+			wchar_t szFormat[256], szFinal[256];
 			GetDlgItemText(hWnd, IDC_TOPLINE, szFormat, _countof(szFormat));
 			mir_sntprintf(szFinal, szFormat, cli.pfnGetContactDisplayName(lParam, 0));
 			SetDlgItemText(hWnd, IDC_TOPLINE, szFinal);
@@ -240,7 +240,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 int LoadCLUIModule(void)
 {
 	DBVARIANT dbv;
-	TCHAR titleText[256];
+	wchar_t titleText[256];
 
 	uMsgProcessProfile = RegisterWindowMessage(L"Miranda::ProcessProfile");
 	cli.pfnLoadCluiGlobalOpts();
@@ -259,7 +259,7 @@ int LoadCLUIModule(void)
 	wndclass.cbWndExtra = sizeof(void *);
 	wndclass.hInstance = cli.hInst;
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wndclass.lpszClassName = _T(CLISTCONTROL_CLASS);
+	wndclass.lpszClassName = CLISTCONTROL_CLASSW;
 	RegisterClassEx(&wndclass);
 
 	memset(&wndclass, 0, sizeof(wndclass));
@@ -410,7 +410,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	static int noRecurse = 0;
 
 	if (msg == uMsgProcessProfile) {
-		TCHAR profile[MAX_PATH];
+		wchar_t profile[MAX_PATH];
 		if (GlobalGetAtomName((ATOM)wParam, profile, _countof(profile))) {
 			int rc = mir_tstrcmpi(profile, VARST(L"%miranda_userdata%\\%miranda_profilename%.dat")) == 0;
 			ReplyMessage(rc);
@@ -460,7 +460,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return FALSE;
 
 	case M_CREATECLC:
-		cli.hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), L"",
+		cli.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
 													  WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
 													  | CLS_CONTACTLIST
 													  | (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
@@ -764,7 +764,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			NMCLISTCONTROL *nmc = (NMCLISTCONTROL*)lParam;
 			switch (((LPNMHDR)lParam)->code) {
 			case CLN_EXPANDED:
-				Clist_GroupSetExpanded((MGROUP)nmc->hItem, nmc->action);
+				Clist_GroupSetExpanded(UINT_PTR(nmc->hItem), nmc->action);
 				return FALSE;
 
 			case CLN_DRAGGING:
@@ -992,7 +992,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					x += 2;
 				if (showOpts & 2) {
 					PROTOACCOUNT *pa;
-					TCHAR tszName[64];
+					wchar_t tszName[64];
 					if ((pa = Proto_GetAccount(szProto)) != NULL)
 						mir_sntprintf(tszName, L"%s ", pa->tszAccountName);
 					else
@@ -1003,7 +1003,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
-					TCHAR* szStatus = cli.pfnGetStatusModeDescription(status, 0);
+					wchar_t* szStatus = cli.pfnGetStatusModeDescription(status, 0);
 					if (!szStatus)
 						szStatus = L"";
 					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_tstrlen(szStatus), &textSize);

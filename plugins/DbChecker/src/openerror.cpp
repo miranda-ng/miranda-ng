@@ -28,7 +28,7 @@ INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 	switch (message) {
 	case WM_INITDIALOG:
 	{
-		TCHAR szError[256];
+		wchar_t szError[256];
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, opts.error, 0, szError, _countof(szError), NULL);
 		SetDlgItemText(hdlg, IDC_ERRORTEXT, szError);
 	}

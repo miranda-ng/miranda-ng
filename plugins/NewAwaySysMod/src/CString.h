@@ -20,7 +20,6 @@
 #pragma once
 
 #include <windows.h>
-#include <tchar.h>
 #include <crtdbg.h>
 #ifdef CHARARRAY_CONVERT
 #include "TMyArray.h"
@@ -97,7 +96,7 @@ private:
 };
 
 
-typedef TString<TCHAR> TCString;
+typedef TString<wchar_t> TCString;
 typedef TString<char> CString;
 typedef TString<WCHAR> WCString;
 
@@ -164,9 +163,9 @@ __inline CHARARRAY WCHAR2UTF8(WCString Str)
 
 #undef db_get_s
 CString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szDefaultValue);
-TCString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue);
+TCString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szDefaultValue);
 int db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-TCString DBGetContactSettingAsString(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue); // also converts numeric values to a string
+TCString DBGetContactSettingAsString(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szDefaultValue); // also converts numeric values to a string
 
 // various string helpers. their return values are valid only while the class is visible
 class UTF8Encode

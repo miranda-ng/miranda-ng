@@ -31,7 +31,7 @@
 #include "userdefs.h"
 #include "coolsb_internal.h"
 
-static TCHAR szPropStr[] = L"CoolSBSubclassPtr";
+static wchar_t szPropStr[] = L"CoolSBSubclassPtr";
 
 LRESULT CALLBACK CoolSBWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 

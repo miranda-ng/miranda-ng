@@ -31,7 +31,7 @@ private:
 	};
 
 private:
-	static const TCHAR* m_ClassName;
+	static const wchar_t* m_ClassName;
 	static const int m_PollId;
 	static const int m_PollDelay;
 

@@ -31,13 +31,13 @@ void ColEvents::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 {
 	m_hSource = Opt.insertCombo(hGroup, TranslateT("Events to count"));
 
-	static const TCHAR* sourceTexts[] = {
-		LPGENT("URLs (incoming)"),
-		LPGENT("URLs (outgoing)"),
-		LPGENT("URLs (all)"),
-		LPGENT("Files (incoming)"),
-		LPGENT("Files (outgoing)"),
-		LPGENT("Files (all)"),
+	static const wchar_t* sourceTexts[] = {
+		LPGENW("URLs (incoming)"),
+		LPGENW("URLs (outgoing)"),
+		LPGENW("URLs (all)"),
+		LPGENW("Files (incoming)"),
+		LPGENW("Files (outgoing)"),
+		LPGENW("Files (all)"),
 	};
 
 	array_each_(i, sourceTexts)
@@ -55,18 +55,18 @@ void ColEvents::impl_configFromUI(OptionsCtrl& Opt)
 
 void ColEvents::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const
 {
-	static const TCHAR* szShortDesc[] = {
-		LPGENT("URLs"),
-		LPGENT("Files"),
+	static const wchar_t* szShortDesc[] = {
+		LPGENW("URLs"),
+		LPGENW("Files"),
 	};
 
-	static const TCHAR* szSourceDesc[] = {
-		LPGENT("Incoming URLs"),
-		LPGENT("Outgoing URLs"),
-		LPGENT("URLs"),
-		LPGENT("Incoming files"),
-		LPGENT("Outgoing files"),
-		LPGENT("Files"),
+	static const wchar_t* szSourceDesc[] = {
+		LPGENW("Incoming URLs"),
+		LPGENW("Outgoing URLs"),
+		LPGENW("URLs"),
+		LPGENW("Incoming files"),
+		LPGENW("Outgoing files"),
+		LPGENW("Files"),
 	};
 
 	if (row == 1)

@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CJabberProto::SendGetVcard(const TCHAR *jid)
+int CJabberProto::SendGetVcard(const wchar_t *jid)
 {
 	if (!m_bJabberOnline) return 0;
 
@@ -126,7 +126,7 @@ static INT_PTR CALLBACK HomeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			for (int i = 0; i < g_cbCountries; i++) {
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
-					TCHAR *country = mir_a2t(g_countries[i].szName);
+					wchar_t *country = mir_a2t(g_countries[i].szName);
 					SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
 					mir_free(country);
 				}
@@ -190,7 +190,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			for (int i = 0; i < g_cbCountries; i++) {
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
-					TCHAR *country = mir_a2t(g_countries[i].szName);
+					wchar_t *country = mir_a2t(g_countries[i].szName);
 					SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
 					mir_free(country);
 				}
@@ -257,7 +257,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 {
 	const unsigned long iPageId = 3;
 
-	TCHAR szAvatarFileName[MAX_PATH], szTempPath[MAX_PATH], szTempFileName[MAX_PATH];
+	wchar_t szAvatarFileName[MAX_PATH], szTempPath[MAX_PATH], szTempFileName[MAX_PATH];
 	PhotoDlgProcData* dat = (PhotoDlgProcData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
@@ -289,7 +289,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 		dat->ppro->GetAvatarFileName(NULL, szAvatarFileName, _countof(szAvatarFileName));
-		if (_taccess(szAvatarFileName, 0) == 0) {
+		if (_waccess(szAvatarFileName, 0) == 0) {
 			if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
 				mir_tstrcpy(szTempPath, L".\\");
 			if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
@@ -333,7 +333,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			break;
 
 		case IDC_LOAD:
-			TCHAR szFilter[512], szFileName[MAX_PATH];
+			wchar_t szFilter[512], szFileName[MAX_PATH];
 			Bitmap_GetFilter(szFilter, _countof(szFilter));
 
 			OPENFILENAME ofn = { 0 };
@@ -350,7 +350,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				HBITMAP hNewBitmap;
 
 				dat->ppro->debugLog(L"File selected is %s", szFileName);
-				if (_tstat(szFileName, &st) < 0 || st.st_size > 40 * 1024) {
+				if (_wstat(szFileName, &st) < 0 || st.st_size > 40 * 1024) {
 					MessageBox(hwndDlg, TranslateT("Only JPG, GIF, and BMP image files smaller than 40 KB are supported."), TranslateT("Jabber vCard"), MB_OK | MB_SETFOREGROUND);
 					break;
 				}
@@ -578,7 +578,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						break;
 				}
 
-			TCHAR text[128];
+			wchar_t text[128];
 			GetDlgItemText(hwndDlg, IDC_EMAIL, text, _countof(text));
 			mir_snprintf(idstr, "e-mail%d", dat->id);
 			dat->ppro->setTString(idstr, text);
@@ -719,7 +719,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 		{
 			int i;
 			char idstr[33];
-			TCHAR number[20];
+			wchar_t number[20];
 
 			//e-mails
 			ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_EMAILS));
@@ -916,7 +916,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 
 void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 {
-	TCHAR text[2048];
+	wchar_t text[2048];
 
 	// Page 0: Personal
 	switch (iPage) {
@@ -958,7 +958,7 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 		setTString("ZIP", text);
 		{
 			int i = SendDlgItemMessage(hwndPage, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
-			TCHAR *country = mir_a2t((i) ? g_countries[i + 2].szName : g_countries[1].szName);
+			wchar_t *country = mir_a2t((i) ? g_countries[i + 2].szName : g_countries[1].szName);
 			setTString("Country", country);
 			mir_free(country);
 		}
@@ -984,7 +984,7 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 		setTString("CompanyZIP", text);
 		{
 			int i = SendDlgItemMessage(hwndPage, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
-			TCHAR *country = mir_a2t((i) ? g_countries[i + 2].szName : g_countries[1].szName);
+			wchar_t *country = mir_a2t((i) ? g_countries[i + 2].szName : g_countries[1].szName);
 			setTString("CompanyCountry", country);
 			mir_free(country);
 		}
@@ -1010,7 +1010,7 @@ void CJabberProto::AppendVcardFromDB(HXML n, char *tag, char *key)
 	n << XCHILD(_A2T(tag), tszValue);
 }
 
-void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
+void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 {
 	if (!m_bJabberOnline) return;
 
@@ -1104,7 +1104,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		if (nFlag & JABBER_VCTEL_PCS)   n << XCHILD(L"PCS");
 	}
 
-	TCHAR szAvatarName[MAX_PATH], *szFileName;
+	wchar_t szAvatarName[MAX_PATH], *szFileName;
 	GetAvatarFileName(NULL, szAvatarName, _countof(szAvatarName));
 	if (bPhotoChanged)
 		szFileName = szPhotoFileName;
@@ -1123,7 +1123,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		debugLog(L"Saving picture from %s", szFileName);
 
 		struct _stat st;
-		if (_tstat(szFileName, &st) >= 0) {
+		if (_wstat(szFileName, &st) >= 0) {
 			// Note the FILE_SHARE_READ attribute so that the CopyFile can succeed
 			HANDLE hFile = CreateFile(szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (hFile != INVALID_HANDLE_VALUE) {
@@ -1134,7 +1134,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 						ptrA str(mir_base64_encode((PBYTE)(LPSTR)buffer, nRead));
 						if (str != NULL) {
 							n = v << XCHILD(L"PHOTO");
-							TCHAR *szFileType;
+							wchar_t *szFileType;
 							switch (ProtoGetBufferFormat(buffer)) {
 								case PA_FORMAT_PNG:  szFileType = L"image/png";   break;
 								case PA_FORMAT_GIF:  szFileType = L"image/gif";   break;
@@ -1188,36 +1188,36 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_TCHAR | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
-	odp.ptszTitle = m_tszUserName;
+	odp.pwszTitle = m_tszUserName;
 
 	odp.pfnDlgProc = PersonalDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PERSONAL);
-	odp.ptszTab = LPGENT("General");
+	odp.pwszTab = LPGENW("General");
 	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = ContactDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_CONTACT);
-	odp.ptszTab = LPGENT("Contacts");
+	odp.pwszTab = LPGENW("Contacts");
 	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = HomeDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_HOME);
-	odp.ptszTab = LPGENT("Home");
+	odp.pwszTab = LPGENW("Home");
 	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = WorkDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_WORK);
-	odp.ptszTab = LPGENT("Work");
+	odp.pwszTab = LPGENW("Work");
 	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = PhotoDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PHOTO);
-	odp.ptszTab = LPGENT("Photo");
+	odp.pwszTab = LPGENW("Photo");
 	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = NoteDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_NOTE);
-	odp.ptszTab = LPGENT("Note");
+	odp.pwszTab = LPGENW("Note");
 	UserInfo_AddPage(wParam, &odp);
 
 	SendGetVcard(m_szJabberJID);

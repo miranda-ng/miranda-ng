@@ -323,7 +323,7 @@ void ChangeInfoData::EndStringEdit(int save)
 		}
 
 		if (sid.changed) {
-			TCHAR tbuf[MAX_PATH];
+			wchar_t tbuf[MAX_PATH];
 
 			GetWindowText(hwndEdit, tbuf, _countof(tbuf));
 			ListView_SetItemText(hwndList, iEditItem, 1, tbuf);

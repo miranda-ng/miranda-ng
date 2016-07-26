@@ -25,8 +25,8 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 struct Data
 {
 	Dictionary *dict;
-	tstring find;
-	tstring replace;
+	std::wstring find;
+	std::wstring replace;
 	BOOL useVariables;
 
 	BOOL modal;
@@ -37,7 +37,7 @@ struct Data
 };
 
 BOOL ShowAutoReplaceDialog(HWND parent, BOOL modal,
-	Dictionary *dict, const TCHAR *find, const TCHAR *replace, BOOL useVariables,
+	Dictionary *dict, const wchar_t *find, const wchar_t *replace, BOOL useVariables,
 	BOOL findReadOnly, AutoReplaceDialogCallback callback, void *param)
 {
 	Data *data = new Data();
@@ -79,11 +79,11 @@ static LRESULT CALLBACK OnlyCharsEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		if (GetKeyState(VK_CONTROL) & 0x8000)	// CTRL key
 			break;
 		{
-			TCHAR c = (TCHAR)wParam;
+			wchar_t c = (wchar_t)wParam;
 			if (!data->dict->autoReplace->isWordChar(c))
 				return 1;
 
-			TCHAR tmp[2] = { c, 0 };
+			wchar_t tmp[2] = { c, 0 };
 			CharLower(tmp);
 			wParam = tmp[0];
 
@@ -96,10 +96,10 @@ static LRESULT CALLBACK OnlyCharsEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case EM_PASTESPECIAL:
 	case WM_PASTE:
-		TCHAR text[256];
+		wchar_t text[256];
 		GetWindowText(hwnd, text, _countof(text));
 
-		scoped_free<TCHAR> dest = data->dict->autoReplace->filterText(text);
+		scoped_free<wchar_t> dest = data->dict->autoReplace->filterText(text);
 		SetWindowText(hwnd, dest);
 		break;
 	}
@@ -171,7 +171,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			SendDlgItemMessage(hwndDlg, IDC_NEW, EM_LIMITTEXT, 256, 0);
 
 			if (!data->find.empty()) {
-				scoped_free<TCHAR> tmp = data->dict->autoReplace->filterText(data->find.c_str());
+				scoped_free<wchar_t> tmp = data->dict->autoReplace->filterText(data->find.c_str());
 				SetDlgItemText(hwndDlg, IDC_OLD, tmp);
 			}
 			if (!data->replace.empty())
@@ -213,7 +213,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		{
 			Data *data = (Data *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-			TCHAR find[256];
+			wchar_t find[256];
 			if (data->findReadOnly)
 				mir_tstrncpy(find, data->find.c_str(), _countof(find));
 			else {
@@ -221,7 +221,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				lstrtrim(find);
 			}
 
-			TCHAR replace[256];
+			wchar_t replace[256];
 			GetDlgItemText(hwndDlg, IDC_NEW, replace, _countof(replace));
 			lstrtrim(replace);
 

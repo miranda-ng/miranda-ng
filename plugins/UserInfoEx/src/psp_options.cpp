@@ -447,9 +447,9 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 		case BTN_OPT_RESET:
 			BYTE WantReset = MsgBox(hDlg,
 				MB_ICON_WARNING | MB_YESNO,
-				LPGENT("Question"),
-				LPGENT("Reset factory defaults"),
-				LPGENT("This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?"));
+				LPGENW("Question"),
+				LPGENW("Reset factory defaults"),
+				LPGENW("This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?"));
 
 			if (WantReset) {
 				MCONTACT hContact;
@@ -485,9 +485,9 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 				SendMessage(GetParent(hDlg), PSM_FORCECHANGED, NULL, NULL);
 				MsgBox(hDlg, MB_ICON_INFO,
-					LPGENT("Ready"),
-					LPGENT("Everything is done!"),
-					LPGENT("All settings are reset to default values now!"));
+					LPGENW("Ready"),
+					LPGENW("Everything is done!"),
+					LPGENW("All settings are reset to default values now!"));
 			}
 		}
 	}
@@ -635,7 +635,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				SendDlgItemMessage(hDlg, EDIT_BIRTHMODULE, CB_SETCURSEL, db_get_b(NULL, MODNAME, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE), NULL);
 
 				MTime mtLast;
-				TCHAR szTime[MAX_PATH];
+				wchar_t szTime[MAX_PATH];
 
 				mtLast.DBGetStamp(NULL, MODNAME, SET_REMIND_LASTCHECK);
 				mtLast.UTCToLocal();
@@ -868,9 +868,9 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_PERMANENT))
 				db_set_b(NULL, MODNAME, SET_POPUP_DELAY, 255);
 			else if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_CUSTOM)) {
-				TCHAR szDelay[4];
+				wchar_t szDelay[4];
 				GetDlgItemText(hDlg, EDIT_DELAY, szDelay, _countof(szDelay));
-				db_set_b(NULL, MODNAME, SET_POPUP_DELAY, (BYTE)_tcstol(szDelay, NULL, 10));
+				db_set_b(NULL, MODNAME, SET_POPUP_DELAY, (BYTE)wcstol(szDelay, NULL, 10));
 			}
 			else
 				db_unset(NULL, MODNAME, SET_POPUP_DELAY);

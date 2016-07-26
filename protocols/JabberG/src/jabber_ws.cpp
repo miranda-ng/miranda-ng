@@ -28,7 +28,7 @@ BOOL CJabberProto::WsInit(void)
 {
 	m_lastTicks = ::GetTickCount();
 
-	TCHAR name[128];
+	wchar_t name[128];
 	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };

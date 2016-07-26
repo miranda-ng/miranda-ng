@@ -308,7 +308,7 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 	if (!gRemindOpts.bFlashCList || evt._wDaysLeft != 0)
 		return;
 
-	TCHAR szMsg[MAX_PATH];
+	wchar_t szMsg[MAX_PATH];
 
 	CLISTEVENT cle = {};
 	cle.hContact = hContact;
@@ -431,7 +431,7 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 			tszMsg.Append(L"\n...");
 		}
 
-		NotifyWithPopup(hContact, CEvent::ANNIVERSARY, Diff, LPGENT("Anniversaries"), tszMsg);
+		NotifyWithPopup(hContact, CEvent::ANNIVERSARY, Diff, LPGENW("Anniversaries"), tszMsg);
 	}
 
 	return numAnniversaries != 0;
@@ -476,7 +476,7 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 					}
 
 					if (bNotify) {
-						TCHAR szMsg[MAXDATASIZE];
+						wchar_t szMsg[MAXDATASIZE];
 						WORD cchMsg = 0;
 
 						switch (Diff) {

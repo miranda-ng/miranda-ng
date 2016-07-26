@@ -70,7 +70,7 @@ static int CompareContactsCache(const icq_contacts_cache *p1, const icq_contacts
 	return mir_strcmpi(p1->szUid, p2->szUid);
 }
 
-CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
+CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	PROTO<CIcqProto>(aProtoName, aUserName),
 	cookies(10, CompareCookies),
 	directConns(10, CompareConns),
@@ -157,7 +157,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	// Register netlib users
 	NETLIBUSER nlu = { 0 };
-	TCHAR szBuffer[MAX_PATH + 64];
+	wchar_t szBuffer[MAX_PATH + 64];
 	mir_sntprintf(szBuffer, TranslateT("%s server connection"), m_tszUserName);
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -292,17 +292,17 @@ MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		
 		// aim contact
 		if (isr->hdr.flags & PSR_UNICODE)
-			unicode_to_ansi_static((WCHAR*)isr->hdr.id.t, szUid, MAX_PATH);
+			unicode_to_ansi_static((WCHAR*)isr->hdr.id.w, szUid, MAX_PATH);
 		else
-			null_strcpy(szUid, (char*)isr->hdr.id.t, MAX_PATH);
+			null_strcpy(szUid, (char*)isr->hdr.id.w, MAX_PATH);
 
 		return (szUid[0] == 0) ? 0 : AddToListByUID(szUid, flags);
 	}
 
 	if (psr->flags & PSR_UNICODE)
-		unicode_to_ansi_static((WCHAR*)psr->id.t, szUid, MAX_PATH);
+		unicode_to_ansi_static((WCHAR*)psr->id.w, szUid, MAX_PATH);
 	else
-		null_strcpy(szUid, (char*)psr->id.t, MAX_PATH);
+		null_strcpy(szUid, (char*)psr->id.w, MAX_PATH);
 
 	if (szUid[0] == 0)
 		return 0;
@@ -400,7 +400,7 @@ int CIcqProto::Authorize(MEVENT hDbEvent)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_AuthDeny - handles the unsuccessful authorization
 
-int CIcqProto::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
+int CIcqProto::AuthDeny(MEVENT hDbEvent, const wchar_t* szReason)
 {
 	if (icqOnline() && hDbEvent) {
 		MCONTACT hContact = HContactFromAuthEvent(hDbEvent);
@@ -437,7 +437,7 @@ int __cdecl CIcqProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CIcqProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
+int __cdecl CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
 	if (!icqOnline())
 		return 1;
@@ -463,7 +463,7 @@ int __cdecl CIcqProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileAllow - starts a file transfer
 
-HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
+HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -533,7 +533,7 @@ int __cdecl CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileDeny - denies a file transfer
 
-int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
+int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason)
 {
 	int nReturnValue = 1;
 	basic_filetransfer *bft = (basic_filetransfer*)hTransfer;
@@ -573,7 +573,7 @@ int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_FileResume - processes file renaming etc
 
-int __cdecl CIcqProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
+int __cdecl CIcqProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
 {
 	if (icqOnline() && hTransfer) {
 		basic_filetransfer *ft = (basic_filetransfer *)hTransfer;
@@ -720,10 +720,10 @@ void CIcqProto::CheekySearchThread(void*)
 
 	if (cheekySearchUin) {
 		_itoa(cheekySearchUin, szUin, 10);
-		isr.hdr.id.t = (TCHAR*)szUin;
+		isr.hdr.id.w = (wchar_t*)szUin;
 	}
 	else {
-		isr.hdr.id.t = (TCHAR*)cheekySearchUid;
+		isr.hdr.id.w = (wchar_t*)cheekySearchUid;
 	}
 	isr.uin = cheekySearchUin;
 
@@ -733,7 +733,7 @@ void CIcqProto::CheekySearchThread(void*)
 }
 
 
-HANDLE __cdecl CIcqProto::SearchBasic(const TCHAR *pszSearch)
+HANDLE __cdecl CIcqProto::SearchBasic(const wchar_t *pszSearch)
 {
 	if (mir_wstrlen(pszSearch) == 0)
 		return 0;
@@ -791,7 +791,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const TCHAR *pszSearch)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SearchByEmail - searches the contact by its e-mail
 
-HANDLE __cdecl CIcqProto::SearchByEmail(const TCHAR *email)
+HANDLE __cdecl CIcqProto::SearchByEmail(const wchar_t *email)
 {
 	if (email && icqOnline() && mir_wstrlen(email) > 0) {
 		char *szEmail = tchar_to_ansi(email);
@@ -814,7 +814,7 @@ HANDLE __cdecl CIcqProto::SearchByEmail(const TCHAR *email)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SearchByName - searches the contact by its first or last name, or by a nickname
 
-HANDLE __cdecl CIcqProto::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName)
+HANDLE __cdecl CIcqProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	if (icqOnline()) {
 		if (nick || firstName || lastName) {
@@ -873,15 +873,15 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	DWORD flags = DBEF_UTF;
 
 	for (i = 0; i < pre->lParam; i++) {
-		cbBlob += mir_strlen((char*)isrList[i]->hdr.nick.t) + 2; // both trailing zeros
+		cbBlob += mir_strlen((char*)isrList[i]->hdr.nick.w) + 2; // both trailing zeros
 		if (isrList[i]->uin)
 			cbBlob += getUINLen(isrList[i]->uin);
 		else
-			cbBlob += mir_strlen((char*)isrList[i]->hdr.id.t);
+			cbBlob += mir_strlen((char*)isrList[i]->hdr.id.w);
 	}
 	PBYTE pBlob = (PBYTE)_alloca(cbBlob), pCurBlob;
 	for (i = 0, pCurBlob = pBlob; i < pre->lParam; i++) {
-		mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.nick.t);
+		mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.nick.w);
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 		if (isrList[i]->uin) {
 			char szUin[UINMAXLEN];
@@ -889,7 +889,7 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 			mir_strcpy((char*)pCurBlob, szUin);
 		}
 		else // aim contact
-			mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.id.t);
+			mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.id.w);
 
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}
@@ -1157,7 +1157,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
+HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)
 {
 	if (!icqOnline())
 		return 0;
@@ -1191,7 +1191,7 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const TCHAR* szDescription
 					for (i = 0; i < (int)ft->dwFileCount; i++) {
 						ft->pszFiles[i] = (ppszFiles[i]) ? tchar_to_utf8(ppszFiles[i]) : NULL;
 
-						if (_tstat(ppszFiles[i], &statbuf))
+						if (_wstat(ppszFiles[i], &statbuf))
 							debugLogA("IcqSendFile() was passed invalid filename(s)");
 						else
 							ft->dwTotalSize += statbuf.st_size;
@@ -1644,7 +1644,7 @@ void __cdecl CIcqProto::GetAwayMsgThread(void *pStatusData)
 
 		setStatusMsgVar(pThreadData->hContact, pThreadData->szMessage, false);
 
-		TCHAR *tszMsg = mir_utf8decodeT(pThreadData->szMessage);
+		wchar_t *tszMsg = mir_utf8decodeT(pThreadData->szMessage);
 		ProtoBroadcastAck(pThreadData->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, pThreadData->hProcess, (LPARAM)tszMsg);
 		mir_free(tszMsg);
 
@@ -1743,7 +1743,7 @@ int __cdecl CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
 {
 	setStatusMsgVar(hContact, evt->szMessage, false);
 
-	TCHAR* pszMsg = mir_utf8decodeT(evt->szMessage);
+	wchar_t* pszMsg = mir_utf8decodeT(evt->szMessage);
 	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)pszMsg);
 	mir_free(pszMsg);
 	return 0;
@@ -1753,7 +1753,7 @@ int __cdecl CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SetAwayMsg - sets the away status message
 
-int __cdecl CIcqProto::SetAwayMsg(int status, const TCHAR* msg)
+int __cdecl CIcqProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	mir_cslock l(m_modeMsgsMutex);
 

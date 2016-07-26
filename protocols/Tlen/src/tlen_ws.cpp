@@ -27,7 +27,7 @@ BOOL TlenWsInit(TlenProtocol *proto)
 {
 	NETLIBUSER nlu = {0};
 	NETLIBUSERSETTINGS nlus = {0};
-	TCHAR name[128];
+	wchar_t name[128];
 
 
 	nlu.cbSize = sizeof(nlu);

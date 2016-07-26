@@ -110,13 +110,13 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 		}
 
 		char *szProto = GetContactProto(p->hContact);
-		TCHAR *szName = pcli->pfnGetContactDisplayName(p->hContact, 0);
+		wchar_t *szName = pcli->pfnGetContactDisplayName(p->hContact, 0);
 		if (szProto && szName) {
 			NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) malloc(sizeof(struct NotifyMenuItemExData));
 			if (nmi) {
-				TCHAR szBuffer[128];
-				TCHAR* szStatus = pcli->pfnGetStatusModeDescription(db_get_w(p->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
-				TCHAR szwProto[64];
+				wchar_t szBuffer[128];
+				wchar_t* szStatus = pcli->pfnGetStatusModeDescription(db_get_w(p->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+				wchar_t szwProto[64];
 				MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
 				szwProto[63] = 0;
 				mir_sntprintf(szBuffer, L"%s: %s (%s)", szwProto, szName, szStatus);
@@ -296,7 +296,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	int iCount = GetMenuItemCount(g_CluiData.hMenuNotify);
 	rc.left += 26;
 	if (g_CluiData.hUpdateContact != 0) {
-		TCHAR *szName = pcli->pfnGetContactDisplayName(g_CluiData.hUpdateContact, 0);
+		wchar_t *szName = pcli->pfnGetContactDisplayName(g_CluiData.hUpdateContact, 0);
 		int iIcon = cli_GetContactIcon(g_CluiData.hUpdateContact);
 
 		ske_ImageList_DrawEx(g_himlCListClc, iIcon, hDC, rc.left, (rc.bottom + rc.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
@@ -311,7 +311,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 		GetMenuItemInfo(g_CluiData.hMenuNotify, iCount - 1, TRUE, &mii);
 
 		NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-		TCHAR *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
+		wchar_t *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
 		int iIcon = cli_GetContactIcon(nmi->hContact);
 		ske_ImageList_DrawEx(g_himlCListClc, iIcon, hDC, rc.left, (rc.bottom + rc.top - GetSystemMetrics(SM_CYSMICON)) / 2, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), CLR_NONE, CLR_NONE, ILD_NORMAL);
 		rc.left += 18;
@@ -320,7 +320,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	}
 	else {
 		HICON hIcon = (HICON)LoadImage(g_hMirApp, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0);
-		TCHAR *ptszEvents = TranslateT("No events");
+		wchar_t *ptszEvents = TranslateT("No events");
 		ske_DrawText(hDC, ptszEvents, (int)mir_tstrlen(ptszEvents), &rc, DT_VCENTER | DT_SINGLELINE);
 		ske_DrawIconEx(hDC, 4, (rc.bottom + rc.top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);
 		DestroyIcon(hIcon);
@@ -488,7 +488,7 @@ int EventArea_Create(HWND hCluiWnd)
 	ehhEventAreaBackgroundSettingsChanged(0, 0);
 
 	WNDCLASS wndclass = { 0 };
-	TCHAR pluginname[] = L"EventArea";
+	wchar_t pluginname[] = L"EventArea";
 	int h = GetSystemMetrics(SM_CYSMICON) + 2;
 	if (GetClassInfo(g_hInst, pluginname, &wndclass) == 0) {
 		wndclass.style = 0;

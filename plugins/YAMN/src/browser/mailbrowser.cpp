@@ -177,7 +177,7 @@ typedef struct _SAMPLELISTVIEWCOLUMN
 	int		 nSortType;		//	sorting type (STRING = 0, NUMERIC, DATE, DATETIME)
 	int		 nSortOrder;	//	sorting order (ASCENDING = -1, NONE, DESCENDING)
 	int		 nPriority;		//	sort priority (-1 for none, 0, 1, ..., nColumns - 1 maximum)
-	TCHAR lpszName[128];	//	column name
+	wchar_t lpszName[128];	//	column name
 } SAMPLELISTVIEWCOLUMN;
 
 //	Compare priority
@@ -633,7 +633,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 		CallService(MS_KBDNOTIFY_STARTBLINK, (WPARAM)MN->Real.PopupNC + MN->Virtual.PopupNC, NULL);
 
 	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopupRun + MN->Virtual.PopupRun)) {
-		TCHAR tszMsg[250];
+		wchar_t tszMsg[250];
 		mir_sntprintf(tszMsg, TranslateT("%s : %d new mail message(s), %d total"), _A2T(ActualAccount->Name), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 
 		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
@@ -1437,11 +1437,11 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			if (From && Subj)
 				mir_sntprintf(title, size, L"%s (%s)", Subj, From);
 			else if (From)
-				_tcsncpy_s(title, size, From, _TRUNCATE);
+				wcsncpy_s(title, size, From, _TRUNCATE);
 			else if (Subj)
-				_tcsncpy_s(title, size, Subj, _TRUNCATE);
+				wcsncpy_s(title, size, Subj, _TRUNCATE);
 			else
-				_tcsncpy_s(title, size, L"none", _TRUNCATE);
+				wcsncpy_s(title, size, L"none", _TRUNCATE);
 			if (Subj) delete[] Subj;
 			if (From) delete[] From;
 			SetWindowTextW(hDlg, title);
@@ -1557,7 +1557,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				if (nReturnCmd > 0) {
 					int courRow = 0;
 					size_t sizeNeeded = 0;
-					TCHAR headname[64] = { 0 }, headvalue[256] = { 0 };
+					wchar_t headname[64] = { 0 }, headvalue[256] = { 0 };
 					for (courRow = 0; courRow < numRows; courRow++) {
 						if ((nReturnCmd == 1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED) == 0)) continue;
 						ListView_GetItemText(hList, courRow, 0, headname, _countof(headname));
@@ -1568,8 +1568,8 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 					}
 					if (sizeNeeded && OpenClipboard(hDlg)) {
 						EmptyClipboard();
-						HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (sizeNeeded + 1)*sizeof(TCHAR));
-						TCHAR *buff = (TCHAR*)GlobalLock(hData);
+						HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (sizeNeeded + 1)*sizeof(wchar_t));
+						wchar_t *buff = (wchar_t*)GlobalLock(hData);
 						int courPos = 0;
 						for (courRow = 0; courRow < numRows; courRow++) {
 							if ((nReturnCmd == 1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED) == 0)) continue;
@@ -1687,7 +1687,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			WindowList_Add(YAMNVar.NewMailAccountWnd, hDlg, (UINT_PTR)ActualAccount);
 
 			{
-				TCHAR accstatus[512];
+				wchar_t accstatus[512];
 				GetStatusFcn(ActualAccount, accstatus);
 				SetDlgItemText(hDlg, IDC_STSTATUS, accstatus);
 			}
@@ -1802,7 +1802,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		if ((HACCOUNT)wParam != ActualAccount)
 			break;
 
-		TCHAR accstatus[512];
+		wchar_t accstatus[512];
 		GetStatusFcn(ActualAccount, accstatus);
 		SetDlgItemText(hDlg, IDC_STSTATUS, accstatus);
 		return 1;
@@ -2037,7 +2037,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 					WriteDoneFcn(ActualAccount->MessagesAccessSO);
 
 					if (Total) {
-						TCHAR DeleteMsg[1024];
+						wchar_t DeleteMsg[1024];
 
 						mir_sntprintf(DeleteMsg, TranslateT("Do you really want to delete %d selected mails?"), Total);
 						if (IDOK == MessageBox(hDlg, DeleteMsg, TranslateT("Delete confirmation"), MB_OKCANCEL | MB_ICONWARNING)) {
@@ -2236,7 +2236,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				if (nReturnCmd > 0) {
 					int courRow = 0;
 					size_t sizeNeeded = 0;
-					TCHAR from[128] = { 0 }, subject[256] = { 0 }, size[16] = { 0 }, date[64] = { 0 };
+					wchar_t from[128] = { 0 }, subject[256] = { 0 }, size[16] = { 0 }, date[64] = { 0 };
 					for (courRow = 0; courRow < numRows; courRow++) {
 						if ((nReturnCmd == 1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED) == 0)) continue;
 						ListView_GetItemText(hList, courRow, 0, from, _countof(from));
@@ -2247,8 +2247,8 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 					}
 					if (sizeNeeded && OpenClipboard(hDlg)) {
 						EmptyClipboard();
-						HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (sizeNeeded + 1)*sizeof(TCHAR));
-						TCHAR *buff = (TCHAR *)GlobalLock(hData);
+						HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (sizeNeeded + 1)*sizeof(wchar_t));
+						wchar_t *buff = (wchar_t *)GlobalLock(hData);
 						int courPos = 0;
 						for (courRow = 0; courRow < numRows; courRow++) {
 							if ((nReturnCmd == 1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED) == 0)) continue;

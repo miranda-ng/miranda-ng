@@ -363,10 +363,10 @@ SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue, LISTMODERNMASK *mm
 	return res;
 }
 
-TCHAR* GetParamNT(char *string, TCHAR *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces)
+wchar_t* GetParamNT(char *string, wchar_t *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces)
 {
-	char *ansibuf = (char*)mir_alloc(buflen / sizeof(TCHAR));
-	GetParamN(string, ansibuf, buflen / sizeof(TCHAR), paramN, Delim, SkipSpaces);
+	char *ansibuf = (char*)mir_alloc(buflen / sizeof(wchar_t));
+	GetParamN(string, ansibuf, buflen / sizeof(wchar_t), paramN, Delim, SkipSpaces);
 	MultiByteToWideChar(CP_UTF8, 0, ansibuf, -1, buf, buflen);
 	mir_free(ansibuf);
 	return buf;
@@ -437,7 +437,7 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 	int Left, Top, Right, Bottom;
 	int MinWidth, MinHeight;
 	char TL[9] = { 0 };
-	TCHAR Hint[250] = { 0 };
+	wchar_t Hint[250] = { 0 };
 	char Section[250] = { 0 };
 	char Type[250] = { 0 };
 

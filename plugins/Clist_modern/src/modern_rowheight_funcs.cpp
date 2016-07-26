@@ -70,7 +70,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 		if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
 			tmp = max(tmp, contact->ssText.iMaxSmileyHeight);
 		if (contact->type == CLCIT_GROUP) {
-			TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, contact);
+			wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, contact);
 			// Has the count?
 			if (szCounts && szCounts[0])
 				tmp = max(tmp, dat->fontModernInfo[contact->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS].fontHeight);
@@ -108,7 +108,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 					g_clcPainter.ChangeToFont(hdc, dat, g_clcPainter.GetBasicFontID(contact), NULL);
 					g_clcPainter.GetTextSize(&size, hdc, dummyRect, contact->szText, contact->ssText.plText, 0, dat->text_resize_smileys ? 0 : contact->ssText.iMaxSmileyHeight);
 					if (contact->type == CLCIT_GROUP) {
-						TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, contact);
+						wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, contact);
 						if (szCounts && mir_tstrlen(szCounts) > 0) {
 							RECT count_rc = { 0 };
 							// calc width and height
@@ -239,7 +239,7 @@ int RowHeight_CalcRowHeight(ClcData *dat, ClcContact *contact, int item)
 				if (contact->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
 					pCell->h = dat->fontModernInfo[FONTID_CONTACT_TIME].fontHeight;
 					if (item == -1) {
-						TCHAR szResult[80];
+						wchar_t szResult[80];
 
 						if (!TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", szResult, _countof(szResult), 0)) {
 							SIZE text_size = { 0 };

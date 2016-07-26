@@ -27,7 +27,7 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 
 	if (pmsg->m_bIncoming) { // Is it an incoming message?
 		if (pmsg->sCommand == L"WALLOPS" && pmsg->parameters.getCount() > 0) {
-			TCHAR temp[200]; *temp = '\0';
+			wchar_t temp[200]; *temp = '\0';
 			mir_sntprintf(temp, TranslateT("WallOps from %s: "), pmsg->prefix.sNick.c_str());
 			sMessage = temp;
 			for (int i = 0; i < (int)pmsg->parameters.getCount(); i++) {
@@ -39,7 +39,7 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 		}
 
 		if (pmsg->sCommand == L"INVITE" && pmsg->parameters.getCount() > 1) {
-			TCHAR temp[256]; *temp = '\0';
+			wchar_t temp[256]; *temp = '\0';
 			mir_sntprintf(temp, TranslateT("%s invites you to %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
 			sMessage = temp;
 			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++) {
@@ -50,9 +50,9 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 			goto THE_END;
 		}
 
-		int index = _ttoi(pmsg->sCommand.c_str());
+		int index = _wtoi(pmsg->sCommand.c_str());
 		if (index == 301 && pmsg->parameters.getCount() > 0) {
-			TCHAR temp[500]; *temp = '\0';
+			wchar_t temp[500]; *temp = '\0';
 			mir_sntprintf(temp, TranslateT("%s is away"), pmsg->parameters[1].c_str());
 			sMessage = temp;
 			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++) {
@@ -80,7 +80,7 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 			return pmsg->parameters[2] + L": " + pmsg->parameters[1];
 	}
 	else if (pmsg->sCommand == L"NOTICE" && pmsg->parameters.getCount() > 1) {
-		TCHAR temp[500]; *temp = '\0';
+		wchar_t temp[500]; *temp = '\0';
 
 		int l = pmsg->parameters[1].GetLength();
 		if (l > 3 && pmsg->parameters[1][0] == 1 && pmsg->parameters[1][l - 1] == 1) {
@@ -136,13 +136,13 @@ BOOL CIrcProto::ShowMessage(const CIrcMessage* pmsg)
 	if (!pmsg->m_bIncoming)
 		mess.Replace(L"%%", L"%");
 
-	int iTemp = _ttoi(pmsg->sCommand.c_str());
+	int iTemp = _wtoi(pmsg->sCommand.c_str());
 
 	//To active window
 	if ((iTemp > 400 || iTemp < 500) && pmsg->sCommand[0] == '4' //all error messages	
 		|| pmsg->sCommand == L"303"		//ISON command
 		|| pmsg->sCommand == L"INVITE"
-		|| ((pmsg->sCommand == L"NOTICE") && ((pmsg->parameters.getCount() > 2) ? (_tcsstr(pmsg->parameters[1].c_str(), L"\001") == NULL) : false)) // CTCP answers should go to m_network Log window!
+		|| ((pmsg->sCommand == L"NOTICE") && ((pmsg->parameters.getCount() > 2) ? (wcsstr(pmsg->parameters[1].c_str(), L"\001") == NULL) : false)) // CTCP answers should go to m_network Log window!
 		|| pmsg->sCommand == L"515")		//chanserv error
 	{
 		DoEvent(GC_EVENT_INFORMATION, NULL, pmsg->m_bIncoming ? pmsg->prefix.sNick.c_str() : m_info.sNick.c_str(), mess.c_str(), NULL, NULL, NULL, true, pmsg->m_bIncoming ? false : true);

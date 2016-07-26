@@ -108,7 +108,7 @@ public:
 
 	HWND hFindDlg;
 	FINDREPLACE fr;
-	TCHAR acFindStr[100];
+	wchar_t acFindStr[100];
 
 	bool bFirstLoad;
 	bool bUtf8File;
@@ -419,7 +419,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void UpdateFileViews(const TCHAR *pszFile)
+void UpdateFileViews(const wchar_t *pszFile)
 {
 	mir_cslock lck(csHistoryList);
 
@@ -469,11 +469,11 @@ bool bOpenExternaly(MCONTACT hContact)
 
 	STARTUPINFO sStartupInfo = { 0 };
 	GetStartupInfo(&sStartupInfo); // we parse oure owne info on
-	sStartupInfo.lpTitle = (TCHAR*)sFileViewerPrg.c_str();
+	sStartupInfo.lpTitle = (wchar_t*)sFileViewerPrg.c_str();
 	PROCESS_INFORMATION stProcesses = { 0 };
 
 	if (!CreateProcess(NULL,
-		(TCHAR*)sTmp.c_str(),
+		(wchar_t*)sTmp.c_str(),
 		NULL,
 		NULL,
 		FALSE,
@@ -483,7 +483,7 @@ bool bOpenExternaly(MCONTACT hContact)
 		&sStartupInfo,
 		&stProcesses))
 	{
-		DisplayLastError(LPGENT("Failed to execute external file view"));
+		DisplayLastError(LPGENW("Failed to execute external file view"));
 	}
 	return true;
 }
@@ -528,7 +528,7 @@ bool bUseInternalViewer(bool bNew)
 		hRichEditDll = LoadLibraryA("Msftedit.dll");
 		if (!hRichEditDll)
 		{
-			DisplayLastError(LPGENT("Failed to load Rich Edit (Msftedit.dll)"));
+			DisplayLastError(LPGENW("Failed to load Rich Edit (Msftedit.dll)"));
 			return false;
 		}
 	}
@@ -618,7 +618,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		int nDBCount = db_event_count(pclDlg->hContact);
-		TCHAR szTmp[1500];
+		wchar_t szTmp[1500];
 
 		if (nDBCount == -1)
 			mir_sntprintf(szTmp, TranslateT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
@@ -669,7 +669,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	}
 	CloseHandle(hFile);
 
-	TCHAR szTmp[100];
+	wchar_t szTmp[100];
 	mir_sntprintf(szTmp, L"File open time %d\n", GetTickCount() - dwStart);
 	OutputDebugString(szTmp);
 
@@ -710,15 +710,15 @@ bool bAdvancedCopy(HWND hwnd)
 		if (OpenClipboard(NULL)) {
 			EmptyClipboard();
 
-			TCHAR *pszSrcBuf = new TCHAR[nSelLenght];
+			wchar_t *pszSrcBuf = new wchar_t[nSelLenght];
 			pszSrcBuf[0] = 0;
 			SendMessage(hwnd, EM_GETSELTEXT, 0, (LPARAM)pszSrcBuf);
 
 			HANDLE hDecMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, nSelLenght);
-			TCHAR *pszCurDec = (TCHAR*)GlobalLock(hDecMem);
+			wchar_t *pszCurDec = (wchar_t*)GlobalLock(hDecMem);
 
 			bool bInSpaces = false;
-			for (TCHAR *pszCur = pszSrcBuf; pszCur[0]; pszCur++) {
+			for (wchar_t *pszCur = pszSrcBuf; pszCur[0]; pszCur++) {
 				if (bInSpaces) {
 					if (pszCur[0] == ' ')
 						continue;
@@ -953,19 +953,19 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			HMENU hSysMenu = GetSystemMenu(hwndDlg, FALSE);
 			InsertMenu(hSysMenu, 0, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
-			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_SAVE_AS_RTF, LPGENT("Save as RTF"));
+			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_SAVE_AS_RTF, LPGENW("Save as RTF"));
 			InsertMenu(hSysMenu, 0, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
 
 			BYTE bUseCC = (BYTE)db_get_b(NULL, MODULE, szFileViewDB "UseCC", 0);
-			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseCC ? MF_CHECKED : 0), ID_FV_COLOR, LPGENT("Color..."));
+			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseCC ? MF_CHECKED : 0), ID_FV_COLOR, LPGENW("Color..."));
 
 			if (bUseCC)
 				SendMessage(hRichEdit, EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, MODULE, szFileViewDB "CustomC", RGB(255, 255, 255)));
 
-			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_FONT, LPGENT("Font..."));
+			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_FONT, LPGENW("Font..."));
 
 			bool bUseSyntaxHL = db_get_b(NULL, MODULE, szFileViewDB "UseSyntaxHL", 1) != 0;
-			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseSyntaxHL ? MF_CHECKED : 0), ID_FV_SYNTAX_HL, LPGENT("Syntax highlight"));
+			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseSyntaxHL ? MF_CHECKED : 0), ID_FV_SYNTAX_HL, LPGENW("Syntax highlight"));
 
 			SetRichEditFont(hRichEdit, bUseSyntaxHL);
 
@@ -979,10 +979,10 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			bLoadFile(hwndDlg, pclDlg);
 
-			TCHAR szFormat[200];
-			TCHAR szTitle[200];
+			wchar_t szFormat[200];
+			wchar_t szTitle[200];
 			if (GetWindowText(hwndDlg, szFormat, _countof(szFormat))) {
-				const TCHAR *pszNick = pcli->pfnGetContactDisplayName(pclDlg->hContact, 0);
+				const wchar_t *pszNick = pcli->pfnGetContactDisplayName(pclDlg->hContact, 0);
 				tstring sPath = pclDlg->sPath;
 				string::size_type n = sPath.find_last_of('\\');
 				if (n != sPath.npos)
@@ -1107,7 +1107,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 			if (hFile == INVALID_HANDLE_VALUE) {
-				DisplayLastError(LPGENT("Failed to create file"));
+				DisplayLastError(LPGENW("Failed to create file"));
 				return TRUE;
 			}
 
@@ -1155,7 +1155,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (((NMHDR*)lParam)->code == EN_LINK) {
 				ENLINK* pstLink = (ENLINK*)lParam;
 				if (pstLink->msg == WM_LBUTTONUP) {
-					TCHAR szUrl[500];
+					wchar_t szUrl[500];
 					if ((pstLink->chrg.cpMax - pstLink->chrg.cpMin) > (sizeof(szUrl) - 2))
 						return FALSE;
 
@@ -1209,7 +1209,7 @@ bool bShowFileViewer(MCONTACT hContact)
 		ShowWindow(pcl->hWnd, SW_SHOWNORMAL);
 		return true;
 	}
-	DisplayLastError(LPGENT("Failed to create history dialog"));
+	DisplayLastError(LPGENW("Failed to create history dialog"));
 	delete pcl;
 	return false;
 }

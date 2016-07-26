@@ -45,9 +45,9 @@ int CToxProto::OnAccountRenamed(WPARAM, LPARAM)
 	mir_cslock locker(profileLock);
 
 	ptrT newPath(GetToxProfilePath());
-	TCHAR oldPath[MAX_PATH];
+	wchar_t oldPath[MAX_PATH];
 	mir_sntprintf(oldPath, MAX_PATH, L"%s\\%s.tox", VARST(L"%miranda_userdata%"), accountName);
-	_trename(oldPath, newPath);
+	_wrename(oldPath, newPath);
 	mir_free(accountName);
 	accountName = mir_tstrdup(m_tszUserName);
 

@@ -99,7 +99,7 @@ HBITMAP SkinEngine_CreateDIB32(int cx, int cy)
 }
 
 
-BOOL GDIPlus_IsAnimatedGIF(TCHAR * szName)
+BOOL GDIPlus_IsAnimatedGIF(wchar_t * szName)
 {
 	int nFrameCount = 0;
 	Image image(szName);
@@ -118,7 +118,7 @@ BOOL GDIPlus_IsAnimatedGIF(TCHAR * szName)
 	return (BOOL)(nFrameCount > 1) && image.GetWidth() && image.GetHeight();
 }
 
-void GDIPlus_GetGIFSize(TCHAR *szName, int *width, int *height)
+void GDIPlus_GetGIFSize(wchar_t *szName, int *width, int *height)
 {
 	Image image(szName);
 
@@ -126,7 +126,7 @@ void GDIPlus_GetGIFSize(TCHAR *szName, int *width, int *height)
 	*height = image.GetHeight();
 }
 
-void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &pBitmap, int* &pframesDelay, int &pframesCount, SIZE &pSizeAvatar)
+void GDIPlus_ExtractAnimatedGIF(wchar_t *szName, int width, int height, HBITMAP &pBitmap, int* &pframesDelay, int &pframesCount, SIZE &pSizeAvatar)
 {
 	int nFrameCount = 0;
 	Bitmap image(szName);

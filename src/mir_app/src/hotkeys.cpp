@@ -250,7 +250,7 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 {
 	MSG *msg = (MSG *)wParam;
-	TCHAR *pszSection = mir_a2t((char *)lParam);
+	wchar_t *pszSection = mir_a2t((char *)lParam);
 
 	if ((msg->message == WM_KEYDOWN) || (msg->message == WM_SYSKEYDOWN)) {
 		int i;

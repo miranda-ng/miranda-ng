@@ -67,9 +67,9 @@ typedef struct TProfileEntries {
 } PROFILEENTRY, *LPPROFILEENTRY;
 
 static const PROFILEENTRY pFmt[3] = {
-	{ LPGENT("Past"),        "Past%d",        "Past%dText",        (MIRANDASERVICE)GetPastList },
-	{ LPGENT("Affiliation"), "Affiliation%d", "Affiliation%dText", (MIRANDASERVICE)GetAffiliationsList },
-	{ LPGENT("Interest"),    "Interest%dCat", "Interest%dText",    (MIRANDASERVICE)GetInterestsList }
+	{ LPGENW("Past"),        "Past%d",        "Past%dText",        (MIRANDASERVICE)GetPastList },
+	{ LPGENW("Affiliation"), "Affiliation%d", "Affiliation%dText", (MIRANDASERVICE)GetAffiliationsList },
+	{ LPGENW("Interest"),    "Interest%dCat", "Interest%dText",    (MIRANDASERVICE)GetInterestsList }
 };
 
 static LRESULT CALLBACK ProfileList_LabelEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -112,7 +112,7 @@ static int ProfileList_AddGroup(HWND hList, LPTSTR pszText, int iItem)
 static int ProfileList_GetItemText(HWND hList, int iItem, int iSubItem, LPTSTR pszText, int ccText)
 {
 	LVITEM lvi;
-	TCHAR szNull[2];
+	wchar_t szNull[2];
 
 	lvi.mask = LVIF_TEXT;
 	lvi.iItem = iItem;
@@ -223,7 +223,7 @@ static int ProfileList_EndLabelEdit(LPLISTCTRL pList, BYTE bSave)
 		}
 		// value was edited
 		else {
-			if ((ccText = GetWindowTextLength(hEdit)) > 0 && (szEdit = (LPTSTR)mir_alloc((ccText + 2) * sizeof(TCHAR)))) {
+			if ((ccText = GetWindowTextLength(hEdit)) > 0 && (szEdit = (LPTSTR)mir_alloc((ccText + 2) * sizeof(wchar_t)))) {
 				GetWindowText(hEdit, szEdit, ccText + 1);
 				szEdit[ccText + 1] = 0;
 
@@ -446,7 +446,7 @@ static BYTE ProfileList_AddNewItem(HWND hDlg, LPLISTCTRL pList, const PROFILEENT
 			return TRUE;
 		}
 		mir_free(pItem);
-		MsgErr(hDlg, LPGENT("Sorry, but there is a problem with adding a new item of type \"%s\""), pEntry->szGroup);
+		MsgErr(hDlg, LPGENW("Sorry, but there is a problem with adding a new item of type \"%s\""), pEntry->szGroup);
 	}	
 	return FALSE;
 }
@@ -907,7 +907,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 		case BTN_EDIT:
 			{
 				int i;
-				TCHAR szEdit[MAX_PATH];
+				wchar_t szEdit[MAX_PATH];
 
 				if (!PtrIsValid(pList = (LPLISTCTRL)GetUserData(hwnd)))
 					break;
@@ -1181,7 +1181,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 						BYTE iFmt = -1;
 						int iItem;
 						LVITEM lvi;
-						TCHAR szGroup[MAX_PATH];
+						wchar_t szGroup[MAX_PATH];
 						CHAR pszSetting[MAXSETTING];
 						LPLCITEM pItem;
 						LPSTR pszModule = USERINFO;
@@ -1332,7 +1332,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 						ListView_GetItemRect(cd->nmcd.hdr.hwndFrom, cd->nmcd.dwItemSpec, &rc, LVIR_BOUNDS);
 						if (!PtrIsValid(pItem)) {
 							HFONT hBold, hFont;
-							TCHAR szText[MAX_PATH];
+							wchar_t szText[MAX_PATH];
 
 							PSGetBoldFont(hDlg, hBold);
 							hFont = (HFONT)SelectObject(cd->nmcd.hdc, hBold);
@@ -1412,7 +1412,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			ProfileList_BeginLabelEdit(hList, ListView_GetSelectionMark(hList), 1);
 			break;
 		case BTN_DEL:
-			if (IDYES == MsgBox(hDlg, MB_YESNO | MB_ICON_QUESTION, LPGENT("Question"), LPGENT("Delete an entry"), LPGENT("Do you really want to delete this entry?"))) {
+			if (IDYES == MsgBox(hDlg, MB_YESNO | MB_ICON_QUESTION, LPGENW("Question"), LPGENW("Delete an entry"), LPGENW("Do you really want to delete this entry?"))) {
 				int iItem = ListView_GetSelectionMark(hList);
 				pList = (LPLISTCTRL)GetUserData(hList);
 

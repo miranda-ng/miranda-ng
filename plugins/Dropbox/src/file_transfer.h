@@ -12,7 +12,7 @@ private:
 
 	bool isTerminated;
 
-	const TCHAR* folderName;
+	const wchar_t* folderName;
 	int relativePathStart;
 
 	CMString serverFolder;
@@ -40,7 +40,7 @@ public:
 		pfts.totalBytes = 0;
 		pfts.totalFiles = 0;
 		pfts.totalProgress = 0;
-		pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (pfts.totalFiles + 1));
+		pfts.ptszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*) * (pfts.totalFiles + 1));
 		pfts.ptszFiles[pfts.totalFiles] = NULL;
 		pfts.tszWorkingDir = NULL;
 		pfts.tszCurrentFile = NULL;
@@ -75,7 +75,7 @@ public:
 		return pfts.hContact;
 	}
 
-	const TCHAR* GetData() const
+	const wchar_t* GetData() const
 	{
 		if (data.IsEmpty())
 			return NULL;
@@ -87,40 +87,40 @@ public:
 		isTerminated = true;
 	}
 
-	void SetWorkingDirectory(const TCHAR *path)
+	void SetWorkingDirectory(const wchar_t *path)
 	{
-		relativePathStart = _tcsrchr(path, '\\') - path + 1;
-		pfts.tszWorkingDir = (TCHAR*)mir_calloc(sizeof(TCHAR) * relativePathStart);
+		relativePathStart = wcsrchr(path, '\\') - path + 1;
+		pfts.tszWorkingDir = (wchar_t*)mir_calloc(sizeof(wchar_t) * relativePathStart);
 		mir_tstrncpy(pfts.tszWorkingDir, path, relativePathStart);
 		if (PathIsDirectory(path))
-			folderName = _tcsrchr(path, '\\') + 1;
+			folderName = wcsrchr(path, '\\') + 1;
 	}
 
-	void SetServerFolder(const TCHAR *path)
+	void SetServerFolder(const wchar_t *path)
 	{
 		if (path)
 			serverFolder = path;
 	}
 
-	const TCHAR* GetServerFolder() const
+	const wchar_t* GetServerFolder() const
 	{
 		if (serverFolder.IsEmpty())
 			return NULL;
 		return serverFolder;
 	}
 
-	const TCHAR* GetFolderName() const
+	const wchar_t* GetFolderName() const
 	{
 		return folderName;
 	}
 
-	void AddFile(const TCHAR *path)
+	void AddFile(const wchar_t *path)
 	{
-		pfts.ptszFiles = (TCHAR**)mir_realloc(pfts.ptszFiles, sizeof(TCHAR*) * (pfts.totalFiles + 2));
+		pfts.ptszFiles = (wchar_t**)mir_realloc(pfts.ptszFiles, sizeof(wchar_t*) * (pfts.totalFiles + 2));
 		pfts.ptszFiles[pfts.totalFiles++] = mir_tstrdup(path);
 		pfts.ptszFiles[pfts.totalFiles] = NULL;
 
-		FILE *file = _tfopen(path, L"rb");
+		FILE *file = _wfopen(path, L"rb");
 		if (file != NULL) {
 			_fseeki64(file, 0, SEEK_END);
 			pfts.totalBytes += _ftelli64(file);
@@ -128,7 +128,7 @@ public:
 		}
 	}
 
-	void AppendFormatData(const TCHAR *format, ...)
+	void AppendFormatData(const wchar_t *format, ...)
 	{
 		va_list args;
 		va_start(args, format);
@@ -136,24 +136,24 @@ public:
 		va_end(args);
 	}
 
-	const TCHAR* GetCurrentFilePath() const
+	const wchar_t* GetCurrentFilePath() const
 	{
 		return pfts.ptszFiles[pfts.currentFileNumber];
 	}
 
-	const TCHAR* GetCurrentRelativeFilePath() const
+	const wchar_t* GetCurrentRelativeFilePath() const
 	{
 		return &GetCurrentFilePath()[relativePathStart];
 	}
 
-	const TCHAR* GetCurrentFileName() const
+	const wchar_t* GetCurrentFileName() const
 	{
-		return _tcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
+		return wcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
 	}
 
 	void OpenCurrentFile()
 	{
-		hFile = _tfopen(GetCurrentFilePath(), L"rb");
+		hFile = _wfopen(GetCurrentFilePath(), L"rb");
 		if (!hFile)
 			throw DropboxException("Unable to open file");
 		_fseeki64(hFile, 0, SEEK_END);
@@ -212,7 +212,7 @@ public:
 
 		pfts.currentFileNumber = 0;
 		pfts.currentFileProgress = 0;
-		pfts.tszCurrentFile = _tcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
+		pfts.tszCurrentFile = wcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
 		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&pfts);
 
 		OpenCurrentFile();
@@ -227,7 +227,7 @@ public:
 			return false;
 
 		pfts.currentFileProgress = 0;
-		pfts.tszCurrentFile = _tcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
+		pfts.tszCurrentFile = wcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
 		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)id, 0);
 
 		OpenCurrentFile();

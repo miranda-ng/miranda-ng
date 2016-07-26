@@ -7,11 +7,11 @@ static WatchListArrayStruct WatchListArray = {0};
 static int lastColumn = -1;
 
 ColumnsSettings csWatchList[] = {
-	{ LPGENT("Contact"), 0, "Watch0width", 100 },
-	{ LPGENT("Module"),  1, "Watch1width", 100 },
-	{ LPGENT("Setting"), 2, "Watch2width", 100 },
-	{ LPGENT("Value"),   3, "Watch3width", 200 },
-	{ LPGENT("Type"),    4, "Watch4width", 75 },
+	{ LPGENW("Contact"), 0, "Watch0width", 100 },
+	{ LPGENW("Module"),  1, "Watch1width", 100 },
+	{ LPGENW("Setting"), 2, "Watch2width", 100 },
+	{ LPGENW("Value"),   3, "Watch3width", 200 },
+	{ LPGENW("Type"),    4, "Watch4width", 75 },
 	{0}
 };
 
@@ -109,7 +109,7 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 	if (db_get_s(lParam->hContact, lParam->module, lParam->setting, &(lParam->dbv), 0))
 		return;
 
-	TCHAR data[32], tmp[16], name[NAME_SIZE];
+	wchar_t data[32], tmp[16], name[NAME_SIZE];
 
 	GetContactName(lParam->hContact, NULL, name, _countof(name));
 	lvItem.pszText = name;
@@ -352,7 +352,7 @@ void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 	COLORREF colorText = db_get_dw(NULL, modname, "PopupTextColour", RGB(0, 0, 0));
 	int timeout = db_get_b(NULL, modname, "PopupDelay", 3);
 
-	TCHAR name[NAME_SIZE], text[MAX_SECONDLINE], value[MAX_SECONDLINE];
+	wchar_t name[NAME_SIZE], text[MAX_SECONDLINE], value[MAX_SECONDLINE];
 	GetContactName(hContact, NULL, name, _countof(name));
 
 	// 2nd line

@@ -9,7 +9,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_COMMAND:
 	{
-		TCHAR* ptszPath = (TCHAR*)PUGetPluginData(hWnd);
+		wchar_t* ptszPath = (wchar_t*)PUGetPluginData(hWnd);
 		if (ptszPath != 0)
 			ShellExecute(0, L"open", ptszPath, NULL, NULL, SW_SHOW);
 
@@ -25,12 +25,12 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
-void ShowPopup(TCHAR* ptszText, TCHAR* ptszHeader, TCHAR* ptszPath)
+void ShowPopup(wchar_t* ptszText, wchar_t* ptszHeader, wchar_t* ptszPath)
 {
 	POPUPDATAT ppd = { 0 };
 
-	_tcsncpy_s(ppd.lptzText, ptszText, _TRUNCATE);
-	_tcsncpy_s(ppd.lptzContactName, ptszHeader, _TRUNCATE);
+	wcsncpy_s(ppd.lptzText, ptszText, _TRUNCATE);
+	wcsncpy_s(ppd.lptzContactName, ptszHeader, _TRUNCATE);
 	if (ptszPath != NULL)
 		ppd.PluginData = (void*)mir_tstrdup(ptszPath);
 	ppd.PluginWindowProc = DlgProcPopup;
@@ -57,20 +57,20 @@ INT_PTR CALLBACK DlgProcProgress(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 	return FALSE;
 }
 
-TCHAR* DoubleSlash(TCHAR *sorce)
+wchar_t* DoubleSlash(wchar_t *sorce)
 {
-	TCHAR *ret, *r, *s;
+	wchar_t *ret, *r, *s;
 
-	ret = (TCHAR*)mir_alloc((MAX_PATH * sizeof(TCHAR)));
+	ret = (wchar_t*)mir_alloc((MAX_PATH * sizeof(wchar_t)));
 	if (ret == NULL)
 		return NULL;
 	for (s = sorce, r = ret; *s && (r - ret) < (MAX_PATH - 1); s++, r++) {
-		if (*s != _T('\\'))
+		if (*s != '\\')
 			*r = *s;
 		else {
-			*r = _T('\\');
+			*r = '\\';
 			r++;
-			*r = _T('\\');
+			*r = '\\';
 		}
 	}
 	r[0] = 0;
@@ -107,7 +107,7 @@ bool MakeZip_Dir(LPCSTR szDir, LPCTSTR szDest, LPCSTR /* szDbName */, HWND progr
 	return 1;
 }
 
-bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dialog)
+bool MakeZip(wchar_t *tszSource, wchar_t *tszDest, wchar_t *dbname, HWND progress_dialog)
 {
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 
@@ -124,7 +124,7 @@ bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dial
 
 struct backupFile
 {
-	TCHAR Name[MAX_PATH];
+	wchar_t Name[MAX_PATH];
 	FILETIME CreationTime;
 };
 
@@ -140,11 +140,11 @@ int Comp(const void *i, const void *j)
 		return 1;
 }
 
-int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
+int RotateBackups(wchar_t *backupfolder, wchar_t *dbname)
 {
 	backupFile *bf = NULL, *bftmp;
 	HANDLE hFind;
-	TCHAR backupfolderTmp[MAX_PATH];
+	wchar_t backupfolderTmp[MAX_PATH];
 	WIN32_FIND_DATA FindFileData;
 
 	if (options.num_backups == 0)
@@ -162,7 +162,7 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 		if (bftmp == NULL)
 			goto err_out;
 		bf = bftmp;
-		_tcsncpy_s(bf[i].Name, FindFileData.cFileName, _TRUNCATE);
+		wcsncpy_s(bf[i].Name, FindFileData.cFileName, _TRUNCATE);
 		bf[i].CreationTime = FindFileData.ftCreationTime;
 		i ++;
 	} while (FindNextFile(hFind, &FindFileData));
@@ -179,10 +179,10 @@ err_out:
 }
 
 
-int Backup(TCHAR *backup_filename)
+int Backup(wchar_t *backup_filename)
 {
 	bool bZip = false;
-	TCHAR dbname[MAX_PATH], source_file[MAX_PATH] = { 0 }, dest_file[MAX_PATH];
+	wchar_t dbname[MAX_PATH], source_file[MAX_PATH] = { 0 }, dest_file[MAX_PATH];
 	HWND progress_dialog = NULL;
 	SYSTEMTIME st;
 
@@ -190,7 +190,7 @@ int Backup(TCHAR *backup_filename)
 
 	if (backup_filename == NULL) {
 		int err;
-		TCHAR *backupfolder, buffer[MAX_COMPUTERNAME_LENGTH + 1];
+		wchar_t *backupfolder, buffer[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = _countof(buffer);
 
 		bZip = options.use_zip != 0;
@@ -209,8 +209,8 @@ int Backup(TCHAR *backup_filename)
 		mir_free(backupfolder);
 	}
 	else {
-		_tcsncpy_s(dest_file, backup_filename, _TRUNCATE);
-		if (!mir_tstrcmp(_tcsrchr(backup_filename, _T('.')), L".zip"))
+		wcsncpy_s(dest_file, backup_filename, _TRUNCATE);
+		if (!mir_tstrcmp(wcsrchr(backup_filename, '.'), L".zip"))
 			bZip = true;
 	}
 	if (!options.disable_popups)
@@ -222,7 +222,7 @@ int Backup(TCHAR *backup_filename)
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
 
 	mir_sntprintf(source_file, L"%s\\%s", profilePath, dbname);
-	TCHAR *pathtmp = Utils_ReplaceVarsT(source_file);
+	wchar_t *pathtmp = Utils_ReplaceVarsT(source_file);
 	BOOL res = 0;
 	if (bZip)
 	{
@@ -254,14 +254,14 @@ int Backup(TCHAR *backup_filename)
 
 		if (!options.disable_popups) {
 			size_t dest_file_len = mir_tstrlen(dest_file);
-			TCHAR *puText;
+			wchar_t *puText;
 
 			if (dest_file_len > 50) {
 				size_t i;
-				puText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (dest_file_len + 2));
-				for (i = (dest_file_len - 1); dest_file[i] != _T('\\'); i--)
+				puText = (wchar_t*)mir_alloc(sizeof(wchar_t) * (dest_file_len + 2));
+				for (i = (dest_file_len - 1); dest_file[i] != '\\'; i--)
 					;
-				//_tcsncpy_s(dest_file, backup_filename, _TRUNCATE);
+				//wcsncpy_s(dest_file, backup_filename, _TRUNCATE);
 				mir_tstrncpy(puText, dest_file, (i + 2));
 				mir_tstrcat(puText, L"\n");
 				mir_tstrcat(puText, (dest_file + i + 1));
@@ -287,14 +287,14 @@ int Backup(TCHAR *backup_filename)
 
 void BackupThread(void *backup_filename)
 {
-	Backup((TCHAR*)backup_filename);
+	Backup((wchar_t*)backup_filename);
 	InterlockedExchange(&m_state, 0); /* Backup done. */
 	mir_free(backup_filename);
 }
 
-void BackupStart(TCHAR *backup_filename)
+void BackupStart(wchar_t *backup_filename)
 {
-	TCHAR *tm = NULL;
+	wchar_t *tm = NULL;
 	LONG cur_state;
 
 	cur_state = InterlockedCompareExchange(&m_state, 1, 0);

@@ -14,7 +14,7 @@
 // the structure's address is passed as the first parameter.
 // The lpszName parameter is the name of the object. Pass
 // NULL if you do not want to share the object.
-BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG,TCHAR *Name);
+BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG,wchar_t *Name);
 
 // Deletes the system resources associated with a SWMRG 
 // structure. The structure must be deleted only when
@@ -98,7 +98,7 @@ void WINAPI SWMRGDelete(PSWMRG pSWMRG)
 		CloseHandle(pSWMRG->hFinishEV);
 }
 
-BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG,TCHAR *Name)
+BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG,wchar_t *Name)
 {
 	pSWMRG->hEventNoWriter=NULL;
 	pSWMRG->hEventNoReaders=NULL;
@@ -109,25 +109,25 @@ BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG,TCHAR *Name)
 // no writer threads are writing.
 // Initially no reader threads are reading.
 	if (Name != NULL)
-		Name[0]=(TCHAR)'W';
+		Name[0]=(wchar_t)'W';
 	pSWMRG->hEventNoWriter=CreateEvent(NULL,FALSE,TRUE,Name);
 
 // Creates the manual-reset event that is signalled when 
 // no reader threads are reading.
 // Initially no reader threads are reading.
 	if (Name != NULL)
-		Name[0]=(TCHAR)'R';
+		Name[0]=(wchar_t)'R';
 	pSWMRG->hEventNoReaders=CreateEvent(NULL,TRUE,TRUE,Name);
 
 // Initializes the variable that indicates the number of 
 // reader threads that are reading.
 // Initially no reader threads are reading.
 	if (Name != NULL)
-		Name[0]=(TCHAR)'C';
+		Name[0]=(wchar_t)'C';
 	pSWMRG->hSemNumReaders=CreateSemaphore(NULL,0,0x7FFFFFFF,Name);
 
 	if (Name != NULL)
-		Name[0]=(TCHAR)'F';
+		Name[0]=(wchar_t)'F';
 	pSWMRG->hFinishEV=CreateEvent(NULL,TRUE,FALSE,Name);
 
 // If a synchronization object could not be created,

@@ -383,7 +383,7 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 	
 	if (m_lastMessageTS <= 0) {
 		node = json_get(root, "utc_timestamp");
-		time_t timestamp = _ttoi64(ptrT(json_as_string(node)));
+		time_t timestamp = _wtoi64(ptrT(json_as_string(node)));
 		setDword("LastMessageTS", timestamp);
 	}
 

@@ -21,8 +21,8 @@ static int    newTimeout2;
 static BYTE   newTimeoutMode;
 static BYTE   newTimeoutMode2;
 static BYTE   newColorMode;
-static TCHAR  szStart[128];
-static TCHAR  szStop[128];
+static wchar_t  szStart[128];
+static wchar_t  szStop[128];
 
 static HANDLE hntfStarted = 0;
 static HANDLE hntfStopped = 0;
@@ -47,9 +47,9 @@ static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 
 	if (PluginConfig.g_bPopupAvail) {
 		if (!Disabled)
-			Menu_ModifyItem(hDisableMenu, LPGENT("Disable &typing notification"), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED)));
+			Menu_ModifyItem(hDisableMenu, LPGENW("Disable &typing notification"), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED)));
 		else
-			Menu_ModifyItem(hDisableMenu, LPGENT("Enable &typing notification"), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED)));
+			Menu_ModifyItem(hDisableMenu, LPGENW("Enable &typing notification"), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED)));
 	}
 
 	return 0;
@@ -90,7 +90,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	if (!PluginConfig.g_bPopupAvail || Disabled)
 		return;
 
-	TCHAR *szContactName = pcli->pfnGetContactDisplayName(hContact, 0);
+	wchar_t *szContactName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 	if (OnePopup) {
 		HWND hPopupWnd = WindowList_Find(hPopupsList, hContact);
@@ -107,16 +107,16 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	if (iMode == PROTOTYPE_CONTACTTYPING_OFF) {
 		if (StopDisabled)
 			return;
-		_tcsncpy_s(ppd.lptzContactName, szContactName, _TRUNCATE);
-		_tcsncpy_s(ppd.lptzText, szStop, _TRUNCATE);
+		wcsncpy_s(ppd.lptzContactName, szContactName, _TRUNCATE);
+		wcsncpy_s(ppd.lptzText, szStop, _TRUNCATE);
 		ppd.hNotification = hntfStopped;
 		notyping = 1;
 	}
 	else {
 		if (StartDisabled)
 			return;
-		_tcsncpy_s(ppd.lptzContactName, szContactName, _TRUNCATE);
-		_tcsncpy_s(ppd.lptzText, szStart, _TRUNCATE);
+		wcsncpy_s(ppd.lptzContactName, szContactName, _TRUNCATE);
+		wcsncpy_s(ppd.lptzText, szStart, _TRUNCATE);
 		ppd.hNotification = hntfStarted;
 		notyping = 0;
 	}
@@ -297,13 +297,13 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				for (int i = 0; i < 2; i++) {
 					int notyping;
 					if (i == PROTOTYPE_CONTACTTYPING_OFF) {
-						_tcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
-						_tcsncpy_s(ppd.lptzText, szStop, _TRUNCATE);
+						wcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
+						wcsncpy_s(ppd.lptzText, szStop, _TRUNCATE);
 						notyping = 1;
 					}
 					else {
-						_tcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
-						_tcsncpy_s(ppd.lptzText, szStart, _TRUNCATE);
+						wcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
+						wcsncpy_s(ppd.lptzText, szStart, _TRUNCATE);
 						notyping = 0;
 					}
 
@@ -545,7 +545,7 @@ int TN_ModuleInit()
 			mi.hIcolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
 		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
-		mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 0);
+		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
 		hDisableMenu = Menu_AddMainMenuItem(&mi);
 	}
 

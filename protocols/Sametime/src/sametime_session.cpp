@@ -137,7 +137,7 @@ void __cdecl SessionAdmin(struct mwSession* session, const char* text)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
 	proto->debugLog(L"SessionAdmin()");
-	TCHAR* tt = mir_utf8decodeT(text);
+	wchar_t* tt = mir_utf8decodeT(text);
 	MessageBox(0, tt, TranslateT("Sametime administrator message"), MB_OK);
 	mir_free(tt);
 }
@@ -146,9 +146,9 @@ void __cdecl SessionAnnounce(struct mwSession* session, struct mwLoginInfo* from
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
 	proto->debugLog(L"SessionAnnounce()");
-	TCHAR* stzFrom;
-	TCHAR* stzText;
-	TCHAR stzFromBuff[256];
+	wchar_t* stzFrom;
+	wchar_t* stzText;
+	wchar_t stzFromBuff[256];
 	stzFrom = mir_utf8decodeT(from->user_name);
 	stzText = mir_utf8decodeT(text);
 	mir_sntprintf(stzFromBuff, TranslateT("Session announcement - from '%s'"), stzFrom);
@@ -208,7 +208,7 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 		break;
 
 	default:
-		TCHAR buff[512];
+		wchar_t buff[512];
 		mir_sntprintf(buff, TranslateT("Unknown user status: %d"), us.status);
 		proto->showPopup(buff, SAMETIME_POPUP_ERROR);
 		proto->debugLog(buff);
@@ -311,7 +311,7 @@ int CSametimeProto::SetIdle(bool idle)
 	return 0;
 }
 
-void CSametimeProto::SetSessionAwayMessage(int status, const TCHAR* msgT)
+void CSametimeProto::SetSessionAwayMessage(int status, const wchar_t* msgT)
 {
 	debugLog(L"SetSessionAwayMessage() status=[%d], msgT:len=[%d]", status, msgT == NULL ? -1 : mir_tstrlen(msgT));
 
@@ -578,7 +578,7 @@ void CSametimeProto::InitSessionMenu()
 	CMenuItem mi;
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000060000;
-	mi.name.t = LPGENT("Send announcement...");
+	mi.name.w = LPGENW("Send announcement...");
 	mi.pszService = MS_SAMETIME_MENUANNOUNCESESSION;
 	mi.hIcolibItem = GetIconHandle(IDI_ICON_ANNOUNCE);
 	Menu_AddContactMenuItem(&mi, m_szModuleName);

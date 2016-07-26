@@ -94,10 +94,10 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 			if (HIWORD(wParam) == STN_CLICKED) {
 				HWND hLink = reinterpret_cast<HWND>(lParam);
 				int nLen = GetWindowTextLength(hLink);
-				TCHAR* szTitle = new TCHAR[nLen + 1];
+				wchar_t* szTitle = new wchar_t[nLen + 1];
 
 				if (GetWindowText(hLink, szTitle, nLen + 1)) {
-					TCHAR* szEndOfURL = (TCHAR*)ext::strfunc::str(szTitle, L" [");
+					wchar_t* szEndOfURL = (wchar_t*)ext::strfunc::str(szTitle, L" [");
 					if (szEndOfURL) {
 						*szEndOfURL = '\0';
 						g_pSettings->openURL(szTitle);
@@ -112,7 +112,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 
 	case WM_CTLCOLORSTATIC:
 		HWND hStatic = reinterpret_cast<HWND>(lParam);
-		TCHAR szClassName[64];
+		wchar_t szClassName[64];
 
 		if (GetClassName(hStatic, szClassName, _countof(szClassName)) && ext::strfunc::cmp(szClassName, WC_EDIT) == 0) {
 			HDC hDC = reinterpret_cast<HDC>(wParam);
@@ -313,9 +313,9 @@ void DlgOption::SubGlobal::initSupportInfo()
 	static const SupportInfo Infos[] = {
 		{
 			TranslateT("At this time there is no external plugin supported."),
-			LPGENT(""),
-			LPGENT(""),
-			LPGENT(""),
+			LPGENW(""),
+			LPGENW(""),
+			LPGENW(""),
 			L""
 		},
 	};
@@ -335,14 +335,14 @@ void DlgOption::SubGlobal::initSupportInfo()
 	tvi.item.state = TVIS_EXPANDED | TVIS_BOLD;
 	tvi.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
 
-	tvi.item.pszText = const_cast<TCHAR*>(TranslateT("Supported plugins (double-click to learn more):"));
+	tvi.item.pszText = const_cast<wchar_t*>(TranslateT("Supported plugins (double-click to learn more):"));
 	tvi.hParent = TreeView_InsertItem(hInfo, &tvi);
 
 	tvi.item.stateMask &= ~TVIS_BOLD;
 
 	array_each_(i, Infos)
 	{
-		tvi.item.pszText = const_cast<TCHAR*>(Infos[i].szPlugin);
+		tvi.item.pszText = const_cast<wchar_t*>(Infos[i].szPlugin);
 		tvi.item.lParam = reinterpret_cast<LPARAM>(&Infos[i]);
 		TreeView_InsertItem(hInfo, &tvi);
 	}
@@ -385,7 +385,7 @@ void DlgOption::SubGlobal::rearrangeControls()
 void DlgOption::SubGlobal::toggleInfo()
 {
 	HWND hInfo = GetDlgItem(getHWnd(), IDC_INFO);
-	const TCHAR* szInfoLabelText = m_bShowInfo ? LPGENT("HistoryStats supports several plugins. Click to hide info...") : LPGENT("HistoryStats supports several plugins. Click to learn more...");
+	const wchar_t* szInfoLabelText = m_bShowInfo ? LPGENW("HistoryStats supports several plugins. Click to hide info...") : LPGENW("HistoryStats supports several plugins. Click to learn more...");
 
 	SetDlgItemText(getHWnd(), IDC_INFOLABEL, TranslateTS(szInfoLabelText));
 	ShowWindow(hInfo, m_bShowInfo ? SW_SHOW : SW_HIDE);

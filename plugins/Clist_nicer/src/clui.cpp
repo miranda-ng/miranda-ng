@@ -60,7 +60,7 @@ static BYTE old_cliststate, show_on_first_autosize = FALSE;
 
 RECT cluiPos;
 
-TCHAR *statusNames[12];
+wchar_t *statusNames[12];
 
 extern LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 extern HANDLE hNotifyFrame;
@@ -160,7 +160,7 @@ static int FS_FontsChanged(WPARAM, LPARAM)
 // last frame of all.
 static HWND PreCreateCLC(HWND parent)
 {
-	pcli->hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), L"",
+	pcli->hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
 		WS_CHILD | CLS_CONTACTLIST
 		| (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
 		| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
@@ -256,7 +256,7 @@ static void InitIcoLib()
 		char szBuffer[128];
 		mir_snprintf(szBuffer, "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), 0), szBuffer, i };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list") L"/" LPGENT("Overlay icons"), &icon, 1);
+		Icon_RegisterT(g_hInst, LPGENW("Contact list") L"/" LPGENW("Overlay icons"), &icon, 1);
 	}
 
 	PROTOACCOUNT **accs = NULL;
@@ -266,10 +266,10 @@ static void InitIcoLib()
 		if (!Proto_IsAccountEnabled(accs[k]) || CallProtoService(accs[k]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 			continue;
 
-		TCHAR szDescr[128];
+		wchar_t szDescr[128];
 		mir_sntprintf(szDescr, TranslateT("%s connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
-		Icon_RegisterT(g_hInst, LPGENT("Contact list") L"/" LPGENT("Connecting icons"), &icon, 1, accs[k]->szModuleName);
+		Icon_RegisterT(g_hInst, LPGENW("Contact list") L"/" LPGENW("Connecting icons"), &icon, 1, accs[k]->szModuleName);
 	}
 }
 
@@ -1415,7 +1415,7 @@ skipbg:
 							if (!contactOK)
 								MessageBox(0, TranslateT("The requested action requires a valid contact selection. Please select a contact from the contact list and repeat."), TranslateT("Parameter mismatch"), MB_OK);
 							if (serviceFailure) {
-								TCHAR szError[512];
+								wchar_t szError[512];
 								mir_sntprintf(szError, TranslateT("The service %S specified by the %S button definition was not found. You may need to install additional plugins."), item->szService, item->szName);
 								MessageBox(NULL, szError, TranslateT("Service failure"), MB_OK);
 							}
@@ -1706,7 +1706,7 @@ buttons_done:
 				}
 
 				if (showOpts & 2) {
-					TCHAR szName[64];
+					wchar_t szName[64];
 					PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 					if (pa) {
 						mir_tstrncpy(szName, pa->tszAccountName, _countof(szName));
@@ -1722,7 +1722,7 @@ buttons_done:
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
-					TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
+					wchar_t *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
 					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_tstrlen(szStatus), &textSize);
 					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_tstrlen(szStatus));
 				}
@@ -1825,7 +1825,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, (WPARAM)hFont, 0);
 		}
 		{
-			TCHAR str[64];
+			wchar_t str[64];
 			DWORD v = pluginInfo.version;
 			mir_sntprintf(str, L"%s %d.%d.%d.%d", TranslateT("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
 			SetDlgItemText(hwndDlg, IDC_VERSION, str);
@@ -1962,29 +1962,29 @@ void OnCreateClc()
 
 struct
 {
-	const TCHAR *tszName;
+	const wchar_t *tszName;
 	int iMask;
 }
 static clistFontDescr[] =
 {
-	{ LPGENT("Standard contacts"), FIDF_CLASSGENERAL },
-	{ LPGENT("Online contacts to whom you have a different visibility"), FIDF_CLASSGENERAL },
-	{ LPGENT("Offline contacts"), FIDF_CLASSGENERAL },
-	{ LPGENT("Contacts which are 'not on list'"), FIDF_CLASSGENERAL },
-	{ LPGENT("Groups"), FIDF_CLASSHEADER },
-	{ LPGENT("Group member counts"), FIDF_CLASSHEADER },
-	{ LPGENT("Dividers"), FIDF_CLASSSMALL },
-	{ LPGENT("Offline contacts to whom you have a different visibility"), FIDF_CLASSGENERAL },
-	{ LPGENT("Status mode"), FIDF_CLASSGENERAL },
-	{ LPGENT("Frame titles"), FIDF_CLASSGENERAL },
-	{ LPGENT("Event area"), FIDF_CLASSGENERAL },
-	{ LPGENT("Contact list local time"), FIDF_CLASSGENERAL }
+	{ LPGENW("Standard contacts"), FIDF_CLASSGENERAL },
+	{ LPGENW("Online contacts to whom you have a different visibility"), FIDF_CLASSGENERAL },
+	{ LPGENW("Offline contacts"), FIDF_CLASSGENERAL },
+	{ LPGENW("Contacts which are 'not on list'"), FIDF_CLASSGENERAL },
+	{ LPGENW("Groups"), FIDF_CLASSHEADER },
+	{ LPGENW("Group member counts"), FIDF_CLASSHEADER },
+	{ LPGENW("Dividers"), FIDF_CLASSSMALL },
+	{ LPGENW("Offline contacts to whom you have a different visibility"), FIDF_CLASSGENERAL },
+	{ LPGENW("Status mode"), FIDF_CLASSGENERAL },
+	{ LPGENW("Frame titles"), FIDF_CLASSGENERAL },
+	{ LPGENW("Event area"), FIDF_CLASSGENERAL },
+	{ LPGENW("Contact list local time"), FIDF_CLASSGENERAL }
 };
 
 void FS_RegisterFonts()
 {
 	FontIDT fid = { sizeof(fid) };
-	_tcsncpy(fid.group, LPGENT("Contact list"), _countof(fid.group));
+	wcsncpy(fid.group, LPGENW("Contact list"), _countof(fid.group));
 	strncpy(fid.dbSettingsGroup, "CLC", 5);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE;
 
@@ -1994,7 +1994,7 @@ void FS_RegisterFonts()
 		pcli->pfnGetFontSetting(i, &lf, &fid.deffontsettings.colour);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
-		_tcsncpy_s(fid.deffontsettings.szFace, lf.lfFaceName, _TRUNCATE);
+		wcsncpy_s(fid.deffontsettings.szFace, lf.lfFaceName, _TRUNCATE);
 		fid.deffontsettings.charset = lf.lfCharSet;
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0);
@@ -2002,7 +2002,7 @@ void FS_RegisterFonts()
 		fid.flags &= ~FIDF_CLASSMASK;
 		fid.flags |= clistFontDescr[i].iMask;
 
-		_tcsncpy(fid.name, clistFontDescr[i].tszName, _countof(fid.name));
+		wcsncpy(fid.name, clistFontDescr[i].tszName, _countof(fid.name));
 
 		char idstr[10];
 		mir_snprintf(idstr, "Font%d", i);
@@ -2019,32 +2019,32 @@ void FS_RegisterFonts()
 	strncpy(colourid.dbSettingsGroup, "CLC", sizeof(colourid.dbSettingsGroup));
 
 	strncpy(colourid.setting, "BkColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Background"), _countof(colourid.name));
-	_tcsncpy(colourid.group, LPGENT("Contact list"), _countof(colourid.group));
+	wcsncpy(colourid.name, LPGENW("Background"), _countof(colourid.name));
+	wcsncpy(colourid.group, LPGENW("Contact list"), _countof(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Selected text"), _countof(colourid.name));
+	wcsncpy(colourid.name, LPGENW("Selected text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Hottrack text"), _countof(colourid.name));
+	wcsncpy(colourid.name, LPGENW("Hottrack text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Quicksearch text"), _countof(colourid.name));
+	wcsncpy(colourid.name, LPGENW("Quicksearch text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.dbSettingsGroup, "CLUI", sizeof(colourid.dbSettingsGroup));
 	strncpy(colourid.setting, "clr_frameborder", sizeof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Embedded frames border"), _countof(colourid.name));
+	wcsncpy(colourid.name, LPGENW("Embedded frames border"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = RGB(40, 40, 40);
 	ColourRegisterT(&colourid);

@@ -54,15 +54,15 @@ void MakeOptionDialogPage(lua_State *L, OPTIONSDIALOGPAGE &odp)
 		odp.flags |= ODPF_TCHAR;
 
 	lua_getfield(L, -1, "Group");
-	odp.ptszGroup = mir_utf8decodeT(lua_tostring(L, -1));
+	odp.pwszGroup = mir_utf8decodeT(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Title");
-	odp.ptszTitle = mir_utf8decodeT(luaL_checkstring(L, -1));
+	odp.pwszTitle = mir_utf8decodeT(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Tab");
-	odp.ptszTab = mir_utf8decodeT(lua_tostring(L, -1));
+	odp.pwszTab = mir_utf8decodeT(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	int onInitDialogRef = LUA_NOREF;
@@ -95,9 +95,9 @@ int opt_AddPage(lua_State *L)
 	INT_PTR res = Options_AddPage(wParam, &odp);
 	lua_pushboolean(L, !res);
 
-	mir_free(odp.ptszGroup);
-	mir_free(odp.ptszTitle);
-	mir_free(odp.ptszTab);
+	mir_free(odp.pwszGroup);
+	mir_free(odp.pwszTitle);
+	mir_free(odp.pwszTab);
 
 	return 1;
 }

@@ -18,7 +18,7 @@
 
 struct CYahooProto : public PROTO<CYahooProto>
 {
-				CYahooProto(const char*, const TCHAR*);
+				CYahooProto(const char*, const wchar_t*);
 				virtual ~CYahooProto();
 
 	//====================================================================================
@@ -29,33 +29,33 @@ struct CYahooProto : public PROTO<CYahooProto>
 	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
 
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR *szReason);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage );
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage );
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath );
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath );
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer );
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason );
-	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const TCHAR **szFilename );
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason );
+	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const wchar_t **szFilename );
 
 	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType );
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *id);
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
 	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg );
 
 	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg( int m_iStatus, const TCHAR *msg);
+	virtual	int       __cdecl SetAwayMsg( int m_iStatus, const wchar_t *msg);
 	virtual INT_PTR    __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
@@ -146,13 +146,13 @@ struct CYahooProto : public PROTO<CYahooProto>
 	void   reset_avatar(MCONTACT hContact);
 	void   request_avatar(const char* who);
 
-	void   SendAvatar(const TCHAR *szFile);
-	void   GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, int cbLen, int type);
+	void   SendAvatar(const wchar_t *szFile);
+	void   GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, int cbLen, int type);
 
 	//====| chat.cpp |====================================================================
 	void ChatRegister(void);
 	void ChatStart(const char* room);
-	void ChatEvent(const char* room, const char* who, int evt, const TCHAR* msg = NULL);
+	void ChatEvent(const char* room, const char* who, int evt, const wchar_t* msg = NULL);
 	void ChatLeave(const char* room);
 	void ChatLeaveAll(void);
 
@@ -213,9 +213,9 @@ struct CYahooProto : public PROTO<CYahooProto>
 
 	DWORD  Set_Protocol(MCONTACT hContact, int protocol );
 
-	int    ShowNotification(const TCHAR *title, const TCHAR *info, DWORD flags);
-	void   ShowError(const TCHAR *title, const TCHAR *buff);
-	int    ShowPopup( const TCHAR* nickname, const TCHAR* msg, const char *szURL );
+	int    ShowNotification(const wchar_t *title, const wchar_t *info, DWORD flags);
+	void   ShowError(const wchar_t *title, const wchar_t *buff);
+	int    ShowPopup( const wchar_t* nickname, const wchar_t* msg, const char *szURL );
 	bool   IsMyContact(MCONTACT hContact);
 
 	//====| yahoo.cpp |===================================================================
@@ -257,7 +257,7 @@ struct CYahooProto : public PROTO<CYahooProto>
 	void   ext_login_response(int succ, const char *url);
 	void   ext_login(enum yahoo_status login_mode);
 
-	void   AddBuddy(MCONTACT hContact, const char *group, const TCHAR *msg);
+	void   AddBuddy(MCONTACT hContact, const char *group, const wchar_t *msg);
 
 	void   YAHOO_utils_logversion();
 

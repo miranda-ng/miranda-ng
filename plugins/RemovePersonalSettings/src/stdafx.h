@@ -39,10 +39,10 @@
 
 #define METACONTACTS_PROTOCOL_NAME "MetaContacts"
 
-#define NOTICE_TEXT LPGEN("All your personal settings will be erased!\n\
+#define NOTICE_TEXT LPGENW("All your personal settings will be erased!\n\
 Make sure you are running this from a copy of your profile (and not over the original one).\n\
 Running this will erase files/folders under Miranda main folder.\n\n\
 Are you sure you want to remove all your personal settings?\n\n\
 (You cannot say that I don't told you about the risks :P)")
 
-#define MSGBOX_TITLE LPGEN("Remove Personal Settings")
+#define MSGBOX_TITLE LPGENW("Remove Personal Settings")

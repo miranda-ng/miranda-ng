@@ -159,7 +159,7 @@ exit:
 	return 0;
 }
 
-void CSteamProto::ShowNotification(const TCHAR *caption, const wchar_t *message, int flags, MCONTACT hContact)
+void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_Terminated())
 		return;
@@ -179,9 +179,9 @@ void CSteamProto::ShowNotification(const TCHAR *caption, const wchar_t *message,
 	MessageBox(NULL, message, caption, MB_OK | flags);
 }
 
-void CSteamProto::ShowNotification(const TCHAR *message, int flags, MCONTACT hContact)
+void CSteamProto::ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
 {
-	ShowNotification(TranslateT(MODULE), message, flags, hContact);
+	ShowNotification(MODULEW, message, flags, hContact);
 }
 
 INT_PTR __cdecl CSteamProto::OnGetEventTextChatStates(WPARAM, LPARAM lParam)

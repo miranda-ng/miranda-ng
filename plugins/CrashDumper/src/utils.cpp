@@ -105,9 +105,9 @@ void GetInternetExplorerVersion(CMString &buffer)
 	HKEY hKey;
 	DWORD size;
 
-	TCHAR ieVersion[1024] = { 0 };
-	TCHAR ieBuild[512] = { 0 };
-	TCHAR iVer[64] = { 0 };
+	wchar_t ieVersion[1024] = { 0 };
+	wchar_t ieBuild[512] = { 0 };
+	wchar_t iVer[64] = { 0 };
 
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Internet Explorer"), 0, KEY_QUERY_VALUE, &hKey)) {
 		size = _countof(ieBuild);
@@ -144,9 +144,9 @@ void GetInternetExplorerVersion(CMString &buffer)
 		buffer.AppendFormat(TEXT(" (build %s)"), ieBuild);
 }
 
-void TrimMultiSpaces(TCHAR *str)
+void TrimMultiSpaces(wchar_t *str)
 {
-	TCHAR *src = str, *dest = str;
+	wchar_t *src = str, *dest = str;
 	bool trimst = false;
 
 	for (;;) {
@@ -169,8 +169,8 @@ void GetProcessorString(CMString &buffer)
 	HKEY hKey;
 	DWORD size;
 
-	TCHAR cpuIdent[512] = { 0 };
-	TCHAR cpuName[512] = { 0 };
+	wchar_t cpuIdent[512] = { 0 };
+	wchar_t cpuName[512] = { 0 };
 
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Hardware\\Description\\System\\CentralProcessor\\0"), 0, KEY_QUERY_VALUE, &hKey)) {
 		size = _countof(cpuName);
@@ -343,7 +343,7 @@ void GetAdminString(CMString &buffer)
 
 void GetLanguageString(CMString &buffer)
 {
-	TCHAR name1[256], name2[256], name3[256], name4[256];
+	wchar_t name1[256], name2[256], name3[256], name4[256];
 
 	GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SENGLANGUAGE, name1, 256);
 	GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_SENGLANGUAGE, name2, 256);
@@ -358,7 +358,7 @@ void GetLanguagePackString(CMString &buffer)
 {
 	buffer.Append(TEXT("Language pack: "));
 	if (packlcid != LOCALE_USER_DEFAULT) {
-		TCHAR lang[MAX_PATH], ctry[MAX_PATH];
+		wchar_t lang[MAX_PATH], ctry[MAX_PATH];
 		if (GetLocaleInfo(packlcid, LOCALE_SENGLANGUAGE, lang, MAX_PATH)) {
 			if (GetLocaleInfo(packlcid, LOCALE_SISO3166CTRYNAME, ctry, MAX_PATH))
 				buffer.AppendFormat(TEXT("%s (%s) [%04x]"), lang, ctry, packlcid);
@@ -408,7 +408,7 @@ void GetVersionInfo(HMODULE hLib, CMString& buffer)
 
 void StoreStringToClip(CMString& buffer)
 {
-	int bufLen = (buffer.GetLength() + 1) * sizeof(TCHAR);
+	int bufLen = (buffer.GetLength() + 1) * sizeof(wchar_t);
 	HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
 	LPSTR buf = (LPSTR)GlobalLock(hData);
 
@@ -425,7 +425,7 @@ void StoreStringToClip(CMString& buffer)
 	}
 }
 
-bool IsPluginEnabled(TCHAR* filename)
+bool IsPluginEnabled(wchar_t* filename)
 {
 	char* fname;
 	crsi_t2a(fname, filename);

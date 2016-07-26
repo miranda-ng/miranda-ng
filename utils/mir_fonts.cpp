@@ -6,7 +6,7 @@
 
 #include "mir_fonts.h"
 
-int FontService_RegisterFont(const char *pszDbModule, const char *pszDbName, const TCHAR *pszSection, const TCHAR *pszDescription, const TCHAR *pszBackgroundGroup, const TCHAR *pszBackgroundName, int position, BOOL bAllowEffects, LOGFONT *plfDefault, COLORREF clrDefault)
+int FontService_RegisterFont(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription, const wchar_t *pszBackgroundGroup, const wchar_t *pszBackgroundName, int position, BOOL bAllowEffects, LOGFONT *plfDefault, COLORREF clrDefault)
 {
 	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(fid);
@@ -34,7 +34,7 @@ int FontService_RegisterFont(const char *pszDbModule, const char *pszDbName, con
 	return 0;
 }
 
-int FontService_GetFont(const TCHAR *pszSection, const TCHAR *pszDescription, COLORREF *pclr, LOGFONT *plf)
+int FontService_GetFont(const wchar_t *pszSection, const wchar_t *pszDescription, COLORREF *pclr, LOGFONT *plf)
 {
 	FontIDT fid = { 0 };
 	mir_tstrncpy(fid.group, pszSection, _countof(fid.group)); /* buffer sfae */
@@ -43,7 +43,7 @@ int FontService_GetFont(const TCHAR *pszSection, const TCHAR *pszDescription, CO
 	return (int)*pclr == -1;
 }
 
-int FontService_RegisterColor(const char *pszDbModule, const char *pszDbName, const TCHAR *pszSection, const TCHAR *pszDescription, COLORREF clrDefault)
+int FontService_RegisterColor(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription, COLORREF clrDefault)
 {
 	ColourIDT cid = { 0 };
 	cid.cbSize = sizeof(cid);
@@ -56,12 +56,12 @@ int FontService_RegisterColor(const char *pszDbModule, const char *pszDbName, co
 	return 0;
 }
 
-int FontService_GetColor(const TCHAR *pszSection, const TCHAR *pszDescription, COLORREF *pclr)
+int FontService_GetColor(const wchar_t *pszSection, const wchar_t *pszDescription, COLORREF *pclr)
 {
 	ColourIDT cid = { 0 };
 	cid.cbSize = sizeof(cid);
-	_tcsncpy_s(cid.group, pszSection, _TRUNCATE);
-	_tcsncpy_s(cid.name, pszDescription, _TRUNCATE);
+	wcsncpy_s(cid.group, pszSection, _TRUNCATE);
+	wcsncpy_s(cid.name, pszDescription, _TRUNCATE);
 	*pclr = (COLORREF)CallService(MS_COLOUR_GETT, (WPARAM)&cid, 0);
 	return (int)*pclr == -1;
 }

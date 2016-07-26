@@ -142,7 +142,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 		SendSMSWindowUpdateAccountList(hWndDlg);
 
 		{
-			TCHAR tszSign[1024];
+			wchar_t tszSign[1024];
 			size_t dwSignLen = 0;
 
 			if (DB_SMS_GetByte(NULL, "UseSignature", SMS_DEFAULT_USESIGNATURE))
@@ -209,7 +209,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 	case WM_TIMER:
 		if (wParam == TIMERID_MSGSEND) {
 			HWND hwndTimeOut;
-			TCHAR tszMessage[1028], tszPhone[MAX_PHONE_LEN];
+			wchar_t tszMessage[1028], tszPhone[MAX_PHONE_LEN];
 
 			if (psswdWindowData->bMultiple) {
 				TVITEM tvi;
@@ -268,11 +268,11 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 			break;
 		case TIMEDOUT_RETRY:
 			{
-				TCHAR tszPhone[MAX_PHONE_LEN];
+				wchar_t tszPhone[MAX_PHONE_LEN];
 				size_t dwPhoneSize;
 
 				size_t dwMessageSize = GET_DLG_ITEM_TEXT_LENGTH(hWndDlg, IDC_MESSAGE);
-				LPTSTR lpwszMessage = (LPTSTR)MEMALLOC(((dwMessageSize + 4)*sizeof(TCHAR)));
+				LPTSTR lpwszMessage = (LPTSTR)MEMALLOC(((dwMessageSize + 4)*sizeof(wchar_t)));
 				if (lpwszMessage) {
 					if (psswdWindowData->bMultiple) {
 						TVITEM tvi;
@@ -303,7 +303,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 
 		case IDC_ADDNUMBER:
 			{
-				TCHAR tszPhone[MAX_PHONE_LEN];
+				wchar_t tszPhone[MAX_PHONE_LEN];
 				if (IsPhoneW(tszPhone, GetDlgItemText(hWndDlg, IDC_ADDRESS, tszPhone, _countof(tszPhone)))) {
 					TVINSERTSTRUCT tvis = { 0 };
 					tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
@@ -345,7 +345,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 					}
 				}
 				else {
-					TCHAR tszPhone[MAX_PHONE_LEN];
+					wchar_t tszPhone[MAX_PHONE_LEN];
 					size_t dwPhoneSize = GetDlgItemText(hWndDlg, IDC_ADDRESS, tszPhone, _countof(tszPhone));
 					if (IsPhoneW(tszPhone, dwPhoneSize)) {
 						size_t dwMessageSize = GET_DLG_ITEM_TEXT_LENGTH(hWndDlg, IDC_MESSAGE);
@@ -382,7 +382,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 			break;
 		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
-				TCHAR tszBuff[MAX_PATH];
+				wchar_t tszBuff[MAX_PATH];
 				size_t dwMessageSize = GET_DLG_ITEM_TEXT_LENGTH(hWndDlg, IDC_MESSAGE);
 
 				EnableWindow(GetDlgItem(hWndDlg, IDOK), dwMessageSize != 0);
@@ -394,7 +394,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 			{
 				BOOL bCont = TRUE;
 				char szBuff[MAX_PATH];
-				TCHAR tszPhone[MAX_PHONE_LEN];
+				wchar_t tszPhone[MAX_PHONE_LEN];
 				DBVARIANT dbv;
 
 				size_t dwPhoneSize = GetDlgItemText(hWndDlg, IDC_ADDRESS, tszPhone, (_countof(tszPhone) - 4));
@@ -558,7 +558,7 @@ HWND SendSMSWindowAdd(MCONTACT hContact)
 		ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 
 		LPTSTR lptszContactDisplayName = pcli->pfnGetContactDisplayName(hContact, 0);
-		TCHAR tszTitle[MAX_PATH];
+		wchar_t tszTitle[MAX_PATH];
 		mir_sntprintf(tszTitle, L"%s - %s", lptszContactDisplayName, TranslateT("Send SMS"));
 		SetWindowText(psswdWindowData->hWnd, tszTitle);
 		SendDlgItemMessage(psswdWindowData->hWnd, IDC_NAME, CB_ADDSTRING, 0, (LPARAM)lptszContactDisplayName);
@@ -841,12 +841,12 @@ HWND SendSMSWindowIsOtherInstanceHContact(MCONTACT hContact)
 //
 void SendSMSWindowNext(HWND hWndDlg)
 {
-	TCHAR tszPhone[MAX_PHONE_LEN];
+	wchar_t tszPhone[MAX_PHONE_LEN];
 	size_t dwPhoneSize, dwMessageSize;
 	TVITEM tvi = { 0 };
 
 	dwMessageSize = GET_DLG_ITEM_TEXT_LENGTH(hWndDlg, IDC_MESSAGE);
-	LPTSTR lptszMessage = (LPTSTR)MEMALLOC(((dwMessageSize + 4)*sizeof(TCHAR)));
+	LPTSTR lptszMessage = (LPTSTR)MEMALLOC(((dwMessageSize + 4)*sizeof(wchar_t)));
 	if (!lptszMessage)
 		return;
 
@@ -952,7 +952,7 @@ void SendSMSWindowsUpdateAllAccountLists()
 void AddContactPhonesToComboToListParam(MCONTACT hContact, LPSTR lpszModule, LPSTR lpszValueName, HWND hWndList)
 {
 	char szBuff[MAX_PATH];
-	TCHAR tszPhone[MAX_PHONE_LEN], tszPhoneRaw[MAX_PHONE_LEN];
+	wchar_t tszPhone[MAX_PHONE_LEN], tszPhoneRaw[MAX_PHONE_LEN];
 	size_t i, dwPhoneSize;
 
 	if (DB_GetStaticStringW(hContact, lpszModule, lpszValueName, tszPhoneRaw, _countof(tszPhoneRaw), &dwPhoneSize)) {
@@ -1003,7 +1003,7 @@ void AddContactPhonesToCombo(HWND hWnd, MCONTACT hContact)
 void AddContactPhonesToTreeViewParam(MCONTACT hContact, LPSTR lpszModule, LPSTR lpszValueName, HWND hWndList, HTREEITEM *phParent)
 {
 	char szBuff[MAX_PATH];
-	TCHAR tszPhone[MAX_PHONE_LEN], tszPhoneRaw[MAX_PHONE_LEN];
+	wchar_t tszPhone[MAX_PHONE_LEN], tszPhoneRaw[MAX_PHONE_LEN];
 	size_t i, dwPhoneSize;
 	TVINSERTSTRUCT tvis = { 0 };
 
@@ -1073,7 +1073,7 @@ size_t GetSMSMessageLenMax(HWND hWndDlg)
 	size_t dwMessageSize, dwLenght = 160;
 
 	dwMessageSize = GET_DLG_ITEM_TEXT_LENGTH(hWndDlg, IDC_MESSAGE);
-	LPTSTR lptszMessage = (LPTSTR)MEMALLOC(((dwMessageSize + 4)*sizeof(TCHAR)));
+	LPTSTR lptszMessage = (LPTSTR)MEMALLOC(((dwMessageSize + 4)*sizeof(wchar_t)));
 	if (lptszMessage) {
 		dwMessageSize = GetDlgItemText(hWndDlg, IDC_MESSAGE, lptszMessage, (int)dwMessageSize + 2);
 		if (dwMessageSize != WideCharToMultiByte(CP_UTF8, 0, lptszMessage, (int)dwMessageSize, NULL, 0, NULL, NULL))

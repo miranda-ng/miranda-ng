@@ -150,9 +150,9 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 		Menu_ShowItem(hMenuToggle, false);
 	else {
 		if (remove)
-			Menu_ModifyItem(hMenuToggle, LPGENT("Enable History"), hIconKeep);
+			Menu_ModifyItem(hMenuToggle, LPGENW("Enable History"), hIconKeep);
 		else
-			Menu_ModifyItem(hMenuToggle, LPGENT("Disable History"), hIconRemove);
+			Menu_ModifyItem(hMenuToggle, LPGENW("Disable History"), hIconRemove);
 	}
 
 	Menu_ShowItem(hMenuClear, !chat_room && db_event_count(hContact) > 0);
@@ -250,14 +250,14 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	SET_UID(mi, 0xede12697, 0x3e9d, 0x47ca, 0x83, 0xe0, 0xc1, 0x40, 0x69, 0xbf, 0x2d, 0xab);
 	mi.position = -300010;
-	mi.name.t = LPGENT("Disable History");
+	mi.name.w = LPGENW("Disable History");
 	mi.pszService = MS_NOHISTORY_TOGGLE;
 	mi.hIcolibItem = hIconRemove;
 	hMenuToggle = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x1c4b1c21, 0xc0d1, 0x44d1, 0xb5, 0x3c, 0xc7, 0x8d, 0xcf, 0x96, 0x51, 0xd7);
 	mi.position = -300005;
-	mi.name.t = LPGENT("Clear History");
+	mi.name.w = LPGENW("Clear History");
 	mi.pszService = MS_NOHISTORY_CLEAR;
 	mi.hIcolibItem = hIconClear;
 	hMenuClear = Menu_AddContactMenuItem(&mi);

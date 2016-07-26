@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct CMsnProto : public PROTO<CMsnProto>
 {
-	CMsnProto(const char*, const TCHAR*);
+	CMsnProto(const char*, const wchar_t*);
 	~CMsnProto();
 
 	//====================================================================================
@@ -36,26 +36,26 @@ struct CMsnProto : public PROTO<CMsnProto>
 	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
 
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath);
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath);
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason);
-	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason);
+	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
-	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR* email);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
+	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t* email);
 
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
 
 #ifdef OBSOLETE
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles);
 #endif
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
@@ -64,7 +64,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR* msg);
+	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const wchar_t* msg);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
@@ -196,10 +196,10 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void        InitCustomFolders(void);
 
 	char*       getSslResult(char** parUrl, const char* parAuthInfo, const char* hdrs, unsigned& status);
-	bool        getMyAvatarFile(char *url, TCHAR *fname);
+	bool        getMyAvatarFile(char *url, wchar_t *fname);
 
 	void        MSN_GoOffline(void);
-	void        MSN_GetCustomSmileyFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const char* SmileyName, int Type);
+	void        MSN_GetCustomSmileyFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen, const char* SmileyName, int Type);
 
 	const char*	MirandaStatusToMSN(int status);
 	WORD        MSNStatusToMiranda(const char *status);
@@ -233,8 +233,8 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void        LoadOptions(void);
 
 	void        InitPopups(void);
-	void        MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags, const char* url);
-	void        MSN_ShowPopup(const MCONTACT hContact, const TCHAR* msg, int flags);
+	void        MSN_ShowPopup(const wchar_t* nickname, const wchar_t* msg, int flags, const char* url);
+	void        MSN_ShowPopup(const MCONTACT hContact, const wchar_t* msg, int flags);
 	void        MSN_ShowError(const char* msgtext, ...);
 
 #ifdef OBSOLETE
@@ -242,7 +242,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 #endif
 	void        MSN_SendNicknameUtf(const char* nickname);
 
-	typedef struct { TCHAR *szName; const char *szMimeType; unsigned char *data; size_t dataSize; } StoreAvatarData;
+	typedef struct { wchar_t *szName; const char *szMimeType; unsigned char *data; size_t dataSize; } StoreAvatarData;
 	void __cdecl msn_storeAvatarThread(void* arg);
 
 	void __cdecl msn_storeProfileThread(void*);
@@ -305,7 +305,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	int          MSN_GetActiveThreads(ThreadData**);
 	ThreadData*  MSN_GetThreadByConnection(HANDLE hConn);
 	ThreadData*  MSN_GetThreadByContact(const char* wlid, TInfoType type = SERVER_SWITCHBOARD);
-	GCThreadData*MSN_GetThreadByChatId(const TCHAR* chatId);
+	GCThreadData*MSN_GetThreadByChatId(const wchar_t* chatId);
 	ThreadData*  MSN_GetP2PThreadByContact(const char *wlid);
 	void         MSN_StartP2PTransferByContact(const char* wlid);
 	ThreadData*  MSN_GetThreadByPort(WORD wPort);
@@ -423,12 +423,12 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	int  MSN_ChatInit(GCThreadData *info, const char *pszID, const char *pszTopic);
 	void MSN_ChatStart(ezxml_t xmli);
-	void MSN_KillChatSession(const TCHAR* id);
+	void MSN_KillChatSession(const wchar_t* id);
 	void MSN_Kickuser(GCHOOK *gch);
 	void MSN_Promoteuser(GCHOOK *gch, const char *pszRole);
-	const TCHAR *MSN_GCGetRole(GCThreadData* thread, const char *pszWLID);
-	void MSN_GCProcessThreadActivity(ezxml_t xmli, const TCHAR *mChatID);
-	void MSN_GCAddMessage(TCHAR *mChatID, MCONTACT hContact, char *email, time_t ts, bool sentMsg, char *msgBody);
+	const wchar_t *MSN_GCGetRole(GCThreadData* thread, const char *pszWLID);
+	void MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID);
+	void MSN_GCAddMessage(wchar_t *mChatID, MCONTACT hContact, char *email, time_t ts, bool sentMsg, char *msgBody);
 	void MSN_GCRefreshThreadsInfo(void);
 
 	MCONTACT MSN_GetChatInernalHandle(MCONTACT hContact);
@@ -516,8 +516,8 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void   AvatarQueue_Init(void);
 	void   AvatarQueue_Uninit(void);
 
-	void   MSN_GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
-	int    MSN_SetMyAvatar(const TCHAR* szFname, void* pData, size_t cbLen);
+	void   MSN_GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen, const wchar_t *ext);
+	int    MSN_SetMyAvatar(const wchar_t* szFname, void* pData, size_t cbLen);
 
 	void   __cdecl MSN_AvatarsThread(void*);
 
@@ -590,8 +590,8 @@ struct CMsnProto : public PROTO<CMsnProto>
 	bool MSN_StoreShareItem(const char* id, bool allowRecurse = true);
 	bool MSN_StoreCreateRelationships(bool allowRecurse = true);
 	bool MSN_StoreDeleteRelationships(bool tile, bool allowRecurse = true);
-	bool MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMimeType, const char *szPicData, bool allowRecurse = true);
-	bool MSN_StoreUpdateDocument(const TCHAR *sztName, const char *szMimeType, const char *szPicData, bool allowRecurse = true);
+	bool MSN_StoreCreateDocument(const wchar_t *sztName, const char *szMimeType, const char *szPicData, bool allowRecurse = true);
+	bool MSN_StoreUpdateDocument(const wchar_t *sztName, const char *szMimeType, const char *szPicData, bool allowRecurse = true);
 	bool MSN_StoreFindDocuments(bool allowRecurse = true);
 
 	ezxml_t storeSoapHdr(const char* service, const char* scenario, ezxml_t& tbdy, char*& httphdr);
@@ -605,8 +605,8 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	TCHAR *m_DisplayNameCache;
-	TCHAR* GetContactNameT(MCONTACT hContact);
+	wchar_t *m_DisplayNameCache;
+	wchar_t* GetContactNameT(MCONTACT hContact);
 
 	int    getStringUtf(MCONTACT hContact, const char* name, DBVARIANT* result);
 	int    getStringUtf(const char* name, DBVARIANT* result);

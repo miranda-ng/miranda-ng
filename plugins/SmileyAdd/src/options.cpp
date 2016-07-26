@@ -204,7 +204,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void OptionsDialogType::AddCategory(void)
 {
-	TCHAR cat[30];
+	wchar_t cat[30];
 	GetDlgItemText(m_hwndDialog, IDC_NEWCATEGORY, cat, _countof(cat));
 	CMString catd = cat;
 
@@ -327,7 +327,7 @@ void OptionsDialogType::PopulateSmPackList(void)
 	SmileyCategoryListType::SmileyCategoryVectorType &smc = *tmpsmcat.GetSmileyCategoryList();
 	for (int i = 0; i < smc.getCount(); i++) {
 		if (smc[i].IsVisible()) {
-			tvi.item.pszText = (TCHAR*)smc[i].GetDisplayName().c_str();
+			tvi.item.pszText = (wchar_t*)smc[i].GetDisplayName().c_str();
 			if (!smc[i].IsProto()) {
 				tvi.item.iImage = 0;
 				tvi.item.iSelectedImage = 0;
@@ -463,7 +463,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 {
 	OPENFILENAME ofn = { 0 };
 
-	TCHAR filename[MAX_PATH] = L"";
+	wchar_t filename[MAX_PATH] = L"";
 	ofn.lpstrFile = filename;
 	ofn.nMaxFile = _countof(filename);
 
@@ -480,7 +480,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = m_hwndDialog;
 
-	TCHAR filter[512], *pfilter;
+	wchar_t filter[512], *pfilter;
 	mir_tstrcpy(filter, TranslateT("Smiley packs"));
 	mir_tstrcat(filter, L" (*.msl;*.asl;*.xep)");
 	pfilter = filter + mir_tstrlen(filter) + 1;
@@ -511,7 +511,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 
 void OptionsDialogType::FilenameChanged(void)
 {
-	TCHAR str[MAX_PATH];
+	wchar_t str[MAX_PATH];
 	GetDlgItemText(m_hwndDialog, IDC_FILENAME, str, _countof(str));
 
 	SmileyCategoryType *smc = tmpsmcat.GetSmileyCategory(GetSelProto());
@@ -593,7 +593,7 @@ void OptionsType::ReadPackFileName(CMString &filename, const CMString &name, con
 	CMString settingKey = name + L"-filename";
 
 	ptrT tszValue(db_get_tsa(NULL, "SmileyAdd", _T2A(settingKey.c_str())));
-	filename = (tszValue != NULL) ? (TCHAR*)tszValue : defaultFilename;
+	filename = (tszValue != NULL) ? (wchar_t*)tszValue : defaultFilename;
 }
 
 void OptionsType::WritePackFileName(const CMString &filename, const CMString &name)

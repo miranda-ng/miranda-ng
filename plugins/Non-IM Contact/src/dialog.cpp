@@ -17,7 +17,7 @@ filename(0)    <- will display the filename of the 0th file\r\nfile(0)wholeline(
 
 INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR tmp[5];
+	wchar_t tmp[5];
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -25,7 +25,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		CheckDlgButton(hwnd, IDC_AWAYISNOTONLINE, db_get_b(NULL, MODNAME, "AwayAsStatus", 0) ? BST_CHECKED : BST_UNCHECKED);
 		if (db_get_w(NULL, MODNAME, "Timer", 1)) {
 			EnableWindow(GetDlgItem(hwnd, IDC_TIMER_INT), 1);
-			SetDlgItemText(hwnd, IDC_TIMER_INT, _itot(db_get_w(NULL, MODNAME, "Timer", 1), tmp, 10));
+			SetDlgItemText(hwnd, IDC_TIMER_INT, _itow(db_get_w(NULL, MODNAME, "Timer", 1), tmp, 10));
 			EnableWindow(GetDlgItem(hwnd, IDC_TIMER_TEXT), 1);
 		}
 		else {
@@ -61,7 +61,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				db_set_b(NULL, MODNAME, "AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
 				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
 					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, _countof(tmp));
-					db_set_w(NULL, MODNAME, "Timer", (WORD)_ttoi(tmp));
+					db_set_w(NULL, MODNAME, "Timer", (WORD)_wtoi(tmp));
 				}
 				else db_set_w(NULL, MODNAME, "Timer", 0);
 				return TRUE;

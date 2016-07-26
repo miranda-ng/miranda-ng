@@ -115,10 +115,10 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
-static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
+static INT_PTR avSetAvatar(MCONTACT hContact, wchar_t *tszPath)
 {
-	TCHAR FileName[MAX_PATH];
-	TCHAR *szFinalName;
+	wchar_t FileName[MAX_PATH];
+	wchar_t *szFinalName;
 	BYTE locking_request;
 
 	if (hContact == NULL || fei == NULL)
@@ -127,7 +127,7 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 	int is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 	if (tszPath == NULL) {
-		TCHAR filter[256];
+		wchar_t filter[256];
 		Bitmap_GetFilter(filter, _countof(filter));
 
 		OPENFILENAME ofn = { 0 };
@@ -155,11 +155,11 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 	else szFinalName = tszPath;
 
 	// filename is now set, check it and perform all needed action
-	if (_taccess(szFinalName, 4) == -1)
+	if (_waccess(szFinalName, 4) == -1)
 		return 0;
 
 	// file exists...
-	TCHAR szBackupName[MAX_PATH];
+	wchar_t szBackupName[MAX_PATH];
 	PathToRelativeT(szFinalName, szBackupName, g_szDataPath);
 	db_set_ts(hContact, "ContactPhoto", "Backup", szBackupName);
 
@@ -179,7 +179,7 @@ INT_PTR SetAvatar(WPARAM wParam, LPARAM lParam)
 
 INT_PTR SetAvatarW(WPARAM wParam, LPARAM lParam)
 {
-	return avSetAvatar(wParam, (TCHAR*)lParam);
+	return avSetAvatar(wParam, (wchar_t*)lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -333,12 +333,12 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM, LPARAM
 struct SaveProtocolData
 {
 	DWORD max_size;
-	TCHAR image_file_name[MAX_PATH];
+	wchar_t image_file_name[MAX_PATH];
 	BOOL saved;
 	BOOL need_smaller_size;
 	int width;
 	int height;
-	TCHAR temp_file[MAX_PATH];
+	wchar_t temp_file[MAX_PATH];
 	HBITMAP hBmpProto;
 };
 
@@ -369,7 +369,7 @@ void SaveImage(SaveProtocolData &d, char *protocol, int format)
 	else d.saved = TRUE;
 }
 
-static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilename, int originalFormat, BOOL square, BOOL grow)
+static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, wchar_t *originalFilename, int originalFormat, BOOL square, BOOL grow)
 {
 	if (!ProtoServiceExists(protocol, PS_SETMYAVATAR))
 		return -1;
@@ -491,10 +491,10 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 	return ret;
 }
 
-static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHookData &data, BOOL allAcceptXML, BOOL allAcceptSWF)
+static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatarHookData &data, BOOL allAcceptXML, BOOL allAcceptSWF)
 {
 	int format = ProtoGetAvatarFormat(szFinalName);
-	if (format == PA_FORMAT_UNKNOWN || _taccess(szFinalName, 4) == -1)
+	if (format == PA_FORMAT_UNKNOWN || _waccess(szFinalName, 4) == -1)
 		return -3;
 
 	// file exists...
@@ -547,14 +547,14 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
 		else {
 			// Copy avatar file to store as global one
-			TCHAR globalFile[1024];
+			wchar_t globalFile[1024];
 			BOOL saved = TRUE;
 			if (FoldersGetCustomPathT(hGlobalAvatarFolder, globalFile, _countof(globalFile), L"")) {
 				mir_sntprintf(globalFile, L"%s%s", g_szDataPath, L"GlobalAvatar");
 				CreateDirectory(globalFile, NULL);
 			}
 
-			TCHAR *ext = _tcsrchr(szFinalName, _T('.')); // Can't be NULL here
+			wchar_t *ext = wcsrchr(szFinalName, '.'); // Can't be NULL here
 			if (format == PA_FORMAT_XML || format == PA_FORMAT_SWF) {
 				mir_sntprintf(globalFile, L"%s\\my_global_avatar%s", globalFile, ext);
 				CopyFile(szFinalName, globalFile, FALSE);
@@ -588,7 +588,7 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 			}
 
 			if (saved) {
-				TCHAR relFile[1024];
+				wchar_t relFile[1024];
 				if (PathToRelativeT(globalFile, relFile, g_szDataPath))
 					db_set_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", relFile);
 				else
@@ -608,10 +608,10 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 	return ret;
 }
 
-INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
+INT_PTR avSetMyAvatar(char* protocol, wchar_t* tszPath)
 {
-	TCHAR FileName[MAX_PATH];
-	TCHAR *szFinalName = NULL;
+	wchar_t FileName[MAX_PATH];
+	wchar_t *szFinalName = NULL;
 	BOOL allAcceptXML;
 	BOOL allAcceptSWF;
 
@@ -664,7 +664,7 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 		CMString filter;
 		FilterGetStrings(filter, allAcceptXML, allAcceptSWF);
 
-		TCHAR inipath[1024];
+		wchar_t inipath[1024];
 		FoldersGetCustomPathT(hMyAvatarsFolder, inipath, _countof(inipath), L".");
 
 		OPENFILENAME ofn = { 0 };
@@ -683,11 +683,11 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 		ofn.lpstrDefExt = L"";
 		ofn.hInstance = g_hInst;
 
-		TCHAR title[256];
+		wchar_t title[256];
 		if (protocol == NULL)
 			mir_sntprintf(title, TranslateT("Set my avatar"));
 		else {
-			TCHAR* prototmp = mir_a2t(protocol);
+			wchar_t* prototmp = mir_a2t(protocol);
 			mir_sntprintf(title, TranslateT("Set my avatar for %s"), prototmp);
 			mir_free(prototmp);
 		}
@@ -698,7 +698,7 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 
 		szFinalName = FileName;
 	}
-	else szFinalName = (TCHAR*)tszPath;
+	else szFinalName = (wchar_t*)tszPath;
 
 	// filename is now set, check it and perform all needed action
 	if (szFinalName[0] == '\0')
@@ -714,7 +714,7 @@ static INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetMyAvatarW(WPARAM wParam, LPARAM lParam)
 {
-	return avSetMyAvatar((char*)wParam, (TCHAR*)lParam);
+	return avSetMyAvatar((char*)wParam, (wchar_t*)lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

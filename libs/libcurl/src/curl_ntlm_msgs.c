@@ -371,9 +371,9 @@ CURLcode Curl_ntlm_create_type1_message(const char *userp,
     if(!useranddomain.tchar_ptr)
       return CURLE_OUT_OF_MEMORY;
 
-    user.const_tchar_ptr = _tcschr(useranddomain.const_tchar_ptr, TEXT('\\'));
+    user.const_tchar_ptr = wcschr(useranddomain.const_tchar_ptr, TEXT('\\'));
     if(!user.const_tchar_ptr)
-      user.const_tchar_ptr = _tcschr(useranddomain.const_tchar_ptr, TEXT('/'));
+      user.const_tchar_ptr = wcschr(useranddomain.const_tchar_ptr, TEXT('/'));
 
     if(user.tchar_ptr) {
       domain.tchar_ptr = useranddomain.tchar_ptr;
@@ -387,22 +387,22 @@ CURLcode Curl_ntlm_create_type1_message(const char *userp,
     }
 
     /* setup ntlm identity's user and length */
-    dup_user.tchar_ptr = _tcsdup(user.tchar_ptr);
+    dup_user.tchar_ptr = wcsdup(user.tchar_ptr);
     if(!dup_user.tchar_ptr) {
       Curl_unicodefree(useranddomain.tchar_ptr);
       return CURLE_OUT_OF_MEMORY;
     }
     ntlm->identity.User = dup_user.tbyte_ptr;
-    ntlm->identity.UserLength = curlx_uztoul(_tcslen(dup_user.tchar_ptr));
+    ntlm->identity.UserLength = curlx_uztoul(wcslen(dup_user.tchar_ptr));
     dup_user.tchar_ptr = NULL;
 
     /* setup ntlm identity's domain and length */
-    dup_domain.tchar_ptr = malloc(sizeof(TCHAR) * (domlen + 1));
+    dup_domain.tchar_ptr = malloc(sizeof(wchar_t) * (domlen + 1));
     if(!dup_domain.tchar_ptr) {
       Curl_unicodefree(useranddomain.tchar_ptr);
       return CURLE_OUT_OF_MEMORY;
     }
-    _tcsncpy(dup_domain.tchar_ptr, domain.tchar_ptr, domlen);
+    wcsncpy(dup_domain.tchar_ptr, domain.tchar_ptr, domlen);
     *(dup_domain.tchar_ptr + domlen) = TEXT('\0');
     ntlm->identity.Domain = dup_domain.tbyte_ptr;
     ntlm->identity.DomainLength = curlx_uztoul(domlen);
@@ -414,14 +414,14 @@ CURLcode Curl_ntlm_create_type1_message(const char *userp,
     passwd.tchar_ptr = Curl_convert_UTF8_to_tchar((char *)passwdp);
     if(!passwd.tchar_ptr)
       return CURLE_OUT_OF_MEMORY;
-    dup_passwd.tchar_ptr = _tcsdup(passwd.tchar_ptr);
+    dup_passwd.tchar_ptr = wcsdup(passwd.tchar_ptr);
     if(!dup_passwd.tchar_ptr) {
       Curl_unicodefree(passwd.tchar_ptr);
       return CURLE_OUT_OF_MEMORY;
     }
     ntlm->identity.Password = dup_passwd.tbyte_ptr;
     ntlm->identity.PasswordLength =
-      curlx_uztoul(_tcslen(dup_passwd.tchar_ptr));
+      curlx_uztoul(wcslen(dup_passwd.tchar_ptr));
     dup_passwd.tchar_ptr = NULL;
 
     Curl_unicodefree(passwd.tchar_ptr);
@@ -433,7 +433,7 @@ CURLcode Curl_ntlm_create_type1_message(const char *userp,
     ntlm->p_identity = NULL;
 
   status = s_pSecFn->AcquireCredentialsHandle(NULL,
-                                              (TCHAR *) TEXT("NTLM"),
+                                              (wchar_t *) TEXT("NTLM"),
                                               SECPKG_CRED_OUTBOUND, NULL,
                                               ntlm->p_identity, NULL, NULL,
                                               &ntlm->handle, &tsDummy);
@@ -448,7 +448,7 @@ CURLcode Curl_ntlm_create_type1_message(const char *userp,
   buf.pvBuffer   = ntlmbuf;
 
   status = s_pSecFn->InitializeSecurityContext(&ntlm->handle, NULL,
-                                               (TCHAR *) TEXT(""),
+                                               (wchar_t *) TEXT(""),
                                                ISC_REQ_CONFIDENTIALITY |
                                                ISC_REQ_REPLAY_DETECT |
                                                ISC_REQ_CONNECTION,
@@ -624,7 +624,7 @@ CURLcode Curl_ntlm_create_type3_message(struct SessionHandle *data,
 
   status = s_pSecFn->InitializeSecurityContext(&ntlm->handle,
                                                &ntlm->c_handle,
-                                               (TCHAR *) TEXT(""),
+                                               (wchar_t *) TEXT(""),
                                                ISC_REQ_CONFIDENTIALITY |
                                                ISC_REQ_REPLAY_DETECT |
                                                ISC_REQ_CONNECTION,

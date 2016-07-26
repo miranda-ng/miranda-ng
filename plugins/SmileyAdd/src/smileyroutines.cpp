@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+#include <tchar.h>
+
 ISmileyBase* CreateSmileyObject(SmileyType *sml);
 ISmileyBase* CreateAniSmileyObject(SmileyType *sml, COLORREF clr, bool ishpp);
 
@@ -29,7 +31,7 @@ bool g_HiddenTextSupported = true;
 const GUID IID_ITextDocument = 
 { 0x8CC497C0, 0xA1DF, 0x11CE, { 0x80,0x98,0x00,0xAA,0x00,0x47,0xBE,0x5D } };
 
-void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, const TCHAR *lpstrText, SmileysQueueType &smllist, const bool firstOnly)
+void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, const wchar_t *lpstrText, SmileysQueueType &smllist, const bool firstOnly)
 {
 	if (lpstrText == NULL || *lpstrText == 0) return;
 
@@ -98,20 +100,20 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 
 		ReplaceSmileyType *dat = new ReplaceSmileyType;
 
-		const TCHAR *textToSearch = lpstrText + smloff;
-		const TCHAR *textSmlStart = lpstrText + (*smlf)[firstSmlRef].pos;
-		const TCHAR *textSmlEnd   = textSmlStart + (*smlf)[firstSmlRef].len;
+		const wchar_t *textToSearch = lpstrText + smloff;
+		const wchar_t *textSmlStart = lpstrText + (*smlf)[firstSmlRef].pos;
+		const wchar_t *textSmlEnd   = textSmlStart + (*smlf)[firstSmlRef].len;
 
 		// check if leading space exist
-		const TCHAR *prech = _tcsdec(textToSearch, textSmlStart);
-		dat->ldspace = prech != NULL ? _istspace(*prech) != 0 : smloff == 0;
+		const wchar_t *prech = _wcsdec(textToSearch, textSmlStart);
+		dat->ldspace = prech != NULL ? iswspace(*prech) != 0 : smloff == 0;
 
 		// check if trailing space exist
-		dat->trspace = *textSmlEnd == 0 || _istspace(*textSmlEnd);
+		dat->trspace = *textSmlEnd == 0 || iswspace(*textSmlEnd);
 
 		// compute text location in RichEdit 
-		dat->loc.cpMin = (long)_tcsnccnt(textToSearch, (*smlf)[firstSmlRef].pos - smloff) + numCharsSoFar;
-		dat->loc.cpMax = numCharsSoFar = (long)_tcsnccnt(textSmlStart, (*smlf)[firstSmlRef].len) + dat->loc.cpMin;
+		dat->loc.cpMin = (long)_wcsncnt(textToSearch, (*smlf)[firstSmlRef].pos - smloff) + numCharsSoFar;
+		dat->loc.cpMax = numCharsSoFar = (long)_wcsncnt(textSmlStart, (*smlf)[firstSmlRef].len) + dat->loc.cpMin;
 
 		if (!opt.EnforceSpaces || (dat->ldspace && dat->trspace)) {
 			dat->ldspace |= !opt.SurroundSmileyWithSpaces;
@@ -143,7 +145,7 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 }
 
 
-void FindSmileyInText(SmileyPackType *smp, const TCHAR *str, unsigned &first, unsigned &size, SmileyType **sml)
+void FindSmileyInText(SmileyPackType *smp, const wchar_t *str, unsigned &first, unsigned &size, SmileyType **sml)
 {
 	SmileysQueueType smllist;
 	LookupAllSmileys(smp, NULL, str, smllist, true);
@@ -221,9 +223,9 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 		// disable screen updates
 		TextDocument->Freeze(&cnt);
 
-		TCHAR classname[20];
+		wchar_t classname[20];
 		GetClassName(hwnd, classname, _countof(classname));
-		bool ishpp = (_tcsncmp(classname, L"THppRichEdit", 12) == 0) || fireView;
+		bool ishpp = (wcsncmp(classname, L"THppRichEdit", 12) == 0) || fireView;
 
 		SetRichCallback(hwnd, NULL, false, true);
 

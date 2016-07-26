@@ -60,9 +60,9 @@ extern struct POPUP_OPTIONS {
 } PopupOptions;
 
 static struct {
-	TCHAR *Text;
+	wchar_t *Text;
 	int Action;
 } PopupActions[] = {
-	LPGENT("Close popup"), PCA_CLOSEPOPUP,
-	LPGENT("Do nothing"), PCA_DONOTHING
+	LPGENW("Close popup"), PCA_CLOSEPOPUP,
+	LPGENW("Do nothing"), PCA_DONOTHING
 };

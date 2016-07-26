@@ -151,7 +151,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 				CSkin::DrawItem(dcMem, &rcWindow, &SkinItems[pContainer->ncActive ? ID_EXTBKFRAME : ID_EXTBKFRAMEINACTIVE]);
 
-				TCHAR szWindowText[512];
+				wchar_t szWindowText[512];
 				GetWindowText(hwndDlg, szWindowText, _countof(szWindowText));
 				szWindowText[511] = 0;
 
@@ -1006,7 +1006,7 @@ panel_found:
 		dat = NULL;
 
 		if (lParam) {               // lParam != 0 means sent by a chat window
-			TCHAR szText[512];
+			wchar_t szText[512];
 			dat = (TWindowData*)GetWindowLongPtr((HWND)wParam, GWLP_USERDATA);
 			GetWindowText((HWND)wParam, szText, _countof(szText));
 			szText[_countof(szText) - 1] = 0;
@@ -1305,9 +1305,9 @@ panel_found:
 
 	case DM_OPTIONSAPPLIED:
 		char szCname[40];
-		TCHAR szTitleFormat[200];
+		wchar_t szTitleFormat[200];
 		{
-			TCHAR *szThemeName = NULL;
+			wchar_t *szThemeName = NULL;
 			DBVARIANT dbv = { 0 };
 
 			szTitleFormat[0] = 0;
@@ -1332,7 +1332,7 @@ panel_found:
 
 			if (szThemeName != NULL) {
 				PathToAbsoluteT(szThemeName, pContainer->szAbsThemeFile, M.getDataPath());
-				_tcsncpy_s(pContainer->szRelThemeFile, szThemeName, _TRUNCATE);
+				wcsncpy_s(pContainer->szRelThemeFile, szThemeName, _TRUNCATE);
 				db_free(&dbv);
 			}
 			else pContainer->szAbsThemeFile[0] = pContainer->szRelThemeFile[0] = 0;
@@ -1748,7 +1748,7 @@ panel_found:
 // The WM_DESTROY handler of the container DlgProc is responsible for mir_free()'ing the
 // pointer and for removing the struct from the linked list.
 
-TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hContactFrom)
+TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT hContactFrom)
 {
 	if (CMimAPI::m_shutDown)
 		return NULL;
@@ -1756,7 +1756,7 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hCo
 	TContainerData *pContainer = (TContainerData*)mir_calloc(sizeof(TContainerData));
 	if (pContainer == NULL)
 		return NULL;
-	_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
+	wcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
 	AppendToContainerList(pContainer);
 
 	if (M.GetByte("limittabs", 0) && !mir_tstrcmp(name, L"default"))
@@ -1781,11 +1781,11 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hCo
 				break;
 			}
 
-			if (!_tcsncmp(tszName, name, CONTAINER_NAMELEN)) {
+			if (!wcsncmp(tszName, name, CONTAINER_NAMELEN)) {
 				pContainer->iContainerIndex = i;
 				iFound = TRUE;
 			}
-			else if (!_tcsncmp(tszName, L"**mir_free**", CONTAINER_NAMELEN))
+			else if (!wcsncmp(tszName, L"**mir_free**", CONTAINER_NAMELEN))
 				iFirstFree = i;
 		} while (++i && iFound == FALSE);
 	}
@@ -1874,12 +1874,12 @@ void TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat)
 //
 // size = max length of target string
 
-int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, size_t size)
+int TSAPI CutContactName(const wchar_t *oldname, wchar_t *newname, size_t size)
 {
 	if (mir_tstrlen(oldname) <= PluginConfig.m_iTabNameLimit)
-		_tcsncpy_s(newname, size, oldname, _TRUNCATE);
+		wcsncpy_s(newname, size, oldname, _TRUNCATE);
 	else {
-		TCHAR fmt[30];
+		wchar_t fmt[30];
 		mir_sntprintf(fmt, L"%%%d.%ds...", PluginConfig.m_iTabNameLimit, PluginConfig.m_iTabNameLimit);
 		mir_sntprintf(newname, size, fmt, oldname);
 	}
@@ -1904,7 +1904,7 @@ static TContainerData* TSAPI AppendToContainerList(TContainerData *pContainer)
 	return p;
 }
 
-TContainerData* TSAPI FindContainerByName(const TCHAR *name)
+TContainerData* TSAPI FindContainerByName(const wchar_t *name)
 {
 	if (name == NULL || mir_tstrlen(name) == 0)
 		return 0;
@@ -1913,7 +1913,7 @@ TContainerData* TSAPI FindContainerByName(const TCHAR *name)
 		return NULL;
 
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-		if (!_tcsncmp(p->szName, name, CONTAINER_NAMELEN))
+		if (!wcsncmp(p->szName, name, CONTAINER_NAMELEN))
 			return p;
 
 	// error, didn't find it.
@@ -2006,11 +2006,11 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 // retrieve the container name for the given contact handle.
 // if none is assigned, return the name of the default container
 
-int TSAPI GetContainerNameForContact(MCONTACT hContact, TCHAR *szName, int iNameLen)
+int TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNameLen)
 {
 	// single window mode using cloned (temporary) containers
 	if (M.GetByte("singlewinmode", 0)) {
-		_tcsncpy_s(szName, iNameLen, L"Message Session", _TRUNCATE);
+		wcsncpy_s(szName, iNameLen, L"Message Session", _TRUNCATE);
 		return 0;
 	}
 
@@ -2018,21 +2018,21 @@ int TSAPI GetContainerNameForContact(MCONTACT hContact, TCHAR *szName, int iName
 	if (M.GetByte("useclistgroups", 0)) {
 		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		if (tszGroup == NULL) {
-			_tcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
+			wcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
 			return 0;
 		}
 
-		_tcsncpy_s(szName, iNameLen, tszGroup, _TRUNCATE);
+		wcsncpy_s(szName, iNameLen, tszGroup, _TRUNCATE);
 		return 1;
 	}
 
 	ptrT tszContainerName(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
 	if (tszContainerName == NULL) {
-		_tcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
+		wcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
 		return 0;
 	}
 
-	_tcsncpy_s(szName, iNameLen, tszContainerName, _TRUNCATE);
+	wcsncpy_s(szName, iNameLen, tszContainerName, _TRUNCATE);
 	return 1;
 }
 
@@ -2067,7 +2067,7 @@ void TSAPI DeleteContainer(int iIndex)
 	db_unset(NULL, SRMSGMOD_T, szSetting);
 }
 
-void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
+void TSAPI RenameContainer(int iIndex, const wchar_t *szNew)
 {
 	if (mir_tstrlen(szNew) == 0)
 		return;
@@ -2109,7 +2109,7 @@ HMENU TSAPI BuildContainerMenu()
 		if (tszName == NULL)
 			break;
 
-		if (_tcsncmp(tszName, L"**mir_free**", CONTAINER_NAMELEN))
+		if (wcsncmp(tszName, L"**mir_free**", CONTAINER_NAMELEN))
 			AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !mir_tstrcmp(tszName, L"default") ? TranslateT("Default container") : tszName);
 		i++;
 	}

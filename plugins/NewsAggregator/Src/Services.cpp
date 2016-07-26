@@ -37,10 +37,10 @@ int OnFoldersChanged(WPARAM, LPARAM)
 
 int NewsAggrInit(WPARAM, LPARAM)
 {
-	if (hNewsAggregatorFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("News Aggregator"), MIRANDA_USERDATAT L"\\Avatars\\" DEFAULT_AVATARS_FOLDER))
+	if (hNewsAggregatorFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("News Aggregator"), MIRANDA_USERDATAT L"\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)))
 		FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, L"");
 	else
-		mir_tstrncpy(tszRoot, VARST(L"%miranda_userdata%\\Avatars\\" DEFAULT_AVATARS_FOLDER), _countof(tszRoot));
+		mir_tstrncpy(tszRoot, VARST(L"%miranda_userdata%\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)), _countof(tszRoot));
 
 	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
@@ -211,7 +211,7 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && !ThreadRunning)
 		mir_forkthread(UpdateThreadProc, (void *)TRUE);
 
-	TCHAR *ptszImageURL = db_get_tsa(pai->hContact, MODULE, "ImageURL");
+	wchar_t *ptszImageURL = db_get_tsa(pai->hContact, MODULE, "ImageURL");
 	if(ptszImageURL == NULL)
 		return GAIR_NOAVATAR;
 
@@ -228,9 +228,9 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 void UpdateMenu(bool State)
 {
 	if (!State) // to enable auto-update
-		Menu_ModifyItem(hService2[0], LPGENT("Auto Update Enabled"), GetIconHandle("enabled"));
+		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Enabled"), GetIconHandle("enabled"));
 	else  // to disable auto-update
-		Menu_ModifyItem(hService2[0], LPGENT("Auto Update Disabled"), GetIconHandle("disabled"));
+		Menu_ModifyItem(hService2[0], LPGENW("Auto Update Disabled"), GetIconHandle("disabled"));
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : 0);
 	db_set_b(NULL, MODULE, "AutoUpdate", !State);

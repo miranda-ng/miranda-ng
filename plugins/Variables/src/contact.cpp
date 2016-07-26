@@ -22,7 +22,7 @@
 struct _tagType
 {
 	int    cnfCode;
-	TCHAR* str;
+	wchar_t* str;
 }
 static builtinCnfs[] =
 {
@@ -77,7 +77,7 @@ static builtinCnfs[] =
 struct CONTACTCE
 {
 	int flags;
-	TCHAR* tszContact;
+	wchar_t* tszContact;
 	MCONTACT hContact;
 }; 
 
@@ -94,7 +94,7 @@ static OBJLIST<CONTACTCE> arContactCache(20, SortContactCache);
 static mir_cs csContactCache;
 
 // converts a string into a CNF_ type
-BYTE getContactInfoType(TCHAR* type)
+BYTE getContactInfoType(wchar_t* type)
 {
 	if (type == NULL || mir_tstrlen(type) == 0)
 		return 0;
@@ -107,7 +107,7 @@ BYTE getContactInfoType(TCHAR* type)
 }
 
 // returns info about a contact as a string
-TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
+wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 {
 	/* returns dynamic allocated buffer with info, or NULL if failed */
 	if (hContact == NULL)
@@ -117,7 +117,7 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 	if (szProto == NULL)
 		return NULL;
 
-	TCHAR *res = NULL;
+	wchar_t *res = NULL;
 	switch (type) {
 	case CCNF_PROTOID:
 		return mir_a2t(szProto);
@@ -168,7 +168,7 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 }
 
 // MS_VARS_GETCONTACTFROMSTRING
-MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch)
+MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMatch)
 {
 	/* service to retrieve a contact's HANDLE from a given string */
 	if (tszContact == NULL || *tszContact == 0)
@@ -183,7 +183,7 @@ MCONTACT getContactFromString(const TCHAR *tszContact, DWORD dwFlags, int nMatch
 
 	// search the cache
 	{
-		CONTACTCE tmp = { dwFlags, (TCHAR*)tszContact, 0 };
+		CONTACTCE tmp = { dwFlags, (wchar_t*)tszContact, 0 };
 
 		mir_cslock lck(csContactCache);
 		CONTACTCE *p = arContactCache.find(&tmp);
@@ -355,18 +355,18 @@ int deinitContactModule()
 
 // returns a string in the form <PROTOID:UNIQUEID>, cannot be _HANDLE_!
 // result must be freed
-TCHAR* encodeContactToString(MCONTACT hContact)
+wchar_t* encodeContactToString(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return NULL;
 
-	TCHAR *tszUniqueId = getContactInfoT(CNF_UNIQUEID, hContact);
+	wchar_t *tszUniqueId = getContactInfoT(CNF_UNIQUEID, hContact);
 	if (tszUniqueId == NULL)
 		return NULL;
 
 	size_t size = mir_tstrlen(tszUniqueId) + mir_strlen(szProto) + 4;
-	TCHAR *tszResult = (TCHAR *)mir_calloc(size * sizeof(TCHAR));
+	wchar_t *tszResult = (wchar_t *)mir_calloc(size * sizeof(wchar_t));
 	if (tszResult)
 		mir_sntprintf(tszResult, size, L"<%S:%s>", szProto, tszUniqueId);
 	return tszResult;

@@ -233,7 +233,7 @@ extern HINSTANCE hinstance;
 extern BOOL g_bIMGtagButton;
 extern HANDLE hHookToolBarLoadedEvt;
 extern TLogIcon msgLogIcons[NR_LOGICONS * 3];
-extern const TCHAR *pszIDCSAVE_save, *pszIDCSAVE_close;
+extern const wchar_t *pszIDCSAVE_save, *pszIDCSAVE_close;
 extern char *TemplateNames[];
 extern HANDLE hUserPrefsWindowList;
 extern TCpTable cpTable[];
@@ -246,7 +246,7 @@ extern CREOleCallback2 reOleCallback2;
 
 int  LoadSendRecvMessageModule(void);
 int  SplitmsgShutdown(void);
-void LogErrorMessage(HWND hwndDlg, TWindowData *dat, int i, TCHAR *szMsg);
+void LogErrorMessage(HWND hwndDlg, TWindowData *dat, int i, wchar_t *szMsg);
 int  Chat_Load(), Chat_Unload();
 void FreeLogFonts();
 void ImageDataInsertBitmap(IRichEditOle *ole, HBITMAP hBm);

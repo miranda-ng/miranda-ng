@@ -44,7 +44,7 @@ static int findHeader(const NETLIBHTTPREQUEST *nlhrReply, const char *hdr)
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
 //
-int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szData)
+int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **szData)
 {
 	if (userAgent == NULL || userAgent[0] == 0)
 		userAgent = NETLIB_USER_AGENT;
@@ -77,7 +77,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szD
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 	if (nlhrReply == 0) {
 		// if the data does not downloaded successfully (ie. disconnected), then return 1000 as error code
-		*szData = (TCHAR*)mir_alloc(512);
+		*szData = (wchar_t*)mir_alloc(512);
 		// store the error code in szData
 		mir_tstrcpy(*szData, L"NetLib error occurred!!");
 		hNetlibHttp = NULL;
@@ -124,7 +124,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szD
 				}
 			}
 
-			TCHAR *retVal = NULL;
+			wchar_t *retVal = NULL;
 			if (bIsUtf)
 				retVal = mir_utf8decodeT(nlhrReply->pData);
 			if (retVal == NULL)
@@ -135,7 +135,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, TCHAR **szD
 	}
 	// return error code if the recieved code is neither 200 OK nor 302 Moved
 	else {
-		*szData = (TCHAR*)mir_alloc(512);
+		*szData = (wchar_t*)mir_alloc(512);
 		// store the error code in szData
 		mir_sntprintf(*szData, 512, L"Error occured! HTTP Error: %i\n", nlhrReply->resultCode);
 		result = nlhrReply->resultCode;

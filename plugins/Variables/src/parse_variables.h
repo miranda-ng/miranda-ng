@@ -18,8 +18,8 @@
 */
 
 typedef struct {
-	TCHAR *szName;
-	TCHAR *szText;
+	wchar_t *szName;
+	wchar_t *szText;
 	DWORD dwOwnerThread;
 } VARIABLEREGISTER;
 

@@ -20,7 +20,7 @@
 #include "commonheaders.h"
 #include "gen_helpers.h"
 
-TCHAR *Hlp_GetProtocolName(const char *proto) {
+wchar_t *Hlp_GetProtocolName(const char *proto) {
 
 	char protoname[256];
 	if ((!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
@@ -30,27 +30,27 @@ TCHAR *Hlp_GetProtocolName(const char *proto) {
 
 }
 
-TCHAR *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
+wchar_t *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 
 	int len = SendDlgItemMessage(hwndDlg, nIDDlgItem, WM_GETTEXTLENGTH, 0, 0);
 	if (len < 0)
 		return NULL;
 
-	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
-	memset(res, 0, ((len + 1) * sizeof(TCHAR)));
+	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
+	memset(res, 0, ((len + 1) * sizeof(wchar_t)));
 	GetDlgItemText(hwndDlg, nIDDlgItem, res, len + 1);
 
 	return res;
 }
 
-TCHAR *Hlp_GetWindowText(HWND hwndDlg)
+wchar_t *Hlp_GetWindowText(HWND hwndDlg)
 {
 	int len = GetWindowTextLength(hwndDlg);
 	if (len < 0)
 		return NULL;
 
-	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
-	memset(res, 0, ((len + 1) * sizeof(TCHAR)));
+	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
+	memset(res, 0, ((len + 1) * sizeof(wchar_t)));
 	GetWindowText(hwndDlg, res, len + 1);
 
 	return res;
@@ -94,11 +94,11 @@ int AddDebugLogMessageA(const char* fmt, ...)
 	return res;
 }
 
-int AddDebugLogMessage(const TCHAR* fmt, ...)
+int AddDebugLogMessage(const wchar_t* fmt, ...)
 {
 
 	int res;
-	TCHAR tszText[MAX_DEBUG], tszFinal[MAX_DEBUG];
+	wchar_t tszText[MAX_DEBUG], tszFinal[MAX_DEBUG];
 	char *szFinal;
 	va_list va;
 
@@ -108,7 +108,7 @@ int AddDebugLogMessage(const TCHAR* fmt, ...)
 #ifdef MODULENAME
 	mir_sntprintf(tszFinal, L"%s: %s", MODULENAME, tszText);
 #else
-	_tcsncpy(tszFinal, tszText, _countof(tszFinal));
+	wcsncpy(tszFinal, tszText, _countof(tszFinal));
 #endif
 
 
@@ -120,15 +120,15 @@ int AddDebugLogMessage(const TCHAR* fmt, ...)
 	return res;
 }
 
-int ttoi(TCHAR *string)
+int ttoi(wchar_t *string)
 {
-	return (string == NULL) ? 0 : _ttoi(string);
+	return (string == NULL) ? 0 : _wtoi(string);
 }
 
-TCHAR *itot(int num)
+wchar_t *itot(int num)
 {
-	TCHAR tRes[32];
+	wchar_t tRes[32];
 	// check this
-	_itot(num, tRes, 10);
+	_itow(num, tRes, 10);
 	return mir_tstrdup(tRes);
 }

@@ -32,7 +32,7 @@ static HANDLE hHookModulesLoaded, hHookPreShutdown;
 // pszFilePath needs to be allocated using mir_alloc()
 static void __stdcall FileActionAsync(void *param)
 {
-	TCHAR *pszFilePath = (TCHAR*)param;
+	wchar_t *pszFilePath = (wchar_t*)param;
 	/* invoke main handler */
 	switch (InvokeFileHandler(pszFilePath)) { /* pszFilePath is always a long path name */
 	case 0: /* success */ break;
@@ -48,7 +48,7 @@ static void __stdcall FileActionAsync(void *param)
 // pszUrl needs to be allocated using mir_alloc()
 static void __stdcall UrlActionAsync(void *param)
 {
-	TCHAR *pszUrl = (TCHAR*)param;
+	wchar_t *pszUrl = (wchar_t*)param;
 	/* invoke main handler */
 	switch (InvokeUrlHandler(pszUrl)) {
 	case 0: /* success */ break;
@@ -68,16 +68,16 @@ static void __stdcall UrlActionAsync(void *param)
 
 // returned pointer points into a substring of ppszString
 // returns an empty string if the string does not have enough arguments
-static TCHAR* GetExecuteParam(TCHAR **ppszString)
+static wchar_t* GetExecuteParam(wchar_t **ppszString)
 {
-	bool fQuoted = (**ppszString == _T('"'));
-	TCHAR *pszParam = *ppszString;
+	bool fQuoted = (**ppszString == '"');
+	wchar_t *pszParam = *ppszString;
 	if (fQuoted)
 		pszParam++;
-	TCHAR *p = _tcschr(pszParam, (TCHAR)(fQuoted ? _T('"') : _T(',')));
+	wchar_t *p = wcschr(pszParam, (wchar_t)(fQuoted ? '"' : ','));
 	if (p != NULL) {
 		*(p++) = 0;
-		if (fQuoted && *p == _T(',')) p++;
+		if (fQuoted && *p == ',') p++;
 	}
 	else p = &pszParam[mir_tstrlen(pszParam)];
 	*ppszString = p;
@@ -108,10 +108,10 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		if (UnpackDDElParam(msg, lParam, NULL, (PUINT_PTR)&hCommand)) {
 			/* ANSI execute command can't happen for shell */
 			if (IsWindowUnicode((HWND)wParam)) {
-				TCHAR *pszCommand = (TCHAR*)GlobalLock(hCommand);
+				wchar_t *pszCommand = (wchar_t*)GlobalLock(hCommand);
 				if (pszCommand != NULL) {
-					TCHAR *pszAction = GetExecuteParam(&pszCommand);
-					TCHAR *pszArg = GetExecuteParam(&pszCommand);
+					wchar_t *pszAction = GetExecuteParam(&pszCommand);
+					wchar_t *pszArg = GetExecuteParam(&pszCommand);
 					if (pszArg != NULL) {
 						/* we are inside miranda here, we make it async so the shell does
 							* not timeout regardless what the plugins try to do. */
@@ -161,14 +161,14 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd, UINT msg, WPARAM wParam, LPA
 }
 
 // CloseHandle() the return value
-static HANDLE StartupMainProcess(TCHAR *pszDatabasePath)
+static HANDLE StartupMainProcess(wchar_t *pszDatabasePath)
 {
-	TCHAR *p, szPath[MAX_PATH];
+	wchar_t *p, szPath[MAX_PATH];
 
 	/* we are inside RunDll32 here */
 	if (!GetModuleFileName(hInst, szPath, _countof(szPath))) return NULL;
-	p = _tcsrchr(szPath, _T('\\'));
-	if (p != NULL) { *p = 0; p = _tcsrchr(szPath, _T('\\')); }
+	p = wcsrchr(szPath, '\\');
+	if (p != NULL) { *p = 0; p = wcsrchr(szPath, '\\'); }
 	if (p == NULL) return NULL;
 	mir_tstrcpy(++p, L"miranda32.exe");
 
@@ -187,7 +187,7 @@ extern "C" {
 #endif 
 
 	// entry point for RunDll32, this is also WaitForDDEW
-	__declspec(dllexport) void CALLBACK WaitForDDE(HWND, HINSTANCE, TCHAR *pszCmdLine, int)
+	__declspec(dllexport) void CALLBACK WaitForDDE(HWND, HINSTANCE, wchar_t *pszCmdLine, int)
 	{
 		HANDLE pHandles[2];
 		DWORD dwTick;

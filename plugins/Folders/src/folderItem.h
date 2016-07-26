@@ -32,30 +32,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class CFolderItem
 {
 	char  *m_szSection, *m_szName;
-	TCHAR *m_tszFormat, *m_tszOldFormat, *m_tszUserName;
+	wchar_t *m_tszFormat, *m_tszOldFormat, *m_tszUserName;
 
-	void GetDataFromDatabase(const TCHAR *szNotFound);
+	void GetDataFromDatabase(const wchar_t *szNotFound);
 	void WriteDataToDatabase();
 
 	int FolderCreateDirectory(int showFolder = 0);
 	int FolderDeleteOldDirectory(int showFolder = 0);
 public:
-	CFolderItem(const char *sectionName, const char *name, const TCHAR *format, const TCHAR *userName);
+	CFolderItem(const char *sectionName, const char *name, const wchar_t *format, const wchar_t *userName);
 	virtual ~CFolderItem();
 
 	CMString Expand();
 	void Save();
 
 	int IsEqual(const CFolderItem *other);
-	int IsEqual(const char *section, const TCHAR *name);
-	int IsEqualTranslated(const char *trSection, const TCHAR *trName);
+	int IsEqual(const char *section, const wchar_t *name);
+	int IsEqualTranslated(const char *trSection, const wchar_t *trName);
 	int operator ==(const CFolderItem *other);
 
 	__inline const char*  GetSection() const { return m_szSection; }
 	__inline const char*  GetName() const { return m_szName; }
-	__inline const TCHAR* GetUserName() const { return m_tszUserName; }
-	__inline const TCHAR* GetFormat() const { return m_tszFormat; }
-	void SetFormat(const TCHAR *newFormat);
+	__inline const wchar_t* GetUserName() const { return m_tszUserName; }
+	__inline const wchar_t* GetFormat() const { return m_tszFormat; }
+	void SetFormat(const wchar_t *newFormat);
 };
 
 typedef CFolderItem *PFolderItem;

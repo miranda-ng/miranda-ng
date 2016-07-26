@@ -2,17 +2,17 @@
 
 #define SCRIPT "Script"
 
-CMLuaScript::CMLuaScript(lua_State *L, const TCHAR *path)
+CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
 	: L(L), status(None), unloadRef(LUA_NOREF)
 {
 	mir_tstrcpy(filePath, path);
 
-	fileName = _tcsrchr(filePath, '\\') + 1;
-	TCHAR *dot = _tcsrchr(fileName, '.');
+	fileName = wcsrchr(filePath, '\\') + 1;
+	wchar_t *dot = wcsrchr(fileName, '.');
 
 	size_t length = mir_tstrlen(fileName) - mir_tstrlen(dot) + 1;
 
-	ptrT name((TCHAR*)mir_calloc(sizeof(TCHAR) * (length + 1)));
+	ptrT name((wchar_t*)mir_calloc(sizeof(wchar_t) * (length + 1)));
 	mir_tstrncpy(name, fileName, length);
 
 	moduleName = mir_utf8encodeT(name);
@@ -76,12 +76,12 @@ const char* CMLuaScript::GetModuleName() const
 	return moduleName;
 }
 
-const TCHAR* CMLuaScript::GetFilePath() const
+const wchar_t* CMLuaScript::GetFilePath() const
 {
 	return filePath;
 }
 
-const TCHAR* CMLuaScript::GetFileName() const
+const wchar_t* CMLuaScript::GetFileName() const
 {
 	return fileName;
 }

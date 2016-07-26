@@ -7,13 +7,13 @@ class WASocketConnection;
 
 struct WAChatInfo
 {
-	WAChatInfo(TCHAR *_jid, TCHAR *_nick) :
+	WAChatInfo(wchar_t *_jid, wchar_t *_nick) :
 		tszJid(_jid), tszNick(_nick)
 	{
 		bActive = false;
 	}
 
-	map<std::string, std::tstring> m_unsentMsgs;
+	map<std::string, std::wstring> m_unsentMsgs;
 	ptrT tszJid, tszNick, tszOwner;
 	bool bActive;
 
@@ -23,7 +23,7 @@ struct WAChatInfo
 class WhatsAppProto : public PROTO<WhatsAppProto>, public WAListener, public WAGroupListener
 {
 public:
-	WhatsAppProto(const char *proto_name, const TCHAR *username);
+	WhatsAppProto(const char *proto_name, const wchar_t *username);
 	~WhatsAppProto();
 
 	inline bool isOnline() const
@@ -44,13 +44,13 @@ public:
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
 
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles);
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
@@ -85,7 +85,7 @@ public:
 	MCONTACT ContactIDToHContact(const std::string&);
 	void     SetAllContactStatuses(int status, bool reset_client = false);
 	void     UpdateStatusMsg(MCONTACT hContact);
-	TCHAR*   GetContactDisplayName(const string &jid);
+	wchar_t*   GetContactDisplayName(const string &jid);
 	void     RequestFriendship(MCONTACT hContact);
 
 	// Group chats ///////////////////////////////////////////////////////////////////////
@@ -98,11 +98,11 @@ public:
 	void     ChatLogMenuHook(WAChatInfo *pInfo, GCHOOK *gch);
 	void     NickListMenuHook(WAChatInfo *pInfo, GCHOOK *gch);
 
-	void     AddChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid);
+	void     AddChatUser(WAChatInfo *pInfo, const wchar_t *ptszJid);
 	void     EditChatSubject(WAChatInfo *pInfo);
 	void     InviteChatUser(WAChatInfo *pInfo);
-	void     KickChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid);
-	TCHAR*   GetChatUserNick(const std::string &jid);
+	void     KickChatUser(WAChatInfo *pInfo, const wchar_t *ptszJid);
+	wchar_t*   GetChatUserNick(const std::string &jid);
 	void     SetChatAvatar(WAChatInfo *pInfo);
 
 	void     onGroupMessageReceived(const FMessage &fmsg);
@@ -131,15 +131,15 @@ private:
 
 	/// Avatars //////////////////////////////////////////////////////////////////////////
 
-	std::tstring GetAvatarFileName(MCONTACT);
-	std::tstring m_tszAvatarFolder;
+	std::wstring GetAvatarFileName(MCONTACT);
+	std::wstring m_tszAvatarFolder;
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
-	int InternalSetAvatar(MCONTACT hContact, const char *szJid, const TCHAR *ptszFileName);
+	int InternalSetAvatar(MCONTACT hContact, const char *szJid, const wchar_t *ptszFileName);
 
 	// Private data //////////////////////////////////////////////////////////////////////
 	
@@ -196,8 +196,8 @@ protected:
 
 	// Information providing /////////////////////////////////////////////////////////////
 
-	void NotifyEvent(const TCHAR *title, const TCHAR *info, MCONTACT contact, DWORD flags, TCHAR *url = NULL);
-	void NotifyEvent(const std::string &title, const std::string &info, MCONTACT contact, DWORD flags, TCHAR *url = NULL);
+	void NotifyEvent(const wchar_t *title, const wchar_t *info, MCONTACT contact, DWORD flags, wchar_t *url = NULL);
+	void NotifyEvent(const std::string &title, const std::string &info, MCONTACT contact, DWORD flags, wchar_t *url = NULL);
 };
 
 #endif

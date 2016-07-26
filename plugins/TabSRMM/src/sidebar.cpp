@@ -30,7 +30,7 @@
 
 TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 	{
-		LPGENT("Like tabs, vertical text orientation"),
+		LPGENW("Like tabs, vertical text orientation"),
 		26, 30,
 		SIDEBARLAYOUT_DYNHEIGHT | SIDEBARLAYOUT_VERTICALORIENTATION,
 		CSideBar::m_DefaultContentRenderer,
@@ -40,7 +40,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		SIDEBARLAYOUT_VERTICAL
 	},
 	{
-		LPGENT("Compact layout, horizontal buttons"),
+		LPGENW("Compact layout, horizontal buttons"),
 		100, 24,
 		0,
 		CSideBar::m_DefaultContentRenderer,
@@ -50,7 +50,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		SIDEBARLAYOUT_NORMAL
 	},
 	{
-		LPGENT("Advanced layout with avatars"),
+		LPGENW("Advanced layout with avatars"),
 		140, 40,
 		SIDEBARLAYOUT_NOCLOSEBUTTONS,
 		CSideBar::m_AdvancedContentRenderer,
@@ -60,7 +60,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		SIDEBARLAYOUT_NORMAL
 	},
 	{
-		LPGENT("Advanced with avatars, vertical orientation"),
+		LPGENW("Advanced with avatars, vertical orientation"),
 		40, 40,
 		SIDEBARLAYOUT_DYNHEIGHT | SIDEBARLAYOUT_VERTICALORIENTATION | SIDEBARLAYOUT_NOCLOSEBUTTONS,
 		CSideBar::m_AdvancedContentRenderer,
@@ -140,11 +140,11 @@ const SIZE& CSideBarButton::measureItem()
 		m_sideBarLayout->pfnMeasureItem(this);        // use the current layout's function, if available, else use default
 	else {
 		HDC dc = ::GetDC(m_hwnd);
-		TCHAR	 tszLabel[255];
+		wchar_t	 tszLabel[255];
 
 		HFONT oldFont = reinterpret_cast<HFONT>(::SelectObject(dc, ::GetStockObject(DEFAULT_GUI_FONT)));
 
-		_tcsncpy_s(tszLabel, m_dat->newtitle, _TRUNCATE);
+		wcsncpy_s(tszLabel, m_dat->newtitle, _TRUNCATE);
 		::GetTextExtentPoint32(dc, tszLabel, (int)mir_tstrlen(tszLabel), &sz);
 
 		sz.cx += 28;

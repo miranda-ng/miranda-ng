@@ -51,14 +51,13 @@ EXTERN_C MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, int hLang);
 
 #define Translate(s) TranslateA_LP(s, hLangpack)
 #define TranslateW(s) TranslateW_LP(s, hLangpack)
+#define TranslateT(s) TranslateW_LP(_A2W(s), hLangpack)
 #define TranslateDialogDefault(h) TranslateDialog_LP(h,hLangpack)
 
 #ifdef _UNICODE
-	#define TranslateT(s)	 TranslateW_LP(_T(s),hLangpack)
 	#define TranslateTS(s)	 TranslateW_LP(s,hLangpack)
 	#define TranslateTH(l,s) TranslateW_LP(s,l)
 #else
-	#define TranslateT(s)	 TranslateA_LP(s,hLangpack)
 	#define TranslateTS(s)	 TranslateA_LP(s,hLangpack)
 	#define TranslateTH(l,s) TranslateA_LP(s,l)
 #endif
@@ -70,11 +69,7 @@ EXTERN_C MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, int hLang);
 
 #define LPGEN(s)			s
 #define LPGENW(s)			L ## s
-#ifdef _UNICODE
-	#define LPGENT(s)		_T(s)
-#else
-	#define LPGENT(s)		s
-#endif
+
 //Those macros do NOTHING. They are just markers for lpgen.pl.
 
 /////////////////////////////////////////////////////////////////////////////////////////

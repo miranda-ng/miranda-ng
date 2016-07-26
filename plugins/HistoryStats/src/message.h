@@ -56,7 +56,7 @@ public:
 		m_Timestamp = localTimestamp;
 	}
 
-	void assignText(const TCHAR* msg, ext::string::size_type len)
+	void assignText(const wchar_t* msg, ext::string::size_type len)
 	{
 		m_RawSource = msg;
 		m_nLength = len;

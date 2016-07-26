@@ -19,7 +19,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": incoming avatar (%d) from (%d)", fileNumber, friendNumber);
 
 				ptrT address(proto->getTStringA(hContact, TOX_SETTINGS_ID));
-				TCHAR avatarName[MAX_PATH];
+				wchar_t avatarName[MAX_PATH];
 				mir_sntprintf(avatarName, MAX_PATH, L"%s.png", address);
 
 				AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
@@ -45,7 +45,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 				ptrA rawName((char*)mir_alloc(filenameLength + 1));
 				memcpy(rawName, fileName, filenameLength);
 				rawName[filenameLength] = 0;
-				TCHAR *name = mir_utf8decodeT(rawName);
+				wchar_t *name = mir_utf8decodeT(rawName);
 
 				FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
 				transfer->pfts.flags |= PFTS_RECEIVING;
@@ -56,8 +56,8 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.descr.t = L"";
-				pre.files.t = &name;
+				pre.descr.w = L"";
+				pre.files.w = &name;
 				pre.lParam = (LPARAM)transfer;
 				ProtoChainRecvFile(hContact, &pre);
 			}
@@ -71,20 +71,20 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 }
 
 // file request is allowed
-HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *tszPath)
+HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *tszPath)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 	transfer->pfts.tszWorkingDir = mir_tstrdup(tszPath);
 
 	// stupid fix
-	TCHAR fullPath[MAX_PATH];
+	wchar_t fullPath[MAX_PATH];
 	mir_sntprintf(fullPath, L"%s\\%s", transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
 	transfer->ChangeName(fullPath);
 
 	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts))
 	{
 		int action = FILERESUME_OVERWRITE;
-		const TCHAR **szFilename = (const TCHAR**)mir_alloc(sizeof(TCHAR*) * 2);
+		const wchar_t **szFilename = (const wchar_t**)mir_alloc(sizeof(wchar_t*) * 2);
 		szFilename[0] = fullPath;
 		szFilename[1] = NULL;
 		OnFileResume(hTransfer, &action, szFilename);
@@ -95,7 +95,7 @@ HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *
 }
 
 // if file is exists
-int CToxProto::OnFileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename)
+int CToxProto::OnFileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 
@@ -111,7 +111,7 @@ int CToxProto::OnFileResume(HANDLE hTransfer, int *action, const TCHAR **szFilen
 
 	ToxHexAddress pubKey = GetContactPublicKey(transfer->friendNumber);
 
-	TCHAR *mode = *action == FILERESUME_OVERWRITE ? L"wb" : L"ab";
+	wchar_t *mode = *action == FILERESUME_OVERWRITE ? L"wb" : L"ab";
 	if (!transfer->OpenFile(mode))
 	{
 		debugLogA(__FUNCTION__": failed to open file (%d) from %s(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
@@ -200,23 +200,23 @@ void CToxProto::OnDataReceiving(Tox*, uint32_t friendNumber, uint32_t fileNumber
 /* FILE SENDING */
 
 // outcoming file flow
-HANDLE CToxProto::OnSendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles)
+HANDLE CToxProto::OnSendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles)
 {
 	int32_t friendNumber = GetToxFriendNumber(hContact);
 	if (friendNumber == UINT32_MAX)
 		return NULL;
 
-	FILE *hFile = _tfopen(ppszFiles[0], L"rb");
+	FILE *hFile = _wfopen(ppszFiles[0], L"rb");
 	if (hFile == NULL)
 	{
 		debugLogA(__FUNCTION__": cannot open file %s", ppszFiles[0]);
 		return NULL;
 	}
 
-	TCHAR *fileName = _tcsrchr(ppszFiles[0], '\\') + 1;
+	wchar_t *fileName = wcsrchr(ppszFiles[0], '\\') + 1;
 	size_t fileDirLength = fileName - ppszFiles[0];
-	TCHAR *fileDir = (TCHAR*)mir_alloc(sizeof(TCHAR)*(fileDirLength + 1));
-	_tcsncpy(fileDir, ppszFiles[0], fileDirLength);
+	wchar_t *fileDir = (wchar_t*)mir_alloc(sizeof(wchar_t)*(fileDirLength + 1));
+	wcsncpy(fileDir, ppszFiles[0], fileDirLength);
 	fileDir[fileDirLength] = '\0';
 
 	_fseeki64(hFile, 0, SEEK_END);

@@ -72,7 +72,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static PROTO_INTERFACE* protoInit(const char *proto_name,const TCHAR *username)
+static PROTO_INTERFACE* protoInit(const char *proto_name,const wchar_t *username)
 {
 	MinecraftDynmapProto *proto = new MinecraftDynmapProto(proto_name, username);
 	g_Instances.insert(proto);

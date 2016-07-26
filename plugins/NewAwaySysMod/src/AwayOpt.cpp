@@ -115,13 +115,13 @@ static Dlg1DefMsgDlgItems[] = {
 
 struct {
 	int DlgItem, IconIndex;
-	TCHAR* Text;
+	wchar_t* Text;
 }
 static Dlg1Buttons[] = {
-	IDC_MESSAGEDLG_NEWMSG, ILI_NEWMESSAGE, LPGENT("Create new message"),
-	IDC_MESSAGEDLG_NEWCAT, ILI_NEWCATEGORY, LPGENT("Create new category"),
-	IDC_MESSAGEDLG_DEL, ILI_DELETE, LPGENT("Delete"),
-	IDC_MESSAGEDLG_VARS, ILI_NOICON, LPGENT("Open Variables help dialog"),
+	IDC_MESSAGEDLG_NEWMSG, ILI_NEWMESSAGE, LPGENW("Create new message"),
+	IDC_MESSAGEDLG_NEWCAT, ILI_NEWCATEGORY, LPGENW("Create new category"),
+	IDC_MESSAGEDLG_DEL, ILI_DELETE, LPGENW("Delete"),
+	IDC_MESSAGEDLG_VARS, ILI_NOICON, LPGENW("Open Variables help dialog"),
 };
 
 static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -192,7 +192,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					TCString Msg;
 					GetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, Msg.GetBuffer(AWAY_MSGDATA_MAX), AWAY_MSGDATA_MAX);
 					Msg.ReleaseBuffer();
-					if (((CTreeItem*)pnm->ItemOld)->User_Str1 != (const TCHAR*)Msg) {
+					if (((CTreeItem*)pnm->ItemOld)->User_Str1 != (const wchar_t*)Msg) {
 						((CTreeItem*)pnm->ItemOld)->User_Str1 = Msg;
 						MsgTree->SetModified(true);
 					}
@@ -515,7 +515,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			HWND hCombo = GetDlgItem(hwndDlg, IDC_REPLYDLG_ONLYIDLEREPLY_COMBO);
 			struct {
-				TCHAR *Text;
+				wchar_t *Text;
 				int Meaning;
 			}
 			static IdleComboValues[] = {
@@ -544,13 +544,13 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			// init tooltips
 			struct {
 				int m_dlgItemID;
-				TCHAR *Text;
+				wchar_t *Text;
 			}
 			Tooltips[] = {
-				IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON, LPGENT("When this checkbox is ticked, NewAwaySys counts \"send times\" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, \"send times\" are counted from last status mode change (i.e., disabled state is more restrictive)."),
-				IDC_MOREOPTDLG_EVNTMSG, LPGENT("Message"),
-				IDC_MOREOPTDLG_EVNTURL, LPGENT("URL"),
-				IDC_MOREOPTDLG_EVNTFILE, LPGENT("File")
+				IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON, LPGENW("When this checkbox is ticked, NewAwaySys counts \"send times\" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, \"send times\" are counted from last status mode change (i.e., disabled state is more restrictive)."),
+				IDC_MOREOPTDLG_EVNTMSG, LPGENW("Message"),
+				IDC_MOREOPTDLG_EVNTURL, LPGENW("URL"),
+				IDC_MOREOPTDLG_EVNTFILE, LPGENW("File")
 			};
 			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.mir"), NULL);
 			TOOLINFO ti = { 0 };
@@ -669,13 +669,13 @@ Dlg4DefMsgDlgItems[] = {
 
 static struct {
 	int DlgItem, IconIndex;
-	TCHAR* Text;
+	wchar_t* Text;
 }
 Dlg4Buttons[] = {
-	IDC_MESSAGEDLG_NEWMSG, ILI_NEWMESSAGE, LPGENT("Create new message"),
-	IDC_MESSAGEDLG_NEWCAT, ILI_NEWCATEGORY, LPGENT("Create new category"),
-	IDC_MESSAGEDLG_DEL, ILI_DELETE, LPGENT("Delete"),
-	IDC_MESSAGEDLG_VARS, ILI_NOICON, LPGENT("Open Variables help dialog"),
+	IDC_MESSAGEDLG_NEWMSG, ILI_NEWMESSAGE, LPGENW("Create new message"),
+	IDC_MESSAGEDLG_NEWCAT, ILI_NEWCATEGORY, LPGENW("Create new category"),
+	IDC_MESSAGEDLG_DEL, ILI_DELETE, LPGENW("Delete"),
+	IDC_MESSAGEDLG_VARS, ILI_NOICON, LPGENW("Open Variables help dialog"),
 };
 
 INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -747,7 +747,7 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					TCString Msg;
 					GetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, Msg.GetBuffer(AWAY_MSGDATA_MAX), AWAY_MSGDATA_MAX);
 					Msg.ReleaseBuffer();
-					if (((CTreeItem*)pnm->ItemOld)->User_Str1 != (const TCHAR*)Msg) {
+					if (((CTreeItem*)pnm->ItemOld)->User_Str1 != (const wchar_t*)Msg) {
 						((CTreeItem*)pnm->ItemOld)->User_Str1 = Msg;
 						MsgTree->SetModified(true);
 					}

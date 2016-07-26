@@ -27,11 +27,11 @@ LCID packlcid;
 HANDLE hVerInfoFolder;
 HMODULE hMsftedit;
 
-TCHAR* vertxt;
-TCHAR* profname;
-TCHAR* profpath;
+wchar_t* vertxt;
+wchar_t* profname;
+wchar_t* profpath;
 
-TCHAR CrashLogFolder[MAX_PATH], VersionInfoFolder[MAX_PATH];
+wchar_t CrashLogFolder[MAX_PATH], VersionInfoFolder[MAX_PATH];
 
 bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart = 0;
 
@@ -67,7 +67,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 {
 	CreateDirectoryTreeT(VersionInfoFolder);
 
-	TCHAR path[MAX_PATH];
+	wchar_t path[MAX_PATH];
 	mir_sntprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 
 	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -158,10 +158,10 @@ INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 {
 	ptrT tmp(db_get_wsa(NULL, PluginName, "Username"));
 	if (tmp != NULL) {
-		TCHAR buffer[MAX_PATH];
+		wchar_t buffer[MAX_PATH];
 		mir_sntprintf(buffer, L"http://vi.miranda-ng.org/detail/%s", tmp);
 
-		int bufLen = (sizeof(buffer) + 1) * sizeof(TCHAR);
+		int bufLen = (sizeof(buffer) + 1) * sizeof(wchar_t);
 		HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
 		LPSTR buf = (LPSTR)GlobalLock(hData);
 		memcpy(buf, buffer, bufLen);
@@ -256,7 +256,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Version Information"), 2000089999, GetIconHandle(IDI_VI));
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Version Information"), 2000089999, GetIconHandle(IDI_VI));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "9A7A9C76-7FD8-4C05-B402-6C46060C2D78");
 
 	SET_UID(mi, 0x52930e40, 0xb2ee, 0x4433, 0xad, 0x77, 0xf5, 0x42, 0xe, 0xf6, 0x57, 0xc1);
@@ -369,7 +369,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	profpath = Utils_ReplaceVarsT(L"%miranda_userdata%");
 	if (catchcrashes && !needrestart)
 		mir_sntprintf(CrashLogFolder, TEXT("%s\\CrashLog"), profpath);
-	_tcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);
+	wcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);
 
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

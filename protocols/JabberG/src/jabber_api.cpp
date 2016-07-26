@@ -64,7 +64,7 @@ LPTSTR CJabberProto::GetBestResourceName(LPCTSTR jid)
 {
 	if (jid == NULL)
 		return NULL;
-	LPCTSTR p = _tcschr(jid, '/');
+	LPCTSTR p = wcschr(jid, '/');
 	if (p == NULL) {
 		mir_cslock lck(m_csLists);
 		return mir_tstrdup(ListGetBestClientResourceNamePtr(jid));
@@ -240,7 +240,7 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 		LPTSTR szExt = mir_tstrdup(szFeature);
 		LPTSTR pSrc, pDst;
 		for (pSrc = szExt, pDst = szExt; *pSrc; pSrc++)
-			if (_tcschr(L"bcdfghjklmnpqrstvwxz0123456789", *pSrc))
+			if (wcschr(L"bcdfghjklmnpqrstvwxz0123456789", *pSrc))
 				*pDst++ = *pSrc;
 		*pDst = 0;
 		m_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szExt, jcb);
@@ -335,7 +335,7 @@ LPTSTR CJabberProto::GetResourceFeatures(LPCTSTR jid)
 			iLen += mir_tstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
 
 	// allocate memory and fill it
-	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(TCHAR));
+	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(wchar_t));
 	LPTSTR p = str;
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap) {

@@ -153,7 +153,7 @@ static int RecursiveDeleteMenu(HMENU hMenu)
 struct MainMenuExecParam
 {
 	char *szServiceName;
-	TCHAR *szMenuName;
+	wchar_t *szMenuName;
 	TMO_IntMenuItem *pimi;
 };
 
@@ -176,7 +176,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi)
 
 	//we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
-	mmep->szMenuName = pmi->name.t;
+	mmep->szMenuName = pmi->name.w;
 
 	TMO_IntMenuItem *pimi = Menu_AddItem(hMainMenuObject, pmi, mmep);
 	if (pimi == NULL)
@@ -190,7 +190,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi)
 	if (pmi->pszService)
 		name = pmi->pszService;
 	else if (pmi->flags & CMIF_UNICODE) {
-		name = mir_t2a(pmi->name.t);
+		name = mir_t2a(pmi->name.w);
 		needFree = true;
 	}
 	else name = pmi->name.a;
@@ -259,9 +259,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *psz
 		mir_snprintf(buf, "%s/%s", pszProto, (pmi->pszService) ? pmi->pszService : "");
 		Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, buf);
 	}
-	else if (pmi->name.t) {
+	else if (pmi->name.w) {
 		if (pmi->flags & CMIF_UNICODE)
-			mir_snprintf(buf, "%s/NoService/%S", pszProto, pmi->name.t);
+			mir_snprintf(buf, "%s/NoService/%S", pszProto, pmi->name.w);
 		else
 			mir_snprintf(buf, "%s/NoService/%s", pszProto, pmi->name.a);
 		Menu_ConfigureItem(pimi, MCI_OPT_UNIQUENAME, buf);
@@ -381,7 +381,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszP
 		smep->hMenuItem = pimi;
 
 	char buf[MAX_PATH + 64];
-	char *p = (pRoot) ? mir_t2a(pRoot->mi.name.t) : NULL;
+	char *p = (pRoot) ? mir_t2a(pRoot->mi.name.w) : NULL;
 	mir_snprintf(buf, "%s/%s", (p) ? p : "", pmi->pszService ? pmi->pszService : "");
 	mir_free(p);
 
@@ -467,13 +467,13 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			if (reset || check) {
 				TMO_IntMenuItem *timiParent = MO_GetIntMenuItem(pimi->mi.root);
 				if (timiParent) {
-					LPTSTR ptszName = TranslateTH(pimi->mi.hLangpack, pimi->mi.hIcolibItem ? pimi->mi.name.t : LPGENT("Custom status"));
+					LPTSTR ptszName = TranslateTH(pimi->mi.hLangpack, pimi->mi.hIcolibItem ? pimi->mi.name.w : LPGENW("Custom status"));
 
 					timiParent = MO_GetIntMenuItem(pimi->mi.root);
 
 					MenuItemData it = {};
 					if (FindMenuHandleByGlobalID(hStatusMenu, timiParent, &it)) {
-						TCHAR d[100];
+						wchar_t d[100];
 						GetMenuString(it.OwnerMenu, it.position, d, _countof(d), MF_BYPOSITION);
 
 						MENUITEMINFO mii = {};
@@ -517,7 +517,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 		if (smep)
 			prot = smep->szProto;
 		else {
-			char *prn = mir_u2a(pimi->mi.name.t);
+			char *prn = mir_u2a(pimi->mi.name.w);
 			prot = NEWSTR_ALLOCA(prn);
 			if (prn) mir_free(prn);
 		}
@@ -580,7 +580,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 			return 0;
 
 		TMO_IntMenuItem *root = (TMO_IntMenuItem*)pimi->mi.root;
-		TCHAR buf[256], *ptszName;
+		wchar_t buf[256], *ptszName;
 		if (bIsLocked) {
 			pimi->mi.flags |= CMIF_CHECKED;
 			if (cli.bDisplayLocked) {
@@ -593,8 +593,8 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 			ptszName = acc->tszAccountName;
 			pimi->mi.flags &= ~CMIF_CHECKED;
 		}
-		replaceStrT(pimi->mi.name.t, ptszName);
-		replaceStrT(root->mi.name.t, ptszName);
+		replaceStrT(pimi->mi.name.w, ptszName);
+		replaceStrT(root->mi.name.w, ptszName);
 
 		if (cli.hwndStatus)
 			InvalidateRect(cli.hwndStatus, NULL, TRUE);
@@ -812,7 +812,7 @@ void RebuildMenuOrder(void)
 
 		DWORD flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);
 		HICON ic;
-		TCHAR tbuf[256];
+		wchar_t tbuf[256];
 
 		// adding root
 		CMenuItem mi;
@@ -822,9 +822,9 @@ void RebuildMenuOrder(void)
 
 		if (Proto_IsAccountLocked(pa) && cli.bDisplayLocked) {
 			mir_sntprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
-			mi.name.t = tbuf;
+			mi.name.w = tbuf;
 		}
-		else mi.name.t = pa->tszAccountName;
+		else mi.name.w = pa->tszAccountName;
 
 		// owner data
 		StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
@@ -846,13 +846,13 @@ void RebuildMenuOrder(void)
 
 		if ((mi.flags & CMIF_CHECKED) && cli.bDisplayLocked) {
 			mir_sntprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
-			mi.name.t = tbuf;
+			mi.name.w = tbuf;
 		}
-		else mi.name.t = pa->tszAccountName;
+		else mi.name.w = pa->tszAccountName;
 
 		TMO_IntMenuItem *pimi = Menu_AddItem(hStatusMenuObject, &mi, smep);
 		smep->pimi = pimi;
-		Menu_ModifyItem(pimi, mi.name.t, mi.hIcon, mi.flags);
+		Menu_ModifyItem(pimi, mi.name.w, mi.hIcon, mi.flags);
 
 		cli.menuProtos = (MenuProto*)mir_realloc(cli.menuProtos, sizeof(MenuProto)*(cli.menuProtoCount + 1));
 		memset(&(cli.menuProtos[cli.menuProtoCount]), 0, sizeof(MenuProto));
@@ -878,7 +878,7 @@ void RebuildMenuOrder(void)
 				mi.flags |= CMIF_CHECKED;
 			mi.root = rootmenu;
 			mi.position = pos++;
-			mi.name.t = cli.pfnGetStatusModeDescription(statusModeList[j], GSMDF_UNTRANSLATED);
+			mi.name.w = cli.pfnGetStatusModeDescription(statusModeList[j], GSMDF_UNTRANSLATED);
 			mi.hIcon = Skin_LoadProtoIcon(pa->szModuleName, statusModeList[j]);
 
 			// owner data
@@ -925,11 +925,11 @@ void RebuildMenuOrder(void)
 			StatusMenuExecParam *smep = (StatusMenuExecParam*)mir_calloc(sizeof(StatusMenuExecParam));
 			smep->status = statusModeList[j];
 			{
-				TCHAR buf[256], hotkeyName[100];
+				wchar_t buf[256], hotkeyName[100];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
 				mir_sntprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
-				mi.name.t = buf;
+				mi.name.w = buf;
 				hStatusMainMenuHandles[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
 				
 				hStatusMainMenuHandles[j]->hotKey = hotKey;
@@ -955,7 +955,7 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 		if (hStatusMainMenuHandles[j] == NULL)
 			continue;
 
-		TCHAR buf[256], hotkeyName[100];
+		wchar_t buf[256], hotkeyName[100];
 		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 		HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
 		mir_sntprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);

@@ -30,16 +30,16 @@ extern "C"
 	void fill_fopen64_filefunc(zlib_filefunc64_def *pzlib_filefunc_def);
 }
 
-static void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath, const TCHAR *ptszFileName)
+static void PrepareFileName(wchar_t *dest, size_t destSize, const wchar_t *ptszPath, const wchar_t *ptszFileName)
 {
 	mir_sntprintf(dest, destSize, L"%s\\%s", ptszPath, ptszFileName);
 
-	for (TCHAR *p = dest; *p; ++p)
+	for (wchar_t *p = dest; *p; ++p)
 		if (*p == '/')
 			*p = '\\'; 
 }
 
-bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bool ch)
+bool extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath, bool ch)
 {
 	unz_file_info64 file_info;
 	char filename[MAX_PATH], buf[8192];
@@ -56,8 +56,8 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 	if (ch && !db_get_b(NULL, DB_MODULE_FILES, StrToLower(ptrA(mir_strdup(filename))), 1))
 		return true;
 
-	TCHAR tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
-	TCHAR *ptszNewName = mir_utf8decodeT(filename);
+	wchar_t tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
+	wchar_t *ptszNewName = mir_utf8decodeT(filename);
 	if (ptszNewName == NULL)
 		ptszNewName = mir_a2t(filename);
 
@@ -77,11 +77,11 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 		PrepareFileName(tszDestFile, _countof(tszDestFile), ptszDestPath, ptszNewName);
 		SafeCreateFilePath(tszDestFile);
 
-		TCHAR *ptszFile2unzip;
+		wchar_t *ptszFile2unzip;
 		if (hPipe == NULL) // direct mode
 			ptszFile2unzip = tszDestFile;
 		else {
-			TCHAR tszTempPath[MAX_PATH];
+			wchar_t tszTempPath[MAX_PATH];
 			GetTempPath( _countof(tszTempPath), tszTempPath);
 			GetTempFileName(tszTempPath, L"PUtemp", GetCurrentProcessId(), tszBackFile);
 			ptszFile2unzip = tszBackFile;
@@ -120,7 +120,7 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 	return true;
 }
 
-bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch)
+bool unzip(const wchar_t *ptszZipFile, wchar_t *ptszDestPath, wchar_t *ptszBackPath,bool ch)
 {
 	bool bResult = true;
 

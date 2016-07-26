@@ -287,30 +287,30 @@ static void RegisterFonts()
 {
 	ColourIDT colourid = { sizeof(colourid) };
 	strncpy(colourid.dbSettingsGroup, CHAT_MODULE, sizeof(colourid.dbSettingsGroup));
-	_tcsncpy(colourid.group, LPGENT("Chat module"), _countof(colourid.group));
+	wcsncpy(colourid.group, LPGENW("Chat module"), _countof(colourid.group));
 
 	strncpy(colourid.setting, "ColorLogBG", _countof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Group chat log background"), _countof(colourid.name));
+	wcsncpy(colourid.name, LPGENW("Group chat log background"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorMessageBG", _countof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Message background"), _countof(colourid.name));
+	wcsncpy(colourid.name, LPGENW("Message background"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistBG", _countof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Nick list background"), _countof(colourid.name));
+	wcsncpy(colourid.name, LPGENW("Nick list background"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistLines", _countof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Nick list lines"), _countof(colourid.name));
+	wcsncpy(colourid.name, LPGENW("Nick list lines"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
 	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistSelectedBG", _countof(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Nick list background (selected)"), _countof(colourid.name));
+	wcsncpy(colourid.name, LPGENW("Nick list background (selected)"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
 	ColourRegisterT(&colourid);
 }
@@ -345,7 +345,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	AddIcons();
 	RegisterFonts();
 
-	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Chat module"), FONTMODE_SKIP };
+	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Chat module"), FONTMODE_SKIP };
 	mir_getCI(&data);
 	saveCI = *pci;
 

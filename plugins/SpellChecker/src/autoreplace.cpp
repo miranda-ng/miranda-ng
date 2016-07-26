@@ -24,13 +24,13 @@ AutoReplacement::AutoReplacement()
 {
 }
 
-AutoReplacement::AutoReplacement(const TCHAR *replace, BOOL useVariables)
+AutoReplacement::AutoReplacement(const wchar_t *replace, BOOL useVariables)
 	: replace(replace), useVariables(useVariables)
 {
 }
 
 
-AutoReplaceMap::AutoReplaceMap(TCHAR *aFilename, Dictionary *dict)
+AutoReplaceMap::AutoReplaceMap(wchar_t *aFilename, Dictionary *dict)
 {
 	m_dict = dict;
 	mir_tstrncpy(m_filename, aFilename, _countof(m_filename));
@@ -39,7 +39,7 @@ AutoReplaceMap::AutoReplaceMap(TCHAR *aFilename, Dictionary *dict)
 
 void AutoReplaceMap::loadAutoReplaceMap()
 {
-	FILE *file = _tfopen(m_filename, L"rb");
+	FILE *file = _wfopen(m_filename, L"rb");
 	if (file == NULL)
 		return;
 
@@ -88,17 +88,17 @@ void AutoReplaceMap::loadAutoReplaceMap()
 void AutoReplaceMap::writeAutoReplaceMap()
 {
 	// Create path
-	TCHAR *p = _tcsrchr(m_filename, _T('\\'));
+	wchar_t *p = wcsrchr(m_filename, '\\');
 	if (p != NULL) {
 		*p = 0;
 		CreateDirectoryTreeT(m_filename);
-		*p = _T('\\');
+		*p = '\\';
 	}
 
 	// Write it
-	FILE *file = _tfopen(m_filename, L"wb");
+	FILE *file = _wfopen(m_filename, L"wb");
 	if (file != NULL) {
-		map<tstring, AutoReplacement>::iterator it = m_replacements.begin();
+		map<std::wstring, AutoReplacement>::iterator it = m_replacements.begin();
 		for (; it != m_replacements.end(); it++) {
 			AutoReplacement &ar = it->second;
 
@@ -115,32 +115,32 @@ void AutoReplaceMap::writeAutoReplaceMap()
 }
 
 
-BOOL AutoReplaceMap::isWordChar(TCHAR c)
+BOOL AutoReplaceMap::isWordChar(wchar_t c)
 {
 	if (IsNumber(c))
 		return TRUE;
 
-	if (_tcschr(L"-_.!@#$%&*()[]{}<>:?/\\=+", c) != NULL)
+	if (wcschr(L"-_.!@#$%&*()[]{}<>:?/\\=+", c) != NULL)
 		return TRUE;
 
 	return m_dict->isWordChar(c);
 }
 
 
-TCHAR* AutoReplaceMap::autoReplace(const TCHAR * word)
+wchar_t* AutoReplaceMap::autoReplace(const wchar_t * word)
 {
-	scoped_free<TCHAR> from = _tcslwr(_tcsdup(word));
+	scoped_free<wchar_t> from = wcslwr(wcsdup(word));
 
 	if (m_replacements.find(from.get()) == m_replacements.end())
 		return NULL;
 
 	AutoReplacement &ar = m_replacements[from.get()];
 
-	TCHAR *to;
+	wchar_t *to;
 	if (ar.useVariables)
-		to = variables_parsedup((TCHAR *)ar.replace.c_str(), (TCHAR *)word, NULL);
+		to = variables_parsedup((wchar_t *)ar.replace.c_str(), (wchar_t *)word, NULL);
 	else
-		to = _tcsdup(ar.replace.c_str());
+		to = wcsdup(ar.replace.c_str());
 
 	// Wich case to use?
 	size_t len = mir_tstrlen(word);
@@ -156,17 +156,17 @@ TCHAR* AutoReplaceMap::autoReplace(const TCHAR * word)
 		return CharUpper(to);
 
 	// First upper
-	TCHAR tmp[2];
+	wchar_t tmp[2];
 	tmp[0] = to[0];
-	tmp[1] = _T('\0');
+	tmp[1] = '\0';
 	CharUpper(tmp);
 	to[0] = tmp[0];
 	return to;
 }
 
-TCHAR* AutoReplaceMap::filterText(const TCHAR *find)
+wchar_t* AutoReplaceMap::filterText(const wchar_t *find)
 {
-	TCHAR *ret = _tcsdup(find);
+	wchar_t *ret = wcsdup(find);
 	int len = mir_tstrlen(ret);
 	int pos = 0;
 	for (int i = 0; i < len; i++)
@@ -176,27 +176,27 @@ TCHAR* AutoReplaceMap::filterText(const TCHAR *find)
 	return CharLower(ret);
 }
 
-void AutoReplaceMap::add(const TCHAR * aFrom, const TCHAR * to, BOOL useVariables)
+void AutoReplaceMap::add(const wchar_t * aFrom, const wchar_t * to, BOOL useVariables)
 {
-	scoped_free<TCHAR> from = filterText(aFrom);
+	scoped_free<wchar_t> from = filterText(aFrom);
 
 	m_replacements[from.get()] = AutoReplacement(to, useVariables);
 
 	writeAutoReplaceMap();
 }
 
-void AutoReplaceMap::copyMap(map<tstring, AutoReplacement> *replacements)
+void AutoReplaceMap::copyMap(map<std::wstring, AutoReplacement> *replacements)
 {
 	*replacements = m_replacements;
 }
 
-void AutoReplaceMap::setMap(const map<tstring, AutoReplacement> &replacements)
+void AutoReplaceMap::setMap(const map<std::wstring, AutoReplacement> &replacements)
 {
 	m_replacements.clear();
 
-	map<tstring, AutoReplacement>::const_iterator it = replacements.begin();
+	map<std::wstring, AutoReplacement>::const_iterator it = replacements.begin();
 	for (; it != replacements.end(); it++) {
-		scoped_free<TCHAR> from = filterText(it->first.c_str());
+		scoped_free<wchar_t> from = filterText(it->first.c_str());
 		m_replacements[from.get()] = it->second;
 	}
 

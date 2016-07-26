@@ -50,9 +50,9 @@ void ChangeMenuItem1()
 	// Enable or Disable auto updates
 	LPCTSTR ptszName;
 	if (!db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
-		ptszName = LPGENT("Auto update enabled");
+		ptszName = LPGENW("Auto update enabled");
 	else
-		ptszName = LPGENT("Auto update disabled");
+		ptszName = LPGENW("Auto update disabled");
 
 	Menu_ModifyItem(hMenuItem1, ptszName, LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE)));
 }
@@ -63,7 +63,7 @@ void ChangeMenuItemCountdown()
 	// countdown
 	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 
-	TCHAR countername[100];
+	wchar_t countername[100];
 	mir_sntprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 
 	Menu_ModifyItem(hMenuItemCountdown, countername, hIcon, CMIF_KEEPUNTRANSLATED);
@@ -295,8 +295,8 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTitle = _T(MODULENAME);
+	odp.pwszGroup = LPGENW("Network");
+	odp.pwszTitle = _T(MODULENAME);
 	odp.pfnDlgProc = DlgProcOpt;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
@@ -304,7 +304,7 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	// if popup service exists
 	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.ptszGroup = LPGENT("Popups");
+		odp.pwszGroup = LPGENW("Popups");
 		odp.pfnDlgProc = DlgPopUpOpts;
 		Options_AddPage(wParam, &odp);
 	}

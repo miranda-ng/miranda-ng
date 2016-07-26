@@ -240,7 +240,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			if (p->bShowProtoEmails == 1 && ProtoServiceExists(szProto, PS_GETUNREADEMAILCOUNT)) {
 				int nEmails = (int)CallProtoService(szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
 				if (nEmails > 0) {
-					TCHAR str[40];
+					wchar_t str[40];
 					mir_sntprintf(str, L"[%d]", nEmails);
 					p->szProtoEMailCount = mir_tstrdup(str);
 				}
@@ -343,7 +343,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 				p.extraIcon = NULL;
 				if ((p.xStatusMode & 8) && p.iProtoStatus > ID_STATUS_OFFLINE) {
-					TCHAR str[512];
+					wchar_t str[512];
 					CUSTOM_STATUS cs = { sizeof(cs) };
 					cs.flags = CSSF_MASK_NAME | CSSF_TCHAR;
 					cs.ptszName = str;
@@ -861,7 +861,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-TCHAR pluginname[] = L"ModernStatusBar";
+wchar_t pluginname[] = L"ModernStatusBar";
 
 HWND StatusBar_Create(HWND parent)
 {

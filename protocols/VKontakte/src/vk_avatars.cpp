@@ -27,7 +27,7 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	GetAvatarFileName(param->hContact, ai.filename, _countof(ai.filename));
 	ai.format = ProtoGetBufferFormat(reply->pData);
 
-	FILE *out = _tfopen(ai.filename, L"wb");
+	FILE *out = _wfopen(ai.filename, L"wb");
 	if (out == NULL) {
 		ProtoBroadcastAck(param->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 		delete param;
@@ -85,13 +85,13 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	if (szUrl == NULL)
 		return GAIR_NOAVATAR;
 
-	TCHAR tszFileName[MAX_PATH];
+	wchar_t tszFileName[MAX_PATH];
 	GetAvatarFileName(pai->hContact, tszFileName, _countof(tszFileName));
-	_tcsncpy(pai->filename, tszFileName, _countof(pai->filename));
+	wcsncpy(pai->filename, tszFileName, _countof(pai->filename));
 
 	pai->format = ProtoGetAvatarFormat(pai->filename);
 
-	if (::_taccess(pai->filename, 0) == 0 && !getBool(pai->hContact, "NeedNewAvatar"))
+	if (::_waccess(pai->filename, 0) == 0 && !getBool(pai->hContact, "NeedNewAvatar"))
 		return GAIR_SUCCESS;
 
 	if (IsOnline()) {
@@ -119,16 +119,16 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (SvcGetAvatarInfo(0, (LPARAM)&ai) != GAIR_SUCCESS)
 		return 1;
 
-	TCHAR *buf = (TCHAR*)wParam;
+	wchar_t *buf = (wchar_t*)wParam;
 	int size = (int)lParam;
 
-	_tcsncpy(buf, ai.filename, size);
+	wcsncpy(buf, ai.filename, size);
 	buf[size - 1] = 0;
 
 	return 0;
 }
 
-void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR *pszDest, size_t cbLen)
+void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen)
 {
 	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
@@ -138,10 +138,10 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR *pszDest, size_t cbLen
 
 	pszDest[tPathLen++] = '\\';
 
-	const TCHAR *szFileType = L".jpg";
+	const wchar_t *szFileType = L".jpg";
 	ptrT szUrl(getTStringA(hContact, "AvatarUrl"));
 	if (szUrl) {
-		TCHAR *p = _tcsrchr(szUrl, '.');
+		wchar_t *p = wcsrchr(szUrl, '.');
 		if (p != NULL)
 			szFileType = p;
 	}

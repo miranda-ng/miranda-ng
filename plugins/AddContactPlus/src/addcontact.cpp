@@ -61,7 +61,7 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 	char* szUniqueId = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 	if (szUniqueId) {
 		size_t cbLen = mir_strlen(szUniqueId) + 2;
-		TCHAR* pszUniqueId = (TCHAR*)mir_alloc(cbLen * sizeof(TCHAR));
+		wchar_t* pszUniqueId = (wchar_t*)mir_alloc(cbLen * sizeof(wchar_t));
 		mir_sntprintf(pszUniqueId, cbLen, L"%S:", szUniqueId);
 		SetDlgItemText(hdlg, IDC_IDLABEL, pszUniqueId);
 		mir_free(pszUniqueId);
@@ -169,7 +169,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		HookEventMessage(ME_SKIN2_ICONSCHANGED, hdlg, DM_ADDCONTACT_CHANGEICONS);
 		HookEventMessage(ME_PROTO_ACCLISTCHANGED, hdlg, DM_ADDCONTACT_CHANGEACCLIST);
 		{
-			TCHAR *szGroup;
+			wchar_t *szGroup;
 			for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++) {
 				int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)szGroup);
 				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, (WPARAM)id, (LPARAM)i);
@@ -195,7 +195,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		switch (LOWORD(wparam)) {
 		case IDC_USERID:
 			if (HIWORD(wparam) == EN_CHANGE) {
-				TCHAR szUserId[256];
+				wchar_t szUserId[256];
 				if (GetDlgItemText(hdlg, IDC_USERID, szUserId, _countof(szUserId))) {
 					if (!IsWindowEnabled(GetDlgItem(hdlg, IDOK)))
 						EnableWindow(GetDlgItem(hdlg, IDOK), TRUE);
@@ -233,12 +233,12 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 		case IDOK:
 			{
-				TCHAR szUserId[256];
+				wchar_t szUserId[256];
 				GetDlgItemText(hdlg, IDC_USERID, szUserId, _countof(szUserId));
 
 				if (*rtrimt(szUserId) == 0 ||
-					(strstr(acs->proto, "GG") && _tcstoul(szUserId, NULL, 10) > INT_MAX) || // Gadu-Gadu protocol
-					((CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_NUMERICUSERID) && !_tcstoul(szUserId, NULL, 10)))
+					(strstr(acs->proto, "GG") && wcstoul(szUserId, NULL, 10) > INT_MAX) || // Gadu-Gadu protocol
+					((CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_NUMERICUSERID) && !wcstoul(szUserId, NULL, 10)))
 				{
 					MessageBox(NULL,
 						TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
@@ -248,7 +248,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 				PROTOSEARCHRESULT *psr;
 				if (strstr(acs->proto, "TLEN")) { // Tlen protocol
-					if (_tcschr(szUserId, '@') == NULL) {
+					if (wcschr(szUserId, '@') == NULL) {
 						MessageBox(NULL,
 							TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
 							TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
@@ -264,7 +264,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				}
 
 				psr->flags = PSR_TCHAR;
-				psr->id.t = mir_tstrdup(szUserId);
+				psr->id.w = mir_tstrdup(szUserId);
 				acs->psr = psr;
 
 				MCONTACT hContact = (MCONTACT)CallProtoService(acs->proto, PS_ADDTOLIST, IsDlgButtonChecked(hdlg, IDC_ADDTEMP) ? PALF_TEMPORARY : 0, (LPARAM)acs->psr);
@@ -275,7 +275,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 					break;
 				}
 
-				TCHAR szHandle[256];
+				wchar_t szHandle[256];
 				if (GetDlgItemText(hdlg, IDC_MYHANDLE, szHandle, _countof(szHandle)))
 					db_set_ts(hContact, "CList", "MyHandle", szHandle);
 
@@ -296,7 +296,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 						if (flags & PF4_NOCUSTOMAUTH)
 							ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 						else {
-							TCHAR tszReason[512];
+							wchar_t tszReason[512];
 							GetDlgItemText(hdlg, IDC_AUTHREQ, tszReason, _countof(tszReason));
 							ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
 						}
@@ -339,10 +339,10 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		if (acs) {
 			db_set_s(NULL, "AddContact", "LastProto", acs->proto);
 			if (acs->psr) {
-				mir_free(acs->psr->nick.t);
-				mir_free(acs->psr->firstName.t);
-				mir_free(acs->psr->lastName.t);
-				mir_free(acs->psr->email.t);
+				mir_free(acs->psr->nick.w);
+				mir_free(acs->psr->firstName.w);
+				mir_free(acs->psr->lastName.w);
+				mir_free(acs->psr->email.w);
 				mir_free(acs->psr);
 			}
 			delete acs;

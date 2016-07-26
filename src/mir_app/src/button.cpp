@@ -203,7 +203,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 
 		SIZE sz;
-		TCHAR szText[MAX_PATH];
+		wchar_t szText[MAX_PATH];
 		GetWindowText(ctl->hwnd, szText, _countof(szText));
 		GetTextExtentPoint32(hdcMem, szText, (int)mir_tstrlen(szText), &sz);
 		int xOffset = (rcClient.right - rcClient.left - sz.cx)/2;
@@ -307,7 +307,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 	case WM_SETTEXT:
 		bct->cHot = 0;
 		if (lParam != 0) {
-			TCHAR *tmp = (TCHAR*)lParam;
+			wchar_t *tmp = (wchar_t*)lParam;
 			while (*tmp) {
 				if (*tmp == '&' && *(tmp+1)) {
 					bct->cHot = _tolower(*(tmp+1));
@@ -486,7 +486,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 			ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 			ti.uId = (UINT_PTR)bct->hwnd;
 			if (lParam & BATF_UNICODE)
-				ti.lpszText = mir_wstrdup(TranslateW((WCHAR*)wParam));
+				ti.lpszText = mir_wstrdup(TranslateTS((WCHAR*)wParam));
 			else
 				ti.lpszText = Langpack_PcharToTchar((char*)wParam);
 			if (bct->pAccPropServices) {

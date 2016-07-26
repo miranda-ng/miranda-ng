@@ -150,7 +150,7 @@ void CLCDLabel::UpdateCutOffIndex()
 	if(m_bWordWrap && GetWidth() > 0)
 	{
 		int *piExtents = new int[m_strText.length()];
-		TCHAR *szString = (TCHAR*)m_strText.c_str();
+		wchar_t *szString = (wchar_t*)m_strText.c_str();
 		int iMaxChars = 0;
 		tstring::size_type pos = 0;
 

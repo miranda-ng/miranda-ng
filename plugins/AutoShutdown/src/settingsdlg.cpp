@@ -30,7 +30,7 @@ static HWND hwndSettingsDlg;
 extern HINSTANCE hInst;
 
 const DWORD unitValues[] = { 1,60,60 * 60,60 * 60 * 24,60 * 60 * 24 * 7,60 * 60 * 24 * 31 };
-const TCHAR *unitNames[] = { LPGENT("Second(s)"), LPGENT("Minute(s)"), LPGENT("Hour(s)"), LPGENT("Day(s)"), LPGENT("Week(s)"), LPGENT("Month(s)") };
+const wchar_t *unitNames[] = { LPGENW("Second(s)"), LPGENW("Minute(s)"), LPGENW("Hour(s)"), LPGENW("Day(s)"), LPGENW("Week(s)"), LPGENW("Month(s)") };
 
 /************************* Dialog *************************************/
 
@@ -47,7 +47,7 @@ static BOOL CALLBACK DisplayCpuUsageProc(BYTE nCpuUsage, LPARAM lParam)
 	if (!IsWindow((HWND)lParam))
 		return FALSE; /* stop poll thread */
 
-	TCHAR str[64];
+	wchar_t str[64];
 	mir_sntprintf(str, TranslateT("(current: %u%%)"), nCpuUsage);
 	SetWindowText((HWND)lParam, str);
 	return TRUE;
@@ -152,7 +152,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SendMessage(hwndCombo, CB_INITSTORAGE, SDSDT_MAX, SDSDT_MAX * 32);
 				for (BYTE shutdownType = 1; shutdownType <= SDSDT_MAX; ++shutdownType)
 					if (ServiceIsTypeEnabled(shutdownType, 0)) {
-						TCHAR *pszText = (TCHAR*)ServiceGetTypeDescription(shutdownType, GSTDF_TCHAR); /* never fails */
+						wchar_t *pszText = (wchar_t*)ServiceGetTypeDescription(shutdownType, GSTDF_TCHAR); /* never fails */
 						int index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)pszText);
 						if (index != LB_ERR) {
 							SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)shutdownType);
@@ -241,7 +241,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case M_UPDATE_SHUTDOWNDESC: /* lParam=(LPARAM)(HWND)hwndCombo */
 		{
 			BYTE shutdownType = (BYTE)SendMessage((HWND)lParam, CB_GETITEMDATA, SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
-			SetDlgItemText(hwndDlg, IDC_TEXT_SHUTDOWNTYPE, (TCHAR*)ServiceGetTypeDescription(shutdownType, GSTDF_LONGDESC | GSTDF_TCHAR));
+			SetDlgItemText(hwndDlg, IDC_TEXT_SHUTDOWNTYPE, (wchar_t*)ServiceGetTypeDescription(shutdownType, GSTDF_LONGDESC | GSTDF_TCHAR));
 		}
 		return TRUE;
 
@@ -352,7 +352,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			{
 				HWND hwndEdit = GetDlgItem(hwndDlg, IDC_EDIT_MESSAGE);
 				int len = GetWindowTextLength(hwndEdit) + 1;
-				TCHAR *pszText = (TCHAR*)mir_alloc(len*sizeof(TCHAR));
+				wchar_t *pszText = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
 				if (pszText != NULL && GetWindowText(hwndEdit, pszText, len + 1)) {
 					TrimString(pszText);
 					db_set_ts(NULL, "AutoShutdown", "Message", pszText);
@@ -453,23 +453,23 @@ void SetShutdownMenuItem(bool fActive)
 	mi.position = 2001090000;
 	if (fActive) {
 		mi.hIcolibItem = iconList[1].hIcolib;
-		mi.name.t = LPGENT("Stop automatic &shutdown");
+		mi.name.w = LPGENW("Stop automatic &shutdown");
 	}
 	else {
 		mi.hIcolibItem = iconList[2].hIcolib;
-		mi.name.t = LPGENT("Automatic &shutdown...");
+		mi.name.w = LPGENW("Automatic &shutdown...");
 	}
 	mi.pszService = "AutoShutdown/MenuCommand";
 	mi.flags = CMIF_TCHAR;
 	if (hMainMenuItem != NULL)
-		Menu_ModifyItem(hMainMenuItem, mi.name.t, mi.hIcolibItem);
+		Menu_ModifyItem(hMainMenuItem, mi.name.w, mi.hIcolibItem);
 	else
 		hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	/* tray menu */
 	mi.position = 899999;
 	if (hTrayMenuItem != NULL)
-		Menu_ModifyItem(hTrayMenuItem, mi.name.t, mi.hIcolibItem);
+		Menu_ModifyItem(hTrayMenuItem, mi.name.w, mi.hIcolibItem);
 	else
 		hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
 }

@@ -40,7 +40,7 @@
 #define _getOptD(a,b) _getCOptD(NULL, a, b)
 #define _setOptD(a,b) _setCOptD(NULL, a, b)
 
-TCHAR* _getCOptS(TCHAR *buf, unsigned int buflen, MCONTACT hContact, const char* option, const TCHAR *def);
+wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const char* option, const wchar_t *def);
 #define _getOptS(a,b,c,d) _getCOptS(a, b, NULL, c, d)
 #define _setCOptTS(a,b,c) db_set_ts(a, PLUGIN_NAME, b, c)
 #define _setCOptS(a,b,c) db_set_s(a, PLUGIN_NAME, b, c)
@@ -90,24 +90,24 @@ TCHAR* _getCOptS(TCHAR *buf, unsigned int buflen, MCONTACT hContact, const char*
 
 #define _NOTIFYP _getOptB("NotifyPopup", defaultNotifyPopup)
 
-TCHAR* ReplaceVars(TCHAR *dst, unsigned int len);
-TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num);
-TCHAR* ReplaceVar(TCHAR *dst, unsigned int len, const TCHAR *var, const TCHAR *rvar);
-int get_response_id(const TCHAR *strvar);
-int get_response_num(const TCHAR *str);
-TCHAR* get_response(TCHAR* dst, unsigned int dstlen, int num);
+wchar_t* ReplaceVars(wchar_t *dst, unsigned int len);
+wchar_t* ReplaceVarsNum(wchar_t *dst, unsigned int len, int num);
+wchar_t* ReplaceVar(wchar_t *dst, unsigned int len, const wchar_t *var, const wchar_t *rvar);
+int get_response_id(const wchar_t *strvar);
+int get_response_num(const wchar_t *str);
+wchar_t* get_response(wchar_t* dst, unsigned int dstlen, int num);
 
-TCHAR* _tcsstr_cc(TCHAR* str, TCHAR* strSearch, BOOL cc);
-BOOL _isregex(TCHAR* strSearch);
-BOOL _isvalidregex(TCHAR* strSearch);
-BOOL _regmatch(TCHAR* str, TCHAR* strSearch);
-BOOL Contains(TCHAR* dst, TCHAR* src);
+wchar_t* _tcsstr_cc(wchar_t* str, wchar_t* strSearch, BOOL cc);
+BOOL _isregex(wchar_t* strSearch);
+BOOL _isvalidregex(wchar_t* strSearch);
+BOOL _regmatch(wchar_t* str, wchar_t* strSearch);
+BOOL Contains(wchar_t* dst, wchar_t* src);
 BOOL isOneDay(DWORD timestamp1, DWORD timestamp2);
 void MarkUnread(MCONTACT hContact);
 
-int ShowPopup(MCONTACT hContact, BYTE popupType, TCHAR *line1, TCHAR *line2);
-int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2);
-int _notify(MCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage);
+int ShowPopup(MCONTACT hContact, BYTE popupType, wchar_t *line1, wchar_t *line2);
+int ShowPopupPreview(HWND optDlg, BYTE popupType, wchar_t *line1, wchar_t *line2);
+int _notify(MCONTACT hContact, BYTE type, wchar_t *message, wchar_t *origmessage);
 int LogToSystemHistory(char *message, char *origmessage);
 #define POPUP_DEFAULT 0
 #define POPUP_BLOCKED 1
@@ -136,13 +136,13 @@ extern sqlite3 *bayesdb;
 
 int OpenBayes();
 int CheckBayes();
-void learn(int type, TCHAR *msg);
-void learn_ham(TCHAR *msg);
-void learn_spam(TCHAR *msg);
+void learn(int type, wchar_t *msg);
+void learn_ham(wchar_t *msg);
+void learn_spam(wchar_t *msg);
 int get_token_count(int type);
 int get_msg_count(int type);
-double get_msg_score(TCHAR *msg);
-void queue_message(MCONTACT hContact, DWORD msgtime, TCHAR *message);
+double get_msg_score(wchar_t *msg);
+void queue_message(MCONTACT hContact, DWORD msgtime, wchar_t *message);
 void bayes_approve_contact(MCONTACT hContact);
 void dequeue_messages();
 

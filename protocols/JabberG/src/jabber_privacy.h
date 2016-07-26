@@ -58,7 +58,7 @@ class CPrivacyListRule
 protected:
 	friend class CPrivacyList;
 public:
-	CPrivacyListRule(CJabberProto *ppro, PrivacyListRuleType type = Else, const TCHAR *szValue = L"", BOOL bAction = TRUE, DWORD dwOrder = 90, DWORD dwPackets = 0)
+	CPrivacyListRule(CJabberProto *ppro, PrivacyListRuleType type = Else, const wchar_t *szValue = L"", BOOL bAction = TRUE, DWORD dwOrder = 90, DWORD dwPackets = 0)
 	{
 		m_proto = ppro;
 		m_szValue = mir_tstrdup(szValue);
@@ -103,11 +103,11 @@ public:
 		m_nType = type;
 		return TRUE;
 	}
-	__inline TCHAR* GetValue()
+	__inline wchar_t* GetValue()
 	{
 		return m_szValue;
 	}
-	__inline BOOL SetValue(TCHAR *szValue)
+	__inline BOOL SetValue(wchar_t *szValue)
 	{
 		replaceStrT(m_szValue, szValue);
 		return TRUE;
@@ -133,7 +133,7 @@ public:
 	CJabberProto* m_proto;
 protected:
 	PrivacyListRuleType m_nType;
-	TCHAR *m_szValue;
+	wchar_t *m_szValue;
 	BOOL m_bAction;
 	DWORD m_dwOrder;
 	DWORD m_dwPackets;
@@ -145,7 +145,7 @@ class CPrivacyList
 {
 protected:
 	CPrivacyListRule *m_pRules;
-	TCHAR *m_szListName;
+	wchar_t *m_szListName;
 	CPrivacyList *m_pNext;
 	BOOL m_bLoaded;
 	BOOL m_bModified;
@@ -153,7 +153,7 @@ protected:
 public:
 	CJabberProto* m_proto;
 
-	CPrivacyList(CJabberProto *ppro, TCHAR *szListName)
+	CPrivacyList(CJabberProto *ppro, wchar_t *szListName)
 	{
 		m_proto = ppro;
 		m_szListName = mir_tstrdup(szListName);
@@ -177,7 +177,7 @@ public:
 		m_pRules = NULL;
 		return TRUE;
 	}
-	__inline TCHAR* GetListName()
+	__inline wchar_t* GetListName()
 	{
 		return m_szListName;
 	}
@@ -195,7 +195,7 @@ public:
 		m_pNext = pNext;
 		return pRetVal;
 	}
-	BOOL AddRule(PrivacyListRuleType type, const TCHAR *szValue, BOOL bAction, DWORD dwOrder, DWORD dwPackets)
+	BOOL AddRule(PrivacyListRuleType type, const wchar_t *szValue, BOOL bAction, DWORD dwOrder, DWORD dwPackets)
 	{
 		CPrivacyListRule *pRule = new CPrivacyListRule(m_proto, type, szValue, bAction, dwOrder, dwPackets);
 		if (!pRule)
@@ -319,8 +319,8 @@ public:
 class CPrivacyListManager
 {
 protected:
-	TCHAR *m_szActiveListName;
-	TCHAR *m_szDefaultListName;
+	wchar_t *m_szActiveListName;
+	wchar_t *m_szDefaultListName;
 	CPrivacyList *m_pLists;
 	BOOL m_bModified;
 
@@ -342,19 +342,19 @@ public:
 		mir_free(m_szDefaultListName);
 		RemoveAllLists();
 	};
-	void SetActiveListName(const TCHAR *szListName)
+	void SetActiveListName(const wchar_t *szListName)
 	{
 		replaceStrT(m_szActiveListName, szListName);
 	}
-	void SetDefaultListName(const TCHAR *szListName)
+	void SetDefaultListName(const wchar_t *szListName)
 	{
 		replaceStrT(m_szDefaultListName, szListName);
 	}
-	TCHAR* GetDefaultListName()
+	wchar_t* GetDefaultListName()
 	{
 		return m_szDefaultListName;
 	}
-	TCHAR* GetActiveListName()
+	wchar_t* GetActiveListName()
 	{
 		return m_szActiveListName;
 	}
@@ -365,7 +365,7 @@ public:
 		m_pLists = NULL;
 		return TRUE;
 	}
-	CPrivacyList* FindList(const TCHAR *szListName)
+	CPrivacyList* FindList(const wchar_t *szListName)
 	{
 		CPrivacyList *pList = m_pLists;
 		while (pList) {
@@ -379,7 +379,7 @@ public:
 	{
 		return m_pLists;
 	}
-	BOOL AddList(TCHAR *szListName)
+	BOOL AddList(wchar_t *szListName)
 	{
 		if (FindList(szListName))
 			return FALSE;

@@ -100,7 +100,7 @@ void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 	}
 }
 
-TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
+wchar_t* fnGetContactDisplayName(MCONTACT hContact, int mode)
 {
 	if (hContact == NULL)
 		return TranslateT("(Unknown contact)");
@@ -123,7 +123,7 @@ TCHAR* fnGetContactDisplayName(MCONTACT hContact, int mode)
 
 	ProtoChainSend(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
 
-	TCHAR *buffer = TranslateT("(Unknown contact)");
+	wchar_t *buffer = TranslateT("(Unknown contact)");
 	return (cacheEntry == NULL) ? mir_tstrdup(buffer) : buffer;
 }
 
@@ -146,7 +146,7 @@ int ContactDeleted(WPARAM hContact, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void Dbwcs2tstr(DBCONTACTWRITESETTING *cws, TCHAR* &pStr)
+static void Dbwcs2tstr(DBCONTACTWRITESETTING *cws, wchar_t* &pStr)
 {
 	mir_free(pStr);
 

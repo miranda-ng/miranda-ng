@@ -150,7 +150,7 @@ void CreateFromBitmaps(bool bServiceTip)
 		if (i == SKIN_ITEM_SIDEBAR && (!opt.iSidebarWidth || bServiceTip))
 			continue;
 
-		TCHAR* tszFileName = opt.szImgFile[i];
+		wchar_t* tszFileName = opt.szImgFile[i];
 		if (tszFileName && *tszFileName != 0) {
 			FIBITMAP *fib = NULL;
 			if (!skin.bCached) {

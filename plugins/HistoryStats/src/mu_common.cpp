@@ -15,11 +15,11 @@ namespace mu
 
 	namespace clist
 	{
-		HGENMENU addMainMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot)
+		HGENMENU addMainMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
 			CMenuItem mi;
-			mi.name.t = (TCHAR*)pszName;
+			mi.name.w = (wchar_t*)pszName;
 			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;
 			mi.hIcolibItem = hIcon;
@@ -29,11 +29,11 @@ namespace mu
 			return Menu_AddMainMenuItem(&mi);
 		}
 
-		HGENMENU addContactMenuItem(const TCHAR* pszName, DWORD flags, int position, HICON hIcon, const char* pszService)
+		HGENMENU addContactMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
 			CMenuItem mi;
-			mi.name.t = (TCHAR*)pszName;
+			mi.name.w = (wchar_t*)pszName;
 			mi.flags = flags | CMIF_TCHAR;
 			mi.position = position;
 			mi.hIcolibItem = hIcon;
@@ -49,12 +49,12 @@ namespace mu
 
 	namespace db
 	{
-		int getProfilePath(int cbName, TCHAR* pszName)
+		int getProfilePath(int cbName, wchar_t* pszName)
 		{
 			return CallService(MS_DB_GETPROFILEPATHT, cbName, reinterpret_cast<LPARAM>(pszName));
 		}
 
-		int getProfileName(int cbName, TCHAR* pszName)
+		int getProfileName(int cbName, wchar_t* pszName)
 		{
 			return CallService(MS_DB_GETPROFILENAMET, cbName, reinterpret_cast<LPARAM>(pszName));
 		}
@@ -95,11 +95,11 @@ namespace mu
 			return true;
 		}
 
-		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex)
+		void addIcon(const wchar_t* szSection, const wchar_t* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex)
 		{
 			SKINICONDESC sid = { 0 };
-			sid.section.t = const_cast<TCHAR*>(szSection);
-			sid.description.t = const_cast<TCHAR*>(szDescription);
+			sid.section.w = const_cast<wchar_t*>(szSection);
+			sid.description.w = const_cast<wchar_t*>(szDescription);
 			sid.pszName = const_cast<char*>(szIconName);
 			sid.defaultFile.a = const_cast<char*>(szDefaultFile);
 			sid.iDefaultIndex = iDefaultIndex;
@@ -119,16 +119,16 @@ namespace mu
 
 	namespace opt
 	{
-		void addPage(WPARAM addInfo, const TCHAR* pszGroup, const TCHAR* pszTitle, const TCHAR* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags /* = ODPF_BOLDGROUPS */)
+		void addPage(WPARAM addInfo, const wchar_t* pszGroup, const wchar_t* pszTitle, const wchar_t* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags /* = ODPF_BOLDGROUPS */)
 		{
 			OPTIONSDIALOGPAGE odp = { 0 };
-			odp.ptszTitle = const_cast<TCHAR*>(pszTitle);
+			odp.pwszTitle = const_cast<wchar_t*>(pszTitle);
 			odp.pfnDlgProc = pfnDlgProc;
 			odp.pszTemplate = const_cast<char*>(pszTemplate);
 			odp.hInstance = hInstance;
-			odp.ptszGroup = const_cast<TCHAR*>(pszGroup);
+			odp.pwszGroup = const_cast<wchar_t*>(pszGroup);
 			odp.flags = flags | ODPF_TCHAR;
-			odp.ptszTab = const_cast<TCHAR*>(pszTab);
+			odp.pwszTab = const_cast<wchar_t*>(pszTab);
 			Options_AddPage(addInfo, &odp);
 		}
 	}

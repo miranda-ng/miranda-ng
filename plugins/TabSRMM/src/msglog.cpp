@@ -29,41 +29,41 @@
 #include "stdafx.h"
 
 struct TCpTable cpTable[] = {
-	{ 874, LPGENT("Thai") },
-	{ 932, LPGENT("Japanese") },
-	{ 936, LPGENT("Simplified Chinese") },
-	{ 949, LPGENT("Korean") },
-	{ 950, LPGENT("Traditional Chinese") },
-	{ 1250, LPGENT("Central European") },
-	{ 1251, LPGENT("Cyrillic") },
-	{ 20866, LPGENT("Cyrillic KOI8-R") },
-	{ 1252, LPGENT("Latin I") },
-	{ 1253, LPGENT("Greek") },
-	{ 1254, LPGENT("Turkish") },
-	{ 1255, LPGENT("Hebrew") },
-	{ 1256, LPGENT("Arabic") },
-	{ 1257, LPGENT("Baltic") },
-	{ 1258, LPGENT("Vietnamese") },
-	{ 1361, LPGENT("Korean (Johab)") },
+	{ 874, LPGENW("Thai") },
+	{ 932, LPGENW("Japanese") },
+	{ 936, LPGENW("Simplified Chinese") },
+	{ 949, LPGENW("Korean") },
+	{ 950, LPGENW("Traditional Chinese") },
+	{ 1250, LPGENW("Central European") },
+	{ 1251, LPGENW("Cyrillic") },
+	{ 20866, LPGENW("Cyrillic KOI8-R") },
+	{ 1252, LPGENW("Latin I") },
+	{ 1253, LPGENW("Greek") },
+	{ 1254, LPGENW("Turkish") },
+	{ 1255, LPGENW("Hebrew") },
+	{ 1256, LPGENW("Arabic") },
+	{ 1257, LPGENW("Baltic") },
+	{ 1258, LPGENW("Vietnamese") },
+	{ 1361, LPGENW("Korean (Johab)") },
 	{ (UINT)-1, NULL }
 };
 
-wchar_t* weekDays[7] = { LPGENT("Sunday"), LPGENT("Monday"), LPGENT("Tuesday"), LPGENT("Wednesday"), LPGENT("Thursday"), LPGENT("Friday"), LPGENT("Saturday") };
+wchar_t* weekDays[7] = { LPGENW("Sunday"), LPGENW("Monday"), LPGENW("Tuesday"), LPGENW("Wednesday"), LPGENW("Thursday"), LPGENW("Friday"), LPGENW("Saturday") };
 
 wchar_t* months[12] =
 {
-	LPGENT("January"), LPGENT("February"), LPGENT("March"), LPGENT("April"), LPGENT("May"), LPGENT("June"),
-	LPGENT("July"), LPGENT("August"), LPGENT("September"), LPGENT("October"), LPGENT("November"), LPGENT("December")
+	LPGENW("January"), LPGENW("February"), LPGENW("March"), LPGENW("April"), LPGENW("May"), LPGENW("June"),
+	LPGENW("July"), LPGENW("August"), LPGENW("September"), LPGENW("October"), LPGENW("November"), LPGENW("December")
 };
 
 static time_t today;
 
 int g_groupBreak = TRUE;
-static TCHAR *szMyName = NULL;
-static TCHAR *szYourName = NULL;
+static wchar_t *szMyName = NULL;
+static wchar_t *szYourName = NULL;
 
 static int logPixelSY;
-static TCHAR szToday[22], szYesterday[22];
+static wchar_t szToday[22], szYesterday[22];
 char  rtfFontsGlobal[MSGDLGFONTCOUNT + 2][RTFCACHELINESIZE];
 char *rtfFonts;
 
@@ -107,7 +107,7 @@ __forceinline char *GetRTFFont(DWORD dwIndex)
  * the highlight code (individual background colors).
  * Doesn't touch the message for sure, but empty lines at the end are ugly anyway.
  */
-static void TrimMessage(TCHAR *msg)
+static void TrimMessage(wchar_t *msg)
 {
 	size_t iLen = mir_tstrlen(msg) - 1;
 	size_t i = iLen;
@@ -132,8 +132,8 @@ void TSAPI CacheLogFonts()
 	}
 	mir_snprintf(rtfFontsGlobal[MSGDLGFONTCOUNT], "\\f%u\\cf%u\\b%d\\i%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0);
 
-	_tcsncpy(szToday, TranslateT("Today"), 20);
-	_tcsncpy(szYesterday, TranslateT("Yesterday"), 20);
+	wcsncpy(szToday, TranslateT("Today"), 20);
+	wcsncpy(szYesterday, TranslateT("Yesterday"), 20);
 	szToday[19] = szYesterday[19] = 0;
 
 	// cache/create the info panel fonts
@@ -198,14 +198,14 @@ static int TSAPI GetColorIndex(char *rtffont)
 	return 0;
 }
 
-static int AppendUnicodeToBuffer(CMStringA &str, const TCHAR *line, int mode)
+static int AppendUnicodeToBuffer(CMStringA &str, const wchar_t *line, int mode)
 {
 	str.Append("{\\uc1 ");
 
 	int textCharsCount = 0;
 	for (; *line; line++, textCharsCount++) {
 		if (*line == 127 && line[1] != 0) {
-			TCHAR code = line[2];
+			wchar_t code = line[2];
 			if (((code == '0' || code == '1') && line[3] == ' ') || (line[1] == 'c' && code == 'x')) {
 				int begin = (code == '1');
 				switch (line[1]) {
@@ -336,7 +336,7 @@ static char* CreateRTFHeader(TWindowData *dat)
 	return str.Detach();
 }
 
-static void AppendTimeStamp(TCHAR *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, TWindowData *dat, int iFontIDOffset)
+static void AppendTimeStamp(wchar_t *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, TWindowData *dat, int iFontIDOffset)
 {
 	if (skipFont)
 		AppendUnicodeToBuffer(str, szFinalTimestamp, MAKELONG(isSent, dat->bIsHistory));
@@ -347,14 +347,14 @@ static void AppendTimeStamp(TCHAR *szFinalTimestamp, int isSent, CMStringA &str,
 	}
 }
 
-static TCHAR* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, TCHAR code)
+static wchar_t* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, wchar_t code)
 {
-	static TCHAR szResult[100];
-	const TCHAR *szFormat;
+	static wchar_t szResult[100];
+	const wchar_t *szFormat;
 
-	if ((code == (TCHAR)'R' || code == (TCHAR)'r') && check >= today)
+	if ((code == (wchar_t)'R' || code == (wchar_t)'r') && check >= today)
 		mir_tstrcpy(szResult, szToday);
-	else if ((code == (TCHAR)'R' || code == (TCHAR)'r') && check > (today - 86400))
+	else if ((code == (wchar_t)'R' || code == (wchar_t)'r') && check > (today - 86400))
 		mir_tstrcpy(szResult, szYesterday);
 	else {
 		if (code == 'D' || code == 'R')
@@ -419,14 +419,14 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
 		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
-	TCHAR *formatted = NULL;
-	TCHAR *msg = DbGetEventTextT(&dbei, CP_UTF8);
+	wchar_t *formatted = NULL;
+	wchar_t *msg = DbGetEventTextT(&dbei, CP_UTF8);
 	if (!msg) {
 		mir_free(dbei.pBlob);
 		return NULL;
 	}
 	TrimMessage(msg);
-	formatted = const_cast<TCHAR *>(Utils::FormatRaw(dat, msg, dwFormattingParams, FALSE));
+	formatted = const_cast<wchar_t *>(Utils::FormatRaw(dat, msg, dwFormattingParams, FALSE));
 	mir_free(msg);
 
 	CMStringA str;
@@ -501,7 +501,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 
 	TTemplateSet *this_templateset = dbei.flags & DBEF_RTL ? dat->pContainer->rtl_templates : dat->pContainer->ltr_templates;
 
-	TCHAR *szTemplate;
+	wchar_t *szTemplate;
 	if (bIsStatusChangeEvent)
 		szTemplate = this_templateset->szTemplates[TMPL_STATUSCHG];
 	else if (dbei.eventType == EVENTTYPE_ERRMSG)
@@ -529,9 +529,9 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	str.Append("\\ul0\\b0\\i0\\v0 ");
 
 	for (size_t i = 0; i < iTemplateLen;) {
-		TCHAR ci = szTemplate[i];
+		wchar_t ci = szTemplate[i];
 		if (ci == '%') {
-			TCHAR cc = szTemplate[i + 1];
+			wchar_t cc = szTemplate[i + 1];
 			skipToNext = FALSE;
 			skipFont = FALSE;
 
@@ -584,7 +584,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				}
 			}
 
-			TCHAR color, code;
+			wchar_t color, code;
 			switch (cc) {
 			case 'V':
 				//str.Append("\\fs0\\\expnd-40 ~-%d-~", hDbEvent);
@@ -615,14 +615,14 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				break;
 			case 'D': // long date
 				if (showTime && showDate) {
-					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'D');
+					wchar_t	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'D');
 					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'E': // short date...
 				if (showTime && showDate) {
-					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'E');
+					wchar_t	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'E');
 					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
@@ -721,7 +721,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'R':
 			case 'r': // long date
 				if (showTime && showDate) {
-					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, cc);
+					wchar_t	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, cc);
 					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
@@ -729,7 +729,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 't':
 			case 'T':
 				if (showTime) {
-					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, (TCHAR)((dwEffectiveFlags & MWF_LOG_SHOWSECONDS) ? cc : (TCHAR)'t'));
+					wchar_t	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, (wchar_t)((dwEffectiveFlags & MWF_LOG_SHOWSECONDS) ? cc : (wchar_t)'t'));
 					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
@@ -830,7 +830,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						if (*szDescr != 0) {
 							ptrT tszDescr(DbGetEventStringT(&dbei, szDescr));
 
-							TCHAR buf[1000];
+							wchar_t buf[1000];
 							mir_sntprintf(buf, L"%s (%s)", tszFileName, tszDescr);
 							AppendUnicodeToBuffer(str, buf, 0);
 						}
@@ -1035,7 +1035,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 {
 	DWORD dwScale = M.GetDword("iconscale", 0);
 
-	TCHAR trbuffer[40];
+	wchar_t trbuffer[40];
 	TEXTRANGE tr;
 	tr.lpstrText = trbuffer;
 
@@ -1062,8 +1062,8 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 			cr.cpMax = cr.cpMin + 18;
 			SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&cr);
 			SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)L"");
-			UINT length = (unsigned int)_ttol(&trbuffer[7]);
-			int index = _ttol(&trbuffer[14]);
+			UINT length = (unsigned int)_wtol(&trbuffer[7]);
+			int index = _wtol(&trbuffer[14]);
 			if (length > 0 && length < 20000 && index >= RTF_CTABLE_DEFSIZE && index < Utils::rtf_ctable_size) {
 				cf2.crTextColor = Utils::rtf_ctable[index].clr;
 				cr.cpMin = fi.chrgText.cpMin;
@@ -1234,7 +1234,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	if (dat->szMicroLf[0] == 0)
 		SetupLogFormatting(dat);
 
-	szYourName = const_cast<TCHAR *>(dat->cache->getNick());
+	szYourName = const_cast<wchar_t *>(dat->cache->getNick());
 	szMyName = dat->szMyNickname;
 
 	SendMessage(hwndrtf, EM_HIDESELECTION, TRUE, 0);

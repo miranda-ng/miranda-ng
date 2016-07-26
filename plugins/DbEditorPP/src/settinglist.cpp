@@ -9,11 +9,11 @@ static int lastColumn = -1;
 
 struct ColumnsSettings csSettingList[] =
 {
-	{ LPGENT("Name"), 0, "Column0width", 180 },
-	{ LPGENT("Value"), 1, "Column1width", 250 },
-	{ LPGENT("Type"), 2, "Column2width", 60 },
-	{ LPGENT("Size"), 3, "Column3width", 80 },
-	{ LPGENT("#"), 4, "Column4width", 30 },
+	{ LPGENW("Name"), 0, "Column0width", 180 },
+	{ LPGENW("Value"), 1, "Column1width", 250 },
+	{ LPGENW("Type"), 2, "Column2width", 60 },
+	{ LPGENW("Size"), 3, "Column3width", 80 },
+	{ LPGENW("#"), 4, "Column4width", 30 },
 	{ 0 }
 };
 
@@ -49,7 +49,7 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 
 	int res = 0;
 	DWORD val = 0;
-	TCHAR tmp[16];
+	wchar_t tmp[16];
 	ptrT value;
 
 	switch (dbv.type) {
@@ -74,7 +74,7 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 			value = mir_a2t(dbv.pszVal);
 
 		if (mir_tstrlen(value) < 11)
-			val = _tcstoul(value, NULL, NULL);
+			val = wcstoul(value, NULL, NULL);
 	}
 
 	switch (toType) {
@@ -132,7 +132,7 @@ void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *s
 	if (!count) return;
 
 	if (db_get_b(NULL, modname, "WarnOnDelete", 1)) {
-		TCHAR text[MSG_SIZE];
+		wchar_t text[MSG_SIZE];
 		mir_sntprintf(text, TranslateT("Are you sure you want to delete setting(s): %d?"), count);
 		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 			return;
@@ -206,7 +206,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		return;
 	}
 
-	TCHAR data[32];
+	wchar_t data[32];
 	int length;
 
 	switch (dbv->type) {
@@ -295,7 +295,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 
 void addListHandle(MCONTACT hContact)
 {
-	TCHAR name[NAME_SIZE], data[32];
+	wchar_t name[NAME_SIZE], data[32];
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
 	lvi.lParam = hContact;
@@ -475,7 +475,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 					return 0;
 				}
 
-				TCHAR *value = (TCHAR*)mir_alloc(len*sizeof(TCHAR));
+				wchar_t *value = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
 
 				GetWindowText(hwnd, value, len);
 
@@ -508,51 +508,51 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 					}
 
 					switch (value[0]) {
-					case _T('b'):
-					case _T('B'):
-						val = _tcstoul(&value[1], NULL, 0);
-						if (!val || value[1] == _T('0')) {
+					case 'b':
+					case 'B':
+						val = wcstoul(&value[1], NULL, 0);
+						if (!val || value[1] == '0') {
 							res = !db_set_b(info.hContact, info.module, info.setting, (BYTE)val);
 						}
 						else
 							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
 						break;
-					case _T('w'):
-					case _T('W'):
-						val = _tcstoul(&value[1], NULL, 0);
-						if (!val || value[1] == _T('0'))
+					case 'w':
+					case 'W':
+						val = wcstoul(&value[1], NULL, 0);
+						if (!val || value[1] == '0')
 							res = !db_set_w(info.hContact, info.module, info.setting, (WORD)val);
 						else
 							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
 						break;
-					case _T('d'):
-					case _T('D'):
-						val = _tcstoul(&value[1], NULL, 0);
-						if (!val || value[1] == _T('0'))
+					case 'd':
+					case 'D':
+						val = wcstoul(&value[1], NULL, 0);
+						if (!val || value[1] == '0')
 							res = !db_set_dw(info.hContact, info.module, info.setting, val);
 						else
 							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
 						break;
 
-					case _T('0'):
+					case '0':
 						i = 1;
 						// fall through
-					case _T('1'):
-					case _T('2'):
-					case _T('3'):
-					case _T('4'):
-					case _T('5'):
-					case _T('6'):
-					case _T('7'):
-					case _T('8'):
-					case _T('9'):
-					case _T('-'):
-					case _T('x'):
-					case _T('X'):
-						if (value[i] == _T('x') || value[i] == _T('X'))
-							val = _tcstoul(&value[i + 1], NULL, 16);
+					case '1':
+					case '2':
+					case '3':
+					case '4':
+					case '5':
+					case '6':
+					case '7':
+					case '8':
+					case '9':
+					case '-':
+					case 'x':
+					case 'X':
+						if (value[i] == 'x' || value[i] == 'X')
+							val = wcstoul(&value[i + 1], NULL, 16);
 						else
-							val = _tcstoul(value, NULL, 10);
+							val = wcstoul(value, NULL, 10);
 
 						switch (dbv.type) {
 						case DBVT_BYTE:
@@ -567,8 +567,8 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 							break;
 						}
 						break;
-					case _T('\"'):
-					case _T('\''):
+					case '\"':
+					case '\'':
 						{
 							size_t nlen = mir_tstrlen(value);
 							int sh = 0;
@@ -638,7 +638,7 @@ void EditLabel(int item, int subitem)
 	if (!subitem)
 		info.hwnd2Edit = CreateWindow(L"EDIT", _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
 	else {
-		TCHAR *str = NULL, value[16] = { 0 };
+		wchar_t *str = NULL, value[16] = { 0 };
 
 		switch (dbv.type) {
 		case DBVT_ASCIIZ:

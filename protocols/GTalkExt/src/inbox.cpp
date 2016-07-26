@@ -200,12 +200,12 @@ void OpenContactInbox(LPCSTR szModuleName)
 	if (tszJid == NULL)
 		return;
 
-	LPTSTR host = _tcschr(tszJid, '@');
+	LPTSTR host = wcschr(tszJid, '@');
 	if (!host)
 		return;
 	*host++ = 0;
 
-	TCHAR buf[1024];
+	wchar_t buf[1024];
 	if (mir_tstrcmpi(host, COMMON_GMAIL_HOST1) && mir_tstrcmpi(host, COMMON_GMAIL_HOST2))
 		mir_sntprintf(buf, INBOX_URL_FORMAT, L"a/", host);   // hosted
 	else

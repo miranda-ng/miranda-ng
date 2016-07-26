@@ -35,8 +35,8 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg) {
 	case WM_INITDIALOG: {
 		MCONTACT hContact;
-		TCHAR title[256];
-		TCHAR filter[FILTERTEXT];
+		wchar_t title[256];
+		wchar_t filter[FILTERTEXT];
 		RECT rc;
 		POINT pt;
 			
@@ -118,12 +118,12 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			WriteMessage(hDlg, DlgParam->listStart, SendDlgItemMessage(hDlg, IDC_MAIN, EM_LINEFROMCHAR, -1, 0));
 			break;
 		case WM_LBUTTONUP:
-			link = (LPTSTR)mir_alloc((pENLink->chrg.cpMax - pENLink->chrg.cpMin + 2) * sizeof(TCHAR));
+			link = (LPTSTR)mir_alloc((pENLink->chrg.cpMax - pENLink->chrg.cpMin + 2) * sizeof(wchar_t));
 			if (link == NULL)
 				break;
 			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)&pENLink->chrg); 
 			SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETSELTEXT, 0, (LPARAM)link);
-			if (_tcsstr(link, L"mailto:") != NULL)
+			if (wcsstr(link, L"mailto:") != NULL)
 				ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 			else {
 				bool openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF) != 0xFF;
@@ -142,7 +142,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (mouseEvent == 0x01)
 				EnableMenuItem(hSubMenu, IDM_SHOWMESSAGE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);	
 			TranslateMenu(hSubMenu);
-			link = (LPTSTR)mir_alloc((pENLink->chrg.cpMax - pENLink->chrg.cpMin + 4) * sizeof(TCHAR));
+			link = (LPTSTR)mir_alloc((pENLink->chrg.cpMax - pENLink->chrg.cpMin + 4) * sizeof(wchar_t));
 			if (link == NULL)
 				break;
 			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)&pENLink->chrg); 
@@ -154,13 +154,13 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hDlg, NULL)) {
 			case IDM_LINK_OPEN:
-				if (_tcsstr(link, L"mailto:") != NULL)
+				if (wcsstr(link, L"mailto:") != NULL)
 					ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 				else
 					Utils_OpenUrlT(link,false);
 				break;
 			case IDM_LINK_OPENNEW:
-				if (_tcsstr(link, L"mailto:") != NULL)
+				if (wcsstr(link, L"mailto:") != NULL)
 					ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 				else
 					Utils_OpenUrlT(link);
@@ -170,7 +170,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 				EmptyClipboard();
 
-				size_t dataLen = ((mir_tstrlen(link) + 1) * sizeof(TCHAR));
+				size_t dataLen = ((mir_tstrlen(link) + 1) * sizeof(wchar_t));
 				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, dataLen);
 				memcpy((LPTSTR)GlobalLock(hData), link, dataLen);
 				GlobalUnlock(hData);
@@ -187,7 +187,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		} break;
 	case WM_COMMAND: {
-		TCHAR filter[40];
+		wchar_t filter[40];
 
 		listMenu = GetMenu(hDlg);
 		switch (wParam) {
@@ -373,7 +373,7 @@ INT_PTR CALLBACK SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			} break;
 		case IDSEARCH: {
 			BYTE flags = 0x00;
-			TCHAR filter[FILTERTEXT];
+			wchar_t filter[FILTERTEXT];
 			LPTSTR buffer;
 			int length;
 			
@@ -393,7 +393,7 @@ INT_PTR CALLBACK SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				flags |= SLL_DEEP;
 
 			length = GetWindowTextLength(GetDlgItem(hDlg, IDC_SEARCHSTRING)) + 1;
-			buffer = (LPTSTR)mir_alloc((length + 1) * sizeof(TCHAR));
+			buffer = (LPTSTR)mir_alloc((length + 1) * sizeof(wchar_t));
 			if (buffer) {
 				GetDlgItemText(hDlg, IDC_SEARCHSTRING, buffer, length);
 				WriteLinkList(hListDlg, flags, DlgParam->listStart, buffer, 0);

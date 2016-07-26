@@ -7,7 +7,7 @@
 struct CSametimeProto : public PROTO<CSametimeProto>
 {
 
-	CSametimeProto(const char*, const TCHAR* );
+	CSametimeProto(const char*, const wchar_t* );
 	~CSametimeProto();
 
 	//====================================================================================
@@ -17,29 +17,29 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 
 	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath);
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath);
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason);
-	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason);
+	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
 	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
 	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt);
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const TCHAR* msg);
+	virtual	int       __cdecl SetAwayMsg(int iStatus, const wchar_t* msg);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
@@ -73,7 +73,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	bool GetAwareIdFromContact(MCONTACT hContact, mwAwareIdBlock* id_block);
 	MCONTACT FindContactByUserId(const char* id);
 	void ImportContactsFromList(mwSametimeList* user_list, bool temporary);
-	void ImportContactsFromFile(TCHAR* filename);
+	void ImportContactsFromFile(wchar_t* filename);
 	void ExportContactsToList(mwSametimeList* user_list);
 	void ExportContactsToServer();
 	void UserListAddStored();
@@ -93,7 +93,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	HANDLE AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* save_path);
 	void RejectFileTransfer(HANDLE hFt);
 	void CancelFileTransfer(HANDLE hFt);
-	HANDLE SendFilesToUser(MCONTACT hContact, TCHAR** files, const TCHAR* pszDesc);
+	HANDLE SendFilesToUser(MCONTACT hContact, wchar_t** files, const wchar_t* pszDesc);
 
 	// conference.cpp
 	void InitConference();
@@ -117,7 +117,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	int SetSessionStatus(int status);
 	void UpdateSelfStatus();
 	int SetIdle(bool idle);
-	void SetSessionAwayMessage(int status, const TCHAR* msg);
+	void SetSessionAwayMessage(int status, const wchar_t* msg);
 	WORD GetClientVersion();
 	WORD GetServerVersion();
 	INT_PTR __cdecl SessionAnnounce(WPARAM wParam, LPARAM lParam);
@@ -132,7 +132,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	void SaveOptions();
 
 	// utils.cpp
-	void showPopup(const TCHAR* msg, SametimePopupEnum flag);
+	void showPopup(const wchar_t* msg, SametimePopupEnum flag);
 	void showPopup(guint32 code);
 	void RegisterPopups();
 	void UnregisterPopups();
@@ -207,7 +207,7 @@ typedef struct tag_TFakeAckParams {
 
 struct SendAnnouncementFunc_arg {
 	CSametimeProto* proto;
-	TCHAR msg[MAX_MESSAGE_SIZE];
+	wchar_t msg[MAX_MESSAGE_SIZE];
 	GList* recipients;
 };
 
@@ -221,8 +221,8 @@ struct SessionAnnounceDialogProc_arg {
 
 struct PopupData {
 	SametimePopupEnum flag;
-	TCHAR* title;
-	TCHAR* text;
+	wchar_t* title;
+	wchar_t* text;
 	CSametimeProto* proto;
 };
 

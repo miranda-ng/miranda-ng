@@ -113,7 +113,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// Register menu item
 	CMenuItem mi;
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Database"), 1900000001);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Database"), 1900000001);
 
 	SET_UID(mi, 0xe298849c, 0x1a8c, 0x4fc7, 0xa0, 0xf4, 0x78, 0x18, 0xf, 0xe2, 0xf7, 0xc9);
 	mi.position = 1900000001;
@@ -135,7 +135,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "hk_dbepp_open";
 	hkd.pszService = "DBEditorpp/MenuCommand";
-	hkd.ptszDescription = LPGENT("Open Database Editor");
+	hkd.ptszDescription = LPGENW("Open Database Editor");
 	hkd.ptszSection = text;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_EXT, 'D');
 	Hotkey_Register(&hkd);
@@ -265,7 +265,7 @@ int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szS
 	return res;
 }
 
-TCHAR *DBVType(BYTE type)
+wchar_t *DBVType(BYTE type)
 {
 	switch (type) {
 	case DBVT_BYTE:		return L"BYTE";
@@ -312,14 +312,14 @@ int setNumericValue(MCONTACT hContact, const char *module, const char *setting, 
 	return 0;
 }
 
-int IsRealUnicode(TCHAR *value)
+int IsRealUnicode(wchar_t *value)
 {
 	BOOL nonascii = 0;
 	WideCharToMultiByte(Langpack_GetDefaultCodePage(), WC_NO_BEST_FIT_CHARS, value, -1, NULL, 0, NULL, &nonascii);
 	return nonascii;
 }
 
-int setTextValue(MCONTACT hContact, const char *module, const char *setting, TCHAR *value, int type)
+int setTextValue(MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int type)
 {
 #ifdef _UNICODE
 	if (type == DBVT_UTF8 || type == DBVT_WCHAR)
@@ -415,7 +415,7 @@ int GetValueW(MCONTACT hContact, const char *module, const char *setting, WCHAR 
 	return 0;
 }
 
-int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxlen)
+int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int maxlen)
 {
 	if (!value)
 		return 0;
@@ -427,7 +427,7 @@ int GetContactName(MCONTACT hContact, const char *proto, TCHAR *value, int maxle
 
 	char *szProto = (char*)proto;
 	char tmp[FLD_SIZE];
-	TCHAR name[NAME_SIZE]; name[0] = 0;
+	wchar_t name[NAME_SIZE]; name[0] = 0;
 
 	if (hContact && (!proto || !proto[0]))
 		if (!db_get_static(hContact, "Protocol", "p", tmp, _countof(tmp)))
@@ -555,8 +555,8 @@ INT_PTR CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 {
 	ColumnsSortParams params = *(ColumnsSortParams *)myParam;
 	const int maxSize = 1024;
-	TCHAR text1[maxSize];
-	TCHAR text2[maxSize];
+	wchar_t text1[maxSize];
+	wchar_t text2[maxSize];
 	ListView_GetItemText(params.hList, lParam1, params.column, text1, _countof(text1));
 	ListView_GetItemText(params.hList, lParam2, params.column, text2, _countof(text2));
 

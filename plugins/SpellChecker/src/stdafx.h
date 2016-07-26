@@ -96,7 +96,7 @@ extern HBITMAP hCheckedBmp;
 struct WrongWordPopupMenuData 
 {
 	Suggestions suggestions;
-	TCHAR *word;
+	wchar_t *word;
 	CHARRANGE pos;
 	HMENU hMeSubMenu;
 	HMENU hCorrectSubMenu;
@@ -110,7 +110,7 @@ struct Dialog
 	MCONTACT hContact;
 	char name[64];
 	Dictionary *lang;
-	TCHAR lang_name[32];
+	wchar_t lang_name[32];
 	BOOL enabled;
 	BOOL srmm;
 
@@ -129,11 +129,11 @@ struct Dialog
 };
 
 static BOOL CenterParent(HWND hwnd);
-TCHAR *lstrtrim(TCHAR *str);
-BOOL lstreq(TCHAR *a, TCHAR *b, size_t len = -1);
-inline BOOL IsNumber(TCHAR c)
+wchar_t *lstrtrim(wchar_t *str);
+BOOL lstreq(wchar_t *a, wchar_t *b, size_t len = -1);
+inline BOOL IsNumber(wchar_t c)
 {
-	return c >= _T('0') && c <= _T('9');
+	return c >= '0' && c <= '9';
 }
 
 int MsgWindowEvent(WPARAM wParam, LPARAM lParam);
@@ -151,9 +151,9 @@ INT_PTR ShowPopupMenuService(WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 void ModifyIcon(Dialog *dlg);
-BOOL GetWordCharRange(Dialog *dlg, CHARRANGE &sel, TCHAR *text, size_t text_len, int &first_char);
-TCHAR *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel);
+BOOL GetWordCharRange(Dialog *dlg, CHARRANGE &sel, wchar_t *text, size_t text_len, int &first_char);
+wchar_t *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel);
 
-int GetClosestLanguage(TCHAR *lang_name);
+int GetClosestLanguage(wchar_t *lang_name);
 
 #endif // __COMMONS_H__

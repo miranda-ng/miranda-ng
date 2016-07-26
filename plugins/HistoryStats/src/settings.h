@@ -138,16 +138,16 @@ public:
 #else // _UNICODE
 		typedef unsigned char  t_uchar;
 #endif // _UNICODE
-#define T_NUMCHARS (1 << (sizeof(TCHAR) * 8))
+#define T_NUMCHARS (1 << (sizeof(wchar_t) * 8))
 
 	private:
-		TCHAR m_CharMap[T_NUMCHARS];
+		wchar_t m_CharMap[T_NUMCHARS];
 
 #undef T_NUMCHARS
 
 	public:
 		explicit CharMapper(const Settings& settings);
-		TCHAR mapChar(TCHAR c) const { return m_CharMap[static_cast<t_uchar>(c)]; }
+		wchar_t mapChar(wchar_t c) const { return m_CharMap[static_cast<t_uchar>(c)]; }
 	};
 
 	typedef std::set<ext::string> WordSet;
@@ -193,15 +193,15 @@ public:
 	typedef std::vector<Column*> ColumnList;
 
 public:
-	static const TCHAR* getDefaultWordDelimiters();
-	static const TCHAR* getDefaultStyleSheet();
-	static const TCHAR* getDefaultHideContactMenuProtos();
-	static const TCHAR* getDefaultProtosIgnore();
-	static const TCHAR* getDefaultColumns();
-	static const TCHAR* getDefaultSort();
-	static const TCHAR* getDefaultOutputFile();
-	static const TCHAR* getDefaultOutputExtraFolder();
-	static const TCHAR* getDefaultFilterWords();
+	static const wchar_t* getDefaultWordDelimiters();
+	static const wchar_t* getDefaultStyleSheet();
+	static const wchar_t* getDefaultHideContactMenuProtos();
+	static const wchar_t* getDefaultProtosIgnore();
+	static const wchar_t* getDefaultColumns();
+	static const wchar_t* getDefaultSort();
+	static const wchar_t* getDefaultOutputFile();
+	static const wchar_t* getDefaultOutputExtraFolder();
+	static const wchar_t* getDefaultFilterWords();
 
 public:
 	const DWORD m_VersionCurrent;
@@ -305,7 +305,7 @@ public:
 
 	void ensureConstraints();
 
-	void openURL(const TCHAR* szURL);
+	void openURL(const wchar_t* szURL);
 };
 
 #endif // HISTORYSTATS_GUARD_SETTINGS_H

@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class MinecraftDynmapProto : public PROTO<MinecraftDynmapProto>
 {
 public:
-	MinecraftDynmapProto(const char *proto_name, const TCHAR *username);
+	MinecraftDynmapProto(const char *proto_name, const wchar_t *username);
 	~MinecraftDynmapProto();
 
 	inline const char* ModuleName() const {

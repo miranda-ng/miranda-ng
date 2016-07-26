@@ -19,12 +19,12 @@
 
 #define ADDALIAS		L"alias"
 
-int isValidTokenChar(TCHAR tc);
+int isValidTokenChar(wchar_t tc);
 
-struct TArgList : public LIST<TCHAR>
+struct TArgList : public LIST<wchar_t>
 {
 	TArgList() :
-		LIST<TCHAR>(1)
+		LIST<wchar_t>(1)
 	{}
 
 	void destroy() 
@@ -35,4 +35,4 @@ struct TArgList : public LIST<TCHAR>
 	}
 };
 
-TCHAR* getArguments(TCHAR *string, TArgList &aargv);
+wchar_t* getArguments(wchar_t *string, TArgList &aargv);

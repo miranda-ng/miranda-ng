@@ -90,21 +90,21 @@ void DlgOption::onWMInitDialog()
 		static const struct
 		{
 			WORD iconId;
-			TCHAR* szText;
-			TCHAR* szTooltip;
+			wchar_t* szText;
+			wchar_t* szTooltip;
 			bool bRight;
 			WORD dlgId;
 			bool bVisible;
 			bool bDropDown;
 		}
 		pageBand[] = {
-			{ IDI_SETT_GLOBAL, LPGENT("Global"), LPGENT("Global settings"), false, IDD_SUB_GLOBAL, true, false },
-			{ IDI_SETT_EXCLUDE, LPGENT("Exclude"), LPGENT("Exclude contacts"), false, IDD_SUB_EXCLUDE, true, false },
-			{ IDI_SETT_INPUT, LPGENT("Input"), LPGENT("Input settings"), false, IDD_SUB_INPUT, true, false },
-			{ IDI_SETT_COLUMNS, LPGENT("Columns"), LPGENT("Column settings"), false, IDD_SUB_COLUMNS, true, false },
-			{ IDI_SETT_OUTPUT, LPGENT("Output"), LPGENT("Output settings"), false, IDD_SUB_OUTPUT, true, false },
-			{ IDI_CREATE, LPGENT("Create"), LPGENT("Create statistics"), true, 0, true, true },
-			{ IDI_CREATE_WARNING, LPGENT("Create"), LPGENT("Create statistics (there are warnings)"), true, 0, false, true },
+			{ IDI_SETT_GLOBAL, LPGENW("Global"), LPGENW("Global settings"), false, IDD_SUB_GLOBAL, true, false },
+			{ IDI_SETT_EXCLUDE, LPGENW("Exclude"), LPGENW("Exclude contacts"), false, IDD_SUB_EXCLUDE, true, false },
+			{ IDI_SETT_INPUT, LPGENW("Input"), LPGENW("Input settings"), false, IDD_SUB_INPUT, true, false },
+			{ IDI_SETT_COLUMNS, LPGENW("Columns"), LPGENW("Column settings"), false, IDD_SUB_COLUMNS, true, false },
+			{ IDI_SETT_OUTPUT, LPGENW("Output"), LPGENW("Output settings"), false, IDD_SUB_OUTPUT, true, false },
+			{ IDI_CREATE, LPGENW("Create"), LPGENW("Create statistics"), true, 0, true, true },
+			{ IDI_CREATE_WARNING, LPGENW("Create"), LPGENW("Create statistics (there are warnings)"), true, 0, false, true },
 		};
 
 		array_each_(i, pageBand)

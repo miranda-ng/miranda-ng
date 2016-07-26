@@ -51,9 +51,9 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 
-	mir_free(const_cast<TCHAR*>(gce.ptszNick));
-	mir_free(const_cast<TCHAR*>(gce.ptszUID));
-	mir_free(const_cast<TCHAR*>(gce.ptszText));
+	mir_free(const_cast<wchar_t*>(gce.ptszNick));
+	mir_free(const_cast<wchar_t*>(gce.ptszUID));
+	mir_free(const_cast<wchar_t*>(gce.ptszText));
 }
 
 int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
@@ -98,8 +98,8 @@ void TwitterProto::AddChatContact(const char *name, const char *nick)
 	gce.ptszStatus = L"Normal";
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 
-	mir_free(const_cast<TCHAR*>(gce.ptszNick));
-	mir_free(const_cast<TCHAR*>(gce.ptszUID));
+	mir_free(const_cast<wchar_t*>(gce.ptszNick));
+	mir_free(const_cast<wchar_t*>(gce.ptszUID));
 }
 
 void TwitterProto::DeleteChatContact(const char *name)
@@ -111,7 +111,7 @@ void TwitterProto::DeleteChatContact(const char *name)
 	gce.ptszUID = gce.ptszNick;
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 
-	mir_free(const_cast<TCHAR*>(gce.ptszNick));
+	mir_free(const_cast<wchar_t*>(gce.ptszNick));
 }
 
 INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)

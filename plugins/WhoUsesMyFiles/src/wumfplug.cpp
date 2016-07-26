@@ -28,7 +28,7 @@ void LoadOptions()
 	memset(&WumfOptions, 0, sizeof(WumfOptions));
 	if (db_get_ts(NULL, MODULENAME, OPT_FILE, &dbv) == 0)
 	{
-		_tcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);
+		wcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);
 		db_free(&dbv);
 	}
 	else
@@ -116,7 +116,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 void ShowWumfPopup(PWumf w)
 {
-	TCHAR text[512], title[512];
+	wchar_t text[512], title[512];
 
 	if (!WumfOptions.AlertFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
 	mir_sntprintf(title, L"%s (%s)", w->szComp, w->szUser);
@@ -222,11 +222,11 @@ static INT_PTR WumfMenuCommand(WPARAM,LPARAM)
 {
 	if (WumfOptions.PopupsEnabled == TRUE) { 
 		WumfOptions.PopupsEnabled = FALSE;
-		Menu_ModifyItem(hMenuItem, LPGENT("Enable WUMF popups"), LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP)));
+		Menu_ModifyItem(hMenuItem, LPGENW("Enable WUMF popups"), LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP)));
 	}
 	else {
 		WumfOptions.PopupsEnabled = TRUE;
-		Menu_ModifyItem(hMenuItem, LPGENT("Disable WUMF popups"), LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP)));
+		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP)));
 	}
 
 	db_set_b(NULL, MODULENAME, POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
@@ -252,7 +252,7 @@ void DisableDelayOptions(HWND hwndDlg)
 
 void ChooseFile(HWND hwndDlg)
 {
-	TCHAR szFile[MAX_PATH]; szFile[0]=0;
+	wchar_t szFile[MAX_PATH]; szFile[0]=0;
 
 	// Initialize OPENFILENAME
 	OPENFILENAME ofn = {0};       // common dialog box structure
@@ -273,7 +273,7 @@ void ChooseFile(HWND hwndDlg)
 		}
 	}
 	else if (CommDlgExtendedError() != 0) {
-		TCHAR str[256];
+		wchar_t str[256];
 		mir_sntprintf(str, TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
 		MessageBox(hwndDlg, str, TranslateT("Error"), MB_OK | MB_ICONSTOP);
 	}
@@ -492,7 +492,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CMenuItem mi;
 
 	SET_UID(mi, 0xcfce6487, 0x907b, 0x4822, 0xb0, 0x49, 0x18, 0x4e, 0x47, 0x17, 0x0, 0x69);
-	mi.root = Menu_CreateRoot(MO_MAIN, LPGENT("Popups"), 1999990000);
+	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 1999990000);
 	if (WumfOptions.PopupsEnabled == FALSE) { 
 		mi.name.a = LPGEN("Enable WUMF popups");
 		mi.hIcolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));

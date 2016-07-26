@@ -414,14 +414,14 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 * @return
 */
 
-static TCHAR* ShortenPreview(DBEVENTINFO* dbe)
+static wchar_t* ShortenPreview(DBEVENTINFO* dbe)
 {
 	bool	fAddEllipsis = false;
 	size_t iPreviewLimit = nen_options.iLimitPreview;
 	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
-	TCHAR *buf = DbGetEventTextT(dbe, CP_ACP);
+	wchar_t *buf = DbGetEventTextT(dbe, CP_ACP);
 	if (mir_tstrlen(buf) > iPreviewLimit) {
 		fAddEllipsis = true;
 		size_t iIndex = iPreviewLimit;
@@ -432,13 +432,13 @@ static TCHAR* ShortenPreview(DBEVENTINFO* dbe)
 		buf[iIndex] = 0;
 	}
 	if (fAddEllipsis) {
-		buf = (TCHAR*)mir_realloc(buf, (mir_tstrlen(buf) + 5) * sizeof(TCHAR));
+		buf = (wchar_t*)mir_realloc(buf, (mir_tstrlen(buf) + 5) * sizeof(wchar_t));
 		mir_tstrcat(buf, L"...");
 	}
 	return buf;
 }
 
-static TCHAR* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
+static wchar_t* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 {
 	char *pBlob = (char *)dbe->pBlob;
 
@@ -463,7 +463,7 @@ static TCHAR* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 					szDescr = szFileName + namelength + 1;
 
 				ptrT tszFileName(DbGetEventStringT(dbe, szFileName));
-				TCHAR buf[1024];
+				wchar_t buf[1024];
 
 				if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
 					ptrT tszDescr(DbGetEventStringT(dbe, szDescr));
@@ -498,7 +498,7 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 	if (hEvent == NULL)
 		return 0;
 
-	TCHAR szHeader[256];
+	wchar_t szHeader[256];
 	if (pdata->pluginOptions->bShowHeaders)
 		mir_sntprintf(szHeader, L"%s %d\n", TranslateT("New messages: "), pdata->nrMerged + 1);
 	else
@@ -511,11 +511,11 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 	}
 	db_event_get(hEvent, &dbe);
 
-	TCHAR timestamp[MAX_DATASIZE];
-	_tcsftime(timestamp, MAX_DATASIZE, L"%Y.%m.%d %H:%M", _localtime32((__time32_t *)&dbe.timestamp));
+	wchar_t timestamp[MAX_DATASIZE];
+	wcsftime(timestamp, MAX_DATASIZE, L"%Y.%m.%d %H:%M", _localtime32((__time32_t *)&dbe.timestamp));
 	mir_sntprintf(pdata->eventData[pdata->nrMerged].tszText, L"\n\n%s\n", timestamp);
 
-	TCHAR *szPreview = GetPreviewT(dbe.eventType, &dbe);
+	wchar_t *szPreview = GetPreviewT(dbe.eventType, &dbe);
 	if (szPreview) {
 		mir_tstrncat(pdata->eventData[pdata->nrMerged].tszText, szPreview, _countof(pdata->eventData[pdata->nrMerged].tszText) - mir_tstrlen(pdata->eventData[pdata->nrMerged].tszText));
 		mir_free(szPreview);
@@ -529,10 +529,10 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 	* for which there is enough space in the popup text
 	*/
 
-	TCHAR lpzText[MAX_SECONDLINE];
+	wchar_t lpzText[MAX_SECONDLINE];
 	int i, available = MAX_SECONDLINE - 1;
 	if (pdata->pluginOptions->bShowHeaders) {
-		_tcsncpy(lpzText, szHeader, MAX_SECONDLINE);
+		wcsncpy(lpzText, szHeader, MAX_SECONDLINE);
 		available -= (int)mir_tstrlen(szHeader);
 	}
 	else lpzText[0] = 0;
@@ -613,21 +613,21 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	pud.PluginData = pdata;
 
 	if (hContact)
-		_tcsncpy_s(pud.lptzContactName, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
+		wcsncpy_s(pud.lptzContactName, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
 	else
-		_tcsncpy_s(pud.lptzContactName, _A2T(dbe.szModule), _TRUNCATE);
+		wcsncpy_s(pud.lptzContactName, _A2T(dbe.szModule), _TRUNCATE);
 
-	TCHAR *szPreview = GetPreviewT((WORD)eventType, &dbe);
+	wchar_t *szPreview = GetPreviewT((WORD)eventType, &dbe);
 	if (szPreview) {
-		_tcsncpy_s(pud.lptzText, szPreview, _TRUNCATE);
+		wcsncpy_s(pud.lptzText, szPreview, _TRUNCATE);
 		mir_free(szPreview);
 	}
-	else _tcsncpy(pud.lptzText, L" ", MAX_SECONDLINE);
+	else wcsncpy(pud.lptzText, L" ", MAX_SECONDLINE);
 
 	pdata->eventData = (EVENT_DATAT *)mir_alloc(NR_MERGED * sizeof(EVENT_DATAT));
 	pdata->eventData[0].hEvent = hEvent;
 	pdata->eventData[0].timestamp = dbe.timestamp;
-	_tcsncpy(pdata->eventData[0].tszText, pud.lptzText, MAX_SECONDLINE);
+	wcsncpy(pdata->eventData[0].tszText, pud.lptzText, MAX_SECONDLINE);
 	pdata->eventData[0].tszText[MAX_SECONDLINE - 1] = 0;
 	pdata->nrEventsAlloced = NR_MERGED;
 	pdata->nrMerged = 1;
@@ -662,14 +662,14 @@ void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_DATA | MIIM_BITMAP;
 
-	const TCHAR *tszProto = dat->cache->getRealAccount();
+	const wchar_t *tszProto = dat->cache->getRealAccount();
 	assert(tszProto != 0);
 
 	GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->hContact, FALSE, &mii);
 	if (!bForced)
 		PluginConfig.m_UnreadInTray -= (mii.dwItemData & 0x0000ffff);
 	if (mii.dwItemData > 0 || bForced) {
-		TCHAR szMenuEntry[80];
+		wchar_t szMenuEntry[80];
 		mir_sntprintf(szMenuEntry, L"%s: %s (%s) [%d]", tszProto,
 			dat->cache->getNick(), dat->szStatus[0] ? dat->szStatus : L"(undef)", mii.dwItemData & 0x0000ffff);
 
@@ -684,18 +684,18 @@ void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 }
 
 // if we want tray support, add the contact to the list of unread sessions in the tray menu
-int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, MCONTACT hContact, DWORD fromEvent)
+int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const wchar_t *szStatus, MCONTACT hContact, DWORD fromEvent)
 {
 	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == NULL)
 		return 0;
 
 	PROTOACCOUNT *acc = Proto_GetAccount(szProto);
-	TCHAR *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
+	wchar_t *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
 	if (tszFinalProto == 0)
 		return 0;
 
 	WORD wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
-	const TCHAR	*szMyStatus = (szStatus == NULL) ? pcli->pfnGetStatusModeDescription(wMyStatus, 0) : szStatus;
+	const wchar_t	*szMyStatus = (szStatus == NULL) ? pcli->pfnGetStatusModeDescription(wMyStatus, 0) : szStatus;
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
@@ -703,8 +703,8 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 	mii.wID = (UINT)hContact;
 	mii.hbmpItem = HBMMENU_CALLBACK;
 
-	TCHAR	szMenuEntry[80];
-	const TCHAR *szNick = NULL;
+	wchar_t	szMenuEntry[80];
+	const wchar_t *szNick = NULL;
 	if (dat != 0) {
 		szNick = dat->cache->getNick();
 		GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);

@@ -20,7 +20,6 @@ Boston, MA 02111-1307, USA.
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>
-#include <tchar.h>
 
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -32,11 +31,11 @@ Boston, MA 02111-1307, USA.
 
 #include "mir_options.h"
 
-static TCHAR* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def)
+static wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* setting, wchar_t* out, size_t len, wchar_t *def)
 {
 	DBVARIANT dbv = { 0 };
 
-	out[0] = _T('\0');
+	out[0] = '\0';
 
 	if (!db_get_ts(hContact, module, setting, &dbv)) {
 		mir_tstrncpy(out, dbv.ptszVal, (int)len);
@@ -51,42 +50,42 @@ static TCHAR* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char
 }
 
 
-static TCHAR dbPath[MAX_PATH] = { 0 };		// database profile path (read at startup only)
+static wchar_t dbPath[MAX_PATH] = { 0 };		// database profile path (read at startup only)
 
 
-static int PathIsAbsolute(const TCHAR *path)
+static int PathIsAbsolute(const wchar_t *path)
 {
 	if (!path || !(mir_tstrlen(path) > 2))
 		return 0;
-	if ((path[1] == _T(':') && path[2] == _T('\\')) || (path[0] == _T('\\') && path[1] == _T('\\')))
+	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
 		return 1;
 	return 0;
 }
 
-static void PathToRelative(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
+static void PathToRelative(wchar_t *pOut, size_t outSize, const wchar_t *pSrc)
 {
 	if (!PathIsAbsolute(pSrc))
 		mir_tstrncpy(pOut, pSrc, (int)outSize);
 	else {
-		if (dbPath[0] == _T('\0')) {
+		if (dbPath[0] == '\0') {
 			char tmp[1024];
 			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
 			mir_sntprintf(dbPath, L"%S\\", tmp);
 		}
 
 		size_t len = mir_tstrlen(dbPath);
-		if (!_tcsnicmp(pSrc, dbPath, len))
+		if (!wcsnicmp(pSrc, dbPath, len))
 			len = 0;
 		mir_tstrncpy(pOut, pSrc + len, outSize);
 	}
 }
 
-static void PathToAbsolute(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
+static void PathToAbsolute(wchar_t *pOut, size_t outSize, const wchar_t *pSrc)
 {
 	if (PathIsAbsolute(pSrc) || !isalnum(pSrc[0]))
 		mir_tstrncpy(pOut, pSrc, (int)outSize);
 	else {
-		if (dbPath[0] == _T('\0')) {
+		if (dbPath[0] == '\0') {
 			char tmp[1024];
 			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
 			mir_sntprintf(dbPath, L"%S\\", tmp);
@@ -101,7 +100,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 	if (ctrl->var == NULL)
 		return;
 
-	TCHAR tmp[1024];
+	wchar_t tmp[1024];
 	switch (ctrl->type) {
 	case CONTROL_CHECKBOX:
 		*((BYTE *)ctrl->var) = db_get_b(NULL, module, ctrl->setting, ctrl->dwDefValue);
@@ -127,7 +126,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 		break;
 
 	case CONTROL_TEXT:
-		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((TCHAR *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
+		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
 		break;
 
 	case CONTROL_INT:
@@ -136,12 +135,12 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 
 	case CONTROL_FILE:
 		MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : ctrl->tszDefValue);
-		PathToAbsolute(((TCHAR *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), tmp);
+		PathToAbsolute(((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), tmp);
 		break;
 
 	case CONTROL_COMBO_TEXT:
 	case CONTROL_COMBO_ITEMDATA:
-		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((TCHAR *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
+		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
 		break;
 	}
 }
@@ -154,7 +153,7 @@ void LoadOpts(OptPageControl *controls, int controlsSize, char *module)
 
 INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, char *module, HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR tmp[1024];
+	wchar_t tmp[1024];
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -249,7 +248,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 			case CONTROL_FILE:
 				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : ctrl->tszDefValue);
 				{
-					TCHAR abs[1024];
+					wchar_t abs[1024];
 					PathToAbsolute(abs, 1024, tmp);
 					SetDlgItemText(hwndDlg, ctrl->nID, abs);
 				}
@@ -267,7 +266,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					int count = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCOUNT, 0, 0);
 					int k;
 					for (k = 0; k < count; k++) {
-						TCHAR *id = (TCHAR *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)k, 0);
+						wchar_t *id = (wchar_t *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)k, 0);
 						if (mir_tstrcmp(id, tmp) == 0)
 							break;
 					}
@@ -378,7 +377,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					case CONTROL_FILE:
 						GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
 						{
-							TCHAR rel[1024];
+							wchar_t rel[1024];
 							PathToRelative(rel, 1024, tmp);
 							db_set_ts(NULL, module, ctrl->setting, rel);
 						}
@@ -391,7 +390,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 					case CONTROL_COMBO_ITEMDATA:
 						int sel = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0);
-						db_set_ts(NULL, module, ctrl->setting, (TCHAR *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
+						db_set_ts(NULL, module, ctrl->setting, (wchar_t *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
 						break;
 					}
 

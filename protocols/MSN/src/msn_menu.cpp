@@ -119,10 +119,10 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		int listId = Lists_GetMask(szEmail);
 		bool noChat = !(listId & LIST_FL) || isMe || isChatRoom(hContact);
 
-		Menu_ModifyItem(hBlockMenuItem, (listId & LIST_BL) ? LPGENT("&Unblock") : LPGENT("&Block"));
+		Menu_ModifyItem(hBlockMenuItem, (listId & LIST_BL) ? LPGENW("&Unblock") : LPGENW("&Block"));
 		Menu_ShowItem(hBlockMenuItem, !noChat);
 
-		Menu_ModifyItem(hOpenInboxMenuItem, isMe ? LPGENT("Open &Hotmail Inbox") : LPGENT("Send &Hotmail E-mail"));
+		Menu_ModifyItem(hOpenInboxMenuItem, isMe ? LPGENW("Open &Hotmail Inbox") : LPGENW("Send &Hotmail E-mail"));
 		Menu_ShowItem(hOpenInboxMenuItem, emailEnabled);
 
 #ifdef OBSOLETE
@@ -210,7 +210,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			CMsnProto *proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (proto->msnLoggedIn) {
-				TCHAR str[130];
+				wchar_t str[130];
 				GetDlgItemText(hwndDlg, IDC_NICKNAME, str, _countof(str));
 				proto->MSN_SendNickname(str);
 			}

@@ -343,7 +343,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 		ptrT avatarPath(proto->GetAvatarFilePath());
 		if (IsFileExists(avatarPath))
 		{
-			FILE *hFile = _tfopen(avatarPath, L"rb");
+			FILE *hFile = _wfopen(avatarPath, L"rb");
 			if (!hFile)
 			{
 				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to open avatar file");
@@ -401,7 +401,7 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
 		odp.hInstance = g_hInstance;
 		odp.dwInitParam = (LPARAM)this;
-		odp.ptszTitle = m_tszUserName;
+		odp.pwszTitle = m_tszUserName;
 
 		odp.pfnDlgProc = UserInfoProc;
 		odp.position = -2000000000;
@@ -456,7 +456,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				{
 					break;
 				}
-				TCHAR dnsId[MAX_PATH];
+				wchar_t dnsId[MAX_PATH];
 				GetDlgItemText(hwnd, IDC_DNS_ID, dnsId, MAX_PATH);
 				proto->setTString(hContact, TOX_SETTINGS_DNS, dnsId);
 				break;

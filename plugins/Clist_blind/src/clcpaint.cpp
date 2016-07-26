@@ -269,7 +269,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && cc->type != CLCIT_DIVIDER && dat->iHotTrack == index;
 			SIZE textSize, countsSize = { 0 }, spaceSize = { 0 };
 			int width, checkboxWidth;
-			TCHAR *szCounts = NULL;
+			wchar_t *szCounts = NULL;
 
 			// alternating grey
 			if (style & CLS_GREYALTERNATE && index & 1) {
@@ -414,7 +414,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				}
 			}
 			else {
-				TCHAR *szText = cc->szText;
+				wchar_t *szText = cc->szText;
 				RECT rc;
 				rc.left = dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace;
 				rc.top = y + ((dat->rowHeight - fontHeight) >> 1);
@@ -424,7 +424,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			}
 			if (selected) {
 				if (cc->type != CLCIT_DIVIDER) {
-					TCHAR *szText = cc->szText;
+					wchar_t *szText = cc->szText;
 					RECT rc;
 					int qlen = (int)mir_tstrlen(dat->szQuickSearch);
 					SetTextColor(hdcMem, dat->quickSearchColour);

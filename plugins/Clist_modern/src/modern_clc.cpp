@@ -44,7 +44,7 @@ static int		StartScrollPos = 0;
 static BOOL		g_bSortTimerIsSet = FALSE;
 static ClcContact *hitcontact = NULL;
 HANDLE hSkinFolder;
-TCHAR SkinsFolder[MAX_PATH];
+wchar_t SkinsFolder[MAX_PATH];
 
 int ReloadSkinFolder(WPARAM, LPARAM)
 {
@@ -202,7 +202,7 @@ static int clcProceedDragToScroll(HWND hwnd, int Y)
 	return 1;
 }
 
-static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR *text, int prefixOk, BOOL fSearchUp)
+static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const wchar_t *text, int prefixOk, BOOL fSearchUp)
 {
 	ClcGroup *group = &dat->list;
 	int testlen = (int)mir_tstrlen(text);
@@ -225,9 +225,9 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR 
 				found = true;
 			}
 			else if (dat->bFilterSearch) {
-				TCHAR *lowered_szText = CharLowerW(NEWTSTR_ALLOCA(cc->szText));
-				TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
-				found = _tcsstr(lowered_szText, lowered_search) != NULL;
+				wchar_t *lowered_szText = CharLowerW(NEWWSTR_ALLOCA(cc->szText));
+				wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
+				found = wcsstr(lowered_szText, lowered_search) != NULL;
 			}
 			else found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText)));
 
@@ -1065,7 +1065,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 	if (dat->dragStage == (DRAGSTAGE_NOTMOVED | DRAGSTAGEF_MAYBERENAME))
 		CLUI_SafeSetTimer(hwnd, TIMERID_RENAME, GetDoubleClickTime(), NULL);
 	else if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
-		TCHAR Wording[500];
+		wchar_t Wording[500];
 		ClcContact *contDest, *contSour;
 		POINT pt = UNPACK_POINT(lParam);
 		int target = GetDropTargetInformation(hwnd, dat, pt);
@@ -1198,13 +1198,13 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			ClcGroup *group, *destgroup;
 			{
 				BOOL NeedRename = FALSE;
-				TCHAR newName[128] = { 0 };
+				wchar_t newName[128] = { 0 };
 				pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
 				int i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
 				if (i != -1 && group->groupId != destgroup->groupId) {
-					TCHAR *groupName = mir_tstrdup(Clist_GroupGetName(contact->groupId, 0));
-					TCHAR *shortGroup = NULL;
-					TCHAR *sourceGrName = mir_tstrdup(Clist_GroupGetName(destgroup->groupId, 0));
+					wchar_t *groupName = mir_tstrdup(Clist_GroupGetName(contact->groupId, 0));
+					wchar_t *shortGroup = NULL;
+					wchar_t *sourceGrName = mir_tstrdup(Clist_GroupGetName(destgroup->groupId, 0));
 					if (groupName) {
 						int len = (int)mir_tstrlen(groupName);
 						do { len--; } while (len >= 0 && groupName[len] != '\\');
@@ -1562,11 +1562,11 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
 
 	// Get icons
-	TCHAR szMyPath[MAX_PATH];
+	wchar_t szMyPath[MAX_PATH];
 	GetModuleFileName(g_hInst, szMyPath, _countof(szMyPath));
 
 	SKINICONDESC sid = { 0 };
-	sid.defaultFile.t = szMyPath;
+	sid.defaultFile.w = szMyPath;
 	sid.flags = SIDF_PATH_TCHAR;
 
 	sid.section.a = LPGEN("Contact list");
@@ -1666,7 +1666,7 @@ int ClcDoProtoAck(ACKDATA *ack)
 				if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0)
 					return 0;
 
-			db_set_ws(ack->hContact, "CList", "StatusMsg", (const TCHAR *)ack->lParam);
+			db_set_ws(ack->hContact, "CList", "StatusMsg", (const wchar_t *)ack->lParam);
 			Clist_Broadcast(INTM_STATUSCHANGED, ack->hContact, 0);
 		}
 		else {

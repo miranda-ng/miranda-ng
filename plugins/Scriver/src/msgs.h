@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct ToolbarButton
 {
-	TCHAR *name;
+	wchar_t *name;
 	UINT controlId;
 	int alignment;
 	int spacing;
@@ -38,9 +38,9 @@ struct ToolbarButton
 
 struct ErrorWindowData
 {
-	TCHAR *szName;
-	TCHAR *szDescription;
-	TCHAR *szText;
+	wchar_t *szName;
+	wchar_t *szDescription;
+	wchar_t *szText;
 	MessageSendQueueItem *queueItem;
 	HWND hwndParent;
 };

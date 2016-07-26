@@ -236,7 +236,7 @@ void CSkypeProto::SendPresence(bool isLogin)
 		epname = mir_utf8encodeT(m_opts.wstrPlace);
 	else
 	{
-		TCHAR compName[MAX_COMPUTERNAME_LENGTH + 1];
+		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = _countof(compName);
 		GetComputerName(compName, &size);
 		epname = mir_utf8encodeT(compName);

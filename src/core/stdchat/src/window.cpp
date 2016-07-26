@@ -27,10 +27,10 @@ static HKL hkl = NULL;
 struct MESSAGESUBDATA
 {
 	time_t lastEnterTime;
-	TCHAR  szTabSave[20];
+	wchar_t  szTabSave[20];
 };
 
-static TCHAR szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
+static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
 
 static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -363,7 +363,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					SendMessage(GetParent(hwnd), GC_SWITCHTAB, 0, (int)wParam - (int)VK_NUMPAD1);
 
 			if (wParam == VK_TAB && !isCtrl && !isShift) {    //tab-autocomplete
-				TCHAR* pszText = NULL;
+				wchar_t* pszText = NULL;
 				LRESULT lResult = (LRESULT)SendMessage(hwnd, EM_GETSEL, 0, 0);
 
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
@@ -376,7 +376,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				gtl.codepage = CP_ACP;
 				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 				if (iLen > 0) {
-					pszText = (TCHAR *)mir_alloc(sizeof(TCHAR)*(iLen + 100));
+					pszText = (wchar_t *)mir_alloc(sizeof(wchar_t)*(iLen + 100));
 
 					GETTEXTEX gt = { 0 };
 					gt.cb = iLen + 99;
@@ -392,10 +392,10 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					if (dat->szTabSave[0] == '\0')
 						mir_tstrncpy(dat->szTabSave, pszText + start, end - start + 1);
 
-					TCHAR *pszSelName = (TCHAR *)mir_alloc(sizeof(TCHAR)*(end - start + 1));
+					wchar_t *pszSelName = (wchar_t *)mir_alloc(sizeof(wchar_t)*(end - start + 1));
 					mir_tstrncpy(pszSelName, pszText + start, end - start + 1);
 
-					TCHAR *pszName = pci->UM_FindUserAutoComplete(Parentsi->pUsers, dat->szTabSave, pszSelName);
+					wchar_t *pszName = pci->UM_FindUserAutoComplete(Parentsi->pUsers, dat->szTabSave, pszSelName);
 					if (pszName == NULL) {
 						pszName = dat->szTabSave;
 						SendMessage(hwnd, EM_SETSEL, start, end);
@@ -984,13 +984,13 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *si
 	ti.uId = 1;
 	ti.rect = clientRect;
 
-	TCHAR tszBuf[1024]; tszBuf[0] = 0;
+	wchar_t tszBuf[1024]; tszBuf[0] = 0;
 	USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, currentHovered);
 	if (ui) {
 		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			TCHAR *p = (TCHAR*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui->pszUID);
+			wchar_t *p = (wchar_t*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui->pszUID);
 			if (p != NULL) {
-				_tcsncpy_s(tszBuf, p, _TRUNCATE);
+				wcsncpy_s(tszBuf, p, _TRUNCATE);
 				mir_free(p);
 			}
 		}
@@ -1170,7 +1170,7 @@ static int RestoreWindowPosition(HWND hwnd, MCONTACT hContact, char * szModule, 
 	return 1;
 }
 
-int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
+int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
 {
 	if (!pszText || !hFont)
 		return 0;
@@ -1220,7 +1220,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_AUTOURLDETECT, 1, 0);
 			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETEVENTMASK, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
-			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LIMITTEXT, (WPARAM)sizeof(TCHAR) * 0x7FFFFFFF, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LIMITTEXT, (WPARAM)sizeof(wchar_t) * 0x7FFFFFFF, 0);
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)& reOleCallback);
 
 			si->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP | SBT_TOOLTIPS, 0, 0, 0, 0, hwndDlg, NULL, g_hInst, NULL);
@@ -1311,7 +1311,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_UPDATETITLE:
 		{
-			TCHAR szTemp[100];
+			wchar_t szTemp[100];
 			switch (si->iType) {
 			case GCW_CHATROOM:
 				mir_sntprintf(szTemp,
@@ -1334,7 +1334,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case GC_UPDATESTATUSBAR:
 		{
 			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-			TCHAR* ptszDispName = mi->ptszModDispName;
+			wchar_t* ptszDispName = mi->ptszModDispName;
 			int x = 12;
 			x += GetTextPixelSize(ptszDispName, (HFONT)SendMessage(si->hwndStatus, WM_GETFONT, 0, 0), TRUE);
 			x += GetSystemMetrics(SM_CXSMICON);
@@ -1603,7 +1603,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			if (!bFound) { // create a new tab
 				int insertat;
-				TCHAR szTemp[30];
+				wchar_t szTemp[30];
 
 				mir_tstrncpy(szTemp, s1->ptszName, 21);
 				if (mir_tstrlen(s1->ptszName) > 20)
@@ -2170,7 +2170,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				POINT pt;
 				UINT uID = 0;
 				HMENU hMenu = 0;
-				TCHAR pszWord[4096];
+				wchar_t pszWord[4096];
 
 				pt.x = (short)LOWORD(((ENLINK *)lParam)->lParam);
 				pt.y = (short)HIWORD(((ENLINK *)lParam)->lParam);
@@ -2199,7 +2199,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					tr.lpstrText = pszWord;
 					long iRes = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 					if (iRes > 0)
-						for (size_t iLen = mir_tstrlen(pszWord) - 1; _tcschr(szTrimString, pszWord[iLen]); iLen--)
+						for (size_t iLen = mir_tstrlen(pszWord) - 1; wcschr(szTrimString, pszWord[iLen]); iLen--)
 							pszWord[iLen] = 0;
 				}
 
@@ -2271,7 +2271,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 						TEXTRANGE tr;
 						tr.chrg = ((ENLINK *)lParam)->chrg;
-						tr.lpstrText = (LPTSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
+						tr.lpstrText = (LPTSTR)mir_alloc(sizeof(wchar_t)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
 						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 						if (((ENLINK *)lParam)->msg == WM_RBUTTONDOWN) {
@@ -2298,8 +2298,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 									if (!OpenClipboard(hwndDlg))
 										break;
 									EmptyClipboard();
-									hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(tr.lpstrText) + 1));
-									mir_tstrcpy((TCHAR*)GlobalLock(hData), tr.lpstrText);
+									hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_tstrlen(tr.lpstrText) + 1));
+									mir_tstrcpy((wchar_t*)GlobalLock(hData), tr.lpstrText);
 									GlobalUnlock(hData);
 									SetClipboardData(CF_UNICODETEXT, hData);
 									CloseClipboard();
@@ -2330,7 +2330,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				int item = LOWORD(SendDlgItemMessage(hwndDlg, IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
 				USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 				if (ui != NULL) {
-					static TCHAR ptszBuf[1024];
+					static wchar_t ptszBuf[1024];
 					mir_sntprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 						TranslateT("Nickname"), ui->pszNick,
 						TranslateT("Unique ID"), ui->pszUID,
@@ -2357,7 +2357,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
 						size_t dwNameLenMax = (mir_tstrlen(ui->pszUID) + 3);
-						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * dwNameLenMax);
+						wchar_t* pszName = (wchar_t*)alloca(sizeof(wchar_t) * dwNameLenMax);
 						if (start == 0)
 							mir_sntprintf(pszName, dwNameLenMax, L"%s: ", ui->pszUID);
 						else
@@ -2446,8 +2446,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_HISTORY))) {
 				MODULEINFO *pInfo = pci->MM_FindModule(si->pszModule);
 				if (pInfo) {
-					TCHAR szFile[MAX_PATH], szName[MAX_PATH], szFolder[MAX_PATH];
-					_tcsncpy_s(szName, (pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule)), _TRUNCATE);
+					wchar_t szFile[MAX_PATH], szName[MAX_PATH], szFolder[MAX_PATH];
+					wcsncpy_s(szName, (pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule)), _TRUNCATE);
 					ValidateFilename(szName);
 
 					mir_sntprintf(szFolder, L"%s\\%s", g_Settings.pszLogDir, szName);

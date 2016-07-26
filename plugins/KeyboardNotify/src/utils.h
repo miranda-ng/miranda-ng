@@ -17,4 +17,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 char *fmtDBSettingName(const char *, ...);
-TCHAR *getAbsoluteProfileName(TCHAR *, size_t);
+wchar_t *getAbsoluteProfileName(wchar_t *, size_t);

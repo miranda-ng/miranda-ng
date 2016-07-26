@@ -66,22 +66,22 @@ void VerifyFingerprint(ConnContext *context, bool verify) {
 
 void VerifyFingerprintMessage(ConnContext *context, bool verify) {
 	MCONTACT hContact = (UINT_PTR)context->app_data;
-	TCHAR msg[1024];
 
-	mir_sntprintf(msg, (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
+	wchar_t msg[1024];
+	mir_snwprintf(msg, (verify) ? TranslateW(LANG_FINGERPRINT_VERIFIED) : TranslateW(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
 	ShowMessage(hContact, msg);
 	SetEncryptionStatus(hContact, otr_context_get_trust(context));
 }
 
 /* Convert a 20-byte hash value to a 45-byte human-readable value */
-void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20])
+void otrl_privkey_hash_to_humanT(wchar_t human[45], const unsigned char hash[20])
 {
 	int word, byte;
-	TCHAR *p = human;
+	wchar_t *p = human;
 
 	for(word=0; word<5; ++word) {
 	for(byte=0; byte<4; ++byte) {
-		_stprintf(p, L"%02X", hash[word*4+byte]); //!!!!!!!!!!!!!!
+		swprintf(p, L"%02X", hash[word*4+byte]); //!!!!!!!!!!!!!!
 		p += 2;
 	}
 	*(p++) = ' ';
@@ -100,26 +100,26 @@ char* contact_get_id(MCONTACT hContact, bool bNameOnError)
 	return mir_t2a(pszUniqueID);
 }
 
-__inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
+__inline const wchar_t* contact_get_nameT(MCONTACT hContact) {
 	return pcli->pfnGetContactDisplayName(hContact, 0);
 }
 
-TCHAR* ProtoGetNickname(const char* proto)
+wchar_t* ProtoGetNickname(const char* proto)
 {
-	TCHAR *p = Contact_GetInfo(CNF_NICK, NULL, proto);
+	wchar_t *p = Contact_GetInfo(CNF_NICK, NULL, proto);
 	return (p != NULL) ? p : mir_tstrdup(L"");
 }
 
-void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTACT hContact) {
+void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MCONTACT hContact) {
 	if(CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
 
 	if ( !options.bHavePopups) {	
-		TCHAR title[256];
+		wchar_t title[256];
 		mir_sntprintf(title, L"%s Message", _T(MODULENAME));
 
 		if(line1 && line2) {
 			int size = int(mir_tstrlen(line1) + mir_tstrlen(line2) + 3);
-			TCHAR *message = new TCHAR[size]; // newline and null terminator
+			wchar_t *message = new wchar_t[size]; // newline and null terminator
 			mir_sntprintf(message, size, L"%s\r\n%s", line1, line2);
 			MessageBox( NULL, message, title, MB_OK | MB_ICONINFORMATION );
 			delete[] message;
@@ -138,12 +138,12 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTA
 	ppd.lchIcon = NULL;
 
 	if(line1 && line2) {
-		_tcsncpy( ppd.lptzContactName, line1, MAX_CONTACTNAME-1 );
-		_tcsncpy( ppd.lptzText, line2, MAX_SECONDLINE-1 );
+		wcsncpy( ppd.lptzContactName, line1, MAX_CONTACTNAME-1 );
+		wcsncpy( ppd.lptzText, line2, MAX_SECONDLINE-1 );
 	} else if(line1)
-		_tcsncpy( ppd.lptzText, line1, MAX_SECONDLINE-1 );
+		wcsncpy( ppd.lptzText, line1, MAX_SECONDLINE-1 );
 	else if(line2)
-		_tcsncpy( ppd.lptzText, line2, MAX_SECONDLINE-1 );
+		wcsncpy( ppd.lptzText, line2, MAX_SECONDLINE-1 );
 
 	ppd.iSeconds = timeout;
 
@@ -154,8 +154,8 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTA
 
 }
 
-void ShowWarning(TCHAR *msg) {
-	TCHAR buffer[512];
+void ShowWarning(wchar_t *msg) {
+	wchar_t buffer[512];
 	ErrorDisplay disp = options.err_method;
 	// funny logic :) ... try to avoid message boxes
 	// if want baloons but no balloons, try popups
@@ -172,7 +172,7 @@ void ShowWarning(TCHAR *msg) {
 		case ED_POP:
 			{
 				int size = int(mir_tstrlen(msg) + 515);
-				TCHAR *message = new TCHAR[size]; // newline and null terminator
+				wchar_t *message = new wchar_t[size]; // newline and null terminator
 				mir_sntprintf(message, size, L"%s\r\n%s", buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
 				delete[] message;
@@ -200,8 +200,8 @@ void ShowWarning(TCHAR *msg) {
 	}
 }
 
-void ShowError(TCHAR *msg) {
-	TCHAR buffer[512];
+void ShowError(wchar_t *msg) {
+	wchar_t buffer[512];
 	ErrorDisplay disp = options.err_method;
 	// funny logic :) ... try to avoid message boxes
 	// if want baloons but no balloons, try popups
@@ -214,12 +214,12 @@ void ShowError(TCHAR *msg) {
 	mir_sntprintf(buffer, L"%s Error", _T(MODULENAME));
 
 
-	TCHAR *message;
+	wchar_t *message;
 	switch(disp) {
 		case ED_POP:
 			{
 				int size = int(mir_tstrlen(msg) + 515);
-				message = new TCHAR[size]; // newline and null terminator
+				message = new wchar_t[size]; // newline and null terminator
 				mir_sntprintf(message, size, L"%s\r\n%s", buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
 				delete[] message;
@@ -249,26 +249,26 @@ void ShowError(TCHAR *msg) {
 
 
 void ShowPopupUtf(const char* line1, const char* line2, int timeout, const MCONTACT hContact) {
-	TCHAR* l1 = (line1) ? mir_utf8decodeT(line1) : NULL;
-	TCHAR* l2 = (line2) ? mir_utf8decodeT(line2) : NULL;
+	wchar_t* l1 = (line1) ? mir_utf8decodeT(line1) : NULL;
+	wchar_t* l2 = (line2) ? mir_utf8decodeT(line2) : NULL;
 	ShowPopup(l1, l2, timeout, hContact);
 	if (l1) mir_free(l1);
 	if (l2) mir_free(l2);
 }
 
 void ShowWarningUtf(char* msg) {
-	TCHAR* m = (msg) ? mir_utf8decodeT(msg) : NULL;
+	wchar_t* m = (msg) ? mir_utf8decodeT(msg) : NULL;
 	ShowWarning(m);
 	if (m) mir_free(m);
 }
 void ShowErrorUtf(char* msg) {
-	TCHAR* m = (msg) ? mir_utf8decodeT(msg) : NULL;
+	wchar_t* m = (msg) ? mir_utf8decodeT(msg) : NULL;
 	ShowError(m);
 	if (m) mir_free(m);
 }
 
-void ShowMessageInline(const MCONTACT hContact, const TCHAR *msg) {
-	TCHAR buff[1024];
+void ShowMessageInline(const MCONTACT hContact, const wchar_t *msg) {
+	wchar_t buff[1024];
 	mir_sntprintf(buff, L"%s%s", _T(LANG_INLINE_PREFIX), msg);
 	T2Utf utf(buff);
 
@@ -297,37 +297,37 @@ void ShowMessageUtf(const MCONTACT hContact, const char *msg) {
 		ShowPopupUtf(Translate(LANG_OTR_INFO), msg, 0, hContact);
 }
 
-void ShowMessage(const MCONTACT hContact, const TCHAR *msg) {
+void ShowMessage(const MCONTACT hContact, const wchar_t *msg) {
 	if(options.msg_inline)
 		ShowMessageInline(hContact, msg);
 	if(options.msg_popup)
 		ShowPopup(TranslateT(LANG_OTR_INFO), msg, 0, hContact);
 }
 
-const TCHAR *policy_to_string(OtrlPolicy policy) {
+const wchar_t *policy_to_string(OtrlPolicy policy) {
 	switch (policy) {
 		case OTRL_POLICY_NEVER:
-			return TranslateT(LANG_POLICY_NEVER);
+			return TranslateW(LANG_POLICY_NEVER);
 		case OTRL_POLICY_OPPORTUNISTIC:
-			return TranslateT(LANG_POLICY_OPP);
+			return TranslateW(LANG_POLICY_OPP);
 		case OTRL_POLICY_MANUAL:
 		case OTRL_POLICY_MANUAL_MOD:
-			return TranslateT(LANG_POLICY_MANUAL);
+			return TranslateW(LANG_POLICY_MANUAL);
 		case OTRL_POLICY_ALWAYS:
-			return TranslateT(LANG_POLICY_ALWAYS);
+			return TranslateW(LANG_POLICY_ALWAYS);
 		default:
-			return TranslateT(LANG_POLICY_DEFAULT);
+			return TranslateW(LANG_POLICY_DEFAULT);
 	}
 }
 
-OtrlPolicy policy_from_string(const TCHAR *polstring) {
-	if (mir_tstrcmp(polstring, TranslateT(LANG_POLICY_NEVER)) == 0)
+OtrlPolicy policy_from_string(const wchar_t *polstring) {
+	if (mir_tstrcmp(polstring, TranslateW(LANG_POLICY_NEVER)) == 0)
 		return OTRL_POLICY_NEVER;
-	else if (mir_tstrcmp(polstring, TranslateT(LANG_POLICY_OPP)) == 0)
+	else if (mir_tstrcmp(polstring, TranslateW(LANG_POLICY_OPP)) == 0)
 		return OTRL_POLICY_OPPORTUNISTIC;
-	else if (mir_tstrcmp(polstring, TranslateT(LANG_POLICY_MANUAL)) == 0)
+	else if (mir_tstrcmp(polstring, TranslateW(LANG_POLICY_MANUAL)) == 0)
 		return OTRL_POLICY_MANUAL_MOD;
-	else if (mir_tstrcmp(polstring, TranslateT(LANG_POLICY_ALWAYS)) == 0)
+	else if (mir_tstrcmp(polstring, TranslateW(LANG_POLICY_ALWAYS)) == 0)
 		return OTRL_POLICY_ALWAYS;
 	else 
 		return CONTACT_DEFAULT_POLICY;
