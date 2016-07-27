@@ -53,7 +53,7 @@ WIDATA* GetWIData(wchar_t *pszServ)
 	// loop through the list to find matching internal name
 	for (WIDATALIST *Item = WIHead; Item != NULL; Item = Item->next)
 		// if internal name found, return the data
-		if (mir_tstrcmp(Item->Data.InternalName, pszServ) == 0)
+		if (mir_wstrcmp(Item->Data.InternalName, pszServ) == 0)
 			return &Item->Data;
 
 	// return NULL when no match found
@@ -78,7 +78,7 @@ void WIItemListAdd(WIDATAITEM *DataItem, WIDATA *Data)
 // name = the string to store in the "name" field
 void ResetDataItem(WIDATAITEM *Item, const wchar_t *name)
 {
-	Item->Name = mir_tstrdup(name);
+	Item->Name = mir_wstrdup(name);
 	Item->Start = L"";
 	Item->End = L"";
 	Item->Unit = L"";
@@ -113,7 +113,7 @@ void WICondListAdd(char *str, WICONDLIST *List)
 {
 	WICONDITEM *newItem = (WICONDITEM*)mir_alloc(sizeof(WICONDITEM));
 	wSetData(&newItem->Item, str);
-	CharLowerBuff(newItem->Item, (DWORD)mir_tstrlen(newItem->Item));
+	CharLowerBuff(newItem->Item, (DWORD)mir_wstrlen(newItem->Item));
 	newItem->Next = NULL;
 	if (List->Tail == NULL)	List->Head = newItem;
 	else List->Tail->Next = newItem;
@@ -183,7 +183,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			wchar_t *chop = wcsrchr(szPath, '\\');
 			if (chop) {
 				*chop = '\0';
-				mir_tstrncat(szPath, L"\\Plugins\\weather\\", _countof(szPath) - mir_tstrlen(szPath));
+				mir_wstrncat(szPath, L"\\Plugins\\weather\\", _countof(szPath) - mir_wstrlen(szPath));
 				if (_wmkdir(szPath) == 0)
 					ShellExecute((HWND)lParam, L"open", szPath, L"", L"", SW_SHOW);
 			}
@@ -270,7 +270,7 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 			Data->InternalVer = 7;
 		else {
 			wchar_t str[4096];
-			mir_sntprintf(str, TranslateT("Invalid ini format for: %s"), pszFile);
+			mir_snwprintf(str, TranslateT("Invalid ini format for: %s"), pszFile);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
 			fclose(pfile);
 			return;
@@ -323,7 +323,7 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 
 		// initialize the linked list for update items
 		Data->UpdateDataCount = 0;
-		Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (mir_tstrlen(pszShortFile) + mir_tstrlen(pszFile) + 20)*sizeof(wchar_t);
+		Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (mir_wstrlen(pszShortFile) + mir_wstrlen(pszFile) + 20)*sizeof(wchar_t);
 		Data->UpdateData = NULL;
 		Data->UpdateDataTail = NULL;
 
@@ -447,7 +447,7 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 				else if (!_stricmp(ValName, "HIDDEN")) {
 					if (!_stricmp(Value, "TRUE")) {
 						wchar_t *nm = Data->UpdateDataTail->Item.Name;
-						size_t len = mir_tstrlen(nm) + 1;
+						size_t len = mir_wstrlen(nm) + 1;
 
 						Data->UpdateDataTail->Item.Name = nm = (wchar_t*)mir_realloc(nm, sizeof(wchar_t)*(len + 3));
 						memmove(nm + 1, nm, len*sizeof(wchar_t));
@@ -491,7 +491,7 @@ bool LoadWIData(bool dial)
 	if (chop == NULL)
 		return false;
 	*chop = '\0';
-	mir_tstrncat(szSearchPath, L"\\Plugins\\Weather\\*.ini", _countof(szSearchPath) - mir_tstrlen(szSearchPath));
+	mir_wstrncat(szSearchPath, L"\\Plugins\\Weather\\*.ini", _countof(szSearchPath) - mir_wstrlen(szSearchPath));
 	wcsncpy(FileName, szSearchPath, MAX_PATH - 1);
 
 	WIN32_FIND_DATA fd;
@@ -503,8 +503,8 @@ bool LoadWIData(bool dial)
 		do {
 			chop = wcsrchr(FileName, '\\');
 			chop[1] = '\0';
-			mir_tstrncat(FileName, fd.cFileName, _countof(FileName) - mir_tstrlen(FileName));
-			if (mir_tstrcmpi(fd.cFileName, L"SAMPLE_INI.INI")) {
+			mir_wstrncat(FileName, fd.cFileName, _countof(FileName) - mir_wstrlen(FileName));
+			if (mir_wstrcmpi(fd.cFileName, L"SAMPLE_INI.INI")) {
 				WIDATA Data;
 				LoadStationData(FileName, fd.cFileName, &Data);
 				if (Data.Enabled)

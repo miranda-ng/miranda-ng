@@ -280,7 +280,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					if (wcschr(name, '(')) {
 						wstring str = name;
 						wstring::size_type p = str.find(L"(") - 1;
-						mir_tstrcpy(name, str.substr(0, p).c_str());
+						mir_wstrcpy(name, str.substr(0, p).c_str());
 					}
 				}
 				string out;
@@ -333,7 +333,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, passwd, _countof(passwd));
 				if (passwd[0]) {
 					string dbsetting = "szKey_";
-					char *keyid = mir_t2a(fp);
+					char *keyid = mir_u2a(fp);
 					dbsetting += keyid;
 					mir_free(keyid);
 					dbsetting += "_Password";
@@ -452,7 +452,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					while ((p = tmp.find(" ", p)) != string::npos)
 						tmp.erase(p, 1);
 
-					str = mir_a2t(tmp.c_str());
+					str = mir_a2u(tmp.c_str());
 				}
 				cmd.clear();
 				out.clear();
@@ -661,7 +661,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				char *szKey = (char*)GlobalLock(hMem);
 				if (!szKey) {
 					wchar_t msg[64];
-					mir_sntprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
+					mir_snwprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
 					MessageBox(0, msg, TranslateT("Error"), MB_OK);
 					GlobalFree(hMem);
 				}
@@ -672,7 +672,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				if (!SetClipboardData(CF_OEMTEXT, hMem)) {
 					GlobalFree(hMem);
 					wchar_t msg[64];
-					mir_sntprintf(msg, TranslateT("Failed write to clipboard with error %d"), GetLastError());
+					mir_snwprintf(msg, TranslateT("Failed write to clipboard with error %d"), GetLastError());
 					MessageBox(0, msg, TranslateT("Error"), MB_OK);
 				}
 				CloseClipboard();
@@ -687,7 +687,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					//TODO: handle error
 					break;
 				}
-				char *path = mir_t2a(p);
+				char *path = mir_u2a(p);
 				delete[] p;
 				std::ofstream file;
 				file.open(path, std::ios::trunc | std::ios::out);
@@ -794,16 +794,16 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				PathToAbsolute("\\", mir_path);
 				SetCurrentDirectoryA(mir_path);
 				
-				ptrT tmp(mir_a2t(mir_path));
+				ptrW tmp(mir_a2u(mir_path));
 
 				wstring gpg_path(tmp); gpg_path += L"\\GnuPG\\gpg.exe";
 				wstring gpg_lang_path(tmp); gpg_lang_path += L"\\GnuPG\\gnupg.nls\\en@quot.mo";
 
 				if (boost::filesystem::exists(gpg_path)) {
 					gpg_exists = true;
-					mir_tstrcpy(path, L"GnuPG\\gpg.exe");
+					mir_wstrcpy(path, L"GnuPG\\gpg.exe");
 				}
-				else mir_tstrcpy(path, gpg_path.c_str());
+				else mir_wstrcpy(path, gpg_path.c_str());
 				
 				if (boost::filesystem::exists(gpg_lang_path))
 					lang_exists = true;
@@ -813,7 +813,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			DWORD len = MAX_PATH;
 			bool bad_version = false;
 			{
-				ptrT tmp;
+				ptrW tmp;
 				if (!gpg_exists) {
 					tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, path, &len) == ERROR_SUCCESS) ? path : L"");
 					if (tmp[0])
@@ -854,7 +854,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 			}
 			{
-				ptrT tmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
+				ptrW tmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
 				if (!tmp[0]) {
 					mir_free(tmp);
 					char *mir_path = (char*)mir_alloc(sizeof(char) * MAX_PATH);
@@ -890,13 +890,13 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe");
 					SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 					char mir_path[MAX_PATH];
-					char *atmp = mir_t2a(tmp);
+					char *atmp = mir_u2a(tmp);
 					mir_free(tmp);
 					PathToAbsolute("\\", mir_path);
 					char* p_path = NULL;
 					if (StriStr(atmp, mir_path)) {
 						p_path = atmp + mir_strlen(mir_path);
-						tmp = mir_a2t(p_path);
+						tmp = mir_a2u(p_path);
 						SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 					}
 				}
@@ -907,13 +907,13 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 					SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 					char mir_path[MAX_PATH];
-					char *atmp = mir_t2a(tmp);
+					char *atmp = mir_u2a(tmp);
 					mir_free(tmp);
 					PathToAbsolute("\\", mir_path);
 					char* p_path = NULL;
 					if (StriStr(atmp, mir_path)) {
 						p_path = atmp + mir_strlen(mir_path);
-						tmp = mir_a2t(p_path);
+						tmp = mir_a2u(p_path);
 						SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 					}
 				}
@@ -967,8 +967,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
-					while (tmp[mir_tstrlen(tmp) - 1] == '\\')
-						tmp[mir_tstrlen(tmp) - 1] = '\0';
+					while (tmp[mir_wstrlen(tmp) - 1] == '\\')
+						tmp[mir_wstrlen(tmp) - 1] = '\0';
 					if (!tmp[0]) {
 						MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
 						break;
@@ -1038,8 +1038,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
-					while (tmp[mir_tstrlen(tmp) - 1] == '\\')
-						tmp[mir_tstrlen(tmp) - 1] = '\0';
+					while (tmp[mir_wstrlen(tmp) - 1] == '\\')
+						tmp[mir_wstrlen(tmp) - 1] = '\0';
 					if (!tmp[0]) {
 						MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
 						break;
@@ -1196,7 +1196,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0] ? TranslateT("Replace") : TranslateT("Accept"));
 			mir_free(tmp);
 			tmp = new wchar_t[256];
-			mir_sntprintf(tmp, 255 * sizeof(wchar_t), TranslateT("Received key from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_snwprintf(tmp, 255 * sizeof(wchar_t), TranslateT("Received key from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 			SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
 			delete[] tmp;
 		}
@@ -1269,7 +1269,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 					{ //data sanity checks
 						wchar_t *tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * 5);
 						GetDlgItemText(hwndDlg, IDC_KEY_TYPE, tmp, 5);
-						if (mir_tstrlen(tmp) < 3) {
+						if (mir_wstrlen(tmp) < 3) {
 							mir_free(tmp); tmp = NULL;
 							MessageBox(0, TranslateT("You must set encryption algorithm first"), TranslateT("Error"), MB_OK);
 							break;
@@ -1286,7 +1286,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						}
 						tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * 12);
 						GetDlgItemText(hwndDlg, IDC_KEY_EXPIRE_DATE, tmp, 11);
-						if (mir_tstrlen(tmp) != 10 && tmp[0] != '0') {
+						if (mir_wstrlen(tmp) != 10 && tmp[0] != '0') {
 							MessageBox(0, TranslateT("Invalid date"), TranslateT("Error"), MB_OK);
 							mir_free(tmp);
 							break;
@@ -1294,7 +1294,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						mir_free(tmp);
 						tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * 128);
 						GetDlgItemText(hwndDlg, IDC_KEY_REAL_NAME, tmp, 127);
-						if (mir_tstrlen(tmp) < 5) {
+						if (mir_wstrlen(tmp) < 5) {
 							MessageBox(0, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
 							mir_free(tmp);
 							break;
@@ -1307,7 +1307,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						mir_free(tmp);
 						tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * 128);
 						GetDlgItemText(hwndDlg, IDC_KEY_EMAIL, tmp, 128);
-						if ((mir_tstrlen(tmp)) < 5 || (!wcschr(tmp, '@')) || (!wcschr(tmp, '.'))) {
+						if ((mir_wstrlen(tmp)) < 5 || (!wcschr(tmp, '@')) || (!wcschr(tmp, '.'))) {
 							MessageBox(0, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
 							mir_free(tmp);
 							break;
@@ -1316,7 +1316,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 					}
 					{ //generating key file
 						wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
-						char  *tmp2;// = mir_t2a(tmp);
+						char  *tmp2;// = mir_u2a(tmp);
 						path = tmp;
 						mir_free(tmp);
 						//			  mir_free(tmp2);
@@ -1329,7 +1329,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						f << "Key-Type: ";
 						tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * 5);
 						GetDlgItemText(hwndDlg, IDC_KEY_TYPE, tmp, 5);
-						tmp2 = mir_t2a(tmp);
+						tmp2 = mir_u2a(tmp);
 						mir_free(tmp);
 						char *subkeytype = (char*)mir_alloc(6);
 						if (strstr(tmp2, "RSA"))
@@ -1714,7 +1714,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg, UINT msg, WPARAM wP
 					if (p2 != std::string::npos) {
 						p2 += mir_strlen("-----END PGP PUBLIC KEY BLOCK-----");
 						out = out.substr(p1, p2 - p1);
-						wchar_t *tmp = mir_a2t(out.c_str());
+						wchar_t *tmp = mir_a2u(out.c_str());
 						SetWindowText(hPubKeyEdit, tmp);
 						mir_free(tmp);
 					}
@@ -1910,10 +1910,10 @@ void InitCheck()
 		if (!home_dir_access || !temp_access || !gpg_valid) {
 			wchar_t buf[4096];
 			wcsncpy(buf, gpg_valid ? TranslateT("GPG binary is set and valid (this is good).\n") : TranslateT("GPG binary unset or invalid (plugin will not work).\n"), _countof(buf));
-			mir_tstrncat(buf, home_dir_access ? TranslateT("Home dir write access granted (this is good).\n") : TranslateT("Home dir has no write access (plugin most probably will not work).\n"), _countof(buf) - mir_tstrlen(buf));
-			mir_tstrncat(buf, temp_access ? TranslateT("Temp dir write access granted (this is good).\n") : TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), _countof(buf) - mir_tstrlen(buf));
+			mir_wstrncat(buf, home_dir_access ? TranslateT("Home dir write access granted (this is good).\n") : TranslateT("Home dir has no write access (plugin most probably will not work).\n"), _countof(buf) - mir_wstrlen(buf));
+			mir_wstrncat(buf, temp_access ? TranslateT("Temp dir write access granted (this is good).\n") : TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), _countof(buf) - mir_wstrlen(buf));
 			if (!gpg_valid)
-				mir_tstrncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"), _countof(buf) - mir_tstrlen(buf));
+				mir_wstrncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"), _countof(buf) - mir_wstrlen(buf));
 			MessageBox(0, buf, TranslateT("GPG plugin problems"), MB_OK);
 		}
 		if (!gpg_valid)
@@ -2137,12 +2137,12 @@ void ImportKey()
 	std::vector<wstring> cmd;
 	wchar_t tmp2[MAX_PATH] = { 0 };
 	{
-		wcsncpy(tmp2, ptrT(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"")), MAX_PATH - 1);
-		mir_tstrncat(tmp2, L"\\", _countof(tmp2) - mir_tstrlen(tmp2));
-		mir_tstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_tstrlen(tmp2));
+		wcsncpy(tmp2, ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"")), MAX_PATH - 1);
+		mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
+		mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
 		boost::filesystem::remove(tmp2);
 
-		ptrT ptmp;
+		ptrW ptmp;
 		if (db_mc_isMeta(hContact))
 			ptmp = UniGetContactSettingUtf(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", L"");
 		else

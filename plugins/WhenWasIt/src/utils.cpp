@@ -145,7 +145,7 @@ wchar_t* GetContactID(MCONTACT hContact)
 
 wchar_t* GetContactID(MCONTACT hContact, char *szProto)
 {
-	ptrT res(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+	ptrW res(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
 	return (res) ? wcsdup(res) : NULL;
 }
 
@@ -155,7 +155,7 @@ MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 		char *m_szProto = GetContactProto(hContact);
 		wchar_t *szHandle = GetContactID(hContact, szProto);
 		if (szHandle) {
-			bool found = (!mir_tstrcmpi(szHandle, szID) && !_stricmp(szProto, m_szProto));
+			bool found = (!mir_wstrcmpi(szHandle, szID) && !_stricmp(szProto, m_szProto));
 			free(szHandle);
 			if (found)
 				return hContact;

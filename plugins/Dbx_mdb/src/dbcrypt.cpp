@@ -100,7 +100,7 @@ int CDbxMdb::InitCrypt()
 			{
 				if (-128 != dlg.DoModal())
 					return 4;
-				m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(param.newPass)));
+				m_crypto->setPassword(pass_ptrA(mir_utf8encodeW(param.newPass)));
 				if (m_crypto->setKey((const BYTE*)value.mv_data, value.mv_size))
 				{
 					m_bUsesPassword = true;
@@ -156,7 +156,7 @@ void CDbxMdb::SetPassword(LPCTSTR ptszPassword)
 	else 
 	{
 		m_bUsesPassword = true;
-		m_crypto->setPassword(pass_ptrA(mir_utf8encodeT(ptszPassword)));
+		m_crypto->setPassword(pass_ptrA(mir_utf8encodeW(ptszPassword)));
 	}
 	UpdateMenuItem();
 }

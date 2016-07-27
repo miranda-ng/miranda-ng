@@ -55,7 +55,7 @@ void DeInitProtocolData()
 Protocol::Protocol(const char *aName, const wchar_t *descr)
 {
 	mir_strncpy(name, aName, _countof(name));
-	mir_tstrncpy(description, descr, _countof(description));
+	mir_wstrncpy(description, descr, _countof(description));
 
 	data_changed = true;
 
@@ -86,9 +86,9 @@ Protocol::~Protocol()
 
 void Protocol::lcopystr(wchar_t *dest, wchar_t *src, size_t maxlen)
 {
-	if (mir_tstrcmp(dest, src) != 0) {
+	if (mir_wstrcmp(dest, src) != 0) {
 		data_changed = true;
-		mir_tstrncpy(dest, src, (DWORD)maxlen);
+		mir_wstrncpy(dest, src, (DWORD)maxlen);
 	}
 }
 
@@ -134,7 +134,7 @@ int Protocol::GetStatus()
 	else {
 		wchar_t *p = (tszXStatusName[0] != 0) ? TranslateTS(tszXStatusName) : TranslateT("<no status name>");
 		if (tszXStatusMessage[0])
-			mir_sntprintf(status_name, L"%s: %s", p, tszXStatusMessage);
+			mir_snwprintf(status_name, L"%s: %s", p, tszXStatusMessage);
 		else
 			lcopystr(status_name, p, _countof(status_name));
 	}
@@ -214,11 +214,11 @@ void Protocol::GetStatusMsg(int aStatus, wchar_t *msg, size_t msg_size)
 	if (!CanGetStatusMsg())
 		lcopystr(msg, L"", msg_size);
 	else if (aStatus == status && ProtoServiceExists(name, PS_GETMYAWAYMSG)) {
-		ptrT tmp((wchar_t *)CallProtoService(name, PS_GETMYAWAYMSG, 0, SGMA_TCHAR));
+		ptrW tmp((wchar_t *)CallProtoService(name, PS_GETMYAWAYMSG, 0, SGMA_TCHAR));
 		lcopystr(msg, tmp == NULL ? L"" : tmp, msg_size);
 	}
 	else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSGT)) {
-		ptrT tmp((wchar_t *)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, (LPARAM)name));
+		ptrW tmp((wchar_t *)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, (LPARAM)name));
 		lcopystr(msg, tmp == NULL ? L"" : tmp, msg_size);
 	}
 }
@@ -286,7 +286,7 @@ int Protocol::GetNickMaxLength()
 
 wchar_t* Protocol::GetNick()
 {
-	ptrT nick(Contact_GetInfo(CNF_DISPLAY, NULL, name));
+	ptrW nick(Contact_GetInfo(CNF_DISPLAY, NULL, name));
 	lcopystr(nickname, (nick != NULL) ? nick : L"", _countof(nickname));
 	return nickname;
 }
@@ -458,7 +458,7 @@ void ProtocolArray::SetNicks(const wchar_t *nick)
 	if (nick == NULL || nick[0] == '\0')
 		return;
 
-	mir_tstrncpy(default_nick, nick, _countof(default_nick));
+	mir_wstrncpy(default_nick, nick, _countof(default_nick));
 
 	db_set_ts(0, MODULE_NAME, SETTING_DEFAULT_NICK, nick);
 
@@ -493,18 +493,18 @@ void ProtocolArray::SetStatusMsgs(int status, const wchar_t *message)
 
 void ProtocolArray::GetDefaultNick()
 {
-	ptrT tszNick(db_get_tsa(0, MODULE_NAME, SETTING_DEFAULT_NICK));
+	ptrW tszNick(db_get_tsa(0, MODULE_NAME, SETTING_DEFAULT_NICK));
 	if (tszNick)
-		mir_tstrncpy(default_nick, tszNick, _countof(default_nick));
+		mir_wstrncpy(default_nick, tszNick, _countof(default_nick));
 	else
 		default_nick[0] = '\0';
 }
 
 void ProtocolArray::GetDefaultAvatar()
 {
-	ptrT tszFile(db_get_tsa(0, "ContactPhoto", "File"));
+	ptrW tszFile(db_get_tsa(0, "ContactPhoto", "File"));
 	if (tszFile)
-		mir_tstrncpy(default_avatar_file, tszFile, _countof(default_avatar_file));
+		mir_wstrncpy(default_avatar_file, tszFile, _countof(default_avatar_file));
 	else
 		default_avatar_file[0] = '\0';
 }
@@ -523,7 +523,7 @@ wchar_t *ProtocolArray::GetDefaultStatusMsg(int status)
 
 	wchar_t *tmp = (wchar_t *)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)status, 0);
 	if (tmp != NULL) {
-		mir_tstrncpy(default_status_message, tmp, _countof(default_status_message));
+		mir_wstrncpy(default_status_message, tmp, _countof(default_status_message));
 		mir_free(tmp);
 	}
 

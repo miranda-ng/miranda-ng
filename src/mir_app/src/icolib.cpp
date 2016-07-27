@@ -40,14 +40,14 @@ mir_cs csIconList;
 
 static int sttCompareSections(const SectionItem *p1, const SectionItem *p2)
 {
-	return mir_tstrcmp(p1->name, p2->name);
+	return mir_wstrcmp(p1->name, p2->name);
 }
 
 LIST<SectionItem> sectionList(20, sttCompareSections);
 
 static int sttCompareIconSourceFiles(const IconSourceFile *p1, const IconSourceFile *p2)
 {
-	return mir_tstrcmpi(p1->file, p2->file);
+	return mir_wstrcmpi(p1->file, p2->file);
 }
 
 static LIST<IconSourceFile> iconSourceFileList(10, sttCompareIconSourceFiles);
@@ -336,7 +336,7 @@ IconSourceItem* GetIconSourceItemFromPath(const wchar_t *path, int cxIcon, int c
 		return NULL;
 
 	wchar_t file[MAX_PATH];
-	mir_tstrncpy(file, path, _countof(file));
+	mir_wstrncpy(file, path, _countof(file));
 	wchar_t *comma = wcsrchr(file, ',');
 
 	int n;
@@ -352,7 +352,7 @@ IconSourceItem* GetIconSourceItemFromPath(const wchar_t *path, int cxIcon, int c
 IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 {
 	wchar_t tszName[100];
-	mir_sntprintf(tszName, L"*StaticIcon_%d", iStaticCount++);
+	mir_snwprintf(tszName, L"*StaticIcon_%d", iStaticCount++);
 
 	IconSourceItemKey key = { IconSourceFile_Get(tszName, false), 0, cxIcon, cyIcon };
 	IconSourceItem *newItem = new IconSourceItem(key);
@@ -390,7 +390,7 @@ static SectionItem* IcoLib_AddSection(wchar_t *sectionName, BOOL create_new)
 
 	if (create_new) {
 		SectionItem *newItem = new SectionItem();
-		newItem->name = mir_tstrdup(sectionName);
+		newItem->name = mir_wstrdup(sectionName);
 		sectionList.insert(newItem);
 		bNeedRebuild = TRUE;
 		return newItem;
@@ -476,11 +476,11 @@ MIR_APP_DLL(HANDLE) IcoLib_AddIcon(SKINICONDESC *sid, int _hLang)
 
 	item->name = mir_strdup(sid->pszName);
 	if (sid->flags & SIDF_UNICODE) {
-		item->description = mir_u2t(sid->description.w);
+		item->description = mir_wstrdup(sid->description.w);
 		item->section = IcoLib_AddSection(sid->section.w, TRUE);
 	}
 	else {
-		item->description = mir_a2t(sid->description.a);
+		item->description = mir_a2u(sid->description.a);
 		item->section = IcoLib_AddSection(_A2T(sid->section.a), TRUE);
 	}
 
@@ -667,7 +667,7 @@ HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 	big = big && !item->cx;
 	IconSourceItem* &source = big ? item->source_big : item->source_small;
 	if (source == NULL) {
-		ptrT tszCustomPath(db_get_tsa(NULL, "SkinIcons", item->name));
+		ptrW tszCustomPath(db_get_tsa(NULL, "SkinIcons", item->name));
 		if (tszCustomPath != NULL) {
 			wchar_t tszFullPath[MAX_PATH];
 			PathToAbsoluteT(tszCustomPath, tszFullPath);

@@ -7,9 +7,9 @@ wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const c
 	DBVARIANT dbv = {0};
 	wcsnset(buf, 0, buflen);
 	if (db_get_ts(hContact, PLUGIN_NAME, option, &dbv) != 0)
-		wcsncpy(buf, def, min(buflen, mir_tstrlen(def)+1));
+		wcsncpy(buf, def, min(buflen, mir_wstrlen(def)+1));
 	else if (dbv.type == DBVT_TCHAR) {
-		wcsncpy(buf, dbv.ptszVal, min(buflen, mir_tstrlen(dbv.ptszVal)+1));
+		wcsncpy(buf, dbv.ptszVal, min(buflen, mir_wstrlen(dbv.ptszVal)+1));
 	}
 	db_free(&dbv);
 	return buf;
@@ -20,12 +20,12 @@ wchar_t* _getMOptS(wchar_t *buf, unsigned int buflen, const char* module, const 
 	DBVARIANT dbv = {0};
 	wcsnset(buf, 0, buflen);
 	if (db_get_s(NULL, module, option, &dbv) != 0)
-		wcsncpy(buf, def, min(buflen, mir_tstrlen(def)+1));
+		wcsncpy(buf, def, min(buflen, mir_wstrlen(def)+1));
 	else if (dbv.type == DBVT_TCHAR) {
-		wcsncpy(buf, dbv.ptszVal, min(buflen, mir_tstrlen(dbv.ptszVal)+1));
+		wcsncpy(buf, dbv.ptszVal, min(buflen, mir_wstrlen(dbv.ptszVal)+1));
 	} else {
 		tmp = mir_a2u(dbv.pszVal);
-		wcsncpy(buf, tmp, min(buflen, mir_tstrlen(tmp)+1));
+		wcsncpy(buf, tmp, min(buflen, mir_wstrlen(tmp)+1));
 		mir_free(tmp);
 	}
 	db_free(&dbv);
@@ -130,7 +130,7 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 		{
 			lvi.iItem = i;
 			_getMOptS(pName, 200*sizeof(wchar_t), pd[i]->szModuleName, "AM_BaseProto", L"");
-			if (mir_tstrcmp(pName, L"ICQ") != 0)
+			if (mir_wstrcmp(pName, L"ICQ") != 0)
 				continue;
 			lvi.pszText = mir_a2u(pd[i]->szModuleName);
 			ListView_InsertItem(hProtocolsList, &lvi);
@@ -436,17 +436,17 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 			
 			EnableControlsBayes(optDlg, bEnabled);
 
-			mir_sntprintf(buf, L"%0.02f", (double)_getOptD("BayesSpamScore", defaultBayesSpamScore)*SCORE_C);
+			mir_snwprintf(buf, L"%0.02f", (double)_getOptD("BayesSpamScore", defaultBayesSpamScore)*SCORE_C);
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_SPAM_SCORE, buf);
-			mir_sntprintf(buf, L"%.02f", (double)_getOptD("BayesHamScore", defaultBayesHamScore)*SCORE_C);
+			mir_snwprintf(buf, L"%.02f", (double)_getOptD("BayesHamScore", defaultBayesHamScore)*SCORE_C);
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_HAM_SCORE, buf);
-			mir_sntprintf(buf, L"%d", _getOptD("BayesWaitApprove", defaultBayesWaitApprove));
+			mir_snwprintf(buf, L"%d", _getOptD("BayesWaitApprove", defaultBayesWaitApprove));
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_WAIT_APPROVE, buf);
 
 			if (bEnabled) {
-				mir_sntprintf(buf, L"%d", get_msg_count(SPAM));
+				mir_snwprintf(buf, L"%d", get_msg_count(SPAM));
 				SetDlgItemText(optDlg, IDC_STATIC_SPAM_COUNT, buf);
-				mir_sntprintf(buf, L"%d", get_msg_count(HAM));
+				mir_snwprintf(buf, L"%d", get_msg_count(HAM));
 				SetDlgItemText(optDlg, IDC_STATIC_HAM_COUNT, buf);
 			}
 
@@ -490,9 +490,9 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, L"");
 					free(dbuf);
 
-					mir_sntprintf(buf, L"%d", get_msg_count(SPAM));
+					mir_snwprintf(buf, L"%d", get_msg_count(SPAM));
 					SetDlgItemText(optDlg, IDC_STATIC_SPAM_COUNT, buf);
-					mir_sntprintf(buf, L"%d", get_msg_count(HAM));
+					mir_snwprintf(buf, L"%d", get_msg_count(HAM));
 					SetDlgItemText(optDlg, IDC_STATIC_HAM_COUNT, buf);
 					return FALSE;
 
@@ -507,9 +507,9 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, L"");
 					free(dbuf);
 
-					mir_sntprintf(buf, L"%d", get_msg_count(SPAM));
+					mir_snwprintf(buf, L"%d", get_msg_count(SPAM));
 					SetDlgItemText(optDlg, IDC_STATIC_SPAM_COUNT, buf);
-					mir_sntprintf(buf, L"%d", get_msg_count(HAM));
+					mir_snwprintf(buf, L"%d", get_msg_count(HAM));
 					SetDlgItemText(optDlg, IDC_STATIC_HAM_COUNT, buf);
 					return FALSE;
 

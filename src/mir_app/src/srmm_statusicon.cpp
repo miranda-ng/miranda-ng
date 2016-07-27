@@ -91,7 +91,7 @@ INT_PTR ModifyStatusIcon(WPARAM hContact, LPARAM lParam)
 		mir_free(p->sid.szTooltip);
 		memcpy(&p->sid, sid, sizeof(p->sid));
 		p->sid.szModule = mir_strdup(sid->szModule);
-		p->sid.tszTooltip = (sid->flags & MBF_UNICODE) ? mir_u2t(sid->wszTooltip) : mir_a2t(sid->szTooltip);
+		p->sid.tszTooltip = (sid->flags & MBF_UNICODE) ? mir_wstrdup(sid->wszTooltip) : mir_a2u(sid->szTooltip);
 
 		NotifyEventHooks(hHookIconsChanged, NULL, (LPARAM)p);
 		return 0;
@@ -110,7 +110,7 @@ INT_PTR ModifyStatusIcon(WPARAM hContact, LPARAM lParam)
 	pc->hIconDisabled = sid->hIconDisabled;
 
 	mir_free(pc->tszTooltip);
-	pc->tszTooltip = (sid->flags & MBF_UNICODE) ? mir_u2t(sid->wszTooltip) : mir_a2t(sid->szTooltip);
+	pc->tszTooltip = (sid->flags & MBF_UNICODE) ? mir_wstrdup(sid->wszTooltip) : mir_a2u(sid->szTooltip);
 
 	NotifyEventHooks(hHookIconsChanged, hContact, (LPARAM)p);
 	return 0;
@@ -131,9 +131,9 @@ static INT_PTR AddStatusIcon(WPARAM wParam, LPARAM lParam)
 	p->hLangpack = (int)wParam;
 	p->sid.szModule = mir_strdup(sid->szModule);
 	if (sid->flags & MBF_UNICODE)
-		p->sid.tszTooltip = mir_u2t(sid->wszTooltip);
+		p->sid.tszTooltip = mir_wstrdup(sid->wszTooltip);
 	else
-		p->sid.tszTooltip = mir_a2t(sid->szTooltip);
+		p->sid.tszTooltip = mir_a2u(sid->szTooltip);
 	arIcons.insert(p);
 
 	NotifyEventHooks(hHookIconsChanged, NULL, (LPARAM)p);

@@ -88,7 +88,7 @@ char* HTMLBuilder::encodeUTF8(MCONTACT hContact, const char *proto, const wchar_
 
 	CMStringW str;
 	encode(hContact, proto, wtext, str, 0, flags, isSent);
-	return mir_utf8encodeT(str);
+	return mir_utf8encodeW(str);
 }
 
 char* HTMLBuilder::encodeUTF8(MCONTACT hContact, const char *proto, const char *text, int flags, bool isSent)
@@ -104,7 +104,7 @@ char* HTMLBuilder::encodeUTF8(MCONTACT hContact, const char *proto, const char *
 	if (text == NULL)
 		return NULL;
 
-	ptrW wtext(mir_a2t_cp(text, cp));
+	ptrW wtext(mir_a2u_cp(text, cp));
 	return encodeUTF8(hContact, proto, wtext, flags, isSent);
 }
 
@@ -184,11 +184,11 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 {
 	hContact = getRealContact(hContact);
 
-	ptrT id(Contact_GetInfo(CNF_UNIQUEID, hContact));
-	uinIn = mir_utf8encodeT(id ? id.get() : L"");
+	ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact));
+	uinIn = mir_utf8encodeW(id ? id.get() : L"");
 
 	id = Contact_GetInfo(CNF_UNIQUEID, NULL);
-	uinOut = mir_utf8encodeT(id ? id.get() : L"");
+	uinOut = mir_utf8encodeW(id ? id.get() : L"");
 }
 
 wchar_t* HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)
@@ -203,9 +203,9 @@ wchar_t* HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)
 
 	str = pcli->pfnGetContactDisplayName(hContact, 0);
 	if (str != NULL)
-		return mir_tstrdup(str);
+		return mir_wstrdup(str);
 
-	return mir_tstrdup(TranslateT("(Unknown Contact)"));
+	return mir_wstrdup(TranslateT("(Unknown Contact)"));
 }
 
 char* HTMLBuilder::getEncodedContactName(MCONTACT hContact, const char* szProto, const char* szSmileyProto)
@@ -302,13 +302,13 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-			eventData->ptszText = mir_tstrdup(TranslateT(" requested authorization"));
+			eventData->ptszText = mir_wstrdup(TranslateT(" requested authorization"));
 			eventData->ptszNick = DbGetEventStringT(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else if (dbei.eventType == EVENTTYPE_ADDED) {
 			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-			eventData->ptszText = mir_tstrdup(TranslateT(" was added."));
+			eventData->ptszText = mir_wstrdup(TranslateT(" was added."));
 			eventData->ptszNick = DbGetEventStringT(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}

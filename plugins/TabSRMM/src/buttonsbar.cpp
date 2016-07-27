@@ -121,7 +121,7 @@ static INT_PTR CB_AddButton(WPARAM, LPARAM lParam)
 		if (bbdi->bbbFlags & BBBF_ANSITOOLTIP)
 			cbd->m_ptszTooltip = mir_a2u(bbdi->pszTooltip);
 		else
-			cbd->m_ptszTooltip = mir_tstrdup(bbdi->ptszTooltip);
+			cbd->m_ptszTooltip = mir_wstrdup(bbdi->ptszTooltip);
 	}
 	else cbd->m_ptszTooltip = NULL;
 
@@ -314,7 +314,7 @@ static INT_PTR CB_ModifyButton(WPARAM, LPARAM lParam)
 				if (bbdi->bbbFlags & BBBF_ANSITOOLTIP)
 					cbd->m_ptszTooltip = mir_a2u(bbdi->pszTooltip);
 				else
-					cbd->m_ptszTooltip = mir_tstrdup(bbdi->ptszTooltip);
+					cbd->m_ptszTooltip = mir_wstrdup(bbdi->ptszTooltip);
 			}
 			if (bbdi->hIcon)
 				cbd->m_hIcon = bbdi->hIcon;
@@ -369,7 +369,7 @@ static int SaveTree(HWND hToolBarTree)
 		while (tvi.hItem != NULL) {
 			TreeView_GetItem(hToolBarTree, &tvi);
 
-			if (mir_tstrcmp(tvi.pszText, MIDDLE_SEPARATOR) == 0) {
+			if (mir_wstrcmp(tvi.pszText, MIDDLE_SEPARATOR) == 0) {
 				RSide = true;
 				count = TreeView_GetCount(hToolBarTree) * 10 - count;
 				tvi.hItem = TreeView_GetNextSibling(hToolBarTree, tvi.hItem);
@@ -708,7 +708,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
 					TreeView_GetItem(hToolBarTree, &tvi);
 
-					if (tvi.lParam == 0 || !TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !mir_tstrcmp(tvi.pszText, MIDDLE_SEPARATOR))
+					if (tvi.lParam == 0 || !TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !mir_wstrcmp(tvi.pszText, MIDDLE_SEPARATOR))
 						break;
 
 					CustomButtonData *cbd = (CustomButtonData*)tvi.lParam;
@@ -736,7 +736,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					tvi.hItem = hItem;
 					TreeView_GetItem(hToolBarTree, &tvi);
 
-					if (!TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !mir_tstrcmp(tvi.pszText, MIDDLE_SEPARATOR)) {
+					if (!TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !mir_wstrcmp(tvi.pszText, MIDDLE_SEPARATOR)) {
 						Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, false);
 						Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, false);
 						Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, false);

@@ -1624,7 +1624,7 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 {
 	char szFile[MAX_PATH] = "rsa_pub.asc";
 	if (priv)
-		mir_tstrcpy(szFile, "rsa_priv.asc");
+		mir_strcpy(szFile, "rsa_priv.asc");
 
 	OPENFILENAME ofn = { sizeof(ofn) };
 	char temp[MAX_PATH];
@@ -1652,7 +1652,7 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 {
 	char szFile[MAX_PATH] = "rsa_pub.asc";
 	if (priv)
-		mir_tstrcpy(szFile, "rsa_priv.asc");
+		mir_strcpy(szFile, "rsa_priv.asc");
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);

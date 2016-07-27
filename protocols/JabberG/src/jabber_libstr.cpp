@@ -29,5 +29,5 @@ int lstrcmp_null(const wchar_t *s1, const wchar_t *s2)
 	if (!s1 && !s2) return 0;
 	if (!s1) return -1;
 	if (!s2) return 1;
-	return mir_tstrcmp(s1, s2);
+	return mir_wstrcmp(s1, s2);
 }

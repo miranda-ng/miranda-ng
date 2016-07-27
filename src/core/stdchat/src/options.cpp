@@ -324,10 +324,10 @@ static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefau
 {
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, CHAT_MODULE, pszSetting, &dbv)) {
-		replaceStrT(*ppPointer, dbv.ptszVal);
+		replaceStrW(*ppPointer, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else replaceStrT(*ppPointer, pszDefault);
+	else replaceStrW(*ppPointer, pszDefault);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -542,9 +542,9 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				LPITEMIDLIST idList = SHBrowseForFolder(&bi);
 				if (idList) {
 					SHGetPathFromIDList(idList, szDirectory);
-					mir_tstrcat(szDirectory, L"\\");
+					mir_wstrcat(szDirectory, L"\\");
 					PathToRelativeT(szDirectory, szTemp);
-					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_tstrlen(szTemp) > 1 ? szTemp : L"Logs\\");
+					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_wstrlen(szTemp) > 1 ? szTemp : L"Logs\\");
 					CoTaskMemFree(idList);
 				}
 			}

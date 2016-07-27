@@ -118,7 +118,7 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* /*hash*/, c
 
 int CAimProto::get_avatar_filename(MCONTACT hContact, wchar_t* pszDest, size_t cbLen, const wchar_t *ext)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (ext && _waccess(pszDest, 0))
 		CreateDirectoryTreeT(pszDest);
@@ -127,19 +127,19 @@ int CAimProto::get_avatar_filename(MCONTACT hContact, wchar_t* pszDest, size_t c
 
 	DBVARIANT dbv;
 	if (getTString(hContact, AIM_KEY_AH, &dbv)) return GAIR_NOAVATAR;
-	tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", dbv.ptszVal);
+	tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", dbv.ptszVal);
 	db_free(&dbv);
 
 	bool found = false;
 	if (ext == NULL) {
-		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L".*");
+		mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L".*");
 
 		_tfinddata_t c_file;
 		long hFile = _tfindfirst(pszDest, &c_file);
 		if (hFile > -1L) {
 			do {
 				if (wcsrchr(c_file.name, '.')) {
-					mir_sntprintf(pszDest + tPathLen2, cbLen - tPathLen2, L"\\%s", c_file.name);
+					mir_snwprintf(pszDest + tPathLen2, cbLen - tPathLen2, L"\\%s", c_file.name);
 					found = true;
 				}
 			} while (_tfindnext(hFile, &c_file) == 0);
@@ -149,7 +149,7 @@ int CAimProto::get_avatar_filename(MCONTACT hContact, wchar_t* pszDest, size_t c
 		if (!found) pszDest[0] = 0;
 	}
 	else {
-		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
+		mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
 		found = _waccess(pszDest, 0) == 0;
 	}
 

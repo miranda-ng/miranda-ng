@@ -315,14 +315,14 @@ int GGPROTO::oauth_receivetoken()
 	if (resp) {
 		nlc = resp->nlc; 
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			wchar_t *xmlAction = mir_a2t(resp->pData);
+			wchar_t *xmlAction = mir_a2u(resp->pData);
 			HXML hXml = xmlParseString(xmlAction, 0, L"result");
 			if (hXml != NULL) {
 				HXML node = xmlGetChildByPath(hXml, L"oauth_token", 0);
-				token = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
+				token = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
 
 				node = xmlGetChildByPath(hXml, L"oauth_token_secret", 0);
-				token_secret = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
+				token_secret = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
 
 				xmlDestroyNode(hXml);
 			}
@@ -384,14 +384,14 @@ int GGPROTO::oauth_receivetoken()
 	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			wchar_t *xmlAction = mir_a2t(resp->pData);
+			wchar_t *xmlAction = mir_a2u(resp->pData);
 			HXML hXml = xmlParseString(xmlAction, 0, L"result");
 			if (hXml != NULL) {
 				HXML node = xmlGetChildByPath(hXml, L"oauth_token", 0);
-				token = mir_t2a(xmlGetText(node));
+				token = mir_u2a(xmlGetText(node));
 
 				node = xmlGetChildByPath(hXml, L"oauth_token_secret", 0);
-				token_secret = mir_t2a(xmlGetText(node));
+				token_secret = mir_u2a(xmlGetText(node));
 
 				xmlDestroyNode(hXml);
 			}

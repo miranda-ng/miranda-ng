@@ -40,7 +40,7 @@ POINT menuMousePoint;
 
 int Meta_SetNick(char *szProto)
 {
-	ptrT tszNick(Contact_GetInfo(CNF_DISPLAY, NULL, szProto));
+	ptrW tszNick(Contact_GetInfo(CNF_DISPLAY, NULL, szProto));
 	if (tszNick == NULL)
 		return 1;
 
@@ -431,7 +431,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 		return 1;
 
 	if (options.clist_contact_name == CNNT_NICK) {
-		ptrT tszNick(db_get_tsa(hContact, szProto, "Nick"));
+		ptrW tszNick(db_get_tsa(hContact, szProto, "Nick"));
 		if (tszNick) {
 			db_set_ts(ccMeta->contactID, META_PROTO, "Nick", tszNick);
 			return 0;
@@ -439,7 +439,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 	}
 	else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
 		wchar_t *name = cli.pfnGetContactDisplayName(hContact, 0);
-		if (name && mir_tstrcmp(name, TranslateT("(Unknown contact)")) != 0) {
+		if (name && mir_wstrcmp(name, TranslateT("(Unknown contact)")) != 0) {
 			db_set_ts(ccMeta->contactID, META_PROTO, "Nick", name);
 			return 0;
 		}

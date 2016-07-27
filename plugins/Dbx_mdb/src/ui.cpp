@@ -48,7 +48,7 @@ static bool CheckOldPassword(HWND hwndDlg, CDbxMdb *db)
 	{
 		TCHAR buf[100];
 		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, _countof(buf));
-		pass_ptrA oldPass(mir_utf8encodeT(buf));
+		pass_ptrA oldPass(mir_utf8encodeW(buf));
 		if (!db->m_crypto->checkPassword(oldPass)) 
 		{
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Wrong old password entered!"));

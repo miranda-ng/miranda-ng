@@ -507,7 +507,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		*(szSecondParam++) = 0;
 
 	// no command or message command
-	if (!szCommand || (szCommand && !mir_tstrcmpi(szCommand, L"chat")))
+	if (!szCommand || (szCommand && !mir_wstrcmpi(szCommand, L"chat")))
 	{
 		if (szSecondParam)
 		{
@@ -523,22 +523,22 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
 		return 0;
 	}
-	else if (!mir_tstrcmpi(szCommand, L"call"))
+	else if (!mir_wstrcmpi(szCommand, L"call"))
 	{
 		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		NotifyEventHooks(g_hCallEvent, (WPARAM)hContact, (LPARAM)0);
 		return 0;
 	}
-	else if (!mir_tstrcmpi(szCommand, L"userinfo")){ return 0; }
-	else if (!mir_tstrcmpi(szCommand, L"add"))
+	else if (!mir_wstrcmpi(szCommand, L"userinfo")){ return 0; }
+	else if (!mir_wstrcmpi(szCommand, L"add"))
 	{
 		MCONTACT hContact = FindContact(_T2A(szJid));
 		if (hContact == NULL)
 		{
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
-			psr.id.w = mir_tstrdup(szJid);
-			psr.nick.w = mir_tstrdup(szJid);
+			psr.id.w = mir_wstrdup(szJid);
+			psr.nick.w = mir_wstrdup(szJid);
 			psr.flags = PSR_UNICODE;
 
 			ADDCONTACTSTRUCT acs = { 0 };
@@ -550,13 +550,13 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		}
 		return 0;
 	}
-	if (!mir_tstrcmpi(szCommand, L"sendfile"))
+	if (!mir_wstrcmpi(szCommand, L"sendfile"))
 	{
 		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		CallService(MS_FILE_SENDFILE, hContact, NULL);
 		return 1;
 	}
-	if (!mir_tstrcmpi(szCommand, L"voicemail"))
+	if (!mir_wstrcmpi(szCommand, L"voicemail"))
 	{
 		return 1;
 	}

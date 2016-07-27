@@ -151,11 +151,11 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		case 'i':
 		case 'I':
 			{
-				ptrT id(Contact_GetInfo(CNF_UNIQUEID, NULL));
+				ptrW id(Contact_GetInfo(CNF_UNIQUEID, NULL));
 				if (id != NULL)
 					wcsncpy_s(buf, id, _TRUNCATE);
 				else
-					mir_sntprintf(buf, L"%p", hContact);
+					mir_snwprintf(buf, L"%p", hContact);
 			}
 			szUtfMsg.append(T2Utf(buf));
 			break;

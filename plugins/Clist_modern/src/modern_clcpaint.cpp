@@ -199,7 +199,7 @@ void CLCPaint::GetTextSize(SIZE *text_size, HDC hdcMem, RECT free_row_rc, wchar_
 		free_height = text_rc.bottom - text_rc.top;
 
 		// Always need cy...
-		text_size->cy = ske_DrawText(hdcMem, szText, (int)mir_tstrlen(szText), &text_rc, DT_CALCRECT | uTextFormat);
+		text_size->cy = ske_DrawText(hdcMem, szText, (int)mir_wstrlen(szText), &text_rc, DT_CALCRECT | uTextFormat);
 		text_size->cy = min(text_size->cy, free_height);
 		if (plText == NULL)
 			text_size->cx = min(text_rc.right - text_rc.left + 2, free_width);
@@ -419,7 +419,7 @@ void CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, wcha
 		int pos_x = 0;
 		int row_height;
 		RECT tmp_rc = *free_rc;
-		if (len == -1) len = (int)mir_tstrlen(szText);
+		if (len == -1) len = (int)mir_wstrlen(szText);
 		if (uTextFormat & DT_RTLREADING)
 			i = plText->realCount - 1;
 		else
@@ -783,7 +783,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				int space_width = 0;
 				szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
 				// Has to draw the count?
-				if (szCounts && mir_tstrlen(szCounts) > 0) {
+				if (szCounts && mir_wstrlen(szCounts) > 0) {
 					// calc width and height
 					ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
 					ske_DrawText(hdcMem, L" ", 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
@@ -791,7 +791,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					space_width = count_size.cx;
 					count_rc.right = 0;
 					count_rc.left = 0;
-					ske_DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &count_rc, DT_CALCRECT);
+					ske_DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &count_rc, DT_CALCRECT);
 					count_size.cx += count_rc.right - count_rc.left;
 					count_size.cy = count_rc.bottom - count_rc.top;
 				}
@@ -833,21 +833,21 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				else if (hottrack)
 					_SetHotTrackColour(hdcMem, dat);
 				if (dat->text_rtl != 0) _RTLRect(&nameRect, free_row_rc.right);
-				_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+				_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_wstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 
 				if (selected && !dat->bFilterSearch) {
 					SetTextColor(hdcMem, dat->quickSearchColour);
-					_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+					_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_wstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 				}
 
-				if (szCounts && mir_tstrlen(szCounts) > 0) {
+				if (szCounts && mir_wstrlen(szCounts) > 0) {
 					ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
 					if (selected)
 						SetTextColor(hdcMem, dat->selTextColour);
 					else if (hottrack)
 						_SetHotTrackColour(hdcMem, dat);
 					if (dat->text_rtl != 0) _RTLRect(&countRect, free_row_rc.right);
-					ske_DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &countRect, uTextFormat);
+					ske_DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &countRect, uTextFormat);
 				}
 				Drawing->pos_label = nameRect;
 				return;
@@ -869,7 +869,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					space_size.cy = min(space_rc.bottom - space_rc.top, fr_rc.bottom - fr_rc.top);
 
 					ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
-					DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &counts_rc, DT_CALCRECT);
+					DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &counts_rc, DT_CALCRECT);
 
 					counts_size.cx = counts_rc.right - counts_rc.left;
 					counts_size.cy = min(counts_rc.bottom - counts_rc.top, fr_rc.bottom - fr_rc.top);
@@ -899,7 +899,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 			else if (hottrack)
 				_SetHotTrackColour(hdcMem, dat);
 			if (dat->text_rtl != 0) _RTLRect(&text_rect, free_row_rc.right);
-			_DrawTextSmiley(hdcMem, &text_rect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+			_DrawTextSmiley(hdcMem, &text_rect, &text_size, Drawing->szText, 0, (int)mir_wstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 			if (((dat->bFilterSearch && Drawing->type != CLCIT_GROUP) || selected) && dat->szQuickSearch[0] != '\0') {
 				int idx = 0;
 				if (dat->bFilterSearch) {
@@ -910,12 +910,12 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						idx = int(p1 - lowered);
 				}
 				SetTextColor(hdcMem, dat->quickSearchColour);
-				_DrawTextSmiley(hdcMem, &text_rect, &text_size, Drawing->szText, idx, (int)mir_tstrlen(dat->szQuickSearch), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+				_DrawTextSmiley(hdcMem, &text_rect, &text_size, Drawing->szText, idx, (int)mir_wstrlen(dat->szQuickSearch), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 			}
 			if (Drawing->type == CLCIT_GROUP && szCounts && szCounts[0] && counts_rc.right - counts_rc.left > 0) {
 				ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
 				if (dat->text_rtl != 0) _RTLRect(&counts_rc, free_row_rc.right);
-				ske_DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &counts_rc, uTextFormat);
+				ske_DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &counts_rc, uTextFormat);
 				if (dat->text_rtl == 0)
 					text_rect.right = counts_rc.right;
 				else
@@ -977,7 +977,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 							SetTextColor(hdcMem, dat->selTextColour);
 						else if (hottrack)
 							_SetHotTrackColour(hdcMem, dat);
-						_DrawTextSmiley(hdcMem, &p_rect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+						_DrawTextSmiley(hdcMem, &p_rect, &text_size, Drawing->szText, 0, (int)mir_wstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 						if ((dat->bFilterSearch || selected) && dat->szQuickSearch[0] != '\0') {
 							int idx = 0;
 							if (dat->bFilterSearch) {
@@ -988,7 +988,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 									idx = int(p1 - lowered);
 							}
 							SetTextColor(hdcMem, dat->quickSearchColour);
-							_DrawTextSmiley(hdcMem, &p_rect, &text_size, Drawing->szText, idx, (int)mir_tstrlen(dat->szQuickSearch), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+							_DrawTextSmiley(hdcMem, &p_rect, &text_size, Drawing->szText, idx, (int)mir_wstrlen(dat->szQuickSearch), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 						}
 
 						SIZE size;
@@ -1004,7 +1004,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						int space_width = 0;
 						wchar_t *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
 						// Has to draw the count?
-						if (szCounts && mir_tstrlen(szCounts) > 0) {
+						if (szCounts && mir_wstrlen(szCounts) > 0) {
 							// calc width and height
 							ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
 							ske_DrawText(hdcMem, L" ", 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
@@ -1012,7 +1012,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 							space_width = count_size.cx;
 							count_rc.right = 0;
 							count_rc.left = 0;
-							ske_DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &count_rc, DT_CALCRECT);
+							ske_DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &count_rc, DT_CALCRECT);
 							count_size.cx += count_rc.right - count_rc.left;
 							count_size.cy = count_rc.bottom - count_rc.top;
 						}
@@ -1053,18 +1053,18 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 							SetTextColor(hdcMem, dat->selTextColour);
 						else if (hottrack)
 							_SetHotTrackColour(hdcMem, dat);
-						_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+						_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_wstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 						if (selected && !dat->bFilterSearch) {
 							SetTextColor(hdcMem, dat->quickSearchColour);
-							_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+							_DrawTextSmiley(hdcMem, &nameRect, &text_size, Drawing->szText, 0, (int)mir_wstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 						}
-						if (szCounts && mir_tstrlen(szCounts) > 0) {
+						if (szCounts && mir_wstrlen(szCounts) > 0) {
 							ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
 							if (selected)
 								SetTextColor(hdcMem, dat->selTextColour);
 							else if (hottrack)
 								_SetHotTrackColour(hdcMem, dat);
-							ske_DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &countRect, uTextFormat);
+							ske_DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &countRect, uTextFormat);
 						}
 						Drawing->pos_label = nameRect;
 					}
@@ -1084,7 +1084,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						mir_free_and_nil(pdnce->szSecondLineText);
 
 						TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
-						pdnce->szSecondLineText = mir_tstrdup(buf);
+						pdnce->szSecondLineText = mir_wstrdup(buf);
 					}
 
 					uTextFormat |= (gl_RowTabAccess[i]->valign == TC_VCENTER) ? DT_VCENTER : (gl_RowTabAccess[i]->valign == TC_BOTTOM) ? DT_BOTTOM : 0;
@@ -1096,7 +1096,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					ChangeToFont(hdcMem, dat, FONTID_SECONDLINE, NULL);
 					uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
 					if (Drawing->type == CLCIT_CONTACT)
-						_DrawTextSmiley(hdcMem, &p_rect, &text_size, pdnce->szSecondLineText, 0, (int)mir_tstrlen(pdnce->szSecondLineText), pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys);
+						_DrawTextSmiley(hdcMem, &p_rect, &text_size, pdnce->szSecondLineText, 0, (int)mir_wstrlen(pdnce->szSecondLineText), pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys);
 				}
 				break;
 
@@ -1112,7 +1112,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 						mir_free(pdnce->szThirdLineText);
 
 						TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
-						pdnce->szThirdLineText = mir_tstrdup(buf);
+						pdnce->szThirdLineText = mir_wstrdup(buf);
 					}
 
 					uTextFormat |= (gl_RowTabAccess[i]->valign == TC_VCENTER) ? DT_VCENTER : (gl_RowTabAccess[i]->valign == TC_BOTTOM) ? DT_BOTTOM : 0;
@@ -1124,7 +1124,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					ChangeToFont(hdcMem, dat, FONTID_THIRDLINE, NULL);
 					uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
 					if (Drawing->type == CLCIT_CONTACT)
-						_DrawTextSmiley(hdcMem, &p_rect, &text_size, pdnce->szThirdLineText, 0, (int)mir_tstrlen(pdnce->szThirdLineText), pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys);
+						_DrawTextSmiley(hdcMem, &p_rect, &text_size, pdnce->szThirdLineText, 0, (int)mir_wstrlen(pdnce->szThirdLineText), pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys);
 				}
 				break;
 
@@ -1395,7 +1395,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 				if (!TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", szResult, _countof(szResult), 0)) {
 					// Select font
 					ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
-					ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), &p_rect, DT_NOPREFIX | DT_SINGLELINE | (dat->text_rtl ? DT_RTLREADING : 0));
+					ske_DrawText(hdcMem, szResult, (int)mir_wstrlen(szResult), &p_rect, DT_NOPREFIX | DT_SINGLELINE | (dat->text_rtl ? DT_RTLREADING : 0));
 				}
 				break;
 			}
@@ -2112,7 +2112,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					// Get text size
 					RECT rc;
 					SIZE text_size;
-					text_size.cy = ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
+					text_size.cy = ske_DrawText(hdcMem, szResult, (int)mir_wstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
 					text_size.cy = min(text_size.cy, free_row_rc.bottom - free_row_rc.top);
 					text_size.cx = rc.right - rc.left;
 
@@ -2213,7 +2213,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 				space_size.cy = min(space_rc.bottom - space_rc.top, free_height);
 
 				ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
-				DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &counts_rc, DT_CALCRECT);
+				DrawText(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &counts_rc, DT_CALCRECT);
 
 				counts_size.cx = counts_rc.right - counts_rc.left;
 				counts_size.cy = min(counts_rc.bottom - counts_rc.top, free_height);
@@ -2267,7 +2267,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					// Get contact time
 					wchar_t buf[70] = L"";
 					TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
-					replaceStrT(pdnce->szSecondLineText, buf);
+					replaceStrW(pdnce->szSecondLineText, buf);
 				}
 
 				if (pdnce->szSecondLineText && pdnce->szSecondLineText[0] && free_height > dat->secondLine.top_space) {
@@ -2300,7 +2300,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					// Get contact time
 					wchar_t buf[70] = L"";
 					TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", buf, _countof(buf), 0);
-					replaceStrT(pdnce->szThirdLineText, buf);
+					replaceStrW(pdnce->szThirdLineText, buf);
 				}
 				if (pdnce->szThirdLineText != NULL && pdnce->szThirdLineText[0] && free_height > dat->thirdLine.top_space) {
 					ChangeToFont(hdcMem, dat, FONTID_THIRDLINE, NULL);
@@ -2652,7 +2652,7 @@ void CLCPaint::_DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 		ske_DrawText(hdcMem, Drawing->szText, -1, prcItem, uTextFormat);
 		if (selected && !dat->bFilterSearch) {
 			SetTextColor(hdcMem, dat->quickSearchColour);
-			ske_DrawText(hdcMem, Drawing->szText, (int)mir_tstrlen(dat->szQuickSearch), prcItem, uTextFormat);
+			ske_DrawText(hdcMem, Drawing->szText, (int)mir_wstrlen(dat->szQuickSearch), prcItem, uTextFormat);
 		}
 	}
 	else if (Drawing->type == CLCIT_CONTACT) {
@@ -2672,7 +2672,7 @@ void CLCPaint::_DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 					idx = int(p1 - lowered);
 			}
 			SetTextColor(hdcMem, dat->quickSearchColour);
-			_DrawTextSmiley(hdcMem, prcItem, &text_size, Drawing->szText, idx, (int)mir_tstrlen(dat->szQuickSearch), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+			_DrawTextSmiley(hdcMem, prcItem, &text_size, Drawing->szText, idx, (int)mir_wstrlen(dat->szQuickSearch), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 		}
 	}
 	else ske_DrawText(hdcMem, Drawing->szText, -1, prcItem, uTextFormat);
@@ -2726,7 +2726,7 @@ void CLCPaint::_DrawContactTime(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 	if (!TimeZone_PrintDateTime(pdnce->hTimeZone, L"t", szResult, _countof(szResult), 0)) {
 		// Select font
 		ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
-		ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), prcItem, DT_NOPREFIX | DT_SINGLELINE);
+		ske_DrawText(hdcMem, szResult, (int)mir_wstrlen(szResult), prcItem, DT_NOPREFIX | DT_SINGLELINE);
 	}
 }
 

@@ -27,7 +27,7 @@ static wchar_t* a2tf(const wchar_t* str, bool unicode)
 	if (str == NULL)
 		return NULL;
 
-	return unicode ? mir_tstrdup(str) : mir_a2t((char*)str);
+	return unicode ? mir_wstrdup(str) : mir_a2u((char*)str);
 }
 
 void overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t* def)
@@ -38,7 +38,7 @@ void overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t
 	if (src != NULL)
 		dest = a2tf(src, unicode);
 	else if (def != NULL)
-		dest = mir_tstrdup(def);
+		dest = mir_wstrdup(def);
 }
 
 char* arrayToHex(BYTE* data, size_t datasz)
@@ -305,11 +305,11 @@ wchar_t* EscapeChatTags(const wchar_t* pszText)
 		nChars++;
 
 	if (nChars == 0)
-		return mir_tstrdup(pszText);
+		return mir_wstrdup(pszText);
 
-	wchar_t *pszNewText = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_tstrlen(pszText) + 1 + nChars));
+	wchar_t *pszNewText = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(pszText) + 1 + nChars));
 	if (pszNewText == NULL)
-		return mir_tstrdup(pszText);
+		return mir_wstrdup(pszText);
 
 	const wchar_t *s = pszText;
 	wchar_t *d = pszNewText;

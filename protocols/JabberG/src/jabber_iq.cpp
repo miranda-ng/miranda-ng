@@ -248,9 +248,9 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		return false;
 
 	int nIqType = JABBER_IQ_TYPE_FAIL;
-	if (!mir_tstrcmpi(szType, L"result"))
+	if (!mir_wstrcmpi(szType, L"result"))
 		nIqType = JABBER_IQ_TYPE_RESULT;
-	else if (!mir_tstrcmpi(szType, L"error"))
+	else if (!mir_wstrcmpi(szType, L"error"))
 		nIqType = JABBER_IQ_TYPE_ERROR;
 	else
 		return false;
@@ -300,9 +300,9 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 
 		CJabberIqInfo iqInfo;
 		iqInfo.m_nIqType = JABBER_IQ_TYPE_FAIL;
-		if (!mir_tstrcmpi(szType, L"get"))
+		if (!mir_wstrcmpi(szType, L"get"))
 			iqInfo.m_nIqType = JABBER_IQ_TYPE_GET;
-		else if (!mir_tstrcmpi(szType, L"set"))
+		else if (!mir_wstrcmpi(szType, L"set"))
 			iqInfo.m_nIqType = JABBER_IQ_TYPE_SET;
 		else
 			return FALSE;
@@ -317,8 +317,8 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 		const wchar_t *szTagName = XmlGetName(pFirstChild);
 		const wchar_t *szXmlns = XmlGetAttrValue(pFirstChild, L"xmlns");
 
-		if ((!pInfo.m_szXmlns || (szXmlns && !mir_tstrcmp(pInfo.m_szXmlns, szXmlns))) &&
-			 (!pInfo.m_szTag || !mir_tstrcmp(pInfo.m_szTag, szTagName)))
+		if ((!pInfo.m_szXmlns || (szXmlns && !mir_wstrcmp(pInfo.m_szXmlns, szXmlns))) &&
+			 (!pInfo.m_szTag || !mir_wstrcmp(pInfo.m_szTag, szTagName)))
 		{
 			// node suits handler criteria, call the handler
 			iqInfo.m_pChildNode = pFirstChild;
@@ -416,9 +416,9 @@ CJabberIqPermanentInfo* CJabberIqManager::AddPermanentHandler(
 	CJabberIqPermanentInfo *pInfo = new CJabberIqPermanentInfo();
 	pInfo->m_pHandler = pHandler;
 	pInfo->m_nIqTypes = nIqTypes ? nIqTypes : JABBER_IQ_TYPE_ANY;
-	pInfo->m_szXmlns = mir_tstrdup(szXmlns);
+	pInfo->m_szXmlns = mir_wstrdup(szXmlns);
 	pInfo->m_bAllowPartialNs = bAllowPartialNs;
-	pInfo->m_szTag = mir_tstrdup(szTag);
+	pInfo->m_szTag = mir_wstrdup(szTag);
 	pInfo->m_dwParamsToParse = dwParamsToParse;
 	pInfo->m_pUserData = pUserData;
 	pInfo->m_pUserDataFree = pUserDataFree;

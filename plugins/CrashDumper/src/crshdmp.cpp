@@ -68,7 +68,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 	CreateDirectoryTreeT(VersionInfoFolder);
 
 	wchar_t path[MAX_PATH];
-	mir_sntprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
+	mir_snwprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 
 	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hDumpFile != INVALID_HANDLE_VALUE) {
@@ -103,7 +103,7 @@ INT_PTR UploadVersionInfo(WPARAM, LPARAM lParam)
 	PrintVersionInfo(buffer);
 
 	VerTrnsfr *trn = (VerTrnsfr*)mir_alloc(sizeof(VerTrnsfr));
-	trn->buf = mir_utf8encodeT(buffer.c_str());
+	trn->buf = mir_utf8encodeW(buffer.c_str());
 	trn->autot = lParam == 0xa1;
 
 	mir_forkthread(VersionInfoUploadThread, trn);
@@ -133,7 +133,7 @@ INT_PTR GetVersionInfo(WPARAM wParam, LPARAM lParam)
 		CMString buffer;
 		PrintVersionInfo(buffer, (unsigned int)wParam);
 		char **retData = (char **)lParam;
-		*retData = mir_utf8encodeT(buffer.c_str());
+		*retData = mir_utf8encodeW(buffer.c_str());
 		if (*retData)
 			result = 0; //success
 	}
@@ -156,10 +156,10 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 
 INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 {
-	ptrT tmp(db_get_wsa(NULL, PluginName, "Username"));
+	ptrW tmp(db_get_wsa(NULL, PluginName, "Username"));
 	if (tmp != NULL) {
 		wchar_t buffer[MAX_PATH];
-		mir_sntprintf(buffer, L"http://vi.miranda-ng.org/detail/%s", tmp);
+		mir_snwprintf(buffer, L"http://vi.miranda-ng.org/detail/%s", tmp);
 
 		int bufLen = (sizeof(buffer) + 1) * sizeof(wchar_t);
 		HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
@@ -245,7 +245,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	crs_a2t(vertxt, temp);
 
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		replaceStrT(profpath, L"%miranda_userdata%");
+		replaceStrW(profpath, L"%miranda_userdata%");
 
 		// Removed because it isn't available on Load()
 		//		hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
@@ -368,7 +368,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	profname = Utils_ReplaceVarsT(L"%miranda_profilename%.dat");
 	profpath = Utils_ReplaceVarsT(L"%miranda_userdata%");
 	if (catchcrashes && !needrestart)
-		mir_sntprintf(CrashLogFolder, TEXT("%s\\CrashLog"), profpath);
+		mir_snwprintf(CrashLogFolder, TEXT("%s\\CrashLog"), profpath);
 	wcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);
 
 

@@ -596,17 +596,17 @@ void CYahooProto::request_avatar(const char* who)
 
 void CYahooProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, int cbLen, int type)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (_waccess(pszDest, 0))
 		CreateDirectoryTreeT(pszDest);
 
 	if (hContact != NULL) {
 		int ck_sum = getDword(hContact, "PictCK", 0);
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%lX", ck_sum);
+		tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%lX", ck_sum);
 	}
 	else
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%S avatar", m_szModuleName);
+		tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%S avatar", m_szModuleName);
 
 	wcsncpy_s((pszDest + tPathLen), (cbLen - tPathLen), (type == 1 ? L".swf" : L".png"), _TRUNCATE);
 }
@@ -750,7 +750,7 @@ INT_PTR __cdecl CYahooProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (getDword("AvatarHash", 0)) {
 		if (!getTString("AvatarFile", &dbv)) {
 			if (_waccess(dbv.ptszVal, 0) == 0) {
-				mir_tstrncpy(buffer, dbv.ptszVal, size - 1);
+				mir_wstrncpy(buffer, dbv.ptszVal, size - 1);
 				buffer[size - 1] = '\0';
 
 				ret = 0;

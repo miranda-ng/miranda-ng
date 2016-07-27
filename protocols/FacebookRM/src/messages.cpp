@@ -218,7 +218,7 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 	b64 = utils::url::encode(b64);
 
 	std::wstring filename = GetAvatarFolder() + L"\\stickers\\";
-	ptrT dir(mir_tstrdup(filename.c_str()));
+	ptrW dir(mir_wstrdup(filename.c_str()));
 
 	filename += (wchar_t*)_A2T(b64.c_str());
 	filename += L".png";

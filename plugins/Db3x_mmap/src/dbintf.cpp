@@ -54,7 +54,7 @@ CDb3Mmap::CDb3Mmap(const wchar_t *tszFileName, int iMode) :
 	m_lOfs(50, OfsCompare),
 	m_lResidentSettings(50, stringCompare2)
 {
-	m_tszProfileName = mir_tstrdup(tszFileName);
+	m_tszProfileName = mir_wstrdup(tszFileName);
 	InitDbInstance(this);
 
 	SYSTEM_INFO sinf;

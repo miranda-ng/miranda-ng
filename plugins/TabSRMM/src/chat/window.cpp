@@ -135,7 +135,7 @@ bool IsStringValidLink(wchar_t *pszText)
 	if (pszText == NULL)
 		return false;
 
-	if (mir_tstrlen(pszText) < 5 || wcschr(pszText, '"'))
+	if (mir_wstrlen(pszText) < 5 || wcschr(pszText, '"'))
 		return false;
 
 	if (towlower(pszText[0]) == 'w' && towlower(pszText[1]) == 'w' && towlower(pszText[2]) == 'w' && pszText[3] == '.' && iswalnum(pszText[4]))
@@ -451,7 +451,7 @@ static bool TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 		start -= 2;
 
 	if (dat->szSearchResult != NULL) {
-		int cbResult = (int)mir_tstrlen(dat->szSearchResult);
+		int cbResult = (int)mir_wstrlen(dat->szSearchResult);
 		if (start >= cbResult && !wcsnicmp(dat->szSearchResult, pszText + start - cbResult, cbResult)) {
 			start -= cbResult;
 			goto LBL_SkipEnd;
@@ -475,8 +475,8 @@ LBL_SkipEnd:
 			isTopic = TRUE;
 	}
 	if (dat->szSearchQuery == NULL) {
-		dat->szSearchQuery = mir_tstrndup(pszText + start, end - start);
-		dat->szSearchResult = mir_tstrdup(dat->szSearchQuery);
+		dat->szSearchQuery = mir_wstrndup(pszText + start, end - start);
+		dat->szSearchResult = mir_wstrdup(dat->szSearchQuery);
 		dat->lastSession = NULL;
 	}
 	if (isTopic)
@@ -488,12 +488,12 @@ LBL_SkipEnd:
 	}
 	else pszName = pci->UM_FindUserAutoComplete(si->pUsers, dat->szSearchQuery, dat->szSearchResult);
 
-	replaceStrT(dat->szSearchResult, NULL);
+	replaceStrW(dat->szSearchResult, NULL);
 
 	if (pszName != NULL) {
-		dat->szSearchResult = mir_tstrdup(pszName);
+		dat->szSearchResult = mir_wstrdup(pszName);
 		if (end != start) {
-			ptrT szReplace;
+			ptrW szReplace;
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
 				szReplace = (wchar_t*)mir_alloc((mir_wstrlen(pszName) + 4) * sizeof(wchar_t));
 				mir_wstrcpy(szReplace, pszName);
@@ -510,7 +510,7 @@ LBL_SkipEnd:
 		SendMessage(hwnd, EM_SETSEL, start, end);
 		SendMessage(hwnd, EM_REPLACESEL, TRUE, (LPARAM)dat->szSearchQuery);
 	}
-	replaceStrT(dat->szSearchQuery, NULL);
+	replaceStrW(dat->szSearchQuery, NULL);
 	return false;
 }
 
@@ -1321,7 +1321,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
+			mir_snwprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 			TranslateT("Nickname"), ui1->pszNick,
 			TranslateT("Unique ID"), ui1->pszUID,
 			TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
@@ -1452,18 +1452,18 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				break;
 			}
 			if (wParam == '\b' && si->szSearch[0])					// backspace
-				si->szSearch[mir_tstrlen(si->szSearch) - 1] = '\0';
+				si->szSearch[mir_wstrlen(si->szSearch) - 1] = '\0';
 			else if (wParam < ' ')
 				break;
 			else {
-				if (mir_tstrlen(si->szSearch) >= _countof(si->szSearch) - 2) {
+				if (mir_wstrlen(si->szSearch) >= _countof(si->szSearch) - 2) {
 					MessageBeep(MB_OK);
 					break;
 				}
 				wchar_t szNew[2];
 				szNew[0] = (wchar_t)wParam;
 				szNew[1] = '\0';
-				mir_tstrcat(si->szSearch, szNew);
+				mir_wstrcat(si->szSearch, szNew);
 			}
 			if (si->szSearch[0]) {
 				// iterate over the (sorted) list of nicknames and search for the
@@ -1472,7 +1472,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				for (i = 0; i < iItems; i++) {
 					USERINFO *ui = pci->UM_FindUserFromIndex(si->pUsers, i);
 					if (ui) {
-						if (!wcsnicmp(ui->pszNick, si->szSearch, mir_tstrlen(si->szSearch))) {
+						if (!wcsnicmp(ui->pszNick, si->szSearch, mir_wstrlen(si->szSearch))) {
 							SendMessage(hwnd, LB_SETSEL, FALSE, -1);
 							SendMessage(hwnd, LB_SETSEL, TRUE, i);
 							si->iSearchItem = i;
@@ -1483,7 +1483,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				}
 				if (i == iItems) {
 					MessageBeep(MB_OK);
-					si->szSearch[mir_tstrlen(si->szSearch) - 1] = '\0';
+					si->szSearch[mir_wstrlen(si->szSearch) - 1] = '\0';
 					return 0;
 				}
 			}
@@ -1671,7 +1671,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					}
 				}
 				if (tszBuf[0] == 0)
-					mir_sntprintf(tszBuf, L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
+					mir_snwprintf(tszBuf, L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
 					TranslateT("Nick"), ui1->pszNick,
 					TranslateT("Unique ID"), ui1->pszUID,
 					TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
@@ -1890,7 +1890,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			dat->wStatus = si->wStatus;
 
 			const wchar_t *szNick = dat->cache->getNick();
-			if (mir_tstrlen(szNick) > 0) {
+			if (mir_wstrlen(szNick) > 0) {
 				if (M.GetByte("cuttitle", 0))
 					CutContactName(szNick, dat->newtitle, _countof(dat->newtitle));
 				else
@@ -1903,19 +1903,19 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			switch (si->iType) {
 			case GCW_CHATROOM:
 				hIcon = Skin_LoadProtoIcon(si->pszModule, (dat->wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : dat->wStatus);
-				mir_sntprintf(szTemp,
+				mir_snwprintf(szTemp,
 					(si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
 					szNick, si->nUsersInNicklist, si->bFilterEnabled ? TranslateT(", event filter active") : L"");
 				break;
 			case GCW_PRIVMESS:
 				hIcon = Skin_LoadProtoIcon(si->pszModule, (dat->wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : dat->wStatus);
 				if (si->nUsersInNicklist == 1)
-					mir_sntprintf(szTemp, TranslateT("%s: message session"), szNick);
+					mir_snwprintf(szTemp, TranslateT("%s: message session"), szNick);
 				else
-					mir_sntprintf(szTemp, TranslateT("%s: message session (%u users)"), szNick, si->nUsersInNicklist);
+					mir_snwprintf(szTemp, TranslateT("%s: message session (%u users)"), szNick, si->nUsersInNicklist);
 				break;
 			case GCW_SERVER:
-				mir_sntprintf(szTemp, L"%s: Server", szNick);
+				mir_snwprintf(szTemp, L"%s: Server", szNick);
 				hIcon = LoadIconEx("window");
 				break;
 			}
@@ -1978,17 +1978,17 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					else if (diff > 59) {
 						DWORD hours = diff / 60;
 						DWORD minutes = diff % 60;
-						mir_sntprintf(mi->tszIdleMsg, TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
+						mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
 							TranslateT("hours") : TranslateT("hour"),
 							minutes, minutes > 1 ? TranslateT("minutes") : TranslateT("minute"));
 					}
-					else mir_sntprintf(mi->tszIdleMsg, TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
+					else mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
 				}
-				mir_sntprintf(szFinalStatusBarText, TranslateT("%s on %s%s"), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
+				mir_snwprintf(szFinalStatusBarText, TranslateT("%s on %s%s"), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
 			}
 			else {
 				if (si->ptszStatusbarText)
-					mir_sntprintf(szFinalStatusBarText, L"%s %s", mi->ptszModDispName, si->ptszStatusbarText);
+					mir_snwprintf(szFinalStatusBarText, L"%s %s", mi->ptszModDispName, si->ptszStatusbarText);
 				else
 					wcsncpy_s(szFinalStatusBarText, mi->ptszModDispName, _TRUNCATE);
 			}
@@ -2213,16 +2213,16 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				SIZE sz;
 				if (si->iSearchItem != -1 && si->iSearchItem == index && si->szSearch[0]) {
 					COLORREF clr_orig = GetTextColor(dis->hDC);
-					GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_tstrlen(si->szSearch), &sz);
+					GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_wstrlen(si->szSearch), &sz);
 					SetTextColor(dis->hDC, RGB(250, 250, 0));
-					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, (int)mir_tstrlen(si->szSearch));
+					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, (int)mir_wstrlen(si->szSearch));
 					SetTextColor(dis->hDC, clr_orig);
 					x_offset += sz.cx;
-					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick + mir_tstrlen(si->szSearch), int(mir_tstrlen(ui->pszNick) - mir_tstrlen(si->szSearch)));
+					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick + mir_wstrlen(si->szSearch), int(mir_wstrlen(ui->pszNick) - mir_wstrlen(si->szSearch)));
 				}
 				else {
-					GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_tstrlen(ui->pszNick), &sz);
-					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, (int)mir_tstrlen(ui->pszNick));
+					GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_wstrlen(ui->pszNick), &sz);
+					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, (int)mir_wstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
 				}
 				return TRUE;
@@ -2535,7 +2535,7 @@ LABEL_SHOWWINDOW:
 						int iRes = SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 						if (iRes > 0) {
-							size_t iLen = mir_tstrlen(pszWord) - 1;
+							size_t iLen = mir_wstrlen(pszWord) - 1;
 							while (strchr(szTrimString, pszWord[iLen])) {
 								pszWord[iLen] = '\0';
 								iLen--;
@@ -2655,7 +2655,7 @@ LABEL_SHOWWINDOW:
 								HMENU hMenu = 0;
 								USERINFO uiNew;
 								for (USERINFO *ui = si->pUsers; ui; ui = ui->next) {
-									if (mir_tstrcmp(ui->pszNick, tr.lpstrText))
+									if (mir_wstrcmp(ui->pszNick, tr.lpstrText))
 										continue;
 
 									pt.x = (short)LOWORD(((ENLINK*)lParam)->lParam);
@@ -2685,7 +2685,7 @@ LABEL_SHOWWINDOW:
 								SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&chr);
 
 								wchar_t tszAplTmpl[] = L"%s:";
-								size_t bufSize = mir_tstrlen(tr.lpstrText) + mir_tstrlen(tszAplTmpl) + 3;
+								size_t bufSize = mir_wstrlen(tr.lpstrText) + mir_wstrlen(tszAplTmpl) + 3;
 								wchar_t *tszTmp = (wchar_t*)mir_alloc(bufSize * sizeof(wchar_t)), *tszAppeal = tszTmp;
 
 								TEXTRANGE tr2;
@@ -2697,12 +2697,12 @@ LABEL_SHOWWINDOW:
 									SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETTEXTRANGE, 0, (LPARAM)&tr2);
 									if (!iswspace(*tr2.lpstrText))
 										*tszTmp++ = ' ';
-									mir_tstrcpy(tszTmp, tr.lpstrText);
+									mir_wstrcpy(tszTmp, tr.lpstrText);
 								}
 								else // in the beginning of the message window
-									mir_sntprintf(tszAppeal, bufSize, tszAplTmpl, tr.lpstrText);
+									mir_snwprintf(tszAppeal, bufSize, tszAplTmpl, tr.lpstrText);
 
-								size_t st = mir_tstrlen(tszAppeal);
+								size_t st = mir_wstrlen(tszAppeal);
 								if (chr.cpMax != -1) {
 									tr2.chrg.cpMin = chr.cpMax;
 									tr2.chrg.cpMax = chr.cpMax + 1;
@@ -2824,7 +2824,7 @@ LABEL_SHOWWINDOW:
 				ptrA pszRtf(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)));
 				pci->SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
 
-				CMString ptszText(ptrT(mir_utf8decodeT(pszRtf)));
+				CMString ptszText(ptrW(mir_utf8decodeW(pszRtf)));
 				if (ptszText.IsEmpty())
 					break;
 
@@ -3203,7 +3203,7 @@ LABEL_SHOWWINDOW:
 	case DM_CONTAINERSELECTED:
 		{
 			wchar_t *szNewName = (wchar_t*)lParam;
-			if (!mir_tstrcmp(szNewName, TranslateT("Default container")))
+			if (!mir_wstrcmp(szNewName, TranslateT("Default container")))
 				szNewName = CGlobals::m_default_container_name;
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);
 			if (!wcsncmp(dat->pContainer->szName, szNewName, CONTAINER_NAMELEN))

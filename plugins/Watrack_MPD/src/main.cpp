@@ -75,7 +75,7 @@ int Parser()
 		if(!Connected)
 		{
 			char tmp[128];
-			char *tmp2 = mir_t2a(gbPassword);
+			char *tmp2 = mir_u2a(gbPassword);
 			recvResult = CallService(MS_NETLIB_GETMOREPACKETS,(WPARAM)ghPacketReciever, (LPARAM)&nlpr);
 			if(recvResult == SOCKET_ERROR)
 			{
@@ -124,20 +124,20 @@ int Parser()
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
 		strncpy_s(ver, tmp, _TRUNCATE);
-		SongInfo.txtver = mir_utf8decodeT(tmp);
+		SongInfo.txtver = mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.txtver = mir_utf8decodeT(ver);
+		SongInfo.txtver = mir_utf8decodeW(ver);
 	if(ptr = strstr(buf, "file:"))
 	{
 		ptr = &ptr[6];
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.mfile = mir_utf8decodeT(tmp);
+		SongInfo.mfile = mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.mfile = mir_tstrdup(L"");
+		SongInfo.mfile = mir_wstrdup(L"");
 	if(ptr = strstr(buf, "Time:"))
 	{
 		ptr = &ptr[6];
@@ -164,50 +164,50 @@ int Parser()
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.title = mir_utf8decodeT(tmp);
+		SongInfo.title = mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.title = mir_tstrdup(L"Unknown track");
+		SongInfo.title = mir_wstrdup(L"Unknown track");
 	if(ptr = strstr(buf, "Artist:"))
 	{
 		ptr = &ptr[8];
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.artist = mir_utf8decodeT(tmp);
+		SongInfo.artist = mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.artist = mir_tstrdup(L"Unknown artist");
+		SongInfo.artist = mir_wstrdup(L"Unknown artist");
 	if(ptr = strstr(buf, "Genre:"))
 	{
 		ptr = &ptr[7];
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.genre = mir_utf8decodeT(tmp);
+		SongInfo.genre = mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.genre =  mir_tstrdup(L"Unknown genre");
+		SongInfo.genre =  mir_wstrdup(L"Unknown genre");
 	if(ptr = strstr(buf, "Album:"))
 	{
 		ptr = &ptr[7];
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.album = mir_utf8decodeT(tmp);
+		SongInfo.album = mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.album =  mir_tstrdup(L"Unknown album");
+		SongInfo.album =  mir_wstrdup(L"Unknown album");
 	if(ptr = strstr(buf, "Date:"))
 	{
 		ptr = &ptr[6];
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.year = mir_utf8decodeT(tmp);
+		SongInfo.year = mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.year =  mir_tstrdup(L"Unknown year");
+		SongInfo.year =  mir_wstrdup(L"Unknown year");
 	if(ptr = strstr(buf, "volume:"))
 	{
 		ptr = &ptr[8];

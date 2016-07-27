@@ -69,13 +69,13 @@ MCONTACT CJabberProto::HContactFromJID(const wchar_t *jid, bool bStripResource)
 wchar_t* __stdcall JabberNickFromJID(const wchar_t *jid)
 {
 	if (jid == NULL)
-		return mir_tstrdup(L"");
+		return mir_wstrdup(L"");
 
 	const wchar_t *p = wcschr(jid, '@');
 	if (p == NULL)
 		p = wcschr(jid, '/');
 
-	return (p != NULL) ? mir_tstrndup(jid, p - jid) : mir_tstrdup(jid);
+	return (p != NULL) ? mir_wstrndup(jid, p - jid) : mir_wstrdup(jid);
 }
 
 pResourceStatus CJabberProto::ResourceInfoFromJID(const wchar_t *jid)
@@ -99,7 +99,7 @@ pResourceStatus CJabberProto::ResourceInfoFromJID(const wchar_t *jid)
 wchar_t* JabberPrepareJid(LPCTSTR jid)
 {
 	if (jid == NULL) return NULL;
-	wchar_t *szNewJid = mir_tstrdup(jid);
+	wchar_t *szNewJid = mir_wstrdup(jid);
 	if (!szNewJid) return NULL;
 	wchar_t *pDelimiter = wcschr(szNewJid, '/');
 	if (pDelimiter) *pDelimiter = 0;
@@ -156,7 +156,7 @@ wchar_t* __stdcall JabberStrFixLines(const wchar_t *str)
 		if (*p == '\r' || *p == '\n')
 			++add;
 
-	wchar_t *buf = (wchar_t *)mir_alloc((mir_tstrlen(str) + add + 1) * sizeof(wchar_t));
+	wchar_t *buf = (wchar_t *)mir_alloc((mir_wstrlen(str) + add + 1) * sizeof(wchar_t));
 	wchar_t *res = buf;
 
 	for (p = str; p && *p; ++p) {
@@ -258,7 +258,7 @@ wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 	if (errorNode == NULL) {
 		if (pErrorCode)
 			*pErrorCode = -1;
-		mir_sntprintf(errorStr, 256, L"%s -1: %s", TranslateT("Error"), TranslateT("Unknown error message"));
+		mir_snwprintf(errorStr, 256, L"%s -1: %s", TranslateT("Error"), TranslateT("Unknown error message"));
 		return errorStr;
 	}
 
@@ -275,7 +275,7 @@ wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 			HXML c = XmlGetChild(errorNode, i);
 			if (c == NULL) break;
 			const wchar_t *attr = XmlGetAttrValue(c, L"xmlns");
-			if (attr && !mir_tstrcmp(attr, L"urn:ietf:params:xml:ns:xmpp-stanzas")) {
+			if (attr && !mir_wstrcmp(attr, L"urn:ietf:params:xml:ns:xmpp-stanzas")) {
 				str = XmlGetName(c);
 				break;
 			}
@@ -283,9 +283,9 @@ wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 	}
 
 	if (str != NULL)
-		mir_sntprintf(errorStr, 256, L"%s %d: %s\r\n%s", TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)), str);
+		mir_snwprintf(errorStr, 256, L"%s %d: %s\r\n%s", TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)), str);
 	else
-		mir_sntprintf(errorStr, 256, L"%s %d: %s", TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)));
+		mir_snwprintf(errorStr, 256, L"%s %d: %s", TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)));
 
 	if (pErrorCode)
 		*pErrorCode = errorCode;
@@ -493,7 +493,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 			if (item != NULL && item->nick != NULL) {
 				wchar_t text[1024];
-				mir_sntprintf(text, L"%s/%s", item->jid, item->nick);
+				mir_snwprintf(text, L"%s/%s", item->jid, item->nick);
 				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text, NULL);
 			}
 		}
@@ -516,8 +516,8 @@ int __stdcall JabberGetPacketID(HXML n)
 wchar_t* __stdcall JabberId2string(int id)
 {
 	wchar_t text[100];
-	mir_sntprintf(text, _T(JABBER_IQID) L"%d", id);
-	return mir_tstrdup(text);
+	mir_snwprintf(text, _T(JABBER_IQID) L"%d", id);
+	return mir_wstrdup(text);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -528,7 +528,7 @@ wchar_t* CJabberProto::GetClientJID(MCONTACT hContact, wchar_t *dest, size_t des
 	if (hContact == NULL)
 		return NULL;
 
-	ptrT jid(getTStringA(hContact, "jid"));
+	ptrW jid(getTStringA(hContact, "jid"));
 	return GetClientJID(jid, dest, destLen);
 }
 
@@ -543,7 +543,7 @@ wchar_t* CJabberProto::GetClientJID(const wchar_t *jid, wchar_t *dest, size_t de
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI != NULL) {
-		if (LI->arResources.getCount() == 1 && !mir_tstrcmp(LI->arResources[0]->m_tszCapsNode, L"http://talk.google.com/xmpp/bot/caps")) {
+		if (LI->arResources.getCount() == 1 && !mir_wstrcmp(LI->arResources[0]->m_tszCapsNode, L"http://talk.google.com/xmpp/bot/caps")) {
 			if (p) *p = 0;
 			return dest;
 		}
@@ -551,7 +551,7 @@ wchar_t* CJabberProto::GetClientJID(const wchar_t *jid, wchar_t *dest, size_t de
 		if (p == NULL) {
 			pResourceStatus r(LI->getBestResource());
 			if (r != NULL)
-				mir_sntprintf(dest, destLen, L"%s/%s", jid, r->m_tszResourceName);
+				mir_snwprintf(dest, destLen, L"%s/%s", jid, r->m_tszResourceName);
 		}
 	}
 
@@ -582,10 +582,10 @@ wchar_t* __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size_t dest
 LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
 {
 	if (LPCTSTR ptszType = XmlGetText(XmlGetChild(node, "TYPE")))
-		if (!mir_tstrcmp(ptszType, L"image/jpeg") ||
-			 !mir_tstrcmp(ptszType, L"image/png") ||
-			 !mir_tstrcmp(ptszType, L"image/gif") ||
-			 !mir_tstrcmp(ptszType, L"image/bmp"))
+		if (!mir_wstrcmp(ptszType, L"image/jpeg") ||
+			 !mir_wstrcmp(ptszType, L"image/png") ||
+			 !mir_wstrcmp(ptszType, L"image/gif") ||
+			 !mir_wstrcmp(ptszType, L"image/bmp"))
 			return ptszType;
 
 	switch (ProtoGetBufferFormat(picBuf)) {
@@ -658,7 +658,7 @@ void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *par
 	for (int i = 0; i < recentCount; i++) {
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, "%s%d", param, i);
-		ptrT tszRecent(getTStringA(setting));
+		ptrW tszRecent(getTStringA(setting));
 		if (tszRecent != NULL)
 			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, tszRecent);
 	}
@@ -733,7 +733,7 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 					if (hContact == NULL) continue;
 
 					char name[128];
-					char *jid_copy = mir_t2a(item->jid);
+					char *jid_copy = mir_u2a(item->jid);
 					mir_snprintf(name, "$/Transports/%s", jid_copy);
 					ppro->m_pInfoFrame->CreateInfoItem(name, true, hContact);
 					ppro->m_pInfoFrame->UpdateInfoItem(name, ppro->GetIconHandle(IDI_TRANSPORTL), (wchar_t *)item->jid);
@@ -758,7 +758,7 @@ void CJabberProto::RebuildInfoFrame()
 wchar_t* time2str(time_t _time, wchar_t *buf, size_t bufLen)
 {
 	struct tm* T = gmtime(&_time);
-	mir_sntprintf(buf, bufLen, L"%04d-%02d-%02dT%02d:%02d:%02dZ",
+	mir_snwprintf(buf, bufLen, L"%04d-%02d-%02dT%02d:%02d:%02dZ",
 					  T->tm_year + 1900, T->tm_mon + 1, T->tm_mday, T->tm_hour, T->tm_min, T->tm_sec);
 	return buf;
 }
@@ -784,8 +784,8 @@ const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr)
 	wchar_t *str_up = NEWWSTR_ALLOCA(str);
 	wchar_t *substr_up = NEWWSTR_ALLOCA(substr);
 
-	CharUpperBuff(str_up, (DWORD)mir_tstrlen(str_up));
-	CharUpperBuff(substr_up, (DWORD)mir_tstrlen(substr_up));
+	CharUpperBuff(str_up, (DWORD)mir_wstrlen(str_up));
+	CharUpperBuff(substr_up, (DWORD)mir_wstrlen(substr_up));
 
 	wchar_t *p = wcsstr(str_up, substr_up);
 	return p ? (str + (p - str_up)) : NULL;
@@ -800,9 +800,9 @@ void JabberCopyText(HWND hwnd, const wchar_t *text)
 
 	if (OpenClipboard(hwnd)) {
 		EmptyClipboard();
-		HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_tstrlen(text) + 1));
+		HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_wstrlen(text) + 1));
 		wchar_t *s = (wchar_t *)GlobalLock(hMem);
-		mir_tstrcpy(s, text);
+		mir_wstrcpy(s, text);
 		GlobalUnlock(hMem);
 		SetClipboardData(CF_UNICODETEXT, hMem);
 		CloseClipboard();
@@ -863,11 +863,11 @@ bool CJabberProto::IsMyOwnJID(LPCTSTR szJID)
 	if (m_ThreadInfo == NULL)
 		return false;
 
-	ptrT szFrom(JabberPrepareJid(szJID));
+	ptrW szFrom(JabberPrepareJid(szJID));
 	if (szFrom == NULL)
 		return false;
 
-	ptrT szTo(JabberPrepareJid(m_ThreadInfo->fullJID));
+	ptrW szTo(JabberPrepareJid(m_ThreadInfo->fullJID));
 	if (szTo == NULL)
 		return false;
 
@@ -879,7 +879,7 @@ bool CJabberProto::IsMyOwnJID(LPCTSTR szJID)
 	if (pDelimiter)
 		*pDelimiter = 0;
 
-	return mir_tstrcmp(szFrom, szTo) == 0;
+	return mir_wstrcmp(szFrom, szTo) == 0;
 }
 
 void __cdecl CJabberProto::LoadHttpAvatars(void* param)

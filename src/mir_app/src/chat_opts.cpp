@@ -120,9 +120,9 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font%d", i);
 
-		ptrT tszFace(db_get_tsa(NULL, CHATFONT_MODULE, str));
+		ptrW tszFace(db_get_tsa(NULL, CHATFONT_MODULE, str));
 		if (tszFace == NULL)
-			mir_tstrcpy(lf->lfFaceName, FO.szDefFace);
+			mir_wstrcpy(lf->lfFaceName, FO.szDefFace);
 		else
 			wcsncpy_s(lf->lfFaceName, tszFace, _TRUNCATE);
 	}
@@ -193,10 +193,10 @@ static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefau
 {
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, CHAT_MODULE, pszSetting, &dbv)) {
-		replaceStrT(*ppPointer, dbv.ptszVal);
+		replaceStrW(*ppPointer, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else replaceStrT(*ppPointer, pszDefault);
+	else replaceStrW(*ppPointer, pszDefault);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -313,7 +313,7 @@ int OptionsInit(void)
 
 	LOGFONT lf;
 	LoadMsgDlgFont(18, &lf, NULL);
-	mir_tstrcpy(lf.lfFaceName, L"MS Shell Dlg");
+	mir_wstrcpy(lf.lfFaceName, L"MS Shell Dlg");
 	lf.lfUnderline = lf.lfItalic = lf.lfStrikeOut = 0;
 	lf.lfHeight = -17;
 	lf.lfWeight = FW_BOLD;

@@ -41,8 +41,8 @@ GenericJob::GenericJob(GenericJob *job) :
 	m_ftp(job->m_ftp),
 	m_tab(job->m_tab)
 {
-	mir_tstrcpy(m_tszFilePath, job->m_tszFilePath);
-	mir_tstrcpy(m_tszFileName, job->m_tszFileName);
+	mir_wstrcpy(m_tszFilePath, job->m_tszFilePath);
+	mir_wstrcpy(m_tszFileName, job->m_tszFileName);
 	mir_strcpy(m_szSafeFileName, job->m_szSafeFileName);
 }
 
@@ -55,7 +55,7 @@ GenericJob::~GenericJob()
 int GenericJob::openFileDialog()
 {
 	wchar_t temp[MAX_PATH] = L"";
-	mir_sntprintf(temp, L"%s\0*.*\0", TranslateT("All Files (*.*)"));
+	mir_snwprintf(temp, L"%s\0*.*\0", TranslateT("All Files (*.*)"));
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = 0;
@@ -87,14 +87,14 @@ void GenericJob::getFilesFromOpenDialog()
 {
 	wchar_t stzFile[MAX_PATH];
 
-	size_t length = mir_tstrlen(m_tszFilePath);
+	size_t length = mir_wstrlen(m_tszFilePath);
 	if (m_tszFilePath[0] && m_tszFilePath[length + 1]) // multiple files
 	{
 		wchar_t *ptr = m_tszFilePath + length + 1;
 		while (ptr[0]) {
-			mir_sntprintf(stzFile, L"%s\\%s", m_tszFilePath, ptr);
+			mir_snwprintf(stzFile, L"%s\\%s", m_tszFilePath, ptr);
 			addFile(stzFile);
-			ptr += mir_tstrlen(ptr) + 1;
+			ptr += mir_wstrlen(ptr) + 1;
 		}
 	}
 	else {
@@ -116,7 +116,7 @@ int GenericJob::getFilesFromFolder(wchar_t *stzFolder)
 	HANDLE hFind = FindFirstFile(L"*.*", &ffd);
 	while (hFind != INVALID_HANDLE_VALUE) {
 		if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-			mir_sntprintf(stzFile, L"%s\\%s", stzFolder, ffd.cFileName);
+			mir_snwprintf(stzFile, L"%s\\%s", stzFolder, ffd.cFileName);
 			addFile(stzFile);
 		}
 
@@ -154,9 +154,9 @@ int GenericJob::getFiles(void **objects, int objCount, DWORD flags)
 	if (m_mode == FTP_ZIPFOLDER) {
 		wchar_t *folder;
 		if (flags & FUPL_UNICODE)
-			folder = mir_u2t((wchar_t *)objects[0]);
+			folder = mir_wstrdup((wchar_t *)objects[0]);
 		else
-			folder = mir_a2t((char *)objects[0]);
+			folder = mir_a2u((char *)objects[0]);
 
 		int result = getFilesFromFolder(folder);
 		FREE(folder);
@@ -166,9 +166,9 @@ int GenericJob::getFiles(void **objects, int objCount, DWORD flags)
 		for (int i = 0; i < objCount; i++) {
 			wchar_t *fileName;
 			if (flags & FUPL_UNICODE)
-				fileName = mir_u2t((wchar_t *)objects[i]);
+				fileName = mir_wstrdup((wchar_t *)objects[i]);
 			else
-				fileName = mir_a2t((char *)objects[i]);
+				fileName = mir_a2u((char *)objects[i]);
 
 			addFile(fileName);
 			FREE(fileName);
@@ -180,7 +180,7 @@ int GenericJob::getFiles(void **objects, int objCount, DWORD flags)
 
 void GenericJob::addFile(wchar_t *fileName)
 {
-	wchar_t *buff = mir_tstrdup(fileName);
+	wchar_t *buff = mir_wstrdup(fileName);
 	m_files.push_back(buff);
 }
 

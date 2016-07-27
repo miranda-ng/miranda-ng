@@ -12,7 +12,7 @@ void __stdcall ShowToastNotification(void* p)
 	if (!db_get_b(0, "Popup", "ModuleIsEnabled", 1))
 		return;
 
-	ptrT imagePath;
+	ptrW imagePath;
 	if (td->hContact != NULL && td->hContact != INVALID_CONTACT_ID)
 	{
 		const char* szProto = GetContactProto(td->hContact);
@@ -21,7 +21,7 @@ void __stdcall ShowToastNotification(void* p)
 			PROTO_AVATAR_INFORMATION pai = { td->hContact };
 			if (CallProtoService(szProto, PS_GETAVATARINFO, 0, (LPARAM)&pai) == GAIR_SUCCESS)
 			{
-				imagePath = mir_tstrdup(pai.filename);
+				imagePath = mir_wstrdup(pai.filename);
 			}
 		}
 
@@ -140,7 +140,7 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 		}
 		else
 		{
-			td = new ToastData(ppc->hContact, ptrT(mir_utf8decodeT(ppc->pszTitle)), ptrT(mir_utf8decodeT(ppc->pszText)), it->second->hIcon);
+			td = new ToastData(ppc->hContact, ptrW(mir_utf8decodeW(ppc->pszTitle)), ptrW(mir_utf8decodeW(ppc->pszText)), it->second->hIcon);
 		}
 
 		td->vPopupData = ppc->PluginData;

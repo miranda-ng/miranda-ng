@@ -210,7 +210,7 @@ HWND RecvSMSWindowAdd(MCONTACT hContact, DWORD dwEventType, LPWSTR lpwszPhone, s
 			}
 
 			lpwszContactDisplayName = pcli->pfnGetContactDisplayName(hContact, 0);
-			mir_sntprintf(wszTitle, L"%s - %s", lpwszContactDisplayName, lpwszTitlepart);
+			mir_snwprintf(wszTitle, L"%s - %s", lpwszContactDisplayName, lpwszTitlepart);
 			MultiByteToWideChar(CP_UTF8, 0, lpszMessage, (int)dwMessageSize, lpwszMessage, (int)dwMessageSize + MAX_PATH);
 
 			SetWindowText(prswdWindowData->hWnd, wszTitle);

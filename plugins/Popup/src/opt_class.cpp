@@ -191,11 +191,11 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 				if (p->typ == 1) { // Treeview part for typ 1 (notification)
 					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, IcoLib_GetIconByHandle(p->hIcoLib));
-					mir_sntprintf(itemName, L"%s/%s", p->pszTreeRoot, p->pszDescription);
+					mir_snwprintf(itemName, L"%s/%s", p->pszTreeRoot, p->pszDescription);
 				}
 				else { // Treeview part typ 2 (popup class api)
 					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, p->pupClass.hIcon);
-					mir_sntprintf(itemName, L"%s/%s", LPGENW("CLASS Plugins"), p->pszDescription);
+					mir_snwprintf(itemName, L"%s/%s", LPGENW("CLASS Plugins"), p->pszDescription);
 				}
 				OptTree_AddItem(hwndTree, itemName, (LPARAM)p, iconIndex);
 			}
@@ -266,7 +266,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					// combo left action (EXTRA)
 					hCtrl = GetDlgItem(hwnd, IDC_LACTION);
 					for (i = 0; i < ptd->notification.actionCount; ++i) {
-						psztAction = mir_a2t(ptd->notification.lpActions[i].lpzTitle);
+						psztAction = mir_a2u(ptd->notification.lpActions[i].lpzTitle);
 						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateTS(psztAction)), ptd->notification.lpActions[i].lpzTitle);
 						mir_free(psztAction); psztAction = NULL;
 					}
@@ -274,7 +274,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					hCtrl = GetDlgItem(hwnd, IDC_RACTION);
 					psztAction = NULL;
 					for (i = 0; i < ptd->notification.actionCount; ++i) {
-						psztAction = mir_a2t(ptd->notification.lpActions[i].lpzTitle);
+						psztAction = mir_a2u(ptd->notification.lpActions[i].lpzTitle);
 						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateTS(psztAction)), ptd->notification.lpActions[i].lpzTitle);
 						mir_free(psztAction); psztAction = NULL;
 					}

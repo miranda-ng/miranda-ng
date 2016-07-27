@@ -29,7 +29,7 @@ static void OpenUrl(wchar_t* format, wchar_t* id)
 {
 	wchar_t loc[512];
 	GetID(id);
-	mir_sntprintf(loc, format, id);
+	mir_snwprintf(loc, format, id);
 	Utils_OpenUrlT(loc);
 }
 
@@ -161,7 +161,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		if (!db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_ID, dbv.ptszVal);
 			// check if the station is a default station
-			CheckDlgButton(hwndDlg, IDC_DEFA, mir_tstrcmp(dbv.ptszVal, opt.Default) != 0 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DEFA, mir_wstrcmp(dbv.ptszVal, opt.Default) != 0 ? BST_CHECKED : BST_UNCHECKED);
 			db_free(&dbv);
 		}
 		if (!db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
@@ -272,15 +272,15 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			ofn.nMaxFile = _countof(str);
 			// set filters
 			wcsncpy(filter, TranslateT("Text Files"), _countof(filter) - 1);
-			mir_tstrncat(filter, L" (*.txt)", _countof(filter) - mir_tstrlen(filter));
-			pfilter = filter + mir_tstrlen(filter) + 1;
+			mir_wstrncat(filter, L" (*.txt)", _countof(filter) - mir_wstrlen(filter));
+			pfilter = filter + mir_wstrlen(filter) + 1;
 			wcsncpy(pfilter, L"*.txt", _countof(filter) - 1);
-			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 			wcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - 1);
-			mir_tstrncat(pfilter, L" (*.*)", _countof(filter) - mir_tstrlen(filter));
-			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+			mir_wstrncat(pfilter, L" (*.*)", _countof(filter) - mir_wstrlen(filter));
+			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 			wcsncpy(pfilter, L"*.*", _countof(filter) - 1);
-			pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 			*pfilter = '\0';
 			ofn.lpstrFilter = filter;
 			ofn.nFilterIndex = 1;
@@ -343,13 +343,13 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 			db_set_ts(hContact, WEATHERPROTONAME, "ID", str);
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_DEFA)) {	// if default station is set
-				mir_tstrcpy(opt.Default, str);
+				mir_wstrcpy(opt.Default, str);
 				opt.DefStn = hContact;
 				db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
 			}
 			GetDlgItemText(hwndDlg, IDC_NAME, city, _countof(city));
 			db_set_ts(hContact, WEATHERPROTONAME, "Nick", city);
-			mir_sntprintf(str2, TranslateT("Current weather information for %s."), city);
+			mir_snwprintf(str2, TranslateT("Current weather information for %s."), city);
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_External)) {
 				GetDlgItemText(hwndDlg, IDC_LOG, str, _countof(str));
 				db_set_ts(hContact, WEATHERPROTONAME, "Log", str);
@@ -436,9 +436,9 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 	removeWindow(wParam);
 
 	// exit this function if it is not default station
-	ptrT tszID(db_get_tsa(wParam, WEATHERPROTONAME, "ID"));
+	ptrW tszID(db_get_tsa(wParam, WEATHERPROTONAME, "ID"));
 	if (tszID != NULL)
-		if (mir_tstrcmp(tszID, opt.Default))
+		if (mir_wstrcmp(tszID, opt.Default))
 			return 0;
 
 	// now the default station is deleted, try to get a new one
@@ -451,13 +451,13 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 
 		// if the station is not a default station, set it as the new default station
 		// this is the first weather station encountered from the search
-		if (mir_tstrcmp(opt.Default, tszID)) {
+		if (mir_wstrcmp(opt.Default, tszID)) {
 			wcsncpy_s(opt.Default, tszID, _TRUNCATE);
 			opt.DefStn = hContact;
-			ptrT tszNick(db_get_tsa(hContact, WEATHERPROTONAME, "Nick"));
+			ptrW tszNick(db_get_tsa(hContact, WEATHERPROTONAME, "Nick"));
 			if (tszNick != NULL) {
 				wchar_t str[255];
-				mir_sntprintf(str, TranslateT("%s is now the default weather station"), (wchar_t*)tszNick);
+				mir_snwprintf(str, TranslateT("%s is now the default weather station"), (wchar_t*)tszNick);
 				MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
 			db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);

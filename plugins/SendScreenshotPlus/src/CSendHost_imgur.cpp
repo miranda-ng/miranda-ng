@@ -35,7 +35,7 @@ int CSendHost_Imgur::Send()
 		return !m_bAsync;
 	}
 	memset(&m_nlhr, 0, sizeof(m_nlhr));
-	char* tmp; tmp = mir_t2a(m_pszFile);
+	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
 		{ "Authorization", HTTPFORM_HEADER("Client-ID 2a7303d78abe041") },
 		{ "image", HTTPFORM_FILE(tmp) },

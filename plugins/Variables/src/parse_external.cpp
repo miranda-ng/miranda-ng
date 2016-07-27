@@ -37,13 +37,13 @@ static wchar_t *getFullWinampTitleText()
 		mir_free(szWinText);
 		return NULL;
 	}
-	wchar_t *szTitle = (wchar_t*)mir_alloc((2 * mir_tstrlen(szWinText) + 1)*sizeof(wchar_t));
+	wchar_t *szTitle = (wchar_t*)mir_alloc((2 * mir_wstrlen(szWinText) + 1)*sizeof(wchar_t));
 	if (szTitle == NULL) {
 		mir_free(szWinText);
 		return NULL;
 	}
-	mir_tstrcpy(szTitle, szWinText);
-	mir_tstrcpy(szTitle + mir_tstrlen(szTitle), szWinText);
+	mir_wstrcpy(szTitle, szWinText);
+	mir_wstrcpy(szTitle + mir_wstrlen(szTitle), szWinText);
 	mir_free(szWinText);
 
 	return szTitle;
@@ -61,14 +61,14 @@ static wchar_t *parseWinampSong(ARGUMENTSINFO *ai)
 
 	wchar_t *scur = wcschr(szTitle, '.');
 	wchar_t *cur;
-	if ((scur == NULL) || ((cur = wcsstr(scur, L" - Winamp")) == NULL) || (scur >= cur) || (scur > (szTitle + mir_tstrlen(szTitle) - 2)) || (cur > (szTitle + mir_tstrlen(szTitle)))) {
+	if ((scur == NULL) || ((cur = wcsstr(scur, L" - Winamp")) == NULL) || (scur >= cur) || (scur > (szTitle + mir_wstrlen(szTitle) - 2)) || (cur > (szTitle + mir_wstrlen(szTitle)))) {
 		mir_free(szTitle);
 		return NULL;
 	}
 	scur++;
 	scur++;
 	*cur = '\0';
-	res = mir_tstrdup(scur);
+	res = mir_wstrdup(scur);
 	mir_free(szTitle);
 	ai->flags |= AIF_DONTPARSE;
 
@@ -88,13 +88,13 @@ static wchar_t *parseWinampState(ARGUMENTSINFO *ai)
 	wchar_t *scur = wcschr(szTitle, '.');
 	wchar_t *cur;
 	if (scur == NULL || (cur = wcsstr(scur, L" - Winamp")) == NULL)
-		res = mir_tstrdup(TranslateT("Stopped"));
+		res = mir_wstrdup(TranslateT("Stopped"));
 	else if ((!wcsncmp(cur + 10, L"[Stopped]", 9)))
-		res = mir_tstrdup(TranslateT("Stopped"));
+		res = mir_wstrdup(TranslateT("Stopped"));
 	else if ((!wcsncmp(cur + 10, L"[Paused]", 8)))
-		res = mir_tstrdup(TranslateT("Paused"));
+		res = mir_wstrdup(TranslateT("Paused"));
 	else
-		res = mir_tstrdup(L"Playing");
+		res = mir_wstrdup(L"Playing");
 	mir_free(szTitle);
 	return res;
 }

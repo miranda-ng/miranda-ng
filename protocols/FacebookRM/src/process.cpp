@@ -134,7 +134,7 @@ void FacebookProto::ProcessFriendList(void*)
 						std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
 						std::string contactname = getContactName(this, hContact, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
-						ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
+						ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
 						NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
 					}
 				}
@@ -158,7 +158,7 @@ void FacebookProto::ProcessFriendList(void*)
 						std::string url = FACEBOOK_URL_PROFILE + std::string(id);
 						std::string contactname = getContactName(this, hContact, id);
 
-						ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
+						ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
 						NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
 					}
 				}
@@ -518,7 +518,7 @@ void FacebookProto::SyncThreads(void*)
 std::string truncateUtf8(std::string &text, size_t maxLength) {
 	// To not split some unicode character we need to transform it to wchar_t first, then split it, and then convert it back, because we want std::string as result
 	// TODO: Probably there is much simpler and nicer way
-	std::wstring ttext = ptrT(mir_utf8decodeT(text.c_str()));
+	std::wstring ttext = ptrW(mir_utf8decodeW(text.c_str()));
 	if (ttext.length() > maxLength) {
 		ttext = ttext.substr(0, maxLength) + L"\x2026"; // unicode ellipsis
 		return std::string(_T2A(ttext.c_str(), CP_UTF8));
@@ -703,8 +703,8 @@ void FacebookProto::ProcessMemories(void*)
 
 			for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 			{
-				ptrT tszTitle(mir_utf8decodeT(news[i]->title.c_str()));
-				ptrT tszText(mir_utf8decodeT(news[i]->text.c_str()));
+				ptrW tszTitle(mir_utf8decodeW(news[i]->title.c_str()));
+				ptrW tszText(mir_utf8decodeW(news[i]->text.c_str()));
 
 				NotifyEvent(TranslateT("On this day"), tszText, NULL, FACEBOOK_EVENT_ON_THIS_DAY, &news[i]->link);
 				delete news[i];
@@ -952,7 +952,7 @@ void FacebookProto::ShowNotifications() {
 		facebook_notification *notification = it->second;
 		if (notification != NULL && !notification->seen) {
 			debugLogA("    Showing popup for notification ID: %s", notification->id.c_str());
-			ptrT szText(mir_utf8decodeT(notification->text.c_str()));
+			ptrW szText(mir_utf8decodeW(notification->text.c_str()));
 			MCONTACT hContact = (notification->user_id.empty() ? NULL : ContactIDToHContact(notification->user_id));
 			notification->hWndPopup = NotifyEvent(m_tszUserName, szText, hContact, FACEBOOK_EVENT_NOTIFICATION, &notification->link, &notification->id, notification->icon);
 			notification->seen = true;
@@ -1124,8 +1124,8 @@ void FacebookProto::ProcessFeeds(void*)
 
 	for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 	{
-		ptrT tszTitle(mir_utf8decodeT(news[i]->title.c_str()));
-		ptrT tszText(mir_utf8decodeT(news[i]->text.c_str()));
+		ptrW tszTitle(mir_utf8decodeW(news[i]->title.c_str()));
+		ptrW tszText(mir_utf8decodeW(news[i]->text.c_str()));
 		MCONTACT hContact = ContactIDToHContact(news[i]->user_id);
 
 		NotifyEvent(tszTitle, tszText, hContact, FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
@@ -1237,11 +1237,11 @@ void FacebookProto::SearchAckThread(void *targ)
 				if (id.empty() || id == facy.self_.user_id)
 					continue;
 
-				ptrT tid(mir_utf8decodeT(id.c_str()));
-				ptrT tname(mir_utf8decodeT(utils::text::html_entities_decode(name).c_str()));
-				ptrT tsurname(mir_utf8decodeT(utils::text::html_entities_decode(surname).c_str()));
-				ptrT tnick(mir_utf8decodeT(utils::text::html_entities_decode(nick).c_str()));
-				ptrT tcommon(mir_utf8decodeT(utils::text::html_entities_decode(common).c_str()));
+				ptrW tid(mir_utf8decodeW(id.c_str()));
+				ptrW tname(mir_utf8decodeW(utils::text::html_entities_decode(name).c_str()));
+				ptrW tsurname(mir_utf8decodeW(utils::text::html_entities_decode(surname).c_str()));
+				ptrW tnick(mir_utf8decodeW(utils::text::html_entities_decode(nick).c_str()));
+				ptrW tcommon(mir_utf8decodeW(utils::text::html_entities_decode(common).c_str()));
 
 				PROTOSEARCHRESULT psr = { 0 };
 				psr.cbSize = sizeof(psr);
@@ -1300,9 +1300,9 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 			// ignore self contact and empty ids
 			if (!id.empty() && id != facy.self_.user_id){
-				ptrT tid(mir_utf8decodeT(id.c_str()));
-				ptrT tname(mir_utf8decodeT(name.c_str()));
-				ptrT tsurname(mir_utf8decodeT(surname.c_str()));
+				ptrW tid(mir_utf8decodeW(id.c_str()));
+				ptrW tname(mir_utf8decodeW(name.c_str()));
+				ptrW tsurname(mir_utf8decodeW(surname.c_str()));
 
 				PROTOSEARCHRESULT psr = { 0 };
 				psr.cbSize = sizeof(psr);

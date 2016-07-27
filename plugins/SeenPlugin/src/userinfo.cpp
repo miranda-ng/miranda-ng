@@ -41,11 +41,11 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 
 	case WM_REFRESH_UI:
 		{
-			ptrT szout(db_get_tsa(NULL, S_MOD, "UserStamp"));
+			ptrW szout(db_get_tsa(NULL, S_MOD, "UserStamp"));
 			wchar_t *str = ParseString((szout != NULL) ? szout : DEFAULT_USERSTAMP, wparam);
 			SetDlgItemText(hdlg, IDC_INFOTEXT, str);
 
-			if (!mir_tstrcmp(str, TranslateT("<unknown>")))
+			if (!mir_wstrcmp(str, TranslateT("<unknown>")))
 				EnableWindow(GetDlgItem(hdlg, IDC_INFOTEXT), FALSE);
 		}
 		break;

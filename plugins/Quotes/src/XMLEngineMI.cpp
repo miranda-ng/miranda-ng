@@ -77,7 +77,7 @@ public:
 
 	virtual void Write(tostream& o)const
 	{
-		ptrT ss(xmlToString(m_hXML, NULL));
+		ptrW ss(xmlToString(m_hXML, NULL));
 		if (ss != NULL)
 			o << (char*)T2Utf(ss);
 	}
@@ -109,7 +109,7 @@ IXMLNode::TXMLNodePtr CXMLEngineMI::LoadFile(const tstring& rsFileName)const
 				pBuffer[cBytes] = '\0';
 
 				int nLen = (int)cBytes;
-				ptrT ss(mir_utf8decodeT(pBuffer));
+				ptrW ss(mir_utf8decodeW(pBuffer));
 				if (ss) {
 					HXML h = xmlParseString(ss, &nLen, NULL);
 					if (h)

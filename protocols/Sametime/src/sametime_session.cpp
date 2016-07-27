@@ -137,7 +137,7 @@ void __cdecl SessionAdmin(struct mwSession* session, const char* text)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
 	proto->debugLog(L"SessionAdmin()");
-	wchar_t* tt = mir_utf8decodeT(text);
+	wchar_t* tt = mir_utf8decodeW(text);
 	MessageBox(0, tt, TranslateT("Sametime administrator message"), MB_OK);
 	mir_free(tt);
 }
@@ -149,9 +149,9 @@ void __cdecl SessionAnnounce(struct mwSession* session, struct mwLoginInfo* from
 	wchar_t* stzFrom;
 	wchar_t* stzText;
 	wchar_t stzFromBuff[256];
-	stzFrom = mir_utf8decodeT(from->user_name);
-	stzText = mir_utf8decodeT(text);
-	mir_sntprintf(stzFromBuff, TranslateT("Session announcement - from '%s'"), stzFrom);
+	stzFrom = mir_utf8decodeW(from->user_name);
+	stzText = mir_utf8decodeW(text);
+	mir_snwprintf(stzFromBuff, TranslateT("Session announcement - from '%s'"), stzFrom);
 	MessageBox(0, TranslateTS(stzText), stzFromBuff, MB_OK);
 	mir_free(stzText);
 	mir_free(stzFrom);
@@ -209,7 +209,7 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 
 	default:
 		wchar_t buff[512];
-		mir_sntprintf(buff, TranslateT("Unknown user status: %d"), us.status);
+		mir_snwprintf(buff, TranslateT("Unknown user status: %d"), us.status);
 		proto->showPopup(buff, SAMETIME_POPUP_ERROR);
 		proto->debugLog(buff);
 
@@ -313,7 +313,7 @@ int CSametimeProto::SetIdle(bool idle)
 
 void CSametimeProto::SetSessionAwayMessage(int status, const wchar_t* msgT)
 {
-	debugLog(L"SetSessionAwayMessage() status=[%d], msgT:len=[%d]", status, msgT == NULL ? -1 : mir_tstrlen(msgT));
+	debugLog(L"SetSessionAwayMessage() status=[%d], msgT:len=[%d]", status, msgT == NULL ? -1 : mir_wstrlen(msgT));
 
 	T2Utf msg(msgT);
 	if (status == ID_STATUS_ONLINE)

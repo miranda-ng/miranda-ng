@@ -42,7 +42,7 @@ MIR_CORE_DLL(void) Bitmap_GetFilter(wchar_t *dest, size_t destLen)
 	if (dest == NULL)
 		return;
 
-	mir_sntprintf(dest, destLen,
+	mir_snwprintf(dest, destLen,
 		L"%s (*.bmp;*.jpg;*.gif;*.png)%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG%c"
 		L"%s (*.bmp;*.rle)%c*.BMP;*.RLE%c"
 		L"%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c"

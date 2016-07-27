@@ -265,7 +265,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	const PopupSkin *skin;
 	if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 		mir_free(PopupOptions.SkinPack);
-		PopupOptions.SkinPack = mir_tstrdup(skin->getName());
+		PopupOptions.SkinPack = mir_wstrdup(skin->getName());
 		skin->loadOpts();
 	}
 	// init PopupEfects

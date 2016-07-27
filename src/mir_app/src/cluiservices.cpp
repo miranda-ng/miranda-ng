@@ -32,7 +32,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup)
 
 	wchar_t szFocusClass[64];
 	GetClassName(hwndFocus, szFocusClass, _countof(szFocusClass));
-	if (!mir_tstrcmp(szFocusClass, CLISTCONTROL_CLASSW)) {
+	if (!mir_wstrcmp(szFocusClass, CLISTCONTROL_CLASSW)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndFocus, CLM_FINDGROUP, hGroup, 0);
 		if (hItem)
 			SendMessage(hwndFocus, CLM_EDITLABEL, (WPARAM)hItem, 0);
@@ -114,19 +114,19 @@ void fnCluiProtocolStatusChanged(int, const char*)
 				wchar_t tszName[64];
 				PROTOACCOUNT *pa = Proto_GetAccount(cli.menuProtos[i].szProto);
 				if (pa)
-					mir_sntprintf(tszName, L"%s ", pa->tszAccountName);
+					mir_snwprintf(tszName, L"%s ", pa->tszAccountName);
 				else
 					tszName[0] = 0;
 
-				if (showOpts & 4 && mir_tstrlen(tszName) < _countof(tszName) - 1)
-					mir_tstrcat(tszName, L" ");
-				GetTextExtentPoint32(hdc, tszName, (int)mir_tstrlen(tszName), &textSize);
+				if (showOpts & 4 && mir_wstrlen(tszName) < _countof(tszName) - 1)
+					mir_wstrcat(tszName, L" ");
+				GetTextExtentPoint32(hdc, tszName, (int)mir_wstrlen(tszName), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
 				wchar_t* modeDescr = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
-				GetTextExtentPoint32(hdc, modeDescr, (int)mir_tstrlen(modeDescr), &textSize);
+				GetTextExtentPoint32(hdc, modeDescr, (int)mir_wstrlen(modeDescr), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}

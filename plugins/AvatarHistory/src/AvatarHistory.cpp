@@ -120,7 +120,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 	CONTACTAVATARCHANGEDNOTIFICATION* avatar = (CONTACTAVATARCHANGEDNOTIFICATION*)lParam;
 	if (avatar == NULL) {
-		if (!ret || !mir_tstrcmp(dbvOldHash.ptszVal, L"-")) {
+		if (!ret || !mir_wstrcmp(dbvOldHash.ptszVal, L"-")) {
 			//avoid duplicate "removed avatar" notifications
 			//do not notify on an empty profile
 			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Removed avatar, no avatar before... skipping"));
@@ -136,7 +136,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			ShowPopup(hContact, NULL, opts.popup_removed);
 	}
 	else {
-		if (ret && !mir_tstrcmp(dbvOldHash.ptszVal, avatar->hash)) {
+		if (ret && !mir_wstrcmp(dbvOldHash.ptszVal, avatar->hash)) {
 			// same avatar hash, skipping
 			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Hashes are the same... skipping"));
 			db_free(&dbvOldHash);
@@ -178,7 +178,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 				wchar_t *file = GetCachedAvatar(proto, hash);
 
 				if (file != NULL) {
-					mir_tstrncpy(history_filename, file, _countof(history_filename));
+					mir_wstrncpy(history_filename, file, _countof(history_filename));
 					mir_free(file);
 				}
 				else {
@@ -187,7 +187,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 					else
 						GetProtocolFolder(history_filename, proto);
 
-					mir_sntprintf(history_filename, 
+					mir_snwprintf(history_filename, 
 							L"%s\\%s", history_filename, hash);
 
 					if (CopyImageFile(avatar->filename, history_filename))
@@ -236,7 +236,7 @@ static int PreShutdown(WPARAM, LPARAM)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	mir_sntprintf(basedir, L"%s\\Avatars History", profilePath);
+	mir_snwprintf(basedir, L"%s\\Avatars History", profilePath);
 
 	hFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatar History"),
 		PROFILE_PATHT L"\\" CURRENT_PROFILET L"\\Avatars History");
@@ -344,7 +344,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_AVATARHISTORY_GET_CACHED_AVATAR, GetCachedAvatar);
 
 	if (CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)profilePath) != 0)
-		mir_tstrcpy(profilePath, L"."); // Failed, use current dir
+		mir_wstrcpy(profilePath, L"."); // Failed, use current dir
 
 	SkinAddNewSoundExT("avatar_changed",LPGENW("Avatar History"),LPGENW("Contact changed avatar"));
 	SkinAddNewSoundExT("avatar_removed",LPGENW("Avatar History"),LPGENW("Contact removed avatar"));

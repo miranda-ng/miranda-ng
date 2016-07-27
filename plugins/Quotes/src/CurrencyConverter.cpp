@@ -107,11 +107,11 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 				LRESULT nFrom = ::SendMessage(hcbxFrom, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
 				LRESULT nTo = ::SendMessage(hcbxTo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
 
-				if (0 == mir_tstrcmpi(rQuote.GetID().c_str(), sFromQuoteID.c_str())) {
+				if (0 == mir_wstrcmpi(rQuote.GetID().c_str(), sFromQuoteID.c_str())) {
 					::SendMessage(hcbxFrom, CB_SETCURSEL, nFrom, 0);
 				}
 
-				if (0 == mir_tstrcmpi(rQuote.GetID().c_str(), sToQuoteID.c_str())) {
+				if (0 == mir_wstrcmpi(rQuote.GetID().c_str(), sToQuoteID.c_str())) {
 					::SendMessage(hcbxTo, CB_SETCURSEL, nTo, 0);
 				}
 			}

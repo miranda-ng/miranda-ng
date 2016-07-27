@@ -67,8 +67,8 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 		// setup the popup
 		ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(OIC_BANG), IMAGE_ICON,
 			GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_SHARED);
-		mir_tstrcpy(ppd.lptzContactName, str1);
-		mir_tstrcpy(ppd.lptzText, str2);
+		mir_wstrcpy(ppd.lptzContactName, str1);
+		mir_wstrcpy(ppd.lptzText, str2);
 		ppd.colorBack = (opt.UseWinColors) ? GetSysColor(COLOR_BTNFACE) : opt.BGColour;
 		ppd.colorText = (opt.UseWinColors) ? GetSysColor(COLOR_WINDOWTEXT) : opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
@@ -395,9 +395,9 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_VAR3:
 			// display variable list
 			wcsncpy(str, L"                                                            \n", _countof(str) - 1);		// to make the message box wider
-			mir_tstrncat(str, VAR_LIST_POPUP, _countof(str) - mir_tstrlen(str));
-			mir_tstrncat(str, L"\n", _countof(str) - mir_tstrlen(str));
-			mir_tstrncat(str, CUSTOM_VARS, _countof(str) - mir_tstrlen(str));
+			mir_wstrncat(str, VAR_LIST_POPUP, _countof(str) - mir_wstrlen(str));
+			mir_wstrncat(str, L"\n", _countof(str) - mir_wstrlen(str));
+			mir_wstrncat(str, CUSTOM_VARS, _countof(str) - mir_wstrlen(str));
 			MessageBox(NULL, str, TranslateT("Variable List"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
 			break;
 

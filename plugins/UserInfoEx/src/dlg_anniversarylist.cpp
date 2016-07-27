@@ -244,7 +244,7 @@ class CAnnivList
 			case COLUMN_DESC:
 				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, _countof(szText1));
 				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, _countof(szText2));
-				result = pDlg->_sortOrder * mir_tstrcmp(szText1, szText2);
+				result = pDlg->_sortOrder * mir_wstrcmp(szText1, szText2);
 				break;
 
 			case COLUMN_AGE:
@@ -698,7 +698,7 @@ class CAnnivList
 					AddSubItem(iItem, COLUMN_CONTACT, DB::Contact::DisplayName(hContact));
 
 					// third column: protocol
-					wchar_t *ptszProto = mir_a2t(pszProto);
+					wchar_t *ptszProto = mir_a2u(pszProto);
 					AddSubItem(iItem, COLUMN_PROTO, ptszProto);
 					mir_free(ptszProto);
 
@@ -768,7 +768,7 @@ class CAnnivList
 					// add anniversaries
 					if (_filter.bFilterIndex != FILTER_BIRTHDAY && (!_filter.pszProto || !_strcmpi(pszProto, _filter.pszProto))) 
 						for (i = 0; !ad.DBGetAnniversaryDate(hContact, i); i++)
-							if (!_filter.pszAnniv || !mir_tstrcmpi(_filter.pszAnniv, ad.Description()))
+							if (!_filter.pszAnniv || !mir_wstrcmpi(_filter.pszAnniv, ad.Description()))
 								AddRow(hContact, pszProto, ad, mtNow, wDaysBefore);
 				}
 			}

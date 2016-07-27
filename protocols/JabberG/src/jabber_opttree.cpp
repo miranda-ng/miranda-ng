@@ -112,7 +112,7 @@ void CCtrlTreeOpts::OnInit()
 		int sectionLevel = 0;
 
 		HTREEITEM hSection = NULL;
-		mir_tstrcpy(itemName, m_options[i]->m_szOptionName);
+		mir_wstrcpy(itemName, m_options[i]->m_szOptionName);
 		sectionName = itemName;
 
 		while (sectionName) {
@@ -228,7 +228,7 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 CCtrlTreeOpts::COptionsItem::COptionsItem(wchar_t *szOption, CMOption<BYTE> &option) :
 m_option(&option), m_groupId(OPTTREE_CHECK), m_hItem(NULL)
 {
-	m_szOptionName = mir_tstrdup(szOption);
+	m_szOptionName = mir_wstrdup(szOption);
 }
 
 CCtrlTreeOpts::COptionsItem::~COptionsItem()

@@ -87,8 +87,8 @@ void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 	ppd.iSeconds = options.Timeout[indx];
 
 	ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(iIcon), IMAGE_ICON, SM_CXSMICON, SM_CYSMICON, LR_SHARED);
-	mir_tstrcpy(ppd.lptzContactName, lpCaption);
-	mir_tstrcpy(ppd.lptzText, lpText);
+	mir_wstrcpy(ppd.lptzContactName, lpCaption);
+	mir_wstrcpy(ppd.lptzText, lpText);
 	PUAddPopupT(&ppd);
 	if (options.Sound)
 		MessageBeep(uType);
@@ -135,7 +135,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID
 					wchar_t buf[200];
 
 					g_HookError = TRUE;
-					mir_sntprintf(buf, TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
+					mir_snwprintf(buf, TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
 					prevMessageBox(0, buf, TranslateT("Error"), MB_OK);
 				}
 			}

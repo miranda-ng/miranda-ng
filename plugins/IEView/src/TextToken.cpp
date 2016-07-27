@@ -28,7 +28,7 @@ TextToken::TextToken(int _type, const char *_text, int _len)
 	end = false;
 	type = _type;
 	text = mir_strndup(_text, _len);
-	wtext = mir_a2t(text);
+	wtext = mir_a2u(text);
 	link = NULL;
 	wlink = NULL;
 }
@@ -39,8 +39,8 @@ TextToken::TextToken(int _type, const wchar_t *_wtext, int _len)
 	tag = 0;
 	end = false;
 	type = _type;
-	wtext = mir_tstrndup(_wtext, _len);
-	text = mir_t2a(wtext);
+	wtext = mir_wstrndup(_wtext, _len);
+	text = mir_u2a(wtext);
 	link = NULL;
 	wlink = NULL;
 }
@@ -58,7 +58,7 @@ void TextToken::setLink(const char *_link)
 	replaceStr(link, _link);
 
 	mir_free(wlink);
-	this->wlink = mir_a2t(_link);
+	this->wlink = mir_a2u(_link);
 }
 
 void TextToken::setLink(const wchar_t *_link)
@@ -169,7 +169,7 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l)
 						newTokenType = BBCODE;
 						newTokenSize = k - i;
 						if (bbTagArg[j]) {
-							wchar_t *urlLink = mir_tstrndup(text + tagArgStart, tagArgEnd - tagArgStart);
+							wchar_t *urlLink = mir_wstrndup(text + tagArgStart, tagArgEnd - tagArgStart);
 							bbToken->setLink(urlLink);
 							mir_free(urlLink);
 						}

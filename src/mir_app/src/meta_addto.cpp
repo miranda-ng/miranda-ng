@@ -52,7 +52,7 @@ static int FillList(HWND list, BOOL sort)
 		// get contact display name from clist
 		wchar_t *swzContactDisplayName = cli.pfnGetContactDisplayName(hMetaUser, 0);
 		// don't insert huge strings that we have to compare with later
-		if (mir_tstrlen(swzContactDisplayName) > 1023)
+		if (mir_wstrlen(swzContactDisplayName) > 1023)
 			swzContactDisplayName[1024] = 0;
 
 		int pos = -1;
@@ -60,7 +60,7 @@ static int FillList(HWND list, BOOL sort)
 			for (pos = 0; pos < i; pos++) {
 				wchar_t buff[1024];
 				SendMessage(list, LB_GETTEXT, pos, (LPARAM)buff);
-				if (mir_tstrcmp(buff, swzContactDisplayName) > 0)
+				if (mir_wstrcmp(buff, swzContactDisplayName) > 0)
 					break;
 			}
 		}
@@ -154,7 +154,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			// ... and set it to the Window title.
 			wchar_t buf[256];
-			mir_sntprintf(buf, TranslateT("Adding %s..."), ptszCDN);
+			mir_snwprintf(buf, TranslateT("Adding %s..."), ptszCDN);
 			SetWindowText(hwndDlg, buf);
 		}
 		ShowWindow(hwndDlg, SW_SHOWNORMAL);

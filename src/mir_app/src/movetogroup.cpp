@@ -35,7 +35,7 @@ struct GroupItemSort
 	int position;
 
 	GroupItemSort(wchar_t* pname, int pos)
-		: name(mir_tstrdup(pname)), position(pos)
+		: name(mir_wstrdup(pname)), position(pos)
 	{
 	}
 
@@ -51,9 +51,9 @@ static wchar_t* PrepareGroupName(wchar_t* str)
 {
 	wchar_t* p = wcschr(str, '&'), *d;
 	if (p == NULL)
-		return mir_tstrdup(str);
+		return mir_wstrdup(str);
 
-	d = p = (wchar_t*)mir_alloc(sizeof(wchar_t)*(2 * mir_tstrlen(str) + 1));
+	d = p = (wchar_t*)mir_alloc(sizeof(wchar_t)*(2 * mir_wstrlen(str) + 1));
 	while (*str) {
 		if (*str == '&')
 			*d++ = '&';
@@ -92,7 +92,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		Menu_RemoveItem((HGENMENU)lphGroupsItems[i]);
 	lphGroupsItems.destroy();
 
-	ptrT szContactGroup(db_get_tsa(wParam, "CList", "Group"));
+	ptrW szContactGroup(db_get_tsa(wParam, "CList", "Group"));
 
 	int pos = 1000;
 
@@ -115,7 +115,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	}
 
 	for (int i = 0; i < groups.getCount(); i++) {
-		bool checked = szContactGroup && !mir_tstrcmp(szContactGroup, groups[i].name);
+		bool checked = szContactGroup && !mir_wstrcmp(szContactGroup, groups[i].name);
 		AddGroupItem(hMoveToGroupItem, groups[i].name, ++pos, groups[i].position, checked);
 	}
 

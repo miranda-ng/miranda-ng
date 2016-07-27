@@ -1033,7 +1033,7 @@ struct InviteChatParam
 	CMsnProto* ppro;
 
 	InviteChatParam(const wchar_t* id, MCONTACT hContact, CMsnProto* ppro)
-		: id(mir_tstrdup(id)), hContact(hContact), ppro(ppro) {}
+		: id(mir_wstrdup(id)), hContact(hContact), ppro(ppro) {}
 
 	~InviteChatParam() {
 		mir_free(id);

@@ -37,7 +37,7 @@ static const wchar_t *titleTokenNames[] = { L"%name%", L"%status%", L"%statusmsg
 
 wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto)
 {
-	ptrT tmplt;
+	ptrW tmplt;
 	const wchar_t* tokens[4] = { 0 };
 
 	CMString tszTemplate, tszStatus, tszTitle;
@@ -45,7 +45,7 @@ wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		tokens[0] = pcli->pfnGetContactDisplayName(hContact, 0);
 		tokens[1] = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 		
-		tszStatus = ptrT(db_get_tsa(hContact, "CList", "StatusMsg"));
+		tszStatus = ptrW(db_get_tsa(hContact, "CList", "StatusMsg"));
 		tszStatus.Replace(L"\r\n", L" ");
 		tokens[2] = tszStatus;
 
@@ -53,7 +53,7 @@ wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		if (accModule != NULL) {
 			PROTOACCOUNT* proto = Proto_GetAccount(accModule);
 			if (proto != NULL)
-				tokens[3] = mir_tstrdup(proto->tszAccountName);
+				tokens[3] = mir_wstrdup(proto->tszAccountName);
 		}
 		
 		tmplt = db_get_tsa(NULL, SRMMMOD, SRMSGSET_WINDOWTITLE);
@@ -71,7 +71,7 @@ wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		if (*p == '%') {
 			int i;
 			for (i = 0; i < _countof(titleTokenNames); i++) {
-				size_t tnlen = mir_tstrlen(titleTokenNames[i]);
+				size_t tnlen = mir_wstrlen(titleTokenNames[i]);
 				if (!wcsncmp(p, titleTokenNames[i], tnlen)) {
 					if (tokens[i] != NULL)
 						tszTitle.Append(tokens[i]);
@@ -1209,7 +1209,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (tbd->iFlags & TBDF_TEXT) {
 					wchar_t oldtitle[256];
 					GetWindowText(hwndDlg, oldtitle, _countof(oldtitle));
-					if (mir_tstrcmp(tbd->pszText, oldtitle))
+					if (mir_wstrcmp(tbd->pszText, oldtitle))
 						SetWindowText(hwndDlg, tbd->pszText);
 				}
 				if (tbd->iFlags & TBDF_ICON) {

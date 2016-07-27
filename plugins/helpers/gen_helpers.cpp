@@ -26,7 +26,7 @@ wchar_t *Hlp_GetProtocolName(const char *proto) {
 	if ((!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
 		return NULL;
 
-	return mir_a2t(protoname);
+	return mir_a2u(protoname);
 
 }
 
@@ -103,16 +103,16 @@ int AddDebugLogMessage(const wchar_t* fmt, ...)
 	va_list va;
 
 	va_start(va, fmt);
-	mir_vsntprintf(tszText, _countof(tszText), fmt, va);
+	mir_vsnwprintf(tszText, _countof(tszText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
-	mir_sntprintf(tszFinal, L"%s: %s", MODULENAME, tszText);
+	mir_snwprintf(tszFinal, L"%s: %s", MODULENAME, tszText);
 #else
 	wcsncpy(tszFinal, tszText, _countof(tszFinal));
 #endif
 
 
-	szFinal = mir_t2a(tszFinal);
+	szFinal = mir_u2a(tszFinal);
 
 	res = WriteToDebugLogA(szFinal);
 	mir_free(szFinal);
@@ -130,5 +130,5 @@ wchar_t *itot(int num)
 	wchar_t tRes[32];
 	// check this
 	_itow(num, tRes, 10);
-	return mir_tstrdup(tRes);
+	return mir_wstrdup(tRes);
 }

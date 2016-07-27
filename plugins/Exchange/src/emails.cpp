@@ -68,7 +68,7 @@ int CExchangeServer::Connect(int bForceConnect)
 		GetStringFromDatabase("Server", L"", server, _countof(server));
 
 		int port = db_get_dw(NULL, ModuleName, "Port", EXCHANGE_PORT);
-		if (mir_tstrlen(server) > 0) //only connect if there's a server to connect to
+		if (mir_wstrlen(server) > 0) //only connect if there's a server to connect to
 			return DoConnect(user, password, server, port);			
 
 		_popupUtil(TranslateT("Server is not configured..."));
@@ -155,7 +155,7 @@ int CExchangeServer::IsServerAvailable()
 	wchar_t szServer[1024];
 	GetStringFromDatabase("Server", L"", szServer, sizeof(szServer));
 	sockaddr_in addrServer;
-	InitSocketAddr(&addrServer, mir_t2a(szServer));
+	InitSocketAddr(&addrServer, mir_u2a(szServer));
 	int res = connect(sServer, (sockaddr *) &addrServer, sizeof(addrServer));
 	int bAvailable = 0;
 	if (!res) {
@@ -279,9 +279,9 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 	if (((count > 0) || ((bNoEmailsNotify) && (count >= 0))) && (count != -1)) {
 		wchar_t buffer[1024];
 		if (count != 1)
-			mir_sntprintf(buffer, TranslateT("You have %d unread emails..."), count);
+			mir_snwprintf(buffer, TranslateT("You have %d unread emails..."), count);
 		else
-			mir_sntprintf(buffer, TranslateT("You have one unread email..."));
+			mir_snwprintf(buffer, TranslateT("You have one unread email..."));
 
 		ShowMessage(buffer, count);
 	}

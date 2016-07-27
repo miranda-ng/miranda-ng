@@ -126,7 +126,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	for (int i = 0; i < _countof(sttRoleItems); i++)
 		sttRoleItems[i].translate();
 
-	ptrT szNick(JabberNickFromJID(item->jid));
+	ptrW szNick(JabberNickFromJID(item->jid));
 
 	GCSESSION gcw = { sizeof(GCSESSION) };
 	gcw.iType = GCW_CHATROOM;
@@ -141,22 +141,22 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 		if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid)) {
 			if (bookmark->name) {
-				ptrT myHandle(db_get_tsa(si->hContact, "CList", "MyHandle"));
+				ptrW myHandle(db_get_tsa(si->hContact, "CList", "MyHandle"));
 				if (myHandle == NULL)
 					db_set_ts(si->hContact, "CList", "MyHandle", bookmark->name);
 			}
 		}
 
-		ptrT tszNick(getTStringA(si->hContact, "MyNick"));
+		ptrW tszNick(getTStringA(si->hContact, "MyNick"));
 		if (tszNick != NULL) {
-			if (!mir_tstrcmp(tszNick, szNick))
+			if (!mir_wstrcmp(tszNick, szNick))
 				delSetting(si->hContact, "MyNick");
 			else
 				setTString(si->hContact, "MyNick", item->nick);
 		}
 		else setTString(si->hContact, "MyNick", item->nick);
 
-		ptrT passw(getTStringA(si->hContact, "Password"));
+		ptrW passw(getTStringA(si->hContact, "Password"));
 		if (lstrcmp_null(passw, item->password)) {
 			if (!item->password || !item->password[0])
 				delSetting(si->hContact, "Password");
@@ -265,7 +265,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 			szReason = TranslateT("user banned");
 	}
 
-	ptrT myNick(mir_tstrdup(item->nick));
+	ptrW myNick(mir_wstrdup(item->nick));
 	if (myNick == NULL)
 		myNick = JabberNickFromJID(m_szJabberJID);
 
@@ -290,7 +290,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 		mir_cslock lck(m_csLists);
 		for (int i = 0; i < item->arResources.getCount(); i++) {
 			JABBER_RESOURCE_STATUS *JS = item->arResources[i];
-			if (!mir_tstrcmp(resource, JS->m_tszResourceName)) {
+			if (!mir_wstrcmp(resource, JS->m_tszResourceName)) {
 				if (action != GC_EVENT_JOIN) {
 					switch (action) {
 					case 0:
@@ -301,7 +301,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 					gce.ptszText = TranslateT("Moderator");
 				}
 				gce.ptszStatus = TranslateTS(sttStatuses[JabberGcGetStatus(JS)]);
-				gce.bIsMe = (mir_tstrcmp(nick, myNick) == 0);
+				gce.bIsMe = (mir_wstrcmp(nick, myNick) == 0);
 				statusToSet = JS->m_iStatus;
 				break;
 			}
@@ -331,14 +331,14 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 	wchar_t *szMessage = NULL;
 
 	if (code != 307 && code != 301) {
-		ptrT tszMessage(getTStringA("GcMsgQuit"));
+		ptrW tszMessage(getTStringA("GcMsgQuit"));
 		if (tszMessage != NULL)
 			szMessage = NEWWSTR_ALLOCA(tszMessage);
 		else
 			szMessage = TranslateTS(JABBER_GC_MSG_QUIT);
 	}
 	else {
-		ptrT myNick(JabberNickFromJID(m_szJabberJID));
+		ptrW myNick(JabberNickFromJID(m_szJabberJID));
 		GcLogUpdateMemberStatus(item, myNick, myNick, NULL, GC_EVENT_KICK, reason);
 	}
 
@@ -353,7 +353,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 
 	if (m_bJabberOnline) {
 		wchar_t szPresenceTo[JABBER_MAX_JID_LEN];
-		mir_sntprintf(szPresenceTo, L"%s/%s", item->jid, item->nick);
+		mir_snwprintf(szPresenceTo, L"%s/%s", item->jid, item->nick);
 
 		m_ThreadInfo->send(
 			XmlNode(L"presence") << XATTR(L"to", szPresenceTo) << XATTR(L"type", L"unavailable")
@@ -513,9 +513,9 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 	pResourceStatus me(NULL), him(NULL);
 	for (int i = 0; i < item->arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *p = item->arResources[i];
-		if (!mir_tstrcmp(p->m_tszResourceName, item->nick))
+		if (!mir_wstrcmp(p->m_tszResourceName, item->nick))
 			me = p;
-		if (!mir_tstrcmp(p->m_tszResourceName, gcmi->pszUID))
+		if (!mir_wstrcmp(p->m_tszResourceName, gcmi->pszUID))
 			him = p;
 	}
 
@@ -537,7 +537,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			wchar_t *bufPtr = url_buf;
 			for (wchar_t *p = wcsstr(ptszStatusMsg, L"http"); p && *p; p = wcsstr(p + 1, L"http")) {
 				if (!wcsncmp(p, L"http://", 7) || !wcsncmp(p, L"https://", 8)) {
-					mir_tstrncpy(bufPtr, p, _countof(url_buf) - (bufPtr - url_buf));
+					mir_wstrncpy(bufPtr, p, _countof(url_buf) - (bufPtr - url_buf));
 					gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
 					pItem->pszDesc = bufPtr;
 					pItem->uType = MENU_POPUPITEM;
@@ -602,7 +602,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			}
 
 			if (him->m_tszRealJid && *him->m_tszRealJid) {
-				mir_sntprintf(sttRJidBuf, TranslateT("Real &JID: %s"), him->m_tszRealJid);
+				mir_snwprintf(sttRJidBuf, TranslateT("Real &JID: %s"), him->m_tszRealJid);
 				if (wchar_t *tmp = wcschr(sttRJidBuf, '/')) *tmp = 0;
 
 				if (MCONTACT hContact = HContactFromJID(him->m_tszRealJid)) {
@@ -710,7 +710,7 @@ public:
 		m_txtReason(this, IDC_REASON),
 		m_clc(this, IDC_CLIST)
 	{
-		m_room = mir_tstrdup(room);
+		m_room = mir_wstrdup(room);
 		m_btnAddJid.OnClick = Callback(this, &CGroupchatInviteDlg::OnCommand_AddJid);
 		m_btnInvite.OnClick = Callback(this, &CGroupchatInviteDlg::OnCommand_Invite);
 		m_clc.OnNewContact =
@@ -755,17 +755,17 @@ public:
 
 		int i;
 		for (i = 0; i < m_newJids.getCount(); i++)
-			if (!mir_tstrcmp(m_newJids[i]->jid, buf))
+			if (!mir_wstrcmp(m_newJids[i]->jid, buf))
 				break;
 		if (i != m_newJids.getCount())
 			return;
 
 		JabberGcLogInviteDlgJidData *jidData = (JabberGcLogInviteDlgJidData *)mir_alloc(sizeof(JabberGcLogInviteDlgJidData));
-		mir_tstrcpy(jidData->jid, buf);
+		mir_wstrcpy(jidData->jid, buf);
 		CLCINFOITEM cii = { 0 };
 		cii.cbSize = sizeof(cii);
 		cii.flags = CLCIIF_CHECKBOX;
-		mir_sntprintf(buf, TranslateT("%s (not on roster)"), jidData->jid);
+		mir_snwprintf(buf, TranslateT("%s (not on roster)"), jidData->jid);
 		cii.pszText = buf;
 		jidData->hItem = SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, jidData->hItem, 1);
@@ -776,7 +776,7 @@ public:
 	{
 		if (!m_room) return;
 
-		ptrT text(m_txtReason.GetText());
+		ptrW text(m_txtReason.GetText());
 		HWND hwndList = GetDlgItem(m_hwnd, IDC_CLIST);
 
 		// invite users from roster
@@ -786,7 +786,7 @@ public:
 
 			if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0)) {
 				if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-					ptrT jid(m_proto->getTStringA(hContact, "jid"));
+					ptrW jid(m_proto->getTStringA(hContact, "jid"));
 					if (jid != NULL)
 						InviteUser(jid, text);
 				}
@@ -860,7 +860,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendDlgItemMessage(hwndDlg, IDC_ICO_STATUS, STM_SETICON, (WPARAM)Skin_LoadProtoIcon(dat->ppro->m_szModuleName, dat->him->m_iStatus), 0);
 
 		wchar_t buf[256];
-		mir_sntprintf(buf, TranslateT("%s from\n%s"), dat->him->m_tszResourceName, dat->item->jid);
+		mir_snwprintf(buf, TranslateT("%s from\n%s"), dat->him->m_tszResourceName, dat->item->jid);
 		SetDlgItemText(hwndDlg, IDC_HEADERBAR, buf);
 
 		SetDlgItemText(hwndDlg, IDC_TXT_NICK, dat->him->m_tszResourceName);
@@ -1010,17 +1010,17 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	switch (gch->dwData) {
 	case IDM_SLAP:
 		if (ppro->m_bJabberOnline) {
-			ptrT szMessage(ppro->getTStringA("GcMsgSlap"));
+			ptrW szMessage(ppro->getTStringA("GcMsgSlap"));
 			if (szMessage == NULL)
-				szMessage = mir_tstrdup(TranslateTS(JABBER_GC_MSG_SLAP));
+				szMessage = mir_wstrdup(TranslateTS(JABBER_GC_MSG_SLAP));
 
 			wchar_t buf[256];
 			// do not use snprintf to avoid possible problems with % symbol
 			if (wchar_t *p = wcsstr(szMessage, L"%s")) {
 				*p = 0;
-				mir_sntprintf(buf, L"%s%s%s", szMessage, him->m_tszResourceName, p + 2);
+				mir_snwprintf(buf, L"%s%s%s", szMessage, him->m_tszResourceName, p + 2);
 			}
-			else mir_tstrncpy(buf, szMessage, _countof(buf));
+			else mir_wstrncpy(buf, szMessage, _countof(buf));
 			UnEscapeChatTags(buf);
 
 			ppro->m_ThreadInfo->send(
@@ -1060,7 +1060,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			dwLastBanKickTime = GetTickCount();
 			szBuffer.Format(L"%s: ", me->m_tszResourceName);
 			szTitle.Format(TranslateT("Reason to kick %s"), him->m_tszResourceName);
-			wchar_t *resourceName_copy = mir_tstrdup(him->m_tszResourceName); // copy resource name to prevent possible crash if user list rebuilds
+			wchar_t *resourceName_copy = mir_wstrdup(him->m_tszResourceName); // copy resource name to prevent possible crash if user list rebuilds
 			if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
 				ppro->m_ThreadInfo->send(
 				XmlNodeIq(L"set", ppro->SerialNext(), item->jid) << XQUERY(JABBER_FEAT_MUC_ADMIN)
@@ -1279,7 +1279,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			if (ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID) != NULL) {
 				wchar_t text[1024];
-				mir_sntprintf(text, L"%s/%s", gch->pDest->ptszID, szBuffer);
+				mir_snwprintf(text, L"%s/%s", gch->pDest->ptszID, szBuffer);
 				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, text, NULL);
 			}
 		}
@@ -1335,7 +1335,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 			int idx = IDM_LINK0;
 			for (wchar_t *p = wcsstr(item->getTemp()->m_tszStatusMessage, L"http://"); p && *p; p = wcsstr(p + 1, L"http://")) {
 				if (idx == gch->dwData) {
-					char *bufPtr, *url = mir_t2a(p);
+					char *bufPtr, *url = mir_u2a(p);
 					for (bufPtr = url; *bufPtr && !isspace(*bufPtr); ++bufPtr);
 					*bufPtr++ = 0;
 					Utils_OpenUrl(url);
@@ -1364,7 +1364,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, const wchar_t *nick)
 {
 	wchar_t szFullJid[JABBER_MAX_JID_LEN];
-	mir_sntprintf(szFullJid, L"%s/%s", item->jid, nick);
+	mir_snwprintf(szFullJid, L"%s/%s", item->jid, nick);
 	MCONTACT hContact = ppro->DBCreateContact(szFullJid, NULL, true, false);
 	if (hContact != NULL) {
 		pResourceStatus r(item->findResource(nick));
@@ -1396,8 +1396,8 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 
 	switch (gch->pDest->iType) {
 	case GC_USER_MESSAGE:
-		if (gch->ptszText && mir_tstrlen(gch->ptszText) > 0) {
-			rtrimt(gch->ptszText);
+		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
+			rtrimw(gch->ptszText);
 
 			if (m_bJabberOnline) {
 				wchar_t tszID[100];

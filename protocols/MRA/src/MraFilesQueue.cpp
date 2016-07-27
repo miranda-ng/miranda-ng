@@ -563,7 +563,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 					lpwszCurPos = lpwszFiles;
 					for (size_t i = 0; i < dat->dwFilesCount; i++) {
 						MRA_FILES_QUEUE_FILE &p = dat->pmfqfFiles[i];
-						lpwszCurPos += mir_sntprintf(lpwszCurPos, (dwFilesSize - ((size_t)lpwszCurPos - (size_t)lpwszFiles)), L"%s;%I64u;",
+						lpwszCurPos += mir_snwprintf(lpwszCurPos, (dwFilesSize - ((size_t)lpwszCurPos - (size_t)lpwszFiles)), L"%s;%I64u;",
 							GetFileNameFromFullPathW(p.lpwszName, p.dwNameLen), p.dwSize);
 					}
 					dwFilesSize = (lpwszCurPos - lpwszFiles);// size in WCHARs
@@ -658,7 +658,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hQueue, DWORD dwFlags, MCONTACT 
 
 		MRA_FILES_QUEUE_FILE &p = dat->pmfqfFiles[dat->dwFilesCount];
 		p.lpwszName = mir_wstrdup(wszCurrFile);
-		p.dwNameLen = mir_tstrlen(p.lpwszName);
+		p.dwNameLen = mir_wstrlen(p.lpwszName);
 		p.dwSize = _wtoi(wszCurrSize);
 		dat->dwFilesTotalSize += p.dwSize;
 		dwFileNameTotalSize += p.dwNameLen * sizeof(wchar_t);
@@ -674,13 +674,13 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hQueue, DWORD dwFlags, MCONTACT 
 	LPWSTR lpwszDelimiter = dat->pwszFilesList;
 	LPWSTR lpwszCurrentItem = dat->pwszDescription;
 	StrFormatByteSizeW(dat->dwFilesTotalSize, szBuff, _countof(szBuff));
-	lpwszCurrentItem += mir_sntprintf(lpwszCurrentItem, ((dwMemSize - ((size_t)lpwszCurrentItem - (size_t)dat->pwszDescription)) / sizeof(WCHAR)), L"%I64u Files (%s)\r\n", dat->dwFilesCount, szBuff);
+	lpwszCurrentItem += mir_snwprintf(lpwszCurrentItem, ((dwMemSize - ((size_t)lpwszCurrentItem - (size_t)dat->pwszDescription)) / sizeof(WCHAR)), L"%I64u Files (%s)\r\n", dat->dwFilesCount, szBuff);
 
 	// description + filesnames
 	for (size_t i = 0; i < dat->dwFilesCount; i++) {
-		lpwszDelimiter += mir_sntprintf(lpwszDelimiter, ((dwMemSize - ((size_t)lpwszDelimiter - (size_t)dat->pwszFilesList)) / sizeof(WCHAR)), L"%s", dat->pmfqfFiles[i].lpwszName);
+		lpwszDelimiter += mir_snwprintf(lpwszDelimiter, ((dwMemSize - ((size_t)lpwszDelimiter - (size_t)dat->pwszFilesList)) / sizeof(WCHAR)), L"%s", dat->pmfqfFiles[i].lpwszName);
 		StrFormatByteSizeW(dat->pmfqfFiles[i].dwSize, szBuff, _countof(szBuff));
-		lpwszCurrentItem += mir_sntprintf(lpwszCurrentItem, ((dwMemSize - ((size_t)lpwszCurrentItem - (size_t)dat->pwszDescription)) / sizeof(WCHAR)), L"%s - %s\r\n", dat->pmfqfFiles[i].lpwszName, szBuff);
+		lpwszCurrentItem += mir_snwprintf(lpwszCurrentItem, ((dwMemSize - ((size_t)lpwszCurrentItem - (size_t)dat->pwszDescription)) / sizeof(WCHAR)), L"%s - %s\r\n", dat->pmfqfFiles[i].lpwszName, szBuff);
 	}
 
 	lpwszCurrentItem += MultiByteToWideChar(MRA_CODE_PAGE, 0, szAddresses, (int)szAddresses.GetLength(), lpwszCurrentItem, (int)((dwMemSize - ((size_t)lpwszCurrentItem - (size_t)dat->pwszDescription)) / sizeof(WCHAR)));
@@ -862,7 +862,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 						}
 						else {// err allocating file disk space
 							dwRetErrorCode = GetLastError();
-							mir_sntprintf(szErrorText, TranslateT("Receive files: can't allocate disk space for file, size %lu bytes, error"), dat->pmfqfFiles[i].dwSize);
+							mir_snwprintf(szErrorText, TranslateT("Receive files: can't allocate disk space for file, size %lu bytes, error"), dat->pmfqfFiles[i].dwSize);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						}
 						CloseHandle(hFile);
@@ -875,7 +875,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 					}
 					else {// err on open file
 						dwRetErrorCode = GetLastError();
-						mir_sntprintf(szErrorText, TranslateT("Receive files: can't open file %s, error"), wszFileName);
+						mir_snwprintf(szErrorText, TranslateT("Receive files: can't open file %s, error"), wszFileName);
 						ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						bFailed = TRUE;
 						break;
@@ -883,7 +883,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				}
 				else {// err on send request for file
 					dwRetErrorCode = GetLastError();
-					mir_sntprintf(szErrorText, TranslateT("Receive files: request for file %s not sent, error"), dat->pmfqfFiles[i].lpwszName);
+					mir_snwprintf(szErrorText, TranslateT("Receive files: request for file %s not sent, error"), dat->pmfqfFiles[i].lpwszName);
 					ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 					bFailed = TRUE;
 					break;
@@ -1108,14 +1108,14 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 						}
 						else { // err on open file
 							dwRetErrorCode = GetLastError();
-							mir_sntprintf(szErrorText, TranslateT("Send files: can't open file %s, error"), dat->pmfqfFiles[j].lpwszName);
+							mir_snwprintf(szErrorText, TranslateT("Send files: can't open file %s, error"), dat->pmfqfFiles[j].lpwszName);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 							bFailed = TRUE;
 							break;
 						}
 					}
 					else {
-						mir_sntprintf(szErrorText, TranslateT("Send files: requested file: %S - not found in send files list."), (((LPSTR)btBuff) + sizeof(MRA_FT_GET_FILE)));
+						mir_snwprintf(szErrorText, TranslateT("Send files: requested file: %S - not found in send files list."), (((LPSTR)btBuff) + sizeof(MRA_FT_GET_FILE)));
 						ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 						bFailed = TRUE;
 						break;

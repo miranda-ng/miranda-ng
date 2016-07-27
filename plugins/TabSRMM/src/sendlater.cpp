@@ -123,12 +123,12 @@ CSendLaterJob::~CSendLaterJob()
 				wcsncpy_s(ppd.lptzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 				wchar_t *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<wchar_t *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);
 				if (fSuccess) {
-					mir_sntprintf(ppd.lptzText, TranslateT("A send later job completed successfully.\nThe original message: %s"),
+					mir_snwprintf(ppd.lptzText, TranslateT("A send later job completed successfully.\nThe original message: %s"),
 						msgPreview);
 					mir_free(msgPreview);
 				}
 				else if (fFailed) {
-					mir_sntprintf(ppd.lptzText, TranslateT("A send later job failed to complete.\nThe original message: %s"),
+					mir_snwprintf(ppd.lptzText, TranslateT("A send later job failed to complete.\nThe original message: %s"),
 						msgPreview);
 					mir_free(msgPreview);
 				}
@@ -523,7 +523,7 @@ void CSendLater::qMgrFillList(bool fClear)
 
 			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 			wchar_t tszBuf[255];
-			mir_sntprintf(tszBuf, L"%s [%s]", tszNick, c->getRealAccount());
+			mir_snwprintf(tszBuf, L"%s [%s]", tszNick, c->getRealAccount());
 			lvItem.pszText = tszBuf;
 			lvItem.cchTextMax = _countof(tszBuf);
 			lvItem.iItem = uIndex++;
@@ -540,7 +540,7 @@ void CSendLater::qMgrFillList(bool fClear)
 			lvItem.iSubItem = 1;
 			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
 
-			wchar_t *msg = mir_utf8decodeT(p->sendBuffer);
+			wchar_t *msg = mir_utf8decodeW(p->sendBuffer);
 			wchar_t *preview = Utils::GetPreviewWithEllipsis(msg, 255);
 			lvItem.pszText = preview;
 			lvItem.iSubItem = 2;
@@ -575,7 +575,7 @@ void CSendLater::qMgrFillList(bool fClear)
 				bCode = p->bCode;
 
 			wchar_t tszStatus[20];
-			mir_sntprintf(tszStatus, L"X/%s[%c] (%d)", tszStatusText, bCode, p->iSendCount);
+			mir_snwprintf(tszStatus, L"X/%s[%c] (%d)", tszStatusText, bCode, p->iSendCount);
 			tszStatus[0] = p->szId[0];
 			lvItem.pszText = tszStatus;
 			lvItem.iSubItem = 3;
@@ -807,7 +807,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							job->writeFlags();
 							break;
 						case ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD:
-							Utils::CopyToClipBoard((wchar_t*)ptrT(mir_utf8decodeT(job->sendBuffer)), m_hwndDlg);
+							Utils::CopyToClipBoard((wchar_t*)ptrW(mir_utf8decodeW(job->sendBuffer)), m_hwndDlg);
 							break;
 						case ID_QUEUEMANAGER_RESETSELECTED:
 							if (job->bCode == CSendLaterJob::JOB_DEFERRED) {

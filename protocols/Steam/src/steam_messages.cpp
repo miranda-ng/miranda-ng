@@ -38,8 +38,8 @@ void CSteamProto::OnMessageSent(const HttpResponse *response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam*)arg;
 
-	ptrT error(mir_tstrdup(TranslateT("Unknown error")));
-	ptrT steamId(getTStringA(param->hContact, "SteamID"));
+	ptrW error(mir_wstrdup(TranslateT("Unknown error")));
+	ptrW steamId(getTStringA(param->hContact, "SteamID"));
 	time_t timestamp = NULL;
 
 	if (ResponseHttpOk(response))
@@ -52,15 +52,15 @@ void CSteamProto::OnMessageSent(const HttpResponse *response, void *arg)
 		node = json_get(root, "utc_timestamp");
 		if (node)
 		{
-			timestamp = atol(ptrA(mir_t2a(ptrT(json_as_string(node)))));
+			timestamp = atol(ptrA(mir_u2a(ptrW(json_as_string(node)))));
 			if (timestamp > getDword("LastMessageTS", 0))
 				setDword("LastMessageTS", timestamp);
 		}
 	}
 
-	if (mir_tstrcmpi(error, L"OK") != 0)
+	if (mir_wstrcmpi(error, L"OK") != 0)
 	{
-		ptrA errorA(mir_t2a(error));
+		ptrA errorA(mir_u2a(error));
 		debugLogA("CSteamProto::OnMessageSent: failed to send message for %s (%s)", steamId, errorA);
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, (LPARAM)errorA);
 	}

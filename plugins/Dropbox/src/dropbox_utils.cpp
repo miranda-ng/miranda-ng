@@ -98,26 +98,26 @@ MEVENT CDropbox::AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD c
 void CDropbox::SendToContact(MCONTACT hContact, const wchar_t *data)
 {
 	if (hContact == GetDefaultContact()) {
-		char *message = mir_utf8encodeT(data);
+		char *message = mir_utf8encodeW(data);
 		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF, (DWORD)mir_strlen(message), (PBYTE)message);
 		return;
 	}
 
 	const char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE) {
-		ptrT tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
+		ptrW tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
 		GCDEST gcd = { szProto, tszChatRoom, GC_EVENT_SENDMESSAGE };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.bIsMe = TRUE;
 		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.ptszText = mir_tstrdup(data);
+		gce.ptszText = mir_wstrdup(data);
 		gce.time = time(NULL);
 		CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
 		mir_free((void*)gce.ptszText);
 		return;
 	}
 
-	char *message = mir_utf8encodeT(data);
+	char *message = mir_utf8encodeW(data);
 	if (ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message) != ACKRESULT_FAILED)
 		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, (DWORD)mir_strlen(message), (PBYTE)message);
 }
@@ -142,7 +142,7 @@ void CDropbox::PasteToClipboard(const wchar_t *data)
 	if (OpenClipboard(NULL)) {
 		EmptyClipboard();
 
-		size_t size = sizeof(wchar_t) * (mir_tstrlen(data) + 1);
+		size_t size = sizeof(wchar_t) * (mir_wstrlen(data) + 1);
 		HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
 		if (hClipboardData) {
 			wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);

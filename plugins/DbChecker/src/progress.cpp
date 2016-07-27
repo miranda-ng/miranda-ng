@@ -34,7 +34,7 @@ void AddToStatus(int flags, const wchar_t* fmt, ...)
 	va_start(vararg, fmt);
 
 	wchar_t str[256];
-	mir_vsntprintf(str, _countof(str), fmt, vararg);
+	mir_vsnwprintf(str, _countof(str), fmt, vararg);
 	va_end(vararg);
 
 	int i = SendMessage(hwndStatus, LB_ADDSTRING, 0, (LPARAM)str);
@@ -147,7 +147,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 				break;
 			}
 			if (bold) hoFont = (HFONT)SelectObject(dis->hDC, hBoldFont);
-			ExtTextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, ETO_CLIPPED | ETO_OPAQUE, &dis->rcItem, str, (UINT)mir_tstrlen(str), NULL);
+			ExtTextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, ETO_CLIPPED | ETO_OPAQUE, &dis->rcItem, str, (UINT)mir_wstrlen(str), NULL);
 			if (bold) SelectObject(dis->hDC, hoFont);
 		}
 		return TRUE;

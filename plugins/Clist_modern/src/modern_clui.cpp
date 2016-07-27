@@ -186,7 +186,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM, LPARAM)
 	HWND hwndClist = GetFocus();
 	wchar_t cls[128];
 	GetClassName(hwndClist, cls, _countof(cls));
-	if (mir_tstrcmp(CLISTCONTROL_CLASSW, cls))
+	if (mir_wstrcmp(CLISTCONTROL_CLASSW, cls))
 		hwndClist = pcli->hwndContactList;
 
 	MCONTACT hItem = (MCONTACT)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
@@ -498,7 +498,7 @@ BOOL CLUI_CheckOwnedByClui(HWND hWnd)
 
 	wchar_t buf[255];
 	GetClassName(hWndMid, buf, 254);
-	if (!mir_tstrcmpi(buf, CLUIFrameSubContainerClassName))
+	if (!mir_wstrcmpi(buf, CLUIFrameSubContainerClassName))
 		return TRUE;
 
 	return FALSE;
@@ -667,9 +667,9 @@ void CLUI_ChangeWindowMode()
 	wchar_t titleText[255] = { 0 };
 	DBVARIANT dbv;
 	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
-		mir_tstrncpy(titleText, _A2W(MIRANDANAME), _countof(titleText));
+		mir_wstrncpy(titleText, _A2W(MIRANDANAME), _countof(titleText));
 	else {
-		mir_tstrncpy(titleText, dbv.ptszVal, _countof(titleText));
+		mir_wstrncpy(titleText, dbv.ptszVal, _countof(titleText));
 		db_free(&dbv);
 	}
 	SetWindowText(pcli->hwndContactList, titleText);
@@ -893,7 +893,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 
 	if (szAccoName) {
 		// first of all try to find by account name( or empty - global )
-		mir_sntprintf(fileFull, L"%s\\Icons\\proto_conn_%S.dll", tszFolderPath, szAccoName);
+		mir_snwprintf(fileFull, L"%s\\Icons\\proto_conn_%S.dll", tszFolderPath, szAccoName);
 		if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 			return count;
 
@@ -901,7 +901,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 			// second try to find by protocol name
 			PROTOACCOUNT *acc = Proto_GetAccount(szAccoName);
 			if (acc && !acc->bOldProto) {
-				mir_sntprintf(fileFull, L"%s\\Icons\\proto_conn_%S.dll", tszFolderPath, acc->szProtoName);
+				mir_snwprintf(fileFull, L"%s\\Icons\\proto_conn_%S.dll", tszFolderPath, acc->szProtoName);
 				if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 					return count;
 			}
@@ -909,7 +909,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 	}
 
 	// third try global
-	mir_sntprintf(fileFull, L"%s\\Icons\\proto_conn.dll", tszFolderPath);
+	mir_snwprintf(fileFull, L"%s\\Icons\\proto_conn.dll", tszFolderPath);
 	if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 		return count;
 
@@ -919,7 +919,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 static HICON CLUI_LoadIconFromExternalFile(wchar_t *filename, int i)
 {
 	wchar_t szPath[MAX_PATH], szFullPath[MAX_PATH];
-	mir_sntprintf(szPath, L"Icons\\%s", filename);
+	mir_snwprintf(szPath, L"Icons\\%s", filename);
 	PathToAbsoluteT(szPath, szFullPath);
 	if (_waccess(szPath, 0))
 		return NULL;
@@ -935,7 +935,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	HICON hIcon;
 
 	if (szAccoName) {
-		mir_sntprintf(szFullPath, L"proto_conn_%S.dll", szAccoName);
+		mir_snwprintf(szFullPath, L"proto_conn_%S.dll", szAccoName);
 		if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 			return hIcon;
 
@@ -943,7 +943,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 			// second try to find by protocol name
 			PROTOACCOUNT *acc = Proto_GetAccount(szAccoName);
 			if (acc && !acc->bOldProto) {
-				mir_sntprintf(szFullPath, L"proto_conn_%S.dll", acc->szProtoName);
+				mir_snwprintf(szFullPath, L"proto_conn_%S.dll", acc->szProtoName);
 				if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 					return hIcon;
 			}
@@ -951,7 +951,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	}
 
 	// third try global
-	mir_tstrncpy(szFullPath, L"proto_conn.dll", _countof(szFullPath));
+	mir_wstrncpy(szFullPath, L"proto_conn.dll", _countof(szFullPath));
 	if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 		return hIcon;
 
@@ -2421,7 +2421,7 @@ LRESULT CLUI::OnMeasureItem(UINT, WPARAM, LPARAM lParam)
 		HDC hdc = GetDC(m_hWnd);
 		wchar_t *ptszStr = TranslateT("Status");
 		SIZE textSize;
-		GetTextExtentPoint32(hdc, ptszStr, (int)mir_tstrlen(ptszStr), &textSize);
+		GetTextExtentPoint32(hdc, ptszStr, (int)mir_wstrlen(ptszStr), &textSize);
 		pmis->itemWidth = textSize.cx;
 		pmis->itemHeight = 0;
 		ReleaseDC(m_hWnd, hdc);

@@ -31,7 +31,7 @@ int StartOTR(MCONTACT hContact) {
 		LCID langid = Langpack_GetDefaultLocale();
 		if(langid != 0x0409/*US*/ && langid != 0x1009/*CA*/ && langid != 0x0809/*GB*/){ // non english
 			const wchar_t* translated=TranslateTS(MIROTR_PROTO_HELLO_MSG);
-			if(mir_tstrcmp(MIROTR_PROTO_HELLO_MSG,translated)){
+			if(mir_wstrcmp(MIROTR_PROTO_HELLO_MSG,translated)){
 				*msgoff++ = '\n';
 				for(const wchar_t* c=nick; *c && msgoff<msgend; *msgoff++=*c++);
 				for(const wchar_t* c=translated; *c && msgoff<msgend; *msgoff++=*c++);
@@ -57,12 +57,12 @@ INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
-		mir_sntprintf(buff, TranslateW(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
+		mir_snwprintf(buff, TranslateW(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
 		ShowError(buff);
 		return 0;
 	}
 
-	mir_sntprintf(buff, TranslateW(LANG_SESSION_REQUEST_OTR), contact_get_nameT(hContact));
+	mir_snwprintf(buff, TranslateW(LANG_SESSION_REQUEST_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 
 	return StartOTR(hContact);
@@ -77,12 +77,12 @@ INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
-		mir_sntprintf(buff, 512, TranslateW(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
+		mir_snwprintf(buff, 512, TranslateW(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
 		ShowError(buff);
 		return 0;
 	}
 	
-	mir_sntprintf(buff, TranslateW(LANG_SESSION_TRY_CONTINUE_OTR), contact_get_nameT(hContact));
+	mir_snwprintf(buff, TranslateW(LANG_SESSION_TRY_CONTINUE_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 
 	int res = StartOTR(hContact);
@@ -116,7 +116,7 @@ INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM)
 	SetEncryptionStatus(hContact, TRUST_NOT_PRIVATE);
 
 	wchar_t buff[512];
-	mir_sntprintf(buff, TranslateW(LANG_SESSION_TERMINATED_OTR), contact_get_nameT(hContact));
+	mir_snwprintf(buff, TranslateW(LANG_SESSION_TERMINATED_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 	return 0;
 }

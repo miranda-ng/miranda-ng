@@ -41,16 +41,16 @@ std::wstring GetFile(const wchar_t* ext, HWND hwnd, bool open)
 
 	wcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
-	mir_sntprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
-	size_t len = mir_tstrlen(filter) + 1;
-	mir_sntprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
-	len += mir_tstrlen(filter + len);
+	mir_snwprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
+	size_t len = mir_wstrlen(filter) + 1;
+	mir_snwprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
+	len += mir_wstrlen(filter + len);
 	filter[++len] = 0;
 	wchar_t stzFilePath[1024];
 	wcscpy_s(stzFilePath, TranslateT("History"));
 	wcscat_s(stzFilePath, L".");
 	wcscat_s(stzFilePath, ext);
-	len = mir_tstrlen(stzFilePath) + 1;
+	len = mir_wstrlen(stzFilePath) + 1;
 	stzFilePath[len] = 0;
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = sizeof(ofn);

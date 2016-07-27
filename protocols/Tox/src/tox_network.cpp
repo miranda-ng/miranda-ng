@@ -157,7 +157,7 @@ void CToxProto::UpdateNodes()
 	if (lastUpdate <= getDword("NodesUpdate", 0))
 		return;
 
-	ptrT path(mir_tstrdup((wchar_t*)VARST(_A2W(TOX_JSON_PATH))));
+	ptrW path(mir_wstrdup((wchar_t*)VARST(_A2W(TOX_JSON_PATH))));
 	if (!IsFileExists(path))
 	{
 		HANDLE hProfile = CreateFile(path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);

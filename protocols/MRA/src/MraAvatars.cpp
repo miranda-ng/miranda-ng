@@ -56,7 +56,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = new MRA_AVATARS_QUEUE();
 
 	wchar_t szBuffer[MAX_PATH];
-	mir_sntprintf(szBuffer, L"%s %s", m_tszUserName, TranslateT("Avatars' plugin connections"));
+	mir_snwprintf(szBuffer, L"%s %s", m_tszUserName, TranslateT("Avatars' plugin connections"));
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -232,7 +232,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 							break;
 
 						default:
-							mir_sntprintf(szErrorText, TranslateT("Avatars: server return HTTP code: %lu"), dwResultCode);
+							mir_snwprintf(szErrorText, TranslateT("Avatars: server return HTTP code: %lu"), dwResultCode);
 							ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 							break;
 						}
@@ -290,7 +290,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 								}
 								else {
 									dwErrorCode = GetLastError();
-									mir_sntprintf(szErrorText, TranslateT("Avatars: can't open file %s, error"), wszFileName);
+									mir_snwprintf(szErrorText, TranslateT("Avatars: can't open file %s, error"), wszFileName);
 									ShowFormattedErrorMessage(szErrorText, dwErrorCode);
 								}
 							}
@@ -476,7 +476,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hQueue, MCONTACT hContact, DWORD d
 		return ERROR_NOT_SUPPORTED;
 
 	wchar_t tszBase[MAX_PATH];
-	mir_sntprintf(tszBase, L"%s\\%s\\", VARST(L"%miranda_avatarcache%"), m_tszUserName);
+	mir_snwprintf(tszBase, L"%s\\%s\\", VARST(L"%miranda_avatarcache%"), m_tszUserName);
 	res = tszBase;
 
 	// some path in buff and free space for file name is avaible
@@ -530,7 +530,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hQueue, DWORD dwFlags, MCONTACT
 			// файл с аватаром существует и не устарел/не было комманды обновлять(просто запрос имени)
 			if (lpszPath) {
 				if (db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
-					mir_tstrncpy(lpszPath, wszFileName, MAX_PATH);
+					mir_wstrncpy(lpszPath, wszFileName, MAX_PATH);
 				else
 					PathToRelativeT(wszFileName, lpszPath);
 			}

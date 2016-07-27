@@ -212,7 +212,7 @@ int BmpFilterSaveBitmap(HBITMAP hBmp, const wchar_t *ptszFile, int flags)
 	if (!PathToAbsoluteT(ptszFile, tszFilename))
 		wcsncpy_s(tszFilename, ptszFile, _TRUNCATE);
 
-	if (mir_tstrlen(tszFilename) <= 4)
+	if (mir_wstrlen(tszFilename) <= 4)
 		return -1;
 
 	IMGSRVC_INFO i = { 0 };

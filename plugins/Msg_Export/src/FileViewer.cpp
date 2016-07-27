@@ -258,7 +258,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 		}
 		dwCurrent += nWriteHeader((char*)pbBuff, cb);
 
-		tstring sMyNick = ptrT(GetMyOwnNick(hContact));
+		tstring sMyNick = ptrW(GetMyOwnNick(hContact));
 
 		nNickLen = WideCharToMultiByte(bUtf8File ? CP_UTF8 : CP_ACP, 0, sMyNick.c_str(), (int)sMyNick.length(), szMyNick, sizeof(szMyNick), NULL, NULL);
 	}
@@ -621,9 +621,9 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 		wchar_t szTmp[1500];
 
 		if (nDBCount == -1)
-			mir_sntprintf(szTmp, TranslateT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
+			mir_snwprintf(szTmp, TranslateT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
 		else
-			mir_sntprintf(szTmp, TranslateT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount);
+			mir_snwprintf(szTmp, TranslateT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount);
 
 		SETTEXTEX stText = { 0 };
 		stText.codepage = 1200;
@@ -670,7 +670,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	CloseHandle(hFile);
 
 	wchar_t szTmp[100];
-	mir_sntprintf(szTmp, L"File open time %d\n", GetTickCount() - dwStart);
+	mir_snwprintf(szTmp, L"File open time %d\n", GetTickCount() - dwStart);
 	OutputDebugString(szTmp);
 
 	GETTEXTLENGTHEX sData = { 0 };
@@ -682,7 +682,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	if (!bScrollToBottom)
 		SendMessage(hRichEdit, EM_SETSCROLLPOS, 0, (LPARAM)&ptOldPos);
 
-	mir_sntprintf(szTmp, TranslateT("With scroll to bottom %d\n"), GetTickCount() - dwStart);
+	mir_snwprintf(szTmp, TranslateT("With scroll to bottom %d\n"), GetTickCount() - dwStart);
 	OutputDebugString(szTmp);
 	return true;
 }
@@ -828,7 +828,7 @@ LRESULT CALLBACK EditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				}
 			}
 			ft.chrg.cpMin = LONG(res);
-			ft.chrg.cpMax = LONG(res + mir_tstrlen(fr->lpstrFindWhat));
+			ft.chrg.cpMax = LONG(res + mir_wstrlen(fr->lpstrFindWhat));
 			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&ft.chrg);
 			return 0;
 		}
@@ -908,7 +908,7 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL)
 	ncf.dwMask = CFM_BOLD | CFM_FACE | CFM_ITALIC | CFM_SIZE | CFM_UNDERLINE;
 	ncf.dwEffects = db_get_dw(NULL, MODULE, szFileViewDB "TEffects", 0);
 	ncf.yHeight = db_get_dw(NULL, MODULE, szFileViewDB "THeight", 165);
-	mir_tstrcpy(ncf.szFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str());
+	mir_wstrcpy(ncf.szFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str());
 
 	if (!bUseSyntaxHL) {
 		ncf.dwMask |= CFM_COLOR;
@@ -988,7 +988,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (n != sPath.npos)
 					sPath.erase(0, n + 1);
 
-				if (mir_sntprintf(szTitle, szFormat, pszNick, sPath.c_str(), (pclDlg->bUtf8File ? L"UTF8" : L"ANSI")) > 0)
+				if (mir_snwprintf(szTitle, szFormat, pszNick, sPath.c_str(), (pclDlg->bUtf8File ? L"UTF8" : L"ANSI")) > 0)
 					SetWindowText(hwndDlg, szTitle);
 			}
 
@@ -1036,7 +1036,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
 			lf.lfItalic = (dwEffects & CFE_ITALIC) != 0;
 
-			mir_tstrcpy(lf.lfFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str());
+			mir_wstrcpy(lf.lfFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", L"Courier New").c_str());
 			CHOOSEFONT cf = { 0 };
 			cf.lStructSize = sizeof(cf);
 			cf.hwndOwner = hwndDlg;

@@ -138,8 +138,8 @@ void RegisterCLUIFonts(void)
 		fontid.flags = FIDF_DEFAULTVALID | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_ALLOWREREGISTER | FIDF_NOAS;
 		fontid.flags |= fontOptionsList[i].dwFlags;
 
-		mir_tstrncpy(fontid.group, fontOptionsList[i].szGroup, _countof(fontid.group));
-		mir_tstrncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
+		mir_wstrncpy(fontid.group, fontOptionsList[i].szGroup, _countof(fontid.group));
+		mir_wstrncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
 		mir_snprintf(idstr, "Font%d", fontOptionsList[i].fontID);
 		mir_strncpy(fontid.prefix, idstr, _countof(fontid.prefix));
 		fontid.order = i + 1;
@@ -148,12 +148,12 @@ void RegisterCLUIFonts(void)
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fontid.deffontsettings.size = fontOptionsList[i].defSize;
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
-		mir_tstrncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
+		mir_wstrncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
 
 		FontRegisterT(&fontid);
 
-		mir_tstrncpy(effectid.group, fontOptionsList[i].szGroup, _countof(effectid.group));
-		mir_tstrncpy(effectid.name, fontOptionsList[i].szDescr, _countof(effectid.name));
+		mir_wstrncpy(effectid.group, fontOptionsList[i].szGroup, _countof(effectid.group));
+		mir_wstrncpy(effectid.name, fontOptionsList[i].szDescr, _countof(effectid.name));
 		mir_snprintf(idstr, "Font%d", fontOptionsList[i].fontID);
 		mir_strncpy(effectid.setting, idstr, _countof(effectid.setting));
 		effectid.order = i + 1;
@@ -169,8 +169,8 @@ void RegisterCLUIFonts(void)
 	colourid.cbSize = sizeof(colourid);
 
 	for (int i = 0; i < _countof(colourOptionsList); i++) {
-		mir_tstrncpy(colourid.group, colourOptionsList[i].szGroup, _countof(colourid.group));
-		mir_tstrncpy(colourid.name, colourOptionsList[i].szDescr, _countof(colourid.group));
+		mir_wstrncpy(colourid.group, colourOptionsList[i].szGroup, _countof(colourid.group));
+		mir_wstrncpy(colourid.name, colourOptionsList[i].szDescr, _countof(colourid.group));
 		mir_strncpy(colourid.setting, colourOptionsList[i].chName, _countof(colourid.setting));
 		mir_strncpy(colourid.dbSettingsGroup, colourOptionsList[i].chGroup, _countof(colourid.dbSettingsGroup));
 		colourid.defcolour = colourOptionsList[i].defColour;
@@ -205,8 +205,8 @@ void GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF
 
 	FontIDT fontid = { 0 };
 	fontid.cbSize = sizeof(fontid);
-	mir_tstrncpy(fontid.group, fontOptionsList[index].szGroup, _countof(fontid.group));
-	mir_tstrncpy(fontid.name, fontOptionsList[index].szDescr, _countof(fontid.name));
+	mir_wstrncpy(fontid.group, fontOptionsList[index].szGroup, _countof(fontid.group));
+	mir_wstrncpy(fontid.name, fontOptionsList[index].szDescr, _countof(fontid.name));
 
 	COLORREF col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf);
 

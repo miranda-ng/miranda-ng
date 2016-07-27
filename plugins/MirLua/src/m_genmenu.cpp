@@ -18,7 +18,7 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Name");
-	mi.name.w = mir_utf8decodeT(luaL_checkstring(L, -1));
+	mi.name.w = mir_utf8decodeW(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Position");
@@ -47,7 +47,7 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	int position = lua_tointeger(L, 3);
 	HANDLE hIcon = (HANDLE)lua_touserdata(L, 4);
 
-	HGENMENU res = Menu_CreateRoot(hMenuObject, ptrT(Utf8DecodeT(name)), position, hIcon);
+	HGENMENU res = Menu_CreateRoot(hMenuObject, ptrW(Utf8DecodeT(name)), position, hIcon);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -78,7 +78,7 @@ static int genmenu_ModifyMenuItem(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HGENMENU hMenuItem = (HGENMENU)lua_touserdata(L, 1);
-	ptrT name(mir_utf8decodeT(lua_tostring(L, 2)));
+	ptrW name(mir_utf8decodeW(lua_tostring(L, 2)));
 	HANDLE hIcolibItem = luaL_opt(L, lua_touserdata, 3, INVALID_HANDLE_VALUE);
 	int flags = luaL_optinteger(L, 4, -1);
 

@@ -97,7 +97,7 @@ public:
 				char* pResult = &*(apBuffer.begin());
 				int nIndex = find_header(pReply, "Content-Type");
 				if ((-1 != nIndex) && (NULL != strstr(_strlwr(pReply->headers[nIndex].szValue), "utf-8"))) {
-					wchar_t* p = mir_utf8decodeT(pResult);
+					wchar_t* p = mir_utf8decodeW(pResult);
 					rsResponce = p;
 					mir_free(p);
 				}

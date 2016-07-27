@@ -84,7 +84,7 @@ MIR_APP_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName,
 	pThis->m_iStatus = pThis->m_iDesiredStatus = ID_STATUS_OFFLINE;
 	pThis->m_szModuleName = mir_strdup(pszModuleName);
 	pThis->m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pszModuleName, ID_STATUS_ONLINE));
-	pThis->m_tszUserName = mir_tstrdup(ptszUserName);
+	pThis->m_tszUserName = mir_wstrdup(ptszUserName);
 	db_set_resident(pThis->m_szModuleName, "Status");
 }
 

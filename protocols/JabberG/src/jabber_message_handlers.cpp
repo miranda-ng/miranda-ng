@@ -36,7 +36,7 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 	if (item != NULL) { // yes, it is
 		wchar_t *szErrText = JabberErrorMsg(pInfo->GetChildNode());
 		if (id != -1) {
-			char *errText = mir_t2a(szErrText);
+			char *errText = mir_u2a(szErrText);
 			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)errText);
 			mir_free(errText);
 		}
@@ -44,9 +44,9 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 			wchar_t buf[512];
 			HXML bodyNode = XmlGetChild(node, "body");
 			if (bodyNode)
-				mir_sntprintf(buf, L"%s:\n%s\n%s", pInfo->GetFrom(), XmlGetText(bodyNode), szErrText);
+				mir_snwprintf(buf, L"%s:\n%s\n%s", pInfo->GetFrom(), XmlGetText(bodyNode), szErrText);
 			else
-				mir_sntprintf(buf, L"%s:\n%s", pInfo->GetFrom(), szErrText);
+				mir_snwprintf(buf, L"%s:\n%s", pInfo->GetFrom(), szErrText);
 
 			MsgPopup(NULL, buf, TranslateT("Jabber Error"));
 		}

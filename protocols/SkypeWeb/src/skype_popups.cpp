@@ -7,7 +7,7 @@ void CSkypeProto::InitPopups()
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
 
-	mir_sntprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notifications"));
+	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -17,7 +17,7 @@ void CSkypeProto::InitPopups()
 	ppc.iSeconds = 5;
 	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
 
-	mir_sntprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
+	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -27,7 +27,7 @@ void CSkypeProto::InitPopups()
 	ppc.iSeconds = -1;
 	m_PopupClasses.insert(Popup_RegisterClass(&ppc));
 
-	mir_sntprintf(desc, L"%s %s", m_tszUserName, TranslateT("Calls"));
+	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Calls"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Call");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;

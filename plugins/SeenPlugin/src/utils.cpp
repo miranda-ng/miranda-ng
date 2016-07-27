@@ -161,12 +161,12 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 
 	SYSTEMTIME st;
 	if (!isSeen(hcontact, &st)) {
-		mir_tstrcat(sztemp, TranslateT("<never seen>"));
+		mir_wstrcat(sztemp, TranslateT("<never seen>"));
 		return sztemp;
 	}
 
 	char *szProto = hcontact ? GetContactProto(hcontact) : courProtoName;
-	ptrT info;
+	ptrW info;
 
 	wchar_t *d = sztemp;
 	for (wchar_t *p = szstring; *p; p++) {
@@ -209,7 +209,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			}
 			charPtr = TranslateTS(weekdays[isetting]);
 		LBL_charPtr:
-			d += mir_sntprintf(d, MAXSIZE - (d - sztemp), L"%s", charPtr);
+			d += mir_snwprintf(d, MAXSIZE - (d - sztemp), L"%s", charPtr);
 			break;
 
 		case 'w':
@@ -282,8 +282,8 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "StatusTriger" : courProtoName, 0)) {
 				wcsncpy(szdbsetting, pcli->pfnGetStatusModeDescription(isetting | 0x8000, 0), _countof(szdbsetting));
 				if (!(isetting & 0x8000)) {
-					mir_tstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_tstrlen(szdbsetting));
-					mir_tstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));
+					mir_wstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_wstrlen(szdbsetting));
+					mir_wstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_wstrlen(szdbsetting));
 				}
 				charPtr = szdbsetting;
 				goto LBL_charPtr;
@@ -294,7 +294,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			if (db_get_ts(hcontact, "CList", "StatusMsg", &dbv))
 				goto LBL_noData;
 
-			d += mir_sntprintf(d, MAXSIZE - (d - sztemp), L"%s", dbv.ptszVal);
+			d += mir_snwprintf(d, MAXSIZE - (d - sztemp), L"%s", dbv.ptszVal);
 			db_free(&dbv);
 			break;
 
@@ -302,8 +302,8 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "OldStatus" : courProtoName, 0)) {
 				wcsncpy(szdbsetting, pcli->pfnGetStatusModeDescription(isetting, 0), _countof(szdbsetting));
 				if (includeIdle && hcontact && db_get_b(hcontact, S_MOD, "OldIdle", 0)) {
-					mir_tstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_tstrlen(szdbsetting));
-					mir_tstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_tstrlen(szdbsetting));
+					mir_wstrncat(szdbsetting, L"/", _countof(szdbsetting) - mir_wstrlen(szdbsetting));
+					mir_wstrncat(szdbsetting, TranslateT("Idle"), _countof(szdbsetting) - mir_wstrlen(szdbsetting));
 				}
 				charPtr = szdbsetting;
 				goto LBL_charPtr;

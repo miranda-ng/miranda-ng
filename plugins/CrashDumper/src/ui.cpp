@@ -69,7 +69,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			CHARFORMAT2 chf;
 			chf.cbSize = sizeof(chf);
 			SendDlgItemMessage(hwndDlg, IDC_VIEWVERSIONINFO, EM_GETCHARFORMAT, SCF_DEFAULT, (LPARAM)&chf);
-			mir_tstrcpy(chf.szFaceName, TEXT("Courier New"));
+			mir_wstrcpy(chf.szFaceName, TEXT("Courier New"));
 			SendDlgItemMessage(hwndDlg, IDC_VIEWVERSIONINFO, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&chf);
 
 			CMString buffer;
@@ -279,7 +279,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case 3:
 			wchar_t path[MAX_PATH];
-			mir_sntprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
+			mir_snwprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 			ShellExecute(NULL, TEXT("open"), path, NULL, NULL, SW_SHOW);
 			break;
 
@@ -301,12 +301,12 @@ void ShowMessage(int type, const wchar_t* format, ...)
 
 	va_list va;
 	va_start(va, format);
-	int len = mir_vsntprintf(pi.lptzText, _countof(pi.lptzText) - 1, format, va);
+	int len = mir_vsnwprintf(pi.lptzText, _countof(pi.lptzText) - 1, format, va);
 	pi.lptzText[len] = 0;
 	va_end(va);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		mir_tstrcpy(pi.lptzContactName, TEXT(PluginName));
+		mir_wstrcpy(pi.lptzContactName, TEXT(PluginName));
 		pi.lchIcon = LoadIconEx(IDI_VI);
 		pi.PluginWindowProc = DlgProcPopup;
 		pi.PluginData = (void*)type;

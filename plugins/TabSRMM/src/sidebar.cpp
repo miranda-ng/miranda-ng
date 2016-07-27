@@ -145,7 +145,7 @@ const SIZE& CSideBarButton::measureItem()
 		HFONT oldFont = reinterpret_cast<HFONT>(::SelectObject(dc, ::GetStockObject(DEFAULT_GUI_FONT)));
 
 		wcsncpy_s(tszLabel, m_dat->newtitle, _TRUNCATE);
-		::GetTextExtentPoint32(dc, tszLabel, (int)mir_tstrlen(tszLabel), &sz);
+		::GetTextExtentPoint32(dc, tszLabel, (int)mir_wstrlen(tszLabel), &sz);
 
 		sz.cx += 28;
 		if (m_dat->pContainer->dwFlagsEx & TCF_CLOSEBUTTON)
@@ -1158,9 +1158,9 @@ const SIZE& __fastcall CSideBar::m_measureAdvancedVertical(CSideBarButton* item)
 		HDC	dc = ::GetDC(dat->hwnd);
 
 		HFONT	hOldFont = reinterpret_cast<HFONT>(::SelectObject(dc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_NICK]));
-		::GetTextExtentPoint32(dc, dat->cache->getNick(), (int)mir_tstrlen(dat->cache->getNick()), &szFirstLine);
+		::GetTextExtentPoint32(dc, dat->cache->getNick(), (int)mir_wstrlen(dat->cache->getNick()), &szFirstLine);
 		::SelectObject(dc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_STATUS]);
-		::GetTextExtentPoint32(dc, dat->szStatus, (int)mir_tstrlen(dat->szStatus), &szSecondLine);
+		::GetTextExtentPoint32(dc, dat->szStatus, (int)mir_wstrlen(dat->szStatus), &szSecondLine);
 		::SelectObject(dc, hOldFont);
 		ReleaseDC(dat->hwnd, dc);
 

@@ -48,7 +48,7 @@ void RegisterOptPrevBox()
 	err = GetLastError();
 	if (!g_wndClass.cPopupPreviewBoxWndclass) {
 		wchar_t msg[1024];
-		mir_sntprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
+		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 
@@ -62,7 +62,7 @@ void RegisterOptPrevBox()
 	err = GetLastError();
 	if (!g_wndClass.cPopupPlusDlgBox) {
 		wchar_t msg[1024];
-		mir_sntprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
+		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 }
@@ -184,9 +184,9 @@ int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 			options[pos].dwFlag = (DWORD)(1 << (i - 1));
 			options[pos].groupId = OPTTREE_CHECK;
 			options[pos].iconIndex = 0;
-			options[pos].pszSettingName = mir_tstrdup(L"Skin options");
+			options[pos].pszSettingName = mir_wstrdup(L"Skin options");
 			options[pos].pszOptionName = (LPTSTR)mir_alloc(sizeof(wchar_t)*(
-				mir_tstrlen(options[pos].pszSettingName) +
+				mir_wstrlen(options[pos].pszSettingName) +
 				mir_strlen(skin->getFlagName(i)) + 10));
 			wsprintf(options[pos].pszOptionName, L"%s/%hs", options[pos].pszSettingName, skin->getFlagName(i)); // !!!!!!!!!!!!!
 			options[pos].bState = skin->getFlag(i) ? TRUE : FALSE;
@@ -245,10 +245,10 @@ int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos,
 		options[pos].dwFlag = (1 << i);
 		options[pos].groupId = OPTTREE_CHECK;
 		options[pos].iconIndex = 0;
-		options[pos].pszSettingName = mir_tstrdup(LPGENW("Global settings"));
+		options[pos].pszSettingName = mir_wstrdup(LPGENW("Global settings"));
 		options[pos].pszOptionName = (LPTSTR)mir_alloc(sizeof(wchar_t)*(
-			mir_tstrlen(options[pos].pszSettingName) +
-			mir_tstrlen(mainOption[i]) + 10));
+			mir_wstrlen(options[pos].pszSettingName) +
+			mir_wstrlen(mainOption[i]) + 10));
 		wsprintf(options[pos].pszOptionName, L"%s/%s", options[pos].pszSettingName, mainOption[i]); // !!!!!!!!!!!!!
 		options[pos].bState = bCheck;
 		pos++;
@@ -314,13 +314,13 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		int index = -1;
 		OptTree_ProcessMessage(hwndDlg, msg, wParam, lParam, &index, IDC_SKIN_LIST_OPT, skinOptions, skinOptionsCount);
 		if (index != -1) {
-			if (mir_tstrcmp(skinOptions[index].pszSettingName, L"Skin options") == 0) {
+			if (mir_wstrcmp(skinOptions[index].pszSettingName, L"Skin options") == 0) {
 				const PopupSkin *skin = 0;
 				if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 					skin->setFlag(skinOptions[index].Data, skinOptions[index].bState ? true : false);
 				}
 			}
-			else if (mir_tstrcmp(skinOptions[index].pszSettingName, L"Global settings") == 0) {
+			else if (mir_wstrcmp(skinOptions[index].pszSettingName, L"Global settings") == 0) {
 				switch (skinOptions[index].dwFlag) {
 				case (1 << 0) :
 					PopupOptions.DisplayTime = skinOptions[index].bState;
@@ -416,9 +416,9 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					// make shure we have select skin (ListBox_SetCurSel may be fail)
 					wchar_t szNewSkin[128];
 					ListBox_GetText(hCtrl, ListBox_GetCurSel(hCtrl), &szNewSkin);
-					if (mir_tstrcmp(pszOldSkin, szNewSkin) != 0) {
+					if (mir_wstrcmp(pszOldSkin, szNewSkin) != 0) {
 						mir_free(PopupOptions.SkinPack);
-						PopupOptions.SkinPack = mir_tstrdup(szNewSkin);
+						PopupOptions.SkinPack = mir_wstrdup(szNewSkin);
 					}
 
 					const PopupSkin *skin = 0;
@@ -440,7 +440,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					{
 						// Skin list change
 						mir_free(PopupOptions.SkinPack);
-						PopupOptions.SkinPack = mir_tstrdup((wchar_t *)SendDlgItemMessage(
+						PopupOptions.SkinPack = mir_wstrdup((wchar_t *)SendDlgItemMessage(
 							hwndDlg,
 							IDC_SKINLIST,
 							LB_GETITEMDATA,
@@ -449,7 +449,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						const PopupSkin *skin = 0;
 						if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 							mir_free(PopupOptions.SkinPack);
-							PopupOptions.SkinPack = mir_tstrdup(skin->getName());
+							PopupOptions.SkinPack = mir_wstrdup(skin->getName());
 
 							// update Skin Option List
 							bDlgInit = false;

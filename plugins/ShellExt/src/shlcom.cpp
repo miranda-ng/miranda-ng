@@ -301,7 +301,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 
 	// create an IPC slot for each contact and store display name, etc
 	for (i = 0; i < dwContacts; i++) {
-		ptrA szContact(mir_t2a(pcli->pfnGetContactDisplayName(pContacts[i].hContact, 0)));
+		ptrA szContact(mir_u2a(pcli->pfnGetContactDisplayName(pContacts[i].hContact, 0)));
 		if (szContact != NULL) {
 			ptrA szGroup;
 			if (bGroupMode)
@@ -552,7 +552,7 @@ void CheckUnregisterServer()
 		// launches regsvr to remove the dll under admin.
 		wchar_t szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
 		GetModuleFileName(hInst, szFileName, _countof(szFileName));
-		mir_sntprintf(szBuf, L"/s /u \"%s\"", szFileName);
+		mir_snwprintf(szBuf, L"/s /u \"%s\"", szFileName);
 
 		SHELLEXECUTEINFO sei = { sizeof(sei) };
 		sei.lpVerb = L"runas";
@@ -581,7 +581,7 @@ void CheckRegisterServer()
 			TranslateT("Miranda NG - Shell context menus (shellext.dll)"), MB_OK | MB_ICONINFORMATION);
 		// /s = silent
 		GetModuleFileName(hInst, szFileName, _countof(szFileName));
-		mir_sntprintf(szBuf, L"/s \"%s\"", szFileName);
+		mir_snwprintf(szBuf, L"/s \"%s\"", szFileName);
 
 		SHELLEXECUTEINFO sei = { sizeof(sei) };
 		sei.lpVerb = L"runas";

@@ -150,7 +150,7 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 	p->flashesDone = 12;
 	p->pszService = mir_strdup(g_cliEvents[i].pszService);
 	if (p->flags & CLEF_UNICODE)
-		p->ptszTooltip = mir_tstrdup(p->ptszTooltip);
+		p->ptszTooltip = mir_wstrdup(p->ptszTooltip);
 	else
 		p->ptszTooltip = mir_a2u(p->pszTooltip); //if no flag defined it handled as unicode
 	if (g_cliEvents.getCount() == 1) {

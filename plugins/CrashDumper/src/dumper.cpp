@@ -178,7 +178,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 
 	LPTSTR fname = wcsrchr(path, TEXT('\\'));
 	if (fname == NULL) fname = path;
-	mir_sntprintf(fname, MAX_PATH - (fname - path), TEXT("\\plugins\\*.dll"));
+	mir_snwprintf(fname, MAX_PATH - (fname - path), TEXT("\\plugins\\*.dll"));
 
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind = FindFirstFile(path, &FindFileData);
@@ -193,7 +193,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 
 	do {
 		bool loaded = false;
-		mir_sntprintf(fname, MAX_PATH - (fname - path), TEXT("\\plugins\\%s"), FindFileData.cFileName);
+		mir_snwprintf(fname, MAX_PATH - (fname - path), TEXT("\\plugins\\%s"), FindFileData.cFileName);
 		HMODULE hModule = GetModuleHandle(path);
 		if (hModule == NULL && servicemode) {
 			hModule = LoadLibrary(path);
@@ -264,7 +264,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 			else
 				lsttmppv->next = lst;
 
-			if (mir_tstrcmpi(FindFileData.cFileName, TEXT("weather.dll")) == 0)
+			if (mir_wstrcmpi(FindFileData.cFileName, TEXT("weather.dll")) == 0)
 				flags |= VI_FLAG_WEATHER;
 
 			++count;
@@ -357,7 +357,7 @@ static void GetWeatherStrings(CMString& buffer, unsigned flags)
 
 	LPTSTR fname = wcsrchr(path, TEXT('\\'));
 	if (fname == NULL) fname = path;
-	mir_sntprintf(fname, MAX_PATH - (fname - path), TEXT("\\plugins\\weather\\*.ini"));
+	mir_snwprintf(fname, MAX_PATH - (fname - path), TEXT("\\plugins\\weather\\*.ini"));
 
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind = FindFirstFile(path, &FindFileData);
@@ -366,7 +366,7 @@ static void GetWeatherStrings(CMString& buffer, unsigned flags)
 	do {
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 
-		mir_sntprintf(fname, MAX_PATH - (fname - path), TEXT("\\plugins\\weather\\%s"), FindFileData.cFileName);
+		mir_snwprintf(fname, MAX_PATH - (fname - path), TEXT("\\plugins\\weather\\%s"), FindFileData.cFileName);
 		HANDLE hDumpFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
 			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -424,7 +424,7 @@ static void GetIconStrings(CMString& buffer)
 
 	LPTSTR fname = wcsrchr(path, TEXT('\\'));
 	if (fname == NULL) fname = path;
-	mir_sntprintf(fname, MAX_PATH - (fname - path), TEXT("\\Icons\\*.*"));
+	mir_snwprintf(fname, MAX_PATH - (fname - path), TEXT("\\Icons\\*.*"));
 
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind = FindFirstFile(path, &FindFileData);
@@ -480,7 +480,7 @@ void PrintVersionInfo(CMString& buffer, unsigned flags)
 	buffer.AppendFormat(TEXT("Build time: %s\r\n"), mirtime);
 
 	wchar_t profpn[MAX_PATH];
-	mir_sntprintf(profpn, TEXT("%s\\%s"), profpathfull, profname);
+	mir_snwprintf(profpn, TEXT("%s\\%s"), profpathfull, profname);
 
 	DATABASELINK *db = FindDatabasePlugin(profpn);
 

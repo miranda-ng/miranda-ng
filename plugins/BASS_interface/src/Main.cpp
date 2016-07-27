@@ -188,7 +188,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 		else {
 			DWORD bassver = BASS_GetVersion();
-			mir_sntprintf(tmp, TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
+			mir_snwprintf(tmp, TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
 			SetDlgItemText(hwndDlg, IDC_BASSVERSION, tmp);
 
 			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);
@@ -196,10 +196,10 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
 
 			BASS_DEVICEINFO info;
-			ptrT tszDeviceName(db_get_tsa(NULL, ModuleName, OPT_OUTDEVICE));
+			ptrW tszDeviceName(db_get_tsa(NULL, ModuleName, OPT_OUTDEVICE));
 			for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++) {
 				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, _A2T(info.name));
-				if (!mir_tstrcmp(tszDeviceName, _A2T(info.name)))
+				if (!mir_wstrcmp(tszDeviceName, _A2T(info.name)))
 					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, i, 0);
 			}
 		}
@@ -424,8 +424,8 @@ int ReloadColors(WPARAM, LPARAM)
 {
 	ColourIDT colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
-	mir_tstrcpy(colourid.group, _A2W(ModuleName));
-	mir_tstrcpy(colourid.name, LPGENW("Frame background"));
+	mir_wstrcpy(colourid.group, _A2W(ModuleName));
+	mir_wstrcpy(colourid.name, LPGENW("Frame background"));
 	clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
 	if (hBkgBrush)
@@ -499,7 +499,7 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 		BASS_DEVICEINFO info;
 		if (!db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
 			for (size_t i = 1; BASS_GetDeviceInfo((DWORD)i, &info); i++)
-				if (!mir_tstrcmp(dbv.ptszVal, _A2T(info.name)))
+				if (!mir_wstrcmp(dbv.ptszVal, _A2T(info.name)))
 					device = (int)i;
 
 		db_free(&dbv);
@@ -526,7 +526,7 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 int OnFoldersChanged(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, L"");
-	mir_tstrcat(CurrBassPath, L"\\bass.dll");
+	mir_wstrcat(CurrBassPath, L"\\bass.dll");
 
 	if (hBass != NULL) {
 		BASS_Free();
@@ -544,16 +544,16 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	if (hBASSFolder = FoldersRegisterCustomPathT(LPGEN("Bass Interface"), LPGEN("Bass library"), PLUGINS_PATHT L"\\Bass")) {
 		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, L"");
-		mir_tstrcat(CurrBassPath, L"\\bass.dll");
+		mir_wstrcat(CurrBassPath, L"\\bass.dll");
 	}
 	else {
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv)) {
-			mir_tstrncpy(CurrBassPath, VARST(L"Plugins\\Bass\\bass.dll"), _countof(CurrBassPath));
+			mir_wstrncpy(CurrBassPath, VARST(L"Plugins\\Bass\\bass.dll"), _countof(CurrBassPath));
 			db_set_ts(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
 		}
 		else {
-			mir_tstrcpy(CurrBassPath, dbv.ptszVal);
+			mir_wstrcpy(CurrBassPath, dbv.ptszVal);
 			db_free(&dbv);
 		}
 	}

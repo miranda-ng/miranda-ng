@@ -105,13 +105,13 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 		((PopupDataType*)ppd.PluginData)->hIcon = ppd.lchIcon;
 
 		if (title != NULL)
-			mir_tstrncpy(ppd.lptzContactName, title, _countof(ppd.lptzContactName));
+			mir_wstrncpy(ppd.lptzContactName, title, _countof(ppd.lptzContactName));
 		else if (hContact != NULL)
-			mir_tstrncpy(ppd.lptzContactName, (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
+			mir_wstrncpy(ppd.lptzContactName, (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
 					_countof(ppd.lptzContactName));
 
 		if (description != NULL)
-			mir_tstrncpy(ppd.lptzText, description, _countof(ppd.lptzText));
+			mir_wstrncpy(ppd.lptzText, description, _countof(ppd.lptzText));
 
 		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST)
 		{

@@ -375,7 +375,7 @@ wchar_t* GetParamNT(char *string, wchar_t *buf, int buflen, BYTE paramN, char De
 WCHAR* GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim, BOOL SkipSpaces)
 {
 	size_t i = 0, start = 0, CurentCount = 0, len;
-	while (i < mir_tstrlen(string)) {
+	while (i < mir_wstrlen(string)) {
 		if (string[i] == Delim) {
 			if (CurentCount == paramN) break;
 			start = i + 1;
@@ -385,13 +385,13 @@ WCHAR* GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim
 	}
 	if (CurentCount == paramN) {
 		if (SkipSpaces) { //remove spaces
-			while (string[start] == ' ' && (int)start < mir_tstrlen(string))
+			while (string[start] == ' ' && (int)start < mir_wstrlen(string))
 				start++;
 			while (i > 1 && string[i - 1] == ' ' && i > (int)start)
 				i--;
 		}
 		len = ((int)(i - start) < buflen) ? i - start : buflen;
-		mir_tstrncpy(buf, string + start, len);
+		mir_wstrncpy(buf, string + start, len);
 		buf[len] = '\0';
 	}
 	else buf[0] = '\0';

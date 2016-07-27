@@ -78,8 +78,8 @@ bool TNtlmAuth::getSpn(wchar_t* szSpn, size_t dwSpnLen)
 	else return false;
 
 	if (szHostName && szHostName[0]) {
-		wchar_t *szFullUserNameU = wcsupr(mir_tstrdup(szFullUserName));
-		mir_sntprintf(szSpn, dwSpnLen, L"xmpp/%s/%s@%s", szHostName, szFullUserName, szFullUserNameU);
+		wchar_t *szFullUserNameU = wcsupr(mir_wstrdup(szFullUserName));
+		mir_snwprintf(szSpn, dwSpnLen, L"xmpp/%s/%s@%s", szHostName, szFullUserName, szFullUserNameU);
 		mir_free(szFullUserNameU);
 	}
 	else {
@@ -90,8 +90,8 @@ bool TNtlmAuth::getSpn(wchar_t* szSpn, size_t dwSpnLen)
 		if (host && host->h_name)
 			connectHost = host->h_name;
 
-		wchar_t *connectHostT = mir_a2t(connectHost);
-		mir_sntprintf(szSpn, dwSpnLen, L"xmpp/%s@%s", connectHostT, wcsupr(szFullUserName));
+		wchar_t *connectHostT = mir_a2u(connectHost);
+		mir_snwprintf(szSpn, dwSpnLen, L"xmpp/%s@%s", connectHostT, wcsupr(szFullUserName));
 		mir_free(connectHostT);
 	}
 
@@ -116,7 +116,7 @@ char* TNtlmAuth::getChallenge(const wchar_t *challenge)
 	if (!hProvider)
 		return NULL;
 
-	ptrA text((!mir_tstrcmp(challenge, L"=")) ? mir_strdup("") : mir_t2a(challenge));
+	ptrA text((!mir_wstrcmp(challenge, L"=")) ? mir_strdup("") : mir_u2a(challenge));
 	if (info->conn.password[0] != 0)
 		return Netlib_NtlmCreateResponse2(hProvider, text, info->conn.username, info->conn.password, &complete);
 	
@@ -261,7 +261,7 @@ char* TScramAuth::getChallenge(const wchar_t *challenge)
 	if (snonce == NULL || salt == NULL || ind == -1)
 		return NULL;
 
-	ptrA passw(mir_utf8encodeT(info->conn.password));
+	ptrA passw(mir_utf8encodeW(info->conn.password));
 	size_t passwLen = mir_strlen(passw);
 
 	BYTE saltedPassw[MIR_SHA1_HASH_SIZE];

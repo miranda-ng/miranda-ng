@@ -81,7 +81,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, wchar_t 
 	MODULEINFO *mi = pci->MM_FindModule(streamData->si->pszModule);
 
 	va_start(va, fmt);
-	lineLen = mir_vsntprintf(line, 8000, fmt, va);
+	lineLen = mir_vsnwprintf(line, 8000, fmt, va);
 	if (lineLen < 0)
 		return 0;
 	line[lineLen] = 0;
@@ -115,7 +115,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, wchar_t 
 						szTemp3[1] = line[2];
 						szTemp3[2] = '\0';
 						col = _wtoi(szTemp3);
-						mir_sntprintf(szTemp, L"%%%c#%02X%02X%02X", c, GetRValue(mi->crColors[col]), GetGValue(mi->crColors[col]), GetBValue(mi->crColors[col]));
+						mir_snwprintf(szTemp, L"%%%c#%02X%02X%02X", c, GetRValue(mi->crColors[col]), GetGValue(mi->crColors[col]), GetBValue(mi->crColors[col]));
 					}
 				}
 				line += 2;
@@ -123,7 +123,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, wchar_t 
 			case 'C':
 			case 'F':
 				if (!g_Settings.bStripFormat && !streamData->bStripFormat) {
-					mir_sntprintf(szTemp, L"%%%c", *line);
+					mir_snwprintf(szTemp, L"%%%c", *line);
 				}
 				break;
 			case 'b':
@@ -134,13 +134,13 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, wchar_t 
 			case 'I':
 			case 'r':
 				if (!streamData->bStripFormat) {
-					mir_sntprintf(szTemp, L"%%%c", *line);
+					mir_snwprintf(szTemp, L"%%%c", *line);
 				}
 				break;
 			}
 
 			if (szTemp[0]) {
-				size_t iLen = mir_tstrlen(szTemp);
+				size_t iLen = mir_wstrlen(szTemp);
 				memcpy(d, szTemp, iLen * sizeof(wchar_t));
 				d += iLen;
 			}
@@ -429,7 +429,7 @@ static void Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, CMStringA 
 
 	va_list va;
 	va_start(va, fmt);
-	int lineLen = mir_vsntprintf(line, 8000, fmt, va);
+	int lineLen = mir_vsnwprintf(line, 8000, fmt, va);
 	if (lineLen < 0)
 		lineLen = 8000;
 	line[lineLen] = 0;
@@ -530,19 +530,19 @@ static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 		return;
 
 	if (streamData->lin->ptszNick) {
-		if (g_Settings.bLogLimitNames && mir_tstrlen(streamData->lin->ptszNick) > 20) {
+		if (g_Settings.bLogLimitNames && mir_wstrlen(streamData->lin->ptszNick) > 20) {
 			wcsncpy_s(szTemp, 20, streamData->lin->ptszNick, _TRUNCATE);
 			wcsncpy_s(szTemp + 20, 4, L"...", _TRUNCATE);
 		}
 		else wcsncpy_s(szTemp, streamData->lin->ptszNick, _TRUNCATE);
 
 		if (g_Settings.bClickableNicks)
-			mir_sntprintf(szTemp2, L"~~++#%s#++~~", szTemp);
+			mir_snwprintf(szTemp2, L"~~++#%s#++~~", szTemp);
 		else
 			wcsncpy_s(szTemp2, szTemp, _TRUNCATE);
 
 		if (streamData->lin->ptszUserInfo && streamData->lin->iType != GC_EVENT_TOPIC)
-			mir_sntprintf(szTemp, L"%s (%s)", szTemp2, streamData->lin->ptszUserInfo);
+			mir_snwprintf(szTemp, L"%s (%s)", szTemp2, streamData->lin->ptszUserInfo);
 		else
 			wcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;
@@ -774,7 +774,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 				wcsncpy_s(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), _TRUNCATE);
 				wcsncpy_s(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), _TRUNCATE);
-				if (!g_Settings.bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_tstrcmp(szTimeStamp, szOldTimeStamp)) {
+				if (!g_Settings.bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, str, L"%s", szTimeStamp);
 				}
@@ -985,7 +985,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedra
 	// this uses hidden marks in the rich text to find the events which should be deleted
 	if (si->bTrimmed) {
 		wchar_t szPattern[50];
-		mir_sntprintf(szPattern, L"~-+%d+-~", si->pLogEnd);
+		mir_snwprintf(szPattern, L"~-+%d+-~", si->pLogEnd);
 
 		FINDTEXTEX fi;
 		fi.lpstrText = szPattern;

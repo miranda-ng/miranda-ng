@@ -58,11 +58,11 @@ void CJabberProto::RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *p
 void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 {
 	const wchar_t *to = XmlGetAttrValue(iqNode, L"to");
-	if (to == NULL || mir_tstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
+	if (to == NULL || mir_wstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
 		return;
 
 	HXML list = XmlGetChild(iqNode, "list");
-	if (!list || mir_tstrcmp(XmlGetAttrValue(list, L"xmlns"), JABBER_FEAT_ARCHIVE))
+	if (!list || mir_wstrcmp(XmlGetAttrValue(list, L"xmlns"), JABBER_FEAT_ARCHIVE))
 		return;
 
 	for (int nodeIdx = 1;; nodeIdx++) {
@@ -221,11 +221,11 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 
 void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 {
-	if (mir_tstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
+	if (mir_wstrcmp(XmlGetAttrValue(iqNode, L"type"), L"result"))
 		return;
 
 	HXML chatNode = XmlGetChild(iqNode, "chat");
-	if (!chatNode || mir_tstrcmp(XmlGetAttrValue(chatNode, L"xmlns"), JABBER_FEAT_ARCHIVE))
+	if (!chatNode || mir_wstrcmp(XmlGetAttrValue(chatNode, L"xmlns"), JABBER_FEAT_ARCHIVE))
 		return;
 
 	const wchar_t* start = XmlGetAttrValue(chatNode, L"start");
@@ -249,9 +249,9 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 
 		int from;
 		const wchar_t *itemName = XmlGetName(itemNode);
-		if (!mir_tstrcmp(itemName, L"to"))
+		if (!mir_wstrcmp(itemName, L"to"))
 			from = DBEF_SENT;
-		else if (!mir_tstrcmp(itemName, L"from"))
+		else if (!mir_wstrcmp(itemName, L"from"))
 			from = 0;
 		else
 			continue;

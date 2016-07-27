@@ -26,8 +26,8 @@ void ShowMsg(wchar_t *FirstLine, wchar_t *SecondLine, bool IsErrorMsg, int Timeo
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		POPUPDATAT ppd = { 0 };
 		ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
-		mir_tstrncpy(ppd.lptzContactName, FirstLine, MAX_CONTACTNAME);
-		mir_tstrncpy(ppd.lptzText, SecondLine, MAX_SECONDLINE);
+		mir_wstrncpy(ppd.lptzContactName, FirstLine, MAX_CONTACTNAME);
+		mir_wstrncpy(ppd.lptzText, SecondLine, MAX_SECONDLINE);
 		ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
 		ppd.colorText = IsErrorMsg ? 0xE8F1FD : 0x000000;
 		ppd.iSeconds = Timeout;
@@ -69,7 +69,7 @@ void ShowLog(TCString &LogFilePath)
 	INT_PTR Result = (INT_PTR)ShellExecute(NULL, L"open", LogFilePath, NULL, NULL, SW_SHOW);
 	if (Result <= 32) {
 		wchar_t szError[64];
-		mir_sntprintf(szError, TranslateT("Error #%d"), Result);
+		mir_snwprintf(szError, TranslateT("Error #%d"), Result);
 		ShowMsg(szError, TranslateT("Can't open log file ") + LogFilePath, true);
 	}
 }

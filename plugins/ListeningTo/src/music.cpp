@@ -68,15 +68,15 @@ void CopyListeningInfo(LISTENINGTOINFO *dest, const LISTENINGTOINFO * const src)
 
 	dest->cbSize = src->cbSize;
 	dest->dwFlags = src->dwFlags;
-	dest->ptszArtist = mir_tstrdup(src->ptszArtist);
-	dest->ptszAlbum = mir_tstrdup(src->ptszAlbum);
-	dest->ptszTitle = mir_tstrdup(src->ptszTitle);
-	dest->ptszTrack = mir_tstrdup(src->ptszTrack);
-	dest->ptszYear = mir_tstrdup(src->ptszYear);
-	dest->ptszGenre = mir_tstrdup(src->ptszGenre);
-	dest->ptszLength = mir_tstrdup(src->ptszLength);
-	dest->ptszPlayer = mir_tstrdup(src->ptszPlayer);
-	dest->ptszType = mir_tstrdup(src->ptszType);
+	dest->ptszArtist = mir_wstrdup(src->ptszArtist);
+	dest->ptszAlbum = mir_wstrdup(src->ptszAlbum);
+	dest->ptszTitle = mir_wstrdup(src->ptszTitle);
+	dest->ptszTrack = mir_wstrdup(src->ptszTrack);
+	dest->ptszYear = mir_wstrdup(src->ptszYear);
+	dest->ptszGenre = mir_wstrdup(src->ptszGenre);
+	dest->ptszLength = mir_wstrdup(src->ptszLength);
+	dest->ptszPlayer = mir_wstrdup(src->ptszPlayer);
+	dest->ptszType = mir_wstrdup(src->ptszType);
 }
 
 BOOL Equals(const LISTENINGTOINFO *lti1, const LISTENINGTOINFO *lti2)
@@ -84,15 +84,15 @@ BOOL Equals(const LISTENINGTOINFO *lti1, const LISTENINGTOINFO *lti2)
 	if (lti1->cbSize != lti2->cbSize)
 		return FALSE;
 
-	return mir_tstrcmpi(lti1->ptszArtist, lti2->ptszArtist) == 0
-		&& mir_tstrcmpi(lti1->ptszAlbum, lti2->ptszAlbum) == 0
-		&& mir_tstrcmpi(lti1->ptszTitle, lti2->ptszTitle) == 0
-		&& mir_tstrcmpi(lti1->ptszTrack, lti2->ptszTrack) == 0
-		&& mir_tstrcmpi(lti1->ptszYear, lti2->ptszYear) == 0
-		&& mir_tstrcmpi(lti1->ptszGenre, lti2->ptszGenre) == 0
-		&& mir_tstrcmpi(lti1->ptszLength, lti2->ptszLength) == 0
-		&& mir_tstrcmpi(lti1->ptszPlayer, lti2->ptszPlayer) == 0
-		&& mir_tstrcmpi(lti1->ptszType, lti2->ptszType) == 0;
+	return mir_wstrcmpi(lti1->ptszArtist, lti2->ptszArtist) == 0
+		&& mir_wstrcmpi(lti1->ptszAlbum, lti2->ptszAlbum) == 0
+		&& mir_wstrcmpi(lti1->ptszTitle, lti2->ptszTitle) == 0
+		&& mir_wstrcmpi(lti1->ptszTrack, lti2->ptszTrack) == 0
+		&& mir_wstrcmpi(lti1->ptszYear, lti2->ptszYear) == 0
+		&& mir_wstrcmpi(lti1->ptszGenre, lti2->ptszGenre) == 0
+		&& mir_wstrcmpi(lti1->ptszLength, lti2->ptszLength) == 0
+		&& mir_wstrcmpi(lti1->ptszPlayer, lti2->ptszPlayer) == 0
+		&& mir_wstrcmpi(lti1->ptszType, lti2->ptszType) == 0;
 }
 
 

@@ -5,8 +5,8 @@
 #define NAME "WUMF"
 #define WM_MYCMD 0x0401
 
-static PWumf list = NULL;
-static PWumf lst = NULL;
+PWumf list = NULL;
+PWumf lst = NULL;
 
 HANDLE hLogger = NULL;
 BOOL wumf();
@@ -140,7 +140,7 @@ void LogWumf(PWumf w)
 		hLogger = mir_createLog("wumf", L"WhoIsUsingMyFiles log file", WumfOptions.LogFile, 0);
 		if (hLogger == NULL) {
 			wchar_t str[256];
-			mir_sntprintf(str, L"Can't open log file %s", WumfOptions.LogFile);
+			mir_snwprintf(str, L"Can't open log file %s", WumfOptions.LogFile);
 			MessageBox(NULL, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);
 			WumfOptions.LogToFile = FALSE;
 			return;
@@ -153,7 +153,7 @@ void LogWumf(PWumf w)
 	wchar_t lpDateStr[20], lpTimeStr[20];
 	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &time, NULL, lpDateStr, 20);
 	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &time, NULL, lpTimeStr, 20);
-	mir_writeLogT(hLogger, L"%s %s %20s\t%s\r\n", lpDateStr, lpTimeStr, w->szUser, w->szPath);
+	mir_writeLogW(hLogger, L"%s %s %20s\t%s\r\n", lpDateStr, lpTimeStr, w->szUser, w->szPath);
 }
 
 BOOL wumf()

@@ -64,8 +64,8 @@ static void InitLog()
 		hLogger = NULL;
 	}
 
-	ptrT szBuf(db_get_tsa(NULL, "Netlib", "File"));
-	if (mir_tstrlen(szBuf)) {
+	ptrW szBuf(db_get_tsa(NULL, "Netlib", "File"));
+	if (mir_wstrlen(szBuf)) {
 		logOptions.tszUserFile = szBuf.get();
 
 		wchar_t path[MAX_PATH];
@@ -160,7 +160,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			GetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str, _countof(str));
 			{
 				wchar_t filter[200];
-				mir_sntprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
+				mir_snwprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -185,7 +185,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && wcschr(str, ' ') != NULL) {
 					memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
 					str[0] = '"';
-					mir_tstrcat(str, L"\"");
+					mir_wstrcat(str, L"\"");
 				}
 				SetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str);
 			}
@@ -206,11 +206,11 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			db_set_b(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
-			logOptions.tszUserFile = rtrimt(str);
+			logOptions.tszUserFile = rtrimw(str);
 			db_set_ts(NULL, "Netlib", "File", str);
 
 			GetDlgItemText(hwndDlg, IDC_PATH, str, _countof(str));
-			logOptions.tszFile = rtrimt(str);
+			logOptions.tszFile = rtrimw(str);
 
 			db_set_b(NULL, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV));
 			db_set_b(NULL, "Netlib", "DumpSent", logOptions.dumpSent = IsDlgButtonChecked(hwndDlg, IDC_DUMPSENT));
@@ -515,7 +515,7 @@ void NetlibLogInit(void)
 	if (db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0))
 		NetlibLogShowOptions();
 
-	ptrT szBuf(db_get_tsa(NULL, "Netlib", "RunAtStart"));
+	ptrW szBuf(db_get_tsa(NULL, "Netlib", "RunAtStart"));
 	if (szBuf) {
 		STARTUPINFO si = { sizeof(si) };
 		PROCESS_INFORMATION pi;

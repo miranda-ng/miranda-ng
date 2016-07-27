@@ -76,11 +76,11 @@ BOOL strrep(wchar_t *src, wchar_t *needle, wchar_t *newstring)
 	wcsncpy_s(begining, src, pos);
 	begining[pos] = 0;
 
-	pos = pos + mir_tstrlen(needle);
+	pos = pos + mir_wstrlen(needle);
 	wcsncpy_s(tail, src + pos, _TRUNCATE);
 	begining[pos] = 0;
 
-	pos = mir_sntprintf(src, mir_tstrlen(src), L"%s%s%s", begining, newstring, tail);
+	pos = mir_snwprintf(src, mir_wstrlen(src), L"%s%s%s", begining, newstring, tail);
 	return TRUE;
 }
 
@@ -194,16 +194,16 @@ void fillExceptionsListView(HWND hwndDlg)
 		ListView_InsertItem(hwndList, &lvI);
 		lvI.iSubItem = 1;
 		if (tmp->intIntPort == -1)
-			mir_sntprintf(tmpAddress, L"%s:*", tmp->strIntIp);
+			mir_snwprintf(tmpAddress, L"%s:*", tmp->strIntIp);
 		else
-			mir_sntprintf(tmpAddress, L"%s:%d", tmp->strIntIp, tmp->intIntPort);
+			mir_snwprintf(tmpAddress, L"%s:%d", tmp->strIntIp, tmp->intIntPort);
 		lvI.pszText = tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem = 2;
 		if (tmp->intExtPort == -1)
-			mir_sntprintf(tmpAddress, L"%s:*", tmp->strExtIp);
+			mir_snwprintf(tmpAddress, L"%s:*", tmp->strExtIp);
 		else
-			mir_sntprintf(tmpAddress, L"%s:%d", tmp->strExtIp, tmp->intExtPort);
+			mir_snwprintf(tmpAddress, L"%s:%d", tmp->strExtIp, tmp->intExtPort);
 		lvI.pszText = tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem = 3;
@@ -298,9 +298,9 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			bOptionsOpen = TRUE;
 			TranslateDialogDefault(hwndDlg);//translate miranda function
 			#ifdef _WIN64
-			mir_sntprintf(buff, L"%d.%d.%d.%d/64", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
+			mir_snwprintf(buff, L"%d.%d.%d.%d/64", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 			#else
-			mir_sntprintf(buff, L"%d.%d.%d.%d/32", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
+			mir_snwprintf(buff, L"%d.%d.%d.%d/32", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 			#endif
 			SetDlgItemText(hwndDlg, IDC_VERSION, buff);
 			LoadSettings();
@@ -699,7 +699,7 @@ static unsigned __stdcall checkthread(void *)
 
 				#ifdef _DEBUG
 				wchar_t msg[1024];
-				mir_sntprintf(msg, L"%s:%d\n%s:%d", cur->strIntIp, cur->intIntPort, cur->strExtIp, cur->intExtPort);
+				mir_snwprintf(msg, L"%s:%d\n%s:%d", cur->strIntIp, cur->intIntPort, cur->strExtIp, cur->intExtPort);
 				_OutputDebugString(L"New connection: %s", msg);
 				#endif
 				pid2name(cur->Pid, cur->PName, _countof(cur->PName));
@@ -769,7 +769,7 @@ void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intP
 	//99% of the times you'll just copy this line.
 	//1% of the times you may wish to change the contact's name. I don't know why you should, but you can.
 	//char * lpzText;
-	//The text for the second line. You could even make something like: char lpzText[128]; mir_tstrcpy(lpzText, "Hello world!"); It's your choice.
+	//The text for the second line. You could even make something like: char lpzText[128]; mir_wstrcpy(lpzText, "Hello world!"); It's your choice.
 
 	struct CONNECTION *mpd = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 	//MessageBox(NULL,"aaa","aaa",1);
@@ -779,11 +779,11 @@ void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intP
 	if (settingResolveIp) {
 		wchar_t hostName[128];
 		getDnsName(extIp, hostName, _countof(hostName));
-		mir_sntprintf(ppd.lptzText, L"%s:%d\n%s:%d", hostName, extPort, intIp, intPort);
+		mir_snwprintf(ppd.lptzText, L"%s:%d\n%s:%d", hostName, extPort, intIp, intPort);
 	}
-	else mir_sntprintf(ppd.lptzText, L"%s:%d\n%s:%d", extIp, extPort, intIp, intPort);
+	else mir_snwprintf(ppd.lptzText, L"%s:%d\n%s:%d", extIp, extPort, intIp, intPort);
 
-	mir_sntprintf(ppd.lptzContactName, L"%s (%s)", pName, tcpStates[state - 1]);
+	mir_snwprintf(ppd.lptzContactName, L"%s (%s)", pName, tcpStates[state - 1]);
 
 	if (settingSetColours) {
 		ppd.colorBack = settingBgColor;

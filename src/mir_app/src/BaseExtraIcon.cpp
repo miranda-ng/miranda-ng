@@ -28,7 +28,7 @@ BaseExtraIcon::BaseExtraIcon(int id, const char *name, const wchar_t *descriptio
 	m_id(id),
 	m_OnClick(OnClick),
 	m_onClickParam(param),
-	m_tszDescription(mir_tstrdup(description)),
+	m_tszDescription(mir_wstrdup(description)),
 	m_szDescIcon(mir_strdup(descIcon))
 {
 }
@@ -55,7 +55,7 @@ const wchar_t* BaseExtraIcon::getDescription() const
 
 void BaseExtraIcon::setDescription(const wchar_t *desc)
 {
-	m_tszDescription = mir_tstrdup(desc);
+	m_tszDescription = mir_wstrdup(desc);
 }
 
 const char* BaseExtraIcon::getDescIcon() const

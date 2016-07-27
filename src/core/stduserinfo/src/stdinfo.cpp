@@ -255,7 +255,7 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EMAIL))) {
 				wchar_t szExec[264], szEmail[256];
 				GetDlgItemText(hwndDlg, IDC_EMAIL, szEmail, _countof(szEmail));
-				mir_sntprintf(szExec, L"mailto:%s", szEmail);
+				mir_snwprintf(szExec, L"mailto:%s", szEmail);
 				ShellExecute(hwndDlg, L"open", szExec, NULL, NULL, SW_SHOW);
 			}
 			break;
@@ -442,11 +442,11 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					lvi.iItem = 0;
 					for (int i = 0;; i++) {
 						mir_snprintf(idstr, "Past%d", i);
-						ptrT tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
+						ptrW tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
 						if (tszColText == NULL)
 							break;
 						mir_snprintf(idstr, "Past%dText", i);
-						ptrT tszText(db_get_tsa(hContact, szProto, idstr));
+						ptrW tszText(db_get_tsa(hContact, szProto, idstr));
 						if (tszText == NULL)
 							break;
 
@@ -459,11 +459,11 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					// affiliation
 					for (int i = 0;; i++) {
 						mir_snprintf(idstr, "Affiliation%d", i);
-						ptrT tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
+						ptrW tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
 						if (tszColText == NULL)
 							break;
 						mir_snprintf(idstr, "Affiliation%dText", i);
-						ptrT tszText(db_get_tsa(hContact, szProto, idstr));
+						ptrW tszText(db_get_tsa(hContact, szProto, idstr));
 						if (tszText == NULL)
 							break;
 
@@ -482,11 +482,11 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					lvi.iItem = 0;
 					for (int i = 0;; i++) {
 						mir_snprintf(idstr, "Interest%dCat", i);
-						ptrT tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
+						ptrW tszColText(Proto_GetContactInfoSettingStr(proto_service, hContact, szProto, idstr));
 						if (tszColText == NULL)
 							break;
 						mir_snprintf(idstr, "Interest%dText", i);
-						ptrT tszText(db_get_tsa(hContact, szProto, idstr));
+						ptrW tszText(db_get_tsa(hContact, szProto, idstr));
 						if (tszText == NULL)
 							break;
 
@@ -543,12 +543,12 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 			lf.lfQuality = DEFAULT_QUALITY;
 			lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-			mir_tstrcpy(lf.lfFaceName, L"Courier New");
+			mir_wstrcpy(lf.lfFaceName, L"Courier New");
 			lf.lfCharSet = DEFAULT_CHARSET;
 			HFONT hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 
-			ptrT szNotes(db_get_tsa(lParam, "UserInfo", "MyNotes"));
+			ptrW szNotes(db_get_tsa(lParam, "UserInfo", "MyNotes"));
 			if (szNotes != nullptr)
 				SetDlgItemText(hwndDlg, IDC_MYNOTES, szNotes);
 		}

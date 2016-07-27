@@ -560,9 +560,9 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->secondLine.draw_smileys = db_get_b(NULL, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
 		dat->secondLine.type = db_get_w(NULL, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
 
-		ptrT tszLineText(db_get_tsa(NULL, "CList", "SecondLineText"));
+		ptrW tszLineText(db_get_tsa(NULL, "CList", "SecondLineText"));
 		if (tszLineText)
-			mir_tstrncpy(dat->secondLine.text, tszLineText, _countof(dat->secondLine.text));
+			mir_wstrncpy(dat->secondLine.text, tszLineText, _countof(dat->secondLine.text));
 		else
 			dat->secondLine.text[0] = '\0';
 
@@ -580,9 +580,9 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->thirdLine.draw_smileys = db_get_b(NULL, "CList", "ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
 		dat->thirdLine.type = db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
 
-		ptrT tszLineText(db_get_tsa(NULL, "CList", "ThirdLineText"));
+		ptrW tszLineText(db_get_tsa(NULL, "CList", "ThirdLineText"));
 		if (tszLineText)
-			mir_tstrncpy(dat->thirdLine.text, tszLineText, _countof(dat->thirdLine.text));
+			mir_wstrncpy(dat->thirdLine.text, tszLineText, _countof(dat->thirdLine.text));
 		else
 			dat->thirdLine.text[0] = '\0';
 
@@ -608,7 +608,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->MenuTextHiColor = cliGetColor("Menu", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 
 		if (db_get_b(NULL, "Menu", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrT tszBitmap(db_get_tsa(NULL, "Menu", "BkBitmap"));
+			ptrW tszBitmap(db_get_tsa(NULL, "Menu", "BkBitmap"));
 			if (tszBitmap != NULL)
 				dat->hMenuBackground = Bitmap_Load(tszBitmap);
 		}
@@ -657,7 +657,7 @@ int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat)
 int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 {
 	ClcGroup *group = &dat->list;
-	int testlen = (int)mir_tstrlen(text);
+	int testlen = (int)mir_wstrlen(text);
 	int SubCount = 0;
 
 	group->scanIndex = 0;
@@ -677,7 +677,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 				wchar_t *lowered_text = CharLowerW(NEWWSTR_ALLOCA(text));
 				found = wcsstr(lowered_szText, lowered_text) != NULL;
 			}
-			else found = (prefixOk && !wcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText));
+			else found = (prefixOk && !wcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_wstrcmpi(text, cc->szText));
 
 			if (found) {
 				ClcGroup *ccGroup = group;
@@ -708,7 +708,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 						wchar_t *lowered_text = CharLowerW(NEWWSTR_ALLOCA(text));
 						found = wcsstr(lowered_szText, lowered_text) != NULL;
 					}
-					else found = (prefixOk && !wcsnicmp(text, ccSub.szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, ccSub.szText));
+					else found = (prefixOk && !wcsnicmp(text, ccSub.szText, testlen)) || (!prefixOk && !mir_wstrcmpi(text, ccSub.szText));
 
 					if (found) {
 						ClcGroup *ccGroup = group;

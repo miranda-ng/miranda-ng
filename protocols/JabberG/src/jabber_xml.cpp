@@ -154,7 +154,7 @@ void __fastcall XmlAddAttr(HXML hXml, LPCTSTR pszName, unsigned __int64 value)
 void __fastcall XmlAddAttrID(HXML hXml, int id)
 {
 	wchar_t text[100];
-	mir_sntprintf(text, _T(JABBER_IQID) L"%d", id);
+	mir_snwprintf(text, _T(JABBER_IQID) L"%d", id);
 	XmlAddAttr(hXml, L"id", text);
 }
 
@@ -218,7 +218,7 @@ HXML __fastcall XmlGetChild(HXML hXml, LPCTSTR key)
 
 HXML __fastcall XmlGetChild(HXML hXml, LPCSTR key)
 {
-	LPTSTR wszKey = mir_a2t(key);
+	LPTSTR wszKey = mir_a2u(key);
 	HXML result = xmlGetNthChild(hXml, wszKey, 0);
 	mir_free(wszKey);
 	return result;
@@ -231,7 +231,7 @@ HXML __fastcall XmlGetChildByTag(HXML hXml, LPCTSTR key, LPCTSTR attrName, LPCTS
 
 HXML __fastcall XmlGetChildByTag(HXML hXml, LPCSTR key, LPCSTR attrName, LPCTSTR attrValue)
 {
-	LPTSTR wszKey = mir_a2t(key), wszName = mir_a2t(attrName);
+	LPTSTR wszKey = mir_a2u(key), wszName = mir_a2u(attrName);
 	HXML result = xmlGetChildByAttrValue(hXml, wszKey, wszName, attrValue);
 	mir_free(wszKey), mir_free(wszName);
 	return result;
@@ -246,7 +246,7 @@ HXML __fastcall XmlGetNthChild(HXML hXml, LPCTSTR tag, int nth)
 {
 	int i, num;
 
-	if (!hXml || tag == NULL || mir_tstrlen(tag) <= 0 || nth < 1)
+	if (!hXml || tag == NULL || mir_wstrlen(tag) <= 0 || nth < 1)
 		return NULL;
 
 	num = 1;
@@ -254,7 +254,7 @@ HXML __fastcall XmlGetNthChild(HXML hXml, LPCTSTR tag, int nth)
 		HXML n = xmlGetChild(hXml, i);
 		if (!n)
 			break;
-		if (!mir_tstrcmp(tag, XmlGetName(n))) {
+		if (!mir_wstrcmp(tag, XmlGetName(n))) {
 			if (num == nth)
 				return n;
 
@@ -281,20 +281,20 @@ void XPath::ProcessPath(LookupInfo &info, bool bCreate)
 	if (!info.nodeName) return;
 
 	wchar_t *nodeName = (wchar_t *)alloca(sizeof(wchar_t) * (info.nodeName.length+1));
-	mir_tstrncpy(nodeName, info.nodeName.p, info.nodeName.length+1);
+	mir_wstrncpy(nodeName, info.nodeName.p, info.nodeName.length+1);
 
 	if (info.attrName && info.attrValue) {
 		wchar_t *attrName = (wchar_t *)alloca(sizeof(wchar_t)* (info.attrName.length + 1));
-		mir_tstrncpy(attrName, info.attrName.p, info.attrName.length + 1);
+		mir_wstrncpy(attrName, info.attrName.p, info.attrName.length + 1);
 		wchar_t *attrValue = (wchar_t *)alloca(sizeof(wchar_t)* (info.attrValue.length + 1));
-		mir_tstrncpy(attrValue, info.attrValue.p, info.attrValue.length + 1);
+		mir_wstrncpy(attrValue, info.attrValue.p, info.attrValue.length + 1);
 		HXML hXml = XmlGetChildByTag(m_hXml, nodeName, attrName, attrValue);
 
 		m_hXml = (hXml || !bCreate) ? hXml : (m_hXml << XCHILD(nodeName) << XATTR(attrName, attrValue));
 	}
 	else if (info.nodeIndex) {
 		int idx = _wtoi(info.nodeIndex.p);
-		m_hXml = mir_tstrcmp(nodeName, L"*") ? XmlGetNthChild(m_hXml, nodeName, idx) : XmlGetChild(m_hXml, idx - 1);
+		m_hXml = mir_wstrcmp(nodeName, L"*") ? XmlGetNthChild(m_hXml, nodeName, idx) : XmlGetChild(m_hXml, idx - 1);
 	}
 	else {
 		HXML hXml = XmlGetChild(m_hXml, nodeName);

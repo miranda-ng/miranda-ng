@@ -347,7 +347,7 @@ void InitIcons()
 			sid.flags = SIDF_SORTED | SIDF_TCHAR;
 
 			for (int i=0; i < nCountriesCount; i++) {
-				sid.description.w = mir_a2t(LPGEN(countries[i].szName));
+				sid.description.w = mir_a2u(LPGEN(countries[i].szName));
 				/* create identifier */
 				mir_snprintf(szId, (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
 				int index = CountryNumberToBitmapIndex(countries[i].id);

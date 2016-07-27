@@ -269,7 +269,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 		if (ERROR_FILE_NOT_FOUND != GetLastError())
 		{
 			wchar_t temp[1024] = { 0 };
-			mir_sntprintf(temp, L"%s\n%s", TranslateT("Reading file error. File already in use?"), FileName);
+			mir_snwprintf(temp, L"%s\n%s", TranslateT("Reading file error. File already in use?"), FileName);
 			MessageBox(NULL, temp, TranslateT("YAMN (internal POP3) read error"), MB_OK);
 			CallService(MS_YAMN_DELETEFILENAME, (WPARAM)FileName, 0);
 			FileName = NULL;
@@ -344,7 +344,7 @@ DWORD WINAPI WritePOP3Accounts()
 	DWORD ReturnValue = CallService(MS_YAMN_WRITEACCOUNTS, (WPARAM)POP3Plugin, (LPARAM)FileName);
 	if (ReturnValue == EACC_SYSTEM) {
 		wchar_t temp[1024] = { 0 };
-		mir_sntprintf(temp, L"%s\n%s", TranslateT("Error while copying data to disk occurred. Is file in use?"), FileName);
+		mir_snwprintf(temp, L"%s\n%s", TranslateT("Error while copying data to disk occurred. Is file in use?"), FileName);
 		MessageBox(NULL, temp, TranslateT("POP3 plugin - write file error"), MB_OK);
 	}
 
@@ -380,7 +380,7 @@ DWORD WINAPI ReadPOP3Options(HACCOUNT Which, char **Parser, char *End)
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
-	mir_sntprintf(Debug, L"CodePage: %d, remaining %d chars", ((HPOP3ACCOUNT)Which)->CP, End-*Parser);
+	mir_snwprintf(Debug, L"CodePage: %d, remaining %d chars", ((HPOP3ACCOUNT)Which)->CP, End-*Parser);
 	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
 	return 0;
@@ -713,7 +713,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 				for (NewMsgsPtr = (HYAMNMAIL)NewMails; NewMsgsPtr != NULL; NewMsgsPtr = NewMsgsPtr->Next) {
 					if (!mir_strcmp(MsgQueuePtr->ID, NewMsgsPtr->ID)) {
 						wchar_t accstatus[512];
-						mir_sntprintf(accstatus, TranslateT("Reading body %s"), NewMsgsPtr->ID);
+						mir_snwprintf(accstatus, TranslateT("Reading body %s"), NewMsgsPtr->ID);
 						SetAccountStatus(ActualAccount, accstatus);
 						DataRX = MyClient->Top(MsgQueuePtr->Number, 100);
 #ifdef DEBUG_DECODE
@@ -786,7 +786,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 			{
 				BOOL autoretr = (ActualAccount->Flags & YAMN_ACC_BODY) != 0;
 				DataRX = MyClient->Top(MsgQueuePtr->Number, autoretr ? 100 : 0);
-				mir_sntprintf(accstatus, TranslateT("Reading new mail messages (%d%% done)"), 100 * i / msgs);
+				mir_snwprintf(accstatus, TranslateT("Reading new mail messages (%d%% done)"), 100 * i / msgs);
 				SetAccountStatus(ActualAccount, accstatus);
 
 #ifdef DEBUG_DECODE
@@ -1542,14 +1542,14 @@ wchar_t* WINAPI GetErrorString(DWORD Code)
 	wchar_t *ErrorString = new wchar_t[ERRORSTR_MAXLEN];
 	POP3_ERRORCODE *ErrorCode = (POP3_ERRORCODE *)(UINT_PTR)Code;
 
-	mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, TranslateT("Error %d-%d-%d-%d:"), ErrorCode->AppError, ErrorCode->POP3Error, ErrorCode->NetError, ErrorCode->SystemError);
+	mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, TranslateT("Error %d-%d-%d-%d:"), ErrorCode->AppError, ErrorCode->POP3Error, ErrorCode->NetError, ErrorCode->SystemError);
 	if (ErrorCode->POP3Error)
-		mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(POP3Errors[ErrorCode->POP3Error - 1]));
+		mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(POP3Errors[ErrorCode->POP3Error - 1]));
 	if (ErrorCode->NetError) {
 		if (ErrorCode->SSL)
-			mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(SSLErrors[ErrorCode->NetError - 1]));
+			mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(SSLErrors[ErrorCode->NetError - 1]));
 		else
-			mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(NetlibErrors[ErrorCode->NetError - 4]));
+			mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(NetlibErrors[ErrorCode->NetError - 4]));
 	}
 
 	return ErrorString;

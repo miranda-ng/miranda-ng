@@ -77,7 +77,7 @@ void InitSelfSounds()
 			mir_snprintf(namebuf, "%s%s", protos[i]->szModuleName, selfSounds[j].szName);
 
 			wchar_t infobuf[256];
-			mir_sntprintf(infobuf, L"%s [%s]", TranslateT("Self status"), protos[i]->tszAccountName);
+			mir_snwprintf(infobuf, L"%s [%s]", TranslateT("Self status"), protos[i]->tszAccountName);
 			SkinAddNewSoundExT(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
 		}
 	}
@@ -141,7 +141,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 
 	MCONTACT hContact = pci->FindRoom(gcd->pszModule, gcd->ptszID);
 	if (hContact != 0) {
-		ptrT nick(db_get_tsa(hContact, gcd->pszModule, "MyNick"));
+		ptrW nick(db_get_tsa(hContact, gcd->pszModule, "MyNick"));
 		if (nick == NULL || gce->ptszText == NULL)
 			return 0;
 		if (wcsstr(gce->ptszText, nick)) {

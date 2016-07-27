@@ -67,58 +67,58 @@ void GGPROTO::disconnect()
 			switch (getWord(GG_KEY_LEAVESTATUS, GG_KEYDEF_LEAVESTATUS)) {
 			case ID_STATUS_ONLINE:
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 6, "modemsg_mutex", 1);
-				szMsg = mir_utf8encodeT(modemsg.online);
+				szMsg = mir_utf8encodeW(modemsg.online);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 6, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_ONLINE, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeT(dbv.ptszVal);
+						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
 				}
 				break;
 			case ID_STATUS_AWAY:
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 7, "modemsg_mutex", 1);
-				szMsg = mir_utf8encodeT(modemsg.away);
+				szMsg = mir_utf8encodeW(modemsg.away);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 7, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_AWAY, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeT(dbv.ptszVal);
+						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
 				}
 				break;
 			case ID_STATUS_DND:
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 8, "modemsg_mutex", 1);
-				szMsg = mir_utf8encodeT(modemsg.dnd);
+				szMsg = mir_utf8encodeW(modemsg.dnd);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 8, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_DND, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeT(dbv.ptszVal);
+						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
 				}
 				break;
 			case ID_STATUS_FREECHAT:
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 9, "modemsg_mutex", 1);
-				szMsg = mir_utf8encodeT(modemsg.freechat);
+				szMsg = mir_utf8encodeW(modemsg.freechat);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 9, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_FREECHAT, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeT(dbv.ptszVal);
+						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
 				}
 				break;
 			case ID_STATUS_INVISIBLE:
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 10, "modemsg_mutex", 1);
-				szMsg = mir_utf8encodeT(modemsg.invisible);
+				szMsg = mir_utf8encodeW(modemsg.invisible);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 10, 1, "modemsg_mutex", 1);
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_INVISIBLE, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
-						szMsg = mir_utf8encodeT(dbv.ptszVal);
+						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
 				}
 				break;
 			default:
 				// Set last status
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 11, "modemsg_mutex", 1);
-				szMsg = mir_utf8encodeT(getstatusmsg(m_iStatus));
+				szMsg = mir_utf8encodeW(getstatusmsg(m_iStatus));
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 11, 1, "modemsg_mutex", 1);
 			}
 		}
@@ -360,8 +360,8 @@ void __cdecl GGPROTO::mainthread(void *)
 		if (!getString(GG_KEY_FORWARDHOST, &dbv)) {
 			if (!(p.external_addr = gg_dnslookup(this, dbv.pszVal))) {
 				wchar_t error[128];
-				wchar_t* forwardHostT = mir_a2t(dbv.pszVal);
-				mir_sntprintf(error, TranslateT("External direct connections hostname %s is invalid. Disabling external host forwarding."), forwardHostT);
+				wchar_t* forwardHostT = mir_a2u(dbv.pszVal);
+				mir_snwprintf(error, TranslateT("External direct connections hostname %s is invalid. Disabling external host forwarding."), forwardHostT);
 				mir_free(forwardHostT);
 				showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 			}
@@ -378,7 +378,7 @@ retry:
 	// Loadup startup status & description
 	gg_EnterCriticalSection(&modemsg_mutex, "mainthread", 13, "modemsg_mutex", 1);
 
-	p.status_descr = mir_utf8encodeT(getstatusmsg(m_iDesiredStatus));
+	p.status_descr = mir_utf8encodeW(getstatusmsg(m_iDesiredStatus));
 	p.status = status_m2gg(m_iDesiredStatus, p.status_descr != NULL);
 
 	debugLog(L"mainthread() (%x): Connecting with number %d, status %d and description \"%s\".", this, p.uin, m_iDesiredStatus,
@@ -391,8 +391,8 @@ retry:
 		if (!(p.server_addr = gg_dnslookup(this, hosts[hostnum].hostname)))
 		{
 			wchar_t error[128];
-			wchar_t* hostnameT = mir_a2t(hosts[hostnum].hostname);
-			mir_sntprintf(error, TranslateT("Server hostname %s is invalid. Using default hostname provided by the network."), hostnameT);
+			wchar_t* hostnameT = mir_a2u(hosts[hostnum].hostname);
+			mir_snwprintf(error, TranslateT("Server hostname %s is invalid. Using default hostname provided by the network."), hostnameT);
 			mir_free(hostnameT);
 			showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 		}
@@ -423,7 +423,7 @@ retry:
 				}
 			}
 			if (!perror) {
-				mir_sntprintf(error, TranslateT("Connection cannot be established. errno=%d: %s"), errno, ws_strerror(errno));
+				mir_snwprintf(error, TranslateT("Connection cannot be established. errno=%d: %s"), errno, ws_strerror(errno));
 				perror = error;
 			}
 			debugLog(L"mainthread() (%x): %s", this, perror);
@@ -480,7 +480,7 @@ retry:
 		{
 			broadcastnewstatus(m_iDesiredStatus);
 			// Change status of the contact with our own UIN (if got yourself added to the contact list)
-			wchar_t *status_descr = mir_utf8decodeT(p.status_descr);
+			wchar_t *status_descr = mir_utf8decodeW(p.status_descr);
 			changecontactstatus(p.uin, p.status, status_descr, 0, 0, 0, 0);
 			mir_free(status_descr);
 		}
@@ -562,7 +562,7 @@ retry:
 
 				for (; n->uin; n++)
 				{
-					wchar_t *descrT = (e->type == GG_EVENT_NOTIFY_DESCR) ? mir_utf8decodeT(e->event.notify_descr.descr) : NULL;
+					wchar_t *descrT = (e->type == GG_EVENT_NOTIFY_DESCR) ? mir_utf8decodeW(e->event.notify_descr.descr) : NULL;
 					changecontactstatus(n->uin, n->status, descrT, 0, n->remote_ip, n->remote_port, n->version);
 					if (descrT) mir_free(descrT);
 				}
@@ -575,7 +575,7 @@ retry:
 				int i;
 				for(i = 0; e->event.notify60[i].uin; i++) {
 					if (e->event.notify60[i].uin == uin) continue;
-					wchar_t *descrT = mir_utf8decodeT(e->event.notify60[i].descr);
+					wchar_t *descrT = mir_utf8decodeW(e->event.notify60[i].descr);
 					changecontactstatus(e->event.notify60[i].uin, e->event.notify60[i].status, descrT,
 						e->event.notify60[i].time, e->event.notify60[i].remote_ip, e->event.notify60[i].remote_port,
 						e->event.notify60[i].version);
@@ -617,12 +617,12 @@ retry:
 					{
 						// Loadup fields
 						const char *__fmnumber = gg_pubdir50_get(res, i, GG_PUBDIR50_UIN);
-						wchar_t *__nickname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_NICKNAME));
-						wchar_t *__firstname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_FIRSTNAME));
-						wchar_t *__lastname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_LASTNAME));
-						wchar_t *__familyname = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYNAME));
-						wchar_t *__city = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_CITY));
-						wchar_t *__familycity = mir_utf8decodeT(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYCITY));
+						wchar_t *__nickname = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_NICKNAME));
+						wchar_t *__firstname = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FIRSTNAME));
+						wchar_t *__lastname = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_LASTNAME));
+						wchar_t *__familyname = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYNAME));
+						wchar_t *__city = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_CITY));
+						wchar_t *__familycity = mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYCITY));
 						const char *__birthyear = gg_pubdir50_get(res, i, GG_PUBDIR50_BIRTHYEAR);
 						const char *__gender = gg_pubdir50_get(res, i, GG_PUBDIR50_GENDER);
 						const char *__status = gg_pubdir50_get(res, i, GG_PUBDIR50_STATUS);
@@ -637,8 +637,8 @@ retry:
 
 							wcsncpy_s(strFmt2, pcli->pfnGetStatusModeDescription( status_gg2m(atoi(__status)), 0), _TRUNCATE);
 							if (__city) {
-								mir_sntprintf(strFmt1, L", %s %s", TranslateT("City:"), __city);
-								mir_tstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_tstrlen(strFmt2));
+								mir_snwprintf(strFmt1, L", %s %s", TranslateT("City:"), __city);
+								mir_wstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_wstrlen(strFmt2));
 							}
 							if (__birthyear) {
 								time_t t = time(NULL);
@@ -646,8 +646,8 @@ retry:
 								int br = atoi(__birthyear);
 
 								if (br < (lt->tm_year + 1900) && br > 1900) {
-									mir_sntprintf(strFmt1, L", %s %d", TranslateT("Age:"), (lt->tm_year + 1900) - br);
-									mir_tstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_tstrlen(strFmt2));
+									mir_snwprintf(strFmt1, L", %s %d", TranslateT("Age:"), (lt->tm_year + 1900) - br);
+									mir_wstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_wstrlen(strFmt2));
 								}
 							}
 
@@ -757,7 +757,7 @@ retry:
 			// Status (deprecated)
 			case GG_EVENT_STATUS:
 				{
-					wchar_t *descrT = mir_utf8decodeT(e->event.status.descr);
+					wchar_t *descrT = mir_utf8decodeW(e->event.status.descr);
 					changecontactstatus(e->event.status.uin, e->event.status.status, descrT, 0, 0, 0, 0);
 					mir_free(descrT);
 				}
@@ -770,7 +770,7 @@ retry:
 					int oldstatus = getWord(hContact, GG_KEY_STATUS, (WORD)ID_STATUS_OFFLINE);
 					uin_t uin = (uin_t)getDword(GG_KEY_UIN, 0);
 
-					wchar_t *descrT = mir_utf8decodeT(e->event.status60.descr);
+					wchar_t *descrT = mir_utf8decodeW(e->event.status60.descr);
 
 					if (e->event.status60.uin == uin)
 					{
@@ -832,7 +832,7 @@ retry:
 							GCEVENT gce = { sizeof(gce), &gcd };
 							time_t t = time(NULL);
 							gce.ptszUID = id;
-							wchar_t* messageT = mir_utf8decodeT(e->event.msg.message);
+							wchar_t* messageT = mir_utf8decodeW(e->event.msg.message);
 							gce.ptszText = messageT;
 							gce.ptszNick = (wchar_t*) pcli->pfnGetContactDisplayName( getcontact(e->event.msg.sender, 1, 0, NULL), 0);
 							gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
@@ -895,14 +895,14 @@ retry:
 						GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
 						GCEVENT gce = { sizeof(gce), &gcd };
 						gce.ptszUID = id;
-						wchar_t* messageT = mir_utf8decodeT(e->event.multilogon_msg.message);
+						wchar_t* messageT = mir_utf8decodeW(e->event.multilogon_msg.message);
 						gce.ptszText = messageT;
 						wchar_t* nickT;
 						if (!getTString(GG_KEY_NICK, &dbv)){
-							nickT = mir_tstrdup(dbv.ptszVal);
+							nickT = mir_wstrdup(dbv.ptszVal);
 							db_free(&dbv);
 						}
-						else nickT = mir_tstrdup(TranslateT("Me"));
+						else nickT = mir_wstrdup(TranslateT("Me"));
 						gce.ptszNick = nickT;
 						gce.time = e->event.multilogon_msg.time;
 						gce.bIsMe = 1;
@@ -974,7 +974,7 @@ retry:
 							if (iIndexes && iIndexes[i])
 								continue;
 
-							mir_sntprintf(szMsg, L"%s (%s)", szText,
+							mir_snwprintf(szMsg, L"%s (%s)", szText,
 								*e->event.multilogon_info.sessions[i].name != '\0' ?
 								_A2T(e->event.multilogon_info.sessions[i].name) : TranslateT("Unknown client"));
 							showpopup(m_tszUserName, szMsg, GG_POPUP_MULTILOGON);
@@ -1052,7 +1052,7 @@ retry:
 					debugLogA("mainthread() (%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
 						dcc7->filename, dcc7->size);
 
-					wchar_t* filenameT = mir_a2t((char*)dcc7->filename);
+					wchar_t* filenameT = mir_a2u((char*)dcc7->filename);
 
 					PROTORECVFILET pre = {0};
 					pre.dwFlags = PRFF_TCHAR;
@@ -1149,8 +1149,8 @@ retry:
 					wchar_t *xmlAction;
 					wchar_t *tag;
 
-					xmlAction = mir_a2t(e->event.xml_action.data);
-					tag = mir_a2t("events");
+					xmlAction = mir_a2u(e->event.xml_action.data);
+					tag = mir_a2u("events");
 					hXml = xmlParseString(xmlAction, 0, tag);
 
 					if (hXml != NULL) {
@@ -1158,14 +1158,14 @@ retry:
 						char *type, *sender;
 						
 						mir_free(tag);
-						tag = mir_a2t("event/type");
+						tag = mir_a2u("event/type");
 						node = xmlGetChildByPath(hXml, tag, 0);
-						type = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
+						type = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
 
 						mir_free(tag);
-						tag = mir_a2t("event/sender");
+						tag = mir_a2u("event/sender");
 						node = xmlGetChildByPath(hXml, tag, 0);
-						sender = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
+						sender = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
 						debugLogA("mainthread() (%x): XML Action type: %s.", this, type != NULL ? type : "unknown");
 						// Avatar change notify
 						if (type != NULL && !mir_strcmp(type, "28")) {
@@ -1311,11 +1311,11 @@ static wchar_t* sttSettingToTchar( DBVARIANT* value )
 {
 	switch(value->type) {
 	case DBVT_ASCIIZ:
-		return mir_a2t(value->pszVal);
+		return mir_a2u(value->pszVal);
 	case DBVT_UTF8:
-		return mir_utf8decodeT(value->pszVal);
+		return mir_utf8decodeW(value->pszVal);
 	case DBVT_WCHAR:
-		return mir_u2t(value->pwszVal);
+		return mir_wstrdup(value->pwszVal);
 	}
 	return NULL;
 }
@@ -1570,7 +1570,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 			gg_pubdir50(sess, req);
 			gg_LeaveCriticalSection(&sess_mutex, "getcontact", 31, 1, "sess_mutex", 1);
 			gg_pubdir50_free(req);
-			wchar_t* uinT = mir_a2t(ditoa(uin));
+			wchar_t* uinT = mir_a2u(ditoa(uin));
 			setTString(hContact, GG_KEY_NICK, uinT);
 			mir_free(uinT);
 			debugLogA("getcontact(): Search for nick on uin: %d", uin);
@@ -1591,7 +1591,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
 		if (getDword(GG_KEY_UIN, 0) == uin) {
 			gg_EnterCriticalSection(&modemsg_mutex, "getcontact", 33, "modemsg_mutex", 1);
-			wchar_t *szMsg = mir_tstrdup(getstatusmsg(m_iStatus));
+			wchar_t *szMsg = mir_wstrdup(getstatusmsg(m_iStatus));
 			gg_LeaveCriticalSection(&modemsg_mutex, "getcontact", 33, 1, "modemsg_mutex", 1);
 			changecontactstatus(uin, status_m2gg(m_iStatus, szMsg != NULL), szMsg, 0, 0, 0, 0);
 			mir_free(szMsg);

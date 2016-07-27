@@ -136,34 +136,34 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			HICON hIcon = (min <= 5 ? hIconList2 : hIconList1);
 			DrawIconEx(dis->hDC,dis->rcItem.left,(dis->rcItem.top + dis->rcItem.bottom - 16)>>1,hIcon,0, 0, 0, NULL, DI_NORMAL);
 
-			GetTextExtentPoint32(dis->hDC,alarm.szTitle,(int)mir_tstrlen(alarm.szTitle),&textSize);
+			GetTextExtentPoint32(dis->hDC,alarm.szTitle,(int)mir_wstrlen(alarm.szTitle),&textSize);
 
 			wchar_t buff[100];
 			if (min >= 60)
-				mir_sntprintf(buff, TranslateT("%dh %dm"), min / 60, min % 60);
+				mir_snwprintf(buff, TranslateT("%dh %dm"), min / 60, min % 60);
 			else
-				mir_sntprintf(buff, TranslateT("%dm"), min);
+				mir_snwprintf(buff, TranslateT("%dm"), min);
 
-			GetTextExtentPoint32(dis->hDC,buff,(int)mir_tstrlen(buff),&timeSize);
+			GetTextExtentPoint32(dis->hDC,buff,(int)mir_wstrlen(buff),&timeSize);
 
 			if (textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
 				// need elipsis
 				wchar_t titlebuff[512];
-				size_t len = mir_tstrlen(alarm.szTitle);
+				size_t len = mir_wstrlen(alarm.szTitle);
 				if (len > 511) len = 511;
 				while(len > 0 && textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
 					len--;
 					wcsncpy(titlebuff, alarm.szTitle, len);
 					titlebuff[len] = 0;
-					mir_tstrcat(titlebuff, L"...");
-					GetTextExtentPoint32(dis->hDC,titlebuff,(int)mir_tstrlen(titlebuff),&textSize);
+					mir_wstrcat(titlebuff, L"...");
+					GetTextExtentPoint32(dis->hDC,titlebuff,(int)mir_wstrlen(titlebuff),&textSize);
 				}
-				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,titlebuff,(int)mir_tstrlen(titlebuff));
-				TextOut(dis->hDC,dis->rcItem.right - timeSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom - timeSize.cy)>>1, buff,(int)mir_tstrlen(buff));
+				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,titlebuff,(int)mir_wstrlen(titlebuff));
+				TextOut(dis->hDC,dis->rcItem.right - timeSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom - timeSize.cy)>>1, buff,(int)mir_wstrlen(buff));
 			}
 			else {				
-				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,alarm.szTitle,(int)mir_tstrlen(alarm.szTitle));
-				TextOut(dis->hDC,dis->rcItem.right - timeSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom - timeSize.cy)>>1, buff,(int)mir_tstrlen(buff));
+				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,alarm.szTitle,(int)mir_wstrlen(alarm.szTitle));
+				TextOut(dis->hDC,dis->rcItem.right - timeSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom - timeSize.cy)>>1, buff,(int)mir_wstrlen(buff));
 			}
 
 			SetBkMode(dis->hDC, OPAQUE);

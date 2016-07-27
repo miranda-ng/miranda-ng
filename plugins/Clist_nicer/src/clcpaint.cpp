@@ -485,7 +485,7 @@ set_bg_l:
 	}
 	else if (type == CLCIT_DIVIDER) {
 		ChangeToFont(hdcMem, dat, FONTID_DIVIDERS, &fontHeight);
-		GetTextExtentPoint32(hdcMem, contact->szText, (int)mir_tstrlen(contact->szText), &textSize);
+		GetTextExtentPoint32(hdcMem, contact->szText, (int)mir_wstrlen(contact->szText), &textSize);
 	}
 	else if (type == CLCIT_CONTACT && flags & CONTACTF_NOTONLIST)
 		ChangeToFont(hdcMem, dat, FONTID_NOTONLIST, &fontHeight);
@@ -501,13 +501,13 @@ set_bg_l:
 
 	wchar_t *szCounts = NULL;
 	if (type == CLCIT_GROUP) {
-		GetTextExtentPoint32(hdcMem, contact->szText, (int)mir_tstrlen(contact->szText), &textSize);
+		GetTextExtentPoint32(hdcMem, contact->szText, (int)mir_wstrlen(contact->szText), &textSize);
 		int width = textSize.cx;
 		szCounts = pcli->pfnGetGroupCountsText(dat, contact);
 		if (szCounts[0]) {
 			GetTextExtentPoint32(hdcMem, L" ", 1, &spaceSize);
 			ChangeToFont(hdcMem, dat, FONTID_GROUPCOUNTS, &fontHeight);
-			GetTextExtentPoint32(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &countsSize);
+			GetTextExtentPoint32(hdcMem, szCounts, (int)mir_wstrlen(szCounts), &countsSize);
 			width += spaceSize.cx + countsSize.cx;
 		}
 	}
@@ -969,7 +969,7 @@ bgskipped:
 		rc2.left = rcContent.left;
 		rc2.right = rc2.left - dat->rightMargin + ((clRect->right - rc2.left - textSize.cx) >> 1) - 3;
 		DrawEdge(hdcMem, &rc2, BDR_SUNKENOUTER, BF_RECT);
-		TextOut(hdcMem, rc2.right + 3, y + ((rowHeight - fontHeight) >> 1), contact->szText, (int)mir_tstrlen(contact->szText));
+		TextOut(hdcMem, rc2.right + 3, y + ((rowHeight - fontHeight) >> 1), contact->szText, (int)mir_wstrlen(contact->szText));
 		rc2.left = rc2.right + 6 + textSize.cx;
 		rc2.right = clRect->right - dat->rightMargin;
 		DrawEdge(hdcMem, &rc2, BDR_SUNKENOUTER, BF_RECT);
@@ -1002,7 +1002,7 @@ bgskipped:
 			int labelWidth = textSize.cx + countsSize.cx + spaceSize.cx;
 			int offset = (g_center) ? ((rc2.right - rc2.left) - labelWidth) / 2 : 0;
 
-			TextOut(hdcMem, rc2.left + offset + textSize.cx + spaceSize.cx, rc2.top + groupCountsFontTopShift, szCounts, (int)mir_tstrlen(szCounts));
+			TextOut(hdcMem, rc2.left + offset + textSize.cx + spaceSize.cx, rc2.top + groupCountsFontTopShift, szCounts, (int)mir_wstrlen(szCounts));
 			rightLineStart = rc2.left + offset + textSize.cx + spaceSize.cx + countsSize.cx + 2;
 
 			if (selected && !g_ignoreselforgroups)
@@ -1110,7 +1110,7 @@ bgskipped:
 				COLORREF oldColor = GetTextColor(hdcMem);
 				int idOldFont = dat->currentFontID;
 				ChangeToFont(hdcMem, dat, FONTID_TIMESTAMP, &fHeight);
-				GetTextExtentPoint32(hdcMem, szResult, (int)mir_tstrlen(szResult), &szTime);
+				GetTextExtentPoint32(hdcMem, szResult, (int)mir_wstrlen(szResult), &szTime);
 				verticalfit = (rowHeight - fHeight >= g_cysmIcon + 1);
 
 				if (av_right) {
@@ -1191,7 +1191,7 @@ bgskipped:
 						LONG rightIconsTop = rcContent.bottom - g_cysmIcon;
 						LONG old_right = rcContent.right;
 						ULONG textCounter = 0;
-						size_t ulLen = mir_tstrlen(szText);
+						size_t ulLen = mir_wstrlen(szText);
 						LONG old_bottom = rcContent.bottom;
 						DWORD i_dtFlags = DT_WORDBREAK | DT_NOPREFIX | dt_2ndrowflags;
 						dtp.cbSize = sizeof(dtp);
@@ -1215,7 +1215,7 @@ bgskipped:
 	if (selected) {
 		if (type != CLCIT_DIVIDER) {
 			RECT rc2;
-			int qlen = (int)mir_tstrlen(dat->szQuickSearch);
+			int qlen = (int)mir_wstrlen(dat->szQuickSearch);
 			if (hPreviousFont)
 				SelectObject(hdcMem, hPreviousFont);
 			SetTextColor(hdcMem, dat->quickSearchColour);

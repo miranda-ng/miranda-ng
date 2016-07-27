@@ -31,7 +31,7 @@ BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hWnd, LPARAM lParam)
 {
 	 wchar_t szClass[64];
 	 GetClassName(hWnd, szClass, 64);
-	 if (!mir_tstrcmp(szClass, L"Button") && (GetWindowLongPtr(hWnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
+	 if (!mir_wstrcmp(szClass, L"Button") && (GetWindowLongPtr(hWnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
 			SendMessage(hWnd, WM_SETFONT, lParam, NULL);
 	 return TRUE;
 }
@@ -211,7 +211,7 @@ BYTE	CPsTreeItem::HasName(const LPCSTR pszName) const
 void CPsTreeItem::Rename(const LPTSTR pszLabel)
 {
 	if (pszLabel && *pszLabel) {
-		LPTSTR pszDup = mir_tstrdup(pszLabel);
+		LPTSTR pszDup = mir_wstrdup(pszLabel);
 		if (pszDup) {
 			if (_ptszLabel)
 				mir_free(_ptszLabel);
@@ -253,9 +253,9 @@ int CPsTreeItem::ItemLabel(const BYTE bReadDBValue)
 		else
 			pszName = _pszName;
 
-		LPTSTR ptszLabel = mir_utf8decodeT(pszName);
+		LPTSTR ptszLabel = mir_utf8decodeW(pszName);
 		if (ptszLabel) {
-			_ptszLabel = mir_tstrdup(TranslateTS(ptszLabel));
+			_ptszLabel = mir_wstrdup(TranslateTS(ptszLabel));
 			mir_free(ptszLabel);
 		}
 	}
@@ -279,7 +279,7 @@ HICON CPsTreeItem::ProtoIcon()
 	int ProtoCount;
 	Proto_EnumAccounts(&ProtoCount, &pa);
 	for (int i = 0; i < ProtoCount; i++) {
-		if (!mir_tstrncmpi(pa[i]->tszAccountName, _A2T(_pszName), mir_tstrlen(pa[i]->tszAccountName))) {
+		if (!mir_wstrncmpi(pa[i]->tszAccountName, _A2T(_pszName), mir_wstrlen(pa[i]->tszAccountName))) {
 			CHAR szIconID[MAX_PATH];
 			mir_snprintf(szIconID, "core_status_%s1", pa[i]->szModuleName);
 			HICON hIco = IcoLib_GetIcon(szIconID);
@@ -403,15 +403,15 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 
 		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {
 			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_sntprintf(szTitle, L"%s %d\\%s", odp->pwszTitle, pPsh->_nSubContact+1, odp->pwszTab);
+				mir_snwprintf(szTitle, L"%s %d\\%s", odp->pwszTitle, pPsh->_nSubContact+1, odp->pwszTab);
 			else
-				mir_sntprintf(szTitle, L"%s %d", odp->pwszTitle, pPsh->_nSubContact+1);
+				mir_snwprintf(szTitle, L"%s %d", odp->pwszTitle, pPsh->_nSubContact+1);
 		}
 		else {
 			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_sntprintf(szTitle, L"%s\\%s", odp->pwszTitle, odp->pwszTab);
+				mir_snwprintf(szTitle, L"%s\\%s", odp->pwszTitle, odp->pwszTab);
 			else
-				mir_tstrcpy(szTitle, odp->pwszTitle);
+				mir_wstrcpy(szTitle, odp->pwszTitle);
 		}
 		// set the unique utf8 encoded name for the item
 		if (err = Name(szTitle, (_dwFlags & ODPF_UNICODE) == ODPF_UNICODE)) 

@@ -58,9 +58,9 @@ void CJabberProto::OnIqResultPrivacyListModify(HXML, CJabberIqInfo *pInfo)
 	if (!pParam->m_dwCount) {
 		wchar_t szText[ 512 ];
 		if (!pParam->m_bAllOk)
-			mir_sntprintf(szText, TranslateT("Error occurred while applying changes"));
+			mir_snwprintf(szText, TranslateT("Error occurred while applying changes"));
 		else
-			mir_sntprintf(szText, TranslateT("Privacy lists successfully saved"));
+			mir_snwprintf(szText, TranslateT("Privacy lists successfully saved"));
 		if (m_pDlgPrivacyLists)
 			m_pDlgPrivacyLists->SetStatusText(szText);
 		// FIXME: enable apply button
@@ -77,7 +77,7 @@ void CJabberProto::OnIqResultPrivacyList(HXML iqNode, CJabberIqInfo*)
 	if (type == NULL)
 		return;
 
-	if ( mir_tstrcmp(type, L"result"))
+	if ( mir_wstrcmp(type, L"result"))
 		return;
 
 	HXML query = XmlGetChild(iqNode , "query");
@@ -104,11 +104,11 @@ void CJabberProto::OnIqResultPrivacyList(HXML iqNode, CJabberIqInfo*)
 		const wchar_t *itemType = XmlGetAttrValue(item, L"type");
 		PrivacyListRuleType nItemType = Else;
 		if (itemType) {
-			if (!mir_tstrcmpi(itemType, L"jid"))
+			if (!mir_wstrcmpi(itemType, L"jid"))
 				nItemType = Jid;
-			else if (!mir_tstrcmpi(itemType, L"group"))
+			else if (!mir_wstrcmpi(itemType, L"group"))
 				nItemType = Group;
-			else if (!mir_tstrcmpi(itemType, L"subscription"))
+			else if (!mir_wstrcmpi(itemType, L"subscription"))
 				nItemType = Subscription;
 		}
 
@@ -116,7 +116,7 @@ void CJabberProto::OnIqResultPrivacyList(HXML iqNode, CJabberIqInfo*)
 
 		const wchar_t *itemAction = XmlGetAttrValue(item, L"action");
 		BOOL bAllow = TRUE;
-		if (itemAction && !mir_tstrcmpi(itemAction, L"deny"))
+		if (itemAction && !mir_wstrcmpi(itemAction, L"deny"))
 			bAllow = FALSE;
 
 		const wchar_t *itemOrder = XmlGetAttrValue(item, L"order");
@@ -185,7 +185,7 @@ void CJabberProto::OnIqResultPrivacyListActive(HXML iqNode, CJabberIqInfo *pInfo
 
 	CMString szText;
 
-	if (!mir_tstrcmp(type, L"result")) {
+	if (!mir_wstrcmp(type, L"result")) {
 		mir_cslock lck(m_privacyListManager.m_cs);
 		if (pList) {
 			m_privacyListManager.SetActiveListName(pList->GetListName());
@@ -222,18 +222,18 @@ void CJabberProto::OnIqResultPrivacyListDefault(HXML iqNode, CJabberIqInfo *pInf
 	szText[0] = 0;
 	{
 		mir_cslock lck(m_privacyListManager.m_cs);
-		if (!mir_tstrcmp(type, L"result")) {
+		if (!mir_wstrcmp(type, L"result")) {
 			CPrivacyList *pList = (CPrivacyList *)pInfo->GetUserData();
 			if (pList) {
 				m_privacyListManager.SetDefaultListName(pList->GetListName());
-				mir_sntprintf(szText, TranslateT("Privacy list %s set as default"), pList->GetListName());
+				mir_snwprintf(szText, TranslateT("Privacy list %s set as default"), pList->GetListName());
 			}
 			else {
 				m_privacyListManager.SetDefaultListName(NULL);
-				mir_sntprintf(szText, TranslateT("Default privacy list successfully declined"));
+				mir_snwprintf(szText, TranslateT("Default privacy list successfully declined"));
 			}
 		}
-		else mir_sntprintf(szText, TranslateT("Error occurred while setting default list"));
+		else mir_snwprintf(szText, TranslateT("Error occurred while setting default list"));
 	}
 
 	if (m_pDlgPrivacyLists) {
@@ -423,7 +423,7 @@ public:
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
 			{
 				for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
-					ptrT jid( m_proto->getTStringA(hContact, "jid"));
+					ptrW jid( m_proto->getTStringA(hContact, "jid"));
 					if (jid != NULL)
 						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, jid);
 				}
@@ -633,7 +633,7 @@ protected:
 			HANDLE hItem;
 			wchar_t *jid;
 
-			static int cmp(const TJidData *p1, const TJidData *p2) { return mir_tstrcmp(p1->jid, p2->jid); }
+			static int cmp(const TJidData *p1, const TJidData *p2) { return mir_wstrcmp(p1->jid, p2->jid); }
 		};
 
 		HANDLE hItemDefault;
@@ -661,7 +661,7 @@ protected:
 		{
 			TJidData *data = (TJidData *)mir_alloc(sizeof(TJidData));
 			data->hItem = hItem;
-			data->jid = mir_tstrdup(jid);
+			data->jid = mir_wstrdup(jid);
 			newJids.insert(data);
 		}
 
@@ -949,7 +949,7 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		for (i=0; i < _countof(drawItems); i++) {
 			SIZE sz = {0};
 			drawItems[i].text = TranslateTS(drawItems[i].textEng);
-			GetTextExtentPoint32(lpdis->hDC, drawItems[i].text, (int)mir_tstrlen(drawItems[i].text), &sz);
+			GetTextExtentPoint32(lpdis->hDC, drawItems[i].text, (int)mir_wstrlen(drawItems[i].text), &sz);
 			totalWidth += sz.cx + 18 + 5; // 18 pixels for icon, 5 pixel spacing
 		}
 
@@ -991,16 +991,16 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 		wchar_t szTypeValue[ 512 ];
 		switch (pRule->GetType()) {
 		case Jid:
-			mir_sntprintf(szTypeValue, L"If Jabber ID is '%s' then", pRule->GetValue());
+			mir_snwprintf(szTypeValue, L"If Jabber ID is '%s' then", pRule->GetValue());
 			break;
 		case Group:
-			mir_sntprintf(szTypeValue, L"If group is '%s' then", pRule->GetValue());
+			mir_snwprintf(szTypeValue, L"If group is '%s' then", pRule->GetValue());
 			break;
 		case Subscription:
-			mir_sntprintf(szTypeValue, L"If subscription is '%s' then", pRule->GetValue());
+			mir_snwprintf(szTypeValue, L"If subscription is '%s' then", pRule->GetValue());
 			break;
 		case Else:
-			mir_sntprintf(szTypeValue, L"Else");
+			mir_snwprintf(szTypeValue, L"Else");
 			break;
 		}
 
@@ -1011,29 +1011,29 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 		if (!dwPackets)
 			dwPackets = JABBER_PL_RULE_TYPE_ALL;
 		if (dwPackets == JABBER_PL_RULE_TYPE_ALL)
-			mir_tstrcpy(szPackets, L"all");
+			mir_wstrcpy(szPackets, L"all");
 		else {
 			if (dwPackets & JABBER_PL_RULE_TYPE_MESSAGE)
-				mir_tstrcat(szPackets, L"messages");
+				mir_wstrcat(szPackets, L"messages");
 			if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_IN) {
-				if (mir_tstrlen(szPackets))
-					mir_tstrcat(szPackets, L", ");
-				mir_tstrcat(szPackets, L"presence-in");
+				if (mir_wstrlen(szPackets))
+					mir_wstrcat(szPackets, L", ");
+				mir_wstrcat(szPackets, L"presence-in");
 			}
 			if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_OUT) {
-				if (mir_tstrlen(szPackets))
-					mir_tstrcat(szPackets, L", ");
-				mir_tstrcat(szPackets, L"presence-out");
+				if (mir_wstrlen(szPackets))
+					mir_wstrcat(szPackets, L", ");
+				mir_wstrcat(szPackets, L"presence-out");
 			}
 			if (dwPackets & JABBER_PL_RULE_TYPE_IQ) {
-				if (mir_tstrlen(szPackets))
-					mir_tstrcat(szPackets, L", ");
-				mir_tstrcat(szPackets, L"queries");
+				if (mir_wstrlen(szPackets))
+					mir_wstrcat(szPackets, L", ");
+				mir_wstrcat(szPackets, L"queries");
 			}
 		}
 
 		wchar_t szListItem[ 512 ];
-		mir_sntprintf(szListItem, L"%s %s %s", szTypeValue, pRule->GetAction() ? L"allow" : L"deny", szPackets);
+		mir_snwprintf(szListItem, L"%s %s %s", szTypeValue, pRule->GetAction() ? L"allow" : L"deny", szPackets);
 
 		LRESULT nItemId = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, (LPARAM)szListItem);
 		SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETITEMDATA, nItemId, (LPARAM)pRule);
@@ -1056,7 +1056,7 @@ void CJabberDlgPrivacyLists::DrawNextRulePart(HDC hdc, COLORREF color, const wch
 	DrawText(hdc, text, -1, rc, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_WORD_ELLIPSIS);
 
 	SIZE sz;
-	GetTextExtentPoint32(hdc, text, (int)mir_tstrlen(text), &sz);
+	GetTextExtentPoint32(hdc, text, (int)mir_wstrlen(text), &sz);
 	rc->left += sz.cx;
 }
 
@@ -1248,8 +1248,8 @@ void CJabberDlgPrivacyLists::DrawLists(LPDRAWITEMSTRUCT lpdis)
 		szName = TranslateT("<none>");
 	}
 	else {
-		if (!mir_tstrcmp(pList->GetListName(), szActive)) bActive = true;
-		if (!mir_tstrcmp(pList->GetListName(), szDefault)) bDefault = true;
+		if (!mir_wstrcmp(pList->GetListName(), szActive)) bActive = true;
+		if (!mir_wstrcmp(pList->GetListName(), szDefault)) bDefault = true;
 		szName = pList->GetListName();
 	}
 
@@ -1385,10 +1385,10 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 			break;
 
 		case Subscription:
-			if (!mir_tstrcmp(pRule->GetValue(), L"none"))	hItem = clc_info.hItemSubNone;
-			else if (!mir_tstrcmp(pRule->GetValue(), L"from"))	hItem = clc_info.hItemSubFrom;
-			else if (!mir_tstrcmp(pRule->GetValue(), L"to"))		hItem = clc_info.hItemSubTo;
-			else if (!mir_tstrcmp(pRule->GetValue(), L"both"))	hItem = clc_info.hItemSubBoth;
+			if (!mir_wstrcmp(pRule->GetValue(), L"none"))	hItem = clc_info.hItemSubNone;
+			else if (!mir_wstrcmp(pRule->GetValue(), L"from"))	hItem = clc_info.hItemSubFrom;
+			else if (!mir_wstrcmp(pRule->GetValue(), L"to"))		hItem = clc_info.hItemSubTo;
+			else if (!mir_wstrcmp(pRule->GetValue(), L"both"))	hItem = clc_info.hItemSubBoth;
 			break;
 
 		case Else:
@@ -1462,7 +1462,7 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		hItem = m_clcClist.FindContact(hContact);
 
-		ptrT jid( m_proto->getTStringA(hContact, "jid"));
+		ptrW jid( m_proto->getTStringA(hContact, "jid"));
 		if (jid == NULL)
 			if ((jid = m_proto->getTStringA(hContact, "ChatRoomID")) == NULL)
 				continue;
@@ -1837,7 +1837,7 @@ void CJabberDlgPrivacyLists::btnAddList_OnClick(CCtrlButton*)
 	// FIXME: line length is hard coded in dialog procedure
 	CJabberDlgPrivacyAddList dlgPrivacyAddList(m_proto, m_hwnd);
 	int nRetVal = dlgPrivacyAddList.DoModal();
-	if (nRetVal && mir_tstrlen(dlgPrivacyAddList.szLine)) {
+	if (nRetVal && mir_wstrlen(dlgPrivacyAddList.szLine)) {
 		mir_cslockfull lck(m_proto->m_privacyListManager.m_cs);
 	
 		CPrivacyList *pList = m_proto->m_privacyListManager.FindList(dlgPrivacyAddList.szLine);
@@ -1870,8 +1870,8 @@ void CJabberDlgPrivacyLists::btnRemoveList_OnClick(CCtrlButton *)
 	CPrivacyList *pList = GetSelectedList(m_hwnd);
 	if (pList) {
 		wchar_t *szListName = pList->GetListName();
-		if ((m_proto->m_privacyListManager.GetActiveListName() && !mir_tstrcmp(szListName, m_proto->m_privacyListManager.GetActiveListName())) ||
-			 (m_proto->m_privacyListManager.GetDefaultListName() && !mir_tstrcmp(szListName, m_proto->m_privacyListManager.GetDefaultListName())))
+		if ((m_proto->m_privacyListManager.GetActiveListName() && !mir_wstrcmp(szListName, m_proto->m_privacyListManager.GetActiveListName())) ||
+			 (m_proto->m_privacyListManager.GetDefaultListName() && !mir_wstrcmp(szListName, m_proto->m_privacyListManager.GetDefaultListName())))
 		{
 			lck.unlock();
 			MessageBox(m_hwnd, TranslateT("Can't remove active or default list"), TranslateT("Sorry"), MB_OK | MB_ICONSTOP);
@@ -2148,7 +2148,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 		mi.position++;
 		mi.hIcolibItem = Skin_GetIconHandle(
-			mir_tstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
+			mir_wstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
 		mi.name.w = pList->GetListName();
 		m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi, m_szModuleName));
 	}

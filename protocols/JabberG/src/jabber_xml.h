@@ -258,11 +258,11 @@ public:
 	}
 	__forceinline bool operator== (wchar_t *str)
 	{
-		return !mir_tstrcmp((LPCTSTR)*this, str);
+		return !mir_wstrcmp((LPCTSTR)*this, str);
 	}
 	__forceinline bool operator!= (wchar_t *str)
 	{
-		return mir_tstrcmp((LPCTSTR)*this, str) ? true : false;
+		return mir_wstrcmp((LPCTSTR)*this, str) ? true : false;
 	}
 	HXML operator[] (int idx)
 	{
@@ -359,7 +359,7 @@ public:
 
 		va_list args;
 		va_start(args, path);
-		mir_vsntprintf(m_buf, BUFSIZE, path, args);
+		mir_vsnwprintf(m_buf, BUFSIZE, path, args);
 		m_buf[BUFSIZE-1] = 0;
 		va_end(args);
 	}

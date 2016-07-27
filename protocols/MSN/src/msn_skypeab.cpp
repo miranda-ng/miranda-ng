@@ -45,7 +45,7 @@ static wchar_t* get_json_str(JSONNode *item, const char *pszValue)
 {
 	if (JSONNode *node = json_get(item, pszValue)) {
 		wchar_t *ret = json_as_string(node);
-		if (!mir_tstrcmp(ret, L"null")) {
+		if (!mir_wstrcmp(ret, L"null")) {
 			mir_free(ret);
 			return NULL;
 		}
@@ -79,14 +79,14 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 			JSONNode *items = json_as_array(root), *item;
 			for (size_t i = 0; i < json_size(items); i++) {
 				int lstId = LIST_FL;
-				ptrT nick;
+				ptrW nick;
 
 				item = json_at(items, i);
 				if (item == NULL)
 					break;
 
-				ptrA skypename(mir_t2a(ptrT(json_as_string(json_get(item, "skypename")))));
-				ptrA pszNick(mir_t2a(ptrT(get_json_str(item, "fullname"))));
+				ptrA skypename(mir_u2a(ptrW(json_as_string(json_get(item, "skypename")))));
+				ptrA pszNick(mir_u2a(ptrW(get_json_str(item, "fullname"))));
 				char szWLId[128];
 				mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename);
 				MCONTACT hContact = MSN_HContactFromEmail(szWLId, pszNick, true, false);
@@ -137,8 +137,8 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 					break;
 
 				node = json_get(item, "username");
-				ptrA skypename(mir_t2a(ptrT(json_as_string(node))));
-				ptrT value;
+				ptrA skypename(mir_u2a(ptrW(json_as_string(node))));
+				ptrW value;
 				char szWLId[128];
 				mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename);
 				MCONTACT hContact = MSN_HContactFromEmail(szWLId, skypename, false, false);
@@ -184,8 +184,8 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 			if (item == NULL)
 				return false;
 
-			ptrA skypename(mir_t2a(ptrT(json_as_string(json_get(item, "username")))));
-			ptrT value;
+			ptrA skypename(mir_u2a(ptrW(json_as_string(json_get(item, "username")))));
+			ptrW value;
 			char szWLId[128];
 			mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", NETID_SKYPE, skypename);
 			MCONTACT hContact = MSN_HContactFromEmail(szWLId, skypename, false, false);

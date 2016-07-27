@@ -417,10 +417,10 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			case IDOK:
 				{
 					GetDlgItemText(hwndDlg, IDC_TITLE, buff, _countof(buff));
-					replaceStrT(add_edit_alarm->szTitle, buff);
+					replaceStrW(add_edit_alarm->szTitle, buff);
 
 					GetDlgItemText(hwndDlg, IDC_DESC, buff, _countof(buff));
-					replaceStrT(add_edit_alarm->szDesc, buff);
+					replaceStrW(add_edit_alarm->szDesc, buff);
 
 					if (add_edit_alarm->szTitle == 0 || add_edit_alarm->szTitle[0] == '\0') {
 						MessageBox(hwndDlg, TranslateT("Please enter a title for this alarm."), TranslateT("Error"), MB_OK | MB_ICONERROR);
@@ -447,9 +447,9 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					if (add_edit_alarm->action & AAF_COMMAND) {
 						GetDlgItemText(hwndDlg, IDC_ED_COMMAND, buff, _countof(buff));
-						replaceStrT(add_edit_alarm->szCommand, buff);
+						replaceStrW(add_edit_alarm->szCommand, buff);
 						GetDlgItemText(hwndDlg, IDC_ED_PARAMS, buff, _countof(buff));
-						replaceStrT(add_edit_alarm->szCommandParams, buff);
+						replaceStrW(add_edit_alarm->szCommandParams, buff);
 					}
 
 					if (add_edit_alarm->action & AAF_SOUND) {

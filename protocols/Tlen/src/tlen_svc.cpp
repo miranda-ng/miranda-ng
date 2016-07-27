@@ -91,7 +91,7 @@ HANDLE TlenProtocol::SearchBasic(const wchar_t* id)
 	int iqId = 0;
 	if (!isOnline) return 0;
 	if (id == NULL) return 0;
-	char* id_A = mir_t2a(id);
+	char* id_A = mir_u2a(id);
 	char *jid = TlenTextEncode(id_A);
 	if (jid != NULL) {
 		searchJID = mir_strdup(id_A);
@@ -111,7 +111,7 @@ HANDLE TlenProtocol::SearchByEmail(const wchar_t* email)
 	if (!isOnline) return 0;
 	if (email == NULL) return 0;
 
-	char* email_A = mir_t2a(email);
+	char* email_A = mir_u2a(email);
 	char *emailEnc = TlenTextEncode(email_A);
 	if (emailEnc != NULL) {
 		TlenResetSearchQuery(this);
@@ -127,9 +127,9 @@ HANDLE TlenProtocol::SearchByName(const wchar_t* nickT, const wchar_t* firstName
 {
 	if (!isOnline) return 0;
 
-	char *nick = mir_t2a(nickT);
-	char *firstName = mir_t2a(firstNameT);
-	char *lastName = mir_t2a(lastNameT);
+	char *nick = mir_u2a(nickT);
+	char *firstName = mir_u2a(firstNameT);
+	char *lastName = mir_u2a(lastNameT);
 
 	char *p;
 	int iqId = 0;
@@ -418,7 +418,7 @@ int TlenProtocol::SetAwayMsg(int iStatus, const wchar_t* msg)
 	char **szMsg;
 	char *newModeMsg;
 
-	newModeMsg = mir_t2a(msg);
+	newModeMsg = mir_u2a(msg);
 
 	debugLogA("SetAwayMsg called, wParam=%d lParam=%s", iStatus, newModeMsg);
 
@@ -721,7 +721,7 @@ HANDLE TlenProtocol::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath
 	if (!isOnline) return 0;
 
 	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)hTransfer;
-	ft->szSavePath = mir_strdup(mir_t2a(szPath));	//TODO convert to wchar_t*
+	ft->szSavePath = mir_strdup(mir_u2a(szPath));	//TODO convert to wchar_t*
 	TLEN_LIST_ITEM *item = TlenListAdd(this, LIST_FILE, ft->iqId);
 	if (item != NULL) {
 		item->ft = ft;
@@ -795,7 +795,7 @@ HANDLE TlenProtocol::SendFile(MCONTACT hContact, const wchar_t* szDescription, w
 	ft->filesSize = (long *)mir_alloc(sizeof(long) * ft->fileCount);
 	ft->allFileTotalSize = 0;
 	for (i = j = 0; i < ft->fileCount; i++) {
-		char* ppszFiles_i_A = mir_t2a(ppszFiles[i]);
+		char* ppszFiles_i_A = mir_u2a(ppszFiles[i]);
 		if (_stat(ppszFiles_i_A, &statbuf))
 			debugLogA("'%s' is an invalid filename", ppszFiles[i]);
 		else {
@@ -806,7 +806,7 @@ HANDLE TlenProtocol::SendFile(MCONTACT hContact, const wchar_t* szDescription, w
 		mir_free(ppszFiles_i_A);
 	}
 	ft->fileCount = j;
-	ft->szDescription = mir_t2a(szDescription);
+	ft->szDescription = mir_u2a(szDescription);
 	ft->hContact = hContact;
 	ft->currentFile = 0;
 	db_free(&dbv);
@@ -826,7 +826,7 @@ HANDLE TlenProtocol::SendFile(MCONTACT hContact, const wchar_t* szDescription, w
 		}
 		else {
 			if (ft->fileCount == 1) {
-				char* ppszFiles_0_A = mir_t2a(ppszFiles[0]);
+				char* ppszFiles_0_A = mir_u2a(ppszFiles[0]);
 				if ((p = strrchr(ppszFiles_0_A, '\\')) != NULL) {
 					p++;
 				}
@@ -926,7 +926,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				jid = dbv.pszVal;
 				if ((item = TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL) {
 					if (cws->value.type == DBVT_DELETED) {
-						newNick = mir_t2a(pcli->pfnGetContactDisplayName(hContact, GCDNF_NOMYHANDLE));
+						newNick = mir_u2a(pcli->pfnGetContactDisplayName(hContact, GCDNF_NOMYHANDLE));
 					}
 					else if (cws->value.pszVal != NULL) {
 						newNick = settingToChar(cws);
@@ -1092,7 +1092,7 @@ INT_PTR TlenProtocol::SetMyAvatar(WPARAM, LPARAM lParam)
 		if (CopyFile(szFileName, tFileName, FALSE) == FALSE)
 			return 1;
 
-		char* tFileNameA = mir_t2a(tFileName); //TODO - drop io.h
+		char* tFileNameA = mir_u2a(tFileName); //TODO - drop io.h
 		int fileIn = open(tFileNameA, O_RDWR | O_BINARY, S_IREAD | S_IWRITE);
 		if (fileIn != -1) {
 			long  dwPngSize = filelength(fileIn);

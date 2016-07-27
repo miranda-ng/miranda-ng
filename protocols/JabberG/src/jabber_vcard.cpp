@@ -46,7 +46,7 @@ int CJabberProto::SendGetVcard(const wchar_t *jid)
 
 static void SetDialogField(CJabberProto *ppro, HWND hwndDlg, int nDlgItem, char* key, bool bTranslate = false)
 {
-	ptrT tszValue(ppro->getTStringA(key));
+	ptrW tszValue(ppro->getTStringA(key));
 	if (tszValue != NULL)
 		SetDlgItemText(hwndDlg, nDlgItem, (bTranslate) ? TranslateTS(tszValue) : tszValue);
 	else
@@ -126,7 +126,7 @@ static INT_PTR CALLBACK HomeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			for (int i = 0; i < g_cbCountries; i++) {
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
-					wchar_t *country = mir_a2t(g_countries[i].szName);
+					wchar_t *country = mir_a2u(g_countries[i].szName);
 					SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
 					mir_free(country);
 				}
@@ -190,7 +190,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			for (int i = 0; i < g_cbCountries; i++) {
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
-					wchar_t *country = mir_a2t(g_countries[i].szName);
+					wchar_t *country = mir_a2u(g_countries[i].szName);
 					SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
 					mir_free(country);
 				}
@@ -291,13 +291,13 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		dat->ppro->GetAvatarFileName(NULL, szAvatarFileName, _countof(szAvatarFileName));
 		if (_waccess(szAvatarFileName, 0) == 0) {
 			if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
-				mir_tstrcpy(szTempPath, L".\\");
+				mir_wstrcpy(szTempPath, L".\\");
 			if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
 				dat->ppro->debugLog(L"Temp file = %s", szTempFileName);
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
 					if ((dat->hBitmap = Bitmap_Load(szTempFileName)) != NULL) {
 						FIP->FI_Premultiply(dat->hBitmap);
-						mir_tstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
+						mir_wstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 					}
 					else DeleteFile(szTempFileName);
@@ -355,7 +355,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					break;
 				}
 				if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
-					mir_tstrcpy(szTempPath, L".\\");
+					mir_wstrcpy(szTempPath, L".\\");
 				
 				if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
 					dat->ppro->debugLog(L"Temp file = %s", szTempFileName);
@@ -367,7 +367,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							}
 
 							dat->hBitmap = hNewBitmap;
-							mir_tstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
+							mir_wstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 							dat->ppro->m_bPhotoChanged = TRUE;
 							EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 							InvalidateRect(hwndDlg, NULL, TRUE);
@@ -730,10 +730,10 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			lvi.iItem = 0;
 			for (i=0;;i++) {
 				mir_snprintf(idstr, "e-mail%d", i);
-				ptrT email( ppro->getTStringA(idstr));
+				ptrW email( ppro->getTStringA(idstr));
 				if (email == NULL) break;
 
-				mir_sntprintf(number, L"%d", i+1);
+				mir_snwprintf(number, L"%d", i+1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
@@ -751,10 +751,10 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			lvi.iItem = 0;
 			for (i=0;;i++) {
 				mir_snprintf(idstr, "Phone%d", i);
-				ptrT phone( ppro->getTStringA(idstr));
+				ptrW phone( ppro->getTStringA(idstr));
 				if (phone == NULL) break;
 
-				mir_sntprintf(number, L"%d", i+1);
+				mir_snwprintf(number, L"%d", i+1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
@@ -958,7 +958,7 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 		setTString("ZIP", text);
 		{
 			int i = SendDlgItemMessage(hwndPage, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
-			wchar_t *country = mir_a2t((i) ? g_countries[i + 2].szName : g_countries[1].szName);
+			wchar_t *country = mir_a2u((i) ? g_countries[i + 2].szName : g_countries[1].szName);
 			setTString("Country", country);
 			mir_free(country);
 		}
@@ -984,7 +984,7 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 		setTString("CompanyZIP", text);
 		{
 			int i = SendDlgItemMessage(hwndPage, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
-			wchar_t *country = mir_a2t((i) ? g_countries[i + 2].szName : g_countries[1].szName);
+			wchar_t *country = mir_a2u((i) ? g_countries[i + 2].szName : g_countries[1].szName);
 			setTString("CompanyCountry", country);
 			mir_free(country);
 		}
@@ -1006,7 +1006,7 @@ void CJabberProto::AppendVcardFromDB(HXML n, char *tag, char *key)
 	if (n == NULL || tag == NULL || key == NULL)
 		return;
 
-	ptrT tszValue(getTStringA(key));
+	ptrW tszValue(getTStringA(key));
 	n << XCHILD(_A2T(tag), tszValue);
 }
 
@@ -1033,7 +1033,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 
 	for (i = 0;; i++) {
 		mir_snprintf(idstr, "e-mail%d", i);
-		ptrT email(getTStringA(idstr));
+		ptrW email(getTStringA(idstr));
 		if (email == NULL)
 			break;
 
@@ -1081,7 +1081,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName)
 
 	for (i = 0;; i++) {
 		mir_snprintf(idstr, "Phone%d", i);
-		ptrT phone(getTStringA(idstr));
+		ptrW phone(getTStringA(idstr));
 		if (phone == NULL)
 			break;
 

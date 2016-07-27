@@ -726,7 +726,7 @@ char* get_fname(char *path)
 
 wchar_t* get_dir(wchar_t *path)
 {
-	wchar_t *cpath = mir_tstrdup(path);
+	wchar_t *cpath = mir_wstrdup(path);
 
 	wchar_t *swd = wcsrchr(cpath, '\\');
 	if (swd) swd[1] = 0; else cpath[0] = 0;

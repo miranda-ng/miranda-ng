@@ -65,7 +65,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				if (dbv.cVal == -100) unspecified = 1;
 				else {
 					ptstr = str;
-					mir_sntprintf(str, dbv.cVal ? L"GMT%+d:%02d" : L"GMT", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
+					mir_snwprintf(str, dbv.cVal ? L"GMT%+d:%02d" : L"GMT", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
 				}
 			} else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
@@ -79,7 +79,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					unspecified = 1;
 				} else {
 					ptstr = str;
-					mir_sntprintf(str, L"%S", pstr);
+					mir_snwprintf(str, L"%S", pstr);
 				}
 			}
 			else {
@@ -97,12 +97,12 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					unspecified = 1;
 				} else {
 					ptstr = str;
-					mir_sntprintf(str, L"%S", pstr);
+					mir_snwprintf(str, L"%S", pstr);
 				}
 				if (dbv.dVal == 0) unspecified = 1;
 			} else if (special == SVS_GGVERSION) {
 				ptstr = str;
-				mir_sntprintf(str, L"%S", (char *)gg_version2string(dbv.dVal));
+				mir_snwprintf(str, L"%S", (char *)gg_version2string(dbv.dVal));
 			} else {
 				ptstr = _itow(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
 			}
@@ -110,7 +110,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 		case DBVT_ASCIIZ:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			ptstr = str;
-			mir_sntprintf(str, L"%S", dbv.pszVal);
+			mir_snwprintf(str, L"%S", dbv.pszVal);
 			break;
 		case DBVT_TCHAR:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.ptszVal[0] == '\0');
@@ -118,14 +118,14 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			break;
 		case DBVT_UTF8:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
-			valT = mir_utf8decodeT(dbv.pszVal);
+			valT = mir_utf8decodeW(dbv.pszVal);
 			ptstr = str;
 			wcscpy_s(str, _countof(str), valT);
 			mir_free(valT);
 			break;
 		default:
 			ptstr = str;
-			mir_tstrcpy(str, L"???");
+			mir_wstrcpy(str, L"???");
 			break;
 		}
 	}
@@ -803,19 +803,19 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					break;
 
 				GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, _countof(text));
-				if (mir_tstrlen(text))
+				if (mir_wstrlen(text))
 					gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, T2Utf(text));
 
 				GetDlgItemText(hwndDlg, IDC_LASTNAME, text, _countof(text));
-				if (mir_tstrlen(text))
+				if (mir_wstrlen(text))
 					gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, T2Utf(text));
 
 				GetDlgItemText(hwndDlg, IDC_NICKNAME, text, _countof(text));
-				if (mir_tstrlen(text))
+				if (mir_wstrlen(text))
 					gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, T2Utf(text));
 
 				GetDlgItemText(hwndDlg, IDC_CITY, text, _countof(text));
-				if (mir_tstrlen(text))
+				if (mir_wstrlen(text))
 					gg_pubdir50_add(req, GG_PUBDIR50_CITY, T2Utf(text));
 
 				// Gadu-Gadu Female <-> Male
@@ -831,15 +831,15 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 
 				GetDlgItemText(hwndDlg, IDC_BIRTHYEAR, text, _countof(text));
-				if (mir_tstrlen(text))
+				if (mir_wstrlen(text))
 					gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, T2Utf(text));
 
 				GetDlgItemText(hwndDlg, IDC_FAMILYNAME, text, _countof(text));
-				if (mir_tstrlen(text))
+				if (mir_wstrlen(text))
 					gg_pubdir50_add(req, GG_PUBDIR50_FAMILYNAME, T2Utf(text));
 
 				GetDlgItemText(hwndDlg, IDC_CITYORIGIN, text, _countof(text));
-				if (mir_tstrlen(text))
+				if (mir_wstrlen(text))
 					gg_pubdir50_add(req, GG_PUBDIR50_FAMILYCITY, T2Utf(text));
 
 				// Run update

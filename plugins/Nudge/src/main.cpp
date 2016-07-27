@@ -51,7 +51,7 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 	int diff = time(NULL) - db_get_dw(hContact, "Nudge", "LastSent", time(NULL) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
 		wchar_t msg[500];
-		mir_sntprintf(msg, TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
+		mir_snwprintf(msg, TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
 		if (GlobalNudge.useByProtocol) {
 			for (int i = 0; i < arNudges.getCount(); i++) {
 				CNudgeElement &p = arNudges[i];
@@ -523,7 +523,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	p->hEvent = hevent;
 
 	wchar_t soundDesc[MAXMODULELABELLENGTH + 10];
-	mir_sntprintf(soundDesc, LPGENW("Nudge for %s"), proto->tszAccountName);
+	mir_snwprintf(soundDesc, LPGENW("Nudge for %s"), proto->tszAccountName);
 	SkinAddNewSoundExT(p->NudgeSoundname, LPGENW("Nudge"), soundDesc);
 
 	arNudges.insert(p);

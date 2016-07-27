@@ -77,9 +77,9 @@ HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPr
 {
 	HANDLE hSecurity = NULL;
 
-	if (mir_tstrcmpi(szProvider, L"Basic") == 0) {
+	if (mir_wstrcmpi(szProvider, L"Basic") == 0) {
 		NtlmHandleType* hNtlm = (NtlmHandleType*)mir_calloc(sizeof(NtlmHandleType));
-		hNtlm->szProvider = mir_tstrdup(szProvider);
+		hNtlm->szProvider = mir_wstrdup(szProvider);
 		SecInvalidateHandle(&hNtlm->hClientContext);
 		SecInvalidateHandle(&hNtlm->hClientCredential);
 		ntlmCnt++;
@@ -90,7 +90,7 @@ HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPr
 	mir_cslock lck(csSec);
 
 	PSecPkgInfo ntlmSecurityPackageInfo;
-	bool isGSSAPI = mir_tstrcmpi(szProvider, L"GSSAPI") == 0;
+	bool isGSSAPI = mir_wstrcmpi(szProvider, L"GSSAPI") == 0;
 	const wchar_t *szProviderC = isGSSAPI ? L"Kerberos" : szProvider;
 	SECURITY_STATUS sc = QuerySecurityPackageInfo((LPTSTR)szProviderC, &ntlmSecurityPackageInfo);
 	if (sc == SEC_E_OK) {
@@ -100,8 +100,8 @@ HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPr
 		hNtlm->cbMaxToken = ntlmSecurityPackageInfo->cbMaxToken;
 		FreeContextBuffer(ntlmSecurityPackageInfo);
 
-		hNtlm->szProvider = mir_tstrdup(szProvider);
-		hNtlm->szPrincipal = mir_tstrdup(szPrincipal ? szPrincipal : L"");
+		hNtlm->szProvider = mir_wstrdup(szProvider);
+		hNtlm->szPrincipal = mir_wstrdup(szPrincipal ? szPrincipal : L"");
 		SecInvalidateHandle(&hNtlm->hClientContext);
 		SecInvalidateHandle(&hNtlm->hClientCredential);
 		ntlmCnt++;
@@ -213,8 +213,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	char *szOutputToken;
 
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
-	if (mir_tstrcmpi(hNtlm->szProvider, L"Basic")) {
-		bool isGSSAPI = mir_tstrcmpi(hNtlm->szProvider, L"GSSAPI") == 0;
+	if (mir_wstrcmpi(hNtlm->szProvider, L"Basic")) {
+		bool isGSSAPI = mir_wstrcmpi(hNtlm->szProvider, L"GSSAPI") == 0;
 		wchar_t *szProvider = isGSSAPI ? (wchar_t*)L"Kerberos" : hNtlm->szProvider;
 		bool hasChallenge = szChallenge != NULL && szChallenge[0] != '\0';
 		if (hasChallenge) {
@@ -251,12 +251,12 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 					else domainLen /= sizeof(wchar_t);
 
 					if (domainLen) {
-						size_t newLoginLen = mir_tstrlen(login) + domainLen + 1;
+						size_t newLoginLen = mir_wstrlen(login) + domainLen + 1;
 						wchar_t *newLogin = (wchar_t*)alloca(newLoginLen * sizeof(wchar_t));
 
 						wcsncpy(newLogin, domainName, domainLen);
 						newLogin[domainLen] = '\\';
-						mir_tstrcpy(newLogin + domainLen + 1, login);
+						mir_wstrcpy(newLogin + domainLen + 1, login);
 
 						char* szChl = NtlmCreateResponseFromChallenge(hSecurity, NULL, newLogin, psw, http, complete);
 						mir_free(szChl);
@@ -280,23 +280,23 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				const wchar_t* loginName = login;
 				const wchar_t* domainName = wcschr(login, '\\');
 				size_t domainLen = 0;
-				size_t loginLen = mir_tstrlen(loginName);
+				size_t loginLen = mir_wstrlen(loginName);
 				if (domainName != NULL) {
 					loginName = domainName + 1;
-					loginLen = mir_tstrlen(loginName);
+					loginLen = mir_wstrlen(loginName);
 					domainLen = domainName - login;
 					domainName = login;
 				}
 				else if ((domainName = wcschr(login, '@')) != NULL) {
 					loginName = login;
 					loginLen = domainName - login;
-					domainLen = mir_tstrlen(++domainName);
+					domainLen = mir_wstrlen(++domainName);
 				}
 
 				auth.User = (PWORD)loginName;
 				auth.UserLength = (ULONG)loginLen;
 				auth.Password = (PWORD)psw;
-				auth.PasswordLength = (ULONG)mir_tstrlen(psw);
+				auth.PasswordLength = (ULONG)mir_wstrlen(psw);
 				auth.Domain = (PWORD)domainName;
 				auth.DomainLength = (ULONG)domainLen;
 				auth.Flags = SEC_WINNT_AUTH_IDENTITY_UNICODE;
@@ -341,8 +341,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	else {
 		if (!login || !psw) return NULL;
 
-		char *szLogin = mir_t2a(login);
-		char *szPassw = mir_t2a(psw);
+		char *szLogin = mir_u2a(login);
+		char *szPassw = mir_u2a(psw);
 
 		size_t authLen = mir_strlen(szLogin) + mir_strlen(szPassw) + 5;
 		char *szAuth = (char*)alloca(authLen);
@@ -361,7 +361,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	if (!http)
 		return szOutputToken;
 
-	ptrA szProvider(mir_t2a(hNtlm->szProvider));
+	ptrA szProvider(mir_u2a(hNtlm->szProvider));
 	size_t resLen = mir_strlen(szOutputToken) + mir_strlen(szProvider) + 10;
 	char *result = (char*)mir_alloc(resLen);
 	mir_snprintf(result, resLen, "%s %s", szProvider, szOutputToken);

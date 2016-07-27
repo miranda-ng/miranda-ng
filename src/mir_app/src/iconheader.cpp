@@ -226,9 +226,7 @@ static void MIcoTab_DrawItem(HWND hwnd, HDC hdc, MIcoTabCtrl *dat, MIcoTab *tab,
 		dto.dwFlags = DTT_COMPOSITED | DTT_GLOWSIZE;
 		dto.iGlowSize = 10;
 		HANDLE hTheme = OpenThemeData(hwnd, L"Window");
-		wchar_t *tcsNameW = mir_t2u(tab->tcsName);
-		drawThemeTextEx(hTheme, hdc, WP_CAPTION, CS_ACTIVE, tcsNameW, -1, DT_VCENTER | DT_CENTER | DT_END_ELLIPSIS, &textRect, &dto);
-		mir_free(tcsNameW);
+		drawThemeTextEx(hTheme, hdc, WP_CAPTION, CS_ACTIVE, tab->tcsName, -1, DT_VCENTER | DT_CENTER | DT_END_ELLIPSIS, &textRect, &dto);
 		CloseThemeData(hTheme);
 	}
 	else DrawText(hdc, tab->tcsName, -1, &textRect, DT_VCENTER | DT_CENTER | DT_END_ELLIPSIS);
@@ -463,9 +461,9 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			pListMit->flag = pMit->flag;
 			pListMit->data = pMit->data;
 			if (pMit->flag & MITCF_UNICODE)
-				pListMit->tcsName = mir_u2t(pMit->lpwzName);
+				pListMit->tcsName = mir_wstrdup(pMit->lpwzName);
 			else
-				pListMit->tcsName = mir_a2t(pMit->lpzName);
+				pListMit->tcsName = mir_a2u(pMit->lpzName);
 			if (pMit->hIcon) {
 				if (pListMit->flag&MITCF_SHAREDICON)
 					pListMit->hIcon = pMit->hIcon;

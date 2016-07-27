@@ -263,8 +263,8 @@ void CSkypeProto::UpdateProfileLastName(const JSONNode &root, MCONTACT hContact)
 
 void CSkypeProto::UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact)
 {
-	ptrT firstname(getTStringA(hContact, "FirstName"));
-	ptrT lastname(getTStringA(hContact, "LastName"));
+	ptrW firstname(getTStringA(hContact, "FirstName"));
+	ptrW lastname(getTStringA(hContact, "LastName"));
 	if (firstname) {
 		CMString nick(firstname);
 		if (lastname)

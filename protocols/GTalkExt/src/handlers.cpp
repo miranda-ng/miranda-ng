@@ -41,25 +41,25 @@ GoogleTalkAcc* isGoogle(LPARAM lParam)
 void FormatMessageUrl(LPCTSTR format, LPTSTR buf, LPCTSTR mailbox, LPCTSTR tid)
 {
 	ULARGE_INTEGER iTid; iTid.QuadPart = _wtoi64(tid);
-	size_t l = mir_tstrlen(buf);
-	mir_sntprintf(buf, l, format, mailbox, iTid.HighPart, iTid.LowPart);
-	assert(l >= mir_tstrlen(buf));
+	size_t l = mir_wstrlen(buf);
+	mir_snwprintf(buf, l, format, mailbox, iTid.HighPart, iTid.LowPart);
+	assert(l >= mir_wstrlen(buf));
 }
 
 void MakeUrlHex(LPTSTR url, LPCTSTR tid)
 {
 	ULARGE_INTEGER iTid; iTid.QuadPart = _wtoi64(tid);
 	LPTSTR tidInUrl = wcsstr(url, tid);
-	LPTSTR trail = tidInUrl + mir_tstrlen(tid);
+	LPTSTR trail = tidInUrl + mir_wstrlen(tid);
 	wsprintf(tidInUrl, L"%x%08x", iTid.HighPart, iTid.LowPart); //!!!!!!!!!!!!
-	wmemmove(tidInUrl + mir_tstrlen(tidInUrl), trail, mir_tstrlen(trail) + 1);
+	wmemmove(tidInUrl + mir_wstrlen(tidInUrl), trail, mir_wstrlen(trail) + 1);
 }
 
 LPTSTR ExtractJid(LPCTSTR jidWithRes)
 {
 	LPCTSTR p = wcsrchr(jidWithRes, '/');
 	if (p == NULL)
-		return mir_tstrdup(jidWithRes);
+		return mir_wstrdup(jidWithRes);
 
 	size_t l = size_t(p - jidWithRes);
 	LPTSTR result = (LPTSTR)mir_alloc((l + 1) * sizeof(wchar_t));
@@ -149,7 +149,7 @@ BOOL MailListHandler(IJabberInterface *ji, HXML node, void *)
 {
 	LPCTSTR jidWithRes = xmlGetAttrValue(node, ATTRNAME_TO);
 	__try {
-		if (!node || mir_tstrcmp(xmlGetAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT)) return TRUE;
+		if (!node || mir_wstrcmp(xmlGetAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT)) return TRUE;
 
 		LPCTSTR jid = xmlGetAttrValue(node, ATTRNAME_FROM);
 		assert(jid);
@@ -177,15 +177,15 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 	xmlAddAttr(node, ATTRNAME_FROM, jidWithRes);
 
 	UINT uID = ji->SerialNext();
-	ptrT jid(ExtractJid(jidWithRes));
+	ptrW jid(ExtractJid(jidWithRes));
 	xmlAddAttr(node, ATTRNAME_TO, jid);
 
-	ptrT
+	ptrW
 		lastMailTime(ReadJidSetting(LAST_MAIL_TIME_FROM_JID, jid)),
 		lastThreadId(ReadJidSetting(LAST_THREAD_ID_FROM_JID, jid));
 
 	wchar_t id[30];
-	mir_sntprintf(id, JABBER_IQID_FORMAT, uID);
+	mir_snwprintf(id, JABBER_IQID_FORMAT, uID);
 	xmlAddAttr(node, ATTRNAME_ID, id);
 
 	child = xmlAddChild(node, NODENAME_QUERY, NULL);
@@ -241,11 +241,11 @@ void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 	xmlAddAttr(node, ATTRNAME_TYPE, IQTYPE_SET);
 	xmlAddAttr(node, ATTRNAME_FROM, jidWithResource);
 
-	ptrT jid(ExtractJid(jidWithResource));
+	ptrW jid(ExtractJid(jidWithResource));
 	xmlAddAttr(node, ATTRNAME_TO, jid);
 
 	wchar_t id[30];
-	mir_sntprintf(id, JABBER_IQID_FORMAT, ji->SerialNext());
+	mir_snwprintf(id, JABBER_IQID_FORMAT, ji->SerialNext());
 	xmlAddAttr(node, ATTRNAME_ID, id);
 
 	child = xmlAddChild(node, NODENAME_USERSETTING, NULL);
@@ -294,7 +294,7 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *)
 			ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, _wtoi(ptszId + 4), NULL, RESPONSE_TIMEOUT, 500);
 	}
 
-	if (!mir_tstrcmp(xmlGetName(node), L"presence") && xmlGetAttrValue(node, ATTRNAME_TO) == 0) {
+	if (!mir_wstrcmp(xmlGetName(node), L"presence") && xmlGetAttrValue(node, ATTRNAME_TO) == 0) {
 		if (!gta->m_bGoogleSharedStatus)
 			return FALSE;
 
@@ -317,7 +317,7 @@ BOOL OnIqResultGoogleSharedStatus(IJabberInterface *ji, HXML node, void *)
 {
 	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
 	if (gta != NULL) {
-		gta->m_bGoogleSharedStatus = mir_tstrcmp(xmlGetAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT) == 0;
+		gta->m_bGoogleSharedStatus = mir_wstrcmp(xmlGetAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT) == 0;
 		gta->m_bGoogleSharedStatusLock = FALSE;
 	}
 	return FALSE;
@@ -328,7 +328,7 @@ BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *)
 	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
 	if (gta == NULL)
 		return FALSE;
-	if (mir_tstrcmp(xmlGetAttrValue(iqNode, ATTRNAME_TYPE), IQTYPE_SET))
+	if (mir_wstrcmp(xmlGetAttrValue(iqNode, ATTRNAME_TYPE), IQTYPE_SET))
 		return FALSE;
 	if (gta->m_bGoogleSharedStatusLock)
 		return TRUE;
@@ -336,11 +336,11 @@ BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *)
 	int status;
 	HXML query = xmlGetChildByPath(iqNode, NODENAME_QUERY, 0);
 	HXML node = xmlGetChildByPath(query, L"invisible", 0);
-	if (0 == mir_tstrcmpi(L"true", xmlGetAttrValue(node, L"value")))
+	if (0 == mir_wstrcmpi(L"true", xmlGetAttrValue(node, L"value")))
 		status = ID_STATUS_INVISIBLE;
 	else {
 		LPCTSTR txt = xmlGetText(xmlGetChildByPath(query, L"show", 0));
-		if (txt && 0 == mir_tstrcmpi(L"dnd", txt))
+		if (txt && 0 == mir_wstrcmpi(L"dnd", txt))
 			status = ID_STATUS_DND;
 		else if (gta->m_pa->ppro->m_iStatus == ID_STATUS_DND || gta->m_pa->ppro->m_iStatus == ID_STATUS_INVISIBLE)
 			status = ID_STATUS_ONLINE;
@@ -364,12 +364,12 @@ void GoogleTalkAcc::SendIqGoogleSharedStatus(LPCTSTR status, LPCTSTR msg)
 	xmlAddAttrInt(query, L"version", 2);
 
 	xmlAddChild(query, L"status", msg);
-	if (!mir_tstrcmp(status, L"invisible")) {
+	if (!mir_wstrcmp(status, L"invisible")) {
 		xmlAddChild(query, L"show", L"default");
 		xmlAddAttr(xmlAddChild(query, L"invisible", 0), L"value", L"true");
 	}
 	else {
-		if (!mir_tstrcmp(status, L"dnd"))
+		if (!mir_wstrcmp(status, L"dnd"))
 			xmlAddChild(query, L"show", L"dnd");
 		else
 			xmlAddChild(query, L"show", L"default");
@@ -390,7 +390,7 @@ int OnServerDiscoInfo(WPARAM wParam, LPARAM lParam)
 	// m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PING;
 
 	JABBER_DISCO_FIELD *fld = (JABBER_DISCO_FIELD*)wParam;
-	if (!mir_tstrcmp(fld->category, L"server") && !mir_tstrcmp(fld->type, L"im") && !mir_tstrcmp(fld->name, L"Google Talk")) {
+	if (!mir_wstrcmp(fld->category, L"server") && !mir_wstrcmp(fld->type, L"im") && !mir_wstrcmp(fld->name, L"Google Talk")) {
 		HXML iq = xmlCreateNode(NODENAME_IQ, NULL, FALSE);
 		xmlAddAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
 

@@ -63,7 +63,7 @@ wchar_t* fnGetGroupCountsText(ClcData *dat, ClcContact *contact)
 		return L"";
 
 	static wchar_t szName[32];
-	mir_sntprintf(szName, L"(%u/%u)", onlineCount, totalCount);
+	mir_snwprintf(szName, L"(%u/%u)", onlineCount, totalCount);
 	return szName;
 }
 
@@ -168,7 +168,7 @@ int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contac
 	HFONT hFont = (HFONT)SelectObject(hdc, dat->fontInfo[hitcontact->type == CLCIT_GROUP ? FONTID_GROUPS : FONTID_CONTACTS].hFont);
 
 	SIZE textSize;
-	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_tstrlen(hitcontact->szText), &textSize);
+	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_wstrlen(hitcontact->szText), &textSize);
 	int width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
 		wchar_t *szCounts;
@@ -177,7 +177,7 @@ int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contac
 			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
 			width += textSize.cx;
 			SelectObject(hdc, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
-			GetTextExtentPoint32(hdc, szCounts, (int)mir_tstrlen(szCounts), &textSize);
+			GetTextExtentPoint32(hdc, szCounts, (int)mir_wstrlen(szCounts), &textSize);
 			width += textSize.cx;
 		}
 	}
@@ -363,7 +363,7 @@ void fnDoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 int fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 {
 	ClcGroup *group = &dat->list;
-	size_t testlen = mir_tstrlen(text);
+	size_t testlen = mir_wstrlen(text);
 
 	group->scanIndex = 0;
 	for (;;) {
@@ -382,7 +382,7 @@ int fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 				wchar_t *lowered_text = CharLowerW(NEWWSTR_ALLOCA(text));
 				show = wcsstr(lowered_szText, lowered_text) != NULL;
 			}
-			else show = ((prefixOk && !wcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, cc->szText)));
+			else show = ((prefixOk && !wcsnicmp(text, cc->szText, testlen)) || (!prefixOk && !mir_wstrcmpi(text, cc->szText)));
 
 			if (show) {
 				ClcGroup *contactGroup = group;
@@ -417,11 +417,11 @@ void fnEndRename(HWND, ClcData *dat, int save)
 
 		ClcContact *contact;
 		if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL) != -1) {
-			if (mir_tstrcmp(contact->szText, text) && !wcsstr(text, L"\\")) {
+			if (mir_wstrcmp(contact->szText, text) && !wcsstr(text, L"\\")) {
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
 						wchar_t szFullName[256];
-						mir_sntprintf(szFullName, L"%s\\%s",
+						mir_snwprintf(szFullName, L"%s\\%s",
 							Clist_GroupGetName(contact->group->parent->groupId, NULL), text);
 						Clist_GroupRename(contact->groupId, szFullName);
 					}
@@ -431,7 +431,7 @@ void fnEndRename(HWND, ClcData *dat, int save)
 				else if (contact->type == CLCIT_CONTACT) {
 					cli.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
 					wchar_t* otherName = cli.pfnGetContactDisplayName(contact->hContact, GCDNF_NOMYHANDLE);
-					if (!text[0] || !mir_tstrcmp(otherName, text))
+					if (!text[0] || !mir_wstrcmp(otherName, text))
 						db_unset(contact->hContact, "CList", "MyHandle");
 					else
 						db_set_ts(contact->hContact, "CList", "MyHandle", text);
@@ -698,9 +698,9 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 
 	char idstr[20];
 	mir_snprintf(idstr, "Font%dName", i);
-	ptrT tszFace(db_get_tsa(NULL, "CLC", idstr));
+	ptrW tszFace(db_get_tsa(NULL, "CLC", idstr));
 	if (tszFace)
-		mir_tstrcpy(lf->lfFaceName, tszFace);
+		mir_wstrcpy(lf->lfFaceName, tszFace);
 
 	mir_snprintf(idstr, "Font%dCol", i);
 	*colour = db_get_dw(NULL, "CLC", idstr, *colour);
@@ -769,7 +769,7 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 			dat->hBmpBackground = NULL;
 		}
 		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrT tszBitmap(db_get_tsa(NULL, "CLC", "BkBitmap"));
+			ptrW tszBitmap(db_get_tsa(NULL, "CLC", "BkBitmap"));
 			if (tszBitmap)
 				dat->hBmpBackground = Bitmap_Load(tszBitmap);
 		}

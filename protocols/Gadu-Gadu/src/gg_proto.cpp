@@ -40,7 +40,7 @@ GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
 
 	// Register m_hNetlibUser user
 	wchar_t name[128];
-	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
+	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
@@ -68,7 +68,7 @@ GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
 	db_set_resident(m_szModuleName, GG_KEY_AVATARREQUESTED);
 
 	wchar_t szPath[MAX_PATH];
-	mir_sntprintf(szPath, L"%s\\%s\\ImageCache", (wchar_t*)VARST(L"%miranda_userdata%"), m_tszUserName);
+	mir_snwprintf(szPath, L"%s\\%s\\ImageCache", (wchar_t*)VARST(L"%miranda_userdata%"), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
 	DWORD dwVersion;
@@ -379,7 +379,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	// Fetch search data
 	wchar_t text[64];
 	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, _countof(text));
-	if (mir_tstrlen(text)) {
+	if (mir_wstrlen(text)) {
 		T2Utf firstName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
 		szQuery.Append(firstName_utf8);
@@ -387,7 +387,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 1 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, _countof(text));
-	if (mir_tstrlen(text)) {
+	if (mir_wstrlen(text)) {
 		T2Utf lastName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
 		szQuery.Append(lastName_utf8);
@@ -395,7 +395,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 2 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, _countof(text));
-	if (mir_tstrlen(text)) {
+	if (mir_wstrlen(text)) {
 		T2Utf nickName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickName_utf8);
 		szQuery.Append(nickName_utf8);
@@ -403,7 +403,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 3 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_CITY, text, _countof(text));
-	if (mir_tstrlen(text)) {
+	if (mir_wstrlen(text)) {
 		T2Utf city_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_CITY, city_utf8);
 		szQuery.Append(city_utf8);
@@ -411,7 +411,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 4 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_AGEFROM, text, _countof(text));
-	if (mir_tstrlen(text)) {
+	if (mir_wstrlen(text)) {
 		int yearTo = _tstoi(text);
 		int yearFrom;
 		time_t t = time(NULL);
@@ -431,7 +431,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 			yearFrom = 0;
 		else
 			yearFrom = ay - yearFrom;
-		mir_sntprintf(text, L"%d %d", yearFrom, yearTo);
+		mir_snwprintf(text, L"%d %d", yearFrom, yearTo);
 
 		T2Utf age_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, age_utf8);
@@ -653,7 +653,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 	}
 
 	// Check if we change status here somehow
-	if (*msgPtr && newMsg && !mir_tstrcmp(*msgPtr, newMsg)
+	if (*msgPtr && newMsg && !mir_wstrcmp(*msgPtr, newMsg)
 		|| !*msgPtr && (!newMsg || !*newMsg)) {
 		if (status == m_iDesiredStatus && m_iDesiredStatus == m_iStatus) {
 			debugLogA("SetAwayMsg(): Message hasn't been changed, return.");
@@ -664,7 +664,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 	else {
 		if (*msgPtr)
 			mir_free(*msgPtr);
-		*msgPtr = newMsg && *newMsg ? mir_tstrdup(newMsg) : NULL;
+		*msgPtr = newMsg && *newMsg ? mir_wstrdup(newMsg) : NULL;
 	#ifdef DEBUGMODE
 		debugLogA("SetAwayMsg(): Message changed.");
 	#endif

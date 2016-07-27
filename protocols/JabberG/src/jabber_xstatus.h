@@ -114,7 +114,7 @@ public:
 	CPepService *Find(wchar_t *node)
 	{
 		for (int i=0; i < getCount(); i++)
-			if (!mir_tstrcmp((*this)[i].GetNode(), node))
+			if (!mir_wstrcmp((*this)[i].GetNode(), node))
 				return &((*this)[i]);
 		return NULL;
 	}

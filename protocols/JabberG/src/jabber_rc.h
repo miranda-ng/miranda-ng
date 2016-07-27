@@ -112,9 +112,9 @@ public:
 	CJabberAdhocNode(CJabberProto* pProto, wchar_t* szJid, wchar_t* szNode, wchar_t* szName, JABBER_ADHOC_HANDLER pHandler)
 	{
 		memset(this, 0, sizeof(CJabberAdhocNode));
-		replaceStrT(m_szJid, szJid);
-		replaceStrT(m_szNode, szNode);
-		replaceStrT(m_szName, szName);
+		replaceStrW(m_szJid, szJid);
+		replaceStrW(m_szNode, szNode);
+		replaceStrW(m_szName, szName);
 		m_pHandler = pHandler;
 		m_pProto = pProto;
 	}
@@ -169,7 +169,7 @@ protected:
 	{
 		CJabberAdhocSession* pSession = m_pSessions;
 		while (pSession) {
-			if (!mir_tstrcmp(pSession->GetSessionId(), szSession))
+			if (!mir_wstrcmp(pSession->GetSessionId(), szSession))
 				return pSession;
 			pSession = pSession->GetNext();
 		}
@@ -192,7 +192,7 @@ protected:
 	{
 		CJabberAdhocNode* pNode = m_pNodes;
 		while (pNode) {
-			if (!mir_tstrcmp(pNode->GetNode(), szNode))
+			if (!mir_wstrcmp(pNode->GetNode(), szNode))
 				return pNode;
 			pNode = pNode->GetNext();
 		}

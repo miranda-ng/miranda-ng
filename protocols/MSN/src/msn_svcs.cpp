@@ -81,7 +81,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		MSN_GetAvatarFileName(NULL, filename, _countof(filename), NULL);
 		pai->format = ProtoGetAvatarFormat(filename);
 		if (pai->format != PA_FORMAT_UNKNOWN)
-			mir_tstrcpy(pai->filename, filename);
+			mir_wstrcpy(pai->filename, filename);
 		return pai->format == PA_FORMAT_UNKNOWN ? GAIR_NOAVATAR : GAIR_SUCCESS;
 	}
 
@@ -113,7 +113,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				mir_free(szAvatarHash);
 			}
 		}
-		mir_tstrcpy(pai->filename, filename);
+		mir_wstrcpy(pai->filename, filename);
 		return GAIR_SUCCESS;
 	}
 
@@ -140,7 +140,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			ft->p2p_object = mir_strdup(szContext);
 
 			MSN_GetAvatarFileName(pai->hContact, filename, _countof(filename), L"unk");
-			ft->std.tszCurrentFile = mir_tstrdup(filename);
+			ft->std.tszCurrentFile = mir_wstrdup(filename);
 
 			p2p_invite(MSN_APPID_AVATAR, ft, NULL);
 		}
@@ -216,7 +216,7 @@ INT_PTR CMsnProto::SetAvatar(WPARAM, LPARAM lParam)
 		MSN_SetMyAvatar(fname, pData, dwPngSize);
 
 		StoreAvatarData* par = (StoreAvatarData*)mir_alloc(sizeof(StoreAvatarData));
-		par->szName = mir_tstrdup(fname);
+		par->szName = mir_wstrdup(fname);
 		par->data = pData;
 		par->dataSize = dwPngSize;
 		par->szMimeType = "image/png";
@@ -301,15 +301,15 @@ INT_PTR CMsnProto::GetCurrentMedia(WPARAM, LPARAM lParam)
 	if (cm == NULL || cm->cbSize != sizeof(LISTENINGTOINFO))
 		return -1;
 
-	cm->ptszArtist = mir_tstrdup(msnCurrentMedia.ptszArtist);
-	cm->ptszAlbum = mir_tstrdup(msnCurrentMedia.ptszAlbum);
-	cm->ptszTitle = mir_tstrdup(msnCurrentMedia.ptszTitle);
-	cm->ptszTrack = mir_tstrdup(msnCurrentMedia.ptszTrack);
-	cm->ptszYear = mir_tstrdup(msnCurrentMedia.ptszYear);
-	cm->ptszGenre = mir_tstrdup(msnCurrentMedia.ptszGenre);
-	cm->ptszLength = mir_tstrdup(msnCurrentMedia.ptszLength);
-	cm->ptszPlayer = mir_tstrdup(msnCurrentMedia.ptszPlayer);
-	cm->ptszType = mir_tstrdup(msnCurrentMedia.ptszType);
+	cm->ptszArtist = mir_wstrdup(msnCurrentMedia.ptszArtist);
+	cm->ptszAlbum = mir_wstrdup(msnCurrentMedia.ptszAlbum);
+	cm->ptszTitle = mir_wstrdup(msnCurrentMedia.ptszTitle);
+	cm->ptszTrack = mir_wstrdup(msnCurrentMedia.ptszTrack);
+	cm->ptszYear = mir_wstrdup(msnCurrentMedia.ptszYear);
+	cm->ptszGenre = mir_wstrdup(msnCurrentMedia.ptszGenre);
+	cm->ptszLength = mir_wstrdup(msnCurrentMedia.ptszLength);
+	cm->ptszPlayer = mir_wstrdup(msnCurrentMedia.ptszPlayer);
+	cm->ptszType = mir_wstrdup(msnCurrentMedia.ptszType);
 	cm->dwFlags = msnCurrentMedia.dwFlags;
 
 	return 0;
@@ -360,7 +360,7 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM, LPARAM lParam)
 			text = (wchar_t *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&msnCurrentMedia);
 		else {
 			text = (wchar_t *)mir_alloc(128 * sizeof(wchar_t));
-			mir_sntprintf(text, 128, L"%s - %s", (msnCurrentMedia.ptszTitle ? msnCurrentMedia.ptszTitle : L""),
+			mir_snwprintf(text, 128, L"%s - %s", (msnCurrentMedia.ptszTitle ? msnCurrentMedia.ptszTitle : L""),
 				(msnCurrentMedia.ptszArtist ? msnCurrentMedia.ptszArtist : L""));
 		}
 		setTString("ListeningTo", text);

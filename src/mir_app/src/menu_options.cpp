@@ -40,8 +40,8 @@ struct MenuItemOptData : public MZeroedObject
 
 	int    pos;
 
-	ptrT   name;
-	ptrT   defname;
+	ptrW   name;
+	ptrW   defname;
 	
 	bool   bShow;
 	int    id;
@@ -91,7 +91,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 					int visible = tvi.iImage != 0;
 					wchar_t *ptszCustomName;
-					if (iod->name != NULL && iod->defname != NULL && mir_tstrcmp(iod->name, iod->defname) != 0)
+					if (iod->name != NULL && iod->defname != NULL && mir_wstrcmp(iod->name, iod->defname) != 0)
 						ptszCustomName = iod->name;
 					else
 						ptszCustomName = L"";
@@ -110,7 +110,7 @@ class CGenMenuOptionsPage : public CDlgBase
 				runtimepos += 100;
 			}
 
-			if (iod->name && !mir_tstrcmp(iod->name, STR_SEPARATOR) && tvi.iImage)
+			if (iod->name && !mir_wstrcmp(iod->name, STR_SEPARATOR) && tvi.iImage)
 				runtimepos += SEPARATORPOSITIONINTERVAL;
 
 			tvi.hItem = m_menuItems.GetNextSibling(tvi.hItem);
@@ -170,8 +170,8 @@ class CGenMenuOptionsPage : public CDlgBase
 
 			MenuItemOptData *PD = new MenuItemOptData();
 			PD->pimi = p;
-			PD->defname = mir_tstrdup(GetMenuItemText(p));
-			PD->name = mir_tstrdup((bReread && p->ptszCustomName != NULL) ? p->ptszCustomName : PD->defname);
+			PD->defname = mir_wstrdup(GetMenuItemText(p));
+			PD->name = mir_wstrdup((bReread && p->ptszCustomName != NULL) ? p->ptszCustomName : PD->defname);
 			PD->bShow = (p->mi.flags & CMIF_HIDDEN) == 0;
 			PD->pos = (bReread) ? p->mi.position : p->originalPosition;
 			PD->id = p->iCommand;
@@ -191,7 +191,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			if (i > 0 && PD->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
 				MenuItemOptData *sep = new MenuItemOptData();
 				sep->id = -1;
-				sep->name = mir_tstrdup(STR_SEPARATOR);
+				sep->name = mir_wstrdup(STR_SEPARATOR);
 				sep->pos = PD->pos - 1;
 
 				tvis.item.lParam = (LPARAM)sep;
@@ -364,7 +364,7 @@ public:
 
 		MenuItemOptData *PD = new MenuItemOptData();
 		PD->id = -1;
-		PD->name = mir_tstrdup(STR_SEPARATOR);
+		PD->name = mir_wstrdup(STR_SEPARATOR);
 		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
 
 		TVINSERTSTRUCT tvis = { 0 };
@@ -401,7 +401,7 @@ public:
 
 		MenuItemOptData *PD = new MenuItemOptData();
 		PD->id = -1;
-		PD->name = mir_tstrdup(pimi->mi.name.w);
+		PD->name = mir_wstrdup(pimi->mi.name.w);
 		PD->pos = pimi->mi.position;
 		PD->pimi = pimi;
 
@@ -440,7 +440,7 @@ public:
 		if (iod->name && wcsstr(iod->name, STR_SEPARATOR))
 			return;
 
-		iod->name = mir_tstrdup(iod->defname);
+		iod->name = mir_wstrdup(iod->defname);
 		m_customName.SetText(iod->defname);
 
 		tvi.mask = TVIF_TEXT;
@@ -513,7 +513,7 @@ public:
 		}
 
 		m_btnInsMenu.Enable(iod->pimi->mi.root == NULL);
-		m_btnDefault.Enable(mir_tstrcmp(iod->name, iod->defname) != 0);
+		m_btnDefault.Enable(mir_wstrcmp(iod->name, iod->defname) != 0);
 		m_btnSet.Enable(true);
 		m_customName.Enable(true);
 	}

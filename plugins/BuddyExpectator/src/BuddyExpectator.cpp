@@ -231,8 +231,8 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 				ppd.lchContact = hContact;
 				ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
-				mir_sntprintf(ppd.lptzContactName, TranslateT("Hiding %s (%S)"), pcli->pfnGetContactDisplayName(hContact, 0), GetContactProto(hContact));
-				mir_sntprintf(ppd.lptzText, TranslateT("%d days since last message"), daysSinceMessage);
+				mir_snwprintf(ppd.lptzContactName, TranslateT("Hiding %s (%S)"), pcli->pfnGetContactDisplayName(hContact, 0), GetContactProto(hContact));
+				mir_snwprintf(ppd.lptzText, TranslateT("%d days since last message"), daysSinceMessage);
 
 				if (!options.iUsePopupColors) {
 					ppd.colorBack = options.iPopupColorBack;
@@ -286,7 +286,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 
 		wchar_t* nick = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
 		wchar_t tmpMsg[512];
-		mir_sntprintf(tmpMsg, L"%s %s", nick, message);
+		mir_snwprintf(tmpMsg, L"%s %s", nick, message);
 		cle.ptszTooltip = tmpMsg;
 		pcli->pfnAddEvent(&cle);
 	}
@@ -323,7 +323,7 @@ void GoneNotify(MCONTACT hContact, wchar_t *message)
 
 		wchar_t* nick = (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
 		wchar_t tmpMsg[512];
-		mir_sntprintf(tmpMsg, L"%s %s", nick, message);
+		mir_snwprintf(tmpMsg, L"%s %s", nick, message);
 		cle.ptszTooltip = tmpMsg;
 		cle.flags = CLEF_TCHAR;
 		pcli->pfnAddEvent(&cle);

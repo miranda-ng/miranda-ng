@@ -5,17 +5,17 @@
 CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
 	: L(L), status(None), unloadRef(LUA_NOREF)
 {
-	mir_tstrcpy(filePath, path);
+	mir_wstrcpy(filePath, path);
 
 	fileName = wcsrchr(filePath, '\\') + 1;
 	wchar_t *dot = wcsrchr(fileName, '.');
 
-	size_t length = mir_tstrlen(fileName) - mir_tstrlen(dot) + 1;
+	size_t length = mir_wstrlen(fileName) - mir_wstrlen(dot) + 1;
 
-	ptrT name((wchar_t*)mir_calloc(sizeof(wchar_t) * (length + 1)));
-	mir_tstrncpy(name, fileName, length);
+	ptrW name((wchar_t*)mir_calloc(sizeof(wchar_t) * (length + 1)));
+	mir_wstrncpy(name, fileName, length);
 
-	moduleName = mir_utf8encodeT(name);
+	moduleName = mir_utf8encodeW(name);
 
 	MUUID muidLast = MIID_LAST;
 	id = GetPluginLangId(muidLast, 0);

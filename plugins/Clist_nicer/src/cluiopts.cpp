@@ -84,7 +84,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Utils::enableDlgControl(hwndDlg, IDC_AUTOSIZEUPWARD, FALSE);
 		}
 		{
-			ptrT tszTitle(db_get_tsa(NULL, "CList", "TitleText"));
+			ptrW tszTitle(db_get_tsa(NULL, "CList", "TitleText"));
 			if (tszTitle != NULL)
 				SetDlgItemText(hwndDlg, IDC_TITLETEXT, tszTitle);
 			else

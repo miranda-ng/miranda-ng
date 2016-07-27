@@ -43,9 +43,9 @@ protected:
 public:
 	CJabberSDIdentity(const wchar_t *szCategory, const wchar_t *szType, const wchar_t *szName)
 	{
-		m_szCategory = mir_tstrdup(szCategory);
-		m_szType = mir_tstrdup(szType);
-		m_szName = mir_tstrdup(szName);
+		m_szCategory = mir_wstrdup(szCategory);
+		m_szType = mir_wstrdup(szType);
+		m_szName = mir_wstrdup(szName);
 		m_pNext = NULL;
 	}
 	~CJabberSDIdentity()
@@ -89,7 +89,7 @@ protected:
 public:
 	CJabberSDFeature(const wchar_t *szVar)
 	{
-		m_szVar = szVar ? mir_tstrdup(szVar) : NULL;
+		m_szVar = szVar ? mir_wstrdup(szVar) : NULL;
 		m_pNext = NULL;
 	}
 	~CJabberSDFeature()
@@ -134,9 +134,9 @@ protected:
 public:
 	CJabberSDNode(const wchar_t *szJid = NULL, const wchar_t *szNode = NULL, const wchar_t *szName = NULL)
 	{
-		m_szJid = mir_tstrdup(szJid);
-		m_szNode = mir_tstrdup(szNode);
-		m_szName = mir_tstrdup(szName);
+		m_szJid = mir_wstrdup(szJid);
+		m_szNode = mir_wstrdup(szNode);
+		m_szName = mir_wstrdup(szName);
 		m_pIdentities = NULL;
 		m_pFeatures = NULL;
 		m_pNext = NULL;
@@ -155,11 +155,11 @@ public:
 	}
 	BOOL RemoveAll()
 	{
-		replaceStrT(m_szJid, NULL);
-		replaceStrT(m_szNode, NULL);
-		replaceStrT(m_szName, NULL);
-		replaceStrT(m_szInfoError, NULL);
-		replaceStrT(m_szItemsError, NULL);
+		replaceStrW(m_szJid, NULL);
+		replaceStrW(m_szNode, NULL);
+		replaceStrW(m_szName, NULL);
+		replaceStrW(m_szInfoError, NULL);
+		replaceStrW(m_szItemsError, NULL);
 		if (m_pIdentities)
 			delete m_pIdentities;
 		m_pIdentities = NULL;
@@ -181,8 +181,8 @@ public:
 	}
 	BOOL ResetInfo()
 	{
-		replaceStrT(m_szInfoError, NULL);
-		replaceStrT(m_szItemsError, NULL);
+		replaceStrW(m_szInfoError, NULL);
+		replaceStrW(m_szItemsError, NULL);
 		if (m_pIdentities)
 			delete m_pIdentities;
 		m_pIdentities = NULL;
@@ -229,7 +229,7 @@ public:
 	}
 	BOOL SetJid(wchar_t *szJid)
 	{
-		replaceStrT(m_szJid, szJid);
+		replaceStrW(m_szJid, szJid);
 		return TRUE;
 	}
 	wchar_t *GetJid()
@@ -238,7 +238,7 @@ public:
 	}
 	BOOL SetNode(wchar_t *szNode)
 	{
-		replaceStrT(m_szNode, szNode);
+		replaceStrW(m_szNode, szNode);
 		return TRUE;
 	}
 	wchar_t *GetNode()
@@ -335,13 +335,13 @@ public:
 
 	BOOL SetItemsRequestErrorText(wchar_t *szError)
 	{
-		replaceStrT(m_szItemsError, szError);
+		replaceStrW(m_szItemsError, szError);
 		return TRUE;
 	}
 
 	BOOL SetInfoRequestErrorText(wchar_t *szError)
 	{
-		replaceStrT(m_szInfoError, szError);
+		replaceStrW(m_szInfoError, szError);
 		return TRUE;
 	}
 

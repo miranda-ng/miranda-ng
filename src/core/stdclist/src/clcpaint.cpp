@@ -313,7 +313,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				ChangeToFont(hdcMem, dat, FONTID_OFFLINE, &fontHeight);
 			else
 				ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
-			GetTextExtentPoint32(hdcMem, cc->szText, (int)mir_tstrlen(cc->szText), &textSize);
+			GetTextExtentPoint32(hdcMem, cc->szText, (int)mir_wstrlen(cc->szText), &textSize);
 			width = textSize.cx;
 
 			wchar_t *ptszGroupCount = NULL;
@@ -322,7 +322,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				if (*ptszGroupCount) {
 					GetTextExtentPoint32(hdcMem, L" ", 1, &spaceSize);
 					ChangeToFont(hdcMem, dat, FONTID_GROUPCOUNTS, &fontHeight);
-					GetTextExtentPoint32(hdcMem, ptszGroupCount, (int)mir_tstrlen(ptszGroupCount), &countsSize);
+					GetTextExtentPoint32(hdcMem, ptszGroupCount, (int)mir_wstrlen(ptszGroupCount), &countsSize);
 					width += spaceSize.cx + countsSize.cx;
 				}
 			}
@@ -409,7 +409,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				rc.left = dat->leftMargin + indent * dat->groupIndent;
 				rc.right = rc.left + ((clRect.right - rc.left - textSize.cx) >> 1) - 3;
 				DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
-				TextOut(hdcMem, rc.right + 3, y + ((dat->rowHeight - fontHeight) >> 1), cc->szText, (int)mir_tstrlen(cc->szText));
+				TextOut(hdcMem, rc.right + 3, y + ((dat->rowHeight - fontHeight) >> 1), cc->szText, (int)mir_wstrlen(cc->szText));
 				rc.left = rc.right + 6 + textSize.cx;
 				rc.right = clRect.right;
 				DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
@@ -425,16 +425,16 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					if (rc.right < rc.left + 4)
 						rc.right = clRect.right + 1;
 					else
-						TextOut(hdcMem, rc.right, rc.top + groupCountsFontTopShift, ptszGroupCount, (int)mir_tstrlen(ptszGroupCount));
+						TextOut(hdcMem, rc.right, rc.top + groupCountsFontTopShift, ptszGroupCount, (int)mir_wstrlen(ptszGroupCount));
 					ChangeToFont(hdcMem, dat, FONTID_GROUPS, &fontHeight);
 					if (selected)
 						SetTextColor(hdcMem, dat->selTextColour);
 					else if (hottrack)
 						SetHotTrackColour(hdcMem, dat);
 					rc.right--;
-					ExtTextOut(hdcMem, rc.left, rc.top, ETO_CLIPPED, &rc, cc->szText, (int)mir_tstrlen(cc->szText), NULL);
+					ExtTextOut(hdcMem, rc.left, rc.top, ETO_CLIPPED, &rc, cc->szText, (int)mir_wstrlen(cc->szText), NULL);
 				}
-				else TextOut(hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace, y + ((dat->rowHeight - fontHeight) >> 1), cc->szText, (int)mir_tstrlen(cc->szText));
+				else TextOut(hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace, y + ((dat->rowHeight - fontHeight) >> 1), cc->szText, (int)mir_wstrlen(cc->szText));
 
 				if (dat->exStyle & CLS_EX_LINEWITHGROUPS) {
 					rc.top = y + (dat->rowHeight >> 1);
@@ -456,7 +456,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 
 			if (selected) {
 				if (cc->type != CLCIT_DIVIDER) {
-					size_t qlen = mir_tstrlen(dat->szQuickSearch);
+					size_t qlen = mir_wstrlen(dat->szQuickSearch);
 					SetTextColor(hdcMem, dat->quickSearchColour);
 
 					RECT rc;

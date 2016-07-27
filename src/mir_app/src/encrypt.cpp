@@ -41,9 +41,9 @@ static INT_PTR srvRegister(WPARAM wParam, LPARAM lParam)
 	CRYPTO_PROVIDER *pNew = new CRYPTO_PROVIDER(*p);
 	pNew->pszName = mir_strdup(p->pszName);
 	if (pNew->dwFlags & CPF_UNICODE)
-		pNew->ptszDescr = mir_u2t(TranslateW_LP(p->pwszDescr, wParam));
+		pNew->ptszDescr = mir_wstrdup(TranslateW_LP(p->pwszDescr, wParam));
 	else
-		pNew->ptszDescr = mir_a2t(TranslateA_LP(p->pszDescr, wParam));
+		pNew->ptszDescr = mir_a2u(TranslateA_LP(p->pszDescr, wParam));
 	arProviders.insert(pNew);
 	return 0;
 }

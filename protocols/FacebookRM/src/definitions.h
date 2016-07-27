@@ -39,5 +39,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #define NIIF_INTERN_TCHAR NIIF_INTERN_UNICODE // m_clist.h
-#define mir_tstrdup mir_wstrdup // m_system.h
+#define mir_wstrdup mir_wstrdup // m_system.h
 

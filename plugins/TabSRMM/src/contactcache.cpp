@@ -118,7 +118,7 @@ bool CContactCache::updateNick()
 	bool fChanged = false;
 	if (m_Valid) {
 		wchar_t *tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
-		if (tszNick && mir_tstrcmp(m_szNick, tszNick))
+		if (tszNick && mir_wstrcmp(m_szNick, tszNick))
 			fChanged = true;
 		wcsncpy_s(m_szNick, (tszNick ? tszNick : L"<undef>"), _TRUNCATE);
 	}
@@ -178,7 +178,7 @@ bool CContactCache::updateUIN()
 	m_szUIN[0] = 0;
 
 	if (m_Valid) {
-		ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, getActiveContact(), getActiveProto()));
+		ptrW uid(Contact_GetInfo(CNF_DISPLAYUID, getActiveContact(), getActiveProto()));
 		if (uid != NULL)
 			wcsncpy_s(m_szUIN, uid, _TRUNCATE);
 	}
@@ -446,15 +446,15 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_szStatusMsg)
 			mir_free(m_szStatusMsg);
 		m_szStatusMsg = 0;
-		ptrT szStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
+		ptrW szStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
 		if (szStatus != 0)
-			m_szStatusMsg = (mir_tstrlen(szStatus) > 0 ? getNormalizedStatusMsg(szStatus) : 0);
+			m_szStatusMsg = (mir_wstrlen(szStatus) > 0 ? getNormalizedStatusMsg(szStatus) : 0);
 	}
 	if (szKey == 0 || (szKey && !mir_strcmp("ListeningTo", szKey))) {
 		if (m_ListeningInfo)
 			mir_free(m_ListeningInfo);
 		m_ListeningInfo = 0;
-		ptrT szListeningTo(db_get_tsa(hContact, cc->szProto, "ListeningTo"));
+		ptrW szListeningTo(db_get_tsa(hContact, cc->szProto, "ListeningTo"));
 		if (szListeningTo != 0 && *szListeningTo)
 			m_ListeningInfo = szListeningTo.detach();
 	}
@@ -462,7 +462,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_xStatusMsg)
 			mir_free(m_xStatusMsg);
 		m_xStatusMsg = 0;
-		ptrT szXStatusMsg(db_get_tsa(hContact, cc->szProto, "XStatusMsg"));
+		ptrW szXStatusMsg(db_get_tsa(hContact, cc->szProto, "XStatusMsg"));
 		if (szXStatusMsg != 0 && *szXStatusMsg)
 			m_xStatusMsg = szXStatusMsg.detach();
 	}
@@ -523,7 +523,7 @@ int CContactCache::cacheUpdateMetaChanged(WPARAM bMetaEnabled, LPARAM)
  */
 wchar_t* CContactCache::getNormalizedStatusMsg(const wchar_t *src, bool fStripAll)
 {
-	if (src == 0 || mir_tstrlen(src) < 2)
+	if (src == 0 || mir_wstrlen(src) < 2)
 		return 0;
 
 	CMString dest;
@@ -542,7 +542,7 @@ wchar_t* CContactCache::getNormalizedStatusMsg(const wchar_t *src, bool fStripAl
 		dest.AppendChar(src[i]);
 	}
 
-	return mir_tstrndup(dest, dest.GetLength());
+	return mir_wstrndup(dest, dest.GetLength());
 }
 
 /**

@@ -112,7 +112,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_REDIRECT | NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	char* szUrl = mir_t2a(tszURL);
+	char* szUrl = mir_u2a(tszURL);
 	nlhr.szUrl = szUrl;
 	nlhr.headersCount = 4;
 	nlhr.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
@@ -164,7 +164,7 @@ BOOL Exists(LPCTSTR strName)
 
 BOOL IsPluginDisabled(wchar_t* filename)
 {
-	char* fname = mir_t2a(filename);
+	char* fname = mir_u2a(filename);
 	int res = db_get_b(NULL, "PluginDisable", fname, 0);
 	mir_free(fname);
 	return res;
@@ -190,7 +190,7 @@ static void CheckUpdates(void *)
 	FileCount = db_get_dw(NULL, MODNAME, "FileCount", DEFAULT_FILECOUNT);
 
 	// Load files info
-	ptrT tszDownloadURL(db_get_tsa(NULL, MODNAME, "File_VersionURL"));
+	ptrW tszDownloadURL(db_get_tsa(NULL, MODNAME, "File_VersionURL"));
 	if (!tszDownloadURL) { // URL is not set
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
@@ -205,10 +205,10 @@ static void CheckUpdates(void *)
 	}
 	// Download version info
 	pFileUrl = (FILEURL *)mir_alloc(sizeof(*pFileUrl));
-	mir_tstrncpy(pFileUrl->tszDownloadURL, tszDownloadURL, _countof(pFileUrl->tszDownloadURL));
-	mir_sntprintf(tszBuff, L"%s\\tmp.ini", tszRoot);
-	mir_tstrncpy(pFileUrl->tszDiskPath, tszBuff, _countof(pFileUrl->tszDiskPath));
-	mir_tstrncpy(tszTmpIni, tszBuff, _countof(tszTmpIni));
+	mir_wstrncpy(pFileUrl->tszDownloadURL, tszDownloadURL, _countof(pFileUrl->tszDownloadURL));
+	mir_snwprintf(tszBuff, L"%s\\tmp.ini", tszRoot);
+	mir_wstrncpy(pFileUrl->tszDiskPath, tszBuff, _countof(pFileUrl->tszDiskPath));
+	mir_wstrncpy(tszTmpIni, tszBuff, _countof(tszTmpIni));
 	Title = TranslateT("Pack Updater");
 	Text = TranslateT("Downloading version info...");
 	DlgDownloadProc();
@@ -222,23 +222,23 @@ static void CheckUpdates(void *)
 		FILEINFO FileInfo = { L"", L"", L"", L"", L"", L"", L"", { L"", L"" } };
 
 		mir_snprintf(szKey, "File_%d_CurrentVersion", CurrentFile + 1);
-		ptrT tszCurVer(db_get_tsa(NULL, MODNAME, szKey));
+		ptrW tszCurVer(db_get_tsa(NULL, MODNAME, szKey));
 		if (tszCurVer)
-			mir_tstrncpy(FileInfo.tszCurVer, tszCurVer, _countof(FileInfo.tszCurVer));
+			mir_wstrncpy(FileInfo.tszCurVer, tszCurVer, _countof(FileInfo.tszCurVer));
 		else 
-			mir_tstrncpy(FileInfo.tszCurVer, L"", _countof(FileInfo.tszCurVer));
+			mir_wstrncpy(FileInfo.tszCurVer, L"", _countof(FileInfo.tszCurVer));
 
 		mir_snprintf(szKey, "File_%d_LastVersion", CurrentFile + 1);
-		ptrT tszLastVer(db_get_tsa(NULL, MODNAME, szKey));
+		ptrW tszLastVer(db_get_tsa(NULL, MODNAME, szKey));
 		if (tszLastVer)
-			mir_tstrncpy(FileInfo.tszLastVer, tszLastVer, _countof(FileInfo.tszLastVer));
+			mir_wstrncpy(FileInfo.tszLastVer, tszLastVer, _countof(FileInfo.tszLastVer));
 		else
-			mir_tstrncpy(FileInfo.tszLastVer, L"", _countof(FileInfo.tszLastVer));
+			mir_wstrncpy(FileInfo.tszLastVer, L"", _countof(FileInfo.tszLastVer));
 
 		Files.push_back(FileInfo);
 
 		// Read version info
-		mir_sntprintf(tszFileInfo, L"FileInfo_%d", CurrentFile + 1);
+		mir_snwprintf(tszFileInfo, L"FileInfo_%d", CurrentFile + 1);
 		GetPrivateProfileString(tszFileInfo, L"FileVersion", L"", Files[CurrentFile].tszNewVer, _countof(Files[CurrentFile].tszNewVer), tszTmpIni);
 		GetPrivateProfileString(tszFileInfo, L"Message", L"", Files[CurrentFile].tszMessage, _countof(Files[CurrentFile].tszMessage), tszTmpIni);
 		GetPrivateProfileString(tszFileInfo, L"DownloadURL", L"", Files[CurrentFile].File.tszDownloadURL, _countof(Files[CurrentFile].File.tszDownloadURL), tszTmpIni);
@@ -257,17 +257,17 @@ static void CheckUpdates(void *)
 				MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 			continue;
 		} // end check update name
-		mir_tstrncpy(Files[CurrentFile].File.tszDiskPath, tszBuff, _countof(Files[CurrentFile].File.tszDiskPath));
+		mir_wstrncpy(Files[CurrentFile].File.tszDiskPath, tszBuff, _countof(Files[CurrentFile].File.tszDiskPath));
 		GetPrivateProfileString(tszFileInfo, L"InfoURL", L"", Files[CurrentFile].tszInfoURL, _countof(Files[CurrentFile].tszInfoURL), tszTmpIni);
 		Files[CurrentFile].FileType = GetPrivateProfileInt(tszFileInfo, L"FileType", 0, tszTmpIni);
 		Files[CurrentFile].Force = GetPrivateProfileInt(tszFileInfo, L"Force", 0, tszTmpIni);
 		Files[CurrentFile].FileNum = CurrentFile + 1;
 
 		if (Files[CurrentFile].FileType == 2) {
-			if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
-				mir_sntprintf(tszBuff, L"Plugins\\%s", Files[CurrentFile].File.tszDiskPath);
+			if (mir_wstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
+				mir_snwprintf(tszBuff, L"Plugins\\%s", Files[CurrentFile].File.tszDiskPath);
 			else
-				mir_sntprintf(tszBuff, L"Plugins\\%s\\%s", Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
+				mir_snwprintf(tszBuff, L"Plugins\\%s\\%s", Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
 			wchar_t pluginFolderName[MAX_PATH];
 			PathToAbsoluteT(tszBuff, pluginFolderName);
 			if (!Files[CurrentFile].Force && (IsPluginDisabled(Files[CurrentFile].File.tszDiskPath) || !Exists(pluginFolderName))) //check if plugin disabled or not exists
@@ -293,27 +293,27 @@ static void CheckUpdates(void *)
 				break;
 			case 2: {
 				VARST tszUtilRootPlug(L"%miranda_path%\\Plugins");
-				if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
-					mir_sntprintf(tszFilePathDest, L"%s\\%s", tszUtilRootPlug, Files[CurrentFile].File.tszDiskPath);
+				if (mir_wstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
+					mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRootPlug, Files[CurrentFile].File.tszDiskPath);
 				else
-					mir_sntprintf(tszFilePathDest, L"%s\\%s\\%s", tszUtilRootPlug, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
+					mir_snwprintf(tszFilePathDest, L"%s\\%s\\%s", tszUtilRootPlug, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
 				}
 				break;
 			case 3: {
 				VARST tszUtilRootIco(L"%miranda_path%\\Icons");
-				if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
-					mir_sntprintf(tszFilePathDest, L"%s\\%s", tszUtilRootIco, Files[CurrentFile].File.tszDiskPath);
+				if (mir_wstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
+					mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRootIco, Files[CurrentFile].File.tszDiskPath);
 				else
-					mir_sntprintf(tszFilePathDest, L"%s\\%s\\%s", tszUtilRootIco, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
+					mir_snwprintf(tszFilePathDest, L"%s\\%s\\%s", tszUtilRootIco, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
 				}
 				break;
 			case 4:
 			case 5: {
 				wchar_t *tszUtilRoot = VARST(L"%miranda_path%");
-				if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
-					mir_sntprintf(tszFilePathDest, L"%s\\%s", tszUtilRoot, Files[CurrentFile].File.tszDiskPath);
+				if (mir_wstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
+					mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRoot, Files[CurrentFile].File.tszDiskPath);
 				else
-					mir_sntprintf(tszFilePathDest, L"%s\\%s\\%s", tszUtilRoot, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
+					mir_snwprintf(tszFilePathDest, L"%s\\%s\\%s", tszUtilRoot, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
 				}
 				break;
 			}//end* switch (Files[CurrentFile].FileType)
@@ -321,7 +321,7 @@ static void CheckUpdates(void *)
 			if (Files[CurrentFile].Force || Exists(tszFilePathDest))
 				UpdateFiles.push_back(Files[CurrentFile]);
 			// Save last version
-			mir_tstrncpy(Files[CurrentFile].tszLastVer, Files[CurrentFile].tszNewVer, _countof(Files[CurrentFile].tszLastVer));
+			mir_wstrncpy(Files[CurrentFile].tszLastVer, Files[CurrentFile].tszNewVer, _countof(Files[CurrentFile].tszLastVer));
 			mir_snprintf(szKey, "File_%d_LastVersion", CurrentFile + 1);
 			db_set_ts(NULL, MODNAME, szKey, Files[CurrentFile].tszLastVer);
 		} // end compare versions

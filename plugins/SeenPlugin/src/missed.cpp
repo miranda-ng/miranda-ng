@@ -105,18 +105,16 @@ int ShowMissed(void)
 	if (!mcs.count)
 		return 0;
 
-	wchar_t sztemp[1024], szcount[7];
+	CMStringW buf;
 	for (int loop = 0; loop < mcs.count; loop++) {
-		mir_tstrncat(sztemp, (wchar_t*)pcli->pfnGetContactDisplayName(mcs.wpcontact[loop], 0), _countof(sztemp) - mir_tstrlen(sztemp));
-		if (db_get_b(NULL, S_MOD, "MissedOnes_Count", 0)) {
-			mir_sntprintf(szcount, L" [%i]", mcs.times[loop]);
-			mir_tstrcat(sztemp, szcount);
-		}
+		buf.Append(pcli->pfnGetContactDisplayName(mcs.wpcontact[loop], 0));
+		if (db_get_b(NULL, S_MOD, "MissedOnes_Count", 0))
+			buf.AppendFormat(L" [%i]", mcs.times[loop]);
 
-		mir_tstrcat(sztemp, L"\n");
+		buf.AppendChar('\n');
 	}
 
-	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_MISSED), NULL, MissedDlgProc, (LPARAM)sztemp);
+	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_MISSED), NULL, MissedDlgProc, (LPARAM)buf.c_str());
 	return 0;
 }
 

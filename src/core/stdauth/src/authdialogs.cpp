@@ -55,22 +55,22 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
 
-			wchar_t* lastT = dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2t(last);
-			wchar_t* firstT = dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2t(first);
-			wchar_t* nickT = dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2t(nick);
-			wchar_t* emailT = dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email);
+			wchar_t* lastT = dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2u(last);
+			wchar_t* firstT = dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2u(first);
+			wchar_t* nickT = dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2u(nick);
+			wchar_t* emailT = dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2u(email);
 
 			wchar_t name[128] = L"";
 			int off = 0;
 			if (firstT[0] && lastT[0])
-				off = mir_sntprintf(name, L"%s %s", firstT, lastT);
+				off = mir_snwprintf(name, L"%s %s", firstT, lastT);
 			else if (firstT[0])
-				off = mir_sntprintf(name, L"%s", firstT);
+				off = mir_snwprintf(name, L"%s", firstT);
 			else if (lastT[0])
-				off = mir_sntprintf(name, L"%s", lastT);
+				off = mir_snwprintf(name, L"%s", lastT);
 			if (nickT[0]) {
 				if (off)
-					mir_sntprintf(name + off, _countof(name) - off, L" (%s)", nickT);
+					mir_snwprintf(name + off, _countof(name) - off, L" (%s)", nickT);
 				else
 					wcsncpy_s(name, nickT, _TRUNCATE);
 			}
@@ -79,11 +79,11 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			wchar_t hdr[256];
 			if (uin && emailT[0])
-				mir_sntprintf(hdr, TranslateT("%s added you to the contact list\n%u (%s) on %s"), name, uin, emailT, acc->tszAccountName);
+				mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%u (%s) on %s"), name, uin, emailT, acc->tszAccountName);
 			else if (uin)
-				mir_sntprintf(hdr, TranslateT("%s added you to the contact list\n%u on %s"), name, uin, acc->tszAccountName);
+				mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%u on %s"), name, uin, acc->tszAccountName);
 			else
-				mir_sntprintf(hdr, TranslateT("%s added you to the contact list\n%s on %s"), name, emailT[0] ? emailT : TranslateT("(Unknown)"), acc->tszAccountName);
+				mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%s on %s"), name, emailT[0] ? emailT : TranslateT("(Unknown)"), acc->tszAccountName);
 
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, hdr);
 
@@ -179,23 +179,23 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			PROTOACCOUNT *acc = Proto_GetAccount(dbei.szModule);
 
-			ptrT lastT(dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2t(last));
-			ptrT firstT(dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2t(first));
-			ptrT nickT(dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2t(nick));
-			ptrT emailT(dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2t(email));
-			ptrT reasonT(dbei.flags & DBEF_UTF ? Utf8DecodeT(reason) : mir_a2t(reason));
+			ptrW lastT(dbei.flags & DBEF_UTF ? Utf8DecodeT(last) : mir_a2u(last));
+			ptrW firstT(dbei.flags & DBEF_UTF ? Utf8DecodeT(first) : mir_a2u(first));
+			ptrW nickT(dbei.flags & DBEF_UTF ? Utf8DecodeT(nick) : mir_a2u(nick));
+			ptrW emailT(dbei.flags & DBEF_UTF ? Utf8DecodeT(email) : mir_a2u(email));
+			ptrW reasonT(dbei.flags & DBEF_UTF ? Utf8DecodeT(reason) : mir_a2u(reason));
 
 			wchar_t name[128] = L"";
 			int off = 0;
 			if (firstT[0] && lastT[0])
-				off = mir_sntprintf(name, L"%s %s", (wchar_t*)firstT, (wchar_t*)lastT);
+				off = mir_snwprintf(name, L"%s %s", (wchar_t*)firstT, (wchar_t*)lastT);
 			else if (firstT[0])
-				off = mir_sntprintf(name, L"%s", (wchar_t*)firstT);
+				off = mir_snwprintf(name, L"%s", (wchar_t*)firstT);
 			else if (lastT[0])
-				off = mir_sntprintf(name, L"%s", (wchar_t*)lastT);
-			if (mir_tstrlen(nickT)) {
+				off = mir_snwprintf(name, L"%s", (wchar_t*)lastT);
+			if (mir_wstrlen(nickT)) {
 				if (off)
-					mir_sntprintf(name + off, _countof(name) - off, L" (%s)", (wchar_t*)nickT);
+					mir_snwprintf(name + off, _countof(name) - off, L" (%s)", (wchar_t*)nickT);
 				else
 					wcsncpy_s(name, nickT, _TRUNCATE);
 			}
@@ -204,11 +204,11 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			wchar_t hdr[256];
 			if (uin && emailT[0])
-				mir_sntprintf(hdr, TranslateT("%s requested authorization\n%u (%s) on %s"), name, uin, (wchar_t*)emailT, acc->tszAccountName);
+				mir_snwprintf(hdr, TranslateT("%s requested authorization\n%u (%s) on %s"), name, uin, (wchar_t*)emailT, acc->tszAccountName);
 			else if (uin)
-				mir_sntprintf(hdr, TranslateT("%s requested authorization\n%u on %s"), name, uin, acc->tszAccountName);
+				mir_snwprintf(hdr, TranslateT("%s requested authorization\n%u on %s"), name, uin, acc->tszAccountName);
 			else
-				mir_sntprintf(hdr, TranslateT("%s requested authorization\n%s on %s"), name, emailT[0] ? (wchar_t*)emailT : TranslateT("(Unknown)"), acc->tszAccountName);
+				mir_snwprintf(hdr, TranslateT("%s requested authorization\n%s on %s"), name, emailT[0] ? (wchar_t*)emailT : TranslateT("(Unknown)"), acc->tszAccountName);
 
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, hdr);
 			SetDlgItemText(hwndDlg, IDC_REASON, reasonT);

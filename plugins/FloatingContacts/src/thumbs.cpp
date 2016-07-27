@@ -271,7 +271,7 @@ void ThumbInfo::ResizeThumb()
 
 	// Get text and icon sizes
 	SIZEL sizeText;
-	GetTextExtentPoint32(hdc, ptszName, (int)mir_tstrlen(ptszName), &sizeText);
+	GetTextExtentPoint32(hdc, ptszName, (int)mir_wstrlen(ptszName), &sizeText);
 
 	SelectObject(hdc, hOldFont);
 
@@ -624,7 +624,7 @@ void ThumbInfo::UpdateContent()
 	hOldFont = (HFONT)SelectObject(hdcDraw, hFont[index]);
 
 	SIZE szText;
-	GetTextExtentPoint32(hdcDraw, ptszName, (int)mir_tstrlen(ptszName), &szText);
+	GetTextExtentPoint32(hdcDraw, ptszName, (int)mir_wstrlen(ptszName), &szText);
 	SetTextColor(hdcDraw, bkColor);
 
 	// simple border

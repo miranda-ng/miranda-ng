@@ -147,7 +147,7 @@ HRESULT CDropTarget::DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL 
 	shortPt.y = pt.y;
 	hwnd = WindowFromPoint(shortPt);
 	GetClassName(hwnd, szWindowClass, _countof(szWindowClass));
-	if (!mir_tstrcmp(szWindowClass, CLISTCONTROL_CLASSW)) {
+	if (!mir_wstrcmp(szWindowClass, CLISTCONTROL_CLASSW)) {
 		hwndCurrentDrag = hwnd;
 		ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
 		originalSelection = dat->selection;
@@ -176,20 +176,20 @@ static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t *s
 {
 	*pppFiles = (wchar_t **) mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(wchar_t *));
 	(*pppFiles)[*totalCount] = NULL;
-	(*pppFiles)[*totalCount - 1] = mir_tstrdup(szFilename);
+	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		HANDLE hFind;
 		wchar_t szPath[MAX_PATH];
-		mir_tstrcpy(szPath, szFilename);
-		mir_tstrcat(szPath, L"\\*");
+		mir_wstrcpy(szPath, szFilename);
+		mir_wstrcat(szPath, L"\\*");
 		if (hFind = FindFirstFile(szPath, &fd)) {
 			do {
-				if (!mir_tstrcmp(fd.cFileName, L".") || !mir_tstrcmp(fd.cFileName, L".."))
+				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L".."))
 					continue;
-				mir_tstrcpy(szPath, szFilename);
-				mir_tstrcat(szPath, L"\\");
-				mir_tstrcat(szPath, fd.cFileName);
+				mir_wstrcpy(szPath, szFilename);
+				mir_wstrcat(szPath, L"\\");
+				mir_wstrcat(szPath, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			} while (FindNextFile(hFind, &fd));
 			FindClose(hFind);

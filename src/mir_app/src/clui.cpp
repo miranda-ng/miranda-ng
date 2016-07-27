@@ -92,7 +92,7 @@ static int MenuItem_PreBuild(WPARAM, LPARAM)
 	wchar_t cls[128];
 	HWND hwndClist = GetFocus();
 	GetClassName(hwndClist, cls, _countof(cls));
-	hwndClist = (!mir_tstrcmp(CLISTCONTROL_CLASSW, cls)) ? hwndClist : cli.hwndContactList;
+	hwndClist = (!mir_wstrcmp(CLISTCONTROL_CLASSW, cls)) ? hwndClist : cli.hwndContactList;
 	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	Menu_ShowItem(hRenameMenuItem, hItem != 0);
 	return 0;
@@ -104,7 +104,7 @@ static INT_PTR MenuItem_RenameContact(WPARAM, LPARAM)
 	HWND hwndClist = GetFocus();
 	GetClassName(hwndClist, cls, _countof(cls));
 	// worst case scenario, the rename is sent to the main contact list
-	hwndClist = (!mir_tstrcmp(CLISTCONTROL_CLASSW, cls)) ? hwndClist : cli.hwndContactList;
+	hwndClist = (!mir_wstrcmp(CLISTCONTROL_CLASSW, cls)) ? hwndClist : cli.hwndContactList;
 	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	if (hItem) {
 		SetFocus(hwndClist);
@@ -127,7 +127,7 @@ static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wP
 
 			wchar_t szFormat[256], szFinal[256];
 			GetDlgItemText(hWnd, IDC_TOPLINE, szFormat, _countof(szFormat));
-			mir_sntprintf(szFinal, szFormat, cli.pfnGetContactDisplayName(lParam, 0));
+			mir_snwprintf(szFinal, szFormat, cli.pfnGetContactDisplayName(lParam, 0));
 			SetDlgItemText(hWnd, IDC_TOPLINE, szFinal);
 		}
 		SetFocus(GetDlgItem(hWnd, IDNO));
@@ -276,9 +276,9 @@ int LoadCLUIModule(void)
 	RegisterClassEx(&wndclass);
 
 	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
-		mir_tstrncpy(titleText, _T(MIRANDANAME), _countof(titleText));
+		mir_wstrncpy(titleText, _T(MIRANDANAME), _countof(titleText));
 	else {
-		mir_tstrncpy(titleText, dbv.ptszVal, _countof(titleText));
+		mir_wstrncpy(titleText, dbv.ptszVal, _countof(titleText));
 		db_free(&dbv);
 	}
 
@@ -412,7 +412,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	if (msg == uMsgProcessProfile) {
 		wchar_t profile[MAX_PATH];
 		if (GlobalGetAtomName((ATOM)wParam, profile, _countof(profile))) {
-			int rc = mir_tstrcmpi(profile, VARST(L"%miranda_userdata%\\%miranda_profilename%.dat")) == 0;
+			int rc = mir_wstrcmpi(profile, VARST(L"%miranda_userdata%\\%miranda_profilename%.dat")) == 0;
 			ReplyMessage(rc);
 			if (rc) {
 				ShowWindow(hwnd, SW_RESTORE);
@@ -994,20 +994,20 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					PROTOACCOUNT *pa;
 					wchar_t tszName[64];
 					if ((pa = Proto_GetAccount(szProto)) != NULL)
-						mir_sntprintf(tszName, L"%s ", pa->tszAccountName);
+						mir_snwprintf(tszName, L"%s ", pa->tszAccountName);
 					else
 						tszName[0] = 0;
 
-					GetTextExtentPoint32(dis->hDC, tszName, (int)mir_tstrlen(tszName), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, tszName, (int)mir_tstrlen(tszName));
+					GetTextExtentPoint32(dis->hDC, tszName, (int)mir_wstrlen(tszName), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, tszName, (int)mir_wstrlen(tszName));
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
 					wchar_t* szStatus = cli.pfnGetStatusModeDescription(status, 0);
 					if (!szStatus)
 						szStatus = L"";
-					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_tstrlen(szStatus), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_tstrlen(szStatus));
+					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_wstrlen(szStatus), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_wstrlen(szStatus));
 				}
 			}
 			else if (dis->CtlType == ODT_MENU) {

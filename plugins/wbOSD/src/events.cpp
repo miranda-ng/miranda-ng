@@ -63,7 +63,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 			DWORD ann = db_get_dw( NULL, THIS_MODULE, "announce", DEFAULT_ANNOUNCE );
 			if ( ann & ( 1 << ( ack->lParam - ID_STATUS_OFFLINE ))) {
 				wchar_t buffer[512];
-				mir_sntprintf(buffer, TranslateT("%s is %s"), pcli->pfnGetContactDisplayName(ack->hContact, 0), pcli->pfnGetStatusModeDescription(ack->lParam, 0));
+				mir_snwprintf(buffer, TranslateT("%s is %s"), pcli->pfnGetContactDisplayName(ack->hContact, 0), pcli->pfnGetStatusModeDescription(ack->lParam, 0));
 				ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_status", DEFAULT_CLRSTATUS), ack->hContact);
 	}	}	}
 
@@ -121,7 +121,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	wchar_t bufferW[512];
-	mir_sntprintf(bufferW, TranslateT("%s is %s"), pcli->pfnGetContactDisplayName(wParam, 0), pcli->pfnGetStatusModeDescription(newStatus, 0));
+	mir_snwprintf(bufferW, TranslateT("%s is %s"), pcli->pfnGetContactDisplayName(wParam, 0), pcli->pfnGetStatusModeDescription(newStatus, 0));
 	ShowOSD(bufferW, 0, db_get_dw(NULL,THIS_MODULE, "clr_status", DEFAULT_CLRSTATUS), hContact);
 	return 0;
 }
@@ -155,7 +155,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 
 	DBVARIANT dbv;
 	if(!db_get_ts(NULL,THIS_MODULE,"message_format",&dbv)) {
-		mir_tstrcpy(buf, dbv.ptszVal);
+		mir_wstrcpy(buf, dbv.ptszVal);
 		db_free(&dbv);
 	}
 
@@ -183,17 +183,17 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 
 	wchar_t *c1 = 0, *c2 = 0;
 	if ( i1 == 1 )
-		c1 = mir_tstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
+		c1 = mir_wstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
 	else if ( i1 == 2 )
 		c1 = DbGetEventTextT( &dbe, 0 );
 
 	if ( i2 == 1 )
-		c2 = mir_tstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
+		c2 = mir_wstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
 	else if ( i2 == 2 )
 		c2 = DbGetEventTextT( &dbe, 0 );
 
 	wchar_t buffer[512];
-	mir_sntprintf(buffer, buf, c1, c2);
+	mir_snwprintf(buffer, buf, c1, c2);
 	ShowOSD(buffer, 0, db_get_dw(NULL,THIS_MODULE, "clr_msg", DEFAULT_CLRMSG), wParam);
 
 	mir_free( c1 );

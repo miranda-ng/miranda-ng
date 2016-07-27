@@ -68,8 +68,8 @@ void PopupHistoryList::Add(wchar_t *title, wchar_t *message, time_t timestamp)
 	PopupHistoryData item = {0}; //create an unicode history item
 	item.flags = PHDF_UNICODE; //mark it as unicode
 	item.timestamp = timestamp;
-	item.titleT = mir_u2t(title);
-	item.messageT = mir_u2t(message);
+	item.titleT = mir_wstrdup(title);
+	item.messageT = mir_wstrdup(message);
 	AddItem(item); //add it
 }
 

@@ -1127,7 +1127,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 
 	// fetch the network name
 	if (gcd->iType == GC_EVENT_CHANGESESSIONAME) {
-		if (gcd->ptszID && !mir_tstrcmpi(gcd->ptszID, L"Network log")) {
+		if (gcd->ptszID && !mir_wstrcmpi(gcd->ptszID, L"Network log")) {
 			pIRCCon->strNetwork = toTstring(gce->ptszText);
 			TRACE(L"\t Found network identifier: %s\n", pIRCCon->strNetwork.c_str());
 			return 0;
@@ -1149,7 +1149,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		if (pos != tstring::npos)
 			strChannel = strChannel.substr(0, pos - 1);
 		else {
-			if (mir_tstrcmpi(gcd->ptszID, L"Network log"))
+			if (mir_wstrcmpi(gcd->ptszID, L"Network log"))
 				TRACE(L"\t WARNING: ignoring unknown event!\n");
 			return 0;
 		}

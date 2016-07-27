@@ -110,16 +110,16 @@ struct StatusItem // list item structure
 	StatusItem()
 	{
 		m_iIcon = 0;
-		mir_tstrcpy(m_tszTitle, L"");
-		mir_tstrcpy(m_tszMessage, L"");
+		mir_wstrcpy(m_tszTitle, L"");
+		mir_wstrcpy(m_tszMessage, L"");
 		m_bFavourite = FALSE;
 	}
 
 	StatusItem(const StatusItem& p)
 	{
 		m_iIcon = p.m_iIcon;
-		mir_tstrcpy(m_tszTitle, p.m_tszTitle);
-		mir_tstrcpy(m_tszMessage, p.m_tszMessage);
+		mir_wstrcpy(m_tszTitle, p.m_tszTitle);
+		mir_wstrcpy(m_tszMessage, p.m_tszMessage);
 		m_bFavourite = p.m_bFavourite;
 	}
 

@@ -308,7 +308,7 @@ void LoadObsoleteSkinSetting()
 		opt.transfMode[i] = (TransformationMode)db_get_b(0, MODULE, setting, 0);
 		mir_snprintf(setting, "SImgFile%d", i);
 		if (!db_get_ts(NULL, MODULE, setting, &dbv)) {
-			opt.szImgFile[i] = mir_tstrdup(dbv.ptszVal);
+			opt.szImgFile[i] = mir_wstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 
@@ -587,7 +587,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							wchar_t buff[256];
 							SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
 							for (int i = 0; presetItems[i].szID; i++) {
-								if (mir_tstrcmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
+								if (mir_wstrcmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
 									if (presetItems[i].szNeededSubst[0])
 										EndDialog(hwndDlg, IDPRESETITEM + i);
 									else
@@ -623,7 +623,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						wchar_t buff[256];
 						SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
 						for (int i = 0; presetItems[i].szID; i++) {
-							if (mir_tstrcmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
+							if (mir_wstrcmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
 								SetDlgItemText(hwndDlg, IDC_ED_LABEL, TranslateTS(presetItems[i].swzLabel));
 								SetDlgItemText(hwndDlg, IDC_ED_VALUE, presetItems[i].swzValue);
 								break;
@@ -2038,8 +2038,8 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				while (item.hItem != NULL) {
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2) {
-						mir_tstrcat(swzProtos, buff);
-						mir_tstrcat(swzProtos, L" ");
+						mir_wstrcat(swzProtos, buff);
+						mir_wstrcat(swzProtos, L" ");
 					}
 
 					item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), item.hItem);
@@ -2053,8 +2053,8 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				while (item.hItem != NULL) {
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2) {
-						mir_tstrcat(swzProtos, buff);
-						mir_tstrcat(swzProtos, L" ");
+						mir_wstrcat(swzProtos, buff);
+						mir_wstrcat(swzProtos, L" ");
 					}
 
 					item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), item.hItem);

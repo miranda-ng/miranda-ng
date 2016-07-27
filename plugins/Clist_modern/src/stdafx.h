@@ -181,7 +181,7 @@ void MakeButtonSkinned(HWND hWnd);
 #endif
 
 #define strsetA(a,b) {if (a) mir_free_and_nill(a); a=mir_strdup(b);}
-#define strsetT(a,b) {if (a) mir_free_and_nill(a); a=mir_tstrdup(b);}
+#define strsetT(a,b) {if (a) mir_free_and_nill(a); a=mir_wstrdup(b);}
 
 void TRACE_ERROR();
 

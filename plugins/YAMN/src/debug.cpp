@@ -43,21 +43,21 @@ void InitDebug()
 	InitializeCriticalSection(&FileAccessCS);
 
 #ifdef DEBUG_SYNCHRO
-	mir_sntprintf(DebugFileName, DebugSynchroFileName2, DebugUserDirectory);
+	mir_snwprintf(DebugFileName, DebugSynchroFileName2, DebugUserDirectory);
 	
 	SynchroFile=CreateFile(DebugFileName,GENERIC_WRITE,FILE_SHARE_WRITE|FILE_SHARE_READ,NULL,CREATE_ALWAYS,0,NULL);
 	DebugLog(SynchroFile,"Synchro debug file created by %s\n",YAMN_VER);
 #endif
 
 #ifdef DEBUG_COMM
-	mir_sntprintf(DebugFileName, DebugCommFileName2, DebugUserDirectory);
+	mir_snwprintf(DebugFileName, DebugCommFileName2, DebugUserDirectory);
 
 	CommFile=CreateFile(DebugFileName,GENERIC_WRITE,FILE_SHARE_WRITE|FILE_SHARE_READ,NULL,CREATE_ALWAYS,0,NULL);
 	DebugLog(CommFile,"Communication debug file created by %s\n",YAMN_VER);
 #endif
 
 #ifdef DEBUG_DECODE
-	mir_sntprintf(DebugFileName, DebugDecodeFileName2, DebugUserDirectory);
+	mir_snwprintf(DebugFileName, DebugDecodeFileName2, DebugUserDirectory);
 
 	DecodeFile=CreateFile(DebugFileName,GENERIC_WRITE,FILE_SHARE_WRITE|FILE_SHARE_READ,NULL,CREATE_ALWAYS,0,NULL);
 	DebugLog(DecodeFile,"Decoding kernel debug file created by %s\n",YAMN_VER);

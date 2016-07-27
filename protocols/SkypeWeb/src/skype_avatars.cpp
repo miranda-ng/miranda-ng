@@ -127,7 +127,7 @@ INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 void CSkypeProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -139,12 +139,12 @@ void CSkypeProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t 
 	CMStringA username(Contacts[hContact]);
 	username.Replace("live:", "__live_");
 	username.Replace("facebook:", "__facebook_");
-	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", username.c_str(), szFileType);
+	mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", username.c_str(), szFileType);
 }
 
 void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 {
-	ptrT oldUrl(getTStringA(hContact, "AvatarUrl"));
+	ptrW oldUrl(getTStringA(hContact, "AvatarUrl"));
 	if (oldUrl != NULL)
 		if (tszUrl == oldUrl)
 			return;

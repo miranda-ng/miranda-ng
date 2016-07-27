@@ -91,7 +91,7 @@ public:
 	{
 		relativePathStart = wcsrchr(path, '\\') - path + 1;
 		pfts.tszWorkingDir = (wchar_t*)mir_calloc(sizeof(wchar_t) * relativePathStart);
-		mir_tstrncpy(pfts.tszWorkingDir, path, relativePathStart);
+		mir_wstrncpy(pfts.tszWorkingDir, path, relativePathStart);
 		if (PathIsDirectory(path))
 			folderName = wcsrchr(path, '\\') + 1;
 	}
@@ -117,7 +117,7 @@ public:
 	void AddFile(const wchar_t *path)
 	{
 		pfts.ptszFiles = (wchar_t**)mir_realloc(pfts.ptszFiles, sizeof(wchar_t*) * (pfts.totalFiles + 2));
-		pfts.ptszFiles[pfts.totalFiles++] = mir_tstrdup(path);
+		pfts.ptszFiles[pfts.totalFiles++] = mir_wstrdup(path);
 		pfts.ptszFiles[pfts.totalFiles] = NULL;
 
 		FILE *file = _wfopen(path, L"rb");

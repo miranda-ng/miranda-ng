@@ -33,9 +33,9 @@ HANDLE CVkProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, con
 {
 	PROTOSEARCHBYNAME *psr = new (PROTOSEARCHBYNAME);
 
-	psr->pszFirstName = mir_tstrdup(firstName);
-	psr->pszLastName = mir_tstrdup(lastName);
-	psr->pszNick = mir_tstrdup(nick);
+	psr->pszFirstName = mir_wstrdup(firstName);
+	psr->pszLastName = mir_wstrdup(lastName);
+	psr->pszNick = mir_wstrdup(nick);
 
 	ForkThread(&CVkProto::SearchThread, (void *)psr);
 	return (HANDLE)1;
@@ -69,7 +69,7 @@ void __cdecl CVkProto::SearchThread(void *p)
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)p;
 
 	wchar_t arg[200];
-	mir_sntprintf(arg, L"%s %s %s", pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
+	mir_snwprintf(arg, L"%s %s %s", pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
 	debugLog(L"CVkProto::SearchThread %s", arg);
 	if (!IsOnline())
 		return;
@@ -126,10 +126,10 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		CMString Nick(jnRecord["nickname"].as_mstring());
 		CMString Domain(jnRecord["domain"].as_mstring());
 
-		psr.id.w = mir_tstrdup(Id);
-		psr.firstName.w = mir_tstrdup(FirstName);
-		psr.lastName.w = mir_tstrdup(LastName);
-		psr.nick.w = Nick.IsEmpty() ? mir_tstrdup(Domain) : mir_tstrdup(Nick);
+		psr.id.w = mir_wstrdup(Id);
+		psr.firstName.w = mir_wstrdup(FirstName);
+		psr.lastName.w = mir_wstrdup(LastName);
+		psr.nick.w = Nick.IsEmpty() ? mir_wstrdup(Domain) : mir_wstrdup(Nick);
 
 		bool filter = true;
 		if (pParam) {
@@ -184,11 +184,11 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		CMString Nick(jnRecord["nickname"].as_mstring());
 		CMString Email(jnRecord["contact"].as_mstring());
 
-		psr.id.w = mir_tstrdup(Id);
-		psr.firstName.w = mir_tstrdup(FirstName);
-		psr.lastName.w = mir_tstrdup(LastName);
-		psr.nick.w = Nick.IsEmpty() ? mir_tstrdup(Email) : mir_tstrdup(Nick);
-		psr.email.w = mir_tstrdup(Email);
+		psr.id.w = mir_wstrdup(Id);
+		psr.firstName.w = mir_wstrdup(FirstName);
+		psr.lastName.w = mir_wstrdup(LastName);
+		psr.nick.w = Nick.IsEmpty() ? mir_wstrdup(Email) : mir_wstrdup(Nick);
+		psr.email.w = mir_wstrdup(Email);
 
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}

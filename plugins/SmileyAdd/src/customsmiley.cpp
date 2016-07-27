@@ -78,7 +78,7 @@ bool SmileyCType::CreateTriggerText(char *text)
 		return false;
 
 	char save = res[reslen]; res[reslen] = 0; // safe because of mir_alloc
-	wchar_t *txt = mir_utf8decodeT(res);
+	wchar_t *txt = mir_utf8decodeW(res);
 	res[reslen] = save;
 
 	if (txt == NULL)

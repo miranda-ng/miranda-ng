@@ -67,10 +67,10 @@ wchar_t* Utils::getFileNameFromPath(wchar_t *stzPath)
 
 wchar_t* Utils::getTextFragment(wchar_t *stzText, size_t length, wchar_t *buff)
 {
-	if (mir_tstrlen(stzText) > length) {
-		mir_tstrcpy(buff, stzText);
+	if (mir_wstrlen(stzText) > length) {
+		mir_wstrcpy(buff, stzText);
 		buff[length - 1] = 0;
-		mir_tstrcat(buff, L"...");
+		mir_wstrcat(buff, L"...");
 		return buff;
 	}
 
@@ -97,7 +97,7 @@ const char to_chars[] = "abvgdeezziiklmnoprstufhccwwqyqeuaABVGDEEZZIIKLMNOPRSTUF
 
 char* Utils::makeSafeString(wchar_t *input, char *output)
 {
-	char *buff = mir_t2a(input);
+	char *buff = mir_u2a(input);
 	size_t length = mir_strlen(buff);
 
 	for (UINT i = 0; i < length; i++) {
@@ -166,7 +166,7 @@ INT_PTR CALLBACK Utils::DlgProcSetFileName(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		if (GetDlgCtrlID((HWND)wParam) != IDC_NAME) {
 			SetFocus(GetDlgItem(hwndDlg, IDC_NAME));
-			SendDlgItemMessage(hwndDlg, IDC_NAME, EM_SETSEL, 0, mir_tstrlen(fileName) - 4);
+			SendDlgItemMessage(hwndDlg, IDC_NAME, EM_SETSEL, 0, mir_wstrlen(fileName) - 4);
 			return FALSE;
 		}
 
@@ -200,13 +200,13 @@ bool Utils::setFileNameDlg(wchar_t *nameBuff)
 bool Utils::setFileNameDlgA(char *nameBuff)
 {
 	wchar_t buff[64];
-	wchar_t *tmp = mir_a2t(nameBuff);
-	mir_tstrcpy(buff, tmp);
+	wchar_t *tmp = mir_a2u(nameBuff);
+	mir_wstrcpy(buff, tmp);
 	FREE(tmp);
 
 	bool res = setFileNameDlg(buff);
 	if (res) {
-		char *p = mir_t2a(buff);
+		char *p = mir_u2a(buff);
 		mir_strcpy(nameBuff, p);
 		FREE(p);
 	}

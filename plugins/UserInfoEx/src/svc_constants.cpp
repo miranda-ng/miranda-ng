@@ -252,12 +252,12 @@ static UINT MyCountriesCount = 0;
 * @param	p1				- (LPIDSTRLIST) first item to compare
 * @param	p2				- (LPIDSTRLIST) second item to compare
 *
-* returns -1, 0, 1			according to the comparison result of mir_tstrcmp.
+* returns -1, 0, 1			according to the comparison result of mir_wstrcmp.
 **/
 
 static int __cdecl ListSortProc(const LPIDSTRLIST p1, const LPIDSTRLIST p2)
 {
-	return mir_tstrcmpi(p1->ptszTranslated, p2->ptszTranslated);
+	return mir_wstrcmpi(p1->ptszTranslated, p2->ptszTranslated);
 }
 
 /**

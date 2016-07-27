@@ -62,7 +62,7 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 	if (szUniqueId) {
 		size_t cbLen = mir_strlen(szUniqueId) + 2;
 		wchar_t* pszUniqueId = (wchar_t*)mir_alloc(cbLen * sizeof(wchar_t));
-		mir_sntprintf(pszUniqueId, cbLen, L"%S:", szUniqueId);
+		mir_snwprintf(pszUniqueId, cbLen, L"%S:", szUniqueId);
 		SetDlgItemText(hdlg, IDC_IDLABEL, pszUniqueId);
 		mir_free(pszUniqueId);
 	}
@@ -126,7 +126,7 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 			continue;
 
 		cbei.pszText = pAccounts[i]->tszAccountName;
-		GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_tstrlen(cbei.pszText), &textSize);
+		GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_wstrlen(cbei.pszText), &textSize);
 		if (textSize.cx > cbWidth) cbWidth = textSize.cx;
 		HICON hIcon = (HICON)CallProtoService(pAccounts[i]->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 		cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon(hIml, hIcon);
@@ -236,7 +236,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				wchar_t szUserId[256];
 				GetDlgItemText(hdlg, IDC_USERID, szUserId, _countof(szUserId));
 
-				if (*rtrimt(szUserId) == 0 ||
+				if (*rtrimw(szUserId) == 0 ||
 					(strstr(acs->proto, "GG") && wcstoul(szUserId, NULL, 10) > INT_MAX) || // Gadu-Gadu protocol
 					((CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_NUMERICUSERID) && !wcstoul(szUserId, NULL, 10)))
 				{
@@ -264,7 +264,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				}
 
 				psr->flags = PSR_TCHAR;
-				psr->id.w = mir_tstrdup(szUserId);
+				psr->id.w = mir_wstrdup(szUserId);
 				acs->psr = psr;
 
 				MCONTACT hContact = (MCONTACT)CallProtoService(acs->proto, PS_ADDTOLIST, IsDlgButtonChecked(hdlg, IDC_ADDTEMP) ? PALF_TEMPORARY : 0, (LPARAM)acs->psr);

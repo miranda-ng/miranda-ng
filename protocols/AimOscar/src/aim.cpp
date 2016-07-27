@@ -30,7 +30,7 @@ HINSTANCE hInstance;
 // Protocol instances
 static int sttCompareProtocols(const CAimProto *p1, const CAimProto *p2)
 {
-	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 OBJLIST<CAimProto> g_Instances(1, sttCompareProtocols);

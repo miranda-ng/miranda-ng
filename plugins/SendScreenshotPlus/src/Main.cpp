@@ -75,7 +75,7 @@ wchar_t* GetCustomPath()
 		wchar_t szPath[1024] = { 0 };
 		FoldersGetCustomPathT(m_hFolderScreenshot, szPath, 1024, pszPath);
 		mir_free(pszPath);
-		pszPath = mir_tstrdup(szPath);
+		pszPath = mir_wstrdup(szPath);
 	}
 	if (!pszPath) {
 		MessageBox(NULL, L"Can not retrieve screenshot path.", L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
@@ -84,7 +84,7 @@ wchar_t* GetCustomPath()
 	int result = CreateDirectoryTreeT(pszPath);
 	if (result) {
 		wchar_t szError[MAX_PATH];
-		mir_sntprintf(szError, MAX_PATH, TranslateT("Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?"), result, pszPath);
+		mir_snwprintf(szError, MAX_PATH, TranslateT("Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?"), result, pszPath);
 		MessageBox(NULL, szError, L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		mir_free(pszPath);
 		return 0;
@@ -194,7 +194,7 @@ INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam)
 		result = mir_strdup(cSend->GetURL());
 	}
 	else {
-		result = mir_t2a(cSend->GetErrorMsg());
+		result = mir_u2a(cSend->GetErrorMsg());
 	}
 	delete cSend;
 	return (INT_PTR)result;

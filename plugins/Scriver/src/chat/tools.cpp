@@ -53,7 +53,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 
 		if (pszWordText && pszWordText[0]) {
 			wchar_t szMenuText[4096];
-			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
+			mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 			SetSearchEngineIcons(*hMenu, g_dat.hSearchEngineIconList);
 		}
@@ -63,12 +63,12 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 	else if (iIndex == 0) {
 		wchar_t szTemp[50];
 		if (pszWordText)
-			mir_sntprintf(szTemp, TranslateT("&Message %s"), pszWordText);
+			mir_snwprintf(szTemp, TranslateT("&Message %s"), pszWordText);
 		else
-			mir_tstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
+			mir_wstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
 
-		if (mir_tstrlen(szTemp) > 40)
-			mir_tstrncpy(szTemp + 40, L"...", 4);
+		if (mir_wstrlen(szTemp) > 40)
+			mir_wstrncpy(szTemp + 40, L"...", 4);
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}

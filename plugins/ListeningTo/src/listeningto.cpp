@@ -170,7 +170,7 @@ struct compareFunc : std::binary_function<const ProtocolInfo, const ProtocolInfo
 {
 	bool operator()(const ProtocolInfo &one, const ProtocolInfo &two) const
 	{
-		return mir_tstrcmp(one.account, two.account) < 0;
+		return mir_wstrcmp(one.account, two.account) < 0;
 	}
 };
 
@@ -186,7 +186,7 @@ void RebuildMenu()
 			Menu_RemoveItem(info->hMenu);
 
 		wchar_t text[512];
-		mir_sntprintf(text, TranslateT("Send to %s"), info->account);
+		mir_snwprintf(text, TranslateT("Send to %s"), info->account);
 
 		CMenuItem mi;
 		mi.position = 100000 + i;
@@ -216,7 +216,7 @@ void RegisterProtocol(char *proto, wchar_t *account)
 	strncpy(proto_items[id].proto, proto, _countof(proto_items[id].proto));
 	proto_items[id].proto[_countof(proto_items[id].proto) - 1] = 0;
 
-	mir_tstrncpy(proto_items[id].account, account, _countof(proto_items[id].account));
+	mir_wstrncpy(proto_items[id].account, account, _countof(proto_items[id].account));
 
 	proto_items[id].hMenu = NULL;
 	proto_items[id].old_xstatus = 0;
@@ -234,10 +234,10 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 	ProtocolInfo *info = GetProtoInfo(proto->szModuleName);
 	if (info != NULL) {
 		if (wParam == PRAC_UPGRADED || wParam == PRAC_CHANGED) {
-			mir_tstrncpy(info->account, proto->tszAccountName, _countof(info->account));
+			mir_wstrncpy(info->account, proto->tszAccountName, _countof(info->account));
 
 			wchar_t text[512];
-			mir_sntprintf(text, TranslateT("Send to %s"), info->account);
+			mir_snwprintf(text, TranslateT("Send to %s"), info->account);
 			Menu_ModifyItem(info->hMenu, text);
 		}
 		else if (wParam == PRAC_REMOVED || (wParam == PRAC_CHECKED && !proto->bIsEnabled)) {
@@ -644,7 +644,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 		if (lti == NULL)
 			CallProtoService(proto, PS_SETAWAYMSG, status, 0);
 		else {
-			ptrT fr(GetParsedFormat(lti));
+			ptrW fr(GetParsedFormat(lti));
 			CallProtoService(proto, PS_SETAWAYMSG, status, fr);
 		}
 	}
@@ -713,7 +713,7 @@ INT_PTR GetTextFormat(WPARAM, LPARAM)
 	if (!loaded)
 		return NULL;
 
-	return (INT_PTR)mir_tstrdup(opts.templ);
+	return (INT_PTR)mir_wstrdup(opts.templ);
 }
 
 wchar_t *GetParsedFormat(LISTENINGTOINFO *lti)
@@ -764,7 +764,7 @@ void SetListeningInfos(LISTENINGTOINFO *lti)
 
 	if (lti) {
 		fr = GetParsedFormat(lti);
-		if (fr) info = mir_t2a(fr);
+		if (fr) info = mir_u2a(fr);
 	}
 
 	NotifyEventHooks(hListeningInfoChangedEvent, (WPARAM)info, 0);
@@ -910,7 +910,7 @@ wchar_t* VariablesParseInfo(ARGUMENTSINFO *ai)
 	LISTENINGTOINFO *lti = GetListeningInfo();
 	if (lti == NULL) {
 		ai->flags = AIF_FALSE;
-		return mir_tstrdup(L"");
+		return mir_wstrdup(L"");
 	}
 
 	wchar_t *fr[] = {
@@ -938,17 +938,17 @@ wchar_t* VariablesParseInfo(ARGUMENTSINFO *ai)
 	if (lti == NULL) \
 			{ \
 		ai->flags = AIF_FALSE; \
-		return mir_tstrdup(L""); \
+		return mir_wstrdup(L""); \
 			} \
 				else if (IsEmpty(lti->__field__))  \
 	{ \
 		ai->flags = AIF_FALSE; \
-		return mir_tstrdup(opts.unknown); \
+		return mir_wstrdup(opts.unknown); \
 	} \
 				else \
 	{ \
 		ai->flags = AIF_DONTPARSE; \
-		wchar_t *ret = mir_tstrdup(lti->__field__); \
+		wchar_t *ret = mir_wstrdup(lti->__field__); \
 		return ret; \
 	}
 

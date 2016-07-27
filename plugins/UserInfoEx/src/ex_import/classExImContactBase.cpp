@@ -256,7 +256,7 @@ MCONTACT CExImContactBase::toDB()
 
 		// add group
 		if (_pszGroup) {
-			ptrT ptszGroup(mir_utf8decodeT(_pszGroup));
+			ptrW ptszGroup(mir_utf8decodeW(_pszGroup));
 			db_set_ts(_hContact, MOD_CLIST, "Group", ptszGroup);
 			Clist_GroupCreate(NULL, ptszGroup);
 		}
@@ -291,7 +291,7 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 		}
 		else {
 			// Proto loaded - GetContactName(hContact,pszProto,0)
-			ptrT pszCI(Contact_GetInfo(CNF_DISPLAY, _hContact, _pszProto));
+			ptrW pszCI(Contact_GetInfo(CNF_DISPLAY, _hContact, _pszProto));
 			ptrA pszUID(uid2String(FALSE));
 			if (_pszUIDKey && pszUID)
 				mir_snprintf(name, "%S *(%s)*<%s>*{%s}*", pszCI, _pszProto, _pszUIDKey, pszUID);
@@ -475,8 +475,8 @@ BYTE CExImContactBase::isHandle(MCONTACT hContact)
 	// compare nicknames if no UID
 	else if (!DB::Setting::GetUString(hContact, _pszProto, SET_CONTACT_NICK, &dbv)) {
 		if (dbv.type == DBVT_UTF8 && dbv.pszVal && !mir_strcmpi(dbv.pszVal,_pszNick)) {
-			LPTSTR ptszNick = mir_utf8decodeT(_pszNick);
-			LPTSTR ptszProto = mir_a2t(_pszProto);
+			LPTSTR ptszNick = mir_utf8decodeW(_pszNick);
+			LPTSTR ptszProto = mir_a2u(_pszProto);
 			int ans = MsgBox(NULL, MB_ICONQUESTION|MB_YESNO, LPGENW("Question"), LPGENW("contact identification"),
 				LPGENW("The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?"),
 				ptszNick, ptszProto);

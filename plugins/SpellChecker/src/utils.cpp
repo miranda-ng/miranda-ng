@@ -276,7 +276,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 	int errors = 0;
 	wchar_t text[1024];
 	dlg->re->GetLine(line, text, _countof(text));
-	int len = mir_tstrlen(text);
+	int len = mir_wstrlen(text);
 	int first_char = dlg->re->GetFirstCharOfLine(line);
 
 	// Now lets get the words
@@ -365,7 +365,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 			if (dif != 0) {
 				// Read line again
 				dlg->re->GetLine(line, text, _countof(text));
-				len = mir_tstrlen(text);
+				len = mir_wstrlen(text);
 
 				int old_first_char = first_char;
 				first_char = dlg->re->GetFirstCharOfLine(line);
@@ -440,7 +440,7 @@ void ToLocaleID(wchar_t *szKLName, size_t size)
 	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO639LANGNAME, ini, _countof(ini));
 	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO3166CTRYNAME, end, _countof(end));
 
-	mir_sntprintf(szKLName, size, L"%s_%s", ini, end);
+	mir_snwprintf(szKLName, size, L"%s_%s", ini, end);
 }
 
 void LoadDictFromKbdl(Dialog *dlg)
@@ -449,7 +449,7 @@ void LoadDictFromKbdl(Dialog *dlg)
 
 	// Use default input language
 	HKL hkl = GetKeyboardLayout(0);
-	mir_sntprintf(szKLName, L"%x", (int)LOWORD(hkl));
+	mir_snwprintf(szKLName, L"%x", (int)LOWORD(hkl));
 	ToLocaleID(szKLName, _countof(szKLName));
 
 	int d = GetClosestLanguage(szKLName);
@@ -501,7 +501,7 @@ LRESULT CALLBACK OwnerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			int errors = TimerCheck(dlg, TRUE);
 			if (errors > 0) {
 				wchar_t text[500];
-				mir_sntprintf(text, TranslateT("There are %d spelling errors. Are you sure you want to send this message?"), errors);
+				mir_snwprintf(text, TranslateT("There are %d spelling errors. Are you sure you want to send this message?"), errors);
 				if (MessageBox(hwnd, text, TranslateT("Spell Checker"), MB_ICONQUESTION | MB_YESNO) == IDNO)
 					return TRUE;
 			}
@@ -680,12 +680,12 @@ int GetClosestLanguage(wchar_t *lang_name)
 
 	// Search the language by name
 	for (i = 0; i < languages.getCount(); i++)
-		if (mir_tstrcmpi(languages[i]->language, lang_name) == 0)
+		if (mir_wstrcmpi(languages[i]->language, lang_name) == 0)
 			return i;
 
 	// Try searching by the prefix only
 	wchar_t lang[128];
-	mir_tstrncpy(lang, lang_name, _countof(lang));
+	mir_wstrncpy(lang, lang_name, _countof(lang));
 	{
 		wchar_t *p = wcschr(lang, '_');
 		if (p != NULL) *p = '\0';
@@ -693,11 +693,11 @@ int GetClosestLanguage(wchar_t *lang_name)
 
 	// First check if there is a language that is only the prefix
 	for (i = 0; i < languages.getCount(); i++)
-		if (mir_tstrcmpi(languages[i]->language, lang) == 0)
+		if (mir_wstrcmpi(languages[i]->language, lang) == 0)
 			return i;
 
 	// Now try any suffix
-	size_t len = mir_tstrlen(lang);
+	size_t len = mir_wstrlen(lang);
 	for (i = 0; i < languages.getCount(); i++) {
 		wchar_t *p = wcschr(languages[i]->language, '_');
 		if (p == NULL)
@@ -738,10 +738,10 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 
 		for (int i = 0; i < languages.getCount(); i++) {
 			Dictionary *dict = languages[i];
-			if (mir_tstrcmpi(dict->localized_name, lang) == 0
-				|| mir_tstrcmpi(dict->english_name, lang) == 0
-				|| mir_tstrcmpi(dict->language, lang) == 0) {
-				mir_tstrncpy(dlg->lang_name, dict->language, _countof(dlg->lang_name));
+			if (mir_wstrcmpi(dict->localized_name, lang) == 0
+				|| mir_wstrcmpi(dict->english_name, lang) == 0
+				|| mir_wstrcmpi(dict->language, lang) == 0) {
+				mir_wstrncpy(dlg->lang_name, dict->language, _countof(dlg->lang_name));
 				break;
 			}
 		}
@@ -782,18 +782,18 @@ void GetContactLanguage(Dialog *dlg)
 
 	if (dlg->hContact == NULL) {
 		if (!db_get_ts(NULL, MODULE_NAME, dlg->name, &dbv)) {
-			mir_tstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
 	}
 	else {
 		if (!db_get_ts(dlg->hContact, MODULE_NAME, "TalkLanguage", &dbv)) {
-			mir_tstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
 
 		if (dlg->lang_name[0] == '\0' && !db_get_ts(dlg->hContact, "eSpeak", "TalkLanguage", &dbv)) {
-			mir_tstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
 
@@ -802,12 +802,12 @@ void GetContactLanguage(Dialog *dlg)
 			MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
 			if (hMetaContact != NULL) {
 				if (!db_get_ts(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv)) {
-					mir_tstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+					mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 					db_free(&dbv);
 				}
 
 				if (dlg->lang_name[0] == '\0' && !db_get_ts(hMetaContact, "eSpeak", "TalkLanguage", &dbv)) {
-					mir_tstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
+					mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 					db_free(&dbv);
 				}
 			}
@@ -825,13 +825,13 @@ void GetContactLanguage(Dialog *dlg)
 
 		// Use default lang
 		if (dlg->lang_name[0] == '\0')
-			mir_tstrncpy(dlg->lang_name, opts.default_language, _countof(dlg->lang_name));
+			mir_wstrncpy(dlg->lang_name, opts.default_language, _countof(dlg->lang_name));
 	}
 
 	int i = GetClosestLanguage(dlg->lang_name);
 	if (i < 0) {
 		// Lost a dict?
-		mir_tstrncpy(dlg->lang_name, opts.default_language, _countof(dlg->lang_name));
+		mir_wstrncpy(dlg->lang_name, opts.default_language, _countof(dlg->lang_name));
 		i = GetClosestLanguage(dlg->lang_name);
 	}
 
@@ -1035,7 +1035,7 @@ void AppendSubmenu(HMENU hMenu, HMENU hSubMenu, wchar_t *name)
 	mii.fType = MFT_STRING;
 	mii.hSubMenu = hSubMenu;
 	mii.dwTypeData = name;
-	mii.cch = mir_tstrlen(name);
+	mii.cch = mir_wstrlen(name);
 	InsertMenuItem(hMenu, 0, TRUE, &mii);
 }
 
@@ -1053,7 +1053,7 @@ void AppendMenuItem(HMENU hMenu, int id, wchar_t *name, HICON hIcon, BOOL checke
 	mii.hbmpChecked = iconInfo.hbmColor;
 	mii.hbmpUnchecked = iconInfo.hbmColor;
 	mii.dwTypeData = name;
-	mii.cch = mir_tstrlen(name);
+	mii.cch = mir_wstrlen(name);
 	InsertMenuItem(hMenu, 0, TRUE, &mii);
 }
 
@@ -1117,7 +1117,7 @@ void AddMenuForWord(Dialog *dlg, wchar_t *word, CHARRANGE &pos, HMENU hMenu, BOO
 		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
 
 		wchar_t text[128];
-		mir_sntprintf(text, TranslateT("Wrong word: %s"), word);
+		mir_snwprintf(text, TranslateT("Wrong word: %s"), word);
 		InsertMenu(hMenu, 0, MF_BYPOSITION, 0, text);
 	}
 }
@@ -1551,7 +1551,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 wchar_t* lstrtrim(wchar_t *str)
 {
-	int len = mir_tstrlen(str);
+	int len = mir_wstrlen(str);
 
 	int i;
 	for (i = len - 1; i >= 0 && (str[i] == ' ' || str[i] == '\t'); --i);
@@ -1572,7 +1572,7 @@ BOOL lstreq(wchar_t *a, wchar_t *b, size_t len)
 {
 	a = CharLower(wcsdup(a));
 	b = CharLower(wcsdup(b));
-	BOOL ret = len ? !wcsncmp(a, b, len) : !mir_tstrcmp(a, b);
+	BOOL ret = len ? !wcsncmp(a, b, len) : !mir_wstrcmp(a, b);
 	free(a);
 	free(b);
 	return ret;

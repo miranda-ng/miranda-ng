@@ -406,9 +406,9 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					}
 
 					if (dbcws->value.type == DBVT_ASCIIZ)
-						eq = !mir_tstrcmp(szFullName, _A2T(dbcws->value.pszVal+1));
+						eq = !mir_wstrcmp(szFullName, _A2T(dbcws->value.pszVal+1));
 					else
-						eq = !mir_tstrcmp(szFullName, ptrT(mir_utf8decodeT(dbcws->value.pszVal + 1)));
+						eq = !mir_wstrcmp(szFullName, ptrW(mir_utf8decodeW(dbcws->value.pszVal + 1)));
 
 					if (eq && (contact->group->hideOffline != 0) == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
 						break;  //only expanded has changed: no action reqd
@@ -546,7 +546,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
 
-		mir_tstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
+		mir_wstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
 		dat->bNeedsResort = true;
 		SortClcByTimer(hwnd);
 		break;
@@ -557,7 +557,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 		contact->proto = GetContactProto(wParam);
 		cli.pfnInvalidateDisplayNameCacheEntry(wParam);
-		mir_tstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
+		mir_wstrncpy(contact->szText, cli.pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
 		SortClcByTimer(hwnd);
 		break;
 
@@ -759,7 +759,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		if (wParam == 27) //escape
 			dat->szQuickSearch[0] = 0;
 		else if (wParam == '\b' && dat->szQuickSearch[0])
-			dat->szQuickSearch[mir_tstrlen(dat->szQuickSearch) - 1] = '\0';
+			dat->szQuickSearch[mir_wstrlen(dat->szQuickSearch) - 1] = '\0';
 		else if (wParam < ' ')
 			break;
 		else if (wParam == ' ' && dat->szQuickSearch[0] == '\0' && GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CHECKBOXES) {
@@ -784,11 +784,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			wchar_t szNew[2];
 			szNew[0] = (wchar_t)wParam;
 			szNew[1] = '\0';
-			if (mir_tstrlen(dat->szQuickSearch) >= _countof(dat->szQuickSearch) - 1) {
+			if (mir_wstrlen(dat->szQuickSearch) >= _countof(dat->szQuickSearch) - 1) {
 				MessageBeep(MB_OK);
 				break;
 			}
-			mir_tstrcat(dat->szQuickSearch, szNew);
+			mir_wstrcat(dat->szQuickSearch, szNew);
 		}
 
 		if (dat->bFilterSearch)
@@ -801,7 +801,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				dat->selection = index;
 			else {
 				MessageBeep(MB_OK);
-				dat->szQuickSearch[mir_tstrlen(dat->szQuickSearch) - 1] = '\0';
+				dat->szQuickSearch[mir_wstrlen(dat->szQuickSearch) - 1] = '\0';
 				cli.pfnSaveStateAndRebuildList(hwnd, dat);
 			}
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
@@ -1111,7 +1111,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 						CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
 					else if (contacto->type == CLCIT_GROUP) { //dropee is a group
 						wchar_t szNewName[120];
-						mir_sntprintf(szNewName, L"%s\\%s", Clist_GroupGetName(contactn->groupId, NULL), contacto->szText);
+						mir_snwprintf(szNewName, L"%s\\%s", Clist_GroupGetName(contactn->groupId, NULL), contacto->szText);
 						Clist_GroupRename(contacto->groupId, szNewName);
 					}
 				}
@@ -1150,7 +1150,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					break;
 				if (contact->type == CLCIT_GROUP) { //dropee is a group
 					wchar_t szNewName[120];
-					mir_tstrncpy(szNewName, contact->szText, _countof(szNewName));
+					mir_wstrncpy(szNewName, contact->szText, _countof(szNewName));
 					Clist_GroupRename(contact->groupId, szNewName);
 				}
 				else if (contact->type == CLCIT_CONTACT) //dropee is a contact

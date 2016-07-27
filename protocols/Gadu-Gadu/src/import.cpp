@@ -34,7 +34,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 		DBVARIANT dbv;
 		if (!gg->getTString(hContact, GG_KEY_PD_FIRSTNAME, &dbv))
 		{
-			char* pszValA = mir_t2a(dbv.ptszVal);
+			char* pszValA = mir_u2a(dbv.ptszVal);
 			string_append(s, dbv.pszVal);
 			mir_free(pszValA);
 			db_free(&dbv);
@@ -43,7 +43,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 		// Readup LastName
 		if (!gg->getTString(hContact, GG_KEY_PD_LASTNAME, &dbv))
 		{
-			char* pszValA = mir_t2a(dbv.ptszVal);
+			char* pszValA = mir_u2a(dbv.ptszVal);
 			string_append(s, dbv.pszVal);
 			mir_free(pszValA);
 			db_free(&dbv);
@@ -53,11 +53,11 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 		// Readup Nick
 		if (!db_get_ts(hContact, "CList", "MyHandle", &dbv) || !gg->getTString(hContact, GG_KEY_NICK, &dbv))
 		{
-			char* dbvA = mir_t2a(dbv.ptszVal);
+			char* dbvA = mir_u2a(dbv.ptszVal);
 			DBVARIANT dbv2;
 			if (!gg->getTString(hContact, GG_KEY_PD_NICKNAME, &dbv2))
 			{
-				char* pszValA = mir_t2a(dbv2.ptszVal);
+				char* pszValA = mir_u2a(dbv2.ptszVal);
 				string_append(s, pszValA);
 				mir_free(pszValA);
 				db_free(&dbv2);
@@ -216,19 +216,19 @@ void GGPROTO::parsecontacts(char *contacts)
 #endif
 			// Write group
 			if (hContact && strGroup) {
-				ptrT tszGrpName( mir_a2t(strGroup));
+				ptrW tszGrpName( mir_a2u(strGroup));
 				Clist_GroupCreate(0, tszGrpName);
 				db_set_ts(hContact, "CList", "Group", tszGrpName);
 			}
 
 			// Write misc data
 			if (hContact && strFirstName){
-				wchar_t *tstrFirstName = mir_a2t(strFirstName);
+				wchar_t *tstrFirstName = mir_a2u(strFirstName);
 				setTString(hContact, GG_KEY_PD_FIRSTNAME, tstrFirstName);
 				mir_free(tstrFirstName);
 			}
 			if (hContact && strLastName){
-				wchar_t *tstrLastName = mir_a2t(strLastName);
+				wchar_t *tstrLastName = mir_a2u(strLastName);
 				setTString(hContact, GG_KEY_PD_LASTNAME, tstrLastName);
 				mir_free(tstrLastName);
 			}
@@ -278,7 +278,7 @@ INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
 	{
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 1, "sess_mutex", 1);
-		mir_sntprintf(error, TranslateT("List cannot be imported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
+		mir_snwprintf(error, TranslateT("List cannot be imported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLog(L"import_server(): Cannot import list. errno:%d: %s", errno, ws_strerror(errno));
 	}
@@ -316,7 +316,7 @@ INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 	{
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 1, "sess_mutex", 1);
-		mir_sntprintf(error, TranslateT("List cannot be removed because of error: %s (Error: %d)"), ws_strerror(errno), errno);
+		mir_snwprintf(error, TranslateT("List cannot be removed because of error: %s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLog(L"remove_server(): Cannot remove list. errno=%d: %s", errno, ws_strerror(errno));
 	}
@@ -337,24 +337,24 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	wcsncpy(filter, TranslateT("Text files"), _countof(filter));
-	mir_tstrncat(filter, L" (*.txt)", _countof(filter) - mir_tstrlen(filter));
-	pfilter = filter + mir_tstrlen(filter) + 1;
+	mir_wstrncat(filter, L" (*.txt)", _countof(filter) - mir_wstrlen(filter));
+	pfilter = filter + mir_wstrlen(filter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 
 	wcsncpy(pfilter, L"*.TXT", _countof(filter) - (pfilter - filter));
-	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 	wcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - (pfilter - filter));
-	mir_tstrncat(pfilter, L" (*)", _countof(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
-	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+	mir_wstrncat(pfilter, L" (*)", _countof(filter) - (pfilter - filter) - mir_wstrlen(pfilter));
+	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 
 	wcsncpy(pfilter, L"*", _countof(filter) - (pfilter - filter));
-	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 
@@ -390,7 +390,7 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 	else
 	{
 		wchar_t error[256];
-		mir_sntprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
+		mir_snwprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLog(L"import_text(): Cannot import list from file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
 		if (f)
@@ -406,25 +406,25 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 	wchar_t filter[512], *pfilter;
 
 	wcsncpy(str, TranslateT("contacts"), _countof(str));
-	mir_tstrncat(str, L".txt", _countof(str) - mir_tstrlen(str));
+	mir_wstrncat(str, L".txt", _countof(str) - mir_wstrlen(str));
 
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	wcsncpy(filter, TranslateT("Text files"), _countof(filter));
-	mir_tstrncat(filter, L" (*.txt)", _countof(filter) - mir_tstrlen(filter));
-	pfilter = filter + mir_tstrlen(filter) + 1;
+	mir_wstrncat(filter, L" (*.txt)", _countof(filter) - mir_wstrlen(filter));
+	pfilter = filter + mir_wstrlen(filter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 	wcsncpy(pfilter, L"*.TXT", _countof(filter) - (pfilter - filter));
-	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 	wcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - (pfilter - filter));
-	mir_tstrncat(pfilter, L" (*)", _countof(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
-	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+	mir_wstrncat(pfilter, L" (*)", _countof(filter) - (pfilter - filter) - mir_wstrlen(pfilter));
+	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 	wcsncpy(pfilter, L"*", _countof(filter) - (pfilter - filter));
-	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 	*pfilter = '\0';
@@ -452,7 +452,7 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 	else
 	{
 		wchar_t error[128];
-		mir_sntprintf(error, TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
+		mir_snwprintf(error, TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLog(L"export_text(): Cannot export list to file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
 	}
@@ -496,7 +496,7 @@ INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 	{
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 1, "sess_mutex", 1);
-		mir_sntprintf(error, TranslateT("List cannot be exported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
+		mir_snwprintf(error, TranslateT("List cannot be exported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLog(L"export_server(): Cannot export list. errno=%d: %s", errno, ws_strerror(errno));
 	}

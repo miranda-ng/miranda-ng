@@ -85,14 +85,14 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
 
 	wchar_t* ptszDefaultFile;
 	if (ssd->dwFlags & SSDF_UNICODE) {
-		item->ptszDescription = mir_tstrdup(ssd->ptszDescription);
-		item->ptszSection = mir_tstrdup((ssd->pszSection != NULL) ? ssd->ptszSection : L"Other");
-		ptszDefaultFile = mir_tstrdup(ssd->ptszDefaultFile);
+		item->ptszDescription = mir_wstrdup(ssd->ptszDescription);
+		item->ptszSection = mir_wstrdup((ssd->pszSection != NULL) ? ssd->ptszSection : L"Other");
+		ptszDefaultFile = mir_wstrdup(ssd->ptszDefaultFile);
 	}
 	else {
-		item->ptszDescription = mir_a2t(ssd->pszDescription);
-		item->ptszSection = mir_a2t((ssd->pszSection != NULL) ? ssd->pszSection : "Other");
-		ptszDefaultFile = mir_a2t(ssd->pszDefaultFile);
+		item->ptszDescription = mir_a2u(ssd->pszDescription);
+		item->ptszSection = mir_a2u((ssd->pszSection != NULL) ? ssd->pszSection : "Other");
+		ptszDefaultFile = mir_a2u(ssd->pszDefaultFile);
 	}
 
 	if (ptszDefaultFile) {
@@ -307,9 +307,9 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			OPENFILENAME ofn;
 			memset(&ofn, 0, sizeof(ofn));
 			if (GetModuleHandle(L"bass_interface.dll"))
-				mir_sntprintf(filter, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*)%c*%c", TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
+				mir_snwprintf(filter, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*)%c*%c", TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
 			else
-				mir_sntprintf(filter, L"%s (*.wav)%c*.wav%c%s (*)%c*%c", TranslateT("WAV files"), 0, 0, TranslateT("All files"), 0, 0);
+				mir_snwprintf(filter, L"%s (*.wav)%c*.wav%c%s (*)%c*%c", TranslateT("WAV files"), 0, 0, TranslateT("All files"), 0, 0);
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = GetParent(hwndDlg);
 			ofn.hInstance = NULL;
@@ -331,7 +331,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			PathToRelativeT(str, strFull);
-			snd.ptszTempFile = mir_tstrdup(strFull);
+			snd.ptszTempFile = mir_wstrdup(strFull);
 			SetDlgItemText(hwndDlg, IDC_LOCATION, strFull);
 		}
 		if (LOWORD(wParam) == IDC_GETMORE) {
@@ -388,7 +388,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 					else {
 						wchar_t buf[256];
-						mir_sntprintf(buf, L"%s: %s", arSounds[tvi.lParam].getSection(), arSounds[tvi.lParam].getDescr());
+						mir_snwprintf(buf, L"%s: %s", arSounds[tvi.lParam].getSection(), arSounds[tvi.lParam].getDescr());
 						SetDlgItemText(hwndDlg, IDC_NAMEVAL, buf);
 						if (arSounds[tvi.lParam].ptszTempFile)
 							SetDlgItemText(hwndDlg, IDC_LOCATION, arSounds[tvi.lParam].ptszTempFile);

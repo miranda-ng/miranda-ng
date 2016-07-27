@@ -156,16 +156,16 @@ static wchar_t* GetLinkDescription(TSettingsList& protoSettings)
 		result.Append(status);
 	}
 
-	return mir_tstrndup(result, result.GetLength());
+	return mir_wstrndup(result, result.GetLength());
 }
 
 HRESULT CreateLink(TSettingsList& protoSettings)
 {
 	wchar_t savePath[MAX_PATH];
 	if (SHGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
-		wcsncat_s(savePath, SHORTCUT_FILENAME, _countof(savePath) - mir_tstrlen(savePath));
+		wcsncat_s(savePath, SHORTCUT_FILENAME, _countof(savePath) - mir_wstrlen(savePath));
 	else
-		mir_sntprintf(savePath, L".\\%s", SHORTCUT_FILENAME);
+		mir_snwprintf(savePath, L".\\%s", SHORTCUT_FILENAME);
 
 	// Get a pointer to the IShellLink interface.
 	IShellLink *psl;
@@ -324,12 +324,12 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		}
 		else {
 			wchar_t text[128];
-			mir_sntprintf(text, TranslateT("size: %d x %d"),
+			mir_snwprintf(text, TranslateT("size: %d x %d"),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_WIDTH, 0),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_HEIGHT, 0));
 			SetDlgItemText(hwndDlg, IDC_CURWINSIZE, text);
 
-			mir_sntprintf(text, TranslateT("loc: %d x %d"),
+			mir_snwprintf(text, TranslateT("loc: %d x %d"),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_XPOS, 0),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_YPOS, 0));
 			SetDlgItemText(hwndDlg, IDC_CURWINLOC, text);
@@ -529,9 +529,9 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				if ( GetProfile(i, ar) == -1) {
 					/* create an empty profile */
 					if (i == defProfile)
-						ppo->tszName = mir_tstrdup( TranslateT("default"));
+						ppo->tszName = mir_wstrdup( TranslateT("default"));
 					else
-						ppo->tszName = mir_tstrdup( TranslateT("unknown"));
+						ppo->tszName = mir_wstrdup( TranslateT("unknown"));
 				}
 				else {
 					for (int j=0; j < ar.getCount(); j++)
@@ -541,9 +541,9 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 					ppo->tszName = db_get_tsa(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME));
 					if (ppo->tszName == NULL) {
 						if (i == defProfile)
-							ppo->tszName = mir_tstrdup( TranslateT("default"));
+							ppo->tszName = mir_wstrdup( TranslateT("default"));
 						else
-							ppo->tszName = mir_tstrdup( TranslateT("unknown"));
+							ppo->tszName = mir_wstrdup( TranslateT("unknown"));
 					}
 					ppo->createTtb = db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATETTBBUTTON), 0);
 					ppo->showDialog = db_get_b(NULL, MODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), 0);
@@ -665,7 +665,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				break;
 
 			PROFILEOPTIONS* ppo = new PROFILEOPTIONS;
-			ppo->tszName = mir_tstrdup(tszName);
+			ppo->tszName = mir_wstrdup(tszName);
 			ppo->ps = GetCurrentProtoSettings();
 			arProfiles.insert(ppo);
 

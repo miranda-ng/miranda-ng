@@ -57,7 +57,7 @@ static void ComboLoadRecentStrings(HWND hwndDlg, EnterStringFormParam *pForm)
 	for (int i = 0; i < pForm->recentCount; i++) {
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, "%s%d", pForm->szDataPrefix, i);
-		ptrT tszRecent(db_get_tsa(NULL, pForm->szModuleName, setting));
+		ptrW tszRecent(db_get_tsa(NULL, pForm->szModuleName, setting));
 		if (tszRecent != NULL)
 			SendDlgItemMessage(hwndDlg, pForm->idcControl, CB_ADDSTRING, 0, tszRecent);
 	}
@@ -142,7 +142,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		if (params->timeout > 0) {
 			SetTimer(hwndDlg, 1001, 1000, NULL);
 			wchar_t buf[128];
-			mir_sntprintf(buf, TranslateT("OK (%d)"), params->timeout);
+			mir_snwprintf(buf, TranslateT("OK (%d)"), params->timeout);
 			SetDlgItemText(hwndDlg, IDOK, buf);
 		}
 
@@ -161,7 +161,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		case 1001:
 			wchar_t buf[128];
-			mir_sntprintf(buf, TranslateT("OK (%d)"), --params->timeout);
+			mir_snwprintf(buf, TranslateT("OK (%d)"), --params->timeout);
 			SetDlgItemText(hwndDlg, IDOK, buf);
 
 			if (params->timeout < 0) {

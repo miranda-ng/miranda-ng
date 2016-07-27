@@ -47,7 +47,7 @@ static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)
 		SelectObject(hdc, g_Options.hfntName);
 
 	SIZE sz;
-	GetTextExtentPoint32(hdc, name, (int)mir_tstrlen(name), &sz);
+	GetTextExtentPoint32(hdc, name, (int)mir_wstrlen(name), &sz);
 	lpmis->itemHeight = sz.cy + 8;
 	lpmis->itemWidth = sz.cx + 10;
 	SelectObject(hdc, hfntSave);
@@ -81,7 +81,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 
 		if (!options->bSysColors)
 			SelectObject(hdc, g_Options.hfntSecond);
-		GetTextExtentPoint32(hdc, title, (int)mir_tstrlen(title), &sz);
+		GetTextExtentPoint32(hdc, title, (int)mir_wstrlen(title), &sz);
 		textWidth = sz.cx;
 		lpmis->itemHeight += sz.cy + 3;
 
@@ -92,7 +92,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 	wchar_t *name = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
 
 	if (!options->bSysColors) SelectObject(hdc, g_Options.hfntName);
-	GetTextExtentPoint32(hdc, name, (int)mir_tstrlen(name), &sz);
+	GetTextExtentPoint32(hdc, name, (int)mir_wstrlen(name), &sz);
 	textWidth = max(textWidth, sz.cx);
 
 	SelectObject(hdc, hfntSave);
@@ -309,7 +309,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		DrawText(hdcTemp, name, -1, &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
 
 		SIZE sz;
-		GetTextExtentPoint32(hdcTemp, name, (int)mir_tstrlen(name), &sz);
+		GetTextExtentPoint32(hdcTemp, name, (int)mir_wstrlen(name), &sz);
 		lpdis->rcItem.top += sz.cy + 3;
 	}
 
@@ -390,13 +390,13 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			RemoveMenu((HMENU)lParam, 1, MF_BYPOSITION);
 
 		if (LOWORD(wParam) == VK_BACK) {
-			if (size_t l = mir_tstrlen(g_filter))
+			if (size_t l = mir_wstrlen(g_filter))
 				g_filter[l - 1] = 0;
 		}
 		else if (iswalnum(LOWORD(wParam))) {
-			if (mir_tstrlen(g_filter) < _countof(g_filter) - 1) {
+			if (mir_wstrlen(g_filter) < _countof(g_filter) - 1) {
 				wchar_t s[] = { LOWORD(wParam), 0 };
-				mir_tstrcat(g_filter, s);
+				mir_wstrcat(g_filter, s);
 			}
 		}
 		{
@@ -465,7 +465,7 @@ int ShowMenu(bool centered)
 		mis.CtlID = 0;
 		mis.CtlType = ODT_MENU;
 
-		if (!prevGroup || mir_tstrcmp(prevGroup, favList[i]->getGroup())) {
+		if (!prevGroup || mir_wstrcmp(prevGroup, favList[i]->getGroup())) {
 			if (prevGroup && g_Options.bUseColumns) {
 				szMenu.cx += szColumn.cx;
 				szMenu.cy = max(szMenu.cy, szColumn.cy);

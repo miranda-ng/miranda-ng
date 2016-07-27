@@ -101,13 +101,13 @@ void MakePopupMsg(HWND hDlg, MCONTACT hContact, char *msg)
 	if (hDlg == hFocused || hDlg == GetParent(hFocused)) return;
 
 	//
-	//The text for the second line. You could even make something like: char lpzText[128]; mir_tstrcpy(lpzText, "Hello world!"); It's your choice.
+	//The text for the second line. You could even make something like: char lpzText[128]; mir_wstrcpy(lpzText, "Hello world!"); It's your choice.
 	//
 	POPUPDATA ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALLICON));
-	mir_tstrcpy(ppd.lpzContactName, (char *)pcli->pfnGetContactDisplayName(hContact, 0));
-	mir_tstrcpy(ppd.lpzText, msg);
+	mir_strcpy(ppd.lpzContactName, (char*)pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_strcpy(ppd.lpzText, msg);
 	ppd.colorBack = GetSysColor(COLOR_INFOBK);
 	ppd.colorText = GetSysColor(COLOR_INFOTEXT);
 	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
@@ -618,7 +618,7 @@ void FILEECHO::onSendTimer()
 	char prefix[128];
 	mir_snprintf(prefix, "%X,%X,%X>", chunkIndx + 1, chunkPos[chunkIndx], chksum);
 #ifdef DEBUG
-	overhead += mir_tstrlen((char*)buffer);
+	overhead += mir_wstrlen((char*)buffer);
 #endif
 	sendCmd(0, CMD_DATA, (char*)buffer, (char*)prefix);
 	chunkAck[chunkIndx] = CHUNK_SENT;
@@ -844,18 +844,17 @@ void FILEECHO::perform(char *str)
 
 int FILEECHO::sendCmd(int id, int cmd, char *szParam, char *szPrefix)
 {
-	char *buf;
-	int retval;
-	int buflen = (int)mir_tstrlen(szServicePrefix) + (int)mir_tstrlen(szParam) + 2;
+	int buflen = (int)mir_strlen(szServicePrefix) + (int)mir_strlen(szParam) + 2;
 	if (szPrefix != NULL)
-		buflen += (int)mir_tstrlen(szPrefix);
+		buflen += (int)mir_strlen(szPrefix);
 
-	buf = (char*)malloc(buflen);
+	char *buf = (char*)malloc(buflen);
 	if (szPrefix == NULL)
 		mir_snprintf(buf, buflen, "%s%c%s", szServicePrefix, cCmdList[cmd], szParam);
 	else
 		mir_snprintf(buf, buflen, "%s%c%s%s", szServicePrefix, cCmdList[cmd], szPrefix, szParam);
-	retval = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
+
+	int retval = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 	free(buf);
 	updateProgress();
 	return retval;

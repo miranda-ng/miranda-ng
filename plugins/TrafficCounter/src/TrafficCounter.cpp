@@ -216,26 +216,26 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 
 	// Формат счётчика для каждого активного протокола
 	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0) {
-		if (mir_tstrlen(dbv.ptszVal) > 0)
-			mir_tstrncpy(Traffic_CounterFormat, dbv.ptszVal, _countof(Traffic_CounterFormat));
+		if (mir_wstrlen(dbv.ptszVal) > 0)
+			mir_wstrncpy(Traffic_CounterFormat, dbv.ptszVal, _countof(Traffic_CounterFormat));
 		//
 		db_free(&dbv);
 	}
 	else //defaults here
 	{
-		mir_tstrcpy(Traffic_CounterFormat, tszFormat);
+		mir_wstrcpy(Traffic_CounterFormat, tszFormat);
 	}
 
 	// Формат всплывающих подсказок
 	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0) {
-		if (mir_tstrlen(dbv.ptszVal) > 0)
-			mir_tstrncpy(Traffic_TooltipFormat, dbv.ptszVal, _countof(Traffic_TooltipFormat));
+		if (mir_wstrlen(dbv.ptszVal) > 0)
+			mir_wstrncpy(Traffic_TooltipFormat, dbv.ptszVal, _countof(Traffic_TooltipFormat));
 		//
 		db_free(&dbv);
 	}
 	else //defaults here
 	{
-		mir_tstrcpy(Traffic_TooltipFormat, L"Traffic Counter");
+		mir_wstrcpy(Traffic_TooltipFormat, L"Traffic Counter");
 	}
 
 	Traffic_AdditionSpace = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, 0);
@@ -245,8 +245,8 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 
 	//register traffic font
 	TrafficFontID.cbSize = sizeof(FontIDT);
-	mir_tstrcpy(TrafficFontID.group, LPGENW("Traffic counter"));
-	mir_tstrcpy(TrafficFontID.name, LPGENW("Font"));
+	mir_wstrcpy(TrafficFontID.group, LPGENW("Traffic counter"));
+	mir_wstrcpy(TrafficFontID.name, LPGENW("Font"));
 	mir_strcpy(TrafficFontID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
 	mir_strcpy(TrafficFontID.prefix, "Font");
 	TrafficFontID.flags = FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
@@ -254,14 +254,14 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	TrafficFontID.deffontsettings.colour = GetSysColor(COLOR_BTNTEXT);
 	TrafficFontID.deffontsettings.size = 12;
 	TrafficFontID.deffontsettings.style = 0;
-	mir_tstrcpy(TrafficFontID.deffontsettings.szFace, L"Arial");
+	mir_wstrcpy(TrafficFontID.deffontsettings.szFace, L"Arial");
 	TrafficFontID.order = 0;
 	FontRegisterT(&TrafficFontID);
 
 	// Регистрируем цвет фона
 	TrafficBackgroundColorID.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(TrafficBackgroundColorID.group, LPGENW("Traffic counter"));
-	mir_tstrcpy(TrafficBackgroundColorID.name, LPGENW("Font"));
+	mir_wstrcpy(TrafficBackgroundColorID.group, LPGENW("Traffic counter"));
+	mir_wstrcpy(TrafficBackgroundColorID.name, LPGENW("Font"));
 	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
 	mir_strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
 	TrafficBackgroundColorID.defcolour = GetSysColor(COLOR_BTNFACE);
@@ -385,7 +385,7 @@ int TrafficCounter_Draw(HWND hwnd, HDC hDC)
 
 static void TC_AlphaText(HDC hDC, LPCTSTR lpString, RECT* lpRect, UINT format, BYTE ClistModernPresent)
 {
-	int nCount = (int)mir_tstrlen(lpString);
+	int nCount = (int)mir_wstrlen(lpString);
 
 	if (ClistModernPresent)
 		AlphaText(hDC, lpString, nCount, lpRect, format, Traffic_FontColor);
@@ -539,7 +539,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			// Выводим текст
 			// Изображаем имя
 			if (unOptions.DrawProtoName) {
-				wchar_t *bu = mir_a2t("Summary");
+				wchar_t *bu = mir_a2u("Summary");
 
 				rect.left += dx;
 				TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_LEFT | DT_TOP, ClistModernPresent);
@@ -594,7 +594,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			// Выводим текст
 			// Изображаем имя
 			if (unOptions.DrawProtoName) {
-				wchar_t *bu = mir_a2t("Overall");
+				wchar_t *bu = mir_a2u("Overall");
 
 				rect.left += dx;
 				TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_LEFT | DT_TOP, ClistModernPresent);
@@ -639,7 +639,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				ExtraText = (wchar_t**)mir_realloc(ExtraText, sizeof(wchar_t*) * (RowsNumber + 1));
 				ahIcon = (HICON*)mir_realloc(ahIcon, sizeof(HICON) * (RowsNumber + 1));
 
-				ExtraText[RowsNumber] = mir_a2t(ProtoList[i].name);
+				ExtraText[RowsNumber] = mir_a2u(ProtoList[i].name);
 				ahIcon[RowsNumber++] = Skin_LoadProtoIcon(ProtoList[i].name, CallProtoService(ProtoList[i].name, PS_GETSTATUS, 0, 0));
 			}
 		}
@@ -648,14 +648,14 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			ExtraText = (wchar_t**)mir_realloc(ExtraText, sizeof(wchar_t*) * (RowsNumber + 1));
 			ahIcon = (HICON*)mir_realloc(ahIcon, sizeof(HICON) * (RowsNumber + 1));
 
-			ExtraText[RowsNumber] = mir_a2t("summary");
+			ExtraText[RowsNumber] = mir_a2u("summary");
 			ahIcon[RowsNumber++] = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		}
 		if (unOptions.ShowOverall) {
 			ExtraText = (wchar_t**)mir_realloc(ExtraText, sizeof(wchar_t*) * (RowsNumber + 1));
 			ahIcon = (HICON*)mir_realloc(ahIcon, sizeof(HICON) * (RowsNumber + 1));
 
-			ExtraText[RowsNumber] = mir_a2t("overall");
+			ExtraText[RowsNumber] = mir_a2u("overall");
 			ahIcon[RowsNumber++] = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		}
 
@@ -1065,7 +1065,7 @@ void NotifyOnSend(void)
 	ppd.lchContact = NULL;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	wcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
-	mir_sntprintf(ppd.lptzText, TranslateT("%d kilobytes sent"), notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
+	mir_snwprintf(ppd.lptzText, TranslateT("%d kilobytes sent"), notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = NULL;
@@ -1081,7 +1081,7 @@ void NotifyOnRecv(void)
 	ppd.lchContact = NULL;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	wcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
-	mir_sntprintf(ppd.lptzText, TranslateT("%d kilobytes received"), notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
+	mir_snwprintf(ppd.lptzText, TranslateT("%d kilobytes received"), notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = NULL;
@@ -1100,7 +1100,7 @@ void CreateProtocolList(void)
 	//
 	for (i = 0; i < NumberOfAccounts; i++) {
 		ProtoList[i].name = mir_strdup(acc[i]->szModuleName);
-		ProtoList[i].tszAccountName = mir_tstrdup(acc[i]->tszAccountName);
+		ProtoList[i].tszAccountName = mir_wstrdup(acc[i]->tszAccountName);
 
 		ProtoList[i].Flags = db_get_b(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, 3);
 		ProtoList[i].CurrentRecvTraffic =

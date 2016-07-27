@@ -25,7 +25,7 @@ CMString ExpandPath(const wchar_t *format)
 	CMString res;
 
 	if (ServiceExists(MS_VARS_FORMATSTRING))
-		res = VARST(ptrT(variables_parse((wchar_t*)format, NULL, NULL)));
+		res = VARST(ptrW(variables_parse((wchar_t*)format, NULL, NULL)));
 	else
 		res = VARST(format);
 

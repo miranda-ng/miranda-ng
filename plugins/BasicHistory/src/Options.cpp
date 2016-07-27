@@ -722,7 +722,7 @@ void SetEventCB(HWND hwndCB, int eventId)
 
 	if (selCpIdx == -1) {
 		wchar_t buf[24];
-		mir_sntprintf(buf, L"%d", eventId);
+		mir_snwprintf(buf, L"%d", eventId);
 		ComboBox_SetText(hwndCB, buf);	
 	}
 	else ComboBox_SetCurSel(hwndCB, selCpIdx);	
@@ -777,7 +777,7 @@ void ReloadEventLB(HWND hwndLB, const FilterOptions &sel)
 
 		if (selCpIdx == -1) {
 			wchar_t buf[24];
-			mir_sntprintf(buf, L"%d", *it);
+			mir_snwprintf(buf, L"%d", *it);
 			ListBox_AddString(hwndLB, buf);	
 		}
 		else ListBox_AddString(hwndLB, TranslateTS(EventNames[selCpIdx].name));	
@@ -805,25 +805,25 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const wchar_t* defName, const wcha
 	wchar_t extUpper[32];
 	wcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
-	mir_sntprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
-	size_t len = mir_tstrlen(filter) + 1;
-	mir_sntprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
-	len += mir_tstrlen(filter + len) + 1;
+	mir_snwprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
+	size_t len = mir_wstrlen(filter) + 1;
+	mir_snwprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
+	len += mir_wstrlen(filter + len) + 1;
 	wcscpy_s(filter + len, 1024 - len, TranslateT("All Files (*.*)"));
-	len += mir_tstrlen(filter + len) + 1;
+	len += mir_wstrlen(filter + len) + 1;
 	wcscpy_s(filter + len, 1024 - len, L"*.*");
-	len += mir_tstrlen(filter + len) + 1;
+	len += mir_wstrlen(filter + len) + 1;
 	filter[len] = 0;
 	wchar_t stzFilePath[1024];
 
 	Edit_GetText(hwndEdit, stzFilePath, 1023);
 	if (stzFilePath[0] == 0) {
 		wcscpy_s(stzFilePath, defName);
-		len = mir_tstrlen(stzFilePath) + 1;
+		len = mir_wstrlen(stzFilePath) + 1;
 		stzFilePath[len] = 0;
 	}
 	else {
-		len = mir_tstrlen(stzFilePath) + 1;
+		len = mir_wstrlen(stzFilePath) + 1;
 		stzFilePath[len] = 0;
 	}
 
@@ -1283,7 +1283,7 @@ void InitCodepageCB(HWND hwndCB, unsigned int codepage, const std::wstring& name
 
 	if (selCpIdx == -1) {
 		wchar_t buf[300];
-		mir_sntprintf(buf, L"%d;%s", codepage, name.c_str());
+		mir_snwprintf(buf, L"%d;%s", codepage, name.c_str());
 		ComboBox_SetText(hwndCB, buf);	
 	}
 	else ComboBox_SetCurSel(hwndCB, selCpIdx);	
@@ -1701,7 +1701,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				wchar_t sep = ':';
 				if (GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_STIME, timeFormat, 10) > 0)
 					sep = timeFormat[0];
-				mir_sntprintf(timeFormat, L"HH%cmm", sep);
+				mir_snwprintf(timeFormat, L"HH%cmm", sep);
 			}
 
 			SYSTEMTIME st;
@@ -1748,7 +1748,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				toCp.eventDeltaTime = GetDlgItemInt(hwndDlg, IDC_EVENT_TIME, &isOK, TRUE);
 				if (!isOK) {
 					wchar_t tszBuf[256];
-					mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Events older than"));
+					mir_snwprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Events older than"));
 					MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 					break;
 				}
@@ -1779,7 +1779,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (!isOK) {
 					if (toCp.trigerType == TaskOptions::Monthly) {
 						wchar_t tszBuf[256];
-						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Day"));
+						mir_snwprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Day"));
 						MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 						break;
 					}
@@ -1789,7 +1789,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (!isOK) {
 					if (toCp.trigerType == TaskOptions::DeltaMin || toCp.trigerType == TaskOptions::DeltaHour) {
 						wchar_t tszBuf[256];
-						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Delta time"));
+						mir_snwprintf(tszBuf, TranslateT("Invalid '%s' value."), TranslateT("Delta time"));
 						MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 						break;
 					}
@@ -1806,9 +1806,9 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (err.empty())
 						wcscpy_s(tszBuf, TranslateT("Some value is invalid"));
 					else if (errDescr.empty())
-						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value."), err.c_str());
+						mir_snwprintf(tszBuf, TranslateT("Invalid '%s' value."), err.c_str());
 					else
-						mir_sntprintf(tszBuf, TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
+						mir_snwprintf(tszBuf, TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
 					MessageBox(hwndDlg, tszBuf, TranslateT("Error"), MB_ICONERROR);
 					break;
 				}

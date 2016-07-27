@@ -50,7 +50,7 @@ int CSendHost_ImageShack::Send()
 		return !m_bAsync;
 	}
 	memset(&m_nlhr, 0, sizeof(m_nlhr));
-	char* tmp; tmp = mir_t2a(m_pszFile);
+	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
 		//		{"Referer",HTTPFORM_HEADER("http://www.imageshack.us/upload_api.php")},
 		{ "fileupload", HTTPFORM_FILE(tmp) },
@@ -101,10 +101,10 @@ void CSendHost_ImageShack::SendThread()
 			else {/// check error mess from server
 				url = GetHTMLContent(reply->pData, "<error ", "</error>");
 				wchar_t* err = NULL;
-				if (url) err = mir_a2t(url);
+				if (url) err = mir_a2u(url);
 				if (!err || !*err) {/// fallback to server response mess
 					mir_free(err);
-					err = mir_a2t(reply->pData);
+					err = mir_a2u(reply->pData);
 				}
 				Error(L"%s", err);
 				mir_free(err);

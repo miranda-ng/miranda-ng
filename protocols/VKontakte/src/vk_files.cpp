@@ -351,7 +351,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	if (isChatRoom(fup->hContact)) {
 
-		ptrT tszChatID(getTStringA(fup->hContact, "ChatRoomID"));
+		ptrW tszChatID(getTStringA(fup->hContact, "ChatRoomID"));
 		if (!tszChatID) {
 			SendFileFiled(fup, VKERR_INVALID_USER);
 			return;

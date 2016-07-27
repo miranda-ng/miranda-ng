@@ -26,14 +26,14 @@ static int vrCount = 0;
 
 static int addToVariablesRegister(wchar_t *szName, wchar_t *szText)
 {
-	if ((szName == NULL) || (szText == NULL) || (mir_tstrlen(szName) <= 0))
+	if ((szName == NULL) || (szText == NULL) || (mir_wstrlen(szName) <= 0))
 		return -1;
 
 	mir_cslock lck(csVarRegister);
 	for (int i = 0; i < vrCount; i++) {
-		if ((!mir_tstrcmp(vr[i].szName, szName))) {
+		if ((!mir_wstrcmp(vr[i].szName, szName))) {
 			mir_free(vr[i].szText);
-			vr[i].szText = mir_tstrdup(szText);
+			vr[i].szText = mir_wstrdup(szText);
 			return 0;
 		}
 	}
@@ -42,21 +42,21 @@ static int addToVariablesRegister(wchar_t *szName, wchar_t *szText)
 		return -1;
 
 	vr = pvr;
-	vr[vrCount].szName = mir_tstrdup(szName);
-	vr[vrCount].szText = mir_tstrdup(szText);
+	vr[vrCount].szName = mir_wstrdup(szName);
+	vr[vrCount].szText = mir_wstrdup(szText);
 	vr[vrCount++].dwOwnerThread = GetCurrentThreadId();
 	return 0;
 }
 
 static wchar_t *searchVariableRegister(wchar_t *szName)
 {
-	if ((szName == NULL) || (mir_tstrlen(szName) <= 0))
+	if ((szName == NULL) || (mir_wstrlen(szName) <= 0))
 		return NULL;
 
 	mir_cslock lck(csVarRegister);
 	for (int i = 0; i < vrCount; i++)
-		if ((!mir_tstrcmp(vr[i].szName, szName)))
-			return mir_tstrdup(vr[i].szText);
+		if ((!mir_wstrcmp(vr[i].szName, szName)))
+			return mir_wstrdup(vr[i].szText);
 
 	return NULL;
 }
@@ -85,7 +85,7 @@ static wchar_t *parsePuts(ARGUMENTSINFO *ai)
 	if (addToVariablesRegister(ai->targv[1], ai->targv[2]))
 		return NULL;
 
-	return mir_tstrdup(L"");
+	return mir_wstrdup(L"");
 }
 
 static wchar_t *parseGet(ARGUMENTSINFO *ai)

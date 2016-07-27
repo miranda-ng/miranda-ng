@@ -537,7 +537,7 @@ BOOL CTooltipNotify::OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_VSCROLL:
 	case WM_HSCROLL:
 		wchar_t str[10];
-		mir_sntprintf(str, L"%d%%", 100 * SendDlgItemMessage(hDlg, IDC_TRANSPARENCY_SLIDER, TBM_GETPOS, 0, 0) / 255);
+		mir_snwprintf(str, L"%d%%", 100 * SendDlgItemMessage(hDlg, IDC_TRANSPARENCY_SLIDER, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemText(hDlg, IDC_TRANSPERC, str);
 		if (wParam != 0x12345678)
 			SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
@@ -679,7 +679,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 				ListView_GetItemText(GetDlgItem(hDlg, IDC_PROTOS), i, 0, szProto, _countof(szProto));
 
 				char szMultiByteProto[128];
-				long lLen = WideCharToMultiByte(CP_ACP, 0, szProto, (int)mir_tstrlen(szProto),
+				long lLen = WideCharToMultiByte(CP_ACP, 0, szProto, (int)mir_wstrlen(szProto),
 					szMultiByteProto, sizeof(szMultiByteProto), NULL, NULL);
 				szMultiByteProto[lLen] = '\0';
 
@@ -799,23 +799,23 @@ BOOL CTooltipNotify::ContactsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 wchar_t* CTooltipNotify::StatusToString(int iStatus, wchar_t *szStatus, int iBufSize)
 {
 	if (iStatus >= ID_STATUS_OFFLINE && iStatus <= ID_STATUS_OUTTOLUNCH)
-		mir_tstrncpy(szStatus, pcli->pfnGetStatusModeDescription(iStatus, 0), iBufSize);
+		mir_wstrncpy(szStatus, pcli->pfnGetStatusModeDescription(iStatus, 0), iBufSize);
 	else {
 		switch (iStatus) {
 		case ID_TTNTF_STATUS_TYPING:
-			mir_tstrncpy(szStatus, TranslateT("Typing"), iBufSize);
+			mir_wstrncpy(szStatus, TranslateT("Typing"), iBufSize);
 			break;
 
 		case ID_TTNTF_STATUS_IDLE:
-			mir_tstrncpy(szStatus, TranslateT("Idle"), iBufSize);
+			mir_wstrncpy(szStatus, TranslateT("Idle"), iBufSize);
 			break;
 
 		case ID_TTNTF_STATUS_NOT_IDLE:
-			mir_tstrncpy(szStatus, TranslateT("Not Idle"), iBufSize);
+			mir_wstrncpy(szStatus, TranslateT("Not Idle"), iBufSize);
 			break;
 
 		default:
-			mir_tstrncpy(szStatus, TranslateT("Unknown"), iBufSize);
+			mir_wstrncpy(szStatus, TranslateT("Unknown"), iBufSize);
 			break;
 		}
 	}
@@ -841,11 +841,11 @@ wchar_t* CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, wchar
 	long lLen = MultiByteToWideChar(CP_ACP, 0, szProto, (int)mir_strlen(szProto), wszProto, _countof(wszProto));
 	wszProto[lLen] = '\0';
 
-	mir_sntprintf(szString, iBufSize - 1, szFormatString, wszProto, L": ", szContactName);
+	mir_snwprintf(szString, iBufSize - 1, szFormatString, wszProto, L": ", szContactName);
 
 
-	TruncateWithDots(szString, iBufSize - 1 - mir_tstrlen(szStatus) - mir_tstrlen(szIs) - 2); // 2 spaces around szIs
-	mir_sntprintf(szString + mir_tstrlen(szString), iBufSize - 1 - mir_tstrlen(szString), L" %s %s", szIs, szStatus);
+	TruncateWithDots(szString, iBufSize - 1 - mir_wstrlen(szStatus) - mir_wstrlen(szIs) - 2); // 2 spaces around szIs
+	mir_snwprintf(szString + mir_wstrlen(szString), iBufSize - 1 - mir_wstrlen(szString), L" %s %s", szIs, szStatus);
 
 	return szString;
 }

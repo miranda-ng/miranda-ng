@@ -48,7 +48,7 @@ static wchar_t* GetIEViewSelection(SrmmWindowData *dat)
 	evt.hwnd = dat->hwndLog;
 	evt.hContact = dat->hContact;
 	evt.iType = IEE_GET_SELECTION;
-	return mir_tstrdup((wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
+	return mir_wstrdup((wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
 }
 
 static wchar_t* GetQuotedTextW(wchar_t *text)
@@ -160,17 +160,17 @@ static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t* s
 {
 	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1)*sizeof(wchar_t*));
 	(*pppFiles)[*totalCount] = NULL;
-	(*pppFiles)[*totalCount - 1] = mir_tstrdup(szFilename);
+	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		wchar_t szPath[MAX_PATH];
-		mir_sntprintf(szPath, L"%s\\*", szFilename);
+		mir_snwprintf(szPath, L"%s\\*", szFilename);
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if (!mir_tstrcmp(fd.cFileName, L".") || !mir_tstrcmp(fd.cFileName, L"..")) continue;
-				mir_sntprintf(szPath, L"%s\\%s", szFilename, fd.cFileName);
+				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L"..")) continue;
+				mir_snwprintf(szPath, L"%s\\%s", szFilename, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			} while (FindNextFile(hFind, &fd));
 			FindClose(hFind);
@@ -295,10 +295,10 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 		POINTL ptl = { (LONG)pt.x, (LONG)pt.y };
 		ScreenToClient(hwnd, (LPPOINT)&ptl);
-		ptrT pszWord(GetRichTextWord(hwnd, &ptl));
+		ptrW pszWord(GetRichTextWord(hwnd, &ptl));
 		if (pszWord && pszWord[0]) {
 			wchar_t szMenuText[4096];
-			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWord);
+			mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWord);
 			ModifyMenu(hSubMenu, 5, MF_STRING | MF_BYPOSITION, 5, szMenuText);
 			SetSearchEngineIcons(hMenu, g_dat.hSearchEngineIconList);
 		}
@@ -552,7 +552,7 @@ static void UpdateReadChars(HWND hwndDlg, SrmmWindowData *dat)
 		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 		sbd.hIcon = NULL;
 		sbd.pszText = szText;
-		mir_sntprintf(szText, L"%d", len);
+		mir_snwprintf(szText, L"%d", len);
 		SendMessage(dat->hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)hwndDlg);
 	}
 }
@@ -759,7 +759,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
 			}
 			else if (g_dat.flags & SMF_SAVEDRAFTS) {
-				ptrT ptszSavedMsg(db_get_tsa(dat->hContact, "SRMM", "SavedMsg"));
+				ptrW ptszSavedMsg(db_get_tsa(dat->hContact, "SRMM", "SavedMsg"));
 				if (ptszSavedMsg)
 					len = SetRichText(GetDlgItem(hwndDlg, IDC_MESSAGE), ptszSavedMsg);
 				PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
@@ -1351,19 +1351,19 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dat->messagesInProgress && (g_dat.flags & SMF_SHOWPROGRESS)) {
 				sbd.hIcon = GetCachedIcon("scriver_DELIVERING");
 				sbd.pszText = szText;
-				mir_sntprintf(szText, TranslateT("Sending in progress: %d message(s) left..."), dat->messagesInProgress);
+				mir_snwprintf(szText, TranslateT("Sending in progress: %d message(s) left..."), dat->messagesInProgress);
 			}
 			else if (dat->nTypeSecs) {
 				sbd.hIcon = GetCachedIcon("scriver_TYPING");
 				sbd.pszText = szText;
-				mir_sntprintf(szText, TranslateT("%s is typing a message..."), pcli->pfnGetContactDisplayName(dat->hContact, 0));
+				mir_snwprintf(szText, TranslateT("%s is typing a message..."), pcli->pfnGetContactDisplayName(dat->hContact, 0));
 				dat->nTypeSecs--;
 			}
 			else if (dat->lastMessage) {
 				wchar_t date[64], time[64];
 				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"d", date, _countof(date), 0);
 				TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"t", time, _countof(time), 0);
-				mir_sntprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
+				mir_snwprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
 				sbd.pszText = szText;
 			}
 			else sbd.pszText = L"";
@@ -1576,7 +1576,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 
 				int bufSize = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, TRUE) + 2;
-				ptrT ptszUnicode((wchar_t*)mir_alloc(bufSize * sizeof(wchar_t)));
+				ptrW ptszUnicode((wchar_t*)mir_alloc(bufSize * sizeof(wchar_t)));
 
 				MessageSendQueueItem msi = { 0 };
 				if (pf2.wEffects & PFE_RTLPARA)
@@ -1590,7 +1590,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (RTL_Detect(ptszUnicode))
 					msi.flags |= PREF_RTL;
 
-				msi.sendBuffer = mir_utf8encodeT(ptszUnicode);
+				msi.sendBuffer = mir_utf8encodeW(ptszUnicode);
 				msi.sendBufferSize = (int)mir_strlen(msi.sendBuffer);
 				if (msi.sendBufferSize == 0)
 					break;

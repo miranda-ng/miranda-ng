@@ -53,7 +53,7 @@ typedef boost::posix_time::wtime_facet ttime_facet;
 inline std::string quotes_t2a(const wchar_t* t)
 {
 	std::string s;
-	char* p = mir_t2a(t);
+	char* p = mir_u2a(t);
 	if (p) {
 		s = p;
 		mir_free(p);
@@ -64,7 +64,7 @@ inline std::string quotes_t2a(const wchar_t* t)
 inline tstring quotes_a2t(const char* s)
 {
 	tstring t;
-	wchar_t* p = mir_a2t(s);
+	wchar_t* p = mir_a2u(s);
 	if (p) {
 		t = p;
 		mir_free(p);

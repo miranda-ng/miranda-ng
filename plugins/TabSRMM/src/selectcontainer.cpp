@@ -47,7 +47,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (lParam) {
 			TWindowData *dat = (TWindowData*)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
 			if (dat) {
-				mir_sntprintf(szNewTitle, TranslateT("Select container for %s"), dat->cache->getNick());
+				mir_snwprintf(szNewTitle, TranslateT("Select container for %s"), dat->cache->getNick());
 				SetWindowText(hwndDlg, szNewTitle);
 			}
 		}
@@ -112,7 +112,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if (iItem != LB_ERR) {
 					wchar_t szOldName[CONTAINER_NAMELEN + 1];
 					SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szOldName);
-					if (mir_tstrlen(szOldName) == mir_tstrlen(szNewName)) {
+					if (mir_wstrlen(szOldName) == mir_wstrlen(szNewName)) {
 						MessageBox(0, TranslateT("This name is already in use"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						SetFocus(GetDlgItem(hwndDlg, IDC_NEWCONTAINERNAME));
 						break;
@@ -127,7 +127,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						RenameContainer(iIndex, szNewName);
 						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_RESETCONTENT, 0, 0);
 						for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-							if (!wcsncmp(p->szName, szName, CONTAINER_NAMELEN) && mir_tstrlen(p->szName) == mir_tstrlen(szName)) {
+							if (!wcsncmp(p->szName, szName, CONTAINER_NAMELEN) && mir_wstrlen(p->szName) == mir_wstrlen(szName)) {
 								wcsncpy(p->szName, szNewName, CONTAINER_NAMELEN);
 								SendMessage(p->hwnd, DM_CONFIGURECONTAINER, 0, 0);
 							}
@@ -148,7 +148,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				int iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)szNewName);
 				if (iItem != LB_ERR || !wcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
 					SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
-					if (mir_tstrlen(szName) == mir_tstrlen(szNewName) || !wcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
+					if (mir_wstrlen(szName) == mir_wstrlen(szNewName) || !wcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
 						MessageBox(0, TranslateT("This name is already in use"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						SetFocus(GetDlgItem(hwndDlg, IDC_NEWCONTAINER));
 						break;
@@ -183,7 +183,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				break;          // end of list
 			if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
 				if (wcsncmp(dbv.ptszVal, L"**mir_free**", CONTAINER_NAMELEN)) {
-					iItemNew = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_ADDSTRING, 0, (LPARAM)(!mir_tstrcmp(dbv.ptszVal, L"default") ?
+					iItemNew = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_ADDSTRING, 0, (LPARAM)(!mir_wstrcmp(dbv.ptszVal, L"default") ?
 						TranslateT("Default container") : dbv.ptszVal));
 					if (iItemNew != LB_ERR)
 						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETITEMDATA, (WPARAM)iItemNew, (LPARAM)iCounter);
@@ -200,7 +200,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (pContainer) {
 			LRESULT iItem;
 
-			iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(!mir_tstrcmp(pContainer->szName, L"default") ?
+			iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)(!mir_wstrcmp(pContainer->szName, L"default") ?
 				TranslateT("Default container") : pContainer->szName));
 			if (iItem != LB_ERR)
 				SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETCURSEL, (WPARAM)iItem, 0);

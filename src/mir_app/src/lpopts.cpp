@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void SetDlgItemText_CP(HWND hwndDlg, int ctrlID, LPCSTR str)
 {
-	SetDlgItemText(hwndDlg, ctrlID, ptrT(mir_utf8decodeT(str)));
+	SetDlgItemText(hwndDlg, ctrlID, ptrW(mir_utf8decodeW(str)));
 }
 
 static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
@@ -43,12 +43,12 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 		
 		/* add some note if its incompatible */
 		if (szLanguageName[0] && szContryName[0]) {
-			mir_sntprintf(szLocaleName, L"%s (%s)", TranslateTS(szLanguageName), TranslateTS(szContryName));
+			mir_snwprintf(szLocaleName, L"%s (%s)", TranslateTS(szLanguageName), TranslateTS(szContryName));
 			if (!IsValidLocale(pack->Locale, LCID_INSTALLED)) {
 				wchar_t *pszIncompat;
 				pszIncompat = TranslateT("(incompatible)");
-				szLocaleName[_countof(szLocaleName) - mir_tstrlen(pszIncompat) - 1] = 0;
-				mir_tstrcat(mir_tstrcat(szLocaleName, L" "), pszIncompat);
+				szLocaleName[_countof(szLocaleName) - mir_wstrlen(pszIncompat) - 1] = 0;
+				mir_wstrcat(mir_wstrcat(szLocaleName, L" "), pszIncompat);
 			}
 			SetDlgItemText(hwndDlg, IDC_LANGLOCALE, szLocaleName);
 		}
@@ -77,7 +77,7 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM)
 
 	/* insert */
 	wchar_t tszName[512];
-	mir_sntprintf(tszName, L"%s [%s]",
+	mir_snwprintf(tszName, L"%s [%s]",
 		TranslateTS(pack->tszLanguage),
 		pack->flags & LPF_DEFAULT ? TranslateT("built-in") : pack->tszFileName);
 	UINT message = pack->flags & LPF_DEFAULT ? CB_INSERTSTRING : CB_ADDSTRING;
@@ -167,7 +167,7 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, i);
 				if (i == idx) {
 					db_set_ts(NULL, "Langpack", "Current", pack->tszFileName);
-					mir_tstrcpy(tszPath, pack->tszFullPath);
+					mir_wstrcpy(tszPath, pack->tszFullPath);
 					pack->flags |= LPF_ENABLED;
 				}
 				else pack->flags &= ~LPF_ENABLED;

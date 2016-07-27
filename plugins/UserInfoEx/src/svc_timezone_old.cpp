@@ -91,8 +91,8 @@ class CTzBias : public LIST<CTimeZone>
 	{
 		int result = tz2->Bias - tz1->Bias;
 		// DO NOT USE mir_tcsicmp here as it does only return TRUE or FALSE!!!
-		// mir_tstrcmpi takes care of umlauts e.g. Ä,Ö,....
-		return (result || !tz1->ptszDisplay || !tz2->ptszDisplay) ? result : mir_tstrcmpi(tz1->ptszDisplay, tz2->ptszDisplay);
+		// mir_wstrcmpi takes care of umlauts e.g. Ä,Ö,....
+		return (result || !tz1->ptszDisplay || !tz2->ptszDisplay) ? result : mir_wstrcmpi(tz1->ptszDisplay, tz2->ptszDisplay);
 	}
 public:
 	CTzBias() : LIST<CTimeZone>(50, &CTzBias::sortFunc)
@@ -126,7 +126,7 @@ class CTzMgr : public LIST<CTimeZone>
 	static int sortFunc(const CTimeZone *tz1, const CTimeZone *tz2)
 	{
 		// DO NOT USE mir_tcsicmp here as it does only return TRUE or FALSE!!!
-		return mir_tstrcmpi(tz1->ptszName, tz2->ptszName);
+		return mir_wstrcmpi(tz1->ptszName, tz2->ptszName);
 	}
 
 	/**
@@ -203,8 +203,8 @@ public:
 							pTimeZone->dwIndex = TZINDEX_UNSPECIFIED;
 
 						if (result == ERROR_SUCCESS) {
-							pTimeZone->ptszName = mir_tstrdup(szName);
-							pTimeZone->ptszDisplay = mir_tstrdup(szDisplay);
+							pTimeZone->ptszName = mir_wstrdup(szName);
+							pTimeZone->ptszDisplay = mir_wstrdup(szDisplay);
 							result = (insert(pTimeZone) == ERROR_SUCCESS);
 						}
 

@@ -84,7 +84,7 @@ CMString __stdcall GetWord(const wchar_t* text, int index)
 
 const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index)
 {
-	if (!text || !mir_tstrlen(text))
+	if (!text || !mir_wstrlen(text))
 		return text;
 
 	const wchar_t* temp = text;
@@ -141,7 +141,7 @@ char* __stdcall IrcLoadFile(wchar_t* szPath)
 
 int __stdcall WCCmp(const wchar_t* wild, const wchar_t* string)
 {
-	if (wild == NULL || !mir_tstrlen(wild) || string == NULL || !mir_tstrlen(string))
+	if (wild == NULL || !mir_wstrlen(wild) || string == NULL || !mir_wstrlen(string))
 		return 1;
 
 	const wchar_t *cp = NULL, *mp = NULL;
@@ -309,10 +309,10 @@ wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplaceP
 
 				// fix foreground index
 				if (text[1] > 47 && text[1] < 58 && text[1] != '\0')
-					mir_tstrncpy(buf, text, 3);
+					mir_wstrncpy(buf, text, 3);
 				else
-					mir_tstrncpy(buf, text, 2);
-				text += mir_tstrlen(buf);
+					mir_wstrncpy(buf, text, 2);
+				text += mir_wstrlen(buf);
 				iFG = _wtoi(buf);
 
 				// fix background color
@@ -320,10 +320,10 @@ wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplaceP
 					text++;
 
 					if (text[1] > 47 && text[1] < 58 && text[1] != '\0')
-						mir_tstrncpy(buf, text, 3);
+						mir_wstrncpy(buf, text, 3);
 					else
-						mir_tstrncpy(buf, text, 2);
-					text += mir_tstrlen(buf);
+						mir_wstrncpy(buf, text, 2);
+					text += mir_wstrlen(buf);
 					iBG = _wtoi(buf);
 				}
 			}
@@ -342,7 +342,7 @@ wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplaceP
 					*p++ = '%';
 					*p++ = 'c';
 
-					mir_sntprintf(buf, L"%02u", iFG);
+					mir_snwprintf(buf, L"%02u", iFG);
 					for (int i = 0; i < 2; i++)
 						*p++ = buf[i];
 				}
@@ -355,7 +355,7 @@ wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplaceP
 					*p++ = '%';
 					*p++ = 'f';
 
-					mir_sntprintf(buf, L"%02u", iBG);
+					mir_snwprintf(buf, L"%02u", iBG);
 					for (int i = 0; i < 2; i++)
 						*p++ = buf[i];
 				}
@@ -400,7 +400,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	}
 
 	if (pszWindow) {
-		if (mir_tstrcmpi(pszWindow, SERVERWINDOW))
+		if (mir_wstrcmpi(pszWindow, SERVERWINDOW))
 			sID = pszWindow + (CMString)L" - " + m_info.sNetwork;
 		else
 			sID = pszWindow;
@@ -548,7 +548,7 @@ int CIrcProto::SetChannelSBText(CMString sWindow, CHANNELINFO * wi)
 CMString CIrcProto::MakeWndID(const wchar_t* sWindow)
 {
 	wchar_t buf[200];
-	mir_sntprintf(buf, L"%s - %s", sWindow, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline"));
+	mir_snwprintf(buf, L"%s - %s", sWindow, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline"));
 	return CMString(buf);
 }
 
@@ -575,20 +575,20 @@ bool CIrcProto::AddWindowItemData(CMString window, const wchar_t* pszLimit, cons
 	CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, window.c_str(), NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	if (wi) {
 		if (pszLimit) {
-			wi->pszLimit = (wchar_t*)realloc(wi->pszLimit, sizeof(wchar_t)*(mir_tstrlen(pszLimit) + 1));
-			mir_tstrcpy(wi->pszLimit, pszLimit);
+			wi->pszLimit = (wchar_t*)realloc(wi->pszLimit, sizeof(wchar_t)*(mir_wstrlen(pszLimit) + 1));
+			mir_wstrcpy(wi->pszLimit, pszLimit);
 		}
 		if (pszMode) {
-			wi->pszMode = (wchar_t*)realloc(wi->pszMode, sizeof(wchar_t)*(mir_tstrlen(pszMode) + 1));
-			mir_tstrcpy(wi->pszMode, pszMode);
+			wi->pszMode = (wchar_t*)realloc(wi->pszMode, sizeof(wchar_t)*(mir_wstrlen(pszMode) + 1));
+			mir_wstrcpy(wi->pszMode, pszMode);
 		}
 		if (pszPassword) {
-			wi->pszPassword = (wchar_t*)realloc(wi->pszPassword, sizeof(wchar_t)*(mir_tstrlen(pszPassword) + 1));
-			mir_tstrcpy(wi->pszPassword, pszPassword);
+			wi->pszPassword = (wchar_t*)realloc(wi->pszPassword, sizeof(wchar_t)*(mir_wstrlen(pszPassword) + 1));
+			mir_wstrcpy(wi->pszPassword, pszPassword);
 		}
 		if (pszTopic) {
-			wi->pszTopic = (wchar_t*)realloc(wi->pszTopic, sizeof(wchar_t)*(mir_tstrlen(pszTopic) + 1));
-			mir_tstrcpy(wi->pszTopic, pszTopic);
+			wi->pszTopic = (wchar_t*)realloc(wi->pszTopic, sizeof(wchar_t)*(mir_wstrlen(pszTopic) + 1));
+			mir_wstrcpy(wi->pszTopic, pszTopic);
 		}
 
 		SetChannelSBText(window, wi);
@@ -628,7 +628,7 @@ void CIrcProto::DoUserhostWithReason(int type, CMString reason, bool bSendComman
 
 	va_list ap;
 	va_start(ap, userhostparams);
-	mir_vsntprintf(temp, _countof(temp), (S + L" " + userhostparams).c_str(), ap);
+	mir_vsnwprintf(temp, _countof(temp), (S + L" " + userhostparams).c_str(), ap);
 	va_end(ap);
 
 	// Add reason

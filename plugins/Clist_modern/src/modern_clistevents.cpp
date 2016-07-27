@@ -119,7 +119,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 				wchar_t szwProto[64];
 				MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
 				szwProto[63] = 0;
-				mir_sntprintf(szBuffer, L"%s: %s (%s)", szwProto, szName, szStatus);
+				mir_snwprintf(szBuffer, L"%s: %s (%s)", szwProto, szName, szStatus);
 				szBuffer[127] = 0;
 				AppendMenu(g_CluiData.hMenuNotify, MF_BYCOMMAND | MF_STRING, g_CluiData.wNextMenuID, szBuffer);
 				mii.hbmpItem = HBMMENU_CALLBACK;
@@ -249,7 +249,7 @@ static int ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 	if (g_CluiData.fDisableSkinEngine) {
 		event_area.bkColour = cliGetColor("EventArea", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "EventArea", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrT tszBitmap(db_get_tsa(NULL, "EventArea", "BkBitmap"));
+			ptrW tszBitmap(db_get_tsa(NULL, "EventArea", "BkBitmap"));
 			if (tszBitmap != NULL)
 				event_area.hBmpBackground = Bitmap_Load(tszBitmap);
 		}
@@ -321,7 +321,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	else {
 		HICON hIcon = (HICON)LoadImage(g_hMirApp, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0);
 		wchar_t *ptszEvents = TranslateT("No events");
-		ske_DrawText(hDC, ptszEvents, (int)mir_tstrlen(ptszEvents), &rc, DT_VCENTER | DT_SINGLELINE);
+		ske_DrawText(hDC, ptszEvents, (int)mir_wstrlen(ptszEvents), &rc, DT_VCENTER | DT_SINGLELINE);
 		ske_DrawIconEx(hDC, 4, (rc.bottom + rc.top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);
 		DestroyIcon(hIcon);
 	}

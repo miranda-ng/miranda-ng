@@ -218,14 +218,14 @@ static ASSOCDATA* CopyAssocItem(const ASSOCDATA *assoc)
 	assoc2 = (ASSOCDATA*)mir_alloc(sizeof(ASSOCDATA));
 	if (assoc2 == NULL) return NULL;
 	assoc2->pszClassName = mir_strdup(assoc->pszClassName);
-	assoc2->pszDescription = mir_tstrdup(assoc->pszDescription);
+	assoc2->pszDescription = mir_wstrdup(assoc->pszDescription);
 	assoc2->hInstance = assoc->hInstance;
 	assoc2->nIconResID = assoc->nIconResID;
 	assoc2->pszService = mir_strdup(assoc->pszService);
 	assoc2->flags = assoc->flags;
 	assoc2->pszFileExt = mir_strdup(assoc->pszFileExt);
 	assoc2->pszMimeType = mir_strdup(assoc->pszMimeType);
-	assoc2->pszVerbDesc = mir_tstrdup(assoc->pszVerbDesc);
+	assoc2->pszVerbDesc = mir_wstrdup(assoc->pszVerbDesc);
 	if (assoc2->pszClassName == NULL || assoc2->pszDescription == NULL ||
 		(assoc2->pszFileExt == NULL && assoc->pszFileExt != NULL)) {
 		mir_free(assoc2->pszClassName);   // does NULL check
@@ -268,9 +268,9 @@ static wchar_t* GetAssocTypeDesc(const ASSOCDATA *assoc)
 {
 	static wchar_t szDesc[32];
 	if (assoc->pszFileExt == NULL)
-		mir_sntprintf(szDesc, L"%hs:", assoc->pszClassName);
+		mir_snwprintf(szDesc, L"%hs:", assoc->pszClassName);
 	else
-		mir_sntprintf(szDesc, TranslateT("%hs files"), assoc->pszFileExt);
+		mir_snwprintf(szDesc, TranslateT("%hs files"), assoc->pszFileExt);
 	return szDesc;
 }
 

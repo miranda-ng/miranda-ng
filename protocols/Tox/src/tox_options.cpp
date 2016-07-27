@@ -26,7 +26,7 @@ void CToxOptionsMain::OnInitDialog()
 {
 	CToxDlgBase::OnInitDialog();
 
-	ptrT profilePath(m_proto->GetToxProfilePath());
+	ptrW profilePath(m_proto->GetToxProfilePath());
 	if (CToxProto::IsFileExists(profilePath))
 	{
 		m_toxAddress.Enable();
@@ -67,7 +67,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 	CToxThread toxThread(options);
 	tox_options_free(options);
 
-	ptrT profilePath(m_proto->GetToxProfilePath());
+	ptrW profilePath(m_proto->GetToxProfilePath());
 	if (!m_proto->IsFileExists(profilePath))
 	{
 		HANDLE hProfile = CreateFile(profilePath, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -81,8 +81,8 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 
 	if (m_proto->InitToxCore(&toxThread))
 	{
-		ptrT group(m_group.GetText());
-		if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
+		ptrW group(m_group.GetText());
+		if (mir_wstrlen(group) > 0 && Clist_GroupExists(group))
 			Clist_GroupCreate(0, group);
 
 		m_proto->UninitToxCore(&toxThread);
@@ -90,9 +90,9 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		m_toxAddress.Enable();
 		m_toxAddress.SetTextA(ptrA(m_proto->getStringA(TOX_SETTINGS_ID)));
 
-		m_nickname.SetText(ptrT(m_proto->getTStringA("Nick")));
-		m_password.SetText(ptrT(m_proto->getTStringA("Password")));
-		m_group.SetText(ptrT(m_proto->getTStringA(TOX_SETTINGS_GROUP)));
+		m_nickname.SetText(ptrW(m_proto->getTStringA("Nick")));
+		m_password.SetText(ptrW(m_proto->getTStringA("Password")));
+		m_group.SetText(ptrW(m_proto->getTStringA(TOX_SETTINGS_GROUP)));
 
 		ShowWindow(m_profileCreate.GetHwnd(), FALSE);
 		ShowWindow(m_profileImport.GetHwnd(), FALSE);
@@ -105,7 +105,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 {
 	wchar_t filter[MAX_PATH];
-	mir_sntprintf(filter, L"%s(*.tox)%c*.tox%c%s(*.*)%c*.*%c%c",
+	mir_snwprintf(filter, L"%s(*.tox)%c*.tox%c%s(*.*)%c*.*%c%c",
 		TranslateT("Tox profile"), 0, 0, TranslateT("All files"), 0, 0, 0);
 
 	wchar_t profilePath[MAX_PATH] = { 0 };
@@ -123,8 +123,8 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 	if (!GetOpenFileName(&ofn))
 		return;
 
-	ptrT defaultProfilePath(m_proto->GetToxProfilePath());
-	if (mir_tstrcmpi(profilePath, defaultProfilePath) != 0)
+	ptrW defaultProfilePath(m_proto->GetToxProfilePath());
+	if (mir_wstrcmpi(profilePath, defaultProfilePath) != 0)
 		CopyFile(profilePath, defaultProfilePath, FALSE);
 
 	Tox_Options *options = NULL;
@@ -143,13 +143,13 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 
 		uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 		tox_self_get_name(toxThread.Tox(), nick);
-		ptrT nickname(Utf8DecodeT((char*)nick));
+		ptrW nickname(Utf8DecodeT((char*)nick));
 		m_proto->setTString("Nick", nickname);
 		m_nickname.SetText(nickname);
 
 		uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
 		tox_self_get_status_message(toxThread.Tox(), statusMessage);
-		m_proto->setTString("StatusMsg", ptrT(Utf8DecodeT((char*)statusMessage)));
+		m_proto->setTString("StatusMsg", ptrW(Utf8DecodeT((char*)statusMessage)));
 
 		ShowWindow(m_profileCreate.GetHwnd(), FALSE);
 		ShowWindow(m_profileImport.GetHwnd(), FALSE);
@@ -163,11 +163,11 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 {
 	wchar_t filter[MAX_PATH];
-	mir_sntprintf(filter, L"%s(*.tox)%c*.tox%c%c",
+	mir_snwprintf(filter, L"%s(*.tox)%c*.tox%c%c",
 		TranslateT("Tox profile"), 0, 0, 0);
 
 	wchar_t profilePath[MAX_PATH];
-	mir_tstrncpy(profilePath, L"tox_save.tox", _countof(profilePath));
+	mir_wstrncpy(profilePath, L"tox_save.tox", _countof(profilePath));
 
 	OPENFILENAME ofn = { sizeof(ofn) };
 	ofn.hwndOwner = m_hwnd;
@@ -182,20 +182,20 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 	if (!GetSaveFileName(&ofn))
 		return;
 
-	ptrT defaultProfilePath(m_proto->GetToxProfilePath());
-	if (mir_tstrcmpi(profilePath, defaultProfilePath) != 0)
+	ptrW defaultProfilePath(m_proto->GetToxProfilePath());
+	if (mir_wstrcmpi(profilePath, defaultProfilePath) != 0)
 		CopyFile(defaultProfilePath, profilePath, FALSE);
 }
 
 void CToxOptionsMain::OnApply()
 {
-	ptrT group(m_group.GetText());
-	if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
+	ptrW group(m_group.GetText());
+	if (mir_wstrlen(group) > 0 && Clist_GroupExists(group))
 		Clist_GroupCreate(0, group);
 
 	if (m_proto->IsOnline())
 	{
-		CallProtoService(m_proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM)ptrT(m_nickname.GetText()));
+		CallProtoService(m_proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM)ptrW(m_nickname.GetText()));
 
 		// todo: add checkbox
 		m_proto->setTString("Password", pass_ptrT(m_password.GetText()));
@@ -361,21 +361,21 @@ void CToxNodeEditor::OnInitDialog()
 
 void CToxNodeEditor::OnOk(CCtrlBase*)
 {
-	ptrT ipv4(m_ipv4.GetText());
+	ptrW ipv4(m_ipv4.GetText());
 	if (!ipv4)
 	{
 		MessageBox(m_hwnd, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
 		return;
 	}
 
-	ptrT port(m_port.GetText());
+	ptrW port(m_port.GetText());
 	if (!port)
 	{
 		MessageBox(m_hwnd, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
 		return;
 	}
 
-	ptrT pubKey(m_pkey.GetText());
+	ptrW pubKey(m_pkey.GetText());
 	if (!pubKey)
 	{
 		MessageBox(m_hwnd, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
@@ -563,17 +563,17 @@ void CToxOptionsNodeList::ReloadNodeList()
 				{
 					JSONNode node = nodes[i];
 
-					ptrT ipv4(mir_utf8decodeT(node.at("ipv4").as_string().c_str()));
+					ptrW ipv4(mir_utf8decodeW(node.at("ipv4").as_string().c_str()));
 					iItem = m_nodes.AddItem(ipv4, -1, NULL, 0);
 
-					ptrT ipv6(mir_utf8decodeT(node.at("ipv6").as_string().c_str()));
-					if (mir_tstrcmp(ipv6, L"-"))
+					ptrW ipv6(mir_utf8decodeW(node.at("ipv6").as_string().c_str()));
+					if (mir_wstrcmp(ipv6, L"-"))
 						m_nodes.SetItem(iItem, 1, ipv6);
 
-					ptrT port(mir_utf8decodeT(node.at("port").as_string().c_str()));
+					ptrW port(mir_utf8decodeW(node.at("port").as_string().c_str()));
 					m_nodes.SetItem(iItem, 2, port);
 
-					ptrT pubKey(mir_utf8decodeT(node.at("public_key").as_string().c_str()));
+					ptrW pubKey(mir_utf8decodeW(node.at("public_key").as_string().c_str()));
 					m_nodes.SetItem(iItem, 3, pubKey);
 				}
 			}
@@ -586,7 +586,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 	for (int i = 0; i < nodeCount; i++)
 	{
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
-		ptrT value(db_get_tsa(NULL, module, setting));
+		ptrW value(db_get_tsa(NULL, module, setting));
 		iItem = m_nodes.AddItem(value, -1, NULL, 1);
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
@@ -599,7 +599,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 		{
 			char portNum[10];
 			itoa(port, portNum, 10);
-			m_nodes.SetItem(iItem, 2, mir_a2t(portNum));
+			m_nodes.SetItem(iItem, 2, mir_a2u(portNum));
 		}
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);

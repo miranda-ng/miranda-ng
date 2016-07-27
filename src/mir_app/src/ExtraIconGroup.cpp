@@ -45,7 +45,7 @@ void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)
 		description += m_items[i]->getDescription();
 	}
 
-	m_tszDescription = mir_tstrdup(description);
+	m_tszDescription = mir_wstrdup(description);
 }
 
 void ExtraIconGroup::rebuildIcons()

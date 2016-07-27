@@ -51,9 +51,9 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, "SRMM", str, &dbv))
-			mir_tstrcpy(lf->lfFaceName, L"Arial");
+			mir_wstrcpy(lf->lfFaceName, L"Arial");
 		else {
-			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
+			mir_wstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
 			db_free(&dbv);
 		}
 		mir_snprintf(str, "SRMFont%dSet", i);
@@ -135,7 +135,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 
 		if (pszWordText && pszWordText[0]) {
 			wchar_t szMenuText[4096];
-			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
+			mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 		}
 		else ModifyMenu(*hMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
@@ -144,12 +144,12 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	else if (iIndex == 0) {
 		wchar_t szTemp[50];
 		if (pszWordText)
-			mir_sntprintf(szTemp, TranslateT("&Message %s"), pszWordText);
+			mir_snwprintf(szTemp, TranslateT("&Message %s"), pszWordText);
 		else
-			mir_tstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
+			mir_wstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
 
-		if (mir_tstrlen(szTemp) > 40)
-			mir_tstrcpy(szTemp + 40, L"...");
+		if (mir_wstrlen(szTemp) > 40)
+			mir_wstrcpy(szTemp + 40, L"...");
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}

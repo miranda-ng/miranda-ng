@@ -421,7 +421,7 @@ int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int max
 		return 0;
 
 	if (!hContact) {
-		mir_tstrncpy(value, TranslateT("Settings"), maxlen);
+		mir_wstrncpy(value, TranslateT("Settings"), maxlen);
 		return 1;
 	}
 
@@ -471,10 +471,10 @@ int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int max
 			if (szProto) {
 				GetValue(hContact, szProto, "FirstName", name, _countof(name));
 
-				int len = (int)mir_tstrlen(name);
+				int len = (int)mir_wstrlen(name);
 				if (len + 2 < _countof(name)) {
 					if (len)
-						mir_tstrncat(name, L" ", _countof(name));
+						mir_wstrncat(name, L" ", _countof(name));
 					len++;
 					GetValue(hContact, szProto, "LastName", &name[len], _countof(name) - len);
 				}
@@ -487,20 +487,20 @@ int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int max
 	}
 
 	if (!name[0])
-		mir_tstrncpy(name, TranslateT("<UNKNOWN>"), _countof(name));
+		mir_wstrncpy(name, TranslateT("<UNKNOWN>"), _countof(name));
 
 	if (szProto && szProto[0]) {
 		if (g_Order)
-			mir_sntprintf(value, maxlen, L"(%s) %s", _A2T(szProto), name);
+			mir_snwprintf(value, maxlen, L"(%s) %s", _A2T(szProto), name);
 		else
-			mir_sntprintf(value, maxlen, L"%s (%s)", name, _A2T(szProto));
+			mir_snwprintf(value, maxlen, L"%s (%s)", name, _A2T(szProto));
 	}
-	else mir_tstrncpy(value, name, maxlen);
+	else mir_wstrncpy(value, name, maxlen);
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 	if (!Proto_IsAccountEnabled(pa)) {
-		mir_tstrncat(value, L" ", maxlen);
-		mir_tstrncat(value, TranslateT("[UNLOADED]"), maxlen);
+		mir_wstrncat(value, L" ", maxlen);
+		mir_wstrncat(value, TranslateT("[UNLOADED]"), maxlen);
 	}
 
 	return 1;
@@ -560,6 +560,6 @@ INT_PTR CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 	ListView_GetItemText(params.hList, lParam1, params.column, text1, _countof(text1));
 	ListView_GetItemText(params.hList, lParam2, params.column, text2, _countof(text2));
 
-	int res = mir_tstrcmpi(text1, text2);
+	int res = mir_wstrcmpi(text1, text2);
 	return (params.column == params.last) ? -res : res;
 }

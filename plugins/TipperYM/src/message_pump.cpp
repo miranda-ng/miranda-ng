@@ -284,7 +284,7 @@ INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
 
 	if (wParam) // wParam is char pointer containing text - e.g. status bar tooltip
 	{
-		clcit2->swzText = mir_tstrdup((wchar_t *)wParam);
+		clcit2->swzText = mir_wstrdup((wchar_t *)wParam);
 		GetCursorPos(&clcit2->ptCursor);
 	}
 
@@ -316,8 +316,8 @@ int ProtoAck(WPARAM, LPARAM lParam)
 
 	if (ack->type == ACKTYPE_AWAYMSG) {
 		wchar_t *tszMsg = (wchar_t*)ack->lParam;
-		if (mir_tstrlen(tszMsg))
-			PostMPMessage(MUM_GOTSTATUS, (WPARAM)ack->hContact, (LPARAM)mir_tstrdup(tszMsg));
+		if (mir_wstrlen(tszMsg))
+			PostMPMessage(MUM_GOTSTATUS, (WPARAM)ack->hContact, (LPARAM)mir_wstrdup(tszMsg));
 	}
 	else if (ack->type == ICQACKTYPE_XSTATUS_RESPONSE)
 		PostMPMessage(MUM_GOTXSTATUS, (WPARAM)ack->hContact, 0);

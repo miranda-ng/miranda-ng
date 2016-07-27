@@ -3,9 +3,9 @@
 static int icolib_AddIcon(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 1);
-	ptrT description(mir_utf8decodeT(luaL_checkstring(L, 2)));
-	ptrT section(mir_utf8decodeT(luaL_optstring(L, 3, MODULE)));
-	ptrT filePath(mir_utf8decodeT(lua_tostring(L, 4)));
+	ptrW description(mir_utf8decodeW(luaL_checkstring(L, 2)));
+	ptrW section(mir_utf8decodeW(luaL_optstring(L, 3, MODULE)));
+	ptrW filePath(mir_utf8decodeW(lua_tostring(L, 4)));
 
 	if (filePath == NULL)
 	{

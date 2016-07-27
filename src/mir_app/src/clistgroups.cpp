@@ -29,7 +29,7 @@ struct CGroupInternal
 {
 	CGroupInternal(int _id, const wchar_t *_name) :
 		groupId(_id),
-		groupName(mir_tstrdup(_name))
+		groupName(mir_wstrdup(_name))
 		{}
 
 	~CGroupInternal()
@@ -50,7 +50,7 @@ struct CGroupInternal
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int CompareGrpByName(const CGroupInternal *p1, const CGroupInternal *p2)
-{	return mir_tstrcmp(p1->groupName+1, p2->groupName+1);
+{	return mir_wstrcmp(p1->groupName+1, p2->groupName+1);
 }
 
 static LIST<CGroupInternal> arByName(20, CompareGrpByName);
@@ -111,11 +111,11 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 		if (tmp == NULL)
 			return NULL;
 
-		mir_sntprintf(newBaseName, L"%s\\%s", tmp->groupName+1, grpName);
+		mir_snwprintf(newBaseName, L"%s\\%s", tmp->groupName+1, grpName);
 	}
 	else wcsncpy_s(newBaseName, grpName, _TRUNCATE);
 
-	mir_tstrncpy(newName + 1, newBaseName, _countof(newName) - 1);
+	mir_wstrncpy(newName + 1, newBaseName, _countof(newName) - 1);
 	if (ptszName) {
 		int id = GroupNameExists(newBaseName, -1);
 		if (id)
@@ -123,7 +123,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 	}
 	else {
 		for (int idCopy = 1; GroupNameExists(newName + 1, -1); idCopy++)
-			mir_sntprintf(newName + 1, _countof(newName) - 1, L"%s (%d)", newBaseName, idCopy);
+			mir_snwprintf(newName + 1, _countof(newName) - 1, L"%s (%d)", newBaseName, idCopy);
 	}
 
 	int newId = arByIds.getCount();
@@ -185,7 +185,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 
 	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT)) {
 		wchar_t szQuestion[256 + 100];
-		mir_sntprintf(szQuestion, TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), pGroup->groupName+1);
+		mir_snwprintf(szQuestion, TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), pGroup->groupName+1);
 		if (MessageBox(cli.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO | MB_ICONQUESTION) == IDNO)
 			return 1;
 	}
@@ -204,8 +204,8 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	}
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		ptrT tszGroupName(db_get_tsa(hContact, "CList", "Group"));
-		if (mir_tstrcmp(tszGroupName, pGroup->groupName+1))
+		ptrW tszGroupName(db_get_tsa(hContact, "CList", "Group"));
+		if (mir_wstrcmp(tszGroupName, pGroup->groupName+1))
 			continue;
 
 		CLISTGROUPCHANGE grpChg = { sizeof(grpChg), NULL, NULL };
@@ -238,15 +238,15 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	
 	// rename subgroups
 	wchar_t szNewName[256];
-	size_t len = mir_tstrlen(pGroup->groupName+1);
+	size_t len = mir_wstrlen(pGroup->groupName+1);
 	for (int i = 0; i < arByIds.getCount(); i++) {
 		CGroupInternal *p = arByIds[i];
 		
 		if (!wcsncmp(pGroup->groupName+1, p->groupName+1, len) && p->groupName[len+1] == '\\' && wcschr(p->groupName + len + 2, '\\') == NULL) {
 			if (szNewParent[0])
-				mir_sntprintf(szNewName, L"%s\\%s", szNewParent, p->groupName + len + 2);
+				mir_snwprintf(szNewName, L"%s\\%s", szNewParent, p->groupName + len + 2);
 			else
-				mir_tstrncpy(szNewName, p->groupName + len + 2, _countof(szNewName));
+				mir_wstrncpy(szNewName, p->groupName + len + 2, _countof(szNewName));
 			Clist_GroupRename(i + 1, szNewName);
 		}
 	}
@@ -331,22 +331,22 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 
 	wchar_t str[256];
 	str[0] = pGroup->groupName[0];
-	mir_tstrncpy(str + 1, szName, _countof(str) - 1);
+	mir_wstrncpy(str + 1, szName, _countof(str) - 1);
 
-	pGroup->groupName = mir_tstrdup(str);
+	pGroup->groupName = mir_wstrdup(str);
 	pGroup->save();
 
 	// must rename setting in all child contacts too
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
-		if (!mir_tstrcmp(cache->tszGroup, oldName)) {
+		if (!mir_wstrcmp(cache->tszGroup, oldName)) {
 			db_set_ts(hContact, "CList", "Group", szName);
-			replaceStrT(cache->tszGroup, szName);
+			replaceStrW(cache->tszGroup, szName);
 		}
 	}
 
 	// rename subgroups
-	size_t len = mir_tstrlen(oldName);
+	size_t len = mir_wstrlen(oldName);
 	for (int i = 0; i < arByIds.getCount(); i++) {
 		if (i == groupId)
 			continue;
@@ -354,7 +354,7 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 		CGroupInternal *p = arByIds[i];
 		if (!wcsncmp(p->groupName+1, oldName, len) && p->groupName[len+1] == '\\' && wcschr(p->groupName + len + 2, '\\') == NULL) {
 			wchar_t szNewName[256];
-			mir_sntprintf(szNewName, L"%s\\%s", szName, p->groupName + len + 2);
+			mir_snwprintf(szNewName, L"%s\\%s", szName, p->groupName + len + 2);
 			RenameGroupWithMove(i, szNewName, 0); // luckily, child groups will never need reordering
 		}
 	}
@@ -367,7 +367,7 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 			*pszLastBackslash = '\0';
 			for (int i = 0; i < arByIds.getCount(); i++) {
 				CGroupInternal *p = arByIds[i];
-				if (!mir_tstrcmp(p->groupName+1, str)) {
+				if (!mir_wstrcmp(p->groupName+1, str)) {
 					if (i >= groupId)
 						Clist_GroupMoveBefore(groupId + 1, i + 2);
 					break;
@@ -442,11 +442,11 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu()
 		do {
 			const wchar_t *pBackslash = wcschr(pNextField, '\\');
 			if (pBackslash == NULL) {
-				mir_tstrncpy(szThisField, pNextField, _countof(szThisField));
+				mir_wstrncpy(szThisField, pNextField, _countof(szThisField));
 				pNextField = NULL;
 			}
 			else {
-				mir_tstrncpy(szThisField, pNextField, min(_countof(szThisField), pBackslash - pNextField + 1));
+				mir_wstrncpy(szThisField, pNextField, min(_countof(szThisField), pBackslash - pNextField + 1));
 				pNextField = pBackslash + 1;
 			}
 			int compareResult = 1;
@@ -456,7 +456,7 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu()
 				mii.cch = _countof(szThisMenuItem);
 				mii.dwTypeData = szThisMenuItem;
 				GetMenuItemInfo(hThisMenu, menuId, TRUE, &mii);
-				compareResult = mir_tstrcmp(szThisField, szThisMenuItem);
+				compareResult = mir_wstrcmp(szThisField, szThisMenuItem);
 				if (compareResult == 0) {
 					if (pNextField == NULL) {
 						mii.fMask = MIIM_DATA;
@@ -512,7 +512,7 @@ int InitGroupServices(void)
 	for (int i = 0;; i++) {
 		char str[32];
 		_itoa(i, str, 10);
-		ptrT tszGroup(db_get_tsa(NULL, "CListGroups", str));
+		ptrW tszGroup(db_get_tsa(NULL, "CListGroups", str));
 		if (tszGroup == NULL)
 			break;
 

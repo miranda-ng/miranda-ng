@@ -33,7 +33,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 
 	// Create standard network connection
 	wchar_t descr[512];
-	mir_sntprintf(descr, TranslateT("%s server connection"), m_tszUserName);
+	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -42,7 +42,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (m_hNetlibUser == NULL) {
 		wchar_t error[200];
-		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
+		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
 		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
@@ -54,7 +54,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
 	if (m_tszDefaultGroup == NULL)
-		m_tszDefaultGroup = mir_tstrdup(L"WhatsApp");
+		m_tszDefaultGroup = mir_wstrdup(L"WhatsApp");
 	Clist_GroupCreate(0, m_tszDefaultGroup);
 
 	SetAllContactStatuses(ID_STATUS_OFFLINE, true);
@@ -368,8 +368,8 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 void WhatsAppProto::NotifyEvent(const string& title, const string& info, MCONTACT contact, DWORD flags, wchar_t* url)
 {
-	wchar_t *rawTitle = mir_a2t_cp(title.c_str(), CP_UTF8);
-	wchar_t *rawInfo = mir_a2t_cp(info.c_str(), CP_UTF8);
+	wchar_t *rawTitle = mir_a2u_cp(title.c_str(), CP_UTF8);
+	wchar_t *rawInfo = mir_a2u_cp(info.c_str(), CP_UTF8);
 	NotifyEvent(rawTitle, rawInfo, contact, flags, url);
 	mir_free(rawTitle);
 	mir_free(rawInfo);
@@ -415,8 +415,8 @@ void WhatsAppProto::NotifyEvent(const wchar_t *title, const wchar_t *info, MCONT
 			pd.lchIcon = IcoLib_GetIconByHandle(m_hProtoIcon); // TODO: Icon test
 			pd.PluginData = szUrl;
 			pd.PluginWindowProc = PopupDlgProc;
-			mir_tstrcpy(pd.lptzContactName, title);
-			mir_tstrcpy(pd.lptzText, info);
+			mir_wstrcpy(pd.lptzContactName, title);
+			mir_wstrcpy(pd.lptzText, info);
 			ret = PUAddPopupT(&pd);
 
 			if (ret == 0)

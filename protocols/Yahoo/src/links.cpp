@@ -63,7 +63,7 @@ static char* get_buddy(wchar_t ** arg)
 
 	*arg = tok ? tok + 1 : NULL;
 
-	return mir_t2a(buf);
+	return mir_u2a(buf);
 }
 
 

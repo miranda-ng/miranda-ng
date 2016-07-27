@@ -23,7 +23,7 @@ struct FileTransferParam
 		pfts.hContact = NULL;
 		pfts.totalFiles = 1;
 		pfts.ptszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(pfts.totalFiles + 1));
-		pfts.ptszFiles[0] = pfts.tszCurrentFile = mir_tstrdup(fileName);
+		pfts.ptszFiles[0] = pfts.tszCurrentFile = mir_wstrdup(fileName);
 		pfts.ptszFiles[pfts.totalFiles] = NULL;
 		pfts.totalBytes = pfts.currentFileSize = fileSize;
 		pfts.totalProgress = pfts.currentFileProgress = 0;
@@ -42,7 +42,7 @@ struct FileTransferParam
 
 	void ChangeName(const wchar_t *fileName)
 	{
-		pfts.ptszFiles[0] = replaceStrT(pfts.tszCurrentFile, fileName);
+		pfts.ptszFiles[0] = replaceStrW(pfts.tszCurrentFile, fileName);
 	}
 
 	uint8_t GetDirection() const

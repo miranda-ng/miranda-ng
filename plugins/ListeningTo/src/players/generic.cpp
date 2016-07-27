@@ -32,11 +32,11 @@ void m_log(const wchar_t *function, const wchar_t *fmt, ...)
 			return;
 	}
 
-	mir_writeLogT(hLog, L"%s: ", function);
+	mir_writeLogW(hLog, L"%s: ", function);
 
 	va_list args;
 	va_start(args, fmt);
-	mir_writeLogVT(hLog, fmt, args);
+	mir_writeLogVW(hLog, fmt, args);
 }
 
 static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -163,9 +163,9 @@ void GenericPlayer::ProcessReceived()
 		li->ptszGenre = U2T(parts[8]);
 
 		if (player == this)
-			li->ptszPlayer = mir_u2t(parts[1]);
+			li->ptszPlayer = mir_wstrdup(parts[1]);
 		else
-			li->ptszPlayer = mir_tstrdup(player->name);
+			li->ptszPlayer = mir_wstrdup(player->name);
 
 		if (parts[9] != NULL) {
 			long length = _wtoi(parts[9]);
@@ -177,9 +177,9 @@ void GenericPlayer::ProcessReceived()
 				int h = (length / 60) / 60;
 
 				if (h > 0)
-					mir_sntprintf(li->ptszLength, 9, L"%d:%02d:%02d", h, m, s);
+					mir_snwprintf(li->ptszLength, 9, L"%d:%02d:%02d", h, m, s);
 				else
-					mir_sntprintf(li->ptszLength, 9, L"%d:%02d", m, s);
+					mir_snwprintf(li->ptszLength, 9, L"%d:%02d", m, s);
 			}
 		}
 	}

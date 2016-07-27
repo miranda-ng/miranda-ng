@@ -94,40 +94,40 @@ static void InitFonts()
 {
 	font_id_firstline.cbSize = sizeof(FontIDT);
 	font_id_firstline.flags = FIDF_ALLOWEFFECTS;
-	mir_tstrcpy(font_id_firstline.group, LPGENW("Popups"));
-	mir_tstrcpy(font_id_firstline.name, LPGENW("First line"));
+	mir_wstrcpy(font_id_firstline.group, LPGENW("Popups"));
+	mir_wstrcpy(font_id_firstline.name, LPGENW("First line"));
 	mir_strcpy(font_id_firstline.dbSettingsGroup, MODULE);
 	mir_strcpy(font_id_firstline.prefix, "FontFirst");
-	mir_tstrcpy(font_id_firstline.backgroundGroup, L"Popups");
-	mir_tstrcpy(font_id_firstline.backgroundName, L"Background");
+	mir_wstrcpy(font_id_firstline.backgroundGroup, L"Popups");
+	mir_wstrcpy(font_id_firstline.backgroundName, L"Background");
 	font_id_firstline.order = 0;
 	FontRegisterT(&font_id_firstline);
 
 	font_id_secondline.cbSize = sizeof(FontIDT);
 	font_id_secondline.flags = FIDF_ALLOWEFFECTS;
-	mir_tstrcpy(font_id_secondline.group, LPGENW("Popups"));
-	mir_tstrcpy(font_id_secondline.name, LPGENW("Second line"));
+	mir_wstrcpy(font_id_secondline.group, LPGENW("Popups"));
+	mir_wstrcpy(font_id_secondline.name, LPGENW("Second line"));
 	mir_strcpy(font_id_secondline.dbSettingsGroup, MODULE);
 	mir_strcpy(font_id_secondline.prefix, "FontSecond");
-	mir_tstrcpy(font_id_secondline.backgroundGroup, L"Popups");
-	mir_tstrcpy(font_id_secondline.backgroundName, L"Background");
+	mir_wstrcpy(font_id_secondline.backgroundGroup, L"Popups");
+	mir_wstrcpy(font_id_secondline.backgroundName, L"Background");
 	font_id_secondline.order = 1;
 	FontRegisterT(&font_id_secondline);
 
 	font_id_time.cbSize = sizeof(FontIDT);
 	font_id_time.flags = FIDF_ALLOWEFFECTS;
-	mir_tstrcpy(font_id_time.group, LPGENW("Popups"));
-	mir_tstrcpy(font_id_time.name, LPGENW("Time"));
+	mir_wstrcpy(font_id_time.group, LPGENW("Popups"));
+	mir_wstrcpy(font_id_time.name, LPGENW("Time"));
 	mir_strcpy(font_id_time.dbSettingsGroup, MODULE);
 	mir_strcpy(font_id_time.prefix, "FontTime");
-	mir_tstrcpy(font_id_time.backgroundGroup, L"Popups");
-	mir_tstrcpy(font_id_time.backgroundName, L"Background");
+	mir_wstrcpy(font_id_time.backgroundGroup, L"Popups");
+	mir_wstrcpy(font_id_time.backgroundName, L"Background");
 	font_id_time.order = 2;
 	FontRegisterT(&font_id_time);
 
 	colour_id_bg.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(colour_id_bg.group, LPGENW("Popups"));
-	mir_tstrcpy(colour_id_bg.name, LPGENW("Background"));
+	mir_wstrcpy(colour_id_bg.group, LPGENW("Popups"));
+	mir_wstrcpy(colour_id_bg.name, LPGENW("Background"));
 	mir_strcpy(colour_id_bg.dbSettingsGroup, MODULE);
 	mir_strcpy(colour_id_bg.setting, "ColourBg");
 	colour_id_bg.defcolour = GetSysColor(COLOR_3DSHADOW);
@@ -135,8 +135,8 @@ static void InitFonts()
 	ColourRegisterT(&colour_id_bg);
 
 	colour_id_border.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(colour_id_border.group, LPGENW("Popups"));
-	mir_tstrcpy(colour_id_border.name, LPGENW("Border"));
+	mir_wstrcpy(colour_id_border.group, LPGENW("Popups"));
+	mir_wstrcpy(colour_id_border.name, LPGENW("Border"));
 	mir_strcpy(colour_id_border.dbSettingsGroup, MODULE);
 	mir_strcpy(colour_id_border.setting, "ColourBorder");
 	colour_id_border.defcolour = RGB(0, 0, 0);
@@ -144,8 +144,8 @@ static void InitFonts()
 	ColourRegisterT(&colour_id_border);
 
 	colour_id_sidebar.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(colour_id_sidebar.group, LPGENW("Popups"));
-	mir_tstrcpy(colour_id_sidebar.name, LPGENW("Sidebar"));
+	mir_wstrcpy(colour_id_sidebar.group, LPGENW("Popups"));
+	mir_wstrcpy(colour_id_sidebar.name, LPGENW("Sidebar"));
 	mir_strcpy(colour_id_sidebar.dbSettingsGroup, MODULE);
 	mir_strcpy(colour_id_sidebar.setting, "ColourSidebar");
 	colour_id_sidebar.defcolour = RGB(128, 128, 128);
@@ -153,8 +153,8 @@ static void InitFonts()
 	ColourRegisterT(&colour_id_sidebar);
 
 	colour_id_titleunderline.cbSize = sizeof(ColourIDT);
-	mir_tstrcpy(colour_id_titleunderline.group, LPGENW("Popups"));
-	mir_tstrcpy(colour_id_titleunderline.name, LPGENW("Title underline"));
+	mir_wstrcpy(colour_id_titleunderline.group, LPGENW("Popups"));
+	mir_wstrcpy(colour_id_titleunderline.name, LPGENW("Title underline"));
 	mir_strcpy(colour_id_titleunderline.dbSettingsGroup, MODULE);
 	mir_strcpy(colour_id_titleunderline.setting, "ColourTitleUnderline");
 	colour_id_titleunderline.defcolour = GetSysColor(COLOR_3DSHADOW);

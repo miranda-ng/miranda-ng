@@ -1378,7 +1378,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 			}
 
 			TimeZone_PrintTimeStamp(NULL, data.timestamp, formatDate, str, MAXSELECTSTR, 0);
-			*strLen = (unsigned int)mir_tstrlen(str) * sizeof(wchar_t);
+			*strLen = (unsigned int)mir_wstrlen(str) * sizeof(wchar_t);
 			TextSelection->SetStart(MAXLONG);
 			TextSelection->GetFont(&TextFont);
 			SetFontFromOptions(TextFont, caps, lastMe ? Options::OutTimestamp : Options::InTimestamp);
@@ -1387,8 +1387,8 @@ void HistoryWindow::SelectEventGroup(int sel)
 			TextFont->Release();
 
 			if (isUser) {
-				mir_sntprintf(str, MAXSELECTSTR, L"%s\n", (lastMe) ? m_myName : m_contactName);
-				*strLen = (unsigned int)mir_tstrlen(str) * sizeof(wchar_t);
+				mir_snwprintf(str, MAXSELECTSTR, L"%s\n", (lastMe) ? m_myName : m_contactName);
+				*strLen = (unsigned int)mir_wstrlen(str) * sizeof(wchar_t);
 				TextSelection->SetStart(MAXLONG);
 				TextSelection->GetFont(&TextFont);
 				SetFontFromOptions(TextFont, caps, lastMe ? Options::OutName : Options::InName);
@@ -1945,7 +1945,7 @@ void HistoryWindow::Delete(int what)
 		return;
 
 	wchar_t message[256];
-	mir_sntprintf(message, TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
+	mir_snwprintf(message, TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
 	if (MessageBox(m_hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return;
 

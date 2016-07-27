@@ -152,7 +152,7 @@ wchar_t* CVkProto::GetUserStoredPassword()
 {
 	debugLogA("CVkProto::GetUserStoredPassword");
 	ptrA szRawPass(getStringA("Password"));
-	return (szRawPass != NULL) ? mir_utf8decodeT(szRawPass) : NULL;
+	return (szRawPass != NULL) ? mir_utf8decodeW(szRawPass) : NULL;
 }
 
 void CVkProto::SetAllContactStatuses(int iStatus)
@@ -389,9 +389,9 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 			CMStringA name = getAttr(pFieldBeg, "name");
 			CMStringA value = getAttr(pFieldBeg, "value");
 			if (name == "email")
-				value = (char*)T2Utf(ptrT(getTStringA("Login")));
+				value = (char*)T2Utf(ptrW(getTStringA("Login")));
 			else if (name == "pass")
-				value = (char*)T2Utf(ptrT(GetUserStoredPassword()));
+				value = (char*)T2Utf(ptrW(GetUserStoredPassword()));
 			else if (name == "captcha_key") {
 				char *pCaptchaBeg = strstr(pFormBeg, "<img id=\"captcha\"");
 				if (pCaptchaBeg != NULL)
@@ -421,7 +421,7 @@ CMString CVkProto::RunConfirmationCode()
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "confirmcode_";
-	return (!EnterString(&pForm)) ? CMString() : CMString(ptrT(pForm.ptszResult));
+	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
 }
 
 CMString CVkProto::RunRenameNick(LPCTSTR ptszOldName)
@@ -433,7 +433,7 @@ CMString CVkProto::RunRenameNick(LPCTSTR ptszOldName)
 	pForm.ptszInitVal = ptszOldName;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "renamenick_";
-	return (!EnterString(&pForm)) ? CMString() : CMString(ptrT(pForm.ptszResult));
+	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -504,7 +504,7 @@ void __cdecl CVkProto::DBAddAuthRequestThread(void *p)
 	if (param->hContact == NULL || param->hContact == INVALID_CONTACT_ID || !IsOnline())
 		return;
 
-	for (int i = 0; i < MAX_RETRIES && IsEmpty(ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick"))); i++) {
+	for (int i = 0; i < MAX_RETRIES && IsEmpty(ptrW(db_get_tsa(param->hContact, m_szModuleName, "Nick"))); i++) {
 		Sleep(1500);
 		
 		if (!IsOnline())
@@ -519,9 +519,9 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
 
-	T2Utf szNick(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")));
-	T2Utf szFirstName(ptrT(db_get_tsa(hContact, m_szModuleName, "FirstName")));
-	T2Utf szLastName(ptrT(db_get_tsa(hContact, m_szModuleName, "LastName")));
+	T2Utf szNick(ptrW(db_get_tsa(hContact, m_szModuleName, "Nick")));
+	T2Utf szFirstName(ptrW(db_get_tsa(hContact, m_szModuleName, "FirstName")));
+	T2Utf szLastName(ptrW(db_get_tsa(hContact, m_szModuleName, "LastName")));
 
 	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)
@@ -589,7 +589,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		return;
 	}
 
-	CMString MirVer, OldMirVer(ptrT(db_get_tsa(hContact, m_szModuleName, "MirVer")));
+	CMString MirVer, OldMirVer(ptrW(db_get_tsa(hContact, m_szModuleName, "MirVer")));
 	bool bSetFlag = true;
 
 	switch (platform) {
@@ -685,7 +685,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
 	st.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_READMSG));
-	mir_sntprintf(st.tszText, TranslateT("Message read: %s"), ttime);
+	mir_snwprintf(st.tszText, TranslateT("Message read: %s"), ttime);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
 
@@ -1245,7 +1245,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		else {
 			MCONTACT hContact = FindUser(uid);
 			if (hContact || uid == m_msgId)
-				tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"));
+				tszNick = ptrW(db_get_tsa(hContact, m_szModuleName, "Nick"));
 			else 
 				tszNick = TranslateT("(Unknown contact)");		
 			tszUrl.AppendFormat(L"https://vk.com/id%d", uid);

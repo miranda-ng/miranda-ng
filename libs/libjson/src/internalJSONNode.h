@@ -290,7 +290,7 @@ inline json_string internalJSONNode::as_string(void) const {
 
 inline CMString internalJSONNode::as_mstring(void) const {
 	Fetch();
-	return CMString(ptrT(mir_utf8decodeT(_string.c_str())));
+	return CMString(ptrW(mir_utf8decodeW(_string.c_str())));
 }
 
 inline long internalJSONNode::as_int(void) const {

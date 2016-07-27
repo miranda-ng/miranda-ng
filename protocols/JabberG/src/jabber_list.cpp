@@ -91,12 +91,12 @@ void CJabberProto::ListInit(void)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact)) {
-			ptrT jid(getTStringA(hContact, "ChatRoomID"));
+			ptrW jid(getTStringA(hContact, "ChatRoomID"));
 			if (jid != NULL)
 				ListAdd(LIST_CHATROOM, jid, hContact);
 		}
 		else {
-			ptrT jid(getTStringA(hContact, "jid"));
+			ptrW jid(getTStringA(hContact, "jid"));
 			if (jid != NULL)
 				ListAdd(LIST_ROSTER, jid, hContact);
 		}
@@ -127,7 +127,7 @@ JABBER_LIST_ITEM* CJabberProto::ListAdd(JABBER_LIST list, const wchar_t *jid, MC
 		return item;
 	}
 
-	wchar_t *s = mir_tstrdup(jid);
+	wchar_t *s = mir_wstrdup(jid);
 	wchar_t *q = NULL;
 	// strip resource name if any
 	//fyr
@@ -244,7 +244,7 @@ pResourceStatus JABBER_LIST_ITEM::findResource(const wchar_t *resourceName) cons
 
 	for (int i = 0; i < arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *r = arResources[i];
-		if (!mir_tstrcmp(r->m_tszResourceName, resourceName))
+		if (!mir_wstrcmp(r->m_tszResourceName, resourceName))
 			return r;
 	}
 
@@ -282,7 +282,7 @@ bool CJabberProto::ListAddResource(JABBER_LIST list, const wchar_t *jid, int sta
 		JABBER_RESOURCE_STATUS *r = LI->findResource(resource);
 		if (r != NULL) { // Already exists, update status and statusMessage
 			r->m_iStatus = status;
-			r->m_tszStatusMessage = mir_tstrdup(statusMessage);
+			r->m_tszStatusMessage = mir_wstrdup(statusMessage);
 			r->m_iPriority = priority;
 		}
 		else { // Does not exist, add new resource
@@ -291,10 +291,10 @@ bool CJabberProto::ListAddResource(JABBER_LIST list, const wchar_t *jid, int sta
 			r->m_iStatus = status;
 			r->m_affiliation = AFFILIATION_NONE;
 			r->m_role = ROLE_NONE;
-			r->m_tszResourceName = mir_tstrdup(resource);
-			r->m_tszNick = mir_tstrdup(nick);
+			r->m_tszResourceName = mir_wstrdup(resource);
+			r->m_tszNick = mir_wstrdup(nick);
 			if (statusMessage)
-				r->m_tszStatusMessage = mir_tstrdup(statusMessage);
+				r->m_tszStatusMessage = mir_wstrdup(statusMessage);
 			r->m_iPriority = priority;
 			LI->arResources.insert(r);
 		}
@@ -303,7 +303,7 @@ bool CJabberProto::ListAddResource(JABBER_LIST list, const wchar_t *jid, int sta
 	else {
 		JABBER_RESOURCE_STATUS *r = LI->getTemp();
 		r->m_iStatus = status;
-		r->m_tszStatusMessage = mir_tstrdup(statusMessage);
+		r->m_tszStatusMessage = mir_wstrdup(statusMessage);
 	}
 
 	lck.unlock();

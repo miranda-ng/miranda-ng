@@ -125,12 +125,12 @@ BOOL ITunes::FillCache()
 		int h = (lret / 60) / 60;
 
 		if (h > 0)
-			mir_sntprintf(listening_info.ptszLength, 9, L"%d:%02d:%02d", h, m, s);
+			mir_snwprintf(listening_info.ptszLength, 9, L"%d:%02d:%02d", h, m, s);
 		else
-			mir_sntprintf(listening_info.ptszLength, 9, L"%d:%02d", m, s);
+			mir_snwprintf(listening_info.ptszLength, 9, L"%d:%02d", m, s);
 	}
 
-	listening_info.ptszType = mir_tstrdup(L"Music");
+	listening_info.ptszType = mir_wstrdup(L"Music");
 
 	if (listening_info.ptszTitle == NULL) {
 		// Get from filename
@@ -140,14 +140,14 @@ BOOL ITunes::FillCache()
 		else
 			p = filename;
 
-		listening_info.ptszTitle = mir_u2t(p);
+		listening_info.ptszTitle = mir_wstrdup(p);
 
 		wchar_t *pt = wcsrchr(listening_info.ptszTitle, '.');
 		if (pt != NULL)
 			*p = '\0';
 	}
 
-	listening_info.ptszPlayer = mir_tstrdup(name);
+	listening_info.ptszPlayer = mir_wstrdup(name);
 
 	listening_info.cbSize = sizeof(listening_info);
 	listening_info.dwFlags = LTI_TCHAR;

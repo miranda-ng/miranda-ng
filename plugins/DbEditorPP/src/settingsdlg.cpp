@@ -131,7 +131,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		TranslateDialogDefault(hwnd);
 		{
 			wchar_t text[MSG_SIZE];
-			mir_sntprintf(text, dbsetting->setting?TranslateT("Edit setting (%s)"):TranslateT("New setting (%s)"), DBVType(dbsetting->dbv.type));
+			mir_snwprintf(text, dbsetting->setting?TranslateT("Edit setting (%s)"):TranslateT("New setting (%s)"), DBVType(dbsetting->dbv.type));
 			SetWindowText(hwnd, text);
 		}
 	}
@@ -167,12 +167,12 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					if (LOWORD(wParam) == CHK_DECIMAL && IsDlgButtonChecked(hwnd, CHK_DECIMAL))
 					{
 						swscanf(setting, L"%X", &tmp);
-						mir_sntprintf(text, L"%u", tmp);
+						mir_snwprintf(text, L"%u", tmp);
 					}
 					else
 					{
 						swscanf(setting, L"%u", &tmp);
-						mir_sntprintf(text, L"%X", tmp);
+						mir_snwprintf(text, L"%X", tmp);
 					}
 					SetDlgItemText(hwnd, IDC_SETTINGVALUE, text);
 					mir_free(setting);

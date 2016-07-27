@@ -242,7 +242,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				item.pszText = email.szSender;
 				ListView_InsertItem(hList, &item);
 				ListView_SetItemText(hList, i, 1, email.szSubject);
-				ListView_SetItemText(hList, i, 2, mir_a2t(email.emailID));
+				ListView_SetItemText(hList, i, 2, mir_a2u(email.emailID));
 			}
 			SetFocus(hList);
 		}

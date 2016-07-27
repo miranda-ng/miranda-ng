@@ -149,11 +149,11 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 {
 	TCString PopupText;
 	if (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_SHOWPREVCLIENT)) {
-		mir_sntprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s (was %s)"), (const wchar_t*)sd->MirVer, (const wchar_t*)sd->OldMirVer);
+		mir_snwprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s (was %s)"), (const wchar_t*)sd->MirVer, (const wchar_t*)sd->OldMirVer);
 		PopupText.ReleaseBuffer();
 	}
 	else {
-		mir_sntprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s"), (const wchar_t*)sd->MirVer);
+		mir_snwprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s"), (const wchar_t*)sd->MirVer);
 		PopupText.ReleaseBuffer();
 	}
 
@@ -257,7 +257,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact) {
 		TCString ClientName;
 		if (PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWPREVCLIENT) && sd.OldMirVer.GetLen()) {
-			mir_sntprintf(ClientName.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("%s (was %s)"), (const wchar_t*)sd.MirVer, (const wchar_t*)sd.OldMirVer);
+			mir_snwprintf(ClientName.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("%s (was %s)"), (const wchar_t*)sd.MirVer, (const wchar_t*)sd.OldMirVer);
 			ClientName.ReleaseBuffer();
 		}
 		else ClientName = sd.MirVer;

@@ -46,12 +46,12 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	c = new CVkChatInfo(id);
 	if (jnDlg) {
 		tszTitle = jnDlg["title"].as_mstring();
-		c->m_tszTopic = mir_tstrdup(!tszTitle.IsEmpty() ? tszTitle : L"");
+		c->m_tszTopic = mir_wstrdup(!tszTitle.IsEmpty() ? tszTitle : L"");
 	}
 
 	CMString sid; 
 	sid.Format(L"%S_%d", m_szModuleName, id);
-	c->m_tszId = mir_tstrdup(sid);
+	c->m_tszId = mir_wstrdup(sid);
 
 	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
@@ -183,13 +183,13 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				bNew = cu->m_bUnknown;
 			cu->m_bDel = false;
 
-			CMString tszNick(ptrT(db_get_tsa(cc->m_hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_uid))));
+			CMString tszNick(ptrW(db_get_tsa(cc->m_hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_uid))));
 			if (tszNick.IsEmpty()) {
 				CMString fName(jnUser["first_name"].as_mstring());
 				CMString lName(jnUser["last_name"].as_mstring());
 				tszNick = fName.Trim() + L" " + lName.Trim();
 			}
-			cu->m_tszNick = mir_tstrdup(tszNick);
+			cu->m_tszNick = mir_wstrdup(tszNick);
 			cu->m_bUnknown = false;
 			
 			if (bNew) {
@@ -217,7 +217,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			gce.ptszUID = tszId;
 			gce.dwFlags = GCEF_REMOVECONTACT | GCEF_NOTNOTIFY;
 			gce.time = time(NULL);
-			gce.ptszNick = mir_tstrdup(CMString(FORMAT, L"%s (https://vk.com/id%s)", cu.m_tszNick, tszId));
+			gce.ptszNick = mir_wstrdup(CMString(FORMAT, L"%s (https://vk.com/id%s)", cu.m_tszNick, tszId));
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 			cc->m_users.remove(i);
@@ -272,10 +272,10 @@ void CVkProto::SetChatTitle(CVkChatInfo *cc, LPCTSTR tszTopic)
 	if (!cc)
 		return;
 
-	if (mir_tstrcmp(cc->m_tszTopic, tszTopic) == 0)
+	if (mir_wstrcmp(cc->m_tszTopic, tszTopic) == 0)
 		return;
 
-	cc->m_tszTopic = mir_tstrdup(tszTopic);
+	cc->m_tszTopic = mir_wstrdup(tszTopic);
 	setTString(cc->m_hContact, "Nick", tszTopic);
 
 	GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_CHANGESESSIONAME };
@@ -406,7 +406,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 
 		cm->m_uid = uid;
 		cm->m_date = msgTime;
-		cm->m_tszBody = mir_tstrdup(tszBody);
+		cm->m_tszBody = mir_wstrdup(tszBody);
 		cm->m_bHistory = bIsHistory;
 		cm->m_bIsAction = bIsAction;
 	}
@@ -419,8 +419,8 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 	CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
 	if (cu == NULL) {
 		cc->m_users.insert(cu = new CVkChatUser(uid));
-		CMString tszNick(ptrT(db_get_tsa(cc->m_hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_uid))));
-		cu->m_tszNick = mir_tstrdup(tszNick.IsEmpty() ? (hContact ? ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown")) : tszNick);
+		CMString tszNick(ptrW(db_get_tsa(cc->m_hContact, m_szModuleName, CMStringA(FORMAT, "nick%d", cu->m_uid))));
+		cu->m_tszNick = mir_wstrdup(tszNick.IsEmpty() ? (hContact ? ptrW(db_get_tsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown")) : tszNick);
 		cu->m_bUnknown = true;
 	}
 
@@ -433,8 +433,8 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 	gce.ptszUID = tszId;
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
-	gce.ptszNick = cu->m_tszNick ? mir_tstrdup(cu->m_tszNick) : mir_tstrdup(hContact ? ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
-	gce.ptszText = IsEmpty((wchar_t *)ptszBody) ? mir_tstrdup(L"...") : mir_tstrdup(ptszBody);
+	gce.ptszNick = cu->m_tszNick ? mir_wstrdup(cu->m_tszNick) : mir_wstrdup(hContact ? ptrW(db_get_tsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
+	gce.ptszText = IsEmpty((wchar_t *)ptszBody) ? mir_wstrdup(L"...") : mir_wstrdup(ptszBody);
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	StopChatContactTyping(cc->m_chatid, uid);
 }
@@ -444,7 +444,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 CVkChatInfo* CVkProto::GetChatById(LPCTSTR ptszId)
 {
 	for (int i = 0; i < m_chats.getCount(); i++)
-		if (!mir_tstrcmp(m_chats[i].m_tszId, ptszId))
+		if (!mir_wstrcmp(m_chats[i].m_tszId, ptszId))
 			return &m_chats[i];
 
 	return NULL;
@@ -454,7 +454,7 @@ CVkChatInfo* CVkProto::GetChatById(LPCTSTR ptszId)
 
 void CVkProto::SetChatStatus(MCONTACT hContact, int iStatus)
 {
-	ptrT tszChatID(getTStringA(hContact, "ChatRoomID"));
+	ptrW tszChatID(getTStringA(hContact, "ChatRoomID"));
 	if (tszChatID == NULL)
 		return;
 
@@ -496,9 +496,9 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 	switch (gch->pDest->iType) {
 	case GC_USER_MESSAGE:
-		if (IsOnline() && mir_tstrlen(gch->ptszText) > 0) {
-			ptrT ptszBuf(mir_tstrdup(gch->ptszText));
-			rtrimt(ptszBuf);
+		if (IsOnline() && mir_wstrlen(gch->ptszText) > 0) {
+			ptrW ptszBuf(mir_wstrdup(gch->ptszText));
+			rtrimw(ptszBuf);
 			UnEscapeChatTags(ptszBuf);
 			SendMsg(cc->m_hContact, 0, T2Utf(ptszBuf));
 		}
@@ -641,7 +641,7 @@ INT_PTR __cdecl CVkProto::OnLeaveChat(WPARAM hContact, LPARAM)
 	if (!IsOnline())
 		return 1;
 
-	ptrT tszChatID(getTStringA(hContact, "ChatRoomID"));
+	ptrW tszChatID(getTStringA(hContact, "ChatRoomID"));
 	if (tszChatID == NULL)
 		return 1;
 
@@ -695,7 +695,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg, con
 	if (msg.IsEmpty()) {
 		msg = TranslateT("You've been kicked by ");
 		if (hContact != NULL)
-			msg += ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"));
+			msg += ptrW(db_get_tsa(hContact, m_szModuleName, "Nick"));
 		else
 			msg += TranslateT("(Unknown contact)");
 	}
@@ -799,15 +799,15 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		wchar_t tszId[20];
 		_itow(cu->m_uid, tszId, 10);
 
-		gce.ptszNick = mir_tstrdup(cu->m_tszNick);
+		gce.ptszNick = mir_wstrdup(cu->m_tszNick);
 		gce.bIsMe = (cu->m_uid == m_myUserId);
 		gce.ptszUID = tszId;
-		gce.ptszText = mir_tstrdup(tszNewNick);
+		gce.ptszText = mir_wstrdup(tszNewNick);
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.time = time(NULL);
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
-		cu->m_tszNick = mir_tstrdup(tszNewNick);		
+		cu->m_tszNick = mir_wstrdup(tszNewNick);		
 		setTString(cc->m_hContact, CMStringA(FORMAT, "nick%d", cu->m_uid), tszNewNick);
 	}
 		break;
@@ -901,7 +901,7 @@ void CVkProto::ChatContactTypingThread(void *p)
 		
 		StatusTextData st = { 0 };
 		st.cbSize = sizeof(st);
-		mir_sntprintf(st.tszText, TranslateT("%s is typing a message..."), cu->m_tszNick);
+		mir_snwprintf(st.tszText, TranslateT("%s is typing a message..."), cu->m_tszNick);
 
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 	}
@@ -933,7 +933,7 @@ void CVkProto::StopChatContactTyping(int iChatId, int iUserId)
 
 		StatusTextData st = { 0 };
 		st.cbSize = sizeof(st);
-		mir_sntprintf(st.tszText, L" ");
+		mir_snwprintf(st.tszText, L" ");
 		
 		// CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, NULL) clears statusbar very slowly. 
 		// (1-10 sec(!!!) for me on tabSRMM O_o)

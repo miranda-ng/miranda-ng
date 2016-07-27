@@ -692,7 +692,7 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, MCONTACT hContact, osc
 			if (getContactXStatus(hContact) != 0 || !CheckContactCapabilities(hContact, CAPF_STATUS_MESSAGES)) {
 				setStatusMsgVar(hContact, szStatusNote, false);
 
-				wchar_t *tszNote = mir_utf8decodeT(szStatusNote);
+				wchar_t *tszNote = mir_utf8decodeW(szStatusNote);
 				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszNote);
 				mir_free(tszNote);
 			}

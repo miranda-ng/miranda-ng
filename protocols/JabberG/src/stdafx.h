@@ -403,7 +403,7 @@ struct ThreadData
 	JABBER_CONN_DATA conn;
 	wchar_t    resource[128];
 	wchar_t    fullJID[JABBER_MAX_JID_LEN];
-	ptrT     tszNewPassword;
+	ptrW     tszNewPassword;
 
 	class TJabberAuth *auth;
 	JabberCapsBits jabberServerCaps;
@@ -683,8 +683,8 @@ struct CJabberAdhocStartupParams
 	CJabberAdhocStartupParams(CJabberProto *proto, wchar_t* szJid, wchar_t* szNode = NULL)
 	{
 		m_pProto = proto;
-		m_szJid = mir_tstrdup(szJid);
-		m_szNode = szNode ? mir_tstrdup(szNode) : NULL;
+		m_szJid = mir_wstrdup(szJid);
+		m_szNode = szNode ? mir_wstrdup(szNode) : NULL;
 	}
 	~CJabberAdhocStartupParams()
 	{

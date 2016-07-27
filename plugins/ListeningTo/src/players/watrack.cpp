@@ -102,15 +102,15 @@ void WATrack::GetData()
 		int h = (si->total / 60) / 60;
 
 		if (h > 0)
-			mir_sntprintf(listening_info.ptszLength, 9, L"%d:%02d:%02d", h, m, s);
+			mir_snwprintf(listening_info.ptszLength, 9, L"%d:%02d:%02d", h, m, s);
 		else
-			mir_sntprintf(listening_info.ptszLength, 9, L"%d:%02d", m, s);
+			mir_snwprintf(listening_info.ptszLength, 9, L"%d:%02d", m, s);
 	}
 
 	if (si->width > 0)
-		listening_info.ptszType = mir_tstrdup(L"Video");
+		listening_info.ptszType = mir_wstrdup(L"Video");
 	else
-		listening_info.ptszType = mir_tstrdup(L"Music");
+		listening_info.ptszType = mir_wstrdup(L"Music");
 
 	listening_info.ptszPlayer = DUPD(si->player, name);
 

@@ -116,7 +116,7 @@ int FillModes(char *szsetting)
 	if (szsetting[0] == 13)
 		return 1;
 
-	ptrT temp(mir_utf8decodeT(szsetting));
+	ptrW temp(mir_utf8decodeW(szsetting));
 	if (temp != NULL)
 		SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)temp);
 	return 1;
@@ -413,8 +413,8 @@ void SaveState()
 				item.cchTextMax = _countof(szTemp);
 				item.iItem = i;
 				SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-				mir_tstrncat(newGroupFilter, szTemp, _countof(newGroupFilter) - mir_tstrlen(newGroupFilter));
-				mir_tstrncat(newGroupFilter, L"|", _countof(newGroupFilter) - mir_tstrlen(newGroupFilter));
+				mir_wstrncat(newGroupFilter, szTemp, _countof(newGroupFilter) - mir_wstrlen(newGroupFilter));
+				mir_wstrncat(newGroupFilter, L"|", _countof(newGroupFilter) - mir_wstrlen(newGroupFilter));
 				newGroupFilter[2047] = 0;
 			}
 		}
@@ -502,7 +502,7 @@ static void UpdateFilters()
 	mir_strncpy(g_szModename, szBuf, _countof(g_szModename));
 	{
 		wchar_t szTemp[100];
-		mir_sntprintf(szTemp, TranslateT("Configuring view mode: %s"), szTempBuf);
+		mir_snwprintf(szTemp, TranslateT("Configuring view mode: %s"), szTempBuf);
 		SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
 	}
 	mir_snprintf(szSetting, "%c%s_PF", 246, szBuf);
@@ -511,7 +511,7 @@ static void UpdateFilters()
 		return;
 
 	mir_snprintf(szSetting, "%c%s_GF", 246, szBuf);
-	ptrT szGF(db_get_tsa(NULL, CLVM_MODULE, szSetting));
+	ptrW szGF(db_get_tsa(NULL, CLVM_MODULE, szSetting));
 	if (szGF == NULL)
 		return;
 
@@ -561,7 +561,7 @@ static void UpdateFilters()
 		for (i = 1; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-			mir_sntprintf(szMask, L"%s|", szTemp);
+			mir_snwprintf(szMask, L"%s|", szTemp);
 			if (szGF && wcsstr(szGF, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -890,7 +890,7 @@ static int FillMenuCallback(char *szSetting)
 	if (szSetting[0] == 13)
 		return 1;
 
-	wchar_t *temp = mir_utf8decodeT(szSetting);
+	wchar_t *temp = mir_utf8decodeW(szSetting);
 	if (temp) {
 		AppendMenu(hViewModeMenu, MFT_STRING, menuCounter++, temp);
 		mir_free(temp);
@@ -987,7 +987,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		}
 
 		if (g_CluiData.bFilterEffective)
-			SetDlgItemText(hwnd, IDC_SELECTMODE, ptrT(mir_utf8decodeT(g_CluiData.current_viewmode)));
+			SetDlgItemText(hwnd, IDC_SELECTMODE, ptrW(mir_utf8decodeW(g_CluiData.current_viewmode)));
 		else
 			SetDlgItemText(hwnd, IDC_SELECTMODE, TranslateT("All contacts"));
 		break;
@@ -1167,7 +1167,7 @@ static int ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 	if (g_CluiData.fDisableSkinEngine) {
 		view_mode.bkColour = cliGetColor("ViewMode", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "ViewMode", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrT tszBitmapName(db_get_tsa(NULL, "ViewMode", "BkBitmap"));
+			ptrW tszBitmapName(db_get_tsa(NULL, "ViewMode", "BkBitmap"));
 			if (tszBitmapName)
 				view_mode.hBmpBackground = Bitmap_Load(tszBitmapName);
 		}
@@ -1268,8 +1268,8 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		}
 		mir_snprintf(szSetting, "%c%s_GF", 246, Name);
 		if (!db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv)) {
-			if (mir_tstrlen(dbv.ptszVal) >= 2) {
-				mir_tstrncpy(g_CluiData.groupFilter, dbv.ptszVal, _countof(g_CluiData.groupFilter));
+			if (mir_wstrlen(dbv.ptszVal) >= 2) {
+				mir_wstrncpy(g_CluiData.groupFilter, dbv.ptszVal, _countof(g_CluiData.groupFilter));
 				g_CluiData.groupFilter[_countof(g_CluiData.groupFilter) - 1] = 0;
 				g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;
 			}
@@ -1360,7 +1360,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		}
 	}
 
-	SetWindowText(hwndSelector, ptrT(mir_utf8decodeW((Name[0] == 13) ? Name + 1 : Name)));
+	SetWindowText(hwndSelector, ptrW(mir_utf8decodeW((Name[0] == 13) ? Name + 1 : Name)));
 
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	cliInvalidateRect(pcli->hwndStatus, NULL, FALSE);

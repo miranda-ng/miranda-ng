@@ -147,54 +147,54 @@ void GetINIInfo(wchar_t *pszSvc)
 	WIDATA *sData = GetWIData(pszSvc);
 	// if the service does not exist among the loaded INI's
 	if (sData == NULL) {
-		mir_sntprintf(str2, TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
+		mir_snwprintf(str2, TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
 		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
 	}
 	// if exist, get the information
 	else {
-		mir_sntprintf(str2, TranslateT("Weather INI information for \"%s\":"), pszSvc);
-		mir_tstrncat(str2, L"\n\n", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Name:"), _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\t\t", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->DisplayName, _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\n", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Internal Name:"), _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\t", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->InternalName, _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\n", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Author:"), _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\t\t", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->Author, _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\n", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Version:"), _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\t\t", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->Version, _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\n", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("INI Version:"), _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\t", _countof(str2) - mir_tstrlen(str2));
+		mir_snwprintf(str2, TranslateT("Weather INI information for \"%s\":"), pszSvc);
+		mir_wstrncat(str2, L"\n\n", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, TranslateT("Name:"), _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\t\t", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, sData->DisplayName, _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, TranslateT("Internal Name:"), _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\t", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, sData->InternalName, _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, TranslateT("Author:"), _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\t\t", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, sData->Author, _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, TranslateT("Version:"), _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\t\t", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, sData->Version, _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, TranslateT("INI Version:"), _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\t", _countof(str2) - mir_wstrlen(str2));
 		switch (sData->InternalVer) {
-		case 1: mir_tstrncat(str2, L"1.0", _countof(str2) - mir_tstrlen(str2)); break;
-		case 2: mir_tstrncat(str2, L"1.1", _countof(str2) - mir_tstrlen(str2)); break;
-		case 3: mir_tstrncat(str2, L"1.1a", _countof(str2) - mir_tstrlen(str2)); break;
-		case 4: mir_tstrncat(str2, L"1.2", _countof(str2) - mir_tstrlen(str2)); break;
-		case 5: mir_tstrncat(str2, L"1.3", _countof(str2) - mir_tstrlen(str2)); break;
-		case 6: mir_tstrncat(str2, L"1.4", _countof(str2) - mir_tstrlen(str2)); break;
-		case 7: mir_tstrncat(str2, L"1.5", _countof(str2) - mir_tstrlen(str2)); break;
+		case 1: mir_wstrncat(str2, L"1.0", _countof(str2) - mir_wstrlen(str2)); break;
+		case 2: mir_wstrncat(str2, L"1.1", _countof(str2) - mir_wstrlen(str2)); break;
+		case 3: mir_wstrncat(str2, L"1.1a", _countof(str2) - mir_wstrlen(str2)); break;
+		case 4: mir_wstrncat(str2, L"1.2", _countof(str2) - mir_wstrlen(str2)); break;
+		case 5: mir_wstrncat(str2, L"1.3", _countof(str2) - mir_wstrlen(str2)); break;
+		case 6: mir_wstrncat(str2, L"1.4", _countof(str2) - mir_wstrlen(str2)); break;
+		case 7: mir_wstrncat(str2, L"1.5", _countof(str2) - mir_wstrlen(str2)); break;
 		}
-		mir_tstrncat(str2, L"\n", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("File Name:"), _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\t", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->ShortFileName, _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\n", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Item Count:"), _countof(str2) - mir_tstrlen(str2));
-		mir_sntprintf(str2, L"%s\t%i\n", str2, sData->UpdateDataCount);
-		mir_tstrncat(str2, TranslateT("Memory Used:"), _countof(str2) - mir_tstrlen(str2));
-		mir_sntprintf(str2, L"%s\t%i ", str2, sData->MemUsed);
-		mir_tstrncat(str2, TranslateT("bytes"), _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\n\n", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, TranslateT("Description:"), _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, L"\n", _countof(str2) - mir_tstrlen(str2));
-		mir_tstrncat(str2, sData->Description, _countof(str2) - mir_tstrlen(str2));
+		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, TranslateT("File Name:"), _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\t", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, sData->ShortFileName, _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, TranslateT("Item Count:"), _countof(str2) - mir_wstrlen(str2));
+		mir_snwprintf(str2, L"%s\t%i\n", str2, sData->UpdateDataCount);
+		mir_wstrncat(str2, TranslateT("Memory Used:"), _countof(str2) - mir_wstrlen(str2));
+		mir_snwprintf(str2, L"%s\t%i ", str2, sData->MemUsed);
+		mir_wstrncat(str2, TranslateT("bytes"), _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\n\n", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, TranslateT("Description:"), _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
+		mir_wstrncat(str2, sData->Description, _countof(str2) - mir_wstrlen(str2));
 
 		// display the message box and quit
 		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
@@ -211,20 +211,20 @@ void MoreVarList(void)
 
 	// heading
 	wcsncpy(str, VARS_LIST, _countof(str) - 1);
-	mir_tstrncat(str, L"\n\n", _countof(str) - mir_tstrlen(str));
+	mir_wstrncat(str, L"\n\n", _countof(str) - mir_wstrlen(str));
 	// loop through all weather services to find custom variables
 	for (WIDATALIST *Item = WIHead; Item != NULL; Item = Item->next) {
 		// loop through all update items in a service
 		for (WIDATAITEMLIST *WItem = Item->Data.UpdateData; WItem != NULL; WItem = WItem->Next) {
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
-			if (mir_tstrcmp(WItem->Item.Name, L"Ignore") && WItem->Item.Name[0] != '#') {
-				mir_sntprintf(tempstr, L"%c[%s]", '%', WItem->Item.Name);
+			if (mir_wstrcmp(WItem->Item.Name, L"Ignore") && WItem->Item.Name[0] != '#') {
+				mir_snwprintf(tempstr, L"%c[%s]", '%', WItem->Item.Name);
 				wchar_t *find = wcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == NULL) {
-					mir_tstrncat(str, tempstr, _countof(str) - mir_tstrlen(str));
-					mir_tstrncat(str, L", ", _countof(str) - mir_tstrlen(str));
+					mir_wstrncat(str, tempstr, _countof(str) - mir_wstrlen(str));
+					mir_wstrncat(str, L", ", _countof(str) - mir_wstrlen(str));
 				}
 			}
 		}

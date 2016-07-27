@@ -217,7 +217,7 @@ static void TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 		start -= 2;
 
 	if (dat->szSearchResult != NULL) {
-		int cbResult = (int)mir_tstrlen(dat->szSearchResult);
+		int cbResult = (int)mir_wstrlen(dat->szSearchResult);
 		if (start >= cbResult && !wcsnicmp(dat->szSearchResult, pszText + start - cbResult, cbResult)) {
 			start -= cbResult;
 			goto LBL_SkipEnd;
@@ -243,8 +243,8 @@ LBL_SkipEnd:
 
 	if (dat->szSearchQuery == NULL) {
 		dat->szSearchQuery = (wchar_t*)mir_alloc(sizeof(wchar_t)*(end - start + 1));
-		mir_tstrncpy(dat->szSearchQuery, pszText + start, end - start + 1);
-		dat->szSearchResult = mir_tstrdup(dat->szSearchQuery);
+		mir_wstrncpy(dat->szSearchQuery, pszText + start, end - start + 1);
+		dat->szSearchResult = mir_wstrdup(dat->szSearchQuery);
 		dat->lastSession = NULL;
 	}
 
@@ -258,23 +258,23 @@ LBL_SkipEnd:
 	else pszName = pci->UM_FindUserAutoComplete(si->pUsers, dat->szSearchQuery, dat->szSearchResult);
 
 	mir_free(pszText);
-	replaceStrT(dat->szSearchResult, NULL);
+	replaceStrW(dat->szSearchResult, NULL);
 
 	if (pszName == NULL) {
 		if (end != start) {
 			SendMessage(hwnd, EM_SETSEL, start, end);
 			SendMessage(hwnd, EM_REPLACESEL, FALSE, (LPARAM)dat->szSearchQuery);
 		}
-		replaceStrT(dat->szSearchQuery, NULL);
+		replaceStrW(dat->szSearchQuery, NULL);
 	}
 	else {
-		dat->szSearchResult = mir_tstrdup(pszName);
+		dat->szSearchResult = mir_wstrdup(pszName);
 		if (end != start) {
-			ptrT szReplace;
+			ptrW szReplace;
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
-				szReplace = (wchar_t*)mir_alloc((mir_tstrlen(pszName) + 4) * sizeof(wchar_t));
-				mir_tstrcpy(szReplace, pszName);
-				mir_tstrcat(szReplace, L": ");
+				szReplace = (wchar_t*)mir_alloc((mir_wstrlen(pszName) + 4) * sizeof(wchar_t));
+				mir_wstrcpy(szReplace, pszName);
+				mir_wstrcat(szReplace, L": ");
 				pszName = szReplace;
 			}
 			SendMessage(hwnd, EM_SETSEL, start, end);
@@ -684,7 +684,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		ptl.y = (LONG)pt.y;
 		ScreenToClient(hwnd, (LPPOINT)&ptl);
 		{
-			ptrT pszWord(GetRichTextWord(hwnd, &ptl));
+			ptrW pszWord(GetRichTextWord(hwnd, &ptl));
 			inMenu = TRUE;
 
 			CHARRANGE all = { 0, -1 };
@@ -795,7 +795,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO * p
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
+			mir_snwprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 				TranslateT("Nickname"), ui->pszNick,
 				TranslateT("Unique ID"), ui->pszUID,
 				TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -956,18 +956,18 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			break;
 		}
 		else if (wParam == '\b' && si->szSearch[0])					// backspace
-			si->szSearch[mir_tstrlen(si->szSearch) - 1] = '\0';
+			si->szSearch[mir_wstrlen(si->szSearch) - 1] = '\0';
 		else if (wParam < ' ')
 			break;
 		else {
 			wchar_t szNew[2];
 			szNew[0] = (wchar_t)wParam;
 			szNew[1] = '\0';
-			if (mir_tstrlen(si->szSearch) >= _countof(si->szSearch) - 2) {
+			if (mir_wstrlen(si->szSearch) >= _countof(si->szSearch) - 2) {
 				MessageBeep(MB_OK);
 				break;
 			}
-			mir_tstrcat(si->szSearch, szNew);
+			mir_wstrcat(si->szSearch, szNew);
 		}
 		if (si->szSearch[0]) {
 			// iterate over the (sorted) list of nicknames and search for the
@@ -976,7 +976,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			for (int i = 0; i < iItems; i++) {
 				USERINFO *ui = pci->UM_FindUserFromIndex(si->pUsers, i);
 				if (ui) {
-					if (!wcsnicmp(ui->pszNick, si->szSearch, mir_tstrlen(si->szSearch))) {
+					if (!wcsnicmp(ui->pszNick, si->szSearch, mir_wstrlen(si->szSearch))) {
 						SendMessage(hwnd, LB_SETCURSEL, i, 0);
 						InvalidateRect(hwnd, NULL, FALSE);
 						return 0;
@@ -985,7 +985,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			}
 
 			MessageBeep(MB_OK);
-			si->szSearch[mir_tstrlen(si->szSearch) - 1] = '\0';
+			si->szSearch[mir_wstrlen(si->szSearch) - 1] = '\0';
 			return 0;
 		}
 		break;
@@ -1177,17 +1177,17 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 		switch (si->iType) {
 		case GCW_CHATROOM:
-			mir_sntprintf(szTemp,
+			mir_snwprintf(szTemp,
 				(si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
 				si->ptszName, si->nUsersInNicklist);
 			break;
 		case GCW_PRIVMESS:
-			mir_sntprintf(szTemp,
+			mir_snwprintf(szTemp,
 				(si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
 				si->ptszName, si->nUsersInNicklist);
 			break;
 		case GCW_SERVER:
-			mir_sntprintf(szTemp, L"%s: Server", si->ptszName);
+			mir_snwprintf(szTemp, L"%s: Server", si->ptszName);
 			break;
 		}
 		tbd.iFlags = TBDF_TEXT | TBDF_ICON;
@@ -1200,7 +1200,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		{
 			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 			hIcon = si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
-			mir_sntprintf(szTemp, L"%s : %s", mi->ptszModDispName, si->ptszStatusbarText ? si->ptszStatusbarText : L"");
+			mir_snwprintf(szTemp, L"%s : %s", mi->ptszModDispName, si->ptszStatusbarText ? si->ptszStatusbarText : L"");
 
 			StatusBarData sbd;
 			sbd.iItem = 0;
@@ -1411,7 +1411,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					}
 
 					SetTextColor(dis->hDC, ui->iStatusEx == 0 ? g_Settings.crUserListColor : g_Settings.crUserListHeadingsColor);
-					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, (int)mir_tstrlen(ui->pszNick));
+					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, (int)mir_wstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
 				}
 				return TRUE;
@@ -1428,7 +1428,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				char szIndicator = SM_GetStatusIndicator(si, ui);
 				if (szIndicator > '\0') {
 					static wchar_t ptszBuf[128];
-					mir_sntprintf(ptszBuf, L"%c%s", szIndicator, ui->pszNick);
+					mir_snwprintf(ptszBuf, L"%c%s", szIndicator, ui->pszNick);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ptszBuf);
 				}
 				else SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ui->pszNick);
@@ -1637,7 +1637,7 @@ LABEL_SHOWWINDOW:
 					USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 					if (ui != NULL) {
 						static wchar_t ptszBuf[1024];
-						mir_sntprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
+						mir_snwprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 							TranslateT("Nickname"), ui->pszNick,
 							TranslateT("Unique ID"), ui->pszUID,
 							TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -1667,12 +1667,12 @@ LABEL_SHOWWINDOW:
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
 						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
-						size_t dwNameLenMax = (mir_tstrlen(ui->pszUID) + 4);
+						size_t dwNameLenMax = (mir_wstrlen(ui->pszUID) + 4);
 						wchar_t* pszName = (wchar_t*)alloca(sizeof(wchar_t) * dwNameLenMax);
 						if (start == 0)
-							mir_sntprintf(pszName, dwNameLenMax, L"%s: ", ui->pszUID);
+							mir_snwprintf(pszName, dwNameLenMax, L"%s: ", ui->pszUID);
 						else
-							mir_sntprintf(pszName, dwNameLenMax, L"%s ", ui->pszUID);
+							mir_snwprintf(pszName, dwNameLenMax, L"%s ", ui->pszUID);
 
 						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
@@ -1706,7 +1706,7 @@ LABEL_SHOWWINDOW:
 				// takes pszRtf to a queue, no leak here
 				si->cmdList = tcmdlist_append(si->cmdList, pszRtf, 20, FALSE);
 
-				CMString ptszText(ptrT(mir_utf8decodeT(pszRtf)));
+				CMString ptszText(ptrW(mir_utf8decodeW(pszRtf)));
 				pci->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
 				ptszText.Trim();
 				ptszText.Replace(L"%", L"%%");

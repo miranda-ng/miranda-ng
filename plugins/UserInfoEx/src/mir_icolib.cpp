@@ -229,8 +229,8 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 		SKINICONDESC sid = { 0 };
 		sid.flags = SIDF_ALL_TCHAR;
 		sid.pszName = szIconID;
-		sid.description.w = mir_a2t(szDescription);
-		sid.section.w = mir_a2t(szSection);
+		sid.description.w = mir_a2u(szDescription);
+		sid.section.w = mir_a2u(szSection);
 
 		if (sid.description.w && sid.section.w) {
 			switch (Size) {

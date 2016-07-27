@@ -93,7 +93,7 @@ HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wcha
 	{
 		TreeView_GetItem(hwndTree, &tvi);
 
-		if (!mir_tstrcmp(tvi.pszText, name))
+		if (!mir_wstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -109,7 +109,7 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, wchar_t *name, LPARAM lParam, int iconI
 	int sectionLevel = 0;
 
 	HTREEITEM hSection = NULL, result = NULL;
-	mir_tstrcpy(itemName, name);
+	mir_wstrcpy(itemName, name);
 	sectionName = itemName;
 
 	while (sectionName)
@@ -193,7 +193,7 @@ BOOL  OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, BOOL*, 
 
 				HTREEITEM hSection = NULL;
 				if (options[indx].szOptionName)
-					mir_tstrcpy(itemName, options[indx].szOptionName);
+					mir_wstrcpy(itemName, options[indx].szOptionName);
 				else
 					itemName[0] = 0;
 

@@ -132,7 +132,7 @@ static void LoadDefaultInfo()
 		db_unset(0, PPICT_MODULE, AVS_DEFAULT);
 
 	pce->szProtoname = mir_strdup(AVS_DEFAULT);
-	pce->tszAccName = mir_tstrdup(TranslateT("Global avatar"));
+	pce->tszAccName = mir_wstrdup(TranslateT("Global avatar"));
 	g_ProtoPictures.insert(pce);
 }
 
@@ -145,13 +145,13 @@ static void LoadProtoInfo(PROTOCOLDESCRIPTOR *proto)
 	mir_snprintf(protoName, "Global avatar for %s accounts", proto->szName);
 
 	wchar_t protoNameTmp[MAX_PATH];
-	mir_sntprintf(protoNameTmp, TranslateT("Global avatar for %s accounts"), _A2T(proto->szName));
+	mir_snwprintf(protoNameTmp, TranslateT("Global avatar for %s accounts"), _A2T(proto->szName));
 	protoPicCacheEntry *pce = new protoPicCacheEntry;
 	if (CreateAvatarInCache(0, pce, protoName) != 1)
 		db_unset(0, PPICT_MODULE, protoName);
 
 	pce->szProtoname = mir_strdup(protoName);
-	pce->tszAccName = mir_tstrdup(protoNameTmp);
+	pce->tszAccName = mir_wstrdup(protoNameTmp);
 	g_ProtoPictures.insert(pce);
 }
 
@@ -162,13 +162,13 @@ static void LoadAccountInfo(PROTOACCOUNT *acc)
 		db_unset(0, PPICT_MODULE, acc->szModuleName);
 
 	pce->szProtoname = mir_strdup(acc->szModuleName);
-	pce->tszAccName = mir_tstrdup(acc->tszAccountName);
+	pce->tszAccName = mir_wstrdup(acc->tszAccountName);
 	g_ProtoPictures.insert(pce);
 
 	pce = new protoPicCacheEntry;
 	CreateAvatarInCache(INVALID_CONTACT_ID, pce, acc->szModuleName);
 	pce->szProtoname = mir_strdup(acc->szModuleName);
-	pce->tszAccName = mir_tstrdup(acc->tszAccountName);
+	pce->tszAccName = mir_wstrdup(acc->tszAccountName);
 	g_MyAvatars.insert(pce);
 }
 
@@ -323,7 +323,7 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	wchar_t szEventName[100];
-	mir_sntprintf(szEventName, L"avs_loaderthread_%d", GetCurrentThreadId());
+	mir_snwprintf(szEventName, L"avs_loaderthread_%d", GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
 
 	SetThreadPriority(mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);

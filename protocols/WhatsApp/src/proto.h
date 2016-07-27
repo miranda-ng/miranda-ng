@@ -14,7 +14,7 @@ struct WAChatInfo
 	}
 
 	map<std::string, std::wstring> m_unsentMsgs;
-	ptrT tszJid, tszNick, tszOwner;
+	ptrW tszJid, tszNick, tszOwner;
 	bool bActive;
 
 	MCONTACT hContact;
@@ -93,7 +93,7 @@ public:
 	std::vector<string> m_szInviteJids;
 	map<std::string, WAChatInfo*> m_chats;
 	mir_cs   m_csChats;
-	ptrT     m_tszDefaultGroup;
+	ptrW     m_tszDefaultGroup;
 
 	void     ChatLogMenuHook(WAChatInfo *pInfo, GCHOOK *gch);
 	void     NickListMenuHook(WAChatInfo *pInfo, GCHOOK *gch);

@@ -347,7 +347,7 @@ void SaveImage(SaveProtocolData &d, char *protocol, int format)
 	if (!Proto_IsAvatarFormatSupported(protocol, format))
 		return;
 
-	mir_sntprintf(d.image_file_name, L"%s%s", d.temp_file, ProtoGetAvatarExtension(format));
+	mir_snwprintf(d.image_file_name, L"%s%s", d.temp_file, ProtoGetAvatarExtension(format));
 	if (BmpFilterSaveBitmap(d.hBmpProto, d.image_file_name, format == PA_FORMAT_JPEG ? JPEG_QUALITYSUPERB : 0))
 		return;
 
@@ -550,13 +550,13 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 			wchar_t globalFile[1024];
 			BOOL saved = TRUE;
 			if (FoldersGetCustomPathT(hGlobalAvatarFolder, globalFile, _countof(globalFile), L"")) {
-				mir_sntprintf(globalFile, L"%s%s", g_szDataPath, L"GlobalAvatar");
+				mir_snwprintf(globalFile, L"%s%s", g_szDataPath, L"GlobalAvatar");
 				CreateDirectory(globalFile, NULL);
 			}
 
 			wchar_t *ext = wcsrchr(szFinalName, '.'); // Can't be NULL here
 			if (format == PA_FORMAT_XML || format == PA_FORMAT_SWF) {
-				mir_sntprintf(globalFile, L"%s\\my_global_avatar%s", globalFile, ext);
+				mir_snwprintf(globalFile, L"%s\\my_global_avatar%s", globalFile, ext);
 				CopyFile(szFinalName, globalFile, FALSE);
 			}
 			else {
@@ -574,12 +574,12 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 				// Check if need to resize
 				if (hBmpTmp == hBmp || hBmpTmp == NULL) {
 					// Use original image
-					mir_sntprintf(globalFile, L"%s\\my_global_avatar%s", globalFile, ext);
+					mir_snwprintf(globalFile, L"%s\\my_global_avatar%s", globalFile, ext);
 					CopyFile(szFinalName, globalFile, FALSE);
 				}
 				else {
 					// Save as PNG
-					mir_sntprintf(globalFile, L"%s\\my_global_avatar.png", globalFile);
+					mir_snwprintf(globalFile, L"%s\\my_global_avatar.png", globalFile);
 					if (BmpFilterSaveBitmap(hBmpTmp, globalFile, 0))
 						saved = FALSE;
 
@@ -685,10 +685,10 @@ INT_PTR avSetMyAvatar(char* protocol, wchar_t* tszPath)
 
 		wchar_t title[256];
 		if (protocol == NULL)
-			mir_sntprintf(title, TranslateT("Set my avatar"));
+			mir_snwprintf(title, TranslateT("Set my avatar"));
 		else {
-			wchar_t* prototmp = mir_a2t(protocol);
-			mir_sntprintf(title, TranslateT("Set my avatar for %s"), prototmp);
+			wchar_t* prototmp = mir_a2u(protocol);
+			mir_snwprintf(title, TranslateT("Set my avatar for %s"), prototmp);
 			mir_free(prototmp);
 		}
 		ofn.lpstrTitle = title;

@@ -80,7 +80,7 @@ returns the name of a contact
 
 wchar_t* GetContactName(MCONTACT contact)
 {
-	ptrT name(Contact_GetInfo(CNF_DISPLAY, contact));
+	ptrW name(Contact_GetInfo(CNF_DISPLAY, contact));
 	return (name) ? wcsdup(name) : NULL;
 }
 

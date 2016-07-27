@@ -103,20 +103,20 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		WORD client_ver = proto->GetClientVersion();
 		if (client_ver) {
 			wchar_t verbuf[100];
-			mir_sntprintf(verbuf, TranslateT("Client protocol version: %03d.%03d"), (client_ver & 0xFF00) >> 8, client_ver & 0xFF);
+			mir_snwprintf(verbuf, TranslateT("Client protocol version: %03d.%03d"), (client_ver & 0xFF00) >> 8, client_ver & 0xFF);
 			SetDlgItemText(hwndDlg, IDC_ST_CLIENTVER, verbuf);
 		}
 
 		WORD server_ver = proto->GetServerVersion();
 		if (server_ver) {
 			wchar_t verbuf[100];
-			mir_sntprintf(verbuf, TranslateT("Server protocol version: %03d.%03d"), (server_ver & 0xFF00) >> 8, server_ver & 0xFF);
+			mir_snwprintf(verbuf, TranslateT("Server protocol version: %03d.%03d"), (server_ver & 0xFF00) >> 8, server_ver & 0xFF);
 			SetDlgItemText(hwndDlg, IDC_ST_SERVERVER, verbuf);
 		}
 
-		wchar_t *s = mir_utf8decodeT(proto->options.server_name); SetDlgItemText(hwndDlg, IDC_ED_SNAME, s); mir_free(s);
-		s = mir_utf8decodeT(proto->options.id); SetDlgItemText(hwndDlg, IDC_ED_NAME, s); mir_free(s);
-		s = mir_utf8decodeT(proto->options.pword); SetDlgItemText(hwndDlg, IDC_ED_PWORD, s); mir_free(s);
+		wchar_t *s = mir_utf8decodeW(proto->options.server_name); SetDlgItemText(hwndDlg, IDC_ED_SNAME, s); mir_free(s);
+		s = mir_utf8decodeW(proto->options.id); SetDlgItemText(hwndDlg, IDC_ED_NAME, s); mir_free(s);
+		s = mir_utf8decodeW(proto->options.pword); SetDlgItemText(hwndDlg, IDC_ED_PWORD, s); mir_free(s);
 
 		SetDlgItemInt(hwndDlg, IDC_ED_PORT, proto->options.port, FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_GETSERVERCONTACTS, proto->options.get_server_contacts ? BST_CHECKED : BST_UNCHECKED);

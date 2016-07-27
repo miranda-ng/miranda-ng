@@ -365,7 +365,7 @@ protected:
 	void loadCustomDict()
 	{
 		wchar_t filename[1024];
-		mir_sntprintf(filename, L"%s\\%s.cdic", userPath, language);
+		mir_snwprintf(filename, L"%s\\%s.cdic", userPath, language);
 
 		FILE *file = _wfopen(filename, L"rb");
 		if (file != NULL) {
@@ -393,7 +393,7 @@ protected:
 		CreateDirectoryTreeT(userPath);
 
 		wchar_t filename[1024];
-		mir_sntprintf(filename, L"%s\\%s.cdic", userPath, language);
+		mir_snwprintf(filename, L"%s\\%s.cdic", userPath, language);
 
 		FILE *file = _wfopen(filename, L"ab");
 		if (file != NULL) {
@@ -441,13 +441,13 @@ protected:
 public:
 	HunspellDictionary(wchar_t *aLanguage, wchar_t *aFileWithoutExtension, wchar_t *anUserPath, wchar_t *aSource)
 	{
-		mir_tstrncpy(language, aLanguage, _countof(language));
-		mir_tstrncpy(fileWithoutExtension, aFileWithoutExtension, _countof(fileWithoutExtension));
-		mir_tstrncpy(userPath, anUserPath, _countof(userPath));
+		mir_wstrncpy(language, aLanguage, _countof(language));
+		mir_wstrncpy(fileWithoutExtension, aFileWithoutExtension, _countof(fileWithoutExtension));
+		mir_wstrncpy(userPath, anUserPath, _countof(userPath));
 		if (aSource == NULL)
 			source[0] = '\0';
 		else
-			mir_tstrncpy(source, aSource, _countof(source));
+			mir_wstrncpy(source, aSource, _countof(source));
 
 		loaded = LANGUAGE_NOT_LOADED;
 		localized_name[0] = '\0';
@@ -469,14 +469,14 @@ public:
 
 	wchar_t * merge(wchar_t * s1, wchar_t *s2)
 	{
-		int len1 = (s1 == NULL ? 0 : mir_tstrlen(s1));
-		int len2 = (s2 == NULL ? 0 : mir_tstrlen(s2));
+		int len1 = (s1 == NULL ? 0 : mir_wstrlen(s1));
+		int len2 = (s2 == NULL ? 0 : mir_wstrlen(s2));
 
 		wchar_t *ret;
 		if (len1 > 0 && len2 > 0) {
 			ret = (wchar_t *)malloc(sizeof(wchar_t) * (len1 + len2 + 1));
-			mir_tstrncpy(ret, s1, len1 + 1);
-			mir_tstrncpy(&ret[len1], s2, len2 + 1);
+			mir_wstrncpy(ret, s1, len1 + 1);
+			mir_wstrncpy(&ret[len1], s2, len2 + 1);
 
 			FREE(s1);
 			FREE(s2);
@@ -498,7 +498,7 @@ public:
 		}
 
 		// Remove duplicated chars
-		int last = mir_tstrlen(ret) - 1;
+		int last = mir_wstrlen(ret) - 1;
 		for (int i = 0; i <= last; i++) {
 			wchar_t c = ret[i];
 			for (int j = last; j > i; j--) {
@@ -734,11 +734,11 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO3166CTRYNAME, end, _countof(end));
 
 	wchar_t name[64];
-	mir_sntprintf(name, L"%s_%s", ini, end);
+	mir_snwprintf(name, L"%s_%s", ini, end);
 
 	for (int i = 0; i < tmp_dicts->getCount(); i++) {
 		Dictionary *dict = (*tmp_dicts)[i];
-		if (mir_tstrcmpi(dict->language, name) == 0) {
+		if (mir_wstrcmpi(dict->language, name) == 0) {
 			GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SENGLANGUAGE, dict->english_name, _countof(dict->english_name));
 
 			GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SLANGUAGE, dict->localized_name, _countof(dict->localized_name));
@@ -752,15 +752,15 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 
 				wchar_t localName[1024];
 				if (country[0] != 0)
-					mir_sntprintf(localName, L"%s (%s)", dict->english_name, country);
+					mir_snwprintf(localName, L"%s (%s)", dict->english_name, country);
 				else
-					mir_tstrncpy(localName, dict->english_name, _countof(localName));
+					mir_wstrncpy(localName, dict->english_name, _countof(localName));
 
-				mir_tstrncpy(dict->localized_name, TranslateTS(localName), _countof(dict->localized_name));
+				mir_wstrncpy(dict->localized_name, TranslateTS(localName), _countof(dict->localized_name));
 			}
 
 			if (dict->localized_name[0] != 0) {
-				mir_sntprintf(dict->full_name, L"%s [%s]", dict->localized_name, dict->language);
+				mir_snwprintf(dict->full_name, L"%s [%s]", dict->localized_name, dict->language);
 			}
 			break;
 		}
@@ -784,24 +784,24 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 			char lang[128];
 			WideCharToMultiByte(CP_ACP, 0, dict->language, -1, lang, sizeof(lang), NULL, NULL);
 			if (!db_get_ts(NULL, MODULE_NAME, lang, &dbv)) {
-				mir_tstrncpy(dict->localized_name, dbv.ptszVal, _countof(dict->localized_name));
+				mir_wstrncpy(dict->localized_name, dbv.ptszVal, _countof(dict->localized_name));
 				db_free(&dbv);
 			}
 
 			if (dict->localized_name[0] == '\0') {
 				for (size_t j = 0; j < _countof(aditionalLanguages); j++) {
-					if (!mir_tstrcmp(aditionalLanguages[j].language, dict->language)) {
-						mir_tstrncpy(dict->localized_name, TranslateTS(aditionalLanguages[j].localized_name), _countof(dict->localized_name));
+					if (!mir_wstrcmp(aditionalLanguages[j].language, dict->language)) {
+						mir_wstrncpy(dict->localized_name, TranslateTS(aditionalLanguages[j].localized_name), _countof(dict->localized_name));
 						break;
 					}
 				}
 			}
 
 			if (dict->localized_name[0] != '\0') {
-				mir_sntprintf(dict->full_name, L"%s [%s]", dict->localized_name, dict->language);
+				mir_snwprintf(dict->full_name, L"%s [%s]", dict->localized_name, dict->language);
 			}
 			else {
-				mir_tstrncpy(dict->full_name, dict->language, _countof(dict->full_name));
+				mir_wstrncpy(dict->full_name, dict->language, _countof(dict->full_name));
 			}
 		}
 	}
@@ -812,7 +812,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, wchar_t *path, w
 {
 	// Load the language files and create an array with then
 	wchar_t file[1024] = { 0 };
-	mir_sntprintf(file, L"%s\\*.dic", path);
+	mir_snwprintf(file, L"%s\\*.dic", path);
 
 	BOOL found = FALSE;
 
@@ -820,7 +820,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, wchar_t *path, w
 	HANDLE hFFD = FindFirstFile(file, &ffd);
 	if (hFFD != INVALID_HANDLE_VALUE) {
 		do {
-			mir_sntprintf(file, L"%s\\%s", path, ffd.cFileName);
+			mir_snwprintf(file, L"%s\\%s", path, ffd.cFileName);
 
 			// Check .dic
 			DWORD attrib = GetFileAttributes(file);
@@ -828,29 +828,29 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, wchar_t *path, w
 				continue;
 
 			// See if .aff exists too
-			mir_tstrcpy(&file[mir_tstrlen(file) - 4], L".aff");
+			mir_wstrcpy(&file[mir_wstrlen(file) - 4], L".aff");
 			attrib = GetFileAttributes(file);
 			if (attrib == 0xFFFFFFFF || (attrib & FILE_ATTRIBUTE_DIRECTORY))
 				continue;
 
-			ffd.cFileName[mir_tstrlen(ffd.cFileName) - 4] = '\0';
+			ffd.cFileName[mir_wstrlen(ffd.cFileName) - 4] = '\0';
 
 			wchar_t *lang = ffd.cFileName;
 
 			// Replace - for _
-			for (size_t i = 0; i < mir_tstrlen(lang); i++)
+			for (size_t i = 0; i < mir_wstrlen(lang); i++)
 				if (lang[i] == '-')
 					lang[i] = '_';
 
 			// Check if dict is new
 			bool exists = false;
 			for (int i = 0; i < dicts.getCount() && !exists; i++)
-				if (mir_tstrcmp(dicts[i]->language, lang) == 0)
+				if (mir_wstrcmp(dicts[i]->language, lang) == 0)
 					exists = true;
 
 			if (!exists) {
 				found = TRUE;
-				file[mir_tstrlen(file) - 4] = '\0';
+				file[mir_wstrlen(file) - 4] = '\0';
 				dicts.insert(new HunspellDictionary(lang, file, user_path, source));
 			}
 		} while (FindNextFile(hFFD, &ffd));
@@ -870,7 +870,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 		// Get other apps dicts
 		for (int i = 0; i < _countof(otherHunspellApps); i++) {
 			wchar_t key[1024];
-			mir_sntprintf(key, APPPATH, otherHunspellApps[i].key);
+			mir_snwprintf(key, APPPATH, otherHunspellApps[i].key);
 
 			HKEY hKey = 0;
 			LONG lResult = 0;
@@ -895,7 +895,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 						key[cchValue] = 0;
 						wchar_t *pos;
 						if (pos = wcsrchr(key, '\\')) {
-							if (!mir_tstrcmpi(&pos[1], otherHunspellApps[i].key)) {
+							if (!mir_wstrcmpi(&pos[1], otherHunspellApps[i].key)) {
 								pos[0] = 0;
 								lResult = ERROR_SUCCESS;
 								break;
@@ -908,7 +908,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 
 			if (ERROR_SUCCESS == lResult) {
 				wchar_t folder[1024];
-				mir_sntprintf(folder, L"%s\\Dictionaries", key);
+				mir_snwprintf(folder, L"%s\\Dictionaries", key);
 
 				GetHunspellDictionariesFromFolder(languages, folder, user_path, otherHunspellApps[i].name);
 			}
@@ -923,7 +923,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 	// Sort dicts
 	for (int i = 0; i < dicts.getCount(); i++) {
 		for (int j = i + 1; j < dicts.getCount(); j++) {
-			if (mir_tstrcmp(dicts[i]->full_name, dicts[j]->full_name) > 0) {
+			if (mir_wstrcmp(dicts[i]->full_name, dicts[j]->full_name) > 0) {
 				Dictionary *dict = dicts[i];
 				sl->items[i] = dicts[j];
 				sl->items[j] = dict;

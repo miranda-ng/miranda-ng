@@ -114,7 +114,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 			// miranda button
 			switch (tbb->idCommand) {
 			case 41063:
-				mir_tstrncpy(szBtnText, TranslateT("Miranda NG"), _countof(szBtnText));
+				mir_wstrncpy(szBtnText, TranslateT("Miranda NG"), _countof(szBtnText));
 				iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM)szBtnText);
 				if (iString != -1) tbb->iString = iString;
 				// set tooltip

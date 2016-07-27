@@ -119,12 +119,12 @@ void LoadSettings(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_RESETCONTENT, 0, 0);
 
 	for (i = 0; i < _countof(time_stamp_strings); i++) {
-		ptrT ptszTimeStr(Langpack_PcharToTchar(time_stamp_strings[i]));
+		ptrW ptszTimeStr(Langpack_PcharToTchar(time_stamp_strings[i]));
 		SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 	}
 
 	for (i = 0; i < _countof(keep_strings); i++) {
-		ptrT ptszTimeStr(Langpack_PcharToTchar(keep_strings[i]));
+		ptrW ptszTimeStr(Langpack_PcharToTchar(keep_strings[i]));
 		SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 	}
 

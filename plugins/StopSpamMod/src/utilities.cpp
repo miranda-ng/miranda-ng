@@ -109,9 +109,9 @@ wstring variables_parse(wstring const &tstrFormat, MCONTACT hContact)
 	return tstrFormat;
 }
 
-// case-insensitive mir_tstrcmp
+// case-insensitive mir_wstrcmp
 //by nullbie as i remember...
-#define NEWTSTR_MALLOC(A) (A==NULL) ? NULL : mir_tstrcpy((wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_tstrlen(A)+1)),A)
+#define NEWTSTR_MALLOC(A) (A==NULL) ? NULL : mir_wstrcpy((wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(A)+1)),A)
 const int Stricmp(const wchar_t *str, const wchar_t *substr)
 {
 	int i = 0;
@@ -119,10 +119,10 @@ const int Stricmp(const wchar_t *str, const wchar_t *substr)
 	wchar_t *str_up = NEWTSTR_MALLOC(str);
 	wchar_t *substr_up = NEWTSTR_MALLOC(substr);
 
-	CharUpperBuff(str_up, (int)mir_tstrlen(str_up));
-	CharUpperBuff(substr_up, (int)mir_tstrlen(substr_up));
+	CharUpperBuff(str_up, (int)mir_wstrlen(str_up));
+	CharUpperBuff(substr_up, (int)mir_wstrlen(substr_up));
 
-	i = mir_tstrcmp(str_up, substr_up);
+	i = mir_wstrcmp(str_up, substr_up);
 
 	mir_free(str_up);
 	mir_free(substr_up);
@@ -175,9 +175,9 @@ BOOL IsUrlContains(wchar_t * Str)
 		L".tv"
 	};
 
-	if (Str && mir_tstrlen(Str) > 0) {
+	if (Str && mir_wstrlen(Str) > 0) {
 		wchar_t *StrLower = NEWTSTR_MALLOC(Str);
-		CharLowerBuff(StrLower, (int)mir_tstrlen(StrLower));
+		CharLowerBuff(StrLower, (int)mir_wstrlen(StrLower));
 		for (int i = 0; i < CountUrl; i++)
 			if (wcsstr(StrLower, URL[i])) {
 				mir_free(StrLower);
@@ -191,7 +191,7 @@ BOOL IsUrlContains(wchar_t * Str)
 wstring GetContactUid(MCONTACT hContact, wstring Protocol)
 {
 	char *szProto = mir_utf8encodeW(Protocol.c_str());
-	ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
+	ptrW uid(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
 	return (uid) ? uid : L"";
 }
 
@@ -206,7 +206,7 @@ void LogSpamToFile(MCONTACT hContact, wstring message)
 	if (hStopSpamLogDirH)
 		FoldersGetCustomPathT(hStopSpamLogDirH, pszName, MAX_PATH, L"");
 	else
-		mir_tstrncpy(pszName, VARST(L"%miranda_logpath%"), _countof(pszName));
+		mir_wstrncpy(pszName, VARST(L"%miranda_logpath%"), _countof(pszName));
 
 	wstring filename = pszName;
 	filename += L"\\stopspam_mod.log";

@@ -234,11 +234,11 @@ int CreateFrame()
 		memset(&font_id[i], 0, sizeof(font_id[i]));
 
 		font_id[i].cbSize = sizeof(FontIDT);
-		mir_tstrncpy(font_id[i].group, LPGENW("My details"), _countof(font_id[i].group));
-		mir_tstrncpy(font_id[i].name, font_names[i], _countof(font_id[i].name));
+		mir_wstrncpy(font_id[i].group, LPGENW("My details"), _countof(font_id[i].group));
+		mir_wstrncpy(font_id[i].name, font_names[i], _countof(font_id[i].name));
 		mir_strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, _countof(font_id[i].dbSettingsGroup));
-		mir_tstrncpy(font_id[i].backgroundName, LPGENW("Background"), _countof(font_id[i].backgroundName));
-		mir_tstrncpy(font_id[i].backgroundGroup, LPGENW("My details"), _countof(font_id[i].backgroundGroup));
+		mir_wstrncpy(font_id[i].backgroundName, LPGENW("Background"), _countof(font_id[i].backgroundName));
+		mir_wstrncpy(font_id[i].backgroundGroup, LPGENW("My details"), _countof(font_id[i].backgroundGroup));
 
 		mir_strncpy(font_id[i].prefix, font_settings[i], _countof(font_id[i].prefix));
 
@@ -246,7 +246,7 @@ int CreateFrame()
 		font_id[i].deffontsettings.size = -MulDiv(font_sizes[i], GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		font_id[i].deffontsettings.style = font_styles[i];
 		font_id[i].deffontsettings.charset = DEFAULT_CHARSET;
-		mir_tstrncpy(font_id[i].deffontsettings.szFace, L"Tahoma", _countof(font_id[i].deffontsettings.szFace));
+		mir_wstrncpy(font_id[i].deffontsettings.szFace, L"Tahoma", _countof(font_id[i].deffontsettings.szFace));
 		font_id[i].order = i;
 		font_id[i].flags = FIDF_DEFAULTVALID;
 		FontRegisterT(&font_id[i]);
@@ -493,7 +493,7 @@ RECT GetRect(HDC hdc, RECT rc, const wchar_t *text, const wchar_t *def_text, Pro
 	RECT r_tmp = rc;
 
 	// Only first line
-	wchar_t *tmp2 = mir_tstrdup(tmp);
+	wchar_t *tmp2 = mir_wstrdup(tmp);
 	wchar_t *pos = wcschr(tmp2, '\r');
 	if (pos != NULL)
 		pos[0] = '\0';
@@ -502,7 +502,7 @@ RECT GetRect(HDC hdc, RECT rc, const wchar_t *text, const wchar_t *def_text, Pro
 		pos[0] = '\0';
 
 	if (smileys)
-		DRAW_TEXT(hdc, tmp2, (int)mir_tstrlen(tmp2), &r_tmp, uFormat | DT_CALCRECT, proto->name);
+		DRAW_TEXT(hdc, tmp2, (int)mir_wstrlen(tmp2), &r_tmp, uFormat | DT_CALCRECT, proto->name);
 	else
 		DrawText(hdc, tmp2, -1, &r_tmp, uFormat | DT_CALCRECT);
 
@@ -1030,7 +1030,7 @@ void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, REC
 		tmp = text;
 
 	// Only first line
-	wchar_t *tmp2 = mir_tstrdup(tmp);
+	wchar_t *tmp2 = mir_wstrdup(tmp);
 	wchar_t *pos = wcsrchr(tmp2, '\r');
 	if (pos != NULL)
 		pos[0] = '\0';
@@ -1073,7 +1073,7 @@ void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, REC
 		}
 	}
 
-	DRAW_TEXT(hdc, tmp2, (int)mir_tstrlen(tmp2), &r, uFormat, proto->name);
+	DRAW_TEXT(hdc, tmp2, (int)mir_wstrlen(tmp2), &r, uFormat, proto->name);
 
 	if (mouse_over)
 		DrawText(hdc, L" ...", 4, &rc_tmp, uFormat);
@@ -1267,7 +1267,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_STATUS]);
 		SetTextColor(hdc, font_colour[FONT_STATUS]);
 
-		DRAW_TEXT(hdc, proto->status_name, (int)mir_tstrlen(proto->status_name), &rc, uFormat, proto->name);
+		DRAW_TEXT(hdc, proto->status_name, (int)mir_wstrlen(proto->status_name), &rc, uFormat, proto->name);
 
 		SelectClipRgn(hdc, NULL);
 		DeleteObject(rgn);
@@ -1421,7 +1421,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 				mii.dwTypeData = (wchar_t *)malloc(sizeof(wchar_t) * mii.cch);
 				GetMenuItemInfo(menu, i, TRUE, &mii);
 
-				if (mir_tstrcmp(mii.dwTypeData, proto->description) == 0)
+				if (mir_wstrcmp(mii.dwTypeData, proto->description) == 0)
 					submenu = GetSubMenu(menu, i);
 
 				free(mii.dwTypeData);
@@ -1478,7 +1478,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 
 	// Add this proto to menu
 	wchar_t tmp[128];
-	mir_sntprintf(tmp, TranslateT("Enable listening to for %s"), proto->description);
+	mir_snwprintf(tmp, TranslateT("Enable listening to for %s"), proto->description);
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
@@ -1486,7 +1486,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 	mii.fType = MFT_STRING;
 	mii.fState = proto->ListeningToEnabled() ? MFS_CHECKED : 0;
 	mii.dwTypeData = tmp;
-	mii.cch = (int)mir_tstrlen(tmp);
+	mii.cch = (int)mir_wstrlen(tmp);
 	mii.wID = 1;
 
 	if (!proto->CanSetListeningTo())
@@ -1665,7 +1665,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
 					mii.dwTypeData = protocols->Get(i)->description;
-					mii.cch = (int)mir_tstrlen(protocols->Get(i)->description);
+					mii.cch = (int)mir_wstrlen(protocols->Get(i)->description);
 					mii.wID = i + 1;
 
 					if (i == data->protocol_number) {
@@ -1716,14 +1716,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this proto to menu
 				wchar_t tmp[128];
-				mir_sntprintf(tmp, TranslateT("Set my avatar for %s..."), proto->description);
+				mir_snwprintf(tmp, TranslateT("Set my avatar for %s..."), proto->description);
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = (int)mir_tstrlen(tmp);
+				mii.cch = (int)mir_wstrlen(tmp);
 				mii.wID = 1;
 
 				if (!proto->CanSetAvatar()) {
@@ -1756,14 +1756,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this proto to menu
 				wchar_t tmp[128];
-				mir_sntprintf(tmp, TranslateT("Set my nickname for %s..."), proto->description);
+				mir_snwprintf(tmp, TranslateT("Set my nickname for %s..."), proto->description);
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = (int)mir_tstrlen(tmp);
+				mii.cch = (int)mir_wstrlen(tmp);
 				mii.wID = 1;
 
 				if (!proto->CanSetNick()) {
@@ -1804,14 +1804,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				if (protocols->CanSetStatusMsgPerProtocol()) {
 					// Add this proto to menu
-					mir_sntprintf(tmp, TranslateT("Set my status message for %s..."), proto->description);
+					mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), proto->description);
 
 					MENUITEMINFO mii = { 0 };
 					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
 					mii.dwTypeData = tmp;
-					mii.cch = (int)mir_tstrlen(tmp);
+					mii.cch = (int)mir_wstrlen(tmp);
 					mii.wID = 1;
 
 					if (!proto->CanSetStatusMsg()) {
@@ -1823,14 +1823,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				}
 
 				// Add this to menu
-				mir_sntprintf(tmp, TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
+				mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = (int)mir_tstrlen(tmp);
+				mii.cch = (int)mir_wstrlen(tmp);
 				mii.wID = 2;
 
 				if (proto->status == ID_STATUS_OFFLINE) {
@@ -1886,7 +1886,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				// Add this proto to menu
 				wchar_t tmp[128];
-				mir_sntprintf(tmp, TranslateT("Enable listening to for %s"), proto->description);
+				mir_snwprintf(tmp, TranslateT("Enable listening to for %s"), proto->description);
 
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = sizeof(mii);
@@ -1894,7 +1894,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.fType = MFT_STRING;
 				mii.fState = proto->ListeningToEnabled() ? MFS_CHECKED : 0;
 				mii.dwTypeData = tmp;
-				mii.cch = (int)mir_tstrlen(tmp);
+				mii.cch = (int)mir_wstrlen(tmp);
 				mii.wID = 5;
 				if (!proto->CanSetListeningTo())
 					mii.fState |= MFS_DISABLED;
@@ -1902,14 +1902,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
 				// Add this to menu
-				mir_sntprintf(tmp, TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
+				mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), pcli->pfnGetStatusModeDescription(proto->status, 0));
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = (int)mir_tstrlen(tmp);
+				mii.cch = (int)mir_wstrlen(tmp);
 				mii.wID = 4;
 
 				if (proto->status == ID_STATUS_OFFLINE) {
@@ -1921,14 +1921,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				if (protocols->CanSetStatusMsgPerProtocol()) {
 					// Add this proto to menu
-					mir_sntprintf(tmp, TranslateT("Set my status message for %s..."), proto->description);
+					mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), proto->description);
 
 					memset(&mii, 0, sizeof(mii));
 					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
 					mii.dwTypeData = tmp;
-					mii.cch = (int)mir_tstrlen(tmp);
+					mii.cch = (int)mir_wstrlen(tmp);
 					mii.wID = 3;
 
 					if (!proto->CanSetStatusMsg()) {
@@ -1939,14 +1939,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					InsertMenuItem(submenu, 0, TRUE, &mii);
 				}
 
-				mir_sntprintf(tmp, TranslateT("Set my nickname for %s..."), proto->description);
+				mir_snwprintf(tmp, TranslateT("Set my nickname for %s..."), proto->description);
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = (int)mir_tstrlen(tmp);
+				mii.cch = (int)mir_wstrlen(tmp);
 				mii.wID = 2;
 
 				if (!proto->CanSetNick()) {
@@ -1956,14 +1956,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
-				mir_sntprintf(tmp, TranslateT("Set my avatar for %s..."), proto->description);
+				mir_snwprintf(tmp, TranslateT("Set my avatar for %s..."), proto->description);
 
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = (int)mir_tstrlen(tmp);
+				mii.cch = (int)mir_wstrlen(tmp);
 				mii.wID = 1;
 
 				if (!proto->CanSetAvatar()) {

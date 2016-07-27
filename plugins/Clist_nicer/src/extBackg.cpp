@@ -1543,7 +1543,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					DBVARIANT dbv = { 0 };
 
 					if (!db_get_ts(NULL, "CLC", "AdvancedSkin", &dbv)) {
-						if (mir_tstrcmp(dbv.ptszVal, final_path))
+						if (mir_wstrcmp(dbv.ptszVal, final_path))
 							skinChanged = TRUE;
 						db_free(&dbv);
 					}

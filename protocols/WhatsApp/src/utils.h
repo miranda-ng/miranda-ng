@@ -28,7 +28,7 @@ public:
 std::string getLastErrorMsg();
 
 __forceinline wchar_t* str2t(const std::string &str)
-{	return mir_utf8decodeT(str.c_str());
+{	return mir_utf8decodeW(str.c_str());
 }
 
 std::vector<std::string> split(const std::string &s, char delim);

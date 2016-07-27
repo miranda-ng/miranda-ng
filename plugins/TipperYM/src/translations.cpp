@@ -35,11 +35,11 @@ void AddTranslation(DBVTranslation *newTrans)
 	iTransFuncsCount++;
 	translations[iTransFuncsCount - 1] = *newTrans;
 	
-	char *szName = mir_t2a(newTrans->swzName);
+	char *szName = mir_u2a(newTrans->swzName);
 	char szSetting[256];
 	mir_snprintf(szSetting, sizeof(szSetting),"Trans_%s",szName);
 
-	if (mir_tstrcmp(newTrans->swzName, L"[No translation]") == 0) 
+	if (mir_wstrcmp(newTrans->swzName, L"[No translation]") == 0) 
 	{
 		translations[iTransFuncsCount - 1].id = 0;
 	} 
@@ -117,11 +117,11 @@ wchar_t* TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, 
 	int h = (diff - d * 60 * 60 * 24) / 60 / 60;
 	int m = (diff  - d * 60 * 60 * 24 - h * 60 * 60) / 60;
 	if (d > 0)
-		mir_sntprintf(buff, bufflen, TranslateT("%dd %dh %dm"), d, h, m);
+		mir_snwprintf(buff, bufflen, TranslateT("%dd %dh %dm"), d, h, m);
 	else if (h > 0)
-		mir_sntprintf(buff, bufflen, TranslateT("%dh %dm"), h, m);
+		mir_snwprintf(buff, bufflen, TranslateT("%dh %dm"), h, m);
 	else
-		mir_sntprintf(buff, bufflen, TranslateT("%dm"), m);
+		mir_snwprintf(buff, bufflen, TranslateT("%dm"), m);
 
 	return buff;
 }
@@ -133,11 +133,11 @@ wchar_t *SecondsToTimeDifference(MCONTACT hContact, const char *szModuleName, co
 	int h = (diff - d * 60 * 60 * 24) / 60 / 60;
 	int m = (diff  - d * 60 * 60 * 24 - h * 60 * 60) / 60;
 	if (d > 0)
-		mir_sntprintf(buff, bufflen, TranslateT("%dd %dh %dm"), d, h, m);
+		mir_snwprintf(buff, bufflen, TranslateT("%dd %dh %dm"), d, h, m);
 	else if (h > 0)
-		mir_sntprintf(buff, bufflen, TranslateT("%dh %dm"), h, m);
+		mir_snwprintf(buff, bufflen, TranslateT("%dh %dm"), h, m);
 	else
-		mir_sntprintf(buff, bufflen, TranslateT("%dm"), m);
+		mir_snwprintf(buff, bufflen, TranslateT("%dm"), m);
 
 	return buff;
 }
@@ -204,7 +204,7 @@ wchar_t *DwordToIp(MCONTACT hContact, const char *szModuleName, const char *szSe
 	DWORD ip = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ip) {
 		unsigned char *ipc = (unsigned char*)&ip;
-		mir_sntprintf(buff, bufflen, L"%u.%u.%u.%u", ipc[3], ipc[2], ipc[1], ipc[0]);
+		mir_snwprintf(buff, bufflen, L"%u.%u.%u.%u", ipc[3], ipc[2], ipc[1], ipc[0]);
 		return buff;
 	}
 	return 0;
@@ -306,7 +306,7 @@ wchar_t *DayMonthYearToAge(MCONTACT hContact, const char *szModuleName, const ch
 							int age = now.wYear - year;
 							if (now.wMonth < month || (now.wMonth == month && now.wDay < day))
 								age--;
-							mir_sntprintf(buff, bufflen, L"%d", age);
+							mir_snwprintf(buff, bufflen, L"%d", age);
 							return buff;
 						} 
 						else
@@ -473,13 +473,13 @@ wchar_t *DmyToTimeDifference(MCONTACT hContact, const char *szModuleName, const 
 											int h = (diff - y * 60 * 60 * 24 * 365 - d * 60 * 60 * 24) / 60 / 60;
 											int m = (diff - y * 60 * 60 * 24 * 365  - d * 60 * 60 * 24 - h * 60 * 60) / 60;
 											if (y != 0)
-												mir_sntprintf(buff, bufflen, TranslateT("%dy %dd %dh %dm"), y, d, h, m);
+												mir_snwprintf(buff, bufflen, TranslateT("%dy %dd %dh %dm"), y, d, h, m);
 											else if (d != 0)
-												mir_sntprintf(buff, bufflen, TranslateT("%dd %dh %dm"), d, h, m);
+												mir_snwprintf(buff, bufflen, TranslateT("%dd %dh %dm"), d, h, m);
 											else if (h != 0)
-												mir_sntprintf(buff, bufflen, TranslateT("%dh %dm"), h, m);
+												mir_snwprintf(buff, bufflen, TranslateT("%dh %dm"), h, m);
 											else
-												mir_sntprintf(buff, bufflen, TranslateT("%dm"), m);
+												mir_snwprintf(buff, bufflen, TranslateT("%dm"), m);
 
 											return buff;
 										} 
@@ -539,7 +539,7 @@ wchar_t *DayMonthToDaysToNextBirthday(MCONTACT hContact, const char *szModuleNam
 					}
 
 					int diff = yday_birth - yday_now;
-					mir_sntprintf(buff, bufflen, TranslateT("%dd"), diff);
+					mir_snwprintf(buff, bufflen, TranslateT("%dd"), diff);
 					
 					return buff;
 				}

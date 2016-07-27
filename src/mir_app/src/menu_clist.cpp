@@ -190,7 +190,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi)
 	if (pmi->pszService)
 		name = pmi->pszService;
 	else if (pmi->flags & CMIF_UNICODE) {
-		name = mir_t2a(pmi->name.w);
+		name = mir_u2a(pmi->name.w);
 		needFree = true;
 	}
 	else name = pmi->name.a;
@@ -381,7 +381,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszP
 		smep->hMenuItem = pimi;
 
 	char buf[MAX_PATH + 64];
-	char *p = (pRoot) ? mir_t2a(pRoot->mi.name.w) : NULL;
+	char *p = (pRoot) ? mir_u2a(pRoot->mi.name.w) : NULL;
 	mir_snprintf(buf, "%s/%s", (p) ? p : "", pmi->pszService ? pmi->pszService : "");
 	mir_free(p);
 
@@ -584,7 +584,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		if (bIsLocked) {
 			pimi->mi.flags |= CMIF_CHECKED;
 			if (cli.bDisplayLocked) {
-				mir_sntprintf(buf, TranslateT("%s (locked)"), acc->tszAccountName);
+				mir_snwprintf(buf, TranslateT("%s (locked)"), acc->tszAccountName);
 				ptszName = buf;
 			}
 			else ptszName = acc->tszAccountName;
@@ -593,8 +593,8 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 			ptszName = acc->tszAccountName;
 			pimi->mi.flags &= ~CMIF_CHECKED;
 		}
-		replaceStrT(pimi->mi.name.w, ptszName);
-		replaceStrT(root->mi.name.w, ptszName);
+		replaceStrW(pimi->mi.name.w, ptszName);
+		replaceStrW(root->mi.name.w, ptszName);
 
 		if (cli.hwndStatus)
 			InvalidateRect(cli.hwndStatus, NULL, TRUE);
@@ -821,7 +821,7 @@ void RebuildMenuOrder(void)
 		mi.hIcon = ic = (HICON)CallProtoServiceInt(NULL, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
 		if (Proto_IsAccountLocked(pa) && cli.bDisplayLocked) {
-			mir_sntprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
+			mir_snwprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
 			mi.name.w = tbuf;
 		}
 		else mi.name.w = pa->tszAccountName;
@@ -845,7 +845,7 @@ void RebuildMenuOrder(void)
 			mi.flags |= CMIF_CHECKED;
 
 		if ((mi.flags & CMIF_CHECKED) && cli.bDisplayLocked) {
-			mir_sntprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
+			mir_snwprintf(tbuf, TranslateT("%s (locked)"), pa->tszAccountName);
 			mi.name.w = tbuf;
 		}
 		else mi.name.w = pa->tszAccountName;
@@ -928,7 +928,7 @@ void RebuildMenuOrder(void)
 				wchar_t buf[256], hotkeyName[100];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-				mir_sntprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
+				mir_snwprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 				mi.name.w = buf;
 				hStatusMainMenuHandles[j] = Menu_AddItem(hStatusMenuObject, &mi, smep);
 				
@@ -958,7 +958,7 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 		wchar_t buf[256], hotkeyName[100];
 		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 		HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-		mir_sntprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
+		mir_snwprintf(buf, L"%s\t%s", cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 		Menu_ModifyItem(hStatusMainMenuHandles[j], buf);
 
 		hStatusMainMenuHandles[j]->hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));

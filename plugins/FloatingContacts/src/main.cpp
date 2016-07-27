@@ -570,7 +570,7 @@ static void CreateBackgroundBrush()
 	}
 
 	if (db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP)) {
-		ptrT tszBitmapName(db_get_tsa(NULL, MODULE, "BkBitmap"));
+		ptrW tszBitmapName(db_get_tsa(NULL, MODULE, "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}

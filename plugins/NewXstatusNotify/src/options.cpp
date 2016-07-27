@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ofn.nMaxFile = MAX_PATH;
 			ofn.hwndOwner = hwndDlg;
 			wchar_t filter[MAX_PATH];
-			mir_sntprintf(filter, L"%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c", TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
+			mir_snwprintf(filter, L"%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c", TranslateT("All Files"), 0, 0, TranslateT("Log"), 0, 0, TranslateT("Text"), 0, 0);
 			ofn.lpstrFilter = filter;
 			ofn.nFilterIndex = 2;
 			ofn.lpstrInitialDir = buff;
@@ -391,16 +391,16 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 						if (opt.ShowPreviousStatus) {
 							wchar_t buff[MAX_STATUSTEXT];
-							mir_sntprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
-							mir_tstrcat(str, L" ");
-							mir_tstrcat(str, buff);
+							mir_snwprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
+							mir_wstrcat(str, L" ");
+							mir_wstrcat(str, buff);
 						}
 					}
 
 					if (opt.ReadAwayMsg) {
 						if (str[0])
-							mir_tstrcat(str, L"\n");
-						mir_tstrcat(str, TranslateT("This is status message"));
+							mir_wstrcat(str, L"\n");
+						mir_wstrcat(str, TranslateT("This is status message"));
 					}
 
 					ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, i), i, str);

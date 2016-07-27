@@ -61,7 +61,7 @@ bool	LoadPopupWnd2()
 	if (!g_wndClass.cPopupWnd2) {
 		res = false;
 		wchar_t msg[1024];
-		mir_sntprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
+		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MessageBox(NULL, msg, MODULNAME_LONG, MB_ICONSTOP | MB_OK);
 	}
 
@@ -76,7 +76,7 @@ bool	LoadPopupWnd2()
 	err = GetLastError();
 	if (!g_wndClass.cPopupEditBox) {
 		wchar_t msg[2048];
-		mir_sntprintf(msg, TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
+		mir_snwprintf(msg, TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
 			wclw.cbSize, wclw.style, wclw.lpfnWndProc, wclw.cbClsExtra, wclw.cbWndExtra, wclw.hInstance, wclw.hIcon, wclw.hCursor,
 			wclw.hbrBackground, wclw.lpszMenuName, wclw.lpszClassName, wclw.hIconSm);
 
@@ -101,7 +101,7 @@ bool	LoadPopupWnd2()
 	if (!g_wndClass.cPopupMenuHostWnd) {
 		res = false;
 		wchar_t msg[1024];
-		mir_sntprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
+		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 
@@ -261,7 +261,7 @@ void PopupWnd2::update()
 	if (*m_time && skin->useInternalClock()) {
 		SetTextColor(hdc, m_clClock);
 		HFONT hfnSave = (HFONT)SelectObject(m_bmpBase->getDC(), fonts.clock);
-		SIZE sz; GetTextExtentPoint32(m_bmpBase->getDC(), m_time, (int)mir_tstrlen(m_time), &sz);
+		SIZE sz; GetTextExtentPoint32(m_bmpBase->getDC(), m_time, (int)mir_wstrlen(m_time), &sz);
 		m_bmpBase->Draw_Text(m_time, this->m_sz.cx - sz.cx - STYLE_SZ_GAP - skin->getRightGap(), STYLE_SZ_GAP);
 		SelectObject(m_bmpBase->getDC(), hfnSave);
 	}
@@ -688,8 +688,8 @@ void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 	if (m_textType == TT_NONE)
 		m_textType = TT_UNICODE;
 
-	replaceStrT(m_lptzTitle, ppd->lptzContactName);
-	replaceStrT(m_lptzText, ppd->lptzText);
+	replaceStrW(m_lptzTitle, ppd->lptzContactName);
+	replaceStrW(m_lptzText, ppd->lptzText);
 	setIcon(ppd->lchIcon);
 	m_hNotification = ppd->hNotification;
 
@@ -717,12 +717,12 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 	if (ppd->flags & PU2_UNICODE) {
 		if (m_textType == TT_NONE)
 			m_textType = TT_UNICODE;
-		replaceStrT(m_lptzTitle, ppd->lptzTitle);
-		replaceStrT(m_lptzText, ppd->lptzText);
+		replaceStrW(m_lptzTitle, ppd->lptzTitle);
+		replaceStrW(m_lptzText, ppd->lptzText);
 	}
 	else {
-		replaceStrT(m_lptzTitle, NULL);
-		replaceStrT(m_lptzText, NULL);
+		replaceStrW(m_lptzTitle, NULL);
+		replaceStrW(m_lptzText, NULL);
 	}
 
 	setIcon(ppd->lchIcon);
@@ -733,7 +733,7 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 	m_customPopup = (ppd->flags & PU2_CUSTOM_POPUP) != 0;
 
 	m_hbmAvatar = ppd->hbmAvatar;
-	m_lpzSkin = mir_a2t(ppd->lpzSkin);
+	m_lpzSkin = mir_a2u(ppd->lpzSkin);
 
 	if (m_options->DisplayTime) {
 		if (ppd->dwTimestamp)
@@ -768,7 +768,7 @@ void PopupWnd2::buildMText()
 void PopupWnd2::updateText(wchar_t *text)
 {
 	if (m_lptzText) {
-		replaceStrT(m_lptzText, text);
+		replaceStrW(m_lptzText, text);
 		if (m_textType == TT_MTEXT)
 			buildMText();
 	}
@@ -778,7 +778,7 @@ void PopupWnd2::updateText(wchar_t *text)
 void PopupWnd2::updateTitle(wchar_t *title)
 {
 	if (m_lptzTitle) {
-		replaceStrT(m_lptzTitle, title);
+		replaceStrW(m_lptzTitle, title);
 		if (m_textType == TT_MTEXT)
 			buildMText();
 	}
@@ -985,7 +985,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					EmptyClipboard();
 					HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (tszText.GetLength() + 1) * sizeof(wchar_t));
 					wchar_t *buffer = (wchar_t *)GlobalLock(clipbuffer);
-					mir_tstrcpy(buffer, tszText);
+					mir_wstrcpy(buffer, tszText);
 					GlobalUnlock(clipbuffer);
 					SetClipboardData(CF_UNICODETEXT, clipbuffer);
 					CloseClipboard();

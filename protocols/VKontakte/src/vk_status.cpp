@@ -69,8 +69,8 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		return;
 
 	int iOldStatus = m_iStatus;
-	CMString oldStatusMsg(ptrT(db_get_tsa(NULL, m_szModuleName, "OldStatusMsg")));
-	ptrT ptszListeningToMsg(db_get_tsa(NULL, m_szModuleName, "ListeningTo"));
+	CMString oldStatusMsg(ptrW(db_get_tsa(NULL, m_szModuleName, "OldStatusMsg")));
+	ptrW ptszListeningToMsg(db_get_tsa(NULL, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_bNeedSendOnline = false;
@@ -126,7 +126,7 @@ void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	OnReceiveStatus(reply, pReq);
 
-	ptrT ptszOldStatusMsg(db_get_tsa(NULL, m_szModuleName, "OldStatusMsg"));
+	ptrW ptszOldStatusMsg(db_get_tsa(NULL, m_szModuleName, "OldStatusMsg"));
 	CMString tszOldStatusMsg(ptszOldStatusMsg);
 
 	ENTER_STRING pForm = { sizeof(pForm) };
@@ -139,7 +139,7 @@ void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	if (!EnterString(&pForm))
 		return;
 
-	CMString tszNewStatusMsg(ptrT(pForm.ptszResult));
+	CMString tszNewStatusMsg(ptrW(pForm.ptszResult));
 	if (tszOldStatusMsg == tszNewStatusMsg)
 		return;
 
@@ -240,7 +240,7 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 		db_unset(NULL, m_szModuleName, "ListeningTo");
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			tszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%artist% - %title%", (LPARAM)pliInfo));
+			tszListeningTo = ptrW((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%artist% - %title%", (LPARAM)pliInfo));
 		else
 			tszListeningTo.Format(L"%s - %s",
 			pliInfo->ptszArtist ? pliInfo->ptszArtist : L"",

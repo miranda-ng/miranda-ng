@@ -144,7 +144,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 	nlu1.ptszDescriptiveName = szBuffer;
 
 	mir_snprintf(szDbsettings, "%s_HTTPS", m_szModuleName);
-	mir_sntprintf(szBuffer, TranslateT("%s plugin HTTPS connections"), m_tszUserName);
+	mir_snwprintf(szBuffer, TranslateT("%s plugin HTTPS connections"), m_tszUserName);
 	hNetlibUserHttps = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu1);
 
 	NETLIBUSER nlu = { 0 };
@@ -158,7 +158,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 	nlu.pfnHttpGatewayWrapSend = msn_httpGatewayWrapSend;
 	nlu.pfnHttpGatewayUnwrapRecv = msn_httpGatewayUnwrapRecv;
 
-	mir_sntprintf(szBuffer, TranslateT("%s plugin connections"), m_tszUserName);
+	mir_snwprintf(szBuffer, TranslateT("%s plugin connections"), m_tszUserName);
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	m_DisplayNameCache = NULL;
@@ -451,7 +451,7 @@ HANDLE __cdecl CMsnProto::SearchBasic(const wchar_t* id)
 {
 	if (!msnLoggedIn) return 0;
 
-	wchar_t* email = mir_tstrdup(id);
+	wchar_t* email = mir_wstrdup(id);
 	ForkThread(&CMsnProto::MsnSearchAckThread, email);
 
 	return email;
@@ -492,8 +492,8 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	filetransfer* ft = (filetransfer*)arg;
 
 	wchar_t filefull[MAX_PATH];
-	mir_sntprintf(filefull, L"%s\\%s", ft->std.tszWorkingDir, ft->std.tszCurrentFile);
-	replaceStrT(ft->std.tszCurrentFile, filefull);
+	mir_snwprintf(filefull, L"%s\\%s", ft->std.tszWorkingDir, ft->std.tszCurrentFile);
+	replaceStrW(ft->std.tszCurrentFile, filefull);
 
 	ResetEvent(ft->hResumeEvt);
 	if (ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->std))
@@ -583,13 +583,13 @@ HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* s
 		return 0;
 #endif
 
-	if ((ft->std.tszWorkingDir = mir_tstrdup(szPath)) == NULL) {
+	if ((ft->std.tszWorkingDir = mir_wstrdup(szPath)) == NULL) {
 		wchar_t szCurrDir[MAX_PATH];
 		GetCurrentDirectory(_countof(szCurrDir), szCurrDir);
-		ft->std.tszWorkingDir = mir_tstrdup(szCurrDir);
+		ft->std.tszWorkingDir = mir_wstrdup(szCurrDir);
 	}
 	else {
-		size_t len = mir_tstrlen(ft->std.tszWorkingDir) - 1;
+		size_t len = mir_wstrlen(ft->std.tszWorkingDir) - 1;
 		if (ft->std.tszWorkingDir[len] == '\\')
 			ft->std.tszWorkingDir[len] = 0;
 	}
@@ -672,7 +672,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 				ft->bCanceled = true;
 				break;
 			case FILERESUME_RENAME:
-				replaceStrT(ft->std.tszCurrentFile, *szFilename);
+				replaceStrW(ft->std.tszCurrentFile, *szFilename);
 				break;
 			case FILERESUME_OVERWRITE:
 				ft->std.currentFileProgress = 0;
@@ -701,7 +701,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 			break;
 
 		case FILERESUME_RENAME:
-			replaceStrT(ft->std.tszCurrentFile, *szFilename);
+			replaceStrW(ft->std.tszCurrentFile, *szFilename);
 
 		default:
 			bool fcrt = ft->create() != -1;
@@ -829,7 +829,7 @@ int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	int i;
 
 	for (i = 0; i < pre->lParam; i++)
-		dbei.cbBlob += int(mir_tstrlen(isrList[i]->nick.w) + 2 + mir_tstrlen(isrList[i]->id.w));
+		dbei.cbBlob += int(mir_wstrlen(isrList[i]->nick.w) + 2 + mir_wstrlen(isrList[i]->id.w));
 	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
 	for (i = 0, pCurBlob = dbei.pBlob; i < pre->lParam; i++) {
 		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.w));
@@ -1054,7 +1054,7 @@ int __cdecl CMsnProto::SetAwayMsg(int status, const wchar_t* msg)
 		return 1;
 
 	mir_free(*msgptr);
-	char* buf = *msgptr = mir_utf8encodeT(msg);
+	char* buf = *msgptr = mir_utf8encodeW(msg);
 	if (buf && mir_strlen(buf) > 1859) {
 		buf[1859] = 0;
 		const int i = 1858;

@@ -119,7 +119,7 @@ public:
 			va_list vl;
 			
 			va_start(vl, szText);
-			if (mir_vsntprintf(buf, _countof(buf), szText, vl) != -1)
+			if (mir_vsnwprintf(buf, _countof(buf), szText, vl) != -1)
 			{
 				SetTitle(buf);	 
 			}
@@ -143,7 +143,7 @@ public:
 	{
 		if (szText)
 		{
-			INT_PTR cch = mir_tstrlen(szText);
+			INT_PTR cch = mir_wstrlen(szText);
 			LPTSTR	fmt = (LPTSTR) mir_alloc((cch + 1) * sizeof(wchar_t));
 			
 			if (fmt)
@@ -151,7 +151,7 @@ public:
 				wchar_t buf[MAXDATASIZE];
 				va_list vl;
 
-				mir_tstrcpy(fmt, szText);
+				mir_wstrcpy(fmt, szText);
 
 				// delete bbcodes
 				if (!_bBBCode)
@@ -179,7 +179,7 @@ public:
 				}
 			
 				va_start(vl, szText);
-				if (mir_vsntprintf(buf, _countof(buf), fmt, vl) != -1)
+				if (mir_vsnwprintf(buf, _countof(buf), fmt, vl) != -1)
 				{
 					SetText(buf);	 
 				}
@@ -345,12 +345,12 @@ class CPopupUpdProgress : public CUpdProgress
 	{
 		if (_szText)
 		{
-			INT_PTR cb = mir_tstrlen(_szText) + 8;
+			INT_PTR cb = mir_wstrlen(_szText) + 8;
 			LPTSTR	pb = (LPTSTR) mir_alloc(cb * sizeof(wchar_t));
 
 			if (pb)
 			{
-				mir_tstrcpy(pb, _szText);
+				mir_wstrcpy(pb, _szText);
 
 				SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TITLET, (LPARAM) pb);
 			}
@@ -424,10 +424,10 @@ public:
 		pd.lpActions = _popupButtons;
 
 		// dummy text
-		_szText = mir_tstrdup(szTitle);
-		mir_tstrcpy(pd.lptzContactName, _szText);
+		_szText = mir_wstrdup(szTitle);
+		mir_wstrcpy(pd.lptzContactName, _szText);
 		
-		mir_tstrcpy(pd.lptzText, L" ");
+		mir_wstrcpy(pd.lptzText, L" ");
 		
 		_pFnCallBack = pFnCallBack;
 		_hWnd = (HWND) CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, APF_RETURN_HWND|APF_NEWDATA);
@@ -455,7 +455,7 @@ public:
 	virtual void SetTitle(LPCTSTR szText)
 	{
 		MIR_FREE(_szText);
-		_szText = mir_tstrdup(szText);
+		_szText = mir_wstrdup(szText);
 		UpdateText();
 	}
 
@@ -465,7 +465,7 @@ public:
 	 **/
 	virtual void SetText(LPCTSTR szText)
 	{
-		SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TEXTT, (LPARAM) mir_tstrdup(szText));
+		SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TEXTT, (LPARAM) mir_wstrdup(szText));
 	}
 };
 

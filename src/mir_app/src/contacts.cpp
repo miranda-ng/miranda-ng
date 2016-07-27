@@ -74,11 +74,11 @@ static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szPro
 	wchar_t buf[40];
 	switch (dbv.type) {
 	case DBVT_BYTE:
-		return mir_tstrdup(_itow(dbv.bVal, buf, 10));
+		return mir_wstrdup(_itow(dbv.bVal, buf, 10));
 	case DBVT_WORD:
-		return mir_tstrdup(_itow(dbv.wVal, buf, 10));
+		return mir_wstrdup(_itow(dbv.wVal, buf, 10));
 	case DBVT_DWORD:
-		return mir_tstrdup(_itow(dbv.dVal, buf, 10));
+		return mir_wstrdup(_itow(dbv.dVal, buf, 10));
 	}
 
 	db_free(&dbv);
@@ -152,7 +152,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 				CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&countryCount, (LPARAM)&countries);
 				for (int i = 0; i < countryCount; i++)
 					if (countries[i].id == dbv.wVal)
-						return mir_a2t(countries[i].szName);
+						return mir_a2u(countries[i].szName);
 			}
 			else {
 				db_free(&dbv);
@@ -181,7 +181,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 		if (db_mc_isMeta(hContact)) {
 			wchar_t buf[40];
 			_itow(hContact, buf, 10);
-			return mir_tstrdup(buf);
+			return mir_wstrdup(buf);
 		}
 	
 		uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -261,7 +261,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 				break;
 
 			case 8:
-				return mir_tstrdup(TranslateT("'(Unknown contact)'"));
+				return mir_wstrdup(TranslateT("'(Unknown contact)'"));
 			}
 		}
 		break;

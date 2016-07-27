@@ -32,7 +32,7 @@ struct TOpenUrlInfo
 		newWindow(_bNew)
 	{}
 
-	ptrT szUrl;
+	ptrW szUrl;
 	int newWindow;
 };
 
@@ -56,7 +56,7 @@ static void OpenURLThread(void *arg)
 	}
 
 	// check user defined browser for opening urls
-	ptrT tszBrowser(db_get_tsa(NULL, "Miranda", "OpenUrlBrowser"));
+	ptrW tszBrowser(db_get_tsa(NULL, "Miranda", "OpenUrlBrowser"));
 	if (tszBrowser)
 		ShellExecute(NULL, L"open", tszBrowser, tszUrl, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 	else
@@ -68,7 +68,7 @@ static void OpenURLThread(void *arg)
 MIR_CORE_DLL(void) Utils_OpenUrl(const char *pszUrl, bool bOpenInNewWindow)
 {
 	if (pszUrl)
-		mir_forkthread(OpenURLThread, new TOpenUrlInfo(mir_a2t(pszUrl), bOpenInNewWindow));
+		mir_forkthread(OpenURLThread, new TOpenUrlInfo(mir_a2u(pszUrl), bOpenInNewWindow));
 }
 
 MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNewWindow)

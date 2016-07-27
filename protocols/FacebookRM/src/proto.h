@@ -250,7 +250,7 @@ public:
 	HANDLE log_lock_;
 	HANDLE update_loop_lock_;
 
-	ptrT m_tszDefaultGroup;
+	ptrW m_tszDefaultGroup;
 
 	std::vector<HANDLE> popupClasses;
 

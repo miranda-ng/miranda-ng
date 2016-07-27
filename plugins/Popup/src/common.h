@@ -70,9 +70,9 @@ inline INT_PTR DBGetContactSettingStringX(MCONTACT hContact, const char *ModuleN
 		break;
 	case DBVT_TCHAR:
 		if (!result)
-			ret = (INT_PTR)mir_tstrdup(dbv.ptszVal);
+			ret = (INT_PTR)mir_wstrdup(dbv.ptszVal);
 		else
-			ret = (INT_PTR)mir_a2t(Default);
+			ret = (INT_PTR)mir_a2u(Default);
 		break;
 	}
 	if (!result)
@@ -89,7 +89,7 @@ inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, c
 	ti.uId = id;
 	SendMessage(hwndToolTip, TTM_DELTOOL, 0, (LPARAM)&ti);
 
-	LPTSTR wtext = mir_a2t(text);
+	LPTSTR wtext = mir_a2u(text);
 
 	ti.uFlags = TTF_SUBCLASS;
 	ti.hwnd = hwnd;

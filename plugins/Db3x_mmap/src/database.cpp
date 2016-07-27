@@ -87,7 +87,7 @@ void __cdecl dbpanic(void *)
 			msg = TranslateT("Disk is full. Miranda will now shut down.");
 
 		wchar_t err[256];
-		mir_sntprintf(err, msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
+		mir_snwprintf(err, msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
 
 		MessageBox(0, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
 	}

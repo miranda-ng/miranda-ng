@@ -39,27 +39,27 @@ void PackerJob::getZipFilePath()
 	wchar_t *pch;
 
 	if (m_files.size() == 1) {
-		mir_tstrcpy(stzFileName, Utils::getFileNameFromPath(m_files[0]));
+		mir_wstrcpy(stzFileName, Utils::getFileNameFromPath(m_files[0]));
 		pch = wcsrchr(stzFileName, '.');
 		if (pch) *pch = 0;
 	}
 	else {
-		mir_tstrcpy(buff, m_files[0]);
+		mir_wstrcpy(buff, m_files[0]);
 		pch = wcsrchr(buff, '\\');
 		if (pch) {
 			*pch = 0;
 			pch = wcsrchr(buff, '\\');
-			if (pch) mir_tstrcpy(stzFileName, pch + 1);
+			if (pch) mir_wstrcpy(stzFileName, pch + 1);
 		}
 	}
 
 	if (stzFileName[0] == '\0')
-		mir_tstrcpy(stzFileName, L"archive");
+		mir_wstrcpy(stzFileName, L"archive");
 
 	GetTempPath(_countof(buff), buff);
 
-	mir_sntprintf(m_tszFilePath, L"%s%s.zip", buff, stzFileName);
-	mir_tstrcpy(m_tszFileName, Utils::getFileNameFromPath(m_tszFilePath));
+	mir_snwprintf(m_tszFilePath, L"%s%s.zip", buff, stzFileName);
+	mir_wstrcpy(m_tszFileName, Utils::getFileNameFromPath(m_tszFilePath));
 
 	if (opt.bSetZipName)
 		Utils::setFileNameDlg(m_tszFileName);
@@ -156,7 +156,7 @@ int PackerJob::createZipFile()
 
 			getFileTime(m_files[i], &zi.tmz_date, &zi.dosDate);
 
-			char *file = mir_t2a(Utils::getFileNameFromPath(m_files[i]));
+			char *file = mir_u2a(Utils::getFileNameFromPath(m_files[i]));
 			int err = zipOpenNewFileInZip(zf, file, &zi, NULL, 0, NULL, 0, NULL, Z_DEFLATED, opt.iCompressionLevel);
 			FREE(file);
 
@@ -233,10 +233,10 @@ void PackerJob::updateStats()
 		m_lastUpdateTick = dwNewTick;
 
 		double speed = ((double)m_uiReaded / 1024) / (time(NULL) - m_startTS);
-		mir_sntprintf(m_tab->m_stzSpeed, TranslateT("%0.1f kB/s"), speed);
+		mir_snwprintf(m_tab->m_stzSpeed, TranslateT("%0.1f kB/s"), speed);
 
 		double perc = m_uiFileSize ? ((double)m_uiReaded / m_uiFileSize) * 100 : 0;
-		mir_sntprintf(m_tab->m_stzComplet, TranslateT("%0.1f%% (%d kB/%d kB)"), perc, (int)m_uiReaded / 1024, (int)m_uiFileSize / 1024);
+		mir_snwprintf(m_tab->m_stzComplet, TranslateT("%0.1f%% (%d kB/%d kB)"), perc, (int)m_uiReaded / 1024, (int)m_uiFileSize / 1024);
 
 		wchar_t buff[256];
 		long s = (m_uiFileSize - m_uiReaded) / (long)(speed * 1024);
@@ -245,9 +245,9 @@ void PackerJob::updateStats()
 		int m = (s - d * 60 * 60 * 24 - h * 60 * 60) / 60;
 		s = s - (d * 24 * 60 * 60) - (h * 60 * 60) - (m * 60);
 
-		if (d > 0) mir_sntprintf(buff, L"%dd %02d:%02d:%02d", d, h, m, s);
-		else mir_sntprintf(buff, L"%02d:%02d:%02d", h, m, s);
-		mir_sntprintf(m_tab->m_stzRemain, TranslateT("%s (%d kB/%d kB)"), buff, (m_uiFileSize - m_uiReaded) / 1024, m_uiFileSize / 1024);
+		if (d > 0) mir_snwprintf(buff, L"%dd %02d:%02d:%02d", d, h, m, s);
+		else mir_snwprintf(buff, L"%02d:%02d:%02d", h, m, s);
+		mir_snwprintf(m_tab->m_stzRemain, TranslateT("%s (%d kB/%d kB)"), buff, (m_uiFileSize - m_uiReaded) / 1024, m_uiFileSize / 1024);
 
 		refreshTab(false);
 	}
@@ -313,6 +313,6 @@ void PackerJob::closeAllTabs()
 
 void PackerJob::createToolTip()
 {
-	mir_sntprintf(uDlg->m_tszToolTipText, TranslateT("Status: %s\r\nFile: %s\r\nServer: %S"),
+	mir_snwprintf(uDlg->m_tszToolTipText, TranslateT("Status: %s\r\nFile: %s\r\nServer: %S"),
 		getStatusString(), m_tszFileName, m_ftp->m_szServer);
 }

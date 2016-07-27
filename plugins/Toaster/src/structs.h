@@ -17,8 +17,8 @@ struct ToastData : public MZeroedObject
 
 	ToastData(MCONTACT _hContact, const wchar_t *_tszTitle, const wchar_t *_tszText, HICON _hIcon = NULL) : 
 		hContact(_hContact),
-		tszTitle(mir_tstrdup(_tszTitle)), 
-		tszText(mir_tstrdup(_tszText)), 
+		tszTitle(mir_wstrdup(_tszTitle)), 
+		tszText(mir_wstrdup(_tszText)), 
 		hIcon(_hIcon), 
 		iType(_hIcon ? 2 : 0) ,
 		pPopupProc(NULL),
@@ -26,8 +26,8 @@ struct ToastData : public MZeroedObject
 	{}
 	ToastData(MCONTACT _hContact, const wchar_t *_tszTitle, const wchar_t *_tszText, HBITMAP bmp = NULL) :
 		hContact(_hContact),
-		tszTitle(mir_tstrdup(_tszTitle)),
-		tszText(mir_tstrdup(_tszText)),
+		tszTitle(mir_wstrdup(_tszTitle)),
+		tszText(mir_wstrdup(_tszText)),
 		hBitmap(bmp),
 		iType(bmp ? 1 : 0),
 		pPopupProc(NULL),

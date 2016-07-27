@@ -248,8 +248,8 @@ INT_PTR CSkypeProto::OnJoinChatRoom(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 	{
-		ptrT idT(getTStringA(hContact, "ChatRoomID"));
-		ptrT nameT(getTStringA(hContact, "Nick"));
+		ptrW idT(getTStringA(hContact, "ChatRoomID"));
+		ptrW nameT(getTStringA(hContact, "Nick"));
 		StartChatRoom(idT, nameT != NULL ? nameT : idT);
 	}
 	return 0;
@@ -261,7 +261,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 		return 1;
 	if (hContact && IDYES == MessageBox(NULL, TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
 	{
-		ptrT idT(getTStringA(hContact, "ChatRoomID"));
+		ptrW idT(getTStringA(hContact, "ChatRoomID"));
 
 		GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
 		gcd.ptszID = idT;
@@ -309,7 +309,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		ptrA xinitiator, xtarget, initiator;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, L"addmember");
+		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), 0, L"addmember");
 		if (xml == NULL)
 			return;
 
@@ -319,7 +319,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			if (xmlNode == NULL)
 				break;
 
-			xtarget = mir_t2a(xmlGetText(xmlNode));
+			xtarget = mir_u2a(xmlGetText(xmlNode));
 
 			CMStringA target = ParseUrl(xtarget, "8:");
 			AddChatContact(_A2T(szConversationName), target, target, L"User");
@@ -331,13 +331,13 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		ptrA xinitiator, xtarget;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, L"deletemember");
+		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), 0, L"deletemember");
 		if (xml != NULL) {
 			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
-			xinitiator = node != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
+			xinitiator = node != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
 
 			xmlNode = xmlGetChildByPath(xml, L"target", 0);
-			xtarget = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
+			xtarget = xmlNode != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
 
 			xmlDestroyNode(xml);
 		}
@@ -353,13 +353,13 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	{
 		//content=<topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
 		ptrA xinitiator, value;
-		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, L"topicupdate");
+		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), 0, L"topicupdate");
 		if (xml != NULL) {
 			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
-			xinitiator = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
+			xinitiator = xmlNode != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
 
 			xmlNode = xmlGetChildByPath(xml, L"value", 0);
-			value = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
+			value = xmlNode != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
 
 			xmlDestroyNode(xml);
 		}
@@ -372,18 +372,18 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	{
 		//content=<roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
 		ptrA xinitiator, xId, xRole;
-		HXML xml = xmlParseString(ptrT(mir_utf8decodeT(strContent.c_str())), 0, L"roleupdate");
+		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), 0, L"roleupdate");
 		if (xml != NULL) {
 			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
-			xinitiator = xmlNode != NULL ? mir_t2a(xmlGetText(xmlNode)) : NULL;
+			xinitiator = xmlNode != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
 
 			xmlNode = xmlGetChildByPath(xml, L"target", 0);
 			if (xmlNode != NULL)
 			{
 				HXML xmlId = xmlGetChildByPath(xmlNode, L"id", 0);
 				HXML xmlRole = xmlGetChildByPath(xmlNode, L"role", 0);
-				xId = xmlId != NULL ? mir_t2a(xmlGetText(xmlId)) : NULL;
-				xRole = xmlRole != NULL ? mir_t2a(xmlGetText(xmlRole)) : NULL;
+				xId = xmlId != NULL ? mir_u2a(xmlGetText(xmlId)) : NULL;
+				xRole = xmlRole != NULL ? mir_u2a(xmlGetText(xmlRole)) : NULL;
 			}
 			xmlDestroyNode(xml);
 			
@@ -392,9 +392,9 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 
 			GCDEST gcd = { m_szModuleName, _A2T(szConversationName), !mir_strcmpi(xRole, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			ptrT tszId(mir_a2t(id));
-			ptrT tszRole(mir_a2t(xRole));
-			ptrT tszInitiator(mir_a2t(initiator));
+			ptrW tszId(mir_a2u(id));
+			ptrW tszRole(mir_a2u(xRole));
+			ptrW tszInitiator(mir_a2u(initiator));
 			gce.pDest = &gcd;
 			gce.dwFlags = GCEF_ADDTOLOG;
 			gce.ptszNick = tszId;
@@ -426,11 +426,11 @@ void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszM
 		return;
 
 	wchar_t *buf = NEWWSTR_ALLOCA(tszMessage);
-	rtrimt(buf);
+	rtrimw(buf);
 	UnEscapeChatTags(buf);
 
-	ptrA szChatId(mir_t2a(chat_id));
-	ptrA szMessage(mir_utf8encodeT(buf));
+	ptrA szChatId(mir_u2a(chat_id));
+	ptrA szMessage(mir_utf8encodeW(buf));
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		SendRequest(new SendChatActionRequest(szChatId, time(NULL), szMessage, li));
@@ -448,7 +448,7 @@ void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, 
 	gce.time = timestamp;
 	gce.ptszUID = from;
 
-	CMString tszText(ptrT(mir_utf8decodeT(content)));
+	CMString tszText(ptrW(mir_utf8decodeW(content)));
 	tszText.Replace(L"%", L"%%");
 
 	if (!isAction)
@@ -468,7 +468,7 @@ void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, 
 
 void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 {
-	ptrT topic((wchar_t*)p); // memory must be freed in any case
+	ptrW topic((wchar_t*)p); // memory must be freed in any case
 	if (response == NULL || response->pData == NULL)
 		return;
 
@@ -497,8 +497,8 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 
 void CSkypeProto::RenameChat(const char *chat_id, const char *name)
 {
-	ptrT tchat_id(mir_a2t(chat_id));
-	ptrT tname(mir_utf8decodeT(name));
+	ptrW tchat_id(mir_a2u(chat_id));
+	ptrW tname(mir_utf8decodeW(name));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_CHANGESESSIONAME };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -508,9 +508,9 @@ void CSkypeProto::RenameChat(const char *chat_id, const char *name)
 
 void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const char *initiator)
 {
-	ptrT tchat_id(mir_a2t(chat_id));
-	ptrT tname(mir_a2t(initiator));
-	ptrT ttopic(mir_utf8decodeT(topic));
+	ptrW tchat_id(mir_a2u(chat_id));
+	ptrW tname(mir_a2u(initiator));
+	ptrW ttopic(mir_utf8decodeW(topic));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_TOPIC };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -541,11 +541,11 @@ void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const 
 	if (IsChatContact(tchat_id, id))
 		return;
 
-	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
+	ptrW tnick(mir_a2u_cp(name, CP_UTF8));
 	if (wchar_t *tmp = db_get_tsa(FindChatRoom(_T2A(tchat_id)), "UsersNicks", id))
 		tnick = tmp;
 
-	ptrT tid(mir_a2t(id));
+	ptrW tid(mir_a2u(id));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -565,9 +565,9 @@ void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, con
 	if (IsMe(id))
 		return;
 
-	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
-	ptrT tid(mir_a2t(id));
-	ptrT tinitiator(mir_a2t(initiator));
+	ptrW tnick(mir_a2u_cp(name, CP_UTF8));
+	ptrW tid(mir_a2u(id));
+	ptrW tinitiator(mir_a2u(initiator));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -661,5 +661,5 @@ CMString CSkypeProto::ChangeTopicForm()
 	pForm.caption = caption;
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
-	return (!EnterString(&pForm)) ? CMString() : CMString(ptrT(pForm.ptszResult));
+	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
 }

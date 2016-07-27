@@ -58,7 +58,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 			// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
 			if (GetTickCount() - ticked > (1000*10)) {
 				wchar_t tooltip[256];
-				mir_sntprintf(tooltip, TranslateT("%s is online"), pcli->pfnGetContactDisplayName(hContact, 0));
+				mir_snwprintf(tooltip, TranslateT("%s is online"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 				CLISTEVENT cle = {};
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;

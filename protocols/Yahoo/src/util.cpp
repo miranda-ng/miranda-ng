@@ -112,8 +112,8 @@ int CYahooProto::ShowPopup(const wchar_t* nickname, const wchar_t* msg, const ch
 
 	POPUPDATAT ppd = { 0 };
 	ppd.PluginWindowProc = PopupWindowProc;
-	mir_tstrncpy(ppd.lptzContactName, nickname, _countof(ppd.lptzContactName));
-	mir_tstrncpy(ppd.lptzText, msg, _countof(ppd.lptzText));
+	mir_wstrncpy(ppd.lptzContactName, nickname, _countof(ppd.lptzContactName));
+	mir_wstrncpy(ppd.lptzText, msg, _countof(ppd.lptzText));
 
 	if (szURL != NULL) {
 		ppd.lchIcon = LoadIconEx(!mir_strcmpi(szURL, "http://mail.yahoo.com") ? "mail" : "calendar");

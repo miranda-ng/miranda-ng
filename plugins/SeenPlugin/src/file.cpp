@@ -30,18 +30,18 @@ static wchar_t *g_ptszFileStamp, *g_ptszFileName;
 
 void InitFileOutput(void)
 {
-	ptrT tszFileName(db_get_tsa(NULL, S_MOD, "FileName"));
+	ptrW tszFileName(db_get_tsa(NULL, S_MOD, "FileName"));
 	if (tszFileName == NULL)
-		tszFileName = mir_tstrdup(DEFAULT_FILENAME);
-	replaceStrT(g_ptszFileName, VARST(tszFileName));
+		tszFileName = mir_wstrdup(DEFAULT_FILENAME);
+	replaceStrW(g_ptszFileName, VARST(tszFileName));
 
 	wchar_t *tszPath = NEWWSTR_ALLOCA(g_ptszFileName);
 	wchar_t *p = wcsrchr(tszPath, '\\');
 	if (p) *p = 0;
 	CreateDirectoryTreeT(tszPath);
 	
-	ptrT tszFileStamp(db_get_tsa(NULL, S_MOD, "FileStamp"));
-	replaceStrT(g_ptszFileStamp, (tszFileStamp == NULL) ? DEFAULT_FILESTAMP : tszFileStamp);
+	ptrW tszFileStamp(db_get_tsa(NULL, S_MOD, "FileStamp"));
+	replaceStrW(g_ptszFileStamp, (tszFileStamp == NULL) ? DEFAULT_FILESTAMP : tszFileStamp);
 }
 
 void UninitFileOutput()

@@ -94,17 +94,17 @@ void LoadOptions()
 
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, MODULE_NAME, "DefaultLanguage", &dbv)) {
-		mir_tstrncpy(opts.default_language, dbv.ptszVal, _countof(opts.default_language));
+		mir_wstrncpy(opts.default_language, dbv.ptszVal, _countof(opts.default_language));
 		db_free(&dbv);
 	}
 
 	int i;
 	for (i = 0; i < languages.getCount(); i++)
-		if (mir_tstrcmp(languages[i]->language, opts.default_language) == 0)
+		if (mir_wstrcmp(languages[i]->language, opts.default_language) == 0)
 			break;
 
 	if (i >= languages.getCount())
-		mir_tstrcpy(opts.default_language, languages[0]->language);
+		mir_wstrcpy(opts.default_language, languages[0]->language);
 }
 
 static void DrawItem(LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
@@ -179,7 +179,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_ADDSTRING, 0, (LPARAM)languages[i]->full_name);
 			SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETITEMDATA, i, (LPARAM)languages[i]);
 
-			if (!mir_tstrcmp(opts.default_language, languages[i]->language))
+			if (!mir_wstrcmp(opts.default_language, languages[i]->language))
 				sel = i;
 		}
 		SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETCURSEL, sel, 0);
@@ -214,7 +214,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				sel = 0;
 			db_set_ts(NULL, MODULE_NAME, "DefaultLanguage",
 				(wchar_t *)languages[sel]->language);
-			mir_tstrcpy(opts.default_language, languages[sel]->language);
+			mir_wstrcpy(opts.default_language, languages[sel]->language);
 		}
 	}
 	break;
@@ -328,7 +328,7 @@ static void SaveNewReplacements(BOOL canceled, Dictionary*,
 
 	AutoreplaceData *data = (AutoreplaceData *)param;
 
-	if (mir_tstrlen(original_find) > 0)
+	if (mir_wstrlen(original_find) > 0)
 		data->RemoveWord(original_find);
 
 	data->AddWord(find, replace, useVariables);
@@ -351,7 +351,7 @@ static void ShowAddReplacement(HWND hwndDlg, int item = -1)
 	else
 		ListView_GetItemText(GetDlgItem(hwndDlg, IDC_REPLACEMENTS), item, 0, find, _countof(find));
 
-	if (mir_tstrlen(find) > 0) {
+	if (mir_wstrlen(find) > 0) {
 		AutoReplacement &ar = data->autoReplaceMap[find];
 		replace = ar.replace.c_str();
 		useVariables = ar.useVariables;
@@ -378,7 +378,7 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_ADDSTRING, 0, (LPARAM)p->full_name);
 			SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETITEMDATA, i, (LPARAM)new AutoreplaceData(p));
 
-			if (!mir_tstrcmp(opts.default_language, p->language))
+			if (!mir_wstrcmp(opts.default_language, p->language))
 				sel = i;
 		}
 		SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETCURSEL, sel, 0);

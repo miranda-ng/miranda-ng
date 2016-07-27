@@ -191,7 +191,7 @@ BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
 			va_list vl;
 
 			va_start(vl, pszFormat);
-			mir_vsntprintf(buf, _countof(buf), TranslateTS(pszFormat), vl);
+			mir_vsnwprintf(buf, _countof(buf), TranslateTS(pszFormat), vl);
 			va_end(vl);
 			SetDlgItemText(_hDlg, TXT_CONTACT, buf);	 
 		}
@@ -218,10 +218,10 @@ BYTE CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 			va_list vl;
 
 			va_start(vl, pszFormat);
-			mir_vsntprintf(buf, _countof(buf), TranslateTS(pszFormat), vl);
+			mir_vsnwprintf(buf, _countof(buf), TranslateTS(pszFormat), vl);
 			va_end(vl);
 			GetDlgItemText(_hDlg, TXT_SETTING, tmp, _countof(tmp));
-			if (mir_tstrcmpi(tmp,buf))
+			if (mir_wstrcmpi(tmp,buf))
 				SetDlgItemText(_hDlg, TXT_SETTING, buf);
 		}
 		SendMessage(hProg, PBM_SETPOS, (int)SendMessage(hProg, PBM_GETPOS, 0, 0) + 1, 0);

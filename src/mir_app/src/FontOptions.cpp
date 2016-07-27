@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int sttCompareFont(const FontInternal* p1, const FontInternal* p2)
 {
-	int result = mir_tstrcmp(p1->group, p2->group);
+	int result = mir_wstrcmp(p1->group, p2->group);
 	if (result != 0)
 		return result;
 
@@ -38,14 +38,14 @@ static int sttCompareFont(const FontInternal* p1, const FontInternal* p2)
 	if (result != 0)
 		return result;
 
-	return mir_tstrcmp(p1->getName(), p2->getName());
+	return mir_wstrcmp(p1->getName(), p2->getName());
 }
 
 OBJLIST<FontInternal> font_id_list(20, sttCompareFont), font_id_list_w2(20, sttCompareFont), font_id_list_w3(20, sttCompareFont);
 
 static int sttCompareColour(const ColourInternal* p1, const ColourInternal* p2)
 {
-	int result = mir_tstrcmp(p1->group, p2->group);
+	int result = mir_wstrcmp(p1->group, p2->group);
 	if (result != 0)
 		return result;
 
@@ -53,14 +53,14 @@ static int sttCompareColour(const ColourInternal* p1, const ColourInternal* p2)
 	if (result != 0)
 		return result;
 
-	return mir_tstrcmp(p1->getName(), p2->getName());
+	return mir_wstrcmp(p1->getName(), p2->getName());
 }
 
 OBJLIST<ColourInternal> colour_id_list(10, sttCompareColour), colour_id_list_w2(10, sttCompareColour), colour_id_list_w3(10, sttCompareColour);
 
 static int sttCompareEffect(const EffectInternal* p1, const EffectInternal* p2)
 {
-	int result = mir_tstrcmp(p1->group, p2->group);
+	int result = mir_wstrcmp(p1->group, p2->group);
 	if (result != 0)
 		return result;
 
@@ -68,7 +68,7 @@ static int sttCompareEffect(const EffectInternal* p1, const EffectInternal* p2)
 	if (result != 0)
 		return result;
 
-	return mir_tstrcmp(p1->getName(), p2->getName());
+	return mir_wstrcmp(p1->getName(), p2->getName());
 }
 
 OBJLIST<EffectInternal> effect_id_list(10, sttCompareEffect), effect_id_list_w2(10, sttCompareEffect), effect_id_list_w3(10, sttCompareEffect);
@@ -261,12 +261,12 @@ static BOOL sttFsuiBindColourIdToFonts(HWND hwndList, const wchar_t *name, const
 		if (itemData && itemData->font_id >= 0) {
 			FontInternal& F = font_id_list_w2[itemData->font_id];
 
-			if (name && !mir_tstrcmp(F.name, name)) {
+			if (name && !mir_wstrcmp(F.name, name)) {
 				itemData->colour_id = colourId;
 				res = TRUE;
 			}
 
-			if (backgroundGroup && backgroundName && !mir_tstrcmp(F.backgroundGroup, backgroundGroup) && !mir_tstrcmp(F.backgroundName, backgroundName)) {
+			if (backgroundGroup && backgroundName && !mir_wstrcmp(F.backgroundGroup, backgroundGroup) && !mir_wstrcmp(F.backgroundName, backgroundName)) {
 				itemData->colour_id = colourId;
 				res = TRUE;
 			}
@@ -283,7 +283,7 @@ static bool sttFsuiBindEffectIdToFonts(HWND hwndList, const wchar_t *name, int e
 		if (itemData && itemData->font_id >= 0) {
 			FontInternal& F = font_id_list_w2[itemData->font_id];
 
-			if (name && !mir_tstrcmp(F.name, name)) {
+			if (name && !mir_wstrcmp(F.name, name)) {
 				itemData->effect_id = effectId;
 				return true;
 			}
@@ -313,7 +313,7 @@ static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wc
 	while (tvi.hItem) {
 		TreeView_GetItem(hwndTree, &tvi);
 
-		if (!mir_tstrcmp(tvi.pszText, name))
+		if (!mir_wstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -328,7 +328,7 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const wchar_t *groupNam
 	int sectionLevel = 0;
 
 	HTREEITEM hSection = NULL;
-	mir_tstrcpy(itemName, groupName);
+	mir_wstrcpy(itemName, groupName);
 	sectionName = itemName;
 
 	while (sectionName) {
@@ -347,8 +347,8 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const wchar_t *groupNam
 			if (!hItem) {
 				TVINSERTSTRUCT tvis = { 0 };
 				TreeItem *treeItem = (TreeItem *)mir_alloc(sizeof(TreeItem));
-				treeItem->groupName = sectionName ? NULL : mir_tstrdup(groupName);
-				treeItem->paramName = mir_t2a(itemName);
+				treeItem->groupName = sectionName ? NULL : mir_wstrdup(groupName);
+				treeItem->paramName = mir_u2a(itemName);
 
 				tvis.hParent = hSection;
 				tvis.hInsertAfter = TVI_SORT;//TVI_LAST;
@@ -639,7 +639,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 							SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
 						}
 
-						if (mir_tstrcmp(C.name, L"Background") == 0)
+						if (mir_wstrcmp(C.name, L"Background") == 0)
 							hBkgColourBrush = CreateSolidBrush(C.value);
 					}
 				}
@@ -711,7 +711,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				hoFont = (HFONT)SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, mis->CtlID, WM_GETFONT, 0, 0));
 
 			SIZE fontSize;
-			GetTextExtentPoint32(hdc, itemName, (int)mir_tstrlen(itemName), &fontSize);
+			GetTextExtentPoint32(hdc, itemName, (int)mir_wstrlen(itemName), &fontSize);
 			if (hoFont) SelectObject(hdc, hoFont);
 			if (hFont) DeleteObject(hFont);
 			ReleaseDC(GetDlgItem(hwndDlg, mis->CtlID), hdc);
@@ -828,7 +828,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 				rc = dis->rcItem;
 				rc.left += FSUI_FONTLEFT;
-				DrawTextWithEffect(dis->hDC, itemName, (int)mir_tstrlen(itemName), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
+				DrawTextWithEffect(dis->hDC, itemName, (int)mir_wstrlen(itemName), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
 			}
 			else {
 				RECT rc;
@@ -853,7 +853,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				rc = dis->rcItem;
 				rc.left += FSUI_FONTLEFT;
 
-				DrawTextWithEffect(dis->hDC, itemName, (int)mir_tstrlen(itemName), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
+				DrawTextWithEffect(dis->hDC, itemName, (int)mir_wstrlen(itemName), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
 			}
 			if (hoFont) SelectObject(dis->hDC, hoFont);
 			if (hFont) DeleteObject(hFont);
@@ -1028,7 +1028,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (itemData->colour_id < 0) continue;
 					colour_id_list_w2[itemData->colour_id].value = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
 
-					if (mir_tstrcmp(colour_id_list_w2[itemData->colour_id].name, L"Background") == 0) {
+					if (mir_wstrcmp(colour_id_list_w2[itemData->colour_id].name, L"Background") == 0) {
 						if (hBkgColourBrush) DeleteObject(hBkgColourBrush);
 						hBkgColourBrush = CreateSolidBrush(colour_id_list_w2[itemData->colour_id].value);
 					}
@@ -1075,7 +1075,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_BTN_EXPORT:
 			{
 				wchar_t fname_buff[MAX_PATH], filter[MAX_PATH];
-				mir_sntprintf(filter, L"%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c", TranslateT("Configuration files"), 0, 0, TranslateT("Text files"), 0, 0, TranslateT("All files"), 0, 0);
+				mir_snwprintf(filter, L"%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c", TranslateT("Configuration files"), 0, 0, TranslateT("Text files"), 0, 0, TranslateT("All files"), 0, 0);
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);

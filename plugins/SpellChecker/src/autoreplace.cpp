@@ -33,7 +33,7 @@ AutoReplacement::AutoReplacement(const wchar_t *replace, BOOL useVariables)
 AutoReplaceMap::AutoReplaceMap(wchar_t *aFilename, Dictionary *dict)
 {
 	m_dict = dict;
-	mir_tstrncpy(m_filename, aFilename, _countof(m_filename));
+	mir_wstrncpy(m_filename, aFilename, _countof(m_filename));
 	loadAutoReplaceMap();
 }
 
@@ -143,7 +143,7 @@ wchar_t* AutoReplaceMap::autoReplace(const wchar_t * word)
 		to = wcsdup(ar.replace.c_str());
 
 	// Wich case to use?
-	size_t len = mir_tstrlen(word);
+	size_t len = mir_wstrlen(word);
 	size_t i;
 	for (i = 0; i < len; i++)
 		if (IsCharLower(word[i]))
@@ -167,7 +167,7 @@ wchar_t* AutoReplaceMap::autoReplace(const wchar_t * word)
 wchar_t* AutoReplaceMap::filterText(const wchar_t *find)
 {
 	wchar_t *ret = wcsdup(find);
-	int len = mir_tstrlen(ret);
+	int len = mir_wstrlen(ret);
 	int pos = 0;
 	for (int i = 0; i < len; i++)
 		if (isWordChar(find[i]))

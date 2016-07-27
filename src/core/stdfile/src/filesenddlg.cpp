@@ -49,16 +49,16 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 	if (i > 1) {
 		wchar_t szFormat[32];
 		if (fileCount && dirCount) {
-			mir_sntprintf(szFormat, L"%s, %s", TranslateTS(fileCount == 1 ? L"%d file" : L"%d files"), TranslateTS(dirCount == 1 ? L"%d directory" : L"%d directories"));
-			mir_sntprintf(str, szFormat, fileCount, dirCount);
+			mir_snwprintf(szFormat, L"%s, %s", TranslateTS(fileCount == 1 ? L"%d file" : L"%d files"), TranslateTS(dirCount == 1 ? L"%d directory" : L"%d directories"));
+			mir_snwprintf(str, szFormat, fileCount, dirCount);
 		}
 		else if (fileCount) {
-			mir_tstrcpy(szFormat, TranslateT("%d files"));
-			mir_sntprintf(str, szFormat, fileCount);
+			mir_wstrcpy(szFormat, TranslateT("%d files"));
+			mir_snwprintf(str, szFormat, fileCount);
 		}
 		else {
-			mir_tstrcpy(szFormat, TranslateT("%d directories"));
-			mir_sntprintf(str, szFormat, dirCount);
+			mir_wstrcpy(szFormat, TranslateT("%d directories"));
+			mir_snwprintf(str, szFormat, dirCount);
 		}
 		SetDlgItemText(hwndDlg, IDC_FILE, str);
 	}
@@ -87,12 +87,12 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *bu
 		// NULL separated list of all files
 
 		// fileOffset is the offset to the first file.
-		size_t fileOffset = mir_tstrlen(buf) + 1;
+		size_t fileOffset = mir_wstrlen(buf) + 1;
 
 		// Count number of files
 		pBuf = buf + fileOffset;
 		while (*pBuf) {
-			pBuf += mir_tstrlen(pBuf) + 1;
+			pBuf += mir_wstrlen(pBuf) + 1;
 			nNumberOfFiles++;
 		}
 
@@ -105,13 +105,13 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *bu
 		nTemp = 0;
 		while (*pBuf) {
 			// Allocate space for path+filename
-			size_t cbFileNameLen = mir_tstrlen(pBuf);
+			size_t cbFileNameLen = mir_wstrlen(pBuf);
 			dat->files[nTemp] = (wchar_t*)mir_alloc(sizeof(wchar_t)*(fileOffset + cbFileNameLen + 1));
 
 			// Add path to filename and copy into array
 			memcpy(dat->files[nTemp], buf, (fileOffset - 1)*sizeof(wchar_t));
 			dat->files[nTemp][fileOffset - 1] = '\\';
-			mir_tstrcpy(dat->files[nTemp] + fileOffset - (buf[fileOffset - 2] == '\\' ? 1 : 0), pBuf);
+			mir_wstrcpy(dat->files[nTemp] + fileOffset - (buf[fileOffset - 2] == '\\' ? 1 : 0), pBuf);
 
 			// Move pointers to next file...
 			pBuf += cbFileNameLen + 1;
@@ -125,7 +125,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *bu
 		if ((dat->files = (wchar_t **)mir_alloc(2 * sizeof(wchar_t*))) == NULL) // Leaks when aborted
 			return;
 
-		dat->files[0] = mir_tstrdup(buf);
+		dat->files[0] = mir_wstrdup(buf);
 		dat->files[1] = NULL;
 	}
 
@@ -146,11 +146,11 @@ void __cdecl ChooseFilesThread(void* param)
 	}
 
 	wchar_t filter[128];
-	mir_tstrcpy(filter, TranslateT("All files"));
-	mir_tstrcat(filter, L" (*)");
-	wchar_t *pfilter = filter + mir_tstrlen(filter) + 1;
-	mir_tstrcpy(pfilter, L"*");
-	pfilter = filter + mir_tstrlen(filter) + 1;
+	mir_wstrcpy(filter, TranslateT("All files"));
+	mir_wstrcat(filter, L" (*)");
+	wchar_t *pfilter = filter + mir_wstrlen(filter) + 1;
+	mir_wstrcpy(pfilter, L"*");
+	pfilter = filter + mir_wstrlen(filter) + 1;
 	pfilter[0] = '\0';
 
 	OPENFILENAME ofn = { 0 };
@@ -230,7 +230,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				for (totalCount = 0; fsd->ppFiles[totalCount]; totalCount++);
 				dat->files = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(totalCount + 1)); // Leaks
 				for (i = 0; i < totalCount; i++)
-					dat->files[i] = mir_tstrdup(fsd->ppFiles[i]);
+					dat->files[i] = mir_wstrdup(fsd->ppFiles[i]);
 				dat->files[totalCount] = NULL;
 				SetFileListAndSizeControls(hwndDlg, dat);
 			}
@@ -238,7 +238,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			SetDlgItemText(hwndDlg, IDC_TO, contactName);
 
-			ptrT id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));
+			ptrW id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));
 			SetDlgItemText(hwndDlg, IDC_NAME, (id) ? id : contactName);
 
 			if (fsd->ppFiles == NULL) {

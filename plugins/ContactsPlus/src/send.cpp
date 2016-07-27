@@ -411,8 +411,8 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			int i;
 			for (i = 0; i < ackData->nContacts; i++) {
 				// prepare data & count size
-				maSend[i].mcaNick = mir_utf8encodeT(pcli->pfnGetContactDisplayName(ackData->aContacts[i], 0));
-				maSend[i].mcaUIN = mir_utf8encodeT(ptrT(GetContactUID(ackData->aContacts[i])));
+				maSend[i].mcaNick = mir_utf8encodeW(pcli->pfnGetContactDisplayName(ackData->aContacts[i], 0));
+				maSend[i].mcaUIN = mir_utf8encodeW(ptrW(GetContactUID(ackData->aContacts[i])));
 				dbei.cbBlob += (DWORD)strlennull(maSend[i].mcaUIN) + (DWORD)strlennull((char*)maSend[i].mcaNick) + 2;
 			}
 			dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);

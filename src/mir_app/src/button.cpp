@@ -205,7 +205,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		SIZE sz;
 		wchar_t szText[MAX_PATH];
 		GetWindowText(ctl->hwnd, szText, _countof(szText));
-		GetTextExtentPoint32(hdcMem, szText, (int)mir_tstrlen(szText), &sz);
+		GetTextExtentPoint32(hdcMem, szText, (int)mir_wstrlen(szText), &sz);
 		int xOffset = (rcClient.right - rcClient.left - sz.cx)/2;
 		int yOffset = (rcClient.bottom - rcClient.top - sz.cy)/2;
 
@@ -489,12 +489,10 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 				ti.lpszText = mir_wstrdup(TranslateTS((WCHAR*)wParam));
 			else
 				ti.lpszText = Langpack_PcharToTchar((char*)wParam);
-			if (bct->pAccPropServices) {
-				wchar_t *tmpstr = mir_t2u(ti.lpszText);
-				bct->pAccPropServices->SetHwndPropStr(bct->hwnd, OBJID_CLIENT,
-					CHILDID_SELF, PROPID_ACC_DESCRIPTION, tmpstr);
-				mir_free(tmpstr);
-			}
+
+			if (bct->pAccPropServices)
+				bct->pAccPropServices->SetHwndPropStr(bct->hwnd, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_DESCRIPTION, ti.lpszText);
+
 			SendMessage(bct->hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			mir_free(ti.lpszText);
 		}

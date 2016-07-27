@@ -109,7 +109,7 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 		if (hXml != NULL)
 		{
 			HXML node = xmlGetChildByPath(hXml, L"params/param/value/array/data/value/int", 0);
-			if (node != NULL && !mir_tstrcmp(xmlGetText(node), L"1"))
+			if (node != NULL && !mir_wstrcmp(xmlGetText(node), L"1"))
 			{
 				node = xmlGetChildByPath(hXml, L"params/param/value/array/data", 0);
 				if (node != NULL)
@@ -120,7 +120,7 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 						node = xmlGetChildByPath(node, L"string", 0);
 						if (node != NULL)
 						{
-							char* s = mir_t2a_cp(xmlGetText(node), CP_ACP);
+							char* s = mir_u2a_cp(xmlGetText(node), CP_ACP);
 							mir_strncpy(szFileLink, s, _countof(szFileLink));
 							mir_free(s);
 							error = NULL;
@@ -149,7 +149,7 @@ std::list<PasteFormat> PasteToWeb2::GetFormats()
 		if (hXml != NULL)
 		{
 			HXML node = xmlGetChildByPath(hXml, L"params/param/value/array/data/value/int", 0);
-			if (node != NULL && !mir_tstrcmp(xmlGetText(node), L"1"))
+			if (node != NULL && !mir_wstrcmp(xmlGetText(node), L"1"))
 			{
 				node = xmlGetChildByPath(hXml, L"params/param/value/array/data", 0);
 				if (node != NULL)

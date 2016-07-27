@@ -829,12 +829,12 @@ void createEventPrefix(wchar_t *prefixName, size_t maxLen)
 
 	while (str = wcschr(profileName, '\\'))
 		*str = '/';
-	if ((len = mir_tstrlen(profileName)) <= maxLen)
+	if ((len = mir_wstrlen(profileName)) <= maxLen)
 		wcsncpy_s(prefixName, maxLen, profileName, _TRUNCATE);
 	else {
 		str = profileName + len - maxLen / 2;
 		wcsncpy_s(prefixName, (maxLen / 2), profileName, _TRUNCATE);
-		mir_tstrcat(prefixName, str);
+		mir_wstrcat(prefixName, str);
 	}
 }
 
@@ -914,9 +914,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	// Create some synchronisation objects
 	createEventPrefix(eventPrefix, MAX_PATH - 11);
-	mir_sntprintf(eventName, L"%s/FlashEvent", eventPrefix);
+	mir_snwprintf(eventName, L"%s/FlashEvent", eventPrefix);
 	hFlashEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
-	mir_sntprintf(eventName, L"%s/ExitEvent", eventPrefix);
+	mir_snwprintf(eventName, L"%s/ExitEvent", eventPrefix);
 	hExitEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
 
 	hThread = mir_forkthread(FlashThreadFunction, 0);

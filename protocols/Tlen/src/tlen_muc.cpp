@@ -73,9 +73,9 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 		mir_snprintf(jid, "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
 		if (((hContact = TlenHContactFromJID(proto, jid)) != NULL) || !mir_strcmp(id, proto->threadData->username)) {
-			ptrT szName(Contact_GetInfo(CNF_DISPLAY, hContact, proto->m_szModuleName));
+			ptrW szName(Contact_GetInfo(CNF_DISPLAY, hContact, proto->m_szModuleName));
 			if (szName)
-				return mir_t2a(szName);
+				return mir_u2a(szName);
 		}
 	}
 	return mir_strdup(id);

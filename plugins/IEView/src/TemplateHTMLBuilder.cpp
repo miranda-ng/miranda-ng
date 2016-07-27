@@ -53,11 +53,11 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 		}
 	}
 	if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
-		if (mir_tstrlen(dbv.ptszVal) > 0) {
+		if (mir_wstrlen(dbv.ptszVal) > 0) {
 			//wchar_t *ext = wcsrchr(dbv.ptszVal, '.');
 			if (result == NULL) {
 				/* relative -> absolute */
-				mir_tstrcpy(tmpPath, dbv.ptszVal);
+				mir_wstrcpy(tmpPath, dbv.ptszVal);
 				if (wcsncmp(tmpPath, L"http://", 7))
 					PathToAbsoluteT(dbv.ptszVal, tmpPath);
 				result = tmpPath;
@@ -65,7 +65,7 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 		}
 		db_free(&dbv);
 	}
-	char* res = mir_utf8encodeT(result);
+	char* res = mir_utf8encodeW(result);
 	Utils::convertPath(res);
 	return res;
 }
@@ -157,7 +157,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	wchar_t *szNoAvatarPathTmp = wcsrchr(szNoAvatarPath, '\\');
 	if (szNoAvatarPathTmp != NULL)
 		*szNoAvatarPathTmp = 0;
-	mir_tstrcat(szNoAvatarPath, L"\\noavatar.png");
+	mir_wstrcat(szNoAvatarPath, L"\\noavatar.png");
 	if (_waccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else
@@ -178,7 +178,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		db_free(&dbv);
 	}
 
-	ptrT tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szProto));
+	ptrW tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szProto));
 	if (tszNick != NULL)
 		szNickIn = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
 
@@ -326,7 +326,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	wchar_t *szNoAvatarPathTmp = wcsrchr(szNoAvatarPath, '\\');
 	if (szNoAvatarPathTmp != NULL)
 		*szNoAvatarPathTmp = 0;
-	mir_tstrcat(szNoAvatarPath, L"\\noavatar.png");
+	mir_wstrcat(szNoAvatarPath, L"\\noavatar.png");
 	if (_waccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else
@@ -352,7 +352,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		}
 	}
 
-	ptrT tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szProto));
+	ptrW tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szProto));
 	if (tszNick != NULL)
 		szNickIn = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
 

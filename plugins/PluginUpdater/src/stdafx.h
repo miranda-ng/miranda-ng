@@ -188,7 +188,7 @@ public:
 struct ServListEntry
 {
 	ServListEntry(const char* _name, const char* _hash, int _crc) :
-		m_name( mir_a2t(_name)),
+		m_name( mir_a2u(_name)),
 		m_crc(_crc)
 	{
 		strncpy(m_szHash, _hash, sizeof(m_szHash));
@@ -225,7 +225,7 @@ void  UnloadNetlib();
 
 void  BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName);
 
-bool  ParseHashes(const wchar_t *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes);
+bool  ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
 wchar_t* GetDefaultUrl();

@@ -59,7 +59,7 @@ public:
 	void SetInfo(HANDLE hIcolibIcon, wchar_t *pszText)
 	{
 		mir_free(m_pszText);
-		m_pszText = pszText ? mir_tstrdup(pszText) : NULL;
+		m_pszText = pszText ? mir_wstrdup(pszText) : NULL;
 		m_hIcolibIcon = hIcolibIcon;
 	}
 
@@ -83,7 +83,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 	frame.align = alBottom;
 	frame.height = 2 * SZ_FRAMEPADDING + GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING; // compact height by default
 	frame.Flags = F_VISIBLE|F_LOCKED|F_NOBORDER|F_TCHAR;
-	frame.tname = mir_a2t(proto->m_szModuleName);
+	frame.tname = mir_a2u(proto->m_szModuleName);
 	frame.TBtname = proto->m_tszUserName;
 	m_frameId = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 	mir_free(frame.tname);

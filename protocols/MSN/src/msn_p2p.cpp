@@ -259,8 +259,8 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 			cont.hContact = ft->std.hContact;
 			cont.type = 1;
 
-			wchar_t* pathcpy = mir_tstrdup(ft->std.tszCurrentFile);
-			mir_tstrcpy(wcsrchr(pathcpy, '.') + 1, ext);
+			wchar_t* pathcpy = mir_wstrdup(ft->std.tszCurrentFile);
+			mir_wstrcpy(wcsrchr(pathcpy, '.') + 1, ext);
 			_wrename(ft->std.tszCurrentFile, pathcpy);
 
 			cont.path = pathcpy;
@@ -1184,7 +1184,7 @@ void CMsnProto::p2p_InitFileTransfer(
 				}
 				else {
 					mir_free(ft->std.tszCurrentFile);
-					ft->std.tszCurrentFile = mir_tstrdup(szFileName);
+					ft->std.tszCurrentFile = mir_wstrdup(szFileName);
 					//						debugLogA("My avatar file opened for %s as %08p::%d", szEmail, ft, ft->fileId);
 					ft->std.totalBytes = ft->std.currentFileSize = _filelengthi64(ft->fileId);
 					ft->std.flags |= PFTS_SENDING;
@@ -1218,13 +1218,13 @@ void CMsnProto::p2p_InitFileTransfer(
 			}
 
 			mir_free(ft->std.tszCurrentFile);
-			ft->std.tszCurrentFile = mir_u2t(wszFileName);
+			ft->std.tszCurrentFile = mir_wstrdup(wszFileName);
 
 			ft->std.totalBytes = ft->std.currentFileSize = ((HFileContext*)szContext)->dwSize;
 			ft->std.totalFiles = 1;
 
 			wchar_t tComment[40];
-			mir_sntprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
+			mir_snwprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 			PROTORECVFILET pre = { 0 };
 			pre.dwFlags = PRFF_TCHAR;
@@ -2030,7 +2030,7 @@ void CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 			else
 				pszFiles = ft->std.tszCurrentFile;
 
-			wchar_t *fname = mir_t2u(pszFiles);
+			wchar_t *fname = mir_wstrdup(pszFiles);
 			wcsncpy(ctx->wszFileName, fname, MAX_PATH);
 			mir_free(fname);
 

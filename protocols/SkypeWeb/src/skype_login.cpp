@@ -233,13 +233,13 @@ void CSkypeProto::SendPresence(bool isLogin)
 	ptrA epname;
 
 	if (!m_opts.bUseHostnameAsPlace && m_opts.wstrPlace && *m_opts.wstrPlace)
-		epname = mir_utf8encodeT(m_opts.wstrPlace);
+		epname = mir_utf8encodeW(m_opts.wstrPlace);
 	else
 	{
 		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = _countof(compName);
 		GetComputerName(compName, &size);
-		epname = mir_utf8encodeT(compName);
+		epname = mir_utf8encodeW(compName);
 	}
 
 	if (isLogin)

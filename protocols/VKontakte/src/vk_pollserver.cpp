@@ -41,8 +41,8 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	itoa(jnResponse["ts"].as_int(), ts, 10);
 
 	m_pollingTs = mir_strdup(ts);
-	m_pollingKey = mir_t2a(jnResponse["key"].as_mstring());
-	m_pollingServer = mir_t2a(jnResponse["server"].as_mstring());
+	m_pollingKey = mir_u2a(jnResponse["key"].as_mstring());
+	m_pollingServer = mir_u2a(jnResponse["server"].as_mstring());
 
 	if (!m_hPollingThread) {
 		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is NULL");

@@ -82,7 +82,7 @@ PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBasePr
 	}
 	else pa->szModuleName = mir_strdup(szModuleName);
 
-	pa->tszAccountName = mir_tstrdup(tszAccountName);
+	pa->tszAccountName = mir_wstrdup(tszAccountName);
 
 	db_set_s(NULL, pa->szModuleName, "AM_BaseProto", szBaseProto);
 	accounts.insert(pa);
@@ -125,7 +125,7 @@ static bool OnCreateAccount(HWND hwndDlg)
 
 	wchar_t tszAccName[256];
 	GetDlgItemText(hwndDlg, IDC_ACCNAME, tszAccName, _countof(tszAccName));
-	rtrimt(tszAccName);
+	rtrimw(tszAccName);
 	if (tszAccName[0] == 0) {
 		MessageBox(hwndDlg, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 		return false;
@@ -143,13 +143,13 @@ static bool OnCreateAccount(HWND hwndDlg)
 	if (param->action == PRAC_UPGRADED) {
 		BOOL oldProto = pa->bOldProto;
 		wchar_t szPlugin[MAX_PATH];
-		mir_sntprintf(szPlugin, L"%s.dll", _A2T(pa->szProtoName));
+		mir_snwprintf(szPlugin, L"%s.dll", _A2T(pa->szProtoName));
 		int idx = accounts.getIndex(pa);
 		UnloadAccount(pa, false, false);
 		accounts.remove(idx);
 		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
 			wchar_t szNewName[MAX_PATH];
-			mir_sntprintf(szNewName, L"%s~", szPlugin);
+			mir_snwprintf(szNewName, L"%s~", szPlugin);
 			MoveFile(szPlugin, szNewName);
 		}
 		param->action = PRAC_ADDED;
@@ -165,7 +165,7 @@ static bool OnCreateAccount(HWND hwndDlg)
 
 		pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
 	}
-	else replaceStrT(pa->tszAccountName, tszAccName);
+	else replaceStrW(pa->tszAccountName, tszAccName);
 
 	WriteDbAccounts();
 	NotifyEventHooks(hAccListChanged, param->action, (LPARAM)pa);
@@ -202,9 +202,9 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 				wchar_t str[200];
 				if (param->action == PRAC_CHANGED) { // update
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOTYPECOMBO), FALSE);
-					mir_sntprintf(str, L"%s: %s", TranslateT("Editing account"), param->pa->tszAccountName);
+					mir_snwprintf(str, L"%s: %s", TranslateT("Editing account"), param->pa->tszAccountName);
 				}
-				else mir_sntprintf(str, L"%s: %s", TranslateT("Upgrading account"), param->pa->tszAccountName);
+				else mir_snwprintf(str, L"%s: %s", TranslateT("Upgrading account"), param->pa->tszAccountName);
 
 				SetWindowText(hwndDlg, str);
 				SetDlgItemText(hwndDlg, IDC_ACCNAME, param->pa->tszAccountName);
@@ -618,24 +618,24 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 			if (lps->itemID == (unsigned)dat->iSelected) {
 				SelectObject(lps->hDC, dat->hfntText);
-				mir_sntprintf(text, size, L"%s: %S", TranslateT("Protocol"), acc->szProtoName);
-				length = (int)mir_tstrlen(text);
+				mir_snwprintf(text, size, L"%s: %S", TranslateT("Protocol"), acc->szProtoName);
+				length = (int)mir_wstrlen(text);
 				DrawText(lps->hDC, text, -1, &lps->rcItem, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 				GetTextExtentPoint32(lps->hDC, text, length, &sz);
 				lps->rcItem.top += sz.cy + 2;
 
 				if (acc->ppro && Proto_IsProtocolLoaded(acc->szProtoName)) {
 					char *szIdName = (char *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT, 0);
-					ptrT tszIdName(szIdName ? mir_a2t(szIdName) : mir_tstrdup(TranslateT("Account ID")));
-					ptrT tszUniqueID(Contact_GetInfo(CNF_UNIQUEID, NULL, acc->szModuleName));
+					ptrW tszIdName(szIdName ? mir_a2u(szIdName) : mir_wstrdup(TranslateT("Account ID")));
+					ptrW tszUniqueID(Contact_GetInfo(CNF_UNIQUEID, NULL, acc->szModuleName));
 					if (tszUniqueID != NULL)
-						mir_sntprintf(text, size, L"%s: %s", tszIdName, tszUniqueID);
+						mir_snwprintf(text, size, L"%s: %s", tszIdName, tszUniqueID);
 					else 
-						mir_sntprintf(text, size, L"%s: %s", tszIdName, TranslateT("<unknown>"));
+						mir_snwprintf(text, size, L"%s: %s", tszIdName, TranslateT("<unknown>"));
 				}
-				else mir_sntprintf(text, size, TranslateT("Protocol is not loaded."));
+				else mir_snwprintf(text, size, TranslateT("Protocol is not loaded."));
 
-				length = (int)mir_tstrlen(text);
+				length = (int)mir_wstrlen(text);
 				DrawText(lps->hDC, text, -1, &lps->rcItem, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 				GetTextExtentPoint32(lps->hDC, text, length, &sz);
 				lps->rcItem.top += sz.cy + 2;
@@ -771,7 +771,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 						DWORD dwStatus = CallProtoServiceInt(NULL, pa->szModuleName, PS_GETSTATUS, 0, 0);
 						if (dwStatus >= ID_STATUS_ONLINE) {
 							wchar_t buf[200];
-							mir_sntprintf(buf, TranslateT("Account %s is being disabled"), pa->tszAccountName);
+							mir_snwprintf(buf, TranslateT("Account %s is being disabled"), pa->tszAccountName);
 							if (IDNO == ::MessageBox(hwndDlg,
 								TranslateT("Account is online. Disable account?"),
 								buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO)) {
@@ -831,7 +831,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			if (idx != -1) {
 				pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, idx);
 				wchar_t buf[200];
-				mir_sntprintf(buf, TranslateT("Account %s is being deleted"), pa->tszAccountName);
+				mir_snwprintf(buf, TranslateT("Account %s is being deleted"), pa->tszAccountName);
 				if (pa->bOldProto) {
 					MessageBox(hwndDlg, TranslateT("You need to disable plugin to delete this account"), buf, MB_ICONERROR | MB_OK);
 					break;
@@ -1021,7 +1021,7 @@ static int OnAccListChanged(WPARAM eventCode, LPARAM lParam)
 	switch (eventCode) {
 	case PRAC_CHANGED:
 		if (pa->ppro) {
-			replaceStrT(pa->ppro->m_tszUserName, pa->tszAccountName);
+			replaceStrW(pa->ppro->m_tszUserName, pa->tszAccountName);
 			pa->ppro->OnEvent(EV_PROTO_ONRENAME, 0, lParam);
 
 			if (pa->ppro->m_hMainMenuItem)

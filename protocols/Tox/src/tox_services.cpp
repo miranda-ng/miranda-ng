@@ -2,7 +2,7 @@
 
 INT_PTR CToxProto::SetMyNickname(WPARAM wParam, LPARAM lParam)
 {
-	ptrT nickname((wParam & SMNN_UNICODE) ? mir_u2t((wchar_t*)lParam) : mir_a2t((char*)lParam));
+	ptrW nickname((wParam & SMNN_UNICODE) ? mir_wstrdup((wchar_t*)lParam) : mir_a2u((char*)lParam));
 	setTString("Nick", nickname);
 
 	if (IsOnline())

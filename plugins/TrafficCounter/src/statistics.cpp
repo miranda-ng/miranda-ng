@@ -187,7 +187,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							switch (unOptions.Stat_Tab) {
 							case 0: // Hourly
 								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, szBufW, 32);
-								mir_sntprintf(pdi->item.pszText, 32, L"%s %02d:00 - %02d:59",
+								mir_snwprintf(pdi->item.pszText, 32, L"%s %02d:00 - %02d:59",
 									szBufW,
 									ProtoList[EldestAcc].AllStatistics[Index].Hour,
 									ProtoList[EldestAcc].AllStatistics[Index].Hour);
@@ -206,13 +206,13 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 								vartime += 6;
 								VariantTimeToSystemTime(vartime, &st);
 								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, szBufW, 32);
-								mir_sntprintf(pdi->item.pszText, 32, L"%s - %s", pdi->item.pszText, szBufW);
+								mir_snwprintf(pdi->item.pszText, 32, L"%s - %s", pdi->item.pszText, szBufW);
 								break;
 							case 3: // Monthly
 								GetDateFormat(LOCALE_USER_DEFAULT, DATE_YEARMONTH, &st, NULL, pdi->item.pszText, 32);
 								break;
 							case 4:	// Yearly
-								mir_sntprintf(pdi->item.pszText, 32, L"%d", st.wYear);
+								mir_snwprintf(pdi->item.pszText, 32, L"%d", st.wYear);
 								break;
 							}
 							return 0;
@@ -302,7 +302,7 @@ void Stat_ReadFile(BYTE n)
 
 	pszPath = Utils_ReplaceVarsT(L"%miranda_userdata%\\statistics");
 	CreateDirectoryTreeT(pszPath);
-	mir_sntprintf(FileName, L"%s\\%S.stat", pszPath, ProtoList[n].name);
+	mir_snwprintf(FileName, L"%s\\%S.stat", pszPath, ProtoList[n].name);
 	mir_free(pszPath);
 	GetLocalTime(&stNow);
 	ProtoList[n].hFile = CreateFile(FileName, GENERIC_READ | GENERIC_WRITE,

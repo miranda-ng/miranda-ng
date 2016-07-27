@@ -44,7 +44,7 @@ BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo *pInfo)
 	if (m_options.ShowOSVersion) {
 		wchar_t os[256] = { 0 };
 		if (!GetOSDisplayString(os, _countof(os)))
-			mir_tstrncpy(os, L"Microsoft Windows", _countof(os));
+			mir_wstrncpy(os, L"Microsoft Windows", _countof(os));
 		query << XCHILD(L"os", os);
 	}
 
@@ -104,7 +104,7 @@ BOOL CJabberProto::OnIqRequestTime(HXML, CJabberIqInfo *pInfo)
 	TimeZone_PrintDateTime(UTC_TIME_HANDLE, L"I", stime, _countof(stime), 0);
 
 	int nGmtOffset = GetGMTOffset();
-	mir_sntprintf(szTZ, L"%+03d:%02d", nGmtOffset / 60, nGmtOffset % 60);
+	mir_snwprintf(szTZ, L"%+03d:%02d", nGmtOffset / 60, nGmtOffset % 60);
 
 	XmlNodeIq iq(L"result", pInfo);
 	HXML timeNode = iq << XCHILDNS(L"time", JABBER_FEAT_ENTITY_TIME);
@@ -125,7 +125,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 	_tzset();
 	time(&ltime);
 	gmt = gmtime(&ltime);
-	mir_sntprintf(stime, L"%.4i%.2i%.2iT%.2i:%.2i:%.2i",
+	mir_snwprintf(stime, L"%.4i%.2i%.2iT%.2i:%.2i:%.2i",
 		gmt->tm_year + 1900, gmt->tm_mon + 1,
 		gmt->tm_mday, gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
 	dtime = _wctime(&ltime);
@@ -186,7 +186,7 @@ BOOL CJabberProto::OnSiRequest(HXML node, CJabberIqInfo *pInfo)
 {
 	const wchar_t *szProfile = XmlGetAttrValue(pInfo->GetChildNode(), L"profile");
 
-	if (szProfile && !mir_tstrcmp(szProfile, JABBER_FEAT_SI_FT))
+	if (szProfile && !mir_wstrcmp(szProfile, JABBER_FEAT_SI_FT))
 		FtHandleSiRequest(node);
 	else {
 		XmlNodeIq iq(L"error", pInfo);
@@ -220,7 +220,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		pDelimiter = wcschr(szTo, '/');
 		if (pDelimiter) *pDelimiter = 0;
 
-		BOOL bRetVal = mir_tstrcmp(szFrom, szTo) == 0;
+		BOOL bRetVal = mir_wstrcmp(szFrom, szTo) == 0;
 
 		mir_free(szFrom);
 		mir_free(szTo);
@@ -240,7 +240,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		if (!itemNode)
 			break;
 
-		if (mir_tstrcmp(XmlGetName(itemNode), L"item") != 0)
+		if (mir_wstrcmp(XmlGetName(itemNode), L"item") != 0)
 			continue;
 		if ((jid = XmlGetAttrValue(itemNode, L"jid")) == NULL)
 			continue;
@@ -248,9 +248,9 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			continue;
 
 		// we will not add new account when subscription=remove
-		if (!mir_tstrcmp(str, L"to") || !mir_tstrcmp(str, L"both") || !mir_tstrcmp(str, L"from") || !mir_tstrcmp(str, L"none")) {
+		if (!mir_wstrcmp(str, L"to") || !mir_wstrcmp(str, L"both") || !mir_wstrcmp(str, L"from") || !mir_wstrcmp(str, L"none")) {
 			const wchar_t *name = XmlGetAttrValue(itemNode, L"name");
-			ptrT nick((name != NULL) ? mir_tstrdup(name) : JabberNickFromJID(jid));
+			ptrW nick((name != NULL) ? mir_wstrdup(name) : JabberNickFromJID(jid));
 			if (nick != NULL) {
 				MCONTACT hContact = HContactFromJID(jid, false);
 				if (hContact == NULL)
@@ -259,15 +259,15 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					setTString(hContact, "jid", jid);
 
 				JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
-				replaceStrT(item->nick, nick);
+				replaceStrW(item->nick, nick);
 
 				HXML groupNode = XmlGetChild(itemNode, "group");
-				replaceStrT(item->group, XmlGetText(groupNode));
+				replaceStrW(item->group, XmlGetText(groupNode));
 
 				if (name != NULL) {
-					ptrT tszNick(getTStringA(hContact, "Nick"));
+					ptrW tszNick(getTStringA(hContact, "Nick"));
 					if (tszNick != NULL) {
-						if (mir_tstrcmp(nick, tszNick) != 0)
+						if (mir_wstrcmp(nick, tszNick) != 0)
 							db_set_ts(hContact, "CList", "MyHandle", nick);
 						else
 							db_unset(hContact, "CList", "MyHandle");
@@ -287,9 +287,9 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		}
 
 		if (JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid)) {
-			if (!mir_tstrcmp(str, L"both")) item->subscription = SUB_BOTH;
-			else if (!mir_tstrcmp(str, L"to")) item->subscription = SUB_TO;
-			else if (!mir_tstrcmp(str, L"from")) item->subscription = SUB_FROM;
+			if (!mir_wstrcmp(str, L"both")) item->subscription = SUB_BOTH;
+			else if (!mir_wstrcmp(str, L"to")) item->subscription = SUB_TO;
+			else if (!mir_wstrcmp(str, L"from")) item->subscription = SUB_FROM;
 			else item->subscription = SUB_NONE;
 			debugLog(L"Roster push for jid=%s, set subscription to %s", jid, str);
 
@@ -298,7 +298,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			// subscription = remove is to remove from roster list
 			// but we will just set the contact to offline and not actually
 			// remove, so that history will be retained.
-			if (!mir_tstrcmp(str, L"remove")) {
+			if (!mir_wstrcmp(str, L"remove")) {
 				if (hContact) {
 					SetContactOfflineStatus(hContact);
 					ListRemove(LIST_ROSTER, jid);
@@ -335,7 +335,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 
 	filetransfer *ft = new filetransfer(this);
 	ft->std.totalFiles = 1;
-	ft->jid = mir_tstrdup(pInfo->GetFrom());
+	ft->jid = mir_wstrdup(pInfo->GetFrom());
 	ft->std.hContact = pInfo->GetHContact();
 	ft->type = FT_OOB;
 	ft->httpHostName = NULL;
@@ -355,7 +355,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 					ft->httpPort = (WORD)_wtoi(p + 1);
 					*p = '\0';
 				}
-				ft->httpHostName = mir_t2a(text);
+				ft->httpHostName = mir_u2a(text);
 			}
 		}
 	}
@@ -376,7 +376,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 			str2++;
 		else
 			str2 = ft->httpPath;
-		str2 = mir_tstrdup(str2);
+		str2 = mir_wstrdup(str2);
 		JabberHttpUrlDecode(str2);
 
 		PROTORECVFILET pre;
@@ -482,10 +482,10 @@ BOOL CJabberProto::OnIqHttpAuth(HXML node, CJabberIqInfo *pInfo)
 	CJabberHttpAuthParams *pParams = (CJabberHttpAuthParams*)mir_calloc(sizeof(CJabberHttpAuthParams));
 	if (pParams) {
 		pParams->m_nType = CJabberHttpAuthParams::IQ;
-		pParams->m_szFrom = mir_tstrdup(pInfo->GetFrom());
-		pParams->m_szId = mir_tstrdup(szId);
-		pParams->m_szMethod = mir_tstrdup(szMethod);
-		pParams->m_szUrl = mir_tstrdup(szUrl);
+		pParams->m_szFrom = mir_wstrdup(pInfo->GetFrom());
+		pParams->m_szId = mir_wstrdup(szId);
+		pParams->m_szMethod = mir_wstrdup(szMethod);
+		pParams->m_szUrl = mir_wstrdup(szUrl);
 		AddClistHttpAuthEvent(pParams);
 	}
 	return TRUE;

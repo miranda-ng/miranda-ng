@@ -76,9 +76,9 @@ wchar_t* getArguments(wchar_t *string, TArgList &argv)
 		if (bNewArg) {
 			wchar_t *tszArg = NULL;
 			if (cur > scur)
-				tszArg = mir_tstrndup(scur + 1, cur - (scur + 1));
+				tszArg = mir_wstrndup(scur + 1, cur - (scur + 1));
 			if (tszArg == NULL)
-				tszArg = mir_tstrdup(L"");
+				tszArg = mir_wstrdup(L"");
 			argv.insert(tszArg);
 
 			bNewArg = false;
@@ -118,7 +118,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 
 	int i, scurPos, curPos, tmpVarPos;
 
-	wchar_t *string = mir_tstrdup(fi->tszFormat);
+	wchar_t *string = mir_wstrdup(fi->tszFormat);
 	if (string == NULL)
 		return NULL;
 
@@ -127,31 +127,31 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 	FORMATINFO afi;
 	memcpy(&afi, fi, sizeof(afi));
 
-	for (size_t pos = 0; pos < mir_tstrlen(string); pos++) {
+	for (size_t pos = 0; pos < mir_wstrlen(string); pos++) {
 		// string may move in memory, iterate by remembering the position in the string
 		wchar_t *cur = string + pos;
 
 		// new round
 		if (*cur == DONTPARSE_CHAR) {
-			memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(wchar_t));
+			memmove(cur, cur + 1, (mir_wstrlen(cur + 1) + 1)*sizeof(wchar_t));
 			if (*cur == DONTPARSE_CHAR)
 				continue;
 
 			while ((*cur != DONTPARSE_CHAR) && (*cur != 0))
 				cur++;
 
-			memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(wchar_t));
+			memmove(cur, cur + 1, (mir_wstrlen(cur + 1) + 1)*sizeof(wchar_t));
 			pos = cur - string - 1;
 			continue;
 		}
 		// remove end of lines
 		else if ((!wcsncmp(cur, L"\r\n", 2)) && (gParseOpts.bStripEOL)) {
-			memmove(cur, cur + 2, (mir_tstrlen(cur + 2) + 1)*sizeof(wchar_t));
+			memmove(cur, cur + 2, (mir_wstrlen(cur + 2) + 1)*sizeof(wchar_t));
 			pos = cur - string - 1;
 			continue;
 		}
 		else if ((*cur == '\n' && gParseOpts.bStripEOL) || (*cur == ' ' && gParseOpts.bStripWS)) {
-			memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(wchar_t));
+			memmove(cur, cur + 1, (mir_wstrlen(cur + 1) + 1)*sizeof(wchar_t));
 			pos = cur - string - 1;
 			continue;
 		}
@@ -163,16 +163,16 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 
 			if (*cur == 0) {
 				*scur = 0;
-				string = (wchar_t*)mir_realloc(string, (mir_tstrlen(string) + 1)*sizeof(wchar_t));
+				string = (wchar_t*)mir_realloc(string, (mir_wstrlen(string) + 1)*sizeof(wchar_t));
 				continue;
 			}
-			memmove(scur, cur, (mir_tstrlen(cur) + 1)*sizeof(wchar_t));
+			memmove(scur, cur, (mir_wstrlen(cur) + 1)*sizeof(wchar_t));
 			pos = scur - string - 1;
 			continue;
 		}
 		else if ((*cur != FIELD_CHAR) && (*cur != FUNC_CHAR) && (*cur != FUNC_ONCE_CHAR)) {
 			if (gParseOpts.bStripAll) {
-				memmove(cur, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(wchar_t));
+				memmove(cur, cur + 1, (mir_wstrlen(cur + 1) + 1)*sizeof(wchar_t));
 				pos = cur - string - 1;
 			}
 			continue;
@@ -189,13 +189,13 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 		
 		TOKENREGISTEREX *tr = NULL;
 		{
-			ptrT token(mir_tstrndup(cur + 1, tcur - scur));
+			ptrW token(mir_wstrndup(cur + 1, tcur - scur));
 
 			// cur points to FIELD_CHAR or FUNC_CHAR
 			tmpVarPos = -1;
 			if (*cur == FIELD_CHAR) {
 				for (i = 0; i < fi->cbTemporaryVarsSize; i += 2) {
-					if (!mir_tstrcmp(fi->tszaTemporaryVars[i], token)) {
+					if (!mir_wstrcmp(fi->tszaTemporaryVars[i], token)) {
 						tmpVarPos = i;
 						break;
 					}
@@ -214,7 +214,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 
 		scur = cur; // store this pointer for later use
 		if (*cur == FIELD_CHAR) {
-			size_t len = mir_tstrlen(tr != NULL ? tr->tszTokenString : fi->tszaTemporaryVars[tmpVarPos]);
+			size_t len = mir_wstrlen(tr != NULL ? tr->tszTokenString : fi->tszaTemporaryVars[tmpVarPos]);
 			cur++;
 			if (cur[len] != FIELD_CHAR) { // the next char after the token should be %
 				fi->eCount++;
@@ -223,7 +223,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 			cur += len + 1;
 		}
 		else if ((*cur == FUNC_CHAR) || (*cur == FUNC_ONCE_CHAR)) {
-			cur += mir_tstrlen(tr->tszTokenString) + 1;
+			cur += mir_wstrlen(tr->tszTokenString) + 1;
 			wchar_t *argcur = getArguments(cur, argv);
 			if (argcur == cur || argcur == NULL) {
 				fi->eCount++;
@@ -247,9 +247,9 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 
 		// cur should now point at the character after FIELD_CHAR or after the last ')'
 		ARGUMENTSINFO ai = { 0 };
-		ptrT parsedToken;
+		ptrW parsedToken;
 		if (tr != NULL) {
-			argv.insert(mir_tstrdup(tr->tszTokenString), 0);
+			argv.insert(mir_wstrdup(tr->tszTokenString), 0);
 
 			ai.cbSize = sizeof(ai);
 			ai.argc = argv.getCount();
@@ -260,7 +260,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 
 			parsedToken = parseFromRegister(&ai);
 		}
-		else parsedToken = mir_tstrdup(fi->tszaTemporaryVars[tmpVarPos + 1]);
+		else parsedToken = mir_wstrdup(fi->tszaTemporaryVars[tmpVarPos + 1]);
 
 		argv.destroy();
 
@@ -275,8 +275,8 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 		else
 			fi->pCount++;
 
-		size_t parsedTokenLen = mir_tstrlen(parsedToken);
-		size_t initStrLen = mir_tstrlen(string);
+		size_t parsedTokenLen = mir_wstrlen(parsedToken);
+		size_t initStrLen = mir_wstrlen(string);
 		size_t tokenLen = cur - scur;
 		scurPos = scur - string;
 		curPos = cur - string;
@@ -290,10 +290,10 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 		}
 		scur = string + scurPos;
 		cur = string + curPos;
-		memmove(scur + parsedTokenLen, cur, (mir_tstrlen(cur) + 1)*sizeof(wchar_t));
+		memmove(scur + parsedTokenLen, cur, (mir_wstrlen(cur) + 1)*sizeof(wchar_t));
 		memcpy(scur, parsedToken, parsedTokenLen*sizeof(wchar_t));
 		{
-			size_t len = mir_tstrlen(string);
+			size_t len = mir_wstrlen(string);
 			string = (wchar_t*)mir_realloc(string, (len + 1)*sizeof(wchar_t));
 		}
 		if ((ai.flags & AIF_DONTPARSE) || tmpVarPos >= 0)
@@ -302,7 +302,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 		pos--; // parse the same pos again, it changed
 	}
 
-	return (wchar_t*)mir_realloc(string, (mir_tstrlen(string) + 1)*sizeof(wchar_t));
+	return (wchar_t*)mir_realloc(string, (mir_wstrlen(string) + 1)*sizeof(wchar_t));
 }
 
 /*
@@ -341,11 +341,11 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 
 	if (!(fi->flags & FIF_TCHAR)) {
 		copied = TRUE;
-		log_debugA("mir_a2t (%s)", fi->szExtraText);
-		tszFormat = fi->szFormat != NULL ? mir_a2t(fi->szFormat) : NULL;
-		tszSource = fi->szExtraText != NULL ? mir_a2t(fi->szExtraText) : NULL;
+		log_debugA("mir_a2u (%s)", fi->szExtraText);
+		tszFormat = fi->szFormat != NULL ? mir_a2u(fi->szFormat) : NULL;
+		tszSource = fi->szExtraText != NULL ? mir_a2u(fi->szExtraText) : NULL;
 		for (i = 0; i < fi->cbTemporaryVarsSize; i++) {
-			fi->tszaTemporaryVars[i] = fi->szaTemporaryVars[i] != NULL ? mir_a2t(fi->szaTemporaryVars[i]) : NULL;
+			fi->tszaTemporaryVars[i] = fi->szaTemporaryVars[i] != NULL ? mir_a2u(fi->szaTemporaryVars[i]) : NULL;
 		}
 	}
 	else {

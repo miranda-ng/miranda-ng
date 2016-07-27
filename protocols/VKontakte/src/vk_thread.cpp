@@ -355,11 +355,11 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		setTString(hContact, "Phone", tszValue);
 
 	tszValue = jnItem["status"].as_mstring();
-	CMString tszOldStatus(ptrT(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
+	CMString tszOldStatus(ptrW(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
 	if (tszValue != tszOldStatus)
 		db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", tszValue);
 
-	CMString tszOldListeningTo(ptrT(db_get_tsa(hContact, m_szModuleName, "ListeningTo")));
+	CMString tszOldListeningTo(ptrW(db_get_tsa(hContact, m_szModuleName, "ListeningTo")));
 	const JSONNode &jnAudio = jnItem["status_audio"];
 	if (jnAudio) {
 		CMString tszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
@@ -428,13 +428,13 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	for (int i = iInteres; iInteres > 0; i++) {
 		CMStringA InteresCat(FORMAT, "Interest%dCat", iInteres);
-		ptrT ptszCat(db_get_tsa(hContact, m_szModuleName, InteresCat));
+		ptrW ptszCat(db_get_tsa(hContact, m_szModuleName, InteresCat));
 		if (!ptszCat)
 			break;
 		db_unset(hContact, m_szModuleName, InteresCat);
 
 		CMStringA InteresText(FORMAT, "Interest%dText", iInteres);
-		ptrT ptszText(db_get_tsa(hContact, m_szModuleName, InteresText));
+		ptrW ptszText(db_get_tsa(hContact, m_szModuleName, InteresText));
 		if (!ptszText)
 			break;
 		db_unset(hContact, m_szModuleName, InteresText);
@@ -678,7 +678,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 
-	ptrT ptszNick(db_get_tsa(hContact, m_szModuleName, "Nick"));
+	ptrW ptszNick(db_get_tsa(hContact, m_szModuleName, "Nick"));
 	CMString ptszMsg;
 	if (flag == 0) {
 		ptszMsg.AppendFormat(TranslateT("Are you sure to delete %s from your friend list?"), IsEmpty(ptszNick) ? TranslateT("(Unknown contact)") : ptszNick);
@@ -699,7 +699,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST *reply, AsyncHttpRequest 
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
-			CMString tszNick(ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick")));
+			CMString tszNick(ptrW(db_get_tsa(param->hContact, m_szModuleName, "Nick")));
 			if (tszNick.IsEmpty())
 				tszNick = TranslateT("(Unknown contact)");
 			CMString msgformat, msg;
@@ -771,7 +771,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 		tszVarWarning += ".\n";
 	code += "return 1;";
 
-	ptrT ptszNick(db_get_tsa(hContact, m_szModuleName, "Nick"));
+	ptrW ptszNick(db_get_tsa(hContact, m_szModuleName, "Nick"));
 	CMString ptszMsg(FORMAT, TranslateT("Are you sure to ban %s? %s%sContinue?"),
 		IsEmpty(ptszNick) ? TranslateT("(Unknown contact)") : ptszNick, 
 		tszVarWarning.IsEmpty() ? L" " : TranslateT("\nIt will also"),
@@ -796,7 +796,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 
-	CMString tszNick(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))),
+	CMString tszNick(ptrW(db_get_tsa(hContact, m_szModuleName, "Nick"))),
 		ptszMsg(FORMAT, TranslateT("Are you sure to report abuse on %s?"), tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
 	if (IDNO == MessageBox(NULL, ptszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
@@ -812,7 +812,7 @@ INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcOpenBroadcast");
 
-	CMString tszAudio(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl")));
+	CMString tszAudio(ptrW(db_get_tsa(hContact, m_szModuleName, "AudioUrl")));
 	if (!tszAudio.IsEmpty())
 		Utils_OpenUrlT(tszAudio);
 
@@ -823,14 +823,14 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcVisitProfile");
 	if (isChatRoom(hContact)) {
-		ptrT tszHomepage(db_get_tsa(hContact, m_szModuleName, "Homepage"));
+		ptrW tszHomepage(db_get_tsa(hContact, m_szModuleName, "Homepage"));
 		if(!IsEmpty(tszHomepage))
 			Utils_OpenUrlT(tszHomepage);
 		return 0;
 	}
 
 	LONG userID = getDword(hContact, "ID", -1);
-	ptrT tszDomain(db_get_tsa(hContact, m_szModuleName, "domain"));
+	ptrW tszDomain(db_get_tsa(hContact, m_szModuleName, "domain"));
 
 	CMString tszUrl("https://vk.com/");
 	if (tszDomain)

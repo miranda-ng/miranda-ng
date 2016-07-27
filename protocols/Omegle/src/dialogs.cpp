@@ -38,7 +38,7 @@ static BOOL StoreDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const ch
 
 static void LoadDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
-	ptrT tstr(db_get_tsa(NULL, ppro->m_szModuleName, szSetting));
+	ptrW tstr(db_get_tsa(NULL, ppro->m_szModuleName, szSetting));
 	if (tstr)
 		SetDlgItemText(hwnd, idCtrl, tstr);
 }

@@ -18,9 +18,9 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 			{
 				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": incoming avatar (%d) from (%d)", fileNumber, friendNumber);
 
-				ptrT address(proto->getTStringA(hContact, TOX_SETTINGS_ID));
+				ptrW address(proto->getTStringA(hContact, TOX_SETTINGS_ID));
 				wchar_t avatarName[MAX_PATH];
-				mir_sntprintf(avatarName, MAX_PATH, L"%s.png", address);
+				mir_snwprintf(avatarName, MAX_PATH, L"%s.png", address);
 
 				AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
 				transfer->pfts.flags |= PFTS_RECEIVING;
@@ -45,7 +45,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 				ptrA rawName((char*)mir_alloc(filenameLength + 1));
 				memcpy(rawName, fileName, filenameLength);
 				rawName[filenameLength] = 0;
-				wchar_t *name = mir_utf8decodeT(rawName);
+				wchar_t *name = mir_utf8decodeW(rawName);
 
 				FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
 				transfer->pfts.flags |= PFTS_RECEIVING;
@@ -74,11 +74,11 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *tszPath)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
-	transfer->pfts.tszWorkingDir = mir_tstrdup(tszPath);
+	transfer->pfts.tszWorkingDir = mir_wstrdup(tszPath);
 
 	// stupid fix
 	wchar_t fullPath[MAX_PATH];
-	mir_sntprintf(fullPath, L"%s\\%s", transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
+	mir_snwprintf(fullPath, L"%s\\%s", transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
 	transfer->ChangeName(fullPath);
 
 	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts))

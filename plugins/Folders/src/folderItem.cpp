@@ -25,9 +25,9 @@ CFolderItem::CFolderItem(const char *sectionName, const char *name, const wchar_
 	m_szSection = mir_strdup(sectionName);
 	m_szName = mir_strdup(name);
 	if (userName)
-		m_tszUserName = mir_tstrdup(userName);
+		m_tszUserName = mir_wstrdup(userName);
 	else
-		m_tszUserName = mir_a2t(name);
+		m_tszUserName = mir_a2u(name);
 	m_tszFormat = NULL;
 	m_tszOldFormat = NULL;
 	GetDataFromDatabase(format);
@@ -47,7 +47,7 @@ void CFolderItem::SetFormat(const wchar_t *newFormat)
 {
 	mir_free(m_tszOldFormat);
 	m_tszOldFormat = m_tszFormat;
-	m_tszFormat = mir_tstrdup(*newFormat ? newFormat : MIRANDA_PATHT);
+	m_tszFormat = mir_wstrdup(*newFormat ? newFormat : MIRANDA_PATHT);
 }
 
 int CFolderItem::IsEqual(const CFolderItem *other)
@@ -57,12 +57,12 @@ int CFolderItem::IsEqual(const CFolderItem *other)
 
 int CFolderItem::IsEqual(const char *section, const wchar_t *name)
 {
-	return !mir_tstrcmp(m_tszUserName, name) && !mir_strcmp(m_szSection, section);
+	return !mir_wstrcmp(m_tszUserName, name) && !mir_strcmp(m_szSection, section);
 }
 
 int CFolderItem::IsEqualTranslated(const char *trSection, const wchar_t *trName)
 {
-	return !mir_tstrcmp(TranslateTS(m_tszUserName), trName) && !mir_strcmp(Translate(m_szSection), trSection);
+	return !mir_wstrcmp(TranslateTS(m_tszUserName), trName) && !mir_strcmp(Translate(m_szSection), trSection);
 }
 
 int CFolderItem::operator ==(const CFolderItem *other)
@@ -100,7 +100,7 @@ int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 	if (!m_tszOldFormat)
 		return FOLDER_SUCCESS;
 
-	if (!mir_tstrcmp(m_tszFormat, m_tszOldFormat)) //format wasn't changed
+	if (!mir_wstrcmp(m_tszFormat, m_tszOldFormat)) //format wasn't changed
 		return FOLDER_SUCCESS;
 
 	CMString buffer(ExpandPath(m_tszOldFormat));
@@ -117,7 +117,7 @@ void CFolderItem::GetDataFromDatabase(const wchar_t *szNotFound)
 	strcpy_s(szSettingName, _countof(szSettingName), m_szSection);
 	strcat_s(szSettingName, _countof(szSettingName), m_szName);
 
-	ptrT tszValue(db_get_tsa(NULL, ModuleName, szSettingName));
+	ptrW tszValue(db_get_tsa(NULL, ModuleName, szSettingName));
 	SetFormat(tszValue != NULL ? tszValue : szNotFound);
 }
 

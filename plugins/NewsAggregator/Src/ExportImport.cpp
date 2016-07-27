@@ -68,7 +68,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										node = xmlGetNextNode(node);
 										if (node)
 											break;
-									} while (mir_tstrcmpi(xmlGetName(node), L"body"));
+									} while (mir_wstrcmpi(xmlGetName(node), L"body"));
 								}
 							}
 							else if (!xmlUrl && outlineChildsCount)
@@ -77,8 +77,8 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								wchar_t *text = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
 								BYTE NeedToImport = FALSE;
 								for (int i = 0; i < outlineAttr; i++) {
-									if (!mir_tstrcmpi(xmlGetAttrName(node, i), L"text")) {
-										text = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
+									if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"text")) {
+										text = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 										if (!text) {
 											isTextUTF = 0;
 											text = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
@@ -88,15 +88,15 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										for (int j = 0; j < count; j++) {
 											wchar_t item[MAX_PATH];
 											SendMessage(FeedsImportList, LB_GETTEXT, (WPARAM)j, (LPARAM)item);
-											if (!mir_tstrcmpi(item, text)) {
+											if (!mir_wstrcmpi(item, text)) {
 												NeedToImport = TRUE;
 												break;
 											}
 										}
 										continue;
 									}
-									if (!mir_tstrcmpi(xmlGetAttrName(node, i), L"xmlUrl")) {
-										url = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
+									if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"xmlUrl")) {
+										url = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 										if ( !url) {
 											isURLUTF = false;
 											url = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
@@ -108,8 +108,8 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										}
 										continue;
 									}
-									if (!mir_tstrcmpi(xmlGetAttrName(node, i), L"htmlUrl")) {
-										siteurl = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
+									if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"htmlUrl")) {
+										siteurl = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 										if ( !siteurl) {
 											isSiteURLUTF = false;
 											siteurl = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
@@ -124,13 +124,13 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								if (NeedToImport) {
 									HXML parent = xmlGetParent(node);
 									wchar_t tmpgroup[1024];
-									while (mir_tstrcmpi(xmlGetName(parent), L"body")) {
+									while (mir_wstrcmpi(xmlGetName(parent), L"body")) {
 										for (int i = 0; i < xmlGetAttrCount(parent); i++) {
-											if (!mir_tstrcmpi(xmlGetAttrName(parent, i), L"text")) {
+											if (!mir_wstrcmpi(xmlGetAttrName(parent, i), L"text")) {
 												if ( !group)
 													group = (wchar_t *)xmlGetAttrValue(parent, xmlGetAttrName(parent, i));
 												else {
-													mir_sntprintf(tmpgroup, L"%s\\%s", xmlGetAttrValue(parent, xmlGetAttrName(parent, i)), group);
+													mir_snwprintf(tmpgroup, L"%s\\%s", xmlGetAttrValue(parent, xmlGetAttrName(parent, i)), group);
 													group = tmpgroup;
 												}
 												break;
@@ -141,7 +141,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 									wchar_t *ptszGroup = NULL;
 									if (group) {
-										ptszGroup = mir_utf8decodeT(_T2A(group));
+										ptszGroup = mir_utf8decodeW(_T2A(group));
 										if ( !ptszGroup) {
 											isGroupUTF = false;
 											ptszGroup = group;
@@ -183,7 +183,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										if (node)
 											break;
 									}
-										while (mir_tstrcmpi(xmlGetName(tmpnode), L"body"));
+										while (mir_wstrcmpi(xmlGetName(tmpnode), L"body"));
 								}
 							}
 						}
@@ -195,9 +195,9 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					}
 					wchar_t mes[MAX_PATH];
 					if (DUPES)
-						mir_sntprintf(mes, TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
+						mir_snwprintf(mes, TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
 					else
-						mir_sntprintf(mes, TranslateT("Imported %d feed(s)."), count);
+						mir_snwprintf(mes, TranslateT("Imported %d feed(s)."), count);
 					MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 				}
 			}
@@ -214,7 +214,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
 				wchar_t tmp[MAX_PATH];
-				mir_sntprintf(tmp, L"%s (*.opml, *.xml)%c*.opml;*.xml%c%c", TranslateT("OPML files"), 0, 0, 0);
+				mir_snwprintf(tmp, L"%s (*.opml, *.xml)%c*.opml;*.xml%c%c", TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;
@@ -248,15 +248,15 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											node = xmlGetNextNode(node);
 											if (node)
 												break;
-										} while (mir_tstrcmpi(xmlGetName(node), L"body"));
+										} while (mir_wstrcmpi(xmlGetName(node), L"body"));
 									}
 								}
 								else if (!xmlUrl && outlineChildsCount)
 									node = xmlGetFirstChild(node);
 								else if (xmlUrl) {
 									for (int i = 0; i < outlineAttr; i++) {
-										if (!mir_tstrcmpi(xmlGetAttrName(node, i), L"text")) {
-											wchar_t *text = mir_utf8decodeT(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
+										if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"text")) {
+											wchar_t *text = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
 											bool isTextUTF;
 											if (!text) {
 												isTextUTF = false;
@@ -282,7 +282,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											node = xmlGetNextNode(node);
 											if (node)
 												break;
-										} while (mir_tstrcmpi(xmlGetName(tmpnode), L"body"));
+										} while (mir_wstrcmpi(xmlGetName(tmpnode), L"body"));
 									}
 								}
 							}
@@ -477,7 +477,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
 				wchar_t tmp[MAX_PATH];
-				mir_sntprintf(tmp, L"%s (*.opml)%c*.opml%c%c", TranslateT("OPML files"), 0, 0, 0);
+				mir_snwprintf(tmp, L"%s (*.opml)%c*.opml%c%c", TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;

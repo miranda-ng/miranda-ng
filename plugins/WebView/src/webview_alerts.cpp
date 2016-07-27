@@ -30,7 +30,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 	case WM_CONTEXTMENU:
 		MCONTACT hContact = PUGetContact(hWnd);
-		ptrT url( db_get_tsa(hContact, MODULENAME, URL_KEY));
+		ptrW url( db_get_tsa(hContact, MODULENAME, URL_KEY));
 
 		if (message == WM_COMMAND) { // left click
 			if(hContact != NULL) { 
@@ -116,19 +116,19 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	if( ((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
 		db_get_ts(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
-		mir_tstrncpy(ppd.lptzContactName, dbv.ptszVal, _countof(ppd.lptzContactName));
+		mir_wstrncpy(ppd.lptzContactName, dbv.ptszVal, _countof(ppd.lptzContactName));
 		db_free(&dbv);
 	}
-	else mir_tstrcpy(ppd.lptzContactName, MODULENAMEW);
+	else mir_wstrcpy(ppd.lptzContactName, MODULENAMEW);
 
 	ppd.lchContact = wParam;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	wchar_t *displaytext = (wchar_t*)lParam;
-	if ((mir_tstrlen(displaytext) == MAX_SECONDLINE) ||  (mir_tstrlen(displaytext) > MAX_SECONDLINE))
-		mir_sntprintf(ppd.lptzText, displaytext);
-	else if (mir_tstrlen(displaytext) < MAX_SECONDLINE)
-		mir_sntprintf(ppd.lptzText, displaytext);
+	if ((mir_wstrlen(displaytext) == MAX_SECONDLINE) ||  (mir_wstrlen(displaytext) > MAX_SECONDLINE))
+		mir_snwprintf(ppd.lptzText, displaytext);
+	else if (mir_wstrlen(displaytext) < MAX_SECONDLINE)
+		mir_snwprintf(ppd.lptzText, displaytext);
 
 	if ( db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0)) {
 		ppd.colorBack = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, Def_color_bg);
@@ -188,11 +188,11 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 
 	wchar_t *ptszContactName = pcli->pfnGetContactDisplayName(hContact, 0);
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
-		mir_sntprintf(newdisplaytext, L"%s\n%s", ptszContactName, displaytext);
+		mir_snwprintf(newdisplaytext, L"%s\n%s", ptszContactName, displaytext);
 		PUShowMessageT(newdisplaytext, SM_WARNING);
 	}
 	else if ( ServiceExists("OSD/Announce") && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
-		mir_sntprintf(newdisplaytext, L"%s: %s", ptszContactName, TranslateTS(displaytext));
+		mir_snwprintf(newdisplaytext, L"%s: %s", ptszContactName, TranslateTS(displaytext));
 		CallService("OSD/Announce", (WPARAM)newdisplaytext, 0);
 	}
 	else if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
@@ -357,7 +357,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					//
 					if ((!notpresent)) {
 						if (alertIndex == 0) { // popup
-							mir_sntprintf(displaystring, L"%s \"%S\" %s.", Translate("The string"), alertstring, Translate("has been found on the web page"));
+							mir_snwprintf(displaystring, L"%s \"%S\" %s.", Translate("The string"), alertstring, Translate("has been found on the web page"));
 							WAlertPopup(hContact, displaystring);
 
 							// contactlist name//
@@ -397,7 +397,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							}
 						}
 						else if (alertIndex == 3) {
-							mir_sntprintf(displaystring, L"%s \"%s\" %s.", TranslateT("The string"), alertstring, TranslateT("has been found on the web page"));
+							mir_snwprintf(displaystring, L"%s \"%s\" %s.", TranslateT("The string"), alertstring, TranslateT("has been found on the web page"));
 							WAlertOSD(hContact, displaystring);
 
 							// contactlist name//
@@ -426,9 +426,9 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			cacheend++;
 			*cacheend = '\0';
 
-			mir_sntprintf(cachedirectorypath, L"%s%S%S", cachepath, MODULENAME, "cache\\");
+			mir_snwprintf(cachedirectorypath, L"%s%S%S", cachepath, MODULENAME, "cache\\");
 			CreateDirectory(cachedirectorypath, NULL);
-			mir_sntprintf(newcachepath, L"%s%S%S%S%S", cachepath, MODULENAME, "cache\\", contactname, ".txt");
+			mir_snwprintf(newcachepath, L"%s%S%S%S%S", cachepath, MODULENAME, "cache\\", contactname, ".txt");
 			// file exists?
 			if ( _waccess(newcachepath, 0) != -1) {
 				if ((pcachefile = _wfopen(newcachepath, L"r")) == NULL)
@@ -638,9 +638,9 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				cacheend++;
 				*cacheend = '\0';
 
-				mir_sntprintf(cachedirectorypath, L"%s%S%S", cachepath, MODULENAME, "cache\\");
+				mir_snwprintf(cachedirectorypath, L"%s%S%S", cachepath, MODULENAME, "cache\\");
 				CreateDirectory(cachedirectorypath, NULL);
-				mir_sntprintf(newcachepath, L"%s%S%S%S%S", cachepath, MODULENAME, "cache\\", contactname, ".txt");
+				mir_snwprintf(newcachepath, L"%s%S%S%S%S", cachepath, MODULENAME, "cache\\", contactname, ".txt");
 				// file exists?
 				if ( _waccess(newcachepath, 0) != -1) {
 					if ((pcachefile = _wfopen(newcachepath, L"r")) == NULL)

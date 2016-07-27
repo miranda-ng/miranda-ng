@@ -62,7 +62,7 @@ static INT_PTR SendSpecificFiles(WPARAM hContact, LPARAM lParam)
 
 	fsd.ppFiles = (const wchar_t**)alloca((count + 1) * sizeof(void*));
 	for (int i = 0; i < count; i++)
-		fsd.ppFiles[i] = mir_a2t(ppFiles[i]);
+		fsd.ppFiles[i] = mir_a2u(ppFiles[i]);
 	fsd.ppFiles[count] = NULL;
 
 	HWND hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
@@ -83,7 +83,7 @@ static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 {
 	wchar_t buf[MAX_PATH];
 	GetContactReceivedFilesDir(wParam, buf, MAX_PATH, TRUE);
-	char* dir = mir_t2a(buf);
+	char* dir = mir_u2a(buf);
 	mir_strncpy((char*)lParam, dir, MAX_PATH);
 	mir_free(dir);
 	return 0;
@@ -108,7 +108,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 		SkinPlaySound("RecvFile");
 
 		wchar_t szTooltip[256];
-		mir_sntprintf(szTooltip, TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_snwprintf(szTooltip, TranslateT("File from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		cle.ptszTooltip = szTooltip;
 
 		cle.flags |= CLEF_TCHAR;
@@ -164,11 +164,11 @@ void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unit
 		*unitsUsed = unitsOverride;
 	
 	switch (unitsOverride) {
-		case UNITS_BYTES: mir_sntprintf(szOut, cchOut, L"%u%s%s", (int)size, appendUnits ? L" " : L"", appendUnits ? TranslateT("bytes") : L""); break;
-		case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, L"%.1lf%s", size / 1024.0, appendUnits ? L" KB" : L""); break;
-		case UNITS_KBPOINT0: mir_sntprintf(szOut, cchOut, L"%u%s", (int)(size / 1024), appendUnits ? L" KB" : L""); break;
-		case UNITS_GBPOINT3: mir_sntprintf(szOut, cchOut, L"%.3f%s", (size >> 20) / 1024.0, appendUnits ? L" GB" : L""); break;
-		default: mir_sntprintf(szOut, cchOut, L"%.2lf%s", size / 1048576.0, appendUnits ? L" MB" : L""); break;
+		case UNITS_BYTES: mir_snwprintf(szOut, cchOut, L"%u%s%s", (int)size, appendUnits ? L" " : L"", appendUnits ? TranslateT("bytes") : L""); break;
+		case UNITS_KBPOINT1: mir_snwprintf(szOut, cchOut, L"%.1lf%s", size / 1024.0, appendUnits ? L" KB" : L""); break;
+		case UNITS_KBPOINT0: mir_snwprintf(szOut, cchOut, L"%u%s", (int)(size / 1024), appendUnits ? L" KB" : L""); break;
+		case UNITS_GBPOINT3: mir_snwprintf(szOut, cchOut, L"%.3f%s", (size >> 20) / 1024.0, appendUnits ? L" GB" : L""); break;
+		default: mir_snwprintf(szOut, cchOut, L"%.2lf%s", size / 1048576.0, appendUnits ? L" MB" : L""); break;
 	}
 }
 

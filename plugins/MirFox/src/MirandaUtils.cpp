@@ -200,12 +200,12 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 				wchar_t* buffer = new wchar_t[1024 * sizeof(wchar_t)];
 				if (contactNameW != NULL && tszAccountName != NULL)
 					if (args->mirfoxDataPtr->getAddAccountToContactNameCheckbox()){
-						mir_sntprintf(buffer, 1024, TranslateT("Message sent to %s"), contactNameW);
+						mir_snwprintf(buffer, 1024, TranslateT("Message sent to %s"), contactNameW);
 					} else {
-						mir_sntprintf(buffer, 1024, TranslateT("Message sent to %s (%s)"), contactNameW, tszAccountName);
+						mir_snwprintf(buffer, 1024, TranslateT("Message sent to %s (%s)"), contactNameW, tszAccountName);
 					}
 				else
-					mir_sntprintf(buffer, 1024, TranslateT("Message sent"));
+					mir_snwprintf(buffer, 1024, TranslateT("Message sent"));
 
 				if(ServiceExists(MS_POPUP_ADDPOPUPCLASS))
 					ShowClassPopupT("MirFox_Notify", L"MirFox", buffer);
@@ -229,23 +229,23 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 				logger->log_p(L"SMTC: ERROR - Cannot send message - result = [%d] ", myMfAck->result);
 				if (myMfAck->errorDesc != NULL){
 					if (contactNameW != NULL && tszAccountName != NULL){
-						mir_sntprintf(buffer, 1024, TranslateT("Cannot send message to %s (%s) - %S"), contactNameW, tszAccountName, myMfAck->errorDesc);
+						mir_snwprintf(buffer, 1024, TranslateT("Cannot send message to %s (%s) - %S"), contactNameW, tszAccountName, myMfAck->errorDesc);
 					} else {
-						mir_sntprintf(buffer, 1024, TranslateT("Cannot send message - %S"), myMfAck->errorDesc);
+						mir_snwprintf(buffer, 1024, TranslateT("Cannot send message - %S"), myMfAck->errorDesc);
 					}
 				} else {
 					if (contactNameW != NULL && tszAccountName != NULL){
-						mir_sntprintf(buffer, 1024, TranslateT("Cannot send message to %s (%s)"), contactNameW, tszAccountName);
+						mir_snwprintf(buffer, 1024, TranslateT("Cannot send message to %s (%s)"), contactNameW, tszAccountName);
 					} else {
-						mir_sntprintf(buffer, 1024, TranslateT("Cannot send message"));
+						mir_snwprintf(buffer, 1024, TranslateT("Cannot send message"));
 					}
 				}
 			} else {
 				logger->log(L"SMTC: ERROR - Cannot send message 2");
 				if (contactNameW != NULL && tszAccountName != NULL){
-					mir_sntprintf(buffer, 1024, TranslateT("Cannot send message to %s (%s)"), contactNameW, tszAccountName);
+					mir_snwprintf(buffer, 1024, TranslateT("Cannot send message to %s (%s)"), contactNameW, tszAccountName);
 				} else {
-					mir_sntprintf(buffer, 1024, TranslateT("Cannot send message"));
+					mir_snwprintf(buffer, 1024, TranslateT("Cannot send message"));
 				}
 			}
 
@@ -342,7 +342,7 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 	OnHookOpenMvStruct* param = (OnHookOpenMvStruct*)wParam;
 
 	if (param->msgBuffer != NULL){
-		wchar_t *msgBuffer = mir_tstrdup(param->msgBuffer->c_str());
+		wchar_t *msgBuffer = mir_wstrdup(param->msgBuffer->c_str());
 		CallServiceSync(MS_MSG_SENDMESSAGET, (WPARAM)param->targetHandle, (LPARAM)msgBuffer);
 		mir_free(msgBuffer);
 
@@ -400,10 +400,10 @@ void MirandaUtils::setStatusOnAccount(ActionThreadArgStruct* args)
 	if(result == 0){
 		if (tszAccountName != NULL){
 			logger->log_p(L"SSOA: Status message set on [%s]", tszAccountName);
-			mir_sntprintf(buffer, 1024, TranslateT("Status message set on %s"), tszAccountName);
+			mir_snwprintf(buffer, 1024, TranslateT("Status message set on %s"), tszAccountName);
 		} else {
 			logger->log(L"SSOA: Status message set");
-			mir_sntprintf(buffer, 1024, TranslateT("Status message set"));
+			mir_snwprintf(buffer, 1024, TranslateT("Status message set"));
 		}
 
 		if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
@@ -414,10 +414,10 @@ void MirandaUtils::setStatusOnAccount(ActionThreadArgStruct* args)
 	} else {
 		if (tszAccountName != NULL){
 			logger->log_p(L"SSOA: ERROR - Cannot set status message 2 on [%s] - result = [%d] ", tszAccountName, result);
-			mir_sntprintf(buffer, 1024, TranslateT("Cannot set status message on %s"), tszAccountName);
+			mir_snwprintf(buffer, 1024, TranslateT("Cannot set status message on %s"), tszAccountName);
 		} else {
 			logger->log_p(L"SSOA: ERROR - Cannot set status message 2 - result = [%d] ", result);
-			mir_sntprintf(buffer, 1024, TranslateT("Cannot set status message"));
+			mir_snwprintf(buffer, 1024, TranslateT("Cannot set status message"));
 		}
 
 		if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {

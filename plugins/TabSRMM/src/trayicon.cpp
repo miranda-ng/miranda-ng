@@ -92,7 +92,7 @@ static void TrayAnimThread(LPVOID)
 void TSAPI CreateTrayMenus(int mode)
 {
 	if (mode) {
-		mir_sntprintf(g_eventName, L"tsr_evt_%d", GetCurrentThreadId());
+		mir_snwprintf(g_eventName, L"tsr_evt_%d", GetCurrentThreadId());
 		g_hEvent = CreateEvent(NULL, FALSE, FALSE, g_eventName);
 		isAnimThreadRunning = TRUE;
 		hTrayAnimThread = mir_forkthread(TrayAnimThread, NULL);
@@ -217,7 +217,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 	if (acc && acc->tszAccountName) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
-		mir_sntprintf(szMenuEntry, L"%s: %s (%s)", acc->tszAccountName, szFinalNick, szStatus);
+		mir_snwprintf(szMenuEntry, L"%s: %s (%s)", acc->tszAccountName, szFinalNick, szStatus);
 		if (mode) {
 			if (hMenu == PluginConfig.g_hMenuRecent) {
 				if (CheckMenuItem(hMenu, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == 0) {
@@ -264,7 +264,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 		if (!mode) {
 			mii.fMask |= MIIM_STRING;
 			mii.dwTypeData = (LPTSTR)szMenuEntry;
-			mii.cch = (int)mir_tstrlen(szMenuEntry) + 1;
+			mii.cch = (int)mir_wstrlen(szMenuEntry) + 1;
 		}
 		mii.hbmpItem = HBMMENU_CALLBACK;
 		mii.dwItemData = (ULONG_PTR)hIcon;

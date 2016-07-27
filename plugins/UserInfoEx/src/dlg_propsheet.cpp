@@ -356,7 +356,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 
 	if (pPsh->_dwFlags & (PSF_PROTOPAGESONLY | PSF_PROTOPAGESONLY_INIT)) {
 		BYTE bIsUnicode = (odp->flags & ODPF_UNICODE) == ODPF_UNICODE;
-		wchar_t *ptszTitle = bIsUnicode ? mir_tstrdup(odp->pwszTitle) : mir_a2t(odp->pszTitle);
+		wchar_t *ptszTitle = bIsUnicode ? mir_wstrdup(odp->pwszTitle) : mir_a2u(odp->pszTitle);
 
 		// avoid adding pages for a meta subcontact, which have been added for a metacontact.
 		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {
@@ -367,7 +367,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 		}
 		// init ignore list with pages added by metacontact
 		else if (pPsh->_dwFlags & PSF_PROTOPAGESONLY_INIT)
-			pPsh->_ignore.insert(mir_tstrdup(ptszTitle));
+			pPsh->_ignore.insert(mir_wstrdup(ptszTitle));
 
 		mir_free(ptszTitle);
 	}
@@ -429,7 +429,7 @@ static int OnShutdown(WPARAM, LPARAM)
 static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProto = NULL)
 {
 	wchar_t szTitle[MAX_PATH];
-	const BYTE ofs = (pszProto) ? mir_sntprintf(szTitle, L"%S\\", pszProto) : 0;
+	const BYTE ofs = (pszProto) ? mir_snwprintf(szTitle, L"%S\\", pszProto) : 0;
 
 	odp.pwszTitle = szTitle;
 	
@@ -437,56 +437,56 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 	odp.position = 0x8000000;
 	odp.pfnDlgProc = PSPProcGeneral;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_GENERAL);
-	mir_tstrncpy(szTitle + ofs, LPGENW("General"), _countof(szTitle) - ofs);
+	mir_wstrncpy(szTitle + ofs, LPGENW("General"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
 	odp.position = 0x8000001;
 	odp.pfnDlgProc = PSPProcContactHome;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
-	mir_tstrncpy(szTitle + ofs, LPGENW("General") L"\\" LPGENW("Contact (private)"), _countof(szTitle) - ofs);
+	mir_wstrncpy(szTitle + ofs, LPGENW("General") L"\\" LPGENW("Contact (private)"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ORIGIN);
 	odp.position = 0x8000002;
 	odp.pfnDlgProc = PSPProcOrigin;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADVANCED);
-	mir_tstrncpy(szTitle + ofs, LPGENW("General") L"\\" LPGENW("Origin"), _countof(szTitle) - ofs);
+	mir_wstrncpy(szTitle + ofs, LPGENW("General") L"\\" LPGENW("Origin"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ANNIVERSARY);
 	odp.position = 0x8000003;
 	odp.pfnDlgProc = PSPProcAnniversary;
 	odp.hIcon = (HICON)ICONINDEX(IDI_BIRTHDAY);
-	mir_tstrncpy(szTitle + ofs,  LPGENW("General") L"\\" LPGENW("Anniversaries"), _countof(szTitle) - ofs);
+	mir_wstrncpy(szTitle + ofs,  LPGENW("General") L"\\" LPGENW("Anniversaries"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COMPANY);
 	odp.position = 0x8000004;
 	odp.pfnDlgProc = PSPProcCompany;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_COMPANY);
-	mir_tstrncpy(szTitle + ofs, LPGENW("Work"), _countof(szTitle) - ofs);
+	mir_wstrncpy(szTitle + ofs, LPGENW("Work"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
 	odp.position = 0x8000005;
 	odp.pfnDlgProc = PSPProcContactWork;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
-	mir_tstrncpy(szTitle + ofs, LPGENW("Work") L"\\" LPGENW("Contact (work)"), _countof(szTitle) - ofs);
+	mir_wstrncpy(szTitle + ofs, LPGENW("Work") L"\\" LPGENW("Contact (work)"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
 	odp.position = 0x8000006;
 	odp.pfnDlgProc = PSPProcAbout;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ABOUT);
-	mir_tstrncpy(szTitle + ofs, LPGENW("About"), _countof(szTitle) - ofs);
+	mir_wstrncpy(szTitle + ofs, LPGENW("About"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_PROFILE);
 	odp.position = 0x8000007;
 	odp.pfnDlgProc = PSPProcContactProfile;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_PROFILE);
-	mir_tstrncpy(szTitle + ofs, LPGENW("About") L"\\" LPGENW("Profile"), _countof(szTitle) - ofs);
+	mir_wstrncpy(szTitle + ofs, LPGENW("About") L"\\" LPGENW("Profile"), _countof(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 	return 0;
 }
@@ -735,7 +735,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			GetObject(hNormalFont, sizeof(lf), &lf);
 			lf.lfHeight = 22;
-			mir_tstrcpy(lf.lfFaceName, L"Segoe UI");
+			mir_wstrcpy(lf.lfFaceName, L"Segoe UI");
 			pPs->hCaptionFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)pPs->hCaptionFont, 0);
 

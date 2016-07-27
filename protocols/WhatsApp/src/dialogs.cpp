@@ -113,8 +113,8 @@ public:
 
 	virtual void OnApply()
 	{
-		ptrT tszGroup(m_group.GetText());
-		if (mir_tstrcmp(m_proto->m_tszDefaultGroup, tszGroup))
+		ptrW tszGroup(m_group.GetText());
+		if (mir_wstrcmp(m_proto->m_tszDefaultGroup, tszGroup))
 			m_proto->m_tszDefaultGroup = tszGroup.detach();
 
 		if (m_proto->isOnline())

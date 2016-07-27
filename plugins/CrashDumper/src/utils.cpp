@@ -52,14 +52,14 @@ void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, DWORD dwSize)
 
 	if (clsdates) {
 		GetDateFormat(LOCALE_INVARIANT, 0, stLocal, TEXT("d MMM yyyy"), lpszString, dwSize);
-		int dlen = (int)mir_tstrlen(lpszString);
+		int dlen = (int)mir_wstrlen(lpszString);
 		GetTimeFormat(LOCALE_INVARIANT, 0, stLocal, TEXT(" H:mm:ss"), lpszString + dlen, dwSize - dlen);
 	}
 	else {
 		int offset = GetTZOffset();
 
 		// Build a string showing the date and time.
-		mir_sntprintf(lpszString, dwSize, TEXT("%d-%02d-%02d %02d:%02d:%02d%+03d%02d"),
+		mir_snwprintf(lpszString, dwSize, TEXT("%d-%02d-%02d %02d:%02d:%02d%+03d%02d"),
 			stLocal->wYear, stLocal->wMonth, stLocal->wDay,
 			stLocal->wHour, stLocal->wMinute, stLocal->wSecond,
 			offset / 60, offset % 60);
@@ -129,13 +129,13 @@ void GetInternetExplorerVersion(CMString &buffer)
 	if (ieVersion[0] == 0) {
 		if (iVer[0] == 0)
 			buffer.Append(TEXT("<not installed>"));
-		else if (mir_tstrcmp(iVer, TEXT("100")) == 0)
+		else if (mir_wstrcmp(iVer, TEXT("100")) == 0)
 			buffer.Append(TEXT("1.0"));
-		else if (mir_tstrcmp(iVer, TEXT("101")) == 0)
+		else if (mir_wstrcmp(iVer, TEXT("101")) == 0)
 			buffer.Append(TEXT("NT"));
-		else if (mir_tstrcmp(iVer, TEXT("102")) == 0)
+		else if (mir_wstrcmp(iVer, TEXT("102")) == 0)
 			buffer.Append(TEXT("2.0"));
-		else if (mir_tstrcmp(iVer, TEXT("103")) == 0)
+		else if (mir_wstrcmp(iVer, TEXT("103")) == 0)
 			buffer.Append(TEXT("3.0"));
 	}
 	else buffer.Append(ieVersion);
@@ -175,12 +175,12 @@ void GetProcessorString(CMString &buffer)
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Hardware\\Description\\System\\CentralProcessor\\0"), 0, KEY_QUERY_VALUE, &hKey)) {
 		size = _countof(cpuName);
 		if (RegQueryValueEx(hKey, TEXT("ProcessorNameString"), NULL, NULL, (LPBYTE)cpuName, &size) != ERROR_SUCCESS)
-			mir_tstrcpy(cpuName, TEXT("Unknown"));
+			mir_wstrcpy(cpuName, TEXT("Unknown"));
 
 		size = _countof(cpuIdent);
 		if (RegQueryValueEx(hKey, TEXT("Identifier"), NULL, NULL, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
 			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), NULL, NULL, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
-				mir_tstrcpy(cpuIdent, TEXT("Unknown"));
+				mir_wstrcpy(cpuIdent, TEXT("Unknown"));
 
 		RegCloseKey(hKey);
 	}

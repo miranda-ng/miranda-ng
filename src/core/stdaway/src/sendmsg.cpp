@@ -90,11 +90,11 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 	DBVARIANT dbv;
 	if ( GetStatusModeByte(statusMode, "UsePrev")) {
 		if ( db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Msg"), &dbv))
-			dbv.ptszVal = mir_tstrdup(GetDefaultMessage(statusMode));
+			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 	}
 	else {
 		if ( db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Default"), &dbv))
-			dbv.ptszVal = mir_tstrdup(GetDefaultMessage(statusMode));
+			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 
 		for (int i=0; dbv.ptszVal[i]; i++) {
 			if (dbv.ptszVal[i] != '%')
@@ -121,10 +121,10 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, _countof(substituteStr));
 			else continue;
 
-			if (mir_tstrlen(substituteStr) > 6)
-				dbv.ptszVal = (wchar_t*)mir_realloc(dbv.ptszVal, (mir_tstrlen(dbv.ptszVal) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(wchar_t));
-			memmove(dbv.ptszVal + i + mir_tstrlen(substituteStr), dbv.ptszVal + i + 6, (mir_tstrlen(dbv.ptszVal) - i - 5) * sizeof(wchar_t));
-			memcpy(dbv.ptszVal+i, substituteStr, mir_tstrlen(substituteStr) * sizeof(wchar_t));
+			if (mir_wstrlen(substituteStr) > 6)
+				dbv.ptszVal = (wchar_t*)mir_realloc(dbv.ptszVal, (mir_wstrlen(dbv.ptszVal) + 1 + mir_wstrlen(substituteStr) - 6) * sizeof(wchar_t));
+			memmove(dbv.ptszVal + i + mir_wstrlen(substituteStr), dbv.ptszVal + i + 6, (mir_wstrlen(dbv.ptszVal) - i - 5) * sizeof(wchar_t));
+			memcpy(dbv.ptszVal+i, substituteStr, mir_wstrlen(substituteStr) * sizeof(wchar_t));
 		}
 	}
 	return dbv.ptszVal;
@@ -226,7 +226,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			{
 				wchar_t str[256], format[128];
 				GetWindowText(hwndDlg, format, _countof(format));
-				mir_sntprintf(str, format, pcli->pfnGetStatusModeDescription(dat->statusMode, 0));
+				mir_snwprintf(str, format, pcli->pfnGetStatusModeDescription(dat->statusMode, 0));
 				SetWindowText(hwndDlg, str);
 			}
 			GetDlgItemText(hwndDlg, IDOK, dat->okButtonFormat, _countof(dat->okButtonFormat));
@@ -247,7 +247,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 	case WM_TIMER:
 		if (--dat->countdown >= 0) {
 			wchar_t str[64];
-			mir_sntprintf(str, dat->okButtonFormat, dat->countdown);
+			mir_snwprintf(str, dat->okButtonFormat, dat->countdown);
 			SetDlgItemText(hwndDlg, IDOK, str);
 		}
 		else {
@@ -397,8 +397,8 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				DBVARIANT dbv;
 				if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Default"), &dbv))
 					if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Msg"), &dbv))
-						dbv.ptszVal = mir_tstrdup(GetDefaultMessage(statusModes[i]));
-				mir_tstrcpy(dat->info[j].msg, dbv.ptszVal);
+						dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusModes[i]));
+				mir_wstrcpy(dat->info[j].msg, dbv.ptszVal);
 				mir_free(dbv.ptszVal);
 			}
 			if (hLst)

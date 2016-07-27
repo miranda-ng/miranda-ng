@@ -114,7 +114,7 @@ void LoadOptions(void)
 	opt.dUnit = db_get_w(NULL, WEATHERPROTONAME, "dUnit", 1);
 	opt.eUnit = db_get_w(NULL, WEATHERPROTONAME, "eUnit", 2);
 
-	ptrT szValue(db_get_tsa(NULL, WEATHERPROTONAME, "DegreeSign"));
+	ptrW szValue(db_get_tsa(NULL, WEATHERPROTONAME, "DegreeSign"));
 	wcsncpy_s(opt.DegreeSign, (szValue == NULL) ? L"" : szValue, _TRUNCATE);
 
 	opt.DoNotAppendUnit = db_get_b(NULL, WEATHERPROTONAME, "DoNotAppendUnit", 0);

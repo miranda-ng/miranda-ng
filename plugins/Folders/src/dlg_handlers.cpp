@@ -37,7 +37,7 @@ static void LoadRegisteredFolderSections(HWND hWnd)
 
 	for (int i = 0; i < lstRegisteredFolders.getCount(); i++) {
 		CFolderItem &tmp = lstRegisteredFolders[i];
-		wchar_t *translated = mir_a2t(tmp.GetSection());
+		wchar_t *translated = mir_a2u(tmp.GetSection());
 		if (!ContainsSection(hWnd, TranslateTS(translated))) {
 			int idx = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)TranslateTS(translated));
 			SendMessage(hwndList, LB_SETITEMDATA, idx, (LPARAM)tmp.GetSection());
@@ -105,7 +105,7 @@ static int ChangesNotSaved(HWND hWnd, PFolderItem item)
 
 	wchar_t buffer[MAX_FOLDER_SIZE];
 	GetEditText(hWnd, buffer, MAX_FOLDER_SIZE);
-	return mir_tstrcmp(item->GetFormat(), buffer) != 0;
+	return mir_wstrcmp(item->GetFormat(), buffer) != 0;
 }
 
 static void CheckForChanges(HWND hWnd, int bNeedConfirmation = 1)
@@ -123,7 +123,7 @@ static INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		mir_sntprintf(tszMessage, L"%s\r\n%s\r\n\r\n%s\t\t%s\r\n%%miranda_path%%\t\t%s\r\n%%profile_path%%\t\t%s\r\n\t\t\t%s\r\n%%current_profile%%\t\t%s\r\n\t\t\t%s\r\n\r\n\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n\r\n%s\r\n%s\r\n%s\r\n%%miranda_path%%\t\t\t%s\r\n%%profile_path%%\t\t\t%s\r\n%%current_profile%%\t\t\t%s\r\n%%temp%%\t\t\t\t%s\r\n%%profile_path%%\\%%current_profile%%\t%s\r\n%%miranda_path%%\\plugins\\config\t%s\r\n'   %%miranda_path%%\\\\\\\\     '\t\t%s\r\n\r\n%s",
+		mir_snwprintf(tszMessage, L"%s\r\n%s\r\n\r\n%s\t\t%s\r\n%%miranda_path%%\t\t%s\r\n%%profile_path%%\t\t%s\r\n\t\t\t%s\r\n%%current_profile%%\t\t%s\r\n\t\t\t%s\r\n\r\n\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n\r\n%s\r\n%s\r\n%s\r\n%%miranda_path%%\t\t\t%s\r\n%%profile_path%%\t\t\t%s\r\n%%current_profile%%\t\t\t%s\r\n%%temp%%\t\t\t\t%s\r\n%%profile_path%%\\%%current_profile%%\t%s\r\n%%miranda_path%%\\plugins\\config\t%s\r\n'   %%miranda_path%%\\\\\\\\     '\t\t%s\r\n\r\n%s",
 			TranslateT("Don't forget to click on Apply to save the changes. If you don't then the changes won't"),
 			TranslateT("be saved to the database, they will only be valid for this session."),
 			TranslateT("Variable string"),

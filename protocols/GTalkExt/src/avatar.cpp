@@ -45,7 +45,7 @@ LPTSTR CreateAvaFile(HANDLE *hFile)
 		return NULL;
 
 	wchar_t full[MAX_PATH + 2];
-	mir_sntprintf(full, AVA_FILE_NAME_FORMAT, path, name);
+	mir_snwprintf(full, AVA_FILE_NAME_FORMAT, path, name);
 	CreateDirectoryTreeT(full);
 
 	HANDLE h = CreateFile(full, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
@@ -57,7 +57,7 @@ LPTSTR CreateAvaFile(HANDLE *hFile)
 	else
 		CloseHandle(h);
 
-	return mir_tstrdup(full);
+	return mir_wstrdup(full);
 }
 
 BOOL SaveAvatar(HANDLE hFile)
@@ -144,7 +144,7 @@ void SetAvatar(MCONTACT hContact)
 		return;
 
 	HANDLE hFile;
-	ptrT avaFile(CreateAvaFile(&hFile));
+	ptrW avaFile(CreateAvaFile(&hFile));
 	if (avaFile == NULL)
 		return;
 

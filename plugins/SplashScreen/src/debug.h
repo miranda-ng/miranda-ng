@@ -17,17 +17,17 @@ int inline _DebugPopup(MCONTACT hContact, wchar_t *fmt, ...)
 	wchar_t debug[1024];
 
 	va_start(va, fmt);
-	mir_sntprintf(debug, fmt, va);
+	mir_snwprintf(debug, fmt, va);
     
 	if(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		if(hContact != 0)
-			mir_tstrncpy(ppd.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
+			mir_wstrncpy(ppd.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);
 		else
-			mir_tstrncpy(ppd.lptzContactName, _A2W(PlugName), MAX_CONTACTNAME);
-		mir_tstrncpy(ppd.lptzText, debug, MAX_SECONDLINE - 20);
+			mir_wstrncpy(ppd.lptzContactName, _A2W(PlugName), MAX_CONTACTNAME);
+		mir_wstrncpy(ppd.lptzText, debug, MAX_SECONDLINE - 20);
 		ppd.colorText = RGB(255,255,255);
 		ppd.colorBack = RGB(255,0,0);
 		PUAddPopupT(&ppd);

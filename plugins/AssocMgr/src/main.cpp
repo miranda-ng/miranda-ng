@@ -48,27 +48,27 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 static void InstallFile(const wchar_t *pszFileName,const wchar_t *pszDestSubDir)
 {
 	wchar_t szFileFrom[MAX_PATH+1],szFileTo[MAX_PATH+1];
-	if (!GetModuleFileName(hInst, szFileFrom, _countof(szFileFrom) - (int)mir_tstrlen(pszFileName)))
+	if (!GetModuleFileName(hInst, szFileFrom, _countof(szFileFrom) - (int)mir_wstrlen(pszFileName)))
 		return;
 
 	wchar_t *p = wcsrchr(szFileFrom,'\\');
 	if (p != NULL)
 		*(++p) = 0;
-	mir_tstrcat(szFileFrom,pszFileName); /* buffer safe */
+	mir_wstrcat(szFileFrom,pszFileName); /* buffer safe */
 
 	HANDLE hFile = CreateFile(szFileFrom,0,FILE_SHARE_READ,0,OPEN_EXISTING,0,0);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return;
 	CloseHandle(hFile);
 
-	if (!GetModuleFileName(NULL, szFileTo, _countof(szFileTo)-(int)mir_tstrlen(pszDestSubDir)-(int)mir_tstrlen(pszFileName)))
+	if (!GetModuleFileName(NULL, szFileTo, _countof(szFileTo)-(int)mir_wstrlen(pszDestSubDir)-(int)mir_wstrlen(pszFileName)))
 		return;
 	p = wcsrchr(szFileTo,'\\');
 	if (p)
 		*(++p)=0;
-	mir_tstrcat(szFileTo,pszDestSubDir); /* buffer safe */
+	mir_wstrcat(szFileTo,pszDestSubDir); /* buffer safe */
 	CreateDirectory(szFileTo,NULL);
-	mir_tstrcat(szFileTo,pszFileName);  /* buffer safe */
+	mir_wstrcat(szFileTo,pszFileName);  /* buffer safe */
 
 	if ( !MoveFile(szFileFrom,szFileTo) && GetLastError() == ERROR_ALREADY_EXISTS) {
 		DeleteFile(szFileTo);

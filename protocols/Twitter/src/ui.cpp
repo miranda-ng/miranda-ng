@@ -113,7 +113,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		// Set window title
 		wchar_t title[512];
-		mir_sntprintf(title, L"Send Tweet for %s", proto->m_tszUserName);
+		mir_snwprintf(title, L"Send Tweet for %s", proto->m_tszUserName);
 		SetWindowText(hwndDlg, title);
 		return true;
 
@@ -125,7 +125,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			GetDlgItemText(hwndDlg, IDC_TWEETMSG, msg, _countof(msg));
 			ShowWindow(hwndDlg, SW_HIDE);
 
-			char *narrow = mir_t2a_cp(msg, CP_UTF8);
+			char *narrow = mir_u2a_cp(msg, CP_UTF8);
 			proto->ForkThread(&TwitterProto::SendTweetWorker, narrow);
 
 			EndDialog(hwndDlg, wParam);

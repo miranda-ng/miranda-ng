@@ -217,8 +217,8 @@ void CYahooProto::AddBuddy(MCONTACT hContact, const char *group, const wchar_t *
 	T2Utf u_msg(msg);
 
 	ptrA ident(getStringA(hContact, "MyIdentity"));
-	ptrT fname(getTStringA(NULL, "FirstName"));
-	ptrT lname(getTStringA(NULL, "LastName"));
+	ptrW fname(getTStringA(NULL, "FirstName"));
+	ptrW lname(getTStringA(NULL, "LastName"));
 
 	SetStringUtf(hContact, "YGroup", group);
 
@@ -529,7 +529,7 @@ void CYahooProto::ext_got_calendar(const char *url, int type, const char *msg, i
 {
 	LOG(("[ext_got_calendar] URL:%s type: %d msg: %s svc: %d", url, type, msg, svc));
 
-	ptrT tszMsg(mir_utf8decodeT(msg));
+	ptrW tszMsg(mir_utf8decodeW(msg));
 	if (!ShowPopup(TranslateT("Calendar Reminder"), tszMsg, url))
 		ShowNotification(TranslateT("Calendar Reminder"), tszMsg, NIIF_INFO);
 }
@@ -672,11 +672,11 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 	}
 	else LOG(("[ext_rejected] Buddy not on our buddy list"));
 
-	ptrT tszWho(mir_utf8decodeT(who));
-	ptrT tszMsg(mir_utf8decodeT(msg));
+	ptrW tszWho(mir_utf8decodeW(who));
+	ptrW tszMsg(mir_utf8decodeW(msg));
 
 	wchar_t buff[1024];
-	mir_sntprintf(buff, TranslateT("%s has rejected your request and sent the following message:"), (wchar_t*)tszWho);
+	mir_snwprintf(buff, TranslateT("%s has rejected your request and sent the following message:"), (wchar_t*)tszWho);
 	MessageBox(NULL, tszMsg, buff, MB_OK | MB_ICONINFORMATION);
 }
 
@@ -926,15 +926,15 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 			wchar_t z[MAX_SECONDLINE], title[MAX_CONTACTNAME];
 
 			if (from == NULL) {
-				mir_sntprintf(title, L"%s: %s", m_tszUserName, TranslateT("New Mail"));
-				mir_sntprintf(z, TranslateT("You have %i unread messages"), cnt);
+				mir_snwprintf(title, L"%s: %s", m_tszUserName, TranslateT("New Mail"));
+				mir_snwprintf(z, TranslateT("You have %i unread messages"), cnt);
 			}
 			else {
-				mir_sntprintf(title, TranslateT("New Mail (%i messages)"), cnt);
+				mir_snwprintf(title, TranslateT("New Mail (%i messages)"), cnt);
 
-				ptrT tszFrom(mir_utf8decodeT(from));
-				ptrT tszSubj(mir_utf8decodeT(subj));
-				mir_sntprintf(z, TranslateT("From: %s\nSubject: %s"), (wchar_t*)tszFrom, (wchar_t*)tszSubj);
+				ptrW tszFrom(mir_utf8decodeW(from));
+				ptrW tszSubj(mir_utf8decodeW(subj));
+				mir_snwprintf(z, TranslateT("From: %s\nSubject: %s"), (wchar_t*)tszFrom, (wchar_t*)tszSubj);
 			}
 
 			if (!ShowPopup(title, z, "http://mail.yahoo.com"))
@@ -950,8 +950,8 @@ void CYahooProto::ext_system_message(const char *me, const char *who, const char
 {
 	LOG(("[ext_system_message] System Message to: %s from: %s msg: %s", me, who, msg));
 
-	ptrT tszWho(mir_utf8decodeT(who));
-	ptrT tszMsg(mir_utf8decodeT(msg));
+	ptrW tszWho(mir_utf8decodeW(who));
+	ptrW tszMsg(mir_utf8decodeW(msg));
 	ShowPopup((who != NULL) ? tszWho : TranslateT("Yahoo System Message"), tszMsg, NULL);
 }
 
@@ -1010,7 +1010,7 @@ void CYahooProto::ext_got_ping(const char *errormsg)
 
 	if (errormsg) {
 		LOG(("[ext_got_ping] Error msg: %s", errormsg));
-		ptrT tszMsg(mir_utf8decodeT(errormsg));
+		ptrW tszMsg(mir_utf8decodeW(errormsg));
 		ShowError(TranslateT("Yahoo Ping Error"), tszMsg);
 		return;
 	}
@@ -1065,33 +1065,33 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 	}
 
 	if (succ == YAHOO_LOGIN_UNAME) {
-		mir_sntprintf(buff, TranslateT("Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed."));
+		mir_snwprintf(buff, TranslateT("Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 	}
 	else if (succ == YAHOO_LOGIN_PASSWD) {
-		mir_sntprintf(buff, TranslateT("Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed."));
+		mir_snwprintf(buff, TranslateT("Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 	}
 	else if (succ == YAHOO_LOGIN_LOCK) {
-		mir_sntprintf(buff, TranslateT("Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it."), _A2T(url));
+		mir_snwprintf(buff, TranslateT("Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it."), _A2T(url));
 	}
 	else if (succ == YAHOO_LOGIN_DUPL) {
-		mir_sntprintf(buff, TranslateT("You have been logged out of the Yahoo service, possibly due to a duplicate login."));
+		mir_snwprintf(buff, TranslateT("You have been logged out of the Yahoo service, possibly due to a duplicate login."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 	}
 	else if (succ == YAHOO_LOGIN_LOGOFF) {
-		//mir_sntprintf(buff, TranslateT("You have been logged out of the Yahoo service."));
+		//mir_snwprintf(buff, TranslateT("You have been logged out of the Yahoo service."));
 		//ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 		return; // we logged out.. so just sign-off..
 	}
 	else if (succ == -1) {
 		/// Can't Connect or got disconnected.
 		if (m_iStatus == ID_STATUS_CONNECTING)
-			mir_sntprintf(buff, TranslateT("Could not connect to the Yahoo service. Check your server/port and proxy settings."));
+			mir_snwprintf(buff, TranslateT("Could not connect to the Yahoo service. Check your server/port and proxy settings."));
 		else
 			return;
 	}
-	else mir_sntprintf(buff, TranslateT("Could not log in, unknown reason: %d."), succ);
+	else mir_snwprintf(buff, TranslateT("Could not log in, unknown reason: %d."), succ);
 
 	delSetting(YAHOO_PWTOKEN);
 
@@ -1110,35 +1110,35 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 
 void CYahooProto::ext_error(const char *err, int fatal, int num)
 {
-	ptrT tszErr(mir_utf8decodeT(err));
+	ptrW tszErr(mir_utf8decodeW(err));
 	wchar_t buff[1024];
 
 	LOG(("[ext_error] Error: fatal: %d, num: %d, err: %s", fatal, num, err));
 
 	switch (num) {
 	case E_UNKNOWN:
-		mir_sntprintf(buff, TranslateT("Unknown error %s"), (wchar_t*)tszErr);
+		mir_snwprintf(buff, TranslateT("Unknown error %s"), (wchar_t*)tszErr);
 		break;
 	case E_CUSTOM:
-		mir_sntprintf(buff, TranslateT("Custom error %s"), (wchar_t*)tszErr);
+		mir_snwprintf(buff, TranslateT("Custom error %s"), (wchar_t*)tszErr);
 		break;
 	case E_CONFNOTAVAIL:
-		mir_sntprintf(buff, TranslateT("%s is not available for the conference"), (wchar_t*)tszErr);
+		mir_snwprintf(buff, TranslateT("%s is not available for the conference"), (wchar_t*)tszErr);
 		break;
 	case E_IGNOREDUP:
-		mir_sntprintf(buff, TranslateT("%s is already ignored"), (wchar_t*)tszErr);
+		mir_snwprintf(buff, TranslateT("%s is already ignored"), (wchar_t*)tszErr);
 		break;
 	case E_IGNORENONE:
-		mir_sntprintf(buff, TranslateT("%s is not in the ignore list"), (wchar_t*)tszErr);
+		mir_snwprintf(buff, TranslateT("%s is not in the ignore list"), (wchar_t*)tszErr);
 		break;
 	case E_IGNORECONF:
-		mir_sntprintf(buff, TranslateT("%s is in buddy list - cannot ignore"), (wchar_t*)tszErr);
+		mir_snwprintf(buff, TranslateT("%s is in buddy list - cannot ignore"), (wchar_t*)tszErr);
 		break;
 	case E_SYSTEM:
-		mir_sntprintf(buff, TranslateT("System Error: %s"), (wchar_t*)tszErr);
+		mir_snwprintf(buff, TranslateT("System Error: %s"), (wchar_t*)tszErr);
 		break;
 	case E_CONNECTION:
-		mir_sntprintf(buff, TranslateT("Server Connection Error: %s"), (wchar_t*)tszErr);
+		mir_snwprintf(buff, TranslateT("Server Connection Error: %s"), (wchar_t*)tszErr);
 		debugLogA("Error: %S", buff);
 		return;
 	}

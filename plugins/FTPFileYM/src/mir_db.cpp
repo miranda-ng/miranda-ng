@@ -98,7 +98,7 @@ int DB::getString(MCONTACT hContact, char *szModule, char *szSetting, wchar_t *b
 {
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, szModule, szSetting, &dbv)) {
-		mir_tstrcpy(buff, dbv.ptszVal);
+		mir_wstrcpy(buff, dbv.ptszVal);
 		db_free(&dbv);
 		return 0;
 	}

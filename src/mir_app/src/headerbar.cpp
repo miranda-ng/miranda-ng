@@ -208,17 +208,13 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit)
 		textRect.left = 50;
 		hOldFont = (HFONT)SelectObject(tempDC, hFntBold);
 
-		wchar_t *szTitleW = mir_t2u(szTitle);
-		drawThemeTextEx(hTheme, tempDC, WP_CAPTION, CS_ACTIVE, szTitleW, -1, DT_TOP | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS, &textRect, &dto);
-		mir_free(szTitleW);
+		drawThemeTextEx(hTheme, tempDC, WP_CAPTION, CS_ACTIVE, szTitle, -1, DT_TOP | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS, &textRect, &dto);
 
 		if (szSubTitle) {
 			textRect.left = 66;
 			SelectObject(tempDC, hFont);
 
-			wchar_t *szSubTitleW = mir_t2u(szSubTitle);
-			drawThemeTextEx(hTheme, tempDC, WP_CAPTION, CS_ACTIVE, szSubTitleW, -1, DT_BOTTOM | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS, &textRect, &dto);
-			mir_free(szSubTitleW);
+			drawThemeTextEx(hTheme, tempDC, WP_CAPTION, CS_ACTIVE, szSubTitle, -1, DT_BOTTOM | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | DT_NOCLIP | DT_END_ELLIPSIS, &textRect, &dto);
 		}
 		CloseThemeData(hTheme);
 	}

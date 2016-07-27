@@ -38,7 +38,7 @@ static int AutoAwaySound(WPARAM, LPARAM)
 static void Proto_SetStatus(const char *szProto, unsigned status)
 {
 	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
-		ptrT awayMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto));
+		ptrW awayMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto));
 		CallProtoService(szProto, PS_SETAWAYMSG, status, awayMsg);
 	}
 

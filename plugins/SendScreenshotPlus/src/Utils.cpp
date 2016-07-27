@@ -343,15 +343,15 @@ wchar_t* GetFileNameW(const wchar_t* pszPath)
 	const wchar_t* slash = wcsrchr(pszPath, '\\');
 	if (!slash) slash = wcsrchr(pszPath, '/');
 	if (slash)
-		return mir_t2u(slash + 1);
+		return mir_wstrdup(slash + 1);
 	else
-		return mir_t2u(pszPath);
+		return mir_wstrdup(pszPath);
 }
 wchar_t* GetFileExtW(const wchar_t* pszPath)
 {
 	const wchar_t* slash = wcsrchr(pszPath, '.');
 	if (slash)
-		return mir_t2u(slash);
+		return mir_wstrdup(slash);
 	return NULL;
 }
 
@@ -360,15 +360,15 @@ char* GetFileNameA(const wchar_t* pszPath)
 	const wchar_t* slash = wcsrchr(pszPath, '\\');
 	if (!slash) slash = wcsrchr(pszPath, '/');
 	if (slash)
-		return mir_t2a(slash + 1);
+		return mir_u2a(slash + 1);
 	else
-		return mir_t2a(pszPath);
+		return mir_u2a(pszPath);
 }
 char* GetFileExtA(const wchar_t* pszPath)
 {
 	const wchar_t* slash = wcsrchr(pszPath, '.');
 	if (slash)
-		return mir_t2a(slash);
+		return mir_u2a(slash);
 	return NULL;
 }
 
@@ -406,7 +406,7 @@ void SaveGIF(HBITMAP hBmp, wchar_t* szFilename)
 		// Get the CLSID of the GIF encoder.
 		CLSID clsidEncoder;
 		if (GetEncoderClsid(L"image/gif", clsidEncoder)) {
-			LPWSTR pswFile = mir_t2u(szFilename);
+			LPWSTR pswFile = mir_wstrdup(szFilename);
 			pBitmap->Save((const WCHAR*)pswFile, &clsidEncoder, NULL);
 			mir_free(pswFile);
 		}
@@ -445,7 +445,7 @@ void SaveTIF(HBITMAP hBmp, wchar_t* szFilename)
 			EncParams->Parameter[1].NumberOfValues = 1;
 			EncParams->Parameter[1].Value = &ulColorDepth;
 
-			LPWSTR pswFile = mir_t2u(szFilename);
+			LPWSTR pswFile = mir_wstrdup(szFilename);
 			stat = pBitmap->Save((const WCHAR*)pswFile, &EncCLSID, EncParams);
 			mir_free(pswFile);
 			free(EncParams);

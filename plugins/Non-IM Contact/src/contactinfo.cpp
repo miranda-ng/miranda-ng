@@ -86,7 +86,7 @@ int BrowseForFolder(HWND hwnd, char *szPath)
 	LPMALLOC pMalloc;
 
 	if (SUCCEEDED(CoGetMalloc(1, &pMalloc))) {
-		ptrT tszPath(mir_a2t(szPath));
+		ptrW tszPath(mir_a2u(szPath));
 		BROWSEINFO bi = { 0 };
 		bi.hwndOwner = hwnd;
 		bi.pszDisplayName = tszPath;
@@ -159,7 +159,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (!db_get_w(NULL, MODNAME, "Timer", 1))
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, TranslateT("Non-IM Contact protocol timer is Disabled"));
 				else {
-					mir_sntprintf(string, TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), db_get_w(NULL, MODNAME, "Timer", 1));
+					mir_snwprintf(string, TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"), db_get_w(NULL, MODNAME, "Timer", 1));
 					SetDlgItemText(hwnd, IDC_TIMER_INTERVAL_MSG, string);
 				}
 			}

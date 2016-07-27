@@ -153,7 +153,7 @@ static int _AniAva_SortAvatarInfo(const ANIAVA_INFO *aai1, const ANIAVA_INFO *aa
 {
 	int res;
 	if (aai1 && aai1->tcsFilename && aai2 && aai2->tcsFilename)
-		res = mir_tstrcmpi(aai2->tcsFilename, aai1->tcsFilename);
+		res = mir_wstrcmpi(aai2->tcsFilename, aai1->tcsFilename);
 	else {
 		int a1 = (aai1 != NULL && aai1->tcsFilename != NULL);
 		int a2 = (aai2 != NULL && aai2->tcsFilename != NULL);
@@ -351,7 +351,7 @@ static int	_AniAva_LoadAvatarFromImage(wchar_t * szFileName, int width, int heig
 	int idx = s_AniAvatarList.getIndex(&aai);
 	if (idx == -1) { //item not present in list
 		paai = (ANIAVA_INFO *)mir_calloc(sizeof(ANIAVA_INFO));
-		paai->tcsFilename = mir_tstrdup(szFileName);
+		paai->tcsFilename = mir_wstrdup(szFileName);
 		paai->dwAvatarUniqId = rand();
 
 		// get image strip

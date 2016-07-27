@@ -64,9 +64,9 @@ static void numToStr(double num, wchar_t *str, size_t strSize)
 
 	if (i < 0 && (w || r)) w = -w;
 	if (r)
-		mir_sntprintf(str, strSize, L"%i.%i", w, r);
+		mir_snwprintf(str, strSize, L"%i.%i", w, r);
 	else
-		mir_sntprintf(str, strSize, L"%i", w);
+		mir_snwprintf(str, strSize, L"%i", w);
 }
 
 //============  UNIT CONVERSIONS  ============
@@ -83,15 +83,15 @@ void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 
 	TrimString(tempchar);
 	if (tempchar[0] == '-' && tempchar[1] == ' ')
-		memmove(&tempchar[1], &tempchar[2], sizeof(wchar_t)*(mir_tstrlen(&tempchar[2]) + 1));
+		memmove(&tempchar[1], &tempchar[2], sizeof(wchar_t)*(mir_wstrlen(&tempchar[2]) + 1));
 
 	// quit if the value obtained is N/A or not a number
-	if (!mir_tstrcmp(tempchar, NODATA) || !mir_tstrcmp(tempchar, L"N/A")) {
-		mir_tstrcpy(str, tempchar);
+	if (!mir_wstrcmp(tempchar, NODATA) || !mir_wstrcmp(tempchar, L"N/A")) {
+		mir_wstrcpy(str, tempchar);
 		return;
 	}
 	if (!is_number(tempchar)) {
-		mir_tstrcpy(str, NODATA);
+		mir_wstrcpy(str, NODATA);
 		return;
 	}
 
@@ -99,8 +99,8 @@ void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 	temp = _wtof(tempchar);
 
 	// convert all to F first
-	if (!mir_tstrcmpi(unit, L"C"))		temp = (temp * 9 / 5) + 32;
-	else if (!mir_tstrcmpi(unit, L"K"))	temp = ((temp - 273.15) * 9 / 5) + 32;
+	if (!mir_wstrcmpi(unit, L"C"))		temp = (temp * 9 / 5) + 32;
+	else if (!mir_wstrcmpi(unit, L"K"))	temp = ((temp - 273.15) * 9 / 5) + 32;
 
 	// convert to apporiate unit
 	switch (opt.tUnit) {
@@ -110,7 +110,7 @@ void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 		if (opt.DoNotAppendUnit)
 			wcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
 		else
-			mir_sntprintf(str, MAX_DATA_LEN, L"%s%sC", tstr, opt.DegreeSign);
+			mir_snwprintf(str, MAX_DATA_LEN, L"%s%sC", tstr, opt.DegreeSign);
 		break;
 
 	case 2:
@@ -118,7 +118,7 @@ void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 		if (opt.DoNotAppendUnit)
 			wcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
 		else
-			mir_sntprintf(str, MAX_DATA_LEN, L"%s%sF", tstr, opt.DegreeSign);
+			mir_snwprintf(str, MAX_DATA_LEN, L"%s%sF", tstr, opt.DegreeSign);
 		break;
 	}
 }
@@ -137,44 +137,44 @@ void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 	// if it end up with 0, then it's not a number, return the original string and quit
 	output = _wtof(tempchar);
 	if (output == 0) {
-		mir_tstrcpy(str, tempchar);
+		mir_wstrcpy(str, tempchar);
 		return;
 	}
 
 	// convert all to mb first
-	if (!mir_tstrcmpi(unit, L"KPA"))
+	if (!mir_wstrcmpi(unit, L"KPA"))
 		tempunit = (double)output * 10;
-	else if (!mir_tstrcmpi(unit, L"HPA"))
+	else if (!mir_wstrcmpi(unit, L"HPA"))
 		tempunit = (double)output;
-	else if (!mir_tstrcmpi(unit, L"MB"))
+	else if (!mir_wstrcmpi(unit, L"MB"))
 		tempunit = (double)output;
-	else if (!mir_tstrcmpi(unit, L"IN"))
+	else if (!mir_wstrcmpi(unit, L"IN"))
 		tempunit = (double)output * 33.86388;
-	else if (!mir_tstrcmpi(unit, L"MM"))
+	else if (!mir_wstrcmpi(unit, L"MM"))
 		tempunit = (double)output * 1.33322;
-	else if (!mir_tstrcmpi(unit, L"TORR"))
+	else if (!mir_wstrcmpi(unit, L"TORR"))
 		tempunit = (double)output * 1.33322;
 
 	// convert to apporiate unit
 	switch (opt.pUnit) {
 	case 1:
 		intunit = (int)(tempunit + 0.5);
-		mir_sntprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("kPa"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("kPa"));
 		break;
 	case 2:
 		intunit = (int)(tempunit + 0.5);
-		mir_sntprintf(str, MAX_DATA_LEN, L"%i %s", intunit, opt.DoNotAppendUnit ? L"" : TranslateT("mb"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%i %s", intunit, opt.DoNotAppendUnit ? L"" : TranslateT("mb"));
 		break;
 	case 3:
 		intunit = (int)((tempunit * 10 / 33.86388) + 0.5);
-		mir_sntprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("in"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("in"));
 		break;
 	case 4:
 		intunit = (int)((tempunit * 10 / 1.33322) + 0.5);
-		mir_sntprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("mm"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("mm"));
 		break;
 	default:
-		mir_tstrcpy(str, tempchar);
+		mir_wstrcpy(str, tempchar);
 		break;
 
 	}
@@ -199,32 +199,32 @@ void GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 		return;
 
 	// convert all to m/s first
-	if (!mir_tstrcmpi(unit, L"KM/H"))
+	if (!mir_wstrcmpi(unit, L"KM/H"))
 		tempunit /= 3.6;
-	//	else if ( !mir_tstrcmpi(unit, L"M/S")
+	//	else if ( !mir_wstrcmpi(unit, L"M/S")
 	//		tempunit = tempunit;
-	else if (!mir_tstrcmpi(unit, L"MPH"))
+	else if (!mir_wstrcmpi(unit, L"MPH"))
 		tempunit *= 0.44704;
-	else if (!mir_tstrcmpi(unit, L"KNOTS"))
+	else if (!mir_wstrcmpi(unit, L"KNOTS"))
 		tempunit *= 0.514444;
 
 	// convert to apporiate unit
 	switch (opt.wUnit) {
 	case 1:
 		numToStr(tempunit * 3.6, tstr, _countof(tstr));
-		mir_sntprintf(str, MAX_DATA_LEN, L"%s %s", tstr, opt.DoNotAppendUnit ? L"" : TranslateT("km/h"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%s %s", tstr, opt.DoNotAppendUnit ? L"" : TranslateT("km/h"));
 		break;
 	case 2:
 		numToStr(tempunit, tstr, _countof(tstr));
-		mir_sntprintf(str, MAX_DATA_LEN, L"%s %s", tstr, opt.DoNotAppendUnit ? L"" : TranslateT("m/s"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%s %s", tstr, opt.DoNotAppendUnit ? L"" : TranslateT("m/s"));
 		break;
 	case 3:
 		numToStr(tempunit / 0.44704, tstr, _countof(tstr));
-		mir_sntprintf(str, MAX_DATA_LEN, L"%s %s", tstr, opt.DoNotAppendUnit ? L"" : TranslateT("mph"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%s %s", tstr, opt.DoNotAppendUnit ? L"" : TranslateT("mph"));
 		break;
 	case 4:
 		numToStr(tempunit / 0.514444, tstr, _countof(tstr));
-		mir_sntprintf(str, MAX_DATA_LEN, L"%s %s", tstr, opt.DoNotAppendUnit ? L"" : TranslateT("knots"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%s %s", tstr, opt.DoNotAppendUnit ? L"" : TranslateT("knots"));
 		break;
 	}
 }
@@ -243,28 +243,28 @@ void GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 	// if it end up with 0, then it's not a number, return the original string and quit
 	output = _wtof(tempchar);
 	if (output == 0) {
-		mir_tstrcpy(str, tempchar);
+		mir_wstrcpy(str, tempchar);
 		return;
 	}
 
 	// convert all to km first
-	if (!mir_tstrcmpi(unit, L"KM"))
+	if (!mir_wstrcmpi(unit, L"KM"))
 		tempunit = (double)output;
-	else if (!mir_tstrcmpi(unit, L"MILES"))
+	else if (!mir_wstrcmpi(unit, L"MILES"))
 		tempunit = (double)output * 1.609;
 
 	// convert to apporiate unit
 	switch (opt.vUnit) {
 	case 1:
 		intunit = (int)((tempunit * 10) + 0.5);
-		mir_sntprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("km"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("km"));
 		break;
 	case 2:
 		intunit = (int)((tempunit * 10 / 1.609) + 0.5);
-		mir_sntprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("miles"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("miles"));
 		break;
 	default:
-		mir_tstrcpy(str, tempchar);
+		mir_wstrcpy(str, tempchar);
 		break;
 	}
 }
@@ -283,28 +283,28 @@ void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 	// if it end up with 0, then it's not a number, return the original string and quit
 	output = _wtof(tempchar);
 	if (output == 0) {
-		mir_tstrcpy(str, tempchar);
+		mir_wstrcpy(str, tempchar);
 		return;
 	}
 
 	// convert all to m first
-	if (!mir_tstrcmpi(unit, L"M"))
+	if (!mir_wstrcmpi(unit, L"M"))
 		tempunit = (double)output;
-	else if (!mir_tstrcmpi(unit, L"FT"))
+	else if (!mir_wstrcmpi(unit, L"FT"))
 		tempunit = (double)output / 3.28;
 
 	// convert to apporiate unit
 	switch (opt.eUnit) {
 	case 1:
 		intunit = (int)((tempunit * 10 * 3.28) + 0.5);
-		mir_sntprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("ft"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("ft"));
 		break;
 	case 2:
 		intunit = (int)((tempunit * 10) + 0.5);
-		mir_sntprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("m"));
+		mir_snwprintf(str, MAX_DATA_LEN, L"%i.%i %s", intunit / 10, intunit % 10, opt.DoNotAppendUnit ? L"" : TranslateT("m"));
 		break;
 	default:
-		mir_tstrcpy(str, tempchar);
+		mir_wstrcpy(str, tempchar);
 		break;
 	}
 }
@@ -390,13 +390,13 @@ WORD GetIcon(const wchar_t* cond, WIDATA *Data)
 		do {
 			j++;
 			// using the format _T("# Weather <condition name> <counter> #"
-			mir_sntprintf(LangPackStr, L"# Weather %s %i #", statusStr[i], j);
+			mir_snwprintf(LangPackStr, L"# Weather %s %i #", statusStr[i], j);
 			wcsncpy_s(LangPackStr1, TranslateTS(LangPackStr), _TRUNCATE);
-			CharLowerBuff(LangPackStr1, (DWORD)mir_tstrlen(LangPackStr1));
+			CharLowerBuff(LangPackStr1, (DWORD)mir_wstrlen(LangPackStr1));
 			if (wcsstr(cond, LangPackStr1) != NULL)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
-		} while (mir_tstrcmp(TranslateTS(LangPackStr), LangPackStr));
+		} while (mir_wstrcmp(TranslateTS(LangPackStr), LangPackStr));
 	}
 
 	return NA;
@@ -409,7 +409,7 @@ void CaseConv(wchar_t *str)
 {
 	BOOL nextUp = TRUE;
 
-	CharLowerBuff(str, (DWORD)mir_tstrlen(str));
+	CharLowerBuff(str, (DWORD)mir_wstrlen(str));
 	for (wchar_t *pstr = str; *pstr; pstr++) {
 		if (*pstr == ' ' || *pstr == '-')
 			nextUp = TRUE;
@@ -496,16 +496,16 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str)
 	str[0] = 0;
 
 	// looking character by character
-	for (i = 0; i < mir_tstrlen(dis); i++) {
+	for (i = 0; i < mir_wstrlen(dis); i++) {
 		// for the escape characters
 		if (dis[i] == '\\') {
 			i++;
 			chr = dis[i];
 			switch (chr) {
-			case '%': mir_tstrcat(str, L"%"); break;
-			case 't': mir_tstrcat(str, L"\t"); break;
-			case 'n': mir_tstrcat(str, L"\r\n"); break;
-			case '\\': mir_tstrcat(str, L"\\"); break;
+			case '%': mir_wstrcat(str, L"%"); break;
+			case 't': mir_wstrcat(str, L"\t"); break;
+			case 'n': mir_wstrcat(str, L"\r\n"); break;
+			case '\\': mir_wstrcat(str, L"\\"); break;
 			}
 		}
 
@@ -516,41 +516,41 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str)
 			// turn capitalized characters to small case
 			if (chr < 'a' && chr != '[' && chr != '%') chr = (char)((int)chr + 32);
 			switch (chr) {
-			case 'c': mir_tstrcat(str, w->cond); break;
+			case 'c': mir_wstrcat(str, w->cond); break;
 			case 'd':	// get the current date
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, lpzDate, _countof(lpzDate));
-				mir_tstrcat(str, lpzDate); break;
-			case 'e': mir_tstrcat(str, w->dewpoint); break;
-			case 'f': mir_tstrcat(str, w->feel); break;
-			case 'h': mir_tstrcat(str, w->high); break;
-			case 'i': mir_tstrcat(str, w->winddir); break;
-			case 'l': mir_tstrcat(str, w->low); break;
-			case 'm': mir_tstrcat(str, w->humid); break;
-			case 'n': mir_tstrcat(str, w->city); break;
-			case 'p': mir_tstrcat(str, w->pressure); break;
-			case 'r': mir_tstrcat(str, w->sunrise); break;
-			case 's': mir_tstrcat(str, w->id); break;
-			case 't': mir_tstrcat(str, w->temp); break;
+				mir_wstrcat(str, lpzDate); break;
+			case 'e': mir_wstrcat(str, w->dewpoint); break;
+			case 'f': mir_wstrcat(str, w->feel); break;
+			case 'h': mir_wstrcat(str, w->high); break;
+			case 'i': mir_wstrcat(str, w->winddir); break;
+			case 'l': mir_wstrcat(str, w->low); break;
+			case 'm': mir_wstrcat(str, w->humid); break;
+			case 'n': mir_wstrcat(str, w->city); break;
+			case 'p': mir_wstrcat(str, w->pressure); break;
+			case 'r': mir_wstrcat(str, w->sunrise); break;
+			case 's': mir_wstrcat(str, w->id); break;
+			case 't': mir_wstrcat(str, w->temp); break;
 			case 'u':
-				if (mir_tstrcmp(w->update, NODATA))	mir_tstrcat(str, w->update);
-				else	mir_tstrcat(str, TranslateT("<unknown time>"));
+				if (mir_wstrcmp(w->update, NODATA))	mir_wstrcat(str, w->update);
+				else	mir_wstrcat(str, TranslateT("<unknown time>"));
 				break;
-			case 'v': mir_tstrcat(str, w->vis); break;
-			case 'w': mir_tstrcat(str, w->wind); break;
-			case 'y': mir_tstrcat(str, w->sunset); break;
-			case '%': mir_tstrcat(str, L"%"); break;
+			case 'v': mir_wstrcat(str, w->vis); break;
+			case 'w': mir_wstrcat(str, w->wind); break;
+			case 'y': mir_wstrcat(str, w->sunset); break;
+			case '%': mir_wstrcat(str, L"%"); break;
 			case '[':	// custom variables 
 				i++;
 				name[0] = 0;
 				// read the entire variable name
-				while (dis[i] != ']' && i < mir_tstrlen(dis)) {
+				while (dis[i] != ']' && i < mir_wstrlen(dis)) {
 					mir_snprintf(temp, "%c", dis[i++]);
 					mir_strcat(name, temp);
 				}
 				// access the database to get its value
 				if (!db_get_ts(w->hContact, WEATHERCONDITION, name, &dbv)) {
 					if (dbv.ptszVal != TranslateTS(NODATA) && dbv.ptszVal != TranslateT("<Error>"))
-						mir_tstrcat(str, dbv.ptszVal);
+						mir_wstrcat(str, dbv.ptszVal);
 					db_free(&dbv);
 				}
 				break;
@@ -558,8 +558,8 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str)
 		}
 		// if the character is not a variable, write the original character to the new string
 		else {
-			mir_sntprintf(lpzDate, L"%c", dis[i]);
-			mir_tstrcat(str, lpzDate);
+			mir_snwprintf(lpzDate, L"%c", dis[i]);
+			mir_wstrcat(str, lpzDate);
 		}
 	}
 
@@ -591,7 +591,7 @@ void GetSvc(wchar_t *pszID)
 void GetID(wchar_t *pszID)
 {
 	wchar_t *chop = wcsstr(pszID, L"/");
-	if (chop != NULL)	mir_tstrcpy(pszID, chop + 1);
+	if (chop != NULL)	mir_wstrcpy(pszID, chop + 1);
 	else				pszID[0] = 0;
 }
 
@@ -631,9 +631,9 @@ wchar_t *GetError(int code)
 	case 503:	str = E503; break;
 	case 504:	str = E504; break;
 	default:
-		mir_sntprintf(str2, TranslateT("HTTP Error %i"), code);
+		mir_snwprintf(str2, TranslateT("HTTP Error %i"), code);
 		str = str2;
 		break;
 	}
-	return mir_tstrdup(str);
+	return mir_wstrdup(str);
 }

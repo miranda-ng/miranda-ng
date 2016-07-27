@@ -44,24 +44,24 @@ INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 		if (status < 1)
 			return 1;
 
-		ptrT title;
+		ptrW title;
 		if (pData->flags & CSSF_DEFAULT_NAME)
-			title = mir_tstrdup(TranslateT("Playing"));
+			title = mir_wstrdup(TranslateT("Playing"));
 		else
 			title = getTStringA(hContact, "XStatusName");
 
 		if (pData->flags & CSSF_UNICODE)
-			mir_tstrncpy(pData->ptszName, title, STATUS_TITLE_MAX);
+			mir_wstrncpy(pData->ptszName, title, STATUS_TITLE_MAX);
 		else
 			mir_strncpy(pData->pszName, _T2A(title), STATUS_TITLE_MAX);
 	}
 
 	// fill status message member
 	if (pData->flags & CSSF_MASK_MESSAGE) {
-		ptrT message(getTStringA(hContact, "XStatusMsg"));
+		ptrW message(getTStringA(hContact, "XStatusMsg"));
 		
 		if (pData->flags & CSSF_UNICODE)
-			mir_tstrncpy(pData->ptszMessage, message, STATUS_DESC_MAX);
+			mir_wstrncpy(pData->ptszMessage, message, STATUS_DESC_MAX);
 		else
 			mir_strncpy(pData->pszMessage, _T2A(message), STATUS_DESC_MAX);
 	}

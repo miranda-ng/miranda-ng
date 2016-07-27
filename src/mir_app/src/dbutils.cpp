@@ -87,7 +87,7 @@ static wchar_t* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
 {
 	LPSTR in = buf;
 	buf += mir_strlen(buf) + 1;
-	return (dbei->flags & DBEF_UTF) ? Utf8DecodeT(in) : mir_a2t(in);
+	return (dbei->flags & DBEF_UTF) ? Utf8DecodeT(in) : mir_a2u(in);
 }
 
 static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
@@ -113,10 +113,10 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		DWORD  uin = *(DWORD*)dbei->pBlob;
 		MCONTACT hContact = (MCONTACT)*(DWORD*)(dbei->pBlob + sizeof(DWORD));
 		char  *buf = LPSTR(dbei->pBlob) + sizeof(DWORD)*2;
-		ptrT tszNick(getEventString(dbei, buf));
-		ptrT tszFirst(getEventString(dbei, buf));
-		ptrT tszLast(getEventString(dbei, buf));
-		ptrT tszEmail(getEventString(dbei, buf));
+		ptrW tszNick(getEventString(dbei, buf));
+		ptrW tszFirst(getEventString(dbei, buf));
+		ptrW tszLast(getEventString(dbei, buf));
+		ptrW tszEmail(getEventString(dbei, buf));
 
 		CMString nick, text;
 		if (tszFirst || tszLast) {
@@ -137,13 +137,13 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 			nick = L"(" + nick + L")";
 
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
-			ptrT tszReason(getEventString(dbei, buf));
+			ptrW tszReason(getEventString(dbei, buf));
 			text.Format(TranslateT("Authorization request from %s%s: %s"),
 				(tszNick == NULL) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick, tszReason);
 		}
 		else text.Format(TranslateT("You were added by %s%s"),
 			(tszNick == NULL) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick);
-		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);
+		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
 	}
 
 	if (dbei->eventType == EVENTTYPE_CONTACTS) {
@@ -151,26 +151,26 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		// blob is: [uin(ASCIIZ), nick(ASCIIZ)]*
 		char *buf = LPSTR(dbei->pBlob), *limit = LPSTR(dbei->pBlob) + dbei->cbBlob;
 		while (buf < limit) {
-			ptrT tszUin(getEventString(dbei, buf));
-			ptrT tszNick(getEventString(dbei, buf));
+			ptrW tszUin(getEventString(dbei, buf));
+			ptrW tszNick(getEventString(dbei, buf));
 			if (tszNick && *tszNick)
 				text.AppendFormat(L"\"%s\" ", tszNick);
 			if (tszUin && *tszUin)
 				text.AppendFormat(L"<%s>; ", tszUin);
 		}
-		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);
+		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
 	}
 
 	if (dbei->eventType == EVENTTYPE_FILE) {
 		char *buf = LPSTR(dbei->pBlob) + sizeof(DWORD);
-		ptrT tszFileName(getEventString(dbei, buf));
-		ptrT tszDescription(getEventString(dbei, buf));
-		ptrT &ptszText = (mir_tstrlen(tszDescription) == 0) ? tszFileName : tszDescription;
+		ptrW tszFileName(getEventString(dbei, buf));
+		ptrW tszDescription(getEventString(dbei, buf));
+		ptrW &ptszText = (mir_wstrlen(tszDescription) == 0) ? tszFileName : tszDescription;
 		switch (egt->datatype) {
 		case DBVT_WCHAR:
 			return (INT_PTR)ptszText.detach();
 		case DBVT_ASCIIZ:
-			return (INT_PTR)mir_t2a(ptszText);
+			return (INT_PTR)mir_u2a(ptszText);
 		}
 		return 0;
 	}
@@ -188,7 +188,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 				return (INT_PTR)msg;
 		}
 
-		return (INT_PTR)mir_a2t_cp(str, egt->codepage);
+		return (INT_PTR)mir_a2u_cp(str, egt->codepage);
 	}
 
 	if (egt->datatype == DBVT_ASCIIZ) {
@@ -247,7 +247,7 @@ static INT_PTR DbEventGetStringT(WPARAM wParam, LPARAM lParam)
 	if (dbei->flags & DBEF_UTF)
 		return (INT_PTR)Utf8DecodeW(string);
 
-	return (INT_PTR)mir_a2t(string);
+	return (INT_PTR)mir_a2u(string);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -324,7 +324,7 @@ static INT_PTR GetProfileNameW(WPARAM wParam, LPARAM lParam)
 static INT_PTR SetDefaultProfile(WPARAM wParam, LPARAM)
 {
 	extern wchar_t* g_defaultProfile;
-	replaceStrT(g_defaultProfile, (wchar_t*)wParam);
+	replaceStrW(g_defaultProfile, (wchar_t*)wParam);
 	return 0;
 }
 

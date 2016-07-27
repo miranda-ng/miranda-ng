@@ -192,7 +192,7 @@ INT_PTR CDropbox::UploadToDropbox(WPARAM wParam, LPARAM lParam)
 	int res = UploadToDropbox(this, ftp);
 	if (res == ACKRESULT_SUCCESS && wParam) {
 		char **data = (char**)wParam;
-		*data = mir_utf8encodeT(ftp->GetData());
+		*data = mir_utf8encodeW(ftp->GetData());
 	}
 
 	transfers.remove(ftp);

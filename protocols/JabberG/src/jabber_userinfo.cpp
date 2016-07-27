@@ -46,12 +46,12 @@ struct UserInfoStringBuf
 	void append(wchar_t *str) {
 		if (!str) return;
 
-		size_t length = mir_tstrlen(str);
+		size_t length = mir_wstrlen(str);
 		if (size - offset < length + 1) {
 			size += (length + STRINGBUF_INCREMENT);
 			buf = (wchar_t *)mir_realloc(buf, size * sizeof(wchar_t));
 		}
-		mir_tstrcpy(buf + offset, str);
+		mir_wstrcpy(buf + offset, str);
 		offset += length;
 	}
 
@@ -64,7 +64,7 @@ struct UserInfoStringBuf
 	}
 
 	void actualize() {
-		if (buf) offset = mir_tstrlen(buf);
+		if (buf) offset = mir_wstrlen(buf);
 	}
 };
 
@@ -174,9 +174,9 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 
 	wchar_t buf[256];
 	if (title)
-		mir_sntprintf(buf, L"%s: %s", title, value);
+		mir_snwprintf(buf, L"%s: %s", title, value);
 	else
-		mir_tstrncpy(buf, value, _countof(buf));
+		mir_wstrncpy(buf, value, _countof(buf));
 
 	TVINSERTSTRUCT tvis = {0};
 	tvis.hParent = htiRoot;
@@ -227,7 +227,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	HICON hIcon = NULL;
 	if ( ServiceExists(MS_FP_GETCLIENTICONT)) {
 		if (r->m_tszSoftware != NULL) {
-			mir_sntprintf(buf, L"%s %s", r->m_tszSoftware, r->m_tszSoftwareVersion);
+			mir_snwprintf(buf, L"%s %s", r->m_tszSoftware, r->m_tszSoftwareVersion);
 			hIcon = Finger_GetClientIcon(buf, 0);
 		}
 	}
@@ -251,25 +251,25 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 
 	// Resource priority
 	wchar_t szPriority[128];
-	mir_sntprintf(szPriority, L"%d", (int)r->m_iPriority);
+	mir_snwprintf(szPriority, L"%d", (int)r->m_iPriority);
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Resource priority"), szPriority, sttInfoLineId(resource, INFOLINE_PRIORITY));
 
 	// Idle
 	if (r->m_dwIdleStartTime > 0) {
-		mir_tstrncpy(buf, _wctime(&r->m_dwIdleStartTime), _countof(buf));
-		size_t len = mir_tstrlen(buf);
+		mir_wstrncpy(buf, _wctime(&r->m_dwIdleStartTime), _countof(buf));
+		size_t len = mir_wstrlen(buf);
 		if (len > 0)
 			buf[len-1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		mir_tstrncpy(buf, TranslateT("unknown"), _countof(buf));
+		mir_wstrncpy(buf, TranslateT("unknown"), _countof(buf));
 	else
-		mir_tstrncpy(buf, TranslateT("<not specified>"), _countof(buf));
+		mir_wstrncpy(buf, TranslateT("<not specified>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 
 	// caps
-	mir_sntprintf(buf, L"%s/%s", item->jid, r->m_tszResourceName);
+	mir_snwprintf(buf, L"%s/%s", item->jid, r->m_tszResourceName);
 	JabberCapsBits jcb = ppro->GetResourceCapabilites(buf, TRUE);
 
 	if (!(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
@@ -279,7 +279,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 				wchar_t szDescription[ 1024 ];
 				if (g_JabberFeatCapPairs[i].tszDescription)
-					mir_sntprintf(szDescription, L"%s (%s)", TranslateTS(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
+					mir_snwprintf(szDescription, L"%s (%s)", TranslateTS(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
 				else
 					wcsncpy_s(szDescription, g_JabberFeatCapPairs[i].szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
@@ -289,7 +289,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[j]->jcbCap) {
 				wchar_t szDescription[ 1024 ];
 				if (ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription)
-					mir_sntprintf(szDescription, L"%s (%s)", TranslateTS(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
+					mir_snwprintf(szDescription, L"%s (%s)", TranslateTS(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
 				else
 					wcsncpy_s(szDescription, ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
@@ -320,7 +320,7 @@ static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM ht
 	if (szAdvStatusIcon && szAdvStatusTitle && *szAdvStatusTitle) {
 		wchar_t szText[2048];
 		if (szAdvStatusText && *szAdvStatusText)
-			mir_sntprintf(szText, L"%s (%s)", TranslateTS(szAdvStatusTitle), szAdvStatusText);
+			mir_snwprintf(szText, L"%s (%s)", TranslateTS(szAdvStatusTitle), szAdvStatusText);
 		else
 			wcsncpy_s(szText, TranslateTS(szAdvStatusTitle), _TRUNCATE);
 		sttFillInfoLine(hwndTree, htiRoot, IcoLib_GetIcon(szAdvStatusIcon), szTitle, szText, dwInfoLine);
@@ -365,15 +365,15 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	// logoff
 	JABBER_RESOURCE_STATUS *r = item->getTemp();
 	if (r->m_dwIdleStartTime > 0) {
-		mir_tstrncpy(buf, _wctime(&r->m_dwIdleStartTime), _countof(buf));
-		size_t len = mir_tstrlen(buf);
+		mir_wstrncpy(buf, _wctime(&r->m_dwIdleStartTime), _countof(buf));
+		size_t len = mir_wstrlen(buf);
 		if (len > 0)
 			buf[len-1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		mir_tstrncpy(buf, TranslateT("unknown"), _countof(buf));
+		mir_wstrncpy(buf, TranslateT("unknown"), _countof(buf));
 	else
-		mir_tstrncpy(buf, TranslateT("<not specified>"), _countof(buf));
+		mir_wstrncpy(buf, TranslateT("<not specified>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiRoot, NULL,
 		(item->jid && wcschr(item->jid, '@')) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
@@ -384,9 +384,9 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 	// activity
 	if (item->m_pLastSeenResource)
-		mir_tstrncpy(buf, item->m_pLastSeenResource->m_tszResourceName, _countof(buf));
+		mir_wstrncpy(buf, item->m_pLastSeenResource->m_tszResourceName, _countof(buf));
 	else
-		mir_tstrncpy(buf, TranslateT("<no information available>"), _countof(buf));
+		mir_wstrncpy(buf, TranslateT("<no information available>"), _countof(buf));
 
 	sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Last active resource"), buf,
 		sttInfoLineId(0, INFOLINE_LASTACTIVE));
@@ -470,7 +470,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		if (dat == NULL) break;
 
 		if (dat->item == NULL) {
-			ptrT jid(dat->ppro->getTStringA(dat->hContact, "jid"));
+			ptrW jid(dat->ppro->getTStringA(dat->hContact, "jid"));
 			if (jid == NULL)
 				break;
 
@@ -560,7 +560,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			case PSN_PARAMCHANGED:
 				dat->ppro = (CJabberProto*)((PSHNOTIFY*)lParam)->lParam;
 				if (dat->hContact != NULL) {
-					ptrT jid(dat->ppro->getTStringA(dat->hContact, "jid"));
+					ptrW jid(dat->ppro->getTStringA(dat->hContact, "jid"));
 					if (jid != NULL)
 						if (!(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
 							dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, jid);
@@ -642,7 +642,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_HIDE);
 		{
-			ptrT jid(photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
+			ptrW jid(photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
 			if (jid != NULL) {
 				JABBER_LIST_ITEM *item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid);
 				if (item == NULL)
@@ -666,7 +666,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDC_SAVE:
 			static wchar_t szFilter[512];
 
-			ptrT jid(photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
+			ptrW jid(photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
 			if (jid == NULL)
 				break;
 
@@ -677,19 +677,19 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 			switch (ProtoGetAvatarFileFormat(item->photoFileName)) {
 			case PA_FORMAT_BMP:
-				mir_sntprintf(szFilter, L"BMP %s (*.bmp)%c*.BMP", TranslateT("format"), 0);
+				mir_snwprintf(szFilter, L"BMP %s (*.bmp)%c*.BMP", TranslateT("format"), 0);
 				break;
 
 			case PA_FORMAT_GIF:
-				mir_sntprintf(szFilter, L"GIF %s (*.gif)%c*.GIF", TranslateT("format"), 0);
+				mir_snwprintf(szFilter, L"GIF %s (*.gif)%c*.GIF", TranslateT("format"), 0);
 				break;
 
 			case PA_FORMAT_JPEG:
-				mir_sntprintf(szFilter, L"JPEG %s (*.jpg;*.jpeg)%c*.JPG;*.JPEG", TranslateT("format"), 0);
+				mir_snwprintf(szFilter, L"JPEG %s (*.jpg;*.jpeg)%c*.JPG;*.JPEG", TranslateT("format"), 0);
 				break;
 
 			default:
-				mir_sntprintf(szFilter, L"%s (*.*)%c*.*", TranslateT("Unknown format"), 0);
+				mir_snwprintf(szFilter, L"%s (*.*)%c*.*", TranslateT("Unknown format"), 0);
 			}
 
 			wchar_t szFileName[MAX_PATH]; szFileName[0] = '\0';

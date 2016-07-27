@@ -202,7 +202,7 @@ int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, wch
 	memcpy(&exCtx, ep->ContextRecord, sizeof(CONTEXT));
 
 	mir_snprintf(exSzFile, "%s%s", szName, szExt);
-	mir_sntprintf(exReason, L"An application error has occured: %s", szReason);
+	mir_snwprintf(exReason, L"An application error has occured: %s", szReason);
 	exLine = line;
 	exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), 0, Ex_DlgProc, 0);
 	exAllowContinue = fAllowContinue;
@@ -240,10 +240,10 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename, bool useGetHandle)
 			throw(CRTException("Error while loading system library", szFilename));
 
 		sysPathName[MAX_PATH - 1] = 0;
-		if (mir_tstrlen(sysPathName) + mir_tstrlen(szFilename) >= MAX_PATH)
+		if (mir_wstrlen(sysPathName) + mir_wstrlen(szFilename) >= MAX_PATH)
 			throw(CRTException("Error while loading system library", szFilename));
 
-		mir_tstrcat(sysPathName, szFilename);
+		mir_wstrcat(sysPathName, szFilename);
 		if (useGetHandle)
 			_h = ::GetModuleHandle(sysPathName);
 		else
@@ -260,15 +260,15 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename, bool useGetHandle)
 
 CRTException::CRTException(const char *szMsg, const wchar_t *szParam) : std::runtime_error(std::string(szMsg))
 {
-	mir_sntprintf(m_szParam, MAX_PATH, szParam);
+	mir_snwprintf(m_szParam, MAX_PATH, szParam);
 }
 
 void CRTException::display() const
 {
-	wchar_t *tszMsg = mir_a2t(what());
+	wchar_t *tszMsg = mir_a2u(what());
 
 	wchar_t tszBoxMsg[500];
-	mir_sntprintf(tszBoxMsg, L"%s\n\n(%s)", tszMsg, m_szParam);
+	mir_snwprintf(tszBoxMsg, L"%s\n\n(%s)", tszMsg, m_szParam);
 	::MessageBox(0, tszBoxMsg, L"Clist_nicer runtime error", MB_OK | MB_ICONERROR);
 	mir_free(tszMsg);
 }

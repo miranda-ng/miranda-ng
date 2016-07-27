@@ -161,7 +161,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		logmsg("WindowProcedure::USER+1");
 
 		ms = (osdmsg*)mir_alloc(sizeof(osdmsg));
-		ms->text = mir_tstrdup((wchar_t *)wParam);
+		ms->text = mir_wstrdup((wchar_t *)wParam);
 		if (lParam == 0)
 			lParam = db_get_dw(NULL, THIS_MODULE, "timeout", DEFAULT_TIMEOUT);
 		ms->timeout = lParam;
@@ -206,7 +206,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 
 		ms = (osdmsg*)mir_alloc(sizeof(osdmsg));
 		memcpy(ms, (osdmsg*)wParam, sizeof(osdmsg));
-		ms->text = mir_tstrdup(ms->text);
+		ms->text = mir_wstrdup(ms->text);
 
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ms);
 		SetTimer(hwnd, (UINT_PTR)ms, (UINT)ms->timeout, 0);

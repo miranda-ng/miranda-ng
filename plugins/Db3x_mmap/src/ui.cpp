@@ -201,13 +201,13 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		case IDOK:
 			wchar_t buf2[100];
 			GetDlgItemText(hwndDlg, IDC_USERPASS1, buf2, _countof(buf2));
-			if (mir_tstrlen(buf2) < 3) {
+			if (mir_wstrlen(buf2) < 3) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));
 				goto LBL_Error;
 			}
 
 			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, _countof(buf));
-			if (mir_tstrcmp(buf2, buf)) {
+			if (mir_wstrcmp(buf2, buf)) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Passwords do not match!"));
 				goto LBL_Error;
 			}

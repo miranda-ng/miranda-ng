@@ -121,7 +121,7 @@ static int ModernOptionsObject_Comparator(const ModernOptionsObject *ptr1, const
 
 	if (obj1->optObject.lptzSubsection && obj2->optObject.lptzSubsection)
 	{
-		int c = mir_tstrcmp(obj1->optObject.lptzSubsection, obj2->optObject.lptzSubsection);
+		int c = mir_wstrcmp(obj1->optObject.lptzSubsection, obj2->optObject.lptzSubsection);
 		if (c) return c;
 	}
 
@@ -376,7 +376,7 @@ static int lstrcmp_null(wchar_t *p1, wchar_t *p2)
 	if (!p1 && !p2) return 0;
 	if (!p1) return -1;
 	if (!p2) return 1;
-	return mir_tstrcmp(p1, p2);
+	return mir_wstrcmp(p1, p2);
 }
 
 static void ModernOptUI_ShowPage(HWND hwndDlg, struct ModernOptionsData *dat, int iPage)
@@ -540,14 +540,14 @@ static INT_PTR svcModernOpt_AddObject(WPARAM wParam, LPARAM lParam)
 
 	case MODERNOPT_TYPE_SUBSECTIONPAGE:
 		objCopy->optObject.lptzSubsection = (objCopy->optObject.dwFlags & MODEROPT_FLG_UNICODE) ?
-			mir_u2t(obj->lpwzSubsection) :
-			mir_a2t(obj->lpzSubsection);
+			mir_wstrdup(obj->lpwzSubsection) :
+			mir_a2u(obj->lpzSubsection);
 		break;
 
 	case MODERNOPT_TYPE_IGNOREOBJECT:
 		objCopy->optObject.lptzSubsection = (objCopy->optObject.dwFlags & MODEROPT_FLG_UNICODE) ?
-			mir_u2t(obj->lpwzSubsection) :
-			mir_a2t(obj->lpzSubsection);
+			mir_wstrdup(obj->lpwzSubsection) :
+			mir_a2u(obj->lpzSubsection);
 		objCopy->optObject.lpzIgnoreModule = mir_strdup(obj->lpzIgnoreModule);
 		objCopy->optObject.lpzIgnoreSetting = mir_strdup(obj->lpzIgnoreSetting);
 		objCopy->optObject.dwIgnoreBit = obj->dwIgnoreBit;
@@ -559,8 +559,8 @@ static INT_PTR svcModernOpt_AddObject(WPARAM wParam, LPARAM lParam)
 		objCopy->optObject.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_SKINS);
 		objCopy->optObject.pfnDlgProc = ModernOptSelector_DlgProc;
 		objCopy->optObject.lptzSubsection = (objCopy->optObject.dwFlags & MODEROPT_FLG_UNICODE) ?
-			mir_u2t(obj->lpwzSubsection) :
-			mir_a2t(obj->lpzSubsection);
+			mir_wstrdup(obj->lpwzSubsection) :
+			mir_a2u(obj->lpzSubsection);
 		objCopy->optObject.lpzThemeExtension = mir_strdup(obj->lpzThemeExtension);
 		objCopy->optObject.lpzThemeModuleName = mir_strdup(obj->lpzThemeModuleName);
 		break;

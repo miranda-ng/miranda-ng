@@ -21,7 +21,7 @@ LIST<CSkypeProto> CSkypeProto::Accounts(1, CSkypeProto::CompareAccounts);
 
 int CSkypeProto::CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2)
 {
-	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 CSkypeProto* CSkypeProto::InitAccount(const char *protoName, const wchar_t *userName)

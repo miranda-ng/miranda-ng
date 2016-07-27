@@ -561,7 +561,7 @@ int ModernSkinButton_AddButton(HWND parent,
 		if (DBkey && *DBkey != '\0') bct->ValueDBSection = mir_strdup(DBkey); else bct->ValueDBSection = NULL;
 		if (TypeDef && *TypeDef != '\0') bct->ValueTypeDef = mir_strdup(TypeDef); else bct->ValueTypeDef = mir_strdup("sDefault");
 		bct->ID = mir_strdup(ID);
-		bct->Hint = mir_tstrdup(Hint);
+		bct->Hint = mir_wstrdup(Hint);
 		Buttons[ButtonsCount].bct = bct;
 		Buttons[ButtonsCount].hwnd = NULL;
 		Buttons[ButtonsCount].OrL = Left;

@@ -74,15 +74,15 @@ void SetLabelProp(int index, LPSTR setting)
 {
 	sprintf(setting, LABEL_SETTING_PROP, index); //!!!!!!!!!!!!!!
 
-	ptrT tszProp(db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
+	ptrW tszProp(db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
 	if (tszProp == NULL)
 		return;
 
-	ptrT tszLastWritten(db_get_tsa(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING));
+	ptrW tszLastWritten(db_get_tsa(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING));
 	if (tszLastWritten == NULL)
 		return;
 
-	if (!mir_tstrcmp(tszProp, tszLastWritten)) {
+	if (!mir_wstrcmp(tszProp, tszLastWritten)) {
 		LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
 		db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
 		db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, label);
@@ -103,9 +103,9 @@ void AddTipperItem()
 
 	for (i = 0; i < itemCount; i++) {
 		mir_snprintf(setting, l, VALUE_SETTING_PROP, i);
-		ptrT tszSetting(db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
+		ptrW tszSetting(db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
 		if (tszSetting) {
-			if (!mir_tstrcmp(UNREAD_THREADS_RAW, tszSetting)) {
+			if (!mir_wstrcmp(UNREAD_THREADS_RAW, tszSetting)) {
 				SetLabelProp(i, setting);
 				return;
 			}

@@ -121,7 +121,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	}
 	if (hwnd == NULL || !IsWindowVisible(GetParent(hwnd))) {
 		wchar_t toolTip[256];
-		mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_snwprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		CLISTEVENT cle = {};
 		cle.flags = CLEF_TCHAR;
@@ -206,7 +206,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
 		wchar_t szTip[256];
-		mir_sntprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
+		mir_snwprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags2 & SMF2_SHOWTYPINGCLIST)) {
 			MIRANDASYSTRAYNOTIFY tn;
@@ -302,7 +302,7 @@ static void RestoreUnreadMessageAlerts(void)
 
 	for (int i = 0; i < arEvents.getCount(); i++) {
 		MSavedEvent &e = arEvents[i];
-		mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e.hContact, 0));
+		mir_snwprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e.hContact, 0));
 		cle.hContact = e.hContact;
 		cle.hDbEvent = e.hEvent;
 		pcli->pfnAddEvent(&cle);
@@ -647,7 +647,7 @@ STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEU
 STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
 	wchar_t sztName[64];
-	mir_sntprintf(sztName, L"s%u", nextStgId++);
+	mir_snwprintf(sztName, L"s%u", nextStgId++);
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);

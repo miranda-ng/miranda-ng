@@ -26,9 +26,9 @@ __inline void AddRow(PopupWindowData *pwd, wchar_t *swzLabel, wchar_t *swzValue,
 	if (pRows == NULL)
 		return;
 	pwd->rows = pRows;								
-	pwd->rows[pwd->iRowCount].swzLabel = swzLabel ? mir_tstrdup(swzLabel) : NULL;
-	pwd->rows[pwd->iRowCount].swzValue = swzValue ? mir_tstrdup(swzValue) : NULL;
-	pwd->rows[pwd->iRowCount].spi = bParseSmileys ? Smileys_PreParse(swzValue, (int)mir_tstrlen(swzValue), szProto) : NULL;
+	pwd->rows[pwd->iRowCount].swzLabel = swzLabel ? mir_wstrdup(swzLabel) : NULL;
+	pwd->rows[pwd->iRowCount].swzValue = swzValue ? mir_wstrdup(swzValue) : NULL;
+	pwd->rows[pwd->iRowCount].spi = bParseSmileys ? Smileys_PreParse(swzValue, (int)mir_wstrlen(swzValue), szProto) : NULL;
 	pwd->rows[pwd->iRowCount].bValueNewline = bNewline;
 	pwd->rows[pwd->iRowCount].bLineAbove = bLineAbove;
 	pwd->rows[pwd->iRowCount].bIsTitle = bIsTitle;
@@ -73,13 +73,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				PROTOACCOUNT *pa = Proto_GetAccount(pwd->clcit.szProto);
 				if (pa)
-					mir_tstrcpy(pwd->swzTitle, pa->tszAccountName);
+					mir_wstrcpy(pwd->swzTitle, pa->tszAccountName);
 
-				if (mir_tstrlen(pwd->swzTitle) == 0)
+				if (mir_wstrlen(pwd->swzTitle) == 0)
 					a2t(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
 
 				if (Proto_IsAccountLocked(pa))
-					mir_sntprintf(pwd->swzTitle, TranslateT("%s (locked)"), pwd->swzTitle);
+					mir_snwprintf(pwd->swzTitle, TranslateT("%s (locked)"), pwd->swzTitle);
 
 				// protocol status
 				WORD wStatus = (WORD)CallProtoService(pwd->clcit.szProto, PS_GETSTATUS, 0, 0);
@@ -99,7 +99,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				// uid info
 				wchar_t swzUid[256], swzUidName[256];
 				if (Uid(0, pwd->clcit.szProto, swzUid, 256) && UidName(pwd->clcit.szProto, swzUidName, 253)) {
-					mir_tstrcat(swzUidName, L": ");
+					mir_wstrcat(swzUidName, L": ");
 					AddRow(pwd, swzUidName, swzUid, NULL, false, false, false);
 				}
 
@@ -107,7 +107,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				wchar_t swzLogon[64];
 				if (TimestampToTimeDifference(NULL, pwd->clcit.szProto, "LogonTS", swzLogon, 59)) {
 					wchar_t ago[96];
-					mir_sntprintf(ago, TranslateT("%s ago"), swzLogon);
+					mir_snwprintf(ago, TranslateT("%s ago"), swzLogon);
 					AddRow(pwd, TranslateT("Log on:"), ago, NULL, false, false, false);
 				}
 
@@ -127,7 +127,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (wStatus >= ID_STATUS_ONLINE && wStatus <= ID_STATUS_OUTTOLUNCH) {
 					// status message
-					ptrT ptszStatus(GetProtoStatusMessage(pwd->clcit.szProto, wStatus));
+					ptrW ptszStatus(GetProtoStatusMessage(pwd->clcit.szProto, wStatus));
 					if (ptszStatus) {
 						StripBBCodesInPlace(ptszStatus);
 						AddRow(pwd, TranslateT("Status message:"), ptszStatus, pwd->clcit.szProto, true, true, true);
@@ -139,7 +139,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						StripBBCodesInPlace(swzAdvTitle);
 						AddRow(pwd, TranslateT("Mood:"), swzAdvTitle, pwd->clcit.szProto, true, false, true);
 
-						ptrT swzAdvText(GetJabberAdvStatusText(pwd->clcit.szProto, "mood", "text"));
+						ptrW swzAdvText(GetJabberAdvStatusText(pwd->clcit.szProto, "mood", "text"));
 						if (swzAdvText) {
 							StripBBCodesInPlace(swzAdvText);
 							AddRow(pwd, L"", swzAdvText, pwd->clcit.szProto, true, true, false);
@@ -155,7 +155,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 
 							// xstatus message
-							ptrT swzAdvText(GetProtoExtraStatusMessage(pwd->clcit.szProto));
+							ptrW swzAdvText(GetProtoExtraStatusMessage(pwd->clcit.szProto));
 							if (swzAdvText) {
 								StripBBCodesInPlace(swzAdvText);
 								AddRow(pwd, L"", swzAdvText, pwd->clcit.szProto, true, true, false);
@@ -173,20 +173,20 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 					// jabber activity
-					ptrT swzActTitle(GetJabberAdvStatusText(pwd->clcit.szProto, "activity", "title"));
+					ptrW swzActTitle(GetJabberAdvStatusText(pwd->clcit.szProto, "activity", "title"));
 					if (swzActTitle) {
 						StripBBCodesInPlace(swzActTitle);
 						AddRow(pwd, TranslateT("Activity:"), swzActTitle, pwd->clcit.szProto, true, false, true);
 					}
 
-					ptrT swzActText(GetJabberAdvStatusText(pwd->clcit.szProto, "activity", "text"));
+					ptrW swzActText(GetJabberAdvStatusText(pwd->clcit.szProto, "activity", "text"));
 					if (swzActText) {
 						StripBBCodesInPlace(swzActText);
 						AddRow(pwd, L"", swzActText, pwd->clcit.szProto, true, true, false);
 					}
 
 					// listening to
-					ptrT swzListening(GetListeningTo(pwd->clcit.szProto));
+					ptrW swzListening(GetListeningTo(pwd->clcit.szProto));
 					if (swzListening) {
 						StripBBCodesInPlace(swzListening);
 						AddRow(pwd, TranslateT("Listening to:"), swzListening, NULL, false, true, true);
@@ -218,7 +218,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else {
 					wchar_t buff[2048], *swzText = pwd->clcit.swzText;
-					size_t iBuffPos, i = 0, iSize = mir_tstrlen(pwd->clcit.swzText);
+					size_t iBuffPos, i = 0, iSize = mir_wstrlen(pwd->clcit.swzText);
 					bool bTopMessage = false;
 
 					while (i < iSize && swzText[i] != '<') {
@@ -262,7 +262,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (iBuffPos) {
 							pwd->rows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData)* (pwd->iRowCount + 1));
 							pwd->rows[pwd->iRowCount].bValueNewline = false;
-							pwd->rows[pwd->iRowCount].swzLabel = mir_tstrdup(buff);
+							pwd->rows[pwd->iRowCount].swzLabel = mir_wstrdup(buff);
 							if (pwd->iRowCount == 1 && bTopMessage)
 								pwd->rows[pwd->iRowCount].bLineAbove = true;
 							else
@@ -276,7 +276,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 							buff[iBuffPos] = 0;
 
-							pwd->rows[pwd->iRowCount].swzValue = mir_tstrdup(buff);
+							pwd->rows[pwd->iRowCount].swzValue = mir_wstrdup(buff);
 							pwd->rows[pwd->iRowCount].spi = NULL;
 							pwd->iRowCount++;
 						}
@@ -382,7 +382,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (pwd->bIsIconVisible[5]) {
 						for (i = 0; opt.exIconsOrder[i] != 5; i++);
 						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
-							ptrT tszVersion(db_get_tsa(pwd->hContact, szProto, "MirVer"));
+							ptrW tszVersion(db_get_tsa(pwd->hContact, szProto, "MirVer"));
 							if (tszVersion != NULL) {
 								pwd->extraIcons[i].hIcon = Finger_GetClientIcon(tszVersion, 0);
 								pwd->extraIcons[i].bDestroy = true;
@@ -766,14 +766,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			for (int i = 0; i < pwd->iRowCount; i++) {
 				if (pwd->rows[i].swzValue) {
 					wchar_t buff[128];
-					int iLen = (int)mir_tstrlen(pwd->rows[i].swzValue);
+					int iLen = (int)mir_wstrlen(pwd->rows[i].swzValue);
 					if (iLen) {
 						if (iLen > MAX_VALUE_LEN) {
 							wcsncpy(buff, pwd->rows[i].swzValue, MAX_VALUE_LEN);
 							buff[MAX_VALUE_LEN] = 0;
-							mir_tstrcat(buff, L"...");
+							mir_wstrcat(buff, L"...");
 						}
-						else mir_tstrcpy(buff, pwd->rows[i].swzValue);
+						else mir_wstrcpy(buff, pwd->rows[i].swzValue);
 
 						AppendMenu(hMenu, MF_STRING, i + 1, buff);  // first id = 1, because no select have id = 0
 						SetMenuItemBitmaps(hMenu, i + 1, MF_BYCOMMAND, hbmpItem, hbmpItem);
@@ -822,30 +822,30 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						for (int i = 0; i < pwd->iRowCount; i++) {
 							if ((pwd->rows[i].swzLabel && pwd->rows[i].swzLabel[0]) || (pwd->rows[i].swzValue && pwd->rows[i].swzValue[0])) {
 								if (pwd->rows[i].swzLabel && pwd->rows[i].swzLabel[0]) {
-									mir_tstrcat(pchData, pwd->rows[i].swzLabel);
-									mir_tstrcat(pchData, L" ");
+									mir_wstrcat(pchData, pwd->rows[i].swzLabel);
+									mir_wstrcat(pchData, L" ");
 								}
-								else mir_tstrcat(pchData, TranslateT("<No Label>: "));
+								else mir_wstrcat(pchData, TranslateT("<No Label>: "));
 
 								if (pwd->rows[i].swzValue && pwd->rows[i].swzValue[0])
-									mir_tstrcat(pchData, pwd->rows[i].swzValue);
+									mir_wstrcat(pchData, pwd->rows[i].swzValue);
 								else
-									mir_tstrcat(pchData, TranslateT("<No Value>"));
+									mir_wstrcat(pchData, TranslateT("<No Value>"));
 
-								mir_tstrcat(pchData, L"\r\n");
+								mir_wstrcat(pchData, L"\r\n");
 							}
 						}
 					}
 					else if (iSelItem == COPYMENU_ALLITEMS) { // copy all items		
 						for (int i = 0; i < pwd->iRowCount; i++) {
 							if (pwd->rows[i].swzValue && pwd->rows[i].swzValue[0]) {
-								mir_tstrcat(pchData, pwd->rows[i].swzValue);
-								mir_tstrcat(pchData, L"\r\n");
+								mir_wstrcat(pchData, pwd->rows[i].swzValue);
+								mir_wstrcat(pchData, L"\r\n");
 							}
 						}
 					}
 					// single row
-					else mir_tstrcpy(pchData, pwd->rows[iSelItem - 1].swzValue);
+					else mir_wstrcpy(pchData, pwd->rows[iSelItem - 1].swzValue);
 
 					GlobalUnlock(hClipboardData);
 					SetClipboardData(CF_UNICODETEXT, hClipboardData);
@@ -1055,9 +1055,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 						char *szProto = GetContactProto(pwd->hContact);
 
-						pwd->rows[pwd->iRowCount].swzLabel = mir_tstrdup(buff_label);
-						pwd->rows[pwd->iRowCount].swzValue = mir_tstrdup(buff);
-						pwd->rows[pwd->iRowCount].spi = Smileys_PreParse(buff, (int)mir_tstrlen(buff), szProto);
+						pwd->rows[pwd->iRowCount].swzLabel = mir_wstrdup(buff_label);
+						pwd->rows[pwd->iRowCount].swzValue = mir_wstrdup(buff);
+						pwd->rows[pwd->iRowCount].spi = Smileys_PreParse(buff, (int)mir_wstrlen(buff), szProto);
 						pwd->rows[pwd->iRowCount].bValueNewline = node->di.bValueNewline;
 						pwd->rows[pwd->iRowCount].bLineAbove = node->di.bLineAbove;
 						pwd->iRowCount++;
@@ -1174,7 +1174,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					else if (hFontLabels)
 						SelectObject(hdc, (HGDIOBJ)hFontLabels);
 
-					GetTextExtentPoint32(hdc, pwd->rows[i].swzLabel, (int)mir_tstrlen(pwd->rows[i].swzLabel), &sz);
+					GetTextExtentPoint32(hdc, pwd->rows[i].swzLabel, (int)mir_wstrlen(pwd->rows[i].swzLabel), &sz);
 					if (sz.cx > pwd->iLabelWidth)
 						pwd->iLabelWidth = sz.cx;
 				}
@@ -1189,7 +1189,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					SelectObject(hdc, (HGDIOBJ)hFontLabels);
 
 				if (pwd->rows[i].swzLabel && pwd->rows[i].swzLabel[0])
-					GetTextExtentPoint32(hdc, pwd->rows[i].swzLabel, (int)mir_tstrlen(pwd->rows[i].swzLabel), &sz);
+					GetTextExtentPoint32(hdc, pwd->rows[i].swzLabel, (int)mir_wstrlen(pwd->rows[i].swzLabel), &sz);
 				else
 					sz.cy = sz.cx = 0;
 
@@ -1210,7 +1210,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (pwd->rows[i].swzValue && pwd->rows[i].swzValue[0]) {
 					if (!bStatusMsg && opt.bGetNewStatusMsg) {
-						if (!mir_tstrcmp(pwd->rows[i].swzValue, L"%sys:status_msg%"))
+						if (!mir_wstrcmp(pwd->rows[i].swzValue, L"%sys:status_msg%"))
 							bStatusMsg = true;
 					}
 
@@ -1484,15 +1484,15 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						iCountOnline++;
 					iCount++;
 				}
-				mir_sntprintf(buff, L"(%d/%d)", iCountOnline, iCount);
+				mir_snwprintf(buff, L"(%d/%d)", iCountOnline, iCount);
 			}
 			else buff[0] = 0;
 
 			wchar_t swzProto[256];
-			mir_tstrcpy(swzProto, pa->tszAccountName);
+			mir_wstrcpy(swzProto, pa->tszAccountName);
 			if (dwItems & TRAYTIP_LOCKSTATUS)
 				if (Proto_IsAccountLocked(pa))
-					mir_sntprintf(swzProto, TranslateT("%s (locked)"), pa->tszAccountName);
+					mir_snwprintf(swzProto, TranslateT("%s (locked)"), pa->tszAccountName);
 
 			AddRow(pwd, swzProto, buff, NULL, false, false, !bFirstItem, true, Skin_LoadProtoIcon(pa->szModuleName, wStatus));
 			bFirstItem = false;
@@ -1500,7 +1500,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (dwItems & TRAYTIP_LOGON) {
 				if (TimestampToTimeDifference(NULL, pa->szModuleName, "LogonTS", buff, 59)) {
 					wchar_t ago[96];
-					mir_sntprintf(ago, TranslateT("%s ago"), buff);
+					mir_snwprintf(ago, TranslateT("%s ago"), buff);
 					AddRow(pwd, TranslateT("Log on:"), ago, NULL, false, false, false);
 				}
 			}
@@ -1621,10 +1621,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							wchar_t *swzNick = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
 							if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO) {
 								wchar_t *swzProto = a2t(proto);
-								mir_sntprintf(swzName, L"%s (%s)", swzNick, swzProto);
+								mir_snwprintf(swzName, L"%s (%s)", swzNick, swzProto);
 								mir_free(swzProto);
 							}
-							else mir_tstrcpy(swzName, swzNick);
+							else mir_wstrcpy(swzName, swzNick);
 
 							AddRow(pwd, swzName, swzStatus, NULL, false, false, false);
 						}
@@ -1638,8 +1638,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					index -= iCount;
 
 				if (index >= 0 && (dwItems & TRAYTIP_NUMCONTACTS) && !((opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE) && iCountOnline == 0)) {
-					mir_sntprintf(buff, L"(%d/%d)", iCountOnline, iCount);
-					pwd->rows[index].swzValue = mir_tstrdup(buff);
+					mir_snwprintf(buff, L"(%d/%d)", iCountOnline, iCount);
+					pwd->rows[index].swzValue = mir_wstrdup(buff);
 				}
 			}
 		}
@@ -1657,7 +1657,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (!pchBold || pchBold != pwd->clcit.swzText) {
 				wchar_t swzText[256];
-				mir_tstrcpy(swzText, pwd->clcit.swzText);
+				mir_wstrcpy(swzText, pwd->clcit.swzText);
 				if (pchBr) swzText[pchBr - pwd->clcit.swzText] = 0;
 				AddRow(pwd, swzText, L"", NULL, false, true, false, true, Skin_LoadIcon(SKINICON_OTHER_FILLEDBLOB));
 			}

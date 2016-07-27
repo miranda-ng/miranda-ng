@@ -3,7 +3,7 @@
 wchar_t* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 {
 	wchar_t path[MAX_PATH];
-	mir_sntprintf(path, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	mir_snwprintf(path, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -11,16 +11,16 @@ wchar_t* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 
 	ptrA steamId(getStringA(hContact, "SteamID"));
 	if (steamId != NULL)
-		mir_sntprintf(path, MAX_PATH, L"%s\\%s.jpg", path, _A2T(steamId));
+		mir_snwprintf(path, MAX_PATH, L"%s\\%s.jpg", path, _A2T(steamId));
 	else
 		return NULL;
 
-	return mir_tstrdup(path);
+	return mir_wstrdup(path);
 }
 
 bool CSteamProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai)
 {
-	ptrT path(GetAvatarFilePath(pai.hContact));
+	ptrW path(GetAvatarFilePath(pai.hContact));
 	if (!path)
 		return false;
 

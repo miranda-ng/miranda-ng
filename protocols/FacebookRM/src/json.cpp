@@ -328,7 +328,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 			newText = _A2T(type.c_str());
 
 		wchar_t title[200];
-		mir_sntprintf(title, TranslateT("User sent %s:"), newText.c_str());
+		mir_snwprintf(title, TranslateT("User sent %s:"), newText.c_str());
 
 		*message_text += T2Utf(title);
 		*message_text += attachments_text;
@@ -615,7 +615,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 
 				// Notify it, if user wants to be notified
 				if (proto->getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
-					proto->NotifyEvent(proto->m_tszUserName, ptrT(mir_utf8decodeT(text.c_str())), NULL, FACEBOOK_EVENT_FRIENDSHIP, &url, alert_id.empty() ? NULL : &alert_id);
+					proto->NotifyEvent(proto->m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), NULL, FACEBOOK_EVENT_FRIENDSHIP, &url, alert_id.empty() ? NULL : &alert_id);
 				}
 			}
 		}
@@ -671,13 +671,13 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				participant = participants.find(from_id);
 				if (participant != participants.end()) {
 					MCONTACT hChatContact = proto->ChatIDToHContact(tid);
-					ptrT name(mir_utf8decodeT(participant->second.nick.c_str()));
+					ptrW name(mir_utf8decodeW(participant->second.nick.c_str()));
 
 					if (st_.as_int() == 1) {
 						StatusTextData st = { 0 };
 						st.cbSize = sizeof(st);
 
-						mir_sntprintf(st.tszText, TranslateT("%s is typing a message..."), name);
+						mir_snwprintf(st.tszText, TranslateT("%s is typing a message..."), name);
 
 						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 					}
@@ -775,8 +775,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 						client = FACEBOOK_CLIENT_OTHER;
 					}
 
-					ptrT oldClient(proto->getTStringA(hContact, "MirVer"));
-					if (!oldClient || mir_tstrcmp(oldClient, client))
+					ptrW oldClient(proto->getTStringA(hContact, "MirVer"));
+					if (!oldClient || mir_wstrcmp(oldClient, client))
 						proto->setTString(hContact, "MirVer", client);
 				}
 			}
@@ -813,13 +813,13 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
 					std::string contactname = getContactName(this, fbu->handle, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
-					ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
+					ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
 					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_FRIENDSHIP, &url);
 				} */
 
 
-				/* ptrT client(getTStringA(fbu->handle, "MirVer"));
-				if (!client || mir_tstrcmp(client, fbu->getMirVer()))
+				/* ptrW client(getTStringA(fbu->handle, "MirVer"));
+				if (!client || mir_wstrcmp(client, fbu->getMirVer()))
 					setTString(fbu->handle, "MirVer", fbu->getMirVer());
 				*/
 
@@ -894,8 +894,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 						client = FACEBOOK_CLIENT_OTHER;
 					}*/
 
-					ptrT oldClient(proto->getTStringA(hContact, "MirVer"));
-					if (!oldClient || mir_tstrcmp(oldClient, client))
+					ptrW oldClient(proto->getTStringA(hContact, "MirVer"));
+					if (!oldClient || mir_wstrcmp(oldClient, client))
 						proto->setTString(hContact, "MirVer", client);
 				}
 			}
@@ -922,7 +922,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			proto->debugLogA("+++ Got ticker type='%s' class='%s'", story_type.c_str(), story_class.c_str());
 
 			if (!text.empty())
-				proto->NotifyEvent(proto->m_tszUserName, ptrT(mir_utf8decodeT(text.c_str())), hContact, FACEBOOK_EVENT_TICKER, &url);
+				proto->NotifyEvent(proto->m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), hContact, FACEBOOK_EVENT_TICKER, &url);
 		}
 		else if (t == "mercury") {
 			// rename multi user chat, video call, ...
@@ -1073,7 +1073,7 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 				chatrooms->erase(iter); // this is not chatroom
 			}
 			else {
-				iter->second->chat_name = std::wstring(ptrT(mir_utf8decodeT(name.as_string().c_str()))); // TODO: create name from users if there is no name...
+				iter->second->chat_name = std::wstring(ptrW(mir_utf8decodeW(name.as_string().c_str()))); // TODO: create name from users if there is no name...
 
 				const JSONNode &participants = (*it)["participants"];
 				for (auto jt = participants.begin(); jt != participants.end(); ++jt) {
@@ -1275,7 +1275,7 @@ int facebook_json_parser::parse_chat_info(std::string *data, facebook_chatroom* 
 		fbc->is_archived = (*it)["is_archived"].as_bool();
 		fbc->is_subscribed = (*it)["is_subscribed"].as_bool();
 		fbc->read_only = (*it)["read_only"].as_bool();
-		fbc->chat_name = std::wstring(ptrT(mir_utf8decodeT(name_.as_string().c_str())));
+		fbc->chat_name = std::wstring(ptrW(mir_utf8decodeW(name_.as_string().c_str())));
 	}
 
 	return EXIT_SUCCESS;

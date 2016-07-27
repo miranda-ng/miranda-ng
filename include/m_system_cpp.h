@@ -51,8 +51,7 @@ public:
 };
 
 typedef mir_ptr<char>  ptrA;
-typedef mir_ptr<wchar_t> ptrT;
-typedef mir_ptr<WCHAR> ptrW;
+typedef mir_ptr<wchar_t> ptrW;
 
 ///////////////////////////////////////////////////////////////////////////////
 // mir_cs - simple wrapper for the critical sections

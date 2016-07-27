@@ -249,7 +249,7 @@ wchar_t *GetListName(c_struct *cs)
 {
 	if (opts.group_append && cs->szgroup[0] != '\0')
 	{
-		mir_sntprintf(tmp_list_name, L"%s (%s)", cs->szname, cs->szgroup);
+		mir_snwprintf(tmp_list_name, L"%s (%s)", cs->szname, cs->szgroup);
 		return tmp_list_name;
 	}
 	else
@@ -267,7 +267,7 @@ int lstreq(wchar_t *a, wchar_t *b, size_t len = -1)
 	if (len > 0)
 		ret = wcsncmp(a, b, len);
 	else
-		ret = mir_tstrcmp(a, b);
+		ret = mir_wstrcmp(a, b);
 	free(a);
 	free(b);
 	return ret;
@@ -403,7 +403,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 			if (db_get_ts(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
 			{
 				if (dbv.ptszVal != NULL)
-					mir_tstrncpy(contact->szgroup, dbv.ptszVal, _countof(contact->szgroup));
+					mir_wstrncpy(contact->szgroup, dbv.ptszVal, _countof(contact->szgroup));
 
 				db_free(&dbv);
 			}
@@ -411,11 +411,11 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 
 		// Make contact name
 		wchar_t *tmp = (wchar_t *) pcli->pfnGetContactDisplayName(hContact, 0);
-		mir_tstrncpy(contact->szname, tmp, _countof(contact->szname));
+		mir_wstrncpy(contact->szname, tmp, _countof(contact->szname));
 
 		PROTOACCOUNT *acc = Proto_GetAccount(pszProto);
 		if (acc != NULL)
-			mir_tstrncpy(contact->proto, acc->tszAccountName, _countof(contact->proto));
+			mir_wstrncpy(contact->proto, acc->tszAccountName, _countof(contact->proto));
 
 		contact->hcontact = hContact;
 		contacts.insert(contact);
@@ -483,7 +483,7 @@ int CheckText(HWND hdlg, wchar_t *sztext, BOOL only_enable = FALSE)
 	if(sztext == NULL || sztext[0] == '\0')
 		return 0;
 
-	size_t len = mir_tstrlen(sztext);
+	size_t len = mir_wstrlen(sztext);
 
 	if (only_enable)
 	{
@@ -533,7 +533,7 @@ MCONTACT GetSelectedContact(HWND hwndDlg)
 			
 	for(int loop = 0; loop < contacts.getCount(); loop++)
 	{
-		if(!mir_tstrcmpi(cname, GetListName(contacts[loop])))
+		if(!mir_wstrcmpi(cname, GetListName(contacts[loop])))
 			return contacts[loop]->hcontact;
 	}
 
@@ -570,7 +570,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			GetWindowText(hdlg, sztext, _countof(sztext));
 
-			BOOL at_end = (mir_tstrlen(sztext) == (int)end);
+			BOOL at_end = (mir_wstrlen(sztext) == (int)end);
 
 			if (ret != -1)
 			{
@@ -716,7 +716,7 @@ static void FillButton(HWND hwndDlg, int dlgItem, wchar_t *name, wchar_t *key, H
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(tmp, L"%s (%s)", TranslateTS(name), key);
+		mir_snwprintf(tmp, L"%s (%s)", TranslateTS(name), key);
 
 	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONSETASFLATBTN, 0, 0);
 	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONADDTOOLTIP, (LPARAM)full, BATF_TCHAR);
@@ -732,7 +732,7 @@ static void FillCheckbox(HWND hwndDlg, int dlgItem, wchar_t *name, wchar_t *key)
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(tmp, L"%s (%s)", TranslateTS(name), key);
+		mir_snwprintf(tmp, L"%s (%s)", TranslateTS(name), key);
 
 	SetDlgItemText(hwndDlg, dlgItem, full);
 }

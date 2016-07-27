@@ -118,7 +118,7 @@ void CMsnProto::InitCustomFolders(void)
 	if (InitCstFldRan) return;
 
 	wchar_t folder[MAX_PATH];
-	mir_sntprintf(folder, L"%%miranda_avatarcache%%\\%S", m_szModuleName);
+	mir_snwprintf(folder, L"%%miranda_avatarcache%%\\%S", m_szModuleName);
 	hCustomSmileyFolder = FoldersRegisterCustomPathT(LPGEN("Custom Smileys"), m_szModuleName, folder, m_tszUserName);
 
 	InitCstFldRan = true;
@@ -170,7 +170,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 // MSN_GetAvatarFileName - gets a file name for an contact's avatar
 void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen, const wchar_t *ext)
 {
-	size_t tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	size_t tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (_waccess(pszDest, 0))
 		CreateDirectoryTreeT(pszDest);
@@ -181,8 +181,8 @@ void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_
 		if (getString(hContact, "PictContext", &dbv) == 0) {
 			char* szAvatarHash = MSN_GetAvatarHash(dbv.pszVal);
 			if (szAvatarHash != NULL) {
-				wchar_t *sztAvatarHash = mir_a2t(szAvatarHash);
-				tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s.", sztAvatarHash);
+				wchar_t *sztAvatarHash = mir_a2u(szAvatarHash);
+				tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s.", sztAvatarHash);
 				mir_free(sztAvatarHash);
 				mir_free(szAvatarHash);
 			}
@@ -196,13 +196,13 @@ void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_
 			pszDest[0] = 0;
 	}
 	else {
-		wchar_t *sztModuleName = mir_a2t(m_szModuleName);
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s avatar.", sztModuleName);
+		wchar_t *sztModuleName = mir_a2u(m_szModuleName);
+		tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s avatar.", sztModuleName);
 		mir_free(sztModuleName);
 	}
 
 	if (ext == NULL) {
-		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"*");
+		mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"*");
 
 		bool found = false;
 		_wfinddata_t c_file;
@@ -210,7 +210,7 @@ void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_
 		if (hFile > -1L) {
 			do {
 				if (wcsrchr(c_file.name, '.')) {
-					mir_sntprintf(pszDest + tPathLen2, cbLen - tPathLen2, L"\\%s", c_file.name);
+					mir_snwprintf(pszDest + tPathLen2, cbLen - tPathLen2, L"\\%s", c_file.name);
 					found = true;
 				}
 			} while (_wfindnext(hFile, &c_file) == 0);
@@ -221,7 +221,7 @@ void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_
 	}
 	else {
 		tPathLen--;
-		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
+		mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
 	}
 }
 
@@ -319,14 +319,14 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, wchar_t* pszDest,
 	wchar_t* path = (wchar_t*)alloca(cbLen * sizeof(wchar_t));
 	if (hCustomSmileyFolder == NULL || FoldersGetCustomPathT(hCustomSmileyFolder, path, (int)cbLen, L"")) {
 		wchar_t *tmpPath = Utils_ReplaceVarsT(L"%miranda_userdata%");
-		wchar_t *tszModuleName = mir_a2t(m_szModuleName);
-		tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%s\\CustomSmiley", tmpPath, tszModuleName);
+		wchar_t *tszModuleName = mir_a2u(m_szModuleName);
+		tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%s\\CustomSmiley", tmpPath, tszModuleName);
 		mir_free(tszModuleName);
 		mir_free(tmpPath);
 	}
 	else {
-		mir_tstrcpy(pszDest, path);
-		tPathLen = mir_tstrlen(pszDest);
+		mir_wstrcpy(pszDest, path);
+		tPathLen = mir_wstrlen(pszDest);
 	}
 
 	if (hContact != NULL) {
@@ -337,12 +337,12 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, wchar_t* pszDest,
 			_ui64tow((UINT_PTR)hContact, dbv.ptszVal, 10);
 		}
 
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", dbv.ptszVal);
+		tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else {
-		wchar_t *tszModuleName = mir_a2t(m_szModuleName);
-		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", tszModuleName);
+		wchar_t *tszModuleName = mir_a2u(m_szModuleName);
+		tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", tszModuleName);
 		mir_free(tszModuleName);
 	}
 
@@ -356,8 +356,8 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, wchar_t* pszDest,
 	if (!exist)
 		CreateDirectoryTreeT(pszDest);
 
-	wchar_t *sztSmileyName = mir_a2t(SmileyName);
-	mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s.%s", sztSmileyName,
+	wchar_t *sztSmileyName = mir_a2u(SmileyName);
+	mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s.%s", sztSmileyName,
 		type == MSN_APPID_CUSTOMSMILEY ? L"png" : L"gif");
 	mir_free(sztSmileyName);
 }
@@ -791,7 +791,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			wchar_t buf[128] = L"Miranda";
 			DWORD buflen = _countof(buf);
 			GetComputerName(buf, &buflen);
-			szPlace = mir_utf8encodeT(buf);
+			szPlace = mir_utf8encodeW(buf);
 		}
 
 		char** msgptr = GetStatusMsgLoc(newStatus);
@@ -921,7 +921,7 @@ void CMsnProto::MSN_ShowError(const char* msgtext, ...)
 	wchar_t *buf = Langpack_PcharToTchar(msgtext);
 
 	va_start(tArgs, msgtext);
-	mir_vsntprintf(tBuffer, _countof(tBuffer), buf, tArgs);
+	mir_vsnwprintf(tBuffer, _countof(tBuffer), buf, tArgs);
 	va_end(tArgs);
 
 	mir_free(buf);
@@ -996,14 +996,14 @@ void CMsnProto::InitPopups(void)
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	ppc.iSeconds = 3;
-	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Hotmail"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Hotmail"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Hotmail");
 	hPopupHotmail = Popup_RegisterClass(&ppc);
 
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	ppc.iSeconds = 3;
-	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notify"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notify"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notify");
 	hPopupNotify = Popup_RegisterClass(&ppc);
 
@@ -1012,7 +1012,7 @@ void CMsnProto::InitPopups(void)
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;
 
-	mir_sntprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Error"));
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Error"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	hPopupError = Popup_RegisterClass(&ppc);
 }
@@ -1026,7 +1026,7 @@ void CALLBACK sttMainThreadCallback(void *param)
 	if ((iserr && !pud->proto->MyOptions.ShowErrorsAsPopups) || !ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		if (pud->flags & MSN_ALLOW_MSGBOX) {
 			wchar_t szMsg[MAX_SECONDLINE + MAX_CONTACTNAME];
-			mir_sntprintf(szMsg, L"%s:\n%s", pud->title, pud->text);
+			mir_snwprintf(szMsg, L"%s:\n%s", pud->title, pud->text);
 			int ret = MessageBox(NULL, szMsg, TranslateT("MSN Protocol"),
 				MB_YESNO | (iserr ? MB_ICONERROR : MB_ICONINFORMATION));
 			if (ret == IDYES)
@@ -1066,8 +1066,8 @@ void CMsnProto::MSN_ShowPopup(const wchar_t* nickname, const wchar_t* msg, int f
 	PopupData *pud = (PopupData*)mir_calloc(sizeof(PopupData));
 	pud->flags = flags;
 	pud->url = mir_strdup(url);
-	pud->title = mir_tstrdup(nickname);
-	pud->text = mir_tstrdup(msg);
+	pud->title = mir_wstrdup(nickname);
+	pud->text = mir_wstrdup(msg);
 	pud->proto = this;
 
 	CallFunctionAsync(sttMainThreadCallback, pud);
@@ -1180,7 +1180,7 @@ int filetransfer::openNext(void)
 
 	if (std.ptszFiles && std.ptszFiles[cf]) {
 		bCompleted = false;
-		replaceStrT(std.tszCurrentFile, std.ptszFiles[cf]);
+		replaceStrW(std.tszCurrentFile, std.ptszFiles[cf]);
 		fileId = _wopen(std.tszCurrentFile, _O_BINARY | _O_RDONLY, _S_IREAD);
 		if (fileId != -1) {
 			std.currentFileSize = _filelengthi64(fileId);

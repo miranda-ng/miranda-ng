@@ -29,25 +29,25 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 	gce.pDest = &gcd;
 	gce.bIsMe = (update.username == twit_.get_username());
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszUID = mir_a2t(update.username.c_str());
+	gce.ptszUID = mir_a2u(update.username.c_str());
 	//TODO: write code here to replace % with %% in update.status.text (which is a std::string)
 
 	std::string chatText = update.status.text;
 
 	replaceAll(chatText, "%", "%%");
 
-	gce.ptszText = mir_a2t_cp(chatText.c_str(), CP_UTF8);
-	//gce.ptszText = mir_a2t_cp(update.status.text.c_str(),CP_UTF8);
+	gce.ptszText = mir_a2u_cp(chatText.c_str(), CP_UTF8);
+	//gce.ptszText = mir_a2u_cp(update.status.text.c_str(),CP_UTF8);
 	gce.time = static_cast<DWORD>(update.status.time);
 
 	DBVARIANT nick;
 	MCONTACT hContact = UsernameToHContact(update.username.c_str());
 	if (hContact && !db_get_s(hContact, "CList", "MyHandle", &nick)) {
-		gce.ptszNick = mir_a2t(nick.pszVal);
+		gce.ptszNick = mir_a2u(nick.pszVal);
 		db_free(&nick);
 	}
 	else
-		gce.ptszNick = mir_a2t(update.username.c_str());
+		gce.ptszNick = mir_a2u(update.username.c_str());
 
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 
@@ -78,7 +78,7 @@ int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 
 	case GC_USER_PRIVMESS:
 	{
-		ptrA text(mir_t2a(hook->ptszUID));
+		ptrA text(mir_u2a(hook->ptszUID));
 		CallService(MS_MSG_SENDMESSAGE, WPARAM(UsernameToHContact(text)), 0);
 	}
 	break;
@@ -93,8 +93,8 @@ void TwitterProto::AddChatContact(const char *name, const char *nick)
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = DWORD(time(0));
-	gce.ptszNick = mir_a2t(nick ? nick : name);
-	gce.ptszUID = mir_a2t(name);
+	gce.ptszNick = mir_a2u(nick ? nick : name);
+	gce.ptszUID = mir_a2u(name);
 	gce.ptszStatus = L"Normal";
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 
@@ -107,7 +107,7 @@ void TwitterProto::DeleteChatContact(const char *name)
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = DWORD(time(0));
-	gce.ptszNick = mir_a2t(name);
+	gce.ptszNick = mir_a2u(name);
 	gce.ptszUID = gce.ptszNick;
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 

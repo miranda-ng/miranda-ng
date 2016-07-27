@@ -54,18 +54,18 @@ static wchar_t *parseHex(ARGUMENTSINFO *ai)
 
 	int val = ttoi(ai->targv[1]);
 	int padding = ttoi(ai->targv[2]);
-	mir_sntprintf(szVal, L"%x", val);
-	unsigned int zeros = max(padding - (signed int)mir_tstrlen(szVal), 0);
-	wchar_t *res = (wchar_t*)mir_alloc((zeros + mir_tstrlen(szVal) + 3)*sizeof(wchar_t));
+	mir_snwprintf(szVal, L"%x", val);
+	unsigned int zeros = max(padding - (signed int)mir_wstrlen(szVal), 0);
+	wchar_t *res = (wchar_t*)mir_alloc((zeros + mir_wstrlen(szVal) + 3)*sizeof(wchar_t));
 	if (res == NULL)
 		return NULL;
 
-	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 3) * sizeof(wchar_t)));
-	mir_tstrcpy(res, L"0x");
+	memset(res, 0, ((zeros + mir_wstrlen(szVal) + 3) * sizeof(wchar_t)));
+	mir_wstrcpy(res, L"0x");
 	for (i = 0; i < zeros; i++)
 		*(res + 2 + i) = '0';
 
-	mir_tstrcat(res, szVal);
+	mir_wstrcat(res, szVal);
 	return res;
 }
 
@@ -140,19 +140,19 @@ static wchar_t *parseNum(ARGUMENTSINFO *ai)
 	if (szVal == NULL)
 		return NULL;
 
-	unsigned zeros = max(padding - (signed int)mir_tstrlen(szVal), 0);
-	wchar_t *res = (wchar_t*)mir_alloc((zeros + mir_tstrlen(szVal) + 1)*sizeof(wchar_t));
+	unsigned zeros = max(padding - (signed int)mir_wstrlen(szVal), 0);
+	wchar_t *res = (wchar_t*)mir_alloc((zeros + mir_wstrlen(szVal) + 1)*sizeof(wchar_t));
 	if (res == NULL) {
 		mir_free(szVal);
 		return NULL;
 	}
 
-	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 1) * sizeof(wchar_t)));
+	memset(res, 0, ((zeros + mir_wstrlen(szVal) + 1) * sizeof(wchar_t)));
 	wchar_t *cur = res;
 	for (unsigned i = 0; i < zeros; i++)
 		*cur++ = '0';
 
-	mir_tstrcat(res, szVal);
+	mir_wstrcat(res, szVal);
 	mir_free(szVal);
 
 	return res;

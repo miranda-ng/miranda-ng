@@ -352,7 +352,7 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 		GetFullAvatarFileName(dwUIN, szUID, dwPaFormat, tszFile, MAX_PATH * 2);
 
-		mir_tstrncpy(pai->filename, tszFile, _countof(pai->filename)); // Avatar API does not support unicode :-(
+		mir_wstrncpy(pai->filename, tszFile, _countof(pai->filename)); // Avatar API does not support unicode :-(
 		pai->format = dwPaFormat;
 
 		if (!IsAvatarChanged(pai->hContact, dbv.pbVal, dbv.cpbVal)) { // hashes are the same
@@ -370,7 +370,7 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 			GetAvatarFileName(dwUIN, szUID, tszFile, MAX_PATH * 2);
 			GetAvatarData(pai->hContact, dwUIN, szUID, dbv.pbVal, dbv.cpbVal, tszFile);
-			mir_tstrncpy(pai->filename, tszFile, _countof(pai->filename)); // Avatar API does not support unicode :-(
+			mir_wstrncpy(pai->filename, tszFile, _countof(pai->filename)); // Avatar API does not support unicode :-(
 
 			db_free(&dbv);
 
@@ -501,7 +501,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		GetFullAvatarFileName(0, NULL, dwPaFormat, tszMyFile, MAX_PATH);
 		
 		// if not in our storage, copy
-		if (mir_tstrcmp(tszFile, tszMyFile) && !CopyFile(tszFile, tszMyFile, FALSE)) {
+		if (mir_wstrcmp(tszFile, tszMyFile) && !CopyFile(tszFile, tszMyFile, FALSE)) {
 			debugLogA("Failed to copy our avatar to local storage.");
 			return -1;
 		}

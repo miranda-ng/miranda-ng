@@ -264,7 +264,7 @@ wstring TalkBot::AllReplies(const wstring &incomingMessage, ContactData *contact
 TalkBot::MessageInfo* TalkBot::Reply(MCONTACT contact, wstring incomingMessage, bool saveChoice)
 {
 	wchar_t* str = new wchar_t[incomingMessage.length() + 1];
-	mir_tstrcpy(str, incomingMessage.c_str());
+	mir_wstrcpy(str, incomingMessage.c_str());
 	CharLower(str);
 	incomingMessage = str;
 	delete[] str;

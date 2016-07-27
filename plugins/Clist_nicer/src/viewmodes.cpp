@@ -434,7 +434,7 @@ void UpdateFilters()
 	mir_strncpy(sttModeName, szBuf, sizeof(sttModeName));
 	{
 		wchar_t szTemp[100];
-		mir_sntprintf(szTemp, TranslateT("Current view mode: %S"), sttModeName);
+		mir_snwprintf(szTemp, TranslateT("Current view mode: %S"), sttModeName);
 		SetDlgItemText(sttClvmHwnd, IDC_CURVIEWMODE2, szTemp);
 	}
 	
@@ -493,7 +493,7 @@ void UpdateFilters()
 		for (int i = 1; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-			mir_sntprintf(szMask, L"%s|", szTemp);
+			mir_snwprintf(szMask, L"%s|", szTemp);
 			if (dbv_gf.ptszVal && wcsstr(dbv_gf.ptszVal, szMask)) {
 				ListView_SetCheckState(hwndList, i, TRUE);
 			}
@@ -1042,8 +1042,8 @@ void ApplyViewMode(const char *name)
 	}
 
 	mir_snprintf(szSetting, "%c%s_GF", 246, name);
-	ptrT tszGroups(db_get_tsa(NULL, CLVM_MODULE, szSetting));
-	if (mir_tstrlen(tszGroups) >= 2) {
+	ptrW tszGroups(db_get_tsa(NULL, CLVM_MODULE, szSetting));
+	if (mir_wstrlen(tszGroups) >= 2) {
 		wcsncpy_s(cfg::dat.groupFilter, tszGroups, _TRUNCATE);
 		cfg::dat.bFilterEffective |= CLVM_FILTER_GROUPS;
 	}

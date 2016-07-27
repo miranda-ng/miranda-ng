@@ -63,9 +63,9 @@ WORD GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList)
 		}
 		else {
 			// Выделяем память под строку.
-			(*RowItemsList)[c].String = (wchar_t*)mir_alloc(sizeof(wchar_t) * mir_tstrlen(end));
+			(*RowItemsList)[c].String = (wchar_t*)mir_alloc(sizeof(wchar_t) * mir_wstrlen(end));
 			// Копируем строку.
-			wcsncpy((*RowItemsList)[c].String, end + 1, mir_tstrlen(end));
+			wcsncpy((*RowItemsList)[c].String, end + 1, mir_wstrlen(end));
 		}
 
 		c++;
@@ -148,20 +148,20 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, wchar_t *Buffer, size_t Size)
 		return 0;
 	}
 
-	mir_sntprintf(Str1, L"%d.%d", Value / Divider, Value % Divider);
+	mir_snwprintf(Str1, L"%d.%d", Value / Divider, Value % Divider);
 	size_t l = GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, NULL, 0);
 	if (!l) return 0;
-	l += mir_tstrlen(szUnit) + 1;
+	l += mir_wstrlen(szUnit) + 1;
 	Res = (wchar_t*)malloc(l * sizeof(wchar_t));
 	if (!Res) return 0;
 	GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, Res, (int)l);
-	mir_tstrcat(Res, szUnit);
+	mir_wstrcat(Res, szUnit);
 
 	if (Size && Buffer) {
-		mir_tstrcpy(Buffer, Res);
-		l = mir_tstrlen(Buffer);
+		mir_wstrcpy(Buffer, Res);
+		l = mir_wstrlen(Buffer);
 	}
-	else l = mir_tstrlen(Res) + 1;
+	else l = mir_wstrlen(Res) + 1;
 
 	free(Res);
 	return l;
@@ -197,53 +197,53 @@ size_t GetDurationFormatM(DWORD Duration, wchar_t *Format, wchar_t *Buffer, size
 		Token[TokenIndex] = 0;
 
 		// Что получили в аккумуляторе?
-		if (!mir_tstrcmp(Token, L"d")) {
+		if (!mir_wstrcmp(Token, L"d")) {
 			q = Duration / (60 * 60 * 24);
-			mir_sntprintf(Token, L"%d", q);
+			mir_snwprintf(Token, L"%d", q);
 			Duration -= q * 60 * 60 * 24;
 		}
-		else if (!mir_tstrcmp(Token, L"h")) {
+		else if (!mir_wstrcmp(Token, L"h")) {
 			q = Duration / (60 * 60);
-			mir_sntprintf(Token, L"%d", q);
+			mir_snwprintf(Token, L"%d", q);
 			Duration -= q * 60 * 60;
 		}
-		else if (!mir_tstrcmp(Token, L"hh")) {
+		else if (!mir_wstrcmp(Token, L"hh")) {
 			q = Duration / (60 * 60);
-			mir_sntprintf(Token, L"%02d", q);
+			mir_snwprintf(Token, L"%02d", q);
 			Duration -= q * 60 * 60;
 		}
-		else if (!mir_tstrcmp(Token, L"m")) {
+		else if (!mir_wstrcmp(Token, L"m")) {
 			q = Duration / 60;
-			mir_sntprintf(Token, L"%d", q);
+			mir_snwprintf(Token, L"%d", q);
 			Duration -= q * 60;
 		}
-		else if (!mir_tstrcmp(Token, L"mm")) {
+		else if (!mir_wstrcmp(Token, L"mm")) {
 			q = Duration / 60;
-			mir_sntprintf(Token, L"%02d", q);
+			mir_snwprintf(Token, L"%02d", q);
 			Duration -= q * 60;
 		}
-		else if (!mir_tstrcmp(Token, L"s")) {
+		else if (!mir_wstrcmp(Token, L"s")) {
 			q = Duration;
-			mir_sntprintf(Token, L"%d", q);
+			mir_snwprintf(Token, L"%d", q);
 			Duration -= q;
 		}
-		else if (!mir_tstrcmp(Token, L"ss")) {
+		else if (!mir_wstrcmp(Token, L"ss")) {
 			q = Duration;
-			mir_sntprintf(Token, L"%02d", q);
+			mir_snwprintf(Token, L"%02d", q);
 			Duration -= q;
 		}
 
 		// Добавим памяти, если нужно.
-		Length = mir_tstrlen(Res) + mir_tstrlen(Token) + 1;
+		Length = mir_wstrlen(Res) + mir_wstrlen(Token) + 1;
 		Res = (wchar_t*)realloc(Res, Length * sizeof(wchar_t));
-		mir_tstrcat(Res, Token);
+		mir_wstrcat(Res, Token);
 	}
 
 	if (Size && Buffer) {
 		wcsncpy(Buffer, Res, Size);
-		Length = mir_tstrlen(Buffer);
+		Length = mir_wstrlen(Buffer);
 	}
-	else Length = mir_tstrlen(Res) + 1;
+	else Length = mir_wstrlen(Res) + 1;
 
 	free(Res);
 	return Length;

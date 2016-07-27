@@ -18,8 +18,8 @@ void utils::copyText(HWND hwnd, const wchar_t *text)
 		return;
 
 	EmptyClipboard();
-	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_tstrlen(text) + 1));
-	mir_tstrcpy((wchar_t*)GlobalLock(hMem), text);
+	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_wstrlen(text) + 1));
+	mir_wstrcpy((wchar_t*)GlobalLock(hMem), text);
 	GlobalUnlock(hMem);
 	SetClipboardData(CF_UNICODETEXT, hMem);
 	CloseClipboard();

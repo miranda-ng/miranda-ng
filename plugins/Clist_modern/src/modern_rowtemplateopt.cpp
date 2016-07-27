@@ -312,18 +312,18 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 			if (!cell->child)
 			{
 				if (cell->type == 0)
-					mir_sntprintf(buf, TranslateT("Empty %s cell"), cell->cont == TC_COL ? TranslateT("column") : TranslateT("line"));
+					mir_snwprintf(buf, TranslateT("Empty %s cell"), cell->cont == TC_COL ? TranslateT("column") : TranslateT("line"));
 				else
-					mir_tstrncpy(buf, TranslateTS(types[cell->type]), _countof(buf));
+					mir_wstrncpy(buf, TranslateTS(types[cell->type]), _countof(buf));
 			}
 			else
 			{
 				if (cell->type == 0)
-					mir_tstrncpy(buf, (cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines")), _countof(buf));
+					mir_wstrncpy(buf, (cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines")), _countof(buf));
 				else
-					mir_sntprintf(buf, TranslateT("%s, contain %s"), TranslateTS(types[cell->type]), cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines"));
+					mir_snwprintf(buf, TranslateT("%s, contain %s"), TranslateTS(types[cell->type]), cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines"));
 			}
-			if (cell->layer) mir_tstrncat(buf, TranslateT(" layered"), _countof(buf) - mir_tstrlen(buf));
+			if (cell->layer) mir_wstrncat(buf, TranslateT(" layered"), _countof(buf) - mir_wstrlen(buf));
 			tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 			tvi.pszText = buf;
 			TreeView_SetItem(htree, &tvi);

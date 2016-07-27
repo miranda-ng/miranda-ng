@@ -60,7 +60,7 @@ static y_filetransfer* new_ft(CYahooProto* ppro, int id, MCONTACT hContact, cons
 	for (YList *l = fs; l; l = l->next) {
 		yahoo_file_info *fi = (yahoo_file_info*)l->data;
 
-		ft->pfts.ptszFiles[i++] = mir_utf8decodeT(fi->filename);
+		ft->pfts.ptszFiles[i++] = mir_utf8decodeW(fi->filename);
 		ft->pfts.totalBytes += fi->filesize;
 	}
 
@@ -297,7 +297,7 @@ static void dl_file(int id, INT_PTR fd, int error, const char*, unsigned long si
 		 *
 		 * Don't rely on workingDir to be right, since it's not used to check if file exists.
 		 */
-		mir_sntprintf(filefull, L"%s\\%s", sf->pfts.tszWorkingDir, sf->pfts.tszCurrentFile);
+		mir_snwprintf(filefull, L"%s\\%s", sf->pfts.tszWorkingDir, sf->pfts.tszCurrentFile);
 		FREE(sf->pfts.tszCurrentFile);
 		sf->pfts.tszCurrentFile = wcsdup(filefull);
 
@@ -721,7 +721,7 @@ HANDLE __cdecl CYahooProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t*
 	//LOG(LOG_INFO, "[%s] Requesting file from %s", ft->cookie, ft->user);
 	ft->pfts.tszWorkingDir = wcsdup(szPath);
 
-	size_t len = mir_tstrlen(ft->pfts.tszWorkingDir) - 1;
+	size_t len = mir_wstrlen(ft->pfts.tszWorkingDir) - 1;
 	if (ft->pfts.tszWorkingDir[len] == '\\')
 		ft->pfts.tszWorkingDir[len] = 0;
 

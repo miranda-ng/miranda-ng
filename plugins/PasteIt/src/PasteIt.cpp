@@ -71,8 +71,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 std::wstring GetFile()
 {
 	wchar_t filter[512];
-	mir_tstrncpy(filter, TranslateT("All Files (*.*)"), _countof(filter));
-	memcpy(filter + mir_tstrlen(filter), L"\0*.*\0", 6 * sizeof(wchar_t));
+	mir_wstrncpy(filter, TranslateT("All Files (*.*)"), _countof(filter));
+	memcpy(filter + mir_wstrlen(filter), L"\0*.*\0", 6 * sizeof(wchar_t));
 	wchar_t stzFilePath[1024];
 	stzFilePath[0] = 0;
 	stzFilePath[1] = 0;

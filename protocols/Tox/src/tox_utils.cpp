@@ -150,7 +150,7 @@ MEVENT CToxProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DW
 INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 {
 	wchar_t *uri = (wchar_t*)lParam;
-	if (mir_tstrlen(uri) <= 4)
+	if (mir_wstrlen(uri) <= 4)
 		return 1;
 
 	if (Accounts.getCount() == 0)
@@ -173,7 +173,7 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_UTF8;
-	psr.id.a = mir_t2a(&uri[4]);
+	psr.id.a = mir_u2a(&uri[4]);
 
 	ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
 	acs.szProto = proto->m_szModuleName;

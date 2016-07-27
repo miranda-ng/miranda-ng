@@ -49,7 +49,7 @@ static HGENMENU
 
 INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 {
-	ptrT tszGroup(db_get_tsa(wParam, "CList", "Group"));
+	ptrW tszGroup(db_get_tsa(wParam, "CList", "Group"));
 
 	// Create a new metacontact
 	MCONTACT hMetaContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);

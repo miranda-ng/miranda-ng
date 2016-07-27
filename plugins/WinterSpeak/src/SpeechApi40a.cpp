@@ -88,7 +88,7 @@ bool SpeechApi40a::isLoaded() const
 //------------------------------------------------------------------------------
 bool SpeechApi40a::say(const std::wstring &sentence)
 {
-	//std::string text = mir_t2a_cp(sentence.c_str(), CP_ACP);
+	//std::string text = mir_u2a_cp(sentence.c_str(), CP_ACP);
 	//MessageBoxA(NULL, text.c_str(), "TTS4", MB_OK);
 	bool ret = true;
 

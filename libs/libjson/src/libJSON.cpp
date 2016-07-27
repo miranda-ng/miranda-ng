@@ -55,7 +55,7 @@ extern JSONNode nullNode;
 
 inline wchar_t* toCString(const json_string & str)
 {
-	return mir_utf8decodeT( str.c_str());
+	return mir_utf8decodeW( str.c_str());
 }
 
 /*

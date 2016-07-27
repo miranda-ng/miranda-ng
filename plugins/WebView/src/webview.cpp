@@ -64,7 +64,7 @@ void ChangeMenuItemCountdown()
 	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 
 	wchar_t countername[100];
-	mir_sntprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+	mir_snwprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 
 	Menu_ModifyItem(hMenuItemCountdown, countername, hIcon, CMIF_KEEPUNTRANSLATED);
 }
@@ -173,7 +173,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 
 	int action = db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1);
 	if (action == 0) {
-		ptrT url(db_get_tsa(hContact, MODULENAME, "URL"));
+		ptrW url(db_get_tsa(hContact, MODULENAME, "URL"));
 		Utils_OpenUrlT(url);
 
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
@@ -241,10 +241,10 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	cfFM.dwEffects = bold | italic | underline;
 
 	if (!db_get_ts(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
-		mir_tstrcpy(cfFM.szFaceName, dbv.ptszVal);
+		mir_wstrcpy(cfFM.szFaceName, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else mir_tstrcpy(cfFM.szFaceName, Def_font_face);
+	else mir_wstrcpy(cfFM.szFaceName, Def_font_face);
 
 	HDC hDC = GetDC(hWindow);
 	cfFM.yHeight = (BYTE)MulDiv(abs(g_lf.lfHeight), 120, GetDeviceCaps(GetDC(hWindow), LOGPIXELSY)) * (db_get_b(NULL, MODULENAME, FONT_SIZE_KEY, 14));
@@ -327,7 +327,7 @@ void FontSettings(void)
 	g_lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	g_lf.lfQuality = DEFAULT_QUALITY;
 	g_lf.lfPitchAndFamily = FIXED_PITCH | FF_MODERN;
-	mir_tstrcpy(g_lf.lfFaceName, Def_font_face);
+	mir_wstrcpy(g_lf.lfFaceName, Def_font_face);
 }
 
 /*****************************************************************************/
@@ -443,7 +443,7 @@ int OnTopMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
-	ptrT url(db_get_tsa(hContact, MODULENAME, "URL"));
+	ptrW url(db_get_tsa(hContact, MODULENAME, "URL"));
 	if (url)
 		Utils_OpenUrlT(url);
 

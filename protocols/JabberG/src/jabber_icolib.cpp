@@ -307,7 +307,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	int first = -1;
 	HICON empty = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 
-	mir_sntprintf(Group, LPGENW("Status icons")L"/%s/%S %s", m_tszUserName, proto, TranslateT("transport"));
+	mir_snwprintf(Group, LPGENW("Status icons")L"/%s/%S %s", m_tszUserName, proto, TranslateT("transport"));
 	mir_snprintf(defFile, "proto_%s.dll", proto);
 	if (!hAdvancedStatusIcon)
 		hAdvancedStatusIcon = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
@@ -389,7 +389,7 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
 	if (!getByte(hContact, "IsTransported", 0))
 		return -1;
 
-	int iID = GetTransportProtoID(ptrT(getTStringA(hContact, "Transport")));
+	int iID = GetTransportProtoID(ptrW(getTStringA(hContact, "Transport")));
 	if (iID < 0)
 		return -1;
 
@@ -431,7 +431,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hCon
 		}
 
 	if (m_lstTransports.getIndex(domain) == -1 && isAgent) {
-		m_lstTransports.insert(mir_tstrdup(domain));
+		m_lstTransports.insert(mir_wstrdup(domain));
 		setByte(hContact, "IsTransport", 1);
 	}
 
@@ -445,7 +445,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hCon
 void CJabberProto::CheckAllContactsAreTransported()
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		ptrT jid(getTStringA(hContact, "jid"));
+		ptrW jid(getTStringA(hContact, "jid"));
 		if (jid)
 			DBCheckIsTransportedContact(jid, hContact);
 	}

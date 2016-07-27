@@ -81,7 +81,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		if (m_iVersion > 1)
 			return (int)ProtoCallService(m_szModuleName, PSS_AUTHREQUEST, 0, (LPARAM)&ccs);
 
-		ccs.lParam = (LPARAM)mir_t2a(szMessage);
+		ccs.lParam = (LPARAM)mir_u2a(szMessage);
 		int res = (int)ProtoCallService(m_szModuleName, PSS_AUTHREQUEST, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
 		return res;
@@ -93,7 +93,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		if (m_iVersion > 1)
 			return (HANDLE)ProtoCallService(m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs);
 
-		ccs.lParam = (LPARAM)mir_t2a(szPath);
+		ccs.lParam = (LPARAM)mir_u2a(szPath);
 		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
 		return res;
@@ -111,7 +111,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		if (m_iVersion > 1)
 			return (int)ProtoCallService(m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs);
 
-		ccs.lParam = (LPARAM)mir_t2a(szReason);
+		ccs.lParam = (LPARAM)mir_u2a(szReason);
 		int res = (int)ProtoCallService(m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
 		return res;
@@ -123,7 +123,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		if (m_iVersion > 1)
 			return (int)ProtoCallService(m_szModuleName, PS_FILERESUME, (WPARAM)hTransfer, (LPARAM)&pfr);
 
-		pfr.szFilename = (wchar_t*)mir_t2a(pfr.szFilename);
+		pfr.szFilename = (wchar_t*)mir_u2a(pfr.szFilename);
 		int res = (int)ProtoCallService(m_szModuleName, PS_FILERESUME, (WPARAM)hTransfer, (LPARAM)&pfr);
 		mir_free((wchar_t*)*szFilename);
 		*action = pfr.action; *szFilename = (wchar_t*)pfr.szFilename;
@@ -165,9 +165,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	HANDLE __cdecl SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName)
 	{
 		PROTOSEARCHBYNAME psn;
-		psn.pszNick = (wchar_t*)mir_t2a(nick);
-		psn.pszFirstName = (wchar_t*)mir_t2a(firstName);
-		psn.pszLastName = (wchar_t*)mir_t2a(lastName);
+		psn.pszNick = (wchar_t*)mir_u2a(nick);
+		psn.pszFirstName = (wchar_t*)mir_u2a(firstName);
+		psn.pszLastName = (wchar_t*)mir_u2a(lastName);
 		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYNAME, 0, (LPARAM)&psn);
 		mir_free(psn.pszNick);
 		mir_free(psn.pszFirstName);
@@ -223,7 +223,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		if (m_iVersion > 1)
 			return (HANDLE)ProtoCallService(m_szModuleName, PSS_FILE, 0, (LPARAM)&ccs);
 
-		ccs.wParam = (WPARAM)mir_t2a(szDescription);
+		ccs.wParam = (WPARAM)mir_u2a(szDescription);
 		ccs.lParam = (LPARAM)Proto_FilesMatrixA(ppszFiles);
 		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PSS_FILE, 0, (LPARAM)&ccs);
 		if (res == 0) FreeFilesMatrix((wchar_t***)&ccs.lParam);
@@ -291,7 +291,7 @@ PROTO_INTERFACE* AddDefaultAccount(const char *szProtoName)
 {
 	PROTO_INTERFACE* ppi = new DEFAULT_PROTO_INTERFACE;
 	ppi->m_szModuleName = mir_strdup(szProtoName);
-	ppi->m_tszUserName = mir_a2t(szProtoName);
+	ppi->m_tszUserName = mir_a2u(szProtoName);
 	return ppi;
 }
 

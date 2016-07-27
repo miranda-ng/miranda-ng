@@ -141,7 +141,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 	if (type == NULL)
 		return;
 
-	if (!mir_tstrcmp(type, L"result")) {
+	if (!mir_wstrcmp(type, L"result")) {
 		HXML queryNode = XmlGetNthChild(iqNode, L"query", 1);
 		HXML xNode = XmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 
@@ -160,15 +160,15 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 				if (!chNode)
 					break;
 
-				if (!mir_tstrcmpi(XmlGetName(chNode), L"instructions") && XmlGetText(chNode))
+				if (!mir_wstrcmpi(XmlGetName(chNode), L"instructions") && XmlGetText(chNode))
 					SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, TranslateTS(XmlGetText(chNode)));
 				else if (XmlGetName(chNode)) {
 					Data *MyData = (Data*)malloc(sizeof(Data));
 					memset(MyData, 0, sizeof(Data));
 
-					MyData->Label = mir_tstrdup(XmlGetName(chNode));
-					MyData->Var = mir_tstrdup(XmlGetName(chNode));
-					MyData->defValue = mir_tstrdup(XmlGetText(chNode));
+					MyData->Label = mir_wstrdup(XmlGetName(chNode));
+					MyData->Var = mir_wstrdup(XmlGetName(chNode));
+					MyData->defValue = mir_wstrdup(XmlGetText(chNode));
 					MyData->Order = Order;
 					if (MyData->defValue) MyData->bReadOnly = TRUE;
 					PostMessage(searchHandleDlg, WM_USER + 10, FALSE, (LPARAM)MyData);
@@ -183,7 +183,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 		PostMessage(searchHandleDlg, WM_USER + 10, 0, 0);
 		ShowWindow(searchHandleDlg, SW_SHOW);
 	}
-	else if (!mir_tstrcmp(type, L"error")) {
+	else if (!mir_wstrcmp(type, L"error")) {
 		const wchar_t *code = NULL;
 		const wchar_t *description = NULL;
 		wchar_t buff[255];
@@ -192,7 +192,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 			code = XmlGetAttrValue(errorNode, L"code");
 			description = XmlGetText(errorNode);
 		}
-		mir_sntprintf(buff, TranslateT("Error %s %s\r\nPlease select other server"), code ? code : L"", description ? description : L"");
+		mir_snwprintf(buff, TranslateT("Error %s %s\r\nPlease select other server"), code ? code : L"", description ? description : L"");
 		SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, buff);
 	}
 	else SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, TranslateT("Error: unknown reply received\r\nPlease select other server"));
@@ -261,7 +261,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 			wchar_t *var = ListOfFields[j];
 			wchar_t *value = pmUserData->operator [](var);
 			Results.pszFields[j] = value ? value : (wchar_t *)L" ";
-			if (!mir_tstrcmpi(var, L"jid") && value)
+			if (!mir_wstrcmpi(var, L"jid") && value)
 				Results.psr.id.w = value;
 		}
 
@@ -270,8 +270,8 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 			nick = pmUserData->operator [](nickfields[k]);
 
 		if (nick) {
-			if (mir_tstrcmpi(nick, Results.psr.id.w))
-				mir_sntprintf(buff, L"%s (%s)", nick, Results.psr.id.w);
+			if (mir_wstrcmpi(nick, Results.psr.id.w))
+				mir_snwprintf(buff, L"%s (%s)", nick, Results.psr.id.w);
 			else
 				wcsncpy_s(buff, nick, _TRUNCATE);
 
@@ -293,7 +293,7 @@ void DestroyKey(wchar_t* key)
 
 wchar_t* CopyKey(wchar_t* key)
 {
-	return mir_tstrdup(key);
+	return mir_wstrdup(key);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -312,7 +312,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 		return;
 	}
 
-	if (!mir_tstrcmp(type, L"result")) {
+	if (!mir_wstrcmp(type, L"result")) {
 		HXML queryNode = XmlGetNthChild(iqNode, L"query", 1);
 		HXML xNode = XmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 		if (xNode) {
@@ -379,7 +379,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 			}
 		}
 	}
-	else if (!mir_tstrcmp(type, L"error")) {
+	else if (!mir_wstrcmp(type, L"error")) {
 		const wchar_t *code = NULL;
 		const wchar_t *description = NULL;
 		wchar_t buff[255];
@@ -389,7 +389,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 			description = XmlGetText(errorNode);
 		}
 
-		mir_sntprintf(buff, TranslateT("Error %s %s\r\nTry to specify more detailed"), code ? code : L"", description ? description : L"");
+		mir_snwprintf(buff, TranslateT("Error %s %s\r\nTry to specify more detailed"), code ? code : L"", description ? description : L"");
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		if (searchHandleDlg)
 			SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, buff);
@@ -494,8 +494,8 @@ void CJabberProto::SearchDeleteFromRecent(const wchar_t *szAddr, bool deleteLast
 	for (int i = 0; i < 10; i++) {
 		char key[30];
 		mir_snprintf(key, "RecentlySearched_%d", i);
-		ptrT szValue(getTStringA(key));
-		if (szValue == NULL || mir_tstrcmpi(szAddr, szValue))
+		ptrW szValue(getTStringA(key));
+		if (szValue == NULL || mir_wstrcmpi(szAddr, szValue))
 			continue;
 
 		for (int j = i; j < 10; j++) {
@@ -524,7 +524,7 @@ void CJabberProto::SearchAddToRecent(const wchar_t *szAddr, HWND hwndDialog)
 
 	for (int j = 9; j > 0; j--) {
 		mir_snprintf(key, "RecentlySearched_%d", j - 1);
-		ptrT szValue(getTStringA(key));
+		ptrW szValue(getTStringA(key));
 		if (szValue != NULL) {
 			mir_snprintf(key, "RecentlySearched_%d", j);
 			setTString(NULL, key, szValue);
@@ -564,7 +564,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 			for (i = 0; i < 10; i++) {
 				char key[30];
 				mir_snprintf(key, "RecentlySearched_%d", i);
-				ptrT szValue(dat->ppro->getTStringA(key));
+				ptrW szValue(dat->ppro->getTStringA(key));
 				if (szValue != NULL)
 					JabberSearchAddUrlToRecentCombo(hwndDlg, szValue);
 			}
@@ -714,8 +714,8 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
 {
 	if (parent && hInst) {
-		ptrT szServer(getTStringA("LoginServer"));
-		if (szServer == NULL || mir_tstrcmpi(szServer, L"S.ms"))
+		ptrW szServer(getTStringA("LoginServer"));
+		if (szServer == NULL || mir_wstrcmpi(szServer, L"S.ms"))
 			return CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, JabberSearchAdvancedDlgProc, (LPARAM)this);
 	}
 

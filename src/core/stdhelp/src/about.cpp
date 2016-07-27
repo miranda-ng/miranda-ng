@@ -51,7 +51,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(productVersion), (LPARAM)productVersion);
 
 			wchar_t str[64];
-			mir_sntprintf(str, STR_VERSION_FORMAT, productVersion);
+			mir_snwprintf(str, STR_VERSION_FORMAT, productVersion);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, str);
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
@@ -69,7 +69,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (ResSize >=3 && pszMsgt[0] == '\xef' && pszMsgt[1] == '\xbb' && pszMsgt[2] == '\xbf')
 					ptszMsg = Utf8DecodeT(pszMsgt + 3);
 				else
-					ptszMsg = mir_a2t_cp(pszMsgt, 1252);
+					ptszMsg = mir_a2u_cp(pszMsgt, 1252);
 
 				SetDlgItemText(hwndDlg, IDC_CREDITSFILE, ptszMsg);
 				UnlockResource(pszMsg);

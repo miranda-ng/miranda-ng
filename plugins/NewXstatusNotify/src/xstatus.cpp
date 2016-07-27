@@ -80,13 +80,13 @@ wchar_t* GetStatusTypeAsString(int type, wchar_t *buff)
 {
 	switch (type) {
 	case TYPE_JABBER_MOOD:
-		mir_tstrcpy(buff, TranslateT("Mood")); return buff;
+		mir_wstrcpy(buff, TranslateT("Mood")); return buff;
 	case TYPE_JABBER_ACTIVITY:
-		mir_tstrcpy(buff, TranslateT("Activity")); return buff;
+		mir_wstrcpy(buff, TranslateT("Activity")); return buff;
 	case TYPE_ICQ_XSTATUS:
-		mir_tstrcpy(buff, TranslateT("xStatus")); return buff;
+		mir_wstrcpy(buff, TranslateT("xStatus")); return buff;
 	default:
-		mir_tstrcpy(buff, TranslateT("<unknown>")); return buff;
+		mir_wstrcpy(buff, TranslateT("<unknown>")); return buff;
 	}
 }
 
@@ -95,7 +95,7 @@ CMString ReplaceVars(XSTATUSCHANGE *xsc, const wchar_t *tmplt)
 	if (xsc == NULL || tmplt == NULL || tmplt[0] == '\0')
 		return CMString();
 
-	size_t len = mir_tstrlen(tmplt);
+	size_t len = mir_wstrlen(tmplt);
 	CMString res;
 
 	for (size_t i = 0; i < len; i++) {
@@ -189,13 +189,13 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 
 	// cut message if needed
 	wchar_t *copyText = NULL;
-	if (opt.PXMsgTruncate && (opt.PXMsgLen > 0) && xsc->stzText && (mir_tstrlen(xsc->stzText) > opt.PXMsgLen)) {
+	if (opt.PXMsgTruncate && (opt.PXMsgLen > 0) && xsc->stzText && (mir_wstrlen(xsc->stzText) > opt.PXMsgLen)) {
 		wchar_t buff[MAX_TEXT_LEN + 3];
-		copyText = mir_tstrdup(xsc->stzText);
+		copyText = mir_wstrdup(xsc->stzText);
 		wcsncpy(buff, xsc->stzText, opt.PXMsgLen);
 		buff[opt.PXMsgLen] = 0;
-		mir_tstrcat(buff, L"...");
-		replaceStrT(xsc->stzText, buff);
+		mir_wstrcat(buff, L"...");
+		replaceStrW(xsc->stzText, buff);
 	}
 
 	wchar_t *Template = L"";
@@ -226,7 +226,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 	HICON hIcon = NULL;
 	wchar_t str[256] = { 0 };
 	wchar_t stzType[32];
-	mir_sntprintf(str, TranslateT("%s changed %s"), pcli->pfnGetContactDisplayName(xsc->hContact, 0), GetStatusTypeAsString(xsc->type, stzType));
+	mir_snwprintf(str, TranslateT("%s changed %s"), pcli->pfnGetContactDisplayName(xsc->hContact, 0), GetStatusTypeAsString(xsc->type, stzType));
 
 	if (opt.BlinkIcon_Status) {
 		DBVARIANT dbv;
@@ -337,7 +337,7 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 		Template = templates.LogXMsgRemoved; break;
 	}
 
-	mir_sntprintf(stzText, L"%s, %s. %s %s\r\n", stzDate, stzTime, 
+	mir_snwprintf(stzText, L"%s, %s. %s %s\r\n", stzDate, stzTime, 
 		pcli->pfnGetContactDisplayName(xsc->hContact, 0), ReplaceVars(xsc, Template).GetString());
 
 	LogToFile(stzText);
@@ -464,7 +464,7 @@ wchar_t* GetJabberAdvStatusText(MCONTACT hContact, char *szProto, char *szSlot, 
 
 void LogXstatusChange(MCONTACT hContact, char *szProto, int xstatusType, wchar_t *stzTitle, wchar_t *stzText)
 {
-	XSTATUSCHANGE *xsc = NewXSC(hContact, szProto, xstatusType, NOTIFY_OPENING_ML, stzTitle[0] ? mir_tstrdup(stzTitle) : NULL, stzText[0] ? mir_tstrdup(stzText) : NULL);
+	XSTATUSCHANGE *xsc = NewXSC(hContact, szProto, xstatusType, NOTIFY_OPENING_ML, stzTitle[0] ? mir_wstrdup(stzTitle) : NULL, stzText[0] ? mir_wstrdup(stzText) : NULL);
 
 	LogChangeToDB(xsc);
 	FreeXSC(xsc);

@@ -215,7 +215,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			wchar_t find[256];
 			if (data->findReadOnly)
-				mir_tstrncpy(find, data->find.c_str(), _countof(find));
+				mir_wstrncpy(find, data->find.c_str(), _countof(find));
 			else {
 				GetDlgItemText(hwndDlg, IDC_OLD, find, _countof(find));
 				lstrtrim(find);
@@ -231,7 +231,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			else if (replace[0] == 0)
 				MessageBox(hwndDlg, TranslateT("The correction can't be empty!"), TranslateT("Wrong Correction"), MB_OK | MB_ICONERROR);
 
-			else if (mir_tstrcmp(find, replace) == 0)
+			else if (mir_wstrcmp(find, replace) == 0)
 				MessageBox(hwndDlg, TranslateT("The correction can't be equal to the wrong word!"), TranslateT("Wrong Correction"), MB_OK | MB_ICONERROR);
 
 			else {

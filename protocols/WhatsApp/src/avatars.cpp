@@ -102,8 +102,8 @@ int WhatsAppProto::InternalSetAvatar(MCONTACT hContact, const char *szJid, const
 
 	wchar_t tszTempFile[MAX_PATH], tszMyFile[MAX_PATH];
 	if (hContact == NULL) {
-		mir_sntprintf(tszMyFile, L"%s\\myavatar.jpg", m_tszAvatarFolder.c_str());
-		mir_sntprintf(tszTempFile, L"%s\\myavatar.preview.jpg", m_tszAvatarFolder.c_str());
+		mir_snwprintf(tszMyFile, L"%s\\myavatar.jpg", m_tszAvatarFolder.c_str());
+		mir_snwprintf(tszTempFile, L"%s\\myavatar.preview.jpg", m_tszAvatarFolder.c_str());
 	}
 	else {
 		std::wstring tszContactAva = GetAvatarFileName(hContact);

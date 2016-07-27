@@ -62,7 +62,7 @@ void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 		item.cchTextMax = _countof(title);
 
 		if (TreeView_GetItem(hWndDlg, &item))
-			if (mir_tstrlen(title) > 0)
+			if (mir_wstrlen(title) > 0)
 				AddFilterString(key, title);
 
 		HTREEITEM child = root;
@@ -79,19 +79,19 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 {
 	wchar_t title[2048];
 	GetWindowText(hWndDlg, title, _countof(title));
-	if (mir_tstrlen(title) > 0)
+	if (mir_wstrlen(title) > 0)
 		AddFilterString(key, title);
 
 	wchar_t szClass[64];
 	GetClassName(hWndDlg, szClass, _countof(szClass));
 
-	if (mir_tstrcmpi(szClass, L"SysTreeView32") == 0) {
+	if (mir_wstrcmpi(szClass, L"SysTreeView32") == 0) {
 		HTREEITEM hItem = TreeView_GetRoot(hWndDlg);
 		AddTreeViewNodes(hWndDlg, key, hItem);
 		return;
 	}
 
-	if (mir_tstrcmpi(szClass, L"listbox") == 0) {
+	if (mir_wstrcmpi(szClass, L"listbox") == 0) {
 		if (GetWindowStyle(hWndDlg) & LBS_HASSTRINGS) {
 			int count = ListBox_GetCount(hWndDlg);
 			for (int i=0; i < count; i++) {
@@ -99,7 +99,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 				int res = ListBox_GetText(hWndDlg, i, title);
 				if (res != LB_ERR) {
 					title[_countof(title) - 1] = 0;
-					if (mir_tstrlen(title) > 0)
+					if (mir_wstrlen(title) > 0)
 						AddFilterString(key, title);
 				}
 			}
@@ -107,19 +107,19 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 		return;
 	}
 
-	if (mir_tstrcmpi(szClass, L"SysListView32") == 0) {
+	if (mir_wstrcmpi(szClass, L"SysListView32") == 0) {
 		int count = ListView_GetItemCount(hWndDlg);
 		for (int i=0; i < count; i++) {
 			title[0] = 0; //safety
 			ListView_GetItemText(hWndDlg, i, 0, title, _countof(title));
 
-			if (mir_tstrlen(title) > 0)
+			if (mir_wstrlen(title) > 0)
 				AddFilterString(key, title);
 		}
 		return;
 	}
 
-	if (mir_tstrcmpi(szClass, L"combobox") == 0) {
+	if (mir_wstrcmpi(szClass, L"combobox") == 0) {
 		if (GetWindowStyle(hWndDlg) & CBS_HASSTRINGS) {
 			int count = ComboBox_GetCount(hWndDlg);
 			for (int i=0; i < count; i++) {
@@ -128,7 +128,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 				if (res != CB_ERR) {
 					title[_countof(title) - 1] = 0;
 
-					if (mir_tstrlen(title) > 0)
+					if (mir_wstrlen(title) > 0)
 						AddFilterString(key, title);
 				}
 			}

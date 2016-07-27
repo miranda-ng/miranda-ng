@@ -196,18 +196,18 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 							return FALSE;
 						}
 
-						msgLen += mir_tstrlen(ptszVal);
+						msgLen += mir_wstrlen(ptszVal);
 
 						wchar_t *ptszHead = db_get_tsa(NULL, protocolname, KEY_HEADING);
 						if (ptszHead != NULL) {
 							ptszTemp = ptszHead;
 							ptszTemp.Replace(L"%user%", ptszNick);
-							msgLen += mir_tstrlen(ptszTemp);
+							msgLen += mir_wstrlen(ptszTemp);
 							mir_free(ptszHead);
 						}
 
 						wchar_t *ptszTemp2 = (wchar_t*)mir_alloc(sizeof(wchar_t) * (msgLen + 5));
-						mir_sntprintf(ptszTemp2, msgLen + 5, L"%s\r\n\r\n%s", ptszTemp.c_str(), ptszVal);
+						mir_snwprintf(ptszTemp2, msgLen + 5, L"%s\r\n\r\n%s", ptszTemp.c_str(), ptszVal);
 						if (ServiceExists(MS_VARS_FORMATSTRING)) {
 							ptszTemp = variables_parse(ptszTemp2, 0, hContact);
 						}

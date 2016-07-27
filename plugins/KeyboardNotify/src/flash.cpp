@@ -88,7 +88,7 @@ void setFlashingSequence(void)
 
 FLASHING_SEQUENCE *getCustomSeq(void)
 {
-	ptrT tszSeq( db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", wCustomTheme)));
+	ptrW tszSeq( db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", wCustomTheme)));
 
 	static FLASHING_SEQUENCE Custom = {0};
 	Custom = str2FS((tszSeq != 0) ? tszSeq : L"");

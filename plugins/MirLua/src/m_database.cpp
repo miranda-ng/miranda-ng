@@ -103,9 +103,9 @@ static int db_GetContactInfo(lua_State *L)
 		}
 	}
 
-	ptrT value(Contact_GetInfo(type, hContact));
+	ptrW value(Contact_GetInfo(type, hContact));
 	if (value)
-		lua_pushstring(L, ptrA(mir_utf8encodeT(value)));
+		lua_pushstring(L, ptrA(mir_utf8encodeW(value)));
 	else
 	{
 		lua_pushnil(L);

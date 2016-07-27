@@ -262,14 +262,14 @@ void importCustomStatuses(CSWindow* csw, int result)
 
 		mir_snprintf(bufTitle, "XStatus%dName", i);
 		if (!db_get_ts(NULL, protoName, bufTitle, &dbv)) {
-			mir_tstrcpy(si->m_tszTitle, dbv.ptszVal);
+			mir_wstrcpy(si->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszTitle[0] = 0;
 
 		mir_snprintf(bufMessage, "XStatus%dMsg", i);
 		if (!db_get_ts(NULL, protoName, bufMessage, &dbv)) {
-			mir_tstrcpy(si->m_tszMessage, dbv.ptszVal);
+			mir_wstrcpy(si->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszMessage[0] = 0;
@@ -391,10 +391,10 @@ BOOL CSWindow::itemPassedFilter(ListItem< StatusItem >* li)
 	wchar_t filter[MAX_PATH];
 	GetDlgItemText(m_handle, IDC_FILTER_FIELD, filter, _countof(filter));
 
-	if (mir_tstrlen(filter))
+	if (mir_wstrlen(filter))
 	{
 		wchar_t title[EXTRASTATUS_TITLE_LIMIT], message[EXTRASTATUS_MESSAGE_LIMIT];
-		mir_tstrcpy(title, li->m_item->m_tszTitle); mir_tstrcpy(message, li->m_item->m_tszMessage);
+		mir_wstrcpy(title, li->m_item->m_tszTitle); mir_wstrcpy(message, li->m_item->m_tszMessage);
 		if (strpos(wcslwr(title), wcslwr(filter)) == -1)
 			if (strpos(wcslwr(message), wcslwr(filter)) == -1)
 				return FALSE;
@@ -532,13 +532,13 @@ void CSAMWindow::checkFieldLimit(WORD action, WORD item)
 
 		GetDlgItemText(m_handle, item, ptszInputText, limit + 8);
 
-		if (mir_tstrlen(ptszInputText) > limit)
+		if (mir_wstrlen(ptszInputText) > limit)
 		{
 			wchar_t tszPopupTip[MAX_PATH];
 			EDITBALLOONTIP ebt = { 0 };
 			ebt.cbStruct = sizeof(ebt);
 			ebt.pszTitle = TranslateT("Warning");
-			mir_sntprintf(tszPopupTip, TranslateT("This field doesn't accept string longer than %d characters. The string will be truncated."), limit);
+			mir_snwprintf(tszPopupTip, TranslateT("This field doesn't accept string longer than %d characters. The string will be truncated."), limit);
 			ebt.pszText = tszPopupTip;
 			ebt.ttiIcon = TTI_WARNING;
 			SendDlgItemMessage(m_handle, item, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
@@ -578,10 +578,10 @@ void CSAMWindow::checkItemValidity()
 	cs.ptszName = tszTitle;
 	cs.wParam = &i;
 	if (CallProtoService(pdescr->szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
-		mir_tstrncpy(m_item->m_tszTitle, TranslateTS(tszTitle), _countof(m_item->m_tszTitle));
+		mir_wstrncpy(m_item->m_tszTitle, TranslateTS(tszTitle), _countof(m_item->m_tszTitle));
 
-	if (mir_tstrcmp(m_item->m_tszMessage, tszInputMessage))
-		mir_tstrcpy(m_item->m_tszMessage, tszInputMessage), m_bChanged = true;
+	if (mir_wstrcmp(m_item->m_tszMessage, tszInputMessage))
+		mir_wstrcpy(m_item->m_tszMessage, tszInputMessage), m_bChanged = true;
 }
 
 CSListView::CSListView(HWND hwnd, CSWindow* parent)
@@ -713,10 +713,10 @@ int CSItemsList::compareItems(const StatusItem* p1, const StatusItem* p2)
 	else if (p1->m_iIcon < p2->m_iIcon)
 		icoRes = -1;
 
-	result = mir_tstrcmp(p1->m_tszTitle, p2->m_tszTitle);
+	result = mir_wstrcmp(p1->m_tszTitle, p2->m_tszTitle);
 	ttlRes = result;
 
-	result = mir_tstrcmp(p1->m_tszMessage, p2->m_tszMessage);
+	result = mir_wstrcmp(p1->m_tszMessage, p2->m_tszMessage);
 	msgRes = result;
 
 	if (!icoRes && !ttlRes && !msgRes)
@@ -748,14 +748,14 @@ void CSItemsList::loadItems(char *protoName)
 
 		mir_snprintf(dbSetting, "%s_Item%dTitle", protoName, i);
 		if (!getTString(dbSetting, &dbv)) {
-			mir_tstrcpy(item->m_tszTitle, dbv.ptszVal);
+			mir_wstrcpy(item->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszTitle[0] = 0;
 
 		mir_snprintf(dbSetting, "%s_Item%dMessage", protoName, i);
 		if (!getTString(dbSetting, &dbv)) {
-			mir_tstrcpy(item->m_tszMessage, dbv.ptszVal);
+			mir_wstrcpy(item->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszMessage[0] = 0;

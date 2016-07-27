@@ -75,7 +75,7 @@ void PlainHtmlExport::WriteGroup(bool, const std::wstring &time, const std::wstr
 {
 	wchar_t buf[256];
 	EXP_FILE << L"<div class=mes id=session>\n";
-	mir_sntprintf(buf, TranslateT("Conversation started at %s"), time.c_str());
+	mir_snwprintf(buf, TranslateT("Conversation started at %s"), time.c_str());
 	EXP_FILE << L"<div class=text>" << buf << L"</div>\n";
 	EXP_FILE << L"</div>\n";
 }

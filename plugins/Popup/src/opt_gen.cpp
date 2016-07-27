@@ -47,24 +47,24 @@ int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	if (!flag) return pos;
 	options[pos].dwFlag = flag;
 	options[pos].groupId = OPTTREE_CHECK;
-	options[pos].pszOptionName = (LPTSTR)mir_alloc(sizeof(wchar_t) * mir_tstrlen(prefix) + 32);
-	options[pos].pszSettingName = mir_tstrdup(prefix);
+	options[pos].pszOptionName = (LPTSTR)mir_alloc(sizeof(wchar_t) * mir_wstrlen(prefix) + 32);
+	options[pos].pszSettingName = mir_wstrdup(prefix);
 	options[pos].iconIndex = 0;
 
-	mir_tstrcpy(options[pos].pszOptionName, prefix);
-	mir_tstrcat(options[pos].pszOptionName, L"/");
+	mir_wstrcpy(options[pos].pszOptionName, prefix);
+	mir_wstrcat(options[pos].pszOptionName, L"/");
 	switch (flag)
 	{
-	case PF2_IDLE: mir_tstrcat(options[pos].pszOptionName, LPGENW("Offline")); break;
-	case PF2_ONLINE: mir_tstrcat(options[pos].pszOptionName, LPGENW("Online")); break;
-	case PF2_INVISIBLE: mir_tstrcat(options[pos].pszOptionName, LPGENW("Invisible")); break;
-	case PF2_SHORTAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENW("Away")); break;
-	case PF2_LONGAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENW("Not available")); break;
-	case PF2_LIGHTDND: mir_tstrcat(options[pos].pszOptionName, LPGENW("Occupied")); break;
-	case PF2_HEAVYDND: mir_tstrcat(options[pos].pszOptionName, LPGENW("Do not disturb")); break;
-	case PF2_FREECHAT: mir_tstrcat(options[pos].pszOptionName, LPGENW("Free for chat")); break;
-	case PF2_OUTTOLUNCH: mir_tstrcat(options[pos].pszOptionName, LPGENW("Out to lunch")); break;
-	case PF2_ONTHEPHONE: mir_tstrcat(options[pos].pszOptionName, LPGENW("On the phone")); break;
+	case PF2_IDLE: mir_wstrcat(options[pos].pszOptionName, LPGENW("Offline")); break;
+	case PF2_ONLINE: mir_wstrcat(options[pos].pszOptionName, LPGENW("Online")); break;
+	case PF2_INVISIBLE: mir_wstrcat(options[pos].pszOptionName, LPGENW("Invisible")); break;
+	case PF2_SHORTAWAY: mir_wstrcat(options[pos].pszOptionName, LPGENW("Away")); break;
+	case PF2_LONGAWAY: mir_wstrcat(options[pos].pszOptionName, LPGENW("Not available")); break;
+	case PF2_LIGHTDND: mir_wstrcat(options[pos].pszOptionName, LPGENW("Occupied")); break;
+	case PF2_HEAVYDND: mir_wstrcat(options[pos].pszOptionName, LPGENW("Do not disturb")); break;
+	case PF2_FREECHAT: mir_wstrcat(options[pos].pszOptionName, LPGENW("Free for chat")); break;
+	case PF2_OUTTOLUNCH: mir_wstrcat(options[pos].pszOptionName, LPGENW("Out to lunch")); break;
+	case PF2_ONTHEPHONE: mir_wstrcat(options[pos].pszOptionName, LPGENW("On the phone")); break;
 	}
 	return pos + 1;
 }
@@ -225,7 +225,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						continue;
 
 					wchar_t prefix[128];
-					mir_sntprintf(prefix, LPGENW("Protocol Status")L"/%s", protocols[i]->tszAccountName);
+					mir_snwprintf(prefix, LPGENW("Protocol Status")L"/%s", protocols[i]->tszAccountName);
 					pos = AddStatusModes(statusOptions, pos, prefix, protoFlags);
 				}
 			}
@@ -243,7 +243,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					mir_snprintf(prefix, "Protocol Status/%s", protocols[i]->szModuleName);
 
 					wchar_t pszSettingName[256];
-					mir_sntprintf(pszSettingName, LPGENW("Protocol Status")L"/%s", protocols[i]->tszAccountName);
+					mir_snwprintf(pszSettingName, LPGENW("Protocol Status")L"/%s", protocols[i]->tszAccountName);
 					OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, prefix, 0), pszSettingName);
 				}
 			}
@@ -529,7 +529,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							mir_snprintf(prefix, "Protocol Status/%s", protocols[i]->szModuleName);
 
 							wchar_t pszSettingName[256];
-							mir_sntprintf(pszSettingName, L"Protocol Status/%s", protocols[i]->tszAccountName);
+							mir_snwprintf(pszSettingName, L"Protocol Status/%s", protocols[i]->tszAccountName);
 							db_set_dw(NULL, MODULNAME, prefix, OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));
 						}
 					}
@@ -581,7 +581,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 void ErrorMSG(int minValue, int maxValue)
 {
 	wchar_t str[128];
-	mir_sntprintf(str, TranslateT("You cannot specify a value lower than %d and higher than %d."), minValue, maxValue);
+	mir_snwprintf(str, TranslateT("You cannot specify a value lower than %d and higher than %d."), minValue, maxValue);
 	MSGERROR(str);
 }
 

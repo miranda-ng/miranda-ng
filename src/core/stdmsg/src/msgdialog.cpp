@@ -55,7 +55,7 @@ static void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 
 static int RTL_Detect(const wchar_t *ptszText)
 {
-	int iLen = (int)mir_tstrlen(ptszText);
+	int iLen = (int)mir_wstrlen(ptszText);
 	WORD *infoTypeC2 = (WORD*)alloca(sizeof(WORD)* (iLen + 2));
 	GetStringTypeEx(LOCALE_USER_DEFAULT, CT_CTYPE2, ptszText, iLen, infoTypeC2);
 
@@ -91,17 +91,17 @@ static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t* s
 {
 	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1)*sizeof(wchar_t*));
 	(*pppFiles)[*totalCount] = NULL;
-	(*pppFiles)[*totalCount - 1] = mir_tstrdup(szFilename);
+	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		wchar_t szPath[MAX_PATH];
-		mir_sntprintf(szPath, L"%s\\*", szFilename);
+		mir_snwprintf(szPath, L"%s\\*", szFilename);
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if (!mir_tstrcmp(fd.cFileName, L".") || !mir_tstrcmp(fd.cFileName, L"..")) continue;
-				mir_sntprintf(szPath, L"%s\\%s", szFilename, fd.cFileName);
+				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L"..")) continue;
+				mir_snwprintf(szPath, L"%s\\%s", szFilename, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			}
 			while (FindNextFile(hFind, &fd));
@@ -122,7 +122,7 @@ static void UpdateReadChars(HWND hwndDlg, HWND hwndStatus)
 		wchar_t buf[32];
 		int len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
 
-		mir_sntprintf(buf, L"%d", len);
+		mir_snwprintf(buf, L"%d", len);
 		SendMessage(hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
 	}
 }
@@ -495,7 +495,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 			HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0));
 
 			SIZE textSize;
-			GetTextExtentPoint32(hdc, buf, (int)mir_tstrlen(buf), &textSize);
+			GetTextExtentPoint32(hdc, buf, (int)mir_wstrlen(buf), &textSize);
 			urc->rcItem.right = urc->rcItem.left + textSize.cx + 10;
 			if ((g_dat.flags&SMF_SHOWBTNS) && urc->rcItem.right > urc->dlgNewSize.cx - dat->nLabelRight)
 				urc->rcItem.right = urc->dlgNewSize.cx - dat->nLabelRight;
@@ -918,11 +918,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 	case DM_USERNAMETOCLIP:
 		if (dat->hContact) {
-			ptrT id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact, dat->szProto));
+			ptrW id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact, dat->szProto));
 			if (id != NULL && OpenClipboard(hwndDlg)) {
 				EmptyClipboard();
-				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(id) * sizeof(wchar_t)+1);
-				mir_tstrcpy((wchar_t*)GlobalLock(hData), id);
+				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_wstrlen(id) * sizeof(wchar_t)+1);
+				mir_wstrcpy((wchar_t*)GlobalLock(hData), id);
 				GlobalUnlock(hData);
 				SetClipboardData(CF_UNICODETEXT, hData);
 				CloseClipboard();
@@ -938,7 +938,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			wchar_t date[64], time[64], fmt[128];
 			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"d", date, _countof(date), 0);
 			TimeZone_PrintTimeStamp(NULL, dat->lastMessage, L"t", time, _countof(time), 0);
-			mir_sntprintf(fmt, TranslateT("Last message received on %s at %s."), date, time);
+			mir_snwprintf(fmt, TranslateT("Last message received on %s at %s."), date, time);
 			SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)fmt);
 		}
 		else SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)L"");
@@ -1007,14 +1007,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
 				wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
-				ptrT id(Contact_GetInfo(CNF_DISPLAYUID, dat->hContact, dat->szProto));
+				ptrW id(Contact_GetInfo(CNF_DISPLAYUID, dat->hContact, dat->szProto));
 				SetDlgItemText(hwndDlg, IDC_NAME, (id) ? id : contactName);
 
 				wchar_t *szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
 				if (statusIcon)
-					mir_sntprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
+					mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
 				else
-					mir_sntprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
+					mir_snwprintf(newtitle, L"%s (%s): %s", contactName, szStatus, TranslateT("Message session"));
 					
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
 				if (!cws || (!mir_strcmp(cws->szModule, dat->szProto) && !mir_strcmp(cws->szSetting, "Status"))) {
@@ -1026,11 +1026,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				dat->wOldStatus = dat->wStatus;
 			}
 			else
-				mir_tstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
+				mir_wstrncpy(newtitle, TranslateT("Message session"), _countof(newtitle));
 
 			wchar_t oldtitle[256];
 			GetWindowText(hwndDlg, oldtitle, _countof(oldtitle));
-			if (mir_tstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
+			if (mir_wstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
 				SetWindowText(hwndDlg, newtitle);
 				SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			}
@@ -1258,7 +1258,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					wchar_t* szContactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 					HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
-					mir_sntprintf(szBuf, TranslateT("%s is typing a message..."), szContactName);
+					mir_snwprintf(szBuf, TranslateT("%s is typing a message..."), szContactName);
 					dat->nTypeSecs--;
 
 					SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
@@ -1346,9 +1346,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (!temp[0])
 					break;
 
-				int sendId = SendMessageDirect(rtrimt(temp), dat->hContact, dat->szProto);
+				int sendId = SendMessageDirect(rtrimw(temp), dat->hContact, dat->szProto);
 				if (sendId) {
-					dat->cmdList.insert(mir_tstrdup(temp));
+					dat->cmdList.insert(mir_wstrdup(temp));
 
 					dat->cmdListInd = -1;
 					if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
@@ -1546,8 +1546,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						case IDM_COPYLINK:
 							if (OpenClipboard(hwndDlg)) {
 								EmptyClipboard();
-								HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(tr.lpstrText) + 1) * sizeof(wchar_t));
-								mir_tstrcpy((wchar_t*)GlobalLock(hData), tr.lpstrText);
+								HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(tr.lpstrText) + 1) * sizeof(wchar_t));
+								mir_wstrcpy((wchar_t*)GlobalLock(hData), tr.lpstrText);
 								GlobalUnlock(hData);
 								SetClipboardData(CF_UNICODETEXT, hData);
 								CloseClipboard();

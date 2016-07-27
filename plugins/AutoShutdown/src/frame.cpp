@@ -422,7 +422,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 					if (hdc != NULL) {
 						if (dat->hFont != NULL)
 							hFontPrev = (HFONT)SelectObject(hdc, dat->hFont);
-						if (GetTextExtentPoint32(hdc, szOutput, (int)mir_tstrlen(szOutput), &size))
+						if (GetTextExtentPoint32(hdc, szOutput, (int)mir_wstrlen(szOutput), &size))
 							if (size.cx >= (rc.right - rc.left))
 								dat->flags &= FWPDF_TIMEISCLIPPED;
 						if (dat->hFont != NULL)
@@ -468,7 +468,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame, UINT msg, WPARAM wParam, LP
 						if (dat->fTimeFlags&SDWTF_ST_TIME)
 							GetFormatedDateTime(szTime, _countof(szTime), dat->settingLastTime, FALSE);
 						else GetFormatedCountdown(szTime, _countof(szTime), dat->countdown);
-						mir_sntprintf(ttdi->szText, L"%s %s", (dat->fTimeFlags&SDWTF_ST_TIME) ? TranslateT("Shutdown at:") : TranslateT("Time left:"), szTime);
+						mir_snwprintf(ttdi->szText, L"%s %s", (dat->fTimeFlags&SDWTF_ST_TIME) ? TranslateT("Shutdown at:") : TranslateT("Time left:"), szTime);
 						ttdi->lpszText = ttdi->szText;
 					}
 					return 0;

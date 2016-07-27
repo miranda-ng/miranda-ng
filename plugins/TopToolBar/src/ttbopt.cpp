@@ -33,7 +33,7 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 		}
 		else index = ImageList_AddIcon(il, b->hIconUp);
 
-		tmp = mir_a2t( b->pszName );
+		tmp = mir_a2u( b->pszName );
 		tvis.item.pszText = TranslateTS(tmp);
 	}
 	tvis.item.iImage = tvis.item.iSelectedImage = index;
@@ -298,7 +298,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					TreeView_SetItem(hTree, &tvi);
 
 					GetDlgItemText(hwndDlg, IDC_EPATH, buf, _countof(buf));
-					replaceStrT(btn->ptszProgram, buf);
+					replaceStrW(btn->ptszProgram, buf);
 				}
 				break;
 			}

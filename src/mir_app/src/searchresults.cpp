@@ -79,7 +79,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 						INT_PTR ret = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 						if (ret != CALLSERVICE_NOTFOUND) {
 							bNeedsFree = true;
-							lvc.pszText = mir_a2t((char*)ret);
+							lvc.pszText = mir_a2u((char*)ret);
 						}
 					}
 				}
@@ -139,22 +139,22 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 		case COLUMNID_PROTO:
 			return mir_strcmp(lsr1->szProto, lsr2->szProto)*sortMultiplier;
 		case COLUMNID_HANDLE:
-			return mir_tstrcmpi(lsr1->psr.id.w, lsr2->psr.id.w)*sortMultiplier;
+			return mir_wstrcmpi(lsr1->psr.id.w, lsr2->psr.id.w)*sortMultiplier;
 		case COLUMNID_NICK:
-			return mir_tstrcmpi(lsr1->psr.nick.w, lsr2->psr.nick.w)*sortMultiplier;
+			return mir_wstrcmpi(lsr1->psr.nick.w, lsr2->psr.nick.w)*sortMultiplier;
 		case COLUMNID_FIRST:
-			return mir_tstrcmpi(lsr1->psr.firstName.w, lsr2->psr.firstName.w)*sortMultiplier;
+			return mir_wstrcmpi(lsr1->psr.firstName.w, lsr2->psr.firstName.w)*sortMultiplier;
 		case COLUMNID_LAST:
-			return mir_tstrcmpi(lsr1->psr.lastName.w, lsr2->psr.lastName.w)*sortMultiplier;
+			return mir_wstrcmpi(lsr1->psr.lastName.w, lsr2->psr.lastName.w)*sortMultiplier;
 		case COLUMNID_EMAIL:
-			return mir_tstrcmpi(lsr1->psr.email.w, lsr2->psr.email.w)*sortMultiplier;
+			return mir_wstrcmpi(lsr1->psr.email.w, lsr2->psr.email.w)*sortMultiplier;
 		}
 	}
 	else {
 		wchar_t szText1[100], szText2[100];
 		ListView_GetItemText(hList, (int)lParam1, sortCol, szText1, _countof(szText1));
 		ListView_GetItemText(hList, (int)lParam2, sortCol, szText2, _countof(szText2));
-		return mir_tstrcmpi(szText1, szText2)*sortMultiplier;
+		return mir_wstrcmpi(szText1, szText2)*sortMultiplier;
 	}
 	return 0;
 }
@@ -184,12 +184,12 @@ static void BeginSearchFailed(void *arg)
 	wchar_t buf[128];
 	if (arg != NULL) {
 		const wchar_t *protoName = (wchar_t*)arg;
-		mir_sntprintf(buf,
+		mir_snwprintf(buf,
 			TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
 			protoName, protoName);
 		mir_free((char*)arg);
 	}
-	else mir_tstrncpy(buf, TranslateT("Could not search on any of the protocols, are you online?"), _countof(buf));
+	else mir_wstrncpy(buf, TranslateT("Could not search on any of the protocols, are you online?"), _countof(buf));
 	MessageBox(0, buf, TranslateT("Problem with search"), MB_OK | MB_ICONERROR);
 }
 
@@ -231,7 +231,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		if (dat->search[0].hProcess == NULL) {
 			// infuriatingly vague error message. fixme.
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-			mir_forkthread(BeginSearchFailed, mir_tstrdup(pa->tszAccountName));
+			mir_forkthread(BeginSearchFailed, mir_wstrdup(pa->tszAccountName));
 			mir_free(dat->search);
 			dat->search = NULL;
 			dat->searchCount = 0;

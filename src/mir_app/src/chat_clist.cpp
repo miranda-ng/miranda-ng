@@ -25,11 +25,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType)
 {
 	wchar_t pszGroup[50]; *pszGroup = '\0';
-	ptrT groupName(db_get_tsa(NULL, CHAT_MODULE, "AddToGroup"));
+	ptrW groupName(db_get_tsa(NULL, CHAT_MODULE, "AddToGroup"));
 	if (groupName)
 		wcsncpy_s(pszGroup, groupName, _TRUNCATE);
 	else
-		mir_tstrcpy(pszGroup, L"Chat rooms");
+		mir_wstrcpy(pszGroup, L"Chat rooms");
 
 	if (pszGroup[0])  {
 		MGROUP hGroup = Clist_GroupExists(pszGroup);
@@ -43,8 +43,8 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	MCONTACT hContact = chatApi.FindRoom(pszModule, pszRoom);
 	if (hContact) { //contact exist, make sure it is in the right group
 		if (pszGroup[0]) {
-			ptrT grpName(db_get_tsa(hContact, "CList", "Group"));
-			if (!mir_tstrcmp(pszGroup, grpName))
+			ptrW grpName(db_get_tsa(hContact, "CList", "Group"));
+			if (!mir_wstrcmp(pszGroup, grpName))
 				db_set_ts(hContact, "CList", "Group", pszGroup);
 		}
 
@@ -110,7 +110,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
 		return 0;
 
-	ptrT roomid(db_get_tsa(hContact, szProto, "ChatRoomID"));
+	ptrW roomid(db_get_tsa(hContact, szProto, "ChatRoomID"));
 	if (roomid == NULL)
 		return 0;
 
@@ -202,12 +202,12 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* 
 {
 	wchar_t szBuf[4096];
 
-	if (!fmt || !fmt[0] || mir_tstrlen(fmt) > 2000)
+	if (!fmt || !fmt[0] || mir_wstrlen(fmt) > 2000)
 		return FALSE;
 
 	va_list marker;
 	va_start(marker, fmt);
-	mir_vsntprintf(szBuf, _countof(szBuf), fmt, marker);
+	mir_vsnwprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
 	CLISTEVENT cle = {};
@@ -235,8 +235,8 @@ MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
 		if (!db_get_b(hContact, pszModule, "ChatRoom", 0))
 			continue;
 
-		ptrT roomid(db_get_tsa(hContact, pszModule, "ChatRoomID"));
-		if (roomid != NULL && !mir_tstrcmpi(roomid, pszRoom))
+		ptrW roomid(db_get_tsa(hContact, pszModule, "ChatRoomID"));
+		if (roomid != NULL && !mir_wstrcmpi(roomid, pszRoom))
 			return hContact;
 	}
 

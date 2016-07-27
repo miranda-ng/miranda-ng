@@ -44,7 +44,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, L"http://") == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_wstrcmp(str, L"http://") == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -95,7 +95,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_TAGHELP:
 			wchar_t tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+			mir_snwprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 				L"#<title>#", TranslateT("The title of the item."),
 				L"#<description>#", TranslateT("The item synopsis."),
 				L"#<link>#", TranslateT("The URL of the item."),
@@ -116,7 +116,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 			wchar_t tszURL[MAX_PATH] = { 0 };
 			wchar_t *tszTitle = NULL;
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, L"http://") != 0)
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_wstrcmp(tszURL, L"http://") != 0)
 				tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
 			else
 				MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
@@ -152,12 +152,12 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
 
 			for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-				ptrT dbNick(db_get_tsa(hContact, MODULE, "Nick"));
-				if ((dbNick == NULL) || (mir_tstrcmp(dbNick, SelItem.nick) != 0))
+				ptrW dbNick(db_get_tsa(hContact, MODULE, "Nick"));
+				if ((dbNick == NULL) || (mir_wstrcmp(dbNick, SelItem.nick) != 0))
 					continue;
 
-				ptrT dbURL(db_get_tsa(hContact, MODULE, "URL"));
-				if ((dbURL == NULL) || (mir_tstrcmp(dbURL, SelItem.url) != 0))
+				ptrW dbURL(db_get_tsa(hContact, MODULE, "URL"));
+				if ((dbURL == NULL) || (mir_wstrcmp(dbURL, SelItem.url) != 0))
 					continue;
 
 				ItemInfo *nSelItem = new ItemInfo(SelItem);
@@ -203,7 +203,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, L"http://") == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_wstrcmp(str, L"http://") == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -255,7 +255,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_TAGHELP:
 			wchar_t tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+			mir_snwprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 				L"#<title>#", TranslateT("The title of the item."),
 				L"#<description>#", TranslateT("The item synopsis."),
 				L"#<link>#", TranslateT("The URL of the item."),
@@ -273,7 +273,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DISCOVERY:
 			wchar_t tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, L"http://") != 0) {
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_wstrcmp(tszURL, L"http://") != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 				wchar_t *tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
@@ -361,7 +361,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_tstrcmp(str, L"http://") == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_wstrcmp(str, L"http://") == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -411,7 +411,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_TAGHELP:
 			wchar_t tszTagHelp[1024];
-			mir_sntprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+			mir_snwprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 				L"#<title>#", TranslateT("The title of the item."),
 				L"#<description>#", TranslateT("The item synopsis."),
 				L"#<link>#", TranslateT("The URL of the item."),
@@ -429,7 +429,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DISCOVERY:
 			wchar_t tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_tstrcmp(tszURL, L"http://") != 0) {
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_wstrcmp(tszURL, L"http://") != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 				wchar_t *tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
@@ -498,16 +498,16 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ListView_GetItemText(hwndList, sel, 1, url, _countof(url));
 
 				for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-					ptrT dbNick(db_get_tsa(hContact, MODULE, "Nick"));
+					ptrW dbNick(db_get_tsa(hContact, MODULE, "Nick"));
 					if (dbNick == NULL)
 						break;
-					if (mir_tstrcmp(dbNick, nick))
+					if (mir_wstrcmp(dbNick, nick))
 						continue;
 
-					ptrT dbURL(db_get_tsa(hContact, MODULE, "URL"));
+					ptrW dbURL(db_get_tsa(hContact, MODULE, "URL"));
 					if (dbURL == NULL)
 						break;
-					if (mir_tstrcmp(dbURL, url))
+					if (mir_wstrcmp(dbURL, url))
 						continue;
 
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);

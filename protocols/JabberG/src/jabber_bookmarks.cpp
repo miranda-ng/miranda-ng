@@ -47,7 +47,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		param->ppro->m_hwndJabberAddBookmark = hwndDlg;
 		TranslateDialogDefault(hwndDlg);
 		if (item = param->m_item) {
-			if (!mir_tstrcmp(item->type, L"conference")) {
+			if (!mir_wstrcmp(item->type, L"conference")) {
 				if (!wcschr(item->jid, '@')) {	  //no room name - consider it is transport
 					CheckDlgButton(hwndDlg, IDC_AGENT_RADIO, BST_CHECKED);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
@@ -118,18 +118,18 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 				item = param->ppro->ListAdd(LIST_BOOKMARK, roomJID);
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_URL_RADIO) == BST_CHECKED)
-					replaceStrT(item->type, L"url");
+					replaceStrW(item->type, L"url");
 				else
-					replaceStrT(item->type, L"conference");
+					replaceStrW(item->type, L"conference");
 
 				GetDlgItemText(hwndDlg, IDC_NICK, text, _countof(text));
-				replaceStrT(item->nick, text);
+				replaceStrW(item->nick, text);
 
 				GetDlgItemText(hwndDlg, IDC_PASSWORD, text, _countof(text));
-				replaceStrT(item->password, text);
+				replaceStrW(item->password, text);
 
 				GetDlgItemText(hwndDlg, IDC_NAME, text, _countof(text));
-				replaceStrT(item->name, (text[0] == 0) ? roomJID : text);
+				replaceStrW(item->name, (text[0] == 0) ? roomJID : text);
 
 				item->bAutoJoin = IsDlgButtonChecked(hwndDlg, IDC_CHECK_BM_AUTOJOIN) == BST_CHECKED;
 
@@ -329,7 +329,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 	JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
 	if (item == NULL) return;
 
-	if (!mir_tstrcmpi(item->type, L"conference")) {
+	if (!mir_wstrcmpi(item->type, L"conference")) {
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
 
 		/* some hack for using bookmark to transport not under XEP-0048 */
@@ -344,7 +344,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 			if (item->nick && *item->nick)
 				m_proto->GroupchatJoinRoom(server, room, item->nick, item->password);
 			else
-				m_proto->GroupchatJoinRoom(server, room, ptrT(JabberNickFromJID(m_proto->m_szJabberJID)), item->password);
+				m_proto->GroupchatJoinRoom(server, room, ptrW(JabberNickFromJID(m_proto->m_szJabberJID)), item->password);
 		}
 	}
 	else Utils_OpenUrlT(item->jid);
@@ -391,7 +391,7 @@ void CJabberDlgBookmarks::OnProtoRefresh(WPARAM, LPARAM)
 	LISTFOREACH(i, m_proto, LIST_BOOKMARK)
 	{
 		if (item = m_proto->ListGetItemPtrFromIndex(i)) {
-			int itemType = mir_tstrcmpi(item->type, L"conference") ? 1 : 0;
+			int itemType = mir_wstrcmpi(item->type, L"conference") ? 1 : 0;
 			int iItem = m_lvBookmarks.AddItem(item->name, itemType, (LPARAM)item->jid, itemType);
 			m_lvBookmarks.SetItem(iItem, 1, item->jid);
 			if (itemType == 0)

@@ -55,7 +55,7 @@ static void GetUrlDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 	buf[ len ] = 0;
 
 	if (len < cbBuf-3)
-		mir_tstrcat(buf, L"\r\n");
+		mir_wstrcat(buf, L"\r\n");
 }
 
 static void GetFileDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
@@ -68,7 +68,7 @@ static void GetFileDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 	buf[ len ] = 0;
 
 	if (len < cbBuf-3)
-		mir_tstrcat(buf, L"\r\n");
+		mir_wstrcat(buf, L"\r\n");
 }
 
 static void GetObjectDescription(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
@@ -117,7 +117,7 @@ static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 	default:
 		DBEVENTTYPEDESCR* et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
 		if (et && (et->flags & DETF_HISTORY)) {
-			pszTmp = mir_a2t(et->descr);
+			pszTmp = mir_a2u(et->descr);
 			pszSrc = TranslateTS(pszTmp);
 			break;
 		}
@@ -165,7 +165,7 @@ static void FillHistoryThread(void* param)
 		GetObjectSummary(&dbei, str, _countof(str));
 		if (str[0]) {
 			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, L"d t", strdatetime, _countof(strdatetime), 0);
-			mir_sntprintf(eventText, L"%s: %s", strdatetime, str);
+			mir_snwprintf(eventText, L"%s: %s", strdatetime, str);
 			i = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)eventText);
 			SendMessage(hwndList, LB_SETITEMDATA, i, (LPARAM)hDbEvent);
 		}
@@ -208,7 +208,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			wchar_t* contactName, str[200];
 			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
-			mir_sntprintf(str, TranslateT("History for %s"), contactName);
+			mir_snwprintf(str, TranslateT("History for %s"), contactName);
 			SetWindowText(hwndDlg, str);
 		}
 		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_HISTORY);
@@ -319,7 +319,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			wchar_t str[1024];
 			GetObjectDescription(&dbei, str, _countof(str));
 			if (str[0]) {
-				CharUpperBuff(str, (int)mir_tstrlen(str));
+				CharUpperBuff(str, (int)mir_wstrlen(str));
 				if (wcsstr(str, (const wchar_t*)lParam) != NULL) {
 					SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, index, 0);
 					SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
@@ -352,7 +352,7 @@ static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam
 			wchar_t str[128];
 			HWND hwndParent = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			GetDlgItemText(hwndDlg, IDC_FINDWHAT, str, _countof(str));
-			CharUpperBuff(str, (int)mir_tstrlen(str));
+			CharUpperBuff(str, (int)mir_wstrlen(str));
 			SendMessage(hwndParent, DM_FINDNEXT, 0, (LPARAM)str);
 			return TRUE;
 		}

@@ -188,15 +188,15 @@ wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* set
 		else if (dbv.type == DBVT_UTF8)
 			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, out, (int)len);
 		else if (dbv.type == DBVT_WCHAR)
-			mir_tstrncpy(out, dbv.pwszVal, (int)len);
+			mir_wstrncpy(out, dbv.pwszVal, (int)len);
 		else if (def != NULL)
-			mir_tstrncpy(out, def, (int)len);
+			mir_wstrncpy(out, def, (int)len);
 
 		db_free(&dbv);
 	}
 	else {
 		if (def != NULL)
-			mir_tstrncpy(out, def, (int)len);
+			mir_wstrncpy(out, def, (int)len);
 	}
 
 	return out;
@@ -260,7 +260,7 @@ wchar_t * ParseText(const wchar_t *text,
 	const wchar_t **variables, size_t variablesSize,
 	const wchar_t **data, size_t dataSize)
 {
-	size_t length = mir_tstrlen(text);
+	size_t length = mir_wstrlen(text);
 	size_t nextPos = 0;
 	StringHelper ret = { 0 };
 	size_t i;
@@ -287,10 +287,10 @@ wchar_t * ParseText(const wchar_t *text,
 
 				// See if can find it
 				for (j = 0; j < size; j++) {
-					size_t vlen = mir_tstrlen(variables[j]);
+					size_t vlen = mir_wstrlen(variables[j]);
 
 					if (wcsnicmp(&text[i], variables[j], vlen) == 0) {
-						if (CopyData(&ret, data[j], mir_tstrlen(data[j])))
+						if (CopyData(&ret, data[j], mir_wstrlen(data[j])))
 							return NULL;
 
 						i += vlen - 1;
@@ -423,7 +423,7 @@ wchar_t* GetStatusName(struct ClcContact *item)
 
 	// Get status name
 	status = db_get_w(item->hContact, item->proto, "Status", ID_STATUS_OFFLINE);
-	mir_tstrncpy(status_name, pcli->pfnGetStatusModeDescription(status, 0), _countof(status_name));
+	mir_wstrncpy(status_name, pcli->pfnGetStatusModeDescription(status, 0), _countof(status_name));
 
 	return status_name;
 }
@@ -457,7 +457,7 @@ wchar_t* GetProtoName(struct ClcContact *item)
 
 	proto_name[0] = '\0';
 	if (item->hContact == NULL || item->proto == NULL) {
-		mir_tstrncpy(proto_name, TranslateT("Unknown protocol"), _countof(proto_name));
+		mir_wstrncpy(proto_name, TranslateT("Unknown protocol"), _countof(proto_name));
 		return proto_name;
 	}
 
@@ -465,14 +465,14 @@ wchar_t* GetProtoName(struct ClcContact *item)
 	if (acc == NULL) {
 		#ifdef UNICODE
 		CallProtoService(item->proto, PS_GETNAME, sizeof(description), (LPARAM)description);
-		mir_sntprintf(proto_name, L"%S", description);
+		mir_snwprintf(proto_name, L"%S", description);
 		#else
 		CallProtoService(item->proto, PS_GETNAME, sizeof(proto_name), (LPARAM)proto_name);
 		#endif
 		return proto_name;
 	}
 
-	mir_tstrncpy(proto_name, acc->tszAccountName, _countof(proto_name));
+	mir_wstrncpy(proto_name, acc->tszAccountName, _countof(proto_name));
 
 	return proto_name;
 }
@@ -539,13 +539,13 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 				};
 
 				if (szCounts[0] != '\0')
-					mir_sntprintf(count, L"%s ", szCounts);
+					mir_snwprintf(count, L"%s ", szCounts);
 				else
 					count[0] = '\0';
 
 				wchar_t *txt = ParseText(template_group, t, _countof(t), v, _countof(v));
 				if (txt != NULL)
-					mir_tstrncpy(text, txt, size);
+					mir_wstrncpy(text, txt, size);
 				mir_free(txt);
 			}
 			break;
@@ -567,17 +567,17 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 
 				wchar_t *txt = ParseText(template_contact, t, _countof(t), v, _countof(v));
 				if (txt != NULL)
-					mir_tstrncpy(text, txt, size);
+					mir_wstrncpy(text, txt, size);
 				mir_free(txt);
 			}
 			break;
 
 		case CLCIT_DIVIDER:
-			mir_sntprintf(text, size, template_divider, item->szText);
+			mir_snwprintf(text, size, template_divider, item->szText);
 			break;
 
 		case CLCIT_INFO:
-			mir_sntprintf(text, size, template_info, item->szText);
+			mir_snwprintf(text, size, template_info, item->szText);
 			break;
 		}
 

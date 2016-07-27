@@ -151,7 +151,7 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 				p1 = 0;
 
 			for (UINT i = 0; i < m_iTextPatterns && !result; i++)
-				result = wildcmpt(p, m_TextPatterns[i]) ? MATCH_TEXT : 0;
+				result = wildcmpw(p, m_TextPatterns[i]) ? MATCH_TEXT : 0;
 
 			if (p1) {
 				*p1 = ' ';
@@ -167,9 +167,9 @@ skip_textpatterns:
 	if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
 		for (UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
 			if (pgce->ptszNick)
-				nResult = wildcmpt(pgce->ptszNick, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
+				nResult = wildcmpw(pgce->ptszNick, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
 			if ((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)
-				nResult = wildcmpt(pgce->ptszUserInfo, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
+				nResult = wildcmpw(pgce->ptszUserInfo, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
 		}
 	}
 
@@ -300,7 +300,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam
 			Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTEDITLIST, SW_HIDE);
 			::SetDlgItemText(hwndDlg, IDC_ADDHIGHLIGHTTITLE, TranslateT("Add user to highlight list"));
 			::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_INSERTSTRING, -1, (LPARAM)the->ui->pszNick);
-			if (mir_tstrcmp(the->ui->pszNick, the->ui->pszUID))
+			if (mir_wstrcmp(the->ui->pszNick, the->ui->pszUID))
 				::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_INSERTSTRING, -1, (LPARAM)the->ui->pszUID);
 			::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_SETCURSEL, 0, 0);
 		}

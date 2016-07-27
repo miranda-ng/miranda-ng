@@ -181,7 +181,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_sntprintf(name, TranslateT("%s server connection"), m_tszUserName);
+	mir_snwprintf(name, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
@@ -189,7 +189,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	char szTemp2[256];
 	mir_snprintf(szTemp2, "%s DCC", m_szModuleName);
 	nlu.szSettingsModule = szTemp2;
-	mir_sntprintf(name, TranslateT("%s client-to-client connections"), m_tszUserName);
+	mir_snwprintf(name, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	hNetlibDCC = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
@@ -219,7 +219,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 		CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
 
 	wchar_t szTemp[MAX_PATH];
-	mir_sntprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_perform.ini", m_szModuleName);
+	mir_snwprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_perform.ini", m_szModuleName);
 	wchar_t *szLoadFileName = Utils_ReplaceVarsT(szTemp);
 	char* pszPerformData = IrcLoadFile(szLoadFileName);
 	if (pszPerformData != NULL) {
@@ -273,16 +273,16 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	if (m_nick[0]) {
 		wchar_t szBuf[40];
-		if (mir_tstrlen(m_alternativeNick) == 0) {
-			mir_sntprintf(szBuf, L"%s%u", m_nick, rand() % 9999);
+		if (mir_wstrlen(m_alternativeNick) == 0) {
+			mir_snwprintf(szBuf, L"%s%u", m_nick, rand() % 9999);
 			setTString("AlernativeNick", szBuf);
-			mir_tstrncpy(m_alternativeNick, szBuf, 30);
+			mir_wstrncpy(m_alternativeNick, szBuf, 30);
 		}
 
-		if (mir_tstrlen(m_name) == 0) {
-			mir_sntprintf(szBuf, L"Miranda%u", rand() % 9999);
+		if (mir_wstrlen(m_name) == 0) {
+			mir_snwprintf(szBuf, L"Miranda%u", rand() % 9999);
 			setTString("Name", szBuf);
-			mir_tstrncpy(m_name, szBuf, 200);
+			mir_wstrncpy(m_name, szBuf, 200);
 		}
 	}
 
@@ -298,7 +298,7 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 		return 0;
 
 	wchar_t *id = psr->id.w ? psr->id.w : psr->nick.w;
-	id = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)id) : mir_a2t((char*)id);
+	id = psr->flags & PSR_UNICODE ? mir_wstrdup((wchar_t*)id) : mir_a2u((char*)id);
 
 	CONTACT user = { id, NULL, NULL, true, false, false };
 	MCONTACT hContact = CList_AddContact(&user, true, false);
@@ -497,7 +497,7 @@ HANDLE __cdecl CIrcProto::SearchBasic(const wchar_t* szId)
 		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&
 			szId && szId[0] && !IsChannel(szId)) {
 			AckBasicSearchParam* param = new AckBasicSearchParam;
-			mir_tstrncpy(param->buf, szId, 50);
+			mir_wstrncpy(param->buf, szId, 50);
 			ForkThread(&CIrcProto::AckBasicSearch, param);
 			return (HANDLE)1;
 		}
@@ -592,13 +592,13 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 				PostIrcMessage(L"/CTCP %s DCC SEND %s 200 0 %I64u %u",
 					dci->sContactName.c_str(), sFileWithQuotes.c_str(), dci->dwSize, dcc->iToken);
 
-				mir_sntprintf(szTemp,
+				mir_snwprintf(szTemp,
 					TranslateT("DCC reversed file transfer request sent to %s [%s]"),
 					dci->sContactName.c_str(), sFileCorrect.c_str());
 				DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
 
 				if (m_sendNotice) {
-					mir_sntprintf(szTemp,
+					mir_snwprintf(szTemp,
 						L"/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [Reverse transfer]",
 						dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024);
 					PostIrcMessage(szTemp);
@@ -611,13 +611,13 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 					PostIrcMessage(L"/CTCP %s DCC SEND %s %u %u %I64u",
 						dci->sContactName.c_str(), sFileWithQuotes.c_str(), ulAdr, iPort, dci->dwSize);
 
-					mir_sntprintf(szTemp,
+					mir_snwprintf(szTemp,
 						TranslateT("DCC file transfer request sent to %s [%s]"),
 						dci->sContactName.c_str(), sFileCorrect.c_str());
 					DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
 
 					if (m_sendNotice) {
-						mir_sntprintf(szTemp,
+						mir_snwprintf(szTemp,
 							L"/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [IP: %s]",
 							dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024, (wchar_t*)_A2T(ConvertIntegerToIP(ulAdr)));
 						PostIrcMessage(szTemp);

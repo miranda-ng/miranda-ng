@@ -727,7 +727,7 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 		std::wstring treaders;
 
 		// Load old readers
-		ptrT told(parent->getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
+		ptrW told(parent->getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
 		if (told)
 			treaders = std::wstring(told) + L", ";
 
@@ -772,8 +772,8 @@ void loginError(FacebookProto *proto, std::string error_str) {
 	proto->debugLogA("!!! Login error: %s", !error_str.empty() ? error_str.c_str() : "Unknown error");
 
 	wchar_t buf[200];
-	mir_sntprintf(buf, TranslateT("Login error: %s"),
-		(error_str.empty()) ? TranslateT("Unknown error") : ptrT(mir_utf8decodeT(error_str.c_str())));
+	mir_snwprintf(buf, TranslateT("Login error: %s"),
+		(error_str.empty()) ? TranslateT("Unknown error") : ptrW(mir_utf8decodeW(error_str.c_str())));
 	proto->facy.client_notify(buf);
 }
 
@@ -932,7 +932,7 @@ bool facebook_client::login(const char *username, const char *password)
 					std::string activity = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "<body", "</strong></div>", "</div>"));
 					activity = utils::text::trim(utils::text::html_entities_decode(utils::text::remove_html(activity)));
 					if (!activity.empty()) {
-						tszMessage.AppendFormat(L"\n\n%s", ptrT(mir_utf8decodeT(activity.c_str())));
+						tszMessage.AppendFormat(L"\n\n%s", ptrW(mir_utf8decodeW(activity.c_str())));
 					}
 
 					if (MessageBox(0, tszMessage, tszTitle, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON1) == IDYES) {

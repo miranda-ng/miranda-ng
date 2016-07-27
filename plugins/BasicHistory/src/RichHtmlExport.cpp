@@ -256,7 +256,7 @@ void IcoSave(const std::wstring &fileName, HICON hicon)
 
 bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true)
 {
-  size_t len = mir_tstrlen(lpszDir);
+  size_t len = mir_wstrlen(lpszDir);
   wchar_t *pszFrom = new wchar_t[len+2];
   wcscpy_s(pszFrom, len+2, lpszDir);
   pszFrom[len] = 0;

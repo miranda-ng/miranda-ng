@@ -62,11 +62,11 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 		case DBVT_TCHAR:
 			if (!getTString(p->name, &dbv)) {
 				if (p->size != -1) {
-					size_t len = min(p->size - 1, mir_tstrlen(dbv.ptszVal));
+					size_t len = min(p->size - 1, mir_wstrlen(dbv.ptszVal));
 					memcpy(ptr, dbv.pszVal, len*sizeof(wchar_t));
 					*(wchar_t*)&ptr[len*sizeof(wchar_t)] = 0;
 				}
-				else *(wchar_t**)ptr = mir_tstrdup(dbv.ptszVal);
+				else *(wchar_t**)ptr = mir_wstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
 			else {
@@ -74,9 +74,9 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 					if (p->defStr == NULL)
 						*ptr = 0;
 					else
-						mir_tstrncpy((wchar_t*)ptr, p->defStr, (int)p->size);
+						mir_wstrncpy((wchar_t*)ptr, p->defStr, (int)p->size);
 				}
-				else *(wchar_t**)ptr = mir_tstrdup(p->defStr);
+				else *(wchar_t**)ptr = mir_wstrdup(p->defStr);
 			}
 			break;
 }	}	}
@@ -177,7 +177,7 @@ static void removeSpaces(wchar_t* p)
 {
 	while (*p) {
 		if (*p == ' ')
-			memmove(p, p + 1, sizeof(wchar_t)*mir_tstrlen(p));
+			memmove(p, p + 1, sizeof(wchar_t)*mir_wstrlen(p));
 		p++;
 	}
 }
@@ -602,7 +602,7 @@ void CConnectPrefsDlg::OnDeleteServer(CCtrlButton*)
 
 	SERVER_INFO *pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
 	wchar_t temp[200];
-	mir_sntprintf(temp, TranslateT("Do you want to delete\r\n%s"), (wchar_t*)_A2T(pData->m_name));
+	mir_snwprintf(temp, TranslateT("Do you want to delete\r\n%s"), (wchar_t*)_A2T(pData->m_name));
 	if (MessageBox(m_hwnd, temp, TranslateT("Delete server"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		g_servers.remove(pData);
 
@@ -828,7 +828,7 @@ void CCtcpPrefsDlg::OnInitDialog()
 	m_combo.AddStringA("8192");
 
 	wchar_t szTemp[10];
-	mir_sntprintf(szTemp, L"%u", m_proto->m_DCCPacketSize);
+	mir_snwprintf(szTemp, L"%u", m_proto->m_DCCPacketSize);
 	int i = m_combo.SelectString(szTemp);
 	if (i == CB_ERR)
 		m_combo.SelectString(L"4096");
@@ -1282,7 +1282,7 @@ static int CALLBACK IgnoreListSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParam
 	hwndDlg->m_list.GetItem(&lvm);
 
 	if (temp1[0] && temp2[0])
-		return mir_tstrcmpi(temp1, temp2);
+		return mir_wstrcmpi(temp1, temp2);
 
 	return (temp1[0] == 0) ? 1 : -1;
 }
@@ -1316,7 +1316,7 @@ static LRESULT CALLBACK ListviewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 void CIrcProto::InitIgnore(void)
 {
 	wchar_t szTemp[MAX_PATH];
-	mir_sntprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_ignore.ini", m_szModuleName);
+	mir_snwprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_ignore.ini", m_szModuleName);
 	wchar_t *szLoadFileName = Utils_ReplaceVarsT(szTemp);
 	char* pszIgnoreData = IrcLoadFile(szLoadFileName);
 	if (pszIgnoreData != NULL) {
@@ -1701,7 +1701,7 @@ void CIrcProto::InitPrefs(void)
 	m_mySpecifiedHostIP[0] = 0;
 
 	if (m_alias == NULL)
-		m_alias = mir_tstrdup(L"/op /mode ## +ooo $1 $2 $3\r\n/dop /mode ## -ooo $1 $2 $3\r\n/voice /mode ## +vvv $1 $2 $3\r\n/dvoice /mode ## -vvv $1 $2 $3\r\n/j /join #$1 $2-\r\n/p /part ## $1-\r\n/w /whois $1\r\n/k /kick ## $1 $2-\r\n/q /query $1\r\n/logon /log on ##\r\n/logoff /log off ##\r\n/save /log buffer $1\r\n/slap /me slaps $1 around a bit with a large trout");
+		m_alias = mir_wstrdup(L"/op /mode ## +ooo $1 $2 $3\r\n/dop /mode ## -ooo $1 $2 $3\r\n/voice /mode ## +vvv $1 $2 $3\r\n/dvoice /mode ## -vvv $1 $2 $3\r\n/j /join #$1 $2-\r\n/p /part ## $1-\r\n/w /whois $1\r\n/k /kick ## $1 $2-\r\n/q /query $1\r\n/logon /log on ##\r\n/logoff /log off ##\r\n/save /log buffer $1\r\n/slap /me slaps $1 around a bit with a large trout");
 
 	m_quickComboSelection = getDword("QuickComboSelection", m_serverComboSelection + 1);
 	m_myHost[0] = '\0';

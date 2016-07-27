@@ -278,7 +278,7 @@ static int core_Translate(lua_State *L)
 {
 	char *what = (char*)luaL_checkstring(L, 1);
 
-	ptrT value(mir_utf8decodeT(what));
+	ptrW value(mir_utf8decodeW(what));
 	lua_pushstring(L, T2Utf(TranslateW_LP(value, hLangpack)));
 
 	return 1;
@@ -288,7 +288,7 @@ static int core_Parse(lua_State *L)
 {
 	char *what = (char*)luaL_checkstring(L, 1);
 
-	ptrT value(mir_utf8decodeT(what));
+	ptrW value(mir_utf8decodeW(what));
 	lua_pushstring(L, T2Utf(VARST(value)));
 
 	return 1;
@@ -299,7 +299,7 @@ static int core_GetFullPath(lua_State *L)
 	wchar_t path[MAX_PATH];
 	GetModuleFileName(NULL, path, MAX_PATH);
 	
-	lua_pushstring(L, ptrA(mir_utf8encodeT(path)));
+	lua_pushstring(L, ptrA(mir_utf8encodeW(path)));
 
 	return 1;
 }

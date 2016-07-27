@@ -264,7 +264,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 				wchar_t szwProto[64];
 				MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
 				szwProto[63] = 0;
-				mir_sntprintf(szBuffer, L"%s: %s (%s)", szwProto, szName, szStatus);
+				mir_snwprintf(szBuffer, L"%s: %s (%s)", szwProto, szName, szStatus);
 
 				szBuffer[127] = 0;
 				AppendMenu(cfg::dat.hMenuNotify, MF_BYCOMMAND | MF_STRING, cfg::dat.wNextMenuID, szBuffer);

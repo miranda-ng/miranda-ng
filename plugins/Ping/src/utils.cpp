@@ -38,8 +38,8 @@ void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags)
 
 		ppd->lchContact = NULL;
 		ppd->lchIcon = (flags ? hIconResponding : hIconNotResponding);
-		mir_tstrncpy(ppd->lptzContactName, line1, _countof(ppd->lptzContactName));
-		mir_tstrncpy(ppd->lptzText, line2, _countof(ppd->lptzText));
+		mir_wstrncpy(ppd->lptzContactName, line1, _countof(ppd->lptzContactName));
+		mir_wstrncpy(ppd->lptzText, line2, _countof(ppd->lptzText));
 
 		ppd->colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd->colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -89,7 +89,7 @@ INT_PTR PluginPing(WPARAM, LPARAM lParam)
 		//GetLocalTime(&systime);
 		NETLIBOPENCONNECTION conn = { 0 };
 		conn.cbSize = sizeof(NETLIBOPENCONNECTION);
-		conn.szHost = mir_t2a(pa->pszName);
+		conn.szHost = mir_u2a(pa->pszName);
 		conn.wPort = pa->port;
 		conn.timeout = options.ping_timeout;
 
@@ -205,7 +205,7 @@ INT_PTR DblClick(WPARAM wParam, LPARAM) {
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		if (i->item_id == (DWORD)wParam) {
-			if (mir_tstrlen(i->pszCommand)) {
+			if (mir_wstrlen(i->pszCommand)) {
 				ShellExecute(0, L"open", i->pszCommand, i->pszParams, 0, SW_SHOW);
 			}
 			else {
@@ -222,19 +222,19 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 	char buf[256];
 	mir_snprintf(buf, "Address%d", index);
 	if (!db_get_ts(0, "PingPlug", buf, &dbv)) {
-		mir_tstrncpy(pa.pszName, dbv.ptszVal, _countof(pa.pszName));
+		mir_wstrncpy(pa.pszName, dbv.ptszVal, _countof(pa.pszName));
 		db_free(&dbv);
 	}
 	else
-		mir_tstrncpy(pa.pszName, TranslateT("Unknown Address"), _countof(pa.pszName));
+		mir_wstrncpy(pa.pszName, TranslateT("Unknown Address"), _countof(pa.pszName));
 
 	mir_snprintf(buf, "Label%d", index);
 	if (!db_get_ts(0, "PingPlug", buf, &dbv)) {
-		mir_tstrncpy(pa.pszLabel, dbv.ptszVal, _countof(pa.pszLabel));
+		mir_wstrncpy(pa.pszLabel, dbv.ptszVal, _countof(pa.pszLabel));
 		db_free(&dbv);
 	}
 	else
-		mir_tstrncpy(pa.pszLabel, TranslateT("Unknown"), _countof(pa.pszLabel));
+		mir_wstrncpy(pa.pszLabel, TranslateT("Unknown"), _countof(pa.pszLabel));
 
 	mir_snprintf(buf, "Port%d", index);
 	pa.port = (int)db_get_dw(0, "PingPlug", buf, -1);

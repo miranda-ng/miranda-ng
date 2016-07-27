@@ -325,11 +325,11 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 		// the protocol supports status message sending for current status, or autoreplying
 		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || 
 			((Flag1 & PF1_IM) == PF1_IM && (i < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[i].DisableReplyCtlID))))
-			mir_sntprintf(szSetStr, TranslateT("Set %s message for the contact"), pcli->pfnGetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_snwprintf(szSetStr, TranslateT("Set %s message for the contact"), pcli->pfnGetStatusModeDescription(iMode, 0), pcli->pfnGetContactDisplayName(hContact, 0));
 
 		// the protocol supports status message reading for contact's status
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode)) {
-			mir_sntprintf(szReadStr, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
+			mir_snwprintf(szReadStr, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iContactMode, 0));
 			hReadMsgIcon = Skin_LoadProtoIcon(szProto, iContactMode);
 		}
 	}
@@ -488,18 +488,18 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	ARGUMENTSINFO *ai = (ARGUMENTSINFO*)lParam;
 	ai->flags = AIF_DONTPARSE;
 	TCString Result;
-	if (!mir_tstrcmp(ai->targv[0], VAR_AWAYSINCE_TIME)) {
+	if (!mir_wstrcmp(ai->targv[0], VAR_AWAYSINCE_TIME)) {
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : L"H:mm", Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_tstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
+	else if (!mir_wstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
 		GetDateFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : NULL, Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_tstrcmp(ai->targv[0], VAR_STATDESC)) {
+	else if (!mir_wstrcmp(ai->targv[0], VAR_STATDESC)) {
 		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : pcli->pfnGetStatusModeDescription(g_ProtoStates[VarParseData.szProto].m_status, 0);
 	}
-	else if (!mir_tstrcmp(ai->targv[0], VAR_MYNICK)) {
+	else if (!mir_wstrcmp(ai->targv[0], VAR_MYNICK)) {
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
 			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (wchar_t*)NULL);
 
@@ -509,15 +509,15 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		if (Result == NULL)
 			Result = TranslateT("Stranger");
 	}
-	else if (!mir_tstrcmp(ai->targv[0], VAR_REQUESTCOUNT)) {
-		mir_sntprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
+	else if (!mir_wstrcmp(ai->targv[0], VAR_REQUESTCOUNT)) {
+		mir_snwprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_tstrcmp(ai->targv[0], VAR_MESSAGENUM)) {
-		mir_sntprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
+	else if (!mir_wstrcmp(ai->targv[0], VAR_MESSAGENUM)) {
+		mir_snwprintf(Result.GetBuffer(16), 16, L"%d", db_get_w(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_tstrcmp(ai->targv[0], VAR_TIMEPASSED)) {
+	else if (!mir_wstrcmp(ai->targv[0], VAR_TIMEPASSED)) {
 		ULARGE_INTEGER ul_AwaySince, ul_Now;
 		SYSTEMTIME st;
 		GetLocalTime(&st);
@@ -527,14 +527,14 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		ul_Now.QuadPart /= 10000000; // now it's in seconds
 		Result.GetBuffer(256);
 		if (ul_Now.LowPart >= 7200) // more than 2 hours
-			mir_sntprintf(Result, 256, TranslateT("%d hours"), ul_Now.LowPart / 3600);
+			mir_snwprintf(Result, 256, TranslateT("%d hours"), ul_Now.LowPart / 3600);
 		else if (ul_Now.LowPart >= 120) // more than 2 minutes
-			mir_sntprintf(Result, 256, TranslateT("%d minutes"), ul_Now.LowPart / 60);
+			mir_snwprintf(Result, 256, TranslateT("%d minutes"), ul_Now.LowPart / 60);
 		else
-			mir_sntprintf(Result, 256, TranslateT("%d seconds"), ul_Now.LowPart);
+			mir_snwprintf(Result, 256, TranslateT("%d seconds"), ul_Now.LowPart);
 		Result.ReleaseBuffer();
 	}
-	else if (!mir_tstrcmp(ai->targv[0], VAR_PREDEFINEDMESSAGE)) {
+	else if (!mir_wstrcmp(ai->targv[0], VAR_PREDEFINEDMESSAGE)) {
 		ai->flags = 0; // reset AIF_DONTPARSE flag
 		if (ai->argc != 2)
 			return NULL;
@@ -544,7 +544,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		TreeCtrl->DBToMem(CString(MOD_NAME));
 
 		for (int i = 0; i < TreeCtrl->m_value.GetSize(); i++) {
-			if (!(TreeCtrl->m_value[i].Flags & TIF_GROUP) && !mir_tstrcmpi(TreeCtrl->m_value[i].Title, ai->targv[1])) {
+			if (!(TreeCtrl->m_value[i].Flags & TIF_GROUP) && !mir_wstrcmpi(TreeCtrl->m_value[i].Title, ai->targv[1])) {
 				Result = TreeCtrl->m_value[i].User_Str1;
 				break;
 			}
@@ -552,7 +552,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		if (Result == NULL) // if we didn't find a message with specified title
 			return NULL; // return it now, as later we change NULL to ""
 	}
-	else if (!mir_tstrcmp(ai->targv[0], VAR_PROTOCOL)) {
+	else if (!mir_wstrcmp(ai->targv[0], VAR_PROTOCOL)) {
 		if (VarParseData.szProto) {
 			CString AnsiResult;
 			CallProtoService(VarParseData.szProto, PS_GETNAME, 256, (LPARAM)AnsiResult.GetBuffer(256));
@@ -566,7 +566,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	if (!szResult)
 		return NULL;
 
-	mir_tstrcpy(szResult, (Result != NULL) ? Result : L"");
+	mir_wstrcpy(szResult, (Result != NULL) ? Result : L"");
 	return (INT_PTR)szResult;
 }
 

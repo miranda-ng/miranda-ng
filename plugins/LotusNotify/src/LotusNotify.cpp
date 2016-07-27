@@ -446,7 +446,7 @@ void showMsg(wchar_t* sender,wchar_t* text, DWORD id, char *strUID)
 	//99% of the times you'll just copy this line.
 	//1% of the times you may wish to change the contact's name. I don't know why you should, but you can.
 	//char * lpzText;
-	//The text for the second line. You could even make something like: char lpzText[128]; mir_tstrcpy(lpzText, "Hello world!"); It's your choice.
+	//The text for the second line. You could even make something like: char lpzText[128]; mir_wstrcpy(lpzText, "Hello world!"); It's your choice.
 
 	POPUPATT * mpd = (POPUPATT*)malloc(sizeof(POPUPATT));
 	memset(&ppd, 0, sizeof(ppd)); //This is always a good thing to do.
@@ -478,7 +478,7 @@ void showMsg(wchar_t* sender,wchar_t* text, DWORD id, char *strUID)
 //what to do with error msg
 void ErMsgW(WCHAR* msg)
 {
-	wchar_t* msgT = mir_u2t(msg);
+	wchar_t* msgT = mir_wstrdup(msg);
 	ErMsgT(msgT);
 	mir_free(msgT);
 }
@@ -775,11 +775,11 @@ void checkthread(void*)
 
 		if (attSize) {
 			WCHAR field_attachments_UNICODE[MAX_FIELD];
-			mir_sntprintf(field_attachments_UNICODE, TranslateT("Attachments: %d bytes"), attSize);
-			mir_sntprintf(msgSubject, L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE);
+			mir_snwprintf(field_attachments_UNICODE, TranslateT("Attachments: %d bytes"), attSize);
+			mir_snwprintf(msgSubject, L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE);
 		}
 		else {
-			mir_sntprintf(msgSubject, L"%S\n%s", field_date, field_subject_UNICODE);
+			mir_snwprintf(msgSubject, L"%S\n%s", field_date, field_subject_UNICODE);
 		}
 
 		//check if this is not filtered msg
@@ -1574,7 +1574,7 @@ void checkEnvPath(wchar_t *path)
 	wchar_t *cur = _wgetenv(L"PATH");
 	wcslwr(cur);
 	wchar_t *found = wcsstr(cur, path);
-	size_t len = mir_tstrlen(path);
+	size_t len = mir_wstrlen(path);
 	if (found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len + 1] == ';' || found[len + 1] == 0))))
 		return;
 
@@ -1600,7 +1600,7 @@ static int modulesloaded(WPARAM, LPARAM)
 	GetLotusPath(path, sizeof(path));
 	checkEnvPath(path);
 	wcscat_s(path, _countof(path), L"nnotes.dll");
-	assert(mir_tstrlen(path) > 0);
+	assert(mir_wstrlen(path) > 0);
 
 	log_p(L"Loading dll: %s", path);
 

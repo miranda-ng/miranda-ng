@@ -429,38 +429,38 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 							mir_snprintf(jsr.jid, "%s@%s", jid, dbv.pszVal);
 						}
 						jsr.jid[sizeof(jsr.jid) - 1] = '\0';
-						jsr.hdr.id.w = mir_a2t(jid);
+						jsr.hdr.id.w = mir_a2u(jid);
 						if ((n = TlenXmlGetChild(itemNode, "nick")) != NULL && n->text != NULL) {
 							char* buf = TlenTextDecode(n->text);
-							jsr.hdr.nick.w = mir_a2t(buf);
+							jsr.hdr.nick.w = mir_a2u(buf);
 							mir_free(buf);
 						}
 						else {
-							jsr.hdr.nick.w = mir_tstrdup(TEXT(""));
+							jsr.hdr.nick.w = mir_wstrdup(TEXT(""));
 						}
 						if ((n = TlenXmlGetChild(itemNode, "first")) != NULL && n->text != NULL) {
 							char* buf = TlenTextDecode(n->text);
-							jsr.hdr.firstName.w = mir_a2t(buf);
+							jsr.hdr.firstName.w = mir_a2u(buf);
 							mir_free(buf);
 						}
 						else {
-							jsr.hdr.firstName.w = mir_tstrdup(TEXT(""));
+							jsr.hdr.firstName.w = mir_wstrdup(TEXT(""));
 						}
 						if ((n = TlenXmlGetChild(itemNode, "last")) != NULL && n->text != NULL) {
 							char* buf = TlenTextDecode(n->text);
-							jsr.hdr.lastName.w = mir_a2t(buf);
+							jsr.hdr.lastName.w = mir_a2u(buf);
 							mir_free(buf);
 						}
 						else {
-							jsr.hdr.lastName.w = mir_tstrdup(TEXT(""));
+							jsr.hdr.lastName.w = mir_wstrdup(TEXT(""));
 						}
 						if ((n = TlenXmlGetChild(itemNode, "email")) != NULL && n->text != NULL) {
 							char* buf = TlenTextDecode(n->text);
-							jsr.hdr.email.w = mir_a2t(buf);
+							jsr.hdr.email.w = mir_a2u(buf);
 							mir_free(buf);
 						}
 						else {
-							jsr.hdr.email.w = mir_tstrdup(TEXT(""));
+							jsr.hdr.email.w = mir_wstrdup(TEXT(""));
 						}
 
 						ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);

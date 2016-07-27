@@ -175,7 +175,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 	/// Taskbar and Window icon
 	Window_SetIcon_IcoLib(m_hWnd, GetIconHandle(ICO_MAIN));
 
-	wchar_t *pt = mir_tstrdup(pcli->pfnGetContactDisplayName(m_hContact, 0));
+	wchar_t *pt = mir_wstrdup(pcli->pfnGetContactDisplayName(m_hContact, 0));
 	if (pt && (m_hContact != 0)) {
 		CMString string;
 		string.AppendFormat(TranslateT("Send screenshot to %s"), pt);
@@ -240,7 +240,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		if (m_MonitorCount > 1) {
 			wchar_t tszTemp[120];
 			for (size_t mon = 0; mon < m_MonitorCount; ++mon) { /// @todo : fix format for non MSVC compilers
-				mir_sntprintf(tszTemp, L"%Iu. %s%s",
+				mir_snwprintf(tszTemp, L"%Iu. %s%s",
 					mon + 1, TranslateT("Monitor"),
 					(m_Monitors[mon].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : L""
 					);
@@ -783,7 +783,7 @@ void TfrmMain::SaveOptions(void)
 //---------------------------------------------------------------------------
 void TfrmMain::Init(wchar_t* DestFolder, MCONTACT Contact)
 {
-	m_FDestFolder = mir_tstrdup(DestFolder);
+	m_FDestFolder = mir_wstrdup(DestFolder);
 	m_hContact = Contact;
 
 	// create window
@@ -810,7 +810,7 @@ void TfrmMain::btnCaptureClick()
 			return;
 		}
 		fclose(fp);
-		mir_free(m_pszFile); m_pszFile = mir_tstrdup(filename);
+		mir_free(m_pszFile); m_pszFile = mir_wstrdup(filename);
 	}
 	else if (!m_hTargetWindow) {
 		wchar_t *err = TranslateT("Select a target window.");
@@ -944,8 +944,8 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 	_itow(rect.right - rect.left, B, 10);
 	//	_itow_s(rect.bottom - rect.top, H, 16, 10);
 	_itow(rect.bottom - rect.top, H, 10);
-	mir_tstrncat(B, L"x", _countof(B) - mir_tstrlen(B));
-	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));
+	mir_wstrncat(B, L"x", _countof(B) - mir_wstrlen(B));
+	mir_wstrncat(B, H, _countof(B) - mir_wstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
 }
 
@@ -956,8 +956,8 @@ void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl)
 	_itow(ABS(rect.right - rect.left), B, 10);
 	//	_itow_s(ABS(rect.bottom - rect.top), H, 16, 10);
 	_itow(ABS(rect.bottom - rect.top), H, 10);
-	mir_tstrncat(B, L"x", _countof(B) - mir_tstrlen(B));
-	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));
+	mir_wstrncat(B, L"x", _countof(B) - mir_wstrlen(B));
+	mir_wstrncat(B, H, _countof(B) - mir_wstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
 }
 
@@ -975,11 +975,11 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 	if (FileNumber > 99999) FileNumber = 1;
 	//Generate FileName
 	mir_tstradd(path, m_FDestFolder);
-	if (path[mir_tstrlen(path) - 1] != '\\') mir_tstradd(path, L"\\");
+	if (path[mir_wstrlen(path) - 1] != '\\') mir_tstradd(path, L"\\");
 	mir_tstradd(path, L"shot%.5u");//on format change, adapt "len" below
-	size_t len = mir_tstrlen(path) + 2;
+	size_t len = mir_wstrlen(path) + 2;
 	pszFilename = (wchar_t*)mir_alloc(sizeof(wchar_t)*(len));
-	mir_sntprintf(pszFilename, len, path, FileNumber);
+	mir_snwprintf(pszFilename, len, path, FileNumber);
 	mir_free(path);
 
 	//Generate a description according to the screenshot
@@ -1103,7 +1103,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 		//wchar_t* pszFormat = (wchar_t*)ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo));
 		wchar_t pszFormat[6];
 		ComboBox_GetText(hwndCombo, pszFormat, 6);
-		if(ret && (mir_tstrcmpi (pszFormat,L"png") != 0)) {
+		if(ret && (mir_wstrcmpi (pszFormat,L"png") != 0)) {
 
 		fif = FIP->FI_GetFIFFromFilenameU(ret);
 		dib_new = FIP->FI_LoadU(fif, ret,0);
@@ -1130,7 +1130,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 		}
 		else {
 			mir_free(pszFileDesc);
-			m_pszFileDesc = mir_tstrdup(L"");
+			m_pszFileDesc = mir_wstrdup(L"");
 		}
 
 		if (m_cSend) {

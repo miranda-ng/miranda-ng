@@ -69,7 +69,7 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		{
 			wchar_t desc[512];
-			mir_sntprintf(desc,   TranslateT("Set %s message for %s."),
+			mir_snwprintf(desc,   TranslateT("Set %s message for %s."),
 				pcli->pfnGetStatusModeDescription(GetActualStatus(protoSetting), 0), protoSetting->tszAccName);
 			SetDlgItemText(hwndDlg, IDC_DESCRIPTION, desc);
 		}
@@ -127,11 +127,11 @@ static int SetStatusList(HWND hwndDlg)
 		wchar_t* status = pcli->pfnGetStatusModeDescription(actualStatus, 0);
 		switch ((*confirmSettings)[i].status) {
 		case ID_STATUS_LAST:
-			mir_sntprintf(buf, L"%s (%s)", TranslateT("<last>"), status);
+			mir_snwprintf(buf, L"%s (%s)", TranslateT("<last>"), status);
 			ListView_SetItemText(hList, lvItem.iItem, 1, buf);
 			break;
 		case ID_STATUS_CURRENT:
-			mir_sntprintf(buf, L"%s (%s)", TranslateT("<current>"), status);
+			mir_snwprintf(buf, L"%s (%s)", TranslateT("<current>"), status);
 			ListView_SetItemText(hList, lvItem.iItem, 1, buf);
 			break;
 		default:
@@ -210,7 +210,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		// start timer
 		if (timeOut > 0) {
 			wchar_t text[32];
-			mir_sntprintf(text, TranslateT("Closing in %d"), timeOut);
+			mir_snwprintf(text, TranslateT("Closing in %d"), timeOut);
 			SetDlgItemText(hwndDlg, IDC_CLOSE, text);
 			SetTimer(hwndDlg, TIMER_ID, 1000, NULL);
 		}
@@ -219,7 +219,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_TIMER:
 	{
 		wchar_t text[32];
-		mir_sntprintf(text, TranslateT("Closing in %d"), timeOut - 1);
+		mir_snwprintf(text, TranslateT("Closing in %d"), timeOut - 1);
 		SetDlgItemText(hwndDlg, IDC_CLOSE, text);
 		if (timeOut <= 0) {
 			KillTimer(hwndDlg, TIMER_ID);
@@ -269,7 +269,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				// LAST STATUS
 				if (proto->status == ID_STATUS_LAST) {
 					wchar_t last[80];
-					mir_sntprintf(last, L"%s (%s)", TranslateT("<last>"), pcli->pfnGetStatusModeDescription(proto->lastStatus, 0));
+					mir_snwprintf(last, L"%s (%s)", TranslateT("<last>"), pcli->pfnGetStatusModeDescription(proto->lastStatus, 0));
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_STARTUPLIST), lvItem.iItem, 1, last);
 					actualStatus = proto->lastStatus;
 				}
@@ -278,7 +278,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else if (proto->status == ID_STATUS_CURRENT) {
 					int currentStatus = CallProtoService(proto->szName, PS_GETSTATUS, 0, 0);
 					wchar_t current[80];
-					mir_sntprintf(current, L"%s (%s)", TranslateT("<current>"), pcli->pfnGetStatusModeDescription(currentStatus, 0));
+					mir_snwprintf(current, L"%s (%s)", TranslateT("<current>"), pcli->pfnGetStatusModeDescription(currentStatus, 0));
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_STARTUPLIST), lvItem.iItem, 1, current);
 					actualStatus = currentStatus;
 				}
@@ -344,7 +344,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				// last
 				wchar_t buf[100];
-				mir_sntprintf(buf, L"%s (%s)", TranslateT("<last>"), pcli->pfnGetStatusModeDescription(proto->lastStatus, 0));
+				mir_snwprintf(buf, L"%s (%s)", TranslateT("<last>"), pcli->pfnGetStatusModeDescription(proto->lastStatus, 0));
 				int item = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)buf);
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, item, ID_STATUS_LAST);
 				if (proto->status == ID_STATUS_LAST) {
@@ -354,7 +354,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				// current
 				int currentStatus = CallProtoService(proto->szName, PS_GETSTATUS, 0, 0);
-				mir_sntprintf(buf, L"%s (%s)", TranslateT("<current>"), pcli->pfnGetStatusModeDescription(currentStatus, 0));
+				mir_snwprintf(buf, L"%s (%s)", TranslateT("<current>"), pcli->pfnGetStatusModeDescription(currentStatus, 0));
 				item = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)buf);
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, item, ID_STATUS_CURRENT);
 				if (proto->status == ID_STATUS_CURRENT) {

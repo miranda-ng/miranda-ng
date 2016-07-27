@@ -900,7 +900,7 @@ extern "C" __declspec(dllexport) int Load()
 		MessageBox(NULL, "Failed to retrieve plugin path.", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}
-	mir_tstrncat(szPluginPath, "\\HTTPServer\\", _countof(szPluginPath) - mir_tstrlen(szPluginPath));
+	mir_strncat(szPluginPath, "\\HTTPServer\\", _countof(szPluginPath) - mir_strlen(szPluginPath));
 	int err = CreateDirectoryTree(szPluginPath);
 	if ((err != 0) && (err != ERROR_ALREADY_EXISTS)) {
 		MessageBox(NULL, "Failed to create HTTPServer directory.", MSG_BOX_TITEL, MB_OK);

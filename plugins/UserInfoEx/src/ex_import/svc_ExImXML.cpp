@@ -164,7 +164,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 						// dont export meta subcontacts by default and
 						// export only contact with selectet group name
 						if (!db_mc_isSub(hContact) && 
-							mir_tstrncmp(ExImContact->ptszName, DB::Setting::GetTString(hContact, "CList", "Group"), mir_tstrlen(ExImContact->ptszName))== 0)
+							mir_wstrncmp(ExImContact->ptszName, DB::Setting::GetTString(hContact, "CList", "Group"), mir_wstrlen(ExImContact->ptszName))== 0)
 							{
 							if (vContact.fromDB(hContact)) {
 								vContact.Export(xmlfile, &Modules);
@@ -253,7 +253,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 	for (TiXmlElement *xContact = xmlParent->FirstChildElement(); xContact != NULL; xContact = xContact->NextSiblingElement()) {
 		if (!mir_strcmpi(xContact->Value(), XKEY_CONTACT)) {
 			// update progressbar and abort if user clicked cancel
-			LPTSTR pszNick = mir_utf8decodeT(xContact->Attribute("nick"));
+			LPTSTR pszNick = mir_utf8decodeW(xContact->Attribute("nick"));
 			// user clicked abort button
 			if (_progress.UpdateContact(LPGENW("Contact: %s (%S)"), pszNick, xContact->Attribute("proto"))) {
 				int result = vContact.LoadXmlElemnt(xContact);

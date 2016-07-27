@@ -177,7 +177,7 @@ TopButtonInt *CreateButton(TTBButton *but)
 		b->bPushed = (but->dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
 
 		if (but->dwFlags & TTBBF_ISLBUTTON) {
-			b->ptszProgram = mir_tstrdup(but->program);
+			b->ptszProgram = mir_wstrdup(but->program);
 			b->pszService = mir_strdup(TTB_LAUNCHSERVICE);
 		}
 		else {
@@ -190,8 +190,8 @@ TopButtonInt *CreateButton(TTBButton *but)
 		Icon2button(but, b->hIconHandleUp, b->hIconUp, true);
 		Icon2button(but, b->hIconHandleDn, b->hIconDn, false);
 
-		b->ptszTooltipUp = mir_a2t(but->pszTooltipUp);
-		b->ptszTooltipDn = mir_a2t(but->pszTooltipDn);
+		b->ptszTooltipUp = mir_a2u(but->pszTooltipUp);
+		b->ptszTooltipDn = mir_a2u(but->pszTooltipDn);
 	}
 	return b;
 }
@@ -399,7 +399,7 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 			lpTTB->wParamDown = b->wParamDown;
 
 			if (b->dwFlags & TTBBF_ISLBUTTON)
-				replaceStrT(lpTTB->program, b->ptszProgram);
+				replaceStrW(lpTTB->program, b->ptszProgram);
 			else
 				replaceStr(lpTTB->pszService, b->pszService);
 
@@ -440,7 +440,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		if (lParam == 0)
 			return -1;
 
-		replaceStrT(b->ptszTooltip, TranslateTS(_A2T((LPCSTR)lParam)));
+		replaceStrW(b->ptszTooltip, TranslateTS(_A2T((LPCSTR)lParam)));
 		SendMessage(b->hwnd, BUTTONADDTOOLTIP, (WPARAM)b->ptszTooltip, BATF_UNICODE);
 		return 1;
 
@@ -467,7 +467,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			}
 
 			if (b->dwFlags & TTBBF_ISLBUTTON)
-				replaceStrT(b->ptszProgram, lpTTB->program);
+				replaceStrW(b->ptszProgram, lpTTB->program);
 			else
 				replaceStr(b->pszService, lpTTB->pszService);
 

@@ -14,13 +14,13 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			break;
 
 		node = json_get(item, "steamid_from");
-		ptrA steamId(mir_t2a(ptrT(json_as_string(node))));
+		ptrA steamId(mir_u2a(ptrW(json_as_string(node))));
 
 		node = json_get(item, "utc_timestamp");
-		time_t timestamp = atol(ptrA(mir_t2a(ptrT(json_as_string(node)))));
+		time_t timestamp = atol(ptrA(mir_u2a(ptrW(json_as_string(node)))));
 
 		node = json_get(item, "type");
-		ptrT type(json_as_string(node));
+		ptrW type(json_as_string(node));
 		if (!lstrcmpi(type, L"saytext") || !lstrcmpi(type, L"emote") ||
 			!lstrcmpi(type, L"my_saytext") || !lstrcmpi(type, L"my_emote"))
 		{
@@ -29,7 +29,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 				continue;
 
 			node = json_get(item, "text");
-			ptrT text(json_as_string(node));
+			ptrW text(json_as_string(node));
 			T2Utf szMessage(text);
 
 			PROTORECVEVENT recv = { 0 };
@@ -61,7 +61,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			if (IsMe(steamId))
 			{
 				node = json_get(item, "persona_name");
-				setTString("Nick", ptrT(json_as_string(node)));
+				setTString("Nick", ptrW(json_as_string(node)));
 
 				if (status == -1 || status == ID_STATUS_OFFLINE)
 					continue;
@@ -85,7 +85,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 				SetContactStatus(hContact, status);
 
 			node = json_get(item, "persona_name");
-			setTString(hContact, "Nick", ptrT(json_as_string(node)));
+			setTString(hContact, "Nick", ptrW(json_as_string(node)));
 
 			// todo: find difference between state changing and info changing
 			steamIds.append(steamId).append(",");
@@ -217,13 +217,13 @@ void CSteamProto::PollingThread(void*)
 			{
 				JSONNode *node = json_get(root, "error");
 				if (node) {
-					ptrT error(json_as_string(node));
+					ptrW error(json_as_string(node));
 
 					if (!lstrcmpi(error, L"OK"))
 					{
 						// Remember last message timestamp
 						node = json_get(root, "utc_timestamp");
-						time_t timestamp = _wtoi64(ptrT(json_as_string(node)));
+						time_t timestamp = _wtoi64(ptrW(json_as_string(node)));
 						if (timestamp > getDword("LastMessageTS", 0))
 							setDword("LastMessageTS", timestamp);
 

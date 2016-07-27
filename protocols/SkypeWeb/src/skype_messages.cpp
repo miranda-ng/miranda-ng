@@ -275,7 +275,7 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 
 void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId)
 {
-	HXML xmlNode = xmlParseString(mir_utf8decodeT(szContent), 0, L"contacts");
+	HXML xmlNode = xmlParseString(mir_utf8decodeW(szContent), 0, L"contacts");
 	if (xmlNode)
 	{
 		int nCount = 0;
@@ -296,8 +296,8 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 					psr[nCount] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
 					psr[nCount]->cbSize = sizeof(psr);
 					psr[nCount]->flags = PSR_TCHAR;
-					psr[nCount]->id.w = mir_tstrdup(tszContactId);
-					//psr[nCount]->nick.w = mir_tstrdup(tszContactName == NULL ? L"" : tszContactName);
+					psr[nCount]->id.w = mir_wstrdup(tszContactId);
+					//psr[nCount]->nick.w = mir_wstrdup(tszContactName == NULL ? L"" : tszContactName);
 					nCount++;
 				}
 			}

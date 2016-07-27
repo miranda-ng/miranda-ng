@@ -491,7 +491,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 	// cut nickname if larger than x chars...
 	wchar_t newcontactname[128], tabtitle[128];
-	if (contactName && mir_tstrlen(contactName) > 0) {
+	if (contactName && mir_wstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
 			CutContactName(contactName, newcontactname, _countof(newcontactname));
 		else
@@ -504,9 +504,9 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	if (M.GetByte("tabstatus", 1))
-		mir_sntprintf(tabtitle, L"%s (%s)  ", newcontactname, szStatus);
+		mir_snwprintf(tabtitle, L"%s (%s)  ", newcontactname, szStatus);
 	else
-		mir_sntprintf(tabtitle, L"%s   ", newcontactname);
+		mir_snwprintf(tabtitle, L"%s   ", newcontactname);
 
 	newData.item.pszText = tabtitle;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
@@ -1069,7 +1069,7 @@ STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEU
 STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
 	wchar_t sztName[64];
-	mir_sntprintf(sztName, L"s%u", nextStgId++);
+	mir_snwprintf(sztName, L"s%u", nextStgId++);
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);

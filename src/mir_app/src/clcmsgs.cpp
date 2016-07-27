@@ -171,14 +171,14 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		return dat->groupIndent;
 
 	case CLM_GETISEARCHSTRING:
-		mir_tstrcpy((wchar_t*)lParam, dat->szQuickSearch);
-		return mir_tstrlen(dat->szQuickSearch);
+		mir_wstrcpy((wchar_t*)lParam, dat->szQuickSearch);
+		return mir_wstrlen(dat->szQuickSearch);
 
 	case CLM_GETITEMTEXT:
 		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			return 0;
-		mir_tstrcpy((wchar_t*)lParam, contact->szText);
-		return mir_tstrlen(contact->szText);
+		mir_wstrcpy((wchar_t*)lParam, contact->szText);
+		return mir_wstrlen(contact->szText);
 
 	case CLM_GETITEMTYPE:
 		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
@@ -398,7 +398,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 	case CLM_SETITEMTEXT:
 		if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
-		mir_tstrncpy(contact->szText, (wchar_t*)lParam, _countof(contact->szText));
+		mir_wstrncpy(contact->szText, (wchar_t*)lParam, _countof(contact->szText));
 		cli.pfnSortCLC(hwnd, dat, 1);
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		break;

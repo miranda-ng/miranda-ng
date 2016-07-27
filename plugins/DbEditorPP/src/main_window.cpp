@@ -130,7 +130,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 					else if ((mtis->type == CONTACT) && hContact) {
 						if (db_get_b(NULL, "CList", "ConfirmDelete", 1)) {
 							wchar_t str[MSG_SIZE];
-							mir_sntprintf(str, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
+							mir_snwprintf(str, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
 							if (dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 								break;
 						}
@@ -443,7 +443,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case MENU_FIX_RESIDENT:
 			if (dlg(TranslateT("Delete resident settings from database?"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
 				int cnt = fixResidentSettings();
-				mir_sntprintf(text, TranslateT("%d items deleted."), cnt);
+				mir_snwprintf(text, TranslateT("%d items deleted."), cnt);
 				msg(text);
 			}
 			break;

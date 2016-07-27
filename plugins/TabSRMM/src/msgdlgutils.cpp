@@ -135,12 +135,12 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	DWORD setView = 1;
 
 	wchar_t szTimestamp[100];
-	mir_sntprintf(szTimestamp, L"%04u %02u %02u_%02u%02u", lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min);
+	mir_snwprintf(szTimestamp, L"%04u %02u %02u_%02u%02u", lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min);
 
-	wchar_t *szProto = mir_a2t(dat->cache->getActiveProto());
+	wchar_t *szProto = mir_a2u(dat->cache->getActiveProto());
 
 	wchar_t szFinalPath[MAX_PATH];
-	mir_sntprintf(szFinalPath, L"%s\\%s", M.getSavedAvatarPath(), szProto);
+	mir_snwprintf(szFinalPath, L"%s\\%s", M.getSavedAvatarPath(), szProto);
 	mir_free(szProto);
 
 	if (CreateDirectory(szFinalPath, 0) == 0) {
@@ -153,17 +153,17 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 
 	wchar_t szBaseName[MAX_PATH];
 	if (isOwnPic)
-		mir_sntprintf(szBaseName, L"My Avatar_%s", szTimestamp);
+		mir_snwprintf(szBaseName, L"My Avatar_%s", szTimestamp);
 	else
-		mir_sntprintf(szBaseName, L"%s_%s", dat->cache->getNick(), szTimestamp);
+		mir_snwprintf(szBaseName, L"%s_%s", dat->cache->getNick(), szTimestamp);
 
-	mir_sntprintf(szFinalFilename, L"%s.png", szBaseName);
+	mir_snwprintf(szFinalFilename, L"%s.png", szBaseName);
 
 	// do not allow / or \ or % in the filename
 	Utils::sanitizeFilename(szFinalFilename);
 
 	wchar_t filter[MAX_PATH];
-	mir_sntprintf(filter, L"%s%c*.bmp;*.png;*.jpg;*.gif%c%c", TranslateT("Image files"), 0, 0, 0);
+	mir_snwprintf(filter, L"%s%c*.bmp;*.png;*.jpg;*.gif%c%c", TranslateT("Image files"), 0, 0, 0);
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lpstrDefExt = L"png";
@@ -286,7 +286,7 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 			szText = TranslateT("Set your avatar...");
 		}
 		mii.dwTypeData = szText;
-		mii.cch = (int)mir_tstrlen(szText) + 1;
+		mii.cch = (int)mir_wstrlen(szText) + 1;
 		SetMenuItemInfo(submenu, ID_PICMENU_SETTINGS, FALSE, &mii);
 	}
 	else if (menuID == MENU_PANELPICMENU) {
@@ -443,15 +443,15 @@ void TSAPI UpdateReadChars(const TWindowData *dat)
 
 		wchar_t szBuf[20]; szBuf[0] = 0;
 		if (dat->fInsertMode)
-			mir_tstrcat(szBuf, L"O");
+			mir_wstrcat(szBuf, L"O");
 		if (fCaps)
-			mir_tstrcat(szBuf, L"C");
+			mir_wstrcat(szBuf, L"C");
 		if (fNum)
-			mir_tstrcat(szBuf, L"N");
+			mir_wstrcat(szBuf, L"N");
 		if (dat->fInsertMode || fCaps || fNum)
-			mir_tstrcat(szBuf, L" | ");
+			mir_wstrcat(szBuf, L" | ");
 
-		mir_sntprintf(buf, L"%s%s %d/%d", szBuf, dat->lcID, dat->iOpenJobs, len);
+		mir_snwprintf(buf, L"%s%s %d/%d", szBuf, dat->lcID, dat->iOpenJobs, len);
 		SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
 		if (PluginConfig.m_visualMessageSizeIndicator)
 			InvalidateRect(dat->pContainer->hwndStatus, NULL, FALSE);
@@ -931,7 +931,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 			else if (!wcsncmp(p, L"\\highlight", 10)) { //background color
 				wchar_t szTemp[20];
 				int iCol = _wtoi(p + 10);
-				mir_sntprintf(szTemp, L"%d", iCol);
+				mir_snwprintf(szTemp, L"%d", iCol);
 			}
 			else if (!wcsncmp(p, L"\\line", 5)) { // soft line break;
 				res.AppendChar('\n');
@@ -1037,7 +1037,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 
 void TSAPI GetMYUIN(TWindowData *dat)
 {
-	ptrT uid(Contact_GetInfo(CNF_DISPLAYUID, NULL, dat->cache->getActiveProto()));
+	ptrW uid(Contact_GetInfo(CNF_DISPLAYUID, NULL, dat->cache->getActiveProto()));
 	if (uid != NULL)
 		wcsncpy_s(dat->myUin, uid, _TRUNCATE);
 	else
@@ -1271,7 +1271,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const wchar_t *szKLName)
 		wchar_t	szKey[20];
 		DWORD	dwLID = wcstoul(szKLName, &stopped, 16);
 
-		mir_sntprintf(szKey, L"%04.04x", LOWORD(dwLID));
+		mir_snwprintf(szKey, L"%04.04x", LOWORD(dwLID));
 		if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CLASSES_ROOT, L"MIME\\Database\\Rfc1766", 0, KEY_READ, &hKey)) {
 			DWORD dwLength = 255;
 			if (ERROR_SUCCESS == RegQueryValueEx(hKey, szKey, 0, 0, (unsigned char *)szLI, &dwLength)) {
@@ -1291,7 +1291,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const wchar_t *szKLName)
 		wcsupr(szLI);
 	}
 	fLocaleNotSet = (dat->lcID[0] == 0 && dat->lcID[1] == 0);
-	mir_sntprintf(dat->lcID, szLI);
+	mir_snwprintf(dat->lcID, szLI);
 	GetStringTypeA(dat->lcid, CT_CTYPE2, (char*)szTest, 3, wCtype2);
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_RTLPARA;
@@ -1625,7 +1625,7 @@ void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 {
 	memset(&pContainer->theme, 0, sizeof(TLogTheme));
-	if (mir_tstrlen(pContainer->szAbsThemeFile) > 1) {
+	if (mir_wstrlen(pContainer->szAbsThemeFile) > 1) {
 		if (PathFileExists(pContainer->szAbsThemeFile)) {
 			if (CheckThemeVersion(pContainer->szAbsThemeFile) == 0) {
 				LoadThemeDefaults(pContainer);
@@ -1726,7 +1726,7 @@ void TSAPI GetClientIcon(TWindowData *dat)
 
 	dat->hClientIcon = 0;
 	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
-		ptrT tszMirver(db_get_tsa(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "MirVer"));
+		ptrW tszMirver(db_get_tsa(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "MirVer"));
 		if (tszMirver)
 			dat->hClientIcon = Finger_GetClientIcon(tszMirver, 1);
 	}
@@ -1734,9 +1734,9 @@ void TSAPI GetClientIcon(TWindowData *dat)
 
 void TSAPI GetMyNick(TWindowData *dat)
 {
-	ptrT tszNick(Contact_GetInfo(CNF_NICK, NULL, dat->cache->getActiveProto()));
+	ptrW tszNick(Contact_GetInfo(CNF_NICK, NULL, dat->cache->getActiveProto()));
 	if (tszNick != NULL) {
-		if (mir_tstrlen(tszNick) == 0 || !mir_tstrcmp(tszNick, TranslateT("'(Unknown contact)'")))
+		if (mir_wstrlen(tszNick) == 0 || !mir_wstrcmp(tszNick, TranslateT("'(Unknown contact)'")))
 			wcsncpy_s(dat->szMyNickname, (dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 		else
 			wcsncpy_s(dat->szMyNickname, tszNick, _TRUNCATE);
@@ -1886,14 +1886,14 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 		return;
 	}
 
-	if (tempdirlen <= 0 || tempdirlen >= MAX_PATH - mir_tstrlen(mirandatempdir) - mir_tstrlen(filenametemplate) - 2) // -2 is because %Y takes 4 symbols
+	if (tempdirlen <= 0 || tempdirlen >= MAX_PATH - mir_wstrlen(mirandatempdir) - mir_wstrlen(filenametemplate) - 2) // -2 is because %Y takes 4 symbols
 		filename[0] = 0;					// prompt for a new name
 	else {
-		mir_tstrcpy(filename + tempdirlen, mirandatempdir);
+		mir_wstrcpy(filename + tempdirlen, mirandatempdir);
 		if ((GetFileAttributes(filename) == INVALID_FILE_ATTRIBUTES || ((GetFileAttributes(filename) & FILE_ATTRIBUTE_DIRECTORY) == 0)) && CreateDirectory(filename, NULL) == 0)
 			filename[0] = 0;
 		else {
-			tempdirlen = mir_tstrlen(filename);
+			tempdirlen = mir_wstrlen(filename);
 
 			time_t rawtime;
 			time(&rawtime);
@@ -1917,7 +1917,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 
 	if (filename[0] == 0) {	// prompting to save
 		wchar_t filter[MAX_PATH];
-		mir_sntprintf(filter, L"%s%c*.jpg%c%c", TranslateT("JPEG-compressed images"), 0, 0, 0);
+		mir_snwprintf(filter, L"%s%c*.jpg%c%c", TranslateT("JPEG-compressed images"), 0, 0, 0);
 
 		OPENFILENAME dlg;
 		dlg.lStructSize = sizeof(dlg);
@@ -1943,7 +1943,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 	wchar_t **ppFiles = NULL;
 	Utils::AddToFileList(&ppFiles, &totalCount, filename);
 
-	wchar_t* _t = mir_tstrdup(filename);
+	wchar_t* _t = mir_wstrdup(filename);
 	vTempFilenames.insert(_t);
 
 	CallService(MS_FILE_SENDSPECIFICFILEST, (WPARAM)dat->cache->getActiveContact(), (LPARAM)ppFiles);

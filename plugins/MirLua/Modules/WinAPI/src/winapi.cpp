@@ -23,9 +23,9 @@ static int lua_MessageBox(lua_State *L)
 
 static int lua_ShellExecute(lua_State *L)
 {
-	ptrT command(mir_utf8decodeT(lua_tostring(L, 1)));
-	ptrT file(mir_utf8decodeT(lua_tostring(L, 2)));
-	ptrT args(mir_utf8decodeT(lua_tostring(L, 3)));
+	ptrW command(mir_utf8decodeW(lua_tostring(L, 1)));
+	ptrW file(mir_utf8decodeW(lua_tostring(L, 2)));
+	ptrW args(mir_utf8decodeW(lua_tostring(L, 3)));
 	int flags = lua_tointeger(L, 4);
 
 	::ShellExecute(NULL, command, file, args, NULL, flags);
@@ -62,8 +62,8 @@ static int lua_FindIterator(lua_State *L)
 		}
 	}
 
-	if (!mir_tstrcmpi(ffd.cFileName, L".") ||
-		!mir_tstrcmpi(ffd.cFileName, L"..") ||
+	if (!mir_wstrcmpi(ffd.cFileName, L".") ||
+		!mir_wstrcmpi(ffd.cFileName, L"..") ||
 		(ffd.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT))
 	{
 		lua_pushlightuserdata(L, hFind);
@@ -98,7 +98,7 @@ static int lua_FindIterator(lua_State *L)
 
 static int lua_Find(lua_State *L)
 {
-	wchar_t *path = mir_utf8decodeT(luaL_checkstring(L, 1));
+	wchar_t *path = mir_utf8decodeW(luaL_checkstring(L, 1));
 
 	lua_pushlightuserdata(L, NULL);
 	lua_pushlightuserdata(L, path);
@@ -121,9 +121,9 @@ static int lua_GetKeyState(lua_State *L)
 
 static int lua_GetIniValue(lua_State *L)
 {
-	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 1)));
-	ptrT section(mir_utf8decodeT(luaL_checkstring(L, 2)));
-	ptrT key(mir_utf8decodeT(luaL_checkstring(L, 3)));
+	ptrW path(mir_utf8decodeW(luaL_checkstring(L, 1)));
+	ptrW section(mir_utf8decodeW(luaL_checkstring(L, 2)));
+	ptrW key(mir_utf8decodeW(luaL_checkstring(L, 3)));
 
 	if (lua_isinteger(L, 4))
 	{
@@ -135,7 +135,7 @@ static int lua_GetIniValue(lua_State *L)
 		return 1;
 	}
 
-	ptrT default(mir_utf8decodeT(lua_tostring(L, 4)));
+	ptrW default(mir_utf8decodeW(lua_tostring(L, 4)));
 
 	wchar_t value[MAX_PATH] = { 0 };
 	if (!::GetPrivateProfileString(section, key, default, value, _countof(value), path))
@@ -143,7 +143,7 @@ static int lua_GetIniValue(lua_State *L)
 		lua_pushvalue(L, 4);
 	}
 
-	ptrA res(mir_utf8encodeT(value));
+	ptrA res(mir_utf8encodeW(value));
 	lua_pushstring(L, res);
 
 	return 1;
@@ -151,10 +151,10 @@ static int lua_GetIniValue(lua_State *L)
 
 static int lua_SetIniValue(lua_State *L)
 {
-	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 1)));
-	ptrT section(mir_utf8decodeT(luaL_checkstring(L, 2)));
-	ptrT key(mir_utf8decodeT(luaL_checkstring(L, 3)));
-	ptrT value(mir_utf8decodeT(lua_tostring(L, 4)));
+	ptrW path(mir_utf8decodeW(luaL_checkstring(L, 1)));
+	ptrW section(mir_utf8decodeW(luaL_checkstring(L, 2)));
+	ptrW key(mir_utf8decodeW(luaL_checkstring(L, 3)));
+	ptrW value(mir_utf8decodeW(lua_tostring(L, 4)));
 
 	bool res = ::WritePrivateProfileString(section, key, value, path) != 0;
 	lua_pushboolean(L, res);
@@ -164,9 +164,9 @@ static int lua_SetIniValue(lua_State *L)
 
 static int lua_DeleteIniValue(lua_State *L)
 {
-	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 1)));
-	ptrT section(mir_utf8decodeT(luaL_checkstring(L, 2)));
-	ptrT key(mir_utf8decodeT(luaL_checkstring(L, 3)));
+	ptrW path(mir_utf8decodeW(luaL_checkstring(L, 1)));
+	ptrW section(mir_utf8decodeW(luaL_checkstring(L, 2)));
+	ptrW key(mir_utf8decodeW(luaL_checkstring(L, 3)));
 
 	bool res = ::WritePrivateProfileString(section, key, NULL, path) != 0;
 	lua_pushboolean(L, res);
@@ -179,8 +179,8 @@ static int lua_DeleteIniValue(lua_State *L)
 static int lua_GetRegValue(lua_State *L)
 {
 	HKEY hRootKey = (HKEY)luaL_checkinteger(L, 1);
-	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 2)));
-	ptrT valueName(mir_utf8decodeT(luaL_checkstring(L, 3)));
+	ptrW path(mir_utf8decodeW(luaL_checkstring(L, 2)));
+	ptrW valueName(mir_utf8decodeW(luaL_checkstring(L, 3)));
 
 	HKEY hKey = 0;
 	LSTATUS res = ::RegOpenKeyEx(hRootKey, path, NULL, KEY_READ, &hKey);
@@ -240,8 +240,8 @@ static int lua_GetRegValue(lua_State *L)
 static int lua_SetRegValue(lua_State *L)
 {
 	HKEY hRootKey = (HKEY)luaL_checkinteger(L, 1);
-	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 2)));
-	ptrT valueName(mir_utf8decodeT(luaL_checkstring(L, 3)));
+	ptrW path(mir_utf8decodeW(luaL_checkstring(L, 2)));
+	ptrW valueName(mir_utf8decodeW(luaL_checkstring(L, 3)));
 
 	HKEY hKey = 0;
 	LSTATUS res = ::RegOpenKeyEx(hRootKey, path, NULL, KEY_WRITE, &hKey);
@@ -275,7 +275,7 @@ static int lua_SetRegValue(lua_State *L)
 	case LUA_TSTRING:
 		type = REG_SZ;
 		length = mir_strlen(lua_tostring(L, 4)) * sizeof(wchar_t);
-		value = (BYTE*)mir_utf8decodeT(lua_tostring(L, 4));
+		value = (BYTE*)mir_utf8decodeW(lua_tostring(L, 4));
 		break;
 
 	default:
@@ -296,8 +296,8 @@ static int lua_SetRegValue(lua_State *L)
 static int lua_DeleteRegValue(lua_State *L)
 {
 	HKEY hRootKey = (HKEY)luaL_checkinteger(L, 1);
-	ptrT path(mir_utf8decodeT(luaL_checkstring(L, 2)));
-	ptrT valueName(mir_utf8decodeT(luaL_checkstring(L, 3)));
+	ptrW path(mir_utf8decodeW(luaL_checkstring(L, 2)));
+	ptrW valueName(mir_utf8decodeW(luaL_checkstring(L, 3)));
 
 	HKEY hKey = 0;
 	LSTATUS res = ::RegOpenKeyEx(hRootKey, path, NULL, KEY_WRITE, &hKey);

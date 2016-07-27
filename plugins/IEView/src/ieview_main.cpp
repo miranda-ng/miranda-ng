@@ -63,7 +63,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	wchar_t *workingDir = new wchar_t[wdsize];
 	GetCurrentDirectory(wdsize, workingDir);
 	Utils::convertPath(workingDir);
-	workingDirUtf8 = mir_utf8encodeT(workingDir);
+	workingDirUtf8 = mir_utf8encodeW(workingDir);
 	delete[] workingDir;
 
 	mir_getLP(&pluginInfoEx);

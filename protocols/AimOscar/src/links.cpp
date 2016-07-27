@@ -92,9 +92,9 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 			tok2 = wcschr(++tok, '&'); /* first token */
 			if (tok2) *tok2 = 0;
 			if (!wcsnicmp(tok, L"screenname=", 11) && *(tok + 11) != 0)
-				sn = mir_t2a(url_decode(tok + 11));
+				sn = mir_u2a(url_decode(tok + 11));
 			if (!wcsnicmp(tok, L"groupname=", 10) && *(tok + 10) != 0)
-				group = mir_utf8encodeT(url_decode(tok + 10));  /* group is currently ignored */
+				group = mir_utf8encodeW(url_decode(tok + 10));  /* group is currently ignored */
 		}
 		if (sn == NULL) {
 			mir_free(group);
@@ -119,7 +119,7 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 			tok2 = wcschr(++tok, '&'); /* first token */
 			if (tok2) *tok2 = 0;
 			if (!wcsnicmp(tok, L"screenname=", 11) && *(tok + 11) != 0)
-				sn = mir_t2a(url_decode(tok + 11));
+				sn = mir_u2a(url_decode(tok + 11));
 			if (!wcsnicmp(tok, L"message=", 8) && *(tok + 8) != 0)
 				msg = url_decode(tok + 8);
 		}
@@ -143,7 +143,7 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 			tok2 = wcschr(++tok, '&'); /* first token */
 			if (tok2) *tok2 = 0;
 			if (!wcsnicmp(tok, L"roomname=", 9) && *(tok + 9) != 0) {
-				rm = mir_t2a(url_decode(tok + 9));
+				rm = mir_u2a(url_decode(tok + 9));
 				for (char *ch = rm; *ch; ++ch)
 					if (*ch == '+') *ch = ' ';
 			}

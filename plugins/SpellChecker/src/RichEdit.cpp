@@ -201,17 +201,17 @@ wchar_t* RichEdit::GetText(int start, int end) const
 	if (m_textDocument != NULL) {
 		ITextRange *range;
 		if (m_textDocument->Range(start, end, &range) != S_OK)
-			return mir_tstrdup(L"");
+			return mir_wstrdup(L"");
 
 		BSTR text = NULL;
 		if (FAILED(range->GetText(&text))) {
 			if (text)
 				::SysFreeString(text);
 			range->Release();
-			return mir_tstrdup(L"");
+			return mir_wstrdup(L"");
 		}
 
-		wchar_t *res = mir_u2t(text);
+		wchar_t *res = mir_wstrdup(text);
 		range->Release();
 		::SysFreeString(text);
 		return res;
@@ -241,7 +241,7 @@ void RichEdit::ReplaceSel(const wchar_t *new_text)
 
 		SuspendUndo();
 
-		FixSel(&m_old_sel, sel, mir_tstrlen(new_text));
+		FixSel(&m_old_sel, sel, mir_wstrlen(new_text));
 
 		SendMessage(WM_SETREDRAW, FALSE, 0);
 		SendMessage(EM_SETEVENTMASK, 0, m_old_mask & ~ENM_CHANGE);
@@ -257,7 +257,7 @@ int RichEdit::Replace(int start, int end, const wchar_t *new_text)
 
 	ReplaceSel(new_text);
 
-	int dif = FixSel(&sel, replace_sel, mir_tstrlen(new_text));
+	int dif = FixSel(&sel, replace_sel, mir_wstrlen(new_text));
 	SetSel(sel);
 	return dif;
 }
@@ -270,7 +270,7 @@ int RichEdit::Insert(int pos, const wchar_t *text)
 
 	ReplaceSel(text);
 
-	int dif = FixSel(&sel, replace_sel, mir_tstrlen(text));
+	int dif = FixSel(&sel, replace_sel, mir_wstrlen(text));
 	SetSel(sel);
 	return dif;
 }

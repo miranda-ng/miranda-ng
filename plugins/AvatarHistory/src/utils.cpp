@@ -104,7 +104,7 @@ wchar_t* GetProtocolFolder(wchar_t *fn, char *proto)
 	if (proto == NULL)
 		proto = Translate("Unknown Protocol");
 
-	mir_sntprintf(fn, MAX_PATH, L"%s\\%S", fn, proto);
+	mir_snwprintf(fn, MAX_PATH, L"%s\\%S", fn, proto);
 	CreateDirectoryTreeT(fn);
 	return fn;
 }
@@ -115,15 +115,15 @@ wchar_t* GetContactFolder(wchar_t *fn, MCONTACT hContact)
 	GetProtocolFolder(fn, proto);
 	
 	wchar_t uin[MAX_PATH];
-	ptrT id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
+	ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
 	wcsncpy_s(uin, (id == NULL) ? TranslateT("Unknown UIN") : id, _TRUNCATE);
 	ConvertToFilename(uin, MAX_PATH); //added so that weather id's like "yw/CI0000" work
-	mir_sntprintf(fn, MAX_PATH, L"%s\\%s", fn, uin);
+	mir_snwprintf(fn, MAX_PATH, L"%s\\%s", fn, uin);
 	CreateDirectoryTreeT(fn);
 	
 #ifdef DBGPOPUPS
 	wchar_t log[1024];
-	mir_sntprintf(log, L"Path: %s\nProto: %S\nUIN: %s", fn, proto, uin);
+	mir_snwprintf(log, L"Path: %s\nProto: %S\nUIN: %s", fn, proto, uin);
 	ShowPopup(hContact, L"AVH Debug: GetContactFolder", log);
 #endif
 
@@ -136,7 +136,7 @@ wchar_t* GetOldStyleAvatarName(wchar_t *fn, MCONTACT hContact)
 
 	SYSTEMTIME curtime;
 	GetLocalTime(&curtime);
-	mir_sntprintf(fn, MAX_PATH, 
+	mir_snwprintf(fn, MAX_PATH, 
 		L"%s\\%04d-%02d-%02d %02dh%02dm%02ds", fn, 
 		curtime.wYear, curtime.wMonth, curtime.wDay, 
 		curtime.wHour, curtime.wMinute, curtime.wSecond);
@@ -150,7 +150,7 @@ void CreateOldStyleShortcut(MCONTACT hContact, wchar_t *history_filename)
 
 	GetOldStyleAvatarName(shortcut, hContact);
 
-	mir_sntprintf(shortcut, L"%s.%s.lnk", shortcut,
+	mir_snwprintf(shortcut, L"%s.%s.lnk", shortcut,
 		GetExtension(history_filename));
 
 	if (!CreateShortcut(history_filename, shortcut))
@@ -166,7 +166,7 @@ void CreateOldStyleShortcut(MCONTACT hContact, wchar_t *history_filename)
 BOOL CopyImageFile(wchar_t *old_file, wchar_t *new_file)
 {
 	wchar_t *ext = GetExtension(old_file);
-	mir_sntprintf(new_file, MAX_PATH, L"%s.%s", new_file, ext);
+	mir_snwprintf(new_file, MAX_PATH, L"%s.%s", new_file, ext);
 	return !CopyFile(old_file, new_file, TRUE);
 }
 
@@ -180,7 +180,7 @@ wchar_t * GetCachedAvatar(char *proto, wchar_t *hash)
 	else
 		GetProtocolFolder(file, proto);
 
-	mir_sntprintf(search, L"%s\\%s.*", file, hash);
+	mir_snwprintf(search, L"%s\\%s.*", file, hash);
 
 	WIN32_FIND_DATA finddata;
 	HANDLE hFind = FindFirstFile(search, &finddata);
@@ -189,16 +189,16 @@ wchar_t * GetCachedAvatar(char *proto, wchar_t *hash)
 
 	do
 	{
-		size_t len = mir_tstrlen(finddata.cFileName);
+		size_t len = mir_wstrlen(finddata.cFileName);
 		if (len > 4 
-			&& (!mir_tstrcmpi(&finddata.cFileName[len-4], L".png")
-				|| !mir_tstrcmpi(&finddata.cFileName[len-4], L".bmp")
-				|| !mir_tstrcmpi(&finddata.cFileName[len-4], L".gif")
-				|| !mir_tstrcmpi(&finddata.cFileName[len-4], L".jpg")
-				|| !mir_tstrcmpi(&finddata.cFileName[len-5], L".jpeg")))
+			&& (!mir_wstrcmpi(&finddata.cFileName[len-4], L".png")
+				|| !mir_wstrcmpi(&finddata.cFileName[len-4], L".bmp")
+				|| !mir_wstrcmpi(&finddata.cFileName[len-4], L".gif")
+				|| !mir_wstrcmpi(&finddata.cFileName[len-4], L".jpg")
+				|| !mir_wstrcmpi(&finddata.cFileName[len-5], L".jpeg")))
 		{
-			mir_sntprintf(file, L"%s\\%s", file, finddata.cFileName);
-			ret = mir_tstrdup(file);
+			mir_snwprintf(file, L"%s\\%s", file, finddata.cFileName);
+			ret = mir_wstrdup(file);
 			break;
 		}
 	} while(FindNextFile(hFind, &finddata));

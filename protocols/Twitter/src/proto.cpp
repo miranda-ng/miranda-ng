@@ -313,12 +313,12 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.szSettingsModule = m_szModuleName;
 
 	// Create standard network connection
-	mir_sntprintf(descr, TranslateT("%s server connection"), m_tszUserName);
+	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (m_hNetlibUser == NULL) {
 		wchar_t error[200];
-		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
+		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
 		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
@@ -326,12 +326,12 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	char module[512];
 	mir_snprintf(module, "%sAv", m_szModuleName);
 	nlu.szSettingsModule = module;
-	mir_sntprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
+	mir_snwprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	hAvatarNetlib_ = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (hAvatarNetlib_ == NULL) {
 		wchar_t error[200];
-		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));
+		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));
 		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
@@ -380,7 +380,7 @@ int TwitterProto::ShowPinDialog()
 void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 {
 	POPUPDATAT popup = {};
-	mir_sntprintf(popup.lptzContactName, TranslateT("%s Protocol"), m_tszUserName);
+	mir_snwprintf(popup.lptzContactName, TranslateT("%s Protocol"), m_tszUserName);
 	wcsncpy_s(popup.lptzText, text, _TRUNCATE);
 
 	if (Error) {
@@ -398,7 +398,7 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 void TwitterProto::ShowPopup(const char *text, int Error)
 {
 	POPUPDATAT popup = {};
-	mir_sntprintf(popup.lptzContactName, TranslateT("%s Protocol"), m_tszUserName);
+	mir_snwprintf(popup.lptzContactName, TranslateT("%s Protocol"), m_tszUserName);
 	mbcs_to_tcs(CP_UTF8, text, popup.lptzText, _countof(popup.lptzText));
 	if (Error) {
 		popup.iSeconds = -1;
@@ -422,7 +422,7 @@ void TwitterProto::SendTweetWorker(void *p)
 	char *text = static_cast<char*>(p);
 	if (mir_strlen(mir_utf8decodeA(text)) > 140) { // looks like the chat max outgoing msg thing doesn't work, so i'll do it here.
 		wchar_t errorPopup[280];
-		mir_sntprintf(errorPopup, TranslateT("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), mir_strlen(text));
+		mir_snwprintf(errorPopup, TranslateT("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), mir_strlen(text));
 		ShowPopup(errorPopup, 1);
 		return;
 	}
@@ -455,7 +455,7 @@ void TwitterProto::UpdateSettings()
 std::wstring TwitterProto::GetAvatarFolder()
 {
 	wchar_t path[MAX_PATH];
-	mir_sntprintf(path, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
+	mir_snwprintf(path, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
 	return path;
 }
 

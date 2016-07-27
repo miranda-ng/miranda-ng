@@ -173,7 +173,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 
 	JSONNode node = root.at("error_description");
 	if (node != JSONNULL) {
-		ptrT error_description(mir_a2t_cp(node.as_string().c_str(), CP_UTF8));
+		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
 		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, HttpStatusToText((HTTP_STATUS)response->resultCode));
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, error_description);

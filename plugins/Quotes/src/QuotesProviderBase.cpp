@@ -26,15 +26,15 @@ bool parse_quote(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuote&
 	for (size_t i = 0; i < cChild; ++i) {
 		IXMLNode::TXMLNodePtr pNode = pTop->GetChildNode(i);
 		tstring sName = pNode->GetName();
-		if (0 == mir_tstrcmpi(L"symbol", sName.c_str())) {
+		if (0 == mir_wstrcmpi(L"symbol", sName.c_str())) {
 			sSymbol = pNode->GetText();
 			if (true == sSymbol.empty())
 				return false;
 		}
-		else if (0 == mir_tstrcmpi(L"description", sName.c_str())) {
+		else if (0 == mir_wstrcmpi(L"description", sName.c_str())) {
 			sDescription = pNode->GetText();
 		}
-		else if (0 == mir_tstrcmpi(L"id", sName.c_str())) {
+		else if (0 == mir_wstrcmpi(L"id", sName.c_str())) {
 			sID = pNode->GetText();
 			if (true == sID.empty())
 				return false;
@@ -55,17 +55,17 @@ bool parse_section(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuot
 	for (size_t i = 0; i < cChild; ++i) {
 		IXMLNode::TXMLNodePtr pNode = pTop->GetChildNode(i);
 		tstring sName = pNode->GetName();
-		if (0 == mir_tstrcmpi(L"section", sName.c_str())) {
+		if (0 == mir_wstrcmpi(L"section", sName.c_str())) {
 			CQuotesProviderBase::CQuoteSection qs1;
 			if (true == parse_section(pNode, qs1))
 				aSections.push_back(qs1);
 		}
-		else if (0 == mir_tstrcmpi(L"quote", sName.c_str())) {
+		else if (0 == mir_wstrcmpi(L"quote", sName.c_str())) {
 			CQuotesProviderBase::CQuote q;
 			if (true == parse_quote(pNode, q))
 				aQuotes.push_back(q);
 		}
-		else if (0 == mir_tstrcmpi(L"name", sName.c_str())) {
+		else if (0 == mir_wstrcmpi(L"name", sName.c_str())) {
 			sSectionName = pNode->GetText();
 			if (true == sSectionName.empty())
 				return false;
@@ -83,7 +83,7 @@ IXMLNode::TXMLNodePtr find_provider(const IXMLNode::TXMLNodePtr& pRoot)
 	for (size_t i = 0; i < cChild; ++i) {
 		IXMLNode::TXMLNodePtr pNode = pRoot->GetChildNode(i);
 		tstring sName = pNode->GetName();
-		if (0 == mir_tstrcmpi(L"Provider", sName.c_str())) {
+		if (0 == mir_wstrcmpi(L"Provider", sName.c_str())) {
 			pProvider = pNode;
 			break;
 		}
@@ -111,16 +111,16 @@ CQuotesProviderBase::CXMLFileInfo parse_ini_file(const tstring& rsXMLFile, bool&
 			for (size_t i = 0; i < cChild; ++i) {
 				IXMLNode::TXMLNodePtr pNode = pProvider->GetChildNode(i);
 				tstring sName = pNode->GetName();
-				if (0 == mir_tstrcmpi(L"section", sName.c_str())) {
+				if (0 == mir_wstrcmpi(L"section", sName.c_str())) {
 					CQuotesProviderBase::CQuoteSection qs;
 					if (true == parse_section(pNode, qs))
 						aSections.push_back(qs);
 				}
-				else if (0 == mir_tstrcmpi(L"Name", sName.c_str()))
+				else if (0 == mir_wstrcmpi(L"Name", sName.c_str()))
 					res.m_pi.m_sName = pNode->GetText();
-				else if (0 == mir_tstrcmpi(L"ref", sName.c_str()))
+				else if (0 == mir_wstrcmpi(L"ref", sName.c_str()))
 					res.m_pi.m_sURL = pNode->GetText();
-				else if (0 == mir_tstrcmpi(L"url", sName.c_str()))
+				else if (0 == mir_wstrcmpi(L"url", sName.c_str()))
 					res.m_sURL = pNode->GetText();
 			}
 		}
@@ -508,11 +508,11 @@ bool show_popup(const IQuotesProvider* pProvider,
 	CQuotesProviderVisitorFormater visitor(hContact, 's', 0);
 	pProvider->Accept(visitor);
 	const tstring& sTitle = visitor.GetResult();
-	mir_tstrncpy(ppd.lptzContactName, sTitle.c_str(), MAX_CONTACTNAME);
+	mir_wstrncpy(ppd.lptzContactName, sTitle.c_str(), MAX_CONTACTNAME);
 	{
-		ptrT ss(variables_parsedup((wchar_t*)rsFormat.c_str(), 0, hContact));
+		ptrW ss(variables_parsedup((wchar_t*)rsFormat.c_str(), 0, hContact));
 		tstring sText = format_rate(pProvider, hContact, tstring(ss));
-		mir_tstrncpy(ppd.lptzText, sText.c_str(), MAX_SECONDLINE);
+		mir_wstrncpy(ppd.lptzText, sText.c_str(), MAX_SECONDLINE);
 	}
 
 	if (CPopupSettings::colourDefault == ps.GetColourMode()) {

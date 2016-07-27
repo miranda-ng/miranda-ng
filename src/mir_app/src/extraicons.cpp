@@ -394,7 +394,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 	if (GetExtraIconByName(name) != NULL)
 		return 0;
 
-	ptrT tszDesc(mir_a2t(description));
+	ptrW tszDesc(mir_a2u(description));
 	wchar_t *desc = TranslateTH(_hLang, tszDesc);
 
 	int id = registeredExtraIcons.getCount() + 1;
@@ -409,7 +409,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 	if (IsEmpty(name) || IsEmpty(description))
 		return 0;
 
-	ptrT tszDesc(mir_a2t(description));
+	ptrW tszDesc(mir_a2u(description));
 	wchar_t *desc = TranslateTH(_hLang, tszDesc);
 
 	BaseExtraIcon *extra = GetExtraIconByName(name);
@@ -418,7 +418,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 			return 0;
 
 		// Found one, now merge it
-		if (mir_tstrcmpi(extra->getDescription(), desc)) {
+		if (mir_wstrcmpi(extra->getDescription(), desc)) {
 			CMString newDesc = extra->getDescription();
 			newDesc += L" / ";
 			newDesc += desc;

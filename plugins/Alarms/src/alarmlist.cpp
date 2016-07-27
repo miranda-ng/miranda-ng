@@ -34,10 +34,10 @@ void copy_alarm_data(ALARM *dest, ALARM *src) {
 	dest->time = src->time;
 
 	free_alarm_data(dest);
-	dest->szTitle = mir_tstrdup(src->szTitle);
-	dest->szDesc = mir_tstrdup(src->szDesc);
-	dest->szCommand = mir_tstrdup(src->szCommand);
-	dest->szCommandParams = mir_tstrdup(src->szCommandParams);
+	dest->szTitle = mir_wstrdup(src->szTitle);
+	dest->szDesc = mir_wstrdup(src->szDesc);
+	dest->szCommand = mir_wstrdup(src->szCommand);
+	dest->szCommandParams = mir_wstrdup(src->szCommandParams);
 }
 
 void GetPluginTime(SYSTEMTIME *t) {
@@ -191,12 +191,12 @@ void LoadAlarms() {
 
 		mir_snprintf(buff, "Title%d", i);
 		if (!db_get_ts(0, MODULE, buff, &dbv)) {
-			alarm.szTitle = mir_tstrdup(dbv.ptszVal);
+			alarm.szTitle = mir_wstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 		mir_snprintf(buff, "Desc%d", i);
 		if (!db_get_ts(0, MODULE, buff, &dbv)) {
-			alarm.szDesc = mir_tstrdup(dbv.ptszVal);
+			alarm.szDesc = mir_wstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 		mir_snprintf(buff, "Occ%d", i);
@@ -245,11 +245,11 @@ void LoadAlarms() {
 			if (alarm.action & AAF_COMMAND) {
 				mir_snprintf(buff, "ActionCommand%d", i);
 				if (!db_get_ts(0, MODULE, buff, &dbv)) {
-					alarm.szCommand = mir_tstrdup(dbv.ptszVal);
+					alarm.szCommand = mir_wstrdup(dbv.ptszVal);
 					db_free(&dbv);
 					mir_snprintf(buff, "ActionParams%d", i);
 					if (!db_get_ts(0, MODULE, buff, &dbv)) {
-						alarm.szCommandParams = mir_tstrdup(dbv.ptszVal);
+						alarm.szCommandParams = mir_wstrdup(dbv.ptszVal);
 						db_free(&dbv);
 					}
 				}
@@ -326,10 +326,10 @@ void SaveAlarms() {
 		mir_snprintf(buff, "ActionFlags%d", index);
 		db_set_dw(0, MODULE, buff, i->action);
 		if (i->action & AAF_COMMAND) {
-			if (mir_tstrlen(i->szCommand)) {
+			if (mir_wstrlen(i->szCommand)) {
 				mir_snprintf(buff, "ActionCommand%d", index);
 				db_set_ts(0, MODULE, buff, i->szCommand);
-				if (mir_tstrlen(i->szCommandParams)) {
+				if (mir_wstrlen(i->szCommandParams)) {
 					mir_snprintf(buff, "ActionParams%d", index);
 					db_set_ts(0, MODULE, buff, i->szCommandParams);
 				}
@@ -493,8 +493,8 @@ void ShowPopup(ALARM *alarm)
 
 		POPUPDATAT ppd = { 0 };
 		ppd.lchIcon = hIconMenuSet;
-		mir_tstrncpy(ppd.lptzContactName, data->szTitle, MAX_CONTACTNAME);
-		mir_tstrncpy(ppd.lptzText, data->szDesc, MAX_SECONDLINE);
+		mir_wstrncpy(ppd.lptzContactName, data->szTitle, MAX_CONTACTNAME);
+		mir_wstrncpy(ppd.lptzText, data->szDesc, MAX_SECONDLINE);
 		ppd.PluginWindowProc = PopupAlarmDlgProc;
 		ppd.PluginData = data;
 		ppd.iSeconds = -1;
@@ -633,10 +633,10 @@ INT_PTR AddAlarmService(WPARAM, LPARAM lParam)
 	alarm.occurrence = alarm_info->occurrence;
 	alarm.snoozer = alarm_info->snoozer;
 	alarm.sound_num = alarm_info->sound_num;
-	alarm.szCommand = mir_tstrdup(alarm_info->szCommand);
-	alarm.szCommandParams = mir_tstrdup(alarm_info->szCommandParams);
-	alarm.szDesc = mir_tstrdup(alarm_info->szDesc);
-	alarm.szTitle = mir_tstrdup(alarm_info->szTitle);
+	alarm.szCommand = mir_wstrdup(alarm_info->szCommand);
+	alarm.szCommandParams = mir_wstrdup(alarm_info->szCommandParams);
+	alarm.szDesc = mir_wstrdup(alarm_info->szDesc);
+	alarm.szTitle = mir_wstrdup(alarm_info->szTitle);
 	alarm.time = alarm_info->time;
 
 	append_to_list(&alarm);

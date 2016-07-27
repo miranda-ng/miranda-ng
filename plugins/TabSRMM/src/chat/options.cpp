@@ -225,7 +225,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 			wcsncpy_s(lf->lfFaceName, L"Webdings", _TRUNCATE);
 		}
 		else {
-			ptrT tszDefFace(db_get_tsa(NULL, szMod, str));
+			ptrW tszDefFace(db_get_tsa(NULL, szMod, str));
 			if (tszDefFace == NULL)
 				wcsncpy_s(lf->lfFaceName, fol[j].szDefFace, _TRUNCATE);
 			else
@@ -356,8 +356,8 @@ HICON LoadIconEx(char *pszIcoLibName)
 
 static void InitSetting(wchar_t* &ppPointer, const char *pszSetting, const wchar_t *pszDefault)
 {
-	ptrT val(db_get_tsa(NULL, CHAT_MODULE, pszSetting));
-	replaceStrT(ppPointer, (val != NULL) ? val : pszDefault);
+	ptrW val(db_get_tsa(NULL, CHAT_MODULE, pszSetting));
+	replaceStrW(ppPointer, (val != NULL) ? val : pszDefault);
 }
 
 #define OPT_FIXHEADINGS (WM_USER+1)
@@ -691,7 +691,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			wchar_t tszTooltipText[2048];
 
-			mir_sntprintf(tszTooltipText,
+			mir_snwprintf(tszTooltipText,
 				L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n"
 				L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n"
 				L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
@@ -757,12 +757,12 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					*p1 = 0;
 
 			wchar_t tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
-			mir_sntprintf(tszInitialDir, L"%s%s", M.getChatLogPath(), p);
+			mir_snwprintf(tszInitialDir, L"%s%s", M.getChatLogPath(), p);
 			if (!PathFileExists(tszInitialDir))
 				wcsncpy_s(tszInitialDir, M.getChatLogPath(), _TRUNCATE);
 
 			wchar_t	tszReturnName[MAX_PATH]; tszReturnName[0] = 0;
-			mir_sntprintf(tszTemp, L"%s%c*.*%c%c", TranslateT("All files"), 0, 0, 0);
+			mir_snwprintf(tszTemp, L"%s%c*.*%c%c", TranslateT("All files"), 0, 0, 0);
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lpstrInitialDir = tszInitialDir;
@@ -795,11 +795,11 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				if (idList) {
 					const wchar_t *szUserDir = M.getUserDir();
 					SHGetPathFromIDList(idList, tszDirectory);
-					mir_tstrcat(tszDirectory, L"\\");
+					mir_wstrcat(tszDirectory, L"\\");
 
 					wchar_t tszTemp[MAX_PATH];
 					PathToRelativeT(tszDirectory, tszTemp, szUserDir);
-					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_tstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_wstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 				}
 				psMalloc->Free(idList);
 				psMalloc->Release();

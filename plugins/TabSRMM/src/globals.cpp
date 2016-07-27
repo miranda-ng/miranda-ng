@@ -568,7 +568,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 	for (int i = 0; i < arEvents.getCount(); i++) {
 		MSavedEvent &e = arEvents[i];
-		mir_sntprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e.hContact, 0));
+		mir_snwprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e.hContact, 0));
 		cle.hContact = e.hContact;
 		cle.hDbEvent = e.hEvent;
 		pcli->pfnAddEvent(&cle);

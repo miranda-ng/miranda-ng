@@ -29,9 +29,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 {
 	int res;
-	if (res = mir_tstrcmp(p1->ptszSection, p2->ptszSection))
+	if (res = mir_wstrcmp(p1->ptszSection, p2->ptszSection))
 		return res;
-	if (res = mir_tstrcmp(p1->ptszDescription, p2->ptszDescription))
+	if (res = mir_wstrcmp(p1->ptszDescription, p2->ptszDescription))
 		return res;
 	if (!p1->rootHotkey && p2->rootHotkey)
 		return -1;
@@ -138,8 +138,8 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	THotkeyItem *p = (THotkeyItem*)mir_alloc(sizeof(THotkeyItem));
 	DWORD dwFlags = (desc->cbSize >= sizeof(HOTKEYDESC)) ? desc->dwFlags : 0;
 	if (dwFlags & HKD_UNICODE) {
-		p->ptszSection = mir_tstrdup(desc->ptszSection);
-		p->ptszDescription = mir_tstrdup(desc->ptszDescription);
+		p->ptszSection = mir_wstrdup(desc->ptszSection);
+		p->ptszDescription = mir_wstrdup(desc->ptszDescription);
 	}
 	else {
 		p->ptszSection = mir_a2u(desc->pszSection);
@@ -250,7 +250,7 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 {
 	MSG *msg = (MSG *)wParam;
-	wchar_t *pszSection = mir_a2t((char *)lParam);
+	wchar_t *pszSection = mir_a2u((char *)lParam);
 
 	if ((msg->message == WM_KEYDOWN) || (msg->message == WM_SYSKEYDOWN)) {
 		int i;
@@ -264,7 +264,7 @@ static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 
 			for (i = 0; i < hotkeys.getCount(); i++) {
 				THotkeyItem *p = hotkeys[i];
-				if ((p->type != HKT_MANUAL) || mir_tstrcmp(pszSection, p->ptszSection))
+				if ((p->type != HKT_MANUAL) || mir_wstrcmp(pszSection, p->ptszSection))
 					continue;
 
 				BYTE hkMod, hkVk;

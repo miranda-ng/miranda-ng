@@ -34,7 +34,7 @@ int RefreshSkinList(HWND hwndDlg)
 	HANDLE hFind = FindFirstFile(L"*.*", &ffd);
 	while (hFind != INVALID_HANDLE_VALUE)
 	{
-		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_tstrcmp(L".", ffd.cFileName) && mir_tstrcmp(L"..", ffd.cFileName)) 
+		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_wstrcmp(L".", ffd.cFileName) && mir_wstrcmp(L"..", ffd.cFileName)) 
 		{
 			SetCurrentDirectory(ffd.cFileName);
 			WIN32_FIND_DATA ffd2;
@@ -88,9 +88,9 @@ void ParseAboutPart(FILE *fp, wchar_t *buff, wchar_t *szSkinName)
 					else if (wcsstr(buff, L"preview")) 
 					{
 						wchar_t szImgPath[1024];
-						mir_sntprintf(szImgPath, L"%s\\%s\\%s", SKIN_FOLDER, szSkinName, pch);
+						mir_snwprintf(szImgPath, L"%s\\%s\\%s", SKIN_FOLDER, szSkinName, pch);
 						if (FileExists(szImgPath))
-							mir_tstrcpy(opt.szPreviewFile, szImgPath);
+							mir_wstrcpy(opt.szPreviewFile, szImgPath);
 					}
 				}
 			}
@@ -126,26 +126,26 @@ void ParseImagePart(FILE *fp, wchar_t *buff, int iPart)
 					if (wcsstr(buff, L"image"))
 					{
 						wchar_t szImgPath[1024];
-						mir_sntprintf(szImgPath, L"%s\\%s\\%s", SKIN_FOLDER, opt.szSkinName, pch);
-						opt.szImgFile[iPart] = mir_tstrdup(szImgPath);
+						mir_snwprintf(szImgPath, L"%s\\%s\\%s", SKIN_FOLDER, opt.szSkinName, pch);
+						opt.szImgFile[iPart] = mir_wstrdup(szImgPath);
 					}
 					else if (wcsstr(buff, L"tm"))
 					{
-						if (!mir_tstrcmpi(pch, L"TM_NONE"))
+						if (!mir_wstrcmpi(pch, L"TM_NONE"))
 							opt.transfMode[iPart] = TM_NONE;
-						else if (!mir_tstrcmpi(pch, L"TM_CENTRE"))
+						else if (!mir_wstrcmpi(pch, L"TM_CENTRE"))
 							opt.transfMode[iPart] = TM_CENTRE;
-						else if (!mir_tstrcmpi(pch, L"TM_STRECH_ALL"))
+						else if (!mir_wstrcmpi(pch, L"TM_STRECH_ALL"))
 							opt.transfMode[iPart] = TM_STRECH_ALL;
-						else if (!mir_tstrcmpi(pch, L"TM_STRECH_HORIZONTAL"))
+						else if (!mir_wstrcmpi(pch, L"TM_STRECH_HORIZONTAL"))
 							opt.transfMode[iPart] = TM_STRECH_HORIZONTAL;
-						else if (!mir_tstrcmpi(pch, L"TM_STRECH_VERTICAL"))
+						else if (!mir_wstrcmpi(pch, L"TM_STRECH_VERTICAL"))
 							opt.transfMode[iPart] = TM_STRECH_VERTICAL;
-						else if (!mir_tstrcmpi(pch, L"TM_TILE_ALL"))
+						else if (!mir_wstrcmpi(pch, L"TM_TILE_ALL"))
 							opt.transfMode[iPart] = TM_TILE_ALL;
-						else if (!mir_tstrcmpi(pch, L"TM_TILE_HORIZONTAL"))
+						else if (!mir_wstrcmpi(pch, L"TM_TILE_HORIZONTAL"))
 							opt.transfMode[iPart] = TM_TILE_HORIZONTAL;
-						else if (!mir_tstrcmpi(pch, L"TM_TILE_VERTICAL"))
+						else if (!mir_wstrcmpi(pch, L"TM_TILE_VERTICAL"))
 							opt.transfMode[iPart] = TM_TILE_VERTICAL;
 						else 
 							opt.transfMode[iPart] = TM_NONE;
@@ -206,7 +206,7 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 					{
 						if (GetSettingName(buff, "", szSetting, sizeof(szSetting) - 1)) 
 						{
-							if (mir_tstrlen(pch) > 32)
+							if (mir_wstrlen(pch) > 32)
 								pch[32] = 0;
 
 							db_set_ts(0, MODULE, szSetting, pch);
@@ -362,34 +362,34 @@ void ParseSkinFile(wchar_t *szSkinName, bool bStartup, bool bOnlyPreview)
 			{
 				if (buff[0] == '[') 
 				{
-					if (!mir_tstrcmp(L"[about]", buff)) 
+					if (!mir_wstrcmp(L"[about]", buff)) 
 					{
 						ParseAboutPart(fp, buff, szSkinName);
 						continue;
 					} 
-					else if (!mir_tstrcmp(L"[other]", buff)) 
+					else if (!mir_wstrcmp(L"[other]", buff)) 
 					{
 						ParseOtherPart(fp, buff);
 						continue;
 					} 
 					else if (!bOnlyPreview) 
 					{
-						if (!mir_tstrcmp(L"[background]", buff))
+						if (!mir_wstrcmp(L"[background]", buff))
 						{
 							ParseImagePart(fp, buff, SKIN_ITEM_BG);
 							continue;
 						} 
-						else if (!mir_tstrcmp(L"[sidebar]", buff)) 
+						else if (!mir_wstrcmp(L"[sidebar]", buff)) 
 						{
 							ParseImagePart(fp, buff, SKIN_ITEM_SIDEBAR);
 							continue;
 						}
-						else if (!bStartup && opt.bLoadFonts && !mir_tstrcmp(L"[fonts]", buff))
+						else if (!bStartup && opt.bLoadFonts && !mir_wstrcmp(L"[fonts]", buff))
 						{
 							ParseFontPart(fp, buff);
 							continue;
 						} 
-						else if (!bStartup && opt.bLoadProportions && !mir_tstrcmp(L"[appearance]", buff))
+						else if (!bStartup && opt.bLoadProportions && !mir_wstrcmp(L"[appearance]", buff))
 						{
 							ParseAppearancePart(fp, buff);
 							continue;

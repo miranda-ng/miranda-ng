@@ -52,7 +52,7 @@ static wchar_t* sttGetXStatus(const char *szProto)
 		cs.flags = CSSF_MASK_MESSAGE | CSSF_TCHAR;
 		cs.ptszMessage = tszStatus;
 		if (CallProtoServiceInt(NULL, szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
-			return mir_tstrdup(tszStatus);
+			return mir_wstrdup(tszStatus);
 	}
 
 	return NULL;
@@ -109,7 +109,7 @@ wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto)
 			if (hasTips()) {
 				tszTip.AppendFormat(L"<b>%-12.12s</b>\t%s", pa->tszAccountName, szStatus);
 
-				ptrT ProtoXStatus(sttGetXStatus(pa->szModuleName));
+				ptrW ProtoXStatus(sttGetXStatus(pa->szModuleName));
 				if (ProtoXStatus != NULL) {
 					if (!tszTip.IsEmpty())
 						tszTip.AppendChar('\n');
@@ -124,28 +124,28 @@ wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto)
 	else {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa != NULL) {
-			ptrT ProtoXStatus(sttGetXStatus(szProto));
+			ptrW ProtoXStatus(sttGetXStatus(szProto));
 			wchar_t *szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, szProto, PS_GETSTATUS, 0, 0), 0);
 			if (szPrefix && szPrefix[0]) {
 				if (db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
 					if (hasTips()) {
 						if (ProtoXStatus != NULL)
-							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s%s%-24.24s", szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus);
+							mir_snwprintf(cli.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s%s%-24.24s", szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus);
 						else
-							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s", szPrefix, szSeparator, pa->tszAccountName, szStatus);
+							mir_snwprintf(cli.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s", szPrefix, szSeparator, pa->tszAccountName, szStatus);
 					}
-					else mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"%s%s%s %s", szPrefix, szSeparator, pa->tszAccountName, szStatus);
+					else mir_snwprintf(cli.szTip, MAX_TIP_SIZE, L"%s%s%s %s", szPrefix, szSeparator, pa->tszAccountName, szStatus);
 				}
-				else mir_tstrncpy(cli.szTip, szPrefix, MAX_TIP_SIZE);
+				else mir_wstrncpy(cli.szTip, szPrefix, MAX_TIP_SIZE);
 			}
 			else {
 				if (hasTips()) {
 					if (ProtoXStatus != NULL)
-						mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"<b>%-12.12s</b>\t%s\n%-24.24s", pa->tszAccountName, szStatus, ProtoXStatus);
+						mir_snwprintf(cli.szTip, MAX_TIP_SIZE, L"<b>%-12.12s</b>\t%s\n%-24.24s", pa->tszAccountName, szStatus, ProtoXStatus);
 					else
-						mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"<b>%-12.12s</b>\t%s", pa->tszAccountName, szStatus);
+						mir_snwprintf(cli.szTip, MAX_TIP_SIZE, L"<b>%-12.12s</b>\t%s", pa->tszAccountName, szStatus);
 				}
-				else mir_sntprintf(cli.szTip, MAX_TIP_SIZE, L"%s %s", pa->tszAccountName, szStatus);
+				else mir_snwprintf(cli.szTip, MAX_TIP_SIZE, L"%s %s", pa->tszAccountName, szStatus);
 			}
 		}
 	}
@@ -180,8 +180,8 @@ int fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int s
 
 	cli.pfnTrayIconMakeTooltip(NULL, p.szProto);
 	if (!hasTips())
-		mir_tstrncpy(nid.szTip, cli.szTip, _countof(nid.szTip));
-	replaceStrT(p.ptszToolTip, cli.szTip);
+		mir_wstrncpy(nid.szTip, cli.szTip, _countof(nid.szTip));
+	replaceStrW(p.ptszToolTip, cli.szTip);
 
 	Shell_NotifyIcon(NIM_ADD, &nid);
 	p.isBase = 1;
@@ -335,9 +335,9 @@ int fnTrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPref
 		nid.uID = cli.trayIcon[i].id;
 		cli.pfnTrayIconMakeTooltip(szNewTip, cli.trayIcon[i].szProto);
 		mir_free(cli.trayIcon[i].ptszToolTip);
-		cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
+		cli.trayIcon[i].ptszToolTip = mir_wstrdup(cli.szTip);
 		if (!hasTips())
-			mir_tstrncpy(nid.szTip, cli.szTip, _countof(nid.szTip));
+			mir_wstrncpy(nid.szTip, cli.szTip, _countof(nid.szTip));
 		Shell_NotifyIcon(NIM_MODIFY, &nid);
 
 		if (cli.trayIconCount == 1)
@@ -357,9 +357,9 @@ int fnTrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPref
 
 		cli.pfnTrayIconMakeTooltip(szNewTip, cli.trayIcon[i].szProto);
 		mir_free(cli.trayIcon[i].ptszToolTip);
-		cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
+		cli.trayIcon[i].ptszToolTip = mir_wstrdup(cli.szTip);
 		if (!hasTips())
-			mir_tstrncpy(nid.szTip, cli.szTip, _countof(nid.szTip));
+			mir_wstrncpy(nid.szTip, cli.szTip, _countof(nid.szTip));
 		Shell_NotifyIcon(NIM_MODIFY, &nid);
 
 		if (cli.trayIconCount == 1)

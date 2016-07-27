@@ -169,7 +169,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 					if (CheckDate(hContact)) {
 						if (db_get_w(hContact, modname, "ConfirmTimeout", 0)) {
 							SendPounceDlgProcStruct *spdps = (SendPounceDlgProcStruct *)mir_alloc(sizeof(SendPounceDlgProcStruct));
-							wchar_t *message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
+							wchar_t *message = mir_wstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
 							spdps->message = message;
 							CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, SendPounceDlgProc, (LPARAM)spdps);
@@ -215,10 +215,10 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, modname, "PounceMsg",&dbv))
 	{
-		wchar_t* newPounce = (wchar_t*)mir_alloc(mir_tstrlen(dbv.ptszVal) + mir_tstrlen(message) + 1);
+		wchar_t* newPounce = (wchar_t*)mir_alloc(mir_wstrlen(dbv.ptszVal) + mir_wstrlen(message) + 1);
 		if (!newPounce) return 1;
-		mir_tstrcpy(newPounce, dbv.ptszVal);
-		mir_tstrcat(newPounce, message);
+		mir_wstrcpy(newPounce, dbv.ptszVal);
+		mir_wstrcat(newPounce, message);
 		db_set_ws(hContact, modname, "PounceMsg", newPounce);
 		mir_free(newPounce);
 		db_free(&dbv);

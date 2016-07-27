@@ -89,7 +89,7 @@ static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 			int i, found = 0;
 			for (i = 0; i < _countof(bbcodes); ++i) {
 				if (line[1] == bbcodes[i][1]) {
-					size_t lenb = mir_tstrlen(bbcodes[i]);
+					size_t lenb = mir_wstrlen(bbcodes[i]);
 					if (!wcsnicmp(line, bbcodes[i], lenb)) {
 						buf.Append(bbcodefmt[i]);
 						line += lenb - 1;
@@ -317,14 +317,14 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 			char* filename = (char*)dbei.pBlob + sizeof(DWORD);
 			char* descr = filename + mir_strlen(filename) + 1;
 			
-			ptrT ptszFileName(DbGetEventStringT(&dbei, filename));
+			ptrW ptszFileName(DbGetEventStringT(&dbei, filename));
 			buffer.AppendFormat(" %s ", SetToStyle(MSGFONTID_NOTICE));
 			AppendToBufferWithRTF(buffer, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
 			buffer.Append(": ");
 			AppendToBufferWithRTF(buffer, ptszFileName);
 
 			if (*descr != 0) {
-				ptrT ptszDescr(DbGetEventStringT(&dbei, descr));
+				ptrW ptszDescr(DbGetEventStringT(&dbei, descr));
 				buffer.Append(" (");
 				AppendToBufferWithRTF(buffer, ptszDescr);
 				buffer.Append(")");

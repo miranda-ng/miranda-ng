@@ -81,7 +81,7 @@ public:
 	{	mir_free(m_szReceiver);
 	}
 
-	__forceinline void SetReceiver(const wchar_t *szReceiver) { replaceStrT(m_szReceiver, szReceiver); }
+	__forceinline void SetReceiver(const wchar_t *szReceiver) { replaceStrW(m_szReceiver, szReceiver); }
 	__forceinline void SetParamsToParse(DWORD dwParamsToParse) { m_dwParamsToParse = dwParamsToParse; }
 	__forceinline void SetTimeout(DWORD dwTimeout) { m_dwTimeout = dwTimeout; }
 

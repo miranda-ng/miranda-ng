@@ -168,8 +168,8 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 	int pwdLen = GetMailboxPwd(acc, NULL, 0);
 	if (!pwdLen++) return FALSE;
 
-	size_t urlLen = mir_tstrlen(url) + 1;
-	size_t mailboxLen = mir_tstrlen(mailbox) + 1;
+	size_t urlLen = mir_wstrlen(url) + 1;
+	size_t mailboxLen = mir_wstrlen(mailbox) + 1;
 
 	OPEN_URL_HEADER *data = (OPEN_URL_HEADER*)malloc(sizeof(OPEN_URL_HEADER) + urlLen + mailboxLen + pwdLen);
 	data->url = (LPSTR)data + sizeof(OPEN_URL_HEADER);
@@ -196,7 +196,7 @@ void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 
 void OpenContactInbox(LPCSTR szModuleName)
 {
-	ptrT tszJid(db_get_tsa(0, szModuleName, "jid"));
+	ptrW tszJid(db_get_tsa(0, szModuleName, "jid"));
 	if (tszJid == NULL)
 		return;
 
@@ -206,9 +206,9 @@ void OpenContactInbox(LPCSTR szModuleName)
 	*host++ = 0;
 
 	wchar_t buf[1024];
-	if (mir_tstrcmpi(host, COMMON_GMAIL_HOST1) && mir_tstrcmpi(host, COMMON_GMAIL_HOST2))
-		mir_sntprintf(buf, INBOX_URL_FORMAT, L"a/", host);   // hosted
+	if (mir_wstrcmpi(host, COMMON_GMAIL_HOST1) && mir_wstrcmpi(host, COMMON_GMAIL_HOST2))
+		mir_snwprintf(buf, INBOX_URL_FORMAT, L"a/", host);   // hosted
 	else
-		mir_sntprintf(buf, INBOX_URL_FORMAT, L"", L"mail"); // common
+		mir_snwprintf(buf, INBOX_URL_FORMAT, L"", L"mail"); // common
 	OpenUrl(szModuleName, tszJid, buf);
 }

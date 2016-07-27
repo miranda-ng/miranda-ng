@@ -119,7 +119,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 
 			BadConnectPopup.PluginWindowProc = BadConnectPopupProc;
 			BadConnectPopup.PluginData = ActualAccount;
-			mir_tstrncpy(BadConnectPopup.lptzContactName, _A2T(ActualAccount->Name), _countof(BadConnectPopup.lptzContactName));
+			mir_wstrncpy(BadConnectPopup.lptzContactName, _A2T(ActualAccount->Name), _countof(BadConnectPopup.lptzContactName));
 		}
 
 		if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != NULL) {
@@ -257,7 +257,7 @@ void __cdecl BadConnection(void *Param)
 			nid.hIcon = g_LoadIconEx(3);
 			nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 			nid.uCallbackMessage = WM_YAMN_NOTIFYICON;
-			mir_sntprintf(nid.szTip, L"%S%s", ActualAccount->Name, TranslateT(" - connection error"));
+			mir_snwprintf(nid.szTip, L"%S%s", ActualAccount->Name, TranslateT(" - connection error"));
 			Shell_NotifyIcon(NIM_ADD, &nid);
 		}
 

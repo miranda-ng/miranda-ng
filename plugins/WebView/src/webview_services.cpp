@@ -46,12 +46,12 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 
 		// A contact is renamed
 		if (!strcmp(cws->szSetting, "MyHandle")) {
-			ptrT oldName( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
+			ptrW oldName( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 			if (oldName == NULL)
 				return 0;
 
 			wchar_t nick[100];
-			ptrT oldnick( db_get_tsa(hContact, "CList", "MyHandle"));
+			ptrW oldnick( db_get_tsa(hContact, "CList", "MyHandle"));
 			if (oldnick != NULL)
 				wcsncpy_s(nick, oldnick, _TRUNCATE);
 			else
@@ -70,7 +70,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 				srand((unsigned)time(NULL));
 				wchar_t ranStr[7];
 				_itow((int)10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
-				mir_tstrcat(nick, ranStr); 
+				mir_wstrcat(nick, ranStr); 
 			}  
 
 			if ( wcschr(nick, '(') == 0) {
@@ -85,19 +85,19 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			wchar_t *cacheend = wcsrchr(cachepath, '\\');
 			cacheend++;
 			*cacheend = '\0';
-			mir_sntprintf(cachedirectorypath, L"%s" MODULENAMEW L"cache\\", cachepath);
+			mir_snwprintf(cachedirectorypath, L"%s" MODULENAMEW L"cache\\", cachepath);
 			CreateDirectory(cachedirectorypath, NULL);
 
 			wchar_t newcachepath[MAX_PATH + 50], renamedcachepath[MAX_PATH + 50];
-			mir_sntprintf(newcachepath, L"%s" MODULENAMEW L"cache\\%s.txt", cachepath, oldName);
-			mir_sntprintf(renamedcachepath, L"%s" MODULENAMEW L"cache\\%s.txt", cachepath, nick);
+			mir_snwprintf(newcachepath, L"%s" MODULENAMEW L"cache\\%s.txt", cachepath, oldName);
+			mir_snwprintf(renamedcachepath, L"%s" MODULENAMEW L"cache\\%s.txt", cachepath, nick);
 
 			// file exists?
 			if ( _waccess(newcachepath, 0) != -1) {
 				FILE *pcachefile = _wfopen(newcachepath, L"r");
 				if (pcachefile != NULL) {
 					fclose(pcachefile);
-					if (mir_tstrcmp(newcachepath, renamedcachepath)) {
+					if (mir_wstrcmp(newcachepath, renamedcachepath)) {
 						MoveFile(newcachepath, renamedcachepath);
 						db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, renamedcachepath);
 					}
@@ -115,7 +115,7 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	if (mir_strcmp(GetContactProto(hContact), MODULENAME))
 		return 0;
 
-	ptrT contactName( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
+	ptrW contactName( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 
 	// TEST GET NAME FOR CACHE
 	wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
@@ -124,9 +124,9 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_sntprintf(cachedirectorypath, L"%s" MODULENAMEW L"cache\\", cachepath);
+	mir_snwprintf(cachedirectorypath, L"%s" MODULENAMEW L"cache\\", cachepath);
 	CreateDirectory(cachedirectorypath, NULL);
-	mir_sntprintf(newcachepath, L"%s" MODULENAMEW L"cache\\%s.txt", cachepath,  contactName);
+	mir_snwprintf(newcachepath, L"%s" MODULENAMEW L"cache\\%s.txt", cachepath,  contactName);
 	// file exists?
 	if ( _waccess(newcachepath, 0) != -1) {
 		FILE *pcachefile = _wfopen(newcachepath, L"r");
@@ -149,7 +149,7 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_sntprintf(cachedirectorypath, L"%s" MODULENAMEW L"cache\\%s", cachepath, cacheend);
+	mir_snwprintf(cachedirectorypath, L"%s" MODULENAMEW L"cache\\%s", cachepath, cacheend);
 
 	if( _waccess(cachedirectorypath, 0) != 0)
 		WErrorPopup((UINT_PTR)"ERROR", TranslateT("Cache folder does not exist."));
@@ -167,7 +167,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	ptrT url( db_get_tsa(wParam, MODULENAME, "URL"));
+	ptrW url( db_get_tsa(wParam, MODULENAME, "URL"));
 	if (url == NULL)
 		return 0;
 
@@ -319,12 +319,12 @@ INT_PTR BasicSearch(WPARAM, LPARAM lParam)
 	static wchar_t buf[300];
 
 	if (lParam)
-		mir_tstrncpy(buf, (const wchar_t*) lParam, 256);
+		mir_wstrncpy(buf, (const wchar_t*) lParam, 256);
 
 	if (searchId != -1)
 		return 0; // only one search at a time
 
-	mir_tstrncpy(sID, (wchar_t*)lParam, _countof(sID));
+	mir_wstrncpy(sID, (wchar_t*)lParam, _countof(sID));
 	searchId = 1;
 
 	// create a thread for the ID search
@@ -355,7 +355,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 		// check ID to see if the contact already exist in the database
 		if (db_get_ts(hContact, MODULENAME, "URL", &dbv))
 			continue;
-		if (!mir_tstrcmpi(psr->nick.w, dbv.ptszVal)) {
+		if (!mir_wstrcmpi(psr->nick.w, dbv.ptszVal)) {
 			// remove the flag for not on list and hidden, thus make the
 			// contact visible
 			// and add them on the list
@@ -406,7 +406,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 
 	for (MCONTACT hContact2 = db_find_first(MODULENAME); hContact2 != NULL; hContact2 = db_find_next(hContact2, MODULENAME)) {
 		if (!db_get_ts(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-			if (!mir_tstrcmpi(Newnick, dbv.ptszVal)) {
+			if (!mir_wstrcmpi(Newnick, dbv.ptszVal)) {
 				// remove the flag for not on list and hidden, thus make the
 				// contact visible
 				// and add them on the list
@@ -427,7 +427,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 		
 		wchar_t ranStr[10];
 		_itow((int) 10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
-		mir_tstrcat(Newnick, ranStr);
+		mir_wstrcat(Newnick, ranStr);
 	}
 	//end convert
 

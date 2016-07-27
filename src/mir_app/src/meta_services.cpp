@@ -380,7 +380,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		mir_snprintf(buffer, "Nick%d", contact_number);
 		db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 
-		ptrT tszMyhandle(db_get_tsa(hContact, "CList", "MyHandle"));
+		ptrW tszMyhandle(db_get_tsa(hContact, "CList", "MyHandle"));
 		if (tszMyhandle == NULL) {
 			mir_snprintf(buffer, "CListName%d", contact_number);
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);

@@ -3,9 +3,9 @@
 static int sounds_AddSound(lua_State *L)
 {
 	ptrA name(mir_utf8decodeA(luaL_checkstring(L, 1)));
-	ptrT description(mir_utf8decodeT(luaL_checkstring(L, 2)));
-	ptrT section(mir_utf8decodeT(luaL_optstring(L, 3, MODULE)));
-	ptrT filePath(mir_utf8decodeT(lua_tostring(L, 4)));
+	ptrW description(mir_utf8decodeW(luaL_checkstring(L, 2)));
+	ptrW section(mir_utf8decodeW(luaL_optstring(L, 3, MODULE)));
+	ptrW filePath(mir_utf8decodeW(lua_tostring(L, 4)));
 
 	SKINSOUNDDESCEX ssd = { sizeof(SKINSOUNDDESCEX) };
 	ssd.pszName = name;
@@ -34,7 +34,7 @@ static int sounds_PlaySound(lua_State *L)
 
 static int sounds_PlayFile(lua_State *L)
 {
-	ptrT filePath(mir_utf8decodeT(luaL_checkstring(L, 1)));
+	ptrW filePath(mir_utf8decodeW(luaL_checkstring(L, 1)));
 
 	INT_PTR res = SkinPlaySoundFile(filePath);
 	lua_pushboolean(L, res == 0);

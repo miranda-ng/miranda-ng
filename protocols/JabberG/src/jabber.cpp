@@ -75,7 +75,7 @@ bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 // Protocol instances
 static int sttCompareProtocols(const CJabberProto *p1, const CJabberProto *p2)
 {
-	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 LIST<CJabberProto> g_Instances(1, sttCompareProtocols);
@@ -135,7 +135,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.colour = GetSysColor(COLOR_WINDOWTEXT);
 	fontid.deffontsettings.size = -11;
-	mir_tstrncpy(fontid.deffontsettings.szFace, L"MS Shell Dlg", _countof(fontid.deffontsettings.szFace));
+	mir_wstrncpy(fontid.deffontsettings.szFace, L"MS Shell Dlg", _countof(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
 
 	wcsncpy_s(fontid.name, LPGENW("Frame title"), _TRUNCATE);
@@ -195,7 +195,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	WORD v[4];
 	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
-	mir_sntprintf(szCoreVersion, L"%d.%d.%d.%d", v[0], v[1], v[2], v[3]);
+	mir_snwprintf(szCoreVersion, L"%d.%d.%d.%d", v[0], v[1], v[2], v[3]);
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 
@@ -235,13 +235,13 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (g_nTempFileId != 0) {
 		wchar_t tszTempPath[MAX_PATH], tszFilePath[MAX_PATH];
 		GetTempPath(_countof(tszTempPath), tszTempPath);
-		mir_sntprintf(tszFilePath, L"%sjab*.tmp.*", tszTempPath);
+		mir_snwprintf(tszFilePath, L"%sjab*.tmp.*", tszTempPath);
 
 		WIN32_FIND_DATA findData;
 		HANDLE hFind = FindFirstFile(tszFilePath, &findData);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				mir_sntprintf(tszFilePath, L"%s%s", tszTempPath, findData.cFileName);
+				mir_snwprintf(tszFilePath, L"%s%s", tszTempPath, findData.cFileName);
 				DeleteFile(tszFilePath);
 			} while (FindNextFile(hFind, &findData));
 			

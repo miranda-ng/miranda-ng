@@ -45,7 +45,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 			DBVARIANT dbv;
 			// check ID to see if the contact already exist in the database
 			if (!db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
-				if (!mir_tstrcmpi(psr->email.w, dbv.ptszVal)) {
+				if (!mir_wstrcmpi(psr->email.w, dbv.ptszVal)) {
 					// remove the flag for not on list and hidden, thus make the contact visible
 					// and add them on the list
 					if (db_get_b(hContact, "CList", "NotOnList", 1)) {
@@ -90,7 +90,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 	AvatarDownloaded(hContact);
 
 	wchar_t str[256];
-	mir_sntprintf(str, TranslateT("Current weather information for %s."), psr->nick.w);
+	mir_snwprintf(str, TranslateT("Current weather information for %s."), psr->nick.w);
 	db_set_ts(hContact, WEATHERPROTONAME, "About", str);
 
 	// make the last update tags to something invalid
@@ -109,7 +109,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 		opt.DefStn = hContact;
 		if (!db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 			// notification message box
-			mir_sntprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
+			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
@@ -251,7 +251,7 @@ int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *s
 
 	// give no station name but only ID if the search is unavailable
 	else wcsncpy(str, TranslateT("<Enter station name here>"), MAX_DATA_LEN - 1);
-	mir_sntprintf(newID, L"%s/%s", svc, sID);
+	mir_snwprintf(newID, L"%s/%s", svc, sID);
 
 	// set the search result and broadcast it
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
@@ -272,7 +272,7 @@ int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *s
 int IDSearch(wchar_t *sID, const int searchId)
 {
 	// for a normal ID search (ID != #)
-	if (mir_tstrcmp(sID, L"#")) {
+	if (mir_wstrcmp(sID, L"#")) {
 		WIDATALIST *Item = WIHead;
 
 		// search every weather service using the search station ID
@@ -322,16 +322,16 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 			// for single result
 			if (sData->Single.Available && (search != NULL || !sData->Multiple.Available)) { // single result
 				// if station ID appears first in the downloaded data
-				if (!mir_tstrcmpi(sData->Single.First, L"ID")) {
+				if (!mir_wstrcmpi(sData->Single.First, L"ID")) {
 					GetDataValue(&sData->Single.ID, str, &szInfo);
-					mir_sntprintf(sID, L"%s/%s", svc, str);
+					mir_snwprintf(sID, L"%s/%s", svc, str);
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 				}
 				// if station name appears first in the downloaded data
-				else if (!mir_tstrcmpi(sData->Single.First, L"NAME")) {
+				else if (!mir_wstrcmpi(sData->Single.First, L"NAME")) {
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 					GetDataValue(&sData->Single.ID, str, &szInfo);
-					mir_sntprintf(sID, L"%s/%s", svc, str);
+					mir_snwprintf(sID, L"%s/%s", svc, str);
 				}
 				else
 					str[0] = 0;
@@ -363,16 +363,16 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 				// search for the next occurrence of the string
 				while (true) {
 					// if station ID appears first in the downloaded data
-					if (!mir_tstrcmpi(sData->Multiple.First, L"ID")) {
+					if (!mir_wstrcmpi(sData->Multiple.First, L"ID")) {
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
-						mir_sntprintf(sID, L"%s/%s", svc, str);
+						mir_snwprintf(sID, L"%s/%s", svc, str);
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 					}
 					// if station name appears first in the downloaded data
-					else if (!mir_tstrcmpi(sData->Multiple.First, L"NAME")) {
+					else if (!mir_wstrcmpi(sData->Multiple.First, L"NAME")) {
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
-						mir_sntprintf(sID, L"%s/%s", svc, str);
+						mir_snwprintf(sID, L"%s/%s", svc, str);
 					}
 					else
 						break;

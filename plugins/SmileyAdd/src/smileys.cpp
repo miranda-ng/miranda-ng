@@ -212,7 +212,7 @@ static DWORD_PTR ConvertServiceParam(MCONTACT hContact, const wchar_t *param)
 {
 	if (param == NULL)
 		return 0;
-	if (mir_tstrcmpi(L"hContact", param) == 0)
+	if (mir_wstrcmpi(L"hContact", param) == 0)
 		return hContact;
 	if (iswdigit(*param))
 		return _wtoi(param);
@@ -359,7 +359,7 @@ bool SmileyPackType::LoadSmileyFile(const CMString &filename, const CMString &pa
 		if (!noerr) {
 			static const wchar_t errmsg[] = LPGENW("Smiley pack %s for category \"%s\" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.");
 			wchar_t msgtxt[1024];
-			mir_sntprintf(msgtxt, TranslateTS(errmsg), modpath.c_str(), packname);
+			mir_snwprintf(msgtxt, TranslateTS(errmsg), modpath.c_str(), packname);
 			ReportError(msgtxt);
 		}
 
@@ -519,7 +519,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMString &tbuf, bool onlyInfo, CMString &
 				if (!noerr) {
 					static const wchar_t errmsg[] = LPGENW("Smiley #%u in file %s for smiley pack %s not found.");
 					wchar_t msgtxt[1024];
-					mir_sntprintf(msgtxt, TranslateTS(errmsg), smnum, resname.c_str(), modpath.c_str());
+					mir_snwprintf(msgtxt, TranslateTS(errmsg), smnum, resname.c_str(), modpath.c_str());
 					CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, _T2A(msgtxt));
 					errorFound = true;
 				}
@@ -733,7 +733,7 @@ SmileyPackType* SmileyPackListType::GetSmileyPack(CMString &filename)
 	for (int i = 0; i < m_SmileyPacks.getCount(); i++) {
 		CMString modpath1;
 		pathToAbsolute(m_SmileyPacks[i].GetFilename(), modpath1);
-		if (mir_tstrcmpi(modpath.c_str(), modpath1.c_str()) == 0) return &m_SmileyPacks[i];
+		if (mir_wstrcmpi(modpath.c_str(), modpath1.c_str()) == 0) return &m_SmileyPacks[i];
 	}
 	return NULL;
 }
@@ -1068,13 +1068,13 @@ SmileyLookup::SmileyLookup(const CMString &str, const bool regexs, const int ind
 				matcher->getStartingIndex() != matcher->getEndingIndex());
 			if (!m_valid) {
 				static const wchar_t errmsg[] = LPGENW("Regular expression \"%s\" in smiley pack \"%s\" could produce \"empty matches\".");
-				mir_sntprintf(msgtxt, TranslateTS(errmsg), str.c_str(), smpt.c_str());
+				mir_snwprintf(msgtxt, TranslateTS(errmsg), str.c_str(), smpt.c_str());
 			}
 			delete matcher;
 		}
 		else {
 			static const wchar_t errmsg[] = LPGENW("Regular expression \"%s\" in smiley pack \"%s\" malformed.");
-			mir_sntprintf(msgtxt, TranslateTS(errmsg), str.c_str(), smpt.c_str());
+			mir_snwprintf(msgtxt, TranslateTS(errmsg), str.c_str(), smpt.c_str());
 		}
 
 		if (!m_valid)

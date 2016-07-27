@@ -982,7 +982,7 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfo);
 
 	wchar_t buf[MAX_PATH + 1];
-	mir_tstrcpy(buf, L".");
+	mir_wstrcpy(buf, L".");
 	g_mirandaDir = _wgetcwd(buf, MAX_PATH);
 
 	registerSound(L"Notice");

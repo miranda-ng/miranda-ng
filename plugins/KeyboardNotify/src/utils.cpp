@@ -38,7 +38,7 @@ wchar_t *getAbsoluteProfileName(wchar_t *absoluteProfileName, size_t maxLen)
 	profilePath[0] = profileName[0] = '\0';
 	CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)profilePath);
 	CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)profileName);
-	mir_sntprintf(absoluteProfileName, maxLen, L"%s\\%s", profilePath, profileName);
+	mir_snwprintf(absoluteProfileName, maxLen, L"%s\\%s", profilePath, profileName);
 
 	return absoluteProfileName;
 }

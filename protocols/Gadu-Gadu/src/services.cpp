@@ -189,7 +189,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	//directly check if contact has protected user avatar set by AVS, and if yes return it as protocol avatar
 	DBVARIANT dbv;
 	if (!db_get_ts(pai->hContact, "ContactPhoto", "Backup", &dbv)) {
-		if ((mir_tstrlen(dbv.ptszVal)>0) && db_get_b(pai->hContact, "ContactPhoto", "Locked", 0)){
+		if ((mir_wstrlen(dbv.ptszVal)>0) && db_get_b(pai->hContact, "ContactPhoto", "Locked", 0)){
 			debugLogA("getavatarinfo(): Incoming request for avatar information. Contact has assigned Locked ContactPhoto. return GAIR_SUCCESS");
 			wcscpy_s(pai->filename, _countof(pai->filename) ,dbv.ptszVal);
 			pai->format = ProtoGetAvatarFormat(pai->filename);
@@ -242,7 +242,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			if (_wremove(pai->filename) != 0){
 				debugLog(L"getavatarinfo(): refresh. _wremove 1 file %s error. errno=%d: %s", pai->filename, errno, _tcserror(errno));
 				wchar_t error[512];
-				mir_sntprintf(error, TranslateT("Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
+				mir_snwprintf(error, TranslateT("Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			}
 			setString(pai->hContact, GG_KEY_AVATARHASH, AvatarHash);
@@ -257,7 +257,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			if (_wremove(pai->filename) != 0){
 				debugLog(L"getavatarinfo(): delete. _wremove file %s error. errno=%d: %s", pai->filename, errno, _tcserror(errno));
 				wchar_t error[512];
-				mir_sntprintf(error, TranslateT("Cannot remove old avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
+				mir_snwprintf(error, TranslateT("Cannot remove old avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			}
 			delSetting(pai->hContact, GG_KEY_AVATARHASH);
@@ -337,7 +337,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM, LPARAM lParam)
 
 	wchar_t szMyFilename[MAX_PATH];
 	getAvatarFilename(NULL, szMyFilename, _countof(szMyFilename));
-	if ( mir_tstrcmp(szFilename, szMyFilename) && !CopyFile(szFilename, szMyFilename, FALSE)) {
+	if ( mir_wstrcmp(szFilename, szMyFilename) && !CopyFile(szFilename, szMyFilename, FALSE)) {
 		debugLogA("setmyavatar(): Failed to set user avatar. File with type %d could not be created/overwritten.", iAvType);
 		return -1;
 	}
@@ -357,7 +357,7 @@ INT_PTR GGPROTO::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 	gg_EnterCriticalSection(&modemsg_mutex, "refreshstatus", 72, "modemsg_mutex", 1);
 	wchar_t *szMsg = getstatusmsg(wParam ? gg_normalizestatus(wParam) : m_iStatus);
 	if (isonline() && szMsg)
-		res = (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(szMsg) : (INT_PTR)mir_t2a(szMsg);
+		res = (lParam & SGMA_UNICODE) ? (INT_PTR)mir_wstrdup(szMsg) : (INT_PTR)mir_u2a(szMsg);
 	gg_LeaveCriticalSection(&modemsg_mutex, "refreshstatus", 72, 1, "modemsg_mutex", 1);
 	return res;
 }

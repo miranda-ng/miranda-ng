@@ -85,7 +85,7 @@ void CVkProto::AddCListEvent(bool bNews)
 	cle.hContact = hContact;
 	cle.hDbEvent = NULL;
 	wchar_t toolTip[255];
-	mir_sntprintf(toolTip, bNews ? TranslateT("New news") : TranslateT("New notifications"));
+	mir_snwprintf(toolTip, bNews ? TranslateT("New news") : TranslateT("New notifications"));
 	cle.ptszTooltip = toolTip;
 	pcli->pfnAddEvent(&cle);
 }
@@ -541,7 +541,7 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 
 	LONG iGroupId = jnItem["id"].as_int();
 	CMString tszId(FORMAT, L"%d,", iGroupId);
-	CMString tszIds(ptrT(db_get_tsa(NULL, m_szModuleName, "InviteGroupIds")));
+	CMString tszIds(ptrW(db_get_tsa(NULL, m_szModuleName, "InviteGroupIds")));
 
 	if (tszIds.Find(tszId, 0) != -1)
 		return NULL;

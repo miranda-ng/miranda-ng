@@ -30,11 +30,11 @@ bool CSteamProto::Relogin()
 		if (root != NULL) {
 			JSONNode *node = json_get(root, "error");
 
-			ptrT error(json_as_string(node));
-			if (!mir_tstrcmpi(error, L"OK"))
+			ptrW error(json_as_string(node));
+			if (!mir_wstrcmpi(error, L"OK"))
 			{
 				node = json_get(root, "umqid");
-				setString("UMQID", ptrA(mir_u2a(ptrT(json_as_string(node)))));
+				setString("UMQID", ptrA(mir_u2a(ptrW(json_as_string(node)))));
 
 				node = json_get(root, "message");
 				setDword("MessageID", json_as_int(node));
@@ -148,10 +148,10 @@ void CSteamProto::DeleteAuthSettings()
 void CSteamProto::OnAuthorizationError(const JSONNode &node)
 {
 	std::string message = node["message"].as_string();
-	ptrT messageT(mir_utf8decodeT(message.c_str()));
+	ptrW messageT(mir_utf8decodeW(message.c_str()));
 	debugLogA("CSteamProto::OnAuthorizationError: %s", message.c_str());
 
-	if (!mir_tstrcmpi(messageT, L"Incorrect login."))
+	if (!mir_wstrcmpi(messageT, L"Incorrect login."))
 	{
 		// We can't continue with incorrect login/password
 		DeleteAuthSettings();
@@ -367,8 +367,8 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 	JSONROOT root(response->pData);
 
 	JSONNode *node = json_get(root, "error");
-	ptrT error(json_as_string(node));
-	if (mir_tstrcmpi(error, L"OK"))
+	ptrW error(json_as_string(node));
+	if (mir_wstrcmpi(error, L"OK"))
 	{
 		// Probably expired TokenSecret
 		HandleTokenExpired();
@@ -376,14 +376,14 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 	}
 
 	node = json_get(root, "umqid");
-	setString("UMQID", ptrA(mir_u2a(ptrT(json_as_string(node)))));
+	setString("UMQID", ptrA(mir_u2a(ptrW(json_as_string(node)))));
 
 	node = json_get(root, "message");
 	setDword("MessageID", json_as_int(node));
 	
 	if (m_lastMessageTS <= 0) {
 		node = json_get(root, "utc_timestamp");
-		time_t timestamp = _wtoi64(ptrT(json_as_string(node)));
+		time_t timestamp = _wtoi64(ptrW(json_as_string(node)));
 		setDword("LastMessageTS", timestamp);
 	}
 

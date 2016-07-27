@@ -132,7 +132,7 @@ void CProtoIntDlgBase::UpdateProtoTitle(const wchar_t *szText)
 
 	if (szText) {
 		curText = szText;
-		curLength = (int)mir_tstrlen(curText);
+		curLength = (int)mir_wstrlen(curText);
 	}
 	else {
 		curLength = GetWindowTextLength(m_hwnd) + 1;
@@ -142,9 +142,9 @@ void CProtoIntDlgBase::UpdateProtoTitle(const wchar_t *szText)
 	}
 
 	if (!wcsstr(curText, m_proto_interface->m_tszUserName)) {
-		size_t length = curLength + mir_tstrlen(m_proto_interface->m_tszUserName) + 256;
+		size_t length = curLength + mir_wstrlen(m_proto_interface->m_tszUserName) + 256;
 		wchar_t *text = (wchar_t *)_alloca(length * sizeof(wchar_t));
-		mir_sntprintf(text, length, L"%s [%s: %s]", curText, TranslateT("Account"), m_proto_interface->m_tszUserName);
+		mir_snwprintf(text, length, L"%s [%s: %s]", curText, TranslateT("Account"), m_proto_interface->m_tszUserName);
 		SetWindowText(m_hwnd, text);
 	}
 }
@@ -155,7 +155,7 @@ void CProtoIntDlgBase::UpdateStatusBar()
 
 	HDC hdc = GetDC(m_hwndStatus);
 	HFONT hFntSave = (HFONT)SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-	GetTextExtentPoint32(hdc, m_proto_interface->m_tszUserName, (int)mir_tstrlen(m_proto_interface->m_tszUserName), &sz);
+	GetTextExtentPoint32(hdc, m_proto_interface->m_tszUserName, (int)mir_wstrlen(m_proto_interface->m_tszUserName), &sz);
 	sz.cx += GetSystemMetrics(SM_CXSMICON) * 3;
 	SelectObject(hdc, hFntSave);
 	ReleaseDC(m_hwndStatus, hdc);

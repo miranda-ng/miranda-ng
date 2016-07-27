@@ -67,9 +67,9 @@ LPTSTR CJabberProto::GetBestResourceName(LPCTSTR jid)
 	LPCTSTR p = wcschr(jid, '/');
 	if (p == NULL) {
 		mir_cslock lck(m_csLists);
-		return mir_tstrdup(ListGetBestClientResourceNamePtr(jid));
+		return mir_wstrdup(ListGetBestClientResourceNamePtr(jid));
 	}
-	return mir_tstrdup(jid);
+	return mir_wstrdup(jid);
 }
 
 LPTSTR CJabberProto::GetResourceList(LPCTSTR jid)
@@ -94,7 +94,7 @@ LPTSTR CJabberProto::GetResourceList(LPCTSTR jid)
 	}
 	res.AppendChar(0);
 
-	return mir_tstrndup(res, res.GetLength());
+	return mir_wstrndup(res, res.GetLength());
 }
 
 char *CJabberProto::GetModuleName() const
@@ -199,7 +199,7 @@ int CJabberProto::RemoveHandler(HJHANDLER hHandler)
 JabberFeatCapPairDynamic *CJabberProto::FindFeature(LPCTSTR szFeature)
 {
 	for (int i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		if (!mir_tstrcmp(m_lstJabberFeatCapPairsDynamic[i]->szFeature, szFeature))
+		if (!mir_wstrcmp(m_lstJabberFeatCapPairsDynamic[i]->szFeature, szFeature))
 			return m_lstJabberFeatCapPairsDynamic[i];
 
 	return NULL;
@@ -213,7 +213,7 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 	// check for this feature in core features, and return false if it's present, to prevent re-registering a core feature
 	int i;
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
-		if (!mir_tstrcmp(g_JabberFeatCapPairs[i].szFeature, szFeature))
+		if (!mir_wstrcmp(g_JabberFeatCapPairs[i].szFeature, szFeature))
 			return false;
 
 	mir_cslock lck(m_csLists);
@@ -237,7 +237,7 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 			return false;
 
 		// remove unnecessary symbols from szFeature to make the string shorter, and use it as szExt
-		LPTSTR szExt = mir_tstrdup(szFeature);
+		LPTSTR szExt = mir_wstrdup(szFeature);
 		LPTSTR pSrc, pDst;
 		for (pSrc = szExt, pDst = szExt; *pSrc; pSrc++)
 			if (wcschr(L"bcdfghjklmnpqrstvwxz0123456789", *pSrc))
@@ -247,15 +247,15 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 
 		fcp = new JabberFeatCapPairDynamic();
 		fcp->szExt = szExt; // will be deallocated along with other values of JabberFeatCapPairDynamic in CJabberProto destructor
-		fcp->szFeature = mir_tstrdup(szFeature);
-		fcp->szDescription = szDescription ? mir_tstrdup(szDescription) : NULL;
+		fcp->szFeature = mir_wstrdup(szFeature);
+		fcp->szDescription = szDescription ? mir_wstrdup(szDescription) : NULL;
 		fcp->jcbCap = jcb;
 		m_lstJabberFeatCapPairsDynamic.insert(fcp);
 	}
 	else if (szDescription) { // update description
 		if (fcp->szDescription)
 			mir_free(fcp->szDescription);
-		fcp->szDescription = mir_tstrdup(szDescription);
+		fcp->szDescription = mir_wstrdup(szDescription);
 	}
 	return true;
 }
@@ -281,7 +281,7 @@ int CJabberProto::AddFeatures(LPCTSTR szFeatures)
 			m_uEnabledFeatCapsDynamic |= fcp->jcbCap;
 		else
 			ret = false;
-		szFeat += mir_tstrlen(szFeat) + 1;
+		szFeat += mir_wstrlen(szFeat) + 1;
 	}
 	lck.unlock();
 
@@ -306,7 +306,7 @@ int CJabberProto::RemoveFeatures(LPCTSTR szFeatures)
 		else
 			ret = false; // indicate that there was an error removing at least one of the specified features
 
-		szFeat += mir_tstrlen(szFeat) + 1;
+		szFeat += mir_wstrlen(szFeat) + 1;
 	}
 	lck.unlock();
 
@@ -328,25 +328,25 @@ LPTSTR CJabberProto::GetResourceFeatures(LPCTSTR jid)
 	// calculate total necessary string length
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
-			iLen += mir_tstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
+			iLen += mir_wstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
 
 	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if (jcb & m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
-			iLen += mir_tstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
+			iLen += mir_wstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
 
 	// allocate memory and fill it
 	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(wchar_t));
 	LPTSTR p = str;
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
-			mir_tstrcpy(p, g_JabberFeatCapPairs[i].szFeature);
-			p += mir_tstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
+			mir_wstrcpy(p, g_JabberFeatCapPairs[i].szFeature);
+			p += mir_wstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
 		}
 
 	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if (jcb & m_lstJabberFeatCapPairsDynamic[i]->jcbCap) {
-			mir_tstrcpy(p, m_lstJabberFeatCapPairsDynamic[i]->szFeature);
-			p += mir_tstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
+			mir_wstrcpy(p, m_lstJabberFeatCapPairsDynamic[i]->szFeature);
+			p += mir_wstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
 		}
 
 	*p = 0; // extra zero terminator

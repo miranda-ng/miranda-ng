@@ -472,9 +472,9 @@ int LocateStorePosition(int Frameid, int maxstored)
 	for (int i = 0; i < maxstored; i++) {
 		char settingname[255];
 		mir_snprintf(settingname, "Name%d", i);
-		ptrT frmname(db_get_tsa(0, CLUIFrameModule, settingname));
+		ptrW frmname(db_get_tsa(0, CLUIFrameModule, settingname));
 		if (frmname == NULL) continue;
-		if (mir_tstrcmpi(frmname, Frames[Frameid].name) == 0)
+		if (mir_wstrcmpi(frmname, Frames[Frameid].name) == 0)
 			return i;
 	}
 	return -1;
@@ -867,7 +867,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			return -1;
 
 		mir_free(Frames[pos].name);
-		Frames[pos].name = (wParam & FO_UNICODETEXT) ? mir_u2t((LPWSTR)lParam) : mir_a2t((LPSTR)lParam);
+		Frames[pos].name = (wParam & FO_UNICODETEXT) ? mir_wstrdup((LPWSTR)lParam) : mir_a2u((LPSTR)lParam);
 		return 0;
 
 	case FO_TBNAME:
@@ -875,7 +875,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			return -1;
 
 		mir_free(Frames[pos].TitleBar.tbname);
-		Frames[pos].TitleBar.tbname = (wParam & FO_UNICODETEXT) ? mir_u2t((LPWSTR)lParam) : mir_a2t((LPSTR)lParam);
+		Frames[pos].TitleBar.tbname = (wParam & FO_UNICODETEXT) ? mir_wstrdup((LPWSTR)lParam) : mir_a2u((LPSTR)lParam);
 		lck.unlock();
 
 		if (Frames[pos].floating && (Frames[pos].TitleBar.tbname != NULL))
@@ -887,7 +887,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			return -1;
 
 		mir_free(Frames[pos].TitleBar.tooltip);
-		Frames[pos].TitleBar.tooltip = (wParam & FO_UNICODETEXT) ? mir_u2t((LPWSTR)lParam) : mir_a2t((LPSTR)lParam);
+		Frames[pos].TitleBar.tooltip = (wParam & FO_UNICODETEXT) ? mir_wstrdup((LPWSTR)lParam) : mir_a2u((LPSTR)lParam);
 		UpdateTBToolTip(pos);
 		return 0;
 
@@ -1014,7 +1014,7 @@ INT_PTR CLUIFramesShowHideFrame(WPARAM frameId, LPARAM)
 	{
 		mir_cslock lck(csFrameHook);
 		pos = id2pos(frameId);
-		if (pos >= 0 && !mir_tstrcmp(Frames[pos].name, L"My contacts"))
+		if (pos >= 0 && !mir_wstrcmp(Frames[pos].name, L"My contacts"))
 			Frames[pos].visible = 1;
 		else {
 			if (pos >= 0 && (int)pos < nFramescount)
@@ -1599,15 +1599,15 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM)
 	if (clfrm->name == NULL || ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->wname) : mir_strlen(clfrm->name)) == 0) {
 		wchar_t ptszClassName[256];
 		GetClassName(Frames[nFramescount].hWnd, ptszClassName, _countof(ptszClassName));
-		Frames[nFramescount].name = mir_tstrdup(ptszClassName);
+		Frames[nFramescount].name = mir_wstrdup(ptszClassName);
 	}
-	else Frames[nFramescount].name = (clfrm->Flags & F_UNICODE) ? mir_u2t(clfrm->wname) : mir_a2t(clfrm->name);
+	else Frames[nFramescount].name = (clfrm->Flags & F_UNICODE) ? mir_wstrdup(clfrm->wname) : mir_a2u(clfrm->name);
 
 	if (IsBadCodePtr((FARPROC)clfrm->TBname) || clfrm->TBname == NULL
 		|| ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->TBwname) : mir_strlen(clfrm->TBname)) == 0)
-		Frames[nFramescount].TitleBar.tbname = mir_tstrdup(Frames[nFramescount].name);
+		Frames[nFramescount].TitleBar.tbname = mir_wstrdup(Frames[nFramescount].name);
 	else
-		Frames[nFramescount].TitleBar.tbname = (clfrm->Flags & F_UNICODE) ? mir_u2t(clfrm->TBwname) : mir_a2t(clfrm->TBname);
+		Frames[nFramescount].TitleBar.tbname = (clfrm->Flags & F_UNICODE) ? mir_wstrdup(clfrm->TBwname) : mir_a2u(clfrm->TBname);
 	Frames[nFramescount].needhide = FALSE;
 	Frames[nFramescount].TitleBar.ShowTitleBar = (clfrm->Flags & F_SHOWTB ? TRUE : FALSE);
 	Frames[nFramescount].TitleBar.ShowTitleBarTip = (clfrm->Flags & F_SHOWTBTIP ? TRUE : FALSE);
@@ -2153,7 +2153,7 @@ int OnFrameTitleBarBackgroundChange()
 		hBmpBackground = NULL;
 	}
 	if (db_get_b(NULL, "FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-		ptrT tszBitmapName(db_get_tsa(NULL, "FrameTitleBar", "BkBitmap"));
+		ptrW tszBitmapName(db_get_tsa(NULL, "FrameTitleBar", "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
@@ -2224,11 +2224,11 @@ static int DrawTitleBar(HDC dc, RECT rect, int Frameid)
 			if (!AlignCOLLIconToLeft) {
 				if (Frames[pos].TitleBar.hicon != NULL) {
 					DrawIconEx(hdcMem, 6 + cfg::dat.bClipBorder, ((TitleBarH >> 1) - 8), Frames[pos].TitleBar.hicon, 16, 16, 0, NULL, DI_NORMAL);
-					TextOut(hdcMem, 24 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_tstrlen(Frames[pos].TitleBar.tbname));
+					TextOut(hdcMem, 24 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_wstrlen(Frames[pos].TitleBar.tbname));
 				}
-				else TextOut(hdcMem, 6 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_tstrlen(Frames[pos].TitleBar.tbname));
+				else TextOut(hdcMem, 6 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_wstrlen(Frames[pos].TitleBar.tbname));
 			}
-			else TextOut(hdcMem, 18 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_tstrlen(Frames[pos].TitleBar.tbname));
+			else TextOut(hdcMem, 18 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, (int)mir_wstrlen(Frames[pos].TitleBar.tbname));
 
 			if (!AlignCOLLIconToLeft)
 				DrawIconEx(hdcMem, Frames[pos].TitleBar.wndSize.right - 22, ((TitleBarH >> 1) - 8), Frames[pos].collapsed ? Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN) : Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT), 16, 16, 0, NULL, DI_NORMAL);
@@ -2896,7 +2896,7 @@ wchar_t g_ptszEventName[100];
 
 static int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 {
-	mir_sntprintf(g_ptszEventName, L"mf_update_evt_%d", GetCurrentThreadId());
+	mir_snwprintf(g_ptszEventName, L"mf_update_evt_%d", GetCurrentThreadId());
 	g_hEventThread = CreateEvent(NULL, TRUE, FALSE, g_ptszEventName);
 	hThreadMFUpdate = mir_forkthread(MF_UpdateThread, NULL);
 	SetThreadPriority(hThreadMFUpdate, THREAD_PRIORITY_IDLE);

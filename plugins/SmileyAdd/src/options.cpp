@@ -481,16 +481,16 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 	ofn.hwndOwner = m_hwndDialog;
 
 	wchar_t filter[512], *pfilter;
-	mir_tstrcpy(filter, TranslateT("Smiley packs"));
-	mir_tstrcat(filter, L" (*.msl;*.asl;*.xep)");
-	pfilter = filter + mir_tstrlen(filter) + 1;
-	mir_tstrcpy(pfilter, L"*.msl;*.asl;*.xep");
-	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	mir_tstrcpy(pfilter, TranslateT("All files"));
-	mir_tstrcat(pfilter, L" (*.*)");
-	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	mir_tstrcpy(pfilter, L"*.*");
-	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+	mir_wstrcpy(filter, TranslateT("Smiley packs"));
+	mir_wstrcat(filter, L" (*.msl;*.asl;*.xep)");
+	pfilter = filter + mir_wstrlen(filter) + 1;
+	mir_wstrcpy(pfilter, L"*.msl;*.asl;*.xep");
+	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+	mir_wstrcpy(pfilter, TranslateT("All files"));
+	mir_wstrcat(pfilter, L" (*.*)");
+	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+	mir_wstrcpy(pfilter, L"*.*");
+	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	*pfilter = '\0';
 	ofn.lpstrFilter = filter;
 
@@ -592,7 +592,7 @@ void OptionsType::ReadPackFileName(CMString &filename, const CMString &name, con
 {
 	CMString settingKey = name + L"-filename";
 
-	ptrT tszValue(db_get_tsa(NULL, "SmileyAdd", _T2A(settingKey.c_str())));
+	ptrW tszValue(db_get_tsa(NULL, "SmileyAdd", _T2A(settingKey.c_str())));
 	filename = (tszValue != NULL) ? (wchar_t*)tszValue : defaultFilename;
 }
 
@@ -604,7 +604,7 @@ void OptionsType::WritePackFileName(const CMString &filename, const CMString &na
 
 void OptionsType::ReadCustomCategories(CMString &cats)
 {
-	ptrT tszValue(db_get_tsa(NULL, "SmileyAdd", "CustomCategories"));
+	ptrW tszValue(db_get_tsa(NULL, "SmileyAdd", "CustomCategories"));
 	if (tszValue != NULL)
 		cats = tszValue;
 }
@@ -619,7 +619,7 @@ void OptionsType::WriteCustomCategories(const CMString &cats)
 
 void OptionsType::ReadContactCategory(MCONTACT hContact, CMString &cats)
 {
-	ptrT tszValue(db_get_tsa(hContact, "SmileyAdd", "CustomCategory"));
+	ptrW tszValue(db_get_tsa(hContact, "SmileyAdd", "CustomCategory"));
 	if (tszValue != NULL)
 		cats = tszValue;
 }

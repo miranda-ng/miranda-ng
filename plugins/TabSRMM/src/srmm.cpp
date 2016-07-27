@@ -111,7 +111,7 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 	mir_snprintf(tszTime, "%02d.%02d.%04d - %02d:%02d:%02d.%04d: ", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 
 
-	mir_vsntprintf(debug, ibsize - 10, fmt, va);
+	mir_vsnwprintf(debug, ibsize - 10, fmt, va);
 	//#ifdef _DEBUG
 	OutputDebugStringW(debug);
 	//#else
@@ -148,12 +148,12 @@ int _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...)
 	int			ibsize = 1023;
 
 	va_start(va, fmt);
-	mir_vsntprintf(debug, ibsize, fmt, va);
+	mir_vsnwprintf(debug, ibsize, fmt, va);
 
 	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 		MIRANDASYSTRAYNOTIFY tn;
 		wchar_t	szTitle[128];
-		mir_sntprintf(szTitle, TranslateT("TabSRMM message (%s)"),
+		mir_snwprintf(szTitle, TranslateT("TabSRMM message (%s)"),
 			(hContact != 0) ? pcli->pfnGetContactDisplayName(hContact, 0) : TranslateT("Global"));
 
 		tn.szProto = NULL;

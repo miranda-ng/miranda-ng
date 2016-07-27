@@ -257,12 +257,12 @@ struct HttpSecurityContext
 		}
 
 		if (m_hNtlmSecurity) {
-			ptrT szLogin, szPassw;
+			ptrW szLogin, szPassw;
 
 			if (nlu->settings.useProxyAuth) {
 				mir_cslock lck(csNetlibUser);
-				szLogin = mir_a2t(nlu->settings.szProxyAuthUser);
-				szPassw = mir_a2t(nlu->settings.szProxyAuthPassword);
+				szLogin = mir_a2u(nlu->settings.szProxyAuthUser);
+				szPassw = mir_a2u(nlu->settings.szProxyAuthPassword);
 			}
 
 			szAuthHdr = NtlmCreateResponseFromChallenge(m_hNtlmSecurity, szChallenge, szLogin, szPassw, true, complete);

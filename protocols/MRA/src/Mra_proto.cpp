@@ -653,7 +653,7 @@ bool CMraProto::CmdFileTransferAck(BinBuffer &buf)
 		break;
 	default:// ## unknown error
 		wchar_t szBuff[1024];
-		mir_sntprintf(szBuff, TranslateT("MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu"), dwAckType);
+		mir_snwprintf(szBuff, TranslateT("MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu"), dwAckType);
 		ShowFormattedErrorMessage(szBuff, NO_ERROR);
 		break;
 	}
@@ -721,7 +721,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
 			if (cmd == MRIM_CS_ADD_CONTACT_ACK) {
 				DWORD dwFlags = SCBIF_ID | SCBIF_SERVER_FLAG, dwGroupID = 0;
-				ptrT grpName(db_get_tsa(hContact, "CList", "Group"));
+				ptrW grpName(db_get_tsa(hContact, "CList", "Group"));
 				if (grpName) {
 					dwFlags |= SCBIF_GROUP_ID;
 					dwGroupID = MraMoveContactToGroup(hContact, -1, grpName);
@@ -750,7 +750,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 			break;
 		default:// ## unknown error
 			wchar_t szBuff[1024];
-			mir_sntprintf(szBuff, TranslateT("MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu"), dwTemp);
+			mir_snwprintf(szBuff, TranslateT("MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu"), dwTemp);
 			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
 			break;
 		}
@@ -1044,7 +1044,7 @@ bool CMraProto::CmdGame(BinBuffer &buf)
 		break;
 	default:
 		wchar_t szBuff[1024];
-		mir_sntprintf(szBuff, TranslateT("MRIM_CS_GAME: unknown internal game message code: %lu"), dwGameMsg);
+		mir_snwprintf(szBuff, TranslateT("MRIM_CS_GAME: unknown internal game message code: %lu"), dwGameMsg);
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
 		break;
 	}
@@ -1259,7 +1259,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						}
 						else {
 							if (iGroupMode == 100) { // first start
-								ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+								ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
 								if (tszGroup)
 									dwGroupID = MraMoveContactToGroup(hContact, dwGroupID, tszGroup);
 							}
@@ -1351,7 +1351,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			ShowFormattedErrorMessage(L"MRIM_CS_CONTACT_LIST2: internal server error", NO_ERROR);
 		else {
 			wchar_t szBuff[1024];
-			mir_sntprintf(szBuff, TranslateT("MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu"), dwTemp);
+			mir_snwprintf(szBuff, TranslateT("MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu"), dwTemp);
 			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
 		}
 	}

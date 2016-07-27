@@ -141,7 +141,7 @@ struct CVkChatMessage : public MZeroedObject
 
 	int m_mid, m_uid, m_date;
 	bool m_bHistory, m_bIsAction;
-	ptrT m_tszBody;
+	ptrW m_tszBody;
 };
 
 struct CVkChatUser : public MZeroedObject
@@ -154,7 +154,7 @@ struct CVkChatUser : public MZeroedObject
 
 	int m_uid;
 	bool m_bDel, m_bUnknown;
-	ptrT m_tszNick;
+	ptrW m_tszNick;
 };
 
 struct CVkChatInfo : public MZeroedObject
@@ -170,7 +170,7 @@ struct CVkChatInfo : public MZeroedObject
 
 	int m_chatid, m_admin_id;
 	bool m_bHistoryRead;
-	ptrT m_tszTopic, m_tszId;
+	ptrW m_tszTopic, m_tszId;
 	MCONTACT m_hContact;
 	OBJLIST<CVkChatUser> m_users;
 	OBJLIST<CVkChatMessage> m_msgs;

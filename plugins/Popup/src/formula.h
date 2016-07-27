@@ -79,10 +79,10 @@ private:
 	int eval_atom(wchar_t *&s, Args *args, bool *vars) const;
 
 public:
-	Formula() :m_str(mir_tstrdup(L"")) {}
-	Formula(wchar_t *s) :m_str(mir_tstrdup(s)) {}
+	Formula() :m_str(mir_wstrdup(L"")) {}
+	Formula(wchar_t *s) :m_str(mir_wstrdup(s)) {}
 	~Formula() { mir_free(m_str); }
-	void	set(wchar_t *s){ mir_free(m_str); m_str = mir_tstrdup(s); }
+	void	set(wchar_t *s){ mir_free(m_str); m_str = mir_wstrdup(s); }
 	int		eval(Args *args, bool *vars = 0) const;
 };
 

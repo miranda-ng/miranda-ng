@@ -98,11 +98,11 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 	va_list marker;
 	static wchar_t szBuf[4 * 1024];
 
-	if (!fmt || mir_tstrlen(fmt) == 0 || mir_tstrlen(fmt) > 2000)
+	if (!fmt || mir_wstrlen(fmt) == 0 || mir_wstrlen(fmt) > 2000)
 		return 0;
 
 	va_start(marker, fmt);
-	mir_vsntprintf(szBuf, _countof(szBuf), fmt, marker);
+	mir_vsnwprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
 	pd.lchContact = hContact;
@@ -113,7 +113,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 		pd.lchIcon = LoadIconEx("window");
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
-	mir_sntprintf(pd.lptzContactName, L"%s - %s", (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, pcli->pfnGetContactDisplayName(hContact, 0));
 	wcsncpy_s(pd.lptzText, TranslateTS(szBuf), _TRUNCATE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
@@ -532,7 +532,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 
 		if (pszWordText && pszWordText[0]) {
 			wchar_t szMenuText[4096];
-			mir_sntprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
+			mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 		}
 		else ModifyMenu(*hMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
@@ -541,11 +541,11 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	else if (iIndex == 0) {
 		wchar_t szTemp[50];
 		if (pszWordText)
-			mir_sntprintf(szTemp, TranslateT("&Message %s"), pszWordText);
+			mir_snwprintf(szTemp, TranslateT("&Message %s"), pszWordText);
 		else
 			wcsncpy_s(szTemp, TranslateT("&Message"), _TRUNCATE);
 
-		if (mir_tstrlen(szTemp) > 40)
+		if (mir_wstrlen(szTemp) > 40)
 			wcsncpy_s(szTemp + 40, 4, L"...", _TRUNCATE);
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
@@ -658,7 +658,7 @@ char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 		*iNickIndex = 0;
 
 	for (USERINFO *ui = si->pUsers; ui; ui = ui->next) {
-		if (!mir_tstrcmp(ui->pszNick, ptszNick)) {
+		if (!mir_wstrcmp(ui->pszNick, ptszNick)) {
 			STATUSINFO *ti = pci->TM_FindStatus(si->pStatuses, pci->TM_WordToString(si->pStatuses, ui->Status));
 			if (ti && (INT_PTR)ti->hIcon < si->iStatusCount) {
 				if (iNickIndex)
@@ -685,10 +685,10 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 	if (gce->ptszNick != NULL) {
 		dwMask |= CMUCHighlight::MATCH_NICKNAME;
 		if (si && g_Settings.bLogClassicIndicators) {
-			size_t len = mir_tstrlen(gce->ptszNick) + 1;
+			size_t len = mir_wstrlen(gce->ptszNick) + 1;
 			wchar_t *tmp = (wchar_t*)_alloca(sizeof(wchar_t)*(len + 1));
 			*tmp = GetIndicator(si, gce->ptszNick, 0);
-			mir_tstrcpy(tmp + 1, gce->ptszNick);
+			mir_wstrcpy(tmp + 1, gce->ptszNick);
 			evTmp.ptszNick = tmp;
 		}
 	}

@@ -107,10 +107,10 @@ static bool IsEmpty(const WCHAR *str)
 	return str == NULL || str[0] == 0;
 }
 
-#define DUP(_X_) ( IsEmpty(_X_) ? NULL : mir_tstrdup(_X_))
-#define DUPD(_X_, _DEF_) ( IsEmpty(_X_) ? mir_tstrdup(_DEF_) : mir_tstrdup(_X_))
-#define U2T(_X_) ( IsEmpty(_X_) ? NULL : mir_u2t(_X_))
-#define U2TD(_X_, _DEF_) ( IsEmpty(_X_) ? mir_u2t(_DEF_) : mir_u2t(_X_))
+#define DUP(_X_) ( IsEmpty(_X_) ? NULL : mir_wstrdup(_X_))
+#define DUPD(_X_, _DEF_) ( IsEmpty(_X_) ? mir_wstrdup(_DEF_) : mir_wstrdup(_X_))
+#define U2T(_X_) ( IsEmpty(_X_) ? NULL : mir_wstrdup(_X_))
+#define U2TD(_X_, _DEF_) ( IsEmpty(_X_) ? mir_wstrdup(_DEF_) : mir_wstrdup(_X_))
 
 
 #endif // __COMMONS_H__

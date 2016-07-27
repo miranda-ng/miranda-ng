@@ -57,10 +57,10 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 		{
-			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, L"partlist");
+			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)pEvent->dbei->pBlob)), 0, L"partlist");
 			if (xml != NULL)
 			{
-				ptrA type(mir_t2a(xmlGetAttrValue(xml, L"type")));
+				ptrA type(mir_u2a(xmlGetAttrValue(xml, L"type")));
 				bool bType = (!mir_strcmpi(type, "started")) ? 1 : 0;
 				time_t callDuration = 0;
 
@@ -106,7 +106,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 		}
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
 		{
-			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, L"files");
+			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)pEvent->dbei->pBlob)), 0, L"files");
 			if (xml != NULL)
 			{
 				for (int i = 0; i < xmlGetChildCount(xml); i++)
@@ -136,7 +136,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 	case SKYPE_DB_EVENT_TYPE_MOJI:
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
 		{
-			HXML xml = xmlParseString(ptrT(mir_utf8decodeT((char*)pEvent->dbei->pBlob)), 0, L"URIObject");
+			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)pEvent->dbei->pBlob)), 0, L"URIObject");
 			if (xml != NULL)
 			{
 				//szText.Append(_T2A(xmlGetText(xml)));
@@ -175,7 +175,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 	{
 	case DBVT_TCHAR:
 		{
-			return (INT_PTR)mir_a2t(szText);
+			return (INT_PTR)mir_a2u(szText);
 		}
 	case DBVT_ASCIIZ:
 		{

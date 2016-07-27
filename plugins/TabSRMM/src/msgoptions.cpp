@@ -97,12 +97,12 @@ static int TSAPI ScanSkinDir(const wchar_t* tszFolder, HWND hwndCombobox)
 {
 	bool fValid = false;
 	wchar_t tszMask[MAX_PATH];
-	mir_sntprintf(tszMask, L"%s*.*", tszFolder);
+	mir_snwprintf(tszMask, L"%s*.*", tszFolder);
 
 	WIN32_FIND_DATA fd = { 0 };
 	HANDLE h = FindFirstFile(tszMask, &fd);
 	while (h != INVALID_HANDLE_VALUE) {
-		if (mir_tstrlen(fd.cFileName) >= 5 && !wcsnicmp(fd.cFileName + mir_tstrlen(fd.cFileName) - 4, L".tsk", 4)) {
+		if (mir_wstrlen(fd.cFileName) >= 5 && !wcsnicmp(fd.cFileName + mir_wstrlen(fd.cFileName) - 4, L".tsk", 4)) {
 			fValid = true;
 			break;
 		}
@@ -117,19 +117,19 @@ static int TSAPI ScanSkinDir(const wchar_t* tszFolder, HWND hwndCombobox)
 		LRESULT lr;
 		wchar_t	szBuf[255];
 
-		mir_sntprintf(tszFinalName, L"%s%s", tszFolder, fd.cFileName);
+		mir_snwprintf(tszFinalName, L"%s%s", tszFolder, fd.cFileName);
 
 		GetPrivateProfileString(L"Global", L"Name", L"None", szBuf, _countof(szBuf), tszFinalName);
-		if (!mir_tstrcmp(szBuf, L"None")) {
-			fd.cFileName[mir_tstrlen(fd.cFileName) - 4] = 0;
+		if (!mir_wstrcmp(szBuf, L"None")) {
+			fd.cFileName[mir_wstrlen(fd.cFileName) - 4] = 0;
 			wcsncpy_s(szBuf, fd.cFileName, _TRUNCATE);
 		}
 
 		PathToRelativeT(tszFinalName, tszRel, M.getSkinPath());
 		if ((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
-			wchar_t *idata = (wchar_t*)mir_alloc((mir_tstrlen(tszRel) + 1) * sizeof(wchar_t));
+			wchar_t *idata = (wchar_t*)mir_alloc((mir_wstrlen(tszRel) + 1) * sizeof(wchar_t));
 
-			mir_tstrcpy(idata, tszRel);
+			mir_wstrcpy(idata, tszRel);
 			SendMessage(hwndCombobox, CB_SETITEMDATA, lr, (LPARAM)idata);
 		}
 	}
@@ -153,7 +153,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	wcsncpy_s(tszSkinRoot, M.getSkinPath(), _TRUNCATE);
 
 	SetDlgItemText(GetParent(hwndCombobox), IDC_SKINROOTFOLDER, tszSkinRoot);
-	mir_sntprintf(tszFindMask, L"%s*.*", tszSkinRoot);
+	mir_snwprintf(tszFindMask, L"%s*.*", tszSkinRoot);
 
 	SendMessage(hwndCombobox, CB_RESETCONTENT, 0, 0);
 	SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)TranslateT("<no skin>"));
@@ -163,7 +163,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	while (h != INVALID_HANDLE_VALUE) {
 		if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != '.') {
 			wchar_t	tszSubDir[MAX_PATH];
-			mir_sntprintf(tszSubDir, L"%s%s\\", tszSkinRoot, fd.cFileName);
+			mir_snwprintf(tszSubDir, L"%s%s\\", tszSkinRoot, fd.cFileName);
 			ScanSkinDir(tszSubDir, hwndCombobox);
 		}
 		if (FindNextFile(h, &fd) == 0)
@@ -178,7 +178,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 		for (int i = 1; i < lr; i++) {
 			wchar_t *idata = (wchar_t*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
 			if (idata && idata != (wchar_t*)CB_ERR) {
-				if (!mir_tstrcmpi(dbv.ptszVal, idata)) {
+				if (!mir_wstrcmpi(dbv.ptszVal, idata)) {
 					SendMessage(hwndCombobox, CB_SETCURSEL, i, 0);
 					break;
 				}

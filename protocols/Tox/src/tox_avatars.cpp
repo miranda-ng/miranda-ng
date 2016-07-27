@@ -3,21 +3,21 @@
 wchar_t* CToxProto::GetAvatarFilePath(MCONTACT hContact)
 {
 	wchar_t *path = (wchar_t*)mir_calloc(MAX_PATH * sizeof(wchar_t) + 1);
-	mir_sntprintf(path, MAX_PATH, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	mir_snwprintf(path, MAX_PATH, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(path);
 
-	ptrT address(getTStringA(hContact, TOX_SETTINGS_ID));
+	ptrW address(getTStringA(hContact, TOX_SETTINGS_ID));
 	if (address == NULL) {
 		mir_free(path);
-		return mir_tstrdup(L"");
+		return mir_wstrdup(L"");
 	}
 
-	if (hContact && mir_tstrlen(address) > TOX_PUBLIC_KEY_SIZE * 2)
+	if (hContact && mir_wstrlen(address) > TOX_PUBLIC_KEY_SIZE * 2)
 		address[TOX_PUBLIC_KEY_SIZE * 2] = 0;
-	mir_sntprintf(path, MAX_PATH, L"%s\\%s.png", path, address);
+	mir_snwprintf(path, MAX_PATH, L"%s\\%s.png", path, address);
 
 	return path;
 }
@@ -133,10 +133,10 @@ INT_PTR CToxProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 	ptrA address(getStringA(pai->hContact, TOX_SETTINGS_ID));
 	if (address != NULL)
 	{
-		ptrT path(GetAvatarFilePath(pai->hContact));
+		ptrW path(GetAvatarFilePath(pai->hContact));
 		if (IsFileExists(path))
 		{
-			mir_tstrncpy(pai->filename, path, _countof(pai->filename));
+			mir_wstrncpy(pai->filename, path, _countof(pai->filename));
 			pai->format = PA_FORMAT_PNG;
 
 			return GAIR_SUCCESS;
@@ -148,9 +148,9 @@ INT_PTR CToxProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 
 INT_PTR CToxProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	ptrT path(GetAvatarFilePath());
+	ptrW path(GetAvatarFilePath());
 	if (IsFileExists(path))
-		mir_tstrncpy((wchar_t*)wParam, path, (int)lParam);
+		mir_wstrncpy((wchar_t*)wParam, path, (int)lParam);
 
 	return 0;
 }
@@ -159,7 +159,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
 	debugLogA(__FUNCTION__": setting avatar");
 	wchar_t *path = (wchar_t*)lParam;
-	ptrT avatarPath(GetAvatarFilePath());
+	ptrW avatarPath(GetAvatarFilePath());
 	if (path != NULL)
 	{
 		debugLogA(__FUNCTION__": copy new avatar");
@@ -208,7 +208,7 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 	if (transfer->pfts.totalBytes == 0)
 	{
 		MCONTACT hConact = transfer->pfts.hContact;
-		ptrT path(GetAvatarFilePath(hConact));
+		ptrW path(GetAvatarFilePath(hConact));
 		if (IsFileExists(path))
 			DeleteFile(path);
 
@@ -231,7 +231,7 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 	}
 
 	wchar_t path[MAX_PATH];
-	mir_sntprintf(path, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	mir_snwprintf(path, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 	OnFileAllow(transfer->pfts.hContact, transfer, path);
 }
 
@@ -242,7 +242,7 @@ void CToxProto::OnGotFriendAvatarData(AvatarTransferParam *transfer)
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.format = PA_FORMAT_PNG;
 	ai.hContact = transfer->pfts.hContact;
-	mir_tstrcpy(ai.filename, transfer->pfts.tszCurrentFile);
+	mir_wstrcpy(ai.filename, transfer->pfts.tszCurrentFile);
 
 	fclose(transfer->hFile);
 	transfer->hFile = NULL;

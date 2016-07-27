@@ -127,7 +127,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (iScanner >= _countof(virusScanners) || iScanner < 0) break;
 			str[0] = '\0';
 			if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[iScanner].szExeRegPath, virusScanners[iScanner].szExeRegValue, szScanExe, _countof(szScanExe)))
-				mir_sntprintf(str, virusScanners[iScanner].szCommandLine, szScanExe);
+				mir_snwprintf(str, virusScanners[iScanner].szCommandLine, szScanExe);
 			SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str);
 		}
 		break;
@@ -180,7 +180,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				wchar_t *pszQuote = wcschr(str + 1, '"');
 				if (pszQuote)
 					*pszQuote = 0;
-				memmove(str, str + 1, (mir_tstrlen(str) * sizeof(wchar_t)));
+				memmove(str, str + 1, (mir_wstrlen(str) * sizeof(wchar_t)));
 			}
 			else {
 				wchar_t *pszSpace = wcschr(str, ' ');
@@ -191,7 +191,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (wcschr(str, ' ') != NULL) {
 				memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
 				str[0] = '"';
-				mir_tstrcat(str, L"\"");
+				mir_wstrcat(str, L"\"");
 			}
 			SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str);
 			break;

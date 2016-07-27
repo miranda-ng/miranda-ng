@@ -192,7 +192,7 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 		if (!_stricmp(gch->pDest->pszModule, m_szModuleName)) {
 			switch (gch->pDest->iType) {
 			case GC_USER_MESSAGE:
-				if (gch->ptszText && mir_tstrlen(gch->ptszText)) {
+				if (gch->ptszText && mir_wstrlen(gch->ptszText)) {
 					CMStringA szEmail = gch->pDest->ptszID;
 					MCONTACT hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL);
 					BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);

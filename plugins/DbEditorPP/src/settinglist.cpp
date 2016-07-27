@@ -50,7 +50,7 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 	int res = 0;
 	DWORD val = 0;
 	wchar_t tmp[16];
-	ptrT value;
+	ptrW value;
 
 	switch (dbv.type) {
 
@@ -58,22 +58,22 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 	case DBVT_WORD:
 	case DBVT_DWORD:
 		val = getNumericValue(&dbv);
-		value = mir_tstrdup(_ultow(val, tmp, 10));
+		value = mir_wstrdup(_ultow(val, tmp, 10));
 		break;
 
 	case DBVT_WCHAR:
 		if (!value)
-			value = mir_u2t(dbv.pwszVal);
+			value = mir_wstrdup(dbv.pwszVal);
 		// fall through
 	case DBVT_UTF8:
 		if (!value)
-			value = mir_utf8decodeT(dbv.pszVal);
+			value = mir_utf8decodeW(dbv.pszVal);
 		// fall through
 	case DBVT_ASCIIZ:
 		if (!value)
-			value = mir_a2t(dbv.pszVal);
+			value = mir_a2u(dbv.pszVal);
 
-		if (mir_tstrlen(value) < 11)
+		if (mir_wstrlen(value) < 11)
 			val = wcstoul(value, NULL, NULL);
 	}
 
@@ -82,7 +82,7 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 	case DBVT_BYTE:
 	case DBVT_WORD:
 	case DBVT_DWORD:
-		if (val != 0 || !mir_tstrcmp(value, L"0"))
+		if (val != 0 || !mir_wstrcmp(value, L"0"))
 			res = setNumericValue(hContact, module, setting, val, toType);
 		break;
 
@@ -133,7 +133,7 @@ void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *s
 
 	if (db_get_b(NULL, modname, "WarnOnDelete", 1)) {
 		wchar_t text[MSG_SIZE];
-		mir_sntprintf(text, TranslateT("Are you sure you want to delete setting(s): %d?"), count);
+		mir_snwprintf(text, TranslateT("Are you sure you want to delete setting(s): %d?"), count);
 		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 			return;
 	}
@@ -216,7 +216,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 
 		ListView_SetItemTextA(hwnd2List, index, 1, ptrA(StringFromBlob(dbv->pbVal, dbv->cpbVal)));
 
-		mir_sntprintf(data, L"0x%04X (%u)", dbv->cpbVal, dbv->cpbVal);
+		mir_snwprintf(data, L"0x%04X (%u)", dbv->cpbVal, dbv->cpbVal);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
 
@@ -224,7 +224,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		lvi.iImage = IMAGE_BYTE;
 		ListView_SetItem(hwnd2List, &lvi);
 
-		mir_sntprintf(data, L"0x%02X (%u)", dbv->bVal, dbv->bVal);
+		mir_snwprintf(data, L"0x%02X (%u)", dbv->bVal, dbv->bVal);
 		ListView_SetItemText(hwnd2List, index, 1, data);
 
 		ListView_SetItemText(hwnd2List, index, 3, L"0x0001 (1)");
@@ -234,7 +234,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		lvi.iImage = IMAGE_WORD;
 		ListView_SetItem(hwnd2List, &lvi);
 
-		mir_sntprintf(data, L"0x%04X (%u)", dbv->wVal, dbv->wVal);
+		mir_snwprintf(data, L"0x%04X (%u)", dbv->wVal, dbv->wVal);
 		ListView_SetItemText(hwnd2List, index, 1, data);
 
 		ListView_SetItemText(hwnd2List, index, 3, L"0x0002 (2)");
@@ -244,7 +244,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		lvi.iImage = IMAGE_DWORD;
 		ListView_SetItem(hwnd2List, &lvi);
 
-		mir_sntprintf(data, L"0x%08X (%u)", dbv->dVal, dbv->dVal);
+		mir_snwprintf(data, L"0x%08X (%u)", dbv->dVal, dbv->dVal);
 		ListView_SetItemText(hwnd2List, index, 1, data);
 
 		ListView_SetItemText(hwnd2List, index, 3, L"0x0004 (4)");
@@ -257,7 +257,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		ListView_SetItemTextA(hwnd2List, index, 1, dbv->pszVal);
 
 		length = (int)mir_strlen(dbv->pszVal) + 1;
-		mir_sntprintf(data, L"0x%04X (%u)", length, length);
+		mir_snwprintf(data, L"0x%04X (%u)", length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
 
@@ -268,7 +268,7 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 		length = (int)mir_wstrlen(dbv->pwszVal) + 1;
 		ListView_SetItemText(hwnd2List, index, 1, dbv->pwszVal);
 
-		mir_sntprintf(data, L"0x%04X (%u)", length, length);
+		mir_snwprintf(data, L"0x%04X (%u)", length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
 
@@ -278,10 +278,10 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 
 		length = (int)mir_strlen(dbv->pszVal) + 1;
 		{
-			ptrT tszText(mir_utf8decodeT(dbv->pszVal));
+			ptrW tszText(mir_utf8decodeW(dbv->pszVal));
 			ListView_SetItemText(hwnd2List, index, 1, tszText);
 		}
-		mir_sntprintf(data, L"0x%04X (%u)", length, length);
+		mir_snwprintf(data, L"0x%04X (%u)", length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
 		break;
 
@@ -306,7 +306,7 @@ void addListHandle(MCONTACT hContact)
 
 	int index = ListView_InsertItem(hwnd2List, &lvi);
 
-	mir_sntprintf(data, L"0x%08X (%ld)", hContact, hContact);
+	mir_snwprintf(data, L"0x%08X (%ld)", hContact, hContact);
 
 	ListView_SetItemText(hwnd2List, index, 1, data);
 	ListView_SetItemText(hwnd2List, index, 2, L"HANDLE");
@@ -570,7 +570,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 					case '\"':
 					case '\'':
 						{
-							size_t nlen = mir_tstrlen(value);
+							size_t nlen = mir_wstrlen(value);
 							int sh = 0;
 							if (nlen > 3) {
 								if (value[nlen - 1] == value[0]) {
@@ -642,25 +642,25 @@ void EditLabel(int item, int subitem)
 
 		switch (dbv.type) {
 		case DBVT_ASCIIZ:
-			str = mir_a2t(dbv.pszVal);
+			str = mir_a2u(dbv.pszVal);
 			break;
 		case DBVT_BYTE:
-			mir_sntprintf(value, (g_Hex & HEX_BYTE) ? L"0x%02X" : L"%u", dbv.bVal);
+			mir_snwprintf(value, (g_Hex & HEX_BYTE) ? L"0x%02X" : L"%u", dbv.bVal);
 			break;
 		case DBVT_WORD:
-			mir_sntprintf(value, (g_Hex & HEX_WORD) ? L"0x%04X" : L"%u", dbv.wVal);
+			mir_snwprintf(value, (g_Hex & HEX_WORD) ? L"0x%04X" : L"%u", dbv.wVal);
 			break;
 		case DBVT_DWORD:
-			mir_sntprintf(value, (g_Hex & HEX_DWORD) ? L"0x%08X" : L"%u", dbv.dVal);
+			mir_snwprintf(value, (g_Hex & HEX_DWORD) ? L"0x%08X" : L"%u", dbv.dVal);
 			break;
 		case DBVT_WCHAR:
-			str = mir_u2t(dbv.pwszVal);
+			str = mir_wstrdup(dbv.pwszVal);
 			break;
 		case DBVT_UTF8:
-			str = mir_utf8decodeT(dbv.pszVal);
+			str = mir_utf8decodeW(dbv.pszVal);
 			break;
 		case DBVT_BLOB:
-			str = mir_a2t(ptrA(StringFromBlob(dbv.pbVal, dbv.cpbVal)));
+			str = mir_a2u(ptrA(StringFromBlob(dbv.pbVal, dbv.cpbVal)));
 			break;
 		}
 

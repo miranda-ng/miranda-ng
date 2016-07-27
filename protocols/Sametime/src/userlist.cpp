@@ -48,7 +48,7 @@ void CSametimeProto::AddGroup(const char* name, bool expanded)
 	if (name && mir_strcmp(name, Translate("None")) == 0)
 		return;
 
-	MGROUP hGroup = Clist_GroupCreate(NULL, ptrT(mir_utf8decodeT(name)));
+	MGROUP hGroup = Clist_GroupCreate(NULL, ptrW(mir_utf8decodeW(name)));
 	Clist_GroupSetExpanded(hGroup, expanded);
 }
 
@@ -237,7 +237,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 
 						//group_open = (db_get_b(0, szProtoGroups, buff, 0) == 1);
 
-						ptrT ptszGroup(mir_utf8decodeT(group_alias));
+						ptrW ptszGroup(mir_utf8decodeW(group_alias));
 						MGROUP hGroup = Clist_GroupExists(ptszGroup);
 						if (hGroup) {
 							DWORD expanded;

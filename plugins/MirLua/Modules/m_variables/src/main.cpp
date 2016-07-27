@@ -8,7 +8,7 @@ static int lua_Parse(lua_State *L)
 		return 1;
 	}
 
-	ptrT format(mir_utf8decodeT(luaL_checkstring(L, 1)));
+	ptrW format(mir_utf8decodeW(luaL_checkstring(L, 1)));
 	MCONTACT hContact = lua_tointeger(L, 2);
 
 	wchar_t *res = variables_parse_ex(format, NULL, hContact, NULL, 0);

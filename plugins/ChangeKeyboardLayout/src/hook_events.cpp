@@ -101,14 +101,14 @@ int ModulesLoaded(WPARAM, LPARAM)
 	for (int i = 0; i < bLayNum; i++) {
 		LPTSTR ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
 		LPSTR ptszTemp = GetNameOfLayout(hklLayouts[i]);
-		ptrT tszValue(db_get_tsa(NULL, ModuleName, ptszTemp));
+		ptrW tszValue(db_get_tsa(NULL, ModuleName, ptszTemp));
 		if (tszValue == 0)
 			ptszLayStrings[i] = ptszCurrLayout;
-		else if (!mir_tstrcmp(tszValue, ptszEmptySting))
+		else if (!mir_wstrcmp(tszValue, ptszEmptySting))
 			ptszLayStrings[i] = ptszCurrLayout;
 		else {
 			ptszLayStrings[i] = tszValue.detach();
-			if (!mir_tstrcmp(ptszCurrLayout, ptszLayStrings[i]))
+			if (!mir_wstrcmp(ptszCurrLayout, ptszLayStrings[i]))
 				db_unset(NULL, ModuleName, ptszTemp);
 			mir_free(ptszCurrLayout);
 		}

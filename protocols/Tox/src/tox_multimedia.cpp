@@ -55,7 +55,7 @@ void CToxIncomingCall::OnInitDialog()
 	from.SetText(nick);
 
 	wchar_t title[MAX_PATH];
-	mir_sntprintf(title, TranslateT("Incoming call from %s"), nick);
+	mir_snwprintf(title, TranslateT("Incoming call from %s"), nick);
 	SetTitle(title);
 	SetIcon("audio_ring");
 }
@@ -109,7 +109,7 @@ void CToxOutgoingCall::OnInitDialog()
 	to.SetText(nick);
 
 	wchar_t title[MAX_PATH];
-	mir_sntprintf(title, TranslateT("Outgoing call to %s"), nick);
+	mir_snwprintf(title, TranslateT("Outgoing call to %s"), nick);
 	SetTitle(title);
 	SetIcon("audio_end");
 }
@@ -149,7 +149,7 @@ void CToxOutgoingCall::OnCall(CCtrlBase*)
 	char *message = NULL;
 	wchar_t title[MAX_PATH];
 	if (GetWindowText(m_hwnd, title, _countof(title)))
-		message = mir_utf8encodeT(title);
+		message = mir_utf8encodeW(title);
 	else
 		message = mir_utf8encode("Outgoing call");
 	m_proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
@@ -316,7 +316,7 @@ void CToxProto::OnFriendCall(ToxAV *toxAV, uint32_t friend_number, bool audio_en
 	}
 
 	wchar_t message[MAX_PATH];
-	mir_sntprintf(message, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_snwprintf(message, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	T2Utf szMessage(message);
 
 	PROTORECVEVENT recv = { 0 };
@@ -351,7 +351,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 	cle.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_AUDIO_RING));
 
 	wchar_t szTooltip[MAX_PATH];
-	mir_sntprintf(szTooltip, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_snwprintf(szTooltip, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	cle.ptszTooltip = szTooltip;
 
 	char szService[MAX_PATH];
@@ -400,7 +400,7 @@ INT_PTR CToxProto::OnAudioRing(WPARAM, LPARAM lParam)
 		}
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call canceled"));
+	char *message = mir_utf8encodeW(TranslateT("Call canceled"));
 	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
@@ -435,7 +435,7 @@ INT_PTR CToxProto::OnSendAudioCall(WPARAM hContact, LPARAM)
 		return;
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call canceled"));
+	char *message = mir_utf8encodeW(TranslateT("Call canceled"));
 	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
@@ -459,7 +459,7 @@ void CToxProto::OnAvCallTimeout(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call canceled"));
+	char *message = mir_utf8encodeW(TranslateT("Call canceled"));
 	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
@@ -552,7 +552,7 @@ static void CALLBACK ToxShowDialogApcProc(void *arg)
 		return;
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call started"));
+	char *message = mir_utf8encodeW(TranslateT("Call started"));
 	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 
@@ -583,7 +583,7 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call ended"));
+	char *message = mir_utf8encodeW(TranslateT("Call ended"));
 	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);

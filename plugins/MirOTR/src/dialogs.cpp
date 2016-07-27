@@ -40,11 +40,11 @@ static INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			smp_for_contact[context->app_data].responder = data->responder;
 			mir_free(data);
 
-			wchar_t title[512], *proto = mir_a2t(GetContactProto(hContact));
+			wchar_t title[512], *proto = mir_a2u(GetContactProto(hContact));
 			const wchar_t *name = contact_get_nameT(hContact);
-			mir_sntprintf(title, TranslateW(LANG_SMP_PROGRESS_TITLE), name, proto);
+			mir_snwprintf(title, TranslateW(LANG_SMP_PROGRESS_TITLE), name, proto);
 			SetWindowText(hwndDlg, title);
-			mir_sntprintf(title, TranslateW(LANG_SMP_PROGRESS_DESC), name, proto);
+			mir_snwprintf(title, TranslateW(LANG_SMP_PROGRESS_DESC), name, proto);
 			mir_free(proto);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_HEADPRO, title);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)context);
@@ -183,15 +183,15 @@ static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			smp_for_contact[context->app_data].oldlevel = data->oldlevel;
 			smp_for_contact[context->app_data].responder = data->responder;
 
-			wchar_t buff[512], *proto = mir_a2t(GetContactProto(hContact));
-			mir_sntprintf(buff, TranslateW(LANG_SMP_VERIFY_TITLE), contact_get_nameT(hContact), proto);
+			wchar_t buff[512], *proto = mir_a2u(GetContactProto(hContact));
+			mir_snwprintf(buff, TranslateW(LANG_SMP_VERIFY_TITLE), contact_get_nameT(hContact), proto);
 			mir_free(proto);
 			SetWindowText(hwndDlg, buff);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_HEAD, buff);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)context);
 
 			if (data->question) {
-				mir_sntprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_RESPOND_DESC), contact_get_nameT(hContact));
+				mir_snwprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_RESPOND_DESC), contact_get_nameT(hContact));
 
 				SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -211,7 +211,7 @@ static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				mir_free(data->question);
 			}
 			else {
-				mir_sntprintf(buff, TranslateW(LANG_OTR_SMPPASSWORD_RESPOND_DESC), contact_get_nameT(hContact));
+				mir_snwprintf(buff, TranslateW(LANG_OTR_SMPPASSWORD_RESPOND_DESC), contact_get_nameT(hContact));
 
 				SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -303,7 +303,7 @@ void SMPInitResponseDialog(ConnContext *context, const wchar_t *question) {
 	data->context = context;
 	data->oldlevel = TRUST_NOT_PRIVATE;
 	data->responder = true;
-	data->question = (question) ? mir_tstrdup(question) : NULL;
+	data->question = (question) ? mir_wstrdup(question) : NULL;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgSMPResponseProc, (LPARAM) data);
 }
 */
@@ -326,8 +326,8 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 
 			MCONTACT hContact = (UINT_PTR)context->app_data;
-			wchar_t title[512], *proto = mir_a2t(GetContactProto(hContact));
-			mir_sntprintf(title, TranslateW(LANG_SMP_VERIFY_TITLE), contact_get_nameT(hContact), proto);
+			wchar_t title[512], *proto = mir_a2u(GetContactProto(hContact));
+			mir_snwprintf(title, TranslateW(LANG_SMP_VERIFY_TITLE), contact_get_nameT(hContact), proto);
 			mir_free(proto);
 			SetWindowText(hwndDlg, title);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_HEAD, title);
@@ -380,9 +380,9 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 			wchar_t buff[1024];
 			if (!fp->trust || fp->trust[0] == '\0')
-				mir_sntprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_VERIFY_DESC), contact_get_nameT(hContact));
+				mir_snwprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_VERIFY_DESC), contact_get_nameT(hContact));
 			else
-				mir_sntprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_VERIFIED_DESC), contact_get_nameT(hContact));
+				mir_snwprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_VERIFIED_DESC), contact_get_nameT(hContact));
 
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -418,7 +418,7 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					GetDlgItemText(hwndDlg, IDC_CBO_SMP_CHOOSE, szMsg, _countof(szMsg));
 					if (wcsncmp(szMsg, TranslateW(LANG_SMPTYPE_QUESTION), _countof(szMsg)) == 0) {
 						if (smp_for_contact.find(context->app_data) != smp_for_contact.end()) {
-							mir_sntprintf(szMsg, TranslateW(LANG_SMP_IN_PROGRESS), contact_get_nameT(hContact));
+							mir_snwprintf(szMsg, TranslateW(LANG_SMP_IN_PROGRESS), contact_get_nameT(hContact));
 							ShowError(szMsg);
 						}
 						else {
@@ -441,7 +441,7 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					}
 					else if (wcsncmp(szMsg, TranslateW(LANG_SMPTYPE_PASSWORD), _countof(szMsg)) == 0) {
 						if (smp_for_contact.find(context->app_data) != smp_for_contact.end()) {
-							mir_sntprintf(szMsg, TranslateW(LANG_SMP_IN_PROGRESS), contact_get_nameT(hContact));
+							mir_snwprintf(szMsg, TranslateW(LANG_SMP_IN_PROGRESS), contact_get_nameT(hContact));
 							ShowError(szMsg);
 						}
 						else {
@@ -489,9 +489,9 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					GetDlgItemText(hwndDlg, IDC_CBO_SMP_CHOOSE, buff, 255);
 					if (wcsncmp(buff, TranslateW(LANG_SMPTYPE_QUESTION), 255) == 0) {
 						if (trusted)
-							mir_sntprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_VERIFIED_DESC), contact_get_nameT(hContact));
+							mir_snwprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_VERIFIED_DESC), contact_get_nameT(hContact));
 						else
-							mir_sntprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_VERIFY_DESC), contact_get_nameT(hContact));
+							mir_snwprintf(buff, TranslateW(LANG_OTR_SMPQUESTION_VERIFY_DESC), contact_get_nameT(hContact));
 
 						SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -510,9 +510,9 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					}
 					else if (wcsncmp(buff, TranslateW(LANG_SMPTYPE_PASSWORD), 255) == 0) {
 						if (trusted)
-							mir_sntprintf(buff, TranslateW(LANG_OTR_SMPPASSWORD_VERIFIED_DESC), contact_get_nameT(hContact));
+							mir_snwprintf(buff, TranslateW(LANG_OTR_SMPPASSWORD_VERIFIED_DESC), contact_get_nameT(hContact));
 						else
-							mir_sntprintf(buff, TranslateW(LANG_OTR_SMPPASSWORD_VERIFY_DESC), contact_get_nameT(hContact));
+							mir_snwprintf(buff, TranslateW(LANG_OTR_SMPPASSWORD_VERIFY_DESC), contact_get_nameT(hContact));
 
 						SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -531,9 +531,9 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					}
 					else if (wcsncmp(buff, TranslateW(LANG_SMPTYPE_FINGERPRINT), 255) == 0) {
 						if (trusted)
-							mir_sntprintf(buff, TranslateW(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
+							mir_snwprintf(buff, TranslateW(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
 						else
-							mir_sntprintf(buff, TranslateW(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
+							mir_snwprintf(buff, TranslateW(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
 
 						SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -608,7 +608,7 @@ void SMPDialogReply(ConnContext *context, const char* question)
 	data->context = context;
 	data->oldlevel = TRUST_NOT_PRIVATE;
 	data->responder = true;
-	data->question = (question) ? mir_utf8decodeT(question) : NULL;
+	data->question = (question) ? mir_utf8decodeW(question) : NULL;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgSMPResponseProc, (LPARAM)data);
 	/*
 	ShowError(L"SMP requires user password (NOT IMPL YET)");
@@ -671,9 +671,9 @@ static INT_PTR CALLBACK DlgBoxProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM w
 		}
 		wchar_t buff[512];
 		if (!fp->trust || fp->trust[0] == '\0')
-			mir_sntprintf(buff, TranslateW(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
+			mir_snwprintf(buff, TranslateW(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
 		else
-			mir_sntprintf(buff, TranslateW(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
+			mir_snwprintf(buff, TranslateW(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
 
 		SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -735,7 +735,7 @@ static unsigned int CALLBACK verify_context_thread(void *param)
 			lib_cs_lock();
 			otrl_context_set_trust(context->active_fingerprint, "verified");
 			otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
-			mir_sntprintf(msg, TranslateW(LANG_FINGERPRINT_VERIFIED), contact_get_nameT(hContact));
+			mir_snwprintf(msg, TranslateW(LANG_FINGERPRINT_VERIFIED), contact_get_nameT(hContact));
 			ShowMessage(hContact, msg);
 			SetEncryptionStatus(hContact, otr_context_get_trust(context));
 			break;
@@ -744,7 +744,7 @@ static unsigned int CALLBACK verify_context_thread(void *param)
 			lib_cs_lock();
 			otrl_context_set_trust(context->active_fingerprint, NULL);
 			otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
-			mir_sntprintf(msg, TranslateW(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
+			mir_snwprintf(msg, TranslateW(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
 			ShowMessage(hContact, msg);
 			SetEncryptionStatus(hContact, otr_context_get_trust(context));
 			break;

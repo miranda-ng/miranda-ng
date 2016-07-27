@@ -41,7 +41,7 @@ void CSametimeProto::RegisterPopups()
 	puc.pszName = szName;
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Notify");
-	mir_sntprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notification"));
+	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Notification"));
 	puc.hIcon = CopyIcon(LoadIconEx("notify", FALSE));
 	ReleaseIconEx("notify", FALSE);
 	puc.iSeconds = 8;
@@ -50,7 +50,7 @@ void CSametimeProto::RegisterPopups()
 	hPopupNotify = Popup_RegisterClass(&puc);
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Error");
-	mir_sntprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Error"));
+	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Error"));
 	puc.hIcon = CopyIcon(LoadIconEx("error", FALSE));
 	ReleaseIconEx("error", FALSE);
 	puc.iSeconds = 10;
@@ -131,8 +131,8 @@ void CSametimeProto::showPopup(const wchar_t* msg, SametimePopupEnum flag)
 
 	PopupData *puData = (PopupData*)mir_calloc(sizeof(PopupData));
 	puData->flag = flag;
-	puData->title = mir_tstrdup(m_tszUserName);
-	puData->text = mir_tstrdup(msg);
+	puData->title = mir_wstrdup(m_tszUserName);
+	puData->text = mir_wstrdup(msg);
 	puData->proto = this;
 
 	CallFunctionAsync(sttMainThreadCallback, puData);
@@ -144,7 +144,7 @@ void CSametimeProto::showPopup(guint32 code)
 
 	SametimePopupEnum flag = (rcDesc->type == mwReturnCodeError ? SAMETIME_POPUP_ERROR : SAMETIME_POPUP_INFO);
 	wchar_t buff[512];
-	mir_sntprintf(buff, TranslateT("%s\n\nSametime error %S\n%s"), TranslateTS(_A2T(rcDesc->name)), rcDesc->codeString, TranslateTS(_A2T(rcDesc->description)));
+	mir_snwprintf(buff, TranslateT("%s\n\nSametime error %S\n%s"), TranslateTS(_A2T(rcDesc->name)), rcDesc->codeString, TranslateTS(_A2T(rcDesc->description)));
 
 	showPopup(buff, flag);
 	debugLog(buff);

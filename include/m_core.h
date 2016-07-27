@@ -437,90 +437,6 @@ typedef union {
 	wchar_t **w; // array of strings of WCHARs
 } MAllStringArray;
 
-#ifdef _UNICODE
-	#define mir_t2a(s) mir_u2a(s)
-	#define mir_a2t(s) mir_a2u(s)
-	#define mir_t2u(s) mir_wstrdup(s)
-	#define mir_u2t(s) mir_wstrdup(s)
-
-	#define mir_t2a_cp(s,c) mir_u2a_cp(s,c)
-	#define mir_a2t_cp(s,c) mir_a2u_cp(s,c)
-	#define mir_t2u_cp(s,c) mir_wstrdup(s)
-	#define mir_u2t_cp(s,c) mir_wstrdup(s)
-
-	#define mir_tstrlen   mir_wstrlen
-	#define mir_tstrcpy   mir_wstrcpy
-	#define mir_tstrncpy  mir_wstrncpy
-	#define mir_tstrcat   mir_wstrcat
-	#define mir_tstrncat  mir_wstrncat
-	#define mir_tstrcmp   mir_wstrcmp
-	#define mir_tstrcmpi  mir_wstrcmpi
-	#define mir_tstrncmp  mir_wstrncmp
-	#define mir_tstrncmpi mir_wstrncmpi
-	#define mir_tstrdup   mir_wstrdup
-	#define mir_tstrndup  mir_wstrndup
-
-	#define replaceStrT replaceStrW
-	#define bin2hexT    bin2hexW
-	#define hex2binT    hex2binW
-
-	#define rtrimt  rtrimw
-	#define ltrimt  ltrimw
-	#define ltrimpt ltrimpw
-
-	#define strdelt strdelw
-
-	#define wildcmpt  wildcmpw
-	#define wildcmpit wildcmpiw
-
-	#define mir_sntprintf  mir_snwprintf
-	#define mir_vsntprintf mir_vsnwprintf
-
-	#define mir_writeLogT  mir_writeLogW
-	#define mir_writeLogVT mir_writeLogVW
-#else
-	#define mir_t2a(s) mir_strdup(s)
-	#define mir_a2t(s) mir_strdup(s)
-	#define mir_t2u(s) mir_a2u(s)
-	#define mir_u2t(s) mir_u2a(s)
-
-	#define mir_t2a_cp(s,c) mir_strdup(s)
-	#define mir_a2t_cp(s,c) mir_strdup(s)
-	#define mir_t2u_cp(s,c) mir_a2u_cp(s,c)
-	#define mir_u2t_cp(s,c) mir_u2a_cp(s,c)
-
-	#define mir_tstrlen   mir_strlen
-	#define mir_tstrcpy   mir_strcpy
-	#define mir_tstrncpy  mir_strncpy
-	#define mir_tstrcat   mir_strcat
-	#define mir_tstrncat  mir_strncat
-	#define mir_tstrcmp   mir_strcmp
-	#define mir_tstrcmpi  mir_strcmpi
-	#define mir_tstrncmp  mir_strncmp
-	#define mir_tstrncmpi mir_strncmpi
-	#define mir_tstrdup   mir_strdup
-	#define mir_tstrndup  mir_strndup
-
-	#define replaceStrT replaceStr
-	#define bin2hexT    bin2hex
-	#define hex2binT    hex2bin
-
-	#define rtrimt rtrim
-	#define ltrimt ltrim
-	#define ltrimpt ltrimp
-
-	#define strdelt strdel
-
-	#define wildcmpt wildcmp
-	#define wildcmpit wildcmpi
-
-	#define mir_sntprintf  mir_snprintf
-	#define mir_vsntprintf mir_vsnprintf
-
-	#define mir_writeLogT  mir_writeLogA
-	#define mir_writeLogVT mir_writeLogVA
-#endif
-
 MIR_CORE_DLL(wchar_t*) mir_a2u_cp(const char* src, int codepage);
 MIR_CORE_DLL(wchar_t*) mir_a2u(const char* src);
 MIR_CORE_DLL(char*)  mir_u2a_cp(const wchar_t* src, int codepage);
@@ -585,18 +501,10 @@ MIR_CORE_DLL(BOOL)  Utf8CheckString(const char* str);
 
 __forceinline char* mir_utf8decodeA(const char* src)
 {
-    char* tmp = mir_strdup(src);
+    char *tmp = mir_strdup(src);
     mir_utf8decode(tmp, NULL);
     return tmp;
 }
-
-#if defined(_UNICODE)
-	#define mir_utf8decodeT mir_utf8decodeW
-	#define mir_utf8encodeT mir_utf8encodeW
-#else
-	#define mir_utf8decodeT mir_utf8decodeA
-	#define mir_utf8encodeT mir_utf8encode
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // Window subclassing

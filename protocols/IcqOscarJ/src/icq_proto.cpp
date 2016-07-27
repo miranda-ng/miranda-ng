@@ -158,7 +158,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	// Register netlib users
 	NETLIBUSER nlu = { 0 };
 	wchar_t szBuffer[MAX_PATH + 64];
-	mir_sntprintf(szBuffer, TranslateT("%s server connection"), m_tszUserName);
+	mir_snwprintf(szBuffer, TranslateT("%s server connection"), m_tszUserName);
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.ptszDescriptiveName = szBuffer;
@@ -173,7 +173,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	char szP2PModuleName[MAX_PATH];
 	mir_snprintf(szP2PModuleName, "%sP2P", m_szModuleName);
-	mir_sntprintf(szBuffer, TranslateT("%s client-to-client connections"), m_tszUserName);
+	mir_snwprintf(szBuffer, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
 	nlu.ptszDescriptiveName = szBuffer;
 	nlu.szSettingsModule = szP2PModuleName;
@@ -1644,7 +1644,7 @@ void __cdecl CIcqProto::GetAwayMsgThread(void *pStatusData)
 
 		setStatusMsgVar(pThreadData->hContact, pThreadData->szMessage, false);
 
-		wchar_t *tszMsg = mir_utf8decodeT(pThreadData->szMessage);
+		wchar_t *tszMsg = mir_utf8decodeW(pThreadData->szMessage);
 		ProtoBroadcastAck(pThreadData->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, pThreadData->hProcess, (LPARAM)tszMsg);
 		mir_free(tszMsg);
 
@@ -1743,7 +1743,7 @@ int __cdecl CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
 {
 	setStatusMsgVar(hContact, evt->szMessage, false);
 
-	wchar_t* pszMsg = mir_utf8decodeT(evt->szMessage);
+	wchar_t* pszMsg = mir_utf8decodeW(evt->szMessage);
 	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)pszMsg);
 	mir_free(pszMsg);
 	return 0;

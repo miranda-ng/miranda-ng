@@ -185,7 +185,7 @@ static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONT *lf)
 		lf->lfHeight = pCustomFont->size;
 	}
 
-	mir_tstrcpy(lf->lfFaceName, pCustomFont->szFace);
+	mir_strcpy(lf->lfFaceName, pCustomFont->szFace);
 
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
 	lf->lfWeight = pCustomFont->style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
@@ -518,7 +518,7 @@ void LoadNotes(BOOL bIsStartup)
 						pCustomFont->size = (char)fsize;
 						pCustomFont->style = (BYTE)fstyle;
 						pCustomFont->charset = (BYTE)fcharset;
-						mir_tstrcpy(pCustomFont->szFace, TVal2);
+						mir_strcpy(pCustomFont->szFace, TVal2);
 						pCustomFont->hFont = NULL;
 
 						if ( !CreateStickyNoteFont(pCustomFont, NULL) )
@@ -989,7 +989,7 @@ static int FindMenuItem(HMENU h, LPTSTR lpszName)
 	{
 		if ( GetMenuString(h, i, s, 128, MF_BYPOSITION) )
 		{
-			if ( !mir_tstrcmp(s, lpszName) )
+			if ( !mir_strcmp(s, lpszName) )
 			{
 				return (int)i;
 			}
@@ -1042,7 +1042,7 @@ static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureI
 	HDC hdc = GetDC(hdlg);
 	LPSTR lpsz = TranslateTS(clrPresets->szName);
 	SIZE sz;
-	GetTextExtentPoint32(hdc, lpsz, (int)mir_tstrlen(lpsz), &sz);
+	GetTextExtentPoint32(hdc, lpsz, (int)mir_strlen(lpsz), &sz);
 	ReleaseDC(hdlg, hdc);
 
 	lpMeasureItem->itemWidth = 50 + sz.cx;
@@ -1558,7 +1558,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 						SN->pCustomFont->size = (char)lf.lfHeight;
 						SN->pCustomFont->style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 						SN->pCustomFont->charset = lf.lfCharSet;
-						mir_tstrcpy(SN->pCustomFont->szFace, lf.lfFaceName);
+						mir_strcpy(SN->pCustomFont->szFace, lf.lfFaceName);
 
 						if ( !CreateStickyNoteFont(SN->pCustomFont, &lf) )
 						{

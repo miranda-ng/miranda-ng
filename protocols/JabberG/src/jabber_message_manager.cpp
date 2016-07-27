@@ -59,15 +59,15 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 
 		LPCTSTR szType = XmlGetAttrValue(node, L"type");
 		if (szType) {
-			if (!mir_tstrcmpi(szType, L"normal"))
+			if (!mir_wstrcmpi(szType, L"normal"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_NORMAL;
-			else if (!mir_tstrcmpi(szType, L"error"))
+			else if (!mir_wstrcmpi(szType, L"error"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_ERROR;
-			else if (!mir_tstrcmpi(szType, L"chat"))
+			else if (!mir_wstrcmpi(szType, L"chat"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_CHAT;
-			else if (!mir_tstrcmpi(szType, L"groupchat"))
+			else if (!mir_wstrcmpi(szType, L"groupchat"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_GROUPCHAT;
-			else if (!mir_tstrcmpi(szType, L"headline"))
+			else if (!mir_wstrcmpi(szType, L"headline"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_HEADLINE;
 			else
 				return false;
@@ -82,7 +82,7 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 				LPCTSTR szTagName = XmlGetName(child);
 				LPCTSTR szXmlns = XmlGetAttrValue(child, L"xmlns");
 
-				if ((!pInfo.m_szXmlns || (szXmlns && !mir_tstrcmp(pInfo.m_szXmlns, szXmlns))) && (!pInfo.m_szTag || !mir_tstrcmp(pInfo.m_szTag, szTagName))) {
+				if ((!pInfo.m_szXmlns || (szXmlns && !mir_wstrcmp(pInfo.m_szXmlns, szXmlns))) && (!pInfo.m_szTag || !mir_wstrcmp(pInfo.m_szTag, szTagName))) {
 					// node suits handler criteria, call the handler
 					messageInfo.m_hChildNode = child;
 					messageInfo.m_szChildTagName = szTagName;
@@ -125,9 +125,9 @@ CJabberMessagePermanentInfo* CJabberMessageManager::AddPermanentHandler(
 	CJabberMessagePermanentInfo* pInfo = new CJabberMessagePermanentInfo();
 	pInfo->m_pHandler = pHandler;
 	pInfo->m_nMessageTypes = nMessageTypes ? nMessageTypes : JABBER_MESSAGE_TYPE_ANY;
-	pInfo->m_szXmlns = mir_tstrdup(szXmlns);
+	pInfo->m_szXmlns = mir_wstrdup(szXmlns);
 	pInfo->m_bAllowPartialNs = bAllowPartialNs;
-	pInfo->m_szTag = mir_tstrdup(szTag);
+	pInfo->m_szTag = mir_wstrdup(szTag);
 	pInfo->m_dwParamsToParse = dwParamsToParse;
 	pInfo->m_pUserData = pUserData;
 	pInfo->m_pUserDataFree = pUserDataFree;

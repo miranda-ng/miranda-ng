@@ -687,7 +687,7 @@ static WORD AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *p
 	pOldCustomDate->DateFormat(szoldDate, _countof(szoldDate));
 	pNewProtoDate->DateFormat(szDate, _countof(szDate));
 
-	mir_sntprintf(szMsg,
+	mir_snwprintf(szMsg,
 		TranslateT("%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?"),
 		DB::Contact::DisplayName(hContact), szDate, szoldDate);
 

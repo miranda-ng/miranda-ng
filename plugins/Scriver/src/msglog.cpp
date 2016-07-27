@@ -147,7 +147,7 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEven
 	if (evt->dwFlags & IEEDF_SENT)
 		evt->pszNickT = Contact_GetInfo(CNF_DISPLAY, NULL, dat->szProto);
 	else
-		evt->pszNickT = mir_tstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
+		evt->pszNickT = mir_wstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
 	if (evt->eventType == EVENTTYPE_FILE) {
 		char *filename = ((char*)dbei.pBlob) + sizeof(DWORD);
@@ -179,24 +179,24 @@ static EventData* GetTestEvents()
 {
 	EventData *evt, *firstEvent, *prevEvent;
 	firstEvent = prevEvent = evt = GetTestEvent(IEEDF_SENT);
-	evt->pszNickT = mir_tstrdup(TranslateT("Me"));
-	evt->pszTextT = mir_tstrdup(TranslateT("O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies"));
+	evt->pszNickT = mir_wstrdup(TranslateT("Me"));
+	evt->pszTextT = mir_wstrdup(TranslateT("O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies"));
 
 	evt = GetTestEvent(IEEDF_SENT);
-	evt->pszNickT = mir_tstrdup(TranslateT("Me"));
-	evt->pszTextT = mir_tstrdup(TranslateT("to tiny bits, in Thy mercy"));
+	evt->pszNickT = mir_wstrdup(TranslateT("Me"));
+	evt->pszTextT = mir_wstrdup(TranslateT("to tiny bits, in Thy mercy"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_tstrdup(TranslateT("My contact"));
-	evt->pszTextT = mir_tstrdup(TranslateT("Lorem ipsum dolor sit amet,"));
+	evt->pszNickT = mir_wstrdup(TranslateT("My contact"));
+	evt->pszTextT = mir_wstrdup(TranslateT("Lorem ipsum dolor sit amet,"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_tstrdup(TranslateT("My contact"));
-	evt->pszTextT = mir_tstrdup(TranslateT("consectetur adipisicing elit"));
+	evt->pszNickT = mir_wstrdup(TranslateT("My contact"));
+	evt->pszTextT = mir_wstrdup(TranslateT("consectetur adipisicing elit"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 	return firstEvent;
@@ -364,31 +364,31 @@ wchar_t* TimestampToString(DWORD dwFlags, time_t check, int mode)
 		today = mktime(&tm_today);
 
 		if (dwFlags & SMF_RELATIVEDATE && check >= today) {
-			mir_tstrcpy(szResult, TranslateT("Today"));
+			mir_wstrcpy(szResult, TranslateT("Today"));
 			if (mode == 0)
-				mir_tstrcat(szResult, L",");
+				mir_wstrcat(szResult, L",");
 		}
 		else if (dwFlags & SMF_RELATIVEDATE && check > (today - 86400)) {
-			mir_tstrcpy(szResult, TranslateT("Yesterday"));
+			mir_wstrcpy(szResult, TranslateT("Yesterday"));
 			if (mode == 0)
-				mir_tstrcat(szResult, L",");
+				mir_wstrcat(szResult, L",");
 		}
 		else {
 			if (dwFlags & SMF_LONGDATE)
-				mir_tstrcpy(format, L"D");
+				mir_wstrcpy(format, L"D");
 			else
-				mir_tstrcpy(format, L"d");
+				mir_wstrcpy(format, L"d");
 		}
 	}
 	if (mode == 0 || mode == 2) {
 		if (mode == 0 && (dwFlags & SMF_SHOWDATE))
-			mir_tstrcat(format, L" ");
+			mir_wstrcat(format, L" ");
 
-		mir_tstrcat(format, (dwFlags & SMF_SHOWSECONDS) ? L"s" : L"t");
+		mir_wstrcat(format, (dwFlags & SMF_SHOWSECONDS) ? L"s" : L"t");
 	}
 	if (format[0] != '\0') {
 		TimeZone_PrintTimeStamp(NULL, check, format, str, _countof(str), 0);
-		mir_tstrncat(szResult, str, _countof(szResult) - mir_tstrlen(szResult));
+		mir_wstrncat(szResult, str, _countof(szResult) - mir_wstrlen(szResult));
 	}
 	return szResult;
 }

@@ -27,12 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static wchar_t* sttDecodeString(DWORD dwFlags, MAllStrings &src)
 {
 	if (dwFlags & PSR_UNICODE)
-		return mir_u2t(src.w);
+		return mir_wstrdup(src.w);
 
 	if (dwFlags & PSR_UTF8)
-		return mir_utf8decodeT(src.a);
+		return mir_utf8decodeW(src.a);
 
-	return mir_a2t(src.a);
+	return mir_a2u(src.a);
 }
 
 class CAddContactDlg : public CDlgBase
@@ -99,7 +99,7 @@ public:
 			if (!isSet)
 			{
 				if (m_acs.handleType == HANDLE_EVENT)
-					szName = mir_a2t(szUin);
+					szName = mir_a2u(szUin);
 				else
 				{
 					szName = sttDecodeString(m_acs.psr->flags, m_acs.psr->id);
@@ -120,11 +120,11 @@ public:
 				m_acs.szProto = GetContactProto(m_acs.hContact);
 
 		int groupSel = 0;
-		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		wchar_t *grpName;
 		for (int groupId = 1; (grpName = Clist_GroupGetName(groupId, NULL)) != NULL; groupId++) {
 			int id = m_group.AddString(grpName, groupId);
-			if (!mir_tstrcmpi(tszGroup, grpName))
+			if (!mir_wstrcmpi(tszGroup, grpName))
 				groupSel = id;
 		}
 
@@ -198,8 +198,8 @@ public:
 		if (hContact == NULL)
 			return;
 
-		ptrT szHandle(m_myHandle.GetText());
-		if (mir_tstrlen(szHandle))
+		ptrW szHandle(m_myHandle.GetText());
+		if (mir_wstrlen(szHandle))
 			db_set_ts(hContact, "CList", "MyHandle", szHandle);
 
 		int item = m_group.GetCurSel();
@@ -216,7 +216,7 @@ public:
 			if (flags & PF4_NOCUSTOMAUTH)
 				ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 			else
-				ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, ptrT(m_authReq.GetText()));
+				ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, ptrW(m_authReq.GetText()));
 		}
 
 		if (m_chkOpen.GetState())

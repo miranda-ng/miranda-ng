@@ -118,7 +118,7 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 
 		switch (by) {
 		case SORTBY_NAME: // name
-			r = mir_tstrcmpi(contact1->szText, contact2->szText);
+			r = mir_wstrcmpi(contact1->szText, contact2->szText);
 			break;
 
 		case SORTBY_NAME_LOCALE: // name

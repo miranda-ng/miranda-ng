@@ -103,8 +103,8 @@ const wchar_t* Utils::FormatRaw(TWindowData *dat, const wchar_t *msg, int flags,
 search_again:
 				bool clr_found = false;
 				for (int ii = 0; ii < rtf_ctable_size; ii++) {
-					if (!wcsnicmp((wchar_t*)colorname.c_str(), rtf_ctable[ii].szName, mir_tstrlen(rtf_ctable[ii].szName))) {
-						closing = beginmark + 7 + mir_tstrlen(rtf_ctable[ii].szName);
+					if (!wcsnicmp((wchar_t*)colorname.c_str(), rtf_ctable[ii].szName, mir_wstrlen(rtf_ctable[ii].szName))) {
+						closing = beginmark + 7 + mir_wstrlen(rtf_ctable[ii].szName);
 						if (endmark != message.npos) {
 							message.erase(endmark, 4);
 							message.replace(endmark, 4, L"c0 ");
@@ -113,13 +113,13 @@ search_again:
 
 						wchar_t szTemp[5];
 						message.insert(beginmark, L"cxxx ");
-						mir_sntprintf(szTemp, L"%02d", MSGDLGFONTCOUNT + 13 + ii);
+						mir_snwprintf(szTemp, L"%02d", MSGDLGFONTCOUNT + 13 + ii);
 						message[beginmark + 3] = szTemp[0];
 						message[beginmark + 4] = szTemp[1];
 						clr_found = true;
 						if (was_added) {
 							wchar_t wszTemp[100];
-							mir_sntprintf(wszTemp, L"##col##%06u:%04u", endmark - closing, ii);
+							mir_snwprintf(wszTemp, L"##col##%06u:%04u", endmark - closing, ii);
 							wszTemp[99] = 0;
 							message.insert(beginmark, wszTemp);
 						}
@@ -236,7 +236,7 @@ ok:
 
 static wchar_t* Trunc500(wchar_t *str)
 {
-	if (mir_tstrlen(str) > 500)
+	if (mir_wstrlen(str) > 500)
 		str[500] = 0;
 	return str;
 }
@@ -271,7 +271,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 			break;
 
 		case 'c':
-			dest.Append(!mir_tstrcmp(dat->pContainer->szName, L"default") ? TranslateT("Default container") : dat->pContainer->szName);
+			dest.Append(!mir_wstrcmp(dat->pContainer->szName, L"default") ? TranslateT("Default container") : dat->pContainer->szName);
 			break;
 
 		case 'o':
@@ -286,7 +286,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 			{
 				BYTE xStatus = dat->cache->getXStatusId();
 				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					ptrT szXStatus(db_get_tsa(dat->hContact, dat->szProto, "XStatusName"));
+					ptrW szXStatus(db_get_tsa(dat->hContact, dat->szProto, "XStatusName"));
 					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
 			}
@@ -296,7 +296,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 			{
 				BYTE xStatus = dat->cache->getXStatusId();
 				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					ptrT szXStatus(db_get_tsa(dat->hContact, dat->szProto, "XStatusName"));
+					ptrW szXStatus(db_get_tsa(dat->hContact, dat->szProto, "XStatusName"));
 					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
 				else dest.Append(dat->szStatus && dat->szStatus[0] ? dat->szStatus : L"(undef)");
@@ -307,7 +307,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 		case 't':
 		case 'T':
 			{
-				ptrT tszStatus(dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true));
+				ptrW tszStatus(dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true));
 				if (tszStatus)
 					dest.Append(tszStatus);
 				else if (*src == 't')
@@ -317,7 +317,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 
 		case 'g':
 			{
-				ptrT tszGroup(db_get_tsa(dat->hContact, "CList", "Group"));
+				ptrW tszGroup(db_get_tsa(dat->hContact, "CList", "Group"));
 				if (tszGroup != NULL)
 					dest.Append(tszGroup);
 			}
@@ -365,7 +365,7 @@ void Utils::DoubleAmpersands(wchar_t *pszText, size_t len)
 {
 	CMString text(pszText);
 	text.Replace(L"&", L"&&");
-	mir_tstrncpy(pszText, text.c_str(), len);
+	mir_wstrncpy(pszText, text.c_str(), len);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -381,8 +381,8 @@ wchar_t* Utils::GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen)
 	wchar_t *p = 0, cSaved;
 	bool	 fEllipsis = false;
 
-	if (mir_tstrlen(szText) <= iMaxLen) {
-		uRequired = mir_tstrlen(szText) + 4;
+	if (mir_wstrlen(szText) <= iMaxLen) {
+		uRequired = mir_wstrlen(szText) + 4;
 		cSaved = 0;
 	}
 	else {
@@ -399,7 +399,7 @@ wchar_t* Utils::GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen)
 		uRequired = (p - szText) + 6;
 	}
 	wchar_t *szResult = reinterpret_cast<wchar_t *>(mir_alloc((uRequired + 1) * sizeof(wchar_t)));
-	mir_sntprintf(szResult, (uRequired + 1), fEllipsis ? L"%s..." : L"%s", szText);
+	mir_snwprintf(szResult, (uRequired + 1), fEllipsis ? L"%s..." : L"%s", szText);
 
 	if (p)
 		*p = cSaved;
@@ -457,7 +457,7 @@ void Utils::RTF_ColorAdd(const wchar_t *tszColname, size_t length)
 	rtf_ctable_size++;
 	rtf_ctable = (TRTFColorTable *)mir_realloc(rtf_ctable, sizeof(TRTFColorTable) * rtf_ctable_size);
 	COLORREF clr = wcstol(tszColname, &stopped, 16);
-	mir_sntprintf(rtf_ctable[rtf_ctable_size - 1].szName, length + 1, L"%06x", clr);
+	mir_snwprintf(rtf_ctable[rtf_ctable_size - 1].szName, length + 1, L"%06x", clr);
 	rtf_ctable[rtf_ctable_size - 1].menuid = 0;
 
 	clr = wcstol(tszColname, &stopped, 16);
@@ -570,7 +570,7 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 		WriteContainerSettingsToDB(0, pContainer->settings, szCName);
 	}
 	mir_snprintf(szCName, "%s%d_theme", szSetting, pContainer->iContainerIndex);
-	if (mir_tstrlen(pContainer->szRelThemeFile) > 1) {
+	if (mir_wstrlen(pContainer->szRelThemeFile) > 1) {
 		if (pContainer->fPrivateThemeChanged == TRUE) {
 			PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
 			db_set_ts(NULL, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
@@ -715,7 +715,7 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO &mii, HICON hIcon, const wc
 	mii.wID = uID;
 	mii.dwItemData = (ULONG_PTR)hIcon;
 	mii.dwTypeData = const_cast<wchar_t *>(szText);
-	mii.cch = (int)mir_tstrlen(mii.dwTypeData) + 1;
+	mii.cch = (int)mir_wstrlen(mii.dwTypeData) + 1;
 
 	::InsertMenuItem(m, pos, TRUE, &mii);
 }
@@ -800,7 +800,7 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const wchar_t *tszN
 			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
 
 			wchar_t	szFilename[MAX_PATH];
-			mir_sntprintf(szFilename, L"%s%s", tszPath, tszFilename);
+			mir_snwprintf(szFilename, L"%s%s", tszPath, tszFilename);
 			if (!fForceOverwrite)
 				if (PathFileExists(szFilename))
 					return true;
@@ -834,8 +834,8 @@ wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 	tr.lpstrText = (wchar_t*)mir_alloc(sizeof(wchar_t) * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
 	::SendMessage(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 	if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
-		mir_tstrncpy(tr.lpstrText, L"mailto:", 7);
-		mir_tstrncpy(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
+		mir_wstrncpy(tr.lpstrText, L"mailto:", 7);
+		mir_wstrncpy(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
 	}
 	return tr.lpstrText;
 }
@@ -935,7 +935,7 @@ size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
 	if (!OpenClipboard(hwndOwner) || str == 0)
 		return 0;
 
-	size_t i = sizeof(wchar_t) * (mir_tstrlen(str) + 1);
+	size_t i = sizeof(wchar_t) * (mir_wstrlen(str) + 1);
 
 	EmptyClipboard();
 	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
@@ -954,21 +954,21 @@ void Utils::AddToFileList(wchar_t ***pppFiles, int *totalCount, LPCTSTR szFilena
 {
 	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(wchar_t*));
 	(*pppFiles)[*totalCount] = NULL;
-	(*pppFiles)[*totalCount - 1] = mir_tstrdup(szFilename);
+	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		wchar_t szPath[MAX_PATH];
-		mir_tstrcpy(szPath, szFilename);
-		mir_tstrcat(szPath, L"\\*");
+		mir_wstrcpy(szPath, szFilename);
+		mir_wstrcat(szPath, L"\\*");
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if (!mir_tstrcmp(fd.cFileName, L".") || !mir_tstrcmp(fd.cFileName, L".."))
+				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L".."))
 					continue;
-				mir_tstrcpy(szPath, szFilename);
-				mir_tstrcat(szPath, L"\\");
-				mir_tstrcat(szPath, fd.cFileName);
+				mir_wstrcpy(szPath, szFilename);
+				mir_wstrcat(szPath, L"\\");
+				mir_wstrcat(szPath, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			} while (FindNextFile(hFind, &fd));
 			FindClose(hFind);
@@ -1179,7 +1179,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 
-			mir_sntprintf(temp, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
+			mir_snwprintf(temp, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
 			tstring *str = new tstring(temp);
 
 			str->append(m_szText);

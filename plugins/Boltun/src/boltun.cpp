@@ -65,14 +65,14 @@ void UpdateEngine()
 
 wchar_t* GetFullName(const wchar_t *filename)
 {
-	size_t flen = mir_tstrlen(filename);
+	size_t flen = mir_wstrlen(filename);
 	wchar_t* fullname = const_cast<wchar_t*>(filename);
 	if (!wcschr(filename, ':')) {
-		size_t plen = mir_tstrlen(tszPath);
+		size_t plen = mir_wstrlen(tszPath);
 		fullname = new wchar_t[plen + flen + 1];
 		fullname[0] = NULL;
-		mir_tstrcat(fullname, tszPath);
-		mir_tstrcat(fullname, filename);
+		mir_wstrcat(fullname, tszPath);
+		mir_wstrcat(fullname, filename);
 	}
 	return fullname;
 }
@@ -361,7 +361,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				const size_t fileNameSize = 5000;
 				wchar_t *filename = new wchar_t[fileNameSize];
 				wchar_t *fullname = GetFullName(Config.MindFileName);
-				mir_tstrcpy(filename, fullname);
+				mir_wstrcpy(filename, fullname);
 				if (fullname != Config.MindFileName)
 					delete[] fullname;
 
@@ -407,7 +407,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				bTranslated = blInit = LoadMind(c, line);
 				if (!bTranslated) {
 					wchar_t message[5000];
-					mir_sntprintf(message, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
+					mir_snwprintf(message, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
 					MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 				}
 			}
@@ -575,7 +575,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	blInit = LoadMind(Config.MindFileName, line);
 	if (!blInit) {
 		wchar_t path[2000];
-		mir_sntprintf(path, TranslateTS(FAILED_TO_LOAD_BASE), line, (const wchar_t*)Config.MindFileName);
+		mir_snwprintf(path, TranslateTS(FAILED_TO_LOAD_BASE), line, (const wchar_t*)Config.MindFileName);
 		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 	}
 	return 0;
@@ -593,7 +593,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 			//So in case of saving error we will remain silent
 			#if 0
 			wchar_t path[MAX_PATH];
-			mir_sntprintf(path, TranslateTS(FAILED_TO_SAVE_BASE), (const wchar_t*)Config.MindFileName);
+			mir_snwprintf(path, TranslateTS(FAILED_TO_SAVE_BASE), (const wchar_t*)Config.MindFileName);
 			wchar_t* err = TranslateTS(BOLTUN_ERROR);
 			MessageBox(NULL, path, err, MB_ICONERROR | MB_TASKMODAL | MB_OK); */
 				#endif

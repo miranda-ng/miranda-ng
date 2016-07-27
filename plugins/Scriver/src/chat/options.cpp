@@ -226,10 +226,10 @@ static void InitSetting(wchar_t **ppPointer, char *pszSetting, wchar_t *pszDefau
 {
 	DBVARIANT dbv;
 	if ( !db_get_ts(NULL, CHAT_MODULE, pszSetting, &dbv )) {
-		replaceStrT(*ppPointer, dbv.ptszVal);
+		replaceStrW(*ppPointer, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else replaceStrT(*ppPointer, pszDefault);
+	else replaceStrW(*ppPointer, pszDefault);
 }
 
 #define OPT_FIXHEADINGS (WM_USER+1)
@@ -365,7 +365,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 		wchar_t tszTooltipText[2048];
 		RECT rect;
 
-		mir_sntprintf(tszTooltipText,
+		mir_snwprintf(tszTooltipText,
 			L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n"
 			L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n"
 			L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
@@ -464,9 +464,9 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				LPITEMIDLIST idList = SHBrowseForFolder(&bi);
 				if (idList) {
 					SHGetPathFromIDList(idList, tszDirectory);
-					mir_tstrcat(tszDirectory, L"\\");
+					mir_wstrcat(tszDirectory, L"\\");
 					PathToRelativeT(tszDirectory, tszTemp);
-					SetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, mir_tstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+					SetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, mir_wstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 				}
 				psMalloc->Free(idList);
 				psMalloc->Release();
@@ -543,7 +543,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				free(pszText1);
 			}
 			else {
-				mir_tstrncpy(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
+				mir_wstrncpy(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
 				db_unset(NULL, CHAT_MODULE, "LogDirectory");
 			}
 			pci->SM_InvalidateLogDirectories();

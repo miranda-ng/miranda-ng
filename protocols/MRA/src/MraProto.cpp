@@ -36,7 +36,7 @@ CMraProto::CMraProto(const char* _module, const wchar_t* _displayName) :
 		m_heNudgeReceived = CreateProtoEvent(PE_NUDGE);
 
 	wchar_t name[MAX_PATH];
-	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
+	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -172,7 +172,7 @@ MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 			char *firstName = nick + mir_strlen(nick) + 1;
 			char *lastName = firstName + mir_strlen(firstName) + 1;
 			char *email = lastName + mir_strlen(lastName) + 1;
-			return AddToListByEmail(ptrT(mir_utf8decodeT(email)), ptrT(mir_utf8decodeT(nick)), ptrT(mir_utf8decodeT(firstName)), ptrT(mir_utf8decodeT(lastName)), 0);
+			return AddToListByEmail(ptrW(mir_utf8decodeW(email)), ptrW(mir_utf8decodeW(nick)), ptrW(mir_utf8decodeW(firstName)), ptrW(mir_utf8decodeW(lastName)), 0);
 		}
 	}
 	return 0;
@@ -233,7 +233,7 @@ int CMraProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 HANDLE CMraProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *szPath)
 {
 	if (szPath != NULL)
-		if (MraFilesQueueAccept(hFilesQueueHandle, (DWORD_PTR)hTransfer, szPath, mir_tstrlen(szPath)) == NO_ERROR)
+		if (MraFilesQueueAccept(hFilesQueueHandle, (DWORD_PTR)hTransfer, szPath, mir_wstrlen(szPath)) == NO_ERROR)
 			return hTransfer; // Success
 
 	return NULL;
@@ -392,7 +392,7 @@ int CMraProto::SendMsg(MCONTACT hContact, int, const char *lpszMessage)
 	}
 
 	DWORD dwFlags = 0;
-	CMStringW wszMessage(ptrW(mir_utf8decodeT(lpszMessage)));
+	CMStringW wszMessage(ptrW(mir_utf8decodeW(lpszMessage)));
 	if (wszMessage.IsEmpty()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"Cant allocate buffer for convert to unicode.");
 		return 0;
@@ -526,11 +526,11 @@ HANDLE CMraProto::GetAwayMsg(MCONTACT hContact)
 		SYSTEMTIME tt = { 0 };
 		dwTime = getDword(hContact, DBSETTING_BLOGSTATUSTIME, 0);
 		if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &tt))
-			mir_sntprintf(szTime, L"%04ld.%02ld.%02ld %02ld:%02ld: ", tt.wYear, tt.wMonth, tt.wDay, tt.wHour, tt.wMinute);
+			mir_snwprintf(szTime, L"%04ld.%02ld.%02ld %02ld:%02ld: ", tt.wYear, tt.wMonth, tt.wDay, tt.wHour, tt.wMinute);
 		else
 			szTime[0] = 0;
 
-		mir_sntprintf(szStatusDesc, L"%s%s", szTime, szBlogStatus.c_str());
+		mir_snwprintf(szStatusDesc, L"%s%s", szTime, szBlogStatus.c_str());
 		iRet = GetTickCount();
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc);
 	}
@@ -542,7 +542,7 @@ int CMraProto::SetAwayMsg(int iStatus, const wchar_t *msg)
 	if (!m_bLoggedIn)
 		return 1;
 
-	size_t dwStatusDescSize = mir_tstrlen(msg);
+	size_t dwStatusDescSize = mir_wstrlen(msg);
 	DWORD dwStatus = iStatus;
 	DWORD dwXStatus = m_iXStatus;
 

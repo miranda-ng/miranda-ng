@@ -183,7 +183,7 @@ void TreeList_SetFilter(HWND hwnd, wchar_t *filter)
 	TTreeList_Data *data = (TTreeList_Data *)sttTreeList_GeWindowData(hwnd);
 	if (data->filter) mir_free(data->filter);
 	data->filter = NULL;
-	if (filter) data->filter = mir_tstrdup(filter);
+	if (filter) data->filter = mir_wstrdup(filter);
 	TreeList_Update(hwnd);
 }
 
@@ -207,7 +207,7 @@ HTREELISTITEM TreeList_AddItem(HWND hwnd, HTREELISTITEM hParent, wchar_t *text, 
 	TTreeList_ItemInfo *item = new TTreeList_ItemInfo;
 	item->data = nodeDdata;
 	item->parent = hParent;
-	item->text.insert(mir_tstrdup(text));
+	item->text.insert(mir_wstrdup(text));
 	item->flags |= TLIF_MODIFIED;
 	if (hParent->flags & TLIF_ROOT) {
 		item->flags |= TLIF_EXPANDED;
@@ -241,7 +241,7 @@ void TreeList_MakeFakeParent(HTREELISTITEM hItem, BOOL flag)
 
 void TreeList_AppendColumn(HTREELISTITEM hItem, wchar_t *text)
 {
-	hItem->text.insert(mir_tstrdup(text));
+	hItem->text.insert(mir_wstrdup(text));
 	hItem->flags |= TLIF_MODIFIED;
 }
 
@@ -469,12 +469,12 @@ BOOL TreeList_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, UINT id
 }
 
 ///////////////////////////////////////////////////////////////////////////
-static int sttTreeList_SortItems_Cmp0(const void *p1, const void *p2) { return  mir_tstrcmp((*(HTREELISTITEM *)p1)->text[0], (*(HTREELISTITEM *)p2)->text[0]); }
-static int sttTreeList_SortItems_Cmp1(const void *p1, const void *p2) { return -mir_tstrcmp((*(HTREELISTITEM *)p1)->text[0], (*(HTREELISTITEM *)p2)->text[0]); }
-static int sttTreeList_SortItems_Cmp2(const void *p1, const void *p2) { return  mir_tstrcmp((*(HTREELISTITEM *)p1)->text[1], (*(HTREELISTITEM *)p2)->text[1]); }
-static int sttTreeList_SortItems_Cmp3(const void *p1, const void *p2) { return -mir_tstrcmp((*(HTREELISTITEM *)p1)->text[1], (*(HTREELISTITEM *)p2)->text[1]); }
-static int sttTreeList_SortItems_Cmp4(const void *p1, const void *p2) { return  mir_tstrcmp((*(HTREELISTITEM *)p1)->text[2], (*(HTREELISTITEM *)p2)->text[2]); }
-static int sttTreeList_SortItems_Cmp5(const void *p1, const void *p2) { return -mir_tstrcmp((*(HTREELISTITEM *)p1)->text[2], (*(HTREELISTITEM *)p2)->text[2]); }
+static int sttTreeList_SortItems_Cmp0(const void *p1, const void *p2) { return  mir_wstrcmp((*(HTREELISTITEM *)p1)->text[0], (*(HTREELISTITEM *)p2)->text[0]); }
+static int sttTreeList_SortItems_Cmp1(const void *p1, const void *p2) { return -mir_wstrcmp((*(HTREELISTITEM *)p1)->text[0], (*(HTREELISTITEM *)p2)->text[0]); }
+static int sttTreeList_SortItems_Cmp2(const void *p1, const void *p2) { return  mir_wstrcmp((*(HTREELISTITEM *)p1)->text[1], (*(HTREELISTITEM *)p2)->text[1]); }
+static int sttTreeList_SortItems_Cmp3(const void *p1, const void *p2) { return -mir_wstrcmp((*(HTREELISTITEM *)p1)->text[1], (*(HTREELISTITEM *)p2)->text[1]); }
+static int sttTreeList_SortItems_Cmp4(const void *p1, const void *p2) { return  mir_wstrcmp((*(HTREELISTITEM *)p1)->text[2], (*(HTREELISTITEM *)p2)->text[2]); }
+static int sttTreeList_SortItems_Cmp5(const void *p1, const void *p2) { return -mir_wstrcmp((*(HTREELISTITEM *)p1)->text[2], (*(HTREELISTITEM *)p2)->text[2]); }
 
 static void sttTreeList_SortItems(HTREELISTITEM hItem, LPARAM data)
 {

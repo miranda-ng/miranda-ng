@@ -209,9 +209,9 @@ void ShowPopup(char* szText, wchar_t* tszText, MCONTACT hContact)
 	wchar_t* text = 0;
 
 	if (tszText)
-		text = mir_tstrdup(tszText);
+		text = mir_wstrdup(tszText);
 	else if (szText)
-		text = mir_a2t(szText);
+		text = mir_a2u(szText);
 	if (!text) return;
 
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
@@ -236,16 +236,16 @@ void CopyToClipboard(HWND, LPSTR pszMsg, LPTSTR ptszMsg)
 {
 	LPTSTR buf = 0;
 	if (ptszMsg)
-		buf = mir_tstrdup(ptszMsg);
+		buf = mir_wstrdup(ptszMsg);
 	else if (pszMsg)
-		buf = mir_a2t(pszMsg);
+		buf = mir_a2u(pszMsg);
 
 	if (buf == 0)
 		return;
 
-	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(buf) + 1)*sizeof(wchar_t));
+	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(buf) + 1)*sizeof(wchar_t));
 	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
-	mir_tstrcpy(lptstrCopy, buf);
+	mir_wstrcpy(lptstrCopy, buf);
 	mir_free(buf);
 	GlobalUnlock(hglbCopy);
 
@@ -331,8 +331,8 @@ BOOL MirVerExists(MCONTACT hContact)
 	if (!szProto)
 		return 0;
 
-	ptrT msg(db_get_tsa(hContact, szProto, "MirVer"));
-	return mir_tstrlen(msg) != 0;
+	ptrW msg(db_get_tsa(hContact, szProto, "MirVer"));
+	return mir_wstrlen(msg) != 0;
 }
 
 void getIP(MCONTACT hContact, LPSTR szProto, LPSTR szIP)
@@ -507,7 +507,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 				szID[MAX_IDLEN + 1] = 0;
 			}
 
-			mir_sntprintf(buffer, L"%s [%S]", TranslateT("Copy ID"), szID);
+			mir_snwprintf(buffer, L"%s [%S]", TranslateT("Copy ID"), szID);
 			Menu_ModifyItem(hmenuCopyID, buffer, hIconCID);
 		}
 		else Menu_ModifyItem(hmenuCopyID, LPGENW("Copy ID"), hIconCID);
@@ -628,11 +628,11 @@ INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 		if (msg) {
 			if (wcslen(msg)) {
 				if (flags & VF_SMNAME) {
-					mir_tstrncat(buffer, TranslateTS(statusMsg[i].fullName), (_countof(buffer) - wcslen(buffer) - 1));
-					mir_tstrncat(buffer, L": ", (_countof(buffer) - wcslen(buffer) - 1));
+					mir_wstrncat(buffer, TranslateTS(statusMsg[i].fullName), (_countof(buffer) - wcslen(buffer) - 1));
+					mir_wstrncat(buffer, L": ", (_countof(buffer) - wcslen(buffer) - 1));
 				}
-				mir_tstrncat(buffer, msg, (_countof(buffer) - wcslen(buffer) - 1));
-				mir_tstrncat(buffer, L"\r\n", (_countof(buffer) - wcslen(buffer) - 1));
+				mir_wstrncat(buffer, msg, (_countof(buffer) - wcslen(buffer) - 1));
+				mir_wstrncat(buffer, L"\r\n", (_countof(buffer) - wcslen(buffer) - 1));
 			}
 			mir_free(msg);
 		}

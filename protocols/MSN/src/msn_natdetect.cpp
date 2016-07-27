@@ -314,7 +314,7 @@ static bool IsIcfEnabled(void)
 	wchar_t szFileName[MAX_PATH];
 	GetModuleFileName(NULL, szFileName, _countof(szFileName));
 
-	wszFileName = mir_t2u(szFileName);
+	wszFileName = mir_wstrdup(szFileName);
 
 	// Allocate a BSTR for the process image file name.
 	fwBstrProcessImageFileName = SysAllocString(wszFileName);

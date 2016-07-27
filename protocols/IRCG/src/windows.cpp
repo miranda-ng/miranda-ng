@@ -278,10 +278,10 @@ void CListDlg::OnInitDialog()
 		lvC.cx = COLUMNS_SIZES[index];
 
 		switch (index) {
-			case 0: mir_tstrcpy(szBuffer, TranslateT("Channel")); break;
-			case 1: mir_tstrcpy(szBuffer, L"#");               break;
-			case 2: mir_tstrcpy(szBuffer, TranslateT("Mode"));    break;
-			case 3: mir_tstrcpy(szBuffer, TranslateT("Topic"));   break;
+			case 0: mir_wstrcpy(szBuffer, TranslateT("Channel")); break;
+			case 1: mir_wstrcpy(szBuffer, L"#");               break;
+			case 2: mir_wstrcpy(szBuffer, TranslateT("Mode"));    break;
+			case 3: mir_wstrcpy(szBuffer, TranslateT("Topic"));   break;
 		}
 		lvC.pszText = szBuffer;
 		m_list.InsertColumn(index, &lvC);
@@ -376,13 +376,13 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			ShowWindow(m_list.GetHwnd(), SW_HIDE);
 
 			// New dialog title
-			mir_sntprintf(newTitle, TranslateT("%s - Filtered - %d items"), strFilterText, itemCount);
+			mir_snwprintf(newTitle, TranslateT("%s - Filtered - %d items"), strFilterText, itemCount);
 			SetWindowText(m_hwnd, newTitle);
 		}
 		else {
 			ShowWindow(m_list.GetHwnd(), SW_SHOW);
 			ShowWindow(m_list2.GetHwnd(), SW_HIDE);
-			mir_sntprintf(newTitle, TranslateT("Channels on server"));
+			mir_snwprintf(newTitle, TranslateT("Channels on server"));
 			SetWindowText(m_hwnd, newTitle);
 		}
 	}
@@ -429,8 +429,8 @@ static int CALLBACK ListViewSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 	lvm.pszText = temp2;
 	param->pList->GetItem(&lvm);
 	if (param->iSubItem != 1) {
-		if (mir_tstrlen(temp1) != 0 && mir_tstrlen(temp2) != 0)
-			return mir_tstrcmpi(temp1, temp2);
+		if (mir_wstrlen(temp1) != 0 && mir_wstrlen(temp2) != 0)
+			return mir_wstrcmpi(temp1, temp2);
 
 		return (*temp1 == 0) ? 1 : -1;
 	}
@@ -633,7 +633,7 @@ void CQuickDlg::OnOk(CCtrlButton*)
 
 	wchar_t windowname[20];
 	GetWindowText(m_hwnd, windowname, _countof(windowname));
-	if (mir_tstrcmpi(windowname, L"Miranda IRC") == 0) {
+	if (mir_wstrcmpi(windowname, L"Miranda IRC") == 0) {
 		m_proto->m_serverComboSelection = m_serverCombo.GetCurSel() - 1;
 		m_proto->setDword("ServerComboSelection", m_proto->m_serverComboSelection);
 		m_proto->setString("ServerName", m_proto->m_serverName);
@@ -923,8 +923,8 @@ void CManagerDlg::OnClose()
 	}
 
 	if (!S.IsEmpty() && m_proto->IsConnected()) {
-		mir_sntprintf(temp, L"Topic%s%s", window, m_proto->m_info.sNetwork.c_str());
-		char* p = mir_t2a(temp);
+		mir_snwprintf(temp, L"Topic%s%s", window, m_proto->m_info.sNetwork.c_str());
+		char* p = mir_u2a(temp);
 		m_proto->setTString(p, S.c_str());
 		mir_free(p);
 	}
@@ -942,16 +942,16 @@ void CManagerDlg::OnAdd(CCtrlButton*)
 	wchar_t temp[100];
 	wchar_t mode[3];
 	if (m_radio1.GetState()) {
-		mir_tstrcpy(mode, L"+b");
-		mir_tstrncpy(temp, TranslateT("Add ban"), 100);
+		mir_wstrcpy(mode, L"+b");
+		mir_wstrncpy(temp, TranslateT("Add ban"), 100);
 	}
 	if (m_radio2.GetState()) {
-		mir_tstrcpy(mode, L"+I");
-		mir_tstrncpy(temp, TranslateT("Add invite"), 100);
+		mir_wstrcpy(mode, L"+I");
+		mir_wstrncpy(temp, TranslateT("Add invite"), 100);
 	}
 	if (m_radio3.GetState()) {
-		mir_tstrcpy(mode, L"+e");
-		mir_tstrncpy(temp, TranslateT("Add exception"), 100);
+		mir_wstrcpy(mode, L"+e");
+		mir_wstrncpy(temp, TranslateT("Add exception"), 100);
 	}
 
 	m_add.Disable();
@@ -967,7 +967,7 @@ void CManagerDlg::OnAdd(CCtrlButton*)
 	wchar_t temp2[450];
 	wchar_t window[256];
 	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
-	mir_sntprintf(temp2, L"/MODE %s %s %s", window, mode, L"%question");
+	mir_snwprintf(temp2, L"/MODE %s %s %s", window, mode, L"%question");
 	SetDlgItemText(addban_hWnd, IDC_HIDDENEDIT, temp2);
 	dlg->Activate();
 }
@@ -984,16 +984,16 @@ void CManagerDlg::OnEdit(CCtrlButton*)
 			wchar_t temp[100];
 			wchar_t mode[3];
 			if (m_radio1.GetState()) {
-				mir_tstrcpy(mode, L"b");
-				mir_tstrncpy(temp, TranslateT("Edit ban"), 100);
+				mir_wstrcpy(mode, L"b");
+				mir_wstrncpy(temp, TranslateT("Edit ban"), 100);
 			}
 			if (m_radio2.GetState()) {
-				mir_tstrcpy(mode, L"I");
-				mir_tstrncpy(temp, TranslateT("Edit invite?"), 100);
+				mir_wstrcpy(mode, L"I");
+				mir_wstrncpy(temp, TranslateT("Edit invite?"), 100);
 			}
 			if (m_radio3.GetState()) {
-				mir_tstrcpy(mode, L"e");
-				mir_tstrncpy(temp, TranslateT("Edit exception?"), 100);
+				mir_wstrcpy(mode, L"e");
+				mir_wstrncpy(temp, TranslateT("Edit exception?"), 100);
 			}
 
 			CQuestionDlg* dlg = new CQuestionDlg(m_proto, this);
@@ -1010,7 +1010,7 @@ void CManagerDlg::OnEdit(CCtrlButton*)
 			wchar_t temp2[450];
 			wchar_t window[256];
 			GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
-			mir_sntprintf(temp2, L"/MODE %s -%s %s%s/MODE %s +%s %s", window, mode, user.c_str(), L"%newl", window, mode, L"%question");
+			mir_snwprintf(temp2, L"/MODE %s -%s %s%s/MODE %s +%s %s", window, mode, user.c_str(), L"%newl", window, mode, L"%question");
 			SetDlgItemText(addban_hWnd, IDC_HIDDENEDIT, temp2);
 			dlg->Activate();
 		}
@@ -1030,16 +1030,16 @@ void CManagerDlg::OnRemove(CCtrlButton*)
 		CMString user = GetWord(m, 0);
 
 		if (m_radio1.GetState()) {
-			mir_tstrcpy(mode, L"-b");
-			mir_tstrncpy(temp, TranslateT("Remove ban?"), 100);
+			mir_wstrcpy(mode, L"-b");
+			mir_wstrncpy(temp, TranslateT("Remove ban?"), 100);
 		}
 		if (m_radio2.GetState()) {
-			mir_tstrcpy(mode, L"-I");
-			mir_tstrncpy(temp, TranslateT("Remove invite?"), 100);
+			mir_wstrcpy(mode, L"-I");
+			mir_wstrncpy(temp, TranslateT("Remove invite?"), 100);
 		}
 		if (m_radio3.GetState()) {
-			mir_tstrcpy(mode, L"-e");
-			mir_tstrncpy(temp, TranslateT("Remove exception?"), 100);
+			mir_wstrcpy(mode, L"-e");
+			mir_wstrncpy(temp, TranslateT("Remove exception?"), 100);
 		}
 
 		wchar_t window[256];
@@ -1087,58 +1087,58 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 		CMString appendixremove = L"";
 		if (wi->pszMode && wcschr(wi->pszMode, 't')) {
 			if (!m_check1.GetState())
-				mir_tstrcat(toremove, L"t");
+				mir_wstrcat(toremove, L"t");
 		}
 		else if (m_check1.GetState())
-			mir_tstrcat(toadd, L"t");
+			mir_wstrcat(toadd, L"t");
 
 		if (wi->pszMode && wcschr(wi->pszMode, 'n')) {
 			if (!m_check2.GetState())
-				mir_tstrcat(toremove, L"n");
+				mir_wstrcat(toremove, L"n");
 		}
 		else if (m_check2.GetState())
-			mir_tstrcat(toadd, L"n");
+			mir_wstrcat(toadd, L"n");
 
 		if (wi->pszMode && wcschr(wi->pszMode, 'i')) {
 			if (!m_check3.GetState())
-				mir_tstrcat(toremove, L"i");
+				mir_wstrcat(toremove, L"i");
 		}
 		else if (m_check3.GetState())
-			mir_tstrcat(toadd, L"i");
+			mir_wstrcat(toadd, L"i");
 
 		if (wi->pszMode && wcschr(wi->pszMode, 'm')) {
 			if (!m_check4.GetState())
-				mir_tstrcat(toremove, L"m");
+				mir_wstrcat(toremove, L"m");
 		}
 		else if (m_check4.GetState())
-			mir_tstrcat(toadd, L"m");
+			mir_wstrcat(toadd, L"m");
 
 		if (wi->pszMode && wcschr(wi->pszMode, 'p')) {
 			if (!m_check7.GetState())
-				mir_tstrcat(toremove, L"p");
+				mir_wstrcat(toremove, L"p");
 		}
 		else if (m_check7.GetState())
-			mir_tstrcat(toadd, L"p");
+			mir_wstrcat(toadd, L"p");
 
 		if (wi->pszMode && wcschr(wi->pszMode, 's')) {
 			if (!m_check8.GetState())
-				mir_tstrcat(toremove, L"s");
+				mir_wstrcat(toremove, L"s");
 		}
 		else if (m_check8.GetState())
-			mir_tstrcat(toadd, L"s");
+			mir_wstrcat(toadd, L"s");
 
 		if (wi->pszMode && wcschr(wi->pszMode, 'c')) {
 			if (!m_check9.GetState())
-				mir_tstrcat(toremove, L"c");
+				mir_wstrcat(toremove, L"c");
 		}
 		else if (m_check9.GetState())
-			mir_tstrcat(toadd, L"c");
+			mir_wstrcat(toadd, L"c");
 
 		CMString Key = L"";
 		CMString Limit = L"";
 		if (wi->pszMode && wi->pszPassword && wcschr(wi->pszMode, 'k')) {
 			if (!m_check5.GetState()) {
-				mir_tstrcat(toremove, L"k");
+				mir_wstrcat(toremove, L"k");
 				appendixremove += L" " + CMString(wi->pszPassword);
 			}
 			else if (GetWindowTextLength(m_key.GetHwnd())) {
@@ -1146,15 +1146,15 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 				m_key.GetText(temp, 14);
 
 				if (Key != temp) {
-					mir_tstrcat(toremove, L"k");
-					mir_tstrcat(toadd, L"k");
+					mir_wstrcat(toremove, L"k");
+					mir_wstrcat(toadd, L"k");
 					appendixadd += L" " + CMString(temp);
 					appendixremove += L" " + CMString(wi->pszPassword);
 				}
 			}
 		}
 		else if (m_check5.GetState() && GetWindowTextLength(m_key.GetHwnd())) {
-			mir_tstrcat(toadd, L"k");
+			mir_wstrcat(toadd, L"k");
 			appendixadd += L" ";
 
 			wchar_t temp[400];
@@ -1164,18 +1164,18 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 
 		if (wcschr(wi->pszMode, 'l')) {
 			if (!m_check6.GetState())
-				mir_tstrcat(toremove, L"l");
+				mir_wstrcat(toremove, L"l");
 			else if (GetWindowTextLength(GetDlgItem(m_hwnd, IDC_LIMIT))) {
 				wchar_t temp[15];
 				GetDlgItemText(m_hwnd, IDC_LIMIT, temp, _countof(temp));
-				if (wi->pszLimit && mir_tstrcmpi(wi->pszLimit, temp)) {
-					mir_tstrcat(toadd, L"l");
+				if (wi->pszLimit && mir_wstrcmpi(wi->pszLimit, temp)) {
+					mir_wstrcat(toadd, L"l");
 					appendixadd += L" " + CMString(temp);
 				}
 			}
 		}
 		else if (m_check6.GetState() && GetWindowTextLength(m_limit.GetHwnd())) {
-			mir_tstrcat(toadd, L"l");
+			mir_wstrcat(toadd, L"l");
 			appendixadd += L" ";
 
 			wchar_t temp[15];
@@ -1183,19 +1183,19 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 			appendixadd += temp;
 		}
 
-		if (mir_tstrlen(toadd) || mir_tstrlen(toremove)) {
+		if (mir_wstrlen(toadd) || mir_wstrlen(toremove)) {
 			wchar_t temp[500];
-			mir_tstrcpy(temp, L"/mode ");
-			mir_tstrcat(temp, window);
-			mir_tstrcat(temp, L" ");
-			if (mir_tstrlen(toremove))
-				mir_sntprintf(temp, L"%s-%s", temp, toremove);
-			if (mir_tstrlen(toadd))
-				mir_sntprintf(temp, L"%s+%s", temp, toadd);
+			mir_wstrcpy(temp, L"/mode ");
+			mir_wstrcat(temp, window);
+			mir_wstrcat(temp, L" ");
+			if (mir_wstrlen(toremove))
+				mir_snwprintf(temp, L"%s-%s", temp, toremove);
+			if (mir_wstrlen(toadd))
+				mir_snwprintf(temp, L"%s+%s", temp, toadd);
 			if (!appendixremove.IsEmpty())
-				mir_tstrcat(temp, appendixremove.c_str());
+				mir_wstrcat(temp, appendixremove.c_str());
 			if (!appendixadd.IsEmpty())
-				mir_tstrcat(temp, appendixadd.c_str());
+				mir_wstrcat(temp, appendixadd.c_str());
 			m_proto->PostIrcMessage(temp);
 		}
 	}
@@ -1246,11 +1246,11 @@ void CManagerDlg::ApplyQuestion()
 	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
 
 	wchar_t mode[3];
-	mir_tstrcpy(mode, L"+b");
+	mir_wstrcpy(mode, L"+b");
 	if (m_radio2.GetState())
-		mir_tstrcpy(mode, L"+I");
+		mir_wstrcpy(mode, L"+I");
 	if (m_radio3.GetState())
-		mir_tstrcpy(mode, L"+e");
+		mir_wstrcpy(mode, L"+e");
 	m_list.ResetContent();
 	m_radio1.Disable();
 	m_radio2.Disable();
@@ -1278,9 +1278,9 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 	if (wi) {
 		if (m_proto->IsConnected()) {
 			wchar_t temp[1000];
-			mir_sntprintf(temp, L"Topic%s%s", window, m_proto->m_info.sNetwork.c_str());
+			mir_snwprintf(temp, L"Topic%s%s", window, m_proto->m_info.sNetwork.c_str());
 
-			char* p = mir_t2a(temp);
+			char* p = mir_u2a(temp);
 
 			DBVARIANT dbv;
 			if (!m_proto->getTString(p, &dbv)) {

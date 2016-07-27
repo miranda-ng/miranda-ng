@@ -32,7 +32,7 @@ static wchar_t *parseGetParent(ARGUMENTSINFO *ai)
 	if (hContact == NULL)
 		return NULL;
 
-	ptrT szUniqueID;
+	ptrW szUniqueID;
 	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
@@ -40,8 +40,8 @@ static wchar_t *parseGetParent(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		wchar_t tszID[40];
-		mir_sntprintf(tszID, L"%p", hContact);
-		szUniqueID = mir_tstrdup(tszID);
+		mir_snwprintf(tszID, L"%p", hContact);
+		szUniqueID = mir_wstrdup(tszID);
 	}
 
 	return CMString(FORMAT, L"<%S:%s>", szProto, szUniqueID).Detach();
@@ -60,7 +60,7 @@ static wchar_t *parseGetDefault(ARGUMENTSINFO *ai)
 	if (hContact == NULL)
 		return NULL;
 
-	ptrT szUniqueID;
+	ptrW szUniqueID;
 	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
@@ -68,8 +68,8 @@ static wchar_t *parseGetDefault(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		wchar_t tszID[40];
-		mir_sntprintf(tszID, L"%p", hContact);
-		szUniqueID = mir_tstrdup(tszID);
+		mir_snwprintf(tszID, L"%p", hContact);
+		szUniqueID = mir_wstrdup(tszID);
 	}
 
 	return CMString(FORMAT, L"<%S:%s>", szProto, szUniqueID).Detach();
@@ -88,7 +88,7 @@ static wchar_t *parseGetMostOnline(ARGUMENTSINFO *ai)
 	if (hContact == NULL)
 		return NULL;
 
-	ptrT szUniqueID;
+	ptrW szUniqueID;
 	char *szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
@@ -96,8 +96,8 @@ static wchar_t *parseGetMostOnline(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
 		wchar_t tszID[40];
-		mir_sntprintf(tszID, L"%p", hContact);
-		szUniqueID = mir_tstrdup(tszID);
+		mir_snwprintf(tszID, L"%p", hContact);
+		szUniqueID = mir_wstrdup(tszID);
 	}
 
 	return CMString(FORMAT, L"<%S:%s>", szProto, szUniqueID).Detach();

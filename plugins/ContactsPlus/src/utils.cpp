@@ -69,17 +69,17 @@ wchar_t* GetContactUID(MCONTACT hContact)
 	if (vrUid.type == DBVT_DWORD) {
 		wchar_t tmp[100];
 		_itow(vrUid.dVal, tmp, 10);
-		return mir_tstrdup(tmp);
+		return mir_wstrdup(tmp);
 	}
 
 	if (vrUid.type == DBVT_ASCIIZ) {
-		wchar_t *res = mir_a2t(vrUid.pszVal);
+		wchar_t *res = mir_a2u(vrUid.pszVal);
 		mir_free(vrUid.pszVal);
 		return res;
 	}
 
 	if (vrUid.type == DBVT_UTF8) {
-		wchar_t *res = mir_utf8decodeT(vrUid.pszVal);
+		wchar_t *res = mir_utf8decodeW(vrUid.pszVal);
 		mir_free(vrUid.pszVal);
 		return res;
 	}
@@ -115,22 +115,22 @@ void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, MCONTACT hContact)
 void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, wchar_t *pszTitleStart)
 {
 	wchar_t newtitle[512];
-	mir_tstrncpy(newtitle, TranslateTS(pszTitleStart), _countof(newtitle));
+	mir_wstrncpy(newtitle, TranslateTS(pszTitleStart), _countof(newtitle));
 	
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
-			ptrT uid(GetContactUID(hContact));
+			ptrW uid(GetContactUID(hContact));
 			wchar_t *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 			wchar_t oldTitle[MAX_PATH];
 			GetDlgItemText(hwndDlg, IDC_NAME, oldTitle, _countof(oldTitle));
 
-			if (mir_tstrcmp(uid ? uid : contactName, oldTitle))
+			if (mir_wstrcmp(uid ? uid : contactName, oldTitle))
 				SetDlgItemText(hwndDlg, IDC_NAME, uid ? uid : contactName);
 
 			wchar_t *szStatus = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
-			mir_sntprintf(newtitle, L"%s %s (%s)", TranslateTS(pszTitleStart), contactName, szStatus);
+			mir_snwprintf(newtitle, L"%s %s (%s)", TranslateTS(pszTitleStart), contactName, szStatus);
 		}
 	}
 

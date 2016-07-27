@@ -35,7 +35,7 @@ int CSendHost_UploadPie::Send()
 		return !m_bAsync;
 	}
 	memset(&m_nlhr, 0, sizeof(m_nlhr));
-	char* tmp; tmp = mir_t2a(m_pszFile);
+	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
 		{ "MAX_FILE_SIZE", HTTPFORM_INT(3145728) },// ??
 		{ "upload", HTTPFORM_INT(1) },// ??
@@ -93,8 +93,8 @@ void CSendHost_UploadPie::SendThread(void* obj)
 			else {/// check error mess from server
 				const char* err = GetHTMLContent(reply->pData, "<p id=\"error\"", "</p>");
 				wchar_t* werr;
-				if (err) werr = mir_a2t(err);
-				else werr = mir_a2t(reply->pData);
+				if (err) werr = mir_a2u(err);
+				else werr = mir_a2u(reply->pData);
 				self->Error(L"%s", werr);
 				mir_free(werr);
 			}

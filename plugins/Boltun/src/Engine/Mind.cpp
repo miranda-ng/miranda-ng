@@ -129,7 +129,7 @@ void Mind::Load(wstring filename)
 			format(st);
 			count = st.length();
 			c = co = new wchar_t[count + 1];
-			mir_tstrcpy(c, st.c_str());
+			mir_wstrcpy(c, st.c_str());
 			size_t pos = 0;
 			while (pos < count && iswspace(*c)) {
 				++pos;
@@ -209,25 +209,25 @@ void Mind::Load(wstring filename)
 					++c;
 					count -= 2;
 					c[count] = '\0';
-					if (mir_tstrcmp(c, L"QUESTION") == 0) {
+					if (mir_wstrcmp(c, L"QUESTION") == 0) {
 						toLowerStr(c);
 						data->question.insert(s1);
 					}
-					else if (mir_tstrcmp(c, L"IGNORED") == 0) {
+					else if (mir_wstrcmp(c, L"IGNORED") == 0) {
 						toLowerStr(c);
 						data->special.insert(s1);
 					}
-					else if (mir_tstrcmp(c, L"ESCAPE") == 0) {
+					else if (mir_wstrcmp(c, L"ESCAPE") == 0) {
 						data->escape.push_back(s1);
 					}
-					else if (mir_tstrcmp(c, L"FAILURE") == 0) {
+					else if (mir_wstrcmp(c, L"FAILURE") == 0) {
 						data->failure.push_back(s1);
 					}
-					else if (mir_tstrcmp(c, L"REPEAT") == 0) {
+					else if (mir_wstrcmp(c, L"REPEAT") == 0) {
 						data->repeats.push_back(s1);
 					}
 					else {
-						if (mir_tstrcmp(c, L"INITIAL") != 0)
+						if (mir_wstrcmp(c, L"INITIAL") != 0)
 							throw error;
 						data->initial.push_back(s1);
 					}

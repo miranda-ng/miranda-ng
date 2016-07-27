@@ -30,7 +30,7 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_lResidentSettings(50, strcmp),
 	m_maxContactId(1)
 {
-	m_tszProfileName = mir_tstrdup(tszFileName);
+	m_tszProfileName = mir_wstrdup(tszFileName);
 	InitDbInstance(this);
 
 	mdb_env_create(&m_pMdbEnv);
@@ -226,7 +226,7 @@ EXTERN_C void __cdecl dbpanic(void *)
 			msg = TranslateT("Disk is full. Miranda will now shut down.");
 
 		TCHAR err[256];
-		mir_sntprintf(err, _countof(err), msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
+		mir_snwprintf(err, msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
 
 		MessageBox(0, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
 	}

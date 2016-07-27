@@ -302,12 +302,12 @@ static void SetListItemText(HWND hwndList, int idx, int col, wchar_t *szText)
 static wchar_t* sttDecodeString(DWORD dwFlags, MAllStrings &src)
 {
 	if (dwFlags & PSR_UNICODE)
-		return mir_u2t(src.w);
+		return mir_wstrdup(src.w);
 
 	if (dwFlags & PSR_UTF8)
-		return mir_utf8decodeT(src.a);
+		return mir_utf8decodeW(src.a);
 
-	return mir_a2t(src.a);
+	return mir_a2u(src.a);
 }
 
 static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -350,7 +350,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_GETFONT, 0, 0));
 
 			SIZE textSize;
-			GetTextExtentPoint32(hdc, TranslateT("Searching"), (int)mir_tstrlen(TranslateT("Searching")), &textSize);
+			GetTextExtentPoint32(hdc, TranslateT("Searching"), (int)mir_wstrlen(TranslateT("Searching")), &textSize);
 
 			int partWidth[3];
 			partWidth[0] = textSize.cx;
@@ -364,7 +364,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetStatusBarSearchInfo(GetDlgItem(hwndDlg, IDC_STATUSBAR), dat);
 
 			wchar_t *szProto = NULL;
-			ptrT tszLast(db_get_tsa(NULL, "FindAdd", "LastSearched"));
+			ptrW tszLast(db_get_tsa(NULL, "FindAdd", "LastSearched"));
 			if (tszLast)
 				szProto = NEWWSTR_ALLOCA(tszLast);
 
@@ -387,7 +387,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, WM_GETFONT, 0, 0));
 			if (netProtoCount > 1) {
 				cbei.pszText = TranslateT("All networks");
-				GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_tstrlen(cbei.pszText), &textSize);
+				GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_wstrlen(cbei.pszText), &textSize);
 				if (textSize.cx > cbwidth)
 					cbwidth = textSize.cx;
 				cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon_IconLibLoaded(dat->himlComboIcons, SKINICON_OTHER_SEARCHALL);
@@ -406,7 +406,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					continue;
 
 				cbei.pszText = pa->tszAccountName;
-				GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_tstrlen(cbei.pszText), &textSize);
+				GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_wstrlen(cbei.pszText), &textSize);
 				if (textSize.cx > cbwidth)
 					cbwidth = textSize.cx;
 
@@ -415,7 +415,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				DestroyIcon(hIcon);
 				cbei.lParam = (LPARAM)pa->szModuleName;
 				SendDlgItemMessageA(hwndDlg, IDC_PROTOLIST, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
-				if (szProto && cbei.pszText && !mir_tstrcmp(szProto, pa->tszAccountName))
+				if (szProto && cbei.pszText && !mir_wstrcmp(szProto, pa->tszAccountName))
 					index = cbei.iItem;
 				cbei.iItem++;
 			}
@@ -689,7 +689,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else if (IsDlgButtonChecked(hwndDlg, IDC_BYPROTOID)) {
 					wchar_t str[256];
 					GetDlgItemText(hwndDlg, IDC_PROTOID, str, _countof(str));
-					rtrimt(str);
+					rtrimw(str);
 					if (str[0] == 0)
 						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
 					else
@@ -698,7 +698,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else if (IsDlgButtonChecked(hwndDlg, IDC_BYEMAIL)) {
 					wchar_t str[256];
 					GetDlgItemText(hwndDlg, IDC_EMAIL, str, _countof(str));
-					rtrimt(str);
+					rtrimw(str);
 					if (str[0] == 0)
 						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
 					else
@@ -760,7 +760,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else {
 					wchar_t str[256];
 					GetDlgItemText(hwndDlg, IDC_PROTOID, str, _countof(str));
-					if (*rtrimt(str) == 0)
+					if (*rtrimw(str) == 0)
 						break;
 
 					PROTOSEARCHRESULT psr = { 0 };

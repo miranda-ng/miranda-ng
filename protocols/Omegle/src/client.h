@@ -69,7 +69,7 @@ public:
 	std::string chat_id_;
 	std::string server_;
 	std::string question_;
-	ptrT nick_;
+	ptrW nick_;
 
 	//int	msgid_;
 

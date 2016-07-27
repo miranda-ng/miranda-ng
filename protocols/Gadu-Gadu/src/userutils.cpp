@@ -40,7 +40,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 
 	if (!(h = gg_register3(newEmail, newPass, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success || !s->uin) {
 		wchar_t error[128];
-		mir_sntprintf(error, TranslateT("Cannot register new account because of error:\n\t%s"),
+		mir_snwprintf(error, TranslateT("Cannot register new account because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h->error) :
 			(s ? TranslateT("Registration rejected") : ws_strerror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
@@ -86,7 +86,7 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 	if (!(h = gg_unregister3(uin, password, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success || s->uin != uin)
 	{
 		wchar_t error[128];
-		mir_sntprintf(error, TranslateT("Your account cannot be removed because of error:\n\t%s"),
+		mir_snwprintf(error, TranslateT("Your account cannot be removed because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h->error) :
 			(s ? TranslateT("Bad number or password") : ws_strerror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
@@ -138,7 +138,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 	if (!(h = gg_change_passwd4(uin, email, password, newPass, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success)
 	{
 		wchar_t error[128];
-		mir_sntprintf(error, TranslateT("Your password cannot be changed because of error:\n\t%s"),
+		mir_snwprintf(error, TranslateT("Your password cannot be changed because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h->error) :
 			(s ? TranslateT("Invalid data entered") : ws_strerror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
@@ -180,7 +180,7 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 	if (!h || !(s = (gg_pubdir*)h->data) || !s->success)
 	{
 		wchar_t error[128];
-		mir_sntprintf(error, TranslateT("Your e-mail cannot be changed because of error:\n\t%s"),
+		mir_snwprintf(error, TranslateT("Your e-mail cannot be changed because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h->error) : (s ? TranslateT("Bad old e-mail or password") : ws_strerror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg->debugLog(L"gg_dochemail(): Cannot change e-mail. errno=%d: %s", errno, ws_strerror(errno));

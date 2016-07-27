@@ -85,29 +85,29 @@ public:
 	void Release();
 
 	int    m_iStatus;
-	ptrT   m_tszResourceName;
-	ptrT   m_tszStatusMessage;
+	ptrW   m_tszResourceName;
+	ptrW   m_tszStatusMessage;
 	int    m_iPriority; // resource priority, -128..+127
 	time_t m_dwIdleStartTime;// XEP-0012 support
 
 	// groupchat support
 	JABBER_GC_AFFILIATION m_affiliation;
 	JABBER_GC_ROLE m_role;
-	ptrT  m_tszNick;
-	ptrT  m_tszRealJid; // real jid for jabber conferences
+	ptrW  m_tszNick;
+	ptrW  m_tszRealJid; // real jid for jabber conferences
 
 	// XEP-0115 support
-	ptrT  m_tszCapsNode;
-	ptrT  m_tszCapsVer;
-	ptrT  m_tszCapsExt;
+	ptrW  m_tszCapsNode;
+	ptrW  m_tszCapsVer;
+	ptrW  m_tszCapsExt;
 	DWORD m_dwVersionRequestTime, m_dwDiscoInfoRequestTime;
 
 	JabberCapsBits m_jcbCachedCaps;
 	JabberCapsBits m_jcbManualDiscoveredCaps;
 
 	// XEP-232 support
-	ptrT  m_tszOs, m_tszOsVersion;
-	ptrT  m_tszSoftware, m_tszSoftwareVersion, m_tszXMirandaCoreVersion;
+	ptrW  m_tszOs, m_tszOsVersion;
+	ptrW  m_tszSoftware, m_tszSoftwareVersion, m_tszXMirandaCoreVersion;
 
 	// XEP-0085 gone event support
 	BOOL m_bMessageSessionActive;
@@ -221,7 +221,7 @@ struct JABBER_HTTP_AVATARS
 	MCONTACT hContact;
 
 	JABBER_HTTP_AVATARS(const wchar_t *tUrl, MCONTACT thContact)
-		: Url(mir_t2a(tUrl)), hContact(thContact) {}
+		: Url(mir_u2a(tUrl)), hContact(thContact) {}
 
 	~JABBER_HTTP_AVATARS() { mir_free(Url); }
 

@@ -385,13 +385,13 @@ ThreadData* CMsnProto::MSN_GetThreadByContact(const char* wlid, TInfoType type)
 
 GCThreadData* CMsnProto::MSN_GetThreadByChatId(const wchar_t* chatId)
 {
-	if (mir_tstrlen(chatId) == 0)
+	if (mir_wstrlen(chatId) == 0)
 		return NULL;
 
 	mir_cslock lck(m_csThreads);
 	for (int i = 0; i < m_arGCThreads.getCount(); i++) {
 		GCThreadData *T = m_arGCThreads[i];
-		if (mir_tstrcmpi(T->mChatID, chatId) == 0)
+		if (mir_wstrcmpi(T->mChatID, chatId) == 0)
 			return T;
 	}
 

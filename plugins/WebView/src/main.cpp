@@ -221,7 +221,7 @@ extern "C" int __declspec(dllexport) Load()
 		CreateServiceFunction("Countdown", CountdownMenuCommand);
 		mi.flags |= CMIF_KEEPUNTRANSLATED;
 		wchar_t countername[100];
-		mir_sntprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+		mir_snwprintf(countername, TranslateT("%d minutes to update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 		mi.position = 600090099;
 		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 		mi.name.w = countername;

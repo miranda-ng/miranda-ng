@@ -168,7 +168,7 @@ void IEViewSink::PropertyChange(BSTR) {}
 void IEViewSink::BeforeNavigate2(IDispatch*, VARIANT* url, VARIANT*, VARIANT*, VARIANT*, VARIANT*, VARIANT_BOOL* cancel)
 {
 #ifndef GECKO
-	if (mir_tstrcmp(url->bstrVal, L"about:blank"))
+	if (mir_wstrcmp(url->bstrVal, L"about:blank"))
 	{
 		Utils_OpenUrlT(url->bstrVal);
 		*cancel = VARIANT_TRUE;
@@ -989,7 +989,7 @@ void* IEView::getSelection(IEVIEWEVENT *event)
 		if (event->cbSize >= IEVIEWEVENT_SIZE_V2)
 			cp = event->codepage;
 
-		char *str = mir_t2a_cp(selectedText, cp);
+		char *str = mir_u2a_cp(selectedText, cp);
 		mir_free(selectedText);
 		selectedText = (BSTR)str;
 	}

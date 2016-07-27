@@ -79,7 +79,7 @@ static wchar_t* GetExecuteParam(wchar_t **ppszString)
 		*(p++) = 0;
 		if (fQuoted && *p == ',') p++;
 	}
-	else p = &pszParam[mir_tstrlen(pszParam)];
+	else p = &pszParam[mir_wstrlen(pszParam)];
 	*ppszString = p;
 	return pszParam;
 }
@@ -115,10 +115,10 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd, UINT msg, WPARAM wParam, LPA
 					if (pszArg != NULL) {
 						/* we are inside miranda here, we make it async so the shell does
 							* not timeout regardless what the plugins try to do. */
-						if (!mir_tstrcmpi(pszAction, L"file"))
-							CallFunctionAsync(FileActionAsync, mir_tstrdup(pszArg));
-						else if (!mir_tstrcmpi(pszAction, L"url"))
-							CallFunctionAsync(UrlActionAsync, mir_tstrdup(pszArg));
+						if (!mir_wstrcmpi(pszAction, L"file"))
+							CallFunctionAsync(FileActionAsync, mir_wstrdup(pszArg));
+						else if (!mir_wstrcmpi(pszAction, L"url"))
+							CallFunctionAsync(UrlActionAsync, mir_wstrdup(pszArg));
 					}
 					GlobalUnlock(hCommand);
 				}
@@ -170,7 +170,7 @@ static HANDLE StartupMainProcess(wchar_t *pszDatabasePath)
 	p = wcsrchr(szPath, '\\');
 	if (p != NULL) { *p = 0; p = wcsrchr(szPath, '\\'); }
 	if (p == NULL) return NULL;
-	mir_tstrcpy(++p, L"miranda32.exe");
+	mir_wstrcpy(++p, L"miranda32.exe");
 
 	/* inherit startup data from RunDll32 process */
 	STARTUPINFO si;

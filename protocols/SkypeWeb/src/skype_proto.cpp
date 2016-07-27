@@ -329,7 +329,7 @@ int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	//if (GetMessageFromDb(hContact, szMessageId, pre->timestamp)) return 0;
 
 	for (i = 0; i < nCount; i++)
-		cbBlob += int(/*mir_tstrlen(isrList[i]->nick.w)*/0 + 2 + mir_tstrlen(isrList[i]->id.w) + mir_strlen(szMessageId));
+		cbBlob += int(/*mir_wstrlen(isrList[i]->nick.w)*/0 + 2 + mir_wstrlen(isrList[i]->id.w) + mir_strlen(szMessageId));
 
 	pBlob = (PBYTE)mir_calloc(cbBlob);
 

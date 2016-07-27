@@ -67,7 +67,7 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CYahooProto::OnPrebuildContactMenu);
 
 	wchar_t tModuleDescr[100];
-	mir_sntprintf(tModuleDescr, TranslateT("%s plugin connections"), m_tszUserName);
+	mir_snwprintf(tModuleDescr, TranslateT("%s plugin connections"), m_tszUserName);
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
@@ -541,7 +541,7 @@ HANDLE __cdecl CYahooProto::GetAwayMsg(MCONTACT hContact)
 
 int __cdecl CYahooProto::SetAwayMsg(int status, const wchar_t* msg)
 {
-	char *c = msg && msg[0] ? mir_utf8encodeT(msg) : NULL;
+	char *c = msg && msg[0] ? mir_utf8encodeW(msg) : NULL;
 
 	debugLogA("[YahooSetAwayMessage] Status: %S, Msg: %s", pcli->pfnGetStatusModeDescription(status, 0), (char*)c);
 

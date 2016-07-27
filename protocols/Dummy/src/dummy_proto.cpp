@@ -49,7 +49,7 @@ void CDummyProto::SearchIdAckThread(void *targ)
 
 static int sttCompareProtocols(const CDummyProto *p1, const CDummyProto *p2)
 {
-	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 LIST<CDummyProto> dummy_Instances(1, sttCompareProtocols);
@@ -147,7 +147,7 @@ HANDLE CDummyProto::SearchBasic(const wchar_t* id)
 	if (uniqueIdSetting[0] == '\0')
 		return 0;
 
-	wchar_t *tid = mir_tstrdup(id);
+	wchar_t *tid = mir_wstrdup(id);
 	ForkThread(&CDummyProto::SearchIdAckThread, tid);
 	return tid;
 }

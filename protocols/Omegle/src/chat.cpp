@@ -37,7 +37,7 @@ void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool a
 		name = TranslateT("Server");
 		gce.bIsMe = false;
 	}
-	else gce.bIsMe = !mir_tstrcmp(name, this->facy.nick_);
+	else gce.bIsMe = !mir_wstrcmp(name, this->facy.nick_);
 
 	if (addtolog)
 		gce.dwFlags |= GCEF_ADDTOLOG;
@@ -58,7 +58,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 	{
 	case GC_USER_MESSAGE:
 	{
-		std::string text = mir_t2a_cp(hook->ptszText, CP_UTF8);
+		std::string text = mir_u2a_cp(hook->ptszText, CP_UTF8);
 
 		// replace %% back to %, because chat automatically does this to sent messages
 		utils::text::replace_all(&text, "%%", "%");
@@ -238,7 +238,7 @@ void OmegleProto::AddChatContact(const wchar_t *name)
 	if (name == NULL)
 		gce.bIsMe = false;
 	else
-		gce.bIsMe = mir_tstrcmp(name, this->facy.nick_);
+		gce.bIsMe = mir_wstrcmp(name, this->facy.nick_);
 
 	if (gce.bIsMe)
 		gce.ptszStatus = L"Admin";
@@ -259,7 +259,7 @@ void OmegleProto::DeleteChatContact(const wchar_t *name)
 	if (name == NULL)
 		gce.bIsMe = false;
 	else
-		gce.bIsMe = mir_tstrcmp(name, this->facy.nick_);
+		gce.bIsMe = mir_wstrcmp(name, this->facy.nick_);
 
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
@@ -333,7 +333,7 @@ void OmegleProto::SetChatStatus(int status)
 		// Load actual name from database
 		facy.nick_ = db_get_tsa(NULL, m_szModuleName, OMEGLE_KEY_NAME);
 		if (facy.nick_ == NULL) {
-			facy.nick_ = mir_tstrdup(TranslateT("You"));
+			facy.nick_ = mir_wstrdup(TranslateT("You"));
 			db_set_ts(NULL, m_szModuleName, OMEGLE_KEY_NAME, facy.nick_);
 		}
 

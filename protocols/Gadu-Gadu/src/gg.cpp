@@ -65,9 +65,9 @@ wchar_t* ws_strerror(int code)
       wchar_t buff[128];
       int len = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(), 0, buff, _countof(buff), NULL);
       if (len == 0)
-         mir_sntprintf(err_desc, L"WinSock %u: Unknown error.", WSAGetLastError());
+         mir_snwprintf(err_desc, L"WinSock %u: Unknown error.", WSAGetLastError());
       else
-         mir_sntprintf(err_desc, L"WinSock %d: %s", WSAGetLastError(), buff);
+         mir_snwprintf(err_desc, L"WinSock %d: %s", WSAGetLastError(), buff);
       return err_desc;
    }
 
@@ -174,18 +174,18 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 		debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
 		wchar_t avatarsPath[MAX_PATH];
-		mir_sntprintf(avatarsPath, L"%s\\%s", VARST( L"%miranda_avatarcache%"), m_tszUserName);
+		mir_snwprintf(avatarsPath, L"%s\\%s", VARST( L"%miranda_avatarcache%"), m_tszUserName);
 
 		debugLog(L"cleanuplastplugin() 1: miranda_avatarcache = %s", avatarsPath);
 
 		wchar_t spec[MAX_PATH + 10];
-		mir_sntprintf(spec, L"%s\\*.(null)", avatarsPath);
+		mir_snwprintf(spec, L"%s\\*.(null)", avatarsPath);
 		WIN32_FIND_DATA ffd;
 		HANDLE hFind = FindFirstFile(spec, &ffd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				wchar_t filePathT [2*MAX_PATH + 10];
-				mir_sntprintf(filePathT, L"%s\\%s", avatarsPath, ffd.cFileName);
+				mir_snwprintf(filePathT, L"%s\\%s", avatarsPath, ffd.cFileName);
 				if (!_waccess(filePathT, 0)){
 					debugLog(L"cleanuplastplugin() 1: remove file = %s", filePathT);
 					_wremove(filePathT);

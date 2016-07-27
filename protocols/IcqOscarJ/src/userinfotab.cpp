@@ -279,7 +279,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	if (!lParam) {
 		wchar_t buf[200];
-		mir_sntprintf(buf, TranslateT("%s Details"), m_tszUserName);
+		mir_snwprintf(buf, TranslateT("%s Details"), m_tszUserName);
 		odp.pwszTitle = buf;
 
 		odp.position = -1899999999;

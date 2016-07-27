@@ -29,11 +29,11 @@ void CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg)
 	else if (hwndDlg && IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 		wchar_t buf[MAX_PATH] = {0};
 		GetDlgItemText(hwndDlg, IDC_LOGIN, buf, _countof(buf));
-		tlogin = mir_tstrdup(buf);
+		tlogin = mir_wstrdup(buf);
 		GetDlgItemText(hwndDlg, IDC_PASSWORD, buf, _countof(buf));
-		tpass = mir_tstrdup(buf);
+		tpass = mir_wstrdup(buf);
 	}
-	char *user = mir_t2a(tlogin), *pass = mir_t2a(tpass);
+	char *user = mir_u2a(tlogin), *pass = mir_u2a(tpass);
 
 	char str[MAX_PATH];
 	int len = mir_snprintf(str, "%s:%s", user, pass);

@@ -131,8 +131,8 @@ static int ackevent(WPARAM, LPARAM lParam)
 				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
 
 				ErrorWindowData *ewd = (ErrorWindowData*)mir_alloc(sizeof(ErrorWindowData));
-				ewd->szName = mir_tstrdup(pcli->pfnGetContactDisplayName(item->hContact, 0));
-				ewd->szDescription = mir_a2t((char *)pAck->lParam);
+				ewd->szName = mir_wstrdup(pcli->pfnGetContactDisplayName(item->hContact, 0));
+				ewd->szDescription = mir_a2u((char *)pAck->lParam);
 				ewd->szText = GetSendBufferMsg(item);
 				ewd->hwndParent = hwndSender;
 				ewd->queueItem = item;

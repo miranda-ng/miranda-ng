@@ -8,7 +8,7 @@ extern wchar_t wszTempDir[];
 class ToasterImage
 {
 	HBITMAP _hBitmap;
-	ptrT tszId;
+	ptrW tszId;
 
 public:
 	__inline explicit ToasterImage(HICON hIcon) : _hBitmap(NULL), tszId(CMString(FORMAT, L"%p", hIcon).Detach())
@@ -25,7 +25,7 @@ public:
 	{  
 	}
 
-	__inline explicit ToasterImage(const char *szProto) : _hBitmap(NULL), tszId(mir_a2t(szProto))
+	__inline explicit ToasterImage(const char *szProto) : _hBitmap(NULL), tszId(mir_a2u(szProto))
 	{
 		ICONINFO icon = { 0 };
 		if (GetIconInfo(Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE, 1), &icon))

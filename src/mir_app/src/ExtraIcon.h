@@ -89,7 +89,7 @@ public:
 
 protected:
 	int m_id;
-	ptrT m_tszDescription;
+	ptrW m_tszDescription;
 	ptrA m_szDescIcon;
 	MIRANDAHOOKPARAM m_OnClick;
 	LPARAM m_onClickParam;
@@ -170,7 +170,7 @@ public:
 	virtual int ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage);
 
 protected:
-	ptrT m_tszDescription;
+	ptrW m_tszDescription;
 	bool m_setValidExtraIcon;
 	bool m_insideApply;
 

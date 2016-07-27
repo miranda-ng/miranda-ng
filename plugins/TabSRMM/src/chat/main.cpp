@@ -156,7 +156,7 @@ static void OnLoadSettings()
 	g_Settings.bNewLineAfterNames = M.GetBool(CHAT_MODULE, "NewlineAfterNames", false);
 	g_Settings.bUseCommaAsColon = M.GetBool(CHAT_MODULE, "UseCommaAsColon", false);
 
-	replaceStrT(g_Settings.pszLogDir, M.getChatLogPath());
+	replaceStrW(g_Settings.pszLogDir, M.getChatLogPath());
 
 	g_Settings.LogIconSize = (g_Settings.bScaleIcons) ? 12 : 16;
 

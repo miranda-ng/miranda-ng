@@ -111,7 +111,7 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 	wchar_t* line = (wchar_t*)alloca(8001 * sizeof(wchar_t));
 
 	va_start(va, fmt);
-	lineLen = mir_vsntprintf(line, 8000, fmt, va);
+	lineLen = mir_vsnwprintf(line, 8000, fmt, va);
 	if (lineLen < 0) lineLen = 8000;
 	line[lineLen] = 0;
 	va_end(va);
@@ -225,14 +225,14 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 	wchar_t szTemp[512], szTemp2[512];
 	wchar_t* pszNick = NULL;
 	if (streamData->lin->ptszNick) {
-		if (g_Settings->bLogLimitNames && mir_tstrlen(streamData->lin->ptszNick) > 20) {
-			mir_tstrncpy(szTemp2, streamData->lin->ptszNick, 20);
-			mir_tstrncpy(szTemp2 + 20, L"...", 4);
+		if (g_Settings->bLogLimitNames && mir_wstrlen(streamData->lin->ptszNick) > 20) {
+			mir_wstrncpy(szTemp2, streamData->lin->ptszNick, 20);
+			mir_wstrncpy(szTemp2 + 20, L"...", 4);
 		}
-		else mir_tstrncpy(szTemp2, streamData->lin->ptszNick, 511);
+		else mir_wstrncpy(szTemp2, streamData->lin->ptszNick, 511);
 
 		if (streamData->lin->ptszUserInfo)
-			mir_sntprintf(szTemp, L"%s (%s)", szTemp2, streamData->lin->ptszUserInfo);
+			mir_snwprintf(szTemp, L"%s (%s)", szTemp2, streamData->lin->ptszUserInfo);
 		else
 			wcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;
@@ -382,9 +382,9 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 		if (g_Settings->bShowTime) {
 			wchar_t szTimeStamp[30], szOldTimeStamp[30];
 
-			mir_tstrncpy(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
-			mir_tstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
-			if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_tstrcmp(szTimeStamp, szOldTimeStamp)) {
+			mir_wstrncpy(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
+			mir_wstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
+			if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
 				streamData->si->LastTime = lin->time;
 				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, L"%s", szTimeStamp);
 			}
@@ -396,7 +396,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			wchar_t pszTemp[300], *p1;
 
 			Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
-			mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
+			mir_wstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
 			p1 = wcsstr(pszTemp, L"%n");
 			if (p1)
 				p1[1] = 's';

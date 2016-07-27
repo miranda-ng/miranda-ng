@@ -152,13 +152,13 @@ void CIcqProto::handleFileRequest(PBYTE buf, DWORD dwUin, DWORD dwCookie, DWORD 
 	ft->bEmptyDesc = bEmptyDesc;
 
 	// Send chain event
-	wchar_t* ptszFileName = mir_utf8decodeT(pszFileName);
+	wchar_t* ptszFileName = mir_utf8decodeW(pszFileName);
 
 	PROTORECVFILET pre = { 0 };
 	pre.dwFlags = PRFF_TCHAR;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
-	pre.descr.w = mir_utf8decodeT(pszDescription);
+	pre.descr.w = mir_utf8decodeW(pszDescription);
 	pre.files.w = &ptszFileName;
 	pre.lParam = (LPARAM)ft;
 	ProtoChainRecvFile(hContact, &pre);

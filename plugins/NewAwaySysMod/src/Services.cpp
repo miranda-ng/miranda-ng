@@ -53,7 +53,7 @@ __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode 
 INT_PTR GetStatusMsgW(WPARAM wParam, LPARAM)
 {
 	LogMessage("MS_AWAYMSG_GETSTATUSMSGW called. status=%d", wParam);
-	WCHAR *szMsg = mir_t2u(GetDynamicStatMsg(INVALID_CONTACT_ID, NULL, 0, wParam));
+	WCHAR *szMsg = mir_wstrdup(GetDynamicStatMsg(INVALID_CONTACT_ID, NULL, 0, wParam));
 	LogMessage("returned szMsgW:\n%S", szMsg ? szMsg : L"NULL");
 	return (INT_PTR)szMsg;
 }
@@ -90,7 +90,7 @@ int GetState(WPARAM wParam, LPARAM lParam, int Widechar)
 			TCString Msg(pi->status ? CProtoSettings(pi->szProto, pi->status).GetMsgFormat(GMF_LASTORDEFAULT) : CProtoSettings(pi->szProto).GetMsgFormat(((Flags & PIF_NOTTEMPORARY) ? 0 : GMF_TEMPORARY) | GMF_PERSONAL));
 			if (Msg != NULL) {
 				if (Widechar)
-					pi->tszMsg = mir_tstrdup(Msg);
+					pi->tszMsg = mir_wstrdup(Msg);
 				else
 					pi->szMsg = mir_strdup(_T2A(Msg));
 			}

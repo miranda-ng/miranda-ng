@@ -93,11 +93,11 @@ void otrl_privkey_hash_to_humanT(wchar_t human[45], const unsigned char hash[20]
 
 char* contact_get_id(MCONTACT hContact, bool bNameOnError)
 {
-	ptrT pszUniqueID(Contact_GetInfo(CNF_UNIQUEID, hContact));
+	ptrW pszUniqueID(Contact_GetInfo(CNF_UNIQUEID, hContact));
 	if (!pszUniqueID && bNameOnError)
-		pszUniqueID = mir_tstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
+		pszUniqueID = mir_wstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
-	return mir_t2a(pszUniqueID);
+	return mir_u2a(pszUniqueID);
 }
 
 __inline const wchar_t* contact_get_nameT(MCONTACT hContact) {
@@ -107,7 +107,7 @@ __inline const wchar_t* contact_get_nameT(MCONTACT hContact) {
 wchar_t* ProtoGetNickname(const char* proto)
 {
 	wchar_t *p = Contact_GetInfo(CNF_NICK, NULL, proto);
-	return (p != NULL) ? p : mir_tstrdup(L"");
+	return (p != NULL) ? p : mir_wstrdup(L"");
 }
 
 void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MCONTACT hContact) {
@@ -115,12 +115,12 @@ void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MC
 
 	if ( !options.bHavePopups) {	
 		wchar_t title[256];
-		mir_sntprintf(title, L"%s Message", _A2W(MODULENAME));
+		mir_snwprintf(title, L"%s Message", _A2W(MODULENAME));
 
 		if(line1 && line2) {
-			int size = int(mir_tstrlen(line1) + mir_tstrlen(line2) + 3);
+			int size = int(mir_wstrlen(line1) + mir_wstrlen(line2) + 3);
 			wchar_t *message = new wchar_t[size]; // newline and null terminator
-			mir_sntprintf(message, size, L"%s\r\n%s", line1, line2);
+			mir_snwprintf(message, size, L"%s\r\n%s", line1, line2);
 			MessageBox( NULL, message, title, MB_OK | MB_ICONINFORMATION );
 			delete[] message;
 		} else if(line1) {
@@ -165,15 +165,15 @@ void ShowWarning(wchar_t *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	mir_sntprintf(buffer, L"%s Warning", _A2W(MODULENAME));
+	mir_snwprintf(buffer, L"%s Warning", _A2W(MODULENAME));
 
 	
 	switch(disp) {
 		case ED_POP:
 			{
-				int size = int(mir_tstrlen(msg) + 515);
+				int size = int(mir_wstrlen(msg) + 515);
 				wchar_t *message = new wchar_t[size]; // newline and null terminator
-				mir_sntprintf(message, size, L"%s\r\n%s", buffer, msg);
+				mir_snwprintf(message, size, L"%s\r\n%s", buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
 				delete[] message;
 			}
@@ -211,16 +211,16 @@ void ShowError(wchar_t *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	mir_sntprintf(buffer, L"%s Error", _A2W(MODULENAME));
+	mir_snwprintf(buffer, L"%s Error", _A2W(MODULENAME));
 
 
 	wchar_t *message;
 	switch(disp) {
 		case ED_POP:
 			{
-				int size = int(mir_tstrlen(msg) + 515);
+				int size = int(mir_wstrlen(msg) + 515);
 				message = new wchar_t[size]; // newline and null terminator
-				mir_sntprintf(message, size, L"%s\r\n%s", buffer, msg);
+				mir_snwprintf(message, size, L"%s\r\n%s", buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
 				delete[] message;
 			}
@@ -249,27 +249,27 @@ void ShowError(wchar_t *msg) {
 
 
 void ShowPopupUtf(const char* line1, const char* line2, int timeout, const MCONTACT hContact) {
-	wchar_t* l1 = (line1) ? mir_utf8decodeT(line1) : NULL;
-	wchar_t* l2 = (line2) ? mir_utf8decodeT(line2) : NULL;
+	wchar_t* l1 = (line1) ? mir_utf8decodeW(line1) : NULL;
+	wchar_t* l2 = (line2) ? mir_utf8decodeW(line2) : NULL;
 	ShowPopup(l1, l2, timeout, hContact);
 	if (l1) mir_free(l1);
 	if (l2) mir_free(l2);
 }
 
 void ShowWarningUtf(char* msg) {
-	wchar_t* m = (msg) ? mir_utf8decodeT(msg) : NULL;
+	wchar_t* m = (msg) ? mir_utf8decodeW(msg) : NULL;
 	ShowWarning(m);
 	if (m) mir_free(m);
 }
 void ShowErrorUtf(char* msg) {
-	wchar_t* m = (msg) ? mir_utf8decodeT(msg) : NULL;
+	wchar_t* m = (msg) ? mir_utf8decodeW(msg) : NULL;
 	ShowError(m);
 	if (m) mir_free(m);
 }
 
 void ShowMessageInline(const MCONTACT hContact, const wchar_t *msg) {
 	wchar_t buff[1024];
-	mir_sntprintf(buff, L"%s%s", _A2W(LANG_INLINE_PREFIX), msg);
+	mir_snwprintf(buff, L"%s%s", _A2W(LANG_INLINE_PREFIX), msg);
 	T2Utf utf(buff);
 
 	PROTORECVEVENT pre = {0};
@@ -321,13 +321,13 @@ const wchar_t *policy_to_string(OtrlPolicy policy) {
 }
 
 OtrlPolicy policy_from_string(const wchar_t *polstring) {
-	if (mir_tstrcmp(polstring, TranslateW(LANG_POLICY_NEVER)) == 0)
+	if (mir_wstrcmp(polstring, TranslateW(LANG_POLICY_NEVER)) == 0)
 		return OTRL_POLICY_NEVER;
-	else if (mir_tstrcmp(polstring, TranslateW(LANG_POLICY_OPP)) == 0)
+	else if (mir_wstrcmp(polstring, TranslateW(LANG_POLICY_OPP)) == 0)
 		return OTRL_POLICY_OPPORTUNISTIC;
-	else if (mir_tstrcmp(polstring, TranslateW(LANG_POLICY_MANUAL)) == 0)
+	else if (mir_wstrcmp(polstring, TranslateW(LANG_POLICY_MANUAL)) == 0)
 		return OTRL_POLICY_MANUAL_MOD;
-	else if (mir_tstrcmp(polstring, TranslateW(LANG_POLICY_ALWAYS)) == 0)
+	else if (mir_wstrcmp(polstring, TranslateW(LANG_POLICY_ALWAYS)) == 0)
 		return OTRL_POLICY_ALWAYS;
 	else 
 		return CONTACT_DEFAULT_POLICY;

@@ -41,14 +41,14 @@ struct CONNECTION *GetConnectionsTable()
 		if (pTcpTable->table[i].dwLocalAddr) {
 			IpAddr.S_un.S_addr = (ULONG)pTcpTable->table[i].dwLocalAddr;
 			//_snprintf(newConn->strIntIp,_countof(newConn->strIntIp),"%d.%d.%d.%d",IpAddr.S_un.S_un_b.s_b1,IpAddr.S_un.S_un_b.s_b2,IpAddr.S_un.S_un_b.s_b3,IpAddr.S_un.S_un_b.s_b4);
-			wchar_t *strIntIp = mir_a2t(inet_ntoa(IpAddr));
+			wchar_t *strIntIp = mir_a2u(inet_ntoa(IpAddr));
 			wcsncpy(newConn->strIntIp, strIntIp, _countof(newConn->strIntIp) - 1);
 			mir_free(strIntIp);
 		}
 
 		if (pTcpTable->table[i].dwRemoteAddr) {
 			IpAddr.S_un.S_addr = (u_long)pTcpTable->table[i].dwRemoteAddr;
-			wchar_t *strExtIp = mir_a2t(inet_ntoa(IpAddr));
+			wchar_t *strExtIp = mir_a2u(inet_ntoa(IpAddr));
 			wcsncpy(newConn->strExtIp, strExtIp, _countof(newConn->strExtIp) - 1);
 			mir_free(strExtIp);
 		}
@@ -126,8 +126,8 @@ void deleteConnectionsTable(struct CONNECTION *head)
 struct CONNECTION *searchConnection(struct CONNECTION *head, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
 {
 	for (struct CONNECTION *cur = head; cur != NULL; cur = cur->next) {
-		if (mir_tstrcmp(cur->strIntIp, intIp) == 0 &&
-			mir_tstrcmp(cur->strExtIp, extIp) == 0 &&
+		if (mir_wstrcmp(cur->strIntIp, intIp) == 0 &&
+			mir_wstrcmp(cur->strExtIp, extIp) == 0 &&
 			cur->intExtPort == extPort &&
 			cur->intIntPort == intPort &&
 			cur->state == state)
@@ -140,7 +140,7 @@ void getDnsName(wchar_t *strIp, wchar_t *strHostName, size_t len)
 {
 	in_addr iaHost;
 
-	char *szStrIP = mir_t2a(strIp);
+	char *szStrIP = mir_u2a(strIp);
 	iaHost.s_addr = inet_addr(szStrIP);
 	mir_free(szStrIP);
 	hostent *h = gethostbyaddr((char *)&iaHost, sizeof(struct in_addr), AF_INET);

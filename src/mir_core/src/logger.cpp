@@ -30,8 +30,8 @@ struct Logger
 {
 	Logger(const char* pszName, const wchar_t *ptszDescr, const wchar_t *ptszFilename, unsigned options) :
 		m_name(mir_strdup(pszName)),
-		m_descr(mir_tstrdup(ptszDescr)),
-		m_fileName(mir_tstrdup(ptszFilename)),
+		m_descr(mir_wstrdup(ptszDescr)),
+		m_fileName(mir_wstrdup(ptszFilename)),
 		m_options(options),
 		m_signature(SECRET_SIGNATURE),
 		m_out(NULL),
@@ -47,7 +47,7 @@ struct Logger
 
 	int      m_signature;
 	ptrA     m_name;
-	ptrT     m_fileName, m_descr;
+	ptrW     m_fileName, m_descr;
 	FILE    *m_out;
 	__int64  m_lastwrite;
 	unsigned m_options;

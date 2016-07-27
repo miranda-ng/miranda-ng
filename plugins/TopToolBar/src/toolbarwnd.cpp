@@ -299,7 +299,7 @@ int LoadBackgroundOptions()
 	}
 
 	if (db_get_b(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
-		ptrT tszBitmapName(db_get_tsa(NULL, TTB_OPTDIR, "BkBitmap"));
+		ptrW tszBitmapName(db_get_tsa(NULL, TTB_OPTDIR, "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}

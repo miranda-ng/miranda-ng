@@ -57,7 +57,7 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 	if (!mask->szMask || !bEnable)
 		return;
 
-	size_t iMaskLen = mir_tstrlen(mask->szMask) + 1;
+	size_t iMaskLen = mir_wstrlen(mask->szMask) + 1;
 	LPTSTR pszNewMask = (LPTSTR)HeapAlloc(hHeap, HEAP_NO_SERIALIZE, iMaskLen * sizeof(wchar_t));
 	wcscpy_s(pszNewMask, iMaskLen, mask->szMask);
 	_wcsupr_s(pszNewMask, iMaskLen);
@@ -147,7 +147,7 @@ static void SetSrmmIcon(MCONTACT hContact, LPTSTR ptszMirver)
 	sid.flags = MBF_TCHAR;
 	sid.tszTooltip = ptszMirver;
 
-	if (mir_tstrlen(ptszMirver))
+	if (mir_wstrlen(ptszMirver))
 		sid.hIcon = (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE);
 	else
 		sid.flags |= MBF_HIDDEN;
@@ -326,7 +326,7 @@ void __fastcall GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay, sh
 		return;
 	}
 
-	LPTSTR tszMirVerUp = mir_a2t(szMirVer);
+	LPTSTR tszMirVerUp = mir_a2u(szMirVer);
 	wcsupr(tszMirVerUp);
 	MatchMasks(tszMirVerUp, base, overlay, overlay2, overlay3, overlay4);
 	mir_free(tszMirVerUp);
@@ -840,7 +840,7 @@ int OnExtraImageApply(WPARAM hContact, LPARAM)
 	if (hContact == NULL)
 		return 0;
 
-	ptrT tszMirver;
+	ptrW tszMirver;
 	char *szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		tszMirver = db_get_tsa(hContact, szProto, "MirVer");
@@ -863,7 +863,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (cws && cws->szSetting && !strcmp(cws->szSetting, "MirVer")) {
 		switch (cws->value.type) {
 		case DBVT_UTF8:
-			ApplyFingerprintImage(hContact, ptrT(mir_utf8decodeT(cws->value.pszVal)));
+			ApplyFingerprintImage(hContact, ptrW(mir_utf8decodeW(cws->value.pszVal)));
 			break;
 		case DBVT_ASCIIZ:
 			ApplyFingerprintImage(hContact, _A2T(cws->value.pszVal));
@@ -893,7 +893,7 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
-		ptrT ptszMirVer;
+		ptrW ptszMirVer;
 		char *szProto = GetContactProto(event->hContact);
 		if (szProto != NULL)
 			ptszMirVer = db_get_tsa(event->hContact, szProto, "MirVer");

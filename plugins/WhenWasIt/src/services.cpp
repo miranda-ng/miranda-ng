@@ -217,7 +217,7 @@ INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
 	of.lStructSize = sizeof(OPENFILENAME);
 	//of.hInstance = hInstance;
 	wchar_t filter[MAX_PATH];
-	mir_sntprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c", TranslateT("Birthdays files"), 0, 0);
+	mir_snwprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c", TranslateT("Birthdays files"), 0, 0);
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
 	of.nMaxFile = _countof(fileName);
@@ -226,7 +226,7 @@ INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
 
 	if (GetOpenFileName(&of)) {
 		wchar_t buffer[2048];
-		mir_sntprintf(buffer, TranslateT("Importing birthdays from file: %s"), fileName);
+		mir_snwprintf(buffer, TranslateT("Importing birthdays from file: %s"), fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hImportBirthdays);
 		DoImport(fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done importing birthdays"), hImportBirthdays);
@@ -242,7 +242,7 @@ INT_PTR ExportBirthdaysService(WPARAM, LPARAM)
 	of.lStructSize = sizeof(OPENFILENAME);
 	//of.hInstance = hInstance;
 	wchar_t filter[MAX_PATH];
-	mir_sntprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c%s (*.*)%c*.*%c", TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0);
+	mir_snwprintf(filter, L"%s (*" BIRTHDAY_EXTENSION L")%c*" BIRTHDAY_EXTENSION L"%c%s (*.*)%c*.*%c", TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0);
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
 	of.nMaxFile = _countof(fileName);
@@ -252,9 +252,9 @@ INT_PTR ExportBirthdaysService(WPARAM, LPARAM)
 		wchar_t buffer[2048];
 		wchar_t *fn = wcsrchr(fileName, '\\') + 1;
 		if (!wcschr(fn, '.'))
-			mir_tstrcat(fileName, BIRTHDAY_EXTENSION);
+			mir_wstrcat(fileName, BIRTHDAY_EXTENSION);
 
-		mir_sntprintf(buffer, TranslateT("Exporting birthdays to file: %s"), fileName);
+		mir_snwprintf(buffer, TranslateT("Exporting birthdays to file: %s"), fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hExportBirthdays);
 		DoExport(fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done exporting birthdays"), hExportBirthdays);

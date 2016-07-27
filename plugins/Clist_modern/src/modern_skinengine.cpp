@@ -202,22 +202,22 @@ HRESULT IniParser::WriteStrToDb(const char * szSection, const char * szName, con
 
 int IniParser::GetSkinFolder(IN const wchar_t * szFileName, OUT wchar_t * pszFolderName)
 {
-	wchar_t *szBuff = mir_tstrdup(szFileName);
-	wchar_t *pszPos = szBuff + mir_tstrlen(szBuff);
+	wchar_t *szBuff = mir_wstrdup(szFileName);
+	wchar_t *pszPos = szBuff + mir_wstrlen(szBuff);
 	while (pszPos > szBuff && *pszPos != '.') { pszPos--; }
 	*pszPos = '\0';
-	mir_tstrcpy(pszFolderName, szBuff);
+	mir_wstrcpy(pszFolderName, szBuff);
 
 	wchar_t custom_folder[MAX_PATH], cus[MAX_PATH];
 	wchar_t *b3;
-	mir_tstrncpy(custom_folder, pszFolderName, _countof(custom_folder));
-	b3 = custom_folder + mir_tstrlen(custom_folder);
+	mir_wstrncpy(custom_folder, pszFolderName, _countof(custom_folder));
+	b3 = custom_folder + mir_wstrlen(custom_folder);
 	while (b3 > custom_folder && *b3 != '\\') { b3--; }
 	*b3 = '\0';
 
 	GetPrivateProfileString(L"Skin_Description_Section", L"SkinFolder", L"", cus, _countof(custom_folder), szFileName);
 	if (cus[0] != 0)
-		mir_sntprintf(pszFolderName, MAX_PATH, L"%s\\%s", custom_folder, cus);
+		mir_snwprintf(pszFolderName, MAX_PATH, L"%s\\%s", custom_folder, cus);
 
 	mir_free(szBuff);
 	PathToRelativeT(pszFolderName, pszFolderName);
@@ -1471,13 +1471,13 @@ int ske_GetFullFilename(wchar_t *buf, const wchar_t *file, wchar_t *skinfolder, 
 {
 	wchar_t *SkinPlace = db_get_tsa(NULL, SKIN, "SkinFolder");
 	if (SkinPlace == NULL)
-		SkinPlace = mir_tstrdup(L"\\Skin\\default");
+		SkinPlace = mir_wstrdup(L"\\Skin\\default");
 
 	wchar_t b2[MAX_PATH];
 	if (file[0] != '\\' && file[1] != ':')
-		mir_sntprintf(b2, L"%s\\%s", (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : L"", file);
+		mir_snwprintf(b2, L"%s\\%s", (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : L"", file);
 	else
-		mir_tstrncpy(b2, file, _countof(b2));
+		mir_wstrncpy(b2, file, _countof(b2));
 
 	if (madeAbsolute) {
 		if (b2[0] == '\\' && b2[1] != '\\')
@@ -1485,7 +1485,7 @@ int ske_GetFullFilename(wchar_t *buf, const wchar_t *file, wchar_t *skinfolder, 
 		else
 			PathToAbsoluteT(b2, buf);
 	}
-	else mir_tstrncpy(buf, b2, MAX_PATH);
+	else mir_wstrncpy(buf, b2, MAX_PATH);
 
 	mir_free(SkinPlace);
 	return 0;
@@ -1564,7 +1564,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(const wchar_t *szFilename)
 	BOOL err = FALSE;
 	tga_header_t header;
 	if (!szFilename) return NULL;
-	if (!wildcmpit(szFilename, L"*\\*%.tga")) {
+	if (!wildcmpiw(szFilename, L"*\\*%.tga")) {
 		//Loading TGA image from file
 		FILE *fp = _wfopen(szFilename, L"rb");
 		if (!fp) {
@@ -1631,7 +1631,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const wchar_t *tszFileName)
 	HBITMAP hBitmap;
 	bool f = false;
 
-	if (!mir_tstrcmpi(ext, L".tga")) {
+	if (!mir_wstrcmpi(ext, L".tga")) {
 		hBitmap = ske_LoadGlyphImage_TGA(tszFileName);
 		f = true;
 	}
@@ -1663,7 +1663,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const wchar_t *tszFileName)
 
 static HBITMAP ske_skinLoadGlyphImage(const wchar_t *tszFileName)
 {
-	if (!wildcmpit(tszFileName, L"*.tga"))
+	if (!wildcmpiw(tszFileName, L"*.tga"))
 		return GDIPlus_LoadGlyphImage(tszFileName);
 
 	return ske_LoadGlyphImageByDecoders(tszFileName);
@@ -1679,7 +1679,7 @@ HBITMAP ske_LoadGlyphImage(const wchar_t *tszFileName)
 
 	if (pLoadedImages) {
 		for (DWORD i = 0; i < dwLoadedImagesCount; i++) {
-			if (!mir_tstrcmpi(pLoadedImages[i].szFileName, szFile)) {
+			if (!mir_wstrcmpi(pLoadedImages[i].szFileName, szFile)) {
 				pLoadedImages[i].dwLoadedTimes++;
 				return pLoadedImages[i].hGlyph;
 			}
@@ -1701,7 +1701,7 @@ HBITMAP ske_LoadGlyphImage(const wchar_t *tszFileName)
 
 	pLoadedImages[dwLoadedImagesCount].dwLoadedTimes = 1;
 	pLoadedImages[dwLoadedImagesCount].hGlyph = hbmp;
-	pLoadedImages[dwLoadedImagesCount].szFileName = mir_tstrdup(szFile);
+	pLoadedImages[dwLoadedImagesCount].szFileName = mir_wstrdup(szFile);
 	dwLoadedImagesCount++;
 	return hbmp;
 }
@@ -1918,7 +1918,7 @@ static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 		if (Skin->szSkinPlace && wcschr(Skin->szSkinPlace, '%'))
 			bOnlyObjects = TRUE;
 		mir_free(Skin->szSkinPlace);
-		Skin->szSkinPlace = mir_tstrdup(L"%Default%");
+		Skin->szSkinPlace = mir_wstrdup(L"%Default%");
 		ske_LoadSkinFromResource(bOnlyObjects);
 	}
 
@@ -2217,7 +2217,7 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 
 	// Calc len of input string
 	if (nCount == -1)
-		nCount = (int)mir_tstrlen(lpString);
+		nCount = (int)mir_wstrlen(lpString);
 
 	// retrieve destination bitmap bits
 	HBITMAP hDestBitmap = (HBITMAP)GetCurrentObject(hDC, OBJ_BITMAP);
@@ -3299,8 +3299,8 @@ static DWORD ske_HexToARGB(char * Hex)
 
 static wchar_t *ske_ReAppend(wchar_t *lfirst, wchar_t * lsecond, int len)
 {
-	size_t l1 = lfirst ? mir_tstrlen(lfirst) : 0;
-	size_t l2 = (len ? len : (mir_tstrlen(lsecond) + 1));
+	size_t l1 = lfirst ? mir_wstrlen(lfirst) : 0;
+	size_t l2 = (len ? len : (mir_wstrlen(lsecond) + 1));
 	wchar_t *buf = (wchar_t *)mir_alloc((l1 + l2 + 1)*sizeof(wchar_t));
 	if (lfirst) memmove(buf, lfirst, l1*sizeof(wchar_t));
 	memmove(buf + l1, lsecond, l2*sizeof(wchar_t));
@@ -3311,8 +3311,8 @@ static wchar_t *ske_ReAppend(wchar_t *lfirst, wchar_t * lsecond, int len)
 
 wchar_t* ske_ReplaceVar(wchar_t *var)
 {
-	if (!var) return mir_tstrdup(L"");
-	if (!mir_tstrcmpi(var, L"Profile")) {
+	if (!var) return mir_wstrdup(L"");
+	if (!mir_wstrcmpi(var, L"Profile")) {
 		char buf[MAX_PATH] = { 0 };
 		CallService(MS_DB_GETPROFILENAME, (WPARAM)MAX_PATH, (LPARAM)buf);
 
@@ -3324,12 +3324,12 @@ wchar_t* ske_ReplaceVar(wchar_t *var)
 	}
 
 	mir_free(var);
-	return mir_tstrdup(L"");
+	return mir_wstrdup(L"");
 }
 
 wchar_t *ske_ParseText(wchar_t *stzText)
 {
-	size_t len = mir_tstrlen(stzText);
+	size_t len = mir_wstrlen(stzText);
 	wchar_t *result = NULL;
 	size_t stpos = 0, curpos = 0;
 

@@ -43,7 +43,7 @@ int BuildContactMenu(WPARAM hContact, LPARAM)
 	}
 
 	LPCTSTR ptszName;
-	ptrT tszStamp(db_get_tsa(NULL, S_MOD, "MenuStamp"));
+	ptrW tszStamp(db_get_tsa(NULL, S_MOD, "MenuStamp"));
 	if (tszStamp != NULL)
 		ptszName = ParseString(tszStamp , hContact);
 	else
@@ -51,7 +51,7 @@ int BuildContactMenu(WPARAM hContact, LPARAM)
 
 	int flags = 0;
 	HICON hIcon = NULL;
-	if (!mir_tstrcmp(ptszName, TranslateT("<unknown>"))) {
+	if (!mir_wstrcmp(ptszName, TranslateT("<unknown>"))) {
 		if (IsWatchedProtocol(szProto))
 			flags |= CMIF_GRAYED;
 		else

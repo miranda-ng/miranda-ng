@@ -274,12 +274,12 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	else if (data->m_iDlgFlags & DLG_SHOW_BUTTONS_INLIST) {
 		if (found) {
 			if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
-				mir_sntprintf(text, TranslateT("Clear history"));
+				mir_snwprintf(text, TranslateT("Clear history"));
 				cbei.iImage = I_ICON_CLEAR;
 				cbei.iSelectedImage = I_ICON_CLEAR;
 			}
 			else {
-				mir_sntprintf(text, L"## %s ##", TranslateT("Clear history"));
+				mir_snwprintf(text, L"## %s ##", TranslateT("Clear history"));
 				cbei.iIndent = 1;
 			}
 			cbei.iItem = -1;
@@ -291,12 +291,12 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 
 		cbei.iItem = -1;
 		if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
-			mir_sntprintf(text, TranslateT("Add to predefined"));
+			mir_snwprintf(text, TranslateT("Add to predefined"));
 			cbei.iImage = I_ICON_ADD;
 			cbei.iSelectedImage = I_ICON_ADD;
 		}
 		else {
-			mir_sntprintf(text, L"## %s ##", TranslateT("Add to predefined"));
+			mir_snwprintf(text, L"## %s ##", TranslateT("Add to predefined"));
 			cbei.iIndent = 1;
 		}
 		cbei.pszText = (LPTSTR)text;
@@ -305,13 +305,13 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		SendMessage(handle, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
 
 		if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
-			mir_sntprintf(text, TranslateT("Delete selected"));
+			mir_snwprintf(text, TranslateT("Delete selected"));
 			cbei.iImage = I_ICON_DEL;
 			cbei.iSelectedImage = I_ICON_DEL;
 		}
 		else {
 			cbei.iIndent = 1;
-			mir_sntprintf(text, L"## %s ##", TranslateT("Delete selected"));
+			mir_snwprintf(text, L"## %s ##", TranslateT("Delete selected"));
 		}
 		cbei.iItem = -1;
 		cbei.pszText = (LPTSTR)text;
@@ -468,7 +468,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 				wchar_t item_string[128];
 				GetMenuString(hmenu, m_selection, (LPTSTR)&item_string, 128, MF_BYCOMMAND);
 
-				int len = (int)mir_tstrlen(item_string);
+				int len = (int)mir_wstrlen(item_string);
 				if (len) {
 					LPTSTR lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(wchar_t));
@@ -609,7 +609,7 @@ int AddToPredefined(HWND hwndDlg, struct MsgBoxData *data)
 		newitem.pszText = text;
 
 		SendMessage(data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&newitem);
-		if (LOWORD(newitem.lParam) == PREDEFINED_MSG && !mir_tstrcmp(text, msg))
+		if (LOWORD(newitem.lParam) == PREDEFINED_MSG && !mir_wstrcmp(text, msg))
 			return num_items;
 	}
 
@@ -692,7 +692,7 @@ void DisplayCharsCount(struct MsgBoxData *dlg_data, HWND hwndDlg)
 				lines++;
 		}
 	}
-	mir_sntprintf(status_text, TranslateT("OK (%d)"), len - (lines - 1));
+	mir_snwprintf(status_text, TranslateT("OK (%d)"), len - (lines - 1));
 	SetDlgItemText(hwndDlg, IDC_OK, status_text);
 }
 
@@ -779,12 +779,12 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	wchar_t szTitle[256], szProtoName[128];
 	BOOL bDisabled = msgbox_data->m_szProto && !(CallProtoService(msgbox_data->m_szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND);
 
-	mir_sntprintf(szProtoName, msgbox_data->m_szProto ? Proto_GetAccount(msgbox_data->m_szProto)->tszAccountName : TranslateT("global"));
+	mir_snwprintf(szProtoName, msgbox_data->m_szProto ? Proto_GetAccount(msgbox_data->m_szProto)->tszAccountName : TranslateT("global"));
 	if (iStatus == ID_STATUS_CURRENT) {
 		if (msgbox_data->m_bOnStartup)
-			mir_sntprintf(szTitle, TranslateT("%s message (%s)"), TranslateT("<startup>"), szProtoName);
+			mir_snwprintf(szTitle, TranslateT("%s message (%s)"), TranslateT("<startup>"), szProtoName);
 		else
-			mir_sntprintf(szTitle, TranslateT("%s message (%s)"), TranslateT("<current>"), szProtoName);
+			mir_snwprintf(szTitle, TranslateT("%s message (%s)"), TranslateT("<current>"), szProtoName);
 	}
 	else if (iStatus > ID_STATUS_CURRENT) {
 		wchar_t buff[128];
@@ -793,10 +793,10 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 		CallService(MS_SS_GETPROFILENAME, iStatus - 40083, (LPARAM)buff1);
 		MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, buff1, -1, buff, 128);
 
-		mir_sntprintf(szTitle, TranslateT("%s message (%s)"), buff, szProtoName);
+		mir_snwprintf(szTitle, TranslateT("%s message (%s)"), buff, szProtoName);
 	}
 	else
-		mir_sntprintf(szTitle, TranslateT("%s message (%s)"), pcli->pfnGetStatusModeDescription(iStatus, 0), szProtoName);
+		mir_snwprintf(szTitle, TranslateT("%s message (%s)"), pcli->pfnGetStatusModeDescription(iStatus, 0), szProtoName);
 	SetWindowText(hwndDlg, szTitle);
 
 	if (iStatus == ID_STATUS_CURRENT)
@@ -904,16 +904,16 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			init_data = (struct MsgBoxInitData *)lParam;
 			GetWindowText(hwndDlg, szFormat, _countof(szFormat));
-			mir_sntprintf(szProtoName, init_data->m_szProto ? Proto_GetAccount(init_data->m_szProto)->tszAccountName : TranslateT("global"));
+			mir_snwprintf(szProtoName, init_data->m_szProto ? Proto_GetAccount(init_data->m_szProto)->tszAccountName : TranslateT("global"));
 
 			if (init_data->m_iStatus == ID_STATUS_CURRENT) {
 				if (init_data->m_bOnStartup)
-					mir_sntprintf(szTitle, szFormat, TranslateT("<startup>"), szProtoName);
+					mir_snwprintf(szTitle, szFormat, TranslateT("<startup>"), szProtoName);
 				else
-					mir_sntprintf(szTitle, szFormat, TranslateT("<current>"), szProtoName);
+					mir_snwprintf(szTitle, szFormat, TranslateT("<current>"), szProtoName);
 			}
 			else
-				mir_sntprintf(szTitle, szFormat, pcli->pfnGetStatusModeDescription(init_data->m_iStatus, 0), szProtoName);
+				mir_snwprintf(szTitle, szFormat, pcli->pfnGetStatusModeDescription(init_data->m_iStatus, 0), szProtoName);
 			SetWindowText(hwndDlg, szTitle);
 
 			int icoStatus = ID_STATUS_OFFLINE;
@@ -1097,7 +1097,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			}
 			else {
 				wchar_t str[64];
-				mir_sntprintf(str, TranslateT("Closing in %d"), msgbox_data->m_iCountdown);
+				mir_snwprintf(str, TranslateT("Closing in %d"), msgbox_data->m_iCountdown);
 				SetDlgItemText(hwndDlg, IDC_OK, str);
 			}
 			msgbox_data->m_iCountdown--;
@@ -1174,7 +1174,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							mir_snprintf(buff, "SMsg%d", i);
 							wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", buff);
 							if (tszStatusMsg != NULL) {
-								if (!mir_tstrcmp(tszStatusMsg, tszMsg)) {
+								if (!mir_wstrcmp(tszStatusMsg, tszMsg)) {
 									found = true;
 									if (msgbox_data->m_szProto) {
 										mir_snprintf(buff2, "Last%sMsg", msgbox_data->m_szProto);

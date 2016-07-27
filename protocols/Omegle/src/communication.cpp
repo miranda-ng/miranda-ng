@@ -365,7 +365,7 @@ bool Omegle_client::start()
 			char str[255];
 			mir_snprintf(str, Translate("Connected to server %s. There are %s users online now."), server_.c_str(), count.c_str());
 
-			wchar_t *msg = mir_a2t(str);
+			wchar_t *msg = mir_a2u(str);
 			parent->UpdateChat(NULL, msg);
 			mir_free(msg);
 		}
@@ -374,7 +374,7 @@ bool Omegle_client::start()
 		char str[255];
 		mir_snprintf(str, Translate("Connected to server %s."), server_.c_str());
 
-		wchar_t *msg = mir_a2t(str);
+		wchar_t *msg = mir_a2u(str);
 		parent->UpdateChat(NULL, msg);
 		mir_free(msg);
 	}
@@ -505,14 +505,14 @@ bool Omegle_client::events()
 				//data["timestamp"]; // e.g. 1445336566.0196209
 
 				// We got info about count of connected people there
-				ptrT count(json_as_string(json_get(data, "count")));
+				ptrW count(json_as_string(json_get(data, "count")));
 				wchar_t strT[255];
-				mir_sntprintf(strT, TranslateT("On whole Omegle are %s strangers online now."), count);
+				mir_snwprintf(strT, TranslateT("On whole Omegle are %s strangers online now."), count);
 
 				parent->UpdateChat(NULL, strT);
 			}
 			else if (name == "serverMessage") {
-				ptrT message(json_as_string(json_at(item, 1)));
+				ptrW message(json_as_string(json_at(item, 1)));
 				parent->UpdateChat(NULL, TranslateTS(message));
 			}
 			else if (name == "connected") {
@@ -536,7 +536,7 @@ bool Omegle_client::events()
 				JSONNode *items = json_at(item, 1);
 				size_t size = json_size(items);
 				for (size_t i = 0; i < size; i++) {
-					likes += ptrT(json_as_string(json_at(items, i)));
+					likes += ptrW(json_as_string(json_at(items, i)));
 					if (i < size - 1)
 						likes += L", ";
 				}
@@ -545,7 +545,7 @@ bool Omegle_client::events()
 				parent->SetTopic(likes.c_str());
 			}
 			else if (name == "question") {
-				ptrT question(json_as_string(json_at(item, 1)));
+				ptrW question(json_as_string(json_at(item, 1)));
 				parent->SetTopic(question);
 			}
 			else if (name == "typing" || name == "spyTyping") {
@@ -556,8 +556,8 @@ bool Omegle_client::events()
 				st.cbSize = sizeof(st);
 				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on"));
 
-				ptrT who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_tstrdup(L"Stranger"));
-				mir_sntprintf(st.tszText, TranslateT("%s is typing."), TranslateTS(who));
+				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
+				mir_snwprintf(st.tszText, TranslateT("%s is typing."), TranslateTS(who));
 
 				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 			}
@@ -569,8 +569,8 @@ bool Omegle_client::events()
 				st.cbSize = sizeof(st);
 				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off"));
 
-				ptrT who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_tstrdup(L"Stranger"));
-				mir_sntprintf(st.tszText, TranslateT("%s stopped typing."), TranslateTS(who));
+				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
+				mir_snwprintf(st.tszText, TranslateT("%s stopped typing."), TranslateTS(who));
 
 				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 			}
@@ -581,7 +581,7 @@ bool Omegle_client::events()
 				SkinPlaySound("StrangerMessage");
 
 				if (state_ == STATE_ACTIVE) {
-					ptrT msg(json_as_string(json_at(item, 1)));
+					ptrW msg(json_as_string(json_at(item, 1)));
 					parent->UpdateChat(TranslateT("Stranger"), msg);
 				}
 			}
@@ -592,8 +592,8 @@ bool Omegle_client::events()
 				SkinPlaySound("StrangerMessage");
 
 				if (state_ == STATE_SPY) {
-					ptrT stranger(json_as_string(json_at(item, 1)));
-					ptrT msg(json_as_string(json_at(item, 2)));
+					ptrW stranger(json_as_string(json_at(item, 1)));
+					ptrW msg(json_as_string(json_at(item, 2)));
 					parent->UpdateChat(stranger, msg);
 				}
 			}
@@ -612,10 +612,10 @@ bool Omegle_client::events()
 			else if (name == "spyDisconnected") {
 				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), NULL);
 
-				ptrT stranger(json_as_string(json_at(item, 1)));
+				ptrW stranger(json_as_string(json_at(item, 1)));
 
 				wchar_t strT[255];
-				mir_sntprintf(strT, TranslateT("%s disconnected."), TranslateTS(stranger));
+				mir_snwprintf(strT, TranslateT("%s disconnected."), TranslateTS(stranger));
 				parent->UpdateChat(NULL, strT);
 
 				// Stranger disconnected
@@ -637,10 +637,10 @@ bool Omegle_client::events()
 				parent->StopChat(false);
 			}
 			else if (name == "error") {
-				ptrT error(json_as_string(json_at(item, 1)));
+				ptrW error(json_as_string(json_at(item, 1)));
 
 				wchar_t strT[255];
-				mir_sntprintf(strT, TranslateT("Error: %s"), TranslateTS(error));
+				mir_snwprintf(strT, TranslateT("Error: %s"), TranslateTS(error));
 				parent->UpdateChat(NULL, strT);
 			}
 		}

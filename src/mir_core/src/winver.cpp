@@ -95,7 +95,7 @@ MIR_CORE_DLL(BOOL) IsWorkstationLocked(void)
 
 	wchar_t tszName[100];
 	DWORD cbName;
-	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, _countof(tszName), &cbName) || mir_tstrcmpi(tszName, L"default") != 0);
+	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, _countof(tszName), &cbName) || mir_wstrcmpi(tszName, L"default") != 0);
 	CloseDesktop(hDesk);
 	return bLocked;
 }
@@ -395,7 +395,7 @@ MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize)
 
 	// Include service pack (if any) and build number.
 
-	if (mir_tstrlen(osvi.szCSDVersion) > 0) {
+	if (mir_wstrlen(osvi.szCSDVersion) > 0) {
 		ret.Append(L" ");
 		ret.Append(osvi.szCSDVersion);
 	}
@@ -408,6 +408,6 @@ MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize)
 		ret.AppendFormat(L" (Wine %s)", _A2T(wine_get_version()));
 	}
 
-	mir_tstrncpy(buf, ret, bufSize);
+	mir_wstrncpy(buf, ret, bufSize);
 	return TRUE;
 }

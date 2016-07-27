@@ -507,8 +507,8 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 			pd.lchContact = NULL; //(HANDLE)wParam;
 			// icon
 			pd.lchIcon = MsgLoadIcon(pMsgBox);
-			mir_tstrncpy(pd.lptzContactName, pMsgBox->ptszTitle, _countof(pd.lptzContactName));
-			mir_tstrncpy(pd.lptzText, pMsgBox->ptszMsg, _countof(pd.lptzText));
+			mir_wstrncpy(pd.lptzContactName, pMsgBox->ptszTitle, _countof(pd.lptzContactName));
+			mir_wstrncpy(pd.lptzText, pMsgBox->ptszMsg, _countof(pd.lptzText));
 
 			// CALLBAC Proc
 			pd.PluginWindowProc = PopupProc;
@@ -677,7 +677,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 
 	va_list vl;
 	va_start(vl, pszFormat);
-	mir_vsntprintf(tszMsg, _countof(tszMsg), TranslateTS(pszFormat), vl);
+	mir_vsnwprintf(tszMsg, _countof(tszMsg), TranslateTS(pszFormat), vl);
 	va_end(vl);
 
 	MSGBOX mb = { 0 };
@@ -700,11 +700,11 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 {
 	wchar_t tszTitle[MAX_SECONDLINE], tszMsg[MAX_SECONDLINE];
-	mir_sntprintf(tszTitle, L"%s - %s", _A2W(MODNAME), TranslateT("Error"));
+	mir_snwprintf(tszTitle, L"%s - %s", _A2W(MODNAME), TranslateT("Error"));
 
 	va_list vl;
 	va_start(vl, pszFormat);
-	mir_vsntprintf(tszMsg, TranslateTS(pszFormat), vl);
+	mir_vsnwprintf(tszMsg, TranslateTS(pszFormat), vl);
 	va_end(vl);
 
 	MSGBOX mb = { 0 };

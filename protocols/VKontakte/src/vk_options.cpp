@@ -54,7 +54,7 @@ void CVkAccMgrForm::OnInitDialog()
 void CVkAccMgrForm::OnApply()
 {
 	pass_ptrT ptszNewPass(m_edtPassword.GetText());
-	bool bPassChanged = mir_tstrcmp(m_ptszOldPass, ptszNewPass) != 0;
+	bool bPassChanged = mir_wstrcmp(m_ptszOldPass, ptszNewPass) != 0;
 	if (bPassChanged) {
 		T2Utf szRawPasswd(ptszNewPass);
 		m_proto->setString("Password", szRawPasswd);
@@ -62,8 +62,8 @@ void CVkAccMgrForm::OnApply()
 		m_ptszOldPass = ptszNewPass;
 	}
 
-	ptrT ptszNewLogin(m_edtLogin.GetText());
-	if (bPassChanged || mir_tstrcmpi(m_ptszOldLogin, ptszNewLogin))
+	ptrW ptszNewLogin(m_edtLogin.GetText());
+	if (bPassChanged || mir_wstrcmpi(m_ptszOldLogin, ptszNewLogin))
 		m_proto->ClearAccessToken();
 	m_ptszOldLogin = ptszNewLogin;
 }
@@ -182,7 +182,7 @@ void CVkOptionAccountForm::OnInitDialog()
 	
 	for (size_t i = 0; i < _countof(vkLangCodes); i++) {
 		int cur = m_cbxVKLang.AddString(TranslateTS(vkLangCodes[i].szDescription), (LPARAM)vkLangCodes[i].szCode);
-		if (!mir_tstrcmpi(vkLangCodes[i].szCode, m_proto->m_vkOptions.ptszVKLang))
+		if (!mir_wstrcmpi(vkLangCodes[i].szCode, m_proto->m_vkOptions.ptszVKLang))
 			m_cbxVKLang.SetCurSel(cur);
 	}
 	
@@ -194,14 +194,14 @@ void CVkOptionAccountForm::OnApply()
 	m_proto->m_vkOptions.iMarkMessageReadOn = m_cbxMarkAsRead.GetItemData(m_cbxMarkAsRead.GetCurSel());
 	m_proto->m_vkOptions.ptszVKLang = (wchar_t *)m_cbxVKLang.GetItemData(m_cbxVKLang.GetCurSel());
 	
-	ptrT ptszGroupName(m_edtGroupName.GetText());
-	if (mir_tstrcmp(m_ptszOldGroup, ptszGroupName)) {
+	ptrW ptszGroupName(m_edtGroupName.GetText());
+	if (mir_wstrcmp(m_ptszOldGroup, ptszGroupName)) {
 		Clist_GroupCreate(NULL, ptszGroupName);
 		m_ptszOldGroup = ptszGroupName;
 	}
 
 	pass_ptrT ptszNewPass(m_edtPassword.GetText());
-	bool bPassChanged = mir_tstrcmp(m_ptszOldPass, ptszNewPass) != 0;
+	bool bPassChanged = mir_wstrcmp(m_ptszOldPass, ptszNewPass) != 0;
 	if (bPassChanged) {
 		T2Utf szRawPasswd(ptszNewPass);
 		m_proto->setString("Password", szRawPasswd);
@@ -209,8 +209,8 @@ void CVkOptionAccountForm::OnApply()
 		m_ptszOldPass = ptszNewPass;
 	}
 
-	ptrT ptszNewLogin(m_edtLogin.GetText());
-	if (bPassChanged || mir_tstrcmpi(m_ptszOldLogin, ptszNewLogin))
+	ptrW ptszNewLogin(m_edtLogin.GetText());
+	if (bPassChanged || mir_wstrcmpi(m_ptszOldLogin, ptszNewLogin))
 		m_proto->ClearAccessToken();
 	m_ptszOldLogin = ptszNewLogin;
 	

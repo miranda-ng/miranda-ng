@@ -267,7 +267,7 @@ static void InitIcoLib()
 			continue;
 
 		wchar_t szDescr[128];
-		mir_sntprintf(szDescr, TranslateT("%s connecting"), accs[k]->tszAccountName);
+		mir_snwprintf(szDescr, TranslateT("%s connecting"), accs[k]->tszAccountName);
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
 		Icon_RegisterT(g_hInst, LPGENW("Contact list") L"/" LPGENW("Connecting icons"), &icon, 1, accs[k]->szModuleName);
 	}
@@ -1416,7 +1416,7 @@ skipbg:
 								MessageBox(0, TranslateT("The requested action requires a valid contact selection. Please select a contact from the contact list and repeat."), TranslateT("Parameter mismatch"), MB_OK);
 							if (serviceFailure) {
 								wchar_t szError[512];
-								mir_sntprintf(szError, TranslateT("The service %S specified by the %S button definition was not found. You may need to install additional plugins."), item->szService, item->szName);
+								mir_snwprintf(szError, TranslateT("The service %S specified by the %S button definition was not found. You may need to install additional plugins."), item->szService, item->szName);
 								MessageBox(NULL, szError, TranslateT("Service failure"), MB_OK);
 							}
 							break;
@@ -1709,22 +1709,22 @@ buttons_done:
 					wchar_t szName[64];
 					PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 					if (pa) {
-						mir_tstrncpy(szName, pa->tszAccountName, _countof(szName));
+						mir_wstrncpy(szName, pa->tszAccountName, _countof(szName));
 						szName[_countof(szName) - 1] = 0;
 					}
 					else
 						szName[0] = 0;
 
-					if (mir_tstrlen(szName) < sizeof(szName) - 1)
-						mir_tstrcat(szName, L" ");
-					GetTextExtentPoint32(dis->hDC, szName, (int)mir_tstrlen(szName), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szName, (int)mir_tstrlen(szName));
+					if (mir_wstrlen(szName) < sizeof(szName) - 1)
+						mir_wstrcat(szName, L" ");
+					GetTextExtentPoint32(dis->hDC, szName, (int)mir_wstrlen(szName), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szName, (int)mir_wstrlen(szName));
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
 					wchar_t *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
-					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_tstrlen(szStatus), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_tstrlen(szStatus));
+					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_wstrlen(szStatus), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_wstrlen(szStatus));
 				}
 			}
 			else if (dis->CtlType == ODT_MENU) {
@@ -1827,7 +1827,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			wchar_t str[64];
 			DWORD v = pluginInfo.version;
-			mir_sntprintf(str, L"%s %d.%d.%d.%d", TranslateT("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
+			mir_snwprintf(str, L"%s %d.%d.%d.%d", TranslateT("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
 			SetDlgItemText(hwndDlg, IDC_VERSION, str);
 		}
 		{

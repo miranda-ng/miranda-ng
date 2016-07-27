@@ -129,10 +129,10 @@ static MCONTACT FindContactByUrl(HWND hwndDlg)
 	GetWindowText(hwndDlg, titlebartxt, _countof(titlebartxt));
 
 	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
-		ptrT db1( db_get_tsa(hContact, MODULENAME, URL_KEY));
-		ptrT db2( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
+		ptrW db1( db_get_tsa(hContact, MODULENAME, URL_KEY));
+		ptrW db2( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 
-		if (!mir_tstrcmp(urltext, db1) && !mir_tstrcmp(titlebartxt, db2)) {
+		if (!mir_wstrcmp(urltext, db1) && !mir_wstrcmp(titlebartxt, db2)) {
 			contactcount++;
 			if (contactcount > 1) {
 				MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), MODULENAMEW, MB_OK);

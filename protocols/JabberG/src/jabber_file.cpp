@@ -118,7 +118,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 						s++;
 					else
 						s = ft->httpPath;
-					ft->std.tszCurrentFile = mir_tstrdup(s);
+					ft->std.tszCurrentFile = mir_wstrdup(s);
 					JabberHttpUrlDecode(ft->std.tszCurrentFile);
 					if (ft->create() == -1) {
 						ft->state = FT_ERROR;
@@ -179,7 +179,7 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConnection, (LPARAM)&connInfo);
 
 	wchar_t szPort[10];
-	mir_sntprintf(szPort, L"%d", connInfo.wPort);
+	mir_snwprintf(szPort, L"%d", connInfo.wPort);
 	ppro->debugLogA("File server incoming connection accepted: %s", connInfo.szIpPort);
 
 	JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_FILE, szPort);
@@ -260,7 +260,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	ft->hFileEvent = hEvent;
 
 	wchar_t szPort[20];
-	mir_sntprintf(szPort, L"%d", nlb.wPort);
+	mir_snwprintf(szPort, L"%d", nlb.wPort);
 	JABBER_LIST_ITEM *item = ListAdd(LIST_FILE, szPort);
 	item->ft = ft;
 
@@ -292,9 +292,9 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				char szAddr[256];
 				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);
 
-				size_t len = mir_tstrlen(ptszResource) + mir_tstrlen(ft->jid) + 2;
+				size_t len = mir_wstrlen(ptszResource) + mir_wstrlen(ft->jid) + 2;
 				wchar_t *fulljid = (wchar_t *)alloca(sizeof(wchar_t) * len);
-				mir_sntprintf(fulljid, len, L"%s/%s", ft->jid, ptszResource);
+				mir_snwprintf(fulljid, len, L"%s/%s", ft->jid, ptszResource);
 
 				XmlNodeIq iq(L"set", ft->szId, fulljid);
 				HXML query = iq << XQUERY(JABBER_FEAT_OOB);
@@ -366,7 +366,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 				for (t = str + 4; *t != '\0' && *t != ' '; t++);
 				*t = '\0';
 				for (t = str + 4; *t != '\0' && *t == '/'; t++);
-				ft->httpPath = mir_a2t(t);
+				ft->httpPath = mir_a2u(t);
 				JabberHttpUrlDecode(ft->httpPath);
 				ft->state = FT_INITIALIZING;
 				debugLogA("Change to FT_INITIALIZING");
@@ -386,7 +386,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 				else
 					t = ft->std.ptszFiles[currentFile];
 
-				if (ft->httpPath == NULL || mir_tstrcmp(ft->httpPath, t)) {
+				if (ft->httpPath == NULL || mir_wstrcmp(ft->httpPath, t)) {
 					if (ft->httpPath == NULL)
 						debugLogA("Requested file name does not matched (httpPath == NULL)");
 					else
@@ -501,8 +501,8 @@ int filetransfer::create()
 		return fileId;
 
 	wchar_t filefull[MAX_PATH];
-	mir_sntprintf(filefull, L"%s\\%s", std.tszWorkingDir, std.tszCurrentFile);
-	replaceStrT(std.tszCurrentFile, filefull);
+	mir_snwprintf(filefull, L"%s\\%s", std.tszWorkingDir, std.tszCurrentFile);
+	replaceStrW(std.tszCurrentFile, filefull);
 
 	if (hWaitEvent != INVALID_HANDLE_VALUE)
 		CloseHandle(hWaitEvent);

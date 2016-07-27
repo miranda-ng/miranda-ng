@@ -21,7 +21,7 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string &jid, const char *new
 			if (oldName.compare(string(new_name)) != 0) {
 				db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_NICK, new_name);
 
-				CMString tmp(FORMAT, TranslateT("is now known as '%s'"), ptrT(mir_utf8decodeT(new_name)));
+				CMString tmp(FORMAT, TranslateT("is now known as '%s'"), ptrW(mir_utf8decodeW(new_name)));
 				this->NotifyEvent(_A2T(oldName.c_str()), tmp, hContact, WHATSAPP_EVENT_OTHER);
 			}
 		}
@@ -74,8 +74,8 @@ void WhatsAppProto::SetAllContactStatuses(int status, bool reset_client)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (reset_client) {
-			ptrT tszMirVer(getTStringA(hContact, "MirVer"));
-			if (mir_tstrcmp(tszMirVer, L"WhatsApp"))
+			ptrW tszMirVer(getTStringA(hContact, "MirVer"));
+			if (mir_wstrcmp(tszMirVer, L"WhatsApp"))
 				setTString(hContact, "MirVer", L"WhatsApp");
 
 			db_set_ws(hContact, "CList", "StatusMsg", L"");

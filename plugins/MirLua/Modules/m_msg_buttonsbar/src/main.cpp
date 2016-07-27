@@ -22,7 +22,7 @@ static BBButton* MakeBBButton(lua_State *L)
 		bbb->bbbFlags &= ~BBBF_ANSITOOLTIP;
 
 	lua_getfield(L, -1, "Tooltip");
-	bbb->ptszTooltip = mir_utf8decodeT(lua_tostring(L, -1));
+	bbb->ptszTooltip = mir_utf8decodeW(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Icon");

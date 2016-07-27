@@ -688,7 +688,7 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 				do {
 					// update progressbar and abort if user clicked cancel
 					int result = _pXmlFile->_progress.UpdateContact(L"Sub Contact: %s (%S)", 
-						ptrT(mir_utf8decodeT(xContact->Attribute("nick"))), xContact->Attribute("proto"));
+						ptrW(mir_utf8decodeW(xContact->Attribute("nick"))), xContact->Attribute("proto"));
 					
 					// user clicked abort button
 					if (!result) break;
@@ -739,8 +739,8 @@ int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 		if (err == FALSE) {
 			// ask to delete new contact
 			if (_isNewContact && _hContact != NULL) {
-				LPTSTR ptszNick = mir_utf8decodeT(_pszNick);
-				LPTSTR ptszMetaNick = mir_utf8decodeT(pMetaContact->_pszNick);
+				LPTSTR ptszNick = mir_utf8decodeW(_pszNick);
+				LPTSTR ptszMetaNick = mir_utf8decodeW(pMetaContact->_pszNick);
 				int result = MsgBox(NULL, MB_YESNO|MB_ICONWARNING, 
 					LPGENW("Question"), 
 					LPGENW("Importing a new meta subcontact failed!"), 

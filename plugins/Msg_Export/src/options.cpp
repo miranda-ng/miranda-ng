@@ -92,7 +92,7 @@ public:
 int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	if (lParamSort == 1)
-		return mir_tstrcmpi(pcli->pfnGetContactDisplayName(lParam1, 0), pcli->pfnGetContactDisplayName(lParam2, 0));
+		return mir_wstrcmpi(pcli->pfnGetContactDisplayName(lParam1, 0), pcli->pfnGetContactDisplayName(lParam2, 0));
 
 	if (lParamSort == 2)
 		return _DBGetString((MCONTACT)lParam1, "Protocol", "p", L"").compare(_DBGetString((MCONTACT)lParam2, "Protocol", "p", L""));
@@ -322,7 +322,7 @@ BOOL bApplyChanges(HWND hwndDlg)
 
 	int nTmp = GetDlgItemInt(hwndDlg, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE);
 	if (!bTrans || nTmp < 5) {
-		mir_sntprintf(szTemp, TranslateT("Max line width must be at least %d"), 5);
+		mir_snwprintf(szTemp, TranslateT("Max line width must be at least %d"), 5);
 		MessageBox(hwndDlg, szTemp, MSG_BOX_TITEL, MB_OK);
 		bRet = false;
 	}
@@ -365,7 +365,7 @@ BOOL bApplyChanges(HWND hwndDlg)
 
 		if (ListView_GetItem(hMapUser, &sItem)) {
 			MCONTACT hUser = (MCONTACT)sItem.lParam;
-			if (mir_tstrlen(szTemp) > 0)
+			if (mir_wstrlen(szTemp) > 0)
 				db_set_ts(hUser, MODULE, "FileName", szTemp);
 			else
 				db_unset(hUser, MODULE, "FileName");
@@ -461,7 +461,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 			sItem.pszText = szSubCur;
 			sItem.cchTextMax = _countof(szSubCur);
 			if (ListView_GetItem(hMapUser, &sItem)) {
-				size_t nLen = mir_tstrlen(szSubCur);
+				size_t nLen = mir_wstrlen(szSubCur);
 				if (wcsnicmp(szSubCur, szSearch, nLen) == 0) {
 					if (nLen < (size_t)nShortestMatch) {
 						nShortestMatch = (int)nLen;
@@ -523,7 +523,7 @@ void OpenHelp(HWND hwndDlg)
 {
 	wchar_t szPath[MAX_PATH];
 	if (GetModuleFileName(hInstance, szPath, _countof(szPath))) {
-		size_t nLen = mir_tstrlen(szPath);
+		size_t nLen = mir_wstrlen(szPath);
 		if (nLen > 3) {
 			szPath[nLen - 1] = 't';
 			szPath[nLen - 2] = 'x';
@@ -643,7 +643,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 					DWORD dwUIN = db_get_dw(hContact, pa->szModuleName, "UIN", 0);
 					wchar_t szTmp[50];
-					mir_sntprintf(szTmp, L"%d", dwUIN);
+					mir_snwprintf(szTmp, L"%d", dwUIN);
 					sItem.iSubItem = 3;
 					sItem.pszText = szTmp;
 					ListView_SetItem(hMapUser, &sItem);
@@ -793,7 +793,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szFile, _countof(szFile));
 
 			wchar_t buf[MAX_PATH];
-			mir_sntprintf(buf, L"%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c", TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
+			mir_snwprintf(buf, L"%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c", TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
 			{
 				OPENFILENAME ofn = {};       // common dialog box structure
 				ofn.lStructSize = sizeof(OPENFILENAME);
@@ -843,7 +843,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			LPITEMIDLIST psItemIDList = SHBrowseForFolder(&sBrowseInfo);
 			if (psItemIDList) {
 				SHGetPathFromIDList(psItemIDList, lpDestDir);
-				size_t n = mir_tstrlen(lpDestDir);
+				size_t n = mir_wstrlen(lpDestDir);
 				if (n > 0 && lpDestDir[n] != '\\') {
 					lpDestDir[n] = '\\';
 					lpDestDir[n + 1] = 0;

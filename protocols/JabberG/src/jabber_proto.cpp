@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int compareTransports(const wchar_t *p1, const wchar_t *p2)
 {
-	return mir_tstrcmpi(p1, p2);
+	return mir_wstrcmpi(p1, p2);
 }
 
 static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *p2)
@@ -44,12 +44,12 @@ static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *
 	// resource must be used in the comparison
 	if ((p1->list == LIST_ROSTER && (p1->bUseResource == true || p2->bUseResource == true))
 		|| (p1->list == LIST_BOOKMARK) || (p1->list == LIST_VCARD_TEMP))
-		return mir_tstrcmpi(p1->jid, p2->jid);
+		return mir_wstrcmpi(p1->jid, p2->jid);
 
 	wchar_t szp1[JABBER_MAX_JID_LEN], szp2[JABBER_MAX_JID_LEN];
 	JabberStripJid(p1->jid, szp1, _countof(szp1));
 	JabberStripJid(p2->jid, szp2, _countof(szp2));
-	return mir_tstrcmpi(szp1, szp2);
+	return mir_wstrcmpi(szp1, szp2);
 }
 
 CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
@@ -147,7 +147,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	db_set_resident(m_szModuleName, "Grant");
 
 	if ((m_tszSelectedLang = getTStringA("XmlLang")) == NULL)
-		m_tszSelectedLang = mir_tstrdup(L"en");
+		m_tszSelectedLang = mir_wstrdup(L"en");
 }
 
 CJabberProto::~CJabberProto()
@@ -242,7 +242,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 		SetContactOfflineStatus(hContact);
 
 		if (getByte(hContact, "IsTransport", 0)) {
-			ptrT jid(getTStringA(hContact, "jid"));
+			ptrW jid(getTStringA(hContact, "jid"));
 			if (jid == NULL)
 				continue;
 
@@ -250,7 +250,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 			if (resourcepos != NULL)
 				*resourcepos = '\0';
 
-			m_lstTransports.insert(mir_tstrdup(jid));
+			m_lstTransports.insert(mir_wstrdup(jid));
 		}
 	}
 
@@ -340,7 +340,7 @@ MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEV
 	char *lastName = firstName + mir_strlen(firstName) + 1;
 	char *jid = lastName + mir_strlen(lastName) + 1;
 
-	wchar_t *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
+	wchar_t *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeW(jid) : mir_a2u(jid);
 	MCONTACT hContact = (MCONTACT)AddToListByJID(newJid, flags);
 	mir_free(newJid);
 	return hContact;
@@ -373,7 +373,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 
 	debugLog(L"Send 'authorization allowed' to %s", jid);
 
-	wchar_t *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
+	wchar_t *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeW(jid) : mir_a2u(jid);
 
 	m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", newJid) << XATTR(L"type", L"subscribed"));
 
@@ -429,7 +429,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 
 	debugLogA("Send 'authorization denied' to %s", jid);
 
-	ptrT newJid(dbei.flags & DBEF_UTF ? mir_utf8decodeT(jid) : mir_a2t(jid));
+	ptrW newJid(dbei.flags & DBEF_UTF ? mir_utf8decodeW(jid) : mir_a2u(jid));
 	m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", newJid) << XATTR(L"type", L"unsubscribed"));
 	return 0;
 }
@@ -443,8 +443,8 @@ HANDLE __cdecl CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, 
 		return 0;
 
 	filetransfer *ft = (filetransfer*)hTransfer;
-	ft->std.tszWorkingDir = mir_tstrdup(szPath);
-	size_t len = mir_tstrlen(ft->std.tszWorkingDir)-1;
+	ft->std.tszWorkingDir = mir_wstrdup(szPath);
+	size_t len = mir_wstrlen(ft->std.tszWorkingDir)-1;
 	if (ft->std.tszWorkingDir[len] == '/' || ft->std.tszWorkingDir[len] == '\\')
 		ft->std.tszWorkingDir[len] = 0;
 
@@ -528,7 +528,7 @@ int __cdecl CJabberProto::FileResume(HANDLE hTransfer, int *action, const wchar_
 		return 1;
 
 	if (*action == FILERESUME_RENAME)
-		replaceStrT(ft->std.tszCurrentFile, *szFilename);
+		replaceStrW(ft->std.tszCurrentFile, *szFilename);
 
 	SetEvent(ft->hWaitEvent);
 	return 0;
@@ -593,10 +593,10 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			item = ListGetItemPtr(LIST_ROSTER, jid);
 
 		if (item == NULL) {
-			bool bHasResource = mir_tstrcmp(jid, szBareJid) != 0;
+			bool bHasResource = mir_wstrcmp(jid, szBareJid) != 0;
 			JABBER_LIST_ITEM *tmpItem = NULL;
 			if (bHasResource && (tmpItem = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
-				pResourceStatus him(tmpItem->findResource(szBareJid+mir_tstrlen(szBareJid)+1));
+				pResourceStatus him(tmpItem->findResource(szBareJid+mir_wstrlen(szBareJid)+1));
 				if (him) {
 					item = ListAdd(LIST_VCARD_TEMP, jid, hContact);
 					ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
@@ -610,7 +610,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 				for (int i = 0; i < item->arResources.getCount(); i++) {
 					pResourceStatus r(item->arResources[i]);
 					wchar_t tmp[JABBER_MAX_JID_LEN];
-					mir_sntprintf(tmp, L"%s/%s", szBareJid, r->m_tszResourceName);
+					mir_snwprintf(tmp, L"%s/%s", szBareJid, r->m_tszResourceName);
 
 					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
 						XmlNodeIq iq5(AddIQ(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
@@ -624,7 +624,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 						m_ThreadInfo->send(iq4);
 					}
 
-					if (!mir_tstrcmp(tmp, jid)) {
+					if (!mir_wstrcmp(tmp, jid)) {
 						XmlNodeIq iq3(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
 						iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 						m_ThreadInfo->send(iq3);
@@ -679,7 +679,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const wchar_t *szJid)
 		return 0;
 
 	if (wcschr(szJid, '@') == NULL) {
-		wchar_t *szServer = mir_a2t(m_ThreadInfo->conn.server);
+		wchar_t *szServer = mir_a2u(m_ThreadInfo->conn.server);
 		const wchar_t *p = wcsstr(szJid, szServer);
 		if (p == NULL) {
 			bool numericjid = true;
@@ -689,12 +689,12 @@ HANDLE __cdecl CJabberProto::SearchBasic(const wchar_t *szJid)
 			mir_free(szServer);
 			szServer = getTStringA(NULL, "LoginServer");
 			if (szServer == NULL)
-				szServer = mir_tstrdup(L"jabber.org");
-			else if (numericjid && !mir_tstrcmpi(szServer, L"S.ms")) {
+				szServer = mir_wstrdup(L"jabber.org");
+			else if (numericjid && !mir_wstrcmpi(szServer, L"S.ms")) {
 				mir_free(szServer);
-				szServer = mir_tstrdup(L"sms");
+				szServer = mir_wstrdup(L"sms");
 			}
-			mir_sntprintf(jsb->jid, L"%s@%s", szJid, szServer);
+			mir_snwprintf(jsb->jid, L"%s@%s", szJid, szServer);
 		}
 		else wcsncpy_s(jsb->jid, szJid, _TRUNCATE);
 		mir_free(szServer);
@@ -802,7 +802,7 @@ int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MC
 	HXML x = m << XCHILDNS(L"x", JABBER_FEAT_ROSTER_EXCHANGE);
 
 	for (int i = 0; i < nContacts; i++) {
-		ptrT jid(getTStringA(hContactsList[i], "jid"));
+		ptrW jid(getTStringA(hContactsList[i], "jid"));
 		if (jid != NULL)
 			x << XCHILD(L"item") << XATTR(L"action", L"add") << XATTR(L"jid", jid);
 	}
@@ -822,7 +822,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 		return 0;
 
-	ptrT jid(getTStringA(hContact, "jid"));
+	ptrW jid(getTStringA(hContact, "jid"));
 	if (jid == NULL)
 		return 0;
 
@@ -875,7 +875,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 		if (_wstat64(ppszFiles[i], &statbuf))
 			debugLog(L"'%s' is an invalid filename", ppszFiles[i]);
 		else {
-			ft->std.ptszFiles[j] = mir_tstrdup(ppszFiles[i]);
+			ft->std.ptszFiles[j] = mir_wstrdup(ppszFiles[i]);
 			ft->fileSize[j] = statbuf.st_size;
 			j++;
 			ft->std.totalBytes += statbuf.st_size;
@@ -886,9 +886,9 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 		return NULL;
 	}
 
-	ft->std.tszCurrentFile = mir_tstrdup(ppszFiles[0]);
-	ft->szDescription = mir_tstrdup(szDescription);
-	ft->jid = mir_tstrdup(jid);
+	ft->std.tszCurrentFile = mir_wstrdup(ppszFiles[0]);
+	ft->szDescription = mir_wstrdup(szDescription);
+	ft->jid = mir_wstrdup(jid);
 
 	if (jcb & JABBER_CAPS_SI_FT)
 		FtInitiate(item->jid, ft);
@@ -985,11 +985,11 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 		// if client knows nothing about delivery
 		!(jcb & (JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_RECEIPTS)) ||
 		// if message sent to groupchat
-		!mir_tstrcmp(msgType, L"groupchat") ||
+		!mir_wstrcmp(msgType, L"groupchat") ||
 		// if message delivery check disabled in settings
 		!m_options.MsgAck || !getByte(hContact, "MsgAck", TRUE))
 	{
-		if (!mir_tstrcmp(msgType, L"groupchat"))
+		if (!mir_wstrcmp(msgType, L"groupchat"))
 			XmlAddAttr(m, L"to", szClientJid);
 		else {
 			id = SerialNext();
@@ -1031,7 +1031,7 @@ int __cdecl CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
 	if (!m_bJabberOnline)
 		return 0;
 
-	ptrT jid(getTStringA(hContact, "jid"));
+	ptrW jid(getTStringA(hContact, "jid"));
 	if (jid == NULL)
 		return 0;
 
@@ -1103,7 +1103,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 
 	MCONTACT hContact = (DWORD_PTR)param;
 
-	ptrT jid(getTStringA(hContact, "jid"));
+	ptrW jid(getTStringA(hContact, "jid"));
 	if (jid != NULL) {
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 		if (item != NULL) {
@@ -1115,7 +1115,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 					JABBER_RESOURCE_STATUS *r = item->arResources[i];
 					if (r->m_tszStatusMessage) {
 						msgCount++;
-						len += (mir_tstrlen(r->m_tszResourceName) + mir_tstrlen(r->m_tszStatusMessage) + 8);
+						len += (mir_wstrlen(r->m_tszResourceName) + mir_wstrlen(r->m_tszStatusMessage) + 8);
 					}
 				}
 
@@ -1124,13 +1124,13 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 				for (int i = 0; i < item->arResources.getCount(); i++) {
 					JABBER_RESOURCE_STATUS *r = item->arResources[i];
 					if (r->m_tszStatusMessage) {
-						if (str[0] != '\0') mir_tstrcat(str, L"\r\n");
+						if (str[0] != '\0') mir_wstrcat(str, L"\r\n");
 						if (msgCount > 1) {
-							mir_tstrcat(str, L"(");
-							mir_tstrcat(str, r->m_tszResourceName);
-							mir_tstrcat(str, L"): ");
+							mir_wstrcat(str, L"(");
+							mir_wstrcat(str, r->m_tszResourceName);
+							mir_wstrcat(str, L"): ");
 						}
-						mir_tstrcat(str, r->m_tszStatusMessage);
+						mir_wstrcat(str, r->m_tszStatusMessage);
 					}
 				}
 
@@ -1197,11 +1197,11 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const wchar_t *msg)
 		return 1;
 	}
 
-	if ((*szMsg == NULL && msg == NULL) || (*szMsg != NULL && msg != NULL && !mir_tstrcmp(*szMsg, msg)))
+	if ((*szMsg == NULL && msg == NULL) || (*szMsg != NULL && msg != NULL && !mir_wstrcmp(*szMsg, msg)))
 		return 0; // Message is the same, no update needed
 
 	// Update with the new mode message
-	replaceStrT(*szMsg, msg);
+	replaceStrW(*szMsg, msg);
 
 	// Send a presence update if needed
 	lck.unlock();

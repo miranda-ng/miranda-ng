@@ -487,7 +487,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 									char* msg_s = process_status_msg(msg, sn);
 									db_set_utf(hContact, MOD_KEY_CL, OTH_KEY_SM, msg_s);
 
-									wchar_t* tszMsg = mir_utf8decodeT(msg_s);
+									wchar_t* tszMsg = mir_utf8decodeW(msg_s);
 									ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszMsg);
 									mir_free(tszMsg);
 									mir_free(msg);
@@ -1247,13 +1247,13 @@ void CAimProto::snac_received_message(SNAC &snac, HANDLE hServerConn, unsigned s
 
 				if (!descr_included) msg_buf = NULL;
 
-				wchar_t* filenameT = mir_utf8decodeT(filename);
+				wchar_t* filenameT = mir_utf8decodeW(filename);
 
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.descr.w = mir_utf8decodeT(msg_buf);
+				pre.descr.w = mir_utf8decodeW(msg_buf);
 				pre.files.w = &filenameT;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(hContact, &pre);
@@ -1661,7 +1661,7 @@ void CAimProto::snac_mail_response(SNAC &snac)//family 0x0018
 		if (new_mail && num_msgs) {
 			wchar_t msg[1024];
 
-			int len = mir_sntprintf(msg, L"%S@%S (%d)\r\n%s ", sn, address, num_msgs,
+			int len = mir_snwprintf(msg, L"%S@%S (%d)\r\n%s ", sn, address, num_msgs,
 				TranslateT("You've got mail! Checked at"));
 
 			SYSTEMTIME stLocal;
@@ -1864,19 +1864,19 @@ void CAimProto::snac_chat_received_message(SNAC &snac, chat_list_item* item)//fa
 						if (uni) {
 							char* msg = msg_tlv.dupw();
 							html_decode(msg);
-							message = mir_utf8decodeT(msg);
+							message = mir_utf8decodeW(msg);
 							mir_free(msg);
 						}
 						else if (utf) {
 							char* msg = msg_tlv.dup();
 							html_decode(msg);
-							message = mir_utf8decodeT(msg);
+							message = mir_utf8decodeW(msg);
 							mir_free(msg);
 						}
 						else {
 							char* msg = msg_tlv.dup();
 							html_decode(msg);
-							message = mir_a2t(msg);
+							message = mir_a2u(msg);
 							mir_free(msg);
 						}
 					}

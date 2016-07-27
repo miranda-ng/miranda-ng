@@ -936,7 +936,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 		mir_snprintf(jid, "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
 		if ((hContact = TlenHContactFromJID(proto, jid)) != NULL)
-			return mir_t2a(pcli->pfnGetContactDisplayName(hContact, 0));
+			return mir_u2a(pcli->pfnGetContactDisplayName(hContact, 0));
 	}
 	return mir_strdup(id);
 }

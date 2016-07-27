@@ -142,7 +142,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 		strncpy_s(idstr, prefix, _TRUNCATE);
 
 	int retval = 0;
-	ptrT tszGroup(db_get_tsa(NULL, settings_group, idstr));
+	ptrW tszGroup(db_get_tsa(NULL, settings_group, idstr));
 	if (tszGroup != NULL)
 		wcsncpy_s(lf->lfFaceName, tszGroup, _TRUNCATE);
 	else
@@ -245,7 +245,7 @@ static int sttRegisterFontWorker(FontIDW *font_id, int _hLang)
 
 	for (int i = 0; i < font_id_list.getCount(); i++) {
 		FontInternal& F = font_id_list[i];
-		if (!mir_tstrcmp(F.group, font_id->group) && !mir_tstrcmp(F.name, font_id->name) && !(F.flags & FIDF_ALLOWREREGISTER))
+		if (!mir_wstrcmp(F.group, font_id->group) && !mir_wstrcmp(F.name, font_id->name) && !(F.flags & FIDF_ALLOWREREGISTER))
 			return 1;
 	}
 
@@ -258,10 +258,10 @@ static int sttRegisterFontWorker(FontIDW *font_id, int _hLang)
 	memcpy(newItem, font_id, font_id->cbSize);
 	newItem->hLangpack = _hLang;
 
-	if (!mir_tstrcmp(newItem->deffontsettings.szFace, L"MS Shell Dlg")) {
+	if (!mir_wstrcmp(newItem->deffontsettings.szFace, L"MS Shell Dlg")) {
 		LOGFONT lf;
 		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
-		mir_tstrncpy(newItem->deffontsettings.szFace, lf.lfFaceName, _countof(newItem->deffontsettings.szFace));
+		mir_wstrncpy(newItem->deffontsettings.szFace, lf.lfFaceName, _countof(newItem->deffontsettings.szFace));
 		if (!newItem->deffontsettings.size)
 			newItem->deffontsettings.size = lf.lfHeight;
 	}
@@ -353,7 +353,7 @@ static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int _hLang)
 
 	for (int i = 0; i < colour_id_list.getCount(); i++) {
 		ColourInternal& C = colour_id_list[i];
-		if (!mir_tstrcmp(C.group, colour_id->group) && !mir_tstrcmp(C.name, colour_id->name))
+		if (!mir_wstrcmp(C.group, colour_id->group) && !mir_wstrcmp(C.name, colour_id->name))
 			return 1;
 	}
 
@@ -385,7 +385,7 @@ static INT_PTR sttGetColourWorker(ColourIDW *colour_id)
 {
 	for (int i = 0; i < colour_id_list.getCount(); i++) {
 		ColourInternal& C = colour_id_list[i];
-		if (!mir_tstrcmp(C.group, colour_id->group) && !mir_tstrcmp(C.name, colour_id->name))
+		if (!mir_wstrcmp(C.group, colour_id->group) && !mir_wstrcmp(C.name, colour_id->name))
 			return db_get_dw(NULL, C.dbSettingsGroup, C.setting, C.defcolour);
 	}
 
@@ -445,7 +445,7 @@ static INT_PTR sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
 
 	for (int i = 0; i < effect_id_list.getCount(); i++) {
 		EffectInternal& E = effect_id_list[i];
-		if (!mir_tstrcmp(E.group, effect_id->group) && !mir_tstrcmp(E.name, effect_id->name))
+		if (!mir_wstrcmp(E.group, effect_id->group) && !mir_wstrcmp(E.name, effect_id->name))
 			return 1;
 	}
 

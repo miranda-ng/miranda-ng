@@ -94,7 +94,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(ICO_MAIN));
 		{
 			CSend* self = (CSend*)lParam;
-			wchar_t* tmp = mir_tstrdup(TranslateT("Resulting URL from\n"));
+			wchar_t* tmp = mir_wstrdup(TranslateT("Resulting URL from\n"));
 			mir_tstradd(tmp, self->m_pszSendTyp);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tmp);
 			mir_free(tmp);
@@ -189,7 +189,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				EmptyClipboard();
 				HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE, len*sizeof(wchar_t) + sizeof(wchar_t));
 				wchar_t* tmp2 = (wchar_t*)GlobalLock(clipbuffer);
-				mir_tstrncpy(tmp2, tmp, len + 1); tmp2[len] = '\0';
+				mir_wstrncpy(tmp2, tmp, len + 1); tmp2[len] = '\0';
 				GlobalUnlock(clipbuffer);
 				SetClipboardData(CF_UNICODETEXT, clipbuffer);
 				CloseClipboard();
@@ -211,11 +211,11 @@ void CSend::svcSendMsgExit(const char* szMessage)
 	}
 	if (!m_hContact) {
 		if (!m_pszFileDesc)
-			m_pszFileDesc = mir_a2t(szMessage);
+			m_pszFileDesc = mir_a2u(szMessage);
 		Exit(CSEND_DIALOG); return;
 	}
 	if (m_ChatRoom) {
-		wchar_t* tmp = mir_a2t(szMessage);
+		wchar_t* tmp = mir_a2u(szMessage);
 		if (m_pszFileDesc) {
 			mir_tstradd(tmp, L"\r\n");
 			mir_tstradd(tmp, m_pszFileDesc);
@@ -252,7 +252,7 @@ void CSend::svcSendMsgExit(const char* szMessage)
 		memset(m_szEventMsg, 0, (sizeof(char) * m_cbEventMsg));
 		mir_strcpy(m_szEventMsg, szMessage);
 		if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
-			char *temp = mir_t2a(m_pszFileDesc);
+			char *temp = mir_u2a(m_pszFileDesc);
 			mir_stradd(m_szEventMsg, "\r\n");
 			mir_stradd(m_szEventMsg, temp);
 			m_cbEventMsg = (DWORD)mir_strlen(m_szEventMsg) + 1;
@@ -286,13 +286,13 @@ void CSend::svcSendFileExit()
 		Exit(ACKRESULT_FAILED); return;
 	}
 	mir_freeAndNil(m_szEventMsg);
-	char* szFile = mir_t2a(m_pszFile);
+	char* szFile = mir_u2a(m_pszFile);
 	m_cbEventMsg = (DWORD)mir_strlen(szFile) + 2;
 	m_szEventMsg = (char*)mir_realloc(m_szEventMsg, (sizeof(char) * m_cbEventMsg));
 	memset(m_szEventMsg, 0, (sizeof(char) * m_cbEventMsg));
 	mir_strcpy(m_szEventMsg, szFile);
 	if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
-		char* temp = mir_t2a(m_pszFileDesc);
+		char* temp = mir_u2a(m_pszFileDesc);
 		m_cbEventMsg += (DWORD)mir_strlen(temp);
 		m_szEventMsg = (char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
 		mir_strcpy(m_szEventMsg + mir_strlen(szFile) + 1, temp);
@@ -308,8 +308,8 @@ void CSend::svcSendFileExit()
 
 	// Start miranda PSS_FILE based on mir ver (T)
 	wchar_t* ppFile[2] = { 0, 0 };
-	wchar_t* pDesc = mir_tstrdup(m_pszFileDesc);
-	ppFile[0] = mir_tstrdup(m_pszFile);
+	wchar_t* pDesc = mir_wstrdup(m_pszFileDesc);
+	ppFile[0] = mir_wstrdup(m_pszFile);
 	ppFile[1] = NULL;
 	m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_FILE, (WPARAM)pDesc, (LPARAM)ppFile);
 	mir_free(pDesc);
@@ -399,14 +399,14 @@ void CSend::Error(LPCTSTR pszFormat, ...)
 {
 	wchar_t tszMsg[MAX_SECONDLINE];
 
-	mir_sntprintf(tszMsg, L"%s - %s", _A2W(SZ_SENDSS), TranslateT("Error"));
-	mir_free(m_ErrorTitle), m_ErrorTitle = mir_tstrdup(tszMsg);
+	mir_snwprintf(tszMsg, L"%s - %s", _A2W(SZ_SENDSS), TranslateT("Error"));
+	mir_free(m_ErrorTitle), m_ErrorTitle = mir_wstrdup(tszMsg);
 
 	va_list vl;
 	va_start(vl, pszFormat);
-	mir_vsntprintf(tszMsg, _countof(tszMsg), TranslateTS(pszFormat), vl);
+	mir_vsnwprintf(tszMsg, _countof(tszMsg), TranslateTS(pszFormat), vl);
 	va_end(vl);
-	mir_free(m_ErrorMsg), m_ErrorMsg = mir_tstrdup(tszMsg);
+	mir_free(m_ErrorMsg), m_ErrorMsg = mir_wstrdup(tszMsg);
 
 	memset(&m_box, 0, sizeof(MSGBOX));
 	m_box.cbSize = sizeof(MSGBOX);

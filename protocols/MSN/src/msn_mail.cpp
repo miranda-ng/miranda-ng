@@ -255,14 +255,14 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		wchar_t* mimeSubjectW = tFileInfo.decode(Subject);
 
 
-		mir_sntprintf(tBuffer2, TranslateT("Subject: %s"), mimeSubjectW);
+		mir_snwprintf(tBuffer2, TranslateT("Subject: %s"), mimeSubjectW);
 
 
 
 		wchar_t* msgtxt = _stricmp(From, Fromaddr) ?
 			TranslateT("Hotmail from %s (%S)") : TranslateT("Hotmail from %s");
 
-		mir_sntprintf(tBuffer, msgtxt, mimeFromW, Fromaddr);
+		mir_snwprintf(tBuffer, msgtxt, mimeFromW, Fromaddr);
 		mir_free(mimeFromW);
 		mir_free(mimeSubjectW);
 		ShowPopup = true;
@@ -271,8 +271,8 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		const char* MailData = tFileInfo["Mail-Data"];
 		if (MailData != NULL) processMailData((char*)MailData);
 
-		mir_sntprintf(tBuffer, m_tszUserName);
-		mir_sntprintf(tBuffer2, TranslateT("Unread mail is available: %d in Inbox and %d in other folders."), mUnreadMessages, mUnreadJunkEmails);
+		mir_snwprintf(tBuffer, m_tszUserName);
+		mir_snwprintf(tBuffer2, TranslateT("Unread mail is available: %d in Inbox and %d in other folders."), mUnreadMessages, mUnreadJunkEmails);
 	}
 
 	if (UnreadMessages == mUnreadMessages && UnreadJunkEmails == mUnreadJunkEmails  && !isInitial)
@@ -385,10 +385,10 @@ void CMsnProto::displayEmailCount(MCONTACT hContact)
 		ch = wcschr(ch + 1, '[');
 	} while (ch && !iswdigit(ch[1]));
 	if (ch) *ch = 0;
-	rtrimt(name);
+	rtrimw(name);
 
 	wchar_t szNick[128];
-	mir_sntprintf(szNick, getByte("DisableHotmailJunk", 0) ? L"%s [%d]" : L"%s [%d][%d]", name, mUnreadMessages, mUnreadJunkEmails);
+	mir_snwprintf(szNick, getByte("DisableHotmailJunk", 0) ? L"%s [%d]" : L"%s [%d][%d]", name, mUnreadMessages, mUnreadJunkEmails);
 
 	nickChg = true;
 	setTString(hContact, "Nick", szNick);

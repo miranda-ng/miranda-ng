@@ -52,7 +52,7 @@ void TrimString(wchar_t *pszStr)
 	wchar_t *psz, szChars[] = L" \r\n\t";
 	for (int i = 0; i < _countof(szChars); ++i) {
 		/* trim end */
-		psz = &pszStr[mir_tstrlen(pszStr) - 1];
+		psz = &pszStr[mir_wstrlen(pszStr) - 1];
 		while (pszStr[0] && *psz == szChars[i]) {
 			*psz = 0;
 			psz = CharPrev(pszStr, psz);
@@ -60,7 +60,7 @@ void TrimString(wchar_t *pszStr)
 		/* trim beginning */
 		for (psz = pszStr; (*psz && *psz == szChars[i]); psz = CharNext(psz))
 			;
-		memmove(pszStr, psz, (mir_tstrlen(psz) + 1)*sizeof(wchar_t));
+		memmove(pszStr, psz, (mir_wstrlen(psz) + 1)*sizeof(wchar_t));
 	}
 }
 
@@ -199,7 +199,7 @@ BOOL GetFormatedDateTime(wchar_t *pszOut, int nSize, time_t timestamp, BOOL fSho
 			return FALSE;
 		if (!GetDateFormat(locale, DATE_SHORTDATE, &st, NULL, szDate, _countof(szDate)))
 			return FALSE;
-		mir_sntprintf(pszOut, nSize, L"%s %s", szTime, szDate);
+		mir_snwprintf(pszOut, nSize, L"%s %s", szTime, szDate);
 		return TRUE;
 	}
 }

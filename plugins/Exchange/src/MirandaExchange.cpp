@@ -116,17 +116,17 @@ CKeeper::CKeeper( LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID)
 	m_nSizeEntryID    = 0    ;
  
 	if (NULL != szSender) {
-		m_nSizeSender = (UINT)mir_tstrlen(szSender)+1;
+		m_nSizeSender = (UINT)mir_wstrlen(szSender)+1;
 		m_szSender = new wchar_t[ m_nSizeSender ];
 		memset(m_szSender, 0, m_nSizeSender * sizeof(wchar_t));
-		mir_tstrcpy(m_szSender, szSender);
+		mir_wstrcpy(m_szSender, szSender);
 	}
 	
 	if (NULL != szSubject) {
-		m_nSizeSubject = (UINT)mir_tstrlen(szSubject) +1;
+		m_nSizeSubject = (UINT)mir_wstrlen(szSubject) +1;
 		m_szSubject = new wchar_t[m_nSizeSubject];
 		memset(m_szSubject, 0, m_nSizeSubject * sizeof(wchar_t));
-		mir_tstrcpy(m_szSubject, szSubject);
+		mir_wstrcpy(m_szSubject, szSubject);
 	}
 	
 	if (NULL != szEntryID) {
@@ -392,32 +392,32 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 	short nSizeOfTCHAR = sizeof( wchar_t );
 
 	if (m_szUsername == NULL && NULL != szUsername) {
-		nSize = (UINT)mir_tstrlen(szUsername);
+		nSize = (UINT)mir_wstrlen(szUsername);
 		if (nSize > 0) {	
 			nSize++;
 			m_szUsername = new wchar_t[nSize];
 			memset ( m_szUsername, 0, nSize * nSizeOfTCHAR );
-			mir_tstrcpy( m_szUsername, szUsername );
+			mir_wstrcpy( m_szUsername, szUsername );
 		}
 	}	
 	
 	if (m_szPassword == NULL && NULL != szPassword) {
-		nSize = (UINT)mir_tstrlen(szPassword);
+		nSize = (UINT)mir_wstrlen(szPassword);
 		if (nSize > 0) {	
 			nSize++;
 			m_szPassword = new wchar_t[nSize];
 			memset(m_szPassword, 0, nSize * nSizeOfTCHAR);
-			mir_tstrcpy(m_szPassword, szPassword);
+			mir_wstrcpy(m_szPassword, szPassword);
 		}
 	}
 
 	if (m_szExchangeServer == NULL && NULL != szExchangeServer) {
-		nSize = (UINT)mir_tstrlen(szExchangeServer);
+		nSize = (UINT)mir_wstrlen(szExchangeServer);
 		if (nSize > 0) {	
 			nSize++;
 			m_szExchangeServer = new wchar_t[nSize];
 			memset(m_szExchangeServer, 0, nSize * nSizeOfTCHAR);
-			mir_tstrcpy(m_szExchangeServer, szExchangeServer);
+			mir_wstrcpy(m_szExchangeServer, szExchangeServer);
 		}
 	}
 	
@@ -436,7 +436,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 
 			_wstrtime(szPID);
 			wcsncpy(szPIDandName, m_szUsername, _countof(szPIDandName)-1);		
-			mir_tstrncat(szPIDandName, szPID, _countof(szPIDandName) - mir_tstrlen(szPIDandName));
+			mir_wstrncat(szPIDandName, szPID, _countof(szPIDandName) - mir_wstrlen(szPIDandName));
 			
 			hr = CreateProfile(szPIDandName);
 			if ( HR_FAILED(hr)) {
@@ -446,7 +446,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 
 			DWORD dwFlags = MAPI_EXPLICIT_PROFILE|MAPI_EXTENDED|MAPI_NEW_SESSION|MAPI_NO_MAIL ;
 			
-			hr = MAPILogonEx( 0, (LPTSTR)mir_t2a(szPIDandName), (LPTSTR)mir_t2a(m_szPassword), dwFlags, &m_lpMAPISession );
+			hr = MAPILogonEx( 0, (LPTSTR)mir_u2a(szPIDandName), (LPTSTR)mir_u2a(m_szPassword), dwFlags, &m_lpMAPISession );
 
 			if (FAILED(hr)) {
 				//Log( L"MAPI Logon failed: 0x%08X", hr );
@@ -461,7 +461,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 				//Log("Admin profile interface creation failed: 0x%08X", hr);
 			}
 			else {
-				hr = pProfAdmin->DeleteProfile( (LPTSTR)mir_t2a(szPIDandName), 0 );
+				hr = pProfAdmin->DeleteProfile( (LPTSTR)mir_u2a(szPIDandName), 0 );
 				if ( FAILED(hr) )
 				{
 					//Log( "Failed to delete the profile: 0x%08X", hr );
@@ -527,13 +527,13 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	hr = MAPIAdminProfiles(ulFlags, &pProfAdmin);
 	if (FAILED(hr) || pProfAdmin == NULL)
 		return hr;
-	hr = pProfAdmin->CreateProfile((LPTSTR)mir_t2a(szProfileName), NULL, NULL, ulFlags);
+	hr = pProfAdmin->CreateProfile((LPTSTR)mir_u2a(szProfileName), NULL, NULL, ulFlags);
 	
 	if (FAILED(hr)) {
-		pProfAdmin->DeleteProfile((LPTSTR)mir_t2a(szProfileName), ulFlags);
+		pProfAdmin->DeleteProfile((LPTSTR)mir_u2a(szProfileName), ulFlags);
 		return hr;
 	}
-	hr = pProfAdmin->AdminServices( (LPTSTR)mir_t2a(szProfileName), NULL, NULL, ulFlags, &pMsgSvcAdmin);
+	hr = pProfAdmin->AdminServices( (LPTSTR)mir_u2a(szProfileName), NULL, NULL, ulFlags, &pMsgSvcAdmin);
 	
 	if (FAILED(hr) || pMsgSvcAdmin == NULL)
 		return hr;
@@ -562,7 +562,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	
 	if (FAILED(hr))
 		return hr;
-	nSize = mir_tstrlen(m_szUsername);
+	nSize = mir_wstrlen(m_szUsername);
 	szUniqName = (wchar_t*)mir_alloc(sizeof(wchar_t) * (nSize + 4));
 	if (szUniqName != NULL) {
 		memcpy(szUniqName, L"=", sizeof(wchar_t));
@@ -570,9 +570,9 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 		// Set values for PR_PROFILE_UNRESOLVED_NAME and PR_PROFILE_UNRESOLVED_SERVER
 		SPropValue spval[2];
 		spval[0].ulPropTag = PR_PROFILE_UNRESOLVED_NAME;
-		spval[0].Value.lpszA = mir_t2a(szUniqName);
+		spval[0].Value.lpszA = mir_u2a(szUniqName);
 		spval[1].ulPropTag = PR_PROFILE_UNRESOLVED_SERVER;
-		spval[1].Value.lpszA = mir_t2a(m_szExchangeServer);
+		spval[1].Value.lpszA = mir_u2a(m_szExchangeServer);
 
 		// Configure msg service
 		/*hr =*/ pMsgSvcAdmin->ConfigureMsgService(
@@ -867,8 +867,8 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 
 			if ( NULL != szTheEnd )
 			{
-				szRegValue[ mir_tstrlen(szRegValue) - mir_tstrlen(szTheEnd) +5 ]  = '\0';
-				mir_tstrcat( szRegValue, L" /recycle" );
+				szRegValue[ mir_wstrlen(szRegValue) - mir_wstrlen(szTheEnd) +5 ]  = '\0';
+				mir_wstrcat( szRegValue, L" /recycle" );
 				STARTUPINFO         si;
 				PROCESS_INFORMATION pi;
 				

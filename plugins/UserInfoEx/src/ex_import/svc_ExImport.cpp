@@ -53,17 +53,17 @@ static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WO
 				return;
 			}
 			
-			disp = temp = mir_t2a(pcli->pfnGetContactDisplayName(ExImContact->hContact, NULL));
+			disp = temp = mir_u2a(pcli->pfnGetContactDisplayName(ExImContact->hContact, NULL));
 			break;
 
 		case EXIM_SUBGROUP:
-			temp = mir_t2a(ExImContact->ptszName);
+			temp = mir_u2a(ExImContact->ptszName);
 			disp = temp;
 			break;
 
 		case EXIM_ACCOUNT:
 			PROTOACCOUNT* acc = Proto_GetAccount(ExImContact->pszName);
-			disp = temp = mir_t2a(acc->tszAccountName);
+			disp = temp = mir_u2a(acc->tszAccountName);
 			break;
 	}
 
@@ -280,8 +280,8 @@ INT_PTR svcExIm_Group_Service(WPARAM wParam, LPARAM)
 	while (hItem) {
 		if (SendMessage(hClist,CLM_GETITEMTYPE, (WPARAM)hItem, 0) == CLCIT_GROUP) {
 			SendMessage(hClist,CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)ptszItem);
-			LPTSTR temp = mir_tstrdup(ptszGroup);
-			mir_sntprintf(tszGroup, L"%s%s%s", ptszItem, mir_tstrlen(temp)? L"\\":L"", temp);
+			LPTSTR temp = mir_wstrdup(ptszGroup);
+			mir_snwprintf(tszGroup, L"%s%s%s", ptszItem, mir_wstrlen(temp)? L"\\":L"", temp);
 			mir_free (temp);
 		}
 		hParent = SendMessage(hClist,CLM_GETNEXTITEM, (WPARAM)CLGN_PARENT, (LPARAM)hItem);

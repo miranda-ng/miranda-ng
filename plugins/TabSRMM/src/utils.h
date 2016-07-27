@@ -167,7 +167,7 @@ public:
 	LRESULT ShowDialog() const;
 
 private:
-	ptrT  m_szTitle, m_szText;
+	ptrW  m_szTitle, m_szText;
 	UINT  m_uId;
 	HFONT m_hFontCaption;
 	DWORD m_dwFlags;

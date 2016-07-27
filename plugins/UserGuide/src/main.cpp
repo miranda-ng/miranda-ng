@@ -28,28 +28,28 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 	
 	if (ptszHelpFile==0)
 	{
-			mir_tstrcpy(pszDirName, L"%miranda_path%\\Plugins");
-			mir_tstrcpy(pszFileName, L"UserGuide.chm");			
+			mir_wstrcpy(pszDirName, L"%miranda_path%\\Plugins");
+			mir_wstrcpy(pszFileName, L"UserGuide.chm");			
 	}
 	else
 	{
-		if(!mir_tstrcmp(ptszHelpFile, L""))
+		if(!mir_wstrcmp(ptszHelpFile, L""))
 		{
-			mir_tstrcpy(pszDirName, L"%miranda_path%\\Plugins");
-			mir_tstrcpy(pszFileName, L"UserGuide.chm");
+			mir_wstrcpy(pszDirName, L"%miranda_path%\\Plugins");
+			mir_wstrcpy(pszFileName, L"UserGuide.chm");
 		}
 		else 
 		{
 			LPTSTR pszDivider = wcsrchr(ptszHelpFile, '\\');
 			if (pszDivider == NULL)
 			{	
-				mir_tstrcpy(pszDirName, L"");
-				wcsncpy(pszFileName, ptszHelpFile, mir_tstrlen(ptszHelpFile));
+				mir_wstrcpy(pszDirName, L"");
+				wcsncpy(pszFileName, ptszHelpFile, mir_wstrlen(ptszHelpFile));
 			}
 			else
 			{
-				wcsncpy(pszFileName, pszDivider + 1, mir_tstrlen(ptszHelpFile) - mir_tstrlen(pszDivider) - 1);
-				pszFileName[mir_tstrlen(ptszHelpFile) - mir_tstrlen(pszDivider) - 1] = 0;
+				wcsncpy(pszFileName, pszDivider + 1, mir_wstrlen(ptszHelpFile) - mir_wstrlen(pszDivider) - 1);
+				pszFileName[mir_wstrlen(ptszHelpFile) - mir_wstrlen(pszDivider) - 1] = 0;
 				wcsncpy(pszDirName, ptszHelpFile, pszDivider - ptszHelpFile);
 				pszDirName[pszDivider - ptszHelpFile] = 0;
 			}

@@ -116,9 +116,9 @@ float CContactCache::getWeight(int rate)
 
 static bool AppendInfo(wchar_t *buf, int size, MCONTACT hContact, int info)
 {
-	ptrT str(Contact_GetInfo(info, hContact));
+	ptrW str(Contact_GetInfo(info, hContact));
 	if (str != NULL) {
-		mir_tstrncpy(buf, str, size);
+		mir_wstrncpy(buf, str, size);
 		return true;
 	}
 
@@ -140,7 +140,7 @@ void CContactCache::TContactInfo::LoadInfo()
 
 	for (int i = 0; i < _countof(items); ++i)
 		if (AppendInfo(p, _countof(info) - (p - info), hContact, items[i]))
-			p += mir_tstrlen(p) + 1;
+			p += mir_wstrlen(p) + 1;
 
 	*p = 0;
 
@@ -155,8 +155,8 @@ wchar_t *nb_stristr(wchar_t *str, wchar_t *substr)
 	wchar_t *str_up = NEWWSTR_ALLOCA(str);
 	wchar_t *substr_up = NEWWSTR_ALLOCA(substr);
 
-	CharUpperBuff(str_up, (DWORD)mir_tstrlen(str_up));
-	CharUpperBuff(substr_up, (DWORD)mir_tstrlen(substr_up));
+	CharUpperBuff(str_up, (DWORD)mir_wstrlen(str_up));
+	CharUpperBuff(substr_up, (DWORD)mir_wstrlen(substr_up));
 
 	wchar_t *p = wcsstr(str_up, substr_up);
 	return p ? (str + (p - str_up)) : NULL;
@@ -177,7 +177,7 @@ bool CContactCache::filter(int rate, wchar_t *str)
 
 	for (int iLayout = 0; iLayout < nKbdLayouts; ++iLayout) {
 		if (kbdLayoutActive == kbdLayouts[iLayout])
-			mir_tstrcpy(buf, str);
+			mir_wstrcpy(buf, str);
 		else {
 			int i;
 			for (i = 0; str[i]; ++i) {
@@ -188,7 +188,7 @@ bool CContactCache::filter(int rate, wchar_t *str)
 			buf[i] = 0;
 		}
 
-		for (wchar_t *p = m_cache[rate]->info; p && *p; p = p + mir_tstrlen(p) + 1)
+		for (wchar_t *p = m_cache[rate]->info; p && *p; p = p + mir_wstrlen(p) + 1)
 			if (nb_stristr(p, buf))
 				return true;
 	}

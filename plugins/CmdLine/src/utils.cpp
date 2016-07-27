@@ -152,7 +152,7 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 #pragma warning (disable: 4312)
 char* GetContactName(MCONTACT hContact, char *szProto)
 {
-	ptrT name(Contact_GetInfo(CNF_DISPLAY, hContact, szProto));
+	ptrW name(Contact_GetInfo(CNF_DISPLAY, hContact, szProto));
 	return (name == NULL) ? NULL : strdup(_T2A(name));
 }
 #pragma warning (default: 4312)
@@ -175,7 +175,7 @@ char* GetContactID(MCONTACT hContact)
 
 char* GetContactID(MCONTACT hContact, char *szProto)
 {
-	ptrT name(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+	ptrW name(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
 	return (name == NULL) ? NULL : strdup(_T2A(name));
 }
 #pragma warning (default: 4312)

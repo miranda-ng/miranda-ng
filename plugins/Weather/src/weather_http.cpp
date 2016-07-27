@@ -79,7 +79,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 		// if the data does not downloaded successfully (ie. disconnected), then return 1000 as error code
 		*szData = (wchar_t*)mir_alloc(512);
 		// store the error code in szData
-		mir_tstrcpy(*szData, L"NetLib error occurred!!");
+		mir_wstrcpy(*szData, L"NetLib error occurred!!");
 		hNetlibHttp = NULL;
 		return NLHRF_REDIRECT;
 	}
@@ -126,9 +126,9 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 
 			wchar_t *retVal = NULL;
 			if (bIsUtf)
-				retVal = mir_utf8decodeT(nlhrReply->pData);
+				retVal = mir_utf8decodeW(nlhrReply->pData);
 			if (retVal == NULL)
-				retVal = mir_a2t(nlhrReply->pData);
+				retVal = mir_a2u(nlhrReply->pData);
 			*szData = retVal;
 		}
 		else result = DATA_EMPTY;
@@ -137,7 +137,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 	else {
 		*szData = (wchar_t*)mir_alloc(512);
 		// store the error code in szData
-		mir_sntprintf(*szData, 512, L"Error occured! HTTP Error: %i\n", nlhrReply->resultCode);
+		mir_snwprintf(*szData, 512, L"Error occured! HTTP Error: %i\n", nlhrReply->resultCode);
 		result = nlhrReply->resultCode;
 	}
 

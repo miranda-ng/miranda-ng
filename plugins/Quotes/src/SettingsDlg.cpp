@@ -977,7 +977,7 @@ tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsQu
 		if (tstring::npos != n) {
 			tstring s = rsQuoteSymbol;
 			std::for_each(s.begin(), s.end(), boost::bind(replace_invalid_char, _1, '_'));
-			sPath.replace(n, mir_tstrlen(g_pszVariableQuoteName), s.c_str());
+			sPath.replace(n, mir_wstrlen(g_pszVariableQuoteName), s.c_str());
 		}
 	}
 

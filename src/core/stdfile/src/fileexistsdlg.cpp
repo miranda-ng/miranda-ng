@@ -149,24 +149,24 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 
 		wchar_t *pszExtension = wcsrchr(pszFilename, '.');
 		if (pszExtension)
-			mir_tstrncpy(szExtension, pszExtension + 1, _countof(szExtension));
+			mir_wstrncpy(szExtension, pszExtension + 1, _countof(szExtension));
 		else {
 			pszExtension = L".";
 			szExtension[0] = '\0';
 		}
 		CharUpper(szExtension);
 		if (fileInfo.szTypeName[0] == '\0')
-			mir_sntprintf(fileInfo.szTypeName, TranslateT("%s file"), szExtension);
+			mir_snwprintf(fileInfo.szTypeName, TranslateT("%s file"), szExtension);
 		SetDlgItemText(info->hwndDlg, IDC_EXISTINGTYPE, fileInfo.szTypeName);
 		SetDlgItemText(info->hwndDlg, IDC_NEWTYPE, fileInfo.szTypeName);
 		SendDlgItemMessage(info->hwndDlg, IDC_EXISTINGICON, STM_SETICON, (WPARAM)fileInfo.hIcon, 0);
 		szIconFile[0] = '\0';
-		if (!mir_tstrcmp(szExtension, L"EXE"))
+		if (!mir_wstrcmp(szExtension, L"EXE"))
 			SRFile_GetRegValue(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons", L"2", szIconFile, _countof(szIconFile));
 		else {
 			wchar_t szTypeName[MAX_PATH];
 			if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, pszExtension, NULL, szTypeName, _countof(szTypeName))) {
-				mir_tstrcat(szTypeName, L"\\DefaultIcon");
+				mir_wstrcat(szTypeName, L"\\DefaultIcon");
 				if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, szTypeName, NULL, szIconFile, _countof(szIconFile))) {
 					if (wcsstr(szIconFile, L"%1"))
 						SRFile_GetRegValue(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons", L"0", szIconFile, _countof(szIconFile));
@@ -231,7 +231,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			loadiconsstartinfo *lisi = (loadiconsstartinfo*)mir_alloc(sizeof(loadiconsstartinfo));
 			lisi->hwndDlg = hwndDlg;
-			lisi->szFilename = mir_tstrdup(fts->tszCurrentFile);
+			lisi->szFilename = mir_wstrdup(fts->tszCurrentFile);
 			//can be a little slow, so why not?
 			mir_forkthread(LoadIconsAndTypesThread, lisi);
 			SetFocus(hwndFocus);
@@ -250,7 +250,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			case IDC_OPENFOLDER:
 				{
 					wchar_t szFile[MAX_PATH];
-					mir_tstrncpy(szFile, fts->tszCurrentFile, _countof(szFile));
+					mir_wstrncpy(szFile, fts->tszCurrentFile, _countof(szFile));
 					wchar_t *pszLastBackslash = wcsrchr(szFile, '\\');
 					if (pszLastBackslash)
 						*pszLastBackslash = '\0';
@@ -283,15 +283,15 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					wchar_t filter[512], *pfilter;
 					wchar_t str[MAX_PATH];
 
-					mir_tstrncpy(str, fts->tszCurrentFile, _countof(str));
+					mir_wstrncpy(str, fts->tszCurrentFile, _countof(str));
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
 					wcsncpy(filter, TranslateT("All files"),_countof(filter)-1);
-					mir_tstrcat(filter, L" (*)");
-					pfilter = filter + mir_tstrlen(filter) + 1;
-					mir_tstrcpy(pfilter, L"*");
-					pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+					mir_wstrcat(filter, L" (*)");
+					pfilter = filter + mir_wstrlen(filter) + 1;
+					mir_wstrcpy(pfilter, L"*");
+					pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 					*pfilter = '\0';
 					ofn.lpstrFilter = filter;
 					ofn.lpstrFile = str;
@@ -300,7 +300,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					if (!GetSaveFileName(&ofn))
 						return FALSE;
 
-					pfr.szFilename = mir_tstrdup(str);
+					pfr.szFilename = mir_wstrdup(str);
 					pfr.action = FILERESUME_RENAME;
 				}
 				break;
@@ -319,7 +319,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			PROTOFILERESUME *pfrCopy = (PROTOFILERESUME*)mir_alloc(sizeof(pfr));
 			memcpy(pfrCopy, &pfr, sizeof(pfr));
-			PostMessage((HWND)GetPropA(hwndDlg, "Miranda.ParentWnd"), M_FILEEXISTSDLGREPLY, (WPARAM)mir_tstrdup(fts->tszCurrentFile), (LPARAM)pfrCopy);
+			PostMessage((HWND)GetPropA(hwndDlg, "Miranda.ParentWnd"), M_FILEEXISTSDLGREPLY, (WPARAM)mir_wstrdup(fts->tszCurrentFile), (LPARAM)pfrCopy);
 			DestroyWindow(hwndDlg);
 		}
 		break;

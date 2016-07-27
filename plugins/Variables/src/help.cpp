@@ -228,14 +228,14 @@ static wchar_t *getTokenCategory(TOKENREGISTEREX *tr) {
 			*cur = 0;
 			helpText = ( char* )mir_realloc(helpText, mir_strlen(helpText)+1);
 
-			wchar_t *res = mir_a2t(helpText);
+			wchar_t *res = mir_a2u(helpText);
 			mir_free(helpText);
 			return res;
 		}
 		cur++;
 	}
 
-	wchar_t *res = mir_a2t(helpText);
+	wchar_t *res = mir_a2u(helpText);
 	mir_free(helpText);
 	return res;
 
@@ -251,7 +251,7 @@ static wchar_t *getHelpDescription(TOKENREGISTEREX *tr)
 		if (*cur == '\t') {
 
 			cur = mir_strdup(cur+1);
-			wchar_t *res = mir_a2t(cur);
+			wchar_t *res = mir_a2u(cur);
 			mir_free(cur);
 			return res;
 
@@ -259,7 +259,7 @@ static wchar_t *getHelpDescription(TOKENREGISTEREX *tr)
 		cur--;
 	}
 
-	return mir_a2t(tr->szHelpText);
+	return mir_a2u(tr->szHelpText);
 
 }
 
@@ -269,7 +269,7 @@ static wchar_t *getTokenDescription(TOKENREGISTEREX *tr)
 		return NULL;
 
 	if (tr->szHelpText == NULL)
-		return mir_tstrdup(tr->tszTokenString);
+		return mir_wstrdup(tr->tszTokenString);
 
 	char *helpText = mir_strdup(tr->szHelpText);
 	if (helpText == NULL)
@@ -294,7 +294,7 @@ static wchar_t *getTokenDescription(TOKENREGISTEREX *tr)
 	}
 	else args = NULL;
 
-	size_t len = mir_tstrlen(tr->tszTokenString) + (args!=NULL?mir_strlen(args):0) + 3;
+	size_t len = mir_wstrlen(tr->tszTokenString) + (args!=NULL?mir_strlen(args):0) + 3;
 	wchar_t *desc = (wchar_t*)mir_calloc(len * sizeof(wchar_t));
 	if (desc == NULL) {
 		mir_free(helpText);
@@ -302,12 +302,12 @@ static wchar_t *getTokenDescription(TOKENREGISTEREX *tr)
 	}
 
 	if (tr->flags&TRF_FIELD)
-		mir_sntprintf(desc,  len, L"%c%s%c", FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
+		mir_snwprintf(desc,  len, L"%c%s%c", FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
 	else {
 		if (args != NULL)
-			tArgs = mir_a2t(args);
+			tArgs = mir_a2u(args);
 
-		mir_sntprintf(desc,  len, L"%c%s%s", FUNC_CHAR, tr->tszTokenString, (tArgs!=NULL?tArgs:L""));
+		mir_snwprintf(desc,  len, L"%c%s%s", FUNC_CHAR, tr->tszTokenString, (tArgs!=NULL?tArgs:L""));
 	}
 
 	mir_free(tArgs);
@@ -322,19 +322,19 @@ static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM)
 	if (tr1 == NULL || tr2 == NULL)
 		return 0;
 
-	ptrT cat1(getTokenCategory(tr1));
-	ptrT cat2(getTokenCategory(tr2));
+	ptrW cat1(getTokenCategory(tr1));
+	ptrW cat2(getTokenCategory(tr2));
 	if (cat1 == NULL || cat2 == NULL)
 		return 0;
 
-	int res = mir_tstrcmp(cat1, cat2);
+	int res = mir_wstrcmp(cat1, cat2);
 	if (res != 0)
 		return res;
 
 	if (tr1->tszTokenString == NULL || tr2->tszTokenString == NULL)
 		return 0;
 
-	return mir_tstrcmp(tr1->tszTokenString, tr2->tszTokenString);
+	return mir_wstrcmp(tr1->tszTokenString, tr2->tszTokenString);
 }
 
 static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
@@ -367,19 +367,19 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 					continue;
 
 				else if (hdd != NULL) {
-					if (!mir_tstrcmp(tr->tszTokenString, SUBJECT)) {
+					if (!mir_wstrcmp(tr->tszTokenString, SUBJECT)) {
 						if (hdd->vhs->flags&VHF_HIDESUBJECTTOKEN)
 							continue;
 
 						if (hdd->vhs->szSubjectDesc != NULL)
-							tszHelpDesc = mir_a2t(hdd->vhs->szSubjectDesc);
+							tszHelpDesc = mir_a2u(hdd->vhs->szSubjectDesc);
 					}
-					if (!mir_tstrcmp(tr->tszTokenString, MIR_EXTRATEXT)) {
+					if (!mir_wstrcmp(tr->tszTokenString, MIR_EXTRATEXT)) {
 						if (hdd->vhs->flags & VHF_HIDEEXTRATEXTTOKEN)
 							continue;
 
 						if (hdd->vhs->szExtraTextDesc != NULL)
-							tszHelpDesc = mir_a2t(hdd->vhs->szExtraTextDesc);
+							tszHelpDesc = mir_a2u(hdd->vhs->szExtraTextDesc);
 					}
 				}
 
@@ -400,7 +400,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 					tszHelpDesc = getHelpDescription(tr);
 
 				if (tszHelpDesc == NULL)
-					tszHelpDesc = mir_tstrdup(L"unknown");
+					tszHelpDesc = mir_wstrdup(L"unknown");
 
 				lvItem.iSubItem = 1;
 				lvItem.pszText = TranslateTS(tszHelpDesc);
@@ -422,12 +422,12 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 
 				cat = getTokenCategory((TOKENREGISTEREX *)lvItem.lParam);
 				if (cat != NULL) {
-					text = mir_tstrdup(TranslateTS(cat));
+					text = mir_wstrdup(TranslateTS(cat));
 					mir_free(cat);
 				}
 				else text = NULL;
 
-				if (text != NULL && (last == NULL || mir_tstrcmpi(last, text))) {
+				if (text != NULL && (last == NULL || mir_wstrcmpi(last, text))) {
 					lvItem.mask = LVIF_TEXT;
 					lvItem.pszText = text;
 					ListView_InsertItem(hList, &lvItem);
@@ -464,13 +464,13 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 			if (tr == NULL)
 				break;
 
-			size_t len = mir_tstrlen(tr->tszTokenString) + 2;
+			size_t len = mir_wstrlen(tr->tszTokenString) + 2;
 			wchar_t *tokenString = (wchar_t*)mir_alloc((len+1)*sizeof(wchar_t));
 			if (tokenString == NULL)
 				break;
 
 			memset(tokenString, 0, ((len + 1) * sizeof(wchar_t)));
-			mir_sntprintf(tokenString, len + 1, L"%c%s%c", (tr->flags & TRF_FIELD) ? FIELD_CHAR : FUNC_CHAR, tr->tszTokenString, (tr->flags & TRF_FIELD) ? FIELD_CHAR : '(');
+			mir_snwprintf(tokenString, len + 1, L"%c%s%c", (tr->flags & TRF_FIELD) ? FIELD_CHAR : FUNC_CHAR, tr->tszTokenString, (tr->flags & TRF_FIELD) ? FIELD_CHAR : '(');
 			SendDlgItemMessage(hwndInputDlg, IDC_TESTSTRING, EM_REPLACESEL, TRUE, (LPARAM)tokenString);
 			mir_free(tokenString);
 			SetFocus(GetDlgItem(hwndInputDlg, IDC_TESTSTRING));
@@ -685,7 +685,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				wchar_t *newString = variables_parsedup(string, extraText, (MCONTACT)SendMessage(GetParent(hwndDlg), VARM_GETSUBJECT, 0, 0));
 				if (newString != NULL) {
 					wchar_t *oldString = Hlp_GetDlgItemText(hwndDlg, IDC_RESULT);
-					if (oldString == NULL || mir_tstrcmp(oldString, newString))
+					if (oldString == NULL || mir_wstrcmp(oldString, newString))
 						SetDlgItemText(hwndDlg, IDC_RESULT, newString);
 
 					mir_free(newString);
@@ -812,7 +812,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 						SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)dat->vhs->fi->tszFormat);
 					else {
 
-						WCHAR *wszFormatString = mir_a2t(dat->vhs->fi->szFormat);
+						WCHAR *wszFormatString = mir_a2u(dat->vhs->fi->szFormat);
 						SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)wszFormatString);
 						mir_free(wszFormatString);
 
@@ -866,7 +866,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 						SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)dat->vhs->fi->tszExtraText);
 					else {
 
-						WCHAR *wszSource = mir_a2t(dat->vhs->fi->szExtraText);
+						WCHAR *wszSource = mir_a2u(dat->vhs->fi->szExtraText);
 						SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)wszSource);
 						mir_free(wszSource);
 

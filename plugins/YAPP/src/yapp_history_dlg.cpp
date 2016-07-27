@@ -120,7 +120,7 @@ static int lastColumn = -1; //last sort column
 
 int MatchesFilterCS(const wchar_t *filter, const PopupHistoryData *popupItem) //case sensitive
 {
-	if (mir_tstrlen(filter) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
+	if (mir_wstrlen(filter) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
 	int match = 0;
 	
 	match = (wcsstr(popupItem->messageT, filter)) ? 1 : match; //check message part
@@ -149,7 +149,7 @@ __inline void ConvertCase(wchar_t *dest, const wchar_t *source, size_t size)
 
 int MatchesFilterCI(const wchar_t *filterS, const PopupHistoryData *popupItem)
 {
-	if (mir_tstrlen(filterS) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
+	if (mir_wstrlen(filterS) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
 	int match = 0;
 	const int BUFFER_SIZE = 1024;
 	wchar_t buffer[BUFFER_SIZE];
@@ -187,7 +187,7 @@ int CALLBACK PopupsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 	ListView_GetItemText(params.hList, (int) lParam1, params.column, text1, _countof(text1));
 	ListView_GetItemText(params.hList, (int) lParam2, params.column, text2, _countof(text2));
 	
-	res = mir_tstrcmpi(text1, text2);
+	res = mir_wstrcmpi(text1, text2);
 	
 	res = (params.column == lastColumn) ? -res : res; //do reverse search on second click on same column
 	
@@ -489,7 +489,7 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 			if (found)
 			{
 				EmptyClipboard();
-				int len = (int)mir_tstrlen(buffer);
+				int len = (int)mir_wstrlen(buffer);
 				
 				HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, (len + 2) * sizeof(wchar_t));
 				clipboard = (wchar_t *) GlobalLock(hData);

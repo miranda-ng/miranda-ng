@@ -3,7 +3,7 @@
 static int message_Paste(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, 1);
-	ptrT text(mir_utf8decodeT(luaL_checkstring(L, 2)));
+	ptrW text(mir_utf8decodeW(luaL_checkstring(L, 2)));
 
 	MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
 	mwid.hContact = hContact;
@@ -34,12 +34,12 @@ static int message_Send(lua_State *L)
 	const char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE)
 	{
-		ptrT tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
+		ptrW tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
 		GCDEST gcd = { szProto, tszChatRoom, GC_EVENT_SENDMESSAGE };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.bIsMe = TRUE;
 		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.ptszText = mir_utf8decodeT(message);
+		gce.ptszText = mir_utf8decodeW(message);
 		gce.time = time(NULL);
 
 		res = CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);

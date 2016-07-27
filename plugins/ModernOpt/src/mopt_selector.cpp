@@ -81,7 +81,7 @@ struct TSkinListItem
 
 	TSkinListItem(wchar_t *fn)
 	{
-		title = mir_tstrdup(fn);
+		title = mir_wstrdup(fn);
 		if (wchar_t *p = wcsrchr(title, '.'))
 			*p = 0;
 
@@ -91,9 +91,9 @@ struct TSkinListItem
 		path = (wchar_t *)mir_alloc(MAX_PATH * sizeof(wchar_t));
 		PathToRelativeT(curPath, path);
 
-		size_t length = mir_tstrlen(curPath) + mir_tstrlen(fn) + 2;
+		size_t length = mir_wstrlen(curPath) + mir_wstrlen(fn) + 2;
 		filename = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
-		mir_sntprintf(filename, length, L"%s\\%s", curPath, fn);
+		mir_snwprintf(filename, length, L"%s\\%s", curPath, fn);
 	}
 
 	~TSkinListItem()
@@ -123,8 +123,8 @@ struct TSelectorData
 
 static bool CheckExt(wchar_t *fn, wchar_t *ext, int n)
 {
-	size_t l = mir_tstrlen(fn);
-	return (l > n) && !mir_tstrcmp(fn + l - n, ext);
+	size_t l = mir_wstrlen(fn);
+	return (l > n) && !mir_wstrcmp(fn + l - n, ext);
 }
 
 static void BuildSkinList(HWND hwndList, wchar_t *szExt, int nExtLength = -1, bool start = true)
@@ -135,7 +135,7 @@ static void BuildSkinList(HWND hwndList, wchar_t *szExt, int nExtLength = -1, bo
 		if (wchar_t *p = wcsrchr(mirPath, '\\')) *p = 0;
 		SetCurrentDirectory(mirPath);
 		SendMessage(hwndList, LB_RESETCONTENT, 0, 0);
-		nExtLength = (int)mir_tstrlen(szExt);
+		nExtLength = (int)mir_wstrlen(szExt);
 		SendMessage(hwndList, WM_SETREDRAW, FALSE, 0);
 	}
 
@@ -143,7 +143,7 @@ static void BuildSkinList(HWND hwndList, wchar_t *szExt, int nExtLength = -1, bo
 	HANDLE h = FindFirstFile(L"*.*", &ffd);
 	if (h != INVALID_HANDLE_VALUE) {
 		do {
-			if (!mir_tstrcmp(ffd.cFileName, L"") || !mir_tstrcmp(ffd.cFileName, L".") || !mir_tstrcmp(ffd.cFileName, L".."))
+			if (!mir_wstrcmp(ffd.cFileName, L"") || !mir_wstrcmp(ffd.cFileName, L".") || !mir_wstrcmp(ffd.cFileName, L".."))
 				continue;
 
 			if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -300,7 +300,7 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 				int cxIcon = GetSystemMetrics(SM_CXSMICON);
 				int cyIcon = GetSystemMetrics(SM_CYSMICON);
 
-				if (sd->active && !mir_tstrcmp(sd->active, dat->filename)) {
+				if (sd->active && !mir_wstrcmp(sd->active, dat->filename)) {
 					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top + lps->rcItem.bottom - cyIcon) / 2,
 						Skin_LoadIcon(SKINICON_OTHER_EMPTYBLOB),
 						cxIcon, cyIcon, 0, NULL, DI_NORMAL);

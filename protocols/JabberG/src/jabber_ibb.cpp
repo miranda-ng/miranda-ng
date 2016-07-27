@@ -46,11 +46,11 @@ void JabberIbbFreeJibb(JABBER_IBB_TRANSFER *jibb)
 
 BOOL CJabberProto::OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo *pInfo)
 {
-	if (!mir_tstrcmp(pInfo->GetChildNodeName(), L"open"))
+	if (!mir_wstrcmp(pInfo->GetChildNodeName(), L"open"))
 		FtHandleIbbRequest(iqNode, TRUE);
-	else if (!mir_tstrcmp(pInfo->GetChildNodeName(), L"close"))
+	else if (!mir_wstrcmp(pInfo->GetChildNodeName(), L"close"))
 		FtHandleIbbRequest(iqNode, FALSE);
-	else if (!mir_tstrcmp(pInfo->GetChildNodeName(), L"data")) {
+	else if (!mir_wstrcmp(pInfo->GetChildNodeName(), L"data")) {
 		BOOL bOk = FALSE;
 		const wchar_t *sid = XmlGetAttrValue(pInfo->GetChildNode(), L"sid");
 		const wchar_t *seq = XmlGetAttrValue(pInfo->GetChildNode(), L"seq");

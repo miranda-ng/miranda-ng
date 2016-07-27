@@ -36,7 +36,7 @@ void CAimProto::chat_register(void)
 
 void CAimProto::chat_start(const char* id, unsigned short exchange)
 {
-	wchar_t *idt = mir_a2t(id);
+	wchar_t *idt = mir_a2u(id);
 
 	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
@@ -66,8 +66,8 @@ void CAimProto::chat_start(const char* id, unsigned short exchange)
 
 void CAimProto::chat_event(const char* id, const char* sn, int evt, const wchar_t* msg)
 {
-	wchar_t *idt = mir_a2t(id);
-	wchar_t *snt = mir_a2t(sn);
+	wchar_t *idt = mir_a2u(id);
+	wchar_t *snt = mir_a2u(sn);
 
 	MCONTACT hContact = contact_from_sn(sn);
 	wchar_t *nick = hContact ? (wchar_t*)pcli->pfnGetContactDisplayName(
@@ -91,7 +91,7 @@ void CAimProto::chat_event(const char* id, const char* sn, int evt, const wchar_
 
 void CAimProto::chat_leave(const char* id)
 {
-	wchar_t *idt = mir_a2t(id);
+	wchar_t *idt = mir_a2u(id);
 
 	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -110,7 +110,7 @@ int CAimProto::OnGCEvent(WPARAM, LPARAM lParam)
 
 	if (mir_strcmp(gch->pDest->pszModule, m_szModuleName)) return 0;
 
-	char *id = mir_t2a(gch->pDest->ptszID);
+	char *id = mir_u2a(gch->pDest->ptszID);
 	chat_list_item* item = find_chat_by_id(id);
 
 	if (item == NULL) return 0;
@@ -122,7 +122,7 @@ int CAimProto::OnGCEvent(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_MESSAGE:
-		if (gch->ptszText && mir_tstrlen(gch->ptszText))
+		if (gch->ptszText && mir_wstrlen(gch->ptszText))
 			aim_chat_send_message(item->hconn, item->seqno, T2Utf(gch->ptszText));
 		break;
 
@@ -133,7 +133,7 @@ int CAimProto::OnGCEvent(WPARAM, LPARAM lParam)
 
 	case GC_USER_PRIVMESS:
 		{
-			char* sn = mir_t2a(gch->ptszUID);
+			char* sn = mir_u2a(gch->ptszUID);
 			MCONTACT hContact = contact_from_sn(sn);
 			mir_free(sn);
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
@@ -155,7 +155,7 @@ int CAimProto::OnGCEvent(WPARAM, LPARAM lParam)
 
 	case GC_USER_NICKLISTMENU:
 		{
-			char *sn = mir_t2a(gch->ptszUID);
+			char *sn = mir_u2a(gch->ptszUID);
 			MCONTACT hContact = contact_from_sn(sn);
 			mir_free(sn);
 
@@ -198,7 +198,7 @@ int CAimProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		gcmi->Item = (gc_item*)Items;
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		char* sn = mir_t2a(gcmi->pszUID);
+		char* sn = mir_u2a(gcmi->pszUID);
 		if (!mir_strcmp(m_username, sn)) {
 			static const struct gc_item Items[] = {
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },

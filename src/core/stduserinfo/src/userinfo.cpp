@@ -78,18 +78,18 @@ static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
 {
 	int res;
 	wchar_t *s1 = getTitle(item1), *s2 = getTitle(item2);
-	if (!mir_tstrcmp(s1, TranslateT("Summary"))) return -1;
-	if (!mir_tstrcmp(s2, TranslateT("Summary"))) return 1;
-	if (res = mir_tstrcmp(s1, s2)) return res;
+	if (!mir_wstrcmp(s1, TranslateT("Summary"))) return -1;
+	if (!mir_wstrcmp(s2, TranslateT("Summary"))) return 1;
+	if (res = mir_wstrcmp(s1, s2)) return res;
 
 	s1 = getTab(item1), s2 = getTab(item2);
 	if (s1 && !s2) return -1;
 	if (!s1 && s2) return 1;
 	if (!s1 && !s2) return 0;
 
-	if (s1 && !mir_tstrcmp(s1, TranslateT("General"))) return -1;
-	if (s2 && !mir_tstrcmp(s2, TranslateT("General"))) return 1;
-	return mir_tstrcmp(s1, s2);
+	if (s1 && !mir_wstrcmp(s1, TranslateT("General"))) return -1;
+	if (s2 && !mir_wstrcmp(s2, TranslateT("General"))) return 1;
+	return mir_wstrcmp(s1, s2);
 }
 
 static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
@@ -151,8 +151,8 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 		dst->pwszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->pwszTab) ? NULL : mir_wstrdup(odp->pwszTab);
 	}
 	else {
-		dst->pwszTitle = mir_a2t(odp->pszTitle);
-		dst->pwszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : mir_a2t(odp->pszTab);
+		dst->pwszTitle = mir_a2u(odp->pszTitle);
+		dst->pwszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : mir_a2u(odp->pszTab);
 	}
 
 	dst->hLangpack = odp->hLangpack;
@@ -180,13 +180,13 @@ static void CreateDetailsTabs(HWND hwndDlg, DetailsData *dat, DetailsPageData *p
 	TabCtrl_DeleteAllItems(hwndTab);
 	for (int i = 0; i < dat->pageCount; i++) {
 		DetailsPageData &odp = dat->opd[i];
-		if (!odp.ptszTab || mir_tstrcmp(odp.ptszTitle, ppg->ptszTitle))
+		if (!odp.ptszTab || mir_wstrcmp(odp.ptszTitle, ppg->ptszTitle))
 			continue;
 
 		tie.pszText = TranslateTH(odp.hLangpack, odp.ptszTab);
 		tie.lParam = i;
 		TabCtrl_InsertItem(hwndTab, pages, &tie);
-		if (!mir_tstrcmp(odp.ptszTab, ppg->ptszTab))
+		if (!mir_wstrcmp(odp.ptszTab, ppg->ptszTab))
 			sel = pages;
 		pages++;
 	}
@@ -255,7 +255,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				name = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
 			GetWindowText(hwndDlg, oldTitle, _countof(oldTitle));
-			mir_sntprintf(newTitle, oldTitle, name);
+			mir_snwprintf(newTitle, oldTitle, name);
 			SetWindowText(hwndDlg, newTitle);
 
 			//////////////////////////////////////////////////////////////////////
@@ -293,7 +293,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				p.ptszTab = odp[i].pwszTab;
 				p.hLangpack = odp[i].hLangpack;
 
-				if (i && p.ptszTab && !mir_tstrcmp(dat->opd[i - 1].ptszTitle, p.ptszTitle)) {
+				if (i && p.ptszTab && !mir_wstrcmp(dat->opd[i - 1].ptszTitle, p.ptszTitle)) {
 					p.hItem = dat->opd[i - 1].hItem;
 					continue;
 				}
@@ -307,7 +307,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					tvis.item.pszText = p.ptszTitle;
 				else
 					tvis.item.pszText = TranslateTH(p.hLangpack, p.ptszTitle);
-				if (ptszLastTab && !mir_tstrcmp(tvis.item.pszText, ptszLastTab))
+				if (ptszLastTab && !mir_wstrcmp(tvis.item.pszText, ptszLastTab))
 					dat->currentPage = i;
 				p.hItem = TreeView_InsertItem(hwndTree, &tvis);
 			}
@@ -355,7 +355,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_TIMER:
 		wchar_t str[128];
-		mir_sntprintf(str, L"%.*s%s%.*s", dat->updateAnimFrame % 10, L".........", dat->szUpdating, dat->updateAnimFrame % 10, L".........");
+		mir_snwprintf(str, L"%.*s%s%.*s", dat->updateAnimFrame % 10, L".........", dat->szUpdating, dat->updateAnimFrame % 10, L".........");
 		SetDlgItemText(hwndDlg, IDC_UPDATING, str);
 		if (++dat->updateAnimFrame == UPDATEANIMFRAMES)
 			dat->updateAnimFrame = 0;

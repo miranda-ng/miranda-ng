@@ -469,7 +469,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
 			else SetTextColor(ps.hdc, colFirstLine);
-			wchar_t *title = mir_u2t(pd->pwzTitle);
+			wchar_t *title = mir_wstrdup(pd->pwzTitle);
 			DrawText(ps.hdc, title, -1, &tr, DT_VCENTER | DT_LEFT | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX);
 			mir_free(title);
 
@@ -491,7 +491,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (options.av_layout != PAV_NONE && options.time_layout == PT_WITHAV && pwd->time_height <= pwd->tb_height && !pwd->have_av)
 					GetClientRect(hwnd, &r);
 
-				wchar_t *text = mir_u2t(pd->pwzText);
+				wchar_t *text = mir_wstrdup(pd->pwzText);
 				tr.left = r.left + options.padding + options.text_indent; tr.right = r.right - options.padding; tr.top = tr.bottom + options.padding; tr.bottom = r.bottom - options.padding;
 				DrawText(ps.hdc, text, -1, &tr, DT_NOPREFIX | DT_WORDBREAK | DT_EXTERNALLEADING | DT_TOP | DT_LEFT | DT_WORD_ELLIPSIS);
 				mir_free(text);
@@ -560,7 +560,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case PUM_SETTEXT:
-		replaceStrT(pd->ptzText, (wchar_t*)lParam);
+		replaceStrW(pd->ptzText, (wchar_t*)lParam);
 		InvalidateRect(hwnd, 0, TRUE);
 		RepositionWindows();
 		return TRUE;
@@ -585,15 +585,15 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (options.time_layout != PT_NONE) {
 				SIZE size_t;
 				if (hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
-				GetTextExtentPoint32(hdc, pwd->tbuff, (int)mir_tstrlen(pwd->tbuff), &size_t);
+				GetTextExtentPoint32(hdc, pwd->tbuff, (int)mir_wstrlen(pwd->tbuff), &size_t);
 				pwd->time_height = size_t.cy;
 				pwd->time_width = size_t.cx;
 			}
 
 			// titlebar height
 			if (hFontFirstLine) SelectObject(hdc, (HGDIOBJ)hFontFirstLine);
-			wchar_t *title = mir_u2t(pd->pwzTitle);
-			GetTextExtentPoint32(hdc, title, (int)mir_tstrlen(title), &size);
+			wchar_t *title = mir_wstrdup(pd->pwzTitle);
+			GetTextExtentPoint32(hdc, title, (int)mir_wstrlen(title), &size);
 			mir_free(title);
 			pwd->tb_height = size.cy;
 			if (options.time_layout == PT_LEFT || options.time_layout == PT_RIGHT) {
@@ -630,7 +630,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					r.right -= pwd->time_width + options.padding;
 
 				if (hFontSecondLine) SelectObject(hdc, (HGDIOBJ)hFontSecondLine);
-				wchar_t *text = mir_u2t(pd->pwzText);
+				wchar_t *text = mir_wstrdup(pd->pwzText);
 				DrawText(hdc, text, -1, &r, DT_CALCRECT | DT_NOPREFIX | DT_WORDBREAK | DT_EXTERNALLEADING | DT_TOP | DT_LEFT | DT_WORD_ELLIPSIS);
 				pwd->text_height = r.bottom;
 				mir_free(text);

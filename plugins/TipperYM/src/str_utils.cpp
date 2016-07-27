@@ -168,7 +168,7 @@ wchar_t *w2t(const wchar_t *ws)
 
 wchar_t *t2w(const wchar_t *ts)
 {
-	return mir_tstrdup(ts);
+	return mir_wstrdup(ts);
 }
 
 
@@ -195,7 +195,7 @@ char *t2utf(const wchar_t *ts)
 wchar_t *myfgets(wchar_t *Buf, int MaxCount, FILE *File)
 {
 	fgetws(Buf, MaxCount, File);
-	for (size_t i = mir_tstrlen(Buf) - 1; ; i--)
+	for (size_t i = mir_wstrlen(Buf) - 1; ; i--)
 	{
 		if (Buf[i] == '\n' || Buf[i] == ' ')
 			Buf[i] = 0;

@@ -33,7 +33,7 @@ void GetProfilePath(wchar_t *res, size_t resLen)
 	wchar_t *p = wcsrchr(dbname, '.');
 	if (p) *p = 0;
 
-	mir_sntprintf(res, resLen, L"\"%s\" \"/profile:%s\"", exename, dbname);
+	mir_snwprintf(res, resLen, L"\"%s\" \"/profile:%s\"", exename, dbname);
 }
 
 static void SetAutorun(BOOL autorun)
@@ -45,7 +45,7 @@ static void SetAutorun(BOOL autorun)
 		if ( RegCreateKeyEx(ROOT_KEY, SUB_KEY, 0, NULL, 0, KEY_CREATE_SUB_KEY|KEY_SET_VALUE,NULL,&hKey,&dw) == ERROR_SUCCESS) {
 			wchar_t result[MAX_PATH];
 			GetProfilePath(result, _countof(result));
-			RegSetValueEx(hKey, L"MirandaNG", 0, REG_SZ, (BYTE*)result, sizeof(wchar_t)*(DWORD)mir_tstrlen(result));
+			RegSetValueEx(hKey, L"MirandaNG", 0, REG_SZ, (BYTE*)result, sizeof(wchar_t)*(DWORD)mir_wstrlen(result));
 			RegCloseKey(hKey);
 		}
 		break;
@@ -70,7 +70,7 @@ static BOOL CmpCurrentAndRegistry()
 		return FALSE;
 	
 	GetProfilePath(result, _countof(result));
-	return mir_tstrcmpi(result, dbpath) == 0;
+	return mir_wstrcmpi(result, dbpath) == 0;
 }
 
 static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)

@@ -181,7 +181,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		}
 		msgBody = tHeader.readFromBuffer(msgBody);
 		if (!(email = NEWSTR_ALLOCA(tHeader["From"]))) return;
-		mChatID = mir_a2t(tHeader["To"]);
+		mChatID = mir_a2u(tHeader["To"]);
 		if (wcsncmp(mChatID, L"19:", 3)) mChatID[0]=0; // NETID_THREAD
 		msgBody = tHeader.readFromBuffer(msgBody);
 		msgBody = tHeader.readFromBuffer(msgBody);
@@ -274,7 +274,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 									psr[cnt] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
 									psr[cnt]->cbSize = sizeof(psr);
 									psr[cnt]->flags = PSR_TCHAR;
-									psr[cnt]->id.w = psr[cnt]->nick.w = psr[cnt]->email.w = mir_a2t(wlid);
+									psr[cnt]->id.w = psr[cnt]->nick.w = psr[cnt]->email.w = mir_a2u(wlid);
 									cnt++;
 								}
 							}
@@ -513,20 +513,20 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 					}
 					if (!pszFile || !*pszFile) pszFile="file";
 				}
-				ft->std.tszCurrentFile = mir_utf8decodeT(pszFile);
+				ft->std.tszCurrentFile = mir_utf8decodeW(pszFile);
 				ft->std.totalBytes = ft->std.currentFileSize = fileSize;
 				ft->std.totalFiles = 1;
 				ft->szInvcookie = (char*)mir_calloc(strlen(uri)+16);
 				sprintf(ft->szInvcookie, "%s/content/imgpsh", uri);
 
 				wchar_t tComment[40];
-				mir_sntprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
+				mir_snwprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.descr.w = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeT(desc->txt):tComment;
+				pre.descr.w = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeW(desc->txt):tComment;
 				pre.files.w = &ft->std.tszCurrentFile;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(ft->std.hContact, &pre);
@@ -569,7 +569,7 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 	const char *szNetId = ezxml_attr(cont, "t");
 	if (msnSearchId != NULL) {
 		if (szNetId != NULL) {
-			ptrT szEmailT(mir_utf8decodeT(szEmail));
+			ptrW szEmailT(mir_utf8decodeW(szEmail));
 
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
@@ -749,7 +749,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 	}
 
 	{
-		ptrT tszStatus(mir_utf8decodeT(szStatMsg));
+		ptrW tszStatus(mir_utf8decodeW(szStatMsg));
 		if (szInst) MSN_SetMirVer(hContact, Lists_GetPlace(szEmail, szInst));
 		else {
 			MsnContact *cont = Lists_Get(hContact);
@@ -808,7 +808,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		char *format = mir_strdup(parts[3]);
 		char *unknown = NULL;
 		if (ServiceExists(MS_LISTENINGTO_GETUNKNOWNTEXT))
-			unknown = mir_utf8encodeT((wchar_t *)CallService(MS_LISTENINGTO_GETUNKNOWNTEXT, 0, 0));
+			unknown = mir_utf8encodeW((wchar_t *)CallService(MS_LISTENINGTO_GETUNKNOWNTEXT, 0, 0));
 
 		for (unsigned i = 4; i < pCount; i++) {
 			char part[16];
@@ -836,17 +836,17 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		LISTENINGTOINFO lti = { 0 };
 		lti.cbSize = sizeof(LISTENINGTOINFO);
 
-		lti.ptszTitle = mir_utf8decodeT(parts[4]);
-		if (pCount > 5)  lti.ptszArtist = mir_utf8decodeT(parts[5]);
-		if (pCount > 6)  lti.ptszAlbum = mir_utf8decodeT(parts[6]);
-		if (pCount > 7)  lti.ptszTrack = mir_utf8decodeT(parts[7]);
-		if (pCount > 8)  lti.ptszYear = mir_utf8decodeT(parts[8]);
-		if (pCount > 9)  lti.ptszGenre = mir_utf8decodeT(parts[9]);
-		if (pCount > 10) lti.ptszLength = mir_utf8decodeT(parts[10]);
-		if (pCount > 11) lti.ptszPlayer = mir_utf8decodeT(parts[11]);
-		else lti.ptszPlayer = mir_utf8decodeT(parts[0]);
-		if (pCount > 12) lti.ptszType = mir_utf8decodeT(parts[12]);
-		else lti.ptszType = mir_utf8decodeT(parts[1]);
+		lti.ptszTitle = mir_utf8decodeW(parts[4]);
+		if (pCount > 5)  lti.ptszArtist = mir_utf8decodeW(parts[5]);
+		if (pCount > 6)  lti.ptszAlbum = mir_utf8decodeW(parts[6]);
+		if (pCount > 7)  lti.ptszTrack = mir_utf8decodeW(parts[7]);
+		if (pCount > 8)  lti.ptszYear = mir_utf8decodeW(parts[8]);
+		if (pCount > 9)  lti.ptszGenre = mir_utf8decodeW(parts[9]);
+		if (pCount > 10) lti.ptszLength = mir_utf8decodeW(parts[10]);
+		if (pCount > 11) lti.ptszPlayer = mir_utf8decodeW(parts[11]);
+		else lti.ptszPlayer = mir_utf8decodeW(parts[0]);
+		if (pCount > 12) lti.ptszType = mir_utf8decodeW(parts[12]);
+		else lti.ptszType = mir_utf8decodeW(parts[1]);
 
 		wchar_t *cm = (wchar_t *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&lti);
 		setTString(hContact, "ListeningTo", cm);
@@ -898,7 +898,7 @@ void CMsnProto::MSN_ProcessNotificationMessage(char* buf, size_t len)
 
 		SkinPlaySound(alertsoundname);
 
-		wchar_t* alrt = mir_utf8decodeT(ezxml_txt(xmltxt));
+		wchar_t* alrt = mir_utf8decodeW(ezxml_txt(xmltxt));
 		MSN_ShowPopup(TranslateT("MSN Alert"), alrt, MSN_ALERT_POPUP | MSN_ALLOW_MSGBOX, fullurl);
 		mir_free(alrt);
 	}
@@ -1463,14 +1463,14 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 
 		ft->std.hContact = MSN_HContactFromEmail(email, nick, true, true);
 		mir_free(ft->std.tszCurrentFile);
-		ft->std.tszCurrentFile = mir_utf8decodeT(Appfile);
+		ft->std.tszCurrentFile = mir_utf8decodeW(Appfile);
 		ft->std.totalBytes = ft->std.currentFileSize = _atoi64(Appfilesize);
 		ft->std.totalFiles = 1;
 		ft->szInvcookie = mir_strdup(Invcookie);
 		ft->p2p_dest = mir_strdup(email);
 
 		wchar_t tComment[40];
-		mir_sntprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
+		mir_snwprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 		PROTORECVFILET pre = { 0 };
 		pre.dwFlags = PRFF_TCHAR;
@@ -1536,8 +1536,8 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 
 	// netmeeting receive 1
 	if (Appname != NULL && !_stricmp(Appname, "NetMeeting")) {
-		wchar_t text[512], *tszEmail = mir_a2t(email);
-		mir_sntprintf(text, TranslateT("Accept NetMeeting request from %s?"), tszEmail);
+		wchar_t text[512], *tszEmail = mir_a2u(email);
+		mir_snwprintf(text, TranslateT("Accept NetMeeting request from %s?"), tszEmail);
 		mir_free(tszEmail);
 
 		if (MessageBox(NULL, text, TranslateT("MSN Protocol"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
@@ -1646,7 +1646,7 @@ void CMsnProto::MSN_CustomSmiley(const char* msgBody, char* email, char* nick, i
 
 			wchar_t path[MAX_PATH];
 			MSN_GetCustomSmileyFileName(hContact, path, _countof(path), smileyName, iSmileyType);
-			ft->std.tszCurrentFile = mir_tstrdup(path);
+			ft->std.tszCurrentFile = mir_wstrdup(path);
 
 			if (p2p_IsDlFileOk(ft))
 				delete ft;
@@ -1885,7 +1885,7 @@ LBL_InvalidCommand:
 				GCEVENT gce = { sizeof(gce), &gcd };
 				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.ptszNick = GetContactNameT(hContact);
-				gce.ptszUID = mir_a2t(data.userEmail);
+				gce.ptszUID = mir_a2u(data.userEmail);
 				gce.time = time(NULL);
 				gce.bIsMe = FALSE;
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
@@ -2141,7 +2141,7 @@ LBL_InvalidCommand:
 					GCEVENT gce = { sizeof(gce), &gcd };
 					gce.dwFlags = GCEF_ADDTOLOG;
 					gce.ptszNick = GetContactNameT(hContact);
-					gce.ptszUID = mir_a2t(data.userEmail);
+					gce.ptszUID = mir_a2u(data.userEmail);
 					gce.ptszStatus = TranslateT("Others");
 					gce.time = time(NULL);
 					gce.bIsMe = FALSE;

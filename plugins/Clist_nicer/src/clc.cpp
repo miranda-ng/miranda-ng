@@ -404,7 +404,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case INTM_NAMECHANGED:
 		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
-		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
+		mir_wstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);
 
@@ -490,7 +490,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		contact->proto = GetContactProto(wParam);
 		pcli->pfnInvalidateDisplayNameCacheEntry(wParam);
-		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
+		mir_wstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);
 

@@ -589,9 +589,9 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				if ((int)mir_strlen((char*)hClip) > mwdat->nMax) {
 					wchar_t szBuffer[512];
 					if (M.GetByte("autosplit", 0))
-						mir_sntprintf(szBuffer, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
+						mir_snwprintf(szBuffer, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
 					else
-						mir_sntprintf(szBuffer, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), mwdat->nMax);
+						mir_snwprintf(szBuffer, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), mwdat->nMax);
 					SendMessage(hwndParent, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
 				}
 			}
@@ -1342,7 +1342,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		// restore saved msg if any...
 		if (dat->hContact) {
-			ptrT tszSavedMsg(db_get_tsa(dat->hContact, SRMSGMOD, "SavedMsg"));
+			ptrW tszSavedMsg(db_get_tsa(dat->hContact, SRMSGMOD, "SavedMsg"));
 			if (tszSavedMsg != 0) {
 				SETTEXTEX stx = { ST_DEFAULT, 1200 };
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, tszSavedMsg);
@@ -2017,7 +2017,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				case WM_RBUTTONDOWN:
 				case WM_LBUTTONUP:
-					ptrT tszUrl(Utils::extractURLFromRichEdit((ENLINK*)lParam, GetDlgItem(hwndDlg, IDC_LOG)));
+					ptrW tszUrl(Utils::extractURLFromRichEdit((ENLINK*)lParam, GetDlgItem(hwndDlg, IDC_LOG)));
 					if (!IsStringValidLink(tszUrl))
 						break;
 
@@ -2326,7 +2326,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			if (iIndex < SendQueue::NR_SENDJOBS) { // single sendjob timer
 				SendJob *job = sendQueue->getJobByIndex(iIndex);
 				KillTimer(hwndDlg, wParam);
-				mir_sntprintf(job->szErrorMsg, TranslateT("Delivery failure: %s"), TranslateT("The message send timed out"));
+				mir_snwprintf(job->szErrorMsg, TranslateT("Delivery failure: %s"), TranslateT("The message send timed out"));
 				job->iStatus = SendQueue::SQ_ERROR;
 				if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 					SkinPlaySound("SendError");
@@ -2545,7 +2545,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				mir_snprintf(szIndex, "%d", iSelection - IDM_CONTAINERMENU);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
-					ptrT val(db_get_tsa(NULL, szKey, szIndex));
+					ptrW val(db_get_tsa(NULL, szKey, szIndex));
 					if (val)
 						SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)val);
 				}
@@ -2623,7 +2623,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (streamOut == NULL)
 					break;
 
-				CMString decoded(ptrT(mir_utf8decodeT(streamOut)));
+				CMString decoded(ptrW(mir_utf8decodeW(streamOut)));
 				if (decoded.IsEmpty())
 					break;
 
@@ -2723,7 +2723,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					}
 
 					if (selected != NULL) {
-						ptrT szQuoted(QuoteText(selected));
+						ptrW szQuoted(QuoteText(selected));
 						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
 						break;
 					}
@@ -2773,7 +2773,7 @@ quote_from_last:
 						bNeedsFree = true;
 					}
 					if (szConverted != NULL) {
-						ptrT szQuoted(QuoteText(szConverted));
+						ptrW szQuoted(QuoteText(szConverted));
 						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
 					}
 					mir_free(szText);
@@ -2784,7 +2784,7 @@ quote_from_last:
 					ptrA szFromStream(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), SF_TEXT | SFF_SELECTION));
 					ptrW converted(mir_utf8decodeW(szFromStream));
 					Utils::FilterEventMarkers(converted);
-					ptrT szQuoted(QuoteText(converted));
+					ptrW szQuoted(QuoteText(converted));
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
 				}
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
@@ -2875,7 +2875,7 @@ quote_from_last:
 	case DM_CONTAINERSELECTED:
 		{
 			wchar_t *szNewName = (wchar_t*)lParam;
-			if (!mir_tstrcmp(szNewName, TranslateT("Default container")))
+			if (!mir_wstrcmp(szNewName, TranslateT("Default container")))
 				szNewName = CGlobals::m_default_container_name;
 
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);
@@ -3055,7 +3055,7 @@ quote_from_last:
 				else {
 					if (ServiceExists(MS_HTTPSERVER_ADDFILENAME)) {
 						for (i = 0; i < totalCount; i++) {
-							char* szFileName = mir_t2a(ppFiles[i]);
+							char* szFileName = mir_u2a(ppFiles[i]);
 							CallService(MS_HTTPSERVER_ADDFILENAME, (WPARAM)szFileName, 0);
 							mir_free(szFileName);
 						}

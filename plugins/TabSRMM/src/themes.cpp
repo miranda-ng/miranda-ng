@@ -802,7 +802,7 @@ wchar_t* CImageItem::Read(const wchar_t *szFilename)
 	wchar_t	*szFinalName = 0;
 
 	GetPrivateProfileString(m_szName, L"Glyph", L"None", buffer, 500, szFilename);
-	if (mir_tstrcmp(buffer, L"None")) {
+	if (mir_wstrcmp(buffer, L"None")) {
 		swscanf(buffer, L"%d,%d,%d,%d", &m_glyphMetrics[0], &m_glyphMetrics[1],
 			&m_glyphMetrics[2], &m_glyphMetrics[3]);
 		if (m_glyphMetrics[2] > m_glyphMetrics[0] && m_glyphMetrics[3] > m_glyphMetrics[1]) {
@@ -813,12 +813,12 @@ wchar_t* CImageItem::Read(const wchar_t *szFilename)
 	}
 
 	GetPrivateProfileString(m_szName, L"Image", L"None", buffer, 500, szFilename);
-	if (mir_tstrcmp(buffer, L"None") || m_dwFlags & IMAGE_GLYPH) {
+	if (mir_wstrcmp(buffer, L"None") || m_dwFlags & IMAGE_GLYPH) {
 		szFinalName = new wchar_t[MAX_PATH];
 		//strncpy(m_szName, &m_szName[1], sizeof(m_szName));
 		//m_szName[sizeof(m_szName) - 1] = 0;
 		_wsplitpath(szFilename, szDrive, szPath, NULL, NULL);
-		mir_sntprintf(szFinalName, MAX_PATH, L"%s\\%s%s", szDrive, szPath, buffer);
+		mir_snwprintf(szFinalName, MAX_PATH, L"%s\\%s%s", szDrive, szPath, buffer);
 		if (!PathFileExists(szFinalName)) {
 			delete[] szFinalName;
 			szFinalName = 0;
@@ -852,7 +852,7 @@ wchar_t* CImageItem::Read(const wchar_t *szFilename)
 			}
 		}
 		GetPrivateProfileString(m_szName, L"Fillcolor", L"None", buffer, 500, szFilename);
-		if (mir_tstrcmp(buffer, L"None")) {
+		if (mir_wstrcmp(buffer, L"None")) {
 			COLORREF fillColor = CSkin::HexStringToLong(buffer);
 			m_fillBrush = CreateSolidBrush(fillColor);
 			m_dwFlags |= IMAGE_FILLSOLID;
@@ -860,7 +860,7 @@ wchar_t* CImageItem::Read(const wchar_t *szFilename)
 		else
 			m_fillBrush = 0;
 		GetPrivateProfileString(m_szName, L"Colorkey", L"None", buffer, 500, szFilename);
-		if (mir_tstrcmp(buffer, L"None")) {
+		if (mir_wstrcmp(buffer, L"None")) {
 			CSkin::m_ContainerColorKey = CSkin::HexStringToLong(buffer);
 			if (CSkin::m_ContainerColorKeyBrush)
 				DeleteObject(CSkin::m_ContainerColorKeyBrush);
@@ -1204,11 +1204,11 @@ void CSkin::LoadIcon(const wchar_t *szSection, const wchar_t *name, HICON &hIcon
 	GetPrivateProfileString(szSection, name, L"none", buffer, 250, m_tszFileName);
 	buffer[500] = 0;
 
-	if (mir_tstrcmpi(buffer, L"none")) {
+	if (mir_wstrcmpi(buffer, L"none")) {
 		wchar_t szDrive[MAX_PATH], szDir[MAX_PATH], szImagePath[MAX_PATH];
 
 		_wsplitpath(m_tszFileName, szDrive, szDir, NULL, NULL);
-		mir_sntprintf(szImagePath, L"%s\\%s\\%s", szDrive, szDir, buffer);
+		mir_snwprintf(szImagePath, L"%s\\%s\\%s", szDrive, szDir, buffer);
 		hIcon = (HICON)LoadImage(0, szImagePath, IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
 	}
 	else hIcon = NULL;
@@ -1237,12 +1237,12 @@ void CSkin::ReadItem(const int id, const wchar_t *szItem)
 	this_item->ALPHA = min(this_item->ALPHA, 100);
 
 	clr = RGB(GetBValue(defaults->COLOR), GetGValue(defaults->COLOR), GetRValue(defaults->COLOR));
-	mir_sntprintf(def_color, L"%6.6x", clr);
+	mir_snwprintf(def_color, L"%6.6x", clr);
 	GetPrivateProfileString(szItem, L"Color1", def_color, buffer, 400, m_tszFileName);
 	this_item->COLOR = HexStringToLong(buffer);
 
 	clr = RGB(GetBValue(defaults->COLOR2), GetGValue(defaults->COLOR2), GetRValue(defaults->COLOR2));
-	mir_sntprintf(def_color, L"%6.6x", clr);
+	mir_snwprintf(def_color, L"%6.6x", clr);
 	GetPrivateProfileString(szItem, L"Color2", def_color, buffer, 400, m_tszFileName);
 	this_item->COLOR2 = HexStringToLong(buffer);
 
@@ -1299,7 +1299,7 @@ void CSkin::ReadImageItem(const wchar_t *itemname)
 
 	wchar_t *szImageFileName = tmpItem.Read(m_tszFileName);
 
-	if (!mir_tstrcmpi(itemname, L"$glyphs") && szImageFileName != 0) {		// the glyph item MUST have a valid image
+	if (!mir_wstrcmpi(itemname, L"$glyphs") && szImageFileName != 0) {		// the glyph item MUST have a valid image
 		tmpItem.Create(szImageFileName);
 		if (tmpItem.getHbm()) {
 			m_glyphItem = tmpItem;
@@ -1312,12 +1312,12 @@ void CSkin::ReadImageItem(const wchar_t *itemname)
 
 	// handle the assignments of image items to skin items
 	for (int n = 0;; n++) {
-		mir_sntprintf(szItemNr, L"Item%d", n);
+		mir_snwprintf(szItemNr, L"Item%d", n);
 		GetPrivateProfileString(itemname, szItemNr, L"None", buffer, 500, m_tszFileName);
-		if (!mir_tstrcmp(buffer, L"None"))
+		if (!mir_wstrcmp(buffer, L"None"))
 			break;
 		for (int i = 0; i <= ID_EXTBK_LAST; i++) {
-			if (!mir_tstrcmpi(SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName, buffer)) {
+			if (!mir_wstrcmpi(SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName, buffer)) {
 				if (!(tmpItem.getFlags() & IMAGE_GLYPH)) {
 					if (szImageFileName)
 						tmpItem.Create(szImageFileName);
@@ -1406,18 +1406,18 @@ void CSkin::Load(void)
 	GetPrivateProfileSectionNames(szSections, 3000, m_tszFileName);
 	szSections[3001] = szSections[3000] = 0;
 	wchar_t *p = szSections;
-	while (mir_tstrlen(p) > 1) {
+	while (mir_wstrlen(p) > 1) {
 		if (p[0] != '%') {
-			p += (mir_tstrlen(p) + 1);
+			p += (mir_wstrlen(p) + 1);
 			continue;
 		}
 		for (i = 0; i <= ID_EXTBK_LAST; i++) {
-			if (!mir_tstrcmpi(&p[1], SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName)) {
+			if (!mir_wstrcmpi(&p[1], SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName)) {
 				ReadItem(i, p);
 				break;
 			}
 		}
-		p += (mir_tstrlen(p) + 1);
+		p += (mir_wstrlen(p) + 1);
 		j++;
 	}
 
@@ -1430,7 +1430,7 @@ void CSkin::Load(void)
 	m_avatarBorderClr = (COLORREF)HexStringToLong(buffer);
 
 	GetPrivateProfileString(L"Global", L"SideBarBG", L"None", buffer, 20, m_tszFileName);
-	if (mir_tstrcmp(buffer, L"None"))
+	if (mir_wstrcmp(buffer, L"None"))
 		m_sideBarContainerBG = (COLORREF)HexStringToLong(buffer);
 	else
 		m_sideBarContainerBG = SkinItems[ID_EXTBKSIDEBARBG].COLOR;
@@ -1477,7 +1477,7 @@ void CSkin::Load(void)
 	GetPrivateProfileString(L"Theme", L"File", L"None", buffer, MAX_PATH, m_tszFileName);
 
 	_wsplitpath(m_tszFileName, szDrive, szPath, NULL, NULL);
-	mir_sntprintf(szFinalName, L"%s\\%s\\%s", szDrive, szPath, buffer);
+	mir_snwprintf(szFinalName, L"%s\\%s\\%s", szDrive, szPath, buffer);
 	if (PathFileExists(szFinalName)) {
 		ReadThemeFromINI(szFinalName, 0, FALSE, m_fLoadOnStartup ? 0 : M.GetByte("skin_loadmode", 0));
 		CacheLogFonts();
@@ -1490,7 +1490,7 @@ void CSkin::Load(void)
 		DeleteObject(m_MenuBGBrush);
 		m_MenuBGBrush = 0;
 	}
-	if (mir_tstrcmp(buffer, L"None"))
+	if (mir_wstrcmp(buffer, L"None"))
 		m_MenuBGBrush = CreateSolidBrush(data);
 
 	GetPrivateProfileString(L"Global", L"LightShadow", L"000000", buffer, 20, m_tszFileName);
@@ -1503,7 +1503,7 @@ void CSkin::Load(void)
 	SkinCalcFrameWidth();
 
 	GetPrivateProfileString(L"Global", L"FontColor", L"None", buffer, 20, m_tszFileName);
-	if (mir_tstrcmp(buffer, L"None"))
+	if (mir_wstrcmp(buffer, L"None"))
 		CSkin::m_DefaultFontColor = HexStringToLong(buffer);
 	else
 		CSkin::m_DefaultFontColor = GetSysColor(COLOR_BTNTEXT);
@@ -1539,7 +1539,7 @@ void CSkin::LoadItems()
 	szSections[SECT_BUFFER_SIZE] = 0;
 
 	p = szSections;
-	while (mir_tstrlen(p) > 1) {
+	while (mir_wstrlen(p) > 1) {
 		p1 = wcschr(p, (int)'=');
 		if (p1)
 			*p1 = 0;
@@ -1549,14 +1549,14 @@ void CSkin::LoadItems()
 				memset(&m_skinIcons[m_nrSkinIcons], 0, sizeof(TIconDesc));
 				m_skinIcons[m_nrSkinIcons].uId = tmpIconDesc.uId;
 				m_skinIcons[m_nrSkinIcons].phIcon = (HICON *)(&m_skinIcons[m_nrSkinIcons].uId);
-				m_skinIcons[m_nrSkinIcons].szName = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_tstrlen(p) + 1));
-				mir_tstrcpy(m_skinIcons[m_nrSkinIcons].szName, p);
+				m_skinIcons[m_nrSkinIcons].szName = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(p) + 1));
+				mir_wstrcpy(m_skinIcons[m_nrSkinIcons].szName, p);
 				m_nrSkinIcons++;
 			}
 		}
 		if (p1)
 			*p1 = '=';
-		p += (mir_tstrlen(p) + 1);
+		p += (mir_wstrlen(p) + 1);
 	}
 
 	memset(szSections, 0, ((SECT_BUFFER_SIZE + 2) * sizeof(wchar_t)));
@@ -1564,10 +1564,10 @@ void CSkin::LoadItems()
 	szSections[SECT_BUFFER_SIZE] = 0;
 
 	p = szSections;
-	while (mir_tstrlen(p) > 1) {
+	while (mir_wstrlen(p) > 1) {
 		if (p[0] == '$')
 			ReadImageItem(p);
-		p += (mir_tstrlen(p) + 1);
+		p += (mir_wstrlen(p) + 1);
 	}
 	nextButtonID = IDC_TBFIRSTUID;
 
@@ -1668,14 +1668,14 @@ void CSkin::setupAeroSkins()
 
 	wchar_t	tszFilename[MAX_PATH], tszBasePath[MAX_PATH];
 	wcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
-	if (tszBasePath[mir_tstrlen(tszBasePath) - 1] != '\\')
-		mir_tstrcat(tszBasePath, L"\\");
+	if (tszBasePath[mir_wstrlen(tszBasePath) - 1] != '\\')
+		mir_wstrcat(tszBasePath, L"\\");
 
 	// load unknown avatar..
 	if (0 == PluginConfig.g_hbmUnknown) {
-		mir_sntprintf(tszFilename, L"%scustom_unknown.png", tszBasePath);
+		mir_snwprintf(tszFilename, L"%scustom_unknown.png", tszBasePath);
 		if (!PathFileExists(tszFilename))
-			mir_sntprintf(tszFilename, L"%sunknown.png", tszBasePath);
+			mir_snwprintf(tszFilename, L"%sunknown.png", tszBasePath);
 		PluginConfig.g_hbmUnknown = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
 		if (PluginConfig.g_hbmUnknown == 0) {
 			HDC dc = GetDC(0);
@@ -1684,9 +1684,9 @@ void CSkin::setupAeroSkins()
 		}
 	}
 
-	mir_sntprintf(tszFilename, L"%scustom_tabskin_aero.png", tszBasePath);
+	mir_snwprintf(tszFilename, L"%scustom_tabskin_aero.png", tszBasePath);
 	if (!PathFileExists(tszFilename))
-		mir_sntprintf(tszFilename, L"%stabskin_aero.png", tszBasePath);
+		mir_snwprintf(tszFilename, L"%stabskin_aero.png", tszBasePath);
 
 	BOOL isOpaque = false;
 	if (CMimAPI::m_pfnDwmGetColorizationColor && M.isAero())
@@ -1771,9 +1771,9 @@ void CSkin::setupAeroSkins()
 	m_tabBottom->setMetrics(bm.bmWidth, bm.bmHeight);
 
 
-	mir_sntprintf(tszFilename, L"%scustom_tabskin_aero_glow.png", tszBasePath);
+	mir_snwprintf(tszFilename, L"%scustom_tabskin_aero_glow.png", tszBasePath);
 	if (!PathFileExists(tszFilename))
-		mir_sntprintf(tszFilename, L"%stabskin_aero_glow.png", tszBasePath);
+		mir_snwprintf(tszFilename, L"%stabskin_aero_glow.png", tszBasePath);
 
 	fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR | IMGL_RETURNDIB);
 
@@ -1804,9 +1804,9 @@ void CSkin::setupAeroSkins()
 	m_tabGlowBottom->setMetrics(bm.bmWidth, bm.bmHeight);
 
 	// background item for the button switch bar
-	mir_sntprintf(tszFilename, L"%scustom_tabskin_aero_button.png", tszBasePath);
+	mir_snwprintf(tszFilename, L"%scustom_tabskin_aero_button.png", tszBasePath);
 	if (!PathFileExists(tszFilename))
-		mir_sntprintf(tszFilename, L"%stabskin_aero_button.png", tszBasePath);
+		mir_snwprintf(tszFilename, L"%stabskin_aero_button.png", tszBasePath);
 
 	hbm = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
 
@@ -2439,8 +2439,8 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 {
 	wchar_t tszBasePath[MAX_PATH];
 	wcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
-	if (tszBasePath[mir_tstrlen(tszBasePath) - 1] != '\\')
-		mir_tstrcat(tszBasePath, L"\\");
+	if (tszBasePath[mir_wstrlen(tszBasePath) - 1] != '\\')
+		mir_wstrcat(tszBasePath, L"\\");
 
 	CreateDirectoryTreeT(tszBasePath);
 

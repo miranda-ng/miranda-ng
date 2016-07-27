@@ -138,8 +138,8 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
 						data->status_msg[0].flags[i - ID_STATUS_ONLINE] = val;
-						ptrT text( db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default")));
-						mir_tstrncpy(data->status_msg[0].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
+						ptrW text( db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default")));
+						mir_wstrncpy(data->status_msg[0].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
 
 						for (j = 0; j < accounts->count; j++)
 						{
@@ -151,7 +151,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							data->status_msg[j+1].flags[i-ID_STATUS_ONLINE] = val;
 							mir_snprintf(setting, "%sDefault", accounts->pa[j]->szModuleName);
 							text = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i, setting));
-							mir_tstrncpy(data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
+							mir_wstrncpy(data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
 						}
 					}
 				}
@@ -452,9 +452,9 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							if (szSetting)
 							{
 								wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
-								if (tszStatusMsg && mir_tstrlen(tszStatusMsg))
+								if (tszStatusMsg && mir_wstrlen(tszStatusMsg))
 								{
-									if (tszStatusMsg && mir_tstrlen(tszStatusMsg))
+									if (tszStatusMsg && mir_wstrlen(tszStatusMsg))
 										SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 
 									mir_free(tszStatusMsg);
@@ -870,11 +870,11 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						if (len > 0)
 						{	
 							if (data->proto_msg[j].msg == NULL)
-								data->proto_msg[j].msg = mir_tstrdup(msg);
+								data->proto_msg[j].msg = mir_wstrdup(msg);
 							else
 							{
 								mir_free(data->proto_msg[j].msg);
-								data->proto_msg[j].msg = mir_tstrdup(msg);
+								data->proto_msg[j].msg = mir_wstrdup(msg);
 							}
 						}
 						else
@@ -889,7 +889,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					else
 					{
 						GetDlgItemText(hwndDlg, IDC_OPTEDIT1, msg, _countof(msg));
-						mir_tstrcpy(data->status_msg[j].msg[i], msg);
+						mir_wstrcpy(data->status_msg[j].msg[i], msg);
 					}
 				}
 				break;
@@ -911,7 +911,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						{
 							data->status_msg[0].flags[i-ID_STATUS_ONLINE] = data->status_msg[j].flags[i-ID_STATUS_ONLINE];
 							if (data->status_msg[j].flags[i-ID_STATUS_ONLINE] & STATUS_THIS_MSG)
-								mir_tstrcpy(data->status_msg[0].msg[i-ID_STATUS_ONLINE], data->status_msg[j].msg[i-ID_STATUS_ONLINE]);
+								mir_wstrcpy(data->status_msg[0].msg[i-ID_STATUS_ONLINE], data->status_msg[j].msg[i-ID_STATUS_ONLINE]);
 						}
 					}
 				}
@@ -929,15 +929,15 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						if (data->proto_msg[j].flags & PROTO_THIS_MSG)
 						{
-							size_t len = mir_tstrlen(data->proto_msg[j].msg);
+							size_t len = mir_wstrlen(data->proto_msg[j].msg);
 							if (len > 0)
 							{	
 								if (data->proto_msg[k+1].msg == NULL)
-									data->proto_msg[k+1].msg = mir_tstrdup(data->proto_msg[j].msg);
+									data->proto_msg[k+1].msg = mir_wstrdup(data->proto_msg[j].msg);
 								else
 								{
 									mir_free(data->proto_msg[k+1].msg);
-									data->proto_msg[k+1].msg = mir_tstrdup(data->proto_msg[j].msg);
+									data->proto_msg[k+1].msg = mir_wstrdup(data->proto_msg[j].msg);
 								}
 							}
 							else
@@ -957,7 +957,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 								{
 									data->status_msg[k + 1].flags[i - ID_STATUS_ONLINE] = data->status_msg[j].flags[i - ID_STATUS_ONLINE];
 									if (data->status_msg[j].flags[i - ID_STATUS_ONLINE] & STATUS_THIS_MSG)
-										mir_tstrcpy(data->status_msg[k + 1].msg[i - ID_STATUS_ONLINE], data->status_msg[j].msg[i - ID_STATUS_ONLINE]);
+										mir_wstrcpy(data->status_msg[k + 1].msg[i - ID_STATUS_ONLINE], data->status_msg[j].msg[i - ID_STATUS_ONLINE]);
 								}
 							}
 						}
@@ -983,7 +983,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					{
 						data->status_msg[j].flags[k - ID_STATUS_ONLINE] = data->status_msg[j].flags[i];
 						if (data->status_msg[j].flags[i] & STATUS_THIS_MSG)
-							mir_tstrcpy(data->status_msg[j].msg[k - ID_STATUS_ONLINE], data->status_msg[j].msg[i]);
+							mir_wstrcpy(data->status_msg[j].msg[k - ID_STATUS_ONLINE], data->status_msg[j].msg[i]);
 					}
 				}
 				break;
@@ -1235,7 +1235,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 			if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
 				wchar_t szText[100];
-				mir_sntprintf(szText, L"%s *", TranslateT("Show status profiles in status list"));
+				mir_snwprintf(szText, L"%s *", TranslateT("Show status profiles in status list"));
 				SetDlgItemText(hwndDlg, IDC_CPROFILES, szText);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CPROFILES), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_NOTE1), SW_SHOW);

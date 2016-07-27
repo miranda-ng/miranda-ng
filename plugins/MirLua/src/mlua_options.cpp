@@ -62,7 +62,7 @@ void CMLuaOptions::OnInitDialog()
 	wchar_t scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
 	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
-	mir_sntprintf(header, L"%s (%s)", TranslateT("Common scripts"), relativeScriptDir);
+	mir_snwprintf(header, L"%s (%s)", TranslateT("Common scripts"), relativeScriptDir);
 
 	m_scripts.AddColumn(0, L"Script", 380);
 	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));

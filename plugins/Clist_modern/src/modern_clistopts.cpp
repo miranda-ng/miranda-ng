@@ -584,7 +584,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 
 		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, db_get_b(NULL, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		{
-			ptrT tszText(db_get_tsa(NULL, "CList", "SecondLineText"));
+			ptrW tszText(db_get_tsa(NULL, "CList", "SecondLineText"));
 			if (tszText)
 				SetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, tszText);
 		}

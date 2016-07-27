@@ -106,7 +106,7 @@ void doItems(ModuleSettingLL* modlist, int count)
 	HWND hwnd = GetParent(hwnd2Tree); //!!! 
 
 	wchar_t percent[128], title[96];
-	mir_sntprintf(title, TranslateT("Loading modules..."));
+	mir_snwprintf(title, TranslateT("Loading modules..."));
 
 	TVITEM item = { 0 };
 	item.mask = TVIF_STATE | TVIF_PARAM;
@@ -131,7 +131,7 @@ void doItems(ModuleSettingLL* modlist, int count)
 			continue;
 
 		// Caption
-		mir_sntprintf(percent, L"%s %d%%", title, (int)(100 * i / count));
+		mir_snwprintf(percent, L"%s %d%%", title, (int)(100 * i / count));
 		SetWindowText(hwnd, percent);
 
 		for (ModSetLinkLinkItem *module = modlist->first; module && hwnd2mainWindow; module = module->next) {
@@ -169,7 +169,7 @@ HTREEITEM findItemInTree(MCONTACT hContact, const char* module)
 			if (lastItem != TVI_ROOT) {
 				/* these next 2 lines are not from code guru..... */
 				if (TreeView_GetItem(hwnd2Tree, &item) && item.lParam) {
-					if ((hContact == ((ModuleTreeInfoStruct *)item.lParam)->hContact) && (!module || !module[0] || !mir_tstrcmp(szModule, text))) {
+					if ((hContact == ((ModuleTreeInfoStruct *)item.lParam)->hContact) && (!module || !module[0] || !mir_wstrcmp(szModule, text))) {
 						return item.hItem;
 
 					}
@@ -252,7 +252,7 @@ http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?t
 				/* these next lines are not from code guru..... */
 				if (item.lParam) {
 					ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)item.lParam;
-					if (hContact == mtis->hContact && !mir_tstrcmp(text, szModule)) {
+					if (hContact == mtis->hContact && !mir_wstrcmp(text, szModule)) {
 						mir_free(mtis);
 						TreeView_DeleteItem(hwnd2Tree, item.hItem);
 						lastItem = prelastItem;
@@ -719,7 +719,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 		case MENU_DELETE_CONTACT:
 			if (db_get_b(NULL, "CList", "ConfirmDelete", 1)) {
 				wchar_t str[MSG_SIZE];
-				mir_sntprintf(str, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
+				mir_snwprintf(str, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
 				if (dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 					break;
 			}

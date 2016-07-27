@@ -404,7 +404,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 			while (str != NULL) {
 				lvi.pszText = &str[0];
-				tmplen = len = (DWORD)mir_tstrlen(lvi.pszText);
+				tmplen = len = (DWORD)mir_wstrlen(lvi.pszText);
 
 				while (len > wraplen) {
 					szBreak = lvi.pszText[wraplen];
@@ -505,7 +505,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 				HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, (dst - buf + 1) * sizeof(wchar_t));
 				if (hClipboardData) {
 					wchar_t *pchData = (wchar_t *)GlobalLock(hClipboardData);
-					mir_tstrcpy(pchData, buf);
+					mir_wstrcpy(pchData, buf);
 					GlobalUnlock(hClipboardData);
 					SetClipboardData(CF_UNICODETEXT, hClipboardData);
 				}
@@ -621,7 +621,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 
 		CallService(MS_DB_GETPROFILEPATHT, (WPARAM)_countof(path), (LPARAM)path);
 
-		mir_sntprintf(title, L"%s - %s\\%s", TranslateT("Miranda Console"), path, name);
+		mir_snwprintf(title, L"%s - %s\\%s", TranslateT("Miranda Console"), path, name);
 
 		SetWindowText(hwndDlg, title);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[0]);
@@ -1096,8 +1096,8 @@ static int OnFontChange(WPARAM, LPARAM)
 		FontIDT fid = { 0 };
 		fid.cbSize = sizeof(fid);
 
-		mir_tstrncpy(fid.group, LPGENW("Console"), _countof(fid.group));
-		mir_tstrncpy(fid.name, LPGENW("Text"), _countof(fid.name));
+		mir_wstrncpy(fid.group, LPGENW("Console"), _countof(fid.group));
+		mir_wstrncpy(fid.name, LPGENW("Text"), _countof(fid.name));
 
 		colLogFont = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&LogFont);
 
@@ -1120,26 +1120,26 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(fid);
-	mir_tstrncpy(fid.group, LPGENW("Console"), _countof(fid.group));
-	mir_tstrncpy(fid.name, LPGENW("Text"), _countof(fid.name));
+	mir_wstrncpy(fid.group, LPGENW("Console"), _countof(fid.group));
+	mir_wstrncpy(fid.name, LPGENW("Text"), _countof(fid.name));
 	mir_strncpy(fid.dbSettingsGroup, "Console", _countof(fid.dbSettingsGroup));
 	mir_strncpy(fid.prefix, "ConsoleFont", _countof(fid.prefix));
-	mir_tstrncpy(fid.backgroundGroup, LPGENW("Console"), _countof(fid.backgroundGroup));
-	mir_tstrncpy(fid.backgroundName, LPGENW("Background"), _countof(fid.backgroundName));
+	mir_wstrncpy(fid.backgroundGroup, LPGENW("Console"), _countof(fid.backgroundGroup));
+	mir_wstrncpy(fid.backgroundName, LPGENW("Background"), _countof(fid.backgroundName));
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.colour = RGB(0, 0, 0);
 	fid.deffontsettings.size = 10;
 	fid.deffontsettings.style = 0;
-	mir_tstrncpy(fid.deffontsettings.szFace, L"Courier", _countof(fid.deffontsettings.szFace));
+	mir_wstrncpy(fid.deffontsettings.szFace, L"Courier", _countof(fid.deffontsettings.szFace));
 	FontRegisterT(&fid);
 
 	HookEvent(ME_FONT_RELOAD, OnFontChange);
 
 	ColourIDT cid = { 0 };
 	cid.cbSize = sizeof(cid);
-	mir_tstrncpy(cid.group, LPGENW("Console"), _countof(cid.group));
-	mir_tstrncpy(cid.name, LPGENW("Background"), _countof(cid.name));
+	mir_wstrncpy(cid.group, LPGENW("Console"), _countof(cid.group));
+	mir_wstrncpy(cid.name, LPGENW("Background"), _countof(cid.name));
 	mir_strncpy(cid.dbSettingsGroup, "Console", _countof(cid.dbSettingsGroup));
 	mir_strncpy(cid.setting, "BgColor", _countof(cid.setting));
 	cid.defcolour = RGB(255, 255, 255);
@@ -1259,8 +1259,8 @@ void ShutdownConsole(void)
 ////////////////////////////////////////////////////////////////////////////////
 
 wchar_t *addstring(wchar_t *str, wchar_t *add) {
-	mir_tstrcpy(str, add);
-	return str + mir_tstrlen(add) + 1;
+	mir_wstrcpy(str, add);
+	return str + mir_wstrlen(add) + 1;
 }
 
 
@@ -1272,7 +1272,7 @@ static int Openfile(wchar_t *outputFile, int selection)
 	wchar_t *filter, *tmp, *tmp1, *tmp2;
 	tmp1 = TranslateT("Text Files (*.txt)");
 	tmp2 = TranslateT("All Files");
-	filter = tmp = (wchar_t*)_alloca((mir_tstrlen(tmp1) + mir_tstrlen(tmp2) + 11)*sizeof(wchar_t));
+	filter = tmp = (wchar_t*)_alloca((mir_wstrlen(tmp1) + mir_wstrlen(tmp2) + 11)*sizeof(wchar_t));
 	tmp = addstring(tmp, tmp1);
 	tmp = addstring(tmp, L"*.TXT");
 	tmp = addstring(tmp, tmp2);
@@ -1296,7 +1296,7 @@ static int Openfile(wchar_t *outputFile, int selection)
 
 	if (!GetSaveFileName(&ofn))
 		return 0;
-	mir_tstrcpy(outputFile, filename);
+	mir_wstrcpy(outputFile, filename);
 	return 1;
 }
 

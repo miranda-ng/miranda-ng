@@ -179,7 +179,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 					bCorrectResponse = TRUE;
 			} else {
 				if (_tcsstr_cc(message, buf, _getOptB("ResponseCC", defaultResponseCC)) &&
-					(mir_tstrlen(message) == mir_tstrlen(buf)))
+					(mir_wstrlen(message) == mir_wstrlen(buf)))
 					bCorrectResponse = TRUE;
 			}
 			break;
@@ -196,7 +196,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 					}
 				} else {
 					if (_tcsstr_cc(message, buf, _getOptB("ResponseCC", defaultResponseCC)) &&
-						(mir_tstrlen(message) == mir_tstrlen(buf))) {
+						(mir_wstrlen(message) == mir_wstrlen(buf))) {
 						bCorrectResponse = TRUE;
 						break;
 					}
@@ -208,7 +208,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			if (message == NULL)
 				break;
 			_itow(_getCOptD(hContact, "ResponseMath", -1), buf, 10);
-			if (wcsstr(message, buf) && (mir_tstrlen(buf) == mir_tstrlen(message))) {
+			if (wcsstr(message, buf) && (mir_wstrlen(buf) == mir_wstrlen(message))) {
 				bCorrectResponse = TRUE;
 			}
 			break;
@@ -290,7 +290,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	// Completely reject if duplicate incoming message found
 	if (_getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) > 0 &&
 		_getCOptD(hContact, "SameMsgCount", 0) >= _getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) &&
-		mir_tstrcmp(message, _getCOptS(buf, buflen, hContact, "LastInMsg", L"")) == 0) {
+		mir_wstrcmp(message, _getCOptS(buf, buflen, hContact, "LastInMsg", L"")) == 0) {
 			_notify(hContact, POPUP_BLOCKED, TranslateT("Message from %s rejected because it reached a maximum for same responses per day."), message);
 			if (bayesEnabled)
 				queue_message(hContact, dbei->timestamp, message);
@@ -388,7 +388,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	case SPAMOTRON_MODE_MATH:
 		a = (rand() % 10) + 1;
 		b = (rand() % 10) + 1;
-		mir_sntprintf(mexpr, L"%d + %d", a, b);
+		mir_snwprintf(mexpr, L"%d + %d", a, b);
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
 			_getOptS(challengeW, maxmsglen, "AuthChallengeMath", defaultAuthChallengeMath);
 		else
@@ -423,7 +423,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	// Save Last Msg and update SameMsgCount
 	if (message != NULL) {
-		if (mir_tstrcmp(_getCOptS(buf, buflen, hContact, "LastInMsg", L""), message) == 0)
+		if (mir_wstrcmp(_getCOptS(buf, buflen, hContact, "LastInMsg", L""), message) == 0)
 			_setCOptD(hContact, "SameMsgCount", 1+_getCOptD(hContact, "SameMsgCount", 0));
 		else 
 			_setCOptD(hContact, "SameMsgCount", 1);

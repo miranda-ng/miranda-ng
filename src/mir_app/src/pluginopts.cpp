@@ -53,7 +53,7 @@ struct PluginListItemData
 
 static int sttSortPlugins(const PluginListItemData *p1, const PluginListItemData *p2)
 {
-	return mir_tstrcmp(p1->fileName, p2->fileName);
+	return mir_wstrcmp(p1->fileName, p2->fileName);
 }
 
 static LIST<PluginListItemData> arPluginList(10, sttSortPlugins);
@@ -61,7 +61,7 @@ static LIST<PluginListItemData> arPluginList(10, sttSortPlugins);
 static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM lParam)
 {
 	wchar_t buf[MAX_PATH];
-	mir_sntprintf(buf, L"%s\\Plugins\\%s", path, fd->cFileName);
+	mir_snwprintf(buf, L"%s\\Plugins\\%s", path, fd->cFileName);
 	HINSTANCE hInst = GetModuleHandle(buf);
 
 	BASIC_PLUGIN_INFO pi;
@@ -121,7 +121,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		else
 			memset(&dat->uuid, 0, sizeof(dat->uuid));
 
-		wchar_t *shortNameT = mir_a2t(pi.pluginInfo->shortName);
+		wchar_t *shortNameT = mir_a2u(pi.pluginInfo->shortName);
 		// column 3: plugin short name
 		if (shortNameT) {
 			ListView_SetItemText(hwndList, iRow, 2, shortNameT);
@@ -136,12 +136,12 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 			void *pVerInfo = mir_alloc(verInfoSize);
 			GetFileVersionInfo(buf, 0, verInfoSize, pVerInfo);
 			VerQueryValue(pVerInfo, L"\\", (LPVOID*)&fi, &blockSize);
-			mir_sntprintf(buf, L"%d.%d.%d.%d", HIWORD(fi->dwProductVersionMS),
+			mir_snwprintf(buf, L"%d.%d.%d.%d", HIWORD(fi->dwProductVersionMS),
 				LOWORD(fi->dwProductVersionMS), HIWORD(fi->dwProductVersionLS), LOWORD(fi->dwProductVersionLS));
 			mir_free(pVerInfo);
 		}
 		else
-			mir_sntprintf(buf, L"%d.%d.%d.%d", HIBYTE(HIWORD(pi.pluginInfo->version)),
+			mir_snwprintf(buf, L"%d.%d.%d.%d", HIBYTE(HIWORD(pi.pluginInfo->version)),
 				LOBYTE(HIWORD(pi.pluginInfo->version)), HIBYTE(LOWORD(pi.pluginInfo->version)),
 				LOBYTE(LOWORD(pi.pluginInfo->version)));
 
@@ -299,15 +299,15 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM)
 {
 	PluginListItemData *p1 = (PluginListItemData*)i1, *p2 = (PluginListItemData*)i2;
-	return mir_tstrcmp(p1->fileName, p2->fileName);
+	return mir_wstrcmp(p1->fileName, p2->fileName);
 }
 
 static wchar_t *latin2t(const char *p)
 {
 	if (p == NULL)
-		return mir_tstrdup(L"");
+		return mir_wstrdup(L"");
 
-	return mir_a2t_cp(p, 1250);
+	return mir_a2u_cp(p, 1250);
 }
 
 INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -427,19 +427,19 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, _countof(buf));
 						SetDlgItemText(hwndDlg, IDC_PLUGININFOFRAME, sel ? buf : L"");
 
-						ptrT tszAuthor(latin2t(sel ? dat->author : NULL));
+						ptrW tszAuthor(latin2t(sel ? dat->author : NULL));
 						SetDlgItemText(hwndDlg, IDC_PLUGINAUTHOR, tszAuthor);
 
-						ptrT tszEmail(latin2t(sel ? dat->authorEmail : NULL));
+						ptrW tszEmail(latin2t(sel ? dat->authorEmail : NULL));
 						SetDlgItemText(hwndDlg, IDC_PLUGINEMAIL, tszEmail);
 
-						ptrT p(Langpack_PcharToTchar(dat->description));
+						ptrW p(Langpack_PcharToTchar(dat->description));
 						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? p.get() : L"");
 
-						ptrT tszCopyright(latin2t(sel ? dat->copyright : NULL));
+						ptrW tszCopyright(latin2t(sel ? dat->copyright : NULL));
 						SetDlgItemText(hwndDlg, IDC_PLUGINCPYR, tszCopyright);
 
-						ptrT tszUrl(latin2t(sel ? dat->homepage : NULL));
+						ptrW tszUrl(latin2t(sel ? dat->homepage : NULL));
 						SetDlgItemText(hwndDlg, IDC_PLUGINURL, tszUrl);
 
 						if (dat->uuid != miid_last) {
@@ -455,7 +455,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			if (hdr->hdr.code == PSN_APPLY) {
 				bool needRestart = false;
 				wchar_t bufRestart[1024];
-				int bufLen = mir_sntprintf(bufRestart, L"%s\n", TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
+				int bufLen = mir_snwprintf(bufRestart, L"%s\n", TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
 
 				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 				for (int iRow = 0; iRow != -1;) {
@@ -482,7 +482,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 										ListView_SetItem(hwndList, &lvi);
 									}
 									else {
-										bufLen += mir_sntprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, L" - %s\n", buf);
+										bufLen += mir_snwprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, L" - %s\n", buf);
 										needRestart = true;
 									}
 								}
@@ -495,7 +495,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 										ListView_SetItem(hwndList, &lvi);
 									}
 									else {
-										bufLen += mir_sntprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, L" - %s\n", buf);
+										bufLen += mir_snwprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, L" - %s\n", buf);
 										needRestart = true;
 									}
 								}
@@ -509,7 +509,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 				ShowWindow(GetDlgItem(hwndDlg, IDC_RESTART), needRestart);
 				if (needRestart) {
-					mir_sntprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, L"\n%s", TranslateT("Do you want to restart it now?"));
+					mir_snwprintf(bufRestart + bufLen, _countof(bufRestart) - bufLen, L"\n%s", TranslateT("Do you want to restart it now?"));
 					if (MessageBox(hwndDlg, bufRestart, L"Miranda NG", MB_ICONWARNING | MB_YESNO) == IDYES)
 						CallService(MS_SYSTEM_RESTART, 1, 0);
 				}

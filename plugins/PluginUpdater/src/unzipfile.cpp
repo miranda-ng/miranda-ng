@@ -32,7 +32,7 @@ extern "C"
 
 static void PrepareFileName(wchar_t *dest, size_t destSize, const wchar_t *ptszPath, const wchar_t *ptszFileName)
 {
-	mir_sntprintf(dest, destSize, L"%s\\%s", ptszPath, ptszFileName);
+	mir_snwprintf(dest, destSize, L"%s\\%s", ptszPath, ptszFileName);
 
 	for (wchar_t *p = dest; *p; ++p)
 		if (*p == '/')
@@ -57,9 +57,9 @@ bool extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath
 		return true;
 
 	wchar_t tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
-	wchar_t *ptszNewName = mir_utf8decodeT(filename);
+	wchar_t *ptszNewName = mir_utf8decodeW(filename);
 	if (ptszNewName == NULL)
-		ptszNewName = mir_a2t(filename);
+		ptszNewName = mir_a2u(filename);
 
 	if (!(file_info.external_fa & FILE_ATTRIBUTE_DIRECTORY)) {
 		err = unzOpenCurrentFile(uf);

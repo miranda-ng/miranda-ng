@@ -116,7 +116,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 		CharLower(wordsearch);
 
 		for (j = 0; j < _countof(hyperlinkPrefixes); j ++) {
-			if (!wcsncmp(wordsearch, hyperlinkPrefixes[j], mir_tstrlen(hyperlinkPrefixes[j]))) {
+			if (!wcsncmp(wordsearch, hyperlinkPrefixes[j], mir_wstrlen(hyperlinkPrefixes[j]))) {
 				isLink = 1;
 				break;
 			}
@@ -305,7 +305,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				wcscpy_s(cf.szFaceName, L"Arial");
 				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 				
-				mir_sntprintf(searchText, L"%s '%s': %d\n\n", TranslateT("Matches for searchtext"), searchString, listCount);
+				mir_snwprintf(searchText, L"%s '%s': %d\n\n", TranslateT("Matches for searchtext"), searchString, listCount);
 				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)searchText);
 				linePos += 2;
 			}
@@ -401,7 +401,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			{
 				LPCTSTR type;
 
-				if ( mir_tstrcmp(actualElement->date, lastDate) != 0 )
+				if ( mir_wstrcmp(actualElement->date, lastDate) != 0 )
 				{
 					memset(&cf, 0, sizeof(cf));
 					cf.cbSize = sizeof(cf);
@@ -454,7 +454,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					type = L"[UNK ]";
 				}
 
-				mir_sntprintf(textLine, L"%s%s%s%s%s%s%s\n",
+				mir_snwprintf(textLine, L"%s%s%s%s%s%s%s\n",
 					options.showDirection ? (actualElement->direction==DIRECTION_IN?L"[in ]":L"[out]") : L"",
 					options.showDirection? L" " : L"",
 					options.showType ? type : L"",
@@ -660,17 +660,17 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//incoming URLs
-			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, TXT_URLSONLY);
+			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, TXT_URLSONLY);
 		}
 		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//outgoing URLs
-			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, TXT_URLSONLY);
+			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, TXT_URLSONLY);
 		}
 		else
 		{
 			// both directions (URL)
-			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, "", TXT_URLSONLY);
+			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, "", TXT_URLSONLY);
 		}
 	}
 	else if ( GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_CHECKED )
@@ -678,17 +678,17 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//incoming mail
-			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, TXT_MAILSONLY);
+			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, TXT_MAILSONLY);
 		}
 		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//outgoing mail
-			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, TXT_MAILSONLY);
+			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, TXT_MAILSONLY);
 		}
 		else
 		{
 			// both directions (mail)
-			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, "", TXT_MAILSONLY);
+			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, "", TXT_MAILSONLY);
 		}
 	}
 	else
@@ -696,17 +696,17 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//incoming (both)
-			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, "");
+			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_INCOMING, "");
 		}
 		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//outgoing (both)
-			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, "");
+			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_OUTGOING, "");
 		}
 		else
 		{
 			// no filter
-			mir_sntprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_NOFILTER, "");
+			mir_snwprintf(filter, max_len, L"%s: %s %s", TXT_FILTER, TXT_NOFILTER, "");
 		}
 	}
 }
@@ -795,7 +795,7 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 		{
 			(*elementCount)++;
 
-			tempLen = mir_tstrlen(actualElement->link);
+			tempLen = mir_wstrlen(actualElement->link);
 			if (*maxLen < tempLen)
 				*maxLen = tempLen;
 		}
@@ -1246,7 +1246,7 @@ BOOL SaveEditAsStream( HWND hDlg )
 	ofn.lStructSize = sizeof(OPENFILENAME);      
 	ofn.hwndOwner = hDlg;
 	wchar_t temp[MAX_PATH]; 
-	mir_sntprintf(temp, L"%s (*.rtf)%c*.rtf%c%s (*.*)%c*.*%c%c", TranslateT("RTF file"), 0, 0, TranslateT("All files"), 0, 0, 0);
+	mir_snwprintf(temp, L"%s (*.rtf)%c*.rtf%c%s (*.*)%c*.*%c%c", TranslateT("RTF file"), 0, 0, TranslateT("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrFile = szFilename;
 	ofn.nMaxFile = _countof(szFilename);

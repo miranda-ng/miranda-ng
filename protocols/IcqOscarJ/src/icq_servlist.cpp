@@ -1386,7 +1386,7 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 				break;
 
 			// we have found the group
-			if (!mir_tstrcmp(tszGroup, tszGroupName))
+			if (!mir_wstrcmp(tszGroup, tszGroupName))
 				return i;
 		}
 
@@ -1396,7 +1396,7 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 
 int CIcqProto::moveContactToCListGroup(MCONTACT hContact, const char *szGroup)
 {
-	MGROUP hGroup = Clist_GroupCreate(0, ptrT(mir_utf8decodeT(szGroup)));
+	MGROUP hGroup = Clist_GroupCreate(0, ptrW(mir_utf8decodeW(szGroup)));
 	return CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, hGroup);
 }
 

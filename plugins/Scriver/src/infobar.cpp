@@ -79,14 +79,14 @@ void RefreshInfobar(InfobarWindowData* idat)
 {
 	HWND hwnd = idat->hWnd;
 	SrmmWindowData *dat = idat->mwd;
-	ptrT szContactStatusMsg(db_get_tsa(dat->hContact, "CList", "StatusMsg"));
-	ptrT szXStatusName(db_get_tsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusName"));
-	ptrT szXStatusMsg(db_get_tsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusMsg"));
+	ptrW szContactStatusMsg(db_get_tsa(dat->hContact, "CList", "StatusMsg"));
+	ptrW szXStatusName(db_get_tsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusName"));
+	ptrW szXStatusMsg(db_get_tsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusMsg"));
 	HICON hIcon = GetExtraStatusIcon(idat);
 	wchar_t szText[2048];
 	SETTEXTEX st;
 	if (szXStatusMsg && *szXStatusMsg)
-		mir_sntprintf(szText, L"%s (%s)", TranslateTS(szXStatusName), szXStatusMsg);
+		mir_snwprintf(szText, L"%s (%s)", TranslateTS(szXStatusName), szXStatusMsg);
 	else
 		wcsncpy_s(szText, TranslateTS(szXStatusName), _TRUNCATE);
 	st.flags = ST_DEFAULT;

@@ -26,8 +26,8 @@ __inline void ShowMsg(wchar_t *FirstLine, wchar_t *SecondLine = L"", bool IsErro
 	{
 		POPUPDATAT ppd = {0};
 		ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
-		mir_tstrcpy(ppd.lptzContactName, FirstLine);
-		mir_tstrcpy(ppd.lptzText, SecondLine);
+		mir_wstrcpy(ppd.lptzContactName, FirstLine);
+		mir_wstrcpy(ppd.lptzText, SecondLine);
 		ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
 		ppd.colorText = IsErrorMsg ? 0xE8F1FD : 0x000000;
 		ppd.iSeconds = Timeout;
@@ -44,7 +44,7 @@ __inline void ShowLog(TCString &LogFilePath)
 	if (Result <= 32) // Error
 	{
 		wchar_t szError[64];
-		mir_sntprintf(szError, TranslateT("Error #%d"), Result);
+		mir_snwprintf(szError, TranslateT("Error #%d"), Result);
 		ShowMsg(szError, TranslateT("Can't open log file ") + LogFilePath, true);
 	}
 }

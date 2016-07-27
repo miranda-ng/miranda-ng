@@ -250,7 +250,7 @@ LBL_Continue:
 #ifdef OBSOLETE
 			GetDlgItemText(hwndDlg, IDC_HANDLE2, screenStr, _countof(screenStr));
 			if (!proto->getTString("Nick", &dbv)) {
-				if (mir_tstrcmp(dbv.ptszVal, screenStr))
+				if (mir_wstrcmp(dbv.ptszVal, screenStr))
 					proto->MSN_SendNickname(screenStr);
 				db_free(&dbv);
 			}

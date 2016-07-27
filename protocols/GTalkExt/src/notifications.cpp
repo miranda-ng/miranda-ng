@@ -54,8 +54,8 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 	Proto_EnumAccounts(&count, &protos);
 	for (int i = 0; i < count; i++) {
 		if (getJabberApi(protos[i]->szModuleName)) {
-			ptrT tszJid(db_get_tsa(0, protos[i]->szModuleName, "jid"));
-			if (!mir_tstrcmpi(jid, tszJid))
+			ptrW tszJid(db_get_tsa(0, protos[i]->szModuleName, "jid"));
+			if (!mir_wstrcmpi(jid, tszJid))
 				return protos[i]->szModuleName;
 		}
 	}
@@ -158,7 +158,7 @@ static bool DoAddPopup(POPUPDATAT *data)
 
 void FormatPseudocontactDisplayName(LPTSTR buff, LPCTSTR jid, LPCTSTR unreadCount)
 {
-	if (mir_tstrcmp(unreadCount, L"0"))
+	if (mir_wstrcmp(unreadCount, L"0"))
 		wsprintf(buff, L"%s [%s]", jid, unreadCount); //!!!!!!!!!!!
 	else
 		wsprintf(buff, L"%s", jid); //!!!!!!!!!!!
@@ -177,7 +177,7 @@ MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 	// SetAvatar(hContact);
 
 	if (displayName == NULL) {
-		wchar_t *tszTemp = (wchar_t*)alloca((mir_tstrlen(jid) + mir_tstrlen(unreadCount) + 3 + 1) * sizeof(wchar_t));
+		wchar_t *tszTemp = (wchar_t*)alloca((mir_wstrlen(jid) + mir_wstrlen(unreadCount) + 3 + 1) * sizeof(wchar_t));
 		FormatPseudocontactDisplayName(tszTemp, jid, unreadCount);
 		db_set_ts(hContact, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, tszTemp);
 	}
@@ -230,8 +230,8 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 	}
 
 	data->PluginWindowProc = PopupProc;
-	size_t lurl = (mir_tstrlen(url) + 1) * sizeof(wchar_t);
-	size_t ljid = (mir_tstrlen(jid) + 1) * sizeof(wchar_t);
+	size_t lurl = (mir_wstrlen(url) + 1) * sizeof(wchar_t);
+	size_t ljid = (mir_wstrlen(jid) + 1) * sizeof(wchar_t);
 
 	POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)malloc(sizeof(POPUP_DATA_HEADER) + lurl + ljid);
 	ppdh->MarkRead = FALSE;
@@ -253,7 +253,7 @@ void UnreadMailNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unread
 	POPUPDATAT data = { 0 };
 
 	FormatPseudocontactDisplayName(&data.lptzContactName[0], jid, unreadCount);
-	mir_sntprintf(data.lptzText, TranslateT("You've received an e-mail\n%s unread threads"), unreadCount);
+	mir_snwprintf(data.lptzText, TranslateT("You've received an e-mail\n%s unread threads"), unreadCount);
 
 	ShowNotification(acc, &data, jid, url, unreadCount);
 }
@@ -276,9 +276,9 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 	}
 
 	if (ReadCheckbox(0, IDC_ADDSNIP, (UINT_PTR)TlsGetValue(itlsSettings)))
-		mir_sntprintf(data.lptzText, TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str(), mtn->snip);
+		mir_snwprintf(data.lptzText, TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str(), mtn->snip);
 	else
-		mir_sntprintf(data.lptzText, TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str());
+		mir_snwprintf(data.lptzText, TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str());
 
 	ShowNotification(acc, &data, jid, url, unreadCount);
 }
@@ -321,7 +321,7 @@ BOOL CALLBACK ClosePopupFunc(__in  HWND hwnd, __in LPARAM lParam)
 	if (!ppdh)
 		return TRUE;
 
-	if (!mir_tstrcmpi(ppis->url, ppdh->url) && !mir_tstrcmpi(ppis->jid, ppdh->jid))
+	if (!mir_wstrcmpi(ppis->url, ppdh->url) && !mir_wstrcmpi(ppis->jid, ppdh->jid))
 		SendMessage(hwnd, MESSAGE_CLOSEPOPUP, 0, 0);
 
 	return TRUE;

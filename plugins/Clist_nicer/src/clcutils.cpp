@@ -37,7 +37,7 @@ extern void ( *saveRecalcScrollBar )(HWND hwnd, struct ClcData *dat);
 
 static int MY_pathIsAbsolute(const wchar_t *path)
 {
-	if (!path || !(mir_tstrlen(path) > 2))
+	if (!path || !(mir_wstrlen(path) > 2))
 		return 0;
 
 	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
@@ -52,7 +52,7 @@ size_t MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut)
 
 	if (!pSrc || !pOut)
 		return 0;
-	dwSrcLen = mir_tstrlen(pSrc);
+	dwSrcLen = mir_wstrlen(pSrc);
 	if (!dwSrcLen || dwSrcLen > (MAX_PATH - 1))
 		return 0;
 	if (!MY_pathIsAbsolute(pSrc))
@@ -63,7 +63,7 @@ size_t MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut)
 	szTmp[dwSrcLen] = 0;
 	wcslwr(szTmp);
 	if (wcsstr(szTmp, cfg::dat.tszProfilePath)) {
-		dwProfilePathLen = mir_tstrlen(cfg::dat.tszProfilePath);
+		dwProfilePathLen = mir_wstrlen(cfg::dat.tszProfilePath);
 		memcpy(pOut, (pSrc + (dwProfilePathLen - 1)), ((dwSrcLen - (dwProfilePathLen - 1)) * sizeof(wchar_t)));
 		pOut[0] = '.';
 		pOut[dwSrcLen] = 0;
@@ -82,7 +82,7 @@ size_t MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut)
 
 	if (!pSrc || !pOut)
 		return 0;
-	dwSrcLen = mir_tstrlen(pSrc);
+	dwSrcLen = mir_wstrlen(pSrc);
 	if (!dwSrcLen || dwSrcLen > (MAX_PATH - 1))
 		return 0;
 
@@ -92,7 +92,7 @@ size_t MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut)
 		return dwSrcLen;
 	}
 	if (pSrc[0] == '.')
-		return (mir_sntprintf(pOut, MAX_PATH, L"%s\\%s", cfg::dat.tszProfilePath, pSrc));
+		return (mir_snwprintf(pOut, MAX_PATH, L"%s\\%s", cfg::dat.tszProfilePath, pSrc));
 
 	return 0;
 }
@@ -164,7 +164,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 		hFont = reinterpret_cast<HFONT>(SelectObject(hdc, dat->fontInfo[FONTID_GROUPS].hFont));
 	else
 		hFont = reinterpret_cast<HFONT>(SelectObject(hdc, dat->fontInfo[FONTID_CONTACTS].hFont));
-	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_tstrlen(hitcontact->szText), &textSize);
+	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_wstrlen(hitcontact->szText), &textSize);
 	width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
 		wchar_t *szCounts;
@@ -173,7 +173,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
 			width += textSize.cx;
 			SelectObject(hdc, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
-			GetTextExtentPoint32(hdc, szCounts, (int)mir_tstrlen(szCounts), &textSize);
+			GetTextExtentPoint32(hdc, szCounts, (int)mir_wstrlen(szCounts), &textSize);
 			width += textSize.cx;
 		}
 	}
@@ -305,7 +305,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 		hFont = reinterpret_cast<HFONT>(SelectObject(hdc, dat->fontInfo[FONTID_GROUPS].hFont));
 	else
 		hFont = reinterpret_cast<HFONT>(SelectObject(hdc, dat->fontInfo[FONTID_CONTACTS].hFont));
-	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_tstrlen(hitcontact->szText), &textSize);
+	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_wstrlen(hitcontact->szText), &textSize);
 	width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
 		wchar_t *szCounts;
@@ -314,7 +314,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 			GetTextExtentPoint32(hdc, L" ", 1, &textSize);
 			width += textSize.cx;
 			SelectObject(hdc, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
-			GetTextExtentPoint32(hdc, szCounts, (int)mir_tstrlen(szCounts), &textSize);
+			GetTextExtentPoint32(hdc, szCounts, (int)mir_wstrlen(szCounts), &textSize);
 			width += textSize.cx;
 		}
 	}

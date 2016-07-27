@@ -63,7 +63,7 @@ static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 {
 	wchar_t tszOldPath[MAX_PATH];
 	CallService(MS_DB_GETPROFILEPATHT, _countof(tszOldPath), (LPARAM)tszOldPath);
-	mir_tstrcat(tszOldPath, L"\\*.book");
+	mir_wstrcat(tszOldPath, L"\\*.book");
 
 	VARST ptszNewPath( L"%miranda_userdata%");
 
@@ -125,8 +125,8 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 		}
 		#ifdef _DEBUG
 		if (!found) {
-			mir_tstrcat(unknownCP, info.CodePageName);
-			mir_tstrcat(unknownCP, L"\n");
+			mir_wstrcat(unknownCP, info.CodePageName);
+			mir_wstrcat(unknownCP, L"\n");
 		}
 		#endif
 	}
@@ -207,7 +207,7 @@ void WINAPI g_ReleaseIcon( HICON hIcon )
 static void LoadPlugins()
 {
 	wchar_t szSearchPath[MAX_PATH];
-	mir_sntprintf(szSearchPath, L"%s\\Plugins\\YAMN\\*.dll", szMirandaDir);
+	mir_snwprintf(szSearchPath, L"%s\\Plugins\\YAMN\\*.dll", szMirandaDir);
 
 	hDllPlugins = NULL;
 
@@ -221,15 +221,15 @@ static void LoadPlugins()
 				continue;
 
 			// we have a dot
-			int len = (int)mir_tstrlen(fd.cFileName); // find the length of the string
+			int len = (int)mir_wstrlen(fd.cFileName); // find the length of the string
 			wchar_t* end = fd.cFileName+len; // get a pointer to the NULL
 			int safe = (end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
 
-			if ((safe != 3) || (mir_tstrcmpi(dot+1, L"dll") != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
+			if ((safe != 3) || (mir_wstrcmpi(dot+1, L"dll") != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
 				continue;
 
 			wchar_t szPluginPath[MAX_PATH];
-			mir_sntprintf(szPluginPath, L"%s\\Plugins\\YAMN\\%s", szMirandaDir, fd.cFileName);
+			mir_snwprintf(szPluginPath, L"%s\\Plugins\\YAMN\\%s", szMirandaDir, fd.cFileName);
 			HINSTANCE hDll = LoadLibrary(szPluginPath);
 			if (hDll == NULL)
 				continue;

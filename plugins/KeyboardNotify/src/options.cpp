@@ -46,14 +46,14 @@ static void writeThemeToCombo(const wchar_t *theme, const wchar_t *custom, BOOL 
 	int item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 	if (item == CB_ERR) {
 		item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
-		wchar_t *str = mir_tstrdup(custom);
+		wchar_t *str = mir_wstrdup(custom);
 		SendDlgItemMessage(hwndTheme, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
 	}
 	else
 		if (overrideExisting) {
 			wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndTheme, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 			if (str)
-				mir_tstrcpy(str, custom);
+				mir_wstrcpy(str, custom);
 		}
 }
 
@@ -97,12 +97,12 @@ void importThemes(const wchar_t *filename, BOOL overrideExisting)
 		for (str = buffer; *str && isspace(*str); str++); //ltrim
 		if (!*str || *str == ';') //empty line or comment
 			continue;
-		for (i = mir_tstrlen(str) - 1; isspace(str[i]); str[i--] = '\0'); //rtrim
+		for (i = mir_wstrlen(str) - 1; isspace(str[i]); str[i--] = '\0'); //rtrim
 		switch (status) {
 		case 0:
 			if (i > 1 && str[0] == '[' && str[i] == ']') {
 				status = 1;
-				mir_tstrcpy(theme, str + 1);
+				mir_wstrcpy(theme, str + 1);
 				theme[i - 1] = '\0';
 			}
 			break;
@@ -127,7 +127,7 @@ static void createProcessListAux(void)
 			if (!ProcessList.szFileName[i])
 				ProcessListAux.szFileName[i] = NULL;
 			else {
-				ProcessListAux.szFileName[i] = mir_tstrdup(ProcessList.szFileName[i]);
+				ProcessListAux.szFileName[i] = mir_wstrdup(ProcessList.szFileName[i]);
 			}
 
 }
@@ -264,7 +264,7 @@ static INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					wchar_t szFileNameAux[MAX_PATH + 1];
 
 					SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETLBTEXT, (WPARAM)i, (LPARAM)szFileNameAux);
-					ProcessListAux.szFileName[i] = mir_tstrdup(szFileNameAux);
+					ProcessListAux.szFileName[i] = mir_wstrdup(szFileNameAux);
 				}
 			// fallthrough
 
@@ -1162,15 +1162,15 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				mir_tstrcpy(filter, TranslateT("Keyboard Notify Theme"));
+				mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
 				mir_wstrcat(filter, L" (*.knt)");
-				pfilter = filter + mir_tstrlen(filter) + 1;
-				mir_tstrcpy(pfilter, L"*.knt");
-				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				mir_tstrcpy(pfilter, TranslateT("All Files"));
-				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				mir_tstrcpy(pfilter, L"*.*");
-				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+				pfilter = filter + mir_wstrlen(filter) + 1;
+				mir_wstrcpy(pfilter, L"*.knt");
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				mir_wstrcpy(pfilter, TranslateT("All Files"));
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				mir_wstrcpy(pfilter, L"*.*");
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 				*pfilter = '\0';
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
@@ -1190,15 +1190,15 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				mir_tstrcpy(filter, TranslateT("Keyboard Notify Theme"));
+				mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
 				mir_wstrcat(filter, L" (*.knt)");
-				pfilter = filter + mir_tstrlen(filter) + 1;
-				mir_tstrcpy(pfilter, L"*.knt");
-				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				mir_tstrcpy(pfilter, TranslateT("All Files"));
-				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				mir_tstrcpy(pfilter, L"*.*");
-				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
+				pfilter = filter + mir_wstrlen(filter) + 1;
+				mir_wstrcpy(pfilter, L"*.knt");
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				mir_wstrcpy(pfilter, TranslateT("All Files"));
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				mir_wstrcpy(pfilter, L"*.*");
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 				*pfilter = '\0';
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
@@ -1227,7 +1227,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				switch (((LPNMHDR)lParam)->code) {
 				case PSN_APPLY:
 					if (szTheme = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme))) {
-						mir_tstrcpy(theme, szTheme);
+						mir_wstrcpy(theme, szTheme);
 						mir_free(szTheme);
 					}
 					else

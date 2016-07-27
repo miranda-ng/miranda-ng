@@ -53,9 +53,9 @@ wchar_t* FixButtonText(wchar_t *url, size_t len)
 			int pos = (stringafter - buttontext);
 			int posbefore = (stringafter - buttontext) - 1;
 			int posafter = (stringafter - buttontext) + 1;
-			strdelt(stringafter, 1);
+			strdelw(stringafter, 1);
 			wcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
-			mir_sntprintf(newbuttontext, L"%s!!%s", stringbefore, stringafter);
+			mir_snwprintf(newbuttontext, L"%s!!%s", stringbefore, stringafter);
 
 			posafter = 0;
 			posbefore = 0;
@@ -206,9 +206,9 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					TextColour = TextClr;
 				}
 				ppd.lchContact = NULL;
-				mir_tstrcpy(ppd.lptzContactName, MODULENAMEW);
+				mir_wstrcpy(ppd.lptzContactName, MODULENAMEW);
 				ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
-				mir_tstrcpy(ppd.lptzText, TranslateT("This is a preview popup."));
+				mir_wstrcpy(ppd.lptzText, TranslateT("This is a preview popup."));
 				ppd.colorBack = BGColour;
 				ppd.colorText = TextColour;
 				ppd.PluginWindowProc = NULL;

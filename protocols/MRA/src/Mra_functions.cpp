@@ -458,8 +458,8 @@ DWORD CMraProto::SetContactBasicInfoW(MCONTACT hContact, DWORD dwSetInfoFlags, D
 
 		MraGroupItem *grp = m_groups.find((MraGroupItem*)&dwGroupID);
 		if (grp) {
-			ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
-			if (mir_tstrcmp(tszGroup, grp->m_name))
+			ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
+			if (mir_wstrcmp(tszGroup, grp->m_name))
 				db_set_ts(hContact, "CList", "Group", grp->m_name);
 		}
 	}
@@ -649,14 +649,14 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 		MCONTACT hContact = NULL;
 
 		wchar_t szMailBoxStatus[MAX_SECONDLINE];
-		mir_sntprintf(szMailBoxStatus, TranslateT("Unread mail is available: %lu/%lu messages"), m_dwEmailMessagesUnread, dwEmailMessagesTotal);
+		mir_snwprintf(szMailBoxStatus, TranslateT("Unread mail is available: %lu/%lu messages"), m_dwEmailMessagesUnread, dwEmailMessagesTotal);
 
 		if (!pszFrom.IsEmpty() || !pszSubject.IsEmpty()) {
 			CMStringA szFrom, szSubject;
 			if (GetEMailFromString(szFrom, szEmail))
 				hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL);
 
-			mir_sntprintf(szStatusText, TranslateT("From: %S\r\nSubject: %S\r\n%s"), pszFrom.c_str(), szSubject.c_str(), szMailBoxStatus);
+			mir_snwprintf(szStatusText, TranslateT("From: %S\r\nSubject: %S\r\n%s"), pszFrom.c_str(), szSubject.c_str(), szMailBoxStatus);
 		}
 		else wcsncpy_s(szStatusText, szMailBoxStatus, _TRUNCATE);
 
@@ -693,7 +693,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 			hWndEMailPopupStatus = NULL;
 		}
 		else {
-			mir_sntprintf(szStatusText, TranslateT("No unread mail is available\r\nTotal messages: %lu"), dwEmailMessagesTotal);
+			mir_snwprintf(szStatusText, TranslateT("No unread mail is available\r\nTotal messages: %lu"), dwEmailMessagesTotal);
 			MraPopupShowFromAgentW(MRA_POPUP_TYPE_EMAIL_STATUS, (MRA_POPUP_ALLOW_ENTER), szStatusText);
 		}
 	}
@@ -878,7 +878,7 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 	else {
 		dwErrDescriptionSize = (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrorCode, 0, szErrDescription, (_countof(szErrDescription) - sizeof(WCHAR)), NULL) - 2);
 		szErrDescription[dwErrDescriptionSize] = 0;
-		mir_sntprintf(szErrorText, L"%s %lu: %s", TranslateTS(lpwszErrText), dwErrorCode, szErrDescription);
+		mir_snwprintf(szErrorText, L"%s %lu: %s", TranslateTS(lpwszErrText), dwErrorCode, szErrDescription);
 	}
 	MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, szErrorText);
 }
@@ -1020,7 +1020,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 	case WM_TIMER:
 		if (dat->dwCountdown != -1) {
 			wchar_t szBuff[MAX_PATH];
-			mir_sntprintf(szBuff, TranslateT("Closing in %ld"), dat->dwCountdown--);
+			mir_snwprintf(szBuff, TranslateT("Closing in %ld"), dat->dwCountdown--);
 			SetDlgItemText(hWndDlg, IDOK, szBuff);
 			break;
 		}
@@ -1056,7 +1056,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 
 			dwBuffSize = GetDlgItemText(hWndDlg, IDC_XTITLE, szBuff, (STATUS_TITLE_MAX + 1));
 			if (dwBuffSize == 0) { // user delete all text
-				mir_tstrncpy(szBuff, TranslateTS(lpcszXStatusNameDef[dat->dwXStatus]), STATUS_TITLE_MAX + 1);
+				mir_wstrncpy(szBuff, TranslateTS(lpcszXStatusNameDef[dat->dwXStatus]), STATUS_TITLE_MAX + 1);
 				dwBuffSize = (DWORD)mir_wstrlen(szBuff);
 			}
 			mir_snprintf(szValueName, "XStatus%dName", dat->dwXStatus);
@@ -1176,7 +1176,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 				size_t dwMessageSize = GetWindowTextLength(GetDlgItem(hWndDlg, IDC_MSG_TO_SEND));
 
 				EnableWindow(GetDlgItem(hWndDlg, IDOK), (int)dwMessageSize);
-				mir_sntprintf(tszBuff, L"%d/%d", dwMessageSize, MICBLOG_STATUS_MAX);
+				mir_snwprintf(tszBuff, L"%d/%d", dwMessageSize, MICBLOG_STATUS_MAX);
 				SetDlgItemText(hWndDlg, IDC_STATIC_CHARS_COUNTER, tszBuff);
 			}
 			break;
@@ -1250,7 +1250,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 				dwPathLen++;
 			}
 			szPath[dwPathLen] = 0;
-			mir_tstrcat(szPath, L"*.*");
+			mir_wstrcat(szPath, L"*.*");
 
 			dwRetErrorCode = ERROR_FILE_NOT_FOUND;
 			prdsiItems[dwRecDeepCurPos].dwFileNameLen = 0;
@@ -1265,7 +1265,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, L"..", 2) != CSTR_EQUAL) {
 								prdsiItems[dwRecDeepCurPos].dwFileNameLen = (int)mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName) + 1;
 								memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, (prdsiItems[dwRecDeepCurPos].dwFileNameLen*sizeof(WCHAR)));
-								mir_tstrcat(szPath, L"\\*.*");
+								mir_wstrcat(szPath, L"\\*.*");
 								dwPathLen += prdsiItems[dwRecDeepCurPos].dwFileNameLen;
 
 								dwRecDeepCurPos++;

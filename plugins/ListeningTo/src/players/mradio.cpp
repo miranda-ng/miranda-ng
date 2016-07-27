@@ -43,9 +43,9 @@ int MRadio::GetData()
 		if (!db_get_s(hContact, "mRadio", "Nick", &dbv)) {
 			listening_info.cbSize = sizeof(listening_info);
 			listening_info.dwFlags = LTI_TCHAR;
-			listening_info.ptszArtist = mir_tstrdup(L"Radio");
-			listening_info.ptszType = mir_tstrdup(L"Radio");
-			listening_info.ptszTitle = mir_a2t(dbv.pszVal);
+			listening_info.ptszArtist = mir_wstrdup(L"Radio");
+			listening_info.ptszType = mir_wstrdup(L"Radio");
+			listening_info.ptszTitle = mir_a2u(dbv.pszVal);
 
 			db_free(&dbv);
 			return 1;

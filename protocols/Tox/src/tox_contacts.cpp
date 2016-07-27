@@ -91,10 +91,10 @@ MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char
 	setString(hContact, TOX_SETTINGS_ID, address);
 
 	if (mir_strlen(nick))
-		setTString(hContact, "Nick", ptrT(mir_utf8decodeT(nick)));
+		setTString(hContact, "Nick", ptrW(mir_utf8decodeW(nick)));
 
 	if (mir_strlen(dnsId))
-		setTString(hContact, TOX_SETTINGS_DNS, ptrT(mir_utf8decodeT(dnsId)));
+		setTString(hContact, TOX_SETTINGS_DNS, ptrW(mir_utf8decodeW(dnsId)));
 
 	DBVARIANT dbv;
 	if (!getTString(TOX_SETTINGS_GROUP, &dbv))
@@ -149,7 +149,7 @@ void CToxProto::LoadFriendList(void*)
 				TOX_ERR_FRIEND_QUERY getNameResult;
 				uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 				if (tox_friend_get_name(toxThread->Tox(), friendNumber, nick, &getNameResult))
-					setTString(hContact, "Nick", ptrT(mir_utf8decodeT((char*)nick)));
+					setTString(hContact, "Nick", ptrW(mir_utf8decodeW((char*)nick)));
 				else
 					debugLogA(__FUNCTION__": failed to get friend name (%d)", getNameResult);
 
@@ -188,7 +188,7 @@ INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 	uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 	TOX_ERR_FRIEND_QUERY errorFriendQuery;
 	if (tox_friend_get_name(toxThread->Tox(), friendNumber, nick, &errorFriendQuery))
-		setTString(hContact, "Nick", ptrT(mir_utf8decodeT((char*)nick)));
+		setTString(hContact, "Nick", ptrW(mir_utf8decodeW((char*)nick)));
 	else
 		debugLogA(__FUNCTION__": failed to get friend name (%d)", errorFriendQuery);
 
@@ -291,7 +291,7 @@ void CToxProto::OnFriendNameChange(Tox*, uint32_t friendNumber, const uint8_t *n
 		memcpy(rawName, name, length);
 		rawName[length] = 0;
 
-		ptrT nickname(mir_utf8decodeW(rawName));
+		ptrW nickname(mir_utf8decodeW(rawName));
 		proto->setTString(hContact, "Nick", nickname);
 	}
 }
@@ -306,7 +306,7 @@ void CToxProto::OnStatusMessageChanged(Tox*, uint32_t friendNumber, const uint8_
 		memcpy(rawMessage, message, length);
 		rawMessage[length] = 0;
 
-		ptrT statusMessage(mir_utf8decodeT(rawMessage));
+		ptrW statusMessage(mir_utf8decodeW(rawMessage));
 		db_set_ts(hContact, "CList", "StatusMsg", statusMessage);
 	}
 }
@@ -340,7 +340,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 		proto->ResumeIncomingTransfers(friendNumber);
 
 		// update avatar
-		ptrT avatarPath(proto->GetAvatarFilePath());
+		ptrW avatarPath(proto->GetAvatarFilePath());
 		if (IsFileExists(avatarPath))
 		{
 			FILE *hFile = _wfopen(avatarPath, L"rb");
@@ -441,7 +441,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 					break;
 				}
 
-				SetDlgItemText(hwnd, IDC_DNS_ID, ptrT(proto->getTStringA(hContact, TOX_SETTINGS_DNS)));
+				SetDlgItemText(hwnd, IDC_DNS_ID, ptrW(proto->getTStringA(hContact, TOX_SETTINGS_DNS)));
 			}
 			break;
 

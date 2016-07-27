@@ -29,7 +29,7 @@ int CDccSession::nDcc = 0;
 
 static int CompareHandlers( const CIrcHandler* p1, const CIrcHandler* p2 )
 {
-	return mir_tstrcmp( p1->m_name, p2->m_name );
+	return mir_wstrcmp( p1->m_name, p2->m_name );
 }
 
 OBJLIST<CIrcHandler> CIrcProto::m_handlers( 30, CompareHandlers );
@@ -174,7 +174,7 @@ void CIrcProto::SendIrcMessage(const wchar_t* msg, bool bNotify, int cp)
 		cp = getCodepage();
 
 	if (this) {
-		char* str = mir_t2a_cp(msg, cp);
+		char* str = mir_u2a_cp(msg, cp);
 		rtrim(str);
 		int cbLen = (int)mir_strlen(str);
 		str = (char*)mir_realloc(str, cbLen + 3);
@@ -201,7 +201,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&ncon);
 	if (con == NULL) {
 		wchar_t szTemp[300];
-		mir_sntprintf(szTemp, L"\0035%s \002%s\002 (%S: %u).",
+		mir_snwprintf(szTemp, L"\0035%s \002%s\002 (%S: %u).",
 			TranslateT("Failed to connect to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
 		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 		return false;
@@ -289,10 +289,10 @@ int CIrcProto::NLSend(const wchar_t* fmt, ...)
 	va_start(marker, fmt);
 
 	wchar_t szBuf[1024 * 4];
-	mir_vsntprintf(szBuf, _countof(szBuf), fmt, marker);
+	mir_vsnwprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
-	char* buf = mir_t2a_cp(szBuf, getCodepage());
+	char* buf = mir_u2a_cp(szBuf, getCodepage());
 	int result = NLSend((unsigned char*)buf, (int)mir_strlen(buf));
 	mir_free(buf);
 	return result;
@@ -344,9 +344,9 @@ void CIrcProto::createMessageFromPchar(const char* p)
 	wchar_t* ptszMsg;
 	if (codepage != CP_UTF8 && m_utfAutodetect) {
 		if (mir_utf8decodecp(NEWSTR_ALLOCA(p), codepage, &ptszMsg) == NULL)
-			ptszMsg = mir_a2t_cp(p, codepage);
+			ptszMsg = mir_a2u_cp(p, codepage);
 	}
-	else ptszMsg = mir_a2t_cp(p, codepage);
+	else ptszMsg = mir_a2u_cp(p, codepage);
 	CIrcMessage msg(this, ptszMsg, codepage, true);
 	Notify(&msg);
 	mir_free(ptszMsg);
@@ -526,7 +526,7 @@ CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const wchar_t* szNam
 		CDccSession* p = m_dcc_xfers[i];
 		DBVARIANT dbv;
 		if (!getTString(p->di->hContact, "Nick", &dbv)) {
-			if (p->di->iType == DCC_SEND && !p->di->bSender && !mir_tstrcmpi(szName, dbv.ptszVal) && iPort == p->di->iPort) {
+			if (p->di->iType == DCC_SEND && !p->di->bSender && !mir_wstrcmpi(szName, dbv.ptszVal) && iPort == p->di->iPort) {
 				db_free(&dbv);
 				return p;
 			}

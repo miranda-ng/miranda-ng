@@ -55,10 +55,10 @@ static void ApplyDownloads(void *param)
 	//create needed folders after escalating priviledges. Folders creates when we actually install updates
 	wchar_t tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
-	mir_sntprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
+	mir_snwprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
 	SafeCreateDirectory(tszFileBack);
 
-	mir_sntprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
+	mir_snwprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
 	VARST tszMirandaPath(L"%miranda_path%");
@@ -116,7 +116,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				wchar_t *p = wcschr(tszFileName, L'.'); *p = 0;
 
 				wchar_t link[MAX_PATH];
-				mir_sntprintf(link, PLUGIN_INFO_URL, tszFileName);
+				mir_snwprintf(link, PLUGIN_INFO_URL, tszFileName);
 				Utils_OpenUrlT(link);
 			}
 		}
@@ -362,8 +362,8 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t*
 	tp = wcschr(tszRelFileName, L'\\'); if (tp) tp++; else tp = tszRelFileName;
 	wcslwr(tp);
 
-	mir_sntprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, tszFileName);
-	mir_sntprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszRelFileName);
+	mir_snwprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, tszFileName);
+	mir_snwprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszRelFileName);
 	for (tp = wcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = wcschr(tp, '\\'))
 		*tp++ = '/';
 	FileInfo->File.CRCsum = hash.m_crc;
@@ -385,7 +385,7 @@ static void GetList(void *)
 	if (tszTempPath[dwLen-1] == '\\')
 		tszTempPath[dwLen-1] = 0;
 
-	ptrT updateUrl( GetDefaultUrl()), baseUrl;
+	ptrW updateUrl( GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
 	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
 		hListThread = NULL;
@@ -399,7 +399,7 @@ static void GetList(void *)
 		ServListEntry &hash = hashes[i];
 
 		wchar_t tszPath[MAX_PATH];
-		mir_sntprintf(tszPath, L"%s\\%s", dirname, hash.m_name);
+		mir_snwprintf(tszPath, L"%s\\%s", dirname, hash.m_name);
 
 		if (GetFileAttributes(tszPath) == INVALID_FILE_ATTRIBUTES) {
 			FILEINFO *FileInfo = ServerEntryToFileInfo(hash, baseUrl, tszPath);
@@ -462,14 +462,14 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 		return 1;
 
 	wchar_t pluginPath[MAX_PATH];
-	mir_tstrcpy(pluginPath, p + 1);
+	mir_wstrcpy(pluginPath, p + 1);
 	p = wcschr(pluginPath, '/');
 	if (p) *p = '\\';
 
 	if (GetFileAttributes(pluginPath) != INVALID_FILE_ATTRIBUTES)
 		return 0;
 
-	ptrT updateUrl(GetDefaultUrl()), baseUrl;
+	ptrW updateUrl(GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
 	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
 		hListThread = NULL;
@@ -482,7 +482,7 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 
 	VARST dirName(L"%miranda_path%");
 	wchar_t tszPath[MAX_PATH];
-	mir_sntprintf(tszPath, L"%s\\%s", dirName, hash->m_name);
+	mir_snwprintf(tszPath, L"%s\\%s", dirName, hash->m_name);
 	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, baseUrl, tszPath);
 
 	FILELIST *fileList = new FILELIST(1);

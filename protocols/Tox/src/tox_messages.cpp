@@ -159,7 +159,7 @@ void CToxProto::GetStatusMessageAsync(void* arg)
 		return;
 	}
 
-	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)hContact, ptrT(mir_utf8decodeT(statusMessage)));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)hContact, ptrW(mir_utf8decodeW(statusMessage)));
 }
 
 /* TYPING */

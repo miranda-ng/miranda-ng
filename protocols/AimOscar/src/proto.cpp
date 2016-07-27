@@ -52,14 +52,14 @@ CAimProto::CAimProto(const char* aProtoName, const wchar_t* aUserName) :
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_sntprintf(descr, TranslateT("%s server connection"), m_tszUserName);
+	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	char szP2P[128];
 	mir_snprintf(szP2P, "%sP2P", m_szModuleName);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
-	mir_sntprintf(descr, TranslateT("%s client-to-client connections"), m_tszUserName);
+	mir_snwprintf(descr, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.szSettingsModule = szP2P;
 	nlu.minIncomingPorts = 1;
 	m_hNetlibPeer = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -155,7 +155,7 @@ HANDLE __cdecl CAimProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *s
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (ft && m_ft_list.find_by_ft(ft)) {
-		char *path = mir_utf8encodeT(szPath);
+		char *path = mir_utf8encodeW(szPath);
 
 		if (ft->pfts.totalFiles > 1 && ft->file[0]) {
 			size_t path_len = mir_strlen(path);
@@ -231,7 +231,7 @@ int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 
 	case FILERESUME_RENAME:
 		mir_free(ft->pfts.tszCurrentFile);
-		ft->pfts.tszCurrentFile = mir_tstrdup(*szFilename);
+		ft->pfts.tszCurrentFile = mir_wstrdup(*szFilename);
 		break;
 
 	case FILERESUME_OVERWRITE:
@@ -321,7 +321,7 @@ HANDLE __cdecl CAimProto::SearchBasic(const wchar_t *szId)
 		return 0;
 
 	//duplicating the parameter so that it isn't deleted before it's needed- e.g. this function ends before it's used
-	ForkThread(&CAimProto::basic_search_ack_success, mir_t2a(szId));
+	ForkThread(&CAimProto::basic_search_ack_success, mir_u2a(szId));
 	return (HANDLE)1;
 }
 
@@ -331,10 +331,10 @@ HANDLE __cdecl CAimProto::SearchBasic(const wchar_t *szId)
 HANDLE __cdecl CAimProto::SearchByEmail(const wchar_t *email)
 {
 	// Maximum email size should really be 320, but the char string is limited to 255.
-	if (m_state != 1 || email == NULL || mir_tstrlen(email) >= 254)
+	if (m_state != 1 || email == NULL || mir_wstrlen(email) >= 254)
 		return NULL;
 
-	char *szEmail = mir_t2a(email);
+	char *szEmail = mir_u2a(email);
 	aim_search_by_email(m_hServerConn, m_seqno, szEmail);
 	mir_free(szEmail);
 	return (HANDLE)1;
@@ -396,9 +396,9 @@ HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 			ft->pfts.flags |= PFTS_SENDING;
 			ft->pfts.ptszFiles = ppszFiles;
 
-			ft->file = ft->pfts.totalFiles == 1 || isDir ? mir_utf8encodeT(ppszFiles[0]) : (char*)mir_calloc(1);
+			ft->file = ft->pfts.totalFiles == 1 || isDir ? mir_utf8encodeW(ppszFiles[0]) : (char*)mir_calloc(1);
 			ft->sending = true;
-			ft->message = szDescription[0] ? mir_utf8encodeT(szDescription) : NULL;
+			ft->message = szDescription[0] ? mir_utf8encodeW(szDescription) : NULL;
 			ft->me_force_proxy = getByte(AIM_KEY_FP, 0) != 0;
 			ft->requester = true;
 
@@ -598,7 +598,7 @@ int __cdecl CAimProto::SetAwayMsg(int status, const wchar_t* msg)
 	char **msgptr = get_status_msg_loc(status);
 	if (msgptr == NULL) return 1;
 
-	char *nmsg = mir_utf8encodeT(msg);
+	char *nmsg = mir_utf8encodeW(msg);
 	mir_free(*msgptr); *msgptr = nmsg;
 
 	switch (status) {

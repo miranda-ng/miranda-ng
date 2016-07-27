@@ -121,19 +121,19 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 		case DBVT_BYTE:
 			_itow_s(dbv.bVal, szText, _countof(szText), 10);
 			SetWindowText(_hwnd, szText);
-			_pszValue = mir_tstrdup(szText);
+			_pszValue = mir_wstrdup(szText);
 			break;
 
 		case DBVT_WORD:
 			_itow_s(dbv.wVal, szText, _countof(szText), 10);
 			SetWindowText(_hwnd, szText);
-			_pszValue = mir_tstrdup(szText);
+			_pszValue = mir_wstrdup(szText);
 			break;
 
 		case DBVT_DWORD:
 			_itow_s(dbv.dVal, szText, _countof(szText), 10);
 			SetWindowText(_hwnd, szText);
-			_pszValue = mir_tstrdup(szText);
+			_pszValue = mir_wstrdup(szText);
 			break;
 
 		case DBVT_TCHAR:
@@ -237,7 +237,7 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 	if ((wChangedMsg == EN_UPDATE) || (wChangedMsg == EN_CHANGE)) {
 		DWORD cch = GetWindowTextLength(_hwnd);
 
-		_Flags.B.hasChanged = mir_tstrlen(_pszValue) != cch;
+		_Flags.B.hasChanged = mir_wstrlen(_pszValue) != cch;
 		_Flags.B.hasCustom = (cch > 0);
 
 		if (!_Flags.B.hasChanged && _Flags.B.hasCustom) {
@@ -255,7 +255,7 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 
 			if (szText != NULL) {
 				GetWindowText(_hwnd, szText, cch + 1);
-				_Flags.B.hasChanged = mir_tstrcmp(_pszValue, szText) != 0;
+				_Flags.B.hasChanged = mir_wstrcmp(_pszValue, szText) != 0;
 				if (need_free)
 					MIR_FREE(szText);
 			}

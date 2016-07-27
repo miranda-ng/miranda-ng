@@ -255,11 +255,11 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 
 	if (hContact) {
 		ppd.lchContact = hContact;
-		mir_sntprintf(ppd.lptzContactName, L"%s - %s", TranslateTS(pszDesc), DB::Contact::DisplayName(hContact));
+		mir_snwprintf(ppd.lptzContactName, L"%s - %s", TranslateTS(pszDesc), DB::Contact::DisplayName(hContact));
 	}
-	else mir_tstrncpy(ppd.lptzContactName, TranslateT("Reminder"), _countof(ppd.lptzContactName));
+	else mir_wstrncpy(ppd.lptzContactName, TranslateT("Reminder"), _countof(ppd.lptzContactName));
 
-	mir_tstrncpy(ppd.lptzText, pszMsg, MAX_SECONDLINE);
+	mir_wstrncpy(ppd.lptzText, pszMsg, MAX_SECONDLINE);
 
 	ppd.lchIcon = GetAnnivIcon(CEvent(eventType, DaysToAnniv));
 
@@ -317,12 +317,12 @@ static void NotifyFlashCListIcon(MCONTACT hContact, const CEvent &evt)
 
 	switch (evt._eType) {
 	case CEvent::BIRTHDAY:
-		mir_sntprintf(szMsg, TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("Birthday"));
+		mir_snwprintf(szMsg, TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("Birthday"));
 		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
 		break;
 
 	case CEvent::ANNIVERSARY:
-		mir_sntprintf(szMsg, TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("an anniversary"));
+		mir_snwprintf(szMsg, TranslateT("%s has %s today."), DB::Contact::DisplayName(hContact), TranslateT("an anniversary"));
 		cle.hIcon = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
 		break;
 
@@ -481,29 +481,29 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 
 						switch (Diff) {
 						case 0:
-							cchMsg = mir_sntprintf(szMsg, TranslateT("%s has birthday today."), DB::Contact::DisplayName(hContact));
+							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday today."), DB::Contact::DisplayName(hContact));
 							break;
 						case 1:
-							cchMsg = mir_sntprintf(szMsg, TranslateT("%s has birthday tomorrow."), DB::Contact::DisplayName(hContact));
+							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday tomorrow."), DB::Contact::DisplayName(hContact));
 							break;
 						default:
-							cchMsg = mir_sntprintf(szMsg, TranslateT("%s has birthday in %d days."), DB::Contact::DisplayName(hContact), Diff);
+							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday in %d days."), DB::Contact::DisplayName(hContact), Diff);
 						}
 						int age = mtb.Age(&Now);
 						if (age > 0)
 							switch (GenderOf(hContact)){
 							case 0:
-								mir_sntprintf(szMsg + cchMsg, _countof(szMsg) - cchMsg,
+								mir_snwprintf(szMsg + cchMsg, _countof(szMsg) - cchMsg,
 									TranslateT("\nHe/she becomes %d years old."),
 									age + (Diff > 0));
 								break;
 							case 'M':
-								mir_sntprintf(szMsg + cchMsg, _countof(szMsg) - cchMsg,
+								mir_snwprintf(szMsg + cchMsg, _countof(szMsg) - cchMsg,
 									TranslateT("\nHe becomes %d years old."),
 									age + (Diff > 0));
 								break;
 							case 'F':
-								mir_sntprintf(szMsg + cchMsg, _countof(szMsg) - cchMsg,
+								mir_snwprintf(szMsg + cchMsg, _countof(szMsg) - cchMsg,
 									TranslateT("\nShe becomes %d years old."),
 									age + (Diff > 0));
 								break;

@@ -36,7 +36,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 	if (opts.dbChecker == NULL) {
 		DATABASELINK* dblink = FindDatabasePlugin(opts.filename);
 		if (dblink == NULL) {
-			mir_sntprintf(tszMsg,
+			mir_snwprintf(tszMsg,
 				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."),
 				opts.filename);
 		LBL_Error:
@@ -45,7 +45,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 		}
 
 		if (dblink->CheckDB == NULL) {
-			mir_sntprintf(tszMsg,
+			mir_snwprintf(tszMsg,
 				TranslateT("Database driver '%s' doesn't support checking."),
 				TranslateTS(dblink->szFullName));
 			goto LBL_Error;
@@ -77,15 +77,15 @@ void GetProfileDirectory(wchar_t* szMirandaDir, wchar_t* szPath, int cbPath)
 {
 	wchar_t szProfileDir[MAX_PATH], szExpandedProfileDir[MAX_PATH], szMirandaBootIni[MAX_PATH];
 
-	mir_tstrcpy(szMirandaBootIni, szMirandaDir);
-	mir_tstrcat(szMirandaBootIni, L"\\mirandaboot.ini");
+	mir_wstrcpy(szMirandaBootIni, szMirandaDir);
+	mir_wstrcat(szMirandaBootIni, L"\\mirandaboot.ini");
 	GetPrivateProfileString(L"Database", L"ProfileDir", L"./Profiles", szProfileDir, _countof(szProfileDir), szMirandaBootIni);
 	ExpandEnvironmentStrings(szProfileDir, szExpandedProfileDir, _countof(szExpandedProfileDir));
 	_wchdir(szMirandaDir);
 	if (!_wfullpath(szPath, szExpandedProfileDir, cbPath))
-		mir_tstrncpy(szPath, szMirandaDir, cbPath);
-	if (szPath[mir_tstrlen(szPath) - 1] == '\\')
-		szPath[mir_tstrlen(szPath) - 1] = 0;
+		mir_wstrncpy(szPath, szMirandaDir, cbPath);
+	if (szPath[mir_wstrlen(szPath) - 1] == '\\')
+		szPath[mir_wstrlen(szPath) - 1] = 0;
 }
 
 static int AddDatabaseToList(HWND hwndList, const wchar_t* filename, wchar_t* dir)
@@ -95,7 +95,7 @@ static int AddDatabaseToList(HWND hwndList, const wchar_t* filename, wchar_t* di
 	lvi.iSubItem = 0;
 	for (lvi.iItem = ListView_GetItemCount(hwndList) - 1; lvi.iItem >= 0; lvi.iItem--) {
 		ListView_GetItem(hwndList, &lvi);
-		if (!mir_tstrcmpi((wchar_t*)lvi.lParam, filename))
+		if (!mir_wstrcmpi((wchar_t*)lvi.lParam, filename))
 			return lvi.iItem;
 	}
 
@@ -114,10 +114,10 @@ static int AddDatabaseToList(HWND hwndList, const wchar_t* filename, wchar_t* di
 		pName++;
 
 	wchar_t szName[MAX_PATH];
-	mir_sntprintf(szName, L"%s%s", dir, pName);
+	mir_snwprintf(szName, L"%s%s", dir, pName);
 
 	wchar_t *pDot = wcsrchr(szName, '.');
-	if (pDot != NULL && !mir_tstrcmpi(pDot, L".dat"))
+	if (pDot != NULL && !mir_wstrcmpi(pDot, L".dat"))
 		*pDot = 0;
 
 	lvi.iItem = 0;
@@ -129,7 +129,7 @@ static int AddDatabaseToList(HWND hwndList, const wchar_t* filename, wchar_t* di
 
 	int iNewItem = ListView_InsertItem(hwndList, &lvi);
 	wchar_t szSize[20];
-	mir_sntprintf(szSize, L"%.2lf MB", totalSize / 1048576.0);
+	mir_snwprintf(szSize, L"%.2lf MB", totalSize / 1048576.0);
 	ListView_SetItemText(hwndList, iNewItem, 1, szSize);
 	return iNewItem;
 }
@@ -140,16 +140,16 @@ void FindAdd(HWND hdlg, wchar_t *szProfileDir, wchar_t *szPrefix)
 	WIN32_FIND_DATA fd;
 	wchar_t szSearchPath[MAX_PATH], szFilename[MAX_PATH];
 
-	mir_tstrcpy(szSearchPath, szProfileDir);
-	mir_tstrcat(szSearchPath, L"\\*.*");
+	mir_wstrcpy(szSearchPath, szProfileDir);
+	mir_wstrcat(szSearchPath, L"\\*.*");
 
 	hFind = FindFirstFile(szSearchPath, &fd);
 	if (hFind != INVALID_HANDLE_VALUE) {
 		do {
-			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_tstrcmp(fd.cFileName, L".") || !mir_tstrcmp(fd.cFileName, L".."))
+			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L".."))
 				continue;
 
-			mir_sntprintf(szFilename, L"%s\\%s\\%s.dat", szProfileDir, fd.cFileName, fd.cFileName);
+			mir_snwprintf(szFilename, L"%s\\%s\\%s.dat", szProfileDir, fd.cFileName, fd.cFileName);
 			if (_waccess(szFilename, 0) == 0)
 				AddDatabaseToList(GetDlgItem(hdlg, IDC_DBLIST), szFilename, szPrefix);
 		} while (FindNextFile(hFind, &fd));
@@ -159,8 +159,8 @@ void FindAdd(HWND hdlg, wchar_t *szProfileDir, wchar_t *szPrefix)
 
 wchar_t *addstring(wchar_t *str, wchar_t *add)
 {
-	mir_tstrcpy(str, add);
-	return str + mir_tstrlen(add) + 1;
+	mir_wstrcpy(str, add);
+	return str + mir_wstrlen(add) + 1;
 }
 
 INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -203,12 +203,12 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			wchar_t szMirandaProfiles[MAX_PATH];
 			DWORD cbData = _countof(szMirandaPath);
 
-			mir_tstrcpy(szMirandaProfiles, szMirandaPath);
-			mir_tstrcat(szMirandaProfiles, L"\\Profiles");
+			mir_wstrcpy(szMirandaProfiles, szMirandaPath);
+			mir_wstrcat(szMirandaProfiles, L"\\Profiles");
 			GetProfileDirectory(szMirandaPath, szProfileDir, _countof(szProfileDir));
 
 			// search in profile dir (using ini file)
-			if (mir_tstrcmpi(szProfileDir, szMirandaProfiles))
+			if (mir_wstrcmpi(szProfileDir, szMirandaProfiles))
 				FindAdd(hdlg, szProfileDir, L"[ini]\\");
 
 			FindAdd(hdlg, szMirandaProfiles, L"[prf]\\");
@@ -218,7 +218,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			// search in profile dir (using registry path + ini file)
 			if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe", 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
 				if (RegQueryValueEx(hKey, L"Path", NULL, NULL, (PBYTE)szMirandaPath, &cbData) == ERROR_SUCCESS) {
-					if (mir_tstrcmp(szProfileDir, szMirandaPath)) {
+					if (mir_wstrcmp(szProfileDir, szMirandaPath)) {
 						GetProfileDirectory(szMirandaPath, szProfileDir, _countof(szProfileDir));
 						FindAdd(hdlg, szProfileDir, L"[reg]\\");
 					}
@@ -265,7 +265,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			wchar_t *filter, *tmp, *tmp1, *tmp2;
 			tmp1 = TranslateT("Miranda Databases (*.dat)");
 			tmp2 = TranslateT("All Files");
-			filter = tmp = (wchar_t*)_alloca((mir_tstrlen(tmp1) + mir_tstrlen(tmp2) + 11)*sizeof(wchar_t));
+			filter = tmp = (wchar_t*)_alloca((mir_wstrlen(tmp1) + mir_wstrlen(tmp2) + 11)*sizeof(wchar_t));
 			tmp = addstring(tmp, tmp1);
 			tmp = addstring(tmp, L"*.DAT");
 			tmp = addstring(tmp, tmp2);

@@ -77,8 +77,8 @@ void CDropboxOptionsInterception::OnInitDialog()
 		PROTOACCOUNT *acc = accounts[i];
 		if (strstr(acc->szProtoName, MODULE) || strstr(acc->szProtoName, "Meta"))
 			continue;
-		int iItem = m_accounts.AddItem(mir_tstrdup(acc->tszAccountName), -1, (LPARAM)acc);
-		m_accounts.SetItem(iItem, 1, mir_a2t(acc->szProtoName));
+		int iItem = m_accounts.AddItem(mir_wstrdup(acc->tszAccountName), -1, (LPARAM)acc);
+		m_accounts.SetItem(iItem, 1, mir_a2u(acc->szProtoName));
 		if (interceptedAccounts && strstr(interceptedAccounts, acc->szModuleName))
 			m_accounts.SetCheckState(iItem, TRUE);
 	}

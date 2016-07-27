@@ -105,7 +105,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cf.cbSize = sizeof(cf);
 				cf.yHeight = 12 * 20;
 				cf.dwMask = CFM_SIZE | CFM_FACE;
-				mir_tstrcpy(cf.szFaceName, TEXT("Arial"));
+				mir_wstrcpy(cf.szFaceName, TEXT("Arial"));
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 			}
 			else {
@@ -190,7 +190,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				DBVARIANT dbv;
 				if (!db_get_utf(NULL, ppro->m_szModuleName, AIM_KEY_PR, &dbv)) {
 					html_decode(dbv.pszVal);
-					wchar_t *txt = mir_utf8decodeT(dbv.pszVal);
+					wchar_t *txt = mir_utf8decodeW(dbv.pszVal);
 					SetDlgItemText(hwndDlg, IDC_PROFILE, txt);
 					mir_free(txt);
 					db_free(&dbv);
@@ -1270,7 +1270,7 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, chat_list_item
 					wchar_t buf[128] = L"";
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
-					char *sn = mir_t2a(buf);
+					char *sn = mir_u2a(buf);
 					ppro->aim_chat_invite(ppro->m_hServerConn, ppro->m_seqno,
 						item->cookie, item->exchange, item->instance, sn, msg);
 					mir_free(sn);

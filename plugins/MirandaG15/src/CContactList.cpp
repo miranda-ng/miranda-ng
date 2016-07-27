@@ -502,7 +502,7 @@ bool CContactList::CompareEntries(CListEntry<CContactListEntry*,CContactListGrou
 		else if(pLeftEntry->iStatus != pRightEntry->iStatus)
 			return (aiStatusPriority[pLeftEntry->iStatus - ID_STATUS_OFFLINE] > aiStatusPriority[pRightEntry->iStatus - ID_STATUS_OFFLINE]);
 		else
-			return mir_tstrcmpi(pLeftEntry->strName.c_str(),pRightEntry->strName.c_str())<0;
+			return mir_wstrcmpi(pLeftEntry->strName.c_str(),pRightEntry->strName.c_str())<0;
 	}
 	else if(pLeft->GetType() == ITEM && pRight->GetType() == CONTAINER)
 		return false;
@@ -520,7 +520,7 @@ bool CContactList::CompareEntries(CListEntry<CContactListEntry*,CContactListGrou
 		else if (pGroup1->iEvents && pGroup2->iEvents)
 			return (pGroup1->iEvents > pGroup2->iEvents);
 		else
-			return mir_tstrcmpi(pGroup1->strName.c_str(),pGroup2->strName.c_str())<0;
+			return mir_wstrcmpi(pGroup1->strName.c_str(),pGroup2->strName.c_str())<0;
 	}
 
 	return false;

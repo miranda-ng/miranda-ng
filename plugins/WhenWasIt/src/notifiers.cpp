@@ -43,11 +43,11 @@ void PopupNotifyNoBirthdays()
 wchar_t *BuildDTBText(int dtb, wchar_t *name, wchar_t *text, int size)
 {
 	if (dtb > 1)
-		mir_sntprintf(text, size, TranslateT("%s has birthday in %d days."), name, dtb);
+		mir_snwprintf(text, size, TranslateT("%s has birthday in %d days."), name, dtb);
 	else if (dtb == 1)
-		mir_sntprintf(text, size, TranslateT("%s has birthday tomorrow."), name);
+		mir_snwprintf(text, size, TranslateT("%s has birthday tomorrow."), name);
 	else
-		mir_sntprintf(text, size, TranslateT("%s has birthday today."), name);
+		mir_snwprintf(text, size, TranslateT("%s has birthday today."), name);
 
 	return text;
 }
@@ -55,11 +55,11 @@ wchar_t *BuildDTBText(int dtb, wchar_t *name, wchar_t *text, int size)
 wchar_t *BuildDABText(int dab, wchar_t *name, wchar_t *text, int size)
 {
 	if (dab > 1)
-		mir_sntprintf(text, size, TranslateT("%s had birthday %d days ago."), name, dab);
+		mir_snwprintf(text, size, TranslateT("%s had birthday %d days ago."), name, dab);
 	else if (dab == 1)
-		mir_sntprintf(text, size, TranslateT("%s had birthday yesterday."), name);
+		mir_snwprintf(text, size, TranslateT("%s had birthday yesterday."), name);
 	else
-		mir_sntprintf(text, size, TranslateT("%s has birthday today (Should not happen, please report)."), name);
+		mir_snwprintf(text, size, TranslateT("%s has birthday today (Should not happen, please report)."), name);
 
 	return text;
 }
@@ -81,7 +81,7 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	pd.PluginWindowProc = DlgProcPopup;
 	pd.lchIcon = GetDTBIcon(dtb);
 
-	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
+	mir_snwprintf(pd.lptzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
 	wchar_t *sex;
 	switch (toupper(gender)) {
 	case 'M':
@@ -96,12 +96,12 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	}
 	if (age > 0) {
 		if (dtb > 0)
-			mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s will be %d years old."), text, sex, age);
+			mir_snwprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s will be %d years old."), text, sex, age);
 		else
-			mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
+			mir_snwprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	}
 	else
-		mir_tstrncpy(pd.lptzText, text, MAX_SECONDLINE - 1);
+		mir_wstrncpy(pd.lptzText, text, MAX_SECONDLINE - 1);
 
 	PUAddPopupT(&pd);
 
@@ -125,7 +125,7 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 	pd.PluginWindowProc = DlgProcPopup;
 	pd.lchIcon = GetDTBIcon(dab);
 
-	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
+	mir_snwprintf(pd.lptzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
 	wchar_t *sex;
 	switch (toupper(gender)) {
 	case 'M':
@@ -140,12 +140,12 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 	}
 	if (age > 0){
 		if (dab > 0)
-			mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
+			mir_snwprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 		else
-			mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
+			mir_snwprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	}
 	else
-		mir_tstrncpy(pd.lptzText, text, MAX_SECONDLINE - 1);
+		mir_wstrncpy(pd.lptzText, text, MAX_SECONDLINE - 1);
 
 	PUAddPopupT(&pd);
 	return 0;

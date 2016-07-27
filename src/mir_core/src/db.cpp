@@ -351,7 +351,7 @@ extern "C" MIR_CORE_DLL(void) db_setCurrent(MIDatabase *_db)
 	currDb = _db;
 
 	// try to get the langpack's name from a profile
-	ptrT langpack(db_get_tsa(NULL, "Langpack", "Current"));
+	ptrW langpack(db_get_tsa(NULL, "Langpack", "Current"));
 	if (langpack && langpack[0] != '\0')
 		LoadLangPack(langpack);
 	else

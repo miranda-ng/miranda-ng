@@ -100,7 +100,7 @@ void WindowsMediaPlayer::ProcessReceived()
 			listening_info.ptszArtist = U2T(parts[5]);
 			listening_info.ptszAlbum = U2T(parts[6]);
 
-			listening_info.ptszPlayer = mir_tstrdup(name);
+			listening_info.ptszPlayer = mir_wstrdup(name);
 		}
 
 		// Put back the '\\'s

@@ -386,7 +386,7 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 		else
 			CallProtoService(proto->getProtocolName(), PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
 
-		tvi.item.pszText = mir_a2t(protoName);
+		tvi.item.pszText = mir_a2u(protoName);
 		tvi.item.lParam = (LPARAM)proto;
 		tvi.item.iImage = i;
 		tvi.item.iSelectedImage = i;

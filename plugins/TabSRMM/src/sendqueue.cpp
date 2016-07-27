@@ -219,7 +219,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 		if (iSendLength >= iMinLength) {
 			wchar_t	tszError[256];
-			mir_sntprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
+			mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
 			::SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 			sendQueue->clearJob(iEntry);
 			return 0;
@@ -274,7 +274,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 			size_t iSendLength = getSendLength(iEntry);
 			if (iSendLength >= dat->nMax) {
-				mir_sntprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
+				mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
 				SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 				clearJob(iEntry);
 				return 0;
@@ -543,8 +543,8 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 				SkinPlaySound("SendError");
 
-			wchar_t *szAckMsg = mir_a2t((char *)ack->lParam);
-			mir_sntprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), szAckMsg);
+			wchar_t *szAckMsg = mir_a2u((char *)ack->lParam);
+			mir_snwprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), szAckMsg);
 			job.iStatus = SQ_ERROR;
 			mir_free(szAckMsg);
 			KillTimer(dat->hwnd, TIMERID_MSGSEND + iFound);
@@ -684,9 +684,9 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 			wchar_t tszTimestamp[30];
 			wcsftime(tszTimestamp, _countof(tszTimestamp), L"%Y.%m.%d - %H:%M", _localtime32((__time32_t *)&now));
 			mir_snprintf(szKeyName, "S%d", now);
-			mir_sntprintf(tszHeader, TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
+			mir_snwprintf(tszHeader, TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 		}
-		else mir_sntprintf(tszHeader, L"M%d|", time(0));
+		else mir_snwprintf(tszHeader, L"M%d|", time(0));
 
 		T2Utf utf_header(tszHeader);
 		size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;

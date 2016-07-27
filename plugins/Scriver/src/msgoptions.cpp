@@ -188,9 +188,9 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "%s%d", "SRMFont", i);
 
-		ptrT tszFace(db_get_tsa(NULL, SRMMMOD, str));
+		ptrW tszFace(db_get_tsa(NULL, SRMMMOD, str));
 		if (tszFace == NULL)
-			mir_tstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
+			mir_wstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
 		else
 			wcsncpy(lf->lfFaceName, tszFace, _countof(lf->lfFaceName));
 

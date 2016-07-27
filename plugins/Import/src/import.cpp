@@ -29,14 +29,14 @@ struct AccountMap
 	AccountMap(const char *_src, int _origIdx, const wchar_t *_srcName) :
 		szSrcAcc(mir_strdup(_src)),
 		iSrcIndex(_origIdx),
-		tszSrcName(mir_tstrdup(_srcName)),
+		tszSrcName(mir_wstrdup(_srcName)),
 		pa(NULL)
 	{}
 
 	~AccountMap() {}
 
 	ptrA szSrcAcc, szBaseProto;
-	ptrT tszSrcName;
+	ptrW tszSrcName;
 	int iSrcIndex;
 	PROTOACCOUNT *pa;
 };
@@ -77,7 +77,7 @@ void AddMessage(const wchar_t* fmt, ...)
 	va_list args;
 	wchar_t msgBuf[4096];
 	va_start(args, fmt);
-	mir_vsntprintf(msgBuf, _countof(msgBuf), TranslateTS(fmt), args);
+	mir_vsnwprintf(msgBuf, _countof(msgBuf), TranslateTS(fmt), args);
 
 	SendMessage(hdlgProgress, PROGM_ADDMESSAGE, 0, (LPARAM)msgBuf);
 }
@@ -144,7 +144,7 @@ static MCONTACT HContactFromID(char *pszProtoName, char *pszSetting, wchar_t *pw
 		char *szProto = GetContactProto(hContact);
 		if (!mir_strcmp(szProto, pszProtoName)) {
 			ptrW id(db_get_tsa(hContact, pszProtoName, pszSetting));
-			if (!mir_tstrcmp(pwszID, id))
+			if (!mir_wstrcmp(pwszID, id))
 				return hContact;
 		}
 	}
@@ -259,7 +259,7 @@ static LRESULT CALLBACK ListWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 			int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
 			SendMessage(hwndCombo, CB_SETITEMDATA, idx, (LPARAM)accs[i]);
 
-			if (!mir_tstrcmpi(accs[i]->tszAccountName, tszText))
+			if (!mir_wstrcmpi(accs[i]->tszAccountName, tszText))
 				iSel = idx;
 		}
 
@@ -390,7 +390,7 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto,
 		if (pa->bOldProto || pa->bIsVirtual || pa->bDynDisabled)
 			return pa;
 
-		if (ptszName && !mir_tstrcmp(pa->tszAccountName, ptszName))
+		if (ptszName && !mir_wstrcmp(pa->tszAccountName, ptszName))
 			return pa;
 
 		char *pszUniqueSetting = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -430,7 +430,7 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 			continue;
 
 		itoa(800 + i, szSetting, 10);
-		ptrT tszName(myGetWs(NULL, "Protocols", szSetting));
+		ptrW tszName(myGetWs(NULL, "Protocols", szSetting));
 		AccountMap *pNew = new AccountMap(szProto, i, tszName);
 		arAccountMap.insert(pNew);
 
@@ -498,7 +498,7 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 		p.pa->bIsEnabled = iVal != 0;
 
 		if (p.tszSrcName == NULL) {
-			p.pa->tszAccountName = mir_a2t(p.pa->szModuleName);
+			p.pa->tszAccountName = mir_a2u(p.pa->szModuleName);
 			itoa(800 + p.pa->iOrder, szSetting, 10);
 			db_set_ts(NULL, "Protocols", szSetting, p.pa->tszAccountName);
 		}
@@ -663,7 +663,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 			return;
 		}
 
-		ptrT tszGroup(myGetWs(ccSrc->contactID, "CList", "Group")), tszNick(myGetWs(ccSrc->contactID, "CList", "MyHandle"));
+		ptrW tszGroup(myGetWs(ccSrc->contactID, "CList", "Group")), tszNick(myGetWs(ccSrc->contactID, "CList", "MyHandle"));
 		if (tszNick == NULL)
 			tszNick = myGetWs(ccSrc->contactID, ccSrc->szProto, "Nick");
 
@@ -795,7 +795,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		return NULL;
 	}
 
-	ptrT tszGroup(myGetWs(hSrc, "CList", "Group")), tszNick(myGetWs(hSrc, "CList", "MyHandle"));
+	ptrW tszGroup(myGetWs(hSrc, "CList", "Group")), tszNick(myGetWs(hSrc, "CList", "MyHandle"));
 	if (tszNick == NULL)
 		tszNick = myGetWs(hSrc, cc->szProto, "Nick");
 

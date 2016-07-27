@@ -56,9 +56,9 @@ class CSend {
 		virtual int Send() = NULL; // returns 1 if sent (you must delete class) and 0 when still sending (class deletes itself)
 		int SendSilent() {m_bAsync=m_bSilent=true; return Send();};
 		
-		void SetFile(wchar_t* file){mir_free(m_pszFile), m_pszFile=mir_tstrdup(file);};
-		void SetFile(char* file){mir_free(m_pszFile), m_pszFile=mir_a2t(file);};
-		void SetDescription(wchar_t* descr){mir_free(m_pszFileDesc), m_pszFileDesc=mir_tstrdup(descr);};
+		void SetFile(wchar_t* file){mir_free(m_pszFile), m_pszFile=mir_wstrdup(file);};
+		void SetFile(char* file){mir_free(m_pszFile), m_pszFile=mir_a2u(file);};
+		void SetDescription(wchar_t* descr){mir_free(m_pszFileDesc), m_pszFileDesc=mir_wstrdup(descr);};
 		void SetContact(MCONTACT hContact);
 		char* GetURL(){return m_URL;};
 		char* GetURLthumbnail(){return m_URLthumb;};

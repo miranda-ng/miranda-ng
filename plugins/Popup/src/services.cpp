@@ -364,15 +364,15 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	ptd->signature = 0/*PopupNotificationData_SIGNATURE*/;
 	ptd->typ = 2;
 	memcpy(&ptd->pupClass, pc, sizeof(POPUPCLASS));
-	ptd->pszTreeRoot = mir_a2t(pc->pszName);
+	ptd->pszTreeRoot = mir_a2u(pc->pszName);
 	ptd->pupClass.pszName = mir_strdup(pc->pszName);
 	if (pc->flags & PCF_UNICODE) {
 		ptd->pupClass.pwszDescription = mir_wstrdup(pc->pwszDescription);
-		ptd->pszDescription = mir_u2t(pc->pwszDescription);
+		ptd->pszDescription = mir_wstrdup(pc->pwszDescription);
 	}
 	else {
 		ptd->pupClass.pszDescription = mir_strdup(pc->pszDescription);
-		ptd->pszDescription = mir_a2t(pc->pszDescription);
+		ptd->pszDescription = mir_a2u(pc->pszDescription);
 	}
 	LoadClassSettings(ptd, PU_MODULCLASS);
 
@@ -381,13 +381,13 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
 	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(FontIDT);
-	mir_sntprintf(fid.group, _A2W(PU_FNT_AND_COLOR) L"/%S", ptd->pupClass.pszName);
+	mir_snwprintf(fid.group, _A2W(PU_FNT_AND_COLOR) L"/%S", ptd->pupClass.pszName);
 	mir_strncpy(fid.dbSettingsGroup, PU_MODULCLASS, _countof(fid.dbSettingsGroup) - 1);
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.size = -11;
-	mir_tstrncpy(fid.deffontsettings.szFace, L"Verdana", _countof(fid.deffontsettings.szFace) - 1);
-	mir_tstrncpy(fid.name, PU_FNT_NAME_TEXT, _countof(fid.name) - 1);
+	mir_wstrncpy(fid.deffontsettings.szFace, L"Verdana", _countof(fid.deffontsettings.szFace) - 1);
+	mir_wstrncpy(fid.name, PU_FNT_NAME_TEXT, _countof(fid.name) - 1);
 	mir_strncpy(fid.prefix, setting, _countof(fid.prefix));
 	mir_snprintf(fid.prefix, "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style = 0;
@@ -399,9 +399,9 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	ptd->pupClass.colorBack = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 	ColourIDT cid = { 0 };
 	cid.cbSize = sizeof(ColourIDT);
-	mir_sntprintf(cid.group, _A2W(PU_FNT_AND_COLOR) L"/%S", ptd->pupClass.pszName);
+	mir_snwprintf(cid.group, _A2W(PU_FNT_AND_COLOR) L"/%S", ptd->pupClass.pszName);
 	mir_strncpy(cid.dbSettingsGroup, PU_MODULCLASS, _countof(fid.dbSettingsGroup));
-	mir_tstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
+	mir_wstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
 	mir_snprintf(cid.setting, "%s/BgCol", ptd->pupClass.pszName);
 	cid.defcolour = fonts.clBack;
 	ColourRegisterT(&cid);
@@ -438,7 +438,7 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
 	if (wParam)
 		pc = (POPUPCLASS*)wParam;
 	else {
-		LPTSTR group = mir_a2t(pdc->pszClassName);
+		LPTSTR group = mir_a2u(pdc->pszClassName);
 		POPUPTREEDATA *ptd = (POPUPTREEDATA *)FindTreeData(group, NULL, 2);
 		if (ptd)
 			pc = &ptd->pupClass;
@@ -481,13 +481,13 @@ INT_PTR Popup_LoadSkin(WPARAM, LPARAM lParam)
 	if (lParam)
 	{
 		mir_free(PopupOptions.SkinPack);
-		PopupOptions.SkinPack = mir_a2t((char*)lParam);
+		PopupOptions.SkinPack = mir_a2u((char*)lParam);
 	}
 
 	const PopupSkin *skin = 0;
 	if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 		mir_free(PopupOptions.SkinPack);
-		PopupOptions.SkinPack = mir_tstrdup(skin->getName());
+		PopupOptions.SkinPack = mir_wstrdup(skin->getName());
 	}
 
 	return 1;

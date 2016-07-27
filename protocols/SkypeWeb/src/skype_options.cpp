@@ -61,8 +61,8 @@ void CSkypeOptionsMain::OnApply()
 		m_proto->delSetting("TokenExpiresIn");
 	m_proto->setString(SKYPE_SETTINGS_ID, szNewSkypename);
 	m_proto->setString("Password", szNewPassword);
-	ptrT group(m_group.GetText());
-	if (mir_tstrlen(group) > 0 && !Clist_GroupExists(group))
+	ptrW group(m_group.GetText());
+	if (mir_wstrlen(group) > 0 && !Clist_GroupExists(group))
 		Clist_GroupCreate(0, group);
 }
 

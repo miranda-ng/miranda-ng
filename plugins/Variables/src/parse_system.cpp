@@ -51,15 +51,15 @@ static wchar_t *parseCpuLoad(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	if (mir_tstrlen(ai->targv[1]) == 0)
-		szCounter = mir_tstrdup(L"\\Processor(_Total)\\% Processor Time");
+	if (mir_wstrlen(ai->targv[1]) == 0)
+		szCounter = mir_wstrdup(L"\\Processor(_Total)\\% Processor Time");
 	else {
-		int size = (int)mir_tstrlen(ai->targv[1]) + 32;
+		int size = (int)mir_wstrlen(ai->targv[1]) + 32;
 		szCounter = (wchar_t *)mir_alloc(size * sizeof(wchar_t));
 		if (szCounter == NULL)
 			return NULL;
 
-		mir_sntprintf(szCounter, size, L"\\Process(%s)\\%% Processor Time", ai->targv[1]);
+		mir_snwprintf(szCounter, size, L"\\Process(%s)\\%% Processor Time", ai->targv[1]);
 	}
 	PDH_STATUS pdhStatus = PdhValidatePath(szCounter);
 	if (pdhStatus != ERROR_SUCCESS) {
@@ -105,18 +105,18 @@ static wchar_t *parseCpuLoad(ARGUMENTSINFO *ai)
 		pdhStatus = PdhCloseQuery(hQuery);
 		return NULL;
 	}
-	mir_sntprintf(szVal, L"%.0f", cValue.doubleValue);
+	mir_snwprintf(szVal, L"%.0f", cValue.doubleValue);
 	//PdhRemoveCounter(*hCounter);
 	PdhCloseQuery(hQuery);
 	mir_free(szCounter);
 
-	return mir_tstrdup(szVal);
+	return mir_wstrdup(szVal);
 }
 
 static wchar_t *parseCurrentDate(ARGUMENTSINFO *ai)
 {
 	wchar_t *szFormat;
-	if (ai->argc == 1 || (ai->argc > 1 && mir_tstrlen(ai->targv[1]) == 0))
+	if (ai->argc == 1 || (ai->argc > 1 && mir_wstrlen(ai->targv[1]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[1];
@@ -137,7 +137,7 @@ static wchar_t *parseCurrentDate(ARGUMENTSINFO *ai)
 static wchar_t *parseCurrentTime(ARGUMENTSINFO *ai)
 {
 	wchar_t *szFormat;
-	if (ai->argc == 1 || (ai->argc > 1) && (mir_tstrlen(ai->targv[1]) == 0))
+	if (ai->argc == 1 || (ai->argc > 1) && (mir_wstrlen(ai->targv[1]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[1];
@@ -165,16 +165,16 @@ static wchar_t *parseDirectory(ARGUMENTSINFO *ai)
 		depth = ttoi(ai->targv[2]);
 
 	if (depth <= 0)
-		return mir_tstrdup(ai->targv[1]);
+		return mir_wstrdup(ai->targv[1]);
 
 	size_t bi, ei;
-	for (ei = 0; ei < mir_tstrlen(ai->targv[1]); ei++) {
+	for (ei = 0; ei < mir_wstrlen(ai->targv[1]); ei++) {
 		if (ai->targv[1][ei] == '\\')
 			depth--;
 		if (!depth)
 			break;
 	}
-	if (ei >= mir_tstrlen(ai->targv[1]))
+	if (ei >= mir_wstrlen(ai->targv[1]))
 		return ai->targv[1];
 
 	for (bi = ei - 1; bi > 0; bi--)
@@ -203,7 +203,7 @@ static wchar_t *parseDirectory2(ARGUMENTSINFO *ai)
 	if (depth <= 0)
 		return NULL;
 
-	wchar_t *ecur = ai->targv[1] + mir_tstrlen(ai->targv[1]);
+	wchar_t *ecur = ai->targv[1] + mir_wstrlen(ai->targv[1]);
 	while (depth > 0) {
 		while ((*ecur != '\\') && (ecur > ai->targv[1]))
 			ecur--;
@@ -226,17 +226,17 @@ static int getTime(wchar_t *szTime, struct tm *date)
 {
 	// do some extra checks here
 	wchar_t *cur = szTime;
-	if (cur >= szTime + mir_tstrlen(szTime))
+	if (cur >= szTime + mir_wstrlen(szTime))
 		return -1;
 
 	date->tm_mon = wcstoul(cur, &cur, 10) - 1;
 	cur++;
-	if (cur >= szTime + mir_tstrlen(szTime))
+	if (cur >= szTime + mir_wstrlen(szTime))
 		return -1;
 
 	date->tm_mday = wcstoul(cur, &cur, 10);
 	cur++;
-	if (cur >= szTime + mir_tstrlen(szTime))
+	if (cur >= szTime + mir_wstrlen(szTime))
 		return -1;
 
 	date->tm_year = wcstoul(cur, &cur, 10);
@@ -247,17 +247,17 @@ static int getTime(wchar_t *szTime, struct tm *date)
 
 	date->tm_year = date->tm_year < 38 ? date->tm_year + 100 : date->tm_year;
 	cur++;
-	if (cur >= szTime + mir_tstrlen(szTime))
+	if (cur >= szTime + mir_wstrlen(szTime))
 		return -1;
 
 	date->tm_hour = wcstoul(cur, &cur, 10);
 	cur++;
-	if (cur >= szTime + mir_tstrlen(szTime))
+	if (cur >= szTime + mir_wstrlen(szTime))
 		return -1;
 
 	date->tm_min = wcstoul(cur, &cur, 10);
 	cur++;
-	if (cur >= szTime + mir_tstrlen(szTime))
+	if (cur >= szTime + mir_wstrlen(szTime))
 		return -1;
 
 	date->tm_sec = wcstoul(cur, &cur, 10);
@@ -282,9 +282,9 @@ static wchar_t *parseDiffTime(ARGUMENTSINFO *ai)
 		return NULL;
 
 	diff = difftime(mktime(&t1), mktime(&t0));
-	mir_sntprintf(szTime, L"%.0f", diff);
+	mir_snwprintf(szTime, L"%.0f", diff);
 
-	return mir_tstrdup(szTime);
+	return mir_wstrdup(szTime);
 }
 
 static wchar_t *parseDirExists(ARGUMENTSINFO *ai)
@@ -298,7 +298,7 @@ static wchar_t *parseDirExists(ARGUMENTSINFO *ai)
 	else
 		CloseHandle(hFile);
 
-	return mir_tstrdup(L"");
+	return mir_wstrdup(L"");
 }
 
 static wchar_t *parseEnvironmentVariable(ARGUMENTSINFO *ai)
@@ -333,7 +333,7 @@ static wchar_t *parseFileExists(ARGUMENTSINFO *ai)
 	else
 		CloseHandle(hFile);
 
-	return mir_tstrdup(L"");
+	return mir_wstrdup(L"");
 }
 
 static wchar_t *parseFindWindow(ARGUMENTSINFO *ai)
@@ -386,11 +386,11 @@ static wchar_t *parseListDir(ARGUMENTSINFO *ai)
 		if (*ai->targv[4] == 'd')
 			bFiles = FALSE;
 	}
-	if (tszFirst[mir_tstrlen(tszFirst) - 1] == '\\')
-		mir_tstrncat(tszFirst, tszFilter, _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
+	if (tszFirst[mir_wstrlen(tszFirst) - 1] == '\\')
+		mir_wstrncat(tszFirst, tszFilter, _countof(tszFirst) - mir_wstrlen(tszFirst) - 1);
 	else {
-		mir_tstrncat(tszFirst, L"\\", _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
-		mir_tstrncat(tszFirst, tszFilter, _countof(tszFirst) - mir_tstrlen(tszFirst) - 1);
+		mir_wstrncat(tszFirst, L"\\", _countof(tszFirst) - mir_wstrlen(tszFirst) - 1);
+		mir_wstrncat(tszFirst, tszFilter, _countof(tszFirst) - mir_wstrlen(tszFirst) - 1);
 	}
 
 	WIN32_FIND_DATA ffd;
@@ -399,20 +399,20 @@ static wchar_t *parseListDir(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 	if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
-		tszRes = (wchar_t*)mir_alloc((mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(wchar_t));
-		mir_tstrcpy(tszRes, ffd.cFileName);
+		tszRes = (wchar_t*)mir_alloc((mir_wstrlen(ffd.cFileName) + mir_wstrlen(tszSeperator) + 1)*sizeof(wchar_t));
+		mir_wstrcpy(tszRes, ffd.cFileName);
 	}
 	while (FindNextFile(hFind, &ffd) != 0) {
 		if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
 			if (tszRes != NULL) {
-				mir_tstrcat(tszRes, tszSeperator);
-				tszRes = (wchar_t*)mir_realloc(tszRes, (mir_tstrlen(tszRes) + mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(wchar_t));
+				mir_wstrcat(tszRes, tszSeperator);
+				tszRes = (wchar_t*)mir_realloc(tszRes, (mir_wstrlen(tszRes) + mir_wstrlen(ffd.cFileName) + mir_wstrlen(tszSeperator) + 1)*sizeof(wchar_t));
 			}
 			else {
-				tszRes = (wchar_t*)mir_alloc((mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(wchar_t));
-				mir_tstrcpy(tszRes, L"");
+				tszRes = (wchar_t*)mir_alloc((mir_wstrlen(ffd.cFileName) + mir_wstrlen(tszSeperator) + 1)*sizeof(wchar_t));
+				mir_wstrcpy(tszRes, L"");
 			}
-			mir_tstrcat(tszRes, ffd.cFileName);
+			mir_wstrcat(tszRes, ffd.cFileName);
 		}
 	}
 	FindClose(hFind);
@@ -443,7 +443,7 @@ static wchar_t *parseProcessRunning(ARGUMENTSINFO *ai)
 		ai->flags |= AIF_FALSE;
 
 	mir_free(ref);
-	return mir_tstrdup(L"");
+	return mir_wstrdup(L"");
 }
 #endif
 
@@ -454,7 +454,7 @@ static wchar_t *parseRegistryValue(ARGUMENTSINFO *ai)
 
 	DWORD len, type;
 
-	wchar_t *key = mir_tstrdup(ai->targv[1]);
+	wchar_t *key = mir_wstrdup(ai->targv[1]);
 	if (key == NULL)
 		return NULL;
 
@@ -466,13 +466,13 @@ static wchar_t *parseRegistryValue(ARGUMENTSINFO *ai)
 
 	*cur = 0;
 	HKEY hKey;
-	if (!mir_tstrcmp(key, L"HKEY_CLASSES_ROOT"))
+	if (!mir_wstrcmp(key, L"HKEY_CLASSES_ROOT"))
 		hKey = HKEY_CLASSES_ROOT;
-	else if (!mir_tstrcmp(key, L"HKEY_CURRENT_USER"))
+	else if (!mir_wstrcmp(key, L"HKEY_CURRENT_USER"))
 		hKey = HKEY_CURRENT_USER;
-	else if (!mir_tstrcmp(key, L"HKEY_LOCAL_MACHINE"))
+	else if (!mir_wstrcmp(key, L"HKEY_LOCAL_MACHINE"))
 		hKey = HKEY_LOCAL_MACHINE;
-	else if (!mir_tstrcmp(key, L"HKEY_USERS"))
+	else if (!mir_wstrcmp(key, L"HKEY_USERS"))
 		hKey = HKEY_USERS;
 	else {
 		mir_free(key);
@@ -530,7 +530,7 @@ static wchar_t *parseTimestamp2Date(ARGUMENTSINFO *ai)
 	if (timestamp == 0)
 		return NULL;
 
-	if ((ai->argc == 2) || ((ai->argc > 2) && (mir_tstrlen(ai->targv[2]) == 0)))
+	if ((ai->argc == 2) || ((ai->argc > 2) && (mir_wstrlen(ai->targv[2]) == 0)))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[2];
@@ -562,7 +562,7 @@ static wchar_t *parseTimestamp2Time(ARGUMENTSINFO *ai)
 		return NULL;
 
 	wchar_t *szFormat;
-	if ((ai->argc == 2) || ((ai->argc > 2) && (mir_tstrlen(ai->targv[2]) == 0)))
+	if ((ai->argc == 2) || ((ai->argc > 2) && (mir_wstrlen(ai->targv[2]) == 0)))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[2];
@@ -634,7 +634,7 @@ static wchar_t *parseTextFile(ARGUMENTSINFO *ai)
 		if (tUC)
 			res = (wchar_t*)pBuf;
 		else {
-			res = mir_a2t((char *)pBuf);
+			res = mir_a2u((char *)pBuf);
 			mir_free(pBuf);
 		}
 
@@ -749,7 +749,7 @@ static wchar_t *parseTextFile(ARGUMENTSINFO *ai)
 				if (tUC)
 					res = (wchar_t*)pBuf;
 				else {
-					res = mir_a2t((char *)pBuf);
+					res = mir_a2u((char *)pBuf);
 					mir_free(pBuf);
 				}
 
@@ -763,7 +763,7 @@ static wchar_t *parseTextFile(ARGUMENTSINFO *ai)
 				res = (wchar_t*)pBuf;
 			}
 			else {
-				res = mir_a2t((char *)pBuf);
+				res = mir_a2u((char *)pBuf);
 				mir_free(pBuf);
 			}
 
@@ -819,10 +819,10 @@ static wchar_t *parseUpTime(ARGUMENTSINFO *ai)
 	}
 
 	wchar_t szVal[32];
-	mir_sntprintf(szVal, L"%u", cValue.largeValue);
+	mir_snwprintf(szVal, L"%u", cValue.largeValue);
 	PdhRemoveCounter(hCounter);
 	PdhCloseQuery(hQuery);
-	return mir_tstrdup(szVal);
+	return mir_wstrdup(szVal);
 }
 
 static wchar_t *parseUserName(ARGUMENTSINFO *ai)
@@ -859,9 +859,9 @@ static wchar_t *parseClipboard(ARGUMENTSINFO *ai)
 			HANDLE hData = GetClipboardData(CF_UNICODETEXT);
 			if (hData != NULL) {
 				wchar_t *tszText = (wchar_t*)GlobalLock(hData);
-				size_t len = mir_tstrlen(tszText);
+				size_t len = mir_wstrlen(tszText);
 				res = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
-				mir_tstrcpy(res, tszText);
+				mir_wstrcpy(res, tszText);
 				res[len] = 0;
 				GlobalUnlock(hData);
 			}

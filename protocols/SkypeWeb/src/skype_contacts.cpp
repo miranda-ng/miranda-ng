@@ -46,7 +46,7 @@ void CSkypeProto::SetAllContactsStatus(WORD status)
 
 void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
 {
-	ptrT tszChatID(getTStringA(hContact, "ChatRoomID"));
+	ptrW tszChatID(getTStringA(hContact, "ChatRoomID"));
 	if (tszChatID == NULL)
 		return;
 	GCDEST gcd = { m_szModuleName, tszChatID, GC_EVENT_CONTROL };

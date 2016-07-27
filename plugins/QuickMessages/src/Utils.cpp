@@ -356,8 +356,8 @@ wchar_t* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
 	}
 
 	if (!db_get_ts(NULL, PLGNAME, szMEntry, &dbv)) {
-		if (mir_tstrlen(dbv.ptszVal))
-			buffer = mir_tstrdup(dbv.ptszVal);
+		if (mir_wstrlen(dbv.ptszVal))
+			buffer = mir_wstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
 
@@ -453,7 +453,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 			break;
 		case 'P':
 			ptszName = mir_a2u(GetContactProto(hContact));
-			NameLenght = (int)mir_tstrlen(ptszName);
+			NameLenght = (int)mir_wstrlen(ptszName);
 			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p) {
 				mir_free(ptszName);
@@ -478,7 +478,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 
 		case 'n':
 			ptszName = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
-			NameLenght = (int)mir_tstrlen(ptszName);
+			NameLenght = (int)mir_wstrlen(ptszName);
 			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p)
 				break;
@@ -501,7 +501,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 			ptszName = Contact_GetInfo(CNF_FIRSTNAME, hContact);
 			if (ptszName == NULL)
 				break;
-			NameLenght = (int)mir_tstrlen(ptszName);
+			NameLenght = (int)mir_wstrlen(ptszName);
 			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p) {
 				mir_free(ptszName);
@@ -528,7 +528,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 			if (ptszName == NULL)
 				break;
 
-			NameLenght = (int)mir_tstrlen(ptszName);
+			NameLenght = (int)mir_wstrlen(ptszName);
 			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p) {
 				mir_free(ptszName);

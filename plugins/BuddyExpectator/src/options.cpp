@@ -327,7 +327,7 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			ppd.lchIcon = hIcon;
 			wcsncpy(ppd.lptzContactName, TranslateT("Contact name"), MAX_CONTACTNAME);
 			wchar_t szPreviewText[250];
-			mir_sntprintf(szPreviewText, TranslateT("has returned after being absent since %d days"), rand() % 30);
+			mir_snwprintf(szPreviewText, TranslateT("has returned after being absent since %d days"), rand() % 30);
 			wcsncpy(ppd.lptzText, szPreviewText, MAX_SECONDLINE);
 
 			// Get current popups colors options

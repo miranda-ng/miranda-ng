@@ -58,7 +58,7 @@ inline wchar_t* GetString(char* key, const wchar_t* def)
 
 inline const wchar_t* SetString(char* key, const wchar_t* value)
 {
-	size_t len = mir_tstrlen(value) + 1;
+	size_t len = mir_wstrlen(value) + 1;
 	wchar_t* val = new wchar_t[len];
 	wcscpy_s(val, len, value);
 	db_set_ts(NULL, BOLTUN_KEY, key, val);

@@ -92,19 +92,19 @@ struct OptionsPageData : public MZeroedObject
 		hLangpack = src->hLangpack;
 
 		if (src->flags & ODPF_UNICODE)
-			ptszTitle = mir_tstrdup(src->pwszTitle);
+			ptszTitle = mir_wstrdup(src->pwszTitle);
 		else
-			ptszTitle = mir_a2t(src->pszTitle);
+			ptszTitle = mir_a2u(src->pszTitle);
 
 		if (src->flags & ODPF_UNICODE)
-			ptszGroup = mir_tstrdup(src->pwszGroup);
+			ptszGroup = mir_wstrdup(src->pwszGroup);
 		else
-			ptszGroup = mir_a2t(src->pszGroup);
+			ptszGroup = mir_a2u(src->pszGroup);
 
 		if (src->flags & ODPF_UNICODE)
-			ptszTab = mir_tstrdup(src->pwszTab);
+			ptszTab = mir_wstrdup(src->pwszTab);
 		else
-			ptszTab = mir_a2t(src->pszTab);
+			ptszTab = mir_a2u(src->pszTab);
   	}
 	
 	~OptionsPageData()
@@ -164,7 +164,7 @@ HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const wchar_t* name)
 	tvi.hItem = TreeView_GetRoot(hwndTree);
 	while (tvi.hItem != NULL) {
 		SendMessage(hwndTree, TVM_GETITEM, 0, (LPARAM)&tvi);
-		if (!mir_tstrcmpi(str, name))
+		if (!mir_wstrcmpi(str, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -182,7 +182,7 @@ static HTREEITEM FindNamedTreeItemAtChildren(HWND hwndTree, HTREEITEM hItem, con
 	tvi.hItem = TreeView_GetChild(hwndTree, hItem);
 	while (tvi.hItem != NULL) {
 		SendMessage(hwndTree, TVM_GETITEM, 0, (LPARAM)&tvi);
-		if (!mir_tstrcmpi(str, name))
+		if (!mir_wstrcmpi(str, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -195,7 +195,7 @@ static BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hwnd, LPARAM lParam)
 	wchar_t szClass[64];
 	GetClassName(hwnd, szClass, _countof(szClass));
 
-	if (!mir_tstrcmp(szClass, L"Button") && (GetWindowLongPtr(hwnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
+	if (!mir_wstrcmp(szClass, L"Button") && (GetWindowLongPtr(hwnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
 		SendMessage(hwnd, WM_SETFONT, lParam, 0);
 	return TRUE;
 }
@@ -299,9 +299,9 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 
 	wchar_t buf[255];
 	if (bSearchState == 1 && FilterLoadProgress < 100 && FilterLoadProgress > 0)
-		mir_sntprintf(buf, TranslateT("Loading... %d%%"), FilterLoadProgress);
+		mir_snwprintf(buf, TranslateT("Loading... %d%%"), FilterLoadProgress);
 	else
-		mir_sntprintf(buf, TranslateT("Search"));
+		mir_snwprintf(buf, TranslateT("Search"));
 
 	bool bDrawnByTheme = false;
 
@@ -507,9 +507,9 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 		wchar_t tszModuleName[MAX_PATH];
 		GetModuleFileName(inst, tszModuleName, _countof(tszModuleName));
 
-		wchar_t *dllName = mir_a2t(GetPluginNameByInstance(inst));
-		if (!dllName) dllName = mir_tstrdup(wcsrchr(tszModuleName, '\\'));
-		if (!dllName) dllName = mir_tstrdup(tszModuleName);
+		wchar_t *dllName = mir_a2u(GetPluginNameByInstance(inst));
+		if (!dllName) dllName = mir_wstrdup(wcsrchr(tszModuleName, '\\'));
+		if (!dllName) dllName = mir_wstrdup(tszModuleName);
 		if (dllName) {
 			index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_ADDSTRING, 0, (LPARAM)dllName);
 			SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_SETITEMDATA, (WPARAM)index, (LPARAM)inst);
@@ -527,12 +527,12 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 
 	// if filter string is set to all modules then make the filter string empty (this will return all modules)
 	BOOL bRemoveFocusFromFilter = FALSE;
-	if (mir_tstrcmp(dat->szFilterString, ALL_MODULES_FILTER) == 0) {
+	if (mir_wstrcmp(dat->szFilterString, ALL_MODULES_FILTER) == 0) {
 		dat->szFilterString[0] = 0;
 		bRemoveFocusFromFilter = TRUE;
 	}
 	// if filter string is set to core modules replace it with the name of the executable (this will return all core modules)
-	else if (mir_tstrcmp(dat->szFilterString, CORE_MODULES_FILTER) == 0) {
+	else if (mir_wstrcmp(dat->szFilterString, CORE_MODULES_FILTER) == 0) {
 		// replace string with process name - that will show core settings
 		wchar_t szFileName[300];
 		GetModuleFileName(g_hInst, szFileName, _countof(szFileName));
@@ -695,7 +695,7 @@ static BOOL IsInsideTab(HWND hdlg, OptionsDlgData *dat, int i)
 		for (int j = 0; j < dat->arOpd.getCount() && pages < 2; j++) {
 			OptionsPageData* opd2 = dat->arOpd[j];
 			if (!CheckPageShow(hdlg, dat, j)) continue;
-			if (mir_tstrcmp(opd2->ptszTitle, opd->ptszTitle) || mir_tstrcmp(opd2->ptszGroup, opd->ptszGroup))
+			if (mir_wstrcmp(opd2->ptszTitle, opd->ptszTitle) || mir_wstrcmp(opd2->ptszGroup, opd->ptszGroup))
 				continue;
 			pages++;
 		}
@@ -795,7 +795,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			dat->hPluginUnload = HookEventMessage(ME_SYSTEM_MODULEUNLOAD, hdlg, HM_MODULEUNLOAD);
 			dat->currentPage = -1;
 
-			ptrT lastPage, lastGroup, lastTab;
+			ptrW lastPage, lastGroup, lastTab;
 			OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)psh->pStartPage;
 			if (ood->pszPage == NULL) {
 				lastPage = db_get_tsa(NULL, "Options", "LastPage");
@@ -803,17 +803,17 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				if (ood->pszGroup == NULL)
 					lastGroup = db_get_tsa(NULL, "Options", "LastGroup");
 				else
-					lastGroup = mir_a2t(ood->pszGroup);
+					lastGroup = mir_a2u(ood->pszGroup);
 			}
 			else {
-				lastPage = mir_a2t(ood->pszPage);
-				lastGroup = mir_a2t(ood->pszGroup);
+				lastPage = mir_a2u(ood->pszPage);
+				lastGroup = mir_a2u(ood->pszGroup);
 			}
 
 			if (ood->pszTab == NULL)
 				lastTab = db_get_tsa(NULL, "Options", "LastTab");
 			else
-				lastTab = mir_a2t(ood->pszTab);
+				lastTab = mir_a2u(ood->pszTab);
 
 			OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
 			for (UINT i = 0; i < psh->nPages; i++, odp++) {
@@ -823,8 +823,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				else
 					dat->arOpd.insert(opd);
 
-				if (!mir_tstrcmp(lastPage, odp->pwszTitle) && !mir_tstrcmp(lastGroup, odp->pwszGroup))
-					if ((ood->pszTab == NULL && dat->currentPage == -1) || !mir_tstrcmp(lastTab, odp->pwszTab))
+				if (!mir_wstrcmp(lastPage, odp->pwszTitle) && !mir_wstrcmp(lastGroup, odp->pwszGroup))
+					if ((ood->pszTab == NULL && dat->currentPage == -1) || !mir_wstrcmp(lastTab, odp->pwszTab))
 						dat->currentPage = (int)i;
 			}
 
@@ -976,13 +976,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 								continue;
 
 							OptionsPageData *p = dat->arOpd[i];
-							if (mir_tstrcmp(opd->ptszTitle, p->ptszTitle) || mir_tstrcmp(opd->ptszGroup, p->ptszGroup))
+							if (mir_wstrcmp(opd->ptszTitle, p->ptszTitle) || mir_wstrcmp(opd->ptszGroup, p->ptszGroup))
 								continue;
 
 							tie.pszText = TranslateTH(p->hLangpack, p->ptszTab);
 							tie.lParam = i;
 							TabCtrl_InsertItem(hwndTab, pages, &tie);
-							if (!mir_tstrcmp(opd->ptszTab, p->ptszTab))
+							if (!mir_wstrcmp(opd->ptszTab, p->ptszTab))
 								sel = pages;
 							pages++;
 						}
@@ -1148,11 +1148,11 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 		return;
 
 	wchar_t tszTitle[100];
-	mir_sntprintf(tszTitle, TranslateT("%s options"), pa->tszAccountName);
+	mir_snwprintf(tszTitle, TranslateT("%s options"), pa->tszAccountName);
 
 	OPENOPTIONSDIALOG ood = { sizeof(ood) };
 	ood.pszGroup = LPGEN("Network");
-	ood.pszPage = mir_t2a(pa->tszAccountName);
+	ood.pszPage = mir_u2a(pa->tszAccountName);
 
 	PROPSHEETHEADER psh = { sizeof(psh) };
 	psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
@@ -1172,10 +1172,10 @@ static void OpenOptionsNow(int _hLang, const char *pszGroup, const char *pszPage
 		ShowWindow(hwndOptions, SW_RESTORE);
 		SetForegroundWindow(hwndOptions);
 		if (pszPage != NULL) {
-			ptrT ptszPage(mir_a2t(pszPage));
+			ptrW ptszPage(mir_a2u(pszPage));
 			HTREEITEM hItem = NULL;
 			if (pszGroup != NULL) {
-				ptrT ptszGroup(mir_a2t(pszGroup));
+				ptrW ptszGroup(mir_a2u(pszGroup));
 				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(_hLang, ptszGroup));
 				if (hItem != NULL)
 					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateTH(_hLang, ptszPage));
@@ -1267,7 +1267,7 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 		if (odp->flags & ODPF_UNICODE)
 			dst->pwszGroup = mir_wstrdup(odp->pwszGroup);
 		else {
-			dst->pwszGroup = mir_a2t(odp->pszGroup);
+			dst->pwszGroup = mir_a2u(odp->pszGroup);
 			dst->flags |= ODPF_UNICODE;
 		}
 	}
@@ -1276,7 +1276,7 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 		if (odp->flags & ODPF_UNICODE)
 			dst->pwszTab = mir_wstrdup(odp->pwszTab);
 		else {
-			dst->pwszTab = mir_a2t(odp->pszTab);
+			dst->pwszTab = mir_a2u(odp->pszTab);
 			dst->flags |= ODPF_UNICODE;
 		}
 	}

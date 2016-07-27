@@ -35,17 +35,17 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 						break;
 
 					case DBVT_ASCIIZ:
-						mir_tstrcpy(uid, _A2T(dbvuid.pszVal));
+						mir_wstrcpy(uid, _A2T(dbvuid.pszVal));
 						break;
 
 					case DBVT_UTF8:
-						mir_tstrcpy(uid, ptrT(mir_utf8decodeT(dbvuid.pszVal)));
+						mir_wstrcpy(uid, ptrW(mir_utf8decodeW(dbvuid.pszVal)));
 						break;
 					}
 
 					wchar_t *nick = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
 					wchar_t value[100];
-					mir_sntprintf(value, TranslateT("Custom sound for %s (%s)"), nick, uid);
+					mir_snwprintf(value, TranslateT("Custom sound for %s (%s)"), nick, uid);
 					SetWindowText(hwndDlg, value);
 					db_free(&dbvuid);
 				}
@@ -67,7 +67,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			CheckDlgButton(hwndDlg, IDC_CONT_IGNORE_SOUND, db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p == NULL) {
-				ptrT name(db_get_tsa(hContact, SETTINGSNAME, SETTINGSKEY));
+				ptrW name(db_get_tsa(hContact, SETTINGSNAME, SETTINGSKEY));
 				if (name != NULL)
 					XSN_Users.insert(new XSN_Data(hContact, name, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0));
 			}
@@ -79,7 +79,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDOK:
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p != NULL) {
-				if (mir_tstrcmpi(p->path, L"")) {
+				if (mir_wstrcmpi(p->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
 					PathToRelativeT(p->path, shortpath);
 					db_set_ts(hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
@@ -100,9 +100,9 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				ofn.lStructSize = sizeof(ofn);
 				wchar_t tmp[MAX_PATH];
 				if (GetModuleHandle(L"bass_interface.dll"))
-					mir_sntprintf(tmp, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c", TranslateT("Sound files"), 0, 0, 0);
+					mir_snwprintf(tmp, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c", TranslateT("Sound files"), 0, 0, 0);
 				else
-					mir_sntprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
+					mir_snwprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
 				ofn.hwndOwner = 0;
 				ofn.lpstrFile = FileName;

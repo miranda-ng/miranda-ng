@@ -803,7 +803,7 @@ panel_found:
 				char szIndex[10];
 				itoa(iSelection - IDM_CONTAINERMENU, szIndex, 10);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
-					ptrT tszName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
+					ptrW tszName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
 					if (tszName != NULL)
 						SendMessage((HWND)tci.lParam, DM_CONTAINERSELECTED, 0, tszName);
 				}
@@ -1719,7 +1719,7 @@ panel_found:
 
 						char szCName[40];
 						mir_snprintf(szCName, "%s_theme", CONTAINER_PREFIX);
-						if (mir_tstrlen(pContainer->szRelThemeFile) > 1) {
+						if (mir_wstrlen(pContainer->szRelThemeFile) > 1) {
 							if (pContainer->fPrivateThemeChanged == TRUE) {
 								PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
 								db_set_ts(hContact, SRMSGMOD_T, szCName, pContainer->szRelThemeFile);
@@ -1759,7 +1759,7 @@ TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT h
 	wcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
 	AppendToContainerList(pContainer);
 
-	if (M.GetByte("limittabs", 0) && !mir_tstrcmp(name, L"default"))
+	if (M.GetByte("limittabs", 0) && !mir_wstrcmp(name, L"default"))
 		iTemp |= CNT_CREATEFLAG_CLONED;
 
 	// save container name to the db
@@ -1768,7 +1768,7 @@ TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT h
 		do {
 			char szCounter[10];
 			itoa(i, szCounter, 10);
-			ptrT tszName(db_get_tsa(NULL, CONTAINER_KEY, szCounter));
+			ptrW tszName(db_get_tsa(NULL, CONTAINER_KEY, szCounter));
 			if (tszName == NULL) {
 				if (iFirstFree != -1) {
 					pContainer->iContainerIndex = iFirstFree;
@@ -1876,12 +1876,12 @@ void TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat)
 
 int TSAPI CutContactName(const wchar_t *oldname, wchar_t *newname, size_t size)
 {
-	if (mir_tstrlen(oldname) <= PluginConfig.m_iTabNameLimit)
+	if (mir_wstrlen(oldname) <= PluginConfig.m_iTabNameLimit)
 		wcsncpy_s(newname, size, oldname, _TRUNCATE);
 	else {
 		wchar_t fmt[30];
-		mir_sntprintf(fmt, L"%%%d.%ds...", PluginConfig.m_iTabNameLimit, PluginConfig.m_iTabNameLimit);
-		mir_sntprintf(newname, size, fmt, oldname);
+		mir_snwprintf(fmt, L"%%%d.%ds...", PluginConfig.m_iTabNameLimit, PluginConfig.m_iTabNameLimit);
+		mir_snwprintf(newname, size, fmt, oldname);
 	}
 	return 0;
 }
@@ -1906,7 +1906,7 @@ static TContainerData* TSAPI AppendToContainerList(TContainerData *pContainer)
 
 TContainerData* TSAPI FindContainerByName(const wchar_t *name)
 {
-	if (name == NULL || mir_tstrlen(name) == 0)
+	if (name == NULL || mir_wstrlen(name) == 0)
 		return 0;
 
 	if (M.GetByte("singlewinmode", 0)) // single window mode - always return 0 and force a new container
@@ -2016,7 +2016,7 @@ int TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNa
 
 	// use clist group names for containers...
 	if (M.GetByte("useclistgroups", 0)) {
-		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		if (tszGroup == NULL) {
 			wcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
 			return 0;
@@ -2026,7 +2026,7 @@ int TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNa
 		return 1;
 	}
 
-	ptrT tszContainerName(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
+	ptrW tszContainerName(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
 	if (tszContainerName == NULL) {
 		wcsncpy_s(szName, iNameLen, L"default", _TRUNCATE);
 		return 0;
@@ -2040,15 +2040,15 @@ void TSAPI DeleteContainer(int iIndex)
 {
 	char szIndex[10];
 	itoa(iIndex, szIndex, 10);
-	ptrT tszContainerName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
+	ptrW tszContainerName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
 	if (tszContainerName == NULL)
 		return;
 
 	db_set_ts(NULL, CONTAINER_KEY, szIndex, L"**mir_free**");
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		ptrT tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
-		if (!mir_tstrcmp(tszValue, tszContainerName))
+		ptrW tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
+		if (!mir_wstrcmp(tszValue, tszContainerName))
 			db_unset(hContact, SRMSGMOD_T, CONTAINER_SUBKEY);
 	}
 
@@ -2069,20 +2069,20 @@ void TSAPI DeleteContainer(int iIndex)
 
 void TSAPI RenameContainer(int iIndex, const wchar_t *szNew)
 {
-	if (mir_tstrlen(szNew) == 0)
+	if (mir_wstrlen(szNew) == 0)
 		return;
 
 	char szIndex[10];
 	itoa(iIndex, szIndex, 10);
-	ptrT tszContainerName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
+	ptrW tszContainerName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
 	if (tszContainerName == NULL)
 		return;
 
 	db_set_ts(NULL, CONTAINER_KEY, szIndex, szNew);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		ptrT tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
-		if (!mir_tstrcmp(tszValue, tszContainerName))
+		ptrW tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
+		if (!mir_wstrcmp(tszValue, tszContainerName))
 			db_set_ts(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, szNew);
 	}
 }
@@ -2105,12 +2105,12 @@ HMENU TSAPI BuildContainerMenu()
 	while (true) {
 		char szCounter[10];
 		itoa(i, szCounter, 10);
-		ptrT tszName(db_get_tsa(NULL, CONTAINER_KEY, szCounter));
+		ptrW tszName(db_get_tsa(NULL, CONTAINER_KEY, szCounter));
 		if (tszName == NULL)
 			break;
 
 		if (wcsncmp(tszName, L"**mir_free**", CONTAINER_NAMELEN))
-			AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !mir_tstrcmp(tszName, L"default") ? TranslateT("Default container") : tszName);
+			AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !mir_wstrcmp(tszName, L"default") ? TranslateT("Default container") : tszName);
 		i++;
 	}
 

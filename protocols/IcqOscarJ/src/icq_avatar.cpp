@@ -76,7 +76,7 @@ void CIcqProto::GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat
 void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest, size_t cbLen)
 {
 	wchar_t szPath[MAX_PATH * 2];
-	mir_sntprintf(szPath, L"%s\\%S\\", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	mir_snwprintf(szPath, L"%s\\%S\\", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = _countof(szPath);
@@ -84,8 +84,8 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest
 	fgd.flags = FF_TCHAR;
 
 	// fill the destination
-	mir_tstrncpy(pszDest, szPath, cbLen - 1);
-	size_t tPathLen = mir_tstrlen(pszDest);
+	mir_wstrncpy(pszDest, szPath, cbLen - 1);
+	size_t tPathLen = mir_wstrlen(pszDest);
 
 	// make sure the avatar cache directory exists
 	CreateDirectoryTreeT(szPath);
@@ -93,21 +93,21 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest
 	if (dwUin != 0)
 		_ltow(dwUin, pszDest + tPathLen, 10);
 	else if (szUid) {
-		wchar_t* p = mir_a2t(szUid);
-		mir_tstrcpy(pszDest + tPathLen, p);
+		wchar_t* p = mir_a2u(szUid);
+		mir_wstrcpy(pszDest + tPathLen, p);
 		mir_free(p);
 	}
 	else {
 		wchar_t szBuf[MAX_PATH];
 		if (CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)szBuf))
-			mir_tstrcpy(pszDest + tPathLen, L"avatar");
+			mir_wstrcpy(pszDest + tPathLen, L"avatar");
 		else {
 			wchar_t *szLastDot = wcsrchr(szBuf, '.');
 			if (szLastDot)
 				szLastDot[0] = '\0';
 
-			mir_tstrcpy(pszDest + tPathLen, szBuf);
-			mir_tstrcat(pszDest + tPathLen, L"_avt");
+			mir_wstrcpy(pszDest + tPathLen, szBuf);
+			mir_wstrcat(pszDest + tPathLen, L"_avt");
 		}
 	}
 }
@@ -115,7 +115,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest
 void AddAvatarExt(int dwFormat, wchar_t *pszDest)
 {
 	const wchar_t *ext = ProtoGetAvatarExtension(dwFormat);
-	mir_tstrcat(pszDest, (*ext == 0) ? L".dat" : ext);
+	mir_wstrcat(pszDest, (*ext == 0) ? L".dat" : ext);
 }
 
 #define MD5_BLOCK_SIZE 1024*1024 /* use 1MB blocks */
@@ -1159,7 +1159,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 			PROTO_AVATAR_INFORMATION ai = { 0 };
 			ai.format = PA_FORMAT_JPEG; // this is for error only
 			ai.hContact = pCookieData->hContact;
-			mir_tstrncpy(ai.filename, pCookieData->szFile, _countof(ai.filename));
+			mir_wstrncpy(ai.filename, pCookieData->szFile, _countof(ai.filename));
 			AddAvatarExt(PA_FORMAT_JPEG, ai.filename);
 
 			ppro->FreeCookie(pSnacHeader->dwRef);
@@ -1212,11 +1212,11 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 					const wchar_t *ptszExt;
 					int dwPaFormat = ProtoGetBufferFormat(pBuffer, &ptszExt);
 					wchar_t tszImageFile[MAX_PATH];
-					mir_sntprintf(tszImageFile, L"%s%s", pCookieData->szFile, ptszExt);
+					mir_snwprintf(tszImageFile, L"%s%s", pCookieData->szFile, ptszExt);
 
 					ppro->setByte(pCookieData->hContact, "AvatarType", (BYTE)dwPaFormat);
 					ai.format = dwPaFormat; // set the format
-					mir_tstrncpy(ai.filename, tszImageFile, _countof(ai.filename));
+					mir_wstrncpy(ai.filename, tszImageFile, _countof(ai.filename));
 
 					int out = _wopen(tszImageFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 					if (out != -1) {

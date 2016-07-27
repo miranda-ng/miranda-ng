@@ -26,7 +26,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawIn(WPARAM, LPARAM lParam)
 	char* pszRaw = (char*)lParam;
 
 	if (m_scriptingEnabled && pszRaw && IsConnected()) {
-		wchar_t* p = mir_a2t(pszRaw);
+		wchar_t* p = mir_a2u(pszRaw);
 		InsertIncomingEvent(p);
 		mir_free(p);
 		return 0;
@@ -117,7 +117,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 		int i = sString.Find("|");
 		if (i != -1) {
 			sRequest = sString.Mid(0, i);
-			wchar_t* p = mir_a2t(sString.Mid(i + 1));
+			wchar_t* p = mir_a2u(sString.Mid(i + 1));
 			sChannel = p;
 			mir_free(p);
 		}
@@ -149,7 +149,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			gci.pszID = S.c_str();
 			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
 				wchar_t szTemp[40];
-				mir_sntprintf(szTemp, L"%u", gci.iCount);
+				mir_snwprintf(szTemp, L"%u", gci.iCount);
 				sOutput = szTemp;
 			}
 		}
@@ -173,7 +173,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 					gci.pszModule = m_szModuleName;
 					gci.iItem = j;
 					if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
-						if (mir_tstrcmpi(gci.pszID, SERVERWINDOW)) {
+						if (mir_wstrcmpi(gci.pszID, SERVERWINDOW)) {
 							CMString S1 = gci.pszID;
 							int k = S1.Find(L" ");
 							if (k != -1)
@@ -190,7 +190,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 		}
 		// send it to mbot
 		if (!sOutput.IsEmpty())
-			return (INT_PTR)mir_t2a(sOutput.c_str());
+			return (INT_PTR)mir_u2a(sOutput.c_str());
 	}
 	return 0;
 }

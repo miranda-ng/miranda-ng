@@ -231,7 +231,7 @@ static int ProfileList_EndLabelEdit(LPLISTCTRL pList, BYTE bSave)
 					pList->labelEdit.pItem->pszText[pList->labelEdit.iSubItem] = szEdit;
 					bChanged = TRUE;
 				}
-				else if (mir_tstrcmp(pList->labelEdit.pItem->pszText[pList->labelEdit.iSubItem], szEdit)) {
+				else if (mir_wstrcmp(pList->labelEdit.pItem->pszText[pList->labelEdit.iSubItem], szEdit)) {
 					mir_free(pList->labelEdit.pItem->pszText[pList->labelEdit.iSubItem]);
 					pList->labelEdit.pItem->pszText[pList->labelEdit.iSubItem] = szEdit;
 					bChanged = TRUE;
@@ -537,7 +537,7 @@ static int ProfileList_AddItemlistFromDB(
 		}
 		// item not found in the predefined category list?
 		if ((idList == NULL || j == nList) && dbvCat.type == DBVT_ASCIIZ) {
-			pItem->pszText[0] = mir_a2t(dbvCat.pszVal);
+			pItem->pszText[0] = mir_a2u(dbvCat.pszVal);
 			db_free(&dbvCat);
 		}
 		if ((lvi.iItem = ListView_InsertItem(pList->hList, &lvi)) < 0) {
@@ -826,7 +826,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 					HDC hDC = GetDC(GetParent(hwnd));
 					if (hDC != NULL) {
 						SelectObject(hDC, (HFONT)SendMessage(GetParent(hwnd), WM_GETFONT, NULL, NULL));
-						GetTextExtentPoint32(hDC, pItem->pszText[hi.iSubItem], (int)mir_tstrlen(pItem->pszText[hi.iSubItem]), &textSize);
+						GetTextExtentPoint32(hDC, pItem->pszText[hi.iSubItem], (int)mir_wstrlen(pItem->pszText[hi.iSubItem]), &textSize);
 						ReleaseDC(GetParent(hwnd), hDC);
 					}
 					else textSize.cx = textSize.cy = 0;
@@ -948,7 +948,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 					for (i = 0; i < pList->labelEdit.pItem->idstrListCount; i++) {
 						add = ListBox_AddString(pList->labelEdit.dropDown.hDrop, pList->labelEdit.pItem->idstrList[i].ptszTranslated);
 						ListBox_SetItemData(pList->labelEdit.dropDown.hDrop, add, pList->labelEdit.pItem->idstrList + i);
-						if (!mir_tstrcmp(szEdit, pList->labelEdit.pItem->idstrList[i].ptszTranslated))
+						if (!mir_wstrcmp(szEdit, pList->labelEdit.pItem->idstrList[i].ptszTranslated))
 							ListBox_SetCurSel(pList->labelEdit.dropDown.hDrop, add);
 					}
 				}
@@ -957,7 +957,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 
 					i = 0;
 					while (PtrIsValid(lpidList = (LPIDSTRLIST)ListBox_GetItemData(pList->labelEdit.dropDown.hDrop, i))) {
-						if (!mir_tstrcmp(szEdit, lpidList->ptszTranslated)) {
+						if (!mir_wstrcmp(szEdit, lpidList->ptszTranslated)) {
 							ListBox_SetCurSel(pList->labelEdit.dropDown.hDrop, i);
 							break;
 						}
@@ -1203,7 +1203,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 								}
 								// find information about the group
 								for (iFmt = 0; iFmt < _countof(pFmt); iFmt++) {
-									if (!mir_tstrcmp(szGroup, pFmt[iFmt].szGroup))
+									if (!mir_wstrcmp(szGroup, pFmt[iFmt].szGroup))
 										break;
 								}
 								// indicate, no group was found. should not happen!!

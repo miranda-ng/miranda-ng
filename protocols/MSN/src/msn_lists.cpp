@@ -245,12 +245,12 @@ void CMsnProto::MSN_CleanupLists(void)
 			int count = db_event_count(p.hContact);
 			if (count) {
 				wchar_t text[256];
-				wchar_t *sze = mir_a2t(p.email);
-				mir_sntprintf(text, TranslateT("Contact %s has been removed from the server.\nWould you like to keep it as \"Local Only\" contact to preserve history?"), sze);
+				wchar_t *sze = mir_a2u(p.email);
+				mir_snwprintf(text, TranslateT("Contact %s has been removed from the server.\nWould you like to keep it as \"Local Only\" contact to preserve history?"), sze);
 				mir_free(sze);
 
 				wchar_t title[128];
-				mir_sntprintf(title, TranslateT("%s protocol"), m_tszUserName);
+				mir_snwprintf(title, TranslateT("%s protocol"), m_tszUserName);
 
 				if (MessageBox(NULL, text, title, MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND) == IDYES) {
 					MSN_AddUser(p.hContact, p.email, 0, LIST_LL);

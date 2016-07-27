@@ -164,7 +164,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 
 	DBVARIANT dbv = { 0 };
 	INT_PTR result = db_get_ts(hContact, "CList", "StatusMsg", &dbv);
-	if (!result && mir_tstrlen(dbv.ptszVal) > 0)
+	if (!result && mir_wstrlen(dbv.ptszVal) > 0)
 		p->bStatusMsgValid = STATUSMSG_CLIST;
 	else {
 		if (!szProto)
@@ -172,11 +172,11 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		if (szProto) {
 			if (!result)
 				db_free(&dbv);
-			if (!(result = db_get_ts(hContact, szProto, "YMsg", &dbv)) && mir_tstrlen(dbv.ptszVal) > 0)
+			if (!(result = db_get_ts(hContact, szProto, "YMsg", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_YIM;
-			else if (!(result = db_get_ts(hContact, szProto, "StatusDescr", &dbv)) && mir_tstrlen(dbv.ptszVal) > 0)
+			else if (!(result = db_get_ts(hContact, szProto, "StatusDescr", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_GG;
-			else if (!(result = db_get_ts(hContact, szProto, "XStatusMsg", &dbv)) && mir_tstrlen(dbv.ptszVal) > 0)
+			else if (!(result = db_get_ts(hContact, szProto, "XStatusMsg", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_XSTATUS;
 		}
 	}
@@ -185,8 +185,8 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		if (!result)
 			db_free(&dbv);
 		result = db_get_ts(hContact, szProto, "XStatusName", &dbv);
-		if (!result && mir_tstrlen(dbv.ptszVal) > 1) {
-			size_t iLen = mir_tstrlen(dbv.ptszVal);
+		if (!result && mir_wstrlen(dbv.ptszVal) > 1) {
+			size_t iLen = mir_wstrlen(dbv.ptszVal);
 			p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
 			p->statusMsg = (wchar_t *)realloc(p->statusMsg, (iLen + 2) * sizeof(wchar_t));
 			wcsncpy(p->statusMsg, dbv.ptszVal, iLen + 1);
@@ -205,8 +205,8 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 				cst.ptszName = xStatusName;
 				if (!CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst)) {
 					wchar_t *szwXstatusName = TranslateTS(xStatusName);
-					p->statusMsg = (wchar_t *)realloc(p->statusMsg, (mir_tstrlen(szwXstatusName) + 2) * sizeof(wchar_t));
-					wcsncpy(p->statusMsg, szwXstatusName, mir_tstrlen(szwXstatusName) + 1);
+					p->statusMsg = (wchar_t *)realloc(p->statusMsg, (mir_wstrlen(szwXstatusName) + 2) * sizeof(wchar_t));
+					wcsncpy(p->statusMsg, szwXstatusName, mir_wstrlen(szwXstatusName) + 1);
 					p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
 				}
 			}
@@ -215,7 +215,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 
 	if (p->bStatusMsgValid > STATUSMSG_XSTATUSNAME) {
 		int j = 0;
-		p->statusMsg = (wchar_t *)realloc(p->statusMsg, (mir_tstrlen(dbv.ptszVal) + 2) * sizeof(wchar_t));
+		p->statusMsg = (wchar_t *)realloc(p->statusMsg, (mir_wstrlen(dbv.ptszVal) + 2) * sizeof(wchar_t));
 		for (int i = 0; dbv.ptszVal[i]; i++) {
 			if (dbv.ptszVal[i] == (wchar_t)0x0d)
 				continue;
@@ -407,10 +407,10 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 	}
 	
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
-		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		if (tszGroup != NULL) {
 			wchar_t szGroupMask[256];
-			mir_sntprintf(szGroupMask, L"%s|", tszGroup);
+			mir_snwprintf(szGroupMask, L"%s|", tszGroup);
 			int bHasGroup = wcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0;
 			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | bHasGroup) : (filterResult & bHasGroup);
 		}

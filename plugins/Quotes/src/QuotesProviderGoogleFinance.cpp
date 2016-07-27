@@ -80,7 +80,7 @@ tstring get_var_value(const tstring& rsHTML, LPCTSTR pszVarName, size_t cVarName
 tstring get_company_id(const tstring& rsHTML)
 {
 	static LPCTSTR pszVarName = L"setCompanyId(";
-	static size_t cVarNameLength = mir_tstrlen(pszVarName);
+	static size_t cVarNameLength = mir_wstrlen(pszVarName);
 
 	tstring sResult;
 	tstring::size_type n = rsHTML.find(pszVarName);
@@ -100,7 +100,7 @@ tstring get_company_id(const tstring& rsHTML)
 tstring get_company_name(const tstring& rsHTML)
 {
 	static LPCTSTR pszVarName = L"var _companyName = ";
-	static size_t cVarNameLength = mir_tstrlen(pszVarName);
+	static size_t cVarNameLength = mir_wstrlen(pszVarName);
 
 	tstring s = get_var_value(rsHTML, pszVarName, cVarNameLength);
 	if (s.size() > 0 && '\'' == s[0])
@@ -151,7 +151,7 @@ bool get_inline_data(const IHTMLNode::THTMLNodePtr& pNode, CGoogleInfo& rInfo)
 			IHTMLNode::THTMLNodePtr pName = pChild->GetChildPtr(0);
 
 			tstring sName = pName->GetText();
-			if (0 == mir_tstrcmpi(sName.c_str(), L"Open")) {
+			if (0 == mir_wstrcmpi(sName.c_str(), L"Open")) {
 				IHTMLNode::THTMLNodePtr pValue = pChild->GetChildPtr(1);
 				tstring sValue = pValue->GetText();
 				if (true == get_double_value(sValue, rInfo.m_dOpenValue)) {

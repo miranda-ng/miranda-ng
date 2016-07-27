@@ -54,15 +54,15 @@ void MakeOptionDialogPage(lua_State *L, OPTIONSDIALOGPAGE &odp)
 		odp.flags |= ODPF_TCHAR;
 
 	lua_getfield(L, -1, "Group");
-	odp.pwszGroup = mir_utf8decodeT(lua_tostring(L, -1));
+	odp.pwszGroup = mir_utf8decodeW(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Title");
-	odp.pwszTitle = mir_utf8decodeT(luaL_checkstring(L, -1));
+	odp.pwszTitle = mir_utf8decodeW(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Tab");
-	odp.pwszTab = mir_utf8decodeT(lua_tostring(L, -1));
+	odp.pwszTab = mir_utf8decodeW(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	int onInitDialogRef = LUA_NOREF;

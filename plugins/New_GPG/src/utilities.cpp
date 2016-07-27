@@ -29,11 +29,11 @@ wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModu
 	DBVARIANT dbv = { DBVT_DELETED };
 	wchar_t* szRes = NULL;
 	if (db_get_ts(hContact, szModule, szSetting, &dbv))
-		return mir_tstrdup(szDef);
+		return mir_wstrdup(szDef);
 	else if (dbv.pszVal)
-		szRes = mir_tstrdup(dbv.ptszVal);
+		szRes = mir_wstrdup(dbv.ptszVal);
 	else
-		szRes = mir_tstrdup(szDef);
+		szRes = mir_wstrdup(szDef);
 
 	db_free(&dbv);
 	return szRes;
@@ -62,15 +62,15 @@ void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t
 	ofn.Flags = OFN_EXPLORER;
 	ofn.lpstrTitle = TranslateW(WindowTittle);
 	wcsncpy(filter, TranslateW(szExtDesc), _countof(filter) - 1);
-	pfilter = filter + mir_tstrlen(filter) + 1;
-	mir_tstrcpy(pfilter, szExt);
-	pfilter[mir_tstrlen(pfilter) + 1] = '\0';
-	pfilter[mir_tstrlen(pfilter) + 2] = '\0';
+	pfilter = filter + mir_wstrlen(filter) + 1;
+	mir_wstrcpy(pfilter, szExt);
+	pfilter[mir_wstrlen(pfilter) + 1] = '\0';
+	pfilter[mir_wstrlen(pfilter) + 2] = '\0';
 	ofn.lpstrFilter = filter;
 	tmp = UniGetContactSettingUtf(0, szGPGModuleName, szSetting, L"");
 	wcsncpy(str, tmp, _countof(str) - 1);
 	mir_free(tmp);
-	if (mir_tstrlen(str) < 2)
+	if (mir_wstrlen(str) < 2)
 		str[0] = '\0';
 	ofn.lpstrFile = str;
 	ofn.nMaxFile = _MAX_PATH;
@@ -88,14 +88,14 @@ wchar_t *GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, 
 	ofn.lStructSize = CDSIZEOF_STRUCT(OPENFILENAME, lpTemplateName);
 	ofn.Flags = OFN_EXPLORER;
 	ofn.lpstrTitle = TranslateW(WindowTittle);
-	mir_tstrcpy(filter, TranslateW(szExtDesc));
-	pfilter = filter + mir_tstrlen(filter) + 1;
-	mir_tstrcpy(pfilter, szExt);
-	pfilter[mir_tstrlen(pfilter) + 1] = '\0';
-	pfilter[mir_tstrlen(pfilter) + 2] = '\0';
+	mir_wstrcpy(filter, TranslateW(szExtDesc));
+	pfilter = filter + mir_wstrlen(filter) + 1;
+	mir_wstrcpy(pfilter, szExt);
+	pfilter[mir_wstrlen(pfilter) + 1] = '\0';
+	pfilter[mir_wstrlen(pfilter) + 2] = '\0';
 	ofn.lpstrFilter = filter;
-	mir_tstrcpy(str, L"");
-	if (mir_tstrlen(str) < 2)
+	mir_wstrcpy(str, L"");
+	if (mir_wstrlen(str) < 2)
 		str[0] = '\0';
 	ofn.lpstrFile = str;
 	ofn.nMaxFile = _MAX_PATH;
@@ -238,7 +238,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 			keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 		}
 		wchar_t buf[128] = { 0 };
-		mir_sntprintf(buf, L"%s: %s", TranslateT("Send public key"), toUTF16(keyid).c_str());
+		mir_snwprintf(buf, L"%s: %s", TranslateT("Send public key"), toUTF16(keyid).c_str());
 		mir_free(keyid);
 		Menu_ModifyItem(hSendKey, buf);
 	}
@@ -285,7 +285,7 @@ int onProtoAck(WPARAM, LPARAM l)
 					}
 					else {
 						if (f->szCurrentFile && f->szCurrentFile[0])
-							filename = mir_utf8decodeT(f->szCurrentFile);
+							filename = mir_utf8decodeW(f->szCurrentFile);
 						if (!filename)
 							return 0;
 					}
@@ -309,7 +309,7 @@ int onProtoAck(WPARAM, LPARAM l)
 						cmd.push_back(L"-o");
 						wstring file = filename;
 						wstring::size_type p1 = file.rfind(L".gpg");
-						file.erase(p1, mir_tstrlen(L".gpg"));
+						file.erase(p1, mir_wstrlen(L".gpg"));
 						if (boost::filesystem::exists(file)) {
 							if (MessageBox(0, TranslateT("Target file exists, do you want to replace it?"), TranslateT("Warning"), MB_YESNO) == IDNO)
 								return 0;
@@ -325,15 +325,15 @@ int onProtoAck(WPARAM, LPARAM l)
 								dbsetting += keyid;
 								dbsetting += "_Password";
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
-								if (mir_tstrlen(pass) > 0 && bDebugLog)
+								if (mir_wstrlen(pass) > 0 && bDebugLog)
 									debuglog << std::string(time_str() + ": info: found password in database for key ID: " + keyid + ", trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
 							}
 							else {
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
-								if (mir_tstrlen(pass) > 0 && bDebugLog)
+								if (mir_wstrlen(pass) > 0 && bDebugLog)
 									debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
 							}
-							if (mir_tstrlen(pass) > 0) {
+							if (mir_wstrlen(pass) > 0) {
 								cmd.push_back(L"--passphrase");
 								cmd.push_back(pass);
 							}
@@ -432,14 +432,14 @@ std::wstring encrypt_file(MCONTACT hContact, wchar_t *filename)
 	cmd.push_back(L"--tes");
 	cmd.push_back(L"-r");
 	char *keyid = UniGetContactSettingUtf(hcnt, szGPGModuleName, "KeyID", "");
-	wchar_t *szKeyid = mir_a2t(keyid);
+	wchar_t *szKeyid = mir_a2u(keyid);
 	wchar_t *name = wcsrchr(filename, '\\');
 	if (!name)
 		name = filename;
 	else
 		name++;
-	wchar_t *file_out = new wchar_t[mir_tstrlen(name) + mir_tstrlen(L".gpg") + 1];
-	mir_sntprintf(file_out, mir_tstrlen(name) + mir_tstrlen(L".gpg") + 1, L"%s.gpg", name);
+	wchar_t *file_out = new wchar_t[mir_wstrlen(name) + mir_wstrlen(L".gpg") + 1];
+	mir_snwprintf(file_out, mir_wstrlen(name) + mir_wstrlen(L".gpg") + 1, L"%s.gpg", name);
 	cmd.push_back(szKeyid);
 	if (db_get_b(hcnt, szGPGModuleName, "bAlwaysTrust", 0)) {
 		cmd.push_back(L"--trust-model");
@@ -542,7 +542,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 					continue;
 				std::wstring path_out = encrypt_file(ccs->hContact, file[i]);
 				mir_free(file[i]);
-				file[i] = mir_tstrdup(path_out.c_str());
+				file[i] = mir_wstrdup(path_out.c_str());
 				transfers.push_back(path_out);
 			}
 		}
@@ -553,7 +553,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 					return 0; //we do not want to send file unencrypted (sometimes ack have wrong info)
 				if (strstr(file[i], ".gpg"))
 					continue;
-				wchar_t *tmp = mir_utf8decodeT(file[i]);
+				wchar_t *tmp = mir_utf8decodeW(file[i]);
 				std::wstring path_out = encrypt_file(ccs->hContact, tmp);
 				mir_free(tmp);
 				char* tmp2 = mir_utf8encodeW(path_out.c_str());
@@ -618,11 +618,11 @@ int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, 
 		if (JIftmp) {
 			(*p)->setJabberInterface(JIftmp);
 			if (accounts[i]->tszAccountName) {
-				wchar_t* tmp = mir_tstrdup(accounts[i]->tszAccountName);
+				wchar_t* tmp = mir_wstrdup(accounts[i]->tszAccountName);
 				(*p)->setAccountName(tmp);
 			}
 			else {
-				wchar_t *tmp = mir_a2t(accounts[i]->szModuleName);
+				wchar_t *tmp = mir_a2u(accounts[i]->szModuleName);
 				(*p)->setAccountName(tmp);
 			}
 			(*p)->setAccountNumber(a);
@@ -657,7 +657,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 		if (wcsstr(str, L"-----BEGIN PGP MESSAGE-----") && wcsstr(str, L"-----END PGP MESSAGE-----")) {
 			wstring data = str;
 			xmlSetText(local_node, L"This message is encrypted.");
-			wstring::size_type p1 = data.find(L"-----BEGIN PGP MESSAGE-----") + mir_tstrlen(L"-----BEGIN PGP MESSAGE-----");
+			wstring::size_type p1 = data.find(L"-----BEGIN PGP MESSAGE-----") + mir_wstrlen(L"-----BEGIN PGP MESSAGE-----");
 			while (data.find(L"Version: ", p1) != wstring::npos) {
 				p1 = data.find(L"Version: ", p1);
 				p1 = data.find(L"\n", p1);
@@ -713,7 +713,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 					inkeyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 				}
 
-				ptrT pass;
+				ptrW pass;
 				if (inkeyid[0]) {
 					string dbsetting = "szKey_";
 					dbsetting += inkeyid;
@@ -778,7 +778,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 				break;
 			}
 			if (data.find(L"-----BEGIN PGP SIGNATURE-----") != wstring::npos && data.find(L"-----END PGP SIGNATURE-----") != wstring::npos) {
-				wstring::size_type p1 = data.find(L"-----BEGIN PGP SIGNATURE-----") + mir_tstrlen(L"-----BEGIN PGP SIGNATURE-----");
+				wstring::size_type p1 = data.find(L"-----BEGIN PGP SIGNATURE-----") + mir_wstrlen(L"-----BEGIN PGP SIGNATURE-----");
 				if (data.find(L"Version: ", p1) != wstring::npos) {
 					p1 = data.find(L"Version: ", p1);
 					p1 = data.find(L"\n", p1);
@@ -978,7 +978,7 @@ bool isContactSecured(MCONTACT hContact)
 bool isContactHaveKey(MCONTACT hContact)
 {
 	wchar_t *key = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", L"");
-	if (mir_tstrlen(key) > 0) {
+	if (mir_wstrlen(key) > 0) {
 		mir_free(key);
 		return true;
 	}
@@ -1015,21 +1015,21 @@ bool isGPGValid()
 		wchar_t *mir_path = (wchar_t*)mir_alloc(MAX_PATH * sizeof(wchar_t));
 		PathToAbsoluteW(L"\\", mir_path);
 		SetCurrentDirectoryW(mir_path);
-		tmp = mir_tstrdup(mir_path);
+		tmp = mir_wstrdup(mir_path);
 		mir_free(mir_path);
-		//mir_realloc(path, (mir_tstrlen(path)+64)*sizeof(wchar_t));
+		//mir_realloc(path, (mir_wstrlen(path)+64)*sizeof(wchar_t));
 		wchar_t *gpg_path = (wchar_t*)mir_alloc(sizeof(wchar_t)*MAX_PATH);
-		mir_tstrcpy(gpg_path, tmp);
-		mir_tstrcat(gpg_path, L"\\GnuPG\\gpg.exe");
+		mir_wstrcpy(gpg_path, tmp);
+		mir_wstrcat(gpg_path, L"\\GnuPG\\gpg.exe");
 		mir_free(tmp);
 		tmp = NULL;
 		p = boost::filesystem::path(gpg_path);
 		if (boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p)) {
 			gpg_exists = true;
-			mir_tstrcpy(path, L"GnuPG\\gpg.exe");
+			mir_wstrcpy(path, L"GnuPG\\gpg.exe");
 		}
 		mir_free(gpg_path);
-		tmp = mir_tstrdup(path);
+		tmp = mir_wstrdup(path);
 		mir_free(path);
 	}
 
@@ -1254,7 +1254,7 @@ void ExportGpGKeysFunc(int type)
 		//TODO: handle error
 		return;
 	}
-	char *path = mir_t2a(p);
+	char *path = mir_u2a(p);
 	delete[] p;
 	std::ofstream file;
 	file.open(path, std::ios::trunc | std::ios::out);
@@ -1414,11 +1414,11 @@ void ExportGpGKeysFunc(int type)
 		file.close();
 	wchar_t msg[512];
 	if (type == 2)
-		mir_sntprintf(msg, TranslateT("We have successfully exported %d public keys and all private keys."), exported_keys);
+		mir_snwprintf(msg, TranslateT("We have successfully exported %d public keys and all private keys."), exported_keys);
 	else if (type == 1)
-		mir_sntprintf(msg, TranslateT("We have successfully exported all private keys."));
+		mir_snwprintf(msg, TranslateT("We have successfully exported all private keys."));
 	else if (!type)
-		mir_sntprintf(msg, TranslateT("We have successfully exported %d public keys."), exported_keys);
+		mir_snwprintf(msg, TranslateT("We have successfully exported %d public keys."), exported_keys);
 	MessageBox(NULL, msg, TranslateT("Keys export result"), MB_OK);
 }
 
@@ -1438,7 +1438,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 	}
 	std::ifstream file;
 	{
-		ptrA szPath(mir_t2a(p));
+		ptrA szPath(mir_u2a(p));
 		delete[] p;
 
 		file.open(szPath, std::ios::in);
@@ -1724,8 +1724,8 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 				ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 				wcsncpy(tmp2, ptmp, MAX_PATH - 1);
 				mir_free(ptmp);
-				mir_tstrncat(tmp2, L"\\", _countof(tmp2) - mir_tstrlen(tmp2));
-				mir_tstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_tstrlen(tmp2));
+				mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
+				mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
 				boost::filesystem::remove(tmp2);
 				wfstream f(tmp2, std::ios::out);
 				f << toUTF16(key).c_str();
@@ -1752,9 +1752,9 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 		file.close();
 	wchar_t msg[512];
 	if (processed_private_keys)
-		mir_sntprintf(msg, TranslateT("We have successfully processed %d public keys and some private keys."), processed_keys);
+		mir_snwprintf(msg, TranslateT("We have successfully processed %d public keys and some private keys."), processed_keys);
 	else
-		mir_sntprintf(msg, TranslateT("We have successfully processed %d public keys."), processed_keys);
+		mir_snwprintf(msg, TranslateT("We have successfully processed %d public keys."), processed_keys);
 	MessageBox(NULL, msg, TranslateT("Keys import result"), MB_OK);
 	return 0;
 }
@@ -1910,7 +1910,7 @@ static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wPara
 				old_pass = toUTF8(buf);
 				bool old_pass_match = false;
 				wchar_t *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
-				if (!mir_tstrcmp(pass, buf))
+				if (!mir_wstrcmp(pass, buf))
 					old_pass_match = true;
 				mir_free(pass);
 				
@@ -1920,7 +1920,7 @@ static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wPara
 						dbsetting += toUTF8(key_id_global);
 						dbsetting += "_Password";
 						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
-						if (!mir_tstrcmp(pass, buf))
+						if (!mir_wstrcmp(pass, buf))
 							old_pass_match = true;
 						mir_free(pass);
 					}

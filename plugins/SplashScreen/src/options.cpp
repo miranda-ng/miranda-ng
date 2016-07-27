@@ -69,27 +69,27 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				wchar_t inBuf[80];
 				DBVARIANT dbv = { 0 };
 				if (!db_get_ts(NULL, MODNAME, "Path", &dbv)) {
-					mir_tstrcpy(inBuf, dbv.ptszVal);
+					mir_wstrcpy(inBuf, dbv.ptszVal);
 					db_free(&dbv);
 				}
 				else
-					mir_tstrcpy(inBuf, L"splash\\splash.png");
+					mir_wstrcpy(inBuf, L"splash\\splash.png");
 				SetDlgItemText(hwndDlg, IDC_SPLASHPATH, inBuf);
 
 				if (!db_get_ts(NULL, MODNAME, "Sound", &dbv)) {
-					mir_tstrcpy(inBuf, dbv.ptszVal);
+					mir_wstrcpy(inBuf, dbv.ptszVal);
 					db_free(&dbv);
 				}
 				else
-					mir_tstrcpy(inBuf, L"sounds\\startup.wav");
+					mir_wstrcpy(inBuf, L"sounds\\startup.wav");
 				SetDlgItemText(hwndDlg, IDC_SNDPATH, inBuf);
 
 				if (!db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv)) {
-					mir_tstrcpy(inBuf, dbv.ptszVal);
+					mir_wstrcpy(inBuf, dbv.ptszVal);
 					db_free(&dbv);
 				}
 				else
-					mir_tstrcpy(inBuf, L"");
+					mir_wstrcpy(inBuf, L"");
 				SetDlgItemText(hwndDlg, IDC_VERSIONPREFIX, inBuf);
 
 				if (options.active)
@@ -169,19 +169,19 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					wchar_t szTempPath[MAX_PATH], initDir[MAX_PATH];
 
 					if (Exists(szSplashFile)) {
-						mir_tstrcpy(initDir, szSplashFile);
+						mir_wstrcpy(initDir, szSplashFile);
 						wchar_t *pos = wcsrchr(initDir, '\\');
 						if (pos != NULL)
 							*pos = 0;
 					}
 					else {
 						szMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
-						mir_tstrcpy(initDir, szMirDir);
+						mir_wstrcpy(initDir, szMirDir);
 						mir_free(szMirDir);
 					}
 
 					wchar_t tmp[MAX_PATH];
-					mir_sntprintf(tmp, L"%s (*.png, *.bmp)%c*.png;*.bmp%c%c", TranslateT("Graphic files"), 0, 0, 0);
+					mir_snwprintf(tmp, L"%s (*.png, *.bmp)%c*.png;*.bmp%c%c", TranslateT("Graphic files"), 0, 0, 0);
 
 					OPENFILENAME ofn = { 0 };
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -195,19 +195,19 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					ofn.lpstrDefExt = L"";
 
 					if (GetOpenFileName(&ofn)) {
-						mir_tstrcpy(szSplashFile, szTempPath);
+						mir_wstrcpy(szSplashFile, szTempPath);
 
 						#ifdef _DEBUG
 						logMessage(L"Set path", szSplashFile);
 						#endif
 						// Make path relative
 						int result = PathToRelativeT(szTempPath, szPath2Spash);
-						if (result && mir_tstrlen(szPath2Spash) > 0) {
+						if (result && mir_wstrlen(szPath2Spash) > 0) {
 							if (options.random) {
 								wchar_t *pos = wcsrchr(szPath2Spash, '\\');
 								if (pos != NULL) {
 									*pos = 0;
-									mir_tstrcat(szPath2Spash, L"\\");
+									mir_wstrcat(szPath2Spash, L"\\");
 								}
 							}
 
@@ -226,20 +226,20 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					wchar_t *pos;
 
 					if (Exists(szSoundFile)) {
-						mir_tstrcpy(initDir, szSoundFile);
+						mir_wstrcpy(initDir, szSoundFile);
 						pos = wcsrchr(initDir, '\\');
 						if (pos != NULL) *pos = 0;
 					}
 					else {
 						szMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
-						mir_tstrcpy(initDir, szMirDir);
+						mir_wstrcpy(initDir, szMirDir);
 						mir_free(szMirDir);
 					}
 
 					OPENFILENAME ofn = { 0 };
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					wchar_t tmp[MAX_PATH];
-					mir_sntprintf(tmp, L"%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c", TranslateT("Sound Files"), 0, 0, 0);
+					mir_snwprintf(tmp, L"%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c", TranslateT("Sound Files"), 0, 0, 0);
 					ofn.lpstrFilter = tmp;
 					ofn.hwndOwner = 0;
 					ofn.lpstrFile = szTempPath;
@@ -251,7 +251,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					ofn.lpstrDefExt = L"";
 
 					if (GetOpenFileName(&ofn)) {
-						mir_tstrcpy(szSoundFile, szTempPath);
+						mir_wstrcpy(szSoundFile, szTempPath);
 
 						#ifdef _DEBUG
 						logMessage(L"Set sound path", szSoundFile);
@@ -259,7 +259,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						// Make path relative
 						int result = PathToRelativeT(szTempPath, szSoundFilePath);
-						if (result && mir_tstrlen(szSoundFile) > 0)
+						if (result && mir_wstrlen(szSoundFile) > 0)
 							SetDlgItemText(hwndDlg, IDC_SNDPATH, szSoundFilePath);
 
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -295,7 +295,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						GetDlgItemText(hwndDlg, IDC_VERSIONPREFIX, tmp, _countof(tmp));
 						db_set_ts(NULL, MODNAME, "VersionPrefix", tmp);
-						mir_tstrcpy(szPrefix, tmp);
+						mir_wstrcpy(szPrefix, tmp);
 
 						GetDlgItemText(hwndDlg, IDC_SHOWTIME, tmp, _countof(tmp));
 						db_set_dw(NULL, MODNAME, "TimeToShow", _wtoi(tmp));

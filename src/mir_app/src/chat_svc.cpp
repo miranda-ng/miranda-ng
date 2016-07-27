@@ -168,7 +168,7 @@ static INT_PTR Service_Register(WPARAM, LPARAM lParam)
 	if (mi == NULL)
 		return GC_REGISTER_ERROR;
 
-	mi->ptszModDispName = mir_tstrdup(gcr->ptszDispName);
+	mi->ptszModDispName = mir_wstrdup(gcr->ptszDispName);
 	mi->bBold = (gcr->dwFlags & GC_BOLD) != 0;
 	mi->bUnderline = (gcr->dwFlags & GC_UNDERLINE) != 0;
 	mi->bItalics = (gcr->dwFlags & GC_ITALICS) != 0;
@@ -231,8 +231,8 @@ static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 		si->wStatus = ID_STATUS_ONLINE;
 	si->iType = gcw->iType;
 	si->dwFlags = gcw->dwFlags;
-	si->ptszName = mir_tstrdup(gcw->ptszName);
-	si->ptszStatusbarText = mir_tstrdup(gcw->ptszStatusbarText);
+	si->ptszName = mir_wstrdup(gcw->ptszName);
+	si->ptszStatusbarText = mir_wstrdup(gcw->ptszStatusbarText);
 	si->iSplitterX = g_Settings->iSplitterX;
 	si->iSplitterY = g_Settings->iSplitterY;
 	si->iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
@@ -250,7 +250,7 @@ static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 
 	wchar_t szTemp[256];
 	if (si->iType == GCW_SERVER)
-		mir_sntprintf(szTemp, L"Server: %s", si->ptszName);
+		mir_snwprintf(szTemp, L"Server: %s", si->ptszName);
 	else
 		wcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
 	si->hContact = chatApi.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
@@ -334,7 +334,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 
 	else if (gce->pDest->iType == GC_EVENT_CHANGESESSIONAME && gce->ptszText) {
 		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-			replaceStrT(si->ptszName, gce->ptszText);
+			replaceStrW(si->ptszName, gce->ptszText);
 			if (si->hWnd)
 				SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
 			if (chatApi.OnRenameSession)
@@ -356,7 +356,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 	}
 	else if (gce->pDest->iType == GC_EVENT_SETSBTEXT) {
 		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-			replaceStrT(si->ptszStatusbarText, gce->ptszText);
+			replaceStrW(si->ptszStatusbarText, gce->ptszText);
 			if (si->ptszStatusbarText)
 				db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
@@ -389,7 +389,7 @@ static void AddUser(GCEVENT *gce)
 	USERINFO *ui = chatApi.SM_AddUser(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszNick, status);
 	if (ui == NULL) return;
 
-	ui->pszNick = mir_tstrdup(gce->ptszNick);
+	ui->pszNick = mir_wstrdup(gce->ptszNick);
 	if (gce->bIsMe)
 		si->pMe = ui;
 	ui->Status = status;
@@ -450,7 +450,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	case GC_EVENT_TOPIC:
 		if (SESSION_INFO *si = chatApi.SM_FindSession(gcd->ptszID, gcd->pszModule)) {
 			if (gce->ptszText) {
-				replaceStrT(si->ptszTopic, RemoveFormatting(gce->ptszText));
+				replaceStrW(si->ptszTopic, RemoveFormatting(gce->ptszText));
 				db_set_ts(si->hContact, si->pszModule, "Topic", si->ptszTopic);
 				if (chatApi.OnSetTopic)
 					chatApi.OnSetTopic(si);

@@ -133,7 +133,7 @@ static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM
 BOOL checkFilter(struct CONNECTION *head, struct CONNECTION *conn)
 {
 	for (struct CONNECTION *cur = head; cur != NULL; cur = cur->next)
-		if (wildcmpt(conn->PName, cur->PName) && wildcmpt(conn->strIntIp, cur->strIntIp) && wildcmpt(conn->strExtIp, cur->strExtIp)
+		if (wildcmpw(conn->PName, cur->PName) && wildcmpw(conn->strIntIp, cur->strIntIp) && wildcmpw(conn->strExtIp, cur->strExtIp)
 			&& (cur->intIntPort == -1 || cur->intIntPort == conn->intIntPort) && (cur->intExtPort == -1 || cur->intExtPort == conn->intExtPort))
 			return cur->Pid;
 

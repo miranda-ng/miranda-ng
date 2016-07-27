@@ -117,9 +117,9 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 		if (res == 0)
 			break;
 
-		bufSize = textlenght + mir_tstrlen(pszMenu[res - 1]) + 2;
+		bufSize = textlenght + mir_wstrlen(pszMenu[res - 1]) + 2;
 		pszFormatedText = (wchar_t*)_alloca(bufSize*sizeof(wchar_t));
-		mir_sntprintf(pszFormatedText, bufSize, pszMenu[res - 1], pszText);
+		mir_snwprintf(pszFormatedText, bufSize, pszMenu[res - 1], pszText);
 	}
 	break;
 
@@ -128,7 +128,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 
 		bufSize = textlenght + 12;
 		pszFormatedText = (wchar_t*)_alloca(bufSize*sizeof(wchar_t));
-		mir_sntprintf(pszFormatedText, bufSize, L"[img]%s[/img]", pszText);
+		mir_snwprintf(pszFormatedText, bufSize, L"[img]%s[/img]", pszText);
 
 		bbd.ptszTooltip = 0;
 		bbd.hIcon = 0;

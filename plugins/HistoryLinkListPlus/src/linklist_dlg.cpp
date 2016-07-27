@@ -76,7 +76,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		SetClassLongPtr(hDlg, GCLP_HICON, (LONG_PTR)LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON))); 
 		WindowList_Add(hWindowList, hDlg, DlgParam->hContact);
-		mir_sntprintf(title, L"%s [%s]", TranslateT("Linklist plugin"), pcli->pfnGetContactDisplayName(DlgParam->hContact, 0));
+		mir_snwprintf(title, L"%s [%s]", TranslateT("Linklist plugin"), pcli->pfnGetContactDisplayName(DlgParam->hContact, 0));
 		SetWindowText(hDlg, title);
 		GetFilterText(listMenu, filter, _countof(filter));
 		SetDlgItemText(hDlg, IDC_STATUS, filter);
@@ -170,7 +170,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 				EmptyClipboard();
 
-				size_t dataLen = ((mir_tstrlen(link) + 1) * sizeof(wchar_t));
+				size_t dataLen = ((mir_wstrlen(link) + 1) * sizeof(wchar_t));
 				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, dataLen);
 				memcpy((LPTSTR)GlobalLock(hData), link, dataLen);
 				GlobalUnlock(hData);
@@ -399,7 +399,7 @@ INT_PTR CALLBACK SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				WriteLinkList(hListDlg, flags, DlgParam->listStart, buffer, 0);
 				mir_free(buffer);
 			}		
-			mir_sntprintf(filter, L"%s: %s", TXT_FILTER, TXT_SEARCHFILTER);
+			mir_snwprintf(filter, L"%s: %s", TXT_FILTER, TXT_SEARCHFILTER);
 			SetDlgItemText(hWndMain, IDC_STATUS, filter);
 			} break;
 		}

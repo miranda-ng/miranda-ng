@@ -58,9 +58,9 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM lParam)
 
 	if (wParam) {
 		VARST profilename(L"%miranda_profilename%");
-		mir_sntprintf(cmdLine, L"\"%s\" /restart:%d /profile=%s", mirandaPath, GetCurrentProcessId(), (wchar_t*)profilename);
+		mir_snwprintf(cmdLine, L"\"%s\" /restart:%d /profile=%s", mirandaPath, GetCurrentProcessId(), (wchar_t*)profilename);
 	}
-	else mir_sntprintf(cmdLine, L"\"%s\" /restart:%d", mirandaPath, GetCurrentProcessId());
+	else mir_snwprintf(cmdLine, L"\"%s\" /restart:%d", mirandaPath, GetCurrentProcessId());
 
 	CallService("CloseAction", 0, 0);
 

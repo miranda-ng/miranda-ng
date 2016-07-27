@@ -119,8 +119,8 @@ void ShowWumfPopup(PWumf w)
 	wchar_t text[512], title[512];
 
 	if (!WumfOptions.AlertFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
-	mir_sntprintf(title, L"%s (%s)", w->szComp, w->szUser);
-	mir_sntprintf(text, L"%s (%s)", w->szPath, w->szPerm);
+	mir_snwprintf(title, L"%s (%s)", w->szComp, w->szUser);
+	mir_snwprintf(text, L"%s (%s)", w->szPath, w->szPerm);
 	ShowThePopup(w, title, text);
 }
 
@@ -137,8 +137,8 @@ void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 	else if (WumfOptions.DelaySet)
 		ppd.iSeconds = WumfOptions.DelaySec;
 
-	mir_tstrncpy(ppd.lptzContactName, title, MAX_CONTACTNAME);
-	mir_tstrncpy(ppd.lptzText, text, MAX_SECONDLINE);
+	mir_wstrncpy(ppd.lptzContactName, title, MAX_CONTACTNAME);
+	mir_wstrncpy(ppd.lptzText, text, MAX_SECONDLINE);
 	if (WumfOptions.UseWinColor) {
 		ppd.colorBack = GetSysColor(COLOR_WINDOW);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -268,13 +268,13 @@ void ChooseFile(HWND hwndDlg)
 		HANDLE hf = CreateFile(szFile,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hf != INVALID_HANDLE_VALUE) {
 			SetDlgItemText(hwndDlg,IDC_FILE,szFile);
-			mir_tstrncpy(WumfOptions.LogFile, szFile, MAX_PATH);
+			mir_wstrncpy(WumfOptions.LogFile, szFile, MAX_PATH);
 			CloseHandle(hf);
 		}
 	}
 	else if (CommDlgExtendedError() != 0) {
 		wchar_t str[256];
-		mir_sntprintf(str, TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
+		mir_snwprintf(str, TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
 		MessageBox(hwndDlg, str, TranslateT("Error"), MB_OK | MB_ICONSTOP);
 	}
 }

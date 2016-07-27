@@ -194,9 +194,9 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			{
 				options[i].szSettingName = (char*)mir_alloc(1 + mir_strlen(ProtoList[j].name));
 				mir_strcpy(options[i].szSettingName, ProtoList[j].name);
-				size_t l = 20 + mir_tstrlen(ProtoList[j].tszAccountName);
+				size_t l = 20 + mir_wstrlen(ProtoList[j].tszAccountName);
 				options[i].szOptionName = (wchar_t*)mir_alloc(sizeof(wchar_t) * l);
-				mir_sntprintf(options[i].szOptionName, l, L"Visible accounts/%s", ProtoList[j].tszAccountName);
+				mir_snwprintf(options[i].szOptionName, l, L"Visible accounts/%s", ProtoList[j].tszAccountName);
 				options[i].dwFlag = (ProtoList[j++].Enabled ? 1 : OPTTREE_INVISIBLE) | OPTTREE_NOTRANSLATE;
 			}
 		Initialized = 1;

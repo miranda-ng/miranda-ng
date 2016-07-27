@@ -102,7 +102,7 @@ GGGC* GGPROTO::gc_lookup(const wchar_t *id)
 	for(l = chats; l; l = l->next)
 	{
 		chat = (GGGC *)l->data;
-		if (chat && !mir_tstrcmp(chat->id, id))
+		if (chat && !mir_wstrcmp(chat->id, id))
 			return chat;
 	}
 
@@ -138,7 +138,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 			MCONTACT hNext = db_find_next(hContact);
 			DBVARIANT dbv;
 			if (!getTString(hContact, "ChatRoomID", &dbv)) {
-				if (dbv.ptszVal && !mir_tstrcmp(gch->pDest->ptszID, dbv.ptszVal))
+				if (dbv.ptszVal && !mir_wstrcmp(gch->pDest->ptszID, dbv.ptszVal))
 					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 				db_free(&dbv);
 			}
@@ -159,14 +159,14 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 		gce.ptszText = gch->ptszText;
 		wchar_t* nickT;
 		if (!getTString(GG_KEY_NICK, &dbv)){
-			nickT = mir_tstrdup(dbv.ptszVal);
+			nickT = mir_wstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
-		else nickT = mir_tstrdup(TranslateT("Me"));
+		else nickT = mir_wstrdup(TranslateT("Me"));
 		gce.ptszNick = nickT;
 
 		// Get rid of CRLF at back
-		int lc = (int)mir_tstrlen(gch->ptszText) - 1;
+		int lc = (int)mir_wstrlen(gch->ptszText) - 1;
 		while(lc >= 0 && (gch->ptszText[lc] == '\n' || gch->ptszText[lc] == '\r'))
 			gch->ptszText[lc --] = 0;
 
@@ -282,7 +282,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 			wchar_t *senderName = unknownSender ?
 				TranslateT("Unknown") : pcli->pfnGetContactDisplayName(getcontact(sender, 0, 0, NULL), 0);
 			wchar_t error[256];
-			mir_sntprintf(error, TranslateT("%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?"),
+			mir_snwprintf(error, TranslateT("%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?"),
 				senderName, recipients_count + 1, unknown);
 			chat->ignore = MessageBox(NULL, error, m_tszUserName, MB_OKCANCEL | MB_ICONEXCLAMATION) != IDOK;
 		}
@@ -307,12 +307,12 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	if (sender)
 	{
 		senderName = pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, NULL), 0);
-		mir_sntprintf(status, TranslateT("%s initiated the conference.") , senderName);
+		mir_snwprintf(status, TranslateT("%s initiated the conference.") , senderName);
 	}
 	else
 	{
 		senderName = NULL;
-		mir_sntprintf(status, TranslateT("This is my own conference."));
+		mir_snwprintf(status, TranslateT("This is my own conference."));
 	}
 
 	GCSESSION gcwindow = { sizeof(gcwindow) };
@@ -324,8 +324,8 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	gcwindow.ptszStatusbarText = status;
 
 	// Here we put nice new hash sign
-	wchar_t *name = (wchar_t*)calloc(mir_tstrlen(gcwindow.ptszName) + 2, sizeof(wchar_t));
-	*name = '#'; mir_tstrcpy(name + 1, gcwindow.ptszName);
+	wchar_t *name = (wchar_t*)calloc(mir_wstrlen(gcwindow.ptszName) + 2, sizeof(wchar_t));
+	*name = '#'; mir_wstrcpy(name + 1, gcwindow.ptszName);
 	gcwindow.ptszName = name;
 
 	// Create new room
@@ -354,10 +354,10 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 
 		wchar_t* nickT;
 		if (!getTString(GG_KEY_NICK, &dbv)) {
-			nickT = mir_tstrdup(dbv.ptszVal);
+			nickT = mir_wstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		} else {
-			nickT = mir_tstrdup(TranslateT("Me"));
+			nickT = mir_wstrdup(TranslateT("Me"));
 		}
 		gce.ptszNick = nickT;
 

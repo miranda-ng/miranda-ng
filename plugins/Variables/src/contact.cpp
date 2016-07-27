@@ -96,11 +96,11 @@ static mir_cs csContactCache;
 // converts a string into a CNF_ type
 BYTE getContactInfoType(wchar_t* type)
 {
-	if (type == NULL || mir_tstrlen(type) == 0)
+	if (type == NULL || mir_wstrlen(type) == 0)
 		return 0;
 
 	for (int i = 0; i < _countof(builtinCnfs); i++)
-		if (!mir_tstrcmp(builtinCnfs[i].str, type))
+		if (!mir_wstrcmp(builtinCnfs[i].str, type))
 			return builtinCnfs[i].cnfCode;
 
 	return 0;
@@ -120,22 +120,22 @@ wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 	wchar_t *res = NULL;
 	switch (type) {
 	case CCNF_PROTOID:
-		return mir_a2t(szProto);
+		return mir_a2u(szProto);
 
 	case CCNF_ACCOUNT:
 		{
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-			return pa ? mir_tstrdup(pa->tszAccountName) : NULL;
+			return pa ? mir_wstrdup(pa->tszAccountName) : NULL;
 		}
 
 	case CCNF_PROTOCOL:
 		char protoname[128];
 		if (CallProtoService(szProto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname))
 			return NULL;
-		return mir_a2t(protoname);
+		return mir_a2u(protoname);
 
 	case CCNF_STATUS:
-		return mir_tstrdup(pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0));
+		return mir_wstrdup(pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0));
 
 	case CCNF_INTERNALIP:
 	case CCNF_EXTERNALIP:
@@ -144,7 +144,7 @@ wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 			if (ip != 0) {
 				struct in_addr in;
 				in.s_addr = htonl(ip);
-				return mir_a2t(inet_ntoa(in));
+				return mir_a2u(inet_ntoa(in));
 			}
 		}
 		return NULL;
@@ -208,7 +208,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 
 		// <proto:id> (exact)
 		if ((dwFlags & CI_PROTOID) && !bMatch) {
-			ptrT cInfo(getContactInfoT(CNF_UNIQUEID, hContact));
+			ptrW cInfo(getContactInfoT(CNF_UNIQUEID, hContact));
 			if (cInfo) {
 				tmp.Format(L"<%S:%s>", szProto, cInfo);
 				if (tmp == tszContact)
@@ -218,50 +218,50 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 
 		// id (exact)
 		if ((dwFlags & CI_UNIQUEID) && !bMatch) {
-			ptrT szFind(getContactInfoT(CNF_UNIQUEID, hContact));
-			if (!mir_tstrcmp(tszContact, szFind))
+			ptrW szFind(getContactInfoT(CNF_UNIQUEID, hContact));
+			if (!mir_wstrcmp(tszContact, szFind))
 				bMatch = true;
 		}
 		
 		// nick (not exact)
 		if ((dwFlags & CI_NICK) && !bMatch) {
-			ptrT szFind(getContactInfoT(CNF_NICK, hContact));
-			if (!mir_tstrcmp(tszContact, szFind))
+			ptrW szFind(getContactInfoT(CNF_NICK, hContact));
+			if (!mir_wstrcmp(tszContact, szFind))
 				bMatch = true;
 		}
 
 		// list name (not exact)
 		if ((dwFlags & CI_LISTNAME) && !bMatch) {
-			ptrT szFind(getContactInfoT(CNF_DISPLAY, hContact));
-			if (!mir_tstrcmp(tszContact, szFind))
+			ptrW szFind(getContactInfoT(CNF_DISPLAY, hContact));
+			if (!mir_wstrcmp(tszContact, szFind))
 				bMatch = true;
 		}
 
 		// firstname (exact)
 		if ((dwFlags & CI_FIRSTNAME) && !bMatch) {
-			ptrT szFind(getContactInfoT(CNF_FIRSTNAME, hContact));
-			if (!mir_tstrcmp(tszContact, szFind))
+			ptrW szFind(getContactInfoT(CNF_FIRSTNAME, hContact));
+			if (!mir_wstrcmp(tszContact, szFind))
 				bMatch = true;
 		}
 		
 		// lastname (exact)
 		if ((dwFlags & CI_LASTNAME) && !bMatch) {
-			ptrT szFind(getContactInfoT(CNF_LASTNAME, hContact));
-			if (!mir_tstrcmp(tszContact, szFind))
+			ptrW szFind(getContactInfoT(CNF_LASTNAME, hContact));
+			if (!mir_wstrcmp(tszContact, szFind))
 				bMatch = true;
 		}
 
 		// email (exact)
 		if ((dwFlags & CI_EMAIL) && !bMatch) {
-			ptrT szFind(getContactInfoT(CNF_EMAIL, hContact));
-			if (!mir_tstrcmp(tszContact, szFind))
+			ptrW szFind(getContactInfoT(CNF_EMAIL, hContact));
+			if (!mir_wstrcmp(tszContact, szFind))
 				bMatch = true;
 		}
 
 		// CNF_ (exact)
 		if ((dwFlags & CI_CNFINFO) && !bMatch) {
-			ptrT szFind(getContactInfoT((BYTE)(dwFlags & ~CI_CNFINFO), hContact));
-			if (!mir_tstrcmp(tszContact, szFind))
+			ptrW szFind(getContactInfoT((BYTE)(dwFlags & ~CI_CNFINFO), hContact));
+			if (!mir_wstrcmp(tszContact, szFind))
 				bMatch = true;
 		}
 
@@ -291,7 +291,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 		CONTACTCE *cce = new CONTACTCE();
 		cce->hContact = hContact;
 		cce->flags = dwFlags;
-		cce->tszContact = mir_tstrdup(tszContact);
+		cce->tszContact = mir_wstrdup(tszContact);
 		arContactCache.insert(cce);
 	}
 
@@ -365,9 +365,9 @@ wchar_t* encodeContactToString(MCONTACT hContact)
 	if (tszUniqueId == NULL)
 		return NULL;
 
-	size_t size = mir_tstrlen(tszUniqueId) + mir_strlen(szProto) + 4;
+	size_t size = mir_wstrlen(tszUniqueId) + mir_strlen(szProto) + 4;
 	wchar_t *tszResult = (wchar_t *)mir_calloc(size * sizeof(wchar_t));
 	if (tszResult)
-		mir_sntprintf(tszResult, size, L"<%S:%s>", szProto, tszUniqueId);
+		mir_snwprintf(tszResult, size, L"<%S:%s>", szProto, tszUniqueId);
 	return tszResult;
 }

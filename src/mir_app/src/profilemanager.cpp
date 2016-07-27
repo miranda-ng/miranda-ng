@@ -46,7 +46,7 @@ static int findProfiles(wchar_t *szProfileDir, ENUMPROFILECALLBACK callback, LPA
 {
 	// find in Miranda NG profile subfolders
 	wchar_t searchspec[MAX_PATH];
-	mir_sntprintf(searchspec, L"%s\\*.*", szProfileDir);
+	mir_snwprintf(searchspec, L"%s\\*.*", szProfileDir);
 	
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(searchspec, &ffd);
@@ -55,11 +55,11 @@ static int findProfiles(wchar_t *szProfileDir, ENUMPROFILECALLBACK callback, LPA
 
 	do {
 		// find all subfolders except "." and ".."
-		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_tstrcmp(ffd.cFileName, L".") && mir_tstrcmp(ffd.cFileName, L"..")) {
+		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_wstrcmp(ffd.cFileName, L".") && mir_wstrcmp(ffd.cFileName, L"..")) {
 			wchar_t buf[MAX_PATH], profile[MAX_PATH];
-			mir_sntprintf(buf, L"%s\\%s\\%s.dat", szProfileDir, ffd.cFileName, ffd.cFileName);
+			mir_snwprintf(buf, L"%s\\%s\\%s.dat", szProfileDir, ffd.cFileName, ffd.cFileName);
 			if (_waccess(buf, 0) == 0) {
-				mir_sntprintf(profile, L"%s.dat", ffd.cFileName);
+				mir_snwprintf(profile, L"%s.dat", ffd.cFileName);
 				if (!callback(buf, profile, lParam))
 					break;
 			}
@@ -95,7 +95,7 @@ class CCreateProfileDlg : public CDlgBase
 		if (file) file++;
 		if (_waccess(profile, 0) == 0) {
 			// file already exists!
-			mir_sntprintf(buf,
+			mir_snwprintf(buf,
 				TranslateT("The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted."),
 				file);
 			if (MessageBox(m_hwnd, buf, TranslateT("The profile already exists"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) != IDYES)
@@ -106,9 +106,9 @@ class CCreateProfileDlg : public CDlgBase
 			sf.wFunc = FO_DELETE;
 			sf.pFrom = buf;
 			sf.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
-			mir_sntprintf(buf, L"%s\0", profile);
+			mir_snwprintf(buf, L"%s\0", profile);
 			if (SHFileOperation(&sf) != 0) {
-				mir_sntprintf(buf, TranslateT("Couldn't move '%s' to the Recycle Bin. Please select another profile name."), file);
+				mir_snwprintf(buf, TranslateT("Couldn't move '%s' to the Recycle Bin. Please select another profile name."), file);
 				MessageBox(m_hwnd, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION | MB_OK);
 				return 0;
 			}
@@ -117,7 +117,7 @@ class CCreateProfileDlg : public CDlgBase
 		// ask the database to create the profile
 		CreatePathToFileT(profile);
 		if ((err = link->makeDatabase(profile)) != ERROR_SUCCESS) {
-			mir_sntprintf(buf, TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
+			mir_snwprintf(buf, TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
 			MessageBox(m_hwnd, buf, TranslateT("Problem creating profile"), MB_ICONERROR | MB_OK);
 			return 0;
 		}
@@ -212,12 +212,12 @@ public:
 		if (curSel == -1 || !m_bFocused)
 			return; // should never happen
 
-		ptrT szName(m_profileName.GetText());
-		if (mir_tstrlen(szName) == 0)
+		ptrW szName(m_profileName.GetText());
+		if (mir_wstrlen(szName) == 0)
 			return;
 
 		// profile placed in "profile_name" subfolder
-		mir_sntprintf(m_pd->ptszProfile, MAX_PATH, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, szName, szName);
+		mir_snwprintf(m_pd->ptszProfile, MAX_PATH, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, szName, szName);
 		m_pd->newProfile = 1;
 		m_pd->dblink = (DATABASELINK *)m_driverList.GetItemData(curSel);
 
@@ -257,7 +257,7 @@ class CChooseProfileDlg : public CDlgBase
 		bool bFileLocked = true;
 
 		wchar_t *p = wcsrchr(profile, '.');
-		mir_tstrcpy(sizeBuf, L"0 KB");
+		mir_wstrcpy(sizeBuf, L"0 KB");
 		if (p != NULL) *p = 0;
 
 		LVITEM item = { 0 };
@@ -268,12 +268,12 @@ class CChooseProfileDlg : public CDlgBase
 		struct _stat statbuf;
 		if (_wstat(tszFullPath, &statbuf) == 0) {
 			if (statbuf.st_size > 1000000) {
-				mir_sntprintf(sizeBuf, L"%.3lf", (double)statbuf.st_size / 1048576.0);
-				mir_tstrcpy(sizeBuf + 5, L" MB");
+				mir_snwprintf(sizeBuf, L"%.3lf", (double)statbuf.st_size / 1048576.0);
+				mir_wstrcpy(sizeBuf + 5, L" MB");
 			}
 			else {
-				mir_sntprintf(sizeBuf, L"%.3lf", (double)statbuf.st_size / 1024.0);
-				mir_tstrcpy(sizeBuf + 5, L" KB");
+				mir_snwprintf(sizeBuf, L"%.3lf", (double)statbuf.st_size / 1024.0);
+				mir_wstrcpy(sizeBuf + 5, L" KB");
 			}
 			bFileLocked = !fileExist(tszFullPath);
 		}
@@ -293,7 +293,7 @@ class CChooseProfileDlg : public CDlgBase
 		}
 
 		int iItem = list.InsertItem(&item);
-		if (mir_tstrcmpi(ped->szProfile, tszFullPath) == 0)
+		if (mir_wstrcmpi(ped->szProfile, tszFullPath) == 0)
 			list.SetItemState(iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 
 		list.SetItemText(iItem, 2, sizeBuf);
@@ -323,7 +323,7 @@ class CChooseProfileDlg : public CDlgBase
 		if (!m_profileList.GetItem(&item))
 			return;
 
-		mir_sntprintf(fullName, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
+		mir_snwprintf(fullName, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
 		CallService(MS_DB_CHECKPROFILE, (WPARAM)fullName, item.iImage == 2);
 	}
 
@@ -342,11 +342,11 @@ class CChooseProfileDlg : public CDlgBase
 		if (!m_profileList.GetItem(&item))
 			return;
 
-		mir_sntprintf(profilef, TranslateT("Are you sure you want to remove profile \"%s\"?"), profile);
+		mir_snwprintf(profilef, TranslateT("Are you sure you want to remove profile \"%s\"?"), profile);
 		if (IDYES != MessageBox(NULL, profilef, L"Miranda NG", MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
 			return;
 
-		mir_sntprintf(profilef, L"%s\\%s%c", m_pd->ptszProfileDir, profile, 0);
+		mir_snwprintf(profilef, L"%s\\%s%c", m_pd->ptszProfileDir, profile, 0);
 
 		SHFILEOPSTRUCT sf = { 0 };
 		sf.wFunc = FO_DELETE;
@@ -387,9 +387,9 @@ class CChooseProfileDlg : public CDlgBase
 		// profile is placed in "profile_name" subfolder
 
 		wchar_t tmpPath[MAX_PATH];
-		mir_sntprintf(tmpPath, L"%s\\%s.dat", m_pd->ptszProfileDir, profile);
+		mir_snwprintf(tmpPath, L"%s\\%s.dat", m_pd->ptszProfileDir, profile);
 		if (_waccess(tmpPath, 2))
-			mir_sntprintf(m_pd->ptszProfile, MAX_PATH, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
+			mir_snwprintf(m_pd->ptszProfile, MAX_PATH, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
 		else
 			wcsncpy_s(m_pd->ptszProfile, MAX_PATH, tmpPath, _TRUNCATE);
 	}
@@ -524,9 +524,9 @@ public:
 			wchar_t profilename[MAX_PATH], tszFullPath[MAX_PATH];
 			struct _stat statbuf;
 			m_profileList.GetItemText(pTip->iItem, 0, profilename, _countof(profilename));
-			mir_sntprintf(tszFullPath, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profilename, profilename);
+			mir_snwprintf(tszFullPath, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profilename, profilename);
 			_wstat(tszFullPath, &statbuf);
-			mir_sntprintf(pTip->pszText, pTip->cchTextMax, L"%s\n%s: %s\n%s: %s", tszFullPath, TranslateT("Created"), rtrimt(NEWWSTR_ALLOCA(_wctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWWSTR_ALLOCA(_wctime(&statbuf.st_mtime))));
+			mir_snwprintf(pTip->pszText, pTip->cchTextMax, L"%s\n%s: %s\n%s: %s", tszFullPath, TranslateT("Created"), rtrimw(NEWWSTR_ALLOCA(_wctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimw(NEWWSTR_ALLOCA(_wctime(&statbuf.st_mtime))));
 		}
 	}
 

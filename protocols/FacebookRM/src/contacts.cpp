@@ -409,7 +409,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 			if (fbc->participants.size() > namesUsed) {
 				wchar_t more[200];
-				mir_sntprintf(more, TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - namesUsed);
+				mir_snwprintf(more, TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - namesUsed);
 				fbc->chat_name = more;
 			}
 
@@ -734,7 +734,7 @@ void FacebookProto::SendPokeWorker(void *p)
 		message = utils::text::html_entities_decode(
 			utils::text::remove_html(message));
 
-		ptrT tmessage(mir_utf8decodeT(message.c_str()));
+		ptrW tmessage(mir_utf8decodeW(message.c_str()));
 		NotifyEvent(m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER);
 	}
 

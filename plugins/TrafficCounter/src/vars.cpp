@@ -30,7 +30,7 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 
 	if (ai->argc != 5) return NULL;
 
-	if (!mir_tstrcmp(ai->targv[1], L"overall"))
+	if (!mir_wstrcmp(ai->targv[1], L"overall"))
 	{
 		tmpsn = OverallInfo.CurrentSentTraffic;
 		tmprn = OverallInfo.CurrentRecvTraffic;
@@ -38,7 +38,7 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 		tmprt = OverallInfo.TotalRecvTraffic;
 	}
 	else
-	if (!mir_tstrcmp(ai->targv[1], L"summary"))
+	if (!mir_wstrcmp(ai->targv[1], L"summary"))
 	{
 		for (ed = 0; ed < NumberOfAccounts; ed++)
 			if (ProtoList[ed].Visible)
@@ -54,8 +54,8 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 		for (tmp = ed = 0; ed < NumberOfAccounts; ed++)
 		{
 			if (!ProtoList[ed].name) continue;
-			wchar_t *buf = mir_a2t(ProtoList[ed].name);
-			if (!mir_tstrcmp(buf, ai->targv[1]))
+			wchar_t *buf = mir_a2u(ProtoList[ed].name);
+			if (!mir_wstrcmp(buf, ai->targv[1]))
 			{
 				tmpsn = ProtoList[ed].CurrentSentTraffic;
 				tmprn = ProtoList[ed].CurrentRecvTraffic;
@@ -68,34 +68,34 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 		if (tmp != 0xAA) return NULL;
 	}
 
-	if (!mir_tstrcmp(ai->targv[2], L"now"))
+	if (!mir_wstrcmp(ai->targv[2], L"now"))
 	{
-		if (!mir_tstrcmp(ai->targv[3], L"sent")) tmp = tmpsn;
+		if (!mir_wstrcmp(ai->targv[3], L"sent")) tmp = tmpsn;
 		else
-		if (!mir_tstrcmp(ai->targv[3], L"received")) tmp = tmprn;
+		if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprn;
 		else
-		if (!mir_tstrcmp(ai->targv[3], L"both")) tmp = tmprn + tmpsn;
+		if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprn + tmpsn;
 		else return NULL;
 	}
 	else
-	if (!mir_tstrcmp(ai->targv[2], L"total"))
+	if (!mir_wstrcmp(ai->targv[2], L"total"))
 	{
-		if (!mir_tstrcmp(ai->targv[3], L"sent")) tmp = tmpst;
+		if (!mir_wstrcmp(ai->targv[3], L"sent")) tmp = tmpst;
 		else
-		if (!mir_tstrcmp(ai->targv[3], L"received")) tmp = tmprt;
+		if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprt;
 		else
-		if (!mir_tstrcmp(ai->targv[3], L"both")) tmp = tmprt + tmpst;
+		if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprt + tmpst;
 		else return NULL;
 	}
 	else return NULL;
 
-	if (!mir_tstrcmp(ai->targv[4], L"b")) ed = 0;
+	if (!mir_wstrcmp(ai->targv[4], L"b")) ed = 0;
 	else
-	if (!mir_tstrcmp(ai->targv[4], L"k")) ed = 1;
+	if (!mir_wstrcmp(ai->targv[4], L"k")) ed = 1;
 	else
-	if (!mir_tstrcmp(ai->targv[4], L"m")) ed = 2;
+	if (!mir_wstrcmp(ai->targv[4], L"m")) ed = 2;
 	else
-	if (!mir_tstrcmp(ai->targv[4], L"d")) ed = 3;
+	if (!mir_wstrcmp(ai->targv[4], L"d")) ed = 3;
 	else return NULL;
 
 	// Получаем форматированную строку и возвращаем указатель на неё.
@@ -122,25 +122,25 @@ static wchar_t* GetTime(ARGUMENTSINFO *ai)
 	{
 		wchar_t *buf;
 		if (!ProtoList[ed].name) continue;
-		buf = mir_a2t(ProtoList[ed].name);
-		if (!mir_tstrcmp(buf, ai->targv[1]))
+		buf = mir_a2u(ProtoList[ed].name);
+		if (!mir_wstrcmp(buf, ai->targv[1]))
 		{
 			flag = 0xAA;
-			if (!mir_tstrcmp(ai->targv[2], L"now"))
+			if (!mir_wstrcmp(ai->targv[2], L"now"))
 				Duration = ProtoList[ed].Session.Timer;
-			else if (!mir_tstrcmp(ai->targv[2], L"total"))
+			else if (!mir_wstrcmp(ai->targv[2], L"total"))
 				Duration = ProtoList[ed].Total.Timer;
 			else flag = 0;
 			break;
 		}
 		mir_free(buf);
 	}
-	if ( (flag != 0xAA) && !mir_tstrcmp(ai->targv[1], L"summary") )
+	if ( (flag != 0xAA) && !mir_wstrcmp(ai->targv[1], L"summary") )
 	{
 		flag = 0xAA;
-		if (!mir_tstrcmp(ai->targv[2], L"now"))
+		if (!mir_wstrcmp(ai->targv[2], L"now"))
 			Duration = OverallInfo.Session.Timer;
-		else if (!mir_tstrcmp(ai->targv[2], L"total"))
+		else if (!mir_wstrcmp(ai->targv[2], L"total"))
 			Duration = OverallInfo.Total.Timer;
 		else flag = 0;
 	}

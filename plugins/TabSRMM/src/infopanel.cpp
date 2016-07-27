@@ -421,9 +421,9 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 
 		if (szStatusMsg) {
 			SIZE sStatusMsg, sMask;
-			::GetTextExtentPoint32(hdc, szTextToShow, (int)mir_tstrlen(szTextToShow), &m_szNick);
+			::GetTextExtentPoint32(hdc, szTextToShow, (int)mir_wstrlen(szTextToShow), &m_szNick);
 			::GetTextExtentPoint32(hdc, L"A", 1, &sMask);
-			::GetTextExtentPoint32(hdc, szStatusMsg, (int)mir_tstrlen(szStatusMsg), &sStatusMsg);
+			::GetTextExtentPoint32(hdc, szStatusMsg, (int)mir_wstrlen(szStatusMsg), &sStatusMsg);
 
 			DWORD dtFlagsNick = DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_NOPREFIX;
 			if ((m_szNick.cx + sStatusMsg.cx + 6) < (rcItem.right - rcItem.left) || (rcItem.bottom - rcItem.top) < (2 * sMask.cy)) {
@@ -456,7 +456,7 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 				CSkin::RenderText(hdc, m_dat->hThemeIP, szStatusMsg, &rcItem, dtFlags, CSkin::m_glowSize, clr);
 		}
 		else {
-			GetTextExtentPoint32(hdc, szTextToShow, (int)mir_tstrlen(szTextToShow), &m_szNick);
+			GetTextExtentPoint32(hdc, szTextToShow, (int)mir_wstrlen(szTextToShow), &m_szNick);
 			mapRealRect(rcItem, m_rcNick, m_szNick);
 			if (m_hoverFlags & HOVER_NICK)
 				setUnderlinedFont(hdc, fShowUin ? m_ipConfig.hFonts[IPFONTID_UIN] : m_ipConfig.hFonts[IPFONTID_NICK]);
@@ -496,22 +496,22 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 			time_t diff = time(NULL) - m_dat->idle;
 			int i_hrs = diff / 3600;
 			int i_mins = (diff - i_hrs * 3600) / 60;
-			mir_sntprintf(szBuf, TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
+			mir_snwprintf(szBuf, TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
 		}
 		else wcscpy_s(szBuf, 256, tszUin);
 
 		if (M.GetByte("ShowClientDescription", 1)) {
 			wchar_t	temp[256];
-			ptrT szVersion(db_get_tsa(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer"));
+			ptrW szVersion(db_get_tsa(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer"));
 			if (szVersion)
-				mir_sntprintf(temp, TranslateT("  Client: %s"), szVersion);
+				mir_snwprintf(temp, TranslateT("  Client: %s"), szVersion);
 			else
-				mir_sntprintf(temp, TranslateT("  Client not cached yet"));
+				mir_snwprintf(temp, TranslateT("  Client not cached yet"));
 			wcscat_s(szBuf, 256, temp);
 		}
 
 		SIZE sUIN;
-		::GetTextExtentPoint32(hdc, szBuf, (int)mir_tstrlen(szBuf), &sUIN);
+		::GetTextExtentPoint32(hdc, szBuf, (int)mir_wstrlen(szBuf), &sUIN);
 		mapRealRect(rcItem, m_rcUIN, sUIN);
 		CSkin::RenderText(hdc, m_dat->hThemeIP, szBuf, &rcItem, DT_SINGLELINE | DT_VCENTER, CSkin::m_glowSize, clr);
 	}
@@ -532,19 +532,19 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 	DWORD oldPanelStatusCX = m_dat->panelStatusCX;
 
 	if (m_dat->szStatus[0])
-		GetTextExtentPoint32(hdc, m_dat->szStatus, (int)mir_tstrlen(m_dat->szStatus), &sStatus);
+		GetTextExtentPoint32(hdc, m_dat->szStatus, (int)mir_wstrlen(m_dat->szStatus), &sStatus);
 
 	// figure out final account name
 	const wchar_t *szFinalProto = m_dat->cache->getRealAccount();
 	if (szFinalProto) {
 		SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_PROTO]);
-		GetTextExtentPoint32(hdc, szFinalProto, (int)mir_tstrlen(szFinalProto), &sProto);
+		GetTextExtentPoint32(hdc, szFinalProto, (int)mir_wstrlen(szFinalProto), &sProto);
 	}
 
 	wchar_t szResult[80]; szResult[0] = 0;
 	if (m_dat->hTimeZone) {
 		TimeZone_PrintDateTime(m_dat->hTimeZone, L"t", szResult, _countof(szResult), 0);
-		GetTextExtentPoint32(hdc, szResult, (int)mir_tstrlen(szResult), &sTime);
+		GetTextExtentPoint32(hdc, szResult, (int)mir_wstrlen(szResult), &sTime);
 	}
 
 	m_dat->panelStatusCX = 3 + sStatus.cx + sProto.cx + 14 + (m_dat->hClientIcon ? 20 : 0) + sTime.cx + 13;
@@ -613,7 +613,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 
 	if (m_height < DEGRADE_THRESHOLD) {
 		wchar_t	tszText[2048];
-		mir_sntprintf(tszText, TranslateT("Topic is: %s"),
+		mir_snwprintf(tszText, TranslateT("Topic is: %s"),
 			si->ptszTopic ? si->ptszTopic : TranslateT("no topic set."));
 
 		hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
@@ -624,7 +624,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 		const wchar_t	*tszNick = m_dat->cache->getNick();
 
 		hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_NICK]));
-		::GetTextExtentPoint32(hdc, tszNick, (int)mir_tstrlen(tszNick), &m_szNick);
+		::GetTextExtentPoint32(hdc, tszNick, (int)mir_wstrlen(tszNick), &m_szNick);
 		mapRealRect(rcItem, m_rcNick, m_szNick);
 
 		if (m_hoverFlags & HOVER_NICK)
@@ -670,8 +670,8 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 
 	SIZE szTitle;
 	wchar_t	szPrefix[100];
-	mir_sntprintf(szPrefix, TranslateT("Topic is: %s"), L"");
-	::GetTextExtentPoint32(hdc, szPrefix, (int)mir_tstrlen(szPrefix), &szTitle);
+	mir_snwprintf(szPrefix, TranslateT("Topic is: %s"), L"");
+	::GetTextExtentPoint32(hdc, szPrefix, (int)mir_wstrlen(szPrefix), &szTitle);
 	mapRealRect(rcItem, m_rcUIN, szTitle);
 	if (m_hoverFlags & HOVER_UIN)
 		setUnderlinedFont(hdc, m_ipConfig.hFonts[IPFONTID_UIN]);
@@ -680,7 +680,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 	rcItem.left += (szTitle.cx + 4);
 	if (m_hoverFlags & HOVER_UIN)
 		::DeleteObject(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
-	if (si->ptszTopic && mir_tstrlen(si->ptszTopic) > 1)
+	if (si->ptszTopic && mir_wstrlen(si->ptszTopic) > 1)
 		CSkin::RenderText(hdc, m_dat->hThemeIP, si->ptszTopic, &rcItem, DT_WORDBREAK | DT_END_ELLIPSIS | DT_NOPREFIX | DT_TOP, CSkin::m_glowSize, clr);
 	else
 		CSkin::RenderText(hdc, m_dat->hThemeIP, TranslateT("no topic set."), &rcItem, DT_TOP | DT_SINGLELINE | DT_NOPREFIX, CSkin::m_glowSize, clr);
@@ -1061,11 +1061,11 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case WM_INITDIALOG:
 	{
 		wchar_t	tszTitle[100];
-		mir_sntprintf(tszTitle, TranslateT("Set panel visibility for this %s"),
+		mir_snwprintf(tszTitle, TranslateT("Set panel visibility for this %s"),
 			m_isChat ? TranslateT("chat room") : TranslateT("contact"));
 		::SetDlgItemText(hwnd, IDC_STATIC_VISIBILTY, tszTitle);
 
-		mir_sntprintf(tszTitle, m_isChat ? TranslateT("Do not synchronize the panel height with IM windows") :
+		mir_snwprintf(tszTitle, m_isChat ? TranslateT("Do not synchronize the panel height with IM windows") :
 			TranslateT("Do not synchronize the panel height with group chat windows"));
 
 		::SetDlgItemText(hwnd, IDC_NOSYNC, tszTitle);
@@ -1322,7 +1322,7 @@ CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const wchar_t *pszTex
 	::SendMessage(m_hRich, WM_SETFONT, (WPARAM)CInfoPanel::m_ipConfig.hFonts[IPFONTID_STATUS], 0);
 
 	m_hContact = hContact;
-	m_pszText = mir_utf8encodeT(pszText);
+	m_pszText = mir_utf8encodeW(pszText);
 	m_panel = panel;
 	m_hwndParent = hwndParent;
 	mir_subclassWindow(m_hRich, RichEditProc);
@@ -1503,7 +1503,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			LONG cy = rc.bottom;
 			HANDLE hTheme = 0;
 
-			mir_sntprintf(szTitle, m_szTitle ? L"%s (%s)" : L"%s%s", c->getNick(), m_szTitle ? m_szTitle : L"");
+			mir_snwprintf(szTitle, m_szTitle ? L"%s (%s)" : L"%s%s", c->getNick(), m_szTitle ? m_szTitle : L"");
 
 			if (m_panel) {
 				HDC hdcMem = ::CreateCompatibleDC(hdc);
@@ -1568,7 +1568,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			switch (((ENLINK*)lParam)->msg) {
 			case WM_LBUTTONUP:
 				ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
-				ptrT tszUrl(Utils::extractURLFromRichEdit(e, m_hRich));
+				ptrW tszUrl(Utils::extractURLFromRichEdit(e, m_hRich));
 				if (tszUrl)
 					Utils_OpenUrlT(tszUrl);
 

@@ -528,8 +528,8 @@ int TN_ModuleInit()
 		for (i = 0; i < _countof(colorPicker); i++)
 			colorPicker[i].color = M.GetDword(Module, colorPicker[i].desc, 0);
 
-	mir_sntprintf(szStart, TranslateT("...is typing a message."));
-	mir_sntprintf(szStop, TranslateT("...has stopped typing."));
+	mir_snwprintf(szStart, TranslateT("...is typing a message."));
+	mir_snwprintf(szStop, TranslateT("...has stopped typing."));
 
 	if (PluginConfig.g_bPopupAvail && ShowMenu) {
 		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);

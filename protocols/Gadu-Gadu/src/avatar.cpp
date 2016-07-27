@@ -28,7 +28,7 @@
 //
 void GGPROTO::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST( L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST( L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (_waccess(pszDest, 0)) {
 		int ret = CreateDirectoryTreeT(pszDest);
@@ -37,7 +37,7 @@ void GGPROTO::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
 		else {
 			debugLog(L"getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s", pszDest, errno, ws_strerror(errno));
 			wchar_t error[512];
-			mir_sntprintf(error, TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), pszDest);
+			mir_snwprintf(error, TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), pszDest);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 		}
 	}
@@ -47,13 +47,13 @@ void GGPROTO::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
 	if (hContact != NULL) {
 		DBVARIANT dbv;
 		if (!getString(hContact, GG_KEY_AVATARHASH, &dbv)) {
-			wchar_t* avatarHashT = mir_a2t(dbv.pszVal);
-			mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s%s", avatarHashT, avatartype);
+			wchar_t* avatarHashT = mir_a2u(dbv.pszVal);
+			mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s%s", avatarHashT, avatartype);
 			mir_free(avatarHashT);
 			db_free(&dbv);
 		}
 	}
-	else mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%S avatar%s", m_szModuleName, avatartype);
+	else mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%S avatar%s", m_szModuleName, avatartype);
 }
 
 bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
@@ -83,19 +83,19 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	if ((strncmp(resp->pData, "<result>", 8) == 0) || (strncmp(resp->pData, "<?xml", 5) == 0)){
 
 		//if this url returned xml data (before and after 11.2013 gg convention)
-		wchar_t *xmlAction = mir_a2t(resp->pData);
+		wchar_t *xmlAction = mir_a2u(resp->pData);
 		HXML hXml = xmlParseString(xmlAction, 0, L"result");
 		if (hXml != NULL) {
 			HXML node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar", 0);
 			const wchar_t *blank = (node != NULL) ? xmlGetAttrValue(node, L"blank") : NULL;
-			if (blank != NULL && mir_tstrcmp(blank, L"1")) {
+			if (blank != NULL && mir_wstrcmp(blank, L"1")) {
 				node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/timestamp", 0);
-				*avatarts = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
+				*avatarts = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
 				node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/bigavatar", 0); //new gg convention
 				if (node == NULL){
 					node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/originBigAvatar", 0); //old gg convention
 				}
-				*avatarurl = node != NULL ? mir_t2a(xmlGetText(node)) : NULL;
+				*avatarurl = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
 			}
 			xmlDestroyNode(hXml);
 		}
@@ -271,7 +271,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					} else {
 						debugLog(L"avatarrequestthread(): _wopen file %s error. errno=%d: %s", ai.filename, errno, ws_strerror(errno));
 						wchar_t error[512];
-						mir_sntprintf(error, TranslateT("Cannot create avatar file. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), ai.filename);
+						mir_snwprintf(error, TranslateT("Cannot create avatar file. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), ai.filename);
 						showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 					}
 				}
@@ -363,7 +363,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	if (file_fd == -1) {
 		debugLog(L"setavatarthread(): Failed to open avatar file errno=%d: %s", errno, ws_strerror(errno));
 		wchar_t error[512];
-		mir_sntprintf(error, TranslateT("Cannot open avatar file. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), szFilename);
+		mir_snwprintf(error, TranslateT("Cannot open avatar file. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), szFilename);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		mir_free(szFilename);
 		int prevType = getByte(GG_KEY_AVATARTYPEPREV, -1);
@@ -512,5 +512,5 @@ void GGPROTO::setAvatar(const wchar_t *szFilename)
 #ifdef DEBUGMODE
 	debugLogA("setAvatar(): ForkThread 3 GGPROTO::setavatarthread");
 #endif
-	ForkThread(&GGPROTO::setavatarthread, mir_tstrdup(szFilename));
+	ForkThread(&GGPROTO::setavatarthread, mir_wstrdup(szFilename));
 }

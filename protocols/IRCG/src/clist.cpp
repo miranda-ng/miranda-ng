@@ -69,7 +69,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 		cle.hIcon = LoadIconEx(IDI_DCC);
 		mir_snprintf(szService, "%s/DblClickEvent", m_szModuleName);
 		cle.pszService = szService;
-		mir_sntprintf(szNick, TranslateT("CTCP chat request from %s"), name.c_str());
+		mir_snwprintf(szNick, TranslateT("CTCP chat request from %s"), name.c_str());
 		cle.ptszTooltip = szNick;
 		cle.lParam = (LPARAM)pdci;
 
@@ -165,7 +165,7 @@ MCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 	if (!user || !user->name)
 		return 0;
 
-	wchar_t* lowercasename = mir_tstrdup(user->name);
+	wchar_t* lowercasename = mir_wstrdup(user->name);
 	CharLower(lowercasename);
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -173,33 +173,33 @@ MCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 			continue;
 
 		MCONTACT  hContact_temp = NULL;
-		ptrT DBNick(getTStringA(hContact, "Nick"));
-		ptrT DBUser(getTStringA(hContact, "UUser"));
-		ptrT DBHost(getTStringA(hContact, "UHost"));
-		ptrT DBDefault(getTStringA(hContact, "Default"));
-		ptrT DBWildcard(getTStringA(hContact, "UWildcard"));
+		ptrW DBNick(getTStringA(hContact, "Nick"));
+		ptrW DBUser(getTStringA(hContact, "UUser"));
+		ptrW DBHost(getTStringA(hContact, "UHost"));
+		ptrW DBDefault(getTStringA(hContact, "Default"));
+		ptrW DBWildcard(getTStringA(hContact, "UWildcard"));
 
 		if (DBWildcard)
 			CharLower(DBWildcard);
 		if (IsChannel(user->name)) {
-			if (DBDefault && !mir_tstrcmpi(DBDefault, user->name))
+			if (DBDefault && !mir_wstrcmpi(DBDefault, user->name))
 				hContact_temp = (MCONTACT)-1;
 		}
-		else if (user->ExactNick && DBNick && !mir_tstrcmpi(DBNick, user->name))
+		else if (user->ExactNick && DBNick && !mir_wstrcmpi(DBNick, user->name))
 			hContact_temp = hContact;
 
-		else if (user->ExactOnly && DBDefault && !mir_tstrcmpi(DBDefault, user->name))
+		else if (user->ExactOnly && DBDefault && !mir_wstrcmpi(DBDefault, user->name))
 			hContact_temp = hContact;
 
 		else if (user->ExactWCOnly) {
-			if (DBWildcard && !mir_tstrcmpi(DBWildcard, lowercasename)
-				|| (DBWildcard && !mir_tstrcmpi(DBNick, lowercasename) && !WCCmp(DBWildcard, lowercasename))
-				|| (!DBWildcard && !mir_tstrcmpi(DBNick, lowercasename))) {
+			if (DBWildcard && !mir_wstrcmpi(DBWildcard, lowercasename)
+				|| (DBWildcard && !mir_wstrcmpi(DBNick, lowercasename) && !WCCmp(DBWildcard, lowercasename))
+				|| (!DBWildcard && !mir_wstrcmpi(DBNick, lowercasename))) {
 				hContact_temp = hContact;
 			}
 		}
 		else if (wcschr(user->name, ' ') == 0) {
-			if ((DBDefault && !mir_tstrcmpi(DBDefault, user->name) || DBNick && !mir_tstrcmpi(DBNick, user->name) ||
+			if ((DBDefault && !mir_wstrcmpi(DBDefault, user->name) || DBNick && !mir_wstrcmpi(DBNick, user->name) ||
 				DBWildcard && WCCmp(DBWildcard, lowercasename))
 				&& (WCCmp(DBUser, user->user) && WCCmp(DBHost, user->host))) {
 				hContact_temp = hContact;

@@ -151,7 +151,7 @@ public:
 	CImageItem(const wchar_t *szName)
 	{
 		memset(this, 0, sizeof(CImageItem));
-		mir_sntprintf(m_szName, szName);
+		mir_snwprintf(m_szName, szName);
 		m_szName[39] = 0;
 	}
 

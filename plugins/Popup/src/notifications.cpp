@@ -29,9 +29,9 @@ HANDLE g_hntfError, g_hntfWarning, g_hntfNotification;
 
 int TreeDataSortFunc(const POPUPTREEDATA *p1, const POPUPTREEDATA *p2)
 {
-	if (int cmp = mir_tstrcmp(p1->pszTreeRoot, p2->pszTreeRoot))
+	if (int cmp = mir_wstrcmp(p1->pszTreeRoot, p2->pszTreeRoot))
 		return cmp;
-	return mir_tstrcmp(p1->pszDescription, p2->pszDescription);
+	return mir_wstrcmp(p1->pszDescription, p2->pszDescription);
 }
 
 LIST<POPUPTREEDATA> gTreeData(20, TreeDataSortFunc);
@@ -172,8 +172,8 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	POPUPTREEDATA *ptd = (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
 	ptd->signature = PopupNotificationData_SIGNATURE;
 	ptd->typ = 1;
-	ptd->pszTreeRoot = mir_a2t(notification->lpzGroup);
-	ptd->pszDescription = mir_a2t(notification->lpzName);
+	ptd->pszTreeRoot = mir_a2u(notification->lpzGroup);
+	ptd->pszDescription = mir_a2u(notification->lpzName);
 	ptd->notification = *notification;
 	ptd->hIcoLib = notification->lchIcoLib;
 	if (!ptd->notification.lpzLAction) ptd->notification.lpzLAction = POPUP_ACTION_NOTHING;
@@ -215,7 +215,7 @@ HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ)
 {
 	for (int i = 0; i < gTreeData.getCount(); i++) {
 		POPUPTREEDATA *p = gTreeData[i];
-		if (p->typ == typ && (!group || (mir_tstrcmp(p->pszTreeRoot, group) == 0)) && (!name || (mir_tstrcmp(p->pszDescription, name) == 0)))
+		if (p->typ == typ && (!group || (mir_wstrcmp(p->pszTreeRoot, group) == 0)) && (!name || (mir_wstrcmp(p->pszDescription, name) == 0)))
 			return p;
 	}
 	return NULL;

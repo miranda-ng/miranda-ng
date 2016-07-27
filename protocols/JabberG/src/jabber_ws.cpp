@@ -29,7 +29,7 @@ BOOL CJabberProto::WsInit(void)
 	m_lastTicks = ::GetTickCount();
 
 	wchar_t name[128];
-	mir_sntprintf(name, TranslateT("%s connection"), m_tszUserName);
+	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;

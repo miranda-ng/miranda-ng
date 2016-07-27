@@ -74,8 +74,8 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 	POPUPDATA2 *ppd = (POPUPDATA2*)mir_alloc(sizeof(POPUPDATA2));
 	*ppd = *ppdNew;
 	if (ppd->flags & PU2_UNICODE) {
-		ppd->lptzTitle = mir_tstrdup(ppd->lpwzTitle);
-		ppd->lptzText = mir_tstrdup(ppd->lptzText);
+		ppd->lptzTitle = mir_wstrdup(ppd->lpwzTitle);
+		ppd->lptzText = mir_wstrdup(ppd->lptzText);
 	}
 	else {
 		ppd->lpzTitle = mir_strdup(ppd->lpzTitle);

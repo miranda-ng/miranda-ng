@@ -238,7 +238,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		break;
 
 	case WM_SETTEXT:
-		mir_tstrncpy(bct->szText, (wchar_t*)lParam, _countof(bct->szText));
+		mir_wstrncpy(bct->szText, (wchar_t*)lParam, _countof(bct->szText));
 		break;
 
 	case WM_SETFONT:

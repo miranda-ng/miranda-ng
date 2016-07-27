@@ -50,7 +50,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 		TranslateDialogDefault(hwndDlg);
 		if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != NULL) {
 			wchar_t text[1024];
-			mir_sntprintf(text, TranslateT("Set New Password for %s@%S"), ppro->m_ThreadInfo->conn.username, ppro->m_ThreadInfo->conn.server);
+			mir_snwprintf(text, TranslateT("Set New Password for %s@%S"), ppro->m_ThreadInfo->conn.username, ppro->m_ThreadInfo->conn.server);
 			SetWindowText(hwndDlg, text);
 		}
 		return TRUE;
@@ -61,16 +61,16 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 				wchar_t newPasswd[512], text[512];
 				GetDlgItemText(hwndDlg, IDC_NEWPASSWD, newPasswd, _countof(newPasswd));
 				GetDlgItemText(hwndDlg, IDC_NEWPASSWD2, text, _countof(text));
-				if (mir_tstrcmp(newPasswd, text)) {
+				if (mir_wstrcmp(newPasswd, text)) {
 					MessageBox(hwndDlg, TranslateT("New password does not match."), TranslateT("Change Password"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 					break;
 				}
 				GetDlgItemText(hwndDlg, IDC_OLDPASSWD, text, _countof(text));
-				if (mir_tstrcmp(text, ppro->m_ThreadInfo->conn.password)) {
+				if (mir_wstrcmp(text, ppro->m_ThreadInfo->conn.password)) {
 					MessageBox(hwndDlg, TranslateT("Current password is incorrect."), TranslateT("Change Password"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 					break;
 				}
-				ppro->m_ThreadInfo->tszNewPassword = mir_tstrdup(newPasswd);
+				ppro->m_ThreadInfo->tszNewPassword = mir_wstrdup(newPasswd);
 
 				XmlNodeIq iq(ppro->AddIQ(&CJabberProto::OnIqResultSetPassword, JABBER_IQ_TYPE_SET, _A2T(ppro->m_ThreadInfo->conn.server)));
 				HXML q = iq << XQUERY(JABBER_FEAT_REGISTER);

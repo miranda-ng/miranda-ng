@@ -117,7 +117,7 @@ wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 {
 	if (ps->szMsg != NULL) {// custom message set
 		log_infoA("CommonStatus: Status message set by calling plugin");
-		return mir_tstrdup(ps->szMsg);
+		return mir_wstrdup(ps->szMsg);
 	}
 
 	wchar_t *tMsg = (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName);
@@ -184,10 +184,10 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 			else
 				continue;
 
-			if (mir_tstrlen(substituteStr) > 6)
-				tszMsg = (wchar_t*)mir_realloc(tszMsg, sizeof(wchar_t)*(mir_tstrlen(tszMsg) + 1 + mir_tstrlen(substituteStr) - 6));
-			memmove(tszMsg + j + mir_tstrlen(substituteStr), tszMsg + j + 6, sizeof(wchar_t)*(mir_tstrlen(tszMsg) - j - 5));
-			memcpy(tszMsg + j, substituteStr, sizeof(wchar_t)*mir_tstrlen(substituteStr));
+			if (mir_wstrlen(substituteStr) > 6)
+				tszMsg = (wchar_t*)mir_realloc(tszMsg, sizeof(wchar_t)*(mir_wstrlen(tszMsg) + 1 + mir_wstrlen(substituteStr) - 6));
+			memmove(tszMsg + j + mir_wstrlen(substituteStr), tszMsg + j + 6, sizeof(wchar_t)*(mir_wstrlen(tszMsg) - j - 5));
+			memcpy(tszMsg + j, substituteStr, sizeof(wchar_t)*mir_wstrlen(substituteStr));
 		}
 
 		wchar_t *szFormattedMsg = variables_parsedup(tszMsg, ps->tszAccName, NULL);

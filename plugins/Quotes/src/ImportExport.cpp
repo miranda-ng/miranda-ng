@@ -140,25 +140,25 @@ LPCTSTR prepare_filter(LPTSTR pszBuffer, size_t cBuffer)
 {
 	LPTSTR p = pszBuffer;
 	LPCTSTR pszXml = TranslateT("XML File (*.xml)");
-	mir_tstrncpy(p, pszXml, (int)cBuffer);
-	size_t nLen = mir_tstrlen(pszXml) + 1;
+	mir_wstrncpy(p, pszXml, (int)cBuffer);
+	size_t nLen = mir_wstrlen(pszXml) + 1;
 	p += nLen;
 	if (nLen < cBuffer) {
-		mir_tstrncpy(p, L"*.xml", (int)(cBuffer - nLen));
+		mir_wstrncpy(p, L"*.xml", (int)(cBuffer - nLen));
 		p += 6;
 		nLen += 6;
 	}
 
 	if (nLen < cBuffer) {
 		LPCTSTR pszAll = TranslateT("All files (*.*)");
-		mir_tstrncpy(p, pszAll, (int)(cBuffer - nLen));
-		size_t n = mir_tstrlen(pszAll) + 1;
+		mir_wstrncpy(p, pszAll, (int)(cBuffer - nLen));
+		size_t n = mir_wstrlen(pszAll) + 1;
 		nLen += n;
 		p += n;
 	}
 
 	if (nLen < cBuffer) {
-		mir_tstrncpy(p, L"*.*", (int)(cBuffer - nLen));
+		mir_wstrncpy(p, L"*.*", (int)(cBuffer - nLen));
 		p += 4;
 		nLen += 4;
 	}
@@ -255,13 +255,13 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 		std::string s = quotes_t2a(sModuleName.c_str());
 		dbs.szModule = s.c_str();//T2CA(sModuleName.c_str());
 
-		bool bCListModule = 0 == mir_tstrcmpi(sModuleName.c_str(), L"CList");
+		bool bCListModule = 0 == mir_wstrcmpi(sModuleName.c_str(), L"CList");
 
 		size_t cChild = pXmlModule->GetChildCount();
 		for (size_t i = 0; i < cChild; ++i) {
 			IXMLNode::TXMLNodePtr pSetting = pXmlModule->GetChildNode(i);
 			tstring sSetting = pSetting->GetName();
-			if (0 == mir_tstrcmpi(g_pszXmlSetting, sSetting.c_str())) {
+			if (0 == mir_wstrcmpi(g_pszXmlSetting, sSetting.c_str())) {
 				size_t cSetChild = pSetting->GetChildCount();
 				if (cSetChild >= 2) {
 					tstring sName;
@@ -270,10 +270,10 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 					for (size_t j = 0; j < cSetChild; ++j) {
 						IXMLNode::TXMLNodePtr pNode = pSetting->GetChildNode(j);
 						tstring sNode = pNode->GetName();
-						if (0 == mir_tstrcmpi(g_pszXmlName, sNode.c_str())) {
+						if (0 == mir_wstrcmpi(g_pszXmlName, sNode.c_str())) {
 							sName = pNode->GetText();
 						}
-						else if (0 == mir_tstrcmpi(g_pszXmlValue, sNode.c_str())) {
+						else if (0 == mir_wstrcmpi(g_pszXmlValue, sNode.c_str())) {
 							sValue = pNode->GetText();
 							sType = pNode->GetAttributeValue(g_pszXmlType);
 						}
@@ -282,7 +282,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 					if ((false == sName.empty()) && (false == sType.empty())) {
 						std::string s1 = quotes_t2a(sName.c_str());
 						dbs.szSetting = s1.c_str();
-						if (0 == mir_tstrcmpi(g_pszXmlTypeByte, sType.c_str())) {
+						if (0 == mir_wstrcmpi(g_pszXmlTypeByte, sType.c_str())) {
 							tistringstream in(sValue.c_str());
 							in.imbue(GetSystemLocale());
 							dbs.value.cVal = in.get();
@@ -292,7 +292,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 									++cCreatedRecords;
 							}
 						}
-						else if (0 == mir_tstrcmpi(g_pszXmlTypeWord, sType.c_str())) {
+						else if (0 == mir_wstrcmpi(g_pszXmlTypeWord, sType.c_str())) {
 							tistringstream in(sValue.c_str());
 							in.imbue(GetSystemLocale());
 							in >> dbs.value.wVal;
@@ -302,7 +302,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 									++cCreatedRecords;
 							}
 						}
-						else if (0 == mir_tstrcmpi(g_pszXmlTypeDword, sType.c_str())) {
+						else if (0 == mir_wstrcmpi(g_pszXmlTypeDword, sType.c_str())) {
 							tistringstream in(sValue.c_str());
 							in.imbue(GetSystemLocale());
 							in >> dbs.value.dVal;
@@ -312,22 +312,22 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 									++cCreatedRecords;
 							}
 						}
-						else if (0 == mir_tstrcmpi(g_pszXmlTypeAsciiz, sType.c_str())) {
-							ptrA v(mir_t2a(sValue.c_str()));
+						else if (0 == mir_wstrcmpi(g_pszXmlTypeAsciiz, sType.c_str())) {
+							ptrA v(mir_u2a(sValue.c_str()));
 							dbs.value.pszVal = v;
 							dbs.value.type = DBVT_ASCIIZ;
 							if (set_contact_settings(hContact, dbs))
 								++cCreatedRecords;
 						}
-						else if (0 == mir_tstrcmpi(g_pszXmlTypeUtf8, sType.c_str())) {
+						else if (0 == mir_wstrcmpi(g_pszXmlTypeUtf8, sType.c_str())) {
 							T2Utf szValue(sValue.c_str());
 							dbs.value.pszVal = szValue;
 							dbs.value.type = DBVT_UTF8;
 							if (set_contact_settings(hContact, dbs))
 								++cCreatedRecords;
 						}
-						else if (0 == mir_tstrcmpi(g_pszXmlTypeWchar, sType.c_str())) {
-							ptrW val(mir_t2u(sValue.c_str()));
+						else if (0 == mir_wstrcmpi(g_pszXmlTypeWchar, sType.c_str())) {
+							ptrW val(mir_wstrdup(sValue.c_str()));
 							dbs.value.pwszVal = val;
 							dbs.value.type = DBVT_WCHAR;
 							if (set_contact_settings(hContact, dbs))
@@ -335,7 +335,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 
 							mir_free(dbs.value.pwszVal);
 						}
-						else if (0 == mir_tstrcmpi(g_pszXmlTypeBlob, sType.c_str())) {
+						else if (0 == mir_wstrcmpi(g_pszXmlTypeBlob, sType.c_str())) {
 							unsigned bufLen;
 							mir_ptr<BYTE> buf((PBYTE)mir_base64_decode(_T2A(sValue.c_str()), &bufLen));
 							if (buf) {
@@ -348,7 +348,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 							}
 						}
 
-						if ((true == bCListModule) && (0 == mir_tstrcmpi(sName.c_str(), L"Group")))
+						if ((true == bCListModule) && (0 == mir_wstrcmpi(sName.c_str(), L"Group")))
 							Clist_GroupCreate(NULL, sValue.c_str());
 					}
 				}
@@ -367,13 +367,13 @@ size_t count_contacts(const IXMLNode::TXMLNodePtr& pXmlRoot, bool bInContactsGro
 		IXMLNode::TXMLNodePtr pNode = pXmlRoot->GetChildNode(i);
 		tstring sName = pNode->GetName();
 		if (false == bInContactsGroup) {
-			if (0 == mir_tstrcmpi(g_pszXmlContacts, sName.c_str()))
+			if (0 == mir_wstrcmpi(g_pszXmlContacts, sName.c_str()))
 				cContacts += count_contacts(pNode, true);
 			else
 				cContacts += count_contacts(pNode, false);
 		}
 		else {
-			if (0 == mir_tstrcmpi(g_pszXmlContact, sName.c_str()))
+			if (0 == mir_wstrcmpi(g_pszXmlContact, sName.c_str()))
 				++cContacts;
 		}
 	}
@@ -405,8 +405,8 @@ IXMLNode::TXMLNodePtr find_quotes_module(const IXMLNode::TXMLNodePtr& pXmlContac
 	for (size_t i = 0; i < cChild; ++i) {
 		IXMLNode::TXMLNodePtr pNode = pXmlContact->GetChildNode(i);
 		tstring sName = pNode->GetName();
-		if ((0 == mir_tstrcmpi(g_pszXmlModule, sName.c_str()))
-			&& (0 == mir_tstrcmpi(g_sQuotes.c_str(), pNode->GetText().c_str()))) {
+		if ((0 == mir_wstrcmpi(g_pszXmlModule, sName.c_str()))
+			&& (0 == mir_wstrcmpi(g_sQuotes.c_str(), pNode->GetText().c_str()))) {
 			return pNode;
 		}
 	}
@@ -424,10 +424,10 @@ TNameValue parse_setting_node(const IXMLNode::TXMLNodePtr& pXmlSetting)
 	for (size_t j = 0; j < cSettingChildItems; ++j) {
 		IXMLNode::TXMLNodePtr pXMLSetChild = pXmlSetting->GetChildNode(j);
 		if (pXMLSetChild) {
-			if (0 == mir_tstrcmpi(g_pszXmlName, pXMLSetChild->GetName().c_str())) {
+			if (0 == mir_wstrcmpi(g_pszXmlName, pXMLSetChild->GetName().c_str())) {
 				sName = pXMLSetChild->GetText();
 			}
-			else if (0 == mir_tstrcmpi(g_pszXmlValue, pXMLSetChild->GetName().c_str())) {
+			else if (0 == mir_wstrcmpi(g_pszXmlValue, pXMLSetChild->GetName().c_str())) {
 				sValue = pXMLSetChild->GetText();
 			}
 		}
@@ -443,9 +443,9 @@ CQuotesProviders::TQuotesProviderPtr find_provider(const IXMLNode::TXMLNodePtr& 
 	size_t cChild = pXmlQuotesModule->GetChildCount();
 	for (size_t i = 0; i < cChild; ++i) {
 		IXMLNode::TXMLNodePtr pXMLSetting = pXmlQuotesModule->GetChildNode(i);
-		if (pXMLSetting && (0 == mir_tstrcmpi(g_pszXmlSetting, pXMLSetting->GetName().c_str()))) {
+		if (pXMLSetting && (0 == mir_wstrcmpi(g_pszXmlSetting, pXMLSetting->GetName().c_str()))) {
 			TNameValue Item = parse_setting_node(pXMLSetting);
-			if ((0 == mir_tstrcmpi(g_sQuotesProvider.c_str(), Item.first.c_str())) && (false == Item.second.empty())) {
+			if ((0 == mir_wstrcmpi(g_sQuotesProvider.c_str(), Item.first.c_str())) && (false == Item.second.empty())) {
 				return CModuleInfo::GetInstance().GetQuoteProvidersPtr()->FindProvider(Item.second);
 			}
 		}
@@ -486,12 +486,12 @@ bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& 
 			size_t cChild = m_pXmlQuotes->GetChildCount();
 			for (size_t i = 0; i < cChild; ++i) {
 				IXMLNode::TXMLNodePtr pNode = m_pXmlQuotes->GetChildNode(i);
-				if (pNode && (0 == mir_tstrcmpi(g_pszXmlSetting, pNode->GetName().c_str()))) {
+				if (pNode && (0 == mir_wstrcmpi(g_pszXmlSetting, pNode->GetName().c_str()))) {
 					TNameValue Item = parse_setting_node(pNode);
-					if (0 == mir_tstrcmpi(g_sFromID.c_str(), Item.first.c_str())) {
+					if (0 == mir_wstrcmpi(g_sFromID.c_str(), Item.first.c_str())) {
 						sFromID = Item.second;
 					}
-					else if (0 == mir_tstrcmpi(g_sToID.c_str(), Item.first.c_str())) {
+					else if (0 == mir_wstrcmpi(g_sToID.c_str(), Item.first.c_str())) {
 						sToID = Item.second;
 					}
 				}
@@ -518,9 +518,9 @@ bool get_contact_state(const IXMLNode::TXMLNodePtr& pXmlContact, CContactState& 
 			size_t cChild = m_pXmlQuotes->GetChildCount();
 			for (size_t i = 0; i < cChild; ++i) {
 				IXMLNode::TXMLNodePtr pNode = m_pXmlQuotes->GetChildNode(i);
-				if (pNode && (0 == mir_tstrcmpi(g_pszXmlSetting, pNode->GetName().c_str()))) {
+				if (pNode && (0 == mir_wstrcmpi(g_pszXmlSetting, pNode->GetName().c_str()))) {
 					TNameValue Item = parse_setting_node(pNode);
-					if (0 == mir_tstrcmpi(Item.first.c_str(), sXMLNodeName.c_str())) {
+					if (0 == mir_wstrcmpi(Item.first.c_str(), sXMLNodeName.c_str())) {
 						sValue = Item.second;
 						break;
 					}
@@ -568,7 +568,7 @@ bool import_contact(const IXMLNode::TXMLNodePtr& pXmlContact, CImportContext& im
 			for (size_t i = 0; i < cChild && bResult; ++i) {
 				IXMLNode::TXMLNodePtr pNode = pXmlContact->GetChildNode(i);
 				tstring sName = pNode->GetName();
-				if (0 == mir_tstrcmpi(g_pszXmlModule, sName.c_str()))
+				if (0 == mir_wstrcmpi(g_pszXmlModule, sName.c_str()))
 					bResult &= handle_module(cst.m_hContact, pNode);
 			}
 
@@ -590,7 +590,7 @@ size_t import_contacts(const IXMLNode::TXMLNodePtr& pXmlContacts, CImportContext
 	for (size_t i = 0; i < cChild; ++i) {
 		IXMLNode::TXMLNodePtr pNode = pXmlContacts->GetChildNode(i);
 		tstring sName = pNode->GetName();
-		if (0 == mir_tstrcmpi(g_pszXmlContact, sName.c_str()))
+		if (0 == mir_wstrcmpi(g_pszXmlContact, sName.c_str()))
 			if (true == import_contact(pNode, impctx))
 				++cContacts;
 	}
@@ -606,7 +606,7 @@ size_t handle_contacts_node(const IXMLNode::TXMLNodePtr& pXmlRoot, CImportContex
 	for (size_t i = 0; i < cChild; ++i) {
 		IXMLNode::TXMLNodePtr pNode = pXmlRoot->GetChildNode(i);
 		tstring sName = pNode->GetName();
-		if (0 == mir_tstrcmpi(g_pszXmlContacts, sName.c_str()))
+		if (0 == mir_wstrcmpi(g_pszXmlContacts, sName.c_str()))
 			cContacts += import_contacts(pNode, impctx);
 		else
 			cContacts += handle_contacts_node(pNode, impctx);

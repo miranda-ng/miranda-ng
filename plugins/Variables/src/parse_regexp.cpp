@@ -39,14 +39,14 @@ static wchar_t *parseRegExpCheck(ARGUMENTSINFO *ai)
 		return NULL;
 
 	pcre16_extra *extra = pcre16_study(ppat, 0, &err);
-	int nmat = pcre16_exec(ppat, extra, ai->targv[2], (int)mir_tstrlen(ai->targv[2]), 0, 0, offsets, 99);
+	int nmat = pcre16_exec(ppat, extra, ai->targv[2], (int)mir_wstrlen(ai->targv[2]), 0, 0, offsets, 99);
 	if (nmat > 0) {
 		ai->flags &= ~AIF_FALSE;
 		_ltoa(nmat, szVal, 10);
-		return mir_a2t(szVal);
+		return mir_a2u(szVal);
 	}
 
-	return mir_tstrdup(L"0");
+	return mir_wstrdup(L"0");
 }
 
 /*
@@ -72,19 +72,19 @@ static wchar_t *parseRegExpSubstr(ARGUMENTSINFO *ai)
 		return NULL;
 
 	pcre16_extra *extra = pcre16_study(ppat, 0, &err);
-	int nmat = pcre16_exec(ppat, extra, ai->targv[2], (int)mir_tstrlen(ai->targv[2]), 0, 0, offsets, 99);
+	int nmat = pcre16_exec(ppat, extra, ai->targv[2], (int)mir_wstrlen(ai->targv[2]), 0, 0, offsets, 99);
 	if (nmat >= 0)
 		ai->flags &= ~AIF_FALSE;
 
 	if (pcre16_get_substring(ai->targv[2], offsets, nmat, number, &substring) < 0)
 		ai->flags |= AIF_FALSE;
 	else {
-		wchar_t *tres = mir_tstrdup(substring);
+		wchar_t *tres = mir_wstrdup(substring);
 		pcre16_free_substring(substring);
 		return tres;
 	}
 
-	return mir_tstrdup(L"");
+	return mir_wstrdup(L"");
 }
 
 void registerRegExpTokens()

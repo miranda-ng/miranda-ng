@@ -143,7 +143,7 @@ char* GetRichTextRTF(HWND hwnd)
 void rtrimText(wchar_t *text)
 {
 	static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
-	size_t iLen = mir_tstrlen(text) - 1;
+	size_t iLen = mir_wstrlen(text) - 1;
 	while (wcschr(szTrimString, text[iLen])) {
 		text[iLen] = '\0';
 		iLen--;
@@ -152,7 +152,7 @@ void rtrimText(wchar_t *text)
 
 wchar_t* limitText(wchar_t *text, int limit)
 {
-	size_t len = mir_tstrlen(text);
+	size_t len = mir_wstrlen(text);
 	if (len > g_dat.limitNamesLength) {
 		wchar_t *ptszTemp = (wchar_t*)mir_alloc(sizeof(wchar_t) * (limit + 4));
 		wcsncpy(ptszTemp, text, limit + 1);
@@ -387,7 +387,7 @@ void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
 
 void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen)
 {
-	ptrT id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact, dat->szProto));
+	ptrW id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact, dat->szProto));
 	if (id != NULL)
 		strncpy_s(buf, maxlen, _T2A(id), _TRUNCATE);
 }

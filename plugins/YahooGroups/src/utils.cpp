@@ -160,7 +160,7 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 
 wchar_t* GetContactName(MCONTACT hContact, char *szProto)
 {
-	ptrT id(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
+	ptrW id(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
 	return (id != NULL) ? wcsdup(id) : NULL;
 }
 
@@ -179,7 +179,7 @@ wchar_t *GetContactID(MCONTACT hContact)
 
 wchar_t* GetContactID(MCONTACT hContact, char *szProto)
 {
-	ptrT id(Contact_GetInfo(CNF_DISPLAY, hContact, szProto));
+	ptrW id(Contact_GetInfo(CNF_DISPLAY, hContact, szProto));
 	return (id != NULL) ? wcsdup(id) : NULL;
 }
 
@@ -198,7 +198,7 @@ MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 		tmp = pcli->pfnGetContactDisplayName(hContact, 0);
 		wcsncpy(dispName, tmp, _countof(dispName));
 		
-		if ((szHandle) && ((mir_tstrcmpi(szHandle, szID) == 0) || (mir_tstrcmpi(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
+		if ((szHandle) && ((mir_wstrcmpi(szHandle, szID) == 0) || (mir_wstrcmpi(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
 			found = 1;
 
 		if (szHandle) { free(szHandle); }

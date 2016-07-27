@@ -6,7 +6,7 @@ static int clist_AddMainMenuRoot(lua_State *L)
 	int position = lua_tointeger(L, 2);
 	HANDLE hIcon = (HANDLE)lua_touserdata(L, 3);
 
-	HGENMENU res = Menu_CreateRoot(MO_MAIN, ptrT(Utf8DecodeT(name)), position, hIcon);
+	HGENMENU res = Menu_CreateRoot(MO_MAIN, ptrW(Utf8DecodeT(name)), position, hIcon);
 	lua_pushlightuserdata(L, res);
 
 	return 1;
@@ -29,7 +29,7 @@ static int clist_AddContactMenuRoot(lua_State *L)
 	int position = lua_tointeger(L, 2);
 	HANDLE hIcon = (HANDLE)lua_touserdata(L, 3);
 
-	HGENMENU res = Menu_CreateRoot(MO_MAIN, ptrT(Utf8DecodeT(name)), position, hIcon);
+	HGENMENU res = Menu_CreateRoot(MO_MAIN, ptrW(Utf8DecodeT(name)), position, hIcon);
 	lua_pushlightuserdata(L, res);
 
 	return 1;

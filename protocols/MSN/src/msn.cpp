@@ -61,7 +61,7 @@ int MSN_GCMenuHook(WPARAM wParam, LPARAM lParam);
 // Protocol instances
 static int sttCompareProtocols(const CMsnProto *p1, const CMsnProto *p2)
 {
-	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 OBJLIST<CMsnProto> g_Instances(1, sttCompareProtocols);

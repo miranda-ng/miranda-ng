@@ -363,7 +363,7 @@ void create_group(const char *group)
 {
 	if (mir_strcmp(group, AIM_DEFAULT_GROUP) == 0) return;
 
-	wchar_t* szGroupName = mir_utf8decodeT(group);
+	wchar_t* szGroupName = mir_utf8decodeW(group);
 	Clist_GroupCreate(0, szGroupName);
 	mir_free(szGroupName);
 }
@@ -533,18 +533,18 @@ int CAimProto::open_contact_file(const char*, const wchar_t* file, const char*, 
 {
 	path = (wchar_t*)mir_alloc(MAX_PATH * sizeof(wchar_t));
 
-	int pos = mir_sntprintf(path, MAX_PATH, L"%s\\%S", VARST(L"%miranda_userdata%"), m_szModuleName);
+	int pos = mir_snwprintf(path, MAX_PATH, L"%s\\%S", VARST(L"%miranda_userdata%"), m_szModuleName);
 	if (contact_dir)
-		pos += mir_sntprintf(path + pos, MAX_PATH - pos, L"\\%S", m_szModuleName);
+		pos += mir_snwprintf(path + pos, MAX_PATH - pos, L"\\%S", m_szModuleName);
 
 	if (_waccess(path, 0))
 		CreateDirectoryTreeT(path);
 
-	mir_sntprintf(path + pos, MAX_PATH - pos, L"\\%s", file);
+	mir_snwprintf(path + pos, MAX_PATH - pos, L"\\%s", file);
 	int fid = _wopen(path, _O_CREAT | _O_RDWR | _O_BINARY, _S_IREAD);
 	if (fid < 0) {
 		wchar_t errmsg[512];
-		mir_sntprintf(errmsg, TranslateT("Failed to open file: %s %s"), path, __tcserror(NULL));
+		mir_snwprintf(errmsg, TranslateT("Failed to open file: %s %s"), path, __tcserror(NULL));
 		ShowPopup((char*)errmsg, ERROR_POPUP | TCHAR_POPUP);
 	}
 	return fid;

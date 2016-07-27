@@ -64,8 +64,8 @@ void UploadJob::addToUploadDlg()
 {
 	for (UINT i = 0; i < m_files.size(); i++) {
 		UploadJob *jobCopy = new UploadJob(this);
-		mir_tstrcpy(jobCopy->m_tszFilePath, m_files[i]);
-		mir_tstrcpy(jobCopy->m_tszFileName, Utils::getFileNameFromPath(jobCopy->m_tszFilePath));
+		mir_wstrcpy(jobCopy->m_tszFilePath, m_files[i]);
+		mir_wstrcpy(jobCopy->m_tszFileName, Utils::getFileNameFromPath(jobCopy->m_tszFilePath));
 		Utils::makeSafeString(jobCopy->m_tszFileName, jobCopy->m_szSafeFileName);
 
 		UploadDialog::Tab *newTab = new UploadDialog::Tab(jobCopy);
@@ -246,8 +246,8 @@ INT_PTR CALLBACK UploadJob::DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wPa
 		TranslateDialogDefault(hwndDlg);
 		{
 			wchar_t buff[256];
-			wchar_t *fileName = mir_a2t((char *)lParam);
-			mir_sntprintf(buff, TranslateT("File exists - %s"), fileName);
+			wchar_t *fileName = mir_a2u((char *)lParam);
+			mir_snwprintf(buff, TranslateT("File exists - %s"), fileName);
 			SetWindowText(hwndDlg, buff);
 			FREE(fileName);
 		}
@@ -391,10 +391,10 @@ void UploadJob::updateStats()
 		m_avgSpeed /= _countof(m_lastSpeed) + 1;
 		m_lastSpeed[0] = speed;
 
-		mir_sntprintf(m_tab->m_stzSpeed, L"%0.1f kB/s", m_avgSpeed);
+		mir_snwprintf(m_tab->m_stzSpeed, L"%0.1f kB/s", m_avgSpeed);
 
 		double perc = m_uiFileSize ? ((double)m_uiTotalSent / m_uiFileSize) * 100 : 0;
-		mir_sntprintf(m_tab->m_stzComplet, L"%0.1f%% (%d kB/%d kB)", perc, (int)m_uiTotalSent / 1024, (int)m_uiFileSize / 1024);
+		mir_snwprintf(m_tab->m_stzComplet, L"%0.1f%% (%d kB/%d kB)", perc, (int)m_uiTotalSent / 1024, (int)m_uiFileSize / 1024);
 
 		long s = (m_uiFileSize - m_uiTotalSent) / (long)(m_avgSpeed * 1024);
 		int d = (s / 60 / 60 / 24);
@@ -403,9 +403,9 @@ void UploadJob::updateStats()
 		s = s - (d * 24 * 60 * 60) - (h * 60 * 60) - (m * 60);
 
 		wchar_t buff[256];
-		if (d > 0) mir_sntprintf(buff, L"%dd %02d:%02d:%02d", d, h, m, s);
-		else mir_sntprintf(buff, L"%02d:%02d:%02d", h, m, s);
-		mir_sntprintf(m_tab->m_stzRemain, L"%s (%d kB/%d kB)", buff, (m_uiFileSize - m_uiTotalSent) / 1024, m_uiFileSize / 1024);
+		if (d > 0) mir_snwprintf(buff, L"%dd %02d:%02d:%02d", d, h, m, s);
+		else mir_snwprintf(buff, L"%02d:%02d:%02d", h, m, s);
+		mir_snwprintf(m_tab->m_stzRemain, L"%s (%d kB/%d kB)", buff, (m_uiFileSize - m_uiTotalSent) / 1024, m_uiFileSize / 1024);
 
 		refreshTab(false);
 	}
@@ -493,10 +493,10 @@ void UploadJob::closeAllTabs()
 
 void UploadJob::createToolTip()
 {
-	mir_sntprintf(uDlg->m_tszToolTipText, TranslateT("Status: %s\r\nFile: %s\r\nServer: %S"),
+	mir_snwprintf(uDlg->m_tszToolTipText, TranslateT("Status: %s\r\nFile: %s\r\nServer: %S"),
 		getStatusString(), m_tszFileName, m_ftp->m_szServer);
 
 	if (m_tab->m_stzSpeed[0] && m_tab->m_stzComplet[0] && m_tab->m_stzRemain[0])
-		mir_sntprintf(uDlg->m_tszToolTipText, TranslateT("%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s"),
+		mir_snwprintf(uDlg->m_tszToolTipText, TranslateT("%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s"),
 			uDlg->m_tszToolTipText, m_tab->m_stzSpeed, m_tab->m_stzComplet, m_tab->m_stzRemain);
 }

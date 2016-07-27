@@ -156,7 +156,7 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 
 void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -176,15 +176,15 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t
 			db_free(&dbv);
 		}
 		else _i64toa((LONG_PTR)hContact, str, 10);
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", JabberSha1(str, buf), szFileType);
+		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", JabberSha1(str, buf), szFileType);
 	}
 	else if (m_ThreadInfo != NULL) {
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%s@%S avatar%s",
+		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%s@%S avatar%s",
 			m_ThreadInfo->conn.username, m_ThreadInfo->conn.server, szFileType);
 	}
 	else {
 		ptrA res1(getStringA("LoginName")), res2(getStringA("LoginServer"));
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S@%S avatar%s",
+		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S@%S avatar%s",
 			(res1) ? (LPSTR)res1 : "noname", (res2) ? (LPSTR)res2 : m_szModuleName, szFileType);
 	}
 }
@@ -203,15 +203,15 @@ void CJabberProto::ResolveTransportNicks(const wchar_t *jid)
 		if (!getByte(hContact, "IsTransported", 0))
 			continue;
 
-		ptrT dbJid(getTStringA(hContact, "jid")); if (dbJid == NULL) continue;
-		ptrT dbNick(getTStringA(hContact, "Nick")); if (dbNick == NULL) continue;
+		ptrW dbJid(getTStringA(hContact, "jid")); if (dbJid == NULL) continue;
+		ptrW dbNick(getTStringA(hContact, "Nick")); if (dbNick == NULL) continue;
 
 		wchar_t *p = wcschr(dbJid, '@');
 		if (p == NULL)
 			continue;
 
 		*p = 0;
-		if (!mir_tstrcmp(jid, p + 1) && !mir_tstrcmp(dbJid, dbNick)) {
+		if (!mir_wstrcmp(jid, p + 1) && !mir_wstrcmp(dbJid, dbNick)) {
 			*p = '@';
 			m_ThreadInfo->resolveID = SendGetVcard(dbJid);
 			m_ThreadInfo->resolveContact = hContact;
@@ -379,15 +379,15 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 	if (!tszMirVer.IsEmpty())
 		setTString(hContact, "MirVer", tszMirVer);
 
-	ptrT jid(getTStringA(hContact, "jid"));
+	ptrW jid(getTStringA(hContact, "jid"));
 	if (jid == NULL)
 		return;
 
 	wchar_t szFullJid[JABBER_MAX_JID_LEN];
 	if (resource->m_tszResourceName && !wcschr(jid, '/'))
-		mir_sntprintf(szFullJid, L"%s/%s", jid, resource->m_tszResourceName);
+		mir_snwprintf(szFullJid, L"%s/%s", jid, resource->m_tszResourceName);
 	else
-		mir_tstrncpy(szFullJid, jid, _countof(szFullJid));
+		mir_wstrncpy(szFullJid, jid, _countof(szFullJid));
 	setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
 }
 
@@ -438,7 +438,7 @@ void CJabberProto::SetContactOfflineStatus(MCONTACT hContact)
 void CJabberProto::InitPopups(void)
 {
 	wchar_t desc[256];
-	mir_sntprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
+	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
 
 	char name[256];
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");

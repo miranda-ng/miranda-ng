@@ -388,7 +388,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 					if (!db_get_ts(NULL, PPICT_MODULE, g_selectedProto, &dbv)) {
 						if (!PathIsAbsoluteT(VARST(dbv.ptszVal))) {
 							wchar_t szFinalPath[MAX_PATH];
-							mir_sntprintf(szFinalPath, L"%%miranda_path%%\\%s", dbv.ptszVal);
+							mir_snwprintf(szFinalPath, L"%%miranda_path%%\\%s", dbv.ptszVal);
 							SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, szFinalPath);
 						}
 						else SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, dbv.ptszVal);
@@ -489,7 +489,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		TranslateDialogDefault(hwndDlg);
 		if (hContact) {
 			wchar_t szTitle[512];
-			mir_sntprintf(szTitle, TranslateT("Set avatar options for %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_snwprintf(szTitle, TranslateT("Set avatar options for %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 			SetWindowText(hwndDlg, szTitle);
 		}
 		SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
@@ -1082,7 +1082,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 
 				char description[256];
 				CallProtoService(proto, PS_GETNAME, _countof(description), (LPARAM)description);
-				wchar_t *descr = mir_a2t(description);
+				wchar_t *descr = mir_a2u(description);
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), descr, MB_YESNO) == IDYES)
 					avSetMyAvatar(proto, L"");
 				mir_free(descr);

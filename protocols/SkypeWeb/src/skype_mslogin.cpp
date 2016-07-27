@@ -93,7 +93,7 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 			CMStringA ppft(GetStringChunk(szContent, "sFT:'", "'"));
 			
 
-			ptrA code(mir_utf8encodeT(RunConfirmationCode()));
+			ptrA code(mir_utf8encodeW(RunConfirmationCode()));
 
 			SendRequest(new LoginMSRequest(url.c_str(), ptrA(getStringA(SKYPE_SETTINGS_ID)), szCookies.c_str(), ppft.c_str(), code), &CSkypeProto::OnMSLoginEnd);
 			return;
@@ -182,5 +182,5 @@ CMString CSkypeProto::RunConfirmationCode()
 	pForm.caption = caption;
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
-	return (!EnterString(&pForm)) ? CMString() : CMString(ptrT(pForm.ptszResult));
+	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
 }

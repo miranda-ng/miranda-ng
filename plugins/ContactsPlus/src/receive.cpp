@@ -141,9 +141,9 @@ static MCONTACT CreateTemporaryContactForItem(HWND hwndDlg, TRecvContactsData *w
 	wchar_t *caUIN = ListView_GetItemTextEx(GetDlgItem(hwndDlg, IDC_CONTACTS), iItem, 0);
 	char *szProto = GetContactProto(wndData->mhContact);
 	wndData->rhSearch = (HANDLE)CallProtoService(szProto, PS_BASICSEARCH, 0, (LPARAM)caUIN); // find it
-	replaceStrT(wndData->haUin, caUIN);
+	replaceStrW(wndData->haUin, caUIN);
 	for (int j = 0; j < wndData->cbReceived; j++)
-		if (!mir_tstrcmp(wndData->maReceived[j]->mcaUIN, caUIN))
+		if (!mir_wstrcmp(wndData->maReceived[j]->mcaUIN, caUIN))
 			return (MCONTACT)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(PALF_TEMPORARY, j), (LPARAM)wndData->mhDbEvent);
 	return NULL;
 }
@@ -220,13 +220,13 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					TReceivedItem* pItem = wndData->AddReceivedItem();
 
 					if (dbe.flags & DBEF_UTF)
-						pItem->mcaNick = mir_utf8decodeT(pcBlob); 
+						pItem->mcaNick = mir_utf8decodeW(pcBlob); 
 					else
-						pItem->mcaNick = mir_a2t(pcBlob);
+						pItem->mcaNick = mir_a2u(pcBlob);
 					pcBlob += strsize + 1;
 					// UIN
 					strsize = (int)strlennull(pcBlob);
-					pItem->mcaUIN = mir_a2t(pcBlob);
+					pItem->mcaUIN = mir_a2u(pcBlob);
 					pcBlob += strsize + 1;
 					// add to listview
 					lvi.iItem = nItem;
@@ -315,7 +315,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							// found checked contact item, add it
 							wchar_t *caUIN = ListView_GetItemTextEx(hLV, i, 0);
 							for (int j = 0; j < wndData->cbReceived; j++)   // determine item index in packet
-								if (!mir_tstrcmp(wndData->maReceived[j]->mcaUIN, caUIN)) {
+								if (!mir_wstrcmp(wndData->maReceived[j]->mcaUIN, caUIN)) {
 									char *szProto =GetContactProto(wndData->mhContact);
 									hContact = (MCONTACT)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(0, j), (LPARAM)wndData->mhDbEvent);
 									if (hContact && caGroup) {
@@ -437,7 +437,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				fi.psz = wndData->haUin;
 				int iLPos = ListView_FindItem(hLV, -1, &fi);
 				if (iLPos == -1) iLPos = 0;
-				if (mir_tstrcmp(psr->nick.w, L"") && psr->nick.w)
+				if (mir_wstrcmp(psr->nick.w, L"") && psr->nick.w)
 					ListView_SetItemText(hLV, iLPos, 1, psr->nick.w);
 				ListView_SetItemText(hLV, iLPos, 2, psr->firstName.w);
 				ListView_SetItemText(hLV, iLPos, 3, psr->lastName.w);

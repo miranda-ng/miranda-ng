@@ -174,12 +174,12 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 		wchar_t szTemp[32];
 		GetClassName(hWnd, szTemp, 32);
 
-		if (mir_tstrcmp(szTemp, L"MirandaThumbsWnd") == 0) // hide floating contacts
+		if (mir_wstrcmp(szTemp, L"MirandaThumbsWnd") == 0) // hide floating contacts
 		{
 			CallService("FloatingContacts/MainHideAllThumbs", 0, 0);
 			g_bOldSetting |= OLD_FLTCONT;
 		}
-		else if (mir_tstrcmp(szTemp, L"PopupWnd2") == 0 || mir_tstrcmp(szTemp, L"YAPPWinClass") == 0) // destroy opened popups
+		else if (mir_wstrcmp(szTemp, L"PopupWnd2") == 0 || mir_wstrcmp(szTemp, L"YAPPWinClass") == 0) // destroy opened popups
 			PUDeletePopup(hWnd);
 		else
 		{
@@ -398,7 +398,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			wchar_t szTemp[32];
 			GetClassName(pCurWnd->hWnd, szTemp, 32);
 
-			if (IsWindow(pCurWnd->hWnd) && mir_tstrcmp(szTemp, L"SysShadow") != 0) // precaution
+			if (IsWindow(pCurWnd->hWnd) && mir_wstrcmp(szTemp, L"SysShadow") != 0) // precaution
 				ShowWindow(pCurWnd->hWnd, SW_SHOW);
 
 			delete pCurWnd; // bye-bye
@@ -503,7 +503,7 @@ static wchar_t *GetBossKeyText(void)
 	BYTE shift = HIBYTE(wHotKey);
 	static wchar_t buf[128] = { 0 };
 
-	mir_sntprintf(buf, L"%s%s%s%s%s",
+	mir_snwprintf(buf, L"%s%s%s%s%s",
 		(shift & HOTKEYF_CONTROL) ? L"Ctrl + " : L"",
 		(shift & HOTKEYF_SHIFT) ? L"Shift + " : L"",
 		(shift & HOTKEYF_ALT) ? L"Alt + " : L"",
@@ -522,7 +522,7 @@ static int GenMenuInit(WPARAM, LPARAM) // Modify menu item text before to show t
 {
 	if (g_hMenuItem) {
 		wchar_t buf[128];
-		mir_sntprintf(buf, L"%s [%s]", TranslateT("Hide"), GetBossKeyText());
+		mir_snwprintf(buf, L"%s [%s]", TranslateT("Hide"), GetBossKeyText());
 		Menu_ModifyItem(g_hMenuItem, buf);
 	}
 	return 0;

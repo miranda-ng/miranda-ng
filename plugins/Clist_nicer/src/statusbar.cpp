@@ -160,7 +160,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							BYTE isLocked = db_get_b(NULL, PD->RealName, "LockMainStatus", 0);
 
 							wchar_t szTipText[256];
-							mir_sntprintf(szTipText, L"<b>%s</b>: %s%s",
+							mir_snwprintf(szTipText, L"<b>%s</b>: %s%s",
 								PD->RealName, pcli->pfnGetStatusModeDescription(wStatus, 0), isLocked ? L"  (LOCKED)" : L"");
 
 							CLCINFOTIP ti = { sizeof(ti) };

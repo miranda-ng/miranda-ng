@@ -219,7 +219,7 @@ static void LoadLangPackFile(FILE *fp, char *line)
 				wchar_t	*p = wcsrchr(langPack.tszFullPath, '\\');
 				if (p)
 					*p = 0;
-				mir_sntprintf(tszFileName, L"%s\\%S", langPack.tszFullPath, ltrim(line + 9));
+				mir_snwprintf(tszFileName, L"%s\\%S", langPack.tszFullPath, ltrim(line + 9));
 				if (p)
 					*p = '\\';
 
@@ -374,18 +374,18 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 
 MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 {
-	if (ptszLangPack == NULL || !mir_tstrcmpi(ptszLangPack, L""))
+	if (ptszLangPack == NULL || !mir_wstrcmpi(ptszLangPack, L""))
 		return 1;
 
 	// ensure that a lang's name is a full file name
 	wchar_t tszFullPath[MAX_PATH];
 	if (!PathIsAbsoluteT(ptszLangPack))
-		mir_sntprintf(tszFullPath, L"%s\\%s", g_tszRoot, ptszLangPack);
+		mir_snwprintf(tszFullPath, L"%s\\%s", g_tszRoot, ptszLangPack);
 	else
 		wcsncpy_s(tszFullPath, ptszLangPack, _TRUNCATE);
 
 	// this lang is already loaded? nothing to do then
-	if (!mir_tstrcmp(tszFullPath, langPack.tszFullPath))
+	if (!mir_wstrcmp(tszFullPath, langPack.tszFullPath))
 		return 0;
 
 	// ok... loading a new langpack. remove the old one if needed
@@ -563,9 +563,9 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 
 	wchar_t szClass[32];
 	GetClassName(hwnd, szClass, _countof(szClass));
-	if (!mir_tstrcmpi(szClass, L"static") || !mir_tstrcmpi(szClass, L"hyperlink") || !mir_tstrcmpi(szClass, L"button") || !mir_tstrcmpi(szClass, L"MButtonClass") || !mir_tstrcmpi(szClass, L"MHeaderbarCtrl"))
+	if (!mir_wstrcmpi(szClass, L"static") || !mir_wstrcmpi(szClass, L"hyperlink") || !mir_wstrcmpi(szClass, L"button") || !mir_wstrcmpi(szClass, L"MButtonClass") || !mir_wstrcmpi(szClass, L"MHeaderbarCtrl"))
 		TranslateWindow(uuid, hwnd);
-	else if (!mir_tstrcmpi(szClass, L"edit")) {
+	else if (!mir_wstrcmpi(szClass, L"edit")) {
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY)
 			TranslateWindow(uuid, hwnd);
 	}
@@ -641,7 +641,7 @@ void GetDefaultLang()
 	PathToAbsoluteT(L"\\mirandaboot.ini", tszPath);
 	GetPrivateProfileString(L"Language", L"DefaultLanguage", L"", tszLangName, _countof(tszLangName), tszPath);
 	if (tszLangName[0]) {
-		if (!mir_tstrcmpi(tszLangName, L"default")) {
+		if (!mir_wstrcmpi(tszLangName, L"default")) {
 			db_set_ts(NULL, "Langpack", "Current", L"default");
 			return;
 		}
@@ -653,7 +653,7 @@ void GetDefaultLang()
 	
 	// try to load langpack that matches UserDefaultUILanguage
 	if (GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, tszLangName, _countof(tszLangName))) {
-		mir_sntprintf(tszPath, L"langpack_%s.txt", wcslwr(tszLangName));
+		mir_snwprintf(tszPath, L"langpack_%s.txt", wcslwr(tszLangName));
 		if (!LoadLangPack(tszPath)) {
 			db_set_ts(NULL, "Langpack", "Current", tszPath);
 			return;
@@ -661,7 +661,7 @@ void GetDefaultLang()
 	}
 
 	// finally try to load first file
-	mir_sntprintf(tszPath, L"%s\\langpack_*.txt", g_tszRoot);
+	mir_snwprintf(tszPath, L"%s\\langpack_*.txt", g_tszRoot);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(tszPath, &fd);

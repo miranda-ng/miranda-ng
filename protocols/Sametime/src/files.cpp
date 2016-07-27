@@ -28,12 +28,12 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 
 	proto->ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)ft, 0);
 
-	wchar_t* filenameT = mir_utf8decodeT(mwFileTransfer_getFileName(ft));
+	wchar_t* filenameT = mir_utf8decodeW(mwFileTransfer_getFileName(ft));
 	const char* message = mwFileTransfer_getMessage(ft);
 	wchar_t descriptionT[512];
 	if (message) {
-		wchar_t* messageT = mir_utf8decodeT(message);
-		mir_sntprintf(descriptionT, L"%s - %s", filenameT, messageT);
+		wchar_t* messageT = mir_utf8decodeW(message);
+		mir_snwprintf(descriptionT, L"%s - %s", filenameT, messageT);
 		mir_free(messageT);
 	} else
 		wcsncpy_s(descriptionT, filenameT, _TRUNCATE);

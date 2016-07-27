@@ -101,7 +101,7 @@ static wchar_t* sttHokeyVkToName(WORD vkKey)
 
 void HotkeyToName(wchar_t *buf, int size, BYTE shift, BYTE key)
 {
-	mir_sntprintf(buf, size, L"%s%s%s%s%s",
+	mir_snwprintf(buf, size, L"%s%s%s%s%s",
 		(shift & HOTKEYF_CONTROL) ? TranslateT("Ctrl + ") : L"",
 		(shift & HOTKEYF_ALT) ? TranslateT("Alt + ") : L"",
 		(shift & HOTKEYF_SHIFT) ? TranslateT("Shift + ") : L"",
@@ -281,23 +281,23 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 		item2 = (THotkeyItem *)lvi.lParam;
 
 	if (!item1 && !item2)
-		return mir_tstrcmp(title1, title2);
+		return mir_wstrcmp(title1, title2);
 
 	if (!item1 && item2) {
-		if (res = mir_tstrcmp(title1, item2->getSection()))
+		if (res = mir_wstrcmp(title1, item2->getSection()))
 			return res;
 		return -1;
 	}
 
 	if (!item2 && item1) {
-		if (res = mir_tstrcmp(item1->getSection(), title2))
+		if (res = mir_wstrcmp(item1->getSection(), title2))
 			return res;
 		return 1;
 	}
 	/* item1 != NULL && item2 != NULL */
 
-	if (res = mir_tstrcmp(item1->getSection(), item2->getSection())) return res;
-	if (res = mir_tstrcmp(item1->getDescr(), item2->getDescr())) return res;
+	if (res = mir_wstrcmp(item1->getSection(), item2->getSection())) return res;
+	if (res = mir_wstrcmp(item1->getDescr(), item2->getDescr())) return res;
 	if (!item1->rootHotkey && item2->rootHotkey) return -1;
 	if (item1->rootHotkey && !item2->rootHotkey) return 1;
 	return 0;
@@ -311,8 +311,8 @@ static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 	THotkeyItem *newItem = (THotkeyItem *)mir_alloc(sizeof(THotkeyItem));
 	newItem->pszName = NULL;
 	newItem->pszService = item->pszService ? mir_strdup(item->pszService) : NULL;
-	newItem->ptszSection = mir_tstrdup(item->ptszSection);
-	newItem->ptszDescription = mir_tstrdup(item->ptszDescription);
+	newItem->ptszSection = mir_wstrdup(item->ptszSection);
+	newItem->ptszDescription = mir_wstrdup(item->ptszDescription);
 	newItem->lParam = item->lParam;
 	newItem->idHotkey = GlobalAddAtomA(buf);
 	newItem->rootHotkey = item;
@@ -393,7 +393,7 @@ static void sttBuildHotkeyList(HWND hwndList)
 		if (item->OptDeleted)
 			continue;
 
-		if (!i || mir_tstrcmp(item->ptszSection, hotkeys[i - 1]->ptszSection)) {
+		if (!i || mir_wstrcmp(item->ptszSection, hotkeys[i - 1]->ptszSection)) {
 			lvi.mask = LVIF_TEXT | LVIF_PARAM;
 			lvi.iItem = nItems++;
 			lvi.iSubItem = 0;
@@ -452,7 +452,7 @@ static void sttOptionsDrawTextChunk(HDC hdc, wchar_t *text, RECT *rc)
 	DrawText(hdc, text, -1, rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
 
 	SIZE sz;
-	GetTextExtentPoint32(hdc, text, (int)mir_tstrlen(text), &sz);
+	GetTextExtentPoint32(hdc, text, (int)mir_wstrlen(text), &sz);
 	rc->left += sz.cx;
 }
 
@@ -536,7 +536,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				lvi.iSubItem = 1;
 				ListView_GetItem(hwndHotkey, &lvi);
 
-				szSetting = mir_t2a(lvi.pszText);
+				szSetting = mir_u2a(lvi.pszText);
 
 				ListView_SetCheckState(hwndHotkey, lvi.iItem,
 					db_get_b(NULL, DBMODULENAME "UI", szSetting, TRUE));
@@ -907,7 +907,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 									ListView_GetItem(lpnmhdr->hwndFrom, &lvi2);
 									item = (THotkeyItem*)lvi2.lParam;
 									if (!item) continue;
-									if (!mir_tstrcmp(item->getSection(), buf)) {
+									if (!mir_wstrcmp(item->getSection(), buf)) {
 										ListView_DeleteItem(lpnmhdr->hwndFrom, lvi2.iItem);
 										--lvi2.iItem;
 										--count;
@@ -920,7 +920,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 								for (int i = 0; i < hotkeys.getCount(); i++) {
 									LVITEM lvi2 = { 0 };
 									item = hotkeys[i];
-									if (item->OptDeleted || mir_tstrcmp(buf, item->getSection()))
+									if (item->OptDeleted || mir_wstrcmp(buf, item->getSection()))
 										continue;
 
 									lvi2.mask = LVIF_PARAM | LVIF_INDENT;

@@ -42,9 +42,9 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 #ifdef _DEBUG
 		wchar_t b[40];
-		mir_sntprintf(b, L"%d", wParam);
+		mir_snwprintf(b, L"%d", wParam);
 		logMessage(L"Timer ID", b);
-		mir_sntprintf(b, L"%d", options.showtime);
+		mir_snwprintf(b, L"%d", options.showtime);
 		logMessage(L"ShowTime value", b);
 #endif
 
@@ -228,16 +228,16 @@ void __cdecl SplashThread(void *arg)
 			}
 
 		wchar_t verString[256] = { 0 };
-		wchar_t *mirandaVerString = mir_a2t(szVersion);
-		mir_sntprintf(verString, L"%s%s", szPrefix, mirandaVerString);
+		wchar_t *mirandaVerString = mir_a2u(szVersion);
+		mir_snwprintf(verString, L"%s%s", szPrefix, mirandaVerString);
 		mir_free(mirandaVerString);
 		LOGFONT lf = { 0 };
 		lf.lfHeight = 14;
-		mir_tstrcpy(lf.lfFaceName, L"Verdana");
+		mir_wstrcpy(lf.lfFaceName, L"Verdana");
 		SelectObject(SplashBmp->getDC(), CreateFontIndirect(&lf));
 		if (!splashWithMarkers) {
 			SIZE v_sz = { 0, 0 };
-			GetTextExtentPoint32(SplashBmp->getDC(), verString, (int)mir_tstrlen(verString), &v_sz);
+			GetTextExtentPoint32(SplashBmp->getDC(), verString, (int)mir_wstrlen(verString), &v_sz);
 			x = SplashBmp->getWidth() / 2 - (v_sz.cx / 2);
 			y = SplashBmp->getHeight() - (SplashBmp->getHeight()*(100 - 90) / 100);
 		}
@@ -327,7 +327,7 @@ BOOL ShowSplash(BOOL bpreview)
 		timeout = options.showtime;
 #ifdef _DEBUG
 		wchar_t b[40];
-		mir_sntprintf(b, L"%d", options.showtime);
+		mir_snwprintf(b, L"%d", options.showtime);
 		logMessage(L"Timeout", b);
 #endif
 	}

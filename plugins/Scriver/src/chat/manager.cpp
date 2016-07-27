@@ -48,7 +48,7 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
 		while (pTemp != NULL) {
 			if (pTemp != currSession && !mir_strcmpi(pszModule, pTemp->pszModule)) {
 				if (my_strstri(pTemp->ptszName, pszOriginal) == pTemp->ptszName) {
-					if (prevSession != pTemp && mir_tstrcmpi(pTemp->ptszName, pszCurrent) > 0 && (!pszName || mir_tstrcmpi(pTemp->ptszName, pszName) < 0)) {
+					if (prevSession != pTemp && mir_wstrcmpi(pTemp->ptszName, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(pTemp->ptszName, pszName) < 0)) {
 						pResult = pTemp;
 						pszName = pTemp->ptszName;
 					}

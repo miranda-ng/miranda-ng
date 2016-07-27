@@ -158,7 +158,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 							GetXMLFieldExBuff(lpszXML, dwXMLSize, szBuff, sizeof(szBuff), NULL, "sms_response", "error", "params", "param", NULL);
 						}
 
-						mir_sntprintf(tszErrorMessage, TranslateT("SMS message didn't send by %S to %s because: %S"), szNetwork, tszPhone, lpszErrorDescription);
+						mir_snwprintf(tszErrorMessage, TranslateT("SMS message didn't send by %S to %s because: %S"), szNetwork, tszPhone, lpszErrorDescription);
 						ShowWindow(hWndDlg, SW_SHOWNORMAL);
 						EnableWindow(hWndDlg, FALSE);
 						HWND hwndTimeOut = CreateDialog(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_SENDSMSTIMEDOUT), hWndDlg, SMSTimedOutDlgProc);
@@ -232,7 +232,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 			}
 			else {
 				memcpy(pszServiceFunctionName, SMS_READ, sizeof(SMS_READ));
-				mir_sntprintf(szToolTip, TranslateT("SMS Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				mir_snwprintf(szToolTip, TranslateT("SMS Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 				CLISTEVENT cle = {};
 				cle.flags = CLEF_TCHAR;
@@ -255,7 +255,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 			UINT iIcon;
 			if (GetDataFromMessage((LPSTR)dbei.pBlob, dbei.cbBlob, NULL, NULL, 0, NULL, &iIcon)) {
 				memcpy(pszServiceFunctionName, SMS_READ_ACK, sizeof(SMS_READ_ACK));
-				mir_sntprintf(szToolTip, TranslateT("SMS Confirmation from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				mir_snwprintf(szToolTip, TranslateT("SMS Confirmation from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 
 				CLISTEVENT cle = {};
 				cle.flags = CLEF_TCHAR;

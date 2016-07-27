@@ -125,15 +125,15 @@ static HANDLE LoadXStatusIconLibrary(wchar_t *path, const wchar_t *sub)
 	wchar_t* p = wcsrchr(path, '\\');
 	HANDLE hLib;
 
-	mir_tstrcpy(p, sub);
-	mir_tstrcat(p, L"\\xstatus_ICQ.dll");
+	mir_wstrcpy(p, sub);
+	mir_wstrcat(p, L"\\xstatus_ICQ.dll");
 	if (hLib = LoadLibrary(path))
 		return hLib;
-	mir_tstrcpy(p, sub);
-	mir_tstrcat(p, L"\\xstatus_icons.dll");
+	mir_wstrcpy(p, sub);
+	mir_wstrcat(p, L"\\xstatus_icons.dll");
 	if (hLib = LoadLibrary(path))
 		return hLib;
-	mir_tstrcpy(p, L"\\");
+	mir_wstrcpy(p, L"\\");
 	return hLib;
 }
 
@@ -852,7 +852,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	HGENMENU hRoot;
 	{
 		wchar_t szItem[MAX_PATH + 64];
-		mir_sntprintf(szItem, TranslateT("%s Custom Status"), m_tszUserName);
+		mir_snwprintf(szItem, TranslateT("%s Custom Status"), m_tszUserName);
 
 		CMenuItem mi;
 		mi.root = pcli->pfnGetProtocolMenu(m_szModuleName);

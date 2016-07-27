@@ -41,9 +41,9 @@ static wchar_t *StrNormNewline(wchar_t *tszStr)
 			nCR++;
 
 	if (!nCR)
-		return mir_tstrdup(tszStr);
+		return mir_wstrdup(tszStr);
 
-	wchar_t *tszNewStr = (wchar_t *)mir_alloc((mir_tstrlen(tszStr) + nCR + 1) * sizeof(wchar_t)), *ptszStr = tszNewStr;
+	wchar_t *tszNewStr = (wchar_t *)mir_alloc((mir_wstrlen(tszStr) + nCR + 1) * sizeof(wchar_t)), *ptszStr = tszNewStr;
 	while (*tszStr) {
 		if (*tszStr == 0x0A)
 			*ptszStr++ = 0x0D;
@@ -86,14 +86,14 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			wchar_t *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
 
 			GetWindowText(hwndDlg, format, _countof(format));
-			mir_sntprintf(str, format, status, contactName);
+			mir_snwprintf(str, format, status, contactName);
 			SetWindowText(hwndDlg, str);
 			if (dat->hSeq) {
 				GetDlgItemText(hwndDlg, IDC_RETRIEVING, format, _countof(format));
-				mir_sntprintf(str, format, status);
+				mir_snwprintf(str, format, status);
 			}
 			else {
-				mir_sntprintf(str, TranslateT("Failed to retrieve %s message."), status);
+				mir_snwprintf(str, TranslateT("Failed to retrieve %s message."), status);
 				SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
 			}
 			SetDlgItemText(hwndDlg, IDC_RETRIEVING, str);
@@ -205,7 +205,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			wchar_t str[256], format[128];
 			GetWindowText(hwndDlg, format, _countof(format));
-			mir_sntprintf(str, format, contactName);
+			mir_snwprintf(str, format, contactName);
 			SetWindowText(hwndDlg, str);
 			if (!dat->hSeq)
 				DestroyWindow(hwndDlg);
@@ -237,7 +237,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				wchar_t *tszMsg = StrNormNewline((wchar_t *)ack->lParam);
 				wcsncpy_s(msg, tszMsg, _TRUNCATE);
 				mir_free(tszMsg);
-				size_t len = mir_tstrlen(msg);
+				size_t len = mir_wstrlen(msg);
 				if (len) {
 					LPTSTR lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(wchar_t));
@@ -344,17 +344,17 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
 			HICON hIcon = Skin_LoadProtoIcon(szProto, iStatus);
-			mir_sntprintf(str, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+			mir_snwprintf(str, TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 			Menu_ModifyItem(hAwayMsgMenuItem, str, hIcon, 0);
 			IcoLib_ReleaseIcon(hIcon);
 
 			ptrA szMsg(db_get_sa(hContact, "CList", "StatusMsg"));
 			if (szMsg != NULL) {
-				mir_sntprintf(str, TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+				mir_snwprintf(str, TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 				Menu_ModifyItem(hCopyMsgMenuItem, str);
 
 				if (StrFindURL(szMsg) != NULL) {
-					mir_sntprintf(str, TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+					mir_snwprintf(str, TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 					Menu_ModifyItem(hGoToURLMenuItem, str);
 				}
 			}

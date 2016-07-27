@@ -115,7 +115,7 @@ int GetStringFromDatabase(char *szSettingName, wchar_t *szError, wchar_t *szResu
 	dbv.type = DBVT_ASCIIZ;
 	if (db_get_ts(NULL, ModuleName, szSettingName, &dbv) == 0) {
 		res = 0;
-		size_t tmp = mir_tstrlen(dbv.ptszVal);
+		size_t tmp = mir_wstrlen(dbv.ptszVal);
 		size_t len = (tmp < size - 1) ? tmp : size - 1;
 		wcsncpy(szResult, dbv.ptszVal, len);
 		szResult[len] = '\0';
@@ -123,7 +123,7 @@ int GetStringFromDatabase(char *szSettingName, wchar_t *szError, wchar_t *szResu
 	}
 	else {
 		res = 1;
-		size_t tmp = mir_tstrlen(szError);
+		size_t tmp = mir_wstrlen(szError);
 		size_t len = (tmp < size - 1) ? tmp : size - 1;
 		wcsncpy(szResult, szError, len);
 		szResult[len] = '\0';

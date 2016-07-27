@@ -142,7 +142,7 @@ static BOOL IsOverAction(HWND hwndDlg)
 	szText[0] = 0;
 	ListView_GetItemText(hList, hti.iItem, hti.iSubItem, szText, _countof(szText));
 	hdc = GetDC(hList);
-	GetTextExtentPoint32(hdc, szText, (int)mir_tstrlen(szText), &textSize);
+	GetTextExtentPoint32(hdc, szText, (int)mir_wstrlen(szText), &textSize);
 	ReleaseDC(hList, hdc);
 	textPosX = rc.left + (((rc.right - rc.left) - textSize.cx) / 2);
 	return (hti.pt.x > textPosX && hti.pt.x < textPosX + textSize.cx);
@@ -168,7 +168,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 			HANDLE hProtoAckEvent;
 
 			GetWindowText(hwndDlg, oldTitle, _countof(oldTitle));
-			mir_sntprintf(newTitle, oldTitle, gg->m_tszUserName);
+			mir_snwprintf(newTitle, oldTitle, gg->m_tszUserName);
 			SetWindowText(hwndDlg, newTitle);
 			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_SESSIONS));
 
@@ -247,7 +247,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 								GetClientRect(hwndHeader, &rcHeader);
 								rc.top += rcHeader.bottom;
 							}
-							int cbLen = (int)mir_tstrlen(szText);
+							int cbLen = (int)mir_wstrlen(szText);
 							SIZE textSize;
 							GetTextExtentPoint32(nm->nmcd.hdc, szText, cbLen, &textSize);
 							int textPosX = rc.left + (((rc.right - rc.left) - textSize.cx) / 2);
@@ -330,10 +330,10 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						ListView_GetItemText(hList, lvhti.iItem, 0, szClientName, _countof(szClientName));
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
 						ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, _countof(szLoginTime));
-						mir_sntprintf(szText, L"%s\t%s\t%s", szClientName, szIP, szLoginTime);
-						if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(szText) + 1)) != NULL)
+						mir_snwprintf(szText, L"%s\t%s\t%s", szClientName, szIP, szLoginTime);
+						if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_wstrlen(szText) + 1)) != NULL)
 						{
-							mir_tstrcpy((wchar_t*)GlobalLock(hData), szText);
+							mir_wstrcpy((wchar_t*)GlobalLock(hData), szText);
 							GlobalUnlock(hData);
 							SetClipboardData(CF_TEXT, hData);
 						}
@@ -346,7 +346,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						wchar_t szUrl[256], szIP[64];
 						szIP[0] = 0;
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
-						mir_sntprintf(szUrl, L"http://whois.domaintools.com/%s", szIP);
+						mir_snwprintf(szUrl, L"http://whois.domaintools.com/%s", szIP);
 						Utils_OpenUrlT(szUrl);
 						break;
 					}

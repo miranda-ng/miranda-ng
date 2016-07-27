@@ -93,5 +93,5 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 	nameb = pcli->pfnGetContactDisplayName(b, 0);
 
 	//otherwise just compare names
-	return mir_tstrcmpi(namea, nameb);
+	return mir_wstrcmpi(namea, nameb);
 }

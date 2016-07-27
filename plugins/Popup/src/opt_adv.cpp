@@ -32,7 +32,7 @@ LRESULT CALLBACK AlphaTrackBarWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 LIST<wchar_t> g_lstPopupVfx(5, wcsicmp);
 void OptAdv_RegisterVfx(char *name)
 {
-	g_lstPopupVfx.insert(mir_a2t(name));
+	g_lstPopupVfx.insert(mir_a2u(name));
 }
 
 void OptAdv_UnregisterVfx()
@@ -161,7 +161,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETPOS, TRUE, PopupOptions.Alpha);
 			mir_subclassWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), AlphaTrackBarWndProc);
-			mir_sntprintf(tstr, L"%d%%", Byte2Percentile(PopupOptions.Alpha));
+			mir_snwprintf(tstr, L"%d%%", Byte2Percentile(PopupOptions.Alpha));
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
 			CheckDlgButton(hwnd, IDC_TRANS_OPAQUEONHOVER, PopupOptions.OpaqueOnHover ? BST_CHECKED : BST_UNCHECKED);
 			{
@@ -210,7 +210,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				for (int i = 0; i < g_lstPopupVfx.getCount(); ++i) {
 					DWORD dwItem = ComboBox_AddString(hCtrl, TranslateTS(g_lstPopupVfx[i]));
 					ComboBox_SetItemData(hCtrl, dwItem, i);
-					if (PopupOptions.UseEffect && !mir_tstrcmp(g_lstPopupVfx[i], PopupOptions.Effect))
+					if (PopupOptions.UseEffect && !mir_wstrcmp(g_lstPopupVfx[i], PopupOptions.Effect))
 						dwActiveItem = dwItem;
 				}
 				SendDlgItemMessage(hwnd, IDC_EFFECT, CB_SETCURSEL, dwActiveItem, 0);
@@ -236,7 +236,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case IDC_TRANS_SLIDER:
 			PopupOptions.Alpha = (BYTE)SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_GETPOS, 0, 0);
-			mir_sntprintf(tstr, TranslateT("%d%%"), Byte2Percentile(PopupOptions.Alpha));
+			mir_snwprintf(tstr, TranslateT("%d%%"), Byte2Percentile(PopupOptions.Alpha));
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
@@ -341,7 +341,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				int iEffect = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 				PopupOptions.UseEffect = (iEffect != -2) ? TRUE : FALSE;
 				mir_free(PopupOptions.Effect);
-				PopupOptions.Effect = mir_tstrdup((iEffect >= 0) ? g_lstPopupVfx[iEffect] : L"");
+				PopupOptions.Effect = mir_wstrdup((iEffect >= 0) ? g_lstPopupVfx[iEffect] : L"");
 
 				BOOL enable = PopupOptions.UseAnimations || PopupOptions.UseEffect;
 				EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1), enable);

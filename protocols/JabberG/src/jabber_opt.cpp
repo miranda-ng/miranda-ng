@@ -243,7 +243,7 @@ protected:
 	void OnInitDialog()
 	{
 		wchar_t text[256];
-		mir_sntprintf(text, STR_FORMAT, TranslateT("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
+		mir_snwprintf(text, STR_FORMAT, TranslateT("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
 		SetDlgItemText(m_hwnd, IDC_REG_STATUS, text);
 	}
 
@@ -331,7 +331,7 @@ CCtrlEditJid::CCtrlEditJid(CDlgBase* dlg, int ctrlId):
 
 static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlCombo &cbServer)
 {
-	ppro->setTString("jid", CMString(FORMAT, L"%s@%s", ptrT(txtUsername.GetText()), ptrT(cbServer.GetText())));
+	ppro->setTString("jid", CMString(FORMAT, L"%s@%s", ptrW(txtUsername.GetText()), ptrW(cbServer.GetText())));
 }
 
 class CDlgOptAccount : public CJabberDlgBase
@@ -444,7 +444,7 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		ptrT tszResource(m_proto->getTStringA("Resource"));
+		ptrW tszResource(m_proto->getTStringA("Resource"));
 		if (tszResource != NULL) {
 			if (CB_ERR == m_cbResource.FindString(tszResource, -1, true))
 				m_cbResource.AddString(tszResource);
@@ -454,7 +454,7 @@ protected:
 
 		for (int i = 0; g_LanguageCodes[i].szCode; i++) {
 			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
-			if (!mir_tstrcmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
+			if (!mir_wstrcmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
 				m_cbLocale.SetCurSel(iItem);
 		}
 
@@ -483,7 +483,7 @@ protected:
 		m_proto->m_savedPassword = NULL;
 
 		if (m_chkSavePassword.GetState() == BST_CHECKED)
-			m_proto->setTString("Password", ptrT(m_txtPassword.GetText()));
+			m_proto->setTString("Password", ptrW(m_txtPassword.GetText()));
 		else
 			m_proto->delSetting("Password");
 
@@ -494,7 +494,7 @@ protected:
 				m_proto->setTString("XmlLang", szLanguageCode);
 
 				mir_free(m_proto->m_tszSelectedLang);
-				m_proto->m_tszSelectedLang = mir_tstrdup(szLanguageCode);
+				m_proto->m_tszSelectedLang = mir_wstrdup(szLanguageCode);
 			}
 		}
 
@@ -697,7 +697,7 @@ private:
 				if (!n)
 					break;
 
-				if (!mir_tstrcmp(XmlGetName(n), L"item"))
+				if (!mir_wstrcmp(XmlGetName(n), L"item"))
 					if (const wchar_t *jid = XmlGetAttrValue(n, L"jid"))
 						if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
 							m_cbServer.AddString(jid);
@@ -729,7 +729,7 @@ private:
 		NETLIBHTTPREQUEST *result = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)wnd->GetProto()->m_hNetlibUser, (LPARAM)&request);
 		if (result) {
 			if (result->resultCode == 200 && result->dataLength && result->pData) {
-				wchar_t *buf = mir_a2t(result->pData);
+				wchar_t *buf = mir_a2u(result->pData);
 				XmlNode node(buf, NULL, NULL);
 				if (node) {
 					HXML queryNode = XmlGetChild(node, L"query");
@@ -1016,7 +1016,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 
 		// now it is require to process whole contact list to add not in roster contacts
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-			ptrT tszJid(getTStringA(hContact, "jid"));
+			ptrW tszJid(getTStringA(hContact, "jid"));
 			if (tszJid == NULL)
 				continue;
 
@@ -1029,8 +1029,8 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 				if (p) *p = 0;
 			}
 			if (ListView_FindItem(hList, -1, &lvfi) == -1) {
-				ptrT tszName(db_get_tsa(hContact, "CList", "MyHandle"));
-				ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+				ptrW tszName(db_get_tsa(hContact, "CList", "MyHandle"));
+				ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
 				_RosterInsertListItem(hList, tszJid, tszName, tszGroup, NULL, FALSE);
 			}
 		}
@@ -1074,24 +1074,24 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if (!bPushed) {
 					const wchar_t *rosterName = XmlGetAttrValue(itemRoster, L"name");
-					if ((rosterName != NULL || name[0] != 0) && mir_tstrcmpi(rosterName, name))
+					if ((rosterName != NULL || name[0] != 0) && mir_wstrcmpi(rosterName, name))
 						bPushed = TRUE;
 					if (!bPushed) {
 						rosterName = XmlGetAttrValue(itemRoster, L"subscription");
-						if ((rosterName != NULL || subscr[0] != 0) && mir_tstrcmpi(rosterName, subscr))
+						if ((rosterName != NULL || subscr[0] != 0) && mir_wstrcmpi(rosterName, subscr))
 							bPushed = TRUE;
 					}
 					if (!bPushed) {
 						const wchar_t *rosterGroup = XmlGetText(XmlGetChild(itemRoster, "group"));
-						if ((rosterGroup != NULL || group[0] != 0) && mir_tstrcmpi(rosterGroup, group))
+						if ((rosterGroup != NULL || group[0] != 0) && mir_wstrcmpi(rosterGroup, group))
 							bPushed = TRUE;
 					}
 				}
 				if (bPushed) {
 					HXML item = query << XCHILD(L"item");
-					if (mir_tstrlen(group))
+					if (mir_wstrlen(group))
 						item << XCHILD(L"group", group);
-					if (mir_tstrlen(name))
+					if (mir_wstrlen(name))
 						item << XATTR(L"name", name);
 					item << XATTR(L"jid", jid) << XATTR(L"subscription", subscr[0] ? subscr : L"none");
 					itemCount++;
@@ -1179,7 +1179,7 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	wchar_t filename[MAX_PATH] = { 0 };
 
 	wchar_t filter[MAX_PATH];
-	mir_sntprintf(filter, L"%s (*.xml)%c*.xml%c%c", TranslateT("XML for MS Excel (UTF-8 encoded)"), 0, 0, 0);
+	mir_snwprintf(filter, L"%s (*.xml)%c*.xml%c%c", TranslateT("XML for MS Excel (UTF-8 encoded)"), 0, 0, 0);
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hwndDlg;
@@ -1268,7 +1268,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	fclose(fp);
 	_RosterListClear(hwndDlg);
 
-	wchar_t *newBuf = mir_utf8decodeT(buffer);
+	wchar_t *newBuf = mir_utf8decodeW(buffer);
 	mir_free(buffer);
 
 	int nBytesProcessed = 0;
@@ -1295,15 +1295,15 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 						HXML Cell = XmlGetNthChild(Row, L"Cell", 1);
 						HXML Data = (Cell) ? XmlGetChild(Cell, "Data") : XmlNode();
 						if (Data) {
-							if (!mir_tstrcmpi(XmlGetText(Data), L"+")) bAdd = TRUE;
-							else if (mir_tstrcmpi(XmlGetText(Data), L"-")) continue;
+							if (!mir_wstrcmpi(XmlGetText(Data), L"+")) bAdd = TRUE;
+							else if (mir_wstrcmpi(XmlGetText(Data), L"-")) continue;
 
 							Cell = XmlGetNthChild(Row, L"Cell", 2);
 							if (Cell) Data = XmlGetChild(Cell, "Data");
 							else Data = NULL;
 							if (Data) {
 								jid = XmlGetText(Data);
-								if (!jid || mir_tstrlen(jid) == 0) continue;
+								if (!jid || mir_wstrlen(jid) == 0) continue;
 							}
 
 							Cell = XmlGetNthChild(Row, L"Cell", 3);
@@ -1588,7 +1588,7 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		ptrT tszResource(m_proto->getTStringA("Resource"));
+		ptrW tszResource(m_proto->getTStringA("Resource"));
 		if (tszResource != NULL) {
 			if (CB_ERR == m_cbResource.FindString(tszResource, -1, true))
 				m_cbResource.AddString(tszResource);
@@ -1666,7 +1666,7 @@ protected:
 				m_txtManualHost.Enable();
 				m_txtPort.Enable();
 
-				ptrT dbManualHost(m_proto->getTStringA("ManualHost"));
+				ptrW dbManualHost(m_proto->getTStringA("ManualHost"));
 				if (dbManualHost != NULL)
 					m_txtManualHost.SetText(dbManualHost);
 
@@ -1708,7 +1708,7 @@ protected:
 		DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
 		if (GetComputerName(szCompName, &dwCompNameLength)) {
 			m_cbResource.GetText(szResource, _countof(szResource));
-			if (!mir_tstrcmp(szCompName, szResource))
+			if (!mir_wstrcmp(szCompName, szResource))
 				bUseHostnameAsResource = TRUE;
 		}
 		m_proto->m_options.HostNameAsResource = bUseHostnameAsResource;
@@ -2171,7 +2171,7 @@ void CJabberDlgAccMgrUI::RefreshServers(HXML node)
 			if (!n)
 				break;
 
-			if (!mir_tstrcmp(XmlGetName(n), L"item"))
+			if (!mir_wstrcmp(XmlGetName(n), L"item"))
 				if (const wchar_t *jid = XmlGetAttrValue(n, L"jid"))
 					if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
 						m_cbServer.AddString(jid);
@@ -2199,7 +2199,7 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 	NETLIBHTTPREQUEST *result = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)wnd->GetProto()->m_hNetlibUser, (LPARAM)&request);
 	if (result && IsWindow(hwnd)) {
 		if ((result->resultCode == 200) && result->dataLength && result->pData) {
-			wchar_t *ptszText = mir_a2t(result->pData);
+			wchar_t *ptszText = mir_a2u(result->pData);
 			XmlNode node(ptszText, NULL, NULL);
 			if (node) {
 				HXML queryNode = XmlGetChild(node, L"query");
@@ -2236,7 +2236,7 @@ INT_PTR __cdecl CJabberProto::OnMenuOptions(WPARAM, LPARAM)
 	OPENOPTIONSDIALOG ood = { 0 };
 	ood.cbSize = sizeof(ood);
 	ood.pszGroup = "Network";
-	ood.pszPage = mir_t2a(m_tszUserName);
+	ood.pszPage = mir_u2a(m_tszUserName);
 	ood.pszTab = "Account";
 	Options_Open(&ood);
 
@@ -2258,7 +2258,7 @@ int CJabberProto::OnModernOptInit(WPARAM, LPARAM)
 	obj.hInstance = hInst;
 	obj.iSection = MODERNOPT_PAGE_ACCOUNTS;
 	obj.iType = MODERNOPT_TYPE_SUBSECTIONPAGE;
-	obj.lptzSubsection = mir_a2t(m_szModuleName);	// title!!!!!!!!!!!
+	obj.lptzSubsection = mir_a2u(m_szModuleName);	// title!!!!!!!!!!!
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT);
 	obj.iBoldControls = iBoldControls;
 	obj.pfnDlgProc = JabberWizardDlgProc;

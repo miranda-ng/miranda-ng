@@ -57,7 +57,7 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 	if (p->tszGroup == NULL) {
 		p->tszGroup = db_get_tsa(p->hContact, "CList", "Group");
 		if (p->tszGroup == NULL)
-			p->tszGroup = mir_tstrdup(L"");
+			p->tszGroup = mir_wstrdup(L"");
 	}
 
 	if (p->bIsHidden == -1)
@@ -66,8 +66,8 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 
 void fnFreeCacheItem(ClcCacheEntry *p)
 {
-	replaceStrT(p->tszName, NULL);
-	replaceStrT(p->tszGroup, NULL);
+	replaceStrW(p->tszName, NULL);
+	replaceStrW(p->tszGroup, NULL);
 	p->bIsHidden = -1;
 }
 
@@ -114,17 +114,17 @@ wchar_t* fnGetContactDisplayName(MCONTACT hContact, int mode)
 			return cacheEntry->tszName;
 	}
 
-	ptrT tszDisplayName(Contact_GetInfo((mode == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY, hContact));
+	ptrW tszDisplayName(Contact_GetInfo((mode == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY, hContact));
 	if (tszDisplayName != NULL) {
 		if (cacheEntry != NULL)
-			replaceStrT(cacheEntry->tszName, tszDisplayName);
+			replaceStrW(cacheEntry->tszName, tszDisplayName);
 		return tszDisplayName.detach();
 	}
 
 	ProtoChainSend(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
 
 	wchar_t *buffer = TranslateT("(Unknown contact)");
-	return (cacheEntry == NULL) ? mir_tstrdup(buffer) : buffer;
+	return (cacheEntry == NULL) ? mir_wstrdup(buffer) : buffer;
 }
 
 int ContactAdded(WPARAM hContact, LPARAM)
@@ -157,15 +157,15 @@ static void Dbwcs2tstr(DBCONTACTWRITESETTING *cws, wchar_t* &pStr)
 		break;
 
 	case DBVT_UTF8:
-		pStr = mir_utf8decodeT(cws->value.pszVal);
+		pStr = mir_utf8decodeW(cws->value.pszVal);
 		break;
 
 	case DBVT_ASCIIZ:
-		pStr = mir_a2t(cws->value.pszVal);
+		pStr = mir_a2u(cws->value.pszVal);
 		break;
 
 	case DBVT_WCHAR:
-		pStr = mir_u2t(cws->value.ptszVal);
+		pStr = mir_wstrdup(cws->value.ptszVal);
 		break;
 	}
 }
@@ -181,7 +181,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!mir_strcmp(cws->szModule, szProto)) {
 		if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail")) {
 			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);
-			replaceStrT(pdnce->tszName, NULL);
+			replaceStrW(pdnce->tszName, NULL);
 			cli.pfnCheckCacheItem(pdnce);
 		}
 		else if (!strcmp(cws->szSetting, "Status")) {
@@ -196,7 +196,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		else if (!strcmp(cws->szSetting, "MyHandle")) {
 			ClcCacheEntry *pdnce = cli.pfnGetCacheEntry(hContact);
-			replaceStrT(pdnce->tszName, NULL);
+			replaceStrW(pdnce->tszName, NULL);
 			cli.pfnCheckCacheItem(pdnce);
 		}
 		else if (!strcmp(cws->szSetting, "Group")) {

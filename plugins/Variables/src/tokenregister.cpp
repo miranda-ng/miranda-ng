@@ -41,7 +41,7 @@ unsigned long int hashlittle(void *key, size_t length, unsigned long int initval
 
 static DWORD NameHashFunction(wchar_t *tszStr)
 {
-	return (DWORD)hashlittle(tszStr, mir_tstrlen(tszStr)*sizeof(wchar_t), 0);
+	return (DWORD)hashlittle(tszStr, mir_wstrlen(tszStr)*sizeof(wchar_t), 0);
 }
 
 static TokenRegisterEntry* FindTokenRegisterByName(wchar_t *name)
@@ -109,7 +109,7 @@ INT_PTR registerToken(WPARAM, LPARAM lParam)
 		hash = NameHashFunction(newVr->tszTokenString);
 	}
 	else {
-		WCHAR *wtoken = mir_a2t(newVr->szTokenString);
+		WCHAR *wtoken = mir_a2u(newVr->szTokenString);
 		deRegisterToken(wtoken);
 		hash = NameHashFunction(wtoken);
 		mir_free(wtoken);
@@ -121,16 +121,16 @@ INT_PTR registerToken(WPARAM, LPARAM lParam)
 
 	memcpy(&tre->tr, newVr, newVr->cbSize);
 	tre->nameHash = hash;
-	if (!mir_tstrcmp(newVr->tszTokenString, L"alias"))
+	if (!mir_wstrcmp(newVr->tszTokenString, L"alias"))
 		log_debugA("alias");
 
 	if (!(newVr->flags & TRF_PARSEFUNC) && newVr->szService != NULL)
 		tre->tr.szService = mir_strdup(newVr->szService);
 
 	if (newVr->flags & TRF_TCHAR)
-		tre->tr.tszTokenString = mir_tstrdup(newVr->tszTokenString);
+		tre->tr.tszTokenString = mir_wstrdup(newVr->tszTokenString);
 	else
-		tre->tr.tszTokenString = mir_a2t(newVr->szTokenString);
+		tre->tr.tszTokenString = mir_a2u(newVr->szTokenString);
 
 	if (newVr->szHelpText != NULL)
 		tre->tr.szHelpText = mir_strdup(newVr->szHelpText);
@@ -180,7 +180,7 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 		memcpy(&cAi, ai, sizeof(ARGUMENTSINFO));
 		cAi.argv = (char**)mir_alloc(ai->argc*sizeof(char *));
 		for (unsigned j = 0; j < ai->argc; j++)
-			cAi.argv[j] = mir_t2a(ai->targv[j]);
+			cAi.argv[j] = mir_u2a(ai->targv[j]);
 
 		if (thisVr->flags & TRF_PARSEFUNC)
 			callRes = (INT_PTR)thisVr->parseFunction(&cAi);
@@ -191,7 +191,7 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 			mir_free(cAi.argv[j]);
 
 		if ((char *)callRes != NULL)
-			res = mir_a2t((char*)callRes);
+			res = mir_a2u((char*)callRes);
 	}
 	else {
 		// unicode variables calls unicode plugin
@@ -201,7 +201,7 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 			callRes = CallService(thisVr->szService, 0, (LPARAM)ai);
 
 		if ((wchar_t*)callRes != NULL)
-			res = mir_tstrdup((wchar_t*)callRes);
+			res = mir_wstrdup((wchar_t*)callRes);
 	}
 
 	if (callRes != NULL) {

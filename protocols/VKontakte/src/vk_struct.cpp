@@ -100,8 +100,8 @@ void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 
 CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const wchar_t *_desc, wchar_t **_files) :
 	hContact(_hContact),
-	Desc(mir_tstrdup(_desc)),
-	FileName(mir_tstrdup(_files[0])),
+	Desc(mir_wstrdup(_desc)),
+	FileName(mir_wstrdup(_files[0])),
 	atr(NULL),
 	fname(NULL),
 	filetype(typeInvalid)

@@ -32,7 +32,7 @@ void ShowPopup(wchar_t* ptszText, wchar_t* ptszHeader, wchar_t* ptszPath)
 	wcsncpy_s(ppd.lptzText, ptszText, _TRUNCATE);
 	wcsncpy_s(ppd.lptzContactName, ptszHeader, _TRUNCATE);
 	if (ptszPath != NULL)
-		ppd.PluginData = (void*)mir_tstrdup(ptszPath);
+		ppd.PluginData = (void*)mir_wstrdup(ptszPath);
 	ppd.PluginWindowProc = DlgProcPopup;
 	ppd.lchIcon = IcoLib_GetIcon(iconList[0].szName);
 
@@ -112,7 +112,7 @@ bool MakeZip(wchar_t *tszSource, wchar_t *tszDest, wchar_t *dbname, HWND progres
 	HWND hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 
 	ptrA szSourceName(mir_u2a(dbname));
-	ptrT tszDestPath(DoubleSlash(tszDest));
+	ptrW tszDestPath(DoubleSlash(tszDest));
 	OBJLIST<ZipFile> lstFiles(15);
 	lstFiles.insert(new ZipFile((char*)_T2A(tszSource), (char*)szSourceName));
 
@@ -149,7 +149,7 @@ int RotateBackups(wchar_t *backupfolder, wchar_t *dbname)
 
 	if (options.num_backups == 0)
 		return 0; /* Roration disabled. */
-	mir_sntprintf(backupfolderTmp, L"%s\\%s*", backupfolder, dbname);
+	mir_snwprintf(backupfolderTmp, L"%s\\%s*", backupfolder, dbname);
 	hFind = FindFirstFile(backupfolderTmp, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
@@ -169,7 +169,7 @@ int RotateBackups(wchar_t *backupfolder, wchar_t *dbname)
 	if (i > 0)
 		qsort(bf, i, sizeof(backupFile), Comp); /* Sort the list of found files by date in descending order. */
 	for (; i >= options.num_backups; i --) {
-		mir_sntprintf(backupfolderTmp, L"%s\\%s", backupfolder, bf[(i - 1)].Name);
+		mir_snwprintf(backupfolderTmp, L"%s\\%s", backupfolder, bf[(i - 1)].Name);
 		DeleteFile(backupfolderTmp);
 	}
 err_out:
@@ -205,12 +205,12 @@ int Backup(wchar_t *backup_filename)
 
 		GetLocalTime(&st);
 		GetComputerName(buffer, &size);
-		mir_sntprintf(dest_file, L"%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s", backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? L"zip" : L"dat");
+		mir_snwprintf(dest_file, L"%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s", backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? L"zip" : L"dat");
 		mir_free(backupfolder);
 	}
 	else {
 		wcsncpy_s(dest_file, backup_filename, _TRUNCATE);
-		if (!mir_tstrcmp(wcsrchr(backup_filename, '.'), L".zip"))
+		if (!mir_wstrcmp(wcsrchr(backup_filename, '.'), L".zip"))
 			bZip = true;
 	}
 	if (!options.disable_popups)
@@ -221,7 +221,7 @@ int Backup(wchar_t *backup_filename)
 
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
 
-	mir_sntprintf(source_file, L"%s\\%s", profilePath, dbname);
+	mir_snwprintf(source_file, L"%s\\%s", profilePath, dbname);
 	wchar_t *pathtmp = Utils_ReplaceVarsT(source_file);
 	BOOL res = 0;
 	if (bZip)
@@ -253,7 +253,7 @@ int Backup(wchar_t *backup_filename)
 		}
 
 		if (!options.disable_popups) {
-			size_t dest_file_len = mir_tstrlen(dest_file);
+			size_t dest_file_len = mir_wstrlen(dest_file);
 			wchar_t *puText;
 
 			if (dest_file_len > 50) {
@@ -262,12 +262,12 @@ int Backup(wchar_t *backup_filename)
 				for (i = (dest_file_len - 1); dest_file[i] != '\\'; i--)
 					;
 				//wcsncpy_s(dest_file, backup_filename, _TRUNCATE);
-				mir_tstrncpy(puText, dest_file, (i + 2));
-				mir_tstrcat(puText, L"\n");
-				mir_tstrcat(puText, (dest_file + i + 1));
+				mir_wstrncpy(puText, dest_file, (i + 2));
+				mir_wstrcat(puText, L"\n");
+				mir_wstrcat(puText, (dest_file + i + 1));
 			}
 			else
-				puText = mir_tstrdup(dest_file);
+				puText = mir_wstrdup(dest_file);
 
 			// Now we need to know, which folder we made a backup. Let's break unnecessary variables :)
 			while (dest_file[--dest_file_len] != L'\\')
@@ -303,7 +303,7 @@ void BackupStart(wchar_t *backup_filename)
 		return;
 	}
 	if (backup_filename != NULL)
-		tm = mir_tstrdup(backup_filename);
+		tm = mir_wstrdup(backup_filename);
 	if (mir_forkthread(BackupThread, (void*)tm) == INVALID_HANDLE_VALUE) {
 		InterlockedExchange(&m_state, 0); /* Backup done. */
 		mir_free(tm);

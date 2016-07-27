@@ -42,21 +42,21 @@ static void Finalize(time_t& ts)
 
 	if (opts.bBackup) {
 		wchar_t dbPath[MAX_PATH], dbFile[MAX_PATH];
-		mir_tstrcpy(dbPath, opts.filename);
+		mir_wstrcpy(dbPath, opts.filename);
 		wchar_t* str2 = wcsrchr(dbPath, '\\');
 		if (str2 != NULL) {
-			mir_tstrcpy(dbFile, str2 + 1);
+			mir_wstrcpy(dbFile, str2 + 1);
 			*str2 = 0;
 		}
 		else {
-			mir_tstrcpy(dbFile, dbPath);
+			mir_wstrcpy(dbFile, dbPath);
 			dbPath[0] = 0;
 		}
 		for (int i = 1;; i++) {
 			if (i == 1)
-				mir_sntprintf(opts.backupFilename, TranslateT("%s\\Backup of %s"), dbPath, dbFile);
+				mir_snwprintf(opts.backupFilename, TranslateT("%s\\Backup of %s"), dbPath, dbFile);
 			else
-				mir_sntprintf(opts.backupFilename, TranslateT("%s\\Backup (%d) of %s"), dbPath, i, dbFile);
+				mir_snwprintf(opts.backupFilename, TranslateT("%s\\Backup (%d) of %s"), dbPath, i, dbFile);
 			if (_waccess(opts.backupFilename, 0) == -1) break;
 		}
 
@@ -79,16 +79,16 @@ void __cdecl WorkerThread(void *)
 
 	AddToStatus(STATUS_MESSAGE, TranslateT("Database worker thread activated"));
 
-	mir_tstrcpy(opts.workingFilename, opts.filename);
+	mir_wstrcpy(opts.workingFilename, opts.filename);
 
 	if (opts.bCheckOnly) {
-		mir_tstrcpy(opts.outputFilename, TranslateT("<check only>"));
+		mir_wstrcpy(opts.outputFilename, TranslateT("<check only>"));
 		opts.hOutFile = INVALID_HANDLE_VALUE;
 	}
 	else {
-		mir_tstrcpy(opts.outputFilename, opts.filename);
+		mir_wstrcpy(opts.outputFilename, opts.filename);
 		*wcsrchr(opts.outputFilename, '.') = 0;
-		mir_tstrcat(opts.outputFilename, TranslateT(" (Output).dat"));
+		mir_wstrcat(opts.outputFilename, TranslateT(" (Output).dat"));
 		opts.hOutFile = CreateFile(opts.outputFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 		if (opts.hOutFile == INVALID_HANDLE_VALUE) {
 			AddToStatus(STATUS_FATAL, TranslateT("Can't create output file (%u)"), GetLastError());

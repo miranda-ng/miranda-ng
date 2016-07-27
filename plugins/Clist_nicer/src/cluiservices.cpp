@@ -131,16 +131,16 @@ void CluiProtocolStatusChanged(int, const char*)
 			if (showOpts & 1)
 				x += 16;
 			if (showOpts & 2) {
-				mir_tstrncpy(szName, pa->tszAccountName, _countof(szName));
+				mir_wstrncpy(szName, pa->tszAccountName, _countof(szName));
 				szName[_countof(szName) - 1] = 0;
-				if ((showOpts & 4) && mir_tstrlen(szName) < sizeof(szName) - 1)
-					mir_tstrcat(szName, L" ");
-				GetTextExtentPoint32(hdc, szName, (int)mir_tstrlen(szName), &textSize);
+				if ((showOpts & 4) && mir_wstrlen(szName) < sizeof(szName) - 1)
+					mir_wstrcat(szName, L" ");
+				GetTextExtentPoint32(hdc, szName, (int)mir_wstrlen(szName), &textSize);
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
 				wchar_t* modeDescr = pcli->pfnGetStatusModeDescription(CallProtoService(accs[i]->szModuleName, PS_GETSTATUS, 0, 0), 0);
-				GetTextExtentPoint32(hdc, modeDescr, (int)mir_tstrlen(modeDescr), &textSize);
+				GetTextExtentPoint32(hdc, modeDescr, (int)mir_wstrlen(modeDescr), &textSize);
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			partWidths[partCount] = (partCount ? partWidths[partCount - 1] : cfg::dat.bCLeft) + x + 2;

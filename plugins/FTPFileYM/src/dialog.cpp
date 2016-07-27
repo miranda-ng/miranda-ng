@@ -131,7 +131,7 @@ void UploadDialog::Tab::select()
 void UploadDialog::Tab::labelCompleted()
 {
 	wchar_t buff[64], buff2[256];
-	mir_sntprintf(buff2, L"* %s", Utils::getTextFragment(m_job->m_tszFileName, 20, buff));
+	mir_snwprintf(buff2, L"* %s", Utils::getTextFragment(m_job->m_tszFileName, 20, buff));
 
 	TCITEM tab = { 0 };
 	tab.mask = TCIF_TEXT;
@@ -293,11 +293,11 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 								AppendMenu(hTimeMenu, MF_SEPARATOR, 0, 0);
 
 							if (i < 3)
-								mir_sntprintf(buff, TranslateT("%d minutes"), times[i]);
+								mir_snwprintf(buff, TranslateT("%d minutes"), times[i]);
 							else if (i < 7)
-								mir_sntprintf(buff, TranslateT("%d hours"), times[i] / 60);
+								mir_snwprintf(buff, TranslateT("%d hours"), times[i] / 60);
 							else
-								mir_sntprintf(buff, TranslateT("%d days"), times[i] / 60 / 24);
+								mir_snwprintf(buff, TranslateT("%d days"), times[i] / 60 / 24);
 
 							UINT check = MF_UNCHECKED;
 							if (!bChecked && tab->m_iOptAutoDelete == times[i]) {
@@ -310,9 +310,9 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 						if (opt.bAutoDelete) {
 							switch (opt.timeRange) {
-							case Options::TR_MINUTES: mir_sntprintf(buff, TranslateT("%d minutes"), opt.iDeleteTime); break;
-							case Options::TR_HOURS: mir_sntprintf(buff, TranslateT("%d hours"), opt.iDeleteTime); break;
-							case Options::TR_DAYS: mir_sntprintf(buff, TranslateT("%d days"), opt.iDeleteTime); break;
+							case Options::TR_MINUTES: mir_snwprintf(buff, TranslateT("%d minutes"), opt.iDeleteTime); break;
+							case Options::TR_HOURS: mir_snwprintf(buff, TranslateT("%d hours"), opt.iDeleteTime); break;
+							case Options::TR_DAYS: mir_snwprintf(buff, TranslateT("%d days"), opt.iDeleteTime); break;
 							}
 
 							AppendMenu(hTimeMenu, MF_SEPARATOR, 0, 0);

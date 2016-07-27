@@ -343,7 +343,7 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const wchar_t *ptszName, HA
 		return -1;
 
 	if (ptszName != NULL)
-		replaceStrT(pimi->mi.name.w, ptszName);
+		replaceStrW(pimi->mi.name.w, ptszName);
 
 	if (iFlags != -1) {
 		Menu_SetItemFlags(hMenuItem, true, iFlags);
@@ -550,7 +550,7 @@ MIR_APP_DLL(int) Menu_AddObject(LPCSTR szName, LPCSTR szDisplayName, LPCSTR szCh
 	TIntMenuObject *p = new TIntMenuObject();
 	p->id = NextObjectId++;
 	p->pszName = mir_strdup(szName);
-	p->ptszDisplayName = mir_a2t(szDisplayName);
+	p->ptszDisplayName = mir_a2u(szDisplayName);
 	p->CheckService = mir_strdup(szCheckService);
 	p->ExecService = mir_strdup(szExecService);
 	p->m_hMenuIcons = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 15, 100);
@@ -667,7 +667,7 @@ static int GetNextObjectMenuItemId()
 static int FindRoot(TMO_IntMenuItem *pimi, void *param)
 {
 	if (pimi->mi.name.w != NULL)
-		if (pimi->submenu.first && !mir_tstrcmp(pimi->mi.name.w, (wchar_t*)param))
+		if (pimi->submenu.first && !mir_wstrcmp(pimi->mi.name.w, (wchar_t*)param))
 			return TRUE;
 
 	return FALSE;
@@ -718,7 +718,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	p->pUserData = pUserData;
 
 	if (pmi->flags & CMIF_UNICODE)
-		p->mi.name.w = mir_tstrdup(pmi->name.w);
+		p->mi.name.w = mir_wstrdup(pmi->name.w);
 	else
 		p->mi.name.w = mir_a2u(pmi->name.a);
 
@@ -989,7 +989,7 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 	bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
 	TIntMenuObject *pmo = pimi->parent;
-	ptrT szValue(db_get_tsa(NULL, (char*)szModule, menuItemName));
+	ptrW szValue(db_get_tsa(NULL, (char*)szModule, menuItemName));
 	if (szValue == NULL)
 		return 0;
 
@@ -1005,7 +1005,7 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 		case 0: bVisible = _wtoi(ptszToken); break;
 		case 1: pos = _wtoi(ptszToken); break;
 		case 2:
-			hex2binT(ptszToken, &customRoot, sizeof(customRoot));
+			hex2binW(ptszToken, &customRoot, sizeof(customRoot));
 			if (customRoot == pimi->mi.uid) // prevent a loop
 				memset(&customRoot, 0, sizeof(customRoot));
 			break;
@@ -1026,7 +1026,7 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 	else
 		pimi->mi.flags |= CMIF_HIDDEN;
 	
-	replaceStrT(pimi->ptszCustomName, tszCustomName[0] ? tszCustomName : NULL);
+	replaceStrW(pimi->ptszCustomName, tszCustomName[0] ? tszCustomName : NULL);
 
 	MUUID currentUid;
 	if (pimi->mi.root == NULL)
@@ -1128,7 +1128,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 #ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				wchar_t str[256];
-				mir_sntprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
+				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 #endif
@@ -1142,7 +1142,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, TMO_IntMenuItem *pRootMenu, WPARAM 
 #ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				wchar_t str[256];
-				mir_sntprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
+				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 #endif
@@ -1221,7 +1221,7 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 	HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
 
 	wchar_t sectionName[256];
-	mir_sntprintf(sectionName, LPGENW("Menu icons") L"/%s", TranslateTS(pmi->parent->ptszDisplayName));
+	mir_snwprintf(sectionName, LPGENW("Menu icons") L"/%s", TranslateTS(pmi->parent->ptszDisplayName));
 
 	char iconame[256], uname[100];
 	bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), uname);
@@ -1235,7 +1235,7 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 			if ((p = wcschr(p, '&')) == NULL)
 				break;
 
-			memmove(p, p + 1, sizeof(wchar_t)*(mir_tstrlen(p + 1) + 1));
+			memmove(p, p + 1, sizeof(wchar_t)*(mir_wstrlen(p + 1) + 1));
 			if (*p == '\0')
 				p++;
 		}

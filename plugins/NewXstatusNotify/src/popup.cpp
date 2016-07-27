@@ -30,7 +30,7 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar
 
 	// add group name to popup title
 	if (opt.ShowGroup) {
-		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
 		if (tszGroup)
 			buf.AppendFormat(L" (%s)", tszGroup);
 	}
@@ -77,7 +77,7 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 		return 0;
 
 	MCONTACT hContact = PUGetContact(pdp->hWnd);
-	ptrT pstzLast(db_get_tsa(hContact, MODULE, "LastPopupText"));
+	ptrW pstzLast(db_get_tsa(hContact, MODULE, "LastPopupText"));
 
 	wchar_t *tszStatus = (wchar_t *)ack->lParam;
 	if (tszStatus == NULL || *tszStatus == 0)
@@ -85,7 +85,7 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 
 	wchar_t stzText[1024];
 	if (pstzLast)
-		mir_sntprintf(stzText, L"%s\n%s", pstzLast, tszStatus);
+		mir_snwprintf(stzText, L"%s\n%s", pstzLast, tszStatus);
 	else
 		wcsncpy(stzText, tszStatus, _countof(stzText));
 	SendMessage(pdp->hWnd, WM_SETREDRAW, FALSE, 0);

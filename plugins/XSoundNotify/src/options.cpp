@@ -66,21 +66,21 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 								break;
 
 							case DBVT_ASCIIZ:
-								mir_tstrcpy(uid, _A2T(dbvuid.pszVal));
+								mir_wstrcpy(uid, _A2T(dbvuid.pszVal));
 								break;
 
 							case DBVT_UTF8:
-								mir_tstrcpy(uid, ptrT(mir_utf8decodeT(dbvuid.pszVal)));
+								mir_wstrcpy(uid, ptrW(mir_utf8decodeW(dbvuid.pszVal)));
 								break;
 
 							default:
-								mir_tstrcpy(uid, TranslateT("(Unknown contact)"));
+								mir_wstrcpy(uid, TranslateT("(Unknown contact)"));
 							}
 
 							wchar_t *nick = (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0);
-							size_t value_max_len = (mir_tstrlen(uid) + mir_tstrlen(nick) + 4);
+							size_t value_max_len = (mir_wstrlen(uid) + mir_wstrlen(nick) + 4);
 							wchar_t *value = (wchar_t *)mir_alloc(sizeof(wchar_t) * value_max_len);
-							mir_sntprintf(value, value_max_len, L"%s (%s)", nick, uid);
+							mir_snwprintf(value, value_max_len, L"%s (%s)", nick, uid);
 							SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_ADDSTRING, 0, (LPARAM)value), hContact);
 							mir_free(value);
 							db_free(&dbvuid);
@@ -122,9 +122,9 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ofn.lStructSize = sizeof(ofn);
 			wchar_t tmp[MAX_PATH];
 			if (GetModuleHandle(L"bass_interface.dll"))
-				mir_sntprintf(tmp, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c", TranslateT("Sound files"), 0, 0, 0);
+				mir_snwprintf(tmp, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c", TranslateT("Sound files"), 0, 0, 0);
 			else
-				mir_sntprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
+				mir_snwprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
 			ofn.lpstrFilter = tmp;
 			ofn.hwndOwner = 0;
 			ofn.lpstrFile = FileName;
@@ -224,7 +224,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		switch (hdr->code) {
 		case PSN_APPLY:
 			for (int i = 0; i < XSN_Users.getCount(); i++) {
-				if (mir_tstrcmpi(XSN_Users[i]->path, L"")) {
+				if (mir_wstrcmpi(XSN_Users[i]->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
 					PathToRelativeT(XSN_Users[i]->path, shortpath);
 					db_set_ts(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);

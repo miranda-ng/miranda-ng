@@ -471,7 +471,7 @@ static void ReplaceVars(Buffer<wchar_t> *buffer, MCONTACT hContact, wchar_t **va
 				{
 					for(int k = 0; k < numVariables; k += 2)
 					{
-						size_t len = mir_tstrlen(variables[k]);
+						size_t len = mir_wstrlen(variables[k]);
 						if (foundLen == len + 2 && wcsncmp(&buffer->str[j]+1, variables[k], len) == 0)
 						{
 							buffer->replace(j, i + 1, variables[k + 1]);

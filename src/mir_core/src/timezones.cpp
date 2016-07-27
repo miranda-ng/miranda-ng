@@ -176,7 +176,7 @@ MIR_CORE_DLL(LPCTSTR) TimeZone_GetDescription(LPCTSTR TZname)
 	for (int i = 0; i < g_timezonesBias.getCount(); i++) {
 		MIM_TIMEZONE *tz = g_timezonesBias[i];
 
-		if (!mir_tstrcmp(tz->tszName, TZname))
+		if (!mir_wstrcmp(tz->tszName, TZname))
 			return tz->szDisplay;
 	}
 	return L"";
@@ -218,7 +218,7 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByName(LPCTSTR tszName, DWORD dwFlags)
 	if (tszName == NULL)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
 
-	if (mir_tstrcmp(myInfo.myTZ.tszName, tszName) == 0)
+	if (mir_wstrcmp(myInfo.myTZ.tszName, tszName) == 0)
 		return (dwFlags & TZF_DIFONLY) ? NULL : &myInfo.myTZ;
 
 	MIM_TIMEZONE tzsearch;
@@ -381,9 +381,9 @@ static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB))) {
 		wchar_t	tszClassName[128];
 		GetClassName(hWnd, tszClassName, _countof(tszClassName));
-		if (!mir_tstrcmpi(tszClassName, L"COMBOBOX"))
+		if (!mir_wstrcmpi(tszClassName, L"COMBOBOX"))
 			dwFlags |= TZF_PLF_CB;
-		else if (!mir_tstrcmpi(tszClassName, L"LISTBOX"))
+		else if (!mir_wstrcmpi(tszClassName, L"LISTBOX"))
 			dwFlags |= TZF_PLF_LB;
 	}
 	if (dwFlags & TZF_PLF_CB)
@@ -405,7 +405,7 @@ MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HW
 	if (szModule == NULL) szModule = "UserInfo";
 
 	int iSelection = 0;
-	ptrT tszName(db_get_tsa(hContact, szModule, "TzName"));
+	ptrW tszName(db_get_tsa(hContact, szModule, "TzName"));
 	if (tszName != NULL) {
 		unsigned hash = mir_hashstrT(tszName);
 		for (int i = 0; i < g_timezonesBias.getCount(); i++) {
@@ -506,9 +506,7 @@ void RecalculateTime(void)
 	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
 
 	if (pfnGetDynamicTimeZoneInformation && pfnGetDynamicTimeZoneInformation(&dtzi) != TIME_ZONE_ID_INVALID) {
-		wchar_t *myTzKey = mir_u2t(dtzi.TimeZoneKeyName);
-		wcsncpy_s(myInfo.myTZ.tszName, myTzKey, _TRUNCATE);
-		mir_free(myTzKey);
+		wcsncpy_s(myInfo.myTZ.tszName, dtzi.TimeZoneKeyName, _TRUNCATE);
 		found = true;
 	}
 
@@ -563,7 +561,7 @@ void InitTimeZones(void)
 				tz->tzi.DaylightDate = tzi.DaylightDate;
 				tz->tzi.DaylightBias = tzi.DaylightBias;
 
-				mir_tstrcpy(tz->tszName, tszName);
+				mir_wstrcpy(tz->tszName, tszName);
 				tz->hash = mir_hashstrT(tszName);
 				tz->offset = INT_MIN;
 

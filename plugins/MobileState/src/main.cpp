@@ -54,7 +54,7 @@ bool hasMobileClient(MCONTACT hContact, LPARAM)
 {
 	char *proto = GetContactProto(hContact);
 
-	ptrT client(db_get_tsa(hContact, proto, "MirVer"));
+	ptrW client(db_get_tsa(hContact, proto, "MirVer"));
 	if (client) {
 		// Make client lower-case
 		wcslwr(client);

@@ -382,7 +382,7 @@ wchar_t* CCtrlCombo::GetItemText(int index, wchar_t *buf, int size)
 {
 	wchar_t *result = (wchar_t *)_alloca(sizeof(wchar_t) * (SendMessage(m_hwnd, CB_GETLBTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, CB_GETLBTEXT, index, (LPARAM)result);
-	mir_tstrncpy(buf, result, size);
+	mir_wstrncpy(buf, result, size);
 	return buf;
 }
 
@@ -468,7 +468,7 @@ wchar_t* CCtrlListBox::GetItemText(int index, wchar_t *buf, int size)
 {
 	wchar_t *result = (wchar_t *)_alloca(sizeof(wchar_t) * (SendMessage(m_hwnd, LB_GETTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, LB_GETTEXT, index, (LPARAM)result);
-	mir_tstrncpy(buf, result, size);
+	mir_wstrncpy(buf, result, size);
 	return buf;
 }
 
@@ -966,7 +966,7 @@ void CCtrlListView::AddGroup(int iGroupId, wchar_t *name)
 	lvg.cbSize = sizeof(lvg);
 	lvg.mask = LVGF_HEADER | LVGF_GROUPID;
 	lvg.pszHeader = name;
-	lvg.cchHeader = (int)mir_tstrlen(lvg.pszHeader);
+	lvg.cchHeader = (int)mir_wstrlen(lvg.pszHeader);
 	lvg.iGroupId = iGroupId;
 	InsertGroup(-1, &lvg);
 }
@@ -1680,7 +1680,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const wchar_t *name)
 	while (tvi.hItem) {
 		GetItem(&tvi);
 
-		if (!mir_tstrcmp(tvi.pszText, name))
+		if (!mir_wstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = GetNextSibling(tvi.hItem);
@@ -2139,7 +2139,7 @@ void CCtrlPages::AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
 	TPageInfo *info = new TPageInfo;
 	info->m_pDlg = pDlg;
 	info->m_hIcon = hIcon;
-	info->m_ptszHeader = mir_tstrdup(ptszName);
+	info->m_ptszHeader = mir_wstrdup(ptszName);
 	m_pages.insert(info);
 }
 
@@ -2372,7 +2372,7 @@ void CCtrlBase::SetTextA(const char *text)
 void CCtrlBase::SetInt(int value)
 {
 	wchar_t buf[32] = { 0 };
-	mir_sntprintf(buf, L"%d", value);
+	mir_snwprintf(buf, L"%d", value);
 	SetWindowText(m_hwnd, buf);
 }
 
@@ -2469,7 +2469,7 @@ CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, wchar_t
 {
 	m_szModule = mir_strdup(szModule);
 	m_szSetting = mir_strdup(szSetting);
-	m_szDefault = mir_tstrdup(szValue);
+	m_szDefault = mir_wstrdup(szValue);
 	dbv.type = DBVT_DELETED;
 }
 

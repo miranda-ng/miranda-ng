@@ -3,7 +3,7 @@
 wchar_t *GetFilter()
 {
 	static wchar_t filter[MAX_PATH];
-	mir_sntprintf(filter, L"%s%c*.ini%c%s%c*.*%c", TranslateT("INI Files"), 0, 0, TranslateT("All Files"), 0, 0);
+	mir_snwprintf(filter, L"%s%c*.ini%c%s%c*.*%c", TranslateT("INI Files"), 0, 0, TranslateT("All Files"), 0, 0);
 	return filter;
 }
 
@@ -13,7 +13,7 @@ int Openfile(wchar_t *outputFile, const char *module, int maxlen)
 
 	if (module) {
 		int n = 0;
-		mir_tstrncpy(filename, _A2T(module), _countof(filename));
+		mir_wstrncpy(filename, _A2T(module), _countof(filename));
 
 		while (filename[n]) {
 			switch (filename[n]) {
@@ -42,7 +42,7 @@ int Openfile(wchar_t *outputFile, const char *module, int maxlen)
 	if (!GetSaveFileName(&ofn))
 		return 0;
 
-	mir_tstrncpy(outputFile, filename, maxlen);
+	mir_wstrncpy(outputFile, filename, maxlen);
 	return 1;
 }
 
@@ -356,7 +356,7 @@ void importSettings(MCONTACT hContact, char *utf8)
 				// get the type
 				type = *(end + 1);
 				if (mir_strcmp(module, "CList") == 0 && mir_strcmp(setting, "Group") == 0) {
-					ptrT GroupName(mir_utf8decodeT(end + 2));
+					ptrW GroupName(mir_utf8decodeW(end + 2));
 					if (!GroupName)
 						continue;
 
@@ -431,7 +431,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		GetContactName((MCONTACT)lParam, NULL, name, _countof(name));
 
-		mir_sntprintf(msg, TranslateT("Import to \"%s\""), name);
+		mir_snwprintf(msg, TranslateT("Import to \"%s\""), name);
 		SetWindowText(hwnd, msg);
 
 		break;
@@ -492,28 +492,28 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 
 	DWORD offset = 0;
 
-	mir_tstrcpy(szFileNames, L"");
+	mir_wstrcpy(szFileNames, L"");
 
 	if (!FilePath)
 		offset = Openfile2Import(szFileNames, _countof(szFileNames));
 	else {
 		_A2T tmp(FilePath);
 		if (GetFileAttributes(tmp) != INVALID_FILE_ATTRIBUTES)
-			mir_tstrncpy(szFileNames, tmp, _countof(szFileNames));
+			mir_wstrncpy(szFileNames, tmp, _countof(szFileNames));
 	}
 
 	int index = 0;
-	if (mir_tstrcmp(szFileNames, L"")) {
-		if ((DWORD)mir_tstrlen(szFileNames) < offset) {
+	if (mir_wstrcmp(szFileNames, L"")) {
+		if ((DWORD)mir_wstrlen(szFileNames) < offset) {
 			index += offset;
-			mir_tstrncpy(szPath, szFileNames, offset);
-			mir_tstrcat(szPath, L"\\");
+			mir_wstrncpy(szPath, szFileNames, offset);
+			mir_wstrcat(szPath, L"\\");
 		}
 
 		while (szFileNames[index]) {
-			mir_tstrcpy(szFile, szPath);
-			mir_tstrcat(szFile, &szFileNames[index]);
-			index += (int)mir_tstrlen(&szFileNames[index]) + 1;
+			mir_wstrcpy(szFile, szPath);
+			mir_wstrcat(szFile, &szFileNames[index]);
+			index += (int)mir_wstrlen(&szFileNames[index]) + 1;
 
 			HANDLE hFile = CreateFile(szFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 			if (hFile != INVALID_HANDLE_VALUE) {

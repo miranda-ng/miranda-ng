@@ -40,11 +40,11 @@ BOOL OpenKeyboardDevice()
 	wchar_t aux1[MAX_PATH+1], aux2[MAX_PATH+1];
 
 	do {
-		mir_sntprintf(aux1, L"Kbd%d", i);
-		mir_sntprintf(aux2, L"\\Device\\KeyboardClass%d", i);
+		mir_snwprintf(aux1, L"Kbd%d", i);
+		mir_snwprintf(aux2, L"\\Device\\KeyboardClass%d", i);
 		DefineDosDevice(DDD_RAW_TARGET_PATH, aux1, aux2);
 
-		mir_sntprintf(aux1, L"\\\\.\\Kbd%d", i);
+		mir_snwprintf(aux1, L"\\\\.\\Kbd%d", i);
 		hKbdDev[i] = CreateFile(aux1, GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
 	} while (hKbdDev[i] != INVALID_HANDLE_VALUE && ++i < MAX_KBDHANDLES);
@@ -80,7 +80,7 @@ void CloseKeyboardDevice()
 		if (hKbdDev[i] != INVALID_HANDLE_VALUE)
 			CloseHandle(hKbdDev[i]);
 
-		mir_sntprintf(aux, L"Kbd%d", i);
+		mir_snwprintf(aux, L"Kbd%d", i);
 		DefineDosDevice(DDD_REMOVE_DEFINITION, aux, NULL);
 
 	} while (hKbdDev[i] != INVALID_HANDLE_VALUE && ++i < MAX_KBDHANDLES);

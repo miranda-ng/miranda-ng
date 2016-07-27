@@ -36,7 +36,7 @@ void	GetDialogStrings(int enableKeywordFiltering, const PageHash key, wchar_t *p
 
 _inline wchar_t *_tcslwr_locale(wchar_t *buf)
 {
-	LCMapString(Langpack_GetDefaultLocale() , LCMAP_LOWERCASE, buf, (int)mir_tstrlen(buf), buf, (int)mir_tstrlen(buf));
+	LCMapString(Langpack_GetDefaultLocale() , LCMAP_LOWERCASE, buf, (int)mir_wstrlen(buf), buf, (int)mir_wstrlen(buf));
 	return buf;
 }
 
@@ -45,7 +45,7 @@ class CPageKeywords
 {
 	PageHash	_pageHashKey;
 	KeywordList _pageKeyWords;
-	static int _KeyWordsSortFunc(const wchar_t* p1, const wchar_t* p2)	{ return mir_tstrcmp(p1, p2); };
+	static int _KeyWordsSortFunc(const wchar_t* p1, const wchar_t* p2)	{ return mir_wstrcmp(p1, p2); };
 
 public:
 	CPageKeywords(PageHash pageHashKey) : _pageHashKey(pageHashKey), _pageKeyWords(1, _KeyWordsSortFunc) {};
@@ -57,7 +57,7 @@ public:
 
 	void AddKeyWord(wchar_t *ptKeyWord)
 	{
-		wchar_t *plwrWord = _tcslwr_locale(mir_tstrdup(ptKeyWord));
+		wchar_t *plwrWord = _tcslwr_locale(mir_wstrdup(ptKeyWord));
 		if (_pageKeyWords.getIndex(plwrWord) == -1)
 			_pageKeyWords.insert(plwrWord);
 		else

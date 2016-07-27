@@ -142,7 +142,7 @@ void CVkWallPostForm::On_btnShare_Click(CCtrlButton*)
 
 void CVkWallPostForm::On_edtValue_Change(CCtrlEdit*)
 {
-	m_btnShare.Enable(!IsEmpty(ptrT(m_edtMsg.GetText())) || !IsEmpty(ptrT(m_edtUrl.GetText())));
+	m_btnShare.Enable(!IsEmpty(ptrW(m_edtMsg.GetText())) || !IsEmpty(ptrW(m_edtUrl.GetText())));
 }
 
 ////////////////////////////////// IDD_INVITE /////////////////////////////////////////////
@@ -213,7 +213,7 @@ void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
 
 	bool bRes = !szUIds.IsEmpty();
 	if (bRes)
-		m_proto->CreateNewChat(szUIds, ptrT(m_edtTitle.GetText()));
+		m_proto->CreateNewChat(szUIds, ptrW(m_edtTitle.GetText()));
 
 	EndDialog(m_hwnd, bRes);
 }

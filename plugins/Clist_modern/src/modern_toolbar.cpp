@@ -138,7 +138,7 @@ static int ehhToolBarBackgroundSettingsChanged(WPARAM, LPARAM)
 	if (g_CluiData.fDisableSkinEngine) {
 		tbdat.mtb_bkColour = cliGetColor("ToolBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "ToolBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrT tszBitmapName(db_get_tsa(NULL, "ToolBar", "BkBitmap"));
+			ptrW tszBitmapName(db_get_tsa(NULL, "ToolBar", "BkBitmap"));
 			if (tszBitmapName)
 				tbdat.mtb_hBmpBackground = Bitmap_Load(tszBitmapName);
 		}

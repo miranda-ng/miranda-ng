@@ -116,9 +116,9 @@ bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
 
 bool CJabberProto::FilterXml(HXML node, DWORD flags)
 {
-	if (!m_filterInfo.msg && !mir_tstrcmp(XmlGetName(node), L"message")) return false;
-	if (!m_filterInfo.presence && !mir_tstrcmp(XmlGetName(node), L"presence")) return false;
-	if (!m_filterInfo.iq && !mir_tstrcmp(XmlGetName(node), L"iq")) return false;
+	if (!m_filterInfo.msg && !mir_wstrcmp(XmlGetName(node), L"message")) return false;
+	if (!m_filterInfo.presence && !mir_wstrcmp(XmlGetName(node), L"presence")) return false;
+	if (!m_filterInfo.iq && !mir_wstrcmp(XmlGetName(node), L"iq")) return false;
 	if (m_filterInfo.type == TFilterInfo::T_OFF) return true;
 
 	mir_cslock lck(m_filterInfo.csPatternLock);
@@ -346,9 +346,9 @@ void CJabberDlgConsole::OnInitDialog()
 	m_proto->m_filterInfo.type = (TFilterInfo::Type)m_proto->getByte("consoleWnd_ftype", TFilterInfo::T_OFF);
 
 	*m_proto->m_filterInfo.pattern = 0;
-	ptrT tszPattern( m_proto->getTStringA("consoleWnd_fpattern"));
+	ptrW tszPattern( m_proto->getTStringA("consoleWnd_fpattern"));
 	if (tszPattern != NULL)
-		mir_tstrncpy(m_proto->m_filterInfo.pattern, tszPattern, _countof(m_proto->m_filterInfo.pattern));
+		mir_wstrncpy(m_proto->m_filterInfo.pattern, tszPattern, _countof(m_proto->m_filterInfo.pattern));
 
 	sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
 	SetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern);
@@ -552,7 +552,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				if (len > _countof(m_proto->m_filterInfo.pattern)) {
 					wchar_t *buf = (wchar_t *)_alloca(len * sizeof(wchar_t));
 					SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)buf);
-					mir_tstrncpy(m_proto->m_filterInfo.pattern, buf, _countof(m_proto->m_filterInfo.pattern));
+					mir_wstrncpy(m_proto->m_filterInfo.pattern, buf, _countof(m_proto->m_filterInfo.pattern));
 				}
 				else SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)m_proto->m_filterInfo.pattern);
 			}

@@ -310,7 +310,7 @@ INT_PTR CMraProto::MraSetListeningTo(WPARAM, LPARAM lParam)
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		CMStringW wszListeningTo;
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%track%. %title% - %artist% - %player%", (LPARAM)pliInfo));
+			wszListeningTo = ptrW((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%track%. %title% - %artist% - %player%", (LPARAM)pliInfo));
 		else
 			wszListeningTo.Format(L"%s. %s - %s - %s", pliInfo->ptszTrack ? pliInfo->ptszTrack : L"", pliInfo->ptszTitle ? pliInfo->ptszTitle : L"", pliInfo->ptszArtist ? pliInfo->ptszArtist : L"", pliInfo->ptszPlayer ? pliInfo->ptszPlayer : L"");
 
@@ -466,9 +466,9 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM hContact, LPARAM lParam)
 				return 1;
 
 			if (pData->flags & CSSF_UNICODE)
-				mir_tstrncpy(pData->ptszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX + 1));
+				mir_wstrncpy(pData->ptszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX + 1));
 			else {
-				size_t dwStatusTitleSize = mir_tstrlen(lpcszXStatusNameDef[dwXStatus]);
+				size_t dwStatusTitleSize = mir_wstrlen(lpcszXStatusNameDef[dwXStatus]);
 				if (dwStatusTitleSize > STATUS_TITLE_MAX)
 					dwStatusTitleSize = STATUS_TITLE_MAX;
 
@@ -625,7 +625,7 @@ INT_PTR CMraProto::MraGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	CMStringW wszFileName;
 	if (MraAvatarsGetFileName(hAvatarsQueueHandle, NULL, GetContactAvatarFormat(NULL, PA_FORMAT_DEFAULT), wszFileName) == NO_ERROR) {
-		mir_tstrncpy((LPTSTR)wParam, wszFileName, (size_t)lParam);
+		mir_wstrncpy((LPTSTR)wParam, wszFileName, (size_t)lParam);
 		return 0;
 	}
 	return 1;
@@ -644,7 +644,7 @@ int CMraProto::OnGroupChanged(WPARAM hContact, LPARAM lParam)
 		MraGroupItem *pGrp = NULL;
 		for (int i = 0; i < m_groups.getCount(); i++) {
 			MraGroupItem &p = m_groups[i];
-			if (!mir_tstrcmp(p.m_name, cgc->pszOldName)) {
+			if (!mir_wstrcmp(p.m_name, cgc->pszOldName)) {
 				pGrp = &p;
 				break;
 			}

@@ -96,8 +96,8 @@ bool send_init_oft2(file_transfer *ft, char* file)
 void CAimProto::report_file_error(wchar_t *fname)
 {
 	wchar_t errmsg[512];
-	wchar_t* error = mir_a2t(_strerror(NULL));
-	mir_sntprintf(errmsg, TranslateT("Failed to open file: %s : %s"), fname, error);
+	wchar_t* error = mir_a2u(_strerror(NULL));
+	mir_snwprintf(errmsg, TranslateT("Failed to open file: %s : %s"), fname, error);
 	mir_free(error);
 	ShowPopup((char*)errmsg, ERROR_POPUP | TCHAR_POPUP);
 }
@@ -266,7 +266,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 
 	oft2 *oft = NULL;
 
-	ft->pfts.tszWorkingDir = mir_utf8decodeT(ft->file);
+	ft->pfts.tszWorkingDir = mir_utf8decodeW(ft->file);
 
 	//start listen for packets stuff
 	for (;;) {
@@ -314,20 +314,20 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 						wchar_t* wbuf = (wchar_t*)buf;
 						wcs_htons(wbuf);
 						for (wchar_t *p = wbuf; *p; ++p) { if (*p == 1) *p = '\\'; }
-						name = mir_u2t(wbuf);
+						name = mir_wstrdup(wbuf);
 					}
 					else {
 						for (char *p = buf; *p; ++p) { if (*p == 1) *p = '\\'; }
-						name = mir_a2t(buf);
+						name = mir_a2u(buf);
 					}
 
 					mir_free(buf);
 
 					wchar_t fname[256];
-					mir_sntprintf(fname, L"%s%s", ft->pfts.tszWorkingDir, name);
+					mir_snwprintf(fname, L"%s%s", ft->pfts.tszWorkingDir, name);
 					mir_free(name);
 					mir_free(ft->pfts.tszCurrentFile);
-					ft->pfts.tszCurrentFile = mir_tstrdup(fname);
+					ft->pfts.tszCurrentFile = mir_wstrdup(fname);
 
 					ResetEvent(ft->hResumeEvent);
 					if (ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->pfts))

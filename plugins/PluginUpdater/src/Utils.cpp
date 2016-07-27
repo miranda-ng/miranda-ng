@@ -128,7 +128,7 @@ int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 	return wcsicmp(p1->m_name, p2->m_name);
 }
 
-bool ParseHashes(const wchar_t *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
+bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 {
 	REPLACEVARSARRAY vars[2];
 #if MIRANDA_VER >=0x0A00
@@ -152,8 +152,8 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 
 	// Download version info
 	FILEURL pFileUrl;
-	mir_sntprintf(pFileUrl.tszDownloadURL, L"%s/hashes.zip", baseUrl);
-	mir_sntprintf(pFileUrl.tszDiskPath, L"%s\\hashes.zip", g_tszTempPath);
+	mir_snwprintf(pFileUrl.tszDownloadURL, L"%s/hashes.zip", baseUrl);
+	mir_snwprintf(pFileUrl.tszDiskPath, L"%s\\hashes.zip", g_tszTempPath);
 	pFileUrl.CRCsum = 0;
 
 	HANDLE nlc;
@@ -177,7 +177,7 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	DeleteFile(pFileUrl.tszDiskPath);
 
 	wchar_t tszTmpIni[MAX_PATH] = {0};
-	mir_sntprintf(tszTmpIni, L"%s\\hashes.txt", g_tszTempPath);
+	mir_snwprintf(tszTmpIni, L"%s\\hashes.txt", g_tszTempPath);
 	FILE *fp = _wfopen(tszTmpIni, L"r");
 	if (!fp) {
 		Netlib_LogfT(hNetlibUser,L"Opening %s failed", g_tszTempPath);
@@ -243,7 +243,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 #endif
 	nlhr.requestType = REQUEST_GET;
 	nlhr.nlc = nlc;
-	char *szUrl = mir_t2a(pFileURL->tszDownloadURL);
+	char *szUrl = mir_u2a(pFileURL->tszDownloadURL);
 	nlhr.szUrl = szUrl;
 	nlhr.headersCount = 4;
 	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
@@ -285,7 +285,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 				else {
 					// try to write it via PU stub
 					wchar_t tszTempFile[MAX_PATH];
-					mir_sntprintf(tszTempFile, L"%s\\pulocal.tmp", g_tszTempPath);
+					mir_snwprintf(tszTempFile, L"%s\\pulocal.tmp", g_tszTempPath);
 					hFile = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 					if (hFile != INVALID_HANDLE_VALUE) {
 						DWORD dwBytes;
@@ -502,7 +502,7 @@ bool PrepareEscalation()
 	else {
 		// Elevate the process. Create a pipe for a stub first
 		wchar_t tszPipeName[MAX_PATH];
-		mir_sntprintf(tszPipeName, L"\\\\.\\pipe\\Miranda_Pu_%d", GetCurrentProcessId());
+		mir_snwprintf(tszPipeName, L"\\\\.\\pipe\\Miranda_Pu_%d", GetCurrentProcessId());
 		hPipe = CreateNamedPipe(tszPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, NULL);
 		if (hPipe == INVALID_HANDLE_VALUE) {
 			hPipe = NULL;
@@ -512,7 +512,7 @@ bool PrepareEscalation()
 			GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
 			if ((p = wcsrchr(szPath, '\\')) != 0)
 				wcscpy(p+1, L"pu_stub.exe");
-			mir_sntprintf(cmdLine, L"%d", GetCurrentProcessId());
+			mir_snwprintf(cmdLine, L"%d", GetCurrentProcessId());
 
 			// Launch a stub
 			SHELLEXECUTEINFO sei = { sizeof(sei) };

@@ -128,10 +128,10 @@ void loadDBSettings(plgsettings *ps)
 
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, THIS_MODULE, "message_format", &dbv)) {
-		mir_tstrcpy(ps->msgformat, dbv.ptszVal);
+		mir_wstrcpy(ps->msgformat, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else mir_tstrcpy(ps->msgformat, DEFAULT_MESSAGEFORMAT);
+	else mir_wstrcpy(ps->msgformat, DEFAULT_MESSAGEFORMAT);
 
 	ps->announce = db_get_dw(NULL, THIS_MODULE, "announce", DEFAULT_ANNOUNCE);
 
@@ -150,11 +150,11 @@ void loadDBSettings(plgsettings *ps)
 	ps->lf.lfPitchAndFamily = db_get_b(NULL, THIS_MODULE, "fntPitchAndFamily", DEFAULT_FNT_PITCHANDFAM);
 
 	if (!db_get_ts(NULL, THIS_MODULE, "fntFaceName", &dbv)) {
-		mir_tstrcpy(ps->lf.lfFaceName, dbv.ptszVal);
+		mir_wstrcpy(ps->lf.lfFaceName, dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else
-		mir_tstrcpy(ps->lf.lfFaceName, DEFAULT_FNT_FACENAME);
+		mir_wstrcpy(ps->lf.lfFaceName, DEFAULT_FNT_FACENAME);
 }
 
 void saveDBSettings(plgsettings *ps)
@@ -250,7 +250,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		{
 			wchar_t buf[20];
-			mir_sntprintf(buf, L"%d %%", ps->alpha * 100 / 255);
+			mir_snwprintf(buf, L"%d %%", ps->alpha * 100 / 255);
 			SetDlgItemText(hDlg, IDC_ALPHATXT, buf);
 		}
 
@@ -266,7 +266,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		ps->alpha = SendDlgItemMessage(hDlg, IDC_SLIDER1, TBM_GETPOS, 0, 0);
 		{
 			wchar_t buf[20];
-			mir_sntprintf(buf, L"%d %%", ps->alpha * 100 / 255);
+			mir_snwprintf(buf, L"%d %%", ps->alpha * 100 / 255);
 			SetDlgItemText(hDlg, IDC_ALPHATXT, buf);
 		}
 		goto xxx;

@@ -64,7 +64,7 @@ static BOOL StoreDBCheckState(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl,
 
 static void LoadDBText(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
-	ptrT tstr(db_get_tsa(NULL, ppro->m_szModuleName, szSetting));
+	ptrW tstr(db_get_tsa(NULL, ppro->m_szModuleName, szSetting));
 	if (tstr)
 		SetDlgItemText(hwnd, idCtrl, tstr);
 }

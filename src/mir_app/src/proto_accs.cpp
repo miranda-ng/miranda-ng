@@ -52,7 +52,7 @@ static int EnumDbModules(const char *szModuleName, DWORD, LPARAM)
 			pa->cbSize = sizeof(*pa);
 			pa->szModuleName = mir_strdup(szModuleName);
 			pa->szProtoName = szProtoName.detach();
-			pa->tszAccountName = mir_a2t(szModuleName);
+			pa->tszAccountName = mir_a2u(szModuleName);
 			pa->bIsVisible = TRUE;
 			pa->bIsEnabled = FALSE;
 			pa->iOrder = accounts.getCount();
@@ -105,7 +105,7 @@ void LoadDbAccounts(void)
 		}
 
 		if (!pa->tszAccountName)
-			pa->tszAccountName = mir_a2t(szModuleName);
+			pa->tszAccountName = mir_a2u(szModuleName);
 
 		accounts.insert(pa);
 	}

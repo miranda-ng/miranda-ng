@@ -68,9 +68,9 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 			else if (bDebugLog)
 				debuglog << std::string(time_str() + ": info: received encrypted message from: " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 			boost::algorithm::erase_all(str, "\r");
-			s2 += mir_tstrlen(L"-----END PGP MESSAGE-----");
+			s2 += mir_wstrlen(L"-----END PGP MESSAGE-----");
 
-			ptrT ptszHomePath(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
+			ptrW ptszHomePath(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
 			wstring encfile = toUTF16(get_random(10));
 			wstring decfile = toUTF16(get_random(10));
 			{
@@ -100,7 +100,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 						}
 						f.open(path.c_str(), std::ios::out);
 					}
-					char *tmp = mir_t2a(str.substr(s1, s2 - s1).c_str());
+					char *tmp = mir_u2a(str.substr(s1, s2 - s1).c_str());
 					f << tmp;
 					mir_free(tmp);
 					f.close();
@@ -418,7 +418,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		{
 			if (bDebugLog)
 				debuglog << std::string(time_str() + ": info(autoexchange): found pubkey block:" + toUTF8(pcli->pfnGetContactDisplayName(ccs->hContact, 0)));
-			s2 += mir_tstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
+			s2 += mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
 			db_set_ts(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1, s2 - s1).c_str());
 			{ //gpg execute block
 				std::vector<wstring> cmd;
@@ -426,15 +426,15 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				string output;
 				DWORD exitcode;
 				{
-					ptrT ptmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
-					mir_tstrcpy(tmp2, ptmp);
+					ptrW ptmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
+					mir_wstrcpy(tmp2, ptmp);
 					mir_free(ptmp);
-					mir_tstrcat(tmp2, L"\\");
-					wchar_t *tmp3 = mir_a2t(get_random(5).c_str());
-					mir_tstrcat(tmp2, tmp3);
-					mir_tstrcat(tmp2, L".asc");
+					mir_wstrcat(tmp2, L"\\");
+					wchar_t *tmp3 = mir_a2u(get_random(5).c_str());
+					mir_wstrcat(tmp2, tmp3);
+					mir_wstrcat(tmp2, L".asc");
 					mir_free(tmp3);
-					//mir_tstrcat(tmp2, L"temporary_exported.asc");
+					//mir_wstrcat(tmp2, L"temporary_exported.asc");
 					if(!bDebugLog)
 					{
 						boost::system::error_code e;
@@ -565,9 +565,9 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			str.erase(s1, 1);
 		void ShowNewKeyDialog();
 		if (((s2 = str.find(L"-----END PGP PUBLIC KEY BLOCK-----")) != wstring::npos) && ((s1 = str.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----")) != wstring::npos))
-			s2 += mir_tstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
+			s2 += mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
 		else if (((s2 = str.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----")) != wstring::npos) && ((s1 = str.find(L"-----END PGP PRIVATE KEY BLOCK-----")) != wstring::npos))
-			s2 += mir_tstrlen(L"-----END PGP PRIVATE KEY BLOCK-----");
+			s2 += mir_wstrlen(L"-----END PGP PRIVATE KEY BLOCK-----");
 		new_key.append(str.substr(s1, s2 - s1));
 		//new_key_hcnt_mutex.lock();
 		new_key_hcnt = ccs->hContact;
@@ -688,7 +688,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 			cmd.push_back(L"--batch");
 			cmd.push_back(L"--yes");
 			cmd.push_back(L"-eatr");
-			tmp2 = mir_a2t(tmp);
+			tmp2 = mir_a2u(tmp);
 			mir_free(tmp);
 		}
 		cmd.push_back(tmp2);
@@ -1040,8 +1040,8 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 					}
 					if (password)
 						mir_free(password);
-					password = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_tstrlen(tmp) + 1));
-					mir_tstrcpy(password, tmp);
+					password = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(tmp) + 1));
+					mir_wstrcpy(password, tmp);
 				}
 				mir_free(inkeyid);
 				DestroyWindow(hwndDlg);

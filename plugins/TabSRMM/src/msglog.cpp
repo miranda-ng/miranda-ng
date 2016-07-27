@@ -109,7 +109,7 @@ __forceinline char *GetRTFFont(DWORD dwIndex)
  */
 static void TrimMessage(wchar_t *msg)
 {
-	size_t iLen = mir_tstrlen(msg) - 1;
+	size_t iLen = mir_wstrlen(msg) - 1;
 	size_t i = iLen;
 
 	while (i && (msg[i] == '\r' || msg[i] == '\n')) {
@@ -353,9 +353,9 @@ static wchar_t* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, wchar_
 	const wchar_t *szFormat;
 
 	if ((code == (wchar_t)'R' || code == (wchar_t)'r') && check >= today)
-		mir_tstrcpy(szResult, szToday);
+		mir_wstrcpy(szResult, szToday);
 	else if ((code == (wchar_t)'R' || code == (wchar_t)'r') && check > (today - 86400))
-		mir_tstrcpy(szResult, szYesterday);
+		mir_wstrcpy(szResult, szYesterday);
 	else {
 		if (code == 'D' || code == 'R')
 			szFormat = L"D";
@@ -514,7 +514,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			szTemplate = isSent ? this_templateset->szTemplates[TMPL_MSGOUT] : this_templateset->szTemplates[TMPL_MSGIN];
 	}
 
-	size_t iTemplateLen = mir_tstrlen(szTemplate);
+	size_t iTemplateLen = mir_wstrlen(szTemplate);
 	BOOL showTime = dwEffectiveFlags & MWF_LOG_SHOWTIME;
 	BOOL showDate = dwEffectiveFlags & MWF_LOG_SHOWDATES;
 
@@ -824,14 +824,14 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 					}
 					{
 						char *szFileName = (char *)dbei.pBlob + sizeof(DWORD);
-						ptrT tszFileName(DbGetEventStringT(&dbei, szFileName));
+						ptrW tszFileName(DbGetEventStringT(&dbei, szFileName));
 
 						char *szDescr = szFileName + mir_strlen(szFileName) + 1;
 						if (*szDescr != 0) {
-							ptrT tszDescr(DbGetEventStringT(&dbei, szDescr));
+							ptrW tszDescr(DbGetEventStringT(&dbei, szDescr));
 
 							wchar_t buf[1000];
-							mir_sntprintf(buf, L"%s (%s)", tszFileName, tszDescr);
+							mir_snwprintf(buf, L"%s (%s)", tszFileName, tszDescr);
 							AppendUnicodeToBuffer(str, buf, 0);
 						}
 						else AppendUnicodeToBuffer(str, tszFileName, 0);
@@ -844,7 +844,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						str.AppendChar(' ');
 					}
 
-					ptrT tszText(DbGetEventTextT(&dbei, CP_ACP));
+					ptrW tszText(DbGetEventTextT(&dbei, CP_ACP));
 					AppendUnicodeToBuffer(str, tszText, 0);
 				}
 				break;

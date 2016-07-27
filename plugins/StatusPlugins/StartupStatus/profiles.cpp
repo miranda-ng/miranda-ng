@@ -139,9 +139,9 @@ wchar_t *GetStatusMessage(int profile, char *szProto)
 		if ((pce[i].profile == profile) && (!mir_strcmp(pce[i].szProto, szProto))) {
 			mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 			if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
-				pce[i].msg = (wchar_t*)realloc(pce[i].msg, sizeof(wchar_t)*(mir_tstrlen(dbv.ptszVal) + 1));
+				pce[i].msg = (wchar_t*)realloc(pce[i].msg, sizeof(wchar_t)*(mir_wstrlen(dbv.ptszVal) + 1));
 				if (pce[i].msg != NULL) {
-					mir_tstrcpy(pce[i].msg, dbv.ptszVal);
+					mir_wstrcpy(pce[i].msg, dbv.ptszVal);
 				}
 				db_free(&dbv);
 			}

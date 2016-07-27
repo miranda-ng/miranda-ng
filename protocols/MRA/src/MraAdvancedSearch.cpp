@@ -77,7 +77,7 @@ void InitComboBoxNumders(HWND hWndCombo, DWORD dwStart, DWORD dwEnd)
 
 	for (DWORD i = dwStart; i <= dwEnd; i++) {
 		wchar_t szBuff[MAX_PATH];
-		mir_sntprintf(szBuff, L"%lu", i);
+		mir_snwprintf(szBuff, L"%lu", i);
 		DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)szBuff);
 		SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, i);
 	}

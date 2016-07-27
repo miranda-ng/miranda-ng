@@ -121,7 +121,7 @@ void Manager::fillTree()
 	DBEntry *entry = DBEntry::getFirst();
 	while (entry != NULL) {
 		if ((UINT)entry->m_iFtpNum < m_rootItems.size()) {
-			tvi.item.pszText = mir_a2t(entry->m_szFileName);
+			tvi.item.pszText = mir_a2u(entry->m_szFileName);
 			tvi.hParent = m_rootItems[entry->m_iFtpNum]->m_handle;
 			HTREEITEM hItem = TreeView_InsertItem(m_hwndFileTree, &tvi);
 			AddLeaf(hItem, tvi.hParent, entry->m_fileID);

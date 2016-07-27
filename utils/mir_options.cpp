@@ -38,12 +38,12 @@ static wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, ch
 	out[0] = '\0';
 
 	if (!db_get_ts(hContact, module, setting, &dbv)) {
-		mir_tstrncpy(out, dbv.ptszVal, (int)len);
+		mir_wstrncpy(out, dbv.ptszVal, (int)len);
 		db_free(&dbv);
 	}
 	else {
 		if (def != NULL)
-			mir_tstrncpy(out, def, (int)len);
+			mir_wstrncpy(out, def, (int)len);
 	}
 
 	return out;
@@ -55,7 +55,7 @@ static wchar_t dbPath[MAX_PATH] = { 0 };		// database profile path (read at star
 
 static int PathIsAbsolute(const wchar_t *path)
 {
-	if (!path || !(mir_tstrlen(path) > 2))
+	if (!path || !(mir_wstrlen(path) > 2))
 		return 0;
 	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
 		return 1;
@@ -65,33 +65,33 @@ static int PathIsAbsolute(const wchar_t *path)
 static void PathToRelative(wchar_t *pOut, size_t outSize, const wchar_t *pSrc)
 {
 	if (!PathIsAbsolute(pSrc))
-		mir_tstrncpy(pOut, pSrc, (int)outSize);
+		mir_wstrncpy(pOut, pSrc, (int)outSize);
 	else {
 		if (dbPath[0] == '\0') {
 			char tmp[1024];
 			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
-			mir_sntprintf(dbPath, L"%S\\", tmp);
+			mir_snwprintf(dbPath, L"%S\\", tmp);
 		}
 
-		size_t len = mir_tstrlen(dbPath);
+		size_t len = mir_wstrlen(dbPath);
 		if (!wcsnicmp(pSrc, dbPath, len))
 			len = 0;
-		mir_tstrncpy(pOut, pSrc + len, outSize);
+		mir_wstrncpy(pOut, pSrc + len, outSize);
 	}
 }
 
 static void PathToAbsolute(wchar_t *pOut, size_t outSize, const wchar_t *pSrc)
 {
 	if (PathIsAbsolute(pSrc) || !isalnum(pSrc[0]))
-		mir_tstrncpy(pOut, pSrc, (int)outSize);
+		mir_wstrncpy(pOut, pSrc, (int)outSize);
 	else {
 		if (dbPath[0] == '\0') {
 			char tmp[1024];
 			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
-			mir_sntprintf(dbPath, L"%S\\", tmp);
+			mir_snwprintf(dbPath, L"%S\\", tmp);
 		}
 
-		mir_sntprintf(pOut, outSize, L"%s%s", dbPath, pSrc);
+		mir_snwprintf(pOut, outSize, L"%s%s", dbPath, pSrc);
 	}
 }
 
@@ -267,7 +267,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					int k;
 					for (k = 0; k < count; k++) {
 						wchar_t *id = (wchar_t *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)k, 0);
-						if (mir_tstrcmp(id, tmp) == 0)
+						if (mir_wstrcmp(id, tmp) == 0)
 							break;
 					}
 					if (k < count)

@@ -49,7 +49,7 @@ MCONTACT TwitterProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	ForkThread(&TwitterProto::AddToListWorker, mir_utf8encodeT(psr->nick.w));
+	ForkThread(&TwitterProto::AddToListWorker, mir_utf8encodeW(psr->nick.w));
 	return AddToClientList(_T2A(psr->nick.w), "");
 }
 
@@ -127,8 +127,8 @@ void TwitterProto::DoSearch(void *pArg)
 	if (found) {
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
-		psr.nick.w = mir_a2t(info.username.c_str());
-		psr.firstName.w = mir_a2t(info.real_name.c_str());
+		psr.nick.w = mir_a2u(info.username.c_str());
+		psr.firstName.w = mir_a2u(info.real_name.c_str());
 
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);

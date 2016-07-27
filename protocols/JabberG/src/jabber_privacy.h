@@ -61,7 +61,7 @@ public:
 	CPrivacyListRule(CJabberProto *ppro, PrivacyListRuleType type = Else, const wchar_t *szValue = L"", BOOL bAction = TRUE, DWORD dwOrder = 90, DWORD dwPackets = 0)
 	{
 		m_proto = ppro;
-		m_szValue = mir_tstrdup(szValue);
+		m_szValue = mir_wstrdup(szValue);
 		m_nType = type;
 		m_bAction = bAction;
 		m_dwOrder = dwOrder;
@@ -109,7 +109,7 @@ public:
 	}
 	__inline BOOL SetValue(wchar_t *szValue)
 	{
-		replaceStrT(m_szValue, szValue);
+		replaceStrW(m_szValue, szValue);
 		return TRUE;
 	}
 	__inline DWORD GetPackets()
@@ -156,7 +156,7 @@ public:
 	CPrivacyList(CJabberProto *ppro, wchar_t *szListName)
 	{
 		m_proto = ppro;
-		m_szListName = mir_tstrdup(szListName);
+		m_szListName = mir_wstrdup(szListName);
 		m_pRules = NULL;
 		m_pNext = NULL;
 		m_bLoaded = FALSE;
@@ -344,11 +344,11 @@ public:
 	};
 	void SetActiveListName(const wchar_t *szListName)
 	{
-		replaceStrT(m_szActiveListName, szListName);
+		replaceStrW(m_szActiveListName, szListName);
 	}
 	void SetDefaultListName(const wchar_t *szListName)
 	{
-		replaceStrT(m_szDefaultListName, szListName);
+		replaceStrW(m_szDefaultListName, szListName);
 	}
 	wchar_t* GetDefaultListName()
 	{
@@ -369,7 +369,7 @@ public:
 	{
 		CPrivacyList *pList = m_pLists;
 		while (pList) {
-			if (!mir_tstrcmp(pList->GetListName(), szListName))
+			if (!mir_wstrcmp(pList->GetListName(), szListName))
 				return pList;
 			pList = pList->GetNext();
 		}

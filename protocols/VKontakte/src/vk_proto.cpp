@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static int sttCompareProtocols(const CVkProto *p1, const CVkProto *p2)
 {
-	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_wstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 static int sttCompareAsyncHttpRequest(const AsyncHttpRequest *p1, const AsyncHttpRequest *p2)
@@ -62,7 +62,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	HookProtoEvent(ME_OPT_INITIALISE, &CVkProto::OnOptionsInit);
 
 	wchar_t descr[512];
-	mir_sntprintf(descr, TranslateT("%s server connection"), m_tszUserName);
+	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 
 	NETLIBUSER nlu = {sizeof(nlu)};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -357,7 +357,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	LONG userID = getDword(hContact, "ID", -1);
 	bool bisFriend = (getBool(hContact, "Auth", true) == 0);
-	bool bisBroadcast = !(IsEmpty(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))));
+	bool bisBroadcast = !(IsEmpty(ptrW(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))));
 	Menu_ShowItem(m_hContactMenuItems[CMI_VISITPROFILE], userID != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_MARKMESSAGESASREAD], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
@@ -425,7 +425,7 @@ void CVkProto::InitPopups(void)
 	ppc.PluginWindowProc = PopupDlgProc;
 	ppc.lParam = APF_RETURN_HWND;
 
-	mir_sntprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
+	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -435,7 +435,7 @@ void CVkProto::InitPopups(void)
 	ppc.iSeconds = 60;
 	m_hPopupClassError = Popup_RegisterClass(&ppc);
 
-	mir_sntprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notification"));
+	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notification"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -576,7 +576,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			setByte(param->hContact, "Auth", 0);
 			if (iRet == 2) {
 				CMString msg,			
-					tszNick(ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick")));
+					tszNick(ptrW(db_get_tsa(param->hContact, m_szModuleName, "Nick")));
 				if (tszNick.IsEmpty())
 					tszNick = TranslateT("(Unknown contact)");
 				msg.AppendFormat(TranslateT("User %s added as friend"), tszNick);

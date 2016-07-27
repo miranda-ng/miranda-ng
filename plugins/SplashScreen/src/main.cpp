@@ -65,13 +65,13 @@ void SplashMain()
 	if (bstartup) {
 		// Retrive path to exe of current running Miranda is located
 		szMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
-		mir_sntprintf(szhAdvaimgPath, L"%s\\plugins\\advaimg.dll", szMirDir);
+		mir_snwprintf(szhAdvaimgPath, L"%s\\plugins\\advaimg.dll", szMirDir);
 		CallService(MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, (LPARAM)szVersion);
 
 		#ifdef _DEBUG
-		mir_sntprintf(szLogFile, L"%s\\%s.log", szMirDir, _A2W(__PLUGIN_NAME));
+		mir_snwprintf(szLogFile, L"%s\\%s.log", szMirDir, _A2W(__PLUGIN_NAME));
 		initLog();
-		wchar_t *mirandaVerString = mir_a2t(szVersion);
+		wchar_t *mirandaVerString = mir_a2u(szVersion);
 		logMessage(L"Miranda version", mirandaVerString);
 		mir_free(mirandaVerString);
 		logMessage(L"Dll Name", _A2W(__FILENAME));
@@ -84,45 +84,45 @@ void SplashMain()
 	if (bstartup & (options.active == 1)) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv)) {
-			mir_tstrcpy(szPrefix, dbv.ptszVal);
+			mir_wstrcpy(szPrefix, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else
-			mir_tstrcpy(szPrefix, L"");
+			mir_wstrcpy(szPrefix, L"");
 
 		if (!db_get_ts(NULL, MODNAME, "Path", &dbv)) {
-			mir_tstrcpy(inBuf, dbv.ptszVal);
+			mir_wstrcpy(inBuf, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		else mir_tstrcpy(inBuf, L"splash\\splash.png");
+		else mir_wstrcpy(inBuf, L"splash\\splash.png");
 
 		wchar_t szExpandedSplashFile[MAX_PATH];
 		ExpandEnvironmentStrings(inBuf, szExpandedSplashFile, _countof(szExpandedSplashFile));
-		mir_tstrcpy(inBuf, szExpandedSplashFile);
+		mir_wstrcpy(inBuf, szExpandedSplashFile);
 
 		wchar_t *pos3 = 0;
 		pos3 = wcsrchr(inBuf, ':');
 		if (pos3 == NULL)
-			mir_sntprintf(szSplashFile, L"%s\\%s", szMirDir, inBuf);
+			mir_snwprintf(szSplashFile, L"%s\\%s", szMirDir, inBuf);
 		else
-			mir_tstrcpy(szSplashFile, inBuf);
+			mir_wstrcpy(szSplashFile, inBuf);
 
 		if (!db_get_ts(NULL, MODNAME, "Sound", &dbv)) {
-			mir_tstrcpy(inBuf, dbv.ptszVal);
+			mir_wstrcpy(inBuf, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		else mir_tstrcpy(inBuf, L"sounds\\startup.wav");
+		else mir_wstrcpy(inBuf, L"sounds\\startup.wav");
 
 		wchar_t szExpandedSoundFile[MAX_PATH];
 		ExpandEnvironmentStrings(inBuf, szExpandedSoundFile, _countof(szExpandedSoundFile));
-		mir_tstrcpy(inBuf, szExpandedSoundFile);
+		mir_wstrcpy(inBuf, szExpandedSoundFile);
 
 		wchar_t *pos2;
 		pos2 = wcschr(inBuf, ':');
 		if (pos2 == NULL)
-			mir_sntprintf(szSoundFile, L"%s\\%s", szMirDir, inBuf);
+			mir_snwprintf(szSoundFile, L"%s\\%s", szMirDir, inBuf);
 		else
-			mir_tstrcpy(szSoundFile, inBuf);
+			mir_wstrcpy(szSoundFile, inBuf);
 
 		#ifdef _DEBUG
 		logMessage(L"SoundFilePath", szSoundFile);
@@ -137,13 +137,13 @@ void SplashMain()
 			wchar_t *p = 0;
 			wchar_t files[255][50]; //TODO: make memory allocation dynamic
 
-			mir_tstrcpy(szSplashDir, szSplashFile);
-			mir_tstrcpy(szOldPath, szSplashFile);
+			mir_wstrcpy(szSplashDir, szSplashFile);
+			mir_wstrcpy(szOldPath, szSplashFile);
 			// find the last \ and null it out, this leaves no trailing slash
 			p = wcsrchr(szSplashDir, '\\');
 			if (p) *p = 0;
 			// create the search filter
-			mir_sntprintf(szSearch, L"%s\\*.*", szSplashDir);
+			mir_snwprintf(szSearch, L"%s\\*.*", szSplashDir);
 			// FFFN will return filenames
 			HANDLE hFind = INVALID_HANDLE_VALUE;
 			WIN32_FIND_DATA ffd;
@@ -157,19 +157,19 @@ void SplashMain()
 						//files = new char[mir_strlen(ffd.cFileName)];
 						//files[filescount] = new char[mir_strlen(ffd.cFileName)];
 						wchar_t ext[5];
-						wmemcpy(ext, ffd.cFileName + (mir_tstrlen(ffd.cFileName) - 4), 5);
+						wmemcpy(ext, ffd.cFileName + (mir_wstrlen(ffd.cFileName) - 4), 5);
 
 						#ifdef _DEBUG
 						logMessage(L"Extention", ext);
 						#endif
 
-						if (mir_tstrcmpi(ext, L".png") & mir_tstrcmpi(ext, L".bmp"))
+						if (mir_wstrcmpi(ext, L".png") & mir_wstrcmpi(ext, L".bmp"))
 							continue;
 
 						#ifdef _DEBUG
 						logMessage(L"File has valid ext", ext);
 						#endif
-						mir_tstrcpy(files[filescount++], ffd.cFileName);
+						mir_wstrcpy(files[filescount++], ffd.cFileName);
 					} //if
 				} while (FindNextFile(hFind, &ffd));
 
@@ -177,7 +177,7 @@ void SplashMain()
 				int r = 0;
 				if (filescount) r = (rand() % filescount) + 1;
 
-				mir_sntprintf(szSplashFile, L"%s\\%s", szSplashDir, files[r - 1]);
+				mir_snwprintf(szSplashFile, L"%s\\%s", szSplashDir, files[r - 1]);
 
 				#ifdef _DEBUG
 				logMessage(L"final file", szSplashFile);

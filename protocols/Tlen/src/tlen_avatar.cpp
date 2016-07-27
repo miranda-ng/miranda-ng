@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, wchar_t* ptszDest, int cbLen)
 {
-	int tPathLen = mir_sntprintf(ptszDest, cbLen, TEXT("%s\\%S"), VARST(TEXT("%miranda_avatarcache%")), proto->m_szModuleName);
+	int tPathLen = mir_snwprintf(ptszDest, cbLen, TEXT("%s\\%S"), VARST(TEXT("%miranda_avatarcache%")), proto->m_szModuleName);
 	if (_waccess(ptszDest, 0)) {
 		int ret = CreateDirectoryTreeT(ptszDest);
 		if (ret == 0)
@@ -41,7 +41,7 @@ void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, wchar_t* p
 		else {
 			proto->debugLog(L"getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s", ptszDest, errno, strerror(errno));
 			wchar_t buffer[512];
-			mir_sntprintf(buffer, TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _wcserror(errno), ptszDest);
+			mir_snwprintf(buffer, TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _wcserror(errno), ptszDest);
 			PUShowMessageT(buffer, SM_WARNING);
 		}
 	}
@@ -58,9 +58,9 @@ void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, wchar_t* p
 
 	const wchar_t *tszFileType = ProtoGetAvatarExtension(format);
 	if (item != NULL)
-		mir_sntprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S%s"), ptrA(TlenSha1(item->jid)), tszFileType);
+		mir_snwprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S%s"), ptrA(TlenSha1(item->jid)), tszFileType);
 	else
-		mir_sntprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S_avatar%s"), proto->m_szModuleName, tszFileType);
+		mir_snwprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S_avatar%s"), proto->m_szModuleName, tszFileType);
 }
 
 static void RemoveAvatar(TlenProtocol *proto, MCONTACT hContact)
@@ -114,7 +114,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 	}
 	else {
 		wchar_t buffer[128];
-		mir_sntprintf(buffer, TranslateT("Cannot save new avatar file \"%s\" Error:\n\t%s (Error: %d)"), filename, _wcserror(errno), errno);
+		mir_snwprintf(buffer, TranslateT("Cannot save new avatar file \"%s\" Error:\n\t%s (Error: %d)"), filename, _wcserror(errno), errno);
 		PUShowMessageT(buffer, SM_WARNING);
 		proto->debugLog(buffer);
 		return;

@@ -390,10 +390,10 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 						end++;
 
 					if (dat->szTabSave[0] == '\0')
-						mir_tstrncpy(dat->szTabSave, pszText + start, end - start + 1);
+						mir_wstrncpy(dat->szTabSave, pszText + start, end - start + 1);
 
 					wchar_t *pszSelName = (wchar_t *)mir_alloc(sizeof(wchar_t)*(end - start + 1));
-					mir_tstrncpy(pszSelName, pszText + start, end - start + 1);
+					mir_wstrncpy(pszSelName, pszText + start, end - start + 1);
 
 					wchar_t *pszName = pci->UM_FindUserAutoComplete(Parentsi->pUsers, dat->szTabSave, pszSelName);
 					if (pszName == NULL) {
@@ -996,7 +996,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *si
 		}
 
 		if (tszBuf[0] == 0)
-			mir_sntprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
+			mir_snwprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 				TranslateT("Nickname"), ui->pszNick,
 				TranslateT("Unique ID"), ui->pszUID,
 				TranslateT("Status"), pci->TM_WordToString(si->pStatuses, ui->Status));
@@ -1314,17 +1314,17 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			wchar_t szTemp[100];
 			switch (si->iType) {
 			case GCW_CHATROOM:
-				mir_sntprintf(szTemp,
+				mir_snwprintf(szTemp,
 					(si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
 					si->ptszName, si->nUsersInNicklist);
 				break;
 			case GCW_PRIVMESS:
-				mir_sntprintf(szTemp,
+				mir_snwprintf(szTemp,
 					(si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
 					si->ptszName, si->nUsersInNicklist);
 				break;
 			case GCW_SERVER:
-				mir_sntprintf(szTemp, L"%s: Server", si->ptszName);
+				mir_snwprintf(szTemp, L"%s: Server", si->ptszName);
 				break;
 			}
 			SetWindowText(hwndDlg, szTemp);
@@ -1605,9 +1605,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				int insertat;
 				wchar_t szTemp[30];
 
-				mir_tstrncpy(szTemp, s1->ptszName, 21);
-				if (mir_tstrlen(s1->ptszName) > 20)
-					mir_tstrncpy(szTemp + 20, L"...", 4);
+				mir_wstrncpy(szTemp, s1->ptszName, 21);
+				if (mir_wstrlen(s1->ptszName) > 20)
+					mir_wstrncpy(szTemp + 20, L"...", 4);
 
 				tci.mask = TCIF_TEXT | TCIF_PARAM;
 				tci.pszText = szTemp;
@@ -1863,11 +1863,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					}
 
 					SetTextColor(dis->hDC, ui->iStatusEx == 0 ? g_Settings.crUserListColor : g_Settings.crUserListHeadingsColor);
-					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, (int)mir_tstrlen(ui->pszNick));
+					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, (int)mir_wstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
 
 					if (si->pAccPropServicesForNickList) {
-						wchar_t *nick = mir_t2u(ui->pszNick);
+						wchar_t *nick = mir_wstrdup(ui->pszNick);
 						si->pAccPropServicesForNickList->SetHwndPropStr(GetDlgItem(hwndDlg, IDC_LIST), OBJID_CLIENT, dis->itemID + 1, PROPID_ACC_NAME, nick);
 						mir_free(nick);
 					}
@@ -2199,7 +2199,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					tr.lpstrText = pszWord;
 					long iRes = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 					if (iRes > 0)
-						for (size_t iLen = mir_tstrlen(pszWord) - 1; wcschr(szTrimString, pszWord[iLen]); iLen--)
+						for (size_t iLen = mir_wstrlen(pszWord) - 1; wcschr(szTrimString, pszWord[iLen]); iLen--)
 							pszWord[iLen] = 0;
 				}
 
@@ -2298,8 +2298,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 									if (!OpenClipboard(hwndDlg))
 										break;
 									EmptyClipboard();
-									hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_tstrlen(tr.lpstrText) + 1));
-									mir_tstrcpy((wchar_t*)GlobalLock(hData), tr.lpstrText);
+									hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_wstrlen(tr.lpstrText) + 1));
+									mir_wstrcpy((wchar_t*)GlobalLock(hData), tr.lpstrText);
 									GlobalUnlock(hData);
 									SetClipboardData(CF_UNICODETEXT, hData);
 									CloseClipboard();
@@ -2331,7 +2331,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 				if (ui != NULL) {
 					static wchar_t ptszBuf[1024];
-					mir_sntprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
+					mir_snwprintf(ptszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
 						TranslateT("Nickname"), ui->pszNick,
 						TranslateT("Unique ID"), ui->pszUID,
 						TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
@@ -2356,12 +2356,12 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
 						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
-						size_t dwNameLenMax = (mir_tstrlen(ui->pszUID) + 3);
+						size_t dwNameLenMax = (mir_wstrlen(ui->pszUID) + 3);
 						wchar_t* pszName = (wchar_t*)alloca(sizeof(wchar_t) * dwNameLenMax);
 						if (start == 0)
-							mir_sntprintf(pszName, dwNameLenMax, L"%s: ", ui->pszUID);
+							mir_snwprintf(pszName, dwNameLenMax, L"%s: ", ui->pszUID);
 						else
-							mir_sntprintf(pszName, dwNameLenMax, L"%s ", ui->pszUID);
+							mir_snwprintf(pszName, dwNameLenMax, L"%s ", ui->pszUID);
 
 						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
@@ -2388,7 +2388,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				pci->SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
 
-				CMString ptszText(ptrT(mir_utf8decodeT(pszRtf)));
+				CMString ptszText(ptrW(mir_utf8decodeW(pszRtf)));
 				pci->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
 				ptszText.Trim();
 				ptszText.Replace(L"%", L"%%");
@@ -2450,11 +2450,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					wcsncpy_s(szName, (pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule)), _TRUNCATE);
 					ValidateFilename(szName);
 
-					mir_sntprintf(szFolder, L"%s\\%s", g_Settings.pszLogDir, szName);
-					mir_sntprintf(szName, L"%s.log", si->ptszID);
+					mir_snwprintf(szFolder, L"%s\\%s", g_Settings.pszLogDir, szName);
+					mir_snwprintf(szName, L"%s.log", si->ptszID);
 					ValidateFilename(szName);
 
-					mir_sntprintf(szFile, L"%s\\%s", szFolder, szName);
+					mir_snwprintf(szFile, L"%s\\%s", szFolder, szName);
 					ShellExecute(hwndDlg, L"open", szFile, NULL, NULL, SW_SHOW);
 				}
 			}

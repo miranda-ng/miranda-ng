@@ -54,7 +54,7 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	if (wcsstr(tszUrl, L"https://") != NULL)
 		nlhr.flags |= NLHRF_SSL;
-	char *szUrl = mir_t2a(tszUrl);
+	char *szUrl = mir_u2a(tszUrl);
 	nlhr.szUrl = szUrl;
 	nlhr.nlc = hNetlibHttp;
 
@@ -197,52 +197,52 @@ time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)
 			weekday = wcstok(p, L",");
 			p = wcstok(NULL, L",");
 			swscanf(p + 1, L"%d %3s %d %d:%d:%d %1s%02d%02d", &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (!mir_tstrcmpi(monthstr, L"Jan"))
+			if (!mir_wstrcmpi(monthstr, L"Jan"))
 				month = 1;
-			if (!mir_tstrcmpi(monthstr, L"Feb"))
+			if (!mir_wstrcmpi(monthstr, L"Feb"))
 				month = 2;
-			if (!mir_tstrcmpi(monthstr, L"Mar"))
+			if (!mir_wstrcmpi(monthstr, L"Mar"))
 				month = 3;
-			if (!mir_tstrcmpi(monthstr, L"Apr"))
+			if (!mir_wstrcmpi(monthstr, L"Apr"))
 				month = 4;
-			if (!mir_tstrcmpi(monthstr, L"May"))
+			if (!mir_wstrcmpi(monthstr, L"May"))
 				month = 5;
-			if (!mir_tstrcmpi(monthstr, L"Jun"))
+			if (!mir_wstrcmpi(monthstr, L"Jun"))
 				month = 6;
-			if (!mir_tstrcmpi(monthstr, L"Jul"))
+			if (!mir_wstrcmpi(monthstr, L"Jul"))
 				month = 7;
-			if (!mir_tstrcmpi(monthstr, L"Aug"))
+			if (!mir_wstrcmpi(monthstr, L"Aug"))
 				month = 8;
-			if (!mir_tstrcmpi(monthstr, L"Sep"))
+			if (!mir_wstrcmpi(monthstr, L"Sep"))
 				month = 9;
-			if (!mir_tstrcmpi(monthstr, L"Oct"))
+			if (!mir_wstrcmpi(monthstr, L"Oct"))
 				month = 10;
-			if (!mir_tstrcmpi(monthstr, L"Nov"))
+			if (!mir_wstrcmpi(monthstr, L"Nov"))
 				month = 11;
-			if (!mir_tstrcmpi(monthstr, L"Dec"))
+			if (!mir_wstrcmpi(monthstr, L"Dec"))
 				month = 12;
 			if (year < 2000)
 				year += 2000;
-			if (!mir_tstrcmp(timezonesign, L"+"))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
-			else if (!mir_tstrcmp(timezonesign, L"-"))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
+			if (!mir_wstrcmp(timezonesign, L"+"))
+				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
+			else if (!mir_wstrcmp(timezonesign, L"-"))
+				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
 			else
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
+				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
 		else if (wcsstr(p, L"T")) {
 			swscanf(p, L"%d-%d-%dT%d:%d:%d", &year, &month, &day, &hour, &min, &sec);
-			mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
+			mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
 		else
 		{
 			swscanf(p, L"%d-%d-%d %d:%d:%d %1s%02d%02d", &year, &month, &day, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (!mir_tstrcmp(timezonesign, L"+"))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
-			else if (!mir_tstrcmp(timezonesign, L"-"))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
+			if (!mir_wstrcmp(timezonesign, L"+"))
+				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour - timezoneh, min - timezonem, sec);
+			else if (!mir_wstrcmp(timezonesign, L"-"))
+				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour + timezoneh, min + timezonem, sec);
 			else
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
+				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
 	}
 	// Get the date part
@@ -290,7 +290,7 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	char *szUrl = mir_t2a(tszURL);
+	char *szUrl = mir_u2a(tszURL);
 	nlhr.szUrl = szUrl;
 	NETLIBHTTPHEADER headers[4];
 	nlhr.headersCount = 4;
@@ -320,8 +320,8 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 				}
 			}
 			if (date != NULL && size != NULL) {
-				wchar_t *tdate = mir_a2t(date);
-				wchar_t *tsize = mir_a2t(size);
+				wchar_t *tdate = mir_a2u(date);
+				wchar_t *tsize = mir_a2u(size);
 				struct _stat buf;
 
 				int fh = _wopen(tszLocal, _O_RDONLY);
@@ -471,7 +471,7 @@ MCONTACT GetContactByNick(const wchar_t *nick)
 
 	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		ptrW contactNick(::db_get_wsa(hContact, MODULE, "Nick"));
-		if (!mir_tstrcmpi(contactNick, nick))
+		if (!mir_wstrcmpi(contactNick, nick))
 			break;
 	}
 	return hContact;
@@ -483,7 +483,7 @@ MCONTACT GetContactByURL(const wchar_t *url)
 
 	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		ptrW contactURL(::db_get_wsa(hContact, MODULE, "URL"));
-		if (!mir_tstrcmpi(contactURL, url))
+		if (!mir_wstrcmpi(contactURL, url))
 			break;
 	}
 	return hContact;

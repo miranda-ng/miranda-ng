@@ -75,7 +75,7 @@ bool Searcher::CompareStr(std::wstring str, wchar_t *strFind)
 		return str.find(strFind) < str.length();
 
 	size_t findid = str.find(strFind);
-	size_t findLen = mir_tstrlen(strFind);
+	size_t findLen = mir_wstrlen(strFind);
 	while(findid < str.length()) {
 		if ((findid == 0 || std::isspace(str[findid - 1], loc) || std::ispunct(str[findid - 1], loc)) &&
 			(findid + findLen >= str.length() || std::isspace(str[findid + findLen], loc) || std::ispunct(str[findid + findLen], loc)))
@@ -105,13 +105,13 @@ void Searcher::Find()
 	GetWindowText(context->findWindow, str, _countof(str));
 	if (!str[0]) {
 		wchar_t buf[256];
-		mir_sntprintf(buf, TranslateT("\"%s\" not found"), str);
+		mir_snwprintf(buf, TranslateT("\"%s\" not found"), str);
 		MessageBox(context->m_hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 		return;
 	}
 	if (!matchCase) {
 		std::locale loc;
-		std::transform(str, str + mir_tstrlen(str), str, std::bind2nd(std::ptr_fun(mytoupper), &loc));
+		std::transform(str, str + mir_wstrlen(str), str, std::bind2nd(std::ptr_fun(mytoupper), &loc));
 	}
 	
 	bool findBack1 = findBack ^ !searchForInMes;
@@ -299,7 +299,7 @@ void Searcher::Find()
 	if (isStart) {
 		wchar_t buf[256];
 		GetWindowText(context->findWindow, str, _countof(str));
-		mir_sntprintf(buf, TranslateT("\"%s\" not found"), str);
+		mir_snwprintf(buf, TranslateT("\"%s\" not found"), str);
 		MessageBox(context->m_hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 	}
 	else MessageBox(context->m_hWnd, TranslateTS(onlyGroup ? LPGENW("You have reached the end of the group.") : LPGENW("You have reached the end of the history.")), TranslateT("Search"), MB_OK | MB_ICONINFORMATION);

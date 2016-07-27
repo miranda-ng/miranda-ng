@@ -68,12 +68,12 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 
 			switch (level) {
 			case TRUST_PRIVATE:
-				mir_sntprintf(text, L"%s [v%i]", TranslateW(LANG_STATUS_PRIVATE), context->protocol_version);
+				mir_snwprintf(text, L"%s [v%i]", TranslateW(LANG_STATUS_PRIVATE), context->protocol_version);
 				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_PRIVATE));
 				break;
 
 			case TRUST_UNVERIFIED:
-				mir_sntprintf(text, L"%s [v%i]", TranslateW(LANG_STATUS_UNVERIFIED), context->protocol_version);
+				mir_snwprintf(text, L"%s [v%i]", TranslateW(LANG_STATUS_UNVERIFIED), context->protocol_version);
 				Menu_ModifyItem(hStatusInfoItem, text, IcoLib_GetIconHandle(ICON_UNVERIFIED));
 				break;
 

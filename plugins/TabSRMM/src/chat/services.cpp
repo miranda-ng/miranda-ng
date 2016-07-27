@@ -37,7 +37,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
 		if ((pContainer = FindMatchingContainer(L"default")) == NULL) {
 			wchar_t szName[CONTAINER_NAMELEN + 1];
-			mir_sntprintf(szName, L"default");
+			mir_snwprintf(szName, L"default");
 			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
 				return 0;
 		}
@@ -53,7 +53,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 
 	// cut nickname if larger than x chars...
 	wchar_t newcontactname[128];
-	if (mir_tstrlen(contactName) > 0) {
+	if (mir_wstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
 			CutContactName(contactName, newcontactname, _countof(newcontactname));
 		else
@@ -167,7 +167,7 @@ void ShowRoom(SESSION_INFO *si, WPARAM, BOOL)
 	TContainerData *pContainer = si->pContainer;
 	if (pContainer == NULL) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
-		if (!g_Settings.bOpenInDefault && !mir_tstrcmp(szName, L"default"))
+		if (!g_Settings.bOpenInDefault && !mir_wstrcmp(szName, L"default"))
 			wcsncpy(szName, L"Chat Rooms", CONTAINER_NAMELEN);
 		szName[CONTAINER_NAMELEN] = 0;
 		pContainer = FindContainerByName(szName);

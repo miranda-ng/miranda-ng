@@ -41,7 +41,7 @@ struct InviteChatReqParam
 	CYahooProto* ppro;
 
 	InviteChatReqParam(const char* room, const char* who, const char* msg, CYahooProto* ppro)
-		: room(mir_strdup(room)), who(mir_strdup(who)), msg(mir_utf8decodeT(msg)), ppro(ppro) {}
+		: room(mir_strdup(room)), who(mir_strdup(who)), msg(mir_utf8decodeW(msg)), ppro(ppro) {}
 
 	~InviteChatReqParam()
 	{ mir_free(room); mir_free(who); mir_free(msg); }
@@ -52,9 +52,9 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 void ext_yahoo_conf_userdecline(int id, const char*, const char *who, const char *room, const char *msg)
 {
 	wchar_t info[1024];
-	wchar_t *whot = mir_utf8decodeT(who);
-	wchar_t *msgt = mir_utf8decodeT(msg);
-	mir_sntprintf(info, TranslateT("%s denied invitation with message: %s"), whot, msgt ? msgt : L"");
+	wchar_t *whot = mir_utf8decodeW(who);
+	wchar_t *msgt = mir_utf8decodeW(msg);
+	mir_snwprintf(info, TranslateT("%s denied invitation with message: %s"), whot, msgt ? msgt : L"");
 	GETPROTOBYID(id)->ChatEvent(room, who, GC_EVENT_INFORMATION, info);
 	mir_free(msgt);
 	mir_free(whot);
@@ -98,7 +98,7 @@ void ext_yahoo_conf_userleave(int id, const char*, const char *who, const char *
 
 void ext_yahoo_conf_message(int id, const char*, const char *who, const char *room, const char *msg, int utf8)
 {
-	wchar_t *msgt = utf8 ? mir_utf8decodeT(msg) : mir_a2t(msg);
+	wchar_t *msgt = utf8 ? mir_utf8decodeW(msg) : mir_a2u(msg);
 	GETPROTOBYID(id)->ChatEvent(room, who, GC_EVENT_MESSAGE, msgt);
 	mir_free(msgt);
 }
@@ -150,7 +150,7 @@ void CYahooProto::ChatRegister(void)
 
 void CYahooProto::ChatStart(const char* room)
 {
-	wchar_t* idt = mir_a2t(room);
+	wchar_t* idt = mir_a2u(room);
 
 	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
@@ -178,7 +178,7 @@ void CYahooProto::ChatStart(const char* room)
 
 void CYahooProto::ChatLeave(const char* room)
 {
-	wchar_t* idt = mir_a2t(room);
+	wchar_t* idt = mir_a2u(room);
 
 	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -197,8 +197,8 @@ void CYahooProto::ChatLeaveAll(void)
 
 void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const wchar_t* msg)
 {
-	wchar_t* idt = mir_a2t(room);
-	wchar_t* snt = mir_a2t(who);
+	wchar_t* idt = mir_a2u(room);
+	wchar_t* snt = mir_a2u(who);
 
 	MCONTACT hContact = getbuddyH(who);
 	wchar_t* nick = hContact ? (wchar_t*)pcli->pfnGetContactDisplayName(WPARAM(hContact), 0) : snt;
@@ -225,8 +225,8 @@ int __cdecl CYahooProto::OnGCEventHook(WPARAM, LPARAM lParam)
 
 	if (mir_strcmp(gch->pDest->pszModule, m_szModuleName)) return 0;
 
-	char *room = mir_t2a(gch->pDest->ptszID);
-	char *who = mir_t2a(gch->ptszUID);
+	char *room = mir_u2a(gch->pDest->ptszID);
+	char *who = mir_u2a(gch->ptszUID);
 
 	switch (gch->pDest->iType) {
 	case GC_SESSION_TERMINATE:
@@ -310,7 +310,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		gcmi->Item = (gc_item*)Items;
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		char* id = mir_t2a(gcmi->pszUID);
+		char* id = mir_u2a(gcmi->pszUID);
 		if (!_stricmp(m_yahoo_id, id)) {
 			static const gc_item Items[] =
 			{
@@ -359,7 +359,7 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, YList* &who, c
 					wchar_t buf[128] = L"";
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
-					who = y_list_append(who, mir_t2a(buf));
+					who = y_list_append(who, mir_u2a(buf));
 				}
 				else {
 					DBVARIANT dbv;

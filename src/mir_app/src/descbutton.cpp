@@ -188,7 +188,7 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat)
 		textRect.top = DBC_BORDER_SIZE;
 		textRect.bottom = dat->height - DBC_BORDER_SIZE;
 		DrawText(tempDC, dat->lpzTitle, -1, &textRect, DT_TOP | DT_LEFT | DT_END_ELLIPSIS);
-		GetTextExtentPoint32(tempDC, dat->lpzTitle, (int)mir_tstrlen(dat->lpzTitle), &titleSize);
+		GetTextExtentPoint32(tempDC, dat->lpzTitle, (int)mir_wstrlen(dat->lpzTitle), &titleSize);
 
 		DeleteObject(SelectObject(tempDC, hOldFont));
 	}
@@ -200,7 +200,7 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat)
 		textRect.top = DBC_BORDER_SIZE + titleSize.cy ? titleSize.cy + DBC_HSPACING : 0;
 		textRect.bottom = dat->height - DBC_BORDER_SIZE;
 		DrawText(tempDC, dat->lpzDescription, -1, &textRect, DT_TOP | DT_LEFT | DT_WORDBREAK | DT_END_ELLIPSIS);
-		GetTextExtentPoint32(tempDC, dat->lpzTitle, (int)mir_tstrlen(dat->lpzTitle), &titleSize);
+		GetTextExtentPoint32(tempDC, dat->lpzTitle, (int)mir_wstrlen(dat->lpzTitle), &titleSize);
 	}
 
 	SelectObject(tempDC, hfntSave);
@@ -280,9 +280,9 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 		if (dat->lpzTitle)
 			mir_free(dat->lpzTitle);
 		if (wParam & MDBCF_UNICODE)
-			dat->lpzTitle = mir_u2t((WCHAR *)lParam);
+			dat->lpzTitle = mir_wstrdup((WCHAR *)lParam);
 		else
-			dat->lpzTitle = mir_a2t((char *)lParam);
+			dat->lpzTitle = mir_a2u((char *)lParam);
 		RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
 		return TRUE;
 
@@ -290,9 +290,9 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 		if (dat->lpzDescription)
 			mir_free(dat->lpzDescription);
 		if (wParam & MDBCF_UNICODE)
-			dat->lpzDescription = mir_u2t((WCHAR *)lParam);
+			dat->lpzDescription = mir_wstrdup((WCHAR *)lParam);
 		else
-			dat->lpzDescription = mir_a2t((char *)lParam);
+			dat->lpzDescription = mir_a2u((char *)lParam);
 		RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
 		return TRUE;
 

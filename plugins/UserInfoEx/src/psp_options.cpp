@@ -883,10 +883,10 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			{
 				POPUPDATAT ppd = { 0 };
 				ppd.iSeconds = (int)db_get_b(NULL, MODNAME, SET_POPUP_DELAY, 0);
-				mir_tstrncpy(ppd.lptzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
+				mir_wstrncpy(ppd.lptzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
 
 				// Birthday
-				mir_tstrncpy(ppd.lptzContactName, TranslateT("Birthday"), _countof(ppd.lptzContactName));
+				mir_wstrncpy(ppd.lptzContactName, TranslateT("Birthday"), _countof(ppd.lptzContactName));
 				ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTB0);
 				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -899,7 +899,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				PUAddPopupT(&ppd);
 
 				// Anniversary
-				mir_tstrncpy(ppd.lptzContactName, TranslateT("Anniversary"), _countof(ppd.lptzContactName));
+				mir_wstrncpy(ppd.lptzContactName, TranslateT("Anniversary"), _countof(ppd.lptzContactName));
 				ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
 				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);

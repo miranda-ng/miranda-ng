@@ -56,7 +56,7 @@ void MakePathRelative(MCONTACT hContact, wchar_t *path)
 
 void MakePathRelative(MCONTACT hContact)
 {
-	ptrT tszPath(db_get_tsa(hContact, "ContactPhoto", "File"));
+	ptrW tszPath(db_get_tsa(hContact, "ContactPhoto", "File"));
 	if (tszPath)
 		MakePathRelative(hContact, tszPath);
 }
@@ -67,7 +67,7 @@ void MakePathRelative(MCONTACT hContact)
 
 int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 {
-	ptrT  tszValue;
+	ptrW  tszValue;
 	wchar_t tszFilename[MAX_PATH]; tszFilename[0] = 0;
 
 	ace->hbmPic = 0;
@@ -136,7 +136,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		}
 	}
 
-	if (mir_tstrlen(tszFilename) < 4)
+	if (mir_wstrlen(tszFilename) < 4)
 		return -1;
 
 	wcsncpy_s(tszFilename, VARST(tszFilename), _TRUNCATE);

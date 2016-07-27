@@ -182,7 +182,7 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 		dlg->Show();
 		HWND hWnd = dlg->GetHwnd();
 		wchar_t szTemp[500];
-		mir_sntprintf(szTemp, TranslateT("%s (%s) is requesting a client-to-client chat connection."),
+		mir_snwprintf(szTemp, TranslateT("%s (%s) is requesting a client-to-client chat connection."),
 			pdci->sContactName.c_str(), pdci->sHostmask.c_str());
 		SetDlgItemText(hWnd, IDC_TEXT, szTemp);
 		ShowWindow(hWnd, SW_SHOW);
@@ -404,61 +404,61 @@ static void DoChatFormatting(wchar_t* pszText)
 			switch (p1[1]) {
 			case 'B':
 			case 'b':
-				mir_tstrcpy(InsertThis, L"\002");
+				mir_wstrcpy(InsertThis, L"\002");
 				iRemoveChars = 2;
 				break;
 			case 'I':
 			case 'i':
-				mir_tstrcpy(InsertThis, L"\026");
+				mir_wstrcpy(InsertThis, L"\026");
 				iRemoveChars = 2;
 				break;
 			case 'U':
 			case 'u':
-				mir_tstrcpy(InsertThis, L"\037");
+				mir_wstrcpy(InsertThis, L"\037");
 				iRemoveChars = 2;
 				break;
 			case 'c':
 			{
-				mir_tstrcpy(InsertThis, L"\003");
+				mir_wstrcpy(InsertThis, L"\003");
 				iRemoveChars = 2;
 
 				wchar_t szTemp[3];
-				mir_tstrncpy(szTemp, p1 + 2, 3);
+				mir_wstrncpy(szTemp, p1 + 2, 3);
 				iFG = _wtoi(szTemp);
 			}
 				break;
 			case 'C':
 				if (p1[2] == '%' && p1[3] == 'F') {
-					mir_tstrcpy(InsertThis, L"\x0399,99");
+					mir_wstrcpy(InsertThis, L"\x0399,99");
 					iRemoveChars = 4;
 				}
 				else {
-					mir_tstrcpy(InsertThis, L"\x0399");
+					mir_wstrcpy(InsertThis, L"\x0399");
 					iRemoveChars = 2;
 				}
 				iFG = -1;
 				break;
 			case 'f':
 				if (p1 - 3 >= pszText && p1[-3] == '\003')
-					mir_tstrcpy(InsertThis, L",");
+					mir_wstrcpy(InsertThis, L",");
 				else if (iFG >= 0)
-					mir_sntprintf(InsertThis, L"\x03%u,", iFG);
+					mir_snwprintf(InsertThis, L"\x03%u,", iFG);
 				else
-					mir_tstrcpy(InsertThis, L"\x0399,");
+					mir_wstrcpy(InsertThis, L"\x0399,");
 
 				iRemoveChars = 2;
 				break;
 
 			case 'F':
 				if (iFG >= 0)
-					mir_sntprintf(InsertThis, L"\x03%u,99", iFG);
+					mir_snwprintf(InsertThis, L"\x03%u,99", iFG);
 				else
-					mir_tstrcpy(InsertThis, L"\x0399,99");
+					mir_wstrcpy(InsertThis, L"\x0399,99");
 				iRemoveChars = 2;
 				break;
 
 			case '%':
-				mir_tstrcpy(InsertThis, L"%");
+				mir_wstrcpy(InsertThis, L"%");
 				iRemoveChars = 2;
 				break;
 
@@ -467,10 +467,10 @@ static void DoChatFormatting(wchar_t* pszText)
 				break;
 			}
 
-			memmove(p1 + mir_tstrlen(InsertThis), p1 + iRemoveChars, sizeof(wchar_t)*(mir_tstrlen(p1) - iRemoveChars + 1));
-			memcpy(p1, InsertThis, sizeof(wchar_t)*mir_tstrlen(InsertThis));
-			if (iRemoveChars || mir_tstrlen(InsertThis))
-				p1 += mir_tstrlen(InsertThis);
+			memmove(p1 + mir_wstrlen(InsertThis), p1 + iRemoveChars, sizeof(wchar_t)*(mir_wstrlen(p1) - iRemoveChars + 1));
+			memcpy(p1, InsertThis, sizeof(wchar_t)*mir_wstrlen(InsertThis));
+			if (iRemoveChars || mir_wstrlen(InsertThis))
+				p1 += mir_wstrlen(InsertThis);
 			else
 				p1++;
 		}
@@ -488,7 +488,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 	// handle the hook
 	if (gch) {
 		if (!mir_strcmpi(gch->pDest->pszModule, m_szModuleName)) {
-			wchar_t *p1 = mir_tstrdup(gch->pDest->ptszID);
+			wchar_t *p1 = mir_wstrdup(gch->pDest->ptszID);
 			wchar_t *p2 = wcsstr(p1, L" - ");
 			if (p2)
 				*p2 = '\0';
@@ -500,8 +500,8 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 
 			case GC_USER_MESSAGE:
 				if (gch && gch->ptszText && *gch->ptszText) {
-					wchar_t* pszText = new wchar_t[mir_tstrlen(gch->ptszText) + 1000];
-					mir_tstrcpy(pszText, gch->ptszText);
+					wchar_t* pszText = new wchar_t[mir_wstrlen(gch->ptszText) + 1000];
+					mir_wstrcpy(pszText, gch->ptszText);
 					DoChatFormatting(pszText);
 					PostIrcMessageWnd(p1, NULL, pszText);
 					delete[]pszText;
@@ -515,7 +515,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 			case GC_USER_PRIVMESS:
 			{
 				wchar_t szTemp[4000];
-				mir_sntprintf(szTemp, L"/QUERY %s", gch->ptszUID);
+				mir_snwprintf(szTemp, L"/QUERY %s", gch->ptszUID);
 				PostIrcMessageWnd(p1, NULL, szTemp);
 			}
 				break;
@@ -835,7 +835,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 	if (gcmi) {
 		if (!mir_strcmpi(gcmi->pszModule, m_szModuleName)) {
 			if (gcmi->Type == MENU_ON_LOG) {
-				if (mir_tstrcmpi(gcmi->pszID, SERVERWINDOW)) {
+				if (mir_wstrcmpi(gcmi->pszID, SERVERWINDOW)) {
 					gcmi->nItems = _countof(logItems);
 					gcmi->Item = logItems;
 				}
@@ -860,8 +860,8 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 
 				wchar_t stzChanName[100];
 				const wchar_t* temp = wcschr(gcmi->pszID, ' ');
-				size_t len = min(((temp == NULL) ? mir_tstrlen(gcmi->pszID) : (int)(temp - gcmi->pszID + 1)), _countof(stzChanName) - 1);
-				mir_tstrncpy(stzChanName, gcmi->pszID, len);
+				size_t len = min(((temp == NULL) ? mir_wstrlen(gcmi->pszID) : (int)(temp - gcmi->pszID + 1)), _countof(stzChanName) - 1);
+				mir_wstrncpy(stzChanName, gcmi->pszID, len);
 				stzChanName[len] = 0;
 				CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, stzChanName, NULL, NULL, NULL, NULL, NULL, false, false, 0);
 				BOOL bServOwner = strchr(sUserModes.c_str(), 'q') == NULL ? FALSE : TRUE;
@@ -1056,7 +1056,7 @@ void CIrcProto::ConnectToServer(void)
 		InterlockedIncrement((long *)&m_bConnectRequested);
 
 	wchar_t szTemp[300];
-	mir_sntprintf(szTemp, L"\033%s \002%s\002 (%S: %u)",
+	mir_snwprintf(szTemp, L"\033%s \002%s\002 (%S: %u)",
 		TranslateT("Connecting to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 }
@@ -1082,5 +1082,5 @@ INT_PTR __cdecl CIrcProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 
 	const wchar_t* p = m_statusMessage.c_str();
 
-	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(p) : (INT_PTR)mir_t2a(p);
+	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_wstrdup(p) : (INT_PTR)mir_u2a(p);
 }

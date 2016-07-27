@@ -80,7 +80,7 @@ static LRESULT CALLBACK MsgEditSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 				int nLen = GetWindowTextLength(hWnd);
 				wchar_t *text = (wchar_t*)_alloca((nLen + 1) * sizeof(wchar_t));
 				GetWindowText(hWnd, text, nLen + 1);
-				memmove(text + start, text + end, sizeof(wchar_t)* (mir_tstrlen(text) + 1 - end));
+				memmove(text + start, text + end, sizeof(wchar_t)* (mir_wstrlen(text) + 1 - end));
 				SetWindowText(hWnd, text);
 
 				SendMessage(hWnd, EM_SETSEL, start, start);
@@ -368,7 +368,7 @@ void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY 
 	HWND hwndDlg = g_SetAwayMsgPage.GetWnd();
 	GetDlgItemText(hwndDlg, IDC_SAWAYMSG_MSGDATA, Message.GetBuffer(AWAY_MSGDATA_MAX), AWAY_MSGDATA_MAX);
 	Message.ReleaseBuffer();
-	if (!mir_tstrlen(Message))
+	if (!mir_wstrlen(Message))
 		Message = NULL; // delete personal message if it's empty
 
 	if (CList) {
@@ -843,7 +843,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				return true;
 			}
 			wchar_t BtnTitle[64];
-			mir_sntprintf(BtnTitle, TranslateT("Closing in %d"), Countdown);
+			mir_snwprintf(BtnTitle, TranslateT("Closing in %d"), Countdown);
 			SetDlgItemText(hwndDlg, IDC_OK, BtnTitle);
 			Countdown--;
 		}

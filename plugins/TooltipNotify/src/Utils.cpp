@@ -13,7 +13,7 @@ BOOL IsNt50()
 
 void TruncateWithDots(wchar_t* szString, size_t iNewLen)
 {
-	size_t iOrigLen = mir_tstrlen(szString);
+	size_t iOrigLen = mir_wstrlen(szString);
 	if (iNewLen < iOrigLen) {
 		wchar_t* p = szString+iNewLen;
 		*p = '\0';

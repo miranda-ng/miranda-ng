@@ -131,11 +131,11 @@ BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 		return TRUE;
 
 	if (lti->dwFlags & LTI_UNICODE) {
-		if (mir_tstrcmpi(lti->ptszType, LPGENW("Music")) == 0)
+		if (mir_wstrcmpi(lti->ptszType, LPGENW("Music")) == 0)
 			return opts.enable_music;
-		if (mir_tstrcmpi(lti->ptszType, LPGENW("Radio")) == 0)
+		if (mir_wstrcmpi(lti->ptszType, LPGENW("Radio")) == 0)
 			return opts.enable_radio;
-		if (mir_tstrcmpi(lti->ptszType, LPGENW("Video")) == 0)
+		if (mir_wstrcmpi(lti->ptszType, LPGENW("Video")) == 0)
 			return opts.enable_video;
 		return opts.enable_others;
 	}

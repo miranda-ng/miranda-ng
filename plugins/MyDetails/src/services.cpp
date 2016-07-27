@@ -52,15 +52,15 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 
 					bool foundDefNick = true;
 					for (int i = 1; foundDefNick && i < protocols->GetSize(); i++) {
-						if (mir_tstrcmpi(protocols->Get(i)->nickname, nick) != 0) {
+						if (mir_wstrcmpi(protocols->Get(i)->nickname, nick) != 0) {
 							foundDefNick = false;
 							break;
 						}
 					}
 
 					if (foundDefNick)
-						if (mir_tstrcmpi(protocols->default_nick, nick) != 0)
-							mir_tstrcpy(protocols->default_nick, nick);
+						if (mir_wstrcmpi(protocols->default_nick, nick) != 0)
+							mir_wstrcpy(protocols->default_nick, nick);
 				}
 
 				SetDlgItemText(hwndDlg, IDC_NICKNAME, protocols->default_nick);
@@ -70,7 +70,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 				Protocol *proto = protocols->Get(proto_num);
 
 				wchar_t tmp[128];
-				mir_sntprintf(tmp, TranslateT("Set my nickname for %s"), proto->description);
+				mir_snwprintf(tmp, TranslateT("Set my nickname for %s"), proto->description);
 
 				SetWindowText(hwndDlg, tmp);
 
@@ -188,13 +188,13 @@ INT_PTR PluginCommand_GetMyNickname(WPARAM wParam, LPARAM lParam)
 
 	char *proto = (char *)wParam;
 	if (proto == NULL) {
-		mir_tstrncpy(ret, protocols->default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
+		mir_wstrncpy(ret, protocols->default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
 		return 0;
 	}
 	else {
 		Protocol *protocol = protocols->Get(proto);
 		if (protocol != NULL) {
-			mir_tstrncpy(ret, protocol->nickname, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
+			mir_wstrncpy(ret, protocol->nickname, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
 			return 0;
 		}
 
@@ -263,7 +263,7 @@ INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	if (proto == NULL) {
-		mir_tstrncpy(ret, protocols->default_avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
+		mir_wstrncpy(ret, protocols->default_avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
 		return 0;
 	}
 
@@ -274,8 +274,8 @@ INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 			protocols->Get(i)->GetAvatar();
 
-			if (mir_tstrlen(protocols->Get(i)->avatar_file))
-				mir_tstrncpy(ret, protocols->Get(i)->avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
+			if (mir_wstrlen(protocols->Get(i)->avatar_file))
+				mir_wstrncpy(ret, protocols->Get(i)->avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
 			else
 				ret[0] = '\0';
 
@@ -333,7 +333,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 				}
 
 				wchar_t title[256];
-				mir_sntprintf(title, TranslateT("Set my status message for %s"), proto->description);
+				mir_snwprintf(title, TranslateT("Set my status message for %s"), proto->description);
 				SetWindowText(hwndDlg, title);
 
 				SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, proto->GetStatusMsg());
@@ -342,7 +342,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 				Window_SetProtoIcon_IcoLib(hwndDlg, NULL, data->status);
 
 				wchar_t title[256];
-				mir_sntprintf(title, TranslateT("Set my status message for %s"), pcli->pfnGetStatusModeDescription(data->status, 0));
+				mir_snwprintf(title, TranslateT("Set my status message for %s"), pcli->pfnGetStatusModeDescription(data->status, 0));
 				SetWindowText(hwndDlg, title);
 
 				SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, protocols->GetDefaultStatusMsg(data->status));

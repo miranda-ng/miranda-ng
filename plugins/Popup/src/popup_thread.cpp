@@ -232,7 +232,7 @@ static unsigned __stdcall PopupThread(void *)
 	err = GetLastError();
 	if (!g_wndClass.cPopupThreadManagerWnd) {
 		wchar_t msg[1024];
-		mir_sntprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
+		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 

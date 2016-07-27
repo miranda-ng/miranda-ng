@@ -381,7 +381,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								// Make new ggtransfer struct
 								local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, NULL);
-								wchar_t* filenameT = mir_utf8decodeT((char*)dcc->file_info.filename);
+								wchar_t* filenameT = mir_utf8decodeW((char*)dcc->file_info.filename);
 
 								PROTORECVFILET pre = {0};
 								pre.dwFlags = PRFF_TCHAR;
@@ -662,7 +662,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
 {
 	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
-	char fileName[MAX_PATH], *path = mir_t2a(szPath);
+	char fileName[MAX_PATH], *path = mir_u2a(szPath);
 	mir_snprintf(fileName, "%s%s", path, dcc->file_info.filename);
 	dcc->folder = _strdup((char*)path);
 	dcc->tick = 0;
@@ -678,7 +678,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
 	{
 		debugLogA("dccfileallow(): Failed to create file \"%s\". errno=%d: %s", fileName, errno, strerror(errno));
 		wchar_t error[512];
-		mir_sntprintf(error, TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc)\n%s"), errno, _tcserror(errno), szPath);
+		mir_snwprintf(error, TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc)\n%s"), errno, _tcserror(errno), szPath);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		ProtoBroadcastAck((UINT_PTR)dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
 		// Free transfer
@@ -702,7 +702,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
 HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 {
 	struct gg_dcc7 *dcc7 = (struct gg_dcc7 *) hTransfer;
-	char fileName[MAX_PATH], *path = mir_t2a(szPath);
+	char fileName[MAX_PATH], *path = mir_u2a(szPath);
 	mir_snprintf(fileName, "%s%s", path, dcc7->filename);
 	dcc7->folder = _strdup((char*)path);
 	dcc7->tick = 0;
@@ -727,7 +727,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 	{
 		debugLogA("dcc7fileallow(): Failed to create file \"%s\". errno=%d: %s", fileName, errno, strerror(errno));
 		wchar_t error[512];
-		mir_sntprintf(error, TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s"), errno, _tcserror(errno), szPath);
+		mir_snwprintf(error, TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s"), errno, _tcserror(errno), szPath);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		gg_dcc7_reject(dcc7, GG_DCC7_REJECT_USER);
 		ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
@@ -917,7 +917,7 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 	if (!isonline())
 		return ftfail(this, hContact);
 
-	filename = mir_t2a(ppszFiles[0]);
+	filename = mir_u2a(ppszFiles[0]);
 
 	// Read user IP and port
 	ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));

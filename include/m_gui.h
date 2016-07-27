@@ -1144,7 +1144,7 @@ private:
 	struct TPageInfo : public MZeroedObject
 	{
 		int m_pageId;
-		ptrT m_ptszHeader;
+		ptrW m_ptszHeader;
 		HICON m_hIcon;
 		BOOL m_bChanged;
 		CDlgBase *m_pDlg;

@@ -221,7 +221,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				}
 				TranslateDialogDefault(hDlg);			//to translate oldTitle
 				GetWindowText(hDlg, oldTitle, _countof(oldTitle));
-				mir_sntprintf(newTitle, L"%s - %s", name, oldTitle);
+				mir_snwprintf(newTitle, L"%s - %s", name, oldTitle);
 				SetWindowText(hDlg, newTitle);
 			}
 
@@ -301,7 +301,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 												case EXIM_GROUP:
 													break;
 												case EXIM_SUBGROUP:
-													if (mir_tstrncmp(pDat->ExImContact->ptszName, DB::Setting::GetTString(hContact, "CList", "Group"), mir_tstrlen(pDat->ExImContact->ptszName))) {
+													if (mir_wstrncmp(pDat->ExImContact->ptszName, DB::Setting::GetTString(hContact, "CList", "Group"), mir_wstrlen(pDat->ExImContact->ptszName))) {
 														continue;
 													}
 													break;
