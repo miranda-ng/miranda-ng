@@ -171,7 +171,7 @@ BYTE bDefHeader[] = { 0xDE, 0xC0, 0xEF, 0xBE };
 
 int CDbxMdb::Check(void)
 {
-	FILE *pFile = _tfopen(m_tszProfileName, L"rb");
+	FILE *pFile = _wfopen(m_tszProfileName, L"rb");
 	if (pFile == nullptr)
 		return EGROKPRF_CANTREAD;
 
