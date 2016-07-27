@@ -1006,7 +1006,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			if (!db_get_ts(NULL, "CList", "TitleText", &dbv))
 				s = dbv.ptszVal;
 			else
-				s = _T(MIRANDANAME);
+				s = _A2W(MIRANDANAME);
 			SetDlgItemText(hwndDlg, IDC_TITLETEXT, s);
 			db_free(&dbv);
 

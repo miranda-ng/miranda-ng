@@ -679,7 +679,7 @@ public:
 		if (loaded != LANGUAGE_LOADED)
 			return TRUE;
 
-		return wcschr(wordChars, (_TINT)c) != NULL;
+		return wcschr(wordChars, c) != NULL;
 	}
 
 	// Assert that all needed data is loaded

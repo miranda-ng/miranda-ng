@@ -59,16 +59,16 @@ struct facebook_user
 	{
 		switch (this->client) {
 		case CLIENT_APP:
-			return _T(FACEBOOK_CLIENT_APP);
+			return FACEBOOK_CLIENT_APP;
 		case CLIENT_MESSENGER:
-			return _T(FACEBOOK_CLIENT_MESSENGER);
+			return FACEBOOK_CLIENT_MESSENGER;
 		case CLIENT_OTHER:
-			return _T(FACEBOOK_CLIENT_OTHER);
+			return FACEBOOK_CLIENT_OTHER;
 		case CLIENT_MOBILE:
-			return _T(FACEBOOK_CLIENT_MOBILE);
+			return FACEBOOK_CLIENT_MOBILE;
 		case CLIENT_WEB:
 		default:
-			return _T(FACEBOOK_CLIENT_WEB);
+			return FACEBOOK_CLIENT_WEB;
 		}
 	}
 };

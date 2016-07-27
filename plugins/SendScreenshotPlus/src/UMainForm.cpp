@@ -940,9 +940,9 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 		pt.y = pt.y - rect.top;				//offset y for client area
 		rect = cliRect;
 	}
-	//	_itot_s(rect.right - rect.left, B, 33, 10);
+	//	_itow_s(rect.right - rect.left, B, 33, 10);
 	_itow(rect.right - rect.left, B, 10);
-	//	_itot_s(rect.bottom - rect.top, H, 16, 10);
+	//	_itow_s(rect.bottom - rect.top, H, 16, 10);
 	_itow(rect.bottom - rect.top, H, 10);
 	mir_tstrncat(B, L"x", _countof(B) - mir_tstrlen(B));
 	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));
@@ -952,9 +952,9 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl)
 {
 	wchar_t B[33], H[16];
-	//	_itot_s(ABS(rect.right - rect.left), B, 33, 10);
+	//	_itow_s(ABS(rect.right - rect.left), B, 33, 10);
 	_itow(ABS(rect.right - rect.left), B, 10);
-	//	_itot_s(ABS(rect.bottom - rect.top), H, 16, 10);
+	//	_itow_s(ABS(rect.bottom - rect.top), H, 16, 10);
 	_itow(ABS(rect.bottom - rect.top), H, 10);
 	mir_tstrncat(B, L"x", _countof(B) - mir_tstrlen(B));
 	mir_tstrncat(B, H, _countof(B) - mir_tstrlen(B));

@@ -667,7 +667,7 @@ void CLUI_ChangeWindowMode()
 	wchar_t titleText[255] = { 0 };
 	DBVARIANT dbv;
 	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
-		mir_tstrncpy(titleText, _T(MIRANDANAME), _countof(titleText));
+		mir_tstrncpy(titleText, _A2W(MIRANDANAME), _countof(titleText));
 	else {
 		mir_tstrncpy(titleText, dbv.ptszVal, _countof(titleText));
 		db_free(&dbv);

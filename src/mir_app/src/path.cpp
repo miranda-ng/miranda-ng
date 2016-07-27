@@ -133,7 +133,7 @@ static __forceinline char* GetPathVarX(const char*, int code)
 	return makeFileName(szFullPath);
 }
 
-static __forceinline int _xcscmp(const wchar_t *s1, const wchar_t *s2) { return _tcscmp(s1, s2); }
+static __forceinline int _xcscmp(const wchar_t *s1, const wchar_t *s2) { return wcscmp(s1, s2); }
 static __forceinline int _xcsncmp(const wchar_t *s1, const wchar_t *s2, size_t n) { return wcsncmp(s1, s2, n); }
 static __forceinline size_t _xcslen(const wchar_t *s1) { return wcslen(s1); }
 static __forceinline wchar_t* _xcscpy(wchar_t *s1, const wchar_t *s2) { return wcscpy(s1, s2); }

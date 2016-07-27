@@ -206,7 +206,7 @@ tstring CAppletManager::TranslateString(wchar_t *szString, ...)
 
 	va_list body;
 	va_start(body, szString);
-	_vstprintf_s(out, _countof(out), szTranslatedString, body);
+	vswprintf_s(out, _countof(out), szTranslatedString, body);
 	va_end(body);
 	return out;
 }

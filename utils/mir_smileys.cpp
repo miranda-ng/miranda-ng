@@ -28,6 +28,8 @@ Boston, MA 02111-1307, USA.
 #include <commctrl.h>
 #include <m_skin_eng.h>
 
+#include <tchar.h>
+
 // Prototypes
 
 #define TEXT_PIECE_TYPE_TEXT   0
@@ -408,11 +410,11 @@ SortedList * ReplaceSmileys(const wchar_t *text, int text_size, const char *prot
 	SortedList *plText = List_Create(0, 10);
 
 	const wchar_t *next_text_pos = text;
-	const wchar_t *last_text_pos = _tcsninc(text, text_size);
+	const wchar_t *last_text_pos = _wcsninc(text, text_size);
 
 	for (unsigned int i = 0; i < sp.numSmileys; i++) {
-		wchar_t* start = _tcsninc(text, spres[i].startChar);
-		wchar_t* end = _tcsninc(start, spres[i].size);
+		wchar_t *start = _wcsninc(text, spres[i].startChar);
+		wchar_t *end = _wcsninc(start, spres[i].size);
 
 		if (spres[i].hIcon != NULL) { // For defective smileypacks
 			// Add text

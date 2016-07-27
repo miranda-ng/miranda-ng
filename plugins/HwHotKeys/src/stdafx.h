@@ -73,15 +73,15 @@ extern const CHAR *t_SR;
 extern const CHAR *t_SS;
 
 // значения связаны с битами в HwHotKeys_CompareCurrentScancode
-enum : DWORD { key_flag_sr = 0x01000000 };
-enum : DWORD { key_flag_cr = 0x02000000 };
-enum : DWORD { key_flag_ar = 0x04000000 };
-enum : DWORD { key_flag_wr = 0x08000000 };
-enum : DWORD { key_flag_sl = 0x10000000 };
-enum : DWORD { key_flag_cl = 0x20000000 };
-enum : DWORD { key_flag_al = 0x40000000 };
-enum : DWORD { key_flag_wl = 0x80000000 };
-enum : DWORD { key_flag_ss = 0x00100000 };
-enum : DWORD { key_flag_cc = 0x00200000 };
-enum : DWORD { key_flag_aa = 0x00400000 };
-enum : DWORD { key_flag_ww = 0x00800000 };
+#define key_flag_sr 0x01000000
+#define key_flag_cr 0x02000000
+#define key_flag_ar 0x04000000
+#define key_flag_wr 0x08000000
+#define key_flag_sl 0x10000000
+#define key_flag_cl 0x20000000
+#define key_flag_al 0x40000000
+#define key_flag_wl 0x80000000
+#define key_flag_ss 0x00100000
+#define key_flag_cc 0x00200000
+#define key_flag_aa 0x00400000
+#define key_flag_ww 0x00800000

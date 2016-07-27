@@ -131,16 +131,16 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 		break;
 	}
 	case DBVT_BYTE:
-		mir_sntprintf(data, L"0x%02X (%s)", dbv->bVal, _ultot(dbv->bVal, tmp, 10));
+		mir_sntprintf(data, L"0x%02X (%s)", dbv->bVal, _ultow(dbv->bVal, tmp, 10));
 		ListView_SetItemText(hwnd, index, 3, data);
 		break;
 	case DBVT_WORD:
-		mir_sntprintf(data, L"0x%04X (%s)", dbv->wVal, _ultot(dbv->wVal, tmp, 10));
+		mir_sntprintf(data, L"0x%04X (%s)", dbv->wVal, _ultow(dbv->wVal, tmp, 10));
 		ListView_SetItemText(hwnd, index, 3, data);
 		break;
 
 	case DBVT_DWORD:
-		mir_sntprintf(data, L"0x%08X (%s)", dbv->dVal, _ultot(dbv->dVal, tmp, 10));
+		mir_sntprintf(data, L"0x%08X (%s)", dbv->dVal, _ultow(dbv->dVal, tmp, 10));
 		ListView_SetItemText(hwnd, index, 3, data);
 		break;
 

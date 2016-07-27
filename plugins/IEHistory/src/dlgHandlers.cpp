@@ -502,7 +502,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, db_get_b(NULL, ModuleName, "UseWorkerThread", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			wchar_t buffer[40];
-			_itot_s(count, buffer, 10);
+			_itow_s(count, buffer, 10);
 			SetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer);
 		}
 		break;
@@ -541,7 +541,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				else {
 					wchar_t buffer[1024];
 					GetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer, _countof(buffer));
-					count = _tstol(buffer);
+					count = _wtol(buffer);
 					count = (count < 0) ? 0 : count;
 				}
 				db_set_b(NULL, ModuleName, "ShowLastPageFirst", IsDlgButtonChecked(hWnd, IDC_SHOW_LAST_FIRST));

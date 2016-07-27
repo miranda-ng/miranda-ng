@@ -35,14 +35,14 @@ int hLangpack = 0; // Поддержка плагинозависимого перевода.
 BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
 
 static wchar_t tszFormat[] =
-_T("{I4}\x0D\x0A\x0A\
+_A2W("{I4}\x0D\x0A\x0A\
 {R65}?tc_GetTraffic(%extratext%,now,sent,d)\x0D\x0A\x0A\
 {R115}?tc_GetTraffic(%extratext%,now,received,d)\x0D\x0A\x0A\
 {R165}?tc_GetTraffic(%extratext%,total,both,d)\x0D\x0A\x0A\
 {L180}?if3(?tc_GetTime(%extratext%,now,hh:mm:ss),)\x0D\x0A\x0A\
 {L230}?if3(?tc_GetTime(%extratext%,total,d hh:mm),)");
 
-wchar_t* TRAFFIC_COUNTER_WINDOW_CLASS = L"TrafficCounterWnd";
+wchar_t *TRAFFIC_COUNTER_WINDOW_CLASS = L"TrafficCounterWnd";
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 //TRAFFIC COUNTER

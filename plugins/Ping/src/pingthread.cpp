@@ -875,11 +875,11 @@ void InitList()
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
 	wndclass.lpszMenuName = NULL;
-	wndclass.lpszClassName = _T(PLUG) L"WindowClass";
+	wndclass.lpszClassName = _A2W(PLUG) L"WindowClass";
 	RegisterClass(&wndclass);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		hpwnd = CreateWindow(_T(PLUG) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, NULL, hInst, NULL);
+		hpwnd = CreateWindow(_A2W(PLUG) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, NULL, hInst, NULL);
 
 		CLISTFrame frame = { 0 };
 		frame.name = PLUG;
@@ -893,7 +893,7 @@ void InitList()
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 	}
 	else {
-		hpwnd = CreateWindowEx(WS_EX_TOOLWINDOW, _T(PLUG) L"WindowClass", L"Ping",
+		hpwnd = CreateWindowEx(WS_EX_TOOLWINDOW, _A2W(PLUG) L"WindowClass", L"Ping",
 			(WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_CLIPCHILDREN),
 			0, 0, 400, 300, hwnd_clist, NULL, hInst, NULL);
 

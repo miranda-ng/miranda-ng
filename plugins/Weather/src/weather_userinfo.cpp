@@ -316,12 +316,11 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.position = 100000000;
-	odp.pwszTitle = _T(WEATHERPROTONAME);
+	odp.pszTitle = WEATHERPROTONAME;
 
 	if (lParam == 0) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
 		odp.pfnDlgProc = DlgProcINIPage;
-		odp.flags = ODPF_TCHAR;
 		UserInfo_AddPage(wParam, &odp);
 	}
 	else {
@@ -330,7 +329,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 			// register the contact info page
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 			odp.pfnDlgProc = DlgProcUIPage;
-			odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+			odp.flags = ODPF_BOLDGROUPS;
 			UserInfo_AddPage(wParam, &odp);
 		}
 	}

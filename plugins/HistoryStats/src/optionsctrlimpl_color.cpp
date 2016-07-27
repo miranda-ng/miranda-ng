@@ -54,7 +54,7 @@ void OptionsCtrlImpl::Color::onSelect()
 		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP;
 
 		if (hTempWnd = CreateWindowEx(
-			0, _T(WNDCLASS_COLOURPICKER), NULL, dwStyle,
+			0, _A2W(WNDCLASS_COLOURPICKER), NULL, dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
 			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccColor), g_hInst, NULL))
 		{

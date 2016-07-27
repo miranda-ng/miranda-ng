@@ -162,7 +162,7 @@ int Init(WPARAM, LPARAM)
 	{
 		if(CConfig::GetBoolSetting(SKIP_DRIVER_ERROR)) {
 			tstring text = L"Failed to initialize the LCD connection\n Make sure you have the newest Logitech drivers installed (>=1.03).\n";
-			tstring title = _T(APP_SHORTNAME);
+			tstring title = _A2W(APP_SHORTNAME);
 			MessageBox(NULL, text.c_str(), title.c_str(), MB_OK | MB_ICONEXCLAMATION);
 		}
 

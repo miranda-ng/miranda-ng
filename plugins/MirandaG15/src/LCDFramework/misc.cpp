@@ -8,7 +8,7 @@ tstring tstringprintf(tstring strFormat,...) {
 	
 	int mlen = (int)strFormat.length()+128;
 	wchar_t *text = (wchar_t*)malloc(mlen*sizeof(wchar_t));
-	_vsntprintf(text,mlen,strFormat.c_str(),vlist);
+	_vsnwprintf(text,mlen,strFormat.c_str(),vlist);
 	va_end(vlist);
 
 	strFormat = text;
@@ -92,10 +92,7 @@ tstring toLower(const tstring &i_str)
   tstring str(i_str);
   for (size_t i = 0; i < str.size(); ++ i)
   {
-    if (_istlead(str[i]))
-      ++ i;
-    else
-      str[i] = tolower(str[i]);
+    str[i] = tolower(str[i]);
   }
   return str;
 }

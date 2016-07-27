@@ -81,8 +81,8 @@ void GetProfileDirectory(wchar_t* szMirandaDir, wchar_t* szPath, int cbPath)
 	mir_tstrcat(szMirandaBootIni, L"\\mirandaboot.ini");
 	GetPrivateProfileString(L"Database", L"ProfileDir", L"./Profiles", szProfileDir, _countof(szProfileDir), szMirandaBootIni);
 	ExpandEnvironmentStrings(szProfileDir, szExpandedProfileDir, _countof(szExpandedProfileDir));
-	_tchdir(szMirandaDir);
-	if (!_tfullpath(szPath, szExpandedProfileDir, cbPath))
+	_wchdir(szMirandaDir);
+	if (!_wfullpath(szPath, szExpandedProfileDir, cbPath))
 		mir_tstrncpy(szPath, szMirandaDir, cbPath);
 	if (szPath[mir_tstrlen(szPath) - 1] == '\\')
 		szPath[mir_tstrlen(szPath) - 1] = 0;

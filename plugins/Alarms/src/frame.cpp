@@ -227,7 +227,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if (options.auto_size_vert && IsWindowVisible(hwnd)) {
 				if (FrameIsFloating()) {
 					int height = height_client_to_frame(itemheight * count, GetWindowLongPtr(GetParent(hwnd), GWL_STYLE), GetWindowLongPtr(GetParent(hwnd), GWL_EXSTYLE));
-					HWND titleBarHwnd = FindWindowEx(GetParent(hwnd), 0, _T(CLUIFrameTitleBarClassName), 0);
+					HWND titleBarHwnd = FindWindowEx(GetParent(hwnd), 0, _A2W(CLUIFrameTitleBarClassName), 0);
 					if (titleBarHwnd) {
 						RECT tbr;
 						GetWindowRect(titleBarHwnd, &tbr);

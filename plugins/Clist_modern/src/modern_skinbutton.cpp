@@ -71,7 +71,7 @@ int ModernSkinButtonLoadModule()
 	WNDCLASSEX wc;
 	memset(&wc, 0, sizeof(wc));
 	wc.cbSize = sizeof(wc);
-	wc.lpszClassName = _T(MODERNSKINBUTTONCLASS);
+	wc.lpszClassName = _A2W(MODERNSKINBUTTONCLASS);
 	wc.lpfnWndProc = ModernSkinButtonWndProc;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(ModernSkinButtonCtrl*);
@@ -608,7 +608,7 @@ static HWND ModernSkinButtonCreateWindow(ModernSkinButtonCtrl * bct, HWND parent
 	if (bct == NULL) return FALSE;
 	{
 		wchar_t *UnicodeID = mir_a2u(bct->ID);
-		hwnd = CreateWindow(_T(MODERNSKINBUTTONCLASS), UnicodeID, WS_VISIBLE | WS_CHILD, bct->Left, bct->Top, bct->Right - bct->Left, bct->Bottom - bct->Top, parent, NULL, g_hInst, NULL);
+		hwnd = CreateWindow(_A2W(MODERNSKINBUTTONCLASS), UnicodeID, WS_VISIBLE | WS_CHILD, bct->Left, bct->Top, bct->Right - bct->Left, bct->Bottom - bct->Top, parent, NULL, g_hInst, NULL);
 		mir_free(UnicodeID);
 	}
 

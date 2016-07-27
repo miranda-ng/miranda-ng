@@ -1786,7 +1786,7 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 									m += h * 60;
 									if (!m)
 									{
-										MessageBox(Dialog, Translate("The specified time offset is invalid."), _T(SECTIONNAME), MB_OK | MB_ICONWARNING);
+										MessageBox(Dialog, Translate("The specified time offset is invalid."), SECTIONNAME, MB_OK | MB_ICONWARNING);
 										return TRUE;
 									}
 

@@ -48,7 +48,7 @@ wchar_t SkinsFolder[MAX_PATH];
 
 int ReloadSkinFolder(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
+	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _A2W(DEFAULT_SKIN_FOLDER));
 	return 0;
 }
 
@@ -1558,8 +1558,8 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MODERNOPT_INITIALIZE, ModernSkinOptInit);
 
 	HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
-	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT L"\\" _T(DEFAULT_SKIN_FOLDER));
-	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
+	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT L"\\" _A2W(DEFAULT_SKIN_FOLDER));
+	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, _countof(SkinsFolder), _A2W(DEFAULT_SKIN_FOLDER));
 
 	// Get icons
 	wchar_t szMyPath[MAX_PATH];

@@ -316,7 +316,7 @@ static BOOL EnsureAssocRegistered(const ASSOCDATA *assoc)
 			// register class
 			if (fUseMainCmdLine) pszDdeCmd = NULL;
 			else pszDdeCmd = fIsUrl ? DDEURLCMD : DDEFILECMD;
-			fSuccess = AddRegClass(assoc->pszClassName, assoc->pszDescription, pszIconLoc, _T(MIRANDANAME), pszRunCmd, pszDdeCmd, DDEAPP, DDETOPIC, assoc->pszVerbDesc, assoc->flags&FTDF_BROWSERAUTOOPEN, fIsUrl, assoc->flags&FTDF_ISSHORTCUT);
+			fSuccess = AddRegClass(assoc->pszClassName, assoc->pszDescription, pszIconLoc, _A2W(MIRANDANAME), pszRunCmd, pszDdeCmd, DDEAPP, DDETOPIC, assoc->pszVerbDesc, assoc->flags&FTDF_BROWSERAUTOOPEN, fIsUrl, assoc->flags&FTDF_ISSHORTCUT);
 			mir_free(pszIconLoc); // does NULL check
 			// file type
 			if (fSuccess && !fIsUrl) {
@@ -960,14 +960,14 @@ void InitAssocList(void)
 		pszAppFileName = MakeAppFileName(TRUE);
 		pszRunCmd = MakeRunCommand(TRUE, FALSE);
 		if (pszAppFileName != NULL && pszRunCmd != NULL)
-			AddRegOpenWith(pszAppFileName, FALSE, _T(MIRANDANAME), pszIconLoc, pszRunCmd, NULL, NULL, NULL);
+			AddRegOpenWith(pszAppFileName, FALSE, _A2W(MIRANDANAME), pszIconLoc, pszRunCmd, NULL, NULL, NULL);
 		mir_free(pszRunCmd); // does NULL check
 		mir_free(pszAppFileName); // does NULL check
 		// assocmgr.dll
 		pszAppFileName = MakeAppFileName(FALSE);
 		pszRunCmd = MakeRunCommand(FALSE, TRUE);
 		if (pszAppFileName != NULL && pszRunCmd != NULL)
-			AddRegOpenWith(pszAppFileName, TRUE, _T(MIRANDANAME), pszIconLoc, pszRunCmd, DDEFILECMD, DDEAPP, DDETOPIC);
+			AddRegOpenWith(pszAppFileName, TRUE, _A2W(MIRANDANAME), pszIconLoc, pszRunCmd, DDEFILECMD, DDEAPP, DDETOPIC);
 		mir_free(pszRunCmd); // does NULL check
 		mir_free(pszAppFileName); // does NULL check
 

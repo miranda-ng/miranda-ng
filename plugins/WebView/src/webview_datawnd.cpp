@@ -78,7 +78,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				mir_strcpy(Searchstr, NewSearchstr);
 
-				if (!(startposition > mir_strlen(buff)))
+				if (!(startposition > (int)mir_strlen(buff)))
 					location = (strstr(buff + startposition, NewSearchstr)) - buff;
 
 				oldloc = loc;
@@ -135,7 +135,7 @@ static MCONTACT FindContactByUrl(HWND hwndDlg)
 		if (!mir_tstrcmp(urltext, db1) && !mir_tstrcmp(titlebartxt, db2)) {
 			contactcount++;
 			if (contactcount > 1) {
-				MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _T(MODULENAME), MB_OK);
+				MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), MODULENAMEW, MB_OK);
 				return NULL;
 			}
 			res = hContact;

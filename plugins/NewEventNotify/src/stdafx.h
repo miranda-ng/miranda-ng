@@ -140,8 +140,8 @@
 
 #define MENUITEM_NAME LPGEN("Notify of new events")
 
-#define MENUITEM_ENABLE LPGEN("Enable new event notification")
-#define MENUITEM_DISABLE LPGEN("Disable new event notification")
+#define MENUITEM_ENABLE LPGENW("Enable new event notification")
+#define MENUITEM_DISABLE LPGENW("Disable new event notification")
 
 //---------------------------
 //---Structures

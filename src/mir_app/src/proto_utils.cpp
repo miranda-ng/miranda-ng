@@ -181,25 +181,25 @@ MIR_APP_DLL(int) ProtoGetAvatarFormat(const wchar_t *ptszFileName)
 	if (ptszExt == NULL)
 		return PA_FORMAT_UNKNOWN;
 
-	if (!_tcsicmp(ptszExt, L".png"))
+	if (!wcsicmp(ptszExt, L".png"))
 		return PA_FORMAT_PNG;
 
-	if (!_tcsicmp(ptszExt, L".jpg") || !_tcsicmp(ptszExt, L".jpeg"))
+	if (!wcsicmp(ptszExt, L".jpg") || !wcsicmp(ptszExt, L".jpeg"))
 		return PA_FORMAT_JPEG;
 
-	if (!_tcsicmp(ptszExt, L".ico"))
+	if (!wcsicmp(ptszExt, L".ico"))
 		return PA_FORMAT_ICON;
 
-	if (!_tcsicmp(ptszExt, L".bmp") || !_tcsicmp(ptszExt, L".rle"))
+	if (!wcsicmp(ptszExt, L".bmp") || !wcsicmp(ptszExt, L".rle"))
 		return PA_FORMAT_BMP;
 
-	if (!_tcsicmp(ptszExt, L".gif"))
+	if (!wcsicmp(ptszExt, L".gif"))
 		return PA_FORMAT_GIF;
 
-	if (!_tcsicmp(ptszExt, L".swf"))
+	if (!wcsicmp(ptszExt, L".swf"))
 		return PA_FORMAT_SWF;
 
-	if (!_tcsicmp(ptszExt, L".xml"))
+	if (!wcsicmp(ptszExt, L".xml"))
 		return PA_FORMAT_XML;
 
 	return PA_FORMAT_UNKNOWN;

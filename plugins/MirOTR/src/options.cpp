@@ -8,7 +8,7 @@ wchar_t g_fingerprint_store_filename[MAX_PATH];
 wchar_t g_instag_filename[MAX_PATH];
 HANDLE hPATH_MIROTR;
 Options options;
-#define DATA_DIRECTORY MIRANDA_USERDATAT L"\\" _T(MODULENAME)
+#define DATA_DIRECTORY MIRANDA_USERDATAT L"\\" _A2W(MODULENAME)
 
 struct PROTOREGENKEYOPTIONS {
 	HWND refresh;
@@ -21,16 +21,16 @@ void SetFilenames(const wchar_t *path)
 		return;
 	CreateDirectoryTreeT(path);
 	
-	mir_sntprintf(g_private_key_filename, L"%s\\" _T(PRIVATE_KEY_FILENAME), path);
-	mir_sntprintf(g_fingerprint_store_filename, L"%s\\" _T(FINGERPRINT_STORE_FILENAME), path);
-	mir_sntprintf(g_instag_filename, L"%s\\" _T(INSTAG_FILENAME), path);
+	mir_sntprintf(g_private_key_filename,       L"%s\\" _A2W(PRIVATE_KEY_FILENAME),       path);
+	mir_sntprintf(g_fingerprint_store_filename, L"%s\\" _A2W(FINGERPRINT_STORE_FILENAME), path);
+	mir_sntprintf(g_instag_filename,            L"%s\\" _A2W(INSTAG_FILENAME),            path);
 }
 
 int FoldersChanged(WPARAM, LPARAM)
 {
 	wchar_t path[MAX_PATH];
 	if ( FoldersGetCustomPathT(hPATH_MIROTR, path, _countof(path), L""))
-		SetFilenames( VARST(DATA_DIRECTORY));
+		SetFilenames(VARST(DATA_DIRECTORY));
 	else
 		SetFilenames(path);
 

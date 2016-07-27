@@ -302,9 +302,9 @@ static INT_PTR InitMenu()
 void UpdateMenu()
 {
 	if (Enabled == 1)
-		Menu_ModifyItem(hSSMenuToggleOnOff, _T(DISABLE_SILENCE), GetIconHandle(DISABLE_SILENCE));
+		Menu_ModifyItem(hSSMenuToggleOnOff, _A2W(DISABLE_SILENCE), GetIconHandle(DISABLE_SILENCE));
 	else
-		Menu_ModifyItem(hSSMenuToggleOnOff, _T(ENABLE_SILENCE), GetIconHandle(ENABLE_SILENCE));
+		Menu_ModifyItem(hSSMenuToggleOnOff, _A2W(ENABLE_SILENCE), GetIconHandle(ENABLE_SILENCE));
 
 	UpdateTTB();
 }

@@ -72,7 +72,7 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		return 0;
 
 	// Ignore for special chatrooms
-	if (!mir_tstrcmp(hook->pDest->ptszID, _T(FACEBOOK_NOTIFICATIONS_CHATROOM)))
+	if (!mir_tstrcmp(hook->pDest->ptszID, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM)))
 		return 0;
 
 	switch (hook->pDest->iType)
@@ -435,13 +435,13 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 		// Create the group chat session
 		GCSESSION gcw = { sizeof(gcw) };
 		gcw.iType = GCW_PRIVMESS;
-		gcw.ptszID = _T(FACEBOOK_NOTIFICATIONS_CHATROOM);
+		gcw.ptszID = _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM);
 		gcw.pszModule = m_szModuleName;
 		gcw.ptszName = nameT;
 		CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
 		// Send setting events
-		GCDEST gcd = { m_szModuleName, _T(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_CONTROL };
+		GCDEST gcd = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.time = ::time(NULL);
 
@@ -460,10 +460,10 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	std::string message = text.str();
 	utils::text::replace_all(&message, "%", "%%");
 
-	ptrT idT(mir_tstrdup(_T(FACEBOOK_NOTIFICATIONS_CHATROOM)));
+	ptrT idT(mir_tstrdup(_A2W(FACEBOOK_NOTIFICATIONS_CHATROOM)));
 	ptrT messageT(mir_a2t_cp(message.c_str(), CP_UTF8));
 
-	GCDEST gcd = { m_szModuleName, _T(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
+	GCDEST gcd = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszText = messageT;
 	gce.time = notification->time ? notification->time : ::time(NULL);

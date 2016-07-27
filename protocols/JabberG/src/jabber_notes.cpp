@@ -480,7 +480,7 @@ private:
 
 	void PopulateTags(HTREEITEM htiRoot, wchar_t *szActiveTag)
 	{
-		LIST<wchar_t> tagSet(5, _tcscmp);
+		LIST<wchar_t> tagSet(5, wcscmp);
 		for (int i = 0; i < m_proto->m_notes.getCount(); i++) {
 			wchar_t *tags = m_proto->m_notes[i].GetTags();
 			for (wchar_t *tag = tags; tag && *tag; tag = tag + mir_tstrlen(tag) + 1)

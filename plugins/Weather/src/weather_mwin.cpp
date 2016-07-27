@@ -158,7 +158,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 				{
 					FontIDT fntid = { 0 };
-					mir_tstrcpy(fntid.group, _T(WEATHERPROTONAME));
+					mir_tstrcpy(fntid.group, _A2W(WEATHERPROTONAME));
 					mir_tstrcpy(fntid.name, LPGENW("Frame Font"));
 					fntc = CallService(MS_FONT_GETT, (WPARAM)&fntid, (LPARAM)&lfnt);
 
@@ -329,7 +329,7 @@ void InitMwin(void)
 	mir_strcpy(colourid.dbSettingsGroup, WEATHERPROTONAME);
 	mir_strcpy(colourid.setting, "ColorMwinFrame");
 	mir_tstrcpy(colourid.name, LPGENW("Frame Background"));
-	mir_tstrcpy(colourid.group, _T(WEATHERPROTONAME));
+	mir_tstrcpy(colourid.group, _A2W(WEATHERPROTONAME));
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
 	ColourRegisterT(&colourid);
 
@@ -337,7 +337,7 @@ void InitMwin(void)
 	fontid.cbSize = sizeof(FontIDT);
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	mir_strcpy(fontid.dbSettingsGroup, WEATHERPROTONAME);
-	mir_tstrcpy(fontid.group, _T(WEATHERPROTONAME));
+	mir_tstrcpy(fontid.group, _A2W(WEATHERPROTONAME));
 	mir_tstrcpy(fontid.name, LPGENW("Frame Font"));
 	mir_strcpy(fontid.prefix, "fnt0");
 
@@ -347,7 +347,7 @@ void InitMwin(void)
 
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	mir_tstrcpy(fontid.deffontsettings.szFace, L"Verdana");
-	mir_tstrcpy(fontid.backgroundGroup, _T(WEATHERPROTONAME));
+	mir_tstrcpy(fontid.backgroundGroup, _A2W(WEATHERPROTONAME));
 	mir_tstrcpy(fontid.backgroundName, LPGENW("Frame Background"));
 	FontRegisterT(&fontid);
 

@@ -659,7 +659,7 @@ retry:
 							psr.firstName.w = __firstname;
 							psr.lastName.w = __lastname;
 							psr.email.w = strFmt2;
-							psr.id.w = _ultot(uin, strFmt1, 10);
+							psr.id.w = _ultow(uin, strFmt1, 10);
 							psr.uin = uin;
 							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM)&psr);
 						}

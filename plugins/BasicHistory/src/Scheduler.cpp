@@ -570,7 +570,7 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 			wchar_t buf[32];
 			std::map<std::wstring, bool>::iterator it = existingContacts.find(name);
 			while(it != existingContacts.end()) {
-				_itot_s(++i, buf, 10);
+				_itow_s(++i, buf, 10);
 				name = baseName1 + buf;
 				it = existingContacts.find(name);
 			}

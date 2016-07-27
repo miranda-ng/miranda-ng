@@ -5,7 +5,7 @@ wchar_t currentResponse[256] = {0};
 wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const char* option, const wchar_t *def)
 {
 	DBVARIANT dbv = {0};
-	_tcsnset(buf, 0, buflen);
+	wcsnset(buf, 0, buflen);
 	if (db_get_ts(hContact, PLUGIN_NAME, option, &dbv) != 0)
 		wcsncpy(buf, def, min(buflen, mir_tstrlen(def)+1));
 	else if (dbv.type == DBVT_TCHAR) {
@@ -18,7 +18,7 @@ wchar_t* _getMOptS(wchar_t *buf, unsigned int buflen, const char* module, const 
 {
 	wchar_t* tmp;
 	DBVARIANT dbv = {0};
-	_tcsnset(buf, 0, buflen);
+	wcsnset(buf, 0, buflen);
 	if (db_get_s(NULL, module, option, &dbv) != 0)
 		wcsncpy(buf, def, min(buflen, mir_tstrlen(def)+1));
 	else if (dbv.type == DBVT_TCHAR) {
@@ -83,7 +83,7 @@ BOOL _saveDlgItemScore(HWND hDialog, int controlID, char* option)
 	len = GetWindowTextLength(GetDlgItem(hDialog, controlID));
 	tmp = (wchar_t *)malloc((len + 1)*sizeof(wchar_t));
 	GetDlgItemText(hDialog, controlID, tmp, len + 1);
-	_setOptD(option, _tcstod(tmp, NULL)/SCORE_C);
+	_setOptD(option, wcstod(tmp, NULL)/SCORE_C);
 	return TRUE;
 }
 
@@ -556,21 +556,21 @@ int OnOptInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pwszGroup = LPGENW("Message sessions");
-	odp.pwszTitle = _T(PLUGIN_NAME);
-	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS;
+	odp.pszGroup = LPGEN("Message sessions");
+	odp.pszTitle = PLUGIN_NAME;
+	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.pwszTab = LPGENW("Settings");
+	odp.pszTab = LPGEN("Settings");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_MAIN);
 	odp.pfnDlgProc = DlgProcOptionsMain;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Messages");
+	odp.pszTab = LPGEN("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_Q);
 	odp.pfnDlgProc = DlgProcOptionsQuestion;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Bayes");
+	odp.pszTab = LPGEN("Bayes");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_BAYES);
 	odp.pfnDlgProc = DlgProcOptionsBayes;
 	Options_AddPage(wParam, &odp);
@@ -578,8 +578,8 @@ int OnOptInitialize(WPARAM wParam, LPARAM)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_POPUPS);
 		odp.pfnDlgProc = DlgProcOptionsPopups;
-		odp.pwszGroup = LPGENW("Popups");
-		odp.pwszTab = NULL;
+		odp.pszGroup = LPGEN("Popups");
+		odp.pszTab = NULL;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

@@ -96,7 +96,7 @@ void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 	}
 
 	// convert the string to an integer
-	temp = _ttof(tempchar);
+	temp = _wtof(tempchar);
 
 	// convert all to F first
 	if (!mir_tstrcmpi(unit, L"C"))		temp = (temp * 9 / 5) + 32;
@@ -135,7 +135,7 @@ void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 
 	// convert the string to a floating point number (always positive)
 	// if it end up with 0, then it's not a number, return the original string and quit
-	output = _ttof(tempchar);
+	output = _wtof(tempchar);
 	if (output == 0) {
 		mir_tstrcpy(str, tempchar);
 		return;
@@ -194,7 +194,7 @@ void GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 
 	// convert the string into an integer (always positive)
 	// if the result is 0, then the string is not a number, return _T(""
-	tempunit = _ttof(tempchar);
+	tempunit = _wtof(tempchar);
 	if (tempunit == 0 && tempchar[0] != '0')
 		return;
 
@@ -241,7 +241,7 @@ void GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 
 	// convert the string to a floating point number (always positive)
 	// if it end up with 0, then it's not a number, return the original string and quit
-	output = _ttof(tempchar);
+	output = _wtof(tempchar);
 	if (output == 0) {
 		mir_tstrcpy(str, tempchar);
 		return;
@@ -281,7 +281,7 @@ void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 
 	// convert the string to a floating point number (always positive)
 	// if it end up with 0, then it's not a number, return the original string and quit
-	output = _ttof(tempchar);
+	output = _wtof(tempchar);
 	if (output == 0) {
 		mir_tstrcpy(str, tempchar);
 		return;

@@ -230,8 +230,8 @@ void RegisterFontServiceFonts()
 	FontID fontid = { 0 };
 	fontid.cbSize = sizeof(FontIDT);
 
-	strncpy(fontid.group, _T(SECTIONNAME), _countof(fontid.group));
-	strncpy(fontid.backgroundGroup, _T(SECTIONNAME), _countof(fontid.backgroundGroup));
+	strncpy(fontid.group, SECTIONNAME, _countof(fontid.group));
+	strncpy(fontid.backgroundGroup, SECTIONNAME, _countof(fontid.backgroundGroup));
 	strncpy(fontid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 
@@ -260,7 +260,7 @@ void RegisterFontServiceFonts()
 	ColourIDT colorid = { 0 };
 	colorid.cbSize = sizeof(ColourIDT);
 
-	strncpy(colorid.group, _T(SECTIONNAME), _countof(colorid.group));
+	strncpy(colorid.group, SECTIONNAME, _countof(colorid.group));
 	strncpy(colorid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
 	colorid.flags = 0;
 

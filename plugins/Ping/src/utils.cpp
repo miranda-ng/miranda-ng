@@ -51,7 +51,7 @@ void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags)
 		QueueUserAPC(sttMainThreadCallback, mainThread, (ULONG_PTR)ppd);
 	}
 	else{
-		MessageBox(NULL, line2, _T(PLUG) L" Message", MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, line2, _A2W(PLUG) L" Message", MB_OK | MB_ICONINFORMATION);
 		return;
 	}
 }

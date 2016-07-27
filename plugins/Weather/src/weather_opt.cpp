@@ -577,25 +577,25 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.position = 95600;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = OptionsProc;
-	odp.pwszGroup = LPGENW("Network");
-	odp.pwszTitle = _T(WEATHERPROTOTEXT);
-	odp.pwszTab = LPGENW("General");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pszGroup = LPGEN("Network");
+	odp.pszTitle = WEATHERPROTOTEXT;
+	odp.pszTab = LPGEN("General");
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	// text options
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TEXTOPT);
 	odp.pfnDlgProc = DlgProcText;
-	odp.pwszTab = LPGENW("Display");
+	odp.pszTab = LPGEN("Display");
 	Options_AddPage(wParam, &odp);
 
 	// if popup service exists, load the weather popup options
 	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.pwszGroup = LPGENW("Popups");
+		odp.pszGroup = LPGEN("Popups");
 		odp.groupPosition = 910000000;
-		odp.pwszTab = NULL;
+		odp.pszTab = NULL;
 		odp.pfnDlgProc = DlgPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}

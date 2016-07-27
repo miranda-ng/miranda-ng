@@ -127,7 +127,7 @@ void CToxProto::ShowNotification(const wchar_t *caption, const wchar_t *message,
 
 void CToxProto::ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
 {
-	ShowNotification(_T(MODULE), message, flags, hContact);
+	ShowNotification(_A2W(MODULE), message, flags, hContact);
 }
 
 bool CToxProto::IsFileExists(const wchar_t* path)

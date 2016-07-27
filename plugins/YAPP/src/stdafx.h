@@ -40,7 +40,7 @@
 #include "yapp_history.h"
 #include "icons.h"
 
-#define MODULE			"YAPP"
+#define MODULE "YAPP"
 
 extern HMODULE  hInst;
 extern bool     bShutdown;

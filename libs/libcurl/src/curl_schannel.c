@@ -1275,11 +1275,11 @@ static CURLcode verify_certificate(struct connectdata *conn, int sockindex)
         /* this is a wildcard cert.  try matching the last len - 1 chars */
         int hostname_len = strlen(conn->host.name);
         cert_hostname.tchar_ptr++;
-        if(_tcsicmp(cert_hostname.const_tchar_ptr,
+        if(wcsicmp(cert_hostname.const_tchar_ptr,
                     hostname.const_tchar_ptr + hostname_len - len + 2) != 0)
           result = CURLE_PEER_FAILED_VERIFICATION;
       }
-      else if(len == 0 || _tcsicmp(hostname.const_tchar_ptr,
+      else if(len == 0 || wcsicmp(hostname.const_tchar_ptr,
                                    cert_hostname.const_tchar_ptr) != 0) {
         result = CURLE_PEER_FAILED_VERIFICATION;
       }

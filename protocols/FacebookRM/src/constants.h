@@ -35,25 +35,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define FACEBOOK_URL_STICKER					"http://www.facebook.com/stickers/asset/?sticker_id=%s&image_type=BestEffortImage"
 
 // Connection
-#define FACEBOOK_SERVER_REGULAR					"www.facebook.com"
-#define FACEBOOK_SERVER_MBASIC					"mbasic.facebook.com"
-#define FACEBOOK_SERVER_MOBILE					"m.facebook.com"
-#define FACEBOOK_SERVER_CHAT					"%s-%s.facebook.com"
-#define FACEBOOK_SERVER_LOGIN					"www.facebook.com"
-#define FACEBOOK_SERVER_APPS					"apps.facebook.com"
-#define FACEBOOK_SERVER_DOMAIN					"facebook.com"
+#define FACEBOOK_SERVER_REGULAR              "www.facebook.com"
+#define FACEBOOK_SERVER_MBASIC               "mbasic.facebook.com"
+#define FACEBOOK_SERVER_MOBILE               "m.facebook.com"
+#define FACEBOOK_SERVER_CHAT                 "%s-%s.facebook.com"
+#define FACEBOOK_SERVER_LOGIN                "www.facebook.com"
+#define FACEBOOK_SERVER_APPS                 "apps.facebook.com"
+#define FACEBOOK_SERVER_DOMAIN               "facebook.com"
 
 // Facebook clients
-#define FACEBOOK_CLIENT_WEB						"Facebook (website)"
-#define FACEBOOK_CLIENT_MOBILE					"Facebook (mobile)"
-#define FACEBOOK_CLIENT_OTHER					"Facebook (other)"
-#define FACEBOOK_CLIENT_APP						"Facebook App"
-#define FACEBOOK_CLIENT_MESSENGER				"Facebook Messenger"
+#define FACEBOOK_CLIENT_WEB                  L"Facebook (website)"
+#define FACEBOOK_CLIENT_MOBILE               L"Facebook (mobile)"
+#define FACEBOOK_CLIENT_OTHER                L"Facebook (other)"
+#define FACEBOOK_CLIENT_APP                  L"Facebook App"
+#define FACEBOOK_CLIENT_MESSENGER            L"Facebook Messenger"
 
 // Various constants
-#define FACEBOOK_NOTIFICATIONS_CHATROOM			"_notifications"
-#define FACEBOOK_CHATROOM_NAMES_COUNT			3 // number of participant names to use for chatrooms without specific name (on website it's 2)
-#define FACEBOOK_NOTIFICATIONS_LOAD_COUNT		20 // number of last notifications to load on login to notify
+#define FACEBOOK_NOTIFICATIONS_CHATROOM      "_notifications"
+#define FACEBOOK_CHATROOM_NAMES_COUNT        3 // number of participant names to use for chatrooms without specific name (on website it's 2)
+#define FACEBOOK_NOTIFICATIONS_LOAD_COUNT    20 // number of last notifications to load on login to notify
 
 // Limits
 #define FACEBOOK_MESSAGE_LIMIT					200000 // this is guessed limit, in reality it is bigger

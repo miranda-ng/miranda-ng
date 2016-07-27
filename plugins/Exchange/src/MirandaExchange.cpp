@@ -431,10 +431,10 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 		}
 		
 		if ( SUCCEEDED(hr)) {
-			wchar_t	szPIDandName[128];
-			wchar_t	szPID[20];
+			wchar_t szPIDandName[128];
+			wchar_t szPID[20];
 
-			_tstrtime(szPID);
+			_wstrtime(szPID);
 			wcsncpy(szPIDandName, m_szUsername, _countof(szPIDandName)-1);		
 			mir_tstrncat(szPIDandName, szPID, _countof(szPIDandName) - mir_tstrlen(szPIDandName));
 			

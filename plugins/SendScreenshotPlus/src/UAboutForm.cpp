@@ -94,7 +94,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM, LPARAM)
 	//License
 	{
 		wchar_t* pszText = NULL;
-		mir_tstradd(pszText, _T(__COPYRIGHT));
+		mir_tstradd(pszText, _A2W(__COPYRIGHT));
 		mir_tstradd(pszText, L"\r\n\r\n");
 
 		HRSRC hRes = FindResource(g_hSendSS, MAKEINTRESOURCE(IDR_LICENSE), L"TEXT");

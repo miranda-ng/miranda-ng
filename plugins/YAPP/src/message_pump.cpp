@@ -30,7 +30,6 @@ unsigned __stdcall MessagePumpThread(void* param)
 
 				PopupData *pd = (PopupData*)hwndMsg.lParam;
 				if (enabled && num_popups < MAX_POPUPS) {
-					//HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, L"Popup", WS_POPUP, 0, 0, 0, 0, GetDesktopWindow(), 0, hInst, (LPVOID)hwndMsg.lParam);
 					HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, L"Popup", WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)hwndMsg.lParam);
 					num_popups++;
 					if (hwndMsg.wParam) // set notifyer handle

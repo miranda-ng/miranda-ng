@@ -349,19 +349,19 @@ static wchar_t* parseProtoInfo(ARGUMENTSINFO *ai)
 	wchar_t *tszRes = NULL;
 	ptrA szProto(mir_t2a(ai->targv[1]));
 
-	if (!mir_tstrcmp(ai->targv[2], _T(STR_PINAME)))
+	if (!mir_tstrcmp(ai->targv[2], _A2W(STR_PINAME)))
 		tszRes = Hlp_GetProtocolName(szProto);
-	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PIUIDTEXT))) {
+	else if (!mir_tstrcmp(ai->targv[2], _A2W(STR_PIUIDTEXT))) {
 		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
 		if (INT_PTR(szRes) == CALLSERVICE_NOTFOUND)
 			return NULL;
 	}
-	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PIUIDSETTING))) {
+	else if (!mir_tstrcmp(ai->targv[2], _A2W(STR_PIUIDSETTING))) {
 		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 		if (INT_PTR(szRes) == CALLSERVICE_NOTFOUND)
 			return NULL;
 	}
-	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PINICK)))
+	else if (!mir_tstrcmp(ai->targv[2], _A2W(STR_PINICK)))
 		tszRes = Contact_GetInfo(CNF_DISPLAY, NULL, szProto);
 
 	if (szRes == NULL && tszRes == NULL)

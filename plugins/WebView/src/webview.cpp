@@ -295,10 +295,10 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-	odp.pwszGroup = LPGENW("Network");
-	odp.pwszTitle = _T(MODULENAME);
+	odp.pszGroup = LPGEN("Network");
+	odp.pszTitle = MODULENAME;
 	odp.pfnDlgProc = DlgProcOpt;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	// if popup service exists

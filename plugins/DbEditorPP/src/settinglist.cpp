@@ -58,7 +58,7 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 	case DBVT_WORD:
 	case DBVT_DWORD:
 		val = getNumericValue(&dbv);
-		value = mir_tstrdup(_ultot(val, tmp, 10));
+		value = mir_tstrdup(_ultow(val, tmp, 10));
 		break;
 
 	case DBVT_WCHAR:

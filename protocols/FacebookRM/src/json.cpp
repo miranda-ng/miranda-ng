@@ -763,16 +763,16 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					wchar_t *client;
 
 					if (vc == 0) {
-						client = _T(FACEBOOK_CLIENT_WEB);
+						client = FACEBOOK_CLIENT_WEB;
 					}
 					else if (vc == 8) {
-						client = _T(FACEBOOK_CLIENT_MESSENGER); // I was online on Miranda, but when looked at myself at messenger.com I had icon of Messenger.
+						client = FACEBOOK_CLIENT_MESSENGER; // I was online on Miranda, but when looked at myself at messenger.com I had icon of Messenger.
 					}
 					else if (vc == 10) {
-						client = _T(FACEBOOK_CLIENT_MOBILE);
+						client = FACEBOOK_CLIENT_MOBILE;
 					}
 					else {
-						client = _T(FACEBOOK_CLIENT_OTHER);
+						client = FACEBOOK_CLIENT_OTHER;
 					}
 
 					ptrT oldClient(proto->getTStringA(hContact, "MirVer"));
@@ -877,21 +877,21 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				}
 				// Probably means client: guess 0 = web, 8 = messenger, 10 = something else?
 				if (vc_) {
-					wchar_t *client = _T(FACEBOOK_CLIENT_WEB);
+					wchar_t *client = FACEBOOK_CLIENT_WEB;
 
 					/*if (vc == 0) {
 						// means active some time ago? (on messenger or also on web)
-						client = _T(FACEBOOK_CLIENT_WEB);
+						client = FACEBOOK_CLIENT_WEB;
 					}
 					else if (vc == 8) {
-						client = _T(FACEBOOK_CLIENT_MESSENGER); // I was online on Miranda, but when looked at myself at messenger.com I had icon of Messenger.
+						client = FACEBOOK_CLIENT_MESSENGER; // I was online on Miranda, but when looked at myself at messenger.com I had icon of Messenger.
 					}
 					else if (vc == 10) {
 						// means actually active on messenger
-						client = _T(FACEBOOK_CLIENT_MOBILE);
+						client = FACEBOOK_CLIENT_MOBILE;
 					}
 					else {
-						client = _T(FACEBOOK_CLIENT_OTHER);
+						client = FACEBOOK_CLIENT_OTHER;
 					}*/
 
 					ptrT oldClient(proto->getTStringA(hContact, "MirVer"));

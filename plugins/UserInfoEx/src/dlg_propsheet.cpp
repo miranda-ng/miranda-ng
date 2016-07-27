@@ -65,7 +65,7 @@ static HANDLE g_hDetailsInitEvent = NULL;
 static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 CPsHdr::CPsHdr()
-	: _ignore(10, _tcscmp)
+	: _ignore(10, wcscmp)
 {
 	_dwSize = sizeof(*this);
 	_hContact = NULL;

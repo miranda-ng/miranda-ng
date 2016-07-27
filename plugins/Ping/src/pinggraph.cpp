@@ -272,7 +272,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
 	wndclass.lpszMenuName = NULL;
-	wndclass.lpszClassName = _T(PLUG) L"GraphWindow";
+	wndclass.lpszClassName = _A2W(PLUG) L"GraphWindow";
 	RegisterClass(&wndclass);
 
 	wchar_t title[256];
@@ -283,7 +283,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	}
 
 	HWND parent = 0;
-	hGraphWnd = CreateWindowEx(0, _T(PLUG) L"GraphWindow", title,
+	hGraphWnd = CreateWindowEx(0, _A2W(PLUG) L"GraphWindow", title,
 		(WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~CS_VREDRAW & ~CS_HREDRAW,
 		0, 0, 800, 600, parent, NULL, hInst, NULL);
 

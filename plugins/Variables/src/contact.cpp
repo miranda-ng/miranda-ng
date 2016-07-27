@@ -86,7 +86,7 @@ static int SortContactCache(const CONTACTCE *p1, const CONTACTCE *p2)
 	if (p1->flags != p2->flags)
 		return (p1->flags > p2->flags) ? 1 : -1;
 
-	return _tcscmp(p1->tszContact, p2->tszContact);
+	return wcscmp(p1->tszContact, p2->tszContact);
 }
 
 /* cache for 'getcontactfromstring' service */
@@ -199,7 +199,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 
 	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		// <_HANDLE_:hContact>
-		tmp.Format(L"<%s:%d>", _T(PROTOID_HANDLE), hContact);
+		tmp.Format(L"<%s:%d>", _A2W(PROTOID_HANDLE), hContact);
 		bool bMatch = (tmp == tszContact);
 
 		char *szProto = GetContactProto(hContact);

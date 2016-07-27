@@ -104,9 +104,9 @@ extern struct PlugOptions
 	#define DEFAULT_ONLYONCEADAY      1
 #endif
 
-#define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x%d"
-#define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x%d"
-#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x%d"
+#define DEFAULT_UPDATE_URL                L"http://miranda-ng.org/distr/stable/x%d"
+#define DEFAULT_UPDATE_URL_TRUNK          L"http://miranda-ng.org/distr/x%d"
+#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  L"http://miranda-ng.org/distr/pdb_x%d"
 
 
 #define FILENAME_X64 L"miranda64.exe"

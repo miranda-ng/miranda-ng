@@ -98,11 +98,11 @@ MIR_CORE_DLL(int)     CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM
 MIR_CORE_DLL(int)     NotifyEventHooks(HANDLE hEvent, WPARAM wParam = 0, LPARAM lParam = 0);
 MIR_CORE_DLL(int)     NotifyFastHook(HANDLE hEvent, WPARAM wParam = 0, LPARAM lParam = 0);
 
-MIR_CORE_DLL(HANDLE)  HookEvent(const char* name, MIRANDAHOOK hookProc);
-MIR_CORE_DLL(HANDLE)  HookEventParam(const char* name, MIRANDAHOOKPARAM hookProc, LPARAM lParam = 0);
-MIR_CORE_DLL(HANDLE)  HookEventObj(const char* name, MIRANDAHOOKOBJ hookProc, void* object);
-MIR_CORE_DLL(HANDLE)  HookEventObjParam(const char* name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam);
-MIR_CORE_DLL(HANDLE)  HookEventMessage(const char* name, HWND hwnd, UINT message);
+MIR_CORE_DLL(HANDLE)  HookEvent(const char *name, MIRANDAHOOK hookProc);
+MIR_CORE_DLL(HANDLE)  HookEventParam(const char *name, MIRANDAHOOKPARAM hookProc, LPARAM lParam = 0);
+MIR_CORE_DLL(HANDLE)  HookEventObj(const char *name, MIRANDAHOOKOBJ hookProc, void* object);
+MIR_CORE_DLL(HANDLE)  HookEventObjParam(const char *name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam);
+MIR_CORE_DLL(HANDLE)  HookEventMessage(const char *name, HWND hwnd, UINT message);
 MIR_CORE_DLL(int)     UnhookEvent(HANDLE hHook);
 MIR_CORE_DLL(void)    KillObjectEventHooks(void* pObject);
 MIR_CORE_DLL(void)    KillModuleEventHooks(HINSTANCE pModule);

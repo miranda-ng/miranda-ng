@@ -47,4 +47,3 @@ void load_settings();
 int OptionsInitialize(WPARAM wParam, LPARAM lParam);
 
 extern std::wstring g_mirandaDir;
-#define LOG_ID LPGEN("NotifyAnything")

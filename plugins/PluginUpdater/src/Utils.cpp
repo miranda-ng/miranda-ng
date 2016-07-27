@@ -125,7 +125,7 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 
 int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 {
-	return _tcsicmp(p1->m_name, p2->m_name);
+	return wcsicmp(p1->m_name, p2->m_name);
 }
 
 bool ParseHashes(const wchar_t *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)

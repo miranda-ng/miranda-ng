@@ -70,7 +70,7 @@ static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
 // wParam = hContact
 {
 	POINT pt;
-	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _T(MOD_NAME)L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInstance, NULL);
+	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MOD_NAME) L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInstance, NULL);
 	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)MenuWndProc);
 	HMENU hMenu = Menu_BuildContactMenu(wParam);
 	GetCursorPos(&pt);
@@ -234,7 +234,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				LPCTSTR ptszOldClient = Finger_GetClientDescr(sd.OldMirVer); 
 				LPCTSTR ptszClient = Finger_GetClientDescr(sd.MirVer);
 				if (ptszOldClient && ptszClient) {
-					if (PerContactSetting != NOTIFY_ALMOST_ALWAYS && PerContactSetting != NOTIFY_ALWAYS && !PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) && !_tcscmp(ptszClient, ptszOldClient))
+					if (PerContactSetting != NOTIFY_ALMOST_ALWAYS && PerContactSetting != NOTIFY_ALWAYS && !PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) && !wcscmp(ptszClient, ptszOldClient))
 						return 0;
 
 					if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {

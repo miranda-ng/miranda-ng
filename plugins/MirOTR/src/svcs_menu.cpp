@@ -163,13 +163,13 @@ void InitMenu()
 	mi.position = -400000;
 
 	SET_UID(mi, 0xAB574FAD, 0x15D8, 0x49FF, 0xB7, 0x03, 0xDA, 0x2B, 0x45, 0x46, 0xC3, 0x56);
-	mi.name.w = _T(LANG_STOP_OTR);
+	mi.name.w = _A2W(LANG_STOP_OTR);
 	mi.pszService = MS_OTR_MENUSTOP;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
 	hStopItem = Menu_AddContactMenuItem(&mi);
 	
 	mi.uid.d[7]++;
-	mi.name.w = _T(LANG_START_OTR);
+	mi.name.w = _A2W(LANG_START_OTR);
 	mi.pszService = MS_OTR_MENUSTART;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 	hStartItem = Menu_AddContactMenuItem(&mi);

@@ -47,7 +47,7 @@ PLUGININFOEX pluginInfo = {
 // Protocol instances
 static int compare_protos(const MinecraftDynmapProto *p1, const MinecraftDynmapProto *p2)
 {
-	return _tcscmp(p1->m_tszUserName, p2->m_tszUserName);
+	return wcscmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 OBJLIST<MinecraftDynmapProto> g_Instances(1, compare_protos);

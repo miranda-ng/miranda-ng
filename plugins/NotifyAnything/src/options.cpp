@@ -166,7 +166,7 @@ void load_settings()
 		db_free(&dbv);
 	}
 	else
-		g_settings.log_filename = g_mirandaDir + L"\\" + _T(LOG_ID) + L".log";
+		g_settings.log_filename = g_mirandaDir + L"\\NotifyAnything.log";
 }
 
 int OptionsInitialize(WPARAM wParam, LPARAM)

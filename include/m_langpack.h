@@ -45,8 +45,8 @@ EXTERN_C MIR_CORE_DLL(int)      LoadLangPackModule(void);
 EXTERN_C MIR_CORE_DLL(int)      LoadLangPack(const TCHAR *szLangPack);
 EXTERN_C MIR_CORE_DLL(void)     ReloadLangpack(TCHAR *pszStr);
 
-EXTERN_C MIR_CORE_DLL(char*)    TranslateA_LP(const char* str, int hLang);
-EXTERN_C MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t* str, int hLang);
+EXTERN_C MIR_CORE_DLL(char*)    TranslateA_LP(const char *str, int hLang);
+EXTERN_C MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t *str, int hLang);
 EXTERN_C MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, int hLang);
 
 #define Translate(s) TranslateA_LP(s, hLangpack)
@@ -97,7 +97,7 @@ EXTERN_C MIR_CORE_DLL(int) Langpack_GetDefaultLocale(void);
 // returns a string converted from char* to TCHAR* using the langpack codepage.
 // This string should be freed using mir_free() then
 
-EXTERN_C MIR_CORE_DLL(TCHAR*) Langpack_PcharToTchar(const char* pszStr);
+EXTERN_C MIR_CORE_DLL(TCHAR*) Langpack_PcharToTchar(const char *pszStr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // initializes the plugin-specific translation context  v0.10.0+

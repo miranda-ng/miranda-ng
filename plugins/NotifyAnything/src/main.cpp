@@ -323,7 +323,7 @@ void processSingleAction(const std::wstring &what, bool &closeflag)
 
 		std::wstring argstr(what, 7);
 
-		if (_tsystem(argstr.c_str()) == -1)
+		if (_wsystem(argstr.c_str()) == -1)
 			dbg_msg(L"Failed to execute: " + argstr, SM_WARNING);
 	}
 	else if (!what.compare(0, 4, L"cmd:")) {
@@ -345,7 +345,7 @@ void processSingleAction(const std::wstring &what, bool &closeflag)
 			cargs.push_back(i->c_str());
 		cargs.push_back(0);
 
-		if (_tspawnvp(_P_DETACH, cargs[0], &cargs[0]) == -1)
+		if (_wspawnvp(_P_DETACH, cargs[0], &cargs[0]) == -1)
 			dbg_msg(L"Failed to execute: " + what.substr(4), SM_WARNING);
 
 	}
@@ -560,7 +560,7 @@ inline int dehex(int c) {
 COLORREF parseColor(const std::wstring &buf, bool &ok)
 {
 	ok = false;
-	for (int i = 0; i != buf.size(); ++i)
+	for (size_t i = 0; i != buf.size(); ++i)
 		if (!isxdigit(buf[i]))
 			return RGB(0, 0, 0);
 	if (buf.size() == 6) {
@@ -983,7 +983,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	wchar_t buf[MAX_PATH + 1];
 	mir_tstrcpy(buf, L".");
-	g_mirandaDir = _tgetcwd(buf, MAX_PATH);
+	g_mirandaDir = _wgetcwd(buf, MAX_PATH);
 
 	registerSound(L"Notice");
 	registerSound(L"Message");

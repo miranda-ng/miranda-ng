@@ -226,12 +226,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitServices();
 
 	// add sound event
-	SkinAddNewSoundExT("weatherupdated", _T(WEATHERPROTONAME), LPGENW("Weather Condition Changed"));
-	SkinAddNewSoundExT("weatheralert", _T(WEATHERPROTONAME), LPGENW("Weather Alert Issued"));
+	SkinAddNewSoundExT("weatherupdated", _A2W(WEATHERPROTONAME), LPGENW("Weather Condition Changed"));
+	SkinAddNewSoundExT("weatheralert", _A2W(WEATHERPROTONAME), LPGENW("Weather Alert Issued"));
 
 	// window needed for popup commands
 	wchar_t SvcFunc[100];
-	mir_sntprintf(SvcFunc, L"%s__PopupWindow", _T(WEATHERPROTONAME));
+	mir_sntprintf(SvcFunc, L"%s__PopupWindow", _A2W(WEATHERPROTONAME));
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", SvcFunc, 0, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);

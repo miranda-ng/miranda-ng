@@ -71,7 +71,7 @@ MIR_CORE_DLL(BOOL) IsFullScreen()
 	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell) {
 		wchar_t tszClassName[128] = L"";
 		GetClassName(hWnd, tszClassName, _countof(tszClassName));
-		if (_tcscmp(tszClassName, L"WorkerW")) {
+		if (wcscmp(tszClassName, L"WorkerW")) {
 			RECT rect, rectw, recti;
 			GetWindowRect(hWnd, &rectw);
 

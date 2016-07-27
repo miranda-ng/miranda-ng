@@ -327,30 +327,30 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 int SearchSkinFiles(HWND hwndDlg, wchar_t * Folder)
 {
-	struct _tfinddata_t fd = { 0 };
+	struct _wfinddata_t fd = { 0 };
 	wchar_t mask[MAX_PATH];
 	long hFile;
 	mir_sntprintf(mask, L"%s\\*.msf", Folder);
 	//fd.attrib = _A_SUBDIR;
-	hFile = _tfindfirst(mask, &fd);
+	hFile = _wfindfirst(mask, &fd);
 	if (hFile != -1) {
 		do {
 			AddSkinToList(hwndDlg, Folder, fd.name);
-		} while (!_tfindnext(hFile, &fd));
+		} while (!_wfindnext(hFile, &fd));
 		_findclose(hFile);
 	}
 	mir_sntprintf(mask, L"%s\\*", Folder);
-	hFile = _tfindfirst(mask, &fd);
-	{
-		do {
-			if (fd.attrib&_A_SUBDIR && !(mir_tstrcmpi(fd.name, L".") == 0 || mir_tstrcmpi(fd.name, L"..") == 0)) {//Next level of subfolders
-				wchar_t path[MAX_PATH];
-				mir_sntprintf(path, L"%s\\%s", Folder, fd.name);
-				SearchSkinFiles(hwndDlg, path);
-			}
-		} while (!_tfindnext(hFile, &fd));
-		_findclose(hFile);
-	}
+	hFile = _wfindfirst(mask, &fd);
+
+	do {
+		if (fd.attrib&_A_SUBDIR && !(mir_tstrcmpi(fd.name, L".") == 0 || mir_tstrcmpi(fd.name, L"..") == 0)) {//Next level of subfolders
+			wchar_t path[MAX_PATH];
+			mir_sntprintf(path, L"%s\\%s", Folder, fd.name);
+			SearchSkinFiles(hwndDlg, path);
+		}
+	} while (!_wfindnext(hFile, &fd));
+	_findclose(hFile);
+
 	return 0;
 }
 

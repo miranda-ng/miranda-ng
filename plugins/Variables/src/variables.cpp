@@ -156,7 +156,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 			continue;
 		}
 		// remove comments
-		else if (!wcsncmp(cur, _T(COMMENT_STRING), mir_tstrlen(_T(COMMENT_STRING)))) {
+		else if (!wcsncmp(cur, _A2W(COMMENT_STRING), _countof(COMMENT_STRING))) {
 			wchar_t *scur = cur;
 			while (wcsncmp(cur, L"\r\n", 2) && *cur != '\n' && *cur != 0)
 				cur++;

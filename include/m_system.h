@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_SYSTEM_H__
 #define M_SYSTEM_H__ 1
 
-#include <tchar.h>
-
 #ifndef MIRANDANAME
 	#define MIRANDANAME "Miranda NG"
 #endif

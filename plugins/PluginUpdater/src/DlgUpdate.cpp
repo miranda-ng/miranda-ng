@@ -109,7 +109,7 @@ static void ApplyUpdates(void *param)
 			else {
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
-				if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
+				if ( wcsicmp(p.tszOldName, p.tszNewName)) {
 					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
 					mir_sntprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
 					mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
@@ -459,7 +459,7 @@ static void DlgUpdateSilent(void *param)
 			else {
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
-				if (_tcsicmp(p.tszOldName, p.tszNewName)) {
+				if (wcsicmp(p.tszOldName, p.tszNewName)) {
 					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
 					mir_sntprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
 					mir_sntprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
@@ -478,7 +478,7 @@ static void DlgUpdateSilent(void *param)
 #if MIRANDA_VER < 0x0A00
 	// 4) Change title of clist
 	ptrT title = db_get_tsa(NULL, "CList", "TitleText");
-	if (!_tcsicmp(title, L"Miranda IM"))
+	if (!wcsicmp(title, L"Miranda IM"))
 		db_set_ts(NULL, "CList", "TitleText", L"Miranda NG");
 #endif
 
@@ -629,13 +629,13 @@ static bool isValidExtension(const wchar_t *ptszFileName)
 {
 	const wchar_t *pExt = wcsrchr(ptszFileName, '.');
 
-	return (pExt != NULL) && (!_tcsicmp(pExt, L".dll") || !_tcsicmp(pExt, L".exe") || !_tcsicmp(pExt, L".txt"));
+	return (pExt != NULL) && (!wcsicmp(pExt, L".dll") || !wcsicmp(pExt, L".exe") || !wcsicmp(pExt, L".txt"));
 }
 
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
 static bool isValidDirectory(const wchar_t *ptszDirName)
 {
-	return !_tcsicmp(ptszDirName, L"Plugins") || !_tcsicmp(ptszDirName, L"Icons") || !_tcsicmp(ptszDirName, L"Languages") || !_tcsicmp(ptszDirName, L"Libs") || !_tcsicmp(ptszDirName, L"Core");
+	return !wcsicmp(ptszDirName, L"Plugins") || !wcsicmp(ptszDirName, L"Icons") || !wcsicmp(ptszDirName, L"Languages") || !wcsicmp(ptszDirName, L"Libs") || !wcsicmp(ptszDirName, L"Core");
 }
 
 // Scans folders recursively

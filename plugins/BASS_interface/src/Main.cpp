@@ -424,7 +424,7 @@ int ReloadColors(WPARAM, LPARAM)
 {
 	ColourIDT colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
-	mir_tstrcpy(colourid.group, _T(ModuleName));
+	mir_tstrcpy(colourid.group, _A2W(ModuleName));
 	mir_tstrcpy(colourid.name, LPGENW("Frame background"));
 	clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
@@ -469,7 +469,7 @@ void CreateFrame()
 	strcpy_s(colourid.dbSettingsGroup, ModuleName);
 	strcpy_s(colourid.setting, "ColorFrame");
 	wcscpy_s(colourid.name, LPGENW("Frame background"));
-	wcscpy_s(colourid.group, _T(ModuleName));
+	wcscpy_s(colourid.group, _A2W(ModuleName));
 
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
 	ColourRegisterT(&colourid);

@@ -94,7 +94,7 @@ static void WinNT_PollThread(void *vparam)
 	dwObjectId = 238;             /*'Processor' object */
 	dwCounterId = 6;              /* '% processor time' counter */
 	pwszInstanceName = L"_Total"; /* '_Total' instance */
-	_itot_s(dwObjectId, wszValueName, 10);
+	_itow_s(dwObjectId, wszValueName, 10);
 	fSwitched = WinNT_PerfStatsSwitch(L"PerfOS", FALSE);
 
 	/* poll */

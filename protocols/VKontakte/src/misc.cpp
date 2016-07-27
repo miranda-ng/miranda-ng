@@ -679,7 +679,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 
 	wchar_t ttime[64];
 	_locale_t locale = _create_locale(LC_ALL, "");
-	_tcsftime_l(ttime, _countof(ttime), L"%X - %x", localtime(&time), locale);
+	_wcsftime_l(ttime, _countof(ttime), L"%X - %x", localtime(&time), locale);
 	_free_locale(locale);
 
 	StatusTextData st = { 0 };
@@ -1254,7 +1254,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		time_t datetime = (time_t)jnMsg["date"].as_int();
 		wchar_t ttime[64];
 		_locale_t locale = _create_locale(LC_ALL, "");
-		_tcsftime_l(ttime, _countof(ttime), L"%x %X", localtime(&datetime), locale);
+		_wcsftime_l(ttime, _countof(ttime), L"%x %X", localtime(&datetime), locale);
 		_free_locale(locale);
 
 		CMString tszBody(jnMsg["body"].as_mstring());

@@ -40,9 +40,9 @@ static INT_PTR MenuitemNotifyCmd(WPARAM, LPARAM)
 int MenuitemUpdate(BOOL bStatus)
 {
 	if (bStatus)
-		Menu_ModifyItem(hMenuitemNotify, _T(MENUITEM_DISABLE), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED)));
+		Menu_ModifyItem(hMenuitemNotify, MENUITEM_DISABLE, LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED)));
 	else
-		Menu_ModifyItem(hMenuitemNotify, _T(MENUITEM_ENABLE), LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED)));
+		Menu_ModifyItem(hMenuitemNotify, MENUITEM_ENABLE, LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED)));
 	return 0;
 }
 

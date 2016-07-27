@@ -537,7 +537,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 
 	int iItem = -1;
 
-	VARST path(_T(TOX_JSON_PATH));
+	VARST path(_A2W(TOX_JSON_PATH));
 	if (CToxProto::IsFileExists(path))
 	{
 		ptrA json;

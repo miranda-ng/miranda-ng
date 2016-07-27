@@ -36,7 +36,7 @@ struct CmdLineParam
 
 static int CompareParams(const CmdLineParam *p1, const CmdLineParam *p2)
 {
-	return _tcscmp(p1->name, p2->name);
+	return wcscmp(p1->name, p2->name);
 }
 
 static OBJLIST<CmdLineParam> arParams(5, CompareParams);

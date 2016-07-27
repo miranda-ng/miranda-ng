@@ -115,7 +115,7 @@ void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MC
 
 	if ( !options.bHavePopups) {	
 		wchar_t title[256];
-		mir_sntprintf(title, L"%s Message", _T(MODULENAME));
+		mir_sntprintf(title, L"%s Message", _A2W(MODULENAME));
 
 		if(line1 && line2) {
 			int size = int(mir_tstrlen(line1) + mir_tstrlen(line2) + 3);
@@ -165,7 +165,7 @@ void ShowWarning(wchar_t *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	mir_sntprintf(buffer, L"%s Warning", _T(MODULENAME));
+	mir_sntprintf(buffer, L"%s Warning", _A2W(MODULENAME));
 
 	
 	switch(disp) {
@@ -211,7 +211,7 @@ void ShowError(wchar_t *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	mir_sntprintf(buffer, L"%s Error", _T(MODULENAME));
+	mir_sntprintf(buffer, L"%s Error", _A2W(MODULENAME));
 
 
 	wchar_t *message;
@@ -269,7 +269,7 @@ void ShowErrorUtf(char* msg) {
 
 void ShowMessageInline(const MCONTACT hContact, const wchar_t *msg) {
 	wchar_t buff[1024];
-	mir_sntprintf(buff, L"%s%s", _T(LANG_INLINE_PREFIX), msg);
+	mir_sntprintf(buff, L"%s%s", _A2W(LANG_INLINE_PREFIX), msg);
 	T2Utf utf(buff);
 
 	PROTORECVEVENT pre = {0};

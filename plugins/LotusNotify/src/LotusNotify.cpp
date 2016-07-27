@@ -1558,7 +1558,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 		// the status has been changed to unknown  (maybe run some more code)
 	}
 	//broadcast the message
-	if (currentStatus != wParam)
+	if (currentStatus != (int)wParam)
 		ProtoBroadcastAck(PLUGINNAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)currentStatus, wParam);
 	currentStatus = wParam;
 
@@ -1571,14 +1571,14 @@ void checkEnvPath(wchar_t *path)
 	log_p(L"checkEnvPath: [%s]", path);
 
 	wcslwr(path);
-	wchar_t *cur = _tgetenv(L"PATH");
+	wchar_t *cur = _wgetenv(L"PATH");
 	wcslwr(cur);
 	wchar_t *found = wcsstr(cur, path);
 	size_t len = mir_tstrlen(path);
 	if (found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len + 1] == ';' || found[len + 1] == 0))))
 		return;
 
-	_tputenv(CMString(FORMAT, L"PATH=%s;%s;", cur, path));
+	_wputenv(CMString(FORMAT, L"PATH=%s;%s;", cur, path));
 }
 
 //GetStatus

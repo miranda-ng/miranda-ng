@@ -247,7 +247,7 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 	Data->Enabled = FALSE;
 
 	// open the ini file
-	FILE *pfile = _tfsopen(pszFile, L"rt", _SH_DENYWR);
+	FILE *pfile = _wfsopen(pszFile, L"rt", _SH_DENYWR);
 	if (pfile != NULL) {
 		char Line[4096];
 		fgets(Line, _countof(Line), pfile);
