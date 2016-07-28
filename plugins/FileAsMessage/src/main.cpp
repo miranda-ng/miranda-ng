@@ -146,12 +146,12 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 
 int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = SERVICE_TITLE;
-	odp.pwszGroup = LPGENW("Events");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pszGroup = LPGEN("Events");
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
