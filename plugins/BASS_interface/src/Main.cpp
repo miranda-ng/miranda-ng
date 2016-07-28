@@ -4,7 +4,9 @@ Copyright (C) 2010, 2011 tico-tico
 
 #include "stdafx.h"
 
+#define DELAYIMP_INSECURE_WRITABLE_HOOKS
 #include <delayimp.h>
+
 #include "bass.h"
 
 #pragma comment(lib, "delayimp.lib")

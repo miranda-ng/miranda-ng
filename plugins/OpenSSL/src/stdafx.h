@@ -28,8 +28,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct SslHandle *HSSL;
 
 #include <shlobj.h>
-#include <delayimp.h>
 #include <security.h>
+
+#define DELAYIMP_INSECURE_WRITABLE_HOOKS
+#include <delayimp.h>
 
 #include <newpluginapi.h>
 #include <m_netlib.h>

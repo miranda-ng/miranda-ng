@@ -29,8 +29,7 @@ HMODULE g_hWinCrypt;
 
 FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo dli)
 {
-	switch (dliNotify)
-	{
+	switch (dliNotify) {
 	case dliNotePreLoadLibrary:
 		if (!strcmpi(dli->szDll, "libeay32.dll"))
 			return (FARPROC)g_hOpenSSLCrypto;
