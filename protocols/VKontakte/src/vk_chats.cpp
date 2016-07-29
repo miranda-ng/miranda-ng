@@ -782,7 +782,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	case IDM_VISIT_PROFILE:
 		hContact = FindUser(cu->m_uid);
 		if (hContact == NULL)
-			Utils_OpenUrlT(CMString(FORMAT, L"https://vk.com/id%d", cu->m_uid));
+			Utils_OpenUrlW(CMString(FORMAT, L"https://vk.com/id%d", cu->m_uid));
 		else 
 			SvcVisitProfile(hContact, 0);
 		break;

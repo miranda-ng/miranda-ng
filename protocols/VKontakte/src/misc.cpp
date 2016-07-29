@@ -1418,5 +1418,5 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 	fclose(pFile);
 
 	wszHTMLPath = L"file://" + wszHTMLPath;
-	Utils_OpenUrlT(wszHTMLPath);
+	Utils_OpenUrlW(wszHTMLPath);
 }

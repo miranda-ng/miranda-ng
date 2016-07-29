@@ -814,7 +814,7 @@ INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
 
 	CMString wszAudio(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl")));
 	if (!wszAudio.IsEmpty())
-		Utils_OpenUrlT(wszAudio);
+		Utils_OpenUrlW(wszAudio);
 
 	return 0;
 }
@@ -825,7 +825,7 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 	if (isChatRoom(hContact)) {
 		ptrW wszHomepage(db_get_wsa(hContact, m_szModuleName, "Homepage"));
 		if(!IsEmpty(wszHomepage))
-			Utils_OpenUrlT(wszHomepage);
+			Utils_OpenUrlW(wszHomepage);
 		return 0;
 	}
 
@@ -838,6 +838,6 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 	else
 		wszUrl.AppendFormat(L"id%i", userID);
 	
-	Utils_OpenUrlT(wszUrl);
+	Utils_OpenUrlW(wszUrl);
 	return 0;
 }
