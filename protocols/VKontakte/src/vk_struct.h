@@ -70,14 +70,14 @@ struct CHAR_PARAM : public PARAM
 };
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const CHAR_PARAM&);
 
-struct TCHAR_PARAM : public PARAM
+struct WCHAR_PARAM : public PARAM
 {
-	LPCTSTR tszValue;
-	__forceinline TCHAR_PARAM(LPCSTR _name, LPCTSTR _value) :
-		PARAM(_name), tszValue(_value)
+	LPCWSTR wszValue;
+	__forceinline WCHAR_PARAM(LPCSTR _name, LPCWSTR _value) :
+		PARAM(_name), wszValue(_value)
 	{}
 };
-AsyncHttpRequest* operator<<(AsyncHttpRequest*, const TCHAR_PARAM&);
+AsyncHttpRequest* operator<<(AsyncHttpRequest*, const WCHAR_PARAM&);
 
 struct CVkFileUploadParam : public MZeroedObject {
 	enum VKFileType { typeInvalid, typeImg, typeAudio, typeDoc, typeNotSupported };
@@ -141,7 +141,7 @@ struct CVkChatMessage : public MZeroedObject
 
 	int m_mid, m_uid, m_date;
 	bool m_bHistory, m_bIsAction;
-	ptrW m_tszBody;
+	ptrW m_wszBody;
 };
 
 struct CVkChatUser : public MZeroedObject
@@ -154,7 +154,7 @@ struct CVkChatUser : public MZeroedObject
 
 	int m_uid;
 	bool m_bDel, m_bUnknown;
-	ptrW m_tszNick;
+	ptrW m_wszNick;
 };
 
 struct CVkChatInfo : public MZeroedObject
@@ -170,12 +170,12 @@ struct CVkChatInfo : public MZeroedObject
 
 	int m_chatid, m_admin_id;
 	bool m_bHistoryRead;
-	ptrW m_tszTopic, m_tszId;
+	ptrW m_wszTopic, m_wszId;
 	MCONTACT m_hContact;
 	OBJLIST<CVkChatUser> m_users;
 	OBJLIST<CVkChatMessage> m_msgs;
 
-	CVkChatUser* GetUserById(LPCTSTR);
+	CVkChatUser* GetUserById(LPCWSTR);
 	CVkChatUser* GetUserById(int user_id);
 };
 
@@ -185,27 +185,27 @@ struct CVkUserInfo : public MZeroedObject {
 		m_bIsGroup(false)
 	{}
 
-	CVkUserInfo(LONG _UserId, bool _bIsGroup, CMString& _tszUserNick, CMString& _tszLink, MCONTACT _hContact = NULL) :
+	CVkUserInfo(LONG _UserId, bool _bIsGroup, CMString& _wszUserNick, CMString& _wszLink, MCONTACT _hContact = NULL) :
 		m_UserId(_UserId),
 		m_bIsGroup(_bIsGroup),
-		m_tszUserNick(_tszUserNick),
-		m_tszLink(_tszLink),
+		m_wszUserNick(_wszUserNick),
+		m_wszLink(_wszLink),
 		m_hContact(_hContact)
 	{}
 
 	LONG m_UserId;
 	MCONTACT m_hContact;
-	CMString m_tszUserNick;
-	CMString m_tszLink;
+	CMString m_wszUserNick;
+	CMString m_wszLink;
 	bool m_bIsGroup;
 };
 
 enum VKObjType { vkNull, vkPost, vkPhoto, vkVideo, vkComment, vkTopic, vkUsers, vkCopy, vkInvite };
 
 struct CVKNotification {
-	wchar_t *ptszType;
+	wchar_t *pwszType;
 	VKObjType vkParent, vkFeedback;
-	wchar_t *ptszTranslate;
+	wchar_t *pwszTranslate;
 };
 
 struct CVKNewsItem : public MZeroedObject {
@@ -218,14 +218,14 @@ struct CVKNewsItem : public MZeroedObject {
 		vkParentType(vkNull)
 	{}
 
-	CMString tszId;
+	CMString wszId;
 	time_t tDate;
 	CVkUserInfo *vkUser;
-	CMString tszText;
-	CMString tszLink;
-	CMString tszType;
-	CMString tszPopupTitle;
-	CMString tszPopupText;
+	CMString wszText;
+	CMString wszLink;
+	CMString wszType;
+	CMString wszPopupTitle;
+	CMString wszPopupText;
 	VKObjType vkFeedbackType, vkParentType;
 	bool bIsGroup;
 	bool bIsRepost;
@@ -237,7 +237,7 @@ enum BBCSupport : BYTE { bbcNo, bbcBasic, bbcAdvanced };
 struct CVKBBCItem {
 	VKBBCType vkBBCType;
 	BBCSupport vkBBCSettings;
-	wchar_t *ptszTempate;
+	wchar_t *pwszTempate;
 };
 
 struct CVKChatContactTypingParam {
@@ -252,7 +252,7 @@ struct CVKChatContactTypingParam {
 
 struct CVKInteres {
 	const char *szField;
-	wchar_t *ptszTranslate;
+	wchar_t *pwszTranslate;
 };
 
 struct CVKLang { 
@@ -351,9 +351,9 @@ struct CVKOptions {
 	CMOption<DWORD> iInvisibleInterval;
 	CMOption<DWORD> iMaxFriendsCount;
 
-	CMOption<wchar_t*> ptszDefaultGroup;
-	CMOption<wchar_t*> ptszReturnChatMessage;
-	CMOption<wchar_t*> ptszVKLang;
+	CMOption<wchar_t*> pwszDefaultGroup;
+	CMOption<wchar_t*> pwszReturnChatMessage;
+	CMOption<wchar_t*> pwszVKLang;
 
 	CVKOptions(PROTO_INTERFACE *proto);
 	

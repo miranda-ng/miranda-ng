@@ -27,7 +27,7 @@ static const char *szVKLinkParam[] = { "?z=", "?w=", "&z=", "&w=" };
 
 JSONNode nullNode(JSON_NULL);
 
-bool IsEmpty(LPCTSTR str)
+bool IsEmpty(LPCWSTR str)
 {
 	return (str == NULL || str[0] == 0);
 }
@@ -46,7 +46,7 @@ LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 	return NULL;
 }
 
-bool tlstrstr(wchar_t *_s1, wchar_t *_s2)
+bool wlstrstr(wchar_t *_s1, wchar_t *_s2)
 {
 	wchar_t s1[1024], s2[1024];
 
@@ -193,7 +193,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	MCONTACT hNewContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD);
 	Proto_AddToContact(hNewContact, m_szModuleName);
 	setDword(hNewContact, "ID", dwUserid);
-	db_set_ts(hNewContact, "CList", "Group", m_vkOptions.ptszDefaultGroup);
+	db_set_ws(hNewContact, "CList", "Group", m_vkOptions.pwszDefaultGroup);
 	return hNewContact;
 }
 
@@ -389,7 +389,7 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 			CMStringA name = getAttr(pFieldBeg, "name");
 			CMStringA value = getAttr(pFieldBeg, "value");
 			if (name == "email")
-				value = (char*)T2Utf(ptrW(getTStringA("Login")));
+				value = (char*)T2Utf(ptrW(getWStringA("Login")));
 			else if (name == "pass")
 				value = (char*)T2Utf(ptrW(GetUserStoredPassword()));
 			else if (name == "captcha_key") {
@@ -424,13 +424,13 @@ CMString CVkProto::RunConfirmationCode()
 	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
 }
 
-CMString CVkProto::RunRenameNick(LPCTSTR ptszOldName)
+CMString CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 {
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_COMBO;
 	pForm.recentCount = 0;
 	pForm.caption = TranslateT("Enter new nickname");
-	pForm.ptszInitVal = ptszOldName;
+	pForm.ptszInitVal = pwszOldName;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "renamenick_";
 	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
@@ -504,7 +504,7 @@ void __cdecl CVkProto::DBAddAuthRequestThread(void *p)
 	if (param->hContact == NULL || param->hContact == INVALID_CONTACT_ID || !IsOnline())
 		return;
 
-	for (int i = 0; i < MAX_RETRIES && IsEmpty(ptrW(db_get_tsa(param->hContact, m_szModuleName, "Nick"))); i++) {
+	for (int i = 0; i < MAX_RETRIES && IsEmpty(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick"))); i++) {
 		Sleep(1500);
 		
 		if (!IsOnline())
@@ -519,9 +519,9 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
 
-	T2Utf szNick(ptrW(db_get_tsa(hContact, m_szModuleName, "Nick")));
-	T2Utf szFirstName(ptrW(db_get_tsa(hContact, m_szModuleName, "FirstName")));
-	T2Utf szLastName(ptrW(db_get_tsa(hContact, m_szModuleName, "LastName")));
+	T2Utf szNick(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")));
+	T2Utf szFirstName(ptrW(db_get_wsa(hContact, m_szModuleName, "FirstName")));
+	T2Utf szLastName(ptrW(db_get_wsa(hContact, m_szModuleName, "LastName")));
 
 	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)
@@ -589,7 +589,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		return;
 	}
 
-	CMString MirVer, OldMirVer(ptrW(db_get_tsa(hContact, m_szModuleName, "MirVer")));
+	CMString MirVer, OldMirVer(ptrW(db_get_wsa(hContact, m_szModuleName, "MirVer")));
 	bool bSetFlag = true;
 
 	switch (platform) {
@@ -641,7 +641,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		return;
 
 	if (bSetFlag)
-		setTString(hContact, "MirVer", MirVer);
+		setWString(hContact, "MirVer", MirVer);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -830,7 +830,7 @@ int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent)
+CMString CVkProto::SpanVKNotificationType(CMString& wszType, VKObjType& vkFeedback, VKObjType& vkParent)
 {
 	CVKNotification vkNotification[] = {
 		// type, parent, feedback, string for translate
@@ -866,61 +866,61 @@ CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedba
 		{ L"mention_comment_video", vkVideo, vkComment, L"mentioned you in comment to video" }
 	};
 
-	CMString tszRes;
+	CMString wszRes;
 	vkFeedback = vkParent = vkNull;
 	for (int i = 0; i < _countof(vkNotification); i++)
-		if (tszType == vkNotification[i].ptszType) {
+		if (wszType == vkNotification[i].pwszType) {
 			vkFeedback = vkNotification[i].vkFeedback;
 			vkParent = vkNotification[i].vkParent;
-			tszRes = vkNotification[i].ptszTranslate;
+			wszRes = vkNotification[i].pwszTranslate;
 			break;
 		}
-	return tszRes;
+	return wszRes;
 }
 
 CMString CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 {
-	CMString tszRes;
+	CMString wszRes;
 
 	if (!jnPhoto)
-		return tszRes;
+		return wszRes;
 
-	CMString tszLink, tszPreviewLink;
+	CMString wszLink, wszPreviewLink;
 	for (int i = 0; i < _countof(szImageTypes); i++) {
 		const JSONNode &n = jnPhoto[szImageTypes[i]];
 		if (n) {
-			tszLink = n.as_mstring();
+			wszLink = n.as_mstring();
 			break;
 		}
 	}
 
 	switch (m_vkOptions.iIMGBBCSupport) {
 	case imgNo:
-		tszPreviewLink = L"";
+		wszPreviewLink = L"";
 		break;
 	case imgFullSize:
-		tszPreviewLink = tszLink;
+		wszPreviewLink = wszLink;
 		break;
 	case imgPreview130:
 	case imgPreview604:
-		tszPreviewLink = jnPhoto[m_vkOptions.iIMGBBCSupport == imgPreview130 ? "photo_130" : "photo_604"].as_mstring();
+		wszPreviewLink = jnPhoto[m_vkOptions.iIMGBBCSupport == imgPreview130 ? "photo_130" : "photo_604"].as_mstring();
 		break;
 	}
 
 	int iWidth = jnPhoto["width"].as_int();
 	int iHeight = jnPhoto["height"].as_int();
 
-	tszRes.AppendFormat(L"%s (%dx%d)", SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, tszLink), iWidth, iHeight);
+	wszRes.AppendFormat(L"%s (%dx%d)", SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, wszLink), iWidth, iHeight);
 	if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
-		tszRes.AppendFormat(L"\n\t%s", SetBBCString(!tszPreviewLink.IsEmpty() ? tszPreviewLink : (!tszLink.IsEmpty() ? tszLink : L""), bbcBasic, vkbbcImg));
-	CMString tszText(jnPhoto["text"].as_mstring());
-	if (!tszText.IsEmpty())
-		tszRes += L"\n" + tszText;
+		wszRes.AppendFormat(L"\n\t%s", SetBBCString(!wszPreviewLink.IsEmpty() ? wszPreviewLink : (!wszLink.IsEmpty() ? wszLink : L""), bbcBasic, vkbbcImg));
+	CMString wszText(jnPhoto["text"].as_mstring());
+	if (!wszText.IsEmpty())
+		wszRes += L"\n" + wszText;
 
-	return tszRes;
+	return wszRes;
 }
 
-CMString CVkProto::SetBBCString(LPCTSTR ptszString, BBCSupport iBBC, VKBBCType bbcType, LPCTSTR tszAddString)
+CMString CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString)
 {
 	CVKBBCItem bbcItem[] = {
 		{ vkbbcB, bbcNo, L"%s" },
@@ -952,41 +952,41 @@ CMString CVkProto::SetBBCString(LPCTSTR ptszString, BBCSupport iBBC, VKBBCType b
 		{ vkbbcColor, bbcAdvanced, L"[color=%s]%s[/color]" },
 	};
 
-	if (IsEmpty(ptszString))
+	if (IsEmpty(pwszString))
 		return CMString();
 
-	wchar_t *ptszFormat = NULL;
+	wchar_t *pwszFormat = NULL;
 	for (int i = 0; i < _countof(bbcItem); i++)
 		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == iBBC) {
-			ptszFormat = bbcItem[i].ptszTempate;
+			pwszFormat = bbcItem[i].pwszTempate;
 			break;
 		}
 
 	CMString res;
-	if (ptszFormat == NULL)
-		return CMString(ptszString);
+	if (pwszFormat == NULL)
+		return CMString(pwszString);
 
 	if (bbcType == vkbbcUrl && iBBC != bbcAdvanced)
-		res.AppendFormat(ptszFormat, ptszString, tszAddString ? tszAddString : L"");
+		res.AppendFormat(pwszFormat, pwszString, wszAddString ? wszAddString : L"");
 	else if (iBBC == bbcAdvanced && bbcType >= vkbbcUrl)
-		res.AppendFormat(ptszFormat, tszAddString ? tszAddString : L"", ptszString);
+		res.AppendFormat(pwszFormat, wszAddString ? wszAddString : L"", pwszString);
 	else
-		res.AppendFormat(ptszFormat, ptszString);
+		res.AppendFormat(pwszFormat, pwszString);
 
 	return res;
 }
 
-CMString& CVkProto::ClearFormatNick(CMString& tszText)
+CMString& CVkProto::ClearFormatNick(CMString& wszText)
 {
-	int iNameEnd = tszText.Find(L"],"), iNameBeg = tszText.Find(L"|");
+	int iNameEnd = wszText.Find(L"],"), iNameBeg = wszText.Find(L"|");
 	if (iNameEnd != -1 && iNameBeg != -1 && iNameBeg < iNameEnd) {
-		CMString tszName = tszText.Mid(iNameBeg + 1, iNameEnd - iNameBeg - 1);
-		CMString tszBody = tszText.Mid(iNameEnd + 2);
-		if (!tszName.IsEmpty() && !tszBody.IsEmpty())
-			tszText = tszName + L"," + tszBody;
+		CMString wszName = wszText.Mid(iNameBeg + 1, iNameEnd - iNameBeg - 1);
+		CMString wszBody = wszText.Mid(iNameEnd + 2);
+		if (!wszName.IsEmpty() && !wszBody.IsEmpty())
+			wszText = wszName + L"," + wszBody;
 	}
 
-	return tszText;
+	return wszText;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1007,100 +1007,100 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 		const JSONNode &jnAttach = (*it);
 
 		res.AppendChar('\t');
-		CMString tszType(jnAttach["type"].as_mstring());
-		if (tszType == L"photo") {
+		CMString wszType(jnAttach["type"].as_mstring());
+		if (wszType == L"photo") {
 			const JSONNode &jnPhoto = jnAttach["photo"];
 			if (!jnPhoto)
 				continue;
 
 			res += GetVkPhotoItem(jnPhoto, iBBC);
 		}
-		else if (tszType ==L"audio") {
+		else if (wszType ==L"audio") {
 			const JSONNode &jnAudio = jnAttach["audio"];
 			if (!jnAudio)
 				continue;
 
-			CMString tszArtist(jnAudio["artist"].as_mstring());
-			CMString tszTitle(jnAudio["title"].as_mstring());
-			CMString tszUrl(jnAudio["url"].as_mstring());
-			CMString tszAudio(FORMAT, L"%s - %s", tszArtist, tszTitle);
+			CMString wszArtist(jnAudio["artist"].as_mstring());
+			CMString wszTitle(jnAudio["title"].as_mstring());
+			CMString wszUrl(jnAudio["url"].as_mstring());
+			CMString wszAudio(FORMAT, L"%s - %s", wszArtist, wszTitle);
 
-			int iParamPos = tszUrl.Find(L"?");
+			int iParamPos = wszUrl.Find(L"?");
 			if (m_vkOptions.bShortenLinksForAudio &&  iParamPos != -1)
-				tszUrl = tszUrl.Left(iParamPos);
+				wszUrl = wszUrl.Left(iParamPos);
 
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Audio"), iBBC, vkbbcB),
-				SetBBCString(tszAudio, iBBC, vkbbcUrl, tszUrl));
+				SetBBCString(wszAudio, iBBC, vkbbcUrl, wszUrl));
 		}
-		else if (tszType ==L"video") {
+		else if (wszType ==L"video") {
 			const JSONNode &jnVideo = jnAttach["video"];
 			if (!jnVideo)
 				continue;
 
-			CMString tszTitle(jnVideo["title"].as_mstring());
+			CMString wszTitle(jnVideo["title"].as_mstring());
 			int vid = jnVideo["id"].as_int();
 			int ownerID = jnVideo["owner_id"].as_int();
-			CMString tszUrl(FORMAT, L"https://vk.com/video%d_%d", ownerID, vid);
+			CMString wszUrl(FORMAT, L"https://vk.com/video%d_%d", ownerID, vid);
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Video"), iBBC, vkbbcB),
-				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
+				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
 		}
-		else if (tszType == L"doc") {
+		else if (wszType == L"doc") {
 			const JSONNode &jnDoc = jnAttach["doc"];
 			if (!jnDoc)
 				continue;
 
-			CMString tszTitle(jnDoc["title"].as_mstring());
-			CMString tszUrl(jnDoc["url"].as_mstring());
+			CMString wszTitle(jnDoc["title"].as_mstring());
+			CMString wszUrl(jnDoc["url"].as_mstring());
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Document"), iBBC, vkbbcB),
-				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
+				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
 		}
-		else if (tszType == L"wall") {
+		else if (wszType == L"wall") {
 			const JSONNode &jnWall = jnAttach["wall"];
 			if (!jnWall)
 				continue;
 
-			CMString tszText(jnWall["text"].as_mstring());
+			CMString wszText(jnWall["text"].as_mstring());
 			int id = jnWall["id"].as_int();
 			int fromID = jnWall["from_id"].as_int();
-			CMString tszUrl(FORMAT, L"https://vk.com/wall%d_%d", fromID, id);
+			CMString wszUrl(FORMAT, L"https://vk.com/wall%d_%d", fromID, id);
 			res.AppendFormat(L"%s: %s",
-				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, tszUrl),
-				tszText.IsEmpty() ? L" " : tszText);
+				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszUrl),
+				wszText.IsEmpty() ? L" " : wszText);
 			
 			const JSONNode &jnCopyHystory = jnWall["copy_history"];
 			for (auto aCHit = jnCopyHystory.begin(); aCHit != jnCopyHystory.end(); ++aCHit) {
 				const JSONNode &jnCopyHystoryItem = (*aCHit);
 
-				CMString tszCHText(jnCopyHystoryItem["text"].as_mstring());
+				CMString wszCHText(jnCopyHystoryItem["text"].as_mstring());
 				int iCHid = jnCopyHystoryItem["id"].as_int();
 				int iCHfromID = jnCopyHystoryItem["from_id"].as_int();
-				CMString tszCHUrl(FORMAT, L"https://vk.com/wall%d_%d", iCHfromID, iCHid);
-				tszCHText.Replace(L"\n", L"\n\t\t");
+				CMString wszCHUrl(FORMAT, L"https://vk.com/wall%d_%d", iCHfromID, iCHid);
+				wszCHText.Replace(L"\n", L"\n\t\t");
 				res.AppendFormat(L"\n\t\t%s: %s",
-					SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, tszCHUrl),
-					tszCHText.IsEmpty() ? L" " : tszCHText);
+					SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszCHUrl),
+					wszCHText.IsEmpty() ? L" " : wszCHText);
 
 				const JSONNode &jnSubAttachments = jnCopyHystoryItem["attachments"];
 				if (jnSubAttachments) {
 					debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-					CMString tszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
-					tszAttachmentDescr.Replace(L"\n", L"\n\t\t");
-					res += L"\n\t\t" + tszAttachmentDescr;
+					CMString wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
+					wszAttachmentDescr.Replace(L"\n", L"\n\t\t");
+					res += L"\n\t\t" + wszAttachmentDescr;
 				}
 			}
 
 			const JSONNode &jnSubAttachments = jnWall["attachments"];
 			if (jnSubAttachments) {
 				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-				CMString tszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
-				tszAttachmentDescr.Replace(L"\n", L"\n\t");
-				res += L"\n\t" + tszAttachmentDescr;
+				CMString wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
+				wszAttachmentDescr.Replace(L"\n", L"\n\t");
+				res += L"\n\t" + wszAttachmentDescr;
 			}
 		}
-		else if (tszType == L"sticker") {
+		else if (wszType == L"sticker") {
 			const JSONNode &jnSticker = jnAttach["sticker"];
 			if (!jnSticker)
 				continue;
@@ -1111,52 +1111,52 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				res.AppendFormat(L"[sticker:%d]", id);
 			}
 			else {
-				CMString tszLink;
+				CMString wszLink;
 				for (int i = 0; i < _countof(szImageTypes); i++) {
 					const JSONNode &n = jnSticker[szImageTypes[i]];
 					if (n) {
-						tszLink = n.as_mstring();
+						wszLink = n.as_mstring();
 						break;
 					}
 				}
-				res.AppendFormat(L"%s", tszLink);
+				res.AppendFormat(L"%s", wszLink);
 
 				if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
-					res += SetBBCString(tszLink, iBBC, vkbbcImg);
+					res += SetBBCString(wszLink, iBBC, vkbbcImg);
 			}
 		}
-		else if (tszType == L"link") {
+		else if (wszType == L"link") {
 			const JSONNode &jnLink = jnAttach["link"];
 			if (!jnLink)
 				continue;
 
-			CMString tszUrl(jnLink["url"].as_mstring());
-			CMString tszTitle(jnLink["title"].as_mstring());
-			CMString tszCaption(jnLink["caption"].as_mstring());
-			CMString tszDescription(jnLink["description"].as_mstring());
+			CMString wszUrl(jnLink["url"].as_mstring());
+			CMString wszTitle(jnLink["title"].as_mstring());
+			CMString wszCaption(jnLink["caption"].as_mstring());
+			CMString wszDescription(jnLink["description"].as_mstring());
 
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Link"), iBBC, vkbbcB),
-				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
+				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
 			
-			if (!tszCaption.IsEmpty())
-				res.AppendFormat(L"\n\t%s", SetBBCString(tszCaption, iBBC, vkbbcI));
+			if (!wszCaption.IsEmpty())
+				res.AppendFormat(L"\n\t%s", SetBBCString(wszCaption, iBBC, vkbbcI));
 			
 			if (jnLink["photo"])
 				res.AppendFormat(L"\n\t%s", GetVkPhotoItem(jnLink["photo"], iBBC));
 
-			if (!tszDescription.IsEmpty())
-				res.AppendFormat(L"\n\t%s", tszDescription);
+			if (!wszDescription.IsEmpty())
+				res.AppendFormat(L"\n\t%s", wszDescription);
 		}
-		else if (tszType == L"market") {
+		else if (wszType == L"market") {
 			const JSONNode &jnMarket = jnAttach["market"];
 
 			int id = jnMarket["id"].as_int();
 			int ownerID = jnMarket["owner_id"].as_int();
-			CMString tszTitle(jnMarket["title"].as_mstring());
-			CMString tszDescription(jnMarket["description"].as_mstring());
-			CMString tszPhoto(jnMarket["thumb_photo"].as_mstring());
-			CMString tszUrl(FORMAT, L"https://vk.com/%s%d?w=product%d_%d",
+			CMString wszTitle(jnMarket["title"].as_mstring());
+			CMString wszDescription(jnMarket["description"].as_mstring());
+			CMString wszPhoto(jnMarket["thumb_photo"].as_mstring());
+			CMString wszUrl(FORMAT, L"https://vk.com/%s%d?w=product%d_%d",
 				ownerID > 0 ? L"id" : L"club",
 				ownerID > 0 ? ownerID : (-1)*ownerID,
 				ownerID,
@@ -1164,43 +1164,43 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Product"), iBBC, vkbbcB),
-				SetBBCString(tszTitle, iBBC, vkbbcUrl, tszUrl));
+				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
 
-			if (!tszPhoto.IsEmpty())
+			if (!wszPhoto.IsEmpty())
 				res.AppendFormat(L"\n\t%s: %s", 
 					SetBBCString(TranslateT("Photo"), iBBC, vkbbcB), 
-					SetBBCString(tszPhoto, iBBC, vkbbcImg));			
+					SetBBCString(wszPhoto, iBBC, vkbbcImg));			
 			
 			if (jnMarket["price"] && jnMarket["price"]["text"])
 				res.AppendFormat(L"\n\t%s: %s", 
 					SetBBCString(TranslateT("Price"), iBBC, vkbbcB), 
 					jnMarket["price"]["text"].as_mstring());
 
-			if (!tszDescription.IsEmpty())
-				res.AppendFormat(L"\n\t%s", tszDescription);
+			if (!wszDescription.IsEmpty())
+				res.AppendFormat(L"\n\t%s", wszDescription);
 		}
-		else if (tszType == L"gift") {
+		else if (wszType == L"gift") {
 			const JSONNode &jnGift = jnAttach["gift"];
 			if (!jnGift)
 				continue;
 
-			CMString tszLink;
+			CMString wszLink;
 			for (int i = 0; i < _countof(szGiftTypes); i++) {
 				const JSONNode &n = jnGift[szGiftTypes[i]];
 				if (n) {
-					tszLink = n.as_mstring();
+					wszLink = n.as_mstring();
 					break;
 				}
 			}
-			if (tszLink.IsEmpty())
+			if (wszLink.IsEmpty())
 				continue;
-			res += SetBBCString(TranslateT("Gift"), iBBC, vkbbcUrl, tszLink);
+			res += SetBBCString(TranslateT("Gift"), iBBC, vkbbcUrl, wszLink);
 
 			if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
-				res.AppendFormat(L"\n\t%s", SetBBCString(tszLink, iBBC, vkbbcImg));
+				res.AppendFormat(L"\n\t%s", SetBBCString(wszLink, iBBC, vkbbcImg));
 		}
 		else
-			res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), SetBBCString(tszType, iBBC, vkbbcB));
+			res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), SetBBCString(wszType, iBBC, vkbbcB));
 
 		res.AppendChar('\n');
 	}
@@ -1223,10 +1223,10 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		const JSONNode &jnUser = (*it);
 
 		int iUserId = jnUser["id"].as_int();
-		CMString tszNick(FORMAT, L"%s %s", jnUser["first_name"].as_mstring(), jnUser["last_name"].as_mstring());
-		CMString tszLink(FORMAT, L"https://vk.com/id%d", iUserId);
+		CMString wszNick(FORMAT, L"%s %s", jnUser["first_name"].as_mstring(), jnUser["last_name"].as_mstring());
+		CMString wszLink(FORMAT, L"https://vk.com/id%d", iUserId);
 		
-		CVkUserInfo *vkUser = new CVkUserInfo(jnUser["id"].as_int(), false, tszNick, tszLink, FindUser(iUserId));
+		CVkUserInfo *vkUser = new CVkUserInfo(jnUser["id"].as_int(), false, wszNick, wszLink, FindUser(iUserId));
 		vkUsers.insert(vkUser);
 	}
 
@@ -1236,19 +1236,19 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 
 		UINT uid = jnMsg["user_id"].as_int();
 		CVkUserInfo *vkUser = vkUsers.find((CVkUserInfo *)&uid);
-		CMString tszNick, tszUrl;
+		CMString wszNick, wszUrl;
 
 		if (vkUser) {
-			tszNick = vkUser->m_tszUserNick;
-			tszUrl = vkUser->m_tszLink;
+			wszNick = vkUser->m_wszUserNick;
+			wszUrl = vkUser->m_wszLink;
 		} 
 		else {
 			MCONTACT hContact = FindUser(uid);
 			if (hContact || uid == m_msgId)
-				tszNick = ptrW(db_get_tsa(hContact, m_szModuleName, "Nick"));
+				wszNick = ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"));
 			else 
-				tszNick = TranslateT("(Unknown contact)");		
-			tszUrl.AppendFormat(L"https://vk.com/id%d", uid);
+				wszNick = TranslateT("(Unknown contact)");		
+			wszUrl.AppendFormat(L"https://vk.com/id%d", uid);
 		}
 
 		time_t datetime = (time_t)jnMsg["date"].as_int();
@@ -1257,37 +1257,37 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		_wcsftime_l(ttime, _countof(ttime), L"%x %X", localtime(&datetime), locale);
 		_free_locale(locale);
 
-		CMString tszBody(jnMsg["body"].as_mstring());
+		CMString wszBody(jnMsg["body"].as_mstring());
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
-			if (!tszBody.IsEmpty())
-				tszFwdMessages = L"\n" + tszFwdMessages;
-			tszBody += tszFwdMessages;
+			CMString wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
+			if (!wszBody.IsEmpty())
+				wszFwdMessages = L"\n" + wszFwdMessages;
+			wszBody += wszFwdMessages;
 		}
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
-			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
-			if (!tszBody.IsEmpty())
-				tszAttachmentDescr = L"\n" + tszAttachmentDescr;
-			tszBody += tszAttachmentDescr;
+			CMString wszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
+			if (!wszBody.IsEmpty())
+				wszAttachmentDescr = L"\n" + wszAttachmentDescr;
+			wszBody += wszAttachmentDescr;
 		}
 
-		tszBody.Replace(L"\n", L"\n\t");
+		wszBody.Replace(L"\n", L"\n\t");
 		wchar_t tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
-		CMString tszMes(FORMAT, L"%s %s%c%s %s:\n\n%s\n",
+		CMString wszMes(FORMAT, L"%s %s%c%s %s:\n\n%s\n",
 			SetBBCString(TranslateT("Message from"), iBBC, vkbbcB),
-			SetBBCString(tszNick, iBBC, vkbbcUrl, tszUrl),
+			SetBBCString(wszNick, iBBC, vkbbcUrl, wszUrl),
 			tcSplit,
 			SetBBCString(TranslateT("at"), iBBC, vkbbcB),
 			ttime,
-			SetBBCString(tszBody, iBBC, vkbbcCode));
+			SetBBCString(wszBody, iBBC, vkbbcCode));
 
 		if (!res.IsEmpty())
 			res.AppendChar('\n');
-		res += tszMes;
+		res += wszMes;
 	}
 
 	vkUsers.destroy();
@@ -1310,95 +1310,95 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 	setDword(hContact, "InvisibleTS", (DWORD)now);
 }
 
-CMString CVkProto::RemoveBBC(CMString& tszSrc) 
+CMString CVkProto::RemoveBBC(CMString& wszSrc) 
 {
-	static const wchar_t *tszSimpleBBCodes[][2] = {
+	static const wchar_t *wszSimpleBBCodes[][2] = {
 		{ L"[b]", L"[/b]" },
 		{ L"[u]", L"[/u]" },
 		{ L"[i]", L"[/i]" },
 		{ L"[s]", L"[/s]" },
 	};
 
-	static const wchar_t *tszParamBBCodes[][2] = {
+	static const wchar_t *wszParamBBCodes[][2] = {
 		{ L"[url=", L"[/url]" },
 		{ L"[img=", L"[/img]" },
 		{ L"[size=", L"[/size]" },
 		{ L"[color=", L"[/color]" },
 	};
 
-	CMString tszRes(tszSrc); 
-	CMString tszLow(tszSrc); 
-	tszLow.MakeLower();
+	CMString wszRes(wszSrc); 
+	CMString wszLow(wszSrc); 
+	wszLow.MakeLower();
 
-	for (int i = 0; i < _countof(tszSimpleBBCodes); i++) {
-		CMString tszOpenTag(tszSimpleBBCodes[i][0]);
-		CMString tszCloseTag(tszSimpleBBCodes[i][1]);
+	for (int i = 0; i < _countof(wszSimpleBBCodes); i++) {
+		CMString wszOpenTag(wszSimpleBBCodes[i][0]);
+		CMString wszCloseTag(wszSimpleBBCodes[i][1]);
 		
-		int lenOpen = tszOpenTag.GetLength();
-		int lenClose = tszCloseTag.GetLength();
+		int lenOpen = wszOpenTag.GetLength();
+		int lenClose = wszCloseTag.GetLength();
 
 		int posOpen = 0;
 		int posClose = 0;
 
 		while (true) {
-			if ((posOpen = tszLow.Find(tszOpenTag, posOpen)) < 0)
+			if ((posOpen = wszLow.Find(wszOpenTag, posOpen)) < 0)
 				break;
 
-			if ((posClose = tszLow.Find(tszCloseTag, posOpen + lenOpen)) < 0)
+			if ((posClose = wszLow.Find(wszCloseTag, posOpen + lenOpen)) < 0)
 				break;
 
-			tszLow.Delete(posOpen, lenOpen);
-			tszLow.Delete(posClose - lenOpen, lenClose);
+			wszLow.Delete(posOpen, lenOpen);
+			wszLow.Delete(posClose - lenOpen, lenClose);
 
-			tszRes.Delete(posOpen, lenOpen);
-			tszRes.Delete(posClose - lenOpen, lenClose);
+			wszRes.Delete(posOpen, lenOpen);
+			wszRes.Delete(posClose - lenOpen, lenClose);
 
 		}
 	}
 
-	for (int i = 0; i < _countof(tszParamBBCodes); i++) {
-		CMString tszOpenTag(tszParamBBCodes[i][0]);
-		CMString tszCloseTag(tszParamBBCodes[i][1]);
+	for (int i = 0; i < _countof(wszParamBBCodes); i++) {
+		CMString wszOpenTag(wszParamBBCodes[i][0]);
+		CMString wszCloseTag(wszParamBBCodes[i][1]);
 
-		int lenOpen = tszOpenTag.GetLength();
-		int lenClose = tszCloseTag.GetLength();
+		int lenOpen = wszOpenTag.GetLength();
+		int lenClose = wszCloseTag.GetLength();
 
 		int posOpen = 0;
 		int posOpen2 = 0;
 		int posClose = 0;
 
 		while (true) {
-			if ((posOpen = tszLow.Find(tszOpenTag, posOpen)) < 0)
+			if ((posOpen = wszLow.Find(wszOpenTag, posOpen)) < 0)
 				break;
 			
-			if ((posOpen2 = tszLow.Find(L"]", posOpen + lenOpen)) < 0)
+			if ((posOpen2 = wszLow.Find(L"]", posOpen + lenOpen)) < 0)
 				break;
 
-			if ((posClose = tszLow.Find(tszCloseTag, posOpen2 + 1)) < 0)
+			if ((posClose = wszLow.Find(wszCloseTag, posOpen2 + 1)) < 0)
 				break;
 
-			tszLow.Delete(posOpen, posOpen2 - posOpen + 1);
-			tszLow.Delete(posClose - posOpen2 + posOpen - 1, lenClose);
+			wszLow.Delete(posOpen, posOpen2 - posOpen + 1);
+			wszLow.Delete(posClose - posOpen2 + posOpen - 1, lenClose);
 
-			tszRes.Delete(posOpen, posOpen2 - posOpen + 1);
-			tszRes.Delete(posClose - posOpen2 + posOpen - 1, lenClose);
+			wszRes.Delete(posOpen, posOpen2 - posOpen + 1);
+			wszRes.Delete(posClose - posOpen2 + posOpen - 1, lenClose);
 
 		}
 
 	}
 
-	return tszRes;
+	return wszRes;
 }
 
 void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 {
-	wchar_t tszTempDir[MAX_PATH];
-	if (!GetEnvironmentVariable(L"TEMP", tszTempDir, MAX_PATH))
+	wchar_t wszTempDir[MAX_PATH];
+	if (!GetEnvironmentVariable(L"TEMP", wszTempDir, MAX_PATH))
 		return;
 
-	CMString tszHTMLPath(FORMAT, L"%s\\miranda_captcha.html", tszTempDir);
+	CMString wszHTMLPath(FORMAT, L"%s\\miranda_captcha.html", wszTempDir);
 		
-	FILE *pFile = _wfopen(tszHTMLPath, L"w");
+	FILE *pFile = _wfopen(wszHTMLPath, L"w");
 	if (pFile == NULL)
 		return;
 
@@ -1417,6 +1417,6 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 	fwrite(szHTML, 1, szHTML.GetLength(), pFile);
 	fclose(pFile);
 
-	tszHTMLPath = L"file://" + tszHTMLPath;
-	Utils_OpenUrlT(tszHTMLPath);
+	wszHTMLPath = L"file://" + wszHTMLPath;
+	Utils_OpenUrlT(wszHTMLPath);
 }

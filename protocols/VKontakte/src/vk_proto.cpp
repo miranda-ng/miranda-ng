@@ -33,8 +33,8 @@ LIST<CVkProto> vk_Instances(1, sttCompareProtocols);
 mir_cs csInstances;
 static COLORREF sttColors[] = { 0, 1, 2, 3, 4, 5, 6 };
 
-CVkProto::CVkProto(const char *szModuleName, const wchar_t *ptszUserName) :
-	PROTO<CVkProto>(szModuleName, ptszUserName),
+CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
+	PROTO<CVkProto>(szModuleName, pwszUserName),
 	m_arRequestsQueue(10, sttCompareAsyncHttpRequest),
 	m_sendIds(3, PtrKeySortT),
 	m_incIds(3, PtrKeySortT),
@@ -70,7 +70,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	Clist_GroupCreate(NULL, m_vkOptions.ptszDefaultGroup);
+	Clist_GroupCreate(NULL, m_vkOptions.pwszDefaultGroup);
 
 	CMStringA szListeningTo(FORMAT, "%sEnabled", m_szModuleName);
 	db_set_b(NULL, "ListeningTo", szListeningTo, m_vkOptions.iMusicSendMetod == 0 ? 0 : 1);
@@ -357,7 +357,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	LONG userID = getDword(hContact, "ID", -1);
 	bool bisFriend = (getBool(hContact, "Auth", true) == 0);
-	bool bisBroadcast = !(IsEmpty(ptrW(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))));
+	bool bisBroadcast = !(IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl"))));
 	Menu_ShowItem(m_hContactMenuItems[CMI_VISITPROFILE], userID != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_MARKMESSAGESASREAD], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
@@ -427,7 +427,7 @@ void CVkProto::InitPopups(void)
 
 	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_LoadIcon(SKINICON_ERROR);
 	ppc.colorBack = RGB(191, 0, 0); //Red
@@ -437,7 +437,7 @@ void CVkProto::InitPopups(void)
 
 	mir_snwprintf(desc, L"%s %s", m_tszUserName, TranslateT("Notification"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
 	ppc.colorBack = RGB(190, 225, 255); //Blue
@@ -446,14 +446,14 @@ void CVkProto::InitPopups(void)
 	m_hPopupClassNotification = Popup_RegisterClass(&ppc);
 }
 
-void CVkProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle, bool err)
+void CVkProto::MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t *wszTitle, bool err)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		char name[256];
 
 		POPUPDATACLASS ppd = { sizeof(ppd) };
-		ppd.pwszTitle = szTitle;
-		ppd.pwszText = szMsg;
+		ppd.pwszTitle = wszTitle;
+		ppd.pwszText = wszMsg;
 		ppd.pszClassName = name;
 		ppd.hContact = hContact;
 		ppd.PluginData = new CVkSendMsgParam(hContact);
@@ -463,7 +463,7 @@ void CVkProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *
 	}
 	else {
 		DWORD mtype = MB_OK | MB_SETFOREGROUND | MB_ICONSTOP;
-		MessageBox(NULL, szMsg, szTitle, mtype);
+		MessageBox(NULL, wszMsg, wszTitle, mtype);
 	}
 }
 
@@ -555,11 +555,11 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 	
 	wchar_t msg[501] = {0};
 	if (message)
-		wcsncpy_s(msg, 500, message, _TRUNCATE);
+		wcsncpy_s(msg, _countof(msg), message, _TRUNCATE);
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.add.json", true, &CVkProto::OnReceiveAuthRequest)
 		<< INT_PARAM("user_id", userID)
-		<< TCHAR_PARAM("text", msg))->pUserInfo = new CVkSendMsgParam(hContact);
+		<< WCHAR_PARAM("text", msg))->pUserInfo = new CVkSendMsgParam(hContact);
 
 	return 0;
 }
@@ -576,11 +576,11 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			setByte(param->hContact, "Auth", 0);
 			if (iRet == 2) {
 				CMString msg,			
-					tszNick(ptrW(db_get_tsa(param->hContact, m_szModuleName, "Nick")));
-				if (tszNick.IsEmpty())
-					tszNick = TranslateT("(Unknown contact)");
-				msg.AppendFormat(TranslateT("User %s added as friend"), tszNick);
-				MsgPopup(param->hContact, msg, tszNick);
+					wszNick(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick")));
+				if (wszNick.IsEmpty())
+					wszNick = TranslateT("(Unknown contact)");
+				msg.AppendFormat(TranslateT("User %s added as friend"), wszNick);
+				MsgPopup(param->hContact, msg, wszNick);
 			}
 		} 
 		else {

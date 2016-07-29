@@ -135,11 +135,11 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	CMStringA fn(FORMAT, "%s%s", pszFNAME, pszEXT);
 	fname = mir_strdup(fn);
 
-	if (tlstrstr(img, EXT)) {
+	if (wlstrstr(img, EXT)) {
 		filetype = CVkFileUploadParam::typeImg;
 		atr = mir_strdup("photo");
 	}
-	else if (tlstrstr(audio, EXT)) {
+	else if (wlstrstr(audio, EXT)) {
 		filetype = CVkFileUploadParam::typeAudio;
 		atr = mir_strdup("file");
 	}
@@ -153,9 +153,9 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CVkChatUser* CVkChatInfo::GetUserById(LPCTSTR ptszId)
+CVkChatUser* CVkChatInfo::GetUserById(LPCWSTR pwszId)
 {
-	int user_id = _wtoi(ptszId);
+	int user_id = _wtoi(pwszId);
 	return m_users.find((CVkChatUser*)&user_id);
 }
 
@@ -233,9 +233,9 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	iInvisibleInterval(proto, "InvisibleInterval", 10),
 	iMaxFriendsCount(proto, "MaxFriendsCount", 1000),
 
-	ptszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
-	ptszReturnChatMessage(proto, "ReturnChatMessage", TranslateT("I\'m back")),
-	ptszVKLang(proto, "VKLang", NULL)
+	pwszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
+	pwszReturnChatMessage(proto, "ReturnChatMessage", TranslateT("I\'m back")),
+	pwszVKLang(proto, "VKLang", NULL)
 
 {
 }

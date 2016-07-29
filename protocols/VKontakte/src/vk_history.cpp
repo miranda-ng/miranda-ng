@@ -24,7 +24,7 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistoryForContact(WPARAM hContact, LPAR
 	debugLogA("CVkProto::SvcGetAllServerHistoryForContact");
 	if (!IsOnline())
 		return 0;
-	LPCTSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
+	LPCWSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
 	if (IDNO == MessageBox(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
 
@@ -51,7 +51,7 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 	debugLogA("CVkProto::SvcGetAllServerHistory start");
 	if (!IsOnline())
 		return 0;
-	LPCTSTR str = TranslateT("Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?");
+	LPCWSTR str = TranslateT("Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?");
 	if (IDNO == MessageBox(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
 
@@ -188,11 +188,11 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			if (m_iLoadHistoryTask > 0) 
 				m_iLoadHistoryTask--;
 			
-			ptrW ptszNick(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
-			CMString str(FORMAT, L"%s %s %s", TranslateT("Error loading message history from server"), TranslateT("for"), ptszNick);
+			ptrW pwszNick(db_get_wsa(param->hContact, m_szModuleName, "Nick"));
+			CMString str(FORMAT, L"%s %s %s", TranslateT("Error loading message history from server"), TranslateT("for"), pwszNick);
 
 			MsgPopup(param->hContact, str, TranslateT("Error"), true);
-			debugLog(L"CVkProto::OnReceiveHistoryMessages error for %s m_iLoadHistoryTask=%d", ptszNick, m_iLoadHistoryTask);
+			debugLog(L"CVkProto::OnReceiveHistoryMessages error for %s m_iLoadHistoryTask=%d", pwszNick, m_iLoadHistoryTask);
 
 			if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
 				MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed"), TranslateT("Loading history"));
@@ -223,7 +223,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		char szMid[40];
 		_itoa(mid, szMid, 10);
 
-		CMString tszBody(jnMsg["body"].as_mstring());
+		CMString wszBody(jnMsg["body"].as_mstring());
 		int datetime = jnMsg["date"].as_int();
 		int isOut = jnMsg["out"].as_int();
 		int isRead = jnMsg["read_state"].as_int(); 
@@ -231,21 +231,21 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
-			if (!tszBody.IsEmpty())
-				tszFwdMessages = L"\n" + tszFwdMessages;
-			tszBody += tszFwdMessages;
+			CMString wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+			if (!wszBody.IsEmpty())
+				wszFwdMessages = L"\n" + wszFwdMessages;
+			wszBody += wszFwdMessages;
 		}
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
-			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
-			if (!tszBody.IsEmpty())
-				tszAttachmentDescr = L"\n" + tszAttachmentDescr;
-			tszBody += tszAttachmentDescr;
+			CMString wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
+			if (!wszBody.IsEmpty())
+				wszAttachmentDescr = L"\n" + wszAttachmentDescr;
+			wszBody += wszAttachmentDescr;
 		}
 
-		T2Utf pszBody(tszBody);
+		T2Utf pszBody(wszBody);
 		MCONTACT hContact = FindUser(uid, true);
 		PROTORECVEVENT recv = { 0 };
 		if (isRead)
@@ -280,9 +280,9 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (m_iLoadHistoryTask > 0)
 			m_iLoadHistoryTask--;
 
-		ptrW ptszNick(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
-		CMString str(FORMAT, TranslateT("Loading messages for %s is completed"), ptszNick);
-		debugLog(L"CVkProto::OnReceiveHistoryMessages for %s m_iLoadHistoryTask=%d", ptszNick, m_iLoadHistoryTask);
+		ptrW pwszNick(db_get_wsa(param->hContact, m_szModuleName, "Nick"));
+		CMString str(FORMAT, TranslateT("Loading messages for %s is completed"), pwszNick);
+		debugLog(L"CVkProto::OnReceiveHistoryMessages for %s m_iLoadHistoryTask=%d", pwszNick, m_iLoadHistoryTask);
 
 		if (m_bNotifyForEndLoadingHistory)
 			MsgPopup(param->hContact, str, TranslateT("Loading history"));

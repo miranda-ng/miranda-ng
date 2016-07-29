@@ -242,7 +242,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		UINT mid = jnMsg["id"].as_int();
-		CMString tszBody(jnMsg["body"].as_mstring());
+		CMString wszBody(jnMsg["body"].as_mstring());
 		int datetime = jnMsg["date"].as_int();
 		int isOut = jnMsg["out"].as_int();
 		int isRead = jnMsg["read_state"].as_int();
@@ -250,19 +250,19 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
-			if (!tszBody.IsEmpty())
-				tszFwdMessages = L"\n" + tszFwdMessages;
-			tszBody +=  tszFwdMessages;
+			CMString wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+			if (!wszBody.IsEmpty())
+				wszFwdMessages = L"\n" + wszFwdMessages;
+			wszBody +=  wszFwdMessages;
 		}
 
-		CMString tszAttachmentDescr;
+		CMString wszAttachmentDescr;
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
-			tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
-			if (!tszBody.IsEmpty())
-				tszBody += L"\n";
-			tszBody += tszAttachmentDescr;
+			wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
+			if (!wszBody.IsEmpty())
+				wszBody += L"\n";
+			wszBody += wszAttachmentDescr;
 		}
 
 		MCONTACT hContact = NULL;
@@ -302,7 +302,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(NULL) - datetime < 60 * m_vkOptions.iInvisibleInterval)
 			SetInvisible(hContact);
 
-		T2Utf pszBody(tszBody);
+		T2Utf pszBody(wszBody);
 		recv.timestamp = m_vkOptions.bUseLocalTime ? time(NULL) : datetime;
 		recv.szMessage = pszBody;
 		recv.lParam = isOut;
@@ -320,8 +320,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			if (!isOut)
 				m_incIds.insert((HANDLE)mid);
 		}
-		else if (m_vkOptions.bLoadSentAttachments && !tszAttachmentDescr.IsEmpty() && isOut) {
-			T2Utf pszAttach(tszAttachmentDescr);
+		else if (m_vkOptions.bLoadSentAttachments && !wszAttachmentDescr.IsEmpty() && isOut) {
+			T2Utf pszAttach(wszAttachmentDescr);
 			recv.timestamp = time(NULL); // only local time
 			recv.szMessage = pszAttach;
 			ProtoChainRecvMsg(hContact, &recv);

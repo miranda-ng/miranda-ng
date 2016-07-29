@@ -52,23 +52,23 @@ public:
 
 struct WALLPOST_FORM_PARAMS
 {
-	wchar_t *ptszMsg;
-	wchar_t *ptszUrl;
-	wchar_t *ptszNick;
+	wchar_t *pwszMsg;
+	wchar_t *pwszUrl;
+	wchar_t *pwszNick;
 	bool bFriendsOnly;
 
 	WALLPOST_FORM_PARAMS(wchar_t *nick) :
-		ptszNick(nick),
+		pwszNick(nick),
 		bFriendsOnly(false)
 	{
-		ptszMsg = ptszUrl = NULL;
+		pwszMsg = pwszUrl = NULL;
 	}
 
 	~WALLPOST_FORM_PARAMS()
 	{
-		mir_free(ptszMsg);
-		mir_free(ptszUrl);
-		mir_free(ptszNick);
+		mir_free(pwszMsg);
+		mir_free(pwszUrl);
+		mir_free(pwszNick);
 	}
 };
 

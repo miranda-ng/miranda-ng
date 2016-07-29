@@ -114,7 +114,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM, LPARAM);
 //=====================================================================================
 
-	void CreateNewChat(LPCSTR uids, LPCTSTR ptrszTitle);
+	void CreateNewChat(LPCSTR uids, LPCWSTR pwszTitle);
 	__forceinline bool IsOnline() const { return m_bOnline; }
 	void OnTimerTic();
 	void ClearAccessToken();
@@ -232,7 +232,7 @@ private:
 //==== PopUps ========================================================================
 
 	void InitPopups(void);
-	void MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle, bool err = false);
+	void MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t *wszTitle, bool err = false);
 
 //==== Hooks =========================================================================
 
@@ -269,7 +269,7 @@ private:
 	CVKNewsItem* GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
 	void OnFriendAccepted(const JSONNode &jnFeedback);
 	CMString GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
-	CVKNewsItem* GetVkParent(const JSONNode &jnParent, VKObjType vkParentType, LPCTSTR ptszReplyText = NULL, LPCTSTR ptszReplyLink = NULL);
+	CVKNewsItem* GetVkParent(const JSONNode &jnParent, VKObjType vkParentType, LPCWSTR pwszReplyText = NULL, LPCWSTR pwszReplyLink = NULL);
 	void RetrieveUnreadNews(time_t tLastNewsTime);
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUnreadNotifications(time_t tLastNotificationsTime);
@@ -302,7 +302,7 @@ private:
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void WallPost(MCONTACT hContact, wchar_t *ptszMsg, wchar_t *ptszUrl, bool bFriendsOnly);
+	void WallPost(MCONTACT hContact, wchar_t *pwszMsg, wchar_t *pwszUrl, bool bFriendsOnly);
 	void GetServerHistoryLastNDay(MCONTACT hContact, int NDay);
 	void GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int iTime, int iLastMsgId, bool once = false);
 	void OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq);
@@ -326,7 +326,7 @@ private:
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	bool AutoFillForm(char*, CMStringA&, CMStringA&);
 	CMString RunConfirmationCode();
-	CMString RunRenameNick(LPCTSTR ptszOldName);
+	CMString RunRenameNick(LPCWSTR pwszOldName);
 	void GrabCookies(NETLIBHTTPREQUEST *nhr);
 	void ApplyCookies(AsyncHttpRequest*);
 	void __cdecl DBAddAuthRequestThread(void *p);
@@ -338,14 +338,14 @@ private:
 	void MarkDialogAsRead(MCONTACT hContact);
 	char* GetStickerId(const char *Msg, int& stickerid);
 	CMStringA GetAttachmentsFromMessage(const char * Msg);
-	CMString SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
+	CMString SpanVKNotificationType(CMString& wszType, VKObjType& vkFeedback, VKObjType& vkParent);
 	CMString GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC);
-	CMString SetBBCString(LPCTSTR tszString, BBCSupport iBBC, VKBBCType bbcType, LPCTSTR tszAddString = NULL);
-	CMString& ClearFormatNick(CMString& tszText);
+	CMString SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = NULL);
+	CMString& ClearFormatNick(CMString& wszText);
 	CMString GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC = bbcNo);
 	CMString GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC = bbcNo);
 	void SetInvisible(MCONTACT hContact);
-	CMString RemoveBBC(CMString& tszSrc);
+	CMString RemoveBBC(CMString& wszSrc);
 	void InitQueue();
 	void UninitQueue();
 	void ExecuteRequest(AsyncHttpRequest*);
@@ -357,17 +357,17 @@ private:
 	void OnLoggedIn();
 	void OnLoggedOut();
 	void ShutdownSession();
-	void SetAvatarUrl(MCONTACT hContact, CMString &tszUrl);
-	void GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
+	void SetAvatarUrl(MCONTACT hContact, CMString &wszUrl);
+	void GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cbLen);
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void __cdecl SendMsgAck(void *param);
 	void __cdecl ChatContactTypingThread(void *p);
 	void StopChatContactTyping(int iChatId, int iUserId);
 	void OnCreateNewChat(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	CVkChatInfo* AppendChat(int id, const JSONNode &jnNode);
-	void SetChatTitle(CVkChatInfo *cc, LPCTSTR tszTopic);
+	void SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic);
 	void AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &jnFUsers, bool bIsHistory);
-	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory, bool bIsAction = false);
+	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -383,6 +383,6 @@ private:
 	void NickMenuHook(CVkChatInfo*, GCHOOK*);
 	LPTSTR ChangeChatTopic(CVkChatInfo*);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
-	CVkChatInfo* GetChatById(LPCTSTR ptszId);
+	CVkChatInfo* GetChatById(LPCWSTR pwszId);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 };

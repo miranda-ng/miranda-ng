@@ -85,9 +85,9 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	if (szUrl == NULL)
 		return GAIR_NOAVATAR;
 
-	wchar_t tszFileName[MAX_PATH];
-	GetAvatarFileName(pai->hContact, tszFileName, _countof(tszFileName));
-	wcsncpy(pai->filename, tszFileName, _countof(pai->filename));
+	wchar_t wszFileName[MAX_PATH];
+	GetAvatarFileName(pai->hContact, wszFileName, _countof(wszFileName));
+	wcsncpy(pai->filename, wszFileName, _countof(pai->filename));
 
 	pai->format = ProtoGetAvatarFormat(pai->filename);
 
@@ -128,41 +128,41 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen)
+void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pwszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
-	DWORD dwAttributes = GetFileAttributes(pszDest);
+	DWORD dwAttributes = GetFileAttributes(pwszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeT(pszDest);
+		CreateDirectoryTreeW(pwszDest);
 
-	pszDest[tPathLen++] = '\\';
+	pwszDest[tPathLen++] = '\\';
 
 	const wchar_t *szFileType = L".jpg";
-	ptrW szUrl(getTStringA(hContact, "AvatarUrl"));
-	if (szUrl) {
-		wchar_t *p = wcsrchr(szUrl, '.');
+	ptrW wszUrl(getWStringA(hContact, "AvatarUrl"));
+	if (wszUrl) {
+		wchar_t *p = wcsrchr(wszUrl, '.');
 		if (p != NULL)
 			szFileType = p;
 	}
 
 	LONG id = getDword(hContact, "ID", -1);
-	mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%d%s", id, szFileType);
+	mir_snwprintf(pwszDest + tPathLen, MAX_PATH - tPathLen, L"%d%s", id, szFileType);
 }
 
-void CVkProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
+void CVkProto::SetAvatarUrl(MCONTACT hContact, CMString &wszUrl)
 {
-	CMString oldUrl(getTStringA(hContact, "AvatarUrl"));
+	CMString oldUrl(getWStringA(hContact, "AvatarUrl"));
 
-	if (tszUrl == oldUrl)
+	if (wszUrl == oldUrl)
 		return;
 
-	if (tszUrl.IsEmpty()) {
+	if (wszUrl.IsEmpty()) {
 		delSetting(hContact, "AvatarUrl");
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL);
 	}
 	else {
-		setTString(hContact, "AvatarUrl", tszUrl);
+		setWString(hContact, "AvatarUrl", wszUrl);
 		setByte(hContact,"NeedNewAvatar", 1);
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = hContact;

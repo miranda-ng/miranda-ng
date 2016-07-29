@@ -32,65 +32,65 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 
 void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 {
-	CMString tszError;
+	CMString wszError;
 	switch (ErrorCode) {
 	case VKERR_OFFLINE:
-		tszError = TranslateT("Protocol is offline");
+		wszError = TranslateT("Protocol is offline");
 		break;
 	case VKERR_FILE_NOT_EXIST:
-		tszError = TranslateT("File does not exist");
+		wszError = TranslateT("File does not exist");
 		break;
 	case VKERR_FTYPE_NOT_SUPPORTED:
-		tszError = TranslateT("File type not supported");
+		wszError = TranslateT("File type not supported");
 		break;
 	case VKERR_ERR_OPEN_FILE:
-		tszError = TranslateT("Error open file");
+		wszError = TranslateT("Error open file");
 		break;
 	case VKERR_ERR_READ_FILE:
-		tszError = TranslateT("Error read file");
+		wszError = TranslateT("Error read file");
 		break;
 	case VKERR_FILE_NOT_UPLOADED:
-		tszError = TranslateT("File upload error");
+		wszError = TranslateT("File upload error");
 		break;
 	case VKERR_INVALID_URL:
-		tszError = TranslateT("Upload server returned empty URL");
+		wszError = TranslateT("Upload server returned empty URL");
 		break;
 	case VKERR_INVALID_USER:
-		tszError = TranslateT("Invalid or unknown recipient user ID");
+		wszError = TranslateT("Invalid or unknown recipient user ID");
 		break;
 	case VKERR_INVALID_PARAMETERS:
-		tszError = TranslateT("One of the parameters specified was missing or invalid");
+		wszError = TranslateT("One of the parameters specified was missing or invalid");
 		break;
 	case VKERR_COULD_NOT_SAVE_FILE:
-		tszError = TranslateT("Couldn't save file");
+		wszError = TranslateT("Couldn't save file");
 		break;
 	case VKERR_INVALID_ALBUM_ID:
-		tszError = TranslateT("Invalid album id");
+		wszError = TranslateT("Invalid album id");
 		break;
 	case VKERR_INVALID_SERVER:
-		tszError = TranslateT("Invalid server");
+		wszError = TranslateT("Invalid server");
 		break;
 	case VKERR_INVALID_HASH:
-		tszError = TranslateT("Invalid hash");
+		wszError = TranslateT("Invalid hash");
 		break;
 	case VKERR_INVALID_AUDIO:
-		tszError = TranslateT("Invalid audio");
+		wszError = TranslateT("Invalid audio");
 		break;
 	case VKERR_AUDIO_DEL_COPYRIGHT:
-		tszError = TranslateT("The audio file was removed by the copyright holder and cannot be reuploaded");		
+		wszError = TranslateT("The audio file was removed by the copyright holder and cannot be reuploaded");		
 		break;
 	case VKERR_INVALID_FILENAME:
-		tszError = TranslateT("Invalid filename");
+		wszError = TranslateT("Invalid filename");
 		break;
 	case VKERR_INVALID_FILESIZE:
-		tszError = TranslateT("Invalid filesize");
+		wszError = TranslateT("Invalid filesize");
 		break;
 	default:
-		tszError = TranslateT("Unknown error occurred");
+		wszError = TranslateT("Unknown error occurred");
 	}
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ErrorCode== VKERR_AUDIO_DEL_COPYRIGHT ? ACKRESULT_DENIED : ACKRESULT_FAILED, (HANDLE)fup);
-	debugLog(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, tszError);
-	MsgPopup(NULL, tszError, TranslateT("File upload error"), true);
+	debugLog(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, wszError);
+	MsgPopup(NULL, wszError, TranslateT("File upload error"), true);
 	delete fup;
 }
 
@@ -268,9 +268,9 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile)
-			<< TCHAR_PARAM("server", server)
-			<< TCHAR_PARAM("photo", upload)
-			<< TCHAR_PARAM("hash", hash);
+			<< WCHAR_PARAM("server", server)
+			<< WCHAR_PARAM("photo", upload)
+			<< WCHAR_PARAM("hash", hash);
 		break;
 	case CVkFileUploadParam::typeAudio:
 		upload = jnRoot["audio"].as_mstring();
@@ -279,9 +279,9 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.save.json", true, &CVkProto::OnReciveUploadFile)
-			<< TCHAR_PARAM("server", server)
-			<< TCHAR_PARAM("audio", upload)
-			<< TCHAR_PARAM("hash", hash);
+			<< WCHAR_PARAM("server", server)
+			<< WCHAR_PARAM("audio", upload)
+			<< WCHAR_PARAM("hash", hash);
 		break;
 	case CVkFileUploadParam::typeDoc:
 		upload = jnRoot["file"].as_mstring();
@@ -291,7 +291,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.save.json", true, &CVkProto::OnReciveUploadFile)
 			<< CHAR_PARAM("title", fup->fileName())
-			<< TCHAR_PARAM("file", upload)	;
+			<< WCHAR_PARAM("file", upload)	;
 		break;
 	default:
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
@@ -351,13 +351,13 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	if (isChatRoom(fup->hContact)) {
 
-		ptrW tszChatID(getTStringA(fup->hContact, "ChatRoomID"));
-		if (!tszChatID) {
+		ptrW wszChatID(getWStringA(fup->hContact, "ChatRoomID"));
+		if (!wszChatID) {
 			SendFileFiled(fup, VKERR_INVALID_USER);
 			return;
 		}
 
-		CVkChatInfo *cc = GetChatById(tszChatID);
+		CVkChatInfo *cc = GetChatById(wszChatID);
 		if (cc == NULL) {
 			SendFileFiled(fup, VKERR_INVALID_USER);
 			return;
@@ -381,7 +381,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		
 	}
 
-	pMsgReq << TCHAR_PARAM("message", fup->Desc) << TCHAR_PARAM("attachment", Attachment);
+	pMsgReq << WCHAR_PARAM("message", fup->Desc) << WCHAR_PARAM("attachment", Attachment);
 	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 	Push(pMsgReq);

@@ -97,12 +97,12 @@ extern mir_cs csInstances;
 extern HINSTANCE hInst;
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
-bool tlstrstr(wchar_t *_s1, wchar_t *_s2);
+bool wlstrstr(wchar_t *_s1, wchar_t *_s2);
 
 void InitIcons(void);
 HANDLE GetIconHandle(int iCommand);
 
 char* ExpUrlEncode(const char *szUrl, bool strict = false);
 
-bool IsEmpty(LPCTSTR str);
+bool IsEmpty(LPCWSTR str);
 bool IsEmpty(LPCSTR str);

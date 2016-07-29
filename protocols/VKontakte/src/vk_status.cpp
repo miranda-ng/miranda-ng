@@ -69,12 +69,12 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		return;
 
 	int iOldStatus = m_iStatus;
-	CMString oldStatusMsg(ptrW(db_get_tsa(NULL, m_szModuleName, "OldStatusMsg")));
-	ptrW ptszListeningToMsg(db_get_tsa(NULL, m_szModuleName, "ListeningTo"));
+	CMString oldStatusMsg(ptrW(db_get_wsa(NULL, m_szModuleName, "OldStatusMsg")));
+	ptrW pwszListeningToMsg(db_get_wsa(NULL, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_bNeedSendOnline = false;
-		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast) {
+		if (!IsEmpty(pwszListeningToMsg) && m_bSetBroadcast) {
 			RetrieveStatusMsg(oldStatusMsg);
 			m_bSetBroadcast = false;
 		}
@@ -91,7 +91,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 	}
 	else {
 		m_bNeedSendOnline = false;
-		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast) {
+		if (!IsEmpty(pwszListeningToMsg) && m_bSetBroadcast) {
 			RetrieveStatusMsg(oldStatusMsg);
 			m_bSetBroadcast = false;
 		}
@@ -126,25 +126,25 @@ void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	OnReceiveStatus(reply, pReq);
 
-	ptrW ptszOldStatusMsg(db_get_tsa(NULL, m_szModuleName, "OldStatusMsg"));
-	CMString tszOldStatusMsg(ptszOldStatusMsg);
+	ptrW pwszOldStatusMsg(db_get_wsa(NULL, m_szModuleName, "OldStatusMsg"));
+	CMString wszOldStatusMsg(pwszOldStatusMsg);
 
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_MULTILINE;
 	pForm.caption = TranslateT("Enter new status message");
-	pForm.ptszInitVal = ptszOldStatusMsg;
+	pForm.ptszInitVal = pwszOldStatusMsg;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "statusmsgform_";
 
 	if (!EnterString(&pForm))
 		return;
 
-	CMString tszNewStatusMsg(ptrW(pForm.ptszResult));
-	if (tszOldStatusMsg == tszNewStatusMsg)
+	CMString wszNewStatusMsg(ptrW(pForm.ptszResult));
+	if (wszOldStatusMsg == wszNewStatusMsg)
 		return;
 
-	RetrieveStatusMsg(tszNewStatusMsg);
-	setTString("OldStatusMsg", ptszOldStatusMsg);
+	RetrieveStatusMsg(wszNewStatusMsg);
+	setWString("OldStatusMsg", pwszOldStatusMsg);
 }
 
 void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -159,9 +159,9 @@ void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	const JSONNode &jnAudio = jnResponse["audio"];
 	if (!jnAudio) {
-		CMString tszStatusText(jnResponse["text"].as_mstring());
-		if (tszStatusText[0] != wchar_t(9835))
-			setTString("OldStatusMsg", tszStatusText);
+		CMString wszStatusText(jnResponse["text"].as_mstring());
+		if (wszStatusText[0] != wchar_t(9835))
+			setWString("OldStatusMsg", wszStatusText);
 	}
 }
 
@@ -172,7 +172,7 @@ void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.set.json", true, &CVkProto::OnReceiveSmth)
-		<< TCHAR_PARAM("text", StatusMsg));
+		<< WCHAR_PARAM("text", StatusMsg));
 }
 
 void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
@@ -182,13 +182,13 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		return;
 
 	CMString code;
-	CMString tszOldStatusMsg(db_get_tsa(0, m_szModuleName, "OldStatusMsg"));
+	CMString wszOldStatusMsg(db_get_wsa(0, m_szModuleName, "OldStatusMsg"));
 	if (StatusMsg.IsEmpty()) {
 		if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly)
 			code = "API.audio.setBroadcast();return null;";
 		else {
 			CMString codeformat("API.status.set({text:\"%s\"});return null;");
-			code.AppendFormat(codeformat, tszOldStatusMsg);
+			code.AppendFormat(codeformat, wszOldStatusMsg);
 		}
 		m_bSetBroadcast = false;
 	}
@@ -225,7 +225,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		m_bSetBroadcast = true;
 	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveStatus)
-		<< TCHAR_PARAM("code", code));
+		<< WCHAR_PARAM("code", code));
 }
 
 INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
@@ -235,18 +235,18 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 		return 1;
 
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
-	CMString tszListeningTo;
+	CMString wszListeningTo;
 	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
 		db_unset(NULL, m_szModuleName, "ListeningTo");
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			tszListeningTo = ptrW((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%artist% - %title%", (LPARAM)pliInfo));
+			wszListeningTo = ptrW((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%artist% - %title%", (LPARAM)pliInfo));
 		else
-			tszListeningTo.Format(L"%s - %s",
+			wszListeningTo.Format(L"%s - %s",
 			pliInfo->ptszArtist ? pliInfo->ptszArtist : L"",
 			pliInfo->ptszTitle ? pliInfo->ptszTitle : L"");
-		setTString("ListeningTo", tszListeningTo);
+		setWString("ListeningTo", wszListeningTo);
 	}
-	RetrieveStatusMusic(tszListeningTo);
+	RetrieveStatusMusic(wszListeningTo);
 	return 0;
 }

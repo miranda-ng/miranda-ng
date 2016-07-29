@@ -47,7 +47,7 @@ void CVkProto::SearchBasicThread(void *id)
 	if (!IsOnline())
 		return;
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
-		<< TCHAR_PARAM("user_ids", (wchar_t *)id)
+		<< WCHAR_PARAM("user_ids", (wchar_t *)id)
 		<< CHAR_PARAM("fields", "nickname, domain");
 	pReq->pUserInfo = NULL;
 	Push(pReq);
@@ -59,7 +59,7 @@ void CVkProto::SearchByMailThread(void *email)
 	if (!IsOnline())
 		return;
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/account.lookupContacts.json", true, &CVkProto::OnSearchByMail)
-		<< TCHAR_PARAM("contacts", (wchar_t *)email)
+		<< WCHAR_PARAM("contacts", (wchar_t *)email)
 		<< CHAR_PARAM("service", "email");
 	Push(pReq);
 }
@@ -75,7 +75,7 @@ void __cdecl CVkProto::SearchThread(void *p)
 		return;
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/users.search.json", true, &CVkProto::OnSearch)
-		<< TCHAR_PARAM("q", (wchar_t *)arg)
+		<< WCHAR_PARAM("q", (wchar_t *)arg)
 		<< CHAR_PARAM("fields", "nickname, domain")
 		<< INT_PARAM("count", 200);
 	pReq->pUserInfo = p;
@@ -134,11 +134,11 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		bool filter = true;
 		if (pParam) {
 			if (psr.firstName.w && pParam->pszFirstName)
-				filter = tlstrstr(psr.firstName.w, pParam->pszFirstName) && filter;
+				filter = wlstrstr(psr.firstName.w, pParam->pszFirstName) && filter;
 			if (psr.lastName.w && pParam->pszLastName)
-				filter = tlstrstr(psr.lastName.w, pParam->pszLastName) && filter;
+				filter = wlstrstr(psr.lastName.w, pParam->pszLastName) && filter;
 			if (psr.nick.w && pParam->pszNick)
-				filter = tlstrstr(psr.nick.w, pParam->pszNick) && filter;
+				filter = wlstrstr(psr.nick.w, pParam->pszNick) && filter;
 		}
 
 		if (filter)

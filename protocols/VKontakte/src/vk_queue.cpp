@@ -96,8 +96,8 @@ AsyncHttpRequest* CVkProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 	pReq->timeout = iTimeout;
 	if (pReq->m_bApiReq) {
 		pReq << VER_API;
-		if (!IsEmpty(m_vkOptions.ptszVKLang))
-			pReq << TCHAR_PARAM("lang", m_vkOptions.ptszVKLang);
+		if (!IsEmpty(m_vkOptions.pwszVKLang))
+			pReq << WCHAR_PARAM("lang", m_vkOptions.pwszVKLang);
 	}
 
 	{
@@ -203,9 +203,9 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const CHAR_PARAM &param)
 	return pReq;
 }
 
-AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const TCHAR_PARAM &param)
+AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const WCHAR_PARAM &param)
 {
-	T2Utf szValue(param.tszValue);
+	T2Utf szValue(param.wszValue);
 	CMStringA &s = pReq->m_szParam;
 	if (!s.IsEmpty())
 		s.AppendChar('&');

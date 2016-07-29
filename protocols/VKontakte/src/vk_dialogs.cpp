@@ -120,8 +120,8 @@ void CVkWallPostForm::OnInitDialog()
 {
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_WALL));
 	
-	CMString tszTitle(FORMAT, L"%s %s", TranslateT("Wall message for"), m_param->ptszNick);
-	SetCaption(tszTitle);
+	CMString wszTitle(FORMAT, L"%s %s", TranslateT("Wall message for"), m_param->pwszNick);
+	SetCaption(wszTitle);
 	
 	m_btnShare.Disable();
 }
@@ -133,8 +133,8 @@ void CVkWallPostForm::OnDestroy()
 
 void CVkWallPostForm::On_btnShare_Click(CCtrlButton*)
 {
-	m_param->ptszUrl = m_edtUrl.GetText();
-	m_param->ptszMsg = m_edtMsg.GetText();
+	m_param->pwszUrl = m_edtUrl.GetText();
+	m_param->pwszMsg = m_edtMsg.GetText();
 	m_param->bFriendsOnly = m_cbOnlyForFriends.GetState() != 0;
 
 	EndDialog(m_hwnd, 1);
@@ -160,8 +160,8 @@ void CVkInviteChatForm::OnInitDialog()
 {
 	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
 		if (!m_proto->isChatRoom(hContact)) {
-			wchar_t *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
-			m_cbxCombo.AddString(ptszNick, hContact);
+			wchar_t *pwszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+			m_cbxCombo.AddString(pwszNick, hContact);
 		}	
 	}
 }

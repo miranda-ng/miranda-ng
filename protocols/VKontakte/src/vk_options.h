@@ -30,8 +30,8 @@ class CVkAccMgrForm : public CVkDlgBase
 	CCtrlEdit m_edtPassword;
 	CCtrlHyperlink m_hlLink;
 	
-	pass_ptrT m_ptszOldPass;
-	ptrW m_ptszOldLogin;
+	pass_ptrW m_pwszOldPass;
+	ptrW m_pwszOldLogin;
 
 public:
 	CVkAccMgrForm(CVkProto *proto, HWND hwndParent);
@@ -54,9 +54,9 @@ class CVkOptionAccountForm : public CVkDlgBase
 	CCtrlCombo m_cbxSyncHistory;
 	CCtrlCombo m_cbxMarkAsRead;
 
-	pass_ptrT m_ptszOldPass;
-	ptrW m_ptszOldLogin;
-	ptrW m_ptszOldGroup;
+	pass_ptrW m_pwszOldPass;
+	ptrW m_pwszOldLogin;
+	ptrW m_pwszOldGroup;
 
 public:
 	CVkOptionAccountForm(CVkProto *proto);

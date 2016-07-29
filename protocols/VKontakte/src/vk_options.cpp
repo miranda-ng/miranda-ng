@@ -43,29 +43,29 @@ void CVkAccMgrForm::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	m_ptszOldLogin = m_edtLogin.GetText();
+	m_pwszOldLogin = m_edtLogin.GetText();
 	m_edtLogin.SendMsg(EM_LIMITTEXT, 1024, 0);
 
-	m_ptszOldPass = m_proto->GetUserStoredPassword();
-	m_edtPassword.SetText(m_ptszOldPass);
+	m_pwszOldPass = m_proto->GetUserStoredPassword();
+	m_edtPassword.SetText(m_pwszOldPass);
 	m_edtPassword.SendMsg(EM_LIMITTEXT, 1024, 0);
 }
 
 void CVkAccMgrForm::OnApply()
 {
-	pass_ptrT ptszNewPass(m_edtPassword.GetText());
-	bool bPassChanged = mir_wstrcmp(m_ptszOldPass, ptszNewPass) != 0;
+	pass_ptrW pwszNewPass(m_edtPassword.GetText());
+	bool bPassChanged = mir_wstrcmp(m_pwszOldPass, pwszNewPass) != 0;
 	if (bPassChanged) {
-		T2Utf szRawPasswd(ptszNewPass);
+		T2Utf szRawPasswd(pwszNewPass);
 		m_proto->setString("Password", szRawPasswd);
 		pass_ptrA pszPass(szRawPasswd.detach());
-		m_ptszOldPass = ptszNewPass;
+		m_pwszOldPass = pwszNewPass;
 	}
 
-	ptrW ptszNewLogin(m_edtLogin.GetText());
-	if (bPassChanged || mir_wstrcmpi(m_ptszOldLogin, ptszNewLogin))
+	ptrW pwszNewLogin(m_edtLogin.GetText());
+	if (bPassChanged || mir_wstrcmpi(m_pwszOldLogin, pwszNewLogin))
 		m_proto->ClearAccessToken();
-	m_ptszOldLogin = ptszNewLogin;
+	m_pwszOldLogin = pwszNewLogin;
 }
 
 ////////////////////// Options ///////////////////////////////////////////////
@@ -76,7 +76,7 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.pwszGroup = LPGENW("Network");
 
 	odp.pwszTab = LPGENW("Account");
@@ -151,7 +151,7 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 	m_cbxSyncHistory(this, IDC_COMBO_SYNCHISTORY)
 {
 	CreateLink(m_edtLogin, "Login", L"");
-	CreateLink(m_edtGroupName, m_proto->m_vkOptions.ptszDefaultGroup);
+	CreateLink(m_edtGroupName, m_proto->m_vkOptions.pwszDefaultGroup);
 	CreateLink(m_cbDelivery, m_proto->m_vkOptions.bServerDelivery);
 	CreateLink(m_cbUseLocalTime, m_proto->m_vkOptions.bUseLocalTime);
 	CreateLink(m_cbAutoClean, m_proto->m_vkOptions.bAutoClean);
@@ -159,14 +159,14 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto):
 
 void CVkOptionAccountForm::OnInitDialog()
 {
-	m_ptszOldLogin = m_edtLogin.GetText();
+	m_pwszOldLogin = m_edtLogin.GetText();
 	m_edtLogin.SendMsg(EM_LIMITTEXT, 1024, 0);
 
-	m_ptszOldPass = m_proto->GetUserStoredPassword();
-	m_edtPassword.SetText(m_ptszOldPass);
+	m_pwszOldPass = m_proto->GetUserStoredPassword();
+	m_edtPassword.SetText(m_pwszOldPass);
 	m_edtPassword.SendMsg(EM_LIMITTEXT, 1024, 0);
 
-	m_ptszOldGroup = m_edtGroupName.GetText();
+	m_pwszOldGroup = m_edtGroupName.GetText();
 
 	for (size_t i = 0; i < _countof(vkMarkMsgAsReadMethods); i++) {
 		int cur = m_cbxMarkAsRead.AddString(vkMarkMsgAsReadMethods[i].type, vkMarkMsgAsReadMethods[i].data);
@@ -182,7 +182,7 @@ void CVkOptionAccountForm::OnInitDialog()
 	
 	for (size_t i = 0; i < _countof(vkLangCodes); i++) {
 		int cur = m_cbxVKLang.AddString(TranslateTS(vkLangCodes[i].szDescription), (LPARAM)vkLangCodes[i].szCode);
-		if (!mir_wstrcmpi(vkLangCodes[i].szCode, m_proto->m_vkOptions.ptszVKLang))
+		if (!mir_wstrcmpi(vkLangCodes[i].szCode, m_proto->m_vkOptions.pwszVKLang))
 			m_cbxVKLang.SetCurSel(cur);
 	}
 	
@@ -192,27 +192,27 @@ void CVkOptionAccountForm::OnApply()
 {
 	m_proto->m_vkOptions.iSyncHistoryMetod = m_cbxSyncHistory.GetItemData(m_cbxSyncHistory.GetCurSel());
 	m_proto->m_vkOptions.iMarkMessageReadOn = m_cbxMarkAsRead.GetItemData(m_cbxMarkAsRead.GetCurSel());
-	m_proto->m_vkOptions.ptszVKLang = (wchar_t *)m_cbxVKLang.GetItemData(m_cbxVKLang.GetCurSel());
+	m_proto->m_vkOptions.pwszVKLang = (wchar_t *)m_cbxVKLang.GetItemData(m_cbxVKLang.GetCurSel());
 	
-	ptrW ptszGroupName(m_edtGroupName.GetText());
-	if (mir_wstrcmp(m_ptszOldGroup, ptszGroupName)) {
-		Clist_GroupCreate(NULL, ptszGroupName);
-		m_ptszOldGroup = ptszGroupName;
+	ptrW pwszGroupName(m_edtGroupName.GetText());
+	if (mir_wstrcmp(m_pwszOldGroup, pwszGroupName)) {
+		Clist_GroupCreate(NULL, pwszGroupName);
+		m_pwszOldGroup = pwszGroupName;
 	}
 
-	pass_ptrT ptszNewPass(m_edtPassword.GetText());
-	bool bPassChanged = mir_wstrcmp(m_ptszOldPass, ptszNewPass) != 0;
+	pass_ptrW pwszNewPass(m_edtPassword.GetText());
+	bool bPassChanged = mir_wstrcmp(m_pwszOldPass, pwszNewPass) != 0;
 	if (bPassChanged) {
-		T2Utf szRawPasswd(ptszNewPass);
+		T2Utf szRawPasswd(pwszNewPass);
 		m_proto->setString("Password", szRawPasswd);
 		pass_ptrA pszPass(szRawPasswd.detach());
-		m_ptszOldPass = ptszNewPass;
+		m_pwszOldPass = pwszNewPass;
 	}
 
-	ptrW ptszNewLogin(m_edtLogin.GetText());
-	if (bPassChanged || mir_wstrcmpi(m_ptszOldLogin, ptszNewLogin))
+	ptrW pwszNewLogin(m_edtLogin.GetText());
+	if (bPassChanged || mir_wstrcmpi(m_pwszOldLogin, pwszNewLogin))
 		m_proto->ClearAccessToken();
-	m_ptszOldLogin = ptszNewLogin;
+	m_pwszOldLogin = pwszNewLogin;
 	
 }
 
@@ -251,7 +251,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto):
 	CreateLink(m_cbClearServerHistory, m_proto->m_vkOptions.bClearServerHistory);
 	CreateLink(m_cbRemoveFromFrendlist, m_proto->m_vkOptions.bRemoveFromFrendlist);
 	CreateLink(m_cbRemoveFromCList, m_proto->m_vkOptions.bRemoveFromCList);
-	CreateLink(m_edtReturnChatMessage, m_proto->m_vkOptions.ptszReturnChatMessage);
+	CreateLink(m_edtReturnChatMessage, m_proto->m_vkOptions.pwszReturnChatMessage);
 
 	m_cbForceInvisibleStatus.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange);
 	m_cbSendVKLinksAsAttachments.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbSendVKLinksAsAttachmentsChange);

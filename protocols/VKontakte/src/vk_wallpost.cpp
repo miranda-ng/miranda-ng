@@ -21,19 +21,19 @@ INT_PTR __cdecl CVkProto::SvcWallPost(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcWallPost");
 
-	WALLPOST_FORM_PARAMS param(db_get_tsa(hContact, m_szModuleName, "Nick"));
+	WALLPOST_FORM_PARAMS param(db_get_wsa(hContact, m_szModuleName, "Nick"));
 	CVkWallPostForm dlg(this, &param);
 	if (!dlg.DoModal())
 		return 1;
 
-	WallPost((MCONTACT)hContact, param.ptszMsg, param.ptszUrl, param.bFriendsOnly);
+	WallPost((MCONTACT)hContact, param.pwszMsg, param.pwszUrl, param.bFriendsOnly);
 	return 0;
 }
 
-void CVkProto::WallPost(MCONTACT hContact, wchar_t *ptszMsg, wchar_t *ptszUrl, bool bFriendsOnly)
+void CVkProto::WallPost(MCONTACT hContact, wchar_t *pwszMsg, wchar_t *pwszUrl, bool bFriendsOnly)
 {
 	debugLogA("CVkProto::WallPost");
-	if (!IsOnline() || (IsEmpty(ptszMsg) && IsEmpty(ptszUrl)))
+	if (!IsOnline() || (IsEmpty(pwszMsg) && IsEmpty(pwszUrl)))
 		return;
 
 	LONG userID = hContact ? m_myUserId : getDword(hContact, "ID", -1);
@@ -44,11 +44,11 @@ void CVkProto::WallPost(MCONTACT hContact, wchar_t *ptszMsg, wchar_t *ptszUrl, b
 		<< INT_PARAM("owner_id", userID)
 		<< INT_PARAM("friends_only", bFriendsOnly ? 1 : 0);
 
-	if (!IsEmpty(ptszMsg))
-		pReq << TCHAR_PARAM("message", ptszMsg);
+	if (!IsEmpty(pwszMsg))
+		pReq << WCHAR_PARAM("message", pwszMsg);
 
-	if (!IsEmpty(ptszUrl))
-		pReq << TCHAR_PARAM("attachments", ptszUrl);
+	if (!IsEmpty(pwszUrl))
+		pReq << WCHAR_PARAM("attachments", pwszUrl);
 
 	Push(pReq);
 }
