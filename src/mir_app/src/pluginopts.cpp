@@ -32,7 +32,7 @@ extern MUUID miid_clist, miid_database, miid_protocol;
 HANDLE hevLoadModule, hevUnloadModule;
 
 static bool bOldMode = false;
-static CMString szFilter;
+static CMStringW szFilter;
 static UINT_PTR timerID;
 
 /////////////////////////////////////////////////////////////////////////////////////////

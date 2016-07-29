@@ -46,12 +46,12 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 
 		// A contact is renamed
 		if (!strcmp(cws->szSetting, "MyHandle")) {
-			ptrW oldName( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
+			ptrW oldName( db_get_wsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 			if (oldName == NULL)
 				return 0;
 
 			wchar_t nick[100];
-			ptrW oldnick( db_get_tsa(hContact, "CList", "MyHandle"));
+			ptrW oldnick( db_get_wsa(hContact, "CList", "MyHandle"));
 			if (oldnick != NULL)
 				wcsncpy_s(nick, oldnick, _TRUNCATE);
 			else
@@ -74,9 +74,9 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			}  
 
 			if ( wcschr(nick, '(') == 0) {
-				db_set_ts(hContact, MODULENAME, PRESERVE_NAME_KEY, nick);
-				db_set_ts(hContact, MODULENAME, "Nick", nick);
-				db_set_ts(hContact, "CList", "MyHandle", nick);
+				db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, nick);
+				db_set_ws(hContact, MODULENAME, "Nick", nick);
+				db_set_ws(hContact, "CList", "MyHandle", nick);
 			}
 
 			// TEST GET NAME FOR CACHE
@@ -99,7 +99,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 					fclose(pcachefile);
 					if (mir_wstrcmp(newcachepath, renamedcachepath)) {
 						MoveFile(newcachepath, renamedcachepath);
-						db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, renamedcachepath);
+						db_set_ws(hContact, MODULENAME, CACHE_FILE_KEY, renamedcachepath);
 					}
 				}
 			}
@@ -115,7 +115,7 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	if (mir_strcmp(GetContactProto(hContact), MODULENAME))
 		return 0;
 
-	ptrW contactName( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
+	ptrW contactName( db_get_wsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 
 	// TEST GET NAME FOR CACHE
 	wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
@@ -167,7 +167,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	ptrW url( db_get_tsa(wParam, MODULENAME, "URL"));
+	ptrW url( db_get_wsa(wParam, MODULENAME, "URL"));
 	if (url == NULL)
 		return 0;
 
@@ -353,7 +353,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	// search for existing contact
 	for (hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		// check ID to see if the contact already exist in the database
-		if (db_get_ts(hContact, MODULENAME, "URL", &dbv))
+		if (db_get_ws(hContact, MODULENAME, "URL", &dbv))
 			continue;
 		if (!mir_wstrcmpi(psr->nick.w, dbv.ptszVal)) {
 			// remove the flag for not on list and hidden, thus make the
@@ -405,7 +405,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	if (Nend) *Nend = '\0';
 
 	for (MCONTACT hContact2 = db_find_first(MODULENAME); hContact2 != NULL; hContact2 = db_find_next(hContact2, MODULENAME)) {
-		if (!db_get_ts(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if (!db_get_ws(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			if (!mir_wstrcmpi(Newnick, dbv.ptszVal)) {
 				// remove the flag for not on list and hidden, thus make the
 				// contact visible
@@ -431,13 +431,13 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	}
 	//end convert
 
-	db_set_ts(hContact, "CList", "MyHandle", Newnick);
-	db_set_ts(hContact, MODULENAME, PRESERVE_NAME_KEY, Newnick);
-	db_set_ts(hContact, MODULENAME, "Nick", Newnick);
+	db_set_ws(hContact, "CList", "MyHandle", Newnick);
+	db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, Newnick);
+	db_set_ws(hContact, MODULENAME, "Nick", Newnick);
 	db_set_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, 1);
 	db_set_s(hContact, MODULENAME, START_STRING_KEY, "");
-	db_set_ts(hContact, MODULENAME, URL_KEY, psr->nick.w);
-	db_set_ts(hContact, MODULENAME, "Homepage", psr->nick.w);
+	db_set_ws(hContact, MODULENAME, URL_KEY, psr->nick.w);
+	db_set_ws(hContact, MODULENAME, "Homepage", psr->nick.w);
 	db_set_b(hContact, MODULENAME, U_ALLSITE_KEY, 1);
 	db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 

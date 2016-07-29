@@ -23,7 +23,7 @@ INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARA
 
 		upto_each_(i, Column::countColInfo())
 		{
-			int nIndex = SendMessage(hWndList, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(TranslateTS(Column::getColInfo(i).m_Title)));
+			int nIndex = SendMessage(hWndList, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(TranslateW(Column::getColInfo(i).m_Title)));
 			SendMessage(hWndList, LB_SETITEMDATA, nIndex, i);
 		}
 
@@ -183,7 +183,7 @@ void DlgOption::SubColumns::onWMInitDialog()
 			(columnBand[i].bDropDown ? BandCtrl::BCF_DROPDOWN : 0) |
 			(columnBand[i].bDisabled ? BandCtrl::BCF_DISABLED : 0);
 
-		m_hActionButtons[i] = m_Band.addButton(dwFlags, hIcon, i, TranslateTS(columnBand[i].szTooltip));
+		m_hActionButtons[i] = m_Band.addButton(dwFlags, hIcon, i, TranslateW(columnBand[i].szTooltip));
 
 		DestroyIcon(hIcon);
 	}
@@ -313,7 +313,7 @@ void DlgOption::SubColumns::toggleInfo()
 	HWND hInfo = GetDlgItem(getHWnd(), IDC_INFO);
 	const wchar_t* szInfoLabelText = m_bShowInfo ? LPGENW("Hide additional column info...") : LPGENW("Show additional column info...");
 
-	SetDlgItemText(getHWnd(), IDC_INFOLABEL, TranslateTS(szInfoLabelText));
+	SetDlgItemText(getHWnd(), IDC_INFOLABEL, TranslateW(szInfoLabelText));
 	ShowWindow(hInfo, m_bShowInfo ? SW_SHOW : SW_HIDE);
 	EnableWindow(hInfo, BOOL_(m_bShowInfo));
 
@@ -327,7 +327,7 @@ void DlgOption::SubColumns::addCol(int nCol)
 
 		getParent()->getLocalSettings().addCol(pCol);
 
-		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, TranslateTS(pCol->getTitle()), 0, reinterpret_cast<INT_PTR>(pCol));
+		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, TranslateW(pCol->getTitle()), 0, reinterpret_cast<INT_PTR>(pCol));
 
 		m_Columns.checkItem(hColCheck, pCol->isEnabled());
 
@@ -541,7 +541,7 @@ void DlgOption::SubColumns::onBandDropDown(HANDLE hButton, INT_PTR dwData)
 
 		upto_each_(i, Column::countColInfo())
 		{
-			AppendMenu(hPopup, MF_STRING, i + 1, TranslateTS(Column::getColInfo(i).m_Title));
+			AppendMenu(hPopup, MF_STRING, i + 1, TranslateW(Column::getColInfo(i).m_Title));
 		}
 
 		int nCol = -1 + TrackPopupMenu(
@@ -674,7 +674,7 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 						if (pHelp) {
 							pHelp->push_back(HelpPair());
 
-							pHelp->back().first = TranslateTS(pCol->getTitle());
+							pHelp->back().first = TranslateW(pCol->getTitle());
 							pHelp->back().first += L": ";
 							pHelp->back().first += TranslateT("HTML output unsupported.");
 
@@ -694,7 +694,7 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 						if (pHelp) {
 							pHelp->push_back(HelpPair());
 
-							pHelp->back().first = TranslateTS(pCol->getTitle());
+							pHelp->back().first = TranslateW(pCol->getTitle());
 							pHelp->back().first += L": ";
 
 							if (nPNGMode == Settings::pmHTMLFallBack)

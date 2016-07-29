@@ -190,12 +190,12 @@ void LoadAlarms() {
 		memset(&alarm, 0, sizeof(ALARM));
 
 		mir_snprintf(buff, "Title%d", i);
-		if (!db_get_ts(0, MODULE, buff, &dbv)) {
+		if (!db_get_ws(0, MODULE, buff, &dbv)) {
 			alarm.szTitle = mir_wstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 		mir_snprintf(buff, "Desc%d", i);
-		if (!db_get_ts(0, MODULE, buff, &dbv)) {
+		if (!db_get_ws(0, MODULE, buff, &dbv)) {
 			alarm.szDesc = mir_wstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -244,11 +244,11 @@ void LoadAlarms() {
 			alarm.action = (unsigned short)db_get_dw(0, MODULE, buff, AAF_POPUP | AAF_SOUND);
 			if (alarm.action & AAF_COMMAND) {
 				mir_snprintf(buff, "ActionCommand%d", i);
-				if (!db_get_ts(0, MODULE, buff, &dbv)) {
+				if (!db_get_ws(0, MODULE, buff, &dbv)) {
 					alarm.szCommand = mir_wstrdup(dbv.ptszVal);
 					db_free(&dbv);
 					mir_snprintf(buff, "ActionParams%d", i);
-					if (!db_get_ts(0, MODULE, buff, &dbv)) {
+					if (!db_get_ws(0, MODULE, buff, &dbv)) {
 						alarm.szCommandParams = mir_wstrdup(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -289,9 +289,9 @@ void SaveAlarms() {
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next(), index++) {
 		mir_snprintf(buff, "Title%d", index);
-		db_set_ts(0, MODULE, buff, i->szTitle);
+		db_set_ws(0, MODULE, buff, i->szTitle);
 		mir_snprintf(buff, "Desc%d", index);
-		db_set_ts(0, MODULE, buff, i->szDesc);
+		db_set_ws(0, MODULE, buff, i->szDesc);
 		mir_snprintf(buff, "Occ%d", index);
 		db_set_w(0, MODULE, buff, i->occurrence);
 
@@ -328,10 +328,10 @@ void SaveAlarms() {
 		if (i->action & AAF_COMMAND) {
 			if (mir_wstrlen(i->szCommand)) {
 				mir_snprintf(buff, "ActionCommand%d", index);
-				db_set_ts(0, MODULE, buff, i->szCommand);
+				db_set_ws(0, MODULE, buff, i->szCommand);
 				if (mir_wstrlen(i->szCommandParams)) {
 					mir_snprintf(buff, "ActionParams%d", index);
-					db_set_ts(0, MODULE, buff, i->szCommandParams);
+					db_set_ws(0, MODULE, buff, i->szCommandParams);
 				}
 			}
 		}

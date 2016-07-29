@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType)
 {
 	wchar_t pszGroup[50]; *pszGroup = '\0';
-	ptrW groupName(db_get_tsa(NULL, CHAT_MODULE, "AddToGroup"));
+	ptrW groupName(db_get_wsa(NULL, CHAT_MODULE, "AddToGroup"));
 	if (groupName)
 		wcsncpy_s(pszGroup, groupName, _TRUNCATE);
 	else
@@ -43,13 +43,13 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	MCONTACT hContact = chatApi.FindRoom(pszModule, pszRoom);
 	if (hContact) { //contact exist, make sure it is in the right group
 		if (pszGroup[0]) {
-			ptrW grpName(db_get_tsa(hContact, "CList", "Group"));
+			ptrW grpName(db_get_wsa(hContact, "CList", "Group"));
 			if (!mir_wstrcmp(pszGroup, grpName))
-				db_set_ts(hContact, "CList", "Group", pszGroup);
+				db_set_ws(hContact, "CList", "Group", pszGroup);
 		}
 
 		db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
-		db_set_ts(hContact, pszModule, "Nick", pszDisplayName);
+		db_set_ws(hContact, pszModule, "Nick", pszDisplayName);
 		return hContact;
 	}
 
@@ -59,11 +59,11 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 
 	Proto_AddToContact(hContact, pszModule);
 	if (pszGroup[0])
-		db_set_ts(hContact, "CList", "Group", pszGroup);
+		db_set_ws(hContact, "CList", "Group", pszGroup);
 	else
 		db_unset(hContact, "CList", "Group");
-	db_set_ts(hContact, pszModule, "Nick", pszDisplayName);
-	db_set_ts(hContact, pszModule, "ChatRoomID", pszRoom);
+	db_set_ws(hContact, pszModule, "Nick", pszDisplayName);
+	db_set_ws(hContact, pszModule, "ChatRoomID", pszRoom);
 	db_set_b(hContact, pszModule, "ChatRoom", (BYTE)iType);
 	db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
 	return hContact;
@@ -110,7 +110,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
 		return 0;
 
-	ptrW roomid(db_get_tsa(hContact, szProto, "ChatRoomID"));
+	ptrW roomid(db_get_wsa(hContact, szProto, "ChatRoomID"));
 	if (roomid == NULL)
 		return 0;
 
@@ -216,7 +216,7 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* 
 	cle.flags = type | CLEF_TCHAR;
 	cle.hIcon = hIcon;
 	cle.pszService = "GChat/DblClickEvent" ;
-	cle.ptszTooltip = TranslateTS(szBuf);
+	cle.ptszTooltip = TranslateW(szBuf);
 	if (type) {
 		if (!cli.pfnGetEvent(hContact, 0))
 			cli.pfnAddEvent(&cle);
@@ -235,7 +235,7 @@ MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
 		if (!db_get_b(hContact, pszModule, "ChatRoom", 0))
 			continue;
 
-		ptrW roomid(db_get_tsa(hContact, pszModule, "ChatRoomID"));
+		ptrW roomid(db_get_wsa(hContact, pszModule, "ChatRoomID"));
 		if (roomid != NULL && !mir_wstrcmpi(roomid, pszRoom))
 			return hContact;
 	}

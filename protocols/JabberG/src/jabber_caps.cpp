@@ -268,7 +268,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const wchar_t *jid, BOOL app
 						m_clientCapsManager.SetClientCaps(r->m_tszCapsNode, token, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
 
 						m_ThreadInfo->send(
-							XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(L"node", CMString(FORMAT, L"%s#%s", r->m_tszCapsNode, token)));
+							XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(L"node", CMStringW(FORMAT, L"%s#%s", r->m_tszCapsNode, token)));
 
 						bRequestSent = TRUE;
 					}
@@ -558,12 +558,12 @@ JabberCapsBits CJabberClientCapsManager::GetClientCaps(wchar_t *szNode, wchar_t 
 	CJabberClientCaps *pClient = FindClient(szNode);
 	if (!pClient) {
 		lck.unlock();
-		ppro->debugLog(L"CAPS: get no caps for: %s, %s", szNode, szVer);
+		ppro->debugLogW(L"CAPS: get no caps for: %s, %s", szNode, szVer);
 		return JABBER_RESOURCE_CAPS_UNINIT;
 	}
 	JabberCapsBits jcbCaps = pClient->GetPartialCaps(szVer);
 	lck.unlock();
-	ppro->debugLog(L"CAPS: get caps %I64x for: %s, %s", jcbCaps, szNode, szVer);
+	ppro->debugLogW(L"CAPS: get caps %I64x for: %s, %s", jcbCaps, szNode, szVer);
 	return jcbCaps;
 }
 
@@ -581,7 +581,7 @@ BOOL CJabberClientCapsManager::SetClientCaps(const wchar_t *szNode, const wchar_
 	}
 	BOOL bOk = pClient->SetPartialCaps(szVer, jcbCaps, nIqId);
 	lck.unlock();
-	ppro->debugLog(L"CAPS: set caps %I64x for: %s, %s", jcbCaps, szNode, szVer);
+	ppro->debugLogW(L"CAPS: set caps %I64x for: %s, %s", jcbCaps, szNode, szVer);
 	return bOk;
 }
 

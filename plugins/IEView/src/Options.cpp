@@ -439,7 +439,7 @@ int IEViewOptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInstance;
 	odp.pwszGroup = LPGENW("Message sessions");
 	odp.pwszTitle = LPGENW("IEView");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(tabPages[0].dlgId);
 	odp.pfnDlgProc = tabPages[0].dlgProc;
 	odp.pwszTab = tabPages[0].tabName;
@@ -511,7 +511,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 		{
 			wchar_t* size[] = { L"320 x 205", L"480 x 385", L"560 x 349", L"640 x 390" };
 			for (int i = 0; i < _countof(size); ++i) {
-				int item = SendDlgItemMessage(hwndDlg, IDC_EMBED_SIZE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(size[i]));
+				int item = SendDlgItemMessage(hwndDlg, IDC_EMBED_SIZE, CB_ADDSTRING, 0, (LPARAM)TranslateW(size[i]));
 				SendDlgItemMessage(hwndDlg, IDC_EMBED_SIZE, CB_SETITEMDATA, item, 0);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_EMBED_SIZE, CB_SETCURSEL, Options::getEmbedsize(), 0);

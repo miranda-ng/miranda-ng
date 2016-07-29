@@ -219,7 +219,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-   odp.flags       = ODPF_BOLDGROUPS|ODPF_TCHAR;
+   odp.flags       = ODPF_BOLDGROUPS|ODPF_UNICODE;
    odp.position    = -790000000;
    odp.hInstance   = hInst;
    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);

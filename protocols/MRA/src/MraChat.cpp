@@ -45,7 +45,7 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 			GCDEST gcd = { m_szModuleName, wszEMail.c_str(), GC_EVENT_ADDGROUP };
 			GCEVENT gce = { sizeof(gce), &gcd };
 			for (int i = 0; i < _countof(lpwszStatuses); i++) {
-				gce.ptszStatus = TranslateTS(lpwszStatuses[i]);
+				gce.ptszStatus = TranslateW(lpwszStatuses[i]);
 				CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 			}
 

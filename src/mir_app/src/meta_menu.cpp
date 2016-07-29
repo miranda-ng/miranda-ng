@@ -49,7 +49,7 @@ static HGENMENU
 
 INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 {
-	ptrW tszGroup(db_get_tsa(wParam, "CList", "Group"));
+	ptrW tszGroup(db_get_wsa(wParam, "CList", "Group"));
 
 	// Create a new metacontact
 	MCONTACT hMetaContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
@@ -68,7 +68,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 	Proto_AddToContact(hMetaContact, META_PROTO);
 
 	if (tszGroup)
-		db_set_ts(hMetaContact, "CList", "Group", tszGroup);
+		db_set_ws(hMetaContact, "CList", "Group", tszGroup);
 
 	// Assign the contact to the MetaContact just created (and make default).
 	if (!Meta_Assign(wParam, hMetaContact, TRUE)) {
@@ -167,7 +167,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 			wcsncpy_s(ai.filename, L"X", _TRUNCATE);
 
 			if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
-				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", ai.filename);
+				db_set_ws(ccMeta->contactID, "ContactPhoto", "File", ai.filename);
 		}
 	}
 }
@@ -207,7 +207,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 			return 2;
 
 		if (cc->nSubs == 1) {
-			if (IDYES == MessageBox(0, TranslateTS(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
+			if (IDYES == MessageBox(0, TranslateW(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
 				Meta_Delete(cc->contactID, 1);
 
 			return 0;
@@ -266,7 +266,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 		Menu_ModifyItem(hMenuDelete, LPGENW("Remove from metacontact"));
 
 		// show subcontact menu items
-		CMString tszNick;
+		CMStringW tszNick;
 		for (int i = 0; i < MAX_CONTACTS; i++) {
 			if (i >= cc->nSubs) {
 				Menu_ShowItem(hMenuContact[i], false);

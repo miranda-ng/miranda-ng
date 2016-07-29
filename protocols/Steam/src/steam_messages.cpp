@@ -39,7 +39,7 @@ void CSteamProto::OnMessageSent(const HttpResponse *response, void *arg)
 	SendMessageParam *param = (SendMessageParam*)arg;
 
 	ptrW error(mir_wstrdup(TranslateT("Unknown error")));
-	ptrW steamId(getTStringA(param->hContact, "SteamID"));
+	ptrW steamId(getWStringA(param->hContact, "SteamID"));
 	time_t timestamp = NULL;
 
 	if (ResponseHttpOk(response))

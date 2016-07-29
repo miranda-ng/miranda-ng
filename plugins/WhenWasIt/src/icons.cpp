@@ -32,7 +32,7 @@ HANDLE hWWIExtraIcons = (HANDLE)-1;
 static HANDLE AddIcon(char *name, char *description, wchar_t *tszPath, int iDefaultIdx)
 {
 	SKINICONDESC sid = { 0 };
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_PATH_UNICODE;
 	sid.section.a = LPGEN("WhenWasIt");
 	sid.description.a = description;
 	sid.pszName = name;

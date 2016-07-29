@@ -167,36 +167,36 @@ void InitMirOTRMenu(void)
 
 	// menu items
 	CMenuItem mi;
-	mi.flags = CMIF_DISABLED | CMIF_TCHAR;
+	mi.flags = CMIF_DISABLED | CMIF_UNICODE;
 	mi.name.w = LPGENW("OTR Status");
 	mi.position = 0;
 	hStatusInfoItem = AddMirOTRMenuItem(&mi, NULL);
 
-	mi.flags = CMIF_TCHAR | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
+	mi.flags = CMIF_UNICODE | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
 	mi.name.w = LANG_MENU_START;
 	mi.position = 100001;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_UNVERIFIED);
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUSTART);
 
-	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
+	mi.flags = CMIF_UNICODE | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
 	mi.name.w = LANG_MENU_REFRESH;
 	mi.position = 100002;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_FINISHED);
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUREFRESH);
 
-	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE;
+	mi.flags = CMIF_UNICODE | CMIF_NOTNOTPRIVATE;
 	mi.name.w = LANG_MENU_STOP;
 	mi.position = 100003;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUSTOP);
 
-	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
+	mi.flags = CMIF_UNICODE | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
 	mi.name.w = LANG_MENU_VERIFY;
 	mi.position = 200001;
 	mi.hIcolibItem = IcoLib_GetIconHandle(ICON_PRIVATE);
 	AddMirOTRMenuItem(&mi, MS_OTR_MENUVERIFY);
 
-	mi.flags = CMIF_TCHAR | CMIF_CHECKED;
+	mi.flags = CMIF_UNICODE | CMIF_CHECKED;
 	mi.name.w = LANG_MENU_TOGGLEHTML;
 	mi.position = 300001;
 	mi.hIcolibItem = 0;

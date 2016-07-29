@@ -500,7 +500,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 				wchar_t* ptszFileName = mir_utf8decodeW(pszFileName);
 
 				PROTORECVFILET pre = { 0 };
-				pre.dwFlags = PRFF_TCHAR;
+				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
 				pre.descr.w = mir_utf8decodeW(pszDescription);

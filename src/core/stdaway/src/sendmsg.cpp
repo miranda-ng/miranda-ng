@@ -89,11 +89,11 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 
 	DBVARIANT dbv;
 	if ( GetStatusModeByte(statusMode, "UsePrev")) {
-		if ( db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Msg"), &dbv))
+		if ( db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Msg"), &dbv))
 			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 	}
 	else {
-		if ( db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Default"), &dbv))
+		if ( db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Default"), &dbv))
 			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 
 		for (int i=0; dbv.ptszVal[i]; i++) {
@@ -272,7 +272,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				wchar_t str[1024];
 				GetDlgItemText(hwndDlg, IDC_MSG, str, _countof(str));
 				ChangeAllProtoMessages(dat->szProto, dat->statusMode, str);
-				db_set_ts(NULL, "SRAway", StatusModeToDbSetting(dat->statusMode, "Msg"), str);
+				db_set_ws(NULL, "SRAway", StatusModeToDbSetting(dat->statusMode, "Msg"), str);
 				DestroyWindow(hwndDlg);
 			}
 			else PostMessage(hwndDlg, WM_CLOSE, 0, 0);
@@ -395,8 +395,8 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				dat->info[j].usePrevious = GetStatusModeByte(statusModes[i], "UsePrev");
 
 				DBVARIANT dbv;
-				if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Default"), &dbv))
-					if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Msg"), &dbv))
+				if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Default"), &dbv))
+					if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Msg"), &dbv))
 						dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusModes[i]));
 				mir_wstrcpy(dat->info[j].msg, dbv.ptszVal);
 				mir_free(dbv.ptszVal);
@@ -501,7 +501,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 						SetStatusModeByte(status, "Ignore", (BYTE)dat->info[i].ignore);
 						SetStatusModeByte(status, "NoDlg", (BYTE)dat->info[i].noDialog);
 						SetStatusModeByte(status, "UsePrev", (BYTE)dat->info[i].usePrevious);
-						db_set_ts(NULL, "SRAway", StatusModeToDbSetting(status, "Default"), dat->info[i].msg);
+						db_set_ws(NULL, "SRAway", StatusModeToDbSetting(status, "Default"), dat->info[i].msg);
 					}
 					return TRUE;
 				}

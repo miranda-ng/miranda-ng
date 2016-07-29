@@ -977,7 +977,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		case ACT_DEF_COPY:
 			if (m_lptzText || m_lptzTitle) {
-				CMString tszText(FORMAT, L"%s\n\n%s",
+				CMStringW tszText(FORMAT, L"%s\n\n%s",
 					(m_lptzTitle) ? m_lptzTitle : L"",
 					(m_lptzText) ? m_lptzText : L"");
 

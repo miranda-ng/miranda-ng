@@ -490,7 +490,7 @@ static int ProfileList_AddItemlistFromDB(
 		mir_snprintf(pszSetting, szValFormat, i);
 		if (DB::Setting::GetTString(hContact, pszModule, pszSetting, &dbvVal))
 			break;
-		if (dbvVal.type != DBVT_TCHAR)
+		if (dbvVal.type != DBVT_WCHAR)
 			continue;
 		mir_snprintf(pszSetting, szCatFormat, i);
 		DB::Setting::GetAString(hContact, pszModule, pszSetting, &dbvCat);
@@ -1219,13 +1219,13 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 									continue;
 								if (!(pItem->wFlags & (CTRLF_HASPROTO|CTRLF_HASMETA))) {
 									mir_snprintf(pszSetting, pFmt[iFmt].szValFmt, iItem);
-									db_set_ts(hContact, pszModule, pszSetting, pItem->pszText[1]);
+									db_set_ws(hContact, pszModule, pszSetting, pItem->pszText[1]);
 									// save category
 									mir_snprintf(pszSetting, pFmt[iFmt].szCatFmt, iItem);
 									if (pItem->idstrList && pItem->iListItem > 0 && pItem->iListItem < pItem->idstrListCount)
 										db_set_s(hContact, pszModule, pszSetting, (LPSTR)pItem->idstrList[pItem->iListItem].pszText);
 									else if (pItem->pszText[0] && *pItem->pszText[0])
-										db_set_ts(hContact, pszModule, pszSetting, (LPTSTR)pItem->pszText[0]);
+										db_set_ws(hContact, pszModule, pszSetting, (LPTSTR)pItem->pszText[0]);
 									else
 										db_unset(hContact, pszModule, pszSetting);
 									// redraw the item if required
@@ -1339,7 +1339,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 							SetTextColor(cd->nmcd.hdc, GetSysColor(COLOR_3DSHADOW));
 							ProfileList_GetItemText(cd->nmcd.hdr.hwndFrom, cd->nmcd.dwItemSpec, 0, szText, MAX_PATH);
 							rc.left += 6;
-							DrawText(cd->nmcd.hdc, TranslateTS(szText), -1, &rc, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+							DrawText(cd->nmcd.hdc, TranslateW(szText), -1, &rc, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 
 							rc.bottom -= 2;
 							rc.top = rc.bottom - 1;

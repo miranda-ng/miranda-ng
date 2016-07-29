@@ -100,7 +100,7 @@ static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 		if (!db_event_get(hDbEvent, &dbe))
 			if (dbe.eventType == EVENTTYPE_MESSAGE && !(dbe.flags & DBEF_SENT)) {
 				DBVARIANT dbv;
-				if (!db_get_ts(NULL, "AutoShutdown", "Message", &dbv)) {
+				if (!db_get_ws(NULL, "AutoShutdown", "Message", &dbv)) {
 					TrimString(dbv.ptszVal);
 					wchar_t *pszMsg = GetMessageText(&dbe.pBlob, &dbe.cbBlob);
 					if (pszMsg != NULL && wcsstr(pszMsg, dbv.ptszVal) != NULL)

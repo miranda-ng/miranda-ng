@@ -240,7 +240,7 @@ void CJabberDlgNoteItem::OnInitDialog()
 	Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_NOTES));
 
 	if (m_fnProcess) {
-		CMString buf;
+		CMStringW buf;
 		if (m_fnProcess == &CJabberProto::ProcessIncomingNote)
 			buf.Format(TranslateT("Incoming note from %s"), m_pNote->GetFrom());
 		else
@@ -815,7 +815,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleNotes(WPARAM, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuSendNote(WPARAM wParam, LPARAM)
 {
 	if (wParam) {
-		CNoteItem *pItem = new CNoteItem(NULL, ptrW(getTStringA(wParam, "jid")));
+		CNoteItem *pItem = new CNoteItem(NULL, ptrW(getWStringA(wParam, "jid")));
 		CJabberDlgBase *pDlg = new CJabberDlgNoteItem(this, pItem, &CJabberProto::ProcessOutgoingNote);
 		pDlg->Show();
 	}

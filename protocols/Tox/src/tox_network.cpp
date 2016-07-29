@@ -66,7 +66,7 @@ void CToxProto::BootstrapNodesFromJson(CToxThread *toxThread, bool isUdp, bool i
 {
 	ptrA json;
 
-	VARST path(_A2W(TOX_JSON_PATH));
+	VARSW path(_A2W(TOX_JSON_PATH));
 
 	if (!IsFileExists(path))
 		UpdateNodes();
@@ -157,7 +157,7 @@ void CToxProto::UpdateNodes()
 	if (lastUpdate <= getDword("NodesUpdate", 0))
 		return;
 
-	ptrW path(mir_wstrdup((wchar_t*)VARST(_A2W(TOX_JSON_PATH))));
+	ptrW path(mir_wstrdup((wchar_t*)VARSW(_A2W(TOX_JSON_PATH))));
 	if (!IsFileExists(path))
 	{
 		HANDLE hProfile = CreateFile(path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);

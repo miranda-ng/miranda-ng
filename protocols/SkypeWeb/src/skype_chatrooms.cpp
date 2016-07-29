@@ -116,7 +116,7 @@ void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 		if (!conversation["lastMessage"])
 			continue;
 
-		CMString topic(threadProperties["topic"].as_mstring());
+		CMStringW topic(threadProperties["topic"].as_mstring());
 		SendRequest(new GetChatInfoRequest(id.as_string().c_str(), li), &CSkypeProto::OnGetChatInfo, topic.Detach());
 	}
 }
@@ -153,10 +153,10 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			hContact = AddContact(_T2A(gch->ptszUID), true);
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
 			db_set_b(hContact, "CList", "Hidden", 1);
-			setTString(hContact, "Nick", gch->ptszUID);
+			setWString(hContact, "Nick", gch->ptszUID);
 			db_set_dw(hContact, "Ignore", "Mask1", 0);
 		}
-		CallService(MS_MSG_SENDMESSAGET, hContact, 0);
+		CallService(MS_MSG_SENDMESSAGEW, hContact, 0);
 		break;
 	}
 
@@ -184,7 +184,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			OnLeaveChatRoom(FindChatRoom(chat_id), NULL);
 			break;
 		case 30:
-			CMString newTopic = ChangeTopicForm();
+			CMStringW newTopic = ChangeTopicForm();
 			if (!newTopic.IsEmpty())
 				SendRequest(new SetChatPropertiesRequest(chat_id, "topic", T2Utf(newTopic.GetBuffer()), li));
 			break;
@@ -232,7 +232,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			gce.time = time(NULL);
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
-			db_set_ts(FindChatRoom(chat_id), "UsersNicks", _T2A(gch->ptszUID), pForm.ptszResult);
+			db_set_ws(FindChatRoom(chat_id), "UsersNicks", _T2A(gch->ptszUID), pForm.ptszResult);
 
 			break;
 
@@ -248,8 +248,8 @@ INT_PTR CSkypeProto::OnJoinChatRoom(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 	{
-		ptrW idT(getTStringA(hContact, "ChatRoomID"));
-		ptrW nameT(getTStringA(hContact, "Nick"));
+		ptrW idT(getWStringA(hContact, "ChatRoomID"));
+		ptrW nameT(getWStringA(hContact, "Nick"));
 		StartChatRoom(idT, nameT != NULL ? nameT : idT);
 	}
 	return 0;
@@ -261,7 +261,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 		return 1;
 	if (hContact && IDYES == MessageBox(NULL, TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
 	{
-		ptrW idT(getTStringA(hContact, "ChatRoomID"));
+		ptrW idT(getWStringA(hContact, "ChatRoomID"));
 
 		GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
 		gcd.ptszID = idT;
@@ -287,7 +287,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	CMStringA szConversationName(UrlToSkypename(node["conversationLink"].as_string().c_str()));
 	CMStringA szFromSkypename(UrlToSkypename(node["from"].as_string().c_str()));
 
-	CMString szTopic(node["threadtopic"].as_mstring());
+	CMStringW szTopic(node["threadtopic"].as_mstring());
 
 	time_t timestamp = IsoToUnixTime(node["composetime"].as_string().c_str());
 
@@ -448,7 +448,7 @@ void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, 
 	gce.time = timestamp;
 	gce.ptszUID = from;
 
-	CMString tszText(ptrW(mir_utf8decodeW(content)));
+	CMStringW tszText(ptrW(mir_utf8decodeW(content)));
 	tszText.Replace(L"%", L"%%");
 
 	if (!isAction)
@@ -542,7 +542,7 @@ void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const 
 		return;
 
 	ptrW tnick(mir_a2u_cp(name, CP_UTF8));
-	if (wchar_t *tmp = db_get_tsa(FindChatRoom(_T2A(tchat_id)), "UsersNicks", id))
+	if (wchar_t *tmp = db_get_wsa(FindChatRoom(_T2A(tchat_id)), "UsersNicks", id))
 		tnick = tmp;
 
 	ptrW tid(mir_a2u(id));
@@ -555,7 +555,7 @@ void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const 
 	gce.ptszUID = tid;
 	gce.time = !isChange ? time(NULL) : NULL;
 	gce.bIsMe = IsMe(id);
-	gce.ptszStatus = TranslateTS(role);
+	gce.ptszStatus = TranslateW(role);
 
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
@@ -653,13 +653,13 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-CMString CSkypeProto::ChangeTopicForm()
+CMStringW CSkypeProto::ChangeTopicForm()
 {
-	CMString caption(FORMAT, L"[%s] %s", _A2T(m_szModuleName), TranslateT("Enter new chatroom topic"));
+	CMStringW caption(FORMAT, L"[%s] %s", _A2T(m_szModuleName), TranslateT("Enter new chatroom topic"));
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_MULTILINE;
 	pForm.caption = caption;
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
-	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
+	return (!EnterString(&pForm)) ? CMStringW() : CMStringW(ptrW(pForm.ptszResult));
 }

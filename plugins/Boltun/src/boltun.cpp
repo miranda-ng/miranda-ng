@@ -218,7 +218,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		return 0;
 	DBEVENTGETTEXT egt;
 	egt.codepage = CP_ACP;
-	egt.datatype = DBVT_TCHAR;
+	egt.datatype = DBVT_WCHAR;
 	egt.dbei = &dbei;
 	wchar_t* s = (wchar_t*)(void*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&egt);
 	free(dbei.pBlob);
@@ -312,7 +312,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					if (bTranslated)
 						Config.WarnText = c;
 					else
-						Config.WarnText = TranslateTS(DEFAULT_WARN_TEXT);
+						Config.WarnText = TranslateW(DEFAULT_WARN_TEXT);
 				}
 				return TRUE;
 			}
@@ -369,9 +369,9 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = GetParent(hwndDlg);
 
-				wchar_t *mind = TranslateTS(MIND_FILE_DESC);
-				wchar_t *anyfile = TranslateTS(ALL_FILES_DESC);
-				CMString filt(FORMAT, MIND_DIALOG_FILTER, mind, anyfile);
+				wchar_t *mind = TranslateW(MIND_FILE_DESC);
+				wchar_t *anyfile = TranslateW(ALL_FILES_DESC);
+				CMStringW filt(FORMAT, MIND_DIALOG_FILTER, mind, anyfile);
 				filt.Replace('\1', '\0');
 
 				ofn.lpstrFilter = filt;
@@ -407,8 +407,8 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				bTranslated = blInit = LoadMind(c, line);
 				if (!bTranslated) {
 					wchar_t message[5000];
-					mir_snwprintf(message, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
-					MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
+					mir_snwprintf(message, TranslateW(FAILED_TO_LOAD_BASE), line, c);
+					MessageBox(NULL, message, TranslateW(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 				}
 			}
 			break;
@@ -575,8 +575,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	blInit = LoadMind(Config.MindFileName, line);
 	if (!blInit) {
 		wchar_t path[2000];
-		mir_snwprintf(path, TranslateTS(FAILED_TO_LOAD_BASE), line, (const wchar_t*)Config.MindFileName);
-		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
+		mir_snwprintf(path, TranslateW(FAILED_TO_LOAD_BASE), line, (const wchar_t*)Config.MindFileName);
+		MessageBox(NULL, path, TranslateW(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 	}
 	return 0;
 }
@@ -593,8 +593,8 @@ extern "C" int __declspec(dllexport) Unload(void)
 			//So in case of saving error we will remain silent
 			#if 0
 			wchar_t path[MAX_PATH];
-			mir_snwprintf(path, TranslateTS(FAILED_TO_SAVE_BASE), (const wchar_t*)Config.MindFileName);
-			wchar_t* err = TranslateTS(BOLTUN_ERROR);
+			mir_snwprintf(path, TranslateW(FAILED_TO_SAVE_BASE), (const wchar_t*)Config.MindFileName);
+			wchar_t* err = TranslateW(BOLTUN_ERROR);
 			MessageBox(NULL, path, err, MB_ICONERROR | MB_TASKMODAL | MB_OK); */
 				#endif
 		}

@@ -26,12 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // a font identifier structure - used for registering a font, and getting one out again
 
-struct FontInternal : public FontIDT
+struct FontInternal : public FontIDW
 {
-	FontSettingsT value;
+	FontSettingsW value;
 	int hLangpack;
 
-	__inline wchar_t* getName() const { return TranslateTH(hLangpack, name); }
+	__inline wchar_t* getName() const { return TranslateW_LP(name, hLangpack); }
 
 	__inline bool isHeader() const
 	{
@@ -45,17 +45,17 @@ struct FontInternal : public FontIDT
 	}
 };
 
-struct ColourInternal : public ColourIDT
+struct ColourInternal : public ColourIDW
 {
-	__inline wchar_t* getName() const { return TranslateTH(hLangpack, name); }
+	__inline wchar_t* getName() const { return TranslateW_LP(name, hLangpack); }
 
 	COLORREF value;
 	int hLangpack;
 };
 
-struct EffectInternal : public EffectIDT
+struct EffectInternal : public EffectIDW
 {
-	__inline wchar_t* getName() const { return TranslateTH(hLangpack, name); }
+	__inline wchar_t* getName() const { return TranslateW_LP(name, hLangpack); }
 
 	int hLangpack;
 };
@@ -77,4 +77,4 @@ extern OBJLIST<EffectInternal> effect_id_list;
 extern int code_page;
 extern HANDLE hFontReloadEvent, hColourReloadEvent;
 
-int  CreateFromFontSettings(FontSettingsT *fs, LOGFONT *lf);
+int  CreateFromFontSettings(FontSettingsW *fs, LOGFONT *lf);

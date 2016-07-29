@@ -113,7 +113,7 @@ void CContactSettings::SetMsgFormat(int Flags, TCString Message)
 			ResetContactSettingsOnStatusChange(m_hContact);
 
 		if (Message != NULL)
-			db_set_ts(m_hContact, MOD_NAME, DBSetting, Message);
+			db_set_ws(m_hContact, MOD_NAME, DBSetting, Message);
 		else
 			db_unset(m_hContact, MOD_NAME, DBSetting);
 	}
@@ -167,10 +167,10 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 		g_ProtoStates[szProto].TempMsg.Unset();
 		CString DBSetting(ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS));
 		if (Message != NULL)
-			db_set_ts(NULL, MOD_NAME, DBSetting, Message);
+			db_set_ws(NULL, MOD_NAME, DBSetting, Message);
 		else {
 			if (!szProto)
-				db_set_ts(NULL, MOD_NAME, DBSetting, CProtoSettings(NULL, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
+				db_set_ws(NULL, MOD_NAME, DBSetting, CProtoSettings(NULL, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
 			else
 				db_unset(NULL, MOD_NAME, DBSetting);
 		}

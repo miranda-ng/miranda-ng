@@ -126,7 +126,7 @@ static wchar_t* parseDBProfileName(ARGUMENTSINFO *ai)
 		return NULL;
 
 	wchar_t name[MAX_PATH];
-	if (CallService(MS_DB_GETPROFILENAMET, _countof(name), (LPARAM)name))
+	if (CallService(MS_DB_GETPROFILENAMEW, _countof(name), (LPARAM)name))
 		return NULL;
 
 	return mir_wstrdup(name);
@@ -138,7 +138,7 @@ static wchar_t* parseDBProfilePath(ARGUMENTSINFO *ai)
 		return NULL;
 
 	wchar_t path[MAX_PATH];
-	if (CallService(MS_DB_GETPROFILEPATHT, _countof(path), (LPARAM)path))
+	if (CallService(MS_DB_GETPROFILEPATHW, _countof(path), (LPARAM)path))
 		return NULL;
 
 	return mir_wstrdup(path);
@@ -395,7 +395,7 @@ static wchar_t* parseSpecialContact(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL)
 		return NULL;
 
-	return CMString(FORMAT, L"<%S:%s>", szProto, szUniqueID).Detach();
+	return CMStringW(FORMAT, L"<%S:%s>", szProto, szUniqueID).Detach();
 }
 
 static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
@@ -579,7 +579,7 @@ static wchar_t* parseDbEvent(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	wchar_t *res = DbGetEventTextT(&dbe, CP_ACP);
+	wchar_t *res = DbGetEventTextW(&dbe, CP_ACP);
 	mir_free(dbe.pBlob);
 	return res;
 }
@@ -589,7 +589,7 @@ static wchar_t* parseTranslate(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	wchar_t *res = TranslateTS(ai->targv[1]);
+	wchar_t *res = TranslateW(ai->targv[1]);
 	return (res == NULL) ? NULL : mir_wstrdup(res);
 }
 

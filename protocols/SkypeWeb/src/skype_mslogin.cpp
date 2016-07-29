@@ -174,13 +174,13 @@ void CSkypeProto::OnMSLoginEnd(const NETLIBHTTPREQUEST *response)
 	OnLoginSuccess();
 }
 
-CMString CSkypeProto::RunConfirmationCode()
+CMStringW CSkypeProto::RunConfirmationCode()
 {
-	CMString caption(FORMAT, L"[%s] %s", _A2T(m_szModuleName), TranslateT("Enter confirmation code"));
+	CMStringW caption(FORMAT, L"[%s] %s", _A2T(m_szModuleName), TranslateT("Enter confirmation code"));
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_PASSWORD;
 	pForm.caption = caption;
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
-	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
+	return (!EnterString(&pForm)) ? CMStringW() : CMStringW(ptrW(pForm.ptszResult));
 }

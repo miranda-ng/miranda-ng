@@ -505,7 +505,7 @@ void __stdcall ShowMessageWindow(void* arg)
 	if (dt->m_str.empty())
 		CallService(MS_MSG_SENDMESSAGE, dt->m_hContact, 0);
 	else
-		CallService(MS_MSG_SENDMESSAGET, dt->m_hContact, (LPARAM)dt->m_str.c_str());
+		CallService(MS_MSG_SENDMESSAGEW, dt->m_hContact, (LPARAM)dt->m_str.c_str());
 	delete dt;
 }
 
@@ -566,14 +566,14 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			if (HIWORD(wParam) == BN_CLICKED) {
 				if (Button_GetCheck(GetDlgItem(hwndDlg, IDC_SHOWHIDE)) & BST_CHECKED) {
 					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)historyWindow->minusIco);
-					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide Contacts"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide Contacts"), BATF_UNICODE);
 					historyWindow->isContactList = true;
 					ShowWindow(GetDlgItem(hwndDlg, IDC_LIST_CONTACTS), SW_SHOW);
 					ShowWindow(historyWindow->splitterYhWnd, SW_SHOW);
 				}
 				else {
 					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)historyWindow->plusIco);
-					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show Contacts"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show Contacts"), BATF_UNICODE);
 					historyWindow->isContactList = false;
 					ShowWindow(GetDlgItem(hwndDlg, IDC_LIST_CONTACTS), SW_HIDE);
 					ShowWindow(historyWindow->splitterYhWnd, SW_HIDE);
@@ -988,13 +988,13 @@ void HistoryWindow::Initialise()
 	SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONSETASFLATBTN, TRUE, 0);
 	if (m_hContact == NULL || Options::instance->showContacts) {
 		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)minusIco);
-		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide Contacts"), BATF_TCHAR);
+		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide Contacts"), BATF_UNICODE);
 		Button_SetCheck(GetDlgItem(m_hWnd, IDC_SHOWHIDE), BST_CHECKED);
 		isContactList = true;
 	}
 	else {
 		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)plusIco);
-		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show Contacts"), BATF_TCHAR);
+		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show Contacts"), BATF_UNICODE);
 		Button_SetCheck(GetDlgItem(m_hWnd, IDC_SHOWHIDE), BST_UNCHECKED);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LIST_CONTACTS), SW_HIDE);
 		ShowWindow(splitterYhWnd, SW_HIDE);

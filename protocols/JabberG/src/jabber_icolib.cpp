@@ -124,7 +124,7 @@ void CIconPool::RegisterIcon(const char *name, wchar_t *filename, int iconid, wc
 	sid.pszName = szSettingName;
 	sid.section.w = szSection;
 	sid.description.w = szDescription;
-	sid.flags = SIDF_ALL_TCHAR;
+	sid.flags = SIDF_ALL_UNICODE;
 	sid.iDefaultIndex = iconid;
 	item->m_hIcolibItem = IcoLib_AddIcon(&sid);
 
@@ -292,7 +292,7 @@ static HICON LoadTransportIcon(char *filename, int i, char *IconName, wchar_t *S
 		sid.description.w = Description;
 		sid.defaultFile.a = szMyPath;
 		sid.iDefaultIndex = i;
-		sid.flags = SIDF_TCHAR;
+		sid.flags = SIDF_UNICODE;
 		IcoLib_AddIcon(&sid);
 	}
 	return IcoLib_GetIcon(IconName);
@@ -389,7 +389,7 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
 	if (!getByte(hContact, "IsTransported", 0))
 		return -1;
 
-	int iID = GetTransportProtoID(ptrW(getTStringA(hContact, "Transport")));
+	int iID = GetTransportProtoID(ptrW(getWStringA(hContact, "Transport")));
 	if (iID < 0)
 		return -1;
 
@@ -436,7 +436,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hCon
 	}
 
 	if (isTransported) {
-		setTString(hContact, "Transport", domain);
+		setWString(hContact, "Transport", domain);
 		setByte(hContact, "IsTransported", 1);
 	}
 	return isTransported;
@@ -445,7 +445,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hCon
 void CJabberProto::CheckAllContactsAreTransported()
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		ptrW jid(getTStringA(hContact, "jid"));
+		ptrW jid(getWStringA(hContact, "jid"));
 		if (jid)
 			DBCheckIsTransportedContact(jid, hContact);
 	}

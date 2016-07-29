@@ -1819,7 +1819,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASFLATBTN, FALSE, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Expand or collapse the side bar"), BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Expand or collapse the side bar"), BATF_UNICODE);
 
 			DM_InitTip(dat);
 			BB_InitDlgButtons(dat);
@@ -2564,14 +2564,14 @@ LABEL_SHOWWINDOW:
 
 					case ID_SEARCH_GOOGLE:
 						if (pszWord[0])
-							Utils_OpenUrlT(CMString(FORMAT, L"http://www.google.com/search?q=%s", pszWord));
+							Utils_OpenUrlT(CMStringW(FORMAT, L"http://www.google.com/search?q=%s", pszWord));
 
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						break;
 
 					case ID_SEARCH_WIKIPEDIA:
 						if (pszWord[0])
-							Utils_OpenUrlT(CMString(FORMAT, L"http://en.wikipedia.org/wiki/%s", pszWord));
+							Utils_OpenUrlT(CMStringW(FORMAT, L"http://en.wikipedia.org/wiki/%s", pszWord));
 
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						break;
@@ -2789,7 +2789,7 @@ LABEL_SHOWWINDOW:
 					if (g_Settings.bDoubleClick4Privat ? GetKeyState(VK_SHIFT) & 0x8000 : !(GetKeyState(VK_SHIFT) & 0x8000)) {
 						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
-						CMString tszName;
+						CMStringW tszName;
 						if (start == 0)
 							tszName.Format(L"%s: ", ui->pszNick);
 						else
@@ -2824,7 +2824,7 @@ LABEL_SHOWWINDOW:
 				ptrA pszRtf(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)));
 				pci->SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
 
-				CMString ptszText(ptrW(mir_utf8decodeW(pszRtf)));
+				CMStringW ptszText(ptrW(mir_utf8decodeW(pszRtf)));
 				if (ptszText.IsEmpty())
 					break;
 
@@ -3169,7 +3169,7 @@ LABEL_SHOWWINDOW:
 				char *szKey = "TAB_ContainersW";
 				mir_snprintf(szIndex, "%d", iSelection - IDM_CONTAINERMENU);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
-					if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
+					if (!db_get_ws(NULL, szKey, szIndex, &dbv)) {
 						SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -3212,7 +3212,7 @@ LABEL_SHOWWINDOW:
 			if (pNewContainer == NULL)
 				if ((pNewContainer = CreateContainer(szNewName, FALSE, dat->hContact)) == NULL)
 					break;
-			db_set_ts(dat->hContact, SRMSGMOD_T, "containerW", szNewName);
+			db_set_ws(dat->hContact, SRMSGMOD_T, "containerW", szNewName);
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB_CHAT, (WPARAM)pNewContainer, (LPARAM)hwndDlg);
 			if (iOldItems > 1)                // there were more than 1 tab, container is still valid
 				SendMessage(dat->pContainer->hwndActive, WM_SIZE, 0, 0);

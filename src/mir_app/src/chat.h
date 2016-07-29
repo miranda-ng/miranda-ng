@@ -87,7 +87,7 @@ int    LoadChatModule(void);
 void   UnloadChatModule(void);
 
 // tools.c
-int    DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors);
+int    DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors);
 int    GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth);
 wchar_t *RemoveFormatting(const wchar_t* pszText);
 BOOL   DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);

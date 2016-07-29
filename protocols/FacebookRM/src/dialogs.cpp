@@ -159,7 +159,7 @@ void GetSelectedContacts(FacebookProto *proto, MCONTACT hItem, HWND hwndList, st
 				if (userId)
 					fu->user_id = userId;
 
-				ptrW realName(proto->getTStringA(hItem, FACEBOOK_KEY_NICK));
+				ptrW realName(proto->getWStringA(hItem, FACEBOOK_KEY_NICK));
 				if (realName)
 					fu->real_name = _T2A(realName);
 
@@ -201,7 +201,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		SendDlgItemMessage(hwnd, IDC_MINDMSG, EM_LIMITTEXT, FACEBOOK_MIND_LIMIT, 0);
 		SendDlgItemMessage(hwnd, IDC_URL, EM_LIMITTEXT, 1024, 0);
 
-		ptrW place(data->proto->getTStringA(FACEBOOK_KEY_PLACE));
+		ptrW place(data->proto->getWStringA(FACEBOOK_KEY_PLACE));
 		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : L"Miranda NG");
 
 		bShowContacts = data->proto->getByte("PostStatusExpand", 0) > 0;
@@ -284,7 +284,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			int wall_id = SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0);
 			int privacy_id = SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0);
 
-			data->proto->setTString(FACEBOOK_KEY_PLACE, placeT);
+			data->proto->setWString(FACEBOOK_KEY_PLACE, placeT);
 			data->proto->setByte("PostStatusExpand", bShowContacts);
 
 			// remember last wall, only when there are more options
@@ -406,7 +406,7 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			if (tstr[0] != '\0')
 			{
 				proto->m_tszDefaultGroup = mir_wstrdup(tstr);
-				proto->setTString(FACEBOOK_KEY_DEF_GROUP, tstr);
+				proto->setWString(FACEBOOK_KEY_DEF_GROUP, tstr);
 				Clist_GroupCreate(0, tstr);
 			}
 			else {

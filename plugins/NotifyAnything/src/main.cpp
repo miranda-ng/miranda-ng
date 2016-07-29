@@ -145,11 +145,11 @@ void registerSound(const std::wstring &name)
 
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = sizeof(ssd);
-	ssd.dwFlags = SSDF_TCHAR;
+	ssd.dwFlags = SSDF_UNICODE;
 	ssd.pszName = _T2A(id.c_str());
-	ssd.ptszSection = LPGENW("Notify Anything");
-	ssd.ptszDescription = desc.c_str();
-	ssd.ptszDefaultFile = file.c_str();
+	ssd.pwszSection = LPGENW("Notify Anything");
+	ssd.pwszDescription = desc.c_str();
+	ssd.pwszDefaultFile = file.c_str();
 	Skin_AddSound(&ssd);
 }
 

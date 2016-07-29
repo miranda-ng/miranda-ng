@@ -74,7 +74,7 @@ static void updatePreviewImage(HWND hwndBox)
 	POPUPDATA2 ppd;
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.cbSize = sizeof(ppd);
-	ppd.flags = PU2_TCHAR;
+	ppd.flags = PU2_UNICODE;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
 	ppd.lptzTitle = TranslateT("Skin preview");
 	ppd.lptzText = TranslateT("Just take a look at this skin... ;)");
@@ -293,7 +293,7 @@ bool SkinOptionList_Update(OPTTREE_OPTION* &options, int *OptionsCount, HWND hwn
 
 void LoadOption_Skins() {
 	// skin pack
-	PopupOptions.SkinPack = (LPTSTR)DBGetContactSettingStringX(NULL, MODULNAME, "SkinPack", "* Popup Classic", DBVT_TCHAR);
+	PopupOptions.SkinPack = (LPTSTR)DBGetContactSettingStringX(NULL, MODULNAME, "SkinPack", "* Popup Classic", DBVT_WCHAR);
 	// more Skin options
 	PopupOptions.DisplayTime = db_get_b(NULL, MODULNAME, "DisplayTime", TRUE);
 	PopupOptions.DropShadow = db_get_b(NULL, MODULNAME, "DropShadow", TRUE);
@@ -477,7 +477,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case PSN_APPLY:
 				{
 					// skin pack
-					db_set_ts(NULL, MODULNAME, "SkinPack", PopupOptions.SkinPack);
+					db_set_ws(NULL, MODULNAME, "SkinPack", PopupOptions.SkinPack);
 					// skin options
 					const PopupSkin *skin = 0;
 					if (skin = skins.getSkin(PopupOptions.SkinPack))

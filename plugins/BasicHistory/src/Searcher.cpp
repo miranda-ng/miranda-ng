@@ -302,7 +302,7 @@ void Searcher::Find()
 		mir_snwprintf(buf, TranslateT("\"%s\" not found"), str);
 		MessageBox(context->m_hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 	}
-	else MessageBox(context->m_hWnd, TranslateTS(onlyGroup ? LPGENW("You have reached the end of the group.") : LPGENW("You have reached the end of the history.")), TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
+	else MessageBox(context->m_hWnd, TranslateW(onlyGroup ? LPGENW("You have reached the end of the group.") : LPGENW("You have reached the end of the history.")), TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 }
 
 bool Searcher::IsInSel(int sel, wchar_t *strFind)

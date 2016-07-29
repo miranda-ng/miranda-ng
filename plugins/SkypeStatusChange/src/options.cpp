@@ -78,7 +78,7 @@ void InitProtocolTree(HWND hwndTreeCtrl)
 				else
 					nState = TCBS_UNCHECKED;
 			}
-			tree_insert_item(hwndTreeCtrl,TranslateTS(g_aStatusCode[OFFLINE_STATUS_INDEX].m_ptszStatusName),hti,nState,pItemData);
+			tree_insert_item(hwndTreeCtrl,TranslateW(g_aStatusCode[OFFLINE_STATUS_INDEX].m_ptszStatusName),hti,nState,pItemData);
 			for(size_t k = 0; k < _countof(g_aStatusCode); ++k) {
 				const CMirandaStatus2SkypeStatus& m2s = g_aStatusCode[k];
 				unsigned long statusFlags = Proto_Status2Flag(m2s.m_nMirandaStatus);
@@ -101,7 +101,7 @@ void InitProtocolTree(HWND hwndTreeCtrl)
 							nState = TCBS_UNCHECKED;
 					}
 
-					tree_insert_item(hwndTreeCtrl,TranslateTS(m2s.m_ptszStatusName),hti,nState,pItemData);
+					tree_insert_item(hwndTreeCtrl,TranslateW(m2s.m_ptszStatusName),hti,nState,pItemData);
 				}
 			}
 

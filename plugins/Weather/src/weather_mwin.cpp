@@ -157,16 +157,16 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				clr = db_get_dw(NULL, WEATHERPROTONAME, "ColorMwinFrame", GetSysColor(COLOR_3DFACE));
 
 				{
-					FontIDT fntid = { 0 };
+					FontIDW fntid = { 0 };
 					mir_wstrcpy(fntid.group, _A2W(WEATHERPROTONAME));
 					mir_wstrcpy(fntid.name, LPGENW("Frame Font"));
-					fntc = CallService(MS_FONT_GETT, (WPARAM)&fntid, (LPARAM)&lfnt);
+					fntc = CallService(MS_FONT_GETW, (WPARAM)&fntid, (LPARAM)&lfnt);
 
 					mir_wstrcpy(fntid.name, LPGENW("Frame Title Font"));
-					fntc1 = CallService(MS_FONT_GETT, (WPARAM)&fntid, (LPARAM)&lfnt1);
+					fntc1 = CallService(MS_FONT_GETW, (WPARAM)&fntid, (LPARAM)&lfnt1);
 				}
 
-				ptrW tszInfo(db_get_tsa(data->hContact, WEATHERCONDITION, "WeatherInfo"));
+				ptrW tszInfo(db_get_wsa(data->hContact, WEATHERCONDITION, "WeatherInfo"));
 
 				GetClientRect(hwnd, &rc);
 
@@ -238,7 +238,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 static void addWindow(MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	if (db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv))
+	if (db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv))
 		return;
 
 	wchar_t winname[512];
@@ -255,7 +255,7 @@ static void addWindow(MCONTACT hContact)
 	Frame.cbSize = sizeof(Frame);
 	Frame.hWnd = hWnd;
 	Frame.align = alBottom;
-	Frame.Flags = F_VISIBLE | F_NOBORDER | F_TCHAR;
+	Frame.Flags = F_VISIBLE | F_NOBORDER | F_UNICODE;
 	Frame.height = 32;
 	DWORD frameID = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
@@ -324,17 +324,17 @@ void InitMwin(void)
 	wndclass.lpszClassName = L"WeatherFrame";
 	RegisterClass(&wndclass);
 
-	ColourIDT colourid = { 0 };
-	colourid.cbSize = sizeof(ColourIDT);
+	ColourIDW colourid = { 0 };
+	colourid.cbSize = sizeof(ColourIDW);
 	mir_strcpy(colourid.dbSettingsGroup, WEATHERPROTONAME);
 	mir_strcpy(colourid.setting, "ColorMwinFrame");
 	mir_wstrcpy(colourid.name, LPGENW("Frame Background"));
 	mir_wstrcpy(colourid.group, _A2W(WEATHERPROTONAME));
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
-	FontIDT fontid = { 0 };
-	fontid.cbSize = sizeof(FontIDT);
+	FontIDW fontid = { 0 };
+	fontid.cbSize = sizeof(FontIDW);
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	mir_strcpy(fontid.dbSettingsGroup, WEATHERPROTONAME);
 	mir_wstrcpy(fontid.group, _A2W(WEATHERPROTONAME));
@@ -349,12 +349,12 @@ void InitMwin(void)
 	mir_wstrcpy(fontid.deffontsettings.szFace, L"Verdana");
 	mir_wstrcpy(fontid.backgroundGroup, _A2W(WEATHERPROTONAME));
 	mir_wstrcpy(fontid.backgroundName, LPGENW("Frame Background"));
-	FontRegisterT(&fontid);
+	FontRegisterW(&fontid);
 
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	mir_wstrcpy(fontid.name, LPGENW("Frame Title Font"));
 	mir_strcpy(fontid.prefix, "fnt1");
-	FontRegisterT(&fontid);
+	FontRegisterW(&fontid);
 
 	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))
 		if (db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0))

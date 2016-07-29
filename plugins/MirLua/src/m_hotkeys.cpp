@@ -8,19 +8,19 @@ void MakeHotkey(lua_State *L, HOTKEYDESC &hk)
 	hk.dwFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	if (!(hk.dwFlags & HKD_TCHAR))
-		hk.dwFlags |= HKD_TCHAR;
+	if (!(hk.dwFlags & HKD_UNICODE))
+		hk.dwFlags |= HKD_UNICODE;
 
 	lua_getfield(L, -1, "Name");
 	hk.pszName = mir_utf8decodeA(luaL_checkstring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Description");
-	hk.ptszDescription = mir_utf8decodeW(lua_tostring(L, -1));
+	hk.pwszDescription = mir_utf8decodeW(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Section");
-	hk.ptszSection = mir_utf8decodeW(luaL_optstring(L, -1, MODULE));
+	hk.pwszSection = mir_utf8decodeW(luaL_optstring(L, -1, MODULE));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Hotkey");

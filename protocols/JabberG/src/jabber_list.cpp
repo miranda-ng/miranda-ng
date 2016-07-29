@@ -91,12 +91,12 @@ void CJabberProto::ListInit(void)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact)) {
-			ptrW jid(getTStringA(hContact, "ChatRoomID"));
+			ptrW jid(getWStringA(hContact, "ChatRoomID"));
 			if (jid != NULL)
 				ListAdd(LIST_CHATROOM, jid, hContact);
 		}
 		else {
-			ptrW jid(getTStringA(hContact, "jid"));
+			ptrW jid(getWStringA(hContact, "jid"));
 			if (jid != NULL)
 				ListAdd(LIST_ROSTER, jid, hContact);
 		}

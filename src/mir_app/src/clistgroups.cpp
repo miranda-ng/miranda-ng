@@ -43,7 +43,7 @@ struct CGroupInternal
 	{
 		char idstr[33];
 		itoa(groupId, idstr, 10);
-		db_set_ts(NULL, "CListGroups", idstr, groupName);
+		db_set_ws(NULL, "CListGroups", idstr, groupName);
 	}
 };
 
@@ -204,14 +204,14 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	}
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		ptrW tszGroupName(db_get_tsa(hContact, "CList", "Group"));
+		ptrW tszGroupName(db_get_wsa(hContact, "CList", "Group"));
 		if (mir_wstrcmp(tszGroupName, pGroup->groupName+1))
 			continue;
 
 		CLISTGROUPCHANGE grpChg = { sizeof(grpChg), NULL, NULL };
 		grpChg.pszOldName = pGroup->groupName+1;
 		if (szNewParent[0]) {
-			db_set_ts(hContact, "CList", "Group", szNewParent);
+			db_set_ws(hContact, "CList", "Group", szNewParent);
 			grpChg.pszNewName = szNewParent;
 		}
 		else {
@@ -340,7 +340,7 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
 		if (!mir_wstrcmp(cache->tszGroup, oldName)) {
-			db_set_ts(hContact, "CList", "Group", szName);
+			db_set_ws(hContact, "CList", "Group", szName);
 			replaceStrW(cache->tszGroup, szName);
 		}
 	}
@@ -512,7 +512,7 @@ int InitGroupServices(void)
 	for (int i = 0;; i++) {
 		char str[32];
 		_itoa(i, str, 10);
-		ptrW tszGroup(db_get_tsa(NULL, "CListGroups", str));
+		ptrW tszGroup(db_get_wsa(NULL, "CListGroups", str));
 		if (tszGroup == NULL)
 			break;
 

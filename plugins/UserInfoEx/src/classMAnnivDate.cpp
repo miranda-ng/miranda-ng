@@ -664,7 +664,7 @@ int MAnnivDate::DBWriteAnniversaryDate(MCONTACT hContact, WORD wIndex)
 		if (!DBWriteDateStamp(hContact, USERINFO, pszSetting)) {
 			// write description
 			mir_snprintf(pszSetting, "Anniv%dDesc", wIndex);
-			db_set_ts(hContact, USERINFO, pszSetting, (LPTSTR)Description());
+			db_set_ws(hContact, USERINFO, pszSetting, (LPTSTR)Description());
 			return 0;
 		}
 		// delete date if written incompletely

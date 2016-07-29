@@ -73,7 +73,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CMenuItem mi;
 	SET_UID(mi, 0x326495e8, 0xab0a, 0x47d2, 0xb2, 0x22, 0x2a, 0x8e, 0xa8, 0xae, 0x53, 0x1a);
 	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = IcoLib_GetIcon("check_update");
 	mi.name.w = LPGENW("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";
@@ -83,7 +83,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	memset(&mi, 0, sizeof(mi));
 	SET_UID(mi, 0xc3eea590, 0xaba3, 0x454f, 0x93, 0x93, 0xbc, 0x97, 0x15, 0x2c, 0x3b, 0x3d);
 	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = IcoLib_GetIcon("empty_folder");
 	mi.name.w = LPGENW("Clear pack updates folder");
 	mi.pszService = MODNAME"/EmptyFolder";

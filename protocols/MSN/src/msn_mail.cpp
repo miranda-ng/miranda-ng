@@ -391,6 +391,6 @@ void CMsnProto::displayEmailCount(MCONTACT hContact)
 	mir_snwprintf(szNick, getByte("DisableHotmailJunk", 0) ? L"%s [%d]" : L"%s [%d][%d]", name, mUnreadMessages, mUnreadJunkEmails);
 
 	nickChg = true;
-	setTString(hContact, "Nick", szNick);
+	setWString(hContact, "Nick", szNick);
 	nickChg = false;
 }

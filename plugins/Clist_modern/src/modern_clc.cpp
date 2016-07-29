@@ -1567,7 +1567,7 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 
 	SKINICONDESC sid = { 0 };
 	sid.defaultFile.w = szMyPath;
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_PATH_UNICODE;
 
 	sid.section.a = LPGEN("Contact list");
 	sid.description.a = LPGEN("Listening to");

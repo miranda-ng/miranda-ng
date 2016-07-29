@@ -19,7 +19,7 @@ public:
 
 	virtual void OnReset()
 	{
-		if (GetDataType() == DBVT_TCHAR)
+		if (GetDataType() == DBVT_WCHAR)
 			SetText(LoadText());
 		else if (GetDataType() != DBVT_DELETED)
 			SetInt(LoadInt());

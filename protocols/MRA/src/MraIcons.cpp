@@ -103,7 +103,7 @@ void InitXStatusIcons()
 	SKINICONDESC sid = { 0 };
 	sid.section.w = LPGENW("Protocols")L"/" LPGENW("MRA") L"/" LPGENW("Custom Status");
 	sid.defaultFile.w = szBuff;
-	sid.flags = SIDF_ALL_TCHAR;
+	sid.flags = SIDF_ALL_UNICODE;
 
 	hXStatusAdvancedStatusIcons[0] = NULL;
 	for (DWORD i = 1; i < MRA_XSTATUS_COUNT+1; i++) {

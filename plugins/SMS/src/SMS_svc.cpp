@@ -34,7 +34,7 @@ int LoadModules(void)
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_SMS);
 	mi.name.w = SMS_SEND_STR;
 	mi.pszService = szServiceFunction;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x736e4cff, 0x769e, 0x45dc, 0x8b, 0x78, 0x83, 0xf9, 0xe4, 0xbb, 0x81, 0x9e);
@@ -42,7 +42,7 @@ int LoadModules(void)
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_SMS);
 	mi.name.w = SMS_SEND_CM_STR;
 	mi.pszService = szServiceFunction;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	ssSMSSettings.hContactMenuItems[0] = Menu_AddContactMenuItem(&mi);
 
 	SkinAddNewSoundEx("RecvSMSMsg", PROTOCOL_NAMEA, LPGEN("Incoming SMS Message"));

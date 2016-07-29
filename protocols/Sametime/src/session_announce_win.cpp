@@ -14,7 +14,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			arg = (SessionAnnounceDialogProc_arg*)lParam;
 			proto = arg->proto;
-			proto->debugLog(L"SessionAnnounceDialogProc WM_INITDIALOG");
+			proto->debugLogW(L"SessionAnnounceDialogProc WM_INITDIALOG");
 
 			SendDlgItemMessage(hwndDlg, IDC_LST_ANTO, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 			{
@@ -55,7 +55,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 
 	case WM_CLOSE:
 		proto = arg->proto;
-		proto->debugLog(L"SessionAnnounceDialogProc WM_CLOSE");
+		proto->debugLogW(L"SessionAnnounceDialogProc WM_CLOSE");
 		mir_free(arg);
 		DestroyWindow(hwndDlg);
 		break;
@@ -79,7 +79,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 				return 0;
 
 			case IDOK:
-				proto->debugLog(L"SessionAnnounceDialogProc IDOK BN_CLICKED");
+				proto->debugLogW(L"SessionAnnounceDialogProc IDOK BN_CLICKED");
 				{
 					// build SendAnnouncementFunc_arg
 					SendAnnouncementFunc_arg* safArg = (SendAnnouncementFunc_arg*)mir_calloc(sizeof(SendAnnouncementFunc_arg));

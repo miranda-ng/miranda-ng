@@ -35,7 +35,7 @@ static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 	tvi.pszText = buf;
 	tvi.cchTextMax = _countof(buf);
 	SendMessage(hwndTree, TVM_GETITEMW, 0, (LPARAM)&tvi);
-	tvi.pszText = TranslateTS(tvi.pszText);
+	tvi.pszText = TranslateW(tvi.pszText);
 	SendMessage(hwndTree, TVM_SETITEMW, 0, (LPARAM)&tvi);
 }
 

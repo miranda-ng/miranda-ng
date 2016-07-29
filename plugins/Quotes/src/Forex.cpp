@@ -77,7 +77,7 @@ INT_PTR QuotesMenu_EnableDisable(WPARAM, LPARAM)
 void InitMenu()
 {
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "B474F556-22B6-42A1-A91E-22FE4F671388");
 
@@ -272,7 +272,7 @@ int QuotesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
 	odp.pwszTitle = _T(QUOTES_PROTOCOL_NAME);
 	odp.pwszGroup = LPGENW("Network");
 	odp.hIcon = Quotes_LoadIconEx(IDI_ICON_MAIN);
-	odp.flags = ODPF_USERINFOTAB | ODPF_TCHAR;
+	odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
 
 	std::for_each(rapProviders.begin(), rapProviders.end(), boost::bind(&IQuotesProvider::ShowPropertyPage, _1, wp, boost::ref(odp)));
 	return 0;

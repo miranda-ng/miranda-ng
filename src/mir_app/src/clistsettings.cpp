@@ -55,7 +55,7 @@ ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact)
 void fnCheckCacheItem(ClcCacheEntry *p)
 {
 	if (p->tszGroup == NULL) {
-		p->tszGroup = db_get_tsa(p->hContact, "CList", "Group");
+		p->tszGroup = db_get_wsa(p->hContact, "CList", "Group");
 		if (p->tszGroup == NULL)
 			p->tszGroup = mir_wstrdup(L"");
 	}

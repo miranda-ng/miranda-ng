@@ -24,7 +24,7 @@ void CSteamPasswordEditor::OnOk(CCtrlButton*)
 		mir_free(m_proto->password);
 	m_proto->password = m_password.GetText();
 	if (m_savePermanently.Enabled())
-		m_proto->setTString("Password", m_proto->password);
+		m_proto->setWString("Password", m_proto->password);
 
 	EndDialog(m_hwnd, DIALOG_RESULT_OK);
 }

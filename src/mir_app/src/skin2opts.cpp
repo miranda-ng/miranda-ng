@@ -57,7 +57,7 @@ static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 		n = _wtoi(comma + 1);
 		*comma = 0;
 	}
-	PathToAbsoluteT(file, fileFull);
+	PathToAbsoluteW(file, fileFull);
 	hIcon = NULL;
 
 	//SHOULD BE REPLACED WITH GOOD ENOUGH FUNCTION
@@ -681,7 +681,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						*sectionName = 0;
 					}
 
-					pItemName = TranslateTS(pItemName);
+					pItemName = TranslateW(pItemName);
 					hItem = FindNamedTreeItemAt(hwndTree, hSection, pItemName);
 					if (!sectionName || !hItem) {
 						if (!hItem) {
@@ -908,7 +908,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							}
 						}
 						else if (item->temp_file) {
-							db_set_ts(NULL, "SkinIcons", item->name, item->temp_file);
+							db_set_ws(NULL, "SkinIcons", item->name, item->temp_file);
 							item->source_small->release();
 							item->source_small = NULL;
 							SafeDestroyIcon(item->temp_icon);

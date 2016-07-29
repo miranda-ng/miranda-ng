@@ -198,10 +198,10 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getTString(hContact, "Nick", &dbv)) {
+	if (!getWString(hContact, "Nick", &dbv)) {
 		int type = getByte(hContact, "ChatRoom", 0);
 		if (type != 0) {
-			CMString S = L"";
+			CMStringW S = L"";
 			if (type == GCW_CHATROOM)
 				S = MakeWndID(dbv.ptszVal);
 			if (type == GCW_SERVER)
@@ -232,7 +232,7 @@ INT_PTR __cdecl CIrcProto::OnJoinChat(WPARAM wp, LPARAM)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getTString((MCONTACT)wp, "Nick", &dbv)) {
+	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
 		if (getByte((MCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM)
 			PostIrcMessage(L"/JOIN %s", dbv.ptszVal);
 		db_free(&dbv);
@@ -246,11 +246,11 @@ INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getTString((MCONTACT)wp, "Nick", &dbv)) {
+	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
 		if (getByte((MCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM) {
 			PostIrcMessage(L"/PART %s %s", dbv.ptszVal, m_userInfo);
 
-			CMString S = MakeWndID(dbv.ptszVal);
+			CMStringW S = MakeWndID(dbv.ptszVal);
 			GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
 			CallChatEvent(SESSION_TERMINATE, (LPARAM)&gce);
@@ -267,7 +267,7 @@ INT_PTR __cdecl CIrcProto::OnMenuChanSettings(WPARAM wp, LPARAM)
 
 	MCONTACT hContact = (MCONTACT)wp;
 	DBVARIANT dbv;
-	if (!getTString(hContact, "Nick", &dbv)) {
+	if (!getWString(hContact, "Nick", &dbv)) {
 		PostIrcMessageWnd(dbv.ptszVal, NULL, L"/CHANNELMANAGER");
 		db_free(&dbv);
 	}
@@ -281,7 +281,7 @@ INT_PTR __cdecl CIrcProto::OnMenuWhois(WPARAM wp, LPARAM)
 
 	DBVARIANT dbv;
 
-	if (!getTString((MCONTACT)wp, "Nick", &dbv)) {
+	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
 		PostIrcMessage(L"/WHOIS %s %s", dbv.ptszVal, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -303,7 +303,7 @@ INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM wp, LPARAM)
 
 	MCONTACT hContact = (MCONTACT)wp;
 	DBVARIANT dbv;
-	if (!getTString(hContact, "Nick", &dbv)) {
+	if (!getWString(hContact, "Nick", &dbv)) {
 		if (!isChatRoom(hContact)) {
 			char* host = NULL;
 			DBVARIANT dbv1;
@@ -481,7 +481,7 @@ static void DoChatFormatting(wchar_t* pszText)
 int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
-	CMString S = L"";
+	CMStringW S = L"";
 
 	mir_cslock lock(m_gchook);
 
@@ -574,7 +574,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 				case 9:		// nickserv remind password
 				{
 					DBVARIANT dbv;
-					if (!getTString("Nick", &dbv)) {
+					if (!getWString("Nick", &dbv)) {
 						PostIrcMessage(L"/nickserv SENDPASS %s", dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -670,13 +670,13 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 						p1, gch->ptszUID, TranslateT("Please enter the reason"), TranslateT("Kick"), TranslateT("Jerk"));
 					break;
 				case 7:
-					DoUserhostWithReason(1, L"B" + (CMString)p1, true, L"%s", gch->ptszUID);
+					DoUserhostWithReason(1, L"B" + (CMStringW)p1, true, L"%s", gch->ptszUID);
 					break;
 				case 8:
-					DoUserhostWithReason(1, L"K" + (CMString)p1, true, L"%s", gch->ptszUID);
+					DoUserhostWithReason(1, L"K" + (CMStringW)p1, true, L"%s", gch->ptszUID);
 					break;
 				case 9:
-					DoUserhostWithReason(1, L"L" + (CMString)p1, true, L"%s", gch->ptszUID);
+					DoUserhostWithReason(1, L"L" + (CMStringW)p1, true, L"%s", gch->ptszUID);
 					break;
 				case 10:
 					PostIrcMessage(L"/WHOIS %s %s", gch->ptszUID, gch->ptszUID);
@@ -723,28 +723,28 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 						gch->ptszUID, TranslateT("Please enter the channel name to invite to"), TranslateT("Invite to channel"));
 					break;
 				case 30:
-				{
-					PROTOSEARCHRESULT psr = { 0 };
-					psr.cbSize = sizeof(psr);
-					psr.flags = PSR_TCHAR;
-					psr.id.w = gch->ptszUID;
-					psr.nick.w = gch->ptszUID;
+					{
+						PROTOSEARCHRESULT psr = { 0 };
+						psr.cbSize = sizeof(psr);
+						psr.flags = PSR_UNICODE;
+						psr.id.w = gch->ptszUID;
+						psr.nick.w = gch->ptszUID;
 
-					ADDCONTACTSTRUCT acs = { 0 };
-					acs.handleType = HANDLE_SEARCHRESULT;
-					acs.szProto = m_szModuleName;
-					acs.psr = &psr;
-					CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
-				}
+						ADDCONTACTSTRUCT acs = { 0 };
+						acs.handleType = HANDLE_SEARCHRESULT;
+						acs.szProto = m_szModuleName;
+						acs.psr = &psr;
+						CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+					}
 					break;
 				case 31:	//slap
-					PostIrcMessageWnd(p1, NULL, CMString(FORMAT, L"/slap %s", gch->ptszUID));
+					PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/slap %s", gch->ptszUID));
 					break;
 				case 32:  //nickserv info
-					PostIrcMessageWnd(p1, NULL, CMString(FORMAT, L"/nickserv INFO %s ALL", gch->ptszUID));
+					PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/nickserv INFO %s ALL", gch->ptszUID));
 					break;
 				case 33:  //nickserv ghost
-					PostIrcMessageWnd(p1, NULL, CMString(FORMAT, L"/nickserv GHOST %s", gch->ptszUID));
+					PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/nickserv GHOST %s", gch->ptszUID));
 					break;
 				}
 				break;
@@ -923,7 +923,7 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM hContact, LPARAM)
 			Menu_ShowItem(hUMenuChanSettings, true);
 
 		// context menu for contact
-		else if (!getTString(hContact, "Default", &dbv)) {
+		else if (!getWString(hContact, "Default", &dbv)) {
 			Menu_ShowItem(hUMenuChanSettings, false);
 
 			// for DCC contact
@@ -966,7 +966,7 @@ int __cdecl CIrcProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	if (!strcmp(cws->szSetting, "NotOnList")) {
 		DBVARIANT dbv;
-		if (!getTString(hContact, "Nick", &dbv)) {
+		if (!getWString(hContact, "Nick", &dbv)) {
 			if (getByte("MirVerAutoRequest", 1))
 				PostIrcMessage(L"/PRIVMSG %s \001VERSION\001", dbv.ptszVal);
 			db_free(&dbv);

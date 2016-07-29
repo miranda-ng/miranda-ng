@@ -45,7 +45,7 @@ static y_filetransfer* new_ft(CYahooProto* ppro, int id, MCONTACT hContact, cons
 
 	ft->pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 	ft->pfts.hContact = hContact;
-	ft->pfts.flags = PFTS_TCHAR;
+	ft->pfts.flags = PFTS_UNICODE;
 	ft->pfts.flags |= (sending != 0) ? PFTS_SENDING : PFTS_RECEIVING;
 
 	ft->pfts.tszWorkingDir = NULL;
@@ -505,7 +505,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 	char *szFileName = fn;
 
 	PROTORECVFILET pre = { 0 };
-	pre.dwFlags = PRFF_TCHAR;
+	pre.dwFlags = PRFF_UNICODE;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
 	pre.descr.a = (char*)msg;

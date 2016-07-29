@@ -54,10 +54,10 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_PREVIEW) {
-			MessageBox(0, TranslateT("Message with question"),    TranslateTS(_A2W(SERVICENAME) L" - demo"), MB_ICONQUESTION);
-			MessageBox(0, TranslateT("Message with exclamation"), TranslateTS(_A2W(SERVICENAME) L" - demo"), MB_ICONEXCLAMATION);
-			MessageBox(0, TranslateT("Message with error"),       TranslateTS(_A2W(SERVICENAME) L" - demo"), MB_ICONSTOP);
-			MessageBox(0, TranslateT("Message with asterisk"),    TranslateTS(_A2W(SERVICENAME) L" - demo"), MB_ICONASTERISK);
+			MessageBox(0, TranslateT("Message with question"),    TranslateW(_A2W(SERVICENAME) L" - demo"), MB_ICONQUESTION);
+			MessageBox(0, TranslateT("Message with exclamation"), TranslateW(_A2W(SERVICENAME) L" - demo"), MB_ICONEXCLAMATION);
+			MessageBox(0, TranslateT("Message with error"),       TranslateW(_A2W(SERVICENAME) L" - demo"), MB_ICONSTOP);
+			MessageBox(0, TranslateT("Message with asterisk"),    TranslateW(_A2W(SERVICENAME) L" - demo"), MB_ICONASTERISK);
 
 			return FALSE;
 		}

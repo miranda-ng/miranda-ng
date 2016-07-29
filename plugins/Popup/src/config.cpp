@@ -93,7 +93,7 @@ void PopupPreview()
 	wchar_t *lptzText1Eng = TranslateT("`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]");
 
 	wchar_t *lptzTitle2 = TranslateT("Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...");
-	wchar_t *lptzText2 = TranslateTS(
+	wchar_t *lptzText2 = TranslateW(
 		LPGENW("This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)")
 		);
 
@@ -101,7 +101,7 @@ void PopupPreview()
 
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.cbSize = sizeof(ppd);
-	ppd.flags = PU2_TCHAR;
+	ppd.flags = PU2_UNICODE;
 
 	ppd.lptzTitle = lptzTitle1Eng;
 	ppd.lptzText = lptzText1Eng;
@@ -111,7 +111,7 @@ void PopupPreview()
 
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.cbSize = sizeof(ppd);
-	ppd.flags = PU2_TCHAR;
+	ppd.flags = PU2_UNICODE;
 	ppd.lptzTitle = lptzTitle2;
 	ppd.lptzText = lptzText2;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);

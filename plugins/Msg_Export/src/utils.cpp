@@ -465,12 +465,12 @@ bool bReadMirandaDirAndPath()
 {
 	wchar_t szDBPath[MAX_PATH], tmp[MAX_PATH];
 	mir_wstrcpy(szDBPath, pszDbPathError);
-	PathToAbsoluteT(L"miranda32.exe", tmp);
+	PathToAbsoluteW(L"miranda32.exe", tmp);
 	sMirandaPath = tmp;
 	sMirandaPath.erase(sMirandaPath.find_last_of(L"\\"));
-	CallService(MS_DB_GETPROFILEPATHT, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
+	CallService(MS_DB_GETPROFILEPATHW, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
 	sDBPath = szDBPath;
-	CallService(MS_DB_GETPROFILENAMET, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
+	CallService(MS_DB_GETPROFILENAMEW, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
 	sDBPath.append(L"\\").append(szDBPath);
 	sDBPath.erase(sDBPath.size() - 4);
 	return true;
@@ -596,7 +596,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 		}
 
 		// Store the Filename used so that we can check if it changes.
-		db_set_ts(hContact, MODULE, "PrevFileName", sNoDBPath.c_str());
+		db_set_ws(hContact, MODULE, "PrevFileName", sNoDBPath.c_str());
 	}
 
 	return sFilePath;
@@ -812,7 +812,7 @@ void UpdateFileToColWidth()
 
 void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO * dbei)
 {
-	tstring sError = TranslateTS(pszError);
+	tstring sError = TranslateW(pszError);
 	sError += sFilePath;
 	sError += TranslateT("\nError: ");
 	sError += sGetErrorString();
@@ -1013,7 +1013,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
 			{
-				wchar_t *msg = DbGetEventTextT(&dbei, CP_ACP);
+				wchar_t *msg = DbGetEventTextW(&dbei, CP_ACP);
 				if (!bWriteIndentedToFile(hFile, nIndent, msg, bWriteUTF8Format)) {
 					DisplayErrorDialog(LPGENW("Failed to write message to the file :\n"), sFilePath, &dbei);
 				}
@@ -1109,7 +1109,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 						for (int i = 0; i < nStringCount && pszCurBlobPos < pszEnd; i++) {
 							if (*pszCurBlobPos) {
 								if (!bWriteNewLine(hFile, nIndent) ||
-									!bWriteTextToFile(hFile, TranslateTS(pszTypes[i]), bWriteUTF8Format) ||
+									!bWriteTextToFile(hFile, TranslateW(pszTypes[i]), bWriteUTF8Format) ||
 									!bWriteIndentedToFile(hFile, nIndent, pszCurBlobPos, bWriteUTF8Format)) {
 									break;
 								}
@@ -1414,11 +1414,11 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 void SaveSettings()
 {
 	db_set_w(NULL, MODULE, "MaxLineWidth", (WORD)nMaxLineWidth);
-	db_set_ts(NULL, MODULE, "ExportDir", sExportDir.c_str());
-	db_set_ts(NULL, MODULE, "DefaultFile", sDefaultFile.c_str());
-	db_set_ts(NULL, MODULE, "TimeFormat", sTimeFormat.c_str());
+	db_set_ws(NULL, MODULE, "ExportDir", sExportDir.c_str());
+	db_set_ws(NULL, MODULE, "DefaultFile", sDefaultFile.c_str());
+	db_set_ws(NULL, MODULE, "TimeFormat", sTimeFormat.c_str());
 
-	db_set_ts(NULL, MODULE, "FileViewerPrg", sFileViewerPrg.c_str());
+	db_set_ws(NULL, MODULE, "FileViewerPrg", sFileViewerPrg.c_str());
 	db_set_b(NULL, MODULE, "UseInternalViewer", bUseInternalViewer());
 	db_set_b(NULL, MODULE, "ReplaceHistory", bReplaceHistory);
 	db_set_b(NULL, MODULE, "AppendNewLine", bAppendNewLine);

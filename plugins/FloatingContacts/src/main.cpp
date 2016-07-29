@@ -314,7 +314,7 @@ void SendMsgDialog(HWND hwnd, wchar_t *pText)
 {
 	ThumbInfo *pThumb = thumbList.FindThumb(hwnd);
 	if (pThumb != NULL)
-		CallService(MS_MSG_SENDMESSAGET, (WPARAM)pThumb->hContact, (LPARAM)pText);
+		CallService(MS_MSG_SENDMESSAGEW, (WPARAM)pThumb->hContact, (LPARAM)pText);
 }
 
 static void ShowContactMenu(HWND hwnd, POINT pt)
@@ -570,7 +570,7 @@ static void CreateBackgroundBrush()
 	}
 
 	if (db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP)) {
-		ptrW tszBitmapName(db_get_tsa(NULL, MODULE, "BkBitmap"));
+		ptrW tszBitmapName(db_get_wsa(NULL, MODULE, "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
@@ -723,7 +723,7 @@ static void LoadMenus()
 	CreateServiceFunction(MODULE "/RemoveThumb", OnContactMenu_Remove);
 	SET_UID(mi,0xbab83df0, 0xe126, 0x4d9a, 0xbc, 0xc3, 0x2b, 0xea, 0x84, 0x90, 0x58, 0xc8);
 	mi.position = 0xFFFFF;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));
 	mi.name.w = LPGENW("Remove thumb");
 	mi.pszService = MODULE "/RemoveThumb";

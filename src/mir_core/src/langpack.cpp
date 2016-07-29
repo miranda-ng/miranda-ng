@@ -379,7 +379,7 @@ MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 
 	// ensure that a lang's name is a full file name
 	wchar_t tszFullPath[MAX_PATH];
-	if (!PathIsAbsoluteT(ptszLangPack))
+	if (!PathIsAbsoluteW(ptszLangPack))
 		mir_snwprintf(tszFullPath, L"%s\\%s", g_tszRoot, ptszLangPack);
 	else
 		wcsncpy_s(tszFullPath, ptszLangPack, _TRUNCATE);
@@ -503,7 +503,7 @@ MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr)
 	wchar_t *result = (wchar_t*)alloca((len + 1)*sizeof(wchar_t));
 	MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pszStr, -1, result, len);
 	result[len] = 0;
-	return mir_wstrdup(TranslateTS(result));
+	return mir_wstrdup(TranslateW(result));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -632,21 +632,21 @@ MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
 void GetDefaultLang()
 {
 	// calculate the langpacks' root
-	PathToAbsoluteT(L"\\Languages", g_tszRoot);
+	PathToAbsoluteW(L"\\Languages", g_tszRoot);
 	if (_waccess(g_tszRoot, 0) != 0) // directory Languages exists
-		PathToAbsoluteT(L".", g_tszRoot);
+		PathToAbsoluteW(L".", g_tszRoot);
 
 	// look into mirandaboot.ini
 	wchar_t tszPath[MAX_PATH], tszLangName[256];
-	PathToAbsoluteT(L"\\mirandaboot.ini", tszPath);
+	PathToAbsoluteW(L"\\mirandaboot.ini", tszPath);
 	GetPrivateProfileString(L"Language", L"DefaultLanguage", L"", tszLangName, _countof(tszLangName), tszPath);
 	if (tszLangName[0]) {
 		if (!mir_wstrcmpi(tszLangName, L"default")) {
-			db_set_ts(NULL, "Langpack", "Current", L"default");
+			db_set_ws(NULL, "Langpack", "Current", L"default");
 			return;
 		}
 		if (!LoadLangPack(tszLangName)) {
-			db_set_ts(NULL, "Langpack", "Current", tszLangName);
+			db_set_ws(NULL, "Langpack", "Current", tszLangName);
 			return;
 		}
 	}
@@ -655,7 +655,7 @@ void GetDefaultLang()
 	if (GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, tszLangName, _countof(tszLangName))) {
 		mir_snwprintf(tszPath, L"langpack_%s.txt", wcslwr(tszLangName));
 		if (!LoadLangPack(tszPath)) {
-			db_set_ts(NULL, "Langpack", "Current", tszPath);
+			db_set_ws(NULL, "Langpack", "Current", tszPath);
 			return;
 		}
 	}
@@ -672,13 +672,13 @@ void GetDefaultLang()
 				continue;
 
 			if (!LoadLangPack(fd.cFileName)) {
-				db_set_ts(NULL, "Langpack", "Current", fd.cFileName);
+				db_set_ws(NULL, "Langpack", "Current", fd.cFileName);
 				break;
 			}
 		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
-	else db_set_ts(NULL, "Langpack", "Current", L"default");
+	else db_set_ws(NULL, "Langpack", "Current", L"default");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

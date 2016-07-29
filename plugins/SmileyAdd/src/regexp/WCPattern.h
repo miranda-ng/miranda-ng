@@ -974,19 +974,19 @@ private:
 	  @param rhs The pattern to compile
 	  @memo Creates a new pattern from the regular expression in <code>rhs</code>.
 	  */
-	WCPattern(const CMString & rhs);
+	WCPattern(const CMStringW &rhs);
 protected:
 	/**
 	  This currently is not used, so don't try to do anything with it.
 	  @memo Holds all the compiled patterns for quick access.
 	  */
-	static std::map<CMString, WCPattern *> compiledWCPatterns;
+	static std::map<CMStringW, WCPattern*> compiledWCPatterns;
 	/**
 	  Holds all of the registered patterns as strings. Due to certain problems
 	  with compilation of patterns, especially with capturing groups, this seemed
 	  to be the best way to do it.
 	  */
-	static std::map<CMString, std::pair<CMString, unsigned long> > registeredWCPatterns;
+	static std::map<CMStringW, std::pair<CMStringW, unsigned long> > registeredWCPatterns;
 protected:
 	/**
 	  Holds all the NFA nodes used. This makes deletion of a pattern, as well as
@@ -1006,7 +1006,7 @@ protected:
 	/**
 	  The actual regular expression we rerpesent
 	  */
-	CMString pattern;
+	CMStringW pattern;
 	/**
 	  Flag used during compilation. Once the pattern is successfully compiled,
 	  <code>error</code> is no longer used.
@@ -1052,7 +1052,7 @@ protected:
 	  must have appeared in one or both of <code>s1</code> and
 	  <code>s2</code>.
 	  */
-	CMString classUnion(CMString s1, CMString s2)  const;
+	CMStringW classUnion(CMStringW s1, CMStringW s2)  const;
 	/**
 	  Calculates the intersection of two strings. This function will first sort
 	  the strings and then use a simple selection algorithm to find the
@@ -1062,7 +1062,7 @@ protected:
 	  @return A new string containing all unique characters. Each character
 	  must have appeared both <code>s1</code> and <code>s2</code>.
 	  */
-	CMString classIntersect(CMString s1, CMString s2)  const;
+	CMStringW classIntersect(CMStringW s1, CMStringW s2)  const;
 	/**
 	  Calculates the negation of a string. The negation is the set of all
 	  characters between <code>\x00</code> and <code>\xFF</code> not
@@ -1072,7 +1072,7 @@ protected:
 	  @return A new string containing all unique characters. Each character
 	  must have appeared both <code>s1</code> and <code>s2</code>.
 	  */
-	CMString classNegate(CMString s1)                  const;
+	CMStringW classNegate(CMStringW s1)                  const;
 	/**
 	  Creates a new "class" representing the range from <code>low</code> thru
 	  <code>hi</code>. This function will wrap if <code>low</code> &gt;
@@ -1082,7 +1082,7 @@ protected:
 	  @param hi  The ending character
 	  @return A new string containing all the characters from low thru hi.
 	  */
-	CMString classCreateRange(wchar_t low, wchar_t hi)         const;
+	CMStringW classCreateRange(wchar_t low, wchar_t hi)         const;
 
 	/**
 	  Extracts a decimal number from the substring of member-variable
@@ -1132,24 +1132,24 @@ protected:
 	  @return A string of unique characters contained in the current class being
 	  parsed
 	  */
-	CMString parseClass();
+	CMStringW parseClass();
 	/**
 	  Parses the current POSIX class being examined in
 	  <code>{@link pattern pattern}</code>.
 	  @return A string of unique characters representing the POSIX class being
 	  parsed
 	  */
-	CMString parsePosix();
+	CMStringW parsePosix();
 	/**
 	  Returns a string containing the octal character being parsed
 	  @return The string contained the octal value being parsed
 	  */
-	CMString parseOctal();
+	CMStringW parseOctal();
 	/**
 	  Returns a string containing the hex character being parsed
 	  @return The string contained the hex value being parsed
 	  */
-	CMString parseHex();
+	CMStringW parseHex();
 	/**
 	  Returns a new node representing the back reference being parsed
 	  @return The new node representing the back reference being parsed
@@ -1164,7 +1164,7 @@ protected:
 	  quotation.
 	  @return The characters represented by the class
 	  */
-	CMString parseEscape(bool & inv, bool & quo);
+	CMStringW parseEscape(bool & inv, bool & quo);
 	/**
 	  Parses a supposed registered pattern currently under compilation. If the
 	  sequence of characters does point to a registered pattern, then the
@@ -1228,7 +1228,7 @@ public:
 	  pointer. Upon failure, <code>compile</code> returns
 	  <code>NULL</code>
 	  */
-	static WCPattern                    * compile(const CMString & pattern,
+	static WCPattern                    * compile(const CMStringW & pattern,
 		const unsigned long mode = 0);
 	/**
 	  Dont use this function. This function will compile a pattern, and cache
@@ -1243,7 +1243,7 @@ public:
 	  <code>WCPattern</code> pointer. Upon failure, <code>compile</code>
 	  returns <code>NULL</code>.
 	  */
-	static WCPattern                    * compileAndKeep(const CMString & pattern,
+	static WCPattern                    * compileAndKeep(const CMStringW & pattern,
 		const unsigned long mode = 0);
 
 	/**
@@ -1265,9 +1265,9 @@ public:
 	  during the replacement process
 	  @return The text with the replacement string substituted where necessary
 	  */
-	static CMString                  replace(const CMString & pattern,
-		const CMString & str,
-		const CMString & replacementText,
+	static CMStringW                  replace(const CMStringW & pattern,
+		const CMStringW & str,
+		const CMStringW & replacementText,
 		const unsigned long mode = 0);
 
 	/**
@@ -1276,12 +1276,12 @@ public:
 	  configurable. A typical invocation looks like:
 	  <p>
 	  <code>
-	  CMString str(strSize, 0);<br>
+	  CMStringW str(strSize, 0);<br>
 	  FILE * fp = fopen(fileName, "r");<br>
 	  fread((char*)str.data(), strSize * 2, 1, fp);<br>
 	  fclose(fp);<br>
 	  <br>
-	  std::vector&lt;CMString&gt; lines = WCPattern::split(L"[\r\n]+", str, true);<br>
+	  std::vector&lt;CMStringW&gt; lines = WCPattern::split(L"[\r\n]+", str, true);<br>
 	  <br>
 	  </code>
 
@@ -1293,8 +1293,8 @@ public:
 	  during the split process
 	  @return All substrings of <code>str</code> split across <code>pattern</code>.
 	  */
-	static std::vector<CMString>     split(const CMString & pattern,
-		const CMString & str,
+	static std::vector<CMStringW>     split(const CMStringW & pattern,
+		const CMStringW & str,
 		const bool keepEmptys = 0,
 		const unsigned long limit = 0,
 		const unsigned long mode = 0);
@@ -1317,8 +1317,8 @@ public:
 	  during the find process
 	  @return All instances of <code>pattern</code> in <code>str</code>
 	  */
-	static std::vector<CMString>     findAll(const CMString & pattern,
-		const CMString & str,
+	static std::vector<CMStringW>     findAll(const CMStringW & pattern,
+		const CMStringW & str,
 		const unsigned long mode = 0);
 
 	/**
@@ -1330,8 +1330,8 @@ public:
 	  during the replacement process
 	  @return True if <code>str</code> is recognized by <code>pattern</code>
 	  */
-	static bool                         matches(const CMString & pattern,
-		const CMString & str,
+	static bool                         matches(const CMStringW & pattern,
+		const CMStringW & str,
 		const unsigned long mode = 0);
 
 	/**
@@ -1353,8 +1353,8 @@ public:
 	  @return Success/Failure. Fails only if <code>pattern</code> has invalid
 	  syntax
 	  */
-	static bool                         registerWCPattern(const CMString & name,
-		const CMString & pattern,
+	static bool                         registerWCPattern(const CMStringW & name,
+		const CMStringW & pattern,
 		const unsigned long mode = 0);
 
 	/**
@@ -1372,7 +1372,7 @@ public:
 	  A typical invocation looks like this:
 	  <p>
 	  <code>
-	  std::pair&lt;CMString, int&gt; match = WCPattern::findNthMatch(L"\\d{1,3}", L"192.168.1.101:22", 1);<br>
+	  std::pair&lt;CMStringW, int&gt; match = WCPattern::findNthMatch(L"\\d{1,3}", L"192.168.1.101:22", 1);<br>
 	  wprintf(L"%s %i\n", match.first.c_str(), match.second);<br>
 	  <br>
 	  Output: 168 4<br>
@@ -1387,8 +1387,8 @@ public:
 	  <code>str</code>. You can check for success/failure by making sure
 	  that the integer returned is greater than or equal to zero.
 	  */
-	static std::pair<CMString, int>  findNthMatch(const CMString & pattern,
-		const CMString & str,
+	static std::pair<CMStringW, int>  findNthMatch(const CMStringW & pattern,
+		const CMStringW & str,
 		const int matchNum,
 		const unsigned long mode = 0);
 public:
@@ -1397,12 +1397,12 @@ public:
 	  */
 	~WCPattern();
 
-	CMString               replace(const CMString & str,
-		const CMString & replacementText);
-	std::vector<CMString>  split(const CMString & str, const bool keepEmptys = 0,
+	CMStringW               replace(const CMStringW & str,
+		const CMStringW & replacementText);
+	std::vector<CMStringW>  split(const CMStringW & str, const bool keepEmptys = 0,
 		const unsigned long limit = 0);
-	std::vector<CMString>  findAll(const CMString & str);
-	bool                       matches(const CMString & str);
+	std::vector<CMStringW>  findAll(const CMStringW & str);
+	bool                       matches(const CMStringW & str);
 	/**
 	  Returns the flags used during compilation of this pattern
 	  @return The flags used during compilation of this pattern
@@ -1412,14 +1412,14 @@ public:
 	  Returns the regular expression this pattern represents
 	  @return The regular expression this pattern represents
 	  */
-	CMString               getWCPattern() const;
+	CMStringW               getWCPattern() const;
 	/**
 	  Creates a matcher object using the specified string and this pattern.
 	  @param str The string to match against
 	  @return A new matcher using object using this pattern and the specified
 	  string
 	  */
-	WCMatcher                 * createWCMatcher(const CMString & str);
+	WCMatcher                 * createWCMatcher(const CMStringW & str);
 };
 
 class NFAUNode
@@ -1430,7 +1430,7 @@ public:
 	NFAUNode();
 	virtual ~NFAUNode();
 	virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const = 0;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const = 0;
 	inline virtual bool isGroupHeadNode()     const { return false; }
 	inline virtual bool isStartOfInputNode()  const { return false; }
 };
@@ -1440,7 +1440,7 @@ protected:
 	wchar_t ch;
 public:
 	NFACharUNode(const wchar_t c);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFACICharUNode : public NFAUNode
 {
@@ -1448,19 +1448,19 @@ protected:
 	wchar_t ch;
 public:
 	NFACICharUNode(const wchar_t c);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAStartUNode : public NFAUNode
 {
 public:
 	NFAStartUNode();
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAEndUNode : public NFAUNode
 {
 public:
 	NFAEndUNode();
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAQuantifierUNode : public NFAUNode
 {
@@ -1471,7 +1471,7 @@ public:
 	NFAQuantifierUNode(WCPattern * pat, NFAUNode * internal,
 		const int minMatch = WCPattern::MIN_QMATCH,
 		const int maxMatch = WCPattern::MAX_QMATCH);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAGreedyQuantifierUNode : public NFAQuantifierUNode
 {
@@ -1479,8 +1479,8 @@ public:
 	NFAGreedyQuantifierUNode(WCPattern * pat, NFAUNode * internal,
 		const int minMatch = WCPattern::MIN_QMATCH,
 		const int maxMatch = WCPattern::MAX_QMATCH);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
-	virtual int matchInternal(const CMString & str, WCMatcher * matcher, const int curInd, const int soFar) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int matchInternal(const CMStringW & str, WCMatcher * matcher, const int curInd, const int soFar) const;
 };
 class NFALazyQuantifierUNode : public NFAQuantifierUNode
 {
@@ -1488,7 +1488,7 @@ public:
 	NFALazyQuantifierUNode(WCPattern * pat, NFAUNode * internal,
 		const int minMatch = WCPattern::MIN_QMATCH,
 		const int maxMatch = WCPattern::MAX_QMATCH);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAPossessiveQuantifierUNode : public NFAQuantifierUNode
 {
@@ -1496,13 +1496,13 @@ public:
 	NFAPossessiveQuantifierUNode(WCPattern * pat, NFAUNode * internal,
 		const int minMatch = WCPattern::MIN_QMATCH,
 		const int maxMatch = WCPattern::MAX_QMATCH);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAAcceptUNode : public NFAUNode
 {
 public:
 	NFAAcceptUNode();
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAClassUNode : public NFAUNode
 {
@@ -1510,8 +1510,8 @@ public:
 	bool inv;
 	std::map<wchar_t, bool> vals;
 	NFAClassUNode(const bool invert = 0);
-	NFAClassUNode(const CMString & clazz, const bool invert);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	NFAClassUNode(const CMStringW & clazz, const bool invert);
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFACIClassUNode : public NFAUNode
 {
@@ -1519,14 +1519,14 @@ public:
 	bool inv;
 	std::map<wchar_t, bool> vals;
 	NFACIClassUNode(const bool invert = 0);
-	NFACIClassUNode(const CMString & clazz, const bool invert);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	NFACIClassUNode(const CMStringW & clazz, const bool invert);
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFASubStartUNode : public NFAUNode
 {
 public:
 	NFASubStartUNode();
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAOrUNode : public NFAUNode
 {
@@ -1535,21 +1535,21 @@ public:
 	NFAUNode * two;
 	NFAOrUNode(NFAUNode * first, NFAUNode * second);
 	virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAQuoteUNode : public NFAUNode
 {
 public:
-	CMString qStr;
-	NFAQuoteUNode(const CMString & quoted);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	CMStringW qStr;
+	NFAQuoteUNode(const CMStringW & quoted);
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFACIQuoteUNode : public NFAUNode
 {
 public:
-	CMString qStr;
-	NFACIQuoteUNode(const CMString & quoted);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	CMStringW qStr;
+	NFACIQuoteUNode(const CMStringW & quoted);
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFALookAheadUNode : public NFAUNode
 {
@@ -1558,40 +1558,40 @@ public:
 	NFAUNode * inner;
 	NFALookAheadUNode(NFAUNode * internal, const bool positive);
 	virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFALookBehindUNode : public NFAUNode
 {
 public:
 	bool pos;
-	CMString mStr;
-	NFALookBehindUNode(const CMString & str, const bool positive);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	CMStringW mStr;
+	NFALookBehindUNode(const CMStringW & str, const bool positive);
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAStartOfLineUNode : public NFAUNode
 {
 public:
 	NFAStartOfLineUNode();
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAEndOfLineUNode : public NFAUNode
 {
 public:
 	NFAEndOfLineUNode();
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAReferenceUNode : public NFAUNode
 {
 public:
 	int gi;
 	NFAReferenceUNode(const int groupIndex);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAStartOfInputUNode : public NFAUNode
 {
 public:
 	NFAStartOfInputUNode();
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 	inline virtual bool isStartOfInputNode()  const { return false; }
 };
 class NFAEndOfInputUNode : public NFAUNode
@@ -1599,27 +1599,27 @@ class NFAEndOfInputUNode : public NFAUNode
 public:
 	bool term;
 	NFAEndOfInputUNode(const bool lookForTerm);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAWordBoundaryUNode : public NFAUNode
 {
 public:
 	bool pos;
 	NFAWordBoundaryUNode(const bool positive);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAEndOfMatchUNode : public NFAUNode
 {
 public:
 	NFAEndOfMatchUNode();
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAGroupHeadUNode : public NFAUNode
 {
 public:
 	int gi;
 	NFAGroupHeadUNode(const int groupIndex);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 	inline virtual bool isGroupHeadNode()     const { return false; }
 };
 class NFAGroupTailUNode : public NFAUNode
@@ -1627,14 +1627,14 @@ class NFAGroupTailUNode : public NFAUNode
 public:
 	int gi;
 	NFAGroupTailUNode(const int groupIndex);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAGroupLoopPrologueUNode : public NFAUNode
 {
 public:
 	int gi;
 	NFAGroupLoopPrologueUNode(const int groupIndex);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 class NFAGroupLoopUNode : public NFAUNode
 {
@@ -1644,10 +1644,10 @@ public:
 	NFAGroupLoopUNode(NFAUNode * internal, const int minMatch,
 		const int maxMatch, const int groupIndex, const int matchType);
 	virtual void findAllNodes(std::map<NFAUNode*, bool> & soFar);
-	virtual int match(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
-	int matchGreedy(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
-	int matchLazy(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
-	int matchPossessive(const CMString & str, WCMatcher * matcher, const int curInd = 0) const;
+	virtual int match(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
+	int matchGreedy(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
+	int matchLazy(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
+	int matchPossessive(const CMStringW & str, WCMatcher * matcher, const int curInd = 0) const;
 };
 
 #endif

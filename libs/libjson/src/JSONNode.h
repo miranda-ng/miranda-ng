@@ -118,7 +118,7 @@ public:
 
 	json_string as_string(void) const;
 #if defined(M_STRING_H__)
-	CMString as_mstring(void) const;
+	CMStringW as_mstring(void) const;
 #endif
 	long as_int(void) const;
 	double as_float(void) const;

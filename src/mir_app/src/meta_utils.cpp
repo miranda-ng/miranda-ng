@@ -44,7 +44,7 @@ int Meta_SetNick(char *szProto)
 	if (tszNick == NULL)
 		return 1;
 
-	db_set_ts(NULL, META_PROTO, "Nick", tszNick);
+	db_set_ws(NULL, META_PROTO, "Nick", tszNick);
 	return 0;
 }
 
@@ -124,7 +124,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 
 	// write the display name
 	mir_snprintf(buffer, "CListName%d", ccDest->nSubs);
-	db_set_ts(hMeta, META_PROTO, buffer, cli.pfnGetContactDisplayName(hSub, 0));
+	db_set_ws(hMeta, META_PROTO, buffer, cli.pfnGetContactDisplayName(hSub, 0));
 
 	// Get the status
 	WORD status = db_get_w(hSub, szProto, "Status", ID_STATUS_OFFLINE);
@@ -141,7 +141,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	mir_snprintf(buffer, "StatusString%d", ccDest->nSubs);
 
 	wchar_t *szStatus = cli.pfnGetStatusModeDescription(status, 0);
-	db_set_ts(hMeta, META_PROTO, buffer, szStatus);
+	db_set_ws(hMeta, META_PROTO, buffer, szStatus);
 
 	// Write the link in the contact
 	db_set_dw(hSub, META_PROTO, "ParentMeta", hMeta);
@@ -173,7 +173,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 		wcsncpy_s(ai.filename, L"X", _TRUNCATE);
 
 		if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
-			db_set_ts(hMeta, "ContactPhoto", "File", ai.filename);
+			db_set_ws(hMeta, "ContactPhoto", "File", ai.filename);
 	}
 
 	// merge sub's events to the meta-history
@@ -431,16 +431,16 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 		return 1;
 
 	if (options.clist_contact_name == CNNT_NICK) {
-		ptrW tszNick(db_get_tsa(hContact, szProto, "Nick"));
+		ptrW tszNick(db_get_wsa(hContact, szProto, "Nick"));
 		if (tszNick) {
-			db_set_ts(ccMeta->contactID, META_PROTO, "Nick", tszNick);
+			db_set_ws(ccMeta->contactID, META_PROTO, "Nick", tszNick);
 			return 0;
 		}
 	}
 	else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
 		wchar_t *name = cli.pfnGetContactDisplayName(hContact, 0);
 		if (name && mir_wstrcmp(name, TranslateT("(Unknown contact)")) != 0) {
-			db_set_ts(ccMeta->contactID, META_PROTO, "Nick", name);
+			db_set_ws(ccMeta->contactID, META_PROTO, "Nick", name);
 			return 0;
 		}
 	}
@@ -499,7 +499,7 @@ int Meta_SwapContacts(DBCachedContact *cc, int n1, int n2)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void Meta_GetSubNick(MCONTACT hMeta, int i, CMString &tszDest)
+void Meta_GetSubNick(MCONTACT hMeta, int i, CMStringW &tszDest)
 {
 	char idStr[50];
 	mir_snprintf(idStr, "Login%d", i);

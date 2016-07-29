@@ -74,7 +74,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		{	DBVARIANT dbv;
-		if (!db_get_ts(NULL, "CList", "TitleText", &dbv)) {
+		if (!db_get_ws(NULL, "CList", "TitleText", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_TITLETEXT, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -172,7 +172,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			{
 				wchar_t title[256];
 				GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, _countof(title));
-				db_set_ts(NULL, "CList", "TitleText", title);
+				db_set_ws(NULL, "CList", "TitleText", title);
 				SetWindowText(pcli->hwndContactList, title);
 			}
 

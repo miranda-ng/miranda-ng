@@ -104,7 +104,7 @@ static int __inline DBDeleteIthSetting(DWORD i, MCONTACT hContact,const char *sz
 #define db_gets(a,b)		db_get(NULL, MODULENAME, a, b)
 #define db_setb(a,b)		db_set_b(NULL, MODULENAME, a, (BYTE)(b))
 #define db_sets(a,b)		db_set_s(NULL, MODULENAME, a, b)
-#define db_setts(a,b)		db_set_ts(NULL, MODULENAME, a, b)
+#define db_setts(a,b)		db_set_ws(NULL, MODULENAME, a, b)
 #define db_setw(a,b)		db_set_w(NULL, MODULENAME, a, (WORD)(b))
 #define db_setd(a,b)		db_set_dw(NULL, MODULENAME, a, (DWORD)(b))
 #define db_del(a)			db_unset(NULL, MODULENAME, a);

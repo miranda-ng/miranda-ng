@@ -198,7 +198,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
 
 			BASS_DEVICEINFO info;
-			ptrW tszDeviceName(db_get_tsa(NULL, ModuleName, OPT_OUTDEVICE));
+			ptrW tszDeviceName(db_get_wsa(NULL, ModuleName, OPT_OUTDEVICE));
 			for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++) {
 				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, _A2T(info.name));
 				if (!mir_wstrcmp(tszDeviceName, _A2T(info.name)))
@@ -227,7 +227,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				SYSTEMTIME systime = { 0 };
 
 				GetDlgItemText(hwndDlg, IDC_OUTDEVICE, tmp, _countof(tmp));
-				db_set_ts(NULL, ModuleName, OPT_OUTDEVICE, tmp);
+				db_set_ws(NULL, ModuleName, OPT_OUTDEVICE, tmp);
 
 				Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
 				db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
@@ -424,11 +424,11 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 int ReloadColors(WPARAM, LPARAM)
 {
-	ColourIDT colourid = { 0 };
+	ColourIDW colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
 	mir_wstrcpy(colourid.group, _A2W(ModuleName));
 	mir_wstrcpy(colourid.name, LPGENW("Frame background"));
-	clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
+	clBack = CallService(MS_COLOUR_GETW, (WPARAM)&colourid, 0);
 
 	if (hBkgBrush)
 		DeleteObject(hBkgBrush);
@@ -460,13 +460,13 @@ void CreateFrame()
 	Frame.tname = TranslateT("Bass Interface");
 	Frame.hWnd = hwnd_plugin;
 	Frame.align = alBottom;
-	Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
+	Frame.Flags = F_UNICODE | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 	Frame.height = 22;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame_id = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
-	ColourIDT colourid = { 0 };
-	colourid.cbSize = sizeof(ColourIDT);
+	ColourIDW colourid = { 0 };
+	colourid.cbSize = sizeof(ColourIDW);
 
 	strcpy_s(colourid.dbSettingsGroup, ModuleName);
 	strcpy_s(colourid.setting, "ColorFrame");
@@ -474,7 +474,7 @@ void CreateFrame()
 	wcscpy_s(colourid.group, _A2W(ModuleName));
 
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	HookEvent(ME_COLOUR_RELOAD, ReloadColors);
 	ReloadColors(0, 0);
@@ -499,7 +499,7 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 		DBVARIANT dbv = { 0 };
 
 		BASS_DEVICEINFO info;
-		if (!db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
+		if (!db_get_ws(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
 			for (size_t i = 1; BASS_GetDeviceInfo((DWORD)i, &info); i++)
 				if (!mir_wstrcmp(dbv.ptszVal, _A2T(info.name)))
 					device = (int)i;
@@ -550,9 +550,9 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	}
 	else {
 		DBVARIANT dbv;
-		if (db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv)) {
-			mir_wstrncpy(CurrBassPath, VARST(L"Plugins\\Bass\\bass.dll"), _countof(CurrBassPath));
-			db_set_ts(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
+		if (db_get_ws(NULL, ModuleName, OPT_BASSPATH, &dbv)) {
+			mir_wstrncpy(CurrBassPath, VARSW(L"Plugins\\Bass\\bass.dll"), _countof(CurrBassPath));
+			db_set_ws(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
 		}
 		else {
 			mir_wstrcpy(CurrBassPath, dbv.ptszVal);

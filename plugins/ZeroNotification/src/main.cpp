@@ -70,7 +70,7 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
-		tvis.item.pszText = TranslateTS(values[i].szDescr);
+		tvis.item.pszText = TranslateW(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK((style&tvis.item.lParam) != 0 ? 2 : 1);
 		TreeView_InsertItem(hwndTree, &tvis);
@@ -206,7 +206,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_TCHAR;
+	odp.flags = ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOSOUND);
 	odp.pwszTitle = LPGENW("Zero Notifications");
 	odp.pwszGroup = LPGENW("Plugins");
@@ -236,7 +236,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 		CMenuItem mi;
 		mi.position = -0x7FFFFFFF;
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		UpdateMenuItem();
 
 		SET_UID(mi, 0x6bd635eb, 0xc4bb, 0x413b, 0xb9, 0x3, 0x81, 0x6d, 0x8f, 0xf1, 0x9b, 0xb0);

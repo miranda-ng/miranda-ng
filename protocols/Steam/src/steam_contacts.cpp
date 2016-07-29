@@ -14,7 +14,7 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 			{
 				// Contact is looking to play, save it to as status message
 				if (hContact)
-					db_set_ts(hContact, "CList", "StatusMsg", TranslateT("Looking to play"));
+					db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Looking to play"));
 			}
 			break;
 
@@ -22,7 +22,7 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 			{
 				// Contact is looking to trade, save it to as status message
 				if (hContact)
-					db_set_ts(hContact, "CList", "StatusMsg", TranslateT("Looking to trade"));
+					db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Looking to trade"));
 			}
 			break;
 
@@ -98,7 +98,7 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 {
 	// set common data
 	JSONNode *node = json_get(data, "personaname");
-	setTString(hContact, "Nick", ptrW(json_as_string(node)));
+	setWString(hContact, "Nick", ptrW(json_as_string(node)));
 
 	node = json_get(data, "profileurl");
 	setString(hContact, "Homepage", _T2A(ptrW(json_as_string(node))));
@@ -116,12 +116,12 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 			size_t pos = realname.find(L' ', 1);
 			if (pos != std::wstring::npos)
 			{
-				setTString(hContact, "FirstName", realname.substr(0, pos).c_str());
-				setTString(hContact, "LastName", realname.substr(pos + 1).c_str());
+				setWString(hContact, "FirstName", realname.substr(0, pos).c_str());
+				setWString(hContact, "LastName", realname.substr(pos + 1).c_str());
 			}
 			else
 			{
-				setTString(hContact, "FirstName", realname.c_str());
+				setWString(hContact, "FirstName", realname.c_str());
 				delSetting(hContact, "LastName");
 			}
 		}
@@ -186,23 +186,23 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
 		WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 		if (status == ID_STATUS_ONLINE || status == ID_STATUS_OUTTOLUNCH || status == ID_STATUS_FREECHAT)
-			setTString(hContact, "MirVer", L"Steam");
+			setWString(hContact, "MirVer", L"Steam");
 	}
 	else if (stateflags & 2) {
 		// game
-		setTString(hContact, "MirVer", L"Steam (in game)");
+		setWString(hContact, "MirVer", L"Steam (in game)");
 	}
 	else if (stateflags & 256) {
 		// on website
-		setTString(hContact, "MirVer", L"Steam (website)");
+		setWString(hContact, "MirVer", L"Steam (website)");
 	}
 	else if (stateflags & 512) {
 		// on mobile
-		setTString(hContact, "MirVer", L"Steam (mobile)");
+		setWString(hContact, "MirVer", L"Steam (mobile)");
 	}
 	else if (stateflags & 1024) {
 		// big picture mode
-		setTString(hContact, "MirVer", L"Steam (Big Picture)");
+		setWString(hContact, "MirVer", L"Steam (Big Picture)");
 	}
 	else {
 		// none/unknown (e.g. when contact is offline)
@@ -228,15 +228,15 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 		setString(hContact, "ServerIP", _T2A(serverIP));
 		setString(hContact, "ServerID", _T2A(serverID));
 
-		CMString message(gameInfo);
+		CMStringW message(gameInfo);
 		if (!gameId)
 			message.Append(TranslateT(" (Non-Steam)"));
 		if (serverIP[0] != '\0')
 			message.AppendFormat(TranslateT(" on server %s"), serverIP);
 		
 		setDword(hContact, "XStatusId", gameId);
-		setTString(hContact, "XStatusName", TranslateT("Playing"));
-		setTString(hContact, "XStatusMsg", message);
+		setWString(hContact, "XStatusName", TranslateT("Playing"));
+		setWString(hContact, "XStatusMsg", message);
 
 		SetContactExtraIcon(hContact, gameId);
 	}
@@ -264,7 +264,7 @@ void CSteamProto::ContactIsRemoved(MCONTACT hContact)
 		setDword(hContact, "DeletedTS", ::time(NULL));
 		SetContactStatus(hContact, ID_STATUS_OFFLINE);
 
-		ptrW nick(getTStringA(hContact, "Nick"));
+		ptrW nick(getWStringA(hContact, "Nick"));
 		wchar_t message[MAX_PATH];
 		mir_snwprintf(message, MAX_PATH, TranslateT("%s has been removed from your contact list"), nick);
 
@@ -282,7 +282,7 @@ void CSteamProto::ContactIsFriend(MCONTACT hContact)
 		delSetting(hContact, "DeletedTS");
 		delSetting(hContact, "Grant");
 
-		ptrW nick(getTStringA(hContact, "Nick"));
+		ptrW nick(getWStringA(hContact, "Nick"));
 		wchar_t message[MAX_PATH];
 		mir_snwprintf(message, MAX_PATH, TranslateT("%s is back in your contact list"), nick);
 
@@ -374,10 +374,10 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 
 		// move to default group
 		DBVARIANT dbv;
-		if (!getTString("DefaultGroup", &dbv))
+		if (!getWString("DefaultGroup", &dbv))
 		{
 			if(Clist_GroupExists(dbv.ptszVal))
-				db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
+				db_set_ws(hContact, "CList", "Group", dbv.ptszVal);
 			db_free(&dbv);
 		}
 	}
@@ -760,7 +760,7 @@ void CSteamProto::OnSearchResults(const HttpResponse *response, void *arg)
 
 			STEAM_SEARCH_RESULT ssr = { 0 };
 			ssr.hdr.cbSize = sizeof(STEAM_SEARCH_RESULT);
-			ssr.hdr.flags = PSR_TCHAR;
+			ssr.hdr.flags = PSR_UNICODE;
 
 			node = json_get(child, "steamid");
 			ssr.hdr.id.w = mir_wstrdup(ptrW(json_as_string(node)));

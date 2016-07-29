@@ -35,7 +35,7 @@ DWORD TopButtonInt::CheckFlags(DWORD Flags)
 	}
 	if (BitChanged(TTBBF_SHOWTOOLTIP)) {
 		dwFlags ^= TTBBF_SHOWTOOLTIP;
-		SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)((dwFlags & TTBBF_SHOWTOOLTIP) ? ptszTooltip : L""), BATF_TCHAR);
+		SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)((dwFlags & TTBBF_SHOWTOOLTIP) ? ptszTooltip : L""), BATF_UNICODE);
 	}
 	// next settings changing visual side, requires additional actions
 	if (BitChanged(TTBBF_VISIBLE)) {
@@ -98,7 +98,7 @@ void TopButtonInt::LoadSettings()
 		pszName = db_get_sa(0, TTB_OPTDIR, AS(buf, buf2, "_name"));
 		
 		mir_free(ptszProgram);
-		ptszProgram = db_get_tsa(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"));
+		ptszProgram = db_get_wsa(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"));
 
 		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
 		if (db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0)
@@ -134,7 +134,7 @@ void TopButtonInt::SaveSettings(int *SepCnt, int *LaunchCnt)
 		AS(buf2, "Launch", buf1);
 
 		db_set_s(0, TTB_OPTDIR, AS(buf, buf2, "_name"), pszName);
-		db_set_ts(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"), ptszProgram);
+		db_set_ws(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"), ptszProgram);
 		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), arrangedpos);
 		db_set_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), isVisible());
 	}
@@ -172,6 +172,6 @@ void TopButtonInt::SetBitmap()
 			pTooltip = ptszTooltipUp;
 		}
 		if (pTooltip)
-			SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateTH(hLangpack, pTooltip), BATF_TCHAR);
+			SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateW_LP(pTooltip, hLangpack), BATF_UNICODE);
 	}
 }

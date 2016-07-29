@@ -178,7 +178,7 @@ static void __cdecl WeatherGetAwayMsgThread(void *arg)
 
 	MCONTACT hContact = (DWORD_PTR)arg;
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
+	if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
 		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 	}

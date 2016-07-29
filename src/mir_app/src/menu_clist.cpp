@@ -467,7 +467,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			if (reset || check) {
 				TMO_IntMenuItem *timiParent = MO_GetIntMenuItem(pimi->mi.root);
 				if (timiParent) {
-					LPTSTR ptszName = TranslateTH(pimi->mi.hLangpack, pimi->mi.hIcolibItem ? pimi->mi.name.w : LPGENW("Custom status"));
+					LPTSTR ptszName = TranslateW_LP(pimi->mi.hIcolibItem ? pimi->mi.name.w : LPGENW("Custom status"), pimi->mi.hLangpack);
 
 					timiParent = MO_GetIntMenuItem(pimi->mi.root);
 
@@ -816,7 +816,7 @@ void RebuildMenuOrder(void)
 
 		// adding root
 		CMenuItem mi;
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 		mi.position = pos++;
 		mi.hIcon = ic = (HICON)CallProtoServiceInt(NULL, pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
@@ -832,7 +832,7 @@ void RebuildMenuOrder(void)
 		TMO_IntMenuItem *rootmenu = Menu_AddItem(hStatusMenuObject, &mi, smep);
 
 		memset(&mi, 0, sizeof(mi));
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 		mi.root = rootmenu;
 		mi.position = pos++;
 		mi.hIcon = ic;
@@ -873,7 +873,7 @@ void RebuildMenuOrder(void)
 
 			// adding
 			memset(&mi, 0, sizeof(mi));
-			mi.flags = CMIF_TCHAR;
+			mi.flags = CMIF_UNICODE;
 			if (statusModeList[j] == ID_STATUS_OFFLINE)
 				mi.flags |= CMIF_CHECKED;
 			mi.root = rootmenu;
@@ -914,7 +914,7 @@ void RebuildMenuOrder(void)
 				continue;
 
 			CMenuItem mi;
-			mi.flags = CMIF_TCHAR;
+			mi.flags = CMIF_UNICODE;
 			if (statusModeList[j] == ID_STATUS_OFFLINE)
 				mi.flags |= CMIF_CHECKED;
 
@@ -1145,14 +1145,14 @@ void InitCustomMenus(void)
 	CreateServiceFunction(MS_CLIST_HKSTATUS, HotkeySetStatus);
 
 	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.ptszSection = L"Status";
-	hkd.dwFlags = HKD_TCHAR;
+	hkd.pwszSection = L"Status";
+	hkd.dwFlags = HKD_UNICODE;
 	for (int i = 0; i < _countof(statusHotkeys); i++) {
 		char szName[30];
 		mir_snprintf(szName, "StatusHotKey_%d", i);
 		hkd.pszName = szName;
 		hkd.lParam = statusModeList[i];
-		hkd.ptszDescription = fnGetStatusModeDescription(hkd.lParam, 0);
+		hkd.pwszDescription = fnGetStatusModeDescription(hkd.lParam, 0);
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '0' + i) | HKF_MIRANDA_LOCAL;
 		hkd.pszService = MS_CLIST_HKSTATUS;
 		statusHotkeys[i] = Hotkey_Register(&hkd);

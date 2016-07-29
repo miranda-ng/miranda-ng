@@ -731,7 +731,7 @@ bool MyBitmap::loadFromFile(const wchar_t *fn)
 		return loadFromFile_gradient(fn);
 
 	SIZE sz;
-	HBITMAP hBmpLoaded = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)fn, IMGL_TCHAR);
+	HBITMAP hBmpLoaded = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)fn, IMGL_WCHAR);
 	if (!hBmpLoaded)
 		return false;
 

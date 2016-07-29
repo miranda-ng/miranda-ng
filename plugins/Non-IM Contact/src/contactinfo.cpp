@@ -120,12 +120,12 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			/* link*/
 			DBVARIANT dbv;
-			if (!db_get_ts(hContact, MODNAME, "ProgramString", &dbv)) {
+			if (!db_get_ws(hContact, MODNAME, "ProgramString", &dbv)) {
 				SetDlgItemText(hwnd, IDC_LINK, dbv.ptszVal);
 				db_free(&dbv);
 			}
 
-			if (!db_get_ts(hContact, MODNAME, "ProgramParamsString", &dbv)) {
+			if (!db_get_ws(hContact, MODNAME, "ProgramParamsString", &dbv)) {
 				SetDlgItemText(hwnd, IDC_PARAMS, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -135,7 +135,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++)
 				SendDlgItemMessage(hwnd, IDC_GROUP, CB_INSERTSTRING, 0, LPARAM(szGroup));
 
-			if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
+			if (!db_get_ws(hContact, "CList", "Group", &dbv)) {
 				SetDlgItemText(hwnd, IDC_GROUP, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -237,7 +237,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					wchar_t text[512];
 					GetDlgItemText(hwnd, IDC_GROUP, text, _countof(text));
 					Clist_GroupCreate(NULL, text);
-					db_set_ts(hContact, "CList", "Group", text);
+					db_set_ws(hContact, "CList", "Group", text);
 				}
 				else db_unset(hContact, "CList", "Group");
 

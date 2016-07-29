@@ -417,7 +417,7 @@ BOOL GGPROTO::sessions_closedlg()
 void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 {
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.root = hRoot;
 	
 	mi.pszService = GGS_CONCUR_SESS;

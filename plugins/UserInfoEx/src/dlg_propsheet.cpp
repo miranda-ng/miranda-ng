@@ -124,7 +124,7 @@ private:
 		// check if icq is online
 		if (!IsProtoOnline((*_pPd)->szModuleName))
 			MsgBox(_pPs->hDlg, MB_ICON_WARNING, TranslateT("Upload details"),
-				CMString(FORMAT, TranslateT("Protocol '%s' is offline"), _A2T((*_pPd)->szModuleName)),
+				CMStringW(FORMAT, TranslateT("Protocol '%s' is offline"), _A2T((*_pPd)->szModuleName)),
 				TranslateT("You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only."));
 
 		// start uploading process
@@ -507,7 +507,7 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 		if (lParam || bChangeDetailsEnabled) {
 			OPTIONSDIALOGPAGE odp = { 0 };
 			odp.hInstance = ghInst;
-			odp.flags = ODPF_ICON | ODPF_TCHAR;
+			odp.flags = ODPF_ICON | ODPF_UNICODE;
 			odp.pwszGroup = IcoLib_GetDefaultIconFileName();
 
 			if (lParam) {
@@ -1094,14 +1094,14 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		LPCTSTR pszName;
 		if (!pPs->hContact)
 			pszName = TranslateT("Owner");
-		else if (pdbcws && pdbcws->value.type == DBVT_TCHAR)
+		else if (pdbcws && pdbcws->value.type == DBVT_WCHAR)
 			pszName = pdbcws->value.ptszVal;
 		else
 			pszName = DB::Contact::DisplayName(pPs->hContact);
 
 		HWND hName = GetDlgItem(hDlg, TXT_NAME);
 		SetWindowText(hName, pszName);
-		SetWindowText(hDlg, CMString(FORMAT, L"%s - %s", pszName, TranslateT("edit contact information")));
+		SetWindowText(hDlg, CMStringW(FORMAT, L"%s - %s", pszName, TranslateT("edit contact information")));
 		SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("View personal user details and more"));
 
 		// redraw the name control

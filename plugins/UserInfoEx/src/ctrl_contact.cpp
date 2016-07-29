@@ -172,11 +172,11 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 			wchar_t szButton[MAX_PATH];
 			HWND hBtn = GetDlgItem(hDlg, IDOK);
 			GetWindowText(hBtn, szButton, _countof(szButton));
-			SetWindowText(hBtn, TranslateTS(szButton));
+			SetWindowText(hBtn, TranslateW(szButton));
 
 			hBtn = GetDlgItem(hDlg, IDCANCEL);
 			GetWindowText(hBtn, szButton, _countof(szButton));
-			SetWindowText(hBtn, TranslateTS(szButton));
+			SetWindowText(hBtn, TranslateW(szButton));
 		}
 		return TRUE;
 
@@ -256,10 +256,10 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 				hBtn = GetDlgItem(hDlg, IDOK);
 				GetWindowText(hBtn, szButton, _countof(szButton));
-				SetWindowText(hBtn, TranslateTS(szButton));
+				SetWindowText(hBtn, TranslateW(szButton));
 				hBtn = GetDlgItem(hDlg, IDCANCEL);
 				GetWindowText(hBtn, szButton, _countof(szButton));
-				SetWindowText(hBtn, TranslateTS(szButton));
+				SetWindowText(hBtn, TranslateW(szButton));
 			}
 			if (*cbi->pszVal) SetWindowText(hDlg, LPGENW("Edit phone number"));
 			if (cbi->wFlags & CBEXIF_SMS) CheckDlgButton(hDlg, CHECK_SMS, BST_CHECKED);
@@ -1430,7 +1430,7 @@ int CtrlContactWriteItemToDB(
 		if (cbi.wFlags & CBEXIF_SMS)
 			mir_wstrncat(szVal, L" SMS", _countof(szVal) - mir_wstrlen(szVal));
 
-		if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
+		if (db_set_ws(hContact, pszModule, pszSetting, szVal)) return 1;
 	}
 	cbi.wFlags &= ~CTRLF_CHANGED;
 	cbi.wMask = CBEXIM_FLAGS;
@@ -1482,12 +1482,12 @@ int CtrlContactWriteMyItemsToDB(
 			}
 			mir_snprintf(pszSetting, szFormatCat, i);
 			if (*szCat && wcsncmp(szCat, pszOther, ccOther)) {
-				if (db_set_ts(hContact, pszModule, pszSetting, szCat)) return 1;
+				if (db_set_ws(hContact, pszModule, pszSetting, szCat)) return 1;
 			}
 			else
 				db_unset(hContact, pszModule, pszSetting);
 			mir_snprintf(pszSetting, szFormatVal, i);
-			if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
+			if (db_set_ws(hContact, pszModule, pszSetting, szVal)) return 1;
 			cbi.wFlags &= ~CTRLF_CHANGED;
 			cbi.wMask = CBEXIM_FLAGS;
 			CtrlContactWndProc(hCtrl, CBEXM_SETITEM, NULL, (LPARAM)&cbi);

@@ -50,7 +50,7 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 		mir_snprintf(str, "SRMFont%d", i);
 
 		DBVARIANT dbv;
-		if (db_get_ts(NULL, "SRMM", str, &dbv))
+		if (db_get_ws(NULL, "SRMM", str, &dbv))
 			mir_wstrcpy(lf->lfFaceName, L"Arial");
 		else {
 			mir_wstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
@@ -160,7 +160,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
 	for (int i = 0; i < gcmi.nItems; i++) {
-		wchar_t* ptszText = TranslateTS(gcmi.Item[i].pszDesc);
+		wchar_t* ptszText = TranslateW(gcmi.Item[i].pszDesc);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (gcmi.Item[i].uType == MENU_NEWPOPUP) {

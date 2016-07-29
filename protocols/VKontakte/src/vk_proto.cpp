@@ -65,7 +65,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 
 	NETLIBUSER nlu = {sizeof(nlu)};
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -120,7 +120,7 @@ int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CVkProto::OnDbEventRead);
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CVkProto::OnDbSettingChanged);
 	//Sounds
-	SkinAddNewSoundExT("VKNewsFeed", m_tszUserName, LPGENW("VKontakte newsfeed & notification event"));
+	SkinAddNewSoundExW("VKNewsFeed", m_tszUserName, LPGENW("VKontakte newsfeed & notification event"));
 
 	InitPopups();
 	InitMenus();
@@ -228,7 +228,7 @@ void CVkProto::InitMenus()
 		
 	// Contact Menu Items
 	mi.root = NULL;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 
 	mi.pszService = PS_VISITPROFILE;
 	mi.position = -200001000 + CMI_VISITPROFILE;
@@ -575,7 +575,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			int iRet = jnResponse.as_int();
 			setByte(param->hContact, "Auth", 0);
 			if (iRet == 2) {
-				CMString msg,			
+				CMStringW msg,			
 					wszNick(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick")));
 				if (wszNick.IsEmpty())
 					wszNick = TranslateT("(Unknown contact)");

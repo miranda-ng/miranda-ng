@@ -280,7 +280,7 @@ private:
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
 
-	void SetAvatarUrl(MCONTACT hContact, CMString &tszUrl);
+	void SetAvatarUrl(MCONTACT hContact, CMStringW &tszUrl);
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen);
 
@@ -408,8 +408,8 @@ private:
 	//---/
 
 	time_t GetLastMessageTime(MCONTACT hContact);
-	CMString RunConfirmationCode();
-	CMString ChangeTopicForm();
+	CMStringW RunConfirmationCode();
+	CMStringW ChangeTopicForm();
 	void CloseDialogs();
 	//events
 	void InitDBEvents();

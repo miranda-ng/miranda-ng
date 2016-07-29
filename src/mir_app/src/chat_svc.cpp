@@ -257,7 +257,7 @@ static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 	db_set_s(si->hContact, si->pszModule, "Topic", "");
 	db_unset(si->hContact, "CList", "StatusMsg");
 	if (si->ptszStatusbarText)
-		db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
+		db_set_ws(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 	else
 		db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 
@@ -358,7 +358,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 			replaceStrW(si->ptszStatusbarText, gce->ptszText);
 			if (si->ptszStatusbarText)
-				db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
+				db_set_ws(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
 				db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 
@@ -451,11 +451,11 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		if (SESSION_INFO *si = chatApi.SM_FindSession(gcd->ptszID, gcd->pszModule)) {
 			if (gce->ptszText) {
 				replaceStrW(si->ptszTopic, RemoveFormatting(gce->ptszText));
-				db_set_ts(si->hContact, si->pszModule, "Topic", si->ptszTopic);
+				db_set_ws(si->hContact, si->pszModule, "Topic", si->ptszTopic);
 				if (chatApi.OnSetTopic)
 					chatApi.OnSetTopic(si);
 				if (db_get_b(NULL, CHAT_MODULE, "TopicOnClist", 0))
-					db_set_ts(si->hContact, "CList", "StatusMsg", si->ptszTopic);
+					db_set_ws(si->hContact, "CList", "StatusMsg", si->ptszTopic);
 			}
 		}
 		break;

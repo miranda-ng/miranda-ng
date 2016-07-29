@@ -34,7 +34,7 @@ void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr)
 }
 
 
-void WriteBBFile(CMString& buffer, bool hdr)
+void WriteBBFile(CMStringW& buffer, bool hdr)
 {
 	static const wchar_t header[] = TEXT("[spoiler=VersionInfo][quote]");
 	static const wchar_t footer[] = TEXT("[/quote][/spoiler]");
@@ -55,7 +55,7 @@ void WriteUtfFile(HANDLE hDumpFile, char* bufu)
 
 BOOL CALLBACK LoadedModules64(LPCSTR, DWORD64 ModuleBase, ULONG ModuleSize, PVOID UserContext)
 {
-	CMString& buffer = *(CMString*)UserContext;
+	CMStringW& buffer = *(CMStringW*)UserContext;
 
 	const HMODULE hModule = (HMODULE)ModuleBase;
 
@@ -100,7 +100,7 @@ BOOL CALLBACK LoadedModulesFind64(LPCSTR ModuleName, DWORD64 ModuleBase, ULONG M
 }
 
 
-void GetLinkedModulesInfo(wchar_t *moduleName, CMString &buffer)
+void GetLinkedModulesInfo(wchar_t *moduleName, CMStringW &buffer)
 {
 	HANDLE hDllFile = CreateFile(moduleName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hDllFile == INVALID_HANDLE_VALUE)
@@ -165,11 +165,11 @@ struct ListItem
 {
 	ListItem() : str(), next(NULL) {}
 
-	CMString str;
+	CMStringW str;
 	ListItem *next;
 };
 
-static void GetPluginsString(CMString& buffer, unsigned& flags)
+static void GetPluginsString(CMStringW& buffer, unsigned& flags)
 {
 	buffer.AppendFormat(TEXT("Service Mode: %s\r\n"), servicemode ? TEXT("Yes") : TEXT("No"));
 
@@ -186,7 +186,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 
 	size_t count = 0, ucount = 0;
 
-	CMString ubuffer;
+	CMStringW ubuffer;
 	ListItem* dlllist = NULL;
 
 	static const wchar_t format[] = TEXT("\xa4 %s v.%s%d.%d.%d.%d%s [%s] - %S %s\r\n");
@@ -299,7 +299,7 @@ struct ProtoCount
 	bool nloaded;
 };
 
-static void GetProtocolStrings(CMString& buffer)
+static void GetProtocolStrings(CMStringW& buffer)
 {
 	PROTOACCOUNT **accList;
 	int accCount;
@@ -350,7 +350,7 @@ static void GetProtocolStrings(CMString& buffer)
 }
 
 
-static void GetWeatherStrings(CMString& buffer, unsigned flags)
+static void GetWeatherStrings(CMStringW& buffer, unsigned flags)
 {
 	wchar_t path[MAX_PATH];
 	GetModuleFileName(NULL, path, MAX_PATH);
@@ -417,7 +417,7 @@ static void GetWeatherStrings(CMString& buffer, unsigned flags)
 }
 
 
-static void GetIconStrings(CMString& buffer)
+static void GetIconStrings(CMStringW& buffer)
 {
 	wchar_t path[MAX_PATH];
 	GetModuleFileName(NULL, path, MAX_PATH);
@@ -442,7 +442,7 @@ static void GetIconStrings(CMString& buffer)
 }
 
 
-void PrintVersionInfo(CMString& buffer, unsigned flags)
+void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 {
 	GetProcessorString(buffer);
 	buffer.Append(L"\r\n");
@@ -576,7 +576,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wcha
 	wchar_t curtime[30];
 	GetISO8061Time(NULL, curtime, 30);
 
-	CMString buffer;
+	CMStringW buffer;
 	buffer.AppendFormat(TEXT("Miranda Crash Report from %s. Crash Dumper v.%d.%d.%d.%d\r\n"),
 		curtime,
 		HIBYTE(HIWORD(pluginInfoEx->version)), LOBYTE(HIWORD(pluginInfoEx->version)),
@@ -654,7 +654,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wcha
 				static const wchar_t formatc[] = TEXT("\r\nLikely cause of the crash plugin: %S\r\n\r\n");
 
 				if (pi->shortName) {
-					CMString crashcause;
+					CMStringW crashcause;
 					crashcause.AppendFormat(formatc, pi->shortName);
 					buffer.Insert(crashpos, crashcause);
 				}

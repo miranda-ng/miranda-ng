@@ -384,7 +384,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case M_UPDATE_COUNTDOWN:  /* lParam=(WORD)countdown */
 		{
 			wchar_t szText[256];
-			mir_snwprintf(szText, TranslateTS(desc[shutdownType - 1]), lParam);
+			mir_snwprintf(szText, TranslateW(desc[shutdownType - 1]), lParam);
 			SetDlgItemText(hwndDlg, IDC_TEXT_HEADER, szText);
 			/* countdown finished */
 			if (!lParam)
@@ -477,7 +477,7 @@ INT_PTR ServiceGetTypeDescription(WPARAM wParam, LPARAM lParam)
 	if (!wParam || (BYTE)wParam > SDSDT_MAX) return 0;
 	/* select description */
 	wchar_t *pszDesc = (wchar_t*)((lParam&GSTDF_LONGDESC) ? apszLong : apszShort)[wParam - 1];
-	if (!(lParam&GSTDF_UNTRANSLATED)) pszDesc = TranslateTS(pszDesc);
+	if (!(lParam&GSTDF_UNTRANSLATED)) pszDesc = TranslateW(pszDesc);
 	/* convert as needed */
 	if (!(lParam&GSTDF_UNICODE)) {
 		static char szConvBuf[128];
@@ -496,7 +496,7 @@ void InitShutdownSvc(void)
 {
 	/* Shutdown Dialog */
 	hwndShutdownDlg = NULL;
-	SkinAddNewSoundExT("AutoShutdown_Countdown", LPGENW("Alerts"), LPGENW("Automatic shutdown countdown"));
+	SkinAddNewSoundExW("AutoShutdown_Countdown", LPGENW("Alerts"), LPGENW("Automatic shutdown countdown"));
 
 	/* Events */
 	hEventOkToShutdown = CreateHookableEvent(ME_AUTOSHUTDOWN_OKTOSHUTDOWN);

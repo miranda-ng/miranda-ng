@@ -46,7 +46,7 @@ static void sttPreviewSkin(MODERNOPTOBJECT *obj, wchar_t *fn, LPDRAWITEMSTRUCT l
 		return;
 	}
 
-	HBITMAP hbmPreview = Bitmap_Load(CMString(fn) + L".png");
+	HBITMAP hbmPreview = Bitmap_Load(CMStringW(fn) + L".png");
 	if (!hbmPreview)
 		return;
 

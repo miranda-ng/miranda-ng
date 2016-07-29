@@ -30,7 +30,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 	case WM_CONTEXTMENU:
 		MCONTACT hContact = PUGetContact(hWnd);
-		ptrW url( db_get_tsa(hContact, MODULENAME, URL_KEY));
+		ptrW url( db_get_wsa(hContact, MODULENAME, URL_KEY));
 
 		if (message == WM_COMMAND) { // left click
 			if(hContact != NULL) { 
@@ -115,7 +115,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 
 	if( ((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
-		db_get_ts(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
+		db_get_ws(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
 		mir_wstrncpy(ppd.lptzContactName, dbv.ptszVal, _countof(ppd.lptzContactName));
 		db_free(&dbv);
 	}
@@ -192,7 +192,7 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 		PUShowMessageT(newdisplaytext, SM_WARNING);
 	}
 	else if ( ServiceExists("OSD/Announce") && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
-		mir_snwprintf(newdisplaytext, L"%s: %s", ptszContactName, TranslateTS(displaytext));
+		mir_snwprintf(newdisplaytext, L"%s: %s", ptszContactName, TranslateW(displaytext));
 		CallService("OSD/Announce", (WPARAM)newdisplaytext, 0);
 	}
 	else if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
@@ -200,7 +200,7 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 		webview_tip.cbSize = sizeof(MIRANDASYSTRAYNOTIFY);
 		webview_tip.szProto = NULL;
 		webview_tip.tszInfoTitle = ptszContactName;
-		webview_tip.tszInfo = TranslateTS(displaytext);
+		webview_tip.tszInfo = TranslateW(displaytext);
 		webview_tip.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
 		webview_tip.uTimeout = 15000;
 		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) &webview_tip);
@@ -445,7 +445,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			else {
 				fwrite(tempraw, mir_strlen(tempraw), 1, pcachefile); //smaller cache
 				fclose(pcachefile);
-				db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
+				db_set_ws(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
 			}
 			// end write to cache
 
@@ -656,7 +656,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot write to file 2"));
 				else {
 					fwrite(raw, mir_strlen(raw), 1, pcachefile); //smaller cache
-					db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
+					db_set_ws(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
 					fclose(pcachefile);
 				}
 				// end write to cache

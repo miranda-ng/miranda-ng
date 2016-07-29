@@ -27,12 +27,12 @@ void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const ch
 {
 	GList *members, *mem;
 	CSametimeProto* proto = getProtoFromMwConference(conf);
-	proto->debugLog(L"mwServiceConf_on_invited() start");
+	proto->debugLogW(L"mwServiceConf_on_invited() start");
 
 	members = mem = mwConference_getMembers(conf);
 	for (;mem;mem=mem->next) {
 		if (proto->my_login_info && strcmp(proto->my_login_info->login_id, ((mwLoginInfo*)mem->data)->login_id) == 0) {
-			proto->debugLog(L"mwServiceConf_on_invited() already present");
+			proto->debugLogW(L"mwServiceConf_on_invited() already present");
 			mwConference_reject(conf, 0, T2Utf(TranslateT("Invitation rejected - already present.")));
 			return;
 		}
@@ -46,11 +46,11 @@ void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const ch
 	MultiByteToWideChar(CP_UTF8, 0, (const char*)invite, -1, ws_invite, 128);
 
 	if (MessageBoxW(0, ws_invite, ws_username, MB_OKCANCEL) == IDOK) {
-		proto->debugLog(L"mwServiceConf_on_invited() mwConference_accept");
+		proto->debugLogW(L"mwServiceConf_on_invited() mwConference_accept");
 		mwConference_accept(conf);
 	}
 	else {
-		proto->debugLog(L"mwServiceConf_on_invited() mwConference_reject");
+		proto->debugLogW(L"mwServiceConf_on_invited() mwConference_reject");
 		char* temp = mir_utf8encodeW(TranslateT("Your invitation has been rejected."));
 		mwConference_reject(conf, 0, temp);
 		mir_free(temp);
@@ -59,7 +59,7 @@ void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const ch
 
 void CSametimeProto::ClearInviteQueue()
 {	
-	debugLog(L"CSametimeProto::ClearInviteQueue() start");
+	debugLogW(L"CSametimeProto::ClearInviteQueue() start");
 	if (!my_conference)
 		return;
 
@@ -106,7 +106,7 @@ void CSametimeProto::ClearInviteQueue()
 void mwServiceConf_conf_opened(mwConference* conf, GList* members) 
 {	
 	CSametimeProto* proto = getProtoFromMwConference(conf);
-	proto->debugLog(L"mwServiceConf_conf_opened() start");
+	proto->debugLogW(L"mwServiceConf_conf_opened() start");
 
 	wchar_t* tszConfId = mir_utf8decodeW(mwConference_getName(conf));
 	wchar_t* tszConfTitle = mir_utf8decodeW(mwConference_getTitle(conf));
@@ -139,7 +139,7 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 
 	GList *user = members;
 	for (;user; user=user->next) {
-		proto->debugLog(L"mwServiceConf_conf_opened() add user");
+		proto->debugLogW(L"mwServiceConf_conf_opened() add user");
 
 		wchar_t* tszUserName = mir_utf8decodeW(((mwLoginInfo*)user->data)->user_name);
 		wchar_t* tszUserId = mir_utf8decodeW(((mwLoginInfo*)user->data)->login_id);
@@ -171,7 +171,7 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 void mwServiceConf_conf_closed(mwConference* conf, guint32 reason)
 {
 	CSametimeProto* proto = getProtoFromMwConference(conf);
-	proto->debugLog(L"mwServiceConf_conf_closed() start");
+	proto->debugLogW(L"mwServiceConf_conf_closed() start");
 
 	wchar_t* tszConfId = mir_utf8decodeW(mwConference_getName(conf));
 
@@ -191,7 +191,7 @@ void mwServiceConf_conf_closed(mwConference* conf, guint32 reason)
 void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo *user)
 {
 	CSametimeProto* proto = getProtoFromMwConference(conf);
-	proto->debugLog(L"mwServiceConf_on_peer_joined() start");
+	proto->debugLogW(L"mwServiceConf_on_peer_joined() start");
 
 	MCONTACT hContact = proto->FindContactByUserId(user->user_id);
 	if (!hContact) {
@@ -235,7 +235,7 @@ void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo *user)
 void mwServiceConf_on_peer_parted(mwConference* conf, mwLoginInfo* user)
 {
 	CSametimeProto* proto = getProtoFromMwConference(conf);
-	proto->debugLog(L"mwServiceConf_on_peer_parted() start");
+	proto->debugLogW(L"mwServiceConf_on_peer_parted() start");
 
 	ptrW tszConfId(mir_utf8decodeW(mwConference_getName(conf)));
 	ptrW tszUserName(mir_utf8decodeW(user->user_name));
@@ -259,7 +259,7 @@ void mwServiceConf_on_peer_parted(mwConference* conf, mwLoginInfo* user)
 void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* what)
 {
 	CSametimeProto* proto = getProtoFromMwConference(conf);
-	proto->debugLog(L"mwServiceConf_on_text() start");
+	proto->debugLogW(L"mwServiceConf_on_text() start");
 
 	wchar_t* tszConfId = mir_utf8decodeW(mwConference_getName(conf));
 
@@ -290,7 +290,7 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 void mwServiceConf_on_typing(mwConference* conf, mwLoginInfo* who, gboolean typing)
 {
 	CSametimeProto* proto = getProtoFromMwConference(conf);
-	proto->debugLog(L"mwServiceConf_on_typing() start");
+	proto->debugLogW(L"mwServiceConf_on_typing() start");
 	///TODO unimplemented
 }
 
@@ -312,7 +312,7 @@ mwConferenceHandler mwConference_handler = {
 
 void CSametimeProto::TerminateConference(char* name)
 {
-	debugLog(L"CSametimeProto::TerminateConference() start");
+	debugLogW(L"CSametimeProto::TerminateConference() start");
 		
 	GList *conferences, *conf;
 	conferences = conf = mwServiceConference_getConferences(service_conference);
@@ -346,17 +346,17 @@ int CSametimeProto::GcEventHook(WPARAM wParam, LPARAM lParam) {
 			switch(gch->pDest->iType) {
 			case GC_USER_MESSAGE:
 				{
-					debugLog(L"CSametimeProto::GcEventHook() GC_USER_MESSAGE");
+					debugLogW(L"CSametimeProto::GcEventHook() GC_USER_MESSAGE");
 					mwConference_sendText((mwConference*)conf->data, T2Utf(gch->ptszText));
 				}
 				break;
 			case GC_SESSION_TERMINATE:
 				{
 					if (my_conference == conf->data){
-						debugLog(L"CSametimeProto::GcEventHook() GC_SESSION_TERMINATE CloseMyConference");
+						debugLogW(L"CSametimeProto::GcEventHook() GC_SESSION_TERMINATE CloseMyConference");
 						CloseMyConference(this);
 					} else {
-						debugLog(L"CSametimeProto::GcEventHook() GC_SESSION_TERMINATE mwConference_destroy");
+						debugLogW(L"CSametimeProto::GcEventHook() GC_SESSION_TERMINATE mwConference_destroy");
 						mwConference_destroy((mwConference*)conf->data, 0, T2Utf(TranslateT("I'm outa here.")));
 					}
 				}
@@ -378,7 +378,7 @@ int CSametimeProto::ChatDeleted(MCONTACT hContact) {
 	if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0)
 		return 0;
 
-	debugLog(L"CSametimeProto::ChatDeleted() hContact=[%x]", hContact);
+	debugLogW(L"CSametimeProto::ChatDeleted() hContact=[%x]", hContact);
 	DBVARIANT dbv;
 	if (!db_get_s(hContact, m_szModuleName, "ChatRoomID", &dbv)) {
 		TerminateConference(dbv.pszVal);
@@ -392,7 +392,7 @@ int CSametimeProto::ChatDeleted(MCONTACT hContact) {
 INT_PTR CSametimeProto::onMenuLeaveChat(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
-	debugLog(L"CSametimeProto::onMenuLeaveChat() hContact=[%x]", hContact);
+	debugLogW(L"CSametimeProto::onMenuLeaveChat() hContact=[%x]", hContact);
 	ChatDeleted(hContact);
 	return 0;
 }
@@ -401,7 +401,7 @@ INT_PTR CSametimeProto::onMenuLeaveChat(WPARAM wParam, LPARAM lParam)
 INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
-	debugLog(L"CSametimeProto::onMenuCreateChat() hContact=[%x]", hContact);
+	debugLogW(L"CSametimeProto::onMenuCreateChat() hContact=[%x]", hContact);
 	mwAwareIdBlock id_block;
 	mwIdBlock idb;
 	if (my_login_info && GetAwareIdFromContact(hContact, &id_block)) {
@@ -416,12 +416,12 @@ INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM lParam)
 		invite_queue.push(idb.user);
 
 		if (!my_conference) {
-			debugLog(L"CSametimeProto::onMenuCreateChat() mwConference_open");
+			debugLogW(L"CSametimeProto::onMenuCreateChat() mwConference_open");
 			my_conference = mwConference_new(service_conference, T2Utf(title));
 			mwConference_open(my_conference);
 		}
 		else {
-			debugLog(L"CSametimeProto::onMenuCreateChat() ClearInviteQueue");
+			debugLogW(L"CSametimeProto::onMenuCreateChat() ClearInviteQueue");
 			ClearInviteQueue();
 		}
 
@@ -434,7 +434,7 @@ INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM lParam)
 int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
-	debugLog(L"CSametimeProto::PrebuildContactMenu() hContact=[%x]", hContact);
+	debugLogW(L"CSametimeProto::PrebuildContactMenu() hContact=[%x]", hContact);
 
 	Menu_ShowItem(hLeaveChatMenuItem, db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 1);
 
@@ -463,7 +463,7 @@ int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void CSametimeProto::InitConference()
 {
-	debugLog(L"CSametimeProto::InitConference()");
+	debugLogW(L"CSametimeProto::InitConference()");
 
 	my_login_info = mwSession_getLoginInfo(session);
 
@@ -476,7 +476,7 @@ void CSametimeProto::InitConference()
 void CSametimeProto::DeinitConference()
 {
 	GList *conferences, *conf;
-	debugLog(L"CSametimeProto::DeinitConference()");
+	debugLogW(L"CSametimeProto::DeinitConference()");
 
 	if (service_conference){
 		conferences = conf = mwServiceConference_getConferences(service_conference);
@@ -500,13 +500,13 @@ void CSametimeProto::DeinitConference()
 
 void CSametimeProto::InitConferenceMenu()
 {
-	debugLog(L"CSametimeProto::InitConferenceMenu()");
+	debugLogW(L"CSametimeProto::InitConferenceMenu()");
 
 	CreateProtoService(MS_SAMETIME_MENULEAVECHAT, &CSametimeProto::onMenuLeaveChat);
 	CreateProtoService(MS_SAMETIME_MENUCREATECHAT, &CSametimeProto::onMenuCreateChat);
 
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
+	mi.flags = CMIF_UNICODE | CMIF_NOTOFFLINE;
 	
 	SET_UID(mi, 0x98cf8a8c, 0x75ba, 0x46f2, 0xa3, 0x35, 0x65, 0x46, 0x4a, 0x38, 0x20, 0x7d);
 	mi.name.w = LPGENW("Leave conference");

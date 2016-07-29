@@ -103,9 +103,9 @@ MCONTACT CJabberProto::DBCreateContact(const wchar_t *jid, const wchar_t *nick, 
 
 	MCONTACT hNewContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	Proto_AddToContact(hNewContact, m_szModuleName);
-	setTString(hNewContact, "jid", szJid);
+	setWString(hNewContact, "jid", szJid);
 	if (nick != NULL && *nick != '\0')
-		setTString(hNewContact, "Nick", nick);
+		setWString(hNewContact, "Nick", nick);
 	if (temporary)
 		db_set_b(hNewContact, "CList", "NotOnList", 1);
 	else
@@ -114,7 +114,7 @@ MCONTACT CJabberProto::DBCreateContact(const wchar_t *jid, const wchar_t *nick, 
 	if (JABBER_LIST_ITEM *pItem = ListAdd(LIST_ROSTER, jid, hNewContact))
 		pItem->bUseResource = wcschr(szJid, '/') != 0;
 	
-	debugLog(L"Create Jabber contact jid=%s, nick=%s", szJid, nick);
+	debugLogW(L"Create Jabber contact jid=%s, nick=%s", szJid, nick);
 	DBCheckIsTransportedContact(szJid, hNewContact);
 	return hNewContact;
 }
@@ -156,11 +156,11 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 
 void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeT(pszDest);
+		CreateDirectoryTreeW(pszDest);
 
 	pszDest[tPathLen++] = '\\';
 
@@ -203,8 +203,8 @@ void CJabberProto::ResolveTransportNicks(const wchar_t *jid)
 		if (!getByte(hContact, "IsTransported", 0))
 			continue;
 
-		ptrW dbJid(getTStringA(hContact, "jid")); if (dbJid == NULL) continue;
-		ptrW dbNick(getTStringA(hContact, "Nick")); if (dbNick == NULL) continue;
+		ptrW dbJid(getWStringA(hContact, "jid")); if (dbJid == NULL) continue;
+		ptrW dbNick(getWStringA(hContact, "Nick")); if (dbNick == NULL) continue;
 
 		wchar_t *p = wcschr(dbJid, '@');
 		if (p == NULL)
@@ -300,7 +300,7 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 	if (!hContact)
 		return;
 
-	debugLog(L"JabberUpdateMirVer: for jid %s", item->jid);
+	debugLogW(L"JabberUpdateMirVer: for jid %s", item->jid);
 
 	pResourceStatus p(NULL);
 	if (item->resourceMode == RSMODE_LASTSEEN)
@@ -312,7 +312,7 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 		UpdateMirVer(hContact, p);
 }
 
-void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
+void CJabberProto::FormatMirVer(pResourceStatus &resource, CMStringW &res)
 {
 	res.Empty();
 	if (resource == NULL)
@@ -320,7 +320,7 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 
 	// jabber:iq:version info requested and exists?
 	if (resource->m_dwVersionRequestTime && resource->m_tszSoftware) {
-		debugLog(L"JabberUpdateMirVer: for iq:version rc %s: %s", resource->m_tszResourceName, resource->m_tszSoftware);
+		debugLogW(L"JabberUpdateMirVer: for iq:version rc %s: %s", resource->m_tszResourceName, resource->m_tszSoftware);
 		if (!resource->m_tszSoftwareVersion || wcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
 			res = resource->m_tszSoftware;
 		else
@@ -328,13 +328,13 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 	}
 	// no version info and no caps info? set MirVer = resource name
 	else if (!resource->m_tszCapsNode || !resource->m_tszCapsVer) {
-		debugLog(L"JabberUpdateMirVer: for rc %s: %s", resource->m_tszResourceName, resource->m_tszResourceName);
+		debugLogW(L"JabberUpdateMirVer: for rc %s: %s", resource->m_tszResourceName, resource->m_tszResourceName);
 		if (resource->m_tszResourceName)
 			res = resource->m_tszResourceName;
 	}
 	// XEP-0115 caps mode
 	else {
-		debugLog(L"JabberUpdateMirVer: for rc %s: %s#%s", resource->m_tszResourceName, resource->m_tszCapsNode, resource->m_tszCapsVer);
+		debugLogW(L"JabberUpdateMirVer: for rc %s: %s#%s", resource->m_tszResourceName, resource->m_tszCapsNode, resource->m_tszCapsVer);
 
 		int i;
 
@@ -374,12 +374,12 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, CMString &res)
 
 void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 {
-	CMString tszMirVer;
+	CMStringW tszMirVer;
 	FormatMirVer(resource, tszMirVer);
 	if (!tszMirVer.IsEmpty())
-		setTString(hContact, "MirVer", tszMirVer);
+		setWString(hContact, "MirVer", tszMirVer);
 
-	ptrW jid(getTStringA(hContact, "jid"));
+	ptrW jid(getWStringA(hContact, "jid"));
 	if (jid == NULL)
 		return;
 
@@ -388,32 +388,32 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 		mir_snwprintf(szFullJid, L"%s/%s", jid, resource->m_tszResourceName);
 	else
 		mir_wstrncpy(szFullJid, jid, _countof(szFullJid));
-	setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
+	setWString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
 }
 
 void CJabberProto::UpdateSubscriptionInfo(MCONTACT hContact, JABBER_LIST_ITEM *item)
 {
 	switch (item->subscription) {
 	case SUB_TO:
-		setTString(hContact, "SubscriptionText", TranslateT("To"));
+		setWString(hContact, "SubscriptionText", TranslateT("To"));
 		setString(hContact, "Subscription", "to");
 		setByte(hContact, "Auth", 0);
 		setByte(hContact, "Grant", 1);
 		break;
 	case SUB_FROM:
-		setTString(hContact, "SubscriptionText", TranslateT("From"));
+		setWString(hContact, "SubscriptionText", TranslateT("From"));
 		setString(hContact, "Subscription", "from");
 		setByte(hContact, "Auth", 1);
 		setByte(hContact, "Grant", 0);
 		break;
 	case SUB_BOTH:
-		setTString(hContact, "SubscriptionText", TranslateT("Both"));
+		setWString(hContact, "SubscriptionText", TranslateT("Both"));
 		setString(hContact, "Subscription", "both");
 		setByte(hContact, "Auth", 0);
 		setByte(hContact, "Grant", 0);
 		break;
 	case SUB_NONE:
-		setTString(hContact, "SubscriptionText", TranslateT("None"));
+		setWString(hContact, "SubscriptionText", TranslateT("None"));
 		setString(hContact, "Subscription", "none");
 		setByte(hContact, "Auth", 1);
 		setByte(hContact, "Grant", 1);
@@ -445,7 +445,7 @@ void CJabberProto::InitPopups(void)
 
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = LoadIconEx("main");
 	ppc.colorBack = RGB(191, 0, 0); //Red
@@ -476,25 +476,25 @@ void CJabberProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar
 	}
 }
 
-CMString CJabberProto::ExtractImage(HXML node)
+CMStringW CJabberProto::ExtractImage(HXML node)
 {
 	HXML nHtml, nBody, nImg;
 	LPCTSTR src;
-	CMString link;
+	CMStringW link;
 
 	if ((nHtml = XmlGetChild(node, "html")) != NULL &&
 		(nBody = XmlGetChild(nHtml, "body")) != NULL &&
 		(nImg = XmlGetChild(nBody, "img")) != NULL &&
 		(src = XmlGetAttrValue(nImg, L"src")) != NULL) {
 
-		CMString strSrc(src);
+		CMStringW strSrc(src);
 		if (strSrc.Left(11).Compare(L"data:image/") == 0) {
 			int end = strSrc.Find(L';');
 			if (end != -1) {
-				CMString ext(strSrc.c_str() + 11, end - 11);
+				CMStringW ext(strSrc.c_str() + 11, end - 11);
 				int comma = strSrc.Find(L',', end);
 				if (comma != -1) {
-					CMString image(strSrc.c_str() + comma + 1, strSrc.GetLength() - comma - 1);
+					CMStringW image(strSrc.c_str() + comma + 1, strSrc.GetLength() - comma - 1);
 					image.Replace(L"%2B", L"+");
 					image.Replace(L"%2F", L"/");
 					image.Replace(L"%3D", L"=");

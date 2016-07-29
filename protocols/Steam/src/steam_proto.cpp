@@ -24,7 +24,7 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	mir_snprintf(settingName, "%s_%s", MODULE, "main");
 
 	SKINICONDESC sid = { 0 };
-	sid.flags = SIDF_ALL_TCHAR;
+	sid.flags = SIDF_ALL_UNICODE;
 	sid.defaultFile.w = filePath;
 	sid.pszName = settingName;
 	sid.section.w = sectionName;
@@ -69,7 +69,7 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.ptszDescriptiveName = name;
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -296,7 +296,7 @@ int CSteamProto::SetStatus(int new_status)
 	if (new_status == m_iDesiredStatus)
 		return 0;
 
-	debugLog(L"CSteamProto::SetStatus: changing status from %i to %i", m_iStatus, new_status);
+	debugLogW(L"CSteamProto::SetStatus: changing status from %i to %i", m_iStatus, new_status);
 
 	int old_status = m_iStatus;
 	m_iDesiredStatus = new_status;
@@ -338,7 +338,7 @@ int CSteamProto::SetStatus(int new_status)
 		}
 		else
 		{
-			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getTStringA("Username")))));
+			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
 			if (username == NULL || username[0] == '\0')
 			{
 				m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
@@ -366,13 +366,13 @@ void __cdecl CSteamProto::GetAwayMsgThread(void *arg)
 	Sleep(50);
 
 	MCONTACT hContact = (UINT_PTR)arg;
-	CMString message(db_get_tsa(hContact, "CList", "StatusMsg"));
+	CMStringW message(db_get_wsa(hContact, "CList", "StatusMsg"));
 	
 	// if contact has no status message, get xstatus message
 	if (message.IsEmpty())
 	{
-		ptrW xStatusName(getTStringA(hContact, "XStatusName"));
-		ptrW xStatusMsg(getTStringA(hContact, "XStatusMsg"));
+		ptrW xStatusName(getWStringA(hContact, "XStatusName"));
+		ptrW xStatusMsg(getWStringA(hContact, "XStatusMsg"));
 
 		if (xStatusName)
 			message.AppendFormat(L"%s: %s", xStatusName, xStatusMsg);

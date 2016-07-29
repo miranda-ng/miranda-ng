@@ -299,7 +299,7 @@ int DoImport(wchar_t *fileName)
 					SaveBirthday(hContact, year, month, day, mode);
 				}
 				else {
-					CMString msg(FORMAT, TranslateT("Could not find UID '%s [%S]' in current database, skipping"), szHandle, szProto);
+					CMStringW msg(FORMAT, TranslateT("Could not find UID '%s [%S]' in current database, skipping"), szHandle, szProto);
 					ShowPopupMessage(TranslateT("Warning"), msg, hImportBirthdays);
 				}
 			}

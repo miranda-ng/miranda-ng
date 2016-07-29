@@ -87,7 +87,7 @@ void ColSplit::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 
 	array_each_(i, sourceTexts)
 	{
-		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
+		Opt.addComboItem(m_hSource, TranslateW(sourceTexts[i]));
 	}
 
 	static const wchar_t* unitTexts[] = {
@@ -98,7 +98,7 @@ void ColSplit::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 
 	array_each_(i, unitTexts)
 	{
-		Opt.addComboItem(m_hBlockUnit, TranslateTS(unitTexts[i]));
+		Opt.addComboItem(m_hBlockUnit, TranslateW(unitTexts[i]));
 	}
 
 	Opt.setComboSelected(m_hSource       , 3 * m_nSource + m_nSourceType);
@@ -285,10 +285,10 @@ void ColSplit::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 	{
 		SplitParams params = getParams();
 		ext::string strTitle = str(ext::kformat(TranslateT("#{type} for #{data}"))
-			% L"#{type}" * TranslateTS(szTypeDesc[params.effective_vis_mode])
-			% L"#{data}" * TranslateTS(szSourceDesc[3 * m_nSource + m_nSourceType]));
+			% L"#{type}" * TranslateW(szTypeDesc[params.effective_vis_mode])
+			% L"#{data}" * TranslateW(szSourceDesc[3 * m_nSource + m_nSourceType]));
 
-		writeRowspanTD(tos, getCustomTitle(TranslateTS(szTypeDesc[params.effective_vis_mode]), strTitle) + ext::str(ext::format(L"<div style=\"width: |px;\"></div>") % (5 * params.blocks_in_column - 1)), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateW(szTypeDesc[params.effective_vis_mode]), strTitle) + ext::str(ext::format(L"<div style=\"width: |px;\"></div>") % (5 * params.blocks_in_column - 1)), row, 1, rowSpan);
 	}
 }
 
@@ -427,7 +427,7 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 				else if (params.effective_vis_mode == 1)
 				{
 					divTitle = ext::str(ext::kformat(TranslateT("[#{day}] #{amount}"))
-						% L"#{day}" * utils::stripPrefix(L"wday3:", TranslateTS(szWDayName[j]))
+						% L"#{day}" * utils::stripPrefix(L"wday3:", TranslateW(szWDayName[j]))
 						% L"#{amount}" * utils::intToGrouped(part_top));
 				}
 				else

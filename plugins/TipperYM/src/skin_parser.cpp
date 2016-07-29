@@ -209,7 +209,7 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 							if (mir_wstrlen(pch) > 32)
 								pch[32] = 0;
 
-							db_set_ts(0, MODULE, szSetting, pch);
+							db_set_ws(0, MODULE, szSetting, pch);
 						}
 					} 
 					else if (wcsstr(buff, L"color"))

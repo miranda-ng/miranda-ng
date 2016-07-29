@@ -40,12 +40,12 @@ wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	ptrW tmplt;
 	const wchar_t* tokens[4] = { 0 };
 
-	CMString tszTemplate, tszStatus, tszTitle;
+	CMStringW tszTemplate, tszStatus, tszTitle;
 	if (hContact && szProto) {
 		tokens[0] = pcli->pfnGetContactDisplayName(hContact, 0);
 		tokens[1] = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 		
-		tszStatus = ptrW(db_get_tsa(hContact, "CList", "StatusMsg"));
+		tszStatus = ptrW(db_get_wsa(hContact, "CList", "StatusMsg"));
 		tszStatus.Replace(L"\r\n", L" ");
 		tokens[2] = tszStatus;
 
@@ -56,7 +56,7 @@ wchar_t* GetWindowTitle(MCONTACT hContact, const char *szProto)
 				tokens[3] = mir_wstrdup(proto->tszAccountName);
 		}
 		
-		tmplt = db_get_tsa(NULL, SRMMMOD, SRMSGSET_WINDOWTITLE);
+		tmplt = db_get_wsa(NULL, SRMMMOD, SRMSGSET_WINDOWTITLE);
 		if (tmplt != NULL)
 			tszTemplate = tmplt;
 		else {

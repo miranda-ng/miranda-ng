@@ -81,7 +81,7 @@ static void LoadTemplatesFrom(TTemplateSet *tSet, MCONTACT hContact, int rtl)
 {
 	for (int i = 0; i <= TMPL_ERRMSG; i++) {
 		DBVARIANT dbv = { 0 };
-		if (db_get_ts(hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[i], &dbv))
+		if (db_get_ws(hContact, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[i], &dbv))
 			continue;
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR)
 			wcsncpy_s(tSet->szTemplates[i], dbv.ptszVal, _TRUNCATE);
@@ -96,12 +96,12 @@ void LoadDefaultTemplates()
 
 	if (M.GetByte(RTLTEMPLATES_MODULE, "setup", 0) < 2) {
 		for (int i = 0; i <= TMPL_ERRMSG; i++)
-			db_set_ts(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], RTL_Default.szTemplates[i]);
+			db_set_ws(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], RTL_Default.szTemplates[i]);
 		db_set_b(0, RTLTEMPLATES_MODULE, "setup", 2);
 	}
 	if (M.GetByte(TEMPLATES_MODULE, "setup", 0) < 2) {
 		for (int i = 0; i <= TMPL_ERRMSG; i++)
-			db_set_ts(NULL, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
+			db_set_ws(NULL, TEMPLATES_MODULE, TemplateNames[i], LTR_Default.szTemplates[i]);
 		db_set_b(0, TEMPLATES_MODULE, "setup", 2);
 	}
 	LoadTemplatesFrom(&LTR_Active, 0, 0);
@@ -258,7 +258,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
 			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
 			InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
-			db_set_ts(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit], newTemplate);
+			db_set_ws(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit], newTemplate);
 			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
 		}
 		break;

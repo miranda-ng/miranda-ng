@@ -106,7 +106,7 @@ int LoadStatusBarData()
 	if (g_CluiData.fDisableSkinEngine) {
 		g_StatusBarData.bkColour = cliGetColor("StatusBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "StatusBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmapName(db_get_tsa(NULL, "StatusBar", "BkBitmap"));
+			ptrW tszBitmapName(db_get_wsa(NULL, "StatusBar", "BkBitmap"));
 			if (tszBitmapName)
 				g_StatusBarData.hBmpBackground = Bitmap_Load(tszBitmapName);
 		}
@@ -345,7 +345,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				if ((p.xStatusMode & 8) && p.iProtoStatus > ID_STATUS_OFFLINE) {
 					wchar_t str[512];
 					CUSTOM_STATUS cs = { sizeof(cs) };
-					cs.flags = CSSF_MASK_NAME | CSSF_TCHAR;
+					cs.flags = CSSF_MASK_NAME | CSSF_UNICODE;
 					cs.ptszName = str;
 					if (CallProtoService(p.szAccountName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
 						p.tszProtoXStatus = mir_wstrdup(str);
@@ -883,7 +883,7 @@ HWND StatusBar_Create(HWND parent)
 	Frame.hWnd = hModernStatusBar;
 	Frame.align = alBottom;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-	Frame.Flags = F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_TCHAR;
+	Frame.Flags = F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_UNICODE;
 	if (db_get_b(NULL, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT))
 		Frame.Flags |= F_VISIBLE;
 	Frame.height = h;

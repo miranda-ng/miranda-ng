@@ -893,7 +893,7 @@ void InitXStatusIcons()
 
 	SKINICONDESC sid = { 0 };
 	sid.section.a = "Protocols/" ICQ_PROTOCOL_NAME "/" LPGEN("Custom Status");
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_PATH_UNICODE;
 	sid.defaultFile.w = InitXStatusIconLibrary(lib, _countof(lib));
 
 	for (int i = 0; i < XSTATUS_COUNT; i++) {
@@ -945,13 +945,13 @@ INT_PTR CIcqProto::SetXStatusEx(WPARAM, LPARAM lParam)
 
 		if (m_bXStatusEnabled && (pData->flags & CSSF_MASK_NAME)) { // set custom status name
 			if (pData->flags & CSSF_UNICODE)
-				setTString(DBSETTING_XSTATUS_NAME, pData->pwszName);
+				setWString(DBSETTING_XSTATUS_NAME, pData->pwszName);
 			else
 				setString(DBSETTING_XSTATUS_NAME, pData->pszName);
 		}
 		if (pData->flags & CSSF_MASK_MESSAGE) { // set custom status message
 			if (pData->flags & CSSF_UNICODE)
-				setTString(DBSETTING_XSTATUS_MSG, pData->pwszMessage);
+				setWString(DBSETTING_XSTATUS_MSG, pData->pwszMessage);
 			else
 				setString(DBSETTING_XSTATUS_MSG, pData->pszMessage);
 

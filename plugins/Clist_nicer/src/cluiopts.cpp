@@ -84,7 +84,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Utils::enableDlgControl(hwndDlg, IDC_AUTOSIZEUPWARD, FALSE);
 		}
 		{
-			ptrW tszTitle(db_get_tsa(NULL, "CList", "TitleText"));
+			ptrW tszTitle(db_get_wsa(NULL, "CList", "TitleText"));
 			if (tszTitle != NULL)
 				SetDlgItemText(hwndDlg, IDC_TITLETEXT, tszTitle);
 			else
@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			wchar_t title[256];
 			GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, _countof(title));
-			db_set_ts(NULL, "CList", "TitleText", title);
+			db_set_ws(NULL, "CList", "TitleText", title);
 			SetWindowText(pcli->hwndContactList, title);
 
 			cfg::dat.dwFlags = IsDlgButtonChecked(hwndDlg, IDC_ROUNDEDBORDER) ? cfg::dat.dwFlags | CLUI_FRAME_ROUNDEDFRAME : cfg::dat.dwFlags & ~CLUI_FRAME_ROUNDEDFRAME;

@@ -141,7 +141,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		CheckDlgButton(hwndDlg, IDC_ONLYAVAIL, BST_CHECKED); // Initially checked; display all metacontacts is only an option
 		// Besides, we can check if there is at least one metacontact to add the contact to.
 		if (BuildList(GetDlgItem(hwndDlg, IDC_METALIST), FALSE) <= 0) {
-			if (MessageBox(hwndDlg, TranslateTS(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+			if (MessageBox(hwndDlg, TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 				Meta_Convert(lParam, 0);
 			DestroyWindow(hwndDlg);
 			return TRUE;
@@ -187,7 +187,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		case IDC_CHK_SRT:
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE) ^ LBS_SORT);
 			if (BuildList(GetDlgItem(hwndDlg, IDC_METALIST), IsDlgButtonChecked(hwndDlg, IDC_CHK_SRT) ? TRUE : FALSE) <= 0) {
-				if (MessageBox(hwndDlg, TranslateTS(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+				if (MessageBox(hwndDlg, TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 					Meta_Convert(lParam, 0);
 				DestroyWindow(hwndDlg);
 				return TRUE;

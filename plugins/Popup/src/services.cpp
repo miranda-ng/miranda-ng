@@ -379,8 +379,8 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	// we ignore pc->colorText and use fonts.text as default (if no setting found in DB)
 	mir_snprintf(setting, "%s/TextCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
-	FontIDT fid = { 0 };
-	fid.cbSize = sizeof(FontIDT);
+	FontIDW fid = { 0 };
+	fid.cbSize = sizeof(FontIDW);
 	mir_snwprintf(fid.group, _A2W(PU_FNT_AND_COLOR) L"/%S", ptd->pupClass.pszName);
 	mir_strncpy(fid.dbSettingsGroup, PU_MODULCLASS, _countof(fid.dbSettingsGroup) - 1);
 	fid.flags = FIDF_DEFAULTVALID;
@@ -392,19 +392,19 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	mir_snprintf(fid.prefix, "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style = 0;
 	fid.deffontsettings.colour = fonts.clText;
-	FontRegisterT(&fid);
+	FontRegisterW(&fid);
 
 	// we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
 	mir_snprintf(setting, "%s/BgCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorBack = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
-	ColourIDT cid = { 0 };
-	cid.cbSize = sizeof(ColourIDT);
+	ColourIDW cid = { 0 };
+	cid.cbSize = sizeof(ColourIDW);
 	mir_snwprintf(cid.group, _A2W(PU_FNT_AND_COLOR) L"/%S", ptd->pupClass.pszName);
 	mir_strncpy(cid.dbSettingsGroup, PU_MODULCLASS, _countof(fid.dbSettingsGroup));
 	mir_wstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
 	mir_snprintf(cid.setting, "%s/BgCol", ptd->pupClass.pszName);
 	cid.defcolour = fonts.clBack;
-	ColourRegisterT(&cid);
+	ColourRegisterW(&cid);
 
 	gTreeData.insert(ptd);
 	num_classes++;

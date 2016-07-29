@@ -282,7 +282,7 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 	// Get XStatusName
 	if (!noAwayMsg && !noXstatus &&  xstatus_has_priority && pdnce->hContact && pdnce->m_pszProto) {
 		DBVARIANT dbv = { 0 };
-		if (!db_get_ts(pdnce->hContact, pdnce->m_pszProto, "XStatusName", &dbv)) {
+		if (!db_get_ws(pdnce->hContact, pdnce->m_pszProto, "XStatusName", &dbv)) {
 			//mir_wstrncpy(text, dbv.pszVal, text_size);
 			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
 			db_free(&dbv);
@@ -302,7 +302,7 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 	// Get XStatusName
 	if (!noAwayMsg && !noXstatus && !xstatus_has_priority && pdnce->hContact && pdnce->m_pszProto) {
 		DBVARIANT dbv = { 0 };
-		if (!db_get_ts(pdnce->hContact, pdnce->m_pszProto, "XStatusName", &dbv)) {
+		if (!db_get_ws(pdnce->hContact, pdnce->m_pszProto, "XStatusName", &dbv)) {
 			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
 			db_free(&dbv);
 
@@ -324,7 +324,7 @@ void GetListeningTo(wchar_t *text, int text_size, ClcCacheEntry *pdnce)
 	if (pdnce->m_iStatus == ID_STATUS_OFFLINE || pdnce->m_iStatus == 0)
 		return;
 
-	ptrW tszValue(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "ListeningTo"));
+	ptrW tszValue(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "ListeningTo"));
 	if (tszValue != NULL)
 		CopySkipUnprintableChars(text, tszValue, text_size - 1);
 }
@@ -345,7 +345,7 @@ int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xs
 
 	// Get XStatusMsg
 	if (!noAwayMsg  && xstatus_has_priority && pdnce->hContact && pdnce->m_pszProto) {
-		ptrW tszXStatusMsg(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
+		ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
 		if (tszXStatusMsg != NULL) {
 			CopySkipUnprintableChars(text, tszXStatusMsg, text_size - 1);
 			if (text[0] != '\0')
@@ -355,7 +355,7 @@ int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xs
 
 	// Get StatusMsg
 	if (pdnce->hContact && text[0] == '\0') {
-		ptrW tszStatusMsg(db_get_tsa(pdnce->hContact, "CList", "StatusMsg"));
+		ptrW tszStatusMsg(db_get_wsa(pdnce->hContact, "CList", "StatusMsg"));
 		if (tszStatusMsg != NULL) {
 			CopySkipUnprintableChars(text, tszStatusMsg, text_size - 1);
 			if (text[0] != '\0')
@@ -366,7 +366,7 @@ int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xs
 	// Get XStatusMsg
 	if (!noAwayMsg && !xstatus_has_priority && pdnce->hContact && pdnce->m_pszProto && text[0] == '\0') {
 		// Try to get XStatusMsg
-		ptrW tszXStatusMsg(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
+		ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
 		if (tszXStatusMsg != NULL) {
 			CopySkipUnprintableChars(text, tszXStatusMsg, text_size - 1);
 			if (text[0] != '\0')
@@ -391,7 +391,7 @@ int Cache_GetLineText(ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size
 LBL_Status:
 		if (GetStatusName(text, text_size, pdnce, line.xstatus_has_priority) == -1 && line.use_name_and_message_for_xstatus) {
 			// Try to get XStatusMsg
-			ptrW tszXStatusMsg(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
+			ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
 			if (tszXStatusMsg != NULL && tszXStatusMsg[0] != 0) {
 				wchar_t *tmp = NEWWSTR_ALLOCA(text);
 				mir_snwprintf(text, text_size, L"%s: %s", tmp, tszXStatusMsg);
@@ -402,7 +402,7 @@ LBL_Status:
 
 	case TEXT_NICKNAME:
 		if (pdnce->hContact && pdnce->m_pszProto) {
-			ptrW tszNick(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "Nick"));
+			ptrW tszNick(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "Nick"));
 			if (tszNick != NULL) {
 				mir_wstrncpy(text, tszNick, text_size);
 				CopySkipUnprintableChars(text, text, text_size - 1);
@@ -413,7 +413,7 @@ LBL_Status:
 	case TEXT_STATUS_MESSAGE:
 		if (GetStatusMessage(text, text_size, pdnce, line.xstatus_has_priority) == -1 && line.use_name_and_message_for_xstatus) {
 			// Try to get XStatusName
-			ptrW tszXStatusName(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
+			ptrW tszXStatusName(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
 			if (tszXStatusName != NULL && tszXStatusName[0] != 0) {
 				wchar_t *tmp = NEWWSTR_ALLOCA(text);
 				mir_snwprintf(text, text_size, L"%s: %s", tszXStatusName, tmp);
@@ -422,7 +422,7 @@ LBL_Status:
 		}
 		else if (line.use_name_and_message_for_xstatus && line.xstatus_has_priority) {
 			// Try to get XStatusName
-			ptrW tszXStatusName(db_get_tsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
+			ptrW tszXStatusName(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
 			if (tszXStatusName != NULL && tszXStatusName[0] != 0) {
 				mir_wstrncpy(text, tszXStatusName, text_size);
 				CopySkipUnprintableChars(text, text, text_size - 1);
@@ -477,7 +477,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 	wchar_t *name = pcli->pfnGetContactDisplayName(contact->hContact, 0);
 	if (dat->first_line_append_nick && !dat->bForceInDialog) {
 		DBVARIANT dbv = { 0 };
-		if (!db_get_ts(pdnce->hContact, pdnce->m_pszProto, "Nick", &dbv)) {
+		if (!db_get_ws(pdnce->hContact, pdnce->m_pszProto, "Nick", &dbv)) {
 			wchar_t nick[_countof(contact->szText)];
 			mir_wstrncpy(nick, dbv.ptszVal, _countof(contact->szText));
 			db_free(&dbv);

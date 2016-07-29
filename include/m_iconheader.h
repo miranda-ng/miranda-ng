@@ -31,11 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MITCF_SHAREDICON	0x01
 #define MITCF_UNICODE		0x02
-#ifdef _UNICODE
-	#define	MITCF_TCHAR		MITCF_UNICODE
-#else
-	#define	MITCF_TCHAR		0
-#endif
 
 #define ITCM_FIRST			(WM_USER+1024)
 #define ITCM_LAST			(ITCM_FIRST+64)
@@ -74,7 +69,7 @@ typedef struct {
 static __forceinline void MIcoTab_AddItem(HWND hwnd, TCHAR *lptzName, HICON hIcon, LPARAM data, BOOL bSharedIcon)
 {
 	MIcoTab mit = {0};
-	mit.flag = (bSharedIcon?MITCF_SHAREDICON:0)|MITCF_TCHAR;
+	mit.flag = (bSharedIcon?MITCF_SHAREDICON:0)| MITCF_UNICODE;
 	mit.hIcon = hIcon;
 	mit.tcsName = lptzName;
 	mit.data = data;

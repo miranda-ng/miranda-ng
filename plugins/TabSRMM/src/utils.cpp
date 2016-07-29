@@ -241,7 +241,7 @@ static wchar_t* Trunc500(wchar_t *str)
 	return str;
 }
 
-bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMString &dest)
+bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMStringW &dest)
 {
 	if (dat == 0)
 		return false;
@@ -286,7 +286,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 			{
 				BYTE xStatus = dat->cache->getXStatusId();
 				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					ptrW szXStatus(db_get_tsa(dat->hContact, dat->szProto, "XStatusName"));
+					ptrW szXStatus(db_get_wsa(dat->hContact, dat->szProto, "XStatusName"));
 					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
 			}
@@ -296,7 +296,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 			{
 				BYTE xStatus = dat->cache->getXStatusId();
 				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					ptrW szXStatus(db_get_tsa(dat->hContact, dat->szProto, "XStatusName"));
+					ptrW szXStatus(db_get_wsa(dat->hContact, dat->szProto, "XStatusName"));
 					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
 				else dest.Append(dat->szStatus && dat->szStatus[0] ? dat->szStatus : L"(undef)");
@@ -317,7 +317,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 
 		case 'g':
 			{
-				ptrW tszGroup(db_get_tsa(dat->hContact, "CList", "Group"));
+				ptrW tszGroup(db_get_wsa(dat->hContact, "CList", "Group"));
 				if (tszGroup != NULL)
 					dest.Append(tszGroup);
 			}
@@ -363,7 +363,7 @@ WCHAR* Utils::FilterEventMarkers(WCHAR *wszText)
 
 void Utils::DoubleAmpersands(wchar_t *pszText, size_t len)
 {
-	CMString text(pszText);
+	CMStringW text(pszText);
 	text.Replace(L"&", L"&&");
 	mir_wstrncpy(pszText, text.c_str(), len);
 }
@@ -573,7 +573,7 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 	if (mir_wstrlen(pContainer->szRelThemeFile) > 1) {
 		if (pContainer->fPrivateThemeChanged == TRUE) {
 			PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
-			db_set_ts(NULL, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
+			db_set_ws(NULL, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
 			pContainer->fPrivateThemeChanged = FALSE;
 		}
 	}
@@ -1084,14 +1084,14 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 	else {
 		if (uId != -1) {
 			if (dwFlags & CWF_UNTRANSLATED)
-				_s = TranslateTS(warnings[uId]);
+				_s = TranslateW(warnings[uId]);
 			else {
 				// revert to untranslated warning when the translated message
 				// is not well-formatted.
-				_s = TranslateTS(warnings[uId]);
+				_s = TranslateW(warnings[uId]);
 
 				if (mir_wstrlen(_s) < 3 || 0 == wcschr(_s, '|'))
-					_s = TranslateTS(warnings[uId]);
+					_s = TranslateW(warnings[uId]);
 			}
 		}
 		else

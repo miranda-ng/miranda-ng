@@ -249,7 +249,7 @@ static int ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 	if (g_CluiData.fDisableSkinEngine) {
 		event_area.bkColour = cliGetColor("EventArea", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "EventArea", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmap(db_get_tsa(NULL, "EventArea", "BkBitmap"));
+			ptrW tszBitmap(db_get_wsa(NULL, "EventArea", "BkBitmap"));
 			if (tszBitmap != NULL)
 				event_area.hBmpBackground = Bitmap_Load(tszBitmap);
 		}
@@ -511,7 +511,7 @@ int EventArea_Create(HWND hCluiWnd)
 	Frame.hWnd = g_CluiData.hwndEventFrame;
 	Frame.align = alBottom;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-	Frame.Flags = (db_get_b(NULL, "CLUI", "ShowEventArea", SETTING_SHOWEVENTAREAFRAME_DEFAULT) ? F_VISIBLE : 0) | F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_TCHAR;
+	Frame.Flags = (db_get_b(NULL, "CLUI", "ShowEventArea", SETTING_SHOWEVENTAREAFRAME_DEFAULT) ? F_VISIBLE : 0) | F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER | F_UNICODE;
 	Frame.height = h;
 	Frame.tname = L"EventArea"; //do not translate
 	Frame.TBtname = TranslateT("Event area");

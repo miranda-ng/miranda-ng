@@ -58,7 +58,7 @@ void InitNetlib()
 {
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
 	nlu.ptszDescriptiveName = TranslateT("Plugin Updater HTTP connections");
 	nlu.szSettingsModule = MODNAME;
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -599,7 +599,7 @@ int SafeDeleteFile(const wchar_t *pFile)
 int SafeCreateDirectory(const wchar_t *pFolder)
 {
 	if (hPipe == NULL)
-		return CreateDirectoryTreeT(pFolder);
+		return CreateDirectoryTreeW(pFolder);
 
 	return TransactPipe(4, pFolder, NULL);
 }
@@ -607,7 +607,7 @@ int SafeCreateDirectory(const wchar_t *pFolder)
 int SafeCreateFilePath(wchar_t *pFolder)
 {
 	if (hPipe == NULL) {
-		CreatePathToFileT(pFolder);
+		CreatePathToFileW(pFolder);
 		return 0;
 	}
 

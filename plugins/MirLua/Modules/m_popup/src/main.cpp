@@ -56,8 +56,8 @@ static POPUPDATA2* MakePopupData2(lua_State *L)
 	ppd->flags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	if (!(ppd->flags & PU2_TCHAR))
-		ppd->flags |= PU2_TCHAR;
+	if (!(ppd->flags & PU2_UNICODE))
+		ppd->flags |= PU2_UNICODE;
 
 	lua_getfield(L, -1, "Title");
 	ppd->lptzTitle = mir_utf8decodeW(lua_tostring(L, -1));

@@ -112,20 +112,20 @@ void LoadOptions()
 
 void SaveTemplates()
 {
-	db_set_ts(0, MODULE, "TPopupChanged", templates.PopupXstatusChanged);
-	db_set_ts(0, MODULE, "TPopupRemoved", templates.PopupXstatusRemoved);
-	db_set_ts(0, MODULE, "TPopupXMsgChanged", templates.PopupXMsgChanged);
-	db_set_ts(0, MODULE, "TPopupXMsgRemoved", templates.PopupXMsgRemoved);
+	db_set_ws(0, MODULE, "TPopupChanged", templates.PopupXstatusChanged);
+	db_set_ws(0, MODULE, "TPopupRemoved", templates.PopupXstatusRemoved);
+	db_set_ws(0, MODULE, "TPopupXMsgChanged", templates.PopupXMsgChanged);
+	db_set_ws(0, MODULE, "TPopupXMsgRemoved", templates.PopupXMsgRemoved);
 
-	db_set_ts(0, MODULE, "TLogXChanged", templates.LogXstatusChanged);
-	db_set_ts(0, MODULE, "TLogXRemoved", templates.LogXstatusRemoved);
-	db_set_ts(0, MODULE, "TLogXMsgChanged", templates.LogXMsgChanged);
-	db_set_ts(0, MODULE, "TLogXMsgRemoved", templates.LogXMsgRemoved);
-	db_set_ts(0, MODULE, "TLogXOpening", templates.LogXstatusOpening);
+	db_set_ws(0, MODULE, "TLogXChanged", templates.LogXstatusChanged);
+	db_set_ws(0, MODULE, "TLogXRemoved", templates.LogXstatusRemoved);
+	db_set_ws(0, MODULE, "TLogXMsgChanged", templates.LogXMsgChanged);
+	db_set_ws(0, MODULE, "TLogXMsgRemoved", templates.LogXMsgRemoved);
+	db_set_ws(0, MODULE, "TLogXOpening", templates.LogXstatusOpening);
 
-	db_set_ts(0, MODULE, "TLogSMsgChanged", templates.LogSMsgChanged);
-	db_set_ts(0, MODULE, "TLogSMsgRemoved", templates.LogSMsgRemoved);
-	db_set_ts(0, MODULE, "TLogSMsgOpening", templates.LogSMsgOpening);
+	db_set_ws(0, MODULE, "TLogSMsgChanged", templates.LogSMsgChanged);
+	db_set_ws(0, MODULE, "TLogSMsgRemoved", templates.LogSMsgRemoved);
+	db_set_ws(0, MODULE, "TLogSMsgOpening", templates.LogSMsgOpening);
 
 	db_set_b(0, MODULE, "TPopupXFlags", templates.PopupXFlags);
 	db_set_b(0, MODULE, "TPopupSMsgFlags", templates.PopupSMsgFlags);
@@ -136,9 +136,9 @@ void SaveTemplates()
 		PROTOTEMPLATE *prototemplate = ProtoTemplates[i];
 		char str[MAX_PATH];
 		mir_snprintf(str, "%s_TPopupSMsgChanged", prototemplate->ProtoName);
-		db_set_ts(0, MODULE, str, prototemplate->ProtoTemplateMsg);
+		db_set_ws(0, MODULE, str, prototemplate->ProtoTemplateMsg);
 		mir_snprintf(str, "%s_TPopupSMsgRemoved", prototemplate->ProtoName);
-		db_set_ts(0, MODULE, str, prototemplate->ProtoTemplateRemoved);
+		db_set_ws(0, MODULE, str, prototemplate->ProtoTemplateRemoved);
 	}
 }
 
@@ -337,8 +337,8 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		//Mouse actions
 		for (int i = 0; i < _countof(PopupActions); i++) {
-			SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
-			SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
+			SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
+			SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
 		}
 
 		SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_SETCURSEL, opt.LeftClickAction, 0);
@@ -391,7 +391,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 						if (opt.ShowPreviousStatus) {
 							wchar_t buff[MAX_STATUSTEXT];
-							mir_snwprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
+							mir_snwprintf(buff, TranslateW(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
 							mir_wstrcat(str, L" ");
 							mir_wstrcat(str, buff);
 						}
@@ -557,12 +557,12 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TREMOVEMSG), templates.PopupXFlags & NOTIFY_REMOVE_MESSAGE);
 
 		// Buttons
-		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show available variables"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show available variables"), BATF_UNICODE);
 		HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_VARIABLES));
 		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
 
-		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset all templates to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset all templates to default"), BATF_UNICODE);
 		hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RESET));
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
@@ -691,12 +691,12 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TSMSGREMOVE), templates.PopupSMsgFlags & NOTIFY_REMOVE_MESSAGE);
 
 		// Buttons
-		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show available variables"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show available variables"), BATF_UNICODE);
 		HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_VARIABLES));
 		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
 
-		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset all templates to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset all templates to default"), BATF_UNICODE);
 		hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RESET));
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
@@ -730,7 +730,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				DBVARIANT dbVar = { 0 };
 				char protoname[MAX_PATH] = { 0 };
 				mir_snprintf(protoname, "%s_TPopupSMsgChanged", protos[i]->szModuleName);
-				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
+				if (db_get_ws(NULL, MODULE, protoname, &dbVar))
 					wcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, _countof(prototemplate->ProtoTemplateMsg));
 				else {
 					wcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateMsg));
@@ -738,7 +738,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 
 				mir_snprintf(protoname, "%s_TPopupSMsgRemoved", protos[i]->szModuleName);
-				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
+				if (db_get_ws(NULL, MODULE, protoname, &dbVar))
 					wcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, _countof(prototemplate->ProtoTemplateRemoved));
 				else {
 					wcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, _countof(prototemplate->ProtoTemplateRemoved));
@@ -915,12 +915,12 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		SetDlgItemText(hwndDlg, IDC_ED_TXSTATUSOPENING, templates.LogXstatusOpening);
 
 		// Buttons
-		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Show available variables"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Show available variables"), BATF_UNICODE);
 		HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_VARIABLES));
 		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
 
-		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Reset all templates to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Reset all templates to default"), BATF_UNICODE);
 		hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RESET));
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
@@ -1082,12 +1082,12 @@ INT_PTR CALLBACK DlgProcLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SetDlgItemText(hwndDlg, IDC_LOG_TSMSGOPENING, templates.LogSMsgOpening);
 
 		// Buttons
-		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Show available variables"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Show available variables"), BATF_UNICODE);
 		HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_VARIABLES));
 		SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);
 
-		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Reset all templates to default"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Reset all templates to default"), BATF_UNICODE);
 		hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RESET));
 		SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		DestroyIcon(hIcon);

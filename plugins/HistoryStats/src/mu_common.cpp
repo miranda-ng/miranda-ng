@@ -20,7 +20,7 @@ namespace mu
 			// TODO: support for unicode-core with unicode-aware CList
 			CMenuItem mi;
 			mi.name.w = (wchar_t*)pszName;
-			mi.flags = flags | CMIF_TCHAR;
+			mi.flags = flags | CMIF_UNICODE;
 			mi.position = position;
 			mi.hIcolibItem = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
@@ -34,7 +34,7 @@ namespace mu
 			// TODO: support for unicode-core with unicode-aware CList
 			CMenuItem mi;
 			mi.name.w = (wchar_t*)pszName;
-			mi.flags = flags | CMIF_TCHAR;
+			mi.flags = flags | CMIF_UNICODE;
 			mi.position = position;
 			mi.hIcolibItem = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
@@ -51,12 +51,12 @@ namespace mu
 	{
 		int getProfilePath(int cbName, wchar_t* pszName)
 		{
-			return CallService(MS_DB_GETPROFILEPATHT, cbName, reinterpret_cast<LPARAM>(pszName));
+			return CallService(MS_DB_GETPROFILEPATHW, cbName, reinterpret_cast<LPARAM>(pszName));
 		}
 
 		int getProfileName(int cbName, wchar_t* pszName)
 		{
-			return CallService(MS_DB_GETPROFILENAMET, cbName, reinterpret_cast<LPARAM>(pszName));
+			return CallService(MS_DB_GETPROFILENAMEW, cbName, reinterpret_cast<LPARAM>(pszName));
 		}
 
 		void setSafetyMode(bool safetyMode)
@@ -103,7 +103,7 @@ namespace mu
 			sid.pszName = const_cast<char*>(szIconName);
 			sid.defaultFile.a = const_cast<char*>(szDefaultFile);
 			sid.iDefaultIndex = iDefaultIndex;
-			sid.flags = SIDF_TCHAR;
+			sid.flags = SIDF_UNICODE;
 			IcoLib_AddIcon(&sid);
 		}
 
@@ -127,7 +127,7 @@ namespace mu
 			odp.pszTemplate = const_cast<char*>(pszTemplate);
 			odp.hInstance = hInstance;
 			odp.pwszGroup = const_cast<wchar_t*>(pszGroup);
-			odp.flags = flags | ODPF_TCHAR;
+			odp.flags = flags | ODPF_UNICODE;
 			odp.pwszTab = const_cast<wchar_t*>(pszTab);
 			Options_AddPage(addInfo, &odp);
 		}

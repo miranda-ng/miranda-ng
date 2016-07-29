@@ -1288,7 +1288,7 @@ void __cdecl OpenMessageWindowThread(void *data)
 {
 	MCONTACT hContact = (UINT_PTR)data;
 	if (hContact) {
-		CallServiceSync(MS_MSG_SENDMESSAGET, hContact, 0);
+		CallServiceSync(MS_MSG_SENDMESSAGEW, hContact, 0);
 	}
 }
 
@@ -1569,7 +1569,7 @@ void HandleSetNicknameCommand(PCommand command, TArgument *argv, int argc, PRepl
 		mir_strcpy(protocol, argv[2]);
 		mir_strcpy(nickname, argv[3]);
 
-		int res = CallProtoService(protocol, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM)nickname);
+		int res = CallProtoService(protocol, PS_SETMYNICKNAME, SMNN_UNICODE, (LPARAM)nickname);
 
 		if (res == 0) {
 			reply->code = MIMRES_SUCCESS;

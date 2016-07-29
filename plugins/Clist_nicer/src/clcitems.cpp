@@ -163,7 +163,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 	MCONTACT hContact = p->hContact;
 
 	DBVARIANT dbv = { 0 };
-	INT_PTR result = db_get_ts(hContact, "CList", "StatusMsg", &dbv);
+	INT_PTR result = db_get_ws(hContact, "CList", "StatusMsg", &dbv);
 	if (!result && mir_wstrlen(dbv.ptszVal) > 0)
 		p->bStatusMsgValid = STATUSMSG_CLIST;
 	else {
@@ -172,11 +172,11 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		if (szProto) {
 			if (!result)
 				db_free(&dbv);
-			if (!(result = db_get_ts(hContact, szProto, "YMsg", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
+			if (!(result = db_get_ws(hContact, szProto, "YMsg", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_YIM;
-			else if (!(result = db_get_ts(hContact, szProto, "StatusDescr", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
+			else if (!(result = db_get_ws(hContact, szProto, "StatusDescr", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_GG;
-			else if (!(result = db_get_ts(hContact, szProto, "XStatusMsg", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
+			else if (!(result = db_get_ws(hContact, szProto, "XStatusMsg", &dbv)) && mir_wstrlen(dbv.ptszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_XSTATUS;
 		}
 	}
@@ -184,7 +184,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 	if (p->bStatusMsgValid == STATUSMSG_NOTFOUND) { // no status msg, consider xstatus name (if available)
 		if (!result)
 			db_free(&dbv);
-		result = db_get_ts(hContact, szProto, "XStatusName", &dbv);
+		result = db_get_ws(hContact, szProto, "XStatusName", &dbv);
 		if (!result && mir_wstrlen(dbv.ptszVal) > 1) {
 			size_t iLen = mir_wstrlen(dbv.ptszVal);
 			p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
@@ -200,11 +200,11 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 			cst.flags = CSSF_MASK_STATUS;
 			cst.status = &xStatus;
 			if (ProtoServiceExists(szProto, PS_GETCUSTOMSTATUSEX) && !CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst) && xStatus > 0) {
-				cst.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
+				cst.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_UNICODE;
 				cst.wParam = &xStatus2;
 				cst.ptszName = xStatusName;
 				if (!CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst)) {
-					wchar_t *szwXstatusName = TranslateTS(xStatusName);
+					wchar_t *szwXstatusName = TranslateW(xStatusName);
 					p->statusMsg = (wchar_t *)realloc(p->statusMsg, (mir_wstrlen(szwXstatusName) + 2) * sizeof(wchar_t));
 					wcsncpy(p->statusMsg, szwXstatusName, mir_wstrlen(szwXstatusName) + 1);
 					p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
@@ -407,7 +407,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 	}
 	
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
-		ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
 		if (tszGroup != NULL) {
 			wchar_t szGroupMask[256];
 			mir_snwprintf(szGroupMask, L"%s|", tszGroup);

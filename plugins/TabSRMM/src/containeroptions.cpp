@@ -123,9 +123,9 @@ static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 			Utils::showDlgControl(hwndDlg, o_pages[iPage].uIds[i], fShow ? SW_SHOW : SW_HIDE);
 	}
 	if (fShow) {
-		SetDlgItemText(hwndDlg, IDC_TITLEBOX, TranslateTS(o_pages[iPage].szTitle));
+		SetDlgItemText(hwndDlg, IDC_TITLEBOX, TranslateW(o_pages[iPage].szTitle));
 		if (o_pages[iPage].szDesc != NULL)
-			SetDlgItemText(hwndDlg, IDC_DESC, TranslateTS(o_pages[iPage].szDesc));
+			SetDlgItemText(hwndDlg, IDC_DESC, TranslateW(o_pages[iPage].szDesc));
 		else
 			SetDlgItemText(hwndDlg, IDC_DESC, L"");
 	}
@@ -173,7 +173,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Don't show them"));
 
 			for (int i = 0; i < nr_layouts; i++)
-				SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(sblayouts[i].szName));
+				SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_INSERTSTRING, -1, (LPARAM)TranslateW(sblayouts[i].szName));
 
 			/* bits 24 - 31 of dwFlagsEx hold the side bar layout id */
 			SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_SETCURSEL, (WPARAM)((pContainer->settings->dwFlagsEx & 0xff000000) >> 24), 0);
@@ -187,7 +187,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
-				tvis.item.pszText = TranslateTS(o_pages[i].szTitle);
+				tvis.item.pszText = TranslateW(o_pages[i].szTitle);
 				tvis.item.lParam = i;
 				HTREEITEM hItem = TreeView_InsertItem(hwndTree, &tvis);
 				if (i == 0)
@@ -336,7 +336,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 				GetDlgItemText(hwndDlg, IDC_THEME, szFilename, _countof(szFilename));
 				szFilename[MAX_PATH - 1] = 0;
-				PathToAbsoluteT(szFilename, szFinalThemeFile, M.getDataPath());
+				PathToAbsoluteW(szFilename, szFinalThemeFile, M.getDataPath());
 
 				if (mir_wstrcmp(szFilename, pContainer->szRelThemeFile))
 					pContainer->fPrivateThemeChanged = TRUE;

@@ -65,7 +65,7 @@ void InitComboBox(HWND hWndCombo, FieldNames *lpNames)
 	ResetComboBox(hWndCombo);
 
 	for (size_t i = 0; lpNames[i].lpszText; i++) {
-		DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(lpNames[i].lpszText));
+		DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(lpNames[i].lpszText));
 		SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, lpNames[i].dwCode);
 	}
 }

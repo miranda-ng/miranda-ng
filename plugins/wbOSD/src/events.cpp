@@ -20,7 +20,7 @@ void showmsgwnd(unsigned int param)
 {
 	logmsg("showmsgwnd");
 	if (db_get_b(NULL,THIS_MODULE, "showMessageWindow", DEFAULT_SHOWMSGWIN))
-		CallService(MS_MSG_SENDMESSAGET, (WPARAM)param, 0);
+		CallService(MS_MSG_SENDMESSAGEW, (WPARAM)param, 0);
 }
 
 LRESULT ShowOSD(wchar_t *str, int timeout, COLORREF color, MCONTACT user)
@@ -154,7 +154,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	wcsncpy(buf, DEFAULT_MESSAGEFORMAT,_countof(buf));
 
 	DBVARIANT dbv;
-	if(!db_get_ts(NULL,THIS_MODULE,"message_format",&dbv)) {
+	if(!db_get_ws(NULL,THIS_MODULE,"message_format",&dbv)) {
 		mir_wstrcpy(buf, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -185,12 +185,12 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	if ( i1 == 1 )
 		c1 = mir_wstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
 	else if ( i1 == 2 )
-		c1 = DbGetEventTextT( &dbe, 0 );
+		c1 = DbGetEventTextW( &dbe, 0 );
 
 	if ( i2 == 1 )
 		c2 = mir_wstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
 	else if ( i2 == 2 )
-		c2 = DbGetEventTextT( &dbe, 0 );
+		c2 = DbGetEventTextW( &dbe, 0 );
 
 	wchar_t buffer[512];
 	mir_snwprintf(buffer, buf, c1, c2);

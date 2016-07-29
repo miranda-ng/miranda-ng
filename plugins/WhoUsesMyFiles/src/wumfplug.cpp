@@ -24,9 +24,9 @@ static PLUGININFOEX pluginInfo =
 void LoadOptions()
 {
 	DBVARIANT dbv = { 0 };
-	dbv.type = DBVT_TCHAR;
+	dbv.type = DBVT_WCHAR;
 	memset(&WumfOptions, 0, sizeof(WumfOptions));
-	if (db_get_ts(NULL, MODULENAME, OPT_FILE, &dbv) == 0)
+	if (db_get_ws(NULL, MODULENAME, OPT_FILE, &dbv) == 0)
 	{
 		wcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);
 		db_free(&dbv);
@@ -447,7 +447,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				db_set_b(NULL, MODULENAME, LOG_COMP, (BYTE)WumfOptions.LogComp);
 				db_set_b(NULL, MODULENAME, ALERT_COMP, (BYTE)WumfOptions.AlertComp);
 				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, _countof(WumfOptions.LogFile));
-				db_set_ts(NULL, MODULENAME, OPT_FILE, WumfOptions.LogFile);
+				db_set_ws(NULL, MODULENAME, OPT_FILE, WumfOptions.LogFile);
 			}
 		}
 		break;

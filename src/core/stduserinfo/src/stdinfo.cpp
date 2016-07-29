@@ -47,11 +47,11 @@ static int Proto_GetContactInfoSetting(MCONTACT hContact, const char *szProto, c
 static wchar_t* Proto_GetContactInfoSettingStr(bool proto_service, MCONTACT hContact, const char *szModule, const char *szSetting)
 {
 	if (!proto_service)
-		return db_get_tsa(hContact, szModule, szSetting);
+		return db_get_wsa(hContact, szModule, szSetting);
 
 	DBVARIANT dbv;
 	DBCONTACTGETSETTING cgs = { szModule, szSetting, &dbv };
-	dbv.type = DBVT_TCHAR;
+	dbv.type = DBVT_WCHAR;
 	if (CallProtoService(szModule, PS_GETINFOSETTING, hContact, (LPARAM)&cgs))
 		return NULL;
 
@@ -148,7 +148,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				if (wSave == (WORD)-1) {
 					char szSettingName[100];
 					mir_snprintf(szSettingName, "%sName", szSetting);
-					if (!db_get_ts(hContact, szModule, szSettingName, &dbv)) {
+					if (!db_get_ws(hContact, szModule, szSettingName, &dbv)) {
 						ptstr = dbv.ptszVal;
 						unspecified = false;
 						break;
@@ -185,7 +185,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			if (!unspecified) {
 				WCHAR *wszStr;
 				Utf8Decode(dbv.pszVal, &wszStr);
-				SetDlgItemTextW(hwndDlg, idCtrl, TranslateTS(wszStr));
+				SetDlgItemTextW(hwndDlg, idCtrl, TranslateW(wszStr));
 				mir_free(wszStr);
 				goto LBL_Exit;
 			}
@@ -446,7 +446,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						if (tszColText == NULL)
 							break;
 						mir_snprintf(idstr, "Past%dText", i);
-						ptrW tszText(db_get_tsa(hContact, szProto, idstr));
+						ptrW tszText(db_get_wsa(hContact, szProto, idstr));
 						if (tszText == NULL)
 							break;
 
@@ -463,7 +463,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						if (tszColText == NULL)
 							break;
 						mir_snprintf(idstr, "Affiliation%dText", i);
-						ptrW tszText(db_get_tsa(hContact, szProto, idstr));
+						ptrW tszText(db_get_wsa(hContact, szProto, idstr));
 						if (tszText == NULL)
 							break;
 
@@ -486,7 +486,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						if (tszColText == NULL)
 							break;
 						mir_snprintf(idstr, "Interest%dText", i);
-						ptrW tszText(db_get_tsa(hContact, szProto, idstr));
+						ptrW tszText(db_get_wsa(hContact, szProto, idstr));
 						if (tszText == NULL)
 							break;
 
@@ -548,7 +548,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			HFONT hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 
-			ptrW szNotes(db_get_tsa(lParam, "UserInfo", "MyNotes"));
+			ptrW szNotes(db_get_wsa(lParam, "UserInfo", "MyNotes"));
 			if (szNotes != nullptr)
 				SetDlgItemText(hwndDlg, IDC_MYNOTES, szNotes);
 		}

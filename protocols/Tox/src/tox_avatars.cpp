@@ -3,13 +3,13 @@
 wchar_t* CToxProto::GetAvatarFilePath(MCONTACT hContact)
 {
 	wchar_t *path = (wchar_t*)mir_calloc(MAX_PATH * sizeof(wchar_t) + 1);
-	mir_snwprintf(path, MAX_PATH, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	mir_snwprintf(path, MAX_PATH, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeT(path);
+		CreateDirectoryTreeW(path);
 
-	ptrW address(getTStringA(hContact, TOX_SETTINGS_ID));
+	ptrW address(getWStringA(hContact, TOX_SETTINGS_ID));
 	if (address == NULL) {
 		mir_free(path);
 		return mir_wstrdup(L"");
@@ -231,7 +231,7 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 	}
 
 	wchar_t path[MAX_PATH];
-	mir_snwprintf(path, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	mir_snwprintf(path, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
 	OnFileAllow(transfer->pfts.hContact, transfer, path);
 }
 

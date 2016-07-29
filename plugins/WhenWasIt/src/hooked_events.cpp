@@ -49,7 +49,7 @@ static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.pwszTitle = LPGENW("Birthdays");
 	odp.pwszGroup = LPGENW("Contacts");
 	odp.groupPosition = 910000000;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 	return 0;

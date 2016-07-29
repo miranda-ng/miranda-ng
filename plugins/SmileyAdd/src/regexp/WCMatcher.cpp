@@ -10,7 +10,7 @@ const int WCMatcher::MATCH_ENTIRE_STRING = 0x01;
   @version  1.07.00
   */
 
-WCMatcher::WCMatcher(WCPattern *pattern, const CMString &text)
+WCMatcher::WCMatcher(WCPattern *pattern, const CMStringW &text)
 {
 	pat = pattern;
 	str = &text;
@@ -48,11 +48,11 @@ void WCMatcher::clearGroups()
 	for (i = 1; i <= ncgc; ++i) groups[0 - i] = starts[0 - i] = ends[0 - i] = -1;
 }
 
-CMString WCMatcher::replaceWithGroups(const CMString &pStr)
+CMStringW WCMatcher::replaceWithGroups(const CMStringW &pStr)
 {
-	CMString ret;
+	CMStringW ret;
 
-	CMString t = pStr;
+	CMStringW t = pStr;
 	while (t.GetLength() > 0) {
 		if (t[0] == '\\') {
 			t.Delete(0);
@@ -86,7 +86,7 @@ unsigned long WCMatcher::getFlags() const
 	return flags;
 }
 
-const CMString& WCMatcher::getText() const
+const CMStringW& WCMatcher::getText() const
 {
 	return *str;
 }
@@ -132,9 +132,9 @@ bool WCMatcher::findNextMatch()
 	return ends[0] >= 0;
 }
 
-std::vector<CMString> WCMatcher::findAll()
+std::vector<CMStringW> WCMatcher::findAll()
 {
-	std::vector<CMString> ret;
+	std::vector<CMStringW> ret;
 	reset();
 	while (findNextMatch())
 		ret.push_back(getGroup());
@@ -163,16 +163,16 @@ int WCMatcher::getEndingIndex(const int groupNum) const
 	return ends[groupNum];
 }
 
-CMString WCMatcher::getGroup(const int groupNum) const
+CMStringW WCMatcher::getGroup(const int groupNum) const
 {
 	if (groupNum < 0 || groupNum >= gc) return L"";
 	if (starts[groupNum] < 0 || ends[groupNum] < 0) return L"";
 	return str->Mid(starts[groupNum], ends[groupNum] - starts[groupNum]);
 }
 
-std::vector<CMString> WCMatcher::getGroups(const bool includeGroupZero) const
+std::vector<CMStringW> WCMatcher::getGroups(const bool includeGroupZero) const
 {
-	std::vector<CMString> ret;
+	std::vector<CMStringW> ret;
 
 	for (int i = (includeGroupZero ? 0 : 1); i < gc; ++i)
 		ret.push_back(getGroup(i));

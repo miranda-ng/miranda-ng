@@ -41,7 +41,7 @@ bool parse_quote(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuote&
 		}
 	}
 
-	q = CQuotesProviderBase::CQuote(sID, TranslateTS(sSymbol.c_str()), TranslateTS(sDescription.c_str()));
+	q = CQuotesProviderBase::CQuote(sID, TranslateW(sSymbol.c_str()), TranslateW(sDescription.c_str()));
 	return true;
 }
 
@@ -72,7 +72,7 @@ bool parse_section(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuot
 		}
 	}
 
-	qs = CQuotesProviderBase::CQuoteSection(TranslateTS(sSectionName.c_str()), aSections, aQuotes);
+	qs = CQuotesProviderBase::CQuoteSection(TranslateW(sSectionName.c_str()), aSections, aQuotes);
 	return true;
 }
 
@@ -224,7 +224,7 @@ void CQuotesProviderBase::SetContactStatus(MCONTACT hContact, int nNewStatus)
 			db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
 			tstring sSymbol = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
 			if (false == sSymbol.empty())
-				db_set_ts(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, sSymbol.c_str());
+				db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, sSymbol.c_str());
 
 			SetContactExtraImage(hContact, eiEmpty);
 		}
@@ -550,7 +550,7 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 	time_t nTime = ::time(NULL);
 
 	if (false == rsSymbol.empty())
-		db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsSymbol.c_str());
+		db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsSymbol.c_str());
 
 	double dPrev = 0.0;
 	bool bValidPrev = Quotes_DBReadDouble(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_CURR_VALUE, dPrev);
@@ -579,11 +579,11 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 	if (true == tendency.Parse(this, m_sTendencyFormat, hContact))
 		do_set_contact_extra_icon(hContact, tendency);
 
-	db_set_ts(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, oNick.str().c_str());
+	db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, oNick.str().c_str());
 
 	tstring sStatusMsg = format_rate(this, hContact, m_sStatusMsgFormat);
 	if (false == sStatusMsg.empty())
-		db_set_ts(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME, sStatusMsg.c_str());
+		db_set_ws(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME, sStatusMsg.c_str());
 	else
 		db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
 
@@ -666,9 +666,9 @@ MCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
 	if (hContact) {
 		if (0 == Proto_AddToContact(hContact, QUOTES_PROTOCOL_NAME)) {
 			tstring sProvName = GetInfo().m_sName;
-			db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_PROVIDER, sProvName.c_str());
-			db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsName.c_str());
-			db_set_ts(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName.c_str());
+			db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_PROVIDER, sProvName.c_str());
+			db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsName.c_str());
+			db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName.c_str());
 
 			mir_cslock lck(m_cs);
 			m_aContacts.push_back(hContact);

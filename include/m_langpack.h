@@ -54,14 +54,6 @@ EXTERN_C MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, int hLang);
 #define TranslateT(s) TranslateW_LP(_A2W(s), hLangpack)
 #define TranslateDialogDefault(h) TranslateDialog_LP(h,hLangpack)
 
-#ifdef _UNICODE
-	#define TranslateTS(s)	 TranslateW_LP(s,hLangpack)
-	#define TranslateTH(l,s) TranslateW_LP(s,l)
-#else
-	#define TranslateTS(s)	 TranslateA_LP(s,hLangpack)
-	#define TranslateTH(l,s) TranslateA_LP(s,l)
-#endif
-
 // If you're storing some string for calling later-on Translate or using it
 // with an API call that does translation automatically marked with
 // [TRANSLATED-BY-CORE] please wrap it with one of LPGEN macros in order to

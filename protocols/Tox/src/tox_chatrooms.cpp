@@ -30,12 +30,12 @@ MCONTACT CToxProto::AddChatRoom(int groupNumber)
 
 		wchar_t title[MAX_PATH];
 		mir_snwprintf(title, L"%s #%d", TranslateT("Group chat"), groupNumber);
-		setTString(hContact, "Nick", title);
+		setWString(hContact, "Nick", title);
 
 		DBVARIANT dbv;
-		if (!db_get_s(NULL, "Chat", "AddToGroup", &dbv, DBVT_TCHAR))
+		if (!db_get_s(NULL, "Chat", "AddToGroup", &dbv, DBVT_WCHAR))
 		{
-			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
+			db_set_ws(hContact, "CList", "Group", dbv.ptszVal);
 			db_free(&dbv);
 		}
 

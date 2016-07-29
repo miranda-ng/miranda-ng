@@ -227,7 +227,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 		// invalid JID
 		if (!bRetVal) {
-			debugLog(L"<iq/> attempt to hack via roster push from %s", pInfo->GetFrom());
+			debugLogW(L"<iq/> attempt to hack via roster push from %s", pInfo->GetFrom());
 			return TRUE;
 		}
 	}
@@ -256,7 +256,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 				if (hContact == NULL)
 					hContact = DBCreateContact(jid, nick, false, false);
 				else
-					setTString(hContact, "jid", jid);
+					setWString(hContact, "jid", jid);
 
 				JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
 				replaceStrW(item->nick, nick);
@@ -265,21 +265,21 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 				replaceStrW(item->group, XmlGetText(groupNode));
 
 				if (name != NULL) {
-					ptrW tszNick(getTStringA(hContact, "Nick"));
+					ptrW tszNick(getWStringA(hContact, "Nick"));
 					if (tszNick != NULL) {
 						if (mir_wstrcmp(nick, tszNick) != 0)
-							db_set_ts(hContact, "CList", "MyHandle", nick);
+							db_set_ws(hContact, "CList", "MyHandle", nick);
 						else
 							db_unset(hContact, "CList", "MyHandle");
 					}
-					else db_set_ts(hContact, "CList", "MyHandle", nick);
+					else db_set_ws(hContact, "CList", "MyHandle", nick);
 				}
 				else db_unset(hContact, "CList", "MyHandle");
 
 				if (!m_options.IgnoreRosterGroups) {
 					if (item->group != NULL) {
 						Clist_GroupCreate(0, item->group);
-						db_set_ts(hContact, "CList", "Group", item->group);
+						db_set_ws(hContact, "CList", "Group", item->group);
 					}
 					else db_unset(hContact, "CList", "Group");
 				}
@@ -291,7 +291,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			else if (!mir_wstrcmp(str, L"to")) item->subscription = SUB_TO;
 			else if (!mir_wstrcmp(str, L"from")) item->subscription = SUB_FROM;
 			else item->subscription = SUB_NONE;
-			debugLog(L"Roster push for jid=%s, set subscription to %s", jid, str);
+			debugLogW(L"Roster push for jid=%s, set subscription to %s", jid, str);
 
 			MCONTACT hContact = HContactFromJID(jid);
 
@@ -371,7 +371,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 			desc = (wchar_t*)XmlGetText(n);
 
 		wchar_t *str2;
-		debugLog(L"description = %s", desc);
+		debugLogW(L"description = %s", desc);
 		if ((str2 = wcsrchr(ft->httpPath, '/')) != NULL)
 			str2++;
 		else
@@ -380,7 +380,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		JabberHttpUrlDecode(str2);
 
 		PROTORECVFILET pre;
-		pre.dwFlags = PRFF_TCHAR;
+		pre.dwFlags = PRFF_UNICODE;
 		pre.timestamp = time(NULL);
 		pre.descr.w = desc;
 		pre.files.w = &str2;

@@ -212,7 +212,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 				CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
 				cle.pszService = service.GetBuffer();
 
-				CMString tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				CMStringW tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 				cle.ptszTooltip = tooltip.GetBuffer();
 				pcli->pfnAddEvent(&cle);
 

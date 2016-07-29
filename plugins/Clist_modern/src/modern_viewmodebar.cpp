@@ -511,7 +511,7 @@ static void UpdateFilters()
 		return;
 
 	mir_snprintf(szSetting, "%c%s_GF", 246, szBuf);
-	ptrW szGF(db_get_tsa(NULL, CLVM_MODULE, szSetting));
+	ptrW szGF(db_get_wsa(NULL, CLVM_MODULE, szSetting));
 	if (szGF == NULL)
 		return;
 
@@ -926,7 +926,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		hwndSelector = CreateWindow(MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 			hwnd, (HMENU)IDC_SELECTMODE, g_hInst, NULL);
 		MakeButtonSkinned(hwndSelector);
-		SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), BATF_TCHAR);
+		SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), BATF_UNICODE);
 		SendMessage(hwndSelector, BUTTONSETMARGINS, 0, (LPARAM)&rcMargins);
 		SendMessage(hwndSelector, BUTTONSETID, 0, (LPARAM) "ViewMode.Select");
 		SendMessage(hwndSelector, WM_SETFONT, 0, (LPARAM)FONTID_VIEMODES + 1);
@@ -938,7 +938,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		HWND hwndButton = CreateWindow(MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 			hwnd, (HMENU)IDC_CONFIGUREMODES, g_hInst, NULL);
 		MakeButtonSkinned(hwndButton);
-		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), BATF_TCHAR);
+		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), BATF_UNICODE);
 		SendMessage(hwndButton, BUTTONSETID, 0, (LPARAM) "ViewMode.Setup");
 		SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
 		SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
@@ -946,7 +946,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		hwndButton = CreateWindow(MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 			hwnd, (HMENU)IDC_RESETMODES, g_hInst, NULL);
 		MakeButtonSkinned(hwndButton);
-		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), BATF_TCHAR);
+		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), BATF_UNICODE);
 		SendMessage(hwndButton, BUTTONSETID, 0, (LPARAM) "ViewMode.Clear");
 		SendMessage(hwnd, WM_USER + 100, 0, 0);
 		SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
@@ -1167,7 +1167,7 @@ static int ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 	if (g_CluiData.fDisableSkinEngine) {
 		view_mode.bkColour = cliGetColor("ViewMode", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "ViewMode", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmapName(db_get_tsa(NULL, "ViewMode", "BkBitmap"));
+			ptrW tszBitmapName(db_get_wsa(NULL, "ViewMode", "BkBitmap"));
 			if (tszBitmapName)
 				view_mode.hBmpBackground = Bitmap_Load(tszBitmapName);
 		}
@@ -1202,7 +1202,7 @@ void CreateViewModeFrame()
 	frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame.height = 18;
 	frame.TBtname = TranslateT("View modes");
-	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_NO_SUBCONTAINER | F_TCHAR;
+	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_NO_SUBCONTAINER | F_UNICODE;
 	frame.align = alBottom;
 	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", _A2W(CLVM_MODULE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)0, g_hInst, NULL);
 	g_hwndViewModeFrame = frame.hWnd;
@@ -1267,7 +1267,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 			mir_free(dbv.pszVal);
 		}
 		mir_snprintf(szSetting, "%c%s_GF", 246, Name);
-		if (!db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv)) {
+		if (!db_get_ws(NULL, CLVM_MODULE, szSetting, &dbv)) {
 			if (mir_wstrlen(dbv.ptszVal) >= 2) {
 				mir_wstrncpy(g_CluiData.groupFilter, dbv.ptszVal, _countof(g_CluiData.groupFilter));
 				g_CluiData.groupFilter[_countof(g_CluiData.groupFilter) - 1] = 0;

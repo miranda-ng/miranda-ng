@@ -448,7 +448,7 @@ std::wstring HistoryEventList::GetContactId()
 
 static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 {
-	wchar_t *msg = DbGetEventTextT(dbei, CP_ACP);
+	wchar_t *msg = DbGetEventTextW(dbei, CP_ACP);
 	wcsncpy_s(buf, cbBuf, msg ? msg : TranslateT("Invalid Message"), _TRUNCATE);
 	buf[cbBuf - 1] = 0;
 	mir_free(msg);

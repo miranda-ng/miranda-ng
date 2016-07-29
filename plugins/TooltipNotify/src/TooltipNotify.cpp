@@ -72,7 +72,7 @@ CTooltipNotify::~CTooltipNotify()
 
 void CTooltipNotify::RegisterFonts()
 {
-	FontIDT fontId = { sizeof(fontId) };
+	FontIDW fontId = { sizeof(fontId) };
 	wcsncpy(fontId.group, FONTSERV_GROUP, _countof(fontId.group) - 1);
 	strncpy(fontId.dbSettingsGroup, MODULENAME, _countof(fontId.dbSettingsGroup) - 1);
 	fontId.flags = FIDF_DEFAULTVALID;
@@ -84,7 +84,7 @@ void CTooltipNotify::RegisterFonts()
 	fontId.order = 0;
 	wcsncpy(fontId.backgroundGroup, FONTSERV_GROUP, _countof(fontId.backgroundGroup) - 1);
 
-	ColourIDT colorId = { sizeof(colorId) };
+	ColourIDW colorId = { sizeof(colorId) };
 	wcsncpy(colorId.group, FONTSERV_GROUP, _countof(colorId.group) - 1);
 	strncpy(colorId.dbSettingsGroup, MODULENAME, _countof(colorId.dbSettingsGroup) - 1);
 	colorId.flags = 0;
@@ -95,11 +95,11 @@ void CTooltipNotify::RegisterFonts()
 		wcsncpy(fontId.name, s_fontTable[i].name, _countof(fontId.name) - 1);
 		strncpy(fontId.prefix, s_fontTable[i].fontPrefix, _countof(fontId.prefix) - 1);
 		wcsncpy(fontId.backgroundName, s_fontTable[i].name, _countof(fontId.backgroundName) - 1);
-		::FontRegisterT(&fontId);
+		::FontRegisterW(&fontId);
 
 		wcsncpy(colorId.name, s_fontTable[i].name, _countof(colorId.name) - 1);
 		strncpy(colorId.setting, s_fontTable[i].clrPrefix, _countof(colorId.setting) - 1);
-		::ColourRegisterT(&colorId);
+		::ColourRegisterW(&colorId);
 	}
 }
 
@@ -116,12 +116,12 @@ void CTooltipNotify::GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF*
 	}
 
 	// name and group only
-	FontIDT fontId = { sizeof(fontId), FONTSERV_GROUP, 0 };
+	FontIDW fontId = { sizeof(fontId), FONTSERV_GROUP, 0 };
 	wcsncpy(fontId.name, fontName, _countof(fontId.name) - 1);
-	*text = (COLORREF)::CallService(MS_FONT_GETT, (WPARAM)&fontId, (LPARAM)lf);
-	ColourIDT colorId = { sizeof(colorId), FONTSERV_GROUP, 0 };
+	*text = (COLORREF)::CallService(MS_FONT_GETW, (WPARAM)&fontId, (LPARAM)lf);
+	ColourIDW colorId = { sizeof(colorId), FONTSERV_GROUP, 0 };
 	wcsncpy(colorId.name, fontName, _countof(colorId.name) - 1);
-	*bg = (COLORREF)::CallService(MS_COLOUR_GETT, (WPARAM)&colorId, 0);
+	*bg = (COLORREF)::CallService(MS_COLOUR_GETW, (WPARAM)&colorId, 0);
 }
 
 int CTooltipNotify::ModulesLoaded(WPARAM, LPARAM)

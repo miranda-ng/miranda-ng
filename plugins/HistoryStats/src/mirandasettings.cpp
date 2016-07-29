@@ -100,12 +100,12 @@ void MirandaSettings::writeDWord(const char* szSetting, int dwValue) const
 
 void MirandaSettings::writeStr(const char* szSetting, const wchar_t* szValue) const
 {
-	db_set_ts(m_hContact, m_strModule.c_str(), szSetting, szValue);
+	db_set_ws(m_hContact, m_strModule.c_str(), szSetting, szValue);
 }
 
 void MirandaSettings::writeStrDirect(const char* szSetting, const wchar_t* szValue) const
 {
-	db_set_ts(m_hContact, m_strModule.c_str(), szSetting, szValue);
+	db_set_ws(m_hContact, m_strModule.c_str(), szSetting, szValue);
 }
 
 void MirandaSettings::writeTree(const char* szSetting, const SettingsTree& value) const

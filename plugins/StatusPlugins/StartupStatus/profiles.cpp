@@ -61,7 +61,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 {
 	CMenuItem mi;
 	mi.position = 2000100000;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mcount = 0;
 	int count = GetProfileCount(0, 0);
 	for (int i = 0; i < count && mcount < MAX_MMITEMS; i++) {
@@ -109,7 +109,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	char setting[80];
 	mir_snprintf(setting, "%d_%s", profile, SETTING_PROFILENAME);
-	if (db_get_ts(NULL, MODULENAME, setting, &dbv))
+	if (db_get_ws(NULL, MODULENAME, setting, &dbv))
 		return -1;
 
 	wcsncpy(buf, dbv.ptszVal, 128 - 1); buf[127] = 0;
@@ -138,7 +138,7 @@ wchar_t *GetStatusMessage(int profile, char *szProto)
 	for (int i = 0; i < pceCount; i++) {
 		if ((pce[i].profile == profile) && (!mir_strcmp(pce[i].szProto, szProto))) {
 			mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
-			if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
+			if (!db_get_ws(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
 				pce[i].msg = (wchar_t*)realloc(pce[i].msg, sizeof(wchar_t)*(mir_wstrlen(dbv.ptszVal) + 1));
 				if (pce[i].msg != NULL) {
 					mir_wstrcpy(pce[i].msg, dbv.ptszVal);
@@ -162,7 +162,7 @@ wchar_t *GetStatusMessage(int profile, char *szProto)
 	pce[pceCount].szProto = _strdup(szProto);
 	pce[pceCount].msg = NULL;
 	mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
-	if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
+	if (!db_get_ws(NULL, MODULENAME, dbSetting, &dbv)) {
 		pce[pceCount].msg = wcsdup(dbv.ptszVal);
 		db_free(&dbv);
 	}

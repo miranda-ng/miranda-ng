@@ -60,7 +60,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			CallService(MS_MSG_SENDMESSAGET, (WPARAM)PUGetContact(hWnd), 0);
+			CallService(MS_MSG_SENDMESSAGEW, (WPARAM)PUGetContact(hWnd), 0);
 			PUDeletePopup(hWnd);
 			return 1;
 		}

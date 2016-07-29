@@ -79,7 +79,7 @@ void GGPROTO::initpopups()
 	puc.cbSize = sizeof(puc);
 	puc.PluginWindowProc = PopupWindowProc;
 	puc.flags = PCF_TCHAR;
-	puc.ptszDescription = szDescr;
+	puc.pwszDescription = szDescr;
 	puc.pszName = szName;
 
 	puc.colorBack = RGB(173, 206, 247);

@@ -52,14 +52,14 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 				MultiByteToWideChar(CP_ACP, 0, (char*)ace->szFilename, -1, tmpPath, _countof(tmpPath));
 		}
 	}
-	if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
+	if (!db_get_ws(hContact, "ContactPhoto", "File", &dbv)) {
 		if (mir_wstrlen(dbv.ptszVal) > 0) {
 			//wchar_t *ext = wcsrchr(dbv.ptszVal, '.');
 			if (result == NULL) {
 				/* relative -> absolute */
 				mir_wstrcpy(tmpPath, dbv.ptszVal);
 				if (wcsncmp(tmpPath, L"http://", 7))
-					PathToAbsoluteT(dbv.ptszVal, tmpPath);
+					PathToAbsoluteW(dbv.ptszVal, tmpPath);
 				result = tmpPath;
 			}
 		}

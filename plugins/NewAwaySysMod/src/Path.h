@@ -37,7 +37,7 @@ __inline TCString Path_ToAbsolute(TCString &Path)
 {
 	TCString Str;
 	Str.GetBuffer(MAX_PATH);
-	PathToAbsoluteT(Path, Str);
+	PathToAbsoluteW(Path, Str);
 	Str.ReleaseBuffer();
 	return Str;
 }

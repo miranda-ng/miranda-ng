@@ -92,7 +92,7 @@ void CIcqProto::handleLookupEmailReply(BYTE* buf, size_t wLen, DWORD dwCookie)
 	debugLogA("SNAC(0x0A,0x3): Lookup reply");
 
 	sr.hdr.cbSize = sizeof(sr);
-	sr.hdr.flags = PSR_TCHAR;
+	sr.hdr.flags = PSR_UNICODE;
 	sr.hdr.email.w = ansi_to_tchar(pCookie->szObject);
 
 	// Syntax check, read chain

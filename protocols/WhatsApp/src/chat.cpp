@@ -85,7 +85,7 @@ int WhatsAppProto::onGroupChatEvent(WPARAM, LPARAM lParam)
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
 
 			db_set_b(hContact, "CList", "Hidden", 1);
-			setTString(hContact, "Nick", gch->ptszUID);
+			setWString(hContact, "Nick", gch->ptszUID);
 			db_set_dw(hContact, "Ignore", "Mask1", 0);
 		}
 		CallService(MS_MSG_SENDMESSAGE, hContact, 0);
@@ -145,8 +145,8 @@ void WhatsAppProto::ChatLogMenuHook(WAChatInfo *pInfo, struct GCHOOK *gch)
 
 void WhatsAppProto::EditChatSubject(WAChatInfo *pInfo)
 {
-	CMString title(FORMAT, TranslateT("Set new subject for %s"), pInfo->tszNick);
-	ptrW tszOldValue(getTStringA(pInfo->hContact, WHATSAPP_KEY_NICK));
+	CMStringW title(FORMAT, TranslateT("Set new subject for %s"), pInfo->tszNick);
+	ptrW tszOldValue(getWStringA(pInfo->hContact, WHATSAPP_KEY_NICK));
 
 	ENTER_STRING es = { 0 };
 	es.cbSize = sizeof(es);
@@ -225,7 +225,7 @@ void WhatsAppProto::AddChatUser(WAChatInfo*, const wchar_t *ptszJid)
 
 	PROTOSEARCHRESULT psr = { 0 };
 	psr.cbSize = sizeof(psr);
-	psr.flags = PSR_TCHAR;
+	psr.flags = PSR_UNICODE;
 	psr.id.w = (wchar_t*)ptszJid;
 	psr.nick.w = GetChatUserNick(jid);
 
@@ -253,7 +253,7 @@ void WhatsAppProto::KickChatUser(WAChatInfo *pInfo, const wchar_t *ptszJid)
 int WhatsAppProto::OnDeleteChat(WPARAM hContact, LPARAM)
 {
 	if (isChatRoom(hContact) && isOnline()) {
-		ptrW tszID(getTStringA(hContact, WHATSAPP_KEY_ID));
+		ptrW tszID(getWStringA(hContact, WHATSAPP_KEY_ID));
 		if (tszID)
 			m_pConnection->sendJoinLeaveGroup(_T2A(tszID), false);
 	}
@@ -314,7 +314,7 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	GCDEST gcd = { m_szModuleName, ptszJid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--) {
-		gce.ptszStatus = TranslateTS(sttStatuses[i]);
+		gce.ptszStatus = TranslateW(sttStatuses[i]);
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
 
@@ -419,7 +419,7 @@ void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string
 		return;
 
 	ptrW tszText(str2t(newSubject));
-	ptrW tszTextDb(getTStringA(pInfo->hContact, WHATSAPP_KEY_NICK));
+	ptrW tszTextDb(getWStringA(pInfo->hContact, WHATSAPP_KEY_NICK));
 	if (!mir_wstrcmp(tszText, tszTextDb)) // notify about subject change only if differs from the stored one
 		return;
 
@@ -436,7 +436,7 @@ void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string
 	gce.ptszText = tszText;
 	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 
-	setTString(pInfo->hContact, WHATSAPP_KEY_NICK, tszText);
+	setWString(pInfo->hContact, WHATSAPP_KEY_NICK, tszText);
 }
 
 void WhatsAppProto::onGroupAddUser(const std::string &gjid, const std::string &ujid, int ts)

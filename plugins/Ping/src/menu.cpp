@@ -7,7 +7,7 @@ void InitMenus()
 {
 	// main menu
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Ping"), 500099900);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "FF273885-6AEC-4C8A-B8BC-9247D920F223");
 

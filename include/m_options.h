@@ -92,12 +92,6 @@ typedef struct {
 #define ODPF_USERINFOTAB    16  // options page is tabbed
 #define ODPF_DONTTRANSLATE  32  // do not translate option page title
 
-#if defined(_UNICODE)
-	#define ODPF_TCHAR     ODPF_UNICODE
-#else
-	#define ODPF_TCHAR     0
-#endif
-
 #define PSM_GETBOLDFONT   (WM_USER+102)   //returns HFONT used for group box titles
 
 __forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)

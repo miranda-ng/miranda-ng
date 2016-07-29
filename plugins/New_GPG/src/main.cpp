@@ -307,8 +307,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, _countof(buf));
 					if (!mir_strcmp(buf, Translate("Default"))) {
 						db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
-						db_set_ts(NULL, szGPGModuleName, "KeyMainName", name);
-						db_set_ts(NULL, szGPGModuleName, "KeyID", fp);
+						db_set_ws(NULL, szGPGModuleName, "KeyMainName", name);
+						db_set_ws(NULL, szGPGModuleName, "KeyID", fp);
 					}
 					else {
 						std::string acc_str = buf;
@@ -316,10 +316,10 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 						db_set_s(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
 						acc_str = buf;
 						acc_str += "_KeyMainName";
-						db_set_ts(NULL, szGPGModuleName, acc_str.c_str(), name);
+						db_set_ws(NULL, szGPGModuleName, acc_str.c_str(), name);
 						acc_str = buf;
 						acc_str += "_KeyID";
-						db_set_ts(NULL, szGPGModuleName, acc_str.c_str(), fp);
+						db_set_ws(NULL, szGPGModuleName, acc_str.c_str(), fp);
 					}
 					if (!mir_strcmp(buf, Translate("Default"))) {
 						wstring keyinfo = TranslateT("Default private key ID");
@@ -337,7 +337,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					dbsetting += keyid;
 					mir_free(keyid);
 					dbsetting += "_Password";
-					db_set_ts(NULL, szGPGModuleName, dbsetting.c_str(), passwd);
+					db_set_ws(NULL, szGPGModuleName, dbsetting.c_str(), passwd);
 				}
 				delete[] name;
 			}
@@ -592,7 +592,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 						GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, _countof(buf));
 						if (!mir_strcmp(buf, Translate("Default"))) {
 							db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
-							db_set_ts(NULL, szGPGModuleName, "KeyID", fp);
+							db_set_ws(NULL, szGPGModuleName, "KeyID", fp);
 						}
 						else {
 							std::string acc_str = buf;
@@ -600,7 +600,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 							db_set_s(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
 							acc_str = buf;
 							acc_str += "_KeyID";
-							db_set_ts(NULL, szGPGModuleName, acc_str.c_str(), fp);
+							db_set_ws(NULL, szGPGModuleName, acc_str.c_str(), fp);
 						}
 					}
 					extern HWND hwndCurKey_p;
@@ -825,7 +825,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 				if (gpg_exists/* && lang_exists*/) {
-					db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+					db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					string out;
 					DWORD code;
 					std::vector<wstring> cmd;
@@ -938,7 +938,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					{
 						bool bad_version = false;
-						db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+						db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 						string out;
 						DWORD code;
 						std::vector<wstring> cmd;
@@ -965,7 +965,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						if (bad_version)
 							MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 					}
-					db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+					db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
 					while (tmp[mir_wstrlen(tmp) - 1] == '\\')
 						tmp[mir_wstrlen(tmp) - 1] = '\0';
@@ -973,7 +973,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
 						break;
 					}
-					db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);
+					db_set_ws(NULL, szGPGModuleName, "szHomePath", tmp);
 					{
 						wchar_t *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 						DWORD dwFileAttr = GetFileAttributes(path);
@@ -1009,7 +1009,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					{
 						bool bad_version = false;
-						db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+						db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 						string out;
 						DWORD code;
 						std::vector<wstring> cmd;
@@ -1036,7 +1036,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						if (bad_version)
 							MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 					}
-					db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+					db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
 					while (tmp[mir_wstrlen(tmp) - 1] == '\\')
 						tmp[mir_wstrlen(tmp) - 1] = '\0';
@@ -1044,7 +1044,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
 						break;
 					}
-					db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);
+					db_set_ws(NULL, szGPGModuleName, "szHomePath", tmp);
 					{
 						wchar_t *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 						DWORD dwFileAttr = GetFileAttributes(path);
@@ -1139,7 +1139,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 							out.erase(s, 1);
 						}
 						db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
-						db_set_ts(NULL, szGPGModuleName, "KeyID", path.c_str());
+						db_set_ws(NULL, szGPGModuleName, "KeyID", path.c_str());
 						extern HWND hwndCurKey_p;
 						SetWindowText(hwndCurKey_p, path.c_str());
 					}
@@ -1876,9 +1876,9 @@ void InitCheck()
 	{
 		// parse gpg output
 		wchar_t *current_home = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
-		db_set_ts(NULL, szGPGModuleName, "szHomePath", L""); //we do not need home for gpg binary validation
+		db_set_ws(NULL, szGPGModuleName, "szHomePath", L""); //we do not need home for gpg binary validation
 		gpg_valid = isGPGValid();
-		db_set_ts(NULL, szGPGModuleName, "szHomePath", current_home); //return current home dir back
+		db_set_ws(NULL, szGPGModuleName, "szHomePath", current_home); //return current home dir back
 		mir_free(current_home);
 		bool home_dir_access = false, temp_access = false;
 		wchar_t *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
@@ -2124,12 +2124,12 @@ void ImportKey()
 			for (int i = 0; i < count; i++) {
 				MCONTACT hcnt = db_mc_getSub(hContact, i);
 				if (hcnt)
-					db_set_ts(hcnt, szGPGModuleName, "GPGPubKey", new_key.c_str());
+					db_set_ws(hcnt, szGPGModuleName, "GPGPubKey", new_key.c_str());
 			}
 		}
-		else db_set_ts(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", new_key.c_str());
+		else db_set_ws(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", new_key.c_str());
 	}
-	else db_set_ts(hContact, szGPGModuleName, "GPGPubKey", new_key.c_str());
+	else db_set_ws(hContact, szGPGModuleName, "GPGPubKey", new_key.c_str());
 
 	new_key.clear();
 

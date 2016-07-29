@@ -306,7 +306,7 @@ INT_PTR addContact(WPARAM, LPARAM)
 	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	Proto_AddToContact(hContact, MODNAME);
 	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
-	db_set_ts(hContact, MODNAME, "Nick", TranslateT("New Non-IM Contact"));
+	db_set_ws(hContact, MODNAME, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact);
 	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);

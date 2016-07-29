@@ -20,14 +20,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CMString ExpandPath(const wchar_t *format)
+CMStringW ExpandPath(const wchar_t *format)
 {
-	CMString res;
+	CMStringW res;
 
 	if (ServiceExists(MS_VARS_FORMATSTRING))
-		res = VARST(ptrW(variables_parse((wchar_t*)format, NULL, NULL)));
+		res = VARSW(ptrW(variables_parse((wchar_t*)format, NULL, NULL)));
 	else
-		res = VARST(format);
+		res = VARSW(format);
 
 	res.Replace(PROFILE_PATHT, szCurrentProfilePath);
 	res.Replace(CURRENT_PROFILET, szCurrentProfile);

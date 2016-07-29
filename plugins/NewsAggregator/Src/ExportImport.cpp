@@ -151,15 +151,15 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 									MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 									Proto_AddToContact(hContact, MODULE);
-									db_set_ts(hContact, MODULE, "Nick", text);
-									db_set_ts(hContact, MODULE, "URL", url);
-									db_set_ts(hContact, MODULE, "Homepage", siteurl);
+									db_set_ws(hContact, MODULE, "Nick", text);
+									db_set_ws(hContact, MODULE, "URL", url);
+									db_set_ws(hContact, MODULE, "Homepage", siteurl);
 									db_set_b(hContact, MODULE, "CheckState", 1);
 									db_set_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME);
-									db_set_ts(hContact, MODULE, "MsgFormat", TAGSDEFAULT);
+									db_set_ws(hContact, MODULE, "MsgFormat", TAGSDEFAULT);
 									db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
 									if (ptszGroup) {
-										db_set_ts(hContact, "CList", "Group", ptszGroup);
+										db_set_ws(hContact, "CList", "Group", ptszGroup);
 										Clist_GroupCreate(0, ptszGroup);
 									}
 									if (isGroupUTF)
@@ -209,7 +209,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDC_BROWSEIMPORTFILE:
 			{
 				wchar_t FileName[MAX_PATH];
-				VARST tszMirDir(L"%miranda_path%");
+				VARSW tszMirDir(L"%miranda_path%");
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
@@ -452,7 +452,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		TranslateDialogDefault(hwndDlg);
 		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ExportDlg");
 		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-			wchar_t *message = db_get_tsa(hContact, MODULE, "Nick");
+			wchar_t *message = db_get_wsa(hContact, MODULE, "Nick");
 			if (message != NULL) {
 				SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)message);
 				mir_free(message);
@@ -472,7 +472,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDOK:
 			{
 				wchar_t FileName[MAX_PATH];
-				VARST tszMirDir(L"%miranda_path%");
+				VARSW tszMirDir(L"%miranda_path%");
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
@@ -501,10 +501,10 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						SendMessage(FeedsExportList, LB_GETTEXT, (WPARAM)i, (LPARAM)item);
 						MCONTACT hContact = GetContactByNick(item);
 						wchar_t
-							*title = db_get_tsa(hContact, MODULE, "Nick"),
-							*url = db_get_tsa(hContact, MODULE, "URL"),
-							*siteurl = db_get_tsa(hContact, MODULE, "Homepage"),
-							*group = db_get_tsa(hContact, "CList", "Group");
+							*title = db_get_wsa(hContact, MODULE, "Nick"),
+							*url = db_get_wsa(hContact, MODULE, "URL"),
+							*siteurl = db_get_wsa(hContact, MODULE, "Homepage"),
+							*group = db_get_wsa(hContact, "CList", "Group");
 
 						HXML elem = header;
 						if (group)

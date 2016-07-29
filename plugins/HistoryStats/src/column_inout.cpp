@@ -60,7 +60,7 @@ void ColInOut::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 
 	array_each_(i, sourceTexts)
 	{
-		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
+		Opt.addComboItem(m_hSource, TranslateW(sourceTexts[i]));
 	}
 
 	Opt.setComboSelected(m_hSource  , m_nSource          );
@@ -107,16 +107,16 @@ void ColInOut::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 
 		if (m_bAbsolute)
 		{
-			strTitle = TranslateTS(szSourceDesc[m_nSource]);
+			strTitle = TranslateW(szSourceDesc[m_nSource]);
 		}
 		else
 		{
 			strTitle = str(ext::kformat(TranslateT("#{data} per #{unit}"))
-				% L"#{data}" * TranslateTS(szSourceDesc[m_nSource])
-				% L"#{unit}" * TranslateTS(szUnitDesc[m_nAbsTime]));
+				% L"#{data}" * TranslateW(szSourceDesc[m_nSource])
+				% L"#{unit}" * TranslateW(szUnitDesc[m_nAbsTime]));
 		}
 
-		writeRowspanTD(tos, getCustomTitle(TranslateTS(szShortDesc[m_nSource / 3]), strTitle), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateW(szShortDesc[m_nSource / 3]), strTitle), row, 1, rowSpan);
 	}
 }
 

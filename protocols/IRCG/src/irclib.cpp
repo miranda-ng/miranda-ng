@@ -59,7 +59,7 @@ CIrcMessage::CIrcMessage(const CIrcMessage& m) :
 	prefix.sHost = m.prefix.sHost;
 
 	for (int i = 0; i < m.parameters.getCount(); i++)
-		parameters.insert(new CMString(m.parameters[i]));
+		parameters.insert(new CMStringW(m.parameters[i]));
 }
 
 CIrcMessage::~CIrcMessage()
@@ -145,14 +145,14 @@ end_of_prefix:
 			// seek end-of-message
 			while (*p2)
 				++p2;
-			parameters.insert(new CMString(p1, p2 - p1));
+			parameters.insert(new CMStringW(p1, p2 - p1));
 			break;
 		}
 		else {
 			// seek end of parameter
 			while (*p2 && *p2 != ' ')
 				++p2;
-			parameters.insert(new CMString(p1, p2 - p1));
+			parameters.insert(new CMStringW(p1, p2 - p1));
 			// see next parameter
 			while (*p2 && *p2 == ' ')
 				++p2;
@@ -232,11 +232,11 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 		NLSend("PASS %s\r\n", info.sPassword.c_str());
 	NLSend(L"NICK %s\r\n", info.sNick.c_str());
 
-	CMString userID = GetWord(info.sUserID.c_str(), 0);
+	CMStringW userID = GetWord(info.sUserID.c_str(), 0);
 	wchar_t szHostName[MAX_PATH];
 	DWORD cbHostName = _countof(szHostName);
 	GetComputerName(szHostName, &cbHostName);
-	CMString HostName = GetWord(szHostName, 0);
+	CMStringW HostName = GetWord(szHostName, 0);
 	if (userID.IsEmpty())
 		userID = L"Miranda";
 	if (HostName.IsEmpty())
@@ -525,7 +525,7 @@ CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const wchar_t* szNam
 	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
 		CDccSession* p = m_dcc_xfers[i];
 		DBVARIANT dbv;
-		if (!getTString(p->di->hContact, "Nick", &dbv)) {
+		if (!getWString(p->di->hContact, "Nick", &dbv)) {
 			if (p->di->iType == DCC_SEND && !p->di->bSender && !mir_wstrcmpi(szName, dbv.ptszVal) && iPort == p->di->iPort) {
 				db_free(&dbv);
 				return p;
@@ -548,7 +548,7 @@ CDccSession* CIrcProto::FindPassiveDCCSend(int iToken)
 	return 0;
 }
 
-CDccSession* CIrcProto::FindPassiveDCCRecv(CMString sName, CMString sToken)
+CDccSession* CIrcProto::FindPassiveDCCRecv(CMStringW sName, CMStringW sToken)
 {
 	mir_cslock lck(m_dcc);
 
@@ -867,7 +867,7 @@ int CDccSession::SetupConnection()
 		pfts.tszCurrentFile = (wchar_t*)di->sFileAndPath.c_str();
 		pfts.tszWorkingDir = (wchar_t*)di->sPath.c_str();
 		pfts.hContact = di->hContact;
-		pfts.flags = PFTS_TCHAR + ((di->bSender) ? PFTS_SENDING : PFTS_RECEIVING);
+		pfts.flags = PFTS_UNICODE + ((di->bSender) ? PFTS_SENDING : PFTS_RECEIVING);
 		pfts.totalFiles = 1;
 		pfts.currentFileNumber = 0;
 		pfts.totalBytes = di->dwSize;
@@ -974,7 +974,7 @@ int CDccSession::SetupConnection()
 
 			di->iPort = nb.wPort; // store the port internally so it is possible to search for it (for resuming of filetransfers purposes)
 
-			CMString sFileWithQuotes = di->sFile;
+			CMStringW sFileWithQuotes = di->sFile;
 
 			// if spaces in the filename surround with quotes
 			if (sFileWithQuotes.Find(' ', 0) != -1) {

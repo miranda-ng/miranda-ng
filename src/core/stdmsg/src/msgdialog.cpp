@@ -763,7 +763,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			//restore saved msg if any...
 			if (dat->hContact) {
 				DBVARIANT dbv;
-				if (!db_get_ts(dat->hContact, SRMSGMOD, DBSAVEDMSG, &dbv)) {
+				if (!db_get_ws(dat->hContact, SRMSGMOD, DBSAVEDMSG, &dbv)) {
 					if (dbv.ptszVal[0]) {
 						SetDlgItemText(hwndDlg, IDC_MESSAGE, dbv.ptszVal);
 						EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
@@ -1589,7 +1589,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				wchar_t *msg = (wchar_t*)alloca(sizeof(wchar_t)*len);
 				GetDlgItemText(hwndDlg, IDC_MESSAGE, msg, len);
 				if (msg[0])
-					db_set_ts(dat->hContact, SRMSGMOD, DBSAVEDMSG, msg);
+					db_set_ws(dat->hContact, SRMSGMOD, DBSAVEDMSG, msg);
 				else
 					db_unset(dat->hContact, SRMSGMOD, DBSAVEDMSG);
 			}

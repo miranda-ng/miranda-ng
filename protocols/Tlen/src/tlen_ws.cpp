@@ -31,13 +31,13 @@ BOOL TlenWsInit(TlenProtocol *proto)
 
 
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
 	mir_snwprintf(name, TranslateT("%s connection"), proto->m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	nlu.szSettingsModule = proto->m_szModuleName;
 	proto->m_hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) &nlu);
 
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_NOOPTIONS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_NOOPTIONS | NUF_UNICODE;
 	mir_snwprintf(name, TranslateT("%s SOCKS connection"), proto->m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	proto->hFileNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) &nlu);

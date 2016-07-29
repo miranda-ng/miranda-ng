@@ -203,7 +203,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			return 0;
 	}
 	sd.OldMirVer = db_get_s(hContact, MOD_NAME, DB_OLDMIRVER, L"");
-	db_set_ts(hContact, MOD_NAME, DB_OLDMIRVER, sd.MirVer); // we have to write it here, because we modify sd.OldMirVer and sd.MirVer to conform our settings later
+	db_set_ws(hContact, MOD_NAME, DB_OLDMIRVER, sd.MirVer); // we have to write it here, because we modify sd.OldMirVer and sd.MirVer to conform our settings later
 	if (sd.OldMirVer.IsEmpty())  // looks like it's the right way to do
 		return 0;
 
@@ -331,7 +331,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		CMenuItem mi;
 		SET_UID(mi, 0xfabb9181, 0xdb92, 0x43f4, 0x86, 0x40, 0xca, 0xb6, 0x4c, 0x93, 0x34, 0x27);
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
 			mi.name.w = LPGENW("Disable c&lient change notification");
 		else
@@ -361,7 +361,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		TCString Str;
 		Str = db_get_s(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, L"");
 		if (Str.GetLen()) // fix incorrect regexp from v0.1.1.0
-			db_set_ts(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, Str.Replace(L"/Miranda[0-9A-F]{8}/", L"/[0-9A-F]{8}(\\W|$)/"));
+			db_set_ws(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, Str.Replace(L"/Miranda[0-9A-F]{8}/", L"/[0-9A-F]{8}(\\W|$)/"));
 
 		db_set_b(NULL, MOD_NAME, DB_SETTINGSVER, 1);
 	}

@@ -440,7 +440,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					DBVARIANT  dbv;
-					if (0 == db_get_ts(hContact, SRMSGMOD_T, "locale", &dbv)) {
+					if (0 == db_get_ws(hContact, SRMSGMOD_T, "locale", &dbv)) {
 						GetLocaleID(dat, dbv.ptszVal);
 						db_free(&dbv);
 						UpdateReadChars(dat);

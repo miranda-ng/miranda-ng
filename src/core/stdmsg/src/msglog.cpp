@@ -305,7 +305,7 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 		AppendToBufferWithRTF(buffer, szName);
 		AppendToBufferWithRTF(buffer, L" ");
 
-		msg = DbGetEventTextT(&dbei, CP_ACP);
+		msg = DbGetEventTextW(&dbei, CP_ACP);
 		if (msg) {
 			AppendToBufferWithRTF(buffer, msg);
 			mir_free(msg);
@@ -334,7 +334,7 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 
 	case EVENTTYPE_MESSAGE:
 	default:
-		msg = DbGetEventTextT(&dbei, CP_ACP);
+		msg = DbGetEventTextW(&dbei, CP_ACP);
 		buffer.AppendFormat(" %s ", SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE));
 		AppendToBufferWithRTF(buffer, msg);
 		mir_free(msg);

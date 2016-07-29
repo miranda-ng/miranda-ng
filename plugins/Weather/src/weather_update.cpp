@@ -45,7 +45,7 @@ int UpdateWeather(MCONTACT hContact)
 
 	// log to netlib log for debug purpose
 	Netlib_LogfT(hNetlibUser, L"************************************************************************");
-	int dbres = db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv);
+	int dbres = db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv);
 
 	Netlib_LogfT(hNetlibUser, L"<-- Start update for station -->");
 
@@ -76,23 +76,23 @@ int UpdateWeather(MCONTACT hContact)
 	WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 	// translate weather condition
-	mir_wstrcpy(winfo.cond, TranslateTS(winfo.cond));
+	mir_wstrcpy(winfo.cond, TranslateW(winfo.cond));
 
 	// compare the old condition and determine if the weather had changed
 	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
-		if (!db_get_ts(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
+		if (!db_get_ws(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
 			if (mir_wstrcmpi(winfo.cond, dbv.ptszVal))  Ch = TRUE;		// the weather condition is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
-		if (!db_get_ts(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
+		if (!db_get_ws(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
 			if (mir_wstrcmpi(winfo.temp, dbv.ptszVal))  Ch = TRUE;		// the temperature is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
 	}
 	else {	// consider update time change
-		if (!db_get_ts(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
+		if (!db_get_ws(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
 			if (mir_wstrcmpi(winfo.update, dbv.ptszVal))  Ch = TRUE;		// the update time is changed
 			db_free(&dbv);
 		}
@@ -100,7 +100,7 @@ int UpdateWeather(MCONTACT hContact)
 	}
 
 	// have weather alert issued?
-	dbres = db_get_ts(hContact, WEATHERCONDITION, "Alert", &dbv);
+	dbres = db_get_ws(hContact, WEATHERCONDITION, "Alert", &dbv);
 	if (!dbres && dbv.ptszVal[0] != 0) {
 		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
@@ -117,10 +117,10 @@ int UpdateWeather(MCONTACT hContact)
 	if (!dbres) db_free(&dbv);
 
 	// backup current condition for checking if the weather is changed or not
-	db_set_ts(hContact, WEATHERPROTONAME, "LastLog", winfo.update);
-	db_set_ts(hContact, WEATHERPROTONAME, "LastCondition", winfo.cond);
-	db_set_ts(hContact, WEATHERPROTONAME, "LastTemperature", winfo.temp);
-	db_set_ts(hContact, WEATHERPROTONAME, "LastUpdate", winfo.update);
+	db_set_ws(hContact, WEATHERPROTONAME, "LastLog", winfo.update);
+	db_set_ws(hContact, WEATHERPROTONAME, "LastCondition", winfo.cond);
+	db_set_ws(hContact, WEATHERPROTONAME, "LastTemperature", winfo.temp);
+	db_set_ws(hContact, WEATHERPROTONAME, "LastUpdate", winfo.update);
 
 	// display condition on contact list
 	if (opt.DisCondIcon && winfo.status != ID_STATUS_OFFLINE)
@@ -130,11 +130,11 @@ int UpdateWeather(MCONTACT hContact)
 	AvatarDownloaded(hContact);
 
 	GetDisplay(&winfo, opt.cText, str2);
-	db_set_ts(hContact, "CList", "MyHandle", str2);
+	db_set_ws(hContact, "CList", "MyHandle", str2);
 
 	GetDisplay(&winfo, opt.sText, str2);
 	if (str2[0])
-		db_set_ts(hContact, "CList", "StatusMsg", str2);
+		db_set_ws(hContact, "CList", "StatusMsg", str2);
 	else
 		db_unset(hContact, "CList", "StatusMsg");
 
@@ -142,9 +142,9 @@ int UpdateWeather(MCONTACT hContact)
 
 	// save descriptions in MyNotes
 	GetDisplay(&winfo, opt.nText, str2);
-	db_set_ts(hContact, "UserInfo", "MyNotes", str2);
+	db_set_ws(hContact, "UserInfo", "MyNotes", str2);
 	GetDisplay(&winfo, opt.xText, str2);
-	db_set_ts(hContact, WEATHERCONDITION, "WeatherInfo", str2);
+	db_set_ws(hContact, WEATHERCONDITION, "WeatherInfo", str2);
 
 	// set the update tag
 	db_set_b(hContact, WEATHERPROTONAME, "IsUpdated", TRUE);
@@ -166,7 +166,7 @@ int UpdateWeather(MCONTACT hContact)
 
 		if (db_get_b(hContact, WEATHERPROTONAME, "File", 0)) {
 			// external log
-			if (!db_get_ts(hContact, WEATHERPROTONAME, "Log", &dbv)) {
+			if (!db_get_ws(hContact, WEATHERPROTONAME, "Log", &dbv)) {
 				// for the option for overwriting the file, delete old file first
 				if (db_get_b(hContact, WEATHERPROTONAME, "Overwrite", 0))
 					DeleteFile(dbv.ptszVal);
@@ -459,7 +459,7 @@ int GetWeatherData(MCONTACT hContact)
 				// to get a data value.
 				GetDataValue(&Item->Item, DataValue, &szInfo);
 				if (mir_wstrcmp(Item->Item.Name, L"Condition") && mir_wstrcmpi(Item->Item.Unit, L"Cond"))
-					wcsncpy(DataValue, TranslateTS(DataValue), MAX_DATA_LEN - 1);
+					wcsncpy(DataValue, TranslateW(DataValue), MAX_DATA_LEN - 1);
 				break;
 
 			case WID_SET:
@@ -495,7 +495,7 @@ int GetWeatherData(MCONTACT hContact)
 							break;
 
 						case'\"': // constant, add it to the result string
-							mir_wstrncat(DataValue, TranslateTS(str2), _countof(DataValue) - mir_wstrlen(DataValue));
+							mir_wstrncat(DataValue, TranslateW(str2), _countof(DataValue) - mir_wstrlen(DataValue));
 							DataValue[_countof(DataValue) - 1] = 0;
 							break;
 						}
@@ -536,40 +536,40 @@ int GetWeatherData(MCONTACT hContact)
 
 					// write the 2 strings created from the break operation
 					if (Item->Item.End[0])
-						db_set_ts(hContact, WEATHERCONDITION, _T2A(Item->Item.End), end);
+						db_set_ws(hContact, WEATHERCONDITION, _T2A(Item->Item.End), end);
 					break;
 				}
 			}
 
 			// don't store data if it is not available
 			if ((DataValue[0] != 0 && mir_wstrcmp(DataValue, NODATA) &&
-				mir_wstrcmp(DataValue, TranslateTS(NODATA)) && mir_wstrcmp(Item->Item.Name, L"Ignore")) ||
+				mir_wstrcmp(DataValue, TranslateW(NODATA)) && mir_wstrcmp(Item->Item.Name, L"Ignore")) ||
 				(!mir_wstrcmp(Item->Item.Name, L"Alert") && i == 0)) {
 				// temporary workaround for mToolTip to show feel-like temperature
 				if (!mir_wstrcmp(Item->Item.Name, L"Feel"))
-					db_set_ts(hContact, WEATHERCONDITION, "Heat Index", DataValue);
+					db_set_ws(hContact, WEATHERCONDITION, "Heat Index", DataValue);
 				GetStationID(hContact, Svc, _countof(Svc));
 				if (!mir_wstrcmp(Svc, opt.Default))
-					db_set_ts(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
+					db_set_ws(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
 				if (!mir_wstrcmp(Item->Item.Name, L"Condition")) {
 					wchar_t buf[128], *cbuf;
 					mir_snwprintf(buf, L"#%s Weather", DataValue);
-					cbuf = TranslateTS(buf);
+					cbuf = TranslateW(buf);
 					if (cbuf[0] == '#')
-						cbuf = TranslateTS(DataValue);
-					db_set_ts(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
+						cbuf = TranslateW(DataValue);
+					db_set_ws(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
 					CharLowerBuff(DataValue, (DWORD)mir_wstrlen(DataValue));
 					cond = GetIcon(DataValue, Data);
 				}
 				else if (mir_wstrcmpi(Item->Item.Unit, L"Cond") == 0) {
 					wchar_t buf[128], *cbuf;
 					mir_snwprintf(buf, L"#%s Weather", DataValue);
-					cbuf = TranslateTS(buf);
+					cbuf = TranslateW(buf);
 					if (cbuf[0] == '#')
-						cbuf = TranslateTS(DataValue);
-					db_set_ts(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
+						cbuf = TranslateW(DataValue);
+					db_set_ws(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
 				}
-				else db_set_ts(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), DataValue);
+				else db_set_ws(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), DataValue);
 			}
 			Item = Item->Next;
 		}
@@ -578,7 +578,7 @@ int GetWeatherData(MCONTACT hContact)
 
 	// assign condition icon
 	db_set_w(hContact, WEATHERPROTONAME, "StatusIcon", cond);
-	db_set_ts(hContact, WEATHERPROTONAME, "MirVer", Data->DisplayName);
+	db_set_ws(hContact, WEATHERPROTONAME, "MirVer", Data->DisplayName);
 	return 0;
 }
 

@@ -135,7 +135,7 @@ LPTSTR IcoLib_GetDefaultIconFileName()
 	wchar_t absolute[MAX_PATH];
 
 	for (int i = 0; i < _countof(path); i++) {
-		PathToAbsoluteT(path[i], absolute);
+		PathToAbsoluteW(path[i], absolute);
 		if (PathFileExists(absolute))
 			return path[i];
 	}
@@ -157,7 +157,7 @@ static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 	if (db_get_b(NULL, MODNAME, SET_ICONS_CHECKFILEVERSION, TRUE)) {
 		if (szIconPack) {
 			wchar_t szAbsolutePath[MAX_PATH];
-			PathToAbsoluteT(szIconPack, szAbsolutePath);
+			PathToAbsoluteW(szIconPack, szAbsolutePath);
 
 			HMODULE hIconDll = LoadLibrary(szAbsolutePath);
 			if (hIconDll) {
@@ -227,7 +227,7 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 
 	if (szIconID && szDescription && szSection) {
 		SKINICONDESC sid = { 0 };
-		sid.flags = SIDF_ALL_TCHAR;
+		sid.flags = SIDF_ALL_UNICODE;
 		sid.pszName = szIconID;
 		sid.description.w = mir_a2u(szDescription);
 		sid.section.w = mir_a2u(szSection);

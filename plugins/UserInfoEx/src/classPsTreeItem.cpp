@@ -255,7 +255,7 @@ int CPsTreeItem::ItemLabel(const BYTE bReadDBValue)
 
 		LPTSTR ptszLabel = mir_utf8decodeW(pszName);
 		if (ptszLabel) {
-			_ptszLabel = mir_wstrdup(TranslateTS(ptszLabel));
+			_ptszLabel = mir_wstrdup(TranslateW(ptszLabel));
 			mir_free(ptszLabel);
 		}
 	}
@@ -316,7 +316,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 		bool bNeedFree = false;
 
 		SKINICONDESC sid = { 0 };
-		sid.flags = SIDF_ALL_TCHAR;
+		sid.flags = SIDF_ALL_UNICODE;
 		sid.pszName = (LPSTR)pszIconName;
 		sid.description.w = _ptszLabel;
 		sid.section.w = _A2W(SECT_TREE);
@@ -482,7 +482,7 @@ WORD CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iStat
 
 	// save label
 	if ((dwFlags & PSTVF_LABEL_CHANGED) && (_dwFlags & PSTVF_LABEL_CHANGED))
-		numErrors += db_set_ts(NULL, MODNAME, GlobalPropertyKey(SET_ITEM_LABEL), Label());
+		numErrors += db_set_ws(NULL, MODNAME, GlobalPropertyKey(SET_ITEM_LABEL), Label());
 
 	// save position
 	if ((dwFlags & PSTVF_POS_CHANGED) && !(dwFlags & PSTVF_SORTTREE))

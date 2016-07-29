@@ -180,7 +180,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		SendMessage(hwndDlg, M_REFRESHBKGBOXES, 0, 0);
 		{
 			DBVARIANT dbv;
-			if (!db_get_ts(NULL, MODULE, "BkBitmap", &dbv)) {
+			if (!db_get_ws(NULL, MODULE, "BkBitmap", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -303,7 +303,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 				wchar_t str[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
-				db_set_ts(NULL, MODULE, "BkBitmap", str);
+				db_set_ws(NULL, MODULE, "BkBitmap", str);
 
 				WORD flags = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH))

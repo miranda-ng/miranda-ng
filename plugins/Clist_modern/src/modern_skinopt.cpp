@@ -55,7 +55,7 @@ int SkinOptInit(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
 		odp.pwszGroup = LPGENW("Skins");
 		odp.pwszTitle = LPGENW("Contact list");
-		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;
@@ -262,7 +262,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					GetPrivateProfileString(L"Skin_Description_Section", L"Preview", L"", imfn, _countof(imfn), sd->File);
 					IniParser::GetSkinFolder(sd->File, skinfolder);
 					mir_snwprintf(prfn, L"%s\\%s", skinfolder, imfn);
-					PathToAbsoluteT(prfn, imfn);
+					PathToAbsoluteW(prfn, imfn);
 					hPreviewBitmap = ske_LoadGlyphImage(imfn);
 
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_APPLY_SKIN), TRUE);
@@ -367,9 +367,9 @@ HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 		SearchSkinFiles(hwndDlg, SkinsFolder);
 	{
 		wchar_t skinfull[MAX_PATH];
-		ptrW skinfile(db_get_tsa(NULL, SKIN, "SkinFile"));
+		ptrW skinfile(db_get_wsa(NULL, SKIN, "SkinFile"));
 		if (skinfile) {
-			PathToAbsoluteT(skinfile, skinfull);
+			PathToAbsoluteW(skinfile, skinfull);
 			res = AddSkinToListFullName(hwndDlg, skinfull);
 		}
 	}
@@ -471,10 +471,10 @@ HTREEITEM AddItemToTree(HWND hTree, wchar_t *itemName, void *data)
 
 INT_PTR SvcActiveSkin(WPARAM, LPARAM)
 {
-	ptrW skinfile(db_get_tsa(NULL, SKIN, "SkinFile"));
+	ptrW skinfile(db_get_wsa(NULL, SKIN, "SkinFile"));
 	if (skinfile) {
 		wchar_t skinfull[MAX_PATH];
-		PathToAbsoluteT(skinfile, skinfull);
+		PathToAbsoluteW(skinfile, skinfull);
 		return (INT_PTR)mir_wstrdup(skinfull);
 	}
 
@@ -525,7 +525,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		GetPrivateProfileString(L"Skin_Description_Section", L"Preview", L"", imfn, _countof(imfn), (LPCTSTR)lParam);
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder);
 		mir_snwprintf(prfn, L"%s\\%s", skinfolder, imfn);
-		PathToAbsoluteT(prfn, imfn);
+		PathToAbsoluteW(prfn, imfn);
 
 		hPreviewBitmap = ske_LoadGlyphImage(imfn);
 		if (hPreviewBitmap) {

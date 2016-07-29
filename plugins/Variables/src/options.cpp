@@ -26,7 +26,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		TranslateDialogDefault(hwndDlg);
 		{
 			DBVARIANT dbv;
-			if (!db_get_ts( NULL, MODULENAME, SETTING_STARTUPTEXT, &dbv )) {
+			if (!db_get_ws( NULL, MODULENAME, SETTING_STARTUPTEXT, &dbv )) {
 				SetDlgItemText(hwndDlg, IDC_FORMATTEXT, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -90,7 +90,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 					break;
 
 				if (GetDlgItemText(hwndDlg, IDC_FORMATTEXT, szFormatText, len+1) != 0)
-					db_set_ts(NULL, MODULENAME, SETTING_STARTUPTEXT, szFormatText);
+					db_set_ws(NULL, MODULENAME, SETTING_STARTUPTEXT, szFormatText);
 
 				mir_free(szFormatText);
 			}

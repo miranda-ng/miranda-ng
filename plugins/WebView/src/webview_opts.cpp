@@ -283,15 +283,15 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_APPLY), 0);
 
-		if (!db_get_ts(hContact, MODULENAME, ALERT_STRING_KEY, &dbv)) {
+		if (!db_get_ws(hContact, MODULENAME, ALERT_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_ALERT_STRING, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ts(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {
+		if (!db_get_ws(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_START2, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ts(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv)) {
+		if (!db_get_ws(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_END2, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -300,14 +300,14 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		CheckDlgButton(hwndDlg, IDC_24_HOUR, db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ALWAYS_LOG, db_get_b(hContact, MODULENAME, ALWAYS_LOG_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
-		SetDlgItemText(hwndDlg, IDC_ALERT_TYPE, TranslateTS(AlertTypes[db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0)]));
-		SetDlgItemText(hwndDlg, IDC_EVENT_TYPE, TranslateTS(EventTypes[db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0)]));
+		SetDlgItemText(hwndDlg, IDC_ALERT_TYPE, TranslateW(AlertTypes[db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0)]));
+		SetDlgItemText(hwndDlg, IDC_EVENT_TYPE, TranslateW(EventTypes[db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0)]));
 
 		for (i = 0; i < _countof(AlertTypes); i++)
-			SendDlgItemMessage(hwndDlg, IDC_ALERT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(AlertTypes[i]));
+			SendDlgItemMessage(hwndDlg, IDC_ALERT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(AlertTypes[i]));
 
 		for (i = 0; i < _countof(EventTypes); i++)
-			SendDlgItemMessage(hwndDlg, IDC_EVENT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(EventTypes[i]));
+			SendDlgItemMessage(hwndDlg, IDC_EVENT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(EventTypes[i]));
 
 		if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0)) {
 			CheckDlgButton(hwndDlg, IDC_ENABLE_ALERTS, BST_UNCHECKED);
@@ -412,7 +412,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			}
 		}
 
-		if (!db_get_ts(hContact, MODULENAME, FILE_KEY, &dbv)) {
+		if (!db_get_ws(hContact, MODULENAME, FILE_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -746,19 +746,19 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 						}
 
 				GetDlgItemText(hwndDlg, IDC_FILENAME, buf, _countof(buf));
-				db_set_ts(hContact, MODULENAME, FILE_KEY, buf);
+				db_set_ws(hContact, MODULENAME, FILE_KEY, buf);
 
 				db_set_b(hContact, MODULENAME, APPEND_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_APPEND));
 				db_set_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVE_AS_RAW));
 
 				GetDlgItemText(hwndDlg, IDC_ALERT_STRING, buf, _countof(buf));
-				db_set_ts(hContact, MODULENAME, ALERT_STRING_KEY, buf);
+				db_set_ws(hContact, MODULENAME, ALERT_STRING_KEY, buf);
 
 				GetDlgItemText(hwndDlg, IDC_START2, buf, _countof(buf));
-				db_set_ts(hContact, MODULENAME, ALRT_S_STRING_KEY, buf);
+				db_set_ws(hContact, MODULENAME, ALRT_S_STRING_KEY, buf);
 
 				GetDlgItemText(hwndDlg, IDC_END2, buf, _countof(buf));
-				db_set_ts(hContact, MODULENAME, ALRT_E_STRING_KEY, buf);
+				db_set_ws(hContact, MODULENAME, ALRT_E_STRING_KEY, buf);
 
 				db_set_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PREFIX));
 
@@ -823,25 +823,25 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_APPLY), 0);
 
-		if (!db_get_ts(hContact, MODULENAME, URL_KEY, &dbv)) {
+		if (!db_get_ws(hContact, MODULENAME, URL_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_URL, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ts(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
+		if (!db_get_ws(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_START, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ts(hContact, MODULENAME, END_STRING_KEY, &dbv)) {
+		if (!db_get_ws(hContact, MODULENAME, END_STRING_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_END, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if (db_get_ts(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if (db_get_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			db_free(&dbv);
-			db_get_ts(hContact, "CList", "MyHandle", &dbv);
-			db_set_ts(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.ptszVal);
+			db_get_ws(hContact, "CList", "MyHandle", &dbv);
+			db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ts(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		if (!db_get_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_SITE_NAME, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -850,7 +850,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_SETRANGE, FALSE, MAKELONG(0, 4));
 		SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_SETPOS, TRUE, db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0));
-		SetDlgItemText(hwndDlg, IDC_RWSPC_TEXT, TranslateTS(szTrackerBarDescr[SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)]));
+		SetDlgItemText(hwndDlg, IDC_RWSPC_TEXT, TranslateW(szTrackerBarDescr[SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)]));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RWSPACE), (IsDlgButtonChecked(hwndDlg, IDC_CLEAN)));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RWSPC_TEXT), (IsDlgButtonChecked(hwndDlg, IDC_CLEAN)));
@@ -876,7 +876,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_HSCROLL:
-		SetDlgItemText(hwndDlg, IDC_RWSPC_TEXT, TranslateTS(szTrackerBarDescr[SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)]));
+		SetDlgItemText(hwndDlg, IDC_RWSPC_TEXT, TranslateW(szTrackerBarDescr[SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)]));
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_APPLY), 1);
 		break;
@@ -918,10 +918,10 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				GetDlgItemText(hwndDlg, IDC_START, string, _countof(string));
-				db_set_ts(hContact, MODULENAME, ALRT_S_STRING_KEY, string);
+				db_set_ws(hContact, MODULENAME, ALRT_S_STRING_KEY, string);
 
 				GetDlgItemText(hwndDlg, IDC_END, string, _countof(string));
-				db_set_ts(hContact, MODULENAME, ALRT_E_STRING_KEY, string);
+				db_set_ws(hContact, MODULENAME, ALRT_E_STRING_KEY, string);
 
 				db_set_w(hContact, MODULENAME, EVNT_INDEX_KEY, 2);
 			}
@@ -1013,17 +1013,17 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 				GetDlgItemText(hwndDlg, IDC_URL, url, _countof(url));
-				db_set_ts(hContact, MODULENAME, URL_KEY, url);
-				db_set_ts(hContact, MODULENAME, "Homepage", url);
+				db_set_ws(hContact, MODULENAME, URL_KEY, url);
+				db_set_ws(hContact, MODULENAME, "Homepage", url);
 
 				GetDlgItemText(hwndDlg, IDC_START, str, _countof(str));
-				db_set_ts(hContact, MODULENAME, START_STRING_KEY, str);
+				db_set_ws(hContact, MODULENAME, START_STRING_KEY, str);
 
 				GetDlgItemText(hwndDlg, IDC_END, str, _countof(str));
-				db_set_ts(hContact, MODULENAME, END_STRING_KEY, str);
+				db_set_ws(hContact, MODULENAME, END_STRING_KEY, str);
 
 				GetDlgItemText(hwndDlg, IDC_SITE_NAME, str, _countof(str));
-				db_set_ts(hContact, "CList", "MyHandle", str);
+				db_set_ws(hContact, "CList", "MyHandle", str);
 
 				db_set_b(hContact, MODULENAME, DBLE_WIN_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DBLE_WIN));
 				db_set_b(hContact, MODULENAME, U_ALLSITE_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_U_ALLSITE));
@@ -1103,7 +1103,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hwndDlg, IDC_NO_PROTECT, db_get_b(NULL, MODULENAME, NO_PROTECT_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DATAPOPUP, db_get_b(NULL, MODULENAME, DATA_POPUP_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
-			if (!db_get_ts(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
+			if (!db_get_ws(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_TYPEFACE, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -1269,7 +1269,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			wchar_t str[100];
 			GetDlgItemText(hwndDlg, IDC_TYPEFACE, str, _countof(str));
-			db_set_ts(NULL, MODULENAME, FONT_FACE_KEY, str);
+			db_set_ws(NULL, MODULENAME, FONT_FACE_KEY, str);
 
 			db_set_b(NULL, MODULENAME, FONT_SIZE_KEY, (GetDlgItemInt(hwndDlg, IDC_FONTSIZE, NULL, FALSE)));
 			db_set_b(NULL, MODULENAME, FONT_SCRIPT_KEY, ((BYTE)SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCURSEL, 0, 0), 0)));

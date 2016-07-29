@@ -230,7 +230,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	iForwardOnStatus = db_get_dw(NULL, "yaRelay", "ForwardOnStatus", STATUS_OFFLINE | STATUS_AWAY | STATUS_NA);
 
-	wchar_t *szForwardTemplate = db_get_tsa(NULL, "yaRelay", "ForwardTemplate");
+	wchar_t *szForwardTemplate = db_get_wsa(NULL, "yaRelay", "ForwardTemplate");
 	if (szForwardTemplate){
 		wcsncpy(tszForwardTemplate, szForwardTemplate, _countof(tszForwardTemplate));
 		mir_free(szForwardTemplate);

@@ -224,7 +224,7 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 	int i;
 	DWORD groupFlags;
 	ClcGroup *group;
-	ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
+	ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
 	if (tszGroup == NULL)
 		group = &dat->list;
 	else {
@@ -310,7 +310,7 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 		int i, nameOffset;
 		if (!IsHContactContact(hItem))
 			return;
-		if (db_get_ts(hItem, "CList", "Group", &dbv))
+		if (db_get_ws(hItem, "CList", "Group", &dbv))
 			return;
 
 		//decrease member counts of all parent groups too
@@ -365,7 +365,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 			ClcCacheEntry *pce = cli.pfnGetCacheEntry(hContact);
 
 			ClcGroup *group;
-			ptrW tszGroupName(db_get_tsa(hContact, "CList", "Group"));
+			ptrW tszGroupName(db_get_wsa(hContact, "CList", "Group"));
 			if (tszGroupName == NULL)
 				group = &dat->list;
 			else {

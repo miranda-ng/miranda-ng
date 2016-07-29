@@ -42,7 +42,7 @@ void ColEvents::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 
 	array_each_(i, sourceTexts)
 	{
-		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
+		Opt.addComboItem(m_hSource, TranslateW(sourceTexts[i]));
 	}
 
 	Opt.setComboSelected(m_hSource, m_nSource);
@@ -71,7 +71,7 @@ void ColEvents::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan)
 
 	if (row == 1)
 	{
-		writeRowspanTD(tos, getCustomTitle(TranslateTS(szShortDesc[m_nSource / 3]), TranslateTS(szSourceDesc[m_nSource])), row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateW(szShortDesc[m_nSource / 3]), TranslateW(szSourceDesc[m_nSource])), row, 1, rowSpan);
 	}
 }
 

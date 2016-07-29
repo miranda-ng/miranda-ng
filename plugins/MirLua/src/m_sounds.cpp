@@ -9,10 +9,10 @@ static int sounds_AddSound(lua_State *L)
 
 	SKINSOUNDDESCEX ssd = { sizeof(SKINSOUNDDESCEX) };
 	ssd.pszName = name;
-	ssd.dwFlags = SSDF_TCHAR;
-	ssd.ptszDescription = description;
-	ssd.ptszSection = section;
-	ssd.ptszDefaultFile = filePath;
+	ssd.dwFlags = SSDF_UNICODE;
+	ssd.pwszDescription = description;
+	ssd.pwszSection = section;
+	ssd.pwszDefaultFile = filePath;
 
 	int hScriptLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
 

@@ -31,12 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MERR_DEFAULT_ERROR			0x08
 #define MERR_DEFAULT_ALL			0x0E
 
-#ifdef _UNICODE
-	#define MERR_TCHAR				MERR_UNICODE
-#else
-	#define MERR_TCHAR				0
-#endif
-
 // Error notifications are sorted according to this level
 #define MERR_LEVEL_INFO				1
 #define MERR_LEVEL_WARNING			2

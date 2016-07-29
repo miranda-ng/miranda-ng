@@ -78,7 +78,7 @@ void InitSelfSounds()
 
 			wchar_t infobuf[256];
 			mir_snwprintf(infobuf, L"%s [%s]", TranslateT("Self status"), protos[i]->tszAccountName);
-			SkinAddNewSoundExT(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
+			SkinAddNewSoundExW(namebuf, infobuf, pcli->pfnGetStatusModeDescription(selfSounds[j].iStatus, 0));
 		}
 	}
 }
@@ -117,9 +117,9 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 
 	isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
 	DBVARIANT dbv;
-	if (!isIgnoreSound && !db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+	if (!isIgnoreSound && !db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
-		PathToAbsoluteT(dbv.ptszVal, PlaySoundPath);
+		PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 		isOwnSound = 0;
 		SkinPlaySoundFile(PlaySoundPath);
 		db_free(&dbv);
@@ -141,15 +141,15 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 
 	MCONTACT hContact = pci->FindRoom(gcd->pszModule, gcd->ptszID);
 	if (hContact != 0) {
-		ptrW nick(db_get_tsa(hContact, gcd->pszModule, "MyNick"));
+		ptrW nick(db_get_wsa(hContact, gcd->pszModule, "MyNick"));
 		if (nick == NULL || gce->ptszText == NULL)
 			return 0;
 		if (wcsstr(gce->ptszText, nick)) {
 			isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
 			DBVARIANT dbv;
-			if (!isIgnoreSound && !db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+			if (!isIgnoreSound && !db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
-				PathToAbsoluteT(dbv.ptszVal, PlaySoundPath);
+				PathToAbsoluteW(dbv.ptszVal, PlaySoundPath);
 				isOwnSound = 0;
 				SkinPlaySoundFile(PlaySoundPath);
 				db_free(&dbv);
@@ -180,7 +180,7 @@ static int OnLoadInit(WPARAM, LPARAM)
 	CMenuItem mi;
 	SET_UID(mi, 0x5d72ca1f, 0xc52, 0x436d, 0x81, 0x47, 0x29, 0xf6, 0xc3, 0x28, 0xb5, 0xd1);
 	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.w = LPGENW("Custom contact sound");
 	mi.pszService = "XSoundNotify/ContactMenuCommand";

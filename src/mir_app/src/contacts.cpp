@@ -309,7 +309,7 @@ public:
 		tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
 		for (int i = 0; i < _countof(nameOrderDescr); i++) {
 			tvis.item.lParam = nameOrder[i];
-			tvis.item.pszText = TranslateTS(nameOrderDescr[nameOrder[i]]);
+			tvis.item.pszText = TranslateW(nameOrderDescr[nameOrder[i]]);
 			m_nameOrder.InsertItem(&tvis);
 		}
 	}

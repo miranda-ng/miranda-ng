@@ -61,7 +61,7 @@ void CSkypeProto::InitMenus()
 	//hChooserMenu = Menu_AddObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
 
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 
 	// Request authorization
 	mi.pszService = MODULE"/RequestAuth";

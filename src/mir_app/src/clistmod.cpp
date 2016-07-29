@@ -101,13 +101,13 @@ wchar_t* fnGetStatusModeDescription(int mode, int flags)
 	default:
 		if (IsStatusConnecting(mode)) {
 			const wchar_t* connFmt = LPGENW("Connecting (attempt %d)");
-			mir_snwprintf(szMode, (flags & GSMDF_UNTRANSLATED) ? connFmt : TranslateTS(connFmt), mode - ID_STATUS_CONNECTING + 1);
+			mir_snwprintf(szMode, (flags & GSMDF_UNTRANSLATED) ? connFmt : TranslateW(connFmt), mode - ID_STATUS_CONNECTING + 1);
 			return szMode;
 		}
 		return NULL;
 	}
 
-	return (flags & GSMDF_UNTRANSLATED) ? descr : TranslateTS(descr);
+	return (flags & GSMDF_UNTRANSLATED) ? descr : TranslateW(descr);
 }
 
 static int ProtocolAck(WPARAM, LPARAM lParam)

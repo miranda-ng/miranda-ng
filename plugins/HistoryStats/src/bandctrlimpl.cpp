@@ -461,8 +461,8 @@ int BandCtrlImpl::onBCMAddButton(BCBUTTON *pButton)
 	id.bChecked = bool_(pButton->dwFlags & BCF_CHECKED);
 	id.bVisible = !(pButton->dwFlags & BCF_HIDDEN);
 	id.bDropDown = bool_(pButton->dwFlags & BCF_DROPDOWN);
-	id.text = (pButton->dwFlags & BCF_TEXT) ? TranslateTS(pButton->m_szText) : L"";
-	id.tooltip = (pButton->dwFlags & BCF_TOOLTIP) ? TranslateTS(pButton->m_szTooltip) : L"";
+	id.text = (pButton->dwFlags & BCF_TEXT) ? TranslateW(pButton->m_szText) : L"";
+	id.tooltip = (pButton->dwFlags & BCF_TOOLTIP) ? TranslateW(pButton->m_szTooltip) : L"";
 	id.uTTId = -1;
 	id.dwData = (pButton->dwFlags & BCF_DATA) ? pButton->dwData : 0;
 	id.bEnabled = !(pButton->dwFlags & BCF_DISABLED);

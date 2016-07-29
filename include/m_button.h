@@ -61,11 +61,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // lParam = BATF_* flags combination
 // Usage: SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)LPGEN("My Tip"), 0);
 #define BATF_UNICODE 1
-#if defined(_UNICODE)
-	#define BATF_TCHAR BATF_UNICODE
-#else
-	#define BATF_TCHAR 0
-#endif
 
 #define BUTTONADDTOOLTIP     (WM_USER+5)
 

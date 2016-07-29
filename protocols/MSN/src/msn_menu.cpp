@@ -198,7 +198,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendDlgItemMessage(hwndDlg, IDC_NICKNAME, EM_LIMITTEXT, 129, 0);
 
 		DBVARIANT dbv;
-		if (!proto->getTString("Nick", &dbv)) {
+		if (!proto->getWString("Nick", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_NICKNAME, dbv.ptszVal);
 			db_free(&dbv);
 		}

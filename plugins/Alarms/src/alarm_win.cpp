@@ -6,8 +6,8 @@
 #define SPEACH_REPEAT_PERIOD		15000	// milliseconds
 MWindowList hAlarmWindowList = 0;
 
-FontIDT title_font_id, window_font_id;
-ColourIDT bk_colour_id;
+FontIDW title_font_id, window_font_id;
+ColourIDW bk_colour_id;
 HFONT hTitleFont = 0, hWindowFont = 0;
 COLORREF title_font_colour, window_font_colour;
 HBRUSH hBackgroundBrush = 0;
@@ -331,15 +331,15 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 int ReloadFonts(WPARAM, LPARAM)
 {
 	LOGFONT log_font;
-	title_font_colour = CallService(MS_FONT_GETT, (WPARAM)&title_font_id, (LPARAM)&log_font);
+	title_font_colour = CallService(MS_FONT_GETW, (WPARAM)&title_font_id, (LPARAM)&log_font);
 	DeleteObject(hTitleFont);
 	hTitleFont = CreateFontIndirect(&log_font);
 
-	window_font_colour = CallService(MS_FONT_GETT, (WPARAM)&window_font_id, (LPARAM)&log_font);
+	window_font_colour = CallService(MS_FONT_GETW, (WPARAM)&window_font_id, (LPARAM)&log_font);
 	DeleteObject(hWindowFont);
 	hWindowFont = CreateFontIndirect(&log_font);
 
-	COLORREF bkCol = CallService(MS_COLOUR_GETT, (WPARAM)&bk_colour_id, 0);
+	COLORREF bkCol = CallService(MS_COLOUR_GETW, (WPARAM)&bk_colour_id, 0);
 	DeleteObject(hBackgroundBrush);
 	hBackgroundBrush = CreateSolidBrush(bkCol);
 
@@ -349,7 +349,7 @@ int ReloadFonts(WPARAM, LPARAM)
 
 int AlarmWinModulesLoaded(WPARAM, LPARAM)
 {
-	title_font_id.cbSize = sizeof(FontIDT);
+	title_font_id.cbSize = sizeof(FontIDW);
 	mir_wstrcpy(title_font_id.group, LPGENW("Alarms"));
 	mir_wstrcpy(title_font_id.name, LPGENW("Title"));
 	mir_strcpy(title_font_id.dbSettingsGroup, MODULE);
@@ -358,9 +358,9 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	mir_wstrcpy(title_font_id.backgroundName, LPGENW("Background"));
 	title_font_id.flags = 0;
 	title_font_id.order = 0;
-	FontRegisterT(&title_font_id);
+	FontRegisterW(&title_font_id);
 
-	window_font_id.cbSize = sizeof(FontIDT);
+	window_font_id.cbSize = sizeof(FontIDW);
 	mir_wstrcpy(window_font_id.group, LPGENW("Alarms"));
 	mir_wstrcpy(window_font_id.name, LPGENW("Window"));
 	mir_strcpy(window_font_id.dbSettingsGroup, MODULE);
@@ -369,9 +369,9 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	mir_wstrcpy(window_font_id.backgroundName, LPGENW("Background"));
 	window_font_id.flags = 0;
 	window_font_id.order = 1;
-	FontRegisterT(&window_font_id);
+	FontRegisterW(&window_font_id);
 
-	bk_colour_id.cbSize = sizeof(ColourIDT);
+	bk_colour_id.cbSize = sizeof(ColourIDW);
 	mir_strcpy(bk_colour_id.dbSettingsGroup, MODULE);
 	mir_wstrcpy(bk_colour_id.group, LPGENW("Alarms"));
 	mir_wstrcpy(bk_colour_id.name, LPGENW("Background"));
@@ -380,7 +380,7 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	bk_colour_id.flags = 0;
 	bk_colour_id.order = 0;
 
-	ColourRegisterT(&bk_colour_id);
+	ColourRegisterW(&bk_colour_id);
 
 	ReloadFonts(0, 0);
 	HookEvent(ME_FONT_RELOAD, ReloadFonts);

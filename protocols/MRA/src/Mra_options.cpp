@@ -38,10 +38,10 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 		case PSN_APPLY:
 			wchar_t szBuff[MAX_EMAIL_LEN];
 			GetDlgItemText(hWndDlg, IDC_LOGIN, szBuff, _countof(szBuff));
-			ppro->setTString(NULL, "e-mail", szBuff);
+			ppro->setWString(NULL, "e-mail", szBuff);
 
 			if (GetDlgItemText(hWndDlg, IDC_PASSWORD, szBuff, _countof(szBuff))) {
-				ppro->setTString("Password", szBuff);
+				ppro->setWString("Password", szBuff);
 				SecureZeroMemory(szBuff, sizeof(szBuff));
 			}
 			return TRUE;
@@ -91,7 +91,7 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ppro->mraSetStringW(NULL, "e-mail", szBuff);
 
 			if (GetDlgItemText(hWndDlg, IDC_PASSWORD, szBuff, _countof(szBuff))) {
-				ppro->setTString("Password", szBuff);
+				ppro->setWString("Password", szBuff);
 				SecureZeroMemory(szBuff, sizeof(szBuff));
 			}
 			return TRUE;
@@ -218,7 +218,7 @@ int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = g_hInstance;
 	odp.pwszTitle = m_tszUserName;
 	odp.pwszGroup = LPGENW("Network");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
 	odp.pwszTab = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ACCOUNT);

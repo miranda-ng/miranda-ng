@@ -127,7 +127,7 @@ void loadDBSettings(plgsettings *ps)
 	ps->showWhen = db_get_dw(NULL, THIS_MODULE, "showWhen", DEFAULT_SHOWWHEN);
 
 	DBVARIANT dbv;
-	if (!db_get_ts(NULL, THIS_MODULE, "message_format", &dbv)) {
+	if (!db_get_ws(NULL, THIS_MODULE, "message_format", &dbv)) {
 		mir_wstrcpy(ps->msgformat, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -149,7 +149,7 @@ void loadDBSettings(plgsettings *ps)
 	ps->lf.lfQuality = db_get_b(NULL, THIS_MODULE, "fntQuality", DEFAULT_FNT_QUALITY);
 	ps->lf.lfPitchAndFamily = db_get_b(NULL, THIS_MODULE, "fntPitchAndFamily", DEFAULT_FNT_PITCHANDFAM);
 
-	if (!db_get_ts(NULL, THIS_MODULE, "fntFaceName", &dbv)) {
+	if (!db_get_ws(NULL, THIS_MODULE, "fntFaceName", &dbv)) {
 		mir_wstrcpy(ps->lf.lfFaceName, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -176,7 +176,7 @@ void saveDBSettings(plgsettings *ps)
 	db_set_b(NULL, THIS_MODULE, "transparent", ps->transparent);
 	db_set_b(NULL, THIS_MODULE, "messages", ps->messages);
 	db_set_b(NULL, THIS_MODULE, "a_user", ps->a_user);
-	db_set_ts(NULL, THIS_MODULE, "message_format", ps->msgformat);
+	db_set_ws(NULL, THIS_MODULE, "message_format", ps->msgformat);
 
 	db_set_b(NULL, THIS_MODULE, "align", ps->align);
 	db_set_b(NULL, THIS_MODULE, "salign", ps->salign);
@@ -201,7 +201,7 @@ void saveDBSettings(plgsettings *ps)
 	db_set_b(NULL, THIS_MODULE, "fntClipPrecision", ps->lf.lfClipPrecision);
 	db_set_b(NULL, THIS_MODULE, "fntQuality", ps->lf.lfQuality);
 	db_set_b(NULL, THIS_MODULE, "fntPitchAndFamily", ps->lf.lfPitchAndFamily);
-	db_set_ts(NULL, THIS_MODULE, "fntFaceName", ps->lf.lfFaceName);
+	db_set_ws(NULL, THIS_MODULE, "fntFaceName", ps->lf.lfFaceName);
 
 	db_set_dw(NULL, THIS_MODULE, "announce", ps->announce);
 
@@ -417,7 +417,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.pwszGroup = LPGENW("Plugins");
 	odp.pwszTitle = LPGENW("OSD");
 	odp.pfnDlgProc = OptDlgProc;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wparam, &odp);
 	return 0;
 }

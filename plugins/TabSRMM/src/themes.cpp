@@ -1002,7 +1002,7 @@ void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha
 HBITMAP TSAPI CImageItem::LoadPNG(const wchar_t *szFilename)
 {
 	HBITMAP hBitmap = 0;
-	hBitmap = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_TCHAR);
+	hBitmap = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_WCHAR);
 	return hBitmap;
 }
 
@@ -1015,8 +1015,8 @@ HBITMAP TSAPI CImageItem::LoadPNG(const wchar_t *szFilename)
 void CSkin::setFileName()
 {
 	DBVARIANT dbv;
-	if (0 == db_get_ts(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
-		PathToAbsoluteT(dbv.ptszVal, m_tszFileName, M.getSkinPath());
+	if (0 == db_get_ws(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
+		PathToAbsoluteW(dbv.ptszVal, m_tszFileName, M.getSkinPath());
 		db_free(&dbv);
 	}
 	else
@@ -1676,7 +1676,7 @@ void CSkin::setupAeroSkins()
 		mir_snwprintf(tszFilename, L"%scustom_unknown.png", tszBasePath);
 		if (!PathFileExists(tszFilename))
 			mir_snwprintf(tszFilename, L"%sunknown.png", tszBasePath);
-		PluginConfig.g_hbmUnknown = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
+		PluginConfig.g_hbmUnknown = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR);
 		if (PluginConfig.g_hbmUnknown == 0) {
 			HDC dc = GetDC(0);
 			PluginConfig.g_hbmUnknown = CreateCompatibleBitmap(dc, 20, 20);
@@ -1733,7 +1733,7 @@ void CSkin::setupAeroSkins()
 
 	m_dwmColorRGB = RGB((BYTE)fr, (BYTE)fg, (BYTE)fb);
 
-	FIBITMAP *fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR | IMGL_RETURNDIB);
+	FIBITMAP *fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
 
 	HBITMAP hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
 
@@ -1775,7 +1775,7 @@ void CSkin::setupAeroSkins()
 	if (!PathFileExists(tszFilename))
 		mir_snwprintf(tszFilename, L"%stabskin_aero_glow.png", tszBasePath);
 
-	fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR | IMGL_RETURNDIB);
+	fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
 
 	COLORREF glowColor = M.GetDword(FONTMODULE, "aeroGlow", RGB(40, 40, 255));
 	hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
@@ -1808,7 +1808,7 @@ void CSkin::setupAeroSkins()
 	if (!PathFileExists(tszFilename))
 		mir_snwprintf(tszFilename, L"%stabskin_aero_button.png", tszBasePath);
 
-	hbm = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
+	hbm = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR);
 
 	CImageItem::Colorize(hbm, GetRValue(m_dwmColorRGB),
 		GetGValue(m_dwmColorRGB),
@@ -2442,7 +2442,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 	if (tszBasePath[mir_wstrlen(tszBasePath) - 1] != '\\')
 		mir_wstrcat(tszBasePath, L"\\");
 
-	CreateDirectoryTreeT(tszBasePath);
+	CreateDirectoryTreeW(tszBasePath);
 
 	m_fAeroSkinsValid = true;
 

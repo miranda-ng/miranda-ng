@@ -40,7 +40,7 @@ void CToxProto::InitMenus()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CToxProto::PrebuildContactMenu);
 
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 
 	// Request authorization
 	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
@@ -73,7 +73,7 @@ void CToxProto::InitMenus()
 int CToxProto::OnInitStatusMenu()
 {
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.root = Menu_GetProtocolRoot(this);
 
 	// Create copy tox id command

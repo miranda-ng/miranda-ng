@@ -225,7 +225,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 			wcsncpy_s(lf->lfFaceName, L"Webdings", _TRUNCATE);
 		}
 		else {
-			ptrW tszDefFace(db_get_tsa(NULL, szMod, str));
+			ptrW tszDefFace(db_get_wsa(NULL, szMod, str));
 			if (tszDefFace == NULL)
 				wcsncpy_s(lf->lfFaceName, fol[j].szDefFace, _TRUNCATE);
 			else
@@ -240,7 +240,7 @@ static HTREEITEM InsertBranch(HWND hwndTree, wchar_t* pszDescr, BOOL bExpanded)
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-	tvis.item.pszText = TranslateTS(pszDescr);
+	tvis.item.pszText = TranslateW(pszDescr);
 	tvis.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
 	tvis.item.state = (bExpanded ? TVIS_EXPANDED : 0) | TVIS_BOLD;
 	tvis.item.iImage = tvis.item.iSelectedImage = (bExpanded ? IMG_GRPOPEN : IMG_GRPCLOSED);
@@ -258,7 +258,7 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, branch_t *branch, int n
 		tvis.hParent = hParent;
 		tvis.hInsertAfter = TVI_LAST;
 		tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-		tvis.item.pszText = TranslateTS(branch[i].szDescr);
+		tvis.item.pszText = TranslateW(branch[i].szDescr);
 		if (branch[i].iMode)
 			tvis.item.iImage = tvis.item.iSelectedImage = ((((M.GetDword(CHAT_MODULE, branch[i].szDBName, defaultval) & branch[i].iMode) & branch[i].iMode) != 0) ? IMG_CHECK : IMG_NOCHECK);
 		else
@@ -356,7 +356,7 @@ HICON LoadIconEx(char *pszIcoLibName)
 
 static void InitSetting(wchar_t* &ppPointer, const char *pszSetting, const wchar_t *pszDefault)
 {
-	ptrW val(db_get_tsa(NULL, CHAT_MODULE, pszSetting));
+	ptrW val(db_get_wsa(NULL, CHAT_MODULE, pszSetting));
 	replaceStrW(ppPointer, (val != NULL) ? val : pszDefault);
 }
 
@@ -442,9 +442,9 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				if (iLen > 0) {
 					pszText = (wchar_t*)mir_realloc(pszText, (iLen + 2) * sizeof(wchar_t));
 					GetDlgItemText(hwndDlg, IDC_GROUP, pszText, iLen + 1);
-					db_set_ts(NULL, CHAT_MODULE, "AddToGroup", pszText);
+					db_set_ws(NULL, CHAT_MODULE, "AddToGroup", pszText);
 				}
-				else db_set_ts(NULL, CHAT_MODULE, "AddToGroup", L"");
+				else db_set_ws(NULL, CHAT_MODULE, "AddToGroup", L"");
 
 				mir_free(pszText);
 
@@ -488,11 +488,11 @@ void RegisterFontServiceFonts()
 {
 	char szTemp[100];
 	LOGFONT lf;
-	FontIDT fid = { 0 };
-	ColourIDT cid = { 0 };
+	FontIDW fid = { 0 };
+	ColourIDW cid = { 0 };
 
-	fid.cbSize = sizeof(FontIDT);
-	cid.cbSize = sizeof(ColourIDT);
+	fid.cbSize = sizeof(FontIDW);
+	cid.cbSize = sizeof(ColourIDW);
 
 	strncpy(fid.dbSettingsGroup, FONTMODULE, _countof(fid.dbSettingsGroup));
 
@@ -552,7 +552,7 @@ void RegisterFontServiceFonts()
 			wcsncpy(fid.backgroundName, LPGENW("Incoming background"), _countof(fid.backgroundName));
 			break;
 		}
-		FontRegisterT(&fid);
+		FontRegisterW(&fid);
 	}
 
 	fontOptionsList = IP_fontOptionsList;
@@ -578,7 +578,7 @@ void RegisterFontServiceFonts()
 			wcsncpy(fid.backgroundName, L"", _countof(fid.backgroundName));
 			wcsncpy(fid.group, LPGENW("Message Sessions"), _countof(fid.group));
 		}
-		FontRegisterT(&fid);
+		FontRegisterW(&fid);
 	}
 
 	wcsncpy(cid.group, LPGENW("Message Sessions") L"/" LPGENW("Group chats"), _countof(cid.group));
@@ -599,18 +599,18 @@ void RegisterFontServiceFonts()
 			cid.defcolour = RGB(0, 0, 0);
 			break;
 		}
-		ColourRegisterT(&cid);
+		ColourRegisterW(&cid);
 	}
 	cid.order++;
 	wcsncpy_s(cid.name, LPGENW("Nick list background"), _TRUNCATE);
 	strncpy_s(cid.setting, "ColorNicklistBG", _TRUNCATE);
 	cid.defcolour = SRMSGDEFSET_BKGCOLOUR;
-	ColourRegisterT(&cid);
+	ColourRegisterW(&cid);
 
 	cid.order++;
 	wcsncpy_s(cid.name, LPGENW("Group chat log background"), _TRUNCATE);
 	strncpy_s(cid.setting, "ColorLogBG", _TRUNCATE);
-	ColourRegisterT(&cid);
+	ColourRegisterW(&cid);
 
 	// static colors (info panel, tool bar background etc...)
 	strncpy(fid.dbSettingsGroup, FONTMODULE, _countof(fid.dbSettingsGroup));
@@ -625,7 +625,7 @@ void RegisterFontServiceFonts()
 			cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
 		else
 			cid.defcolour = _clrs[i].def;
-		ColourRegisterT(&cid);
+		ColourRegisterW(&cid);
 	}
 
 	strncpy(cid.dbSettingsGroup, SRMSGMOD_T, _countof(fid.dbSettingsGroup));
@@ -641,7 +641,7 @@ void RegisterFontServiceFonts()
 		else
 			cid.defcolour = _tabclrs[i].def;
 
-		ColourRegisterT(&cid);
+		ColourRegisterW(&cid);
 	}
 }
 
@@ -826,7 +826,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (iLen > 0) {
 				wchar_t *pszText1 = (wchar_t*)mir_alloc(iLen*sizeof(wchar_t) + 2);
 				GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText1, iLen + 1);
-				db_set_ts(NULL, CHAT_MODULE, "LogDirectory", pszText1);
+				db_set_ws(NULL, CHAT_MODULE, "LogDirectory", pszText1);
 				mir_free(pszText1);
 				g_Settings.bLoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED;
 				db_set_b(0, CHAT_MODULE, "LoggingEnabled", g_Settings.bLoggingEnabled);

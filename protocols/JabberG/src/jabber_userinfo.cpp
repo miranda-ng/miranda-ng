@@ -279,7 +279,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 				wchar_t szDescription[ 1024 ];
 				if (g_JabberFeatCapPairs[i].tszDescription)
-					mir_snwprintf(szDescription, L"%s (%s)", TranslateTS(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
+					mir_snwprintf(szDescription, L"%s (%s)", TranslateW(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
 				else
 					wcsncpy_s(szDescription, g_JabberFeatCapPairs[i].szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
@@ -289,7 +289,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[j]->jcbCap) {
 				wchar_t szDescription[ 1024 ];
 				if (ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription)
-					mir_snwprintf(szDescription, L"%s (%s)", TranslateTS(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
+					mir_snwprintf(szDescription, L"%s (%s)", TranslateW(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
 				else
 					wcsncpy_s(szDescription, ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
@@ -320,9 +320,9 @@ static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM ht
 	if (szAdvStatusIcon && szAdvStatusTitle && *szAdvStatusTitle) {
 		wchar_t szText[2048];
 		if (szAdvStatusText && *szAdvStatusText)
-			mir_snwprintf(szText, L"%s (%s)", TranslateTS(szAdvStatusTitle), szAdvStatusText);
+			mir_snwprintf(szText, L"%s (%s)", TranslateW(szAdvStatusTitle), szAdvStatusText);
 		else
-			wcsncpy_s(szText, TranslateTS(szAdvStatusTitle), _TRUNCATE);
+			wcsncpy_s(szText, TranslateW(szAdvStatusTitle), _TRUNCATE);
 		sttFillInfoLine(hwndTree, htiRoot, IcoLib_GetIcon(szAdvStatusIcon), szTitle, szText, dwInfoLine);
 	}
 
@@ -470,7 +470,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		if (dat == NULL) break;
 
 		if (dat->item == NULL) {
-			ptrW jid(dat->ppro->getTStringA(dat->hContact, "jid"));
+			ptrW jid(dat->ppro->getWStringA(dat->hContact, "jid"));
 			if (jid == NULL)
 				break;
 
@@ -560,7 +560,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			case PSN_PARAMCHANGED:
 				dat->ppro = (CJabberProto*)((PSHNOTIFY*)lParam)->lParam;
 				if (dat->hContact != NULL) {
-					ptrW jid(dat->ppro->getTStringA(dat->hContact, "jid"));
+					ptrW jid(dat->ppro->getWStringA(dat->hContact, "jid"));
 					if (jid != NULL)
 						if (!(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
 							dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, jid);
@@ -642,14 +642,14 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_HIDE);
 		{
-			ptrW jid(photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
+			ptrW jid(photoInfo->ppro->getWStringA(photoInfo->hContact, "jid"));
 			if (jid != NULL) {
 				JABBER_LIST_ITEM *item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid);
 				if (item == NULL)
 					item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid);
 				if (item != NULL) {
 					if (item->photoFileName) {
-						photoInfo->ppro->debugLog(L"Showing picture from %s", item->photoFileName);
+						photoInfo->ppro->debugLogW(L"Showing picture from %s", item->photoFileName);
 						photoInfo->hBitmap = Bitmap_Load(item->photoFileName);
 						FIP->FI_Premultiply(photoInfo->hBitmap);
 						ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_SHOW);
@@ -666,7 +666,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDC_SAVE:
 			static wchar_t szFilter[512];
 
-			ptrW jid(photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
+			ptrW jid(photoInfo->ppro->getWStringA(photoInfo->hContact, "jid"));
 			if (jid == NULL)
 				break;
 
@@ -701,7 +701,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			ofn.nMaxFile = _MAX_PATH;
 			ofn.Flags = OFN_OVERWRITEPROMPT;
 			if (GetSaveFileName(&ofn)) {
-				photoInfo->ppro->debugLog(L"File selected is %s", szFileName);
+				photoInfo->ppro->debugLogW(L"File selected is %s", szFileName);
 				CopyFile(item->photoFileName, szFileName, FALSE);
 			}
 		}

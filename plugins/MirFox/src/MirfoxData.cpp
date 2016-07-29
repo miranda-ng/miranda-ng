@@ -709,14 +709,14 @@ void MirfoxData::initializeOptions()
 
 	//clientsProfilesFilterString
 	DBVARIANT opt2Dbv = {0};
-	INT_PTR opt2Result = db_get_s(0, PLUGIN_DB_ID, "clientsProfilesFilterString", &opt2Dbv, DBVT_TCHAR);
+	INT_PTR opt2Result = db_get_s(0, PLUGIN_DB_ID, "clientsProfilesFilterString", &opt2Dbv, DBVT_WCHAR);
 	if (opt2Result == 0){	//success
 		//option exists in DB, get value
 		(* getClientsProfilesFilterStringPtr()) = opt2Dbv.pwszVal;
 	} else {
 		//option not exists in DB, set default value
 		(* getClientsProfilesFilterStringPtr()) = L"";
-		db_set_ts(0, PLUGIN_DB_ID, "clientsProfilesFilterString", getClientsProfilesFilterStringPtr()->c_str());
+		db_set_ws(0, PLUGIN_DB_ID, "clientsProfilesFilterString", getClientsProfilesFilterStringPtr()->c_str());
 	}
 	db_free(&opt2Dbv);
 

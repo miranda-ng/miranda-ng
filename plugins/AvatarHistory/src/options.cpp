@@ -152,7 +152,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.pwszTitle = LPGENW("Avatar"); // name of the item
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
@@ -160,7 +160,7 @@ int OptInit(WPARAM wParam, LPARAM)
 		odp.pwszTitle = LPGENW("Avatar Change");
 		odp.pfnDlgProc = PopupsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
-		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

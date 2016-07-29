@@ -311,7 +311,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 							EnableWindow(GetDlgItem(hDlg, IDC_INFO), TRUE);
 						else
 							EnableWindow(GetDlgItem(hDlg, IDC_INFO), FALSE);
-						SetDlgItemText(hDlg, IDC_MESSAGE, TranslateTS(todo[lvI.iItem].tszMessage));
+						SetDlgItemText(hDlg, IDC_MESSAGE, TranslateW(todo[lvI.iItem].tszMessage));
 					}
 				}
 				break;
@@ -401,7 +401,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 						}
 						mir_wstrncpy(todo[i].tszCurVer, todo[i].tszNewVer, _countof(todo[i].tszCurVer));
 						mir_snprintf(szKey, "File_%d_CurrentVersion", todo[i].FileNum);
-						db_set_ts(NULL, MODNAME, szKey, todo[i].tszCurVer);
+						db_set_ws(NULL, MODNAME, szKey, todo[i].tszCurVer);
 						arFileType.push_back(todo[i].FileType);
 						arFilePath.push_back(todo[i].File.tszDiskPath);
 						arFileName.push_back(tszFileName);

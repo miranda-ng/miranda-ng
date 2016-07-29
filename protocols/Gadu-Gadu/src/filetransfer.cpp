@@ -384,7 +384,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								wchar_t* filenameT = mir_utf8decodeW((char*)dcc->file_info.filename);
 
 								PROTORECVFILET pre = {0};
-								pre.dwFlags = PRFF_TCHAR;
+								pre.dwFlags = PRFF_UNICODE;
 								pre.fileCount = 1;
 								pre.timestamp = time(NULL);
 								pre.descr.w = filenameT;

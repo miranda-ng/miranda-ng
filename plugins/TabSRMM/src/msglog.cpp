@@ -420,7 +420,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
 	wchar_t *formatted = NULL;
-	wchar_t *msg = DbGetEventTextT(&dbei, CP_UTF8);
+	wchar_t *msg = DbGetEventTextW(&dbei, CP_UTF8);
 	if (!msg) {
 		mir_free(dbei.pBlob);
 		return NULL;
@@ -684,7 +684,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
-					AppendUnicodeToBuffer(str, TranslateTS(months[event_time.tm_mon]), MAKELONG(isSent, dat->bIsHistory));
+					AppendUnicodeToBuffer(str, TranslateW(months[event_time.tm_mon]), MAKELONG(isSent, dat->bIsHistory));
 				}
 				else skipToNext = TRUE;
 				break;
@@ -704,7 +704,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
-					AppendUnicodeToBuffer(str, TranslateTS(weekDays[event_time.tm_wday]), MAKELONG(isSent, dat->bIsHistory));
+					AppendUnicodeToBuffer(str, TranslateW(weekDays[event_time.tm_wday]), MAKELONG(isSent, dat->bIsHistory));
 				}
 				else skipToNext = TRUE;
 				break;
@@ -844,7 +844,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						str.AppendChar(' ');
 					}
 
-					ptrW tszText(DbGetEventTextT(&dbei, CP_ACP));
+					ptrW tszText(DbGetEventTextW(&dbei, CP_ACP));
 					AppendUnicodeToBuffer(str, tszText, 0);
 				}
 				break;

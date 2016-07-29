@@ -23,13 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIrcProto::AddToJTemp(wchar_t op, CMString& sCommand)
+void CIrcProto::AddToJTemp(wchar_t op, CMStringW& sCommand)
 {
-	CMString res;
+	CMStringW res;
 
 	int pos = 0;
 	for (;;) {
-		CMString tmp = sCommand.Tokenize(L",", pos);
+		CMStringW tmp = sCommand.Tokenize(L",", pos);
 		if (pos == -1)
 			break;
 
@@ -41,15 +41,15 @@ void CIrcProto::AddToJTemp(wchar_t op, CMString& sCommand)
 	}
 
 	DBVARIANT dbv;
-	if (!getTString("JTemp", &dbv)) {
-		res = CMString(dbv.ptszVal) + L" " + res;
+	if (!getWString("JTemp", &dbv)) {
+		res = CMStringW(dbv.ptszVal) + L" " + res;
 		db_free(&dbv);
 	}
 
-	setTString("JTemp", res.c_str());
+	setWString("JTemp", res.c_str());
 }
 
-CMString __stdcall GetWord(const wchar_t* text, int index)
+CMStringW __stdcall GetWord(const wchar_t* text, int index)
 {
 	if (text && *text) {
 		wchar_t* p1 = (wchar_t*)text;
@@ -75,11 +75,11 @@ CMString __stdcall GetWord(const wchar_t* text, int index)
 				p2 = wcschr(p1, '\0');
 
 			if (p1 != p2)
-				return CMString(p1, p2 - p1);
+				return CMStringW(p1, p2 - p1);
 		}
 	}
 
-	return CMString();
+	return CMStringW();
 }
 
 const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index)
@@ -108,7 +108,7 @@ const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index)
 	return temp;
 }
 
-void __stdcall RemoveLinebreaks(CMString &Message)
+void __stdcall RemoveLinebreaks(CMStringW &Message)
 {
 	while (Message.Find(L"\r\n\r\n", 0) != -1)
 		Message.Replace(L"\r\n\r\n", L"\r\n");
@@ -386,8 +386,8 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe, time_t timestamp)
 {
 	GCDEST gcd = { m_szModuleName, NULL, iEvent };
-	CMString sID;
-	CMString sText = L"";
+	CMStringW sID;
+	CMStringW sText = L"";
 
 	if (iEvent == GC_EVENT_INFORMATION && bIsMe && !bEcho)
 		return false;
@@ -401,7 +401,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 
 	if (pszWindow) {
 		if (mir_wstrcmpi(pszWindow, SERVERWINDOW))
-			sID = pszWindow + (CMString)L" - " + m_info.sNetwork;
+			sID = pszWindow + (CMStringW)L" - " + m_info.sNetwork;
 		else
 			sID = pszWindow;
 		gcd.ptszID = (wchar_t*)sID.c_str();
@@ -430,29 +430,29 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	return CallChatEvent(0, (LPARAM)&gce);
 }
 
-CMString CIrcProto::ModeToStatus(int sMode)
+CMStringW CIrcProto::ModeToStatus(int sMode)
 {
 	if (sUserModes.Find(sMode) != -1) {
 		switch (sMode) {
 		case 'q':
-			return (CMString)L"Owner";
+			return (CMStringW)L"Owner";
 		case 'o':
-			return (CMString)L"Op";
+			return (CMStringW)L"Op";
 		case 'v':
-			return (CMString)L"Voice";
+			return (CMStringW)L"Voice";
 		case 'h':
-			return (CMString)L"Halfop";
+			return (CMStringW)L"Halfop";
 		case 'a':
-			return (CMString)L"Admin";
+			return (CMStringW)L"Admin";
 		default:
-			return (CMString)L"Unknown";
+			return (CMStringW)L"Unknown";
 		}
 	}
 
-	return (CMString)L"Normal";
+	return (CMStringW)L"Normal";
 }
 
-CMString CIrcProto::PrefixToStatus(int cPrefix)
+CMStringW CIrcProto::PrefixToStatus(int cPrefix)
 {
 	const wchar_t* p = wcschr(sUserModePrefixes.c_str(), cPrefix);
 	if (p) {
@@ -460,7 +460,7 @@ CMString CIrcProto::PrefixToStatus(int cPrefix)
 		return ModeToStatus(sUserModes[index]);
 	}
 
-	return (CMString)L"Normal";
+	return (CMStringW)L"Normal";
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -531,9 +531,9 @@ void CIrcProto::KillChatTimer(UINT_PTR &nIDEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CIrcProto::SetChannelSBText(CMString sWindow, CHANNELINFO * wi)
+int CIrcProto::SetChannelSBText(CMStringW sWindow, CHANNELINFO * wi)
 {
-	CMString sTemp = L"";
+	CMStringW sTemp = L"";
 	if (wi->pszMode) {
 		sTemp += L"[";
 		sTemp += wi->pszMode;
@@ -545,14 +545,14 @@ int CIrcProto::SetChannelSBText(CMString sWindow, CHANNELINFO * wi)
 	return DoEvent(GC_EVENT_SETSBTEXT, sWindow.c_str(), NULL, sTemp.c_str(), NULL, NULL, NULL, FALSE, FALSE, 0);
 }
 
-CMString CIrcProto::MakeWndID(const wchar_t* sWindow)
+CMStringW CIrcProto::MakeWndID(const wchar_t* sWindow)
 {
 	wchar_t buf[200];
 	mir_snwprintf(buf, L"%s - %s", sWindow, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline"));
-	return CMString(buf);
+	return CMStringW(buf);
 }
 
-bool CIrcProto::FreeWindowItemData(CMString window, CHANNELINFO* wis)
+bool CIrcProto::FreeWindowItemData(CMStringW window, CHANNELINFO* wis)
 {
 	CHANNELINFO *wi;
 	if (!wis)
@@ -570,7 +570,7 @@ bool CIrcProto::FreeWindowItemData(CMString window, CHANNELINFO* wis)
 	return false;
 }
 
-bool CIrcProto::AddWindowItemData(CMString window, const wchar_t* pszLimit, const wchar_t* pszMode, const wchar_t* pszPassword, const wchar_t* pszTopic)
+bool CIrcProto::AddWindowItemData(CMStringW window, const wchar_t* pszLimit, const wchar_t* pszMode, const wchar_t* pszPassword, const wchar_t* pszTopic)
 {
 	CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, window.c_str(), NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	if (wi) {
@@ -610,10 +610,10 @@ void CIrcProto::FindLocalIP(HANDLE hConn) // inspiration from jabber
 	}
 }
 
-void CIrcProto::DoUserhostWithReason(int type, CMString reason, bool bSendCommand, CMString userhostparams, ...)
+void CIrcProto::DoUserhostWithReason(int type, CMStringW reason, bool bSendCommand, CMStringW userhostparams, ...)
 {
 	wchar_t temp[4096];
-	CMString S = L"";
+	CMStringW S = L"";
 	switch (type) {
 	case 1:
 		S = L"USERHOST";
@@ -633,22 +633,22 @@ void CIrcProto::DoUserhostWithReason(int type, CMString reason, bool bSendComman
 
 	// Add reason
 	if (type == 1)
-		vUserhostReasons.insert(new CMString(reason));
+		vUserhostReasons.insert(new CMStringW(reason));
 	else if (type == 2)
-		vWhoInProgress.insert(new CMString(reason));
+		vWhoInProgress.insert(new CMStringW(reason));
 
 	// Do command
 	if (IsConnected() && bSendCommand)
 		SendIrcMessage(temp, false);
 }
 
-CMString CIrcProto::GetNextUserhostReason(int type)
+CMStringW CIrcProto::GetNextUserhostReason(int type)
 {
-	CMString reason = L"";
+	CMStringW reason = L"";
 	switch (type) {
 	case 1:
 		if (!vUserhostReasons.getCount())
-			return CMString();
+			return CMStringW();
 
 		// Get reason
 		reason = vUserhostReasons[0];
@@ -656,7 +656,7 @@ CMString CIrcProto::GetNextUserhostReason(int type)
 		break;
 	case 2:
 		if (!vWhoInProgress.getCount())
-			return CMString();
+			return CMStringW();
 
 		// Get reason
 		reason = vWhoInProgress[0];
@@ -667,21 +667,21 @@ CMString CIrcProto::GetNextUserhostReason(int type)
 	return reason;
 }
 
-CMString CIrcProto::PeekAtReasons(int type)
+CMStringW CIrcProto::PeekAtReasons(int type)
 {
 	switch (type) {
 	case 1:
 		if (!vUserhostReasons.getCount())
-			return CMString();
+			return CMStringW();
 		return vUserhostReasons[0];
 
 	case 2:
 		if (!vWhoInProgress.getCount())
-			return CMString();
+			return CMStringW();
 		return vWhoInProgress[0];
 
 	}
-	return CMString();
+	return CMStringW();
 }
 
 void CIrcProto::ClearUserhostReasons(int type)

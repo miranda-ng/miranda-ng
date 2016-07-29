@@ -36,7 +36,7 @@ int CJabberProto::OnContactDeleted(WPARAM hContact, LPARAM)
 	if (!m_bJabberOnline)	// should never happen
 		return 0;
 
-	ptrW jid(getTStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
+	ptrW jid(getWStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
 	if (jid == NULL)
 		return 0;
 
@@ -76,13 +76,13 @@ static wchar_t* sttSettingToTchar(DBCONTACTWRITESETTING *cws)
 
 void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 {
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrW(getTStringA(hContact, "jid")));
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrW(getWStringA(hContact, "jid")));
 	if (item == NULL)
 		return;
 
-	ptrW tszNick(db_get_tsa(hContact, "CList", "MyHandle"));
+	ptrW tszNick(db_get_wsa(hContact, "CList", "MyHandle"));
 	if (tszNick == NULL)
-		tszNick = getTStringA(hContact, "Nick");
+		tszNick = getWStringA(hContact, "Nick");
 	if (tszNick == NULL)
 		tszNick = JabberNickFromJID(item->jid);
 	if (tszNick == NULL)
@@ -97,7 +97,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, MCONTACT hC
 	else {
 		wchar_t *p = sttSettingToTchar(cws);
 		if (cws->value.pszVal != NULL && mir_wstrcmp(p, item->group)) {
-			debugLog(L"Group set to %s", p);
+			debugLogW(L"Group set to %s", p);
 			if (p)
 				AddContactToRoster(item->jid, tszNick, p);
 		}
@@ -107,7 +107,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, MCONTACT hC
 
 void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 {
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrW( getTStringA(hContact, "jid")));
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, ptrW( getWStringA(hContact, "jid")));
 	if (item == NULL)
 		return;
 
@@ -120,7 +120,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT 
 
 	ptrW newNick( sttSettingToTchar(cws));
 	if (newNick && mir_wstrcmp(item->nick, newNick)) {
-		debugLog(L"Renaming contact %s: %s -> %s", item->jid, item->nick, newNick);
+		debugLogW(L"Renaming contact %s: %s -> %s", item->jid, item->nick, newNick);
 		AddContactToRoster(item->jid, newNick, item->group);
 	}
 }
@@ -130,23 +130,23 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, MCONT
 	if (cws->value.type != DBVT_DELETED && !(cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 		return;
 
-	ptrW jid(getTStringA(hContact, "jid"));
+	ptrW jid(getWStringA(hContact, "jid"));
 	if (jid == NULL)
 		return;
 
-	debugLog(L"Add %s permanently to list", jid);
-	ptrW nick(db_get_tsa(hContact, "CList", "MyHandle"));
+	debugLogW(L"Add %s permanently to list", jid);
+	ptrW nick(db_get_wsa(hContact, "CList", "MyHandle"));
 	if (nick == NULL)
-		nick = getTStringA(hContact, "Nick");
+		nick = getWStringA(hContact, "Nick");
 	if (nick == NULL)
 		nick = JabberNickFromJID(jid);
 	if (nick == NULL)
 		return;
 
-	AddContactToRoster(jid, nick, ptrW(db_get_tsa(hContact, "CList", "Group")));
+	AddContactToRoster(jid, nick, ptrW(db_get_wsa(hContact, "CList", "Group")));
 
 	XmlNode xPresence(L"presence"); xPresence << XATTR(L"to", LPCTSTR(jid)) << XATTR(L"type", L"subscribe");
-	ptrW myNick(getTStringA(NULL, "Nick"));
+	ptrW myNick(getWStringA(NULL, "Nick"));
 	if (myNick != NULL)
 		xPresence << XCHILD(L"nick", LPCTSTR(myNick)) << XATTR(L"xmlns", JABBER_FEAT_NICK);
 	m_ThreadInfo->send(xPresence);

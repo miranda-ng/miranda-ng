@@ -123,8 +123,8 @@ void RegisterCLUIFonts(void)
 	if (registered)
 		return;
 
-	FontIDT fontid = { 0 };
-	EffectIDT effectid = { 0 };
+	FontIDW fontid = { 0 };
+	EffectIDW effectid = { 0 };
 	char idstr[10];
 	int index = 0;
 
@@ -150,7 +150,7 @@ void RegisterCLUIFonts(void)
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		mir_wstrncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
 
-		FontRegisterT(&fontid);
+		FontRegisterW(&fontid);
 
 		mir_wstrncpy(effectid.group, fontOptionsList[i].szGroup, _countof(effectid.group));
 		mir_wstrncpy(effectid.name, fontOptionsList[i].szDescr, _countof(effectid.name));
@@ -162,10 +162,10 @@ void RegisterCLUIFonts(void)
 		effectid.defeffect.baseColour = fontOptionsList[i].defeffect.baseColour;
 		effectid.defeffect.secondaryColour = fontOptionsList[i].defeffect.secondaryColour;
 
-		EffectRegisterT(&effectid);
+		EffectRegisterW(&effectid);
 	}
 
-	ColourIDT colourid = { 0 };
+	ColourIDW colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
 
 	for (int i = 0; i < _countof(colourOptionsList); i++) {
@@ -175,7 +175,7 @@ void RegisterCLUIFonts(void)
 		mir_strncpy(colourid.dbSettingsGroup, colourOptionsList[i].chGroup, _countof(colourid.dbSettingsGroup));
 		colourid.defcolour = colourOptionsList[i].defColour;
 		colourid.order = i + 1;
-		ColourRegisterT(&colourid);
+		ColourRegisterW(&colourid);
 	}
 	registered = true;
 }
@@ -203,12 +203,12 @@ void GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF
 	if (index == _countof(fontOptionsList))
 		return;
 
-	FontIDT fontid = { 0 };
+	FontIDW fontid = { 0 };
 	fontid.cbSize = sizeof(fontid);
 	mir_wstrncpy(fontid.group, fontOptionsList[index].szGroup, _countof(fontid.group));
 	mir_wstrncpy(fontid.name, fontOptionsList[index].szDescr, _countof(fontid.name));
 
-	COLORREF col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf);
+	COLORREF col = CallService(MS_FONT_GETW, (WPARAM)&fontid, (LPARAM)lf);
 
 	if (colour)
 		*colour = col;
@@ -284,7 +284,7 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
-		tvis.item.pszText = TranslateTS(values[i].szDescr);
+		tvis.item.pszText = TranslateW(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
 		TreeView_InsertItem(hwndTree, &tvis);
@@ -508,11 +508,11 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			int i, item;
 			int s1, s2, s3;
 			for (i = 0; i < _countof(sortby); i++) {
-				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_ADDSTRING, 0, (LPARAM)TranslateTS(sortby[i]));
+				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_ADDSTRING, 0, (LPARAM)TranslateW(sortby[i]));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_SETITEMDATA, item, 0);
-				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_ADDSTRING, 0, (LPARAM)TranslateTS(sortby[i]));
+				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_ADDSTRING, 0, (LPARAM)TranslateW(sortby[i]));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_SETITEMDATA, item, 0);
-				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_ADDSTRING, 0, (LPARAM)TranslateTS(sortby[i]));
+				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_ADDSTRING, 0, (LPARAM)TranslateW(sortby[i]));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_SETITEMDATA, item, 0);
 
 			}
@@ -1003,7 +1003,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		{
 			DBVARIANT dbv = { 0 };
 			wchar_t *s;
-			if (!db_get_ts(NULL, "CList", "TitleText", &dbv))
+			if (!db_get_ws(NULL, "CList", "TitleText", &dbv))
 				s = dbv.ptszVal;
 			else
 				s = _A2W(MIRANDANAME);
@@ -1665,11 +1665,11 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendMessage(hwndDlg, WM_HSCROLL, 0x12345678, 0);
 
 			for (i = 0; i < _countof(sortby); i++) {
-				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_ADDSTRING, 0, (LPARAM)TranslateTS(sortby[i]));
+				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_ADDSTRING, 0, (LPARAM)TranslateW(sortby[i]));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_SETITEMDATA, item, 0);
-				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_ADDSTRING, 0, (LPARAM)TranslateTS(sortby[i]));
+				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_ADDSTRING, 0, (LPARAM)TranslateW(sortby[i]));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_SETITEMDATA, item, 0);
-				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_ADDSTRING, 0, (LPARAM)TranslateTS(sortby[i]));
+				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_ADDSTRING, 0, (LPARAM)TranslateW(sortby[i]));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_SETITEMDATA, item, 0);
 
 			}

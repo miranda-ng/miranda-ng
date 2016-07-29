@@ -44,7 +44,7 @@ bool CheckMsgWnd(MCONTACT hContact)
 int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSetting, wchar_t *setting, int size, const wchar_t *defaultValue)
 {
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, szModule, szSetting, &dbv)) {
+	if (!db_get_ws(hContact, szModule, szSetting, &dbv)) {
 		wcsncpy(setting, dbv.ptszVal, size);
 		db_free(&dbv);
 		return 0;
@@ -92,12 +92,12 @@ void LogToFile(wchar_t *stzText)
 	}
 }
 
-void AddCR(CMString &str, const wchar_t *stzText)
+void AddCR(CMStringW &str, const wchar_t *stzText)
 {
 	if (stzText == NULL)
 		return;
 	
-	CMString res(stzText);
+	CMStringW res(stzText);
 	res.Replace(L"\n", L"\r\n");
 	res.Replace(L"\r\r\n", L"\r\n");
 	str.Append(res);

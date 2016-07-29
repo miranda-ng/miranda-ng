@@ -246,7 +246,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 {
 	// create contact menu item
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 
 	SET_UID(mi, 0xede12697, 0x3e9d, 0x47ca, 0x83, 0xe0, 0xc1, 0x40, 0x69, 0xbf, 0x2d, 0xab);
 	mi.position = -300010;

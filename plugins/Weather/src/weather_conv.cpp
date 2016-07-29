@@ -391,12 +391,12 @@ WORD GetIcon(const wchar_t* cond, WIDATA *Data)
 			j++;
 			// using the format _T("# Weather <condition name> <counter> #"
 			mir_snwprintf(LangPackStr, L"# Weather %s %i #", statusStr[i], j);
-			wcsncpy_s(LangPackStr1, TranslateTS(LangPackStr), _TRUNCATE);
+			wcsncpy_s(LangPackStr1, TranslateW(LangPackStr), _TRUNCATE);
 			CharLowerBuff(LangPackStr1, (DWORD)mir_wstrlen(LangPackStr1));
 			if (wcsstr(cond, LangPackStr1) != NULL)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
-		} while (mir_wstrcmp(TranslateTS(LangPackStr), LangPackStr));
+		} while (mir_wstrcmp(TranslateW(LangPackStr), LangPackStr));
 	}
 
 	return NA;
@@ -548,8 +548,8 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str)
 					mir_strcat(name, temp);
 				}
 				// access the database to get its value
-				if (!db_get_ts(w->hContact, WEATHERCONDITION, name, &dbv)) {
-					if (dbv.ptszVal != TranslateTS(NODATA) && dbv.ptszVal != TranslateT("<Error>"))
+				if (!db_get_ws(w->hContact, WEATHERCONDITION, name, &dbv)) {
+					if (dbv.ptszVal != TranslateW(NODATA) && dbv.ptszVal != TranslateT("<Error>"))
 						mir_wstrcat(str, dbv.ptszVal);
 					db_free(&dbv);
 				}

@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	PROTO<FacebookProto>(proto_name, username),
-	m_tszDefaultGroup(getTStringA(FACEBOOK_KEY_DEF_GROUP))
+	m_tszDefaultGroup(getWStringA(FACEBOOK_KEY_DEF_GROUP))
 {
 	facy.parent = this;
 
@@ -48,7 +48,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 		m_locale = locale;
 
 	// Load custom page prefix, if set
-	ptrW pagePrefix(getTStringA(FACEBOOK_KEY_PAGE_PREFIX));
+	ptrW pagePrefix(getWStringA(FACEBOOK_KEY_PAGE_PREFIX));
 	m_pagePrefix = (pagePrefix != NULL) ? _T2A(pagePrefix, CP_UTF8) : TEXT_EMOJI_PAGE;
 
 	if (m_tszDefaultGroup == NULL)
@@ -84,7 +84,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	// Create standard network connection
 	wchar_t descr[512];
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
@@ -380,7 +380,7 @@ int FacebookProto::GetInfo(MCONTACT hContact, int)
 
 INT_PTR FacebookProto::GetMyAwayMsg(WPARAM, LPARAM lParam)
 {
-	ptrW statusMsg(getTStringA("StatusMsg"));
+	ptrW statusMsg(getWStringA("StatusMsg"));
 	if (statusMsg == NULL || statusMsg[0] == '\0')
 		return 0;
 
@@ -501,7 +501,7 @@ int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.hInstance = g_hInstance;
 	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	odp.position = 271828;
 	odp.pwszGroup = LPGENW("Network");
@@ -564,7 +564,7 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM)
 		wall->title = wcsdup(TranslateT("Own wall"));
 	}
 	else
-		wall->title = getTStringA(hContact, FACEBOOK_KEY_NICK);
+		wall->title = getWStringA(hContact, FACEBOOK_KEY_NICK);
 
 	post_status_data *data = new post_status_data(this, wall);
 
@@ -782,9 +782,9 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 	if (isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE) != CONTACT_FRIEND))
 		return 0;
 
-	ptrW tname(getTStringA(hContact, FACEBOOK_KEY_NICK));
+	ptrW tname(getWStringA(hContact, FACEBOOK_KEY_NICK));
 	if (tname == NULL)
-		tname = getTStringA(hContact, FACEBOOK_KEY_ID);
+		tname = getWStringA(hContact, FACEBOOK_KEY_ID);
 
 	if (tname == NULL)
 		return 1;
@@ -926,7 +926,7 @@ void FacebookProto::OpenUrl(std::string url)
 	ptrW data(mir_utf8decodeW(url.c_str()));
 
 	// Check if there is user defined browser for opening links
-	ptrW browser(getTStringA(FACEBOOK_KEY_OPEN_URL_BROWSER));
+	ptrW browser(getWStringA(FACEBOOK_KEY_OPEN_URL_BROWSER));
 	if (browser != NULL)
 		// If so, use it to open this link
 		ForkThread(&FacebookProto::OpenUrlThread, new open_url(browser, data));
@@ -1011,7 +1011,7 @@ void FacebookProto::InitPopups()
 	// Client
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Client errors"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
 	ppc.colorBack = RGB(191, 0, 0); // red
@@ -1022,7 +1022,7 @@ void FacebookProto::InitPopups()
 	// Newsfeeds
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Wall posts"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Newsfeed");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
 	ppc.colorBack = RGB(255, 255, 255); // white
@@ -1033,7 +1033,7 @@ void FacebookProto::InitPopups()
 	// Notifications
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Notifications"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("notification"));
 	ppc.colorBack = RGB(59, 89, 152); // Facebook's blue
@@ -1044,7 +1044,7 @@ void FacebookProto::InitPopups()
 	// Others
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Other events"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Other");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("facebook"));
 	ppc.colorBack = RGB(255, 255, 255); // white
@@ -1055,7 +1055,7 @@ void FacebookProto::InitPopups()
 	// Friendship changes
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Friendship events"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Friendship");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("friendship"));
 	ppc.colorBack = RGB(47, 71, 122); // Facebook's darker blue
@@ -1066,7 +1066,7 @@ void FacebookProto::InitPopups()
 	// Ticker
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Real-time friends activity"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Ticker");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("newsfeed"));
 	ppc.colorBack = RGB(255, 255, 255); // white
@@ -1077,7 +1077,7 @@ void FacebookProto::InitPopups()
 	// On this day (memories)
 	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Memories"));
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Memories");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = IcoLib_GetIconByHandle(GetIconHandle("memories"));
 	ppc.colorBack = RGB(255, 255, 255); // white
@@ -1098,19 +1098,19 @@ void FacebookProto::InitHotkeys()
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = text;
 	hkd.pszService = text;
-	hkd.ptszSection = m_tszUserName;
-	hkd.dwFlags = HKD_TCHAR;
+	hkd.pwszSection = m_tszUserName;
+	hkd.dwFlags = HKD_UNICODE;
 
 	mir_strcpy(tDest, "/VisitProfile");
-	hkd.ptszDescription = LPGENW("Visit profile");
+	hkd.pwszDescription = LPGENW("Visit profile");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/VisitNotifications");
-	hkd.ptszDescription = LPGENW("Visit notifications");
+	hkd.pwszDescription = LPGENW("Visit notifications");
 	Hotkey_Register(&hkd);
 
 	mir_strcpy(tDest, "/Mind");
-	hkd.ptszDescription = LPGENW("Show 'Share status' window");
+	hkd.pwszDescription = LPGENW("Show 'Share status' window");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_EXT, 'F');
 	Hotkey_Register(&hkd);
 }
@@ -1120,12 +1120,12 @@ void FacebookProto::InitHotkeys()
  */
 void FacebookProto::InitSounds()
 {
-	SkinAddNewSoundExT("Notification", m_tszUserName, LPGENW("Notification"));
-	SkinAddNewSoundExT("NewsFeed", m_tszUserName, LPGENW("Newsfeed event"));
-	SkinAddNewSoundExT("OtherEvent", m_tszUserName, LPGENW("Other event"));
-	SkinAddNewSoundExT("Friendship", m_tszUserName, LPGENW("Friendship event"));
-	SkinAddNewSoundExT("Ticker", m_tszUserName, LPGENW("Ticker event"));
-	SkinAddNewSoundExT("Memories", m_tszUserName, LPGENW("Memories"));
+	SkinAddNewSoundExW("Notification", m_tszUserName, LPGENW("Notification"));
+	SkinAddNewSoundExW("NewsFeed", m_tszUserName, LPGENW("Newsfeed event"));
+	SkinAddNewSoundExW("OtherEvent", m_tszUserName, LPGENW("Other event"));
+	SkinAddNewSoundExW("Friendship", m_tszUserName, LPGENW("Friendship event"));
+	SkinAddNewSoundExW("Ticker", m_tszUserName, LPGENW("Ticker event"));
+	SkinAddNewSoundExW("Memories", m_tszUserName, LPGENW("Memories"));
 }
 
 /**
@@ -1151,7 +1151,7 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 
 	if (isChatRoom(hContact)) {
 		// Load readers names
-		ptrW treaders(getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
+		ptrW treaders(getWStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
 		mir_snwprintf(st.tszText, TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : L"???");
 		CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 	} else if (!ServiceExists(MS_MESSAGESTATE_UPDATE)){

@@ -120,7 +120,7 @@ wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 		return mir_wstrdup(ps->szMsg);
 	}
 
-	wchar_t *tMsg = (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGT, newstatus, (LPARAM)ps->szName);
+	wchar_t *tMsg = (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, newstatus, (LPARAM)ps->szName);
 	log_debugA("CommonStatus: Status message retrieved from general awaysys: %S", tMsg);
 	return tMsg;
 }

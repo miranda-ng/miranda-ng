@@ -45,7 +45,7 @@ void   TSAPI AdjustBottomAvatarDisplay(TWindowData *dat);
 void   TSAPI SetDialogToType(HWND hwndDlg);
 void   TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, MEVENT hEvent, DBEVENTINFO *dbei);
 char*  TSAPI Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags = 0);
-BOOL   TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors, COLORREF *pColors);
+BOOL   TSAPI DoRtfToTags(const TWindowData *dat, CMStringW &pszText, int iNumColors, COLORREF *pColors);
 void   TSAPI GetMYUIN(TWindowData *dat);
 void   TSAPI SetMessageLog(TWindowData *dat);
 void   TSAPI SwitchMessageLog(TWindowData *dat, int iMode);

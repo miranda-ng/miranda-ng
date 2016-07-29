@@ -1443,7 +1443,7 @@ char* __fastcall ICQTranslateUtf(const char *src)
 	{ // we can use unicode translate (0.5+)
 		WCHAR* usrc = make_unicode_string(src);
 
-		szRes = make_utf8_string(TranslateTS(usrc));
+		szRes = make_utf8_string(TranslateW(usrc));
 
 		SAFE_FREE((void**)&usrc);
 	}
@@ -1455,7 +1455,7 @@ char* __fastcall ICQTranslateUtfStatic(const char *src, char *buf, size_t bufsiz
 	if (mir_strlen(src)) { // we can use unicode translate (0.5+)
 		WCHAR *usrc = make_unicode_string(src);
 
-		make_utf8_string_static(TranslateTS(usrc), buf, bufsize);
+		make_utf8_string_static(TranslateW(usrc), buf, bufsize);
 
 		SAFE_FREE((void**)&usrc);
 	}

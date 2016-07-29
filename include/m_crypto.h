@@ -63,12 +63,6 @@ typedef MICryptoEngine* (__cdecl *pfnCryptoProviderFactory)(void);
 
 #define CPF_UNICODE 1
 
-#if defined(_UNICODE)
-	#define CPF_TCHAR CPF_UNICODE
-#else
-	#define CPF_TCHAR 0
-#endif
-
 typedef struct tagCRYPTOPROVIDER
 {
 	DWORD	dwSize;

@@ -215,7 +215,7 @@ static int FillDialog(HWND hwnd)
 	ListView_InsertColumn(hwndList, 0, &lvc);
 
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-		item.pszText = TranslateTS(pcli->pfnGetStatusModeDescription(i, 0));
+		item.pszText = TranslateW(pcli->pfnGetStatusModeDescription(i, 0));
 		item.iItem = i - ID_STATUS_OFFLINE;
 		ListView_InsertItem(hwndList, &item);
 	}
@@ -304,7 +304,7 @@ void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *sz
 	mir_snprintf(szSetting, "%c%s_PF", 246, name);
 	db_set_s(NULL, CLVM_MODULE, szSetting, szProtoFilter);
 	mir_snprintf(szSetting, "%c%s_GF", 246, name);
-	db_set_ts(NULL, CLVM_MODULE, szSetting, szGroupFilter);
+	db_set_ws(NULL, CLVM_MODULE, szSetting, szGroupFilter);
 	mir_snprintf(szSetting, "%c%s_SM", 246, name);
 	db_set_dw(NULL, CLVM_MODULE, szSetting, statusMask);
 	mir_snprintf(szSetting, "%c%s_SSM", 246, name);
@@ -320,7 +320,7 @@ void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *sz
 // saves the state of the filter definitions for the current item
 void SaveState()
 {
-	CMString newGroupFilter(L"|");
+	CMStringW newGroupFilter(L"|");
 	CMStringA newProtoFilter("|");
 	DWORD statusMask = 0;
 	DWORD operators = 0;
@@ -443,7 +443,7 @@ void UpdateFilters()
 		goto cleanup;
 	
 	mir_snprintf(szSetting, "%c%s_GF", 246, szBuf);
-	if (db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv_gf))
+	if (db_get_ws(NULL, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
 	
 	mir_snprintf(szSetting, "%c%s_OPT", 246, szBuf);
@@ -1019,7 +1019,7 @@ void CreateViewModeFrame()
 	frame.TBtname = TranslateT("View modes");
 	frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	frame.height = 22;
-	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
+	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_UNICODE;
 	frame.align = alBottom;
 	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", L"CLVM", WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)0, g_hInst, NULL);
 	g_hwndViewModeFrame = frame.hWnd;
@@ -1042,7 +1042,7 @@ void ApplyViewMode(const char *name)
 	}
 
 	mir_snprintf(szSetting, "%c%s_GF", 246, name);
-	ptrW tszGroups(db_get_tsa(NULL, CLVM_MODULE, szSetting));
+	ptrW tszGroups(db_get_wsa(NULL, CLVM_MODULE, szSetting));
 	if (mir_wstrlen(tszGroups) >= 2) {
 		wcsncpy_s(cfg::dat.groupFilter, tszGroups, _TRUNCATE);
 		cfg::dat.bFilterEffective |= CLVM_FILTER_GROUPS;

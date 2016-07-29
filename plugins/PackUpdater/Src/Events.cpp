@@ -27,10 +27,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 	Silent = true;
 	HOTKEYDESC hkd = { 0 };
 	hkd.cbSize = sizeof(hkd);
-	hkd.dwFlags = HKD_TCHAR;
+	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "Check for pack updates";
-	hkd.ptszDescription = LPGENW("Check for pack updates");
-	hkd.ptszSection = LPGENW("Pack Updater");
+	hkd.pwszDescription = LPGENW("Check for pack updates");
+	hkd.pwszSection = LPGENW("Pack Updater");
 	hkd.pszService = MODNAME"/CheckUpdates";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;

@@ -19,7 +19,7 @@ void SetFilenames(const wchar_t *path)
 {
 	if (!path || !path[0]) 
 		return;
-	CreateDirectoryTreeT(path);
+	CreateDirectoryTreeW(path);
 	
 	mir_snwprintf(g_private_key_filename,       L"%s\\" _A2W(PRIVATE_KEY_FILENAME),       path);
 	mir_snwprintf(g_fingerprint_store_filename, L"%s\\" _A2W(FINGERPRINT_STORE_FILENAME), path);
@@ -30,7 +30,7 @@ int FoldersChanged(WPARAM, LPARAM)
 {
 	wchar_t path[MAX_PATH];
 	if ( FoldersGetCustomPathT(hPATH_MIROTR, path, _countof(path), L""))
-		SetFilenames(VARST(DATA_DIRECTORY));
+		SetFilenames(VARSW(DATA_DIRECTORY));
 	else
 		SetFilenames(path);
 
@@ -47,7 +47,7 @@ void LoadFilenames()
 		FoldersChanged(0, 0);
 	}
 	else {
-		SetFilenames( VARST(DATA_DIRECTORY));
+		SetFilenames( VARSW(DATA_DIRECTORY));
 		ReadPrivkeyFiles();
 	}
 }
@@ -822,7 +822,7 @@ static int OpenOptions(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.pwszGroup = LPGENW("Services");
 	odp.pwszTitle = L"OTR";
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
 	odp.pwszTab = LANG_OPT_GENERAL;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);

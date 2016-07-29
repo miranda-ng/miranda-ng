@@ -597,7 +597,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			// init image buttons
 			for (int i = 0; i < _countof(Buttons); i++) {
 				HWND hButton = GetDlgItem(hwndDlg, Buttons[i].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Buttons[i].Text), BATF_TCHAR);
+				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateW(Buttons[i].Text), BATF_UNICODE);
 				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 
@@ -608,7 +608,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 			for (int i = 0; i < _countof(Tooltips); i++) {
 				ti.uId = (UINT_PTR)GetDlgItem(hwndDlg, Tooltips[i].m_dlgItemID);
-				ti.lpszText = TranslateTS(Tooltips[i].Text);
+				ti.lpszText = TranslateW(Tooltips[i].Text);
 				SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			}
 			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
@@ -1016,7 +1016,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		switch (HIWORD(wParam)) {
 		case EN_CHANGE:
 			if (LOWORD(wParam) == IDC_SAWAYMSG_MSGDATA)
-				SetDlgItemText(hwndDlg, IDC_OK, TranslateTS((GetSelContactsNum(CList) > 1) ? LPGENW("Apply") : LPGENW("OK")));
+				SetDlgItemText(hwndDlg, IDC_OK, TranslateW((GetSelContactsNum(CList) > 1) ? LPGENW("Apply") : LPGENW("OK")));
 			break;
 
 		case EN_KILLFOCUS:

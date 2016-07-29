@@ -135,7 +135,7 @@ void     CheckCurrentFeedAvatar(MCONTACT hContact);
 LPCTSTR  CheckFeed(wchar_t* tszURL, HWND hwndDlg);
 void     UpdateMenu(bool State);
 int      ImportFeedsDialog();
-LPCTSTR  ClearText(CMString &value, const wchar_t *message);
+LPCTSTR  ClearText(CMStringW &value, const wchar_t *message);
 bool     DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 void     CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg);
 INT_PTR  CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

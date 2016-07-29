@@ -42,7 +42,7 @@ __inline static int AssocMgr_AddNewFileTypeT(const char *ext, const char *mime, 
 	ftd.cbSize = sizeof(FILETYPEDESC);
 	ftd.pszFileExt = ext;
 	ftd.pszMimeType = mime;
-	ftd.ptszDescription = desc;
+	ftd.pwszDescription = desc;
 	ftd.hInstance = hinst;
 	ftd.nIconResID = iconid;
 	ftd.ptszVerbDesc = verb;

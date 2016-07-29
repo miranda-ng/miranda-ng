@@ -96,7 +96,7 @@ static void ApplyUpdates(void *param)
 	Netlib_CloseHandle(nlc);
 
 	// 3) Unpack all zips
-	VARST tszMirandaPath(L"%miranda_path%");
+	VARSW tszMirandaPath(L"%miranda_path%");
 	for (int i = 0; i < todo.getCount(); i++) {
 		FILEINFO& p = todo[i];
 		if (p.bEnabled) {
@@ -125,9 +125,9 @@ static void ApplyUpdates(void *param)
 
 #if MIRANDA_VER < 0x0A00
 	// 4) Change title of clist
-	ptrW title(db_get_tsa(NULL, "CList", "TitleText"));
+	ptrW title(db_get_wsa(NULL, "CList", "TitleText"));
 	if (!lstrcmpi(title, L"Miranda IM"))
-		db_set_ts(NULL, "CList", "TitleText", L"Miranda NG");
+		db_set_ws(NULL, "CList", "TitleText", L"Miranda NG");
 #endif
 
 	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
@@ -138,12 +138,12 @@ static void ApplyUpdates(void *param)
 	if (opts.bChangePlatform) {
 		wchar_t mirandaPath[MAX_PATH];
 		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
-		db_set_ts(NULL, MODNAME, "OldBin2", mirandaPath);
+		db_set_ws(NULL, MODNAME, "OldBin2", mirandaPath);
 
 		db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
 	}
 	else {
-		ptrW oldbin(db_get_tsa(NULL, MODNAME, "OldBin2"));
+		ptrW oldbin(db_get_wsa(NULL, MODNAME, "OldBin2"));
 		if (oldbin) {
 			SafeDeleteFile(oldbin);
 			db_unset(NULL, MODNAME, "OldBin2");
@@ -446,7 +446,7 @@ static void DlgUpdateSilent(void *param)
 	}
 
 	// 3) Unpack all zips
-	VARST tszMirandaPath(L"%miranda_path%");
+	VARSW tszMirandaPath(L"%miranda_path%");
 	for (int i = 0; i < UpdateFiles.getCount(); i++) {
 		FILEINFO& p = UpdateFiles[i];
 		if (p.bEnabled) {
@@ -477,9 +477,9 @@ static void DlgUpdateSilent(void *param)
 
 #if MIRANDA_VER < 0x0A00
 	// 4) Change title of clist
-	ptrW title = db_get_tsa(NULL, "CList", "TitleText");
+	ptrW title = db_get_wsa(NULL, "CList", "TitleText");
 	if (!wcsicmp(title, L"Miranda IM"))
-		db_set_ts(NULL, "CList", "TitleText", L"Miranda NG");
+		db_set_ws(NULL, "CList", "TitleText", L"Miranda NG");
 #endif
 
 	opts.bForceRedownload = false;
@@ -802,7 +802,7 @@ static void CheckUpdates(void *)
 	bool success = ParseHashes(updateUrl, baseUrl, hashes);
 	if (success) {
 		FILELIST *UpdateFiles = new FILELIST(20);
-		VARST dirname(L"%miranda_path%");
+		VARSW dirname(L"%miranda_path%");
 		int count = ScanFolder(dirname, lstrlen(dirname) + 1, baseUrl, hashes, UpdateFiles);
 
 		// Show dialog

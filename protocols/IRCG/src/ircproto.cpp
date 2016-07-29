@@ -179,13 +179,13 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	db_unset(NULL, m_szModuleName, "JTemp");
 
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	mir_snwprintf(name, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	char szTemp2[256];
 	mir_snprintf(szTemp2, "%s DCC", m_szModuleName);
 	nlu.szSettingsModule = szTemp2;
@@ -255,10 +255,10 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 		for (int i = 0; i < performToConvert.getCount(); i++) {
 			CMStringA s = performToConvert[i];
 			DBVARIANT dbv;
-			if (!getTString(s, &dbv)) {
+			if (!getWString(s, &dbv)) {
 				db_unset(NULL, m_szModuleName, s);
 				s.MakeUpper();
-				setTString(s, dbv.ptszVal);
+				setWString(s, dbv.ptszVal);
 				db_free(&dbv);
 			}
 		}
@@ -275,13 +275,13 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 		wchar_t szBuf[40];
 		if (mir_wstrlen(m_alternativeNick) == 0) {
 			mir_snwprintf(szBuf, L"%s%u", m_nick, rand() % 9999);
-			setTString("AlernativeNick", szBuf);
+			setWString("AlernativeNick", szBuf);
 			mir_wstrncpy(m_alternativeNick, szBuf, 30);
 		}
 
 		if (mir_wstrlen(m_name) == 0) {
 			mir_snwprintf(szBuf, L"Miranda%u", rand() % 9999);
-			setTString("Name", szBuf);
+			setWString("Name", szBuf);
 			mir_wstrncpy(m_name, szBuf, 200);
 		}
 	}
@@ -305,14 +305,14 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 
 	if (hContact) {
 		DBVARIANT dbv1;
-		CMString S = L"S";
+		CMStringW S = L"S";
 
 		if (getByte(hContact, "AdvancedMode", 0) == 0) {
 			S += user.name;
 			DoUserhostWithReason(1, S, true, user.name);
 		}
 		else {
-			if (!getTString(hContact, "UWildcard", &dbv1)) {
+			if (!getWString(hContact, "UWildcard", &dbv1)) {
 				S += dbv1.ptszVal;
 				DoUserhostWithReason(2, S, true, dbv1.ptszVal);
 				db_free(&dbv1);
@@ -417,7 +417,7 @@ int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 			if (_wstat64(di->sFileAndPath.c_str(), &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
 				dwPos = statbuf.st_size;
 
-			CMString sFileWithQuotes = di->sFile;
+			CMStringW sFileWithQuotes = di->sFile;
 
 			// if spaces in the filename surround witrh quotes
 			if (sFileWithQuotes.Find(' ', 0) != -1) {
@@ -484,7 +484,7 @@ void __cdecl CIrcProto::AckBasicSearch(void *arg)
 
 	AckBasicSearchParam *param = (AckBasicSearchParam*)arg;
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
-	psr.flags = PSR_TCHAR;
+	psr.flags = PSR_UNICODE;
 	psr.id.w = psr.nick.w = param->buf;
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
@@ -550,7 +550,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 		}
 
 		DBVARIANT dbv;
-		if (!getTString(hContact, "Nick", &dbv)) {
+		if (!getWString(hContact, "Nick", &dbv)) {
 			// set up a basic DCCINFO struct and pass it to a DCC object
 			dci = new DCCINFO;
 			dci->sFileAndPath = ppszFiles[index];
@@ -561,7 +561,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 				dci->sFile = dci->sFileAndPath.Mid(i + 1);
 			}
 
-			CMString sFileWithQuotes = dci->sFile;
+			CMStringW sFileWithQuotes = dci->sFile;
 
 			// if spaces in the filename surround witrh quotes
 			if (sFileWithQuotes.Find(' ', 0) != -1) {
@@ -583,7 +583,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 			AddDCCSession(dci, dcc);
 
 			// need to make sure that %'s are doubled to avoid having chat interpret as color codes
-			CMString sFileCorrect = dci->sFile;
+			CMStringW sFileCorrect = dci->sFile;
 			sFileCorrect.Replace(L"%", L"%%");
 
 			// is it an reverse filetransfer (receiver acts as server)
@@ -786,13 +786,13 @@ HANDLE __cdecl CIrcProto::GetAwayMsg(MCONTACT hContact)
 
 	// bypass chat contacts.
 	if (!isChatRoom(hContact)) {
-		if (hContact && !getTString(hContact, "Nick", &dbv)) {
+		if (hContact && !getWString(hContact, "Nick", &dbv)) {
 			int i = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 			if (i != ID_STATUS_AWAY) {
 				db_free(&dbv);
 				return 0;
 			}
-			CMString S = L"WHOIS ";
+			CMStringW S = L"WHOIS ";
 			S += dbv.ptszVal;
 			if (IsConnected())
 				SendIrcMessage(S.c_str(), false);
@@ -814,7 +814,7 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const wchar_t* msg)
 		break;
 
 	default:
-		CMString newStatus = msg;
+		CMStringW newStatus = msg;
 		newStatus.Replace(L"\r\n", L" ");
 		if (m_statusMessage.IsEmpty() || msg == NULL || m_statusMessage != newStatus) {
 			if (msg == NULL || *msg == 0)

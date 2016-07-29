@@ -34,10 +34,10 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 	BOOL res = FALSE;
 
 	/* language folder */
-	ptrW langpack(db_get_tsa(NULL, "Langpack", "Current"));
+	ptrW langpack(db_get_wsa(NULL, "Langpack", "Current"));
 	
 	wchar_t tszFullPath[MAX_PATH];
-	PathToAbsoluteT(L"\\Languages\\langpack_*.txt", tszFullPath);
+	PathToAbsoluteW(L"\\Languages\\langpack_*.txt", tszFullPath);
 
 	BOOL fPackFound = FALSE;
 	WIN32_FIND_DATA wfd;
@@ -46,7 +46,7 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 		do {
 			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 			/* get data */
-			PathToAbsoluteT(L"\\Languages\\", tszFullPath);
+			PathToAbsoluteW(L"\\Languages\\", tszFullPath);
 			mir_wstrcat(tszFullPath, wfd.cFileName);
 
 			LANGPACK_INFO pack;

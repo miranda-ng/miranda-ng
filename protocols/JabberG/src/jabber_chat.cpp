@@ -74,7 +74,7 @@ struct TRoleOrAffiliationInfo
 	}
 	void translate()
 	{
-		this->title = TranslateTS(this->title_en);
+		this->title = TranslateW(this->title_en);
 	}
 };
 
@@ -141,27 +141,27 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 		if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid)) {
 			if (bookmark->name) {
-				ptrW myHandle(db_get_tsa(si->hContact, "CList", "MyHandle"));
+				ptrW myHandle(db_get_wsa(si->hContact, "CList", "MyHandle"));
 				if (myHandle == NULL)
-					db_set_ts(si->hContact, "CList", "MyHandle", bookmark->name);
+					db_set_ws(si->hContact, "CList", "MyHandle", bookmark->name);
 			}
 		}
 
-		ptrW tszNick(getTStringA(si->hContact, "MyNick"));
+		ptrW tszNick(getWStringA(si->hContact, "MyNick"));
 		if (tszNick != NULL) {
 			if (!mir_wstrcmp(tszNick, szNick))
 				delSetting(si->hContact, "MyNick");
 			else
-				setTString(si->hContact, "MyNick", item->nick);
+				setWString(si->hContact, "MyNick", item->nick);
 		}
-		else setTString(si->hContact, "MyNick", item->nick);
+		else setWString(si->hContact, "MyNick", item->nick);
 
-		ptrW passw(getTStringA(si->hContact, "Password"));
+		ptrW passw(getWStringA(si->hContact, "Password"));
 		if (lstrcmp_null(passw, item->password)) {
 			if (!item->password || !item->password[0])
 				delSetting(si->hContact, "Password");
 			else
-				setTString(si->hContact, "Password", item->password);
+				setWString(si->hContact, "Password", item->password);
 		}
 	}
 
@@ -170,7 +170,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--) {
-		gce.ptszStatus = TranslateTS(sttStatuses[i]);
+		gce.ptszStatus = TranslateW(sttStatuses[i]);
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
 
@@ -184,7 +184,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 {
 	if (!item || !user || (item->bChatActive != 2)) return;
 
-	CMString buf;
+	CMStringW buf;
 
 	switch (type) {
 	case INFO_BAN:
@@ -300,7 +300,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 					}
 					gce.ptszText = TranslateT("Moderator");
 				}
-				gce.ptszStatus = TranslateTS(sttStatuses[JabberGcGetStatus(JS)]);
+				gce.ptszStatus = TranslateW(sttStatuses[JabberGcGetStatus(JS)]);
 				gce.bIsMe = (mir_wstrcmp(nick, myNick) == 0);
 				statusToSet = JS->m_iStatus;
 				break;
@@ -331,11 +331,11 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 	wchar_t *szMessage = NULL;
 
 	if (code != 307 && code != 301) {
-		ptrW tszMessage(getTStringA("GcMsgQuit"));
+		ptrW tszMessage(getWStringA("GcMsgQuit"));
 		if (tszMessage != NULL)
 			szMessage = NEWWSTR_ALLOCA(tszMessage);
 		else
-			szMessage = TranslateTS(JABBER_GC_MSG_QUIT);
+			szMessage = TranslateW(JABBER_GC_MSG_QUIT);
 	}
 	else {
 		ptrW myNick(JabberNickFromJID(m_szJabberJID));
@@ -729,7 +729,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		SetDlgItemText(m_hwnd, IDC_HEADERBAR, CMString(FORMAT, TranslateT("Invite Users to\n%s"), m_room));
+		SetDlgItemText(m_hwnd, IDC_HEADERBAR, CMStringW(FORMAT, TranslateT("Invite Users to\n%s"), m_room));
 		Window_SetIcon_IcoLib(m_hwnd, g_GetIconHandle(IDI_GROUP));
 
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE,
@@ -786,7 +786,7 @@ public:
 
 			if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0)) {
 				if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-					ptrW jid(m_proto->getTStringA(hContact, "jid"));
+					ptrW jid(m_proto->getWStringA(hContact, "jid"));
 					if (jid != NULL)
 						InviteUser(jid, text);
 				}
@@ -998,7 +998,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	enum { BAN_KICK_INTERVAL = 1000 };
 	static DWORD dwLastBanKickTime = 0;
 
-	CMString szBuffer, szTitle;
+	CMStringW szBuffer, szTitle;
 
 	if ((gch->dwData >= CLISTMENUIDMIN) && (gch->dwData <= CLISTMENUIDMAX)) {
 		if (him->m_tszRealJid && *him->m_tszRealJid)
@@ -1010,9 +1010,9 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	switch (gch->dwData) {
 	case IDM_SLAP:
 		if (ppro->m_bJabberOnline) {
-			ptrW szMessage(ppro->getTStringA("GcMsgSlap"));
+			ptrW szMessage(ppro->getWStringA("GcMsgSlap"));
 			if (szMessage == NULL)
-				szMessage = mir_wstrdup(TranslateTS(JABBER_GC_MSG_SLAP));
+				szMessage = mir_wstrdup(TranslateW(JABBER_GC_MSG_SLAP));
 
 			wchar_t buf[256];
 			// do not use snprintf to avoid possible problems with % symbol
@@ -1031,10 +1031,10 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	case IDM_VCARD:
 		{
-			CMString jid(FORMAT, L"%s/%s", item->jid, him->m_tszResourceName);
+			CMStringW jid(FORMAT, L"%s/%s", item->jid, him->m_tszResourceName);
 
 			MCONTACT hContact = ppro->AddToListByJID(jid, PALF_TEMPORARY);
-			ppro->setTString(hContact, "Nick", him->m_tszResourceName);
+			ppro->setWString(hContact, "Nick", him->m_tszResourceName);
 			
 			ppro->ListAdd(LIST_VCARD_TEMP, jid, hContact);
 			ppro->ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
@@ -1217,7 +1217,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		if (him->m_tszRealJid && *him->m_tszRealJid) {
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
-			psr.flags = PSR_TCHAR;
+			psr.flags = PSR_UNICODE;
 			psr.id.w = NEWWSTR_ALLOCA(him->m_tszRealJid);
 			if (wchar_t *tmp = wcschr(psr.id.w, '/'))
 				*tmp = 0;
@@ -1235,7 +1235,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* gch)
 {
-	CMString szBuffer, szTitle;
+	CMStringW szBuffer, szTitle;
 
 	switch (gch->dwData) {
 	case IDM_LST_PARTICIPANT:
@@ -1372,7 +1372,7 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 			ppro->setWord(hContact, "Status", r->m_iStatus);
 
 		db_set_b(hContact, "CList", "Hidden", 1);
-		ppro->setTString(hContact, "Nick", nick);
+		ppro->setWString(hContact, "Nick", nick);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
 		CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	}

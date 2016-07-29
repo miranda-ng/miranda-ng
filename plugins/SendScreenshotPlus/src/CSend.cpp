@@ -124,16 +124,16 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				case ID_btnCopy:
 				case ID_btnThumbCopy:
 					SendDlgItemMessage(hwndDlg, i, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIconBtn(ICO_BTN_COPY));
-					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Copy"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Copy"), BATF_UNICODE);
 					break;
 				case ID_btnBBC:
 				case ID_btnThumbBBC:
 					SendDlgItemMessage(hwndDlg, i, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIconBtn(ICO_BTN_BBC));
-					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Copy BBCode"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Copy BBCode"), BATF_UNICODE);
 					break;
 				default:
 					SendDlgItemMessage(hwndDlg, i, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIconBtn(ICO_BTN_BBCLNK));
-					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Copy BBCode w/ link"), BATF_TCHAR);
+					SendDlgItemMessage(hwndDlg, i, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Copy BBCode w/ link"), BATF_UNICODE);
 				}
 			}
 		}
@@ -404,7 +404,7 @@ void CSend::Error(LPCTSTR pszFormat, ...)
 
 	va_list vl;
 	va_start(vl, pszFormat);
-	mir_vsnwprintf(tszMsg, _countof(tszMsg), TranslateTS(pszFormat), vl);
+	mir_vsnwprintf(tszMsg, _countof(tszMsg), TranslateW(pszFormat), vl);
 	va_end(vl);
 	mir_free(m_ErrorMsg), m_ErrorMsg = mir_wstrdup(tszMsg);
 
@@ -436,7 +436,7 @@ void CSend::Exit(unsigned int Result)
 			break;
 		case ACKRESULT_DENIED:
 			SkinPlaySound("FileDenied");
-			Error(L"%s (%i):\nFile transfer denied.", TranslateTS(m_pszSendTyp), Result);
+			Error(L"%s (%i):\nFile transfer denied.", TranslateW(m_pszSendTyp), Result);
 			MsgBoxService(NULL, (LPARAM)&m_box);
 			err = false;
 			break;

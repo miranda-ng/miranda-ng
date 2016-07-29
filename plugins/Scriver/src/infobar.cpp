@@ -79,16 +79,16 @@ void RefreshInfobar(InfobarWindowData* idat)
 {
 	HWND hwnd = idat->hWnd;
 	SrmmWindowData *dat = idat->mwd;
-	ptrW szContactStatusMsg(db_get_tsa(dat->hContact, "CList", "StatusMsg"));
-	ptrW szXStatusName(db_get_tsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusName"));
-	ptrW szXStatusMsg(db_get_tsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusMsg"));
+	ptrW szContactStatusMsg(db_get_wsa(dat->hContact, "CList", "StatusMsg"));
+	ptrW szXStatusName(db_get_wsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusName"));
+	ptrW szXStatusMsg(db_get_wsa(idat->mwd->hContact, idat->mwd->szProto, "XStatusMsg"));
 	HICON hIcon = GetExtraStatusIcon(idat);
 	wchar_t szText[2048];
 	SETTEXTEX st;
 	if (szXStatusMsg && *szXStatusMsg)
-		mir_snwprintf(szText, L"%s (%s)", TranslateTS(szXStatusName), szXStatusMsg);
+		mir_snwprintf(szText, L"%s (%s)", TranslateW(szXStatusName), szXStatusMsg);
 	else
-		wcsncpy_s(szText, TranslateTS(szXStatusName), _TRUNCATE);
+		wcsncpy_s(szText, TranslateW(szXStatusName), _TRUNCATE);
 	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
 	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)pcli->pfnGetContactDisplayName(dat->hContact, 0));

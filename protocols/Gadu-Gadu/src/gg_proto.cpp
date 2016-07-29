@@ -44,7 +44,7 @@ GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
+	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = name;
 
@@ -68,7 +68,7 @@ GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
 	db_set_resident(m_szModuleName, GG_KEY_AVATARREQUESTED);
 
 	wchar_t szPath[MAX_PATH];
-	mir_snwprintf(szPath, L"%s\\%s\\ImageCache", (wchar_t*)VARST(L"%miranda_userdata%"), m_tszUserName);
+	mir_snwprintf(szPath, L"%s\\%s\\ImageCache", (wchar_t*)VARSW(L"%miranda_userdata%"), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
 	DWORD dwVersion;
@@ -595,9 +595,9 @@ void __cdecl GGPROTO::getawaymsgthread(void *arg)
 	MCONTACT hContact = (UINT_PTR)arg;
 	debugLogA("getawaymsgthread(): started");
 	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
-	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR)) {
+	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_WCHAR)) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
-		debugLog(L"getawaymsgthread(): Reading away msg <%s>.", dbv.ptszVal);
+		debugLogW(L"getawaymsgthread(): Reading away msg <%s>.", dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else {
@@ -627,7 +627,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 	int status = gg_normalizestatus(iStatus);
 	wchar_t **msgPtr;
 
-	debugLog(L"SetAwayMsg(): PS_SETAWAYMSG(%d, \"%s\".)", iStatus, newMsg);
+	debugLogW(L"SetAwayMsg(): PS_SETAWAYMSG(%d, \"%s\".)", iStatus, newMsg);
 
 	gg_EnterCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, "modemsg_mutex", 1);
 	// Select proper our msg ptr

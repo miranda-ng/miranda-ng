@@ -105,7 +105,7 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 
 void RegisterFontServiceFonts()
 {
-	FontIDT fid = { sizeof(fid) };
+	FontIDW fid = { sizeof(fid) };
 	wcsncpy_s(fid.group, LPGENW("Messaging"), _TRUNCATE);
 	wcsncpy_s(fid.backgroundGroup, LPGENW("Messaging"), _TRUNCATE);
 	strncpy(fid.dbSettingsGroup, SRMMMOD, _countof(fid.dbSettingsGroup));
@@ -123,10 +123,10 @@ void RegisterFontServiceFonts()
 		fid.deffontsettings.charset = DEFAULT_CHARSET;
 		wcsncpy(fid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fid.deffontsettings.szFace));
 		wcsncpy(fid.backgroundName, fontOptionsList[i].szBkgName, _countof(fid.backgroundName));
-		FontRegisterT(&fid);
+		FontRegisterW(&fid);
 	}
 
-	ColourIDT cid = { sizeof(cid) };
+	ColourIDW cid = { sizeof(cid) };
 	wcsncpy_s(cid.group, LPGENW("Messaging"), _TRUNCATE);
 	strncpy(cid.dbSettingsGroup, SRMMMOD, _countof(fid.dbSettingsGroup));
 	cid.flags = 0;
@@ -139,7 +139,7 @@ void RegisterFontServiceFonts()
 			cid.defcolour = colourOptionsList[i].defColour;
 
 		strncpy(cid.setting, colourOptionsList[i].szSettingName, _countof(cid.setting));
-		ColourRegisterT(&cid);
+		ColourRegisterW(&cid);
 	}
 }
 
@@ -188,7 +188,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "%s%d", "SRMFont", i);
 
-		ptrW tszFace(db_get_tsa(NULL, SRMMMOD, str));
+		ptrW tszFace(db_get_wsa(NULL, SRMMMOD, str));
 		if (tszFace == NULL)
 			mir_wstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
 		else
@@ -227,7 +227,7 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
-		tvis.item.pszText = TranslateTS(values[i].szDescr);
+		tvis.item.pszText = TranslateW(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
 		TreeView_InsertItem(hwndTree, &tvis);

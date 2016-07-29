@@ -284,16 +284,12 @@ EXTERN_C MIR_CORE_DLL(int) PathToAbsolute(const char *pszSrc, char *pszOut, cons
 EXTERN_C MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase);
 #endif
 
-#define PathToAbsoluteT PathToAbsoluteW
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Creates a directory tree (even more than one directories levels are missing)
 // Returns 0 on success or an error code otherwise
 
 EXTERN_C MIR_CORE_DLL(int) CreateDirectoryTree(const char *pszDir);
 EXTERN_C MIR_CORE_DLL(int) CreateDirectoryTreeW(const wchar_t *pwszDir);
-
-#define CreateDirectoryTreeT CreateDirectoryTreeW
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Creates all subdirectories required to create a file with the file name given
@@ -302,16 +298,12 @@ EXTERN_C MIR_CORE_DLL(int) CreateDirectoryTreeW(const wchar_t *pwszDir);
 EXTERN_C MIR_CORE_DLL(void) CreatePathToFile(char *wszFilePath);
 EXTERN_C MIR_CORE_DLL(void) CreatePathToFileW(wchar_t *wszFilePath);
 
-#define CreatePathToFileT CreatePathToFileW
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Checks if a file name is absolute or not
 // returns TRUE if yes or FALSE if not
 
 EXTERN_C MIR_CORE_DLL(int) PathIsAbsolute(const char *pSrc);
 EXTERN_C MIR_CORE_DLL(int) PathIsAbsoluteW(const wchar_t *pSrc);
-
-#define PathIsAbsoluteT PathIsAbsoluteW
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Generates Random number of any length
@@ -384,8 +376,6 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTAC
 			ptrW(Utils_ReplaceVarsW(str))
 		{}
 	};
-
-	typedef VARSW VARST;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////

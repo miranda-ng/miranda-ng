@@ -24,7 +24,7 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 	LPTSTR pszDirName = (LPTSTR)mir_alloc(250*sizeof(wchar_t));
 	LPTSTR pszFileName = (LPTSTR)mir_alloc(250*sizeof(wchar_t));
 
-	wchar_t *ptszHelpFile = db_get_tsa(NULL, "UserGuide", "PathToHelpFile");
+	wchar_t *ptszHelpFile = db_get_wsa(NULL, "UserGuide", "PathToHelpFile");
 	
 	if (ptszHelpFile==0)
 	{
@@ -85,7 +85,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CMenuItem mi;
 	SET_UID(mi, 0x6787c12d, 0xdc85, 0x409d, 0xaa, 0x6c, 0x1f, 0xfe, 0x5f, 0xe8, 0xc1, 0x18);
 	mi.position = 500000;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_HELP);
 	mi.name.w = LPGENW("User Guide");
 	mi.pszService = "UserGuide/ShowGuide";

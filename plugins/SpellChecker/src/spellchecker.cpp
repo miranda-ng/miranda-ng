@@ -74,7 +74,7 @@ static int IconsChanged(WPARAM, LPARAM)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULE_NAME;
 	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
-	sid.flags = MBF_HIDDEN | MBF_TCHAR;
+	sid.flags = MBF_HIDDEN | MBF_UNICODE;
 
 	for (int i = 0; i < languages.getCount(); i++) {
 		sid.dwId = i;
@@ -141,7 +141,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		GetModuleFileName(hInst, path, MAX_PATH);
 
 		SKINICONDESC sid = { 0 };
-		sid.flags = SIDF_ALL_TCHAR | SIDF_SORTED;
+		sid.flags = SIDF_ALL_UNICODE | SIDF_SORTED;
 		sid.section.w = LPGENW("Spell Checker") L"/" LPGENW("Flags");
 
 		// Get language flags
@@ -199,7 +199,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULE_NAME;
 	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
-	sid.flags = MBF_TCHAR | MBF_HIDDEN;
+	sid.flags = MBF_UNICODE | MBF_HIDDEN;
 
 	for (int i = 0; i < languages.getCount(); i++) {
 		sid.dwId = i;

@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 static HANDLE g_hMutexIm;
 static OBJLIST<ImageBase> g_imagecache(25, ImageType::CompareImg);
 
-static CMString lastdllname;
+static CMStringW lastdllname;
 static HMODULE lastmodule;
 static time_t laststamp;
 static UINT_PTR timerId;
@@ -58,7 +58,7 @@ static void CALLBACK sttMainThreadCallback(PVOID)
 }
 
 
-static HMODULE LoadDll(const CMString &file)
+static HMODULE LoadDll(const CMStringW &file)
 {
 	WaitForSingleObject(g_hMutexIm, 3000);
 
@@ -190,7 +190,7 @@ int ImageBase::SelectNextFrame(const int frame)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-IconType::IconType(const unsigned id, const CMString &file, const int index, const IcoTypeEnum type)
+IconType::IconType(const unsigned id, const CMStringW &file, const int index, const IcoTypeEnum type)
 	: ImageBase(id)
 {
 	m_SmileyIcon = NULL;
@@ -279,7 +279,7 @@ void ImageListItemType::GetSize(SIZE &size)
 	ImageList_GetIconSize(m_hImList, (int*)&size.cx, (int*)&size.cy);
 }
 
-ImageType::ImageType(const unsigned id, const CMString &file, IStream *pStream)
+ImageType::ImageType(const unsigned id, const CMStringW &file, IStream *pStream)
 	: ImageBase(id)
 {
 	m_bmp = NULL;
@@ -310,7 +310,7 @@ ImageType::ImageType(const unsigned id, const CMString &file, IStream *pStream)
 	}
 }
 
-ImageType::ImageType(const unsigned id, const CMString &file, const int index, const IcoTypeEnum type)
+ImageType::ImageType(const unsigned id, const CMStringW &file, const int index, const IcoTypeEnum type)
 	: ImageBase(id)
 {
 	m_bmp = NULL;
@@ -415,17 +415,17 @@ ImageFType::ImageFType(const unsigned id)
 	m_bmp = NULL;
 }
 
-ImageFType::ImageFType(const unsigned id, const CMString &file)
+ImageFType::ImageFType(const unsigned id, const CMStringW &file)
 	: ImageBase(id)
 {
 	m_bmp = NULL;
 
-	FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeT(file.c_str(), 0);
+	FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeU(file.c_str(), 0);
 	if (fif == FIF_UNKNOWN)
-		fif = fei->FI_GetFIFFromFilenameT(file.c_str());
+		fif = fei->FI_GetFIFFromFilenameU(file.c_str());
 	if (fif == FIF_UNKNOWN) return;
 
-	FIBITMAP *dib = fei->FI_LoadT(fif, file.c_str(), 0);
+	FIBITMAP *dib = fei->FI_LoadU(fif, file.c_str(), 0);
 	if (dib == NULL) return;
 
 	bool transp = fei->FI_IsTransparent(dib) != 0;
@@ -525,9 +525,9 @@ void DestroyImageCache(void)
 	CloseHandle(g_hMutexIm);
 }
 
-ImageBase* AddCacheImage(const CMString &file, int index)
+ImageBase* AddCacheImage(const CMStringW &file, int index)
 {
-	CMString tmpfile(file); tmpfile.AppendFormat(L"#%d", index);
+	CMStringW tmpfile(file); tmpfile.AppendFormat(L"#%d", index);
 	unsigned id = mir_hash(tmpfile.c_str(), tmpfile.GetLength() * sizeof(wchar_t));
 
 	WaitForSingleObject(g_hMutexIm, 3000);
@@ -539,7 +539,7 @@ ImageBase* AddCacheImage(const CMString &file, int index)
 		if (ind == -1)
 			return NULL;
 
-		CMString ext = file.Mid(ind + 1);
+		CMStringW ext = file.Mid(ind + 1);
 		ext.MakeLower();
 		if (ext == L"dll" || ext == L"exe")
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, index, icoDll) : (ImageBase*)new IconType(id, file, index, icoDll);

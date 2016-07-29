@@ -601,7 +601,7 @@ class CAnnivList
 		lvc.cx = db_get_w(NULL, MODNAME, pszSetting, defaultWidth);
 		lvc.mask = LVCF_WIDTH | LVCF_TEXT;
 		lvc.iSubItem = iSubItem;
-		lvc.pszText = TranslateTS(pszText);
+		lvc.pszText = TranslateW(pszText);
 		return ListView_InsertColumn(_hList, lvc.iSubItem++, &lvc) == -1;
 	}
 

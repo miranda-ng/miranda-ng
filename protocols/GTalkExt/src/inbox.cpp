@@ -196,7 +196,7 @@ void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 
 void OpenContactInbox(LPCSTR szModuleName)
 {
-	ptrW tszJid(db_get_tsa(0, szModuleName, "jid"));
+	ptrW tszJid(db_get_wsa(0, szModuleName, "jid"));
 	if (tszJid == NULL)
 		return;
 

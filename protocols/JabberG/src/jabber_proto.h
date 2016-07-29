@@ -582,14 +582,14 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen);
 	void   ResolveTransportNicks(const wchar_t *jid);
 	void   SetServerStatus(int iNewStatus);
-	void   FormatMirVer(pResourceStatus &resource, CMString&);
+	void   FormatMirVer(pResourceStatus &resource, CMStringW&);
 	void   UpdateMirVer(JABBER_LIST_ITEM *item);
 	void   UpdateMirVer(MCONTACT hContact, pResourceStatus &resource);
 	void   UpdateSubscriptionInfo(MCONTACT hContact, JABBER_LIST_ITEM *item);
 	void   SetContactOfflineStatus(MCONTACT hContact);
 	void   InitPopups(void);
 	void   MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle);
-	CMString ExtractImage(HXML node);
+	CMStringW ExtractImage(HXML node);
 
 	//---- jabber_opt.cpp ----------------------------------------------------------------
 	INT_PTR  __cdecl OnMenuHandleRosterControl(WPARAM wParam, LPARAM lParam);
@@ -746,7 +746,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void   ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
 	void   ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, const wchar_t *string, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
-	BOOL   EnterString(CMString &result, LPCTSTR caption, int type, char *windowName=NULL, int recentCount=JABBER_DEFAULT_RECENT_COUNT, int timeout=0);
+	BOOL   EnterString(CMStringW &result, LPCTSTR caption, int type, char *windowName=NULL, int recentCount=JABBER_DEFAULT_RECENT_COUNT, int timeout=0);
 	bool   IsMyOwnJID(LPCTSTR szJID);
 
 	void __cdecl LoadHttpAvatars(void* param);

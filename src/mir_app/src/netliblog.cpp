@@ -42,7 +42,7 @@ struct {
 	int showUser;
 	int dumpSent, dumpRecv, dumpProxy, dumpSsl;
 	int textDumps, autoDetectText;
-	CMString tszFile, tszUserFile;
+	CMStringW tszFile, tszUserFile;
 }
 static logOptions = { 0 };
 
@@ -64,16 +64,16 @@ static void InitLog()
 		hLogger = NULL;
 	}
 
-	ptrW szBuf(db_get_tsa(NULL, "Netlib", "File"));
+	ptrW szBuf(db_get_wsa(NULL, "Netlib", "File"));
 	if (mir_wstrlen(szBuf)) {
 		logOptions.tszUserFile = szBuf.get();
 
 		wchar_t path[MAX_PATH];
-		PathToAbsoluteT(VARST(szBuf), path);
+		PathToAbsoluteW(VARSW(szBuf), path);
 		logOptions.tszFile = path;
 	}
 	else {
-		db_set_ts(NULL, "Netlib", "File", logOptions.tszUserFile = L"%miranda_logpath%\\netlog.txt");
+		db_set_ws(NULL, "Netlib", "File", logOptions.tszUserFile = L"%miranda_logpath%\\netlog.txt");
 		logOptions.tszFile = Utils_ReplaceVarsT(logOptions.tszUserFile);
 	}
 
@@ -105,7 +105,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		CheckDlgButton(hwndDlg, IDC_AUTODETECTTEXT, logOptions.autoDetectText ? BST_CHECKED : BST_UNCHECKED);
 		{
 			for (int i=0; i < _countof(szTimeFormats); i++)
-				SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szTimeFormats[i]));
+				SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_ADDSTRING, 0, (LPARAM)TranslateW(szTimeFormats[i]));
 		}
 		SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_SETCURSEL, logOptions.timeFormat, 0);
 		CheckDlgButton(hwndDlg, IDC_SHOWNAMES, logOptions.showUser ? BST_CHECKED : BST_UNCHECKED);
@@ -150,7 +150,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				wchar_t path[MAX_PATH];
 				GetWindowText((HWND)lParam, path, _countof(path));
 
-				PathToAbsoluteT(VARST(path), path);
+				PathToAbsoluteW(VARSW(path), path);
 				SetDlgItemText(hwndDlg, IDC_PATH, path);
 			}
 			break;
@@ -202,12 +202,12 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 
 		case IDOK:
 			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, _countof(str));
-			db_set_ts(NULL, "Netlib", "RunAtStart", str);
+			db_set_ws(NULL, "Netlib", "RunAtStart", str);
 			db_set_b(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
 			logOptions.tszUserFile = rtrimw(str);
-			db_set_ts(NULL, "Netlib", "File", str);
+			db_set_ws(NULL, "Netlib", "File", str);
 
 			GetDlgItemText(hwndDlg, IDC_PATH, str, _countof(str));
 			logOptions.tszFile = rtrimw(str);
@@ -515,7 +515,7 @@ void NetlibLogInit(void)
 	if (db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0))
 		NetlibLogShowOptions();
 
-	ptrW szBuf(db_get_tsa(NULL, "Netlib", "RunAtStart"));
+	ptrW szBuf(db_get_wsa(NULL, "Netlib", "RunAtStart"));
 	if (szBuf) {
 		STARTUPINFO si = { sizeof(si) };
 		PROCESS_INFORMATION pi;

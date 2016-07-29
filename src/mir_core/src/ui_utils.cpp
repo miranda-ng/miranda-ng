@@ -308,7 +308,7 @@ void CCtrlCombo::OnApply()
 {
 	CSuper::OnApply();
 
-	if (GetDataType() == DBVT_TCHAR) {
+	if (GetDataType() == DBVT_WCHAR) {
 		int len = GetWindowTextLength(m_hwnd) + 1;
 		wchar_t *buf = (wchar_t *)_alloca(sizeof(wchar_t) * len);
 		GetWindowText(m_hwnd, buf, len);
@@ -321,7 +321,7 @@ void CCtrlCombo::OnApply()
 
 void CCtrlCombo::OnReset()
 {
-	if (GetDataType() == DBVT_TCHAR)
+	if (GetDataType() == DBVT_WCHAR)
 		SetText(LoadText());
 	else if (GetDataType() != DBVT_DELETED)
 		SetInt(LoadInt());
@@ -573,7 +573,7 @@ void CCtrlEdit::OnApply()
 {
 	CSuper::OnApply();
 
-	if (GetDataType() == DBVT_TCHAR) {
+	if (GetDataType() == DBVT_WCHAR) {
 		int len = GetWindowTextLength(m_hwnd) + 1;
 		wchar_t *buf = (wchar_t *)_alloca(sizeof(wchar_t) * len);
 		GetWindowText(m_hwnd, buf, len);
@@ -586,7 +586,7 @@ void CCtrlEdit::OnApply()
 
 void CCtrlEdit::OnReset()
 {
-	if (GetDataType() == DBVT_TCHAR)
+	if (GetDataType() == DBVT_WCHAR)
 		SetText(LoadText());
 	else if (GetDataType() != DBVT_DELETED)
 		SetInt(LoadInt());
@@ -619,7 +619,7 @@ void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, BY
 
 void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, wchar_t* szValue)
 {
-	m_dbLink = new CDbLink(szModuleName, szSetting, DBVT_TCHAR, szValue);
+	m_dbLink = new CDbLink(szModuleName, szSetting, DBVT_WCHAR, szValue);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1632,7 +1632,7 @@ void CCtrlTreeView::TranslateItem(HTREEITEM hItem)
 	TVITEMEX tvi;
 	wchar_t buf[128];
 	GetItem(hItem, &tvi, buf, _countof(buf));
-	tvi.pszText = TranslateTS(tvi.pszText);
+	tvi.pszText = TranslateW(tvi.pszText);
 	SetItem(&tvi);
 }
 
@@ -2067,7 +2067,7 @@ void CCtrlPages::OnInit()
 		TCITEM tci = { 0 };
 		tci.mask = TCIF_PARAM | TCIF_TEXT;
 		tci.lParam = (LPARAM)p;
-		tci.pszText = TranslateTS(p->m_ptszHeader);
+		tci.pszText = TranslateW(p->m_ptszHeader);
 		if (p->m_hIcon) {
 			if (!m_hIml) {
 				m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
@@ -2504,8 +2504,8 @@ void CDbLink::SaveInt(DWORD value)
 wchar_t* CDbLink::LoadText()
 {
 	if (dbv.type != DBVT_DELETED) db_free(&dbv);
-	if (!db_get_ts(NULL, m_szModule, m_szSetting, &dbv)) {
-		if (dbv.type == DBVT_TCHAR)
+	if (!db_get_ws(NULL, m_szModule, m_szSetting, &dbv)) {
+		if (dbv.type == DBVT_WCHAR)
 			return dbv.ptszVal;
 		return m_szDefault;
 	}
@@ -2516,5 +2516,5 @@ wchar_t* CDbLink::LoadText()
 
 void CDbLink::SaveText(wchar_t *value)
 {
-	db_set_ts(NULL, m_szModule, m_szSetting, value);
+	db_set_ws(NULL, m_szModule, m_szSetting, value);
 }

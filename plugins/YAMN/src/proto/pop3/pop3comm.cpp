@@ -1544,12 +1544,12 @@ wchar_t* WINAPI GetErrorString(DWORD Code)
 
 	mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, TranslateT("Error %d-%d-%d-%d:"), ErrorCode->AppError, ErrorCode->POP3Error, ErrorCode->NetError, ErrorCode->SystemError);
 	if (ErrorCode->POP3Error)
-		mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(POP3Errors[ErrorCode->POP3Error - 1]));
+		mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateW(POP3Errors[ErrorCode->POP3Error - 1]));
 	if (ErrorCode->NetError) {
 		if (ErrorCode->SSL)
-			mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(SSLErrors[ErrorCode->NetError - 1]));
+			mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateW(SSLErrors[ErrorCode->NetError - 1]));
 		else
-			mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateTS(NetlibErrors[ErrorCode->NetError - 4]));
+			mir_snwprintf(ErrorString, ERRORSTR_MAXLEN, L"%s\n%s", ErrorString, TranslateW(NetlibErrors[ErrorCode->NetError - 4]));
 	}
 
 	return ErrorString;

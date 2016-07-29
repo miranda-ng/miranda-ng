@@ -51,7 +51,7 @@ static int FS_FontsChanged(WPARAM, LPARAM)
 
 void RegisterCListFonts()
 {
-	FontIDT fontid = { sizeof(fontid) };
+	FontIDW fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWREREGISTER | FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS;
 	strncpy(fontid.dbSettingsGroup, "CLC", sizeof(fontid.dbSettingsGroup));
 	wcsncpy(fontid.group, LPGENW("Contact list"), _countof(fontid.group));
@@ -76,13 +76,13 @@ void RegisterCListFonts()
 		mir_snprintf(idstr, "Font%d", i);
 		strncpy(fontid.prefix, idstr, _countof(fontid.prefix));
 		fontid.order = i;
-		FontRegisterT(&fontid);
+		FontRegisterW(&fontid);
 	}
 	ReleaseDC(NULL, hdc);
 
 	// and colours
-	ColourIDT colourid = { 0 };
-	colourid.cbSize = sizeof(ColourIDT);
+	ColourIDW colourid = { 0 };
+	colourid.cbSize = sizeof(ColourIDW);
 	colourid.order = 0;
 	strncpy(colourid.dbSettingsGroup, "CLC", sizeof(colourid.dbSettingsGroup));
 
@@ -90,25 +90,25 @@ void RegisterCListFonts()
 	wcsncpy(colourid.name, LPGENW("Background"), _countof(colourid.name));
 	wcsncpy(colourid.group, LPGENW("Contact list"), _countof(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Selected text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Hottrack text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Quicksearch text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
 }

@@ -268,7 +268,7 @@ private:
 	CVKNewsItem* GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
 	CVKNewsItem* GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
 	void OnFriendAccepted(const JSONNode &jnFeedback);
-	CMString GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
+	CMStringW GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
 	CVKNewsItem* GetVkParent(const JSONNode &jnParent, VKObjType vkParentType, LPCWSTR pwszReplyText = NULL, LPCWSTR pwszReplyLink = NULL);
 	void RetrieveUnreadNews(time_t tLastNewsTime);
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -284,8 +284,8 @@ private:
 
 	void SetServerStatus(int);
 	void RetrieveUsersInfo(bool flag = false, bool bRepeat = false);
-	void RetrieveStatusMsg(const CMString &StatusMsg);
-	void RetrieveStatusMusic(const CMString &StatusMsg);
+	void RetrieveStatusMsg(const CMStringW &StatusMsg);
+	void RetrieveStatusMusic(const CMStringW &StatusMsg);
 	void OnReceiveStatus(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveStatusMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	MCONTACT SetContactInfo(const JSONNode &jnItem, bool flag = false, bool self = false);
@@ -325,8 +325,8 @@ private:
 	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	bool AutoFillForm(char*, CMStringA&, CMStringA&);
-	CMString RunConfirmationCode();
-	CMString RunRenameNick(LPCWSTR pwszOldName);
+	CMStringW RunConfirmationCode();
+	CMStringW RunRenameNick(LPCWSTR pwszOldName);
 	void GrabCookies(NETLIBHTTPREQUEST *nhr);
 	void ApplyCookies(AsyncHttpRequest*);
 	void __cdecl DBAddAuthRequestThread(void *p);
@@ -338,14 +338,14 @@ private:
 	void MarkDialogAsRead(MCONTACT hContact);
 	char* GetStickerId(const char *Msg, int& stickerid);
 	CMStringA GetAttachmentsFromMessage(const char * Msg);
-	CMString SpanVKNotificationType(CMString& wszType, VKObjType& vkFeedback, VKObjType& vkParent);
-	CMString GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC);
-	CMString SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = NULL);
-	CMString& ClearFormatNick(CMString& wszText);
-	CMString GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC = bbcNo);
-	CMString GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC = bbcNo);
+	CMStringW SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent);
+	CMStringW GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC);
+	CMStringW SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = NULL);
+	CMStringW& ClearFormatNick(CMStringW& wszText);
+	CMStringW GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC = bbcNo);
+	CMStringW GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC = bbcNo);
 	void SetInvisible(MCONTACT hContact);
-	CMString RemoveBBC(CMString& wszSrc);
+	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void InitQueue();
 	void UninitQueue();
 	void ExecuteRequest(AsyncHttpRequest*);
@@ -357,7 +357,7 @@ private:
 	void OnLoggedIn();
 	void OnLoggedOut();
 	void ShutdownSession();
-	void SetAvatarUrl(MCONTACT hContact, CMString &wszUrl);
+	void SetAvatarUrl(MCONTACT hContact, CMStringW &wszUrl);
 	void GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cbLen);
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void __cdecl SendMsgAck(void *param);

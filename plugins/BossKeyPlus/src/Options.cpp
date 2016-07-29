@@ -82,7 +82,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					wchar_t tszMsg[1025];
 					GetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, tszMsg, _countof(tszMsg));
 					if (tszMsg[0] != 0)
-						db_set_ts(NULL, MOD_NAME, "statmsg", tszMsg);
+						db_set_ws(NULL, MOD_NAME, "statmsg", tszMsg);
 					else // delete current setting
 						db_unset(NULL, MOD_NAME, "statmsg");
 				}
@@ -123,7 +123,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		else {
 			DBVARIANT dbVar;
 			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_STATMSG, EM_LIMITTEXT, 1024, 0);
-			if (!db_get_ts(NULL, MOD_NAME, "statmsg", &dbVar)) {
+			if (!db_get_ws(NULL, MOD_NAME, "statmsg", &dbVar)) {
 				SetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, dbVar.ptszVal);
 				db_free(&dbVar);
 			}
@@ -326,7 +326,7 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	optDi.pwszTitle = LPGENW("BossKey");
 	optDi.pwszGroup = LPGENW("Events");
 	optDi.pwszTab = LPGENW("Main");
-	optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	optDi.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = AdvOptDlg;

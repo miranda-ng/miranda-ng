@@ -114,50 +114,50 @@ void LoadOptions(void)
 	opt.dUnit = db_get_w(NULL, WEATHERPROTONAME, "dUnit", 1);
 	opt.eUnit = db_get_w(NULL, WEATHERPROTONAME, "eUnit", 2);
 
-	ptrW szValue(db_get_tsa(NULL, WEATHERPROTONAME, "DegreeSign"));
+	ptrW szValue(db_get_wsa(NULL, WEATHERPROTONAME, "DegreeSign"));
 	wcsncpy_s(opt.DegreeSign, (szValue == NULL) ? L"" : szValue, _TRUNCATE);
 
 	opt.DoNotAppendUnit = db_get_b(NULL, WEATHERPROTONAME, "DoNotAppendUnit", 0);
 	opt.NoFrac = db_get_b(NULL, WEATHERPROTONAME, "NoFractions", 0);
 
 	// texts
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "DisplayText"))
-		wSetData(&opt.cText, TranslateTS(szValue));
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "DisplayText"))
+		wSetData(&opt.cText, TranslateW(szValue));
 	else
 		SetTextDefault("C");
 
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "BriefTextTitle"))
-		wSetData(&opt.bTitle, TranslateTS(szValue));
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "BriefTextTitle"))
+		wSetData(&opt.bTitle, TranslateW(szValue));
 	else
 		SetTextDefault("b");
 
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "BriefText"))
-		wSetData(&opt.bText, TranslateTS(szValue));
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "BriefText"))
+		wSetData(&opt.bText, TranslateW(szValue));
 	else
 		SetTextDefault("B");
 
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "NoteText"))
-		wSetData(&opt.nText, TranslateTS(szValue));
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "NoteText"))
+		wSetData(&opt.nText, TranslateW(szValue));
 	else
 		SetTextDefault("N");
 
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "ExtText"))
-		wSetData(&opt.eText, TranslateTS(szValue));
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "ExtText"))
+		wSetData(&opt.eText, TranslateW(szValue));
 	else
 		SetTextDefault("E");
 
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "HistoryText"))
-		wSetData(&opt.hText, TranslateTS(szValue));
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "HistoryText"))
+		wSetData(&opt.hText, TranslateW(szValue));
 	else
 		SetTextDefault("H");
 
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "ExtraText"))
-		wSetData(&opt.xText, TranslateTS(szValue));
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "ExtraText"))
+		wSetData(&opt.xText, TranslateW(szValue));
 	else
 		SetTextDefault("X");
 
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "StatusText"))
-		wSetData(&opt.sText, TranslateTS(szValue));
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "StatusText"))
+		wSetData(&opt.sText, TranslateW(szValue));
 	else
 		SetTextDefault("S");
 
@@ -179,18 +179,18 @@ void LoadOptions(void)
 	// popup delay
 	opt.pDelay = db_get_dw(NULL, WEATHERPROTONAME, "PopupDelay", 0);
 	// popup texts
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "PopupTitle"))
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "PopupTitle"))
 		wSetData(&opt.pTitle, szValue);
 	else
 		SetTextDefault("P");
 
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "PopupText"))
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "PopupText"))
 		wSetData(&opt.pText, szValue);
 	else
 		SetTextDefault("p");
 
 	// misc
-	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "Default"))
+	if (szValue = db_get_wsa(NULL, WEATHERPROTONAME, "Default"))
 		wcsncpy_s(opt.Default, szValue, _TRUNCATE);
 	else
 		opt.Default[0] = 0;
@@ -215,18 +215,18 @@ void SaveOptions(void)
 	db_set_w(NULL, WEATHERPROTONAME, "pUnit", opt.pUnit);
 	db_set_w(NULL, WEATHERPROTONAME, "dUnit", opt.dUnit);
 	db_set_w(NULL, WEATHERPROTONAME, "eUnit", opt.eUnit);
-	db_set_ts(NULL, WEATHERPROTONAME, "DegreeSign", opt.DegreeSign);
+	db_set_ws(NULL, WEATHERPROTONAME, "DegreeSign", opt.DegreeSign);
 	db_set_b(NULL, WEATHERPROTONAME, "DoNotAppendUnit", (BYTE)opt.DoNotAppendUnit);
 	db_set_b(NULL, WEATHERPROTONAME, "NoFractions", (BYTE)opt.NoFrac);
 	// texts
-	db_set_ts(NULL, WEATHERPROTONAME, "DisplayText", opt.cText);
-	db_set_ts(NULL, WEATHERPROTONAME, "BriefTextTitle", opt.bTitle);
-	db_set_ts(NULL, WEATHERPROTONAME, "BriefText", opt.bText);
-	db_set_ts(NULL, WEATHERPROTONAME, "NoteText", opt.nText);
-	db_set_ts(NULL, WEATHERPROTONAME, "ExtText", opt.eText);
-	db_set_ts(NULL, WEATHERPROTONAME, "HistoryText", opt.hText);
-	db_set_ts(NULL, WEATHERPROTONAME, "ExtraText", opt.xText);
-	db_set_ts(NULL, WEATHERPROTONAME, "StatusText", opt.sText);
+	db_set_ws(NULL, WEATHERPROTONAME, "DisplayText", opt.cText);
+	db_set_ws(NULL, WEATHERPROTONAME, "BriefTextTitle", opt.bTitle);
+	db_set_ws(NULL, WEATHERPROTONAME, "BriefText", opt.bText);
+	db_set_ws(NULL, WEATHERPROTONAME, "NoteText", opt.nText);
+	db_set_ws(NULL, WEATHERPROTONAME, "ExtText", opt.eText);
+	db_set_ws(NULL, WEATHERPROTONAME, "HistoryText", opt.hText);
+	db_set_ws(NULL, WEATHERPROTONAME, "ExtraText", opt.xText);
+	db_set_ws(NULL, WEATHERPROTONAME, "StatusText", opt.sText);
 	// advanced
 	db_set_b(NULL, WEATHERPROTONAME, "DisableConditionIcon", (BYTE)opt.DisCondIcon);
 	// popup options
@@ -245,10 +245,10 @@ void SaveOptions(void)
 	// popup delay
 	db_set_dw(NULL, WEATHERPROTONAME, "PopupDelay", opt.pDelay);
 	// popup texts
-	db_set_ts(NULL, WEATHERPROTONAME, "PopupTitle", opt.pTitle);
-	db_set_ts(NULL, WEATHERPROTONAME, "PopupText", opt.pText);
+	db_set_ws(NULL, WEATHERPROTONAME, "PopupTitle", opt.pTitle);
+	db_set_ws(NULL, WEATHERPROTONAME, "PopupText", opt.pText);
 	// misc stuff
-	db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
+	db_set_ws(NULL, WEATHERPROTONAME, "Default", opt.Default);
 }
 //============  MAIN OPTIONS  ============
 

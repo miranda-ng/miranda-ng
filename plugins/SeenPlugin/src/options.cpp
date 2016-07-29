@@ -58,13 +58,13 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
 		}
 
-		if (!db_get_ts(NULL, S_MOD, "PopupStamp", &dbv)) {
+		if (!db_get_ws(NULL, S_MOD, "PopupStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_POPUPSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_POPUPSTAMP, DEFAULT_POPUPSTAMP);
 
-		if (!db_get_ts(NULL, S_MOD, "PopupStampText", &dbv)) {
+		if (!db_get_ws(NULL, S_MOD, "PopupStampText", &dbv)) {
 			SetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -130,10 +130,10 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			switch (((LPNMHDR)lparam)->code) {
 			case PSN_APPLY:
 				GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, _countof(szstamp));
-				db_set_ts(NULL, S_MOD, "PopupStamp", szstamp);
+				db_set_ws(NULL, S_MOD, "PopupStamp", szstamp);
 
 				GetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, szstamp, _countof(szstamp));
-				db_set_ts(NULL, S_MOD, "PopupStampText", szstamp);
+				db_set_ws(NULL, S_MOD, "PopupStampText", szstamp);
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_POPUPS);
 				if (db_get_b(NULL, S_MOD, "UsePopups", 0) != bchecked)
@@ -189,31 +189,31 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 		EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSTAMP), IsDlgButtonChecked(hdlg, IDC_HISTORY));
 		EnableWindow(GetDlgItem(hdlg, IDC_COUNT), IsDlgButtonChecked(hdlg, IDC_MISSEDONES));
 
-		if (!db_get_ts(NULL, S_MOD, "MenuStamp", &dbv)) {
+		if (!db_get_ws(NULL, S_MOD, "MenuStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_MENUSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_MENUSTAMP, DEFAULT_MENUSTAMP);
 
-		if (!db_get_ts(NULL, S_MOD, "UserStamp", &dbv)) {
+		if (!db_get_ws(NULL, S_MOD, "UserStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_USERSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_USERSTAMP, DEFAULT_USERSTAMP);
 
-		if (!db_get_ts(NULL, S_MOD, "FileStamp", &dbv)) {
+		if (!db_get_ws(NULL, S_MOD, "FileStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_FILESTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_FILESTAMP, DEFAULT_FILESTAMP);
 
-		if (!db_get_ts(NULL, S_MOD, "FileName", &dbv)) {
+		if (!db_get_ws(NULL, S_MOD, "FileName", &dbv)) {
 			SetDlgItemText(hdlg, IDC_FILENAME, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_FILENAME, DEFAULT_FILENAME);
 
-		if (!db_get_ts(NULL, S_MOD, "HistoryStamp", &dbv)) {
+		if (!db_get_ws(NULL, S_MOD, "HistoryStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_HISTORYSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -287,19 +287,19 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 			switch (((LPNMHDR)lparam)->code) {
 			case PSN_APPLY:
 				GetDlgItemText(hdlg, IDC_MENUSTAMP, szstamp, _countof(szstamp));
-				db_set_ts(NULL, S_MOD, "MenuStamp", szstamp);
+				db_set_ws(NULL, S_MOD, "MenuStamp", szstamp);
 
 				GetDlgItemText(hdlg, IDC_USERSTAMP, szstamp, _countof(szstamp));
-				db_set_ts(NULL, S_MOD, "UserStamp", szstamp);
+				db_set_ws(NULL, S_MOD, "UserStamp", szstamp);
 
 				GetDlgItemText(hdlg, IDC_FILESTAMP, szstamp, _countof(szstamp));
-				db_set_ts(NULL, S_MOD, "FileStamp", szstamp);
+				db_set_ws(NULL, S_MOD, "FileStamp", szstamp);
 
 				GetDlgItemText(hdlg, IDC_FILENAME, szstamp, _countof(szstamp));
-				db_set_ts(NULL, S_MOD, "FileName", szstamp);
+				db_set_ws(NULL, S_MOD, "FileName", szstamp);
 
 				GetDlgItemText(hdlg, IDC_HISTORYSTAMP, szstamp, _countof(szstamp));
-				db_set_ts(NULL, S_MOD, "HistoryStamp", szstamp);
+				db_set_ws(NULL, S_MOD, "HistoryStamp", szstamp);
 
 				db_set_w(NULL, S_MOD, "HistoryMax", (WORD)(GetDlgItemInt(hdlg, IDC_HISTORYSIZE, NULL, FALSE) + 1));
 
@@ -432,7 +432,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
 	odp.pwszGroup = LPGENW("Contacts");
 	odp.pwszTitle = LPGENW("Last seen");

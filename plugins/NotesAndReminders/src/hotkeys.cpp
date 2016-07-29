@@ -15,32 +15,32 @@ void RegisterKeyBindings()
 
 	memset(&desc, 0, sizeof(desc));
 	desc.cbSize = sizeof(desc);
-	desc.ptszSection = _A2W(SECTIONNAME);
-	desc.dwFlags = HKD_TCHAR;
+	desc.pwszSection = _A2W(SECTIONNAME);
+	desc.dwFlags = HKD_UNICODE;
 
 	desc.pszName = MODULENAME"/NewNote";
-	desc.ptszDescription = LPGENW("New Note");
+	desc.pwszDescription = LPGENW("New Note");
 	desc.lParam = KB_NEW_NOTE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_INSERT);
 	desc.pszService = MODULENAME"/MenuCommandAddNew";
 	Hotkey_Register(&desc);
 
 	desc.pszName = MODULENAME"/ToggleNotesVis";
-	desc.ptszDescription = LPGENW("Toggle Notes Visibility");
+	desc.pwszDescription = LPGENW("Toggle Notes Visibility");
 	desc.lParam = KB_TOGGLE_NOTES;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_ADD);
 	desc.pszService = MODULENAME"/MenuCommandShowHide";
 	Hotkey_Register(&desc);
 
 	desc.pszName = MODULENAME"/BringNotesFront";
-	desc.ptszDescription = LPGENW("Bring All Notes to Front");
+	desc.pwszDescription = LPGENW("Bring All Notes to Front");
 	desc.lParam = KB_TOGGLE_NOTES;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_HOME);
 	desc.pszService = MODULENAME"/MenuCommandBringAllFront";
 	Hotkey_Register(&desc);
 
 	desc.pszName = MODULENAME"/NewReminder";
-	desc.ptszDescription = LPGENW("New Reminder");
+	desc.pwszDescription = LPGENW("New Reminder");
 	desc.lParam = KB_NEW_REMINDER;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_SUBTRACT);
 	desc.pszService = MODULENAME"/MenuCommandNewReminder";

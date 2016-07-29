@@ -215,7 +215,7 @@ void __cdecl VersionInfoUploadThread(void* arg)
 void UploadInit(void)
 {
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = (char*)PluginName;
 	nlu.ptszDescriptiveName = TranslateT("Crash Dumper HTTP connections");
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -228,7 +228,7 @@ void UploadClose(void)
 
 bool ProcessVIHash(bool store)
 {
-	CMString buffer;
+	CMStringW buffer;
 	PrintVersionInfo(buffer, 0);
 
 	BYTE hash[16];

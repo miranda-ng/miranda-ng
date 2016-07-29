@@ -74,7 +74,7 @@ void InitScheduler()
 	test.flags = PCF_TCHAR;
 	test.hIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
 	test.iSeconds = 10;
-	test.ptszDescription = TranslateT("History task");
+	test.pwszDescription = TranslateT("History task");
 	test.pszName = MODULE;
 	if (hPopupClass = Popup_RegisterClass(&test))
 		HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);

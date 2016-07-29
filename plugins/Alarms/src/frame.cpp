@@ -508,7 +508,7 @@ int CreateFrame()
 		Frame.tname = TranslateT("Alarms");
 		Frame.hWnd = hwnd_plugin;
 		Frame.align = alBottom;
-		Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
+		Frame.Flags = F_UNICODE | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 		Frame.height = 30;
 		Frame.hIcon = hIconMenuSet;
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);

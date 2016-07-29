@@ -81,7 +81,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 		mir_snprintf(str, "SRMFont%d", i);
 
 		DBVARIANT dbv;
-		if (db_get_ts(NULL, SRMMMOD, str, &dbv))
+		if (db_get_ws(NULL, SRMMMOD, str, &dbv))
 			wcsncpy(lf->lfFaceName, fontOptionsList[i].szDefFace, _countof(lf->lfFaceName)-1);
 		else {
 			mir_wstrncpy(lf->lfFaceName, dbv.ptszVal, _countof(lf->lfFaceName));
@@ -97,7 +97,7 @@ void RegisterSRMMFonts(void)
 {
 	char idstr[10];
 
-	FontIDT fontid = { sizeof(fontid) };
+	FontIDW fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
 		strncpy_s(fontid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
@@ -117,16 +117,16 @@ void RegisterSRMMFonts(void)
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
 		wcsncpy_s(fontid.backgroundGroup, LPGENW("Message log"), _TRUNCATE);
 		wcsncpy_s(fontid.backgroundName, LPGENW("Background"), _TRUNCATE);
-		FontRegisterT(&fontid);
+		FontRegisterW(&fontid);
 	}
 
-	ColourIDT colourid = { sizeof(colourid) };
+	ColourIDW colourid = { sizeof(colourid) };
 	strncpy_s(colourid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
 	strncpy_s(colourid.setting, SRMSGSET_BKGCOLOUR, _TRUNCATE);
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	wcsncpy_s(colourid.name, LPGENW("Background"), _TRUNCATE);
 	wcsncpy_s(colourid.group, LPGENW("Message log"), _TRUNCATE);
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +158,7 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
-		tvis.item.pszText = TranslateTS(values[i].szDescr);
+		tvis.item.pszText = TranslateW(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
 		TreeView_InsertItem(hwndTree, &tvis);

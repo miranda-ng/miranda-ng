@@ -127,7 +127,7 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 
 		MCONTACT hContact = proto->contact_from_sn(sn, true, true);
 		if (hContact)
-			CallService(MS_MSG_SENDMESSAGET, hContact, (LPARAM)msg);
+			CallService(MS_MSG_SENDMESSAGEW, hContact, (LPARAM)msg);
 
 		mir_free(sn);
 		return 0;

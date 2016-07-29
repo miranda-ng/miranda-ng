@@ -84,11 +84,11 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 	if (bContactRate > _countof(rates) - 1)
 		bContactRate = _countof(rates) - 1;
 
-	CMString tszName;
+	CMStringW tszName;
 	if (!bContactRate)
 		tszName = FAVMENUROOTNAME;
 	else
-		tszName.Format(L"%s (%s)", TranslateTS(FAVMENUROOTNAME), TranslateTS(rates[bContactRate]));
+		tszName.Format(L"%s (%s)", TranslateW(FAVMENUROOTNAME), TranslateW(rates[bContactRate]));
 	Menu_ModifyItem(hFavoriteContactMenu, tszName);
 
 	for (int i = 0; i < _countof(rates); i++)
@@ -125,13 +125,13 @@ int LoadFavoriteContactMenu()
 	CMenuItem mi;
 	SET_UID(mi, 0xf99a2320, 0xc024, 0x48bd, 0x81, 0xf7, 0x9f, 0xa2, 0x5, 0xb0, 0x7f, 0xdc);
 	mi.name.w = FAVMENUROOTNAME;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hFavoriteContactMenu, MCI_OPT_UNIQUENAME, "ModernClistMenu_ContactRate");
 
 	UNSET_UID(mi);
 	mi.root = hFavoriteContactMenu;
-	mi.flags = CMIF_TCHAR | CMIF_SYSTEM; // not included into new menu settings
+	mi.flags = CMIF_UNICODE | CMIF_SYSTEM; // not included into new menu settings
 	mi.pszService = CLUI_FAVSETRATE;
 	for (int i = 0; i < _countof(rates); i++) {
 		mi.hIcolibItem = iconList[i].hIcolib;

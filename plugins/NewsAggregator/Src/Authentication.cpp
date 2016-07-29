@@ -23,8 +23,8 @@ void CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg)
 {
 	wchar_t *tlogin = NULL, *tpass = NULL;
 	if (hContact && db_get_b(hContact, MODULE, "UseAuth", 0)) {
-		tlogin = db_get_tsa(hContact, MODULE, "Login");
-		tpass = db_get_tsa(hContact, MODULE, "Password");
+		tlogin = db_get_wsa(hContact, MODULE, "Login");
+		tpass = db_get_wsa(hContact, MODULE, "Password");
 	}
 	else if (hwndDlg && IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 		wchar_t buf[MAX_PATH] = {0};
@@ -64,13 +64,13 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			}
 			else if (SelItem.hContact) {
-				wchar_t *ptszNick = db_get_tsa(SelItem.hContact, MODULE, "Nick");
+				wchar_t *ptszNick = db_get_wsa(SelItem.hContact, MODULE, "Nick");
 				if (ptszNick) {
 					SetDlgItemText(hwndDlg, IDC_FEEDNAME, ptszNick);
 					mir_free(ptszNick);
 				}
 				else {
-					wchar_t *ptszURL = db_get_tsa(SelItem.hContact, MODULE, "URL");
+					wchar_t *ptszURL = db_get_wsa(SelItem.hContact, MODULE, "URL");
 					if (ptszURL) {
 						SetDlgItemText(hwndDlg, IDC_FEEDNAME, ptszURL);
 						mir_free(ptszURL);
@@ -104,7 +104,7 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 				else if (SelItem.hContact) {
 					db_set_b(SelItem.hContact, MODULE, "UseAuth", 1);
-					db_set_ts(SelItem.hContact, MODULE, "Login", username);
+					db_set_ws(SelItem.hContact, MODULE, "Login", username);
 					db_set_s(SelItem.hContact, MODULE, "Password", passw);
 				}
 				EndDialog(hwndDlg, IDOK);

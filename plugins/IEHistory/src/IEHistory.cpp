@@ -78,7 +78,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CMenuItem mi;
 	SET_UID(mi, 0x28848d7a, 0x6995, 0x4799, 0x82, 0xd7, 0x18, 0x40, 0x3d, 0xe3, 0x71, 0xc4);
 	mi.name.w = LPGENW("View &history");
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.position = 1000090000;
 	mi.hIcolibItem = hIcon;
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;

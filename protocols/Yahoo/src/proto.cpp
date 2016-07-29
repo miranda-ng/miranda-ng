@@ -35,7 +35,7 @@ CYahooProto::CYahooProto(const char *aProtoName, const wchar_t *aUserName)
 
 	logoff_buddies();
 
-	SkinAddNewSoundExT("mail", m_tszUserName, LPGENW("New E-mail available in Inbox"));
+	SkinAddNewSoundExW("mail", m_tszUserName, LPGENW("New E-mail available in Inbox"));
 
 	LoadYahooServices();
 }
@@ -72,9 +72,9 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
 #ifdef HTTP_GATEWAY
-	nlu.flags = NUF_OUTGOING | NUF_HTTPGATEWAY| NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPGATEWAY| NUF_HTTPCONNS | NUF_UNICODE;
 #else
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 #endif
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = tModuleDescr;

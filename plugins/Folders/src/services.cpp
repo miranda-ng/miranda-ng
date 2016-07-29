@@ -67,7 +67,7 @@ INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 	if (data->cbSize != sizeof(FOLDERSGETDATA))
 		return 1;
 
-	CMString buf(p->Expand());
+	CMStringW buf(p->Expand());
 	if (data->flags & FF_UNICODE)
 		wcsncpy_s(data->szPathT, data->nMaxPathSize, buf, _TRUNCATE);
 	else
@@ -79,8 +79,8 @@ INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 
 int InitServices()
 {
-	CallService(MS_DB_GETPROFILEPATHT, _countof(szCurrentProfilePath), (LPARAM)szCurrentProfilePath);
-	CallService(MS_DB_GETPROFILENAMET, _countof(szCurrentProfile), (LPARAM)szCurrentProfile);
+	CallService(MS_DB_GETPROFILEPATHW, _countof(szCurrentProfilePath), (LPARAM)szCurrentProfilePath);
+	CallService(MS_DB_GETPROFILENAMEW, _countof(szCurrentProfile), (LPARAM)szCurrentProfile);
 	wchar_t *pos = wcsrchr(szCurrentProfile, '.'); if (pos) *pos = 0;
 
 	GetModuleFileName(GetModuleHandleA("mir_app.mir"), szMirandaPath, _countof(szMirandaPath));

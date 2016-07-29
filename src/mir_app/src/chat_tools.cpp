@@ -185,7 +185,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
 	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, cli.pfnGetContactDisplayName(hContact, 0));
-	mir_wstrncpy(pd.lptzText, TranslateTS(szBuf), _countof(pd.lptzText));
+	mir_wstrncpy(pd.lptzText, TranslateW(szBuf), _countof(pd.lptzText));
 	pd.iSeconds = g_Settings->iPopupTimeout;
 
 	if (g_Settings->iPopupStyle == 2) {
@@ -424,10 +424,10 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 	wchar_t *buf = RemoveFormatting(NEWWSTR_ALLOCA(gce->ptszText));
 
 	int iStart = 0;
-	CMString tszHighlightWords(g_Settings->pszHighlightWords);
+	CMStringW tszHighlightWords(g_Settings->pszHighlightWords);
 
 	while (true) {
-		CMString tszToken = tszHighlightWords.Tokenize(L"\t ", iStart);
+		CMStringW tszToken = tszHighlightWords.Tokenize(L"\t ", iStart);
 		if (iStart == -1)
 			break;
 
@@ -465,7 +465,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	wcsncpy_s(tszFolder, si->pszLogFileName, _TRUNCATE);
 	PathRemoveFileSpec(tszFolder);
 	if (!PathIsDirectory(tszFolder))
-		CreateDirectoryTreeT(tszFolder);
+		CreateDirectoryTreeW(tszFolder);
 
 	wchar_t szTime[100];
 	mir_wstrncpy(szTime, chatApi.MakeTimeStamp(g_Settings->pszTimeStampLog, gce->time), 99);
@@ -588,7 +588,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 
 				wchar_t tszNewPath[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
 				mir_snwprintf(tszNewPath, L"%s%sarchived\\", tszDrive, tszDir);
-				CreateDirectoryTreeT(tszNewPath);
+				CreateDirectoryTreeW(tszNewPath);
 
 				wchar_t tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
 				mir_snwprintf(tszNewName, L"%s%s-%s%s", tszNewPath, tszName, tszTimestamp, tszExt);
@@ -748,7 +748,7 @@ wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		if (chatApi.OnGetLogName)
 			chatApi.OnGetLogName(si, tszParsedName);
 		else
-			PathToAbsoluteT(tszParsedName, si->pszLogFileName);
+			PathToAbsoluteW(tszParsedName, si->pszLogFileName);
 		mir_free(tszParsedName);
 
 		for (int i = 0; i < _countof(rva); i++)

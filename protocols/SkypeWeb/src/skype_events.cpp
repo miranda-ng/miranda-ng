@@ -173,7 +173,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 
 	switch(pEvent->datatype)
 	{
-	case DBVT_TCHAR:
+	case DBVT_WCHAR:
 		{
 			return (INT_PTR)mir_a2u(szText);
 		}

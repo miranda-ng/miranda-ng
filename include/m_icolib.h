@@ -41,16 +41,6 @@ extern int hLangpack;
 #define SIDF_PATH_UNICODE 0x200   // Default File is in UCS-2
 #define SIDF_ALL_UNICODE  SIDF_PATH_UNICODE | SIDF_UNICODE
 
-#if defined(_UNICODE)
-  #define SIDF_TCHAR      SIDF_UNICODE
-  #define SIDF_PATH_TCHAR SIDF_PATH_UNICODE
-  #define SIDF_ALL_TCHAR  SIDF_ALL_UNICODE
-#else
-  #define SIDF_TCHAR      0
-  #define SIDF_PATH_TCHAR 0
-  #define SIDF_ALL_TCHAR  0
-#endif
-
 struct SKINICONDESC
 {
 	MAllStrings section;       // section name used to group icons

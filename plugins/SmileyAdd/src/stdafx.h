@@ -120,15 +120,15 @@ int UpdateSrmmDlg(WPARAM wParam, LPARAM lParam);
 
 //functions for general use (defined in general.cpp)
 int CalculateTextHeight(HDC hdc, CHARFORMAT2 *chf);
-const wchar_t* GetImageExt(CMString &fname);
+const wchar_t* GetImageExt(CMStringW &fname);
 
 MCONTACT DecodeMetaContact(MCONTACT hContact);
 bool IsSmileyProto(char *proto);
 
 HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle);
 
-void pathToRelative(const CMString &pSrc, CMString &pOut);
-void pathToAbsolute(const CMString &pSrc, CMString &pOut);
+void pathToRelative(const CMStringW &pSrc, CMStringW &pOut);
+void pathToAbsolute(const CMStringW &pSrc, CMStringW &pOut);
 
 bool InitGdiPlus(void);
 void DestroyGdiPlus(void);

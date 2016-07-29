@@ -67,7 +67,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 				DBEVENTINFO dbei = { 0 };
 				DBVARIANT dbv;
 				int reuse = db_get_b(ack->hContact,modname, "Reuse", 0);
-				if (!db_get_ts(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
+				if (!db_get_ws(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
 					T2Utf pszUtf(dbv.ptszVal);
 					dbei.cbSize = sizeof(dbei);
 					dbei.eventType = EVENTTYPE_MESSAGE;
@@ -95,7 +95,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 int BuddyPounceOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pwszGroup = LPGENW("Message sessions");
@@ -160,7 +160,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 		
 		if (newStatus != oldStatus && hContact != NULL && newStatus != ID_STATUS_OFFLINE) {
 			DBVARIANT dbv;
-			if (!db_get_ts(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
+			if (!db_get_ws(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
 				// check my status
 				if (statusCheck(db_get_w(hContact, modname, "SendIfMyStatusIsFLAG", 0), CallProtoService(szProto, PS_GETSTATUS,0,0)) 
 				// check the contacts status
@@ -213,7 +213,7 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	wchar_t* message = (wchar_t*)lParam;
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, modname, "PounceMsg",&dbv))
+	if (!db_get_ws(hContact, modname, "PounceMsg",&dbv))
 	{
 		wchar_t* newPounce = (wchar_t*)mir_alloc(mir_wstrlen(dbv.ptszVal) + mir_wstrlen(message) + 1);
 		if (!newPounce) return 1;

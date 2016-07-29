@@ -294,7 +294,7 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 				AddChat(room->thread_id.c_str(), room->chat_name.c_str());
 				hChatContact = ChatIDToHContact(room->thread_id);
 				// Set thread id (TID) for later
-				setTString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
+				setWString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
 
 				for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end(); ) {
 				AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
@@ -414,7 +414,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 		AddChat(room->thread_id.c_str(), room->chat_name.c_str());
 		hChatContact = ChatIDToHContact(room->thread_id);
 		// Set thread id (TID) for later
-		setTString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
+		setWString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
 
 		for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end();) {
 		AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
@@ -805,7 +805,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 
 			if (!hChatContact) {
 				// hopefully shouldn't happen, but who knows?
-				debugLog(L"!!! No hChatContact for %s", fbc->thread_id.c_str());
+				debugLogW(L"!!! No hChatContact for %s", fbc->thread_id.c_str());
 				continue;
 			}
 
@@ -1245,7 +1245,7 @@ void FacebookProto::SearchAckThread(void *targ)
 
 				PROTOSEARCHRESULT psr = { 0 };
 				psr.cbSize = sizeof(psr);
-				psr.flags = PSR_TCHAR;
+				psr.flags = PSR_UNICODE;
 				psr.id.w = tid;
 				psr.nick.w = tnick;
 				psr.firstName.w = tname;
@@ -1306,7 +1306,7 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 				PROTOSEARCHRESULT psr = { 0 };
 				psr.cbSize = sizeof(psr);
-				psr.flags = PSR_TCHAR;
+				psr.flags = PSR_UNICODE;
 				psr.id.w = tid;
 				psr.firstName.w = tname;
 				psr.lastName.w = tsurname;

@@ -356,7 +356,7 @@ private:
 
 public:
 	__forceinline CMOptionLink(CMOption<T> &option) :
-		CDataLink(DBVT_TCHAR), m_option(&option)
+		CDataLink(DBVT_WCHAR), m_option(&option)
 	{}
 
 	__forceinline DWORD LoadInt() { return 0; }

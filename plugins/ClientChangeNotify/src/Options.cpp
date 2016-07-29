@@ -151,7 +151,7 @@ TCString COptItem::GetStrDBVal(const CString &sModule, CString *sDBSettingPrefix
 void COptItem::SetStrDBVal(const CString &sModule, TCString &Str, CString *sDBSettingPrefix)
 {
 	if (sDBSetting != NULL && !m_bReadOnly) {
-		db_set_ts(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting, Str);
+		db_set_ws(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting, Str);
 	}
 }
 
@@ -331,7 +331,7 @@ void COptItem_TreeCtrl::MemToDB(const CString &sModule, CString *sDBSettingPrefi
 			CString StrID;
 			_itoa(m_value[i].ID, StrID.GetBuffer(64), 10);
 			StrID.ReleaseBuffer();
-			db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_TITLE + StrID, m_value[i].Title);
+			db_set_ws(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_TITLE + StrID, m_value[i].Title);
 			if (!(TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL))
 				db_set_w(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_PARENT + StrID, m_value[i].ParentID);
 
@@ -340,7 +340,7 @@ void COptItem_TreeCtrl::MemToDB(const CString &sModule, CString *sDBSettingPrefi
 				db_set_b(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_FLAGS + StrID, m_value[i].Flags);
 
 			if (User_Str1_DBName != NULL && m_value[i].User_Str1 != NULL)
-				db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + User_Str1_DBName + StrID, m_value[i].User_Str1);
+				db_set_ws(NULL, sModule, *sDBSettingPrefix + sDBSetting + User_Str1_DBName + StrID, m_value[i].User_Str1);
 		}
 		COptItem::MemToDB(sModule, sDBSettingPrefix);
 	}
@@ -703,7 +703,7 @@ void COptItem_ListCtrl::MemToDB(const CString &sModule, CString *sDBSettingPrefi
 			CString StrID;
 			_itoa(i, StrID.GetBuffer(64), 10);
 			StrID.ReleaseBuffer();
-			db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + LISTITEM_DBSTR_TEXT + StrID, m_value[i].Text);
+			db_set_ws(NULL, sModule, *sDBSettingPrefix + sDBSetting + LISTITEM_DBSTR_TEXT + StrID, m_value[i].Text);
 		}
 		COptItem::MemToDB(sModule, sDBSettingPrefix);
 	}

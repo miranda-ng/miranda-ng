@@ -133,7 +133,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 							if (p.shakeClist)
 								ShakeClist(hContact, lParam);
 							if (p.openMessageWindow)
-								CallService(MS_MSG_SENDMESSAGET, hContact, 0);
+								CallService(MS_MSG_SENDMESSAGEW, hContact, 0);
 							if (p.shakeChat)
 								ShakeChat(hContact, lParam);
 							if (p.autoResend)
@@ -176,7 +176,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 					if (DefaultNudge.shakeClist)
 						ShakeClist(hContact, lParam);
 					if (DefaultNudge.openMessageWindow)
-						CallService(MS_MSG_SENDMESSAGET, hContact, 0);
+						CallService(MS_MSG_SENDMESSAGEW, hContact, 0);
 					if (DefaultNudge.shakeChat)
 						ShakeChat(hContact, lParam);
 					if (DefaultNudge.autoResend)
@@ -338,7 +338,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Add contact menu entry
 	CMenuItem mi;
 	SET_UID(mi, 0xd617db26, 0x22ba, 0x4205, 0x9c, 0x3e, 0x53, 0x10, 0xbc, 0xcf, 0xce, 0x19);
-	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
+	mi.flags = CMIF_NOTOFFLINE | CMIF_UNICODE;
 	mi.position = -500050004;
 	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.w = LPGENW("Send &Nudge");
@@ -368,7 +368,7 @@ LRESULT CALLBACK NudgePopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 {
 	switch (msg) {
 	case WM_COMMAND:
-		CallService(MS_MSG_SENDMESSAGET, (WPARAM)PUGetContact(hWnd), 0);
+		CallService(MS_MSG_SENDMESSAGEW, (WPARAM)PUGetContact(hWnd), 0);
 		PUDeletePopup(hWnd);
 		break;
 
@@ -393,7 +393,7 @@ void LoadPopupClass()
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
 	ppc.pszName = "Nudge";
-	ppc.ptszDescription = LPGENW("Show Nudge");
+	ppc.pwszDescription = LPGENW("Show Nudge");
 	ppc.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
 	ppc.colorBack = NULL;
 	ppc.colorText = NULL;
@@ -418,7 +418,7 @@ int Preview()
 				if (p.shakeClist)
 					ShakeClist(0, 0);
 				if (p.openMessageWindow)
-					CallService(MS_MSG_SENDMESSAGET, hContact, NULL);
+					CallService(MS_MSG_SENDMESSAGEW, hContact, NULL);
 				if (p.shakeChat)
 					ShakeChat(hContact, (LPARAM)time(NULL));
 			}
@@ -434,7 +434,7 @@ int Preview()
 			if (DefaultNudge.shakeClist)
 				ShakeClist(0, 0);
 			if (DefaultNudge.openMessageWindow)
-				CallService(MS_MSG_SENDMESSAGET, hContact, NULL);
+				CallService(MS_MSG_SENDMESSAGEW, hContact, NULL);
 			if (DefaultNudge.shakeChat)
 				ShakeChat(hContact, (LPARAM)time(NULL));
 		}
@@ -524,7 +524,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 
 	wchar_t soundDesc[MAXMODULELABELLENGTH + 10];
 	mir_snwprintf(soundDesc, LPGENW("Nudge for %s"), proto->tszAccountName);
-	SkinAddNewSoundExT(p->NudgeSoundname, LPGENW("Nudge"), soundDesc);
+	SkinAddNewSoundExW(p->NudgeSoundname, LPGENW("Nudge"), soundDesc);
 
 	arNudges.insert(p);
 }

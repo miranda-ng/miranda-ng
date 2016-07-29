@@ -116,7 +116,7 @@ int WhatsAppProto::InternalSetAvatar(MCONTACT hContact, const char *szJid, const
 	saveInfo.tszName = tszTempFile;
 	saveInfo.dwMask = IMGI_HBITMAP;
 	saveInfo.fif = FIF_JPEG;
-	CallService(MS_IMG_SAVE, (WPARAM)&saveInfo, IMGL_TCHAR);
+	CallService(MS_IMG_SAVE, (WPARAM)&saveInfo, IMGL_WCHAR);
 
 	if (hbmpPreview != resize.hBmp)
 		DeleteObject(hbmpPreview);

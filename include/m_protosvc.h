@@ -338,12 +338,6 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PSR_UNICODE 0x0001  // all strings go in UTF16-LE
 #define PSR_UTF8    0x0002  // all strings go in UTF8
 
-#if defined(_UNICODE)
-	#define PSR_TCHAR PSR_UNICODE
-#else
-	#define PSR_TCHAR 0
-#endif
-
 typedef struct {
 	int cbSize;
 	MAllStrings nick;
@@ -518,11 +512,6 @@ typedef struct {
 // Remember to mir_free the return value
 
 #define SGMA_UNICODE 1        // return Unicode status
-#if defined(_UNICODE)
-	#define SGMA_TCHAR SGMA_UNICODE
-#else
-	#define SGMA_TCHAR 0
-#endif
 
 #define PS_GETMYAWAYMSG  "/GetMyAwayMsg"
 
@@ -533,11 +522,6 @@ typedef struct {
 // return = 0 for success
 
 #define SMNN_UNICODE 1        // return Unicode status
-#if defined(_UNICODE)
-	#define SMNN_TCHAR SMNN_UNICODE
-#else
-	#define SMNN_TCHAR 0
-#endif
 
 #define PS_SETMYNICKNAME "/SetNickname"
 
@@ -552,11 +536,6 @@ typedef struct {
 
 // WAYD = What are you doing
 #define WAYD_UNICODE 1        // return Unicode texts
-#if defined(_UNICODE)
-	#define WAYD_TCHAR WAYD_UNICODE
-#else
-	#define WAYD_TCHAR 0
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // Get the WAYD message for the user
@@ -821,11 +800,6 @@ __forceinline INT_PTR Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pc
 // lParam = (LPARAM)(PROTORECVFILET*)&prf
 
 #define PRFF_UNICODE 1
-#if defined(_UNICODE)
-	#define PRFF_TCHAR PRFF_UNICODE
-#else
-	#define PRFF_TCHAR 0
-#endif
 
 typedef struct {
 	DWORD dwFlags;          // PRFF_*

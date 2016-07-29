@@ -133,5 +133,5 @@ void WhatsAppProto::onMessageStatusUpdate(const FMessage &fmsg)
 
 	wchar_t ttime[64];
 	wcsftime(ttime, _countof(ttime), L"%X", localtime(&ts));
-	utils::setStatusMessage(hContact, CMString(FORMAT, TranslateT("Message received: %s by %s"), ttime, ptszBy));
+	utils::setStatusMessage(hContact, CMStringW(FORMAT, TranslateT("Message received: %s by %s"), ttime, ptszBy));
 }

@@ -64,7 +64,7 @@ static BOOL StoreDBCheckState(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl,
 
 static void LoadDBText(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
-	ptrW tstr(db_get_tsa(NULL, ppro->m_szModuleName, szSetting));
+	ptrW tstr(db_get_wsa(NULL, ppro->m_szModuleName, szSetting));
 	if (tstr)
 		SetDlgItemText(hwnd, idCtrl, tstr);
 }
@@ -75,7 +75,7 @@ static void StoreDBText(MinecraftDynmapProto* ppro, HWND hwnd, int idCtrl, const
 
 	GetDlgItemText(hwnd, idCtrl, tstr, _countof(tstr));
 	if (tstr[0] != '\0') {
-		db_set_ts(NULL, ppro->m_szModuleName, szSetting, tstr);
+		db_set_ws(NULL, ppro->m_szModuleName, szSetting, tstr);
 	} else {
 		db_unset(NULL, ppro->m_szModuleName, szSetting);
 	}

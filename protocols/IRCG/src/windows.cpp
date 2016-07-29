@@ -211,7 +211,7 @@ void CNickDlg::OnInitDialog()
 	Window_SetIcon_IcoLib(m_hwnd, GetIconHandle(IDI_RENAME));
 
 	DBVARIANT dbv;
-	if (!m_proto->getTString("RecentNicks", &dbv)) {
+	if (!m_proto->getWString("RecentNicks", &dbv)) {
 		for (int i = 0; i < 10; i++)
 			if (!GetWord(dbv.ptszVal, i).IsEmpty())
 				SendDlgItemMessage(m_hwnd, IDC_ENICK, CB_ADDSTRING, 0, (LPARAM)GetWord(dbv.ptszVal, i).c_str());
@@ -232,17 +232,17 @@ void CNickDlg::OnOk(CCtrlButton*)
 	m_Enick.GetText(szTemp, _countof(szTemp));
 	m_proto->PostIrcMessage(L"/NICK %s", szTemp);
 
-	CMString S = szTemp;
+	CMStringW S = szTemp;
 	DBVARIANT dbv;
-	if (!m_proto->getTString("RecentNicks", &dbv)) {
+	if (!m_proto->getWString("RecentNicks", &dbv)) {
 		for (int i = 0; i < 10; i++) {
-			CMString s = GetWord(dbv.ptszVal, i);
+			CMStringW s = GetWord(dbv.ptszVal, i);
 			if (!s.IsEmpty() && s != szTemp)
 				S += L" " + s;
 		}
 		db_free(&dbv);
 	}
-	m_proto->setTString("RecentNicks", S.c_str());
+	m_proto->setWString("RecentNicks", S.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -503,10 +503,10 @@ void CJoinDlg::OnInitDialog()
 	CCoolIrcDlg::OnInitDialog();
 
 	DBVARIANT dbv;
-	if (!m_proto->getTString("RecentChannels", &dbv)) {
+	if (!m_proto->getWString("RecentChannels", &dbv)) {
 		for (int i = 0; i < 20; i++) {
 			if (!GetWord(dbv.ptszVal, i).IsEmpty()) {
-				CMString S = GetWord(dbv.ptszVal, i);
+				CMStringW S = GetWord(dbv.ptszVal, i);
 				S.Replace(L"%newl", L" ");
 				SendDlgItemMessage(m_hwnd, IDC_ENICK, CB_ADDSTRING, 0, (LPARAM)S.c_str());
 			}
@@ -530,20 +530,20 @@ void CJoinDlg::OnOk(CCtrlButton*)
 	else
 		m_proto->PostIrcMessage(L"/JOIN #%s", szTemp);
 
-	CMString S = szTemp;
+	CMStringW S = szTemp;
 	S.Replace(L" ", L"%newl");
-	CMString SL = S;
+	CMStringW SL = S;
 
 	DBVARIANT dbv;
-	if (!m_proto->getTString("RecentChannels", &dbv)) {
+	if (!m_proto->getWString("RecentChannels", &dbv)) {
 		for (int i = 0; i < 20; i++) {
-			CMString W = GetWord(dbv.ptszVal, i);
+			CMStringW W = GetWord(dbv.ptszVal, i);
 			if (!W.IsEmpty() && W != SL)
 				S += L" " + W;
 		}
 		db_free(&dbv);
 	}
-	m_proto->setTString("RecentChannels", S.c_str());
+	m_proto->setWString("RecentChannels", S.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -756,7 +756,7 @@ void CQuestionDlg::OnOk(CCtrlButton*)
 			else *p1 = '\0';
 		}
 
-		CMString S('\0', j + 2);
+		CMStringW S('\0', j + 2);
 		GetDlgItemText(m_hwnd, IDC_HIDDENEDIT, S.GetBuffer(), j + 1);
 		S.Replace(text, l);
 		m_proto->PostIrcMessageWnd(NULL, NULL, S);
@@ -909,11 +909,11 @@ void CManagerDlg::OnClose()
 
 	wchar_t window[256];
 	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
-	CMString S = L"";
+	CMStringW S = L"";
 	wchar_t temp[1000];
 	for (int i = 0; i < 5; i++) {
 		if (m_topic.SendMsg(CB_GETLBTEXT, i, (LPARAM)temp) != LB_ERR) {
-			CMString S1 = temp;
+			CMStringW S1 = temp;
 			/* FIXME: What the hell does it mean!? GCC won't compile this on UNICODE */
 #if !defined(__GNUC__) || !defined(UNICODE)
 			S1.Replace(L" ", L"%¤");
@@ -925,7 +925,7 @@ void CManagerDlg::OnClose()
 	if (!S.IsEmpty() && m_proto->IsConnected()) {
 		mir_snwprintf(temp, L"Topic%s%s", window, m_proto->m_info.sNetwork.c_str());
 		char* p = mir_u2a(temp);
-		m_proto->setTString(p, S.c_str());
+		m_proto->setWString(p, S.c_str());
 		mir_free(p);
 	}
 	DestroyWindow(m_hwnd);
@@ -978,7 +978,7 @@ void CManagerDlg::OnEdit(CCtrlButton*)
 		int i = m_list.GetCurSel();
 		if (i != LB_ERR) {
 			wchar_t* m = m_list.GetItemText(i);
-			CMString user = GetWord(m, 0);
+			CMStringW user = GetWord(m, 0);
 			mir_free(m);
 
 			wchar_t temp[100];
@@ -1027,7 +1027,7 @@ void CManagerDlg::OnRemove(CCtrlButton*)
 
 		wchar_t temp[100], mode[3];
 		wchar_t* m = m_list.GetItemText(i, temp, _countof(temp));
-		CMString user = GetWord(m, 0);
+		CMStringW user = GetWord(m, 0);
 
 		if (m_radio1.GetState()) {
 			mir_wstrcpy(mode, L"-b");
@@ -1083,8 +1083,8 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 	if (wi) {
 		wchar_t toadd[10]; *toadd = '\0';
 		wchar_t toremove[10]; *toremove = '\0';
-		CMString appendixadd = L"";
-		CMString appendixremove = L"";
+		CMStringW appendixadd = L"";
+		CMStringW appendixremove = L"";
 		if (wi->pszMode && wcschr(wi->pszMode, 't')) {
 			if (!m_check1.GetState())
 				mir_wstrcat(toremove, L"t");
@@ -1134,12 +1134,12 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 		else if (m_check9.GetState())
 			mir_wstrcat(toadd, L"c");
 
-		CMString Key = L"";
-		CMString Limit = L"";
+		CMStringW Key = L"";
+		CMStringW Limit = L"";
 		if (wi->pszMode && wi->pszPassword && wcschr(wi->pszMode, 'k')) {
 			if (!m_check5.GetState()) {
 				mir_wstrcat(toremove, L"k");
-				appendixremove += L" " + CMString(wi->pszPassword);
+				appendixremove += L" " + CMStringW(wi->pszPassword);
 			}
 			else if (GetWindowTextLength(m_key.GetHwnd())) {
 				wchar_t temp[400];
@@ -1148,8 +1148,8 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 				if (Key != temp) {
 					mir_wstrcat(toremove, L"k");
 					mir_wstrcat(toadd, L"k");
-					appendixadd += L" " + CMString(temp);
-					appendixremove += L" " + CMString(wi->pszPassword);
+					appendixadd += L" " + CMStringW(temp);
+					appendixremove += L" " + CMStringW(wi->pszPassword);
 				}
 			}
 		}
@@ -1170,7 +1170,7 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 				GetDlgItemText(m_hwnd, IDC_LIMIT, temp, _countof(temp));
 				if (wi->pszLimit && mir_wstrcmpi(wi->pszLimit, temp)) {
 					mir_wstrcat(toadd, L"l");
-					appendixadd += L" " + CMString(temp);
+					appendixadd += L" " + CMStringW(temp);
 				}
 			}
 		}
@@ -1283,9 +1283,9 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 			char* p = mir_u2a(temp);
 
 			DBVARIANT dbv;
-			if (!m_proto->getTString(p, &dbv)) {
+			if (!m_proto->getWString(p, &dbv)) {
 				for (int i = 0; i < 5; i++) {
-					CMString S = GetWord(dbv.ptszVal, i);
+					CMStringW S = GetWord(dbv.ptszVal, i);
 					if (!S.IsEmpty()) {
 						/* FIXME: What the hell does it mean!? GCC won't compile this on UNICODE */
 #if !defined(__GNUC__) || !defined(UNICODE)

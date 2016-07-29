@@ -42,10 +42,10 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
 
-	m_tszAvatarFolder = std::wstring(VARST(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
+	m_tszAvatarFolder = std::wstring(VARSW(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
+		CreateDirectoryTreeW(m_tszAvatarFolder.c_str());
 
 	//sounds
 	SkinAddNewSoundEx("skype_inc_call", "SkypeWeb", LPGEN("Incoming call sound"));
@@ -131,7 +131,7 @@ HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
 
 		if (JSONNode &mood = root["mood"])
 		{
-			CMString str = mood.as_mstring();
+			CMStringW str = mood.as_mstring();
 			this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
 		}
 		this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);

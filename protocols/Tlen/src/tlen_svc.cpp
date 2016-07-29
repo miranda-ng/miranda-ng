@@ -578,7 +578,7 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 			ptrA ownJid(db_get_sa(NULL, data->proto->m_szModuleName, "jid"));
 			if (!mir_strcmp(ownJid, dbv.pszVal)) {
 				DBVARIANT dbv2;
-				if (!db_get_s(data->hContact, "CList", "StatusMsg", &dbv2, DBVT_TCHAR)) {
+				if (!db_get_s(data->hContact, "CList", "StatusMsg", &dbv2, DBVT_WCHAR)) {
 					data->proto->ProtoBroadcastAck(data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv2.ptszVal);
 					db_free(&dbv2);
 				}

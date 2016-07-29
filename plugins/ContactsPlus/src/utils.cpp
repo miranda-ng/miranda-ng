@@ -115,7 +115,7 @@ void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, MCONTACT hContact)
 void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, wchar_t *pszTitleStart)
 {
 	wchar_t newtitle[512];
-	mir_wstrncpy(newtitle, TranslateTS(pszTitleStart), _countof(newtitle));
+	mir_wstrncpy(newtitle, TranslateW(pszTitleStart), _countof(newtitle));
 	
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);
@@ -130,7 +130,7 @@ void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, wchar_t *pszTitleStart)
 				SetDlgItemText(hwndDlg, IDC_NAME, uid ? uid : contactName);
 
 			wchar_t *szStatus = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
-			mir_snwprintf(newtitle, L"%s %s (%s)", TranslateTS(pszTitleStart), contactName, szStatus);
+			mir_snwprintf(newtitle, L"%s %s (%s)", TranslateW(pszTitleStart), contactName, szStatus);
 		}
 	}
 
@@ -152,7 +152,7 @@ HICON InitMButton(HWND hDlg, int idButton, int idIcon, wchar_t *szTip)
 
 	SendMessage(hButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 	SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
-	SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)szTip, BATF_TCHAR);
+	SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)szTip, BATF_UNICODE);
 	return hIcon;
 }
 

@@ -136,7 +136,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 			if (szProto != NULL) {
 				DBVARIANT dbv = { 0 };
 				if (!db_get_s(hContact, szProto, "AvatarHash", &dbv)) {
-					if (dbv.type == DBVT_TCHAR)
+					if (dbv.type == DBVT_WCHAR)
 						wcsncpy_s(cacn.hash, dbv.ptszVal, _TRUNCATE);
 					else if (dbv.type == DBVT_ASCIIZ)
 						wcsncpy_s(cacn.hash, _A2T(dbv.pszVal), _TRUNCATE);

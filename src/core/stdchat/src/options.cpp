@@ -161,7 +161,7 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, const struct branch_t *
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
-		tvis.item.pszText = TranslateTS(branch[i].szDescr);
+		tvis.item.pszText = TranslateW(branch[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		if (branch[i].iMode)
 			iState = ((db_get_dw(NULL, CHAT_MODULE, branch[i].szDBName, defaultval)&branch[i].iMode)&branch[i].iMode) != 0 ? 2 : 1;
@@ -323,7 +323,7 @@ HANDLE GetIconHandle(const char *pszIcoLibName)
 static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefault)
 {
 	DBVARIANT dbv;
-	if (!db_get_ts(NULL, CHAT_MODULE, pszSetting, &dbv)) {
+	if (!db_get_ws(NULL, CHAT_MODULE, pszSetting, &dbv)) {
 		replaceStrW(*ppPointer, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -574,7 +574,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 						*p2 = ' ';
 						p2 = wcschr(ptszText, ',');
 					}
-					db_set_ts(NULL, CHAT_MODULE, "HighlightWords", ptszText);
+					db_set_ws(NULL, CHAT_MODULE, "HighlightWords", ptszText);
 					mir_free(ptszText);
 				}
 			}
@@ -584,7 +584,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			if (iLen > 0) {
 				pszText = (wchar_t *)mir_realloc(pszText, (iLen + 1) * sizeof(wchar_t));
 				GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText, iLen + 1);
-				db_set_ts(NULL, CHAT_MODULE, "LogDirectory", pszText);
+				db_set_ws(NULL, CHAT_MODULE, "LogDirectory", pszText);
 			}
 			else db_unset(NULL, CHAT_MODULE, "LogDirectory");
 			pci->SM_InvalidateLogDirectories();
@@ -593,7 +593,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			if (iLen > 0) {
 				pszText = (wchar_t *)mir_realloc(pszText, (iLen + 1) * sizeof(wchar_t));
 				GetDlgItemText(hwndDlg, IDC_LOGTIMESTAMP, pszText, iLen + 1);
-				db_set_ts(NULL, CHAT_MODULE, "LogTimestamp", pszText);
+				db_set_ws(NULL, CHAT_MODULE, "LogTimestamp", pszText);
 			}
 			else db_unset(NULL, CHAT_MODULE, "LogTimestamp");
 
@@ -601,7 +601,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			if (iLen > 0) {
 				pszText = (wchar_t *)mir_realloc(pszText, (iLen + 1) * sizeof(wchar_t));
 				GetDlgItemText(hwndDlg, IDC_TIMESTAMP, pszText, iLen + 1);
-				db_set_ts(NULL, CHAT_MODULE, "HeaderTime", pszText);
+				db_set_ws(NULL, CHAT_MODULE, "HeaderTime", pszText);
 			}
 			else db_unset(NULL, CHAT_MODULE, "HeaderTime");
 
@@ -609,7 +609,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			if (iLen > 0) {
 				pszText = (wchar_t *)mir_realloc(pszText, (iLen + 1) * sizeof(wchar_t));
 				GetDlgItemText(hwndDlg, IDC_INSTAMP, pszText, iLen + 1);
-				db_set_ts(NULL, CHAT_MODULE, "HeaderIncoming", pszText);
+				db_set_ws(NULL, CHAT_MODULE, "HeaderIncoming", pszText);
 			}
 			else db_unset(NULL, CHAT_MODULE, "HeaderIncoming");
 
@@ -617,7 +617,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			if (iLen > 0) {
 				pszText = (wchar_t *)mir_realloc(pszText, (iLen + 1) * sizeof(wchar_t));
 				GetDlgItemText(hwndDlg, IDC_OUTSTAMP, pszText, iLen + 1);
-				db_set_ts(NULL, CHAT_MODULE, "HeaderOutgoing", pszText);
+				db_set_ws(NULL, CHAT_MODULE, "HeaderOutgoing", pszText);
 			}
 			else db_unset(NULL, CHAT_MODULE, "HeaderOutgoing");
 
@@ -636,7 +636,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			if (iLen > 0) {
 				pszText = (wchar_t *)mir_realloc(pszText, (iLen + 1) * sizeof(wchar_t));
 				GetDlgItemText(hwndDlg, IDC_GROUP, pszText, iLen + 1);
-				db_set_ts(NULL, CHAT_MODULE, "AddToGroup", pszText);
+				db_set_ws(NULL, CHAT_MODULE, "AddToGroup", pszText);
 			}
 			else db_set_s(NULL, CHAT_MODULE, "AddToGroup", "");
 			mir_free(pszText);

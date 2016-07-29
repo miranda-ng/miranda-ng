@@ -127,11 +127,11 @@ INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 void CSkypeProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%s", VARSW(L"%miranda_avatarcache%"), m_tszUserName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeT(pszDest);
+		CreateDirectoryTreeW(pszDest);
 
 	pszDest[tPathLen++] = '\\';
 
@@ -142,9 +142,9 @@ void CSkypeProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t 
 	mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", username.c_str(), szFileType);
 }
 
-void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
+void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMStringW &tszUrl)
 {
-	ptrW oldUrl(getTStringA(hContact, "AvatarUrl"));
+	ptrW oldUrl(getWStringA(hContact, "AvatarUrl"));
 	if (oldUrl != NULL)
 		if (tszUrl == oldUrl)
 			return;
@@ -154,7 +154,7 @@ void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
 	}
 	else {
-		setTString(hContact, "AvatarUrl", tszUrl.GetBuffer());
+		setWString(hContact, "AvatarUrl", tszUrl.GetBuffer());
 		setByte(hContact, "NeedNewAvatar", 1);
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = hContact;

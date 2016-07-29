@@ -306,7 +306,7 @@ void CConfig::SaveFontSettings(int iFont)
 	
 	// Name
 	mir_snprintf(szSetting, "Font%dName", iFont);
-	db_set_ts(NULL, "MirandaG15", szSetting, m_logfont[iFont].lfFaceName);
+	db_set_ws(NULL, "MirandaG15", szSetting, m_logfont[iFont].lfFaceName);
 
 	UpdateFontSettings(iFont);
 }
@@ -337,7 +337,7 @@ void CConfig::LoadFontSettings(int iFont)
 	// Name
 	mir_snprintf(szSetting, "Font%dName", iFont);
 	DBVARIANT dbv;
-	if (db_get_ts(NULL, "MirandaG15", szSetting, &dbv))
+	if (db_get_ws(NULL, "MirandaG15", szSetting, &dbv))
 		mir_wstrcpy(m_logfont[iFont].lfFaceName, L"Small Fonts");
 	else {
 		mir_wstrcpy(m_logfont[iFont].lfFaceName, dbv.ptszVal);

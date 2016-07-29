@@ -91,7 +91,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 
 	/*int resolved = 0;
 
-	if (IsFileExists((wchar_t*)VARST(_T(TOX_INI_PATH))))
+	if (IsFileExists((wchar_t*)VARSW(_T(TOX_INI_PATH))))
 	{
 		char fileName[MAX_PATH];
 		mir_strcpy(fileName, VARS(TOX_INI_PATH));

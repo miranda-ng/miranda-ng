@@ -560,7 +560,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->secondLine.draw_smileys = db_get_b(NULL, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
 		dat->secondLine.type = db_get_w(NULL, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
 
-		ptrW tszLineText(db_get_tsa(NULL, "CList", "SecondLineText"));
+		ptrW tszLineText(db_get_wsa(NULL, "CList", "SecondLineText"));
 		if (tszLineText)
 			mir_wstrncpy(dat->secondLine.text, tszLineText, _countof(dat->secondLine.text));
 		else
@@ -580,7 +580,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->thirdLine.draw_smileys = db_get_b(NULL, "CList", "ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
 		dat->thirdLine.type = db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
 
-		ptrW tszLineText(db_get_tsa(NULL, "CList", "ThirdLineText"));
+		ptrW tszLineText(db_get_wsa(NULL, "CList", "ThirdLineText"));
 		if (tszLineText)
 			mir_wstrncpy(dat->thirdLine.text, tszLineText, _countof(dat->thirdLine.text));
 		else
@@ -608,7 +608,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->MenuTextHiColor = cliGetColor("Menu", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 
 		if (db_get_b(NULL, "Menu", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmap(db_get_tsa(NULL, "Menu", "BkBitmap"));
+			ptrW tszBitmap(db_get_wsa(NULL, "Menu", "BkBitmap"));
 			if (tszBitmap != NULL)
 				dat->hMenuBackground = Bitmap_Load(tszBitmap);
 		}

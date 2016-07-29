@@ -66,7 +66,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				ofn.lpstrFilter = TranslateT("Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0");
 				ofn.nFilterIndex = 1;
 				// Use profile directory as default, if path is not specified
-				CallService(MS_DB_GETPROFILEPATHT, (WPARAM)MAX_PATH, (LPARAM)szProfileDir);
+				CallService(MS_DB_GETPROFILEPATHW, (WPARAM)MAX_PATH, (LPARAM)szProfileDir);
 				ofn.lpstrInitialDir = szProfileDir;
 				ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
 				ofn.lpstrDefExt = L"log";
@@ -141,8 +141,8 @@ void save_settings()
 	db_set_b(NULL, PlugName, "use_pcspeaker", g_settings.use_pcspeaker);
 	db_set_b(NULL, PlugName, "allow_execute", g_settings.allow_execute);
 	db_set_dw(NULL, PlugName, "port", g_settings.port);
-	db_set_ts(NULL, PlugName, "password", g_settings.password.c_str());
-	db_set_ts(NULL, PlugName, "log_filename", g_settings.log_filename.c_str());
+	db_set_ws(NULL, PlugName, "password", g_settings.password.c_str());
+	db_set_ws(NULL, PlugName, "log_filename", g_settings.log_filename.c_str());
 }
 
 void load_settings()
@@ -156,12 +156,12 @@ void load_settings()
 	g_settings.port = db_get_dw(NULL, PlugName, "port", 12001);
 
 	DBVARIANT dbv;
-	if (!db_get_ts(NULL, PlugName, "password", &dbv)) {
+	if (!db_get_ws(NULL, PlugName, "password", &dbv)) {
 		g_settings.password = dbv.ptszVal;
 		db_free(&dbv);
 	}
 
-	if (!db_get_ts(NULL, PlugName, "log_filename", &dbv)) {
+	if (!db_get_ws(NULL, PlugName, "log_filename", &dbv)) {
 		g_settings.log_filename = dbv.ptszVal;
 		db_free(&dbv);
 	}

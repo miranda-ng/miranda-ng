@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::InitNetwork()
 {
-	CMString name(FORMAT, TranslateT("%s connection"), m_tszUserName);
+	CMStringW name(FORMAT, TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);

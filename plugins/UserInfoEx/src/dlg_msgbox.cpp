@@ -664,7 +664,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 
 	va_list vl;
 	va_start(vl, pszFormat);
-	mir_vsnwprintf(tszMsg, _countof(tszMsg), TranslateTS(pszFormat), vl);
+	mir_vsnwprintf(tszMsg, _countof(tszMsg), TranslateW(pszFormat), vl);
 	va_end(vl);
 
 	MSGBOX mb = { 0 };
@@ -672,8 +672,8 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 	mb.hParent = hParent;
 	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
 	mb.hiMsg = NULL;
-	mb.ptszTitle = TranslateTS(pszTitle);
-	mb.ptszInfoText = TranslateTS(pszInfo);
+	mb.ptszTitle = TranslateW(pszTitle);
+	mb.ptszInfoText = TranslateW(pszInfo);
 	mb.ptszMsg = tszMsg;
 	mb.uType = uType;
 	return MsgBoxService(NULL, (LPARAM)&mb);
@@ -691,7 +691,7 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 
 	va_list vl;
 	va_start(vl, pszFormat);
-	mir_vsnwprintf(tszMsg, TranslateTS(pszFormat), vl);
+	mir_vsnwprintf(tszMsg, TranslateW(pszFormat), vl);
 	va_end(vl);
 
 	MSGBOX mb = {0};

@@ -50,7 +50,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 		OnFoldersChanged(0, 0);
 	}
-	else lstrcpyn(g_tszRoot, VARST(L"%miranda_path%\\" DEFAULT_UPDATES_FOLDER), _countof(g_tszRoot));
+	else lstrcpyn(g_tszRoot, VARSW(L"%miranda_path%\\" DEFAULT_UPDATES_FOLDER), _countof(g_tszRoot));
 
 #if MIRANDA_VER >= 0x0A00
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))

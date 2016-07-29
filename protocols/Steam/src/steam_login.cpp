@@ -92,7 +92,7 @@ void CSteamProto::OnGotRsaKey(const HttpResponse *response)
 	mir_free(encryptedPassword);
 
 	// run authorization request
-	T2Utf username(getTStringA("Username"));
+	T2Utf username(getWStringA("Username"));
 
 	ptrA twoFactorCode(getStringA("TwoFactorCode"));
 	if (!twoFactorCode) twoFactorCode = mir_strdup("");
@@ -159,7 +159,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 		return;
 	}
 
-	T2Utf username(getTStringA("Username"));
+	T2Utf username(getWStringA("Username"));
 
 	if (node["requires_twofactor"].as_bool())
 	{

@@ -144,12 +144,12 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 				MCONTACT hContact = MSN_HContactFromEmail(szWLId, skypename, false, false);
 
 				if (hContact) {
-					if (value = get_json_str(item, "firstname")) setTString(hContact, "FirstName", value);
-					if (value = get_json_str(item, "lastname")) setTString(hContact, "LastName", value);
-					if (value = get_json_str(item, "displayname")) setTString(hContact, "Nick", value);
+					if (value = get_json_str(item, "firstname")) setWString(hContact, "FirstName", value);
+					if (value = get_json_str(item, "lastname")) setWString(hContact, "LastName", value);
+					if (value = get_json_str(item, "displayname")) setWString(hContact, "Nick", value);
 					if (value = get_json_str(item, "country")) setString(hContact, "Country", (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)(char*)_T2A(value), 0));
-					if (value = get_json_str(item, "city")) setTString(hContact, "City", value);
-					if (value = get_json_str(item, "mood")) db_set_ts(hContact, "CList", "StatusMsg", value);
+					if (value = get_json_str(item, "city")) setWString(hContact, "City", value);
+					if (value = get_json_str(item, "mood")) db_set_ws(hContact, "CList", "StatusMsg", value);
 				}
 			}
 			json_delete(items);
@@ -191,9 +191,9 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 			MCONTACT hContact = MSN_HContactFromEmail(szWLId, skypename, false, false);
 
 			if (hContact) {
-				if (value = get_json_str(item, "firstname")) setTString(hContact, "FirstName", value);
-				if (value = get_json_str(item, "lastname")) setTString(hContact, "LastName", value);
-				if (value = get_json_str(item, "displayname")) setTString(hContact, "Nick", value);
+				if (value = get_json_str(item, "firstname")) setWString(hContact, "FirstName", value);
+				if (value = get_json_str(item, "lastname")) setWString(hContact, "LastName", value);
+				if (value = get_json_str(item, "displayname")) setWString(hContact, "Nick", value);
 				if (value = get_json_str(item, "gender")) setByte(hContact, "Gender", (BYTE)(_wtoi(value) == 1 ? 'M' : 'F'));
 				if (value = get_json_str(item, "birthday")) {
 					int d, m, y;
@@ -203,10 +203,10 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 					setByte(hContact, "BirthMonth", m);
 				}
 				if (value = get_json_str(item, "country")) setString(hContact, "Country", (char*)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)(char*)_T2A(value), 0));
-				if (value = get_json_str(item, "province")) setTString(hContact, "State", value);
-				if (value = get_json_str(item, "city")) setTString(hContact, "City", value);
-				if (value = get_json_str(item, "homepage")) setTString(hContact, "Homepage", value);
-				if (value = get_json_str(item, "about")) setTString(hContact, "About", value);
+				if (value = get_json_str(item, "province")) setWString(hContact, "State", value);
+				if (value = get_json_str(item, "city")) setWString(hContact, "City", value);
+				if (value = get_json_str(item, "homepage")) setWString(hContact, "Homepage", value);
+				if (value = get_json_str(item, "about")) setWString(hContact, "About", value);
 
 				JSONNode *node = json_get(item, "emails");
 				if (node && !node->empty()) {
@@ -220,10 +220,10 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 						setStringUtf(hContact, szName, (*it).as_string().c_str());
 					}
 				}
-				if (value = get_json_str(item, "phoneMobile")) setTString(hContact, "Cellular", value);
-				if (value = get_json_str(item, "phone")) setTString(hContact, "Phone", value);
-				if (value = get_json_str(item, "phoneOffice")) setTString(hContact, "CompanyPhone", value);
-				if (value = get_json_str(item, "mood")) db_set_ts(hContact, "CList", "StatusMsg", value);
+				if (value = get_json_str(item, "phoneMobile")) setWString(hContact, "Cellular", value);
+				if (value = get_json_str(item, "phone")) setWString(hContact, "Phone", value);
+				if (value = get_json_str(item, "phoneOffice")) setWString(hContact, "CompanyPhone", value);
+				if (value = get_json_str(item, "mood")) db_set_ws(hContact, "CList", "StatusMsg", value);
 			}
 			bRet = true;
 		}
@@ -391,7 +391,7 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 				wchar_t *sSkypeName = json_as_string(json_get(Skype, "SkypeName"));
 
 				PROTOSEARCHRESULT psr = { sizeof(psr) };
-				psr.flags = PSR_TCHAR;
+				psr.flags = PSR_UNICODE;
 				psr.id.w = sSkypeName;
 				psr.nick.w = sDisplayName;
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, hSearch, (LPARAM)&psr);

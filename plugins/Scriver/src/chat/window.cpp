@@ -1706,7 +1706,7 @@ LABEL_SHOWWINDOW:
 				// takes pszRtf to a queue, no leak here
 				si->cmdList = tcmdlist_append(si->cmdList, pszRtf, 20, FALSE);
 
-				CMString ptszText(ptrW(mir_utf8decodeW(pszRtf)));
+				CMStringW ptszText(ptrW(mir_utf8decodeW(pszRtf)));
 				pci->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
 				ptszText.Trim();
 				ptszText.Replace(L"%", L"%%");
@@ -1907,7 +1907,7 @@ LABEL_SHOWWINDOW:
 			mii.wID = i + 1;
 			mii.dwItemData = (ULONG_PTR)g_dat.hChatButtonIconList;
 			mii.hbmpItem = HBMMENU_CALLBACK;
-			mii.dwTypeData = TranslateTS((toolbarButtons[i].name));
+			mii.dwTypeData = TranslateW((toolbarButtons[i].name));
 			InsertMenuItem(hToolbarMenu, i, TRUE, &mii);
 		}
 

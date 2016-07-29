@@ -647,10 +647,10 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 			evt.ptszTooltip = tszMsg;
 			pcli->pfnAddEvent(&evt);
 		}
-		db_set_ts(ActualAccount->hContact, "CList", "StatusMsg", tszMsg);
+		db_set_ws(ActualAccount->hContact, "CList", "StatusMsg", tszMsg);
 
 		if (nflags & YAMN_ACC_CONTNICK)
-			db_set_ts(ActualAccount->hContact, YAMN_DBMODULE, "Nick", tszMsg);
+			db_set_ws(ActualAccount->hContact, YAMN_DBMODULE, "Nick", tszMsg);
 	}
 
 	if ((nflags & YAMN_ACC_POP) &&

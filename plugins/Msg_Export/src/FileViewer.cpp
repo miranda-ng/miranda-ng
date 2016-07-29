@@ -1053,7 +1053,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				db_set_dw(NULL, MODULE, szFileViewDB "TEffects", dwEffects);
 				db_set_dw(NULL, MODULE, szFileViewDB "THeight", cf.iPointSize * 2);
 				db_set_dw(NULL, MODULE, szFileViewDB "TColor", cf.rgbColors);
-				db_set_ts(NULL, MODULE, szFileViewDB "TFace", lf.lfFaceName);
+				db_set_ws(NULL, MODULE, szFileViewDB "TFace", lf.lfFaceName);
 				SetRichEditFont(hRichEdit, bUseSyntaxHL);
 			}
 			return TRUE;

@@ -322,7 +322,7 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	odp.pwszTitle = LPGENW("StopSpam");
 	odp.position = -1;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_TCHAR;
+	odp.flags = ODPF_UNICODE;
 
 	odp.pwszTab = LPGENW("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);

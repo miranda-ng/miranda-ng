@@ -144,7 +144,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	}
 
 	if ((wParam & GAIF_FORCE) != 0 && pai->hContact != NULL && m_bJabberOnline) {
-		ptrW tszJid( getTStringA(pai->hContact, "jid"));
+		ptrW tszJid( getWStringA(pai->hContact, "jid"));
 		if (tszJid != NULL) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, tszJid);
 			if (item != NULL) {
@@ -158,7 +158,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				if (szJid[0] == 0)
 					wcsncpy_s(szJid, tszJid, _TRUNCATE);
 
-				debugLog(L"Rereading %s for %s", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
+				debugLogW(L"Rereading %s for %s", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
 
 				m_ThreadInfo->send((isXVcard) ?
 					XmlNodeIq( AddIQ(&CJabberProto::OnIqResultGetVCardAvatar, JABBER_IQ_TYPE_GET, szJid)) << XCHILDNS(L"vCard", JABBER_FEAT_VCARD_TEMP) :
@@ -319,7 +319,7 @@ INT_PTR __cdecl CJabberProto::JabberSetNickname(WPARAM wParam, LPARAM lParam)
 {
 	wchar_t *nickname = (wParam & SMNN_UNICODE) ? mir_wstrdup((WCHAR*)lParam) : mir_a2u((char*)lParam);
 
-	setTString("Nick", nickname);
+	setWString("Nick", nickname);
 	SetServerVcard(FALSE, L"");
 	return 0;
 }
@@ -338,15 +338,15 @@ INT_PTR __cdecl CJabberProto::ServiceSendXML(WPARAM, LPARAM lParam)
 static const wchar_t *JabberEnum2AffilationStr[] = { LPGENW("None"), LPGENW("Outcast"), LPGENW("Member"), LPGENW("Admin"), LPGENW("Owner") },
 	*JabberEnum2RoleStr[] = { LPGENW("None"), LPGENW("Visitor"), LPGENW("Participant"), LPGENW("Moderator") };
 
-static void appendString(bool bIsTipper, const wchar_t *tszTitle, const wchar_t *tszValue, CMString &out)
+static void appendString(bool bIsTipper, const wchar_t *tszTitle, const wchar_t *tszValue, CMStringW &out)
 {
 	if (!out.IsEmpty())
 		out.Append(bIsTipper ? L"\n" : L"\r\n");
 
 	if (bIsTipper)
-		out.AppendFormat(L"<b>%s</b>\t%s", TranslateTS(tszTitle), tszValue);
+		out.AppendFormat(L"<b>%s</b>\t%s", TranslateW(tszTitle), tszValue);
 	else {
-		wchar_t *p = TranslateTS(tszTitle);
+		wchar_t *p = TranslateW(tszTitle);
 		out.AppendFormat(L"%s%s\t%s", p, mir_wstrlen(p) <= 7 ? L"\t" : L"", tszValue);
 	}
 }
@@ -374,7 +374,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	bool bIsTipper = db_get_b(NULL, "Tab_SRMsg", "adv_TipperTooltip", 0) && ServiceExists("mToolTip/HideTip");
 
 	//JID:
-	CMString outBuf;
+	CMStringW outBuf;
 	if (wcschr(info->m_tszResourceName, '@') != NULL)
 		appendString(bIsTipper, LPGENW("JID:"), info->m_tszResourceName, outBuf);
 	else if (lParam) //or simple nick
@@ -389,10 +389,10 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 		appendString(bIsTipper, LPGENW("Status message:"), info->m_tszStatusMessage, outBuf);
 
 	// Role
-	appendString(bIsTipper, LPGENW("Role:"), TranslateTS(JabberEnum2RoleStr[info->m_role]), outBuf);
+	appendString(bIsTipper, LPGENW("Role:"), TranslateW(JabberEnum2RoleStr[info->m_role]), outBuf);
 
 	// Affiliation
-	appendString(bIsTipper, LPGENW("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->m_affiliation]), outBuf);
+	appendString(bIsTipper, LPGENW("Affiliation:"), TranslateW(JabberEnum2AffilationStr[info->m_affiliation]), outBuf);
 
 	// real jid
 	if (info->m_tszRealJid)
@@ -465,7 +465,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		if (!HContactFromJID(szJid)) {
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
-			psr.flags = PSR_TCHAR;
+			psr.flags = PSR_UNICODE;
 			psr.nick.w = szJid;
 			psr.id.w = szJid;
 
@@ -525,7 +525,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 	if (!m_bJabberOnline)
 		return 0;
 
-	ptrW jid( getTStringA(hContact, "jid"));
+	ptrW jid( getWStringA(hContact, "jid"));
 	if (jid == NULL)
 		return 0;
 

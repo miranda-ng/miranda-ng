@@ -114,7 +114,7 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 			lvc.fmt = LVCFMT_LEFT;
 			for (int i = 0; i < 7; ++i) {
 				lvc.iSubItem = i;
-				lvc.pszText = TranslateTS(columns[i].name);
+				lvc.pszText = TranslateW(columns[i].name);
 				lvc.cx = columns[i].size;
 				ListView_InsertColumn(hIniList, i, &lvc);
 			}

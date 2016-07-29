@@ -19,7 +19,7 @@ struct FileTransferParam
 		transferNumber = (((int64_t)friendNumber) << 32) | ((int64_t)fileNumber);
 
 		pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
-		pfts.flags = PFTS_TCHAR;
+		pfts.flags = PFTS_UNICODE;
 		pfts.hContact = NULL;
 		pfts.totalFiles = 1;
 		pfts.ptszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(pfts.totalFiles + 1));

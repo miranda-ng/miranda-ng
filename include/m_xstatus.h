@@ -38,12 +38,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CSSF_STR_SIZES      0x0200  // returns sizes of custom status name & message (wParam & lParam members) in chars
 #define CSSF_UNICODE        0x1000  // strings are in UCS-2
 
-#if defined(_UNICODE)
-  #define CSSF_TCHAR  CSSF_UNICODE
-#else
-  #define CSSF_TCHAR  0
-#endif
-
 typedef struct {
   int cbSize;         // size of the structure
   int flags;          // combination of CSSF_*

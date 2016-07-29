@@ -143,7 +143,7 @@ void InitTaskMenuItems()
 		int pos = (int)taskMenus.size();
 		for (; taskIt != Options::instance->taskOptions.end(); ++taskIt) {
 			CMenuItem mi;
-			mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.root = hTaskMainMenu;
 			mi.name.w = (wchar_t*)taskIt->taskName.c_str();

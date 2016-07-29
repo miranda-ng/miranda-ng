@@ -46,7 +46,7 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			else if (!mir_wstrcmpi(szSecurity, L"none"))
 				pszSecurityInfo = LPGENW("Security systems to prevent malicious changes have been disabled. You will receive no further warnings.");
 			else pszSecurityInfo = NULL;
-			if (pszSecurityInfo) SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateTS(pszSecurityInfo));
+			if (pszSecurityInfo) SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateW(pszSecurityInfo));
 		}
 		return TRUE;
 
@@ -122,7 +122,7 @@ static INT_PTR CALLBACK WarnIniChangeDlgProc(HWND hwndDlg, UINT message, WPARAM 
 				pszSecurityInfo = LPGENW("This change is known to be potentially hazardous.");
 			else
 				pszSecurityInfo = LPGENW("This change is not known to be safe.");
-			SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateTS(pszSecurityInfo));
+			SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateW(pszSecurityInfo));
 		}
 		return TRUE;
 
@@ -455,11 +455,11 @@ static void DoAutoExec(void)
 	GetPrivateProfileString(L"AutoExec", L"Glob", L"autoexec_*.ini", szFindPath, _countof(szFindPath), mirandabootini);
 
 	if (g_bDbCreated && szOnCreateFilename[0]) {
-		PathToAbsoluteT(VARST(szOnCreateFilename), szIniPath);
+		PathToAbsoluteW(VARSW(szOnCreateFilename), szIniPath);
 		ProcessIniFile(szIniPath, szSafeSections, szUnsafeSections, 0, 1);
 	}
 
-	PathToAbsoluteT(VARST(szFindPath), szFindPath);
+	PathToAbsoluteW(VARSW(szFindPath), szFindPath);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szFindPath, &fd);
@@ -537,7 +537,7 @@ int InitIni(void)
 	DoAutoExec();
 
 	wchar_t szMirandaDir[MAX_PATH];
-	PathToAbsoluteT(L".", szMirandaDir);
+	PathToAbsoluteW(L".", szMirandaDir);
 	hIniChangeNotification = FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
 	if (hIniChangeNotification != INVALID_HANDLE_VALUE) {
 		CreateServiceFunction("DB/Ini/CheckImportNow", CheckIniImportNow);

@@ -34,7 +34,7 @@ static void InitComboBox(HWND hwndCombo, TLEN_FIELD_MAP *fieldMap)
 	for (i=0;;i++) {
 		if (fieldMap[i].name == NULL)
 			break;
-		n = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM) TranslateTS(fieldMap[i].name));
+		n = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM) TranslateW(fieldMap[i].name));
 		SendMessage(hwndCombo, CB_SETITEMDATA, n, fieldMap[i].id);
 	}
 }

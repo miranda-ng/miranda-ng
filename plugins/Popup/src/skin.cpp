@@ -62,7 +62,7 @@ SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 
 		SIZE szText, szSpace;
 		LPTSTR wname = mir_a2u(name);
-		wchar_t *str = TranslateTS(wname);
+		wchar_t *str = TranslateW(wname);
 		GetTextExtentPoint32(hdc, str, (int)mir_wstrlen(str), &szText);
 		mir_free(wname);
 		GetTextExtentPoint32(hdc, L" ", 1, &szSpace);
@@ -125,7 +125,7 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 		GetTextExtentPoint32(bmp->getDC(), L" ", 1, &szSpace);
 
 		LPTSTR wname = mir_a2u(name);
-		wchar_t *str = TranslateTS(wname);
+		wchar_t *str = TranslateW(wname);
 		GetTextExtentPoint32(bmp->getDC(), str, (int)mir_wstrlen(str), &szText);
 		bmp->Draw_Text(str,
 			(PopupOptions.actions&ACT_LARGE) ? (x + szSpace.cx + 32) : (x + szSpace.cx + 16),
@@ -1098,7 +1098,7 @@ bool Skins::load()
 			return false;
 	}
 	else {
-		mir_wstrncpy(dir, VARST(L"%miranda_path%\\skins\\popup"), _countof(dir));
+		mir_wstrncpy(dir, VARSW(L"%miranda_path%\\skins\\popup"), _countof(dir));
 		DWORD fa = GetFileAttributes(dir);
 		if ((fa == INVALID_FILE_ATTRIBUTES) || !(fa&FILE_ATTRIBUTE_DIRECTORY))
 			return false;

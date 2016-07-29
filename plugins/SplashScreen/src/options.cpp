@@ -68,7 +68,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ReadDbConfig();
 				wchar_t inBuf[80];
 				DBVARIANT dbv = { 0 };
-				if (!db_get_ts(NULL, MODNAME, "Path", &dbv)) {
+				if (!db_get_ws(NULL, MODNAME, "Path", &dbv)) {
 					mir_wstrcpy(inBuf, dbv.ptszVal);
 					db_free(&dbv);
 				}
@@ -76,7 +76,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					mir_wstrcpy(inBuf, L"splash\\splash.png");
 				SetDlgItemText(hwndDlg, IDC_SPLASHPATH, inBuf);
 
-				if (!db_get_ts(NULL, MODNAME, "Sound", &dbv)) {
+				if (!db_get_ws(NULL, MODNAME, "Sound", &dbv)) {
 					mir_wstrcpy(inBuf, dbv.ptszVal);
 					db_free(&dbv);
 				}
@@ -84,7 +84,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					mir_wstrcpy(inBuf, L"sounds\\startup.wav");
 				SetDlgItemText(hwndDlg, IDC_SNDPATH, inBuf);
 
-				if (!db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv)) {
+				if (!db_get_ws(NULL, MODNAME, "VersionPrefix", &dbv)) {
 					mir_wstrcpy(inBuf, dbv.ptszVal);
 					db_free(&dbv);
 				}
@@ -288,13 +288,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						wchar_t tmp[MAX_PATH];
 
 						GetDlgItemText(hwndDlg, IDC_SPLASHPATH, tmp, _countof(tmp));
-						db_set_ts(NULL, MODNAME, "Path", tmp);
+						db_set_ws(NULL, MODNAME, "Path", tmp);
 
 						GetDlgItemText(hwndDlg, IDC_SNDPATH, tmp, _countof(tmp));
-						db_set_ts(NULL, MODNAME, "Sound", tmp);
+						db_set_ws(NULL, MODNAME, "Sound", tmp);
 
 						GetDlgItemText(hwndDlg, IDC_VERSIONPREFIX, tmp, _countof(tmp));
-						db_set_ts(NULL, MODNAME, "VersionPrefix", tmp);
+						db_set_ws(NULL, MODNAME, "VersionPrefix", tmp);
 						mir_wstrcpy(szPrefix, tmp);
 
 						GetDlgItemText(hwndDlg, IDC_SHOWTIME, tmp, _countof(tmp));

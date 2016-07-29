@@ -34,7 +34,7 @@ static HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST
 		else index = ImageList_AddIcon(il, b->hIconUp);
 
 		tmp = mir_a2u( b->pszName );
-		tvis.item.pszText = TranslateTS(tmp);
+		tvis.item.pszText = TranslateW(tmp);
 	}
 	tvis.item.iImage = tvis.item.iSelectedImage = index;
 

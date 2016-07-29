@@ -520,7 +520,7 @@ int check() {
 		int cnt;
 		for(cnt = 0; cnt <= 4; cnt++)
 			if(startuperror >> cnt & 1)
-				ErMsgT(TranslateTS(startuperrors[cnt]));
+				ErMsgT(TranslateW(startuperrors[cnt]));
 		return 1;
 	}
 
@@ -985,15 +985,15 @@ static void LoadSettings()
 		db_free(&dbv);
 	}
 
-	if (!db_get_ts(NULL, PLUGINNAME, "LNFilterSender", &dbv)) {
+	if (!db_get_ws(NULL, PLUGINNAME, "LNFilterSender", &dbv)) {
 		wcsncpy_s(settingFilterSender, dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
-	if (!db_get_ts(NULL, PLUGINNAME, "LNFilterSubject", &dbv)) {
+	if (!db_get_ws(NULL, PLUGINNAME, "LNFilterSubject", &dbv)) {
 		wcsncpy_s(settingFilterSubject, dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
-	if (!db_get_ts(NULL, PLUGINNAME, "LNFilterTo", &dbv)) {
+	if (!db_get_ws(NULL, PLUGINNAME, "LNFilterTo", &dbv)) {
 		wcsncpy_s(settingFilterTo, dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
@@ -1056,7 +1056,7 @@ static void SaveSettings(HWND hwndDlg)
 		wcscat_s(settingFilterSender, _countof(settingFilterSender), text);
 		wcscat_s(settingFilterSender, _countof(settingFilterSender), TEXT(";"));
 	}
-	db_set_ts(NULL, PLUGINNAME, "LNFilterSender", settingFilterSender);
+	db_set_ws(NULL, PLUGINNAME, "LNFilterSender", settingFilterSender);
 
 	settingFilterSubject[0] = 0;
 	for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, 0, 0); i++) {
@@ -1065,7 +1065,7 @@ static void SaveSettings(HWND hwndDlg)
 		wcscat_s(settingFilterSubject, _countof(settingFilterSubject), text);
 		wcscat_s(settingFilterSubject, _countof(settingFilterSubject), TEXT(";"));
 	}
-	db_set_ts(NULL, PLUGINNAME, "LNFilterSubject", settingFilterSubject);
+	db_set_ws(NULL, PLUGINNAME, "LNFilterSubject", settingFilterSubject);
 
 	settingFilterTo[0] = 0;
 	for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, 0, 0); i++) {
@@ -1074,7 +1074,7 @@ static void SaveSettings(HWND hwndDlg)
 		wcscat_s(settingFilterTo, _countof(settingFilterTo), text);
 		wcscat_s(settingFilterTo, _countof(settingFilterTo), TEXT(";"));
 	}
-	db_set_ts(NULL, PLUGINNAME, "LNFilterTo", settingFilterTo);
+	db_set_ws(NULL, PLUGINNAME, "LNFilterTo", settingFilterTo);
 }
 
 //callback function to speak with user interactions in options page
@@ -1457,7 +1457,7 @@ int LotusNotifyOptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.pwszGroup = LPGENW("Plugins");
 	odp.pwszTitle = _A2W(__PLUGIN_NAME);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
 	odp.pwszTab = LPGENW("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_CONECTION);
@@ -1531,7 +1531,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 				int cnt;
 				for (cnt = 0; cnt <= 4; cnt++)
 					if (startuperror >> cnt & 1)
-						ErMsgT(TranslateTS(startuperrors[cnt]));
+						ErMsgT(TranslateW(startuperrors[cnt]));
 				return 1;
 			}
 
@@ -1578,7 +1578,7 @@ void checkEnvPath(wchar_t *path)
 	if (found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len + 1] == ';' || found[len + 1] == 0))))
 		return;
 
-	_wputenv(CMString(FORMAT, L"PATH=%s;%s;", cur, path));
+	_wputenv(CMStringW(FORMAT, L"PATH=%s;%s;", cur, path));
 }
 
 //GetStatus
@@ -1642,7 +1642,7 @@ static int modulesloaded(WPARAM, LPARAM)
 	assert(startuperror == 0);
 	for (cnt = 0; cnt <= 4; cnt++) {
 		if (startuperror >> cnt & 1)
-			ErMsgT(TranslateTS(startuperrors[cnt]));
+			ErMsgT(TranslateW(startuperrors[cnt]));
 	}
 
 	return 0;
@@ -1699,7 +1699,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		CMenuItem mi;
 		SET_UID(mi, 0x4519458, 0xb55a, 0x4e22, 0xac, 0x95, 0x5e, 0xa4, 0x4d, 0x92, 0x65, 0x65);
 		mi.position = -0x7FFFFFFF; //on top menu position
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 		mi.name.w = LPGENW("&Check Lotus");
 		mi.pszService = "LotusNotify/MenuCommand"; //service name thet listning for menu call
@@ -1727,7 +1727,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	LoadSettings(); //read from db to variables
 
-	SkinAddNewSoundExT("LotusNotify", LPGENW("Lotus Notify"), LPGENW("New Lotus document detected"));
+	SkinAddNewSoundExW("LotusNotify", LPGENW("Lotus Notify"), LPGENW("New Lotus document detected"));
 
 	hOptInit = HookEvent(ME_OPT_INITIALISE, LotusNotifyOptInit); //register service to hook option call
 	assert(hOptInit);

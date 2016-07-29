@@ -150,16 +150,16 @@ void ColInOutGraph::impl_outputRenderHeader(ext::ostream& tos, int row, int rowS
 
 		if (m_bAbsolute)
 		{
-			strTitle = TranslateTS(szSourceDesc[m_nSource]);
+			strTitle = TranslateW(szSourceDesc[m_nSource]);
 		}
 		else
 		{
 			strTitle = str(ext::kformat(TranslateT("#{data} per #{unit}"))
-				% L"#{data}" * TranslateTS(szSourceDesc[m_nSource])
-				% L"#{unit}" * TranslateTS(szSourceUnit[m_nAbsTime]));
+				% L"#{data}" * TranslateW(szSourceDesc[m_nSource])
+				% L"#{unit}" * TranslateW(szSourceUnit[m_nAbsTime]));
 		}
 
-		writeRowspanTD(tos, getCustomTitle(TranslateTS(szSourceDesc[m_nSource]), strTitle) + L"<div style=\"width: 100px;\"></div>", 1, 2, rowSpan, 2);
+		writeRowspanTD(tos, getCustomTitle(TranslateW(szSourceDesc[m_nSource]), strTitle) + L"<div style=\"width: 100px;\"></div>", 1, 2, rowSpan, 2);
 	}
 	else if (row == 2)
 	{

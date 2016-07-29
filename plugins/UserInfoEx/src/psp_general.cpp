@@ -46,13 +46,13 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
 				TranslateDialogDefault(hDlg);
 
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_TITLE, SET_CONTACT_TITLE, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_FIRSTNAME, SET_CONTACT_FIRSTNAME, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SECONDNAME, SET_CONTACT_SECONDNAME, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_LASTNAME, SET_CONTACT_LASTNAME, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_NICK, SET_CONTACT_NICK, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DISPLAYNAME, "CList", SET_CONTACT_MYHANDLE, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_PARTNER, SET_CONTACT_PARTNER, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_TITLE, SET_CONTACT_TITLE, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_FIRSTNAME, SET_CONTACT_FIRSTNAME, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SECONDNAME, SET_CONTACT_SECONDNAME, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_LASTNAME, SET_CONTACT_LASTNAME, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_NICK, SET_CONTACT_NICK, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DISPLAYNAME, "CList", SET_CONTACT_MYHANDLE, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_PARTNER, SET_CONTACT_PARTNER, DBVT_WCHAR));
 
 				GetNamePrefixList(&nList, &pList);
 				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_PREFIX, SET_CONTACT_PREFIX, DBVT_BYTE, pList, nList));
@@ -62,9 +62,9 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_MARITAL, SET_CONTACT_MARITAL, DBVT_BYTE, pList, nList));
 
 				GetLanguageList(&nList, &pList);
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_LANG1, SET_CONTACT_LANG1, DBVT_TCHAR, pList, nList));
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_LANG2, SET_CONTACT_LANG2, DBVT_TCHAR, pList, nList));
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_LANG3, SET_CONTACT_LANG3, DBVT_TCHAR, pList, nList));
+				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_LANG1, SET_CONTACT_LANG1, DBVT_WCHAR, pList, nList));
+				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_LANG2, SET_CONTACT_LANG2, DBVT_WCHAR, pList, nList));
+				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_LANG3, SET_CONTACT_LANG3, DBVT_WCHAR, pList, nList));
 			}
 		}
 		break;

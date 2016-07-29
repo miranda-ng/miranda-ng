@@ -89,10 +89,10 @@ extern "C" int __declspec(dllexport) Load()
 	// hotkeys service (0.8+)
 	HOTKEYDESC hotkey = { 0 };
 	hotkey.cbSize = sizeof(hotkey);
-	hotkey.dwFlags = HKD_TCHAR;
+	hotkey.dwFlags = HKD_UNICODE;
 	hotkey.pszName = "Open Folder";
-	hotkey.ptszDescription = LPGENW("Open Folder");
-	hotkey.ptszSection = LPGENW("Main");
+	hotkey.pwszDescription = LPGENW("Open Folder");
+	hotkey.pwszSection = LPGENW("Main");
 	hotkey.pszService = MS_OPENFOLDER_OPEN;
 	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
 	Hotkey_Register(&hotkey);
@@ -100,7 +100,7 @@ extern "C" int __declspec(dllexport) Load()
 	CMenuItem mi;
 	SET_UID(mi, 0xbba6ad01, 0x755a, 0x4d01, 0x94, 0xee, 0x57, 0x84, 0x18, 0x70, 0x77, 0x4f);
 	mi.position = 0x7FFFFFFF;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = icon.hIcolib;
 	mi.name.w = LPGENW("Open Folder");
 	mi.pszService = MS_OPENFOLDER_OPEN;

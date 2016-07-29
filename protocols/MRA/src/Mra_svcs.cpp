@@ -531,7 +531,7 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, const C
 			mir_snprintf(szValueName, "XStatus%ldName", dwXStatusMir);
 			// custom xstatus name
 			if (!mraGetStringW(NULL, szValueName, wszStatusTitle))
-				wszStatusTitle = TranslateTS(lpcszXStatusNameDef[dwXStatusMir]);
+				wszStatusTitle = TranslateW(lpcszXStatusNameDef[dwXStatusMir]);
 		}
 		else wszStatusTitle = pwszStatusTitle;
 

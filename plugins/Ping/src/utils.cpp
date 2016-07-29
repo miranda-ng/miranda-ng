@@ -221,7 +221,7 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 	DBVARIANT dbv;
 	char buf[256];
 	mir_snprintf(buf, "Address%d", index);
-	if (!db_get_ts(0, "PingPlug", buf, &dbv)) {
+	if (!db_get_ws(0, "PingPlug", buf, &dbv)) {
 		mir_wstrncpy(pa.pszName, dbv.ptszVal, _countof(pa.pszName));
 		db_free(&dbv);
 	}
@@ -229,7 +229,7 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 		mir_wstrncpy(pa.pszName, TranslateT("Unknown Address"), _countof(pa.pszName));
 
 	mir_snprintf(buf, "Label%d", index);
-	if (!db_get_ts(0, "PingPlug", buf, &dbv)) {
+	if (!db_get_ws(0, "PingPlug", buf, &dbv)) {
 		mir_wstrncpy(pa.pszLabel, dbv.ptszVal, _countof(pa.pszLabel));
 		db_free(&dbv);
 	}
@@ -314,7 +314,7 @@ void InitUtils()
 	test.flags = PCF_TCHAR;
 	test.hIcon = hIconResponding;
 	test.iSeconds = -1;
-	test.ptszDescription = TranslateT("Ping");
+	test.pwszDescription = TranslateT("Ping");
 	test.pszName = "pingpopups";
 	test.PluginWindowProc = NullWindowProc;
 	if (hPopupClass = Popup_RegisterClass(&test))

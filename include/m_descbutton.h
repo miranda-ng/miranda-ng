@@ -31,11 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MDBCF_SHAREDICON	0x01
 #define MDBCF_UNICODE		0x02
-#ifdef _UNICODE
-	#define	MDBCF_TCHAR		MDBCF_UNICODE
-#else
-	#define	MDBCF_TCHAR		0
-#endif
 
 #define DBCM_FIRST			(WM_USER+1024)
 #define DBCM_LAST			(ITCM_FIRST+64)
@@ -45,9 +40,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DBCM_SETICON		(DBCM_FIRST+3)		//WPARAM is set of flags, LPARAM icon handle
 
 #define MDescButton_SetTitle(hwnd, title)	\
-	(SendMessage((hwnd), DBCM_SETTITLE, MDBCF_TCHAR, (LPARAM)(title)))
+	(SendMessage((hwnd), DBCM_SETTITLE, MDBCF_UNICODE, (LPARAM)(title)))
 #define MDescButton_SetDescription(hwnd, title)	\
-	(SendMessage((hwnd), DBCM_SETDESCRIPTION, MDBCF_TCHAR, (LPARAM)(title)))
+	(SendMessage((hwnd), DBCM_SETDESCRIPTION, MDBCF_UNICODE, (LPARAM)(title)))
 #define MDescButton_SetIcon(hwnd, hicon)	\
 	(SendMessage((hwnd), DBCM_SETICON, 0, (LPARAM)(hicon)))
 #define MDescButton_SetIconShared(hwnd, hicon)	\

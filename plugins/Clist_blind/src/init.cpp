@@ -182,7 +182,7 @@ wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* set
 
 	out[0] = '\0';
 
-	if (!db_get_ts(hContact, module, setting, &dbv)) {
+	if (!db_get_ws(hContact, module, setting, &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ)
 			MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, out, (int)len);
 		else if (dbv.type == DBVT_UTF8)

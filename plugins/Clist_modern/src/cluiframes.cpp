@@ -678,7 +678,7 @@ static int LocateStorePosition(int Frameid, int maxstored)
 	for (int i = 0; i < maxstored; i++) {
 		mir_snprintf(settingname, "Name%d", i);
 		DBVARIANT dbv = { 0 };
-		if (db_get_ts(NULL, CLUIFrameModule, settingname, &dbv))
+		if (db_get_ws(NULL, CLUIFrameModule, settingname, &dbv))
 			continue;
 
 		if (mir_wstrcmpi(dbv.ptszVal, g_pfwFrames[Frameid].name) == 0) {
@@ -1502,7 +1502,7 @@ static int CLUIFramesLoadMainMenu()
 	for (int i = 0; i < g_nFramesCount; i++) {
 		FRAMEWND &F = g_pfwFrames[i];
 		mi.hIcolibItem = F.TitleBar.hicon;
-		mi.flags = CMIF_SYSTEM | CMIF_TCHAR;
+		mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
 		mi.position = separator++;
 		mi.name.w = F.TitleBar.tbname ? F.TitleBar.tbname : F.name;
 		mi.pszService = 0;
@@ -2362,7 +2362,7 @@ int OnFrameTitleBarBackgroundChange(WPARAM, LPARAM)
 		}
 		if (g_CluiData.fDisableSkinEngine) {
 			if (db_get_b(NULL, "FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-				ptrW tszBitmapName(db_get_tsa(NULL, "FrameTitleBar", "BkBitmap"));
+				ptrW tszBitmapName(db_get_wsa(NULL, "FrameTitleBar", "BkBitmap"));
 				if (tszBitmapName)
 					sttBmpBackground = Bitmap_Load(tszBitmapName);
 			}

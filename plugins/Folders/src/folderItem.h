@@ -43,7 +43,7 @@ public:
 	CFolderItem(const char *sectionName, const char *name, const wchar_t *format, const wchar_t *userName);
 	virtual ~CFolderItem();
 
-	CMString Expand();
+	CMStringW Expand();
 	void Save();
 
 	int IsEqual(const CFolderItem *other);

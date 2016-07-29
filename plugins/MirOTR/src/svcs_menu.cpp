@@ -30,7 +30,7 @@ int StartOTR(MCONTACT hContact) {
 		for(const wchar_t* c=MIROTR_PROTO_HELLO_MSG; *c && msgoff<msgend; *msgoff++=*c++);
 		LCID langid = Langpack_GetDefaultLocale();
 		if(langid != 0x0409/*US*/ && langid != 0x1009/*CA*/ && langid != 0x0809/*GB*/){ // non english
-			const wchar_t* translated=TranslateTS(MIROTR_PROTO_HELLO_MSG);
+			const wchar_t* translated=TranslateW(MIROTR_PROTO_HELLO_MSG);
 			if(mir_wstrcmp(MIROTR_PROTO_HELLO_MSG,translated)){
 				*msgoff++ = '\n';
 				for(const wchar_t* c=nick; *c && msgoff<msgend; *msgoff++=*c++);
@@ -159,7 +159,7 @@ void InitMenu()
 	CreateServiceFunction(MS_OTR_MENUTOGGLEHTML, SVC_ToggleHTMLOTR);
 
 	CMenuItem mi;
-	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
+	mi.flags = CMIF_NOTOFFLINE | CMIF_UNICODE;
 	mi.position = -400000;
 
 	SET_UID(mi, 0xAB574FAD, 0x15D8, 0x49FF, 0xB7, 0x03, 0xDA, 0x2B, 0x45, 0x46, 0xC3, 0x56);

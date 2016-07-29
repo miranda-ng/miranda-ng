@@ -64,7 +64,7 @@ int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 
 	switch (hook->pDest->iType) {
 	case GC_USER_MESSAGE:
-		debugLog(L"**Chat - Outgoing message: %s", hook->ptszText);
+		debugLogW(L"**Chat - Outgoing message: %s", hook->ptszText);
 		{
 			T2Utf text(hook->ptszText);
 

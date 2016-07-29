@@ -22,12 +22,12 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 			const SupportInfo& info = *reinterpret_cast<const SupportInfo*>(lParam);
 
 			SetDlgItemText(hDlg, IDC_PLUGIN, info.szPlugin);
-			SetDlgItemText(hDlg, IDC_FEATURES, TranslateTS(info.szTeaser));
-			SetDlgItemText(hDlg, IDC_DESCRIPTION, TranslateTS(info.szDescription));
+			SetDlgItemText(hDlg, IDC_FEATURES, TranslateW(info.szTeaser));
+			SetDlgItemText(hDlg, IDC_DESCRIPTION, TranslateW(info.szDescription));
 
 			static const WORD LinkIDs[] = { IDC_LINK2, IDC_LINK1 };
 
-			ext::string linkTexts = TranslateTS(info.szLinkTexts);
+			ext::string linkTexts = TranslateW(info.szLinkTexts);
 			ext::string linkURLs = info.szLinkURLs;
 			int nCurLink = 0;
 
@@ -387,7 +387,7 @@ void DlgOption::SubGlobal::toggleInfo()
 	HWND hInfo = GetDlgItem(getHWnd(), IDC_INFO);
 	const wchar_t* szInfoLabelText = m_bShowInfo ? LPGENW("HistoryStats supports several plugins. Click to hide info...") : LPGENW("HistoryStats supports several plugins. Click to learn more...");
 
-	SetDlgItemText(getHWnd(), IDC_INFOLABEL, TranslateTS(szInfoLabelText));
+	SetDlgItemText(getHWnd(), IDC_INFOLABEL, TranslateW(szInfoLabelText));
 	ShowWindow(hInfo, m_bShowInfo ? SW_SHOW : SW_HIDE);
 	EnableWindow(hInfo, BOOL_(m_bShowInfo));
 

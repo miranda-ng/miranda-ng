@@ -65,11 +65,11 @@ void hideAll(HWND hwnd)
 void getDefaultMessage(HWND hwnd, UINT control, MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, modname, "PounceMsg", &dbv)) {
+	if (!db_get_ws(hContact, modname, "PounceMsg", &dbv)) {
 		SetDlgItemText(hwnd, control, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else if (!db_get_ts(NULL, modname, "PounceMsg", &dbv)) {
+	else if (!db_get_ws(NULL, modname, "PounceMsg", &dbv)) {
 		SetDlgItemText(hwnd, control, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -224,7 +224,7 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 				if (length>1) {
 					wchar_t *text = (wchar_t*)_alloca(length*sizeof(wchar_t));
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
-					db_set_ts(hContact, modname, "PounceMsg", text);
+					db_set_ws(hContact, modname, "PounceMsg", text);
 				}
 				else db_unset(hContact, modname, "PounceMsg");
 			}
@@ -510,7 +510,7 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)spdps);
 		{
 			DBVARIANT dbv;
-			if (db_get_ts(spdps->hContact, modname, "PounceMsg", &dbv))
+			if (db_get_ws(spdps->hContact, modname, "PounceMsg", &dbv))
 				DestroyWindow(hwnd);
 			else {
 				SetDlgItemText(hwnd,IDC_MESSAGE, dbv.ptszVal);
@@ -567,7 +567,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		hContact = lParam;
 		{
 			DBVARIANT dbv;
-			if (db_get_ts(hContact, modname, "PounceMsg", &dbv))
+			if (db_get_ws(hContact, modname, "PounceMsg", &dbv))
 				DestroyWindow(hwnd);
 			else {
 				SetDlgItemText(hwnd, IDC_MESSAGE, dbv.ptszVal);

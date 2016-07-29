@@ -271,7 +271,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	else if (hContact == NULL)
 		return NULL;
 
-	CMString wszNick, wszValue;
+	CMStringW wszNick, wszValue;
 	int iValue;
 
 	wszValue = jnItem["first_name"].as_mstring();
@@ -355,14 +355,14 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		setWString(hContact, "Phone", wszValue);
 
 	wszValue = jnItem["status"].as_mstring();
-	CMString wszOldStatus(ptrW(db_get_wsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
+	CMStringW wszOldStatus(ptrW(db_get_wsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
 	if (wszValue != wszOldStatus)
 		db_set_ws(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", wszValue);
 
-	CMString wszOldListeningTo(ptrW(db_get_wsa(hContact, m_szModuleName, "ListeningTo")));
+	CMStringW wszOldListeningTo(ptrW(db_get_wsa(hContact, m_szModuleName, "ListeningTo")));
 	const JSONNode &jnAudio = jnItem["status_audio"];
 	if (jnAudio) {
-		CMString wszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
+		CMStringW wszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
 		if (wszListeningTo != wszOldListeningTo) {
 			setWString(hContact, "ListeningTo", wszListeningTo);
 			setWString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
@@ -447,7 +447,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	wszValue = jnItem["domain"].as_mstring();
 	if (!wszValue.IsEmpty()) {
 		setWString(hContact, "domain", wszValue);
-		CMString wszUrl("https://vk.com/");
+		CMStringW wszUrl("https://vk.com/");
 		wszUrl.Append(wszValue);
 		setWString(hContact, "Homepage", wszUrl);
 	}
@@ -461,8 +461,8 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	if (userID == VK_FEED_USER || !IsOnline())
 		return;
 
-	CMString code(FORMAT, L"var userIDs=\"%i\";var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});return{\"freeoffline\":0,\"norepeat\":1,\"usercount\":res.length,\"users\":res};",
-		userID, CMString(fieldsName));
+	CMStringW code(FORMAT, L"var userIDs=\"%i\";var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});return{\"freeoffline\":0,\"norepeat\":1,\"usercount\":res.length,\"users\":res};",
+		userID, CMStringW(fieldsName));
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
 		<< WCHAR_PARAM("code", code));
 }
@@ -473,7 +473,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 	if (!IsOnline())
 		return;
 
-	CMString userIDs, code;
+	CMStringW userIDs, code;
 	int i = 0;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		LONG userID = getDword(hContact, "ID", -1);
@@ -488,22 +488,22 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 		i++;
 	}
 
-	CMString codeformat("var userIDs=\"%s\";var _fields=\"%s\";");
+	CMStringW codeformat("var userIDs=\"%s\";var _fields=\"%s\";");
 
 	if (m_bNeedSendOnline)
 		codeformat += L"API.account.setOnline();";
 
 	if (bFreeOffline && !m_vkOptions.bLoadFullCList)
-		codeformat += CMString("var US=[];var res=[];var t=10;while(t>0){"
+		codeformat += CMStringW("var US=[];var res=[];var t=10;while(t>0){"
 			"US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
 			"var index=US.length;while(index>0){"
 			"index=index-1;if(US[index].online!=0){res.push(US[index]);};};"
 			"t=t-1;if(res.length>0)t=0;};"
 			"return{\"freeoffline\":1,\"norepeat\":%d,\"usercount\":res.length,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	else
-		codeformat += CMString("var res=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
+		codeformat += CMStringW("var res=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
 			"return{\"freeoffline\":0,\"norepeat\":%d,\"usercount\":res.length,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
-	code.AppendFormat(codeformat, userIDs, CMString(bFreeOffline ? "online,status" : fieldsName), (int)bRepeat);
+	code.AppendFormat(codeformat, userIDs, CMStringW(bFreeOffline ? "online,status" : fieldsName), (int)bRepeat);
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
 		<< WCHAR_PARAM("code", code));
@@ -679,7 +679,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 		return 1;
 
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
-	CMString pwszMsg;
+	CMStringW pwszMsg;
 	if (flag == 0) {
 		pwszMsg.AppendFormat(TranslateT("Are you sure to delete %s from your friend list?"), IsEmpty(pwszNick) ? TranslateT("(Unknown contact)") : pwszNick);
 		if (IDNO == MessageBox(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
@@ -699,10 +699,10 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST *reply, AsyncHttpRequest 
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
-			CMString wszNick(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick")));
+			CMStringW wszNick(ptrW(db_get_wsa(param->hContact, m_szModuleName, "Nick")));
 			if (wszNick.IsEmpty())
 				wszNick = TranslateT("(Unknown contact)");
-			CMString msgformat, msg;
+			CMStringW msgformat, msg;
 
 			if (jnResponse["success"].as_bool()) {
 				if (jnResponse["friend_deleted"].as_bool())
@@ -739,7 +739,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 		return 1;
 
 	CMStringA code(FORMAT, "var userID=\"%d\";API.account.banUser({\"user_id\":userID});", userID);
-	CMString wszVarWarning;
+	CMStringW wszVarWarning;
 
 	if (m_vkOptions.bReportAbuse) {
 		debugLogA("CVkProto::SvcBanUser m_vkOptions.bReportAbuse = true");
@@ -772,7 +772,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 	code += "return 1;";
 
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
-	CMString pwszMsg(FORMAT, TranslateT("Are you sure to ban %s? %s%sContinue?"),
+	CMStringW pwszMsg(FORMAT, TranslateT("Are you sure to ban %s? %s%sContinue?"),
 		IsEmpty(pwszNick) ? TranslateT("(Unknown contact)") : pwszNick, 
 		wszVarWarning.IsEmpty() ? L" " : TranslateT("\nIt will also"),
 		wszVarWarning.IsEmpty() ? L"\n" : wszVarWarning);
@@ -796,7 +796,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 
-	CMString wszNick(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"))),
+	CMStringW wszNick(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"))),
 		pwszMsg(FORMAT, TranslateT("Are you sure to report abuse on %s?"), wszNick.IsEmpty() ? TranslateT("(Unknown contact)") : wszNick);
 	if (IDNO == MessageBox(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
@@ -812,7 +812,7 @@ INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcOpenBroadcast");
 
-	CMString wszAudio(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl")));
+	CMStringW wszAudio(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl")));
 	if (!wszAudio.IsEmpty())
 		Utils_OpenUrlW(wszAudio);
 
@@ -832,7 +832,7 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 	LONG userID = getDword(hContact, "ID", -1);
 	ptrW wszDomain(db_get_wsa(hContact, m_szModuleName, "domain"));
 
-	CMString wszUrl("https://vk.com/");
+	CMStringW wszUrl("https://vk.com/");
 	if (wszDomain)
 		wszUrl.Append(wszDomain);
 	else

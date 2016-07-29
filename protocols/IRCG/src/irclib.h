@@ -38,18 +38,18 @@ struct DCCINFO : public MZeroedObject
 	DWORD    dwAdr;
 	unsigned __int64   dwSize;
 	DWORD    iType;
-	CMString sToken;
+	CMStringW sToken;
 	int      iPort;
 	BOOL     bTurbo;
 	BOOL     bSSL;
 	BOOL     bSender;
 	BOOL     bReverse;
-	CMString sPath;
-	CMString sFile;
-	CMString sFileAndPath;
-	CMString sHostmask;
+	CMStringW sPath;
+	CMStringW sFile;
+	CMStringW sFileAndPath;
+	CMStringW sHostmask;
 	MCONTACT hContact;
-	CMString sContactName;
+	CMStringW sContactName;
 };
 
 class CIrcMessage
@@ -57,13 +57,13 @@ class CIrcMessage
 public :
 	struct Prefix
 	{
-		CMString sNick, sUser, sHost;
+		CMStringW sNick, sUser, sHost;
 	}
 		prefix;
 
 	CIrcProto* m_proto;
-	CMString sCommand;
-	OBJLIST<CMString> parameters;
+	CMStringW sCommand;
+	OBJLIST<CMStringW> parameters;
 	bool m_bIncoming;
 	bool m_bNotify;
 	int  m_codePage;
@@ -87,13 +87,13 @@ private :
 struct CIrcSessionInfo
 {
 	CMStringA  sServer;
-	CMString sServerName;
-	CMString sNick;
-	CMString sUserID;
-	CMString sFullName;
+	CMStringW sServerName;
+	CMStringW sNick;
+	CMStringW sUserID;
+	CMStringW sFullName;
 	CMStringA  sPassword;
-	CMString sIdentServerType;
-	CMString sNetwork;
+	CMStringW sIdentServerType;
+	CMStringW sNetwork;
 	bool bIdentServer;
 	bool bNickFlag;
 	int m_iSSL;
@@ -114,7 +114,7 @@ struct CIrcIgnoreItem
 	CIrcIgnoreItem( int codepage, const char*, const char*, const char* );
 	~CIrcIgnoreItem();
 
-   CMString mask, flags, network;
+   CMStringW mask, flags, network;
 };
 
 ////////////////////////////////////////////////////////////////////

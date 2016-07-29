@@ -2,7 +2,7 @@
 
 void _OutputDebugString(wchar_t* lpOutputString, ...)
 {
-	CMString format;
+	CMStringW format;
 	va_list args;
 	va_start(args, lpOutputString);
 	format.FormatV(lpOutputString, args);

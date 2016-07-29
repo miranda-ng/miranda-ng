@@ -30,14 +30,7 @@
 #define CMIF_NOTOFFLIST        0x0040  // item won't appear on contacts that have the 'NotOnList' setting
 #define CMIF_UNMOVABLE         0x0080  // item's position cannot be changed
 #define CMIF_SYSTEM            0x0100  // item's presence & position cannot be changed
-							          
 #define CMIF_UNICODE           0x0200  // will use wchar_t* instead of char*
-#if defined(_UNICODE)
-#define CMIF_TCHAR CMIF_UNICODE
-#else
-#define CMIF_TCHAR 0
-#endif
-
 #define CMIF_KEEPUNTRANSLATED  0x0400 // don't translate a menu item
 #define CMIF_CUSTOM            0x0800 // custom menu item. doesn't exist in a code
 #define CMIF_DEFAULT           0x1000 // this menu item is the default one

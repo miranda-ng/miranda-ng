@@ -15,7 +15,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SetDlgItemInt(hwndDlg, IDC_INTERVAL, db_get_w(NULL, protocolname, KEY_REPEATINTERVAL, 300) / 60, FALSE);
 
 			DBVARIANT dbv;
-			if (!db_get_ts(NULL, protocolname, KEY_HEADING, &dbv)) {
+			if (!db_get_ws(NULL, protocolname, KEY_HEADING, &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_HEADING, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -28,7 +28,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				else {
 					SendDlgItemMessage(hwndDlg, IDC_STATUSMODE, CB_ADDSTRING, 0, (LPARAM)pszStatus);
 
-					if (!db_get_ts(NULL, protocolname, tszStatus, &dbv)) {
+					if (!db_get_ws(NULL, protocolname, tszStatus, &dbv)) {
 						if (c < ID_STATUS_FREECHAT)
 							ptszMessage[c - ID_STATUS_ONLINE - 1] = wcsdup(dbv.ptszVal);
 						else if (c > ID_STATUS_INVISIBLE)
@@ -61,7 +61,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_DEFAULT:
-			SetDlgItemText(hwndDlg, IDC_MESSAGE, TranslateTS(ptszDefaultMsg[lastIndex]));
+			SetDlgItemText(hwndDlg, IDC_MESSAGE, TranslateW(ptszDefaultMsg[lastIndex]));
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_INTERVAL:
@@ -88,7 +88,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				Menu_ModifyItem(hEnableMenu, LPGENW("Enable Auto&reply"), iconList[1].hIcolib);
 
 			GetDlgItemText(hwndDlg, IDC_HEADING, ptszText, _countof(ptszText));
-			db_set_ts(NULL, protocolname, KEY_HEADING, ptszText);
+			db_set_ws(NULL, protocolname, KEY_HEADING, ptszText);
 
 			INT size = GetDlgItemInt(hwndDlg, IDC_INTERVAL, &translated, FALSE);
 			if (translated)
@@ -106,9 +106,9 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					mir_snprintf(szStatus, "%d", c);
 
 					if (c<ID_STATUS_FREECHAT && ptszMessage[c - ID_STATUS_ONLINE - 1])
-						db_set_ts(NULL, protocolname, szStatus, ptszMessage[c - ID_STATUS_ONLINE - 1]);
+						db_set_ws(NULL, protocolname, szStatus, ptszMessage[c - ID_STATUS_ONLINE - 1]);
 					else if (c>ID_STATUS_INVISIBLE && ptszMessage[c - ID_STATUS_ONLINE - 3])
-						db_set_ts(NULL, protocolname, szStatus, ptszMessage[c - ID_STATUS_ONLINE - 3]);
+						db_set_ws(NULL, protocolname, szStatus, ptszMessage[c - ID_STATUS_ONLINE - 3]);
 					else
 						db_unset(NULL, protocolname, szStatus);
 				}

@@ -93,7 +93,7 @@ wchar_t* GetHistoryFolder(wchar_t *fn)
 {
 	if (fn == NULL) return NULL;
 	FoldersGetCustomPathT(hFolder, fn, MAX_PATH, basedir);
-	CreateDirectoryTreeT(fn);
+	CreateDirectoryTreeW(fn);
 	return fn;
 }
 
@@ -105,7 +105,7 @@ wchar_t* GetProtocolFolder(wchar_t *fn, char *proto)
 		proto = Translate("Unknown Protocol");
 
 	mir_snwprintf(fn, MAX_PATH, L"%s\\%S", fn, proto);
-	CreateDirectoryTreeT(fn);
+	CreateDirectoryTreeW(fn);
 	return fn;
 }
 
@@ -119,7 +119,7 @@ wchar_t* GetContactFolder(wchar_t *fn, MCONTACT hContact)
 	wcsncpy_s(uin, (id == NULL) ? TranslateT("Unknown UIN") : id, _TRUNCATE);
 	ConvertToFilename(uin, MAX_PATH); //added so that weather id's like "yw/CI0000" work
 	mir_snwprintf(fn, MAX_PATH, L"%s\\%s", fn, uin);
-	CreateDirectoryTreeT(fn);
+	CreateDirectoryTreeW(fn);
 	
 #ifdef DBGPOPUPS
 	wchar_t log[1024];

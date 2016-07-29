@@ -249,7 +249,7 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pwszTitle = LPGENW("FTP File");
 	odp.pwszGroup = LPGENW("Services");
 

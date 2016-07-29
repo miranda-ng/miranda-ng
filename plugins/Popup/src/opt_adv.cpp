@@ -68,7 +68,7 @@ void LoadOption_AdvOpts()
 	// Effects
 	PopupOptions.UseAnimations = db_get_b(NULL, MODULNAME, "UseAnimations", TRUE);
 	PopupOptions.UseEffect = db_get_b(NULL, MODULNAME, "Fade", TRUE);
-	PopupOptions.Effect = (LPTSTR)DBGetContactSettingStringX(NULL, MODULNAME, "Effect", "", DBVT_TCHAR);
+	PopupOptions.Effect = (LPTSTR)DBGetContactSettingStringX(NULL, MODULNAME, "Effect", "", DBVT_WCHAR);
 	PopupOptions.FadeIn = db_get_dw(NULL, MODULNAME, "FadeInTime", SETTING_FADEINTIME_DEFAULT);
 	PopupOptions.FadeOut = db_get_dw(NULL, MODULNAME, "FadeOutTime", SETTING_FADEOUTTIME_DEFAULT);
 
@@ -208,7 +208,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Fade in/out")), -1);
 				DWORD dwActiveItem = (DWORD)PopupOptions.UseEffect;
 				for (int i = 0; i < g_lstPopupVfx.getCount(); ++i) {
-					DWORD dwItem = ComboBox_AddString(hCtrl, TranslateTS(g_lstPopupVfx[i]));
+					DWORD dwItem = ComboBox_AddString(hCtrl, TranslateW(g_lstPopupVfx[i]));
 					ComboBox_SetItemData(hCtrl, dwItem, i);
 					if (PopupOptions.UseEffect && !mir_wstrcmp(g_lstPopupVfx[i], PopupOptions.Effect))
 						dwActiveItem = dwItem;
@@ -512,7 +512,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				// Effects
 				db_set_b(NULL, MODULNAME, "UseAnimations", PopupOptions.UseAnimations);
 				db_set_b(NULL, MODULNAME, "Fade", PopupOptions.UseEffect);
-				db_set_ts(NULL, MODULNAME, "Effect", PopupOptions.Effect);
+				db_set_ws(NULL, MODULNAME, "Effect", PopupOptions.Effect);
 				db_set_dw(NULL, MODULNAME, "FadeInTime", PopupOptions.FadeIn);
 				db_set_dw(NULL, MODULNAME, "FadeOutTime", PopupOptions.FadeOut);
 				// other old stuff

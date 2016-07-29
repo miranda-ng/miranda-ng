@@ -389,7 +389,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				int i, eq;
 				//check name of group and ignore message if just being expanded/collapsed
 				if (cli.pfnFindItem(hwnd, dat, groupId | HCONTACT_ISGROUP, &contact, &group, NULL)) {
-					CMString szFullName(contact->szText);
+					CMStringW szFullName(contact->szText);
 					while (group->parent) {
 						ClcContact *cc = NULL;
 						for (i = 0; i < group->parent->cl.getCount(); i++) {
@@ -401,7 +401,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 							szFullName.Empty();
 							break;
 						}
-						szFullName = CMString(cc->szText) + L"\\" + szFullName;
+						szFullName = CMStringW(cc->szText) + L"\\" + szFullName;
 						group = group->parent;
 					}
 

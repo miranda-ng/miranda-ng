@@ -344,7 +344,7 @@ void InitIcons()
 			SKINICONDESC sid = { 0 };
 			sid.section.w = LPGENW("Country flags");
 			sid.pszName = szId; // name to refer to icon when playing and in db
-			sid.flags = SIDF_SORTED | SIDF_TCHAR;
+			sid.flags = SIDF_SORTED | SIDF_UNICODE;
 
 			for (int i=0; i < nCountriesCount; i++) {
 				sid.description.w = mir_a2u(LPGEN(countries[i].szName));

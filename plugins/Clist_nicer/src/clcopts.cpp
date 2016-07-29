@@ -88,7 +88,7 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
-		tvis.item.pszText = TranslateTS(values[i].szDescr);
+		tvis.item.pszText = TranslateW(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
 		TreeView_InsertItem(hwndTree, &tvis);
@@ -710,9 +710,9 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		CheckDlgButton(hwndDlg, IDC_SKINMODE, cfg::dat.bWallpaperMode ? BST_CHECKED : BST_UNCHECKED);
 		{
 			DBVARIANT dbv;
-			if (!db_get_ts(NULL, "CLC", "BkBitmap", &dbv)) {
+			if (!db_get_ws(NULL, "CLC", "BkBitmap", &dbv)) {
 				wchar_t szPath[MAX_PATH];
-				if (PathToAbsoluteT(dbv.ptszVal, szPath))
+				if (PathToAbsoluteW(dbv.ptszVal, szPath))
 					SetDlgItemText(hwndDlg, IDC_FILENAME, szPath);
 
 				db_free(&dbv);

@@ -93,7 +93,7 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
-		tvis.item.pszText = TranslateTS( values[i].szDescr );
+		tvis.item.pszText = TranslateW( values[i].szDescr );
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
 		TreeView_InsertItem( hwndTree, &tvis);
@@ -233,13 +233,13 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				db_set_b(NULL, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
 
 				GetDlgItemText(hwndDlg, IDC_T_CONTACT, tmp, _countof(tmp));
-				db_set_ts(NULL, "CLC", "TemplateContact", tmp);
+				db_set_ws(NULL, "CLC", "TemplateContact", tmp);
 				GetDlgItemText(hwndDlg, IDC_T_GROUP, tmp, _countof(tmp));
-				db_set_ts(NULL, "CLC", "TemplateGroup", tmp);
+				db_set_ws(NULL, "CLC", "TemplateGroup", tmp);
 				GetDlgItemText(hwndDlg, IDC_T_DIVIDER, tmp, _countof(tmp));
-				db_set_ts(NULL, "CLC", "TemplateDivider", tmp);
+				db_set_ws(NULL, "CLC", "TemplateDivider", tmp);
 				GetDlgItemText(hwndDlg, IDC_T_INFO, tmp, _countof(tmp));
-				db_set_ts(NULL, "CLC", "TemplateInfo", tmp);
+				db_set_ws(NULL, "CLC", "TemplateInfo", tmp);
 
 				pcli->pfnClcOptionsChanged();
 				return TRUE;

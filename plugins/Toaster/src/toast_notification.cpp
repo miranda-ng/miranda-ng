@@ -52,7 +52,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	{
 		HXML xmlImageNode = xmlAddChild(xmlBindingNode, L"image", NULL);
 		xmlAddAttr(xmlImageNode, L"id", L"1");
-		xmlAddAttr(xmlImageNode, L"src", CMString(FORMAT, L"file:///%s", _imagePath));
+		xmlAddAttr(xmlImageNode, L"src", CMStringW(FORMAT, L"file:///%s", _imagePath));
 	}
 
 	HXML xmlTitleNode = xmlAddChild(xmlBindingNode, L"text", _caption != NULL ? _caption : L"Miranda NG");

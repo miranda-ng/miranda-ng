@@ -87,7 +87,7 @@ public:
 		json_string getcomment(void) const;
 	#endif
 	json_string as_string(void) const;
-	CMString as_mstring(void) const;
+	CMStringW as_mstring(void) const;
 	long as_int(void) const;
 	json_number as_float(void) const;
 	bool as_bool(void) const;
@@ -288,9 +288,9 @@ inline json_string internalJSONNode::as_string(void) const {
 	return _string;
 }
 
-inline CMString internalJSONNode::as_mstring(void) const {
+inline CMStringW internalJSONNode::as_mstring(void) const {
 	Fetch();
-	return CMString(ptrW(mir_utf8decodeW(_string.c_str())));
+	return CMStringW(ptrW(mir_utf8decodeW(_string.c_str())));
 }
 
 inline long internalJSONNode::as_int(void) const {

@@ -373,7 +373,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 			DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
 			// support for custom database event types
 			if (pei && dbei->pBlob) {
-				DBEVENTGETTEXT svc = {dbei, DBVT_TCHAR, CP_ACP};
+				DBEVENTGETTEXT svc = {dbei, DBVT_WCHAR, CP_ACP};
 				wchar_t *pet = (wchar_t*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&svc);
 				if (pet) {
 					// we've got event text, move to our memory space
@@ -397,7 +397,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 	}
 	mir_free(comment1);
 	mir_free(comment2);
-	return TranslateTS( mir_a2u(commentFix));
+	return TranslateW( mir_a2u(commentFix));
 }
 
 int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, UINT eventType)
@@ -491,7 +491,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 	// if hContact is NULL, && hEvent is NULL then popup is only Test
 	if ((hContact == NULL) && (hEvent == NULL)) {
 		wcsncpy(pudw.lptzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
-		wcsncpy(pudw.lptzText, TranslateTS(sampleEvent), MAX_SECONDLINE);
+		wcsncpy(pudw.lptzText, TranslateW(sampleEvent), MAX_SECONDLINE);
 	}
 	else { // get the needed event data
 		wcsncpy(pudw.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0), MAX_CONTACTNAME);

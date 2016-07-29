@@ -61,14 +61,8 @@ typedef struct
 // this data, however you MUST NOT chahge that.
 
 // unicode or ansi mode
-#define PU2_ANSI    0x00
-#define PU2_UNICODE 0x01
-#if defined(UNICODE) || defined(_UNICODE)
-#define PU2_TCHAR PU2_UNICODE
-#else
-#define PU2_TCHAR PU2_ANSI
-#endif
-
+#define PU2_ANSI         0x00
+#define PU2_UNICODE      0x01
 #define PU2_CUSTOM_POPUP 0x02
 
 typedef struct

@@ -143,7 +143,7 @@ void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATION *pa
 		db_unset(hContact, "ContactPhoto", "RFile");
 		if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))
 			db_unset(hContact, "ContactPhoto", "Backup");
-		db_set_ts(hContact, "ContactPhoto", "File", pai->filename);
+		db_set_ws(hContact, "ContactPhoto", "File", pai->filename);
 		db_set_w(hContact, "ContactPhoto", "Format", pai->format);
 
 		if (pai->format == PA_FORMAT_PNG || pai->format == PA_FORMAT_JPEG

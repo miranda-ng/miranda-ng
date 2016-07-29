@@ -105,7 +105,7 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 
 	int Order = (FieldDat->bHidden) ? -1 : FieldDat->Order;
 
-	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (LPCTSTR)TranslateTS(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, NULL, hInst, 0);
+	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (LPCTSTR)TranslateW(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, NULL, hInst, 0);
 	HWND hwndVar = CreateWindowEx(0 | WS_EX_CLIENTEDGE, L"EDIT", (LPCTSTR)FieldDat->defValue, WS_CHILD | WS_TABSTOP, CornerX + 5, CornerY + Order * 40 + 14, width, 20, hwndParent, NULL, hInst, 0);
 	SendMessage(hwndLabel, WM_SETFONT, (WPARAM)hFont, 0);
 	SendMessage(hwndVar, WM_SETFONT, (WPARAM)hFont, 0);
@@ -161,7 +161,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 					break;
 
 				if (!mir_wstrcmpi(XmlGetName(chNode), L"instructions") && XmlGetText(chNode))
-					SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, TranslateTS(XmlGetText(chNode)));
+					SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, TranslateW(XmlGetText(chNode)));
 				else if (XmlGetName(chNode)) {
 					Data *MyData = (Data*)malloc(sizeof(Data));
 					memset(MyData, 0, sizeof(Data));
@@ -278,7 +278,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 			nick = buff;
 		}
 		Results.psr.nick.w = nick;
-		Results.psr.flags = PSR_TCHAR;
+		Results.psr.flags = PSR_UNICODE;
 
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM)&Results);
 		Results.psr.nick.w = NULL;
@@ -494,16 +494,16 @@ void CJabberProto::SearchDeleteFromRecent(const wchar_t *szAddr, bool deleteLast
 	for (int i = 0; i < 10; i++) {
 		char key[30];
 		mir_snprintf(key, "RecentlySearched_%d", i);
-		ptrW szValue(getTStringA(key));
+		ptrW szValue(getWStringA(key));
 		if (szValue == NULL || mir_wstrcmpi(szAddr, szValue))
 			continue;
 
 		for (int j = i; j < 10; j++) {
 			mir_snprintf(key, "RecentlySearched_%d", j + 1);
-			szValue = getTStringA(key);
+			szValue = getWStringA(key);
 			if (szValue != NULL) {
 				mir_snprintf(key, "RecentlySearched_%d", j);
-				setTString(NULL, key, szValue);
+				setWString(NULL, key, szValue);
 			}
 			else {
 				if (deleteLastFromDB) {
@@ -524,15 +524,15 @@ void CJabberProto::SearchAddToRecent(const wchar_t *szAddr, HWND hwndDialog)
 
 	for (int j = 9; j > 0; j--) {
 		mir_snprintf(key, "RecentlySearched_%d", j - 1);
-		ptrW szValue(getTStringA(key));
+		ptrW szValue(getWStringA(key));
 		if (szValue != NULL) {
 			mir_snprintf(key, "RecentlySearched_%d", j);
-			setTString(NULL, key, szValue);
+			setWString(NULL, key, szValue);
 		}
 	}
 
 	mir_snprintf(key, "RecentlySearched_%d", 0);
-	setTString(key, szAddr);
+	setWString(key, szAddr);
 	if (hwndDialog)
 		JabberSearchAddUrlToRecentCombo(hwndDialog, szAddr);
 }
@@ -564,7 +564,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 			for (i = 0; i < 10; i++) {
 				char key[30];
 				mir_snprintf(key, "RecentlySearched_%d", i);
-				ptrW szValue(dat->ppro->getTStringA(key));
+				ptrW szValue(dat->ppro->getWStringA(key));
 				if (szValue != NULL)
 					JabberSearchAddUrlToRecentCombo(hwndDlg, szValue);
 			}
@@ -714,7 +714,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
 {
 	if (parent && hInst) {
-		ptrW szServer(getTStringA("LoginServer"));
+		ptrW szServer(getWStringA("LoginServer"));
 		if (szServer == NULL || mir_wstrcmpi(szServer, L"S.ms"))
 			return CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, JabberSearchAdvancedDlgProc, (LPARAM)this);
 	}

@@ -411,7 +411,7 @@ HRESULT CLUI::CreateCLC()
 	Frame.hWnd = pcli->hwndContactTree;
 	Frame.align = alClient;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-	Frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NO_SUBCONTAINER | F_TCHAR;
+	Frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NO_SUBCONTAINER | F_UNICODE;
 	Frame.tname = LPGENW("My contacts");
 	Frame.TBtname = TranslateT("My contacts");
 	hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
@@ -666,7 +666,7 @@ void CLUI_ChangeWindowMode()
 	// 4 - Set Title
 	wchar_t titleText[255] = { 0 };
 	DBVARIANT dbv;
-	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
+	if (db_get_ws(NULL, "CList", "TitleText", &dbv))
 		mir_wstrncpy(titleText, _A2W(MIRANDANAME), _countof(titleText));
 	else {
 		mir_wstrncpy(titleText, dbv.ptszVal, _countof(titleText));
@@ -888,7 +888,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 		wchar_t *str = wcsrchr(szRelativePath, '\\');
 		if (str != NULL)
 			*str = 0;
-		PathToAbsoluteT(szRelativePath, tszFolderPath);
+		PathToAbsoluteW(szRelativePath, tszFolderPath);
 	}
 
 	if (szAccoName) {
@@ -920,7 +920,7 @@ static HICON CLUI_LoadIconFromExternalFile(wchar_t *filename, int i)
 {
 	wchar_t szPath[MAX_PATH], szFullPath[MAX_PATH];
 	mir_snwprintf(szPath, L"Icons\\%s", filename);
-	PathToAbsoluteT(szPath, szFullPath);
+	PathToAbsoluteW(szPath, szFullPath);
 	if (_waccess(szPath, 0))
 		return NULL;
 
@@ -1516,12 +1516,12 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDesc
 	SKINICONDESC sid = { 0 };
 	sid.section.a = szSectionName;
 	sid.pszName = szIcoID;
-	sid.flags |= SIDF_PATH_TCHAR;
+	sid.flags |= SIDF_PATH_UNICODE;
 	sid.description.a = szDescription;
 	sid.defaultFile.w = fileFull;
 
 	if (tszDefaultFile) {
-		PathToAbsoluteT(tszDefaultFile, fileFull);
+		PathToAbsoluteW(tszDefaultFile, fileFull);
 		if (!FileExists(fileFull))
 			fileFull[0] = '\0';
 	}

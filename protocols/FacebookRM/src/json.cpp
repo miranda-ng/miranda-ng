@@ -775,9 +775,9 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 						client = FACEBOOK_CLIENT_OTHER;
 					}
 
-					ptrW oldClient(proto->getTStringA(hContact, "MirVer"));
+					ptrW oldClient(proto->getWStringA(hContact, "MirVer"));
 					if (!oldClient || mir_wstrcmp(oldClient, client))
-						proto->setTString(hContact, "MirVer", client);
+						proto->setWString(hContact, "MirVer", client);
 				}
 			}
 		}
@@ -818,9 +818,9 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				} */
 
 
-				/* ptrW client(getTStringA(fbu->handle, "MirVer"));
+				/* ptrW client(getWStringA(fbu->handle, "MirVer"));
 				if (!client || mir_wstrcmp(client, fbu->getMirVer()))
-					setTString(fbu->handle, "MirVer", fbu->getMirVer());
+					setWString(fbu->handle, "MirVer", fbu->getMirVer());
 				*/
 
 				const JSONNode &a_ = (*itNodes)["a"]; // possible values: 0, 2 (something more?)
@@ -894,9 +894,9 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 						client = FACEBOOK_CLIENT_OTHER;
 					}*/
 
-					ptrW oldClient(proto->getTStringA(hContact, "MirVer"));
+					ptrW oldClient(proto->getWStringA(hContact, "MirVer"));
 					if (!oldClient || mir_wstrcmp(oldClient, client))
-						proto->setTString(hContact, "MirVer", client);
+						proto->setWString(hContact, "MirVer", client);
 				}
 			}
 		} else if (t == "ticker_update:home") {

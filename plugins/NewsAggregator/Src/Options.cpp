@@ -56,20 +56,20 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 				Proto_AddToContact(hContact, MODULE);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
-				db_set_ts(hContact, MODULE, "Nick", str);
+				db_set_ws(hContact, MODULE, "Nick", str);
 
 				HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
-				db_set_ts(hContact, MODULE, "URL", str);
+				db_set_ws(hContact, MODULE, "URL", str);
 				db_set_b(hContact, MODULE, "CheckState", 1);
 				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
-				db_set_ts(hContact, MODULE, "MsgFormat", str);
+				db_set_ws(hContact, MODULE, "MsgFormat", str);
 				db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 					db_set_b(hContact, MODULE, "UseAuth", 1);
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
-					db_set_ts(hContact, MODULE, "Login", str);
+					db_set_ws(hContact, MODULE, "Login", str);
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, _countof(passw));
 					db_set_s(hContact, MODULE, "Password", passw);
 				}
@@ -152,11 +152,11 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
 
 			for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-				ptrW dbNick(db_get_tsa(hContact, MODULE, "Nick"));
+				ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
 				if ((dbNick == NULL) || (mir_wstrcmp(dbNick, SelItem.nick) != 0))
 					continue;
 
-				ptrW dbURL(db_get_tsa(hContact, MODULE, "URL"));
+				ptrW dbURL(db_get_wsa(hContact, MODULE, "URL"));
 				if ((dbURL == NULL) || (mir_wstrcmp(dbURL, SelItem.url) != 0))
 					continue;
 
@@ -167,7 +167,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
 				SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
 
-				wchar_t *szMsgFormat = db_get_tsa(hContact, MODULE, "MsgFormat");
+				wchar_t *szMsgFormat = db_get_wsa(hContact, MODULE, "MsgFormat");
 				if (szMsgFormat) {
 					SetDlgItemText(hwndDlg, IDC_TAGSEDIT, szMsgFormat);
 					mir_free(szMsgFormat);
@@ -177,7 +177,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
 
-					wchar_t *szLogin = db_get_tsa(hContact, MODULE, "Login");
+					wchar_t *szLogin = db_get_wsa(hContact, MODULE, "Login");
 					if (szLogin) {
 						SetDlgItemText(hwndDlg, IDC_LOGIN, szLogin);
 						mir_free(szLogin);
@@ -213,17 +213,17 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 
 				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
-				db_set_ts(SelItem->hContact, MODULE, "URL", str);
+				db_set_ws(SelItem->hContact, MODULE, "URL", str);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
-				db_set_ts(SelItem->hContact, MODULE, "Nick", str);
+				db_set_ws(SelItem->hContact, MODULE, "Nick", str);
 				db_set_dw(SelItem->hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
-				db_set_ts(SelItem->hContact, MODULE, "MsgFormat", str);
+				db_set_ws(SelItem->hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 					db_set_b(SelItem->hContact, MODULE, "UseAuth", 1);
 
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
-					db_set_ts(SelItem->hContact, MODULE, "Login", str);
+					db_set_ws(SelItem->hContact, MODULE, "Login", str);
 
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, _countof(passw));
 					db_set_s(SelItem->hContact, MODULE, "Password", passw);
@@ -314,13 +314,13 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
 
-			wchar_t *ptszNick = db_get_tsa(hContact, MODULE, "Nick");
+			wchar_t *ptszNick = db_get_wsa(hContact, MODULE, "Nick");
 			if (ptszNick) {
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, ptszNick);
 				mir_free(ptszNick);
 			}
 
-			wchar_t *ptszURL = db_get_tsa(hContact, MODULE, "URL");
+			wchar_t *ptszURL = db_get_wsa(hContact, MODULE, "URL");
 			if (ptszNick) {
 				SetDlgItemText(hwndDlg, IDC_FEEDURL, ptszURL);
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
@@ -329,7 +329,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
 
-			wchar_t *ptszMsgFormat = db_get_tsa(hContact, MODULE, "MsgFormat");
+			wchar_t *ptszMsgFormat = db_get_wsa(hContact, MODULE, "MsgFormat");
 			if (ptszMsgFormat) {
 				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, ptszMsgFormat);
 				mir_free(ptszMsgFormat);
@@ -339,7 +339,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-				wchar_t *ptszLogin = db_get_tsa(hContact, MODULE, "Login");
+				wchar_t *ptszLogin = db_get_wsa(hContact, MODULE, "Login");
 				if (ptszLogin) {
 					SetDlgItemText(hwndDlg, IDC_LOGIN, ptszLogin);
 					mir_free(ptszLogin);
@@ -371,17 +371,17 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 
 				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
-				db_set_ts(hContact, MODULE, "URL", str);
+				db_set_ws(hContact, MODULE, "URL", str);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
-				db_set_ts(hContact, MODULE, "Nick", str);
+				db_set_ws(hContact, MODULE, "Nick", str);
 				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
-				db_set_ts(hContact, MODULE, "MsgFormat", str);
+				db_set_ws(hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 					db_set_b(hContact, MODULE, "UseAuth", 1);
 
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
-					db_set_ts(hContact, MODULE, "Login", str);
+					db_set_ws(hContact, MODULE, "Login", str);
 
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, _countof(passw));
 					db_set_s(hContact, MODULE, "Password", passw);
@@ -498,13 +498,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ListView_GetItemText(hwndList, sel, 1, url, _countof(url));
 
 				for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-					ptrW dbNick(db_get_tsa(hContact, MODULE, "Nick"));
+					ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
 					if (dbNick == NULL)
 						break;
 					if (mir_wstrcmp(dbNick, nick))
 						continue;
 
-					ptrW dbURL(db_get_tsa(hContact, MODULE, "URL"));
+					ptrW dbURL(db_get_wsa(hContact, MODULE, "URL"));
 					if (dbURL == NULL)
 						break;
 					if (mir_wstrcmp(dbURL, url))

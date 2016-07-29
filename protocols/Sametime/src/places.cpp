@@ -54,13 +54,13 @@ mwPlaceHandler mwPlace_handler = {
 
 void CSametimeProto::InitPlaces(mwSession* session)
 {
-	debugLog(L"CSametimeProto::InitPlaces()");
+	debugLogW(L"CSametimeProto::InitPlaces()");
 	mwSession_addService(session, (mwService*)(service_places = mwServicePlace_new(session, &mwPlace_handler)));
 }
 
 void CSametimeProto::DeinitPlaces(mwSession* session)
 {
-	debugLog(L"CSametimeProto::DeinitPlaces()");
+	debugLogW(L"CSametimeProto::DeinitPlaces()");
 	mwSession_removeService(session, mwService_PLACE);
 	mwService_free((mwService*)service_places);
 	service_places = 0;

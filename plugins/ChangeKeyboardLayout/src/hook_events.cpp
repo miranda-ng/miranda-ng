@@ -101,7 +101,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	for (int i = 0; i < bLayNum; i++) {
 		LPTSTR ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
 		LPSTR ptszTemp = GetNameOfLayout(hklLayouts[i]);
-		ptrW tszValue(db_get_tsa(NULL, ModuleName, ptszTemp));
+		ptrW tszValue(db_get_wsa(NULL, ModuleName, ptszTemp));
 		if (tszValue == 0)
 			ptszLayStrings[i] = ptszCurrLayout;
 		else if (!mir_wstrcmp(tszValue, ptszEmptySting))

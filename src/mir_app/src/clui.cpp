@@ -275,7 +275,7 @@ int LoadCLUIModule(void)
 	wndclass.hIconSm = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	RegisterClassEx(&wndclass);
 
-	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
+	if (db_get_ws(NULL, "CList", "TitleText", &dbv))
 		mir_wstrncpy(titleText, _T(MIRANDANAME), _countof(titleText));
 	else {
 		mir_wstrncpy(titleText, dbv.ptszVal, _countof(titleText));
@@ -412,7 +412,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	if (msg == uMsgProcessProfile) {
 		wchar_t profile[MAX_PATH];
 		if (GlobalGetAtomName((ATOM)wParam, profile, _countof(profile))) {
-			int rc = mir_wstrcmpi(profile, VARST(L"%miranda_userdata%\\%miranda_profilename%.dat")) == 0;
+			int rc = mir_wstrcmpi(profile, VARSW(L"%miranda_userdata%\\%miranda_profilename%.dat")) == 0;
 			ReplyMessage(rc);
 			if (rc) {
 				ShowWindow(hwnd, SW_RESTORE);

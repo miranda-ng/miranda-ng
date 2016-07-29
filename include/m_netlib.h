@@ -90,12 +90,6 @@ typedef struct {
 #define NUF_UNICODE 0x40  // if set ptszDescriptiveName points to Unicode, otherwise it points to ANSI string
 #define MS_NETLIB_REGISTERUSER   "Netlib/RegisterUser"
 
-#if defined(_UNICODE)
-	#define NUF_TCHAR NUF_UNICODE
-#else
-	#define NUF_TCHAR 0
-#endif
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Assign a Netlib user handle a set of dynamic HTTP headers to be used with all
 // 

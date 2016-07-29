@@ -19,6 +19,6 @@
 
 wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, wchar_t* szDef)
 {
-	wchar_t *szRes = db_get_tsa(hContact, szModule, szSetting);
+	wchar_t *szRes = db_get_wsa(hContact, szModule, szSetting);
 	return szRes ? szRes  : mir_wstrdup(szDef);
 }

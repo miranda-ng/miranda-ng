@@ -759,7 +759,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
 			}
 			else if (g_dat.flags & SMF_SAVEDRAFTS) {
-				ptrW ptszSavedMsg(db_get_tsa(dat->hContact, "SRMM", "SavedMsg"));
+				ptrW ptszSavedMsg(db_get_wsa(dat->hContact, "SRMM", "SavedMsg"));
 				if (ptszSavedMsg)
 					len = SetRichText(GetDlgItem(hwndDlg, IDC_MESSAGE), ptszSavedMsg);
 				PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
@@ -931,7 +931,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			mii.wID = i + 1;
 			mii.dwItemData = (ULONG_PTR)g_dat.hButtonIconList;
 			mii.hbmpItem = HBMMENU_CALLBACK;
-			mii.dwTypeData = TranslateTS((toolbarButtons[i].name));
+			mii.dwTypeData = TranslateW((toolbarButtons[i].name));
 			InsertMenuItem(hToolbarMenu, i, TRUE, &mii);
 		}
 		{
@@ -1670,7 +1670,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 					db_event_get(dat->hDbEventLast, &dbei);
 					if (DbEventIsMessageOrCustom(&dbei)) {
-						buffer = DbGetEventTextT(&dbei, CP_ACP);
+						buffer = DbGetEventTextW(&dbei, CP_ACP);
 						if (buffer != NULL) {
 							wchar_t *quotedBuffer = GetQuotedTextW(buffer);
 							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);

@@ -188,7 +188,7 @@ int HookedOptions(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 		odp.pwszTitle = LPGENW("MessagePopup");
 		odp.pwszGroup = LPGENW("Popups");
-		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		odp.pfnDlgProc = OptionsDlgProc;
 		Options_AddPage(wParam, &odp);
 	}

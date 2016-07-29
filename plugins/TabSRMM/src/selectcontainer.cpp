@@ -179,7 +179,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		TContainerData *pContainer = 0;
 		do {
 			mir_snprintf(szValue, "%d", iCounter);
-			if (db_get_ts(NULL, szKey, szValue, &dbv))
+			if (db_get_ws(NULL, szKey, szValue, &dbv))
 				break;          // end of list
 			if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
 				if (wcsncmp(dbv.ptszVal, L"**mir_free**", CONTAINER_NAMELEN)) {

@@ -44,7 +44,7 @@ static wchar_t* getMenuEntry(int i)
 {
 	char MEntry[256];
 	mir_snprintf(MEntry, "MenuEntry_%u", i);
-	return db_get_tsa(NULL, "tabmodplus", MEntry);
+	return db_get_wsa(NULL, "tabmodplus", MEntry);
 }
 
 static int RegisterCustomButton(WPARAM, LPARAM)

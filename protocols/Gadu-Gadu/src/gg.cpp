@@ -174,9 +174,9 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 		debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
 		wchar_t avatarsPath[MAX_PATH];
-		mir_snwprintf(avatarsPath, L"%s\\%s", VARST( L"%miranda_avatarcache%"), m_tszUserName);
+		mir_snwprintf(avatarsPath, L"%s\\%s", VARSW( L"%miranda_avatarcache%"), m_tszUserName);
 
-		debugLog(L"cleanuplastplugin() 1: miranda_avatarcache = %s", avatarsPath);
+		debugLogW(L"cleanuplastplugin() 1: miranda_avatarcache = %s", avatarsPath);
 
 		wchar_t spec[MAX_PATH + 10];
 		mir_snwprintf(spec, L"%s\\*.(null)", avatarsPath);
@@ -187,7 +187,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 				wchar_t filePathT [2*MAX_PATH + 10];
 				mir_snwprintf(filePathT, L"%s\\%s", avatarsPath, ffd.cFileName);
 				if (!_waccess(filePathT, 0)){
-					debugLog(L"cleanuplastplugin() 1: remove file = %s", filePathT);
+					debugLogW(L"cleanuplastplugin() 1: remove file = %s", filePathT);
 					_wremove(filePathT);
 				}
 			} while (FindNextFile(hFind, &ffd) != 0);
@@ -287,7 +287,7 @@ void GGPROTO::menus_init()
 	
 	CMenuItem mi;
 	mi.root = hRoot;
-   mi.flags = CMIF_TCHAR;
+   mi.flags = CMIF_UNICODE;
 
    mi.name.w = LPGENW("Conference");
    mi.position = 200001;

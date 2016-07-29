@@ -48,7 +48,7 @@ INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 		if (pData->flags & CSSF_DEFAULT_NAME)
 			title = mir_wstrdup(TranslateT("Playing"));
 		else
-			title = getTStringA(hContact, "XStatusName");
+			title = getWStringA(hContact, "XStatusName");
 
 		if (pData->flags & CSSF_UNICODE)
 			mir_wstrncpy(pData->ptszName, title, STATUS_TITLE_MAX);
@@ -58,7 +58,7 @@ INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 
 	// fill status message member
 	if (pData->flags & CSSF_MASK_MESSAGE) {
-		ptrW message(getTStringA(hContact, "XStatusMsg"));
+		ptrW message(getWStringA(hContact, "XStatusMsg"));
 		
 		if (pData->flags & CSSF_UNICODE)
 			mir_wstrncpy(pData->ptszMessage, message, STATUS_DESC_MAX);

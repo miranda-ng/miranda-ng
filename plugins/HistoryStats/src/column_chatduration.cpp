@@ -88,7 +88,7 @@ void ColChatDuration::impl_outputRenderHeader(ext::ostream& tos, int row, int ro
 
 	if (row == 1)
 	{
-		ext::string szLong = TranslateTS(szVisModeDesc[m_nVisMode]);
+		ext::string szLong = TranslateW(szVisModeDesc[m_nVisMode]);
 		writeRowspanTD(tos, getCustomTitle(TranslateT("Chat duration"), szLong) + (m_bGraph ? L"<div style=\"width: 70px;\"></div>" : L""), row, 1, rowSpan);
 	}
 }
@@ -176,7 +176,7 @@ void ColChatDuration::impl_outputRenderRow(ext::ostream& tos, const Contact& con
 		{
 			if (i != m_nVisMode)
 			{
-				strTooltip += ext::str(ext::kformat(TranslateTS(szPrefixes[i])) % L"#{amount}" * strAll[i]);
+				strTooltip += ext::str(ext::kformat(TranslateW(szPrefixes[i])) % L"#{amount}" * strAll[i]);
 				++nSegments;
 
 				if (nSegments < 3)

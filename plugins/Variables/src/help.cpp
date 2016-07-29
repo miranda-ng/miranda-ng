@@ -129,7 +129,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			MCONTACT hItem, hContact = wParam;
 			log_debugA("VARM_SETSUBJECT: %u", hContact);
 			if (hContact == INVALID_CONTACT_ID) {
-				wchar_t *tszContact = db_get_tsa(NULL, MODULENAME, SETTING_SUBJECT);
+				wchar_t *tszContact = db_get_wsa(NULL, MODULENAME, SETTING_SUBJECT);
 				log_debugA("VARM_SETSUBJECT: %s", tszContact);
 				if (tszContact != NULL) {
 					hContact = getContactFromString(tszContact, CI_PROTOID);
@@ -204,7 +204,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		if (hContact != NULL) {
 			wchar_t *tszContact = encodeContactToString(hContact);
 			if (tszContact != NULL) {
-				db_set_ts(NULL, MODULENAME, SETTING_SUBJECT, tszContact);
+				db_set_ws(NULL, MODULENAME, SETTING_SUBJECT, tszContact);
 				mir_free(tszContact);
 		}	}
 		break;
@@ -403,7 +403,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 					tszHelpDesc = mir_wstrdup(L"unknown");
 
 				lvItem.iSubItem = 1;
-				lvItem.pszText = TranslateTS(tszHelpDesc);
+				lvItem.pszText = TranslateW(tszHelpDesc);
 				ListView_SetItem(hList, &lvItem);
 				mir_free(tszHelpDesc);
 			}
@@ -422,7 +422,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 
 				cat = getTokenCategory((TOKENREGISTEREX *)lvItem.lParam);
 				if (cat != NULL) {
-					text = mir_wstrdup(TranslateTS(cat));
+					text = mir_wstrdup(TranslateW(cat));
 					mir_free(cat);
 				}
 				else text = NULL;

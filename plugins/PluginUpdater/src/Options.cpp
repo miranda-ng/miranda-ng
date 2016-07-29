@@ -33,7 +33,7 @@ static int GetUpdateMode()
 
 	// Check if there is url for custom mode
 	if (UpdateMode == UPDATE_MODE_CUSTOM) {
-		ptrW url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
+		ptrW url(db_get_wsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
 		if (url == NULL || !wcslen(url)) {
 			// No url for custom mode, reset that setting so it will be determined automatically
 			db_unset(NULL, MODNAME, DB_SETTING_UPDATE_MODE);
@@ -65,7 +65,7 @@ wchar_t* GetDefaultUrl()
 		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS, opts.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS);
 		return mir_wstrdup(url);
 	default:
-		return db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL);
+		return db_get_wsa(NULL, MODNAME, DB_SETTING_UPDATE_URL);
 	}
 }
 
@@ -140,7 +140,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), FALSE);
 
-				ptrW url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
+				ptrW url(db_get_wsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
 				if (url == NULL)
 					url = GetDefaultUrl();
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
@@ -206,7 +206,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PLATFORM), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
 			{
-				ptrW url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
+				ptrW url(db_get_wsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
 				if (url == NULL)
 					url = GetDefaultUrl();
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
@@ -295,7 +295,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				else {
 					wchar_t tszUrl[100];
 					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, tszUrl, _countof(tszUrl));
-					db_set_ts(NULL, MODNAME, DB_SETTING_UPDATE_URL, tszUrl);
+					db_set_ws(NULL, MODNAME, DB_SETTING_UPDATE_URL, tszUrl);
 					db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
 					opts.bForceRedownload = 0;
 					db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
@@ -340,8 +340,8 @@ static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 		SetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, PopupOptions.Timeout, TRUE);
 		//Mouse actions
 		for (int i = 0; i < _countof(PopupActions); i++) {
-			SendDlgItemMessage(hdlg, IDC_LC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_LC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
-			SendDlgItemMessage(hdlg, IDC_RC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_RC, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
+			SendDlgItemMessage(hdlg, IDC_LC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_LC, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
+			SendDlgItemMessage(hdlg, IDC_RC, CB_SETITEMDATA, SendDlgItemMessage(hdlg, IDC_RC, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
 		}
 		SendDlgItemMessage(hdlg, IDC_LC, CB_SETCURSEL, PopupOptions.LeftClickAction, 0);
 		SendDlgItemMessage(hdlg, IDC_RC, CB_SETCURSEL, PopupOptions.RightClickAction, 0);
@@ -510,7 +510,7 @@ static int OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_UPDATENOTIFY);
 	odp.pwszGroup = LPGENW("Services");
 	odp.pwszTitle = LPGENW("Plugin Updater");

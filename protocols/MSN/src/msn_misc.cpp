@@ -170,10 +170,10 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 // MSN_GetAvatarFileName - gets a file name for an contact's avatar
 void CMsnProto::MSN_GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen, const wchar_t *ext)
 {
-	size_t tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	size_t tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (_waccess(pszDest, 0))
-		CreateDirectoryTreeT(pszDest);
+		CreateDirectoryTreeW(pszDest);
 
 	size_t tPathLen2 = tPathLen;
 	if (hContact != NULL) {
@@ -331,7 +331,7 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, wchar_t* pszDest,
 
 	if (hContact != NULL) {
 		DBVARIANT dbv = { 0 };
-		if (getTString(hContact, "e-mail", &dbv)) {
+		if (getWString(hContact, "e-mail", &dbv)) {
 			dbv.type = DBVT_ASCIIZ;
 			dbv.ptszVal = (wchar_t*)mir_alloc(11*sizeof(wchar_t));
 			_ui64tow((UINT_PTR)hContact, dbv.ptszVal, 10);
@@ -354,7 +354,7 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, wchar_t* pszDest,
 	}
 
 	if (!exist)
-		CreateDirectoryTreeT(pszDest);
+		CreateDirectoryTreeW(pszDest);
 
 	wchar_t *sztSmileyName = mir_a2u(SmileyName);
 	mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s.%s", sztSmileyName,
@@ -397,7 +397,7 @@ void CMsnProto::MSN_GoOffline(void)
 		{
 			if (isChatRoom(hContact) != 0) {
 				DBVARIANT dbv;
-				if (getTString(hContact, "ChatRoomID", &dbv) == 0) {
+				if (getWString(hContact, "ChatRoomID", &dbv) == 0) {
 					GCDEST gcd = { m_szModuleName, dbv.ptszVal, GC_EVENT_CONTROL };
 					GCEVENT gce = { sizeof(gce), &gcd };
 					CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
@@ -990,7 +990,7 @@ void CMsnProto::InitPopups(void)
 	ppc.flags = PCF_TCHAR;
 	ppc.PluginWindowProc = NullWindowProc;
 	ppc.hIcon = LoadIconEx("main");
-	ppc.ptszDescription = desc;
+	ppc.pwszDescription = desc;
 	ppc.pszName = name;
 
 	ppc.colorBack = RGB(173, 206, 247);
@@ -1087,7 +1087,7 @@ filetransfer::filetransfer(CMsnProto* prt)
 	memset(this, 0, sizeof(filetransfer));
 	fileId = -1;
 	std.cbSize = sizeof(std);
-	std.flags = PFTS_TCHAR;
+	std.flags = PFTS_UNICODE;
 	proto = prt;
 
 	hLockHandle = CreateMutex(NULL, FALSE, NULL);

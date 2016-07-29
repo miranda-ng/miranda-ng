@@ -727,7 +727,7 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (jfi->xNode != NULL && (n = XmlGetChild(jfi->xNode, L"title")) != NULL && XmlGetText(n) != NULL)
 				SetWindowText(hwndDlg, XmlGetText(n));
 			else
-				SetWindowText(hwndDlg, TranslateTS(jfi->defTitle));
+				SetWindowText(hwndDlg, TranslateW(jfi->defTitle));
 			
 			// Set instruction field
 			if (jfi->xNode != NULL && (n = XmlGetChild(jfi->xNode, L"instructions")) != NULL && XmlGetText(n) != NULL)
@@ -736,7 +736,7 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (jfi->xNode != NULL && (n = XmlGetChild(jfi->xNode, L"title")) != NULL && XmlGetText(n) != NULL)
 					JabberFormSetInstruction(hwndDlg, XmlGetText(n));
 				else
-					JabberFormSetInstruction(hwndDlg, TranslateTS(jfi->defTitle));
+					JabberFormSetInstruction(hwndDlg, TranslateW(jfi->defTitle));
 			}
 
 			// Create form

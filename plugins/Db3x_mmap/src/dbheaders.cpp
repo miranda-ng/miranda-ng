@@ -69,7 +69,7 @@ int CDb3Mmap::CheckDbHeaders(bool bInteractive)
 
 		if (!memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature))) {
 			if (bInteractive)
-				if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONWARNING)) {
+				if (IDYES == MessageBox(NULL, TranslateW(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONWARNING)) {
 					wchar_t tszCurPath[MAX_PATH];
 					GetModuleFileName(NULL, tszCurPath, _countof(tszCurPath));
 					wchar_t *p = wcsrchr(tszCurPath, '\\');

@@ -570,7 +570,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.hInstance = hInst;
 	odp.pwszGroup = LPGENW("Status");
 	odp.pwszTitle = LPGENW("KeepStatus");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
 	odp.pfnDlgProc = DlgProcKsTabs;
 	Options_AddPage(wparam, &odp);
@@ -584,7 +584,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
 		odp.pwszTitle = LPGENW("KeepStatus");
 		odp.pfnDlgProc = PopupOptDlgProc;
-		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		Options_AddPage(wparam, &odp);
 	}
 	return 0;

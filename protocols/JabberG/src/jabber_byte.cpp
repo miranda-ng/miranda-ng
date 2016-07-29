@@ -153,7 +153,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	BOOL bDirect = m_options.BsDirect;
 
 	if (m_options.BsProxyManual) {
-		ptrW proxyJid( getTStringA("BsProxyServer"));
+		ptrW proxyJid( getWStringA("BsProxyServer"));
 		if (proxyJid) {
 			jbt->bProxyDiscovered = FALSE;
 			jbt->szProxyHost = NULL;
@@ -626,7 +626,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 					port = (WORD)_wtoi(szPort);
 					replaceStrW(jbt->streamhostJID, str);
 
-					debugLog(L"bytestream_recv connecting to %s:%d", szHost, port);
+					debugLogW(L"bytestream_recv connecting to %s:%d", szHost, port);
 					NETLIBOPENCONNECTION nloc = { 0 };
 					nloc.cbSize = sizeof(nloc);
 					nloc.szHost = mir_u2a(szHost);

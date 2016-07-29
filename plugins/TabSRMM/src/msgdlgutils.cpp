@@ -187,7 +187,7 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 		ii.hbm = hbm;
 		ii.dwMask = IMGI_HBITMAP;
 		ii.fif = FIF_UNKNOWN;			// get the format from the filename extension. png is default.
-		CallService(MS_IMG_SAVE, (WPARAM)&ii, IMGL_TCHAR);
+		CallService(MS_IMG_SAVE, (WPARAM)&ii, IMGL_WCHAR);
 	}
 }
 
@@ -834,7 +834,7 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 
 static wchar_t tszRtfBreaks[] = L" \\\n\r";
 
-static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst)
+static void CreateColorMap(CMStringW &Text, int iCount, COLORREF *pSrc, int *pDst)
 {
 	const wchar_t *pszText = Text;
 	int iIndex = 1;
@@ -881,7 +881,7 @@ static int GetRtfIndex(int iCol, int iCount, int *pIndex)
 // convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
 // tags and return plain text
 
-BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors, COLORREF *pColors)
+BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMStringW &pszText, int iNumColors, COLORREF *pColors)
 {
 	if (pszText.IsEmpty())
 		return FALSE;
@@ -904,7 +904,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 	else idx += 5;
 
 	bool bInsideColor = false, bInsideUl = false;
-	CMString res;
+	CMStringW res;
 
 	// iterate through all characters, if rtf control character found then take action
 	for (const wchar_t *p = pszText.GetString() + idx; *p;) {
@@ -1726,7 +1726,7 @@ void TSAPI GetClientIcon(TWindowData *dat)
 
 	dat->hClientIcon = 0;
 	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
-		ptrW tszMirver(db_get_tsa(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "MirVer"));
+		ptrW tszMirver(db_get_wsa(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "MirVer"));
 		if (tszMirver)
 			dat->hClientIcon = Finger_GetClientIcon(tszMirver, 1);
 	}
@@ -1937,7 +1937,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 	ii.wszName = filename;
 	ii.dwMask = IMGI_HBITMAP;
 	ii.fif = FIF_JPEG;
-	CallService(MS_IMG_SAVE, (WPARAM)&ii, IMGL_TCHAR);
+	CallService(MS_IMG_SAVE, (WPARAM)&ii, IMGL_WCHAR);
 
 	int totalCount = 0;
 	wchar_t **ppFiles = NULL;

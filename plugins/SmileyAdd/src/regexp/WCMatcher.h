@@ -23,7 +23,7 @@
   invocation looks like:
   <pre>
   wchar_t buf[10000];
-  CMString str = "\\5 (user name \\1) uses \\7 for his/her shell and \\6 is their home directory";
+  CMStringW str = "\\5 (user name \\1) uses \\7 for his/her shell and \\6 is their home directory";
   FILE * fp = fopen("/etc/passwd", "r");
   WCPattern::registerWCPattern("entry", "[^:]+");
   WCPattern * p = WCPattern::compile("^({entry}):({entry}):({entry}):({entry}):({entry}):({entry}):({entry})$",
@@ -92,24 +92,24 @@ class WCMatcher
       @param pattern  The pattern with which to search
       @param text     The text in which to search
      */
-    WCMatcher(WCPattern * pattern, const CMString & text);
+    WCMatcher(WCPattern *pattern, const CMStringW & ext);
   protected:
     /// The pattern we use to match
-    WCPattern * pat;
+    WCPattern *pat;
     /// The string in which we are matching
-    const CMString * str;
+    const CMStringW *str;
     /// The starting point of our match
     int start;
     /// An array of the starting positions for each group
-    int * starts;
+    int *starts;
     /// An array of the ending positions for each group
-    int * ends;
+    int *ends;
     /// An array of private data used by NFAUNodes during matching
-    int * groups;
+    int *groups;
     /// An array of private data used by NFAUNodes during matching
-    int * groupIndeces;
+    int *groupIndeces;
     /// An array of private data used by NFAUNodes during matching
-    int * groupPos;
+    int *groupPos;
     /// The ending index of the last match
     int lm;
     /// The number of capturing groups we have
@@ -135,7 +135,7 @@ class WCMatcher
       @param str The string in which to replace text
       @return A string with all backreferences appropriately replaced
      */
-    CMString replaceWithGroups(const CMString & str);
+    CMStringW replaceWithGroups(const CMStringW & str);
     /**
       The flags currently being used by the matcher.
       @return Zero
@@ -145,7 +145,7 @@ class WCMatcher
       The text being searched by the matcher.
       @return the text being searched by the matcher.
      */
-    const CMString& getText() const;
+    const CMStringW& getText() const;
 
     /**
       Scans the string from start to finish for a match. The entire string must
@@ -179,7 +179,7 @@ class WCMatcher
 
       @return Every substring in order which matches the given pattern
      */
-    std::vector<CMString> findAll();
+    std::vector<CMStringW> findAll();
     /**
       Resets the internal state of the matcher
      */
@@ -188,12 +188,12 @@ class WCMatcher
       Same as getText. Left n for backwards compatibilty with old source code
       @return Returns the string that is currently being used for matching
      */
-    inline const CMString&  getString()                           const { return *str; }
+    inline const CMStringW&  getString()                           const { return *str; }
     /**
       Sets the string to scan
       @param newStr The string to scan for subsequent matches
      */
-    inline void         setString(const CMString & newStr)       { str = &newStr; reset(); }
+    inline void         setString(const CMStringW & newStr)       { str = &newStr; reset(); }
 
     /**
       Returns the starting index of the specified group.
@@ -217,14 +217,14 @@ class WCMatcher
       @param groupNum The group to query
       @return The text of the group
      */
-    CMString getGroup(const int groupNum = 0) const;
+    CMStringW getGroup(const int groupNum = 0) const;
     /**
       Returns every capture group in a vector
 
       @param includeGroupZero Whether or not include capture group zero
       @return Every capture group
      */
-    std::vector<CMString> getGroups(const bool includeGroupZero = 0) const;
+    std::vector<CMStringW> getGroups(const bool includeGroupZero = 0) const;
 };
 
 #endif

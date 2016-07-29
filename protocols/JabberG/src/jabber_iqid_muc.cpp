@@ -322,7 +322,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 					lvi.cchTextMax = _countof(text);
 					ListView_GetItem(nm->hdr.hwndFrom, &lvi);
 					if (lvi.lParam == -1) {
-						CMString szBuffer(dat->type2str());
+						CMStringW szBuffer(dat->type2str());
 						if (!dat->ppro->EnterString(szBuffer, NULL, ESF_COMBO, "gcAddNick_"))
 							break;
 
@@ -331,7 +331,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 						if (szBuffer.IsEmpty())
 							break;
 
-						CMString rsn(dat->type2str());
+						CMStringW rsn(dat->type2str());
 						if (dat->type == MUC_BANLIST) {
 							dat->ppro->EnterString(rsn, TranslateT("Reason to ban"), ESF_COMBO, "gcAddReason_");
 							if (szBuffer)

@@ -314,14 +314,14 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 				if (cell->type == 0)
 					mir_snwprintf(buf, TranslateT("Empty %s cell"), cell->cont == TC_COL ? TranslateT("column") : TranslateT("line"));
 				else
-					mir_wstrncpy(buf, TranslateTS(types[cell->type]), _countof(buf));
+					mir_wstrncpy(buf, TranslateW(types[cell->type]), _countof(buf));
 			}
 			else
 			{
 				if (cell->type == 0)
 					mir_wstrncpy(buf, (cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines")), _countof(buf));
 				else
-					mir_snwprintf(buf, TranslateT("%s, contain %s"), TranslateTS(types[cell->type]), cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines"));
+					mir_snwprintf(buf, TranslateT("%s, contain %s"), TranslateW(types[cell->type]), cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines"));
 			}
 			if (cell->layer) mir_wstrncat(buf, TranslateT(" layered"), _countof(buf) - mir_wstrlen(buf));
 			tvi.mask = TVIF_HANDLE | TVIF_TEXT;
@@ -357,21 +357,21 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		int i, item;
 
 		for (i = 0; i < _countof(types); i++) {
-			item = SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(types[i]));
+			item = SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(types[i]));
 			SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_SETITEMDATA, item, 0);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_SETCURSEL, 0, 0);
 
 		wchar_t *h_alignment[] = { L"left", L"hCenter", L"right" };
 		for (i = 0; i < _countof(h_alignment); i++) {
-			item = SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateTS(h_alignment[i]));
+			item = SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(h_alignment[i]));
 			SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETITEMDATA, item, 0);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETCURSEL, 0, 0);
 
 		wchar_t *v_alignment[] = { L"top", L"vCenter", L"bottom" };
 		for (i = 0; i < _countof(v_alignment); i++) {
-			item = SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateTS(v_alignment[i]));
+			item = SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(v_alignment[i]));
 			SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETITEMDATA, item, 0);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETCURSEL, 0, 0);

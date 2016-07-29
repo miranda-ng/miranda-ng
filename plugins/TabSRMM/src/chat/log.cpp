@@ -795,7 +795,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				if (g_Settings.bLogClassicIndicators)
 					str.Append(pszIndicator);
 
-				CMString pszTemp(lin->bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick);
+				CMStringW pszTemp(lin->bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick);
 				pszTemp.Replace(L"%n", L"%s");
 				if (!lin->bIsMe) {
 					if (g_Settings.bClickableNicks)

@@ -171,7 +171,7 @@ void CJabberIqManager::ExpireInfo(CJabberIqInfo *pInfo)
 	if ((pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (pInfo->m_szFrom))
 		pInfo->m_hContact = ppro->HContactFromJID(pInfo->m_szFrom);
 
-	ppro->debugLog(L"Expiring iq id %d, sent to %s", pInfo->m_nIqId, pInfo->m_szReceiver ? pInfo->m_szReceiver : L"server");
+	ppro->debugLogW(L"Expiring iq id %d, sent to %s", pInfo->m_nIqId, pInfo->m_szReceiver ? pInfo->m_szReceiver : L"server");
 
 	pInfo->m_nIqType = JABBER_IQ_TYPE_FAIL;
 	(ppro->*(pInfo->m_pHandler))(NULL, pInfo);
@@ -336,7 +336,7 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 			if ((pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (iqInfo.m_szFrom))
 				iqInfo.m_hContact = ppro->HContactFromJID(iqInfo.m_szFrom);
 
-			ppro->debugLog(L"Handling iq id %s, type %s, from %s", iqInfo.m_szId, szType, iqInfo.m_szFrom);
+			ppro->debugLogW(L"Handling iq id %s, type %s, from %s", iqInfo.m_szId, szType, iqInfo.m_szFrom);
 			if ((ppro->*(pInfo.m_pHandler))(pNode, &iqInfo))
 				return true;
 		}

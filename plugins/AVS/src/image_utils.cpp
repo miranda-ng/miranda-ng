@@ -164,7 +164,7 @@ HBITMAP BmpFilterLoadBitmap(BOOL *bIsTransparent, const wchar_t *ptszFilename)
 	if (fei == NULL)
 		return 0;
 
-	FIBITMAP *dib = (FIBITMAP*)CallService(MS_IMG_LOAD, (WPARAM)ptszFilename, IMGL_RETURNDIB | IMGL_TCHAR);
+	FIBITMAP *dib = (FIBITMAP*)CallService(MS_IMG_LOAD, (WPARAM)ptszFilename, IMGL_RETURNDIB | IMGL_WCHAR);
 	if (dib == NULL)
 		return 0;
 
@@ -209,7 +209,7 @@ int BmpFilterSaveBitmap(HBITMAP hBmp, const wchar_t *ptszFile, int flags)
 		return -1;
 
 	wchar_t tszFilename[MAX_PATH];
-	if (!PathToAbsoluteT(ptszFile, tszFilename))
+	if (!PathToAbsoluteW(ptszFile, tszFilename))
 		wcsncpy_s(tszFilename, ptszFile, _TRUNCATE);
 
 	if (mir_wstrlen(tszFilename) <= 4)
@@ -222,7 +222,7 @@ int BmpFilterSaveBitmap(HBITMAP hBmp, const wchar_t *ptszFile, int flags)
 	i.dwMask = IMGI_HBITMAP;
 	i.fif = FIF_UNKNOWN;
 
-	return !CallService(MS_IMG_SAVE, (WPARAM)&i, MAKELONG(IMGL_TCHAR, flags));
+	return !CallService(MS_IMG_SAVE, (WPARAM)&i, MAKELONG(IMGL_WCHAR, flags));
 }
 
 // Other utilities ////////////////////////////////////////////////////////////////////////////////

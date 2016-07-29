@@ -72,7 +72,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			mir_wstrcpy(chf.szFaceName, TEXT("Courier New"));
 			SendDlgItemMessage(hwndDlg, IDC_VIEWVERSIONINFO, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&chf);
 
-			CMString buffer;
+			CMStringW buffer;
 			PrintVersionInfo(buffer, (unsigned int)lParam);
 			SetDlgItemText(hwndDlg, IDC_VIEWVERSIONINFO, buffer.c_str());
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);

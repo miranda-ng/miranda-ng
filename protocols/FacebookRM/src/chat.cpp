@@ -101,7 +101,7 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		if (!hContact)
 			break;
 
-		CallService(MS_MSG_SENDMESSAGET, hContact);
+		CallService(MS_MSG_SENDMESSAGEW, hContact);
 		break;
 	}
 
@@ -285,8 +285,8 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (!m_enableChat || IsSpecialChatRoom(hContact))
 		return 0;
 
-	ptrW idT(getTStringA(hContact, "ChatRoomID"));
-	ptrW nameT(getTStringA(hContact, "Nick"));
+	ptrW idT(getWStringA(hContact, "ChatRoomID"));
+	ptrW nameT(getWStringA(hContact, "Nick"));
 	ptrA threadId(getStringA(hContact, FACEBOOK_KEY_TID));
 
 	if (!idT || !nameT || !threadId)
@@ -338,7 +338,7 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 
 INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam, LPARAM)
 {
-	ptrW idT(wParam ? getTStringA(wParam, "ChatRoomID") : NULL);
+	ptrW idT(wParam ? getWStringA(wParam, "ChatRoomID") : NULL);
 
 	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
 	gcd.ptszID = idT;

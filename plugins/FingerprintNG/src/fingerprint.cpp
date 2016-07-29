@@ -79,7 +79,7 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 		return;
 
 	SKINICONDESC sid = { 0 };
-	sid.flags = SIDF_ALL_TCHAR;
+	sid.flags = SIDF_ALL_UNICODE;
 	sid.section.w = SectName;
 	sid.pszName = mask->szIconName;
 	sid.description.w = mask->szClientDescription;
@@ -144,7 +144,7 @@ static void SetSrmmIcon(MCONTACT hContact, LPTSTR ptszMirver)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
 	sid.dwId = 1;
-	sid.flags = MBF_TCHAR;
+	sid.flags = MBF_UNICODE;
 	sid.tszTooltip = ptszMirver;
 
 	if (mir_wstrlen(ptszMirver))
@@ -843,7 +843,7 @@ int OnExtraImageApply(WPARAM hContact, LPARAM)
 	ptrW tszMirver;
 	char *szProto = GetContactProto(hContact);
 	if (szProto != NULL)
-		tszMirver = db_get_tsa(hContact, szProto, "MirVer");
+		tszMirver = db_get_wsa(hContact, szProto, "MirVer");
 
 	ApplyFingerprintImage(hContact, tszMirver);
 	return 0;
@@ -896,7 +896,7 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 		ptrW ptszMirVer;
 		char *szProto = GetContactProto(event->hContact);
 		if (szProto != NULL)
-			ptszMirVer = db_get_tsa(event->hContact, szProto, "MirVer");
+			ptszMirVer = db_get_wsa(event->hContact, szProto, "MirVer");
 		SetSrmmIcon(event->hContact, ptszMirVer);
 		arMonitoredWindows.insert((HANDLE)event->hContact);
 	}
@@ -923,7 +923,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_MC_DEFAULTTCHANGED, OnExtraImageApply);
 
-	PathToAbsoluteT(DEFAULT_SKIN_FOLDER, g_szSkinLib);
+	PathToAbsoluteW(DEFAULT_SKIN_FOLDER, g_szSkinLib);
 
 	RegisterIcons();
 

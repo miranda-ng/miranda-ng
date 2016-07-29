@@ -248,11 +248,11 @@ void StartAnimatedGif(ACCData* data)
 	if (format != PA_FORMAT_GIF)
 		return;
 
-	FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeT(ace->szFilename, 0);
+	FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeU(ace->szFilename, 0);
 	if (fif == FIF_UNKNOWN)
-		fif = fei->FI_GetFIFFromFilenameT(ace->szFilename);
+		fif = fei->FI_GetFIFFromFilenameU(ace->szFilename);
 
-	data->ag.multi = fei->FI_OpenMultiBitmapT(fif, ace->szFilename, FALSE, TRUE, FALSE, GIF_LOAD256);
+	data->ag.multi = fei->FI_OpenMultiBitmapU(fif, ace->szFilename, FALSE, TRUE, FALSE, GIF_LOAD256);
 	if (data->ag.multi == NULL)
 		return;
 
@@ -469,7 +469,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case AVATAR_SETNOAVATARTEXT:
-		mir_wstrncpy(data->noAvatarText, TranslateTS((wchar_t*)lParam), _countof(data->noAvatarText));
+		mir_wstrncpy(data->noAvatarText, TranslateW((wchar_t*)lParam), _countof(data->noAvatarText));
 		Invalidate(hwnd);
 		return TRUE;
 

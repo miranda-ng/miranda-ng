@@ -460,8 +460,8 @@ INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 	}
 
 	ptrW
-		tszSession(db_get_tsa(NULL, MODNAME, "SessionDate_0")),
-		tszUserSession(db_get_tsa(NULL, MODNAME, "UserSessionDsc_0"));
+		tszSession(db_get_wsa(NULL, MODNAME, "SessionDate_0")),
+		tszUserSession(db_get_wsa(NULL, MODNAME, "UserSessionDsc_0"));
 	if (g_bIncompletedSave || tszSession || tszUserSession) {
 		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
 		return 0;
@@ -489,9 +489,9 @@ int SaveSessionDate()
 
 		char szSetting[256];
 		mir_snprintf(szSetting, "%s_%d", "SessionDate", 0);
-		wchar_t *ptszSaveSessionDate = db_get_tsa(NULL, MODNAME, szSetting);
+		wchar_t *ptszSaveSessionDate = db_get_wsa(NULL, MODNAME, szSetting);
 
-		db_set_ts(NULL, MODNAME, szSetting, szSessionTime);
+		db_set_ws(NULL, MODNAME, szSetting, szSessionTime);
 		mir_free(szSessionTime);
 
 		if (ptszSaveSessionDate)
@@ -514,11 +514,11 @@ int SaveUserSessionName(wchar_t *szUSessionName)
 
 	char szSetting[256];
 	mir_snprintf(szSetting, "%s_%u", "UserSessionDsc", 0);
-	wchar_t *ptszUserSessionName = db_get_tsa(NULL, MODNAME, szSetting);
+	wchar_t *ptszUserSessionName = db_get_wsa(NULL, MODNAME, szSetting);
 	if (ptszUserSessionName)
 		ResaveSettings("UserSessionDsc", 1, 255, ptszUserSessionName);
 
-	db_set_ts(NULL, MODNAME, szSetting, szUSessionName);
+	db_set_ws(NULL, MODNAME, szSetting, szUSessionName);
 	return 0;
 }
 
@@ -607,12 +607,12 @@ int DelUserDefSession(int ses_count)
 
 	for (int i = ses_count + 1;; i++) {
 		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i);
-		ptrW szSessionNameBuf(db_get_tsa(NULL, MODNAME, szSessionName));
+		ptrW szSessionNameBuf(db_get_wsa(NULL, MODNAME, szSessionName));
 
 		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i - 1);
 		if (szSessionNameBuf) {
 			MarkUserDefSession(i - 1, IsMarkedUserDefSession(i));
-			db_set_ts(NULL, MODNAME, szSessionName, szSessionNameBuf);
+			db_set_ws(NULL, MODNAME, szSessionName, szSessionNameBuf);
 		}
 		else {
 			db_unset(NULL, MODNAME, szSessionName);
@@ -640,11 +640,11 @@ int DeleteAutoSession(int ses_count)
 
 	for (int i = ses_count + 1;; i++) {
 		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i);
-		ptrW szSessionNameBuf(db_get_tsa(NULL, MODNAME, szSessionName));
+		ptrW szSessionNameBuf(db_get_wsa(NULL, MODNAME, szSessionName));
 
 		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i - 1);
 		if (szSessionNameBuf)
-			db_set_ts(NULL, MODNAME, szSessionName, szSessionNameBuf);
+			db_set_ws(NULL, MODNAME, szSessionName, szSessionNameBuf);
 		else {
 			db_unset(NULL, MODNAME, szSessionName);
 			break;

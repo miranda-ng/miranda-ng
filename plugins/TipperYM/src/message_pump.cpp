@@ -161,7 +161,7 @@ unsigned int CALLBACK MessagePumpThread(void*)
 					}
 
 					if (swzMsg) {
-						db_set_ts((DWORD_PTR)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
+						db_set_ws((DWORD_PTR)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
 						mir_free(swzMsg);
 					}
 

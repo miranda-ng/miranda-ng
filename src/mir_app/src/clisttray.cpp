@@ -49,7 +49,7 @@ static wchar_t* sttGetXStatus(const char *szProto)
 	if (CallProtoServiceInt(NULL, szProto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE) {
 		wchar_t tszStatus[512];
 		CUSTOM_STATUS cs = { sizeof(cs) };
-		cs.flags = CSSF_MASK_MESSAGE | CSSF_TCHAR;
+		cs.flags = CSSF_MASK_MESSAGE | CSSF_UNICODE;
 		cs.ptszMessage = tszStatus;
 		if (CallProtoServiceInt(NULL, szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
 			return mir_wstrdup(tszStatus);
@@ -81,7 +81,7 @@ wchar_t* fnTrayIconMakeTooltip(const wchar_t *szPrefix, const char *szProto)
 		if (accounts.getCount() == 1)
 			return cli.pfnTrayIconMakeTooltip(szPrefix, accounts[0]->szModuleName);
 
-		CMString tszTip;
+		CMStringW tszTip;
 
 		if (szPrefix && szPrefix[0]) {
 			if (!db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {

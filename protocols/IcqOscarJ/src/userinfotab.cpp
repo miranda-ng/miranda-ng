@@ -268,7 +268,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.hInstance = hInst;
 	odp.dwInitParam = LPARAM(this);
 	odp.pfnDlgProc = IcqDlgProc;

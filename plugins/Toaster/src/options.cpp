@@ -47,7 +47,7 @@ int OnOptionsInitialized(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.pwszTitle = L"Popups"; //_T(MODULE);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.position = -790000000;
 	odp.pwszTab = _T(MODULE);
 	odp.pDialog = new COptions();

@@ -44,9 +44,9 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote, bool bWatch)
 	if (bWatch && i == m_aContacts.end()) {
 		MCONTACT hContact = CreateNewContact(rQuote.GetSymbol());
 		if (hContact) {
-			db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_ID, sQuoteID.c_str());
+			db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_ID, sQuoteID.c_str());
 			if (false == rQuote.GetName().empty())
-				db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_DESCRIPTION, rQuote.GetName().c_str());
+				db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_DESCRIPTION, rQuote.GetName().c_str());
 
 			return true;
 		}

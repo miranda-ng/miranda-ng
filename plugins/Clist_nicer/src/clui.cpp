@@ -185,7 +185,7 @@ static int CreateCLC()
 		frame.TBtname = TranslateT("Event area");
 		frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 		frame.height = 20;
-		frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
+		frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_UNICODE;
 		frame.align = alBottom;
 		frame.hWnd = CreateWindowExA(0, "EventAreaClass", "evt", WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)0, g_hInst, NULL);
 		g_hwndEventArea = frame.hWnd;
@@ -200,12 +200,12 @@ static int CreateCLC()
 		Frame.hWnd = pcli->hwndContactTree;
 		Frame.align = alClient;
 		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
+		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_UNICODE;
 		Frame.tname = L"My contacts";
 		Frame.TBtname = TranslateT("My contacts");
 		Frame.height = 200;
 		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME | FO_TCHAR, hFrameContactTree), (LPARAM)TranslateT("My contacts"));
+		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME | FO_UNICODETEXT, hFrameContactTree), (LPARAM)TranslateT("My contacts"));
 
 		// ugly, but working hack. Prevent that annoying little scroll bar from appearing in the "My Contacts" title bar
 		DWORD flags = (DWORD)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), 0);
@@ -1983,7 +1983,7 @@ static clistFontDescr[] =
 
 void FS_RegisterFonts()
 {
-	FontIDT fid = { sizeof(fid) };
+	FontIDW fid = { sizeof(fid) };
 	wcsncpy(fid.group, LPGENW("Contact list"), _countof(fid.group));
 	strncpy(fid.dbSettingsGroup, "CLC", 5);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE;
@@ -2008,12 +2008,12 @@ void FS_RegisterFonts()
 		mir_snprintf(idstr, "Font%d", i);
 		strncpy(fid.prefix, idstr, _countof(fid.prefix));
 		fid.order = i;
-		FontRegisterT(&fid);
+		FontRegisterW(&fid);
 	}
 	ReleaseDC(NULL, hdc);
 
 	// and colours
-	ColourIDT colourid = { 0 };
+	ColourIDW colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
 	colourid.order = 0;
 	strncpy(colourid.dbSettingsGroup, "CLC", sizeof(colourid.dbSettingsGroup));
@@ -2022,30 +2022,30 @@ void FS_RegisterFonts()
 	wcsncpy(colourid.name, LPGENW("Background"), _countof(colourid.name));
 	wcsncpy(colourid.group, LPGENW("Contact list"), _countof(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Selected text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Hottrack text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Quicksearch text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.dbSettingsGroup, "CLUI", sizeof(colourid.dbSettingsGroup));
 	strncpy(colourid.setting, "clr_frameborder", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Embedded frames border"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = RGB(40, 40, 40);
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 }

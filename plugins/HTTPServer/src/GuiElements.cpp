@@ -997,7 +997,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 void SendLinkToUser(WPARAM wParam, char *pszSrvPath)
 {
 	string sLink = sCreateLink(pszSrvPath);
-	CallService(MS_MSG_SENDMESSAGET, wParam, (LPARAM)sLink.c_str());
+	CallService(MS_MSG_SENDMESSAGEW, wParam, (LPARAM)sLink.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -1342,7 +1342,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	odp.position = 900000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_HTTP_SERVER);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pwszTitle = LPGENW("HTTP Server");
 	odp.pwszGroup = LPGENW("Network");
 	odp.pfnDlgProc = OptionsDlgProc;
@@ -1484,7 +1484,7 @@ void InitGuiElements()
 	if (db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0) {
 		SET_UID(mi, 0x68db84c9, 0xe6b4, 0x4b4f, 0x93, 0x4b, 0xfd, 0x34, 0x2d, 0x83, 0x11, 0xe7);
 		mi.position = 1000085005;
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		mi.name.w = LPGENW("Show HTTP server statistics");
 		mi.pszService = MS_SHOW_STATISTICS_VIEW;
 		hShowStatisticsViewMenuItem = Menu_AddMainMenuItem(&mi);

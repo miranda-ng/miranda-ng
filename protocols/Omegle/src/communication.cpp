@@ -513,7 +513,7 @@ bool Omegle_client::events()
 			}
 			else if (name == "serverMessage") {
 				ptrW message(json_as_string(json_at(item, 1)));
-				parent->UpdateChat(NULL, TranslateTS(message));
+				parent->UpdateChat(NULL, TranslateW(message));
 			}
 			else if (name == "connected") {
 				// Stranger connected
@@ -541,7 +541,7 @@ bool Omegle_client::events()
 						likes += L", ";
 				}
 				
-				parent->debugLog(L"Got common likes: '%s'", likes.c_str());
+				parent->debugLogW(L"Got common likes: '%s'", likes.c_str());
 				parent->SetTopic(likes.c_str());
 			}
 			else if (name == "question") {
@@ -557,7 +557,7 @@ bool Omegle_client::events()
 				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_on"));
 
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
-				mir_snwprintf(st.tszText, TranslateT("%s is typing."), TranslateTS(who));
+				mir_snwprintf(st.tszText, TranslateT("%s is typing."), TranslateW(who));
 
 				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 			}
@@ -570,7 +570,7 @@ bool Omegle_client::events()
 				st.hIcon = IcoLib_GetIconByHandle(GetIconHandle("typing_off"));
 
 				ptrW who(name == "spyTyping" ? json_as_string(json_at(item, 1)) : mir_wstrdup(L"Stranger"));
-				mir_snwprintf(st.tszText, TranslateT("%s stopped typing."), TranslateTS(who));
+				mir_snwprintf(st.tszText, TranslateT("%s stopped typing."), TranslateW(who));
 
 				CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 			}
@@ -615,7 +615,7 @@ bool Omegle_client::events()
 				ptrW stranger(json_as_string(json_at(item, 1)));
 
 				wchar_t strT[255];
-				mir_snwprintf(strT, TranslateT("%s disconnected."), TranslateTS(stranger));
+				mir_snwprintf(strT, TranslateT("%s disconnected."), TranslateW(stranger));
 				parent->UpdateChat(NULL, strT);
 
 				// Stranger disconnected
@@ -640,7 +640,7 @@ bool Omegle_client::events()
 				ptrW error(json_as_string(json_at(item, 1)));
 
 				wchar_t strT[255];
-				mir_snwprintf(strT, TranslateT("Error: %s"), TranslateTS(error));
+				mir_snwprintf(strT, TranslateT("Error: %s"), TranslateW(error));
 				parent->UpdateChat(NULL, strT);
 			}
 		}

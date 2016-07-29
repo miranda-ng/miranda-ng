@@ -295,7 +295,7 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 
 					psr[nCount] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
 					psr[nCount]->cbSize = sizeof(psr);
-					psr[nCount]->flags = PSR_TCHAR;
+					psr[nCount]->flags = PSR_UNICODE;
 					psr[nCount]->id.w = mir_wstrdup(tszContactId);
 					//psr[nCount]->nick.w = mir_wstrdup(tszContactName == NULL ? L"" : tszContactName);
 					nCount++;

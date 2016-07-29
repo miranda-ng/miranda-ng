@@ -62,10 +62,10 @@ static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 //This is copied from Miranda's sources. In 0.2.1.0 it is needed, in newer vesions of Miranda use MS_DB_GETPROFILEPATH service
 {
 	wchar_t tszOldPath[MAX_PATH];
-	CallService(MS_DB_GETPROFILEPATHT, _countof(tszOldPath), (LPARAM)tszOldPath);
+	CallService(MS_DB_GETPROFILEPATHW, _countof(tszOldPath), (LPARAM)tszOldPath);
 	mir_wstrcat(tszOldPath, L"\\*.book");
 
-	VARST ptszNewPath( L"%miranda_userdata%");
+	VARSW ptszNewPath( L"%miranda_userdata%");
 
 	SHFILEOPSTRUCT file_op = {
 		NULL,
@@ -265,10 +265,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	YAMN_STATUS = ID_STATUS_OFFLINE;
 
 	//	we get the Miranda Root Path
-	PathToAbsoluteT( L".", szMirandaDir);
+	PathToAbsoluteW( L".", szMirandaDir);
 
 	// retrieve the current profile name
-	CallService(MS_DB_GETPROFILENAMET, (WPARAM)_countof(ProfileName), (LPARAM)ProfileName);	//not to pass entire array to fcn
+	CallService(MS_DB_GETPROFILENAMEW, (WPARAM)_countof(ProfileName), (LPARAM)ProfileName);	//not to pass entire array to fcn
 	wchar_t *fc = wcsrchr(ProfileName, '.');
 	if ( fc != NULL ) *fc = 0;
 

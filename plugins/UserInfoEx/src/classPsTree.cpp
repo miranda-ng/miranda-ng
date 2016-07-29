@@ -129,7 +129,7 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = ghInst;
-		odp.flags = ODPF_TCHAR;
+		odp.flags = ODPF_UNICODE;
 		odp.pwszTitle = mir_utf8decodeW(pszGroup);
 		
 		INT_PTR rc = UserInfo_AddPage((WPARAM)&psh, &odp);

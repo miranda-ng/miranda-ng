@@ -264,11 +264,11 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 		{
 			fwrite(dat->lpData, dat->nSize, 1, fp);
 			fclose(fp);
-			gg->debugLog(L"gg_img_saveimage(): Image saved to %s.", szFileName);
+			gg->debugLogW(L"gg_img_saveimage(): Image saved to %s.", szFileName);
 		}
 		else
 		{
-			gg->debugLog(L"gg_img_saveimage(): Cannot save image to %s.", szFileName);
+			gg->debugLogW(L"gg_img_saveimage(): Cannot save image to %s.", szFileName);
 			MessageBox(hwnd, TranslateT("Image cannot be written to disk."), gg->m_tszUserName, MB_OK | MB_ICONERROR);
 		}
 	}
@@ -398,22 +398,21 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			else dat->gg->debugLogA("gg_img_dlgproc(): WM_INITDIALOG Creation event not found, but someone might be waiting.");
 
 			// Making buttons flat
-			SendDlgItemMessage(hwndDlg, IDC_IMG_PREV,	BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT,	BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE,	BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE,	BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_IMG_PREV, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_IMG_PREV, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("previous", FALSE));
+			SendDlgItemMessage(hwndDlg, IDC_IMG_PREV, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Previous image"), BATF_UNICODE);
 
-			// Setting images for buttons
-			SendDlgItemMessage(hwndDlg, IDC_IMG_PREV,	BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("previous", FALSE));
-			SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT,	BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("next", FALSE));
-			SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE,	BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("delete", FALSE));
-			SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE,	BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("save", FALSE));
+			SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("next", FALSE));
+			SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Next image"), BATF_UNICODE);
 
-			// Setting tooltips for buttons
-			SendDlgItemMessage(hwndDlg, IDC_IMG_PREV,	BUTTONADDTOOLTIP, (WPARAM)TranslateT("Previous image"), BATF_TCHAR);
-			SendDlgItemMessage(hwndDlg, IDC_IMG_NEXT,	BUTTONADDTOOLTIP, (WPARAM)TranslateT("Next image"), BATF_TCHAR);
-			SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE,	BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete image from the list"), BATF_TCHAR);
-			SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE,	BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save image to disk"), BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("save", FALSE));
+			SendDlgItemMessage(hwndDlg, IDC_IMG_SAVE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save image to disk"), BATF_UNICODE);
+
+			SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("delete", FALSE));
+			SendDlgItemMessage(hwndDlg, IDC_IMG_DELETE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete image from the list"), BATF_UNICODE);
 
 			// Set main window image
 			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_IMAGE));
@@ -812,11 +811,11 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	}
 
 	if ( _waccess(szPath, 0)){
-		int ret = CreateDirectoryTreeT(szPath);
+		int ret = CreateDirectoryTreeW(szPath);
 		if (ret == 0){
-			debugLog(L"img_displayasmsg(): Created new directory for image cache: %s.", szPath);
+			debugLogW(L"img_displayasmsg(): Created new directory for image cache: %s.", szPath);
 		} else {
-			debugLog(L"img_displayasmsg(): Can not create directory for image cache: %s. errno=%d: %s", szPath, errno, strerror(errno));
+			debugLogW(L"img_displayasmsg(): Can not create directory for image cache: %s. errno=%d: %s", szPath, errno, strerror(errno));
 			wchar_t error[512];
 			mir_snwprintf(error, TranslateT("Cannot create image cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
@@ -840,7 +839,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 			res = fwrite(dat->lpData, dat->nSize, 1, fp) > 0;
 			fclose(fp);
 		} else {
-			debugLog(L"img_displayasmsg(): Cannot open file %s for write image. errno=%d: %s", szPath, errno, strerror(errno));
+			debugLogW(L"img_displayasmsg(): Cannot open file %s for write image. errno=%d: %s", szPath, errno, strerror(errno));
 			wchar_t error[512];
 			mir_snwprintf(error, TranslateT("Cannot save received image to file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -857,9 +856,9 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 		pre.timestamp = time(NULL);
 		pre.szMessage = szMessage;
 		ProtoChainRecvMsg(hContact, &pre);
-		debugLog(L"img_displayasmsg(): Image saved to %s.", szPath);
+		debugLogW(L"img_displayasmsg(): Image saved to %s.", szPath);
 	}
-	else debugLog(L"img_displayasmsg(): Cannot save image to %s.", szPath);
+	else debugLogW(L"img_displayasmsg(): Cannot save image to %s.", szPath);
 
 	return 0;
 }
@@ -961,7 +960,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 		FILE *fp = _wfopen(szFileName, L"rb");
 		if (!fp) {
 			free(dat);
-			debugLog(L"img_loadpicture(): fopen(\"%s\", \"rb\" failed. errno=%d: %s)", szFileName, errno, strerror(errno));
+			debugLogW(L"img_loadpicture(): fopen(\"%s\", \"rb\" failed. errno=%d: %s)", szFileName, errno, strerror(errno));
 			wchar_t error[512];
 			mir_snwprintf(error, TranslateT("Cannot open image file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFileName);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
@@ -973,7 +972,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 		{
 			fclose(fp);
 			free(dat);
-			debugLog(L"img_loadpicture(): Zero file size \"%s\" failed.", szFileName);
+			debugLogW(L"img_loadpicture(): Zero file size \"%s\" failed.", szFileName);
 			return NULL;
 		}
 		// Maximum acceptable image size
@@ -981,7 +980,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 		{
 			fclose(fp);
 			free(dat);
-			debugLog(L"img_loadpicture(): Image size of \"%s\" exceeds 255 KB.", szFileName);
+			debugLogW(L"img_loadpicture(): Image size of \"%s\" exceeds 255 KB.", szFileName);
 			MessageBox(NULL, TranslateT("Image exceeds maximum allowed size of 255 KB."), m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
 			return NULL;
 		}
@@ -992,7 +991,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 			free(dat->lpData);
 			fclose(fp);
 			free(dat);
-			debugLog(L"img_loadpicture(): Reading file \"%s\" failed.", szFileName);
+			debugLogW(L"img_loadpicture(): Reading file \"%s\" failed.", szFileName);
 			return NULL;
 		}
 		fclose(fp);
@@ -1037,7 +1036,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 	}
 	// Load image from file
 	else
-		dat->hBitmap = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM) szFileName, IMGL_TCHAR);
+		dat->hBitmap = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM) szFileName, IMGL_WCHAR);
 
 	// If everything is fine return the handle
 	if (dat->hBitmap) return dat;

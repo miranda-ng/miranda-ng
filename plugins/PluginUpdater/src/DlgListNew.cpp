@@ -61,7 +61,7 @@ static void ApplyDownloads(void *param)
 	mir_snwprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
-	VARST tszMirandaPath(L"%miranda_path%");
+	VARSW tszMirandaPath(L"%miranda_path%");
 
 	HANDLE nlc = NULL;
 	for (int i=0; i < todo.getCount(); ++i) {
@@ -393,7 +393,7 @@ static void GetList(void *)
 	}
 
 	FILELIST *UpdateFiles = new FILELIST(20);
-	VARST dirname(L"%miranda_path%");
+	VARSW dirname(L"%miranda_path%");
 
 	for (int i=0; i < hashes.getCount(); i++) {
 		ServListEntry &hash = hashes[i];
@@ -480,7 +480,7 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 	if (hash == NULL)
 		return 0;
 
-	VARST dirName(L"%miranda_path%");
+	VARSW dirName(L"%miranda_path%");
 	wchar_t tszPath[MAX_PATH];
 	mir_snwprintf(tszPath, L"%s\\%s", dirName, hash->m_name);
 	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, baseUrl, tszPath);

@@ -24,10 +24,10 @@
 
 LPTSTR ReadJidSetting(LPCSTR name, LPCTSTR jid)
 {
-	return db_get_tsa(0, name, _T2A(jid));
+	return db_get_wsa(0, name, _T2A(jid));
 }
 
 void WriteJidSetting(LPCSTR name, LPCTSTR jid, LPCTSTR setting)
 {
-	db_set_ts(0, name, _T2A(jid), setting);
+	db_set_ws(0, name, _T2A(jid), setting);
 }

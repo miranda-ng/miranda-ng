@@ -156,7 +156,7 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEven
 		if (*descr != 0)
 			evt->pszText2T = DbGetEventStringT(&dbei, descr);
 	}
-	else evt->pszTextT = DbGetEventTextT(&dbei, CP_UTF8);
+	else evt->pszTextT = DbGetEventTextW(&dbei, CP_UTF8);
 
 	if (!(dat->flags & SMF_RTL) && RTL_Detect(evt->pszTextT))
 		evt->dwFlags |= IEEDF_RTL;

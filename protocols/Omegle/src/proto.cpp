@@ -44,7 +44,7 @@ PROTO<OmegleProto>(proto_name, username)
 	// Create standard network connection
 	wchar_t descr[512];
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
@@ -57,10 +57,10 @@ PROTO<OmegleProto>(proto_name, username)
 
 	facy.set_handle(m_hNetlibUser);
 
-	SkinAddNewSoundExT("StrangerTyp", m_tszUserName, LPGENW("Stranger is typing"));
-	SkinAddNewSoundExT("StrangerTypStop", m_tszUserName, LPGENW("Stranger stopped typing"));
-	SkinAddNewSoundExT("StrangerChange", m_tszUserName, LPGENW("Changing stranger"));
-	SkinAddNewSoundExT("StrangerMessage", m_tszUserName, LPGENW("Receive message"));
+	SkinAddNewSoundExW("StrangerTyp", m_tszUserName, LPGENW("Stranger is typing"));
+	SkinAddNewSoundExW("StrangerTypStop", m_tszUserName, LPGENW("Stranger stopped typing"));
+	SkinAddNewSoundExW("StrangerChange", m_tszUserName, LPGENW("Changing stranger"));
+	SkinAddNewSoundExW("StrangerMessage", m_tszUserName, LPGENW("Receive message"));
 }
 
 OmegleProto::~OmegleProto()
@@ -183,7 +183,7 @@ int OmegleProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.hInstance = g_hInstance;
 	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	odp.position = 271828;
 	odp.pwszGroup = LPGENW("Network");

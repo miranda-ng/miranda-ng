@@ -11,7 +11,7 @@ wchar_t* CToxProto::GetToxProfilePath(const wchar_t *accountName)
 {
 	wchar_t *profilePath = (wchar_t*)mir_calloc(MAX_PATH * sizeof(wchar_t) + 1);
 	wchar_t profileRootPath[MAX_PATH];
-	FoldersGetCustomPathT(hProfileFolderPath, profileRootPath, _countof(profileRootPath), VARST(L"%miranda_userdata%"));
+	FoldersGetCustomPathT(hProfileFolderPath, profileRootPath, _countof(profileRootPath), VARSW(L"%miranda_userdata%"));
 	mir_snwprintf(profilePath, MAX_PATH, L"%s\\%s.tox", profileRootPath, accountName);
 	return profilePath;
 }
@@ -62,7 +62,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 
 	if (tox_is_data_encrypted(data))
 	{
-		pass_ptrA password(mir_utf8encodeW(pass_ptrT(getTStringA("Password"))));
+		pass_ptrA password(mir_utf8encodeW(pass_ptrT(getWStringA("Password"))));
 		if (password == NULL || mir_strlen(password) == 0)
 		{
 			CToxPasswordEditor passwordEditor(this);
@@ -108,7 +108,7 @@ void CToxProto::SaveToxProfile(CToxThread *toxThread)
 	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
 	tox_get_savedata(toxThread->Tox(), data);
 
-	pass_ptrA password(mir_utf8encodeW(pass_ptrT(getTStringA("Password"))));
+	pass_ptrA password(mir_utf8encodeW(pass_ptrT(getWStringA("Password"))));
 	if (password && mir_strlen(password))
 	{
 		TOX_ERR_ENCRYPTION coreEncryptError;
@@ -167,7 +167,7 @@ void CToxPasswordEditor::OnOk(CCtrlButton*)
 {
 	pass_ptrT tszPassword(password.GetText());
 	if (savePermanently.Enabled())
-		m_proto->setTString("Password", tszPassword);
+		m_proto->setWString("Password", tszPassword);
 
 	EndDialog(m_hwnd, 1);
 }

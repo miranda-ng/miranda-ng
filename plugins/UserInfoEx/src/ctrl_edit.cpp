@@ -136,7 +136,7 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 			_pszValue = mir_wstrdup(szText);
 			break;
 
-		case DBVT_TCHAR:
+		case DBVT_WCHAR:
 			if (dbv.ptszVal) {
 				SetWindowText(_hwnd, dbv.ptszVal);
 				_pszValue = dbv.ptszVal;
@@ -190,7 +190,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 						dbv.dVal = (DWORD)wcstol(val, NULL, 10);
 						break;
 
-					case DBVT_TCHAR:
+					case DBVT_WCHAR:
 						dbv.ptszVal = val;
 						break;
 

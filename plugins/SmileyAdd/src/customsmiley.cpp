@@ -59,7 +59,7 @@ SmileyPackCType* SmileyPackCListType::GetSmileyPack(MCONTACT id)
 }
 
 
-SmileyCType::SmileyCType(const CMString &fullpath, const wchar_t *filepath)
+SmileyCType::SmileyCType(const CMStringW &fullpath, const wchar_t *filepath)
 {
 	LoadFromResource(fullpath, 0);
 	CreateTriggerText(_T2A(filepath));
@@ -95,7 +95,7 @@ bool SmileyCType::CreateTriggerText(char *text)
 
 bool SmileyPackCType::LoadSmileyDir(wchar_t *dir)
 {
-	CMString dirs = dir;
+	CMStringW dirs = dir;
 	dirs += L"\\*.*";
 
 	_wfinddata_t c_file;
@@ -103,7 +103,7 @@ bool SmileyPackCType::LoadSmileyDir(wchar_t *dir)
 	if (hFile > -1L) {
 		do {
 			if (c_file.name[0] != '.') {
-				CMString fullpath = dir;
+				CMStringW fullpath = dir;
 				fullpath = fullpath + L"\\" + c_file.name;
 				wchar_t *div = wcsrchr(c_file.name, '.');
 				if (div) {
@@ -125,11 +125,11 @@ bool SmileyPackCType::LoadSmileyDir(wchar_t *dir)
 
 bool SmileyPackCType::LoadSmiley(wchar_t *path)
 {
-	CMString dirs = path;
+	CMStringW dirs = path;
 	int slash = dirs.ReverseFind('\\');
 	int dot = dirs.ReverseFind('.');
 
-	CMString name = dirs.Mid(slash + 1, dot - slash - 1);
+	CMStringW name = dirs.Mid(slash + 1, dot - slash - 1);
 
 	for (int i = 0; i < m_SmileyList.getCount(); i++)
 		if (m_SmileyList[i].GetTriggerText() == name) {
@@ -139,7 +139,7 @@ bool SmileyPackCType::LoadSmiley(wchar_t *path)
 
 	m_SmileyList.insert(new SmileyCType(dirs, (wchar_t*)name.c_str()));
 
-	CMString empty;
+	CMStringW empty;
 	m_SmileyLookup.insert(new SmileyLookup(
 		m_SmileyList[m_SmileyList.getCount() - 1].GetTriggerText(), false, m_SmileyList.getCount() - 1, empty));
 
@@ -148,7 +148,7 @@ bool SmileyPackCType::LoadSmiley(wchar_t *path)
 
 void SmileyPackCType::AddTriggersToSmileyLookup(void)
 {
-	CMString empty;
+	CMStringW empty;
 	for (int dist = 0; dist < m_SmileyList.getCount(); dist++) {
 		SmileyLookup *dats = new SmileyLookup(m_SmileyList[dist].GetTriggerText(), false, dist, empty);
 		m_SmileyLookup.insert(dats);

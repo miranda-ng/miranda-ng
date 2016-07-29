@@ -62,7 +62,7 @@ int CFolderItem::IsEqual(const char *section, const wchar_t *name)
 
 int CFolderItem::IsEqualTranslated(const char *trSection, const wchar_t *trName)
 {
-	return !mir_wstrcmp(TranslateTS(m_tszUserName), trName) && !mir_strcmp(Translate(m_szSection), trSection);
+	return !mir_wstrcmp(TranslateW(m_tszUserName), trName) && !mir_strcmp(Translate(m_szSection), trSection);
 }
 
 int CFolderItem::operator ==(const CFolderItem *other)
@@ -70,7 +70,7 @@ int CFolderItem::operator ==(const CFolderItem *other)
 	return IsEqual(other);
 }
 
-CMString CFolderItem::Expand()
+CMStringW CFolderItem::Expand()
 {
 	return ExpandPath(m_tszFormat);
 }
@@ -87,8 +87,8 @@ int CFolderItem::FolderCreateDirectory(int showFolder)
 	if (m_tszFormat == NULL)
 		return FOLDER_SUCCESS;
 
-	CMString buffer(ExpandPath(m_tszFormat));
-	CreateDirectoryTreeT(buffer);
+	CMStringW buffer(ExpandPath(m_tszFormat));
+	CreateDirectoryTreeW(buffer);
 	if (showFolder)
 		ShellExecute(NULL, L"explore", buffer, NULL, NULL, SW_SHOW);
 
@@ -103,7 +103,7 @@ int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 	if (!mir_wstrcmp(m_tszFormat, m_tszOldFormat)) //format wasn't changed
 		return FOLDER_SUCCESS;
 
-	CMString buffer(ExpandPath(m_tszOldFormat));
+	CMStringW buffer(ExpandPath(m_tszOldFormat));
 	RemoveDirectories(buffer);
 	int res = (DirectoryExists(buffer)) ? FOLDER_FAILURE : FOLDER_SUCCESS;
 	if ((res == FOLDER_FAILURE) && (showFolder))
@@ -117,7 +117,7 @@ void CFolderItem::GetDataFromDatabase(const wchar_t *szNotFound)
 	strcpy_s(szSettingName, _countof(szSettingName), m_szSection);
 	strcat_s(szSettingName, _countof(szSettingName), m_szName);
 
-	ptrW tszValue(db_get_tsa(NULL, ModuleName, szSettingName));
+	ptrW tszValue(db_get_wsa(NULL, ModuleName, szSettingName));
 	SetFormat(tszValue != NULL ? tszValue : szNotFound);
 }
 
@@ -128,5 +128,5 @@ void CFolderItem::WriteDataToDatabase()
 	strcat_s(szSettingName, sizeof(szSettingName), m_szName);
 
 	if (m_tszFormat)
-		db_set_ts(NULL, ModuleName, szSettingName, m_tszFormat);
+		db_set_ws(NULL, ModuleName, szSettingName, m_tszFormat);
 }

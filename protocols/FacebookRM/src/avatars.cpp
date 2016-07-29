@@ -126,7 +126,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 std::wstring FacebookProto::GetAvatarFolder()
 {
 	wchar_t path[MAX_PATH];
-	mir_snwprintf(path, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
+	mir_snwprintf(path, L"%s\\%s", VARSW(L"%miranda_avatarcache%"), m_tszUserName);
 	return path;
 }
 

@@ -434,7 +434,7 @@ void fnEndRename(HWND, ClcData *dat, int save)
 					if (!text[0] || !mir_wstrcmp(otherName, text))
 						db_unset(contact->hContact, "CList", "MyHandle");
 					else
-						db_set_ts(contact->hContact, "CList", "MyHandle", text);
+						db_set_ws(contact->hContact, "CList", "MyHandle", text);
 					mir_free(otherName);
 				}
 			}
@@ -698,7 +698,7 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 
 	char idstr[20];
 	mir_snprintf(idstr, "Font%dName", i);
-	ptrW tszFace(db_get_tsa(NULL, "CLC", idstr));
+	ptrW tszFace(db_get_wsa(NULL, "CLC", idstr));
 	if (tszFace)
 		mir_wstrcpy(lf->lfFaceName, tszFace);
 
@@ -769,7 +769,7 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 			dat->hBmpBackground = NULL;
 		}
 		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmap(db_get_tsa(NULL, "CLC", "BkBitmap"));
+			ptrW tszBitmap(db_get_wsa(NULL, "CLC", "BkBitmap"));
 			if (tszBitmap)
 				dat->hBmpBackground = Bitmap_Load(tszBitmap);
 		}

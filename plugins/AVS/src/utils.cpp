@@ -30,7 +30,7 @@ void mir_sleep(int time)
 
 void MyPathToAbsolute(const wchar_t *ptszPath, wchar_t *ptszDest)
 {
-	PathToAbsoluteT(VARST(ptszPath), ptszDest, g_szDataPath);
+	PathToAbsoluteW(VARSW(ptszPath), ptszDest, g_szDataPath);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -44,9 +44,9 @@ void MakePathRelative(MCONTACT hContact, wchar_t *path)
 
 	size_t result = PathToRelativeT(path, szFinalPath, g_szDataPath);
 	if (result && szFinalPath[0] != '\0') {
-		db_set_ts(hContact, "ContactPhoto", "RFile", szFinalPath);
+		db_set_ws(hContact, "ContactPhoto", "RFile", szFinalPath);
 		if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))
-			db_set_ts(hContact, "ContactPhoto", "Backup", szFinalPath);
+			db_set_ws(hContact, "ContactPhoto", "Backup", szFinalPath);
 	}
 }
 
@@ -56,7 +56,7 @@ void MakePathRelative(MCONTACT hContact, wchar_t *path)
 
 void MakePathRelative(MCONTACT hContact)
 {
-	ptrW tszPath(db_get_tsa(hContact, "ContactPhoto", "File"));
+	ptrW tszPath(db_get_wsa(hContact, "ContactPhoto", "File"));
 	if (tszPath)
 		MakePathRelative(hContact, tszPath);
 }
@@ -82,20 +82,20 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		if (proto == NULL || !db_get_b(NULL, AVS_MODULE, proto, 1))
 			return -1;
 
-		if (db_get_b(hContact, "ContactPhoto", "Locked", 0) && (tszValue = db_get_tsa(hContact, "ContactPhoto", "Backup")))
+		if (db_get_b(hContact, "ContactPhoto", "Locked", 0) && (tszValue = db_get_wsa(hContact, "ContactPhoto", "Backup")))
 			MyPathToAbsolute(tszValue, tszFilename);
-		else if (tszValue = db_get_tsa(hContact, "ContactPhoto", "RFile"))
+		else if (tszValue = db_get_wsa(hContact, "ContactPhoto", "RFile"))
 			MyPathToAbsolute(tszValue, tszFilename);
-		else if (tszValue = db_get_tsa(hContact, "ContactPhoto", "File"))
+		else if (tszValue = db_get_wsa(hContact, "ContactPhoto", "File"))
 			MyPathToAbsolute(tszValue, tszFilename);
 		else return -2;
 	}
 	else {
 		if (hContact == 0) {				// create a protocol picture in the proto picture cache
-			if (tszValue = db_get_tsa(NULL, PPICT_MODULE, szProto))
+			if (tszValue = db_get_wsa(NULL, PPICT_MODULE, szProto))
 				MyPathToAbsolute(tszValue, tszFilename);
 			else if (mir_strcmp(szProto, AVS_DEFAULT)) {
-				if (tszValue = db_get_tsa(NULL, PPICT_MODULE, AVS_DEFAULT))
+				if (tszValue = db_get_wsa(NULL, PPICT_MODULE, AVS_DEFAULT))
 					MyPathToAbsolute(tszValue, tszFilename);
 
 				if (!strstr(szProto, "Global avatar for")) {
@@ -104,7 +104,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 						return -1;
 					char key[MAX_PATH];
 					mir_snprintf(key, "Global avatar for %s accounts", pdescr->szProtoName);
-					if (tszValue = db_get_tsa(NULL, PPICT_MODULE, key))
+					if (tszValue = db_get_wsa(NULL, PPICT_MODULE, key))
 						MyPathToAbsolute(tszValue, tszFilename);
 				}
 			}
@@ -114,7 +114,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 			// startup and everytime they are changed.
 			if (szProto[0] == '\0') {
 				// Global avatar
-				if (tszValue = db_get_tsa(NULL, AVS_MODULE, "GlobalUserAvatarFile"))
+				if (tszValue = db_get_wsa(NULL, AVS_MODULE, "GlobalUserAvatarFile"))
 					MyPathToAbsolute(tszValue, tszFilename);
 				else
 					return -10;
@@ -130,7 +130,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 				else
 					MultiByteToWideChar(CP_ACP, 0, szFileName, -1, tszFilename, _countof(tszFilename));
 			}
-			else if (tszValue = db_get_tsa(NULL, szProto, "AvatarFile"))
+			else if (tszValue = db_get_wsa(NULL, szProto, "AvatarFile"))
 				MyPathToAbsolute(tszValue, tszFilename);
 			else return -1;
 		}
@@ -139,7 +139,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 	if (mir_wstrlen(tszFilename) < 4)
 		return -1;
 
-	wcsncpy_s(tszFilename, VARST(tszFilename), _TRUNCATE);
+	wcsncpy_s(tszFilename, VARSW(tszFilename), _TRUNCATE);
 	if (_waccess(tszFilename, 4) == -1)
 		return -2;
 
@@ -432,7 +432,7 @@ int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist, int pa_format)
 void DeleteGlobalUserAvatar()
 {
 	DBVARIANT dbv = { 0 };
-	if (db_get_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv))
+	if (db_get_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv))
 		return;
 
 	wchar_t szFilename[MAX_PATH];

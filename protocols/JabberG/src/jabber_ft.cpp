@@ -187,10 +187,10 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 	char* buffer;
 	int numRead;
 
-	debugLog(L"Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
+	debugLogW(L"Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
 	_wstat64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
 	if ((fd = _wopen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY)) < 0) {
-		debugLog(L"File cannot be opened");
+		debugLogW(L"File cannot be opened");
 		return FALSE;
 	}
 
@@ -217,7 +217,7 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 
 BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 {
-	debugLog(L"Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
+	debugLogW(L"Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
 
 	struct _stati64 statbuf;
 	_wstat64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
@@ -375,7 +375,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
 				PROTORECVFILET pre = { 0 };
-				pre.dwFlags = PRFF_TCHAR;
+				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
 				pre.files.w = (wchar_t**)&filename;

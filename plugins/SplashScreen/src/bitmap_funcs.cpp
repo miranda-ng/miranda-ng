@@ -131,7 +131,7 @@ bool MyBitmap::loadFromFile(wchar_t *fn)
 {
 	if (bits) free();
 
-	HBITMAP hBmpLoaded = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)fn, IMGL_TCHAR);
+	HBITMAP hBmpLoaded = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)fn, IMGL_WCHAR);
 	if (!hBmpLoaded) {
 		#ifdef _DEBUG
 		logMessage(L"MyBitmap::loadFromFile", L"Bitmap load failed");

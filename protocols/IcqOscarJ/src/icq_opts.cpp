@@ -93,14 +93,14 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			LoadDBCheckState(ppro, hwndDlg, IDC_KEEPALIVE, "KeepAlive", DEFAULT_KEEPALIVE_ENABLED);
 			SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_SETRANGE, FALSE, MAKELONG(0, 4));
 			SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_SETPOS, TRUE, 4 - ppro->getByte("ShowLogLevel", LOG_WARNING));
-			SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateTS(szLogLevelDescr[4 - SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)]));
+			SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateW(szLogLevelDescr[4 - SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)]));
 			ShowDlgItem(hwndDlg, IDC_RECONNECTREQD, SW_HIDE);
 			LoadDBCheckState(ppro, hwndDlg, IDC_NOERRMULTI, "IgnoreMultiErrorBox", 0);
 		}
 		return TRUE;
 
 	case WM_HSCROLL:
-		SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateTS(szLogLevelDescr[4 - SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)]));
+		SetDlgItemText(hwndDlg, IDC_LEVELDESCR, TranslateW(szLogLevelDescr[4 - SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)]));
 		OptDlgChanged(hwndDlg);
 		break;
 
@@ -514,7 +514,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pwszGroup = LPGENW("Network");
 	odp.dwInitParam = LPARAM(this);
 	odp.pwszTitle = m_tszUserName;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	odp.pwszTab = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQ);

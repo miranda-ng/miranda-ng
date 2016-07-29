@@ -59,11 +59,7 @@ extern "C"
 #define DBVT_BLOB   254	  // cpbVal and pbVal are valid
 #define DBVT_UTF8   253   // pszVal is valid
 #define DBVT_WCHAR  252   // pwszVal is valid
-#if defined(_UNICODE)
-#define DBVT_TCHAR DBVT_WCHAR
-#else
-#define DBVT_TCHAR DBVT_ASCIIZ
-#endif
+
 #define DBVTF_VARIABLELENGTH  0x80
 
 typedef struct
@@ -323,18 +319,6 @@ MIR_CORE_DLL(BOOL) db_set_resident(LPCSTR szModule, const char *szService, BOOL 
 #define db_get_ws(a,b,c,d)    db_get_s(a,b,c,d,DBVT_WCHAR)
 #define db_get_utf(a,b,c,d)   db_get_s(a,b,c,d,DBVT_UTF8)
 
-#ifdef _UNICODE
-#define db_get_ts(a,b,c,d) db_get_s(a,b,c,d,DBVT_WCHAR)
-#define db_get_tsa         db_get_wsa
-#define db_set_ts          db_set_ws
-#define db_get_tstatic     db_get_wstatic
-#else
-#define db_get_ts(a,b,c,d) db_get_s(a,b,c,d,DBVT_ASCIIZ)
-#define db_get_tsa         db_get_sa
-#define db_set_ts          db_set_s
-#define db_get_tstatic     db_get_static
-#endif
-
 #if defined(__cplusplus)
 }
 #endif
@@ -365,16 +349,9 @@ pszName is a pointer to the buffer that receives the path of the profile
 cbSize is the size in characters of the pszName buffer
 Returns 0 on success or nonzero otherwise
 */
+
 #define MS_DB_GETPROFILEPATH  "DB/GetProfilePath"
 #define MS_DB_GETPROFILEPATHW "DB/GetProfilePathW"
-
-#if defined(_UNICODE)
-	#define MS_DB_GETPROFILEPATHT MS_DB_GETPROFILEPATHW
-	#define MS_DB_GETPROFILENAMET MS_DB_GETPROFILENAMEW
-#else
-	#define MS_DB_GETPROFILEPATHT MS_DB_GETPROFILEPATH
-	#define MS_DB_GETPROFILENAMET MS_DB_GETPROFILENAME
-#endif
 
 /* DB/SetDefaultProfile service
 Sets the default profile name programmatically
@@ -553,12 +530,6 @@ __forceinline WCHAR* DbGetEventTextW(DBEVENTINFO* dbei, int codepage)
 {
 	DBEVENTGETTEXT temp = { dbei, DBVT_WCHAR, codepage };
 	return (WCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
-}
-
-__forceinline TCHAR* DbGetEventTextT(DBEVENTINFO* dbei, int codepage)
-{
-	DBEVENTGETTEXT temp = { dbei, DBVT_TCHAR, codepage };
-	return (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
 /* DB/Event/GetIcon (0.7.0.1+)

@@ -1352,7 +1352,7 @@ bool Statistic::createStatisticsSteps()
 
 	array_each_(i, stepsInfo)
 	{
-		setProgressLabel(false, TranslateTS(stepsInfo[i].stepMsg));
+		setProgressLabel(false, TranslateW(stepsInfo[i].stepMsg));
 
 		if (!(this->*stepsInfo[i].stepFn)())
 			return false;

@@ -344,18 +344,6 @@ typedef struct _tagFI_interface {
 } FI_INTERFACE;
 
 
-#if defined(UNICODE) || defined(_UNICODE)
-#define FI_GetFIFFromFilenameT FI_GetFIFFromFilenameU
-#define FI_GetFileTypeT FI_GetFileTypeU
-#define FI_LoadT FI_LoadU
-#define FI_OpenMultiBitmapT FI_OpenMultiBitmapU
-#else
-#define FI_GetFIFFromFilenameT FI_GetFIFFromFilename
-#define FI_GetFileTypeT FI_GetFileType
-#define FI_LoadT FI_Load
-#define FI_OpenMultiBitmapT FI_OpenMultiBitmap
-#endif
-
 /*
  * image services
  *
@@ -397,12 +385,6 @@ typedef struct _tagFI_interface {
                                 // caller MUST then free the FIBITMAP * using fii->FI_Unload() or MS_IMG_UNLOAD (see below)
 
 #define IMGL_WCHAR     2        // filename is wchar_t
-
-#if defined(UNICODE) || defined(_UNICODE)
-    #define IMGL_TCHAR  IMGL_WCHAR
-#else
-    #define IMGL_TCHAR  0
-#endif
 
 // load an image from disk
 // wParam = full path and filename to the image

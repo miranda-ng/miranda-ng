@@ -4,7 +4,7 @@
 tstring db_usage::DBGetPluginSetting(std::string const &name, tstring const &defValue)
 {
 	DBVARIANT dbv;
-	if (db_get_ts(NULL, pluginName, name.c_str(), &dbv))
+	if (db_get_ws(NULL, pluginName, name.c_str(), &dbv))
 		return defValue;
 	tstring value = dbv.ptszVal;
 	db_free(&dbv);
@@ -36,7 +36,7 @@ DWORD db_usage::DBGetPluginSetting(std::string const &name, DWORD const &defValu
 //writting to database--------------
 void db_usage::DBSetPluginSetting(std::string const &name, tstring const &value)
 {
-	db_set_ts(NULL, pluginName, name.c_str(), value.c_str());
+	db_set_ws(NULL, pluginName, name.c_str(), value.c_str());
 }
 
 

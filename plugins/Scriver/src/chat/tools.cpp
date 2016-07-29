@@ -79,7 +79,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
 	for (int i = 0; i < gcmi.nItems; i++) {
-		wchar_t *ptszText = TranslateTS(gcmi.Item[i].pszDesc);
+		wchar_t *ptszText = TranslateW(gcmi.Item[i].pszDesc);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (gcmi.Item[i].uType == MENU_NEWPOPUP) {

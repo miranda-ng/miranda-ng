@@ -92,7 +92,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
 			gchook->ptszUID = NULL;
 
 		if (gch->pDest->ptszID) {
-			CMString S = MakeWndID(gch->pDest->ptszID);
+			CMStringW S = MakeWndID(gch->pDest->ptszID);
 			gchook->pDest->ptszID = wcsdup(S.c_str());
 		}
 		else gchook->pDest->ptszID = NULL;
@@ -112,7 +112,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 {
 	if (m_scriptingEnabled && lparam) {
 		CMStringA sString = (char*)lparam, sRequest;
-		CMString sOutput, sChannel;
+		CMStringW sOutput, sChannel;
 
 		int i = sString.Find("|");
 		if (i != -1) {
@@ -142,7 +142,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			(m_IPFromServer) ? m_myHost : m_myLocalHost);
 
 		else if (sRequest == "usercount" && !sChannel.IsEmpty()) {
-			CMString S = MakeWndID(sChannel.c_str());
+			CMStringW S = MakeWndID(sChannel.c_str());
 			GC_INFO gci = { 0 };
 			gci.Flags = GCF_BYID | GCF_COUNT;
 			gci.pszModule = m_szModuleName;
@@ -154,7 +154,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			}
 		}
 		else if (sRequest == "userlist" && !sChannel.IsEmpty()) {
-			CMString S = MakeWndID(sChannel.c_str());
+			CMStringW S = MakeWndID(sChannel.c_str());
 			GC_INFO gci = { 0 };
 			gci.Flags = GCF_BYID | GCF_USERS;
 			gci.pszModule = m_szModuleName;
@@ -163,7 +163,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 				return (INT_PTR)mir_strdup(gci.pszUsers);
 		}
 		else if (sRequest == "channellist") {
-			CMString S = L"";
+			CMStringW S = L"";
 			int n = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
 			if (n >= 0) {
 				int j = 0;
@@ -174,7 +174,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 					gci.iItem = j;
 					if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
 						if (mir_wstrcmpi(gci.pszID, SERVERWINDOW)) {
-							CMString S1 = gci.pszID;
+							CMStringW S1 = gci.pszID;
 							int k = S1.Find(L" ");
 							if (k != -1)
 								S1 = S1.Mid(0, k);

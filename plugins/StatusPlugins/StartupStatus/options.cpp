@@ -133,7 +133,7 @@ static wchar_t* GetLinkDescription(TSettingsList& protoSettings)
 	if ( protoSettings.getCount() == 0 )
 		return NULL;
 
-	CMString result(SHORTCUT_DESC);
+	CMStringW result(SHORTCUT_DESC);
 	for (int i=0; i < protoSettings.getCount(); i++) {
 		TSSSetting &p = protoSettings[i];
 
@@ -538,7 +538,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 						if ( ar[j].szMsg != NULL)
 							ar[j].szMsg = wcsdup( ar[j].szMsg );
 
-					ppo->tszName = db_get_tsa(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME));
+					ppo->tszName = db_get_wsa(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME));
 					if (ppo->tszName == NULL) {
 						if (i == defProfile)
 							ppo->tszName = mir_wstrdup( TranslateT("default"));
@@ -825,13 +825,13 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				db_set_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), po.inSubMenu);
 				db_set_b(NULL, MODULENAME, OptName(i, SETTING_REGHOTKEY), po.regHotkey);
 				db_set_w(NULL, MODULENAME, OptName(i, SETTING_HOTKEY), po.hotKey);
-				db_set_ts(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME), po.tszName);
+				db_set_ws(NULL, MODULENAME, OptName(i, SETTING_PROFILENAME), po.tszName);
 
 				TSettingsList& ar = *po.ps;
 				for (int j=0; j < ar.getCount(); j++) {
 					if ( ar[j].szMsg != NULL ) {
 						mir_snprintf(setting, "%s_%s", ar[j].szName, SETTING_PROFILE_STSMSG);
-						db_set_ts(NULL, MODULENAME, OptName(i, setting), ar[j].szMsg);
+						db_set_ws(NULL, MODULENAME, OptName(i, setting), ar[j].szMsg);
 					}
 					db_set_w(NULL, MODULENAME, OptName(i, ar[j].szName), ar[j].status);
 				}

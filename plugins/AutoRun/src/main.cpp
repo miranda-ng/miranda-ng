@@ -27,7 +27,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 void GetProfilePath(wchar_t *res, size_t resLen)
 {
 	wchar_t dbname[MAX_PATH], exename[MAX_PATH];
-	CallService(MS_DB_GETPROFILENAMET, _countof(dbname), (LPARAM)dbname);
+	CallService(MS_DB_GETPROFILENAMEW, _countof(dbname), (LPARAM)dbname);
 	GetModuleFileName(NULL, exename, _countof(exename));
 
 	wchar_t *p = wcsrchr(dbname, '.');

@@ -78,7 +78,7 @@ LPTSTR GetMenuItemText(TMO_IntMenuItem *pimi)
 	if (pimi->mi.flags & CMIF_KEEPUNTRANSLATED)
 		return pimi->mi.name.w;
 
-	return TranslateTH(pimi->mi.hLangpack, pimi->mi.name.w);
+	return TranslateW_LP(pimi->mi.name.w, pimi->mi.hLangpack);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -241,7 +241,7 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 	CMenuItem mi;
 	mi.name.w = pThis->m_tszUserName;
 	mi.position = 500090000;
-	mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 	mi.hIcolibItem = pThis->m_hProtoIcon;
 
 	char szUid[33];
@@ -685,7 +685,7 @@ MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCTSTR ptszName, int pos
 		return oldroot;
 
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = hIcoLib;
 	mi.hLangpack = _hLang;
 	mi.name.w = (wchar_t*)ptszName;
@@ -875,7 +875,7 @@ static int sttReadOldItem(TMO_IntMenuItem *pmi, void *szModule)
 
 	// mi.name.w
 	mir_snprintf(szSetting, "%s_name", menuItemName);
-	wchar_t *tszCustomName = db_get_tsa(NULL, (char*)szModule, szSetting);
+	wchar_t *tszCustomName = db_get_wsa(NULL, (char*)szModule, szSetting);
 	if (tszCustomName != NULL) {
 		mir_free(pmi->ptszCustomName);
 		pmi->ptszCustomName = tszCustomName;
@@ -906,8 +906,8 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 		else
 			bin2hex(&pmi->mi.root->mi.uid, sizeof(MUUID), szRootUid);
 
-		CMString szNewValue(FORMAT, L"%d;%d;%S;%s", bVisible, pmi->mi.position, szRootUid, ptszName);
-		db_set_ts(NULL, (char*)szModule, menuItemName, szNewValue);
+		CMStringW szNewValue(FORMAT, L"%d;%d;%S;%s", bVisible, pmi->mi.position, szRootUid, ptszName);
+		db_set_ws(NULL, (char*)szModule, menuItemName, szNewValue);
 
 		Netlib_Logf(NULL, "MENU[%s] => %s, %d, %d", menuItemName, pmi->pszUniqName, bVisible, pmi->mi.position);
 	}
@@ -989,7 +989,7 @@ int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *szModule)
 	bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
 	TIntMenuObject *pmo = pimi->parent;
-	ptrW szValue(db_get_tsa(NULL, (char*)szModule, menuItemName));
+	ptrW szValue(db_get_wsa(NULL, (char*)szModule, menuItemName));
 	if (szValue == NULL)
 		return 0;
 
@@ -1221,7 +1221,7 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 	HICON hIcon = ImageList_GetIcon(pmi->parent->m_hMenuIcons, pmi->iconId, 0);
 
 	wchar_t sectionName[256];
-	mir_snwprintf(sectionName, LPGENW("Menu icons") L"/%s", TranslateTS(pmi->parent->ptszDisplayName));
+	mir_snwprintf(sectionName, LPGENW("Menu icons") L"/%s", TranslateW(pmi->parent->ptszDisplayName));
 
 	char iconame[256], uname[100];
 	bin2hex(&pmi->mi.uid, sizeof(pmi->mi.uid), uname);
@@ -1242,7 +1242,7 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 	}
 
 	SKINICONDESC sid = { 0 };
-	sid.flags = SIDF_TCHAR;
+	sid.flags = SIDF_UNICODE;
 	sid.section.w = sectionName;
 	sid.pszName = iconame;
 	sid.description.w = descr;

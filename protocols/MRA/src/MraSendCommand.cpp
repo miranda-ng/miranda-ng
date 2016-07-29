@@ -184,7 +184,7 @@ DWORD CMraProto::MraMessageRecv(const CMStringA &szFrom, DWORD dwMsgID)
 }
 
 // Adds new contact
-DWORD CMraProto::MraAddContact(MCONTACT hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones, const CMString* wszAuthMessage)
+DWORD CMraProto::MraAddContact(MCONTACT hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones, const CMStringW* wszAuthMessage)
 {
 	if (szEmail.GetLength() <= 4 && !(dwContactFlag & CONTACT_FLAG_GROUP))
 		return 0;

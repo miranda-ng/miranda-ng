@@ -177,7 +177,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 
 	wchar_t *pt = mir_wstrdup(pcli->pfnGetContactDisplayName(m_hContact, 0));
 	if (pt && (m_hContact != 0)) {
-		CMString string;
+		CMStringW string;
 		string.AppendFormat(TranslateT("Send screenshot to %s"), pt);
 		SetWindowText(m_hWnd, string);
 	}
@@ -988,7 +988,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib)
 	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, _countof(winText));
 
 
-	CMString tszFileDesc;
+	CMStringW tszFileDesc;
 
 	if (m_opt_tabCapture)
 		tszFileDesc.Format(TranslateT("Screenshot of \"%s\""), winText);

@@ -34,7 +34,7 @@ static int message_Send(lua_State *L)
 	const char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE)
 	{
-		ptrW tszChatRoom(db_get_tsa(hContact, szProto, "ChatRoomID"));
+		ptrW tszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
 		GCDEST gcd = { szProto, tszChatRoom, GC_EVENT_SENDMESSAGE };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.bIsMe = TRUE;

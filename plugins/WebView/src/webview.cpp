@@ -173,7 +173,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 
 	int action = db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1);
 	if (action == 0) {
-		ptrW url(db_get_tsa(hContact, MODULENAME, "URL"));
+		ptrW url(db_get_wsa(hContact, MODULENAME, "URL"));
 		Utils_OpenUrlT(url);
 
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
@@ -240,7 +240,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 
 	cfFM.dwEffects = bold | italic | underline;
 
-	if (!db_get_ts(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
+	if (!db_get_ws(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
 		mir_wstrcpy(cfFM.szFaceName, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -443,7 +443,7 @@ int OnTopMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
-	ptrW url(db_get_tsa(hContact, MODULENAME, "URL"));
+	ptrW url(db_get_wsa(hContact, MODULENAME, "URL"));
 	if (url)
 		Utils_OpenUrlT(url);
 

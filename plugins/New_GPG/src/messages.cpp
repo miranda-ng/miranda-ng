@@ -419,7 +419,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			if (bDebugLog)
 				debuglog << std::string(time_str() + ": info(autoexchange): found pubkey block:" + toUTF8(pcli->pfnGetContactDisplayName(ccs->hContact, 0)));
 			s2 += mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
-			db_set_ts(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1, s2 - s1).c_str());
+			db_set_ws(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1, s2 - s1).c_str());
 			{ //gpg execute block
 				std::vector<wstring> cmd;
 				wchar_t tmp2[MAX_PATH] = { 0 };
@@ -1034,9 +1034,9 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 							string dbsetting = "szKey_";
 							dbsetting += inkeyid;
 							dbsetting += "_Password";
-							db_set_ts(NULL, szGPGModuleName, dbsetting.c_str(), tmp);
+							db_set_ws(NULL, szGPGModuleName, dbsetting.c_str(), tmp);
 						}
-						else db_set_ts(NULL, szGPGModuleName, "szKeyPassword", tmp);
+						else db_set_ws(NULL, szGPGModuleName, "szKeyPassword", tmp);
 					}
 					if (password)
 						mir_free(password);

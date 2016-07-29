@@ -183,7 +183,7 @@ void CJabberProto::OnIqResultPrivacyListActive(HXML iqNode, CJabberIqInfo *pInfo
 	if (type == NULL)
 		return;
 
-	CMString szText;
+	CMStringW szText;
 
 	if (!mir_wstrcmp(type, L"result")) {
 		mir_cslock lck(m_privacyListManager.m_cs);
@@ -370,7 +370,7 @@ public:
 		wchar_t *szTypes[] = { L"JID", L"Group", L"Subscription", L"Any" };
 		int i, nTypes[] = { Jid, Group, Subscription, Else };
 		for (i=0; i < _countof(szTypes); i++) {
-			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szTypes[i]));
+			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(szTypes[i]));
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_SETITEMDATA, nItem, nTypes[i]);
 			if (m_pRule->GetType() == nTypes[i])
 				SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_SETCURSEL, nItem, 0);
@@ -379,7 +379,7 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_RESETCONTENT, 0, 0);
 		wchar_t *szSubscriptions[] = { L"none", L"from", L"to", L"both" };
 		for (i=0; i < _countof(szSubscriptions); i++) {
-			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szSubscriptions[i]));
+			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_ADDSTRING, 0, (LPARAM)TranslateW(szSubscriptions[i]));
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SETITEMDATA, nItem, (LPARAM)szSubscriptions[i]);
 		}
 
@@ -423,7 +423,7 @@ public:
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
 			{
 				for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
-					ptrW jid( m_proto->getTStringA(hContact, "jid"));
+					ptrW jid( m_proto->getWStringA(hContact, "jid"));
 					if (jid != NULL)
 						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, jid);
 				}
@@ -471,7 +471,7 @@ public:
 			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUE), SW_SHOW);
 
 			if (m_pRule->GetValue()) {
-				LRESULT nSelected = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SELECTSTRING, -1, (LPARAM)TranslateTS(m_pRule->GetValue()));
+				LRESULT nSelected = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SELECTSTRING, -1, (LPARAM)TranslateW(m_pRule->GetValue()));
 				if (nSelected == CB_ERR)
 					SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SETCURSEL, 0, 0);
 			}
@@ -948,7 +948,7 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		int i, totalWidth = -5; // spacing for last item
 		for (i=0; i < _countof(drawItems); i++) {
 			SIZE sz = {0};
-			drawItems[i].text = TranslateTS(drawItems[i].textEng);
+			drawItems[i].text = TranslateW(drawItems[i].textEng);
 			GetTextExtentPoint32(lpdis->hDC, drawItems[i].text, (int)mir_wstrlen(drawItems[i].text), &sz);
 			totalWidth += sz.cx + 18 + 5; // 18 pixels for icon, 5 pixel spacing
 		}
@@ -1462,9 +1462,9 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		hItem = m_clcClist.FindContact(hContact);
 
-		ptrW jid( m_proto->getTStringA(hContact, "jid"));
+		ptrW jid( m_proto->getWStringA(hContact, "jid"));
 		if (jid == NULL)
-			if ((jid = m_proto->getTStringA(hContact, "ChatRoomID")) == NULL)
+			if ((jid = m_proto->getWStringA(hContact, "ChatRoomID")) == NULL)
 				continue;
 
 		if (dwPackets = CListGetPackets(hwndList, hItem, true))
@@ -1663,7 +1663,7 @@ void CJabberDlgPrivacyLists::btnActivate_OnClick(CCtrlButton *)
 		active << XATTR(L"name", pList->GetListName());
 
 	lck.unlock();
-	SetStatusText(TranslateTS(JABBER_PL_BUSY_MSG));
+	SetStatusText(TranslateW(JABBER_PL_BUSY_MSG));
 	m_proto->m_ThreadInfo->send(iq);
 }
 
@@ -1690,7 +1690,7 @@ void CJabberDlgPrivacyLists::btnSetDefault_OnClick(CCtrlButton *)
 		XmlAddAttr(defaultTag, L"name", pList->GetListName());
 
 	lck.unlock();
-	SetStatusText(TranslateTS(JABBER_PL_BUSY_MSG));
+	SetStatusText(TranslateW(JABBER_PL_BUSY_MSG));
 	m_proto->m_ThreadInfo->send(iq);
 }
 
@@ -1958,7 +1958,7 @@ void CJabberDlgPrivacyLists::btnApply_OnClick(CCtrlButton *)
 			pList = pList->GetNext();
 	}	}
 
-	SetStatusText(TranslateTS(JABBER_PL_BUSY_MSG));
+	SetStatusText(TranslateW(JABBER_PL_BUSY_MSG));
 	PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
 }
 
@@ -2101,7 +2101,7 @@ void CJabberProto::BuildPrivacyMenu()
 	mi.pszService = "/PrivacyLists";
 	CreateProtoService(mi.pszService, &CJabberProto::OnMenuHandlePrivacyLists);
 	mi.position = 3000040000;
-	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR;
+	mi.flags = CMIF_UNMOVABLE | CMIF_UNICODE;
 	mi.hIcolibItem = GetIconHandle(IDI_PRIVACY_LISTS);
 	mi.name.w = LPGENW("List Editor...");
 	mi.root = m_hPrivacyMenuRoot;
@@ -2122,7 +2122,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 	CMenuItem mi;
 	mi.position = 2000040000;
-	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR;
+	mi.flags = CMIF_UNMOVABLE | CMIF_UNICODE;
 	mi.root = m_hPrivacyMenuRoot;
 	mi.pszService = srvFce;
 

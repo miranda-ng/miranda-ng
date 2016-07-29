@@ -22,9 +22,9 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
 	sid.dwId = 1;
-	sid.flags = MBF_TCHAR;
+	sid.flags = MBF_UNICODE;
 
-	CMString tszTooltip;
+	CMStringW tszTooltip;
 
 	if (type != ICON_HIDDEN)
 	{
@@ -43,7 +43,7 @@ void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
 			}
 		}
 		else 
-			tszTooltip = TranslateTS(Tooltips[type]);
+			tszTooltip = TranslateW(Tooltips[type]);
 
 		sid.tszTooltip = tszTooltip.GetBuffer();
 	}

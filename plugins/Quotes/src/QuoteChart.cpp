@@ -209,7 +209,7 @@ INT_PTR CALLBACK ChartDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 			static LPCTSTR szFilters[] = { LPGENW("All"), LPGENW("Last Day"), LPGENW("Last Week"), LPGENW("Last Month"), LPGENW("Last Year"), LPGENW("User-Defined") };
 
 			for (int i = 0; i < sizeof(szSources) / sizeof(szSources[0]); ++i) {
-				LPCTSTR p = TranslateTS(szSources[i]);
+				LPCTSTR p = TranslateW(szSources[i]);
 				::SendDlgItemMessage(hDlg, IDC_COMBO_DATA_SOURCE, CB_INSERTSTRING, -1, reinterpret_cast<LPARAM>(p));
 			}
 
@@ -217,7 +217,7 @@ INT_PTR CALLBACK ChartDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 			::SendDlgItemMessage(hDlg, IDC_COMBO_DATA_SOURCE, CB_SETCURSEL, nSel, 0);
 
 			for (int i = 0; i < sizeof(szFilters) / sizeof(szFilters[0]); ++i) {
-				LPCTSTR p = TranslateTS(szSources[i]);
+				LPCTSTR p = TranslateW(szSources[i]);
 				::SendDlgItemMessage(hDlg, IDC_COMBO_FILTER, CB_INSERTSTRING, -1, reinterpret_cast<LPARAM>(szFilters[i]));
 			}
 

@@ -70,7 +70,7 @@ static void AddGroupItem(HGENMENU hRoot, wchar_t* name, int pos, WPARAM param, b
 	mi.root = hRoot;
 	mi.position = pos;
 	mi.name.w = PrepareGroupName(name);
-	mi.flags = CMIF_SYSTEM | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+	mi.flags = CMIF_SYSTEM | CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 	if (checked)
 		mi.flags |= CMIF_CHECKED;
 	mi.pszService = MTG_MOVE;
@@ -92,7 +92,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		Menu_RemoveItem((HGENMENU)lphGroupsItems[i]);
 	lphGroupsItems.destroy();
 
-	ptrW szContactGroup(db_get_tsa(wParam, "CList", "Group"));
+	ptrW szContactGroup(db_get_wsa(wParam, "CList", "Group"));
 
 	int pos = 1000;
 
@@ -105,7 +105,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		_itoa(i, intname, 10);
 
 		DBVARIANT dbv;
-		if (db_get_ts(NULL, "CListGroups", intname, &dbv))
+		if (db_get_ws(NULL, "CListGroups", intname, &dbv))
 			break;
 
 		if (dbv.ptszVal[0])

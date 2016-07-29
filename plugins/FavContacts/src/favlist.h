@@ -20,7 +20,7 @@ public:
 		name = mir_wstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
 		if (g_Options.bUseGroups) {
-			if ((group = db_get_tsa(hContact, "CList", "Group")) == NULL)
+			if ((group = db_get_wsa(hContact, "CList", "Group")) == NULL)
 				group = mir_wstrdup(TranslateT("<no group>"));
 		}
 		else group = mir_wstrdup(TranslateT("Favorite Contacts"));

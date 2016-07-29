@@ -160,7 +160,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	wchar_t szBuffer[MAX_PATH + 64];
 	mir_snwprintf(szBuffer, TranslateT("%s server connection"), m_tszUserName);
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.ptszDescriptiveName = szBuffer;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szHttpGatewayHello = "http://http.proxy.icq.com/hello";
@@ -174,7 +174,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	char szP2PModuleName[MAX_PATH];
 	mir_snprintf(szP2PModuleName, "%sP2P", m_szModuleName);
 	mir_snwprintf(szBuffer, TranslateT("%s client-to-client connections"), m_tszUserName);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_UNICODE;
 	nlu.ptszDescriptiveName = szBuffer;
 	nlu.szSettingsModule = szP2PModuleName;
 	nlu.minIncomingPorts = 1;

@@ -231,10 +231,10 @@ void ColWords::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 	if (row == 1)
 	{
 		ext::string strTitle = str(ext::kformat(TranslateT("#{type} for #{data}"))
-			% L"#{type}" * TranslateTS(szTypeDesc[m_nVisMode])
-			% L"#{data}" * TranslateTS(szSourceDesc[m_nSource]));
+			% L"#{type}" * TranslateW(szTypeDesc[m_nVisMode])
+			% L"#{data}" * TranslateW(szSourceDesc[m_nSource]));
 
-		writeRowspanTD(tos, getCustomTitle(TranslateTS(szTypeDesc[m_nVisMode]), strTitle), row, 1, rowSpan);	
+		writeRowspanTD(tos, getCustomTitle(TranslateW(szTypeDesc[m_nVisMode]), strTitle), row, 1, rowSpan);	
 	}
 }
 

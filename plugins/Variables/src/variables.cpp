@@ -455,7 +455,7 @@ int LoadVarModule()
 	if (db_get_b(NULL, MODULENAME, SETTING_PARSEATSTARTUP, 0)) {
 		FORMATINFO fi = { 0 };
 		fi.cbSize = sizeof(fi);
-		fi.tszFormat = db_get_tsa(NULL, MODULENAME, SETTING_STARTUPTEXT);
+		fi.tszFormat = db_get_wsa(NULL, MODULENAME, SETTING_STARTUPTEXT);
 		if (fi.tszFormat != NULL) {
 			mir_free(formatString(&fi));
 			mir_free(fi.tszFormat);

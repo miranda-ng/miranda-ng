@@ -311,8 +311,8 @@ static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 	THotkeyItem *newItem = (THotkeyItem *)mir_alloc(sizeof(THotkeyItem));
 	newItem->pszName = NULL;
 	newItem->pszService = item->pszService ? mir_strdup(item->pszService) : NULL;
-	newItem->ptszSection = mir_wstrdup(item->ptszSection);
-	newItem->ptszDescription = mir_wstrdup(item->ptszDescription);
+	newItem->pwszSection = mir_wstrdup(item->pwszSection);
+	newItem->pwszDescription = mir_wstrdup(item->pwszDescription);
 	newItem->lParam = item->lParam;
 	newItem->idHotkey = GlobalAddAtomA(buf);
 	newItem->rootHotkey = item;
@@ -393,7 +393,7 @@ static void sttBuildHotkeyList(HWND hwndList)
 		if (item->OptDeleted)
 			continue;
 
-		if (!i || mir_wstrcmp(item->ptszSection, hotkeys[i - 1]->ptszSection)) {
+		if (!i || mir_wstrcmp(item->pwszSection, hotkeys[i - 1]->pwszSection)) {
 			lvi.mask = LVIF_TEXT | LVIF_PARAM;
 			lvi.iItem = nItems++;
 			lvi.iSubItem = 0;
@@ -404,7 +404,7 @@ static void sttBuildHotkeyList(HWND hwndList)
 
 			lvi.mask = LVIF_TEXT;
 			lvi.iSubItem = 1;
-			lvi.pszText = item->ptszSection;
+			lvi.pszText = item->pwszSection;
 			ListView_SetItem(hwndList, &lvi);
 
 			lvi.iSubItem = 0;

@@ -458,9 +458,9 @@ DWORD CMraProto::SetContactBasicInfoW(MCONTACT hContact, DWORD dwSetInfoFlags, D
 
 		MraGroupItem *grp = m_groups.find((MraGroupItem*)&dwGroupID);
 		if (grp) {
-			ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
+			ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
 			if (mir_wstrcmp(tszGroup, grp->m_name))
-				db_set_ts(hContact, "CList", "Group", grp->m_name);
+				db_set_ws(hContact, "CList", "Group", grp->m_name);
 		}
 	}
 
@@ -874,11 +874,11 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 	size_t dwErrDescriptionSize;
 
 	if (dwErrorCode == NO_ERROR)
-		wcsncpy_s(szErrorText, TranslateTS(lpwszErrText), _TRUNCATE);
+		wcsncpy_s(szErrorText, TranslateW(lpwszErrText), _TRUNCATE);
 	else {
 		dwErrDescriptionSize = (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrorCode, 0, szErrDescription, (_countof(szErrDescription) - sizeof(WCHAR)), NULL) - 2);
 		szErrDescription[dwErrDescriptionSize] = 0;
-		mir_snwprintf(szErrorText, L"%s %lu: %s", TranslateTS(lpwszErrText), dwErrorCode, szErrDescription);
+		mir_snwprintf(szErrorText, L"%s %lu: %s", TranslateW(lpwszErrText), dwErrorCode, szErrDescription);
 	}
 	MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, 0, szErrorText);
 }
@@ -997,13 +997,13 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 			SendDlgItemMessage(hWndDlg, IDC_XTITLE, EM_LIMITTEXT, STATUS_TITLE_MAX, 0);
 			SendDlgItemMessage(hWndDlg, IDC_XMSG, EM_LIMITTEXT, STATUS_DESC_MAX, 0);
 			SendMessage(hWndDlg, WM_SETICON, ICON_BIG, (LPARAM)dat->hDlgIcon);
-			SetWindowText(hWndDlg, TranslateTS(lpcszXStatusNameDef[dat->dwXStatus]));
+			SetWindowText(hWndDlg, TranslateW(lpcszXStatusNameDef[dat->dwXStatus]));
 
 			mir_snprintf(szValueName, "XStatus%ldName", dat->dwXStatus);
 			if (dat->ppro->mraGetStringW(NULL, szValueName, szBuff))
 				SetDlgItemText(hWndDlg, IDC_XTITLE, szBuff.c_str()); // custom xstatus name
 			else // default xstatus name
-				SetDlgItemText(hWndDlg, IDC_XTITLE, TranslateTS(lpcszXStatusNameDef[dat->dwXStatus]));
+				SetDlgItemText(hWndDlg, IDC_XTITLE, TranslateW(lpcszXStatusNameDef[dat->dwXStatus]));
 
 			mir_snprintf(szValueName, "XStatus%ldMsg", dat->dwXStatus);
 			if (dat->ppro->mraGetStringW(NULL, szValueName, szBuff))
@@ -1056,7 +1056,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 
 			dwBuffSize = GetDlgItemText(hWndDlg, IDC_XTITLE, szBuff, (STATUS_TITLE_MAX + 1));
 			if (dwBuffSize == 0) { // user delete all text
-				mir_wstrncpy(szBuff, TranslateTS(lpcszXStatusNameDef[dat->dwXStatus]), STATUS_TITLE_MAX + 1);
+				mir_wstrncpy(szBuff, TranslateW(lpcszXStatusNameDef[dat->dwXStatus]), STATUS_TITLE_MAX + 1);
 				dwBuffSize = (DWORD)mir_wstrlen(szBuff);
 			}
 			mir_snprintf(szValueName, "XStatus%dName", dat->dwXStatus);

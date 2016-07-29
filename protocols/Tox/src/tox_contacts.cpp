@@ -91,15 +91,15 @@ MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char
 	setString(hContact, TOX_SETTINGS_ID, address);
 
 	if (mir_strlen(nick))
-		setTString(hContact, "Nick", ptrW(mir_utf8decodeW(nick)));
+		setWString(hContact, "Nick", ptrW(mir_utf8decodeW(nick)));
 
 	if (mir_strlen(dnsId))
-		setTString(hContact, TOX_SETTINGS_DNS, ptrW(mir_utf8decodeW(dnsId)));
+		setWString(hContact, TOX_SETTINGS_DNS, ptrW(mir_utf8decodeW(dnsId)));
 
 	DBVARIANT dbv;
-	if (!getTString(TOX_SETTINGS_GROUP, &dbv))
+	if (!getWString(TOX_SETTINGS_GROUP, &dbv))
 	{
-		db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
+		db_set_ws(hContact, "CList", "Group", dbv.ptszVal);
 		db_free(&dbv);
 	}
 
@@ -149,7 +149,7 @@ void CToxProto::LoadFriendList(void*)
 				TOX_ERR_FRIEND_QUERY getNameResult;
 				uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 				if (tox_friend_get_name(toxThread->Tox(), friendNumber, nick, &getNameResult))
-					setTString(hContact, "Nick", ptrW(mir_utf8decodeW((char*)nick)));
+					setWString(hContact, "Nick", ptrW(mir_utf8decodeW((char*)nick)));
 				else
 					debugLogA(__FUNCTION__": failed to get friend name (%d)", getNameResult);
 
@@ -188,7 +188,7 @@ INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 	uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 	TOX_ERR_FRIEND_QUERY errorFriendQuery;
 	if (tox_friend_get_name(toxThread->Tox(), friendNumber, nick, &errorFriendQuery))
-		setTString(hContact, "Nick", ptrW(mir_utf8decodeW((char*)nick)));
+		setWString(hContact, "Nick", ptrW(mir_utf8decodeW((char*)nick)));
 	else
 		debugLogA(__FUNCTION__": failed to get friend name (%d)", errorFriendQuery);
 
@@ -292,7 +292,7 @@ void CToxProto::OnFriendNameChange(Tox*, uint32_t friendNumber, const uint8_t *n
 		rawName[length] = 0;
 
 		ptrW nickname(mir_utf8decodeW(rawName));
-		proto->setTString(hContact, "Nick", nickname);
+		proto->setWString(hContact, "Nick", nickname);
 	}
 }
 
@@ -307,7 +307,7 @@ void CToxProto::OnStatusMessageChanged(Tox*, uint32_t friendNumber, const uint8_
 		rawMessage[length] = 0;
 
 		ptrW statusMessage(mir_utf8decodeW(rawMessage));
-		db_set_ts(hContact, "CList", "StatusMsg", statusMessage);
+		db_set_ws(hContact, "CList", "StatusMsg", statusMessage);
 	}
 }
 
@@ -398,7 +398,7 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	if (szProto != NULL && !mir_strcmp(szProto, m_szModuleName))
 	{
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-		odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
+		odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
 		odp.hInstance = g_hInstance;
 		odp.dwInitParam = (LPARAM)this;
 		odp.pwszTitle = m_tszUserName;
@@ -441,7 +441,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 					break;
 				}
 
-				SetDlgItemText(hwnd, IDC_DNS_ID, ptrW(proto->getTStringA(hContact, TOX_SETTINGS_DNS)));
+				SetDlgItemText(hwnd, IDC_DNS_ID, ptrW(proto->getWStringA(hContact, TOX_SETTINGS_DNS)));
 			}
 			break;
 
@@ -458,7 +458,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				}
 				wchar_t dnsId[MAX_PATH];
 				GetDlgItemText(hwnd, IDC_DNS_ID, dnsId, MAX_PATH);
-				proto->setTString(hContact, TOX_SETTINGS_DNS, dnsId);
+				proto->setWString(hContact, TOX_SETTINGS_DNS, dnsId);
 				break;
 			}
 			break;
@@ -470,8 +470,6 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 		}
-		break;
-
 		break;
 	}
 

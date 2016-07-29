@@ -14,7 +14,7 @@ static int icolib_AddIcon(lua_State *L)
 	}
 
 	SKINICONDESC si = { 0 };
-	si.flags = SIDF_ALL_TCHAR;
+	si.flags = SIDF_ALL_UNICODE;
 	si.pszName = mir_utf8decodeA(name);
 	si.description.w = description;
 	si.section.w = section;

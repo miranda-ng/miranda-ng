@@ -115,7 +115,7 @@ class CCreateProfileDlg : public CDlgBase
 			// now the file should be gone!
 		}
 		// ask the database to create the profile
-		CreatePathToFileT(profile);
+		CreatePathToFileW(profile);
 		if ((err = link->makeDatabase(profile)) != ERROR_SUCCESS) {
 			mir_snwprintf(buf, TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
 			MessageBox(m_hwnd, buf, TranslateT("Problem creating profile"), MB_ICONERROR | MB_OK);
@@ -154,7 +154,7 @@ public:
 		else {
 			for (int i = 0; i < arDbPlugins.getCount(); i++) {
 				DATABASELINK *p = arDbPlugins[i];
-				m_driverList.AddString(TranslateTS(p->szFullName), (LPARAM)p);
+				m_driverList.AddString(TranslateW(p->szFullName), (LPARAM)p);
 			}
 		}
 
@@ -302,7 +302,7 @@ class CChooseProfileDlg : public CDlgBase
 			if (bFileLocked) // file locked
 				list.SetItemText(iItem, 1, TranslateT("<In use>"));
 			else
-				list.SetItemText(iItem, 1, TranslateTS(dblink->szFullName));
+				list.SetItemText(iItem, 1, TranslateW(dblink->szFullName));
 		}
 		else list.SetItemText(iItem, 1, TranslateT("<Unknown format>"));
 
@@ -615,7 +615,7 @@ public:
 
 			for (int i = 0; i < servicePlugins.getCount(); i++) {
 				pluginEntry *p = servicePlugins[i];
-				m_servicePlugs.AddString(TranslateTS(p->pluginname), i);
+				m_servicePlugs.AddString(TranslateW(p->pluginname), i);
 			}
 		}
 	}

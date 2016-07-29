@@ -44,7 +44,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 		if (IsMyContact(hContact)) {
 			DBVARIANT dbv;
 			// check ID to see if the contact already exist in the database
-			if (!db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+			if (!db_get_ws(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 				if (!mir_wstrcmpi(psr->email.w, dbv.ptszVal)) {
 					// remove the flag for not on list and hidden, thus make the contact visible
 					// and add them on the list
@@ -75,7 +75,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 	// set settings by obtaining the default for the service 
 	if (psr->lastName.w[0] != 0) {
 		WIDATA *sData = GetWIData(svc);
-		db_set_ts(hContact, WEATHERPROTONAME, "MapURL", sData->DefaultMap);
+		db_set_ws(hContact, WEATHERPROTONAME, "MapURL", sData->DefaultMap);
 		db_set_s(hContact, WEATHERPROTONAME, "InfoURL", sData->DefaultURL);
 	}
 	else { // if no valid service is found, create empty strings for MapURL and InfoURL
@@ -83,15 +83,15 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 		db_set_s(hContact, WEATHERPROTONAME, "InfoURL", "");
 	}
 	// write the other info and settings to the database
-	db_set_ts(hContact, WEATHERPROTONAME, "ID", psr->email.w);
-	db_set_ts(hContact, WEATHERPROTONAME, "Nick", psr->nick.w);
+	db_set_ws(hContact, WEATHERPROTONAME, "ID", psr->email.w);
+	db_set_ws(hContact, WEATHERPROTONAME, "Nick", psr->nick.w);
 	db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_OFFLINE);
 
 	AvatarDownloaded(hContact);
 
 	wchar_t str[256];
 	mir_snwprintf(str, TranslateT("Current weather information for %s."), psr->nick.w);
-	db_set_ts(hContact, WEATHERPROTONAME, "About", str);
+	db_set_ws(hContact, WEATHERPROTONAME, "About", str);
 
 	// make the last update tags to something invalid
 	db_set_s(hContact, WEATHERPROTONAME, "LastLog", "never");
@@ -107,13 +107,13 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 		GetStationID(hContact, opt.Default, _countof(opt.Default));
 
 		opt.DefStn = hContact;
-		if (!db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+		if (!db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 			// notification message box
 			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
-		db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
+		db_set_ws(NULL, WEATHERPROTONAME, "Default", opt.Default);
 	}
 	// display the Edit Settings dialog box
 	EditSettings(hContact, 0);
@@ -255,7 +255,7 @@ int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *s
 
 	// set the search result and broadcast it
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
-	psr.flags = PSR_TCHAR;
+	psr.flags = PSR_UNICODE;
 	psr.nick.w = str;
 	psr.firstName.w = L" ";
 	psr.lastName.w = svcname;
@@ -286,7 +286,7 @@ int IDSearch(wchar_t *sID, const int searchId)
 	else {
 		// return an empty contact on "#"
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
-		psr.flags = PSR_TCHAR;
+		psr.flags = PSR_UNICODE;
 		psr.nick.w = TranslateT("<Enter station name here>");	// to be entered
 		psr.firstName.w = L" ";
 		psr.lastName.w = L"";
@@ -348,7 +348,7 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 
 				// set the data and broadcast it
 				PROTOSEARCHRESULT psr = { sizeof(psr) };
-				psr.flags = PSR_TCHAR;
+				psr.flags = PSR_UNICODE;
 				psr.nick.w = Name;
 				psr.firstName.w = L" ";
 				psr.lastName.w = svcname;
@@ -386,7 +386,7 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 						wcsncpy(Name, name, _countof(Name));
 
 					PROTOSEARCHRESULT psr = { sizeof(psr) };
-					psr.flags = PSR_TCHAR;
+					psr.flags = PSR_UNICODE;
 					psr.nick.w = Name;
 					psr.firstName.w = L"";
 					psr.lastName.w = svcname;

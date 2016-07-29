@@ -60,7 +60,7 @@ void CMLuaOptions::OnInitDialog()
 	ImageList_AddIcon(hImageList, GetIcon(IDI_RELOAD));
 
 	wchar_t scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
-	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
+	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
 	PathToRelativeT(scriptDir, relativeScriptDir, NULL);
 	mir_snwprintf(header, L"%s (%s)", TranslateT("Common scripts"), relativeScriptDir);
 
@@ -160,7 +160,7 @@ int CMLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.pwszGroup = LPGENW("Services");
 	odp.pwszTitle = L"Lua";
 	odp.pwszTab = LPGENW("Scripts");

@@ -53,38 +53,38 @@ int InitClistHotKeys(void)
 	CreateServiceFunction("CLIST/HK/Read", hkRead);
 
 	HOTKEYDESC shk = { sizeof(shk) };
-	shk.dwFlags = HKD_TCHAR;
-	shk.ptszDescription = LPGENW("Show/Hide contact list");
+	shk.dwFlags = HKD_UNICODE;
+	shk.pwszDescription = LPGENW("Show/Hide contact list");
 	shk.pszName = "ShowHide";
-	shk.ptszSection = L"Main";
+	shk.pwszSection = L"Main";
 	shk.pszService = "CLIST/HK/SHOWHIDE";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'A');
 	Hotkey_Register(&shk);
 
-	shk.ptszDescription = LPGENW("Read message");
+	shk.pwszDescription = LPGENW("Read message");
 	shk.pszName = "ReadMessage";
-	shk.ptszSection = L"Main";
+	shk.pwszSection = L"Main";
 	shk.pszService = "CLIST/HK/Read";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'I');
 	Hotkey_Register(&shk);
 
-	shk.ptszDescription = LPGENW("Open Options page");
+	shk.pwszDescription = LPGENW("Open Options page");
 	shk.pszName = "ShowOptions";
-	shk.ptszSection = L"Main";
+	shk.pwszSection = L"Main";
 	shk.pszService = "CLIST/HK/Opts";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'O') | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&shk);
 
-	shk.ptszDescription = LPGENW("Open logging options");
+	shk.pwszDescription = LPGENW("Open logging options");
 	shk.pszName = "ShowLogOptions";
-	shk.ptszSection = L"Main";
+	shk.pwszSection = L"Main";
 	shk.pszService = "Netlib/Log/Win";
 	shk.DefHotKey = 0;
 	Hotkey_Register(&shk);
 
-	shk.ptszDescription = LPGENW("Open 'Find user' dialog");
+	shk.pwszDescription = LPGENW("Open 'Find user' dialog");
 	shk.pszName = "FindUsers";
-	shk.ptszSection = L"Main";
+	shk.pwszSection = L"Main";
 	shk.pszService = "FindAdd/FindAddCommand";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'F') | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&shk);

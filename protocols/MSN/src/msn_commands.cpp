@@ -273,7 +273,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 								case 'p':
 									psr[cnt] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
 									psr[cnt]->cbSize = sizeof(psr);
-									psr[cnt]->flags = PSR_TCHAR;
+									psr[cnt]->flags = PSR_UNICODE;
 									psr[cnt]->id.w = psr[cnt]->nick.w = psr[cnt]->email.w = mir_a2u(wlid);
 									cnt++;
 								}
@@ -523,7 +523,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				mir_snwprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 				PROTORECVFILET pre = { 0 };
-				pre.dwFlags = PRFF_TCHAR;
+				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
 				pre.descr.w = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeW(desc->txt):tComment;
@@ -573,7 +573,7 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
-			psr.flags = PSR_TCHAR;
+			psr.flags = PSR_UNICODE;
 			psr.id.w = szEmailT;
 			psr.nick.w = szEmailT;
 			psr.email.w = szEmailT;
@@ -849,7 +849,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		else lti.ptszType = mir_utf8decodeW(parts[1]);
 
 		wchar_t *cm = (wchar_t *)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%title% - %artist%", (LPARAM)&lti);
-		setTString(hContact, "ListeningTo", cm);
+		setWString(hContact, "ListeningTo", cm);
 
 		mir_free(cm);
 
@@ -1473,7 +1473,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		mir_snwprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 		PROTORECVFILET pre = { 0 };
-		pre.dwFlags = PRFF_TCHAR;
+		pre.dwFlags = PRFF_UNICODE;
 		pre.fileCount = 1;
 		pre.timestamp = time(NULL);
 		pre.descr.w = tComment;

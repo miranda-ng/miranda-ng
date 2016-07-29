@@ -152,7 +152,7 @@ struct PERFORM_INFO  // Contains 'm_perform buffer' for different networks
 	{}
 
 	CMStringA mSetting;
-	CMString mText;
+	CMStringW mText;
 };
 
 struct CONTACT // Contains info about users
@@ -319,15 +319,15 @@ struct CIrcProto : public PROTO<CIrcProto>
 	COLORREF colors[16];
 	HICON    hIcon[13];
 
-	OBJLIST<CMString> vUserhostReasons;
-	OBJLIST<CMString> vWhoInProgress;
+	OBJLIST<CMStringW> vUserhostReasons;
+	OBJLIST<CMStringW> vWhoInProgress;
 
 	mir_cs   cs;
 	mir_cs   m_gchook;
 	mir_cs   m_resolve;
 	HANDLE   m_evWndCreate;
 
-	CMString m_statusMessage;
+	CMStringW m_statusMessage;
 	int      m_iTempCheckTime;
 
 	CIrcSessionInfo si;
@@ -354,7 +354,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 	int      m_noOfChannels, m_manualWhoisCount;
 	CMStringA   sChannelModes, sUserModes;
-	CMString sChannelPrefixes, sUserModePrefixes, WhoisAwayReply;
+	CMStringW sChannelPrefixes, sUserModePrefixes, WhoisAwayReply;
 
 	//clist.cpp
 	MCONTACT CList_AddContact(CONTACT *user, bool InList, bool SetOnline);
@@ -363,7 +363,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 	bool     CList_AddEvent(CONTACT *user, HICON Icon, HANDLE event, const char *tooltip, int type ) ;
 	MCONTACT CList_FindContact(CONTACT *user);
-	BOOL     CList_AddDCCChat(const CMString &name, const CMString &hostmask, unsigned long adr, int port) ;
+	BOOL     CList_AddDCCChat(const CMStringW &name, const CMStringW &hostmask, unsigned long adr, int port) ;
 
 	//commandmonitor.cpp
 	UINT_PTR IdentTimer, InitTimer, KeepAliveTimer, OnlineNotifTimer, OnlineNotifTimer3;
@@ -374,15 +374,15 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void __cdecl ResolveIPThread(void *di);
 
 	bool AddIgnore(const wchar_t *mask, const wchar_t *mode, const wchar_t *network) ;
-	int  IsIgnored(const CMString &nick, const CMString &address, const CMString &host, char type) ;
-	int  IsIgnored(CMString user, char type);
+	int  IsIgnored(const CMStringW &nick, const CMStringW &address, const CMStringW &host, char type) ;
+	int  IsIgnored(CMStringW user, char type);
 	bool RemoveIgnore(const wchar_t *mask) ;
 
 	//input.cpp
-	CMString DoAlias( const wchar_t *text, wchar_t *window);
-	BOOL     DoHardcodedCommand(CMString text, wchar_t *window, MCONTACT hContact);
-	CMString DoIdentifiers(CMString text, const wchar_t *window);
-	void     FormatMsg(CMString &text);
+	CMStringW DoAlias( const wchar_t *text, wchar_t *window);
+	BOOL     DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hContact);
+	CMStringW DoIdentifiers(CMStringW text, const wchar_t *window);
+	void     FormatMsg(CMStringW &text);
 	bool     PostIrcMessageWnd(wchar_t *pszWindow, MCONTACT hContact, const wchar_t *szBuf);
 	bool     PostIrcMessage(const wchar_t *fmt, ...);
 
@@ -404,14 +404,14 @@ struct CIrcProto : public PROTO<CIrcProto>
 	OBJLIST<CIrcIgnoreItem> m_ignoreItems;
 
 	int      m_channelNumber;
-	CMString m_whoReply;
-	CMString sNamesList;
-	CMString sTopic;
-	CMString sTopicName;
-	CMString	sTopicTime;
-	CMString m_namesToWho;
-	CMString m_channelsToWho;
-	CMString m_namesToUserhost;
+	CMStringW m_whoReply;
+	CMStringW sNamesList;
+	CMStringW sTopic;
+	CMStringW sTopicName;
+	CMStringW	sTopicTime;
+	CMStringW m_namesToWho;
+	CMStringW m_channelsToWho;
+	CMStringW m_namesToUserhost;
 
 	void    InitPrefs(void);
 	void    InitIgnore(void);
@@ -439,25 +439,25 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void __cdecl DisconnectServerThread( void* );
 
 	//tools.cpp
-	void     AddToJTemp(wchar_t op, CMString& sCommand);
-	bool     AddWindowItemData(CMString window, const wchar_t* pszLimit, const wchar_t* pszMode, const wchar_t* pszPassword, const wchar_t* pszTopic);
+	void     AddToJTemp(wchar_t op, CMStringW& sCommand);
+	bool     AddWindowItemData(CMStringW window, const wchar_t* pszLimit, const wchar_t* pszMode, const wchar_t* pszPassword, const wchar_t* pszTopic);
 	INT_PTR  CallChatEvent(WPARAM wParam, LPARAM lParam);
 	INT_PTR  DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* pszNick, const wchar_t* pszText, const wchar_t* pszStatus, const wchar_t* pszUserInfo, DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe,time_t timestamp = 1);
 	void     FindLocalIP(HANDLE con);
-	bool     FreeWindowItemData(CMString window, CHANNELINFO* wis);
+	bool     FreeWindowItemData(CMStringW window, CHANNELINFO* wis);
 	bool     IsChannel(const char* sName);
 	bool     IsChannel(const wchar_t* sName);
 	void     KillChatTimer(UINT_PTR &nIDEvent);
-	CMString MakeWndID(const wchar_t* sWindow);
-	CMString ModeToStatus(int sMode);
-	CMString PrefixToStatus(int cPrefix);
-	int      SetChannelSBText(CMString sWindow, CHANNELINFO * wi);
+	CMStringW MakeWndID(const wchar_t* sWindow);
+	CMStringW ModeToStatus(int sMode);
+	CMStringW PrefixToStatus(int cPrefix);
+	int      SetChannelSBText(CMStringW sWindow, CHANNELINFO * wi);
 	void     SetChatTimer(UINT_PTR &nIDEvent,UINT uElapse, TIMERPROC lpTimerFunc);
 
 	void     ClearUserhostReasons(int type);
-	void     DoUserhostWithReason(int type, CMString reason, bool bSendCommand, CMString userhostparams, ...);
-	CMString GetNextUserhostReason(int type);
-	CMString PeekAtReasons(int type);
+	void     DoUserhostWithReason(int type, CMStringW reason, bool bSendCommand, CMStringW userhostparams, ...);
+	CMStringW GetNextUserhostReason(int type);
+	CMStringW PeekAtReasons(int type);
 
 	// userinfo.cpp
 	void __cdecl AckUserInfoSearch( void* hContact );
@@ -475,7 +475,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CDccSession* FindDCCSendByPort(int iPort);
 	CDccSession* FindDCCRecvByPortAndName(int iPort, const wchar_t* szName);
 	CDccSession* FindPassiveDCCSend(int iToken);
-	CDccSession* FindPassiveDCCRecv(CMString sName, CMString sToken);
+	CDccSession* FindPassiveDCCRecv(CMStringW sName, CMStringW sToken);
 
 	void DisconnectAllDCCSessions(bool Shutdown);
 	void CheckDCCTimeout(void);
@@ -575,7 +575,7 @@ private :
 	PfnIrcMessageHandler FindMethod(const wchar_t* lpszName);
 
 	void OnIrcMessage(const CIrcMessage* pmsg);
-	CMString sNick4Perform;
+	CMStringW sNick4Perform;
 };
 
 // map actual member functions to their associated IRC command.
@@ -619,9 +619,9 @@ HANDLE  GetIconHandle(int iconId);
 //tools.cpp
 int          __stdcall WCCmp(const wchar_t* wild, const wchar_t* string);
 char*        __stdcall IrcLoadFile(wchar_t * szPath);
-CMString     __stdcall GetWord(const wchar_t* text, int index);
+CMStringW     __stdcall GetWord(const wchar_t* text, int index);
 const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index);
-void         __stdcall RemoveLinebreaks( CMString& Message );
+void         __stdcall RemoveLinebreaks( CMStringW& Message );
 wchar_t*       __stdcall my_strstri(const wchar_t *s1, const wchar_t *s2) ;
 wchar_t*       __stdcall DoColorCodes (const wchar_t* text, bool bStrip, bool bReplacePercent);
 

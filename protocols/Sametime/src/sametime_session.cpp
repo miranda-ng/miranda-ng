@@ -17,13 +17,13 @@ struct {
 void __cdecl SessionClear(mwSession* session)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
-	proto->debugLog(L"SessionClear()");
+	proto->debugLogW(L"SessionClear()");
 }
 
 int __cdecl SessionWrite(mwSession* session, const unsigned char* buf, gsize len)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
-	proto->debugLog(L"SessionWrite()  server_connection=[%d], len=[%d]", proto->server_connection, len);
+	proto->debugLogW(L"SessionWrite()  server_connection=[%d], len=[%d]", proto->server_connection, len);
 	if (!proto->server_connection) return 1;
 	if (Netlib_Send(proto->server_connection, (const char*)buf, len, 0) == SOCKET_ERROR)
 		return 1;
@@ -33,7 +33,7 @@ int __cdecl SessionWrite(mwSession* session, const unsigned char* buf, gsize len
 void __cdecl SessionClose(mwSession* session)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
-	proto->debugLog(L"SessionClose()  server_connection=[%d]", proto->server_connection);
+	proto->debugLogW(L"SessionClose()  server_connection=[%d]", proto->server_connection);
 	Netlib_CloseHandle(proto->server_connection);
 	proto->server_connection = 0;
 }
@@ -52,7 +52,7 @@ void CSametimeProto::SessionStopping()
 
 void CSametimeProto::InitMeanwhileServices()
 {
-	debugLog(L"InitMeanwhileServices() start");
+	debugLogW(L"InitMeanwhileServices() start");
 
 	if (options.encrypt_session) {
 		mwSession_addCipher(session, mwCipher_new_RC2_128(session));
@@ -77,7 +77,7 @@ void CSametimeProto::InitMeanwhileServices()
 
 void CSametimeProto::DeinitMeanwhileServices()
 {
-	debugLog(L"DeinitMeanwhileServices() start");
+	debugLogW(L"DeinitMeanwhileServices() start");
 	DeinitConference();
 	DeinitFiles();
 	DeinitMessaging();
@@ -89,7 +89,7 @@ void CSametimeProto::DeinitMeanwhileServices()
 void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpointer info)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
-	proto->debugLog(L"SessionStateChange()  state=[%d]", state);
+	proto->debugLogW(L"SessionStateChange()  state=[%d]", state);
 
 	switch (state) {
 	case mwSession_STARTING:
@@ -136,7 +136,7 @@ void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpoint
 void __cdecl SessionAdmin(struct mwSession* session, const char* text)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
-	proto->debugLog(L"SessionAdmin()");
+	proto->debugLogW(L"SessionAdmin()");
 	wchar_t* tt = mir_utf8decodeW(text);
 	MessageBox(0, tt, TranslateT("Sametime administrator message"), MB_OK);
 	mir_free(tt);
@@ -145,14 +145,14 @@ void __cdecl SessionAdmin(struct mwSession* session, const char* text)
 void __cdecl SessionAnnounce(struct mwSession* session, struct mwLoginInfo* from, gboolean may_reply, const char* text)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
-	proto->debugLog(L"SessionAnnounce()");
+	proto->debugLogW(L"SessionAnnounce()");
 	wchar_t* stzFrom;
 	wchar_t* stzText;
 	wchar_t stzFromBuff[256];
 	stzFrom = mir_utf8decodeW(from->user_name);
 	stzText = mir_utf8decodeW(text);
 	mir_snwprintf(stzFromBuff, TranslateT("Session announcement - from '%s'"), stzFrom);
-	MessageBox(0, TranslateTS(stzText), stzFromBuff, MB_OK);
+	MessageBox(0, TranslateW(stzText), stzFromBuff, MB_OK);
 	mir_free(stzText);
 	mir_free(stzFrom);
 }
@@ -160,7 +160,7 @@ void __cdecl SessionAnnounce(struct mwSession* session, struct mwLoginInfo* from
 void __cdecl SessionSetPrivacyInfo(struct mwSession* session)
 {
 	CSametimeProto* proto = (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
-	proto->debugLog(L"SessionSetPrivacyInfo()");
+	proto->debugLogW(L"SessionSetPrivacyInfo()");
 }
 
 void __cdecl SessionSetUserStatus(struct mwSession* session)
@@ -171,7 +171,7 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 	struct mwUserStatus us;
 	mwUserStatus_clone(&us, mwSession_getUserStatus(session));
 
-	proto->debugLog(L"SessionSetUserStatus()  us.status=[%d]", us.status);
+	proto->debugLogW(L"SessionSetUserStatus()  us.status=[%d]", us.status);
 
 	switch (us.status) {
 	case mwStatus_ACTIVE:
@@ -211,7 +211,7 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 		wchar_t buff[512];
 		mir_snwprintf(buff, TranslateT("Unknown user status: %d"), us.status);
 		proto->showPopup(buff, SAMETIME_POPUP_ERROR);
-		proto->debugLog(buff);
+		proto->debugLogW(buff);
 
 		mwUserStatus_clear(&us);
 		// just go online...to prevent us getting stuck 'connecting'
@@ -224,7 +224,7 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 	if (proto->first_online) {
 		proto->first_online = false;
 		//proto->showPopup(TranslateT("Setting login status"), SAMETIME_POPUP_INFO);
-		proto->debugLog(L"Setting login status");
+		proto->debugLogW(L"Setting login status");
 		proto->SetSessionStatus(proto->login_status);
 	}
 	else proto->BroadcastNewStatus(new_status);
@@ -241,7 +241,7 @@ void CSametimeProto::UpdateSelfStatus()
 int CSametimeProto::SetSessionStatus(int status)
 {
 	struct mwUserStatus us;
-	debugLog(L"SetSessionStatus() start  status=[%d]", status);
+	debugLogW(L"SetSessionStatus() start  status=[%d]", status);
 
 	if (idle_timerid) KillTimer(0, idle_timerid);
 
@@ -271,7 +271,7 @@ int CSametimeProto::SetSessionStatus(int status)
 		us.desc = AwayMessages.szOnline; us.status = mwStatus_ACTIVE; break;
 	}
 
-	debugLog(L"SetSessionStatus() mwSession_setUserStatus  us.status=[%d], us.desc:len=[%d]", us.status, us.desc == NULL ? -1 : mir_strlen(us.desc));
+	debugLogW(L"SetSessionStatus() mwSession_setUserStatus  us.status=[%d], us.desc:len=[%d]", us.status, us.desc == NULL ? -1 : mir_strlen(us.desc));
 	mwSession_setUserStatus(session, &us);
 
 	return 0;
@@ -297,7 +297,7 @@ VOID CALLBACK IdleTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime
 int CSametimeProto::SetIdle(bool idle)
 {
 	// set a timer, to wait for any autoaway module which might set our status
-	debugLog(L"CSametimeProto::SetIdle()  idle=[%d], idle_status=[%d], idle_timerid=[%d]", idle, idle_status, idle_timerid);
+	debugLogW(L"CSametimeProto::SetIdle()  idle=[%d], idle_status=[%d], idle_timerid=[%d]", idle, idle_status, idle_timerid);
 	if (idle && !idle_status) {
 		idle_status = true;
 		if (!idle_timerid)
@@ -313,7 +313,7 @@ int CSametimeProto::SetIdle(bool idle)
 
 void CSametimeProto::SetSessionAwayMessage(int status, const wchar_t* msgT)
 {
-	debugLog(L"SetSessionAwayMessage() status=[%d], msgT:len=[%d]", status, msgT == NULL ? -1 : mir_wstrlen(msgT));
+	debugLogW(L"SetSessionAwayMessage() status=[%d], msgT:len=[%d]", status, msgT == NULL ? -1 : mir_wstrlen(msgT));
 
 	T2Utf msg(msgT);
 	if (status == ID_STATUS_ONLINE)
@@ -345,7 +345,7 @@ void __cdecl KeepAliveThread(LPVOID param)
 {
 	CSametimeProto* proto = (CSametimeProto*)param;
 	int i = 120;
-	proto->debugLog(L"KeepAliveThread() start");
+	proto->debugLogW(L"KeepAliveThread() start");
 
 	while (1) {
 
@@ -363,7 +363,7 @@ void __cdecl KeepAliveThread(LPVOID param)
 
 		mir_cslock lck(proto->session_cs);
 		if (Miranda_Terminated() || !proto->session) {
-			proto->debugLog(L"KeepAliveThread() end");
+			proto->debugLogW(L"KeepAliveThread() end");
 			break;
 		}
 	}
@@ -380,7 +380,7 @@ void __cdecl SessionThread(LPVOID param)
 {
 	CSametimeProto* proto = (CSametimeProto*)param;
 	HANDLE hNetlibUser = proto->m_hNetlibUser;
-	proto->debugLog(L"SessionThread() start");
+	proto->debugLogW(L"SessionThread() start");
 
 	continue_connect = true;
 
@@ -406,7 +406,7 @@ void __cdecl SessionThread(LPVOID param)
 			proto->showPopup(TranslateT("No server connection!"), SAMETIME_POPUP_ERROR);
 		}
 
-		proto->debugLog(L"SessionThread() end, no server_connection, continue_connect=[%d]", continue_connect);
+		proto->debugLogW(L"SessionThread() end, no server_connection, continue_connect=[%d]", continue_connect);
 		return;
 	}
 
@@ -436,7 +436,7 @@ void __cdecl SessionThread(LPVOID param)
 	//while(session && server_connection && mwSession_getState(session) != mwSession_STOPPED) {
 	while (proto->server_connection) {// && session) {// && !mwSession_isStopped(session)) { // break on error
 		bytes = Netlib_Recv(proto->server_connection, (char *)recv_buffer, 1024 * 32, 0);
-		proto->debugLog(L"SessionThread() Netlib_Recv'ed bytes=[%d]", bytes);
+		proto->debugLogW(L"SessionThread() Netlib_Recv'ed bytes=[%d]", bytes);
 
 		if (bytes == 0) {
 			break;
@@ -462,7 +462,7 @@ void __cdecl SessionThread(LPVOID param)
 	proto->SetAllOffline();
 	proto->first_online = true;
 
-	proto->debugLog(L"SessionThread() end");
+	proto->debugLogW(L"SessionThread() end");
 	return;
 }
 
@@ -488,11 +488,11 @@ WORD CSametimeProto::GetServerVersion()
 
 int CSametimeProto::LogIn(int ls, HANDLE hNetlibUser)
 {
-	debugLog(L"LogIn() start");
+	debugLogW(L"LogIn() start");
 
 	mir_cslock lck(session_cs);
 	if (session) {
-		debugLog(L"LogIn() end, currently in session");
+		debugLogW(L"LogIn() end, currently in session");
 		return 0;
 	}
 
@@ -505,12 +505,12 @@ int CSametimeProto::LogIn(int ls, HANDLE hNetlibUser)
 
 int CSametimeProto::LogOut()
 {
-	debugLog(L"LogOut() start");
+	debugLogW(L"LogOut() start");
 	continue_connect = false;
 
 	mir_cslock lck(session_cs);
 	if (session && server_connection && m_iStatus != ID_STATUS_OFFLINE && !mwSession_isStopped(session) && !mwSession_isStopping(session)) {
-		debugLog(L"LogOut() mwSession_stop");
+		debugLogW(L"LogOut() mwSession_stop");
 		mwSession_stop(session, 0);
 	}
 
@@ -519,15 +519,15 @@ int CSametimeProto::LogOut()
 
 int CSametimeProto::OnLogInRedirect(char* newHost)
 {
-	debugLog(L"OnLogInRedirect() mwSession_LOGIN_REDIR  newHost=[%s]", newHost ? _A2T(newHost) : "(null)");
+	debugLogW(L"OnLogInRedirect() mwSession_LOGIN_REDIR  newHost=[%s]", newHost ? _A2T(newHost) : "(null)");
 
 	if (!newHost || !mir_strcmp(newHost, options.server_name) || db_get_b(0, m_szModuleName, "ForceLogin", 0) == 1) {
-		debugLog(L"OnLogInRedirect() forceLogin");
+		debugLogW(L"OnLogInRedirect() forceLogin");
 		mwSession_forceLogin(session);
 		return 0;
 	}
 
-	debugLog(L"OnLogInRedirect() redirect");
+	debugLogW(L"OnLogInRedirect() redirect");
 	mir_strcpy(options.server_name, newHost);
 	LogOut();
 	Sleep(50);  //wait for SessionThread end
@@ -561,7 +561,7 @@ void SendAnnouncement(SendAnnouncementFunc_arg* arg)
 
 INT_PTR CSametimeProto::SessionAnnounce(WPARAM wParam, LPARAM lParam)
 {
-	debugLog(L"CSametimeProto::SessionAnnounce() start");
+	debugLogW(L"CSametimeProto::SessionAnnounce() start");
 	SessionAnnounceDialogProc_arg* sadpArg = (SessionAnnounceDialogProc_arg*)mir_calloc(sizeof(SessionAnnounceDialogProc_arg));
 	sadpArg->proto = this;
 	sadpArg->sendAnnouncementFunc = SendAnnouncement;
@@ -571,12 +571,12 @@ INT_PTR CSametimeProto::SessionAnnounce(WPARAM wParam, LPARAM lParam)
 
 void CSametimeProto::InitSessionMenu()
 {
-	debugLog(L"CSametimeProto::InitSessionMenu()");
+	debugLogW(L"CSametimeProto::InitSessionMenu()");
 
 	CreateProtoService(MS_SAMETIME_MENUANNOUNCESESSION, &CSametimeProto::SessionAnnounce);
 
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.position = 2000060000;
 	mi.name.w = LPGENW("Send announcement...");
 	mi.pszService = MS_SAMETIME_MENUANNOUNCESESSION;

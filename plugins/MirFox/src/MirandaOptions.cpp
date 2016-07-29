@@ -145,7 +145,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			MFLogger* logger = MFLogger::getInstance();
 			logger->log_p(L"Options. Save clientsProfilesFilterString: [%s]", mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->c_str());
-			db_set_ts(0, PLUGIN_DB_ID, "clientsProfilesFilterString", mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->c_str());
+			db_set_ws(0, PLUGIN_DB_ID, "clientsProfilesFilterString", mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->c_str());
 
 			//TODO fire actualization visableTo field at CSM record
 

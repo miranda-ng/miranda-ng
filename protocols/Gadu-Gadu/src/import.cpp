@@ -32,7 +32,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 
 		// Readup FirstName
 		DBVARIANT dbv;
-		if (!gg->getTString(hContact, GG_KEY_PD_FIRSTNAME, &dbv))
+		if (!gg->getWString(hContact, GG_KEY_PD_FIRSTNAME, &dbv))
 		{
 			char* pszValA = mir_u2a(dbv.ptszVal);
 			string_append(s, dbv.pszVal);
@@ -41,7 +41,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 		}
 		string_append_c(s, ';');
 		// Readup LastName
-		if (!gg->getTString(hContact, GG_KEY_PD_LASTNAME, &dbv))
+		if (!gg->getWString(hContact, GG_KEY_PD_LASTNAME, &dbv))
 		{
 			char* pszValA = mir_u2a(dbv.ptszVal);
 			string_append(s, dbv.pszVal);
@@ -51,11 +51,11 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 		string_append_c(s, ';');
 
 		// Readup Nick
-		if (!db_get_ts(hContact, "CList", "MyHandle", &dbv) || !gg->getTString(hContact, GG_KEY_NICK, &dbv))
+		if (!db_get_ws(hContact, "CList", "MyHandle", &dbv) || !gg->getWString(hContact, GG_KEY_NICK, &dbv))
 		{
 			char* dbvA = mir_u2a(dbv.ptszVal);
 			DBVARIANT dbv2;
-			if (!gg->getTString(hContact, GG_KEY_PD_NICKNAME, &dbv2))
+			if (!gg->getWString(hContact, GG_KEY_PD_NICKNAME, &dbv2))
 			{
 				char* pszValA = mir_u2a(dbv2.ptszVal);
 				string_append(s, pszValA);
@@ -218,18 +218,18 @@ void GGPROTO::parsecontacts(char *contacts)
 			if (hContact && strGroup) {
 				ptrW tszGrpName( mir_a2u(strGroup));
 				Clist_GroupCreate(0, tszGrpName);
-				db_set_ts(hContact, "CList", "Group", tszGrpName);
+				db_set_ws(hContact, "CList", "Group", tszGrpName);
 			}
 
 			// Write misc data
 			if (hContact && strFirstName){
 				wchar_t *tstrFirstName = mir_a2u(strFirstName);
-				setTString(hContact, GG_KEY_PD_FIRSTNAME, tstrFirstName);
+				setWString(hContact, GG_KEY_PD_FIRSTNAME, tstrFirstName);
 				mir_free(tstrFirstName);
 			}
 			if (hContact && strLastName){
 				wchar_t *tstrLastName = mir_a2u(strLastName);
-				setTString(hContact, GG_KEY_PD_LASTNAME, tstrLastName);
+				setWString(hContact, GG_KEY_PD_LASTNAME, tstrLastName);
 				mir_free(tstrLastName);
 			}
 			if (hContact && strPhone) db_set_s(hContact, "UserInfo", "MyPhone0", strPhone); // Store now in User Info
@@ -280,7 +280,7 @@ INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
 		gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 1, "sess_mutex", 1);
 		mir_snwprintf(error, TranslateT("List cannot be imported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(L"import_server(): Cannot import list. errno:%d: %s", errno, ws_strerror(errno));
+		debugLogW(L"import_server(): Cannot import list. errno:%d: %s", errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 2, "sess_mutex", 1);
 
@@ -318,7 +318,7 @@ INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 		gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 1, "sess_mutex", 1);
 		mir_snwprintf(error, TranslateT("List cannot be removed because of error: %s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(L"remove_server(): Cannot remove list. errno=%d: %s", errno, ws_strerror(errno));
+		debugLogW(L"remove_server(): Cannot remove list. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 2, "sess_mutex", 1);
 
@@ -392,7 +392,7 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 		wchar_t error[256];
 		mir_snwprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(L"import_text(): Cannot import list from file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
+		debugLogW(L"import_text(): Cannot import list from file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
 		if (f)
 			fclose(f);
 		return 0;
@@ -436,7 +436,7 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 	ofn.lpstrDefExt = L"txt";
 
 #ifdef DEBUGMODE
-	debugLog(L"export_text(%s).", str);
+	debugLogW(L"export_text(%s).", str);
 #endif
 	if (!GetSaveFileName(&ofn)) return 0;
 
@@ -454,7 +454,7 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 		wchar_t error[128];
 		mir_snwprintf(error, TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(L"export_text(): Cannot export list to file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
+		debugLogW(L"export_text(): Cannot export list to file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
 	}
 
 	return 0;
@@ -498,7 +498,7 @@ INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 		gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 1, "sess_mutex", 1);
 		mir_snwprintf(error, TranslateT("List cannot be exported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		debugLog(L"export_server(): Cannot export list. errno=%d: %s", errno, ws_strerror(errno));
+		debugLogW(L"export_server(): Cannot export list. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 2, "sess_mutex", 1);
 
@@ -515,7 +515,7 @@ INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 void GGPROTO::import_init(HGENMENU hRoot)
 {
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.root = hRoot;
 
 	// Import from server item

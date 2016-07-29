@@ -121,7 +121,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SendMessage(hwndCombo, CB_SETLOCALE, (WPARAM)locale, 0); /* sort order */
 				SendMessage(hwndCombo, CB_INITSTORAGE, _countof(unitNames), _countof(unitNames) * 16); /* approx. */
 				for (int i = 0; i < _countof(unitNames); ++i) {
-					int index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(unitNames[i]));
+					int index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(unitNames[i]));
 					if (index != LB_ERR) {
 						SendMessage(hwndCombo, CB_SETITEMDATA, index, (LPARAM)unitValues[i]);
 						if (i == 0 || unitValues[i] == lastUnit) SendMessage(hwndCombo, CB_SETCURSEL, index, 0);
@@ -130,7 +130,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			{
 				DBVARIANT dbv;
-				if (!db_get_ts(NULL, "AutoShutdown", "Message", &dbv)) {
+				if (!db_get_ws(NULL, "AutoShutdown", "Message", &dbv)) {
 					SetDlgItemText(hwndDlg, IDC_EDIT_MESSAGE, dbv.ptszVal);
 					mir_free(dbv.ptszVal);
 				}
@@ -355,7 +355,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				wchar_t *pszText = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
 				if (pszText != NULL && GetWindowText(hwndEdit, pszText, len + 1)) {
 					TrimString(pszText);
-					db_set_ts(NULL, "AutoShutdown", "Message", pszText);
+					db_set_ws(NULL, "AutoShutdown", "Message", pszText);
 				}
 				mir_free(pszText); /* does NULL check */
 			}
@@ -460,7 +460,7 @@ void SetShutdownMenuItem(bool fActive)
 		mi.name.w = LPGENW("Automatic &shutdown...");
 	}
 	mi.pszService = "AutoShutdown/MenuCommand";
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	if (hMainMenuItem != NULL)
 		Menu_ModifyItem(hMainMenuItem, mi.name.w, mi.hIcolibItem);
 	else

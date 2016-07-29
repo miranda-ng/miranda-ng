@@ -71,10 +71,10 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			VARST pfd(L"%miranda_path%\\Profiles");
-			VARST pfd1(L"%miranda_path%");
-			VARST pfd2(L"%miranda_profilesdir%");
-			VARST pfn(L"%miranda_profilename%");
+			VARSW pfd(L"%miranda_path%\\Profiles");
+			VARSW pfd1(L"%miranda_path%");
+			VARSW pfd2(L"%miranda_profilesdir%");
+			VARSW pfn(L"%miranda_profilename%");
 
 			SearchForLists(hwndDlg, pfd2, pfn);
 			SearchForLists(hwndDlg, pfd1, NULL);

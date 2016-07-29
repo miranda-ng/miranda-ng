@@ -717,7 +717,7 @@ int GetClosestLanguage(wchar_t *lang_name)
 void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, char *setting, BOOL isProtocol = TRUE)
 {
 	DBVARIANT dbv = { 0 };
-	dbv.type = DBVT_TCHAR;
+	dbv.type = DBVT_WCHAR;
 
 	int caps = (isProtocol ? CallProtoService(group, PS_GETCAPS, PFLAGNUM_4, 0) : 0);
 	if (caps & PF4_INFOSETTINGSVC) {
@@ -729,11 +729,11 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 			return;
 	}
 	else {
-		if (db_get_ts(hContact, group, setting, &dbv))
+		if (db_get_ws(hContact, group, setting, &dbv))
 			return;
 	}
 
-	if (dbv.type == DBVT_TCHAR && dbv.ptszVal != NULL) {
+	if (dbv.type == DBVT_WCHAR && dbv.ptszVal != NULL) {
 		wchar_t *lang = dbv.ptszVal;
 
 		for (int i = 0; i < languages.getCount(); i++) {
@@ -781,18 +781,18 @@ void GetContactLanguage(Dialog *dlg)
 	dlg->lang_name[0] = '\0';
 
 	if (dlg->hContact == NULL) {
-		if (!db_get_ts(NULL, MODULE_NAME, dlg->name, &dbv)) {
+		if (!db_get_ws(NULL, MODULE_NAME, dlg->name, &dbv)) {
 			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
 	}
 	else {
-		if (!db_get_ts(dlg->hContact, MODULE_NAME, "TalkLanguage", &dbv)) {
+		if (!db_get_ws(dlg->hContact, MODULE_NAME, "TalkLanguage", &dbv)) {
 			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
 
-		if (dlg->lang_name[0] == '\0' && !db_get_ts(dlg->hContact, "eSpeak", "TalkLanguage", &dbv)) {
+		if (dlg->lang_name[0] == '\0' && !db_get_ws(dlg->hContact, "eSpeak", "TalkLanguage", &dbv)) {
 			mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 			db_free(&dbv);
 		}
@@ -801,12 +801,12 @@ void GetContactLanguage(Dialog *dlg)
 		if (dlg->lang_name[0] == '\0') {
 			MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
 			if (hMetaContact != NULL) {
-				if (!db_get_ts(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv)) {
+				if (!db_get_ws(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv)) {
 					mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 					db_free(&dbv);
 				}
 
-				if (dlg->lang_name[0] == '\0' && !db_get_ts(hMetaContact, "eSpeak", "TalkLanguage", &dbv)) {
+				if (dlg->lang_name[0] == '\0' && !db_get_ws(hMetaContact, "eSpeak", "TalkLanguage", &dbv)) {
 					mir_wstrncpy(dlg->lang_name, dbv.ptszVal, _countof(dlg->lang_name));
 					db_free(&dbv);
 				}
@@ -1216,10 +1216,10 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 		SetNoUnderline(dlg);
 
 		if (dlg->hContact == NULL)
-			db_set_ts(NULL, MODULE_NAME, dlg->name,
+			db_set_ws(NULL, MODULE_NAME, dlg->name,
 			languages[selection - LANGUAGE_MENU_ID_BASE]->language);
 		else
-			db_set_ts(dlg->hContact, MODULE_NAME, "TalkLanguage",
+			db_set_ws(dlg->hContact, MODULE_NAME, "TalkLanguage",
 			languages[selection - LANGUAGE_MENU_ID_BASE]->language);
 
 		GetContactLanguage(dlg);

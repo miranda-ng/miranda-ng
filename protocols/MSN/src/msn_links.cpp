@@ -95,7 +95,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 		/* does not yet check if email is current user */
 		if (hContact == NULL) {
 			PROTOSEARCHRESULT psr = { sizeof(psr) };
-			psr.flags = PSR_TCHAR;
+			psr.flags = PSR_UNICODE;
 			psr.nick.w = email;
 			psr.email.w = email;
 

@@ -50,7 +50,7 @@ CAimProto::CAimProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
@@ -58,7 +58,7 @@ CAimProto::CAimProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	char szP2P[128];
 	mir_snprintf(szP2P, "%sP2P", m_szModuleName);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_UNICODE;
 	mir_snwprintf(descr, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.szSettingsModule = szP2P;
 	nlu.minIncomingPorts = 1;
@@ -555,7 +555,7 @@ void __cdecl CAimProto::get_online_msg_thread(void* arg)
 
 	MCONTACT hContact = (UINT_PTR)arg;
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, MOD_KEY_CL, OTH_KEY_SM, &dbv)) {
+	if (!db_get_ws(hContact, MOD_KEY_CL, OTH_KEY_SM, &dbv)) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 	}

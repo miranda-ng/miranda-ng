@@ -26,7 +26,7 @@ void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file
 void CMLuaScriptLoader::LoadScripts()
 {
 	wchar_t scriptDir[MAX_PATH];
-	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARST(MIRLUA_PATHT));
+	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
 
 	Log(L"Loading scripts from %s", scriptDir);
 

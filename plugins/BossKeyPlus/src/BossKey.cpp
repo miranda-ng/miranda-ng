@@ -196,7 +196,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 
 wchar_t* GetDefStatusMsg(unsigned uStatus, const char* szProto)
 {
-	return (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGT, uStatus, (LPARAM)szProto);
+	return (wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, uStatus, (LPARAM)szProto);
 }
 
 void SetStatus(const char* szProto, unsigned status, wchar_t *tszAwayMsg)
@@ -221,7 +221,7 @@ static int ChangeAllProtoStatuses(unsigned statusMode, wchar_t *msg)
 			if (g_wMask & OPT_SETONLINEBACK){ // need to save old statuses & status messages
 				oldStatus[i] = status;
 				if (ProtoServiceExists(proto[i]->szModuleName, PS_GETMYAWAYMSG))
-					oldStatusMsg[i] = (wchar_t*)CallProtoService(proto[i]->szModuleName, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
+					oldStatusMsg[i] = (wchar_t*)CallProtoService(proto[i]->szModuleName, PS_GETMYAWAYMSG, 0, SGMA_UNICODE);
 				else
 					oldStatusMsg[i] = GetDefStatusMsg(status, proto[i]->szModuleName);
 			}
@@ -253,7 +253,7 @@ static void CreateTrayIcon(bool create)
 {
 	NOTIFYICONDATA nim;
 	DBVARIANT dbVar;
-	if (!db_get_ts(NULL, MOD_NAME, "ToolTipText", &dbVar)) {
+	if (!db_get_ws(NULL, MOD_NAME, "ToolTipText", &dbVar)) {
 		wcsncpy_s(nim.szTip, dbVar.ptszVal, _TRUNCATE);
 		db_free(&dbVar);
 	}
@@ -319,7 +319,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			BYTE bReqMode = db_get_b(NULL, MOD_NAME, "stattype", 2);
 			unsigned uMode = (STATUS_ARR_TO_ID[bReqMode]);
 			DBVARIANT dbVar;
-			if (g_wMask & OPT_USEDEFMSG || db_get_ts(NULL, MOD_NAME, "statmsg", &dbVar))
+			if (g_wMask & OPT_USEDEFMSG || db_get_ws(NULL, MOD_NAME, "statmsg", &dbVar))
 			{
 				wchar_t *ptszDefMsg = GetDefStatusMsg(uMode, 0);
 				ChangeAllProtoStatuses(uMode, ptszDefMsg);
@@ -532,7 +532,7 @@ void BossKeyMenuItemInit(void) // Add menu item
 {
 	CMenuItem mi;
 	SET_UID(mi, 0x42428114, 0xfac7, 0x44c2, 0x9a, 0x11, 0x18, 0xbe, 0x81, 0xd4, 0xa9, 0xe3);
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.position = 2000100000;
 	mi.hIcolibItem = IcoLib_GetIcon("hidemim");
 	mi.name.w = LPGENW("Hide");

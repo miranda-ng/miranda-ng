@@ -65,7 +65,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = hiMailIcon;
 	mi.position = 10000000;
 	mi.pszService = MS_EXCHANGE_CHECKEMAIL;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.name.w = LPGENW("Check exchange mailbox");
 	Menu_AddMainMenuItem(&mi);
 	
@@ -85,7 +85,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.pwszTitle = LPGENW("Exchange notify");
 	odp.pwszGroup = LPGENW("Plugins");
 	odp.groupPosition = 910000000;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 	return 0;

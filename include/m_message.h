@@ -40,12 +40,6 @@ extern int hLangpack;
 #define MS_MSG_SENDMESSAGE   "SRMsg/SendCommand"
 #define MS_MSG_SENDMESSAGEW  "SRMsg/SendCommandW"
 
-#ifdef _UNICODE
-#define MS_MSG_SENDMESSAGET MS_MSG_SENDMESSAGEW
-#else
-#define MS_MSG_SENDMESSAGET MS_MSG_SENDMESSAGE
-#endif
-
 #define ME_MSG_WINDOWEVENT "MessageAPI/WindowEvent"
 //wparam = 0
 //lparam = (WPARAM)(MessageWindowEventData*)hWindowEvent;
@@ -165,12 +159,6 @@ typedef struct {
 #define MBF_DISABLED       0x01
 #define MBF_HIDDEN         0x02
 #define MBF_UNICODE        0x04
-
-#ifdef _UNICODE
-	#define MBF_TCHAR MBF_UNICODE
-#else
-	#define MBF_TCHAR 0
-#endif
 
 typedef struct {
 	int   cbSize;                    // must be equal to sizeof(StatusIconData)

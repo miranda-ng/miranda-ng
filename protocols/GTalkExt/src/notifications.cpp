@@ -54,7 +54,7 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 	Proto_EnumAccounts(&count, &protos);
 	for (int i = 0; i < count; i++) {
 		if (getJabberApi(protos[i]->szModuleName)) {
-			ptrW tszJid(db_get_tsa(0, protos[i]->szModuleName, "jid"));
+			ptrW tszJid(db_get_wsa(0, protos[i]->szModuleName, "jid"));
 			if (!mir_wstrcmpi(jid, tszJid))
 				return protos[i]->szModuleName;
 		}
@@ -179,12 +179,12 @@ MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 	if (displayName == NULL) {
 		wchar_t *tszTemp = (wchar_t*)alloca((mir_wstrlen(jid) + mir_wstrlen(unreadCount) + 3 + 1) * sizeof(wchar_t));
 		FormatPseudocontactDisplayName(tszTemp, jid, unreadCount);
-		db_set_ts(hContact, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, tszTemp);
+		db_set_ws(hContact, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, tszTemp);
 	}
-	else db_set_ts(hContact, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, displayName);
+	else db_set_ws(hContact, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, displayName);
 
-	db_set_ts(hContact, CLIST_MODULE_NAME, STATUS_MSG_SETTING, TranslateTS(MAIL_NOTIFICATIONS));
-	db_set_ts(hContact, SHORT_PLUGIN_NAME, UNREAD_THREADS_SETTING, unreadCount);
+	db_set_ws(hContact, CLIST_MODULE_NAME, STATUS_MSG_SETTING, TranslateW(MAIL_NOTIFICATIONS));
+	db_set_ws(hContact, SHORT_PLUGIN_NAME, UNREAD_THREADS_SETTING, unreadCount);
 	return hContact;
 }
 
@@ -263,7 +263,7 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 	POPUPDATAT data = { 0 };
 	FormatPseudocontactDisplayName(&data.lptzContactName[0], jid, unreadCount);
 
-	CMString tszSenders;
+	CMStringW tszSenders;
 	for (int i = 0; i < SENDER_COUNT; i++) {
 		const SENDER &p = mtn->senders[i];
 		if (p.addr == NULL)
@@ -276,9 +276,9 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 	}
 
 	if (ReadCheckbox(0, IDC_ADDSNIP, (UINT_PTR)TlsGetValue(itlsSettings)))
-		mir_snwprintf(data.lptzText, TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str(), mtn->snip);
+		mir_snwprintf(data.lptzText, TranslateW(FULL_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str(), mtn->snip);
 	else
-		mir_snwprintf(data.lptzText, TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str());
+		mir_snwprintf(data.lptzText, TranslateW(SHORT_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str());
 
 	ShowNotification(acc, &data, jid, url, unreadCount);
 }

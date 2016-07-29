@@ -32,7 +32,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 
 void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 {
-	CMString wszError;
+	CMStringW wszError;
 	switch (ErrorCode) {
 	case VKERR_OFFLINE:
 		wszError = TranslateT("Protocol is offline");
@@ -89,7 +89,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 		wszError = TranslateT("Unknown error occurred");
 	}
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ErrorCode== VKERR_AUDIO_DEL_COPYRIGHT ? ACKRESULT_DENIED : ACKRESULT_FAILED, (HANDLE)fup);
-	debugLog(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, wszError);
+	debugLogW(L"CVkProto::SendFileFiled error code = %d (%s)", ErrorCode, wszError);
 	MsgPopup(NULL, wszError, TranslateT("File upload error"), true);
 	delete fup;
 }
@@ -97,7 +97,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, int ErrorCode)
 void CVkProto::SendFileThread(void *p)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)p;
-	debugLog(L"CVkProto::SendFileThread %d %s", fup->GetType(), fup->fileName());
+	debugLogW(L"CVkProto::SendFileThread %d %s", fup->GetType(), fup->fileName());
 	if (!IsOnline()) {
 		SendFileFiled(fup, VKERR_OFFLINE);
 		return;
@@ -252,9 +252,9 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	CMString server(jnRoot["server"].as_mstring());
-	CMString hash(jnRoot["hash"].as_mstring());
-	CMString upload;
+	CMStringW server(jnRoot["server"].as_mstring());
+	CMStringW hash(jnRoot["hash"].as_mstring());
+	CMStringW upload;
 
 	AsyncHttpRequest *pUploadReq;
 
@@ -330,7 +330,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		return;
 	}
 
-	CMString Attachment;
+	CMStringW Attachment;
 
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:

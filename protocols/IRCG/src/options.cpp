@@ -59,8 +59,8 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 					*(char**)ptr = NULL;
 			}
 			break;
-		case DBVT_TCHAR:
-			if (!getTString(p->name, &dbv)) {
+		case DBVT_WCHAR:
+			if (!getWString(p->name, &dbv)) {
 				if (p->size != -1) {
 					size_t len = min(p->size - 1, mir_wstrlen(dbv.ptszVal));
 					memcpy(ptr, dbv.pszVal, len*sizeof(wchar_t));
@@ -100,11 +100,11 @@ void CIrcProto::WriteSettings( TDbSetting* sets, int count )
 				setString(p->name, (char*)ptr);
 			break;
 
-		case DBVT_TCHAR:
+		case DBVT_WCHAR:
 			if (p->size == -1)
-				setTString(p->name, *(wchar_t**)ptr);
+				setWString(p->name, *(wchar_t**)ptr);
 			else
-				setTString(p->name, (wchar_t*)ptr);
+				setWString(p->name, (wchar_t*)ptr);
 			break;
 }	}	}
 
@@ -398,9 +398,9 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 
 static TDbSetting ConnectSettings[] =
 {
-	{ FIELD_OFFSET(CIrcProto, m_userID), "UserID", DBVT_TCHAR, _countof(pZero->m_userID) },
-	{ FIELD_OFFSET(CIrcProto, m_identSystem), "IdentSystem", DBVT_TCHAR, _countof(pZero->m_identSystem) },
-	{ FIELD_OFFSET(CIrcProto, m_identPort), "IdentPort", DBVT_TCHAR, _countof(pZero->m_identPort) },
+	{ FIELD_OFFSET(CIrcProto, m_userID), "UserID", DBVT_WCHAR, _countof(pZero->m_userID) },
+	{ FIELD_OFFSET(CIrcProto, m_identSystem), "IdentSystem", DBVT_WCHAR, _countof(pZero->m_identSystem) },
+	{ FIELD_OFFSET(CIrcProto, m_identPort), "IdentPort", DBVT_WCHAR, _countof(pZero->m_identPort) },
 
 	{ FIELD_OFFSET(CIrcProto, m_serverName ), "ServerName", DBVT_ASCIIZ, _countof(pZero->m_serverName) },
 	{ FIELD_OFFSET(CIrcProto, m_portStart ), "PortStart", DBVT_ASCIIZ, _countof(pZero->m_portStart) },
@@ -412,10 +412,10 @@ static TDbSetting ConnectSettings[] =
 	{ FIELD_OFFSET(CIrcProto, m_onlineNotificationTime) , "OnlineNotificationTime", DBVT_WORD, 0, 30 },
 	{ FIELD_OFFSET(CIrcProto, m_onlineNotificationLimit) , "OnlineNotificationLimit", DBVT_WORD, 0, 50 },
 	{ FIELD_OFFSET(CIrcProto, m_channelAwayNotification), "ChannelAwayNotification", DBVT_BYTE, 0, 1 },
-	{ FIELD_OFFSET(CIrcProto, m_nick), "Nick", DBVT_TCHAR, _countof(pZero->m_nick) },
-	{ FIELD_OFFSET(CIrcProto, m_pNick), "PNick", DBVT_TCHAR, _countof(pZero->m_pNick) },
-	{ FIELD_OFFSET(CIrcProto, m_alternativeNick), "AlernativeNick", DBVT_TCHAR, _countof(pZero->m_alternativeNick) },
-	{ FIELD_OFFSET(CIrcProto, m_name), "Name", DBVT_TCHAR, _countof(pZero->m_name) },
+	{ FIELD_OFFSET(CIrcProto, m_nick), "Nick", DBVT_WCHAR, _countof(pZero->m_nick) },
+	{ FIELD_OFFSET(CIrcProto, m_pNick), "PNick", DBVT_WCHAR, _countof(pZero->m_pNick) },
+	{ FIELD_OFFSET(CIrcProto, m_alternativeNick), "AlernativeNick", DBVT_WCHAR, _countof(pZero->m_alternativeNick) },
+	{ FIELD_OFFSET(CIrcProto, m_name), "Name", DBVT_WCHAR, _countof(pZero->m_name) },
 	{ FIELD_OFFSET(CIrcProto, m_disableDefaultServer), "DisableDefaultServer", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_ident), "Ident", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_identTimer), "IdentTimer", DBVT_BYTE },
@@ -778,7 +778,7 @@ void CConnectPrefsDlg::OnApply()
 
 static TDbSetting CtcpSettings[] =
 {
-	{ FIELD_OFFSET(CIrcProto, m_userInfo), "UserInfo", DBVT_TCHAR, _countof(pZero->m_userInfo) },
+	{ FIELD_OFFSET(CIrcProto, m_userInfo), "UserInfo", DBVT_WCHAR, _countof(pZero->m_userInfo) },
 	{ FIELD_OFFSET(CIrcProto, m_DCCPacketSize), "DccPacketSize", DBVT_WORD, 0, 4096 },
 	{ FIELD_OFFSET(CIrcProto, m_DCCPassive), "DccPassive", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_DCCMode), "DCCMode", DBVT_BYTE },
@@ -849,14 +849,14 @@ void CCtcpPrefsDlg::OnInitDialog()
 	else {
 		if (m_proto->m_IPFromServer) {
 			if (m_proto->m_myHost[0]) {
-				CMString s = (CMString)TranslateT("<Resolved IP: ") + (wchar_t*)_A2T(m_proto->m_myHost) + L">";
+				CMStringW s = (CMStringW)TranslateT("<Resolved IP: ") + (wchar_t*)_A2T(m_proto->m_myHost) + L">";
 				m_ip.SetText(s.c_str());
 			}
 			else m_ip.SetText(TranslateT("<Automatic>"));
 		}
 		else {
 			if (m_proto->m_myLocalHost[0]) {
-				CMString s = (CMString)TranslateT("<Local IP: ") + (wchar_t*)_A2T(m_proto->m_myLocalHost) + L">";
+				CMStringW s = (CMStringW)TranslateT("<Local IP: ") + (wchar_t*)_A2T(m_proto->m_myLocalHost) + L">";
 				m_ip.SetText(s.c_str());
 			}
 			else m_ip.SetText(TranslateT("<Automatic>"));
@@ -874,14 +874,14 @@ void CCtcpPrefsDlg::OnClicked(CCtrlData*)
 	else {
 		if (m_fromServer.GetState()) {
 			if (m_proto->m_myHost[0]) {
-				CMString s = (CMString)TranslateT("<Resolved IP: ") + (wchar_t*)_A2T(m_proto->m_myHost) + L">";
+				CMStringW s = (CMStringW)TranslateT("<Resolved IP: ") + (wchar_t*)_A2T(m_proto->m_myHost) + L">";
 				m_ip.SetText(s.c_str());
 			}
 			else m_ip.SetText(TranslateT("<Automatic>"));
 		}
 		else {
 			if (m_proto->m_myLocalHost[0]) {
-				CMString s = (CMString)TranslateT("<Local IP: ") + (wchar_t*)_A2T(m_proto->m_myLocalHost) + L">";
+				CMStringW s = (CMStringW)TranslateT("<Local IP: ") + (wchar_t*)_A2T(m_proto->m_myLocalHost) + L">";
 				m_ip.SetText(s.c_str());
 			}
 			else m_ip.SetText(TranslateT("<Automatic>"));
@@ -925,8 +925,8 @@ void CCtcpPrefsDlg::OnApply()
 
 static TDbSetting OtherSettings[] =
 {
-	{ FIELD_OFFSET(CIrcProto, m_quitMessage), "QuitMessage", DBVT_TCHAR, _countof(pZero->m_quitMessage) },
-	{ FIELD_OFFSET(CIrcProto, m_alias), "Alias", DBVT_TCHAR, -1 },
+	{ FIELD_OFFSET(CIrcProto, m_quitMessage), "QuitMessage", DBVT_WCHAR, _countof(pZero->m_quitMessage) },
+	{ FIELD_OFFSET(CIrcProto, m_alias), "Alias", DBVT_WCHAR, -1 },
 	{ FIELD_OFFSET(CIrcProto, m_codepage), "Codepage", DBVT_DWORD, 0, CP_ACP },
 	{ FIELD_OFFSET(CIrcProto, m_utfAutodetect), "UtfAutodetect", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_perform), "Perform", DBVT_BYTE },
@@ -1160,7 +1160,7 @@ void COtherPrefsDlg::OnApply()
 				continue;
 
 			if (!pPerf->mText.IsEmpty())
-				m_proto->setTString(pPerf->mSetting.c_str(), pPerf->mText.c_str());
+				m_proto->setWString(pPerf->mSetting.c_str(), pPerf->mText.c_str());
 			else
 				db_unset(NULL, m_proto->m_szModuleName, pPerf->mSetting.c_str());
 		}
@@ -1175,7 +1175,7 @@ void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
 
 	PERFORM_INFO* pPref;
 	DBVARIANT dbv;
-	if (!m_proto->getTString(sSetting.c_str(), &dbv)) {
+	if (!m_proto->getWString(sSetting.c_str(), &dbv)) {
 		pPref = new PERFORM_INFO(sSetting.c_str(), dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -1218,7 +1218,7 @@ void CAddIgnoreDlg::OnOk(CCtrlButton*)
 {
 	wchar_t szMask[500];
 	wchar_t szNetwork[500];
-	CMString flags;
+	CMStringW flags;
 	if (IsDlgButtonChecked(m_hwnd, IDC_Q) == BST_CHECKED) flags += 'q';
 	if (IsDlgButtonChecked(m_hwnd, IDC_N) == BST_CHECKED) flags += 'n';
 	if (IsDlgButtonChecked(m_hwnd, IDC_I) == BST_CHECKED) flags += 'i';
@@ -1229,7 +1229,7 @@ void CAddIgnoreDlg::OnOk(CCtrlButton*)
 	GetDlgItemText(m_hwnd, IDC_MASK, szMask, _countof(szMask));
 	GetDlgItemText(m_hwnd, IDC_NETWORK, szNetwork, _countof(szNetwork));
 
-	CMString Mask = GetWord(szMask, 0);
+	CMStringW Mask = GetWord(szMask, 0);
 	if (Mask.GetLength() != 0) {
 		if (!wcschr(Mask.c_str(), '!') && !wcschr(Mask.c_str(), '@'))
 			Mask += L"!*@*";
@@ -1357,12 +1357,12 @@ void CIrcProto::InitIgnore(void)
 		mir_snprintf(settingName, "IGNORE:%d", idx++);
 
 		DBVARIANT dbv;
-		if (getTString(settingName, &dbv))
+		if (getWString(settingName, &dbv))
 			break;
 
-		CMString mask = GetWord(dbv.ptszVal, 0);
-		CMString flags = GetWord(dbv.ptszVal, 1);
-		CMString network = GetWord(dbv.ptszVal, 2);
+		CMStringW mask = GetWord(dbv.ptszVal, 0);
+		CMStringW flags = GetWord(dbv.ptszVal, 1);
+		CMStringW network = GetWord(dbv.ptszVal, 2);
 		m_ignoreItems.insert(new CIrcIgnoreItem(mask.c_str(), flags.c_str(), network.c_str()));
 		db_free(&dbv);
 	}
@@ -1383,7 +1383,7 @@ void CIrcProto::RewriteIgnoreSettings(void)
 		mir_snprintf(settingName, "IGNORE:%d", i);
 
 		CIrcIgnoreItem& C = m_ignoreItems[i];
-		setTString(settingName, (C.mask + L" " + C.flags + L" " + C.network).c_str());
+		setWString(settingName, (C.mask + L" " + C.flags + L" " + C.network).c_str());
 	}
 }
 
@@ -1638,7 +1638,7 @@ int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.pwszTitle = m_tszUserName;
 	odp.pwszGroup = LPGENW("Network");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	odp.pwszTab = LPGENW("Account");
 	odp.pDialog = new CConnectPrefsDlg(this);
@@ -1690,12 +1690,12 @@ void CIrcProto::InitPrefs(void)
 	if (m_pNick[0] == 0) {
 		if (m_nick[0] != 0) {
 			memcpy(m_pNick, m_nick, sizeof(m_pNick));
-			setTString("PNick", m_nick);
+			setWString("PNick", m_nick);
 		}
 	}
 	else {
 		memcpy(m_nick, m_pNick, sizeof(m_nick));
-		setTString("Nick", m_nick);
+		setWString("Nick", m_nick);
 	}
 
 	m_mySpecifiedHostIP[0] = 0;

@@ -322,7 +322,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 		fieldNode = xNode << XCHILD(L"field") << XATTR(L"label", TranslateT("Change global status"))
 			<< XATTR(L"type", L"boolean") << XATTR(L"var", L"status-global");
 
-		ptrW tszStatusMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGT, status, 0));
+		ptrW tszStatusMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, 0));
 		if (tszStatusMsg)
 			fieldNode << XCHILD(L"value", tszStatusMsg);
 
@@ -375,7 +375,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 		int nNoDlg = db_get_b(NULL, "SRAway", StatusModeToDbSetting(status, "NoDlg"), 0);
 		db_set_b(NULL, "SRAway", StatusModeToDbSetting(status, "NoDlg"), 1);
 
-		db_set_ts(NULL, "SRAway", StatusModeToDbSetting(status, "Msg"), szStatusMessage ? szStatusMessage : L"");
+		db_set_ws(NULL, "SRAway", StatusModeToDbSetting(status, "Msg"), szStatusMessage ? szStatusMessage : L"");
 
 		fieldNode = XmlGetChildByTag(xNode, "field", "var", L"status-global");
 		if (fieldNode && (valueNode = XmlGetChild(fieldNode , "value"))) {
@@ -465,7 +465,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 {
 	int nEventsSent = 0;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		ptrW jid( getTStringA(hContact, "jid"));
+		ptrW jid( getWStringA(hContact, "jid"));
 		if (jid == NULL) continue;
 
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
@@ -477,7 +477,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 			dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
 			int nGetTextResult = db_event_get(hDbEvent, &dbei);
 			if (!nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-				wchar_t *szEventText = DbGetEventTextT(&dbei, CP_ACP);
+				wchar_t *szEventText = DbGetEventTextW(&dbei, CP_ACP);
 				if (szEventText) {
 					nEventsSent++;
 					mir_free(szEventText);
@@ -551,7 +551,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 
 		int nEventsSent = 0;
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-			ptrW tszJid( getTStringA(hContact, "jid"));
+			ptrW tszJid( getWStringA(hContact, "jid"));
 			if (tszJid == NULL)
 				continue;
 				
@@ -569,7 +569,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 				if (dbei.eventType != EVENTTYPE_MESSAGE || (dbei.flags & (DBEF_READ | DBEF_SENT)))
 					continue;
 
-				ptrW szEventText( DbGetEventTextT(&dbei, CP_ACP));
+				ptrW szEventText( DbGetEventTextW(&dbei, CP_ACP));
 				if (szEventText == NULL)
 					continue;
 

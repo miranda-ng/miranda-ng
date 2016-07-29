@@ -279,7 +279,7 @@ CString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting,
 
 TCString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *szDefaultValue)
 {
-	ptrW p( db_get_tsa(hContact, szModule, szSetting));
+	ptrW p( db_get_wsa(hContact, szModule, szSetting));
 	return TCString(p == NULL ? szDefaultValue : p);
 }
 

@@ -36,7 +36,7 @@ static INT_PTR DBSaveAs(WPARAM, LPARAM)
 {
 	wchar_t fname_buff[MAX_PATH], tszFilter[200];
 	OPENFILENAME ofn = { 0 };
-	CallService(MS_DB_GETPROFILENAMET, _countof(fname_buff), (LPARAM)fname_buff);
+	CallService(MS_DB_GETPROFILENAMEW, _countof(fname_buff), (LPARAM)fname_buff);
 
 	mir_snwprintf(tszFilter, L"%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c",
 		TranslateT("Miranda NG databases"), 0, 0,

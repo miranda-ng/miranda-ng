@@ -502,7 +502,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 
 		if (M.GetByte("ShowClientDescription", 1)) {
 			wchar_t	temp[256];
-			ptrW szVersion(db_get_tsa(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer"));
+			ptrW szVersion(db_get_wsa(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer"));
 			if (szVersion)
 				mir_snwprintf(temp, TranslateT("  Client: %s"), szVersion);
 			else
@@ -644,7 +644,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 			pTmp += 2;
 
 			if (si->ptszStatusbarText[0] == '[' && pTmp > si->ptszStatusbarText) {
-				CMString tszTemp(si->ptszStatusbarText, pTmp - si->ptszStatusbarText);
+				CMStringW tszTemp(si->ptszStatusbarText, pTmp - si->ptszStatusbarText);
 				CSkin::RenderText(hdc, m_dat->hThemeIP, tszTemp, &rcItem, DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX | DT_VCENTER,
 					CSkin::m_glowSize, m_ipConfig.clrs[IPFONTID_STATUS]);
 			}
@@ -884,7 +884,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		if (m_hwndConfig)
 			return;
 
-		CMString str(FORMAT, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
+		CMStringW str(FORMAT, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
 
 		str.AppendFormat(TranslateT("\\ul\\b Status message:\\ul0\\b0 \\par %s"),
 			m_dat->cache->getStatusMsg() ? m_dat->cache->getStatusMsg() : TranslateT("No status message"));
@@ -892,7 +892,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		DBVARIANT dbv = { 0 };
 		if (BYTE xStatus = m_dat->cache->getXStatusId()) {
 			wchar_t	*tszXStatusName = 0;
-			if (0 == db_get_ts(m_dat->cache->getContact(), m_dat->cache->getProto(), "XStatusName", &dbv))
+			if (0 == db_get_ws(m_dat->cache->getContact(), m_dat->cache->getProto(), "XStatusName", &dbv))
 				tszXStatusName = dbv.ptszVal;
 			else if (xStatus > 0 && xStatus <= 31)
 				tszXStatusName = xStatusDescr[xStatus - 1];
@@ -910,7 +910,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		if (m_dat->cache->getListeningInfo())
 			str.AppendFormat(TranslateT("\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s"), m_dat->cache->getListeningInfo());
 
-		if (0 == db_get_ts(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
+		if (0 == db_get_ws(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
 			str.AppendFormat(TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.ptszVal);
 			::db_free(&dbv);
 		}

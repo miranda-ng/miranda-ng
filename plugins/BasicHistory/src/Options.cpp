@@ -122,7 +122,7 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pwszTitle = LPGENW("History");
 
 	odp.pwszTab = LPGENW("Group list");
@@ -174,8 +174,8 @@ struct ColorOptionsList {
 
 struct HotkeyOptionsList {
 	const char *pszName;
-	const wchar_t *ptszDescription;
-	const wchar_t *ptszSection;
+	const wchar_t *pwszDescription;
+	const wchar_t *pwszSection;
 	const char *pszService;
 	WORD DefHotKey;
 	LPARAM lParam;
@@ -231,11 +231,11 @@ const int g_hotkeysSize = _countof(g_HotkeyOptionsList);
 
 void Options::Load(void)
 {
-	FontIDT fid = {0};
-	ColourIDT cid = {0};
+	FontIDW fid = {0};
+	ColourIDW cid = {0};
 	HOTKEYDESC hid = {0};
-	fid.cbSize = sizeof(FontIDT);
-	cid.cbSize = sizeof(ColourIDT);
+	fid.cbSize = sizeof(FontIDW);
+	cid.cbSize = sizeof(ColourIDW);
 	hid.cbSize = sizeof(HOTKEYDESC);
 	strncpy_s(fid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
 	wcsncpy_s(fid.backgroundGroup, L"History", _TRUNCATE);
@@ -251,7 +251,7 @@ void Options::Load(void)
 		wcsncpy_s(fid.name, g_FontOptionsList[i].szDescr, _TRUNCATE);
 		wcsncpy_s(fid.backgroundName, g_FontOptionsList[i].szBackgroundName, _TRUNCATE);
 		fid.flags = FIDF_DEFAULTVALID | FIDF_CLASSGENERAL | g_FontOptionsList[i].flags;
-		FontRegisterT(&fid);
+		FontRegisterW(&fid);
 	}
 	
 	strncpy_s(cid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
@@ -261,14 +261,14 @@ void Options::Load(void)
 		mir_snprintf(cid.setting, _countof(cid.setting), "Color%d", i);
 		cid.order = i;
 		cid.defcolour = g_ColorOptionsList[i].def;
-		ColourRegisterT(&cid);
+		ColourRegisterW(&cid);
 	}
 
-	hid.dwFlags = HKD_TCHAR;
+	hid.dwFlags = HKD_UNICODE;
 	for (int i = 0; i < g_hotkeysSize; ++i) {
 		hid.pszName = g_HotkeyOptionsList[i].pszName;
-		hid.ptszDescription = g_HotkeyOptionsList[i].ptszDescription;
-		hid.ptszSection = g_HotkeyOptionsList[i].ptszSection;
+		hid.pwszDescription = g_HotkeyOptionsList[i].pwszDescription;
+		hid.pwszSection = g_HotkeyOptionsList[i].pwszSection;
 		hid.pszService = g_HotkeyOptionsList[i].pszService;
 		hid.DefHotKey = g_HotkeyOptionsList[i].DefHotKey;
 		hid.lParam = g_HotkeyOptionsList[i].lParam;
@@ -408,20 +408,20 @@ void Options::Load(void)
 
 COLORREF Options::GetFont(Fonts fontId, PLOGFONT font)
 {
-	FontIDT fid = {0};
-	fid.cbSize = sizeof(FontIDT);
+	FontIDW fid = {0};
+	fid.cbSize = sizeof(FontIDW);
 	wcsncpy_s(fid.group, LPGENW("History"), _TRUNCATE);
 	wcsncpy_s(fid.name, g_FontOptionsList[fontId].szDescr, _TRUNCATE);
-	return (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)font);
+	return (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)font);
 }
 
 COLORREF Options::GetColor(Colors colorId)
 {
-	ColourIDT cid = {0};
-	cid.cbSize = sizeof(ColourIDT);
+	ColourIDW cid = {0};
+	cid.cbSize = sizeof(ColourIDW);
 	wcsncpy_s(cid.group, LPGENW("History"), _TRUNCATE);
 	wcsncpy_s(cid.name, g_ColorOptionsList[colorId].tszName, _TRUNCATE);
-	return (COLORREF)CallService(MS_COLOUR_GETT, (WPARAM)&cid, NULL);
+	return (COLORREF)CallService(MS_COLOUR_GETW, (WPARAM)&cid, NULL);
 }
 
 void Options::Save()
@@ -780,7 +780,7 @@ void ReloadEventLB(HWND hwndLB, const FilterOptions &sel)
 			mir_snwprintf(buf, L"%d", *it);
 			ListBox_AddString(hwndLB, buf);	
 		}
-		else ListBox_AddString(hwndLB, TranslateTS(EventNames[selCpIdx].name));	
+		else ListBox_AddString(hwndLB, TranslateW(EventNames[selCpIdx].name));	
 	}
 }
 
@@ -872,7 +872,7 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ComboBox_AddString(events, TranslateT("Incoming events"));
 			ComboBox_AddString(events, TranslateT("Outgoing events"));
 			for (int i = 0 ; i < _countof(EventNames); ++i)
-				ComboBox_AddString(events, TranslateTS(EventNames[i].name));
+				ComboBox_AddString(events, TranslateW(EventNames[i].name));
 
 			ComboBox_AddString(defFilter, TranslateT("Default history events"));
 			ComboBox_AddString(defFilter, TranslateT("All events"));
@@ -1276,7 +1276,7 @@ void InitCodepageCB(HWND hwndCB, unsigned int codepage, const std::wstring& name
 	int selCpIdx = -1;
 	ComboBox_LimitText(hwndCB, 256);
 	for (int i = 0; i < cpCount; ++i) {
-		ComboBox_AddString(hwndCB, TranslateTS(cpTable[i].cpName));
+		ComboBox_AddString(hwndCB, TranslateW(cpTable[i].cpName));
 		if (cpTable[i].cpId == codepage && name == cpTable[i].cpName)
 			selCpIdx = i;
 	}

@@ -28,7 +28,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
 
 			for (size_t i = 0; i < POPUPS_TYPES_COUNT; i++) {
-				DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(lpcwszPopupsTypes[i]));
+				DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(lpcwszPopupsTypes[i]));
 				SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, i);
 			}
 			SendMessage(hWndCombo, CB_SETCURSEL, 0, 0);
@@ -68,7 +68,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_PREVIEW:
 			for (int i = 0; i < POPUPS_TYPES_COUNT; i++)
-				ppro->MraPopupShowFromAgentW(i, 0, TranslateTS(lpcwszPopupsTypes[i]));
+				ppro->MraPopupShowFromAgentW(i, 0, TranslateW(lpcwszPopupsTypes[i]));
 			break;
 
 		case IDC_CHK_ENABLE:
@@ -134,7 +134,7 @@ int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM)
 		odp.pwszTitle = m_tszUserName;
 		odp.pwszGroup = LPGENW("Popups");
 		odp.groupPosition = 900000000;
-		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		odp.pfnDlgProc = MraPopupDlgProcOpts;
 		Options_AddPage(wParam, &odp);
 	}

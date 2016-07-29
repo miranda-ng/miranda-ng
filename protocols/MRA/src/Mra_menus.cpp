@@ -341,7 +341,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 		hRootMenu = Menu_GetProtocolRoot(this);
 		if (hRootMenu == NULL) {
 			mi.name.w = m_tszUserName;
-			mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 			mi.hIcolibItem = g_hMainIcon;
 			hRootMenu = Menu_AddProtoMenuItem(&mi);
 		}

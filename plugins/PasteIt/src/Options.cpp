@@ -639,7 +639,7 @@ void Options::InitCodepageCB(HWND hwndCB, unsigned int codepage)
 	int cpCount = sizeof(cpTable) / sizeof(cpTable[0]);
 	int selCpIdx = -1;
 	for (int i = 0; i < cpCount; ++i) {
-		ComboBox_AddString(hwndCB, TranslateTS(cpTable[i].cpName));
+		ComboBox_AddString(hwndCB, TranslateW(cpTable[i].cpName));
 		if (cpTable[i].cpId == codepage)
 			selCpIdx = i;
 	}
@@ -680,7 +680,7 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pwszTitle = LPGENW("Paste It");
 	odp.pwszGroup = LPGENW("Services");
 

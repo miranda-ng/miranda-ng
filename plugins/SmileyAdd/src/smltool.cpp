@@ -196,7 +196,7 @@ void SmileyToolWindowType::InsertSmiley(void)
 			CallFunctionAsync(smileyServiceCallback, p);
 		}
 		else {
-			CMString insertText;
+			CMStringW insertText;
 
 			if (opt.SurroundSmileyWithSpaces) insertText = ' ';
 			insertText += sml->GetInsertText();
@@ -235,7 +235,7 @@ void SmileyToolWindowType::SmileySel(int but)
 			ti.hwnd = m_hwndDialog;
 			ti.uId = (UINT_PTR)m_hwndDialog;
 
-			const CMString &toolText = m_pSmileyPack->GetSmiley(m_CurrentHotTrack)->GetToolText();
+			const CMStringW &toolText = m_pSmileyPack->GetSmiley(m_CurrentHotTrack)->GetToolText();
 			ti.lpszText = const_cast<wchar_t*>(toolText.c_str());
 			SendMessage(m_hToolTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
 			SendMessage(m_hToolTip, TTM_ACTIVATE, TRUE, 0);

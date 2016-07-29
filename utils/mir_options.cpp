@@ -37,7 +37,7 @@ static wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, ch
 
 	out[0] = '\0';
 
-	if (!db_get_ts(hContact, module, setting, &dbv)) {
+	if (!db_get_ws(hContact, module, setting, &dbv)) {
 		mir_wstrncpy(out, dbv.ptszVal, (int)len);
 		db_free(&dbv);
 	}
@@ -126,7 +126,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 		break;
 
 	case CONTROL_TEXT:
-		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
+		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue));
 		break;
 
 	case CONTROL_INT:
@@ -140,7 +140,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 
 	case CONTROL_COMBO_TEXT:
 	case CONTROL_COMBO_ITEMDATA:
-		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
+		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue));
 		break;
 	}
 }
@@ -236,7 +236,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				break;
 
 			case CONTROL_TEXT:
-				SetDlgItemText(hwndDlg, ctrl->nID, MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue)));
+				SetDlgItemText(hwndDlg, ctrl->nID, MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue)));
 				SendDlgItemMessage(hwndDlg, ctrl->nID, EM_LIMITTEXT, min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), 0);
 				break;
 
@@ -256,12 +256,12 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				break;
 
 			case CONTROL_COMBO_TEXT:
-				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
+				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue));
 				SendDlgItemMessage(hwndDlg, ctrl->nID, CB_SELECTSTRING, 0, (WPARAM)tmp);
 				break;
 
 			case CONTROL_COMBO_ITEMDATA:
-				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue));
+				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue));
 				{
 					int count = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCOUNT, 0, 0);
 					int k;
@@ -357,7 +357,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 					case CONTROL_TEXT:
 						GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
-						db_set_ts(NULL, module, ctrl->setting, tmp);
+						db_set_ws(NULL, module, ctrl->setting, tmp);
 						break;
 
 					case CONTROL_INT:
@@ -379,18 +379,18 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						{
 							wchar_t rel[1024];
 							PathToRelative(rel, 1024, tmp);
-							db_set_ts(NULL, module, ctrl->setting, rel);
+							db_set_ws(NULL, module, ctrl->setting, rel);
 						}
 						break;
 
 					case CONTROL_COMBO_TEXT:
 						GetDlgItemText(hwndDlg, ctrl->nID, tmp, _countof(tmp));
-						db_set_ts(NULL, module, ctrl->setting, tmp);
+						db_set_ws(NULL, module, ctrl->setting, tmp);
 						break;
 
 					case CONTROL_COMBO_ITEMDATA:
 						int sel = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0);
-						db_set_ts(NULL, module, ctrl->setting, (wchar_t *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
+						db_set_ws(NULL, module, ctrl->setting, (wchar_t *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
 						break;
 					}
 

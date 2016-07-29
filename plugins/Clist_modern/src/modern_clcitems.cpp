@@ -433,7 +433,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		}
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
-			ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
+			ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
 			if (tszGroup != NULL) {
 				wchar_t szGroupMask[256];
 				mir_snwprintf(szGroupMask, L"%s|", tszGroup);

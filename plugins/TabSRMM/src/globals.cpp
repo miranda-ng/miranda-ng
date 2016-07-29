@@ -602,7 +602,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	if (szOldStatus == 0 || szNewStatus == 0)
 		return;
 
-	CMString text;
+	CMStringW text;
 	if (wStatus == ID_STATUS_OFFLINE)
 		text = TranslateT("signed off.");
 	else if (wOldStatus == ID_STATUS_OFFLINE)

@@ -47,7 +47,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 		if (dblink->CheckDB == NULL) {
 			mir_snwprintf(tszMsg,
 				TranslateT("Database driver '%s' doesn't support checking."),
-				TranslateTS(dblink->szFullName));
+				TranslateW(dblink->szFullName));
 			goto LBL_Error;
 		}
 

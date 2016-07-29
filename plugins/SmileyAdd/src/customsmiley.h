@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class SmileyCType : public SmileyType
 {
 public:
-	SmileyCType(const CMString &fullpath, const wchar_t *filepath);
+	SmileyCType(const CMStringW &fullpath, const wchar_t *filepath);
 
 	bool CreateTriggerText(char *text);
 };

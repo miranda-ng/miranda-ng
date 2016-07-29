@@ -390,7 +390,7 @@ protected:
 
 	void appendToCustomDict(const wchar_t *word)
 	{
-		CreateDirectoryTreeT(userPath);
+		CreateDirectoryTreeW(userPath);
 
 		wchar_t filename[1024];
 		mir_snwprintf(filename, L"%s\\%s.cdic", userPath, language);
@@ -756,7 +756,7 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 				else
 					mir_wstrncpy(localName, dict->english_name, _countof(localName));
 
-				mir_wstrncpy(dict->localized_name, TranslateTS(localName), _countof(dict->localized_name));
+				mir_wstrncpy(dict->localized_name, TranslateW(localName), _countof(dict->localized_name));
 			}
 
 			if (dict->localized_name[0] != 0) {
@@ -783,7 +783,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 
 			char lang[128];
 			WideCharToMultiByte(CP_ACP, 0, dict->language, -1, lang, sizeof(lang), NULL, NULL);
-			if (!db_get_ts(NULL, MODULE_NAME, lang, &dbv)) {
+			if (!db_get_ws(NULL, MODULE_NAME, lang, &dbv)) {
 				mir_wstrncpy(dict->localized_name, dbv.ptszVal, _countof(dict->localized_name));
 				db_free(&dbv);
 			}
@@ -791,7 +791,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 			if (dict->localized_name[0] == '\0') {
 				for (size_t j = 0; j < _countof(aditionalLanguages); j++) {
 					if (!mir_wstrcmp(aditionalLanguages[j].language, dict->language)) {
-						mir_wstrncpy(dict->localized_name, TranslateTS(aditionalLanguages[j].localized_name), _countof(dict->localized_name));
+						mir_wstrncpy(dict->localized_name, TranslateW(aditionalLanguages[j].localized_name), _countof(dict->localized_name));
 						break;
 					}
 				}

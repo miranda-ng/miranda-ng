@@ -36,7 +36,7 @@ wchar_t* GetContactID(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
-		if (wchar_t *theValue = db_get_tsa(hContact, szProto, "ChatRoomID"))
+		if (wchar_t *theValue = db_get_wsa(hContact, szProto, "ChatRoomID"))
 			return theValue;
 
 	return Contact_GetInfo(CNF_UNIQUEID, hContact, szProto);
@@ -212,7 +212,7 @@ void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFE
 	}
 	if (src->tszWorkingDir) dest->tszWorkingDir = PFTS_StringToTchar(src->flags, src->tszWorkingDir);
 	dest->flags &= ~PFTS_UTF;
-	dest->flags |= PFTS_TCHAR;
+	dest->flags |= PFTS_UNICODE;
 }
 
 void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src)
@@ -266,7 +266,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	dest->currentFileProgress = src->currentFileProgress;
 	dest->currentFileTime = src->currentFileTime;
 	dest->flags &= ~PFTS_UTF;
-	dest->flags |= PFTS_TCHAR;
+	dest->flags |= PFTS_UNICODE;
 }
 
 static void RemoveUnreadFileEvents(void)

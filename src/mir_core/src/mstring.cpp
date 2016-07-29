@@ -121,7 +121,7 @@ MIR_CORE_DLL(void) mirstr_unlock(CMStringData* pThis)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // don't remove it
-// this code just instantiates templates for CMString[A/W]
+// this code just instantiates templates for CMStringW[A/W]
 
 template CMStringW;
 template MIR_CORE_EXPORT CMStringW CALLBACK operator + (const CMStringW& str1, const CMStringW& str2);

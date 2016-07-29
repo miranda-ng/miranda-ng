@@ -21,9 +21,9 @@ wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, c
 {
 	DBVARIANT dbv;
 	//if(db_get(hContact, szModule, szSetting, &dbv))
-	if (db_get_ts(hContact, szModule, szSetting, &dbv))
+	if (db_get_ws(hContact, szModule, szSetting, &dbv))
 		return errorValue;
-	//	if(DBVT_TCHAR == dbv.type )
+	//	if(DBVT_WCHAR == dbv.type )
 	errorValue = dbv.ptszVal;
 	db_free(&dbv);
 	return errorValue;
@@ -206,7 +206,7 @@ void LogSpamToFile(MCONTACT hContact, wstring message)
 	if (hStopSpamLogDirH)
 		FoldersGetCustomPathT(hStopSpamLogDirH, pszName, MAX_PATH, L"");
 	else
-		mir_wstrncpy(pszName, VARST(L"%miranda_logpath%"), _countof(pszName));
+		mir_wstrncpy(pszName, VARSW(L"%miranda_logpath%"), _countof(pszName));
 
 	wstring filename = pszName;
 	filename += L"\\stopspam_mod.log";

@@ -1281,13 +1281,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING, 0);
 
 		for (int i = 0; i < _countof(tooltips); i++)
-			SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(tooltips[i].text), BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateW(tooltips[i].text), BATF_UNICODE);
 
 		SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
 			TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
 
-		SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_UNICODE);
+		SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_UNICODE);
 
 		SetDlgItemText(hwndDlg, IDC_RETRY, TranslateT("Retry"));
 		{
@@ -1342,7 +1342,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		// restore saved msg if any...
 		if (dat->hContact) {
-			ptrW tszSavedMsg(db_get_tsa(dat->hContact, SRMSGMOD, "SavedMsg"));
+			ptrW tszSavedMsg(db_get_wsa(dat->hContact, SRMSGMOD, "SavedMsg"));
 			if (tszSavedMsg != 0) {
 				SETTEXTEX stx = { ST_DEFAULT, 1200 };
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, tszSavedMsg);
@@ -2545,7 +2545,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				mir_snprintf(szIndex, "%d", iSelection - IDM_CONTAINERMENU);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
-					ptrW val(db_get_tsa(NULL, szKey, szIndex));
+					ptrW val(db_get_wsa(NULL, szKey, szIndex));
 					if (val)
 						SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)val);
 				}
@@ -2623,7 +2623,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (streamOut == NULL)
 					break;
 
-				CMString decoded(ptrW(mir_utf8decodeW(streamOut)));
+				CMStringW decoded(ptrW(mir_utf8decodeW(streamOut)));
 				if (decoded.IsEmpty())
 					break;
 
@@ -2887,7 +2887,7 @@ quote_from_last:
 				if ((pNewContainer = CreateContainer(szNewName, FALSE, dat->hContact)) == NULL)
 					break;
 
-			db_set_ts(dat->hContact, SRMSGMOD_T, "containerW", szNewName);
+			db_set_ws(dat->hContact, SRMSGMOD_T, "containerW", szNewName);
 			dat->fIsReattach = TRUE;
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, dat->hContact);
 			if (iOldItems > 1)                // there were more than 1 tab, container is still valid

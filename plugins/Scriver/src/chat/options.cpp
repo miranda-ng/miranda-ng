@@ -113,7 +113,7 @@ static HTREEITEM InsertBranch(HWND hwndTree, wchar_t* pszDescr, BOOL bExpanded)
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
-	tvis.item.pszText = TranslateTS(pszDescr);
+	tvis.item.pszText = TranslateW(pszDescr);
 	tvis.item.stateMask = bExpanded ? TVIS_STATEIMAGEMASK | TVIS_EXPANDED : TVIS_STATEIMAGEMASK;
 	tvis.item.state = bExpanded ? INDEXTOSTATEIMAGEMASK(1) | TVIS_EXPANDED : INDEXTOSTATEIMAGEMASK(1);
 	return TreeView_InsertItem(hwndTree, &tvis);
@@ -128,7 +128,7 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, struct branch_t *branch
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
-		tvis.item.pszText = TranslateTS(branch[i].szDescr);
+		tvis.item.pszText = TranslateW(branch[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		if (branch[i].iMode)
 			iState = ((db_get_dw(NULL, CHAT_MODULE, branch[i].szDBName, defaultval)&branch[i].iMode)&branch[i].iMode) != 0 ? 2 : 1;
@@ -225,7 +225,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 static void InitSetting(wchar_t **ppPointer, char *pszSetting, wchar_t *pszDefault)
 {
 	DBVARIANT dbv;
-	if ( !db_get_ts(NULL, CHAT_MODULE, pszSetting, &dbv )) {
+	if ( !db_get_ws(NULL, CHAT_MODULE, pszSetting, &dbv )) {
 		replaceStrW(*ppPointer, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -529,7 +529,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 						*p2 = ' ';
 						p2 = wcschr(ptszText, (wchar_t)',');
 					}
-					db_set_ts(NULL, CHAT_MODULE, "HighlightWords", ptszText);
+					db_set_ws(NULL, CHAT_MODULE, "HighlightWords", ptszText);
 					mir_free(ptszText);
 				}
 			}
@@ -539,7 +539,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 			if (iLen > 0) {
 				wchar_t *pszText1 = (wchar_t*)malloc(iLen*sizeof(wchar_t)+2);
 				GetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, pszText1, iLen + 1);
-				db_set_ts(NULL, CHAT_MODULE, "LogDirectory", pszText1);
+				db_set_ws(NULL, CHAT_MODULE, "LogDirectory", pszText1);
 				free(pszText1);
 			}
 			else {

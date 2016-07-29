@@ -187,7 +187,7 @@ wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt)
 	if (n == NULL || tmplt == NULL || tmplt[0] == '\0')
 		return NULL;
 
-	CMString res;
+	CMStringW res;
 	size_t len = mir_wstrlen(tmplt);
 
 	for (size_t i = 0; i < len; i++) {
@@ -304,7 +304,7 @@ void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, wchar_t *s
 
 	if (opt.ShowPreviousStatus) {
 		wchar_t buff[MAX_STATUSTEXT];
-		mir_snwprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
+		mir_snwprintf(buff, TranslateW(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
 		mir_wstrcat(mir_wstrcat(stzStatusText, L" "), buff);
 	}
 }
@@ -326,7 +326,7 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 	if (opt.UseIndSnd) {
 		DBVARIANT dbv;
 		wchar_t stzSoundFile[MAX_PATH] = { 0 };
-		if (!db_get_ts(hContact, MODULE, name, &dbv)) {
+		if (!db_get_ws(hContact, MODULE, name, &dbv)) {
 			wcsncpy(stzSoundFile, dbv.ptszVal, _countof(stzSoundFile)-1);
 			db_free(&dbv);
 		}
@@ -334,7 +334,7 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 		if (stzSoundFile[0]) {
 			//Now make path to IndSound absolute, as it isn't registered
 			wchar_t stzSoundPath[MAX_PATH];
-			PathToAbsoluteT(stzSoundFile, stzSoundPath);
+			PathToAbsoluteW(stzSoundFile, stzSoundPath);
 			SkinPlaySoundFile(stzSoundPath);
 			return;
 		}
@@ -695,7 +695,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			char protoname[MAX_PATH];
 			mir_snprintf(protoname, "%s_TPopupSMsgRemoved", szProto);
 			DBVARIANT dbVar = { 0 };
-			if (db_get_ts(NULL, MODULE, protoname, &dbVar)) {
+			if (db_get_ws(NULL, MODULE, protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGREMOVED);
 			}
 			else  {
@@ -707,7 +707,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			char protoname[MAX_PATH];
 			mir_snprintf(protoname, "%s_TPopupSMsgChanged", szProto);
 			DBVARIANT dbVar = { 0 };
-			if (db_get_ts(NULL, MODULE, protoname, &dbVar)) {
+			if (db_get_ws(NULL, MODULE, protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGCHANGED);
 			}
 			else {
@@ -1072,7 +1072,7 @@ void InitMainMenuItem()
 {
 	CMenuItem mi;
 	SET_UID(mi, 0x22b7b4db, 0xa9a1, 0x4d43, 0x88, 0x80, 0x4c, 0x23, 0x20, 0x31, 0xc6, 0xa0);
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
 	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;
@@ -1096,10 +1096,10 @@ void InitIcolib()
 void InitSound()
 {
 	for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
-		SkinAddNewSoundExT(StatusList[Index(i)].lpzSkinSoundName, LPGENW("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
+		SkinAddNewSoundExW(StatusList[Index(i)].lpzSkinSoundName, LPGENW("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
 
 	for (int i = 0; i <= ID_STATUSEX_MAX; i++)
-		SkinAddNewSoundExT(StatusListEx[i].lpzSkinSoundName, LPGENW("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
+		SkinAddNewSoundExW(StatusListEx[i].lpzSkinSoundName, LPGENW("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
 }
 
 int InitTopToolbar(WPARAM, LPARAM)

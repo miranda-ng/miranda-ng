@@ -69,7 +69,7 @@ void GGPROTO::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 6, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.online);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 6, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_ONLINE, "Default"), &dbv, DBVT_TCHAR)) {
+				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_ONLINE, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
@@ -79,7 +79,7 @@ void GGPROTO::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 7, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.away);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 7, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_AWAY, "Default"), &dbv, DBVT_TCHAR)) {
+				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_AWAY, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
@@ -89,7 +89,7 @@ void GGPROTO::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 8, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.dnd);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 8, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_DND, "Default"), &dbv, DBVT_TCHAR)) {
+				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_DND, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
@@ -99,7 +99,7 @@ void GGPROTO::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 9, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.freechat);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 9, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_FREECHAT, "Default"), &dbv, DBVT_TCHAR)) {
+				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_FREECHAT, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
@@ -109,7 +109,7 @@ void GGPROTO::disconnect()
 				gg_EnterCriticalSection(&modemsg_mutex, "disconnect", 10, "modemsg_mutex", 1);
 				szMsg = mir_utf8encodeW(modemsg.invisible);
 				gg_LeaveCriticalSection(&modemsg_mutex, "disconnect", 10, 1, "modemsg_mutex", 1);
-				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_INVISIBLE, "Default"), &dbv, DBVT_TCHAR)) {
+				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_INVISIBLE, "Default"), &dbv, DBVT_WCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeW(dbv.ptszVal);
 					db_free(&dbv);
@@ -381,7 +381,7 @@ retry:
 	p.status_descr = mir_utf8encodeW(getstatusmsg(m_iDesiredStatus));
 	p.status = status_m2gg(m_iDesiredStatus, p.status_descr != NULL);
 
-	debugLog(L"mainthread() (%x): Connecting with number %d, status %d and description \"%s\".", this, p.uin, m_iDesiredStatus,
+	debugLogW(L"mainthread() (%x): Connecting with number %d, status %d and description \"%s\".", this, p.uin, m_iDesiredStatus,
 				p.status_descr ? getstatusmsg(m_iDesiredStatus) : L"<none>");
 	gg_LeaveCriticalSection(&modemsg_mutex, "mainthread", 13, 1, "modemsg_mutex", 1);
 
@@ -418,7 +418,7 @@ retry:
 			// Lookup for error desciption
 			if (errno == EACCES) {
 				for (int i = 0; reason[i].type; i++) if (reason[i].type == gg_failno) {
-					perror = TranslateTS(reason[i].str);
+					perror = TranslateW(reason[i].str);
 					break;
 				}
 			}
@@ -426,7 +426,7 @@ retry:
 				mir_snwprintf(error, TranslateT("Connection cannot be established. errno=%d: %s"), errno, ws_strerror(errno));
 				perror = error;
 			}
-			debugLog(L"mainthread() (%x): %s", this, perror);
+			debugLogW(L"mainthread() (%x): %s", this, perror);
 			if (getByte(GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS))
 				showpopup(m_tszUserName, perror, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 
@@ -548,7 +548,7 @@ retry:
 				if (e->event.ack.seq && e->event.ack.recipient)
 				{
 					ProtoBroadcastAck(getcontact((DWORD)e->event.ack.recipient, 0, 0, NULL),
-						ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) e->event.ack.seq, 0);
+						ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)e->event.ack.seq, 0);
 				}
 				break;
 
@@ -654,7 +654,7 @@ retry:
 							GGSEARCHRESULT psr;
 							memset(&psr, 0, sizeof(psr));
 							psr.cbSize = sizeof(psr);
-							psr.flags = PSR_TCHAR;
+							psr.flags = PSR_UNICODE;
 							psr.nick.w = __nickname;
 							psr.firstName.w = __firstname;
 							psr.lastName.w = __lastname;
@@ -669,36 +669,36 @@ retry:
 						{
 							// Change nickname if it's not present
 							if (__nickname && (res->seq == GG_SEQ_GETNICK || res->seq == GG_SEQ_CHINFO))
-								setTString(hContact, GG_KEY_NICK, __nickname);
+								setWString(hContact, GG_KEY_NICK, __nickname);
 
 							if (__nickname)
-								setTString(hContact, GG_KEY_PD_NICKNAME, __nickname);
+								setWString(hContact, GG_KEY_PD_NICKNAME, __nickname);
 							else if (res->seq == GG_SEQ_CHINFO)
 								delSetting(GG_KEY_PD_NICKNAME);
 
 							// Change other info
 							if (__city)
-								setTString(hContact, GG_KEY_PD_CITY, __city);
+								setWString(hContact, GG_KEY_PD_CITY, __city);
 							else if (res->seq == GG_SEQ_CHINFO)
 								delSetting(GG_KEY_PD_CITY);
 
 							if (__firstname)
-								setTString(hContact, GG_KEY_PD_FIRSTNAME, __firstname);
+								setWString(hContact, GG_KEY_PD_FIRSTNAME, __firstname);
 							else if (res->seq == GG_SEQ_CHINFO)
 								delSetting(GG_KEY_PD_FIRSTNAME);
 
 							if (__lastname)
-								setTString(hContact, GG_KEY_PD_LASTNAME, __lastname);
+								setWString(hContact, GG_KEY_PD_LASTNAME, __lastname);
 							else if (res->seq == GG_SEQ_CHINFO)
 								delSetting(GG_KEY_PD_LASTNAME);
 
 							if (__familyname)
-								setTString(hContact, GG_KEY_PD_FAMILYNAME, __familyname);
+								setWString(hContact, GG_KEY_PD_FAMILYNAME, __familyname);
 							else if (res->seq == GG_SEQ_CHINFO)
 								delSetting(GG_KEY_PD_FAMILYNAME);
 
 							if (__familycity)
-								setTString(hContact, GG_KEY_PD_FAMILYCITY, __familycity);
+								setWString(hContact, GG_KEY_PD_FAMILYCITY, __familycity);
 							else if (res->seq == GG_SEQ_CHINFO)
 								delSetting(GG_KEY_PD_FAMILYCITY);
 
@@ -837,7 +837,7 @@ retry:
 							gce.ptszNick = (wchar_t*) pcli->pfnGetContactDisplayName( getcontact(e->event.msg.sender, 1, 0, NULL), 0);
 							gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gce.dwFlags = GCEF_ADDTOLOG;
-							debugLog(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
+							debugLogW(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
 							CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 							mir_free(messageT);
 						}
@@ -898,7 +898,7 @@ retry:
 						wchar_t* messageT = mir_utf8decodeW(e->event.multilogon_msg.message);
 						gce.ptszText = messageT;
 						wchar_t* nickT;
-						if (!getTString(GG_KEY_NICK, &dbv)){
+						if (!getWString(GG_KEY_NICK, &dbv)){
 							nickT = mir_wstrdup(dbv.ptszVal);
 							db_free(&dbv);
 						}
@@ -907,7 +907,7 @@ retry:
 						gce.time = e->event.multilogon_msg.time;
 						gce.bIsMe = 1;
 						gce.dwFlags = GCEF_ADDTOLOG;
-						debugLog(L"mainthread() (%x): Sent conference message to room %s.", this, chat);
+						debugLogW(L"mainthread() (%x): Sent conference message to room %s.", this, chat);
 						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 						mir_free(messageT);
 						mir_free(nickT);
@@ -1055,7 +1055,7 @@ retry:
 					wchar_t* filenameT = mir_a2u((char*)dcc7->filename);
 
 					PROTORECVFILET pre = {0};
-					pre.dwFlags = PRFF_TCHAR;
+					pre.dwFlags = PRFF_UNICODE;
 					pre.fileCount = 1;
 					pre.timestamp = time(NULL);
 					pre.descr.w = filenameT;
@@ -1273,7 +1273,7 @@ int GGPROTO::contactdeleted(WPARAM hContact, LPARAM)
 
 	// Terminate conference if contact is deleted
 	DBVARIANT dbv;
-	if ( isChatRoom(hContact) && !getTString(hContact, "ChatRoomID", &dbv) && gc_enabled)
+	if ( isChatRoom(hContact) && !getWString(hContact, "ChatRoomID", &dbv) && gc_enabled)
 	{
 		GCDEST gcd = { m_szModuleName, dbv.ptszVal, GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
@@ -1347,7 +1347,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 
 		// Groupchat window contact is being renamed
 		DBVARIANT dbv;
-		if (isChatRoom(hContact) && !getTString(hContact, "ChatRoomID", &dbv))
+		if (isChatRoom(hContact) && !getWString(hContact, "ChatRoomID", &dbv))
 		{
 			// Most important... check redundancy (fucking cascading)
 			static int cascade = 0;
@@ -1377,7 +1377,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 		if (!strcmp(cws->szSetting, "MyHandle")){
 			wchar_t* ptszVal = sttSettingToTchar(&(cws->value));
 			if(ptszVal==NULL) return 0;
-			setTString(hContact, GG_KEY_NICK, ptszVal);
+			setWString(hContact, GG_KEY_NICK, ptszVal);
 			mir_free(ptszVal);
 		}
 
@@ -1538,7 +1538,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 
 	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (!hContact) {
-		debugLog(L"getcontact(): Failed to create Gadu-Gadu contact %s", szNick);
+		debugLogW(L"getcontact(): Failed to create Gadu-Gadu contact %s", szNick);
 		return NULL;
 	}
 
@@ -1558,7 +1558,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 
 	// If nick specified use it
 	if (szNick)
-		setTString(hContact, GG_KEY_NICK, szNick);
+		setWString(hContact, GG_KEY_NICK, szNick);
 	else if (isonline()) {
 		// Search for that nick
 		gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
@@ -1571,7 +1571,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 			gg_LeaveCriticalSection(&sess_mutex, "getcontact", 31, 1, "sess_mutex", 1);
 			gg_pubdir50_free(req);
 			wchar_t* uinT = mir_a2u(ditoa(uin));
-			setTString(hContact, GG_KEY_NICK, uinT);
+			setWString(hContact, GG_KEY_NICK, uinT);
 			mir_free(uinT);
 			debugLogA("getcontact(): Search for nick on uin: %d", uin);
 		}
@@ -1701,8 +1701,8 @@ void GGPROTO::changecontactstatus(uin_t uin, int status, const wchar_t *idescr, 
 	// Check if there's description and if it's not empty
 	if (idescr && *idescr)
 	{
-		debugLog(L"changecontactstatus(): Saving for %d status descr \"%s\".", uin, idescr);
-		db_set_ts(hContact, "CList", GG_KEY_STATUSDESCR, idescr);
+		debugLogW(L"changecontactstatus(): Saving for %d status descr \"%s\".", uin, idescr);
+		db_set_ws(hContact, "CList", GG_KEY_STATUSDESCR, idescr);
 	} else {
 		// Remove status if there's nothing
 		db_unset(hContact, "CList", GG_KEY_STATUSDESCR);

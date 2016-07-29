@@ -138,7 +138,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
 						data->status_msg[0].flags[i - ID_STATUS_ONLINE] = val;
-						ptrW text( db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default")));
+						ptrW text( db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default")));
 						mir_wstrncpy(data->status_msg[0].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
 
 						for (j = 0; j < accounts->count; j++)
@@ -150,7 +150,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, setting), STATUS_DEFAULT);
 							data->status_msg[j+1].flags[i-ID_STATUS_ONLINE] = val;
 							mir_snprintf(setting, "%sDefault", accounts->pa[j]->szModuleName);
-							text = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i, setting));
+							text = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i, setting));
 							mir_wstrncpy(data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
 						}
 					}
@@ -203,7 +203,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					if (index != CB_ERR && index != CB_ERRSPACE)
 					{
 						mir_snprintf(setting, "Proto%sDefault", accounts->pa[i]->szModuleName);
-						data->proto_msg[i+1].msg = db_get_tsa(NULL, "SimpleStatusMsg", setting);
+						data->proto_msg[i+1].msg = db_get_wsa(NULL, "SimpleStatusMsg", setting);
 
 						mir_snprintf(setting, "Proto%sFlags", accounts->pa[i]->szModuleName);
 						val = db_get_b(NULL, "SimpleStatusMsg", setting, PROTO_DEFAULT);
@@ -451,7 +451,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 							if (szSetting)
 							{
-								wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+								wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 								if (tszStatusMsg && mir_wstrlen(tszStatusMsg))
 								{
 									if (tszStatusMsg && mir_wstrlen(tszStatusMsg))
@@ -489,7 +489,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							else
 								mir_snprintf(setting, "Msg");
 
-							wchar_t *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
+							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
 							if (tszStatusMsg)
 							{
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -602,7 +602,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 							if (szSetting != NULL)
 							{
-								wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+								wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 								if (tszStatusMsg)
 								{
 									if (tszStatusMsg[0])
@@ -639,7 +639,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							else
 								mir_snprintf(setting, "Msg");
 
-							wchar_t *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
+							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
 							if (tszStatusMsg != NULL)
 							{
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -697,7 +697,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 						if (szSetting != NULL)
 						{
-							wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 							if (tszStatusMsg)
 							{
 								if (tszStatusMsg[0])
@@ -726,7 +726,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						else
 							mir_snprintf(setting, "Msg");
 
-						wchar_t *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
+						wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
 						if (tszStatusMsg != NULL)
 						{
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -807,7 +807,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
 						if (szSetting != NULL)
 						{
-							wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 							if (tszStatusMsg)
 							{
 								if (tszStatusMsg[0])
@@ -837,7 +837,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						else
 							mir_snprintf(setting, "Msg");
 
-						wchar_t *tszStatusMsg = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i + ID_STATUS_ONLINE, setting));
+						wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i + ID_STATUS_ONLINE, setting));
 						if (tszStatusMsg != NULL)
 						{
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
@@ -999,7 +999,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			{
 				if (accounts->statusMsgFlags & Proto_Status2Flag(i))
 				{
-					db_set_ts(NULL, "SRAway", StatusModeToDbSetting(i, "Default"), data->status_msg[0].msg[i - ID_STATUS_ONLINE]);
+					db_set_ws(NULL, "SRAway", StatusModeToDbSetting(i, "Default"), data->status_msg[0].msg[i - ID_STATUS_ONLINE]);
 					db_set_b(NULL, "SimpleStatusMsg", StatusModeToDbSetting(i, "Flags"), (BYTE)data->status_msg[0].flags[i - ID_STATUS_ONLINE]);
 
 					for (int j = 0; j < accounts->count; j++)
@@ -1013,7 +1013,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						if (CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i))
 						{
 							mir_snprintf(szSetting, "%sDefault", accounts->pa[j]->szModuleName);
-							db_set_ts(NULL, "SRAway", StatusModeToDbSetting(i, szSetting), data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE]);
+							db_set_ws(NULL, "SRAway", StatusModeToDbSetting(i, szSetting), data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE]);
 
 							mir_snprintf(szSetting, "%sFlags", accounts->pa[j]->szModuleName);
 							db_set_b(NULL, "SimpleStatusMsg", StatusModeToDbSetting(i, szSetting), (BYTE)data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE]);
@@ -1041,7 +1041,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					mir_snprintf(szSetting, "Proto%sDefault", accounts->pa[i]->szModuleName);
 					if (data->proto_msg[i+1].msg && (data->proto_msg[i+1].flags & PROTO_THIS_MSG))
-						db_set_ts(NULL, "SimpleStatusMsg", szSetting, data->proto_msg[i+1].msg);
+						db_set_ws(NULL, "SimpleStatusMsg", szSetting, data->proto_msg[i+1].msg);
 					//						else
 					//							db_unset(NULL, "SimpleStatusMsg", szSetting);
 
@@ -1181,7 +1181,7 @@ static bool IsHistoryMsgsFound(HWND, int histMax)
 		if (j < 1)
 			j = histMax;
 		mir_snprintf(szSetting, "SMsg%d", j);
-		wchar_t *tszStatusMsg = db_get_tsa(NULL, "SimpleStatusMsg", szSetting);
+		wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 		if (tszStatusMsg != NULL) {
 			if (*tszStatusMsg != '\0') {
 				mir_free(tszStatusMsg);
@@ -1330,7 +1330,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				for (int i = 1; i <= max_hist_msgs; i++) {
 					char text[8];
 					mir_snprintf(text, "SMsg%d", i);
-					db_set_ts(NULL, "SimpleStatusMsg", text, L"");
+					db_set_ws(NULL, "SimpleStatusMsg", text, L"");
 				}
 
 				db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");

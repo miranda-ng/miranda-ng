@@ -331,7 +331,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 			HWND hwnd = GetDlgItem(hwndDlg, ctrls[i].control);
 			SendMessage(hwnd, ctrls[i].type, 0, 0);
 			SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[i + ICON_FIRST]);
-			SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(ctrls[i].tooltip), BATF_TCHAR);
+			SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateW(ctrls[i].tooltip), BATF_UNICODE);
 		}
 
 		CheckDlgButton(hwndDlg, IDC_SCROLL, dat->Scroll ? BST_CHECKED : BST_UNCHECKED);
@@ -617,9 +617,9 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		// restore position
 		Utils_RestoreWindowPosition(hwndDlg, NULL, "Console", "Console", RWPF_HIDDEN);
 
-		CallService(MS_DB_GETPROFILENAMET, (WPARAM)_countof(name), (LPARAM)name);
+		CallService(MS_DB_GETPROFILENAMEW, (WPARAM)_countof(name), (LPARAM)name);
 
-		CallService(MS_DB_GETPROFILEPATHT, (WPARAM)_countof(path), (LPARAM)path);
+		CallService(MS_DB_GETPROFILEPATHW, (WPARAM)_countof(path), (LPARAM)path);
 
 		mir_snwprintf(title, L"%s - %s\\%s", TranslateT("Miranda Console"), path, name);
 
@@ -1093,13 +1093,13 @@ static int OnFontChange(WPARAM, LPARAM)
 	if (hwndConsole) {
 		HFONT hf = NULL;
 		LOGFONT LogFont = { 0 };
-		FontIDT fid = { 0 };
+		FontIDW fid = { 0 };
 		fid.cbSize = sizeof(fid);
 
 		mir_wstrncpy(fid.group, LPGENW("Console"), _countof(fid.group));
 		mir_wstrncpy(fid.name, LPGENW("Text"), _countof(fid.name));
 
-		colLogFont = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&LogFont);
+		colLogFont = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&LogFont);
 
 		if (LogFont.lfHeight != 0) {
 			hf = CreateFontIndirect(&LogFont);
@@ -1118,7 +1118,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 {
 	CreateServiceFunction(MS_CONSOLE_SHOW_HIDE, ShowHideConsole);
 
-	FontIDT fid = { 0 };
+	FontIDW fid = { 0 };
 	fid.cbSize = sizeof(fid);
 	mir_wstrncpy(fid.group, LPGENW("Console"), _countof(fid.group));
 	mir_wstrncpy(fid.name, LPGENW("Text"), _countof(fid.name));
@@ -1132,18 +1132,18 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	fid.deffontsettings.size = 10;
 	fid.deffontsettings.style = 0;
 	mir_wstrncpy(fid.deffontsettings.szFace, L"Courier", _countof(fid.deffontsettings.szFace));
-	FontRegisterT(&fid);
+	FontRegisterW(&fid);
 
 	HookEvent(ME_FONT_RELOAD, OnFontChange);
 
-	ColourIDT cid = { 0 };
+	ColourIDW cid = { 0 };
 	cid.cbSize = sizeof(cid);
 	mir_wstrncpy(cid.group, LPGENW("Console"), _countof(cid.group));
 	mir_wstrncpy(cid.name, LPGENW("Background"), _countof(cid.name));
 	mir_strncpy(cid.dbSettingsGroup, "Console", _countof(cid.dbSettingsGroup));
 	mir_strncpy(cid.setting, "BgColor", _countof(cid.setting));
 	cid.defcolour = RGB(255, 255, 255);
-	ColourRegisterT(&cid);
+	ColourRegisterW(&cid);
 
 	HookEvent(ME_COLOUR_RELOAD, OnColourChange);
 
@@ -1161,7 +1161,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 
 		CMenuItem mi;
 		SET_UID(mi, 0x6d97694e, 0x2024, 0x4560, 0xbb, 0xbc, 0x20, 0x62, 0x7e, 0x5, 0xdf, 0xb3);
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		mi.hIcolibItem = hIcons[0];
 		mi.position = 1900000000;
 		mi.name.w = (IsWindowVisible(hwndConsole)) ? LPGENW("Hide Console") : LPGENW("Show Console");

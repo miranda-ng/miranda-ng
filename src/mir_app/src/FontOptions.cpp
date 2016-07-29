@@ -121,7 +121,7 @@ int __inline DrawTextWithEffect(HDC hdc, LPCTSTR lpchText, int cchText, RECT * l
 #define FSUI_FONTFRAMEVERT		4
 #define FSUI_FONTLEFT			(FSUI_COLORBOXLEFT+FSUI_COLORBOXWIDTH+5)
 
-void UpdateFontSettings(FontIDW *font_id, FontSettingsT *fontsettings);
+void UpdateFontSettings(FontIDW *font_id, FontSettingsW *fontsettings);
 void UpdateColourSettings(ColourIDW *colour_id, COLORREF *colour);
 void UpdateEffectSettings(EffectIDW *effect_id, FONTEFFECT* effectsettings);
 
@@ -340,7 +340,7 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const wchar_t *groupNam
 		if (sectionName = wcschr(sectionName, '/'))
 			*sectionName = 0;
 
-		pItemName = TranslateTH(_hLang, pItemName);
+		pItemName = TranslateW_LP(pItemName, _hLang);
 
 		hItem = sttFindNamedTreeItemAt(hwndTree, hSection, pItemName);
 		if (!sectionName || !hItem) {
@@ -448,7 +448,7 @@ static INT_PTR CALLBACK ChooseEffectDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		pEffect = (FONTEFFECT*)lParam;
 		{
 			for (int i = 0; i < _countof(ModernEffectNames); i++) {
-				int itemid = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_ADDSTRING, 0, (LPARAM)TranslateTS(ModernEffectNames[i]));
+				int itemid = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_ADDSTRING, 0, (LPARAM)TranslateW(ModernEffectNames[i]));
 				SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETITEMDATA, itemid, i);
 				SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETCURSEL, 0, 0);
 			}
@@ -505,7 +505,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	else
 		strncpy_s(str, F.prefix, _TRUNCATE);
 
-	if (db_set_ts(NULL, F.dbSettingsGroup, str, F.value.szFace)) {
+	if (db_set_ws(NULL, F.dbSettingsGroup, str, F.value.szFace)) {
 		char buff[1024];
 		WideCharToMultiByte(code_page, 0, F.value.szFace, -1, buff, 1024, 0, 0);
 		db_set_s(NULL, F.dbSettingsGroup, str, buff);

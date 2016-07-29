@@ -77,7 +77,7 @@ void AddMessage(const wchar_t* fmt, ...)
 	va_list args;
 	wchar_t msgBuf[4096];
 	va_start(args, fmt);
-	mir_vsnwprintf(msgBuf, _countof(msgBuf), TranslateTS(fmt), args);
+	mir_vsnwprintf(msgBuf, _countof(msgBuf), TranslateW(fmt), args);
 
 	SendMessage(hdlgProgress, PROGM_ADDMESSAGE, 0, (LPARAM)msgBuf);
 }
@@ -113,7 +113,7 @@ static int myGetD(MCONTACT hContact, const char *szModule, const char *szSetting
 
 static wchar_t* myGetWs(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
-	DBVARIANT dbv = { DBVT_TCHAR };
+	DBVARIANT dbv = { DBVT_WCHAR };
 	return srcDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? NULL : dbv.ptszVal;
 }
 
@@ -143,7 +143,7 @@ static MCONTACT HContactFromID(char *pszProtoName, char *pszSetting, wchar_t *pw
 	for (MCONTACT hContact = dstDb->FindFirstContact(); hContact; hContact = dstDb->FindNextContact(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if (!mir_strcmp(szProto, pszProtoName)) {
-			ptrW id(db_get_tsa(hContact, pszProtoName, pszSetting));
+			ptrW id(db_get_wsa(hContact, pszProtoName, pszSetting));
 			if (!mir_wstrcmp(pwszID, id))
 				return hContact;
 		}
@@ -500,7 +500,7 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 		if (p.tszSrcName == NULL) {
 			p.pa->tszAccountName = mir_a2u(p.pa->szModuleName);
 			itoa(800 + p.pa->iOrder, szSetting, 10);
-			db_set_ts(NULL, "Protocols", szSetting, p.pa->tszAccountName);
+			db_set_ws(NULL, "Protocols", szSetting, p.pa->tszAccountName);
 		}
 
 		CopySettings(NULL, p.szSrcAcc, NULL, p.pa->szModuleName);

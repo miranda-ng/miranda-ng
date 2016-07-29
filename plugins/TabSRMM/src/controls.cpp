@@ -1010,7 +1010,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 				if (PtInRect(&rc, pt) && ((rc.right - rc.left) < size.cx)) {
 					if (dat->bType == SESSIONTYPE_CHAT) {
-						ptrW tszTopic(db_get_tsa(dat->hContact, dat->szProto, "Topic"));
+						ptrW tszTopic(db_get_wsa(dat->hContact, dat->szProto, "Topic"));
 						if (tszTopic != NULL) {
 							tooltip_active = TRUE;
 							CallService("mToolTip/ShowTipW", tszTopic, (LPARAM)&ti);

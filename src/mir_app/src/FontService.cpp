@@ -95,24 +95,24 @@ int LoadFontserviceModule(void)
 	hColourReloadEvent = CreateHookableEvent(ME_COLOUR_RELOAD);
 
 	// create generic fonts
-	FontIDT fontid = { sizeof(fontid) };
+	FontIDW fontid = { sizeof(fontid) };
 	strncpy(fontid.dbSettingsGroup, "Fonts", sizeof(fontid.dbSettingsGroup));
 	wcsncpy_s(fontid.group, LPGENW("General"), _TRUNCATE);
 
 	wcsncpy_s(fontid.name, LPGENW("Headers"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSHEADER;
 	strncpy(fontid.prefix, "Header", _countof(fontid.prefix));
-	FontRegisterT(&fontid);
+	FontRegisterW(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Generic text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSGENERAL;
 	strncpy(fontid.prefix, "Generic", _countof(fontid.prefix));
-	FontRegisterT(&fontid);
+	FontRegisterW(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Small text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSSMALL;
 	strncpy(fontid.prefix, "Small", _countof(fontid.prefix));
-	FontRegisterT(&fontid);
+	FontRegisterW(&fontid);
 
 	// do last for silly dyna plugin
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

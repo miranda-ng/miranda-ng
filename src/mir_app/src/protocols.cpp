@@ -244,7 +244,7 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 void Proto_SetStatus(const char *szProto, unsigned status)
 {
 	if (CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
-		ptrW tszAwayMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGT, status, (LPARAM)szProto));
+		ptrW tszAwayMsg((wchar_t*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto));
 		CallProtoServiceInt(NULL, szProto, PS_SETAWAYMSG, status, tszAwayMsg);
 	}
 	CallProtoServiceInt(NULL, szProto, PS_SETSTATUS, status, 0);

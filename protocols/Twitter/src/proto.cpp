@@ -256,7 +256,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
 	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(this);
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.position = 1001;
 	Menu_AddStatusMenuItem(&mi, m_szModuleName);
 
@@ -279,7 +279,7 @@ int TwitterProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pwszGroup = LPGENW("Network");
 	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
 	odp.pwszTab = LPGENW("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
@@ -309,7 +309,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	wchar_t descr[512];
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 
 	// Create standard network connection
@@ -455,7 +455,7 @@ void TwitterProto::UpdateSettings()
 std::wstring TwitterProto::GetAvatarFolder()
 {
 	wchar_t path[MAX_PATH];
-	mir_snwprintf(path, L"%s\\%s", VARST(L"%miranda_avatarcache%"), m_tszUserName);
+	mir_snwprintf(path, L"%s\\%s", VARSW(L"%miranda_avatarcache%"), m_tszUserName);
 	return path;
 }
 

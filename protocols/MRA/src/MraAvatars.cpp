@@ -59,7 +59,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 	mir_snwprintf(szBuffer, L"%s %s", m_tszUserName, TranslateT("Avatars' plugin connections"));
 
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = MRA_AVT_SECT_NAME;
 	nlu.ptszDescriptiveName = szBuffer;
 	pmraaqAvatarsQueue->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -476,11 +476,11 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hQueue, MCONTACT hContact, DWORD d
 		return ERROR_NOT_SUPPORTED;
 
 	wchar_t tszBase[MAX_PATH];
-	mir_snwprintf(tszBase, L"%s\\%s\\", VARST(L"%miranda_avatarcache%"), m_tszUserName);
+	mir_snwprintf(tszBase, L"%s\\%s\\", VARSW(L"%miranda_avatarcache%"), m_tszUserName);
 	res = tszBase;
 
 	// some path in buff and free space for file name is avaible
-	CreateDirectoryTreeT(res);
+	CreateDirectoryTreeW(res);
 
 	if (dwFormat != PA_FORMAT_DEFAULT) {
 		CMStringW szEmail;
@@ -633,7 +633,7 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 
 			wchar_t szServer[MAX_PATH];
 			GetDlgItemText(hWndDlg, IDC_SERVER, szServer, _countof(szServer));
-			db_set_ts(NULL, MRA_AVT_SECT_NAME, "Server", szServer);
+			db_set_ws(NULL, MRA_AVT_SECT_NAME, "Server", szServer);
 			return TRUE;
 		}
 		break;

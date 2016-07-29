@@ -36,7 +36,7 @@ int CreateGroup(const wchar_t *group, MCONTACT hContact)
 
 	if (Clist_GroupExists(group)) {
 		if (hContact)
-			db_set_ts(hContact, "CList", "Group", group);
+			db_set_ws(hContact, "CList", "Group", group);
 		else
 			AddMessage(LPGENW("Skipping duplicate group %s."), group);
 		return 0;
@@ -44,7 +44,7 @@ int CreateGroup(const wchar_t *group, MCONTACT hContact)
 
 	Clist_GroupCreate(NULL, group);
 	if (hContact)
-		db_set_ts(hContact, "CList", "Group", group);
+		db_set_ws(hContact, "CList", "Group", group);
 	return 1;
 }
 

@@ -15,9 +15,9 @@ private:
 	const wchar_t* folderName;
 	int relativePathStart;
 
-	CMString serverFolder;
+	CMStringW serverFolder;
 
-	CMString data;
+	CMStringW data;
 
 public:
 	FileTransferParam(MCONTACT hContact)
@@ -31,7 +31,7 @@ public:
 		relativePathStart = 0;
 
 		pfts.cbSize = sizeof(this->pfts);
-		pfts.flags = PFTS_TCHAR | PFTS_SENDING;
+		pfts.flags = PFTS_UNICODE | PFTS_SENDING;
 		pfts.hContact = hContact;
 		pfts.currentFileNumber = -1;
 		pfts.currentFileProgress = 0;

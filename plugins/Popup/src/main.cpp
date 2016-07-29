@@ -175,7 +175,7 @@ INT_PTR svcShowHistory(WPARAM, LPARAM)
 void InitMenuItems(void)
 {
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 
 	HANDLE hIcon = GetIconHandle(PopupOptions.ModuleIsEnabled ? IDI_POPUP : IDI_NOPOPUP);
 
@@ -211,16 +211,16 @@ INT_PTR GetStatus(WPARAM, LPARAM)
 void LoadHotkey()
 {
 	HOTKEYDESC hk = { sizeof(hk) };
-	hk.dwFlags = HKD_TCHAR;
+	hk.dwFlags = HKD_UNICODE;
 	hk.pszName = "Toggle Popups";
-	hk.ptszDescription = LPGENW("Toggle Popups");
-	hk.ptszSection = MODULNAME_PLUW;
+	hk.pwszDescription = LPGENW("Toggle Popups");
+	hk.pwszSection = MODULNAME_PLUW;
 	hk.pszService = MENUCOMMAND_SVC;
 	Hotkey_Register(&hk);
 
 	// 'Popup History' Hotkey
 	hk.pszName = "Popup History";
-	hk.ptszDescription = LPGENW("Popup History");
+	hk.pwszDescription = LPGENW("Popup History");
 	hk.pszService = MENUCOMMAND_HISTORY;
 	Hotkey_Register(&hk);
 }

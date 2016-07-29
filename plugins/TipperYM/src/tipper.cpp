@@ -22,8 +22,8 @@ Boston, MA 02111-1307, USA.
 
 HMODULE hInst;
 
-FontIDT fontTitle, fontLabels, fontValues, fontTrayTitle;
-ColourIDT colourBg, colourBorder, colourAvatarBorder, colourDivider, colourSidebar;
+FontIDW fontTitle, fontLabels, fontValues, fontTrayTitle;
+ColourIDW colourBg, colourBorder, colourAvatarBorder, colourDivider, colourSidebar;
 HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 
 // hooked here so it's in the main thread
@@ -69,23 +69,23 @@ int ReloadFont(WPARAM, LPARAM)
 {
 	LOGFONT logFont;
 	if (hFontTitle) DeleteObject(hFontTitle);
-	opt.colTitle = CallService(MS_FONT_GETT, (WPARAM)&fontTitle, (LPARAM)&logFont);
+	opt.colTitle = CallService(MS_FONT_GETW, (WPARAM)&fontTitle, (LPARAM)&logFont);
 	hFontTitle = CreateFontIndirect(&logFont);
 	if (hFontLabels) DeleteObject(hFontLabels);
-	opt.colLabel = CallService(MS_FONT_GETT, (WPARAM)&fontLabels, (LPARAM)&logFont);
+	opt.colLabel = CallService(MS_FONT_GETW, (WPARAM)&fontLabels, (LPARAM)&logFont);
 	hFontLabels = CreateFontIndirect(&logFont);
 	if (hFontValues) DeleteObject(hFontValues);
-	opt.colValue = CallService(MS_FONT_GETT, (WPARAM)&fontValues, (LPARAM)&logFont);
+	opt.colValue = CallService(MS_FONT_GETW, (WPARAM)&fontValues, (LPARAM)&logFont);
 	hFontValues = CreateFontIndirect(&logFont);
 	if (hFontTrayTitle) DeleteObject(hFontTrayTitle);
-	opt.colTrayTitle = CallService(MS_FONT_GETT, (WPARAM)&fontTrayTitle, (LPARAM)&logFont);
+	opt.colTrayTitle = CallService(MS_FONT_GETW, (WPARAM)&fontTrayTitle, (LPARAM)&logFont);
 	hFontTrayTitle = CreateFontIndirect(&logFont);
 
-	opt.colBg = CallService(MS_COLOUR_GETT, (WPARAM)&colourBg, 0);
-	opt.colBorder = CallService(MS_COLOUR_GETT, (WPARAM)&colourBorder, 0);
-	opt.colAvatarBorder = CallService(MS_COLOUR_GETT, (WPARAM)&colourAvatarBorder, 0);
-	opt.colSidebar = CallService(MS_COLOUR_GETT, (WPARAM)&colourSidebar, 0);
-	opt.colDivider = CallService(MS_COLOUR_GETT, (WPARAM)&colourDivider, 0);
+	opt.colBg = CallService(MS_COLOUR_GETW, (WPARAM)&colourBg, 0);
+	opt.colBorder = CallService(MS_COLOUR_GETW, (WPARAM)&colourBorder, 0);
+	opt.colAvatarBorder = CallService(MS_COLOUR_GETW, (WPARAM)&colourAvatarBorder, 0);
+	opt.colSidebar = CallService(MS_COLOUR_GETW, (WPARAM)&colourSidebar, 0);
+	opt.colDivider = CallService(MS_COLOUR_GETW, (WPARAM)&colourDivider, 0);
 
 	return 0;
 }
@@ -123,52 +123,52 @@ int ReloadSkinFolder(WPARAM, LPARAM)
 
 void InitFonts()
 {
-	colourBg.cbSize = sizeof(ColourIDT);
+	colourBg.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourBg.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourBg.name, LPGENW("Background"));
 	mir_strcpy(colourBg.dbSettingsGroup, MODULE);
 	mir_strcpy(colourBg.setting, "ColourBg");
 	colourBg.defcolour = RGB(219, 219, 219);
 	colourBg.order = 0;
-	ColourRegisterT(&colourBg);
+	ColourRegisterW(&colourBg);
 
-	colourBorder.cbSize = sizeof(ColourIDT);
+	colourBorder.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourBorder.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourBorder.name, LPGENW("Border"));
 	mir_strcpy(colourBorder.dbSettingsGroup, MODULE);
 	mir_strcpy(colourBorder.setting, "BorderCol");
 	colourBorder.defcolour = 0;
 	colourBorder.order = 0;
-	ColourRegisterT(&colourBorder);
+	ColourRegisterW(&colourBorder);
 
-	colourAvatarBorder.cbSize = sizeof(ColourIDT);
+	colourAvatarBorder.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourAvatarBorder.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourAvatarBorder.name, LPGENW("Avatar border"));
 	mir_strcpy(colourAvatarBorder.dbSettingsGroup, MODULE);
 	mir_strcpy(colourAvatarBorder.setting, "AvBorderCol");
 	colourAvatarBorder.defcolour = 0;
 	colourAvatarBorder.order = 0;
-	ColourRegisterT(&colourAvatarBorder);
+	ColourRegisterW(&colourAvatarBorder);
 
-	colourDivider.cbSize = sizeof(ColourIDT);
+	colourDivider.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourDivider.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourDivider.name, LPGENW("Dividers"));
 	mir_strcpy(colourDivider.dbSettingsGroup, MODULE);
 	mir_strcpy(colourDivider.setting, "DividerCol");
 	colourDivider.defcolour = 0;
 	colourDivider.order = 0;
-	ColourRegisterT(&colourDivider);
+	ColourRegisterW(&colourDivider);
 
-	colourSidebar.cbSize = sizeof(ColourIDT);
+	colourSidebar.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colourSidebar.group, LPGENW("Tooltips"));
 	mir_wstrcpy(colourSidebar.name, LPGENW("Sidebar"));
 	mir_strcpy(colourSidebar.dbSettingsGroup, MODULE);
 	mir_strcpy(colourSidebar.setting, "SidebarCol");
 	colourSidebar.defcolour = RGB(192, 192, 192);
 	colourSidebar.order = 0;
-	ColourRegisterT(&colourSidebar);
+	ColourRegisterW(&colourSidebar);
 
-	fontTitle.cbSize = sizeof(FontIDT);
+	fontTitle.cbSize = sizeof(FontIDW);
 	fontTitle.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(fontTitle.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTitle.name, LPGENW("Title"));
@@ -184,7 +184,7 @@ void InitFonts()
 	fontTitle.deffontsettings.colour = RGB(255, 0, 0);
 	fontTitle.flags |= FIDF_DEFAULTVALID;
 
-	fontLabels.cbSize = sizeof(FontIDT);
+	fontLabels.cbSize = sizeof(FontIDW);
 	fontLabels.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(fontLabels.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontLabels.name, LPGENW("Labels"));
@@ -200,7 +200,7 @@ void InitFonts()
 	fontLabels.deffontsettings.colour = RGB(128, 128, 128);
 	fontLabels.flags |= FIDF_DEFAULTVALID;
 
-	fontValues.cbSize = sizeof(FontIDT);
+	fontValues.cbSize = sizeof(FontIDW);
 	fontValues.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(fontValues.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontValues.name, LPGENW("Values"));
@@ -216,7 +216,7 @@ void InitFonts()
 	fontValues.deffontsettings.colour = RGB(0, 0, 0);
 	fontValues.flags |= FIDF_DEFAULTVALID;
 
-	fontTrayTitle.cbSize = sizeof(FontIDT);
+	fontTrayTitle.cbSize = sizeof(FontIDW);
 	fontTrayTitle.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(fontTrayTitle.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTrayTitle.name, LPGENW("Tray title"));
@@ -232,10 +232,10 @@ void InitFonts()
 	fontTrayTitle.deffontsettings.colour = RGB(0, 0, 0);
 	fontTrayTitle.flags |= FIDF_DEFAULTVALID;
 
-	FontRegisterT(&fontTitle);
-	FontRegisterT(&fontLabels);
-	FontRegisterT(&fontValues);
-	FontRegisterT(&fontTrayTitle);
+	FontRegisterW(&fontTitle);
+	FontRegisterW(&fontLabels);
+	FontRegisterW(&fontValues);
+	FontRegisterW(&fontTrayTitle);
 
 	hReloadFonts = HookEvent(ME_FONT_RELOAD, ReloadFont);
 }
@@ -304,7 +304,7 @@ static INT_PTR ReloadSkin(WPARAM wParam, LPARAM lParam)
 	SaveOptions();
 
 	db_set_b(0, MODULE, "SkinEngine", opt.skinMode);
-	db_set_ts(0, MODULE, "SkinName", opt.szSkinName);
+	db_set_ws(0, MODULE, "SkinName", opt.szSkinName);
 
 	DestroySkinBitmap();
 

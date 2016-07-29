@@ -441,7 +441,7 @@ int DBStoreFrameSettingsAtPos(int pos, int Frameid)
 
 	_itoa(pos, sadd, 10);
 
-	db_set_ts(0, CLUIFrameModule, AS(buf, "Name", sadd), Frames[Frameid].name);
+	db_set_ws(0, CLUIFrameModule, AS(buf, "Name", sadd), Frames[Frameid].name);
 	//boolean
 	db_set_b(0, CLUIFrameModule, AS(buf, "Collapse", sadd), (BYTE)btoint(Frames[Frameid].collapsed));
 	db_set_b(0, CLUIFrameModule, AS(buf, "Locked", sadd), (BYTE)btoint(Frames[Frameid].Locked));
@@ -472,7 +472,7 @@ int LocateStorePosition(int Frameid, int maxstored)
 	for (int i = 0; i < maxstored; i++) {
 		char settingname[255];
 		mir_snprintf(settingname, "Name%d", i);
-		ptrW frmname(db_get_tsa(0, CLUIFrameModule, settingname));
+		ptrW frmname(db_get_wsa(0, CLUIFrameModule, settingname));
 		if (frmname == NULL) continue;
 		if (mir_wstrcmpi(frmname, Frames[Frameid].name) == 0)
 			return i;
@@ -1342,7 +1342,7 @@ static int CLUIFramesLoadMainMenu()
 	// create frames menu
 	CMenuItem mi;
 	mi.root = cont.MainMenuItem;
-	mi.flags = CMIF_TCHAR | CMIF_SYSTEM;
+	mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
 	int separator = (int)3000200000;
 	for (int i = 0; i < nFramescount; i++) {
 		FRAMEWND &F = Frames[i];
@@ -2153,7 +2153,7 @@ int OnFrameTitleBarBackgroundChange()
 		hBmpBackground = NULL;
 	}
 	if (db_get_b(NULL, "FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-		ptrW tszBitmapName(db_get_tsa(NULL, "FrameTitleBar", "BkBitmap"));
+		ptrW tszBitmapName(db_get_wsa(NULL, "FrameTitleBar", "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}

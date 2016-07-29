@@ -11,8 +11,8 @@ MNOTIFYLINK *notifyLink = 0;
 // used to work around a bug in neweventnotify and others with the address passed in the GetPluginData function
 bool ignore_gpd_passed_addy = false;
 
-FontIDT font_id_firstline = {0}, font_id_secondline = {0}, font_id_time = {0};
-ColourIDT colour_id_bg = {0}, colour_id_border = {0}, colour_id_sidebar = {0}, colour_id_titleunderline = {0};
+FontIDW font_id_firstline = {0}, font_id_secondline = {0}, font_id_time = {0};
+ColourIDW colour_id_bg = {0}, colour_id_border = {0}, colour_id_sidebar = {0}, colour_id_titleunderline = {0};
 
 COLORREF colBg = GetSysColor(COLOR_3DSHADOW);
 HFONT hFontFirstLine = 0, hFontSecondLine = 0, hFontTime = 0;
@@ -57,19 +57,19 @@ int ReloadFont(WPARAM, LPARAM)
 {
 	LOGFONT log_font;
 	if (hFontFirstLine) DeleteObject(hFontFirstLine);
-	colFirstLine = CallService(MS_FONT_GETT, (WPARAM)&font_id_firstline, (LPARAM)&log_font);
+	colFirstLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_firstline, (LPARAM)&log_font);
 	hFontFirstLine = CreateFontIndirect(&log_font);
 	if (hFontSecondLine) DeleteObject(hFontSecondLine);
-	colSecondLine = CallService(MS_FONT_GETT, (WPARAM)&font_id_secondline, (LPARAM)&log_font);
+	colSecondLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_secondline, (LPARAM)&log_font);
 	hFontSecondLine = CreateFontIndirect(&log_font);
 	if (hFontTime) DeleteObject(hFontTime);
-	colTime = CallService(MS_FONT_GETT, (WPARAM)&font_id_time, (LPARAM)&log_font);
+	colTime = CallService(MS_FONT_GETW, (WPARAM)&font_id_time, (LPARAM)&log_font);
 	hFontTime = CreateFontIndirect(&log_font);
 
-	colBg = CallService(MS_COLOUR_GETT, (WPARAM)&colour_id_bg, 0);
-	colBorder = CallService(MS_COLOUR_GETT, (WPARAM)&colour_id_border, 0);
-	colSidebar = CallService(MS_COLOUR_GETT, (WPARAM)&colour_id_sidebar, 0);
-	colTitleUnderline = CallService(MS_COLOUR_GETT, (WPARAM)&colour_id_titleunderline, 0);
+	colBg = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_bg, 0);
+	colBorder = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_border, 0);
+	colSidebar = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_sidebar, 0);
+	colTitleUnderline = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_titleunderline, 0);
 	return 0;
 }
 
@@ -92,7 +92,7 @@ int TTBLoaded(WPARAM, LPARAM)
 
 static void InitFonts()
 {
-	font_id_firstline.cbSize = sizeof(FontIDT);
+	font_id_firstline.cbSize = sizeof(FontIDW);
 	font_id_firstline.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(font_id_firstline.group, LPGENW("Popups"));
 	mir_wstrcpy(font_id_firstline.name, LPGENW("First line"));
@@ -101,9 +101,9 @@ static void InitFonts()
 	mir_wstrcpy(font_id_firstline.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_firstline.backgroundName, L"Background");
 	font_id_firstline.order = 0;
-	FontRegisterT(&font_id_firstline);
+	FontRegisterW(&font_id_firstline);
 
-	font_id_secondline.cbSize = sizeof(FontIDT);
+	font_id_secondline.cbSize = sizeof(FontIDW);
 	font_id_secondline.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(font_id_secondline.group, LPGENW("Popups"));
 	mir_wstrcpy(font_id_secondline.name, LPGENW("Second line"));
@@ -112,9 +112,9 @@ static void InitFonts()
 	mir_wstrcpy(font_id_secondline.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_secondline.backgroundName, L"Background");
 	font_id_secondline.order = 1;
-	FontRegisterT(&font_id_secondline);
+	FontRegisterW(&font_id_secondline);
 
-	font_id_time.cbSize = sizeof(FontIDT);
+	font_id_time.cbSize = sizeof(FontIDW);
 	font_id_time.flags = FIDF_ALLOWEFFECTS;
 	mir_wstrcpy(font_id_time.group, LPGENW("Popups"));
 	mir_wstrcpy(font_id_time.name, LPGENW("Time"));
@@ -123,43 +123,43 @@ static void InitFonts()
 	mir_wstrcpy(font_id_time.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_time.backgroundName, L"Background");
 	font_id_time.order = 2;
-	FontRegisterT(&font_id_time);
+	FontRegisterW(&font_id_time);
 
-	colour_id_bg.cbSize = sizeof(ColourIDT);
+	colour_id_bg.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_bg.group, LPGENW("Popups"));
 	mir_wstrcpy(colour_id_bg.name, LPGENW("Background"));
 	mir_strcpy(colour_id_bg.dbSettingsGroup, MODULE);
 	mir_strcpy(colour_id_bg.setting, "ColourBg");
 	colour_id_bg.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_bg.order = 0;
-	ColourRegisterT(&colour_id_bg);
+	ColourRegisterW(&colour_id_bg);
 
-	colour_id_border.cbSize = sizeof(ColourIDT);
+	colour_id_border.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_border.group, LPGENW("Popups"));
 	mir_wstrcpy(colour_id_border.name, LPGENW("Border"));
 	mir_strcpy(colour_id_border.dbSettingsGroup, MODULE);
 	mir_strcpy(colour_id_border.setting, "ColourBorder");
 	colour_id_border.defcolour = RGB(0, 0, 0);
 	colour_id_border.order = 1;
-	ColourRegisterT(&colour_id_border);
+	ColourRegisterW(&colour_id_border);
 
-	colour_id_sidebar.cbSize = sizeof(ColourIDT);
+	colour_id_sidebar.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_sidebar.group, LPGENW("Popups"));
 	mir_wstrcpy(colour_id_sidebar.name, LPGENW("Sidebar"));
 	mir_strcpy(colour_id_sidebar.dbSettingsGroup, MODULE);
 	mir_strcpy(colour_id_sidebar.setting, "ColourSidebar");
 	colour_id_sidebar.defcolour = RGB(128, 128, 128);
 	colour_id_sidebar.order = 2;
-	ColourRegisterT(&colour_id_sidebar);
+	ColourRegisterW(&colour_id_sidebar);
 
-	colour_id_titleunderline.cbSize = sizeof(ColourIDT);
+	colour_id_titleunderline.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_titleunderline.group, LPGENW("Popups"));
 	mir_wstrcpy(colour_id_titleunderline.name, LPGENW("Title underline"));
 	mir_strcpy(colour_id_titleunderline.dbSettingsGroup, MODULE);
 	mir_strcpy(colour_id_titleunderline.setting, "ColourTitleUnderline");
 	colour_id_titleunderline.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_titleunderline.order = 3;
-	ColourRegisterT(&colour_id_titleunderline);
+	ColourRegisterW(&colour_id_titleunderline);
 
 	ReloadFont(0, 0);
 }
@@ -172,7 +172,7 @@ void InitMenuItems(void)
 	Menu_ConfigureItem(hMenuRoot, MCI_OPT_UID, "043A641A-2767-4C57-AA57-9233D6F9DC54");
 
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.root = hMenuRoot;
 
 	SET_UID(mi, 0x92c386ae, 0x6e81, 0x452d, 0xb5, 0x71, 0x87, 0x46, 0xe9, 0x2, 0x66, 0xe9);

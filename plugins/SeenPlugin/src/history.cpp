@@ -52,12 +52,12 @@ void HistoryWrite(MCONTACT hContact)
 
 	wchar_t *ptszString;
 	DBVARIANT dbv;
-	if (!db_get_ts(NULL, S_MOD, "HistoryStamp", &dbv)) {
+	if (!db_get_ws(NULL, S_MOD, "HistoryStamp", &dbv)) {
 		ptszString = ParseString(dbv.ptszVal, hContact);
 		db_free(&dbv);
 	}
 	else ptszString = ParseString(DEFAULT_HISTORYSTAMP, hContact);
-	db_set_ts(hContact, S_MOD, BuildSetting(historyLast), ptszString);
+	db_set_ws(hContact, S_MOD, BuildSetting(historyLast), ptszString);
 
 	historyLast = (historyLast + 1) % historyMax;
 	db_set_w(hContact, S_MOD, "HistoryLast", historyLast);
@@ -88,7 +88,7 @@ void LoadHistoryList(MCONTACT hContact, HWND hwnd, int nList)
 		i = (i - 1 + historyMax) % historyMax;
 
 		DBVARIANT dbv;
-		if (!db_get_ts(hContact, S_MOD, BuildSetting(i), &dbv)) {
+		if (!db_get_ws(hContact, S_MOD, BuildSetting(i), &dbv)) {
 			SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -188,9 +188,9 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		SendDlgItemMessage(hwndDlg, IDC_SENDMSG, BM_SETIMAGE, IMAGE_ICON, (WPARAM)Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 
 		//set-up tooltips
-		SendDlgItemMessage(hwndDlg, IDC_DETAILS, BUTTONADDTOOLTIP, (WPARAM)TranslateT("View User's Details"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)TranslateT("User Menu"), BATF_TCHAR);
-		SendDlgItemMessage(hwndDlg, IDC_SENDMSG, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Send Instant Message"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_DETAILS, BUTTONADDTOOLTIP, (WPARAM)TranslateT("View User's Details"), BATF_UNICODE);
+		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)TranslateT("User Menu"), BATF_UNICODE);
+		SendDlgItemMessage(hwndDlg, IDC_SENDMSG, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Send Instant Message"), BATF_UNICODE);
 
 		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, S_MOD, "History_");
 		ShowWindow(hwndDlg, SW_SHOW);

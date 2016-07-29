@@ -71,12 +71,12 @@ void IconLib::init()
 
 			if (m_IconInfo[i].szSection) {
 				strSection += L"/";
-				strSection += TranslateTS(m_IconInfo[i].szSection);
+				strSection += TranslateW(m_IconInfo[i].szSection);
 			}
 
 			mu::icolib::addIcon(
 				strSection.c_str(),
-				TranslateTS(m_IconInfo[i].szDescription),
+				TranslateW(m_IconInfo[i].szDescription),
 				(m_IconName + m_IconInfo[i].szIconName).c_str(),
 				szModule,
 				-m_IconInfo[i].wID);

@@ -59,7 +59,7 @@ HICON GetDefaultIcon(bool copy)
 	return resIco;
 }
 
-const wchar_t* GetImageExt(CMString &fname)
+const wchar_t* GetImageExt(CMStringW &fname)
 {
 	const wchar_t *ext = L"";
 
@@ -124,14 +124,14 @@ HICON ImageList_GetIconFixed(HIMAGELIST himl, INT i, UINT fStyle)
 	return hIcon;
 }
 
-void pathToRelative(const CMString &pSrc, CMString &pOut)
+void pathToRelative(const CMStringW &pSrc, CMStringW &pOut)
 {
 	wchar_t szOutPath[MAX_PATH];
 	PathToRelativeT(pSrc.c_str(), szOutPath);
 	pOut = szOutPath;
 }
 
-void pathToAbsolute(const CMString &pSrc, CMString &pOut)
+void pathToAbsolute(const CMStringW &pSrc, CMStringW &pOut)
 {
 	wchar_t szOutPath[MAX_PATH];
 
@@ -139,10 +139,10 @@ void pathToAbsolute(const CMString &pSrc, CMString &pOut)
 	if (szVarPath == (wchar_t*)CALLSERVICE_NOTFOUND || szVarPath == NULL) {
 		wchar_t szExpPath[MAX_PATH];
 		ExpandEnvironmentStrings(pSrc.c_str(), szExpPath, _countof(szExpPath));
-		PathToAbsoluteT(szExpPath, szOutPath);
+		PathToAbsoluteW(szExpPath, szOutPath);
 	}
 	else {
-		PathToAbsoluteT(szVarPath, szOutPath);
+		PathToAbsoluteW(szVarPath, szOutPath);
 		mir_free(szVarPath);
 	}
 	pOut = szOutPath;

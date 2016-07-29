@@ -67,10 +67,10 @@ void exportThemes(const wchar_t *filename)
 	fwprintf(fExport, TranslateT("\n; Automatically generated Keyboard Notify Theme file\n\n\n"));
 
 	wchar_t *szTheme;
-	for (int i = 0; szTheme = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++) {
+	for (int i = 0; szTheme = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++) {
 		fwprintf(fExport, L"[%s]\n", szTheme);
 		mir_free(szTheme);
-		if (szTheme = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i))) {
+		if (szTheme = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i))) {
 			fwprintf(fExport, L"%s\n\n", szTheme);
 			mir_free(szTheme);
 		}
@@ -340,11 +340,11 @@ static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam
 							wchar_t szDefaultName[1024];
 							CUSTOM_STATUS xstatus = { 0 };
 							xstatus.cbSize = sizeof(CUSTOM_STATUS);
-							xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
+							xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_UNICODE;
 							xstatus.ptszName = szDefaultName;
 							xstatus.wParam = &j;
 							CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
-							tvis.item.pszText = TranslateTS(szDefaultName);
+							tvis.item.pszText = TranslateW(szDefaultName);
 						}
 						tvis.item.lParam = (LPARAM)j;
 						tvis.item.iImage = tvis.item.iSelectedImage = j ? ImageList_AddIcon(hImageList, hIconAux = (HICON)CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSICON, (WPARAM)j, 0)) : 0;
@@ -807,7 +807,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					int i = 0;
 					for (int j = 0; j < ProcessListAux.count; j++)
 						if (ProcessListAux.szFileName[j])
-							db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
+							db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
 					db_set_w(NULL, KEYBDMODULE, "processcount", (WORD)i);
 					while (!db_unset(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++)));
 
@@ -855,7 +855,7 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		CheckDlgButton(hwndDlg, IDC_INTURN, bFlashEffect == FLASH_INTURN ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_INSEQUENCE, bFlashEffect == FLASH_INSEQUENCE ? BST_CHECKED : BST_UNCHECKED);
 		for (int i = 0; i < 3; i++) {
-			int index = SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(OrderName[i]));
+			int index = SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_INSERTSTRING, -1, (LPARAM)TranslateW(OrderName[i]));
 			if (index != CB_ERR && index != CB_ERRSPACE)
 				SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 		}
@@ -865,7 +865,7 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		CheckDlgButton(hwndDlg, IDC_CUSTOM, bFlashEffect == FLASH_CUSTOM ? BST_CHECKED : BST_UNCHECKED);
 
 		wchar_t *szTheme;
-		for (int i = 0; szTheme = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++) {
+		for (int i = 0; szTheme = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)szTheme);
 			mir_free(szTheme);
 			if (index != CB_ERR && index != CB_ERRSPACE)
@@ -1001,11 +1001,11 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		SendDlgItemMessage(hwndDlg, IDC_CUSTOMSTRING, EM_LIMITTEXT, MAX_PATH, 0);
 
 		wchar_t *szTheme;
-		for (int i = 0; szTheme = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++) {
+		for (int i = 0; szTheme = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)szTheme);
 			mir_free(szTheme);
 			if (index != CB_ERR && index != CB_ERRSPACE) {
-				wchar_t *str = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i));
+				wchar_t *str = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i));
 				if (str)
 					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)index, (LPARAM)str);
 			}
@@ -1226,7 +1226,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			case 0:
 				switch (((LPNMHDR)lParam)->code) {
 				case PSN_APPLY:
-					if (szTheme = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme))) {
+					if (szTheme = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme))) {
 						mir_wstrcpy(theme, szTheme);
 						mir_free(szTheme);
 					}
@@ -1239,12 +1239,12 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
 					for (int i = 0; i < count; i++) {
 						SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)themeAux);
-						db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
+						db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
 						wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
 						if (str)
-							db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
+							db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
 						else
-							db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), L"");
+							db_set_ws(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), L"");
 
 						if (!mir_wstrcmp(theme, themeAux))
 							wCustomTheme = i;

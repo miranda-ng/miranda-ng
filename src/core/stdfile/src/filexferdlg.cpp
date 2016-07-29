@@ -95,7 +95,7 @@ void FillSendData(FileDlgData *dat, DBEVENTINFO& dbei)
 static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 {
 	DBVARIANT dbv;
-	if (!db_get_ts(NULL, "SRFile", "ScanCmdLine", &dbv)) {
+	if (!db_get_ws(NULL, "SRFile", "ScanCmdLine", &dbv)) {
 		if (dbv.ptszVal[0]) {
 			STARTUPINFO si = { 0 };
 			si.cb = sizeof(si);
@@ -168,8 +168,8 @@ static void SetFilenameControls(HWND hwndDlg, FileDlgData *dat, PROTOFILETRANSFE
 enum { FTS_TEXT, FTS_PROGRESS, FTS_OPEN };
 static void SetFtStatus(HWND hwndDlg, wchar_t *text, int mode)
 {
-	SetDlgItemText(hwndDlg, IDC_STATUS, TranslateTS(text));
-	SetDlgItemText(hwndDlg, IDC_TRANSFERCOMPLETED, TranslateTS(text));
+	SetDlgItemText(hwndDlg, IDC_STATUS, TranslateW(text));
+	SetDlgItemText(hwndDlg, IDC_TRANSFERCOMPLETED, TranslateW(text));
 
 	ShowWindow(GetDlgItem(hwndDlg, IDC_STATUS), (mode == FTS_TEXT) ? SW_SHOW : SW_HIDE);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_ALLFILESPROGRESS), (mode == FTS_PROGRESS) ? SW_SHOW : SW_HIDE);
@@ -245,7 +245,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ShowWindow(GetDlgItem(hwndDlg, IDC_OPENFOLDER), SW_HIDE);
 		}
 		else {	//recv
-			CreateDirectoryTreeT(dat->szSavePath);
+			CreateDirectoryTreeW(dat->szSavePath);
 			dat->fs = (HANDLE)ProtoChainSend(dat->hContact, PSS_FILEALLOW, (WPARAM)dat->fs, (LPARAM)dat->szSavePath);
 			dat->transferStatus.tszWorkingDir = mir_wstrdup(dat->szSavePath);
 			if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) dat->resumeBehaviour = FILERESUME_ASK;

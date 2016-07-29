@@ -188,7 +188,7 @@ void DlgOption::SubOutput::onWMInitDialog()
 
 	array_each_(i, sortLevels)
 	{
-		m_hSortBy[i] = m_Options.insertCombo(m_hSort, TranslateTS(sortLevels[i]), (i == 0) ? 0 : OptionsCtrl::OCF_DISABLECHILDSONINDEX0);
+		m_hSortBy[i] = m_Options.insertCombo(m_hSort, TranslateW(sortLevels[i]), (i == 0) ? 0 : OptionsCtrl::OCF_DISABLECHILDSONINDEX0);
 
 		if (i != 0)
 		{
@@ -197,7 +197,7 @@ void DlgOption::SubOutput::onWMInitDialog()
 
 		array_each_(j, sortKeys)
 		{
-			m_Options.addComboItem(m_hSortBy[i], TranslateTS(sortKeys[j].desc));
+			m_Options.addComboItem(m_hSortBy[i], TranslateW(sortKeys[j].desc));
 		}
 
 		m_hSortDir[i] = m_Options.insertRadio(m_hSortBy[i], NULL, TranslateT("Ascending"));
@@ -229,7 +229,7 @@ void DlgOption::SubOutput::onWMInitDialog()
 
 	array_each_(i, omitData)
 	{
-		m_Options.addComboItem(m_hOmitByValueData, TranslateTS(omitData[i]));
+		m_Options.addComboItem(m_hOmitByValueData, TranslateW(omitData[i]));
 	}
 
 	m_Options.ensureVisible(NULL);

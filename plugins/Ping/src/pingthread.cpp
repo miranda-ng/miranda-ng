@@ -19,8 +19,8 @@ int frame_id = -1;
 
 HBRUSH tbrush = 0;
 
-FontIDT font_id;
-ColourIDT bk_col_id;
+FontIDW font_id;
+ColourIDW bk_col_id;
 HFONT hFont = 0;
 COLORREF bk_col = RGB(255, 255, 255);
 
@@ -312,8 +312,8 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 		else
 			mir_snwprintf(TBcapt, L"Ping");
 
-		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBNAME | FO_TCHAR, frame_id), (LPARAM)TBcapt);
-		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME | FO_TCHAR, frame_id), (LPARAM)TBcapt);
+		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBNAME | FO_UNICODETEXT, frame_id), (LPARAM)TBcapt);
+		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME | FO_UNICODETEXT, frame_id), (LPARAM)TBcapt);
 		CallService(MS_CLIST_FRAMES_UPDATEFRAME, frame_id, FU_TBREDRAW);
 	}
 }
@@ -781,11 +781,11 @@ int ReloadFont(WPARAM, LPARAM)
 	if (hFont) DeleteObject(hFont);
 
 	LOGFONT log_font;
-	CallService(MS_FONT_GETT, (WPARAM)&font_id, (LPARAM)&log_font);
+	CallService(MS_FONT_GETW, (WPARAM)&font_id, (LPARAM)&log_font);
 	hFont = CreateFontIndirect(&log_font);
 	SendMessage(list_hwnd, WM_SETFONT, (WPARAM)hFont, TRUE);
 
-	bk_col = CallService(MS_COLOUR_GETT, (WPARAM)&bk_col_id, 0);
+	bk_col = CallService(MS_COLOUR_GETW, (WPARAM)&bk_col_id, 0);
 	RefreshWindow(0, 0);
 
 	return 0;
@@ -906,7 +906,7 @@ void InitList()
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "7CFBF239-86B5-48B2-8D5B-39E09A7DB514");
 
 		SET_UID(mi, 0x4adbd753, 0x27d6, 0x457a, 0xa6, 0x6, 0xdf, 0x4f, 0x2c, 0xd8, 0xb9, 0x3b);
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		mi.position = 3000320001;
 		mi.name.w = LPGENW("Show/Hide &Ping Window");
 		mi.pszService = PLUG "/ShowWindow";
@@ -916,7 +916,7 @@ void InitList()
 		else ShowWindow(hpwnd, SW_SHOW);
 	}
 
-	font_id.cbSize = sizeof(FontIDT);
+	font_id.cbSize = sizeof(FontIDW);
 	mir_wstrncpy(font_id.group, LPGENW("Ping"), _countof(font_id.group));
 	mir_wstrncpy(font_id.name, LPGENW("List"), _countof(font_id.name));
 	mir_strncpy(font_id.dbSettingsGroup, "PING", _countof(font_id.dbSettingsGroup));
@@ -931,15 +931,15 @@ void InitList()
 	font_id.deffontsettings.colour = RGB(255, 255, 255);
 	mir_wstrncpy(font_id.deffontsettings.szFace, L"Tahoma", _countof(font_id.deffontsettings.szFace));
 
-	FontRegisterT(&font_id);
+	FontRegisterW(&font_id);
 
-	bk_col_id.cbSize = sizeof(ColourIDT);
+	bk_col_id.cbSize = sizeof(ColourIDW);
 	mir_wstrncpy(bk_col_id.group, L"Ping", _countof(bk_col_id.group));
 	mir_wstrncpy(bk_col_id.name, L"Background", _countof(bk_col_id.name));
 	mir_strncpy(bk_col_id.dbSettingsGroup, "PING", _countof(bk_col_id.dbSettingsGroup));
 	mir_strncpy(bk_col_id.setting, "BgColor", _countof(bk_col_id.setting));
 	bk_col_id.defcolour = RGB(0, 0, 0);
-	ColourRegisterT(&bk_col_id);
+	ColourRegisterW(&bk_col_id);
 
 	HookEvent(ME_FONT_RELOAD, ReloadFont);
 

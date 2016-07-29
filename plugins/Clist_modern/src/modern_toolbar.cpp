@@ -138,7 +138,7 @@ static int ehhToolBarBackgroundSettingsChanged(WPARAM, LPARAM)
 	if (g_CluiData.fDisableSkinEngine) {
 		tbdat.mtb_bkColour = cliGetColor("ToolBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "ToolBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmapName(db_get_tsa(NULL, "ToolBar", "BkBitmap"));
+			ptrW tszBitmapName(db_get_wsa(NULL, "ToolBar", "BkBitmap"));
 			if (tszBitmapName)
 				tbdat.mtb_hBmpBackground = Bitmap_Load(tszBitmapName);
 		}
@@ -282,7 +282,7 @@ void CustomizeToolbar(HWND hwnd)
 	Frame.tname = L"Toolbar";
 	Frame.hWnd = hwnd;
 	Frame.align = alTop;
-	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR | F_NO_SUBCONTAINER;
+	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_UNICODE | F_NO_SUBCONTAINER;
 	Frame.height = 18;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	pMTBInfo->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
@@ -344,7 +344,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	if (!ServiceExists(MS_TTB_REMOVEBUTTON) && bOldSetting == 1)
-		if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
+		if (IDYES == MessageBox(NULL, TranslateW(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
 			Utils_OpenUrl(szUrl);
 
 	return 0;

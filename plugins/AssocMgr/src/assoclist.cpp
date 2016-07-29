@@ -66,7 +66,7 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 		if (GetModuleFileName(assoc->hInstance, szBuf, _countof(szBuf)))
 			if (PathToRelativeT(szBuf, szDLL)) {
 				mir_snprintf(szSetting, "module_%s", assoc->pszClassName);
-				db_set_ts(NULL, "AssocMgr", szSetting, szDLL);
+				db_set_ws(NULL, "AssocMgr", szSetting, szDLL);
 			}
 }
 
@@ -96,8 +96,8 @@ void CleanupAssocEnabledSettings(void)
 		for (i = 0; i < nSettingsCount; ++i) {
 			pszSuffix = &ppszSettings[i][8];
 			mir_snprintf(szSetting, "module_%s", pszSuffix);
-			if (!db_get_ts(NULL, "AssocMgr", szSetting, &dbv)) {
-				if (PathToAbsoluteT(dbv.ptszVal, szDLL)) {
+			if (!db_get_ws(NULL, "AssocMgr", szSetting, &dbv)) {
+				if (PathToAbsoluteW(dbv.ptszVal, szDLL)) {
 					// file still exists?
 					hFile = CreateFile(szDLL, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
 					if (hFile == INVALID_HANDLE_VALUE) {
@@ -980,7 +980,7 @@ void InitAssocList(void)
 		ftd.cbSize = sizeof(FILETYPEDESC);
 		ftd.pszFileExt = ".dat";
 		ftd.pszMimeType = NULL;
-		ftd.ptszDescription = TranslateT("Miranda NG database");
+		ftd.pwszDescription = TranslateT("Miranda NG database");
 		ftd.hInstance = hInst;
 		ftd.nIconResID = IDI_MIRANDAFILE;
 		ftd.ptszVerbDesc = NULL;

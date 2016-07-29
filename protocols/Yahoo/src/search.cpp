@@ -36,7 +36,7 @@ void __cdecl CYahooProto::search_simplethread(void *snsearch)
 	YAHOO_SEARCH_RESULT psr;
 	memset(&psr, 0, sizeof(psr));
 	psr.cbSize = sizeof(psr);
-	psr.flags = PSR_TCHAR;
+	psr.flags = PSR_UNICODE;
 	psr.id.w = (wchar_t*)wcslwr(id);
 	psr.protocol = YAHOO_IM_YAHOO;
 

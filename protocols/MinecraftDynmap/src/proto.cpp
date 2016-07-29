@@ -44,7 +44,7 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const wchar_t
 	// Create standard network connection
 	wchar_t descr[512];
 	NETLIBUSER nlu = {sizeof(nlu)};
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
@@ -178,7 +178,7 @@ int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
 	odp.hInstance   = g_hInstance;
 	odp.pwszTitle   = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
-	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags       = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	odp.position    = 271828;
 	odp.pwszGroup   = LPGENW("Network");

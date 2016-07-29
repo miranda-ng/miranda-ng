@@ -344,7 +344,7 @@ INT_PTR MissYouAction(WPARAM wParam, LPARAM lParam)
 	}
 	else hContact = wParam;
 
-	CallService(MS_MSG_SENDMESSAGET, hContact, 0);
+	CallService(MS_MSG_SENDMESSAGEW, hContact, 0);
 	return 0;
 }
 
@@ -361,7 +361,7 @@ INT_PTR ContactReturnedAction(WPARAM hContact, LPARAM lParam)
 	}
 
 	if (options.iShowMessageWindow > 0)
-		CallService(MS_MSG_SENDMESSAGET, hContact, 0);
+		CallService(MS_MSG_SENDMESSAGEW, hContact, 0);
 
 	if (options.iShowUDetails > 0)
 		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
@@ -593,10 +593,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
 
 	// add sounds support
-	SkinAddNewSoundExT("buddyExpectatorReturn", LPGENW("BuddyExpectator"), LPGENW("Contact returned"));
-	SkinAddNewSoundExT("buddyExpectatorStillAbsent", LPGENW("BuddyExpectator"), LPGENW("Contact still absent"));
-	SkinAddNewSoundExT("buddyExpectatorMissYou", LPGENW("BuddyExpectator"), LPGENW("Miss you event"));
-	SkinAddNewSoundExT("buddyExpectatorHide", LPGENW("BuddyExpectator"), LPGENW("Hide contact event"));
+	SkinAddNewSoundExW("buddyExpectatorReturn", LPGENW("BuddyExpectator"), LPGENW("Contact returned"));
+	SkinAddNewSoundExW("buddyExpectatorStillAbsent", LPGENW("BuddyExpectator"), LPGENW("Contact still absent"));
+	SkinAddNewSoundExW("buddyExpectatorMissYou", LPGENW("BuddyExpectator"), LPGENW("Miss you event"));
+	SkinAddNewSoundExW("buddyExpectatorHide", LPGENW("BuddyExpectator"), LPGENW("Hide contact event"));
 
 	timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
 
@@ -609,7 +609,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 		CMenuItem mi;
 		SET_UID(mi, 0xc48c31d4, 0x56b6, 0x48c6, 0x8e, 0xe9, 0xe6, 0x57, 0xb5, 0x80, 0xb8, 0x1e);
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		mi.hIcolibItem = iconList[2].hIcolib;
 		mi.position = 200000;
 		mi.name.w = LPGENW("Enable Miss You");

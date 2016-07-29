@@ -32,12 +32,12 @@ void CSametimeProto::RegisterPopups()
 	wchar_t szDescr[256];
 	char szName[256];
 
-	debugLog(L"CSametimeProto::RegisterPopups()");
+	debugLogW(L"CSametimeProto::RegisterPopups()");
 
 	POPUPCLASS puc = { sizeof(puc) };
 	puc.PluginWindowProc = PopupWindowProc;
 	puc.flags = PCF_TCHAR;
-	puc.ptszDescription = szDescr;
+	puc.pwszDescription = szDescr;
 	puc.pszName = szName;
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Notify");
@@ -62,7 +62,7 @@ void CSametimeProto::RegisterPopups()
 
 void CSametimeProto::UnregisterPopups()
 {
-	debugLog(L"CSametimeProto::RegisterPopups()");
+	debugLogW(L"CSametimeProto::RegisterPopups()");
 	Popup_UnregisterClass(hPopupError);
 	Popup_UnregisterClass(hPopupNotify);
 }
@@ -144,10 +144,10 @@ void CSametimeProto::showPopup(guint32 code)
 
 	SametimePopupEnum flag = (rcDesc->type == mwReturnCodeError ? SAMETIME_POPUP_ERROR : SAMETIME_POPUP_INFO);
 	wchar_t buff[512];
-	mir_snwprintf(buff, TranslateT("%s\n\nSametime error %S\n%s"), TranslateTS(_A2T(rcDesc->name)), rcDesc->codeString, TranslateTS(_A2T(rcDesc->description)));
+	mir_snwprintf(buff, TranslateT("%s\n\nSametime error %S\n%s"), TranslateW(_A2T(rcDesc->name)), rcDesc->codeString, TranslateW(_A2T(rcDesc->description)));
 
 	showPopup(buff, flag);
-	debugLog(buff);
+	debugLogW(buff);
 
 	g_free(rcDesc->codeString);
 	g_free(rcDesc->name);
@@ -158,17 +158,17 @@ void CSametimeProto::showPopup(guint32 code)
 void LogFromGLib(const gchar* log_domain, GLogLevelFlags log_level, const gchar* message, gpointer user_data)
 {
 	CSametimeProto* proto = (CSametimeProto*)user_data;
-	proto->debugLog(_A2T(message));
+	proto->debugLogW(_A2T(message));
 }
 
 void CSametimeProto::RegisterGLibLogger()
 {
-	debugLog(L"CSametimeProto::RegisterGLibLogger");
+	debugLogW(L"CSametimeProto::RegisterGLibLogger");
 	gLogHandler = g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_MASK, LogFromGLib, this);
 }
 
 void CSametimeProto::UnRegisterGLibLogger()
 {
-	debugLog(L"CSametimeProto::UnRegisterGLibLogger");
+	debugLogW(L"CSametimeProto::UnRegisterGLibLogger");
 	if (gLogHandler) g_log_remove_handler(G_LOG_DOMAIN, gLogHandler);
 }

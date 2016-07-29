@@ -7,7 +7,7 @@ void logRegister(){
 	// Register netlib user for logging function
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_TCHAR | NUF_NOOPTIONS;
+	nlu.flags = NUF_UNICODE | NUF_NOOPTIONS;
 	nlu.szSettingsModule = PLUGINNAME;
 	nlu.ptszDescriptiveName = mir_a2u(PLUGINNAME);
 	netlibHandle = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);

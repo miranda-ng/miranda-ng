@@ -366,7 +366,7 @@ BOOL bApplyChanges(HWND hwndDlg)
 		if (ListView_GetItem(hMapUser, &sItem)) {
 			MCONTACT hUser = (MCONTACT)sItem.lParam;
 			if (mir_wstrlen(szTemp) > 0)
-				db_set_ts(hUser, MODULE, "FileName", szTemp);
+				db_set_ws(hUser, MODULE, "FileName", szTemp);
 			else
 				db_unset(hUser, MODULE, "FileName");
 
@@ -1226,7 +1226,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pwszTitle = LPGENW("Message export");
 	odp.pwszGroup = LPGENW("History");
 	odp.pwszTab = LPGENW("General");

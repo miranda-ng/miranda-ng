@@ -633,7 +633,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	CMenuItem mi;
 	SET_UID(mi, 0xa379c361, 0x9e3f, 0x468d, 0xb2, 0xac, 0xc4, 0x89, 0xbb, 0xfc, 0x81, 0x15);
 	mi.position = 1000020000;
-	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE;
+	mi.flags = CMIF_UNICODE | CMIF_NOTOFFLINE;
 	mi.hIcolibItem = iconList[SendOnEvent ? 1 : 0].hIcolib;
 	mi.name.w = SendOnEvent ? DISABLE_SOE_COMMAND : ENABLE_SOE_COMMAND;
 	mi.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
@@ -642,7 +642,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	memset(&mi, 0, sizeof(mi));
 	SET_UID(mi, 0xd3282acc, 0x9ff1, 0x4ede, 0x8a, 0x1e, 0x36, 0x72, 0x3f, 0x44, 0x4f, 0x84);
 	mi.position = -2000005000;
-	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE | CMIF_HIDDEN;
+	mi.flags = CMIF_UNICODE | CMIF_NOTOFFLINE | CMIF_HIDDEN;
 	mi.name.w = LPGENW("Read status message"); // never seen...
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	g_hReadStatMenuItem = Menu_AddContactMenuItem(&mi);
@@ -650,7 +650,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USEMENUITEM)) {
 		memset(&mi, 0, sizeof(mi));
 		SET_UID(mi, 0xc42a4fdb, 0x51b8, 0x4bbe, 0x83, 0xee, 0x2d, 0x32, 0x29, 0x5c, 0x2, 0xb3);
-		mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
+		mi.flags = CMIF_UNICODE | CMIF_HIDDEN;
 		mi.name.w = LPGENW("Set status message"); // will never be shown
 		mi.position = 1000020000;
 		mi.hIcolibItem = iconList[8].hIcolib;
@@ -659,14 +659,14 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 		memset(&mi, 0, sizeof(mi));
 		SET_UID(mi, 0x47a3c631, 0x8ca9, 0x4b7e, 0x84, 0x6e, 0x29, 0xbf, 0x53, 0x30, 0x6f, 0x83);
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		mi.hIcolibItem = NULL;
 		mi.position = 1000020000;
 		mi.name.w = LPGENW("Autoreply");
 		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
 		UNSET_UID(mi);
 
-		mi.flags = CMIF_TCHAR | CMIF_SYSTEM;
+		mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
 		mi.root = g_hToggleSOEContactMenuItem;
 		mi.position = 1000020000;
 
@@ -728,11 +728,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1) { // change all %nas_message% variables to %extratext% if it wasn't done before
 		TCString Str = db_get_s(NULL, MOD_NAME, "PopupsFormat", L"");
 		if (Str.GetLen())
-			db_set_ts(NULL, MOD_NAME, "PopupsFormat", Str.Replace(L"nas_message", L"extratext"));
+			db_set_ws(NULL, MOD_NAME, "PopupsFormat", Str.Replace(L"nas_message", L"extratext"));
 
 		Str = db_get_s(NULL, MOD_NAME, "ReplyPrefix", L"");
 		if (Str.GetLen())
-			db_set_ts(NULL, MOD_NAME, "ReplyPrefix", Str.Replace(L"nas_message", L"extratext"));
+			db_set_ws(NULL, MOD_NAME, "ReplyPrefix", Str.Replace(L"nas_message", L"extratext"));
 	}
 	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 2) { // disable autoreply for not-on-list contacts, as such contact may be a spam bot
 		db_set_b(NULL, MOD_NAME, ContactStatusToDBSetting(0, DB_ENABLEREPLY, 0, INVALID_CONTACT_ID), 0);

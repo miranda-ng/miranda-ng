@@ -947,7 +947,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 						}
 						contacts[iContact] = (ICQSEARCHRESULT*)SAFE_MALLOC(sizeof(ICQSEARCHRESULT));
 						contacts[iContact]->hdr.cbSize = sizeof(ICQSEARCHRESULT);
-						contacts[iContact]->hdr.flags = PSR_TCHAR;
+						contacts[iContact]->hdr.flags = PSR_UNICODE;
 						contacts[iContact]->hdr.nick.w = null_strdup(L"");
 						contacts[iContact]->hdr.id.w = ansi_to_tchar(szUid);
 
@@ -1682,7 +1682,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 				for (int i = 0; i < nContacts; i++) {
 					isrList[i] = (ICQSEARCHRESULT*)SAFE_MALLOC(sizeof(ICQSEARCHRESULT));
 					isrList[i]->hdr.cbSize = sizeof(ICQSEARCHRESULT);
-					isrList[i]->hdr.flags = PSR_TCHAR;
+					isrList[i]->hdr.flags = PSR_UNICODE;
 					if (IsStringUIN(pszMsgField[1 + i * 2])) { // icq contact
 						isrList[i]->uin = atoi(pszMsgField[1 + i * 2]);
 						if (isrList[i]->uin == 0)

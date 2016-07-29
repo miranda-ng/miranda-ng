@@ -90,8 +90,8 @@
 #define setWord(setting, value)           db_set_w(NULL, MODNAME, setting, value)
 #define getDword(setting, error)          db_get_dw(NULL, MODNAME, setting, error)
 #define setDword(setting, value)          db_set_dw(NULL, MODNAME, setting, value)
-#define getTString(setting, dest)         db_get_ts(NULL, MODNAME, setting, dest)
-#define setTString(setting, value)        db_set_ts(NULL, MODNAME, setting, value)
+#define getWString(setting, dest)         db_get_ws(NULL, MODNAME, setting, dest)
+#define setWString(setting, value)        db_set_ws(NULL, MODNAME, setting, value)
 #define deleteSetting(setting)            db_unset(NULL, MODNAME, setting)
 
 // --

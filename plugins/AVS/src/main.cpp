@@ -381,7 +381,7 @@ static int LoadAvatarModule()
 	InitServices();
 	InitPolls();
 
-	wcsncpy_s(g_szDataPath, _countof(g_szDataPath), VARST(L"%miranda_userdata%\\"), _TRUNCATE);
+	wcsncpy_s(g_szDataPath, _countof(g_szDataPath), VARSW(L"%miranda_userdata%\\"), _TRUNCATE);
 	wcslwr(g_szDataPath);
 	return 0;
 }

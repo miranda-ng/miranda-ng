@@ -113,7 +113,7 @@ static int ShutdownOptInit(WPARAM wParam, LPARAM)
 	odp.pwszGroup = LPGENW("Events"); /* autotranslated */
 	odp.pwszTitle = LPGENW("Automatic shutdown"); /* autotranslated */
 	odp.pwszTab = LPGENW("Automatic shutdown");  /* autotranslated, can be made a tab */
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = ShutdownOptDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

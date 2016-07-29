@@ -299,7 +299,7 @@ int Meta_HandleACK(WPARAM, LPARAM lParam)
 				return 0;
 
 			if (!db_get(ack->hContact, "ContactPhoto", "File", &dbv)) {
-				db_set_ts(cc->contactID, "ContactPhoto", "File", dbv.ptszVal);
+				db_set_ws(cc->contactID, "ContactPhoto", "File", dbv.ptszVal);
 				db_free(&dbv);
 			}
 
@@ -380,7 +380,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		mir_snprintf(buffer, "Nick%d", contact_number);
 		db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 
-		ptrW tszMyhandle(db_get_tsa(hContact, "CList", "MyHandle"));
+		ptrW tszMyhandle(db_get_wsa(hContact, "CList", "MyHandle"));
 		if (tszMyhandle == NULL) {
 			mir_snprintf(buffer, "CListName%d", contact_number);
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
@@ -408,8 +408,8 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 			mir_snprintf(buffer, "CListName%d", contact_number);
 
 			DBVARIANT dbv;
-			if (proto && !db_get_ts(hContact, proto, "Nick", &dbv)) {
-				db_set_ts(ccMeta->contactID, META_PROTO, buffer, dbv.ptszVal);
+			if (proto && !db_get_ws(hContact, proto, "Nick", &dbv)) {
+				db_set_ws(ccMeta->contactID, META_PROTO, buffer, dbv.ptszVal);
 				db_free(&dbv);
 			}
 			else db_unset(ccMeta->contactID, META_PROTO, buffer);
@@ -430,7 +430,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, dcws->value.wVal);
 
 		mir_snprintf(buffer, "StatusString%d", contact_number);
-		db_set_ts(ccMeta->contactID, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
+		db_set_ws(ccMeta->contactID, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
 
 		// set status to that of most online contact
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);
@@ -448,7 +448,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 			ai.format = PA_FORMAT_UNKNOWN;
 			wcsncpy_s(ai.filename, L"X", _TRUNCATE);
 			if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
-				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", ai.filename);
+				db_set_ws(ccMeta->contactID, "ContactPhoto", "File", ai.filename);
 		}
 	}
 
@@ -607,7 +607,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 		if (pa == NULL)
 			continue;
 
-		CMString tszNick;
+		CMStringW tszNick;
 		if (options.menu_contact_label == DNT_DID)
 			tszNick = cli.pfnGetContactDisplayName(cc->pSubs[i], 0);
 		else
@@ -653,7 +653,7 @@ int Meta_ModulesLoaded(WPARAM, LPARAM)
 	// create srmm icon
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = META_PROTO;
-	sid.flags = MBF_TCHAR;
+	sid.flags = MBF_UNICODE;
 	sid.tszTooltip = LPGENW("Select metacontact");
 	sid.hIcon = Skin_LoadProtoIcon(META_PROTO, ID_STATUS_ONLINE);
 	Srmm_AddIcon(&sid);
@@ -692,7 +692,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 				// set default contact for sending/status and open message window
 				Meta_SetSrmmSub(hMeta, hContact);
 				db_mc_setDefaultNum(hMeta, lParam, false);
-				CallService(MS_MSG_SENDMESSAGET, hMeta, 0);
+				CallService(MS_MSG_SENDMESSAGEW, hMeta, 0);
 			}
 			else // protocol does not support messaging - simulate double click
 				CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
@@ -798,7 +798,7 @@ INT_PTR Meta_GetInfo(WPARAM, LPARAM lParam)
 	ai.format = PA_FORMAT_UNKNOWN;
 	wcsncpy_s(ai.filename, L"X", _TRUNCATE);
 	if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
-		db_set_ts(ccs->hContact, "ContactPhoto", "File", ai.filename);
+		db_set_ws(ccs->hContact, "ContactPhoto", "File", ai.filename);
 
 	hMostOnline = Meta_GetMostOnline(cc);
 	Meta_CopyContactNick(cc, hMostOnline);

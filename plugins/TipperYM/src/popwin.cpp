@@ -382,7 +382,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (pwd->bIsIconVisible[5]) {
 						for (i = 0; opt.exIconsOrder[i] != 5; i++);
 						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
-							ptrW tszVersion(db_get_tsa(pwd->hContact, szProto, "MirVer"));
+							ptrW tszVersion(db_get_wsa(pwd->hContact, szProto, "MirVer"));
 							if (tszVersion != NULL) {
 								pwd->extraIcons[i].hIcon = Finger_GetClientIcon(tszVersion, 0);
 								pwd->extraIcons[i].bDestroy = true;
@@ -965,7 +965,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_SETSTATUSTEXT:
 		if (pwd && wParam == pwd->hContact) {
-			db_set_ts(pwd->hContact, MODULE, "TempStatusMsg", (wchar_t *)lParam);
+			db_set_ws(pwd->hContact, MODULE, "TempStatusMsg", (wchar_t *)lParam);
 			pwd->bIsPainted = false;
 			pwd->bNeedRefresh = true;
 			SendMessage(hwnd, PUM_REFRESH_VALUES, TRUE, 0);

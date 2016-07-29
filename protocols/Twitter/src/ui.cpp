@@ -39,7 +39,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		DBVARIANT dbv;
-		if (!proto->getTString(TWITTER_KEY_GROUP, &dbv)) {
+		if (!proto->getWString(TWITTER_KEY_GROUP, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_GROUP, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -88,7 +88,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			proto->setString(TWITTER_KEY_BASEURL, str);
 
 			GetDlgItemText(hwndDlg, IDC_GROUP, tstr, _countof(tstr));
-			proto->setTString(TWITTER_KEY_GROUP, tstr);
+			proto->setWString(TWITTER_KEY_GROUP, tstr);
 
 			return true;
 		}

@@ -98,7 +98,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			HWND wnd = GetDlgItem(hwndDlg, IDC_HANDLE2);
 			DBVARIANT dbv;
-			if (!proto->getTString("Nick", &dbv)) {
+			if (!proto->getWString("Nick", &dbv)) {
 				SetWindowText(wnd, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -249,7 +249,7 @@ LBL_Continue:
 
 #ifdef OBSOLETE
 			GetDlgItemText(hwndDlg, IDC_HANDLE2, screenStr, _countof(screenStr));
-			if (!proto->getTString("Nick", &dbv)) {
+			if (!proto->getWString("Nick", &dbv)) {
 				if (mir_wstrcmp(dbv.ptszVal, screenStr))
 					proto->MSN_SendNickname(screenStr);
 				db_free(&dbv);
@@ -276,7 +276,7 @@ LBL_Continue:
 			proto->setByte("ManageServer", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MANAGEGROUPS));
 
 			GetDlgItemText(hwndDlg, IDC_MAILER_APP, screenStr, _countof(screenStr));
-			proto->setTString("MailerPath", screenStr);
+			proto->setWString("MailerPath", screenStr);
 
 			if (reconnectRequired && proto->msnLoggedIn)
 				MessageBox(hwndDlg,
@@ -522,7 +522,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETLIMITTEXT, 16, 0);
 
 			DBVARIANT dbv;
-			if (!proto->getTString("Place", &dbv)) {
+			if (!proto->getWString("Place", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_PLACE, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -570,7 +570,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			wchar_t szPlace[64];
 			GetDlgItemText(hwndDlg, IDC_PLACE, szPlace, _countof(szPlace));
 			if (szPlace[0])
-				proto->setTString("Place", szPlace);
+				proto->setWString("Place", szPlace);
 			else
 				proto->delSetting("Place");
 
@@ -630,7 +630,7 @@ int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pwszTitle = m_tszUserName;
 	odp.pwszGroup = LPGENW("Network");
 	odp.pwszTab = LPGENW("Account");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.pfnDlgProc = DlgProcMsnOpts;
 	odp.dwInitParam = (LPARAM)this;
 	Options_AddPage(wParam, &odp);

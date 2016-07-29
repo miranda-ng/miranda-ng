@@ -241,7 +241,7 @@ static int changeState(TAAAProtoSetting &setting, STATES newState)
 
 		if (db_get_b(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_MSGCUSTOM), FALSE)) {
 			DBVARIANT dbv;
-			if (!db_get_ts(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
+			if (!db_get_ws(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
 				setting.szMsg = wcsdup(dbv.ptszVal);
 				db_free(&dbv);
 			}

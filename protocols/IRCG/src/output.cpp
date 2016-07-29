@@ -21,9 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static CMString FormatOutput(const CIrcMessage* pmsg)
+static CMStringW FormatOutput(const CIrcMessage* pmsg)
 {
-	CMString sMessage;
+	CMStringW sMessage;
 
 	if (pmsg->m_bIncoming) { // Is it an incoming message?
 		if (pmsg->sCommand == L"WALLOPS" && pmsg->parameters.getCount() > 0) {
@@ -85,10 +85,10 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 		int l = pmsg->parameters[1].GetLength();
 		if (l > 3 && pmsg->parameters[1][0] == 1 && pmsg->parameters[1][l - 1] == 1) {
 			// CTCP reply
-			CMString tempstr = pmsg->parameters[1];
+			CMStringW tempstr = pmsg->parameters[1];
 			tempstr.Delete(0, 1);
 			tempstr.Delete(tempstr.GetLength() - 1, 1);
-			CMString type = GetWord(tempstr.c_str(), 0);
+			CMStringW type = GetWord(tempstr.c_str(), 0);
 			if (mir_wstrcmpi(type.c_str(), L"ping") == 0)
 				mir_snwprintf(temp, TranslateT("CTCP %s reply sent to %s"), type.c_str(), pmsg->parameters[0].c_str());
 			else
@@ -131,7 +131,7 @@ THE_END:
 
 BOOL CIrcProto::ShowMessage(const CIrcMessage* pmsg)
 {
-	CMString mess = FormatOutput(pmsg);
+	CMStringW mess = FormatOutput(pmsg);
 
 	if (!pmsg->m_bIncoming)
 		mess.Replace(L"%%", L"%");

@@ -266,7 +266,7 @@ void CQuotesProviderGoogleFinance::RefreshQuotes(TContracts& anContacts)
 							Quotes_DBWriteDouble(hContact, QUOTES_MODULE_NAME, DB_STR_GOOGLE_FINANCE_PERCENT_CHANGE_TO_YERSTERDAY_CLOSE, Info.m_dPercentChangeToYersterdayClose);
 						}
 						if (false == Info.m_sCmpName.empty()) {
-							db_set_ts(hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_DESCRIPTION, Info.m_sCmpName.c_str());
+							db_set_ws(hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_DESCRIPTION, Info.m_sCmpName.c_str());
 						}
 
 						WriteContactRate(hContact, Info.m_dRate);

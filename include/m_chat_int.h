@@ -395,7 +395,7 @@ struct CHAT_MANAGER
 	void          (*ReloadSettings)(void);
 
 	void          (*ColorChooser)(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser);
-	int           (*DoRtfToTags)(CMString &pszText, int iNumColors, COLORREF *pColors);
+	int           (*DoRtfToTags)(CMStringW &pszText, int iNumColors, COLORREF *pColors);
 
 	int logPixelSY, logPixelSX;
 	char *szActiveWndModule;

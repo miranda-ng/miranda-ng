@@ -33,14 +33,14 @@ void PreviewSound(HWND hList)
 	int hlpStatus = lvi.lParam;
 
 	ListView_GetItemText(hList, lvi.iItem, 1, buff, _countof(buff));
-	if (!mir_wstrcmp(buff, TranslateTS(DEFAULT_SOUND))) {
+	if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND))) {
 		if (hlpStatus < ID_STATUS_MIN)
 			SkinPlaySound(StatusListEx[hlpStatus].lpzSkinSoundName);
 		else
 			SkinPlaySound(StatusList[Index(hlpStatus)].lpzSkinSoundName);
 	}
 	else {
-		PathToAbsoluteT(buff, stzSoundPath);
+		PathToAbsoluteW(buff, stzSoundPath);
 		SkinPlaySoundFile(stzSoundPath);
 	}
 }
@@ -51,7 +51,7 @@ BOOL RemoveSoundFromList(HWND hList)
 	if (iSel != -1) {
 		iSel = -1;
 		while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
-			ListView_SetItemText(hList, iSel, 1, TranslateTS(DEFAULT_SOUND));
+			ListView_SetItemText(hList, iSel, 1, TranslateW(DEFAULT_SOUND));
 		return TRUE;
 	}
 
@@ -64,7 +64,7 @@ wchar_t *SelectSound(HWND hwndDlg, wchar_t *buff, size_t bufflen)
 
 	HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
 	ListView_GetItemText(hList, ListView_GetNextItem(hList, -1, LVNI_SELECTED), 1, buff, (DWORD)bufflen);
-	if (!mir_wstrcmp(buff, TranslateTS(DEFAULT_SOUND)))
+	if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND)))
 		buff = NULL;
 
 	ofn.lStructSize = sizeof(ofn);
@@ -146,14 +146,14 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						lvi.iSubItem = 0;
 						lvi.iImage = Index(i);
 						lvi.lParam = (LPARAM)i;
-						lvi.pszText = TranslateTS(StatusList[Index(i)].lpzSkinSoundDesc);
+						lvi.pszText = TranslateW(StatusList[Index(i)].lpzSkinSoundDesc);
 						lvi.iItem = ListView_InsertItem(hList, &lvi);
 
-						if (!db_get_ts(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
+						if (!db_get_ws(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
 							mir_wstrcpy(buff, dbv.ptszVal);
 							db_free(&dbv);
 						}
-						else mir_wstrcpy(buff, TranslateTS(DEFAULT_SOUND));
+						else mir_wstrcpy(buff, TranslateW(DEFAULT_SOUND));
 
 						ListView_SetItemText(hList, lvi.iItem, 1, buff);
 					}
@@ -166,14 +166,14 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					lvi.iSubItem = 0;
 					lvi.iImage = Index(ID_STATUS_MAX) + 1; // additional icon
 					lvi.lParam = (LPARAM)i;
-					lvi.pszText = TranslateTS(StatusListEx[i].lpzSkinSoundDesc);
+					lvi.pszText = TranslateW(StatusListEx[i].lpzSkinSoundDesc);
 					lvi.iItem = ListView_InsertItem(hList, &lvi);
 
-					if (!db_get_ts(hContact, MODULE, StatusList[i].lpzSkinSoundName, &dbv)) {
+					if (!db_get_ws(hContact, MODULE, StatusList[i].lpzSkinSoundName, &dbv)) {
 						wcsncpy(buff, dbv.ptszVal, _countof(buff)-1);
 						db_free(&dbv);
 					}
-					else wcsncpy(buff, TranslateTS(DEFAULT_SOUND), _countof(buff)-1);
+					else wcsncpy(buff, TranslateW(DEFAULT_SOUND), _countof(buff)-1);
 
 					ListView_SetItemText(hList, lvi.iItem, 1, buff);
 				}
@@ -236,7 +236,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ListView_GetItem(hList, &lvi);
 				ListView_GetItemText(hList, lvi.iItem, 1, buff, _countof(buff));
 
-				if (!mir_wstrcmp(buff, TranslateTS(DEFAULT_SOUND))) {
+				if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND))) {
 					if (lvi.lParam < ID_STATUS_MIN)
 						db_unset(hContact, MODULE, StatusListEx[lvi.lParam].lpzSkinSoundName);
 					else

@@ -14,7 +14,7 @@ struct SearchParam
 
 WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 	: PROTO<WhatsAppProto>(proto_name, username),
-	m_tszDefaultGroup(getTStringA(WHATSAPP_KEY_DEF_GROUP))
+	m_tszDefaultGroup(getWStringA(WHATSAPP_KEY_DEF_GROUP))
 {
 	update_loop_lock_ = CreateEvent(NULL, false, false, NULL);
 
@@ -36,7 +36,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -48,10 +48,10 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 
 	WASocketConnection::initNetwork(m_hNetlibUser);
 
-	m_tszAvatarFolder = std::wstring(VARST(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
+	m_tszAvatarFolder = std::wstring(VARSW(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
+		CreateDirectoryTreeW(m_tszAvatarFolder.c_str());
 
 	if (m_tszDefaultGroup == NULL)
 		m_tszDefaultGroup = mir_wstrdup(L"WhatsApp");
@@ -196,7 +196,7 @@ void WhatsAppProto::SearchAckThread(void *targ)
 	SearchParam *param = (SearchParam*)targ;
 	PROTOSEARCHRESULT psr = { 0 };
 	psr.cbSize = sizeof(psr);
-	psr.flags = PSR_TCHAR;
+	psr.flags = PSR_UNICODE;
 	psr.nick.w = psr.firstName.w = psr.lastName.w = L"";
 	psr.id.w = (wchar_t*)param->jid.c_str();
 
@@ -285,13 +285,13 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 		if (reason == "stale")
 			NotifyEvent(ptszTitle, TranslateT("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
 		else {
-			CMString tmp(FORMAT, TranslateT("Registration failed. Reason: %s"), _A2T(reason.c_str()));
+			CMStringW tmp(FORMAT, TranslateT("Registration failed. Reason: %s"), _A2T(reason.c_str()));
 			NotifyEvent(ptszTitle, tmp, NULL, WHATSAPP_EVENT_CLIENT);
 		}
 
 		const JSONNode &tmpVal = resp["retry_after"];
 		if (tmpVal) {
-			CMString tmp(FORMAT, TranslateT("Please try again in %i seconds"), tmpVal.as_int());
+			CMStringW tmp(FORMAT, TranslateT("Please try again in %i seconds"), tmpVal.as_int());
 			NotifyEvent(ptszTitle, tmp, NULL, WHATSAPP_EVENT_OTHER);
 		}
 		return false;

@@ -31,7 +31,7 @@ bool IsMyContact(MCONTACT hContact)
 void NetlibInit()
 {
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
 	nlu.ptszDescriptiveName = TranslateT("NewsAggregator HTTP connection");
 	nlu.szSettingsModule = MODULE;
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -142,14 +142,14 @@ void UpdateList(HWND hwndList)
 		UpdateListFlag = TRUE;
 		lvI.mask = LVIF_TEXT;
 		lvI.iSubItem = 0;
-		wchar_t *ptszNick = db_get_tsa(hContact, MODULE, "Nick");
+		wchar_t *ptszNick = db_get_wsa(hContact, MODULE, "Nick");
 		if (ptszNick) {
 			lvI.pszText = ptszNick;
 			lvI.iItem = i;
 			ListView_InsertItem(hwndList, &lvI);
 			lvI.iSubItem = 1;
 
-			wchar_t *ptszURL = db_get_tsa(hContact, MODULE, "URL");
+			wchar_t *ptszURL = db_get_wsa(hContact, MODULE, "URL");
 			if (ptszURL) {
 				lvI.pszText = ptszURL;
 				ListView_SetItem(hwndList, &lvI);
@@ -451,7 +451,7 @@ HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
 	return hr;
 }
 
-LPCTSTR ClearText(CMString &result, const wchar_t *message)
+LPCTSTR ClearText(CMStringW &result, const wchar_t *message)
 {
 	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(L"");
 	HRESULT hr = TestMarkupServices(bstrHtml, &TestDocumentText, bstrRes);

@@ -57,12 +57,6 @@ typedef struct FontSettingsW_tag
 }
 	FontSettingsW;
 
-#if defined( _UNICODE )
-	#define FontSettingsT FontSettingsW
-#else
-	#define FontSettingsT FontSettings
-#endif
-
 // a font identifier structure - used for registering a font, and getting one out again
 
 // WARNING: do not use Translate(TS) for name or group as they
@@ -100,12 +94,6 @@ typedef struct FontIDW_tag
 }
 	FontIDW;
 
-#if defined( _UNICODE )
-	#define FontIDT FontIDW
-#else
-	#define FontIDT FontID
-#endif
-
 // register a font
 // wparam = (FontID *)&font_id
 // lparam = hLangpack
@@ -120,14 +108,6 @@ __forceinline void FontRegisterW( FontIDW* pFontID )
 {	CallService("Font/RegisterW", (WPARAM)pFontID, hLangpack);
 }
 
-#if defined( _UNICODE )
-	#define MS_FONT_REGISTERT MS_FONT_REGISTERW
-	#define FontRegisterT FontRegisterW
-#else
-	#define MS_FONT_REGISTERT MS_FONT_REGISTER
-	#define FontRegisterT FontRegister
-#endif
-
 // get a font
 // will fill the logfont structure passed in with the user's choices, or the default if it was set and the user has not chosen a font yet,
 // or the global default font settings otherwise (i.e. no user choice and default set, or font not registered)
@@ -137,12 +117,6 @@ __forceinline void FontRegisterW( FontIDW* pFontID )
 // returns the font's colour
 #define MS_FONT_GET           "Font/Get"
 #define MS_FONT_GETW          "Font/GetW"
-
-#if defined( _UNICODE )
-	#define MS_FONT_GETT MS_FONT_GETW
-#else
-	#define MS_FONT_GETT MS_FONT_GET
-#endif
 
 // fired when a user modifies font settings, so reload your fonts
 // wparam = lparam = 0
@@ -186,12 +160,6 @@ typedef struct ColourIDW_tag
 }
 	ColourIDW;
 
-#if defined( _UNICODE )
-	#define ColourIDT ColourIDW
-#else
-	#define ColourIDT ColourID
-#endif
-
 // register a colour (this should be used for everything except actual text colour for registered fonts)
 // [note - a colour with name 'Background' [translated!] has special meaning and will be used as the background colour of
 // the font list box in the options, for the given group]
@@ -206,25 +174,11 @@ __forceinline void ColourRegisterW(ColourIDW* pColorID)
 {	CallService("Colour/RegisterW", (WPARAM)pColorID, hLangpack);
 }
 
-#if defined( _UNICODE )
-	#define MS_COLOUR_REGISTERT MS_COLOUR_REGISTERW
-	#define ColourRegisterT ColourRegisterW
-#else
-	#define MS_COLOUR_REGISTERT MS_COLOUR_REGISTER
-	#define ColourRegisterT ColourRegister
-#endif
-
 // get a colour
 // wparam = (ColourID *)&colour_id (only name and group matter)
 // rerturns the colour (as COLORREF), or -1 if not found
 #define MS_COLOUR_GET         "Colour/Get"
 #define MS_COLOUR_GETW        "Colour/GetW"
-
-#if defined( _UNICODE )
-	#define MS_COLOUR_GETT MS_COLOUR_GETW
-#else
-	#define MS_COLOUR_GETT MS_COLOUR_GET
-#endif
 
 // fired when a user modifies font settings, so reget your fonts and colours
 // wparam = lparam = 0
@@ -275,12 +229,6 @@ typedef struct EffectIDW_tag
 }
 	EffectIDW;
 
-#if defined( _UNICODE )
-	#define EffectIDT EffectIDW
-#else
-	#define EffectIDT EffectID
-#endif
-
 // register an effect
 // wparam = (EffectID *)&effect_id
 // lparam = 0
@@ -293,26 +241,12 @@ __forceinline void EffectRegisterW(EffectIDW* pEffectID)
 {	CallService("Effect/RegisterW", (WPARAM)pEffectID, hLangpack);
 }
 
-#if defined( _UNICODE )
-	#define MS_EFFECT_REGISTERT MS_EFFECT_REGISTERW
-	#define EffectRegisterT EffectRegisterW
-#else
-	#define MS_EFFECT_REGISTERT MS_EFFECT_REGISTER
-	#define EffectRegisterT EffectRegister
-#endif
-
 // get a effect
 // wparam = (EffectID *)&effect_id (only name and group matter)
 // lparam = (FONTEFFECT *)&effect
 // rerturns 0, or -1 if not found
 #define MS_EFFECT_GET         "Effect/Get"
 #define MS_EFFECT_GETW        "Effect/GetW"
-
-#if defined( _UNICODE )
-	#define MS_EFFECT_GETT MS_EFFECT_GETW
-#else
-	#define MS_EFFECT_GETT MS_EFFECT_GET
-#endif
 
 // fired when a user modifies font settings, so reget your fonts and colours
 // wparam = lparam = 0

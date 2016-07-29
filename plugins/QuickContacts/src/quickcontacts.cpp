@@ -124,10 +124,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
-	hkd.dwFlags = HKD_TCHAR;
+	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "Quick Contacts/Open dialog";
-	hkd.ptszDescription = LPGENW("Open dialog");
-	hkd.ptszSection = LPGENW("Quick Contacts");
+	hkd.pwszDescription = LPGENW("Open dialog");
+	hkd.pwszSection = LPGENW("Quick Contacts");
 	hkd.pszService = MS_QC_SHOW_DIALOG;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_ALT, 'Q');
 	Hotkey_Register(&hkd);
@@ -137,37 +137,37 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hkd.lParam = HOTKEY_FILE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'F');
 	hkd.pszName = "Quick Contacts/File";
-	hkd.ptszDescription = LPGENW("Send file");
+	hkd.pwszDescription = LPGENW("Send file");
 	Hotkey_Register(&hkd);
 
 	hkd.lParam = HOTKEY_URL;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'U');
 	hkd.pszName = "Quick Contacts/URL";
-	hkd.ptszDescription = LPGENW("Send URL");
+	hkd.pwszDescription = LPGENW("Send URL");
 	Hotkey_Register(&hkd);
 
 	hkd.lParam = HOTKEY_INFO;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'I');
 	hkd.pszName = "Quick Contacts/Info";
-	hkd.ptszDescription = LPGENW("Open user info");
+	hkd.pwszDescription = LPGENW("Open user info");
 	Hotkey_Register(&hkd);
 		
 	hkd.lParam = HOTKEY_HISTORY;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'H');
 	hkd.pszName = "Quick Contacts/History";
-	hkd.ptszDescription = LPGENW("Open history");
+	hkd.pwszDescription = LPGENW("Open history");
 	Hotkey_Register(&hkd);
 		
 	hkd.lParam = HOTKEY_MENU;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'M');
 	hkd.pszName = "Quick Contacts/Menu";
-	hkd.ptszDescription = LPGENW("Open contact menu");
+	hkd.pwszDescription = LPGENW("Open contact menu");
 	Hotkey_Register(&hkd);
 		
 	hkd.lParam = HOTKEY_ALL_CONTACTS;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'A');
 	hkd.pszName = "Quick Contacts/All Contacts";
-	hkd.ptszDescription = LPGENW("Show all contacts");
+	hkd.pwszDescription = LPGENW("Show all contacts");
 	Hotkey_Register(&hkd);
 
 	if (ServiceExists(MS_SKIN_ADDHOTKEY))
@@ -189,7 +189,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	CMenuItem mi;
 	SET_UID(mi, 0x3a3f768a, 0xcf47, 0x43d5, 0x92, 0x16, 0xe4, 0xeb, 0x93, 0xf6, 0x72, 0xfa);
 	mi.position = 500100001;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.name.w = LPGENW("Quick Contacts...");
 	mi.pszService = MS_QC_SHOW_DIALOG;
 	Menu_AddMainMenuItem(&mi);
@@ -400,7 +400,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		if (opts.group_append)
 		{
 			DBVARIANT dbv;
-			if (db_get_ts(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
+			if (db_get_ws(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
 			{
 				if (dbv.ptszVal != NULL)
 					mir_wstrncpy(contact->szgroup, dbv.ptszVal, _countof(contact->szgroup));
@@ -714,12 +714,12 @@ static void FillButton(HWND hwndDlg, int dlgItem, wchar_t *name, wchar_t *key, H
 	wchar_t *full = tmp;
 
 	if (key == NULL)
-		full = TranslateTS(name);
+		full = TranslateW(name);
 	else
-		mir_snwprintf(tmp, L"%s (%s)", TranslateTS(name), key);
+		mir_snwprintf(tmp, L"%s (%s)", TranslateW(name), key);
 
 	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONSETASFLATBTN, 0, 0);
-	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONADDTOOLTIP, (LPARAM)full, BATF_TCHAR);
+	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONADDTOOLTIP, (LPARAM)full, BATF_UNICODE);
 	SendDlgItemMessage(hwndDlg, dlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icon);
 }
 
@@ -730,9 +730,9 @@ static void FillCheckbox(HWND hwndDlg, int dlgItem, wchar_t *name, wchar_t *key)
 	wchar_t *full = tmp;
 
 	if (key == NULL)
-		full = TranslateTS(name);
+		full = TranslateW(name);
 	else
-		mir_snwprintf(tmp, L"%s (%s)", TranslateTS(name), key);
+		mir_snwprintf(tmp, L"%s (%s)", TranslateW(name), key);
 
 	SetDlgItemText(hwndDlg, dlgItem, full);
 }
@@ -825,7 +825,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_MESSAGE)))
 					break;
 
-				CallService(MS_MSG_SENDMESSAGET, hContact, 0);
+				CallService(MS_MSG_SENDMESSAGEW, hContact, 0);
 
 				db_set_dw(NULL, MODULE_NAME, "LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);

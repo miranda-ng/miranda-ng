@@ -38,7 +38,7 @@ void CDummyProto::SearchIdAckThread(void *targ)
 {
 	PROTOSEARCHRESULT psr = { 0 };
 	psr.cbSize = sizeof(psr);
-	psr.flags = PSR_TCHAR;
+	psr.flags = PSR_UNICODE;
 	psr.id.w = (wchar_t*)targ;
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
 	
@@ -173,8 +173,8 @@ MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 			db_unset(hContact, "CList", "Hidden");
 			db_unset(hContact, "CList", "NotOnList");
 		}
-		setTString(hContact, uniqueIdSetting, psr->id.w);
-		setTString(hContact, "Nick", psr->id.w);
+		setWString(hContact, uniqueIdSetting, psr->id.w);
+		setWString(hContact, "Nick", psr->id.w);
 	}
 
 	return hContact;

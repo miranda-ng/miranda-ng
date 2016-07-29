@@ -96,7 +96,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_CHOOSE_SOUND), TRUE);
 				DBVARIANT dbv = { 0 };
-				if (!db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv))
+				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv))
 				{
 					EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), TRUE);
@@ -163,16 +163,16 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			isIgnoreSound = 0;
 			if (p == NULL) {
 				DBVARIANT dbv;
-				if (!db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH];
-					PathToAbsoluteT(dbv.ptszVal, longpath);
+					PathToAbsoluteW(dbv.ptszVal, longpath);
 					SkinPlaySoundFile(longpath);
 					db_free(&dbv);
 				}
 			}
 			else {
 				wchar_t longpath[MAX_PATH] = { 0 };
-				PathToAbsoluteT(p->path, longpath);
+				PathToAbsoluteW(p->path, longpath);
 				SkinPlaySoundFile(longpath);
 			}
 		}
@@ -204,9 +204,9 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p == NULL) {
 				DBVARIANT dbv;
-				if (!db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH];
-					PathToAbsoluteT(dbv.ptszVal, longpath);
+					PathToAbsoluteW(dbv.ptszVal, longpath);
 					XSN_Users.insert(new XSN_Data(hContact, longpath, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0));
 					db_free(&dbv);
 				}
@@ -227,7 +227,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (mir_wstrcmpi(XSN_Users[i]->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
 					PathToRelativeT(XSN_Users[i]->path, shortpath);
-					db_set_ts(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
+					db_set_ws(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
 				}
 				db_set_b(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSIGNOREKEY, XSN_Users[i]->ignore);
 			}
@@ -242,7 +242,7 @@ INT OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pwszGroup = LPGENW("Sounds");
 	odp.pwszTitle = LPGENW("XSound Notify");

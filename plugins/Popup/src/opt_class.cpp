@@ -267,7 +267,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					hCtrl = GetDlgItem(hwnd, IDC_LACTION);
 					for (i = 0; i < ptd->notification.actionCount; ++i) {
 						psztAction = mir_a2u(ptd->notification.lpActions[i].lpzTitle);
-						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateTS(psztAction)), ptd->notification.lpActions[i].lpzTitle);
+						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateW(psztAction)), ptd->notification.lpActions[i].lpzTitle);
 						mir_free(psztAction); psztAction = NULL;
 					}
 					// combo right action (EXTRA)
@@ -275,7 +275,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					psztAction = NULL;
 					for (i = 0; i < ptd->notification.actionCount; ++i) {
 						psztAction = mir_a2u(ptd->notification.lpActions[i].lpzTitle);
-						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateTS(psztAction)), ptd->notification.lpActions[i].lpzTitle);
+						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateW(psztAction)), ptd->notification.lpActions[i].lpzTitle);
 						mir_free(psztAction); psztAction = NULL;
 					}
 					// enable all controls
@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					{
 						POPUPDATA2 ppd = { 0 };
 						ppd.cbSize = sizeof(ppd);
-						ppd.flags = PU2_TCHAR;
+						ppd.flags = PU2_UNICODE;
 						ppd.lptzTitle = ptd->pszDescription;
 						ppd.lptzText = TranslateT("Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!");
 						ppd.iSeconds = ptd->timeoutValue;

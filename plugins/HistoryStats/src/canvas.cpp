@@ -139,5 +139,5 @@ bool Canvas::writePNG(const wchar_t* szFileName)
 	img.hbm = m_hBmp;
 	img.fif = FIF_PNG;
 	img.tszName = (wchar_t*)szFileName;
-	return CallService(MS_IMG_SAVE, (WPARAM)&img, IMGL_TCHAR) == 0;
+	return CallService(MS_IMG_SAVE, (WPARAM)&img, IMGL_WCHAR) == 0;
 }

@@ -26,11 +26,11 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = hIcon;
-	CMString buf(pcli->pfnGetContactDisplayName(hContact, 0));
+	CMStringW buf(pcli->pfnGetContactDisplayName(hContact, 0));
 
 	// add group name to popup title
 	if (opt.ShowGroup) {
-		ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
 		if (tszGroup)
 			buf.AppendFormat(L" (%s)", tszGroup);
 	}
@@ -77,7 +77,7 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 		return 0;
 
 	MCONTACT hContact = PUGetContact(pdp->hWnd);
-	ptrW pstzLast(db_get_tsa(hContact, MODULE, "LastPopupText"));
+	ptrW pstzLast(db_get_wsa(hContact, MODULE, "LastPopupText"));
 
 	wchar_t *tszStatus = (wchar_t *)ack->lParam;
 	if (tszStatus == NULL || *tszStatus == 0)
@@ -117,7 +117,7 @@ void PopupAction(HWND hWnd, BYTE action)
 	if (hContact && hContact != INVALID_CONTACT_ID) {
 		switch (action) {
 		case PCA_OPENMESSAGEWND:
-			CallServiceSync(MS_MSG_SENDMESSAGET, hContact, 0);
+			CallServiceSync(MS_MSG_SENDMESSAGEW, hContact, 0);
 			break;
 
 		case PCA_OPENMENU:

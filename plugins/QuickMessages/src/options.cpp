@@ -248,7 +248,7 @@ void SaveMenuTree()
 
 		if (ld->ptszQValue) {
 			mir_snprintf(szMEntry, "ButtonValue_%u", iBl);
-			db_set_ts(NULL, PLGNAME, szMEntry, ld->ptszQValue);
+			db_set_ws(NULL, PLGNAME, szMEntry, ld->ptszQValue);
 		}
 
 
@@ -263,7 +263,7 @@ void SaveMenuTree()
 
 
 		mir_snprintf(szMEntry, "ButtonName_%u", iBl);
-		db_set_ts(NULL, PLGNAME, szMEntry, ld->ptszButtonName);
+		db_set_ws(NULL, PLGNAME, szMEntry, ld->ptszButtonName);
 
 		ld->dwOPFlags = 0;
 		ld->dwPos = iBl;

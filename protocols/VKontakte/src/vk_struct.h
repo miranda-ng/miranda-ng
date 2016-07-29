@@ -185,7 +185,7 @@ struct CVkUserInfo : public MZeroedObject {
 		m_bIsGroup(false)
 	{}
 
-	CVkUserInfo(LONG _UserId, bool _bIsGroup, CMString& _wszUserNick, CMString& _wszLink, MCONTACT _hContact = NULL) :
+	CVkUserInfo(LONG _UserId, bool _bIsGroup, CMStringW& _wszUserNick, CMStringW& _wszLink, MCONTACT _hContact = NULL) :
 		m_UserId(_UserId),
 		m_bIsGroup(_bIsGroup),
 		m_wszUserNick(_wszUserNick),
@@ -195,8 +195,8 @@ struct CVkUserInfo : public MZeroedObject {
 
 	LONG m_UserId;
 	MCONTACT m_hContact;
-	CMString m_wszUserNick;
-	CMString m_wszLink;
+	CMStringW m_wszUserNick;
+	CMStringW m_wszLink;
 	bool m_bIsGroup;
 };
 
@@ -218,14 +218,14 @@ struct CVKNewsItem : public MZeroedObject {
 		vkParentType(vkNull)
 	{}
 
-	CMString wszId;
+	CMStringW wszId;
 	time_t tDate;
 	CVkUserInfo *vkUser;
-	CMString wszText;
-	CMString wszLink;
-	CMString wszType;
-	CMString wszPopupTitle;
-	CMString wszPopupText;
+	CMStringW wszText;
+	CMStringW wszLink;
+	CMStringW wszType;
+	CMStringW wszPopupTitle;
+	CMStringW wszPopupText;
 	VKObjType vkFeedbackType, vkParentType;
 	bool bIsGroup;
 	bool bIsRepost;

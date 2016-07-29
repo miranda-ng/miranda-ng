@@ -23,11 +23,11 @@ static HANDLE hFolder;
 
 struct QueueElem
 {
-	CMString url;
-	CMString fname;
+	CMStringW url;
+	CMStringW fname;
 	bool needext;
 
-	QueueElem(CMString &purl, CMString &pfname, bool ne)
+	QueueElem(CMStringW &purl, CMStringW &pfname, bool ne)
 		: url(purl), fname(pfname), needext(ne)
 	{
 	}
@@ -135,7 +135,7 @@ void __cdecl SmileyDownloadThread(void*)
 			InternetDownloadFile(_T2A(dlQueue[0].url.c_str()), _T2A(dlQueue[0].fname.c_str()), hHttpDwnl);
 			WaitForSingleObject(g_hDlMutex, 3000);
 
-			CMString fname(dlQueue[0].fname);
+			CMStringW fname(dlQueue[0].fname);
 			if (dlQueue[0].needext) { fname += GetImageExt(fname); needext = true; }
 			_wrename(dlQueue[0].fname.c_str(), fname.c_str());
 		}
@@ -156,14 +156,14 @@ void __cdecl SmileyDownloadThread(void*)
 	}
 }
 
-bool GetSmileyFile(CMString &url, const CMString &packstr)
+bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 {
 	_TPattern *urlsplit = _TPattern::compile(L".*/(.*)");
 	_TMatcher *m0 = urlsplit->createTMatcher(url);
 
 	m0->findFirstMatch();
 
-	CMString filename;
+	CMStringW filename;
 	filename.AppendFormat(L"%s\\%s\\", cachepath, packstr.c_str());
 	int pathpos = filename.GetLength();
 	filename += m0->getGroup(1);
@@ -213,13 +213,13 @@ void GetSmileyCacheFolder(void)
 		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, L"");
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 	}
-	else mir_wstrncpy(cachepath, VARST(L"%miranda_userdata%\\SmileyCache"), MAX_PATH);
+	else mir_wstrncpy(cachepath, VARSW(L"%miranda_userdata%\\SmileyCache"), MAX_PATH);
 }
 
 void DownloadInit(void)
 {
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = "SmileyAdd";
 	nlu.ptszDescriptiveName = TranslateT("SmileyAdd HTTP connections");
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);

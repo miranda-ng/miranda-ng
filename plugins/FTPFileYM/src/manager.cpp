@@ -227,19 +227,19 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BUTTONSETASFLATBTN, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_TICK));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select All"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_SELECTALL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select All"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_DESELECTALL, BUTTONSETASFLATBTN, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_DESELECTALL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_NOTICK));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_DESELECTALL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear All"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_DESELECTALL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear All"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_DELETEFROMLIST, BUTTONSETASFLATBTN, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_DELETEFROMLIST, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("clear"));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_DELETEFROMLIST, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete from List"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_DELETEFROMLIST, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete from List"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_DELETE, BUTTONSETASFLATBTN, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_DELETE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("delete"));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_DELETE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete from FTP"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_DELETE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete from FTP"), BATF_UNICODE);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BUTTONSETASFLATBTN, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_OTHER_EXIT));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close"), BATF_UNICODE);
 		return TRUE;
 
 	case WM_COMMAND:

@@ -347,7 +347,7 @@ public:
 
 	BOOL GetTooltipText(wchar_t *szText, int nMaxLength)
 	{
-		CMString tszTmp;
+		CMStringW tszTmp;
 
 		tszTmp.AppendFormat(L"Jid: %s\r\n", m_szJid);
 

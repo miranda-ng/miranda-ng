@@ -27,6 +27,6 @@ int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSe
 void ShowLog(wchar_t *file);
 BOOL StatusHasAwayMessage(char *szProto, int status);
 void LogToFile(wchar_t *stzText);
-void AddCR(CMString &str, const wchar_t *statusmsg);
+void AddCR(CMStringW &str, const wchar_t *statusmsg);
 
 #endif

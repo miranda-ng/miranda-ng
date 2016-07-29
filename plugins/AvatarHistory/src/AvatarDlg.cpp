@@ -441,7 +441,7 @@ int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 		// Get file in disk
 		wchar_t path[MAX_PATH];
 		ptrW tszStoredPath(mir_utf8decodeW((char*)dbei.pBlob));
-		PathToAbsoluteT(tszStoredPath, path);
+		PathToAbsoluteW(tszStoredPath, path);
 
 		// Add to list
 		ListEntry *le = new ListEntry();
@@ -478,7 +478,7 @@ bool UpdateAvatarPic(HWND hwnd)
 	}
 	SetDlgItemText(hwnd,IDC_AVATARPATH,le->filename);
 
-	HBITMAP avpic = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM)le->filename, IMGL_TCHAR);
+	HBITMAP avpic = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM)le->filename, IMGL_WCHAR);
 
 	bool found_image = (avpic != NULL);
 
@@ -515,7 +515,7 @@ void InitMenuItem()
 	CMenuItem mi;
 	SET_UID(mi,0x2fb5c7eb, 0xa606, 0x4145, 0x9e, 0x86, 0x73, 0x88, 0x73, 0x1d, 0xe7, 0x5c);
 	mi.name.w = LPGENW("View Avatar History");
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.position = 1000090010;
 	mi.hIcolibItem = createDefaultOverlayedIcon(FALSE);
 	mi.pszService = MS_AVATARHISTORY_SHOWDIALOG;
@@ -562,7 +562,7 @@ int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact)
 	ofn.lpstrDefExt = wcsrchr(fn, '.')+1;
 
 	DBVARIANT dbvInitDir = {0};
-	if (!db_get_ts(hContact,MODULE_NAME,"SavedAvatarFolder",&dbvInitDir))
+	if (!db_get_ws(hContact,MODULE_NAME,"SavedAvatarFolder",&dbvInitDir))
 	{
 		ofn.lpstrInitialDir = dbvInitDir.ptszVal;
 		db_free(&dbvInitDir);
@@ -574,7 +574,7 @@ int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact)
 	if (GetSaveFileName(&ofn))
 	{
 		CopyFile(fn, file, FALSE);
-		db_set_ts(hContact,MODULE_NAME,"SavedAvatarFolder",file);
+		db_set_ws(hContact,MODULE_NAME,"SavedAvatarFolder",file);
 	}
 	return 0;
 }

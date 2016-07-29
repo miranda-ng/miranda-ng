@@ -82,7 +82,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 	frame.hWnd = CreateWindowEx(0, L"JabberInfoFrameClass", NULL, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, NULL, hInst, this);
 	frame.align = alBottom;
 	frame.height = 2 * SZ_FRAMEPADDING + GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING; // compact height by default
-	frame.Flags = F_VISIBLE|F_LOCKED|F_NOBORDER|F_TCHAR;
+	frame.Flags = F_VISIBLE|F_LOCKED|F_NOBORDER|F_UNICODE;
 	frame.tname = mir_a2u(proto->m_szModuleName);
 	frame.TBtname = proto->m_tszUserName;
 	m_frameId = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
@@ -240,24 +240,24 @@ void CJabberInfoFrame::ReloadFonts()
 {
 	LOGFONT lfFont;
 
-	FontIDT fontid = {0};
+	FontIDW fontid = {0};
 	fontid.cbSize = sizeof(fontid);
 	wcsncpy_s(fontid.group, L"Jabber", _TRUNCATE);
 	wcsncpy_s(fontid.name, L"Frame title", _TRUNCATE);
-	m_clTitle = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
+	m_clTitle = CallService(MS_FONT_GETW, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntTitle);
 	m_hfntTitle = CreateFontIndirect(&lfFont);
 
 	wcsncpy_s(fontid.name, L"Frame text", _TRUNCATE);
-	m_clText = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
+	m_clText = CallService(MS_FONT_GETW, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntText);
 	m_hfntText = CreateFontIndirect(&lfFont);
 
-	ColourIDT colourid = {0};
+	ColourIDW colourid = {0};
 	colourid.cbSize = sizeof(colourid);
 	wcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
 	wcsncpy_s(colourid.name, L"Background", _TRUNCATE);
-	m_clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
+	m_clBack = CallService(MS_COLOUR_GETW, (WPARAM)&colourid, 0);
 
 	UpdateSize();
 }

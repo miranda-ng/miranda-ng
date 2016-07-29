@@ -102,7 +102,7 @@ void CSendHTTPServer::SendThread()
 	}
 
 	if (ret != 0) {
-		Error(LPGENW("%s (%i):\nCould not add a share to the HTTP Server plugin."), TranslateTS(m_pszSendTyp), ret);
+		Error(LPGENW("%s (%i):\nCould not add a share to the HTTP Server plugin."), TranslateW(m_pszSendTyp), ret);
 		Exit(ret); return;
 	}
 

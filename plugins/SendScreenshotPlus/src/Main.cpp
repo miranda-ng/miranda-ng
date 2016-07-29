@@ -81,7 +81,7 @@ wchar_t* GetCustomPath()
 		MessageBox(NULL, L"Can not retrieve screenshot path.", L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 0;
 	}
-	int result = CreateDirectoryTreeT(pszPath);
+	int result = CreateDirectoryTreeW(pszPath);
 	if (result) {
 		wchar_t szError[MAX_PATH];
 		mir_snwprintf(szError, MAX_PATH, TranslateT("Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?"), result, pszPath);
@@ -234,7 +234,7 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	nlu.ptszDescriptiveName = TranslateT("SendSS HTTP connections");
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;			//|NUF_NOHTTPSOPTION;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;			//|NUF_NOHTTPSOPTION;
 	g_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	// load my button class / or use UInfoEx
 	CtrlButtonLoadModule();
@@ -285,7 +285,7 @@ DLL_EXPORT int Load(void)
 
 	// menu items
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = GetIconHandle(ICO_MAINXS);
 
 	SET_UID(mi, 0xa559a22e, 0xd0f9, 0x4553, 0x8e, 0x68, 0x55, 0xb3, 0xae, 0xc4, 0x5d, 0x93);
@@ -309,12 +309,12 @@ DLL_EXPORT int Load(void)
 	/// hotkey's
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = "Open SendSS+";
-	hkd.ptszDescription = LPGENW("Open SendSS+");
-	hkd.ptszSection = L"SendSS+";
+	hkd.pwszDescription = LPGENW("Open SendSS+");
+	hkd.pwszSection = L"SendSS+";
 	hkd.pszService = MS_SENDSS_OPENDIALOG;
 	//hkd.DefHotKey=HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = 0xFFFF;
-	hkd.dwFlags = HKD_TCHAR;
+	hkd.dwFlags = HKD_UNICODE;
 	Hotkey_Register(&hkd);
 	/// register highlighter window class
 	HBRUSH brush = CreateSolidBrush(0x0000FF00);//owned by class

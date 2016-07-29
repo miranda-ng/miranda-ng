@@ -93,7 +93,7 @@ VOID CALLBACK OnlineNotifTimerProc3(HWND, UINT, UINT_PTR idEvent, DWORD)
 		return;
 	}
 
-	CMString name = GetWord(ppro->m_channelsToWho.c_str(), 0);
+	CMStringW name = GetWord(ppro->m_channelsToWho.c_str(), 0);
 	if (name.IsEmpty()) {
 		ppro->m_channelsToWho = L"";
 		int count = (int)CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)ppro->m_szModuleName);
@@ -104,7 +104,7 @@ VOID CALLBACK OnlineNotifTimerProc3(HWND, UINT, UINT_PTR idEvent, DWORD)
 			gci.pszModule = ppro->m_szModuleName;
 			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci) && gci.iType == GCW_CHATROOM)
 			if (gci.iCount <= ppro->m_onlineNotificationLimit)
-				ppro->m_channelsToWho += CMString(gci.pszName) + L" ";
+				ppro->m_channelsToWho += CMStringW(gci.pszName) + L" ";
 		}
 	}
 
@@ -115,7 +115,7 @@ VOID CALLBACK OnlineNotifTimerProc3(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 	name = GetWord(ppro->m_channelsToWho.c_str(), 0);
 	ppro->DoUserhostWithReason(2, L"S" + name, true, L"%s", name.c_str());
-	CMString temp = GetWordAddress(ppro->m_channelsToWho.c_str(), 1);
+	CMStringW temp = GetWordAddress(ppro->m_channelsToWho.c_str(), 1);
 	ppro->m_channelsToWho = temp;
 	if (ppro->m_iTempCheckTime)
 		ppro->SetChatTimer(ppro->OnlineNotifTimer3, ppro->m_iTempCheckTime * 1000, OnlineNotifTimerProc3);
@@ -136,8 +136,8 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 		return;
 	}
 
-	CMString name = GetWord(ppro->m_namesToWho.c_str(), 0);
-	CMString name2 = GetWord(ppro->m_namesToUserhost.c_str(), 0);
+	CMStringW name = GetWord(ppro->m_namesToWho.c_str(), 0);
+	CMStringW name2 = GetWord(ppro->m_namesToUserhost.c_str(), 0);
 
 	if (name.IsEmpty() && name2.IsEmpty()) {
 		DBVARIANT dbv;
@@ -149,14 +149,14 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 			BYTE bHidden = db_get_b(hContact, "CList", "Hidden", 0);
 			if (bDCC || bHidden)
 				continue;
-			if (ppro->getTString(hContact, "Default", &dbv))
+			if (ppro->getWString(hContact, "Default", &dbv))
 				continue;
 
 			BYTE bAdvanced = ppro->getByte(hContact, "AdvancedMode", 0);
 			if (!bAdvanced) {
 				db_free(&dbv);
-				if (!ppro->getTString(hContact, "Nick", &dbv)) {
-					ppro->m_namesToUserhost += CMString(dbv.ptszVal) + L" ";
+				if (!ppro->getWString(hContact, "Nick", &dbv)) {
+					ppro->m_namesToUserhost += CMStringW(dbv.ptszVal) + L" ";
 					db_free(&dbv);
 				}
 			}
@@ -166,15 +166,15 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 				wchar_t* DBNick = NULL;
 				wchar_t* DBWildcard = NULL;
-				if (!ppro->getTString(hContact, "Nick", &dbv))
+				if (!ppro->getWString(hContact, "Nick", &dbv))
 					DBNick = dbv.ptszVal;
-				if (!ppro->getTString(hContact, "UWildcard", &dbv2))
+				if (!ppro->getWString(hContact, "UWildcard", &dbv2))
 					DBWildcard = dbv2.ptszVal;
 
 				if (DBNick && (!DBWildcard || !WCCmp(CharLower(DBWildcard), CharLower(DBNick))))
-					ppro->m_namesToWho += CMString(DBNick) + L" ";
+					ppro->m_namesToWho += CMStringW(DBNick) + L" ";
 				else if (DBWildcard)
-					ppro->m_namesToWho += CMString(DBWildcard) + L" ";
+					ppro->m_namesToWho += CMStringW(DBWildcard) + L" ";
 
 				if (DBNick)     db_free(&dbv);
 				if (DBWildcard) db_free(&dbv2);
@@ -189,7 +189,7 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 	name = GetWord(ppro->m_namesToWho.c_str(), 0);
 	name2 = GetWord(ppro->m_namesToUserhost.c_str(), 0);
-	CMString temp;
+	CMStringW temp;
 	if (!name.IsEmpty()) {
 		ppro->DoUserhostWithReason(2, L"S" + name, true, L"%s", name.c_str());
 		temp = GetWordAddress(ppro->m_namesToWho.c_str(), 1);
@@ -197,14 +197,14 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 	}
 
 	if (!name2.IsEmpty()) {
-		CMString params;
+		CMStringW params;
 		for (int i = 0; i < 3; i++) {
 			params = L"";
 			for (int j = 0; j < 5; j++)
 				params += GetWord(ppro->m_namesToUserhost, i * 5 + j) + L" ";
 
 			if (params[0] != ' ')
-				ppro->DoUserhostWithReason(1, CMString(L"S") + params, true, params);
+				ppro->DoUserhostWithReason(1, CMStringW(L"S") + params, true, params);
 		}
 		temp = GetWordAddress(ppro->m_namesToUserhost.c_str(), 15);
 		ppro->m_namesToUserhost = temp;
@@ -221,7 +221,7 @@ int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, wchar_t* msg)
 	if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)
 		return 0;
 
-	CMString S = DoColorCodes(msg, TRUE, FALSE);
+	CMStringW S = DoColorCodes(msg, TRUE, FALSE);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;
@@ -274,7 +274,7 @@ bool CIrcProto::OnIrc_WELCOME(const CIrcMessage* pmsg)
 	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 1) {
 		static wchar_t host[1024];
 		int i = 0;
-		CMString word = GetWord(pmsg->parameters[1].c_str(), i);
+		CMStringW word = GetWord(pmsg->parameters[1].c_str(), i);
 		while (!word.IsEmpty()) {
 			if (wcschr(word.c_str(), '!') && wcschr(word.c_str(), '@')) {
 				mir_wstrncpy(host, word.c_str(), _countof(host));
@@ -293,7 +293,7 @@ bool CIrcProto::OnIrc_WELCOME(const CIrcMessage* pmsg)
 
 bool CIrcProto::OnIrc_WHOTOOLONG(const CIrcMessage* pmsg)
 {
-	CMString command = GetNextUserhostReason(2);
+	CMStringW command = GetNextUserhostReason(2);
 	if (command[0] == 'U')
 		ShowMessage(pmsg);
 
@@ -357,7 +357,7 @@ bool CIrcProto::OnIrc_SETAWAY(const CIrcMessage* pmsg)
 bool CIrcProto::OnIrc_JOIN(const CIrcMessage* pmsg)
 {
 	if (pmsg->parameters.getCount() > 0 && pmsg->m_bIncoming && pmsg->prefix.sNick != m_info.sNick) {
-		CMString host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
+		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 		DoEvent(GC_EVENT_JOIN, pmsg->parameters[0].c_str(), pmsg->prefix.sNick.c_str(), NULL, L"Normal", host.c_str(), NULL, true, false);
 		DoEvent(GC_EVENT_SETCONTACTSTATUS, pmsg->parameters[0].c_str(), pmsg->prefix.sNick.c_str(), NULL, NULL, NULL, ID_STATUS_ONLINE, FALSE, FALSE);
 	}
@@ -369,7 +369,7 @@ bool CIrcProto::OnIrc_JOIN(const CIrcMessage* pmsg)
 bool CIrcProto::OnIrc_QUIT(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming) {
-		CMString host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
+		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 		DoEvent(GC_EVENT_QUIT, NULL, pmsg->prefix.sNick.c_str(), pmsg->parameters.getCount() > 0 ? pmsg->parameters[0].c_str() : NULL, NULL, host.c_str(), NULL, true, false);
 		struct CONTACT user = { (LPTSTR)pmsg->prefix.sNick.c_str(), (LPTSTR)pmsg->prefix.sUser.c_str(), (LPTSTR)pmsg->prefix.sHost.c_str(), false, false, false };
 		CList_SetOffline(&user);
@@ -387,10 +387,10 @@ bool CIrcProto::OnIrc_QUIT(const CIrcMessage* pmsg)
 bool CIrcProto::OnIrc_PART(const CIrcMessage* pmsg)
 {
 	if (pmsg->parameters.getCount() > 0 && pmsg->m_bIncoming) {
-		CMString host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
+		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 		DoEvent(GC_EVENT_PART, pmsg->parameters[0].c_str(), pmsg->prefix.sNick.c_str(), pmsg->parameters.getCount() > 1 ? pmsg->parameters[1].c_str() : NULL, NULL, host.c_str(), NULL, true, false);
 		if (pmsg->prefix.sNick == m_info.sNick) {
-			CMString S = MakeWndID(pmsg->parameters[0].c_str());
+			CMStringW S = MakeWndID(pmsg->parameters[0].c_str());
 			GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
 			CallChatEvent(SESSION_OFFLINE, (LPARAM)&gce);
@@ -409,7 +409,7 @@ bool CIrcProto::OnIrc_KICK(const CIrcMessage* pmsg)
 		ShowMessage(pmsg);
 
 	if (pmsg->parameters[1] == m_info.sNick) {
-		CMString S = MakeWndID(pmsg->parameters[0].c_str());
+		CMStringW S = MakeWndID(pmsg->parameters[0].c_str());
 		GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		CallChatEvent(SESSION_OFFLINE, (LPARAM)&gce);
@@ -429,8 +429,8 @@ bool CIrcProto::OnIrc_KICK(const CIrcMessage* pmsg)
 bool CIrcProto::OnIrc_MODEQUERY(const CIrcMessage* pmsg)
 {
 	if (pmsg->parameters.getCount() > 2 && pmsg->m_bIncoming && IsChannel(pmsg->parameters[1])) {
-		CMString sPassword = L"";
-		CMString sLimit = L"";
+		CMStringW sPassword = L"";
+		CMStringW sLimit = L"";
 		bool bAdd = false;
 		int iParametercount = 3;
 
@@ -464,8 +464,8 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 {
 	bool flag = false;
 	bool bContainsValidModes = false;
-	CMString sModes = L"";
-	CMString sParams = L"";
+	CMStringW sModes = L"";
+	CMStringW sParams = L"";
 
 	if (pmsg->parameters.getCount() > 1 && pmsg->m_bIncoming) {
 		if (IsChannel(pmsg->parameters[0])) {
@@ -495,7 +495,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 					iParametercount++;
 				}
 				if (strchr(sUserModes.c_str(), (char)*p1)) {
-					CMString sStatus = ModeToStatus(*p1);
+					CMStringW sStatus = ModeToStatus(*p1);
 					if ((int)pmsg->parameters.getCount() > iParametercount) {
 						if (!mir_wstrcmp(pmsg->parameters[2].c_str(), m_info.sNick.c_str())) {
 							char cModeBit = -1;
@@ -535,7 +535,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 				mir_snwprintf(temp, TranslateT("%s sets mode %s"),
 					pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
 
-				CMString sMessage = temp;
+				CMStringW sMessage = temp;
 				for (int i = 2; i < (int)pmsg->parameters.getCount(); i++)
 					sMessage += L" " + pmsg->parameters[i];
 
@@ -557,7 +557,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 			wchar_t temp[256];
 			mir_snwprintf(temp, TranslateT("%s sets mode %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
 
-			CMString sMessage = temp;
+			CMStringW sMessage = temp;
 			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++)
 				sMessage += L" " + pmsg->parameters[i];
 
@@ -576,10 +576,10 @@ bool CIrcProto::OnIrc_NICK(const CIrcMessage* pmsg)
 
 		if (m_info.sNick == pmsg->prefix.sNick && pmsg->parameters.getCount() > 0) {
 			m_info.sNick = pmsg->parameters[0];
-			setTString("Nick", m_info.sNick.c_str());
+			setWString("Nick", m_info.sNick.c_str());
 		}
 
-		CMString host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
+		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 		DoEvent(GC_EVENT_NICK, NULL, pmsg->prefix.sNick.c_str(), pmsg->parameters[0].c_str(), NULL, host.c_str(), NULL, true, bIsMe);
 		DoEvent(GC_EVENT_CHUID, NULL, pmsg->prefix.sNick.c_str(), pmsg->parameters[0].c_str(), NULL, NULL, NULL, true, false);
 
@@ -588,9 +588,9 @@ bool CIrcProto::OnIrc_NICK(const CIrcMessage* pmsg)
 		if (hContact) {
 			if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
-			setTString(hContact, "Nick", pmsg->parameters[0].c_str());
-			setTString(hContact, "User", pmsg->prefix.sUser.c_str());
-			setTString(hContact, "Host", pmsg->prefix.sHost.c_str());
+			setWString(hContact, "Nick", pmsg->parameters[0].c_str());
+			setWString(hContact, "User", pmsg->prefix.sUser.c_str());
+			setWString(hContact, "Host", pmsg->prefix.sHost.c_str());
 		}
 	}
 	else ShowMessage(pmsg);
@@ -605,9 +605,9 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage* pmsg)
 			return true;
 
 		if (!m_ignore || !IsIgnored(pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'n')) {
-			CMString S;
-			CMString S2;
-			CMString S3;
+			CMStringW S;
+			CMStringW S2;
+			CMStringW S3;
 			if (pmsg->prefix.sNick.GetLength() > 0)
 				S = pmsg->prefix.sNick;
 			else
@@ -620,11 +620,11 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage* pmsg)
 				gci.Flags = GCF_BYID | GCF_TYPE;
 				gci.pszModule = m_szModuleName;
 
-				CMString str = GetWord(pmsg->parameters[1].c_str(), 0);
+				CMStringW str = GetWord(pmsg->parameters[1].c_str(), 0);
 				if (str[0] == '[' && str[1] == '#' && str[str.GetLength() - 1] == ']') {
 					str.Delete(str.GetLength() - 1, 1);
 					str.Delete(0, 1);
-					CMString Wnd = MakeWndID(str.c_str());
+					CMStringW Wnd = MakeWndID(str.c_str());
 					gci.pszID = Wnd.c_str();
 					if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci) && gci.iType == GCW_CHATROOM)
 						S2 = GetWord(gci.pszID, 0);
@@ -685,7 +685,7 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage* pmsg)
 		if (IsCTCP(pmsg))
 			return true;
 
-		CMString mess = pmsg->parameters[1];
+		CMStringW mess = pmsg->parameters[1];
 		bool bIsChannel = IsChannel(pmsg->parameters[0]);
 
 		if (pmsg->m_bIncoming && !bIsChannel) {
@@ -708,8 +708,8 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage* pmsg)
 			PROTORECVEVENT pre = { 0 };
 			pre.timestamp = (DWORD)time(NULL);
 			pre.szMessage = mir_utf8encodeW(mess.c_str());
-			setTString(hContact, "User", pmsg->prefix.sUser.c_str());
-			setTString(hContact, "Host", pmsg->prefix.sHost.c_str());
+			setWString(hContact, "User", pmsg->prefix.sUser.c_str());
+			setWString(hContact, "Host", pmsg->prefix.sHost.c_str());
 			ProtoChainRecvMsg(hContact, &pre);
 			mir_free(pre.szMessage);
 			return true;
@@ -732,7 +732,7 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage* pmsg)
 bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 {
 	// is it a ctcp command, i e is the first and last characer of a PRIVMSG or NOTICE text ASCII 1
-	CMString mess = pmsg->parameters[1];
+	CMStringW mess = pmsg->parameters[1];
 	if (!(mess.GetLength() > 3 && mess[0] == 1 && mess[mess.GetLength() - 1] == 1))
 		return false;
 
@@ -749,8 +749,8 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 	}
 
 	// extract the type of ctcp command
-	CMString ocommand = GetWord(mess.c_str(), 0);
-	CMString command = GetWord(mess.c_str(), 0);
+	CMStringW ocommand = GetWord(mess.c_str(), 0);
+	CMStringW command = GetWord(mess.c_str(), 0);
 	command.MakeLower();
 
 	// should it be ignored?
@@ -854,15 +854,15 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 		// incoming DCC request... lots of stuff happening here...
 		else if (pmsg->m_bIncoming && command == L"dcc") {
-			CMString type = GetWord(mess.c_str(), 1);
+			CMStringW type = GetWord(mess.c_str(), 1);
 			type.MakeLower();
 
 			// components of a dcc message
-			CMString sFile = L"";
+			CMStringW sFile = L"";
 			DWORD dwAdr = 0;
 			int iPort = 0;
 			unsigned __int64 dwSize = 0;
-			CMString sToken = L"";
+			CMStringW sToken = L"";
 			bool bIsChat = (type == L"chat");
 
 			// 1. separate the dcc command into the correct pieces
@@ -878,7 +878,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 							begin = mess.Find(' ', end);
 							if (begin >= 0) {
-								CMString rest = mess.Mid(begin);
+								CMStringW rest = mess.Mid(begin);
 								dwAdr = wcstoul(GetWord(rest.c_str(), 0).c_str(), NULL, 10);
 								iPort = _wtoi(GetWord(rest.c_str(), 1).c_str());
 								dwSize = _wtoi64(GetWord(rest.c_str(), 2).c_str());
@@ -894,7 +894,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 					// look for the part of the ctcp command that contains adress, port and size
 					while (!bFlag && !GetWord(mess.c_str(), index).IsEmpty()) {
-						CMString sTemp;
+						CMStringW sTemp;
 
 						if (type == L"chat")
 							sTemp = GetWord(mess.c_str(), index - 1) + GetWord(mess.c_str(), index);
@@ -951,7 +951,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 							begin = mess.Find(' ', end);
 							if (begin >= 0) {
-								CMString rest = mess.Mid(begin);
+								CMStringW rest = mess.Mid(begin);
 								iPort = _wtoi(GetWord(rest.c_str(), 0).c_str());
 								dwSize = _wtoi(GetWord(rest.c_str(), 1).c_str());
 								sToken = GetWord(rest.c_str(), 2);
@@ -966,7 +966,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 					// look for the part of the ctcp command that contains adress, port and size
 					while (!bFlag && !GetWord(mess.c_str(), index).IsEmpty()) {
-						CMString sTemp = GetWord(mess.c_str(), index - 1) + GetWord(mess.c_str(), index);
+						CMStringW sTemp = GetWord(mess.c_str(), index - 1) + GetWord(mess.c_str(), index);
 
 						// if all characters are number it indicates we have found the adress, port and size parameters
 						int ind = 0;
@@ -1033,7 +1033,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 				}
 
 				// remove path from the filename if the remote client (stupidly) sent it
-				CMString sFileCorrected = sFile;
+				CMStringW sFileCorrected = sFile;
 				int i = sFile.ReverseFind('\\');
 				if (i != -1)
 					sFileCorrected = sFile.Mid(i + 1);
@@ -1055,7 +1055,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 				}
 
 				// remove path from the filename if the remote client (stupidly) sent it
-				CMString sFileCorrected = sFile;
+				CMStringW sFileCorrected = sFile;
 				int i = sFile.ReverseFind('\\');
 				if (i != -1)
 					sFileCorrected = sFile.Mid(i + 1);
@@ -1074,7 +1074,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 					m_DCCChatIgnore == 2 && hContact &&
 					db_get_b(hContact, "CList", "NotOnList", 0) == 0 &&
 					db_get_b(hContact, "CList", "Hidden", 0) == 0) {
-					CMString host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
+					CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 					CList_AddDCCChat(pmsg->prefix.sNick, host, dwAdr, iPort); // add a CHAT event to the clist
 				}
 				else {
@@ -1115,7 +1115,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			}
 
 			if (type == L"send") {
-				CMString sTokenBackup = sToken;
+				CMStringW sTokenBackup = sToken;
 				bool bTurbo = false; // TDCC indicator
 
 				if (!sToken.IsEmpty() && sToken[sToken.GetLength() - 1] == 'T') {
@@ -1157,13 +1157,13 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 						if (di->bReverse)
 							di->sToken = sTokenBackup;
 
-						setTString(hContact, "User", pmsg->prefix.sUser.c_str());
-						setTString(hContact, "Host", pmsg->prefix.sHost.c_str());
+						setWString(hContact, "User", pmsg->prefix.sUser.c_str());
+						setWString(hContact, "Host", pmsg->prefix.sHost.c_str());
 
 						wchar_t* tszTemp = (wchar_t*)sFile.c_str();
 
 						PROTORECVFILET pre = { 0 };
-						pre.dwFlags = PRFF_TCHAR;
+						pre.dwFlags = PRFF_UNICODE;
 						pre.timestamp = (DWORD)time(NULL);
 						pre.fileCount = 1;
 						pre.files.w = &tszTemp;
@@ -1191,7 +1191,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			struct CONTACT user = { (wchar_t*)pmsg->prefix.sNick.c_str(), (wchar_t*)pmsg->prefix.sUser.c_str(), (wchar_t*)pmsg->prefix.sHost.c_str(), false, false, false };
 			MCONTACT hContact = CList_FindContact(&user);
 			if (hContact)
-				setTString(hContact, "MirVer", DoColorCodes(GetWordAddress(mess.c_str(), 1), TRUE, FALSE));
+				setWString(hContact, "MirVer", DoColorCodes(GetWordAddress(mess.c_str(), 1), TRUE, FALSE));
 		}
 
 		// if the whois window is visible and the ctcp reply belongs to the user in it, then show the reply in the whois window
@@ -1244,7 +1244,7 @@ bool CIrcProto::OnIrc_NAMES(const CIrcMessage* pmsg)
 bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 1) {
-		CMString name = L"a";
+		CMStringW name = L"a";
 		int i = 0;
 		BOOL bFlag = false;
 
@@ -1270,7 +1270,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 				sChanName++;
 
 			// Add a new chat window
-			CMString sID = MakeWndID(sChanName);
+			CMStringW sID = MakeWndID(sChanName);
 			BYTE btOwnMode = 0;
 
 			GCSESSION gcw = { sizeof(gcw) };
@@ -1300,12 +1300,12 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 				CallChatEvent(0, (LPARAM)&gce);
 				{
 					int k = 0;
-					CMString sTemp = GetWord(sNamesList.c_str(), k);
+					CMStringW sTemp = GetWord(sNamesList.c_str(), k);
 
 					// Fill the nicklist
 					while (!sTemp.IsEmpty()) {
-						CMString sStat;
-						CMString sTemp2 = sTemp;
+						CMStringW sStat;
+						CMStringW sTemp2 = sTemp;
 						sStat = PrefixToStatus(sTemp[0]);
 
 						// fix for networks like freshirc where they allow more than one prefix
@@ -1386,16 +1386,16 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 				gce.time = time(0);
 				gce.pDest = &gcd;
 
-				if (!getTString("JTemp", &dbv)) {
-					CMString command = L"a";
-					CMString save = L"";
+				if (!getWString("JTemp", &dbv)) {
+					CMStringW command = L"a";
+					CMStringW save = L"";
 					int k = 0;
 
 					while (!command.IsEmpty()) {
 						command = GetWord(dbv.ptszVal, k);
 						k++;
 						if (!command.IsEmpty()) {
-							CMString S = command.Mid(1);
+							CMStringW S = command.Mid(1);
 							if (!mir_wstrcmpi(sChanName, S))
 								break;
 
@@ -1422,7 +1422,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 					if (save.IsEmpty())
 						db_unset(NULL, m_szModuleName, "JTemp");
 					else
-						setTString("JTemp", save.c_str());
+						setWString("JTemp", save.c_str());
 					db_free(&dbv);
 				}
 				else CallChatEvent(SESSION_INITDONE, (LPARAM)&gce);
@@ -1533,7 +1533,7 @@ bool CIrcProto::OnIrc_LIST(const CIrcMessage* pmsg)
 		}
 
 		lvItem.iSubItem = 3;
-		CMString S = DoColorCodes(temp, TRUE, FALSE);
+		CMStringW S = DoColorCodes(temp, TRUE, FALSE);
 		lvItem.pszText = (wchar_t*)S.c_str();
 		ListView_SetItem(hListView, &lvItem);
 		temp = save;
@@ -1587,7 +1587,7 @@ bool CIrcProto::OnIrc_BANLIST(const CIrcMessage* pmsg)
 			m_managerDlg->m_radio2.GetState() && pmsg->sCommand == L"346" ||
 			m_managerDlg->m_radio3.GetState() && pmsg->sCommand == L"348") &&
 			!m_managerDlg->m_radio1.Enabled() && !m_managerDlg->m_radio2.Enabled() && !m_managerDlg->m_radio3.Enabled()) {
-			CMString S = pmsg->parameters[2];
+			CMStringW S = pmsg->parameters[2];
 			if (pmsg->parameters.getCount() > 3) {
 				S += L"   - ";
 				S += pmsg->parameters[3];
@@ -1767,21 +1767,21 @@ bool CIrcProto::OnIrc_WHOIS_NO_USER(const CIrcMessage* pmsg)
 		CONTACT user = { (wchar_t*)pmsg->parameters[1].c_str(), NULL, NULL, false, false, false };
 		MCONTACT hContact = CList_FindContact(&user);
 		if (hContact) {
-			AddOutgoingMessageToDB(hContact, (wchar_t*)((CMString)L"> " + pmsg->parameters[2] + (CMString)L": " + pmsg->parameters[1]).c_str());
+			AddOutgoingMessageToDB(hContact, (wchar_t*)((CMStringW)L"> " + pmsg->parameters[2] + (CMStringW)L": " + pmsg->parameters[1]).c_str());
 
 			DBVARIANT dbv;
-			if (!getTString(hContact, "Default", &dbv)) {
-				setTString(hContact, "Nick", dbv.ptszVal);
+			if (!getWString(hContact, "Default", &dbv)) {
+				setWString(hContact, "Nick", dbv.ptszVal);
 
 				DBVARIANT dbv2;
 				if (getByte(hContact, "AdvancedMode", 0) == 0)
-					DoUserhostWithReason(1, ((CMString)L"S" + dbv.ptszVal).c_str(), true, dbv.ptszVal);
+					DoUserhostWithReason(1, ((CMStringW)L"S" + dbv.ptszVal).c_str(), true, dbv.ptszVal);
 				else {
-					if (!getTString(hContact, "UWildcard", &dbv2)) {
-						DoUserhostWithReason(2, ((CMString)L"S" + dbv2.ptszVal).c_str(), true, dbv2.ptszVal);
+					if (!getWString(hContact, "UWildcard", &dbv2)) {
+						DoUserhostWithReason(2, ((CMStringW)L"S" + dbv2.ptszVal).c_str(), true, dbv2.ptszVal);
 						db_free(&dbv2);
 					}
-					else DoUserhostWithReason(2, ((CMString)L"S" + dbv.ptszVal).c_str(), true, dbv.ptszVal);
+					else DoUserhostWithReason(2, ((CMStringW)L"S" + dbv.ptszVal).c_str(), true, dbv.ptszVal);
 				}
 				setString(hContact, "User", "");
 				setString(hContact, "Host", "");
@@ -1833,9 +1833,9 @@ bool CIrcProto::OnIrc_JOINERROR(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming) {
 		DBVARIANT dbv;
-		if (!getTString("JTemp", &dbv)) {
-			CMString command = L"a";
-			CMString save = L"";
+		if (!getWString("JTemp", &dbv)) {
+			CMStringW command = L"a";
+			CMStringW save = L"";
 			int i = 0;
 
 			while (!command.IsEmpty()) {
@@ -1851,7 +1851,7 @@ bool CIrcProto::OnIrc_JOINERROR(const CIrcMessage* pmsg)
 			if (save.IsEmpty())
 				db_unset(NULL, m_szModuleName, "JTemp");
 			else
-				setTString("JTemp", save.c_str());
+				setWString("JTemp", save.c_str());
 		}
 	}
 
@@ -1899,7 +1899,7 @@ bool CIrcProto::OnIrc_ERROR(const CIrcMessage* pmsg)
 		msn.szProto = m_szModuleName;
 		msn.tszInfoTitle = TranslateT("IRC error");
 
-		CMString S;
+		CMStringW S;
 		if (pmsg->parameters.getCount() > 0)
 			S = DoColorCodes(pmsg->parameters[0].c_str(), TRUE, FALSE);
 		else
@@ -1916,13 +1916,13 @@ bool CIrcProto::OnIrc_ERROR(const CIrcMessage* pmsg)
 
 bool CIrcProto::OnIrc_WHO_END(const CIrcMessage* pmsg)
 {
-	CMString command = GetNextUserhostReason(2);
+	CMStringW command = GetNextUserhostReason(2);
 	if (command[0] == 'S') {
 		if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 1) {
 			// is it a channel?
 			if (IsChannel(pmsg->parameters[1])) {
-				CMString S;
-				CMString User = GetWord(m_whoReply.c_str(), 0);
+				CMStringW S;
+				CMStringW User = GetWord(m_whoReply.c_str(), 0);
 				while (!User.IsEmpty()) {
 					if (GetWord(m_whoReply.c_str(), 3)[0] == 'G') {
 						S += User;
@@ -1931,7 +1931,7 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage* pmsg)
 					}
 					else DoEvent(GC_EVENT_SETCONTACTSTATUS, pmsg->parameters[1].c_str(), User.c_str(), NULL, NULL, NULL, ID_STATUS_ONLINE, FALSE, FALSE);
 
-					CMString SS = GetWordAddress(m_whoReply.c_str(), 4);
+					CMStringW SS = GetWordAddress(m_whoReply.c_str(), 4);
 					if (SS.IsEmpty())
 						break;
 					m_whoReply = SS;
@@ -1950,20 +1950,20 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage* pmsg)
 			MCONTACT hContact = CList_FindContact(&ccUser);
 
 			if (hContact && getByte(hContact, "AdvancedMode", 0) == 1) {
-				ptrW DBHost(getTStringA(hContact, "UHost"));
-				ptrW DBNick(getTStringA(hContact, "Nick"));
-				ptrW DBUser(getTStringA(hContact, "UUser"));
-				ptrW DBDefault(getTStringA(hContact, "Default"));
-				ptrW DBManUser(getTStringA(hContact, "User"));
-				ptrW DBManHost(getTStringA(hContact, "Host"));
-				ptrW DBWildcard(getTStringA(hContact, "UWildcard"));
+				ptrW DBHost(getWStringA(hContact, "UHost"));
+				ptrW DBNick(getWStringA(hContact, "Nick"));
+				ptrW DBUser(getWStringA(hContact, "UUser"));
+				ptrW DBDefault(getWStringA(hContact, "Default"));
+				ptrW DBManUser(getWStringA(hContact, "User"));
+				ptrW DBManHost(getWStringA(hContact, "Host"));
+				ptrW DBWildcard(getWStringA(hContact, "UWildcard"));
 				if (DBWildcard)
 					CharLower(DBWildcard);
 
-				CMString nick;
-				CMString user;
-				CMString host;
-				CMString away = GetWord(p1, 3);
+				CMStringW nick;
+				CMStringW user;
+				CMStringW host;
+				CMStringW away = GetWord(p1, 3);
 
 				while (!away.IsEmpty()) {
 					nick = GetWord(p1, 0);
@@ -1977,11 +1977,11 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage* pmsg)
 							setWord(hContact, "Status", ID_STATUS_ONLINE);
 
 						if ((DBNick && mir_wstrcmpi(nick.c_str(), DBNick)) || !DBNick)
-							setTString(hContact, "Nick", nick.c_str());
+							setWString(hContact, "Nick", nick.c_str());
 						if ((DBManUser && mir_wstrcmpi(user.c_str(), DBManUser)) || !DBManUser)
-							setTString(hContact, "User", user.c_str());
+							setWString(hContact, "User", user.c_str());
 						if ((DBManHost && mir_wstrcmpi(host.c_str(), DBManHost)) || !DBManHost)
-							setTString(hContact, "Host", host.c_str());
+							setWString(hContact, "Host", host.c_str());
 						return true;
 					}
 					p1 = GetWordAddress(p1, 4);
@@ -1989,9 +1989,9 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage* pmsg)
 				}
 
 				if (DBWildcard && DBNick && !WCCmp(CharLower(DBWildcard), CharLower(DBNick))) {
-					setTString(hContact, "Nick", DBDefault);
+					setWString(hContact, "Nick", DBDefault);
 
-					DoUserhostWithReason(2, ((CMString)L"S" + DBWildcard).c_str(), true, (wchar_t*)DBWildcard);
+					DoUserhostWithReason(2, ((CMStringW)L"S" + DBWildcard).c_str(), true, (wchar_t*)DBWildcard);
 
 					setString(hContact, "User", "");
 					setString(hContact, "Host", "");
@@ -2000,7 +2000,7 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage* pmsg)
 
 				if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 					setWord(hContact, "Status", ID_STATUS_OFFLINE);
-					setTString(hContact, "Nick", DBDefault);
+					setWString(hContact, "Nick", DBDefault);
 					setString(hContact, "User", "");
 					setString(hContact, "Host", "");
 				}
@@ -2013,7 +2013,7 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage* pmsg)
 
 bool CIrcProto::OnIrc_WHO_REPLY(const CIrcMessage* pmsg)
 {
-	CMString command = PeekAtReasons(2);
+	CMStringW command = PeekAtReasons(2);
 	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 6 && command[0] == 'S') {
 		m_whoReply.AppendFormat(L"%s %s %s %s ", pmsg->parameters[5].c_str(), pmsg->parameters[2].c_str(), pmsg->parameters[3].c_str(), pmsg->parameters[6].c_str());
 		if (mir_wstrcmpi(pmsg->parameters[5].c_str(), m_info.sNick.c_str()) == 0) {
@@ -2030,7 +2030,7 @@ bool CIrcProto::OnIrc_WHO_REPLY(const CIrcMessage* pmsg)
 
 bool CIrcProto::OnIrc_TRYAGAIN(const CIrcMessage* pmsg)
 {
-	CMString command = L"";
+	CMStringW command = L"";
 	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 1) {
 		if (pmsg->parameters[1] == L"WHO")
 			command = GetNextUserhostReason(2);
@@ -2045,27 +2045,27 @@ bool CIrcProto::OnIrc_TRYAGAIN(const CIrcMessage* pmsg)
 
 bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 {
-	CMString command;
+	CMStringW command;
 	if (pmsg->m_bIncoming) {
 		command = GetNextUserhostReason(1);
 		if (!command.IsEmpty() && command != L"U" && pmsg->parameters.getCount() > 1) {
 			CONTACT finduser = { NULL, NULL, NULL, false, false, false };
 			int awaystatus = 0;
-			CMString sTemp;
-			CMString host;
-			CMString user;
-			CMString nick;
-			CMString mask;
-			CMString mess;
-			CMString channel;
+			CMStringW sTemp;
+			CMStringW host;
+			CMStringW user;
+			CMStringW nick;
+			CMStringW mask;
+			CMStringW mess;
+			CMStringW channel;
 
 			// Status-check pre-processing: Setup check-list
-			OBJLIST<CMString> checklist(10);
+			OBJLIST<CMStringW> checklist(10);
 			if (command[0] == 'S') {
 				sTemp = GetWord(command.c_str(), 0);
 				sTemp.Delete(0, 1);
 				for (int j = 1; !sTemp.IsEmpty(); j++) {
-					checklist.insert(new CMString(sTemp));
+					checklist.insert(new CMStringW(sTemp));
 					sTemp = GetWord(command.c_str(), j);
 				}
 			}
@@ -2113,9 +2113,9 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 						MCONTACT hContact = CList_FindContact(&finduser);
 						if (hContact && getByte(hContact, "AdvancedMode", 0) == 0) {
 							setWord(hContact, "Status", awaystatus == '-' ? ID_STATUS_AWAY : ID_STATUS_ONLINE);
-							setTString(hContact, "User", user.c_str());
-							setTString(hContact, "Host", host.c_str());
-							setTString(hContact, "Nick", nick.c_str());
+							setWString(hContact, "User", user.c_str());
+							setWString(hContact, "Host", host.c_str());
+							setWString(hContact, "Nick", nick.c_str());
 	
 							// If user found, remove from checklist
 							for (int i = 0; i < checklist.getCount(); i++)
@@ -2128,7 +2128,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 				case 'I': // m_ignore
 					mess = L"/IGNORE %question=\"";
 					mess += TranslateT("Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored");
-					mess += (CMString)L"\",\"" + TranslateT("Ignore") + L"\",\"*!*@" + host + L"\"";
+					mess += (CMStringW)L"\",\"" + TranslateT("Ignore") + L"\",\"*!*@" + host + L"\"";
 					if (m_ignoreChannelDefault)
 						mess += L" +qnidcm";
 					else
@@ -2201,7 +2201,7 @@ bool CIrcProto::OnIrc_SUPPORT(const CIrcMessage* pmsg)
 		DoOnConnect(pmsg);
 
 	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 0) {
-		CMString S;
+		CMStringW S;
 		for (int i = 0; i < pmsg->parameters.getCount(); i++) {
 			wchar_t* temp = mir_wstrdup(pmsg->parameters[i].c_str());
 			if (wcsstr(temp, L"CHANTYPES=")) {
@@ -2286,7 +2286,7 @@ void CIrcProto::OnIrcDisconnected()
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_OFFLINE);
 
-	CMString sDisconn = L"\035\002";
+	CMStringW sDisconn = L"\035\002";
 	sDisconn += TranslateT("*Disconnected*");
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, sDisconn.c_str(), NULL, NULL, NULL, true, false);
 
@@ -2299,7 +2299,7 @@ void CIrcProto::OnIrcDisconnected()
 
 	// restore the original nick, cause it might be changed
 	memcpy(m_nick, m_pNick, sizeof(m_nick));
-	setTString("Nick", m_pNick);
+	setWString("Nick", m_pNick);
 
 	Menu_EnableItem(hMenuJoin, false);
 	Menu_EnableItem(hMenuList, false);
@@ -2393,7 +2393,7 @@ int CIrcProto::DoPerform(const char* event)
 	sSetting.MakeUpper();
 
 	DBVARIANT dbv;
-	if (!getTString(sSetting.c_str(), &dbv)) {
+	if (!getWString(sSetting.c_str(), &dbv)) {
 		if (!my_strstri(dbv.ptszVal, L"/away"))
 			PostIrcMessageWnd(NULL, NULL, dbv.ptszVal);
 		else
@@ -2404,12 +2404,12 @@ int CIrcProto::DoPerform(const char* event)
 	return 0;
 }
 
-int CIrcProto::IsIgnored(const CMString& nick, const CMString& address, const CMString& host, char type)
+int CIrcProto::IsIgnored(const CMStringW& nick, const CMStringW& address, const CMStringW& host, char type)
 {
 	return IsIgnored(nick + L"!" + address + L"@" + host, type);
 }
 
-int CIrcProto::IsIgnored(CMString user, char type)
+int CIrcProto::IsIgnored(CMStringW user, char type)
 {
 	for (int i = 0; i < m_ignoreItems.getCount(); i++) {
 		const CIrcIgnoreItem& C = m_ignoreItems[i];
@@ -2440,7 +2440,7 @@ int CIrcProto::IsIgnored(CMString user, char type)
 bool CIrcProto::AddIgnore(const wchar_t* mask, const wchar_t* flags, const wchar_t* network)
 {
 	RemoveIgnore(mask);
-	m_ignoreItems.insert(new CIrcIgnoreItem(mask, (L"+" + CMString(flags)).c_str(), network));
+	m_ignoreItems.insert(new CIrcIgnoreItem(mask, (L"+" + CMStringW(flags)).c_str(), network));
 	RewriteIgnoreSettings();
 
 	if (m_ignoreDlg)

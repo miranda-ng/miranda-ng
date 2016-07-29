@@ -18,7 +18,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 			{
 				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": incoming avatar (%d) from (%d)", fileNumber, friendNumber);
 
-				ptrW address(proto->getTStringA(hContact, TOX_SETTINGS_ID));
+				ptrW address(proto->getWStringA(hContact, TOX_SETTINGS_ID));
 				wchar_t avatarName[MAX_PATH];
 				mir_snwprintf(avatarName, MAX_PATH, L"%s.png", address);
 
@@ -53,7 +53,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 				proto->transfers.Add(transfer);
 
 				PROTORECVFILET pre = { 0 };
-				pre.dwFlags = PRFF_TCHAR;
+				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
 				pre.descr.w = L"";

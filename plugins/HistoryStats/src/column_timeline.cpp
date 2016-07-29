@@ -64,7 +64,7 @@ void ColTimeline::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 
 	array_each_(i, sourceTexts)
 	{
-		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
+		Opt.addComboItem(m_hSource, TranslateW(sourceTexts[i]));
 	}
 
 	Opt.setComboSelected(m_hSource   , 4 * m_nSource + m_nSourceType);
@@ -208,7 +208,7 @@ void ColTimeline::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpa
 	if (row == 1)
 	{
 		ext::string strTitle = str(ext::kformat(TranslateT("Timeline for #{data}"))
-			% L"#{data}" * TranslateTS(szSourceDesc[4 * m_nSource + m_nSourceType]));
+			% L"#{data}" * TranslateW(szSourceDesc[4 * m_nSource + m_nSourceType]));
 
 		writeRowspanTD(tos, getCustomTitle(TranslateT("Timeline"), strTitle) + L"<div style=\"width: " + utils::intToString(m_nTimelineWidth) + L"px;\"></div>", row, 1, rowSpan);
 	}

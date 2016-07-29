@@ -93,7 +93,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_RETRIEVE), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_MSG), SW_SHOW);
 			SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
-			db_set_ts(awayData->hContact, "CList", "StatusMsg", ptszStatusMsg);
+			db_set_ws(awayData->hContact, "CList", "StatusMsg", ptszStatusMsg);
 		}
 		break;
 

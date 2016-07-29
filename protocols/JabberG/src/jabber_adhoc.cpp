@@ -181,7 +181,7 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, HXML iqNode, Jabbe
 
 				const wchar_t *name = XmlGetAttrValue(itemNode, L"name");
 				if (!name) name = XmlGetAttrValue(itemNode, L"node");
-				ypos = AdHoc_AddCommandRadio(GetDlgItem(hwndDlg, IDC_FRAME), TranslateTS(name), nodeIdx, ypos, (nodeIdx == 1) ? 1 : 0);
+				ypos = AdHoc_AddCommandRadio(GetDlgItem(hwndDlg, IDC_FRAME), TranslateW(name), nodeIdx, ypos, (nodeIdx == 1) ? 1 : 0);
 				dat->CurrentHeight = ypos;
 			}
 		}
@@ -232,7 +232,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			else if (LPCTSTR ptszTitle = XmlGetText(XmlGetChild(xNode, "title")))
 				JabberFormSetInstruction(hwndDlg, ptszTitle);
 			else
-				JabberFormSetInstruction(hwndDlg, TranslateTS(status));
+				JabberFormSetInstruction(hwndDlg, TranslateW(status));
 			JabberFormCreateUI(hFrame, xNode, &dat->CurrentHeight);
 			ShowDlgItem(hwndDlg, IDC_FRAME, SW_SHOW);
 		}
@@ -242,7 +242,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			sttShowControls(hwndDlg, FALSE, toHide);
 
 			LPCTSTR noteText = XmlGetText(XmlGetChild(commandNode, "note"));
-			JabberFormSetInstruction(hwndDlg, noteText ? noteText : TranslateTS(status));
+			JabberFormSetInstruction(hwndDlg, noteText ? noteText : TranslateW(status));
 		}
 
 		// check actions
@@ -513,7 +513,7 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 	int res = -1;
 
 	if ((hContact != NULL || lParam != 0) && m_bJabberOnline) {
-		ptrW szJid(getTStringA(hContact, "jid"));
+		ptrW szJid(getWStringA(hContact, "jid"));
 		if (hContact && szJid != NULL) {
 			JABBER_LIST_ITEM *item = NULL;
 			int selected = 0;

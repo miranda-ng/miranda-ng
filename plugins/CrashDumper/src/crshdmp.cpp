@@ -65,14 +65,14 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVIC
 
 INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 {
-	CreateDirectoryTreeT(VersionInfoFolder);
+	CreateDirectoryTreeW(VersionInfoFolder);
 
 	wchar_t path[MAX_PATH];
 	mir_snwprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 
 	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hDumpFile != INVALID_HANDLE_VALUE) {
-		CMString buffer;
+		CMStringW buffer;
 		PrintVersionInfo(buffer, (unsigned int)lParam | VI_FLAG_PRNVAR);
 
 		WriteUtfFile(hDumpFile, T2Utf(buffer.c_str()));
@@ -87,7 +87,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 
 INT_PTR StoreVersionInfoToClipboard(WPARAM, LPARAM lParam)
 {
-	CMString buffer;
+	CMStringW buffer;
 	WriteBBFile(buffer, true);
 	PrintVersionInfo(buffer, (unsigned int)lParam | VI_FLAG_PRNVAR | VI_FLAG_FORMAT);
 	WriteBBFile(buffer, false);
@@ -99,7 +99,7 @@ INT_PTR StoreVersionInfoToClipboard(WPARAM, LPARAM lParam)
 
 INT_PTR UploadVersionInfo(WPARAM, LPARAM lParam)
 {
-	CMString buffer;
+	CMStringW buffer;
 	PrintVersionInfo(buffer);
 
 	VerTrnsfr *trn = (VerTrnsfr*)mir_alloc(sizeof(VerTrnsfr));
@@ -130,7 +130,7 @@ INT_PTR GetVersionInfo(WPARAM wParam, LPARAM lParam)
 {
 	int result = 1; //failure
 	if (lParam != NULL) {
-		CMString buffer;
+		CMStringW buffer;
 		PrintVersionInfo(buffer, (unsigned int)wParam);
 		char **retData = (char **)lParam;
 		*retData = mir_utf8encodeW(buffer.c_str());

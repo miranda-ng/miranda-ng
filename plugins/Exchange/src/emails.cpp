@@ -62,7 +62,7 @@ int CExchangeServer::Connect(int bForceConnect)
 		wchar_t server[1024];
 
 		GetStringFromDatabase("Username", L"", user, _countof(user));
-		wcsncpy_s(user, VARST(user), _TRUNCATE);
+		wcsncpy_s(user, VARSW(user), _TRUNCATE);
 
 		GetStringFromDatabase("Password", L"", password, _countof(password));
 		GetStringFromDatabase("Server", L"", server, _countof(server));

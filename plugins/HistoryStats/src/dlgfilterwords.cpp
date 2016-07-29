@@ -90,7 +90,7 @@ void DlgFilterWords::onWMInitDialog()
 		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(columnBand[i].iconId), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
 		DWORD dwFlags = (columnBand[i].bDisabled ? BandCtrl::BCF_DISABLED : 0);
 
-		m_hActionButtons[i] = m_Band.addButton(dwFlags, hIcon, i, TranslateTS(columnBand[i].szTooltip));
+		m_hActionButtons[i] = m_Band.addButton(dwFlags, hIcon, i, TranslateW(columnBand[i].szTooltip));
 
 		DestroyIcon(hIcon);
 	}
@@ -122,7 +122,7 @@ void DlgFilterWords::onWMInitDialog()
 
 	array_each_(i, szWordFilterModes)
 	{
-		SendDlgItemMessage(m_hWnd, IDC_MODE, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(TranslateTS(szWordFilterModes[i])));
+		SendDlgItemMessage(m_hWnd, IDC_MODE, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(TranslateW(szWordFilterModes[i])));
 	}
 
 	SendDlgItemMessage(m_hWnd, IDC_MODE, CB_SETCURSEL, 0, 0);

@@ -130,7 +130,7 @@ struct OptionsPageData : public MZeroedObject
 	{
 		if (flags & ODPF_DONTTRANSLATE)
 			return ptszStr;
-		return TranslateTH(hLangpack, ptszStr);
+		return TranslateW_LP(ptszStr, hLangpack);
 	}
 };
 
@@ -564,7 +564,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 
 	HWND oldWnd = NULL;
 	HWND oldTab = NULL;
-	CMString fullTitle;
+	CMStringW fullTitle;
 
 	OptionsPageData *opd = dat->getCurrent();
 	if (opd != NULL) {
@@ -588,9 +588,9 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 			continue;
 
 		opd = dat->arOpd[i];
-		wchar_t *ptszGroup = TranslateTH(opd->hLangpack, opd->ptszGroup);
+		wchar_t *ptszGroup = TranslateW_LP(opd->ptszGroup, opd->hLangpack);
 		wchar_t *ptszTitle = opd->getString(opd->ptszTitle), *useTitle;
-		wchar_t *ptszTab = TranslateTH(opd->hLangpack, opd->ptszTab);
+		wchar_t *ptszTab = TranslateW_LP(opd->ptszTab, opd->hLangpack);
 
 		tvis.hParent = NULL;
 		useTitle = ptszTitle;
@@ -798,10 +798,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			ptrW lastPage, lastGroup, lastTab;
 			OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)psh->pStartPage;
 			if (ood->pszPage == NULL) {
-				lastPage = db_get_tsa(NULL, "Options", "LastPage");
+				lastPage = db_get_wsa(NULL, "Options", "LastPage");
 
 				if (ood->pszGroup == NULL)
-					lastGroup = db_get_tsa(NULL, "Options", "LastGroup");
+					lastGroup = db_get_wsa(NULL, "Options", "LastGroup");
 				else
 					lastGroup = mir_a2u(ood->pszGroup);
 			}
@@ -811,7 +811,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			}
 
 			if (ood->pszTab == NULL)
-				lastTab = db_get_tsa(NULL, "Options", "LastTab");
+				lastTab = db_get_wsa(NULL, "Options", "LastTab");
 			else
 				lastTab = mir_a2u(ood->pszTab);
 
@@ -979,7 +979,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							if (mir_wstrcmp(opd->ptszTitle, p->ptszTitle) || mir_wstrcmp(opd->ptszGroup, p->ptszGroup))
 								continue;
 
-							tie.pszText = TranslateTH(p->hLangpack, p->ptszTab);
+							tie.pszText = TranslateW_LP(p->ptszTab, p->hLangpack);
 							tie.lParam = i;
 							TabCtrl_InsertItem(hwndTab, pages, &tie);
 							if (!mir_wstrcmp(opd->ptszTab, p->ptszTab))
@@ -1107,14 +1107,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		opd = dat->getCurrent();
 		if (opd) {
 			if (opd->ptszTab)
-				db_set_ts(NULL, "Options", "LastTab", opd->ptszTab);
+				db_set_ws(NULL, "Options", "LastTab", opd->ptszTab);
 			else
 				db_unset(NULL, "Options", "LastTab");
 			if (opd->ptszGroup)
-				db_set_ts(NULL, "Options", "LastGroup", opd->ptszGroup);
+				db_set_ws(NULL, "Options", "LastGroup", opd->ptszGroup);
 			else
 				db_unset(NULL, "Options", "LastGroup");
-			db_set_ts(NULL, "Options", "LastPage", opd->ptszTitle);
+			db_set_ws(NULL, "Options", "LastPage", opd->ptszTitle);
 		}
 		else {
 			db_unset(NULL, "Options", "LastTab");
@@ -1176,11 +1176,11 @@ static void OpenOptionsNow(int _hLang, const char *pszGroup, const char *pszPage
 			HTREEITEM hItem = NULL;
 			if (pszGroup != NULL) {
 				ptrW ptszGroup(mir_a2u(pszGroup));
-				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(_hLang, ptszGroup));
+				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateW_LP(ptszGroup, _hLang));
 				if (hItem != NULL)
-					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateTH(_hLang, ptszPage));
+					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateW_LP(ptszPage, _hLang));
 			}
-			else hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateTH(_hLang, ptszPage));
+			else hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateW_LP(ptszPage, _hLang));
 
 			if (hItem != NULL)
 				TreeView_SelectItem(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem);

@@ -150,14 +150,14 @@ wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 		return NULL;
 
 	case CCNF_GROUP:
-		if ((res = db_get_tsa(hContact, "CList", "Group")) != NULL)
+		if ((res = db_get_wsa(hContact, "CList", "Group")) != NULL)
 			return res;
 		break;
 
 	case CNF_UNIQUEID:
 		//UID for ChatRoom
 		if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
-			if ((res = db_get_tsa(hContact, szProto, "ChatRoomID")) != NULL)
+			if ((res = db_get_wsa(hContact, szProto, "ChatRoomID")) != NULL)
 				return res;
 
 		//UID for other contact
@@ -192,7 +192,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 	}
 
 	// contact was not in cache, do a search
-	CMString tmp;
+	CMStringW tmp;
 	int count = 0;
 	MCONTACT hContact;
 	LIST<void> arResults(1);

@@ -81,7 +81,7 @@ static IconSourceFile* IconSourceFile_Get(const wchar_t *file, bool isPath)
 
 	IconSourceFile key;
 	if (isPath)
-		PathToAbsoluteT(file, key.file); /// TODO: convert path to long - eliminate duplicate items
+		PathToAbsoluteW(file, key.file); /// TODO: convert path to long - eliminate duplicate items
 	else
 		wcsncpy_s(key.file, file, _TRUNCATE);
 
@@ -667,10 +667,10 @@ HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 	big = big && !item->cx;
 	IconSourceItem* &source = big ? item->source_big : item->source_small;
 	if (source == NULL) {
-		ptrW tszCustomPath(db_get_tsa(NULL, "SkinIcons", item->name));
+		ptrW tszCustomPath(db_get_wsa(NULL, "SkinIcons", item->name));
 		if (tszCustomPath != NULL) {
 			wchar_t tszFullPath[MAX_PATH];
-			PathToAbsoluteT(tszCustomPath, tszFullPath);
+			PathToAbsoluteW(tszCustomPath, tszFullPath);
 			int cx = item->cx ? item->cx : (big ? g_iIconX : g_iIconSX);
 			int cy = item->cy ? item->cy : (big ? g_iIconY : g_iIconSY);
 			source = GetIconSourceItemFromPath(tszFullPath, cx, cy);

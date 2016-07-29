@@ -1250,7 +1250,7 @@ void CAimProto::snac_received_message(SNAC &snac, HANDLE hServerConn, unsigned s
 				wchar_t* filenameT = mir_utf8decodeW(filename);
 
 				PROTORECVFILET pre = { 0 };
-				pre.dwFlags = PRFF_TCHAR;
+				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
 				pre.descr.w = mir_utf8decodeW(msg_buf);

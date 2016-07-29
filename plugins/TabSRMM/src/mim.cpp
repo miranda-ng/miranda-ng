@@ -123,9 +123,9 @@ INT_PTR CMimAPI::foldersPathChanged()
 		Utils::ensureTralingBackslash(m_szChatLogsPath);
 	}
 
-	CreateDirectoryTreeT(m_szProfilePath);
-	CreateDirectoryTreeT(m_szSkinsPath);
-	CreateDirectoryTreeT(m_szSavedAvatarsPath);
+	CreateDirectoryTreeW(m_szProfilePath);
+	CreateDirectoryTreeW(m_szSkinsPath);
+	CreateDirectoryTreeW(m_szSavedAvatarsPath);
 
 	Skin->extractSkinsAndLogo(true);
 	Skin->setupAeroSkins();
@@ -138,7 +138,7 @@ const wchar_t* CMimAPI::getUserDir()
 		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 			wcsncpy_s(m_userDir, L"%miranda_userdata%", _TRUNCATE);
 		else
-			wcsncpy_s(m_userDir, VARST(L"%miranda_userdata%"), _TRUNCATE);
+			wcsncpy_s(m_userDir, VARSW(L"%miranda_userdata%"), _TRUNCATE);
 
 		Utils::ensureTralingBackslash(m_userDir);
 	}
@@ -155,8 +155,8 @@ void CMimAPI::InitPaths()
 		wcsncpy_s(m_szSkinsPath, L"%miranda_path%\\Skins\\TabSRMM", _TRUNCATE);
 	}
 	else {
-		wcsncpy_s(m_szChatLogsPath, VARST(L"%miranda_logpath%"), _TRUNCATE);
-		wcsncpy_s(m_szSkinsPath, VARST(L"%miranda_path%\\Skins\\TabSRMM"), _TRUNCATE);
+		wcsncpy_s(m_szChatLogsPath, VARSW(L"%miranda_logpath%"), _TRUNCATE);
+		wcsncpy_s(m_szSkinsPath, VARSW(L"%miranda_path%\\Skins\\TabSRMM"), _TRUNCATE);
 	}
 
 	Utils::ensureTralingBackslash(m_szChatLogsPath);

@@ -276,7 +276,7 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM)
 		Frame.tname = L"Toolbar";
 		Frame.hWnd = g_ctrl->hWnd;
 		Frame.align = alTop;
-		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR;
+		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_UNICODE;
 		Frame.height = g_ctrl->nLastHeight;
 		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 		g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
@@ -299,7 +299,7 @@ int LoadBackgroundOptions()
 	}
 
 	if (db_get_b(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
-		ptrW tszBitmapName(db_get_tsa(NULL, TTB_OPTDIR, "BkBitmap"));
+		ptrW tszBitmapName(db_get_wsa(NULL, TTB_OPTDIR, "BkBitmap"));
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}

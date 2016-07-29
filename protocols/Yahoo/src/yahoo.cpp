@@ -217,8 +217,8 @@ void CYahooProto::AddBuddy(MCONTACT hContact, const char *group, const wchar_t *
 	T2Utf u_msg(msg);
 
 	ptrA ident(getStringA(hContact, "MyIdentity"));
-	ptrW fname(getTStringA(NULL, "FirstName"));
-	ptrW lname(getTStringA(NULL, "LastName"));
+	ptrW fname(getWStringA(NULL, "FirstName"));
+	ptrW lname(getWStringA(NULL, "LastName"));
 
 	SetStringUtf(hContact, "YGroup", group);
 

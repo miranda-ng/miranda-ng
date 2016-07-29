@@ -99,18 +99,18 @@ int AddInfoToComboBoxes(HWND hWnd)
 	int i;
 
 	for (i = 0; i < cShowAgeMode; i++)
-		SendDlgItemMessage(hWnd, IDC_AGE_COMBOBOX, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szShowAgeMode[i]));
+		SendDlgItemMessage(hWnd, IDC_AGE_COMBOBOX, CB_ADDSTRING, 0, (LPARAM)TranslateW(szShowAgeMode[i]));
 
 	for (i = 0; i < cSaveModule; i++)
-		SendDlgItemMessage(hWnd, IDC_DEFAULT_MODULE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szSaveModule[i]));
+		SendDlgItemMessage(hWnd, IDC_DEFAULT_MODULE, CB_ADDSTRING, 0, (LPARAM)TranslateW(szSaveModule[i]));
 
 	for (i = 0; i < cPopupClick; i++) {
-		SendDlgItemMessage(hWnd, IDC_LEFT_CLICK, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szPopupClick[i]));
-		SendDlgItemMessage(hWnd, IDC_RIGHT_CLICK, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szPopupClick[i]));
+		SendDlgItemMessage(hWnd, IDC_LEFT_CLICK, CB_ADDSTRING, 0, (LPARAM)TranslateW(szPopupClick[i]));
+		SendDlgItemMessage(hWnd, IDC_RIGHT_CLICK, CB_ADDSTRING, 0, (LPARAM)TranslateW(szPopupClick[i]));
 	}
 
 	for (i = 0; i < cNotifyFor; i++)
-		SendDlgItemMessage(hWnd, IDC_NOTIFYFOR, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szNotifyFor[i]));
+		SendDlgItemMessage(hWnd, IDC_NOTIFYFOR, CB_ADDSTRING, 0, (LPARAM)TranslateW(szNotifyFor[i]));
 
 	return i;
 }
@@ -406,7 +406,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		Window_SetIcon_IcoLib(hWnd, hAddBirthdayContact);
 
 		for (int i = 0; i < cSaveModule; i++)
-			SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szSaveModule[i]));
+			SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_ADDSTRING, 0, (LPARAM)TranslateW(szSaveModule[i]));
 		SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_SETCURSEL, commonData.cDefaultModule, 0);
 		break;
 

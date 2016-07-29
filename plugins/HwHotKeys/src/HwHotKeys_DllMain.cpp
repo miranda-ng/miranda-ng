@@ -128,7 +128,7 @@ int initializeOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE OptDlgPg = { sizeof(OptDlgPg) };
 	OptDlgPg.position = 100000000;
 	OptDlgPg.hInstance = hInstance;
-	OptDlgPg.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	OptDlgPg.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	OptDlgPg.pszTemplate = MAKEINTRESOURCEA(dlg_options);
 	OptDlgPg.pwszGroup = LPGENW("Customize");
 	OptDlgPg.pwszTitle = LPGENW("Hardware HotKeys");

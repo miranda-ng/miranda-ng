@@ -469,8 +469,8 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 		+ ((TL[3] == 'C') ? SBF_ALIGN_BR_VCENTER : 0)
 		+ ((TL[4] == 'I') ? SBF_CALL_ON_PRESS : 0);
 	if (a)
-		return ModernSkinButton_AddButton(pcli->hwndContactList, ObjectName + 1, pServiceName, pStatusServiceName, "\0", Left, Top, Right, Bottom, alingnto, TranslateTS(Hint), Section, Type, MinWidth, MinHeight);
-	return ModernSkinButton_AddButton(pcli->hwndContactList, ObjectName + 1, pServiceName, pStatusServiceName, "\0", Left, Top, Right, Bottom, alingnto, TranslateTS(Hint), NULL, NULL, MinWidth, MinHeight);
+		return ModernSkinButton_AddButton(pcli->hwndContactList, ObjectName + 1, pServiceName, pStatusServiceName, "\0", Left, Top, Right, Bottom, alingnto, TranslateW(Hint), Section, Type, MinWidth, MinHeight);
+	return ModernSkinButton_AddButton(pcli->hwndContactList, ObjectName + 1, pServiceName, pStatusServiceName, "\0", Left, Top, Right, Bottom, alingnto, TranslateW(Hint), NULL, NULL, MinWidth, MinHeight);
 }
 
 //Parse DB string and add object

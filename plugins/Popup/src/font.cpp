@@ -28,8 +28,8 @@ PopupFonts fonts = { 0 };
 void InitFonts()
 {
 	// Fonts
-	FontIDT fid = { 0 };
-	fid.cbSize = sizeof(FontIDT);
+	FontIDW fid = { 0 };
+	fid.cbSize = sizeof(FontIDW);
 	mir_wstrncpy(fid.group, PU_FNT_AND_COLORW, _countof(fid.group));
 	mir_strncpy(fid.dbSettingsGroup, PU_FNT_AND_COLOR_DB, _countof(fid.dbSettingsGroup));
 	fid.flags = FIDF_DEFAULTVALID;
@@ -43,42 +43,42 @@ void InitFonts()
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TITLE);
 	fid.deffontsettings.style = DBFONTF_BOLD;
 	fid.deffontsettings.colour = RGB(0, 0, 0);
-	FontRegisterT(&fid);
+	FontRegisterW(&fid);
 
 	mir_wstrncpy(fid.name, PU_FNT_NAME_CLOCK, _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_CLOCK);
-	FontRegisterT(&fid);
+	FontRegisterW(&fid);
 
 	mir_wstrncpy(fid.name, PU_FNT_NAME_TEXT, _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TEXT);
 	fid.deffontsettings.style = 0;
-	FontRegisterT(&fid);
+	FontRegisterW(&fid);
 
 	mir_wstrncpy(fid.name, PU_FNT_NAME_ACTION, _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_ACTION);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 	fid.deffontsettings.colour = RGB(0, 0, 255);
-	FontRegisterT(&fid);
+	FontRegisterW(&fid);
 
 	mir_wstrncpy(fid.name, PU_FNT_NAME_HOVERED_ACTION, _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_HOVERED_ACTION);
 	fid.deffontsettings.style = DBFONTF_UNDERLINE;
-	FontRegisterT(&fid);
+	FontRegisterW(&fid);
 
-	ColourIDT cid = { 0 };
-	cid.cbSize = sizeof(ColourIDT);
+	ColourIDW cid = { 0 };
+	cid.cbSize = sizeof(ColourIDW);
 	mir_wstrncpy(cid.group, PU_FNT_AND_COLORW, _countof(cid.group));
 	mir_strncpy(cid.dbSettingsGroup, PU_FNT_AND_COLOR_DB, _countof(cid.dbSettingsGroup));
 
 	mir_wstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
 	mir_strncpy(cid.setting, PU_COL_BACK_SETTING, _countof(cid.setting));
 	cid.defcolour = SETTING_BACKCOLOUR_DEFAULT;
-	ColourRegisterT(&cid);
+	ColourRegisterW(&cid);
 
 	mir_wstrncpy(cid.name, PU_COL_AVAT_NAME, _countof(cid.name));
 	mir_strncpy(cid.setting, PU_COL_AVAT_SETTING, _countof(cid.setting));
 	cid.defcolour = SETTING_TEXTCOLOUR_DEFAULT;
-	ColourRegisterT(&cid);
+	ColourRegisterW(&cid);
 
 	ReloadFonts();
 }
@@ -93,39 +93,39 @@ void ReloadFonts()
 	if (fonts.actionHover)	DeleteObject(fonts.actionHover);
 
 	LOGFONT lf = { 0 };
-	FontIDT fid = { 0 };
-	fid.cbSize = sizeof(FontIDT);
+	FontIDW fid = { 0 };
+	fid.cbSize = sizeof(FontIDW);
 	mir_wstrncpy(fid.group, PU_FNT_AND_COLORW, _countof(fid.name));
 
 	mir_wstrncpy(fid.name, PU_FNT_NAME_TITLE, _countof(fid.name));
-	fonts.clTitle = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clTitle = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.title = CreateFontIndirect(&lf);
 
 	mir_wstrncpy(fid.name, PU_FNT_NAME_CLOCK, _countof(fid.name));
-	fonts.clClock = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clClock = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.clock = CreateFontIndirect(&lf);
 
 	mir_wstrncpy(fid.name, PU_FNT_NAME_TEXT, _countof(fid.name));
-	fonts.clText = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clText = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.text = CreateFontIndirect(&lf);
 
 	mir_wstrncpy(fid.name, PU_FNT_NAME_ACTION, _countof(fid.name));
-	fonts.clAction = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clAction = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.action = CreateFontIndirect(&lf);
 
 	mir_wstrncpy(fid.name, PU_FNT_NAME_HOVERED_ACTION, _countof(fid.name));
-	fonts.clActionHover = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clActionHover = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.actionHover = CreateFontIndirect(&lf);
 
-	ColourIDT cid = { 0 };
-	cid.cbSize = sizeof(ColourIDT);
+	ColourIDW cid = { 0 };
+	cid.cbSize = sizeof(ColourIDW);
 	mir_wstrncpy(cid.group, PU_FNT_AND_COLORW, _countof(cid.group));
 	mir_wstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
-	fonts.clBack = (COLORREF)CallService(MS_COLOUR_GETT, (WPARAM)&cid, (LPARAM)&lf);
+	fonts.clBack = (COLORREF)CallService(MS_COLOUR_GETW, (WPARAM)&cid, (LPARAM)&lf);
 
 	mir_wstrncpy(cid.group, PU_FNT_AND_COLORW, _countof(cid.group));
 	mir_wstrncpy(cid.name, PU_COL_AVAT_NAME, _countof(cid.name));
-	fonts.clAvatarBorder = (COLORREF)CallService(MS_COLOUR_GETT, (WPARAM)&cid, (LPARAM)&lf);
+	fonts.clAvatarBorder = (COLORREF)CallService(MS_COLOUR_GETW, (WPARAM)&cid, (LPARAM)&lf);
 
 	// update class popupps(only temp at this point, must rework)
 	char setting[256];

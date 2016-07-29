@@ -96,8 +96,8 @@ class CGenMenuOptionsPage : public CDlgBase
 					else
 						ptszCustomName = L"";
 
-					CMString tszValue(FORMAT, L"%d;%d;%S;%s", visible, runtimepos, pszParent, ptszCustomName);
-					db_set_ts(NULL, szModule, menuItemName, tszValue);
+					CMStringW tszValue(FORMAT, L"%d;%d;%S;%s", visible, runtimepos, pszParent, ptszCustomName);
+					db_set_ws(NULL, szModule, menuItemName, tszValue);
 
 					if (pimi->mi.flags & CMIF_CUSTOM)
 						db_set_s(NULL, szModule, CMStringA(FORMAT, "Custom%d", customOrder++), menuItemName);						
@@ -321,7 +321,7 @@ public:
 		for (int i = 0; i < g_menus.getCount(); i++) {
 			TIntMenuObject *p = g_menus[i];
 			if (p->id != (int)hStatusMenuObject && p->m_bUseUserDefinedItems)
-				m_menuObjects.AddString(TranslateTS(p->ptszDisplayName), p->id);
+				m_menuObjects.AddString(TranslateW(p->ptszDisplayName), p->id);
 		}
 		
 		m_menuObjects.SetCurSel(0);

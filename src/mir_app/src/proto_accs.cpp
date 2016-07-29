@@ -90,7 +90,7 @@ void LoadDbAccounts(void)
 
 		if (ver >= 4) {
 			_itoa(OFFSET_NAME + i, buf, 10);
-			pa->tszAccountName = db_get_tsa(NULL, "Protocols", buf);
+			pa->tszAccountName = db_get_wsa(NULL, "Protocols", buf);
 
 			_itoa(OFFSET_ENABLED + i, buf, 10);
 			pa->bIsEnabled = db_get_dw(NULL, "Protocols", buf, 1) != 0;
@@ -179,7 +179,7 @@ void WriteDbAccounts()
 		db_set_dw(NULL, "Protocols", buf, pa->bIsEnabled);
 
 		_itoa(OFFSET_NAME + i, buf, 10);
-		db_set_ts(NULL, "Protocols", buf, pa->tszAccountName);
+		db_set_ws(NULL, "Protocols", buf, pa->tszAccountName);
 	}
 
 	db_unset(0, "Protocols", "ProtoCount");

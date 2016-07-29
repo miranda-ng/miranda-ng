@@ -100,7 +100,7 @@ PLUGININFOEX* GetMirInfo(HMODULE hModule)
 	return bpi(mirandaVersion);
 }
 
-void GetInternetExplorerVersion(CMString &buffer)
+void GetInternetExplorerVersion(CMStringW &buffer)
 {
 	HKEY hKey;
 	DWORD size;
@@ -164,7 +164,7 @@ void TrimMultiSpaces(wchar_t *str)
 	}
 }
 
-void GetProcessorString(CMString &buffer)
+void GetProcessorString(CMStringW &buffer)
 {
 	HKEY hKey;
 	DWORD size;
@@ -197,7 +197,7 @@ void GetProcessorString(CMString &buffer)
 		buffer.AppendFormat(TEXT(" [%u CPUs]"), si.dwNumberOfProcessors);
 }
 
-void GetFreeMemoryString(CMString &buffer)
+void GetFreeMemoryString(CMStringW &buffer)
 {
 	unsigned ram;
 	MEMORYSTATUSEX ms = { 0 };
@@ -207,7 +207,7 @@ void GetFreeMemoryString(CMString &buffer)
 	buffer.AppendFormat(TEXT("Installed RAM: %u MBytes"), ram);
 }
 
-void GetFreeDiskString(LPCTSTR dirname, CMString &buffer)
+void GetFreeDiskString(LPCTSTR dirname, CMStringW &buffer)
 {
 	ULARGE_INTEGER tnb, tfb, fs = { 0 };
 	GetDiskFreeSpaceEx(dirname, &fs, &tnb, &tfb);
@@ -216,7 +216,7 @@ void GetFreeDiskString(LPCTSTR dirname, CMString &buffer)
 	buffer.AppendFormat(TEXT("Free disk space on Miranda partition: %u MBytes"), fs.LowPart);
 }
 
-void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMString& buffer)
+void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMStringW& buffer)
 {
 	buffer.Append(TEXT("Exception: "));
 
@@ -317,7 +317,7 @@ void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMString& buffer)
 	}
 }
 
-void GetAdminString(CMString &buffer)
+void GetAdminString(CMStringW &buffer)
 {
 	BOOL b;
 	__try {
@@ -341,7 +341,7 @@ void GetAdminString(CMString &buffer)
 	buffer.AppendFormat(TEXT("Administrator privileges: %s"), b ? TEXT("Yes") : TEXT("No"));
 }
 
-void GetLanguageString(CMString &buffer)
+void GetLanguageString(CMStringW &buffer)
 {
 	wchar_t name1[256], name2[256], name3[256], name4[256];
 
@@ -354,7 +354,7 @@ void GetLanguageString(CMString &buffer)
 	buffer.AppendFormat(TEXT("OS Languages: (UI | Locale (User/System)) : %s/%s | %s/%s"), name3, name4, name1, name2);
 }
 
-void GetLanguagePackString(CMString &buffer)
+void GetLanguagePackString(CMStringW &buffer)
 {
 	buffer.Append(TEXT("Language pack: "));
 	if (packlcid != LOCALE_USER_DEFAULT) {
@@ -372,7 +372,7 @@ void GetLanguagePackString(CMString &buffer)
 		buffer.Append(TEXT("No language pack installed"));
 }
 
-void GetWow64String(CMString &buffer)
+void GetWow64String(CMStringW &buffer)
 {
 	BOOL wow64 = 0;
 	if (!IsWow64Process(GetCurrentProcess(), &wow64))
@@ -382,7 +382,7 @@ void GetWow64String(CMString &buffer)
 		buffer.Append(TEXT(" [running inside WOW64]"));
 }
 
-void GetVersionInfo(HMODULE hLib, CMString& buffer)
+void GetVersionInfo(HMODULE hLib, CMStringW& buffer)
 {
 	HRSRC hVersion = FindResource(hLib, MAKEINTRESOURCE(VS_VERSION_INFO), RT_VERSION);
 	if (hVersion != NULL) {
@@ -406,7 +406,7 @@ void GetVersionInfo(HMODULE hLib, CMString& buffer)
 	}
 }
 
-void StoreStringToClip(CMString& buffer)
+void StoreStringToClip(CMStringW& buffer)
 {
 	int bufLen = (buffer.GetLength() + 1) * sizeof(wchar_t);
 	HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);

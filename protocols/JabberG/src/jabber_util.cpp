@@ -283,9 +283,9 @@ wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 	}
 
 	if (str != NULL)
-		mir_snwprintf(errorStr, 256, L"%s %d: %s\r\n%s", TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)), str);
+		mir_snwprintf(errorStr, 256, L"%s %d: %s\r\n%s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)), str);
 	else
-		mir_snwprintf(errorStr, 256, L"%s %d: %s", TranslateT("Error"), errorCode, TranslateTS(JabberErrorStr(errorCode)));
+		mir_snwprintf(errorStr, 256, L"%s %d: %s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)));
 
 	if (pErrorCode)
 		*pErrorCode = errorCode;
@@ -425,7 +425,7 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 			arrExtCaps.insert(m_lstJabberFeatCapPairsDynamic[i]->szExt);
 
 	if (arrExtCaps.getCount()) {
-		CMString szExtCaps = arrExtCaps[0];
+		CMStringW szExtCaps = arrExtCaps[0];
 		for (int i = 1; i < arrExtCaps.getCount(); i++) {
 			szExtCaps.AppendChar(' ');
 			szExtCaps += arrExtCaps[i];
@@ -528,7 +528,7 @@ wchar_t* CJabberProto::GetClientJID(MCONTACT hContact, wchar_t *dest, size_t des
 	if (hContact == NULL)
 		return NULL;
 
-	ptrW jid(getTStringA(hContact, "jid"));
+	ptrW jid(getWStringA(hContact, "jid"));
 	return GetClientJID(jid, dest, destLen);
 }
 
@@ -658,7 +658,7 @@ void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *par
 	for (int i = 0; i < recentCount; i++) {
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, "%s%d", param, i);
-		ptrW tszRecent(getTStringA(setting));
+		ptrW tszRecent(getWStringA(setting));
 		if (tszRecent != NULL)
 			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, tszRecent);
 	}
@@ -682,7 +682,7 @@ void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param
 	id = getByte(param, 0);
 	char setting[MAXMODULELABELLENGTH];
 	mir_snprintf(setting, "%s%d", param, id);
-	setTString(setting, string);
+	setWString(setting, string);
 	setByte(param, (id + 1) % recentCount);
 }
 
@@ -809,7 +809,7 @@ void JabberCopyText(HWND hwnd, const wchar_t *text)
 	}
 }
 
-BOOL CJabberProto::EnterString(CMString &result, LPCTSTR caption, int type, char *windowName, int recentCount, int timeout)
+BOOL CJabberProto::EnterString(CMStringW &result, LPCTSTR caption, int type, char *windowName, int recentCount, int timeout)
 {
 	if (caption == NULL) {
 		caption = NEWWSTR_ALLOCA(result.GetString());
@@ -933,7 +933,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 							fclose(out);
 							setString(ai.hContact, "AvatarSaved", buffer);
 							ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
-							debugLog(L"Broadcast new avatar: %s", ai.filename);
+							debugLogW(L"Broadcast new avatar: %s", ai.filename);
 						}
 						else ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai, 0);
 					}

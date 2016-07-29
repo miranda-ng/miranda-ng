@@ -1227,7 +1227,7 @@ void CMsnProto::p2p_InitFileTransfer(
 			mir_snwprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 			PROTORECVFILET pre = { 0 };
-			pre.dwFlags = PRFF_TCHAR;
+			pre.dwFlags = PRFF_UNICODE;
 			pre.fileCount = 1;
 			pre.timestamp = time(NULL);
 			pre.descr.w = tComment;

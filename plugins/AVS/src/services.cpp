@@ -161,10 +161,10 @@ static INT_PTR avSetAvatar(MCONTACT hContact, wchar_t *tszPath)
 	// file exists...
 	wchar_t szBackupName[MAX_PATH];
 	PathToRelativeT(szFinalName, szBackupName, g_szDataPath);
-	db_set_ts(hContact, "ContactPhoto", "Backup", szBackupName);
+	db_set_ws(hContact, "ContactPhoto", "Backup", szBackupName);
 
 	db_set_b(hContact, "ContactPhoto", "Locked", is_locked);
-	db_set_ts(hContact, "ContactPhoto", "File", szFinalName);
+	db_set_ws(hContact, "ContactPhoto", "File", szFinalName);
 	MakePathRelative(hContact, szFinalName);
 
 	// Fix cache
@@ -214,7 +214,7 @@ static int InternalRemoveMyAvatar(char *protocol)
 		if (ret == 0) {
 			// Has global avatar?
 			DBVARIANT dbv = { 0 };
-			if (!db_get_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv)) {
+			if (!db_get_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv)) {
 				db_free(&dbv);
 				db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
 				DeleteGlobalUserAvatar();
@@ -253,7 +253,7 @@ static int InternalRemoveMyAvatar(char *protocol)
 	return ret;
 }
 
-static void FilterGetStrings(CMString &filter, BOOL xml, BOOL swf)
+static void FilterGetStrings(CMStringW &filter, BOOL xml, BOOL swf)
 {
 	filter.AppendFormat(L"%s (*.bmp;*.jpg;*.gif;*.png", TranslateT("All files"));
 	if (swf) filter.Append(L";*.swf");
@@ -510,7 +510,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 	}
 	else {
 		// Try to open if is not a flash or XML
-		hBmp = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFinalName, IMGL_TCHAR);
+		hBmp = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFinalName, IMGL_WCHAR);
 		if (hBmp == NULL)
 			return -4;
 	}
@@ -590,9 +590,9 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 			if (saved) {
 				wchar_t relFile[1024];
 				if (PathToRelativeT(globalFile, relFile, g_szDataPath))
-					db_set_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", relFile);
+					db_set_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", relFile);
 				else
-					db_set_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", globalFile);
+					db_set_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", globalFile);
 
 				db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 0);
 			}
@@ -661,7 +661,7 @@ INT_PTR avSetMyAvatar(char* protocol, wchar_t* tszPath)
 	if (tszPath == NULL) {
 		data.protocol = protocol;
 
-		CMString filter;
+		CMStringW filter;
 		FilterGetStrings(filter, allAcceptXML, allAcceptSWF);
 
 		wchar_t inipath[1024];

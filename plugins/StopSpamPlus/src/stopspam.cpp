@@ -52,7 +52,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CMenuItem mi;
 	SET_UID(mi, 0xf2164e17, 0xa4c1, 0x4b07, 0xae, 0x81, 0x9e, 0xae, 0x7f, 0xa2, 0x55, 0x13);
 	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.w = LPGENW("Remove Temporary Contacts");
 	mi.pszService = pluginName"/RemoveTempContacts";

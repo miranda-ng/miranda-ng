@@ -66,7 +66,7 @@ static int LookupDatabaseSetting(const FieldNamesItem* table, int code, DBVARIAN
 	}
 	else if (type == DBVT_WCHAR) {
 		WCHAR* wtext = make_unicode_string(text);
-		dbv->pwszVal = mir_wstrdup(TranslateTS(wtext));
+		dbv->pwszVal = mir_wstrdup(TranslateW(wtext));
 		dbv->type = DBVT_WCHAR;
 		SAFE_FREE((void**)&wtext);
 	}
@@ -524,7 +524,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 		wchar_t tmp[MAX_PATH];
 		PathToRelativeT(tszMyFile, tmp);
-		setTString(NULL, "AvatarFile", tmp);
+		setWString(NULL, "AvatarFile", tmp);
 		SAFE_FREE((void**)&hash);
 	}
    else {
@@ -542,7 +542,7 @@ INT_PTR CIcqProto::SetNickName(WPARAM wParam, LPARAM lParam)
 		return 0; // failure
 
 	if (wParam & SMNN_UNICODE)
-		setTString("Nick", (WCHAR*)lParam);
+		setWString("Nick", (WCHAR*)lParam);
 	else
 		setString("Nick", (char*)lParam);
 
@@ -668,7 +668,7 @@ INT_PTR icq_getEventTextMissedMessage(WPARAM, LPARAM lParam)
 
 			MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, (int)mir_strlen(pszText), pwszText, wchars);
 
-			nRetVal = (INT_PTR)mir_wstrdup(TranslateTS(pwszText));
+			nRetVal = (INT_PTR)mir_wstrdup(TranslateW(pwszText));
 		}
 		else if (pEvent->datatype == DBVT_ASCIIZ)
 			nRetVal = (INT_PTR)mir_strdup(Translate(pszText));

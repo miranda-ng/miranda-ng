@@ -282,7 +282,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 
 			SKINICONDESC sid = { 0 };
 			sid.section.w = tszSection;
-			sid.flags = SIDF_ALL_TCHAR;
+			sid.flags = SIDF_ALL_UNICODE;
 
 			str = wcsrchr(szPath, '\\');
 			if (str != NULL)
@@ -385,7 +385,7 @@ int LoadSkinIcons(void)
 	char iconName[MAX_PATH];
 	SKINICONDESC sid = { 0 };
 	sid.defaultFile.w = modulePath;
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_PATH_UNICODE;
 	sid.pszName = iconName;
 
 	// Add main icons to list

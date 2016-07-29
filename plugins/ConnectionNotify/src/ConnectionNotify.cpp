@@ -97,9 +97,9 @@ void saveSettingsConnections(struct CONNECTION *connHead)
 	while (tmp != NULL) {
 
 		mir_snprintf(buff, "%dFilterIntIp", i);
-		db_set_ts(NULL, PLUGINNAME, buff, tmp->strIntIp);
+		db_set_ws(NULL, PLUGINNAME, buff, tmp->strIntIp);
 		mir_snprintf(buff, "%dFilterExtIp", i);
-		db_set_ts(NULL, PLUGINNAME, buff, tmp->strExtIp);
+		db_set_ws(NULL, PLUGINNAME, buff, tmp->strExtIp);
 		mir_snprintf(buff, "%dFilterPName", i);
 		db_set_ws(NULL, PLUGINNAME, buff, tmp->PName);
 		mir_snprintf(buff, "%dFilterIntPort", i);
@@ -126,15 +126,15 @@ struct CONNECTION* LoadSettingsConnections()
 	for (i = settingFiltersCount - 1; i >= 0; i--) {
 		struct CONNECTION *conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 		mir_snprintf(buff, "%dFilterIntIp", i);
-		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
+		if (!db_get_ws(NULL, PLUGINNAME, buff, &dbv))
 			wcsncpy(conn->strIntIp, dbv.ptszVal, _countof(conn->strIntIp));
 		db_free(&dbv);
 		mir_snprintf(buff, "%dFilterExtIp", i);
-		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
+		if (!db_get_ws(NULL, PLUGINNAME, buff, &dbv))
 			wcsncpy(conn->strExtIp, dbv.ptszVal, _countof(conn->strExtIp));
 		db_free(&dbv);
 		mir_snprintf(buff, "%dFilterPName", i);
-		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
+		if (!db_get_ws(NULL, PLUGINNAME, buff, &dbv))
 			wcsncpy(conn->PName, dbv.ptszVal, _countof(conn->PName));
 		db_free(&dbv);
 
@@ -590,7 +590,7 @@ int ConnectionNotifyOptInit(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
 	odp.pwszTitle = _A2W(PLUGINNAME);
 	odp.pwszGroup = LPGENW("Plugins");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcConnectionNotifyOpts;//callback function name
 	Options_AddPage(wParam, &odp);
 	return 0;

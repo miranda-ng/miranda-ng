@@ -277,7 +277,7 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 	if ((m_prevSelected >= 0) && (m_modes[m_cbModes.GetItemData(m_prevSelected)].m_id >= 0)) {
 		wchar_t *txt = m_txtDescription.GetText();
 		mir_snprintf(szSetting, "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
-		m_proto->setTString(szSetting, txt);
+		m_proto->setWString(szSetting, txt);
 		mir_free(txt);
 	}
 
@@ -285,7 +285,7 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 	if ((m_prevSelected >= 0) && (m_modes[m_cbModes.GetItemData(m_prevSelected)].m_id >= 0)) {
 		mir_snprintf(szSetting, "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
 
-		ptrW szDescr( m_proto->getTStringA(szSetting));
+		ptrW szDescr( m_proto->getWStringA(szSetting));
 		m_txtDescription.SetText((szDescr != NULL) ? szDescr : L"");
 		m_txtDescription.Enable(true);
 	}
@@ -469,7 +469,7 @@ void CPepGuiService::RebuildMenu()
 	mi.root = hJabberRoot;
 	mi.pszService = szService;
 	mi.position = 200010;
-	mi.flags = CMIF_UNMOVABLE | CMIF_TCHAR | CMIF_HIDDEN;
+	mi.flags = CMIF_UNMOVABLE | CMIF_UNICODE | CMIF_HIDDEN;
 	mi.hIcolibItem = m_hIcolibItem;
 	mi.name.w = m_szText ? m_szText : LPGENW("<advanced status slot>");
 	m_hMenuItem = Menu_AddProtoMenuItem(&mi, m_proto->m_szModuleName);
@@ -693,7 +693,7 @@ void CPepMood::SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *
 		HANDLE hIcon;
 		wchar_t title[128];
 		if (mood >= 0) {
-			mir_snwprintf(title, TranslateT("Mood: %s"), TranslateTS(g_arrMoods[mood].szName));
+			mir_snwprintf(title, TranslateT("Mood: %s"), TranslateW(g_arrMoods[mood].szName));
 			hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag);
 		}
 		else {
@@ -709,13 +709,13 @@ void CPepMood::SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *
 
 	if (szMood) {
 		m_proto->setByte(hContact, DBSETTING_XSTATUSID, mood);
-		m_proto->setTString(hContact, DBSETTING_XSTATUSNAME, TranslateTS(g_arrMoods[mood].szName));
+		m_proto->setWString(hContact, DBSETTING_XSTATUSNAME, TranslateW(g_arrMoods[mood].szName));
 		if (szText)
-			m_proto->setTString(hContact, DBSETTING_XSTATUSMSG, szText);
+			m_proto->setWString(hContact, DBSETTING_XSTATUSMSG, szText);
 		else
 			m_proto->delSetting(hContact, DBSETTING_XSTATUSMSG);
 
-		m_proto->WriteAdvStatus(hContact, ADVSTATUS_MOOD, szMood, g_MoodIcons.GetIcolibName(g_arrMoods[mood].szTag), TranslateTS(g_arrMoods[mood].szName), szText);
+		m_proto->WriteAdvStatus(hContact, ADVSTATUS_MOOD, szMood, g_MoodIcons.GetIcolibName(g_arrMoods[mood].szTag), TranslateW(g_arrMoods[mood].szName), szText);
 	}
 	else {
 		m_proto->delSetting(hContact, DBSETTING_XSTATUSID);
@@ -733,7 +733,7 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 	if (!bQuiet) {
 		CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Mood"));
 		for (int i = 1; i < _countof(g_arrMoods); i++)
-			dlg.AddStatusMode(i, g_arrMoods[i].szTag, g_MoodIcons.GetIcon(g_arrMoods[i].szTag), TranslateTS(g_arrMoods[i].szName));
+			dlg.AddStatusMode(i, g_arrMoods[i].szTag, g_MoodIcons.GetIcon(g_arrMoods[i].szTag), TranslateW(g_arrMoods[i].szName));
 
 		dlg.SetActiveStatus(m_mode, m_text);
 		dlg.DoModal();
@@ -748,7 +748,7 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 	wchar_t *ptszTitle;
 	if (m_mode >= 0) {
 		Publish();
-		hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag); ptszTitle = TranslateTS(g_arrMoods[m_mode].szName);
+		hIcon = g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag); ptszTitle = TranslateW(g_arrMoods[m_mode].szName);
 	}
 	else {
 		Retract();
@@ -971,9 +971,9 @@ void ActivityBuildTitle(int id, wchar_t *buf, int size)
 
 	if (szFirst) {
 		if (szSecond)
-			mir_snwprintf(buf, size, L"%s [%s]", TranslateTS(szFirst), TranslateTS(szSecond));
+			mir_snwprintf(buf, size, L"%s [%s]", TranslateW(szFirst), TranslateW(szSecond));
 		else
-			mir_wstrncpy(buf, TranslateTS(szFirst), size);
+			mir_wstrncpy(buf, TranslateW(szFirst), size);
 	}
 	else *buf = 0;
 }
@@ -1109,7 +1109,7 @@ void CPepActivity::ShowSetDialog(BYTE)
 	CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Activity"));
 	for (int i=0; i < _countof(g_arrActivities); i++)
 		if (g_arrActivities[i].szFirst || g_arrActivities[i].szSecond)
-			dlg.AddStatusMode(i, ActivityGetId(i), g_ActivityIcons.GetIcon(returnActivity(i)), TranslateTS(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != NULL));
+			dlg.AddStatusMode(i, ActivityGetId(i), g_ActivityIcons.GetIcon(returnActivity(i)), TranslateW(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != NULL));
 
 	dlg.SetActiveStatus(m_mode, m_text);
 	dlg.DoModal();
@@ -1123,7 +1123,7 @@ void CPepActivity::ShowSetDialog(BYTE)
 
 		UpdateMenuItem(g_ActivityIcons.GetIcolibHandle(returnActivity(m_mode)), g_arrActivities[m_mode].szTitle);
 		if (m_proto->m_pInfoFrame)
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", g_ActivityIcons.GetIcolibHandle(returnActivity(m_mode)), TranslateTS(g_arrActivities[m_mode].szTitle));
+			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", g_ActivityIcons.GetIcolibHandle(returnActivity(m_mode)), TranslateW(g_arrActivities[m_mode].szTitle));
 	}
 	else {
 		Retract();
@@ -1218,7 +1218,7 @@ void CJabberProto::SetContactTune(MCONTACT hContact, LPCTSTR szArtist, LPCTSTR s
 		mir_snwprintf(szListeningTo, 2047, L"%s - %s", szTitle ? szTitle : L"", szArtist ? szArtist : L"");
 	}
 
-	setTString(hContact, "ListeningTo", szListeningTo);
+	setWString(hContact, "ListeningTo", szListeningTo);
 
 	char tuneIcon[128];
 	mir_snprintf(tuneIcon, "%s_%s", m_szModuleName, "main");
@@ -1468,17 +1468,17 @@ void CJabberProto::WriteAdvStatus(MCONTACT hContact, const char *pszSlot, const 
 	char szSetting[128];
 
 	mir_snprintf(szSetting, "%s/%s/id", m_szModuleName, pszSlot);
-	db_set_ts(hContact, "AdvStatus", szSetting, pszMode);
+	db_set_ws(hContact, "AdvStatus", szSetting, pszMode);
 
 	mir_snprintf(szSetting, "%s/%s/icon", m_szModuleName, pszSlot);
 	db_set_s(hContact, "AdvStatus", szSetting, pszIcon);
 
 	mir_snprintf(szSetting, "%s/%s/title", m_szModuleName, pszSlot);
-	db_set_ts(hContact, "AdvStatus", szSetting, pszTitle);
+	db_set_ws(hContact, "AdvStatus", szSetting, pszTitle);
 
 	mir_snprintf(szSetting, "%s/%s/text", m_szModuleName, pszSlot);
 	if (pszText)
-		db_set_ts(hContact, "AdvStatus", szSetting, pszText);
+		db_set_ws(hContact, "AdvStatus", szSetting, pszText);
 	else
 		db_unset(hContact, "AdvStatus", szSetting);
 }
@@ -1494,7 +1494,7 @@ wchar_t* CJabberProto::ReadAdvStatusT(MCONTACT hContact, const char *pszSlot, co
 {
 	char szSetting[128];
 	mir_snprintf(szSetting, "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
-	return db_get_tsa(hContact, "AdvStatus", szSetting);
+	return db_get_wsa(hContact, "AdvStatus", szSetting);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1511,13 +1511,13 @@ void g_XstatusIconsInit()
 	mir_wstrcpy(szSection, L"Protocols/Jabber/" LPGENW("Moods"));
 
 	for (int i = 1; i < _countof(g_arrMoods); i++)
-		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(200 + i), szSection, TranslateTS(g_arrMoods[i].szName));
+		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(200 + i), szSection, TranslateW(g_arrMoods[i].szName));
 
 	mir_wstrcpy(szSection, L"Protocols/Jabber/" LPGENW("Activities"));
 	for (int k = 0; k < _countof(g_arrActivities); k++) {
 		if (g_arrActivities[k].szFirst)
-			g_ActivityIcons.RegisterIcon(g_arrActivities[k].szFirst, szFile, g_arrActivities[k].iconid, szSection, TranslateTS(g_arrActivities[k].szTitle));
+			g_ActivityIcons.RegisterIcon(g_arrActivities[k].szFirst, szFile, g_arrActivities[k].iconid, szSection, TranslateW(g_arrActivities[k].szTitle));
 		if (g_arrActivities[k].szSecond)
-			g_ActivityIcons.RegisterIcon(g_arrActivities[k].szSecond, szFile, g_arrActivities[k].iconid, szSection, TranslateTS(g_arrActivities[k].szTitle));
+			g_ActivityIcons.RegisterIcon(g_arrActivities[k].szSecond, szFile, g_arrActivities[k].iconid, szSection, TranslateW(g_arrActivities[k].szTitle));
 	}
 }

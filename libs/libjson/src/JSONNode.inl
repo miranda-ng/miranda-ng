@@ -101,7 +101,7 @@ inline json_string JSONNode::as_string(void) const
 	JSON_CHECK_INTERNAL();
 	return internal -> as_string();
 }
-inline CMString JSONNode::as_mstring(void) const
+inline CMStringW JSONNode::as_mstring(void) const
 {
 	JSON_CHECK_INTERNAL();
 	return internal->as_mstring();

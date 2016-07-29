@@ -142,7 +142,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 		strncpy_s(idstr, prefix, _TRUNCATE);
 
 	int retval = 0;
-	ptrW tszGroup(db_get_tsa(NULL, settings_group, idstr));
+	ptrW tszGroup(db_get_wsa(NULL, settings_group, idstr));
 	if (tszGroup != NULL)
 		wcsncpy_s(lf->lfFaceName, tszGroup, _TRUNCATE);
 	else
@@ -196,7 +196,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 	return retval;
 }
 
-int CreateFromFontSettings(FontSettingsT *fs, LOGFONT *lf)
+int CreateFromFontSettings(FontSettingsW *fs, LOGFONT *lf)
 {
 	GetDefaultFontSetting(lf, 0);
 
@@ -217,7 +217,7 @@ int CreateFromFontSettings(FontSettingsT *fs, LOGFONT *lf)
 	return 0;
 }
 
-void UpdateFontSettings(FontIDW *font_id, FontSettingsT *fontsettings)
+void UpdateFontSettings(FontIDW *font_id, FontSettingsW *fontsettings)
 {
 	LOGFONT lf;
 	COLORREF colour;

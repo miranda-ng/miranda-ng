@@ -129,7 +129,7 @@ extern "C" __declspec(dllexport) int Load()
 
 	SKINICONDESC sid = { 0 };
 	sid.defaultFile.w = tszFile;
-	sid.flags = SIDF_ALL_TCHAR;
+	sid.flags = SIDF_ALL_UNICODE;
 	sid.section.w = MODULENAME;
 
 	for (int i = 0; i < _countof(forms); i++) {
@@ -164,10 +164,10 @@ extern "C" __declspec(dllexport) int Unload()
 void RegisterHotkeys(char buf[200], wchar_t* accName, int Number)
 {
 	HOTKEYDESC hotkey = { sizeof(hotkey) };
-	hotkey.dwFlags = HKD_TCHAR;
+	hotkey.dwFlags = HKD_UNICODE;
 	hotkey.pszName = buf;
-	hotkey.ptszDescription = accName;
-	hotkey.ptszSection = LPGENW("Custom Status List");
+	hotkey.pwszDescription = accName;
+	hotkey.pwszSection = LPGENW("Custom Status List");
 	hotkey.pszService = buf;
 	hotkey.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, '0' + Number);
 	Hotkey_Register(&hotkey);
@@ -188,7 +188,7 @@ void SetStatus(WORD code, StatusItem* item, char *szAccName)
 	int statusToSet;
 
 	CUSTOM_STATUS ics = { sizeof(CUSTOM_STATUS) };
-	ics.flags = CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE | CSSF_TCHAR;
+	ics.flags = CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE | CSSF_UNICODE;
 
 	if (code == IDC_CANCEL) {
 		statusToSet = 0;
@@ -238,7 +238,7 @@ void addProtoStatusMenuItem(char *protoName)
 		CreateServiceFunctionParam(buf, showList, (LPARAM)protoName);
 
 	CMenuItem mi;
-	mi.flags =  CMIF_TCHAR;
+	mi.flags =  CMIF_UNICODE;
 	mi.hIcolibItem = forms[0].hIcoLibItem;
 	mi.name.w = MODULENAME;
 	mi.position = 2000040000;
@@ -261,14 +261,14 @@ void importCustomStatuses(CSWindow* csw, int result)
 		si->m_iIcon = i - 1;
 
 		mir_snprintf(bufTitle, "XStatus%dName", i);
-		if (!db_get_ts(NULL, protoName, bufTitle, &dbv)) {
+		if (!db_get_ws(NULL, protoName, bufTitle, &dbv)) {
 			mir_wstrcpy(si->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszTitle[0] = 0;
 
 		mir_snprintf(bufMessage, "XStatus%dMsg", i);
-		if (!db_get_ts(NULL, protoName, bufMessage, &dbv)) {
+		if (!db_get_ws(NULL, protoName, bufMessage, &dbv)) {
 			mir_wstrcpy(si->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -366,7 +366,7 @@ void CSWindow::initButtons()
 
 		SendDlgItemMessage(m_handle, forms[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(forms[i].hIcoLibItem));
 		SendDlgItemMessage(m_handle, forms[i].idc, BUTTONSETASFLATBTN, TRUE, 0); //maybe set as BUTTONSETDEFAULT?
-		SendDlgItemMessage(m_handle, forms[i].idc, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(forms[i].ptszTitle), BATF_TCHAR);
+		SendDlgItemMessage(m_handle, forms[i].idc, BUTTONADDTOOLTIP, (WPARAM)TranslateW(forms[i].ptszTitle), BATF_UNICODE);
 	}
 }
 
@@ -486,7 +486,7 @@ void CSAMWindow::setCombo()
 	WPARAM iStatus;
 	wchar_t tszName[100];
 	CUSTOM_STATUS cs = { sizeof(cs) };
-	cs.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
+	cs.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_UNICODE;
 	cs.ptszName = tszName;
 	cs.wParam = &iStatus;
 
@@ -500,7 +500,7 @@ void CSAMWindow::setCombo()
 		cbi.mask = CBEIF_TEXT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE;
 		cbi.iItem = -1;
 		cbi.iImage = cbi.iSelectedImage = i - 1;
-		cbi.pszText = TranslateTS(tszName);
+		cbi.pszText = TranslateW(tszName);
 		SendMessage(m_hCombo, CBEM_INSERTITEM, 0, (LPARAM)&cbi);
 	}
 	SendMessage(m_hCombo, CB_SETCURSEL, 0, 0); // first 0 sets selection to top
@@ -574,11 +574,11 @@ void CSAMWindow::checkItemValidity()
 	wchar_t tszTitle[100];
 
 	CUSTOM_STATUS cs = { sizeof(cs) };
-	cs.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
+	cs.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_UNICODE;
 	cs.ptszName = tszTitle;
 	cs.wParam = &i;
 	if (CallProtoService(pdescr->szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
-		mir_wstrncpy(m_item->m_tszTitle, TranslateTS(tszTitle), _countof(m_item->m_tszTitle));
+		mir_wstrncpy(m_item->m_tszTitle, TranslateW(tszTitle), _countof(m_item->m_tszTitle));
 
 	if (mir_wstrcmp(m_item->m_tszMessage, tszInputMessage))
 		mir_wstrcpy(m_item->m_tszMessage, tszInputMessage), m_bChanged = true;
@@ -747,14 +747,14 @@ void CSItemsList::loadItems(char *protoName)
 		item->m_iIcon = getByte(dbSetting, DEFAULT_ITEM_ICON);
 
 		mir_snprintf(dbSetting, "%s_Item%dTitle", protoName, i);
-		if (!getTString(dbSetting, &dbv)) {
+		if (!getWString(dbSetting, &dbv)) {
 			mir_wstrcpy(item->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszTitle[0] = 0;
 
 		mir_snprintf(dbSetting, "%s_Item%dMessage", protoName, i);
-		if (!getTString(dbSetting, &dbv)) {
+		if (!getWString(dbSetting, &dbv)) {
 			mir_wstrcpy(item->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -781,9 +781,9 @@ void CSItemsList::saveItems(char *protoName)
 		mir_snprintf(dbSetting, "%s_Item%dIcon", protoName, i);
 		setByte(dbSetting, item->m_iIcon);
 		mir_snprintf(dbSetting, "%s_Item%dTitle", protoName, i);
-		setTString(dbSetting, item->m_tszTitle);
+		setWString(dbSetting, item->m_tszTitle);
 		mir_snprintf(dbSetting, "%s_Item%dMessage", protoName, i);
-		setTString(dbSetting, item->m_tszMessage);
+		setWString(dbSetting, item->m_tszMessage);
 		mir_snprintf(dbSetting, "%s_Item%dFavourite", protoName, i);
 		setByte(dbSetting, item->m_bFavourite);
 	}
@@ -852,7 +852,7 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 
 		case IDC_REMOVE:
 			if (getByte("ConfirmDeletion", DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION))
-				if (MessageBox(hwnd, TranslateT("Do you really want to delete selected item?"), TranslateTS(MODULENAME), MB_YESNO | MB_DEFBUTTON2 | MB_ICONQUESTION) == IDNO)
+				if (MessageBox(hwnd, TranslateT("Do you really want to delete selected item?"), TranslateW(MODULENAME), MB_YESNO | MB_DEFBUTTON2 | MB_ICONQUESTION) == IDNO)
 					break;
 
 			csw->m_itemslist->m_list->remove(csw->m_listview->getPositionInList());
@@ -893,7 +893,7 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 			else {
 				result = MessageBox(hwnd,
 					TranslateT("Do you want old database entries to be deleted after Import?"),
-					TranslateTS(MODULENAME), MB_YESNOCANCEL | MB_DEFBUTTON2 | MB_ICONQUESTION);
+					TranslateW(MODULENAME), MB_YESNOCANCEL | MB_DEFBUTTON2 | MB_ICONQUESTION);
 				if (result == IDCANCEL)
 					break;
 			}

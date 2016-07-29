@@ -43,7 +43,7 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 		
 		/* add some note if its incompatible */
 		if (szLanguageName[0] && szContryName[0]) {
-			mir_snwprintf(szLocaleName, L"%s (%s)", TranslateTS(szLanguageName), TranslateTS(szContryName));
+			mir_snwprintf(szLocaleName, L"%s (%s)", TranslateW(szLanguageName), TranslateW(szContryName));
 			if (!IsValidLocale(pack->Locale, LCID_INSTALLED)) {
 				wchar_t *pszIncompat;
 				pszIncompat = TranslateT("(incompatible)");
@@ -67,7 +67,7 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 	SetDlgItemText_CP(hwndDlg, IDC_LANGMODUSING, pack->szLastModifiedUsing);
 	SetDlgItemText_CP(hwndDlg, IDC_LANGAUTHORS, pack->szAuthors);
 	SetDlgItemText_CP(hwndDlg, IDC_LANGEMAIL, pack->szAuthorEmail);
-	SetDlgItemText(hwndDlg, IDC_LANGINFOFRAME, TranslateTS(pack->tszLanguage));
+	SetDlgItemText(hwndDlg, IDC_LANGINFOFRAME, TranslateW(pack->tszLanguage));
 }
 
 static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM)
@@ -78,7 +78,7 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM)
 	/* insert */
 	wchar_t tszName[512];
 	mir_snwprintf(tszName, L"%s [%s]",
-		TranslateTS(pack->tszLanguage),
+		TranslateW(pack->tszLanguage),
 		pack->flags & LPF_DEFAULT ? TranslateT("built-in") : pack->tszFileName);
 	UINT message = pack->flags & LPF_DEFAULT ? CB_INSERTSTRING : CB_ADDSTRING;
 	int idx = SendMessage((HWND)wParam, message, 0, (LPARAM)tszName);
@@ -166,7 +166,7 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			for (int i = 0; i < count; i++) {
 				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, i);
 				if (i == idx) {
-					db_set_ts(NULL, "Langpack", "Current", pack->tszFileName);
+					db_set_ws(NULL, "Langpack", "Current", pack->tszFileName);
 					mir_wstrcpy(tszPath, pack->tszFullPath);
 					pack->flags |= LPF_ENABLED;
 				}

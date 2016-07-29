@@ -50,7 +50,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 		DWORD dwAttributes = GetFileAttributes(wszTempDir);
 		if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-			CreateDirectoryTreeT(wszTempDir);
+			CreateDirectoryTreeW(wszTempDir);
 	}
 	else
 	{

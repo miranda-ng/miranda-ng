@@ -62,7 +62,7 @@ static void fillProfileName(const wchar_t* ptszFileName)
 
 bool IsInsideRootDir(wchar_t* profiledir, bool exact)
 {
-	VARST pfd(L"%miranda_path%");
+	VARSW pfd(L"%miranda_path%");
 	if (exact)
 		return mir_wstrcmpi(profiledir, pfd) == 0;
 
@@ -78,7 +78,7 @@ int getProfilePath(wchar_t *buf, size_t)
 	if (profiledir[0] == 0)
 		mir_wstrcpy(profiledir, L"%miranda_path%\\Profiles");
 
-	size_t len = PathToAbsoluteT(VARST(profiledir), buf);
+	size_t len = PathToAbsoluteW(VARSW(profiledir), buf);
 
 	if (buf[len - 1] == '/' || buf[len - 1] == '\\')
 		buf[len - 1] = 0;
@@ -124,7 +124,7 @@ static void getDefaultProfile(wchar_t *szProfile, size_t cch)
 	if (defaultProfile[0] == 0)
 		return;
 
-	VARST res(defaultProfile);
+	VARSW res(defaultProfile);
 	if (res)
 		mir_snwprintf(szProfile, cch, L"%s\\%s\\%s%s", g_profileDir, (wchar_t*)res, (wchar_t*)res, isValidProfileName(res) ? L"" : L".dat");
 	else
@@ -150,7 +150,7 @@ static void loadProfileByShortName(const wchar_t* src, wchar_t *szProfile, size_
 	p = wcsrchr(profileName, '.'); if (p) *p = 0;
 
 	mir_snwprintf(newProfileDir, cch, L"%s\\%s\\", g_profileDir, profileName);
-	PathToAbsoluteT(buf, szProfile, newProfileDir);
+	PathToAbsoluteW(buf, szProfile, newProfileDir);
 
 	if (wcschr(buf, '\\')) {
 		wcsncpy_s(g_profileDir, szProfile, _TRUNCATE);
@@ -184,7 +184,7 @@ static void moveProfileDirProfiles(wchar_t *profiledir, BOOL isRootDir = TRUE)
 {
 	wchar_t pfd[MAX_PATH];
 	if (isRootDir)
-		wcsncpy_s(pfd, VARST(L"%miranda_path%\\*.dat"), _TRUNCATE);
+		wcsncpy_s(pfd, VARSW(L"%miranda_path%\\*.dat"), _TRUNCATE);
 	else
 		mir_snwprintf(pfd, L"%s\\*.dat", profiledir);
 
@@ -198,7 +198,7 @@ static void moveProfileDirProfiles(wchar_t *profiledir, BOOL isRootDir = TRUE)
 			c = wcsrchr(profile, '.'); if (c) *c = 0;
 			mir_snwprintf(path, L"%s\\%s", pfd, ffd.cFileName);
 			mir_snwprintf(path2, L"%s\\%s", profiledir, profile);
-			CreateDirectoryTreeT(path2);
+			CreateDirectoryTreeW(path2);
 			mir_snwprintf(path2, L"%s\\%s\\%s", profiledir, profile, ffd.cFileName);
 			if (_waccess(path2, 0) == 0) {
 				wchar_t buf[512];
@@ -420,7 +420,7 @@ int tryOpenDatabase(const wchar_t *tszProfile)
 static int tryCreateDatabase(const wchar_t *ptszProfile)
 {
 	wchar_t *tszProfile = NEWWSTR_ALLOCA(ptszProfile);
-	CreatePathToFileT(tszProfile);
+	CreatePathToFileW(tszProfile);
 
 	for (int i = 0; i < arDbPlugins.getCount(); i++) {
 		DATABASELINK* p = arDbPlugins[i];
@@ -482,7 +482,7 @@ static wchar_t tszNoSuitableDriver[] = LPGENW("Miranda was unable to open '%s'\n
 int LoadDatabaseModule(void)
 {
 	wchar_t szProfile[MAX_PATH];
-	PathToAbsoluteT(L".", szProfile);
+	PathToAbsoluteW(L".", szProfile);
 	_tchdir(szProfile);
 	szProfile[0] = 0;
 
@@ -497,7 +497,7 @@ int LoadDatabaseModule(void)
 
 	if (arDbPlugins.getCount() == 0) {
 		MessageBox(NULL,
-			CMString(FORMAT, TranslateTS(tszNoDrivers), ptszFileName),
+			CMStringW(FORMAT, TranslateW(tszNoDrivers), ptszFileName),
 			TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
@@ -515,7 +515,7 @@ int LoadDatabaseModule(void)
 		// there were no suitable driver installed
 		if (rc == -1) {
 			MessageBox(NULL,
-				CMString(FORMAT, TranslateTS(tszNoSuitableDriver), ptszFileName),
+				CMStringW(FORMAT, TranslateW(tszNoSuitableDriver), ptszFileName),
 				TranslateT("Miranda can't open that profile"), MB_OK | MB_ICONERROR);
 		}
 		else if (rc > 0) {
@@ -523,12 +523,12 @@ int LoadDatabaseModule(void)
 			if (fileExist(szProfile)) {
 				// file isn't locked, just no driver could open it.
 				MessageBox(NULL,
-					CMString(FORMAT, TranslateTS(tszUnknownFormat), ptszFileName),
+					CMStringW(FORMAT, TranslateW(tszUnknownFormat), ptszFileName),
 					TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
 			}
 			else if (!FindMirandaForProfile(szProfile)) {
 				retry = IDRETRY == MessageBox(NULL,
-					CMString(FORMAT, TranslateTS(tszProfileLocked), ptszFileName),
+					CMStringW(FORMAT, TranslateW(tszProfileLocked), ptszFileName),
 					TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR);
 			}
 		}

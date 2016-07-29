@@ -6,9 +6,9 @@ wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const c
 {
 	DBVARIANT dbv = {0};
 	wcsnset(buf, 0, buflen);
-	if (db_get_ts(hContact, PLUGIN_NAME, option, &dbv) != 0)
+	if (db_get_ws(hContact, PLUGIN_NAME, option, &dbv) != 0)
 		wcsncpy(buf, def, min(buflen, mir_wstrlen(def)+1));
-	else if (dbv.type == DBVT_TCHAR) {
+	else if (dbv.type == DBVT_WCHAR) {
 		wcsncpy(buf, dbv.ptszVal, min(buflen, mir_wstrlen(dbv.ptszVal)+1));
 	}
 	db_free(&dbv);
@@ -21,7 +21,7 @@ wchar_t* _getMOptS(wchar_t *buf, unsigned int buflen, const char* module, const 
 	wcsnset(buf, 0, buflen);
 	if (db_get_s(NULL, module, option, &dbv) != 0)
 		wcsncpy(buf, def, min(buflen, mir_wstrlen(def)+1));
-	else if (dbv.type == DBVT_TCHAR) {
+	else if (dbv.type == DBVT_WCHAR) {
 		wcsncpy(buf, dbv.ptszVal, min(buflen, mir_wstrlen(dbv.ptszVal)+1));
 	} else {
 		tmp = mir_a2u(dbv.pszVal);

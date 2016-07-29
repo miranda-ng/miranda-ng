@@ -120,7 +120,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, "Font%d", i);
 
-		ptrW tszFace(db_get_tsa(NULL, CHATFONT_MODULE, str));
+		ptrW tszFace(db_get_wsa(NULL, CHATFONT_MODULE, str));
 		if (tszFace == NULL)
 			mir_wstrcpy(lf->lfFaceName, FO.szDefFace);
 		else
@@ -134,7 +134,7 @@ void RegisterFonts(void)
 
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 
-	FontIDT fontid = { sizeof(fontid) };
+	FontIDW fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
 	wcsncpy_s(fontid.backgroundGroup, g_szFontGroup, _TRUNCATE);
 	wcsncpy_s(fontid.group, g_szFontGroup, _TRUNCATE);
@@ -192,7 +192,7 @@ HICON LoadIconEx(char* pszIcoLibName, bool big)
 static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefault)
 {
 	DBVARIANT dbv;
-	if (!db_get_ts(NULL, CHAT_MODULE, pszSetting, &dbv)) {
+	if (!db_get_ws(NULL, CHAT_MODULE, pszSetting, &dbv)) {
 		replaceStrW(*ppPointer, dbv.ptszVal);
 		db_free(&dbv);
 	}

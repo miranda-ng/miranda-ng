@@ -417,7 +417,7 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 		if ((queryNode = TlenXmlGetChild(iqNode, "query")) == NULL) return;
 		if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 			jsr.hdr.cbSize = sizeof(TLEN_SEARCH_RESULT);
-			jsr.hdr.flags = PSR_TCHAR;
+			jsr.hdr.flags = PSR_UNICODE;
 			for (i = 0; i < queryNode->numChild; i++) {
 				itemNode = queryNode->child[i];
 				if (!mir_strcmp(itemNode->name, "item")) {

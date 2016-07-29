@@ -126,7 +126,7 @@ void TwitterProto::DoSearch(void *pArg)
 
 	if (found) {
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
-		psr.flags = PSR_TCHAR;
+		psr.flags = PSR_UNICODE;
 		psr.nick.w = mir_a2u(info.username.c_str());
 		psr.firstName.w = mir_a2u(info.real_name.c_str());
 
@@ -162,7 +162,7 @@ void TwitterProto::GetAwayMsgWorker(void *arg)
 		return;
 
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
+	if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -251,8 +251,8 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 			setString(hContact, "Homepage", url.c_str());
 			SkinPlaySound("TwitterNewContact");
 			DBVARIANT dbv;
-			if (!getTString(TWITTER_KEY_GROUP, &dbv)) {
-				db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
+			if (!getWString(TWITTER_KEY_GROUP, &dbv)) {
+				db_set_ws(hContact, "CList", "Group", dbv.ptszVal);
 				db_free(&dbv);
 			}
 

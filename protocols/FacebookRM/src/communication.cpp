@@ -727,13 +727,13 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 		std::wstring treaders;
 
 		// Load old readers
-		ptrW told(parent->getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
+		ptrW told(parent->getWStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
 		if (told)
 			treaders = std::wstring(told) + L", ";
 
 		// Append new reader name and remember them
 		treaders += utils::text::prepare_name(treaderName, true);
-		parent->setTString(hContact, FACEBOOK_KEY_MESSAGE_READERS, treaders.c_str());
+		parent->setWString(hContact, FACEBOOK_KEY_MESSAGE_READERS, treaders.c_str());
 	}
 
 	parent->setDword(hContact, FACEBOOK_KEY_MESSAGE_READ, timestamp);
@@ -925,9 +925,9 @@ bool facebook_client::login(const char *username, const char *password)
 
 				// 2) Approve last unknown login
 				if (resp.data.find("name=\"submit[This was me]\"") != std::string::npos) {
-					CMString tszTitle;
+					CMStringW tszTitle;
 					tszTitle.AppendFormat(L"%s - %s", parent->m_tszUserName, TranslateT("Check last login"));
-					CMString tszMessage(TranslateT("Do you recognize this activity?"));
+					CMStringW tszMessage(TranslateT("Do you recognize this activity?"));
 
 					std::string activity = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "<body", "</strong></div>", "</div>"));
 					activity = utils::text::trim(utils::text::html_entities_decode(utils::text::remove_html(activity)));
@@ -1685,7 +1685,7 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 		// Create folder if necessary
 		std::wstring dir = filename.substr(0, filename.rfind('\\'));
 		if (_waccess(dir.c_str(), 0))
-			CreateDirectoryTreeT(dir.c_str());
+			CreateDirectoryTreeW(dir.c_str());
 
 		// Write to file
 		FILE *f = _wfopen(filename.c_str(), L"wb");

@@ -961,10 +961,4 @@ MIR_CORE_EXPORT CMStringT<BaseType, StringTraits> CALLBACK operator+(char ch1, c
 typedef CMStringT< wchar_t, ChTraitsCRT< wchar_t > > CMStringW;
 typedef CMStringT< char, ChTraitsCRT< char > > CMStringA;
 
-#ifdef _UNICODE
-	typedef CMStringW CMString;
-#else
-	typedef CMStringA CMString;
-#endif
-
 #endif // M_STRING_H__

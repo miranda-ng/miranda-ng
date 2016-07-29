@@ -38,7 +38,7 @@ void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)
 {
 	m_items.insert(extra);
 
-	CMString description;
+	CMStringW description;
 	for (int i = 0; i < m_items.getCount(); i++) {
 		if (i > 0)
 			description += L" / ";

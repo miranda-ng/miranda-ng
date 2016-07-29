@@ -331,7 +331,7 @@ BOOL MirVerExists(MCONTACT hContact)
 	if (!szProto)
 		return 0;
 
-	ptrW msg(db_get_tsa(hContact, szProto, "MirVer"));
+	ptrW msg(db_get_wsa(hContact, szProto, "MirVer"));
 	return mir_wstrlen(msg) != 0;
 }
 
@@ -354,7 +354,7 @@ LPTSTR getMirVer(MCONTACT hContact)
 	LPSTR szProto = GetContactProto(hContact);
 	if (!szProto) return NULL;
 
-	LPTSTR msg = db_get_tsa(hContact, szProto, "MirVer");
+	LPTSTR msg = db_get_wsa(hContact, szProto, "MirVer");
 	if (msg) {
 		if (msg[0] != 0)
 			return msg;
@@ -624,11 +624,11 @@ INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 		else
 			strncpy(par, statusMsg[i].name, _countof(par) - 1);
 
-		LPTSTR msg = db_get_tsa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
+		LPTSTR msg = db_get_wsa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
 		if (msg) {
 			if (wcslen(msg)) {
 				if (flags & VF_SMNAME) {
-					mir_wstrncat(buffer, TranslateTS(statusMsg[i].fullName), (_countof(buffer) - wcslen(buffer) - 1));
+					mir_wstrncat(buffer, TranslateW(statusMsg[i].fullName), (_countof(buffer) - wcslen(buffer) - 1));
 					mir_wstrncat(buffer, L": ", (_countof(buffer) - wcslen(buffer) - 1));
 				}
 				mir_wstrncat(buffer, msg, (_countof(buffer) - wcslen(buffer) - 1));

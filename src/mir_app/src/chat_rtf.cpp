@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static wchar_t tszRtfBreaks[] = L" \\\n\r";
 
-static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst)
+static void CreateColorMap(CMStringW &Text, int iCount, COLORREF *pSrc, int *pDst)
 {
 	const wchar_t *pszText = Text;
 	int iIndex = 1;
@@ -73,7 +73,7 @@ static int GetRtfIndex(int iCol, int iCount, int *pIndex)
 	return -1;
 }
 
-int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
+int DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors)
 {
 	if (pszText.IsEmpty())
 		return FALSE;
@@ -93,7 +93,7 @@ int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
 	else idx += 5;
 
 	bool bInsideColor = false, bInsideUl = false;
-	CMString res;
+	CMStringW res;
 
 	// iterate through all characters, if rtf control character found then take action
 	for (const wchar_t *p = pszText.GetString() + idx; *p;) {

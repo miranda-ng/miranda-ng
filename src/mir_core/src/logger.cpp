@@ -112,7 +112,7 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const wchar_t *ptszDescr
 	if (fp == NULL) {
 		wchar_t tszPath[MAX_PATH];
 		wcsncpy_s(tszPath, ptszFile, _TRUNCATE);
-		CreatePathToFileT(tszPath);
+		CreatePathToFileW(tszPath);
 	}
 	else fclose(fp);
 

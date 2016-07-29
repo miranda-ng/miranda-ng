@@ -157,8 +157,8 @@ BOOL CCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 			case DBVT_BYTE: iVal = Find((int)dbv.bVal); break;
 			case DBVT_WORD: iVal = Find((int)dbv.wVal); break;
 			case DBVT_DWORD: iVal = Find((int)dbv.dVal); break;
-			case DBVT_TCHAR:
-				iVal = Find(TranslateTS(dbv.ptszVal));
+			case DBVT_WCHAR:
+				iVal = Find(TranslateW(dbv.ptszVal));
 				if (iVal == CB_ERR) {
 					// other
 					iVal = Find(_pList[_nList - 1].nID);

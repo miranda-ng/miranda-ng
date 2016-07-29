@@ -42,7 +42,7 @@ int LoadOptions(void)
 	if (!ServiceExists(MS_FOLDERS_GET_PATH)) {
 		DBVARIANT dbv;
 
-		if (!db_get_ts(0, "AutoBackups", "Folder", &dbv)) {
+		if (!db_get_ws(0, "AutoBackups", "Folder", &dbv)) {
 			wchar_t *tmp = Utils_ReplaceVarsT(dbv.ptszVal);
 
 			if (mir_wstrlen(tmp) >= 2 && tmp[1] == ':')
@@ -82,10 +82,10 @@ int SaveOptions(void)
 	size_t opt_len = mir_wstrlen(options.folder);
 
 	if (opt_len > prof_len && wcsncmp(options.folder, prof_dir, prof_len) == 0) {
-		db_set_ts(0, "AutoBackups", "Folder", (options.folder + prof_len));
+		db_set_ws(0, "AutoBackups", "Folder", (options.folder + prof_len));
 	}
 	else
-		db_set_ts(0, "AutoBackups", "Folder", options.folder);
+		db_set_ws(0, "AutoBackups", "Folder", options.folder);
 
 	wchar_t *tmp = Utils_ReplaceVarsT(options.folder);
 	if (mir_wstrlen(tmp) < 2 || tmp[1] != ':') {
@@ -365,7 +365,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					mir_snwprintf(backupfolder, L"%s\\%s", profilePath, tmp);
 				mir_free(tmp);
 
-				int err = CreateDirectoryTreeT(backupfolder);
+				int err = CreateDirectoryTreeW(backupfolder);
 				if (err != ERROR_ALREADY_EXISTS && err != 0) {
 					wchar_t msg_buff[512];
 					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, err, 0, msg_buff, 512, 0);

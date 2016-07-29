@@ -182,7 +182,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::dat.dwFlags |= (db_get_b(NULL, "CLUI", "ShowSBar", 1) ? CLUI_FRAME_SBARSHOW : 0);
 	cfg::dat.soundsOff = db_get_b(NULL, "Skin", "UseSound", 1) ? 0 : 1;
 
-	CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)cfg::dat.tszProfilePath);
+	CallService(MS_DB_GETPROFILEPATHW, MAX_PATH, (LPARAM)cfg::dat.tszProfilePath);
 	wcslwr(cfg::dat.tszProfilePath);
 
 	// get the clist interface

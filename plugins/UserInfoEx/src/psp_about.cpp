@@ -49,7 +49,7 @@ INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 				TranslateDialogDefault(hDlg);
 				
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ABOUT, pszSetting, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ABOUT, pszSetting, DBVT_WCHAR));
 
 				// remove static edge in aero mode
 				if (IsAeroMode())

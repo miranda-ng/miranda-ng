@@ -50,7 +50,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		LPCTSTR hint = params->hint;
 		if (hint == NULL)
 			hint = TranslateT("Enter the text you see");
-		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateTS(hint));
+		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateW(hint));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)params);
 
 		return TRUE;

@@ -87,7 +87,7 @@ std::vector<wchar_t> get_filter()
 	std::vector<wchar_t> aFilter;
 	LPCTSTR pszFilterParts[] = { LPGENW("Log Files (*.txt,*.log)"), L"*.txt;*.log", LPGENW("All files (*.*)"), L"*.*" };
 	for (int i = 0; i < sizeof(pszFilterParts) / sizeof(pszFilterParts[0]); ++i) {
-		tstring sPart = TranslateTS(pszFilterParts[i]);
+		tstring sPart = TranslateW(pszFilterParts[i]);
 		std::copy(sPart.begin(), sPart.end(), std::back_inserter(aFilter));
 		aFilter.push_back('\0');
 
@@ -422,10 +422,10 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 					db_set_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE_CONDITION, nIfChangedFile);
 					db_set_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_HISTORY_CONDITION, nIfChangedHistory);
 					db_set_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_CONDITION, bIfChangedPopup);
-					db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE, sLogFile.c_str());
-					db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_LOG_FILE, sLogFileFormat.c_str());
-					db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_HISTORY, sHistoryFormat.c_str());
-					db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_POPUP, sPopupFormat.c_str());
+					db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE, sLogFile.c_str());
+					db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_LOG_FILE, sLogFileFormat.c_str());
+					db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_HISTORY, sHistoryFormat.c_str());
+					db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_POPUP, sPopupFormat.c_str());
 
 					if (pParam->m_pPopupSettings) {
 						pParam->m_pPopupSettings->SaveForContact(hContact);
@@ -704,12 +704,12 @@ void CAdvProviderSettings::SaveToDb()const
 	assert(visitor.m_pszDbPopupHistoryFlag);
 
 	db_set_w(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogMode, m_wLogMode);
-	db_set_ts(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbHistoryFormat, m_sFormatHistory.c_str());
+	db_set_ws(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbHistoryFormat, m_sFormatHistory.c_str());
 	db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbHistoryCondition, m_bIsOnlyChangedHistory);
-	db_set_ts(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFile, m_sLogFileName.c_str());
-	db_set_ts(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFormat, m_sFormatLogFile.c_str());
+	db_set_ws(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFile, m_sLogFileName.c_str());
+	db_set_ws(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogFormat, m_sFormatLogFile.c_str());
 	db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbLogCondition, m_bIsOnlyChangedLogFile);
-	db_set_ts(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupFormat, m_sPopupFormat.c_str());
+	db_set_ws(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupFormat, m_sPopupFormat.c_str());
 	db_set_b(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbPopupCondition, m_bShowPopupIfValueChanged);
 
 	if (nullptr != m_pPopupSettings) {

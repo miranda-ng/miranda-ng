@@ -47,23 +47,23 @@ int InitSkinHotKeys(void)
 
 	HOTKEYDESC shk = { 0 };
 	shk.cbSize = sizeof(shk);
-	shk.dwFlags = HKD_TCHAR;
+	shk.dwFlags = HKD_UNICODE;
 
-	shk.ptszDescription = LPGENW("Close Miranda");
+	shk.pwszDescription = LPGENW("Close Miranda");
 	shk.pszName = "CloseMiranda";
-	shk.ptszSection = LPGENW("Main");
+	shk.pwszSection = LPGENW("Main");
 	shk.pszService = "CLIST/HK/CloseMiranda";
 	Hotkey_Register(&shk);
 
-	shk.ptszDescription = LPGENW("Restore last status");
+	shk.pwszDescription = LPGENW("Restore last status");
 	shk.pszName = "RestoreLastStatus";
-	shk.ptszSection = LPGENW("Status");
+	shk.pwszSection = LPGENW("Status");
 	shk.pszService = "CLIST/HK/RestoreStatus";
 	Hotkey_Register(&shk);
 
-	shk.ptszDescription = LPGENW("Show/Hide offline users");
+	shk.pwszDescription = LPGENW("Show/Hide offline users");
 	shk.pszName = "ShowHideOfflineUsers";
-	shk.ptszSection = LPGENW("Main");
+	shk.pwszSection = LPGENW("Main");
 	shk.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
 	Hotkey_Register(&shk);
 

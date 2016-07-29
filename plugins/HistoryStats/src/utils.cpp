@@ -282,10 +282,10 @@ namespace utils
 					strSubst = intToPadded(timeTM->tm_mon + 1, 2);
 				}
 				else if (strVar == L"MMM") {
-					strSubst = stripPrefix(L"month3:", TranslateTS(szMonthName[timeTM->tm_mon % 12][0]));
+					strSubst = stripPrefix(L"month3:", TranslateW(szMonthName[timeTM->tm_mon % 12][0]));
 				}
 				else if (strVar == L"MMMM") {
-					strSubst = stripPrefix(L"monthF:", TranslateTS(szMonthName[timeTM->tm_mon % 12][1]));
+					strSubst = stripPrefix(L"monthF:", TranslateW(szMonthName[timeTM->tm_mon % 12][1]));
 				}
 				else if (strVar == L"d") {
 					strSubst = intToString(timeTM->tm_mday);
@@ -294,13 +294,13 @@ namespace utils
 					strSubst = intToPadded(timeTM->tm_mday, 2);
 				}
 				else if (strVar == L"ww") {
-					strSubst = stripPrefix(L"wday2:", TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][0]));
+					strSubst = stripPrefix(L"wday2:", TranslateW(szWDayName[(timeTM->tm_wday + 6) % 7][0]));
 				}
 				else if (strVar == L"www") {
-					strSubst = stripPrefix(L"wday3:", TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][1]));
+					strSubst = stripPrefix(L"wday3:", TranslateW(szWDayName[(timeTM->tm_wday + 6) % 7][1]));
 				}
 				else if (strVar == L"wwww") {
-					strSubst = stripPrefix(L"wdayF:", TranslateTS(szWDayName[(timeTM->tm_wday + 6) % 7][2]));
+					strSubst = stripPrefix(L"wdayF:", TranslateW(szWDayName[(timeTM->tm_wday + 6) % 7][2]));
 				}
 				else if (strVar == L"miranda_path") {
 					strSubst = getMirandaPath();
@@ -895,7 +895,7 @@ namespace utils
 		if (strMirandaPath.empty()) {
 			wchar_t szPath[MAX_PATH] = { 0 };
 
-			PathToAbsoluteT(L"x", szPath);
+			PathToAbsoluteW(L"x", szPath);
 			strMirandaPath = extractPath(szPath);
 		}
 

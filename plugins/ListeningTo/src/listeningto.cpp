@@ -194,7 +194,7 @@ void RebuildMenu()
 		mi.position = 500080000 + i;
 		mi.pszService = MS_LISTENINGTO_MAINMENU;
 		mi.name.w = text;
-		mi.flags = CMIF_TCHAR | CMIF_UNMOVABLE
+		mi.flags = CMIF_UNICODE | CMIF_UNMOVABLE
 			| (ListeningToEnabled(info->proto, TRUE) ? CMIF_CHECKED : 0)
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
 
@@ -273,7 +273,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		char *proto = GetContactProto(hContact);
 		if (proto != NULL) {
 			DBVARIANT dbv;
-			if (!db_get_ts(hContact, proto, "ListeningTo", &dbv)) {
+			if (!db_get_ws(hContact, proto, "ListeningTo", &dbv)) {
 				if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0)
 					SetExtraIcon(hContact, TRUE);
 
@@ -287,7 +287,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	SET_UID(mi, 0xe8e4e594, 0x255e, 0x434d, 0x83, 0x74, 0x79, 0x44, 0x1b, 0x4e, 0xe7, 0x16);
 	mi.position = 500080000;
 	mi.name.w = LPGENW("Listening to");
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = iconList[0].hIcolib;
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 
@@ -299,7 +299,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	// Add all protos
 	SET_UID(mi, 0xc396a9dd, 0x9a00, 0x46af, 0x96, 0x2e, 0x5, 0x5a, 0xbc, 0x52, 0xfc, 0x9b);
 	mi.name.w = LPGENW("Send to all protocols");
-	mi.flags = CMIF_TCHAR
+	mi.flags = CMIF_UNICODE
 		| (ListeningToEnabled(NULL, true) ? CMIF_CHECKED : 0)
 		| (opts.enable_sending ? 0 : CMIF_GRAYED);
 	proto_items.resize(1);
@@ -547,7 +547,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				Buffer<wchar_t> msg;
 				ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
-				ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
+				ics.flags = CSSF_UNICODE | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 				ics.ptszName = name.str;
 				ics.ptszMessage = msg.str;
 
@@ -563,7 +563,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				// Set to old text
 				ProtocolInfo *pi = GetProtoInfo(proto);
 				if (pi != NULL) {
-					ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
+					ics.flags = CSSF_UNICODE | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 					ics.status = &pi->old_xstatus;
 					ics.ptszName = pi->old_xstatus_name;
 					ics.ptszMessage = pi->old_xstatus_message;
@@ -600,7 +600,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				if (!CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&ics) && status != XSTATUS_MUSIC) {
 					ProtocolInfo *pi = GetProtoInfo(proto);
 					if (pi != NULL) {
-						ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
+						ics.flags = CSSF_UNICODE | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 						ics.status = &pi->old_xstatus;
 						ics.ptszName = pi->old_xstatus_name;
 						ics.ptszMessage = pi->old_xstatus_message;
@@ -629,7 +629,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 			ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, _countof(fr));
 
 			status = XSTATUS_MUSIC;
-			ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
+			ics.flags = CSSF_UNICODE | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 			ics.status = &status;
 			ics.ptszName = name.str;
 			ics.ptszMessage = msg.str;

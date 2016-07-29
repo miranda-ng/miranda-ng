@@ -28,7 +28,7 @@ wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModu
 {
 	DBVARIANT dbv = { DBVT_DELETED };
 	wchar_t* szRes = NULL;
-	if (db_get_ts(hContact, szModule, szSetting, &dbv))
+	if (db_get_ws(hContact, szModule, szSetting, &dbv))
 		return mir_wstrdup(szDef);
 	else if (dbv.pszVal)
 		szRes = mir_wstrdup(dbv.ptszVal);
@@ -77,7 +77,7 @@ void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t
 	ofn.nMaxFileTitle = MAX_PATH;
 	if (!GetOpenFileName(&ofn))
 		return;
-	db_set_ts(0, szGPGModuleName, szSetting, str);
+	db_set_ws(0, szGPGModuleName, szSetting, str);
 }
 
 wchar_t *GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, bool save_file)
@@ -124,7 +124,7 @@ void GetFolderPath(wchar_t *WindowTittle, char*)
 	if (pidl != 0) {
 		wchar_t path[MAX_PATH];
 		if (SHGetPathFromIDList(pidl, path)) {
-			db_set_ts(NULL, szGPGModuleName, "szHomePath", path);
+			db_set_ws(NULL, szGPGModuleName, "szHomePath", path);
 		}
 		IMalloc * imalloc = 0;
 		if (SUCCEEDED(SHGetMalloc(&imalloc))) {
@@ -1034,7 +1034,7 @@ bool isGPGValid()
 	}
 
 	if (gpg_exists) {
-		db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+		db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 		mir_free(tmp);
 		tmp = NULL;
 		string out;
@@ -1705,7 +1705,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 								}
 							}
 							db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
-							db_set_ts(hContact, szGPGModuleName, "GPGPubKey", toUTF16(key).c_str());
+							db_set_ws(hContact, szGPGModuleName, "GPGPubKey", toUTF16(key).c_str());
 						}
 						boost::filesystem::remove(path);
 						break;

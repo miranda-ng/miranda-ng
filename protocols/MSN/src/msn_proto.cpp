@@ -125,11 +125,11 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	mailsoundname = (char*)mir_alloc(64);
 	mir_snprintf(mailsoundname, 64, "%s:Hotmail", m_szModuleName);
-	SkinAddNewSoundExT(mailsoundname, m_tszUserName, LPGENW("Live Mail"));
+	SkinAddNewSoundExW(mailsoundname, m_tszUserName, LPGENW("Live Mail"));
 
 	alertsoundname = (char*)mir_alloc(64);
 	mir_snprintf(alertsoundname, 64, "%s:Alerts", m_szModuleName);
-	SkinAddNewSoundExT(alertsoundname, m_tszUserName, LPGENW("Live Alert"));
+	SkinAddNewSoundExW(alertsoundname, m_tszUserName, LPGENW("Live Alert"));
 
 	AvatarQueue_Init();
 	InitCustomFolders();
@@ -139,7 +139,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	NETLIBUSER nlu1 = { 0 };
 	nlu1.cbSize = sizeof(nlu1);
-	nlu1.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu1.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu1.szSettingsModule = szDbsettings;
 	nlu1.ptszDescriptiveName = szBuffer;
 
@@ -149,7 +149,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = szBuffer;
 
@@ -417,7 +417,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 		{
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
-			psr.flags = PSR_TCHAR;
+			psr.flags = PSR_UNICODE;
 			psr.id.w = (wchar_t*)emailT;
 			psr.nick.w = (wchar_t*)emailT;
 			psr.email.w = (wchar_t*)emailT;
@@ -736,7 +736,7 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 
 	AwayMsgInfo *inf = (AwayMsgInfo*)arg;
 	DBVARIANT dbv;
-	if (!db_get_ts(inf->hContact, "CList", "StatusMsg", &dbv)) {
+	if (!db_get_ws(inf->hContact, "CList", "StatusMsg", &dbv)) {
 		ProtoBroadcastAck(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 	}

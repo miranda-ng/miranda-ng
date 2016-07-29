@@ -173,7 +173,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 		FindClose(h);
 
 	SendMessage(hwndCombobox, CB_SETCURSEL, 0, 0);
-	if (0 == db_get_ts(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
+	if (0 == db_get_ws(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
 		LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
 		for (int i = 1; i < lr; i++) {
 			wchar_t *idata = (wchar_t*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
@@ -344,7 +344,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if (lr != CB_ERR && lr > 0) {
 					wchar_t	*tszRelPath = (wchar_t*)SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETITEMDATA, lr, 0);
 					if (tszRelPath && tszRelPath != (wchar_t*)CB_ERR)
-						db_set_ts(0, SRMSGMOD_T, "ContainerSkin", tszRelPath);
+						db_set_ws(0, SRMSGMOD_T, "ContainerSkin", tszRelPath);
 					SendMessage(hwndDlg, WM_COMMAND, IDC_RELOADSKIN, 0);
 				}
 				else if (lr == 0) {		// selected the <no skin> entry
@@ -398,7 +398,7 @@ void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 		tvi.hParent = 0;
 		tvi.hInsertAfter = TVI_LAST;
 		tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-		tvi.item.pszText = TranslateTS(lvGroups[i].szName);
+		tvi.item.pszText = TranslateW(lvGroups[i].szName);
 		tvi.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
 		tvi.item.state = TVIS_EXPANDED | TVIS_BOLD;
 		tvi.item.iImage = tvi.item.iSelectedImage = IMG_GRPOPEN;
@@ -408,7 +408,7 @@ void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 	for (int i = 0; lvItems[i].szName != NULL; i++) {
 		tvi.hParent = (HTREEITEM)lvGroups[lvItems[i].uGroup].handle;
 		tvi.hInsertAfter = TVI_LAST;
-		tvi.item.pszText = TranslateTS(lvItems[i].szName);
+		tvi.item.pszText = TranslateW(lvItems[i].szName);
 		tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		tvi.item.lParam = i;
 		if (bFromMem == FALSE) {
@@ -1096,7 +1096,7 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 		CheckDlgButton(hwndDlg, IDC_USEAERO, M.GetByte("useAero", 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_USEAEROPEEK, M.GetByte("useAeroPeek", 1) ? BST_CHECKED : BST_UNCHECKED);
 		for (int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
-			SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(CSkin::m_aeroEffects[i].tszName));
+			SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_INSERTSTRING, -1, (LPARAM)TranslateW(CSkin::m_aeroEffects[i].tszName));
 
 		SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_SETCURSEL, (WPARAM)CSkin::m_aeroEffect, 0);
 		Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, PluginConfig.m_bIsVista);

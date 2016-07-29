@@ -285,34 +285,34 @@ static void OnLoadSettings()
 
 static void RegisterFonts()
 {
-	ColourIDT colourid = { sizeof(colourid) };
+	ColourIDW colourid = { sizeof(colourid) };
 	strncpy(colourid.dbSettingsGroup, CHAT_MODULE, sizeof(colourid.dbSettingsGroup));
 	wcsncpy(colourid.group, LPGENW("Chat module"), _countof(colourid.group));
 
 	strncpy(colourid.setting, "ColorLogBG", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Group chat log background"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "ColorMessageBG", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Message background"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistBG", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Nick list background"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistLines", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Nick list lines"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistSelectedBG", _countof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Nick list background (selected)"), _countof(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-	ColourRegisterT(&colourid);
+	ColourRegisterW(&colourid);
 }
 
 static int OnCheckPlugins(WPARAM, LPARAM)

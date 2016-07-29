@@ -569,7 +569,7 @@ bool LoadCorePlugin(MuuidReplacement &mr)
 	pluginEntry* pPlug = OpenPlugin(tszPlugName, L"Core", exe);
 	if (pPlug->pclass & PCLASS_FAILED) {
 LBL_Error:
-		MessageBox(NULL, CMString(FORMAT, TranslateTS(tszCoreErr), mr.stdplugname), TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
+		MessageBox(NULL, CMStringW(FORMAT, TranslateW(tszCoreErr), mr.stdplugname), TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
 
 		Plugin_UnloadDyn(pPlug);
 		mr.pImpl = NULL;
@@ -862,7 +862,7 @@ int LoadNewPluginsModuleInfos(void)
 	mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
 
 	// remember where the mirandaboot.ini goes
-	PathToAbsoluteT(L"mirandaboot.ini", mirandabootini);
+	PathToAbsoluteW(L"mirandaboot.ini", mirandabootini);
 
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);

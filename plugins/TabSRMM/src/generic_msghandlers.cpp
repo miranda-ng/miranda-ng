@@ -51,7 +51,7 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 
 		wchar_t szInitialDir[MAX_PATH + 2];
 		mir_snwprintf(szInitialDir, L"%s%s\\", M.getDataPath(), L"\\Saved message logs");
-		CreateDirectoryTreeT(szInitialDir);
+		CreateDirectoryTreeW(szInitialDir);
 
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
@@ -527,7 +527,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 
 			DBVARIANT dbv = { 0 };
 
-			if (0 == db_get_ts(dat->hContact, "UserInfo", "MyNotes", &dbv)) {
+			if (0 == db_get_ws(dat->hContact, "UserInfo", "MyNotes", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_MESSAGE, dbv.ptszVal);
 				mir_free(dbv.ptszVal);
 			}
@@ -537,7 +537,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 
 			wchar_t *buf = (wchar_t*)mir_alloc((iLen + 2) * sizeof(wchar_t));
 			GetDlgItemText(hwndDlg, IDC_MESSAGE, buf, iLen + 1);
-			db_set_ts(dat->hContact, "UserInfo", "MyNotes", buf);
+			db_set_ws(dat->hContact, "UserInfo", "MyNotes", buf);
 			SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
 
 			if (!dat->bIsAutosizingInput) {
@@ -981,7 +981,7 @@ static void LoadKLThread(LPVOID _param)
 	Thread_SetName("TabSRMM: LoadKLThread");
 
 	DBVARIANT dbv;
-	if (!db_get_ts((UINT_PTR)_param, SRMSGMOD_T, "locale", &dbv)) {
+	if (!db_get_ws((UINT_PTR)_param, SRMSGMOD_T, "locale", &dbv)) {
 		HKL hkl = LoadKeyboardLayout(dbv.ptszVal, 0);
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SETLOCALE, (WPARAM)_param, (LPARAM)hkl);
 		db_free(&dbv);
@@ -997,7 +997,7 @@ void TSAPI DM_LoadLocale(TWindowData *dat)
 		return;
 
 	DBVARIANT dbv;
-	if (!db_get_ts(dat->hContact, SRMSGMOD_T, "locale", &dbv))
+	if (!db_get_ws(dat->hContact, SRMSGMOD_T, "locale", &dbv))
 		db_free(&dbv);
 	else {
 		wchar_t szKLName[KL_NAMELENGTH + 1];
@@ -1005,11 +1005,11 @@ void TSAPI DM_LoadLocale(TWindowData *dat)
 			wchar_t	szBuf[20];
 			GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_ILANGUAGE, szBuf, 20);
 			mir_snwprintf(szKLName, L"0000%s", szBuf);
-			db_set_ts(dat->hContact, SRMSGMOD_T, "locale", szKLName);
+			db_set_ws(dat->hContact, SRMSGMOD_T, "locale", szKLName);
 		}
 		else {
 			GetKeyboardLayoutName(szKLName);
-			db_set_ts(dat->hContact, SRMSGMOD_T, "locale", szKLName);
+			db_set_ws(dat->hContact, SRMSGMOD_T, "locale", szKLName);
 		}
 	}
 
@@ -1082,7 +1082,7 @@ void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM, LPARAM lParam)
 			dat->hkl = (HKL)lParam;
 			ActivateKeyboardLayout(dat->hkl, 0);
 			GetKeyboardLayoutName(szKLName);
-			db_set_ts(dat->hContact, SRMSGMOD_T, "locale", szKLName);
+			db_set_ws(dat->hContact, SRMSGMOD_T, "locale", szKLName);
 			GetLocaleID(dat, szKLName);
 			UpdateReadChars(dat);
 		}
@@ -1764,7 +1764,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 					TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status."),
 					bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 
-			SendDlgItemMessage(hwndDlg, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_UNICODE);
 		}
 	}
 	else wcsncpy_s(newtitle, L"Message Session", _TRUNCATE);

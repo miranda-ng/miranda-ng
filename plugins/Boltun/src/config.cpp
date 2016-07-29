@@ -40,7 +40,7 @@ inline wchar_t* GetString(char* key, const wchar_t* def)
 {
 	DBVARIANT dbv;
 	wchar_t* val;
-	if (!db_get_ts(NULL, BOLTUN_KEY, key, &dbv))
+	if (!db_get_ws(NULL, BOLTUN_KEY, key, &dbv))
 	{
 		size_t len = mir_wstrlen(dbv.ptszVal) + 1;
 		val = new wchar_t[len];
@@ -61,7 +61,7 @@ inline const wchar_t* SetString(char* key, const wchar_t* value)
 	size_t len = mir_wstrlen(value) + 1;
 	wchar_t* val = new wchar_t[len];
 	wcscpy_s(val, len, value);
-	db_set_ts(NULL, BOLTUN_KEY, key, val);
+	db_set_ws(NULL, BOLTUN_KEY, key, val);
 	return val;
 }
 
@@ -97,7 +97,7 @@ BUILDINTETTERS(AnswerPauseTime, DB_WAIT_TIME, 2);
 BUILDINTETTERS(AnswerThinkTime, DB_THINK_TIME, 4);
 BUILDETTERS(PauseDepends, DB_PAUSE_DEPENDS, TRUE);
 BUILDETTERS(PauseRandom, DB_PAUSE_RANDOM, TRUE);
-BUILDSTRETTERS(WarnText, DB_WARN_TEXT, TranslateTS(DEFAULT_WARN_TEXT));
+BUILDSTRETTERS(WarnText, DB_WARN_TEXT, TranslateW(DEFAULT_WARN_TEXT));
 BUILDSTRETTERS(MindFileName, DB_MIND_FILE_NAME, DEFAULT_MIND_FILE);
 BUILDETTERS(EngineStaySilent, DB_ENGINE_SILENT, FALSE);
 BUILDETTERS(EngineMakeLowerCase, DB_ENGINE_LOWERCASE, FALSE);

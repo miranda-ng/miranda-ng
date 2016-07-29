@@ -132,11 +132,11 @@ int ModulesLoaded(WPARAM, LPARAM)
 	// Register hotkeys
 	_A2T text(modFullname);
 	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.dwFlags = HKD_TCHAR;
+	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "hk_dbepp_open";
 	hkd.pszService = "DBEditorpp/MenuCommand";
-	hkd.ptszDescription = LPGENW("Open Database Editor");
-	hkd.ptszSection = text;
+	hkd.pwszDescription = LPGENW("Open Database Editor");
+	hkd.pwszSection = text;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_EXT, 'D');
 	Hotkey_Register(&hkd);
 
@@ -529,7 +529,7 @@ void loadListSettings(HWND hwnd, ColumnsSettings *cs)
 	sLC.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
 	int i = 0;
 	while (cs[i].name) {
-		sLC.pszText = TranslateTS(cs[i].name);
+		sLC.pszText = TranslateW(cs[i].name);
 		sLC.cx = db_get_w(NULL, modname, cs[i].dbname, cs[i].defsize);
 		ListView_InsertColumn(hwnd, cs[i].index, &sLC);
 		i++;

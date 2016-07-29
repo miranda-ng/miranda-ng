@@ -294,7 +294,7 @@ void InitMenuItems()
 	CMenuItem mi;
 	
 	SET_UID(mi, 0x33ecc112, 0x6, 0x487d, 0xbb, 0x8b, 0x76, 0xb4, 0x17, 0x9b, 0xdb, 0xc5);
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = icon.hIcolib;
 	mi.position = 3000090005;
 	mi.name.w = LPGENW("Paste It");
@@ -302,7 +302,7 @@ void InitMenuItems()
 
 	memset(&mi, 0, sizeof(mi));
 	SET_UID(mi, 0xedc0456d, 0x5aa8, 0x4a61, 0xbe, 0xfd, 0xed, 0x34, 0xb2, 0xcc, 0x6, 0x54);
-	mi.flags =  CMIF_TCHAR;
+	mi.flags =  CMIF_UNICODE;
 	mi.pszService = MS_PASTEIT_CONTACTMENU;
 	mi.root = hContactMenu;
 	mi.name.w = LPGENW("Paste from clipboard");
@@ -322,7 +322,7 @@ void InitMenuItems()
 	mi2.root = hDefWebMenu;
 	for (int i = 0; i < PasteToWeb::pages; ++i)
 	{
-		mi2.flags =  CMIF_TCHAR | CMIF_UNMOVABLE;
+		mi2.flags =  CMIF_UNICODE | CMIF_UNMOVABLE;
 		if (Options::instance->defWeb == i)
 			mi2.flags |= CMIF_CHECKED;
 		mi2.name.w = pasteToWebs[i]->GetName();
@@ -404,7 +404,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_HTTPCONNS;
+	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULE;
 	nlu.ptszDescriptiveName = TranslateT("Paste It HTTP connections");
 	g_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);

@@ -62,7 +62,7 @@ HGENMENU hMenuShowHideFrame = 0;
 #define FONT_LISTENING_TO 4
 #define NUM_FONTS 5
 
-FontIDT font_id[NUM_FONTS];
+FontIDW font_id[NUM_FONTS];
 HFONT hFont[NUM_FONTS];
 COLORREF font_colour[NUM_FONTS];
 
@@ -198,7 +198,7 @@ int ReloadFont(WPARAM, LPARAM)
 			DeleteObject(hFont[i]);
 
 		LOGFONT log_font;
-		font_colour[i] = CallService(MS_FONT_GETT, (WPARAM)&font_id[i], (LPARAM)&log_font);
+		font_colour[i] = CallService(MS_FONT_GETW, (WPARAM)&font_id[i], (LPARAM)&log_font);
 		hFont[i] = CreateFontIndirect(&log_font);
 	}
 
@@ -233,7 +233,7 @@ int CreateFrame()
 	for (int i = 0; i < NUM_FONTS; i++) {
 		memset(&font_id[i], 0, sizeof(font_id[i]));
 
-		font_id[i].cbSize = sizeof(FontIDT);
+		font_id[i].cbSize = sizeof(FontIDW);
 		mir_wstrncpy(font_id[i].group, LPGENW("My details"), _countof(font_id[i].group));
 		mir_wstrncpy(font_id[i].name, font_names[i], _countof(font_id[i].name));
 		mir_strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, _countof(font_id[i].dbSettingsGroup));
@@ -249,7 +249,7 @@ int CreateFrame()
 		mir_wstrncpy(font_id[i].deffontsettings.szFace, L"Tahoma", _countof(font_id[i].deffontsettings.szFace));
 		font_id[i].order = i;
 		font_id[i].flags = FIDF_DEFAULTVALID;
-		FontRegisterT(&font_id[i]);
+		FontRegisterW(&font_id[i]);
 	}
 
 	ReleaseDC(NULL, hdc);
@@ -282,7 +282,7 @@ int CreateFrame()
 		Frame.hWnd = hwnd_frame;
 		Frame.align = alTop;
 		Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
-		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_SKINNED | F_TCHAR;
+		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_SKINNED | F_UNICODE;
 		Frame.height = 100;
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
@@ -332,7 +332,7 @@ int CreateFrame()
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "8C1C981C-4F28-4C4C-9121-544156210CE9");
 
 		SET_UID(mi, 0x69a43f1d, 0x6ebd, 0x4e41, 0xa6, 0xbd, 0x18, 0xea, 0xc4, 0x3, 0x90, 0x35);
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		mi.position = 1;
 		mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
 		mi.name.w = LPGENW("Show my details");
@@ -483,7 +483,7 @@ RECT GetRect(HDC hdc, RECT rc, const wchar_t *text, const wchar_t *def_text, Pro
 	const wchar_t *tmp;
 
 	if (text[0] == '\0')
-		tmp = TranslateTS(def_text);
+		tmp = TranslateW(def_text);
 	else
 		tmp = text;
 
@@ -1025,7 +1025,7 @@ void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, REC
 {
 	const wchar_t *tmp;
 	if (text[0] == '\0')
-		tmp = TranslateTS(def_text);
+		tmp = TranslateW(def_text);
 	else
 		tmp = text;
 

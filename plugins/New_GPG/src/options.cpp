@@ -46,7 +46,7 @@ int GpgOptInit(WPARAM wParam, LPARAM)
 	odp.pwszTitle = _T(szGPGModuleName);
 	odp.pwszGroup = LPGENW("Services");
 	odp.pwszTab = LPGENW("Main");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcGpgOpts;
 	Options_AddPage(wParam, &odp);
 
@@ -399,7 +399,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			{
 				wchar_t tmp[512];
 				GetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, tmp, _countof(tmp));
-				db_set_ts(NULL, szGPGModuleName, "szLogFilePath", tmp);
+				db_set_ws(NULL, szGPGModuleName, "szLogFilePath", tmp);
 			}
 			return TRUE;
 		}
@@ -433,7 +433,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (gpg_exists) {
 						bool bad_version = false;
 						wchar_t *tmp_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
-						db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+						db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 						string out;
 						DWORD code;
 						std::vector<wstring> cmd;
@@ -447,7 +447,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						gpg_valid = true;
 						gpg_launcher(params);
 						gpg_valid = old_gpg_state;
-						db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp_path);
+						db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp_path);
 						mir_free(tmp_path);
 						string::size_type p1 = out.find("(GnuPG) ");
 						if (p1 != string::npos) {
@@ -505,11 +505,11 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case PSN_APPLY:
 			wchar_t tmp[512];
 			GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, _countof(tmp));
-			db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+			db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
 			while (tmp[mir_wstrlen(tmp) - 1] == '\\')
 				tmp[mir_wstrlen(tmp) - 1] = '\0';
-			db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);
+			db_set_ws(NULL, szGPGModuleName, "szHomePath", tmp);
 			return TRUE;
 		}
 		break;
@@ -567,22 +567,22 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					{
 						wchar_t tmp[128];
 						GetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp, _countof(tmp));
-						db_set_ts(NULL, szGPGModuleName, "szInOpenTag", tmp);
+						db_set_ws(NULL, szGPGModuleName, "szInOpenTag", tmp);
 						mir_free(inopentag);
 						inopentag = (wchar_t*)mir_alloc(sizeof(wchar_t)* (mir_wstrlen(tmp) + 1));
 						mir_wstrcpy(inopentag, tmp);
 						GetDlgItemText(hwndDlg, IDC_IN_CLOSE_TAG, tmp, _countof(tmp));
-						db_set_ts(NULL, szGPGModuleName, "szInCloseTag", tmp);
+						db_set_ws(NULL, szGPGModuleName, "szInCloseTag", tmp);
 						mir_free(inclosetag);
 						inclosetag = (wchar_t*)mir_alloc(sizeof(wchar_t)* (mir_wstrlen(tmp) + 1));
 						mir_wstrcpy(inclosetag, tmp);
 						GetDlgItemText(hwndDlg, IDC_OUT_OPEN_TAG, tmp, _countof(tmp));
-						db_set_ts(NULL, szGPGModuleName, "szOutOpenTag", tmp);
+						db_set_ws(NULL, szGPGModuleName, "szOutOpenTag", tmp);
 						mir_free(outopentag);
 						outopentag = (wchar_t*)mir_alloc(sizeof(wchar_t)* (mir_wstrlen(tmp) + 1));
 						mir_wstrcpy(outopentag, tmp);
 						GetDlgItemText(hwndDlg, IDC_OUT_CLOSE_TAG, tmp, _countof(tmp));
-						db_set_ts(NULL, szGPGModuleName, "szOutCloseTag", tmp);
+						db_set_ws(NULL, szGPGModuleName, "szOutCloseTag", tmp);
 						mir_free(outclosetag);
 						outclosetag = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(tmp) + 1));
 						mir_wstrcpy(outclosetag, tmp);
@@ -783,12 +783,12 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 								for (int i = 0; i < count; i++) {
 									MCONTACT hcnt = db_mc_getSub(hContact, i);
 									if (hcnt)
-										db_set_ts(hcnt, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+										db_set_ws(hcnt, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
 								}
 							}
-							else db_set_ts(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+							else db_set_ws(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
 						}
-						else db_set_ts(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+						else db_set_ws(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
 					}
 					tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * (key_buf.length() + 1));
 					mir_wstrcpy(tmp, key_buf.substr(ws1, ws2 - ws1).c_str());

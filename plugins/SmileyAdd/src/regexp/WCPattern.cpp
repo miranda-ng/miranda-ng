@@ -25,8 +25,8 @@
 
 #include "../stdafx.h"
 
-std::map<CMString, WCPattern *> WCPattern::compiledWCPatterns;
-std::map<CMString, std::pair<CMString, unsigned long> > WCPattern::registeredWCPatterns;
+std::map<CMStringW, WCPattern *> WCPattern::compiledWCPatterns;
+std::map<CMStringW, std::pair<CMStringW, unsigned long> > WCPattern::registeredWCPatterns;
 
 const int WCPattern::MIN_QMATCH = 0x00000000;
 const int WCPattern::MAX_QMATCH = 0x7FFFFFFF;
@@ -62,7 +62,7 @@ static inline int str_icmp(const wchar_t *a, const wchar_t *b)
 #define str_icmp wcscasecmp
 #endif
 
-WCPattern::WCPattern(const CMString &rhs)
+WCPattern::WCPattern(const CMStringW &rhs)
 {
 	matcher = NULL;
 	pattern = rhs;
@@ -85,29 +85,29 @@ NFAUNode *WCPattern::registerNode(NFAUNode *node)
 	return node;
 }
 
-CMString WCPattern::classUnion(CMString s1, CMString s2) const
+CMStringW WCPattern::classUnion(CMStringW s1, CMStringW s2) const
 {
 	wchar_t *out = new wchar_t[66000];
 	std::sort((LPTSTR)s1.GetString(), (LPTSTR)s1.GetTail());
 	std::sort((LPTSTR)s2.GetString(), (LPTSTR)s2.GetTail());
 	wchar_t *p = std::set_union(s1.GetString(), s1.GetTail(), s2.GetString(), s2.GetTail(), out); *p = 0;
-	CMString ret = out;
+	CMStringW ret = out;
 	delete[] out;
 	return ret;
 }
 
-CMString WCPattern::classIntersect(CMString s1, CMString s2) const
+CMStringW WCPattern::classIntersect(CMStringW s1, CMStringW s2) const
 {
 	wchar_t *out = new wchar_t[66000];
 	std::sort((LPTSTR)s1.GetString(), (LPTSTR)s1.GetTail());
 	std::sort((LPTSTR)s2.GetString(), (LPTSTR)s2.GetTail());
 	*std::set_intersection(s1.GetString(), s1.GetTail(), s2.GetString(), s2.GetTail(), out) = 0;
-	CMString ret = out;
+	CMStringW ret = out;
 	delete[] out;
 	return ret;
 }
 
-CMString WCPattern::classNegate(CMString s1) const
+CMStringW WCPattern::classNegate(CMStringW s1) const
 {
 	wchar_t *out = new wchar_t[66000];
 	int i, ind = 0;
@@ -116,18 +116,18 @@ CMString WCPattern::classNegate(CMString s1) const
 	for (i = 0; i < s1.GetLength(); ++i) m[s1[i]] = 1;
 	for (i = 0xFF; i >= 0; --i) if (m.find((wchar_t)i) == m.end()) out[ind++] = (wchar_t)i;
 	out[ind] = 0;
-	CMString ret(out, ind);
+	CMStringW ret(out, ind);
 	delete[] out;
 	return ret;
 }
 
-CMString WCPattern::classCreateRange(wchar_t low, wchar_t hi) const
+CMStringW WCPattern::classCreateRange(wchar_t low, wchar_t hi) const
 {
 	wchar_t out[300];
 	int ind = 0;
 	while (low != hi) out[ind++] = low++;
 	out[ind++] = low;
-	return CMString(out, ind);
+	return CMStringW(out, ind);
 }
 
 int WCPattern::getInt(int start, int end)
@@ -266,9 +266,9 @@ NFAUNode* WCPattern::quantify(NFAUNode *newNode)
 	return newNode;
 }
 
-CMString WCPattern::parseClass()
+CMStringW WCPattern::parseClass()
 {
-	CMString t, ret;
+	CMStringW t, ret;
 	wchar_t ch, c1, c2;
 	bool inv = 0, neg = 0, quo = 0;
 
@@ -364,9 +364,9 @@ CMString WCPattern::parseClass()
 	return ret;
 }
 
-CMString WCPattern::parsePosix()
+CMStringW WCPattern::parsePosix()
 {
-	CMString s7 = pattern.Mid(curInd, 7);
+	CMStringW s7 = pattern.Mid(curInd, 7);
 	if (s7 == L"{Lower}") { curInd += 7; return L"abcdefghijklmnopqrstuvwxyz"; }
 	if (s7 == L"{Upper}") { curInd += 7; return L"ABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
 	if (s7 == L"{Alpha}") { curInd += 7; return L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
@@ -378,7 +378,7 @@ CMString WCPattern::parsePosix()
 	if (s7 == L"{Blank}") { curInd += 7; return L" \t"; }
 	if (s7 == L"{Space}") { curInd += 7; return L" \t\n\x0B\f\r"; }
 	if (s7 == L"{Cntrl}") {
-		CMString s(' ', 32 + 1);
+		CMStringW s(' ', 32 + 1);
 		for (int i = 0; i <= 0x1F; ++i)
 			s.SetAt(i, i);
 		s.SetAt(0x20, 0x7F);
@@ -386,7 +386,7 @@ CMString WCPattern::parsePosix()
 		return s;
 	}
 	if (s7 == L"{ASCII}") {
-		CMString s(' ', 0x80);
+		CMStringW s(' ', 0x80);
 		for (int i = 0; i <= 0x7f; ++i) s.SetAt(i, i);
 		curInd += 7;
 		return s;
@@ -422,7 +422,7 @@ NFAUNode* WCPattern::parseBackref()
 	#undef to_int
 }
 
-CMString WCPattern::parseOctal()
+CMStringW WCPattern::parseOctal()
 {
 	#define islowoc(x)  ((x) >= '0' && (x) <= '3')
 	#define isoc(x)     ((x) >= '0' && (x) <= '7')
@@ -431,7 +431,7 @@ CMString WCPattern::parseOctal()
 	wchar_t ch1 = (ci + 0 < pattern.GetLength()) ? pattern[ci + 0] : USHRT_MAX;
 	wchar_t ch2 = (ci + 1 < pattern.GetLength()) ? pattern[ci + 1] : USHRT_MAX;
 	wchar_t ch3 = (ci + 2 < pattern.GetLength()) ? pattern[ci + 2] : USHRT_MAX;
-	CMString s = L" ";
+	CMStringW s = L" ";
 
 	if (islowoc(ch1) && isoc(ch2)) {
 		curInd += 2;
@@ -453,7 +453,7 @@ CMString WCPattern::parseOctal()
 	#undef fromoc
 }
 
-CMString WCPattern::parseHex()
+CMStringW WCPattern::parseHex()
 {
 	#define to_low(x)   (((x) >= 'A' && (x) <= 'Z') ? ((x) - 'A' + 'a') : (x))
 	#define is_dig(x)   ((x) >= '0' && (x) <= '9')
@@ -465,7 +465,7 @@ CMString WCPattern::parseHex()
 	wchar_t ch2 = (ci + 1 < pattern.GetLength()) ? pattern[ci + 1] : USHRT_MAX;
 	wchar_t ch3 = (ci + 2 < pattern.GetLength()) ? pattern[ci + 2] : USHRT_MAX;
 	wchar_t ch4 = (ci + 3 < pattern.GetLength()) ? pattern[ci + 3] : USHRT_MAX;
-	CMString s = L" ";
+	CMStringW s = L" ";
 
 	if (is_hex(ch1) && is_hex(ch2) && is_hex(ch3) && is_hex(ch4)) {
 		curInd += 2;
@@ -484,10 +484,10 @@ CMString WCPattern::parseHex()
 	#undef to_int
 }
 
-CMString WCPattern::parseEscape(bool &inv, bool &quo)
+CMStringW WCPattern::parseEscape(bool &inv, bool &quo)
 {
 	wchar_t ch = pattern[curInd++];
-	CMString classes;
+	CMStringW classes;
 
 	if (curInd > pattern.GetLength()) {
 		raiseError();
@@ -530,7 +530,7 @@ CMString WCPattern::parseEscape(bool &inv, bool &quo)
 NFAUNode* WCPattern::parseRegisteredWCPattern(NFAUNode **end)
 {
 	int i, j;
-	CMString s;
+	CMStringW s;
 	NFAUNode *ret = NULL;
 	for (i = curInd; i < pattern.GetLength() && pattern[i] != '}'; ++i) {}
 	if (pattern[i] != '}') { raiseError(); return NULL; }
@@ -555,7 +555,7 @@ NFAUNode* WCPattern::parseRegisteredWCPattern(NFAUNode **end)
 	if (registeredWCPatterns.find(s) == registeredWCPatterns.end()) raiseError();
 	else {
 		unsigned long oflags = flags;
-		CMString op = pattern;
+		CMStringW op = pattern;
 		int ci = i + 1;
 
 		pattern = registeredWCPatterns[s].first;
@@ -577,7 +577,7 @@ NFAUNode* WCPattern::parseRegisteredWCPattern(NFAUNode **end)
 // pattern must have a concrete length
 NFAUNode* WCPattern::parseBehind(const bool pos, NFAUNode **end)
 {
-	CMString t;
+	CMStringW t;
 	while (curInd < pattern.GetLength() && pattern[curInd] != ')') {
 		wchar_t ch = pattern[curInd++];
 		if (ch == '\\') {
@@ -597,7 +597,7 @@ NFAUNode* WCPattern::parseBehind(const bool pos, NFAUNode **end)
 NFAUNode* WCPattern::parseQuote()
 {
 	bool done = 0;
-	CMString s;
+	CMStringW s;
 
 	while (!done) {
 		if (curInd >= pattern.GetLength()) {
@@ -621,7 +621,7 @@ NFAUNode* WCPattern::parseQuote()
 NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 {
 	NFAUNode *start, *cur, *next = NULL;
-	CMString t;
+	CMStringW t;
 	int grc = groupCount++;
 	bool inv, quo;
 	bool ahead = 0, pos = 0, noncap = 0, indep = 0;
@@ -747,13 +747,13 @@ NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 		case '[':
 			if ((flags & WCPattern::CASE_INSENSITIVE) == 0) {
 				NFAClassUNode *clazz = new NFAClassUNode();
-				CMString s = parseClass();
+				CMStringW s = parseClass();
 				for (int i = 0; i < (int)s.GetLength(); ++i) clazz->vals[s[i]] = 1;
 				next = registerNode(clazz);
 			}
 			else {
 				NFACIClassUNode *clazz = new NFACIClassUNode();
-				CMString s = parseClass();
+				CMStringW s = parseClass();
 				for (int i = 0; i < s.GetLength(); ++i) clazz->vals[to_lower(s[i])] = 1;
 				next = registerNode(clazz);
 			}
@@ -845,7 +845,7 @@ NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 	return start;
 }
 
-WCPattern* WCPattern::compile(const CMString &pattern, const unsigned long mode)
+WCPattern* WCPattern::compile(const CMStringW &pattern, const unsigned long mode)
 {
 	WCPattern *p = new WCPattern(pattern);
 	NFAUNode *end;
@@ -879,10 +879,10 @@ WCPattern* WCPattern::compile(const CMString &pattern, const unsigned long mode)
 	return p;
 }
 
-WCPattern* WCPattern::compileAndKeep(const CMString &pattern, const unsigned long mode)
+WCPattern* WCPattern::compileAndKeep(const CMStringW &pattern, const unsigned long mode)
 {
 	WCPattern *ret = NULL;
-	std::map<CMString, WCPattern*>::iterator it = compiledWCPatterns.find(pattern);
+	std::map<CMStringW, WCPattern*>::iterator it = compiledWCPatterns.find(pattern);
 	if (it != compiledWCPatterns.end())
 		ret = it->second;
 	else {
@@ -893,9 +893,9 @@ WCPattern* WCPattern::compileAndKeep(const CMString &pattern, const unsigned lon
 	return ret;
 }
 
-CMString WCPattern::replace(const CMString &pattern, const CMString &str, const CMString &replacementText, const unsigned long mode)
+CMStringW WCPattern::replace(const CMStringW &pattern, const CMStringW &str, const CMStringW &replacementText, const unsigned long mode)
 {
-	CMString ret;
+	CMStringW ret;
 	WCPattern *p = WCPattern::compile(pattern, mode);
 	if (p) {
 		ret = p->replace(str, replacementText);
@@ -904,9 +904,9 @@ CMString WCPattern::replace(const CMString &pattern, const CMString &str, const 
 	return ret;
 }
 
-std::vector<CMString> WCPattern::split(const CMString &pattern, const CMString &str, const bool keepEmptys, const unsigned long limit, const unsigned long mode)
+std::vector<CMStringW> WCPattern::split(const CMStringW &pattern, const CMStringW &str, const bool keepEmptys, const unsigned long limit, const unsigned long mode)
 {
-	std::vector<CMString> ret;
+	std::vector<CMStringW> ret;
 	WCPattern *p = WCPattern::compile(pattern, mode);
 	if (p) {
 		ret = p->split(str, keepEmptys, limit);
@@ -915,9 +915,9 @@ std::vector<CMString> WCPattern::split(const CMString &pattern, const CMString &
 	return ret;
 }
 
-std::vector<CMString> WCPattern::findAll(const CMString &pattern, const CMString &str, const unsigned long mode)
+std::vector<CMStringW> WCPattern::findAll(const CMStringW &pattern, const CMStringW &str, const unsigned long mode)
 {
-	std::vector<CMString> ret;
+	std::vector<CMStringW> ret;
 	WCPattern *p = WCPattern::compile(pattern, mode);
 	if (p) {
 		ret = p->findAll(str);
@@ -926,7 +926,7 @@ std::vector<CMString> WCPattern::findAll(const CMString &pattern, const CMString
 	return ret;
 }
 
-bool WCPattern::matches(const CMString &pattern, const CMString &str, const unsigned long mode)
+bool WCPattern::matches(const CMStringW &pattern, const CMStringW &str, const unsigned long mode)
 {
 	bool ret = 0;
 	WCPattern *p = compile(pattern, mode);
@@ -938,7 +938,7 @@ bool WCPattern::matches(const CMString &pattern, const CMString &str, const unsi
 	return ret;
 }
 
-bool WCPattern::registerWCPattern(const CMString &name, const CMString &pattern, const unsigned long mode)
+bool WCPattern::registerWCPattern(const CMStringW &name, const CMStringW &pattern, const unsigned long mode)
 {
 	WCPattern *p = WCPattern::compile(pattern, mode);
 	if (!p)
@@ -956,17 +956,17 @@ void WCPattern::unregisterWCPatterns()
 
 void WCPattern::clearWCPatternCache()
 {
-	std::map<CMString, WCPattern*>::iterator it;
+	std::map<CMStringW, WCPattern*>::iterator it;
 	for (it = compiledWCPatterns.begin(); it != compiledWCPatterns.end(); ++it)
 		delete it->second;
 
 	compiledWCPatterns.clear();
 }
 
-std::pair<CMString, int>  WCPattern::findNthMatch(const CMString &pattern, const CMString &str,
+std::pair<CMStringW, int>  WCPattern::findNthMatch(const CMStringW &pattern, const CMStringW &str,
 	const int matchNum, const unsigned long mode)
 {
-	std::pair<CMString, int> ret;
+	std::pair<CMStringW, int> ret;
 	WCPattern *p = WCPattern::compile(pattern, mode);
 
 	ret.second = -1;
@@ -991,10 +991,10 @@ WCPattern::~WCPattern()
 		delete it->first;
 }
 
-CMString WCPattern::replace(const CMString &str, const CMString &replacementText)
+CMStringW WCPattern::replace(const CMStringW &str, const CMStringW &replacementText)
 {
 	int li = 0;
-	CMString ret;
+	CMStringW ret;
 
 	matcher->setString(str);
 	while (matcher->findNextMatch()) {
@@ -1007,11 +1007,11 @@ CMString WCPattern::replace(const CMString &str, const CMString &replacementText
 	return ret;
 }
 
-std::vector<CMString> WCPattern::split(const CMString &str, const bool keepEmptys, const unsigned long limit)
+std::vector<CMStringW> WCPattern::split(const CMStringW &str, const bool keepEmptys, const unsigned long limit)
 {
 	unsigned long lim = (limit == 0 ? MAX_QMATCH : limit);
 	int li = 0;
-	std::vector<CMString> ret;
+	std::vector<CMStringW> ret;
 
 	matcher->setString(str);
 
@@ -1031,13 +1031,13 @@ std::vector<CMString> WCPattern::split(const CMString &str, const bool keepEmpty
 	return ret;
 }
 
-std::vector<CMString> WCPattern::findAll(const CMString &str)
+std::vector<CMStringW> WCPattern::findAll(const CMStringW &str)
 {
 	matcher->setString(str);
 	return matcher->findAll();
 }
 
-bool WCPattern::matches(const CMString &str)
+bool WCPattern::matches(const CMStringW &str)
 {
 	matcher->setString(str);
 	return matcher->matches();
@@ -1048,12 +1048,12 @@ unsigned long WCPattern::getFlags() const
 	return flags;
 }
 
-CMString WCPattern::getWCPattern() const
+CMStringW WCPattern::getWCPattern() const
 {
 	return pattern;
 }
 
-WCMatcher *WCPattern::createWCMatcher(const CMString &str)
+WCMatcher *WCPattern::createWCMatcher(const CMStringW &str)
 {
 	return new WCMatcher(this, str);
 }
@@ -1072,7 +1072,7 @@ void NFAUNode::findAllNodes(std::map<NFAUNode*, bool> &soFar)
 // NFACharUNode
 
 NFACharUNode::NFACharUNode(const wchar_t c) { ch = c; }
-int NFACharUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFACharUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd < str.GetLength() && str[curInd] == ch)
 		return next->match(str, matcher, curInd + 1);
@@ -1082,7 +1082,7 @@ int NFACharUNode::match(const CMString &str, WCMatcher *matcher, const int curIn
 // NFACICharUNode
 
 NFACICharUNode::NFACICharUNode(const wchar_t c) { ch = to_lower(c); }
-int NFACICharUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFACICharUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd < str.GetLength() && to_lower(str[curInd]) == ch)
 		return next->match(str, matcher, curInd + 1);
@@ -1092,7 +1092,7 @@ int NFACICharUNode::match(const CMString &str, WCMatcher *matcher, const int cur
 // NFAStartUNode
 
 NFAStartUNode::NFAStartUNode() {}
-int NFAStartUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAStartUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int ret = -1, ci = curInd;
 
@@ -1118,7 +1118,7 @@ int NFAStartUNode::match(const CMString &str, WCMatcher *matcher, const int curI
 // NFAEndUNode
 
 NFAEndUNode::NFAEndUNode() {}
-int NFAEndUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAEndUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	matcher->ends[0] = curInd;
 	if ((matcher->getFlags() & WCMatcher::MATCH_ENTIRE_STRING) != 0) {
@@ -1147,7 +1147,7 @@ NFAQuantifierUNode::NFAQuantifierUNode(WCPattern *pat, NFAUNode *internal, const
 	max = (maxMatch > WCPattern::MAX_QMATCH) ? WCPattern::MAX_QMATCH : maxMatch;
 }
 
-int NFAQuantifierUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAQuantifierUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int i0, i1, i2 = 0;
 
@@ -1168,14 +1168,14 @@ NFAGreedyQuantifierUNode::NFAGreedyQuantifierUNode(WCPattern *pat, NFAUNode *int
 {
 }
 
-int NFAGreedyQuantifierUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAGreedyQuantifierUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int t = NFAQuantifierUNode::match(str, matcher, curInd);
 	if (t != -1) return matchInternal(str, matcher, t, min);
 	return t;
 }
 
-int NFAGreedyQuantifierUNode::matchInternal(const CMString &str, WCMatcher *matcher, const int curInd, const int soFar) const
+int NFAGreedyQuantifierUNode::matchInternal(const CMStringW &str, WCMatcher *matcher, const int curInd, const int soFar) const
 {
 	if (soFar >= max)
 		return next->match(str, matcher, curInd);
@@ -1196,7 +1196,7 @@ NFALazyQuantifierUNode::NFALazyQuantifierUNode(WCPattern *pat, NFAUNode *interna
 {
 }
 
-int NFALazyQuantifierUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFALazyQuantifierUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int m = NFAQuantifierUNode::match(str, matcher, curInd);
 	if (m == -1)
@@ -1225,7 +1225,7 @@ NFAPossessiveQuantifierUNode::NFAPossessiveQuantifierUNode(WCPattern *pat, NFAUN
 {
 }
 
-int NFAPossessiveQuantifierUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAPossessiveQuantifierUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int m = NFAQuantifierUNode::match(str, matcher, curInd);
 	if (m == -1)
@@ -1246,7 +1246,7 @@ NFAAcceptUNode::NFAAcceptUNode()
 {
 }
 
-int NFAAcceptUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAAcceptUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (!next) return curInd;
 	else return next->match(str, matcher, curInd);
@@ -1259,14 +1259,14 @@ NFAClassUNode::NFAClassUNode(const bool invert)
 	inv = invert;
 }
 
-NFAClassUNode::NFAClassUNode(const CMString &clazz, const bool invert)
+NFAClassUNode::NFAClassUNode(const CMStringW &clazz, const bool invert)
 {
 	inv = invert;
 	for (int i = 0; i < clazz.GetLength(); ++i)
 		vals[clazz[i]] = 1;
 }
 
-int NFAClassUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAClassUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd < str.GetLength() && ((vals.find(str[curInd]) != vals.end()) ^ inv)) {
 		return next->match(str, matcher, curInd + 1);
@@ -1281,14 +1281,14 @@ NFACIClassUNode::NFACIClassUNode(const bool invert)
 	inv = invert;
 }
 
-NFACIClassUNode::NFACIClassUNode(const CMString &clazz, const bool invert)
+NFACIClassUNode::NFACIClassUNode(const CMStringW &clazz, const bool invert)
 {
 	inv = invert;
 	for (int i = 0; i < (int)clazz.GetLength(); ++i)
 		vals[to_lower(clazz[i])] = 1;
 }
 
-int NFACIClassUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFACIClassUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd < str.GetLength() && ((vals.find(to_lower(str[curInd])) != vals.end()) ^ inv))
 		return next->match(str, matcher, curInd + 1);
@@ -1302,7 +1302,7 @@ NFASubStartUNode::NFASubStartUNode()
 {
 }
 
-int NFASubStartUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFASubStartUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	return next->match(str, matcher, curInd);
 }
@@ -1320,7 +1320,7 @@ void NFAOrUNode::findAllNodes(std::map<NFAUNode*, bool> &soFar)
 	if (two) two->findAllNodes(soFar);
 	NFAUNode::findAllNodes(soFar);
 }
-int NFAOrUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAOrUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int ci = one->match(str, matcher, curInd);
 
@@ -1333,12 +1333,12 @@ int NFAOrUNode::match(const CMString &str, WCMatcher *matcher, const int curInd)
 
 // NFAQuoteUNode
 
-NFAQuoteUNode::NFAQuoteUNode(const CMString &quoted) :
+NFAQuoteUNode::NFAQuoteUNode(const CMStringW &quoted) :
 	qStr(quoted)
 {
 }
 
-int NFAQuoteUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAQuoteUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd + qStr.GetLength() > str.GetLength()) return -1;
 	if (str.Mid(curInd, qStr.GetLength()) != qStr) return -1;
@@ -1347,12 +1347,12 @@ int NFAQuoteUNode::match(const CMString &str, WCMatcher *matcher, const int curI
 
 // NFACIQuoteUNode
 
-NFACIQuoteUNode::NFACIQuoteUNode(const CMString &quoted) :
+NFACIQuoteUNode::NFACIQuoteUNode(const CMStringW &quoted) :
 	qStr(quoted)
 {
 }
 
-int NFACIQuoteUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFACIQuoteUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd + qStr.GetLength() > str.GetLength()) return -1;
 	if (str_icmp(str.Mid(curInd, qStr.GetLength()).c_str(), qStr.c_str())) return -1;
@@ -1372,19 +1372,19 @@ void NFALookAheadUNode::findAllNodes(std::map<NFAUNode*, bool> &soFar)
 	NFAUNode::findAllNodes(soFar);
 }
 
-int NFALookAheadUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFALookAheadUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	return ((inner->match(str, matcher, curInd) == -1) ^ pos) ? next->match(str, matcher, curInd) : -1;
 }
 
 // NFALookBehindUNode
 
-NFALookBehindUNode::NFALookBehindUNode(const CMString &str, const bool positive) :
+NFALookBehindUNode::NFALookBehindUNode(const CMStringW &str, const bool positive) :
 	pos(positive), mStr(str)
 {
 }
 
-int NFALookBehindUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFALookBehindUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (pos) {
 		if (curInd < mStr.GetLength())
@@ -1408,7 +1408,7 @@ NFAStartOfLineUNode::NFAStartOfLineUNode()
 {
 }
 
-int NFAStartOfLineUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAStartOfLineUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd == 0 || str[curInd - 1] == '\n' || str[curInd - 1] == '\r')
 		return next->match(str, matcher, curInd);
@@ -1422,7 +1422,7 @@ NFAEndOfLineUNode::NFAEndOfLineUNode()
 {
 }
 
-int NFAEndOfLineUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAEndOfLineUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd >= str.GetLength() || str[curInd] == '\n' || str[curInd] == '\r')
 		return next->match(str, matcher, curInd);
@@ -1437,7 +1437,7 @@ NFAReferenceUNode::NFAReferenceUNode(const int groupIndex) :
 {
 }
 
-int NFAReferenceUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAReferenceUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int len = matcher->ends[gi] - matcher->starts[gi];
 	int ni = -1;
@@ -1455,7 +1455,7 @@ NFAStartOfInputUNode::NFAStartOfInputUNode()
 {
 }
 
-int NFAStartOfInputUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAStartOfInputUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd == 0) return next->match(str, matcher, curInd);
 	return -1;
@@ -1468,7 +1468,7 @@ NFAEndOfInputUNode::NFAEndOfInputUNode(const bool lookForTerm) :
 {
 }
 
-int NFAEndOfInputUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAEndOfInputUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int len = str.GetLength();
 	if (curInd == len) return next->match(str, matcher, curInd);
@@ -1490,7 +1490,7 @@ NFAWordBoundaryUNode::NFAWordBoundaryUNode(const bool positive) :
 {
 }
 
-int NFAWordBoundaryUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAWordBoundaryUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int len = str.GetLength();
 
@@ -1509,7 +1509,7 @@ NFAEndOfMatchUNode::NFAEndOfMatchUNode()
 {
 }
 
-int NFAEndOfMatchUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAEndOfMatchUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	if (curInd == matcher->lm) return next->match(str, matcher, curInd);
 	return -1;
@@ -1522,7 +1522,7 @@ NFAGroupHeadUNode::NFAGroupHeadUNode(const int groupIndex) :
 {
 }
 
-int NFAGroupHeadUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAGroupHeadUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int ret, o = matcher->starts[gi];
 
@@ -1540,7 +1540,7 @@ NFAGroupTailUNode::NFAGroupTailUNode(const int groupIndex) :
 {
 }
 
-int NFAGroupTailUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAGroupTailUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int ret, o = matcher->ends[gi];
 
@@ -1558,7 +1558,7 @@ NFAGroupLoopPrologueUNode::NFAGroupLoopPrologueUNode(const int groupIndex) :
 {
 }
 
-int NFAGroupLoopPrologueUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAGroupLoopPrologueUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int ret, o1 = matcher->groups[gi], o2 = matcher->groupPos[gi], o3 = matcher->groupIndeces[gi];
 
@@ -1593,7 +1593,7 @@ void NFAGroupLoopUNode::findAllNodes(std::map<NFAUNode*, bool> &soFar)
 	NFAUNode::findAllNodes(soFar);
 }
 
-int NFAGroupLoopUNode::match(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAGroupLoopUNode::match(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	bool b = (curInd > matcher->groupIndeces[gi]);
 
@@ -1621,7 +1621,7 @@ int NFAGroupLoopUNode::match(const CMString &str, WCMatcher *matcher, const int 
 	return -1;
 }
 
-int NFAGroupLoopUNode::matchGreedy(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAGroupLoopUNode::matchGreedy(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int o = matcher->groupIndeces[gi];            // save our info for backtracking
 	matcher->groupIndeces[gi] = curInd;           // move along
@@ -1635,7 +1635,7 @@ int NFAGroupLoopUNode::matchGreedy(const CMString &str, WCMatcher *matcher, cons
 	return ret;
 }
 
-int NFAGroupLoopUNode::matchLazy(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAGroupLoopUNode::matchLazy(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int ret = next->match(str, matcher, curInd);  // be lazy, just go on
 	if (ret < 0) {
@@ -1652,7 +1652,7 @@ int NFAGroupLoopUNode::matchLazy(const CMString &str, WCMatcher *matcher, const 
 	return ret;
 }
 
-int NFAGroupLoopUNode::matchPossessive(const CMString &str, WCMatcher *matcher, const int curInd) const
+int NFAGroupLoopUNode::matchPossessive(const CMStringW &str, WCMatcher *matcher, const int curInd) const
 {
 	int o = matcher->groupIndeces[gi];            // save info for backtracking
 	matcher->groupPos[gi] = matcher->groups[gi];  // set a flag stating we have matcher at least this much

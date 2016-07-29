@@ -259,9 +259,9 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 		hMenu1 = GetSubMenu(hMenu, 0);
 		GetMenuString(hMenu1, opt.LeftClickAction, str, _countof(str), MF_BYCOMMAND);
-		SetDlgItemText(hdlg, IDC_LeftClick, TranslateTS(str));
+		SetDlgItemText(hdlg, IDC_LeftClick, TranslateW(str));
 		GetMenuString(hMenu1, opt.RightClickAction, str, _countof(str), MF_BYCOMMAND);
-		SetDlgItemText(hdlg, IDC_RightClick, TranslateTS(str));
+		SetDlgItemText(hdlg, IDC_RightClick, TranslateW(str));
 		DestroyMenu(hMenu);
 
 		// other options
@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			GetMenuString(hMenu1, opt.RightClickAction, str, _countof(str), MF_BYCOMMAND);
-			SetDlgItemText(hdlg, IDC_RightClick, TranslateTS(str));
+			SetDlgItemText(hdlg, IDC_RightClick, TranslateW(str));
 			DestroyMenu(hMenu);
 			break;
 
@@ -362,7 +362,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			GetMenuString(hMenu1, opt.LeftClickAction, str, _countof(str), MF_BYCOMMAND);
-			SetDlgItemText(hdlg, IDC_LeftClick, TranslateTS(str));
+			SetDlgItemText(hdlg, IDC_LeftClick, TranslateW(str));
 			DestroyMenu(hMenu);
 			break;
 

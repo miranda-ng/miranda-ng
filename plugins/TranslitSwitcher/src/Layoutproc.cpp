@@ -705,7 +705,7 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 		}
 	}
 
-	ptrW tszSymbol(db_get_tsa(NULL, "TranslitSwitcher", "ResendSymbol"));
+	ptrW tszSymbol(db_get_wsa(NULL, "TranslitSwitcher", "ResendSymbol"));
 	if (!tszSymbol && sel) {
 		SetWindowText(hEdit, sel);
 		SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
@@ -717,7 +717,7 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 		SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 	}
 	else if (sel) {
-		CMString tszFinal(FORMAT, L"%s %s", tszSymbol, sel);
+		CMStringW tszFinal(FORMAT, L"%s %s", tszSymbol, sel);
 		SetWindowText(hEdit, tszFinal.GetString());
 		SendMessage(hEdit, EM_SETSEL, 0, tszFinal.GetLength());
 		SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);

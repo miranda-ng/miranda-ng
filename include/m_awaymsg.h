@@ -38,10 +38,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //returns status msg.  Remember to free the return value using mir_free/ptrW
 #define MS_AWAYMSG_GETSTATUSMSGW  "SRAway/GetStatusMessageW"
 
-#ifdef _UNICODE
-#define MS_AWAYMSG_GETSTATUSMSGT MS_AWAYMSG_GETSTATUSMSGW
-#else
-#define MS_AWAYMSG_GETSTATUSMSGT not implemented
-#endif
-
 #endif // M_AWAYMSG_H__

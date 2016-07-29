@@ -33,7 +33,7 @@
 LPTSTR CreateAvaFile(HANDLE *hFile)
 {
 	wchar_t name[MAX_PATH + 2];
-	if (CallService(MS_DB_GETPROFILENAMET, (WPARAM)_countof(name), (LPARAM)&name))
+	if (CallService(MS_DB_GETPROFILENAMEW, (WPARAM)_countof(name), (LPARAM)&name))
 		return NULL;
 
 	wchar_t *p = wcsrchr(name, '.');
@@ -41,12 +41,12 @@ LPTSTR CreateAvaFile(HANDLE *hFile)
 		*p = 0;
 
 	wchar_t path[MAX_PATH + 2];
-	if (CallService(MS_DB_GETPROFILEPATHT, (WPARAM)_countof(path), (LPARAM)&path))
+	if (CallService(MS_DB_GETPROFILEPATHW, (WPARAM)_countof(path), (LPARAM)&path))
 		return NULL;
 
 	wchar_t full[MAX_PATH + 2];
 	mir_snwprintf(full, AVA_FILE_NAME_FORMAT, path, name);
-	CreateDirectoryTreeT(full);
+	CreateDirectoryTreeW(full);
 
 	HANDLE h = CreateFile(full, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 	if (h == INVALID_HANDLE_VALUE)
@@ -156,5 +156,5 @@ void SetAvatar(MCONTACT hContact)
 	if (ava)
 		CallService(MS_AV_SETAVATART, hContact, (LPARAM)L"");
 	CallService(MS_AV_SETAVATART, hContact, (LPARAM)avaFile);
-	db_set_ts(hContact, SRMM_MODULE_NAME, SRMM_AVATAR_SETTING_NAME, avaFile);
+	db_set_ws(hContact, SRMM_MODULE_NAME, SRMM_AVATAR_SETTING_NAME, avaFile);
 }

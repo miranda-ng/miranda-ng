@@ -192,7 +192,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 			if (g_ModernOptPages[i].bShow && g_ModernOptPages[i].bShowTab)
 			{
 				HICON hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(g_ModernOptPages[i].iIcon), IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR);
-				MIcoTab_AddItem(hwndCtrl, TranslateTS(g_ModernOptPages[i].lpzTitle), hIcon, i, FALSE);
+				MIcoTab_AddItem(hwndCtrl, TranslateW(g_ModernOptPages[i].lpzTitle), hIcon, i, FALSE);
 				DestroyIcon(hIcon);
 			}
 
@@ -428,7 +428,7 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 			tvis.hParent = TVI_ROOT;
 			tvis.hInsertAfter = TVI_LAST;
 			tvis.item.mask = TVIF_IMAGE|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM;
-			tvis.item.pszText = TranslateTS(obj->optObject.lptzSubsection);
+			tvis.item.pszText = TranslateW(obj->optObject.lptzSubsection);
 			tvis.item.iImage = tvis.item.iSelectedImage = obj->iTreeImageIndex;
 			tvis.item.lParam = i;
 			TreeView_InsertItem(hwndTree, &tvis);

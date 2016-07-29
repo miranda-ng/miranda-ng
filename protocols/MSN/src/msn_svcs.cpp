@@ -363,7 +363,7 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM, LPARAM lParam)
 			mir_snwprintf(text, 128, L"%s - %s", (msnCurrentMedia.ptszTitle ? msnCurrentMedia.ptszTitle : L""),
 				(msnCurrentMedia.ptszArtist ? msnCurrentMedia.ptszArtist : L""));
 		}
-		setTString("ListeningTo", text);
+		setWString("ListeningTo", text);
 		mir_free(text);
 	}
 
@@ -385,7 +385,7 @@ int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM)
 
 	if (isChatRoom(hContact)) {
 		DBVARIANT dbv;
-		if (!getTString(hContact, "ChatRoomID", &dbv)) {
+		if (!getWString(hContact, "ChatRoomID", &dbv)) {
 			MSN_KillChatSession(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -595,7 +595,7 @@ INT_PTR CMsnProto::OnLeaveChat(WPARAM hContact, LPARAM)
 {
 	if (isChatRoom(hContact) != 0) {
 		DBVARIANT dbv;
-		if (getTString(hContact, "ChatRoomID", &dbv) == 0) {
+		if (getWString(hContact, "ChatRoomID", &dbv) == 0) {
 			MSN_KillChatSession(dbv.ptszVal);
 			db_free(&dbv);
 		}

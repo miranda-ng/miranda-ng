@@ -51,10 +51,10 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM 
 			db_set_w(NULL, szModuleName, "Port", (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
 			gbPort = (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE);
 			GetDlgItemText(hwndDlg, IDC_SERVER, szText, _countof(szText));
-			db_set_ts(NULL, szModuleName, "Server", szText);
+			db_set_ws(NULL, szModuleName, "Server", szText);
 			mir_wstrcpy(gbHost, szText);
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, szText, _countof(szText));
-			db_set_ts(NULL, szModuleName, "Password", szText);
+			db_set_ws(NULL, szModuleName, "Password", szText);
 			mir_wstrcpy(gbPassword, szText);
           return TRUE;
         }
@@ -74,7 +74,7 @@ int WaMpdOptInit(WPARAM wParam,LPARAM)
 	odp.pwszTitle = LPGENW("Winamp Track");
 	odp.pwszGroup = LPGENW("Plugins");
 	odp.pwszTab = LPGENW("Watrack MPD");
-	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.flags=ODPF_BOLDGROUPS|ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcWaMpdOpts;
 	Options_AddPage(wParam, &odp);
 	return 0;

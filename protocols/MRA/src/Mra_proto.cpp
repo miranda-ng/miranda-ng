@@ -357,7 +357,7 @@ bool CMraProto::CmdHelloAck(BinBuffer &buf)
 	if (IsXStatusValid(dwXStatusMir)) {// xstatuses
 		mir_snprintf(szValueName, "XStatus%ldName", dwXStatusMir);
 		if (!mraGetStringW(NULL, szValueName, wszStatusTitle))
-			wszStatusTitle = TranslateTS(lpcszXStatusNameDef[dwXStatusMir]);
+			wszStatusTitle = TranslateW(lpcszXStatusNameDef[dwXStatusMir]);
 
 		mir_snprintf(szValueName, "XStatus%ldMsg", dwXStatusMir);
 		mraGetStringW(NULL, szValueName, wszStatusDesc);
@@ -721,7 +721,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
 			if (cmd == MRIM_CS_ADD_CONTACT_ACK) {
 				DWORD dwFlags = SCBIF_ID | SCBIF_SERVER_FLAG, dwGroupID = 0;
-				ptrW grpName(db_get_tsa(hContact, "CList", "Group"));
+				ptrW grpName(db_get_wsa(hContact, "CList", "Group"));
 				if (grpName) {
 					dwFlags |= SCBIF_GROUP_ID;
 					dwGroupID = MraMoveContactToGroup(hContact, -1, grpName);
@@ -1259,7 +1259,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						}
 						else {
 							if (iGroupMode == 100) { // first start
-								ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
+								ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
 								if (tszGroup)
 									dwGroupID = MraMoveContactToGroup(hContact, dwGroupID, tszGroup);
 							}
@@ -1788,7 +1788,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					if (m_heNudgeReceived)
 						NotifyEventHooks(m_heNudgeReceived, hContact, NULL);
 					else {
-						T2Utf szMsg(TranslateTS(MRA_ALARM_MESSAGE));
+						T2Utf szMsg(TranslateW(MRA_ALARM_MESSAGE));
 						pre.szMessage = szMsg;
 						ProtoChainRecvMsg(hContact, &pre);
 					}

@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask, unsigned long adr, int port)
+BOOL CIrcProto::CList_AddDCCChat(const CMStringW& name, const CMStringW& hostmask, unsigned long adr, int port)
 {
 	MCONTACT hContact;
 	wchar_t szNick[256];
@@ -34,7 +34,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 	if (hc && db_get_b(hc, "CList", "NotOnList", 0) == 0 && db_get_b(hc, "CList", "Hidden", 0) == 0)
 		bFlag = true;
 
-	CMString contactname = name; contactname += DCCSTRING;
+	CMStringW contactname = name; contactname += DCCSTRING;
 
 	CONTACT user = { (wchar_t*)contactname.c_str(), NULL, NULL, false, false, true };
 	hContact = CList_AddContact(&user, false, false);
@@ -89,7 +89,7 @@ MCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 	if (hContact) {
 		if (InList)
 			db_unset(hContact, "CList", "NotOnList");
-		setTString(hContact, "Nick", user->name);
+		setWString(hContact, "Nick", user->name);
 		db_unset(hContact, "CList", "Hidden");
 		if (SetOnline && getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
@@ -106,8 +106,8 @@ MCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 		else
 			db_set_b(hContact, "CList", "NotOnList", 1);
 		db_unset(hContact, "CList", "Hidden");
-		setTString(hContact, "Nick", user->name);
-		setTString(hContact, "Default", user->name);
+		setWString(hContact, "Nick", user->name);
+		setWString(hContact, "Default", user->name);
 		setWord(hContact, "Status", SetOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 		if (!InList && getByte("MirVerAutoRequestTemp", 0))
 			PostIrcMessage(L"/PRIVMSG %s \001VERSION\001", user->name);
@@ -121,10 +121,10 @@ MCONTACT CIrcProto::CList_SetOffline(CONTACT *user)
 	MCONTACT hContact = CList_FindContact(user);
 	if (hContact) {
 		DBVARIANT dbv;
-		if (!getTString(hContact, "Default", &dbv)) {
+		if (!getWString(hContact, "Default", &dbv)) {
 			setString(hContact, "User", "");
 			setString(hContact, "Host", "");
-			setTString(hContact, "Nick", dbv.ptszVal);
+			setWString(hContact, "Nick", dbv.ptszVal);
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			db_free(&dbv);
 			return hContact;
@@ -148,8 +148,8 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 			if (ChatsToo)
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		}
-		else if (!getTString(hContact, "Default", &dbv)) {
-			setTString(hContact, "Nick", dbv.ptszVal);
+		else if (!getWString(hContact, "Default", &dbv)) {
+			setWString(hContact, "Nick", dbv.ptszVal);
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			db_free(&dbv);
 		}
@@ -173,11 +173,11 @@ MCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 			continue;
 
 		MCONTACT  hContact_temp = NULL;
-		ptrW DBNick(getTStringA(hContact, "Nick"));
-		ptrW DBUser(getTStringA(hContact, "UUser"));
-		ptrW DBHost(getTStringA(hContact, "UHost"));
-		ptrW DBDefault(getTStringA(hContact, "Default"));
-		ptrW DBWildcard(getTStringA(hContact, "UWildcard"));
+		ptrW DBNick(getWStringA(hContact, "Nick"));
+		ptrW DBUser(getWStringA(hContact, "UUser"));
+		ptrW DBHost(getWStringA(hContact, "UHost"));
+		ptrW DBDefault(getWStringA(hContact, "Default"));
+		ptrW DBWildcard(getWStringA(hContact, "UWildcard"));
 
 		if (DBWildcard)
 			CharLower(DBWildcard);

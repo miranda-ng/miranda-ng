@@ -211,7 +211,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 					pszNameLay = GetNameOfLayout(hklLayouts[i]);
 
 					if (mir_wstrcmp(ptszMemLay, ptszGenLay) != 0)
-						db_set_ts(NULL, ModuleName, pszNameLay, ptszMemLay);
+						db_set_ws(NULL, ModuleName, pszNameLay, ptszMemLay);
 					else
 						db_unset(NULL, ModuleName, pszNameLay);
 

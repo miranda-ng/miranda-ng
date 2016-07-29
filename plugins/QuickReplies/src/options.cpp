@@ -63,7 +63,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		{
 			char key[64];
 			int count = 0;
-			CMString replies;
+			CMStringW replies;
 
 			TranslateDialogDefault(hwndDlg);
 			variables_skin_helpbutton(hwndDlg, IDC_VARIABLES);
@@ -131,7 +131,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					GetDlgItemText(hwndDlg, IDC_REPLIES, tszReplies, length + 1);
 					tszReplies[length] = '\0';
 					{
-						CMString replies = tszReplies;
+						CMStringW replies = tszReplies;
 						if (replies.Right(2) != L"\r\n")
 							replies.Append(L"\r\n");
 

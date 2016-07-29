@@ -510,7 +510,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 			int item;
 			wchar_t *align[] = { LPGENW("Left align group names"), LPGENW("Center group names"), LPGENW("Right align group names") };
 			for (int i = 0; i < sizeof(align) / sizeof(char*); i++)
-				item = SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_ADDSTRING, 0, (LPARAM)TranslateTS(align[i]));
+				item = SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_ADDSTRING, 0, (LPARAM)TranslateW(align[i]));
 			SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_SETCURSEL, db_get_b(NULL, "CList", "AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT), 0);
 		}
 		CheckDlgButton(hwndDlg, IDC_ALIGN_RIGHT, db_get_b(NULL, "CList", "TextAlignToRight", SETTING_TEXT_RIGHTALIGN_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
@@ -584,7 +584,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 
 		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, db_get_b(NULL, "CList", "SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		{
-			ptrW tszText(db_get_tsa(NULL, "CList", "SecondLineText"));
+			ptrW tszText(db_get_wsa(NULL, "CList", "SecondLineText"));
 			if (tszText)
 				SetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, tszText);
 		}
@@ -719,7 +719,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 				wchar_t t[TEXT_TEXT_MAX_LENGTH];
 				GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, _countof(t));
 				t[TEXT_TEXT_MAX_LENGTH - 1] = '\0';
-				db_set_ts(NULL, "CList", "SecondLineText", t);
+				db_set_ws(NULL, "CList", "SecondLineText", t);
 
 				db_set_b(NULL, "CList", "SecondLineXStatusHasPriority", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_XSTATUS_HAS_PRIORITY));
 				db_set_b(NULL, "CList", "SecondLineShowStatusIfNoAway", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_STATUS_IF_NOAWAY));
@@ -750,7 +750,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, db_get_b(NULL, "CList", "ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		{
 			DBVARIANT dbv;
-			if (!db_get_ts(NULL, "CList", "ThirdLineText", &dbv)) {
+			if (!db_get_ws(NULL, "CList", "ThirdLineText", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, dbv.ptszVal);
 				db_free(&dbv);
 			}

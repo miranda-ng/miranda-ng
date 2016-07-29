@@ -182,18 +182,6 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	__forceinline void setWString(const char *name, const WCHAR* value) { db_set_ws(NULL, m_szModuleName, name, value); }
 	__forceinline void setWString(MCONTACT hContact, const char *name, const WCHAR* value) { db_set_ws(hContact, m_szModuleName, name, value); }
 
-	#if defined(_UNICODE)
-		#define debugLog    debugLogW
-		#define getTString  getWString
-		#define getTStringA getWStringA
-		#define setTString  setWString
-	#else
-		#define debugLog    debugLogA
-		#define getTString  getString
-		#define getTStringA getStringA
-		#define setTString  setString
-	#endif
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 

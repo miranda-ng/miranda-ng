@@ -28,13 +28,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 MIR_CORE_DLL(HBITMAP) Bitmap_Load(const wchar_t *ptszFileName)
 {
 	wchar_t szFilename[MAX_PATH];
-	if (!PathToAbsoluteT(ptszFileName, szFilename))
+	if (!PathToAbsoluteW(ptszFileName, szFilename))
 		wcsncpy_s(szFilename, ptszFileName, _TRUNCATE);
 
 	if (!ServiceExists(MS_IMG_LOAD))
 		return NULL;
 
-	return (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_TCHAR);
+	return (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_WCHAR);
 }
 
 MIR_CORE_DLL(void) Bitmap_GetFilter(wchar_t *dest, size_t destLen)

@@ -31,8 +31,8 @@ static void InitControls(HWND hwndDlg)
 
 	wchar_t szBuf[MAX_PATH];
 	mir_snwprintf(szBuf, L"%s (%s)",
-		TranslateTS(COM_OKSTR[(comReg & COMREG_OK) != 0]),
-		TranslateTS(COM_APPROVEDSTR[(comReg & COMREG_APPROVED) != 0]));
+		TranslateW(COM_OKSTR[(comReg & COMREG_OK) != 0]),
+		TranslateW(COM_APPROVEDSTR[(comReg & COMREG_APPROVED) != 0]));
 	SetDlgItemText(hwndDlg, IDC_STATUS, szBuf);
 	
 	// auto size the static windows to fit their text

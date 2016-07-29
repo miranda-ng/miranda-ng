@@ -440,7 +440,7 @@ WORD GetContactTimeZoneCtrl(MCONTACT hContact, LPCSTR pszProto, CTimeZone** pTim
 	CTimeZone* pTz = NULL;
 
 	// try to read windows' timezone name from database
-	flags = DB::Setting::GetCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_TIMEZONENAME, &dbv, DBVT_TCHAR);
+	flags = DB::Setting::GetCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_TIMEZONENAME, &dbv, DBVT_WCHAR);
 	if (flags == 0 || FAILED(TzMgr.find(&pTz, dbv.ptszVal))) {
 		db_free(&dbv);
 

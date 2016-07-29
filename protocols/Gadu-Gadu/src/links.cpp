@@ -116,7 +116,7 @@ void GGPROTO::links_instance_init()
 {
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CMenuItem mi;
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		mi.position = g_Instances.getCount();
 		mi.name.w = m_tszUserName;
 		hInstanceMenuItem = Menu_AddItem(hInstanceMenu, &mi, this);

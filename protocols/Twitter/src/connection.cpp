@@ -162,8 +162,8 @@ bool TwitterProto::NegotiateConnection()
 		}
 
 		//write those bitches to the db foe latta
-		setTString(TWITTER_KEY_OAUTH_TOK, oauthToken.c_str());
-		setTString(TWITTER_KEY_OAUTH_TOK_SECRET, oauthTokenSecret.c_str());
+		setWString(TWITTER_KEY_OAUTH_TOK, oauthToken.c_str());
+		setWString(TWITTER_KEY_OAUTH_TOK_SECRET, oauthTokenSecret.c_str());
 
 		// this looks like bad code.. can someone clean this up please?  or confirm that it's ok
 		wchar_t buf[1024] = {};
@@ -175,7 +175,7 @@ bool TwitterProto::NegotiateConnection()
 		ShowPinDialog();
 	}
 
-	if (!getTString(TWITTER_KEY_GROUP, &dbv)) {
+	if (!getWString(TWITTER_KEY_GROUP, &dbv)) {
 		Clist_GroupCreate(0, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -396,7 +396,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	// db_get_s returns 0 when it suceeds, so if this suceeds it will return 0, or false.
 	// therefore if it returns 1, or true, we want to return as there is no such user.
 	// as a side effect, dbv now has the username in it i think
-	if (getTString(data->hContact, TWITTER_KEY_UN, &dbv))
+	if (getWString(data->hContact, TWITTER_KEY_UN, &dbv))
 		return;
 
 	std::string ext = data->url.substr(data->url.rfind('.')); // finds the filetype of the avatar
@@ -535,7 +535,7 @@ void TwitterProto::ShowContactPopup(MCONTACT hContact, const std::string &text, 
 		popup.colorBack = GetSysColor(COLOR_WINDOWTEXT);
 
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, "CList", "MyHandle", &dbv) || !getTString(hContact, TWITTER_KEY_UN, &dbv)) {
+	if (!db_get_ws(hContact, "CList", "MyHandle", &dbv) || !getWString(hContact, TWITTER_KEY_UN, &dbv)) {
 		wcsncpy(popup.lptzContactName, dbv.ptszVal, MAX_CONTACTNAME);
 		db_free(&dbv);
 	}

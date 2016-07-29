@@ -118,7 +118,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		ptrW tszLast(getEventString(dbei, buf));
 		ptrW tszEmail(getEventString(dbei, buf));
 
-		CMString nick, text;
+		CMStringW nick, text;
 		if (tszFirst || tszLast) {
 			nick.AppendFormat(L"%s %s", tszFirst, tszLast);
 			nick.Trim();
@@ -147,7 +147,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (dbei->eventType == EVENTTYPE_CONTACTS) {
-		CMString text(TranslateT("Contacts: "));
+		CMStringW text(TranslateT("Contacts: "));
 		// blob is: [uin(ASCIIZ), nick(ASCIIZ)]*
 		char *buf = LPSTR(dbei->pBlob), *limit = LPSTR(dbei->pBlob) + dbei->cbBlob;
 		while (buf < limit) {

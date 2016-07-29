@@ -292,7 +292,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 			pReq->m_iRetry--;
 		}
 		else {
-			CMString msg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), pReq->m_iErrorCode);
+			CMStringW msg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), pReq->m_iErrorCode);
 			MsgPopup(NULL, msg, TranslateT("Error"), true);
 			debugLogA("CVkProto::CheckJsonResult SendError");
 		}
@@ -413,7 +413,7 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 	return true;
 }
 
-CMString CVkProto::RunConfirmationCode()
+CMStringW CVkProto::RunConfirmationCode()
 {
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_PASSWORD;
@@ -421,10 +421,10 @@ CMString CVkProto::RunConfirmationCode()
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "confirmcode_";
-	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
+	return (!EnterString(&pForm)) ? CMStringW() : CMStringW(ptrW(pForm.ptszResult));
 }
 
-CMString CVkProto::RunRenameNick(LPCWSTR pwszOldName)
+CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 {
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_COMBO;
@@ -433,7 +433,7 @@ CMString CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 	pForm.ptszInitVal = pwszOldName;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "renamenick_";
-	return (!EnterString(&pForm)) ? CMString() : CMString(ptrW(pForm.ptszResult));
+	return (!EnterString(&pForm)) ? CMStringW() : CMStringW(ptrW(pForm.ptszResult));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -589,7 +589,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		return;
 	}
 
-	CMString MirVer, OldMirVer(ptrW(db_get_wsa(hContact, m_szModuleName, "MirVer")));
+	CMStringW MirVer, OldMirVer(ptrW(db_get_wsa(hContact, m_szModuleName, "MirVer")));
 	bool bSetFlag = true;
 
 	switch (platform) {
@@ -830,7 +830,7 @@ int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMString CVkProto::SpanVKNotificationType(CMString& wszType, VKObjType& vkFeedback, VKObjType& vkParent)
+CMStringW CVkProto::SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent)
 {
 	CVKNotification vkNotification[] = {
 		// type, parent, feedback, string for translate
@@ -866,7 +866,7 @@ CMString CVkProto::SpanVKNotificationType(CMString& wszType, VKObjType& vkFeedba
 		{ L"mention_comment_video", vkVideo, vkComment, L"mentioned you in comment to video" }
 	};
 
-	CMString wszRes;
+	CMStringW wszRes;
 	vkFeedback = vkParent = vkNull;
 	for (int i = 0; i < _countof(vkNotification); i++)
 		if (wszType == vkNotification[i].pwszType) {
@@ -878,14 +878,14 @@ CMString CVkProto::SpanVKNotificationType(CMString& wszType, VKObjType& vkFeedba
 	return wszRes;
 }
 
-CMString CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
+CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 {
-	CMString wszRes;
+	CMStringW wszRes;
 
 	if (!jnPhoto)
 		return wszRes;
 
-	CMString wszLink, wszPreviewLink;
+	CMStringW wszLink, wszPreviewLink;
 	for (int i = 0; i < _countof(szImageTypes); i++) {
 		const JSONNode &n = jnPhoto[szImageTypes[i]];
 		if (n) {
@@ -913,14 +913,14 @@ CMString CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 	wszRes.AppendFormat(L"%s (%dx%d)", SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, wszLink), iWidth, iHeight);
 	if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
 		wszRes.AppendFormat(L"\n\t%s", SetBBCString(!wszPreviewLink.IsEmpty() ? wszPreviewLink : (!wszLink.IsEmpty() ? wszLink : L""), bbcBasic, vkbbcImg));
-	CMString wszText(jnPhoto["text"].as_mstring());
+	CMStringW wszText(jnPhoto["text"].as_mstring());
 	if (!wszText.IsEmpty())
 		wszRes += L"\n" + wszText;
 
 	return wszRes;
 }
 
-CMString CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString)
+CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString)
 {
 	CVKBBCItem bbcItem[] = {
 		{ vkbbcB, bbcNo, L"%s" },
@@ -953,7 +953,7 @@ CMString CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType b
 	};
 
 	if (IsEmpty(pwszString))
-		return CMString();
+		return CMStringW();
 
 	wchar_t *pwszFormat = NULL;
 	for (int i = 0; i < _countof(bbcItem); i++)
@@ -962,9 +962,9 @@ CMString CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType b
 			break;
 		}
 
-	CMString res;
+	CMStringW res;
 	if (pwszFormat == NULL)
-		return CMString(pwszString);
+		return CMStringW(pwszString);
 
 	if (bbcType == vkbbcUrl && iBBC != bbcAdvanced)
 		res.AppendFormat(pwszFormat, pwszString, wszAddString ? wszAddString : L"");
@@ -976,12 +976,12 @@ CMString CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType b
 	return res;
 }
 
-CMString& CVkProto::ClearFormatNick(CMString& wszText)
+CMStringW& CVkProto::ClearFormatNick(CMStringW& wszText)
 {
 	int iNameEnd = wszText.Find(L"],"), iNameBeg = wszText.Find(L"|");
 	if (iNameEnd != -1 && iNameBeg != -1 && iNameBeg < iNameEnd) {
-		CMString wszName = wszText.Mid(iNameBeg + 1, iNameEnd - iNameBeg - 1);
-		CMString wszBody = wszText.Mid(iNameEnd + 2);
+		CMStringW wszName = wszText.Mid(iNameBeg + 1, iNameEnd - iNameBeg - 1);
+		CMStringW wszBody = wszText.Mid(iNameEnd + 2);
 		if (!wszName.IsEmpty() && !wszBody.IsEmpty())
 			wszText = wszName + L"," + wszBody;
 	}
@@ -991,10 +991,10 @@ CMString& CVkProto::ClearFormatNick(CMString& wszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC)
+CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC)
 {
 	debugLogA("CVkProto::GetAttachmentDescr");
-	CMString res;
+	CMStringW res;
 	if (!jnAttachments) {
 		debugLogA("CVkProto::GetAttachmentDescr pAttachments == NULL");
 		return res;
@@ -1007,7 +1007,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 		const JSONNode &jnAttach = (*it);
 
 		res.AppendChar('\t');
-		CMString wszType(jnAttach["type"].as_mstring());
+		CMStringW wszType(jnAttach["type"].as_mstring());
 		if (wszType == L"photo") {
 			const JSONNode &jnPhoto = jnAttach["photo"];
 			if (!jnPhoto)
@@ -1020,10 +1020,10 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			if (!jnAudio)
 				continue;
 
-			CMString wszArtist(jnAudio["artist"].as_mstring());
-			CMString wszTitle(jnAudio["title"].as_mstring());
-			CMString wszUrl(jnAudio["url"].as_mstring());
-			CMString wszAudio(FORMAT, L"%s - %s", wszArtist, wszTitle);
+			CMStringW wszArtist(jnAudio["artist"].as_mstring());
+			CMStringW wszTitle(jnAudio["title"].as_mstring());
+			CMStringW wszUrl(jnAudio["url"].as_mstring());
+			CMStringW wszAudio(FORMAT, L"%s - %s", wszArtist, wszTitle);
 
 			int iParamPos = wszUrl.Find(L"?");
 			if (m_vkOptions.bShortenLinksForAudio &&  iParamPos != -1)
@@ -1038,10 +1038,10 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			if (!jnVideo)
 				continue;
 
-			CMString wszTitle(jnVideo["title"].as_mstring());
+			CMStringW wszTitle(jnVideo["title"].as_mstring());
 			int vid = jnVideo["id"].as_int();
 			int ownerID = jnVideo["owner_id"].as_int();
-			CMString wszUrl(FORMAT, L"https://vk.com/video%d_%d", ownerID, vid);
+			CMStringW wszUrl(FORMAT, L"https://vk.com/video%d_%d", ownerID, vid);
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Video"), iBBC, vkbbcB),
 				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
@@ -1051,8 +1051,8 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			if (!jnDoc)
 				continue;
 
-			CMString wszTitle(jnDoc["title"].as_mstring());
-			CMString wszUrl(jnDoc["url"].as_mstring());
+			CMStringW wszTitle(jnDoc["title"].as_mstring());
+			CMStringW wszUrl(jnDoc["url"].as_mstring());
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Document"), iBBC, vkbbcB),
 				SetBBCString(wszTitle, iBBC, vkbbcUrl, wszUrl));
@@ -1062,10 +1062,10 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			if (!jnWall)
 				continue;
 
-			CMString wszText(jnWall["text"].as_mstring());
+			CMStringW wszText(jnWall["text"].as_mstring());
 			int id = jnWall["id"].as_int();
 			int fromID = jnWall["from_id"].as_int();
-			CMString wszUrl(FORMAT, L"https://vk.com/wall%d_%d", fromID, id);
+			CMStringW wszUrl(FORMAT, L"https://vk.com/wall%d_%d", fromID, id);
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszUrl),
 				wszText.IsEmpty() ? L" " : wszText);
@@ -1074,10 +1074,10 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			for (auto aCHit = jnCopyHystory.begin(); aCHit != jnCopyHystory.end(); ++aCHit) {
 				const JSONNode &jnCopyHystoryItem = (*aCHit);
 
-				CMString wszCHText(jnCopyHystoryItem["text"].as_mstring());
+				CMStringW wszCHText(jnCopyHystoryItem["text"].as_mstring());
 				int iCHid = jnCopyHystoryItem["id"].as_int();
 				int iCHfromID = jnCopyHystoryItem["from_id"].as_int();
-				CMString wszCHUrl(FORMAT, L"https://vk.com/wall%d_%d", iCHfromID, iCHid);
+				CMStringW wszCHUrl(FORMAT, L"https://vk.com/wall%d_%d", iCHfromID, iCHid);
 				wszCHText.Replace(L"\n", L"\n\t\t");
 				res.AppendFormat(L"\n\t\t%s: %s",
 					SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszCHUrl),
@@ -1086,7 +1086,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				const JSONNode &jnSubAttachments = jnCopyHystoryItem["attachments"];
 				if (jnSubAttachments) {
 					debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-					CMString wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
+					CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
 					wszAttachmentDescr.Replace(L"\n", L"\n\t\t");
 					res += L"\n\t\t" + wszAttachmentDescr;
 				}
@@ -1095,7 +1095,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			const JSONNode &jnSubAttachments = jnWall["attachments"];
 			if (jnSubAttachments) {
 				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-				CMString wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
+				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
 				wszAttachmentDescr.Replace(L"\n", L"\n\t");
 				res += L"\n\t" + wszAttachmentDescr;
 			}
@@ -1111,7 +1111,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				res.AppendFormat(L"[sticker:%d]", id);
 			}
 			else {
-				CMString wszLink;
+				CMStringW wszLink;
 				for (int i = 0; i < _countof(szImageTypes); i++) {
 					const JSONNode &n = jnSticker[szImageTypes[i]];
 					if (n) {
@@ -1130,10 +1130,10 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			if (!jnLink)
 				continue;
 
-			CMString wszUrl(jnLink["url"].as_mstring());
-			CMString wszTitle(jnLink["title"].as_mstring());
-			CMString wszCaption(jnLink["caption"].as_mstring());
-			CMString wszDescription(jnLink["description"].as_mstring());
+			CMStringW wszUrl(jnLink["url"].as_mstring());
+			CMStringW wszTitle(jnLink["title"].as_mstring());
+			CMStringW wszCaption(jnLink["caption"].as_mstring());
+			CMStringW wszDescription(jnLink["description"].as_mstring());
 
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Link"), iBBC, vkbbcB),
@@ -1153,10 +1153,10 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 
 			int id = jnMarket["id"].as_int();
 			int ownerID = jnMarket["owner_id"].as_int();
-			CMString wszTitle(jnMarket["title"].as_mstring());
-			CMString wszDescription(jnMarket["description"].as_mstring());
-			CMString wszPhoto(jnMarket["thumb_photo"].as_mstring());
-			CMString wszUrl(FORMAT, L"https://vk.com/%s%d?w=product%d_%d",
+			CMStringW wszTitle(jnMarket["title"].as_mstring());
+			CMStringW wszDescription(jnMarket["description"].as_mstring());
+			CMStringW wszPhoto(jnMarket["thumb_photo"].as_mstring());
+			CMStringW wszUrl(FORMAT, L"https://vk.com/%s%d?w=product%d_%d",
 				ownerID > 0 ? L"id" : L"club",
 				ownerID > 0 ? ownerID : (-1)*ownerID,
 				ownerID,
@@ -1184,7 +1184,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 			if (!jnGift)
 				continue;
 
-			CMString wszLink;
+			CMStringW wszLink;
 			for (int i = 0; i < _countof(szGiftTypes); i++) {
 				const JSONNode &n = jnGift[szGiftTypes[i]];
 				if (n) {
@@ -1208,9 +1208,9 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 	return res;
 }
 
-CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC)
+CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC)
 {
-	CMString res;
+	CMStringW res;
 	debugLogA("CVkProto::GetFwdMessages");
 	if (!jnMessages) {
 		debugLogA("CVkProto::GetFwdMessages pMessages == NULL");
@@ -1223,8 +1223,8 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		const JSONNode &jnUser = (*it);
 
 		int iUserId = jnUser["id"].as_int();
-		CMString wszNick(FORMAT, L"%s %s", jnUser["first_name"].as_mstring(), jnUser["last_name"].as_mstring());
-		CMString wszLink(FORMAT, L"https://vk.com/id%d", iUserId);
+		CMStringW wszNick(FORMAT, L"%s %s", jnUser["first_name"].as_mstring(), jnUser["last_name"].as_mstring());
+		CMStringW wszLink(FORMAT, L"https://vk.com/id%d", iUserId);
 		
 		CVkUserInfo *vkUser = new CVkUserInfo(jnUser["id"].as_int(), false, wszNick, wszLink, FindUser(iUserId));
 		vkUsers.insert(vkUser);
@@ -1236,7 +1236,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 
 		UINT uid = jnMsg["user_id"].as_int();
 		CVkUserInfo *vkUser = vkUsers.find((CVkUserInfo *)&uid);
-		CMString wszNick, wszUrl;
+		CMStringW wszNick, wszUrl;
 
 		if (vkUser) {
 			wszNick = vkUser->m_wszUserNick;
@@ -1257,11 +1257,11 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 		_wcsftime_l(ttime, _countof(ttime), L"%x %X", localtime(&datetime), locale);
 		_free_locale(locale);
 
-		CMString wszBody(jnMsg["body"].as_mstring());
+		CMStringW wszBody(jnMsg["body"].as_mstring());
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
+			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
 			if (!wszBody.IsEmpty())
 				wszFwdMessages = L"\n" + wszFwdMessages;
 			wszBody += wszFwdMessages;
@@ -1269,7 +1269,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
-			CMString wszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
+			CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
 			if (!wszBody.IsEmpty())
 				wszAttachmentDescr = L"\n" + wszAttachmentDescr;
 			wszBody += wszAttachmentDescr;
@@ -1277,7 +1277,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jn
 
 		wszBody.Replace(L"\n", L"\n\t");
 		wchar_t tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
-		CMString wszMes(FORMAT, L"%s %s%c%s %s:\n\n%s\n",
+		CMStringW wszMes(FORMAT, L"%s %s%c%s %s:\n\n%s\n",
 			SetBBCString(TranslateT("Message from"), iBBC, vkbbcB),
 			SetBBCString(wszNick, iBBC, vkbbcUrl, wszUrl),
 			tcSplit,
@@ -1310,7 +1310,7 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 	setDword(hContact, "InvisibleTS", (DWORD)now);
 }
 
-CMString CVkProto::RemoveBBC(CMString& wszSrc) 
+CMStringW CVkProto::RemoveBBC(CMStringW& wszSrc) 
 {
 	static const wchar_t *wszSimpleBBCodes[][2] = {
 		{ L"[b]", L"[/b]" },
@@ -1326,13 +1326,13 @@ CMString CVkProto::RemoveBBC(CMString& wszSrc)
 		{ L"[color=", L"[/color]" },
 	};
 
-	CMString wszRes(wszSrc); 
-	CMString wszLow(wszSrc); 
+	CMStringW wszRes(wszSrc); 
+	CMStringW wszLow(wszSrc); 
 	wszLow.MakeLower();
 
 	for (int i = 0; i < _countof(wszSimpleBBCodes); i++) {
-		CMString wszOpenTag(wszSimpleBBCodes[i][0]);
-		CMString wszCloseTag(wszSimpleBBCodes[i][1]);
+		CMStringW wszOpenTag(wszSimpleBBCodes[i][0]);
+		CMStringW wszCloseTag(wszSimpleBBCodes[i][1]);
 		
 		int lenOpen = wszOpenTag.GetLength();
 		int lenClose = wszCloseTag.GetLength();
@@ -1357,8 +1357,8 @@ CMString CVkProto::RemoveBBC(CMString& wszSrc)
 	}
 
 	for (int i = 0; i < _countof(wszParamBBCodes); i++) {
-		CMString wszOpenTag(wszParamBBCodes[i][0]);
-		CMString wszCloseTag(wszParamBBCodes[i][1]);
+		CMStringW wszOpenTag(wszParamBBCodes[i][0]);
+		CMStringW wszCloseTag(wszParamBBCodes[i][1]);
 
 		int lenOpen = wszOpenTag.GetLength();
 		int lenClose = wszCloseTag.GetLength();
@@ -1396,7 +1396,7 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 	if (!GetEnvironmentVariable(L"TEMP", wszTempDir, MAX_PATH))
 		return;
 
-	CMString wszHTMLPath(FORMAT, L"%s\\miranda_captcha.html", wszTempDir);
+	CMStringW wszHTMLPath(FORMAT, L"%s\\miranda_captcha.html", wszTempDir);
 		
 	FILE *pFile = _wfopen(wszHTMLPath, L"w");
 	if (pFile == NULL)

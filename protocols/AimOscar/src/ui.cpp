@@ -683,7 +683,7 @@ int CAimProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	{
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.position = -1900000000;
-		odp.flags = ODPF_USERINFOTAB | ODPF_TCHAR;
+		odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
 		odp.hInstance = hInstance;
 		odp.pwszTitle = m_tszUserName;
 		odp.dwInitParam = LPARAM(this);
@@ -1061,7 +1061,7 @@ int CAimProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pwszGroup = LPGENW("Network");
 	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	odp.pwszTab = LPGENW("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_AIM);

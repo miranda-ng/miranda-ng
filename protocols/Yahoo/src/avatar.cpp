@@ -293,7 +293,7 @@ void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_
 				 */
 				if (getByte("AvatarUL", 0) != 1) {
 					// NO avatar URL??
-					if (!getTString("AvatarFile", &dbv)) {
+					if (!getWString("AvatarFile", &dbv)) {
 						struct _stat statbuf;
 						if (_wstat(dbv.ptszVal, &statbuf) != 0) {
 							LOG(("[ext_yahoo_got_picture] Avatar File Missing? Can't find file: %s", dbv.ptszVal));
@@ -411,7 +411,7 @@ void CYahooProto::ext_got_picture(const char*, const char *who, const char *pic_
 					LOG(("[ext_yahoo_got_picture] Buddy: %s told us this is bad??Expired??. Re-uploading", who));
 					delSetting("AvatarURL");
 
-					if (!getTString("AvatarFile", &dbv2)) {
+					if (!getWString("AvatarFile", &dbv2)) {
 						setString("AvatarInv", who);
 						SendAvatar(dbv2.ptszVal);
 						db_free(&dbv2);
@@ -596,10 +596,10 @@ void CYahooProto::request_avatar(const char* who)
 
 void CYahooProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, int cbLen, int type)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (_waccess(pszDest, 0))
-		CreateDirectoryTreeT(pszDest);
+		CreateDirectoryTreeW(pszDest);
 
 	if (hContact != NULL) {
 		int ck_sum = getDword(hContact, "PictCK", 0);
@@ -748,7 +748,7 @@ INT_PTR __cdecl CYahooProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	int ret = -3;
 
 	if (getDword("AvatarHash", 0)) {
-		if (!getTString("AvatarFile", &dbv)) {
+		if (!getWString("AvatarFile", &dbv)) {
 			if (_waccess(dbv.ptszVal, 0) == 0) {
 				mir_wstrncpy(buffer, dbv.ptszVal, size - 1);
 				buffer[size - 1] = '\0';
@@ -836,7 +836,7 @@ INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 			/* now check and make sure we don't reupload same thing over again */
 			if (hash != getDword("AvatarHash", 0)) {
-				setTString("AvatarFile", tszMyFile);
+				setWString("AvatarFile", tszMyFile);
 				setDword("TMPAvatarHash", hash);
 
 				/*	Set Sharing to ON if it's OFF */

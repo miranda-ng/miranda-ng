@@ -49,7 +49,7 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 	SmileyLookup::SmileyLocVecType *smileys = new SmileyLookup::SmileyLocVecType [smlsz];
 
 	// Find all possible smileys
-	CMString tmpstr(lpstrText);
+	CMStringW tmpstr(lpstrText);
 	int i = 0;
 
 	if (sml)

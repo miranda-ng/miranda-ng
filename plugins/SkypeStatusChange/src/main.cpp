@@ -189,10 +189,10 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						if (g_Options.GetSyncStatusMsgFlag()) {
 							wchar_t* pszStatusMsg = NULL;
 							if (ProtoServiceExists(si.Module(), PS_GETMYAWAYMSG))
-								pszStatusMsg = reinterpret_cast<wchar_t*>(CallProtoService(si.Module(), PS_GETMYAWAYMSG, (WPARAM)ms.m_nMirandaStatus, SGMA_TCHAR));
+								pszStatusMsg = reinterpret_cast<wchar_t*>(CallProtoService(si.Module(), PS_GETMYAWAYMSG, (WPARAM)ms.m_nMirandaStatus, SGMA_UNICODE));
 
 							if ((NULL == pszStatusMsg) || (CALLSERVICE_NOTFOUND == INT_PTR(pszStatusMsg)))
-								pszStatusMsg = reinterpret_cast<wchar_t*>(CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)ms.m_nMirandaStatus, 0));
+								pszStatusMsg = reinterpret_cast<wchar_t*>(CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM)ms.m_nMirandaStatus, 0));
 
 							if (pszStatusMsg && reinterpret_cast<LPARAM>(pszStatusMsg) != CALLSERVICE_NOTFOUND) {
 								T2Utf pMsg(pszStatusMsg);

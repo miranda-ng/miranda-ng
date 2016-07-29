@@ -289,7 +289,7 @@ static int core_Parse(lua_State *L)
 	char *what = (char*)luaL_checkstring(L, 1);
 
 	ptrW value(mir_utf8decodeW(what));
-	lua_pushstring(L, T2Utf(VARST(value)));
+	lua_pushstring(L, T2Utf(VARSW(value)));
 
 	return 1;
 }

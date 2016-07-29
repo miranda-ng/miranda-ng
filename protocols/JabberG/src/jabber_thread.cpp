@@ -97,7 +97,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				BOOL savePassword = IsDlgButtonChecked(hwndDlg, IDC_SAVE_PERM);
 				param->pro->setByte("SavePassword", savePassword);
 				if (savePassword) {
-					param->pro->setTString("Password", param->onlinePassword);
+					param->pro->setWString("Password", param->onlinePassword);
 					param->saveOnlinePassword = TRUE;
 				}
 			}
@@ -245,13 +245,13 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 
 		m_ThreadInfo = &info;
 
-		if ((tszValue = getTStringA("LoginName")) != NULL)
+		if ((tszValue = getWStringA("LoginName")) != NULL)
 			wcsncpy_s(info.conn.username, tszValue, _TRUNCATE);
 
 		if (*rtrimw(info.conn.username) == '\0') {
 			DWORD dwSize = _countof(info.conn.username);
 			if (GetUserName(info.conn.username, &dwSize))
-				setTString("LoginName", info.conn.username);
+				setWString("LoginName", info.conn.username);
 			else
 				info.conn.username[0] = 0;
 		}
@@ -282,7 +282,7 @@ LBL_FatalError:
 				mir_wstrcpy(info.resource, L"Miranda");
 		}
 		else {
-			if ((tszValue = getTStringA("Resource")) != NULL)
+			if ((tszValue = getWStringA("Resource")) != NULL)
 				wcsncpy_s(info.resource, tszValue, _TRUNCATE);
 			else
 				mir_wstrcpy(info.resource, L"Miranda");
@@ -319,7 +319,7 @@ LBL_FatalError:
 			}
 		}
 		else {
-			ptrW tszPassw(getTStringA(NULL, "Password"));
+			ptrW tszPassw(getWStringA(NULL, "Password"));
 			if (tszPassw == NULL) {
 				JLoginFailed(LOGINERR_BADUSERID);
 				debugLogA("Thread ended, password is not configured");
@@ -394,7 +394,7 @@ LBL_FatalError:
 			m_szJabberJID = (wchar_t*)mir_alloc(sizeof(wchar_t)*(len + 1));
 			mir_snwprintf(m_szJabberJID, len + 1, L"%s@%S", info.conn.username, info.conn.server);
 			m_bSendKeepAlive = m_options.KeepAlive != 0;
-			setTString("jid", m_szJabberJID); // store jid in database
+			setWString("jid", m_szJabberJID); // store jid in database
 
 			ListInit();
 		}
@@ -830,13 +830,13 @@ void CJabberProto::OnProcessSuccess(HXML node, ThreadData *info)
 		}
 
 		debugLogA("Success: Logged-in.");
-		ptrW tszNick(getTStringA("Nick"));
+		ptrW tszNick(getWStringA("Nick"));
 		if (tszNick == NULL)
-			setTString("Nick", info->conn.username);
+			setWString("Nick", info->conn.username);
 
 		xmlStreamInitialize("after successful sasl");
 	}
-	else debugLog(L"Success: unknown action %s.", type);
+	else debugLogW(L"Success: unknown action %s.", type);
 }
 
 void CJabberProto::OnProcessChallenge(HXML node, ThreadData *info)
@@ -1321,7 +1321,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 					if (!mir_wstrcmp(action, L"add")) {
 						MCONTACT cc = DBCreateContact(jid, nick, false, false);
 						if (group)
-							db_set_ts(cc, "CList", "Group", group);
+							db_set_ws(cc, "CList", "Group", group);
 					}
 					else if (!mir_wstrcmp(action, L"delete")) {
 						MCONTACT cc = HContactFromJID(jid);
@@ -1365,7 +1365,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	if (szMessage == NULL)
 		return;
 
-	CMString tmp(szMessage);
+	CMStringW tmp(szMessage);
 	tmp += ExtractImage(node);
 	tmp.Replace(L"\n", L"\r\n");
 	ptrA buf(mir_utf8encodeW(tmp));
@@ -1407,7 +1407,7 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 	if (from == NULL)
 		return;
 
-	debugLog(L"presence: for jid %s", from);
+	debugLogW(L"presence: for jid %s", from);
 
 	pResourceStatus r(ResourceInfoFromJID(from));
 	if (r == NULL)
@@ -1449,7 +1449,7 @@ void CJabberProto::UpdateJidDbSettings(const wchar_t *jid)
 		if (wcschr(jid, '/') == NULL)
 			status = item->getTemp()->m_iStatus;
 		if (item->getTemp()->m_tszStatusMessage)
-			db_set_ts(hContact, "CList", "StatusMsg", item->getTemp()->m_tszStatusMessage);
+			db_set_ws(hContact, "CList", "StatusMsg", item->getTemp()->m_tszStatusMessage);
 		else
 			db_unset(hContact, "CList", "StatusMsg");
 	}
@@ -1472,9 +1472,9 @@ void CJabberProto::UpdateJidDbSettings(const wchar_t *jid)
 	item->getTemp()->m_iStatus = status;
 	if (nSelectedResource != -1) {
 		pResourceStatus r(item->arResources[nSelectedResource]);
-		debugLog(L"JabberUpdateJidDbSettings: updating jid %s to rc %s", item->jid, r->m_tszResourceName);
+		debugLogW(L"JabberUpdateJidDbSettings: updating jid %s to rc %s", item->jid, r->m_tszResourceName);
 		if (r->m_tszStatusMessage)
-			db_set_ts(hContact, "CList", "StatusMsg", r->m_tszStatusMessage);
+			db_set_ws(hContact, "CList", "StatusMsg", r->m_tszStatusMessage);
 		else
 			db_unset(hContact, "CList", "StatusMsg");
 		UpdateMirVer(hContact, r);
@@ -1530,13 +1530,13 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 
 		if ((hContact = HContactFromJID(from)) == NULL) {
 			if (!mir_wstrcmpi(info->fullJID, from) || (!bSelfPresence && !ListGetItemPtr(LIST_ROSTER, from))) {
-				debugLog(L"SKIP Receive presence online from %s (who is not in my roster and not in list - skiping)", from);
+				debugLogW(L"SKIP Receive presence online from %s (who is not in my roster and not in list - skiping)", from);
 				return;
 			}
 			hContact = DBCreateContact(from, nick, true, true);
 		}
 		if (!ListGetItemPtr(LIST_ROSTER, from)) {
-			debugLog(L"Receive presence online from %s (who is not in my roster)", from);
+			debugLogW(L"Receive presence online from %s (who is not in my roster)", from);
 			ListAdd(LIST_ROSTER, from, hContact);
 		}
 		DBCheckIsTransportedContact(from, hContact);
@@ -1564,7 +1564,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 		if (wcschr(from, '@') == NULL) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
-		debugLog(L"%s (%s) online, set contact status to %s", nick, from, pcli->pfnGetStatusModeDescription(status, 0));
+		debugLogW(L"%s (%s) online, set contact status to %s", nick, from, pcli->pfnGetStatusModeDescription(status, 0));
 
 		HXML xNode;
 		if (m_options.EnableAvatars) {
@@ -1577,9 +1577,9 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 					if (ptszHash != NULL) {
 						delSetting(hContact, "AvatarXVcard");
 						debugLogA("AvatarXVcard deleted");
-						setTString(hContact, "AvatarHash", ptszHash);
+						setWString(hContact, "AvatarHash", ptszHash);
 						bHasAvatar = true;
-						ptrW saved(getTStringA(hContact, "AvatarSaved"));
+						ptrW saved(getWStringA(hContact, "AvatarSaved"));
 						if (saved == NULL || mir_wstrcmp(saved, ptszHash)) {
 							debugLogA("Avatar was changed");
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
@@ -1597,9 +1597,9 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 							if (txt != NULL && txt[0] != 0) {
 								setByte(hContact, "AvatarXVcard", 1);
 								debugLogA("AvatarXVcard set");
-								setTString(hContact, "AvatarHash", txt);
+								setWString(hContact, "AvatarHash", txt);
 								bHasAvatar = true;
-								ptrW saved(getTStringA(hContact, "AvatarSaved"));
+								ptrW saved(getWStringA(hContact, "AvatarSaved"));
 								if (saved == NULL || mir_wstrcmp(saved, txt)) {
 									debugLogA("Avatar was changed. Using vcard-temp:x:update");
 									ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
@@ -1612,7 +1612,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 				debugLogA("Has no avatar");
 				delSetting(hContact, "AvatarHash");
 
-				if (ptrW(getTStringA(hContact, "AvatarSaved")) != NULL) {
+				if (ptrW(getWStringA(hContact, "AvatarSaved")) != NULL) {
 					delSetting(hContact, "AvatarSaved");
 					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
 		}	}	}
@@ -1639,7 +1639,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 				item->getTemp()->m_tszStatusMessage = mir_wstrdup(XmlGetText(XmlGetChild(node, "status")));
 			}
 		}
-		else debugLog(L"SKIP Receive presence offline from %s (who is not in my roster)", from);
+		else debugLogW(L"SKIP Receive presence offline from %s (who is not in my roster)", from);
 
 		UpdateJidDbSettings(from);
 
@@ -1659,7 +1659,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 		if (xNick != NULL) {
 			LPCTSTR xszNick = XmlGetText(xNick);
 			if (xszNick != NULL && *xszNick) {
-				debugLog(L"Grabbed nick from presence: %s", xszNick);
+				debugLogW(L"Grabbed nick from presence: %s", xszNick);
 				tszNick = mir_wstrdup(xszNick);
 			}
 		}
@@ -1672,11 +1672,11 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 			if (m_options.AutoAdd == TRUE) {
 				JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, from);
 				if (item == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-					debugLog(L"Try adding contact automatically jid = %s", from);
+					debugLogW(L"Try adding contact automatically jid = %s", from);
 					if ((hContact = AddToListByJID(from, 0)) != NULL) {
 						if (item)
 							item->hContact = hContact;
-						setTString(hContact, "Nick", tszNick);
+						setWString(hContact, "Nick", tszNick);
 						db_unset(hContact, "CList", "NotOnList");
 					}
 				}
@@ -1684,7 +1684,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 			RebuildInfoFrame();
 		}
 		else {
-			debugLog(L"%s (%s) requests authorization", tszNick, from);
+			debugLogW(L"%s (%s) requests authorization", tszNick, from);
 			DBAddAuthRequest(from, tszNick);
 		}
 		return;

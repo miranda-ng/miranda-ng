@@ -90,12 +90,12 @@ static int MainInit(WPARAM, LPARAM)
 	CMenuItem mi;
 	SET_UID(mi, 0x73ff525d, 0x7b8, 0x49cc, 0xa2, 0xdf, 0xc5, 0xad, 0x13, 0xf3, 0x8e, 0x2d);
 	mi.position = 500050000;
-	mi.flags =  CMIF_TCHAR;
+	mi.flags =  CMIF_UNICODE;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.name.w = LPGENW("My details");
 	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
-	mi.flags =  CMIF_TCHAR;
+	mi.flags =  CMIF_UNICODE;
 	mi.root = hMenuRoot;
 	mi.hIcolibItem = NULL;
 

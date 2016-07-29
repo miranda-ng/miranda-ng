@@ -29,23 +29,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define HKD_UNICODE 0x0001
 
-#if defined(_UNICODE)
-	#define HKD_TCHAR  HKD_UNICODE
-#else
-	#define HKD_TCHAR  0
-#endif
-
 typedef struct
 {
 	int cbSize;
 	const char *pszName;          /* name to refer to hotkey when playing and in db */
 	union {
 		const char *pszDescription;   /* description for options dialog */
-		const wchar_t *ptszDescription;
+		const wchar_t *pwszDescription;
 	};
 	union {
 		const char *pszSection;       /* section name used to group sounds (NULL is acceptable) */
-		const wchar_t *ptszSection;
+		const wchar_t *pwszSection;
 	};
 	const char *pszService;       /* Service to call when HotKey Pressed */
 	WORD DefHotKey;               /* default hot key for action */

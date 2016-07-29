@@ -42,7 +42,7 @@
 
 wchar_t* _getCOptS(wchar_t *buf, unsigned int buflen, MCONTACT hContact, const char* option, const wchar_t *def);
 #define _getOptS(a,b,c,d) _getCOptS(a, b, NULL, c, d)
-#define _setCOptTS(a,b,c) db_set_ts(a, PLUGIN_NAME, b, c)
+#define _setCOptTS(a,b,c) db_set_ws(a, PLUGIN_NAME, b, c)
 #define _setCOptS(a,b,c) db_set_s(a, PLUGIN_NAME, b, c)
 #define _setOptTS(a,b) _setCOptTS(NULL, a, b)
 

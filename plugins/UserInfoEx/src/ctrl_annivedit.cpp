@@ -590,7 +590,7 @@ void CAnnivEditCtrl::SetZodiacAndAge(MAnnivDate *mt)
 		if (zod.pszName != NULL)
 		{
 			ShowWindow(GetDlgItem(_hwndDlg, TEXT_ZODIAC), SW_SHOW);
-			SetDlgItemText(_hwndDlg, TEXT_ZODIAC, TranslateTS(zod.pszName));
+			SetDlgItemText(_hwndDlg, TEXT_ZODIAC, TranslateW(zod.pszName));
 			SendDlgItemMessage(_hwndDlg, IDC_ZODIAC, STM_SETIMAGE, IMAGE_ICON, (LPARAM)zod.hIcon);
 		}
 		else

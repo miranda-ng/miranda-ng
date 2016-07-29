@@ -521,7 +521,7 @@ void createProcessList(void)
 	ProcessList.szFileName = (wchar_t **)mir_alloc(count * sizeof(wchar_t *));
 	if (ProcessList.szFileName) {
 		for (int i = 0; i < count; i++)
-			ProcessList.szFileName[i] = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i));
+			ProcessList.szFileName[i] = db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i));
 
 		ProcessList.count = count;
 	}

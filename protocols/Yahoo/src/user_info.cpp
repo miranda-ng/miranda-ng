@@ -117,7 +117,7 @@ int __cdecl CYahooProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInstance;
 	odp.dwInitParam = (LPARAM)this;
-	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	MCONTACT hContact = lParam;
 	if (IsMyContact(hContact)) {

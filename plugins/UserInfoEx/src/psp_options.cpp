@@ -67,7 +67,7 @@ static void FORCEINLINE ComboBox_SetCurSelByItemDataPtr(HWND hCombo, LPARAM pDat
 
 static void FORCEINLINE ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, LPARAM pData)
 {
-	ComboBox_SetItemData(hCombo, ComboBox_AddString(hCombo, TranslateTS(ptszText)), pData);
+	ComboBox_SetItemData(hCombo, ComboBox_AddString(hCombo, TranslateW(ptszText)), pData);
 }
 
 /**

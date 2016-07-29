@@ -205,13 +205,13 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 				db_set_w(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbRefreshRateValue, nRefreshRate);
 
 				tstring s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT));
-				db_set_ts(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, s.c_str());
+				db_set_ws(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbDisplayNameFormat, s.c_str());
 
 				s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_STATUS_MESSAGE_FORMAT));
-				db_set_ts(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, s.c_str());
+				db_set_ws(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbStatusMsgFormat, s.c_str());
 
 				s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_TENDENCY_FORMAT));
-				db_set_ts(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbTendencyFormat, s.c_str());
+				db_set_ws(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbTendencyFormat, s.c_str());
 
 				CAdvProviderSettings* pAdvSet = get_adv_settings(rData.m_pQuotesProvider, false);
 				if (pAdvSet)

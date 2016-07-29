@@ -262,7 +262,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 						mir_snprintf(fileInfo, "%s file(s), %s bytes", c, s);
 						wchar_t* filenameT = mir_utf8decodeW((char*)fileInfo);
 						PROTORECVFILET pre = { 0 };
-						pre.dwFlags = PRFF_TCHAR;
+						pre.dwFlags = PRFF_UNICODE;
 						pre.fileCount = 1;
 						pre.timestamp = time(NULL);
 						pre.descr.w = filenameT;

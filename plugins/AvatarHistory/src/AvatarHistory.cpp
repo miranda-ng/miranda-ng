@@ -116,7 +116,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbvOldHash = {0};
-	bool ret = (db_get_ts(hContact,MODULE_NAME,"AvatarHash",&dbvOldHash) == 0);
+	bool ret = (db_get_ws(hContact,MODULE_NAME,"AvatarHash",&dbvOldHash) == 0);
 
 	CONTACTAVATARCHANGEDNOTIFICATION* avatar = (CONTACTAVATARCHANGEDNOTIFICATION*)lParam;
 	if (avatar == NULL) {
@@ -130,7 +130,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		SkinPlaySound("avatar_removed");
 
 		// Is a flash avatar or avs could not load it
-		db_set_ts(hContact, MODULE_NAME, "AvatarHash", L"-");
+		db_set_ws(hContact, MODULE_NAME, "AvatarHash", L"-");
 
 		if (ContactEnabled(hContact, "AvatarPopups", AVH_DEF_AVPOPUPS) && opts.popup_show_removed)
 			ShowPopup(hContact, NULL, opts.popup_removed);
@@ -143,7 +143,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			return 0;
 		}
 		SkinPlaySound("avatar_changed");
-		db_set_ts(hContact, "AvatarHistory", "AvatarHash", avatar->hash);
+		db_set_ws(hContact, "AvatarHistory", "AvatarHash", avatar->hash);
 
 		wchar_t history_filename[MAX_PATH] = L"";
 
@@ -343,11 +343,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_AVATARHISTORY_ENABLED, IsEnabled);
 	CreateServiceFunction(MS_AVATARHISTORY_GET_CACHED_AVATAR, GetCachedAvatar);
 
-	if (CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)profilePath) != 0)
+	if (CallService(MS_DB_GETPROFILEPATHW, MAX_PATH, (LPARAM)profilePath) != 0)
 		mir_wstrcpy(profilePath, L"."); // Failed, use current dir
 
-	SkinAddNewSoundExT("avatar_changed",LPGENW("Avatar History"),LPGENW("Contact changed avatar"));
-	SkinAddNewSoundExT("avatar_removed",LPGENW("Avatar History"),LPGENW("Contact removed avatar"));
+	SkinAddNewSoundExW("avatar_changed",LPGENW("Avatar History"),LPGENW("Contact changed avatar"));
+	SkinAddNewSoundExW("avatar_removed",LPGENW("Avatar History"),LPGENW("Contact removed avatar"));
 
 	hAvatarWindowsList = WindowList_Create();
 

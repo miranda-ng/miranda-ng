@@ -331,7 +331,7 @@ CCtrlEditJid::CCtrlEditJid(CDlgBase* dlg, int ctrlId):
 
 static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlCombo &cbServer)
 {
-	ppro->setTString("jid", CMString(FORMAT, L"%s@%s", ptrW(txtUsername.GetText()), ptrW(cbServer.GetText())));
+	ppro->setWString("jid", CMStringW(FORMAT, L"%s@%s", ptrW(txtUsername.GetText()), ptrW(cbServer.GetText())));
 }
 
 class CDlgOptAccount : public CJabberDlgBase
@@ -425,7 +425,7 @@ protected:
 
 		SendDlgItemMessage(m_hwnd, IDC_PRIORITY_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(127, -128));
 
-		wchar_t *passw = m_proto->getTStringA(NULL, "Password");
+		wchar_t *passw = m_proto->getWStringA(NULL, "Password");
 		if (passw) {
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
@@ -444,7 +444,7 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		ptrW tszResource(m_proto->getTStringA("Resource"));
+		ptrW tszResource(m_proto->getWStringA("Resource"));
 		if (tszResource != NULL) {
 			if (CB_ERR == m_cbResource.FindString(tszResource, -1, true))
 				m_cbResource.AddString(tszResource);
@@ -453,7 +453,7 @@ protected:
 		else m_cbResource.SetText(L"Miranda");
 
 		for (int i = 0; g_LanguageCodes[i].szCode; i++) {
-			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
+			int iItem = m_cbLocale.AddString(TranslateW(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
 			if (!mir_wstrcmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
 				m_cbLocale.SetCurSel(iItem);
 		}
@@ -483,7 +483,7 @@ protected:
 		m_proto->m_savedPassword = NULL;
 
 		if (m_chkSavePassword.GetState() == BST_CHECKED)
-			m_proto->setTString("Password", ptrW(m_txtPassword.GetText()));
+			m_proto->setWString("Password", ptrW(m_txtPassword.GetText()));
 		else
 			m_proto->delSetting("Password");
 
@@ -491,7 +491,7 @@ protected:
 		if (index >= 0) {
 			wchar_t *szLanguageCode = (wchar_t *)m_cbLocale.GetItemData(index);
 			if (szLanguageCode) {
-				m_proto->setTString("XmlLang", szLanguageCode);
+				m_proto->setWString("XmlLang", szLanguageCode);
 
 				mir_free(m_proto->m_tszSelectedLang);
 				m_proto->m_tszSelectedLang = mir_wstrdup(szLanguageCode);
@@ -897,8 +897,8 @@ public:
 		m_otvOptions(this, IDC_OPTTREE)
 	{
 		CreateLink(m_txtAltNick, "GcAltNick", L"");
-		CreateLink(m_txtSlap, "GcMsgSlap", TranslateTS(JABBER_GC_MSG_SLAP));
-		CreateLink(m_txtQuit, "GcMsgQuit", TranslateTS(JABBER_GC_MSG_QUIT));
+		CreateLink(m_txtSlap, "GcMsgSlap", TranslateW(JABBER_GC_MSG_SLAP));
+		CreateLink(m_txtQuit, "GcMsgQuit", TranslateW(JABBER_GC_MSG_QUIT));
 
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Autoaccept multiuser chat invitations"),   m_proto->m_options.AutoAcceptMUC);
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join bookmarks on login"),   m_proto->m_options.AutoJoinBookmarks);
@@ -952,7 +952,7 @@ static int	_RosterInsertListItem(HWND hList, const wchar_t * jid, const wchar_t 
 	ListView_SetItemText(hList, index, 0, (wchar_t*)jid);
 	ListView_SetItemText(hList, index, 1, (wchar_t*)nick);
 	ListView_SetItemText(hList, index, 2, (wchar_t*)group);
-	ListView_SetItemText(hList, index, 3, TranslateTS(subscr));
+	ListView_SetItemText(hList, index, 3, TranslateW(subscr));
 	return index;
 }
 
@@ -1016,7 +1016,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 
 		// now it is require to process whole contact list to add not in roster contacts
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-			ptrW tszJid(getTStringA(hContact, "jid"));
+			ptrW tszJid(getWStringA(hContact, "jid"));
 			if (tszJid == NULL)
 				continue;
 
@@ -1029,8 +1029,8 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 				if (p) *p = 0;
 			}
 			if (ListView_FindItem(hList, -1, &lvfi) == -1) {
-				ptrW tszName(db_get_tsa(hContact, "CList", "MyHandle"));
-				ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
+				ptrW tszName(db_get_wsa(hContact, "CList", "MyHandle"));
+				ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
 				_RosterInsertListItem(hList, tszJid, tszName, tszGroup, NULL, FALSE);
 			}
 		}
@@ -1492,7 +1492,7 @@ int CJabberProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.pwszGroup = LPGENW("Network");
 	odp.pwszTitle = m_tszUserName;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	odp.pwszTab = LPGENW("Account");
 	odp.pDialog = new CDlgOptAccount(this);
@@ -1569,7 +1569,7 @@ protected:
 
 		m_gotservers = false;
 
-		wchar_t *passw = m_proto->getTStringA(NULL, "Password");
+		wchar_t *passw = m_proto->getWStringA(NULL, "Password");
 		if (passw) {
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
@@ -1588,7 +1588,7 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		ptrW tszResource(m_proto->getTStringA("Resource"));
+		ptrW tszResource(m_proto->getWStringA("Resource"));
 		if (tszResource != NULL) {
 			if (CB_ERR == m_cbResource.FindString(tszResource, -1, true))
 				m_cbResource.AddString(tszResource);
@@ -1666,7 +1666,7 @@ protected:
 				m_txtManualHost.Enable();
 				m_txtPort.Enable();
 
-				ptrW dbManualHost(m_proto->getTStringA("ManualHost"));
+				ptrW dbManualHost(m_proto->getWStringA("ManualHost"));
 				if (dbManualHost != NULL)
 					m_txtManualHost.SetText(dbManualHost);
 
@@ -1715,7 +1715,7 @@ protected:
 
 		if (m_chkSavePassword.GetState() == BST_CHECKED) {
 			wchar_t *text = m_txtPassword.GetText();
-			m_proto->setTString("Password", text);
+			m_proto->setWString("Password", text);
 			mir_free(text);
 		}
 		else m_proto->delSetting("Password");

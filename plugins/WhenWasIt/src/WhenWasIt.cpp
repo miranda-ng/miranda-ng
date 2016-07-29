@@ -131,8 +131,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	Hotkey_Register(&hotkey);
 
-	SkinAddNewSoundExT(BIRTHDAY_NEAR_SOUND, LPGENW("WhenWasIt"), LPGENW("Birthday near"));
-	SkinAddNewSoundExT(BIRTHDAY_TODAY_SOUND, LPGENW("WhenWasIt"), LPGENW("Birthday today"));
+	SkinAddNewSoundExW(BIRTHDAY_NEAR_SOUND, LPGENW("WhenWasIt"), LPGENW("Birthday near"));
+	SkinAddNewSoundExW(BIRTHDAY_TODAY_SOUND, LPGENW("WhenWasIt"), LPGENW("Birthday today"));
 
 	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;

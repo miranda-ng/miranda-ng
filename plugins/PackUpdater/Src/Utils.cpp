@@ -50,7 +50,7 @@ BOOL NetlibInit()
 {
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
 	nlu.ptszDescriptiveName = TranslateT("Pack Updater HTTP connection");
 	nlu.szSettingsModule = MODNAME;
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
@@ -190,7 +190,7 @@ static void CheckUpdates(void *)
 	FileCount = db_get_dw(NULL, MODNAME, "FileCount", DEFAULT_FILECOUNT);
 
 	// Load files info
-	ptrW tszDownloadURL(db_get_tsa(NULL, MODNAME, "File_VersionURL"));
+	ptrW tszDownloadURL(db_get_wsa(NULL, MODNAME, "File_VersionURL"));
 	if (!tszDownloadURL) { // URL is not set
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
@@ -222,14 +222,14 @@ static void CheckUpdates(void *)
 		FILEINFO FileInfo = { L"", L"", L"", L"", L"", L"", L"", { L"", L"" } };
 
 		mir_snprintf(szKey, "File_%d_CurrentVersion", CurrentFile + 1);
-		ptrW tszCurVer(db_get_tsa(NULL, MODNAME, szKey));
+		ptrW tszCurVer(db_get_wsa(NULL, MODNAME, szKey));
 		if (tszCurVer)
 			mir_wstrncpy(FileInfo.tszCurVer, tszCurVer, _countof(FileInfo.tszCurVer));
 		else 
 			mir_wstrncpy(FileInfo.tszCurVer, L"", _countof(FileInfo.tszCurVer));
 
 		mir_snprintf(szKey, "File_%d_LastVersion", CurrentFile + 1);
-		ptrW tszLastVer(db_get_tsa(NULL, MODNAME, szKey));
+		ptrW tszLastVer(db_get_wsa(NULL, MODNAME, szKey));
 		if (tszLastVer)
 			mir_wstrncpy(FileInfo.tszLastVer, tszLastVer, _countof(FileInfo.tszLastVer));
 		else
@@ -269,14 +269,14 @@ static void CheckUpdates(void *)
 			else
 				mir_snwprintf(tszBuff, L"Plugins\\%s\\%s", Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
 			wchar_t pluginFolderName[MAX_PATH];
-			PathToAbsoluteT(tszBuff, pluginFolderName);
+			PathToAbsoluteW(tszBuff, pluginFolderName);
 			if (!Files[CurrentFile].Force && (IsPluginDisabled(Files[CurrentFile].File.tszDiskPath) || !Exists(pluginFolderName))) //check if plugin disabled or not exists
 				continue;
 		}
 		// Compare versions
 		if (getVer(Files[CurrentFile].tszCurVer) < getVer(Files[CurrentFile].tszNewVer)) { // Yeah, we've got new version.
-			VARST tszSysRoot(L"%SystemRoot%");
-			VARST tszProgFiles(L"%ProgramFiles%");
+			VARSW tszSysRoot(L"%SystemRoot%");
+			VARSW tszProgFiles(L"%ProgramFiles%");
 
 			if (Files[CurrentFile].FileType != 1 && !IsUserAnAdmin() && (wcsstr(tszRoot, tszSysRoot) || wcsstr(tszRoot, tszProgFiles))) {
 				MessageBox(NULL, TranslateT("Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights."), Title, MB_ICONINFORMATION);
@@ -292,7 +292,7 @@ static void CheckUpdates(void *)
 			case 1:
 				break;
 			case 2: {
-				VARST tszUtilRootPlug(L"%miranda_path%\\Plugins");
+				VARSW tszUtilRootPlug(L"%miranda_path%\\Plugins");
 				if (mir_wstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
 					mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRootPlug, Files[CurrentFile].File.tszDiskPath);
 				else
@@ -300,7 +300,7 @@ static void CheckUpdates(void *)
 				}
 				break;
 			case 3: {
-				VARST tszUtilRootIco(L"%miranda_path%\\Icons");
+				VARSW tszUtilRootIco(L"%miranda_path%\\Icons");
 				if (mir_wstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
 					mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRootIco, Files[CurrentFile].File.tszDiskPath);
 				else
@@ -309,7 +309,7 @@ static void CheckUpdates(void *)
 				break;
 			case 4:
 			case 5: {
-				wchar_t *tszUtilRoot = VARST(L"%miranda_path%");
+				wchar_t *tszUtilRoot = VARSW(L"%miranda_path%");
 				if (mir_wstrcmp(Files[CurrentFile].tszAdvFolder, L"") == 0)
 					mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRoot, Files[CurrentFile].File.tszDiskPath);
 				else
@@ -323,7 +323,7 @@ static void CheckUpdates(void *)
 			// Save last version
 			mir_wstrncpy(Files[CurrentFile].tszLastVer, Files[CurrentFile].tszNewVer, _countof(Files[CurrentFile].tszLastVer));
 			mir_snprintf(szKey, "File_%d_LastVersion", CurrentFile + 1);
-			db_set_ts(NULL, MODNAME, szKey, Files[CurrentFile].tszLastVer);
+			db_set_ws(NULL, MODNAME, szKey, Files[CurrentFile].tszLastVer);
 		} // end compare versions
 	} //end checking all files in for ()
 

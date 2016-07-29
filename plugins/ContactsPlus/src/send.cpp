@@ -479,7 +479,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		TranslateDialogDefault(hwndDlg);
 		{
 			if (lParam)
-				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateTS((wchar_t*)lParam));
+				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateW((wchar_t*)lParam));
 
 			RECT rc, rcParent;
 			GetWindowRect(hwndDlg, &rc);

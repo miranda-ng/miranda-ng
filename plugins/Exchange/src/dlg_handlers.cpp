@@ -112,13 +112,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 				wchar_t buffer[4096];
 				GetDlgItemText(hWnd, IDC_USER_EDIT, buffer, _countof(buffer));
-				db_set_ts(NULL, ModuleName, "Username", buffer);
+				db_set_ws(NULL, ModuleName, "Username", buffer);
 
 				GetDlgItemText(hWnd, IDC_PASSWORD_EDIT, buffer, _countof(buffer));
-				db_set_ts(NULL, ModuleName, "Password", buffer);
+				db_set_ws(NULL, ModuleName, "Password", buffer);
 
 				GetDlgItemText(hWnd, IDC_SERVER_EDIT, buffer, _countof(buffer));
-				db_set_ts(NULL, ModuleName, "Server", buffer);
+				db_set_ws(NULL, ModuleName, "Server", buffer);
 
 				GetDlgItemText(hWnd, IDC_PORT_EDIT, buffer, _countof(buffer));
 				db_set_dw(NULL, ModuleName, "Port", GetDlgItemInt(hWnd, IDC_PORT_EDIT, NULL, FALSE));

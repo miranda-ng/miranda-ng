@@ -76,7 +76,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 	int count = 0;
 	HMENU hMenu = NULL;
 	char buttonName[32];
-	CMString replies;
+	CMStringW replies;
 	LIST<wchar_t> replyList(1);
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 

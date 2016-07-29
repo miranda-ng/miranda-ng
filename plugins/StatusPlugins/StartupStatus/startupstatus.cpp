@@ -172,7 +172,7 @@ static void SetLastStatusMessages(TSettingsList &ps)
 		mir_snprintf(dbSetting, "%s%s", PREFIX_LASTMSG, ps[i].szName);
 
 		DBVARIANT dbv;
-		if (ps[i].szMsg == NULL && !db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
+		if (ps[i].szMsg == NULL && !db_get_ws(NULL, MODULENAME, dbSetting, &dbv)) {
 			ps[i].szMsg = wcsdup(dbv.ptszVal); // remember this won't be freed
 			db_free(&dbv);
 		}
@@ -325,7 +325,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 				CallService(MS_NAS_GETSTATE, (WPARAM)&npi, 1);
 			}
 			if (npi.szMsg != NULL) {
-				db_set_ts(NULL, MODULENAME, lastMsg, npi.tszMsg);
+				db_set_ws(NULL, MODULENAME, lastMsg, npi.tszMsg);
 				mir_free(npi.tszMsg);
 			}
 		}

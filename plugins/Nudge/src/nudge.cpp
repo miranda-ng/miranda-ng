@@ -50,9 +50,9 @@ void CNudgeElement::Save(void)
 	mir_snprintf(SectionName, "%s-statusFlags", ProtocolName);
 	db_set_dw(NULL, MODULENAME, SectionName, this->statusFlags);
 	mir_snprintf(SectionName, "%s-recText", ProtocolName);
-	db_set_ts(NULL, MODULENAME, SectionName, this->recText);
+	db_set_ws(NULL, MODULENAME, SectionName, this->recText);
 	mir_snprintf(SectionName, "%s-senText", ProtocolName);
-	db_set_ts(NULL, MODULENAME, SectionName, this->senText);
+	db_set_ws(NULL, MODULENAME, SectionName, this->senText);
 }
 
 void CNudgeElement::Load(void)
@@ -81,7 +81,7 @@ void CNudgeElement::Load(void)
 	this->statusFlags = db_get_dw(NULL, MODULENAME, SectionName, 967);
 
 	mir_snprintf(SectionName, "%s-recText", ProtocolName);
-	if (!db_get_ts(NULL, MODULENAME, SectionName, &dbv)) {
+	if (!db_get_ws(NULL, MODULENAME, SectionName, &dbv)) {
 		wcsncpy(this->recText, dbv.ptszVal, TEXT_LEN);
 		if (wcslen(this->recText) < 1)
 			wcsncpy(this->recText, TranslateT("You received a nudge"), TEXT_LEN);
@@ -90,7 +90,7 @@ void CNudgeElement::Load(void)
 	else wcsncpy(this->recText, TranslateT("You received a nudge"), TEXT_LEN);
 
 	mir_snprintf(SectionName, "%s-senText", ProtocolName);
-	if (!db_get_ts(NULL, MODULENAME, SectionName, &dbv)) {
+	if (!db_get_ws(NULL, MODULENAME, SectionName, &dbv)) {
 		wcsncpy(this->senText, dbv.ptszVal, TEXT_LEN);
 		if (wcslen(this->senText) < 1)
 			wcsncpy(this->senText, TranslateT("You sent a nudge"), TEXT_LEN);

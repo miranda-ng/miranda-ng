@@ -87,7 +87,7 @@ static void InitComboBox(HWND hwndCombo, TLEN_FIELD_MAP *fieldMap)
 	for (i=0;;i++) {
 		if (fieldMap[i].name == NULL)
 			break;
-		n = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM) TranslateTS(fieldMap[i].name));
+		n = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM) TranslateW(fieldMap[i].name));
 		SendMessage(hwndCombo, CB_SETITEMDATA, n, fieldMap[i].id);
 	}
 }
@@ -135,7 +135,7 @@ int TlenProtocol::UserInfoInit(WPARAM wParam, LPARAM lParam)
 	if ((szProto != NULL && !mir_strcmp(szProto, m_szModuleName)) || !lParam) {
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = hInst;
-		odp.flags = ODPF_TCHAR;
+		odp.flags = ODPF_UNICODE;
 		odp.pfnDlgProc = TlenUserInfoDlgProc;
 		odp.position = -2000000000;
 		odp.pszTemplate = ((HANDLE)lParam != NULL) ? MAKEINTRESOURCEA(IDD_USER_INFO):MAKEINTRESOURCEA(IDD_USER_VCARD);
@@ -184,19 +184,19 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetDlgItemText(hwndDlg, IDC_SUBSCRIPTION, L"");
 			SetFocus(GetDlgItem(hwndDlg, IDC_STATIC));
 
-			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "FirstName", &dbv)) {
+			if (!db_get_ws(data->hContact, data->proto->m_szModuleName, "FirstName", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FIRSTNAME, dbv.ptszVal);
 				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_FIRSTNAME, L"");
-			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "LastName", &dbv)) {
+			if (!db_get_ws(data->hContact, data->proto->m_szModuleName, "LastName", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_LASTNAME, dbv.ptszVal);
 				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_LASTNAME, L"");
-			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "Nick", &dbv)) {
+			if (!db_get_ws(data->hContact, data->proto->m_szModuleName, "Nick", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_NICKNAME, dbv.ptszVal);
 				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_NICKNAME, L"");
-			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "e-mail", &dbv)) {
+			if (!db_get_ws(data->hContact, data->proto->m_szModuleName, "e-mail", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_EMAIL, dbv.ptszVal);
 				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_EMAIL, L"");
@@ -204,22 +204,22 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				SetDlgItemInt(hwndDlg, IDC_AGE, dbv.wVal, FALSE);
 				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_AGE, L"");
-			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "City", &dbv)) {
+			if (!db_get_ws(data->hContact, data->proto->m_szModuleName, "City", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_CITY, dbv.ptszVal);
 				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_CITY, L"");
-			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "School", &dbv)) {
+			if (!db_get_ws(data->hContact, data->proto->m_szModuleName, "School", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_SCHOOL, dbv.ptszVal);
 				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_SCHOOL, L"");
 			switch (db_get_b(data->hContact, data->proto->m_szModuleName, "Gender", '?')) {
 				case 'M':
 					SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_SETCURSEL, 1, 0);
-					SetDlgItemText(hwndDlg, IDC_GENDER_TEXT, TranslateTS(tlenFieldGender[0].name));
+					SetDlgItemText(hwndDlg, IDC_GENDER_TEXT, TranslateW(tlenFieldGender[0].name));
 					break;
 				case 'F':
 					SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_SETCURSEL, 2, 0);
-					SetDlgItemText(hwndDlg, IDC_GENDER_TEXT, TranslateTS(tlenFieldGender[1].name));
+					SetDlgItemText(hwndDlg, IDC_GENDER_TEXT, TranslateW(tlenFieldGender[1].name));
 					break;
 				default:
 					SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_SETCURSEL, 0, 0);
@@ -228,7 +228,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 			i = db_get_w(data->hContact, data->proto->m_szModuleName, "Occupation", 0);
 			if (i>0 && i<13) {
-				SetDlgItemText(hwndDlg, IDC_OCCUPATION_TEXT, TranslateTS(tlenFieldOccupation[i-1].name));
+				SetDlgItemText(hwndDlg, IDC_OCCUPATION_TEXT, TranslateW(tlenFieldOccupation[i-1].name));
 				SendDlgItemMessage(hwndDlg, IDC_OCCUPATION, CB_SETCURSEL, i, 0);
 			} else {
 				SetDlgItemText(hwndDlg, IDC_OCCUPATION_TEXT, L"");
@@ -236,7 +236,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 			i = db_get_w(data->hContact, data->proto->m_szModuleName, "LookingFor", 0);
 			if (i>0 && i<6) {
-				SetDlgItemText(hwndDlg, IDC_LOOKFOR_TEXT, TranslateTS(tlenFieldLookfor[i-1].name));
+				SetDlgItemText(hwndDlg, IDC_LOOKFOR_TEXT, TranslateW(tlenFieldLookfor[i-1].name));
 				SendDlgItemMessage(hwndDlg, IDC_LOOKFOR, CB_SETCURSEL, i, 0);
 			} else {
 				SetDlgItemText(hwndDlg, IDC_LOOKFOR_TEXT, L"");

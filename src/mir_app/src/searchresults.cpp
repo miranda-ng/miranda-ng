@@ -71,7 +71,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 			bool bNeedsFree = false;
 			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 			if (szColumnNames[i] != NULL)
-				lvc.pszText = TranslateTS(szColumnNames[i]);
+				lvc.pszText = TranslateW(szColumnNames[i]);
 			else {
 				if (i == COLUMNID_HANDLE) {
 					lvc.pszText = L"ID";
@@ -243,7 +243,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 
 void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 {
-	CMString str;
+	CMStringW str;
 
 	if (dat->searchCount != 0) {
 		str = TranslateT("Searching");
@@ -270,7 +270,7 @@ struct ProtoResultsSummary
 void SetStatusBarResultInfo(HWND hwndDlg)
 {
 	HWND hwndResults = GetDlgItem(hwndDlg, IDC_RESULTS);
-	CMString str;
+	CMStringW str;
 
 	int total = ListView_GetItemCount(hwndResults);
 	if (total != 0) {

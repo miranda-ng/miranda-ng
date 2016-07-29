@@ -486,7 +486,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 			ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 			ti.uId = (UINT_PTR)bct->hwnd;
 			if (lParam & BATF_UNICODE)
-				ti.lpszText = mir_wstrdup(TranslateTS((WCHAR*)wParam));
+				ti.lpszText = mir_wstrdup(TranslateW((WCHAR*)wParam));
 			else
 				ti.lpszText = Langpack_PcharToTchar((char*)wParam);
 

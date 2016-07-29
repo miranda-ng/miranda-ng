@@ -30,13 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PLUGIN_MAKE_VERSION(a, b, c, d)   (((((DWORD)(a))&0xFF)<<24)|((((DWORD)(b))&0xFF)<<16)|((((DWORD)(c))&0xFF)<<8)|(((DWORD)(d))&0xFF))
 #define MAXMODULELABELLENGTH 64
 
-#if defined(_UNICODE)
-	#define UNICODE_AWARE 0x0001
-#else
-	#define UNICODE_AWARE 0x0000
-#endif
-
-#define STATIC_PLUGIN    0x0002
+#define UNICODE_AWARE 0x0001
+#define STATIC_PLUGIN 0x0002
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // The UUID structure below is used to for plugin UUID's and module type definitions

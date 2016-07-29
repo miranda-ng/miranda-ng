@@ -97,10 +97,10 @@ INT CheckDefaults(WPARAM, LPARAM)
 {
 	interval = db_get_w(NULL, protocolname, KEY_REPEATINTERVAL, 300);
 
-	wchar_t *ptszVal = db_get_tsa(NULL, protocolname, KEY_HEADING);
+	wchar_t *ptszVal = db_get_wsa(NULL, protocolname, KEY_HEADING);
 	if (ptszVal == 0)
 		// Heading not set
-		db_set_ts(NULL, protocolname, KEY_HEADING, TranslateT("Dear %user%, the owner left the following message:"));
+		db_set_ws(NULL, protocolname, KEY_HEADING, TranslateT("Dear %user%, the owner left the following message:"));
 	else
 		mir_free(ptszVal);
 
@@ -110,7 +110,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 		else {
 			char szStatus[6] = { 0 };
 			mir_snprintf(szStatus, "%d", c);
-			ptszVal = db_get_tsa(NULL, protocolname, szStatus);
+			ptszVal = db_get_wsa(NULL, protocolname, szStatus);
 			if (ptszVal == 0) {
 				wchar_t *ptszDefault;
 				if (c < ID_STATUS_FREECHAT)
@@ -121,7 +121,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 				else
 					ptszDefault = 0;
 				if (ptszDefault)
-					db_set_ts(NULL, protocolname, szStatus, TranslateTS(ptszDefault));
+					db_set_ws(NULL, protocolname, szStatus, TranslateW(ptszDefault));
 			}
 			else
 				mir_free(ptszVal);
@@ -164,7 +164,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 		if (!dbei.cbBlob)	/// invalid size
 			return FALSE;
 
-		wchar_t *ptszVal = db_get_tsa(hContact, "Protocol", "p");
+		wchar_t *ptszVal = db_get_wsa(hContact, "Protocol", "p");
 		if (ptszVal == NULL) // Contact with no protocol ?!!
 			return FALSE;
 		mir_free(ptszVal);
@@ -185,12 +185,12 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 
 				char szStatus[6] = { 0 };
 				mir_snprintf(szStatus, "%d", status);
-				ptszVal = db_get_tsa(NULL, protocolname, szStatus);
+				ptszVal = db_get_wsa(NULL, protocolname, szStatus);
 				if (ptszVal) {
 					if (*ptszVal) {
-						CMString ptszTemp;
+						CMStringW ptszTemp;
 
-						wchar_t *ptszNick = db_get_tsa(hContact, pszProto, "Nick");
+						wchar_t *ptszNick = db_get_wsa(hContact, pszProto, "Nick");
 						if (ptszNick == 0) {
 							mir_free(ptszVal);
 							return FALSE;
@@ -198,7 +198,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 
 						msgLen += mir_wstrlen(ptszVal);
 
-						wchar_t *ptszHead = db_get_tsa(NULL, protocolname, KEY_HEADING);
+						wchar_t *ptszHead = db_get_wsa(NULL, protocolname, KEY_HEADING);
 						if (ptszHead != NULL) {
 							ptszTemp = ptszHead;
 							ptszTemp.Replace(L"%user%", ptszNick);

@@ -50,7 +50,7 @@ int DB::setStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, w
 {
 	char formSet[256];
 	mir_snprintf(formSet, szSetting, id);
-	return db_set_ts(hContact, szModule, formSet, stzValue);
+	return db_set_ws(hContact, szModule, formSet, stzValue);
 }
 
 int DB::getByteF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue)
@@ -97,7 +97,7 @@ int DB::getAStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, 
 int DB::getString(MCONTACT hContact, char *szModule, char *szSetting, wchar_t *buff)
 {
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, szModule, szSetting, &dbv)) {
+	if (!db_get_ws(hContact, szModule, szSetting, &dbv)) {
 		mir_wstrcpy(buff, dbv.ptszVal);
 		db_free(&dbv);
 		return 0;

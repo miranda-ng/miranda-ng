@@ -202,7 +202,7 @@ bool CAppletManager::Shutdown()
 tstring CAppletManager::TranslateString(wchar_t *szString, ...)
 {
 	wchar_t out[1024];
-	wchar_t *szTranslatedString = TranslateTS(szString);
+	wchar_t *szTranslatedString = TranslateW(szString);
 
 	va_list body;
 	va_start(body, szString);
@@ -451,7 +451,7 @@ tstring CAppletManager::GetContactDisplayname(MCONTACT hContact, bool bShortened
 tstring CAppletManager::GetContactGroup(MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	int res = db_get_ts(hContact, "CList", "Group", &dbv);
+	int res = db_get_ws(hContact, "CList", "Group", &dbv);
 
 	tstring strGroup = L"";
 	if (!res)
@@ -758,7 +758,7 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 
 	if (pIRCCon && db_get_b(hContact, szProto, "ChatRoom", 0) != 0) {
 		DBVARIANT dbv;
-		if (db_get_ts(hContact, szProto, "Nick", &dbv))
+		if (db_get_ws(hContact, szProto, "Nick", &dbv))
 			return NULL;
 
 		GCDEST gcd = { szProto, 0, GC_EVENT_SENDMESSAGE };
@@ -1478,7 +1478,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 			Event.strDescription = TranslateString(L"Joined %s", strName.c_str());
 
 			DBVARIANT dbv;
-			if (db_get_ts(Event.hContact, szProto, "Nick", &dbv))
+			if (db_get_ws(Event.hContact, szProto, "Nick", &dbv))
 				return 0;
 			CAppletManager::GetInstance()->CreateIRCHistory(Event.hContact, dbv.ptszVal);
 			db_free(&dbv);
@@ -1669,7 +1669,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 		DBVARIANT dbv = { 0 };
 		// if the protocol nick has changed, check if a custom handle is set
 		if (!strcmp(dbcws->szSetting, "Nick")) {
-			if (!db_get_ts(Event.hContact, "CList", "MyHandle", &dbv)) {
+			if (!db_get_ws(Event.hContact, "CList", "MyHandle", &dbv)) {
 				// handle found, ignore this event
 				if (dbv.pszVal && mir_strlen(dbv.pszVal) > 0)
 					return 0;
@@ -1686,7 +1686,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		else {
 			char *szProto = GetContactProto(Event.hContact);
-			if (db_get_ts(Event.hContact, szProto, "Nick", &dbv))
+			if (db_get_ws(Event.hContact, szProto, "Nick", &dbv))
 				return 0;
 			Event.strValue = dbv.ptszVal;
 			db_free(&dbv);
@@ -1700,7 +1700,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 		else if (!strcmp(dbcws->szSetting, "Group")) {
 			Event.eType = EVENT_CONTACT_GROUP;
 			DBVARIANT dbv;
-			int res = db_get_ts(hContact, "CList", "Group", &dbv);
+			int res = db_get_ws(hContact, "CList", "Group", &dbv);
 			if (!res)
 				Event.strValue = dbv.ptszVal;
 			db_free(&dbv);

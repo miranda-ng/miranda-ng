@@ -323,7 +323,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 										if (ServiceExists(MS_CLIST_CONTACTCHANGEGROUP))
 											CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, (LPARAM)nGroupId);
 										else
-											db_set_ts(hContact, "CList", "Group", caGroup);
+											db_set_ws(hContact, "CList", "Group", caGroup);
 									}
 									break;
 								}

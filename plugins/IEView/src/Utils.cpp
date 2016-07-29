@@ -25,7 +25,7 @@ wchar_t Utils::base_dir[MAX_PATH];
 
 const wchar_t *Utils::getBaseDir()
 {
-	PathToAbsoluteT(L"miranda32.exe", base_dir);
+	PathToAbsoluteW(L"miranda32.exe", base_dir);
 	return base_dir;
 }
 

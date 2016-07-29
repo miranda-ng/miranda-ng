@@ -41,7 +41,7 @@ static void OpenURLThread(void *arg)
 	TOpenUrlInfo *hUrlInfo = (TOpenUrlInfo*)arg;
 
 	// wack a protocol on it
-	CMString tszUrl;
+	CMStringW tszUrl;
 	if ((isalpha(hUrlInfo->szUrl[0]) && hUrlInfo->szUrl[1] == ':') || hUrlInfo->szUrl[0] == '\\')
 		tszUrl.Format(L"file:///%s", hUrlInfo->szUrl);
 	else {
@@ -56,7 +56,7 @@ static void OpenURLThread(void *arg)
 	}
 
 	// check user defined browser for opening urls
-	ptrW tszBrowser(db_get_tsa(NULL, "Miranda", "OpenUrlBrowser"));
+	ptrW tszBrowser(db_get_wsa(NULL, "Miranda", "OpenUrlBrowser"));
 	if (tszBrowser)
 		ShellExecute(NULL, L"open", tszBrowser, tszUrl, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 	else

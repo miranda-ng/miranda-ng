@@ -346,7 +346,7 @@ void CJabberDlgConsole::OnInitDialog()
 	m_proto->m_filterInfo.type = (TFilterInfo::Type)m_proto->getByte("consoleWnd_ftype", TFilterInfo::T_OFF);
 
 	*m_proto->m_filterInfo.pattern = 0;
-	ptrW tszPattern( m_proto->getTStringA("consoleWnd_fpattern"));
+	ptrW tszPattern( m_proto->getWStringA("consoleWnd_fpattern"));
 	if (tszPattern != NULL)
 		mir_wstrncpy(m_proto->m_filterInfo.pattern, tszPattern, _countof(m_proto->m_filterInfo.pattern));
 
@@ -397,7 +397,7 @@ void CJabberDlgConsole::OnClose()
 	m_proto->setByte("consoleWnd_presence", m_proto->m_filterInfo.presence);
 	m_proto->setByte("consoleWnd_iq", m_proto->m_filterInfo.iq);
 	m_proto->setByte("consoleWnd_ftype", m_proto->m_filterInfo.type);
-	m_proto->setTString("consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
+	m_proto->setWString("consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
 
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "consoleWnd_");
 	DestroyWindow(m_hwnd);
@@ -568,7 +568,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			for (i = 0; i < _countof(filter_modes); i++)
 				AppendMenu(hMenu,
 					MF_STRING | ((filter_modes[i].type == m_proto->m_filterInfo.type) ? MF_CHECKED : 0),
-					filter_modes[i].type + 1, TranslateTS(filter_modes[i].title));
+					filter_modes[i].type + 1, TranslateW(filter_modes[i].title));
 
 			RECT rc; GetWindowRect(GetDlgItem(m_hwnd, IDC_BTN_FILTER), &rc);
 			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_CHECKED);

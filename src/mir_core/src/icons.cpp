@@ -31,7 +31,7 @@ MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconIte
 	SKINICONDESC sid = { 0 };
 	sid.defaultFile.w = szFile;
 	sid.section.a = (char*)szSection;
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_PATH_UNICODE;
 
 	for (unsigned i = 0; i < iCount; i++) {
 		char szSetting[100];
@@ -56,7 +56,7 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t *szSection, Ico
 	SKINICONDESC sid = { 0 };
 	sid.defaultFile.w = szFile;
 	sid.section.w = (wchar_t*)szSection;
-	sid.flags = SIDF_ALL_TCHAR;
+	sid.flags = SIDF_ALL_UNICODE;
 
 	for (unsigned i = 0; i < iCount; i++) {
 		char szSetting[100];

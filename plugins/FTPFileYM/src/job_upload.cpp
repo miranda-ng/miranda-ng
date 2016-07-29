@@ -434,11 +434,11 @@ void UploadJob::refreshTab(bool bTabChanged)
 		if (bTabChanged) {
 			if (isPaused()) {
 				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("resume"));
-				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Resume"), BATF_TCHAR);
+				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Resume"), BATF_UNICODE);
 			}
 			else {
 				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("pause"));
-				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Pause"), BATF_TCHAR);
+				SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Pause"), BATF_UNICODE);
 			}
 
 			ShowWindow(GetDlgItem(uDlg->m_hwnd, IDC_ST_REMAIN), !isCompleted() ? SW_SHOW : SW_HIDE);

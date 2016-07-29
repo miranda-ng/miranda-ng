@@ -114,7 +114,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProtoName);
 	mir_snwprintf(pd.lptzContactName, L"%s - %s", (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName, pcli->pfnGetContactDisplayName(hContact, 0));
-	wcsncpy_s(pd.lptzText, TranslateTS(szBuf), _TRUNCATE);
+	wcsncpy_s(pd.lptzText, TranslateW(szBuf), _TRUNCATE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
 	if (g_Settings.iPopupStyle == 2) {
@@ -557,7 +557,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
 	for (int i = 0; i < gcmi.nItems; i++) {
-		wchar_t *ptszText = TranslateTS(gcmi.Item[i].pszDesc);
+		wchar_t *ptszText = TranslateW(gcmi.Item[i].pszDesc);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (gcmi.Item[i].uType == MENU_NEWPOPUP) {

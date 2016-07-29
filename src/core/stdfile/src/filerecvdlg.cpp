@@ -125,7 +125,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, B
 {
 	wchar_t tszTemp[MAX_PATH];
 
-	ptrW tszRecvPath(db_get_tsa(NULL, "SRFile", "RecvFilesDirAdv"));
+	ptrW tszRecvPath(db_get_wsa(NULL, "SRFile", "RecvFilesDirAdv"));
 	if (tszRecvPath)
 		wcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
@@ -165,7 +165,7 @@ void GetReceivedFilesDir(wchar_t *szDir, int cchDir)
 {
 	wchar_t tszTemp[MAX_PATH];
 
-	ptrW tszRecvPath(db_get_tsa(NULL, "SRFile", "RecvFilesDirAdv"));
+	ptrW tszRecvPath(db_get_wsa(NULL, "SRFile", "RecvFilesDirAdv"));
 	if (tszRecvPath)
 		wcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
@@ -214,7 +214,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				mir_snprintf(idstr, "MruDir%d", i);
 
 				DBVARIANT dbv;
-				if (db_get_ts(NULL, "SRFile", idstr, &dbv))
+				if (db_get_ws(NULL, "SRFile", idstr, &dbv))
 					break;
 				SendDlgItemMessage(hwndDlg, IDC_FILEDIR, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 				db_free(&dbv);
@@ -237,8 +237,8 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				unsigned len = (unsigned)mir_strlen(str) + 1;
 				if (len + 4 < dbei.cbBlob) {
 					str += len;
-					ptrW ptszDescription(DbGetEventStringT(&dbei, str));
-					SetDlgItemText(hwndDlg, IDC_MSG, ptszDescription);
+					ptrW pwszDescription(DbGetEventStringT(&dbei, str));
+					SetDlgItemText(hwndDlg, IDC_MSG, pwszDescription);
 				}
 			}
 			else DestroyWindow(hwndDlg);
@@ -313,12 +313,12 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					DBVARIANT dbv;
 					for (i = MAX_MRU_DIRS-2;i>=0;i--) {
 						mir_snprintf(idstr, "MruDir%d", i);
-						if (db_get_ts(NULL, "SRFile", idstr, &dbv)) continue;
+						if (db_get_ws(NULL, "SRFile", idstr, &dbv)) continue;
 						mir_snprintf(idstr, "MruDir%d", i+1);
-						db_set_ts(NULL, "SRFile", idstr, dbv.ptszVal);
+						db_set_ws(NULL, "SRFile", idstr, dbv.ptszVal);
 						db_free(&dbv);
 					}
-					db_set_ts(NULL, "SRFile", idstr, szRecvDir);
+					db_set_ws(NULL, "SRFile", idstr, szRecvDir);
 				}
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILENAMES), FALSE);

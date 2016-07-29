@@ -440,7 +440,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		if (lParam == 0)
 			return -1;
 
-		replaceStrW(b->ptszTooltip, TranslateTS(_A2T((LPCSTR)lParam)));
+		replaceStrW(b->ptszTooltip, TranslateW(_A2T((LPCSTR)lParam)));
 		SendMessage(b->hwnd, BUTTONADDTOOLTIP, (WPARAM)b->ptszTooltip, BATF_UNICODE);
 		return 1;
 

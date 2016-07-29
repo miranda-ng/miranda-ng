@@ -120,16 +120,16 @@ struct JabberGcRecentInfo
 	{
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, "rcMuc_%d_server", iRecent);
-		m_server = ppro->getTStringA(setting);
+		m_server = ppro->getWStringA(setting);
 
 		mir_snprintf(setting, "rcMuc_%d_room", iRecent);
-		m_room = ppro->getTStringA(setting);
+		m_room = ppro->getWStringA(setting);
 
 		mir_snprintf(setting, "rcMuc_%d_nick", iRecent);
-		m_nick = ppro->getTStringA(setting);
+		m_nick = ppro->getWStringA(setting);
 
 		mir_snprintf(setting, "password_rcMuc_%d", iRecent);
-		m_password = ppro->getTStringA(NULL, setting);
+		m_password = ppro->getWStringA(NULL, setting);
 
 		return m_room || m_server || m_nick || m_password;
 	}
@@ -140,25 +140,25 @@ struct JabberGcRecentInfo
 
 		mir_snprintf(setting, "rcMuc_%d_server", iRecent);
 		if (m_server)
-			ppro->setTString(setting, m_server);
+			ppro->setWString(setting, m_server);
 		else
 			ppro->delSetting(setting);
 
 		mir_snprintf(setting, "rcMuc_%d_room", iRecent);
 		if (m_room)
-			ppro->setTString(setting, m_room);
+			ppro->setWString(setting, m_room);
 		else
 			ppro->delSetting(setting);
 
 		mir_snprintf(setting, "rcMuc_%d_nick", iRecent);
 		if (m_nick)
-			ppro->setTString(setting, m_nick);
+			ppro->setWString(setting, m_nick);
 		else
 			ppro->delSetting(setting);
 
 		mir_snprintf(setting, "password_rcMuc_%d", iRecent);
 		if (m_password)
-			ppro->setTString(setting, m_password);
+			ppro->setWString(setting, m_password);
 		else
 			ppro->delSetting(setting);
 	}
@@ -185,16 +185,16 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleJoinGroupchat(WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM hContact, LPARAM)
 {
-	ptrW jid(getTStringA(hContact, "ChatRoomID"));
+	ptrW jid(getWStringA(hContact, "ChatRoomID"));
 	if (jid == NULL)
 		return 0;
 
-	ptrW nick(getTStringA(hContact, "MyNick"));
+	ptrW nick(getWStringA(hContact, "MyNick"));
 	if (nick == NULL)
-		if ((nick = getTStringA("Nick")) == NULL)
+		if ((nick = getWStringA("Nick")) == NULL)
 			return 0;
 
-	ptrW password(getTStringA(hContact, "Password"));
+	ptrW password(getWStringA(hContact, "Password"));
 
 	if (getWord(hContact, "Status", 0) != ID_STATUS_ONLINE) {
 		wchar_t *p = wcschr(jid, '@');
@@ -209,7 +209,7 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM hContact, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnLeaveChat(WPARAM hContact, LPARAM)
 {
-	ptrW jid(getTStringA(hContact, "ChatRoomID"));
+	ptrW jid(getWStringA(hContact, "ChatRoomID"));
 	if (jid != NULL) {
 		if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
@@ -439,7 +439,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 		delete pInfo;
 	}
 
-	ptrW tszNick(m_proto->getTStringA("Nick"));
+	ptrW tszNick(m_proto->getWStringA("Nick"));
 	if (tszNick == NULL)
 		tszNick = JabberNickFromJID(m_proto->m_szJabberJID);
 	SetDlgItemText(m_hwnd, IDC_NICK, tszNick);
@@ -747,14 +747,14 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 
 	JABBER_LIST_ITEM *item = param->ppro->ListGetItemPtr(LIST_CHATROOM, param->jid);
 	if (item != NULL) {
-		CMString szBuffer, szTitle;
+		CMStringW szBuffer, szTitle;
 		szTitle.Format(TranslateT("Change nickname in <%s>"), item->name ? item->name : item->jid);
 		if (item->nick)
 			szBuffer = item->nick;
 
 		if (param->ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			replaceStrW(item->nick, szBuffer);
-			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMString(FORMAT, L"%s/%s", item->jid, szBuffer), NULL);
+			param->ppro->SendPresenceTo(param->ppro->m_iStatus, CMStringW(FORMAT, L"%s/%s", item->jid, szBuffer), NULL);
 		}
 	}
 
@@ -792,7 +792,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const wchar_t *
 
 		MCONTACT hContact = HContactFromJID(item->jid);
 		if (hContact != NULL)
-			setTString(hContact, "MyNick", newNick);
+			setWString(hContact, "MyNick", newNick);
 	}
 
 	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_CHUID };
@@ -1000,7 +1000,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		ptrW str(JabberErrorMsg(errorNode, &errorCode));
 
 		if (errorCode == JABBER_ERROR_CONFLICT) {
-			ptrW newNick(getTStringA("GcAltNick"));
+			ptrW newNick(getWStringA("GcAltNick"));
 			if (++item->iChatState == 1 && newNick != NULL && newNick[0] != 0) {
 				replaceStrW(item->nick, newNick);
 				wchar_t text[1024] = { 0 };
@@ -1026,7 +1026,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	HXML n, m;
 	const wchar_t *from, *type, *p, *nick, *resource;
 	JABBER_LIST_ITEM *item;
-	CMString imgLink;
+	CMStringW imgLink;
 
 	if (!XmlGetName(node) || mir_wstrcmp(XmlGetName(node), L"message")) return;
 	if ((from = XmlGetAttrValue(node, L"from")) == NULL) return;
@@ -1106,7 +1106,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	}
 	else nick = NULL;
 
-	CMString tszText(msgText);
+	CMStringW tszText(msgText);
 	tszText.Replace(L"%", L"%%");
 	tszText += imgLink;
 
@@ -1141,7 +1141,7 @@ class CGroupchatInviteAcceptDlg : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 	CCtrlButton m_accept;
-	CMString m_roomJid, m_from, m_reason, m_password;
+	CMStringW m_roomJid, m_from, m_reason, m_password;
 
 public:
 	CGroupchatInviteAcceptDlg(CJabberProto *ppro, const wchar_t *roomJid, const wchar_t *from, const wchar_t *reason, const wchar_t *password) :
@@ -1193,9 +1193,9 @@ void CJabberProto::GroupchatProcessInvite(const wchar_t *roomJid, const wchar_t 
 		return;
 
 	if (m_options.AutoAcceptMUC) {
-		ptrW nick(getTStringA(HContactFromJID(m_szJabberJID), "MyNick"));
+		ptrW nick(getWStringA(HContactFromJID(m_szJabberJID), "MyNick"));
 		if (nick == NULL)
-			nick = getTStringA("Nick");
+			nick = getWStringA("Nick");
 		if (nick == NULL)
 			nick = JabberNickFromJID(m_szJabberJID);
 		AcceptGroupchatInvite(roomJid, nick, password);

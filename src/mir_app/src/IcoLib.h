@@ -78,7 +78,7 @@ struct IcolibItem : public MZeroedObject
 	char*           name;
 	SectionItem*    section;
 	int             orderID;
-	wchar_t*          description;
+	wchar_t*        description;
 	IconSourceFile* default_file;
 	int             default_indx;
 	int             cx, cy;
@@ -88,12 +88,12 @@ struct IcolibItem : public MZeroedObject
 	IconSourceItem* source_big;
 	IconSourceItem* default_icon;
 
-	wchar_t*          temp_file;
+	wchar_t*        temp_file;
 	HICON           temp_icon;
 	BOOL            temp_reset;
 
 	__inline ~IcolibItem() { clear(); }
-	__inline wchar_t* getDescr() const { return TranslateTH(hLangpack, description); }
+	__inline wchar_t* getDescr() const { return TranslateW_LP(description, hLangpack); }
 
 	void clear();
 };

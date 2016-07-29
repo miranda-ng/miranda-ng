@@ -57,11 +57,11 @@ avatars_request::~avatars_request()
 wchar_t* CIcqProto::GetOwnAvatarFileName()
 {
 	DBVARIANT dbvFile = {DBVT_DELETED};
-	if (getTString(NULL, "AvatarFile", &dbvFile))
+	if (getWString(NULL, "AvatarFile", &dbvFile))
 		return NULL;
 
 	wchar_t tmp[MAX_PATH * 2];
-	PathToAbsoluteT(dbvFile.ptszVal, tmp);
+	PathToAbsoluteW(dbvFile.ptszVal, tmp);
 	db_free(&dbvFile);
 
 	return null_strdup(tmp);
@@ -76,7 +76,7 @@ void CIcqProto::GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat
 void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest, size_t cbLen)
 {
 	wchar_t szPath[MAX_PATH * 2];
-	mir_snwprintf(szPath, L"%s\\%S\\", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	mir_snwprintf(szPath, L"%s\\%S\\", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
 
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = _countof(szPath);
@@ -88,7 +88,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest
 	size_t tPathLen = mir_wstrlen(pszDest);
 
 	// make sure the avatar cache directory exists
-	CreateDirectoryTreeT(szPath);
+	CreateDirectoryTreeW(szPath);
 
 	if (dwUin != 0)
 		_ltow(dwUin, pszDest + tPathLen, 10);
@@ -99,7 +99,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest
 	}
 	else {
 		wchar_t szBuf[MAX_PATH];
-		if (CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)szBuf))
+		if (CallService(MS_DB_GETPROFILENAMEW, MAX_PATH, (LPARAM)szBuf))
 			mir_wstrcpy(pszDest + tPathLen, L"avatar");
 		else {
 			wchar_t *szLastDot = wcsrchr(szBuf, '.');
@@ -1226,7 +1226,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 						if (!pCookieData->hContact) { // our avatar, set filename
 							wchar_t tmp[MAX_PATH * 2];
 							PathToRelativeT(tszImageFile, tmp);
-							ppro->setTString(NULL, "AvatarFile", tmp);
+							ppro->setWString(NULL, "AvatarFile", tmp);
 						}
 						else { // contact's avatar set hash
 							DBVARIANT dbv = { DBVT_DELETED };

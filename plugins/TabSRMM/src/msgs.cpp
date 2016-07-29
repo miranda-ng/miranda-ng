@@ -816,7 +816,7 @@ static int TSAPI SetupIconLibConfig()
 
 	SKINICONDESC sid = { 0 };
 	sid.defaultFile.w = szFilename;
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_PATH_UNICODE;
 
 	for (int n = 0; n < _countof(ICONBLOCKS); n++) {
 		sid.section.a = ICONBLOCKS[n].szSection;

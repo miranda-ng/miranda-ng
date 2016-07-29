@@ -47,11 +47,11 @@ void MakeOptionDialogPage(lua_State *L, OPTIONSDIALOGPAGE &odp)
 	odp.hLangpack = CMLuaScript::GetScriptIdFromEnviroment(L);
 
 	lua_getfield(L, -1, "Flags");
-	odp.flags = luaL_optinteger(L, -1, ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE);
+	odp.flags = luaL_optinteger(L, -1, ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE);
 	lua_pop(L, 1);
 
-	if (!(odp.flags & ODPF_TCHAR))
-		odp.flags |= ODPF_TCHAR;
+	if (!(odp.flags & ODPF_UNICODE))
+		odp.flags |= ODPF_UNICODE;
 
 	lua_getfield(L, -1, "Group");
 	odp.pwszGroup = mir_utf8decodeW(lua_tostring(L, -1));

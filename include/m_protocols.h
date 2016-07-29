@@ -106,12 +106,6 @@ typedef struct {
 #define PFTS_UNICODE   2
 #define PFTS_UTF       4
 
-#if defined(_UNICODE)
-	#define PFTS_TCHAR  PFTS_UNICODE
-#else
-	#define PFTS_TCHAR  0
-#endif
-
 typedef struct tagPROTOFILETRANSFERSTATUS
 {
 	size_t cbSize;

@@ -49,13 +49,13 @@ void CMUCHighlight::init()
 
 	m_fInitialized = true;
 
-	if (0 == db_get_ts(0, CHAT_MODULE, "HighlightWords", &dbv)) {
+	if (0 == db_get_ws(0, CHAT_MODULE, "HighlightWords", &dbv)) {
 		m_TextPatternString = dbv.ptszVal;
 		_wsetlocale(LC_ALL, L"");
 		wcslwr(m_TextPatternString);
 	}
 
-	if (0 == db_get_ts(0, CHAT_MODULE, "HighlightNames", &dbv))
+	if (0 == db_get_ws(0, CHAT_MODULE, "HighlightNames", &dbv))
 		m_NickPatternString = dbv.ptszVal;
 
 	m_dwFlags = M.GetByte(CHAT_MODULE, "HighlightEnabled", MATCH_TEXT);
@@ -188,12 +188,12 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		TranslateDialogDefault(hwndDlg);
 		{
 			DBVARIANT dbv = { 0 };
-			if (!db_get_ts(0, CHAT_MODULE, "HighlightWords", &dbv)) {
+			if (!db_get_ws(0, CHAT_MODULE, "HighlightWords", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, dbv.ptszVal);
 				::db_free(&dbv);
 			}
 
-			if (!db_get_ts(0, CHAT_MODULE, "HighlightNames", &dbv)) {
+			if (!db_get_ws(0, CHAT_MODULE, "HighlightNames", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, dbv.ptszVal);
 				::db_free(&dbv);
 			}
@@ -245,16 +245,16 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if (iLen) {
 					szBuf = reinterpret_cast<wchar_t *>(mir_alloc((iLen + 2) * sizeof(wchar_t)));
 					::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, szBuf, iLen + 1);
-					db_set_ts(0, CHAT_MODULE, "HighlightNames", szBuf);
+					db_set_ws(0, CHAT_MODULE, "HighlightNames", szBuf);
 				}
 
 				iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN));
 				if (iLen) {
 					szBuf = reinterpret_cast<wchar_t *>(mir_realloc(szBuf, sizeof(wchar_t) * (iLen + 2)));
 					::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, szBuf, iLen + 1);
-					db_set_ts(0, CHAT_MODULE, "HighlightWords", szBuf);
+					db_set_ws(0, CHAT_MODULE, "HighlightWords", szBuf);
 				}
-				else db_set_ts(0, CHAT_MODULE, "HighlightWords", L"");
+				else db_set_ws(0, CHAT_MODULE, "HighlightWords", L"");
 
 				mir_free(szBuf);
 				BYTE dwFlags = (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKENABLE) ? MATCH_NICKNAME : 0) |

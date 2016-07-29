@@ -90,13 +90,13 @@ wchar_t* GetStatusTypeAsString(int type, wchar_t *buff)
 	}
 }
 
-CMString ReplaceVars(XSTATUSCHANGE *xsc, const wchar_t *tmplt)
+CMStringW ReplaceVars(XSTATUSCHANGE *xsc, const wchar_t *tmplt)
 {
 	if (xsc == NULL || tmplt == NULL || tmplt[0] == '\0')
-		return CMString();
+		return CMStringW();
 
 	size_t len = mir_wstrlen(tmplt);
-	CMString res;
+	CMStringW res;
 
 	for (size_t i = 0; i < len; i++) {
 		if (tmplt[i] == '%') {
@@ -288,7 +288,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 	}
 
 	wchar_t stzLastLog[2 * MAX_TEXT_LEN];
-	CMString stzLogText(ReplaceVars(xsc, Template));
+	CMStringW stzLogText(ReplaceVars(xsc, Template));
 	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, _countof(stzLastLog), L"");
 
 	if (opt.XLogToDB) {
@@ -416,11 +416,11 @@ wchar_t* GetDefaultXstatusName(int statusID, char *szProto, wchar_t *buff, int b
 
 	CUSTOM_STATUS xstatus = { 0 };
 	xstatus.cbSize = sizeof(CUSTOM_STATUS);
-	xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
+	xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_UNICODE;
 	xstatus.ptszName = nameBuff;
 	xstatus.wParam = (WPARAM*)&statusID;
 	if (!CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus))
-		wcsncpy_s(buff, bufflen, TranslateTS(nameBuff), _TRUNCATE);
+		wcsncpy_s(buff, bufflen, TranslateW(nameBuff), _TRUNCATE);
 
 	return buff;
 }
@@ -432,7 +432,7 @@ wchar_t* GetIcqXStatus(MCONTACT hContact, char *szProto, char *szValue, wchar_t 
 
 	int statusID = db_get_b(hContact, szProto, "XStatusId", -1);
 	if (statusID != -1) {
-		if (!db_get_ts(hContact, szProto, szValue, &dbv)) {
+		if (!db_get_ws(hContact, szProto, szValue, &dbv)) {
 			if ((mir_strcmp(szValue, "XStatusName") == 0) && dbv.ptszVal[0] == 0)
 				GetDefaultXstatusName(statusID, szProto, buff, bufflen);
 			else
@@ -453,7 +453,7 @@ wchar_t* GetJabberAdvStatusText(MCONTACT hContact, char *szProto, char *szSlot, 
 	buff[0] = 0;
 
 	mir_snprintf(szSetting, "%s/%s/%s", szProto, szSlot, szValue);
-	if (!db_get_ts(hContact, "AdvStatus", szSetting, &dbv)) {
+	if (!db_get_ws(hContact, "AdvStatus", szSetting, &dbv)) {
 		wcsncpy(buff, dbv.ptszVal, bufflen);
 		buff[bufflen - 1] = 0;
 		db_free(&dbv);
@@ -511,7 +511,7 @@ void AddSMsgEventThread(void *arg)
 	if (smi.proto == NULL)
 		return;
 
-	smi.newstatusmsg = db_get_tsa(smi.hContact, "CList", "StatusMsg");
+	smi.newstatusmsg = db_get_wsa(smi.hContact, "CList", "StatusMsg");
 	LogSMsgToDB(&smi, templates.LogSMsgOpening);
 	mir_free(smi.newstatusmsg);
 }

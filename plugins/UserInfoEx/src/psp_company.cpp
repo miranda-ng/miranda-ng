@@ -46,12 +46,12 @@ INT_PTR CALLBACK PSPProcCompany(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				TranslateDialogDefault(hDlg);
 
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_COMPANY, SET_CONTACT_COMPANY, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DEPARTMENT, SET_CONTACT_COMPANY_DEPARTMENT, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_OFFICE, SET_CONTACT_COMPANY_OFFICE, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_POSITION, SET_CONTACT_COMPANY_POSITION, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SUPERIOR, SET_CONTACT_COMPANY_SUPERIOR, DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ASSISTENT, SET_CONTACT_COMPANY_ASSISTENT, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_COMPANY, SET_CONTACT_COMPANY, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DEPARTMENT, SET_CONTACT_COMPANY_DEPARTMENT, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_OFFICE, SET_CONTACT_COMPANY_OFFICE, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_POSITION, SET_CONTACT_COMPANY_POSITION, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SUPERIOR, SET_CONTACT_COMPANY_SUPERIOR, DBVT_WCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ASSISTENT, SET_CONTACT_COMPANY_ASSISTENT, DBVT_WCHAR));
 
 				GetOccupationList(&nList, &pList);
 				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_OCCUPATION, SET_CONTACT_COMPANY_OCCUPATION, DBVT_WORD, pList, nList));

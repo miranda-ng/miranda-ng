@@ -84,8 +84,8 @@ BYTE online_count = 0;
 //font service support
 /*-------------------------------------------------------------------------------------------------------------------*/
 int TrafficFontHeight = 0;
-FontIDT TrafficFontID;
-ColourIDT TrafficBackgroundColorID;
+FontIDW TrafficFontID;
+ColourIDW TrafficBackgroundColorID;
 
 //---------------------------------------------------------------------------------------------
 // Для ToolTip
@@ -215,7 +215,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	Traffic_PopupTimeoutValue = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_VALUE, 5);
 
 	// Формат счётчика для каждого активного протокола
-	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0) {
+	if (db_get_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0) {
 		if (mir_wstrlen(dbv.ptszVal) > 0)
 			mir_wstrncpy(Traffic_CounterFormat, dbv.ptszVal, _countof(Traffic_CounterFormat));
 		//
@@ -227,7 +227,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Формат всплывающих подсказок
-	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0) {
+	if (db_get_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0) {
 		if (mir_wstrlen(dbv.ptszVal) > 0)
 			mir_wstrncpy(Traffic_TooltipFormat, dbv.ptszVal, _countof(Traffic_TooltipFormat));
 		//
@@ -244,7 +244,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	OverallInfo.Total.Timer = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, 0);
 
 	//register traffic font
-	TrafficFontID.cbSize = sizeof(FontIDT);
+	TrafficFontID.cbSize = sizeof(FontIDW);
 	mir_wstrcpy(TrafficFontID.group, LPGENW("Traffic counter"));
 	mir_wstrcpy(TrafficFontID.name, LPGENW("Font"));
 	mir_strcpy(TrafficFontID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
@@ -256,16 +256,16 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	TrafficFontID.deffontsettings.style = 0;
 	mir_wstrcpy(TrafficFontID.deffontsettings.szFace, L"Arial");
 	TrafficFontID.order = 0;
-	FontRegisterT(&TrafficFontID);
+	FontRegisterW(&TrafficFontID);
 
 	// Регистрируем цвет фона
-	TrafficBackgroundColorID.cbSize = sizeof(ColourIDT);
+	TrafficBackgroundColorID.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(TrafficBackgroundColorID.group, LPGENW("Traffic counter"));
 	mir_wstrcpy(TrafficBackgroundColorID.name, LPGENW("Font"));
 	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
 	mir_strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
 	TrafficBackgroundColorID.defcolour = GetSysColor(COLOR_BTNFACE);
-	ColourRegisterT(&TrafficBackgroundColorID);
+	ColourRegisterW(&TrafficBackgroundColorID);
 
 	HookEvent(ME_FONT_RELOAD, UpdateFonts);
 
@@ -333,9 +333,9 @@ void SaveSettings(BYTE OnlyCnt)
 	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_VALUE, Traffic_PopupTimeoutValue);
 	//
 	// Формат счётчиков
-	db_set_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
+	db_set_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
 
-	db_set_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
+	db_set_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
 
 	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
 	// Сохраняем флаги
@@ -1163,14 +1163,14 @@ int UpdateFonts(WPARAM, LPARAM)
 {
 	LOGFONT logfont;
 	//if no font service
-	if (!ServiceExists(MS_FONT_GETT)) return 0;
+	if (!ServiceExists(MS_FONT_GETW)) return 0;
 	//update traffic font
 	if (Traffic_h_font) DeleteObject(Traffic_h_font);
-	Traffic_FontColor = CallService(MS_FONT_GETT, (WPARAM)&TrafficFontID, (LPARAM)&logfont);
+	Traffic_FontColor = CallService(MS_FONT_GETW, (WPARAM)&TrafficFontID, (LPARAM)&logfont);
 	Traffic_h_font = CreateFontIndirect(&logfont);
 	//
 	TrafficFontHeight = abs(logfont.lfHeight) + 1;
-	Traffic_BkColor = CallService(MS_COLOUR_GETT, (WPARAM)&TrafficBackgroundColorID, 0);
+	Traffic_BkColor = CallService(MS_COLOUR_GETW, (WPARAM)&TrafficBackgroundColorID, 0);
 
 	// Ключевой цвет
 	UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);

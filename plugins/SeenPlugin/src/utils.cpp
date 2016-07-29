@@ -207,7 +207,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 				charPtr = wantempty ? L"" : TranslateT("<unknown>");
 				goto LBL_charPtr;
 			}
-			charPtr = TranslateTS(weekdays[isetting]);
+			charPtr = TranslateW(weekdays[isetting]);
 		LBL_charPtr:
 			d += mir_snwprintf(d, MAXSIZE - (d - sztemp), L"%s", charPtr);
 			break;
@@ -215,17 +215,17 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 		case 'w':
 			isetting = st.wDayOfWeek;
 			if (isetting == -1) goto LBL_noData;
-			charPtr = TranslateTS(wdays_short[isetting]);
+			charPtr = TranslateW(wdays_short[isetting]);
 			goto LBL_charPtr;
 
 		case 'E':
 			if (!(isetting = st.wMonth)) goto LBL_noData;
-			charPtr = TranslateTS(monthnames[isetting - 1]);
+			charPtr = TranslateW(monthnames[isetting - 1]);
 			goto LBL_charPtr;
 
 		case 'e':
 			if (!(isetting = st.wMonth)) goto LBL_noData;
-			charPtr = TranslateTS(mnames_short[isetting - 1]);
+			charPtr = TranslateW(mnames_short[isetting - 1]);
 			goto LBL_charPtr;
 
 		case 'H':
@@ -263,7 +263,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			goto LBL_noData;
 
 		case 'G':
-			if (!db_get_ts(hcontact, "CList", "Group", &dbv)) {
+			if (!db_get_ws(hcontact, "CList", "Group", &dbv)) {
 				wcsncpy(szdbsetting, dbv.ptszVal, _countof(szdbsetting));
 				db_free(&dbv);
 				charPtr = szdbsetting;
@@ -291,7 +291,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			goto LBL_noData;
 
 		case 'T':
-			if (db_get_ts(hcontact, "CList", "StatusMsg", &dbv))
+			if (db_get_ws(hcontact, "CList", "StatusMsg", &dbv))
 				goto LBL_noData;
 
 			d += mir_snwprintf(d, MAXSIZE - (d - sztemp), L"%s", dbv.ptszVal);
@@ -313,7 +313,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 		case 'i':
 		case 'r':
 			if (isJabber(szProto)) {
-				if (info = db_get_tsa(hcontact, szProto, *p == 'i' ? "Resource" : "System")) {
+				if (info = db_get_wsa(hcontact, szProto, *p == 'i' ? "Resource" : "System")) {
 					charPtr = info;
 					goto LBL_charPtr;
 				}
@@ -340,7 +340,7 @@ wchar_t* ParseString(wchar_t *szstring, MCONTACT hcontact)
 			goto LBL_charPtr;
 
 		case 'C': // Get Client Info
-			if (info = db_get_tsa(hcontact, szProto, "MirVer")) {
+			if (info = db_get_wsa(hcontact, szProto, "MirVer")) {
 				charPtr = info;
 				goto LBL_charPtr;
 			}
@@ -476,13 +476,13 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	ppd.lchContact = hcontact;
 	ppd.lchIcon = Skin_LoadProtoIcon(lpzProto, newStatus);
 
-	if (!db_get_ts(NULL, S_MOD, "PopupStamp", &dbv)) {
+	if (!db_get_ws(NULL, S_MOD, "PopupStamp", &dbv)) {
 		wcsncpy(ppd.lptzContactName, ParseString(dbv.ptszVal, hcontact), MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
 	else wcsncpy(ppd.lptzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact), MAX_CONTACTNAME);
 
-	if (!db_get_ts(NULL, S_MOD, "PopupStampText", &dbv)) {
+	if (!db_get_ws(NULL, S_MOD, "PopupStampText", &dbv)) {
 		wcsncpy(ppd.lptzText, ParseString(dbv.ptszVal, hcontact), MAX_SECONDLINE);
 		db_free(&dbv);
 	}

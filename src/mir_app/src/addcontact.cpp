@@ -110,7 +110,7 @@ public:
 		}
 
 		if (szName && szName[0])
-			SetCaption(CMString(FORMAT, TranslateT("Add %s"), szName));
+			SetCaption(CMStringW(FORMAT, TranslateT("Add %s"), szName));
 		else
 			SetCaption(TranslateT("Add contact"));
 		mir_free(tmpStr);
@@ -120,7 +120,7 @@ public:
 				m_acs.szProto = GetContactProto(m_acs.hContact);
 
 		int groupSel = 0;
-		ptrW tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
 		wchar_t *grpName;
 		for (int groupId = 1; (grpName = Clist_GroupGetName(groupId, NULL)) != NULL; groupId++) {
 			int id = m_group.AddString(grpName, groupId);
@@ -200,7 +200,7 @@ public:
 
 		ptrW szHandle(m_myHandle.GetText());
 		if (mir_wstrlen(szHandle))
-			db_set_ts(hContact, "CList", "MyHandle", szHandle);
+			db_set_ws(hContact, "CList", "MyHandle", szHandle);
 
 		int item = m_group.GetCurSel();
 		if (item > 0)

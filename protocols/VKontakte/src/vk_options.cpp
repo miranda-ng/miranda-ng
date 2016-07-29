@@ -181,7 +181,7 @@ void CVkOptionAccountForm::OnInitDialog()
 	}
 	
 	for (size_t i = 0; i < _countof(vkLangCodes); i++) {
-		int cur = m_cbxVKLang.AddString(TranslateTS(vkLangCodes[i].szDescription), (LPARAM)vkLangCodes[i].szCode);
+		int cur = m_cbxVKLang.AddString(TranslateW(vkLangCodes[i].szDescription), (LPARAM)vkLangCodes[i].szCode);
 		if (!mir_wstrcmpi(vkLangCodes[i].szCode, m_proto->m_vkOptions.pwszVKLang))
 			m_cbxVKLang.SetCurSel(cur);
 	}

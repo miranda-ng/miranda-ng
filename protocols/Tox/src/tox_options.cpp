@@ -90,9 +90,9 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		m_toxAddress.Enable();
 		m_toxAddress.SetTextA(ptrA(m_proto->getStringA(TOX_SETTINGS_ID)));
 
-		m_nickname.SetText(ptrW(m_proto->getTStringA("Nick")));
-		m_password.SetText(ptrW(m_proto->getTStringA("Password")));
-		m_group.SetText(ptrW(m_proto->getTStringA(TOX_SETTINGS_GROUP)));
+		m_nickname.SetText(ptrW(m_proto->getWStringA("Nick")));
+		m_password.SetText(ptrW(m_proto->getWStringA("Password")));
+		m_group.SetText(ptrW(m_proto->getWStringA(TOX_SETTINGS_GROUP)));
 
 		ShowWindow(m_profileCreate.GetHwnd(), FALSE);
 		ShowWindow(m_profileImport.GetHwnd(), FALSE);
@@ -144,12 +144,12 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 		uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 		tox_self_get_name(toxThread.Tox(), nick);
 		ptrW nickname(Utf8DecodeT((char*)nick));
-		m_proto->setTString("Nick", nickname);
+		m_proto->setWString("Nick", nickname);
 		m_nickname.SetText(nickname);
 
 		uint8_t statusMessage[TOX_MAX_STATUS_MESSAGE_LENGTH] = { 0 };
 		tox_self_get_status_message(toxThread.Tox(), statusMessage);
-		m_proto->setTString("StatusMsg", ptrW(Utf8DecodeT((char*)statusMessage)));
+		m_proto->setWString("StatusMsg", ptrW(Utf8DecodeT((char*)statusMessage)));
 
 		ShowWindow(m_profileCreate.GetHwnd(), FALSE);
 		ShowWindow(m_profileImport.GetHwnd(), FALSE);
@@ -195,10 +195,10 @@ void CToxOptionsMain::OnApply()
 
 	if (m_proto->IsOnline())
 	{
-		CallProtoService(m_proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM)ptrW(m_nickname.GetText()));
+		CallProtoService(m_proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_UNICODE, (LPARAM)ptrW(m_nickname.GetText()));
 
 		// todo: add checkbox
-		m_proto->setTString("Password", pass_ptrT(m_password.GetText()));
+		m_proto->setWString("Password", pass_ptrT(m_password.GetText()));
 
 		m_proto->SaveToxProfile(m_proto->toxThread);
 	}
@@ -537,7 +537,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 
 	int iItem = -1;
 
-	VARST path(_A2W(TOX_JSON_PATH));
+	VARSW path(_A2W(TOX_JSON_PATH));
 	if (CToxProto::IsFileExists(path))
 	{
 		ptrA json;
@@ -586,11 +586,11 @@ void CToxOptionsNodeList::ReloadNodeList()
 	for (int i = 0; i < nodeCount; i++)
 	{
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
-		ptrW value(db_get_tsa(NULL, module, setting));
+		ptrW value(db_get_wsa(NULL, module, setting));
 		iItem = m_nodes.AddItem(value, -1, NULL, 1);
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
-		value = db_get_tsa(NULL, module, setting);
+		value = db_get_wsa(NULL, module, setting);
 		m_nodes.SetItem(iItem, 1, value);
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
@@ -603,7 +603,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 		}
 
 		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
-		value = db_get_tsa(NULL, module, setting);
+		value = db_get_wsa(NULL, module, setting);
 		m_nodes.SetItem(iItem, 3, value);
 
 		m_nodes.SetItem(iItem, 4, L"", 0);
@@ -681,7 +681,7 @@ int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.pwszTitle = m_tszUserName;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.pwszGroup = LPGENW("Network");
 
 	odp.pwszTab = LPGENW("Account");

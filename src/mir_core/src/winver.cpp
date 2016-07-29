@@ -220,7 +220,7 @@ MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize)
 	SYSTEM_INFO sysInfo = { 0 };
 	GetNativeSystemInfo(&sysInfo);
 
-	CMString ret(L"Microsoft ");
+	CMStringW ret(L"Microsoft ");
 
 	// Test for the specific product.
 	if (osvi.dwMajorVersion >= 6) {

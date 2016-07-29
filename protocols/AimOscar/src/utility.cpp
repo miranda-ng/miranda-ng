@@ -533,12 +533,12 @@ int CAimProto::open_contact_file(const char*, const wchar_t* file, const char*, 
 {
 	path = (wchar_t*)mir_alloc(MAX_PATH * sizeof(wchar_t));
 
-	int pos = mir_snwprintf(path, MAX_PATH, L"%s\\%S", VARST(L"%miranda_userdata%"), m_szModuleName);
+	int pos = mir_snwprintf(path, MAX_PATH, L"%s\\%S", VARSW(L"%miranda_userdata%"), m_szModuleName);
 	if (contact_dir)
 		pos += mir_snwprintf(path + pos, MAX_PATH - pos, L"\\%S", m_szModuleName);
 
 	if (_waccess(path, 0))
-		CreateDirectoryTreeT(path);
+		CreateDirectoryTreeW(path);
 
 	mir_snwprintf(path + pos, MAX_PATH - pos, L"\\%s", file);
 	int fid = _wopen(path, _O_CREAT | _O_RDWR | _O_BINARY, _S_IREAD);

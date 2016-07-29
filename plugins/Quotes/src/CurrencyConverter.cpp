@@ -200,8 +200,8 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 							CQuotesProviderGoogle::CQuote from = rSection.GetQuote(nFrom);
 							CQuotesProviderGoogle::CQuote to = rSection.GetQuote(nTo);
 
-							db_set_ts(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_FROM_ID, from.GetID().c_str());
-							db_set_ts(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_TO_ID, to.GetID().c_str());
+							db_set_ws(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_FROM_ID, from.GetID().c_str());
+							db_set_ws(NULL, QUOTES_MODULE_NAME, DB_STR_CC_QUOTE_TO_ID, to.GetID().c_str());
 
 							const CQuotesProviderGoogle* pProvider = get_google_provider();
 							assert(pProvider);

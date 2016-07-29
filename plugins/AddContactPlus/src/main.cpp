@@ -95,7 +95,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		CMenuItem mi;
 		SET_UID(mi, 0xb19db907, 0x870e, 0x49fa, 0xa7, 0x1e, 0x43, 0x5e, 0xa8, 0xe5, 0x9b, 0xbd);
 		mi.position = 500020001;
-		mi.flags = CMIF_TCHAR;
+		mi.flags = CMIF_UNICODE;
 		mi.hIcolibItem = icon.hIcolib;
 		mi.name.w = LPGENW("&Add contact...");
 		mi.pszService = MS_ADDCONTACTPLUS_SHOW;
@@ -127,10 +127,10 @@ static int CreateButton(WPARAM, LPARAM)
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.dwFlags = HKD_TCHAR;
+	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "AddContactPlus_OpenDialog";
-	hkd.ptszDescription = LPGENW("Open add contact dialog");
-	hkd.ptszSection = LPGENW("Main");
+	hkd.pwszDescription = LPGENW("Open add contact dialog");
+	hkd.pwszSection = LPGENW("Main");
 	hkd.pszService = MS_ADDCONTACTPLUS_SHOW;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C') | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&hkd);

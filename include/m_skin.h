@@ -129,26 +129,20 @@ EXTERN_C MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, 
 
 #define SSDF_UNICODE 0x0001
 
-#if defined(_UNICODE)
-	#define SSDF_TCHAR  SSDF_UNICODE
-#else
-	#define SSDF_TCHAR  0
-#endif
-
 typedef struct {
 	int cbSize;
 	const char *pszName;           // name to refer to sound when playing and in db
 	union {
 		const char *pszDescription;    // [TRANSLATED-BY-CORE] description for options dialog
-		const TCHAR *ptszDescription;
+		const wchar_t *pwszDescription;
 	};
 	union {
 		const char *pszDefaultFile;    // default sound file to use
-		const TCHAR *ptszDefaultFile;
+		const wchar_t *pwszDefaultFile;
 	};
 	union {
 		const char *pszSection;        // [TRANSLATED-BY-CORE] section name used to group sounds (NULL is acceptable)
-		const TCHAR *ptszSection;
+		const wchar_t *pwszSection;
 	};
 	DWORD dwFlags;
 }
@@ -165,15 +159,15 @@ __forceinline INT_PTR SkinAddNewSoundEx(const char *name, const char *section, c
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
 }
 
-__forceinline INT_PTR SkinAddNewSoundExT(const char *name, const TCHAR *section, const TCHAR *description, const TCHAR *defaultFile = NULL)
+__forceinline INT_PTR SkinAddNewSoundExW(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = NULL)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = sizeof(ssd);
-	ssd.dwFlags = SSDF_TCHAR;
+	ssd.dwFlags = SSDF_UNICODE;
 	ssd.pszName = name;
-	ssd.ptszSection = section;
-	ssd.ptszDescription = description;
-	ssd.ptszDefaultFile = defaultFile;
+	ssd.pwszSection = section;
+	ssd.pwszDescription = description;
+	ssd.pwszDefaultFile = defaultFile;
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
 }
 
@@ -182,7 +176,7 @@ __forceinline INT_PTR Skin_AddSound(SKINSOUNDDESCEX *ssd)
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)ssd);
 }
 
-#define MS_SKIN_PLAYSOUND        "Skin/Sounds/Play"
+#define MS_SKIN_PLAYSOUND "Skin/Sounds/Play"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plays a named sound event
@@ -194,13 +188,13 @@ __forceinline INT_PTR SkinPlaySound(const char *name) {
 	return CallService(MS_SKIN_PLAYSOUND, 0, (LPARAM)name);
 }
 
-#define MS_SKIN_PLAYSOUNDFILE        "Skin/Sounds/PlayFile"
+#define MS_SKIN_PLAYSOUNDFILE "Skin/Sounds/PlayFile"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plays any sound file
 // wParam = 0
-// lParam = (LPARAM)(const TCHAR*)ptszFileName
-__forceinline INT_PTR SkinPlaySoundFile(const TCHAR *ptszFileName) {
+// lParam = (LPARAM)(const wchar_t*)ptszFileName
+__forceinline INT_PTR SkinPlaySoundFile(const wchar_t *ptszFileName) {
 	return CallService(MS_SKIN_PLAYSOUNDFILE, 0, (LPARAM)ptszFileName);
 }
 
@@ -212,14 +206,14 @@ EXTERN_C MIR_APP_DLL(void) KillModuleSounds(int hLangpack);
 // sent when the icons DLL has been changed in the options dialog, and everyone
 // should re-make their image lists
 // wParam = lParam = 0
-#define ME_SKIN_ICONSCHANGED     "Skin/IconsChanged"
+#define ME_SKIN_ICONSCHANGED "Skin/IconsChanged"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // wParam: 0 when playing sound (1 when sound is being previewed)
-// lParam: (TCHAR*) pszSoundFile
+// lParam: (wchar_t*) pszSoundFile
 // Affect: This hook is fired when the sound module needs to play a sound
 // Note  : This event has default processing, if no one HookEvent()'s this event then it will
 //         use the default hook code, which uses PlaySound()
-#define ME_SKIN_PLAYINGSOUND  "Skin/Sounds/Playing"
+#define ME_SKIN_PLAYINGSOUND "Skin/Sounds/Playing"
 
 #endif //M_SKIN_H__

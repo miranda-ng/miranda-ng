@@ -111,7 +111,7 @@ class CExtraIconOptsDlg : public CDlgBase
 	HTREEITEM Tree_AddExtraIconGroup(intlist &group, bool selected, HTREEITEM hAfter = TVI_LAST)
 	{
 		intlist *ids = new intlist();
-		CMString desc;
+		CMStringW desc;
 		int img = 0;
 		for (int i = 0; i < group.count; i++) {
 			BaseExtraIcon *extra = registeredExtraIcons[group.data[i] - 1];
@@ -254,7 +254,7 @@ public:
 		int numSlots = GetNumberOfSlots();
 		if (numSlots < (int)registeredExtraIcons.getCount()) {
 			HWND label = GetDlgItem(m_hwnd, IDC_MAX_ICONS_L);
-			SetWindowText(label, CMString(FORMAT, TranslateT("*only the first %d icons will be shown"), numSlots));
+			SetWindowText(label, CMStringW(FORMAT, TranslateT("*only the first %d icons will be shown"), numSlots));
 			ShowWindow(label, SW_SHOW);
 		}
 

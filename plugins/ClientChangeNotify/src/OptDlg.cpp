@@ -87,8 +87,8 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			HWND hLCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_LCLICK_ACTION);
 			HWND hRCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_RCLICK_ACTION);
 			for (int i = 0; i < _countof(PopupActions); i++) {
-				SendMessage(hLCombo, CB_SETITEMDATA, SendMessage(hLCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
-				SendMessage(hRCombo, CB_SETITEMDATA, SendMessage(hRCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[i].Text)), PopupActions[i].Action);
+				SendMessage(hLCombo, CB_SETITEMDATA, SendMessage(hLCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
+				SendMessage(hRCombo, CB_SETITEMDATA, SendMessage(hRCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(PopupActions[i].Text)), PopupActions[i].Action);
 			}
 			g_PopupOptPage.DBToMemToPage();
 			EnablePopupOptDlgControls();
@@ -168,7 +168,7 @@ int OptionsDlgInit(WPARAM wParam, LPARAM)
 		optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
 		optDi.hInstance = g_hInstance;
 		optDi.pwszGroup = LPGENW("Popups");
-		optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		optDi.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		Options_AddPage(wParam, &optDi);
 	}
 	return 0;

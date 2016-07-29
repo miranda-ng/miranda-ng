@@ -107,7 +107,7 @@ void ColSplitTimeline::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGrou
 
 	array_each_(i, sourceTexts)
 	{
-		Opt.addComboItem(m_hSource, TranslateTS(sourceTexts[i]));
+		Opt.addComboItem(m_hSource, TranslateW(sourceTexts[i]));
 	}
 
 	static const wchar_t* unitTexts[] = {
@@ -118,7 +118,7 @@ void ColSplitTimeline::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGrou
 
 	array_each_(i, unitTexts)
 	{
-		Opt.addComboItem(m_hBlockUnit, TranslateTS(unitTexts[i]));
+		Opt.addComboItem(m_hBlockUnit, TranslateW(unitTexts[i]));
 	}
 
 	Opt.setComboSelected(m_hSource       , 4 * m_nSource + m_nSourceType);
@@ -275,10 +275,10 @@ void ColSplitTimeline::impl_outputRenderHeader(ext::ostream& tos, int row, int r
 	{
 		SplitParams params = getParams();
 		ext::string strTitle = str(ext::kformat(TranslateT("#{type} for #{data}"))
-			% L"#{type}" * TranslateTS(szTypeDesc[params.effective_vis_mode])
-			% L"#{data}" * TranslateTS(szSourceDesc[4 * m_nSource + m_nSourceType]));
+			% L"#{type}" * TranslateW(szTypeDesc[params.effective_vis_mode])
+			% L"#{data}" * TranslateW(szSourceDesc[4 * m_nSource + m_nSourceType]));
 
-		writeRowspanTD(tos, getCustomTitle(TranslateTS(szTypeDesc[params.effective_vis_mode]), strTitle) + L"<div style=\"width: " + utils::intToString(m_nTimelineWidth) + L"px;\"></div>", row, 1, rowSpan);
+		writeRowspanTD(tos, getCustomTitle(TranslateW(szTypeDesc[params.effective_vis_mode]), strTitle) + L"<div style=\"width: " + utils::intToString(m_nTimelineWidth) + L"px;\"></div>", row, 1, rowSpan);
 	}
 }
 

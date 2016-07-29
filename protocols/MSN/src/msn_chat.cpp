@@ -506,7 +506,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 				msnNsThread->sendMessage('N', thread->szEmail, thread->netId, UTF8(pszMsg), 0);
 
 				DBVARIANT dbv;
-				int bError = getTString("Nick", &dbv);
+				int bError = getWString("Nick", &dbv);
 
 				GCDEST gcd = { m_szModuleName, gch->pDest->ptszID, GC_EVENT_MESSAGE };
 				GCEVENT gce = { sizeof(gce), &gcd };

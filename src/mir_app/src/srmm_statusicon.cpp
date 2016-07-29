@@ -180,7 +180,7 @@ static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
 				if (pc->tszTooltip) res.tszTooltip = pc->tszTooltip;
 				res.flags = pc->flags;
 			}
-			res.tszTooltip = TranslateTH(p.hLangpack, res.tszTooltip);
+			res.tszTooltip = TranslateW_LP(res.tszTooltip, p.hLangpack);
 			return (INT_PTR)&res;
 		}
 		nVis++;

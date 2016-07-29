@@ -210,10 +210,10 @@ void AddHotkey()
 {
 	HOTKEYDESC hkd = { 0 };
 	hkd.cbSize = sizeof(hkd);
-	hkd.dwFlags = HKD_TCHAR;
+	hkd.dwFlags = HKD_UNICODE;
 	hkd.pszName = "AutoShutdown_Toggle";
-	hkd.ptszDescription = LPGENW("Toggle automatic shutdown");
-	hkd.ptszSection = LPGENW("Main");
+	hkd.pwszDescription = LPGENW("Toggle automatic shutdown");
+	hkd.pwszSection = LPGENW("Main");
 	hkd.pszService = "AutoShutdown/MenuCommand";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;

@@ -566,7 +566,7 @@ void LoadHistoryColumns(HWND hHistoryList)
 	
 	for (i  = 0; i < cHistoryColumns; i++)
 	{
-		col.pszText = TranslateTS(szHistoryColumns[i]);
+		col.pszText = TranslateW(szHistoryColumns[i]);
 		col.cx = cxHistoryColumns[i];
 		ListView_InsertColumn(hHistoryList, i, &col);
 	}

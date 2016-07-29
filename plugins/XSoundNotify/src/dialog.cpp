@@ -52,7 +52,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_CHOOSE_SOUND), TRUE);
 			DBVARIANT dbv = { 0 };
-			if (!db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+			if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_TEST_PLAY), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_RESET_SOUND), TRUE);
 				SetDlgItemText(hwndDlg, IDC_CONT_LABEL_SOUND, PathFindFileName(dbv.ptszVal));
@@ -67,7 +67,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			CheckDlgButton(hwndDlg, IDC_CONT_IGNORE_SOUND, db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p == NULL) {
-				ptrW name(db_get_tsa(hContact, SETTINGSNAME, SETTINGSKEY));
+				ptrW name(db_get_wsa(hContact, SETTINGSNAME, SETTINGSKEY));
 				if (name != NULL)
 					XSN_Users.insert(new XSN_Data(hContact, name, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0));
 			}
@@ -82,7 +82,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				if (mir_wstrcmpi(p->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
 					PathToRelativeT(p->path, shortpath);
-					db_set_ts(hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
+					db_set_ws(hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
 				}
 				db_set_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, p->ignore);
 			}
@@ -134,16 +134,16 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			isIgnoreSound = 0;
 			if (p == NULL) {
 				DBVARIANT dbv;
-				if (!db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH] = { 0 };
-					PathToAbsoluteT(dbv.ptszVal, longpath);
+					PathToAbsoluteW(dbv.ptszVal, longpath);
 					SkinPlaySoundFile(longpath);
 					db_free(&dbv);
 				}
 			}
 			else {
 				wchar_t longpath[MAX_PATH] = { 0 };
-				PathToAbsoluteT(p->path, longpath);
+				PathToAbsoluteW(p->path, longpath);
 				SkinPlaySoundFile(longpath);
 			}
 			break;
@@ -167,9 +167,9 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			if (p == NULL) {
 				DBVARIANT dbv;
-				if (!db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH];
-					PathToAbsoluteT(dbv.ptszVal, longpath);
+					PathToAbsoluteW(dbv.ptszVal, longpath);
 					XSN_Users.insert(new XSN_Data(hContact, longpath, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0));
 					db_free(&dbv);
 				}

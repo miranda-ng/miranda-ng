@@ -463,12 +463,12 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, bool force_add, boo
 
 		std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
 		setString(hContact, "Homepage", homepage.c_str());
-		setTString(hContact, "MirVer", fbu->getMirVer());
+		setWString(hContact, "MirVer", fbu->getMirVer());
 
 		db_unset(hContact, "CList", "MyHandle");
 
 		if (m_tszDefaultGroup)
-			db_set_ts(hContact, "CList", "Group", m_tszDefaultGroup);
+			db_set_ws(hContact, "CList", "Group", m_tszDefaultGroup);
 
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
 

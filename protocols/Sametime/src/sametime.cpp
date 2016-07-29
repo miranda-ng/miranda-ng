@@ -124,12 +124,12 @@ void __cdecl sttFakeAckInfoSuccessThread(void *param)
 {
 	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
-	proto->debugLog(L"sttFakeAckInfoSuccessThread() start");
+	proto->debugLogW(L"sttFakeAckInfoSuccessThread() start");
 
 	Sleep(100);
 	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 
-	proto->debugLog(L"sttFakeAckInfoSuccessThread() end");
+	proto->debugLogW(L"sttFakeAckInfoSuccessThread() end");
 	mir_free(tParam);
 }
 
@@ -137,12 +137,12 @@ void __cdecl sttFakeAckMessageSuccessThread(void *param)
 {
 	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
-	proto->debugLog(L"sttFakeAckMessageSuccessThread() start");
+	proto->debugLogW(L"sttFakeAckMessageSuccessThread() start");
 
 	Sleep(100);
 	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tParam->lParam, 0);
 
-	proto->debugLog(L"sttFakeAckMessageSuccessThread() end");
+	proto->debugLogW(L"sttFakeAckMessageSuccessThread() end");
 	mir_free(tParam);
 }
 
@@ -150,12 +150,12 @@ void __cdecl sttFakeAckMessageFailedThread(void *param)
 {
 	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
-	proto->debugLog(L"sttFakeAckMessageFailedThread() start");
+	proto->debugLogW(L"sttFakeAckMessageFailedThread() start");
 
 	Sleep(100);
 	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, tParam->lParam); ///TODO tParam->lParam: add error message
 
-	proto->debugLog(L"sttFakeAckMessageFailedThread() end");
+	proto->debugLogW(L"sttFakeAckMessageFailedThread() end");
 	mir_free(tParam);
 }
 
@@ -163,12 +163,12 @@ void __cdecl sttRecvAwayThread(void *param)
 {
 	TFakeAckParams* tParam = (TFakeAckParams*)param;
 	CSametimeProto* proto = tParam->proto;
-	proto->debugLog(L"sttRecvAwayThread() start");
+	proto->debugLogW(L"sttRecvAwayThread() start");
 
 	Sleep(100);
 	proto->UserRecvAwayMessage(tParam->hContact);
 
-	proto->debugLog(L"sttRecvAwayThread() end");
+	proto->debugLogW(L"sttRecvAwayThread() end");
 	free(tParam);
 }
 
@@ -223,7 +223,7 @@ int CSametimeProto::OnSametimeContactDeleted(WPARAM hContact, LPARAM)
 
 void CSametimeProto::SetAllOffline()
 {
-	debugLog(L"SetAllOffline() start");
+	debugLogW(L"SetAllOffline() start");
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0)) {
@@ -241,7 +241,7 @@ void CSametimeProto::BroadcastNewStatus(int iNewStatus)
 	if (m_iStatus == iNewStatus)
 		return;
 
-	debugLog(L"BroadcastNewStatus() m_iStatus=[%d], iNewStatus=[%d]", m_iStatus, iNewStatus);
+	debugLogW(L"BroadcastNewStatus() m_iStatus=[%d], iNewStatus=[%d]", m_iStatus, iNewStatus);
 
 	previous_status = m_iStatus;
 	m_iStatus = iNewStatus;

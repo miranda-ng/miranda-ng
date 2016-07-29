@@ -66,12 +66,12 @@ struct DetailsData
 
 wchar_t* getTitle(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->pwszTitle : TranslateTH(p->hLangpack, p->pwszTitle);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->pwszTitle : TranslateW_LP(p->pwszTitle, p->hLangpack);
 }
 
 wchar_t* getTab(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->pwszTab : TranslateTH(p->hLangpack, p->pwszTab);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->pwszTab : TranslateW_LP(p->pwszTab, p->hLangpack);
 }
 
 static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
@@ -183,7 +183,7 @@ static void CreateDetailsTabs(HWND hwndDlg, DetailsData *dat, DetailsPageData *p
 		if (!odp.ptszTab || mir_wstrcmp(odp.ptszTitle, ppg->ptszTitle))
 			continue;
 
-		tie.pszText = TranslateTH(odp.hLangpack, odp.ptszTab);
+		tie.pszText = TranslateW_LP(odp.ptszTab, odp.hLangpack);
 		tie.lParam = i;
 		TabCtrl_InsertItem(hwndTab, pages, &tie);
 		if (!mir_wstrcmp(odp.ptszTab, ppg->ptszTab))
@@ -268,7 +268,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			LPTSTR ptszLastTab;
 			DBVARIANT dbv;
-			if (!db_get_ts(NULL, "UserInfo", "LastTab", &dbv)) {
+			if (!db_get_ws(NULL, "UserInfo", "LastTab", &dbv)) {
 				ptszLastTab = NEWWSTR_ALLOCA(dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -306,7 +306,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (odp[i].flags & ODPF_DONTTRANSLATE)
 					tvis.item.pszText = p.ptszTitle;
 				else
-					tvis.item.pszText = TranslateTH(p.hLangpack, p.ptszTitle);
+					tvis.item.pszText = TranslateW_LP(p.ptszTitle, p.hLangpack);
 				if (ptszLastTab && !mir_wstrcmp(tvis.item.pszText, ptszLastTab))
 					dat->currentPage = i;
 				p.hItem = TreeView_InsertItem(hwndTree, &tvis);
@@ -587,7 +587,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		tvi.pszText = name;
 		tvi.cchTextMax = _countof(name);
 		TreeView_GetItem(GetDlgItem(hwndDlg, IDC_PAGETREE), &tvi);
-		db_set_ts(NULL, "UserInfo", "LastTab", name);
+		db_set_ws(NULL, "UserInfo", "LastTab", name);
 
 		Window_FreeIcon_IcoLib(hwndDlg);
 		SendDlgItemMessage(hwndDlg, IDC_NAME, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDC_WHITERECT, WM_GETFONT, 0, 0), 0);

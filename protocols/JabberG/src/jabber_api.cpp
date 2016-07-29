@@ -57,7 +57,7 @@ MCONTACT CJabberProto::ContactFromJID(LPCTSTR jid)
 
 LPTSTR CJabberProto::ContactToJID(MCONTACT hContact)
 {
-	return getTStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid");
+	return getWStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid");
 }
 
 LPTSTR CJabberProto::GetBestResourceName(LPCTSTR jid)
@@ -87,7 +87,7 @@ LPTSTR CJabberProto::GetResourceList(LPCTSTR jid)
 	if (!item->arResources.getCount())
 		return NULL;
 
-	CMString res;
+	CMStringW res;
 	for (int i=0; i < item->arResources.getCount(); i++) {
 		res.Append(item->arResources[i]->m_tszResourceName);
 		res.AppendChar(0);

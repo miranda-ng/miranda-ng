@@ -566,7 +566,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 	case BUTTONTRANSLATE:
 		wchar_t szButton[MAX_PATH];
 		GetWindowText(bct->hwnd, szButton, _countof(szButton));
-		SetWindowText(bct->hwnd, TranslateTS(szButton));
+		SetWindowText(bct->hwnd, TranslateW(szButton));
 		break;
 	
 	case WM_SETFOCUS: // set keybord bFocus and redraw

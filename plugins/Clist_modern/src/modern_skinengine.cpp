@@ -1469,7 +1469,7 @@ void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult)
 
 int ske_GetFullFilename(wchar_t *buf, const wchar_t *file, wchar_t *skinfolder, BOOL madeAbsolute)
 {
-	wchar_t *SkinPlace = db_get_tsa(NULL, SKIN, "SkinFolder");
+	wchar_t *SkinPlace = db_get_wsa(NULL, SKIN, "SkinFolder");
 	if (SkinPlace == NULL)
 		SkinPlace = mir_wstrdup(L"\\Skin\\default");
 
@@ -1481,9 +1481,9 @@ int ske_GetFullFilename(wchar_t *buf, const wchar_t *file, wchar_t *skinfolder, 
 
 	if (madeAbsolute) {
 		if (b2[0] == '\\' && b2[1] != '\\')
-			PathToAbsoluteT(b2 + 1, buf);
+			PathToAbsoluteW(b2 + 1, buf);
 		else
-			PathToAbsoluteT(b2, buf);
+			PathToAbsoluteW(b2, buf);
 	}
 	else mir_wstrncpy(buf, b2, MAX_PATH);
 
@@ -1912,7 +1912,7 @@ static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 
 	Skin->pMaskList = (LISTMODERNMASK*)mir_alloc(sizeof(LISTMODERNMASK));
 	memset(Skin->pMaskList, 0, sizeof(LISTMODERNMASK));
-	Skin->szSkinPlace = db_get_tsa(NULL, SKIN, "SkinFolder");
+	Skin->szSkinPlace = db_get_wsa(NULL, SKIN, "SkinFolder");
 	if (!Skin->szSkinPlace || (wcschr(Skin->szSkinPlace, '%') && !db_get_b(NULL, SKIN, "Modified", 0))) {
 		BOOL bOnlyObjects = FALSE;
 		if (Skin->szSkinPlace && wcschr(Skin->szSkinPlace, '%'))
@@ -1972,8 +1972,8 @@ int ske_LoadSkinFromIniFile(wchar_t *szFileName, BOOL bOnlyObjects)
 	IniParser::GetSkinFolder(szFileName, skinFolder);
 	PathToRelativeT(szFileName, skinFile);
 
-	db_set_ts(NULL, SKIN, "SkinFolder", skinFolder);
-	db_set_ts(NULL, SKIN, "SkinFile", skinFile);
+	db_set_ws(NULL, SKIN, "SkinFolder", skinFolder);
+	db_set_ws(NULL, SKIN, "SkinFile", skinFile);
 
 	parser.Parse(IniParser::WriteStrToDb, 1);
 	return 0;

@@ -2236,14 +2236,14 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				case ID_SEARCH_GOOGLE:
 					if (pszWord[0])
-						Utils_OpenUrlT(CMString(FORMAT, L"http://www.google.com/search?q=%s", pszWord));
+						Utils_OpenUrlT(CMStringW(FORMAT, L"http://www.google.com/search?q=%s", pszWord));
 
 					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 					break;
 
 				case ID_SEARCH_WIKIPEDIA:
 					if (pszWord[0])
-						Utils_OpenUrlT(CMString(FORMAT, L"http://en.wikipedia.org/wiki/%s", pszWord));
+						Utils_OpenUrlT(CMStringW(FORMAT, L"http://en.wikipedia.org/wiki/%s", pszWord));
 
 					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 					break;
@@ -2388,7 +2388,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				pci->SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
 
-				CMString ptszText(ptrW(mir_utf8decodeW(pszRtf)));
+				CMStringW ptszText(ptrW(mir_utf8decodeW(pszRtf)));
 				pci->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
 				ptszText.Trim();
 				ptszText.Replace(L"%", L"%%");

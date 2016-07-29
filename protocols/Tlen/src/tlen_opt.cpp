@@ -88,7 +88,7 @@ int TlenProtocol::OptionsInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.pwszGroup = LPGENW("Network");
 	odp.pwszTitle = m_tszUserName;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.dwInitParam = (LPARAM)this;
 	for (int i = 0; i < _countof(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
@@ -122,7 +122,7 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			proto = (TlenProtocol *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 			TranslateDialogDefault(hwndDlg);
-			if (!db_get_ts(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
+			if (!db_get_ws(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_EDIT_USERNAME, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -208,7 +208,7 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			proto = (TlenProtocol *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 			TranslateDialogDefault(hwndDlg);
-			if (!db_get_ts(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
+			if (!db_get_ws(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_EDIT_USERNAME, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -412,7 +412,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			proto = (TlenProtocol *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 			TranslateDialogDefault(hwndDlg);
-			if (!db_get_ts(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+			if (!db_get_ws(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_EDIT_LOGIN_SERVER, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -421,7 +421,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOSTPORT), TRUE);
 
-			if (!db_get_ts(NULL, proto->m_szModuleName, "ManualHost", &dbv)) {
+			if (!db_get_ws(NULL, proto->m_szModuleName, "ManualHost", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_HOST, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -461,12 +461,12 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)L"SOCKS4");
 			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)L"SOCKS5");
 			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_SETCURSEL, db_get_w(NULL, proto->m_szModuleName, "FileProxyType", 0), 0);
-			if (!db_get_ts(NULL, proto->m_szModuleName, "FileProxyHost", &dbv)) {
+			if (!db_get_ws(NULL, proto->m_szModuleName, "FileProxyHost", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FILE_PROXY_HOST, dbv.ptszVal);
 				db_free(&dbv);
 			}
 			SetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, db_get_w(NULL, proto->m_szModuleName, "FileProxyPort", 0), FALSE);
-			if (!db_get_ts(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
+			if (!db_get_ws(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FILE_PROXY_USER, dbv.ptszVal);
 				db_free(&dbv);
 			}

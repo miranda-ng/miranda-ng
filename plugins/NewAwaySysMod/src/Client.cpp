@@ -128,8 +128,8 @@ void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg)
 
 	for (int i = 0; i < _countof(StatusDbSettings); i++) {
 		if (iMode == StatusDbSettings[i].Status) {
-			db_set_ts(NULL, "SRAway", CString(StatusDbSettings[i].Setting) + "Msg", CurMsg);
-			db_set_ts(NULL, "SRAway", CString(StatusDbSettings[i].Setting) + "Default", CurMsg); // TODO: make it more accurate, and change not only here, but when changing status messages through UpdateMsgsTimerFunc too; and when changing messages through AutoAway() ?
+			db_set_ws(NULL, "SRAway", CString(StatusDbSettings[i].Setting) + "Msg", CurMsg);
+			db_set_ws(NULL, "SRAway", CString(StatusDbSettings[i].Setting) + "Default", CurMsg); // TODO: make it more accurate, and change not only here, but when changing status messages through UpdateMsgsTimerFunc too; and when changing messages through AutoAway() ?
 			break;
 		}
 	}

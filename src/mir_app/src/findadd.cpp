@@ -326,7 +326,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		dat->iLastColumnSortIndex = 1;
 		dat->bSortAscending = 1;
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTIONS, BUTTONSETARROW, 1, 0);
-		SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Ctrl+Search add contact"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Ctrl+Search add contact"), BATF_UNICODE);
 
 		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT | LVS_EX_HEADERDRAGDROP);
 
@@ -364,7 +364,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetStatusBarSearchInfo(GetDlgItem(hwndDlg, IDC_STATUSBAR), dat);
 
 			wchar_t *szProto = NULL;
-			ptrW tszLast(db_get_tsa(NULL, "FindAdd", "LastSearched"));
+			ptrW tszLast(db_get_wsa(NULL, "FindAdd", "LastSearched"));
 			if (tszLast)
 				szProto = NEWWSTR_ALLOCA(tszLast);
 
@@ -765,7 +765,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					PROTOSEARCHRESULT psr = { 0 };
 					psr.cbSize = sizeof(psr);
-					psr.flags = PSR_TCHAR;
+					psr.flags = PSR_UNICODE;
 					psr.id.w = str;
 
 					acs.psr = &psr;
@@ -854,7 +854,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					LVCOLUMN lvc = { 0 };
 					lvc.mask = LVCF_TEXT;
 					for (int iColumn = 0; iColumn < csr->nFieldCount; iColumn++) {
-						lvc.pszText = TranslateTS(csr->pszFields[iColumn]);
+						lvc.pszText = TranslateW(csr->pszFields[iColumn]);
 						ListView_InsertColumn(hwndList, iColumn + 1, &lvc);
 					}
 				}
@@ -869,7 +869,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					lsr->psr.firstName.w = sttDecodeString(psr->flags, psr->firstName);
 					lsr->psr.lastName.w = sttDecodeString(psr->flags, psr->lastName);
 					lsr->psr.email.w = sttDecodeString(psr->flags, psr->email);
-					lsr->psr.flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
+					lsr->psr.flags = psr->flags & ~PSR_UNICODE | PSR_UNICODE;
 
 					LVITEM lvi = { 0 };
 					lvi.mask = LVIF_PARAM | LVIF_IMAGE;
@@ -909,7 +909,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				lsr->psr.lastName.w = sttDecodeString(psr->flags, psr->lastName);
 				lsr->psr.email.w = sttDecodeString(psr->flags, psr->email);
 				lsr->psr.id.w = sttDecodeString(psr->flags, psr->id);
-				lsr->psr.flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
+				lsr->psr.flags = psr->flags & ~PSR_UNICODE | PSR_UNICODE;
 
 				LVITEM lvi = { 0 };
 				lvi.mask = LVIF_PARAM | LVIF_IMAGE;
@@ -948,7 +948,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (szProto != NULL) {
 			*szProto = '\0';
 			SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETLBTEXT, SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), (LPARAM)szProto);
-			db_set_ts(NULL, "FindAdd", "LastSearched", szProto);
+			db_set_ws(NULL, "FindAdd", "LastSearched", szProto);
 		}
 
 		SaveColumnSizes(hwndList);

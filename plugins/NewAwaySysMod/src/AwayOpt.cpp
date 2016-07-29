@@ -140,13 +140,13 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		// init image buttons
 		for (int i = 0; i < _countof(Dlg1Buttons); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg1Buttons[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Dlg1Buttons[i].Text), BATF_TCHAR);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateW(Dlg1Buttons[i].Text), BATF_UNICODE);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
 		// now default status message buttons
 		for (int i = 0; i < _countof(Dlg1DefMsgDlgItems); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg1DefMsgDlgItems[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg1DefMsgDlgItems[i].Status, 0), BATF_TCHAR);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg1DefMsgDlgItems[i].Status, 0), BATF_UNICODE);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);
@@ -375,7 +375,7 @@ static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_UPDATEMSGSPERIOD_SPIN, UDM_SETRANGE32, 30, 99999);
 		for (int i = 0; i < _countof(Dlg2StatusButtons); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg2StatusButtons[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg2StatusButtons[i].Status, 0), BATF_TCHAR);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg2StatusButtons[i].Status, 0), BATF_UNICODE);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
@@ -524,16 +524,16 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			};
 
 			for (int i = 0; i < _countof(IdleComboValues); i++)
-				SendMessage(hCombo, CB_SETITEMDATA, SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(IdleComboValues[i].Text)), IdleComboValues[i].Meaning);
+				SendMessage(hCombo, CB_SETITEMDATA, SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(IdleComboValues[i].Text)), IdleComboValues[i].Meaning);
 
 			for (int i = 0; i < _countof(Dlg3StatusButtons); i++) {
 				HWND hButton = GetDlgItem(hwndDlg, Dlg3StatusButtons[i].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg3StatusButtons[i].Status, 0), BATF_TCHAR);
+				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg3StatusButtons[i].Status, 0), BATF_UNICODE);
 				SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 			HWND hButton = GetDlgItem(hwndDlg, IDC_REPLYDLG_VARS);
-			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Variables help dialog"), BATF_TCHAR);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Variables help dialog"), BATF_UNICODE);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTMSG, BUTTONSETASTHEMEDBTN, TRUE, 0);
@@ -559,7 +559,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ti.hwnd = hwndDlg;
 			for (int i = 0; i < _countof(Tooltips); i++) {
 				ti.uId = (UINT_PTR)GetDlgItem(hwndDlg, Tooltips[i].m_dlgItemID);
-				ti.lpszText = TranslateTS(Tooltips[i].Text);
+				ti.lpszText = TranslateW(Tooltips[i].Text);
 				SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			}
 			SendMessage(hWndTooltips, TTM_SETMAXTIPWIDTH, 0, 500);
@@ -695,13 +695,13 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		// init image buttons
 		for (int i = 0; i < _countof(Dlg4Buttons); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg4Buttons[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Dlg4Buttons[i].Text), BATF_TCHAR);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateW(Dlg4Buttons[i].Text), BATF_UNICODE);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
 		// now default status message buttons
 		for (int i = 0; i < _countof(Dlg4DefMsgDlgItems); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg4DefMsgDlgItems[i].DlgItem);
-			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg4DefMsgDlgItems[i].Status, 0), BATF_TCHAR);
+			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)pcli->pfnGetStatusModeDescription(Dlg4DefMsgDlgItems[i].Status, 0), BATF_UNICODE);
 			SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);

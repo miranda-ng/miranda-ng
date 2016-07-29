@@ -172,7 +172,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				db_set_dw(NULL, "yaRelay", "ForwardFrom", (DWORD)hForwardFrom);
 				db_set_dw(NULL, "yaRelay", "ForwardTo", (DWORD)hForwardTo);
 				db_set_dw(NULL, "yaRelay", "ForwardOnStatus", iForwardOnStatus);
-				db_set_ts(NULL, "yaRelay", "ForwardTemplate", tszForwardTemplate);
+				db_set_ws(NULL, "yaRelay", "ForwardTemplate", tszForwardTemplate);
 				db_set_dw(NULL, "yaRelay", "Split", iSplit);
 				db_set_dw(NULL, "yaRelay", "SplitMaxSize", iSplitMaxSize);
 				db_set_dw(NULL, "yaRelay", "SendParts", iSendParts);

@@ -54,7 +54,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 		db_unset(wParam, "CList", "Group");
 	else {
 		grpChg.pszNewName = Clist_GroupGetName(lParam, NULL);
-		db_set_ts(wParam, "CList", "Group", grpChg.pszNewName);
+		db_set_ws(wParam, "CList", "Group", grpChg.pszNewName);
 	}
 
 	NotifyEventHooks(hGroupChangeEvent, wParam, (LPARAM)&grpChg);

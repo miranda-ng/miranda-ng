@@ -29,19 +29,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct SoundItem
 {
 	char*  name;
-	wchar_t* ptszSection;
-	wchar_t* ptszDescription;
+	wchar_t* pwszSection;
+	wchar_t* pwszDescription;
 	wchar_t* ptszTempFile;
 	int    hLangpack;
 
-	__inline wchar_t* getSection() const { return TranslateTH(hLangpack, ptszSection); }
-	__inline wchar_t* getDescr() const { return TranslateTH(hLangpack, ptszDescription); }
+	__inline wchar_t* getSection() const { return TranslateW_LP(pwszSection, hLangpack); }
+	__inline wchar_t* getDescr() const { return TranslateW_LP(pwszDescription, hLangpack); }
 
 	__inline void clear(void)
 	{
 		mir_free(name);
-		mir_free(ptszSection);
-		mir_free(ptszDescription);
+		mir_free(pwszSection);
+		mir_free(pwszDescription);
 		mir_free(ptszTempFile);
 	}
 };
@@ -77,31 +77,31 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
 	if (ssd->cbSize != sizeof(SKINSOUNDDESCEX) || ssd->pszName == NULL || ssd->pszDescription == NULL)
 		return 1;
 
-	SoundItem* item = new SoundItem; // due to OBJLIST
+	SoundItem *item = new SoundItem; // due to OBJLIST
 	item->name = mir_strdup(ssd->pszName);
 	item->ptszTempFile = NULL;
 	item->hLangpack = (int)wParam;
 	arSounds.insert(item);
 
-	wchar_t* ptszDefaultFile;
+	wchar_t *pwszDefaultFile;
 	if (ssd->dwFlags & SSDF_UNICODE) {
-		item->ptszDescription = mir_wstrdup(ssd->ptszDescription);
-		item->ptszSection = mir_wstrdup((ssd->pszSection != NULL) ? ssd->ptszSection : L"Other");
-		ptszDefaultFile = mir_wstrdup(ssd->ptszDefaultFile);
+		item->pwszDescription = mir_wstrdup(ssd->pwszDescription);
+		item->pwszSection = mir_wstrdup((ssd->pszSection != NULL) ? ssd->pwszSection : L"Other");
+		pwszDefaultFile = mir_wstrdup(ssd->pwszDefaultFile);
 	}
 	else {
-		item->ptszDescription = mir_a2u(ssd->pszDescription);
-		item->ptszSection = mir_a2u((ssd->pszSection != NULL) ? ssd->pszSection : "Other");
-		ptszDefaultFile = mir_a2u(ssd->pszDefaultFile);
+		item->pwszDescription = mir_a2u(ssd->pszDescription);
+		item->pwszSection = mir_a2u((ssd->pszSection != NULL) ? ssd->pszSection : "Other");
+		pwszDefaultFile = mir_a2u(ssd->pszDefaultFile);
 	}
 
-	if (ptszDefaultFile) {
+	if (pwszDefaultFile) {
 		DBVARIANT dbv;
 		if (db_get_s(NULL, "SkinSounds", item->name, &dbv))
-			db_set_ts(NULL, "SkinSounds", item->name, ptszDefaultFile);
+			db_set_ws(NULL, "SkinSounds", item->name, pwszDefaultFile);
 		else
 			db_free(&dbv);
-		mir_free(ptszDefaultFile);
+		mir_free(pwszDefaultFile);
 	}
 
 	return 0;
@@ -109,7 +109,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
 
 static int SkinPlaySoundDefault(WPARAM wParam, LPARAM lParam)
 {
-	wchar_t* pszFile = (wchar_t*) lParam;
+	wchar_t *pszFile = (wchar_t*) lParam;
 	if (pszFile && (db_get_b(NULL, "Skin", "UseSound", 0) || (int)wParam == 1))
 		PlaySound(pszFile, NULL, SND_ASYNC | SND_FILENAME | SND_NOSTOP);
 
@@ -123,7 +123,7 @@ static INT_PTR ServiceSkinPlaySoundFile(WPARAM, LPARAM lParam)
 		return 1;
 
 	wchar_t tszFull[MAX_PATH];
-	PathToAbsoluteT(ptszFileName, tszFull);
+	PathToAbsoluteW(ptszFileName, tszFull);
 	NotifyEventHooks(hPlayEvent, 0, (LPARAM)tszFull);
 	return 0;
 }
@@ -143,7 +143,7 @@ static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
 		return 1;
 
 	DBVARIANT dbv;
-	if ( db_get_ts(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
+	if ( db_get_ws(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
 		ServiceSkinPlaySoundFile(0, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 		return 0;
@@ -265,9 +265,9 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				NotifyEventHooks(hPlayEvent, 1, (LPARAM)arSounds[tvi.lParam].ptszTempFile);
 			else {
 				DBVARIANT dbv;
-				if (!db_get_ts(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
+				if (!db_get_ws(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
 					wchar_t szPathFull[MAX_PATH];
-					PathToAbsoluteT(dbv.ptszVal, szPathFull);
+					PathToAbsoluteW(dbv.ptszVal, szPathFull);
 					NotifyEventHooks(hPlayEvent, 1, (LPARAM)szPathFull);
 					db_free(&dbv);
 				}
@@ -296,13 +296,13 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			else {
 				if (db_get_b(NULL, "SkinSoundsOff", snd.name, 0) == 0) {
 					DBVARIANT dbv;
-					if (db_get_ts(NULL, "SkinSounds", snd.name, &dbv) == 0) {
-						PathToAbsoluteT(dbv.ptszVal, strdir);
+					if (db_get_ws(NULL, "SkinSounds", snd.name, &dbv) == 0) {
+						PathToAbsoluteW(dbv.ptszVal, strdir);
 						db_free(&dbv);
 			}	}	}
 
 			wcsncpy_s(strFull, (snd.ptszTempFile ? snd.ptszTempFile : L""), _TRUNCATE);
-			PathToAbsoluteT(strFull, strdir);
+			PathToAbsoluteW(strFull, strdir);
 
 			OPENFILENAME ofn;
 			memset(&ofn, 0, sizeof(ofn));
@@ -352,7 +352,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 				for (int i=0; i < arSounds.getCount(); i++)
 					if (arSounds[i].ptszTempFile)
-						db_set_ts(NULL, "SkinSounds", arSounds[i].name, arSounds[i].ptszTempFile);
+						db_set_ws(NULL, "SkinSounds", arSounds[i].name, arSounds[i].ptszTempFile);
 
 				TVITEM tvi, tvic;
 				tvi.hItem = TreeView_GetRoot(hwndTree);
@@ -394,7 +394,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							SetDlgItemText(hwndDlg, IDC_LOCATION, arSounds[tvi.lParam].ptszTempFile);
 						else {
 							DBVARIANT dbv;
-							if (!db_get_ts(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
+							if (!db_get_ws(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
 								SetDlgItemText(hwndDlg, IDC_LOCATION, dbv.ptszVal);
 								db_free(&dbv);
 							}

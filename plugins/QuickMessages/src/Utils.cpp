@@ -153,11 +153,11 @@ void SaveModuleSettings(int buttonnum, ButtonData* bd)
 	char szMEntry[256] = { '\0' };
 
 	mir_snprintf(szMEntry, "EntryName_%u_%u", buttonnum, bd->dwPos);
-	db_set_ts(NULL, PLGNAME, szMEntry, bd->pszName);
+	db_set_ws(NULL, PLGNAME, szMEntry, bd->pszName);
 
 	mir_snprintf(szMEntry, "EntryValue_%u_%u", buttonnum, bd->dwPos);
 	if (bd->pszValue)
-		db_set_ts(NULL, PLGNAME, szMEntry, bd->pszValue);
+		db_set_ws(NULL, PLGNAME, szMEntry, bd->pszValue);
 	else
 		db_unset(NULL, PLGNAME, szMEntry);
 
@@ -185,7 +185,7 @@ void CleanSettings(int buttonnum, int from)
 	}
 
 	mir_snprintf(szMEntry, "EntryName_%u_%u", buttonnum, from);
-	while (!db_get_ts(NULL, PLGNAME, szMEntry, &dbv)) {
+	while (!db_get_ws(NULL, PLGNAME, szMEntry, &dbv)) {
 		db_unset(NULL, PLGNAME, szMEntry);
 		mir_snprintf(szMEntry, "EntryValue_%u_%u", buttonnum, from);
 		db_unset(NULL, PLGNAME, szMEntry);
@@ -228,7 +228,7 @@ static HANDLE AddIcon(char* szIcoName)
 	GetModuleFileName(hinstance, tszPath, _countof(tszPath));
 
 	SKINICONDESC sid = { 0 };
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_PATH_UNICODE;
 	sid.section.a = "Quick Messages";
 	sid.description.a = szIcoName;
 	sid.pszName = szIcoName;
@@ -355,7 +355,7 @@ wchar_t* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
 		break;
 	}
 
-	if (!db_get_ts(NULL, PLGNAME, szMEntry, &dbv)) {
+	if (!db_get_ws(NULL, PLGNAME, szMEntry, &dbv)) {
 		if (mir_wstrlen(dbv.ptszVal))
 			buffer = mir_wstrdup(dbv.ptszVal);
 		db_free(&dbv);

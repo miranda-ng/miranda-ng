@@ -335,7 +335,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 
 					if (ft->pfts.tszCurrentFile) {
 						wchar_t* dir = get_dir(ft->pfts.tszCurrentFile);
-						CreateDirectoryTreeT(dir);
+						CreateDirectoryTreeW(dir);
 						mir_free(dir);
 
 						oft->type = _htons(ft->pfts.currentFileProgress ? 0x0205 : 0x0202);
@@ -491,7 +491,7 @@ file_transfer::file_transfer(MCONTACT hCont, char* nick, char* cookie)
 	memset(this, 0, sizeof(*this));
 
 	pfts.cbSize = sizeof(pfts);
-	pfts.flags = PFTS_TCHAR;
+	pfts.flags = PFTS_UNICODE;
 	pfts.hContact = hCont;
 
 	hContact = hCont;

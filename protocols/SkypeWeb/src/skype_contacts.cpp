@@ -46,7 +46,7 @@ void CSkypeProto::SetAllContactsStatus(WORD status)
 
 void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
 {
-	ptrW tszChatID(getTStringA(hContact, "ChatRoomID"));
+	ptrW tszChatID(getWStringA(hContact, "ChatRoomID"));
 	if (tszChatID == NULL)
 		return;
 	GCDEST gcd = { m_szModuleName, tszChatID, GC_EVENT_CONTROL };
@@ -95,9 +95,9 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 		setString(hContact, SKYPE_SETTINGS_ID, skypename);
 
 		DBVARIANT dbv;
-		if (!getTString(SKYPE_SETTINGS_GROUP, &dbv))
+		if (!getWString(SKYPE_SETTINGS_GROUP, &dbv))
 		{
-			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
+			db_set_ws(hContact, "CList", "Group", dbv.ptszVal);
 			db_free(&dbv);
 		}
 
@@ -206,10 +206,10 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		const JSONNode &phones = item["phones"];
 
 		std::string skypename = item["id"].as_string();
-		CMString display_name = item["display_name"].as_mstring();
-		CMString first_name = name["first"].as_mstring();
-		CMString last_name = name["surname"].as_mstring();
-		CMString avatar_url = item["avatar_url"].as_mstring();
+		CMStringW display_name = item["display_name"].as_mstring();
+		CMStringW first_name = name["first"].as_mstring();
+		CMStringW last_name = name["surname"].as_mstring();
+		CMStringW avatar_url = item["avatar_url"].as_mstring();
 		std::string type = item["type"].as_string();
 		
 		if (type == "skype" || loadAll)
@@ -243,11 +243,11 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 				setString(hContact, "Type", type.c_str());
 
 				if (display_name) 
-					setTString(hContact, "Nick", display_name); 
+					setWString(hContact, "Nick", display_name); 
 				if (first_name) 
-					setTString(hContact, "FirstName", first_name); 
+					setWString(hContact, "FirstName", first_name); 
 				if (last_name)
-					setTString(hContact, "LastName", last_name); 
+					setWString(hContact, "LastName", last_name); 
 
 				if (item["mood"])
 				{
@@ -263,15 +263,15 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 					if (!phone)
 						break;
 
-					CMString number = phone["number"].as_mstring();
+					CMStringW number = phone["number"].as_mstring();
 
 					switch (phone["type"].as_int())
 					{
 					case 0:
-						setTString(hContact, "Phone", number);
+						setWString(hContact, "Phone", number);
 						break;
 					case 2:
-						setTString(hContact, "Cellular", number);
+						setWString(hContact, "Cellular", number);
 						break;
 					}
 				}

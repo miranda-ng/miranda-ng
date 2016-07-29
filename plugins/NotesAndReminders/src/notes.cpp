@@ -1025,10 +1025,10 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 		HMENU hFg = GetSubMenu(hSub, FindMenuItem(hSub, "Text Color"));
 
 		for (i=0; i<_countof(clrPresets); i++)
-			InsertMenu(hBg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_BG+i, TranslateTS(clrPresets[i].szName));
+			InsertMenu(hBg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_BG+i, Translate(clrPresets[i].szName));
 
 		for (i=0; i<_countof(clrPresets); i++)
-			InsertMenu(hFg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_FG+i, TranslateTS(clrPresets[i].szName));
+			InsertMenu(hFg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_FG+i, Translate(clrPresets[i].szName));
 	}
 
 	TranslateMenu(FhMenu);
@@ -1040,7 +1040,7 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureItem, struct ColorPreset *clrPresets)
 {
 	HDC hdc = GetDC(hdlg);
-	LPSTR lpsz = TranslateTS(clrPresets->szName);
+	LPSTR lpsz = Translate(clrPresets->szName);
 	SIZE sz;
 	GetTextExtentPoint32(hdc, lpsz, (int)mir_strlen(lpsz), &sz);
 	ReleaseDC(hdlg, hdc);

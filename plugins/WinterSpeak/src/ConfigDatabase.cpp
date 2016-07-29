@@ -105,15 +105,15 @@ void ConfigDatabase::load()
 //------------------------------------------------------------------------------
 void ConfigDatabase::save()
 {
-	db_set_ts(NULL, SPEAK, ENGINE, m_voice_desc.engine.c_str());
-	db_set_ts(NULL, SPEAK, VOICE, m_voice_desc.voice.c_str());
+	db_set_ws(NULL, SPEAK, ENGINE, m_voice_desc.engine.c_str());
+	db_set_ws(NULL, SPEAK, VOICE, m_voice_desc.voice.c_str());
 	db_set_dw(NULL, SPEAK, VOLUME, m_voice_desc.volume);
 	db_set_dw(NULL, SPEAK, PITCH, m_voice_desc.pitch);
 	db_set_dw(NULL, SPEAK, RATE, m_voice_desc.rate);
 
 	db_set_dw(NULL, SPEAK, ACTIVE_FLAGS, m_active_flags);
 
-	db_set_ts(NULL, SPEAK, WELCOME_MSG, m_welcome_msg.c_str());
+	db_set_ws(NULL, SPEAK, WELCOME_MSG, m_welcome_msg.c_str());
 
 	for (ActiveUsersMap::iterator i = m_active_users.begin(); i != m_active_users.end(); ++i)
 	{
@@ -133,7 +133,7 @@ std::wstring ConfigDatabase::DBGetContactSettingString(const char *szModule, con
 	std::wstring ret = def;
 	DBVARIANT dbv;
 	
-	if (!db_get_ts(NULL, szModule, szSetting, &dbv))
+	if (!db_get_ws(NULL, szModule, szSetting, &dbv))
 	{
 		ret = dbv.pwszVal;
 	}

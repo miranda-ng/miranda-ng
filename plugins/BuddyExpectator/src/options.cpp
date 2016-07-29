@@ -437,7 +437,7 @@ static int OptionsInit(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPANEL);
 	odp.pwszTitle = LPGENW("Buddy Expectator");
 	odp.pfnDlgProc = OptionsFrameProc;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
@@ -531,7 +531,7 @@ int UserinfoInit(WPARAM wparam, LPARAM lparam)
 		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
 		uip.hInstance = hInst;
 		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
-		uip.flags = ODPF_TCHAR;
+		uip.flags = ODPF_UNICODE;
 		uip.pwszTitle = LPGENW("Buddy Expectator");
 		uip.pfnDlgProc = UserinfoDlgProc;
 		UserInfo_AddPage(wparam, &uip);

@@ -123,7 +123,7 @@ int OnOptInitialise(WPARAM w, LPARAM L)
 	odp.pszTitle = SECTIONNAME;
 	odp.pszGroup = LPGEN("Plugins");
 	odp.pfnDlgProc = DlgProcOptions;
-	odp.flags = ODPF_TCHAR;
+	odp.flags = ODPF_UNICODE;
 	Options_AddPage(w, &odp);
 	return 0;
 }
@@ -198,7 +198,7 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Notes && Reminders"), 1600000000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "A5E140BC-D697-4689-B75B-8ECFB6FE5931");
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 
 	mi.position = 1600000000;
 	mi.hIcolibItem = iconList[2].hIcolib;

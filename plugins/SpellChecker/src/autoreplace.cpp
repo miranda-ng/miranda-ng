@@ -91,7 +91,7 @@ void AutoReplaceMap::writeAutoReplaceMap()
 	wchar_t *p = wcsrchr(m_filename, '\\');
 	if (p != NULL) {
 		*p = 0;
-		CreateDirectoryTreeT(m_filename);
+		CreateDirectoryTreeW(m_filename);
 		*p = '\\';
 	}
 

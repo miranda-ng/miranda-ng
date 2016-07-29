@@ -173,7 +173,7 @@ wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 			if (dbei.cbBlob == 0 || dbei.pBlob == 0)
 				return 0;
 
-			wchar_t *buff = DbGetEventTextT( &dbei, CP_ACP );
+			wchar_t *buff = DbGetEventTextW( &dbei, CP_ACP );
 			wchar_t *swzMsg = mir_wstrdup(buff);
 			mir_free(buff);
 
@@ -220,7 +220,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 			if (wStatus == ID_STATUS_OFFLINE)
 				return NULL;
 
-			if (!db_get_ts(hContact, MODULE, "TempStatusMsg", &dbv)) {
+			if (!db_get_ws(hContact, MODULE, "TempStatusMsg", &dbv)) {
 				if (mir_wstrlen(dbv.ptszVal) != 0)
 					swzMsg = mir_wstrdup(dbv.ptszVal);
 				db_free(&dbv);
@@ -232,7 +232,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 				if (ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0))
 					return NULL;
 
-			if (!db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
+			if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
 				if (mir_wstrlen(dbv.ptszVal) != 0)
 					swzMsg = mir_wstrdup(dbv.ptszVal);
 				db_free(&dbv);
@@ -694,9 +694,9 @@ wchar_t* GetProtoStatusMessage(char *szProto, WORD wStatus)
 	if (!(flags & Proto_Status2Flag(wStatus)))
 		return NULL;
 
-	wchar_t *ptszText = (wchar_t *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
+	wchar_t *ptszText = (wchar_t *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_UNICODE);
 	if ((INT_PTR)ptszText == CALLSERVICE_NOTFOUND)
-		ptszText = (wchar_t *)CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, (LPARAM)szProto);
+		ptszText = (wchar_t *)CallService(MS_AWAYMSG_GETSTATUSMSGW, wStatus, (LPARAM)szProto);
 
 	else if (ptszText == NULL) {
 		// try to use service without SGMA_TCHAR
@@ -724,7 +724,7 @@ wchar_t* GetProtoExtraStatusTitle(char *szProto)
 	if (!szProto)
 		return NULL;
 
-	wchar_t *ptszText = db_get_tsa(0, szProto, "XStatusName");
+	wchar_t *ptszText = db_get_wsa(0, szProto, "XStatusName");
 	if (!ptszText) {
 		wchar_t buff[256];
 		if (EmptyXStatusToDefaultName(0, szProto, 0, buff, 256))
@@ -742,7 +742,7 @@ wchar_t* GetProtoExtraStatusMessage(char *szProto)
 	if (!szProto)
 		return NULL;
 
-	wchar_t *ptszText = db_get_tsa(0, szProto, "XStatusMsg");
+	wchar_t *ptszText = db_get_wsa(0, szProto, "XStatusMsg");
 	if (ptszText == NULL)
 		return NULL;
 
@@ -778,7 +778,7 @@ wchar_t* GetListeningTo(char *szProto)
 	if (!szProto)
 		return NULL;
 
-	wchar_t *ptszText = db_get_tsa(0, szProto, "ListeningTo");
+	wchar_t *ptszText = db_get_wsa(0, szProto, "ListeningTo");
 	if (opt.bLimitMsg)
 		TruncateString(ptszText);
 
@@ -792,7 +792,7 @@ wchar_t* GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *s
 
 	char szSetting[128];
 	mir_snprintf(szSetting, "%s/%s/%s", szProto, szSlot, szValue);
-	wchar_t *ptszText = db_get_tsa(0, "AdvStatus", szSetting);
+	wchar_t *ptszText = db_get_wsa(0, "AdvStatus", szSetting);
 	if (opt.bLimitMsg)
 		TruncateString(ptszText);
 

@@ -33,13 +33,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, wchar_t* ptszDest, int cbLen)
 {
-	int tPathLen = mir_snwprintf(ptszDest, cbLen, TEXT("%s\\%S"), VARST(TEXT("%miranda_avatarcache%")), proto->m_szModuleName);
+	int tPathLen = mir_snwprintf(ptszDest, cbLen, TEXT("%s\\%S"), VARSW(TEXT("%miranda_avatarcache%")), proto->m_szModuleName);
 	if (_waccess(ptszDest, 0)) {
-		int ret = CreateDirectoryTreeT(ptszDest);
+		int ret = CreateDirectoryTreeW(ptszDest);
 		if (ret == 0)
-			proto->debugLog(L"getAvatarFilename(): Created new directory for avatar cache: %s.", ptszDest);
+			proto->debugLogW(L"getAvatarFilename(): Created new directory for avatar cache: %s.", ptszDest);
 		else {
-			proto->debugLog(L"getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s", ptszDest, errno, strerror(errno));
+			proto->debugLogW(L"getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s", ptszDest, errno, strerror(errno));
 			wchar_t buffer[512];
 			mir_snwprintf(buffer, TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _wcserror(errno), ptszDest);
 			PUShowMessageT(buffer, SM_WARNING);
@@ -108,7 +108,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 	if (out != NULL) {
 		fwrite(data, len, 1, out);
 		fclose(out);
-		db_set_ts(hContact, "ContactPhoto", "File", filename);
+		db_set_ws(hContact, "ContactPhoto", "File", filename);
 		db_set_s(hContact, proto->m_szModuleName, "AvatarHash", md5);
 		db_set_dw(hContact, proto->m_szModuleName, "AvatarFormat", format);
 	}
@@ -116,7 +116,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 		wchar_t buffer[128];
 		mir_snwprintf(buffer, TranslateT("Cannot save new avatar file \"%s\" Error:\n\t%s (Error: %d)"), filename, _wcserror(errno), errno);
 		PUShowMessageT(buffer, SM_WARNING);
-		proto->debugLog(buffer);
+		proto->debugLogW(buffer);
 		return;
 	}
 	ProtoBroadcastAck(proto->m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);

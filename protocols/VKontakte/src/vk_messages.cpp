@@ -242,7 +242,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		UINT mid = jnMsg["id"].as_int();
-		CMString wszBody(jnMsg["body"].as_mstring());
+		CMStringW wszBody(jnMsg["body"].as_mstring());
 		int datetime = jnMsg["date"].as_int();
 		int isOut = jnMsg["out"].as_int();
 		int isRead = jnMsg["read_state"].as_int();
@@ -250,13 +250,13 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
-			CMString wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
 			if (!wszBody.IsEmpty())
 				wszFwdMessages = L"\n" + wszFwdMessages;
 			wszBody +=  wszFwdMessages;
 		}
 
-		CMString wszAttachmentDescr;
+		CMStringW wszAttachmentDescr;
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments) {
 			wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
@@ -280,7 +280,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		if (chat_id != 0) {
 			debugLogA("CVkProto::OnReceiveMessages chat_id != 0");
-			CMString action_chat = jnMsg["action"].as_mstring();
+			CMStringW action_chat = jnMsg["action"].as_mstring();
 			int action_mid = _wtoi(jnMsg["action_mid"].as_mstring());
 			if ((action_chat == "chat_kick_user") && (action_mid == m_myUserId))
 				KickFromChat(chat_id, uid, jnMsg, jnFUsers);

@@ -93,7 +93,7 @@ void InitMenuItems()
 
 	CMenuItem mi;
 	SET_UID(mi, 0xB7132F5A, 0x65FC, 0x42C5, 0xB4, 0xCB, 0x54, 0xBC, 0xAC, 0x58, 0x34, 0xE9);
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.name.w = LPGENW("FTP File");
@@ -104,10 +104,10 @@ void InitMenuItems()
 
 	memset(&mi, 0, sizeof(mi));
 	mi.name.w = stzName;
-	mi.flags = CMIF_TCHAR | CMIF_SYSTEM;
+	mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
 
 	CMenuItem mi2;
-	mi2.flags = CMIF_TCHAR | CMIF_SYSTEM;
+	mi2.flags = CMIF_UNICODE | CMIF_SYSTEM;
 	mi2.pszService = MS_FTPFILE_CONTACTMENU;
 
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) {
@@ -155,7 +155,7 @@ void InitMenuItems()
 
 	memset(&mi, 0, sizeof(mi));
 	SET_UID(mi, 0x0C17CAD7, 0x7F23, 0x449B, 0xB9, 0xCD, 0xFF, 0x50, 0xDA, 0x69, 0xF3, 0x6F);
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.name.w = LPGENW("FTP File manager");

@@ -90,7 +90,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 
 			DBVARIANT dbv;
-			if (db_get_ts(NULL, "SRFile", "ScanCmdLine", &dbv) == 0) {
+			if (db_get_ws(NULL, "SRFile", "ScanCmdLine", &dbv) == 0) {
 				SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -165,7 +165,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			wchar_t str[MAX_PATH + 2];
 			GetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str, _countof(str));
 
-			CMString tszFilter;
+			CMStringW tszFilter;
 			tszFilter.AppendFormat(L"%s (*.exe)%c*.exe%c", TranslateT("Executable files"), 0, 0);
 			tszFilter.AppendFormat(L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
 
@@ -205,14 +205,14 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			wchar_t str[512];
 			GetDlgItemText(hwndDlg, IDC_FILEDIR, str, _countof(str));
 			RemoveInvalidPathChars(str);
-			db_set_ts(NULL, "SRFile", "RecvFilesDirAdv", str);
+			db_set_ws(NULL, "SRFile", "RecvFilesDirAdv", str);
 			db_set_b(NULL, "SRFile", "AutoAccept", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOACCEPT));
 			db_set_b(NULL, "SRFile", "AutoMin", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOMIN));
 			db_set_b(NULL, "SRFile", "AutoClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLOSE));
 			db_set_b(NULL, "SRFile", "AutoClear", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAR));
 			db_set_b(NULL, "SRFile", "UseScanner", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCANAFTERDL) ? VIRUSSCAN_AFTERDL : (IsDlgButtonChecked(hwndDlg, IDC_SCANDURINGDL) ? VIRUSSCAN_DURINGDL : VIRUSSCAN_DISABLE)));
 			GetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str, _countof(str));
-			db_set_ts(NULL, "SRFile", "ScanCmdLine", str);
+			db_set_ws(NULL, "SRFile", "ScanCmdLine", str);
 			db_set_b(NULL, "SRFile", "WarnBeforeOpening", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WARNBEFOREOPENING));
 			db_set_b(NULL, "SRFile", "IfExists", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ASK) ? FILERESUME_ASK : (IsDlgButtonChecked(hwndDlg, IDC_RESUME) ? FILERESUME_RESUMEALL : (IsDlgButtonChecked(hwndDlg, IDC_OVERWRITE) ? FILERESUME_OVERWRITEALL : FILERESUME_RENAMEALL))));
 			return TRUE;

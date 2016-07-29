@@ -86,7 +86,7 @@ void FormatTime(const SYSTEMTIME *st, const wchar_t *szFormat, wchar_t *szDest, 
 {
 	if (szDest == NULL || cbDest == 0) return;
 
-	CMString tszTemp;
+	CMStringW tszTemp;
 
 	for (const wchar_t* pFormat = szFormat; *pFormat; ++pFormat) {
 		DWORD fmt = 0;
@@ -242,7 +242,7 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule
 	if (szModule == NULL) szModule = "UserInfo";
 
 	DBVARIANT dbv;
-	if (!db_get_ts(hContact, szModule, "TzName", &dbv)) {
+	if (!db_get_ws(hContact, szModule, "TzName", &dbv)) {
 		HANDLE res = TimeZone_CreateByName(dbv.ptszVal, dwFlags);
 		db_free(&dbv);
 		if (res) return res;
@@ -251,7 +251,7 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule
 	signed char timezone = (signed char)db_get_b(hContact, szModule, "Timezone", -1);
 	if (timezone == -1) {
 		char *szProto = GetContactProto(hContact);
-		if (!db_get_ts(hContact, szProto, "TzName", &dbv)) {
+		if (!db_get_ws(hContact, szProto, "TzName", &dbv)) {
 			HANDLE res = TimeZone_CreateByName(dbv.ptszVal, dwFlags);
 			db_free(&dbv);
 			if (res) return res;
@@ -293,7 +293,7 @@ MIR_CORE_DLL(void) TimeZone_StoreByContact(MCONTACT hContact, LPCSTR szModule, H
 
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 	if (tz) {
-		db_set_ts(hContact, szModule, "TzName", tz->tszName);
+		db_set_ws(hContact, szModule, "TzName", tz->tszName);
 		db_set_b(hContact, szModule, "Timezone", (char)((tz->tzi.Bias + tz->tzi.StandardBias) / 30));
 	}
 	else {
@@ -405,7 +405,7 @@ MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HW
 	if (szModule == NULL) szModule = "UserInfo";
 
 	int iSelection = 0;
-	ptrW tszName(db_get_tsa(hContact, szModule, "TzName"));
+	ptrW tszName(db_get_wsa(hContact, szModule, "TzName"));
 	if (tszName != NULL) {
 		unsigned hash = mir_hashstrT(tszName);
 		for (int i = 0; i < g_timezonesBias.getCount(); i++) {

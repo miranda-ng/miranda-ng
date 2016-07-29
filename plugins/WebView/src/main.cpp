@@ -164,13 +164,13 @@ extern "C" int __declspec(dllexport) Load()
 	InitServices();
 
 	//add sound event to options
-	SkinAddNewSoundExT("webviewalert", MODULENAMEW, LPGENW("Alert event"));
+	SkinAddNewSoundExW("webviewalert", MODULENAMEW, LPGENW("Alert event"));
 
 	//value is 1 if menu is disabled
 	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);
 
 	CMenuItem mi;
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 	if ( db_get_b(NULL, MODULENAME, MENU_OFF, 0)) {
 		//value is 0 if menu is enabled
 		db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 0);
@@ -230,7 +230,7 @@ extern "C" int __declspec(dllexport) Load()
 	}
 
 	// contact menu
-	mi.flags = CMIF_TCHAR;
+	mi.flags = CMIF_UNICODE;
 
 	SET_UID(mi, 0xadc6a9a4, 0xdf7, 0x4f63, 0x89, 0x11, 0x8e, 0x42, 0x1d, 0xd6, 0x29, 0x31);
 	CreateServiceFunction("Open web page", WebsiteMenuCommand);

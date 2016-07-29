@@ -83,14 +83,14 @@ void SplashMain()
 
 	if (bstartup & (options.active == 1)) {
 		DBVARIANT dbv = { 0 };
-		if (!db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv)) {
+		if (!db_get_ws(NULL, MODNAME, "VersionPrefix", &dbv)) {
 			mir_wstrcpy(szPrefix, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else
 			mir_wstrcpy(szPrefix, L"");
 
-		if (!db_get_ts(NULL, MODNAME, "Path", &dbv)) {
+		if (!db_get_ws(NULL, MODNAME, "Path", &dbv)) {
 			mir_wstrcpy(inBuf, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -107,7 +107,7 @@ void SplashMain()
 		else
 			mir_wstrcpy(szSplashFile, inBuf);
 
-		if (!db_get_ts(NULL, MODNAME, "Sound", &dbv)) {
+		if (!db_get_ws(NULL, MODNAME, "Sound", &dbv)) {
 			mir_wstrcpy(inBuf, dbv.ptszVal);
 			db_free(&dbv);
 		}

@@ -111,7 +111,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	puc.flags = PCF_TCHAR;
 
 	puc.pszName = "MirFox_Notify";
-	puc.ptszDescription = TranslateT("MirFox/Notification");
+	puc.pwszDescription = TranslateT("MirFox/Notification");
 	puc.colorBack = RGB(173, 206, 247); //light blue
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	puc.iSeconds = 3;
@@ -119,7 +119,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	hPopupNotify = Popup_RegisterClass(&puc);
 
 	puc.pszName = "MirFox_Error";
-	puc.ptszDescription = TranslateT("MirFox/Error");
+	puc.pwszDescription = TranslateT("MirFox/Error");
 	puc.colorBack = RGB(255, 128, 128); //light red
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	puc.iSeconds = 20;

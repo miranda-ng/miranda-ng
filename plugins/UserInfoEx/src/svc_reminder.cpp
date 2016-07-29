@@ -255,7 +255,7 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 
 	if (hContact) {
 		ppd.lchContact = hContact;
-		mir_snwprintf(ppd.lptzContactName, L"%s - %s", TranslateTS(pszDesc), DB::Contact::DisplayName(hContact));
+		mir_snwprintf(ppd.lptzContactName, L"%s - %s", TranslateW(pszDesc), DB::Contact::DisplayName(hContact));
 	}
 	else mir_wstrncpy(ppd.lptzContactName, TranslateT("Reminder"), _countof(ppd.lptzContactName));
 
@@ -372,7 +372,7 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 	int numAnniversaries = 0;
 	int Diff = 0;
 	MAnnivDate mta;
-	CMString tszMsg;
+	CMStringW tszMsg;
 
 	if (gRemindOpts.RemindState == REMIND_ANNIV || gRemindOpts.RemindState == REMIND_ALL) {
 		for (int i = 0; i < ANID_LAST && !mta.DBGetAnniversaryDate(hContact, i); i++) {

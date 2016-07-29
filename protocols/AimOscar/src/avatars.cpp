@@ -118,15 +118,15 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* /*hash*/, c
 
 int CAimProto::get_avatar_filename(MCONTACT hContact, wchar_t* pszDest, size_t cbLen, const wchar_t *ext)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (ext && _waccess(pszDest, 0))
-		CreateDirectoryTreeT(pszDest);
+		CreateDirectoryTreeW(pszDest);
 
 	size_t tPathLen2 = tPathLen;
 
 	DBVARIANT dbv;
-	if (getTString(hContact, AIM_KEY_AH, &dbv)) return GAIR_NOAVATAR;
+	if (getWString(hContact, AIM_KEY_AH, &dbv)) return GAIR_NOAVATAR;
 	tPathLen += mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s", dbv.ptszVal);
 	db_free(&dbv);
 

@@ -42,7 +42,7 @@ typedef int (CJabberProto::*JABBER_ADHOC_HANDLER)(HXML iqNode, CJabberIqInfo *pI
 class CJabberAdhocSession
 {
 protected:
-	CMString m_szSessionId;
+	CMStringW m_szSessionId;
 	CJabberAdhocSession* m_pNext;
 	DWORD m_dwStartTime;
 

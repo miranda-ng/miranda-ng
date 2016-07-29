@@ -112,7 +112,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			ptstr = str;
 			mir_snwprintf(str, L"%S", dbv.pszVal);
 			break;
-		case DBVT_TCHAR:
+		case DBVT_WCHAR:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.ptszVal[0] == '\0');
 			ptstr = dbv.ptszVal;
 			break;
@@ -870,13 +870,13 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 int GGPROTO::options_init(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.flags = ODPF_TCHAR;
+	odp.flags = ODPF_UNICODE;
 	odp.position = 1003000;
 	odp.hInstance = hInstance;
 	odp.pwszGroup = LPGENW("Network");
 	odp.pwszTitle = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
-	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_UNICODE | ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
 
 	odp.pwszTab = LPGENW("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_GENERAL);
@@ -918,7 +918,7 @@ int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 	}
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.flags = ODPF_DONTTRANSLATE | ODPF_TCHAR;
+	odp.flags = ODPF_DONTTRANSLATE | ODPF_UNICODE;
 	odp.hInstance = hInstance;
 	odp.pfnDlgProc = gg_detailsdlgproc;
 	odp.position = -1900000000;

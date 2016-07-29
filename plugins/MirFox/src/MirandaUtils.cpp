@@ -31,7 +31,7 @@ void MirandaUtils::netlibRegister(){
 	// Register netlib user for logging function
 	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_TCHAR | NUF_NOOPTIONS;
+	nlu.flags = NUF_UNICODE | NUF_NOOPTIONS;
 	nlu.szSettingsModule = PLUGIN_DB_ID;
 	nlu.ptszDescriptiveName = TranslateT("MirFox log");
 
@@ -343,13 +343,13 @@ int MirandaUtils::on_hook_OpenMW(WPARAM wParam, LPARAM lParam)
 
 	if (param->msgBuffer != NULL){
 		wchar_t *msgBuffer = mir_wstrdup(param->msgBuffer->c_str());
-		CallServiceSync(MS_MSG_SENDMESSAGET, (WPARAM)param->targetHandle, (LPARAM)msgBuffer);
+		CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)param->targetHandle, (LPARAM)msgBuffer);
 		mir_free(msgBuffer);
 
 		delete param->msgBuffer;
 	} else {
 		//only open window
-		CallServiceSync(MS_MSG_SENDMESSAGET, (WPARAM)param->targetHandle, 0);
+		CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)param->targetHandle, 0);
 	}
 
 	// show and focus window
@@ -487,10 +487,10 @@ void MirandaUtils::translateOldDBNames() {
 	}
 
 	DBVARIANT opt2Dbv = {0};
-	INT_PTR opt2Result = db_get_s(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterString", &opt2Dbv, DBVT_TCHAR);
+	INT_PTR opt2Result = db_get_s(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterString", &opt2Dbv, DBVT_WCHAR);
 	if (opt2Result == 0){	//success
 		std::wstring clientsProfilesFilterString = opt2Dbv.pwszVal;
-		db_set_ts(0, PLUGIN_DB_ID, "clientsProfilesFilterString", clientsProfilesFilterString.c_str());
+		db_set_ws(0, PLUGIN_DB_ID, "clientsProfilesFilterString", clientsProfilesFilterString.c_str());
 		db_unset(0, OLD_PLUGIN_DB_ID, "clientsProfilesFilterString");
 		logger->log(L"TranslateOldDBNames:  'clientsProfilesFilterString' db entry found and moved");
 		db_free(&opt2Dbv);

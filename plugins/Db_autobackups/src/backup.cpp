@@ -186,7 +186,7 @@ int Backup(wchar_t *backup_filename)
 	HWND progress_dialog = NULL;
 	SYSTEMTIME st;
 
-	CallService(MS_DB_GETPROFILENAMET, _countof(dbname), (LPARAM)dbname);
+	CallService(MS_DB_GETPROFILENAMEW, _countof(dbname), (LPARAM)dbname);
 
 	if (backup_filename == NULL) {
 		int err;
@@ -196,7 +196,7 @@ int Backup(wchar_t *backup_filename)
 		bZip = options.use_zip != 0;
 		backupfolder = Utils_ReplaceVarsT(options.folder);
 		// ensure the backup folder exists (either create it or return non-zero signifying error)
-		err = CreateDirectoryTreeT(backupfolder);
+		err = CreateDirectoryTreeW(backupfolder);
 		if (err != ERROR_ALREADY_EXISTS && err != 0) {
 			mir_free(backupfolder);
 			return 1;

@@ -131,7 +131,7 @@ void GetData(void *param)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE_BUTTON), 1);
 
 		SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download in progress, please wait..."));
-		db_set_ts(hContact, "CList", "StatusMsg", TranslateT("Updating..."));
+		db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Updating..."));
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_DND); // download 
 
 		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST *) CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM) hNetlibUser, (LPARAM) & nlhr);
@@ -142,7 +142,7 @@ void GetData(void *param)
 				wchar_t *statusText = TranslateT("The server replied with a failure code");
 				SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
 				WErrorPopup(hContact, statusText);
-				db_set_ts(hContact, "CList", "StatusMsg", statusText);
+				db_set_ws(hContact, "CList", "StatusMsg", statusText);
 			}
 			if (nlhrReply->dataLength) {
 				trunccount = 0;
@@ -158,7 +158,7 @@ void GetData(void *param)
 			wchar_t *statusText = TranslateT("The server is down or lagging.");
 			SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
 			WErrorPopup(hContact, statusText);
-			db_set_ts(hContact, "CList", "StatusMsg", statusText);
+			db_set_ws(hContact, "CList", "StatusMsg", statusText);
 		}
 
 		if (!(nlhrReply))
@@ -248,7 +248,7 @@ void GetData(void *param)
 				if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0) {
 					wchar_t *statusText = TranslateT("Both search strings not found or strings not set.");
 					WErrorPopup(hContact, statusText);
-					db_set_ts(hContact, "CList", "StatusMsg", statusText);
+					db_set_ws(hContact, "CList", "StatusMsg", statusText);
 
 					DownloadSuccess = 0;
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
@@ -286,7 +286,7 @@ void GetData(void *param)
 				db_free(&dbv);
 			}
 			else {
-				db_get_ts(hContact, "CList", "MyHandle", &dbv);
+				db_get_ws(hContact, "CList", "MyHandle", &dbv);
 				memset(&temptime, 0, sizeof(temptime));
 				memset(&tstr, 0, sizeof(tstr));
 				ftime = time(NULL);
@@ -298,7 +298,7 @@ void GetData(void *param)
 				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 1)
 					strftime(temptime, 128, "(%b %d,%H:%M:%S)", nTime);
 
-				db_set_ts(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.ptszVal);
+				db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.ptszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
 					mir_snprintf(tstr, "%s %s", temptime, dbv.pszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)
@@ -359,7 +359,7 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 						SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
 						db_set_b(hContact, MODULENAME, STOP_KEY, 0);
 						db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);  
-						db_set_ts(hContact, "CList", "StatusMsg", statusText);
+						db_set_ws(hContact, "CList", "StatusMsg", statusText);
 						AlreadyDownloading = 0; 
 						return;
 					}
@@ -444,11 +444,11 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 
 			if (TherewasAlert) {
 				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_OCCUPIED);
-				db_set_ts(hContact, "CList", "StatusMsg", TranslateT("Alert!"));
+				db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Alert!"));
 			}
 			else {
 				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
-				db_set_ts(hContact, "CList", "StatusMsg", TranslateT("Online"));
+				db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Online"));
 			}
 		}
 

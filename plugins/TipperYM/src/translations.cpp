@@ -567,9 +567,9 @@ wchar_t *EmptyXStatusToDefaultName(MCONTACT hContact, const char *szModuleName, 
 	// translate jabber mood
 	if (ProtoServiceExists(szModuleName, "/SendXML")) // jabber protocol?
 	{ 
-		if (!db_get_ts(hContact, szModuleName, szSettingName, &dbv))
+		if (!db_get_ws(hContact, szModuleName, szSettingName, &dbv))
 		{
-			wcsncpy(buff, TranslateTS(dbv.ptszVal), bufflen);
+			wcsncpy(buff, TranslateW(dbv.ptszVal), bufflen);
 			buff[bufflen - 1] = 0;
 			return buff;
 		}
@@ -584,13 +584,13 @@ wchar_t *EmptyXStatusToDefaultName(MCONTACT hContact, const char *szModuleName, 
 	if (ProtoServiceExists(szModuleName, PS_GETCUSTOMSTATUSEX))
 	{ 
 		xstatus.cbSize = sizeof(CUSTOM_STATUS);
-		xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
+		xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_UNICODE;
 		xstatus.ptszName = szDefaultName;
 		xstatus.wParam = (WPARAM *)&status;
 		if (CallProtoService(szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus))
 		   return 0;
 		
-		wcsncpy(buff, TranslateTS(szDefaultName), bufflen);
+		wcsncpy(buff, TranslateW(szDefaultName), bufflen);
 		buff[bufflen - 1] = 0;
 		return buff;
 	} 

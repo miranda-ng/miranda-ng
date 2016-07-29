@@ -29,9 +29,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 {
 	int res;
-	if (res = mir_wstrcmp(p1->ptszSection, p2->ptszSection))
+	if (res = mir_wstrcmp(p1->pwszSection, p2->pwszSection))
 		return res;
-	if (res = mir_wstrcmp(p1->ptszDescription, p2->ptszDescription))
+	if (res = mir_wstrcmp(p1->pwszDescription, p2->pwszDescription))
 		return res;
 	if (!p1->rootHotkey && p2->rootHotkey)
 		return -1;
@@ -138,12 +138,12 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	THotkeyItem *p = (THotkeyItem*)mir_alloc(sizeof(THotkeyItem));
 	DWORD dwFlags = (desc->cbSize >= sizeof(HOTKEYDESC)) ? desc->dwFlags : 0;
 	if (dwFlags & HKD_UNICODE) {
-		p->ptszSection = mir_wstrdup(desc->ptszSection);
-		p->ptszDescription = mir_wstrdup(desc->ptszDescription);
+		p->pwszSection = mir_wstrdup(desc->pwszSection);
+		p->pwszDescription = mir_wstrdup(desc->pwszDescription);
 	}
 	else {
-		p->ptszSection = mir_a2u(desc->pszSection);
-		p->ptszDescription = mir_a2u(desc->pszDescription);
+		p->pwszSection = mir_a2u(desc->pszSection);
+		p->pwszDescription = mir_a2u(desc->pszDescription);
 	}
 
 	p->hLangpack = (int)wParam;
@@ -161,8 +161,8 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 			p->rootHotkey->nSubHotkeys++;
 		}
 		else {
-			mir_free(p->ptszSection);
-			mir_free(p->ptszDescription);
+			mir_free(p->pwszSection);
+			mir_free(p->pwszDescription);
 			mir_free(p);
 			return 0;
 		}
@@ -264,7 +264,7 @@ static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 
 			for (i = 0; i < hotkeys.getCount(); i++) {
 				THotkeyItem *p = hotkeys[i];
-				if ((p->type != HKT_MANUAL) || mir_wstrcmp(pszSection, p->ptszSection))
+				if ((p->type != HKT_MANUAL) || mir_wstrcmp(pszSection, p->pwszSection))
 					continue;
 
 				BYTE hkMod, hkVk;
@@ -290,8 +290,8 @@ void FreeHotkey(THotkeyItem *p)
 	GlobalDeleteAtom(p->idHotkey);
 	mir_free(p->pszName);
 	mir_free(p->pszService);
-	mir_free(p->ptszDescription);
-	mir_free(p->ptszSection);
+	mir_free(p->pwszDescription);
+	mir_free(p->pwszSection);
 	mir_free(p);
 }
 

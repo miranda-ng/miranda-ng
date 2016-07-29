@@ -8,8 +8,8 @@ void MakeMenuItem(lua_State *L, CMenuItem &mi)
 	mi.flags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	if (!(mi.flags & CMIF_TCHAR))
-		mi.flags |= CMIF_TCHAR;
+	if (!(mi.flags & CMIF_UNICODE))
+		mi.flags |= CMIF_UNICODE;
 
 	lua_getfield(L, -1, "Uid");
 	const char* uuid = lua_tostring(L, -1);

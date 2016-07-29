@@ -44,7 +44,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 			(h && !s) ? http_error_string(h->error) :
 			(s ? TranslateT("Registration rejected") : ws_strerror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-		gg->debugLog(L"gg_doregister(): Cannot register. errno=%d: %s", errno, ws_strerror(errno));
+		gg->debugLogW(L"gg_doregister(): Cannot register. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	else {
 		gg->setDword(GG_KEY_UIN, s->uin);
@@ -90,7 +90,7 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 			(h && !s) ? http_error_string(h->error) :
 			(s ? TranslateT("Bad number or password") : ws_strerror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-		gg->debugLog(L"gg_dounregister(): Cannot remove account. errno=%d: %s", errno, ws_strerror(errno));
+		gg->debugLogW(L"gg_dounregister(): Cannot remove account. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	else
 	{
@@ -142,7 +142,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 			(h && !s) ? http_error_string(h->error) :
 			(s ? TranslateT("Invalid data entered") : ws_strerror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-		gg->debugLog(L"gg_dochpass(): Cannot change password. errno=%d: %s", errno, ws_strerror(errno));
+		gg->debugLogW(L"gg_dochpass(): Cannot change password. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	else
 	{
@@ -183,7 +183,7 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 		mir_snwprintf(error, TranslateT("Your e-mail cannot be changed because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h->error) : (s ? TranslateT("Bad old e-mail or password") : ws_strerror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-		gg->debugLog(L"gg_dochemail(): Cannot change e-mail. errno=%d: %s", errno, ws_strerror(errno));
+		gg->debugLogW(L"gg_dochemail(): Cannot change e-mail. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	else
 	{

@@ -38,8 +38,8 @@ static void LoadRegisteredFolderSections(HWND hWnd)
 	for (int i = 0; i < lstRegisteredFolders.getCount(); i++) {
 		CFolderItem &tmp = lstRegisteredFolders[i];
 		wchar_t *translated = mir_a2u(tmp.GetSection());
-		if (!ContainsSection(hWnd, TranslateTS(translated))) {
-			int idx = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)TranslateTS(translated));
+		if (!ContainsSection(hWnd, TranslateW(translated))) {
+			int idx = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)TranslateW(translated));
 			SendMessage(hwndList, LB_SETITEMDATA, idx, (LPARAM)tmp.GetSection());
 		}
 
@@ -61,7 +61,7 @@ static void LoadRegisteredFolderItems(HWND hWnd)
 	for (int i = 0; i < lstRegisteredFolders.getCount(); i++) {
 		CFolderItem &item = lstRegisteredFolders[i];
 		if (!mir_strcmp(szSection, item.GetSection())) {
-			idx = SendMessage(hwndItems, LB_ADDSTRING, 0, (LPARAM)TranslateTS(item.GetUserName()));
+			idx = SendMessage(hwndItems, LB_ADDSTRING, 0, (LPARAM)TranslateW(item.GetUserName()));
 			SendMessage(hwndItems, LB_SETITEMDATA, idx, (LPARAM)&item);
 		}
 	}

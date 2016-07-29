@@ -43,7 +43,7 @@ int BuildContactMenu(WPARAM hContact, LPARAM)
 	}
 
 	LPCTSTR ptszName;
-	ptrW tszStamp(db_get_tsa(NULL, S_MOD, "MenuStamp"));
+	ptrW tszStamp(db_get_wsa(NULL, S_MOD, "MenuStamp"));
 	if (tszStamp != NULL)
 		ptszName = ParseString(tszStamp , hContact);
 	else

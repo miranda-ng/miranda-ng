@@ -69,7 +69,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		return;
 
 	int iOldStatus = m_iStatus;
-	CMString oldStatusMsg(ptrW(db_get_wsa(NULL, m_szModuleName, "OldStatusMsg")));
+	CMStringW oldStatusMsg(ptrW(db_get_wsa(NULL, m_szModuleName, "OldStatusMsg")));
 	ptrW pwszListeningToMsg(db_get_wsa(NULL, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
@@ -127,7 +127,7 @@ void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	OnReceiveStatus(reply, pReq);
 
 	ptrW pwszOldStatusMsg(db_get_wsa(NULL, m_szModuleName, "OldStatusMsg"));
-	CMString wszOldStatusMsg(pwszOldStatusMsg);
+	CMStringW wszOldStatusMsg(pwszOldStatusMsg);
 
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_MULTILINE;
@@ -139,7 +139,7 @@ void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	if (!EnterString(&pForm))
 		return;
 
-	CMString wszNewStatusMsg(ptrW(pForm.ptszResult));
+	CMStringW wszNewStatusMsg(ptrW(pForm.ptszResult));
 	if (wszOldStatusMsg == wszNewStatusMsg)
 		return;
 
@@ -159,13 +159,13 @@ void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	const JSONNode &jnAudio = jnResponse["audio"];
 	if (!jnAudio) {
-		CMString wszStatusText(jnResponse["text"].as_mstring());
+		CMStringW wszStatusText(jnResponse["text"].as_mstring());
 		if (wszStatusText[0] != wchar_t(9835))
 			setWString("OldStatusMsg", wszStatusText);
 	}
 }
 
-void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
+void CVkProto::RetrieveStatusMsg(const CMStringW &StatusMsg)
 {
 	debugLogA("CVkProto::RetrieveStatusMsg");
 	if (!IsOnline())
@@ -175,26 +175,26 @@ void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 		<< WCHAR_PARAM("text", StatusMsg));
 }
 
-void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
+void CVkProto::RetrieveStatusMusic(const CMStringW &StatusMsg)
 {
 	debugLogA("CVkProto::RetrieveStatusMusic");
 	if (!IsOnline() || m_iStatus == ID_STATUS_INVISIBLE || m_vkOptions.iMusicSendMetod == MusicSendMetod::sendNone)
 		return;
 
-	CMString code;
-	CMString wszOldStatusMsg(db_get_wsa(0, m_szModuleName, "OldStatusMsg"));
+	CMStringW code;
+	CMStringW wszOldStatusMsg(db_get_wsa(0, m_szModuleName, "OldStatusMsg"));
 	if (StatusMsg.IsEmpty()) {
 		if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly)
 			code = "API.audio.setBroadcast();return null;";
 		else {
-			CMString codeformat("API.status.set({text:\"%s\"});return null;");
+			CMStringW codeformat("API.status.set({text:\"%s\"});return null;");
 			code.AppendFormat(codeformat, wszOldStatusMsg);
 		}
 		m_bSetBroadcast = false;
 	}
 	else {
 		if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly) {
-			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var OldMsg=API.status.get();"
+			CMStringW codeformat("var StatusMsg=\"%s\";var CntLmt=100;var OldMsg=API.status.get();"
 				"var Tracks=API.audio.search({\"q\":StatusMsg,\"count\":CntLmt,\"search_own\":1});"
 				"var Cnt=Tracks.count;if(Cnt>CntLmt){Cnt=CntLmt;}"
 				"if(Cnt==0){API.audio.setBroadcast();}"
@@ -205,13 +205,13 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 			code.AppendFormat(codeformat, StatusMsg);
 		}
 		else if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendStatusOnly) {
-			CMString codeformat("var StatusMsg=\"&#9835; %s\";var OldMsg=API.status.get();"
+			CMStringW codeformat("var StatusMsg=\"&#9835; %s\";var OldMsg=API.status.get();"
 				"API.status.set({\"text\":StatusMsg});"
 				"return OldMsg;");
 			code.AppendFormat(codeformat, StatusMsg);
 		}
 		else if (m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastAndStatus) {
-			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var Track=\" \";var OldMsg=API.status.get();"
+			CMStringW codeformat("var StatusMsg=\"%s\";var CntLmt=100;var Track=\" \";var OldMsg=API.status.get();"
 				"var Tracks=API.audio.search({\"q\":StatusMsg,\"count\":CntLmt,\"search_own\":1});"
 				"var Cnt=Tracks.count;if(Cnt>CntLmt){Cnt=CntLmt;}"
 				"if(Cnt==0){Track=\"&#9835; \"+StatusMsg;API.status.set({\"text\":Track});}"
@@ -235,7 +235,7 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 		return 1;
 
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
-	CMString wszListeningTo;
+	CMStringW wszListeningTo;
 	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
 		db_unset(NULL, m_szModuleName, "ListeningTo");
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
