@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.0
+;  Version: 0.2.14.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -143,6 +143,12 @@
 Ви ввели неправильний код. Спробуйте знову.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Помилка входу: ваш обліковий запис заблоковано. Необхідно виконати підтвердження в браузері.
+[Check last login]
+Перевірити останній вхід
+[Do you recognize this activity?]
+Впізнаєте цю активність?
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
+Помилка входу: необхідно підтвердити останній невідомий вхід або відкликати його з веб-браузера.
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 Помилка входу: Facebook вважає, що ваш комп'ютер заражений. Зайдіть у свій обліковий запис за допомогою браузера в режимі приватного перегляду і запустіть перевірку на віруси.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
@@ -233,6 +239,8 @@ SMS з кодом підтвердження відправлено на ваш 
 фотографії
 [a photo]
 фотографію
+[a video]
+відео
 [a GIF]
 анімоване зображення
 [User sent %s:]
@@ -249,6 +257,8 @@ SMS з кодом підтвердження відправлено на ваш 
 Контакт доданий у список на сервері.
 [Contact is no longer on server-list.]
 Контакт видалений зі списку на сервері.
+[<attachment without text>]
+<вкладення без тексту>
 [On this day]
 Цього дня
 [%s server connection]

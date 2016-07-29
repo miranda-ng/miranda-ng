@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.1
+;  Version: 0.1.2.4
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -49,6 +49,8 @@
 Обробляти стікери як смайли
 [Shorten links for audio attachments]
 Скорочувати посилання для аудіовкладень
+[Use non-standard popups for news and event notifications]
+Нестандартні спливаючі вікна для новин і подій
 [News and event notifications]
 Новини і сповіщення
 [WARNING: Causes excessive network traffic!!!]
@@ -125,8 +127,10 @@
 Інтервал переходу в "Невидимий" (хв):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Нестандартний urlEncode для повідомлень (економія трафіку)
-[Use non-standard popups for news and event notifications]
-Нестандартні спливаючі вікна для новин і подій
+[Send VK-objects links as attachments]
+Заміняти вкладеннями посилання на пости, зображення, музику, відео
+[and load sent attachments]
+і завантажувати надіслані вкладення
 [When I ban user...]
 При блокуванні користувача...
 [Report abuse]

@@ -320,7 +320,7 @@ ID користувача в панелі статусу
 [Tab location]
 Розташування вкладок
 [When using the switch bar, use the following layout]
-При використанні панелі перемикання використовуйте наступне розміщення
+Для панелі перемикання доступні такі варіанти вигляду
 [Flash event icon on tab]
 Блимання значка події на вкладці
 [Flash text label on tabs]
@@ -1091,8 +1091,12 @@ TabSRMM: Набирає
 Вибір смайла
 [Show message history]
 Показати історію повідомлень
+[Show send menu]
+Показати меню відправки
+[Show protocol menu]
+Показати меню протоколу
 [Show user menu]
-Меню користувача
+Показати меню користувача
 [Show user details]
 Показати інформацію про контакт
 [Toggle toolbar]
@@ -1512,11 +1516,11 @@ TabSRMM: Набирає
 [Like tabs, vertical text orientation]
 Як вкладки, вертикальна орієнтація тексту
 [Compact layout, horizontal buttons]
-Компактне розміщення, горизонтальні кнопки
+Компактний вигляд, горизонтальні кнопки
 [Advanced layout with avatars]
-Розширене розміщення з аватарами
+Розширений вигляд з аватарами
 [Advanced with avatars, vertical orientation]
-Розширене розміщення з аватарами, вертикальна орієнтація
+Розширений вигляд з аватарами, вертикальна орієнтація
 [This version of TabSRMM requires Windows 2000 or later.]
 Потрібна Windows 2000 або новіша операційа система.
 [TabSRMM message (%s)]

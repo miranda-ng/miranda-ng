@@ -1,4 +1,2 @@
-﻿[CTCP]
-[DCC]
-[Jerk]
+﻿[Jerk]
 [NickServ]
