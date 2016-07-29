@@ -274,7 +274,7 @@ private:
 
 	CCtrlButton m_btnOk;
 
-	void btnOk_OnClick(CCtrlButton *)
+	void btnOk_OnClick(CCtrlButton*)
 	{
 		if (m_bProcessStarted) {
 			Close();
@@ -301,7 +301,7 @@ class CCtrlEditJid : public CCtrlEdit
 	typedef CCtrlEdit CSuper;
 
 public:
-	CCtrlEditJid(CDlgBase* dlg, int ctrlId);
+	CCtrlEditJid(CDlgBase *dlg, int ctrlId);
 
 	void OnInit()
 	{

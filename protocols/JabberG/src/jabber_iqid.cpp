@@ -406,13 +406,14 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 
 		JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
 		item->subscription = sub;
+		item->bRealContact = true;
 
 		mir_free(item->nick); item->nick = nick;
 
 		HXML groupNode = XmlGetChild(itemNode, "group");
 		replaceStrW(item->group, XmlGetText(groupNode));
 
-		// check group delimiters:
+		// check group delimiters
 		if (item->group && szGroupDelimeter) {
 			while (wchar_t *szPos = wcsstr(item->group, szGroupDelimeter)) {
 				*szPos = 0;
@@ -489,15 +490,14 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		delete httpavatars;
 
 	// Delete orphaned contacts (if roster sync is enabled)
-	if (m_options.RosterSync == TRUE) {
-		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact;) {
-			MCONTACT hNext = db_find_next(hContact, m_szModuleName);
-			ptrW jid(getWStringA(hContact, "jid"));
-			if (jid != NULL && !ListGetItemPtr(LIST_ROSTER, jid)) {
-				debugLogW(L"Syncing roster: preparing to delete %s (hContact=0x%x)", jid, hContact);
-				CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+	if (m_options.RosterSync) {
+		LISTFOREACH(i, this, LIST_ROSTER)
+		{
+			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+			if (item && item->hContact && !item->bRealContact) {
+				debugLogW(L"Syncing roster: preparing to delete %s (hContact=0x%x)", item->jid, item->hContact);
+				CallService(MS_DB_CONTACT_DELETE, item->hContact, 0);
 			}
-			hContact = hNext;
 		}
 	}
 

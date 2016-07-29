@@ -211,6 +211,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 
 	bool bUseResource;
 	bool bHistoryRead;
+	bool bRealContact;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////

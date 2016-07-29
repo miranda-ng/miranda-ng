@@ -260,6 +260,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 				JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
 				replaceStrW(item->nick, nick);
+				item->bRealContact = true;
 
 				HXML groupNode = XmlGetChild(itemNode, "group");
 				replaceStrW(item->group, XmlGetText(groupNode));
