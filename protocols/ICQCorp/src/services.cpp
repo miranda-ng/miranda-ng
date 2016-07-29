@@ -132,7 +132,7 @@ static INT_PTR icqSearchByName(WPARAM, LPARAM lParam)
 	PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME*)lParam;
 
 	T("[   ] search by name\n");
-	icq.startSearch(1, 0, psbn->pszNick, 0);
+	icq.startSearch(1, 0, (char*)psbn->pszNick, 0);
 	return 1;
 }
 
@@ -443,7 +443,7 @@ static INT_PTR icqFileResume(WPARAM wParam, LPARAM lParam)
 	ICQTransfer *t = (ICQTransfer *)wParam;
 
 	T("[   ] send file resume\n");
-	t->resume(pfr->action, pfr->szFilename);
+	t->resume(pfr->action, (char*)pfr->szFilename);
 
 	return 0;
 }

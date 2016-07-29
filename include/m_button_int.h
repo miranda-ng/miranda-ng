@@ -42,7 +42,7 @@ struct MButtonCtrl
 	HBITMAP  hBitmap;
 	HTHEME   hThemeButton;
 	HTHEME   hThemeToolbar;
-	TCHAR    cHot;
+	wchar_t  cHot;
 	HWND     hwndToolTips;
 
 	bool     bIsPushBtn,  // button has two states

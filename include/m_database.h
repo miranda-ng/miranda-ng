@@ -72,7 +72,7 @@ typedef struct
 		struct {
 			union {
 				char *pszVal;
-				TCHAR *ptszVal;
+				wchar_t *ptszVal;
 				wchar_t *pwszVal;
 			};
 			WORD cchVal;   //only used for db/contact/getsettingstatic
@@ -356,7 +356,7 @@ Returns 0 on success or nonzero otherwise
 /* DB/SetDefaultProfile service
 Sets the default profile name programmatically
 Analog of Database/DefaultProfile in mirandaboot.ini
-  wParam = (WPARAM)(TCHAR*)ptszProfileName
+  wParam = (WPARAM)(wchar_t*)ptszProfileName
   lParam = 0 (unused)
 */
 
@@ -365,7 +365,7 @@ Analog of Database/DefaultProfile in mirandaboot.ini
 /* DB/CheckProfile service
 Checks the specified profile like dbtool did.
 Implemented in the dbchecker plugins, thus it might not exist
-  wParam = (WPARAM)(TCHAR*)ptszProfileName
+  wParam = (WPARAM)(wchar_t*)ptszProfileName
   lParam = (BOOL)bConversionMode
 */
 
@@ -526,10 +526,10 @@ __forceinline char* DbGetEventTextA(DBEVENTINFO* dbei, int codepage)
 	return (char*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
-__forceinline WCHAR* DbGetEventTextW(DBEVENTINFO* dbei, int codepage)
+__forceinline wchar_t* DbGetEventTextW(DBEVENTINFO* dbei, int codepage)
 {
 	DBEVENTGETTEXT temp = { dbei, DBVT_WCHAR, codepage };
-	return (WCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
+	return (wchar_t*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
 /* DB/Event/GetIcon (0.7.0.1+)
@@ -549,18 +549,18 @@ same parameters MS_DB_EVENT_GETICON does.
 #define MS_DB_EVENT_GETICON "DB/Event/GetIcon"
 
 /* DB/Event/GetString (0.9.0+)
-Converts the event's string to TCHAR* depending on the event's format
+Converts the event's string to wchar_t* depending on the event's format
   wParam = (LPARAM)(DBEVENTINFO*)dbei
   lParam = (WPARAM)(char*)str - string to be converted
-  returns TCHAR* - the converted string
+  returns wchar_t* - the converted string
 Caller must free the result using mir_free
 */
 
 #define MS_DB_EVENT_GETSTRINGT "DB/Event/GetStringT"
 
-__forceinline TCHAR* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
+__forceinline wchar_t* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
 {
-	return (TCHAR*)CallService(MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str);
+	return (wchar_t*)CallService(MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

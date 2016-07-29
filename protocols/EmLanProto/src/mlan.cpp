@@ -1552,7 +1552,7 @@ int CMLan::FileResume(int cid, PROTOFILERESUME* pfr)
 	case FILERESUME_RENAME:
 		conn->m_state = TFileConnection::FCS_RENAME;
 		delete[] conn->m_szRenamedFile;
-		conn->m_szRenamedFile = _strdup(pfr->szFilename);
+		conn->m_szRenamedFile = _strdup((char*)pfr->szFilename);
 		break;
 	case FILERESUME_SKIP:
 		conn->m_state = TFileConnection::FCS_SKIP;

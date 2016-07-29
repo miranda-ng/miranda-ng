@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //returns immediately, without waiting for the message to retrieve
 #define MS_AWAYMSG_SHOWAWAYMSG   "SRAway/GetMessage"
 
-//returns (TCHAR*)the default status message for a status
+//returns (wchar_t*)the default status message for a status
 //wParam = (int)status
 //lParam = (LPARAM)(char*)szProto
 //returns status msg.  Remember to free the return value using mir_free/ptrW

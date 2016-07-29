@@ -587,18 +587,18 @@ struct GCHOOK
 
 // contains info on a menuitem to be added
 struct gc_item {
-	TCHAR *pszDesc;     // Textual description of the menu item to add
-	DWORD  dwID;        // when/if the user selects this menu item this
+	wchar_t *pszDesc;   // Textual description of the menu item to add
+	DWORD    dwID;      // when/if the user selects this menu item this
 							  // value will be returned via the above hook, GC_USER_LOGMENU
 						 	  // or GC_USER_NICKLISTMENU. Must not be 0 and must be unique.
-	int    uType;       // What kind of menu item is it? Use MENU_* flags above
-	BOOL   bDisabled;   // should the menu item be shown as disabled
+	int      uType;     // What kind of menu item is it? Use MENU_* flags above
+	BOOL     bDisabled; // should the menu item be shown as disabled
 };
 
 typedef struct {
 	LPSTR    pszModule; // Contains the protocol name, do NOT change.
-	LPTSTR   pszID;     // The unique identifier of the session that triggered the hook, do NOT change.
-	LPTSTR   pszUID;    // Contains the unique identifier if Type = MENU_ON_NICKLIST. do NOT change.
+	LPWSTR   pszID;     // The unique identifier of the session that triggered the hook, do NOT change.
+	LPWSTR   pszUID;    // Contains the unique identifier if Type = MENU_ON_NICKLIST. do NOT change.
    int      Type;      // Type of menu. MENU_ON_* flags used. do NOT change.
    int      nItems;    // Set this to the number of menu items you want to add
    gc_item *Item;      // pointer to the first in the array of gc_item's
@@ -628,8 +628,8 @@ typedef struct {
 
 //////////////////////////////////////////////////////////////////////////
 // Get Chat ToolTip Text for buddy
-// wParam = (WPARAM)(TCHAR*) roomID parentdat->ptszID
-// lParam = (WPARAM)(TCHAR*) userID ui1->pszUID
-// result (int)(TCHAR*)mir_tstrdup("tooltip text")
+// wParam = (WPARAM)(wchar_t*) roomID parentdat->ptszID
+// lParam = (WPARAM)(wchar_t*) userID ui1->pszUID
+// result (int)(wchar_t*)mir_tstrdup("tooltip text")
 // returns pointer to text of tooltip and starts owns it
 #define MS_GC_PROTO_GETTOOLTIPTEXT "/GetChatToolTipText"

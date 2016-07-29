@@ -71,8 +71,8 @@ typedef struct tagCRYPTOPROVIDER
 	char *pszName; // unique id
 	union {
 		char *pszDescr;   // description
-		TCHAR *ptszDescr;	// auto translated by core
-		WCHAR *pwszDescr;
+		wchar_t *ptszDescr;	// auto translated by core
+		wchar_t *pwszDescr;
 	};
 
 	pfnCryptoProviderFactory pFactory;

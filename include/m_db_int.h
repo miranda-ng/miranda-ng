@@ -144,7 +144,7 @@ struct DBCHeckCallback
 	HANDLE hOutFile;
 	int    bCheckOnly, bBackup, bAggressive, bEraseHistory, bMarkRead, bConvertUtf;
 
-	void (*pfnAddLogMessage)(int type, const TCHAR* ptszFormat, ...);
+	void (*pfnAddLogMessage)(int type, const wchar_t* ptszFormat, ...);
 };
 
 interface MIDatabaseChecker
@@ -176,7 +176,7 @@ struct DATABASELINK
 {
 	int cbSize;
 	char* szShortName;  // uniqie short database name
-	TCHAR* szFullName;  // in English, auto-translated by the core
+	wchar_t* szFullName;  // in English, auto-translated by the core
 
 	/*
 		profile: pointer to a string which contains full path + name
@@ -184,7 +184,7 @@ struct DATABASELINK
 			the time of this call, profile will be C:\..\<name>.dat
 		Returns: 0 on success, non zero on failure - error contains extended error information, see EMKPRF_*
 	*/
-	int (*makeDatabase)(const TCHAR *profile);
+	int (*makeDatabase)(const wchar_t *profile);
 
 	/*
 		profile: [in] a null terminated string to file path of selected profile
@@ -196,14 +196,14 @@ struct DATABASELINK
 			etc.
 		Returns: 0 on success, non zero on failure
 	*/
-	int (*grokHeader)(const TCHAR *profile);
+	int (*grokHeader)(const wchar_t *profile);
 
 	/*
 	Affect: Tell the database to create all services/hooks that a 3.xx legacy database might support into link,
 		which is a PLUGINLINK structure
 	Returns: 0 on success, nonzero on failure
 	*/
-	MIDatabase* (*Load)(const TCHAR *profile, BOOL bReadOnly);
+	MIDatabase* (*Load)(const wchar_t *profile, BOOL bReadOnly);
 
 	/*
 	Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
@@ -216,7 +216,7 @@ struct DATABASELINK
 	Returns a pointer to the database checker or NULL if a database doesn't support checking
 	When you don't need this object aanymore,  call its Destroy() method
 	*/
-	MIDatabaseChecker* (*CheckDB)(const TCHAR *profile, int *error);
+	MIDatabaseChecker* (*CheckDB)(const wchar_t *profile, int *error);
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -248,12 +248,12 @@ __forceinline void RegisterDatabasePlugin(DATABASELINK* pDescr)
 
 // MS_DB_FIND_PLUGIN : looks for a database plugin suitable to open this file
 // wParam : 0 (unused)
-// lParam : const TCHAR* = name of the database file
+// lParam : const wchar_t* = name of the database file
 // returns DATABASELINK* of the required plugin or NULL on error
 
 #define MS_DB_FIND_PLUGIN "DB/FindPlugin"
 
-__forceinline DATABASELINK* FindDatabasePlugin(const TCHAR* ptszFileName)
+__forceinline DATABASELINK* FindDatabasePlugin(const wchar_t* ptszFileName)
 {	return (DATABASELINK*)CallService(MS_DB_FIND_PLUGIN, 0, (LPARAM)ptszFileName);
 }
 

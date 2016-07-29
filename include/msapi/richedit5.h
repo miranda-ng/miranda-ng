@@ -445,7 +445,7 @@ typedef struct _tableCellParms
 #define EM_CALLAUTOCORRECTPROC	(WM_USER + 255)
 
 // AutoCorrect callback
-typedef int (WINAPI *AutoCorrectProc)(LANGID langid, const WCHAR *pszBefore, WCHAR *pszAfter, LONG cchAfter, LONG *pcchReplaced);
+typedef int (WINAPI *AutoCorrectProc)(LANGID langid, const wchar_t *pszBefore, wchar_t *pszAfter, LONG cchAfter, LONG *pcchReplaced);
 
 #define ATP_NOCHANGE			0
 #define ATP_CHANGE				1
@@ -680,7 +680,7 @@ typedef struct _charformatw
 	COLORREF	crTextColor;
 	BYTE		bCharSet;
 	BYTE		bPitchAndFamily;
-	WCHAR		szFaceName[LF_FACESIZE];
+	wchar_t		szFaceName[LF_FACESIZE];
 } CHARFORMATW;
 
 #if (_RICHEDIT_VER >= 0x0200)
@@ -759,7 +759,7 @@ typedef struct _charformat2w
 	COLORREF	crTextColor;
 	BYTE		bCharSet;
 	BYTE		bPitchAndFamily;
-	WCHAR		szFaceName[LF_FACESIZE];
+	wchar_t		szFaceName[LF_FACESIZE];
 	WORD		wWeight;			// Font weight (LOGFONT value)		
 	SHORT		sSpacing;			// Amount to space between letters	
 	COLORREF	crBackColor;		// Background color 				
@@ -1563,7 +1563,7 @@ typedef struct _bidioptions
 	
 // UNICODE embedding character 
 #ifndef WCH_EMBEDDING
-#define WCH_EMBEDDING (WCHAR)0xFFFC
+#define WCH_EMBEDDING (wchar_t)0xFFFC
 #endif // WCH_EMBEDDING 
 
 // khyph - Kind of hyphenation
@@ -1583,16 +1583,16 @@ typedef struct hyphresult
 {
 	KHYPH khyph;			// Kind of hyphenation
 	long  ichHyph;			// Character which was hyphenated
-	WCHAR chHyph;			// Depending on hyphenation type, character added, changed, etc.
+	wchar_t chHyph;			// Depending on hyphenation type, character added, changed, etc.
 } HYPHRESULT;
 
-void WINAPI HyphenateProc(_In_ WCHAR *pszWord, LANGID langid, long ichExceed, HYPHRESULT *phyphresult);
+void WINAPI HyphenateProc(_In_ wchar_t *pszWord, LANGID langid, long ichExceed, HYPHRESULT *phyphresult);
 typedef struct tagHyphenateInfo
 {
 	SHORT cbSize;			// Size of HYPHENATEINFO structure
 	SHORT dxHyphenateZone;	// If a space character is closer to the margin
 							//	than this value, don't hyphenate (in TWIPs)
-	void (WINAPI* pfnHyphenate)(WCHAR*, LANGID, long, HYPHRESULT*);
+	void (WINAPI* pfnHyphenate)(wchar_t*, LANGID, long, HYPHRESULT*);
 } HYPHENATEINFO;
 
 #ifdef _WIN32

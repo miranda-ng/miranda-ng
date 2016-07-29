@@ -70,7 +70,7 @@ typedef struct {
 	char *szSettingsModule;         // used for db settings and log
 	union {
 		char *szDescriptiveName;          // used in options dialog, already translated
-		TCHAR *ptszDescriptiveName;
+		wchar_t *ptszDescriptiveName;
 	};
 	DWORD flags;
 	char *szHttpGatewayHello;
@@ -831,15 +831,15 @@ static __inline HANDLE Netlib_InitSecurityProvider(char* szProviderName)
 
 typedef struct {
 	size_t cbSize;
-	const TCHAR* szProviderName;
-	const TCHAR* szPrincipal;
+	const wchar_t* szProviderName;
+	const wchar_t* szPrincipal;
 	unsigned flags;
 }
 	NETLIBNTLMINIT2;
 
 #define MS_NETLIB_INITSECURITYPROVIDER2 "Netlib/InitSecurityProvider2"
 
-static __inline HANDLE Netlib_InitSecurityProvider2(const TCHAR* szProviderName, const TCHAR* szPrincipal)
+static __inline HANDLE Netlib_InitSecurityProvider2(const wchar_t* szProviderName, const wchar_t* szPrincipal)
 {
 	NETLIBNTLMINIT2 temp = { sizeof(temp), szProviderName, szPrincipal, NNR_TCHAR };
 	return (HANDLE)CallService(MS_NETLIB_INITSECURITYPROVIDER2, 0, (LPARAM)&temp);
@@ -877,8 +877,8 @@ typedef struct {
 typedef struct {
 	size_t cbSize;
 	const char* szChallenge;
-	const TCHAR* szUserName;
-	const TCHAR* szPassword;
+	const wchar_t* szUserName;
+	const wchar_t* szPassword;
 	unsigned complete;
 	unsigned flags;
 }
@@ -886,7 +886,7 @@ typedef struct {
 
 #define MS_NETLIB_NTLMCREATERESPONSE2 "Netlib/NtlmCreateResponse2"
 
-static __inline char* Netlib_NtlmCreateResponse2(HANDLE hProvider, char* szChallenge, TCHAR* szLogin, TCHAR* szPass, unsigned *complete)
+static __inline char* Netlib_NtlmCreateResponse2(HANDLE hProvider, char* szChallenge, wchar_t* szLogin, wchar_t* szPass, unsigned *complete)
 {
 	NETLIBNTLMREQUEST2 temp = { sizeof(temp), szChallenge, szLogin, szPass, *complete, NNR_TCHAR };
 	char* res = (char*)CallService(MS_NETLIB_NTLMCREATERESPONSE2, (WPARAM)hProvider, (LPARAM)&temp);

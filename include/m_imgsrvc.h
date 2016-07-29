@@ -428,7 +428,7 @@ typedef struct _tagIMGSRVC_INFO {
     union {
         char *szName;
         wchar_t *wszName;
-        TCHAR *tszName;
+        wchar_t *tszName;
     };
     HBITMAP hbm;
     FIBITMAP *dib;

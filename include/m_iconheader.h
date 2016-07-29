@@ -48,10 +48,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct {
 	HICON	hIcon;
 	union {
-		TCHAR	*tcsName;
-		TCHAR	*lptzName;
+		wchar_t	*tcsName;
+		wchar_t	*lptzName;
 		char	*lpzName;
-		WCHAR	*lpwzName;
+		wchar_t	*lpwzName;
 	};
 	DWORD	flag;
 	LPARAM	data;
@@ -66,7 +66,7 @@ typedef struct {
 #define MIcoTab_GetItemData(hwnd, idx)	\
 	(SendMessage((hwnd), ITCM_GETITEMDATA, (idx), 0))
 
-static __forceinline void MIcoTab_AddItem(HWND hwnd, TCHAR *lptzName, HICON hIcon, LPARAM data, BOOL bSharedIcon)
+static __forceinline void MIcoTab_AddItem(HWND hwnd, wchar_t *lptzName, HICON hIcon, LPARAM data, BOOL bSharedIcon)
 {
 	MIcoTab mit = {0};
 	mit.flag = (bSharedIcon?MITCF_SHAREDICON:0)| MITCF_UNICODE;

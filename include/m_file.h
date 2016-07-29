@@ -48,7 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MS_FILE_SENDSPECIFICFILES  "SRFile/SendSpecificFiles"
 
 // wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(const TCHAR**)ppFiles
+// lParam = (LPARAM)(const wchar_t**)ppFiles
 // returns file selection dialog's handle or 0 on error
 // returns immediately, without waiting for the send
 #define MS_FILE_SENDSPECIFICFILEST  "SRFile/SendSpecificFilesT"

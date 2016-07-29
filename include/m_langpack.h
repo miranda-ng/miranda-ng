@@ -42,8 +42,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 EXTERN_C MIR_CORE_DLL(void)     Langpack_SortDuplicates(void);
 
 EXTERN_C MIR_CORE_DLL(int)      LoadLangPackModule(void);
-EXTERN_C MIR_CORE_DLL(int)      LoadLangPack(const TCHAR *szLangPack);
-EXTERN_C MIR_CORE_DLL(void)     ReloadLangpack(TCHAR *pszStr);
+EXTERN_C MIR_CORE_DLL(int)      LoadLangPack(const wchar_t *szLangPack);
+EXTERN_C MIR_CORE_DLL(void)     ReloadLangpack(wchar_t *pszStr);
 
 EXTERN_C MIR_CORE_DLL(char*)    TranslateA_LP(const char *str, int hLang);
 EXTERN_C MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t *str, int hLang);
@@ -86,10 +86,10 @@ EXTERN_C MIR_CORE_DLL(int) Langpack_GetDefaultLocale(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns the strdup/wcsdup of lparam according to the langpack
-// returns a string converted from char* to TCHAR* using the langpack codepage.
+// returns a string converted from char* to wchar_t* using the langpack codepage.
 // This string should be freed using mir_free() then
 
-EXTERN_C MIR_CORE_DLL(TCHAR*) Langpack_PcharToTchar(const char *pszStr);
+EXTERN_C MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // initializes the plugin-specific translation context  v0.10.0+
@@ -100,7 +100,7 @@ EXTERN_C MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang = &
 /////////////////////////////////////////////////////////////////////////////////////////
 // reloads langpack
 // wParam = 0 (ignored)
-// lParam = (LPARAM)(TCHAR*)langpack file name or NULL to reload the current one
+// lParam = (LPARAM)(wchar_t*)langpack file name or NULL to reload the current one
 // always returns 0
 
 #define MS_LANGPACK_RELOAD "LangPack/Reload"

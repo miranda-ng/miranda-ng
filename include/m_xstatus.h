@@ -44,13 +44,13 @@ typedef struct {
   int *status;        // custom status id
   union {
 	  char *pszName;    // buffer for custom status name
-	  TCHAR *ptszName;
-	  WCHAR *pwszName;
+	  wchar_t *ptszName;
+	  wchar_t *pwszName;
   };
   union {
 	  char *pszMessage; // buffer for custom status message
-	  TCHAR *ptszMessage;
-	  WCHAR *pwszMessage;
+	  wchar_t *ptszMessage;
+	  wchar_t *pwszMessage;
   };
   WPARAM *wParam;     // extra params, see flags
   LPARAM *lParam;

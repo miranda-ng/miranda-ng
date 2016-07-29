@@ -77,9 +77,9 @@ struct MODERNOPTOBJECT
 
 	HICON		hIcon;
 	union {
-		TCHAR	*lptzSubsection;
+		wchar_t	*lptzSubsection;
 		char	*lpzSubsection;
-		WCHAR	*lpwzSubsection;
+		wchar_t	*lpwzSubsection;
 	};
 
 	// Generic dialog page

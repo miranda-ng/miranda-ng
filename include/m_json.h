@@ -51,7 +51,7 @@ LIBJSON_DLL(void) json_free(void *str);
 LIBJSON_DLL(void) json_delete(JSONNode *node);
 
 LIBJSON_DLL(JSONNode*) json_parse(const char *json);
-LIBJSON_DLL(TCHAR*) json_strip_white_space(const char *json);
+LIBJSON_DLL(wchar_t*) json_strip_white_space(const char *json);
 
 #ifdef JSON_VALIDATE
 	LIBJSON_DLL(JSONNode*) json_validate(const char *json);
@@ -84,15 +84,15 @@ LIBJSON_DLL(const char*) json_name(const JSONNode *node);
 #ifdef JSON_COMMENTS
 	LIBJSON_DLL(char * json_get_comment(const JSONNode *node);
 #endif
-LIBJSON_DLL(TCHAR*) json_as_string(const JSONNode *node);
+LIBJSON_DLL(wchar_t*) json_as_string(const JSONNode *node);
 LIBJSON_DLL(long) json_as_int(const JSONNode *node);
 LIBJSON_DLL(double) json_as_float(const JSONNode *node);
 LIBJSON_DLL(int) json_as_bool(const JSONNode *node);
 LIBJSON_DLL(JSONNode*) json_as_node(const JSONNode *node);
 LIBJSON_DLL(JSONNode*) json_as_array(const JSONNode *node);
 
-LIBJSON_DLL(TCHAR*) json_write(const JSONNode *node);
-LIBJSON_DLL(TCHAR*) json_write_formatted(const JSONNode *node);
+LIBJSON_DLL(wchar_t*) json_write(const JSONNode *node);
+LIBJSON_DLL(wchar_t*) json_write_formatted(const JSONNode *node);
 
 //modifiers
 LIBJSON_DLL(void) json_set_name(JSONNode *node, const char *name);

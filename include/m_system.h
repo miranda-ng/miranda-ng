@@ -62,7 +62,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //restarts miranda (0.8+)
 //wParam = 0 or 1. 1 - restart with current profile, 0 - restart in default profile or profile manager
-//lParam = (TCHAR*)path to a new miranda32.exe binary or NULL to use current
+//lParam = (wchar_t*)path to a new miranda32.exe binary or NULL to use current
 #define MS_SYSTEM_RESTART    "Miranda/System/Restart"
 
 //miranda/system/oktoexit event

@@ -60,9 +60,9 @@ typedef struct
 	char                *name;
 
 	union {
-		TCHAR           *ptszTitle;
+		wchar_t           *ptszTitle;
 		char            *pszTitle;
-		WCHAR           *pwszTitle;
+		wchar_t           *pwszTitle;
 	};
 } MIRANDAERROR_TYPE;
 
@@ -74,9 +74,9 @@ typedef struct
 	char                *type;
 
 	union {
-		TCHAR           *ptszModuleTitle;
+		wchar_t           *ptszModuleTitle;
 		char            *pszModuleTitle;
-		WCHAR           *pwszModuleTitle;
+		wchar_t           *pwszModuleTitle;
 	};
 
 	int                 buttons;
@@ -88,14 +88,14 @@ typedef struct
 	// information itself
 	HANDLE              hContact;
 	union {
-		TCHAR           *ptszTitle;
+		wchar_t           *ptszTitle;
 		char            *pszTitle;
-		WCHAR           *pwszTitle;
+		wchar_t           *pwszTitle;
 	};
 	union {
-		TCHAR           *ptszText;
+		wchar_t           *ptszText;
 		char            *pszText;
-		WCHAR           *pwszText;
+		wchar_t           *pwszText;
 	};
 
 	// filled by core and may be used in handlers.
@@ -112,9 +112,9 @@ typedef struct
 
 	HANDLE              hIcolibIcon;
 	union {
-		TCHAR           *ptszTitle;
+		wchar_t           *ptszTitle;
 		char            *pszTitle;
-		WCHAR           *pwszTitle;
+		wchar_t           *pwszTitle;
 	};
 } MIRANDAERROR_HANDLER;
 
@@ -130,7 +130,7 @@ typedef struct
 		#define	DEFVAL(x)
 	#endif
 
-	static __forceinline void mir_ReportError(HANDLE hContact, TCHAR *ptszModuleTitle, char *pszType, TCHAR *ptszText, TCHAR *ptszTitle DEFVAL(NULL))
+	static __forceinline void mir_ReportError(HANDLE hContact, wchar_t *ptszModuleTitle, char *pszType, wchar_t *ptszText, wchar_t *ptszTitle DEFVAL(NULL))
 	{
 		MIRANDAERROR err = {0};
 		err.cbSize = sizeof(err);

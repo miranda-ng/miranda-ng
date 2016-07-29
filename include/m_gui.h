@@ -302,8 +302,8 @@ public:
 	virtual DWORD LoadInt() = 0;
 	virtual void  SaveInt(DWORD value) = 0;
 
-	virtual TCHAR* LoadText() = 0;
-	virtual void   SaveText(TCHAR *value) = 0;
+	virtual wchar_t* LoadText() = 0;
+	virtual void   SaveText(wchar_t *value) = 0;
 };
 
 class MIR_CORE_EXPORT CDbLink : public CDataLink
@@ -313,20 +313,20 @@ class MIR_CORE_EXPORT CDbLink : public CDataLink
 	bool m_bSigned;
 
 	DWORD m_iDefault;
-	TCHAR *m_szDefault;
+	wchar_t *m_szDefault;
 
 	DBVARIANT dbv;
 
 public:
 	CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD iValue);
-	CDbLink(const char *szModule, const char *szSetting, BYTE type, TCHAR *szValue);
+	CDbLink(const char *szModule, const char *szSetting, BYTE type, wchar_t *szValue);
 	~CDbLink();
 
 	DWORD LoadInt();
 	void  SaveInt(DWORD value);
 
-	TCHAR* LoadText();
-	void   SaveText(TCHAR *value);
+	wchar_t* LoadText();
+	void   SaveText(wchar_t *value);
 };
 
 template<class T>
@@ -343,15 +343,15 @@ public:
 	__forceinline DWORD LoadInt() { return (DWORD)(T)*m_option; }
 	__forceinline void  SaveInt(DWORD value) { *m_option = (T)value; }
 
-	__forceinline TCHAR* LoadText() { return NULL; }
-	__forceinline void   SaveText(TCHAR*) {}
+	__forceinline wchar_t* LoadText() { return NULL; }
+	__forceinline void   SaveText(wchar_t*) {}
 };
 
 template<>
-class CMOptionLink<TCHAR*> : public CDataLink
+class CMOptionLink<wchar_t*> : public CDataLink
 {
 private:
-	typedef TCHAR *T;
+	typedef wchar_t *T;
 	CMOption<T> *m_option;
 
 public:
@@ -362,8 +362,8 @@ public:
 	__forceinline DWORD LoadInt() { return 0; }
 	__forceinline void  SaveInt(DWORD) { }
 
-	__forceinline TCHAR* LoadText() { return *m_option; }
-	__forceinline void   SaveText(TCHAR *value) { *m_option = value; }
+	__forceinline wchar_t* LoadText() { return *m_option; }
+	__forceinline void   SaveText(wchar_t *value) { *m_option = value; }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -383,7 +383,7 @@ public:
 	void Show(int nCmdShow = SW_SHOW);
 	int DoModal();
 
-	void SetCaption(const TCHAR *ptszCaption);
+	void SetCaption(const wchar_t *ptszCaption);
 	void NotifyChange(void); // sends a notification to a parent window
 
 	__forceinline HINSTANCE GetInst() const { return m_hInst; }
@@ -464,14 +464,14 @@ public:
 
 	LRESULT SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam);
 
-	void SetText(const TCHAR *text);
+	void SetText(const wchar_t *text);
 	void SetTextA(const char *text);
 	void SetInt(int value);
 
-	TCHAR *GetText();
+	wchar_t *GetText();
 	char *GetTextA();
 
-	TCHAR *GetText(TCHAR *buf, int size);
+	wchar_t *GetText(wchar_t *buf, int size);
 	char *GetTextA(char *buf, int size);
 
 	int GetInt();
@@ -650,7 +650,7 @@ public:
 	virtual ~CCtrlData();
 
 	void CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue);
-	void CreateDbLink(const char* szModuleName, const char* szSetting, TCHAR* szValue);
+	void CreateDbLink(const char* szModuleName, const char* szSetting, wchar_t* szValue);
 	void CreateDbLink(CDataLink *link) { m_dbLink = link; }
 
 	virtual void OnInit();
@@ -661,8 +661,8 @@ protected:
 	__inline BYTE GetDataType() { return m_dbLink ? m_dbLink->GetDataType() : DBVT_DELETED; }
 	__inline DWORD LoadInt() { return m_dbLink ? m_dbLink->LoadInt() : 0; }
 	__inline void SaveInt(DWORD value) { if (m_dbLink) m_dbLink->SaveInt(value); }
-	__inline const TCHAR *LoadText() { return m_dbLink ? m_dbLink->LoadText() : L""; }
-	__inline void SaveText(TCHAR *value) { if (m_dbLink) m_dbLink->SaveText(value); }
+	__inline const wchar_t *LoadText() { return m_dbLink ? m_dbLink->LoadText() : L""; }
+	__inline void SaveText(wchar_t *value) { if (m_dbLink) m_dbLink->SaveText(value); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -708,21 +708,21 @@ class MIR_CORE_EXPORT CCtrlListBox : public CCtrlBase
 public:
 	CCtrlListBox(CDlgBase *dlg, int ctrlId);
 
-	int    AddString(TCHAR *text, LPARAM data=0);
+	int    AddString(wchar_t *text, LPARAM data=0);
 	void   DeleteString(int index);
-	int    FindString(TCHAR *str, int index = -1, bool exact = false);
+	int    FindString(wchar_t *str, int index = -1, bool exact = false);
 	int    GetCount();
 	int    GetCurSel();
 	LPARAM GetItemData(int index);
-	TCHAR* GetItemText(int index);
-	TCHAR* GetItemText(int index, TCHAR *buf, int size);
+	wchar_t* GetItemText(int index);
+	wchar_t* GetItemText(int index, wchar_t *buf, int size);
 	bool   GetSel(int index);
 	int    GetSelCount();
 	int*   GetSelItems(int *items, int count);
 	int*   GetSelItems();
-	int    InsertString(TCHAR *text, int pos, LPARAM data=0);
+	int    InsertString(wchar_t *text, int pos, LPARAM data=0);
 	void   ResetContent();
-	int    SelectString(TCHAR *str);
+	int    SelectString(wchar_t *str);
 	int    SetCurSel(int index);
 	void   SetItemData(int index, LPARAM data);
 	void   SetSel(int index, bool sel=true);
@@ -752,20 +752,20 @@ public:
 	virtual void OnReset();
 
 	// Control interface
-	int    AddString(const TCHAR *text, LPARAM data = 0);
+	int    AddString(const wchar_t *text, LPARAM data = 0);
 	int    AddStringA(const char *text, LPARAM data = 0);
 	void   DeleteString(int index);
-	int    FindString(const TCHAR *str, int index = -1, bool exact = false);
+	int    FindString(const wchar_t *str, int index = -1, bool exact = false);
 	int    FindStringA(const char *str, int index = -1, bool exact = false);
 	int    GetCount();
 	int    GetCurSel();
 	bool   GetDroppedState();
 	LPARAM GetItemData(int index);
-	TCHAR* GetItemText(int index);
-	TCHAR* GetItemText(int index, TCHAR *buf, int size);
-	int    InsertString(TCHAR *text, int pos, LPARAM data=0);
+	wchar_t* GetItemText(int index);
+	wchar_t* GetItemText(int index, wchar_t *buf, int size);
+	int    InsertString(wchar_t *text, int pos, LPARAM data=0);
 	void   ResetContent();
-	int    SelectString(TCHAR *str);
+	int    SelectString(wchar_t *str);
 	int    SetCurSel(int index);
 	void   SetItemData(int index, LPARAM data);
 	void   ShowDropdown(bool show = true);
@@ -890,7 +890,7 @@ public:
 	BOOL       SetItemPosition(int i, int x, int y);
 	void       SetItemPosition32(int iItem, int x, int y);
 	void       SetItemState(int i, UINT state, UINT mask);
-	void       SetItemText(int i, int iSubItem, TCHAR *pszText);
+	void       SetItemText(int i, int iSubItem, wchar_t *pszText);
 	COLORREF   SetOutlineColor(COLORREF color);
 	void       SetSelectedColumn(int iCol);
 	INT        SetSelectionMark(INT iIndex);
@@ -911,10 +911,10 @@ public:
 
 	// Additional APIs
 	HIMAGELIST CreateImageList(int iImageList);
-	void       AddColumn(int iSubItem, TCHAR *name, int cx);
-	void       AddGroup(int iGroupId, TCHAR *name);
-	int        AddItem(TCHAR *text, int iIcon, LPARAM lParam = 0, int iGroupId = -1);
-	void       SetItem(int iItem, int iSubItem, TCHAR *text, int iIcon = -1);
+	void       AddColumn(int iSubItem, wchar_t *name, int cx);
+	void       AddGroup(int iGroupId, wchar_t *name);
+	int        AddItem(wchar_t *text, int iIcon, LPARAM lParam = 0, int iGroupId = -1);
+	void       SetItem(int iItem, int iSubItem, wchar_t *text, int iIcon = -1);
 	LPARAM     GetItemData(int iItem);
 
 	// Events
@@ -1042,9 +1042,9 @@ public:
 	// Additional stuff
 	void       TranslateItem(HTREEITEM hItem);
 	void       TranslateTree();
-	HTREEITEM  FindNamedItem(HTREEITEM hItem, const TCHAR *name);
+	HTREEITEM  FindNamedItem(HTREEITEM hItem, const wchar_t *name);
 	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi);
-	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi, TCHAR *szText, int iTextLength);
+	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi, wchar_t *szText, int iTextLength);
 	void       InvertCheck(HTREEITEM hItem);
 
 	bool       IsSelected(HTREEITEM hItem);
@@ -1123,7 +1123,7 @@ class MIR_CORE_EXPORT CCtrlPages : public CCtrlBase
 public:
 	CCtrlPages(CDlgBase *dlg, int ctrlId);
 
-	void AddPage(TCHAR *ptszName, HICON hIcon, CDlgBase *pDlg);
+	void AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg);
 	void ActivatePage(int iPage);
 
 protected:
@@ -1252,7 +1252,7 @@ public:
 	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, bool show_label = true);
 
 	void CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue);
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue);
+	void CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
 
 	template<class T>
 	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)
@@ -1262,7 +1262,7 @@ public:
 
 	__inline PROTO_INTERFACE *GetProtoInterface() { return m_proto_interface; }
 
-	void SetStatusText(const TCHAR *statusText);
+	void SetStatusText(const wchar_t *statusText);
 
 protected:
 	PROTO_INTERFACE *m_proto_interface;
@@ -1276,7 +1276,7 @@ protected:
 	virtual void OnProtoCheckOnline(WPARAM, LPARAM);
 
 private:
-	void UpdateProtoTitle(const TCHAR *szText = NULL);
+	void UpdateProtoTitle(const wchar_t *szText = NULL);
 	void UpdateStatusBar();
 };
 
@@ -1308,7 +1308,7 @@ public:
 	{
 		ctrl.CreateDbLink(m_szModule, szSetting, type, iValue);
 	}
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue)
+	void CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue)
 	{
 		ctrl.CreateDbLink(m_szModule, szSetting, szValue);
 	}

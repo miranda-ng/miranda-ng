@@ -239,8 +239,8 @@ EXTERN_C MIR_CORE_DLL(int) Utils_AssertInsideScreen(RECT *rc);
 // An 'All Bitmaps' item is always first and 'All Files' is last.
 // The returned string is already translated.
 
-EXTERN_C MIR_CORE_DLL(HBITMAP) Bitmap_Load(const TCHAR *ptszFileName);
-EXTERN_C MIR_CORE_DLL(void) Bitmap_GetFilter(TCHAR *dest, size_t destLen);
+EXTERN_C MIR_CORE_DLL(HBITMAP) Bitmap_Load(const wchar_t *ptszFileName);
+EXTERN_C MIR_CORE_DLL(void) Bitmap_GetFilter(wchar_t *dest, size_t destLen);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Converts a path to a relative path
@@ -315,7 +315,7 @@ EXTERN_C MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Replace variables in text
-// wParam = (char*/TCHAR*/WCHAR*)string (depends on RVF_UNICODE/RVF_TCHAR flag)
+// wParam = (char*/wchar_t*/wchar_t*)string (depends on RVF_UNICODE/RVF_TCHAR flag)
 // lParam = (REPLACEVARSDATA *) data about variables, item with key = 0 terminates the list
 // returns new string, use mir_free to destroy
 

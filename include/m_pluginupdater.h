@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_PLUGINUPDATER_H__ 1
 
 typedef struct {
-	TCHAR *m_fileName;
+	wchar_t *m_fileName;
 	DWORD  m_zipCrc;
 	char   m_hash[32+1];
 }
@@ -37,8 +37,8 @@ typedef struct {
 //it expands to 32 or 64 depending on a Miranda's platform. For example,
 //  http://miranda-ng.org/distr/stable/x%platform%
 //
-//wParam = (TCHAR*)ptszUrl = url of hashes.zip
-//lParam = (TCHAR[260])ptszBaseUrl = decoded base url
+//wParam = (wchar_t*)ptszUrl = url of hashes.zip
+//lParam = (wchar_t[260])ptszBaseUrl = decoded base url
 //return = (HANDLE)array of hash items or NULL on error
 
 #define MS_PU_PARSEHASHES  "PluginUpdater/ParseHashes"

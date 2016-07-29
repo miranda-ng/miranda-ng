@@ -39,12 +39,10 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
-	char *msgblob;
 	char protoOption[256] = {0};
 	int buflen = MAX_BUFFER_LENGTH;
 	wchar_t buf[MAX_BUFFER_LENGTH];
-	wchar_t *message = NULL, *challengeW = NULL, *tmpW = NULL;
-	wchar_t *whitelist = NULL, *ptok;
+	wchar_t *challengeW = NULL, *tmpW = NULL;
 	wchar_t mexpr[64];
 	int maxmsglen = 0, a, b, i;
 	BOOL bayesEnabled = _getOptB("BayesEnabled", defaultBayesEnabled);
@@ -65,7 +63,6 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			dequeue_messages();
 			last_queue_check = time(NULL);
 		}
-
 
 	/*** Check for conditional and unconditional approval ***/
 
@@ -115,31 +112,34 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		db_set_b(hContact, "CList", "Hidden", 1);
 
 	// Fetch the incoming message body
+	char *msgblob;
 	if (dbei->eventType == EVENTTYPE_MESSAGE) {
 		msgblob = (char *)dbei->pBlob;
-	} else if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
+	}
+	else if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 		msgblob = (char *)(dbei->pBlob + sizeof(DWORD) + sizeof(HANDLE));
-		for(a=4;a>0;a--)
+		for(a = 4; a > 0; a--)
 			msgblob += mir_strlen(msgblob)+1;
 	}
+	else msgblob = NULL;
 
+	wchar_t *message = NULL;
 	if (dbei->flags & DBEF_UTF)
 		message = mir_utf8decodeW(msgblob);
 	else
 		message = mir_a2u(msgblob);
-
 	
 	/*** Check for words in white-list ***/
-
 	if (_getOptB("ApproveOnMsgIn", defaultApproveOnMsgIn)) {
-		whitelist = (wchar_t*)malloc(2048 * sizeof(wchar_t));
+		wchar_t *whitelist = (wchar_t*)malloc(2048 * sizeof(wchar_t));
 		if (whitelist != NULL) {
 			_getOptS(whitelist, 2048, "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist);
 			if (_isregex(whitelist)) {
 				if (_regmatch(message, whitelist))
 					bCorrectResponse = TRUE;
-			} else {
-				ptok = wcstok(whitelist, L" ");
+			}
+			else {
+				wchar_t *ptok = wcstok(whitelist, L" ");
 				while (ptok != NULL) {
 					if (wcsstr(message, ptok)) {
 						bCorrectResponse = TRUE;

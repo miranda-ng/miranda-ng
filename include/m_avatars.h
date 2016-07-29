@@ -81,7 +81,7 @@ typedef struct avatarCacheEntry
                                     // use it whenever they access the avatar. may be used in the future
 	                                 // to implement cache expiration
 	LPVOID lpDIBSection;             // unused field
-	TCHAR szFilename[MAX_PATH];      // filename of the avatar (absolute path)
+	wchar_t szFilename[MAX_PATH];      // filename of the avatar (absolute path)
 }
 	AVATARCACHEENTRY;
 
@@ -217,8 +217,8 @@ typedef struct _contactAvatarChangedNotification {
 	int      cbSize;             // sizeof()
 	MCONTACT hContact;           // this might have to be set by the caller too
 	int      format;             // PA_FORMAT_*
-	TCHAR    filename[MAX_PATH]; // full path to filename which contains the avatar
-	TCHAR    hash[128];          // avatar hash
+	wchar_t  filename[MAX_PATH]; // full path to filename which contains the avatar
+	wchar_t  hash[128];          // avatar hash
 } CONTACTAVATARCHANGEDNOTIFICATION;
 
 // fired when the contacts avatar is changed by the contact
@@ -254,13 +254,13 @@ typedef struct _contactAvatarChangedNotification {
 
 /*
 wParam=0
-lParam=(const TCHAR*)Avatar file name or NULL to remove the avatar
+lParam=(const wchar_t*)Avatar file name or NULL to remove the avatar
 return=0 for sucess
 */
 #define PS_SETMYAVATAR "/SetMyAvatar"
 
 /*
-wParam=(TCHAR*)Buffer to file name
+wParam=(wchar_t*)Buffer to file name
 lParam=(int)Buffer size
 return=0 for sucess
 */

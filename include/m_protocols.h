@@ -114,8 +114,8 @@ typedef struct tagPROTOFILETRANSFERSTATUS
 
 	union {
 		char **pszFiles;
-		TCHAR **ptszFiles;
-		WCHAR **pwszFiles;
+		wchar_t **ptszFiles;
+		wchar_t **pwszFiles;
 	};
 
 	int totalFiles;
@@ -125,14 +125,14 @@ typedef struct tagPROTOFILETRANSFERSTATUS
 
 	union {
 		char *szWorkingDir;
-		TCHAR *tszWorkingDir;
-		WCHAR *wszWorkingDir;
+		wchar_t *tszWorkingDir;
+		wchar_t *wszWorkingDir;
 	};
 
 	union {
 		char *szCurrentFile;
-		TCHAR *tszCurrentFile;
-		WCHAR *wszCurrentFile;
+		wchar_t *tszCurrentFile;
+		wchar_t *wszCurrentFile;
 	};
 
 	unsigned __int64 currentFileSize;
@@ -161,7 +161,7 @@ typedef struct tagPROTOFILETRANSFERSTATUS
 #define PROTOTYPE_OTHER       10000    // avoid using this if at all possible
 
  // initializes an empty account
-typedef struct PROTO_INTERFACE* (*pfnInitProto)(const char* szModuleName, const TCHAR* szUserName);
+typedef struct PROTO_INTERFACE* (*pfnInitProto)(const char* szModuleName, const wchar_t* szUserName);
 
 // deallocates an account instance
 typedef int (*pfnUninitProto)(PROTO_INTERFACE*);
@@ -270,7 +270,7 @@ typedef struct tagACCOUNT
 {
 	int    cbSize;          // sizeof this structure
 	char*  szModuleName;    // unique physical account name (matches database module name)
-	TCHAR* tszAccountName;  // user-defined account name
+	wchar_t* tszAccountName;  // user-defined account name
 	char*  szProtoName;     // physical protocol name
 	bool   bIsEnabled;      // is account enabled?
 	bool   bIsVisible;      // is account visible?
@@ -305,7 +305,7 @@ typedef struct tagACC_CREATE
 {
 	const char *pszBaseProto;
 	const char *pszInternal;
-	const TCHAR *ptszAccountName;
+	const wchar_t *ptszAccountName;
 } ACC_CREATE;
 
 __forceinline PROTOACCOUNT* ProtoCreateAccount(ACC_CREATE *pAccountDef)
@@ -411,7 +411,7 @@ ProtoBroadcastAck(), listeners must hook ME_PROTO_ACK, note that lParam = ACKDAT
 typedef struct {
 	MCONTACT hContact;         // this might have to be set by the caller too
 	int format;                // PA_FORMAT_*
-	WCHAR filename[MAX_PATH];  // full path to filename which contains the avatar
+	wchar_t filename[MAX_PATH];  // full path to filename which contains the avatar
 } PROTO_AVATAR_INFORMATION;
 
 #define GAIF_FORCE 1          // force an update of the avatar if there is none

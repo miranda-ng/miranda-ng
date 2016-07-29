@@ -258,7 +258,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 ///////////////////////////////////////////////////////////////////////////////
 // Sets the status-mode specific message for yourself
 // wParam = status mode
-// lParam = (LPARAM)(const TCHAR*)szMessage
+// lParam = (LPARAM)(const wchar_t*)szMessage
 // Returns 0 on success, nonzero on failure
 // Note that this service will not be available unless PF1_MODEMSGSEND is set
 // and PF1_INDIVMODEMSG is *not* set.
@@ -293,7 +293,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 ///////////////////////////////////////////////////////////////////////////////
 // Deny an authorisation request
 // wParam = (WPARAM)(HANDLE)hDbEvent
-// lParam = (LPARAM)(const TCHAR*)szReason
+// lParam = (LPARAM)(const wchar_t*)szReason
 // Returns 0 on success, nonzero on failure
 // Protocol modules must be able to cope with szReason = NULL
 
@@ -320,7 +320,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 ///////////////////////////////////////////////////////////////////////////////
 // Send a basic search request
 // wParam = 0
-// lParam = (LPARAM)(const TCHAR*)szId
+// lParam = (LPARAM)(const wchar_t*)szId
 // Returns a handle for the search, or zero on failure
 // All protocols identify users uniquely by a single field. This service will
 // search by that field.
@@ -353,7 +353,7 @@ typedef struct {
 ///////////////////////////////////////////////////////////////////////////////
 // Search for users by e-mail address
 // wParam = 0
-// lParam = (LPARAM)(TCHAR*)szEmail
+// lParam = (LPARAM)(wchar_t*)szEmail
 // Returns a HANDLE to the search, or NULL on failure
 // Results are returned as for PS_BASICSEARCH.
 // This function is only available if the PF1_SEARCHBYEMAIL capability is set
@@ -372,9 +372,9 @@ typedef struct {
 // This function is only available if the PF1_SEARCHBYNAME capability is set
 
 typedef struct {
-	TCHAR *pszNick;
-	TCHAR *pszFirstName;
-	TCHAR *pszLastName;
+	wchar_t *pszNick;
+	wchar_t *pszFirstName;
+	wchar_t *pszLastName;
 } PROTOSEARCHBYNAME;
 
 #define PS_SEARCHBYNAME    "/SearchByName"
@@ -408,7 +408,7 @@ typedef struct {
 typedef struct {
 	size_t nSize;
 	int nFieldCount;
-	TCHAR **pszFields;
+	wchar_t **pszFields;
 	PROTOSEARCHRESULT psr;
 } CUSTOMSEARCHRESULTS;
 
@@ -467,7 +467,7 @@ typedef struct {
 
 typedef struct {
 	int action;    // a FILERESUME_ flag
-	const TCHAR *szFilename;  // full path. Only valid if action == FILERESUME_RENAME
+	const wchar_t *szFilename;  // full path. Only valid if action == FILERESUME_RENAME
 } PROTOFILERESUME;
 
 #define PS_FILERESUME     "/FileResume"
@@ -548,7 +548,7 @@ typedef struct {
 ///////////////////////////////////////////////////////////////////////////////
 // Sets the WAYD message for the user
 // wParam = (WPARAM)WAYD_xxx
-// lParam = (LPARAM)(WCHAR * or char *)The message
+// lParam = (LPARAM)(wchar_t * or char *)The message
 // Returns 0 on success, nonzero on failure
 
 #define PS_SETMYWAYD "/SetMyWAYD"
@@ -649,7 +649,7 @@ typedef struct {
 ///////////////////////////////////////////////////////////////////////////////
 // Allows a file transfer to begin
 // wParam = (WPARAM)(HANDLE)hTransfer
-// lParam = (LPARAM)(const TCHAR*)szPath
+// lParam = (LPARAM)(const wchar_t*)szPath
 // Returns a new handle to the transfer, to be used from now on
 // If szPath does not point to a directory then:
 //  if a single file is being transferred and the protocol supports file
@@ -666,7 +666,7 @@ typedef struct {
 ///////////////////////////////////////////////////////////////////////////////
 // Refuses a file transfer request
 // wParam = (WPARAM)(HANDLE)hTransfer
-// lParam = (LPARAM)(const TCHAR*)szReason
+// lParam = (LPARAM)(const wchar_t*)szReason
 // Returns 0 on success, nonzero on failure
 
 #define PSS_FILEDENY    "/FileDeny"
@@ -681,8 +681,8 @@ typedef struct {
 
 ///////////////////////////////////////////////////////////////////////////////
 // Initiate a file send
-// wParam = (WPARAM)(const TCHAR*)szDescription
-// lParam = (LPARAM)(TCHAR **)ppszFiles
+// wParam = (WPARAM)(const wchar_t*)szDescription
+// lParam = (LPARAM)(wchar_t **)ppszFiles
 // Returns a transfer handle on success, NULL on failure
 // All notification is done through acks, with type = ACKTYPE_FILE
 // If result = ACKRESULT_FAILED then lParam = (LPARAM)(const char*)szReason
@@ -704,7 +704,7 @@ typedef struct {
 ///////////////////////////////////////////////////////////////////////////////
 // Send an auth request
 // wParam = 0
-// lParam = (const TCHAR *)szMessage
+// lParam = (const wchar_t *)szMessage
 // Returns 0 on success, nonzero on failure
 
 #define PSS_AUTHREQUEST    "/AuthRequest"

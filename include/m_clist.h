@@ -220,7 +220,7 @@ typedef struct {
 	char *pszService;       // name of the service to call on activation
 	union {
 		char *pszTooltip;    // short description of the event to display as a
-		TCHAR *ptszTooltip;  // tooltip on the system tray
+		wchar_t *ptszTooltip;  // tooltip on the system tray
 	};
 } CLISTEVENT;
 #define CLEF_URGENT    1   // flashes the icon even if the user is occupied,
@@ -232,7 +232,7 @@ typedef struct {
 #define CLEF_PROTOCOLGLOBAL   8 // set event globally for protocol, hContact has to be NULL,
 									     // lpszProtocol the protocol ID name to be set
 #if defined(_UNICODE)
-	#define CLEF_TCHAR       CLEF_UNICODE      //will use TCHAR* instead of char*
+	#define CLEF_TCHAR       CLEF_UNICODE      //will use wchar_t* instead of char*
 #else
 	#define CLEF_TCHAR       0      //will return char*, as usual
 #endif
@@ -329,8 +329,8 @@ typedef struct {
 
 typedef struct {
 	int cbSize;	        // size in bytes of this structure
-	TCHAR *pszOldName;  // old group name, NULL if a new group was created
-	TCHAR *pszNewName;  // new group name, NULL if an old group was deleted
+	wchar_t *pszOldName;  // old group name, NULL if a new group was created
+	wchar_t *pszNewName;  // new group name, NULL if an old group was deleted
 } CLISTGROUPCHANGE;
 
 #define ME_CLIST_GROUPCHANGE       "CList/GroupChange"
@@ -348,10 +348,10 @@ EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName);
 // returns a handle to the new group
 // hParentGroup is NULL to create the new group at the root, or can be the
 // handle of the group of which the new group should be a subgroup.
-// groupName is a TCHAR* pointing to the group name to create or NULL for
+// groupName is a wchar_t* pointing to the group name to create or NULL for
 // API to create unique name by itself
 
-EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, const TCHAR *ptszGroupName);
+EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, const wchar_t *ptszGroupName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // a new group was created. Add it to the list
@@ -370,17 +370,17 @@ EXTERN_C MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup);
 // renames a group
 // returns 0 on success, nonzero on failure
 
-EXTERN_C MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const TCHAR *ptszNewName);
+EXTERN_C MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNewName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves a group's name
-// returns a TCHAR* on success, NULL on failure
+// returns a wchar_t* on success, NULL on failure
 // if pdwFlags is not NULL, also stores group flags into it (one of GROUPF_* constants
 
 #define GROUPF_EXPANDED    0x04
 #define GROUPF_HIDEOFFLINE 0x08
 
-EXTERN_C MIR_APP_DLL(TCHAR*) Clist_GroupGetName(MGROUP hGroup, DWORD *pdwFlags = NULL);
+EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, DWORD *pdwFlags = NULL);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // change the expanded state flag for a group internally
@@ -509,11 +509,11 @@ typedef struct {
 	char *szProto;		// protocol to show under (may have no effect)
 	union {
 		char *szInfoTitle;	// only 64chars of it will be used
-		TCHAR *tszInfoTitle; // used if NIIF_INTERN_UNICODE is specified
+		wchar_t *tszInfoTitle; // used if NIIF_INTERN_UNICODE is specified
 	};
 	union {
 		char *szInfo;		// only 256chars of it will be used
-		TCHAR *tszInfo;   // used if NIIF_INTERN_UNICODE is specified
+		wchar_t *tszInfo;   // used if NIIF_INTERN_UNICODE is specified
 	};
 	DWORD dwInfoFlags;	// see NIIF_* stuff
 	UINT uTimeout;		// how long to show the tip for

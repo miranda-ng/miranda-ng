@@ -164,7 +164,7 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_MeasureItem(MEASUREITEMSTRUCT *mis);
 // modify an existing menu item 
 // returns 0 on success, nonzero on failure
 
-EXTERN_C MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const WCHAR *ptszName, HANDLE hIcon = INVALID_HANDLE_VALUE, int iFlags = -1);
+EXTERN_C MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const wchar_t *ptszName, HANDLE hIcon = INVALID_HANDLE_VALUE, int iFlags = -1);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Tries to process a keystroke

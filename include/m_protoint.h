@@ -54,7 +54,7 @@ typedef enum
 struct PROTO_INTERFACE;
 
 // Call it in the very beginning of your proto's constructor
-EXTERN_C MIR_APP_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, const char *pszModuleName, const TCHAR *ptszUserName);
+EXTERN_C MIR_APP_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, const char *pszModuleName, const wchar_t *ptszUserName);
 
 // Call it in the very end of your proto's destructor
 EXTERN_C MIR_APP_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis);
@@ -89,7 +89,7 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	            m_iDesiredStatus,  // status to be set after logging in
 	            m_iXStatus,        // extanded status
 	            m_iVersion;        // version 2 or higher designate support of Unicode services
-	TCHAR*      m_tszUserName;     // human readable protocol's name
+	wchar_t*      m_tszUserName;     // human readable protocol's name
 	char*       m_szModuleName;    // internal protocol name, also its database module name
 	HANDLE      m_hProtoIcon;      // icon to be displayed in the account manager
 	HANDLE      m_hNetlibUser;     // network agent
@@ -162,9 +162,9 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	__forceinline char* getStringA(MCONTACT hContact, const char *name) {
 		return db_get_sa(hContact, m_szModuleName, name); }
 
-	__forceinline WCHAR* getWStringA(const char *name) {
+	__forceinline wchar_t* getWStringA(const char *name) {
 		return db_get_wsa(NULL, m_szModuleName, name); }
-	__forceinline WCHAR* getWStringA(MCONTACT hContact, const char *name) {
+	__forceinline wchar_t* getWStringA(MCONTACT hContact, const char *name) {
 		return db_get_wsa(hContact, m_szModuleName, name); }
 
 	__forceinline void setByte(const char *name, BYTE value) { db_set_b(NULL, m_szModuleName, name, value); }
@@ -179,8 +179,8 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	__forceinline void setString(const char *name, const char* value) { db_set_s(NULL, m_szModuleName, name, value); }
 	__forceinline void setString(MCONTACT hContact, const char *name, const char* value) { db_set_s(hContact, m_szModuleName, name, value); }
 
-	__forceinline void setWString(const char *name, const WCHAR* value) { db_set_ws(NULL, m_szModuleName, name, value); }
-	__forceinline void setWString(MCONTACT hContact, const char *name, const WCHAR* value) { db_set_ws(hContact, m_szModuleName, name, value); }
+	__forceinline void setWString(const char *name, const wchar_t* value) { db_set_ws(NULL, m_szModuleName, name, value); }
+	__forceinline void setWString(MCONTACT hContact, const char *name, const wchar_t* value) { db_set_ws(hContact, m_szModuleName, name, value); }
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
@@ -189,21 +189,21 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
 						    
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
 						    
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath);
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath);
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason);
-	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason);
+	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
-	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR* email);
-	virtual	HANDLE    __cdecl SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName);
+	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
+	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t* email);
+	virtual	HANDLE    __cdecl SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName);
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
@@ -213,7 +213,7 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 
 	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
 	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char *url);
 
@@ -222,7 +222,7 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
 	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt);
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const TCHAR* msg);
+	virtual	int       __cdecl SetAwayMsg(int iStatus, const wchar_t* msg);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
@@ -234,7 +234,7 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 
 template<class T> struct PROTO : public PROTO_INTERFACE
 {
-	__forceinline PROTO(const char *szProto, const TCHAR *tszUserName) {
+	__forceinline PROTO(const char *szProto, const wchar_t *tszUserName) {
 		::ProtoConstructor(this, szProto, tszUserName); }
 
 	__forceinline ~PROTO() {

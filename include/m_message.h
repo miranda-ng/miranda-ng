@@ -69,7 +69,7 @@ typedef struct {
 typedef struct {
 	int cbSize;
 	HICON hIcon; 
-	TCHAR tszText[100];
+	wchar_t tszText[100];
 } StatusTextData;
 
 //wparam = (MCONTACT)hContact
@@ -168,7 +168,7 @@ typedef struct {
 	int   flags;                     // bitwize OR of MBF_* flags above
 	union {
 		char *szTooltip;              // controlled by MBF_UNICODE
-		TCHAR *tszTooltip;
+		wchar_t *tszTooltip;
 		wchar_t *wszTooltip;
 	};
 } StatusIconData;

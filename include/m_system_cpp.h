@@ -96,16 +96,16 @@ public:
 	}
 };
 
-class pass_ptrW : public mir_ptr<WCHAR>
+class pass_ptrW : public mir_ptr<wchar_t>
 {
 public:
 	__inline explicit pass_ptrW() : mir_ptr(){}
-	__inline explicit pass_ptrW(WCHAR* _p) : mir_ptr(_p) {}
+	__inline explicit pass_ptrW(wchar_t* _p) : mir_ptr(_p) {}
 	__inline ~pass_ptrW() { zero(); }
-	__inline WCHAR* operator = (WCHAR *_p){ zero(); return mir_ptr::operator=(_p); }
+	__inline wchar_t* operator = (wchar_t *_p){ zero(); return mir_ptr::operator=(_p); }
 	__inline void zero() 
 	{
-	  if (data) SecureZeroMemory(data, mir_wstrlen(data)*sizeof(WCHAR));
+	  if (data) SecureZeroMemory(data, mir_wstrlen(data)*sizeof(wchar_t));
 	}
 };
 

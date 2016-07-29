@@ -153,7 +153,7 @@ typedef struct tagIconItem
 
 typedef struct tagIconItemT
 {
-	TCHAR *tszDescr;
+	wchar_t *tszDescr;
 	char  *szName;
 	int    defIconID, size;
 	HANDLE hIcolib;
@@ -162,10 +162,10 @@ typedef struct tagIconItemT
 
 #if defined( __cplusplus )
 MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, char *prefix = NULL, int = hLangpack);
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR* szSection, IconItemT* pIcons, size_t iCount, char *prefix = NULL, int = hLangpack);
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, char *prefix = NULL, int = hLangpack);
 #else
 MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, char *prefix, int hLangpack);
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR* szSection, IconItemT* pIcons, size_t iCount, char *prefix, int hLangpack);
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, char *prefix, int hLangpack);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -232,7 +232,7 @@ MIR_CORE_DLL(void)        List_ObjCopy(SortedList* s, SortedList* d, size_t item
 ///////////////////////////////////////////////////////////////////////////////
 // logging functions
 
-MIR_CORE_DLL(HANDLE) mir_createLog(const char *pszName, const TCHAR *ptszDescr, const TCHAR *ptszFile, unsigned options);
+MIR_CORE_DLL(HANDLE) mir_createLog(const char *pszName, const wchar_t *ptszDescr, const wchar_t *ptszFile, unsigned options);
 MIR_CORE_DLL(void)   mir_closeLog(HANDLE hLogger);
 
 MIR_C_CORE_DLL(int)  mir_writeLogA(HANDLE hLogger, const char *format, ...);
@@ -320,20 +320,20 @@ MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(LPCSTR szModule, MCONTACT hContact, int t
 // avatar support functions
 
 // returns image extension by a PA_* constant or empty string for PA_FORMAT_UNKNOWN
-MIR_APP_DLL(const TCHAR*) ProtoGetAvatarExtension(int format);
+MIR_APP_DLL(const wchar_t*) ProtoGetAvatarExtension(int format);
 
 // detects image format by extension
-MIR_APP_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName);
+MIR_APP_DLL(int) ProtoGetAvatarFormat(const wchar_t *ptszFileName);
 
 // detects image format by its contents
-MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName);
+MIR_APP_DLL(int) ProtoGetAvatarFileFormat(const wchar_t *ptszFileName);
 
 // returns the image format and extension by the first bytes of picture
 // ptszExtension might be NULL
 #if defined( __cplusplus )
-	MIR_APP_DLL(int) ProtoGetBufferFormat(const void *buf, const TCHAR **ptszExtension = NULL);
+	MIR_APP_DLL(int) ProtoGetBufferFormat(const void *buf, const wchar_t **ptszExtension = NULL);
 #else
-	MIR_APP_DLL(int) ProtoGetBufferFormat(const void *buf, const TCHAR **ptszExtension);
+	MIR_APP_DLL(int) ProtoGetBufferFormat(const void *buf, const wchar_t **ptszExtension);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -529,7 +529,7 @@ MIR_CORE_DLL(BOOL)    IsFullScreen();
 MIR_CORE_DLL(BOOL)    IsWorkstationLocked();
 MIR_CORE_DLL(BOOL)    IsScreenSaverRunning();
 
-MIR_CORE_DLL(BOOL)    GetOSDisplayString(TCHAR *buf, size_t bufSize);
+MIR_CORE_DLL(BOOL)    GetOSDisplayString(wchar_t *buf, size_t bufSize);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves the hLangpack of a plugin by its HINSTANCE

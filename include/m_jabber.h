@@ -193,7 +193,7 @@ Returns FALSE if all is Ok, and TRUE otherwise.
 
 /*
 A hook to be called during extensions list's creation
-wParam = (WPARAM)(LIST<TCHAR>*) - extensions list to be populated;
+wParam = (WPARAM)(LIST<wchar_t>*) - extensions list to be populated;
 lParam = (LPARAM)(IJabberInterface*).
 Returns FALSE if all is Ok, and TRUE otherwise.
 */

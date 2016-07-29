@@ -74,7 +74,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Returns NULL on failure to retrieve the info or a string on success.
 // If successful, this string must be freed using mir_free
 
-EXTERN_C MIR_APP_DLL(TCHAR*) Contact_GetInfo(
+EXTERN_C MIR_APP_DLL(wchar_t*) Contact_GetInfo(
 	int type,                    // one of the CNF_* constants
 	MCONTACT hContact,           // contact id or NULL for the global data
 	const char *szProto = NULL); // protocol for global data. if skipped, grabbed from hContact
