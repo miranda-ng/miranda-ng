@@ -84,10 +84,10 @@ static int OnInitOptions(WPARAM wparam, LPARAM)
 	odp.position = 955000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pwszTitle = MODULENAME;
 	odp.pfnDlgProc = CSOptionsProc;
 	odp.pwszGroup = L"Status";
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.pwszTitle = MODULENAME;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wparam, &odp);
 	return 0;
 }
