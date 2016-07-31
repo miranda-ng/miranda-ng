@@ -191,8 +191,8 @@ MCONTACT GetContactFromID(char *szID, char *szProto)
 		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
 		char *szHandle = GetContactID(hContact, cProtocol);
 
-		char *tmp = (char*) pcli->pfnGetContactDisplayName(hContact, 0);
-		strncpy_s(dispName, tmp, _TRUNCATE);
+		wchar_t *tmp = pcli->pfnGetContactDisplayName(hContact, 0);
+		strncpy_s(dispName, _T2A(tmp), _TRUNCATE);
 
 		if ((szHandle) && ((mir_strcmpi(szHandle, szID) == 0) || (mir_strcmpi(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
 			found = 1;
