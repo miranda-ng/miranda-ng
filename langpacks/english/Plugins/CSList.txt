@@ -18,7 +18,6 @@
 [Remember last window position]
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 ;file \plugins\CSList\src\cslist.cpp
-[Status]
 [Add new item]
 [Add]
 [Modify item]

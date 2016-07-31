@@ -311,6 +311,11 @@
 [Main]
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
+[Extended user info/Zodiacs]
+[Extended user info/Dialogs]
+[Extended user info/Buttons]
+[Extended user info/Treeview]
+[Extended user info/Reminder]
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 [User &details]

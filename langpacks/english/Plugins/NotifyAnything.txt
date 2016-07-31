@@ -29,4 +29,3 @@
 [Invalid port number]
 [NotifyAnything]
 [Plugins]
-;file \plugins\NotifyAnything\src\stdafx.h

@@ -115,10 +115,10 @@
 Введите текст, который видите
 [Myself]
 Я
-[User]
-Пользователь
 [Friend]
 Друг
+[User]
+Пользователь
 [&Invite user...]
 &Пригласить пользователя...
 [&Leave chat session]
@@ -285,8 +285,8 @@ SMS с кодом подтверждения отправлено на ваш м
 Загрузка запросов дружбы...
 [Loading notifications...]
 Загрузка уведомлений...
-[Loading what happened on this day...]
-Загрузка случившегося в этот день...
+[Loading memories...]
+Загрузка «Воспоминаний»...
 [Do you want to cancel your friendship with '%s'?]
 Вы уверены, что хотите удалить '%s' из друзей?
 [Client errors]
@@ -299,8 +299,8 @@ SMS с кодом подтверждения отправлено на ваш м
 События дружбы
 [Real-time friends activity]
 Активность друзей в реальном времени
-["On this day" posts]
-Сообщения "В этот день"
+[Memories]
+«Воспоминания»
 [Visit profile]
 Профиль на сайте
 [Visit notifications]
@@ -317,8 +317,6 @@ SMS с кодом подтверждения отправлено на ваш м
 Событие дружбы
 [Ticker event]
 Тиккер
-["On this day" event]
-Событие "В этот день"
 [Message read: %s by %s]
 Сообщение прочтено в: %s пользователем %s
 [Message read: %s]
@@ -371,7 +369,7 @@ SMS с кодом подтверждения отправлено на ваш м
 Проверить запросы дружбы
 [Check newsfeeds]
 Проверить новости
-[Check "On this day" posts]
-Проверить сообщения "В этот день"
+[Check memories]
+Проверить «Воспоминания»
 [Check notifications]
 Проверить уведомления

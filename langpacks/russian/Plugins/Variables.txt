@@ -5,10 +5,6 @@
 ;  Version: 0.2.3.11
 ;  Authors: P Boon
 ;============================================================
-[x + y + ...]
-x плюс y плюс ...
-[x - y - ...]
-x минус y минус ...
 [Adds support for dynamic variables in strings for plugins.]
 Поддержка динамических переменных для других плагинов.
 [Parse options]
@@ -131,6 +127,8 @@ y, если длина строки w > x, в другом случае z
 выполняет логическое исключающее ИЛИ - XOR (x ^ y)
 [Mathematical Functions]
 Математические функции
+[x + y + ...]
+x плюс y плюс ...
 [x divided by y]
 х, делённое на у
 [converts decimal value x to hex value and padds to length y]
@@ -149,6 +147,8 @@ x умноженное на y делённое на z
 заполняет десятичное значение x по длине y нулями
 [random number]
 случайное число
+[x - y - ...]
+x минус y минус ...
 [Metacontacts]
 Метаконтакты
 [get parent metacontact of contact x]

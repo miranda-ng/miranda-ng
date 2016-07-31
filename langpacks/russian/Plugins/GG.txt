@@ -313,10 +313,10 @@ HTTP неизвестная ошибка
 Изображения (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Изображение не может быть записано на диск.
-[Delete image from the list]
-Удалить изображение из списка
 [Save image to disk]
 Сохранить изображение на диск
+[Delete image from the list]
+Удалить изображение из списка
 [Image from %s]
 Изображение от %s
 [Image for %s]

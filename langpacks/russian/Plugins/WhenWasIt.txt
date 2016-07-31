@@ -217,6 +217,8 @@
 Невозможно открыть файл для импорта дней рождения
 [Error]
 Ошибка
+[Could not find UID '%s [%S]' in current database, skipping]
+Не удалось найти UID '%s [%S]' в текущей базе, пропускаю
 [Warning]
 Предупреждение
 [Could not open file to export birthdays]
@@ -227,8 +229,6 @@
 Внимание! Пожалуйста, не путайте экспортированные файлы в кодировках Unicode и ANSI. Необходима та же версию WhenWasIt (ANSI/Unicode), которая использовалась для экспорта.\n
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 Этот файл был создан Unicode-версией WhenWasIt. Пожалуйста, используйте только Unicode-версию плагина для импорта дней рождения.\n
-[Could not find UID '%s [%S]' in current database, skipping]
-Не удалось найти UID '%s [%S]' в текущей базе, пропускаю
 [Birthdays (When Was It)]
 Дни рождения
 [Add/change user &birthday]

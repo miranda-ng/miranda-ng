@@ -27,8 +27,6 @@
 Помнить последнее положение окна
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Примечание: Пункты меню отображаются только при наличии хотя бы одной правильно настроенной учётной записи. Проверьте, есть ли у вас по крайней мере одна учётная запись с UIN.
-[Status]
-Статус
 [Add new item]
 Добавить новый пункт
 [Add]
