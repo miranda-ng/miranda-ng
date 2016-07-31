@@ -562,7 +562,7 @@ char* NickFromHandle(MCONTACT hContact)
 	if (hContact == INVALID_CONTACT_ID)
 		return null_strdup(Translate("<invalid>"));
 
-	return null_strdup((char *)pcli->pfnGetContactDisplayName(hContact, 0));
+	return null_strdup(_T2A(pcli->pfnGetContactDisplayName(hContact, 0)));
 }
 
 char* NickFromHandleUtf(MCONTACT hContact)
@@ -570,7 +570,7 @@ char* NickFromHandleUtf(MCONTACT hContact)
 	if (hContact == INVALID_CONTACT_ID)
 		return ICQTranslateUtf(LPGEN("<invalid>"));
 
-	return tchar_to_utf8((wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0));
+	return tchar_to_utf8(pcli->pfnGetContactDisplayName(hContact, 0));
 }
 
 char* strUID(DWORD dwUIN, char *pszUID)
