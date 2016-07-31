@@ -41,7 +41,7 @@ int iIconId[5] = { 3, 2, 4, 1, 0 };
 //  wParam - Section name
 //  lParam - Icon ID
 //
-int OnSkinIconsChanged(WPARAM wParam, LPARAM lParam)
+int OnSkinIconsChanged(WPARAM, LPARAM)
 {
 	for (int indx = 0; indx < _countof(hIcons); indx++)
 		hIcons[indx] = IcoLib_GetIconByHandle(iconList[indx].hIcolib);
@@ -62,7 +62,7 @@ int OnSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR OnRecvFile(WPARAM wParam, LPARAM lParam)
+INT_PTR OnRecvFile(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *clev = (CLISTEVENT*)lParam;
 
@@ -76,23 +76,23 @@ INT_PTR OnRecvFile(WPARAM wParam, LPARAM lParam)
 	/*
 	else
 	{
-	if(hwnd != 0) WindowList_Remove(hFileList, hwnd);
-	FILEECHO *fe = new FILEECHO((HANDLE)clev->hContact);
-	fe->inSend = FALSE;
-	hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, (DLGPROC)DialogProc, (LPARAM)fe);
-	if(hwnd == NULL)
-	{
-	delete fe;
-	return 0;
-	}
-	//SendMessage(hwnd, WM_FE_SERVICE, 0, TRUE);
-	ShowWindow(hwnd, SW_SHOWNORMAL);
+		if(hwnd != 0) WindowList_Remove(hFileList, hwnd);
+		FILEECHO *fe = new FILEECHO((HANDLE)clev->hContact);
+		fe->inSend = FALSE;
+		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, DialogProc, (LPARAM)fe);
+		if(hwnd == NULL)
+		{
+			delete fe;
+			return 0;
+		}
+		//SendMessage(hwnd, WM_FE_SERVICE, 0, TRUE);
+		ShowWindow(hwnd, SW_SHOWNORMAL);
 	}
 	*/
 	return 1;
 }
 
-INT_PTR OnSendFile(WPARAM wParam, LPARAM lParam)
+INT_PTR OnSendFile(WPARAM wParam, LPARAM)
 {
 	HWND hwnd = WindowList_Find(hFileList, wParam);
 	if (IsWindow(hwnd))
@@ -144,7 +144,7 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int OnOptInitialise(WPARAM wParam, LPARAM lParam)
+int OnOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.hInstance = hInst;
@@ -161,7 +161,7 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 // MirandaPluginInfo()
 // Called by Miranda to get Version
 //
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD dwVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -170,7 +170,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD dwVersi
 // Startup initializing
 //
 
-static int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	for (int indx = 0; indx < _countof(hIcons); indx++)
 		hIcons[indx] = IcoLib_GetIconByHandle(iconList[indx].hIcolib);
@@ -235,7 +235,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 //
 // DllMain()
 //
-int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID pReserved)
+int WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 {
 	hInst = hInstance;
 	return TRUE;

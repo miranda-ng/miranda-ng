@@ -40,7 +40,6 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
 
 		for (int indx = 0; indx < _countof(settingId); indx++)
@@ -53,9 +52,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		return TRUE;
 
-	}
 	case WM_COMMAND:
-	{
 		if (//MAKEWPARAM(IDC_AUTO, BN_CLICKED) != wParam || 
 			MAKEWPARAM(IDC_ALPHANUM, BN_CLICKED) != wParam)
 		{
@@ -77,12 +74,11 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
-	}
+	
 	case WM_DESTROY:
 		return FALSE;
 
 	case WM_NOTIFY:
-	{
 		if ((((NMHDR*)lParam)->idFrom == 0) && (((LPNMHDR)lParam)->code == PSN_APPLY))
 		{
 			int value;
@@ -104,8 +100,6 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			return TRUE;
 		}
 		break;
-	}
-
 	}
 
 	return FALSE;

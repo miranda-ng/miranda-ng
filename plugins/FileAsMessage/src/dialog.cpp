@@ -2,8 +2,8 @@
 
 char *szFEMode[] =
 {
-	"Recv file",
-	"Send file"
+	LPGEN("Recv file"),
+	LPGEN("Send file")
 };
 
 char* ltoax(char* s, DWORD value)
@@ -62,7 +62,7 @@ char cCmdList[CMD_COUNT] =
 	'.'
 };
 
-static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = PUGetContact(hWnd);
 	HWND hDlg = (HWND)PUGetPluginData(hWnd);
@@ -106,11 +106,11 @@ void MakePopupMsg(HWND hDlg, MCONTACT hContact, char *msg)
 	POPUPDATA ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALLICON));
-	mir_strcpy(ppd.lpzContactName, (char*)pcli->pfnGetContactDisplayName(hContact, 0));
+	mir_strcpy(ppd.lpzContactName, _T2A(pcli->pfnGetContactDisplayName(hContact, 0)));
 	mir_strcpy(ppd.lpzText, msg);
 	ppd.colorBack = GetSysColor(COLOR_INFOBK);
 	ppd.colorText = GetSysColor(COLOR_INFOTEXT);
-	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	ppd.PluginWindowProc = PopupDlgProc;
 	ppd.PluginData = (void*)hDlg;
 	ppd.iSeconds = -1;
 	PUAddPopup(&ppd);
@@ -239,9 +239,9 @@ void FILEECHO::setState(DWORD state)
 
 void FILEECHO::updateTitle()
 {
-	char newtitle[256], *contactName;
+	char newtitle[256];
 
-	contactName = (char*)pcli->pfnGetContactDisplayName(hContact, 0);
+	char *contactName = _T2A(pcli->pfnGetContactDisplayName(hContact, 0));
 	if (iState == STATE_OPERATE && chunkCount != 0)
 		mir_snprintf(newtitle, "%d%% - %s: %s", chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
 	else
@@ -842,7 +842,7 @@ void FILEECHO::perform(char *str)
 	};
 };
 
-int FILEECHO::sendCmd(int id, int cmd, char *szParam, char *szPrefix)
+int FILEECHO::sendCmd(int, int cmd, char *szParam, char *szPrefix)
 {
 	int buflen = (int)mir_strlen(szServicePrefix) + (int)mir_strlen(szParam) + 2;
 	if (szPrefix != NULL)
