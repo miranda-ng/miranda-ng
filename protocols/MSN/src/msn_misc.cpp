@@ -483,6 +483,9 @@ int ThreadData::sendMessage(int, const char *email, int netId, const char *parMs
 		if (!proto->getString("Nick", &dbv))
 			pszNick = dbv.pszVal;
 
+		CMStringA msgClean;
+
+		for (BYTE *p = (BYTE*)parMsg; *p; p++) if (*p >= 0x20 || (*p>=0x09 && *p<=0x0D)) msgClean.AppendChar(*p);
 		buf.AppendFormat(
 			"Messaging: 2.0\r\n"
 			"Client-Message-ID: %llu\r\n"
@@ -490,11 +493,11 @@ int ThreadData::sendMessage(int, const char *email, int netId, const char *parMs
 			"IM-Display-Name: %s\r\n"
 			"Content-Type: %s\r\n"
 			"Content-Length: %d\r\n",
-			msgid, pszMsgType, pszNick, pszContType, mir_strlen(parMsg));
+			msgid, pszMsgType, pszNick, pszContType, msgClean.GetLength());
 
 		if (*tFontName) buf.AppendFormat("X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n",
 			tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "");
-		buf.AppendFormat("\r\n%s", parMsg);
+		buf.AppendFormat("\r\n%s", msgClean);
 
 		if (pszNick!=proto->MyOptions.szEmail) db_free(&dbv);
 		parMsg = buf;
