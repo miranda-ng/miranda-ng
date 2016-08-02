@@ -317,7 +317,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 		ptrW pwszSection(mir_a2u(SECT_TREE));
 
 		SKINICONDESC sid = { 0 };
-		sid.flags = SIDF_PATH_UNICODE;
+		sid.flags = SIDF_ALL_UNICODE;
 		sid.pszName = (LPSTR)pszIconName;
 		sid.description.w = _ptszLabel;
 		sid.section.w = pwszSection;
