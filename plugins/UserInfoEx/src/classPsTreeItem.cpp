@@ -314,12 +314,13 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 	HICON hIcon = IcoLib_GetIcon(pszIconName);
 	if (!hIcon) {
 		bool bNeedFree = false;
+		ptrW pwszSection(mir_a2u(SECT_TREE));
 
 		SKINICONDESC sid = { 0 };
-		sid.flags = SIDF_ALL_UNICODE;
+		sid.flags = SIDF_PATH_UNICODE;
 		sid.pszName = (LPSTR)pszIconName;
 		sid.description.w = _ptszLabel;
-		sid.section.w = _A2W(SECT_TREE);
+		sid.section.w = pwszSection;
 
 		// the item to insert brings along an icon?
 		if (odp->flags & ODPF_ICON) {
