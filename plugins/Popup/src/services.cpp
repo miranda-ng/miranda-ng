@@ -387,7 +387,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.size = -11;
 	mir_wstrncpy(fid.deffontsettings.szFace, L"Verdana", _countof(fid.deffontsettings.szFace) - 1);
-	mir_wstrncpy(fid.name, PU_FNT_NAME_TEXT, _countof(fid.name) - 1);
+	mir_wstrncpy(fid.name, PU_FNT_NAME_TEXTW, _countof(fid.name) - 1);
 	mir_strncpy(fid.prefix, setting, _countof(fid.prefix));
 	mir_snprintf(fid.prefix, "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style = 0;

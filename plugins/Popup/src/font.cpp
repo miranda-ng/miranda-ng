@@ -39,28 +39,28 @@ void InitFonts()
 	mir_wstrncpy(fid.backgroundName, PU_COL_BACK_NAME, _countof(fid.backgroundName));
 	mir_wstrncpy(fid.deffontsettings.szFace, L"Tahoma", _countof(fid.deffontsettings.szFace));
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_TITLE, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_TITLEW, _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TITLE);
 	fid.deffontsettings.style = DBFONTF_BOLD;
 	fid.deffontsettings.colour = RGB(0, 0, 0);
 	FontRegisterW(&fid);
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_CLOCK, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_CLOCKW, _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_CLOCK);
 	FontRegisterW(&fid);
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_TEXT, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_TEXTW, _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TEXT);
 	fid.deffontsettings.style = 0;
 	FontRegisterW(&fid);
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_ACTION, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_ACTIONW, _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_ACTION);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 	fid.deffontsettings.colour = RGB(0, 0, 255);
 	FontRegisterW(&fid);
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_HOVERED_ACTION, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_HOVERED_ACTIONW, _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_HOVERED_ACTION);
 	fid.deffontsettings.style = DBFONTF_UNDERLINE;
 	FontRegisterW(&fid);
@@ -97,23 +97,23 @@ void ReloadFonts()
 	fid.cbSize = sizeof(FontIDW);
 	mir_wstrncpy(fid.group, PU_FNT_AND_COLORW, _countof(fid.name));
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_TITLE, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_TITLEW, _countof(fid.name));
 	fonts.clTitle = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.title = CreateFontIndirect(&lf);
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_CLOCK, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_CLOCKW, _countof(fid.name));
 	fonts.clClock = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.clock = CreateFontIndirect(&lf);
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_TEXT, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_TEXTW, _countof(fid.name));
 	fonts.clText = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.text = CreateFontIndirect(&lf);
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_ACTION, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_ACTIONW, _countof(fid.name));
 	fonts.clAction = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.action = CreateFontIndirect(&lf);
 
-	mir_wstrncpy(fid.name, PU_FNT_NAME_HOVERED_ACTION, _countof(fid.name));
+	mir_wstrncpy(fid.name, PU_FNT_NAME_HOVERED_ACTIONW, _countof(fid.name));
 	fonts.clActionHover = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.actionHover = CreateFontIndirect(&lf);
 
