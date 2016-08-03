@@ -26,20 +26,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //basic constants for all popup plugins
 #define PU_FNT_AND_COLOR      LPGEN("Popups")			//common main group for customice\font&color
-#define PU_FNT_AND_COLORW     LPGENW("Popups")			//common main group for customice\font&color
+
 #define PU_FNT_AND_COLOR_DB   MODULNAME		//use eg mir_strcpy(fid.dbSettingsGroup, PU_FNT_GROUP_DB);
 
 #define PU_FNT_PREFIX			"fnt%s"				//use eg mir_snprintf(fid.prefix, _countof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_....);
 #define PU_FNT_NAME_TITLE     LPGEN("Title")
-#define PU_FNT_NAME_TITLEW    LPGENW("Title")				//use eg mir_wstrcpy(fid.name, _T(FNT_NAME_....)) for FontIDW
 #define PU_FNT_NAME_CLOCK     LPGEN("Clock")
-#define PU_FNT_NAME_CLOCKW    LPGENW("Clock")
 #define PU_FNT_NAME_TEXT      LPGEN("Text")
-#define PU_FNT_NAME_TEXTW     LPGENW("Text")
 #define PU_FNT_NAME_ACTION    LPGEN("Action")
-#define PU_FNT_NAME_ACTIONW   LPGENW("Action")
 #define PU_FNT_NAME_HOVERED_ACTION LPGEN("Hovered action")
-#define PU_FNT_NAME_HOVERED_ACTIONW LPGENW("Hovered action")
 
 #define PU_COL_BACK_NAME      LPGENW("Background")
 #define PU_COL_BACK_SETTING   "ColourBg"
