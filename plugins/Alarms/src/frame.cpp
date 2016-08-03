@@ -342,11 +342,10 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return TRUE;
 
 	case WM_CONTEXTMENU:
+		POINT pt;
+		GetCursorPos(&pt);
+		ScreenToClient(hwnd_list, &pt);
 		{
-			POINT pt;
-			GetCursorPos(&pt);
-			ScreenToClient(hwnd_list, &pt);
-
 			mir_cslock lck(list_cs);
 			DWORD item = SendMessage(hwnd_list, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
 
@@ -376,22 +375,22 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			BOOL ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
 			DestroyMenu(menu);
-			if (ret) PostMessage(hwnd, WM_COMMAND, ret, 0);
+			if (ret)
+				PostMessage(hwnd, WM_COMMAND, ret, 0);
 		}
 		return TRUE;
 
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case ID_REMINDERFRAMECONTEXT_OPTIONS:
-			{
-				OPENOPTIONSDIALOG oop;
-				oop.cbSize = sizeof(oop);
-				oop.pszGroup = "Events";
-				oop.pszPage = "Alarms";
-				oop.pszTab = 0;
-				Options_Open(&oop);
-			}
+			OPENOPTIONSDIALOG oop;
+			oop.cbSize = sizeof(oop);
+			oop.pszGroup = "Events";
+			oop.pszPage = "Alarms";
+			oop.pszTab = 0;
+			Options_Open(&oop);
 			break;
+
 		case ID_REMINDERFRAMECONTEXT_SUSPEND:
 			if (context_menu_alarm.occurrence != OC_ONCE) {
 				suspend(context_menu_alarm.id);
@@ -402,16 +401,16 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				}
 			}
 			break;
+
 		case ID_REMINDERFRAMECONTEXT_EDIT:
 			EditNonModal(context_menu_alarm);
 			break;
+
 		case ID_REMINDERFRAMECONTEXT_DELETE:
 			remove(context_menu_alarm.id);
 			PostMessage(hwnd, WMU_FILL_LIST, 0, 0);
-			if (hwndOptionsDialog) {
-				// refresh options list
+			if (hwndOptionsDialog) // refresh options list
 				PostMessage(hwndOptionsDialog, WMU_INITOPTLIST, 0, 0);
-			}
 			break;
 
 		case ID_REMINDERFRAMECONTEXT_NEWALARM:
@@ -486,16 +485,10 @@ INT_PTR ShowHideMenuFunc(WPARAM, LPARAM)
 
 int CreateFrame()
 {
-	WNDCLASS wndclass;
-	wndclass.style         = 0;
-	wndclass.lpfnWndProc   = FrameWindowProc;
-	wndclass.cbClsExtra    = 0;
-	wndclass.cbWndExtra    = 0;
-	wndclass.hInstance     = hInst;
-	wndclass.hIcon         = NULL;
-	wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
-	wndclass.hbrBackground = 0;
-	wndclass.lpszMenuName  = NULL;
+	WNDCLASS wndclass = {};
+	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hInstance = hInst;
+	wndclass.lpfnWndProc = FrameWindowProc;
 	wndclass.lpszClassName = L"AlarmsFrame";
 	RegisterClass(&wndclass);
 
@@ -514,15 +507,9 @@ int CreateFrame()
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
 	}
 	else {
-		wndclass.style         = 0;//CS_HREDRAW | CS_VREDRAW;
-		wndclass.lpfnWndProc   = FrameContainerWindowProc;
-		wndclass.cbClsExtra    = 0;
-		wndclass.cbWndExtra    = 0;
-		wndclass.hInstance     = hInst;
-		wndclass.hIcon         = NULL;
-		wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
-		wndclass.hbrBackground = 0; //(HBRUSH)(COLOR_3DFACE+1);
-		wndclass.lpszMenuName  = NULL;
+		wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wndclass.hInstance = hInst;
+		wndclass.lpfnWndProc = FrameContainerWindowProc;
 		wndclass.lpszClassName = L"AlarmsFrameContainer";
 		RegisterClass(&wndclass);
 
@@ -608,14 +595,14 @@ int CreateFrame()
 	return 0;
 }
 
-void RefreshReminderFrame() {
+void RefreshReminderFrame()
+{
 	SendMessage(hwnd_plugin, WMU_FILL_LIST, 0, 0);
 
-	if (frame_id == -1) {
+	if (frame_id == -1)
 		InvalidateRect(hwnd_frame, 0, TRUE);
-	} else
+	else
 		InvalidateRect(hwnd_plugin, 0, TRUE);
-
 }
 
 void InitFrames()
@@ -633,4 +620,3 @@ void DeinitFrames()
 
 	DeleteObject(bk_brush);
 }
-
