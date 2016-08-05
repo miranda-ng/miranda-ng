@@ -372,9 +372,6 @@ int CSendLater::sendIt(CSendLaterJob *job)
 		return 0;											// this one was sent, but probably failed. Resend it after a while
 
 	CContactCache *c = CContactCache::getContactCache(job->hContact);
-	if (c == NULL)
-		return 0;						// should not happen
-
 	if (!c->isValid()) {
 		job->fFailed = true;
 		job->bCode = CSendLaterJob::INVALID_CONTACT;
@@ -514,83 +511,82 @@ void CSendLater::qMgrFillList(bool fClear)
 	for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
 		CSendLaterJob *p = m_sendLaterJobList[i];
 		CContactCache *c = CContactCache::getContactCache(p->hContact);
-		if (c) {
-			const wchar_t *tszNick = c->getNick();
-			if (m_hFilter && m_hFilter != p->hContact) {
-				qMgrAddFilter(c->getContact(), tszNick);
-				continue;
-			}
 
-			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
-			wchar_t tszBuf[255];
-			mir_snwprintf(tszBuf, L"%s [%s]", tszNick, c->getRealAccount());
-			lvItem.pszText = tszBuf;
-			lvItem.cchTextMax = _countof(tszBuf);
-			lvItem.iItem = uIndex++;
-			lvItem.iSubItem = 0;
-			lvItem.lParam = LPARAM(p);
-			::SendMessage(m_hwndList, LVM_INSERTITEM, 0, LPARAM(&lvItem));
+		const wchar_t *tszNick = c->getNick();
+		if (m_hFilter && m_hFilter != p->hContact) {
 			qMgrAddFilter(c->getContact(), tszNick);
-
-			lvItem.mask = LVIF_TEXT;
-			wchar_t tszTimestamp[30];
-			wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->created));
-			tszTimestamp[29] = 0;
-			lvItem.pszText = tszTimestamp;
-			lvItem.iSubItem = 1;
-			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
-
-			wchar_t *msg = mir_utf8decodeW(p->sendBuffer);
-			wchar_t *preview = Utils::GetPreviewWithEllipsis(msg, 255);
-			lvItem.pszText = preview;
-			lvItem.iSubItem = 2;
-			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
-			mir_free(preview);
-			mir_free(msg);
-
-			const wchar_t *tszStatusText = 0;
-			if (p->fFailed) {
-				tszStatusText = p->bCode == CSendLaterJob::JOB_REMOVABLE ?
-					TranslateT("Removed") : TranslateT("Failed");
-			}
-			else if (p->fSuccess)
-				tszStatusText = TranslateT("Sent OK");
-			else {
-				switch (p->bCode) {
-				case CSendLaterJob::JOB_DEFERRED:
-					tszStatusText = TranslateT("Deferred");
-					break;
-				case CSendLaterJob::JOB_AGE:
-					tszStatusText = TranslateT("Failed");
-					break;
-				case CSendLaterJob::JOB_HOLD:
-					tszStatusText = TranslateT("Suspended");
-					break;
-				default:
-					tszStatusText = TranslateT("Pending");
-					break;
-				}
-			}
-			if (p->bCode)
-				bCode = p->bCode;
-
-			wchar_t tszStatus[20];
-			mir_snwprintf(tszStatus, L"X/%s[%c] (%d)", tszStatusText, bCode, p->iSendCount);
-			tszStatus[0] = p->szId[0];
-			lvItem.pszText = tszStatus;
-			lvItem.iSubItem = 3;
-			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
-
-			if (p->lastSent == 0)
-				wcsncpy_s(tszTimestamp, L"Never", _TRUNCATE);
-			else {
-				wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->lastSent));
-				tszTimestamp[29] = 0;
-			}
-			lvItem.pszText = tszTimestamp;
-			lvItem.iSubItem = 4;
-			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
+			continue;
 		}
+
+		lvItem.mask = LVIF_TEXT | LVIF_PARAM;
+		wchar_t tszBuf[255];
+		mir_snwprintf(tszBuf, L"%s [%s]", tszNick, c->getRealAccount());
+		lvItem.pszText = tszBuf;
+		lvItem.cchTextMax = _countof(tszBuf);
+		lvItem.iItem = uIndex++;
+		lvItem.iSubItem = 0;
+		lvItem.lParam = LPARAM(p);
+		::SendMessage(m_hwndList, LVM_INSERTITEM, 0, LPARAM(&lvItem));
+		qMgrAddFilter(c->getContact(), tszNick);
+
+		lvItem.mask = LVIF_TEXT;
+		wchar_t tszTimestamp[30];
+		wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->created));
+		tszTimestamp[29] = 0;
+		lvItem.pszText = tszTimestamp;
+		lvItem.iSubItem = 1;
+		::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
+
+		wchar_t *msg = mir_utf8decodeW(p->sendBuffer);
+		wchar_t *preview = Utils::GetPreviewWithEllipsis(msg, 255);
+		lvItem.pszText = preview;
+		lvItem.iSubItem = 2;
+		::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
+		mir_free(preview);
+		mir_free(msg);
+
+		const wchar_t *tszStatusText = 0;
+		if (p->fFailed) {
+			tszStatusText = p->bCode == CSendLaterJob::JOB_REMOVABLE ?
+				TranslateT("Removed") : TranslateT("Failed");
+		}
+		else if (p->fSuccess)
+			tszStatusText = TranslateT("Sent OK");
+		else {
+			switch (p->bCode) {
+			case CSendLaterJob::JOB_DEFERRED:
+				tszStatusText = TranslateT("Deferred");
+				break;
+			case CSendLaterJob::JOB_AGE:
+				tszStatusText = TranslateT("Failed");
+				break;
+			case CSendLaterJob::JOB_HOLD:
+				tszStatusText = TranslateT("Suspended");
+				break;
+			default:
+				tszStatusText = TranslateT("Pending");
+				break;
+			}
+		}
+		if (p->bCode)
+			bCode = p->bCode;
+
+		wchar_t tszStatus[20];
+		mir_snwprintf(tszStatus, L"X/%s[%c] (%d)", tszStatusText, bCode, p->iSendCount);
+		tszStatus[0] = p->szId[0];
+		lvItem.pszText = tszStatus;
+		lvItem.iSubItem = 3;
+		::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
+
+		if (p->lastSent == 0)
+			wcsncpy_s(tszTimestamp, L"Never", _TRUNCATE);
+		else {
+			wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->lastSent));
+			tszTimestamp[29] = 0;
+		}
+		lvItem.pszText = tszTimestamp;
+		lvItem.iSubItem = 4;
+		::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
 	}
 
 	if (m_hFilter == 0)

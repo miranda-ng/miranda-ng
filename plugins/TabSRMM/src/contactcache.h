@@ -64,40 +64,42 @@ struct CContactCache : public MZeroedObject
 		releaseAlloced();
 	}
 
-	const bool     isValid() const { return m_Valid; }
-	const WORD     getStatus() const { return m_wStatus; }
-	const WORD     getActiveStatus() const { return m_isMeta ? m_wMetaStatus : m_wStatus; }
-	const WORD     getOldStatus() const { return m_wOldStatus; }
-	const wchar_t*   getNick() const { return m_szNick; }
-	const MCONTACT getContact() const { return m_hContact; }
-	const MCONTACT getActiveContact() const { return (m_isMeta) ? m_hSub : m_hContact; }
-	const DWORD    getIdleTS() const { return m_idleTS; }
-	const char*    getProto() const { return cc->szProto; }
-	const char*    getActiveProto() const { return m_isMeta ? (m_szMetaProto ? m_szMetaProto : cc->szProto) : cc->szProto; }
-	bool           isMeta() const { return m_isMeta; }
-	bool           isSubContact() const { return cc->IsSub(); }
-	bool           isFavorite() const { return m_isFavorite; }
-	bool           isRecent() const { return m_isRecent; }
-	const wchar_t*   getRealAccount() const { return m_szAccount ? m_szAccount : C_INVALID_ACCOUNT; }
-	const wchar_t*   getUIN() const { return m_szUIN; }
-	const wchar_t*   getStatusMsg() const { return m_szStatusMsg; }
-	const wchar_t*   getXStatusMsg() const { return m_xStatusMsg; }
-	const wchar_t*   getListeningInfo() const { return m_ListeningInfo; }
-	BYTE           getXStatusId() const { return m_xStatus; }
-	const HWND     getWindowData(TWindowData*& dat) const { dat = m_dat; return m_hwnd; }
-	const HWND     getHwnd() const { return m_hwnd; }
-	int            getMaxMessageLength();
+	__forceinline bool     isValid() const { return m_Valid; }
+	__forceinline WORD     getActiveStatus() const { return m_isMeta ? m_wMetaStatus : m_wStatus; }
+	__forceinline WORD     getOldStatus() const { return m_wOldStatus; }
+	__forceinline LPCWSTR  getNick() const { return m_szNick; }
+	__forceinline MCONTACT getContact() const { return m_hContact; }
+	__forceinline MCONTACT getActiveContact() const { return (m_isMeta) ? m_hSub : m_hContact; }
+	__forceinline DWORD    getIdleTS() const { return m_idleTS; }
+	__forceinline LPCSTR   getProto() const { return cc->szProto; }
+	__forceinline LPCSTR   getActiveProto() const { return m_isMeta ? (m_szMetaProto ? m_szMetaProto : cc->szProto) : cc->szProto; }
+	
+	__forceinline bool     isMeta() const { return m_isMeta; }
+	__forceinline bool     isSubContact() const { return cc->IsSub(); }
+	__forceinline bool     isFavorite() const { return m_isFavorite; }
+	__forceinline bool     isRecent() const { return m_isRecent; }
+	
+	__forceinline LPCWSTR  getRealAccount() const { return m_szAccount ? m_szAccount : C_INVALID_ACCOUNT; }
+	__forceinline LPCWSTR  getUIN() const { return m_szUIN; }
+	__forceinline LPCWSTR  getStatusMsg() const { return m_szStatusMsg; }
+	__forceinline LPCWSTR  getXStatusMsg() const { return m_xStatusMsg; }
+	__forceinline LPCWSTR  getListeningInfo() const { return m_ListeningInfo; }
+	__forceinline BYTE     getXStatusId() const { return m_xStatus; }
+	__forceinline HWND     getWindowData(TWindowData*& dat) const { dat = m_dat; return m_hwnd; }
+	__forceinline HWND     getHwnd() const { return m_hwnd; }
 
-	TWindowData*   getDat() const { return m_dat; }
+	__forceinline DWORD    getSessionStart() const { return m_stats->started; }
+	__forceinline int      getSessionMsgCount() const { return (int)m_stats->messageCount; }
 
-	void           updateStats(int iType, size_t value = 0);
-	const DWORD    getSessionStart() const { return m_stats->started; }
-	const int      getSessionMsgCount() const { return (int)m_stats->messageCount; }
+	__forceinline TWindowData* getDat() const { return m_dat; }
+
+	size_t getMaxMessageLength();
+	int    getStatus() const;
+	void   updateStats(int iType, size_t value = 0);
 
 	////////////////////////////////////////////////////////////////////////////
 
 	void   updateState();
-	bool   updateStatus();
 	bool   updateNick();
 	void   updateMeta();
 	bool   updateUIN();

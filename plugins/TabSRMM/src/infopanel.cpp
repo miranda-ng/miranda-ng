@@ -1359,16 +1359,15 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const wchar_t *szT
 	if (PluginConfig.g_SmileyAddAvail) {
 		CContactCache *c = CContactCache::getContactCache(m_hContact);
 		::SendMessage(m_hRich, EM_SETBKGNDCOLOR, 0, (LPARAM)PluginConfig.m_ipBackgroundGradientHigh);
-		if (c) {
-			SMADD_RICHEDIT3 smadd = { sizeof(smadd) };
-			smadd.hwndRichEditControl = m_hRich;
-			smadd.Protocolname = const_cast<char *>(c->getActiveProto());
-			smadd.hContact = c->getActiveContact();
-			smadd.flags = 0;
-			smadd.rangeToReplace = NULL;
-			smadd.disableRedraw = TRUE;
-			CallService(MS_SMILEYADD_REPLACESMILEYS, TABSRMM_SMILEYADD_BKGCOLORMODE, (LPARAM)&smadd);
-		}
+
+		SMADD_RICHEDIT3 smadd = { sizeof(smadd) };
+		smadd.hwndRichEditControl = m_hRich;
+		smadd.Protocolname = const_cast<char *>(c->getActiveProto());
+		smadd.hContact = c->getActiveContact();
+		smadd.flags = 0;
+		smadd.rangeToReplace = NULL;
+		smadd.disableRedraw = TRUE;
+		CallService(MS_SMILEYADD_REPLACESMILEYS, TABSRMM_SMILEYADD_BKGCOLORMODE, (LPARAM)&smadd);
 	}
 
 	RECT rcParent;

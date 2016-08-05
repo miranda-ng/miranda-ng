@@ -105,7 +105,6 @@ void CContactCache::closeWindow()
 void CContactCache::updateState()
 {
 	updateNick();
-	updateStatus();
 }
 
 /**
@@ -126,20 +125,6 @@ bool CContactCache::updateNick()
 }
 
 /**
- * update status mode
- * @return	bool: true if status mode has changed, false if not.
- */
-bool CContactCache::updateStatus()
-{
-	if (!m_Valid)
-		return false;
-
-	m_wOldStatus = m_wStatus;
-	m_wStatus = (WORD)db_get_w(getActiveContact(), getActiveProto(), "Status", ID_STATUS_OFFLINE);
-	return m_wOldStatus != m_wStatus;
-}
-
-/**
  * update meta (subcontact and -protocol) status. This runs when the
  * MC protocol fires one of its events OR when a relevant database value changes
  * in the master contact.
@@ -156,7 +141,6 @@ void CContactCache::updateMeta()
 			m_szAccount = pa->tszAccountName;
 
 		if (hOldSub != m_hSub) {
-			updateStatus();
 			updateNick();
 			updateUIN();
 		}
@@ -569,7 +553,7 @@ HICON CContactCache::getIcon(int& iSize) const
 	return m_dat->hTabIcon;
 }
 
-int CContactCache::getMaxMessageLength()
+size_t CContactCache::getMaxMessageLength()
 {
 	MCONTACT hContact = getActiveContact();
 	LPCSTR szProto = getActiveProto();
@@ -592,4 +576,9 @@ int CContactCache::getMaxMessageLength()
 		}
 	}
 	return m_nMax;
+}
+
+int CContactCache::getStatus() const
+{
+	return db_get_w(getActiveContact(), getActiveProto(), "Status", ID_STATUS_OFFLINE);
 }

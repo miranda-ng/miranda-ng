@@ -1876,7 +1876,7 @@ void TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat)
 
 int TSAPI CutContactName(const wchar_t *oldname, wchar_t *newname, size_t size)
 {
-	if (mir_wstrlen(oldname) <= PluginConfig.m_iTabNameLimit)
+	if ((int)mir_wstrlen(oldname) <= PluginConfig.m_iTabNameLimit)
 		wcsncpy_s(newname, size, oldname, _TRUNCATE);
 	else {
 		wchar_t fmt[30];

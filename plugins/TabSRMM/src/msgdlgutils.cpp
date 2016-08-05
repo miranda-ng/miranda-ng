@@ -656,7 +656,7 @@ wchar_t* TSAPI QuoteText(const wchar_t *text)
 	int inChar = 0;
 	int justDoneLineBreak = 1;
 	for (outChar = 0, lineChar = 0; text[inChar];) {
-		if (outChar >= bufSize - 8) {
+		if (outChar >= (int)bufSize - 8) {
 			bufSize += 20;
 			strout = (wchar_t*)mir_realloc(strout, bufSize * sizeof(wchar_t));
 		}

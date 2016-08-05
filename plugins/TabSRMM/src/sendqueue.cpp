@@ -129,7 +129,7 @@ static void DoSplitSendA(LPVOID param)
 	memcpy(szTemp, job->szSendBuffer, iLen + 1);
 
 	bool fFirstSend = false, fSplitting = true;
-	int iCur = 0;
+	size_t iCur = 0;
 	do {
 		iCur += job->chunkSize;
 		if (iCur > iLen)
@@ -192,15 +192,12 @@ size_t SendQueue::getSendLength(const int iEntry)
 
 int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 {
+	HWND hwndDlg = dat->hwnd;
 	CContactCache *ccActive = CContactCache::getContactCache(dat->hContact);
-	if (ccActive == NULL)
-		return 0;
-
-	HWND	hwndDlg = dat->hwnd;
 
 	if (dat->sendMode & SMODE_MULTIPLE) {
 		int iJobs = 0;
-		int iMinLength = 0;
+		size_t iMinLength = 0;
 
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].hContact = ccActive->getActiveContact();
@@ -212,8 +209,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				CContactCache *c = CContactCache::getContactCache(hContact);
-				if (c)
-					iMinLength = (iMinLength == 0 ? c->getMaxMessageLength() : min(c->getMaxMessageLength(), iMinLength));
+				iMinLength = (iMinLength == 0 ? c->getMaxMessageLength() : min(c->getMaxMessageLength(), iMinLength));
 			}
 		}
 
@@ -247,7 +243,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 	if (M.GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
 		// determine send buffer length
 		BOOL fSplit = FALSE;
-		if (getSendLength(iEntry) >= dat->nMax)
+		if ((int)getSendLength(iEntry) >= dat->nMax)
 			fSplit = true;
 
 		if (!fSplit)
@@ -273,7 +269,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 			wchar_t	tszError[256];
 
 			size_t iSendLength = getSendLength(iEntry);
-			if (iSendLength >= dat->nMax) {
+			if ((int)iSendLength >= dat->nMax) {
 				mir_snwprintf(tszError, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
 				SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 				clearJob(iEntry);
@@ -494,7 +490,6 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 
 int SendQueue::RTL_Detect(const WCHAR *pszwText)
 {
-	int i, n = 0;
 	size_t iLen = mir_wstrlen(pszwText);
 
 	WORD *infoTypeC2 = (WORD*)mir_calloc(sizeof(WORD) * (iLen + 2));
@@ -503,7 +498,8 @@ int SendQueue::RTL_Detect(const WCHAR *pszwText)
 
 	GetStringTypeW(CT_CTYPE2, pszwText, (int)iLen, infoTypeC2);
 
-	for (i = 0; i < iLen; i++)
+	int n = 0;
+	for (size_t i = 0; i < iLen; i++)
 		if (infoTypeC2[i] == C2_RIGHTTOLEFT)
 			n++;
 
@@ -570,8 +566,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		dat->cache->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
 	else {
 		CContactCache *cc = CContactCache::getContactCache(job.hContact);
-		if (cc)
-			cc->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
+		cc->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
 	}
 
 	if (job.dwFlags & PREF_RTL)
