@@ -286,7 +286,7 @@ SMS с кодом подтверждения отправлено на ваш м
 [Loading notifications...]
 Загрузка уведомлений...
 [Loading memories...]
-Загрузка «Воспоминаний»...
+Загрузка воспоминаний...
 [Do you want to cancel your friendship with '%s'?]
 Вы уверены, что хотите удалить '%s' из друзей?
 [Client errors]
@@ -300,7 +300,7 @@ SMS с кодом подтверждения отправлено на ваш м
 [Real-time friends activity]
 Активность друзей в реальном времени
 [Memories]
-«Воспоминания»
+Воспоминания
 [Visit profile]
 Профиль на сайте
 [Visit notifications]
@@ -370,6 +370,6 @@ SMS с кодом подтверждения отправлено на ваш м
 [Check newsfeeds]
 Проверить новости
 [Check memories]
-Проверить «Воспоминания»
+Проверить воспоминания
 [Check notifications]
 Проверить уведомления
