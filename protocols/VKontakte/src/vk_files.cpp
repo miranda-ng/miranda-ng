@@ -21,8 +21,8 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 {
 	debugLogA("CVkProto::SendFile");
 
-	LONG userID = getDword(hContact, "ID", -1);
-	if (!IsOnline() || ((userID == -1 || userID == VK_FEED_USER) && !isChatRoom(hContact)))
+	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	if (!IsOnline() || ((userID == VK_INVALID_USER || userID == VK_FEED_USER) && !isChatRoom(hContact)))
 		return (HANDLE)0;
 
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
@@ -369,8 +369,8 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	}
 	else {
-		LONG userID = getDword(fup->hContact, "ID", -1);
-		if (userID == -1 || userID == VK_FEED_USER) {
+		LONG userID = getDword(fup->hContact, "ID", VK_INVALID_USER);
+		if (userID == VK_INVALID_USER || userID == VK_FEED_USER) {
 			SendFileFiled(fup, VKERR_INVALID_USER);
 			return;
 		}

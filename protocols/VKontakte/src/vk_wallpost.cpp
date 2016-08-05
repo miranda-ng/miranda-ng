@@ -36,8 +36,8 @@ void CVkProto::WallPost(MCONTACT hContact, wchar_t *pwszMsg, wchar_t *pwszUrl, b
 	if (!IsOnline() || (IsEmpty(pwszMsg) && IsEmpty(pwszUrl)))
 		return;
 
-	LONG userID = hContact ? m_myUserId : getDword(hContact, "ID", -1);
-	if (userID == -1 || userID == VK_FEED_USER)
+	LONG userID = hContact ? m_myUserId : getDword(hContact, "ID", VK_INVALID_USER);
+	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return;
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/wall.post.json", true, &CVkProto::OnReceiveSmth)

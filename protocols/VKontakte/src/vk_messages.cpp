@@ -44,9 +44,9 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 		return 0;
 
 	bool bIsChat = isChatRoom(hContact);
-	LONG iUserID = getDword(hContact, bIsChat ? "vk_chat_id" : "ID" , -1);
+	LONG iUserID = getDword(hContact, bIsChat ? "vk_chat_id" : "ID" , VK_INVALID_USER);
 
-	if (iUserID == -1 || iUserID == VK_FEED_USER) {
+	if (iUserID == VK_INVALID_USER || iUserID == VK_FEED_USER) {
 		ForkThread(&CVkProto::SendMsgAck, new CVkSendMsgParam(hContact));
 		return 0;
 	}
@@ -174,8 +174,8 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 	debugLogA("CVkProto::MarkMessagesRead (hContact)");
 	if (!IsOnline() || !hContact)
 		return;
-	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1 || userID == VK_FEED_USER)
+	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
@@ -347,6 +347,8 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	if (!jnDlgs)
 		return;
 
+	CMStringA szGroupIds;
+
 	for (auto it = jnDlgs.begin(); it != jnDlgs.end(); ++it) {
 		if (!(*it))
 			break;
@@ -363,6 +365,9 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		if (!chatid) {
 			uid = jnDlg["user_id"].as_int();
 			hContact = FindUser(uid, true);
+
+			if (IsGroupUser(hContact))
+				szGroupIds.AppendFormat(szGroupIds.IsEmpty() ? "%d" : ",%d", -1 * uid);
 
 			if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
 				time_t tLastReadMessageTime = jnDlg["date"].as_int();
@@ -402,4 +407,5 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		}
 	}
 	RetrieveUsersInfo();
+	RetrieveGroupInfo(szGroupIds);
 }

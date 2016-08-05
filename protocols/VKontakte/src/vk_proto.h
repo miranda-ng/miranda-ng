@@ -292,7 +292,10 @@ private:
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUserInfo(LONG userId);
+	void RetrieveGroupInfo(LONG groupID);
+	void RetrieveGroupInfo(CMStringA & groupIDs);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveGroupInfo(NETLIBHTTPREQUEST * reply, AsyncHttpRequest * pReq);
 	void RetrieveFriends(bool bCleanNonFriendContacts = false);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void MarkMessagesRead(const CMStringA &mids);
@@ -320,6 +323,7 @@ private:
 	void SetAllContactStatuses(int status);
 	MCONTACT FindUser(LONG userid, bool bCreate = false);
 	MCONTACT FindChat(LONG dwUserid);
+	bool IsGroupUser(MCONTACT hContact);
 	bool CheckMid(LIST<void> &lList, int guid);
 	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root);
 	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);

@@ -146,7 +146,7 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cb
 			szFileType = p;
 	}
 
-	LONG id = getDword(hContact, "ID", -1);
+	LONG id = getDword(hContact, "ID", VK_INVALID_USER);
 	mir_snwprintf(pwszDest + tPathLen, MAX_PATH - tPathLen, L"%d%s", id, szFileType);
 }
 

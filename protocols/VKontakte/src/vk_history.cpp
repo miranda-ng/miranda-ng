@@ -28,8 +28,8 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistoryForContact(WPARAM hContact, LPAR
 	if (IDNO == MessageBox(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
 
-	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1 || userID == VK_FEED_USER)
+	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return 0;
 
 	MEVENT hDBEvent = db_event_first(hContact);
@@ -56,8 +56,8 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 		return 0;
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		LONG userID = getDword(hContact, "ID", -1);
-		if (userID == -1 || userID == VK_FEED_USER)
+		LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+		if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 			continue;
 
 		
@@ -118,8 +118,8 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 	if (!IsOnline())
 		return;
 
-	LONG userID = getDword(hContact, "ID", -1);
-	if (-1 == userID || userID == VK_FEED_USER)
+	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	if (VK_INVALID_USER == userID || userID == VK_FEED_USER)
 		return;
 
 	CMStringA code(FORMAT, "var iOffset=%d;var iReqCount=%d;var userID=%d;var iTime=%d;var lastMid=%d;"

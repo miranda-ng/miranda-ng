@@ -581,8 +581,8 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		{
 			CVkInviteChatForm dlg(this);
 			if (dlg.DoModal() && dlg.m_hContact != NULL) {
-				int uid = getDword(dlg.m_hContact, "ID", -1);
-				if (uid != -1)
+				int uid = getDword(dlg.m_hContact, "ID", VK_INVALID_USER);
+				if (uid != VK_INVALID_USER)
 					Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth)
 						<< INT_PARAM("user_id", uid)
 						<< INT_PARAM("chat_id", cc->m_chatid));
@@ -621,9 +621,9 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (!getBool(hContact, "off"))
 		return 1;
 
-	int chat_id = getDword(hContact, "vk_chat_id", -1);
+	int chat_id = getDword(hContact, "vk_chat_id", VK_INVALID_USER);
 	
-	if (chat_id == -1)
+	if (chat_id == VK_INVALID_USER)
 		return 1;
 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
@@ -726,8 +726,8 @@ INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
 	if (!getBool(hContact, "off"))
 		return 1;
 		
-	int chat_id = getDword(hContact, "vk_chat_id", -1);
-	if (chat_id == -1) 
+	int chat_id = getDword(hContact, "vk_chat_id", VK_INVALID_USER);
+	if (chat_id == VK_INVALID_USER)
 		return 1;
 
 	CMStringA code;

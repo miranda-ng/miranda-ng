@@ -179,8 +179,8 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 		return NULL;
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		LONG dbUserid = getDword(hContact, "ID", -1);
-		if (dbUserid == -1)
+		LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
+		if (dbUserid == VK_INVALID_USER)
 			continue;
 
 		if (dbUserid == dwUserid)
@@ -194,6 +194,8 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	Proto_AddToContact(hNewContact, m_szModuleName);
 	setDword(hNewContact, "ID", dwUserid);
 	db_set_ws(hNewContact, "CList", "Group", m_vkOptions.pwszDefaultGroup);
+	if (dwUserid < 0)
+		setByte(hNewContact, "IsGroup", 1);
 	return hNewContact;
 }
 
@@ -203,8 +205,8 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 		return NULL;
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		LONG dbUserid = getDword(hContact, "vk_chat_id", -1);
-		if (dbUserid == -1)
+		LONG dbUserid = getDword(hContact, "vk_chat_id", VK_INVALID_USER);
+		if (dbUserid == VK_INVALID_USER)
 			continue;
 
 		if (dbUserid == dwUserid)
@@ -212,6 +214,15 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 	}
 
 	return NULL;
+}
+
+bool CVkProto::IsGroupUser(MCONTACT hContact) 
+{
+	if (getBool(hContact, "IsGroup", false))
+		return true;
+
+	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	return (userID < 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -254,6 +265,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 
 	const JSONNode &jnError = jnNode["error"];
 	const JSONNode &jnErrorCode = jnError["error_code"];
+	const JSONNode &jnRedirectUri = jnError["redirect_uri"];
 
 	if (!jnError || !jnErrorCode)
 		return true;
@@ -278,6 +290,13 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 		break;
 	case VKERR_VALIDATION_REQUIRED:	// Validation Required
 		MsgPopup(NULL, TranslateT("You must validate your account before use VK in Miranda NG"), TranslateT("Error"), true);
+		if (jnRedirectUri) {
+			T2Utf szRedirectUri(jnRedirectUri.as_mstring());
+			AsyncHttpRequest *pRedirectReq = new AsyncHttpRequest(this, REQUEST_GET, szRedirectUri, false, &CVkProto::OnOAuthAuthorize);
+			pRedirectReq->m_bApiReq = false;
+			pRedirectReq->bIsMainConn = true;
+			Push(pRedirectReq);
+		}
 		break;
 	case VKERR_FLOOD_CONTROL:
 		pReq->m_iRetry = 0;
@@ -695,8 +714,8 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 	if (!IsOnline())
 		return;
 
-	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1 || userID == VK_FEED_USER)
+	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return;
 
 	MEVENT hDBEvent = NULL;
@@ -1298,12 +1317,12 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 
 void CVkProto::SetInvisible(MCONTACT hContact)
 {
-	debugLogA("CVkProto::SetInvisible %d", getDword(hContact, "ID", -1));
+	debugLogA("CVkProto::SetInvisible %d", getDword(hContact, "ID", VK_INVALID_USER));
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		setWord(hContact, "Status", ID_STATUS_INVISIBLE);
 		SetMirVer(hContact, 1);
 		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_INVISIBLE);
-		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", -1));
+		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", VK_INVALID_USER));
 	}
 	time_t now = time(NULL);
 	db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)now);

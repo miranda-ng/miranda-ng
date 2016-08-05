@@ -355,16 +355,17 @@ void CVkProto::InitMenus()
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	LONG userID = getDword(hContact, "ID", -1);
+	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 	bool bisFriend = (getBool(hContact, "Auth", true) == 0);
 	bool bisBroadcast = !(IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl"))));
+	bool bIsGroup = IsGroupUser(hContact);
 	Menu_ShowItem(m_hContactMenuItems[CMI_VISITPROFILE], userID != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_MARKMESSAGESASREAD], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
-	Menu_ShowItem(m_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && userID != VK_FEED_USER);
-	Menu_ShowItem(m_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER);
-	Menu_ShowItem(m_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact) && userID != VK_FEED_USER);
-	Menu_ShowItem(m_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact) && userID != VK_FEED_USER);
+	Menu_ShowItem(m_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && userID != VK_FEED_USER && !bIsGroup);
+	Menu_ShowItem(m_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER && !bIsGroup);
+	Menu_ShowItem(m_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact) && userID != VK_FEED_USER && !bIsGroup);
+	Menu_ShowItem(m_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact) && userID != VK_FEED_USER && !bIsGroup);
 	Menu_ShowItem(m_hContactMenuItems[CMI_DESTROYKICKCHAT], isChatRoom(hContact) && getBool(hContact, "off"));
 	Menu_ShowItem(m_hContactMenuItems[CMI_OPENBROADCAST], !isChatRoom(hContact) && bisBroadcast);
 	Menu_ShowItem(m_hContactMenuItems[CMI_GETSERVERHISTORY], !isChatRoom(hContact) && userID != VK_FEED_USER);
@@ -549,8 +550,8 @@ int CVkProto::AuthRequest(MCONTACT hContact, const wchar_t *message)
 	if (!IsOnline())
 		return 1;
 
-	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1 || !hContact || userID == VK_FEED_USER)
+	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	if (userID == VK_INVALID_USER || !hContact || userID == VK_FEED_USER)
 		return 1;
 	
 	wchar_t msg[501] = {0};
@@ -632,8 +633,8 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	debugLogA("CVkProto::UserIsTyping");
 	if (PROTOTYPE_SELFTYPING_ON == type) {
-		LONG userID = getDword(hContact, "ID", -1);
-		if (userID == -1 || !IsOnline() || userID == VK_FEED_USER)
+		LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+		if (userID == VK_INVALID_USER || !IsOnline() || userID == VK_FEED_USER)
 			return 1;
 
 		if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnTyping)
@@ -650,8 +651,8 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 int CVkProto::GetInfo(MCONTACT hContact, int)
 {
 	debugLogA("CVkProto::GetInfo");
-	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1 || userID == VK_FEED_USER)
+	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 		return 1;
 	RetrieveUserInfo(userID);
 	return 0;
