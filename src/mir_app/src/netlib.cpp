@@ -270,34 +270,34 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 		break;
 
 	case NLH_CONNECTION:
+		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 		{
 			NetlibConnection *nlc = (NetlibConnection*)wParam;
-
-			WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-			if (nlc->usingHttpGateway)
-				HttpGatewayRemovePacket(nlc, -1);
-			else {
-				if (nlc->s != INVALID_SOCKET)
-					NetlibDoClose(nlc, nlc->termRequested);
-				if (nlc->s2 != INVALID_SOCKET)
-					closesocket(nlc->s2);
-				nlc->s2 = INVALID_SOCKET;
-			}
-			ReleaseMutex(hConnectionHeaderMutex);
-
-			HANDLE waitHandles[4] = { hConnectionHeaderMutex, nlc->hOkToCloseEvent, nlc->ncsRecv.hMutex, nlc->ncsSend.hMutex };
-			DWORD waitResult = WaitForMultipleObjects(_countof(waitHandles), waitHandles, TRUE, INFINITE);
-			if (waitResult >= WAIT_OBJECT_0 + _countof(waitHandles)) {
+			if (GetNetlibHandleType(nlc) == NLH_CONNECTION) {
+				if (nlc->usingHttpGateway)
+					HttpGatewayRemovePacket(nlc, -1);
+				else {
+					if (nlc->s != INVALID_SOCKET)
+						NetlibDoClose(nlc, nlc->termRequested);
+					if (nlc->s2 != INVALID_SOCKET)
+						closesocket(nlc->s2);
+					nlc->s2 = INVALID_SOCKET;
+				}
 				ReleaseMutex(hConnectionHeaderMutex);
-				SetLastError(ERROR_INVALID_PARAMETER);  //already been closed
-				return 0;
+
+				HANDLE waitHandles[4] = { hConnectionHeaderMutex, nlc->hOkToCloseEvent, nlc->ncsRecv.hMutex, nlc->ncsSend.hMutex };
+				DWORD waitResult = WaitForMultipleObjects(_countof(waitHandles), waitHandles, TRUE, INFINITE);
+				if (waitResult >= WAIT_OBJECT_0 + _countof(waitHandles)) {
+					ReleaseMutex(hConnectionHeaderMutex);
+					SetLastError(ERROR_INVALID_PARAMETER);  //already been closed
+					return 0;
+				}
+
+				NetlibLogf(nlc->nlu, "(%p:%u) Connection closed", nlc, nlc->s);
+				delete nlc;
 			}
-
-			NetlibLogf(nlc->nlu, "(%p:%u) Connection closed", nlc, nlc->s);
-			delete nlc;
-
-			ReleaseMutex(hConnectionHeaderMutex);
 		}
+		ReleaseMutex(hConnectionHeaderMutex);
 		return 1;
 
 	case NLH_BOUNDPORT:
