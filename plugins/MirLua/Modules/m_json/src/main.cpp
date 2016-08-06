@@ -17,11 +17,9 @@ static int lua_Encode(lua_State *L)
 
 	JSONNode *node = json_new(JSON_NODE);
 	lua_pushnil(L);
-	while (lua_next(L, 1) != 0)
-	{
-		lua2json(L, *node);
-		lua_pop(L, 1);
-	}
+	lua_pushvalue(L, 1);
+	lua2json(L, *node);
+	lua_pop(L, 2);
 	JSON *mt = new (L) JSON(node);
 	luaL_setmetatable(L, MT_JSON);
 

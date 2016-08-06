@@ -2,8 +2,6 @@
 
 void lua2json(lua_State *L, JSONNode &node)
 {
-	const char *name = lua_tostring(L, -2);
-
 	switch (lua_type(L, -1))
 	{
 	case LUA_TNIL:
@@ -21,8 +19,6 @@ void lua2json(lua_State *L, JSONNode &node)
 	case LUA_TTABLE:
 	{
 		node.cast(JSON_NODE);
-		if (name)
-			node.set_name(name);
 
 		lua_pushnil(L);
 		while (lua_next(L, -2) != 0)
@@ -35,6 +31,10 @@ void lua2json(lua_State *L, JSONNode &node)
 		}
 	}
 	}
+
+	const char *name = lua_tostring(L, -2);
+	if (name)
+		node.set_name(name);
 }
 
 static int json__index(lua_State *L)
