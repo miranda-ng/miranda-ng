@@ -28,7 +28,7 @@ static int lua_Encode(lua_State *L)
 
 static const luaL_Reg methods[] =
 {
-	{ "Dcode", lua_Decode },
+	{ "Decode", lua_Decode },
 	{ "Encode", lua_Encode },
 
 	{ NULL, NULL }
