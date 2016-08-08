@@ -65,8 +65,9 @@ struct CContactCache : public MZeroedObject
 	}
 
 	__forceinline bool     isValid() const { return m_Valid; }
-	__forceinline WORD     getActiveStatus() const { return m_isMeta ? m_wMetaStatus : getStatus(); }
-	__forceinline WORD     getOldStatus() const { return m_wOldStatus; }
+	__forceinline int      getStatus() const { return m_iStatus; }
+	__forceinline int      getActiveStatus() const { return m_isMeta ? m_iMetaStatus : getStatus(); }
+	__forceinline int      getOldStatus() const { return m_iOldStatus; }
 	__forceinline LPCWSTR  getNick() const { return m_szNick; }
 	__forceinline MCONTACT getContact() const { return m_hContact; }
 	__forceinline MCONTACT getActiveContact() const { return (m_isMeta) ? m_hSub : m_hContact; }
@@ -94,12 +95,11 @@ struct CContactCache : public MZeroedObject
 	__forceinline TWindowData* getDat() const { return m_dat; }
 
 	size_t getMaxMessageLength();
-	int    getStatus() const;
 	void   updateStats(int iType, size_t value = 0);
 
 	////////////////////////////////////////////////////////////////////////////
 
-	void     updateStatus();
+	bool     updateStatus(int iStatus);
 	void     updateState();
 	bool     updateNick();
 	void     updateMeta();
@@ -129,7 +129,7 @@ private:
 	void     releaseAlloced();
 
 	MCONTACT m_hContact, m_hSub;
-	WORD     m_wStatus, m_wOldStatus, m_wMetaStatus;
+	int      m_iStatus, m_iOldStatus, m_iMetaStatus;
 	char    *m_szMetaProto;
 	wchar_t *m_szAccount;
 	wchar_t  m_szNick[80], m_szUIN[80];

@@ -38,7 +38,7 @@ static DBCachedContact ccInvalid;
 CContactCache::CContactCache(MCONTACT hContact)
 {
 	m_hContact = hContact;
-	m_wStatus = m_wOldStatus = ID_STATUS_OFFLINE;
+	m_iStatus = m_iOldStatus = ID_STATUS_OFFLINE;
 
 	if (hContact) {
 		if ((cc = db_get_contact(hContact)) != NULL) {
@@ -88,7 +88,7 @@ void CContactCache::resetMeta()
 {
 	m_isMeta = false;
 	m_szMetaProto = 0;
-	m_wMetaStatus = ID_STATUS_OFFLINE;
+	m_iMetaStatus = ID_STATUS_OFFLINE;
 	initPhaseTwo();
 }
 
@@ -135,7 +135,7 @@ void CContactCache::updateMeta()
 		MCONTACT hOldSub = m_hSub;
 		m_hSub = db_mc_getSrmmSub(cc->contactID);
 		m_szMetaProto = GetContactProto(m_hSub);
-		m_wMetaStatus = (WORD)db_get_w(m_hSub, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
+		m_iMetaStatus = (WORD)db_get_w(m_hSub, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
 		PROTOACCOUNT *pa = Proto_GetAccount(m_szMetaProto);
 		if (pa)
 			m_szAccount = pa->tszAccountName;
@@ -148,7 +148,7 @@ void CContactCache::updateMeta()
 	else {
 		m_hSub = 0;
 		m_szMetaProto = NULL;
-		m_wMetaStatus = ID_STATUS_OFFLINE;
+		m_iMetaStatus = ID_STATUS_OFFLINE;
 		m_xStatus = 0;
 	}
 }
@@ -578,13 +578,9 @@ size_t CContactCache::getMaxMessageLength()
 	return m_nMax;
 }
 
-int CContactCache::getStatus() const
+bool CContactCache::updateStatus(int iStatus)
 {
-	return db_get_w(getActiveContact(), getActiveProto(), "Status", ID_STATUS_OFFLINE);
-}
-
-void CContactCache::updateStatus()
-{
-	m_wOldStatus = m_wStatus;
-	m_wStatus = getStatus();
+	m_iOldStatus = m_iStatus;
+	m_iStatus = iStatus;
+	return m_iOldStatus != iStatus;
 }

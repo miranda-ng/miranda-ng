@@ -380,16 +380,15 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (!strcmp(cws->szModule, META_PROTO))
-		if (hContact != 0 && !strcmp(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
+		if (!strcmp(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
 			return 0;
 
 	HWND hwnd = M.FindWindow(hContact);
-	bool fChanged = false, fNickChanged = false, fExtendedStatusChange = false;
-	if (!strcmp(cws->szSetting, "Status")) {
-		c->updateStatus();
-		fChanged = true;
-	}
-	fNickChanged = c->updateNick();
+	bool fChanged = false, fExtendedStatusChange = false;
+	if (!strcmp(cws->szSetting, "Status"))
+		fChanged = c->updateStatus(cws->value.wVal);
+
+	fChanged |= c->updateNick();
 
 	if (strlen(setting) > 6 && strlen(setting) < 9 && !strncmp(setting, "Status", 6)) {
 		fChanged = true;
@@ -406,26 +405,25 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 			PostMessage(hwnd, DM_UPDATEUIN, 0, 0);
 	}
 
-	if (hwnd == NULL)
-		return 0;
-
-	if (!strcmp(setting, "MirVer"))
-		PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
-	if (fChanged || fNickChanged || fExtendedStatusChange)
-		PostMessage(hwnd, DM_UPDATETITLE, 0, 1);
-	if (fExtendedStatusChange)
-		PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
-	if (fChanged) {
-		if (c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
-			TWindowData *dat = c->getDat();
-			if (dat) {
-				dat->nTypeSecs = 0;
-				dat->bShowTyping = 0;
-				dat->szStatusBar[0] = 0;
-				PostMessage(c->getHwnd(), DM_UPDATELASTMESSAGE, 0, 0);
+	if (hwnd != NULL) {
+		if (!strcmp(setting, "MirVer"))
+			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
+		if (fChanged || fExtendedStatusChange)
+			PostMessage(hwnd, DM_UPDATETITLE, 0, 1);
+		if (fExtendedStatusChange)
+			PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
+		if (fChanged) {
+			if (c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
+				TWindowData *dat = c->getDat();
+				if (dat) {
+					dat->nTypeSecs = 0;
+					dat->bShowTyping = 0;
+					dat->szStatusBar[0] = 0;
+					PostMessage(c->getHwnd(), DM_UPDATELASTMESSAGE, 0, 0);
+				}
 			}
+			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_LOGSTATUSCHANGE, MAKELONG(c->getStatus(), c->getOldStatus()), (LPARAM)c);
 		}
-		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_LOGSTATUSCHANGE, MAKELONG(c->getStatus(), c->getOldStatus()), (LPARAM)c);
 	}
 
 	return 0;
