@@ -239,11 +239,11 @@ struct TWindowData
 	DWORD    dwFlagsEx;
 	MCONTACT hContact;
 	char    *szProto;
-	wchar_t    szMyNickname[130];
-	wchar_t    szStatusBar[100];
+	wchar_t  szMyNickname[130];
+	wchar_t  szStatusBar[100];
 	StatusTextData *sbCustom;
-	wchar_t    newtitle[130];        // tab title...
-	wchar_t    szStatus[50];
+	wchar_t  newtitle[130];        // tab title...
+	wchar_t  szStatus[50];
 	WORD     wStatus;
 	char    *sendBuffer;
 	size_t   iSendBufferSize;
@@ -287,14 +287,14 @@ struct TWindowData
 	int      iOpenJobs;
 	int      iCurrentQueueError;
 	MEVENT   hFlashingEvent;
-	wchar_t    myUin[80];
+	wchar_t  myUin[80];
 	int      SendFormat;
 	MEVENT  *hQueuedEvents;
 	int      iNextQueuedEvent;
 #define EVENT_QUEUE_SIZE 10
 	int      iEventQueueSize;
 	LCID     lcid;
-	wchar_t    lcID[10];
+	wchar_t  lcID[10];
 	int      iPanelAvatarX, iPanelAvatarY;
 	DWORD    idle;
 	HWND     hwndTip;

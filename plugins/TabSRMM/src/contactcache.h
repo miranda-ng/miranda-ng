@@ -99,36 +99,37 @@ struct CContactCache : public MZeroedObject
 
 	////////////////////////////////////////////////////////////////////////////
 
-	void   updateState();
-	bool   updateNick();
-	void   updateMeta();
-	bool   updateUIN();
-	void   updateStatusMsg(const char *szKey = 0);
-	void   setWindowData(const HWND hwnd = 0, TWindowData *dat = 0);
-	void   resetMeta();
-	void   closeWindow();
-	void   deletedHandler();
-	void   updateFavorite();
+	void     updateStatus();
+	void     updateState();
+	bool     updateNick();
+	void     updateMeta();
+	bool     updateUIN();
+	void     updateStatusMsg(const char *szKey = 0);
+	void     setWindowData(const HWND hwnd = 0, TWindowData *dat = 0);
+	void     resetMeta();
+	void     closeWindow();
+	void     deletedHandler();
+	void     updateFavorite();
 	wchar_t* getNormalizedStatusMsg(const wchar_t *src, bool fStripAll = false);
-	HICON  getIcon(int& iSize) const;
+	HICON    getIcon(int& iSize) const;
 
 	/*
 	 * input history
 	 */
-	void   saveHistory(WPARAM wParam, LPARAM lParam);
-	void   inputHistoryEvent(WPARAM wParam);
+	void     saveHistory(WPARAM wParam, LPARAM lParam);
+	void     inputHistoryEvent(WPARAM wParam);
 
 	static CContactCache* getContactCache(MCONTACT hContact);
 	static int cacheUpdateMetaChanged(WPARAM wParam, LPARAM lParam);
 
 private:
-	void   allocStats();
-	void   initPhaseTwo();
-	void   allocHistory();
-	void   releaseAlloced();
+	void     allocStats();
+	void     initPhaseTwo();
+	void     allocHistory();
+	void     releaseAlloced();
 
 	MCONTACT m_hContact, m_hSub;
-	WORD     m_wOldStatus, m_wMetaStatus;
+	WORD     m_wStatus, m_wOldStatus, m_wMetaStatus;
 	char    *m_szMetaProto;
 	wchar_t *m_szAccount;
 	wchar_t  m_szNick[80], m_szUIN[80];

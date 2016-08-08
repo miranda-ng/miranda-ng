@@ -139,7 +139,7 @@ static void DoSplitSendA(LPVOID param)
 			job->iAcksNeeded++;
 
 			char *szSaved = &szBegin[iCur];
-			int iSavedCur = iCur;
+			size_t iSavedCur = iCur;
 			for (int i = 0; iCur; i++, iCur--) {
 				if (szBegin[iCur] == ' ') {
 					szSaved = &szBegin[iCur];
@@ -238,7 +238,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 	if (dat->hContact == NULL)
 		return 0;  //never happens
 
-	dat->nMax = dat->cache->getMaxMessageLength(); // refresh length info
+	dat->nMax = (int)dat->cache->getMaxMessageLength(); // refresh length info
 
 	if (M.GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
 		// determine send buffer length

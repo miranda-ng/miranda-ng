@@ -38,7 +38,7 @@ static DBCachedContact ccInvalid;
 CContactCache::CContactCache(MCONTACT hContact)
 {
 	m_hContact = hContact;
-	m_wOldStatus = ID_STATUS_OFFLINE;
+	m_wStatus = m_wOldStatus = ID_STATUS_OFFLINE;
 
 	if (hContact) {
 		if ((cc = db_get_contact(hContact)) != NULL) {
@@ -581,4 +581,10 @@ size_t CContactCache::getMaxMessageLength()
 int CContactCache::getStatus() const
 {
 	return db_get_w(getActiveContact(), getActiveProto(), "Status", ID_STATUS_OFFLINE);
+}
+
+void CContactCache::updateStatus()
+{
+	m_wOldStatus = m_wStatus;
+	m_wStatus = getStatus();
 }

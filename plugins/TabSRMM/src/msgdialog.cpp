@@ -1334,7 +1334,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		dat->cache->updateStats(TSessionStats::INIT_TIMER);
 		if (dat->hContact) {
 			FindFirstEvent(dat);
-			dat->nMax = dat->cache->getMaxMessageLength();
+			dat->nMax = (int)dat->cache->getMaxMessageLength();
 		}
 		LoadContactAvatar(dat);
 		SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);

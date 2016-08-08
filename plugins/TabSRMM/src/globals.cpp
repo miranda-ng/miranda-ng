@@ -364,6 +364,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hwnd == 0 && hContact != 0) {     // we are not interested in this event if there is no open message window/tab
 		if (!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
 			CContactCache *c = CContactCache::getContactCache(hContact);
+			c->updateStatus();
 			if (strcmp(setting, "Status"))
 				c->updateNick();
 			if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
@@ -397,7 +398,11 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hwnd == NULL)
 		return 0;
 
-	bool fChanged = !strcmp(cws->szSetting, "Status"), fNickChanged = false, fExtendedStatusChange = false;
+	bool fChanged = false, fNickChanged = false, fExtendedStatusChange = false;
+	if (!strcmp(cws->szSetting, "Status")) {
+		c->updateStatus();
+		fChanged = true;
+	}
 	if (c)
 		fNickChanged = c->updateNick();
 
