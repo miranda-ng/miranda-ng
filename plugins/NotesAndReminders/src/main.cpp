@@ -123,7 +123,6 @@ int OnOptInitialise(WPARAM w, LPARAM L)
 	odp.pszTitle = SECTIONNAME;
 	odp.pszGroup = LPGEN("Plugins");
 	odp.pfnDlgProc = DlgProcOptions;
-	odp.flags = ODPF_UNICODE;
 	Options_AddPage(w, &odp);
 	return 0;
 }
