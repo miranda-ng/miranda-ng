@@ -35,10 +35,10 @@ static OBJLIST<CContactCache> arContacts(50, NumericKeySortT);
 
 static DBCachedContact ccInvalid;
 
-CContactCache::CContactCache(const MCONTACT hContact)
+CContactCache::CContactCache(MCONTACT hContact)
 {
 	m_hContact = hContact;
-	m_wOldStatus = m_wStatus = ID_STATUS_OFFLINE;
+	m_wOldStatus = ID_STATUS_OFFLINE;
 
 	if (hContact) {
 		if ((cc = db_get_contact(hContact)) != NULL) {
@@ -532,10 +532,10 @@ wchar_t* CContactCache::getNormalizedStatusMsg(const wchar_t *src, bool fStripAl
 /**
  * retrieve the tab/title icon for the corresponding session.
  */
-HICON CContactCache::getIcon(int& iSize) const
+HICON CContactCache::getIcon(int &iSize) const
 {
 	if (!m_dat || !m_hwnd)
-		return Skin_LoadProtoIcon(cc->szProto, m_wStatus);
+		return Skin_LoadProtoIcon(cc->szProto, getStatus());
 
 	if (m_dat->dwFlags & MWF_ERRORSTATE)
 		return PluginConfig.g_iconErr;

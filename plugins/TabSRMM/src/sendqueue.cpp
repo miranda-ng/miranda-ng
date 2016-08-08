@@ -539,10 +539,8 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 				SkinPlaySound("SendError");
 
-			wchar_t *szAckMsg = mir_a2u((char *)ack->lParam);
-			mir_snwprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), szAckMsg);
+			mir_snwprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), _A2T((char *)ack->lParam));
 			job.iStatus = SQ_ERROR;
-			mir_free(szAckMsg);
 			KillTimer(dat->hwnd, TIMERID_MSGSEND + iFound);
 			if (!(dat->dwFlags & MWF_ERRORSTATE))
 				handleError(dat, iFound);

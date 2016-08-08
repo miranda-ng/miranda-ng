@@ -58,14 +58,14 @@ struct TSessionStats {
 struct CContactCache : public MZeroedObject
 {
 	CContactCache() {}
-	CContactCache(const MCONTACT hContact);
+	CContactCache(MCONTACT hContact);
 	~CContactCache()
 	{
 		releaseAlloced();
 	}
 
 	__forceinline bool     isValid() const { return m_Valid; }
-	__forceinline WORD     getActiveStatus() const { return m_isMeta ? m_wMetaStatus : m_wStatus; }
+	__forceinline WORD     getActiveStatus() const { return m_isMeta ? m_wMetaStatus : getStatus(); }
 	__forceinline WORD     getOldStatus() const { return m_wOldStatus; }
 	__forceinline LPCWSTR  getNick() const { return m_szNick; }
 	__forceinline MCONTACT getContact() const { return m_hContact; }
@@ -128,11 +128,11 @@ private:
 	void   releaseAlloced();
 
 	MCONTACT m_hContact, m_hSub;
-	WORD     m_wStatus, m_wOldStatus, m_wMetaStatus;
+	WORD     m_wOldStatus, m_wMetaStatus;
 	char    *m_szMetaProto;
-	wchar_t   *m_szAccount;
-	wchar_t    m_szNick[80], m_szUIN[80];
-	wchar_t   *m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
+	wchar_t *m_szAccount;
+	wchar_t  m_szNick[80], m_szUIN[80];
+	wchar_t *m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
 	BYTE     m_xStatus;
 	DWORD    m_idleTS;
 	bool     m_isMeta;
