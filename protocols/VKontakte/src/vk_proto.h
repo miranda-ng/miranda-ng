@@ -329,7 +329,7 @@ private:
 	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	bool AutoFillForm(char*, CMStringA&, CMStringA&);
-	CMStringW RunConfirmationCode();
+	CMStringW RunConfirmationCode(LPCWSTR pwszTitle);
 	CMStringW RunRenameNick(LPCWSTR pwszOldName);
 	void GrabCookies(NETLIBHTTPREQUEST *nhr);
 	void ApplyCookies(AsyncHttpRequest*);

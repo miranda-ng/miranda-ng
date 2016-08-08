@@ -493,7 +493,7 @@ CVkOptionMenuForm::CVkOptionMenuForm(CVkProto *proto):
 
 void CVkOptionMenuForm::OnApply()
 {
-	if (MessageBox(NULL, 
+	if (MessageBoxW(NULL, 
 		TranslateT("These changes will take effect after Miranda NG restart.\nWould you like to restart it now?"),
 		TranslateT("VKontakte protocol"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) 
 		CallServiceSync(MS_SYSTEM_RESTART, 1,  0);

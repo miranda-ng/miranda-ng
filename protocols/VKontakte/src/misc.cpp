@@ -413,12 +413,24 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 				value = (char*)T2Utf(ptrW(GetUserStoredPassword()));
 			else if (name == "captcha_key") {
 				char *pCaptchaBeg = strstr(pFormBeg, "<img id=\"captcha\"");
-				if (pCaptchaBeg != NULL)
+				if (pCaptchaBeg)
 					if (!RunCaptchaForm(getAttr(pCaptchaBeg, "src"), value))
 						return false;
 			}
-			else if (name == "code") 
-				value = RunConfirmationCode();
+			else if (name == "code") {
+				char szPrefixTel[10], szSufixTel[10];
+				CMStringW wszTitle;
+				char *pPhonePref = strstr(pFormBeg, "<span class=\"field_prefix\">");
+				if (pPhonePref && sscanf(pPhonePref, "<span class=\"field_prefix\">%s</span>", szPrefixTel) == 1) {
+					pPhonePref = strstr(pPhonePref + 1, "<span class=\"field_prefix\">&nbsp;");
+					if (pPhonePref && sscanf(pPhonePref, "<span class=\"field_prefix\">&nbsp;%s</span>", szSufixTel) == 1) {
+						wszTitle.Format(L"%s %s %s %s %s", TranslateT("Enter the missing digits between"), ptrW(mir_a2u(szPrefixTel)), TranslateT("and"), ptrW(mir_a2u(szSufixTel)), TranslateT("of the phone number linked to your account"));
+						MessageBoxW(NULL, wszTitle, TranslateT("Attention!"), MB_ICONWARNING | MB_OK);
+					}
+				}
+				
+				value = RunConfirmationCode(wszTitle);
+			}
 
 			if (!result.IsEmpty())
 				result.AppendChar('&');
@@ -432,11 +444,12 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 	return true;
 }
 
-CMStringW CVkProto::RunConfirmationCode()
+CMStringW CVkProto::RunConfirmationCode(LPCWSTR pwszTitle)
 {
 	ENTER_STRING pForm = { sizeof(pForm) };
-	pForm.type = ESF_PASSWORD;
-	pForm.caption = TranslateT("Enter confirmation code");
+	pForm.type = ESF_COMBO;
+	pForm.recentCount = 0;
+	pForm.caption = IsEmpty(pwszTitle) ? TranslateT("Enter confirmation code") : pwszTitle;
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "confirmcode_";

@@ -769,7 +769,7 @@ INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 INT_PTR CVkProto::SvcWipeNonFriendContacts(WPARAM, LPARAM)
 {
 	debugLogA("CVkProto::SvcWipeNonFriendContacts");
-	if (IDNO == MessageBox(NULL, TranslateT("Are you sure to wipe local contacts missing in your friend list?"), 
+	if (IDNO == MessageBoxW(NULL, TranslateT("Are you sure to wipe local contacts missing in your friend list?"), 
 		TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
 
@@ -788,7 +788,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 	CMStringW pwszMsg;
 	if (flag == 0) {
 		pwszMsg.AppendFormat(TranslateT("Are you sure to delete %s from your friend list?"), IsEmpty(pwszNick) ? TranslateT("(Unknown contact)") : pwszNick);
-		if (IDNO == MessageBox(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+		if (IDNO == MessageBoxW(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 			return 1;
 	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.delete.json", true, &CVkProto::OnReceiveDeleteFriend)
@@ -883,7 +883,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 		wszVarWarning.IsEmpty() ? L" " : TranslateT("\nIt will also"),
 		wszVarWarning.IsEmpty() ? L"\n" : wszVarWarning);
 
-	if (IDNO == MessageBox(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+	if (IDNO == MessageBoxW(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
 	
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
@@ -904,7 +904,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 
 	CMStringW wszNick(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"))),
 		pwszMsg(FORMAT, TranslateT("Are you sure to report abuse on %s?"), wszNick.IsEmpty() ? TranslateT("(Unknown contact)") : wszNick);
-	if (IDNO == MessageBox(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+	if (IDNO == MessageBoxW(NULL, pwszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.report.json", true, &CVkProto::OnReceiveSmth)

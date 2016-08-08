@@ -591,9 +591,9 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		break;
 
 	case IDM_DESTROY:
-		if (IDYES == MessageBox(NULL,
+		if (IDYES == MessageBoxW(NULL,
 			TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
-			TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
+			TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
 		{
 			CMStringA code;
 			code.Format("API.messages.removeChatUser({\"chat_id\":%d, \"user_id\":%d});"
