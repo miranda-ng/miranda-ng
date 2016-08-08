@@ -357,81 +357,66 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	const char *szProto = NULL;
 	const char *setting = cws->szSetting;
 
-	HWND hwnd = M.FindWindow(hContact);
-	if (hwnd == 0 && hContact != 0) {     // we are not interested in this event if there is no open message window/tab
-		if (!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
-			CContactCache *c = CContactCache::getContactCache(hContact);
-			c->updateStatus();
-			if (strcmp(setting, "Status"))
-				c->updateNick();
-			if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
-				c->updateFavorite();
-		}
+	if (hContact == 0) {
+		if (!strcmp("Nick", setting))
+			M.BroadcastMessage(DM_OWNNICKCHANGED, 0, (LPARAM)cws->szModule);
 		return 0;
 	}
 
-	if (hContact == 0 && !strcmp("Nick", setting)) {
-		M.BroadcastMessage(DM_OWNNICKCHANGED, 0, (LPARAM)cws->szModule);
+	CContactCache *c = CContactCache::getContactCache(hContact);
+	const char *szProto = c->getProto();
+	if (szProto == NULL)
 		return 0;
-	}
 
-	CContactCache *c = NULL;
-	if (hContact) {
-		c = CContactCache::getContactCache(hContact);
-		szProto = c->getProto();
-		if (!strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
-			if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
-				c->updateFavorite();
-		}
-	}
+	// catch own relevant settings
+	if (!strcmp(cws->szModule, SRMSGMOD_T))
+		if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
+			c->updateFavorite();
 
-	if (strcmp(cws->szModule, "CList") && (szProto == NULL || strcmp(cws->szModule, szProto)))
+	// neither clist nor contact's settings -> skip
+	if (strcmp(cws->szModule, "CList") && strcmp(cws->szModule, szProto))
 		return 0;
 
 	if (!strcmp(cws->szModule, META_PROTO))
 		if (hContact != 0 && !strcmp(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
 			return 0;
 
-	if (hwnd == NULL)
-		return 0;
-
+	HWND hwnd = M.FindWindow(hContact);
 	bool fChanged = false, fNickChanged = false, fExtendedStatusChange = false;
 	if (!strcmp(cws->szSetting, "Status")) {
 		c->updateStatus();
 		fChanged = true;
 	}
-	if (c)
-		fNickChanged = c->updateNick();
+	fNickChanged = c->updateNick();
 
 	if (strlen(setting) > 6 && strlen(setting) < 9 && !strncmp(setting, "Status", 6)) {
 		fChanged = true;
-		if (c) {
-			c->updateMeta();
-			c->updateUIN();
-		}
+		c->updateMeta();
+		c->updateUIN();
 	}
-	else if (!strcmp(setting, "MirVer"))
+	if (strlen(setting) > 6 && strstr("StatusMsg,XStatusMsg,XStatusName,XStatusId,ListeningTo", setting)) {
+		c->updateStatusMsg(setting);
+		fExtendedStatusChange = true;
+	}
+	if (!strcmp(setting, "display_uid")) {
+		c->updateUIN();
+		if (hwnd)
+			PostMessage(hwnd, DM_UPDATEUIN, 0, 0);
+	}
+
+	if (hwnd == NULL)
+		return 0;
+
+	if (!strcmp(setting, "MirVer"))
 		PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
-	else if (!strcmp(setting, "display_uid")) {
-		if (c)
-			c->updateUIN();
-		PostMessage(hwnd, DM_UPDATEUIN, 0, 0);
-	}
-	else if (strlen(setting) > 6 && strstr("StatusMsg,XStatusMsg,XStatusName,XStatusId,ListeningTo", setting)) {
-		if (c) {
-			c->updateStatusMsg(setting);
-			fExtendedStatusChange = true;
-		}
-	}
 	if (fChanged || fNickChanged || fExtendedStatusChange)
 		PostMessage(hwnd, DM_UPDATETITLE, 0, 1);
 	if (fExtendedStatusChange)
 		PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
 	if (fChanged) {
-		if (c && c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
+		if (c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
 			TWindowData *dat = c->getDat();
 			if (dat) {
 				dat->nTypeSecs = 0;
@@ -440,8 +425,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 				PostMessage(c->getHwnd(), DM_UPDATELASTMESSAGE, 0, 0);
 			}
 		}
-		if (c)
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_LOGSTATUSCHANGE, MAKELONG(c->getStatus(), c->getOldStatus()), (LPARAM)c);
+		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_LOGSTATUSCHANGE, MAKELONG(c->getStatus(), c->getOldStatus()), (LPARAM)c);
 	}
 
 	return 0;
