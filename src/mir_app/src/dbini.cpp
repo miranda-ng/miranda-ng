@@ -28,48 +28,69 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static bool bModuleInitialized = false;
 static HANDLE hIniChangeNotification;
 
-static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
+//////////////////////////////////////////////////////
+
+class CInstallIniDlg : public CDlgBase
 {
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetDlgItemText(hwndDlg, IDC_ININAME, (wchar_t*)lParam);
-		{
-			wchar_t szSecurity[11];
-			const wchar_t *pszSecurityInfo;
+	wchar_t *m_szIniPath;
 
-			GetPrivateProfileString(L"AutoExec", L"Warn", L"notsafe", szSecurity, _countof(szSecurity), mirandabootini);
-			if (!mir_wstrcmpi(szSecurity, L"all"))
-				pszSecurityInfo = LPGENW("Security systems to prevent malicious changes are in place and you will be warned before every change that is made.");
-			else if (!mir_wstrcmpi(szSecurity, L"onlyunsafe"))
-				pszSecurityInfo = LPGENW("Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.");
-			else if (!mir_wstrcmpi(szSecurity, L"none"))
-				pszSecurityInfo = LPGENW("Security systems to prevent malicious changes have been disabled. You will receive no further warnings.");
-			else pszSecurityInfo = NULL;
-			if (pszSecurityInfo) SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateW(pszSecurityInfo));
-		}
-		return TRUE;
+	CCtrlButton m_viewIni;
+	CCtrlButton m_noToAll;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_VIEWINI:
-			{
-				wchar_t szPath[MAX_PATH];
-				GetDlgItemText(hwndDlg, IDC_ININAME, szPath, _countof(szPath));
-				ShellExecute(hwndDlg, L"open", szPath, NULL, NULL, SW_SHOW);
-			}
-			break;
+	CCtrlBase m_iniName;
+	CCtrlBase m_securityInfo;
 
-		case IDOK:
-		case IDCANCEL:
-		case IDC_NOTOALL:
-			EndDialog(hwndDlg, LOWORD(wParam));
-			break;
-		}
-		break;
-	}
-	return FALSE;
+protected:
+	void OnInitDialog();
+
+	void ViewIni_OnClick(CCtrlBase*);
+	void NoToAll_OnClick(CCtrlBase*);
+
+public:
+	CInstallIniDlg(wchar_t *szIniPath);
+};
+
+CInstallIniDlg::CInstallIniDlg(wchar_t *szIniPath)
+	: CDlgBase(g_hInst, IDD_INSTALLINI),
+	m_noToAll(this, IDC_NOTOALL), m_viewIni(this, IDC_VIEWINI),
+	m_iniName(this, IDC_ININAME), m_securityInfo(this, IDC_SECURITYINFO)
+{
+	m_szIniPath = szIniPath;
+
+	m_noToAll.OnClick = Callback(this, &CInstallIniDlg::NoToAll_OnClick);
+	m_viewIni.OnClick = Callback(this, &CInstallIniDlg::ViewIni_OnClick);
 }
+
+void CInstallIniDlg::OnInitDialog()
+{
+	m_iniName.SetText(m_szIniPath);
+
+	wchar_t szSecurity[11];
+	const wchar_t *pszSecurityInfo;
+
+	GetPrivateProfileString(L"AutoExec", L"Warn", L"notsafe", szSecurity, _countof(szSecurity), mirandabootini);
+	if (!mir_wstrcmpi(szSecurity, L"all"))
+		pszSecurityInfo = LPGENW("Security systems to prevent malicious changes are in place and you will be warned before every change that is made.");
+	else if (!mir_wstrcmpi(szSecurity, L"onlyunsafe"))
+		pszSecurityInfo = LPGENW("Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.");
+	else if (!mir_wstrcmpi(szSecurity, L"none"))
+		pszSecurityInfo = LPGENW("Security systems to prevent malicious changes have been disabled. You will receive no further warnings.");
+	else pszSecurityInfo = NULL;
+	if (pszSecurityInfo) m_securityInfo.SetText(TranslateW(pszSecurityInfo));
+}
+
+void CInstallIniDlg::ViewIni_OnClick(CCtrlBase*)
+{
+	ptrW szPath(m_iniName.GetText());
+	ShellExecute(m_hwnd, L"open", szPath, NULL, NULL, SW_SHOW);
+}
+
+void CInstallIniDlg::NoToAll_OnClick(CCtrlBase*)
+{
+	Close();
+}
+
+//////////////////////////////////////////////////////
 
 static bool IsInSpaceSeparatedList(const char *szWord, const char *szList)
 {
@@ -99,90 +120,149 @@ struct warnSettingChangeInfo_t {
 	int warnNoMore, cancel;
 };
 
-static INT_PTR CALLBACK WarnIniChangeDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
+class CWarnIniChangeDlg : public CDlgBase
 {
-	static warnSettingChangeInfo_t *warnInfo;
+	warnSettingChangeInfo_t *m_warnInfo;
 
-	switch(message) {
-	case WM_INITDIALOG:
-		{
-			char szSettingName[256];
-			const wchar_t *pszSecurityInfo;
-			warnInfo = (warnSettingChangeInfo_t*)lParam;
-			TranslateDialogDefault(hwndDlg);
-			SetDlgItemText(hwndDlg, IDC_ININAME, warnInfo->szIniPath);
-			mir_strcpy(szSettingName, warnInfo->szSection);
-			mir_strcat(szSettingName, " / ");
-			mir_strcat(szSettingName, warnInfo->szName);
-			SetDlgItemTextA(hwndDlg, IDC_SETTINGNAME, szSettingName);
-			SetDlgItemTextA(hwndDlg, IDC_NEWVALUE, warnInfo->szValue);
-			if (IsInSpaceSeparatedList(warnInfo->szSection, warnInfo->szSafeSections))
-				pszSecurityInfo = LPGENW("This change is known to be safe.");
-			else if (IsInSpaceSeparatedList(warnInfo->szSection, warnInfo->szUnsafeSections))
-				pszSecurityInfo = LPGENW("This change is known to be potentially hazardous.");
-			else
-				pszSecurityInfo = LPGENW("This change is not known to be safe.");
-			SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateW(pszSecurityInfo));
-		}
-		return TRUE;
+	CCtrlButton m_yes;
+	CCtrlButton m_no;
+	CCtrlButton m_cancel;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			warnInfo->cancel = 1;
-			// fall through	
-		case IDYES:
-		case IDNO:
-			warnInfo->warnNoMore = IsDlgButtonChecked(hwndDlg, IDC_WARNNOMORE);
-			EndDialog(hwndDlg, LOWORD(wParam));
-			break;
-		}
-		break;
-	}
-	return FALSE;
+	CCtrlCheck m_noWarn;
+
+	CCtrlBase m_iniName;
+	CCtrlBase m_settingName;
+	CCtrlBase m_securityInfo;
+	CCtrlBase m_newValue;
+
+protected:
+	void OnInitDialog();
+
+	void YesNo_OnClick(CCtrlBase*);
+	void Cancel_OnClick(CCtrlBase*);
+
+public:
+	CWarnIniChangeDlg(warnSettingChangeInfo_t *warnInfo);
+};
+
+CWarnIniChangeDlg::CWarnIniChangeDlg(warnSettingChangeInfo_t *warnInfo)
+	: CDlgBase(g_hInst, IDD_WARNINICHANGE),
+	m_yes(this, IDYES), m_no(this, IDNO),
+	m_cancel(this, IDCANCEL), m_noWarn(this, IDC_WARNNOMORE),
+	m_iniName(this, IDC_ININAME), m_settingName(this, IDC_SETTINGNAME),
+	m_newValue(this, IDC_NEWVALUE), m_securityInfo(this, IDC_SECURITYINFO)
+{
+	m_warnInfo = warnInfo;
+
+	m_yes.OnClick = Callback(this, &CWarnIniChangeDlg::YesNo_OnClick);
+	m_no.OnClick = Callback(this, &CWarnIniChangeDlg::YesNo_OnClick);
+	m_cancel.OnClick = Callback(this, &CWarnIniChangeDlg::Cancel_OnClick);
 }
 
-static INT_PTR CALLBACK IniImportDoneDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
+void CWarnIniChangeDlg::OnInitDialog()
 {
-	wchar_t szIniPath[MAX_PATH];
-
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetDlgItemText(hwndDlg, IDC_ININAME, (wchar_t*)lParam);
-		SetDlgItemText(hwndDlg, IDC_NEWNAME, (wchar_t*)lParam);
-		return TRUE;
-
-	case WM_COMMAND:
-		GetDlgItemText(hwndDlg, IDC_ININAME, szIniPath, _countof(szIniPath));
-		switch (LOWORD(wParam)) {
-		case IDC_DELETE:
-			DeleteFile(szIniPath);
-		case IDC_LEAVE:
-			EndDialog(hwndDlg, LOWORD(wParam));
-			break;
-		case IDC_RECYCLE:
-			{
-				SHFILEOPSTRUCT shfo = { 0 };
-				shfo.wFunc = FO_DELETE;
-				shfo.pFrom = szIniPath;
-				szIniPath[mir_wstrlen(szIniPath) + 1] = '\0';
-				shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
-				SHFileOperation(&shfo);
-			}
-			EndDialog(hwndDlg, LOWORD(wParam));
-			break;
-		case IDC_MOVE:
-			wchar_t szNewPath[MAX_PATH];
-			GetDlgItemText(hwndDlg, IDC_NEWNAME, szNewPath, _countof(szNewPath));
-			MoveFile(szIniPath, szNewPath);
-			EndDialog(hwndDlg, LOWORD(wParam));
-			break;
-		}
-		break;
-	}
-	return FALSE;
+	char szSettingName[256];
+	const wchar_t *pszSecurityInfo;
+	m_iniName.SetText(m_warnInfo->szIniPath);
+	mir_strcpy(szSettingName, m_warnInfo->szSection);
+	mir_strcat(szSettingName, " / ");
+	mir_strcat(szSettingName, m_warnInfo->szName);
+	m_settingName.SetTextA(szSettingName);
+	m_newValue.SetTextA(m_warnInfo->szValue);
+	if (IsInSpaceSeparatedList(m_warnInfo->szSection, m_warnInfo->szSafeSections))
+		pszSecurityInfo = LPGENW("This change is known to be safe.");
+	else if (IsInSpaceSeparatedList(m_warnInfo->szSection, m_warnInfo->szUnsafeSections))
+		pszSecurityInfo = LPGENW("This change is known to be potentially hazardous.");
+	else
+		pszSecurityInfo = LPGENW("This change is not known to be safe.");
+	m_securityInfo.SetText(TranslateW(pszSecurityInfo));
 }
+
+void CWarnIniChangeDlg::YesNo_OnClick(CCtrlBase*)
+{
+	m_warnInfo->warnNoMore = m_noWarn.GetState();
+	Close();
+}
+
+void CWarnIniChangeDlg::Cancel_OnClick(CCtrlBase*)
+{
+	m_warnInfo->cancel = 1;
+	m_warnInfo->warnNoMore = m_noWarn.GetState();
+}
+
+//////////////////////////////////////////////////////
+
+class CIniImportDoneDlg : public CDlgBase
+{
+	wchar_t *m_path;
+
+	CCtrlButton m_delete;
+	CCtrlButton m_leave;
+	CCtrlButton m_recycle;
+	CCtrlButton m_move;
+
+	CCtrlBase m_iniPath;
+	CCtrlEdit m_newPath;
+
+protected:
+	void OnInitDialog();
+
+	void Delete_OnClick(CCtrlBase*);
+	void Leave_OnClick(CCtrlBase*);
+	void Recycle_OnClick(CCtrlBase*);
+	void Move_OnClick(CCtrlBase*);
+
+public:
+	CIniImportDoneDlg(wchar_t *path);
+};
+
+void CIniImportDoneDlg::OnInitDialog()
+{
+	m_iniPath.SetText(m_path);
+	m_newPath.SetText(m_path);
+}
+
+CIniImportDoneDlg::CIniImportDoneDlg(wchar_t *path)
+	: CDlgBase(g_hInst, IDD_INIIMPORTDONE),
+	m_delete(this, IDC_DELETE), m_leave(this, IDC_LEAVE),
+	m_recycle(this, IDC_RECYCLE), m_move(this, IDC_MOVE),
+	m_iniPath(this, IDC_ININAME), m_newPath(this, IDC_NEWNAME)
+{
+	m_path = path;
+}
+void CIniImportDoneDlg::Delete_OnClick(CCtrlBase*)
+{
+	ptrW szIniPath(m_iniPath.GetText());
+	DeleteFile(szIniPath);
+	Close();
+}
+
+void CIniImportDoneDlg::Recycle_OnClick(CCtrlBase*)
+{
+	ptrW szIniPath(m_iniPath.GetText());
+	SHFILEOPSTRUCT shfo = { 0 };
+	shfo.wFunc = FO_DELETE;
+	shfo.pFrom = szIniPath;
+	szIniPath[mir_wstrlen(szIniPath) + 1] = '\0';
+	shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
+	SHFileOperation(&shfo);
+	Close();
+}
+
+void CIniImportDoneDlg::Move_OnClick(CCtrlBase*)
+{
+	ptrW szIniPath(m_iniPath.GetText());
+	ptrW szNewPath(m_newPath.GetText());
+	MoveFile(szIniPath, szNewPath);
+	Close();
+}
+
+void CIniImportDoneDlg::Leave_OnClick(CCtrlBase*)
+{
+	Close();
+}
+
+//////////////////////////////////////////////////////
 
 // settings:
 struct SettingsList
@@ -319,7 +399,8 @@ LBL_NewLine:
 			warnInfo.szValue = szValue;
 			warnInfo.warnNoMore = 0;
 			warnInfo.cancel = 0;
-			if (warnThisSection && IDNO == DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WARNINICHANGE), NULL, WarnIniChangeDlgProc, (LPARAM)&warnInfo))
+			CWarnIniChangeDlg dlg(&warnInfo);
+			if (warnThisSection && IDNO == dlg.DoModal())
 				continue;
 			if (warnInfo.cancel)
 				break;
@@ -477,7 +558,8 @@ static void DoAutoExec(void)
 
 		mir_snwprintf(szIniPath, L"%s%s", szFindPath, fd.cFileName);
 		if (!mir_wstrcmpi(szUse, L"prompt") && !secFN) {
-			int result = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_INSTALLINI), NULL, InstallIniDlgProc, (LPARAM)szIniPath);
+			CInstallIniDlg dlg(szIniPath);
+			int result = dlg.DoModal();
 			if (result == IDC_NOTOALL) break;
 			if (result == IDCANCEL) continue;
 		}
@@ -508,7 +590,10 @@ static void DoAutoExec(void)
 				MoveFile(szIniPath, szNewPath);
 			}
 			else if (!mir_wstrcmpi(szOnCompletion, L"ask"))
-				DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_INIIMPORTDONE), NULL, IniImportDoneDlgProc, (LPARAM)szIniPath);
+			{
+				CIniImportDoneDlg dlg(szIniPath);
+				dlg.DoModal();
+			}
 		}
 	}
 		while (FindNextFile(hFind, &fd));
