@@ -414,11 +414,11 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 
 	if (g_Settings->dwIconFlags) {
 		iIndent += (14 * 1440) / chatApi.logPixelSX;
-		buf.Append("\\tx%u", iIndent);
+		buf.AppendFormat("\\tx%u", iIndent);
 	}
 	if (g_Settings->bShowTime) {
 		int iSize = (g_Settings->LogTextIndent * 1440) / chatApi.logPixelSX;
-		buf.Append("\\tx%u", iIndent + iSize);
+		buf.AppendFormat("\\tx%u", iIndent + iSize);
 		if (g_Settings->bLogIndentEnabled)
 			iIndent += iSize;
 	}
