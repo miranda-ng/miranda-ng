@@ -405,7 +405,6 @@ struct CHAT_MANAGER
 	HANDLE hBuildMenuEvent, hSendEvent;
 	FONTINFO aFonts[OPTIONS_FONTCOUNT];
 	SESSION_INFO *wndList;
-	size_t *logIconBmpSize;
 	char **pLogIconBmpBits;
 
 	// user-defined custom callbacks

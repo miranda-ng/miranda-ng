@@ -28,7 +28,6 @@ extern IconItem iconList[];
 #define LOGICON_MSG_NOTICE  2
 
 static char *pLogIconBmpBits[3];
-static size_t logIconBmpSize[ _countof(pLogIconBmpBits) ];
 
 #define STREAMSTAGE_HEADER  0
 #define STREAMSTAGE_EVENTS  1
@@ -501,8 +500,6 @@ void LoadMsgLogIcons(void)
 		bin2hex(&bih, sizeof(bih), szDest); szDest += sizeof(bih) * 2;
 		bin2hex(pBmpBits, widthBytes * bih.biHeight, szDest); szDest += widthBytes * bih.biHeight * 2;
 		mir_strcpy(szDest, "}");
-
-		logIconBmpSize[i] = size_t(szDest - pLogIconBmpBits[i]) + 1;
 	}
 	mir_free(pBmpBits);
 	DeleteDC(hdcMem);

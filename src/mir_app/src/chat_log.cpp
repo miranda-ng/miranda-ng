@@ -25,8 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // The code for streaming the text is to a large extent copied from
 // the srmm module and then modified to fit the chat module.
 
-char*  pLogIconBmpBits[14];
-size_t logIconBmpSize[ _countof(pLogIconBmpBits) ];
+char *pLogIconBmpBits[14];
 
 #define RTFCACHELINESIZE 128
 static char	CHAT_rtfFontsGlobal[OPTIONS_FONTCOUNT][RTFCACHELINESIZE];
@@ -87,28 +86,11 @@ char* Log_SetStyle(int style)
 	return "";
 }
 
-static void Log_Append(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
-{
-	va_list va;
-	int charsDone = 0;
-
-	va_start(va, fmt);
-	for (;;) {
-		charsDone = mir_vsnprintf(buffer + cbBufferEnd, cbBufferAlloced - cbBufferEnd, fmt, va);
-		if (charsDone >= 0)
-			break;
-		cbBufferAlloced += 4096;
-		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
-	}
-	va_end(va);
-	cbBufferEnd += charsDone;
-}
-
-static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const wchar_t *fmt, ...)
+static int Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA &buf, const wchar_t *fmt, ...)
 {
 	va_list va;
 	int lineLen, textCharsCount = 0;
-	wchar_t* line = (wchar_t*)alloca(8001 * sizeof(wchar_t));
+	wchar_t *line = (wchar_t*)alloca(8001 * sizeof(wchar_t));
 
 	va_start(va, fmt);
 	lineLen = mir_vsnwprintf(line, 8000, fmt, va);
@@ -117,22 +99,14 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 	va_end(va);
 
 	lineLen = lineLen * 20 + 8;
-	if (cbBufferEnd + lineLen > cbBufferAlloced) {
-		cbBufferAlloced += (lineLen + 1024 - lineLen % 1024);
-		buffer = (char *)mir_realloc(buffer, cbBufferAlloced);
-	}
-
-	char *d = buffer + cbBufferEnd;
 
 	for (; *line; line++, textCharsCount++) {
 		if (*line == '\r' && line[1] == '\n') {
-			memcpy(d, "\\par ", 5);
+			buf.Append("\\par ");
 			line++;
-			d += 5;
 		}
 		else if (*line == '\n') {
-			memcpy(d, "\\line ", 6);
-			d += 6;
+			buf.Append("\\line ");
 		}
 		else if (*line == '%' && !simpleMode) {
 			char szTemp[200];
@@ -141,7 +115,7 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 			switch (*++line) {
 			case '\0':
 			case '%':
-				*d++ = '%';
+				buf.AppendChar('%');
 				break;
 
 			case 'c':
@@ -196,31 +170,26 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 				break;
 			}
 
-			if (szTemp[0]) {
-				size_t iLen = mir_strlen(szTemp);
-				memcpy(d, szTemp, iLen);
-				d += iLen;
-			}
+			if (szTemp[0])
+				buf.Append(szTemp);
 		}
 		else if (*line == '\t' && !streamData->bStripFormat) {
-			memcpy(d, "\\tab ", 5);
-			d += 5;
+			buf.Append("\\tab ");
 		}
 		else if ((*line == '\\' || *line == '{' || *line == '}') && !streamData->bStripFormat) {
-			*d++ = '\\';
-			*d++ = (char)*line;
+			buf.AppendChar('\\');
+			buf.AppendChar(*line);
 		}
 		else if (*line > 0 && *line < 128) {
-			*d++ = (char)*line;
+			buf.AppendChar(*line);
 		}
-		else d += sprintf(d, "\\u%u ?", (WORD)*line); //!!!!!!!!!!!
+		else buf.AppendFormat("\\u%u ?", (WORD)*line);
 	}
 
-	cbBufferEnd = (int)(d - buffer);
 	return textCharsCount;
 }
 
-static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAlloced, LOGSTREAMDATA *streamData)
+static void AddEventToBuffer(CMStringA &buf, LOGSTREAMDATA *streamData)
 {
 	wchar_t szTemp[512], szTemp2[512];
 	wchar_t* pszNick = NULL;
@@ -241,73 +210,73 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 	switch (streamData->lin->iType) {
 	case GC_EVENT_MESSAGE:
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L"%s", streamData->lin->ptszText);
+			Log_AppendRTF(streamData, false, buf, L"%s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_ACTION:
 		if (streamData->lin->ptszNick && streamData->lin->ptszText) {
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, L"%s ", streamData->lin->ptszNick);
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L"%s", streamData->lin->ptszText);
+			Log_AppendRTF(streamData, true, buf, L"%s ", streamData->lin->ptszNick);
+			Log_AppendRTF(streamData, false, buf, L"%s", streamData->lin->ptszText);
 		}
 		break;
 	case GC_EVENT_JOIN:
 		if (pszNick) {
 			if (!streamData->lin->bIsMe)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has joined"), pszNick);
+				Log_AppendRTF(streamData, true, buf, TranslateT("%s has joined"), pszNick);
 			else
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("You have joined %s"), streamData->si->ptszName);
+				Log_AppendRTF(streamData, false, buf, TranslateT("You have joined %s"), streamData->si->ptszName);
 		}
 		break;
 	case GC_EVENT_PART:
 		if (pszNick)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has left"), pszNick);
+			Log_AppendRTF(streamData, true, buf, TranslateT("%s has left"), pszNick);
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, L": %s", streamData->lin->ptszText);
+			Log_AppendRTF(streamData, true, buf, L": %s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_QUIT:
 		if (pszNick)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has disconnected"), pszNick);
+			Log_AppendRTF(streamData, true, buf, TranslateT("%s has disconnected"), pszNick);
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L": %s", streamData->lin->ptszText);
+			Log_AppendRTF(streamData, false, buf, L": %s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_NICK:
 		if (pszNick && streamData->lin->ptszText) {
 			if (!streamData->lin->bIsMe)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s is now known as %s"), pszNick, streamData->lin->ptszText);
+				Log_AppendRTF(streamData, true, buf, TranslateT("%s is now known as %s"), pszNick, streamData->lin->ptszText);
 			else
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("You are now known as %s"), streamData->lin->ptszText);
+				Log_AppendRTF(streamData, true, buf, TranslateT("You are now known as %s"), streamData->lin->ptszText);
 		}
 		break;
 	case GC_EVENT_KICK:
 		if (streamData->lin->ptszNick && streamData->lin->ptszStatus)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s kicked %s"), streamData->lin->ptszStatus, streamData->lin->ptszNick);
+			Log_AppendRTF(streamData, true, buf, TranslateT("%s kicked %s"), streamData->lin->ptszStatus, streamData->lin->ptszNick);
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L": %s", streamData->lin->ptszText);
+			Log_AppendRTF(streamData, false, buf, L": %s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_NOTICE:
 		if (pszNick && streamData->lin->ptszText) {
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("Notice from %s: "), pszNick);
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, L"%s", streamData->lin->ptszText);
+			Log_AppendRTF(streamData, true, buf, TranslateT("Notice from %s: "), pszNick);
+			Log_AppendRTF(streamData, false, buf, L"%s", streamData->lin->ptszText);
 		}
 		break;
 	case GC_EVENT_TOPIC:
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("The topic is '%s%s'"), streamData->lin->ptszText, L"%r");
+			Log_AppendRTF(streamData, false, buf, TranslateT("The topic is '%s%s'"), streamData->lin->ptszText, L"%r");
 		if (streamData->lin->ptszNick)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
+			Log_AppendRTF(streamData, true, buf,
 			streamData->lin->ptszUserInfo ? TranslateT(" (set by %s on %s)") : TranslateT(" (set by %s)"),
 			streamData->lin->ptszNick, streamData->lin->ptszUserInfo);
 		break;
 	case GC_EVENT_INFORMATION:
 		if (streamData->lin->ptszText)
-			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, (streamData->lin->bIsMe) ? L"--> %s" : L"%s", streamData->lin->ptszText);
+			Log_AppendRTF(streamData, false, buf, (streamData->lin->bIsMe) ? L"--> %s" : L"%s", streamData->lin->ptszText);
 		break;
 	case GC_EVENT_ADDSTATUS:
 		if (streamData->lin->ptszNick && streamData->lin->ptszText && streamData->lin->ptszStatus)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s enables '%s' status for %s"), streamData->lin->ptszText, streamData->lin->ptszStatus, streamData->lin->ptszNick);
+			Log_AppendRTF(streamData, true, buf, TranslateT("%s enables '%s' status for %s"), streamData->lin->ptszText, streamData->lin->ptszStatus, streamData->lin->ptszNick);
 		break;
 	case GC_EVENT_REMOVESTATUS:
 		if (streamData->lin->ptszNick && streamData->lin->ptszText && streamData->lin->ptszStatus)
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s disables '%s' status for %s"), streamData->lin->ptszText, streamData->lin->ptszStatus, streamData->lin->ptszNick);
+			Log_AppendRTF(streamData, TRUE, buf, TranslateT("%s disables '%s' status for %s"), streamData->lin->ptszText, streamData->lin->ptszStatus, streamData->lin->ptszNick);
 		break;
 	}
 }
@@ -325,14 +294,12 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	MODULEINFO *mi = chatApi.MM_FindModule(streamData->si->pszModule);
 
 	// guesstimate amount of memory for the RTF
-	size_t bufferEnd = 0, bufferAlloced = streamData->bRedraw ? 1024 * (streamData->si->iEventCount + 2) : 2048;
-	char *buffer = (char *)mir_alloc(bufferAlloced);
-	buffer[0] = '\0';
+	CMStringA buf;
 
 	// ### RTF HEADER
 	char *header = mi->pszHeader;
 	if (header)
-		Log_Append(buffer, bufferEnd, bufferAlloced, header);
+		buf.Append(header);
 
 	// ### RTF BODY (one iteration per event that should be streamed in)
 	for (LOGINFO *lin = streamData->lin; lin; lin = lin->prev) {
@@ -343,40 +310,33 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 		// create new line, and set font and color
 		if (lin->next != NULL)
-			Log_Append(buffer, bufferEnd, bufferAlloced, "\\par ");
-		Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(0));
+			buf.Append("\\par ");
+		buf.AppendFormat("%s ", Log_SetStyle(0));
 
 		// Insert icon
 		if ((lin->iType & g_Settings->dwIconFlags) || lin->bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
 			int iIndex = (lin->bIsHighlighted && g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
-			Log_Append(buffer, bufferEnd, bufferAlloced, "\\f0\\fs14");
-			while (bufferAlloced - bufferEnd < logIconBmpSize[0])
-				bufferAlloced += 4096;
-			buffer = (char *)mir_realloc(buffer, bufferAlloced);
-			memcpy(buffer + bufferEnd, pLogIconBmpBits[iIndex], logIconBmpSize[iIndex]);
-			bufferEnd += logIconBmpSize[iIndex];
+			buf.Append("\\f0\\fs14");
+			buf.Append(pLogIconBmpBits[iIndex]);
 		}
 
 		if (g_Settings->bTimeStampEventColour) {
 			LOGFONT &lf = chatApi.aFonts[0].lf;
 
 			// colored timestamps
-			static char szStyle[256];
 			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 				int iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
-				mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
-				Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", szStyle);
+				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
 			}
 			else {
 				int iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
-				mir_snprintf(szStyle, "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
-				Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", szStyle);
+				buf.AppendFormat("\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / chatApi.logPixelSY);
 			}
 		}
-		else Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(0));
+		else buf.AppendFormat("%s ", Log_SetStyle(0));
 
 		if (g_Settings->dwIconFlags)
-			Log_Append(buffer, bufferEnd, bufferAlloced, "\\tab ");
+			buf.Append("\\tab ");
 
 		//insert timestamp
 		if (g_Settings->bShowTime) {
@@ -386,47 +346,43 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			mir_wstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
 			if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
 				streamData->si->LastTime = lin->time;
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, L"%s", szTimeStamp);
+				Log_AppendRTF(streamData, TRUE, buf, L"%s", szTimeStamp);
 			}
-			Log_Append(buffer, bufferEnd, bufferAlloced, "\\tab ");
+			buf.Append("\\tab ");
 		}
 
 		// Insert the nick
 		if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 			wchar_t pszTemp[300], *p1;
 
-			Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
+			buf.AppendFormat("%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
 			mir_wstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
 			p1 = wcsstr(pszTemp, L"%n");
 			if (p1)
 				p1[1] = 's';
 
-			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, pszTemp, lin->ptszNick);
-			Log_Append(buffer, bufferEnd, bufferAlloced, " ");
+			Log_AppendRTF(streamData, TRUE, buf, pszTemp, lin->ptszNick);
+			buf.AppendChar(' ');
 		}
 
 		// Insert the message
-		Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
+		buf.AppendFormat("%s ", Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
 		streamData->lin = lin;
-		AddEventToBuffer(buffer, bufferEnd, bufferAlloced, streamData);
+		AddEventToBuffer(buf, streamData);
 	}
 
 	// ### RTF END
 	if (streamData->bRedraw)
-		Log_Append(buffer, bufferEnd, bufferAlloced, "\\par}");
+		buf.Append("\\par}");
 	else
-		Log_Append(buffer, bufferEnd, bufferAlloced, "}");
-	return buffer;
+		buf.Append("}");
+	return buf.Detach();
 }
 
 char* Log_CreateRtfHeader(MODULEINFO *mi)
 {
-	int i;
-
 	// guesstimate amount of memory for the RTF header
-	size_t bufferEnd = 0, bufferAlloced = 4096;
-	char *buffer = (char *)mir_realloc(mi->pszHeader, bufferAlloced);
-	buffer[0] = '\0';
+	CMStringA buf;
 
 	// get the number of pixels per logical inch
 	HDC hdc = GetDC(NULL);
@@ -437,38 +393,38 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	// ### RTF HEADER
 
 	// font table
-	Log_Append(buffer, bufferEnd, bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
-		Log_Append(buffer, bufferEnd, bufferAlloced, "{\\f%u\\fnil\\fcharset%u%S;}", i, chatApi.aFonts[i].lf.lfCharSet, chatApi.aFonts[i].lf.lfFaceName);
+	buf.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
+	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
+		buf.AppendFormat("{\\f%u\\fnil\\fcharset%u%S;}", i, chatApi.aFonts[i].lf.lfCharSet, chatApi.aFonts[i].lf.lfFaceName);
 
 	// colour table
-	Log_Append(buffer, bufferEnd, bufferAlloced, "}{\\colortbl ;");
+	buf.Append("}{\\colortbl ;");
 
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
-		Log_Append(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(chatApi.aFonts[i].color), GetGValue(chatApi.aFonts[i].color), GetBValue(chatApi.aFonts[i].color));
+	for (int i = 0; i < OPTIONS_FONTCOUNT; i++)
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(chatApi.aFonts[i].color), GetGValue(chatApi.aFonts[i].color), GetBValue(chatApi.aFonts[i].color));
 
-	for (i = 0; i < mi->nColorCount; i++)
-		Log_Append(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
+	for (int i = 0; i < mi->nColorCount; i++)
+		buf.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
 
 	// new paragraph
-	Log_Append(buffer, bufferEnd, bufferAlloced, "}\\pard");
+	buf.Append("}\\pard");
 
 	// set tabs and indents
 	int iIndent = 0;
 
 	if (g_Settings->dwIconFlags) {
 		iIndent += (14 * 1440) / chatApi.logPixelSX;
-		Log_Append(buffer, bufferEnd, bufferAlloced, "\\tx%u", iIndent);
+		buf.Append("\\tx%u", iIndent);
 	}
 	if (g_Settings->bShowTime) {
 		int iSize = (g_Settings->LogTextIndent * 1440) / chatApi.logPixelSX;
-		Log_Append(buffer, bufferEnd, bufferAlloced, "\\tx%u", iIndent + iSize);
+		buf.Append("\\tx%u", iIndent + iSize);
 		if (g_Settings->bLogIndentEnabled)
 			iIndent += iSize;
 	}
 
-	Log_Append(buffer, bufferEnd, bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);
-	return buffer;
+	buf.AppendFormat("\\fi-%u\\li%u", iIndent, iIndent);
+	return buf.Detach();
 }
 
 #define RTFPICTHEADERMAXSIZE 78
@@ -510,8 +466,6 @@ void LoadMsgLogBitmaps(void)
 		bin2hex(&bih, sizeof(bih), szDest); szDest += sizeof(bih) * 2;
 		bin2hex(pBmpBits, widthBytes * bih.biHeight, szDest); szDest += widthBytes * bih.biHeight * 2;
 		mir_strcpy(szDest, "}");
-
-		logIconBmpSize[i] = size_t(szDest - pLogIconBmpBits[i]) + 1;
 	}
 	mir_free(pBmpBits);
 	DeleteDC(hdcMem);

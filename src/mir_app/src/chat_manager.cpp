@@ -1323,7 +1323,6 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	chatApi.ColorChooser = ColorChooser;
 
 	chatApi.pLogIconBmpBits = pLogIconBmpBits;
-	chatApi.logIconBmpSize = logIconBmpSize;
 
 	RegisterFonts();
 	OptionsInit();

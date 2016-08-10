@@ -42,7 +42,6 @@ extern wchar_t *g_szFontGroup;
 extern mir_cs cs;
 
 extern char* pLogIconBmpBits[14];
-extern size_t logIconBmpSize[14];
 
 // log.c
 void   LoadMsgLogBitmaps(void);
