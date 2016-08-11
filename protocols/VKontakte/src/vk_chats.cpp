@@ -33,6 +33,13 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	debugLogW(L"CVkProto::AppendChat");
 	if (id == 0)
 		return NULL;
+	
+	if (jnDlg) {
+		CMStringW action_chat = jnDlg["action"].as_mstring();
+		int action_mid = _wtoi(jnDlg["action_mid"].as_mstring());
+		if ((action_chat == L"chat_kick_user") && (action_mid == m_myUserId))
+			return NULL;
+	}
 
 	MCONTACT chatContact = FindChat(id);
 	if (chatContact && getBool(chatContact, "kicked"))
@@ -84,7 +91,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	
 	db_unset(gci.hContact, m_szModuleName, "off");
 
-	if (jnDlg["left"].as_bool())  {
+	if (jnDlg && jnDlg["left"].as_bool())  {
 		setByte(gci.hContact, "off", 1);
 		m_chats.remove(c);
 		return NULL;

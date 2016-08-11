@@ -186,9 +186,9 @@ void CVkOptionAccountForm::OnInitDialog()
 	
 	iListIndex = 0;
 	for (size_t i = 0; i < _countof(vkLangCodes); i++) {
-		int cur = m_cbxVKLang.AddString(TranslateW(vkLangCodes[i].szDescription), (LPARAM)vkLangCodes[i].szCode);
+		m_cbxVKLang.InsertString(TranslateW(vkLangCodes[i].szDescription), i, (LPARAM)vkLangCodes[i].szCode);
 		if (!mir_wstrcmpi(vkLangCodes[i].szCode, m_proto->m_vkOptions.pwszVKLang))
-			iListIndex = cur;
+			iListIndex = i;
 	}
 	m_cbxVKLang.SetCurSel(iListIndex);
 	

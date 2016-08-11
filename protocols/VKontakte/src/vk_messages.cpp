@@ -282,7 +282,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			debugLogA("CVkProto::OnReceiveMessages chat_id != 0");
 			CMStringW action_chat = jnMsg["action"].as_mstring();
 			int action_mid = _wtoi(jnMsg["action_mid"].as_mstring());
-			if ((action_chat == "chat_kick_user") && (action_mid == m_myUserId))
+			if ((action_chat == L"chat_kick_user") && (action_mid == m_myUserId))
 				KickFromChat(chat_id, uid, jnMsg, jnFUsers);
 			else {
 				MCONTACT chatContact = FindChat(chat_id);
