@@ -463,7 +463,7 @@ void CVkProto::MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t 
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 	}
 	else {
-		DWORD mtype = MB_OK | MB_SETFOREGROUND | err ? MB_ICONERROR : MB_ICONINFORMATION;
+		DWORD mtype = MB_OK | MB_SETFOREGROUND | (err ? MB_ICONERROR : MB_ICONINFORMATION);
 		MessageBoxW(NULL, wszMsg, wszTitle, mtype);
 	}
 }
