@@ -168,23 +168,29 @@ void CVkOptionAccountForm::OnInitDialog()
 
 	m_pwszOldGroup = m_edtGroupName.GetText();
 
+	int iListIndex = 0;
 	for (size_t i = 0; i < _countof(vkMarkMsgAsReadMethods); i++) {
 		int cur = m_cbxMarkAsRead.AddString(vkMarkMsgAsReadMethods[i].type, vkMarkMsgAsReadMethods[i].data);
 		if (vkMarkMsgAsReadMethods[i].data == m_proto->m_vkOptions.iMarkMessageReadOn)
-			m_cbxMarkAsRead.SetCurSel(cur);
+			iListIndex = cur;
 	}
+	m_cbxMarkAsRead.SetCurSel(iListIndex);
 
+	iListIndex = 0;
 	for (size_t i = 0; i < _countof(vkHistorySyncMethods); i++)	{
 		int cur = m_cbxSyncHistory.AddString(vkHistorySyncMethods[i].type, vkHistorySyncMethods[i].data);
 		if (vkHistorySyncMethods[i].data == m_proto->m_vkOptions.iSyncHistoryMetod)
-			m_cbxSyncHistory.SetCurSel(cur);
+			iListIndex = cur;
 	}
+	m_cbxSyncHistory.SetCurSel(iListIndex);
 	
+	iListIndex = 0;
 	for (size_t i = 0; i < _countof(vkLangCodes); i++) {
 		int cur = m_cbxVKLang.AddString(TranslateW(vkLangCodes[i].szDescription), (LPARAM)vkLangCodes[i].szCode);
 		if (!mir_wstrcmpi(vkLangCodes[i].szCode, m_proto->m_vkOptions.pwszVKLang))
-			m_cbxVKLang.SetCurSel(cur);
+			iListIndex = cur;
 	}
+	m_cbxVKLang.SetCurSel(iListIndex);
 	
 }
 
