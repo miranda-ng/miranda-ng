@@ -78,6 +78,11 @@ int CDlgBase::DoModal()
 	return DialogBoxParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
 }
 
+void CDlgBase::EndModal(INT_PTR nResult)
+{
+	::EndDialog(m_hwnd, nResult);
+}
+
 void CDlgBase::NotifyChange(void)
 {
 	if (m_hwndParent)
@@ -198,7 +203,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		OnClose();
 		if (!m_lresult) {
 			if (m_isModal)
-				EndDialog(m_hwnd, 0);
+				EndModal(0);
 			else
 				DestroyWindow(m_hwnd);
 		}

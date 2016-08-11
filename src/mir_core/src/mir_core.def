@@ -474,6 +474,7 @@ mir_wstrcmpi                  @280
 ?UnlockBuffer@?$CMSimpleStringT@_W@@QAEXXZ @538 NONAME
 ?c_str@?$CMSimpleStringT@D@@QBEPBDXZ @539 NONAME
 ?c_str@?$CMSimpleStringT@_W@@QBEPB_WXZ @540 NONAME
+?EndModal@CDlgBase@@QAEXH@Z @541 NONAME
 ??0CCtrlBase@@QAE@ABV0@@Z @609 NONAME
 ??0CCtrlBase@@QAE@PAVCDlgBase@@H@Z @610 NONAME
 ??0CCtrlButton@@QAE@ABV0@@Z @611 NONAME

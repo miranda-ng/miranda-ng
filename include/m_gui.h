@@ -381,7 +381,8 @@ public:
 	// general utilities
 	void Create();
 	void Show(int nCmdShow = SW_SHOW);
-	int DoModal();
+	int  DoModal();
+	void EndModal(INT_PTR nResult);
 
 	void SetCaption(const wchar_t *ptszCaption);
 	void NotifyChange(void); // sends a notification to a parent window
