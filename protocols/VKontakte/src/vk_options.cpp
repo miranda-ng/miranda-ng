@@ -168,24 +168,24 @@ void CVkOptionAccountForm::OnInitDialog()
 
 	m_pwszOldGroup = m_edtGroupName.GetText();
 
-	int iListIndex = 0;
-	for (size_t i = 0; i < _countof(vkMarkMsgAsReadMethods); i++) {
-		int cur = m_cbxMarkAsRead.AddString(vkMarkMsgAsReadMethods[i].type, vkMarkMsgAsReadMethods[i].data);
+	int iListIndex = MarkMsgReadOn::markOnRead;
+	for (int i = 0; i < _countof(vkMarkMsgAsReadMethods); i++) {
+		m_cbxMarkAsRead.InsertString((wchar_t *)vkMarkMsgAsReadMethods[i].type, i, vkMarkMsgAsReadMethods[i].data);
 		if (vkMarkMsgAsReadMethods[i].data == m_proto->m_vkOptions.iMarkMessageReadOn)
-			iListIndex = cur;
+			iListIndex = i;
 	}
 	m_cbxMarkAsRead.SetCurSel(iListIndex);
 
-	iListIndex = 0;
-	for (size_t i = 0; i < _countof(vkHistorySyncMethods); i++)	{
-		int cur = m_cbxSyncHistory.AddString(vkHistorySyncMethods[i].type, vkHistorySyncMethods[i].data);
+	iListIndex = SyncHistoryMetod::syncOff;
+	for (int i = 0; i < _countof(vkHistorySyncMethods); i++)	{
+		m_cbxSyncHistory.InsertString((wchar_t *)vkHistorySyncMethods[i].type, i, vkHistorySyncMethods[i].data);
 		if (vkHistorySyncMethods[i].data == m_proto->m_vkOptions.iSyncHistoryMetod)
-			iListIndex = cur;
+			iListIndex = i;
 	}
 	m_cbxSyncHistory.SetCurSel(iListIndex);
 	
 	iListIndex = 0;
-	for (size_t i = 0; i < _countof(vkLangCodes); i++) {
+	for (int i = 0; i < _countof(vkLangCodes); i++) {
 		m_cbxVKLang.InsertString(TranslateW(vkLangCodes[i].szDescription), i, (LPARAM)vkLangCodes[i].szCode);
 		if (!mir_wstrcmpi(vkLangCodes[i].szCode, m_proto->m_vkOptions.pwszVKLang))
 			iListIndex = i;
