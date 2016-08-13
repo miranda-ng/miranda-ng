@@ -169,10 +169,10 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (m_iLoadHistoryTask > 0)
 			m_iLoadHistoryTask--;
 		debugLogW(L"CVkProto::OnReceiveHistoryMessages error m_iLoadHistoryTask=%d", m_iLoadHistoryTask);
-		MsgPopup(NULL, TranslateT("Error loading message history from server"), TranslateT("Error"), true);
+		MsgPopup(NULL, TranslateT("Error loading message history from server."), TranslateT("Error"), true);
 
 		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
-			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed"), TranslateT("Loading history"));
+			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 		}
 
@@ -189,13 +189,13 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 				m_iLoadHistoryTask--;
 			
 			ptrW pwszNick(db_get_wsa(param->hContact, m_szModuleName, "Nick"));
-			CMStringW str(FORMAT, L"%s %s %s", TranslateT("Error loading message history from server"), TranslateT("for"), pwszNick);
+			CMStringW str(FORMAT, TranslateT("Error loading message history for %s from server."), pwszNick);
 
 			MsgPopup(param->hContact, str, TranslateT("Error"), true);
 			debugLogW(L"CVkProto::OnReceiveHistoryMessages error for %s m_iLoadHistoryTask=%d", pwszNick, m_iLoadHistoryTask);
 
 			if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
-				MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed"), TranslateT("Loading history"));
+				MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 				m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;
 			}
 
@@ -281,14 +281,14 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			m_iLoadHistoryTask--;
 
 		ptrW pwszNick(db_get_wsa(param->hContact, m_szModuleName, "Nick"));
-		CMStringW str(FORMAT, TranslateT("Loading messages for %s is completed"), pwszNick);
+		CMStringW str(FORMAT, TranslateT("Loading messages for %s is completed."), pwszNick);
 		debugLogW(L"CVkProto::OnReceiveHistoryMessages for %s m_iLoadHistoryTask=%d", pwszNick, m_iLoadHistoryTask);
 
 		if (m_bNotifyForEndLoadingHistory)
 			MsgPopup(param->hContact, str, TranslateT("Loading history"));
 
 		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
-			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed"), TranslateT("Loading history"));
+			MsgPopup(NULL, TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
 			m_bNotifyForEndLoadingHistoryAllContact = m_bNotifyForEndLoadingHistory = false;		
 		}
 	}

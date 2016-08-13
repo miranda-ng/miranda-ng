@@ -289,7 +289,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 		ApplyCaptcha(pReq, jnError);
 		break;
 	case VKERR_VALIDATION_REQUIRED:	// Validation Required
-		MsgPopup(NULL, TranslateT("You must validate your account before use VK in Miranda NG"), TranslateT("Error"), true);
+		MsgPopup(NULL, TranslateT("You have to validate your account before you can use VK in Miranda NG"), TranslateT("Error"), true);
 		if (jnRedirectUri) {
 			T2Utf szRedirectUri(jnRedirectUri.as_mstring());
 			AsyncHttpRequest *pRedirectReq = new AsyncHttpRequest(this, REQUEST_GET, szRedirectUri, false, &CVkProto::OnOAuthAuthorize);
@@ -424,7 +424,7 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 				if (pPhonePref && sscanf(pPhonePref, "<span class=\"field_prefix\">%s</span>", szPrefixTel) == 1) {
 					pPhonePref = strstr(pPhonePref + 1, "<span class=\"field_prefix\">&nbsp;");
 					if (pPhonePref && sscanf(pPhonePref, "<span class=\"field_prefix\">&nbsp;%s</span>", szSufixTel) == 1) {
-						wszTitle.Format(L"%s %s %s %s %s", TranslateT("Enter the missing digits between"), ptrW(mir_a2u(szPrefixTel)), TranslateT("and"), ptrW(mir_a2u(szSufixTel)), TranslateT("of the phone number linked to your account"));
+						wszTitle.Format(TranslateT("Enter the missing digits between %s and %s of the phone number linked to your account"), ptrW(mir_a2u(szPrefixTel)), ptrW(mir_a2u(szSufixTel)));
 						MessageBoxW(NULL, wszTitle, TranslateT("Attention!"), MB_ICONWARNING | MB_OK);
 					}
 				}
