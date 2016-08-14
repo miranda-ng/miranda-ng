@@ -90,9 +90,7 @@ TREEELEMENT *g_Stickies = NULL;
 
 INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,
 								  WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,
-								  LPARAM lParam);
-void JustSaveNotes(void);
+
 INT_PTR PluginMenuCommandAddNew(WPARAM w,LPARAM l);
 INT_PTR PluginMenuCommandDeleteAll(WPARAM w,LPARAM l);
 void GetTriggerTimeString(const ULARGE_INTEGER *When, char *s, UINT strSize, BOOL bUtc);
@@ -113,16 +111,13 @@ COLORREF GetCaptionColor(COLORREF bodyClr)
 
 static void EnsureUniqueID(STICKYNOTE *TSN)
 {
-	TREEELEMENT *TTE;
-
 	if (!g_Stickies)
 		return;
 
 try_next:
 
 	// check existing notes if id is in use
-	TTE = g_Stickies;
-	while (TTE)
+	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next)
 	{
 		if (((STICKYNOTE*)TTE->ptrdata)->ID.QuadPart == TSN->ID.QuadPart)
 		{
@@ -131,8 +126,6 @@ try_next:
 			TSN->ID.QuadPart++;
 			goto try_next;
 		}
-
-		TTE = (TREEELEMENT*)TTE->next;
 	}
 }
 
@@ -220,7 +213,6 @@ static BOOL CreateStickyNoteFont(STICKYNOTEFONT *pCustomFont, LOGFONT *plf)
 
 STICKYNOTE* NewNoteEx(int Ax,int Ay,int Aw,int Ah,char *Data,ULARGE_INTEGER *ID,BOOL Visible,BOOL OnTop,int scrollV,COLORREF bgClr,COLORREF fgClr,char *Title,STICKYNOTEFONT *pCustomFont,BOOL bLoading)
 {
-	STICKYNOTE* TSN;
 	WNDCLASSEX TWC = {0};
 	WINDOWPLACEMENT TWP;
 	DWORD L1,L2;
@@ -245,7 +237,7 @@ STICKYNOTE* NewNoteEx(int Ax,int Ay,int Aw,int Ah,char *Data,ULARGE_INTEGER *ID,
 		TWC.lpszMenuName = 0;
 		TWC.lpszClassName = NOTE_WND_CLASS;
 		TWC.cbSize = sizeof(WNDCLASSEX);
-		TWC.lpfnWndProc = (WNDPROC)StickyNoteWndProc;
+		TWC.lpfnWndProc = StickyNoteWndProc;
 		if (!RegisterClassEx(&TWC)) return NULL;
 	}
 
@@ -258,7 +250,7 @@ STICKYNOTE* NewNoteEx(int Ax,int Ay,int Aw,int Ah,char *Data,ULARGE_INTEGER *ID,
 		Ay = ((TWP.rcNormalPosition.bottom - TWP.rcNormalPosition.top) / 2) - (Ah / 2);
 	}
 
-	TSN = (STICKYNOTE*)malloc(sizeof(STICKYNOTE));
+	STICKYNOTE *TSN = (STICKYNOTE*)malloc(sizeof(STICKYNOTE));
 
 	if (ID)
 	{
@@ -367,17 +359,15 @@ STICKYNOTE* NewNote(int Ax,int Ay,int Aw,int Ah,char *Data,ULARGE_INTEGER *ID,BO
 
 void LoadNotes(BOOL bIsStartup)
 {
-	int I;
-	int NotesCount;
-	WORD Size;
+	WORD Size = 0;
 	char *Value = NULL, *TVal = NULL;
 	char ValueName[32];
 
 	g_Stickies = NULL;
 
-	NotesCount = db_get_dw(0,MODULENAME,"NotesData",0);
+	int NotesCount = db_get_dw(0,MODULENAME,"NotesData",0);
 
-	for (I = 0; I < NotesCount; I++)
+	for (int I = 0; I < NotesCount; I++)
 	{
 		char *DelPos;
 
@@ -556,7 +546,7 @@ void LoadNotes(BOOL bIsStartup)
 
 			if (DelPos = strchr(Value,0x1B))
 			{	// get first delimiter
-				int	PartLen = DelPos - TVal;
+//				int	PartLen = DelPos - TVal;
 
 				Data = NULL;
 				ID = NULL;
@@ -661,11 +651,9 @@ void CloseNotesList()
 
 static void PurgeNotesTree()
 {
-	STICKYNOTE *pt;
-
 	while (g_Stickies) // empty whole tree
 	{
-		pt = (STICKYNOTE*)g_Stickies->ptrdata;
+		STICKYNOTE *pt = (STICKYNOTE*)g_Stickies->ptrdata;
 		if (pt->SNHwnd) DestroyWindow(pt->SNHwnd);
 		SAFE_FREE((void**)&pt->title);
 		SAFE_FREE((void**)&pt->data);
@@ -680,41 +668,15 @@ static void PurgeNotesTree()
 	g_Stickies = NULL;
 }
 
-void SaveNotes(void)
-{
-	JustSaveNotes();
-	PurgeNotesTree();
-}
-
 void PurgeNotes(void)
 {
-	int NotesCount, I;
 	char ValueName[16];
 
-	NotesCount = db_get_dw(0,MODULENAME,"NotesData",0);
-	for(I = 0; I < NotesCount; I++)
+	int NotesCount = db_get_dw(0,MODULENAME,"NotesData",0);
+	for(int I = 0; I < NotesCount; I++)
 	{
 		mir_snprintf(ValueName, "NotesData%d", I);
 		db_unset(0,MODULENAME,ValueName);
-	}
-}
-
-void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
-{
-	if (MessageBoxW(hdlg, TranslateT("Are you sure you want to delete this note?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
-	{
-		if (SN->SNHwnd)
-			DestroyWindow(SN->SNHwnd);
-		TreeDelete(&g_Stickies,SN);
-		SAFE_FREE((void**)&SN->data);
-		if (SN->pCustomFont)
-		{
-			DeleteObject(SN->pCustomFont->hFont);
-			free(SN->pCustomFont);
-		}
-		SAFE_FREE((void**)&SN);
-		JustSaveNotes();
-		NOTIFY_LIST();
 	}
 }
 
@@ -726,58 +688,8 @@ void DeleteNotes(void)
 	NOTIFY_LIST();
 }
 
-void ShowHideNotes(void)
-{
-	BOOL Visible;
-
-	if (!g_Stickies)
-		return;
-
-	// if some notes are hidden but others visible then first make all visible
-	// only toggle vis state if all are hidden or all are visible
-
-	UINT nHideCount  = 0, nVisCount = 0;
-	TREEELEMENT *TTE = g_Stickies;
-	while (TTE)
-	{
-		if (((STICKYNOTE*)TTE->ptrdata)->Visible)
-			nVisCount++;
-		else
-			nHideCount++;
-
-		TTE = (TREEELEMENT*)TTE->next;
-	}
-
-	if (!nVisCount)
-		Visible = TRUE;
-	else if (!nHideCount)
-		Visible = FALSE;
-	else
-		Visible = TRUE;
-
-	int bShow = Visible ? SW_SHOWNA : SW_HIDE;
-
-	TTE = g_Stickies;
-	while (TTE)
-	{
-		STICKYNOTE *SN = (STICKYNOTE*)TTE->ptrdata;
-
-		if ((!Visible) != (!SN->Visible))
-		{
-			ShowWindow(SN->SNHwnd, bShow);
-			SN->Visible = Visible;
-		}
-
-		TTE = (TREEELEMENT*)TTE->next;
-	}
-
-	JustSaveNotes();
-}
-
 void BringAllNotesToFront(STICKYNOTE *pActive)
 {
-	TREEELEMENT *TTE;
-
 	if (!g_Stickies)
 		return;
 
@@ -785,9 +697,7 @@ void BringAllNotesToFront(STICKYNOTE *pActive)
 	//       is active, it refuses to move notes to top like it should with HWND_TOP. as a workaround still doesn't
 	//       work 100% of the time, but at least more often, we first move not to top-most then for non-always-on-top
 	//       notes we demote them back as a non top-most window
-
-	TTE = g_Stickies;
-	while (TTE)
+	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next)
 	{
 		STICKYNOTE *SN = (STICKYNOTE*)TTE->ptrdata;
 
@@ -797,8 +707,6 @@ void BringAllNotesToFront(STICKYNOTE *pActive)
 			if (!SN->OnTop)
 				SetWindowPos(SN->SNHwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 		}
-
-		TTE = (TREEELEMENT*)TTE->next;
 	}
 
 	if (pActive)
@@ -809,12 +717,10 @@ void BringAllNotesToFront(STICKYNOTE *pActive)
 	}
 }
 
-static void JustSaveNotesEx(STICKYNOTE *pModified)
+// pModified optionally points to the modified note that invoked the JustSaveNotesEx call
+static void JustSaveNotesEx(STICKYNOTE *pModified = NULL)
 {
-	// pModified optionally points to the modified note that invoked the JustSaveNotesEx call
-
-	TREEELEMENT *TTE;
-	int I, NotesCount = TreeGetCount(g_Stickies);
+	int I = 0, NotesCount = TreeGetCount(g_Stickies);
 	int n, l;
 	char ValueName[32];
 	WINDOWPLACEMENT wp;
@@ -828,7 +734,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 
 	db_set_dw(0, MODULENAME, "NotesData", NotesCount);
 
-	for (TTE = g_Stickies, I = 0; TTE; TTE = (TREEELEMENT*)TTE->next, I++)
+	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next, I++)
 	{
 		STICKYNOTE *pNote = (STICKYNOTE*)TTE->ptrdata;
 		BOOL bDeleteTData = TRUE;
@@ -963,9 +869,73 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 	NOTIFY_LIST();
 }
 
-__inline void JustSaveNotes(void)
+void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 {
-	JustSaveNotesEx(NULL);
+	if (MessageBoxW(hdlg, TranslateT("Are you sure you want to delete this note?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
+	{
+		if (SN->SNHwnd)
+			DestroyWindow(SN->SNHwnd);
+		TreeDelete(&g_Stickies, SN);
+		SAFE_FREE((void**)&SN->data);
+		if (SN->pCustomFont)
+		{
+			DeleteObject(SN->pCustomFont->hFont);
+			free(SN->pCustomFont);
+		}
+		SAFE_FREE((void**)&SN);
+		JustSaveNotesEx();
+		NOTIFY_LIST();
+	}
+}
+
+void ShowHideNotes(void)
+{
+	BOOL Visible;
+
+	if (!g_Stickies)
+		return;
+
+	// if some notes are hidden but others visible then first make all visible
+	// only toggle vis state if all are hidden or all are visible
+
+	UINT nHideCount = 0, nVisCount = 0;
+	
+	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next)
+	{
+		if (((STICKYNOTE*)TTE->ptrdata)->Visible)
+			nVisCount++;
+		else
+			nHideCount++;
+	}
+
+	if (!nVisCount)
+		Visible = TRUE;
+	else if (!nHideCount)
+		Visible = FALSE;
+	else
+		Visible = TRUE;
+
+	int bShow = Visible ? SW_SHOWNA : SW_HIDE;
+
+	
+	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next)
+	{
+		STICKYNOTE *SN = (STICKYNOTE*)TTE->ptrdata;
+
+		if ((!Visible) != (!SN->Visible))
+		{
+			ShowWindow(SN->SNHwnd, bShow);
+			SN->Visible = Visible;
+		}
+	}
+
+	JustSaveNotesEx();
+}
+
+void SaveNotes(void)
+{
+	JustSaveNotesEx();
+	PurgeNotesTree();
 }
 
 
@@ -974,9 +944,6 @@ __inline void JustSaveNotes(void)
 
 static int FindMenuItem(HMENU h, LPTSTR lpszName)
 {
-	UINT i;
-	char s[128];
-
 	int n = GetMenuItemCount(h);
 
 	if (n <= 0)
@@ -985,8 +952,10 @@ static int FindMenuItem(HMENU h, LPTSTR lpszName)
 	}
 
 	// searches for a menu item based on name (used to avoid hardcoding item indices for sub-menus)
-	for (i=0; i<(UINT)n; i++)
+	for (UINT i=0; i<(UINT)n; i++)
 	{
+		char s[128];
+
 		if ( GetMenuString(h, i, s, 128, MF_BYPOSITION) )
 		{
 			if ( !mir_strcmp(s, lpszName) )
@@ -999,9 +968,8 @@ static int FindMenuItem(HMENU h, LPTSTR lpszName)
 	return -1;
 }
 
-static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
+static BOOL DoContextMenu(HWND AhWnd,WPARAM,LPARAM lParam)
 {
-	int n, i;
 	STICKYNOTE *SN = (STICKYNOTE*)GetProp(AhWnd, "ctrldata");
 
 	HMENU hMenuLoad, FhMenu, hSub;
@@ -1018,16 +986,16 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 
 	// NOTE: names used for FindMenuItem would need to include & chars if such shortcuts are added to the menus
 
-	n = FindMenuItem(FhMenu, "Appearance");
+	int n = FindMenuItem(FhMenu, "Appearance");
 	if (n >= 0 && (hSub = GetSubMenu(FhMenu, n)))
 	{
 		HMENU hBg = GetSubMenu(hSub, FindMenuItem(hSub, "Background Color"));
 		HMENU hFg = GetSubMenu(hSub, FindMenuItem(hSub, "Text Color"));
 
-		for (i=0; i<_countof(clrPresets); i++)
+		for (int i=0; i<_countof(clrPresets); i++)
 			InsertMenu(hBg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_BG+i, Translate(clrPresets[i].szName));
 
-		for (i=0; i<_countof(clrPresets); i++)
+		for (int i=0; i<_countof(clrPresets); i++)
 			InsertMenu(hFg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_FG+i, Translate(clrPresets[i].szName));
 	}
 
@@ -1037,10 +1005,10 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 	return TRUE;
 }
 
-static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureItem, struct ColorPreset *clrPresets)
+static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureItem, struct ColorPreset *clrPresets2)
 {
 	HDC hdc = GetDC(hdlg);
-	LPSTR lpsz = Translate(clrPresets->szName);
+	LPSTR lpsz = Translate(clrPresets2->szName);
 	SIZE sz;
 	GetTextExtentPoint32(hdc, lpsz, (int)mir_strlen(lpsz), &sz);
 	ReleaseDC(hdlg, hdc);
@@ -1049,9 +1017,9 @@ static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureI
 	lpMeasureItem->itemHeight = (sz.cy+2)>18 ? sz.cy+2 : 18;
 }
 
-static void PaintColorPresetMenuItem(LPDRAWITEMSTRUCT lpDrawItem, struct ColorPreset *clrPresets)
+static void PaintColorPresetMenuItem(LPDRAWITEMSTRUCT lpDrawItem, struct ColorPreset *clrPresets2)
 {
-	UINT n = lpDrawItem->itemID - IDM_COLORPRESET_BG;
+//	UINT n = lpDrawItem->itemID - IDM_COLORPRESET_BG;
 	RECT rect;
 	rect.left = lpDrawItem->rcItem.left + 50;
 	rect.top = lpDrawItem->rcItem.top;
@@ -1072,7 +1040,7 @@ static void PaintColorPresetMenuItem(LPDRAWITEMSTRUCT lpDrawItem, struct ColorPr
 	}
 
 	SetBkMode(lpDrawItem->hDC, TRANSPARENT);
-	DrawText(lpDrawItem->hDC, clrPresets->szName, -1, &rect, DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER);
+	DrawText(lpDrawItem->hDC, clrPresets2->szName, -1, &rect, DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER);
 
 	int h = lpDrawItem->rcItem.bottom - lpDrawItem->rcItem.top;
 	rect.left = lpDrawItem->rcItem.left + 5;
@@ -1083,7 +1051,7 @@ static void PaintColorPresetMenuItem(LPDRAWITEMSTRUCT lpDrawItem, struct ColorPr
 	FrameRect(lpDrawItem->hDC, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
 	rect.left++; rect.top++;
 	rect.right--; rect.bottom--;
-	SetDCBrushColor(lpDrawItem->hDC, clrPresets->color);
+	SetDCBrushColor(lpDrawItem->hDC, clrPresets2->color);
 	FillRect(lpDrawItem->hDC, &rect, (HBRUSH)GetStockObject(DC_BRUSH));
 }
 
@@ -1152,7 +1120,7 @@ static void SetNoteTextControl(STICKYNOTE *SN)
 }
 
 
-static UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT msg, WPARAM, LPARAM)
 {
 	if (msg == WM_INITDIALOG)
 	{
@@ -1186,6 +1154,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 
 			return TRUE;
 		}
+
     case WM_TIMER:
 		if (wParam == 1025)
 		{
@@ -1195,18 +1164,17 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			JustSaveNotesEx(SN);
 		}
 		break;
+
     case WM_MOVE:
-		{
-			KillTimer(hdlg, 1025);
-			SetTimer(hdlg, 1025, NOTE_CHANGE_COMMIT_DELAY, 0);
-			return TRUE;
-		}
+		KillTimer(hdlg, 1025);
+		SetTimer(hdlg, 1025, NOTE_CHANGE_COMMIT_DELAY, 0);
+		return TRUE;
+
     case WM_CREATE:
 		{
 			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, "ctrldata");
 
 			CREATESTRUCT *CS = (CREATESTRUCT *)lParam;
-			HWND H;
 			DWORD mystyle;
 
 			SN = (STICKYNOTE*)CS->lpCreateParams;
@@ -1214,7 +1182,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			BringWindowToTop(hdlg);
 			mystyle = WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN;
 			if (g_ShowScrollbar) mystyle |= WS_VSCROLL;
-			H = CreateWindow(RICHEDIT_CLASS, 0, mystyle, 0, 0, CS->cx-3-3, CS->cy-3-(3+14), hdlg, (HMENU)1, hmiranda, 0);
+			HWND H = CreateWindow(RICHEDIT_CLASS, 0, mystyle, 0, 0, CS->cx-3-3, CS->cy-3-(3+14), hdlg, (HMENU)1, hmiranda, 0);
 			SN->REHwnd = H;
 			SendMessage(H, EM_SETTEXTMODE, TM_PLAINTEXT, 0);
 			SendMessage(H, EM_LIMITTEXT, MAX_NOTE_LEN, 0);
@@ -1223,8 +1191,9 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			SendMessage(H, EM_SETBKGNDCOLOR, 0, SN->BgColor ? (SN->BgColor&0xffffff) : BodyColor);
 			SendMessage(H, EM_AUTOURLDETECT, 1, 0);
 			SetNoteTextControl(SN);
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_GETMINMAXINFO:
 		{
 			MINMAXINFO *mm = (MINMAXINFO*)lParam;
@@ -1234,15 +1203,16 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			mm->ptMinTrackSize.y = 3+3+14;
 		}
 		return 0;
+
 	case WM_ERASEBKGND:
 		// no BG needed as edit control takes up entire client area
 		return TRUE;
+
 	case WM_NCPAINT:
 		// make window borders have the same color as caption
 		{
 			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,"ctrldata");
 
-			HBRUSH hBkBrush;
 			RECT rect, wr, r;
 			//HDC hdc = GetDCEx(hdlg, (HRGN)wParam, DCX_WINDOW|DCX_INTERSECTRGN);
 			HDC hdc = GetWindowDC(hdlg);
@@ -1257,7 +1227,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			rect = wr;
 			OffsetRect(&rect, -wr.left, -wr.top);
 
-			hBkBrush = (HBRUSH)GetStockObject(DC_BRUSH);
+			HBRUSH hBkBrush = (HBRUSH)GetStockObject(DC_BRUSH);
 			SetDCBrushColor(hdc, GetCaptionColor((SN && SN->BgColor) ? SN->BgColor : BodyColor));
 
 			// draw all frame sides separately to avoid filling client area (which flickers)
@@ -1324,12 +1294,14 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			pRect->right -= 3;
 			pRect->left += 3;
 			pRect->top += 3+14;
-			return WVR_REDRAW;
 		}
+		return WVR_REDRAW;
+
 	case WM_NCACTIVATE:
 		// update window (so that parts that potentially became visible through activation get redrawn immediately)
 		RedrawWindow(hdlg, NULL, NULL, RDW_UPDATENOW);
 		return TRUE;
+
     case WM_NOTIFY:
         if (LOWORD(wParam) == 1)
 		{
@@ -1353,6 +1325,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			return FALSE;
         }
 		break;
+
 	case WM_NCHITTEST:
 		{
 		int r = DefWindowProc(hdlg,message,wParam,lParam);
@@ -1367,6 +1340,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 		}
 		return r;
 		}
+
 	case WM_NCLBUTTONDOWN:
 		if (wParam == HTCAPTION && g_ShowNoteButtons)
 		{
@@ -1397,6 +1371,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			}
 		}
 		return DefWindowProc(hdlg,message,wParam,lParam);
+
 	case WM_MEASUREITEM:
 		{
 			LPMEASUREITEMSTRUCT lpMeasureItem = (LPMEASUREITEMSTRUCT)lParam;
@@ -1416,6 +1391,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			}
 		}
 		break;
+
 	case WM_DRAWITEM:
 		if (!wParam)
 		{
@@ -1436,35 +1412,31 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			}
 		}
 		break;
+
 	case WM_COMMAND:
 		{
 			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, "ctrldata");
-
-			HWND H;
-			UINT id;
 
 			switch ( HIWORD(wParam) )
 			{
 			case EN_CHANGE:
 			case EN_VSCROLL:
 			case EN_HSCROLL:
-				{
-					KillTimer(hdlg,1025);
-					SetTimer(hdlg, 1025, NOTE_CHANGE_COMMIT_DELAY, 0);
-				}
+				KillTimer(hdlg,1025);
+				SetTimer(hdlg, 1025, NOTE_CHANGE_COMMIT_DELAY, 0);
 				break;
 			}
 
-			id = (UINT) LOWORD(wParam);
+			UINT id = (UINT) LOWORD(wParam);
 
-			H = SN->REHwnd;
+			HWND H = SN->REHwnd;
 
 			if (id >= IDM_COLORPRESET_BG && id <= IDM_COLORPRESET_BG+_countof(clrPresets))
 			{
 				SN->BgColor = clrPresets[id-IDM_COLORPRESET_BG].color | 0xff000000;
 				SendMessage(H, EM_SETBKGNDCOLOR, 0, SN->BgColor & 0xffffff);
 				RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-				JustSaveNotes();
+				JustSaveNotesEx();
 				return FALSE;
 			}
 			else if (id >= IDM_COLORPRESET_FG && id <= IDM_COLORPRESET_FG+_countof(clrPresets))
@@ -1476,17 +1448,16 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 				CF.crTextColor = SN->FgColor & 0xffffff;
 				SendMessage(H, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 				RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-				JustSaveNotes();
+				JustSaveNotesEx();
 				return FALSE;
 			}
 
 			switch (id)
 			{
 			case ID_CONTEXTMENUNOTEPOPUP_NEWNOTE:
-				{
-					PluginMenuCommandAddNew(0,0);
-				}
+				PluginMenuCommandAddNew(0,0);
 				break;
+
 			case ID_APPEARANCE_CUSTOMBG:
 				{
 					COLORREF custclr[16] = {0};
@@ -1503,7 +1474,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 						SN->BgColor = cc.rgbResult | 0xff000000;
 						SendMessage(H, EM_SETBKGNDCOLOR, 0, SN->BgColor&0xffffff);
 						RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-						JustSaveNotes();
+						JustSaveNotesEx();
 					}
 				}
 				break;
@@ -1527,7 +1498,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 						CF.crTextColor = SN->FgColor & 0xffffff;
 						SendMessage(H, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 						RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-						JustSaveNotes();
+						JustSaveNotesEx();
 					}
 				}
 				break;
@@ -1572,18 +1543,18 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 						SendMessage(H, WM_SETFONT, (WPARAM)(SN->pCustomFont ? SN->pCustomFont->hFont : hBodyFont), FALSE);
 						SetNoteTextControl(SN);
 						RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-						JustSaveNotes();
+						JustSaveNotesEx();
 					}
 				}
 				break;
+
 			case ID_BACKGROUNDCOLOR_RESET:
-				{
-					SN->BgColor = 0;
-					SendMessage(H, EM_SETBKGNDCOLOR, 0, (LPARAM)BodyColor);
-					RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-					JustSaveNotes();
-				}
+				SN->BgColor = 0;
+				SendMessage(H, EM_SETBKGNDCOLOR, 0, (LPARAM)BodyColor);
+				RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
+				JustSaveNotesEx();
 				break;
+
 			case ID_TEXTCOLOR_RESET:
 				{
 					CHARFORMAT CF = {0};
@@ -1593,26 +1564,26 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 					CF.crTextColor = BodyFontColor;
 					SendMessage(H, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 					RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-					JustSaveNotes();
 				}
+				JustSaveNotesEx();
 				break;
-			case ID_FONT_RESET:
-				{
-					if (SN->pCustomFont)
-					{
-						DeleteObject(SN->pCustomFont->hFont);
-						free(SN->pCustomFont);
-						SN->pCustomFont = NULL;
 
-						// clear text first to force a reformatting w.r.w scrollbar
-						SetWindowText(H, "");
-						SendMessage(H, WM_SETFONT, (WPARAM)hBodyFont, FALSE);
-						SetNoteTextControl(SN);
-						RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-						JustSaveNotes();
-					}
+			case ID_FONT_RESET:
+				if (SN->pCustomFont)
+				{
+					DeleteObject(SN->pCustomFont->hFont);
+					free(SN->pCustomFont);
+					SN->pCustomFont = NULL;
+
+					// clear text first to force a reformatting w.r.w scrollbar
+					SetWindowText(H, "");
+					SendMessage(H, WM_SETFONT, (WPARAM)hBodyFont, FALSE);
+					SetNoteTextControl(SN);
+					RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
+					JustSaveNotesEx();
 				}
 				break;
+
 			case ID_CONTEXTMENUNOTEPOPUP_PASTETITLE:
 				{
 					char s[MAX_TITLE_LEN+1];
@@ -1623,10 +1594,11 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 						SN->title = _strdup(s);
 						SN->CustomTitle = TRUE;
 						RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-						JustSaveNotes();
+						JustSaveNotesEx();
 					}
 				}
 				break;
+
 			case ID_CONTEXTMENUNOTEPOPUP_RESETTITLE:
 				if (SN->CustomTitle)
 				{
@@ -1637,41 +1609,58 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 					}
 					InitNoteTitle(SN);
 					RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
-					JustSaveNotes();
+					JustSaveNotesEx();
 				}
 				break;
+
 			case IDM_REMOVENOTE:
 				OnDeleteNote(hdlg, SN);
 				break;
+
 			case IDM_HIDENOTE:
-				{
-					SN->Visible = FALSE;
-					ShowWindow(hdlg,SW_HIDE);
-					JustSaveNotes();
-				}
+				SN->Visible = FALSE;
+				ShowWindow(hdlg,SW_HIDE);
+				JustSaveNotesEx();
 				break;
-			case IDM_COPY: SendMessage(H,WM_COPY,0,0); break;
-			case IDM_PASTE: SendMessage(H,WM_PASTE,0,0); break;
-			case IDM_CUT: SendMessage(H,WM_CUT,0,0); break;
-			case IDM_CLEAR: SendMessage(H,WM_CLEAR,0,0); break;
-			case IDM_UNDO: SendMessage(H,WM_UNDO,0,0); break;
+
+			case IDM_COPY:
+				SendMessage(H,WM_COPY,0,0);
+				break;
+
+			case IDM_PASTE:
+				SendMessage(H,WM_PASTE,0,0);
+				break;
+
+			case IDM_CUT:
+				SendMessage(H,WM_CUT,0,0);
+				break;
+
+			case IDM_CLEAR:
+				SendMessage(H,WM_CLEAR,0,0);
+				break;
+
+			case IDM_UNDO:
+				SendMessage(H,WM_UNDO,0,0);
+				break;
+
 			case IDM_TOGGLEONTOP:
-				{
-					SN->OnTop = !SN->OnTop;
-					SetWindowPos(hdlg, SN->OnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0,0,0,0, SWP_SHOWWINDOW|SWP_NOMOVE|SWP_NOSIZE);
-					RedrawWindow(hdlg, NULL, NULL, RDW_FRAME|RDW_INVALIDATE|RDW_UPDATENOW);
-					JustSaveNotes();
-				}
+				SN->OnTop = !SN->OnTop;
+				SetWindowPos(hdlg, SN->OnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0,0,0,0, SWP_SHOWWINDOW|SWP_NOMOVE|SWP_NOSIZE);
+				RedrawWindow(hdlg, NULL, NULL, RDW_FRAME|RDW_INVALIDATE|RDW_UPDATENOW);
+				JustSaveNotesEx();
 				break;
+
 			case ID_CONTEXTMENUNOTEPOPUP_VIEWNOTES:
 				ListNotes();
 				break;
+
 			case ID_CONTEXTMENUNOTEPOPUP_BRINGALLTOTOP:
 				BringAllNotesToFront(SN);
 				break;
 			}
 			return TRUE;
 		}
+
 	case WM_NCDESTROY:
 		RemoveProp(hdlg, "ctrldata");
 		break;
@@ -1686,23 +1675,6 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 	return FALSE;
 }
 
-
-/////////////////////////////////////////////////////////////////////
-// Notes List Dialog (uses same dialog template as reminder list)
-
-void ListNotes(void)
-{
-	if (!ListNotesVisible)
-	{
-		CreateDialog(hinstance, MAKEINTRESOURCE(IDD_LISTREMINDERS), 0, DlgProcViewNotes);
-		ListNotesVisible = TRUE;
-	}
-	else
-	{
-		BringWindowToTop(LV);
-	}
-}
-
 static void EditNote(STICKYNOTE *SN)
 {
 	if (!SN)
@@ -1711,7 +1683,7 @@ static void EditNote(STICKYNOTE *SN)
 	if (!SN->Visible)
 	{
 		SN->Visible = TRUE;
-		JustSaveNotes();
+		JustSaveNotesEx();
 	}
 
 	SetWindowPos(SN->SNHwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
@@ -1772,12 +1744,9 @@ char* GetPreviewString(const char *lpsz)
 
 static void InitListView(HWND AHLV)
 {
-	LV_ITEM lvTIt;
-	int I;
+	int I = 0;
     char *S;
 	char S1[128];
-	STICKYNOTE *pNote;
-	TREEELEMENT *TTE;
 
 	char *V = Translate("Visible");
 	char *T = Translate("Top");
@@ -1785,13 +1754,12 @@ static void InitListView(HWND AHLV)
 	ListView_SetHoverTime(AHLV,700);
 	ListView_SetExtendedListViewStyle(AHLV,LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
 	ListView_DeleteAllItems(AHLV);
-
-	I = 0;
-	TTE = g_Stickies;
-	while (TTE)
+	
+	for (TREEELEMENT *TTE = g_Stickies; TTE; TTE = (TREEELEMENT*)TTE->next)
 	{
-		pNote = (STICKYNOTE*)TTE->ptrdata;
+		STICKYNOTE *pNote = (STICKYNOTE*)TTE->ptrdata;
 
+		LV_ITEM lvTIt;
 		lvTIt.mask = LVIF_TEXT;
 
 		if (!pNote->CustomTitle || !pNote->title)
@@ -1825,7 +1793,6 @@ static void InitListView(HWND AHLV)
 		ListView_SetItem(AHLV,&lvTIt);
 
 		I++;
-		TTE = (TREEELEMENT*)TTE->next;
 	}
 
 	ListView_SetItemState(AHLV,0,LVIS_SELECTED,LVIS_SELECTED);
@@ -1869,24 +1836,19 @@ static BOOL DoListContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam,STICKYNOTE 
 }
 
 
-INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
 {
-    LV_COLUMN lvCol;
-    NMLISTVIEW *NM;
-    char *S;
-    int I;
-
 	switch (Message)
 	{
 	case WM_SIZE:
-		{
-			OnListResize(Dialog);
-			UpdateGeomFromWnd(Dialog, g_notesListGeom, NULL, 0);
-			break;
-		}
+		OnListResize(Dialog);
+		UpdateGeomFromWnd(Dialog, g_notesListGeom, NULL, 0);
+		break;
+
 	case WM_MOVE:
 		UpdateGeomFromWnd(Dialog, g_notesListGeom, NULL, 0);
 		break;
+
 	case WM_GETMINMAXINFO:
 		{
 			MINMAXINFO *mm = (MINMAXINFO*)lParam;
@@ -1894,21 +1856,20 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 			mm->ptMinTrackSize.y = 300;
 		}
 		return 0;
+
 	case WM_RELOAD:
-		{
-			SetDlgItemText(Dialog,IDC_REMINDERDATA,"");
-			InitListView(GetDlgItem(Dialog,IDC_LISTREMINDERS));
-			return TRUE;
-		}
+		SetDlgItemText(Dialog,IDC_REMINDERDATA,"");
+		InitListView(GetDlgItem(Dialog,IDC_LISTREMINDERS));
+		return TRUE;
+
 	case WM_CONTEXTMENU:
 		{
-			HWND H;
 			STICKYNOTE *pNote = NULL;
 
-			H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
+			HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 			if ( ListView_GetSelectedCount(H) )
 			{
-				I = ListView_GetSelectionMark(H);
+				int I = ListView_GetSelectionMark(H);
 				if (I != -1)
 				{
 					pNote = (STICKYNOTE*)TreeGetAt(g_Stickies, I);
@@ -1919,20 +1880,23 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 				return TRUE;
 		}
 		break;
+
 	case WM_INITDIALOG:
+		Window_SetIcon_IcoLib(Dialog, iconList[13].hIcolib);
+
+		SetWindowText(Dialog, LPGEN("Notes"));
+
+		TranslateDialogDefault(Dialog);
+
+		SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
 		{
-			Window_SetIcon_IcoLib(Dialog, iconList[13].hIcolib);
-
-			SetWindowText(Dialog, LPGEN("Notes"));
-
-			TranslateDialogDefault(Dialog);
-
-			SetDlgItemText(Dialog, IDC_REMINDERDATA, "");
 
 			HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
+
+			LV_COLUMN lvCol;
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = Translate("Note text");
+			char *S = Translate("Note text");
 			lvCol.pszText = S;
 			lvCol.cx = g_notesListColGeom[3];
 			ListView_InsertColumn(H,0,&lvCol);
@@ -1970,8 +1934,9 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 				wp.rcNormalPosition.bottom = g_notesListGeom[3] + g_notesListGeom[1];
 				SetWindowPlacement(Dialog, &wp);
 			}
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_CLOSE:
 		DestroyWindow(Dialog);
 		ListNotesVisible = FALSE;
@@ -1986,23 +1951,21 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 		{
 			if (wParam == IDC_LISTREMINDERS)
 			{
-				NM = (NMLISTVIEW *)lParam;
+				LPNMLISTVIEW NM = (LPNMLISTVIEW)lParam;
 				switch (NM->hdr.code)
 				{
 				case LVN_ITEMCHANGED:
 					{
-						S = ((STICKYNOTE*)TreeGetAt(g_Stickies,NM->iItem))->data;
+						char *S = ((STICKYNOTE*)TreeGetAt(g_Stickies,NM->iItem))->data;
 					    SetDlgItemText(Dialog,IDC_REMINDERDATA,S);
 					}
 					break;
 				case NM_DBLCLK:
 					{
-						HWND H;
-
-						H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
+						HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 						if ( ListView_GetSelectedCount(H) )
 						{
-							I = ListView_GetSelectionMark(H);
+							int I = ListView_GetSelectionMark(H);
 							if (I != -1)
 							{
 								EditNote((STICKYNOTE *)TreeGetAt(g_Stickies, I));
@@ -2014,7 +1977,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 			}
 			else if (wParam == IDC_LISTREMINDERS_HEADER)
 			{
-				NMHEADER *NM = (NMHEADER*)lParam;
+				LPNMHEADER NM = (LPNMHEADER)lParam;
 				switch (NM->hdr.code)
 				{
 				case HDN_ENDTRACK:
@@ -2024,18 +1987,17 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 			}
 		}
 		break;
+
 	case WM_COMMAND:
 		{
 			switch(LOWORD(wParam))
 			{
 			case ID_CONTEXTMENUNOTELISTVIEW_EDITNOTE:
 				{
-					HWND H;
-
-					H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
+					HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 					if ( ListView_GetSelectedCount(H) )
 					{
-						I = ListView_GetSelectionMark(H);
+						int I = ListView_GetSelectionMark(H);
 						if (I != -1)
 						{
 							EditNote((STICKYNOTE*)TreeGetAt(g_Stickies, I));
@@ -2045,66 +2007,58 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 				return TRUE;
 			case ID_CONTEXTMENUNOTELISTVIEW_TOGGLEVISIBILITY:
 				{
-					HWND H;
-
-					H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
+					HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 					if ( ListView_GetSelectedCount(H) )
 					{
-						I = ListView_GetSelectionMark(H);
+						int I = ListView_GetSelectionMark(H);
 						if (I != -1)
 						{
 							STICKYNOTE *SN = (STICKYNOTE*)TreeGetAt(g_Stickies, I);
 							SN->Visible = !SN->Visible;
 							ShowWindow(SN->SNHwnd,SN->Visible?SW_SHOWNA:SW_HIDE);
-							JustSaveNotes();
+							JustSaveNotesEx();
 						}
 					}
 				}
 				return TRUE;
 			case IDM_TOGGLEONTOP:
 				{
-					HWND H;
-
-					H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
+					HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 					if ( ListView_GetSelectedCount(H) )
 					{
-						I = ListView_GetSelectionMark(H);
+						int I = ListView_GetSelectionMark(H);
 						if (I != -1)
 						{
 							STICKYNOTE *SN = (STICKYNOTE*)TreeGetAt(g_Stickies,I);
 							SN->OnTop = !SN->OnTop;
 							SetWindowPos(SN->SNHwnd, SN->OnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0,0,0,0, SWP_SHOWWINDOW|SWP_NOMOVE|SWP_NOSIZE);
 							RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_FRAME|RDW_INVALIDATE|RDW_UPDATENOW);
-							JustSaveNotes();
+							JustSaveNotesEx();
 						}
 					}
 				}
 				return TRUE;
+
 			case IDC_CLOSE:
-				{
-					DestroyWindow(Dialog);
-					ListNotesVisible = FALSE;
-					return TRUE;
-				}
+				DestroyWindow(Dialog);
+				ListNotesVisible = FALSE;
+				return TRUE;
+
 			case ID_CONTEXTMENUNOTEPOPUP_NEWNOTE:
 			case IDC_ADDNEWREMINDER:
-				{
-					PluginMenuCommandAddNew(0,0);
-					return TRUE;
-				}
+				PluginMenuCommandAddNew(0,0);
+				return TRUE;
+
 			case ID_CONTEXTMENUNOTELISTVIEW_DELETEALLNOTES:
-				{
-					PluginMenuCommandDeleteAll(0,0);
-					return TRUE;
-				}
+				PluginMenuCommandDeleteAll(0,0);
+				return TRUE;
+
 			case IDM_REMOVENOTE:
 				{
-					HWND H;
-
-					H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
+					HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 					if ( ListView_GetSelectedCount(H) )
 					{
-						I = ListView_GetSelectionMark(H);
+						int I = ListView_GetSelectionMark(H);
 						if (I != -1)
 						{
 							OnDeleteNote(Dialog, (STICKYNOTE*)TreeGetAt(g_Stickies, I));
@@ -2113,17 +2067,32 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 				}
 				return TRUE;
 			case ID_CONTEXTMENUNOTELISTVIEW_SHOW:
-				{
-					ShowHideNotes();
-					return TRUE;
-				}
+				ShowHideNotes();
+				return TRUE;
+
 			case ID_CONTEXTMENUNOTEPOPUP_BRINGALLTOTOP:
-				{
-					BringAllNotesToFront(NULL);
-					return TRUE;
-				}
+				BringAllNotesToFront(NULL);
+				return TRUE;
+
 			}
 		}
 	}
 	return FALSE;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// Notes List Dialog (uses same dialog template as reminder list)
+
+void ListNotes(void)
+{
+	if (!ListNotesVisible)
+	{
+		CreateDialog(hinstance, MAKEINTRESOURCE(IDD_LISTREMINDERS), 0, DlgProcViewNotes);
+		ListNotesVisible = TRUE;
+	}
+	else
+	{
+		BringWindowToTop(LV);
+	}
 }

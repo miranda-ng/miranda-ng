@@ -37,7 +37,7 @@ void BringAllNotesToFront(STICKYNOTE *pActive);
 void CloseNotesList();
 void CloseReminderList();
 
-INT_PTR PluginMenuCommandAddNew(WPARAM w, LPARAM l)
+INT_PTR PluginMenuCommandAddNew(WPARAM, LPARAM)
 {
 	STICKYNOTE *PSN = NewNote(0,0,0,0,NULL,NULL,TRUE,TRUE,0);
 	if(PSN)
@@ -45,44 +45,44 @@ INT_PTR PluginMenuCommandAddNew(WPARAM w, LPARAM l)
 	return 0;
 }
 
-INT_PTR PluginMenuCommandDeleteAll(WPARAM w, LPARAM l)
+INT_PTR PluginMenuCommandDeleteAll(WPARAM, LPARAM)
 {
 	if (g_Stickies && MessageBox(NULL, Translate("Are you sure you want to delete all notes?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK)
 		DeleteNotes();
 	return 0;
 }
 
-INT_PTR PluginMenuCommandShowHide(WPARAM w, LPARAM l)
+static INT_PTR PluginMenuCommandShowHide(WPARAM, LPARAM)
 {
 	ShowHideNotes();
 	return 0;
 }
 
-INT_PTR PluginMenuCommandViewNotes(WPARAM w, LPARAM l)
+static INT_PTR PluginMenuCommandViewNotes(WPARAM, LPARAM)
 {
 	ListNotes();
 	return 0;
 }
 
-INT_PTR PluginMenuCommandAllBringFront(WPARAM w, LPARAM l)
+static INT_PTR PluginMenuCommandAllBringFront(WPARAM, LPARAM)
 {
 	BringAllNotesToFront(NULL);
 	return 0;
 }
 
-INT_PTR PluginMenuCommandNewReminder(WPARAM w, LPARAM l)
+static INT_PTR PluginMenuCommandNewReminder(WPARAM, LPARAM)
 {
 	NewReminder();
 	return 0;
 }
 
-INT_PTR PluginMenuCommandViewReminders(WPARAM w, LPARAM l)
+static INT_PTR PluginMenuCommandViewReminders(WPARAM, LPARAM)
 {
 	ListReminders();
 	return 0;
 }
 
-INT_PTR PluginMenuCommandDeleteReminders(WPARAM w, LPARAM l)
+static INT_PTR PluginMenuCommandDeleteReminders(WPARAM, LPARAM)
 {
 	if (RemindersList && MessageBox(NULL, Translate("Are you sure you want to delete all reminders?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK)
 		DeleteReminders();
@@ -114,7 +114,7 @@ void InitIcons(void)
 	Icon_Register(hinstance, LPGEN("Sticky Notes"), iconList, _countof(iconList), MODULENAME);
 }
 
-int OnOptInitialise(WPARAM w, LPARAM L)
+static int OnOptInitialise(WPARAM w, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 900002000;
@@ -127,7 +127,7 @@ int OnOptInitialise(WPARAM w, LPARAM L)
 	return 0;
 }
 
-int OnTopToolBarInit(WPARAM w, LPARAM L) 
+int OnTopToolBarInit(WPARAM, LPARAM) 
 {
 	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
@@ -185,7 +185,7 @@ static void addMenuItem(CMenuItem &mi)
 	Menu_AddMainMenuItem(&mi);
 }
 
-int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 	// register fonts and hotkeys
 	RegisterFontServiceFonts();
@@ -260,7 +260,7 @@ int OnModulesLoaded(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -290,7 +290,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 {
 	hinstance = hinst;
 	return TRUE;
