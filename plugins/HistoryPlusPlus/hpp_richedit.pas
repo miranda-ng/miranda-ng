@@ -47,7 +47,7 @@ unit hpp_richedit;
 
 interface
 
-{.$DEFINE AllowMSFTEDIT}
+{$DEFINE AllowMSFTEDIT}
 
 uses
   Windows, Messages, Classes, RichEdit, ActiveX,

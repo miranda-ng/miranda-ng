@@ -47,7 +47,7 @@
  Contributors: theMIROn, Art Fedorov
 -----------------------------------------------------------------------------}
 
-{.$DEFINE USE_URL_BBCODE}
+{$DEFINE USE_URL_BBCODE}
 
 unit hpp_itemprocess;
 
@@ -129,7 +129,7 @@ var
     ((prefix:(ansi:'[color=');  suffix:(ansi:']'); bbtype:bbColor;  rtf:'{\cf%u ';   html:'<font style="color:%s">'; minRE: 10),
      (prefix:(ansi:'[/color]'); suffix:(ansi:nil); bbtype:bbSimple; rtf:'}';         html:'</font>')),
     {$IFDEF USE_URL_BBCODE}
-    ((prefix:(ansi:'[url=');    suffix:(ansi:']'); bbtype:bbUrl;    rtf:'{\field{\*\fldinst{HYPERLINK ":%s"}}{\fldrslt{\ul\cf%u'; html:'<a href="%s">'; minRE: 41),
+    ((prefix:(ansi:'[url=');    suffix:(ansi:']'); bbtype:bbUrl;    rtf:'{\field{\*\fldinst{HYPERLINK ":%s"}}{\fldrslt{\ul\cf%u'; html:'<a href="%s">'; minRE: 31),
      (prefix:(ansi:'[/url]');   suffix:(ansi:nil); bbtype:bbSimple; rtf:'}}}';      html:'</a>')),
     {$ENDIF}
     ((prefix:(ansi:'[size=');   suffix:(ansi:']'); bbtype:bbSize;   rtf:'{\fs%u ';   html:'<font style="font-size:%spt">'; minRE: 10),
