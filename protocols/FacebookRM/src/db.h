@@ -71,6 +71,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT	"MessagesOnOpenCount"
 #define FACEBOOK_KEY_HIDE_CHATS				"HideChats"
 #define FACEBOOK_KEY_ENABLE_CHATS			"EnableChat"
+#define FACEBOOK_KEY_JOIN_EXISTING_CHATS	"JoinExistingChats"
 #define FACEBOOK_KEY_NOTIFICATIONS_CHATROOM	"NotificationsChatroom"
 #define FACEBOOK_KEY_NAME_AS_NICK			"NameAsNick"
 

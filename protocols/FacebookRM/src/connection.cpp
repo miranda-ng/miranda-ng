@@ -156,8 +156,9 @@ void FacebookProto::ChangeStatus(void*)
 			return;
 		}
 
-		// Join all locally present chatrooms
-		JoinChatrooms();
+		// Join all locally present chatrooms (if enabled)
+		if (getBool(FACEBOOK_KEY_JOIN_EXISTING_CHATS, DEFAULT_JOIN_EXISTING_CHATS))
+			JoinChatrooms();
 
 		ToggleStatusMenuItems(true);
 		debugLogA("*** SignOn complete");

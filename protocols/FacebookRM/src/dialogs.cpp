@@ -576,6 +576,7 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 
 		LoadDBCheckState(proto, hwnd, IDC_ENABLE_CHATS, FACEBOOK_KEY_ENABLE_CHATS, DEFAULT_ENABLE_CHATS);
 		LoadDBCheckState(proto, hwnd, IDC_HIDE_CHATS, FACEBOOK_KEY_HIDE_CHATS, DEFAULT_HIDE_CHATS);
+		LoadDBCheckState(proto, hwnd, IDC_JOIN_EXISTING_CHATS, FACEBOOK_KEY_JOIN_EXISTING_CHATS, DEFAULT_JOIN_EXISTING_CHATS);
 
 		int count = proto->getByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, 10);
 		count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);
@@ -609,6 +610,7 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 
 			StoreDBCheckState(proto, hwnd, IDC_ENABLE_CHATS, FACEBOOK_KEY_ENABLE_CHATS);
 			StoreDBCheckState(proto, hwnd, IDC_HIDE_CHATS, FACEBOOK_KEY_HIDE_CHATS);
+			StoreDBCheckState(proto, hwnd, IDC_JOIN_EXISTING_CHATS, FACEBOOK_KEY_JOIN_EXISTING_CHATS);
 
 			int count = GetDlgItemInt(hwnd, IDC_MESSAGES_COUNT, NULL, TRUE);
 			count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);

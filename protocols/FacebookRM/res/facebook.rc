@@ -50,6 +50,8 @@ END
 // Icon
 //
 
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
 IDI_FACEBOOK            ICON                    "facebook.ico"
 IDI_MIND                ICON                    "mind.ico"
 IDI_POKE                ICON                    "poke.ico"
@@ -59,7 +61,6 @@ IDI_FRIENDS             ICON                    "friends.ico"
 IDI_CONVERSATION        ICON                    "conversation.ico"
 IDI_READ                ICON                    "read.ico"
 IDI_MEMORIES            ICON                    "memories.ico"
-
 IDI_ANGRY               ICON                    "angry.ico"
 IDI_HAHA                ICON                    "haha.ico"
 IDI_LIKE                ICON                    "like.ico"
@@ -148,7 +149,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,93,272,8
     CONTROL         "Show my ""On this day"" posts at login",IDC_ON_THIS_DAY_ENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,108,272,8
-	GROUPBOX        "Chatroom logging",IDC_STATIC,6,130,292,33
+    GROUPBOX        "Chatroom logging",IDC_STATIC,6,130,292,33
     CONTROL         "Log notifications into special chatroom",IDC_NOTIFICATIONS_CHATROOM,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,145,272,8
     GROUPBOX        "Extra",IDC_STATIC,6,169,292,46
@@ -199,19 +200,21 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,19,281,10
     CONTROL         "Show stickers as custom smileys (EXPERIMENTAL)",IDC_CUSTOM_SMILEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,281,10
-    GROUPBOX        "Multi user chats",IDC_STATIC,7,56,294,43
+    GROUPBOX        "Multi user chats",IDC_STATIC,7,56,294,57
     CONTROL         "Enable multi user chats support",IDC_ENABLE_CHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,69,281,10
     CONTROL         "Do not open chat windows on creation",IDC_HIDE_CHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,83,281,10
-    GROUPBOX        "History synchronization",IDC_STATIC,7,107,294,59
+    CONTROL         "Automatically join active chats that exist in contact list",IDC_JOIN_EXISTING_CHATS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,97,281,10
+    GROUPBOX        "History synchronization",IDC_STATIC,7,121,294,59
     CONTROL         "Load last messages (24 hours old) on login (EXPERIMENTAL)",IDC_LOGIN_SYNC,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,121,281,10
-    CONTROL         "Load last messages on opening message window (EXPERIMENTAL)",IDC_MESSAGES_ON_OPEN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,135,281,10
-    RTEXT           "Number of messages to load:",IDC_STATIC,13,149,231,8
-    EDITTEXT        IDC_MESSAGES_COUNT,249,146,34,14,ES_AUTOHSCROLL
-    CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,146,11,14
+    CONTROL         "Load last messages on opening message window (EXPERIMENTAL)",IDC_MESSAGES_ON_OPEN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,149,281,10
+    RTEXT           "Number of messages to load:",IDC_STATIC,13,163,231,8
+    EDITTEXT        IDC_MESSAGES_COUNT,249,160,34,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,160,11,14
 END
 
 IDD_GUARD DIALOGEX 0, 0, 285, 104
