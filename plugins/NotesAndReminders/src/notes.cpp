@@ -88,8 +88,7 @@ static struct ColorPreset clrPresets[] =
 TREEELEMENT *g_Stickies = NULL;
 
 
-INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,
-								  WPARAM wParam,LPARAM lParam);
+LRESULT CALLBACK StickyNoteWndProc(HWND hdlg,UINT message, WPARAM wParam,LPARAM lParam);
 
 INT_PTR PluginMenuCommandAddNew(WPARAM w,LPARAM l);
 INT_PTR PluginMenuCommandDeleteAll(WPARAM w,LPARAM l);
@@ -1134,7 +1133,7 @@ static UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT msg, WPARAM, LPARAM)
 }
 
 
-INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam)
+LRESULT CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	switch (message)
 	{
