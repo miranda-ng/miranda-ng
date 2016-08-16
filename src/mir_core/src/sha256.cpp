@@ -315,6 +315,6 @@ MIR_CORE_DLL(void) mir_hmac_sha256(BYTE hashout[MIR_SHA256_HASH_SIZE], const BYT
 
 	mir_sha256_init(&ctx);
 	mir_sha256_write(&ctx, usedKey, MIR_SHA_BLOCKSIZE);
-	mir_sha256_write(&ctx, hashout, MIR_SHA1_HASH_SIZE);
+	mir_sha256_write(&ctx, hashout, MIR_SHA256_HASH_SIZE);
 	mir_sha256_final(&ctx, hashout);
 }
