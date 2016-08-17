@@ -250,7 +250,6 @@ std::string facebook_client::choose_server(RequestType request_type)
 		return this->mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE;
 
 		//	case REQUEST_LOGOUT:
-		//	case REQUEST_BUDDY_LIST:
 		//	case REQUEST_USER_INFO:
 		//	case REQUEST_USER_INFO_ALL:
 		//	case REQUEST_FEEDS:
@@ -306,9 +305,6 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_DTSG:
 		return "/editprofile.php?edit=current_city&type=basic";
-
-	case REQUEST_BUDDY_LIST:
-		return "/ajax/chat/buddy_list.php?__a=1";
 
 	case REQUEST_USER_INFO:
 		return "/ajax/chat/user_info.php?__a=1";
@@ -543,7 +539,6 @@ bool facebook_client::notify_errors(RequestType request_type)
 {
 	switch (request_type)
 	{
-	case REQUEST_BUDDY_LIST:
 	case REQUEST_MESSAGES_SEND:
 		return false;
 

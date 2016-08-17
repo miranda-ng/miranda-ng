@@ -149,7 +149,6 @@ enum RequestType {
 	REQUEST_POKE,				// sending pokes
 	REQUEST_NOTIFICATIONS_READ, // marking notifications read
 
-	REQUEST_BUDDY_LIST,			// getting regular updates (friends online, ...)
 	REQUEST_USER_INFO,			// getting info about particular friend
 	REQUEST_USER_INFO_ALL,		// getting info about all friends
 	REQUEST_USER_INFO_MOBILE,	// getting info about particular user (from mobile website)
