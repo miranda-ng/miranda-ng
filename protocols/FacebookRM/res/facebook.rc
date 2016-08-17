@@ -207,14 +207,12 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,83,281,10
     CONTROL         "Automatically join active chats that exist in contact list",IDC_JOIN_EXISTING_CHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,97,281,10
-    GROUPBOX        "History synchronization",IDC_STATIC,7,121,294,59
-    CONTROL         "Load last messages (24 hours old) on login (EXPERIMENTAL)",IDC_LOGIN_SYNC,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,135,281,10
+    GROUPBOX        "History synchronization",IDC_STATIC,7,121,294,44
     CONTROL         "Load last messages on opening message window (EXPERIMENTAL)",IDC_MESSAGES_ON_OPEN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,149,281,10
-    RTEXT           "Number of messages to load:",IDC_STATIC,13,163,231,8
-    EDITTEXT        IDC_MESSAGES_COUNT,249,160,34,14,ES_AUTOHSCROLL
-    CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,160,11,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,134,281,10
+    RTEXT           "Number of messages to load:",IDC_STATIC,13,148,231,8
+    EDITTEXT        IDC_MESSAGES_COUNT,249,145,34,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,145,11,14
 END
 
 IDD_GUARD DIALOGEX 0, 0, 285, 104

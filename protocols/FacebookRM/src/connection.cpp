@@ -114,11 +114,8 @@ void FacebookProto::ChangeStatus(void*)
 			// Process friendship requests
 			ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
 
-			// Sync threads, get messages - or get unread messages
-			if (getBool(FACEBOOK_KEY_LOGIN_SYNC, DEFAULT_LOGIN_SYNC))
-				ForkThread(&FacebookProto::SyncThreads, NULL);
-			else
-				ForkThread(&FacebookProto::ProcessUnreadMessages, NULL);
+			// Get unread messages
+			ForkThread(&FacebookProto::ProcessUnreadMessages, NULL);
 
 			// Get notifications
 			if (getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))

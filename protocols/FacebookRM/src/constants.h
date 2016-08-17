@@ -91,7 +91,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_LOAD_PAGES						0
 #define DEFAULT_KEEP_UNREAD						0
 #define DEFAULT_FILTER_ADS						0
-#define DEFAULT_LOGIN_SYNC   					0
 #define DEFAULT_MESSAGES_ON_OPEN				0
 #define DEFAULT_MESSAGES_ON_OPEN_COUNT			10
 #define DEFAULT_HIDE_CHATS						0

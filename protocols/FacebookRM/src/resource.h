@@ -45,7 +45,6 @@
 #define IDC_NOTIFICATIONS_ENABLE        1041
 #define IDC_FEEDS_ENABLE                1042
 #define IDC_FILTER_ADS                  1045
-#define IDC_LOGIN_SYNC                  1046
 #define IDC_ENABLE_CHATS                1047
 #define IDC_FRIENDSHIP_ENABLE           1048
 #define IDC_TICKER_ENABLE               1049

@@ -174,7 +174,6 @@ public:
 	void __cdecl SearchIdAckThread(void*);
 	void __cdecl ProcessPages(void*);
 	void __cdecl LoadLastMessages(void*);
-	void __cdecl SyncThreads(void*);
 	void __cdecl ProcessMemories(void*);
 
 	// Worker threads
