@@ -2,7 +2,7 @@
 
 char *szFEMode[] =
 {
-	LPGEN("Recv file"),
+	LPGEN("Receive file"),
 	LPGEN("Send file")
 };
 
@@ -175,7 +175,7 @@ char *stateMsg[][2] =
 (char*)STATE_PRERECV,"PreRecv",
 (char*)STATE_OPERATE,"Operate",
 (char*)STATE_ACKREQ,"AckReq",
-(char*)STATE_CANCELLED,"Cancelled",
+(char*)STATE_CANCELLED,"Canceled",
 (char*)STATE_FINISHED,"Finished",
 (char*)STATE_PAUSED,"Paused"
 };
@@ -984,6 +984,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hDlg);
 	{
 		dat = (FILEECHO*)lParam;
 		dat->hDlg = hDlg;
