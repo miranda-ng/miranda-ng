@@ -283,6 +283,8 @@ std::string facebook_client::choose_server(RequestType request_type)
 
 std::string facebook_client::choose_action(RequestType request_type, std::string *get_data)
 {
+	// NOTE: Parameter "client" used in some requests's POST data could be "jewel" (top bar?), "mercury" (chat window, source=source:chat:web) or "web_messenger" (whole chat messages page, source=source:titan:web)
+
 	switch (request_type)
 	{
 	case REQUEST_LOGIN:
@@ -306,11 +308,11 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	case REQUEST_DTSG:
 		return "/editprofile.php?edit=current_city&type=basic";
 
-	case REQUEST_USER_INFO:
-		return "/ajax/chat/user_info.php?__a=1";
+	case REQUEST_USER_INFO: // ok, 17.8.2016
+		return "/chat/user_info/?dpr=1";
 
-	case REQUEST_USER_INFO_ALL:
-		return "/ajax/chat/user_info_all.php?__a=1&viewer=" + self_.user_id;
+	case REQUEST_USER_INFO_ALL: // ok, 17.8.2016
+		return "/chat/user_info_all/?dpr=1&viewer=" + self_.user_id;
 
 	case REQUEST_USER_INFO_MOBILE:
 	{
@@ -335,9 +337,9 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return action;
 	}
 
-	case REQUEST_UNREAD_THREADS:
+	case REQUEST_UNREAD_THREADS: // ok, 17.8.2016
 	{
-		return "/ajax/mercury/unread_threads.php?__a=1";
+		return "/ajax/mercury/unread_threads.php?dpr=1";
 	}
 
 	case REQUEST_DELETE_FRIEND:
@@ -380,12 +382,12 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/bookmarks/pages?";
 	}
 
-	case REQUEST_NOTIFICATIONS:
+	case REQUEST_NOTIFICATIONS: // ok, 17.8.2016
 	{
-		return "/ajax/notifications/client/get.php?__a=1";
+		return "/ajax/notifications/client/get.php?dpr=1";
 	}
 
-	case REQUEST_RECONNECT:
+	case REQUEST_RECONNECT: // ok, 17.8.2016
 	{
 		std::string action = "/ajax/presence/reconnect.php?__a=1&reason=%s&fb_dtsg=%s&__user=%s";
 
@@ -399,6 +401,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		action += "&__dyn=" + __dyn();
 		action += "&__req=" + __req();
 		action += "&__rev=" + __rev();
+		action += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
 		return action;
 	}
@@ -428,12 +431,12 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	}
 
 	case REQUEST_MESSAGES_SEND:
-		return "/ajax/mercury/send_messages.php?__a=1";
+		return "/messaging/send/?dpr=1";
 
-	case REQUEST_THREAD_INFO:
-		return "/ajax/mercury/thread_info.php?__a=1";
+	case REQUEST_THREAD_INFO: // ok, 17.8.2016
+		return "/ajax/mercury/thread_info.php?dpr=1";
 
-	case REQUEST_THREAD_SYNC:
+	case REQUEST_THREAD_SYNC: // TODO: This doesn't work anymore
 		return "/ajax/mercury/thread_sync.php?__a=1";
 
 	case REQUEST_MESSAGES_RECEIVE:
@@ -491,7 +494,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	}
 
 	case REQUEST_VISIBILITY:
-		return "/ajax/chat/privacy/visibility.php?__a=1";
+		return "/ajax/chat/privacy/visibility.php?dpr=1"; // ok, 17.8.2016
 
 	case REQUEST_POKE:
 		return "/pokes/dialog/?__a=1";
@@ -509,7 +512,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	}
 
 	case REQUEST_TYPING_SEND:
-		return "/ajax/messaging/typ.php?__a=1";
+		return "/ajax/messaging/typ.php?dpr=1"; // ok, 17.8.2016
 
 	case REQUEST_ON_THIS_DAY:
 	{
@@ -1214,7 +1217,8 @@ bool facebook_client::chat_state(bool online)
 	data += "&__req=" + __req();
 	data += "&ttstamp=" + ttstamp_;
 	data += "&__rev=" + __rev();
-	http::response resp = flap(REQUEST_VISIBILITY, &data); // NOTE: Request revised 11.2.2016
+	data += "&__a=1&__pc=PHASED:DEFAULT&__be=-1";
+	http::response resp = flap(REQUEST_VISIBILITY, &data); // NOTE: Request revised 17.8.2016
 
 	if (!resp.error_title.empty())
 		return handle_error("chat_state");
@@ -1422,7 +1426,28 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		return SEND_MESSAGE_ERROR;
 	}
 
-	data += "&message_batch[0][action_type]=ma-type:user-generated-message";
+	data += "&client=mercury"; // or "web_messenger" (whole messages page)
+	data += "&action_type=ma-type:user-generated-message";
+	
+	// Experimental sticker sending support
+	if (message_text.substr(0, 10) == "[[sticker:" && message_text.substr(message_text.length() - 2) == "]]") {
+		data += "&body=";
+		data += "&sticker_id=" + utils::url::encode(message_text.substr(10, message_text.length() - 10 - 2));
+		data += "&has_attachment=true";
+		// TODO: For sending GIF images instead of "sticker_id=" there is "image_ids[0]=", otherwise it's same
+	}
+	else {
+		data += "&body=" + utils::url::encode(message_text);
+		data += "&has_attachment=false";
+	}
+
+	data += "&ephemeral_ttl_mode=0";
+	// data += "&force_sms=true" // TODO: This is present always when sending via "web_messenger"
+
+	// Probably we can generate any random messageID, it just have to be numeric and don't start with "0". We will receive it in response as "client_message_id".
+	std::string messageId = utils::text::rand_string(10, "123456789", &this->random_);
+	data += "&message_id=" + messageId;
+	data += "&offline_threading_id=" + messageId; // Same as message ID
 	
 	if (isChatRoom) {
 		// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
@@ -1430,60 +1455,30 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		if (thread_fbid.substr(0, 3) == "id.")
 			thread_fbid = thread_fbid.substr(3);
 
-		data += "&message_batch[0][thread_fbid]=" + thread_fbid;
+		data += "&thread_fbid=" + thread_fbid;
 	} else {
-		data += "&message_batch[0][specific_to_list][0]=fbid:" + std::string(userId);
-		data += "&message_batch[0][specific_to_list][1]=fbid:" + this->self_.user_id;
-		data += "&message_batch[0][other_user_fbid]=" + std::string(userId);
+		data += "&other_user_fbid=" + std::string(userId);
+		data += "&specific_to_list[0]=fbid:" + std::string(userId);
+		data += "&specific_to_list[1]=fbid:" + this->self_.user_id;
 	}
 
-	data += "&message_batch[0][thread_id]=";
-	data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
-	data += "&message_batch[0][author_email]";
-	data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
-	data += "&message_batch[0][timestamp_absolute]";
-	data += "&message_batch[0][timestamp_relative]";
-	data += "&message_batch[0][timestamp_time_passed]";
-	data += "&message_batch[0][is_unread]=false";
-	data += "&message_batch[0][is_forward]=false";
-	data += "&message_batch[0][is_filtered_content]=false";
-	data += "&message_batch[0][is_filtered_content_bh]=false";
-	data += "&message_batch[0][is_filtered_content_account]=false";
-	data += "&message_batch[0][is_filtered_content_quasar]=false";
-	data += "&message_batch[0][is_filtered_content_invalid_app]=false";
-	data += "&message_batch[0][is_spoof_warning]=false";
-	data += "&message_batch[0][source]=source:chat:web";
-	data += "&message_batch[0][source_tags][0]=source:chat";
-
-	// Experimental sticker sending support
-	if (message_text.substr(0, 10) == "[[sticker:" && message_text.substr(message_text.length() - 2) == "]]") {
-		data += "&message_batch[0][body]=";
-		data += "&message_batch[0][sticker_id]=" + utils::url::encode(message_text.substr(10, message_text.length()-10-2));
-	}
-	else {
-		data += "&message_batch[0][body]=" + utils::url::encode(message_text);
-	}
-
-	data += "&message_batch[0][has_attachment]=false";
-	data += "&message_batch[0][html_body]=false";
-	data += "&message_batch[0][signatureID]";
-	data += "&message_batch[0][ui_push_phase]";
-	data += "&message_batch[0][status]=0";
-	data += "&message_batch[0][offline_threading_id]";
-	data += "&message_batch[0][message_id]";
-	data += "&message_batch[0][ephemeral_ttl_mode]=0";
-	data += "&message_batch[0][manual_retry_cnt]=0";
-	data += "&client=mercury&__a=1&__be=0&__pc=EXP1:DEFAULT";
-	data += "&fb_dtsg=" + this->dtsg_;
+	data += "&signature_id="; // TODO: How to generate signature ID? It is present only when sending via "mercury"
+	data += "&source=source:chat:web"; // or "source:titan:web" for web_messenger
+	data += "&timestamp=" + utils::time::mili_timestamp();
+	data += "&ui_push_phase=V3";
 	data += "&__user=" + this->self_.user_id;
-	data += "&ttstamp=" + ttstamp_;
+	data += "&__a=1";
 	data += "&__dyn=" + __dyn();
 	data += "&__req=" + __req();
+	data += "&__be=-1";
+	data += "&__pc=PHASED:DEFAULT";
+	data += "&fb_dtsg=" + this->dtsg_;
+	data += "&ttstamp=" + ttstamp_;
 	data += "&__rev=" + __rev();
 
 	{
 		ScopedLock s(send_message_lock_);
-		resp = flap(REQUEST_MESSAGES_SEND, &data); // NOTE: Request revised 11.2.2016
+		resp = flap(REQUEST_MESSAGES_SEND, &data); // NOTE: Request revised 17.8.2016
 
 		*error_text = resp.error_text;
 

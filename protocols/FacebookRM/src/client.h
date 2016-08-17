@@ -158,7 +158,7 @@ public:
 	}
 
 	std::string __inline __rev() {
-		return "2288795"; // FIXME: Some version of communication protocol? This version is from 17.4.2016
+		return "2509236"; // FIXME: Some version of communication protocol? This version is from 17.8.2016
 	}
 
 	////////////////////////////////////////////////////////////

@@ -191,11 +191,12 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&ttstamp=" + facy.ttstamp_;
 	data += "&__rev=" + facy.__rev();
+	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
 	data += "&threads[thread_ids][0]=" + utils::url::encode(thread_id);
 
 	std::string user_id;
-	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 1.9.2015
+	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
 
 	if (resp.code == HTTP_CODE_OK) {
 		CODE_BLOCK_TRY
@@ -233,8 +234,9 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&ttstamp=" + facy.ttstamp_;
 	data += "&__rev=" + facy.__rev();
+	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
-	http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 11.2.2016
+	http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 17.8.2016
 
 	if (resp.code == HTTP_CODE_OK) {
 		CODE_BLOCK_TRY
@@ -304,6 +306,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 		data += "&fb_dtsg=" + facy.dtsg_;
 		data += "&ttstamp=" + facy.ttstamp_;
 		data += "&__rev=" + facy.__rev();
+		data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
 		for (std::string::size_type i = 0; i < namelessIds.size(); i++) {
 			std::string pos = utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
@@ -311,7 +314,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 			data += "&ids[" + pos + "]=" + id;
 		}
 
-		http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 11.2.2016
+		http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 17.8.2016
 
 		if (resp.code == HTTP_CODE_OK) {
 			CODE_BLOCK_TRY
@@ -359,18 +362,19 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&ttstamp=" + facy.ttstamp_;
 	data += "&__rev=" + facy.__rev();
+	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
 	std::string thread_id = utils::url::encode(fbc->thread_id);
 
 	// request info about thread
 	data += "&threads[thread_ids][0]=" + thread_id;
 
-	// TODO: ABILITY TO DEFINE TIMESTAMP! (way to load history since specific moment? ... offset seems to does nothing at all)
+	// TODO: ABILITY TO DEFINE TIMESTAMP! (way to load history since specific moment? probably as replacement for removed sync_threads request?)
 	/* messages[user_ids][<<userid>>][offset]=11
 	messages[user_ids][<<userid>>][timestamp]=1446369866009 // most recent message has this timestamp (included)
 	messages[user_ids][<<userid>>][limit]=20 */
 
-	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 12.2.2016
+	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("LoadChatInfo");

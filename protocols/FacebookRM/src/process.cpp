@@ -52,8 +52,9 @@ void FacebookProto::ProcessFriendList(void*)
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&ttstamp=" + facy.ttstamp_;
 	data += "&__rev=" + facy.__rev();
+	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
-	http::response resp = facy.flap(REQUEST_USER_INFO_ALL, &data); // NOTE: Request revised 11.2.2016
+	http::response resp = facy.flap(REQUEST_USER_INFO_ALL, &data); // NOTE: Request revised 17.8.2016
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("load_friends");
@@ -192,11 +193,13 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 	facy.handle_entry("ProcessUnreadMessages");
 
-	std::string data = "folders[0]=inbox&folders[1]=other"; // TODO: I'm not sure if this is still valid/used on fb side (or it has any effect at all)
+	std::string data = "folders[0]=inbox&folders[1]=other"; // TODO: "other" is probably unused, and there is now "pending" instead
 	data += "&client=mercury";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp_;
+	data += "&__rev=" + facy.__rev();
+	data += "&__pc=PHASED:DEFAULT&__be=-1";
 
 	http::response resp = facy.flap(REQUEST_UNREAD_THREADS, &data);
 
@@ -255,6 +258,7 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		data += "&fb_dtsg=" + facy.dtsg_;
 		data += "&ttstamp=" + facy.ttstamp_;
 		data += "&__rev=" + facy.__rev();
+		data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
 		for (std::vector<std::string>::size_type i = 0; i < threads->size(); i++) {
 			std::string thread_id = utils::url::encode(threads->at(i));
@@ -270,7 +274,7 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 			data += "]=" + thread_id;
 		}
 
-		resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 1.9.2015
+		resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
 
 		if (resp.code == HTTP_CODE_OK) {
 
@@ -359,6 +363,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&ttstamp=" + facy.ttstamp_;
 	data += "&__rev=" + facy.__rev();
+	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
 	bool isChat = isChatRoom(hContact);
 
@@ -385,7 +390,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 	// request info about thread
 	data += "&threads[" + type + "][0]=" + id;
 
-	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 1.9.2015
+	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
 
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("LoadLastMessages");
@@ -978,15 +983,15 @@ void FacebookProto::ProcessNotifications(void*)
 	data += "&__dyn=" + facy.__dyn();
 	data += "&__req=" + facy.__req();
 	data += "&__rev=" + facy.__rev();
+	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
 	// Get notifications
-	http::response resp = facy.flap(REQUEST_NOTIFICATIONS, &data); // NOTE: Request revised 11.2.2016
+	http::response resp = facy.flap(REQUEST_NOTIFICATIONS, &data); // NOTE: Request revised 17.8.2016
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("notifications");
 		return;
 	}
-
 
 	// Process notifications
 	debugLogA("*** Starting processing notifications");

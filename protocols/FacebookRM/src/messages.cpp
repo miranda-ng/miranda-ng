@@ -97,8 +97,9 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			post_data += "&ttstamp=" + facy.ttstamp_;
 			post_data += "&__rev=" + facy.__rev();
 			post_data += "&threads[thread_ids][0]=" + utils::url::encode(data->chat_id);
+			post_data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
-			http::response resp = facy.flap(REQUEST_THREAD_INFO, &post_data); // NOTE: Request revised 1.9.2015
+			http::response resp = facy.flap(REQUEST_THREAD_INFO, &post_data); // NOTE: Request revised 17.8.2016
 
 			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
 			if (!tid.empty() && tid.compare("null"))
@@ -164,10 +165,11 @@ void FacebookProto::SendTypingWorker(void *p)
 		data += "&__req=" + facy.__req();
 
 		data += "&fb_dtsg=" + facy.dtsg_;
-		data += "&ttsamp=" + facy.ttstamp_;
+		data += "&ttstamp=" + facy.ttstamp_;
 		data += "&__rev=" + facy.__rev();
+		data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
-		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data); // NOTE: Request revised 11.2.2016
+		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data); // NOTE: Request revised 17.8.2016
 	}
 
 	delete typing;
