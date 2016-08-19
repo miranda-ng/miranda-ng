@@ -187,7 +187,7 @@ bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_he
 	return true;
 }
 
-void generate_signature(BYTE *signature, const char *method, const char *url, const char *parameters, const char *session_key)
+void generate_signature(BYTE *signature, const char *method, const char *url, const char *parameters, char *session_key)
 {
 	CMStringA sig_base(FORMAT, "%s&%s&%s", method, ptrA(mir_urlEncode(url)), ptrA(mir_urlEncode(parameters)));
 	mir_hmac_sha256(signature, (BYTE*)session_key, mir_strlen(session_key), (BYTE*)sig_base.GetString(), sig_base.GetLength());
@@ -206,6 +206,7 @@ void fill_session_url(CMStringA &buf, CMStringA &token, CMStringA &secret, time_
 	mir_hmac_sha256(session_key, (BYTE*)password, mir_strlen(password), (BYTE*)secret.GetString(), secret.GetLength());
 
 	ptrA szKey(mir_base64_encode(session_key, sizeof(session_key)));
+
 	generate_signature(signature, "GET", AIM_SESSION_URL, query_string, szKey);
 
 	ptrA szEncoded(mir_base64_encode(signature, sizeof(signature)));
@@ -327,6 +328,10 @@ void CAimProto::aim_connection_clientlogin(void)
 		broadcast_status(ID_STATUS_OFFLINE);
 		return;
 	}
+	if(COOKIE)
+		mir_free(COOKIE);
+	COOKIE = (char*)mir_base64_decode(cookie, (unsigned int*)&COOKIE_LENGTH);
+
 
 	m_hServerConn = aim_connect(bos_host, bos_port, (tls_cert_name[0] && encryption) ? true : false, bos_host);
 	if (!m_hServerConn) {
@@ -335,8 +340,7 @@ void CAimProto::aim_connection_clientlogin(void)
 		return;
 	}
 
-	replaceStr(COOKIE, cookie);
-	COOKIE_LENGTH = (int)mir_strlen(cookie);
+
 
 	ForkThread(&CAimProto::aim_protocol_negotiation, 0);
 }
@@ -344,6 +348,8 @@ void CAimProto::aim_connection_clientlogin(void)
 void __cdecl CAimProto::aim_protocol_negotiation(void*)
 {
 	HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)m_hServerConn, 2048 * 8);
+
+
 
 	NETLIBPACKETRECVER packetRecv = { 0 };
 	packetRecv.cbSize = sizeof(packetRecv);
@@ -374,10 +380,40 @@ void __cdecl CAimProto::aim_protocol_negotiation(void*)
 					break;
 				flap_length += FLAP_SIZE + flap.len();
 				if (flap.cmp(0x01)) {
-					aim_send_cookie(m_hServerConn, m_seqno, COOKIE_LENGTH, COOKIE);//cookie challenge
-					mir_free(COOKIE);
-					COOKIE = NULL;
-					COOKIE_LENGTH = 0;
+					if (getByte(AIM_KEY_CLIENTLOGIN, 1) != 1)
+					{
+						aim_send_cookie(m_hServerConn, m_seqno, COOKIE_LENGTH, COOKIE);//cookie challenge
+						mir_free(COOKIE);
+						COOKIE = NULL;
+						COOKIE_LENGTH = 0;
+					}
+					else
+					{
+						unsigned short offset = 0;
+						char client_id[64], mirver[64];
+						CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mirver), (LPARAM)mirver);
+						int client_id_len = mir_snprintf(client_id, "Miranda AIM, version %s", mirver);
+
+						char* buf_ = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE * 8 + COOKIE_LENGTH + client_id_len + 30); //TODO: correct length
+
+						aim_writelong(0x01, offset, buf_);//protocol version number
+
+						aim_writetlv(0x06, (unsigned short)COOKIE_LENGTH, COOKIE, offset, buf_);
+
+						aim_writetlv(0x03, (unsigned short)client_id_len, client_id, offset, buf_);
+
+						aim_writetlvshort(0x17, AIM_CLIENT_MAJOR_VERSION, offset, buf_);
+						aim_writetlvshort(0x18, AIM_CLIENT_MINOR_VERSION, offset, buf_);
+						aim_writetlvshort(0x19, AIM_CLIENT_LESSER_VERSION, offset, buf_);
+						aim_writetlvshort(0x1A, AIM_CLIENT_BUILD_NUMBER, offset, buf_);
+						aim_writetlvchar(0x4A, getByte(AIM_KEY_FSC, 0) ? 3 : 1, offset, buf_);
+
+						aim_sendflap(m_hServerConn, 0x01, offset, buf_, m_seqno);
+						mir_free(COOKIE);
+						COOKIE = NULL;
+						COOKIE_LENGTH = 0;
+
+					}
 				}
 				else if (flap.cmp(0x02)) {
 					SNAC snac(flap.val(), flap.snaclen());

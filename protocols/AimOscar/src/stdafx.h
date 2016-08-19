@@ -74,9 +74,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "ui.h"
 #include "version.h"
 
-//openssl
-#include <openssl/hmac.h>
-
 // Protocol limits
 #define MAX_SCREEN_NAME_LENGTH      97
 #define MAX_GROUP_NAME_LENGTH       48

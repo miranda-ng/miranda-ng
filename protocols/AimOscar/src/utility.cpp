@@ -662,3 +662,4 @@ unsigned short get_random(void)
 	id &= 0x7fff;
 	return id;
 }
+
