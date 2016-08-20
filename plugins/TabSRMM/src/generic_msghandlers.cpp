@@ -1704,7 +1704,7 @@ void TSAPI DM_HandleAutoSizeRequest(TWindowData *dat, REQRESIZE* rr)
 
 void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 {
-	wchar_t newtitle[128], newcontactname[128];
+	wchar_t newtitle[128];
 	DWORD dwOldIdle = dat->idle;
 	const char *szActProto = 0;
 
@@ -1713,7 +1713,6 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 	HWND hwndContainer = dat->pContainer->hwnd;
 	TContainerData*	m_pContainer = dat->pContainer;
 
-	newcontactname[0] = 0;
 	dat->szStatus[0] = 0;
 
 	if (dat->iTabID == -1)
@@ -1735,6 +1734,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 			wcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
 
 			if (lParam != 0) {
+				wchar_t newcontactname[128]; newcontactname[0] = 0;
 				if (PluginConfig.m_bCutContactNameOnTabs)
 					CutContactName(szNick, newcontactname, _countof(newcontactname));
 				else
@@ -1742,7 +1742,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 
 				Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
 
-				if (mir_wstrlen(newcontactname) != 0) {
+				if (newcontactname[0] != 0) {
 					if (PluginConfig.m_bStatusOnTabs)
 						mir_snwprintf(newtitle, L"%s (%s)", newcontactname, dat->szStatus);
 					else

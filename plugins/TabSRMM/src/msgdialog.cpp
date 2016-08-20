@@ -1175,7 +1175,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		dat->hContact = newData->hContact;
 		dat->cache = CContactCache::getContactCache(dat->hContact);
-		dat->cache->updateState();
+		dat->cache->updateNick();
 		dat->cache->setWindowData(hwndDlg, dat);
 		M.AddWindow(hwndDlg, dat->hContact);
 		BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);

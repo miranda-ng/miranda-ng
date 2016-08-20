@@ -1749,7 +1749,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			dat->Panel = new CInfoPanel(dat);
 
 			dat->cache = CContactCache::getContactCache(dat->hContact);
-			dat->cache->updateState();
+			dat->cache->updateNick();
 			dat->cache->updateUIN();
 			newData->item.lParam = (LPARAM)hwndDlg;
 			TabCtrl_SetItem(hwndTab, newData->iTabID, &newData->item);

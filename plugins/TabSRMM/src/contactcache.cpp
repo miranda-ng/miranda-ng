@@ -71,7 +71,7 @@ void CContactCache::initPhaseTwo()
 		m_isMeta = db_mc_isMeta(cc->contactID) != 0; // don't use cc->IsMeta() here
 		if (m_isMeta)
 			updateMeta();
-		updateState();
+		updateNick();
 		updateFavorite();
 	}
 	else {
@@ -100,11 +100,6 @@ void CContactCache::closeWindow()
 {
 	if (m_hwnd)
 		::SendMessage(m_hwnd, WM_CLOSE, 1, 2);
-}
-
-void CContactCache::updateState()
-{
-	updateNick();
 }
 
 /**

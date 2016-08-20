@@ -156,7 +156,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dat->dwFlags = dat->pContainer->theme.dwFlags;
 
 			dat->cache = CContactCache::getContactCache(dat->hContact);
-			dat->cache->updateState();
+			dat->cache->updateNick();
 			dat->cache->updateUIN();
 			dat->cache->updateStats(TSessionStats::INIT_TIMER);
 			GetMYUIN(dat);

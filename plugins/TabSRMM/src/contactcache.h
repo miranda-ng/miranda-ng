@@ -100,7 +100,6 @@ struct CContactCache : public MZeroedObject
 	////////////////////////////////////////////////////////////////////////////
 
 	bool     updateStatus(int iStatus);
-	void     updateState();
 	bool     updateNick();
 	void     updateMeta();
 	bool     updateUIN();

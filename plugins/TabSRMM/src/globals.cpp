@@ -370,6 +370,9 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (szProto == NULL)
 		return 0;
 
+	if (!c->isValid())
+		c->resetMeta(); // restart constructor
+
 	// catch own relevant settings
 	if (!strcmp(cws->szModule, SRMSGMOD_T))
 		if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
