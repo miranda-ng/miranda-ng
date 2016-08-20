@@ -170,12 +170,6 @@ static int ClcContactAdded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ClcContactDeleted(WPARAM wParam, LPARAM lParam)
-{
-	WindowList_BroadcastAsync(hClcWindowList, INTM_CONTACTDELETED, wParam, lParam);
-	return 0;
-}
-
 static int ClcIconsChanged(WPARAM, LPARAM)
 {
 	WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
@@ -218,7 +212,6 @@ int LoadCLCModule(void)
 	HookEvent(ME_PROTO_ACCLISTCHANGED, ClcAccountsChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, ClcContactAdded);
-	HookEvent(ME_DB_CONTACT_DELETED, ClcContactDeleted);
 	HookEvent(ME_SKIN_ICONSCHANGED, ClcIconsChanged);
 	HookEvent(ME_PROTO_ACK, ClcProtoAck);
 
