@@ -1875,10 +1875,6 @@ void CJabberProto::OnProcessRegIq(HXML node, ThreadData *info)
 
 	int id = JabberGetPacketID(node);
 
-	LPCTSTR from = XmlGetAttrValue(node, L"from");
-	if (from == NULL)
-		return;
-
 	if (!mir_wstrcmp(type, L"result")) {
 		HXML queryNode = XmlGetChild(node, L"query");
 		if (queryNode != NULL) {
@@ -1888,8 +1884,11 @@ void CJabberProto::OnProcessRegIq(HXML node, ThreadData *info)
 				if (xNode != NULL) {
 					str = XmlGetAttrValue(xNode, L"xmlns");
 					if (!mir_wstrcmp(str, JABBER_FEAT_DATA_FORMS)) {
-						m_regInfo = info;
-						FormCreateDialog(xNode, L"Jabber register new user", &CJabberProto::SetRegConfig, mir_wstrdup(from));
+						LPCTSTR from = XmlGetAttrValue(node, L"from");
+						if (from != NULL) {
+							m_regInfo = info;
+							FormCreateDialog(xNode, L"Jabber register new user", &CJabberProto::SetRegConfig, mir_wstrdup(from));
+						}
 						return;
 					}
 				}
