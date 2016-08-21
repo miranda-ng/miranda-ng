@@ -151,7 +151,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 			TLEN_SUBSCRIPTION sub;
 			TLEN_LIST_ITEM *item;
 			char *jid, *name, *nick;
-			int i, oldStatus;
+			int i;
 
 			for (i = 0; i < queryNode->numChild; i++) {
 				itemNode = queryNode->child[i];
@@ -224,15 +224,6 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 				}
 			}
 
-			Menu_ModifyItem(proto->hMenuMUC, NULL, INVALID_HANDLE_VALUE, 0);
-			if (proto->hMenuChats != NULL)
-				Menu_ModifyItem(proto->hMenuChats, NULL, INVALID_HANDLE_VALUE, 0);
-
-			proto->isOnline = TRUE;
-			proto->debugLogA("Status changed via THREADSTART");
-			oldStatus = proto->m_iStatus;
-			TlenSendPresence(proto, proto->m_iDesiredStatus);
-			ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, proto->m_iStatus);
 		}
 	}
 }
@@ -552,6 +543,19 @@ void TlenIqResultTcfg(TlenProtocol *proto, XmlNode *iqNode)
 		if ((node = TlenXmlGetChild(miniMailNode, "avatar-remove")) != NULL) {
 			GetConfigItem(node, proto->threadData->tlenConfig.avatarRemove, TRUE, &proto->threadData->tlenConfig.avatarRemoveMthd);
 		}
+
+
+		//continue connecting
+		Menu_ModifyItem(proto->hMenuMUC, NULL, INVALID_HANDLE_VALUE, 0);
+		if (proto->hMenuChats != NULL)
+			Menu_ModifyItem(proto->hMenuChats, NULL, INVALID_HANDLE_VALUE, 0);
+	
+		proto->isOnline = TRUE;
+		proto->debugLogA("Status changed via THREADSTART");
+		int oldStatus = proto->m_iStatus;
+		TlenSendPresence(proto, proto->m_iDesiredStatus);
+		ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, proto->m_iStatus);
+
 	}
 }
 
