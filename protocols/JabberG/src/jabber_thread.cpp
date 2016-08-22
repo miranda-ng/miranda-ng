@@ -1855,15 +1855,18 @@ void CJabberProto::OnProcessIq(HXML node)
 ThreadData *m_regInfo;
 void CJabberProto::SetRegConfig(HXML node, void *from)
 {
-	if (m_regInfo && from) {
+	if (m_regInfo) {
+		iqIdRegSetReg = SerialNext();
+		
 		wchar_t text[MAX_PATH];
 		mir_snwprintf(text, L"%s@%S", m_regInfo->conn.username, m_regInfo->conn.server);
-		XmlNodeIq iq(L"set", SerialNext(), (wchar_t*)from);
+		XmlNodeIq iq(L"set", iqIdRegSetReg, (const wchar_t*)from);
 		iq << XATTR(L"from", text);
 		HXML query = iq << XQUERY(JABBER_FEAT_REGISTER);
 		XmlAddChild(query, node);
 		m_regInfo->send(iq);
 	}
+	mir_free(from);
 }
 
 void CJabberProto::OnProcessRegIq(HXML node, ThreadData *info)
@@ -1882,13 +1885,9 @@ void CJabberProto::OnProcessRegIq(HXML node, ThreadData *info)
 			if (!mir_wstrcmp(str, JABBER_FEAT_REGISTER)) {
 				HXML xNode = XmlGetChild(queryNode, L"x");
 				if (xNode != NULL) {
-					str = XmlGetAttrValue(xNode, L"xmlns");
-					if (!mir_wstrcmp(str, JABBER_FEAT_DATA_FORMS)) {
-						LPCTSTR from = XmlGetAttrValue(node, L"from");
-						if (from != NULL) {
-							m_regInfo = info;
-							FormCreateDialog(xNode, L"Jabber register new user", &CJabberProto::SetRegConfig, mir_wstrdup(from));
-						}
+					if (!mir_wstrcmp(XmlGetAttrValue(xNode, L"xmlns"), JABBER_FEAT_DATA_FORMS)) {
+						m_regInfo = info;
+						FormCreateDialog(xNode, L"Jabber register new user", &CJabberProto::SetRegConfig, mir_wstrdup(XmlGetAttrValue(node, L"from")));
 						return;
 					}
 				}
