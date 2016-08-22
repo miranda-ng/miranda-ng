@@ -185,7 +185,7 @@ BEGIN
     CONTROL         "",IDC_COLORBKG,"ColourPicker",WS_TABSTOP,17,41,24,12
     CONTROL         "",IDC_COLORTXT,"ColourPicker",WS_TABSTOP,17,59,24,12
     GROUPBOX        "Delay",IDC_STATIC,157,26,140,55
-    CONTROL         "&From Popup plugin",IDC_DELAY_POPUP,"Button",
+    CONTROL         "&From popup plugin",IDC_DELAY_POPUP,"Button",
                     BS_AUTORADIOBUTTON,164,40,125,10
     CONTROL         "&Custom",IDC_DELAY_CUSTOM,"Button",BS_AUTORADIOBUTTON,
                     164,53,98,10

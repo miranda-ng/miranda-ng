@@ -197,7 +197,7 @@ BEGIN
     CONTROL         "Custom1",IDC_CUSTOM_TEXT,"ColourPicker",WS_TABSTOP,56,
                     55,29,14
     GROUPBOX        "Timeout",IDC_GROUP_TIMEOUT,95,2,91,72,WS_GROUP
-    CONTROL         "From Popup plugin",IDC_RADIO_TIMEOUT_POPUP,"Button",
+    CONTROL         "From popup plugin",IDC_RADIO_TIMEOUT_POPUP,"Button",
                     BS_AUTORADIOBUTTON,99,12,82,10
     CONTROL         "Permanent",IDC_RADIO_TIMEOUT_PERMANENT,"Button",
                     BS_AUTORADIOBUTTON,99,23,82,10
