@@ -32,7 +32,6 @@ class CTzCombo : public CBaseCtrl
 	CTzCombo();
 	CTzCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
 
-	int Find(CTimeZone *pTimeZone) const;					//old UIEX method
 	int Find(LPTIME_ZONE_INFORMATION pTimeZone) const;		//new core tz interface
 
 public:

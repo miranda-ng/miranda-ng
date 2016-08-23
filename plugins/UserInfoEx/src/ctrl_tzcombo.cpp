@@ -21,22 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static INT_PTR EnumNamesProc(CTimeZone *pTimeZone, int, LPARAM lParam)
-{
-	if (pTimeZone && pTimeZone->ptszDisplay)
-	{
-		int added = ComboBox_AddString((HWND)lParam, pTimeZone->ptszDisplay);
-		if (SUCCEEDED(added)) 
-		{
-			if (FAILED(ComboBox_SetItemData((HWND)lParam, added, pTimeZone))) 
-			{
-				ComboBox_DeleteString((HWND)lParam, added);
-			}
-		}
-	}
-	return 0;
-}
-
 /**
  * This functions fills a combobox given by @hCtrl with
  * all items of the global timezone manager
@@ -78,28 +62,6 @@ CTzCombo::CTzCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 	: CBaseCtrl(hDlg, idCtrl, pszSetting)
 {
 	_curSel = CB_ERR;
-}
-
-/**
- * This method does a binary search in the sorted
- * ComboBox for the item index. (old UIEX method)
- *
- * @param	pTimeZone		- CTimeZone compobox item data.
- *
- * @retval	CB_ERR			- item not found
- * @retval	0...n			- index of the combobox item
- **/
-int CTzCombo::Find(CTimeZone *pTimeZone) const
-{
-	int nItemIndex;
-	int nItemCount = ComboBox_GetCount(_hwnd);
-
-	for (nItemIndex = 0; nItemIndex < nItemCount; nItemIndex++)
-	{
-		if (pTimeZone == (CTimeZone *)ComboBox_GetItemData(_hwnd, nItemIndex))
-			return nItemIndex;
-	}
-	return CB_ERR;
 }
 
 /**

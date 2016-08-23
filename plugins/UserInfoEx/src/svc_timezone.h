@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * This structure is used by GetTimeZoneInformationByIndex to retrieve
  * timezone information from windows' registry
  **/
+
 typedef struct _REG_TZI_FORMAT
 {
 	LONG Bias;

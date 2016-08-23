@@ -120,7 +120,6 @@ unsigned int hashSettingW_M2(const char * key);		//new Murma2 hash
 #include "svc_refreshci.h"
 #include "svc_reminder.h"
 #include "svc_timezone.h"
-#include "svc_timezone_old.h"
 #include "mir_contactqueue.h"
 #include "mir_db.h"
 #include "mir_string.h"
