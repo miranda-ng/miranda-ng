@@ -123,9 +123,9 @@
 			<DCC_DcuOutput>..\..\bin10\Debug\Obj\hpp\</DCC_DcuOutput>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-			<Debugger_CWD>D:\Myranda\bin12\Debug64</Debugger_CWD>
+			<Debugger_CWD>W:\miranda-ng\bin12\Debug64</Debugger_CWD>
 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
-			<Debugger_HostApplication>D:\Myranda\bin12\Debug64\Miranda64.exe</Debugger_HostApplication>
+			<Debugger_HostApplication>W:\miranda-ng\bin12\Debug64\Miranda64.exe</Debugger_HostApplication>
 			<BRCC_OutputDir>..\..\bin10\temp\res\</BRCC_OutputDir>
 			<DCC_ExeOutput>..\..\bin12\Debug64\Plugins\</DCC_ExeOutput>
 			<DCC_BplOutput>..\..\bin12\Debug64\Plugins\</DCC_BplOutput>
@@ -133,6 +133,12 @@
 			<DCC_DcpOutput>..\..\bin12\Debug64\Obj\hpp\</DCC_DcpOutput>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<DCC_BplOutput>..\..\bin12\Debug\Plugins\</DCC_BplOutput>
+			<DCC_ExeOutput>..\..\bin12\Debug\Plugins\</DCC_ExeOutput>
+			<DCC_DcpOutput>..\..\bin12\Debug\Obj\hpp\</DCC_DcpOutput>
+			<DCC_DcuOutput>..\..\bin12\Debug\Obj\hpp\</DCC_DcuOutput>
+			<Debugger_CWD>W:\miranda-ng\bin12\Debug</Debugger_CWD>
+			<Debugger_HostApplication>W:\miranda-ng\bin12\Debug\Miranda32.exe</Debugger_HostApplication>
 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
 		</PropertyGroup>
 		<ItemGroup>
