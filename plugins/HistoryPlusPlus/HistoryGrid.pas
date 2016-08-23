@@ -123,11 +123,11 @@ type
   TOnSelect = procedure(Sender: TObject; Item, OldItem: Integer) of object;
   TOnBookmarkClick = procedure(Sender: TObject; Item: Integer) of object;
   TGetItemData = procedure(Sender: TObject; Index: Integer; var Item: THistoryItem) of object;
-  TGetNameData = procedure(Sender: TObject; Index: Integer; var Name: String) of object;
+  TGetNameData = procedure(Sender: TObject; Index: Integer; var Name: AnsiString) of object;
   TGetXMLData = procedure(Sender: TObject; Index: Integer; var Item: TXMLItem) of object;
   TGetMCData = procedure(Sender: TObject; Index: Integer; var Item: TMCItem; Stage: TSaveStage) of object;
   TOnPopup = TNotifyEvent;
-  TOnTranslateTime = procedure(Sender: TObject; Time: DWord; var Text: String) of object;
+  TOnTranslateTime = procedure(Sender: TObject; Time: DWord; var Text: AnsiString) of object;
   TOnProgress = procedure(Sender: TObject; Position, Max: Integer) of object;
   TOnSearchFinished = procedure(Sender: TObject; Text: String; Found: Boolean) of object;
   TOnSearched = TOnSearchFinished;
@@ -546,7 +546,7 @@ type
     procedure MakeSelected(Value: Integer);
     function GetSelCount: Integer;
     procedure SetFilter(const Value: TMessageTypes);
-    function GetTime(Time: DWord): String;
+    function GetTime(Time: DWord): AnsiString;
     function GetItems(Index: Integer): THistoryItem;
     function IsMatched(Index: Integer): Boolean;
     function IsUnknown(Index: Integer): Boolean;
@@ -1641,7 +1641,7 @@ end;
 
 procedure THistoryGrid.PaintItem(Index: Integer; ItemRect: TRect);
 var
-  TimeStamp, HeaderName: String;
+  TimeStamp, HeaderName: AnsiString;
   OrgRect, ItemClipRect: TRect;
   TopIconOffset, IconOffset, TimeOffset: Integer;
   // icon: TIcon;
@@ -3158,7 +3158,7 @@ begin
   EndUpdate;
 end;
 
-function THistoryGrid.GetTime(Time: DWord): String;
+function THistoryGrid.GetTime(Time: DWord): AnsiString;
 begin
   if Assigned(FTranslateTime) then
     OnTranslateTime(Self, Time, Result)
@@ -3410,7 +3410,7 @@ var
   tok: TWideStrArray;
   toksp: TIntArray;
   subst: String;
-  from_nick, to_nick, nick: String;
+  from_nick, to_nick, nick: AnsiString;
   dt: TDateTime;
   Mes, selmes: String;
 begin
@@ -4918,7 +4918,7 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
   procedure SaveHTML;
   var
     mes_id, type_id: AnsiString;
-    nick, Mes, Time: String;
+    nick, Mes, Time: AnsiString;
     txt: AnsiString;
     FullHeader: Boolean;
   begin
@@ -4999,7 +4999,7 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
 
   procedure SaveUnicode;
   var
-    nick, Mes, Time: String;
+    nick, Mes, Time: AnsiString;
     FullHeader: Boolean;
   begin
     FullHeader := not(FGroupLinked and FItems[Item].LinkedToPrev);
@@ -5029,7 +5029,7 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
   procedure SaveText;
   var
     Time: AnsiString;
-    nick, Mes: String;
+    nick, Mes: AnsiString;
     FullHeader: Boolean;
   begin
     FullHeader := not(FGroupLinked and FItems[Item].LinkedToPrev);
@@ -5059,7 +5059,7 @@ procedure THistoryGrid.SaveItem(Stream: TFileStream; Item: Integer; SaveFormat: 
   procedure SaveRTF;
   var
     RTFStream: AnsiString;
-    Text: String;
+    Text: AnsiString;
     FullHeader: Boolean;
   begin
     FullHeader := not(FGroupLinked and FItems[Item].LinkedToPrev);

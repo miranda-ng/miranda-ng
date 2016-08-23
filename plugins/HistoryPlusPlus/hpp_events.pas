@@ -382,7 +382,7 @@ begin
   end;
 end;
 
-function TextHasUrls(var Text: String): Boolean;
+function TextHasUrls(var Text: AnsiString): Boolean;
 var
   i,len,lenW: Integer;
   pText,pPos: PChar;
