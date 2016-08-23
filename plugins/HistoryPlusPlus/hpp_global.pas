@@ -81,7 +81,7 @@ type
     Height: Integer;
     Module: AnsiString;
     Proto: AnsiString;
-    Text: AnsiString;
+    Text: WideString;
     CodePage: Cardinal;
     RTLMode: TRTLMode;
     HasHeader: Boolean;    // header for sessions
