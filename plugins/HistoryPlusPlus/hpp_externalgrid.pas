@@ -107,8 +107,8 @@ type
     function IsFileEvent(Index: Integer): Boolean;
   protected
     procedure GridItemData(Sender: TObject; Index: Integer; var Item: THistoryItem);
-    procedure GridTranslateTime(Sender: TObject; Time: DWord; var Text: WideString);
-    procedure GridNameData(Sender: TObject; Index: Integer; var Name: WideString);
+    procedure GridTranslateTime(Sender: TObject; Time: DWord; var Text: String);
+    procedure GridNameData(Sender: TObject; Index: Integer; var Name: String);
     procedure GridProcessRichText(Sender: TObject; Handle: THandle; Item: Integer);
     procedure GridUrlClick(Sender: TObject; Item: Integer; URLText: String; Button: TMouseButton);
     procedure GridBookmarkClick(Sender: TObject; Item: Integer);
@@ -547,12 +547,12 @@ begin
   end;
 end;
 
-procedure TExternalGrid.GridTranslateTime(Sender: TObject; Time: DWord; var Text: WideString);
+procedure TExternalGrid.GridTranslateTime(Sender: TObject; Time: DWord; var Text: String);
 begin
-  Text := WideString(TimestampToString(Time));
+  Text := TimestampToString(Time);
 end;
 
-procedure TExternalGrid.GridNameData(Sender: TObject; Index: Integer; var Name: WideString);
+procedure TExternalGrid.GridNameData(Sender: TObject; Index: Integer; var Name: String);
 begin
   if Name = '' then
   begin
