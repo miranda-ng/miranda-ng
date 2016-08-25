@@ -113,12 +113,13 @@ DWORD WINAPI forkthread_r(void *arg)
 	FORK_ARG *fa = (FORK_ARG*)arg;
 	pThreadFunc callercode = fa->threadcode;
 	void *cookie = fa->arg;
-	CloseHandle(fa->hThread);
+	HANDLE hThread = fa->hThread;
 	Thread_Push((HINSTANCE)callercode);
 	SetEvent(fa->hEvent);
 
 	callercode(cookie);
 
+	CloseHandle(hThread);
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 	Thread_Pop();
 	return 0;
