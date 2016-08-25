@@ -96,7 +96,7 @@ static LIST<THREAD_WAIT_ENTRY> threads(10, NumericKeySortT);
 
 struct FORK_ARG
 {
-	HANDLE hEvent;
+	HANDLE hEvent, hThread;
 	union
 	{
 		pThreadFunc threadcode;
@@ -113,15 +113,14 @@ DWORD WINAPI forkthread_r(void *arg)
 	FORK_ARG *fa = (FORK_ARG*)arg;
 	pThreadFunc callercode = fa->threadcode;
 	void *cookie = fa->arg;
+	CloseHandle(fa->hThread);
 	Thread_Push((HINSTANCE)callercode);
 	SetEvent(fa->hEvent);
 
 	callercode(cookie);
 
-	HANDLE hThread = GetCurrentThread();
-	SetThreadPriority(hThread, THREAD_PRIORITY_TIME_CRITICAL);
+	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 	Thread_Pop();
-	CloseHandle(hThread);
 	return 0;
 }
 
@@ -133,12 +132,12 @@ MIR_CORE_DLL(HANDLE) mir_forkthread(void(__cdecl *threadcode)(void*), void *arg)
 	fa.arg = arg;
 
 	DWORD threadID;
-	HANDLE hThread = CreateThread(NULL, 0, forkthread_r, &fa, 0, &threadID);
-	if (hThread != NULL)
+	fa.hThread = CreateThread(NULL, 0, forkthread_r, &fa, 0, &threadID);
+	if (fa.hThread != NULL)
 		WaitForSingleObject(fa.hEvent, INFINITE);
 
 	CloseHandle(fa.hEvent);
-	return hThread;
+	return fa.hThread;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
