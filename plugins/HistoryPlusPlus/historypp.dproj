@@ -133,6 +133,8 @@
 			<DCC_DcpOutput>..\..\bin12\Debug64\Obj\hpp\</DCC_DcpOutput>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<Debugger_CWD>W:\miranda-ng\bin12\Debug</Debugger_CWD>
+			<Debugger_HostApplication>W:\miranda-ng\bin12\Debug\Miranda32.exe</Debugger_HostApplication>
 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
 		</PropertyGroup>
 		<ItemGroup>

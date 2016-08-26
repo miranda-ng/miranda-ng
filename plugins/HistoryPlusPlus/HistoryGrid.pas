@@ -3343,8 +3343,6 @@ begin
   P := Point(X - RichEditRect.Left, Y - RichEditRect.Top);
   ApplyItemToRich(Item);
 
-  if FRich.Version < 30 then
-    exit; // TOM is supported from RE 3.0
   if not Assigned(FRich.RichEditOle) then
     exit;
 

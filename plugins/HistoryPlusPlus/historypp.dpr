@@ -165,17 +165,6 @@ begin
   hppCodepage := Langpack_GetDefaultCodePage;
   if hppCodepage = CP_ACP then
     hppCodepage := GetACP();
-  // Checking the version of richedit is available, need 2.0+
-  hppRichEditVersion := InitRichEditLibrary;
-  if hppRichEditVersion < 20 then
-  begin
-    hppMessagebox(hppMainWindow, FormatCString( // single line to translation script
-      TranslateW
-      ('History++ module could not be loaded, Rich Edit 2.0+ module is missing.\nPress OK to continue loading Miranda.')
-      ), hppName + ' Information', MB_OK or MB_ICONINFORMATION);
-    Result := 1;
-    exit;
-  end;
 
   // init history functions later
   HookModulesLoad := HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);

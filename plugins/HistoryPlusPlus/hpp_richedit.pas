@@ -47,8 +47,6 @@ unit hpp_richedit;
 
 interface
 
-{$DEFINE AllowMSFTEDIT}
-
 uses
   Windows, Messages, Classes, RichEdit, ActiveX,
   Controls, StdCtrls, ComCtrls, Forms;
@@ -944,7 +942,6 @@ type
 
   THppRichEdit = class(TCustomRichEdit)
   private
-    FVersion: Integer;
     FCodepage: Cardinal;
     FClickRange: TCharRange;
     FClickBtn: TMouseButton;
@@ -964,7 +961,6 @@ type
     function UpdateHostNames: Boolean;
   protected
     procedure CreateParams(var Params: TCreateParams); override;
-    procedure CreateWindowHandle(const Params: TCreateParams); override;
     procedure CreateWnd; override;
     procedure URLClick(const URLText: String; Button: TMouseButton); dynamic;
   public
@@ -977,7 +973,6 @@ type
     procedure ReplaceCharFormatRange(const fromCF, toCF: CHARFORMAT2; idx, len: Integer);
     procedure ReplaceCharFormat(const fromCF, toCF: CHARFORMAT2);
     property Codepage: Cardinal read FCodepage write FCodepage default CP_ACP;
-    property Version: Integer read FVersion;
     property RichEditOle: IRichEditOle read FRichEditOle;
   published
     published
@@ -1078,8 +1073,6 @@ type
       true:  (DataW: PChar);
   end;
 
-function InitRichEditLibrary: Integer;
-
 function GetRichRTF(RichEditHandle: THandle; var RTFStream: String;
                     SelectionOnly, PlainText, NoObjects, PlainRTF: Boolean): Integer; overload;
 function GetRichRTF(RichEditHandle: THandle; var RTFStream: AnsiString;
@@ -1119,13 +1112,13 @@ const
   SF_UNICODE = 16;
   SF_USECODEPAGE = 32;
 
-  RICHEDIT_CLASS20A = 'RICHEDIT20A';
-  RICHEDIT_CLASS20W = 'RICHEDIT20W';
   MSFTEDIT_CLASS    = 'RICHEDIT50W';
 
+const
+  MSFTEDIT_DLL = 'MSFTEDIT.DLL';
 var
+  emError : DWord;
   FRichEditModule:  THandle = 0;
-  FRichEditVersion: Integer = 0;
 
 procedure Register;
 begin
@@ -1144,60 +1137,6 @@ begin
       Result := LoWord(dwVersion);
   except
   end;
-end;
-
-function InitRichEditLibrary: Integer;
-const
-  RICHED20_DLL = 'RICHED20.DLL';
-  {$IFDEF AllowMSFTEDIT}
-  MSFTEDIT_DLL = 'MSFTEDIT.DLL';
-  {$ENDIF}
-var
-  {$IFDEF AllowMSFTEDIT}
-  hModule : THandle;
-  hVersion: Integer;
-  {$ENDIF}
-  emError : DWord;
-begin
-  if FRichEditModule = 0 then
-  begin
-    FRichEditVersion := -1;
-    emError := SetErrorMode(SEM_NOOPENFILEERRORBOX);
-    try
-      FRichEditModule := LoadLibrary(RICHED20_DLL);
-      if FRichEditModule <= HINSTANCE_ERROR then
-        FRichEditModule := 0;
-      if FRichEditModule <> 0 then
-        FRichEditVersion := GetModuleVersionFile(FRichEditModule);
-{$IFDEF AllowMSFTEDIT}
-      repeat
-        if FRichEditVersion > 40 then
-          break;
-        hModule := LoadLibrary(MSFTEDIT_DLL);
-        if hModule <= HINSTANCE_ERROR then
-          hModule := 0;
-        if hModule <> 0 then
-        begin
-          hVersion := GetModuleVersionFile(hModule);
-          if hVersion > FRichEditVersion then
-          begin
-            if FRichEditModule <> 0 then
-              FreeLibrary(FRichEditModule);
-            FRichEditModule := hModule;
-            FRichEditVersion := hVersion;
-            break;
-          end;
-          FreeLibrary(hModule);
-        end;
-      until True;
-{$ENDIF}
-      if (FRichEditModule <> 0) and (FRichEditVersion = 0) then
-        FRichEditVersion := 20;
-    finally
-      SetErrorMode(emError);
-    end;
-  end;
-  Result := FRichEditVersion;
 end;
 
 function RichEditStreamLoad(dwCookie: Longint; pbBuff: PByte; cb: Longint; var pcb: Longint): Longint; stdcall;
@@ -1547,7 +1486,7 @@ type
   TAccessCustomMemo = class(TCustomMemo);
   InheritedCreateParams = procedure(var Params: TCreateParams) of object;
 
-  procedure THppRichedit.CreateParams(var Params: TCreateParams);
+procedure THppRichedit.CreateParams(var Params: TCreateParams);
 const
   aHideScrollBars: array[Boolean] of DWORD = (ES_DISABLENOSCROLL, 0);
   aHideSelections: array[Boolean] of DWORD = (ES_NOHIDESEL, 0);
@@ -1555,19 +1494,10 @@ const
 var
   Method: TMethod;
 begin
-  FVersion := InitRichEditLibrary;
   Method.Code := @TAccessCustomMemo.CreateParams;
   Method.Data := Self;
   InheritedCreateParams(Method)(Params);
-  if FVersion >= 20 then
-  begin
-{$IFDEF AllowMSFTEDIT}
-    if FVersion = 41 then
-      CreateSubClass(Params, MSFTEDIT_CLASS)
-    else
-{$ENDIF}
-      CreateSubClass(Params, RICHEDIT_CLASS20W);
-  end;
+  CreateSubClass(Params, MSFTEDIT_CLASS);
   with Params do
   begin
     Style := Style or aHideScrollBars[HideScrollBars] or aHideSelections[HideSelection] and
@@ -1576,18 +1506,6 @@ begin
     // used if class inherits from TCustomRichEdit
     // WindowClass.style := WindowClass.style or (CS_HREDRAW or CS_VREDRAW);
   end;
-end;
-
-procedure THppRichedit.CreateWindowHandle(const Params: TCreateParams);
-begin
-(*
-  {$IFDEF AllowMSFTEDIT}
-  if FVersion = 41 then
-    CreateUnicodeHandle(Self, Params, MSFTEDIT_CLASS) else
-  {$ENDIF}
-    CreateUnicodeHandle(Self, Params, RICHEDIT_CLASS20W);
-*)
-inherited;
 end;
 
 procedure THppRichedit.CreateWnd;
@@ -2052,6 +1970,14 @@ begin
 end;
 
 initialization
+  emError := SetErrorMode(SEM_NOOPENFILEERRORBOX);
+  try
+    FRichEditModule := LoadLibrary(MSFTEDIT_DLL);
+    if FRichEditModule <= HINSTANCE_ERROR then
+      FRichEditModule := 0;
+  finally
+    SetErrorMode(emError);
+  end;
 
 finalization
   if FRichEditModule <> 0 then FreeLibrary(FRichEditModule);

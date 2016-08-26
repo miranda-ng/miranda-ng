@@ -270,7 +270,6 @@ const
 
 var
   hppCodepage: Cardinal;
-  hppRichEditVersion: Integer;
 
 {$I m_historypp.inc}
 
