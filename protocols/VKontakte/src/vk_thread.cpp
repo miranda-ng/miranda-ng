@@ -182,7 +182,15 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		return;
 	}
 
-	if (strstr(reply->pData, "service_msg_warning")) {
+	char *pMsgWarning = strstr(reply->pData, "service_msg_warning");
+	if (pMsgWarning) {
+		char *p1 = strchr(pMsgWarning, '>');
+		char *p2 = strchr(pMsgWarning, '<');
+		if (p1 && p2 && (p1 + 1 < p2)) {
+			CMStringA szMsg(p1 + 1, (int)(p2 - p1 - 1));
+			MsgPopup(NULL, ptrW(mir_utf8decodeW(szMsg)), TranslateT("Service message"), true);
+			debugLogA("CVkProto::OnOAuthAuthorize %s", szMsg);
+		}
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
