@@ -210,29 +210,48 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			SendRequest(new InviteUserToChatRequest(chat_id, user_id, "User", li));
 			break;
 		case 50:
+			ptrW tnick_old(GetChatContactNick(chat_id, _T2A(gch->ptszUID), _T2A(gch->ptszText)));
 
 			ENTER_STRING pForm = { sizeof(pForm) };
 			pForm.type = ESF_COMBO;
 			pForm.recentCount = 0;
 			pForm.caption = TranslateT("Enter new nickname");
-			pForm.ptszInitVal = gch->ptszUID;
+			pForm.ptszInitVal = tnick_old;
 			pForm.szModuleName = m_szModuleName;
 			pForm.szDataPrefix = "renamenick_";
 
-			GCDEST gcd = { m_szModuleName, gch->ptszUID, GC_EVENT_NICK };
-			GCEVENT gce = { sizeof(GCEVENT), &gcd };
+			if (EnterString(&pForm))
+			{
+				MCONTACT hChatContact = FindChatRoom(chat_id);
+				if (hChatContact == NULL)
+					break; // This probably shouldn't happen, but if chat is NULL for some reason, do nothing
 
-			EnterString(&pForm);
+				ptrW tnick_new(pForm.ptszResult);
+				bool reset = (tnick_new == NULL || tnick_new[0] == '\0');
+				if (reset)
+				{
+					// User fill blank name, which means we reset the custom nick
+					db_unset(hChatContact, "UsersNicks", _T2A(gch->ptszUID));
+					tnick_new = GetChatContactNick(chat_id, _T2A(gch->ptszUID), _T2A(gch->ptszText));
+				}
 
-			gce.ptszNick = gch->ptszUID;
-			gce.bIsMe = IsMe(user_id);
-			gce.ptszUID = gch->ptszUID;
-			gce.ptszText = pForm.ptszResult;
-			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.time = time(NULL);
-			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+				if (!mir_wstrcmp(tnick_old, tnick_new))
+					break; // New nick is same, do nothing
 
-			db_set_ws(FindChatRoom(chat_id), "UsersNicks", _T2A(gch->ptszUID), pForm.ptszResult);
+				GCDEST gcd = { m_szModuleName, gch->pDest->ptszID, GC_EVENT_NICK };
+				GCEVENT gce = { sizeof(GCEVENT), &gcd };
+
+				gce.ptszNick = tnick_old;
+				gce.bIsMe = IsMe(user_id);
+				gce.ptszUID = gch->ptszUID;
+				gce.ptszText = tnick_new;
+				gce.dwFlags = GCEF_ADDTOLOG;
+				gce.time = time(NULL);
+				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+
+				if (!reset)
+					db_set_ws(hChatContact, "UsersNicks", _T2A(gch->ptszUID), tnick_new);
+			}
 
 			break;
 
