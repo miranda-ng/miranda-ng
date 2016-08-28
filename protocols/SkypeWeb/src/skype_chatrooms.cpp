@@ -674,7 +674,7 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 		{
 			{ LPGENW("&Invite user..."),     10, MENU_ITEM, FALSE },
 			{ LPGENW("&Leave chat session"), 20, MENU_ITEM, FALSE },
-			{ LPGENW("&Change topic"),       30, MENU_ITEM, FALSE }
+			{ LPGENW("&Change topic..."),    30, MENU_ITEM, FALSE }
 		};
 		gcmi->nItems = _countof(Items);
 		gcmi->Item = (gc_item*)Items;
@@ -690,12 +690,12 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 		{*/
 			static const struct gc_item Items[] =
 			{
-				{ LPGENW("Kick &user"),  10, MENU_ITEM      },
-				{ NULL,                  0,  MENU_SEPARATOR },
-				{ LPGENW("Set &role"),   20, MENU_NEWPOPUP  },
-				{ LPGENW("&Admin"),      30, MENU_POPUPITEM },
-				{ LPGENW("&User"),       40, MENU_POPUPITEM },
-				{ LPGENW("Change nick"), 50, MENU_ITEM },
+				{ LPGENW("Kick &user"),     10, MENU_ITEM      },
+				{ NULL,                     0,  MENU_SEPARATOR },
+				{ LPGENW("Set &role"),      20, MENU_NEWPOPUP  },
+				{ LPGENW("&Admin"),         30, MENU_POPUPITEM },
+				{ LPGENW("&User"),          40, MENU_POPUPITEM },
+				{ LPGENW("Change nick..."), 50, MENU_ITEM },
 			};
 			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;
