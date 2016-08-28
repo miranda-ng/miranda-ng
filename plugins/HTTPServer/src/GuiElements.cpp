@@ -997,7 +997,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 void SendLinkToUser(WPARAM wParam, char *pszSrvPath)
 {
 	string sLink = sCreateLink(pszSrvPath);
-	CallService(MS_MSG_SENDMESSAGEW, wParam, (LPARAM)sLink.c_str());
+	CallService(MS_MSG_SENDMESSAGE, wParam, (LPARAM)sLink.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -1474,6 +1474,7 @@ void InitGuiElements()
 	hShowStatisticsViewService = CreateServiceFunction(MS_SHOW_STATISTICS_VIEW, nShowStatisticsView);
 
 	CMenuItem mi;
+	mi.flags = CMIF_UNICODE;
 	SET_UID(mi, 0xb30a6ab5, 0x17a8, 0x4e2e, 0x84, 0x52, 0x5f, 0xbc, 0x83, 0x35, 0xf2, 0x6);
 	mi.hIcolibItem = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 	mi.position = -2000019955;
@@ -1484,7 +1485,6 @@ void InitGuiElements()
 	if (db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0) {
 		SET_UID(mi, 0x68db84c9, 0xe6b4, 0x4b4f, 0x93, 0x4b, 0xfd, 0x34, 0x2d, 0x83, 0x11, 0xe7);
 		mi.position = 1000085005;
-		mi.flags = CMIF_UNICODE;
 		mi.name.w = LPGENW("Show HTTP server statistics");
 		mi.pszService = MS_SHOW_STATISTICS_VIEW;
 		hShowStatisticsViewMenuItem = Menu_AddMainMenuItem(&mi);
