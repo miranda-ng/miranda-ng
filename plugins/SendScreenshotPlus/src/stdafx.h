@@ -105,7 +105,7 @@ typedef struct _MGLOBAL {
 	BOOLEAN		PopupExist			: 1;		// Popup or MS_POPUP_ADDPOPUP exist
 	BOOLEAN		PopupActionsExist	: 1;		// Popup++ or MS_POPUP_REGISTERACTIONS exist
 	BOOLEAN		PluginHTTPExist		: 1;		// HTTPServer or MS_HTTP_ACCEPT_CONNECTIONS exist
-	BOOLEAN		PluginFTPExist		: 1;		// FTPFile or MS_FTPFILE_SHAREFILE exist
+	BOOLEAN		PluginFTPExist		: 1;		// FTPFile or MS_FTPFILE_UPLOAD exist
 	BOOLEAN		PluginDropboxExist	: 1;		// Dropbox or MS_DROPBOX_SEND_FILE exists
 
 } MGLOBAL, *LPMGLOBAL;

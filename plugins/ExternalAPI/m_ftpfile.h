@@ -110,10 +110,4 @@ __inline static INT_PTR FTPFileShowManager()
 	return CallService(MS_FTPFILE_SHOWMANAGER, 0, 0);
 }
 
-//
-// OBSOLOTE SERVICE (used by Send Screenshot plugin)
-// Do NOT use it!
-//
-#define MS_FTPFILE_SHAREFILE	"FTPFile/ShareFiles"
-
 #endif
