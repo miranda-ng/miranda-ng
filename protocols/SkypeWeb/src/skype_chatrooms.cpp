@@ -442,9 +442,11 @@ void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, 
 {
 	GCDEST gcd = { m_szModuleName, chat_id, isAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
+	
+	ptrW tnick(GetChatContactNick(_T2A(chat_id), _T2A(from), _T2A(from)));
 
 	gce.bIsMe = IsMe(_T2A(from));
-	gce.ptszNick = from;
+	gce.ptszNick = tnick;
 	gce.time = timestamp;
 	gce.ptszUID = from;
 
@@ -536,15 +538,47 @@ char *CSkypeProto::GetChatUsers(const wchar_t *chat_id)
 	return gci.pszUsers;
 }
 
+wchar_t* CSkypeProto::GetChatContactNick(const char *chat_id, const char *id, const char *name) {
+	// Check if there is custom nick for this chat contact
+	if (chat_id != NULL) {
+		if (wchar_t *tname = db_get_wsa(FindChatRoom(chat_id), "UsersNicks", id))
+			return tname;
+	}
+
+	// Check if we have this contact in database
+	if (IsMe(id))
+	{
+		// Return my nick
+		if (wchar_t *tname = getWStringA(NULL, "Nick"))
+			return tname;
+	}
+	else
+	{
+		MCONTACT hContact = FindContact(id);
+		if (hContact != NULL) {
+			// Primarily return custom name
+			if (wchar_t *tname = db_get_wsa(hContact, "CList", "MyHandle"))
+				return tname;
+
+			// If not exists, then user nick
+			if (wchar_t *tname = getWStringA(hContact, "Nick"))
+				return tname;
+		}
+	}
+
+	// Return default value as nick - given name or user id
+	if (name != NULL)
+		return mir_a2u_cp(name, CP_UTF8);
+	else
+		return mir_a2u(id);
+}
+
 void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const char *name, const wchar_t *role, bool isChange)
 {
 	if (IsChatContact(tchat_id, id))
 		return;
 
-	ptrW tnick(mir_a2u_cp(name, CP_UTF8));
-	if (wchar_t *tmp = db_get_wsa(FindChatRoom(_T2A(tchat_id)), "UsersNicks", id))
-		tnick = tmp;
-
+	ptrW tnick(GetChatContactNick(_T2A(tchat_id), id, name));
 	ptrW tid(mir_a2u(id));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
@@ -565,9 +599,9 @@ void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, con
 	if (IsMe(id))
 		return;
 
-	ptrW tnick(mir_a2u_cp(name, CP_UTF8));
+	ptrW tnick(GetChatContactNick(_T2A(tchat_id), id, name));
+	ptrW tinitiator(GetChatContactNick(_T2A(tchat_id), initiator, initiator));
 	ptrW tid(mir_a2u(id));
-	ptrW tinitiator(mir_a2u(initiator));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };

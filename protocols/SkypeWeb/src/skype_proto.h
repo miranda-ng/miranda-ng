@@ -350,6 +350,7 @@ private:
 	void AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
 	void AddChatContact(const wchar_t *tchat_id, const char *id, const char *name, const wchar_t *role, bool isChange = false);
 	void RemoveChatContact(const wchar_t *tchat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
+	wchar_t *GetChatContactNick(const char *chat_id, const char *id, const char *name);
 
 	void RenameChat(const char *chat_id, const char *name);
 	void ChangeChatTopic(const char * chat_id, const char *topic, const char *initiator);
