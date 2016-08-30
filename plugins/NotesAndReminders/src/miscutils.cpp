@@ -18,9 +18,9 @@ WORD ConvertControlToHotKey(WORD HK)
 	return R;
 }
 
-void FreeSettingBlob(WORD pSize,void *pbBlob)
+void FreeSettingBlob(WORD pSize, void *pbBlob)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_BLOB;
 	dbv.cpbVal = pSize;
 	dbv.pbVal = (BYTE*)pbBlob;
@@ -29,9 +29,9 @@ void FreeSettingBlob(WORD pSize,void *pbBlob)
 
 void ReadSettingBlob(MCONTACT hContact, char *ModuleName, char *SettingName, WORD *pSize, void **pbBlob)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_BLOB;
-	if ( db_get(hContact, ModuleName, SettingName, &dbv)) {
+	if (db_get(hContact, ModuleName, SettingName, &dbv)) {
 		*pSize = 0;
 		*pbBlob = NULL;
 	}
@@ -41,12 +41,12 @@ void ReadSettingBlob(MCONTACT hContact, char *ModuleName, char *SettingName, WOR
 	}
 }
 
-void WriteSettingIntArray(MCONTACT hContact,char *ModuleName,char *SettingName,const int *Value, int Size)
+void WriteSettingIntArray(MCONTACT hContact, char *ModuleName, char *SettingName, const int *Value, int Size)
 {
 	db_set_blob(hContact, ModuleName, SettingName, (void*)Value, sizeof(int)*Size);
 }
 
-bool ReadSettingIntArray(MCONTACT hContact,char *ModuleName,char *SettingName,int *Value, int Size)
+bool ReadSettingIntArray(MCONTACT hContact, char *ModuleName, char *SettingName, int *Value, int Size)
 {
 	WORD sz = 4096;
 	int *pData;
@@ -61,7 +61,7 @@ bool ReadSettingIntArray(MCONTACT hContact,char *ModuleName,char *SettingName,in
 		bResult = true;
 	}
 
-	FreeSettingBlob(sz,pData);
+	FreeSettingBlob(sz, pData);
 	return bResult;
 }
 
@@ -75,11 +75,11 @@ void TreeAdd(TREEELEMENT **root, void *Data)
 	}
 }
 
-void TreeAddSorted(TREEELEMENT **root,void *Data,int (*CompareCb)(TREEELEMENT*,TREEELEMENT*))
+void TreeAddSorted(TREEELEMENT **root, void *Data, int(*CompareCb)(TREEELEMENT*, TREEELEMENT*))
 {
 	if (!*root) {
 		// list empty, just add normally
-		TreeAdd(root,Data);
+		TreeAdd(root, Data);
 		return;
 	}
 
@@ -117,7 +117,7 @@ void TreeAddSorted(TREEELEMENT **root,void *Data,int (*CompareCb)(TREEELEMENT*,T
 	Prev->next = NTE;
 }
 
-void TreeDelete(TREEELEMENT **root,void *iItem)
+void TreeDelete(TREEELEMENT **root, void *iItem)
 {
 	TREEELEMENT *TTE = *root, *Prev = NULL;
 	if (!TTE)
@@ -130,7 +130,7 @@ void TreeDelete(TREEELEMENT **root,void *iItem)
 	if (TTE) {
 		if (Prev)
 			Prev->next = TTE->next;
-		else 
+		else
 			*root = (TREEELEMENT*)TTE->next;
 		SAFE_FREE((void**)&TTE);
 	}
@@ -154,7 +154,7 @@ int TreeGetCount(TREEELEMENT *root)
 {
 	if (!root)
 		return 0;
-	
+
 	int i = 0;
 	TREEELEMENT *TTE = root;
 	while (TTE) {

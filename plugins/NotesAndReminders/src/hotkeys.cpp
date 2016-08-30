@@ -2,18 +2,13 @@
 
 #define MSG_WND_CLASS "MIM_SNMsgWindow"
 
-
 HWND HKHwnd;
-
 
 enum KB_ACTIONS {KB_NEW_NOTE = 1, KB_TOGGLE_NOTES, KB_NEW_REMINDER};
 
-
 void RegisterKeyBindings()
 {
-	HOTKEYDESC desc;
-
-	memset(&desc, 0, sizeof(desc));
+	HOTKEYDESC desc = {};
 	desc.cbSize = sizeof(desc);
 	desc.pwszSection = _A2W(SECTIONNAME);
 	desc.dwFlags = HKD_UNICODE;
@@ -47,66 +42,26 @@ void RegisterKeyBindings()
 	Hotkey_Register(&desc);
 }
 
-
-/*int HandleNRShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK NotifyHotKeyWndProc(HWND AHwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
-	STICKYNOTE* PSN;
-
-	BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
-	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
-	BOOL isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) && !isAlt;
-
-	int action;
-	MSG amsg;
-	amsg.hwnd = hwnd;
-	amsg.message = msg;
-	amsg.wParam = wParam;
-	amsg.lParam = lParam;
-
-	switch ( (action = CallService(MS_HOTKEY_CHECK, (WPARAM)&amsg, (LPARAM)SECTIONNAME)) )
-	{
-	case KB_NEW_NOTE:
-		PSN = NewNote(0,0,0,0,NULL,NULL,TRUE,TRUE,0);
-		SetFocus(PSN->REHwnd);
-		return FALSE;
-	case KB_TOGGLE_NOTES:
-		ShowHideNotes();
-		return FALSE;
-	case KB_NEW_REMINDER:
-		NewReminder();
-		return FALSE;
-	}
-
-	return -1;
-}*/
-
-
-LRESULT CALLBACK NotifyHotKeyWndProc(HWND AHwnd,UINT Message,WPARAM wParam,LPARAM lParam)
-{
-	BOOL b;
-
-	switch (Message)
-	{
+	switch (Message) {
 	case WM_TIMER:
-		{
-			KillTimer(HKHwnd,1026);
-			b = CheckRemindersAndStart();
-			SetTimer(HKHwnd,1026,b ? REMINDER_UPDATE_INTERVAL_SHORT : REMINDER_UPDATE_INTERVAL,0);
+		KillTimer(HKHwnd, 1026);
+		BOOL b = CheckRemindersAndStart();
+		SetTimer(HKHwnd, 1026, b ? REMINDER_UPDATE_INTERVAL_SHORT : REMINDER_UPDATE_INTERVAL, 0);
 
-			return FALSE;
-		}
+		return FALSE;
 	}
 
-	return DefWindowProc(AHwnd,Message,wParam,lParam);
+	return DefWindowProc(AHwnd, Message, wParam, lParam);
 }
 
 void CreateMsgWindow(void)
 {
 	HWND hParent = NULL;
-	WNDCLASSEX TWC = {0};
+	WNDCLASSEX TWC = { 0 };
 
-	if (!GetClassInfoEx(hmiranda, MSG_WND_CLASS, &TWC))
-	{
+	if (!GetClassInfoEx(hmiranda, MSG_WND_CLASS, &TWC)) {
 		TWC.style = 0;
 		TWC.cbClsExtra = 0;
 		TWC.cbWndExtra = 0;
@@ -129,6 +84,6 @@ void CreateMsgWindow(void)
 
 void DestroyMsgWindow(void)
 {
-	KillTimer(HKHwnd,1026);
+	KillTimer(HKHwnd, 1026);
 	DestroyWindow(HKHwnd);
 }

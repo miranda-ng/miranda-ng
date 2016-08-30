@@ -29,7 +29,6 @@ int g_notesListColGeom[4] = { 150, 20, 20, 165 };
 
 #define NRCDEFAULT_BODYCLR		RGB(255,255,0)
 
-
 struct DateFormat
 {
 	LPCSTR lpszUI;
@@ -81,11 +80,11 @@ struct FontOptionsList
 }
 static fontOptionsList[] =
 {
-	{ LPGEN("Sticky Note Caption"), RGB(0,0,0), "Small Fonts", 0, 7, LPGEN("Sticky Note Background Color")},
-// { LPGEN("Sticky Note Caption"), RGB(0,0,0), L"Terminal", 0, 6, LPGEN("Sticky Note Background Color")},
-// { LPGEN("Sticky Note Caption"), RGB(0,0,0), L"MS Serif", 0, 7, LPGEN("Sticky Note Background Color")},
-// { LPGEN("Sticky Note Body"), RGB(0,0,0), L"Tahoma", 0, 8, LPGEN("Sticky Note Background Color")},
-	{ LPGEN("Sticky Note Body"), RGB(0,0,0), "System", DBFONTF_BOLD, 10, LPGEN("Sticky Note Background Color")},
+	{ LPGEN("Sticky Note Caption"), RGB(0, 0, 0), "Small Fonts", 0, 7, LPGEN("Sticky Note Background Color") },
+	// { LPGEN("Sticky Note Caption"), RGB(0,0,0), L"Terminal", 0, 6, LPGEN("Sticky Note Background Color")},
+	// { LPGEN("Sticky Note Caption"), RGB(0,0,0), L"MS Serif", 0, 7, LPGEN("Sticky Note Background Color")},
+	// { LPGEN("Sticky Note Body"), RGB(0,0,0), L"Tahoma", 0, 8, LPGEN("Sticky Note Background Color")},
+	{ LPGEN("Sticky Note Body"), RGB(0, 0, 0), "System", DBFONTF_BOLD, 10, LPGEN("Sticky Note Background Color") },
 };
 
 
@@ -97,60 +96,60 @@ struct ColourOptionsList
 }
 static colourOptionsList[] =
 {
-	{ LPGEN("Sticky Note Background Color"), "BodyColor", NRCDEFAULT_BODYCLR}
+	{ LPGEN("Sticky Note Background Color"), "BodyColor", NRCDEFAULT_BODYCLR }
 };
 
 
 LPCSTR GetDateFormatStr()
 {
-	return dateFormats[g_NoteTitleDate ? g_NoteTitleDate-1 : 0].lpszFmt;
+	return dateFormats[g_NoteTitleDate ? g_NoteTitleDate - 1 : 0].lpszFmt;
 }
 
 LPCSTR GetTimeFormatStr()
 {
-	return timeFormats[g_NoteTitleTime ? g_NoteTitleTime-1 : 0].lpszFmt;
+	return timeFormats[g_NoteTitleTime ? g_NoteTitleTime - 1 : 0].lpszFmt;
 }
 
 #if defined( _UNICODE )
 static BYTE MsgDlgGetFontDefaultCharset(const wchar_t* szFont)
 {
-  return DEFAULT_CHARSET;
+	return DEFAULT_CHARSET;
 }
 #else
 // get font charset according to current CP
 static BYTE MsgDlgGetCPDefaultCharset()
 {
 	switch (GetACP()) {
-		case 1250:
-			return EASTEUROPE_CHARSET;
-		case 1251:
-			return RUSSIAN_CHARSET;
-		case 1252:
-			return ANSI_CHARSET;
-		case 1253:
-			return GREEK_CHARSET;
-		case 1254:
-			return TURKISH_CHARSET;
-		case 1255:
-			return HEBREW_CHARSET;
-		case 1256:
-			return ARABIC_CHARSET;
-		case 1257:
-			return BALTIC_CHARSET;
-		case 1361:
-			return JOHAB_CHARSET;
-		case 874:
-			return THAI_CHARSET;
-		case 932:
-			return SHIFTJIS_CHARSET;
-		case 936:
-			return GB2312_CHARSET;
-		case 949:
-			return HANGEUL_CHARSET;
-		case 950:
-			return CHINESEBIG5_CHARSET;
-		default:
-			return DEFAULT_CHARSET;
+	case 1250:
+		return EASTEUROPE_CHARSET;
+	case 1251:
+		return RUSSIAN_CHARSET;
+	case 1252:
+		return ANSI_CHARSET;
+	case 1253:
+		return GREEK_CHARSET;
+	case 1254:
+		return TURKISH_CHARSET;
+	case 1255:
+		return HEBREW_CHARSET;
+	case 1256:
+		return ARABIC_CHARSET;
+	case 1257:
+		return BALTIC_CHARSET;
+	case 1361:
+		return JOHAB_CHARSET;
+	case 874:
+		return THAI_CHARSET;
+	case 932:
+		return SHIFTJIS_CHARSET;
+	case 936:
+		return GB2312_CHARSET;
+	case 949:
+		return HANGEUL_CHARSET;
+	case 950:
+		return CHINESEBIG5_CHARSET;
+	default:
+		return DEFAULT_CHARSET;
 	}
 }
 
@@ -163,7 +162,7 @@ static int CALLBACK EnumFontFamExProc(const LOGFONT *, const TEXTMETRIC *, DWORD
 // get font charset according to current CP, if available for specified font
 static BYTE MsgDlgGetFontDefaultCharset(const char *szFont)
 {
-	LOGFONT lf = {0};
+	LOGFONT lf = { 0 };
 	int found = 0;
 
 	mir_strcpy(lf.lfFaceName, szFont);
@@ -191,9 +190,9 @@ static void InitFonts()
 	LoadNRFont(NR_FONTID_BODY, &lfBody, (COLORREF*)&BodyFontColor);
 
 	if (hBodyFont)
-		DeleteObject(hBodyFont); 
+		DeleteObject(hBodyFont);
 	if (hCaptionFont)
-		DeleteObject(hCaptionFont); 
+		DeleteObject(hCaptionFont);
 
 	hBodyFont = CreateFontIndirect(&lfBody);
 	hCaptionFont = CreateFontIndirect(&lfCaption);

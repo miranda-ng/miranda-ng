@@ -127,7 +127,7 @@ static int OnOptInitialise(WPARAM w, LPARAM)
 	return 0;
 }
 
-int OnTopToolBarInit(WPARAM, LPARAM) 
+int OnTopToolBarInit(WPARAM, LPARAM)
 {
 	TTBButton ttb = { 0 };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
@@ -156,21 +156,21 @@ static void InitServices()
 
 	// register menu command services
 
-	CreateServiceFunction(MODULENAME"/MenuCommandAddNew",PluginMenuCommandAddNew);
-	CreateServiceFunction(MODULENAME"/MenuCommandShowHide",PluginMenuCommandShowHide);
-	CreateServiceFunction(MODULENAME"/MenuCommandViewNotes",PluginMenuCommandViewNotes);
-	CreateServiceFunction(MODULENAME"/MenuCommandDeleteAll",PluginMenuCommandDeleteAll);
-	CreateServiceFunction(MODULENAME"/MenuCommandBringAllFront",PluginMenuCommandAllBringFront);
+	CreateServiceFunction(MODULENAME"/MenuCommandAddNew", PluginMenuCommandAddNew);
+	CreateServiceFunction(MODULENAME"/MenuCommandShowHide", PluginMenuCommandShowHide);
+	CreateServiceFunction(MODULENAME"/MenuCommandViewNotes", PluginMenuCommandViewNotes);
+	CreateServiceFunction(MODULENAME"/MenuCommandDeleteAll", PluginMenuCommandDeleteAll);
+	CreateServiceFunction(MODULENAME"/MenuCommandBringAllFront", PluginMenuCommandAllBringFront);
 
 	//
 
-	CreateServiceFunction(MODULENAME"/MenuCommandNewReminder",PluginMenuCommandNewReminder);
-	CreateServiceFunction(MODULENAME"/MenuCommandViewReminders",PluginMenuCommandViewReminders);
-	CreateServiceFunction(MODULENAME"/MenuCommandDeleteReminders",PluginMenuCommandDeleteReminders);
+	CreateServiceFunction(MODULENAME"/MenuCommandNewReminder", PluginMenuCommandNewReminder);
+	CreateServiceFunction(MODULENAME"/MenuCommandViewReminders", PluginMenuCommandViewReminders);
+	CreateServiceFunction(MODULENAME"/MenuCommandDeleteReminders", PluginMenuCommandDeleteReminders);
 
 	// register misc
 
-	CreateServiceFunction(MODULENAME"/OpenTriggeredReminder",OpenTriggeredReminder);
+	CreateServiceFunction(MODULENAME"/OpenTriggeredReminder", OpenTriggeredReminder);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -191,8 +191,8 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	RegisterFontServiceFonts();
 	RegisterKeyBindings();
 
-	g_AddContListMI = (BOOL)db_get_dw(0,MODULENAME,"AddContactMenuItems",1);
-	
+	g_AddContListMI = (BOOL)db_get_dw(0, MODULENAME, "AddContactMenuItems", 1);
+
 	// register menus
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Notes && Reminders"), 1600000000);
@@ -249,7 +249,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	// register misc
 	hkOptInit = HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
-	hkTopToolbarInit = HookEvent("TopToolBar/ModuleLoaded", OnTopToolBarInit); 
+	hkTopToolbarInit = HookEvent("TopToolBar/ModuleLoaded", OnTopToolBarInit);
 	UnhookEvent(hkModulesLoaded);
 
 	// init vars and load all data
@@ -302,7 +302,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getCLI();
 	hmiranda = GetModuleHandle(NULL);
 
-	INITCOMMONCONTROLSEX ctrls = {0};
+	INITCOMMONCONTROLSEX ctrls = { 0 };
 	ctrls.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	ctrls.dwICC = ICC_DATE_CLASSES;
 	InitCommonControlsEx(&ctrls);
