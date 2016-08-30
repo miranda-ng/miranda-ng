@@ -36,6 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma comment(lib, "Secur32.lib")
 
 HINSTANCE hInst;
+HMODULE hMsftedit;
 
 int hLangpack;
 unsigned int g_nTempFileId;
@@ -199,6 +200,8 @@ extern "C" int __declspec(dllexport) Load()
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 
+	hMsftedit = LoadLibrary(L"Msftedit.dll");
+
 	hExtListInit = CreateHookableEvent(ME_JABBER_EXTLISTINIT);
 	hDiscoInfoResult = CreateHookableEvent(ME_JABBER_SRVDISCOINFO);
 
@@ -213,6 +216,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	g_IconsInit();
 	g_XstatusIconsInit();
+
 	// Init extra icons
 	hExtraActivity = ExtraIcon_RegisterIcolib("activity", LPGEN("Jabber Activity"), "jabber_dancing");
 	hExtraMood = ExtraIcon_RegisterIcolib("mood", LPGEN("Jabber Mood"), "jabber_contemplative");
@@ -228,6 +232,9 @@ extern "C" int __declspec(dllexport) Load()
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	JabberUserInfoUninit();
+
+	if (hMsftedit != NULL)
+		FreeLibrary(hMsftedit);
 
 	DestroyHookableEvent(hExtListInit);
 	DestroyHookableEvent(hDiscoInfoResult);

@@ -612,10 +612,8 @@ void __cdecl CJabberProto::ConsoleThread(void*)
 	m_dwConsoleThreadId = 0;
 }
 
-HMODULE hMsftedit;
 void CJabberProto::ConsoleInit()
 {
-	hMsftedit = LoadLibrary(L"Msftedit.dll");
 	m_hThreadConsole = ForkThreadEx(&CJabberProto::ConsoleThread, 0, &m_dwConsoleThreadId);
 }
 
@@ -632,7 +630,6 @@ void CJabberProto::ConsoleUninit()
 
 	m_filterInfo.iq = m_filterInfo.msg = m_filterInfo.presence = FALSE;
 	m_filterInfo.type = TFilterInfo::T_OFF;
-	FreeLibrary(hMsftedit);
 }
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleConsole(WPARAM, LPARAM)
