@@ -63,7 +63,6 @@
 #define YAHOO_CUSTSTATDB					"CustomStat"
 #define YAHOO_DEFAULT_PORT					5050
 #define YAHOO_DEFAULT_LOGIN_SERVER			"mcs.msg.yahoo.com"
-#define YAHOO_DEFAULT_JAPAN_LOGIN_SERVER	"cs.yahoo.co.jp"
 #define YAHOO_CUSTOM_STATUS					99
 
 extern int do_yahoo_debug;

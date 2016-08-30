@@ -291,7 +291,7 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand(WPARAM, LPARAM)
 //=======================================================
 INT_PTR __cdecl CYahooProto::OnGotoMailboxCommand(WPARAM, LPARAM)
 {
-	OpenURL(getByte("YahooJapan", 0) ? "http://mail.yahoo.co.jp/" : "http://mail.yahoo.com/", 1);
+	OpenURL("http://mail.yahoo.com/", 1);
 	return 0;
 }
 

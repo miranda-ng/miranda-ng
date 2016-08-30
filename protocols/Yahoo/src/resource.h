@@ -59,7 +59,6 @@
 #define IDC_SHOW_ERRORS	                1478
 #define IDC_SHOW_AVATARS                1479
 #define IDC_MAIL_AUTOLOGIN              1480
-#define IDC_YAHOO_JAPAN					1481
 #define IDC_MSG							1482
 #define IDC_ROOMNAME					1483
 #define IDC_CCLIST						1484

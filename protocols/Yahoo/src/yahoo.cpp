@@ -1451,16 +1451,13 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	/**
 	 * Implementing Yahoo 9 2 Stage Login using their VIP server/services
 	 */
-	NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
-	char z[4096];
-
-	mir_snprintf(z, "http://%s%s", getByte("YahooJapan", 0) != 0 ? "cs1.msg.vip.ogk.yahoo.co.jp" : "vcs.msg.yahoo.com", "/capacity");
+	NETLIBHTTPREQUEST nlhr = { 0 };
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_HTTP11;
-	nlhr.szUrl = z;
+	nlhr.szUrl = "http://vcs.msg.yahoo.com/capacity";
 
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&nlhr);
 	if (nlhrReply) {
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData != NULL) {
 			char *c = strstr(nlhrReply->pData, "CS_IP_ADDRESS=");
@@ -1491,9 +1488,7 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 			strncpy_s(host, dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
 		}
-		else {
-			strncpy_s(host, (getByte("YahooJapan", 0) ? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER : YAHOO_DEFAULT_LOGIN_SERVER), _TRUNCATE);
-		}
+		else strncpy_s(host, YAHOO_DEFAULT_LOGIN_SERVER, _TRUNCATE);
 	}
 
 	mir_strncpy(fthost, getByte("YahooJapan", 0) ? "filetransfer.msg.yahoo.co.jp" : "filetransfer.msg.yahoo.com", sizeof(fthost));

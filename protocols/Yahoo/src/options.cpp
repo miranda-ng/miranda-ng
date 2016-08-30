@@ -65,7 +65,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		switch (LOWORD(wParam)) {
 		case IDC_NEWYAHOOACCOUNTLINK:
-			Utils_OpenUrl(ppro->getByte("YahooJapan", 0) ? "http://edit.yahoo.co.jp/config/eval_register" : "http://edit.yahoo.com/config/eval_register");
+			Utils_OpenUrl("http://edit.yahoo.com/config/eval_register");
 			return TRUE;
 
 			//case IDC_DISABLE_UTF8: 
@@ -168,14 +168,9 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 			SetDlgItemTextA(hwndDlg, IDC_LOGINSERVER, dbv.pszVal);
 			db_free(&dbv);
 		}
-		else SetDlgItemTextA(hwndDlg, IDC_LOGINSERVER,
-			ppro->getByte("YahooJapan", 0)
-			? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER
-			: YAHOO_DEFAULT_LOGIN_SERVER);
+		else SetDlgItemTextA(hwndDlg, IDC_LOGINSERVER, YAHOO_DEFAULT_LOGIN_SERVER);
 
 		SetDlgItemInt(hwndDlg, IDC_YAHOOPORT, ppro->getWord(YAHOO_LOGINPORT, YAHOO_DEFAULT_PORT), FALSE);
-
-		SetButtonCheck(hwndDlg, IDC_YAHOO_JAPAN, ppro->getByte("YahooJapan", 0));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -183,16 +178,6 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 		case IDC_RESETSERVER:
 			SetDlgItemTextA(hwndDlg, IDC_LOGINSERVER, YAHOO_DEFAULT_LOGIN_SERVER);
 			SetDlgItemInt(hwndDlg, IDC_YAHOOPORT, YAHOO_DEFAULT_PORT, FALSE);
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_YAHOO_JAPAN:
-			SetDlgItemTextA(hwndDlg, IDC_LOGINSERVER,
-				(IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN) == BST_CHECKED) ?
-YAHOO_DEFAULT_JAPAN_LOGIN_SERVER :
-											YAHOO_DEFAULT_LOGIN_SERVER);
-			// fall through and enable apply button
-
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		}
@@ -226,8 +211,6 @@ YAHOO_DEFAULT_JAPAN_LOGIN_SERVER :
 				reconnectRequired = true;
 
 			ppro->setWord(YAHOO_LOGINPORT, port);
-
-			ppro->setByte("YahooJapan", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN));
 
 			if (reconnectRequired && ppro->m_bLoggedIn)
 				MessageBox(hwndDlg, TranslateT("These changes will take effect the next time you connect to the Yahoo network."), TranslateT("Yahoo options"), MB_OK);

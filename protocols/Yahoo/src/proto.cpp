@@ -668,13 +668,11 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			db_free(&dbv);
 		}
 
-		SetButtonCheck(hwndDlg, IDC_YAHOO_JAPAN, ppro->getByte("YahooJapan", 0));
 		return TRUE;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NEWYAHOOACCOUNTLINK) {
-			Utils_OpenUrl(IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN) == 1 ? 
-				"http://edit.yahoo.co.jp/config/eval_register" : "http://edit.yahoo.com/config/eval_register");
+			Utils_OpenUrl("http://edit.yahoo.com/config/eval_register");
 			return TRUE;
 		}
 
@@ -682,7 +680,6 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			switch (LOWORD(wParam)) {
 			case IDC_HANDLE:
 			case IDC_PASSWORD:
-			case IDC_YAHOO_JAPAN:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		}
@@ -717,7 +714,6 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			ppro->setString(YAHOO_PASSWORD, str);
-			ppro->setByte("YahooJapan", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN));
 
 			if (reconnectRequired) {
 				ppro->delSetting(YAHOO_PWTOKEN);
