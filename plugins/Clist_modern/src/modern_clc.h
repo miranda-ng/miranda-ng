@@ -337,49 +337,40 @@ typedef struct tagOVERLAYICONINFO
 } OVERLAYICONINFO;
 
 // clc.c
-void ClcOptionsChanged(void);
+void  ClcOptionsChanged(void);
 
 // clcidents.c
-int  cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
-int  FindItem(HWND hwnd, ClcData *dat, DWORD hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, bool isIgnoreSubcontacts);
-int  cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
+int   cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
+int   FindItem(HWND hwnd, ClcData *dat, DWORD hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, bool isIgnoreSubcontacts);
+int   cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 
 // clcitems.c
 ClcContact* cli_AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact);
-int  cliIsVisibleContact(ClcCacheEntry *pce, ClcGroup *group);
-void cliRebuildEntireList(HWND hwnd, ClcData *dat);
-void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
-void cli_SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
-int  GetNewSelection(ClcGroup *group, int selection, int direction);
+int   cliIsVisibleContact(ClcCacheEntry *pce, ClcGroup *group);
+void  cliRebuildEntireList(HWND hwnd, ClcData *dat);
+void  cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
+void  cli_SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
+int   GetNewSelection(ClcGroup *group, int selection, int direction);
 
 // clcmsgs.c
 LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // clcutils.c
-void cliRecalcScrollBar(HWND hwnd, ClcData *dat);
-void cliBeginRenameSelection(HWND hwnd, ClcData *dat);
-int  cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags);
-void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth);
-int  GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt);
-void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst);
+void  cliRecalcScrollBar(HWND hwnd, ClcData *dat);
+void  cliBeginRenameSelection(HWND hwnd, ClcData *dat);
+int   cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags);
+void  cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth);
+int   GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt);
+void  cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst);
 
 COLORREF cliGetColor(char *module, char *color, COLORREF defColor);
-
-// clcpaint.c
-void CLCPaint_cliPaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *rcPaint);
 
 // clcopts.c
 int   ClcOptInit(WPARAM wParam, LPARAM lParam);
 DWORD GetDefaultExStyle(void);
 void  GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF *eColour1, COLORREF *eColour2);
 
-// clistsettings.c
-wchar_t* GetContactDisplayNameW(MCONTACT hContact, int mode);
-
 // groups.c
-wchar_t* GetGroupNameTS(int idx, DWORD* pdwFlags);
-int    RenameGroupT(WPARAM groupID, LPARAM newName);
-
-int    GetContactCachedStatus(MCONTACT hContact);
+int   GetContactCachedStatus(MCONTACT hContact);
 
 #endif /* _CLC_H_ */

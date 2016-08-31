@@ -243,7 +243,6 @@ int     cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 int     cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact);
 int     cli_GetContactIcon(MCONTACT hContact);
 int     cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
-void    cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 void    cli_FreeContact(ClcContact*);
 void    cli_SetContactCheckboxes(ClcContact*, int);
 LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);

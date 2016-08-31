@@ -176,10 +176,10 @@ ClcContact* cli_AddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hConta
 void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
-	if (dat->IsMetaContactsEnabled && pdnce && pdnce->m_bIsSub)
+	if (dat->IsMetaContactsEnabled && pdnce->m_bIsSub)
 		return;		//contact should not be added
 
-	if (!dat->IsMetaContactsEnabled && pdnce && !mir_strcmp(pdnce->m_pszProto, META_PROTO))
+	if (!dat->IsMetaContactsEnabled && !mir_strcmp(pdnce->m_pszProto, META_PROTO))
 		return;
 
 	corecli.pfnAddContactToTree(hwnd, dat, hContact, updateTotalCount, checkHideOffline);
