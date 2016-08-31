@@ -227,7 +227,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 					break; // This probably shouldn't happen, but if chat is NULL for some reason, do nothing
 
 				ptrW tnick_new(pForm.ptszResult);
-				bool reset = (tnick_new == NULL || tnick_new[0] == '\0');
+				bool reset = mir_wstrlen(tnick_new) == 0;
 				if (reset)
 				{
 					// User fill blank name, which means we reset the custom nick
