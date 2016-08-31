@@ -299,7 +299,7 @@ bool Utils::FormatTitleBar(const TWindowData *dat, const wchar_t *szFormat, CMSt
 					ptrW szXStatus(db_get_wsa(dat->hContact, dat->szProto, "XStatusName"));
 					dest.Append((szXStatus != NULL) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
 				}
-				else dest.Append(dat->szStatus && dat->szStatus[0] ? dat->szStatus : L"(undef)");
+				else dest.Append(dat->szStatus[0] ? dat->szStatus : L"(undef)");
 			}
 			break;
 

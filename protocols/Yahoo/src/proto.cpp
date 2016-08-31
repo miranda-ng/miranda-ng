@@ -630,7 +630,6 @@ int __cdecl CYahooProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 {
 	switch (eventType) {
 	case EV_PROTO_ONLOAD:    return OnModulesLoadedEx(0, 0);
-		//case EV_PROTO_ONEXIT:    return OnPreShutdown( 0, 0);
 	case EV_PROTO_ONOPTIONS: return OnOptionsInit(wParam, lParam);
 
 	case EV_PROTO_ONMENU:

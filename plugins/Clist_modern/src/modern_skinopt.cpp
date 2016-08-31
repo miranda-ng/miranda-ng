@@ -283,7 +283,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							return 0;
 
 						wchar_t Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
-						if (sd2->File && !wcschr(sd2->File, '%')) {
+						if (!wcschr(sd2->File, '%')) {
 							GetPrivateProfileString(L"Skin_Description_Section", L"Author", TranslateT("( unknown )"), Author, _countof(Author), sd2->File);
 							GetPrivateProfileString(L"Skin_Description_Section", L"URL", L"", URL, _countof(URL), sd2->File);
 							GetPrivateProfileString(L"Skin_Description_Section", L"Contact", L"", Contact, _countof(Contact), sd2->File);

@@ -96,14 +96,12 @@ public:
 					isSet = 1;
 				}
 			}
-			if (!isSet)
-			{
+			if (!isSet) {
 				if (m_acs.handleType == HANDLE_EVENT)
 					szName = mir_a2u(szUin);
-				else
-				{
+				else {
 					szName = sttDecodeString(m_acs.psr->flags, m_acs.psr->id);
-					if (!szName)
+					if (szName == NULL)
 						szName = sttDecodeString(m_acs.psr->flags, m_acs.psr->nick);
 				}
 			}

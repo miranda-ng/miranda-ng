@@ -1437,7 +1437,7 @@ char * CYahooProto::ext_send_https_request(yahoo_data *yd, const char *host, con
 
 void CYahooProto::ext_login(enum yahoo_status login_mode)
 {
-	char host[128], fthost[128], login_host[128];
+	char host[128];
 	int port = 0;
 	DBVARIANT dbv;
 #ifdef HTTP_GATEWAY				
@@ -1491,8 +1491,6 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 		else strncpy_s(host, YAHOO_DEFAULT_LOGIN_SERVER, _TRUNCATE);
 	}
 
-	mir_strncpy(fthost, getByte("YahooJapan", 0) ? "filetransfer.msg.yahoo.co.jp" : "filetransfer.msg.yahoo.com", sizeof(fthost));
-	mir_strncpy(login_host, getByte("YahooJapan", 0) ? "login.yahoo.co.jp" : "login.yahoo.com", sizeof(login_host));
 	port = getWord(NULL, YAHOO_LOGINPORT, YAHOO_DEFAULT_PORT);
 
 #ifdef HTTP_GATEWAY			
@@ -1508,12 +1506,12 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	m_id = yahoo_init_with_attributes(m_yahoo_id, m_password, m_pw_token,
 		"pager_host", host,
 		"pager_port", port,
-		"filetransfer_host", fthost,
+		"filetransfer_host", "filetransfer.msg.yahoo.com",
 		"picture_checksum", getDword("AvatarHash", -1),
 #ifdef HTTP_GATEWAY			
 		"web_messenger", iHTTPGateway,
 #endif
-		"login_host", login_host,
+		"login_host", "login.yahoo.com",
 		NULL);
 
 	m_status = YAHOO_STATUS_OFFLINE;

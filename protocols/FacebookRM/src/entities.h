@@ -140,7 +140,7 @@ struct facebook_notification
 		this->hWndPopup = NULL;
 	}
 
-	void setIcon(std::string iconUrl)
+	void setIcon(const std::string &iconUrl)
 	{
 		if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yj/r/6WffvhOaXGY.png")
 			icon = "like";

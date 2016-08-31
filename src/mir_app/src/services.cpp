@@ -225,6 +225,7 @@ void UpdateFontSettings(FontIDW *font_id, FontSettingsW *fontsettings)
 		CreateFromFontSettings(&font_id->deffontsettings, &lf);
 		colour = font_id->deffontsettings.colour;
 	}
+	else memset(&lf, 0, sizeof(lf));
 
 	fontsettings->style =
 		(lf.lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
