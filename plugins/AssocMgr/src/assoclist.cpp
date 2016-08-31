@@ -1,4 +1,4 @@
-1027/*
+/*
 
 'File Association Manager'-Plugin for Miranda IM
 
