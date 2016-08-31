@@ -44,8 +44,9 @@ BOOL RemoveRegRunEntry(const wchar_t *pszAppName,const wchar_t *pszRunCmd);
 BOOL IsRegRunEntry(const wchar_t *pszAppName,const wchar_t *pszRunCmd);
 
 /* Strings */
-char *MakeFileClassName(const char *pszFileExt);
-char *MakeUrlClassName(const char *pszUrl);
-wchar_t *MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile);
-wchar_t *MakeIconLocation(HMODULE hModule,WORD nIconResID);
-wchar_t *MakeAppFileName(BOOL fMirExe);
+char* MakeFileClassName(const char *pszFileExt);
+char* MakeUrlClassName(const char *pszUrl);
+
+wchar_t* MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile);
+wchar_t* MakeIconLocation(HMODULE hModule,WORD nIconResID);
+wchar_t* MakeAppFileName(BOOL fMirExe);

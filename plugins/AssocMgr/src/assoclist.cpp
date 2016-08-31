@@ -1,4 +1,4 @@
-/*
+1027/*
 
 'File Association Manager'-Plugin for Miranda IM
 
@@ -1025,15 +1025,14 @@ void UninitAssocList(void)
 
 	// unregister open-with app
 	if (fOnlyWhileRunning) {
-		wchar_t *pszAppFileName;
 		// miranda32.exe
-		pszAppFileName = MakeAppFileName(TRUE);
+		ptrW pszAppFileName(MakeAppFileName(TRUE));
 		if (pszAppFileName != NULL)
 			RemoveRegOpenWith(pszAppFileName);
-		pszAppFileName = MakeAppFileName(FALSE);
+		
 		// assocmgr.dll
+		pszAppFileName = MakeAppFileName(FALSE);
 		if (pszAppFileName != NULL)
 			RemoveRegOpenWith(pszAppFileName);
-		mir_free(pszAppFileName); // does NULL check
 	}
 }
