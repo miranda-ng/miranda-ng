@@ -676,9 +676,9 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		}		
 		
 		wszValue = jnItem["status"].as_mstring();
-		CMStringW wszOldStatus(ptrW(db_get_wsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
+		CMStringW wszOldStatus(ptrW(db_get_wsa(hContact, "CList", "StatusMsg")));
 		if (wszValue != wszOldStatus)
-			db_set_ws(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", wszValue);
+			db_set_ws(hContact, "CList", "StatusMsg", wszValue);
 
 		CMStringW wszOldListeningTo(ptrW(db_get_wsa(hContact, m_szModuleName, "ListeningTo")));
 		const JSONNode &jnAudio = jnItem["status_audio"];
