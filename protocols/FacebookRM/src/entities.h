@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-16 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-16 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -103,6 +103,7 @@ struct facebook_message
 	std::string message_text;	
 	std::string message_id;
 	std::string thread_id;
+	std::string data;
 	time_t time;
 	bool isIncoming;
 	bool isUnread;

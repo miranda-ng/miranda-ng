@@ -665,7 +665,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				if (participant == participants.end()) {
 					// TODO: load name of this participant
 					participant->second.user_id = from_id;
-					proto->AddChatContact(tid.c_str(), participant->second);
+					proto->AddChatContact(tid.c_str(), participant->second, true);
 				}
 
 				participant = participants.find(from_id);
@@ -934,47 +934,60 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			for (unsigned int i = 0; i < actions_.size(); i++) {
 				const JSONNode &action_ = actions_[i];
 
+				const JSONNode &author = action_["author"];
 				const JSONNode &thread_id_ = action_["thread_id"];
 				const JSONNode &log_body_ = action_["log_message_body"];
 				const JSONNode &log_data_ = action_["log_message_data"];
 				const JSONNode &log_type_ = action_["log_message_type"];
-				if (!log_data_ || !log_body_ || !thread_id_ || !log_type_)
+				if (!author || !log_data_ || !log_body_ || !thread_id_ || !log_type_)
 					continue;
 
 				std::string thread_id = thread_id_.as_string();
 				std::string logType = log_type_.as_string();
 				std::string message_text = log_body_.as_string();
 
-				if (logType == "log:video-call") {
-					std::string id = action_["other_user_fbid"].as_string();
-					std::string message_id = action_["message_id"].as_string();
+				std::string other_user_id = action_["other_user_fbid"].as_string();
+				std::string message_id = action_["message_id"].as_string();
 
-					facebook_message message;
-					message.isChat = false;
-					message.isUnread = true;
-					message.isIncoming = (id != proto->facy.self_.user_id);
-					message.message_text = message_text;
-					message.time = utils::time::from_string(action_["timestamp"].as_string());
-					message.user_id = id;
-					message.message_id = message_id;
-					message.thread_id = thread_id;
+				std::string author_id = author.as_string();
+				std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
+				if (pos != std::string::npos)
+					author_id = author_id.substr(pos + 1);
+
+				facebook_message message;
+				message.isChat = other_user_id.empty(); // FIXME: Determine whether this is chat or contact event
+				message.isUnread = true;
+				message.isIncoming = (author_id != proto->facy.self_.user_id);
+				message.message_text = message_text;
+				message.time = utils::time::from_string(action_["timestamp"].as_string());
+				message.user_id = message.isChat ? author_id : other_user_id;
+				message.message_id = message_id;
+				message.thread_id = thread_id;
+
+				if (logType == "log:video-call") {
 					message.type = CALL;
-					messages->push_back(message);
+				}
+				else if (logType == "log:generic-admin-text") {
+					message.type = ADMIN_TEXT;
+				}
+				else if (logType == "log:subscribe") {
+					message.type = SUBSCRIBE;
+				}
+				else if (logType == "log:unsubscribe") {
+					message.type = UNSUBSCRIBE;
+				}
+				else if (logType == "log:thread-name") {
+					message.type = THREAD_NAME;
+					message.data = log_data_["name"].as_string();
+				}
+				else if (logType == "log:thread-image") {
+					message.type = THREAD_IMAGE;
 				}
 				else {
 					proto->debugLogA("!!! Unknown log type - %s", logType.c_str());
-
-					// TODO: check for other types, now we expect this is rename chat
-					if (!proto->m_enableChat)
-						continue;
-
-					std::string name = log_data_["name"].as_string();
-
-					// proto->RenameChat(thread_id.c_str(), name.c_str()); // this don't work, why?
-					proto->setStringUtf(proto->ChatIDToHContact(thread_id), FACEBOOK_KEY_NICK, name.c_str());
-
-					proto->UpdateChat(thread_id.c_str(), NULL, NULL, message_text.c_str());
 				}
+
+				messages->push_back(message);
 			}
 		}
 		else if (t == "notifications_read" || t == "notifications_seen") {
@@ -1112,8 +1125,7 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
 		const JSONNode &log_type_ = (*it)["log_message_type"];
 		const JSONNode &log_body_ = (*it)["log_message_body"];
-		// const JSONNode &log_data_ = (*it)["log_message_data"]; // additional data for this log message
-		// e.g., for missed video calls - {"answered":false,"caller":"fbid:1234567890","callee":"fbid:123456789012345"}
+		const JSONNode &log_data_ = (*it)["log_message_data"]; // additional data for this log message
 
 		if (!author || (!body && !log_body_) || !mid || !tid || !timestamp) {
 			proto->debugLogA("parse_thread_messages: ignoring message (%s) - missing attribute", mid.as_string().c_str());
@@ -1177,6 +1189,22 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 			if (log_type == "log:video-call") {
 				message.type = CALL;
 			}
+			else if (log_type == "log:generic-admin-text") {
+				message.type = ADMIN_TEXT;
+			}
+			else if (log_type == "log:subscribe") {
+				message.type = SUBSCRIBE;
+			}
+			else if (log_type == "log:unsubscribe") {
+				message.type = UNSUBSCRIBE;
+			}
+			else if (log_type == "log:thread-name") {
+				message.type = THREAD_NAME;
+				message.data = log_data_["name"].as_string();
+			}
+			else if (log_type == "log:thread-image") {
+				message.type = THREAD_IMAGE;
+			}
 			else {
 				proto->debugLogA("parse_thread_messages: unknown message log type (%s) - %s", mid.as_string().c_str(), log_type.c_str());
 			}
@@ -1219,7 +1247,7 @@ int facebook_json_parser::parse_history(std::string *data, std::vector< facebook
 		// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
 		const JSONNode &log_type_ = (*it)["log_message_type"];
 		const JSONNode &log_body_ = (*it)["log_message_body"];
-		// const JSONNode &log_data_ = (*it)["log_message_data"];
+		const JSONNode &log_data_ = (*it)["log_message_data"];
 
 		if (!author || (!body && !log_body_) || !mid || !tid || !timestamp) {
 			proto->debugLogA("parse_history: ignoring message (%s) - missing attribute", mid.as_string().c_str());
@@ -1266,6 +1294,22 @@ int facebook_json_parser::parse_history(std::string *data, std::vector< facebook
 			std::string log_type = log_type_.as_string();
 			if (log_type == "log:video-call") {
 				message.type = CALL;
+			}
+			else if (log_type == "log:generic-admin-text") {
+				message.type = ADMIN_TEXT;
+			}
+			else if (log_type == "log:subscribe") {
+				message.type = SUBSCRIBE;
+			}
+			else if (log_type == "log:unsubscribe") {
+				message.type = UNSUBSCRIBE;
+			}
+			else if (log_type == "log:thread-name") {
+				message.type = THREAD_NAME;
+				message.data = log_data_["name"].as_string();
+			}
+			else if (log_type == "log:thread-image") {
+				message.type = THREAD_IMAGE;
 			}
 			else {
 				proto->debugLogA("parse_history: unknown message log type (%s) - %s", mid.as_string().c_str(), log_type.c_str());

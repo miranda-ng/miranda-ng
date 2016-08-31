@@ -163,7 +163,7 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participant &user)
+void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participant &user, bool addToLog)
 {
 	// Don't add user if it's already there
 	if (IsChatContact(chat_id, user.user_id.c_str()))
@@ -176,7 +176,7 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.pDest = &gcd;
-	gce.dwFlags = GCEF_ADDTOLOG;
+	gce.dwFlags = addToLog ? GCEF_ADDTOLOG : 0;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
 	gce.time = ::time(NULL);
@@ -325,7 +325,7 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 
 		// Add chat contacts
 		for (std::map<std::string, chatroom_participant>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
-			AddChatContact(fbc->thread_id.c_str(), jt->second);
+			AddChatContact(fbc->thread_id.c_str(), jt->second, false);
 		}
 
 		// Load last messages

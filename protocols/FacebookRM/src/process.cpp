@@ -950,7 +950,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				setString(hChatContact, FACEBOOK_KEY_TID, fbc->thread_id.c_str());
 
 				for (auto jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
-					AddChatContact(fbc->thread_id.c_str(), jt->second);
+					AddChatContact(fbc->thread_id.c_str(), jt->second, false);
 				}
 			}
 
@@ -979,10 +979,43 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 			if (jt != fbc->participants.end()) {
 				name = jt->second.nick;
 			}
+			else {
+				// TODO: Load info about this participant from server, and add it manually to participants list (maybe only if this is SUBSCRIBE type)
+			}
 
-			// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?
-			// ... we must add some new "type" field into facebook_message structure and use it also for Pokes and similar)
-			UpdateChat(fbc->thread_id.c_str(), msg.user_id.c_str(), name.c_str(), msg.message_text.c_str(), msg.time);
+			switch (msg.type) {
+			default:
+			case MESSAGE:
+				UpdateChat(fbc->thread_id.c_str(), msg.user_id.c_str(), name.c_str(), msg.message_text.c_str(), msg.time);
+				break;
+			case ADMIN_TEXT:
+				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
+				break;
+			case SUBSCRIBE:
+				// TODO: We must get data with list of added users (their ids) from json to work properly, so for now we just print it as admin message
+				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
+				/*if (jt == fbc->participants.end()) {
+					// We don't have this user there yet, so load info about him and then add him
+					chatroom_participant participant;
+					participant.is_former = false;
+					participant.loaded = false;
+					participant.nick = msg.data;
+					participant.user_id = msg.data;
+					AddChatContact(thread_id.c_str(), participant, msg.isUnread);
+				}*/
+				break;
+			case UNSUBSCRIBE:
+				RemoveChatContact(thread_id.c_str(), msg.user_id.c_str(), name.c_str());
+				break;
+			case THREAD_NAME:
+				// proto->RenameChat(thread_id.c_str(), msg.data.c_str()); // this don't work, why?
+				setStringUtf(hChatContact, FACEBOOK_KEY_NICK, msg.data.c_str());
+				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
+				break;
+			case THREAD_IMAGE:
+				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
+				break;
+			}
 
 			// Automatically mark message as read because chatroom doesn't support onRead event (yet)
 			hChatContacts->insert(hChatContact); // std::set checks duplicates at insert automatically
@@ -1030,10 +1063,12 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				DBEVENTINFO dbei = { 0 };
 				dbei.cbSize = sizeof(dbei);
 
-				if (msg.type == CALL)
+				if (msg.type == MESSAGE)
+					dbei.eventType = EVENTTYPE_MESSAGE;
+				else if (msg.type == CALL)
 					dbei.eventType = FACEBOOK_EVENTTYPE_CALL;
 				else
-					dbei.eventType = EVENTTYPE_MESSAGE;
+					dbei.eventType = EVENTTYPE_URL; // FIXME: Use better and specific type for our other event types.
 
 				dbei.flags = DBEF_UTF;
 

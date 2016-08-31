@@ -183,9 +183,17 @@ enum ClientType {
 	CLIENT_MOBILE	 = 5	// Facebook on unknown mobile client (can't be determined for offline contacts)
 };
 
+// TODO: Rework to "Events" and add also typing, seen, contact status, chat switch, etc. then have JSON parser only for parsing and a single place for processing updates
+// Each type then could have also separate class representing it. And when giving it in some list, make it map of arrays with key=thread_id to group it by contact/chat, to have it more effective
+// Use also for Poke and such events...
 enum MessageType {
-	MESSAGE = 1,	// Classic message
-	CALL	= 2,	// Video call
+	MESSAGE			= 1,	// Classic message
+	CALL			= 2,	// Video call
+	ADMIN_TEXT		= 3,
+	SUBSCRIBE		= 4,
+	UNSUBSCRIBE		= 5,
+	THREAD_NAME		= 6,
+	THREAD_IMAGE	= 7,
 };
 
 enum ParticipantRole {

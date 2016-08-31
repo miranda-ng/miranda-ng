@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-16 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-16 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -213,11 +213,12 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 	BYTE type = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0);
 	bool bIsChatroom = isChatRoom(hContact);
+	bool bIsSpecialChatroom = IsSpecialChatRoom(hContact);
 	bool bIsPage = (type == CONTACT_PAGE);
 
 	Menu_ShowItem(g_hContactMenuVisitProfile, !bIsChatroom);
 	Menu_ShowItem(g_hContactMenuVisitFriendship, !bIsChatroom && !bIsPage);
-	Menu_ShowItem(g_hContactMenuVisitConversation, true);
+	Menu_ShowItem(g_hContactMenuVisitConversation, !bIsSpecialChatroom);
 	Menu_ShowItem(g_hContactMenuPostStatus, !bIsChatroom);
 	Menu_ShowItem(g_hContactMenuLoadHistory, !bIsChatroom);
 
