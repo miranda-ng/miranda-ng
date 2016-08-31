@@ -979,9 +979,6 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 			if (jt != fbc->participants.end()) {
 				name = jt->second.nick;
 			}
-			else {
-				// TODO: Load info about this participant from server, and add it manually to participants list (maybe only if this is SUBSCRIBE type)
-			}
 
 			switch (msg.type) {
 			default:
@@ -992,18 +989,30 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
 				break;
 			case SUBSCRIBE:
-				// TODO: We must get data with list of added users (their ids) from json to work properly, so for now we just print it as admin message
+			{
 				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
-				/*if (jt == fbc->participants.end()) {
+
+				std::vector<std::string> ids;
+				utils::text::explode(msg.data, ";", &ids);
+				for (std::vector<std::string>::size_type i = 0; i < ids.size(); i++)
+				{
+					if (fbc->participants.find(ids[i]) != fbc->participants.end()) {						
+						continue; // We have this participant in chatroom already
+					}
 					// We don't have this user there yet, so load info about him and then add him
 					chatroom_participant participant;
 					participant.is_former = false;
-					participant.loaded = false;
-					participant.nick = msg.data;
-					participant.user_id = msg.data;
+					participant.user_id = ids[i];
+					
+					// FIXME: Load info about all participants at once
+					fbc->participants.insert(std::make_pair(participant.user_id, participant));
+					LoadParticipantsNames(fbc);
+
 					AddChatContact(thread_id.c_str(), participant, msg.isUnread);
-				}*/
+				}
+
 				break;
+			}
 			case UNSUBSCRIBE:
 				RemoveChatContact(thread_id.c_str(), msg.user_id.c_str(), name.c_str());
 				break;

@@ -972,6 +972,14 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				}
 				else if (logType == "log:subscribe") {
 					message.type = SUBSCRIBE;
+
+					const JSONNode &fbids_ = log_data_["added_participants"];
+					for (auto it2 = fbids_.begin(); it2 != fbids_.end(); ++it2) {
+						std::string id = (*it2).as_string().substr(5); // strip "fbid:" prefix
+						if (!message.data.empty())
+							message.data += ";";
+						message.data += id;
+					}
 				}
 				else if (logType == "log:unsubscribe") {
 					message.type = UNSUBSCRIBE;
@@ -1194,6 +1202,14 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 			}
 			else if (log_type == "log:subscribe") {
 				message.type = SUBSCRIBE;
+
+				const JSONNode &fbids_ = log_data_["added_participants"];
+				for (auto it2 = fbids_.begin(); it2 != fbids_.end(); ++it2) {
+					std::string id = (*it2).as_string().substr(5); // strip "fbid:" prefix
+					if (!message.data.empty())
+						message.data += ";";
+					message.data += id;
+				}
 			}
 			else if (log_type == "log:unsubscribe") {
 				message.type = UNSUBSCRIBE;
@@ -1300,6 +1316,14 @@ int facebook_json_parser::parse_history(std::string *data, std::vector< facebook
 			}
 			else if (log_type == "log:subscribe") {
 				message.type = SUBSCRIBE;
+
+				const JSONNode &fbids_ = log_data_["added_participants"];
+				for (auto it2 = fbids_.begin(); it2 != fbids_.end(); ++it2) {
+					std::string id = (*it2).as_string().substr(5); // strip "fbid:" prefix
+					if (!message.data.empty())
+						message.data += ";";
+					message.data += id;
+				}
 			}
 			else if (log_type == "log:unsubscribe") {
 				message.type = UNSUBSCRIBE;
