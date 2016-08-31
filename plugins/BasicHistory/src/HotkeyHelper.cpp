@@ -40,8 +40,7 @@ static LRESULT CALLBACK HotkeySubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
-		if (isPresed)
-		{
+		if (isPresed) {
 			isPresed = false;
 			return 0;
 		}
@@ -58,8 +57,7 @@ static LRESULT CALLBACK HotkeySubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			filter.nmhdr.hwndFrom = hwnd;
 			filter.nmhdr.code = EN_MSGFILTER;
 			filter.nmhdr.idFrom = GetDlgCtrlID(hwnd);
-			if (SendMessage(hwndParent, WM_NOTIFY, NULL, (LPARAM)&filter))
-			{
+			if (SendMessage(hwndParent, WM_NOTIFY, NULL, (LPARAM)&filter)) {
 				isPresed = true;
 				return 0;
 			}

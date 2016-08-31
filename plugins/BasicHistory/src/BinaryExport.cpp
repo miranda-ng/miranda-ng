@@ -60,12 +60,12 @@ void BinaryExport::WriteString(const std::wstring &str)
 }
 
 bool BinaryExport::ReadString(std::wstring &str)
-{	
+{
 	std::string buf;
 	int size = 1024;
 	int pos = 0;
-	int totalSize = 0; 
-	while(true) {
+	int totalSize = 0;
+	while (true) {
 		buf.resize(size);
 		if (IMP_FILE.peek() == 0) {
 			IMP_FILE.get();
@@ -187,7 +187,7 @@ int BinaryExport::IsContactInFile(const std::vector<MCONTACT>& contacts)
 	size_t pos = IMP_FILE.tellg();
 	if (header.dataStart < pos)
 		return -2;
-	
+
 	IMP_FILE.seekg(0, std::ios_base::beg);
 	for (int i = 0; i < (int)contacts.size(); ++i) {
 		std::wstring pn = GetProtocolName(contacts[i]);
@@ -208,7 +208,7 @@ bool BinaryExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList
 	codepage = header.codepage;
 	IMP_FILE.seekg(header.dataStart, std::ios_base::beg);
 	BinaryFileMessageHeader messageHeader;
-	while(true) {
+	while (true) {
 		IMP_FILE.read((char*)&messageHeader, sizeof(BinaryFileMessageHeader));
 		if (IMP_FILE.eof())
 			break;
@@ -221,7 +221,7 @@ bool BinaryExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList
 		exMsg.timestamp = messageHeader.timestamp;
 		if (!ReadString(exMsg.message))
 			return false;
-		
+
 		eventList.push_back(exMsg);
 	}
 

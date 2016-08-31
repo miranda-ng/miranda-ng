@@ -113,7 +113,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 			}
 		}
 	}
-	
+
 	if (!to.isSystem && to.contacts.size() == 0) {
 		if (err != NULL)
 			*err = TranslateT("Contacts");
@@ -126,7 +126,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 	if (!isImportTask) {
 		if (to.filterId > 1) {
 			int filter = 0;
-		
+
 			for (int i = 0; i < (int)Options::instance->customFilters.size(); ++i) {
 				if (to.filterName == Options::instance->customFilters[i].name) {
 					filter = i + 2;
@@ -403,12 +403,12 @@ bool DoTask(TaskOptions& to)
 						errorStr += L"\n";
 
 					wchar_t msg[1024];
-					
+
 					mir_snwprintf(msg, TranslateT("Unknown contact in file: %s."), GetName(*it).c_str());
 					errorStr += msg;
 				}
 			}
-			
+
 			if (contactList.size() > 0) {
 				MCONTACT *pContacts = new MCONTACT[contactList.size() + 1];
 				pContacts[0] = (MCONTACT)contactList.size();
@@ -459,8 +459,8 @@ bool DoTask(TaskOptions& to)
 					errorStr += L"\n";
 
 				wchar_t msg[1024];
-					
-				mir_snwprintf(msg, TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
+
+				mir_snwprintf(msg, TranslateT("Cannot export history for contact: %s."), exp->GetContactName().c_str());
 				errorStr += msg;
 			}
 
@@ -481,7 +481,7 @@ bool DoTask(TaskOptions& to)
 						errorStr += L"\n";
 
 					wchar_t msg[1024];
-					mir_snwprintf(msg, TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
+					mir_snwprintf(msg, TranslateT("Cannot export history for contact: %s."), exp->GetContactName().c_str());
 					errorStr += msg;
 					break;
 				}
@@ -537,11 +537,11 @@ bool DoTask(TaskOptions& to)
 					errorStr += TranslateT("Cannot send FTP file(s).");
 				}
 			}
-		
+
 			DeleteDirectory(dir.c_str());
 		}
 	}
-	
+
 	if (to.type == TaskOptions::Delete || to.type == TaskOptions::ExportAndDelete) {
 		for (std::list<ExportManager*>::iterator it = managers.begin(); it != managers.end(); ++it) {
 			if (!error)
@@ -569,7 +569,7 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 			int i = 0;
 			wchar_t buf[32];
 			std::map<std::wstring, bool>::iterator it = existingContacts.find(name);
-			while(it != existingContacts.end()) {
+			while (it != existingContacts.end()) {
 				_itow_s(++i, buf, 10);
 				name = baseName1 + buf;
 				it = existingContacts.find(name);
@@ -606,22 +606,20 @@ std::wstring GetDirectoryName(const std::wstring &path)
 }
 
 void ListDirectory(const std::wstring &basePath, const std::wstring &path, std::list<std::wstring>& files)
-{   
+{
 	WIN32_FIND_DATA findFileData;
 	HANDLE hFind = FindFirstFile((basePath + path + L"*").c_str(), &findFileData);
-	if (hFind == INVALID_HANDLE_VALUE) 
+	if (hFind == INVALID_HANDLE_VALUE)
 		return;
 
-	do
-	{
+	do {
 		if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			std::wstring name = findFileData.cFileName;
 			if (name != L"." && name != L"..")
 				ListDirectory(basePath, path + findFileData.cFileName + L"\\", files);
 		}
 		else files.push_back(path + findFileData.cFileName);
-	}
-		while(FindNextFile(hFind, &findFileData));
+	} while (FindNextFile(hFind, &findFileData));
 	FindClose(hFind);
 }
 
@@ -630,62 +628,61 @@ std::wstring ReplaceStr(const std::wstring& str, wchar_t oldCh, wchar_t newCh)
 	std::wstring ret;
 	size_t start = 0;
 	size_t find;
-	while((find = str.find_first_of(oldCh, start)) < str.length()) {
+	while ((find = str.find_first_of(oldCh, start)) < str.length()) {
 		ret += str.substr(start, find - start);
 		ret += newCh;
 		start = find + 1;
 	}
-	
+
 	ret += str.substr(start, str.length() - start);
 	return ret;
 }
 
 time_t GetNextExportTime(TaskOptions& to)
 {
-	switch(to.trigerType) {
+	tm t;
+	time_t newTime;
+
+	switch (to.trigerType) {
 	case TaskOptions::Daily:
-	{
-		tm t;
 		localtime_s(&t, &to.lastExport);
-		t.tm_hour = to.dayTime/60;
-		t.tm_min = to.dayTime%60;
+		t.tm_hour = to.dayTime / 60;
+		t.tm_min = to.dayTime % 60;
 		t.tm_sec = 0;
-		time_t newTime = mktime(&t);
+		newTime = mktime(&t);
 		if (newTime <= to.lastExport)
 			newTime += 60 * 60 * 24;
 		return newTime;
-	}
+
 	case TaskOptions::Weekly:
-	{
-		tm t;
 		localtime_s(&t, &to.lastExport);
-		t.tm_hour = to.dayTime/60;
-		t.tm_min = to.dayTime%60;
+		t.tm_hour = to.dayTime / 60;
+		t.tm_min = to.dayTime % 60;
 		t.tm_sec = 0;
-		int dow = (to.dayOfWeek + 1) % 7;
-		time_t newTime = mktime(&t);
-		while(dow != t.tm_wday) {
-			newTime += 60 * 60 * 24;
-			localtime_s(&t, &newTime);
+		{
+			int dow = (to.dayOfWeek + 1) % 7;
 			newTime = mktime(&t);
+			while (dow != t.tm_wday) {
+				newTime += 60 * 60 * 24;
+				localtime_s(&t, &newTime);
+				newTime = mktime(&t);
+			}
 		}
 
 		if (newTime <= to.lastExport)
 			newTime += 7 * 60 * 60 * 24;
 		return newTime;
-	}
+
 	case TaskOptions::Monthly:
-	{
-		tm t;
 		localtime_s(&t, &to.lastExport);
-		t.tm_hour = to.dayTime/60;
-		t.tm_min = to.dayTime%60;
+		t.tm_hour = to.dayTime / 60;
+		t.tm_min = to.dayTime % 60;
 		t.tm_sec = 0;
-		time_t newTime = mktime(&t);
-		int lastM = t.tm_mon;
-		int lastD;
-		while(to.dayOfMonth != t.tm_mday || newTime <= to.lastExport) {
-			lastD = t.tm_mday;
+		newTime = mktime(&t);
+
+		while (to.dayOfMonth != t.tm_mday || newTime <= to.lastExport) {
+			int lastM = t.tm_mon;
+			int lastD = t.tm_mday;
 			newTime += 60 * 60 * 24;
 			localtime_s(&t, &newTime);
 			newTime = mktime(&t);
@@ -699,7 +696,7 @@ time_t GetNextExportTime(TaskOptions& to)
 		}
 
 		return newTime;
-	}
+
 	case TaskOptions::DeltaMin:
 		return to.lastExport + to.deltaTime * 60;
 	case TaskOptions::DeltaHour:
@@ -713,13 +710,13 @@ void SchedulerThreadFunc(void*)
 {
 	if (initTask) {
 		WaitForSingleObject(hThreadEvent, 5 * 1000);
-		initTask = false; 
+		initTask = false;
 	}
 
-	while(!finishThread) {
+	while (!finishThread) {
 		DWORD timeWait;
 		time_t now = time(NULL);
-		while(nextExportTime <= now)
+		while (nextExportTime <= now)
 			if (!ExecuteCurrentTask(now))
 				return;
 
@@ -733,7 +730,7 @@ void SchedulerThreadFunc(void*)
 void StartThread(bool init)
 {
 	StopThread();
-	
+
 	initTask = false;
 	bool isExport = GetNextExportTime(init, time(NULL));
 	if (isExport) {
@@ -787,13 +784,13 @@ bool GetNextExportTime(bool init, time_t now)
 			initTask = true;
 		}
 	}
-	
+
 	return isExport;
 }
 
 static void CALLBACK DoTaskFinishInMainAPCFunc(ULONG_PTR dwParam)
 {
-	wchar_t *item = (wchar_t*) dwParam;
+	wchar_t *item = (wchar_t*)dwParam;
 	MessageBox(NULL, item, TranslateT("Task finished"), MB_OK | MB_ICONINFORMATION);
 	delete[] item;
 }
@@ -846,7 +843,7 @@ bool ExecuteCurrentTask(time_t now)
 					mir_snwprintf(name, size, TranslateT("Task '%s' execution failed"), to.taskName.c_str());
 				else
 					mir_snwprintf(name, size, TranslateT("Task '%s' finished successfully"), to.taskName.c_str());
-				QueueUserAPC(DoTaskFinishInMainAPCFunc, g_hMainThread, (ULONG_PTR) name);
+				QueueUserAPC(DoTaskFinishInMainAPCFunc, g_hMainThread, (ULONG_PTR)name);
 			}
 		}
 	}
@@ -861,13 +858,13 @@ void GetZipFileTime(const wchar_t *file, uLong *dt)
 	HANDLE hFind = FindFirstFile(file, &ff32);
 	if (hFind != INVALID_HANDLE_VALUE) {
 		FileTimeToLocalFileTime(&(ff32.ftLastWriteTime), &ftLocal);
-		FileTimeToDosDateTime(&ftLocal,((LPWORD)dt)+1,((LPWORD)dt)+0);
+		FileTimeToDosDateTime(&ftLocal, ((LPWORD)dt) + 1, ((LPWORD)dt) + 0);
 		FindClose(hFind);
 	}
 }
 
 /* calculate the CRC32 of a file,
-   because to encrypt a file, we need known the CRC32 of the file before */
+	because to encrypt a file, we need known the CRC32 of the file before */
 bool GetFileCrc(const wchar_t *filenameinzip, unsigned char *buf, unsigned long, unsigned long *result_crc)
 {
 	unsigned long calculate_crc = 0;
@@ -875,23 +872,21 @@ bool GetFileCrc(const wchar_t *filenameinzip, unsigned char *buf, unsigned long,
 	HANDLE hFile = CreateFile(filenameinzip, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 	if (hFile != INVALID_HANDLE_VALUE) {
 		DWORD readed;
-		do
-		{
+		do {
 			if (!ReadFile(hFile, buf, 1024, &readed, NULL)) {
 				error = false;
 				break;
 			}
-								
+
 			if (readed > 0)
 				calculate_crc = crc32(calculate_crc, buf, readed);
-		} 
-			while (readed > 0);
+		} while (readed > 0);
 		CloseHandle(hFile);
 	}
 	else error = false;
 
-    *result_crc=calculate_crc;
-    return error;
+	*result_crc = calculate_crc;
+	return error;
 }
 
 bool ZipFiles(const std::wstring &dir, std::wstring zipFilePath, const std::string &password)
@@ -909,10 +904,10 @@ bool ZipFiles(const std::wstring &dir, std::wstring zipFilePath, const std::stri
 		if (zf != NULL) {
 			unsigned char buf[1024];
 			char bufF[MAX_PATH + 20];
-			while(files.size() > 0) {
+			while (files.size() > 0) {
 				std::wstring zipDir = *files.begin();
 				std::wstring localDir = dir + L"\\" + zipDir;
-				zip_fileinfo zi = {0};	
+				zip_fileinfo zi = { 0 };
 				GetZipFileTime(localDir.c_str(), &zi.dosDate);
 				if (zipDir.size() > MAX_PATH + 19) {
 					error = true;
@@ -938,27 +933,25 @@ bool ZipFiles(const std::wstring &dir, std::wstring zipFilePath, const std::stri
 					passwordCh = password.c_str();
 				}
 
-				int err = zipOpenNewFileInZip4_64 (zf, bufF, &zi, NULL, 0, NULL, 0, NULL, Z_DEFLATED, Z_DEFAULT_COMPRESSION, 0,
-                                -MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, passwordCh, calculate_crc, 0, flag, 0);
+				int err = zipOpenNewFileInZip4_64(zf, bufF, &zi, NULL, 0, NULL, 0, NULL, Z_DEFLATED, Z_DEFAULT_COMPRESSION, 0,
+					-MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, passwordCh, calculate_crc, 0, flag, 0);
 				if (err == ZIP_OK) {
 					HANDLE hFile = CreateFile(localDir.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 					if (hFile != INVALID_HANDLE_VALUE) {
 						DWORD readed;
-						do
-						{
+						do {
 							err = ZIP_OK;
 							if (!ReadFile(hFile, buf, 1024, &readed, NULL)) {
 								error = true;
 								break;
 							}
-								
+
 							if (readed > 0)
 								err = zipWriteInFileInZip(zf, buf, readed);
-						} 
-							while ((err == ZIP_OK) && (readed > 0));
+						} while ((err == ZIP_OK) && (readed > 0));
 						CloseHandle(hFile);
 					}
-						
+
 					if (zipCloseFileInZip(zf) != ZIP_OK) {
 						error = true;
 						break;
@@ -997,8 +990,7 @@ bool UnzipFiles(const std::wstring &dir, std::wstring &zipFilePath, const std::s
 	char buf[8192];
 	char bufF[MAX_PATH + 20];
 	unz_file_info file_info;
-	do
-	{
+	do {
 		int err = unzGetCurrentFileInfo(zf, &file_info, bufF, MAX_PATH + 20, buf, 8192, NULL, 0);
 		if (err == UNZ_OK) {
 			UINT cp = CP_OEMCP;
@@ -1007,12 +999,12 @@ bool UnzipFiles(const std::wstring &dir, std::wstring &zipFilePath, const std::s
 
 			// Get Unicode file name for InfoZip style archives, otherwise assume PKZip/WinZip style
 			if (file_info.size_file_extra) {
-				char *p = buf; 
+				char *p = buf;
 				unsigned long size = min(file_info.size_file_extra, 8192);
 				while (size > 0) {
-					unsigned short id =  *(unsigned short*)p;
-					unsigned len =  *(unsigned short*)(p + 2);
-			
+					unsigned short id = *(unsigned short*)p;
+					unsigned len = *(unsigned short*)(p + 2);
+
 					if (size < (len + 4)) break;
 
 					if (id == 0x7075 && len > 5 && (len - 5) < MAX_PATH + 20 && *(p + 4) == 1) {
@@ -1025,16 +1017,16 @@ bool UnzipFiles(const std::wstring &dir, std::wstring &zipFilePath, const std::s
 					p += len + 4;
 				}
 			}
-				
+
 			int sizeC = (int)mir_strlen(bufF);
 			int sizeW = MultiByteToWideChar(cp, 0, bufF, sizeC, NULL, 0);
 			fileNameInZip.resize(sizeW);
 			MultiByteToWideChar(cp, 0, bufF, sizeC, (wchar_t*)fileNameInZip.c_str(), sizeW);
 			fileNameInZip = dir + L"\\" + fileNameInZip;
-			for (size_t i = 0; i < fileNameInZip.length(); ++i) 
-				if (fileNameInZip[i] == L'/') 
-					fileNameInZip[i] = L'\\'; 
-				
+			for (size_t i = 0; i < fileNameInZip.length(); ++i)
+				if (fileNameInZip[i] == L'/')
+					fileNameInZip[i] = L'\\';
+
 			if (file_info.external_fa & FILE_ATTRIBUTE_DIRECTORY)
 				CreatePath(fileNameInZip.c_str());
 			else {
@@ -1052,7 +1044,7 @@ bool UnzipFiles(const std::wstring &dir, std::wstring &zipFilePath, const std::s
 							err = unzReadCurrentFile(zf, buf, 8192);
 							if (err <= 0) break;
 
-							if ( !WriteFile(hFile, buf, err, &writed, FALSE)) {
+							if (!WriteFile(hFile, buf, err, &writed, FALSE)) {
 								err = -1;
 								break;
 							}
@@ -1069,7 +1061,7 @@ bool UnzipFiles(const std::wstring &dir, std::wstring &zipFilePath, const std::s
 						error = true;
 						break;
 					}
-						
+
 					if (unzCloseCurrentFile(zf) != ZIP_OK) {
 						error = true;
 						break;
@@ -1085,8 +1077,7 @@ bool UnzipFiles(const std::wstring &dir, std::wstring &zipFilePath, const std::s
 			error = true;
 			break;
 		}
-	}
-		while (unzGoToNextFile(zf) == UNZ_OK);
+	} while (unzGoToNextFile(zf) == UNZ_OK);
 
 	unzClose(zf);
 	return error;

@@ -35,10 +35,10 @@ void Searcher::ChangeFindDirection(bool isBack)
 {
 	if (isBack != findBack) {
 		findBack = isBack;
-		ClearFind();    
+		ClearFind();
 		TBBUTTONINFO tbInfo;
-		tbInfo.cbSize  = sizeof(TBBUTTONINFO);
-		tbInfo.dwMask  = TBIF_TEXT | TBIF_IMAGE;
+		tbInfo.cbSize = sizeof(TBBUTTONINFO);
+		tbInfo.dwMask = TBIF_TEXT | TBIF_IMAGE;
 		if (isBack) {
 			tbInfo.pszText = TranslateT("Find Previous");
 			tbInfo.iImage = 1;
@@ -46,7 +46,7 @@ void Searcher::ChangeFindDirection(bool isBack)
 		else {
 			tbInfo.pszText = TranslateT("Find Next");
 			tbInfo.iImage = 0;
-		}    
+		}
 		SendMessage(context->toolbarWindow, TB_SETBUTTONINFO, (WPARAM)IDM_FIND, (LPARAM)&tbInfo);
 	}
 
@@ -56,7 +56,7 @@ void Searcher::ChangeFindDirection(bool isBack)
 void Searcher::ClearFind()
 {
 	if (lastFindSelection != -1) {
-		SendMessage(context->editWindow,EM_SETOPTIONS,ECOOP_AND,~ECO_NOHIDESEL);
+		SendMessage(context->editWindow, EM_SETOPTIONS, ECOOP_AND, ~ECO_NOHIDESEL);
 		lastFindSelection = -1;
 	}
 }
@@ -76,7 +76,7 @@ bool Searcher::CompareStr(std::wstring str, wchar_t *strFind)
 
 	size_t findid = str.find(strFind);
 	size_t findLen = mir_wstrlen(strFind);
-	while(findid < str.length()) {
+	while (findid < str.length()) {
 		if ((findid == 0 || std::isspace(str[findid - 1], loc) || std::ispunct(str[findid - 1], loc)) &&
 			(findid + findLen >= str.length() || std::isspace(str[findid + findLen], loc) || std::ispunct(str[findid + findLen], loc)))
 			return true;
@@ -97,7 +97,7 @@ void Searcher::Find()
 	ft.chrg.cpMax = -1;
 	ft.lpstrText = str;
 	if (context->currentGroup.size() < 1) {
-		SendMessage(context->editWindow,EM_SETOPTIONS,ECOOP_AND,~ECO_NOHIDESEL);
+		SendMessage(context->editWindow, EM_SETOPTIONS, ECOOP_AND, ~ECO_NOHIDESEL);
 		lastFindSelection = -1;
 		return;
 	}
@@ -113,7 +113,7 @@ void Searcher::Find()
 		std::locale loc;
 		std::transform(str, str + mir_wstrlen(str), str, std::bind2nd(std::ptr_fun(mytoupper), &loc));
 	}
-	
+
 	bool findBack1 = findBack ^ !searchForInMes;
 	bool findBack2 = findBack ^ !searchForInLG;
 	int adder1 = findBack1 ? -1 : 1;
@@ -123,16 +123,16 @@ void Searcher::Find()
 		if (onlyIn && context->currentGroup[lastFindSelection].isMe || onlyOut && !context->currentGroup[lastFindSelection].isMe)
 			curSel = lastFindSelection + adder1;
 		else {
-			SendDlgItemMessage(context->m_hWnd,IDC_EDIT,EM_EXGETSEL,0,(LPARAM)&ft.chrg);
+			SendDlgItemMessage(context->m_hWnd, IDC_EDIT, EM_EXGETSEL, 0, (LPARAM)&ft.chrg);
 			if (findBack1) {
-				ft.chrg.cpMin = ft.chrg.cpMin < context->currentGroup[lastFindSelection].endPos ? ft.chrg.cpMin : context->currentGroup[lastFindSelection].endPos; 
+				ft.chrg.cpMin = ft.chrg.cpMin < context->currentGroup[lastFindSelection].endPos ? ft.chrg.cpMin : context->currentGroup[lastFindSelection].endPos;
 				ft.chrg.cpMax = context->currentGroup[lastFindSelection].startPos;
 			}
 			else {
 				ft.chrg.cpMin = ft.chrg.cpMax > context->currentGroup[lastFindSelection].startPos ? ft.chrg.cpMax : context->currentGroup[lastFindSelection].startPos;
 				ft.chrg.cpMax = context->currentGroup[lastFindSelection].endPos;
 			}
-			SendMessage(context->editWindow,EM_FINDTEXTEX, findStyle,(LPARAM)&ft);
+			SendMessage(context->editWindow, EM_FINDTEXTEX, findStyle, (LPARAM)&ft);
 			if (ft.chrgText.cpMin < 0 || ft.chrgText.cpMax < 0)
 				curSel = lastFindSelection + adder1;
 			else {
@@ -140,8 +140,8 @@ void Searcher::Find()
 					finished = true;
 				else {
 					curSel = lastFindSelection;
-					SendMessage(context->editWindow,EM_EXSETSEL,0,(LPARAM)&ft.chrgText);
-					SendMessage(context->editWindow,EM_SETOPTIONS,ECOOP_OR,ECO_NOHIDESEL);
+					SendMessage(context->editWindow, EM_EXSETSEL, 0, (LPARAM)&ft.chrgText);
+					SendMessage(context->editWindow, EM_SETOPTIONS, ECOOP_OR, ECO_NOHIDESEL);
 					lastFindSelection = curSel;
 					return;
 				}
@@ -150,8 +150,8 @@ void Searcher::Find()
 	}
 	else {
 		isStart = true;
-		SendMessage(context->editWindow,EM_SETOPTIONS,ECOOP_OR,ECO_NOHIDESEL);
-		SendMessage(context->editWindow,EM_EXGETSEL,0,(LPARAM)&ft.chrg);
+		SendMessage(context->editWindow, EM_SETOPTIONS, ECOOP_OR, ECO_NOHIDESEL);
+		SendMessage(context->editWindow, EM_EXGETSEL, 0, (LPARAM)&ft.chrg);
 		startFindPos = findBack1 ? ft.chrg.cpMin : (ft.chrg.cpMax >= 0 ? ft.chrg.cpMax : ft.chrg.cpMin);
 		startFindSel = context->selected;
 		if (startFindPos < 0)
@@ -188,21 +188,21 @@ void Searcher::Find()
 					if (!isFindSelChanged && ft.chrg.cpMin < startFindPos)
 						ft.chrg.cpMin = startFindPos;
 				}
-				SendMessage(context->editWindow,EM_FINDTEXTEX, findStyle,(LPARAM)&ft);
+				SendMessage(context->editWindow, EM_FINDTEXTEX, findStyle, (LPARAM)&ft);
 				if (!(ft.chrgText.cpMin < 0 || ft.chrgText.cpMax < 0)) {
 					if (isFindContactChanged && startFindContact == context->m_hContact && isFindSelChanged && context->selected == startFindSel && ((!findBack1 && ft.chrg.cpMin >= startFindPos) || (findBack1 && ft.chrg.cpMax <= startFindPos))) {
 						finished = true;
 						break;
 					}
-					SendMessage(context->editWindow,EM_EXSETSEL,0,(LPARAM)&ft.chrgText);
-					SendMessage(context->editWindow,EM_SETOPTIONS,ECOOP_OR,ECO_NOHIDESEL);
+					SendMessage(context->editWindow, EM_EXSETSEL, 0, (LPARAM)&ft.chrgText);
+					SendMessage(context->editWindow, EM_SETOPTIONS, ECOOP_OR, ECO_NOHIDESEL);
 					lastFindSelection = curSel;
 					return;
 				}
 			}
 		}
 	}
-	
+
 	if (isFindContactChanged && startFindContact == context->m_hContact && isFindSelChanged && context->selected == startFindSel)
 		finished = true;
 
@@ -212,7 +212,7 @@ void Searcher::Find()
 			if (IsInSel(context->selected, str)) {
 				CHARRANGE ch;
 				ch.cpMin = ch.cpMax = findBack1 ? MAXLONG : 0;
-				SendMessage(context->editWindow,EM_EXSETSEL,0,(LPARAM)&ch);
+				SendMessage(context->editWindow, EM_EXSETSEL, 0, (LPARAM)&ch);
 				lastFindSelection = findBack1 ? (int)context->currentGroup.size() - 1 : 0;
 				Find();
 				return;
@@ -224,11 +224,9 @@ void Searcher::Find()
 					isFindContactChanged = true;
 					if (allUsers) {
 						MCONTACT hNext = context->m_hContact;
-						do
-						{
+						do {
 							hNext = context->GetNextContact(hNext, adder2);
-						}
-							while(hNext != startFindContact && !context->SearchInContact(hNext, str, this));
+						} while (hNext != startFindContact && !context->SearchInContact(hNext, str, this));
 						context->SelectContact(hNext);
 					}
 
@@ -238,18 +236,16 @@ void Searcher::Find()
 					isFindContactChanged = true;
 					if (allUsers) {
 						MCONTACT hNext = context->m_hContact;
-						do
-						{
+						do {
 							hNext = context->GetNextContact(hNext, adder2);
-						}
-							while(hNext != startFindContact && !context->SearchInContact(hNext, str, this));
+						} while (hNext != startFindContact && !context->SearchInContact(hNext, str, this));
 						context->SelectContact(hNext);
 					}
 
 					sel = 0;
 				}
 				if (IsInSel(sel, str)) {
-					LVITEM item = {0};
+					LVITEM item = { 0 };
 					item.mask = LVIF_STATE;
 					item.iItem = context->selected;
 					item.state = 0;
@@ -258,11 +254,11 @@ void Searcher::Find()
 					item.iItem = sel;
 					item.state = LVIS_SELECTED;
 					ListView_SetItem(context->listWindow, &item);
-					ListView_EnsureVisible(context->listWindow, sel, FALSE);		
+					ListView_EnsureVisible(context->listWindow, sel, FALSE);
 					CHARRANGE ch;
 					ch.cpMin = ch.cpMax = findBack1 ? MAXLONG : 0;
-					SendMessage(context->editWindow,EM_EXSETSEL,0,(LPARAM)&ch);
-					SendMessage(context->editWindow,EM_SETOPTIONS,ECOOP_OR,ECO_NOHIDESEL);
+					SendMessage(context->editWindow, EM_EXSETSEL, 0, (LPARAM)&ch);
+					SendMessage(context->editWindow, EM_SETOPTIONS, ECOOP_OR, ECO_NOHIDESEL);
 					lastFindSelection = findBack1 ? (int)context->currentGroup.size() - 1 : 0;
 					isFindSelChanged = true;
 					Find();
@@ -273,12 +269,12 @@ void Searcher::Find()
 			}
 		}
 	}
-	
+
 	if (startFindContact != context->m_hContact)
 		context->SelectContact(startFindContact);
 
 	if (startFindSel != context->selected) {
-		LVITEM item = {0};
+		LVITEM item = { 0 };
 		item.mask = LVIF_STATE;
 		item.iItem = context->selected;
 		item.state = 0;
@@ -287,14 +283,14 @@ void Searcher::Find()
 		item.iItem = startFindSel;
 		item.state = LVIS_SELECTED;
 		ListView_SetItem(context->listWindow, &item);
-		ListView_EnsureVisible(context->listWindow, startFindSel, FALSE);			
+		ListView_EnsureVisible(context->listWindow, startFindSel, FALSE);
 		context->SelectEventGroup(startFindSel);
-		SendMessage(context->editWindow,EM_SETOPTIONS,ECOOP_OR,ECO_NOHIDESEL);
+		SendMessage(context->editWindow, EM_SETOPTIONS, ECOOP_OR, ECO_NOHIDESEL);
 	}
 	ft.chrgText.cpMin = startFindPos;
 	ft.chrgText.cpMax = startFindPos;
-	SendMessage(context->editWindow,EM_EXSETSEL,0,(LPARAM)&ft.chrgText);
-	SendMessage(context->editWindow,EM_SETOPTIONS,ECOOP_AND,~ECO_NOHIDESEL);
+	SendMessage(context->editWindow, EM_EXSETSEL, 0, (LPARAM)&ft.chrgText);
+	SendMessage(context->editWindow, EM_SETOPTIONS, ECOOP_AND, ~ECO_NOHIDESEL);
 	lastFindSelection = -1;
 	if (isStart) {
 		wchar_t buf[256];
@@ -324,7 +320,7 @@ bool Searcher::IsInSel(int sel, wchar_t *strFind)
 				return true;
 		}
 	}
-		
+
 	return false;
 }
 

@@ -30,23 +30,15 @@ void TxtExport::WriteHeader(const std::wstring&, const std::wstring &filterName,
 	EXP_FILE << start << "\n" << start << L" " << TranslateT("History Log") << L"\n";
 	EXP_FILE << start << L" " << myName;
 	if (proto1.length() || myId.length())
-	{
 		EXP_FILE << L" (" << proto1 << L": " << myId << L") - ";
-	}
 	else
-	{
 		EXP_FILE << L" - ";
-	}
 
 	EXP_FILE << name1;
 	if (proto1.length() || id1.length())
-	{
 		EXP_FILE << L" (" << proto1 << L": " << id1 << L")\n";
-	}
 	else
-	{
 		EXP_FILE << L"\n";
-	}
 
 	EXP_FILE << start << L" " << TranslateT("Filter:") << L" " << filterName << L"\n" << start << L"\n";
 }

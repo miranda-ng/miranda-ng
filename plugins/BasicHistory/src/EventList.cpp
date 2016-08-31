@@ -79,15 +79,15 @@ bool HistoryEventList::CanShowHistory(DBEVENTINFO* dbei)
 		return true;
 
 	if (m_defFilter < 1) {
-		switch(dbei->eventType) {
+		switch (dbei->eventType) {
 		case EVENTTYPE_MESSAGE:
 		case EVENTTYPE_URL:
 		case EVENTTYPE_FILE:
 			return true;
 
 		default:
-			DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType);
-			if (et && ( et->flags & DETF_HISTORY))
+			DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+			if (et && (et->flags & DETF_HISTORY))
 				return true;
 		}
 
@@ -123,7 +123,7 @@ bool HistoryEventList::CanShowHistory(const IImport::ExternalMessage &message)
 		return true;
 
 	if (m_defFilter < 1) {
-		switch(message.eventType ) {
+		switch (message.eventType) {
 		case EVENTTYPE_MESSAGE:
 		case EVENTTYPE_URL:
 		case EVENTTYPE_FILE:
@@ -220,7 +220,7 @@ void HistoryEventList::GetTempList(std::list<EventTempIndex>& tempList, bool noF
 		for (int i = 0; i < (int)m_importedMessages.size(); ++i) {
 			if (noFilter || CanShowHistory(m_importedMessages[i])) {
 				DWORD ts = m_importedMessages[i].timestamp;
-				while(itL != tempList.end() && itL->timestamp < ts)++itL;
+				while (itL != tempList.end() && itL->timestamp < ts)++itL;
 				if (itL == tempList.end() || itL->timestamp > ts) {
 					ti.exIdx = i;
 					ti.timestamp = ts;

@@ -37,12 +37,13 @@ struct MCHeader
 
 #pragma pack(pop)
 
-typedef struct {
+typedef struct
+{
 	int cbSize;       //size of the structure in bytes
 	DWORD szModule;	  //pointer to name of the module that 'owns' this
-                      //event, ie the one that is in control of the data format
+							 //event, ie the one that is in control of the data format
 	DWORD timestamp;  //seconds since 00:00, 01/01/1970. Gives us times until
-	                  //2106 unless you use the standard C library which is
+							//2106 unless you use the standard C library which is
 					  //signed and can only do until 2038. In GMT.
 	DWORD flags;	  //the omnipresent flags
 	WORD eventType;	  //module-defined event type field
@@ -133,10 +134,10 @@ int DatExport::IsContactInFile(const std::vector<MCONTACT>& contacts)
 	MCHeader header;
 	if (!ReadHeader(header, IImport::stream))
 		return -2;
-	
+
 	if (contacts.size() == 1)
 		hContact = contacts[0];
-	
+
 	IMP_FILE.seekg(0, std::ios_base::beg);
 	return -3;
 }
@@ -149,12 +150,12 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 
 	dataSize = header.dataSize;
 	DBEVENTINFO86 messageHeader;
-	DBEVENTINFO info = {0};
+	DBEVENTINFO info = { 0 };
 	info.cbSize = sizeof(DBEVENTINFO);
 	info.szModule = GetContactProto(hContact);
 	wchar_t _str[MAXSELECTSTR + 8]; // for safety reason
 	std::multimap<DWORD, IImport::ExternalMessage> sortedEvents;
-	while(dataSize > 0) {
+	while (dataSize > 0) {
 		messageHeader.cbSize = 0;
 		IMP_FILE.read((char*)&messageHeader, sizeof(DBEVENTINFO86));
 		if (!IMP_FILE.good())
@@ -176,7 +177,7 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 		IMP_FILE.read((char*)memBuf.c_str(), messageHeader.cbBlob);
 		if (!IMP_FILE.good())
 			return false;
-		
+
 		info.eventType = messageHeader.eventType;
 		info.flags = messageHeader.flags;
 		info.timestamp = messageHeader.timestamp;
@@ -187,7 +188,7 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 		sortedEvents.insert(std::pair<DWORD, IImport::ExternalMessage>(messageHeader.timestamp, exMsg));
 		dataSize -= messageHeader.cbSize + messageHeader.cbBlob;
 	}
-	
+
 	memBuf.resize(0);
 	memBuf.shrink_to_fit();
 

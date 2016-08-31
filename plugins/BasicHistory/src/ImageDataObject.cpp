@@ -55,7 +55,6 @@ bool ImageDataObject::InsertIcon(IRichEditOle* pRichEditOle, HICON hIcon,
 // returns true on success, false on failure
 bool ImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 {
-	SCODE sc;
 	BITMAP bminfo;
 
 	// Get the image data object
@@ -72,16 +71,16 @@ bool ImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 
 	// Initialize a Storage Object
 	//
-	IStorage *pStorage;
 
 	LPLOCKBYTES lpLockBytes = NULL;
-	sc = ::CreateILockBytesOnHGlobal(NULL, TRUE, &lpLockBytes);
+	SCODE sc = ::CreateILockBytesOnHGlobal(NULL, TRUE, &lpLockBytes);
 	if (sc != S_OK) {
 		pOleClientSite->Release();
 		return false;
 	}
-	sc = ::StgCreateDocfileOnILockBytes(lpLockBytes,
-										STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, &pStorage);
+
+	IStorage *pStorage;
+	sc = ::StgCreateDocfileOnILockBytes(lpLockBytes, STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, &pStorage);
 	if (sc != S_OK) {
 		lpLockBytes = NULL;
 		pOleClientSite->Release();
@@ -117,7 +116,7 @@ bool ImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 	}
 
 	reobject.clsid = clsid;
-	reobject.cp = REO_CP_SELECTION ;
+	reobject.cp = REO_CP_SELECTION;
 	reobject.dvaspect = DVASPECT_CONTENT;
 	reobject.poleobj = pOleObject;
 	reobject.polesite = pOleClientSite;
@@ -134,10 +133,7 @@ bool ImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 	pOleClientSite->Release();
 	lpLockBytes->Release();
 	pStorage->Release();
-	if (sc != S_OK)
-		return false;
-	else
-		return true;
+	return sc == S_OK;
 }
 
 
@@ -161,10 +157,8 @@ void ImageDataObject::SetBitmap(HBITMAP hBitmap)
 
 IOleObject *ImageDataObject::GetOleObject(IOleClientSite *pOleClientSite, IStorage *pStorage)
 {
-	SCODE sc;
 	IOleObject *pOleObject;
-	sc = ::OleCreateStaticFromData(this, IID_IOleObject, OLERENDER_FORMAT,
-								   &m_format, pOleClientSite, pStorage, (void **) & pOleObject);
+	SCODE sc = ::OleCreateStaticFromData(this, IID_IOleObject, OLERENDER_FORMAT, &m_format, pOleClientSite, pStorage, (void **)& pOleObject);
 	if (sc != S_OK)
 		pOleObject = NULL;
 	return pOleObject;

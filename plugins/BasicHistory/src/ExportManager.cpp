@@ -52,7 +52,7 @@ std::wstring GetFile(const wchar_t* ext, HWND hwnd, bool open)
 	wcscat_s(stzFilePath, ext);
 	len = mir_wstrlen(stzFilePath) + 1;
 	stzFilePath[len] = 0;
-	OPENFILENAME ofn = {0};
+	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = hwnd;
 	ofn.lpstrFilter = filter;
@@ -94,7 +94,7 @@ bool ExportManager::Export(IExport::ExportType type)
 	UINT cp;
 	std::wstring encoding;
 	bool isBin = false;
-	switch(type) {
+	switch (type) {
 	case IExport::Txt:
 		m_exp = new TxtExport();
 		cp = Options::instance->codepageTxt;
@@ -142,19 +142,19 @@ bool ExportManager::Export(IExport::ExportType type)
 
 	std::wofstream* stream;
 	if (!isBin) {
-		stream = new std::wofstream (fileName.c_str());
+		stream = new std::wofstream(fileName.c_str());
 		if (!stream->is_open())
 			return false;
-	
+
 		std::locale filelocale(std::locale(), new codecvt_CodePage<wchar_t>(cp));
 		stream->imbue(filelocale);
 		m_exp->SetStream(stream);
 	}
 	else {
-		std::ofstream* cstream = new std::ofstream (fileName.c_str(), std::ios_base::binary);
+		std::ofstream* cstream = new std::ofstream(fileName.c_str(), std::ios_base::binary);
 		if (!cstream->is_open())
 			return false;
-	
+
 		stream = (std::wofstream*)cstream;
 		m_exp->SetStream(stream);
 	}
@@ -181,7 +181,7 @@ bool ExportManager::Export(IExport::ExportType type)
 const wchar_t* ExportManager::GetExt(IImport::ImportType type)
 {
 	IImport *imp = NULL;
-	switch(type) {
+	switch (type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
 		break;
@@ -191,7 +191,7 @@ const wchar_t* ExportManager::GetExt(IImport::ImportType type)
 	default:
 		return L"";
 	}
-	
+
 	const wchar_t *ext = imp->GetExt();
 	delete imp;
 	return ext;
@@ -200,7 +200,7 @@ const wchar_t* ExportManager::GetExt(IImport::ImportType type)
 int ExportManager::Import(IImport::ImportType type, const std::vector<MCONTACT>& contacts)
 {
 	IImport *imp = NULL;
-	switch(type) {
+	switch (type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
 		break;
@@ -211,17 +211,23 @@ int ExportManager::Import(IImport::ImportType type, const std::vector<MCONTACT>&
 		return -2;
 	}
 
-	if (m_file.empty())
+	if (m_file.empty()) {
+		delete imp;
 		return -2;
+	}
 
 	std::wstring fileName = ReplaceExt(m_file, imp->GetExt());
-	if (fileName.empty())
+	if (fileName.empty()) {
+		delete imp;
 		return -2;
+	}
 
-	std::ifstream* stream = new std::ifstream (fileName.c_str(), std::ios_base::binary);
-	if (!stream->is_open())
+	std::ifstream* stream = new std::ifstream(fileName.c_str(), std::ios_base::binary);
+	if (!stream->is_open()) {
+		delete imp;
 		return -2;
-	
+	}
+
 	imp->SetStream(stream);
 	int t = imp->IsContactInFile(contacts);
 	stream->close();
@@ -233,7 +239,7 @@ int ExportManager::Import(IImport::ImportType type, const std::vector<MCONTACT>&
 bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err, bool* differentContact, std::vector<MCONTACT>* contacts)
 {
 	IImport *imp = NULL;
-	switch(type) {
+	switch (type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
 		break;
@@ -243,17 +249,19 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 	default:
 		return false;
 	}
-	
+
 	std::wstring fileName;
 	if (m_file.empty())
 		m_file = fileName = GetFile(imp->GetExt(), m_hwnd, true);
 	else
 		fileName = ReplaceExt(m_file, imp->GetExt());
 
-	std::ifstream *stream = new std::ifstream (fileName.c_str(), std::ios_base::binary);
-	if (!stream->is_open())
+	std::ifstream *stream = new std::ifstream(fileName.c_str(), std::ios_base::binary);
+	if (!stream->is_open()) {
+		delete imp;
 		return false;
-	
+	}
+
 	imp->SetStream(stream);
 	std::vector<MCONTACT> v;
 	v.push_back(m_hContact);
@@ -263,7 +271,7 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 		ret = false;
 		if (err != NULL)
 			*err = TranslateT("File does not contain selected contact");
-		
+
 		if (contacts != NULL && differentContact != NULL) {
 			contInFile = imp->IsContactInFile(*contacts);
 			if (contInFile >= 0) {
@@ -292,7 +300,7 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 {
 	if (m_exp == NULL)
 		return;
-	
+
 	m_exp->WriteGroup(isMe, time, user, eventText);
 	wchar_t str[MAXSELECTSTR + 8]; // for safety reason
 	str[0] = 0;
@@ -319,20 +327,20 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 					isFirst = false;
 					formatDate = Options::instance->messagesShowSec ? L"s" : L"t";
 					time_t tt = data.timestamp;
-					localtime_s(&lastTime,  &tt);
+					localtime_s(&lastTime, &tt);
 				}
 				else {
 					time_t tt = data.timestamp;
 					tm t;
-					localtime_s(&t,  &tt);
+					localtime_s(&t, &tt);
 					if (lastTime.tm_yday == t.tm_yday && lastTime.tm_year == t.tm_year)
 						formatDate = Options::instance->messagesShowSec ? L"s" : L"t";
 				}
 			}
-				
-			TimeZone_PrintTimeStamp(NULL, data.timestamp, longFormatDate, str , MAXSELECTSTR, 0);
+
+			TimeZone_PrintTimeStamp(NULL, data.timestamp, longFormatDate, str, MAXSELECTSTR, 0);
 			std::wstring longDate = str;
-			TimeZone_PrintTimeStamp(NULL, data.timestamp, formatDate, str , MAXSELECTSTR, 0);
+			TimeZone_PrintTimeStamp(NULL, data.timestamp, formatDate, str, MAXSELECTSTR, 0);
 			std::wstring shortDate = str;
 
 			std::wstring wszUser;
@@ -340,7 +348,7 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 				wszUser = m_myName;
 			else
 				wszUser = m_contactName;
-				
+
 			GetEventMessage(hDbEvent, str);
 			std::wstring strMessage = str;
 			if (strMessage.length() + 1 >= MAXSELECTSTR)
