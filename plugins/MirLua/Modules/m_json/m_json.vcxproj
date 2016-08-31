@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>m_json</ProjectName>
-    <ProjectGuid>{99712BCA-F86F-4214-967D-1298DF0F4A13}</ProjectGuid>
+    <ProjectGuid>{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\module.props" />
