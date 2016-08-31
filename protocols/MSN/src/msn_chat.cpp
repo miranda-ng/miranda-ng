@@ -186,8 +186,8 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.time = MsnTSToUnixtime(ezxml_txt(ezxml_child(xmli, "eventtime")));
-		gce.ptszUID = initiator?mir_a2u(initiator->txt):NULL;
-		MCONTACT hContInitiator = MSN_HContactFromEmail(initiator->txt);
+		gce.ptszUID = initiator ? mir_a2u(initiator->txt) : NULL;
+		MCONTACT hContInitiator = MSN_HContactFromEmail(initiator ? initiator->txt : NULL);
 		gce.ptszNick = GetContactNameT(hContInitiator);
 		gce.ptszText = mir_a2u(ezxml_txt(ezxml_child(xmli, "value")));
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
