@@ -962,6 +962,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					messages->push_back(message);
 				}
 				else {
+					proto->debugLogA("!!! Unknown log type - %s", logType.c_str());
+
 					// TODO: check for other types, now we expect this is rename chat
 					if (!proto->m_enableChat)
 						continue;
@@ -1107,12 +1109,20 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		const JSONNode &filtered = (*it)["is_filtered_content"];
 		const JSONNode &is_unread = (*it)["is_unread"];
 
-		if (!author || !body || !mid || !tid || !timestamp)
+		// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
+		const JSONNode &log_type_ = (*it)["log_message_type"];
+		const JSONNode &log_body_ = (*it)["log_message_body"];
+		// const JSONNode &log_data_ = (*it)["log_message_data"]; // additional data for this log message
+		// e.g., for missed video calls - {"answered":false,"caller":"fbid:1234567890","callee":"fbid:123456789012345"}
+
+		if (!author || (!body && !log_body_) || !mid || !tid || !timestamp) {
+			proto->debugLogA("parse_thread_messages: ignoring message (%s) - missing attribute", mid.as_string().c_str());
 			continue;
+		}
 
 		std::string thread_id = tid.as_string();
 		std::string message_id = mid.as_string();
-		std::string message_text = body.as_string();
+		std::string message_text = body ? body.as_string() : log_body_.as_string();
 		std::string author_id = author.as_string();
 		std::string other_user_id = other_user_fbid ? other_user_fbid.as_string() : "";
 		std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
@@ -1126,8 +1136,10 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
 
 		message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
-		if (message_text.empty())
+		if (message_text.empty()) {
+			proto->debugLogA("parse_thread_messages: ignoring message (%s) - empty message text", mid.as_string().c_str());
 			continue;
+		}
 
 		bool isUnread = is_unread.as_bool();
 
@@ -1158,6 +1170,16 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 				message.user_id = other_user_id;
 			else
 				continue;
+		}
+
+		if (log_type_) {
+			std::string log_type = log_type_.as_string();
+			if (log_type == "log:video-call") {
+				message.type = CALL;
+			}
+			else {
+				proto->debugLogA("parse_thread_messages: unknown message log type (%s) - %s", mid.as_string().c_str(), log_type.c_str());
+			}
 		}
 
 		messages->push_back(message);
@@ -1194,7 +1216,12 @@ int facebook_json_parser::parse_history(std::string *data, std::vector< facebook
 		const JSONNode &filtered = (*it)["is_filtered_content"];
 		const JSONNode &is_unread = (*it)["is_unread"];
 
-		if (!author || !body || !mid || !tid || !timestamp) {
+		// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
+		const JSONNode &log_type_ = (*it)["log_message_type"];
+		const JSONNode &log_body_ = (*it)["log_message_body"];
+		// const JSONNode &log_data_ = (*it)["log_message_data"];
+
+		if (!author || (!body && !log_body_) || !mid || !tid || !timestamp) {
 			proto->debugLogA("parse_history: ignoring message (%s) - missing attribute", mid.as_string().c_str());
 			continue;
 		}
@@ -1206,7 +1233,7 @@ int facebook_json_parser::parse_history(std::string *data, std::vector< facebook
 
 		std::string thread_id = tid.as_string();
 		std::string message_id = mid.as_string();
-		std::string message_text = body.as_string();
+		std::string message_text = body ? body.as_string() : log_body_.as_string();
 		std::string author_id = author.as_string();
 		std::string other_user_id = other_user_fbid ? other_user_fbid.as_string() : "";
 		std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
@@ -1234,6 +1261,16 @@ int facebook_json_parser::parse_history(std::string *data, std::vector< facebook
 		message.isUnread = is_unread.as_bool();
 		message.isChat = false;
 		message.user_id = other_user_id;
+
+		if (log_type_) {
+			std::string log_type = log_type_.as_string();
+			if (log_type == "log:video-call") {
+				message.type = CALL;
+			}
+			else {
+				proto->debugLogA("parse_history: unknown message log type (%s) - %s", mid.as_string().c_str(), log_type.c_str());
+			}
+		}
 
 		messages->push_back(message);
 	}
