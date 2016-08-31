@@ -769,6 +769,34 @@ INT_PTR FacebookProto::Poke(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+INT_PTR FacebookProto::LoadHistory(WPARAM wParam, LPARAM)
+{
+	if (wParam == NULL || isOffline())
+		return 1;
+
+	MCONTACT hContact = MCONTACT(wParam);
+
+	// Ignore groupchats // TODO: Support for groupchats?
+	if (isChatRoom(hContact))
+		return 0;
+
+	ptrW name(getWStringA(hContact, FACEBOOK_KEY_NICK));
+	if (name == NULL)
+		name = getWStringA(hContact, FACEBOOK_KEY_ID);
+	if (name == NULL)
+		return 1;
+
+	CMStringW title;
+	title.AppendFormat(L"%s - %s", m_tszUserName, name);
+	CMStringW message("This will load all messages from the server. It might take a while, so be patient.\n\nDo you want to continue?");
+
+	if (MessageBox(0, message, title, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
+		ForkThread(&FacebookProto::LoadHistory, new MCONTACT(hContact));
+	}
+
+	return 0;
+}
+
 INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == NULL || isOffline())

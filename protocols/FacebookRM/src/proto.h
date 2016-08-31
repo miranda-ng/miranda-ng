@@ -119,6 +119,7 @@ public:
 	INT_PTR __cdecl VisitConversation(WPARAM, LPARAM);
 	INT_PTR __cdecl VisitNotifications(WPARAM, LPARAM);
 	INT_PTR __cdecl Poke(WPARAM, LPARAM);
+	INT_PTR __cdecl LoadHistory(WPARAM, LPARAM);
 	INT_PTR __cdecl CancelFriendship(WPARAM, LPARAM);
 	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);
 	INT_PTR __cdecl ApproveFriendship(WPARAM, LPARAM);
@@ -174,6 +175,7 @@ public:
 	void __cdecl SearchIdAckThread(void*);
 	void __cdecl ProcessPages(void*);
 	void __cdecl LoadLastMessages(void*);
+	void __cdecl LoadHistory(void*);
 	void __cdecl ProcessMemories(void*);
 
 	// Worker threads

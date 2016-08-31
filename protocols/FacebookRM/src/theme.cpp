@@ -35,6 +35,7 @@ HGENMENU g_hContactMenuAuthDeny;
 HGENMENU g_hContactMenuPoke;
 HGENMENU g_hContactMenuPostStatus;
 HGENMENU g_hContactMenuVisitConversation;
+HGENMENU g_hContactMenuLoadHistory;
 
 static IconItem icons[] =
 {
@@ -104,6 +105,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ShowItem(g_hContactMenuPoke, false);
 	Menu_ShowItem(g_hContactMenuPostStatus, false);
 	Menu_ShowItem(g_hContactMenuVisitConversation, false);
+	Menu_ShowItem(g_hContactMenuLoadHistory, false);
 
 	// Process them in correct account
 	FacebookProto *proto = GetInstanceByHContact(MCONTACT(wParam));
@@ -155,6 +157,14 @@ void InitContactMenus()
 	mi.pszService = "FacebookProto/Poke";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::Poke>);
 	g_hContactMenuPoke = Menu_AddContactMenuItem(&mi);
+
+	SET_UID(mi, 0x58e75db0, 0xb9e0, 0x4aa8, 0xbb, 0x42, 0x8d, 0x7d, 0xd1, 0xf6, 0x8e, 0x99);
+	mi.position = -2000006005;
+	mi.hIcolibItem = GetIconHandle("conversation"); // TODO: Use better icon
+	mi.name.a = LPGEN("Load history");
+	mi.pszService = "FacebookProto/LoadHistory";
+	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::LoadHistory>);
+	g_hContactMenuLoadHistory = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
 	mi.position = -2000006010;
@@ -209,6 +219,7 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	Menu_ShowItem(g_hContactMenuVisitFriendship, !bIsChatroom && !bIsPage);
 	Menu_ShowItem(g_hContactMenuVisitConversation, true);
 	Menu_ShowItem(g_hContactMenuPostStatus, !bIsChatroom);
+	Menu_ShowItem(g_hContactMenuLoadHistory, !bIsChatroom);
 
 	if (!isOffline() && !bIsChatroom && !bIsPage)
 	{

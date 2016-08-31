@@ -1166,6 +1166,81 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 	return EXIT_SUCCESS;
 }
 
+int facebook_json_parser::parse_history(std::string *data, std::vector< facebook_message >* messages, std::string *firstTimestamp)
+{
+	std::string jsonData = data->substr(9);
+
+	JSONNode root = JSONNode::parse(jsonData.c_str());
+	if (!root)
+		return EXIT_FAILURE;
+
+	const JSONNode &payload = root["payload"];
+	if (!payload)
+		return EXIT_FAILURE;
+
+	const JSONNode &actions = payload["actions"];
+	if (!actions)
+		return EXIT_FAILURE;
+
+	bool first = true;
+
+	for (auto it = actions.begin(); it != actions.end(); ++it) {
+		const JSONNode &author = (*it)["author"];
+		const JSONNode &other_user_fbid = (*it)["other_user_fbid"];
+		const JSONNode &body = (*it)["body"];
+		const JSONNode &tid = (*it)["thread_id"];
+		const JSONNode &mid = (*it)["message_id"];
+		const JSONNode &timestamp = (*it)["timestamp"];
+		const JSONNode &filtered = (*it)["is_filtered_content"];
+		const JSONNode &is_unread = (*it)["is_unread"];
+
+		if (!author || !body || !mid || !tid || !timestamp) {
+			proto->debugLogA("parse_history: ignoring message (%s) - missing attribute", mid.as_string().c_str());
+			continue;
+		}
+
+		if (first) {
+			*firstTimestamp = timestamp.as_string();
+			first = false;
+		}
+
+		std::string thread_id = tid.as_string();
+		std::string message_id = mid.as_string();
+		std::string message_text = body.as_string();
+		std::string author_id = author.as_string();
+		std::string other_user_id = other_user_fbid ? other_user_fbid.as_string() : "";
+		std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
+		if (pos != std::string::npos)
+			author_id = author_id.substr(pos + 1);
+
+		// Process attachements and stickers
+		parseAttachments(proto, &message_text, *it, other_user_id, true);
+
+		if (filtered.as_bool() && message_text.empty())
+			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
+
+		message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
+		if (message_text.empty()) {
+			proto->debugLogA("parse_history: ignoring message (%s) - empty message text", mid.as_string().c_str());
+			continue;
+		}
+
+		facebook_message message;
+		message.message_text = message_text;
+		message.time = utils::time::from_string(timestamp.as_string());
+		message.thread_id = thread_id;
+		message.message_id = message_id;
+		message.isIncoming = (author_id != proto->facy.self_.user_id);
+		message.isUnread = is_unread.as_bool();
+		message.isChat = false;
+		message.user_id = other_user_id;
+
+		messages->push_back(message);
+	}
+
+	return EXIT_SUCCESS;
+}
+
 int facebook_json_parser::parse_thread_info(std::string *data, std::string* user_id)
 {
 	std::string jsonData = data->substr(9);
@@ -1280,3 +1355,30 @@ int facebook_json_parser::parse_chat_info(std::string *data, facebook_chatroom* 
 
 	return EXIT_SUCCESS;
 }
+
+int facebook_json_parser::parse_messages_count(std::string *data, int *messagesCount, int *unreadCount)
+{
+	std::string jsonData = data->substr(9);
+
+	JSONNode root = JSONNode::parse(jsonData.c_str());
+	if (!root)
+		return EXIT_FAILURE;
+
+	const JSONNode &threads = root["payload"].at("threads");
+	if (!threads)
+		return EXIT_FAILURE;
+
+	for (auto it = threads.begin(); it != threads.end(); ++it) {
+		const JSONNode &message_count_ = (*it)["message_count"];
+		const JSONNode &unread_count_ = (*it)["unread_count"];
+
+		if (!message_count_|| !unread_count_)
+			return EXIT_FAILURE;
+
+		*messagesCount = message_count_.as_int();
+		*unreadCount = unread_count_.as_int();
+	}
+
+	return EXIT_SUCCESS;
+}
+

@@ -35,10 +35,12 @@ public:
 	int parse_messages(std::string*, std::vector< facebook_message >*, std::map< std::string, facebook_notification* >*);
 	int parse_unread_threads(std::string*, std::vector< std::string >*);
 	int parse_thread_messages(std::string*, std::vector< facebook_message >*, std::map< std::string, facebook_chatroom* >*, bool unreadOnly);
+	int parse_history(std::string*, std::vector< facebook_message >*, std::string *);
 	int parse_thread_info(std::string* data, std::string* user_id);
 	int parse_user_info(std::string* data, facebook_user* fbu);
 	int parse_chat_info(std::string* data, facebook_chatroom* fbc);
 	int parse_chat_participant_names(std::string *data, std::map<std::string, chatroom_participant>* participants);
+	int parse_messages_count(std::string *data, int *messagesCount, int *unreadCount);
 
 	facebook_json_parser(FacebookProto* proto)
 	{

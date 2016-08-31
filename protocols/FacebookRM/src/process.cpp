@@ -456,6 +456,219 @@ void FacebookProto::LoadLastMessages(void *pParam)
 	OnDbEventRead(hContact, NULL);
 }
 
+void FacebookProto::LoadHistory(void *pParam)
+{
+	if (pParam == NULL)
+		return;
+
+	MCONTACT hContact = *(MCONTACT*)pParam;
+	delete (MCONTACT*)pParam;
+
+	if (!isOnline())
+		return;
+
+	facy.handle_entry("LoadHistory");
+
+	std::string data = "client=mercury";
+	data += "&__user=" + facy.self_.user_id;
+	data += "&__dyn=" + facy.__dyn();
+	data += "&__req=" + facy.__req();
+	data += "&fb_dtsg=" + facy.dtsg_;
+	data += "&ttstamp=" + facy.ttstamp_;
+	data += "&__rev=" + facy.__rev();
+	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
+
+	bool isChat = isChatRoom(hContact);
+	if (isChat) // TODO: Support chats?
+		return;
+	/*if (isChat && (!m_enableChat || IsSpecialChatRoom(hContact))) // disabled chats or special chatroom (e.g. nofitications)
+		return;*/
+
+	ptrA item_id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
+	if (item_id == NULL) {
+		debugLogA("!!! LoadHistory(): Contact has no TID/ID");
+		return;
+	}
+
+	std::string id = utils::url::encode(std::string(item_id));
+	std::string type = isChat ? "thread_ids" : "user_ids";
+
+	// first get info about this thread and how many messages is there
+
+	// request info about thread
+	data += "&threads[" + type + "][0]=" + id;
+
+	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
+	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
+		facy.handle_error("LoadHistory");
+		return;
+	}
+
+	int messagesCount = -1;
+	int unreadCount = -1;
+
+	facebook_json_parser* p = new facebook_json_parser(this);
+	if (p->parse_messages_count(&resp.data, &messagesCount, &unreadCount) == EXIT_FAILURE) {
+		delete p;
+		facy.handle_error("LoadHistory");
+		return;
+	}
+
+	// Temporarily disable marking messages as read for this contact
+	facy.ignore_read.insert(hContact);
+
+	POPUPDATAW pd = { sizeof(pd) };
+	pd.iSeconds = 5;
+	pd.lchContact = hContact;
+	pd.lchIcon = IcoLib_GetIconByHandle(GetIconHandle("conversation")); // TODO: Use better icon
+	wcsncpy(pd.lptzContactName, m_tszUserName, MAX_CONTACTNAME);
+	wcsncpy(pd.lptzText, TranslateT("Loading history started."), MAX_SECONDLINE);
+
+	HWND popupHwnd = NULL;
+	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
+		popupHwnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, (LPARAM)APF_RETURN_HWND);
+	}
+
+	std::vector<facebook_message> messages;
+	std::string firstTimestamp = "";
+	std::string firstMessageId = "";
+	std::string lastMessageId = "";
+	int loadedMessages = 0;
+	int messagesPerBatch = messagesCount > 10000 ? 500 : 100;
+	for (int batch = 0; batch < messagesCount; batch += messagesPerBatch) {
+		if (!isOnline())
+			break;
+
+		// Request batch of messages from thread
+		std::string data = "client=mercury";
+		data += "&__user=" + facy.self_.user_id;
+		data += "&__dyn=" + facy.__dyn();
+		data += "&__req=" + facy.__req();
+		data += "&fb_dtsg=" + facy.dtsg_;
+		data += "&ttstamp=" + facy.ttstamp_;
+		data += "&__rev=" + facy.__rev();
+		data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
+
+		// Grrr, offset doesn't work at all, we need to use timestamps to get back in history...
+		// And we don't know, what's timestamp of first message, so we need to get from latest to oldest
+		data += "&messages[" + type + "][" + id;
+		data += "][offset]=" + utils::conversion::to_string(&batch, UTILS_CONV_UNSIGNED_NUMBER);
+		data += "&messages[" + type + "][" + id;
+		data += "][timestamp]=" + firstTimestamp;
+		data += "&messages[" + type + "][" + id;
+		data += "][limit]=" + utils::conversion::to_string(&messagesPerBatch, UTILS_CONV_UNSIGNED_NUMBER);
+
+		resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
+		if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
+			facy.handle_error("LoadHistory");
+			break;
+		}
+
+		// Parse the result
+		CODE_BLOCK_TRY
+
+		messages.clear();
+
+		p->parse_history(&resp.data, &messages, &firstTimestamp);
+
+		// Receive messages
+		std::string previousFirstMessageId = firstMessageId;
+		for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
+			facebook_message &msg = messages[i];
+			
+			// First message might overlap (as we are using it's timestamp for the next loading), so we need to check for it
+			if (i == 0) {
+				firstMessageId = msg.message_id;
+			}
+			if (previousFirstMessageId == msg.message_id) {
+				continue;
+			}			
+			lastMessageId = msg.message_id;
+
+			if (msg.isIncoming && msg.isUnread && msg.type == MESSAGE) {
+				PROTORECVEVENT recv = { 0 };
+				recv.szMessage = const_cast<char*>(msg.message_text.c_str());
+				recv.timestamp = msg.time;
+				ProtoChainRecvMsg(hContact, &recv);
+			}
+			else {
+				DBEVENTINFO dbei = { 0 };
+				dbei.cbSize = sizeof(dbei);
+
+				if (msg.type == CALL)
+					dbei.eventType = FACEBOOK_EVENTTYPE_CALL;
+				else
+					dbei.eventType = EVENTTYPE_MESSAGE;
+
+				dbei.flags = DBEF_UTF;
+
+				if (!msg.isIncoming)
+					dbei.flags |= DBEF_SENT;
+
+				if (!msg.isUnread)
+					dbei.flags |= DBEF_READ;
+
+				dbei.szModule = m_szModuleName;
+				dbei.timestamp = msg.time;
+				dbei.cbBlob = (DWORD)msg.message_text.length() + 1;
+				dbei.pBlob = (PBYTE)msg.message_text.c_str();
+				db_event_add(hContact, &dbei);
+			}
+
+			loadedMessages++;
+		}
+
+		// Save last message id of first batch which is latest message completely, because we're going backwards
+		if (batch == 0 && !lastMessageId.empty()) {
+			setString(hContact, FACEBOOK_KEY_MESSAGE_ID, lastMessageId.c_str());
+		}
+
+		debugLogA("*** Load history messages processed");
+
+		CODE_BLOCK_CATCH
+
+		debugLogA("*** Error processing load history messages: %s", e.what());
+
+		break;
+
+		CODE_BLOCK_END
+
+		// Update progress popup
+		CMStringW text;
+		text.AppendFormat(TranslateT("Loading messages: %d/%d"), loadedMessages, messagesCount);
+
+		if (ServiceExists(MS_POPUP_CHANGETEXTW) && popupHwnd) {
+			PUChangeTextW(popupHwnd, text);
+		}
+		else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
+			wcsncpy(pd.lptzText, text, MAX_SECONDLINE);
+			pd.iSeconds = 1;
+			popupHwnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, (LPARAM)0);
+		}
+
+		// There is no more messages
+		if (messages.empty() || loadedMessages > messagesCount) {
+			break;
+		}
+	}
+
+	delete p;
+
+	facy.handle_success("LoadHistory");
+
+	// Enable marking messages as read for this contact
+	facy.ignore_read.erase(hContact);
+
+	if (ServiceExists(MS_POPUP_CHANGETEXTW) && popupHwnd) {
+		PUChangeTextW(popupHwnd, TranslateT("Loading history completed."));
+	} else if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
+		pd.iSeconds = 5;
+		wcsncpy(pd.lptzText, TranslateT("Loading history completed."), MAX_SECONDLINE);
+		popupHwnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, (LPARAM)0);
+	}
+	// PUDeletePopup(popupHwnd);
+}
+
 std::string truncateUtf8(std::string &text, size_t maxLength) {
 	// To not split some unicode character we need to transform it to wchar_t first, then split it, and then convert it back, because we want std::string as result
 	// TODO: Probably there is much simpler and nicer way
