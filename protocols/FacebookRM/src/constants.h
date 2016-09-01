@@ -105,15 +105,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_EVENT_TICKER_ENABLE				0
 #define DEFAULT_EVENT_ON_THIS_DAY_ENABLE		0
 
-// Event flags
-#define FACEBOOK_EVENT_CLIENT					0x10000000 // Facebook client errors
-#define FACEBOOK_EVENT_NEWSFEED					0x20000000 // Facebook newsfeed (wall) message
-#define FACEBOOK_EVENT_NOTIFICATION				0x40000000 // Facebook new notification
-#define FACEBOOK_EVENT_OTHER					0x80000000 // Facebook other event (poke sent, status update, ...)
-#define FACEBOOK_EVENT_FRIENDSHIP				0x01000000 // Facebook friendship event
-#define FACEBOOK_EVENT_TICKER					0x02000000 // Facebook ticker message
-#define FACEBOOK_EVENT_ON_THIS_DAY				0x04000000 // Facebook on this day posts
-
 // Send message return values
 #define SEND_MESSAGE_OK							0
 #define SEND_MESSAGE_ERROR						1
@@ -195,6 +186,16 @@ enum MessageType {
 	UNSUBSCRIBE		= 6,
 	THREAD_NAME		= 7,
 	THREAD_IMAGE	= 8,
+};
+
+enum EventType {
+	EVENT_CLIENT		= 1, // Client error
+	EVENT_NEWSFEED		= 2, // Newsfeed (wall) message
+	EVENT_NOTIFICATION	= 3, // New notification
+	EVENT_OTHER			= 4, // Other event (poke sent, status update, ...)
+	EVENT_FRIENDSHIP	= 5, // Friendship event
+	EVENT_TICKER		= 6, // Ticker message
+	EVENT_ON_THIS_DAY	= 7, // On this day post (memories)
 };
 
 enum ParticipantRole {

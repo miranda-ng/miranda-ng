@@ -643,7 +643,7 @@ INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 		if (ctrlPressed) {
 			facy.last_feeds_update_ = 0;
 		}
-		NotifyEvent(m_tszUserName, TranslateT("Loading wall posts..."), NULL, FACEBOOK_EVENT_OTHER);
+		NotifyEvent(m_tszUserName, TranslateT("Loading wall posts..."), NULL, EVENT_OTHER);
 		ForkThread(&FacebookProto::ProcessFeeds, NULL);
 	}
 	return 0;
@@ -652,7 +652,7 @@ INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		NotifyEvent(m_tszUserName, TranslateT("Loading friendship requests..."), NULL, FACEBOOK_EVENT_OTHER);
+		NotifyEvent(m_tszUserName, TranslateT("Loading friendship requests..."), NULL, EVENT_OTHER);
 		ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
 	}
 	return 0;
@@ -661,7 +661,7 @@ INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 INT_PTR FacebookProto::CheckNotifications(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		NotifyEvent(m_tszUserName, TranslateT("Loading notifications..."), NULL, FACEBOOK_EVENT_OTHER);
+		NotifyEvent(m_tszUserName, TranslateT("Loading notifications..."), NULL, EVENT_OTHER);
 		ForkThread(&FacebookProto::ProcessNotifications, NULL);
 	}
 	return 0;
@@ -670,7 +670,7 @@ INT_PTR FacebookProto::CheckNotifications(WPARAM, LPARAM)
 INT_PTR FacebookProto::CheckMemories(WPARAM, LPARAM)
 {
 	if (!isOffline()) {
-		NotifyEvent(m_tszUserName, TranslateT("Loading memories..."), NULL, FACEBOOK_EVENT_OTHER);
+		NotifyEvent(m_tszUserName, TranslateT("Loading memories..."), NULL, EVENT_OTHER);
 		ForkThread(&FacebookProto::ProcessMemories, NULL);
 	}
 	return 0;

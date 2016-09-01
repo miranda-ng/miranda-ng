@@ -656,7 +656,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 
 				// Notify it, if user wants to be notified
 				if (proto->getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
-					proto->NotifyEvent(proto->m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), NULL, FACEBOOK_EVENT_FRIENDSHIP, &url, alert_id.empty() ? NULL : &alert_id);
+					proto->NotifyEvent(proto->m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), NULL, EVENT_FRIENDSHIP, &url, alert_id.empty() ? NULL : &alert_id);
 				}
 			}
 		}
@@ -855,7 +855,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					std::string contactname = getContactName(this, fbu->handle, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
 					ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
-					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_FRIENDSHIP, &url);
+					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, EVENT_FRIENDSHIP, &url);
 				} */
 
 
@@ -963,7 +963,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			proto->debugLogA("+++ Got ticker type='%s' class='%s'", story_type.c_str(), story_class.c_str());
 
 			if (!text.empty())
-				proto->NotifyEvent(proto->m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), hContact, FACEBOOK_EVENT_TICKER, &url);
+				proto->NotifyEvent(proto->m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), hContact, EVENT_TICKER, &url);
 		}
 		else if (t == "mercury") {
 			// rename multi user chat, video call, ...

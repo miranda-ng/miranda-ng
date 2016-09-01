@@ -134,7 +134,7 @@ void FacebookProto::ProcessFriendList(void*)
 							std::string contactname = getContactName(this, hContact, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
 							ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
-							NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
+							NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, EVENT_FRIENDSHIP, &url);
 						}
 					}
 
@@ -158,7 +158,7 @@ void FacebookProto::ProcessFriendList(void*)
 							std::string contactname = getContactName(this, hContact, id);
 
 							ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
-							NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
+							NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, EVENT_FRIENDSHIP, &url);
 						}
 					}
 				}
@@ -844,7 +844,7 @@ void FacebookProto::ProcessMemories(void*)
 				ptrW tszTitle(mir_utf8decodeW(news[i]->title.c_str()));
 				ptrW tszText(mir_utf8decodeW(news[i]->text.c_str()));
 
-				NotifyEvent(TranslateT("On this day"), tszText, NULL, FACEBOOK_EVENT_ON_THIS_DAY, &news[i]->link);
+				NotifyEvent(TranslateT("On this day"), tszText, NULL, EVENT_ON_THIS_DAY, &news[i]->link);
 				delete news[i];
 			}
 			news.clear();
@@ -1133,7 +1133,7 @@ void FacebookProto::ShowNotifications() {
 			debugLogA("    Showing popup for notification ID: %s", notification->id.c_str());
 			ptrW szText(mir_utf8decodeW(notification->text.c_str()));
 			MCONTACT hContact = (notification->user_id.empty() ? NULL : ContactIDToHContact(notification->user_id));
-			notification->hWndPopup = NotifyEvent(m_tszUserName, szText, hContact, FACEBOOK_EVENT_NOTIFICATION, &notification->link, &notification->id, notification->icon);
+			notification->hWndPopup = NotifyEvent(m_tszUserName, szText, hContact, EVENT_NOTIFICATION, &notification->link, &notification->id, notification->icon);
 			notification->seen = true;
 		}
 	}
@@ -1304,7 +1304,7 @@ void FacebookProto::ProcessFeeds(void*)
 		ptrW tszText(mir_utf8decodeW(news[i]->text.c_str()));
 		MCONTACT hContact = ContactIDToHContact(news[i]->user_id);
 
-		NotifyEvent(tszTitle, tszText, hContact, FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
+		NotifyEvent(tszTitle, tszText, hContact, EVENT_NEWSFEED, &news[i]->link);
 		delete news[i];
 	}
 	news.clear();

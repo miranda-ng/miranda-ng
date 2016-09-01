@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void facebook_client::client_notify(wchar_t* message)
 {
-	parent->NotifyEvent(parent->m_tszUserName, message, NULL, FACEBOOK_EVENT_CLIENT);
+	parent->NotifyEvent(parent->m_tszUserName, message, NULL, EVENT_CLIENT);
 }
 
 http::response facebook_client::flap(RequestType request_type, std::string *post_data, std::string *get_data)
@@ -1645,7 +1645,7 @@ bool facebook_client::post_status(status_data *status)
 	}
 
 	if (resp.isValid()) {
-		parent->NotifyEvent(parent->m_tszUserName, TranslateT("Status update was successful."), NULL, FACEBOOK_EVENT_OTHER);
+		parent->NotifyEvent(parent->m_tszUserName, TranslateT("Status update was successful."), NULL, EVENT_OTHER);
 		return handle_success("post_status");
 	}
 
@@ -1716,6 +1716,6 @@ bool facebook_client::sms_code(const char *fb_dtsg)
 		return false;
 	}
 
-	parent->NotifyEvent(parent->m_tszUserName, TranslateT("Verification SMS code was sent to your mobile phone."), NULL, FACEBOOK_EVENT_OTHER);
+	parent->NotifyEvent(parent->m_tszUserName, TranslateT("Verification SMS code was sent to your mobile phone."), NULL, EVENT_OTHER);
 	return true;
 }
