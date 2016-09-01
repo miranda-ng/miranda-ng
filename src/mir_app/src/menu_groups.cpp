@@ -121,8 +121,7 @@ static INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 
 static INT_PTR HideOfflineHelper(WPARAM, LPARAM)
 {
-	cli.pfnSetHideOffline(-1);
-	return 0;
+	return cli.pfnSetHideOffline(-1);
 }
 
 static INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
