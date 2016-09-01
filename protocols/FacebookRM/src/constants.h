@@ -187,13 +187,14 @@ enum ClientType {
 // Each type then could have also separate class representing it. And when giving it in some list, make it map of arrays with key=thread_id to group it by contact/chat, to have it more effective
 // Use also for Poke and such events...
 enum MessageType {
-	MESSAGE			= 1,	// Classic message
-	CALL			= 2,	// Video call
-	ADMIN_TEXT		= 3,
-	SUBSCRIBE		= 4,
-	UNSUBSCRIBE		= 5,
-	THREAD_NAME		= 6,
-	THREAD_IMAGE	= 7,
+	MESSAGE			= 1,
+	PHONE_CALL		= 2,
+	VIDEO_CALL		= 3,
+	ADMIN_TEXT		= 4,
+	SUBSCRIBE		= 5,
+	UNSUBSCRIBE		= 6,
+	THREAD_NAME		= 7,
+	THREAD_IMAGE	= 8,
 };
 
 enum ParticipantRole {
