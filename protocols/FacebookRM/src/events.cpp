@@ -108,23 +108,21 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* info, MCONTACT contact,
 		{
 			MIRANDASYSTRAYNOTIFY err;
 			int niif_flags = flags;
-			REMOVE_FLAG(niif_flags, FACEBOOK_EVENT_CLIENT |
-				FACEBOOK_EVENT_NEWSFEED |
-				FACEBOOK_EVENT_NOTIFICATION |
-				FACEBOOK_EVENT_OTHER |
-				FACEBOOK_EVENT_FRIENDSHIP);
+			
+			niif_flags = niif_flags & ~(FACEBOOK_EVENT_CLIENT | FACEBOOK_EVENT_NEWSFEED | FACEBOOK_EVENT_NOTIFICATION | FACEBOOK_EVENT_OTHER | FACEBOOK_EVENT_FRIENDSHIP);
+
 			err.szProto = m_szModuleName;
 			err.cbSize = sizeof(err);
-			err.dwInfoFlags = NIIF_INTERN_TCHAR | niif_flags;
+			err.dwInfoFlags = NIIF_INTERN_UNICODE | niif_flags;
 			err.tszInfoTitle = title;
 			err.tszInfo = info;
 			err.uTimeout = 10000;
-			if (CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& err) == 0)
+			if (CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&err) == 0)
 				return NULL;
 		}
 	}
 
-	if (FLAG_CONTAINS(flags, FACEBOOK_EVENT_CLIENT))
+	if ((flags & FACEBOOK_EVENT_CLIENT) == FACEBOOK_EVENT_CLIENT)
 		MessageBox(NULL, info, title, MB_OK | MB_ICONERROR);
 
 	return NULL;

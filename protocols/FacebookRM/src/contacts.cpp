@@ -199,22 +199,19 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
 
 	if (resp.code == HTTP_CODE_OK) {
-		CODE_BLOCK_TRY
-
+		try {
 			facebook_json_parser* p = new facebook_json_parser(this);
-		p->parse_thread_info(&resp.data, &user_id);
-		delete p;
+			p->parse_thread_info(&resp.data, &user_id);
+			delete p;
 
-		if (!user_id.empty())
-			facy.thread_id_to_user_id.insert(std::make_pair(thread_id, user_id));
+			if (!user_id.empty())
+				facy.thread_id_to_user_id.insert(std::make_pair(thread_id, user_id));
 
-		debugLogA("*** Thread info processed");
-
-		CODE_BLOCK_CATCH
-
+			debugLogA("*** Thread info processed");
+		} 
+		catch (const std::exception &e) {
 			debugLogA("*** Error processing thread info: %s", e.what());
-
-		CODE_BLOCK_END
+		}
 	}
 
 	return user_id;
@@ -239,19 +236,16 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 	http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 17.8.2016
 
 	if (resp.code == HTTP_CODE_OK) {
-		CODE_BLOCK_TRY
-
+		try {
 			facebook_json_parser* p = new facebook_json_parser(this);
 			p->parse_user_info(&resp.data, fbu);
 			delete p;
 
 			debugLogA("*** Contact thread info processed");
-
-		CODE_BLOCK_CATCH
-
+		}
+		catch (const std::exception &e) {
 			debugLogA("*** Error processing contact thread info: %s", e.what());
-
-		CODE_BLOCK_END
+		}
 	}
 }
 
@@ -317,21 +311,17 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 		http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 17.8.2016
 
 		if (resp.code == HTTP_CODE_OK) {
-			CODE_BLOCK_TRY
+			try {
+				// TODO: We can cache these results and next time (e.g. for different chatroom) we can use that already cached names
+				facebook_json_parser* p = new facebook_json_parser(this);
+				p->parse_chat_participant_names(&resp.data, &fbc->participants);
+				delete p;
 
-			// TODO: We can cache these results and next time (e.g. for different chatroom) we can use that already cached names
-
-			facebook_json_parser* p = new facebook_json_parser(this);
-			p->parse_chat_participant_names(&resp.data, &fbc->participants);
-			delete p;
-
-			debugLogA("*** Participant names processed");
-
-			CODE_BLOCK_CATCH
-
+				debugLogA("*** Participant names processed");
+			}
+			catch (const std::exception &e) {
 				debugLogA("*** Error processing participant names: %s", e.what());
-
-			CODE_BLOCK_END
+			}
 		}
 	}
 }
@@ -381,8 +371,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 		return;
 	}
 
-	CODE_BLOCK_TRY
-
+	try {
 		facebook_json_parser* p = new facebook_json_parser(this);
 		p->parse_chat_info(&resp.data, fbc);
 		delete p;
@@ -406,7 +395,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 				std::wstring tname = _A2T(participant.c_str(), CP_UTF8);
 				fbc->chat_name += utils::text::prepare_name(tname, false);
-				
+
 				if (++namesUsed >= FACEBOOK_CHATROOM_NAMES_COUNT)
 					break;
 			}
@@ -423,12 +412,10 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 		}
 
 		debugLogA("*** Chat thread info processed");
-
-	CODE_BLOCK_CATCH
-
+	}
+	catch (const std::exception &e) {
 		debugLogA("*** Error processing chat thread info: %s", e.what());
-
-	CODE_BLOCK_END
+	}
 
 	facy.handle_success("LoadChatInfo");
 }

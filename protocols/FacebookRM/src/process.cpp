@@ -63,127 +63,123 @@ void FacebookProto::ProcessFriendList(void*)
 
 	debugLogA("*** Starting processing friend list");
 
-	CODE_BLOCK_TRY
-
+	try {
 		std::map<std::string, facebook_user*> friends;
 
-	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_friends(&resp.data, &friends);
-	delete p;
+		facebook_json_parser* p = new facebook_json_parser(this);
+		p->parse_friends(&resp.data, &friends);
+		delete p;
 
+		// Check and update old contacts
+		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+			if (isChatRoom(hContact))
+				continue;
 
-	// Check and update old contacts
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (isChatRoom(hContact))
-			continue;
+			// TODO RM: change name of "Deleted" key to "DeletedTS", remove this code in some next version
+			int deletedTS = getDword(hContact, "Deleted", 0);
+			if (deletedTS != 0) {
+				delSetting(hContact, "Deleted");
+				setDword(hContact, FACEBOOK_KEY_DELETED, deletedTS);
+			}
 
-		// TODO RM: change name of "Deleted" key to "DeletedTS", remove this code in some next version
-		int deletedTS = getDword(hContact, "Deleted", 0);
-		if (deletedTS != 0) {
-			delSetting(hContact, "Deleted");
-			setDword(hContact, FACEBOOK_KEY_DELETED, deletedTS);
-		}
+			facebook_user *fbu;
+			ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+			if (id != NULL) {
+				std::map< std::string, facebook_user* >::iterator iter;
 
-		facebook_user *fbu;
-		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-		if (id != NULL) {
-			std::map< std::string, facebook_user* >::iterator iter;
+				if ((iter = friends.find(std::string(id))) != friends.end()) {
+					// Found contact, update it and remove from map
+					fbu = iter->second;
 
-			if ((iter = friends.find(std::string(id))) != friends.end()) {
-				// Found contact, update it and remove from map
-				fbu = iter->second;
+					// TODO RM: remove, because contacts cant change it, so its only for "first run"
+					// - but what with contacts, that was added after logon?
+					// Update gender
+					if (getByte(hContact, "Gender", 0) != (int)fbu->gender)
+						setByte(hContact, "Gender", fbu->gender);
 
-				// TODO RM: remove, because contacts cant change it, so its only for "first run"
-				// - but what with contacts, that was added after logon?
-				// Update gender
-				if (getByte(hContact, "Gender", 0) != (int)fbu->gender)
-					setByte(hContact, "Gender", fbu->gender);
+					// TODO: remove this in some future version?
+					// Remove old useless "RealName" field
+					ptrA realname(getStringA(hContact, "RealName"));
+					if (realname != NULL) {
+						delSetting(hContact, "RealName");
+					}
 
-				// TODO: remove this in some future version?
-				// Remove old useless "RealName" field
-				ptrA realname(getStringA(hContact, "RealName"));
-				if (realname != NULL) {
-					delSetting(hContact, "RealName");
+					// Update real name and nick
+					if (!fbu->real_name.empty()) {
+						SaveName(hContact, fbu);
+					}
+
+					// Update username
+					ptrA username(getStringA(hContact, FACEBOOK_KEY_USERNAME));
+					if (!username || mir_strcmp(username, fbu->username.c_str())) {
+						if (!fbu->username.empty())
+							setString(hContact, FACEBOOK_KEY_USERNAME, fbu->username.c_str());
+						else
+							delSetting(hContact, FACEBOOK_KEY_USERNAME);
+					}
+
+					// Update contact type
+					if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE) != fbu->type) {
+						setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
+						// TODO: remove that popup and use "Contact added you" event?
+					}
+
+					// Wasn't contact removed from "server-list" someday?
+					if (getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
+						delSetting(hContact, FACEBOOK_KEY_DELETED);
+
+						// Notify it, if user wants to be notified
+						if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
+							std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
+							std::string contactname = getContactName(this, hContact, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
+
+							ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
+							NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
+						}
+					}
+
+					// Check avatar change
+					CheckAvatarChange(hContact, fbu->image_url);
+
+					// Mark this contact as deleted ("processed") and delete them later (as there may be some duplicit contacts to use)
+					fbu->deleted = true;
 				}
+				else {
+					// Contact was removed from "server-list", notify it
 
-				// Update real name and nick
-				if (!fbu->real_name.empty()) {
-					SaveName(hContact, fbu);
-				}
+					// Wasn't we already been notified about this contact? And was this real friend?
+					if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0) && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND) {
+						setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
+						setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 
-				// Update username
-				ptrA username(getStringA(hContact, FACEBOOK_KEY_USERNAME));
-				if (!username || mir_strcmp(username, fbu->username.c_str())) {
-					if (!fbu->username.empty())
-						setString(hContact, FACEBOOK_KEY_USERNAME, fbu->username.c_str());
-					else
-						delSetting(hContact, FACEBOOK_KEY_USERNAME);
-				}
+						// Notify it, if user wants to be notified
+						if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
+							std::string url = FACEBOOK_URL_PROFILE + std::string(id);
+							std::string contactname = getContactName(this, hContact, id);
 
-				// Update contact type
-				if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE) != fbu->type) {
-					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
-					// TODO: remove that popup and use "Contact added you" event?
-				}
-
-				// Wasn't contact removed from "server-list" someday?
-				if (getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
-					delSetting(hContact, FACEBOOK_KEY_DELETED);
-
-					// Notify it, if user wants to be notified
-					if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
-						std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
-						std::string contactname = getContactName(this, hContact, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
-
-						ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
-						NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
+							ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
+							NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
+						}
 					}
 				}
-
-				// Check avatar change
-				CheckAvatarChange(hContact, fbu->image_url);
-
-				// Mark this contact as deleted ("processed") and delete them later (as there may be some duplicit contacts to use)
-				fbu->deleted = true;
-			}
-			else {
-				// Contact was removed from "server-list", notify it
-
-				// Wasn't we already been notified about this contact? And was this real friend?
-				if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0) && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND) {
-					setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
-					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-					
-					// Notify it, if user wants to be notified
-					if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
-						std::string url = FACEBOOK_URL_PROFILE + std::string(id);
-						std::string contactname = getContactName(this, hContact, id);
-
-						ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
-						NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
-					}
-				}
 			}
 		}
+
+		// Check remaining contacts in map and add them to contact list
+		for (std::map< std::string, facebook_user* >::iterator it = friends.begin(); it != friends.end();) {
+			if (!it->second->deleted)
+				AddToContactList(it->second, true); // we know this contact doesn't exists, so we force add it
+
+			delete it->second;
+			it = friends.erase(it);
+		}
+		friends.clear();
+
+		debugLogA("*** Friend list processed");
 	}
-
-	// Check remaining contacts in map and add them to contact list
-	for (std::map< std::string, facebook_user* >::iterator it = friends.begin(); it != friends.end();) {
-		if (!it->second->deleted)
-			AddToContactList(it->second, true); // we know this contact doesn't exists, so we force add it
-
-		delete it->second;
-		it = friends.erase(it);
-	}
-	friends.clear();
-
-	debugLogA("*** Friend list processed");
-
-	CODE_BLOCK_CATCH
-
+	catch (const std::exception &e) {
 		debugLogA("*** Error processing friend list: %s", e.what());
-
-	CODE_BLOCK_END
+	}
 }
 
 void FacebookProto::ProcessUnreadMessages(void*)
@@ -208,8 +204,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 		return;
 	}
 
-	CODE_BLOCK_TRY
-
+	try {
 		std::vector<std::string> threads;
 
 		facebook_json_parser* p = new facebook_json_parser(this);
@@ -219,14 +214,12 @@ void FacebookProto::ProcessUnreadMessages(void*)
 		ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
 
 		debugLogA("*** Unread threads list processed");
-
-	CODE_BLOCK_CATCH
-
+	}
+	catch (const std::exception &e) {
 		debugLogA("*** Error processing unread threads list: %s", e.what());
+	}
 
-	CODE_BLOCK_END
-
-		facy.handle_success("ProcessUnreadMessages");
+	facy.handle_success("ProcessUnreadMessages");
 }
 
 void FacebookProto::ProcessUnreadMessage(void *pParam)
@@ -277,54 +270,50 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
 
 		if (resp.code == HTTP_CODE_OK) {
+			try {
+				std::vector<facebook_message> messages;
+				std::map<std::string, facebook_chatroom*> chatrooms;
 
-			CODE_BLOCK_TRY
+				facebook_json_parser* p = new facebook_json_parser(this);
+				p->parse_thread_messages(&resp.data, &messages, &chatrooms, false);
+				delete p;
 
-			std::vector<facebook_message> messages;
-			std::map<std::string, facebook_chatroom*> chatrooms;
+				for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
 
-			facebook_json_parser* p = new facebook_json_parser(this);
-			p->parse_thread_messages(&resp.data, &messages, &chatrooms, false);
-			delete p;
+					// TODO: refactor this too!
+					// TODO: have all chatrooms in facy, in memory, and then handle them as needed... somehow think about it...
+					/*	facebook_chatroom *room = it->second;
+					MCONTACT hChatContact = NULL;
+					ptrA users(GetChatUsers(room->thread_id.c_str()));
+					if (users == NULL) {
+					AddChat(room->thread_id.c_str(), room->chat_name.c_str());
+					hChatContact = ChatIDToHContact(room->thread_id);
+					// Set thread id (TID) for later
+					setWString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
 
-			for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
+					for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end(); ) {
+					AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
+					++jt;
+					}
+					}
 
-				// TODO: refactor this too!
-				// TODO: have all chatrooms in facy, in memory, and then handle them as needed... somehow think about it...
-				/*	facebook_chatroom *room = it->second;
-				MCONTACT hChatContact = NULL;
-				ptrA users(GetChatUsers(room->thread_id.c_str()));
-				if (users == NULL) {
-				AddChat(room->thread_id.c_str(), room->chat_name.c_str());
-				hChatContact = ChatIDToHContact(room->thread_id);
-				// Set thread id (TID) for later
-				setWString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
+					if (!hChatContact)
+					hChatContact = ChatIDToHContact(room->thread_id);
 
-				for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end(); ) {
-				AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
-				++jt;
+					ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);*/
+
+					delete it->second;
+					it = chatrooms.erase(it);
 				}
-				}
+				chatrooms.clear();
 
-				if (!hChatContact)
-				hChatContact = ChatIDToHContact(room->thread_id);
+				ReceiveMessages(messages, true);
 
-				ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);*/
-
-				delete it->second;
-				it = chatrooms.erase(it);
+				debugLogA("*** Unread messages processed");
 			}
-			chatrooms.clear();
-
-			ReceiveMessages(messages, true);
-
-			debugLogA("*** Unread messages processed");
-
-			CODE_BLOCK_CATCH
-
-			debugLogA("*** Error processing unread messages: %s", e.what());
-
-			CODE_BLOCK_END
+			catch (const std::exception &e) {
+				debugLogA("*** Error processing unread messages: %s", e.what());
+			}
 
 			facy.handle_success("ProcessUnreadMessage");
 		}
@@ -400,54 +389,51 @@ void FacebookProto::LoadLastMessages(void *pParam)
 	// Temporarily disable marking messages as read for this contact
 	facy.ignore_read.insert(hContact);
 
-	CODE_BLOCK_TRY
+	try {
+		std::vector<facebook_message> messages;
+		std::map<std::string, facebook_chatroom*> chatrooms;
 
-	std::vector<facebook_message> messages;
-	std::map<std::string, facebook_chatroom*> chatrooms;
+		facebook_json_parser* p = new facebook_json_parser(this);
+		p->parse_thread_messages(&resp.data, &messages, &chatrooms, false);
+		delete p;
 
-	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_thread_messages(&resp.data, &messages, &chatrooms, false);
-	delete p;
+		// TODO: do something with this, chat is loading somewhere else... (in receiveMessages method right now)
+		/*for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
 
-	// TODO: do something with this, chat is loading somewhere else... (in receiveMessages method right now)
-	/*for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
+			facebook_chatroom *room = it->second;
+			MCONTACT hChatContact = NULL;
+			ptrA users(GetChatUsers(room->thread_id.c_str()));
+			if (users == NULL) {
+			AddChat(room->thread_id.c_str(), room->chat_name.c_str());
+			hChatContact = ChatIDToHContact(room->thread_id);
+			// Set thread id (TID) for later
+			setWString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
 
-		facebook_chatroom *room = it->second;
-		MCONTACT hChatContact = NULL;
-		ptrA users(GetChatUsers(room->thread_id.c_str()));
-		if (users == NULL) {
-		AddChat(room->thread_id.c_str(), room->chat_name.c_str());
-		hChatContact = ChatIDToHContact(room->thread_id);
-		// Set thread id (TID) for later
-		setWString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
+			for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end();) {
+			AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
+			++jt;
+			}
+			}
 
-		for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end();) {
-		AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
-		++jt;
-		}
-		}
+			if (!hChatContact)
+			hChatContact = ChatIDToHContact(room->thread_id);
 
-		if (!hChatContact)
-		hChatContact = ChatIDToHContact(room->thread_id);
+			ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
 
-		ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
+			delete it->second;
+			it = chatrooms.erase(it);
+			}
+			chatrooms.clear();*/
 
-		delete it->second;
-		it = chatrooms.erase(it);
-		}
-		chatrooms.clear();*/
+		ReceiveMessages(messages, true);
 
-	ReceiveMessages(messages, true);
-
-	debugLogA("*** Thread messages processed");
-
-	CODE_BLOCK_CATCH
-
+		debugLogA("*** Thread messages processed");
+	}
+	catch (const std::exception &e) {
 		debugLogA("*** Error processing thread messages: %s", e.what());
+	}
 
-	CODE_BLOCK_END
-
-		facy.handle_success("LoadLastMessages");
+	facy.handle_success("LoadLastMessages");
 
 	// Enable marking messages as read for this contact
 	facy.ignore_read.erase(hContact);
@@ -565,75 +551,71 @@ void FacebookProto::LoadHistory(void *pParam)
 		}
 
 		// Parse the result
-		CODE_BLOCK_TRY
+		try {
+			messages.clear();
 
-		messages.clear();
+			p->parse_history(&resp.data, &messages, &firstTimestamp);
 
-		p->parse_history(&resp.data, &messages, &firstTimestamp);
+			// Receive messages
+			std::string previousFirstMessageId = firstMessageId;
+			for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
+				facebook_message &msg = messages[i];
 
-		// Receive messages
-		std::string previousFirstMessageId = firstMessageId;
-		for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
-			facebook_message &msg = messages[i];
-			
-			// First message might overlap (as we are using it's timestamp for the next loading), so we need to check for it
-			if (i == 0) {
-				firstMessageId = msg.message_id;
+				// First message might overlap (as we are using it's timestamp for the next loading), so we need to check for it
+				if (i == 0) {
+					firstMessageId = msg.message_id;
+				}
+				if (previousFirstMessageId == msg.message_id) {
+					continue;
+				}
+				lastMessageId = msg.message_id;
+
+				if (msg.isIncoming && msg.isUnread && msg.type == MESSAGE) {
+					PROTORECVEVENT recv = { 0 };
+					recv.szMessage = const_cast<char*>(msg.message_text.c_str());
+					recv.timestamp = msg.time;
+					ProtoChainRecvMsg(hContact, &recv);
+				}
+				else {
+					DBEVENTINFO dbei = { 0 };
+					dbei.cbSize = sizeof(dbei);
+
+					if (msg.type == MESSAGE)
+						dbei.eventType = EVENTTYPE_MESSAGE;
+					else if (msg.type == VIDEO_CALL || msg.type == PHONE_CALL)
+						dbei.eventType = FACEBOOK_EVENTTYPE_CALL;
+					else
+						dbei.eventType = EVENTTYPE_URL; // FIXME: Use better and specific type for our other event types.
+
+					dbei.flags = DBEF_UTF;
+
+					if (!msg.isIncoming)
+						dbei.flags |= DBEF_SENT;
+
+					if (!msg.isUnread)
+						dbei.flags |= DBEF_READ;
+
+					dbei.szModule = m_szModuleName;
+					dbei.timestamp = msg.time;
+					dbei.cbBlob = (DWORD)msg.message_text.length() + 1;
+					dbei.pBlob = (PBYTE)msg.message_text.c_str();
+					db_event_add(hContact, &dbei);
+				}
+
+				loadedMessages++;
 			}
-			if (previousFirstMessageId == msg.message_id) {
-				continue;
-			}			
-			lastMessageId = msg.message_id;
 
-			if (msg.isIncoming && msg.isUnread && msg.type == MESSAGE) {
-				PROTORECVEVENT recv = { 0 };
-				recv.szMessage = const_cast<char*>(msg.message_text.c_str());
-				recv.timestamp = msg.time;
-				ProtoChainRecvMsg(hContact, &recv);
-			}
-			else {
-				DBEVENTINFO dbei = { 0 };
-				dbei.cbSize = sizeof(dbei);
-
-				if (msg.type == MESSAGE)
-					dbei.eventType = EVENTTYPE_MESSAGE;
-				else if (msg.type == VIDEO_CALL || msg.type == PHONE_CALL)
-					dbei.eventType = FACEBOOK_EVENTTYPE_CALL;
-				else
-					dbei.eventType = EVENTTYPE_URL; // FIXME: Use better and specific type for our other event types.
-
-				dbei.flags = DBEF_UTF;
-
-				if (!msg.isIncoming)
-					dbei.flags |= DBEF_SENT;
-
-				if (!msg.isUnread)
-					dbei.flags |= DBEF_READ;
-
-				dbei.szModule = m_szModuleName;
-				dbei.timestamp = msg.time;
-				dbei.cbBlob = (DWORD)msg.message_text.length() + 1;
-				dbei.pBlob = (PBYTE)msg.message_text.c_str();
-				db_event_add(hContact, &dbei);
+			// Save last message id of first batch which is latest message completely, because we're going backwards
+			if (batch == 0 && !lastMessageId.empty()) {
+				setString(hContact, FACEBOOK_KEY_MESSAGE_ID, lastMessageId.c_str());
 			}
 
-			loadedMessages++;
+			debugLogA("*** Load history messages processed");
 		}
-
-		// Save last message id of first batch which is latest message completely, because we're going backwards
-		if (batch == 0 && !lastMessageId.empty()) {
-			setString(hContact, FACEBOOK_KEY_MESSAGE_ID, lastMessageId.c_str());
+		catch (const std::exception &e) {
+			debugLogA("*** Error processing load history messages: %s", e.what());
+			break;
 		}
-
-		debugLogA("*** Load history messages processed");
-
-		CODE_BLOCK_CATCH
-
-		debugLogA("*** Error processing load history messages: %s", e.what());
-
-		break;
-
-		CODE_BLOCK_END
 
 		// Update progress popup
 		CMStringW text;
@@ -1120,9 +1102,8 @@ void FacebookProto::ProcessMessages(void* data)
 
 	debugLogA("*** Starting processing messages");
 
-	CODE_BLOCK_TRY
-
-	std::vector<facebook_message> messages;
+	try {
+		std::vector<facebook_message> messages;
 
 		facebook_json_parser* p = new facebook_json_parser(this);
 		p->parse_messages(resp, &messages, &facy.notifications);
@@ -1134,12 +1115,10 @@ void FacebookProto::ProcessMessages(void* data)
 			ShowNotifications();
 
 		debugLogA("*** Messages processed");
-
-	CODE_BLOCK_CATCH
-
+	}
+	catch (const std::exception &e) {
 		debugLogA("*** Error processing messages: %s", e.what());
-
-	CODE_BLOCK_END
+	}
 
 	delete resp;
 }
@@ -1191,21 +1170,18 @@ void FacebookProto::ProcessNotifications(void*)
 	// Process notifications
 	debugLogA("*** Starting processing notifications");
 
-	CODE_BLOCK_TRY
+	try {
+		facebook_json_parser* p = new facebook_json_parser(this);
+		p->parse_notifications(&(resp.data), &facy.notifications);
+		delete p;
 
-	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_notifications(&(resp.data), &facy.notifications);
-	delete p;
+		ShowNotifications();
 
-	ShowNotifications();
-
-	debugLogA("*** Notifications processed");
-
-	CODE_BLOCK_CATCH
-
+		debugLogA("*** Notifications processed");
+	}
+	catch (const std::exception &e) {
 		debugLogA("*** Error processing notifications: %s", e.what());
-
-	CODE_BLOCK_END
+	}
 }
 
 void FacebookProto::ProcessFriendRequests(void*)

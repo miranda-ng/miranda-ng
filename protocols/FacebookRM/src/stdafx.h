@@ -68,7 +68,6 @@ class FacebookProto;
 #include "../../utils/std_string_utils.h"
 
 #include "constants.h"
-#include "definitions.h"
 #include "entities.h"
 #include "http.h"
 #include "list.hpp"
