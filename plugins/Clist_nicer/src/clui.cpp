@@ -1501,25 +1501,16 @@ buttons_done:
 				CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)(-1), 0);
 				break;
 			case POPUP_HIDEOFFLINEROOT:
-				SendMessage(pcli->hwndContactTree, CLM_SETHIDEOFFLINEROOT, !SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0), 0);
+				CallService(MS_CLIST_TOGGLEHIDEOFFLINEROOT, 0, 0);
 				break;
 			case POPUP_HIDEEMPTYGROUPS:
-				{
-					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
-					db_set_b(NULL, "CList", "HideEmptyGroups", (BYTE)newVal);
-					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
-				}
+				CallService(MS_CLIST_TOGGLEEMPTYGROUPS, 0, 0);
 				break;
 			case IDC_TBHIDEGROUPS:
 			case IDC_STBHIDEGROUPS:
 			case POPUP_DISABLEGROUPS:
-				{
-					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-					db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
-					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
-					ClcSetButtonState(IDC_TBHIDEGROUPS, newVal);
-					SetButtonStates();
-				}
+				ClcSetButtonState(IDC_TBHIDEGROUPS, CallService(MS_CLIST_TOGGLEGROUPS, 0, 0));
+				SetButtonStates();
 				break;
 			case POPUP_HIDEMIRANDA:
 				pcli->pfnShowHide(0, 0);

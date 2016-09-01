@@ -66,11 +66,5 @@ int InitSkinHotKeys(void)
 	shk.pwszSection = LPGENW("Main");
 	shk.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
 	Hotkey_Register(&shk);
-
-
 	return 0;
-}
-
-void UninitSkinHotKeys(void)
-{
 }

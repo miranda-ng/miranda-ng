@@ -158,14 +158,6 @@ INT_PTR ToggleHideOffline(WPARAM, LPARAM)
 	return pcli->pfnSetHideOffline(-1);
 }
 
-INT_PTR ToggleGroups(WPARAM, LPARAM)
-{
-	db_set_b(NULL, "CList", "UseGroups",
-		(BYTE)!db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
-	pcli->pfnLoadContactTree();
-	return 0;
-}
-
 INT_PTR SetUseGroups(WPARAM wParam, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE)&CLS_USEGROUPS);

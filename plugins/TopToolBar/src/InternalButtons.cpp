@@ -1,11 +1,10 @@
 
 #include "stdafx.h"
 
-#define TTBI_GROUPSHOWHIDE		"TTBInternal/GroupShowHide"
-#define TTBI_SOUNDSONOFF		"TTBInternal/SoundsOnOFF"
-#define TTBI_MAINMENUBUTT		"TTBInternal/MainMenuBUTT"
-#define TTBI_STATUSMENUBUTT		"TTBInternal/StatusMenuButt"
-#define TTBI_SHOWHIDEOFFLINE	"TTBInternal/ShowHideOffline"
+#define TTBI_SOUNDSONOFF      "TTBInternal/SoundsOnOFF"
+#define TTBI_MAINMENUBUTT     "TTBInternal/MainMenuBUTT"
+#define TTBI_STATUSMENUBUTT   "TTBInternal/StatusMenuButt"
+#define TTBI_SHOWHIDEOFFLINE  "TTBInternal/ShowHideOffline"
 
 #define INDEX_OFFLINE			5
 #define INDEX_META				6
@@ -29,7 +28,7 @@ static stdButtons[] = {
 	{ LPGEN("Show status menu"),            TTBI_STATUSMENUBUTT,         SKINICON_OTHER_STATUS,   0,               LPGEN("Show status menu"),      NULL, 0, 0 },
 	{ LPGEN("Show/hide offline contacts"),  TTBI_SHOWHIDEOFFLINE,        IDI_HIDEOFFLINE,         IDI_SHOWOFFLINE, LPGEN("Hide offline contacts"), LPGEN("Show offline contacts"), 1, 1 },
 	{ LPGEN("Enable/disable metacontacts"), "MetaContacts/OnOff",        IDI_METAOFF,             IDI_METAON,      LPGEN("Disable metacontacts"),  LPGEN("Enable metacontacts"), 1, 1 },
-	{ LPGEN("Enable/disable groups"),       TTBI_GROUPSHOWHIDE,          IDI_GROUPSOFF,           IDI_GROUPSON,    LPGEN("Enable groups"),         LPGEN("Disable groups"), 1, 1 },
+	{ LPGEN("Enable/disable groups"),       MS_CLIST_TOGGLEGROUPS,       IDI_GROUPSOFF,           IDI_GROUPSON,    LPGEN("Enable groups"),         LPGEN("Disable groups"), 1, 1 },
 	{ LPGEN("Enable/disable sounds"),       TTBI_SOUNDSONOFF,            IDI_SOUNDSOFF,           IDI_SOUNDSON,    LPGEN("Disable sounds"),        LPGEN("Enable sounds"), 1, 1 },
 	{ LPGEN("Minimize contact list"),       MS_CLIST_SHOWHIDE,           SKINICON_OTHER_SHOWHIDE, 0,               LPGEN("Minimize contact list"), NULL, 0, 1 },
 	{ LPGEN("Exit"),                        "CloseAction",               SKINICON_OTHER_EXIT,     0,               LPGEN("Exit"),                  NULL, 0, 0 }
@@ -77,14 +76,6 @@ INT_PTR TTBInternalStatusMenuButt(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR TTBInternalGroupShowHide(WPARAM, LPARAM)
-{
-	int newVal = !(GetWindowLongPtr(hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-	db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
-	SendMessage(hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
-	return 0;
-}
-
 INT_PTR TTBInternalSoundsOnOff(WPARAM, LPARAM)
 {
 	int newVal = !(db_get_b(NULL, "Skin", "UseSound", 1));
@@ -104,7 +95,6 @@ void InitInternalButtons()
 {
 	hwndContactTree = pcli->hwndContactTree;
 
-	CreateServiceFunction(TTBI_GROUPSHOWHIDE, TTBInternalGroupShowHide);
 	CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff);
 	CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt);
 	CreateServiceFunction(TTBI_STATUSMENUBUTT, TTBInternalStatusMenuButt);

@@ -103,31 +103,30 @@ INT_PTR FreeOwnerDataGroupMenu(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR HideGroupsHelper(WPARAM, LPARAM)
+static INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
 	db_set_b(NULL, "CList", "HideEmptyGroups", (BYTE)newVal);
 	SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
-	return 0;
+	return newVal;
 }
 
-INT_PTR UseGroupsHelper(WPARAM, LPARAM)
+static INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
 	db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
 	SendMessage(cli.hwndContactTree, CLM_SETUSEGROUPS, newVal,0);
-	return 0;
+	return newVal;
 }
 
-INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
+static INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
 {
-	SendMessage(cli.hwndContactTree, CLM_SETHIDEOFFLINEROOT,
-		!SendMessage(cli.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0),
-		0);
-	return 0;
+	int newVal = !SendMessage(cli.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0);
+	SendMessage(cli.hwndContactTree, CLM_SETHIDEOFFLINEROOT, newVal, 0);
+	return newVal;
 }
 
-INT_PTR CreateGroupHelper(WPARAM, LPARAM)
+static INT_PTR CreateGroupHelper(WPARAM, LPARAM)
 {
 	SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
 	SendMessage(cli.hwndContactTree, CLM_SETUSEGROUPS, 1, 0);
@@ -301,21 +300,21 @@ void InitGroupMenus(void)
 
 		SET_UID(mi, 0xeded7371, 0xf6e6, 0x48c3, 0x8c, 0x9e, 0x62, 0xc1, 0xd5, 0xcb, 0x51, 0xbc);
 		mi.position = 500002;
-		mi.pszService = "CLISTMENUSGroup/HideOfflineRootHelper";
+		mi.pszService = MS_CLIST_TOGGLEHIDEOFFLINEROOT;
 		mi.name.a = LPGEN("Hide &offline users out here");
 		hHideOfflineUsersOutHereMenuItem = Menu_AddGroupMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, HideOfflineRootHelper);
 
 		SET_UID(mi, 0x4c17b9cf, 0x513a, 0x41d8, 0x8d, 0x2b, 0x89, 0x44, 0x81, 0x14, 0x0, 0x91);
 		mi.position = 500003;
-		mi.pszService = "CLISTMENUSGroup/HideGroupsHelper";
+		mi.pszService = MS_CLIST_TOGGLEEMPTYGROUPS;
 		mi.name.a = LPGEN("Hide &empty groups");
 		hHideEmptyGroupsMenuItem = Menu_AddGroupMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, HideGroupsHelper);
 
 		SET_UID(mi, 0xfcbdbbb1, 0xa553, 0x49ac, 0xa5, 0xdf, 0xb4, 0x81, 0x38, 0xf, 0xa0, 0xc7);
 		mi.position = 500004;
-		mi.pszService = "CLISTMENUSGroup/UseGroupsHelper";
+		mi.pszService = MS_CLIST_TOGGLEGROUPS;
 		mi.name.a = LPGEN("Disable &groups");
 		hDisableGroupsMenuItem = Menu_AddGroupMenuItem(&mi);
 		CreateServiceFunction(mi.pszService, UseGroupsHelper);

@@ -200,7 +200,6 @@ int     RestoreAllContactData(ClcData *dat);                                 //c
 int     SkinSelector_DeleteMask(MODERNMASK *mm);                                 //mod_skin_selector.c
 int     StoreAllContactData(ClcData *dat);                                 //cache_func.c
 INT_PTR ToggleHideOffline(WPARAM wParam, LPARAM lParam);                              //contact.c
-INT_PTR ToggleGroups(WPARAM wParam, LPARAM lParam);                                 //contact.c
 INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam);                                 //contact.c
 INT_PTR ToggleSounds(WPARAM wParam, LPARAM lParam);                                 //contact.c
 void    ClcOptionsChanged();                                                //clc.c
@@ -220,7 +219,6 @@ void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *sz
 int     ExtraImage_ExtraIDToColumnNum(int extra);
 
 int     LoadSkinButtonModule();
-void    UninitSkinHotKeys();
 void    GetDefaultFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
 int     CLUI_OnSkinLoad(WPARAM wParam, LPARAM lParam);
 HRESULT CluiLoadModule();

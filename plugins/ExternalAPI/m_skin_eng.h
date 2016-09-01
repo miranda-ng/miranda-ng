@@ -67,11 +67,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*SERVICES*/
 
 //toggle the 'hide offline contacts' flag and call CLUI
-//wParam=0
-//lParam=0
 #define MS_CLIST_TOGGLEHIDEOFFLINE  "CList/ToggleHideOffline"
-
-#define MS_CLIST_TOGGLEGROUPS  "CList/ToggleGroups"
 
 #define MS_CLIST_TOGGLESOUNDS  "CList/ToggleSounds"
 

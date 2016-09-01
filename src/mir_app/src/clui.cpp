@@ -708,23 +708,15 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		case POPUP_HIDEOFFLINEROOT:
-			SendMessage(cli.hwndContactTree, CLM_SETHIDEOFFLINEROOT, !SendMessage(cli.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0), 0);
+			CallService(MS_CLIST_TOGGLEHIDEOFFLINEROOT, 0, 0);
 			break;
 
 		case POPUP_HIDEEMPTYGROUPS:
-			{
-				int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
-				db_set_b(NULL, "CList", "HideEmptyGroups", (BYTE)newVal);
-				SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
-			}
+			CallService(MS_CLIST_TOGGLEEMPTYGROUPS);
 			break;
 
 		case POPUP_DISABLEGROUPS:
-			{
-				int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-				db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
-				SendMessage(cli.hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
-			}
+			CallService(MS_CLIST_TOGGLEGROUPS);
 			break;
 
 		case POPUP_HIDEMIRANDA:

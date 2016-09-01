@@ -319,7 +319,25 @@ typedef struct {
 // toggles the show/hide status of the contact list
 // wParam = lParam = 0
 // returns 0 on success, nonzero on failure
-#define MS_CLIST_SHOWHIDE     "CList/ShowHide"
+#define MS_CLIST_SHOWHIDE "CList/ShowHide"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// toggles the use groups mode of the contact list
+// wParam = lParam = 0
+// returns new groups mode
+#define MS_CLIST_TOGGLEGROUPS "CList/ToggleGroups"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// toggles the empty groups display mode
+// wParam = lParam = 0
+// returns new empty groups mode
+#define MS_CLIST_TOGGLEEMPTYGROUPS "CList/ToggleEmptyGroups"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// toggles the hidden users display mode
+// wParam = lParam = 0
+// returns new hidden users mode
+#define MS_CLIST_TOGGLEHIDEOFFLINEROOT "CList/ToggleHideOfflineRoot"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sent when the group get modified (created, renamed or deleted)

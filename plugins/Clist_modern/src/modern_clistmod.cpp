@@ -171,8 +171,6 @@ HRESULT CluiLoadModule()
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 
 	CreateServiceFunction(MS_CLIST_TOGGLEHIDEOFFLINE, ToggleHideOffline);
-
-	CreateServiceFunction(MS_CLIST_TOGGLEGROUPS, ToggleGroups);
 	CreateServiceFunction(MS_CLIST_TOGGLESOUNDS, ToggleSounds);
 	CreateServiceFunction(MS_CLIST_SETUSEGROUPS, SetUseGroups);
 

@@ -112,7 +112,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	XPThemesUnloadModule();
 
 	UnloadAvatarOverlayIcon();
-	UninitSkinHotKeys();
 	FreeRowCell();
 	EventArea_UnloadModule();
 
