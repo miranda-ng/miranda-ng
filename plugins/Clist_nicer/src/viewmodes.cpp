@@ -971,7 +971,7 @@ clvm_reset_command:
 			cfg::dat.bFilterEffective = 0;
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			SetDlgItemText(hwnd, IDC_SELECTMODE, TranslateT("No view mode"));
-			CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)cfg::dat.boldHideOffline, 0);
+			pcli->pfnSetHideOffline(cfg::dat.boldHideOffline);
 			cfg::dat.boldHideOffline = (BYTE)-1;
 			SetButtonStates();
 			cfg::dat.current_viewmode[0] = 0;
@@ -1112,7 +1112,7 @@ void ApplyViewMode(const char *name)
 	if (cfg::dat.boldHideOffline == (BYTE)-1)
 		cfg::dat.boldHideOffline = db_get_b(NULL, "CList", "HideOffline", 0);
 
-	CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
+	pcli->pfnSetHideOffline(false);
 	SetWindowTextA(hwndSelector, name);
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	SetButtonStates();

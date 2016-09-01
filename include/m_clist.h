@@ -337,6 +337,12 @@ typedef struct {
 // toggles the hidden users display mode
 // wParam = lParam = 0
 // returns new hidden users mode
+#define MS_CLIST_TOGGLEHIDEOFFLINE "CList/ToggleHideOffline"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// toggles the hidden users display mode
+// wParam = lParam = 0
+// returns new hidden users mode
 #define MS_CLIST_TOGGLEHIDEOFFLINEROOT "CList/ToggleHideOfflineRoot"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -439,15 +445,6 @@ EXTERN_C MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(void);
 // end a rebuild of the contact list
 
 EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// changes the 'hide offline contacts' flag and call CLUI
-// wParam = newValue
-// lParam = 0
-// returns 0 on success, nonzero on failure
-// newValue is 0 to show all contacts, 1 to only show online contacts
-// or -1 to toggle the value
-#define MS_CLIST_SETHIDEOFFLINE  "CList/SetHideOffline"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // do the message processing associated with double clicking a contact

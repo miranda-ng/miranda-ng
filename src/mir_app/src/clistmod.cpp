@@ -412,7 +412,6 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 /***************************************************************************************/
 
 static INT_PTR ShowHideStub(WPARAM wParam, LPARAM lParam) { return cli.pfnShowHide(wParam, lParam); }
-static INT_PTR SetHideOfflineStub(WPARAM wParam, LPARAM) { return cli.pfnSetHideOffline((int)wParam); }
 static INT_PTR Docking_ProcessWindowMessageStub(WPARAM wParam, LPARAM lParam) { return cli.pfnDocking_ProcessWindowMessage(wParam, lParam); }
 static INT_PTR HotkeysProcessMessageStub(WPARAM wParam, LPARAM lParam) { return cli.pfnHotkeysProcessMessage(wParam, lParam); }
 
@@ -433,7 +432,6 @@ int LoadContactListModule2(void)
 	CreateServiceFunction(MS_CLIST_CONTACTSCOMPARE, CompareContacts);
 	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP, ContactChangeGroup);
 	CreateServiceFunction(MS_CLIST_SHOWHIDE, ShowHideStub);
-	CreateServiceFunction(MS_CLIST_SETHIDEOFFLINE, SetHideOfflineStub);
 	CreateServiceFunction(MS_CLIST_DOCKINGPROCESSMESSAGE, Docking_ProcessWindowMessageStub);
 	CreateServiceFunction(MS_CLIST_DOCKINGISDOCKED, Docking_IsDocked);
 	CreateServiceFunction(MS_CLIST_HOTKEYSPROCESSMESSAGE, HotkeysProcessMessageStub);

@@ -119,6 +119,12 @@ static INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 	return newVal;
 }
 
+static INT_PTR HideOfflineHelper(WPARAM, LPARAM)
+{
+	cli.pfnSetHideOffline(-1);
+	return 0;
+}
+
 static INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
 {
 	int newVal = !SendMessage(cli.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0);
@@ -293,10 +299,11 @@ void InitGroupMenus(void)
 		SET_UID(mi, 0xe6269658, 0x69, 0x4094, 0x9b, 0x35, 0x4e, 0x80, 0x29, 0x26, 0xf, 0x8e);
 		mi.position = 500001;
 		mi.hIcolibItem = NULL;
-		mi.pszService = MS_CLIST_SETHIDEOFFLINE;
+		mi.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
 		mi.name.a = LPGEN("&Hide offline users");
 		gmp.wParam = -1;
 		hHideOfflineUsersMenuItem = Menu_AddGroupMenuItem(&mi, &gmp);
+		CreateServiceFunction(mi.pszService, HideOfflineHelper);
 
 		SET_UID(mi, 0xeded7371, 0xf6e6, 0x48c3, 0x8c, 0x9e, 0x62, 0xc1, 0xd5, 0xcb, 0x51, 0xbc);
 		mi.position = 500002;

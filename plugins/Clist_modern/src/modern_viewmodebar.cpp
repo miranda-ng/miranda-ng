@@ -1246,7 +1246,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
 		SetDlgItemText(g_hwndViewModeFrame, IDC_SELECTMODE, TranslateT("All contacts"));
 		if (g_CluiData.boldHideOffline != (BYTE)-1)
-			CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)g_CluiData.boldHideOffline, 0);
+			pcli->pfnSetHideOffline(g_CluiData.boldHideOffline);
 		if (g_CluiData.bOldUseGroups != (BYTE)-1)
 			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0);
 		g_CluiData.boldHideOffline = (BYTE)-1;
@@ -1334,10 +1334,10 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 			if (g_CluiData.boldHideOffline == (BYTE)-1)
 				g_CluiData.boldHideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 
-			CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
+			pcli->pfnSetHideOffline(false);
 		}
 		else if (g_CluiData.boldHideOffline != (BYTE)-1) {
-			CallService(MS_CLIST_SETHIDEOFFLINE, g_CluiData.boldHideOffline, 0);
+			pcli->pfnSetHideOffline(g_CluiData.boldHideOffline);
 			g_CluiData.boldHideOffline = -1;
 		}
 

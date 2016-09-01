@@ -161,42 +161,35 @@ INT_PTR SvcExImport_Import(lpExImParam ExImContact, HWND hwndParent)
 	// create the filename to suggest the user for the to export contact
 	DisplayNameToFileName(ExImContact, szFileName, _countof(szFileName));
 
-	int nIndex = DlgExIm_OpenFileName(hwndParent, 
+	int nIndex = DlgExIm_OpenFileName(hwndParent,
 		Translate("Import User Details from VCard"),
 		FilterString(ExImContact),
 		szFileName);
 
-// Stop during develop
-if (ExImContact->Typ == EXIM_ACCOUNT || 
-	ExImContact->Typ == EXIM_GROUP) return 1;
+	// Stop during develop
+	if (ExImContact->Typ == EXIM_ACCOUNT ||
+		ExImContact->Typ == EXIM_GROUP) return 1;
 
 	switch (nIndex) {
-		case 1:
-		{
-			CFileXml xmlFile;
-			CallService(MS_CLIST_SETHIDEOFFLINE, -1, 0);	//workarround to refresh the clist....
-			xmlFile.Import(ExImContact->hContact, szFileName);
-			CallService(MS_CLIST_SETHIDEOFFLINE, -1, 0);	//...after import.
-			//Clist_Broadcast(CLM_AUTOREBUILD, 0, 0); //does not work
-			return 0;
-		}
+	case 1:
+		CFileXml().Import(ExImContact->hContact, szFileName);
+		Clist_BroadcastAsync(CLM_AUTOREBUILD, 0, 0);
+		return 0;
+
 		// .ini
-		case 2:
-			return SvcExImINI_Import(ExImContact->hContact, szFileName);
+	case 2:
+		return SvcExImINI_Import(ExImContact->hContact, szFileName);
 
 		// .vcf
-		case 3:
-		{
-			CVCardFileVCF vcfFile;
-
-			if (vcfFile.Open(ExImContact->hContact, szFileName, "rt")) {
-				SetCursor(LoadCursor(NULL, IDC_WAIT));
-				vcfFile.Import();
-				vcfFile.Close();
-				SetCursor(LoadCursor(NULL, IDC_ARROW));
-			}
-			return 0;
+	case 3:
+		CVCardFileVCF vcfFile;
+		if (vcfFile.Open(ExImContact->hContact, szFileName, "rt")) {
+			SetCursor(LoadCursor(NULL, IDC_WAIT));
+			vcfFile.Import();
+			vcfFile.Close();
+			SetCursor(LoadCursor(NULL, IDC_ARROW));
 		}
+		return 0;
 	}
 	return 1;
 }

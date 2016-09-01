@@ -72,8 +72,8 @@ RECT    g_rcEdgeSizingRect = { 0 };
 /* Module global variables */
 
 static BYTE bAlphaEnd;
-static BYTE bOldHideOffline;
-static BYTE bOldUseGroups;
+static int bOldHideOffline;
+static int bOldUseGroups;
 
 static WORD wBehindEdgeShowDelay,
 wBehindEdgeHideDelay,
@@ -423,14 +423,8 @@ HRESULT CLUI::CreateCLC()
 
 	nLastRequiredHeight = 0;
 	if (g_CluiData.current_viewmode[0] == '\0') {
-		if (bOldHideOffline != (BYTE)-1)
-			CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)bOldHideOffline, 0);
-		else
-			CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
-		if (bOldUseGroups != (BYTE)-1)
-			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)bOldUseGroups, 0);
-		else
-			CallService(MS_CLIST_SETUSEGROUPS, 0, 0);
+		pcli->pfnSetHideOffline((bOldHideOffline == -1) ? false : bOldHideOffline);
+		CallService(MS_CLIST_SETUSEGROUPS, (bOldUseGroups == -1) ? false : bOldUseGroups, 0);
 	}
 	nLastRequiredHeight = 0;
 	mutex_bDisableAutoUpdate = 0;

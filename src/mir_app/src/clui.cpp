@@ -704,7 +704,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		case POPUP_HIDEOFFLINE:
-			CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)(-1), 0);
+			cli.pfnSetHideOffline(-1);
 			break;
 
 		case POPUP_HIDEOFFLINEROOT:

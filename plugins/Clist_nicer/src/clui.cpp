@@ -176,7 +176,7 @@ static HWND PreCreateCLC(HWND parent)
 static int CreateCLC()
 {
 	pcli->pfnReloadExtraIcons();
-	CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)oldhideoffline, 0);
+	pcli->pfnSetHideOffline(oldhideoffline);
 	disableautoupd = 0;
 	{
 		CLISTFrame frame = { 0 };
@@ -1498,7 +1498,7 @@ buttons_done:
 			case POPUP_HIDEOFFLINE:
 			case IDC_TBHIDEOFFLINE:
 			case IDC_STBHIDEOFFLINE:
-				CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)(-1), 0);
+				pcli->pfnSetHideOffline(-1);
 				break;
 			case POPUP_HIDEOFFLINEROOT:
 				CallService(MS_CLIST_TOGGLEHIDEOFFLINEROOT, 0, 0);
