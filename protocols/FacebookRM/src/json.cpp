@@ -754,6 +754,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			if (!buddyList)
 				continue;
 
+			time_t offlineThreshold = time(NULL) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
+
 			for (auto itNodes = buddyList.begin(); itNodes != buddyList.end(); ++itNodes) {
 				std::string id = (*itNodes).name();
 
@@ -796,6 +798,12 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 						else
 							proto->delSetting(hContact, "LastActiveTS");
 					}
+
+					// Set users inactive for too long as offline
+					if (last_active > 0 && last_active < offlineThreshold) {
+						if (proto->getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE)
+							proto->setWord(hContact, "Status", ID_STATUS_OFFLINE);
+					}
 				}
 
 				// Probably means client: guess 0 = web, 8 = messenger, 10 = something else?
@@ -828,6 +836,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			const JSONNode &overlay = (*it)["overlay"];
 			if (!overlay)
 				continue;
+
+			time_t offlineThreshold = time(NULL) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
 
 			for (auto itNodes = overlay.begin(); itNodes != overlay.end(); ++itNodes) {
 				std::string id = (*itNodes).name();
@@ -887,20 +897,16 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					status = ID_STATUS_OFFLINE;
 				}
 
-				if (proto->getWord(hContact, "Status", 0) != status)
-					proto->setWord(hContact, "Status", status);
-
-
-				if (la_ && status != ID_STATUS_ONLINE) {
+				if (la_ /*&& status != ID_STATUS_ONLINE*/) {
 					time_t last_active = utils::time::from_string(la_.as_string());
 					
 					// we should set IdleTS only when contact is IDLE, or OFFLINE
-					if (proto->getDword(hContact, "IdleTS", 0) != last_active) {
-						if (/*(fbu->idle || status == ID_STATUS_OFFLINE) &&*/ last_active > 0)
-							proto->setDword(hContact, "IdleTS", last_active);
-						else
-							proto->delSetting(hContact, "IdleTS");
-					}
+					//if (proto->getDword(hContact, "IdleTS", 0) != last_active) {
+					//	if (/*(fbu->idle || status == ID_STATUS_OFFLINE) &&*/ last_active > 0)
+					//		proto->setDword(hContact, "IdleTS", last_active);
+					//	else
+					//		proto->delSetting(hContact, "IdleTS");
+					//}
 
 					/*if (proto->getDword(hContact, "LastActiveTS", 0) != last_active) {
 						if (last_active > 0)
@@ -908,10 +914,17 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 						else
 							proto->delSetting(hContact, "LastActiveTS");
 					}*/
+
+					// Set users inactive for too long as offline
+					if (last_active > 0 && last_active < offlineThreshold)
+						status = ID_STATUS_OFFLINE;
 				}
 				else {
 					proto->delSetting(hContact, "IdleTS");
 				}
+
+				if (proto->getWord(hContact, "Status", 0) != status)
+					proto->setWord(hContact, "Status", status);
 
 				if (s_) {
 					// what to do with this?
