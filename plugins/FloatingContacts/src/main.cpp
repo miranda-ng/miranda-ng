@@ -326,7 +326,7 @@ static void ShowContactMenu(HWND hwnd, POINT pt)
 			return;
 
 		int idCommand = TrackPopupMenu(hContactMenu, TPM_RIGHTALIGN | TPM_TOPALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
-		CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(idCommand, MPCF_CONTACTMENU), (LPARAM)pThumb->hContact);
+		Clist_MenuProcessCommand(idCommand, MPCF_CONTACTMENU, pThumb->hContact);
 	}
 }
 

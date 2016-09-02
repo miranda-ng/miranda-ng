@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 // variables for weather_popup.c
-static HANDLE hPopupContact;
+static MCONTACT hPopupContact;
 
 //============  SHOW WEATHER POPUPS  ============
 
@@ -175,7 +175,7 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	case IDM_M7:	// display contact menu
 		hMenu = Menu_BuildContactMenu(wParam);
 		GetCursorPos(&pt);
-		hPopupContact = (HANDLE)wParam;
+		hPopupContact = wParam;
 		TrackPopupMenu(hMenu, TPM_LEFTALIGN, pt.x, pt.y, 0, hWnd, NULL);
 		DestroyMenu(hMenu);
 		break;
@@ -184,7 +184,7 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		CallService(MS_USERINFO_SHOWDIALOG, wParam, 0);
 
 	case WM_COMMAND:	 //Needed by the contact's context menu
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)hPopupContact))
+		if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, hPopupContact))
 			break;
 		return FALSE;
 

@@ -100,11 +100,11 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_LBUTTONDBLCLK:
-		BriefInfo((WPARAM)data->hContact, 0);
+		BriefInfo(data->hContact, 0);
 		break;
 
 	case WM_COMMAND:	 //Needed by the contact's context menu
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)data->hContact))
+		if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, data->hContact))
 			break;
 		return FALSE;
 
@@ -116,7 +116,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == NM_AVATAR_CHANGED) {
-			BOOL newava = CallService(MS_AV_GETAVATARBITMAP, (WPARAM)data->hContact, 0) != 0;
+			BOOL newava = CallService(MS_AV_GETAVATARBITMAP, data->hContact, 0) != 0;
 			if (newava != data->haveAvatar) {
 				LONG_PTR style = GetWindowLongPtr(data->hAvt, GWL_STYLE);
 				data->haveAvatar = newava;
@@ -293,7 +293,7 @@ INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM)
 
 int BuildContactMenu(WPARAM wparam, LPARAM)
 {
-	int flags = db_get_dw((MCONTACT)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0;
+	int flags = db_get_dw(wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0;
 	Menu_ModifyItem(hMwinMenu, NULL, INVALID_HANDLE_VALUE, flags);
 	return 0;
 }

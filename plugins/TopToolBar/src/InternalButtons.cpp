@@ -29,7 +29,7 @@ static stdButtons[] = {
 	{ LPGEN("Enable/disable metacontacts"), "MetaContacts/OnOff",        IDI_METAOFF,             IDI_METAON,      LPGEN("Disable metacontacts"),  LPGEN("Enable metacontacts"), 1, 1 },
 	{ LPGEN("Enable/disable groups"),       MS_CLIST_TOGGLEGROUPS,       IDI_GROUPSOFF,           IDI_GROUPSON,    LPGEN("Enable groups"),         LPGEN("Disable groups"), 1, 1 },
 	{ LPGEN("Enable/disable sounds"),       TTBI_SOUNDSONOFF,            IDI_SOUNDSOFF,           IDI_SOUNDSON,    LPGEN("Disable sounds"),        LPGEN("Enable sounds"), 1, 1 },
-	{ LPGEN("Minimize contact list"),       MS_CLIST_SHOWHIDE,           SKINICON_OTHER_SHOWHIDE, 0,               LPGEN("Minimize contact list"), NULL, 0, 1 },
+	{ LPGEN("Minimize contact list"),       "Clist/ShowHide",            SKINICON_OTHER_SHOWHIDE, 0,               LPGEN("Minimize contact list"), NULL, 0, 1 },
 	{ LPGEN("Exit"),                        "CloseAction",               SKINICON_OTHER_EXIT,     0,               LPGEN("Exit"),                  NULL, 0, 0 }
 };
 

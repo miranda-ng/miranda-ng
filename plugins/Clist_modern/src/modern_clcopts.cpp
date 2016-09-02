@@ -920,7 +920,7 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 			CLUI_ReloadCLUIOptions();
 			EventArea_ConfigureEventArea();
-			cliShowHide(0, 1);
+			cliShowHide(true);
 			g_mutex_bChangingMode = FALSE;
 			return TRUE;
 		}
@@ -1194,7 +1194,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			CLUI_ChangeWindowMode();
 			SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 			CLUI_ReloadCLUIOptions();
-			cliShowHide(0, 1);
+			cliShowHide(true);
 			g_mutex_bChangingMode = FALSE;
 			return TRUE;
 		}
@@ -1756,7 +1756,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 				CLUI_ChangeWindowMode();
 				SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 				CLUI_ReloadCLUIOptions();
-				cliShowHide(0, 1);
+				cliShowHide(true);
 			}
 			g_mutex_bChangingMode = FALSE;
 			return TRUE;

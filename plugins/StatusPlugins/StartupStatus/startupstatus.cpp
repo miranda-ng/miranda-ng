@@ -354,7 +354,7 @@ static int OnShutdown(WPARAM wParam, LPARAM lParam)
 		case SETTING_STATE_HIDDEN:
 			// try to use services where possible
 			if (!isHidden)
-				CallService(MS_CLIST_SHOWHIDE, 0, 0);
+				pcli->pfnShowHide();
 			break;
 
 		case SETTING_STATE_MINIMIZED:
@@ -365,7 +365,7 @@ static int OnShutdown(WPARAM wParam, LPARAM lParam)
 		case SETTING_STATE_NORMAL:
 			// try to use services where possible (that's what they're for)
 			if (isHidden)
-				CallService(MS_CLIST_SHOWHIDE, 0, 0);
+				pcli->pfnShowHide();
 			break;
 		}
 	}
@@ -464,7 +464,7 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 
 		WINDOWPLACEMENT wndpl = { sizeof(wndpl) };
 		if (GetWindowPlacement(hClist, &wndpl)) {
-			if (wndpl.showCmd == SW_SHOWNORMAL && !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+			if (wndpl.showCmd == SW_SHOWNORMAL && !Clist_IsDocked()) {
 				RECT rc;
 				if (GetWindowRect(hClist, &rc)) {
 					int x = rc.left;

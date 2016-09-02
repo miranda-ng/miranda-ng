@@ -119,6 +119,9 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int cliShowHideStub() { return cliShowHide(false); }
 
 static HRESULT SubclassClistInterface()
 {
@@ -160,7 +163,7 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnRecalcScrollBar = cliRecalcScrollBar;
 	pcli->pfnRowHitTest = cliRowHitTest;
 	pcli->pfnScrollTo = cliScrollTo;
-	pcli->pfnShowHide = cliShowHide;
+	pcli->pfnShowHide = cliShowHideStub;
 	pcli->pfnHitTest = cliHitTest;
 	pcli->pfnCompareContacts = cliCompareContacts;
 	pcli->pfnGetIconFromStatusMode = cliGetIconFromStatusMode;

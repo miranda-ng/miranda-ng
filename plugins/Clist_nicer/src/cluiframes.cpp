@@ -1234,7 +1234,7 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam, LPARAM)
 	// do not collapse/uncollapse client/locked/invisible frames
 	if (Frames[FrameId].align == alClient && !(Frames[FrameId].Locked || (!Frames[FrameId].visible) || Frames[FrameId].floating)) {
 		RECT rc;
-		if (CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
+		if (Clist_IsDocked())
 			return 0;
 
 		if (db_get_b(NULL, "CLUI", "AutoSize", 0))
@@ -2278,7 +2278,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		return 0;
 
 	case WM_COMMAND:
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), 0), Frameid))
+		if (Clist_MenuProcessCommand(LOWORD(wParam), 0, Frameid))
 			break;
 
 		if (HIWORD(wParam) == 0) {//mouse events for self created menu

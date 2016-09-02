@@ -678,7 +678,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		cli.pfnHideInfoTip(hwnd, dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
-		if (!CallService(MS_CLIST_MENUPROCESSHOTKEY, wParam, MPCF_CONTACTMENU)) {
+		if (!Clist_MenuProcessHotkey(wParam)) {
 			RECT clRect;
 			GetClientRect(hwnd, &clRect);
 			int pageSize = clRect.bottom / dat->rowHeight;
@@ -1236,7 +1236,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			break;
 		
 		if (contact->type == CLCIT_CONTACT)
-			if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), contact->hContact))
+			if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, contact->hContact))
 				break;
 
 		if (contact->type == CLCIT_GROUP) {

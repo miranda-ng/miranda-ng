@@ -291,7 +291,7 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
 
-	if (CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
+	if (Clist_IsDocked())
 		return GWVS_VISIBLE;
 
 	GetWindowRect(hWnd, &rcWin);
@@ -333,7 +333,7 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	return GWVS_PARTIALLY_COVERED;
 }
 
-int fnShowHide(WPARAM, LPARAM)
+int fnShowHide()
 {
 	BOOL bShow = FALSE;
 
@@ -411,10 +411,6 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 
 /***************************************************************************************/
 
-static INT_PTR ShowHideStub(WPARAM wParam, LPARAM lParam) { return cli.pfnShowHide(wParam, lParam); }
-static INT_PTR Docking_ProcessWindowMessageStub(WPARAM wParam, LPARAM lParam) { return cli.pfnDocking_ProcessWindowMessage(wParam, lParam); }
-static INT_PTR HotkeysProcessMessageStub(WPARAM wParam, LPARAM lParam) { return cli.pfnHotkeysProcessMessage(wParam, lParam); }
-
 int LoadContactListModule2(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ContactListModulesLoaded);
@@ -431,10 +427,6 @@ int LoadContactListModule2(void)
 	CreateServiceFunction(MS_CLIST_CONTACTFILESDROPPED, ContactFilesDropped);
 	CreateServiceFunction(MS_CLIST_CONTACTSCOMPARE, CompareContacts);
 	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP, ContactChangeGroup);
-	CreateServiceFunction(MS_CLIST_SHOWHIDE, ShowHideStub);
-	CreateServiceFunction(MS_CLIST_DOCKINGPROCESSMESSAGE, Docking_ProcessWindowMessageStub);
-	CreateServiceFunction(MS_CLIST_DOCKINGISDOCKED, Docking_IsDocked);
-	CreateServiceFunction(MS_CLIST_HOTKEYSPROCESSMESSAGE, HotkeysProcessMessageStub);
 
 	InitCListEvents();
 	InitGroupServices();

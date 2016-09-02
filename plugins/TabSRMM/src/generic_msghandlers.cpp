@@ -567,7 +567,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 
 		iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
 		if (iSelection)
-			CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSelection), MPCF_CONTACTMENU), (LPARAM)dat->hContact);
+			Clist_MenuProcessCommand(LOWORD(iSelection), MPCF_CONTACTMENU, dat->hContact);
 
 		DestroyMenu(submenu);
 		break;

@@ -392,7 +392,7 @@ type
 
   (* clistmod.c *)
     pfnIconFromStatusMode       : function (szProto:PAnsiChar; status:int; hContact:TMCONTACT):int; cdecl;
-    pfnShowHide                 : function (_para1:WPARAM; _para2:LPARAM):int; cdecl;
+    pfnShowHide                 : function :int; cdecl;
     pfnGetStatusModeDescription : function (mode:int; flags:int) : PWideChar; cdecl;
 
   (* clistsettings.c *)
@@ -431,11 +431,10 @@ type
   (* docking.c *)
     pfnDocking_ProcessWindowMessage : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
 
-  (* keyboard.c *)
-    pfnHotKeysRegister       : function (hwnd:HWND):int; cdecl;
-    pfnHotKeysUnregister     : procedure (hwnd:HWND); cdecl;
-    pfnHotKeysProcess        : function (hwnd:HWND; wParam:WPARAM; lParam:LPARAM):int; cdecl;
-    pfnHotkeysProcessMessage : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
+    blablabla1 : procedure; cdecl;
+    blablabla2 : procedure; cdecl;
+    blablabla3 : procedure; cdecl;
+    blablabla4 : procedure; cdecl;
 
   (*************************************************************************************
   * version 2 - events processing

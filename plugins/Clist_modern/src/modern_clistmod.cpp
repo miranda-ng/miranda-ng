@@ -318,14 +318,14 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 BYTE g_bCalledFromShowHide = 0;
 
-int cliShowHide(WPARAM, LPARAM lParam)
+int cliShowHide(bool bAlwaysShow)
 {
 	BOOL bShow = FALSE;
 
 	int iVisibleState = GetWindowVisibleState(pcli->hwndContactList, 0, 0);
 	int method = db_get_b(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT); //(0-none, 1-leftedge, 2-rightedge);
 	if (method) {
-		if (db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && lParam != 1)
+		if (db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && !bAlwaysShow)
 			CLUI_HideBehindEdge(); //hide
 		else
 			CLUI_ShowFromBehindEdge();
@@ -342,7 +342,7 @@ int cliShowHide(WPARAM, LPARAM lParam)
 		db_unset(NULL, "ModernData", "BehindEdge");
 	}
 
-	//bShow is FALSE when we enter the switch if no hide behind edge.
+	// bShow is FALSE when we enter the switch if no hide behind edge.
 	switch (iVisibleState) {
 	case GWVS_PARTIALLY_COVERED:
 		bShow = TRUE; break;
@@ -356,7 +356,7 @@ int cliShowHide(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	if (bShow || lParam == 1) {
+	if (bShow || bAlwaysShow) {
 		Sync(CLUIFrames_ActivateSubContainers, TRUE);
 		CLUI_ShowWindowMod(pcli->hwndContactList, SW_RESTORE);
 
@@ -381,7 +381,7 @@ int cliShowHide(WPARAM, LPARAM lParam)
 			MoveWindow(pcli->hwndContactList, rcWindow.left, rcWindow.top,
 			rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 	}
-	else { //It needs to be hidden
+	else { // It needs to be hidden
 		if (GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) {
 			CListMod_HideWindow();
 			db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);

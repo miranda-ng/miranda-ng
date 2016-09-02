@@ -1279,7 +1279,7 @@ void CJabberProto::InfoFrame_OnTransport(CJabberInfoFrame_Event *evt)
 		POINT pt;
 		GetCursorPos(&pt);
 		int res = TrackPopupMenu(hContactMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
-		CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(res, MPCF_CONTACTMENU), hContact);
+		Clist_MenuProcessCommand(res, MPCF_CONTACTMENU, hContact);
 	}
 }
 

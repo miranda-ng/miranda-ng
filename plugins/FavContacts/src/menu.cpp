@@ -432,7 +432,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 		SetForegroundWindow(hwndSave);
 		DestroyMenu(hMenu);
 
-		CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(res, MPCF_CONTACTMENU), hContact);
+		Clist_MenuProcessCommand(res, MPCF_CONTACTMENU, hContact);
 		return TRUE;
 	}
 

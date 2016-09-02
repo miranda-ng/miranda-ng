@@ -229,7 +229,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			MCONTACT hContact = uDlg->m_tabs[uDlg->m_activeTab]->m_job->m_hContact;
 			if (hContact != NULL)
-				if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), hContact))
+				if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, hContact))
 					break;
 
 			if (HIWORD(wParam) == BN_CLICKED) {

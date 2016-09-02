@@ -58,7 +58,7 @@ static VOID CALLBACK ShowContactMenu(MCONTACT hContact)
 	HMENU hMenu = Menu_BuildContactMenu(hContact);
 	GetCursorPos(&pt);
 	SetForegroundWindow(hMenuWnd);
-	CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, NULL), MPCF_CONTACTMENU), hContact);
+	Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, NULL), MPCF_CONTACTMENU, hContact);
 	PostMessage(hMenuWnd, WM_NULL, 0, 0);
 	DestroyMenu(hMenu);
 	DestroyWindow(hMenuWnd);

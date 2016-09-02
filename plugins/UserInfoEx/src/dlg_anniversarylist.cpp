@@ -437,7 +437,7 @@ class CAnnivList
 				CItemData* pid = pDlg->ItemData(pDlg->_curSel);
 
 				// process contact menu command
-				if (pid && CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)pid->_hContact))
+				if (pid && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, pid->_hContact))
 					break;
 
 				switch (LOWORD(wParam)) {

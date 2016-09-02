@@ -231,8 +231,6 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		return result;
 	if (cli.pfnTrayIconProcessMessage((WPARAM)&m, (LPARAM)&result))
 		return result;
-	if (cli.pfnHotkeysProcessMessage((WPARAM)&m, (LPARAM)&result))
-		return result;
 
 	return cli.pfnContactListWndProc(hwnd, msg, wParam, lParam);
 }
@@ -534,7 +532,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			GetWindowRect(hwnd, &rc);
 
 			//if docked, dont remember pos (except for width)
-			if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+			if (!Clist_IsDocked()) {
 				db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
 				db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
 				db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
@@ -684,7 +682,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_COMMAND:
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_MAINMENU), (LPARAM)(HANDLE)NULL))
+		if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_MAINMENU, 0))
 			break;
 
 		switch (LOWORD(wParam)) {
@@ -695,7 +693,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		case ID_TRAY_HIDE:
-			CallService(MS_CLIST_SHOWHIDE, 0, 0);
+			cli.pfnShowHide();
 			break;
 
 		case POPUP_NEWGROUP:
@@ -720,13 +718,13 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		case POPUP_HIDEMIRANDA:
-			CallService(MS_CLIST_SHOWHIDE, 0, 0);
+			cli.pfnShowHide();
 			break;
 		}
 		return FALSE;
 
 	case WM_KEYDOWN:
-		CallService(MS_CLIST_MENUPROCESSHOTKEY, wParam, MPCF_MAINMENU | MPCF_CONTACTMENU);
+		Clist_MenuProcessHotkey(wParam);
 		break;
 
 	case WM_GETMINMAXINFO:
@@ -736,8 +734,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return 0;
 
 	case WM_SETTINGCHANGE:
-		if (wParam == SPI_SETWORKAREA && (GetWindowLongPtr(hwnd, GWL_STYLE) & (WS_VISIBLE | WS_MINIMIZE)) == WS_VISIBLE &&
-			!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+		if (wParam == SPI_SETWORKAREA && (GetWindowLongPtr(hwnd, GWL_STYLE) & (WS_VISIBLE | WS_MINIMIZE)) == WS_VISIBLE && !Clist_IsDocked()) {
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
 			if (Utils_AssertInsideScreen(&rc) == 1)
@@ -792,7 +789,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				return FALSE;
 
 			case NM_KEYDOWN:
-				return CallService(MS_CLIST_MENUPROCESSHOTKEY, ((NMKEY*)lParam)->nVKey, MPCF_MAINMENU | MPCF_CONTACTMENU);
+				return Clist_MenuProcessHotkey(((NMKEY*)lParam)->nVKey);
 
 			case CLN_LISTSIZECHANGE:
 				{
@@ -801,7 +798,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 					if (!db_get_b(NULL, "CLUI", "AutoSize", 0))
 						break;
-					if (CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
+					if (Clist_IsDocked())
 						break;
 					maxHeight = db_get_b(NULL, "CLUI", "MaxSizeHeight", 75);
 					GetWindowRect(hwnd, &rcWindow);
@@ -1025,7 +1022,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			GetWindowRect(hwnd, &rc);
 
 			//if docked, dont remember pos (except for width)
-			if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+			if (!Clist_IsDocked()) {
 				db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
 				db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
 				db_set_dw(NULL, "CList", "y", (DWORD)rc.top);

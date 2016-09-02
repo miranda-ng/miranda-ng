@@ -265,3 +265,6 @@ Window_SetSkinIcon_IcoLib @264
 Window_SetIcon_IcoLib @265
 Clist_Broadcast @266
 Clist_BroadcastAsync @267
+Clist_MenuProcessCommand @268
+Clist_IsDocked @269
+Clist_MenuProcessHotkey @270

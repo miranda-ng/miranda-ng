@@ -409,7 +409,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 	KillTimer(hwnd, TIMERID_INFOTIP);
 	KillTimer(hwnd, TIMERID_RENAME);
 
-	if (CallService(MS_CLIST_MENUPROCESSHOTKEY, wParam, MPCF_CONTACTMENU))
+	if (Clist_MenuProcessHotkey(wParam))
 		return 0;
 
 	RECT clRect;

@@ -1297,7 +1297,7 @@ LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 		// do not call PluginWindowProc if menu item was clicked. prevent auto-closing...
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), hContact))
+		if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, hContact))
 			return DefWindowProc(hwnd, message, wParam, lParam);
 		break;
 

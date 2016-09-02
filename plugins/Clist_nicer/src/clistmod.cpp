@@ -173,7 +173,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	return GWVS_PARTIALLY_COVERED;
 }
 
-int ShowHide(WPARAM, LPARAM)
+int ShowHide()
 {
 	BOOL bShow = FALSE;
 

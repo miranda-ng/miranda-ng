@@ -359,7 +359,7 @@ struct CLIST_INTERFACE
 
 	/* clistmod.c */
 	int    (*pfnIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
-	int    (*pfnShowHide)(WPARAM, LPARAM);
+	int    (*pfnShowHide)(void);
 	
 	#define GSMDF_UNTRANSLATED 4 // don't tranlate the result
 	wchar_t* (*pfnGetStatusModeDescription)(int mode, int flags);
@@ -403,11 +403,10 @@ struct CLIST_INTERFACE
 	/* docking.c */
 	int (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
 
-	/* keyboard.c */
-	int   (*pfnHotKeysRegister)(HWND hwnd);
-	void  (*pfnHotKeysUnregister)(HWND hwnd);
-	int   (*pfnHotKeysProcess)(HWND hwnd, WPARAM wParam, LPARAM lParam);
-	int   (*pfnHotkeysProcessMessage)(WPARAM wParam, LPARAM lParam);
+	int   (*blablabla1)();
+	int   (*blablabla2)();
+	int   (*blablabla3)();
+	int   (*blablabla4)();
 
 	/*************************************************************************************
 	 * version 2 - events processing

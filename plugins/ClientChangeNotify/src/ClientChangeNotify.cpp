@@ -75,7 +75,7 @@ static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
 	HMENU hMenu = Menu_BuildContactMenu(wParam);
 	GetCursorPos(&pt);
 	SetForegroundWindow(hMenuWnd);
-	CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, NULL), MPCF_CONTACTMENU), (LPARAM)wParam);
+	Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, NULL), MPCF_CONTACTMENU, wParam);
 	PostMessage(hMenuWnd, WM_NULL, 0, 0);
 	DestroyMenu(hMenu);
 	DestroyWindow(hMenuWnd);

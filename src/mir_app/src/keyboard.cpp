@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static INT_PTR hkHideShow(WPARAM, LPARAM)
 {
-	cli.pfnShowHide(0, 0);
+	cli.pfnShowHide();
 	return 0;
 }
 
@@ -89,24 +89,4 @@ int InitClistHotKeys(void)
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'F') | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&shk);
 	return 0;
-}
-
-
-int fnHotKeysRegister(HWND)
-{
-	return 0;
-}
-
-void fnHotKeysUnregister(HWND)
-{
-}
-
-int fnHotKeysProcess(HWND, WPARAM, LPARAM)
-{
-	return TRUE;
-}
-
-int fnHotkeysProcessMessage(WPARAM, LPARAM)
-{
-	return FALSE;
 }

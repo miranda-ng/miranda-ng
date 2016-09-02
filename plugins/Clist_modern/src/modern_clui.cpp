@@ -736,7 +736,7 @@ void CLUI_ChangeWindowMode()
 		int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 		h = (h < v) ? h : v;
 		HRGN hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
-		if ((db_get_b(NULL, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT)) && (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)))
+		if (db_get_b(NULL, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT) && !Clist_IsDocked())
 			SetWindowRgn(pcli->hwndContactList, hRgn1, 1);
 		else {
 			DeleteObject(hRgn1);
@@ -1680,7 +1680,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckFramesPos(&rc);
 			Sync(CLUIFrames_OnMoving, m_hWnd, &rc);
 			if (!IsIconic(m_hWnd)) {
-				if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) { // if g_CluiData.fDocked, dont remember pos (except for width)
+				if (!Clist_IsDocked()) { // if g_CluiData.fDocked, dont remember pos (except for width)
 					db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
 					db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
 					db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
@@ -1717,7 +1717,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			// if g_CluiData.fDocked, dont remember pos (except for width)
-			if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+			if (!Clist_IsDocked()) {
 				db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
 				db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
 				db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
@@ -1734,7 +1734,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 				int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 				h = (h < v) ? h : v;
 				hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
-				if ((db_get_b(NULL, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT)) && (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)))
+				if (db_get_b(NULL, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT) && !Clist_IsDocked())
 					SetWindowRgn(m_hWnd, hRgn1, FALSE);
 				else {
 					DeleteObject(hRgn1);
@@ -1905,7 +1905,7 @@ LRESULT CLUI::OnCreateClc(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	CreateCLC();
 	if (db_get_b(NULL, "CList", "ShowOnStart", SETTING_SHOWONSTART_DEFAULT))
-		cliShowHide((WPARAM)m_hWnd, TRUE);
+		cliShowHide(true);
 	pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 	return FALSE;
 }
@@ -2177,7 +2177,7 @@ LRESULT CLUI::OnNcLButtonDblClk(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		POINT pt = UNPACK_POINT(lParam);
 		if (pt.x > rc.right - 16 && pt.x < rc.right)
-			return CallService(MS_CLIST_SHOWHIDE, 0, 0);
+			return pcli->pfnShowHide();
 	}
 	return DefCluiWndProc(msg, wParam, lParam);
 }
@@ -2279,7 +2279,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
 		rcWindow = rcSizingRect;
 	else
 		GetWindowRect(m_hWnd, &rcWindow);
-	if (!g_CluiData.fAutoSize || pcli->hwndContactTree == 0 || CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
+	if (!g_CluiData.fAutoSize || pcli->hwndContactTree == 0 || Clist_IsDocked())
 		return FALSE;
 
 	maxHeight = db_get_b(NULL, "CLUI", "MaxSizeHeight", SETTING_MAXSIZEHEIGHT_DEFAULT);

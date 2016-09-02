@@ -44,11 +44,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // wParam = new status, from statusmodes.h
 // lParam = protocol name, NULL if for all protocols
 // also sent due to a ms_clist_setstatusmode call
+
 #define ME_CLIST_STATUSMODECHANGE       "CList/StatusModeChange"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // force a change of status mode
 // wParam = new status, from statusmodes.h
+
 #define MS_CLIST_SETSTATUSMODE			"CList/SetStatusMode"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -57,37 +59,44 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // returns the current status
 // This is the status *as set by the user*, not any protocol-specific status
 // All protocol modules will attempt to conform to this setting at all times
+
 #define MS_CLIST_GETSTATUSMODE			"CList/GetStatusMode"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MAIN MENU
 
 // adds a new element into main menu
+
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi);
 
 // gets a handle to the main Miranda menu
 // returns a HMENU. This need not to be freed since it's owned by clist
+
 EXTERN_C MIR_APP_DLL(HMENU) Menu_GetMainMenu(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // the main menu is about to be built
 // wParam = lParam = 0
+
 #define ME_CLIST_PREBUILDMAINMENU "CList/PreBuildMainMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CONTACT MENU
 
 // adds a new element into contact menu
+
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddContactMenuItem(TMO_MenuItem *pmi, const char *pszProto = NULL);
 
 // builds the context menu for a specific contact
 // returns a HMENU identifying the menu. This should be DestroyMenu()ed when
 // finished with.
+
 EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildContactMenu(MCONTACT hContact);
 
 // the context menu for a contact is about to be built
 // modules should use this to change menu items that are specific to the
 // contact that has them
+
 #define ME_CLIST_PREBUILDCONTACTMENU "CList/PreBuildContactMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -95,19 +104,23 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildContactMenu(MCONTACT hContact);
 
 // get a handle to the Miranda status menu
 // returns a HMENU. This need not be freed since it's owned by clist
+
 EXTERN_C MIR_APP_DLL(HMENU) Menu_GetStatusMenu(void);
 
 // adds an item to a status menu
+
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszProto = NULL);
 
 // the status menu is about to be built
 // wParam = lParam = 0
+
 #define ME_CLIST_PREBUILDSTATUSMENU "CList/PreBuildStatusMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // PROTOCOL MENU
 
 // adds an item to status or main menu, according to the option
+
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *pmi, const char *pszProto = NULL);
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -121,13 +134,16 @@ struct GroupMenuParam
 
 // builds the Group menu
 // returns a HMENU identifying the menu.
+
 EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildGroupMenu(void);
 
 // adds a new item to the Group menus
+
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp = NULL);
 
 // the Group menu is about to be built
 // wParam = lParam = 0
+
 #define ME_CLIST_PREBUILDGROUPMENU "CList/PreBuildGroupMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -135,15 +151,18 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMen
 
 // builds the SubGroup menu
 // returns a HMENU identifying the menu.
+
 EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildSubGroupMenu(struct ClcGroup *group);
 
 // adds a new item to the SubGroup menus
 // wParam=GroupMenuParam*, params to call when exec menuitem
 // lParam=(LPARAM)(TMO_MenuItem*)&mi
+
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *gmp = NULL);
 
 // the SubGroup menu is about to be built
 // wParam = lParam = 0
+
 #define ME_CLIST_PREBUILDSUBGROUPMENU "CList/PreBuildSubGroupMenu"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -242,7 +261,9 @@ typedef struct {
 // wParam = lParam = 0
 // returns a HIMAGELIST
 // the members of this image list are opaque, and you should trust what you are given
+
 #define MS_CLIST_GETICONSIMAGELIST    "CList/GetIconsImageList"
+
 #define IMAGE_GROUPOPEN     11
 #define IMAGE_GROUPSHUT     12
 
@@ -251,24 +272,21 @@ typedef struct {
 // wParam = (MCONTACT)hContact
 // lParam = iconId
 // iconId is an offset into the clist's imagelist. See clist/geticonsimagelist
+
 #define ME_CLIST_CONTACTICONCHANGED   "CList/ContactIconChanged"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//processes a menu selection from a menu
-//wParam = MAKEWPARAM(LOWORD(wParam from WM_COMMAND), flags)
-//lParam = (LPARAM)(MCONTACT)hContact
-//returns TRUE if it processed the command, FALSE otherwise
-//hContact is the currently selected contact. It it not used if this is a main
-//menu command. If this is NULL and the command is a contact menu one, the
-//command is ignored
-
-#define CLISTMENUIDMIN	0x4000	  // reserved range for clist menu ids
-#define CLISTMENUIDMAX	0x7fff
-
+// processes a menu selection from a menu
+// wParam = MAKEWPARAM(LOWORD(wParam from WM_COMMAND), flags)
+// lParam = (LPARAM)(MCONTACT)hContact
+// returns TRUE if it processed the command, FALSE otherwise
+// hContact is the currently selected contact. It it not used if this is a main
+// menu command. If this is NULL and the command is a contact menu one, the
+// command is ignored
 /////////////////////////////////////////////////////////////////////////////////////////
 // Due to it is generic practice to handle menu command via WM_COMMAND
-// window message handle and practice to process it via calling service
-// in form: CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) hContact))
+// window message handle and practice to process it via calling
+// Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, hContact);
 // to ensure that WM_COMMAND was really from clist menu not from other menu
 // it is reserved range of menu ids from CLISTMENUIDMIN to CLISTMENUIDMAX
 // the menu items with ids outside from such range will not be processed by service.
@@ -276,12 +294,15 @@ typedef struct {
 // please be sure that you will not call service for non-clist menu items.
 // The simplest way is to ensure that your menus are not use item ids from such range.
 // Otherwise, you HAVE TO distinguish WM_COMMAND from clist menus and from youê internal menu and
-// DO NOT call MS_CLIST_MENUPROCESSCOMMAND for non clist menus.
+// DO NOT call Clist_MenuProcessCommand for non clist menus.
+
+#define CLISTMENUIDMIN	0x4000	  // reserved range for clist menu ids
+#define CLISTMENUIDMAX	0x7fff
 
 #define MPCF_CONTACTMENU   1	//test commands from a contact menu
 #define MPCF_MAINMENU      2	//test commands from the main menu
 
-#define MS_CLIST_MENUPROCESSCOMMAND "CList/MenuProcessCommand"
+EXTERN_C MIR_APP_DLL(BOOL) Clist_MenuProcessCommand(int menu_id, int flags, MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // processes a menu hotkey
@@ -289,60 +310,44 @@ typedef struct {
 // lParam = MPCF_ flags
 // returns TRUE if it processed the command, FALSE otherwise
 // this should be called in WM_KEYDOWN
-#define MS_CLIST_MENUPROCESSHOTKEY "CList/MenuProcessHotkey"
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// process all the messages required for docking
-// wParam = (WPARAM)(MSG*)&msg
-// lParam = (LPARAM)(LRESULT*)&lResult
-// returns TRUE if the message should not be processed further, FALSE otherwise
-// only msg.hwnd, msg.message, msg.wParam and msg.lParam are used
-// your wndproc should return lResult if and only if TRUE is returned
-#define MS_CLIST_DOCKINGPROCESSMESSAGE  "CList/DockingProcessMessage"
+EXTERN_C MIR_APP_DLL(BOOL) Clist_MenuProcessHotkey(unsigned hotkey);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // determines whether the contact list is docked
 // wParam = lParam = 0
 // returns nonzero if the contact list is docked, of 0 if it is not
-#define MS_CLIST_DOCKINGISDOCKED        "CList/DockingIsDocked"
+
+EXTERN_C MIR_APP_DLL(BOOL) Clist_IsDocked(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// process all the messages required for hotkeys
-// wParam = (WPARAM)(MSG*)&msg
-// lParam = (LPARAM)(LRESULT*)&lResult
-// returns TRUE if the message should not be processed further, FALSE otherwise
-// only msg.hwnd, msg.message, msg.wParam and msg.lParam are used
-// your wndproc should return lResult if and only if TRUE is returned
-#define MS_CLIST_HOTKEYSPROCESSMESSAGE  "CList/HotkeysProcessMessage"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// toggles the show/hide status of the contact list
-// wParam = lParam = 0
-// returns 0 on success, nonzero on failure
-#define MS_CLIST_SHOWHIDE "CList/ShowHide"
-
+// Clist-related buttons management
 /////////////////////////////////////////////////////////////////////////////////////////
 // toggles the use groups mode of the contact list
 // wParam = lParam = 0
 // returns new groups mode
+
 #define MS_CLIST_TOGGLEGROUPS "CList/ToggleGroups"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // toggles the empty groups display mode
 // wParam = lParam = 0
 // returns new empty groups mode
+
 #define MS_CLIST_TOGGLEEMPTYGROUPS "CList/ToggleEmptyGroups"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // toggles the hidden users display mode
 // wParam = lParam = 0
 // returns new hidden users mode
+
 #define MS_CLIST_TOGGLEHIDEOFFLINE "CList/ToggleHideOffline"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // toggles the hidden users display mode
 // wParam = lParam = 0
 // returns new hidden users mode
+
 #define MS_CLIST_TOGGLEHIDEOFFLINEROOT "CList/ToggleHideOfflineRoot"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -451,6 +456,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 // wParam = (MCONTACT)hContact
 // lParam = 0
 // returns 0 on success, nonzero on failure
+
 #define MS_CLIST_CONTACTDOUBLECLICKED "CList/ContactDoubleClicked"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -459,6 +465,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 // lParam = (LPARAM)(char**)ppFiles
 // returns 0 on success, nonzero on failure
 // ppFiles is an array of fully qualified filenames, ending with a NULL.
+
 #define MS_CLIST_CONTACTFILESDROPPED   "CList/ContactFilesDropped"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -467,6 +474,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 // lParam = (LPARAM)(MGROUP)hGroup
 // returns 0 on success, nonzero on failure
 // use hGroup = NULL to put the contact in no group
+
 #define MS_CLIST_CONTACTCHANGEGROUP   "CList/ContactChangeGroup"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -476,6 +484,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 // returns 0 if hContact1 is the same as hContact2
 // returns +1 if hContact2 should be displayed after hContact1
 // returns -1 if hContact1 should be displayed after hContact2
+
 #define MS_CLIST_CONTACTSCOMPARE      "CList/ContactsCompare"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -485,6 +494,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 // wParam = (MCONTACT)hContact
 // lParam = MAKELPARAM(screenX, screenY)
 // return nonzero to make the cursor a 'can drop here', or zero for 'no'
+
 #define ME_CLUI_CONTACTDRAGGING     "CLUI/ContactDragging"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -492,6 +502,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 // wParam = (MCONTACT)hContact
 // lParam = MAKELPARAM(screenX, screenY)
 // return nonzero if your hook processed this, so no other hooks get it
+
 #define ME_CLUI_CONTACTDROPPED      "CLUI/ContactDropped"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -499,6 +510,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 // wParam = (MCONTACT)hContact
 // lParam = 0
 // always returns zero
+
 #define ME_CLUI_CONTACTDRAGSTOP     "CLUI/ContactDragStop"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -517,7 +529,6 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 #define NIIF_ICON_MASK      0x0000000F
 #define NIIF_NOSOUND        0x00000010
 #define NIIF_INTERN_UNICODE 0x00000100
-
 
 typedef struct {
 	int cbSize;			// sizeof(MIRANDASYSTRAY)

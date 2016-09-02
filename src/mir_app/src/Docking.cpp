@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DOCKED_LEFT    1
 #define DOCKED_RIGHT   2
 
-static char docked;
+static int docked;
 static POINT dockPos;
 
 static void Docking_GetMonitorRectFromPoint(LPPOINT pt, LPRECT rc)
@@ -127,7 +127,7 @@ static bool Docking_IsWindowVisible(HWND hwnd)
 	return style & WS_VISIBLE && !(style & WS_MINIMIZE);
 }
 
-INT_PTR Docking_IsDocked(WPARAM, LPARAM)
+MIR_APP_DLL(BOOL) Clist_IsDocked()
 {
 	return docked;
 }

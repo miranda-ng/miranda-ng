@@ -642,31 +642,44 @@ INT_PTR FreeOwnerDataStatusMenu(WPARAM, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Other menu functions
+// Global menu functions
 
-INT_PTR MenuProcessCommand(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(BOOL) Clist_MenuProcessCommand(int menu_id, int flags, MCONTACT hContact)
 {
-	WORD cmd = LOWORD(wParam);
-
-	if (HIWORD(wParam) & MPCF_MAINMENU) {
-		int hst = LOWORD(wParam);
-		if (hst >= ID_STATUS_OFFLINE && hst <= ID_STATUS_OUTTOLUNCH) {
-			int pos = statustopos(hst);
+	if (flags & MPCF_MAINMENU) {
+		if (menu_id >= ID_STATUS_OFFLINE && menu_id <= ID_STATUS_OUTTOLUNCH) {
+			int pos = statustopos(menu_id);
 			if (pos != -1 && hStatusMainMenuHandles != NULL)
-				return Menu_ProcessCommand(hStatusMainMenuHandles[pos], lParam);
+				return Menu_ProcessCommand(hStatusMainMenuHandles[pos], hContact);
 		}
 	}
 
-	if (!(cmd >= CLISTMENUIDMIN && cmd <= CLISTMENUIDMAX))
-		return 0; // DO NOT process ids outside from clist menu id range		v0.7.0.27+
+	if (!(menu_id >= CLISTMENUIDMIN && menu_id <= CLISTMENUIDMAX))
+		return false; // DO NOT process ids outside from clist menu id range		v0.7.0.27+
 
 	// process old menu sys
-	if (HIWORD(wParam) & MPCF_CONTACTMENU)
-		return MO_ProcessCommandBySubMenuIdent(hContactMenuObject, cmd, lParam);
+	if (flags & MPCF_CONTACTMENU)
+		return MO_ProcessCommandBySubMenuIdent(hContactMenuObject, menu_id, hContact);
 
 	// unknown old menu
-	return Menu_ProcessCommandById(cmd, lParam);
+	return Menu_ProcessCommandById(menu_id, hContact);
 }
+
+MIR_APP_DLL(BOOL) Clist_MenuProcessHotkey(unsigned vKey)
+{
+	prochotkey = true;
+
+	bool res =
+		Menu_ProcessHotKey(hStatusMenuObject, vKey) ||
+		Menu_ProcessHotKey(hMainMenuObject, vKey);
+
+	prochotkey = false;
+
+	return res;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Other menu functions
 
 BOOL FindMenuHanleByGlobalID(HMENU hMenu, TMO_IntMenuItem *id, MenuItemData* itdat)
 {
@@ -701,22 +714,9 @@ BOOL FindMenuHanleByGlobalID(HMENU hMenu, TMO_IntMenuItem *id, MenuItemData* itd
 	return FALSE;
 }
 
-static INT_PTR MenuProcessHotkey(WPARAM vKey, LPARAM)
-{
-	prochotkey = true;
-
-	bool res =
-		Menu_ProcessHotKey(hStatusMenuObject, vKey) ||
-		Menu_ProcessHotKey(hMainMenuObject, vKey);
-
-	prochotkey = false;
-
-	return res;
-}
-
 static int MenuIconsChanged(WPARAM, LPARAM)
 {
-	//just rebuild menu
+	// just rebuild menu
 	RebuildMenuOrder();
 	cli.pfnCluiProtocolStatusChanged(0, 0);
 	return 0;
@@ -725,7 +725,7 @@ static int MenuIconsChanged(WPARAM, LPARAM)
 static INT_PTR SetStatusMode(WPARAM wParam, LPARAM)
 {
 	prochotkey = true;
-	MenuProcessCommand(MAKEWPARAM(LOWORD(wParam), MPCF_MAINMENU), 0);
+	Clist_MenuProcessCommand(LOWORD(wParam), MPCF_MAINMENU, 0);
 	prochotkey = false;
 	return 0;
 }
@@ -1103,9 +1103,6 @@ void InitCustomMenus(void)
 	CreateServiceFunction("CLISTMENUS/FreeOwnerDataStatusMenu", FreeOwnerDataStatusMenu);
 
 	CreateServiceFunction(MS_CLIST_SETSTATUSMODE, SetStatusMode);
-
-	CreateServiceFunction(MS_CLIST_MENUPROCESSCOMMAND, MenuProcessCommand);
-	CreateServiceFunction(MS_CLIST_MENUPROCESSHOTKEY, MenuProcessHotkey);
 
 	hPreBuildContactMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDCONTACTMENU);
 	hPreBuildMainMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDMAINMENU);

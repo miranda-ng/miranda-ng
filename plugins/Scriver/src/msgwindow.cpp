@@ -847,7 +847,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
 
 	case WM_COMMAND:
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)dat->hContact))
+		if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, dat->hContact))
 			break;
 
 		if (LOWORD(wParam) == IDCANCEL)
@@ -899,7 +899,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							CloseOtherChilden(dat, mwtd->hwnd);
 							break;
 						default:
-							CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(menuResult), MPCF_CONTACTMENU), (LPARAM)mwtd->hContact);
+							Clist_MenuProcessCommand(LOWORD(menuResult), MPCF_CONTACTMENU, mwtd->hContact);
 						}
 						if (hUserMenu != NULL)
 							DestroyMenu(hUserMenu);

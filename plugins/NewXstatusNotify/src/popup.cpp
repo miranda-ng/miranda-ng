@@ -162,7 +162,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 	case WM_COMMAND:
 		//This one returns TRUE if it processed the menu command, and FALSE if it did not process it.
-		if (CallServiceSync(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)PUGetContact(hwnd)))
+		if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, PUGetContact(hwnd)))
 			break;
 
 		PopupAction(hwnd, opt.LeftClickAction);

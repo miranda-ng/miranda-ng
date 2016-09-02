@@ -204,7 +204,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 
 	case WM_COMMAND:
 		hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wparam), MPCF_CONTACTMENU), hContact))
+		if (Clist_MenuProcessCommand(LOWORD(wparam), MPCF_CONTACTMENU, hContact))
 			break;
 
 		switch (LOWORD(wparam)) {

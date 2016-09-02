@@ -668,7 +668,7 @@ static VOID CALLBACK sttMenuThread(PVOID param)
 	tpmp.cbSize = sizeof(tpmp);
 	BOOL menuRet = TrackPopupMenuEx(hMenu, TPM_RETURNCMD, menuMousePoint.x, menuMousePoint.y, cli.hwndContactList, &tpmp);
 
-	CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(menuRet), MPCF_CONTACTMENU), (LPARAM)param);
+	Clist_MenuProcessCommand(LOWORD(menuRet), MPCF_CONTACTMENU, (INT_PTR)param);
 
 	DestroyMenu(hMenu);
 }

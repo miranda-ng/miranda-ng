@@ -500,7 +500,7 @@ INT_PTR SvcApplySkin(WPARAM, LPARAM lParam)
 	CLUI_ChangeWindowMode();
 	SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 	CLUI_ReloadCLUIOptions();
-	cliShowHide(0, 1);
+	cliShowHide(true);
 	g_mutex_bChangingMode = FALSE;
 
 	if (g_hCLUIOptionsWnd) {

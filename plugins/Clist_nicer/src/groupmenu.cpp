@@ -99,7 +99,7 @@ void InitGroupMenus(void)
 
 	SET_UID(mi, 0xe386678a, 0x5aee, 0x4bfa, 0xa8, 0x23, 0xd, 0xa0, 0x11, 0x99, 0xb1, 0x98);
 	mi.position = 500;
-	mi.pszService = MS_CLIST_SHOWHIDE;
+	mi.pszService = "Clist/ShowHide";
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	mi.name.a = LPGEN("&Hide/show");
 	hHideShowMainMenuItem = Menu_AddGroupMenuItem(&mi);

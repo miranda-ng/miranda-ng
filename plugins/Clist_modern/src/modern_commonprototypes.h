@@ -120,7 +120,6 @@ BOOL    ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT f
 LPSKINOBJECTDESCRIPTOR ske_FindObjectByName(const char *szName, BYTE objType, SKINOBJECTSLIST *Skin);
 HBITMAP ske_GetCurrentWindowImage();
 int     ske_GetFullFilename(wchar_t *buf, const wchar_t *file, wchar_t *skinfolder, BOOL madeAbsolute);
-int     ske_GetSkinFolder(wchar_t *szFileName, char *t2);
 BOOL    ske_ImageList_DrawEx(HIMAGELIST himl, int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
 HICON   ske_ImageList_GetIcon(HIMAGELIST himl, int i);
 int     ske_JustUpdateWindowImageRect(RECT *rty);
@@ -218,8 +217,6 @@ void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *sz
 // cluiframes.c
 int     ExtraImage_ExtraIDToColumnNum(int extra);
 
-int     LoadSkinButtonModule();
-void    GetDefaultFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
 int     CLUI_OnSkinLoad(WPARAM wParam, LPARAM lParam);
 HRESULT CluiLoadModule();
 HRESULT PreLoadContactListModule();
@@ -234,7 +231,6 @@ void    cliCheckCacheItem(ClcCacheEntry *pdnce);
 void    cliFreeCacheItem(ClcCacheEntry *p);
 void    cliRebuildEntireList(HWND hwnd, ClcData *dat);
 void    cliRecalcScrollBar(HWND hwnd, ClcData *dat);
-void    CLUI_cliOnCreateClc(void);
 int     cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 int     cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
 int     cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
@@ -246,7 +242,7 @@ void    cli_SetContactCheckboxes(ClcContact*, int);
 LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 CListEvent* cli_AddEvent(CLISTEVENT *cle);
 LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-int     cliShowHide(WPARAM wParam, LPARAM lParam);
+int     cliShowHide(bool bAlwaysShow);
 BOOL    cliInvalidateRect(HWND hWnd, CONST RECT *lpRect, BOOL bErase);
 int     cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2);
 int     cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);

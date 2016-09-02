@@ -119,8 +119,6 @@ int fnGetAccountIndexByPos(int Pos);
 int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos);
 void RebuildMenuOrder(void);
 
-INT_PTR  MenuProcessCommand(WPARAM wParam, LPARAM lParam);
-
 /* clistsettings.c */
 wchar_t* fnGetContactDisplayName(MCONTACT hContact, int mode);
 void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF * colour);
@@ -149,7 +147,7 @@ int    fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent);
 /* clistmod.c */
 int    fnGetContactIcon(MCONTACT hContact);
 int    fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);
-int    fnShowHide(WPARAM wParam, LPARAM lParam);
+int    fnShowHide(void);
 HICON  fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);
 wchar_t* fnGetStatusModeDescription(int wParam, int lParam);
 int    fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
@@ -191,9 +189,3 @@ int  fnSetHideOffline(int iValue);
 
 /* docking.c */
 int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
-
-/* keyboard.c */
-int  fnHotKeysRegister(HWND hwnd);
-void fnHotKeysUnregister(HWND hwnd);
-int  fnHotKeysProcess(HWND hwnd, WPARAM wParam, LPARAM lParam);
-int  fnHotkeysProcessMessage(WPARAM wParam, LPARAM lParam);

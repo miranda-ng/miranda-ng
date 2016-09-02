@@ -742,7 +742,7 @@ panel_found:
 						HMENU hMenu = Menu_BuildContactMenu(hContact);
 						iSel = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 						if (iSel)
-							CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSel), MPCF_CONTACTMENU), hContact);
+							Clist_MenuProcessCommand(LOWORD(iSel), MPCF_CONTACTMENU, hContact);
 						DestroyMenu(hMenu);
 					}
 				}
@@ -867,11 +867,10 @@ panel_found:
 
 			if (dat) {
 				if (fProcessContactMenu)
-					return(CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)dat->hContact));
-				else if (fProcessMainMenu) {
-					return(CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_MAINMENU), 0));
-				}
-				else if (MsgWindowMenuHandler(dat, LOWORD(wParam), MENU_PICMENU) == 1)
+					return Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, dat->hContact);
+				if (fProcessMainMenu)
+					return Clist_MenuProcessCommand(LOWORD(wParam), MPCF_MAINMENU, 0);
+				if (MsgWindowMenuHandler(dat, LOWORD(wParam), MENU_PICMENU) == 1)
 					break;
 			}
 			SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);

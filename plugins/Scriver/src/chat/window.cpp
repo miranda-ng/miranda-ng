@@ -1650,7 +1650,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_COMMAND:
-		if (!lParam && CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), si->hContact))
+		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, si->hContact))
 			break;
 
 		switch (LOWORD(wParam)) {

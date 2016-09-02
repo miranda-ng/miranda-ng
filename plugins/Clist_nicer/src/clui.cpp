@@ -959,7 +959,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			}
 
 			if (cfg::dat.bClipBorder != 0 || cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME) {
-				int docked = CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0);
+				int docked = Clist_IsDocked();
 				int clip = cfg::dat.bClipBorder;
 
 				if (!g_CLUISkinnedBkColor)
@@ -1121,7 +1121,7 @@ skipbg:
 				GetWindowRect(hwnd, &rc);
 
 				// if docked, dont remember pos (except for width)
-				if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+				if (!Clist_IsDocked()) {
 					db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
 					db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
 					db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
@@ -1313,11 +1313,11 @@ skipbg:
 					db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 					break;
 				}
-				pcli->pfnShowHide(0, 0);
+				pcli->pfnShowHide();
 				return 0;
 			}
 			if (wParam == SC_RESTORE) {
-				pcli->pfnShowHide(0, 0);
+				pcli->pfnShowHide();
 				return 0;
 			}
 		}
@@ -1474,7 +1474,7 @@ skipbg:
 					return 0;
 				}
 			}
-			else if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_MAINMENU), NULL))
+			else if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_MAINMENU, NULL))
 				return 0;
 
 buttons_done:
@@ -1488,7 +1488,7 @@ buttons_done:
 			case ID_TRAY_HIDE:
 			case IDC_TBMINIMIZE:
 			case IDC_STBMINIMIZE:
-				pcli->pfnShowHide(0, 0);
+				pcli->pfnShowHide();
 				break;
 			case POPUP_NEWGROUP:
 				SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
@@ -1513,7 +1513,7 @@ buttons_done:
 				SetButtonStates();
 				break;
 			case POPUP_HIDEMIRANDA:
-				pcli->pfnShowHide(0, 0);
+				pcli->pfnShowHide();
 				break;
 			case POPUP_SHOWMETAICONS:
 				cfg::dat.dwFlags ^= CLUI_USEMETAICONS;
@@ -1731,7 +1731,7 @@ buttons_done:
 			PostMessage(hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 			return 0;
 		}
-		pcli->pfnShowHide(0, 0);
+		pcli->pfnShowHide();
 		return 0;
 
 	case CLUIINTM_REDRAW:

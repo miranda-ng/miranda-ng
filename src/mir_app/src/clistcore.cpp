@@ -194,11 +194,6 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnShowHide                        = fnShowHide;
 		cli.pfnGetStatusModeDescription        = fnGetStatusModeDescription;
 
-		cli.pfnHotKeysRegister                 = fnHotKeysRegister;
-		cli.pfnHotKeysUnregister               = fnHotKeysUnregister;
-		cli.pfnHotKeysProcess                  = fnHotKeysProcess;
-		cli.pfnHotkeysProcessMessage           = fnHotkeysProcessMessage;
-
 		cli.pfnGetProtocolVisibility           = fnGetProtocolVisibility;
 		cli.pfnGetProtoIndexByPos              = fnGetProtoIndexByPos;
 		cli.pfnReloadProtoMenus                = fnReloadProtoMenus;

@@ -944,7 +944,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if(ret)
 				{
 					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-					CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(ret),MPCF_CONTACTMENU),(LPARAM) hContact);
+					Clist_MenuProcessCommand(LOWORD(ret), MPCF_CONTACTMENU, hContact);
 				}
 
 				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);

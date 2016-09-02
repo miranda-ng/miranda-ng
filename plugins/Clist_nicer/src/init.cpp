@@ -46,7 +46,7 @@ void LoadButtonModule();
 
 void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
-int ShowHide(WPARAM wParam, LPARAM lParam);
+int ShowHide(void);
 int ClcShutdown(WPARAM wParam, LPARAM lParam);
 
 CListEvent* AddEvent(CLISTEVENT *cle);

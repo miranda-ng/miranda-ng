@@ -1003,7 +1003,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	if ((gch->dwData >= CLISTMENUIDMIN) && (gch->dwData <= CLISTMENUIDMAX)) {
 		if (him->m_tszRealJid && *him->m_tszRealJid)
 			if (MCONTACT hContact = ppro->HContactFromJID(him->m_tszRealJid))
-				CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(gch->dwData, MPCF_CONTACTMENU), hContact);
+				Clist_MenuProcessCommand(gch->dwData, MPCF_CONTACTMENU, hContact);
 		return;
 	}
 
