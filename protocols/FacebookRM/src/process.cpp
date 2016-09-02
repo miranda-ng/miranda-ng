@@ -526,25 +526,25 @@ void FacebookProto::LoadHistory(void *pParam)
 			break;
 
 		// Request batch of messages from thread
-		std::string data = "client=mercury";
-		data += "&__user=" + facy.self_.user_id;
-		data += "&__dyn=" + facy.__dyn();
-		data += "&__req=" + facy.__req();
-		data += "&fb_dtsg=" + facy.dtsg_;
-		data += "&ttstamp=" + facy.ttstamp_;
-		data += "&__rev=" + facy.__rev();
-		data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
+		std::string szQuery = "client=mercury";
+		szQuery += "&__user=" + facy.self_.user_id;
+		szQuery += "&__dyn=" + facy.__dyn();
+		szQuery += "&__req=" + facy.__req();
+		szQuery += "&fb_dtsg=" + facy.dtsg_;
+		szQuery += "&ttstamp=" + facy.ttstamp_;
+		szQuery += "&__rev=" + facy.__rev();
+		szQuery += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
 
 		// Grrr, offset doesn't work at all, we need to use timestamps to get back in history...
 		// And we don't know, what's timestamp of first message, so we need to get from latest to oldest
-		data += "&messages[" + type + "][" + id;
-		data += "][offset]=" + utils::conversion::to_string(&batch, UTILS_CONV_UNSIGNED_NUMBER);
-		data += "&messages[" + type + "][" + id;
-		data += "][timestamp]=" + firstTimestamp;
-		data += "&messages[" + type + "][" + id;
-		data += "][limit]=" + utils::conversion::to_string(&messagesPerBatch, UTILS_CONV_UNSIGNED_NUMBER);
+		szQuery += "&messages[" + type + "][" + id;
+		szQuery += "][offset]=" + utils::conversion::to_string(&batch, UTILS_CONV_UNSIGNED_NUMBER);
+		szQuery += "&messages[" + type + "][" + id;
+		szQuery += "][timestamp]=" + firstTimestamp;
+		szQuery += "&messages[" + type + "][" + id;
+		szQuery += "][limit]=" + utils::conversion::to_string(&messagesPerBatch, UTILS_CONV_UNSIGNED_NUMBER);
 
-		resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
+		resp = facy.flap(REQUEST_THREAD_INFO, &szQuery); // NOTE: Request revised 17.8.2016
 		if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 			facy.handle_error("LoadHistory");
 			break;
@@ -978,15 +978,15 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 
 				std::vector<std::string> ids;
 				utils::text::explode(msg.data, ";", &ids);
-				for (std::vector<std::string>::size_type i = 0; i < ids.size(); i++)
+				for (std::vector<std::string>::size_type k = 0; k < ids.size(); k++)
 				{
-					if (fbc->participants.find(ids[i]) != fbc->participants.end()) {						
+					if (fbc->participants.find(ids[k]) != fbc->participants.end()) {						
 						continue; // We have this participant in chatroom already
 					}
 					// We don't have this user there yet, so load info about him and then add him
 					chatroom_participant participant;
 					participant.is_former = false;
-					participant.user_id = ids[i];
+					participant.user_id = ids[k];
 					
 					// FIXME: Load info about all participants at once
 					fbc->participants.insert(std::make_pair(participant.user_id, participant));
