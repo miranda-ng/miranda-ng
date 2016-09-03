@@ -40,7 +40,7 @@
 [Enter the password to continue.]
 Введите пароль, чтобы продолжить.
 [As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-Учётная запись защищена двухфакторной авторизацией. Необходимо дать к ней доступ, введя код, высланный на ваш мобильный телефон.
+Учётная запись защищена двухэтапной авторизацией. Необходимо дать к ней доступ, введя код, высланный на ваш мобильный телефон.
 [Steam game]
 Игра Steam
 [Looking to play]
