@@ -51,13 +51,13 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	}
 
 	// TODO: rather change http_request than doing this ifdef magic here?
-#ifdef _DEBUG 
+/*#ifdef _DEBUG 
 	request->flags &= ~NLHRF_NODUMP;
 	request->flags |= NLHRF_DUMPASTEXT;
 #else
 	request->flags &= ~NLHRF_DUMPASTEXT;
 	request->flags |= NLHRF_NODUMP;
-#endif
+#endif*/
 
 	// Set persistent connection (or not)
 	switch (request->Persistent) {
@@ -66,7 +66,11 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 		request->flags &= ~NLHRF_PERSISTENT;
 		break;
 	case ChannelRequest::CHANNEL:
-		request->nlc = hMsgCon;
+		request->nlc = hChannelCon;
+		request->flags |= NLHRF_PERSISTENT;
+		break;
+	case ChannelRequest::MESSAGES:
+		request->nlc = hMessagesCon;
 		request->flags |= NLHRF_PERSISTENT;
 		break;
 	case ChannelRequest::DEFAULT:
@@ -86,7 +90,10 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	case ChannelRequest::NONE:
 		break;
 	case ChannelRequest::CHANNEL:
-		hMsgCon = pnlhr ? pnlhr->nlc : NULL;
+		hChannelCon = pnlhr ? pnlhr->nlc : NULL;
+		break;
+	case ChannelRequest::MESSAGES:
+		hMessagesCon = pnlhr ? pnlhr->nlc : NULL;
 		break;
 	case ChannelRequest::DEFAULT:
 		ReleaseMutex(fcb_conn_lock_);

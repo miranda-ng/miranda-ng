@@ -40,7 +40,8 @@ public:
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = chat_req_ = 0;
 
 		send_message_lock_ = notifications_lock_ = cookies_lock_ = NULL;
-		hMsgCon = NULL;
+		hChannelCon = NULL;
+		hMessagesCon = NULL;
 		hFcbCon = NULL;
 		fcb_conn_lock_ = NULL;
 		handle_ = NULL;
@@ -49,7 +50,8 @@ public:
 		mbasicWorks = true;
 	}
 
-	HANDLE hMsgCon;
+	HANDLE hChannelCon;
+	HANDLE hMessagesCon;
 	HANDLE hFcbCon;
 	HANDLE fcb_conn_lock_;
 

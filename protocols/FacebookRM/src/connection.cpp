@@ -37,10 +37,16 @@ void FacebookProto::ChangeStatus(void*)
 		SetEvent(update_loop_lock_);
 
 		// Shutdown and close channel handle
-		Netlib_Shutdown(facy.hMsgCon);
-		if (facy.hMsgCon)
-			Netlib_CloseHandle(facy.hMsgCon);
-		facy.hMsgCon = NULL;
+		Netlib_Shutdown(facy.hChannelCon);
+		if (facy.hChannelCon)
+			Netlib_CloseHandle(facy.hChannelCon);
+		facy.hChannelCon = NULL;
+
+		// Shutdown and close messages handle
+		Netlib_Shutdown(facy.hMessagesCon);
+		if (facy.hMessagesCon)
+			Netlib_CloseHandle(facy.hMessagesCon);
+		facy.hMessagesCon = NULL;
 
 		// Turn off chat on Facebook
 		if (getByte(FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT))

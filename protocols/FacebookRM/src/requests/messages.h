@@ -34,6 +34,9 @@ public:
 		// Don't notify errors for this request, because we're getting them inline in messaging window
 		NotifyErrors = false;
 
+		// Use own persistent connection for sending messages
+		Persistent = MESSAGES;
+
 		Url
 			<< "dpr=1";
 

@@ -234,7 +234,7 @@ public:
 	HttpRequestHeaders Headers;
 	HttpRequestBody Body;
 	
-	enum PersistentType { NONE, DEFAULT, CHANNEL };
+	enum PersistentType { NONE, DEFAULT, CHANNEL, MESSAGES };
 
 	bool NotifyErrors;
 	PersistentType Persistent;
