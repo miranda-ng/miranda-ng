@@ -27,7 +27,7 @@ void facebook_client::client_notify(wchar_t* message)
 	parent->NotifyEvent(parent->m_tszUserName, message, NULL, EVENT_CLIENT);
 }
 
-http::response facebook_client::flap(RequestType request_type, std::string *post_data, std::string *get_data)
+http::response facebook_client::sendRequest(HttpRequest *request)
 {
 	http::response resp;
 
@@ -36,80 +36,56 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 		return resp;
 	}
 
-	// Prepare the request
-	NETLIBHTTPREQUEST nlhr = { sizeof(NETLIBHTTPREQUEST) };
-
-	std::string server = choose_server(request_type);
-
-	// Set request URL
-	std::string url = HTTP_PROTO_SECURE + server + choose_action(request_type, get_data);
 	if (!parent->m_locale.empty())
-		url += "&locale=" + parent->m_locale;
-	
-	nlhr.szUrl = (char*)url.c_str();
+		request->Url << CHAR_VALUE("locale", parent->m_locale.c_str());
 
-	// Set timeout (bigger for channel request)
-	switch (request_type) {
-	case REQUEST_MESSAGES_RECEIVE:
-		nlhr.timeout = 1000 * 65;
-		break;
+	request->Headers
+		<< CHAR_VALUE("Accept-Language", "en,en-US;q=0.9")
+		<< CHAR_VALUE("Accept", "*/*")
+		<< CHAR_VALUE("User-Agent", g_strUserAgent.c_str())
+		<< CHAR_VALUE("Cookie", ptrA(load_cookies())); // FIXME: Rework load_cookies to not do strdup
 
-	default:
-		nlhr.timeout = 1000 * 20;
-		break;
+	if (request->requestType == REQUEST_POST) {
+		request->Headers
+			<< CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 
-	// Set request type (GET/POST) and eventually also POST data
-	if (post_data != NULL) {
-		nlhr.requestType = REQUEST_POST;
-		nlhr.pData = (char*)(*post_data).c_str();
-		nlhr.dataLength = (int)post_data->length();
-	} else {
-		nlhr.requestType = REQUEST_GET;
-	}
-
-	// Set headers - it depends on requestType so it must be after setting that
-	nlhr.headers = get_request_headers(nlhr.requestType, &nlhr.headersCount);	
-
-	// Set flags
-	nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL;
-
-	if (server == FACEBOOK_SERVER_MBASIC || server == FACEBOOK_SERVER_MOBILE) {
-		nlhr.flags |= NLHRF_REDIRECT;
-	}
-
+	// TODO: rather change http_request than doing this ifdef magic here?
 #ifdef _DEBUG 
-	nlhr.flags |= NLHRF_DUMPASTEXT;
+	request->flags &= ~NLHRF_NODUMP;
+	request->flags |= NLHRF_DUMPASTEXT;
 #else
-	nlhr.flags |= NLHRF_NODUMP;
+	request->flags &= ~NLHRF_DUMPASTEXT;
+	request->flags |= NLHRF_NODUMP;
 #endif
 
+	// FIXME: Support persistent connection for various requests
+	/*
 	// Set persistent connection (or not)
 	switch (request_type) {
 	case REQUEST_LOGIN:
-		nlhr.nlc = NULL;
+		request->nlc = NULL;
 		break;
 
 	case REQUEST_MESSAGES_RECEIVE:
-		nlhr.nlc = hMsgCon;
-		nlhr.flags |= NLHRF_PERSISTENT;
+		request->nlc = hMsgCon;
+		request->flags |= NLHRF_PERSISTENT;
 		break;
 
 	default:
 		WaitForSingleObject(fcb_conn_lock_, INFINITE);
-		nlhr.nlc = hFcbCon;
-		nlhr.flags |= NLHRF_PERSISTENT;
+		request->nlc = hFcbCon;
+		request->flags |= NLHRF_PERSISTENT;
 		break;
 	}
-
-	parent->debugLogA("@@@ Sending request to '%s'", nlhr.szUrl);
+	*/
+	parent->debugLogA("@@@ Sending request to '%s'", request->szUrl);
 
 	// Send the request	
-	NETLIBHTTPREQUEST *pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)handle_, (LPARAM)&nlhr);	
+	NETLIBHTTPREQUEST *pnlhr = request->Send(handle_);
 
-	mir_free(nlhr.headers[3].szValue);
-	mir_free(nlhr.headers);
-
+	// FIXME: Support persistent connection for various requests
+	/*
 	// Remember the persistent connection handle (or not)
 	switch (request_type) {
 	case REQUEST_LOGIN:
@@ -125,6 +101,7 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 		hFcbCon = pnlhr ? pnlhr->nlc : NULL;
 		break;
 	}
+	*/
 
 	// Check and copy response data
 	if (pnlhr != NULL) {
@@ -134,11 +111,15 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 		resp.data = pnlhr->pData ? pnlhr->pData : "";
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pnlhr);
-	} else {
+	}
+	else {
 		parent->debugLogA("!!! No response from server (time-out)");
 		resp.code = HTTP_CODE_FAKE_DISCONNECTED;
 		// Better to have something set explicitely as this value is compaired in all communication requests
 	}
+
+	// Delete the request object
+	delete request;
 
 	// Get Facebook's error message
 	if (resp.code == HTTP_CODE_OK) {
@@ -180,7 +161,7 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 				resp.code = HTTP_CODE_FAKE_ERROR;
 
 				parent->debugLogA("!!! Received Facebook error: %d -- %s", error_num, error.c_str());
-				if (notify_errors(request_type) && !silent)
+				if (request->NotifyErrors && !silent)
 					client_notify(_A2T(error.c_str()));
 			}
 		}
@@ -222,359 +203,6 @@ bool facebook_client::handle_error(const std::string &method, int action)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
-std::string facebook_client::choose_server(RequestType request_type)
-{
-	switch (request_type)
-	{
-	case REQUEST_LOGIN:
-		return FACEBOOK_SERVER_LOGIN;
-
-	case REQUEST_MESSAGES_RECEIVE:
-	case REQUEST_ACTIVE_PING:
-	{
-		std::string server = FACEBOOK_SERVER_CHAT;
-		utils::text::replace_first(&server, "%s", this->chat_conn_num_.empty() ? "0" : this->chat_conn_num_);
-		utils::text::replace_first(&server, "%s", this->chat_channel_host_);
-		return server;
-	}
-
-	case REQUEST_HOME:
-	case REQUEST_DTSG:
-		return FACEBOOK_SERVER_MOBILE;
-
-	case REQUEST_LOAD_FRIENDSHIPS:
-	case REQUEST_SEARCH:
-	case REQUEST_USER_INFO_MOBILE:
-	case REQUEST_PROFILE_PICTURE:
-		return this->mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE;
-
-		//	case REQUEST_LOGOUT:
-		//	case REQUEST_USER_INFO:
-		//	case REQUEST_USER_INFO_ALL:
-		//	case REQUEST_FEEDS:
-		//	case REQUEST_PAGES:
-		//	case REQUEST_NOTIFICATIONS:
-		//	case REQUEST_RECONNECT:
-		//	case REQUEST_POST_STATUS:
-		//	case REQUEST_IDENTITY_SWITCH:
-		//	case REQUEST_CAPTCHA_REFRESH:
-		//	case REQUEST_LINK_SCRAPER:
-		//	case REQUEST_MESSAGES_SEND:
-		//	case REQUEST_THREAD_INFO:
-		//	case REQUEST_THREAD_SYNC:
-		//	case REQUEST_VISIBILITY:
-		//	case REQUEST_POKE:
-		//	case REQUEST_MARK_READ:
-		//	case REQUEST_NOTIFICATIONS_READ:
-		//	case REQUEST_TYPING_SEND:
-		//	case REQUEST_SETUP_MACHINE:
-		//  case REQUEST_DELETE_FRIEND:
-		//	case REQUEST_ADD_FRIEND:
-		//	case REQUEST_CANCEL_FRIENDSHIP:
-		//	case REQUEST_FRIENDSHIP:
-		//	case REQUEST_UNREAD_THREADS:
-		//	case REQUEST_ON_THIS_DAY:
-		//	case REQUEST_LOGIN_SMS:
-	default:
-		return FACEBOOK_SERVER_REGULAR;
-	}
-}
-
-std::string facebook_client::choose_action(RequestType request_type, std::string *get_data)
-{
-	// NOTE: Parameter "client" used in some requests's POST data could be "jewel" (top bar?), "mercury" (chat window, source=source:chat:web) or "web_messenger" (whole chat messages page, source=source:titan:web)
-
-	switch (request_type)
-	{
-	case REQUEST_LOGIN:
-	{
-		std::string action = "/login.php?login_attempt=1";
-		if (get_data != NULL) {
-			action += *get_data;
-		}
-		return action;
-	}
-
-	case REQUEST_SETUP_MACHINE:
-		return "/checkpoint/?next";
-
-	case REQUEST_LOGOUT:
-		return "/logout.php?";
-
-	case REQUEST_HOME:
-		return "/profile.php?v=info";
-
-	case REQUEST_DTSG:
-		return "/editprofile.php?edit=current_city&type=basic";
-
-	case REQUEST_USER_INFO: // ok, 17.8.2016
-		return "/chat/user_info/?dpr=1";
-
-	case REQUEST_USER_INFO_ALL: // ok, 17.8.2016
-		return "/chat/user_info_all/?dpr=1&viewer=" + self_.user_id;
-
-	case REQUEST_USER_INFO_MOBILE:
-	{
-		std::string action = "/%sv=info";
-		if (get_data != NULL) {
-			utils::text::replace_all(&action, "%s", *get_data);
-		}
-		return action;
-	}
-
-	case REQUEST_LOAD_FRIENDSHIPS:
-	{
-		return "/friends/center/requests/?";
-	}
-
-	case REQUEST_SEARCH:
-	{
-		std::string action = "/search/?search=people&query=";
-		if (get_data != NULL) {
-			action += *get_data;
-		}
-		return action;
-	}
-
-	case REQUEST_UNREAD_THREADS: // ok, 17.8.2016
-	{
-		return "/ajax/mercury/unread_threads.php?dpr=1";
-	}
-
-	case REQUEST_DELETE_FRIEND:
-	{
-		std::string action = "/ajax/profile/removefriendconfirm.php?__a=1";
-		if (get_data != NULL) {
-			action += *get_data;
-		}
-		return action;
-	}
-
-	case REQUEST_ADD_FRIEND:
-	{
-		return "/ajax/add_friend/action.php?__a=1";
-	}
-
-	case REQUEST_CANCEL_FRIENDSHIP:
-	{
-		return "/ajax/friends/requests/cancel.php?__a=1";
-	}
-
-	case REQUEST_FRIENDSHIP:
-	{
-		return "/requests/friends/ajax/?__a=1";
-	}
-
-	case REQUEST_FEEDS:
-	{
-		std::string action = "/ajax/home/generic.php?" + get_newsfeed_type();
-		action += "&__user=" + self_.user_id + "&__a=1";
-
-		/*std::string newest = utils::conversion::to_string((void*)&this->last_feeds_update_, UTILS_CONV_TIME_T);
-		utils::text::replace_first(&action, "%s", newest);
-		utils::text::replace_first(&action, "%s", self_.user_id);*/
-		return action;
-	}
-
-	case REQUEST_PAGES:
-	{
-		return "/bookmarks/pages?";
-	}
-
-	case REQUEST_NOTIFICATIONS: // ok, 17.8.2016
-	{
-		return "/ajax/notifications/client/get.php?dpr=1";
-	}
-
-	case REQUEST_RECONNECT: // ok, 17.8.2016
-	{
-		std::string action = "/ajax/presence/reconnect.php?__a=1&reason=%s&fb_dtsg=%s&__user=%s";
-
-		if (this->chat_reconnect_reason_.empty())
-			this->chat_reconnect_reason_ = "6";
-
-		utils::text::replace_first(&action, "%s", this->chat_reconnect_reason_);
-		utils::text::replace_first(&action, "%s", this->dtsg_);
-		utils::text::replace_first(&action, "%s", this->self_.user_id);
-
-		action += "&__dyn=" + __dyn();
-		action += "&__req=" + __req();
-		action += "&__rev=" + __rev();
-		action += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
-
-		return action;
-	}
-
-	case REQUEST_POST_STATUS:
-		return "/ajax/updatestatus.php?__a=1";
-
-	case REQUEST_IDENTITY_SWITCH:
-		return "/identity_switch.php?__a=1";
-
-	case REQUEST_CAPTCHA_REFRESH:
-	{
-		std::string action = "/captcha/refresh_ajax.php?__a=1";
-		if (get_data != NULL) {
-			action += "&" + (*get_data);
-		}
-		return action;
-	}
-
-	case REQUEST_LINK_SCRAPER:
-	{
-		std::string action = "/ajax/composerx/attachment/link/scraper/?__a=1&composerurihash=2&scrape_url=";
-		if (get_data != NULL) {
-			action += utils::url::encode(*get_data);
-		}
-		return action;
-	}
-
-	case REQUEST_MESSAGES_SEND:
-		return "/messaging/send/?dpr=1";
-
-	case REQUEST_THREAD_INFO: // ok, 17.8.2016
-		return "/ajax/mercury/thread_info.php?dpr=1";
-
-	case REQUEST_THREAD_SYNC: // TODO: This doesn't work anymore
-		return "/ajax/mercury/thread_sync.php?__a=1";
-
-	case REQUEST_MESSAGES_RECEIVE:
-	case REQUEST_ACTIVE_PING:
-	{
-		bool isPing = (request_type == REQUEST_ACTIVE_PING);
-
-		std::string action = (isPing ? "/active_ping" : "/pull");
-		action += "?channel=" + (this->chat_channel_.empty() ? "p_" + self_.user_id : this->chat_channel_);		
-		if (!isPing)
-			action += "&seq=" + (this->chat_sequence_num_.empty() ? "0" : this->chat_sequence_num_);
-		action += "&partition=" + (this->chat_channel_partition_.empty() ? "0" : this->chat_channel_partition_);
-		action += "&clientid=" + this->chat_clientid_;
-		action += "&cb=" + utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz", &this->random_);
-
-		/*
-		original cb = return (1048576 * Math.random() | 0).toString(36);
-		char buffer[10];
-		itoa(((int)(1048576 * (((double)rand()) / (RAND_MAX + 1))) | 0), buffer, 36);
-		action += "&cb=" + buffer;
-		*/
-
-		int idleSeconds = parent->IdleSeconds();
-		if (idleSeconds > 0 && !parent->isInvisible())
-			action += "&idle=" + utils::conversion::to_string(&idleSeconds, UTILS_CONV_UNSIGNED_NUMBER);
-
-		if (!isPing) {
-			action += "&qp=y"; // TODO: what's this item?
-			action += "&pws=fresh"; // TODO: what's this item?
-			action += "&isq=487632"; // TODO: what's this item?
-			action += "&msgs_recv=" + utils::conversion::to_string(&this->chat_msgs_recv_, UTILS_CONV_UNSIGNED_NUMBER);
-			// TODO: sometimes there is &tur=1711 and &qpmade=<some actual timestamp> and &isq=487632
-			// action += "&request_batch=1"; // it somehow batches up more responses to one - then response has special "t=batched" type and "batches" array with the data
-			// action += "&msgr_region=LLA"; // it was here only for first pull, same as request_batch
-		}
-
-		action += "&cap=8"; // TODO: what's this item? Sometimes it's 0, sometimes 8
-		action += "&uid=" + self_.user_id;
-		action += "&viewer_uid=" + self_.user_id;
-
-		if (!this->chat_sticky_num_.empty() && !this->chat_sticky_pool_.empty()) {
-			action += "&sticky_token=" + this->chat_sticky_num_;
-			action += "&sticky_pool=" + this->chat_sticky_pool_;
-		}
-
-		if (!isPing && !this->chat_traceid_.empty())
-			action += "&traceid=" + this->chat_traceid_;
-
-		if (parent->isInvisible())
-			action += "&state=offline";
-		else if (isPing || idleSeconds < 60)
-			action += "&state=active";
-
-		return action;
-	}
-
-	case REQUEST_VISIBILITY:
-		return "/ajax/chat/privacy/visibility.php?dpr=1"; // ok, 17.8.2016
-
-	case REQUEST_POKE:
-		return "/pokes/dialog/?__a=1";
-
-	case REQUEST_MARK_READ:
-		return "/ajax/mercury/change_read_status.php?__a=1";
-
-	case REQUEST_NOTIFICATIONS_READ:
-	{
-		std::string action = "/ajax/notifications/mark_read.php?__a=1";
-		if (get_data != NULL) {
-			action += "&" + (*get_data);
-		}
-		return action;
-	}
-
-	case REQUEST_TYPING_SEND:
-		return "/ajax/messaging/typ.php?dpr=1"; // ok, 17.8.2016
-
-	case REQUEST_ON_THIS_DAY:
-	{
-		std::string action = "/onthisday/story/query/?__a=1";
-		if (get_data != NULL) {
-			action += "&" + (*get_data);
-		}
-		return action;
-	}
-
-	case REQUEST_LOGIN_SMS:
-	{
-		return "/ajax/login/approvals/send_sms?dpr=1";
-	}
-
-	case REQUEST_PROFILE_PICTURE:
-	{
-		return "/profile/picture/view/?profile_id=" + self_.user_id;
-	}
-
-	default:
-		return "/?_fb_noscript=1";
-	}
-}
-
-bool facebook_client::notify_errors(RequestType request_type)
-{
-	switch (request_type)
-	{
-	case REQUEST_MESSAGES_SEND:
-		return false;
-
-	default:
-		return true;
-	}
-}
-
-NETLIBHTTPHEADER *facebook_client::get_request_headers(int request_type, int *headers_count)
-{
-	if (request_type == REQUEST_POST)
-		*headers_count = 5;
-	else
-		*headers_count = 4;
-
-	NETLIBHTTPHEADER *headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER)*(*headers_count));
-
-	if (request_type == REQUEST_POST) {
-		headers[4].szName = "Content-Type";
-		headers[4].szValue = "application/x-www-form-urlencoded; charset=utf-8";
-	}
-
-	headers[3].szName = "Cookie";
-	headers[3].szValue = load_cookies();
-	headers[2].szName = "User-Agent";
-	headers[2].szValue = (char *)g_strUserAgent.c_str();
-	headers[1].szName = "Accept";
-	headers[1].szValue = "*/*";
-	headers[0].szName = "Accept-Language";
-	headers[0].szValue = "en,en-US;q=0.9";
-
-	return headers;
-}
 
 std::string facebook_client::get_newsfeed_type()
 {
@@ -803,12 +431,8 @@ bool facebook_client::login(const char *username, const char *password)
 	username_ = username;
 	password_ = password;
 
-	// Prepare login data
-	std::string data = "persistent=1";
-	data += "&email=" + utils::url::encode(username);
-	data += "&pass=" + utils::url::encode(password);
-
-	std::string get_data = "";
+	std::string postData;
+	std::string getData;
 
 	if (cookies.empty()) {
 		// Set device ID
@@ -817,7 +441,8 @@ bool facebook_client::login(const char *username, const char *password)
 			cookies["datr"] = device;
 
 		// Get initial cookies
-		http::response resp = flap(REQUEST_LOGIN);
+		LoginRequest *request = new LoginRequest();
+		http::response resp = sendRequest(request);
 
 		// Also parse cookies set by JavaScript (more variant exists in time, so check all known now)
 		parseJsCookies("[\"DeferredCookie\",\"addToQueue\",[],[\"", resp.data, cookies);
@@ -827,14 +452,13 @@ bool facebook_client::login(const char *username, const char *password)
 		std::string form = utils::text::source_get_value(&resp.data, 2, "<form", "</form>");
 		utils::text::replace_all(&form, "\\\"", "\"");
 
-		data += "&" + utils::text::source_get_form_data(&form, true);
-		get_data += "&" + utils::text::source_get_value(&form, 2, "login.php?login_attempt=1&amp;", "\"");
+		postData = utils::text::source_get_form_data(&form, true);
+		getData = utils::text::source_get_value(&form, 2, "login.php?login_attempt=1&amp;", "\"");
 	}
 
-	data += "&lgndim=eyJ3IjoxOTIwLCJoIjoxMDgwLCJhdyI6MTgzNCwiYWgiOjEwODAsImMiOjMyfQ=="; // means base64 encoded: {"w":1920,"h":1080,"aw":1834,"ah":1080,"c":32}
-
 	// Send validation
-	http::response resp = flap(REQUEST_LOGIN, &data, &get_data);
+	HttpRequest *request = new LoginRequest(username, password, getData.c_str(), postData.c_str());
+	http::response resp = sendRequest(request);
 
 	// Save Device ID
 	if (!cookies["datr"].empty())
@@ -853,7 +477,8 @@ bool facebook_client::login(const char *username, const char *password)
 
 		// Check whether login checks are required
 		if (location.find("/checkpoint/") != std::string::npos) {
-			resp = flap(REQUEST_SETUP_MACHINE, NULL, NULL);
+			request = new SetupMachineRequest();
+			resp = sendRequest(request);
 
 			if (resp.data.find("login_approvals_no_phones") != std::string::npos) {
 				// Code approval - but no phones in account
@@ -862,29 +487,26 @@ bool facebook_client::login(const char *username, const char *password)
 			}
 
 			if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
-				std::string inner_data;
-
 				int attempt = 0;
 				// Check if we need to put approval code (aka "two-factor auth")
 				while (resp.data.find("id=\"approvals_code\"") != std::string::npos) {
 					parent->debugLogA("    Login info: Approval code required.");
 
-					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					const char *fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
+					const char *nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
 
-					CFacebookGuardDialog guardDialog(parent, fb_dtsg.c_str());
+					CFacebookGuardDialog guardDialog(parent, fb_dtsg);
 					if (guardDialog.DoModal() != DIALOG_RESULT_OK) {
 						parent->SetStatus(ID_STATUS_OFFLINE);
 						return false;
 					}
 
 					// We need verification code from user (he can get it via Facebook application on phone or by requesting code via SMS)
-					std::string givenCode = guardDialog.GetCode();
+					const char *givenCode = guardDialog.GetCode();
 
-					inner_data = "submit[Continue]=Continue";
-					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					inner_data += "&fb_dtsg=" + fb_dtsg;
-					inner_data += "&approvals_code=" + givenCode;
-					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+					request = new SetupMachineRequest(fb_dtsg, nh, "Continue");
+					request->Body << CHAR_VALUE("approvals_code", givenCode);
+					resp = sendRequest(request);
 
 					if (resp.data.find("id=\"approvals_code\"") != std::string::npos) {
 						// We get no error message if we put wrong code. Facebook just shows same form again.
@@ -898,7 +520,7 @@ bool facebook_client::login(const char *username, const char *password)
 						}
 					}
 					else {
-						// After successfull verification is showed different page - classic form to save device (as handled at the bottom)
+						// After successful verification is showed different page - classic form to save device (as handled at the bottom)
 						break;
 					}
 				}
@@ -907,10 +529,11 @@ bool facebook_client::login(const char *username, const char *password)
 
 				// 1) Continue (it might have been sent with approval code above already)
 				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
-					inner_data = "submit[Continue]=Continue";
-					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
-					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+					const char *fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
+					const char *nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
+
+					request = new SetupMachineRequest(fb_dtsg, nh, "Continue");
+					resp = sendRequest(request);
 				}
 				
 				// In this step might be needed identity confirmation
@@ -933,36 +556,35 @@ bool facebook_client::login(const char *username, const char *password)
 						tszMessage.AppendFormat(L"\n\n%s", ptrW(mir_utf8decodeW(activity.c_str())));
 					}
 
-					if (MessageBox(0, tszMessage, tszTitle, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON1) == IDYES) {
-						// Recognized activity, will continue with login
-						inner_data = "submit[This was me]=This was me";
-					} else {
-						// Don't recognize - this will force to change account password
-						inner_data = "submit[This wasn't me]=This wasn't me";
-						
-						// We won't continue with this and rather cancel connecting right away, because we don't want to handle password changing via Miranda
+					if (MessageBox(0, tszMessage, tszTitle, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON1) != IDYES) {
+						// We will cancel connecting right away, because we don't want to handle password changing via Miranda
 						client_notify(TranslateT("Login error: You need to confirm last unknown login or revoke it from web browser."));
 						return handle_error("login", FORCE_QUIT);
 					}
-					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
-					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+
+					const char *fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
+					const char *nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
+
+					request = new SetupMachineRequest(fb_dtsg, nh, "This was me"); // Recognize device (or "This wasn't me" - this will force to change account password)
+					resp = sendRequest(request);
 
 					// 3) Save last device
-					inner_data = "submit[Continue]=Continue";
-					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
-					inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
-					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+					fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
+					nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
+					
+					request = new SetupMachineRequest(fb_dtsg, nh, "Continue");
+					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
+					resp = sendRequest(request);
 				}
 				
 				// Save this actual device
 				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
-					inner_data = "submit[Continue]=Continue";
-					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
-					inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
-					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+					const char *fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
+					const char *nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
+
+					request = new SetupMachineRequest(fb_dtsg, nh, "Continue");
+					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
+					resp = sendRequest(request);
 				}
 			}
 			else if (resp.data.find("name=\"submit[Get Started]\"") != std::string::npos) {
@@ -1056,10 +678,8 @@ bool facebook_client::logout()
 {
 	handle_entry("logout");
 
-	std::string data = "fb_dtsg=" + this->dtsg_;
-	data += "&ref=mb&h=" + this->logout_hash_;
-
-	http::response resp = flap(REQUEST_LOGOUT, &data);
+	LogoutRequest *request = new LogoutRequest(this->dtsg_.c_str(), this->logout_hash_.c_str());
+	http::response resp = sendRequest(request);
 
 	this->username_.clear();
 	this->password_.clear();
@@ -1081,7 +701,7 @@ bool facebook_client::home()
 	handle_entry("home");
 
 	// get fb_dtsg
-	http::response resp = flap(REQUEST_DTSG);
+	http::response resp = sendRequest(new DtsgRequest());
 
 	this->dtsg_ = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 	{
@@ -1101,7 +721,7 @@ bool facebook_client::home()
 		parent->debugLogA("    Got self dtsg");
 	}
 
-	resp = flap(REQUEST_HOME);
+	resp = sendRequest(new HomeRequest());
 
 	switch (resp.code)
 	{
@@ -1163,7 +783,8 @@ bool facebook_client::home()
 		
 		// Final attempt to get avatar as on some pages is only link to photo page and not link to image itself
 		if (this->self_.image_url.empty()) {
-			http::response resp2 = flap(REQUEST_PROFILE_PICTURE);
+			HttpRequest *request = new ProfilePictureRequest(this->mbasicWorks, self_.user_id.c_str());
+			http::response resp2 = sendRequest(request);
 				
 			// Get avatar (from mbasic version of photo page)
 			this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "<img src=\"", "\""));
@@ -1209,16 +830,8 @@ bool facebook_client::chat_state(bool online)
 {
 	handle_entry("chat_state");
 
-	std::string data = (online ? "visibility=1" : "visibility=0");
-	data += "&window_id=0";
-	data += "&fb_dtsg=" + dtsg_;
-	data += "&__user=" + self_.user_id;
-	data += "&__dyn=" + __dyn();
-	data += "&__req=" + __req();
-	data += "&ttstamp=" + ttstamp_;
-	data += "&__rev=" + __rev();
-	data += "&__a=1&__pc=PHASED:DEFAULT&__be=-1";
-	http::response resp = flap(REQUEST_VISIBILITY, &data); // NOTE: Request revised 17.8.2016
+	HttpRequest *request = new SetVisibilityRequest(this, online);
+	http::response resp = sendRequest(request);
 
 	if (!resp.error_title.empty())
 		return handle_error("chat_state");
@@ -1231,7 +844,7 @@ bool facebook_client::reconnect()
 	handle_entry("reconnect");
 
 	// Request reconnect
-	http::response resp = flap(REQUEST_RECONNECT);
+	http::response resp = sendRequest(new ReconnectRequest(this));
 
 	switch (resp.code)
 	{
@@ -1276,8 +889,9 @@ bool facebook_client::channel()
 {
 	handle_entry("channel");
 
-	// Get update
-	http::response resp = flap(REQUEST_MESSAGES_RECEIVE);
+	// Get updates
+	ChannelRequest *request = new ChannelRequest(this, ChannelRequest::PULL);
+	http::response resp = sendRequest(request);
 
 	if (resp.data.empty()) {
 		// Something went wrong
@@ -1385,7 +999,8 @@ bool facebook_client::activity_ping()
 
 	handle_entry("activity_ping");
 
-	http::response resp = flap(REQUEST_ACTIVE_PING);
+	ChannelRequest *request = new ChannelRequest(this, ChannelRequest::PING);
+	http::response resp = sendRequest(request);
 
 	// Remember this last ping time
 	parent->m_pingTS = ::time(NULL);
@@ -1402,16 +1017,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 {
 	handle_entry("send_message");
 
-	http::response resp;
-	std::string data;
-
-	if (!captcha.empty()) {
-		data += "&captcha_persist_data=" + captcha_persist_data;
-		data += "&recaptcha_challenge_field=";
-		data += "&captcha_response=" + captcha;
-	}
-
-	boolean isChatRoom = parent->isChatRoom(hContact);
+	bool isChatRoom = parent->isChatRoom(hContact);
 
 	ptrA userId( parent->getStringA(hContact, FACEBOOK_KEY_ID));
 	ptrA threadId( parent->getStringA(hContact, FACEBOOK_KEY_TID));
@@ -1426,59 +1032,15 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		return SEND_MESSAGE_ERROR;
 	}
 
-	data += "&client=mercury"; // or "web_messenger" (whole messages page)
-	data += "&action_type=ma-type:user-generated-message";
-	
-	// Experimental sticker sending support
-	if (message_text.substr(0, 10) == "[[sticker:" && message_text.substr(message_text.length() - 2) == "]]") {
-		data += "&body=";
-		data += "&sticker_id=" + utils::url::encode(message_text.substr(10, message_text.length() - 10 - 2));
-		data += "&has_attachment=true";
-		// TODO: For sending GIF images instead of "sticker_id=" there is "image_ids[0]=", otherwise it's same
-	}
-	else {
-		data += "&body=" + utils::url::encode(message_text);
-		data += "&has_attachment=false";
-	}
-
-	data += "&ephemeral_ttl_mode=0";
-	// data += "&force_sms=true" // TODO: This is present always when sending via "web_messenger"
-
 	// Probably we can generate any random messageID, it just have to be numeric and don't start with "0". We will receive it in response as "client_message_id".
 	std::string messageId = utils::text::rand_string(10, "123456789", &this->random_);
-	data += "&message_id=" + messageId;
-	data += "&offline_threading_id=" + messageId; // Same as message ID
-	
-	if (isChatRoom) {
-		// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
-		std::string thread_fbid = threadId;
-		if (thread_fbid.substr(0, 3) == "id.")
-			thread_fbid = thread_fbid.substr(3);
 
-		data += "&thread_fbid=" + thread_fbid;
-	} else {
-		data += "&other_user_fbid=" + std::string(userId);
-		data += "&specific_to_list[0]=fbid:" + std::string(userId);
-		data += "&specific_to_list[1]=fbid:" + this->self_.user_id;
-	}
-
-	data += "&signature_id="; // TODO: How to generate signature ID? It is present only when sending via "mercury"
-	data += "&source=source:chat:web"; // or "source:titan:web" for web_messenger
-	data += "&timestamp=" + utils::time::mili_timestamp();
-	data += "&ui_push_phase=V3";
-	data += "&__user=" + this->self_.user_id;
-	data += "&__a=1";
-	data += "&__dyn=" + __dyn();
-	data += "&__req=" + __req();
-	data += "&__be=-1";
-	data += "&__pc=PHASED:DEFAULT";
-	data += "&fb_dtsg=" + this->dtsg_;
-	data += "&ttstamp=" + ttstamp_;
-	data += "&__rev=" + __rev();
+	http::response resp;
 
 	{
-		ScopedLock s(send_message_lock_);
-		resp = flap(REQUEST_MESSAGES_SEND, &data); // NOTE: Request revised 17.8.2016
+		HttpRequest *request = new SendMessageRequest(this, userId, threadId, messageId.c_str(), message_text.c_str(), isChatRoom, captcha.c_str(), captcha_persist_data.c_str());
+		ScopedLock s(send_message_lock_);		
+		resp = sendRequest(request);
 
 		*error_text = resp.error_text;
 
@@ -1532,12 +1094,8 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 			parent->debugLogA("    Got imageUrl (first): %s", imageUrl.c_str());
 			parent->debugLogA("    Got captchaPersistData (first): %s", captchaPersistData.c_str());
 
-			std::string capStr = "new_captcha_type=TFBCaptcha&skipped_captcha_data=" + captchaPersistData;
-			capStr += "&__dyn=" + __dyn();
-			capStr += "&__req=" + __req();
-			capStr += "&__rev=" + __rev();
-			capStr += "&__user=" + this->self_.user_id;
-			http::response capResp = flap(REQUEST_CAPTCHA_REFRESH, NULL, &capStr);
+			HttpRequest *request = new RefreshCaptchaRequest(this, captchaPersistData.c_str());
+			http::response capResp = sendRequest(request);
 
 			if (capResp.code == HTTP_CODE_OK) {
 				imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&capResp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
@@ -1587,62 +1145,37 @@ bool facebook_client::post_status(status_data *status)
 	handle_entry("post_status");
 
 	if (status->isPage) {
-		std::string data = "fb_dtsg=" + this->dtsg_;
-		data += "&user_id=" + status->user_id;
-		data += "&url=" + std::string(FACEBOOK_URL_HOMEPAGE);
-		flap(REQUEST_IDENTITY_SWITCH, &data);
+		// Switch to page identity by which name we will share this post
+		HttpRequest *request = new SwitchIdentityRequest(this->dtsg_.c_str(), status->user_id.c_str());
+		sendRequest(request);
 	}
 
-	std::string data;
+	std::string linkData;
 	if (!status->url.empty()) {
-		data = "fb_dtsg=" + this->dtsg_;
-		data += "&targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
-		data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
-		data += "&istimeline=1&composercontext=composer&onecolumn=1&nctr[_mod]=pagelet_timeline_recent&__a=1&ttstamp=" + ttstamp_;
-		data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
-		data += "&loaded_components[0]=maininput&loaded_components[1]=backdateicon&loaded_components[2]=withtaggericon&loaded_components[3]=cameraicon&loaded_components[4]=placetaggericon&loaded_components[5]=mainprivacywidget&loaded_components[6]=withtaggericon&loaded_components[7]=backdateicon&loaded_components[8]=placetaggericon&loaded_components[9]=cameraicon&loaded_components[10]=mainprivacywidget&loaded_components[11]=maininput&loaded_components[12]=explicitplaceinput&loaded_components[13]=hiddenplaceinput&loaded_components[14]=placenameinput&loaded_components[15]=hiddensessionid&loaded_components[16]=withtagger&loaded_components[17]=backdatepicker&loaded_components[18]=placetagger&loaded_components[19]=citysharericon";
-		http::response resp = flap(REQUEST_LINK_SCRAPER, &data, &status->url);
-		std::string temp = utils::text::html_entities_decode(utils::text::slashu_to_utf8(resp.data));
+		HttpRequest *request = new LinkScraperRequest(this, status);
+		http::response resp = sendRequest(request);
 
-		data = "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&ttstamp=" + ttstamp_;
+		std::string temp = utils::text::html_entities_decode(utils::text::slashu_to_utf8(resp.data));
 		std::string form = utils::text::source_get_value(&temp, 2, "<form", "</form>");
 		utils::text::replace_all(&form, "\\\"", "\"");
-		data += "&" + utils::text::source_get_form_data(&form) + "&";
-		//data += "&no_picture=0";
+		linkData += utils::text::source_get_form_data(&form);		
+		// FIXME: Rework to some "scraped_link" structure to simplify working with it?
 	}
 
-	std::string text = utils::url::encode(status->text);
+	HttpRequest *request = new SharePostRequest(this, status, linkData.c_str());
+	http::response resp = sendRequest(request);
 
-	data += "fb_dtsg=" + this->dtsg_;
-	data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
-	data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
-	data += "&xhpc_message=" + text;
-	data += "&xhpc_message_text=" + text;
-	if (!status->isPage)
-		data += "&audience[0][value]=" + get_privacy_type();
-	if (!status->place.empty()) {
-		data += "&composertags_place_name=";
-		data += utils::url::encode(status->place);
+	if (status->isPage) {
+		// Switch back to our identity
+		HttpRequest *request = new SwitchIdentityRequest(this->dtsg_.c_str(), this->self_.user_id.c_str());
+		sendRequest(request);
 	}
+
+	// cleanup status elements (delete users)
 	for (std::vector<facebook_user*>::size_type i = 0; i < status->users.size(); i++) {
-		data += "&composertags_with[" + utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
-		data += "]=" + status->users[i]->user_id;
-		data += "&text_composertags_with[" + utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
-		data += "]=" + status->users[i]->real_name;
 		delete status->users[i];
 	}
 	status->users.clear();
-
-	data += "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_0_2y&is_explicit_place=&composertags_place=&composertags_city=";
-
-	http::response resp = flap(REQUEST_POST_STATUS, &data);
-
-	if (status->isPage) {
-		std::string query = "fb_dtsg=" + this->dtsg_;
-		query += "&user_id=" + this->self_.user_id;
-		query += "&url=" + std::string(FACEBOOK_URL_HOMEPAGE);
-		flap(REQUEST_IDENTITY_SWITCH, &query);
-	}
 
 	if (resp.isValid()) {
 		parent->NotifyEvent(parent->m_tszUserName, TranslateT("Status update was successful."), NULL, EVENT_OTHER);
@@ -1697,18 +1230,7 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 
 bool facebook_client::sms_code(const char *fb_dtsg)
 {
-	std::string inner_data = "method_requested=sms_requested";
-	inner_data += "&current_time=" + (utils::time::unix_timestamp() + ".000");
-	inner_data += "&__a=1";
-	inner_data += "&__user=0";
-	inner_data += "&__dyn=" + __dyn();
-	inner_data += "&__req=" + __req();
-	inner_data += "&__be=0";
-	inner_data += "&__pc=EXP1:DEFAULT";
-	inner_data += "&fb_dtsg=" + std::string(fb_dtsg);
-	inner_data += "&ttstamp=" + ttstamp_;
-	inner_data += "&__rev=" + __rev();
-	http::response resp = flap(REQUEST_LOGIN_SMS, &inner_data);
+	http::response resp = sendRequest(new LoginSmsRequest(this, fb_dtsg));
 
 	if (resp.data.find("\"is_valid\":true", 0) == std::string::npos) {
 		// Code wasn't send

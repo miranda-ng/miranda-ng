@@ -146,18 +146,18 @@ public:
 
 	// Helpers for data
 
-	std::string __inline __dyn() {
+	__inline const char *__dyn() {
 		return ""; // FIXME: What's this value and where it come from? Looks like it is the same through all requests.
 	}
 
-	std::string __inline __req() {
+	__inline const char *__req() {
 		// Increment request number and convert it to string with radix 36 (whole numbers + whole alphabet)
 		char buffer[10];
 		itoa(InterlockedIncrement(&this->chat_req_), buffer, 36);
-		return std::string(buffer);
+		return ptrA(mir_strdup(buffer));
 	}
 
-	std::string __inline __rev() {
+	__inline const char *__rev() {
 		return "2509236"; // FIXME: Some version of communication protocol? This version is from 17.8.2016
 	}
 
@@ -208,14 +208,8 @@ public:
 
 	// HTTP communication
 
-	http::response flap(RequestType request_type, std::string *post_data = NULL, std::string *get_data = NULL);
+	http::response sendRequest(HttpRequest *request);
 	bool save_url(const std::string &url,const std::wstring &filename, HANDLE &nlc);
-
-	bool notify_errors(RequestType);
-	std::string choose_server(RequestType);
-	std::string choose_action(RequestType, std::string *get_data = NULL);
-
-	NETLIBHTTPHEADER *get_request_headers(int request_type, int *headers_count);
 
 	////////////////////////////////////////////////////////////
 

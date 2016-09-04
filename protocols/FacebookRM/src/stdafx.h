@@ -81,6 +81,18 @@ class FacebookProto;
 #include "resource.h"
 #include "version.h"
 
+#include "requests/contacts.h"
+#include "requests/feeds.h"
+#include "requests/history.h"
+#include "requests/channel.h"
+#include "requests/login.h"
+#include "requests/messages.h"
+#include "requests/notifications.h"
+#include "requests/profile.h"
+#include "requests/search.h"
+#include "requests/status.h"
+#include "requests/utils.h"
+
 extern HINSTANCE g_hInstance;
 extern std::string g_strUserAgent;
 extern DWORD g_mirandaVersion;
@@ -106,3 +118,10 @@ private:
 	HANDLE handle_;
 	int timeout_;
 };
+
+template <typename T>
+__inline static void FreeList(const LIST<T> &lst)
+{
+	for (int i = 0; i < lst.getCount(); i++)
+		mir_free(lst[i]);
+}

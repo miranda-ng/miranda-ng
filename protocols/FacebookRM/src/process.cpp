@@ -46,15 +46,8 @@ void FacebookProto::ProcessFriendList(void*)
 	facy.handle_entry("load_friends");
 
 	// Get friends list
-	std::string data = "__user=" + facy.self_.user_id;
-	data += "&__dyn=" + facy.__dyn();
-	data += "&__req=" + facy.__req();
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&ttstamp=" + facy.ttstamp_;
-	data += "&__rev=" + facy.__rev();
-	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
-
-	http::response resp = facy.flap(REQUEST_USER_INFO_ALL, &data); // NOTE: Request revised 17.8.2016
+	HttpRequest *request = new UserInfoAllRequest(&facy);
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("load_friends");
@@ -189,15 +182,8 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 	facy.handle_entry("ProcessUnreadMessages");
 
-	std::string data = "folders[0]=inbox&folders[1]=other"; // TODO: "other" is probably unused, and there is now "pending" instead
-	data += "&client=mercury";
-	data += "&__user=" + facy.self_.user_id;
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp_;
-	data += "&__rev=" + facy.__rev();
-	data += "&__pc=PHASED:DEFAULT&__be=-1";
-
-	http::response resp = facy.flap(REQUEST_UNREAD_THREADS, &data);
+	HttpRequest *request = new UnreadThreadsRequest(&facy);
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("ProcessUnreadMessages");
@@ -241,33 +227,22 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 
 	http::response resp;
 
+	// FIXME: Rework this whole request as offset doesn't work anyway, and allow to load all the unread messages for each thread (IMHO could be done in 2 single requests = 1) get number of messages for all threads 2) load the counts of messages for all threads)
+
 	// TODO: First load info about amount of unread messages, then load exactly this amount for each thread
 
 	while (!threads->empty()) {		
-		std::string data = "client=mercury";
-		data += "&__user=" + facy.self_.user_id;
-		data += "&__dyn=" + facy.__dyn();
-		data += "&__req=" + facy.__req();
-		data += "&fb_dtsg=" + facy.dtsg_;
-		data += "&ttstamp=" + facy.ttstamp_;
-		data += "&__rev=" + facy.__rev();
-		data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
-
+		
+		LIST<char> ids(1);
 		for (std::vector<std::string>::size_type i = 0; i < threads->size(); i++) {
-			std::string thread_id = utils::url::encode(threads->at(i));
-
-			// request messages from thread
-			data += "&messages[thread_ids][" + thread_id;
-			data += "][offset]=" + utils::conversion::to_string(&offset, UTILS_CONV_SIGNED_NUMBER);
-			data += "&messages[thread_ids][" + thread_id;
-			data += "][limit]=" + utils::conversion::to_string(&limit, UTILS_CONV_SIGNED_NUMBER);
-
-			// request info about thread
-			data += "&threads[thread_ids][" + utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
-			data += "]=" + thread_id;
+			ids.insert(mir_strdup(threads->at(i).c_str()));
 		}
 
-		resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
+		HttpRequest *request = new ThreadInfoRequest(&facy, ids, offset, limit);
+		http::response resp = facy.sendRequest(request);
+
+		FreeList(ids);
+		ids.destroy();
 
 		if (resp.code == HTTP_CODE_OK) {
 			try {
@@ -345,15 +320,6 @@ void FacebookProto::LoadLastMessages(void *pParam)
 	if (!isOnline())
 		return;
 
-	std::string data = "client=mercury";
-	data += "&__user=" + facy.self_.user_id;
-	data += "&__dyn=" + facy.__dyn();
-	data += "&__req=" + facy.__req();
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&ttstamp=" + facy.ttstamp_;
-	data += "&__rev=" + facy.__rev();
-	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
-
 	bool isChat = isChatRoom(hContact);
 
 	if (isChat && (!m_enableChat || IsSpecialChatRoom(hContact))) // disabled chats or special chatroom (e.g. nofitications)
@@ -365,21 +331,10 @@ void FacebookProto::LoadLastMessages(void *pParam)
 		return;
 	}
 
-	std::string id = utils::url::encode(std::string(item_id));
-	std::string type = isChat ? "thread_ids" : "user_ids";
-	int count = getByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, DEFAULT_MESSAGES_ON_OPEN_COUNT);
-	count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);
+	int count = min(FACEBOOK_MESSAGES_ON_OPEN_LIMIT, getByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, DEFAULT_MESSAGES_ON_OPEN_COUNT));
 
-	// request messages from thread
-	data += "&messages[" + type + "][" + id;
-	data += "][offset]=0";
-	data += "&messages[" + type + "][" + id;
-	data += "][limit]=" + utils::conversion::to_string(&count, UTILS_CONV_UNSIGNED_NUMBER);
-
-	// request info about thread
-	data += "&threads[" + type + "][0]=" + id;
-
-	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
+	HttpRequest *request = new ThreadInfoRequest(&facy, isChat, item_id, count);
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("LoadLastMessages");
@@ -455,15 +410,6 @@ void FacebookProto::LoadHistory(void *pParam)
 
 	facy.handle_entry("LoadHistory");
 
-	std::string data = "client=mercury";
-	data += "&__user=" + facy.self_.user_id;
-	data += "&__dyn=" + facy.__dyn();
-	data += "&__req=" + facy.__req();
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&ttstamp=" + facy.ttstamp_;
-	data += "&__rev=" + facy.__rev();
-	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
-
 	bool isChat = isChatRoom(hContact);
 	if (isChat) // TODO: Support chats?
 		return;
@@ -476,15 +422,10 @@ void FacebookProto::LoadHistory(void *pParam)
 		return;
 	}
 
-	std::string id = utils::url::encode(std::string(item_id));
-	std::string type = isChat ? "thread_ids" : "user_ids";
-
 	// first get info about this thread and how many messages is there
+	HttpRequest *request = new ThreadInfoRequest(&facy, isChat, item_id);
+	http::response resp = facy.sendRequest(request);
 
-	// request info about thread
-	data += "&threads[" + type + "][0]=" + id;
-
-	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("LoadHistory");
 		return;
@@ -525,26 +466,10 @@ void FacebookProto::LoadHistory(void *pParam)
 		if (!isOnline())
 			break;
 
-		// Request batch of messages from thread
-		std::string szQuery = "client=mercury";
-		szQuery += "&__user=" + facy.self_.user_id;
-		szQuery += "&__dyn=" + facy.__dyn();
-		szQuery += "&__req=" + facy.__req();
-		szQuery += "&fb_dtsg=" + facy.dtsg_;
-		szQuery += "&ttstamp=" + facy.ttstamp_;
-		szQuery += "&__rev=" + facy.__rev();
-		szQuery += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
+		// Load batch of messages
+		HttpRequest *request = new ThreadInfoRequest(&facy, isChat, item_id, batch, firstTimestamp.c_str(), messagesPerBatch);
+		resp = facy.sendRequest(request);
 
-		// Grrr, offset doesn't work at all, we need to use timestamps to get back in history...
-		// And we don't know, what's timestamp of first message, so we need to get from latest to oldest
-		szQuery += "&messages[" + type + "][" + id;
-		szQuery += "][offset]=" + utils::conversion::to_string(&batch, UTILS_CONV_UNSIGNED_NUMBER);
-		szQuery += "&messages[" + type + "][" + id;
-		szQuery += "][timestamp]=" + firstTimestamp;
-		szQuery += "&messages[" + type + "][" + id;
-		szQuery += "][limit]=" + utils::conversion::to_string(&messagesPerBatch, UTILS_CONV_UNSIGNED_NUMBER);
-
-		resp = facy.flap(REQUEST_THREAD_INFO, &szQuery); // NOTE: Request revised 17.8.2016
 		if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 			facy.handle_error("LoadHistory");
 			break;
@@ -811,13 +736,8 @@ void FacebookProto::ProcessMemories(void*)
 
 	facy.handle_entry(__FUNCTION__);
 
-	time_t timestamp = ::time(NULL);
-	
-	std::string get_data = "&start_index=0&num_stories=20&last_section_header=0";
-	get_data += "&timestamp=" + utils::conversion::to_string((void*)&timestamp, UTILS_CONV_TIME_T);
-	get_data += "&__dyn=&__req=&__rev=&__user=" + facy.self_.user_id;
-
-	http::response resp = facy.flap(REQUEST_ON_THIS_DAY, NULL, &get_data);
+	HttpRequest *request = new MemoriesRequest(&facy);
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error(__FUNCTION__);
@@ -1146,21 +1066,9 @@ void FacebookProto::ProcessNotifications(void*)
 
 	facy.handle_entry("notifications");
 
-	int count = FACEBOOK_NOTIFICATIONS_LOAD_COUNT;
-
-	std::string data = "__user=" + facy.self_.user_id;
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&cursor="; // when loading more
-	data += "&length=" + utils::conversion::to_string(&count, UTILS_CONV_UNSIGNED_NUMBER); // number of items to load
-	data += "&businessID="; // probably for pages?
-	data += "&ttstamp=" + facy.ttstamp_;
-	data += "&__dyn=" + facy.__dyn();
-	data += "&__req=" + facy.__req();
-	data += "&__rev=" + facy.__rev();
-	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
-
 	// Get notifications
-	http::response resp = facy.flap(REQUEST_NOTIFICATIONS, &data); // NOTE: Request revised 17.8.2016
+	HttpRequest *request = new GetNotificationsRequest(&facy, FACEBOOK_NOTIFICATIONS_LOAD_COUNT);
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("notifications");
@@ -1191,14 +1099,14 @@ void FacebookProto::ProcessFriendRequests(void*)
 
 	facy.handle_entry("friendRequests");
 
-	// Get notifications
-	http::response resp = facy.flap(REQUEST_LOAD_FRIENDSHIPS);
+	// Get load friendships
+	http::response resp = facy.sendRequest(new GetFriendshipsRequest(facy.mbasicWorks));
 
 	// Workaround not working "mbasic." website for some people
 	if (!resp.isValid()) {
-		// Remember it didn't worked and try it again (internally it will try "m." this time)
+		// Remember it didn't worked and try it again (internally it will use "m." this time)
 		facy.mbasicWorks = false;
-		resp = facy.flap(REQUEST_LOAD_FRIENDSHIPS);
+		resp = facy.sendRequest(new GetFriendshipsRequest(facy.mbasicWorks));
 	}
 
 	if (resp.code != HTTP_CODE_OK) {
@@ -1281,7 +1189,8 @@ void FacebookProto::ProcessFeeds(void*)
 	facy.handle_entry("feeds");
 
 	// Get feeds
-	http::response resp = facy.flap(REQUEST_FEEDS);
+	HttpRequest *request = new NewsfeedRequest(&facy);
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("feeds");
@@ -1323,7 +1232,7 @@ void FacebookProto::ProcessPages(void*)
 	facy.handle_entry("load_pages");
 
 	// Get feeds
-	http::response resp = facy.flap(REQUEST_PAGES);
+	http::response resp = facy.sendRequest(new GetPagesRequest());
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("load_pages");
@@ -1373,11 +1282,8 @@ void FacebookProto::SearchAckThread(void *targ)
 
 	while (count < 50 && !isOffline())
 	{
-		std::string get_data = search + "&s=" + utils::conversion::to_string(&count, UTILS_CONV_UNSIGNED_NUMBER);
-		if (!ssid.empty())
-			get_data += "&ssid=" + ssid;
-
-		http::response resp = facy.flap(REQUEST_SEARCH, NULL, &get_data);
+		SearchRequest *request = new SearchRequest(facy.mbasicWorks, search.c_str(), count, ssid.c_str());
+		http::response resp = facy.sendRequest(request);
 
 		if (resp.code == HTTP_CODE_OK)
 		{
@@ -1451,11 +1357,14 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 	if (!isOffline())
 	{
-		http::response resp = facy.flap(REQUEST_USER_INFO_MOBILE, NULL, &search);
+		HttpRequest *request = new ProfileRequest(facy.mbasicWorks, search.c_str());
+		http::response resp = facy.sendRequest(request);
 
 		if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
 			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MBASIC"/", "_rdr", true);
-			resp = facy.flap(REQUEST_USER_INFO_MOBILE, NULL, &search);
+
+			HttpRequest *request = new ProfileRequest(facy.mbasicWorks, search.c_str());
+			http::response resp = facy.sendRequest(request);
 		}
 
 		if (resp.code == HTTP_CODE_OK)

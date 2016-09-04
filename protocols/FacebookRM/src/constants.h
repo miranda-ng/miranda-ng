@@ -113,51 +113,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Event types
 #define FACEBOOK_EVENTTYPE_CALL					10010
 
-// Facebook request types // TODO: Provide MS_ and release in FB plugin API?
-enum RequestType {
-	REQUEST_LOGIN,				// connecting physically
-	REQUEST_LOGOUT,				// disconnecting physically
-	REQUEST_SETUP_MACHINE,		// setting machine name
-	REQUEST_HOME,				// getting own name, avatar, ...
-	REQUEST_DTSG,				// getting __fb_dtsg__
-	REQUEST_RECONNECT,			// getting __sequence_num__ and __channel_id__
-	REQUEST_VISIBILITY,			// setting chat visibility
-	REQUEST_IDENTITY_SWITCH,	// changing identity to post status for pages
-	REQUEST_CAPTCHA_REFRESH,	// refreshing captcha dialog (changing captcha type)
-	REQUEST_LOGIN_SMS,			// request to receive login code via SMS
-	REQUEST_PROFILE_PICTURE,	// request mobile page containing profile picture
-	
-	REQUEST_FEEDS,				// getting feeds
-	REQUEST_NOTIFICATIONS,		// getting notifications
-	REQUEST_LOAD_FRIENDSHIPS,	// getting friendship requests
-	REQUEST_PAGES,				// getting pages list
-	REQUEST_ON_THIS_DAY,		// getting on this day posts
-
-	REQUEST_POST_STATUS,		// posting status to our or friends's wall
-	REQUEST_LINK_SCRAPER,		// getting data for some url link
-	REQUEST_SEARCH,				// searching
-	REQUEST_POKE,				// sending pokes
-	REQUEST_NOTIFICATIONS_READ, // marking notifications read
-
-	REQUEST_USER_INFO,			// getting info about particular friend
-	REQUEST_USER_INFO_ALL,		// getting info about all friends
-	REQUEST_USER_INFO_MOBILE,	// getting info about particular user (from mobile website)
-	REQUEST_ADD_FRIEND,			// requesting friendships
-	REQUEST_DELETE_FRIEND,		// deleting friendships
-	REQUEST_CANCEL_FRIENDSHIP,	// canceling (our) friendship request
-	REQUEST_FRIENDSHIP,			// approving or ignoring friendship requests
-
-	REQUEST_MESSAGES_SEND,		// sending messages
-	REQUEST_MESSAGES_RECEIVE,	// receiving messages and other realtime actions
-	REQUEST_ACTIVE_PING,		// sending activity ping
-	REQUEST_TYPING_SEND,		// sending typing notification
-
-	REQUEST_THREAD_INFO,		// getting thread info
-	REQUEST_THREAD_SYNC,		// getting thread sync (changes since something)
-	REQUEST_UNREAD_THREADS,		// getting unread threads
-	REQUEST_MARK_READ			// marking messages read
-};
-
 enum ContactType {
 	CONTACT_FRIEND	= 1,	// contact that IS on our server list
 	CONTACT_NONE	= 2,	// contact that ISN'T on our server list

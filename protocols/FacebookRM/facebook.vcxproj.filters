@@ -9,4 +9,42 @@
       <Filter>Header Files\requests</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\requests\channel.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\chat.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\contacts.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\feeds.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\history.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\login.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\messages.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\notifications.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\profile.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\search.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\status.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\utils.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

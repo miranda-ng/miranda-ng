@@ -29,7 +29,17 @@
     <ClCompile Include="..\..\utils\std_string_utils.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClInclude Include="src\requests\*.h" />
+    <ClInclude Include="src\requests\channel.h" />
+    <ClInclude Include="src\requests\contacts.h" />
+    <ClInclude Include="src\requests\feeds.h" />
+    <ClInclude Include="src\requests\history.h" />
+    <ClInclude Include="src\requests\login.h" />
+    <ClInclude Include="src\requests\messages.h" />
+    <ClInclude Include="src\requests\search.h" />
+    <ClInclude Include="src\requests\status.h" />
+    <ClInclude Include="src\requests\profile.h" />
+    <ClInclude Include="src\requests\notifications.h" />
+    <ClInclude Include="src\requests\utils.h" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>

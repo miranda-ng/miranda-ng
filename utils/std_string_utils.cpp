@@ -339,7 +339,7 @@ std::string utils::text::source_get_value2(std::string* data, const char *term, 
 	return ret;
 }
 
-std::string utils::text::source_get_form_data(std::string* data, boolean hiddenOnly)
+std::string utils::text::source_get_form_data(std::string* data, bool hiddenOnly)
 {
 	const char *search = hiddenOnly ? "<input type=\"hidden\"" : "<input";
 	std::string values;

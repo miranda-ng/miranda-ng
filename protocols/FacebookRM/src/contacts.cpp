@@ -183,20 +183,11 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 	// We don't have any contact with this thread_id cached, we must ask server	
 	if (isOffline())
 		return "";
-
-	std::string data = "client=mercury";
-	data += "&__user=" + facy.self_.user_id;
-	data += "&__dyn=" + facy.__dyn();
-	data += "&__req=" + facy.__req();
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&ttstamp=" + facy.ttstamp_;
-	data += "&__rev=" + facy.__rev();
-	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
-
-	data += "&threads[thread_ids][0]=" + utils::url::encode(thread_id);
-
+	
+	HttpRequest *request = new ThreadInfoRequest(&facy, true, thread_id.c_str());
+	http::response resp = facy.sendRequest(request);
+	
 	std::string user_id;
-	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
 
 	if (resp.code == HTTP_CODE_OK) {
 		try {
@@ -222,18 +213,14 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 	if (isOffline())
 		return;
 
-	// TODO: support for more friends at once
-	std::string data = "ids[0]=" + utils::url::encode(fbu->user_id);
+	LIST<char> userIds(1);
+	userIds.insert(mir_strdup(fbu->user_id.c_str()));
 
-	data += "&__user=" + facy.self_.user_id;
-	data += "&__dyn=" + facy.__dyn();
-	data += "&__req=" + facy.__req();
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&ttstamp=" + facy.ttstamp_;
-	data += "&__rev=" + facy.__rev();
-	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
+	HttpRequest *request = new UserInfoRequest(&facy, userIds);
+	http::response resp = facy.sendRequest(request);
 
-	http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 17.8.2016
+	FreeList(userIds);
+	userIds.destroy();
 
 	if (resp.code == HTTP_CODE_OK) {
 		try {
@@ -294,21 +281,16 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 	if (!namelessIds.empty()) {
 		// we have some contacts without name, let's load them all from the server
 
-		std::string data = "&__user=" + facy.self_.user_id;
-		data += "&__dyn=" + facy.__dyn();
-		data += "&__req=" + facy.__req();
-		data += "&fb_dtsg=" + facy.dtsg_;
-		data += "&ttstamp=" + facy.ttstamp_;
-		data += "&__rev=" + facy.__rev();
-		data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
-
+		LIST<char> userIds(1);
 		for (std::string::size_type i = 0; i < namelessIds.size(); i++) {
-			std::string pos = utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
-			std::string id = utils::url::encode(namelessIds.at(i));
-			data += "&ids[" + pos + "]=" + id;
+			userIds.insert(mir_strdup(namelessIds.at(i).c_str()));
 		}
 
-		http::response resp = facy.flap(REQUEST_USER_INFO, &data); // NOTE: Request revised 17.8.2016
+		HttpRequest *request = new UserInfoRequest(&facy, userIds);
+		http::response resp = facy.sendRequest(request);
+		
+		FreeList(userIds);
+		userIds.destroy();
 
 		if (resp.code == HTTP_CODE_OK) {
 			try {
@@ -345,26 +327,9 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 	if (isOffline())
 		return;
 
-	std::string data = "client=mercury";
-	data += "&__user=" + facy.self_.user_id;
-	data += "&__dyn=" + facy.__dyn();
-	data += "&__req=" + facy.__req();
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&ttstamp=" + facy.ttstamp_;
-	data += "&__rev=" + facy.__rev();
-	data += "&__pc=PHASED:DEFAULT&__be=-1&__a=1";
-
-	std::string thread_id = utils::url::encode(fbc->thread_id);
-
-	// request info about thread
-	data += "&threads[thread_ids][0]=" + thread_id;
-
-	// TODO: ABILITY TO DEFINE TIMESTAMP! (way to load history since specific moment? probably as replacement for removed sync_threads request?)
-	/* messages[user_ids][<<userid>>][offset]=11
-	messages[user_ids][<<userid>>][timestamp]=1446369866009 // most recent message has this timestamp (included)
-	messages[user_ids][<<userid>>][limit]=20 */
-
-	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data); // NOTE: Request revised 17.8.2016
+	// request info about chat thread
+	HttpRequest *request = new ThreadInfoRequest(&facy, true, fbc->thread_id.c_str());
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("LoadChatInfo");
@@ -505,16 +470,9 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	if (isOffline())
 		return;
 
-	std::string query = "norefresh=true&unref=button_dropdown&confirmed=1&__a=1";
-	query += "&fb_dtsg=" + facy.dtsg_;
-	query += "&uid=" + id;
-	query += "&__user=" + facy.self_.user_id;
-	query += "&ttstamp=" + facy.ttstamp_;
-
-	std::string get_query = "norefresh=true&unref=button_dropdown&uid=" + id;
-
-	// Get unread inbox threads
-	http::response resp = facy.flap(REQUEST_DELETE_FRIEND, &query, &get_query);
+	// Delete contact from server
+	HttpRequest *request = new DeleteFriendRequest(&facy, id.c_str());
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{
@@ -555,13 +513,9 @@ void FacebookProto::AddContactToServer(void *data)
 	if (isOffline())
 		return;
 
-	std::string query = "action=add_friend&how_found=profile_button&ref_param=ts&outgoing_id=&unwanted=&logging_location=&no_flyout_on_click=false&ego_log_data=&lsd=";
-	query += "&fb_dtsg=" + facy.dtsg_;
-	query += "&to_friend=" + id;
-	query += "&__user=" + facy.self_.user_id;
-
-	// Get unread inbox threads
-	http::response resp = facy.flap(REQUEST_ADD_FRIEND, &query);
+	// Request friendship
+	HttpRequest *request = new AddFriendRequest(&facy, id.c_str());
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.data.find("\"success\":true", 0) != std::string::npos) {
 		MCONTACT hContact = ContactIDToHContact(id);
@@ -595,13 +549,9 @@ void FacebookProto::ApproveContactToServer(void *data)
 	if (!id)
 		return;
 
-	std::string query = "action=confirm";
-	query += "&id=" + std::string(id);
-	query += "&__user=" + facy.self_.user_id;
-	query += "&fb_dtsg=" + facy.dtsg_;
-
-	// Ignore friendship request
-	http::response resp = facy.flap(REQUEST_FRIENDSHIP, &query);
+	// Confirm friendship request
+	HttpRequest *request = new AnswerFriendshipRequest(&facy, id, AnswerFriendshipRequest::CONFIRM);
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.data.find("\"success\":true") != std::string::npos)
 	{
@@ -631,13 +581,9 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	if (!id)
 		return;
 
-	std::string query = "confirmed=1";
-	query += "&fb_dtsg=" + facy.dtsg_;
-	query += "&__user=" + facy.self_.user_id;
-	query += "&friend=" + std::string(id);
-
 	// Cancel (our) friendship request
-	http::response resp = facy.flap(REQUEST_CANCEL_FRIENDSHIP, &query);
+	HttpRequest *request = new CancelFriendshipRequest(&facy, id);
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{
@@ -667,13 +613,9 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 	if (!id)
 		return;
 
-	std::string query = "action=reject";
-	query += "&id=" + std::string(id);
-	query += "&__user=" + facy.self_.user_id;
-	query += "&fb_dtsg=" + facy.dtsg_;
-
 	// Ignore friendship request
-	http::response resp = facy.flap(REQUEST_FRIENDSHIP, &query);
+	HttpRequest *request = new AnswerFriendshipRequest(&facy, id, AnswerFriendshipRequest::REJECT);
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.data.find("\"success\":true") != std::string::npos)
 	{
@@ -704,14 +646,9 @@ void FacebookProto::SendPokeWorker(void *p)
 		return;
 	}
 
-	std::string data = "poke_target=" + *id;
-	data += "&do_confirm=0";
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&__user=" + facy.self_.user_id;
-	data += "&ttstamp=" + facy.ttstamp_;
-
 	// Send poke
-	http::response resp = facy.flap(REQUEST_POKE, &data);
+	HttpRequest *request = new SendPokeRequest(&facy, id->c_str());
+	http::response resp = facy.sendRequest(request);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		resp.data = utils::text::slashu_to_utf8(
