@@ -282,7 +282,7 @@ void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 
 INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 {
-	if (!m_enableChat || IsSpecialChatRoom(hContact))
+	if (isOffline() || facy.dtsg_.empty() || !m_enableChat || IsSpecialChatRoom(hContact))
 		return 0;
 
 	ptrW idT(getWStringA(hContact, "ChatRoomID"));
