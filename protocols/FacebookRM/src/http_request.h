@@ -234,7 +234,10 @@ public:
 	HttpRequestHeaders Headers;
 	HttpRequestBody Body;
 	
+	enum PersistentType { NONE, DEFAULT, CHANNEL };
+
 	bool NotifyErrors;
+	PersistentType Persistent;
 
 	HttpRequest(int type, LPCSTR url)
 		: Url(*this, url), Headers(*this)
@@ -246,6 +249,7 @@ public:
 		timeout = 20 * 1000;
 
 		NotifyErrors = true;
+		Persistent = DEFAULT;
 	}
 
 	HttpRequest(int type, HttpRequestUrlFormat, LPCSTR urlFormat, ...)
@@ -259,6 +263,7 @@ public:
 		timeout = 20 * 1000;
 
 		NotifyErrors = true;
+		Persistent = DEFAULT;
 	}
 
 	virtual ~HttpRequest()

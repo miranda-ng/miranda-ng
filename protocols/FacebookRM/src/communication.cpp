@@ -59,49 +59,40 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	request->flags |= NLHRF_NODUMP;
 #endif
 
-	// FIXME: Support persistent connection for various requests
-	/*
 	// Set persistent connection (or not)
-	switch (request_type) {
-	case REQUEST_LOGIN:
+	switch (request->Persistent) {
+	case ChannelRequest::NONE:
 		request->nlc = NULL;
+		request->flags &= ~NLHRF_PERSISTENT;
 		break;
-
-	case REQUEST_MESSAGES_RECEIVE:
+	case ChannelRequest::CHANNEL:
 		request->nlc = hMsgCon;
 		request->flags |= NLHRF_PERSISTENT;
 		break;
-
-	default:
+	case ChannelRequest::DEFAULT:
 		WaitForSingleObject(fcb_conn_lock_, INFINITE);
 		request->nlc = hFcbCon;
 		request->flags |= NLHRF_PERSISTENT;
 		break;
 	}
-	*/
+
 	parent->debugLogA("@@@ Sending request to '%s'", request->szUrl);
 
 	// Send the request	
 	NETLIBHTTPREQUEST *pnlhr = request->Send(handle_);
 
-	// FIXME: Support persistent connection for various requests
-	/*
 	// Remember the persistent connection handle (or not)
-	switch (request_type) {
-	case REQUEST_LOGIN:
-	case REQUEST_SETUP_MACHINE:
+	switch (request->Persistent) {
+	case ChannelRequest::NONE:
 		break;
-
-	case REQUEST_MESSAGES_RECEIVE:
+	case ChannelRequest::CHANNEL:
 		hMsgCon = pnlhr ? pnlhr->nlc : NULL;
 		break;
-
-	default:
+	case ChannelRequest::DEFAULT:
 		ReleaseMutex(fcb_conn_lock_);
 		hFcbCon = pnlhr ? pnlhr->nlc : NULL;
 		break;
 	}
-	*/
 
 	// Check and copy response data
 	if (pnlhr != NULL) {

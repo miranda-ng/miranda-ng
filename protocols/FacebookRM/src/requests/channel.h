@@ -37,6 +37,7 @@ public:
 	{
 		if (type == PULL) {
 			timeout = 65 * 1000;
+			Persistent = CHANNEL;
 		}
 
 		bool isPing = (type == PING);

@@ -37,6 +37,8 @@ public:
 	LoginRequest(const char *username, const char *password, const char *urlData, const char *bodyData) :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php")
 	{
+		Persistent = NONE;
+
 		Url
 			<< "login_attempt=1"
 			<< urlData; // additional data parsed from form
