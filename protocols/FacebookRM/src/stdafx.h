@@ -70,6 +70,7 @@ class FacebookProto;
 #include "constants.h"
 #include "entities.h"
 #include "http.h"
+#include "http_request.h"
 #include "list.hpp"
 #include "client.h"
 #include "proto.h"

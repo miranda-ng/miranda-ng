@@ -1,4 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
+  <ItemGroup>
+    <Filter Include="Header Files\requests">
+      <UniqueIdentifier>{e8edad1d-bf28-49ad-88ef-874228832675}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="src\requests\*.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

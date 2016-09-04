@@ -29,6 +29,7 @@
     <ClCompile Include="..\..\utils\std_string_utils.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClInclude Include="src\requests\*.h" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
