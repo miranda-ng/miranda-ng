@@ -364,8 +364,10 @@ int FacebookProto::GetInfo(MCONTACT hContact, int)
 		setByte(hContact, "Gender", fbu.gender);
 	}
 
-	if (fbu.type == CONTACT_PAGE || fbu.type == CONTACT_FRIEND) {
-		if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE) != fbu.type) {
+	int oldType = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
+	// From server we won't get request/approve types, only none, so we don't want to overwrite and lost it in that case
+	if (fbu.type != CONTACT_NONE || (oldType != CONTACT_REQUEST && oldType != CONTACT_APPROVE)) {
+		if (oldType != fbu.type) {
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu.type);
 		}
 	}

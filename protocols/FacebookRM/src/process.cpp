@@ -138,20 +138,24 @@ void FacebookProto::ProcessFriendList(void*)
 					fbu->deleted = true;
 				}
 				else {
-					// Contact was removed from "server-list", notify it
+					// Contact is not on "server-list", notify it was removed (if it was real friend before)
 
-					// Wasn't we already been notified about this contact? And was this real friend?
-					if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0) && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND) {
-						setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
+					// Was this real friend before?
+					if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE) == CONTACT_FRIEND) {
 						setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 
-						// Notify it, if user wants to be notified
-						if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
-							std::string url = FACEBOOK_URL_PROFILE + std::string(id);
-							std::string contactname = getContactName(this, hContact, id);
+						// Wasn't we already been notified about this contact?
+						if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
+							setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
 
-							ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
-							NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, EVENT_FRIENDSHIP, &url);
+							// Notify it, if user wants to be notified
+							if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
+								std::string url = FACEBOOK_URL_PROFILE + std::string(id);
+								std::string contactname = getContactName(this, hContact, id);
+
+								ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
+								NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, EVENT_FRIENDSHIP, &url);
+							}
 						}
 					}
 				}

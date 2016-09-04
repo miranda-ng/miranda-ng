@@ -32,19 +32,19 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 	std::string thumbSrc = it["thumbSrc"].as_string();
 	std::string vanity = it["vanity"].as_string(); // username
 	std::string type = it["type"].as_string(); // "friend", "page", "user" (friend with disabled account or not friend)
+	bool isFriend = it["is_friend"].as_bool(); // e.g. "True" or "False" for type="friend" (I don't know why), "False" for type="user", doesn't exist for type="page"
 	int gender = it["gender"].as_int();
 
-	//const JSONNode &uri = it["uri"); // profile url
-	//const JSONNode &is_friend = it["is_friend"); // e.g. "True" for type="friend", "False" for type="user", doesn't exist for type="page"
+	//const JSONNode &uri = it["uri"); // profile url	
 
 	if (type == "user" && (id.empty() || id == "0")) {
 		// this user has deleted account or is just unavailable for us (e.g., ignore list) -> don't read dummy name and avatar and rather ignore that completely
 		return;
 	}
 
-	if (type == "friend")
+	if (type == "friend" && isFriend)
 		fbu->type = CONTACT_FRIEND;
-	else if (type == "user")
+	else if (type == "user" || (type == "friend" && !isFriend))
 		fbu->type = CONTACT_NONE;
 	else if (type == "page")
 		fbu->type = CONTACT_PAGE;
