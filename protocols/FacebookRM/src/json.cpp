@@ -534,6 +534,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				const JSONNode &body = msg["body"];
 
 				// looks like there is either "tid" or "other_user_fbid" (or both)
+				const JSONNode &other_user_fbid_ = msg["other_user_fbid"];
 				const JSONNode &tid = msg["tid"];
 				const JSONNode &mid = msg["mid"];
 				const JSONNode &timestamp = msg["timestamp"];
@@ -549,8 +550,8 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				std::string message_id = mid.as_string();
 				std::string message_text = body.as_string();
 
-				std::string thread_id = tid.as_string();
-				std::string other_user_id = msg["other_user_fbid"].as_string();
+				std::string thread_id = tid ? tid.as_string() : "";
+				std::string other_user_id = other_user_fbid_ ? other_user_fbid_.as_string() : "";
 
 				// Process attachements and stickers
 				parseAttachments(proto, &message_text, msg, other_user_id, true);
@@ -1001,6 +1002,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				const JSONNode &log_body_ = action_["log_message_body"];
 				const JSONNode &log_data_ = action_["log_message_data"];
 				const JSONNode &log_type_ = action_["log_message_type"];
+				const JSONNode &other_user_fbid_ = action_["other_user_fbid"];
 				if (!author || !log_data_ || !log_body_ || !thread_id_ || !log_type_)
 					continue;
 
@@ -1008,7 +1010,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				std::string logType = log_type_.as_string();
 				std::string message_text = log_body_.as_string();
 
-				std::string other_user_id = action_["other_user_fbid"].as_string();
+				std::string other_user_id = other_user_fbid_ ? other_user_fbid_.as_string() : "";
 				std::string message_id = action_["message_id"].as_string();
 
 				std::string author_id = author.as_string();
@@ -1017,7 +1019,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 					author_id = author_id.substr(pos + 1);
 
 				facebook_message message;
-				message.isChat = other_user_id.empty(); // FIXME: Determine whether this is chat or contact event
+				message.isChat = other_user_id.empty();
 				message.isUnread = true;
 				message.isIncoming = (author_id != proto->facy.self_.user_id);
 				message.message_text = message_text;
