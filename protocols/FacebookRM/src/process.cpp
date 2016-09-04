@@ -893,6 +893,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
 				break;
 			case SUBSCRIBE:
+			case UNSUBSCRIBE:
 			{
 				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
 
@@ -900,26 +901,27 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				utils::text::explode(msg.data, ";", &ids);
 				for (std::vector<std::string>::size_type k = 0; k < ids.size(); k++)
 				{
-					if (fbc->participants.find(ids[k]) != fbc->participants.end()) {						
-						continue; // We have this participant in chatroom already
+					auto jt = fbc->participants.find(ids[k]);
+					if (jt == fbc->participants.end()) {
+						// We don't have this user there yet, so load info about him and then process event
+						chatroom_participant participant;
+						participant.is_former = (msg.type == UNSUBSCRIBE);
+						participant.user_id = ids[k];
+
+						// FIXME: Load info about all participants at once
+						fbc->participants.insert(std::make_pair(participant.user_id, participant));
+						LoadParticipantsNames(fbc);
+						jt = fbc->participants.find(ids[k]);
 					}
-					// We don't have this user there yet, so load info about him and then add him
-					chatroom_participant participant;
-					participant.is_former = false;
-					participant.user_id = ids[k];
-					
-					// FIXME: Load info about all participants at once
-					fbc->participants.insert(std::make_pair(participant.user_id, participant));
-					LoadParticipantsNames(fbc);
-
-					AddChatContact(thread_id.c_str(), participant, msg.isUnread);
+					if (jt != fbc->participants.end()) {
+						if (msg.type == SUBSCRIBE)
+							AddChatContact(thread_id.c_str(), jt->second, msg.isUnread);
+						else
+							RemoveChatContact(thread_id.c_str(), jt->second.user_id.c_str(), jt->second.nick.c_str());
+					}
 				}
-
 				break;
 			}
-			case UNSUBSCRIBE:
-				RemoveChatContact(thread_id.c_str(), msg.user_id.c_str(), name.c_str());
-				break;
 			case THREAD_NAME:
 				// proto->RenameChat(thread_id.c_str(), msg.data.c_str()); // this don't work, why?
 				setStringUtf(hChatContact, FACEBOOK_KEY_NICK, msg.data.c_str());

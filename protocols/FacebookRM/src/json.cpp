@@ -100,6 +100,14 @@ void parseMessageType(FacebookProto *proto, facebook_message &message, const JSO
 	}
 	else if (logType == "log:unsubscribe") {
 		message.type = UNSUBSCRIBE;
+
+		const JSONNode &fbids_ = log_data_["removed_participants"];
+		for (auto it2 = fbids_.begin(); it2 != fbids_.end(); ++it2) {
+			std::string id = (*it2).as_string().substr(5); // strip "fbid:" prefix
+			if (!message.data.empty())
+				message.data += ";";
+			message.data += id;
+		}
 	}
 	else if (logType == "log:thread-name") {
 		message.type = THREAD_NAME;
