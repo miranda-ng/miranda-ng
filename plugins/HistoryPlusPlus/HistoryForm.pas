@@ -3626,23 +3626,20 @@ begin
         inherited;
         if Message.Result <> 0 then
           Exit;
-        Message.Result := CallService(MS_CLIST_MENUPROCESSCOMMAND,
-          MAKEWPARAM(Message.WParamLo, MPCF_CONTACTMENU), hContact);
+        Message.Result := Clist_MenuProcessCommand(Message.WParamLo, MPCF_CONTACTMENU, hContact);
         Exit;
       end;
     WM_MEASUREITEM:
       if Self.UserMenu <> 0 then
       begin
-        Message.Result := CallService(MS_CLIST_MENUMEASUREITEM, Message.wParam,
-          Message.lParam);
+        Message.Result := Menu_MeasureItem(Message.LParam);
         if Message.Result <> 0 then
           Exit;
       end;
     WM_DRAWITEM:
       if Self.UserMenu <> 0 then
       begin
-        Message.Result := CallService(MS_CLIST_MENUDRAWITEM, Message.wParam,
-          Message.lParam);
+        Message.Result := Menu_DrawItem(Message.LParam);
         if Message.Result <> 0 then
           Exit;
       end;

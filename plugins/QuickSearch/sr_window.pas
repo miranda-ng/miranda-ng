@@ -2095,9 +2095,9 @@ begin
     end;
 
     WM_MEASUREITEM:
-      CallService(MS_CLIST_MENUMEASUREITEM,wParam,lParam);
+      Menu_MeasureItem(lParam);
     WM_DRAWITEM:
-      CallService(MS_CLIST_MENUDRAWITEM,wParam,lParam);
+      Menu_DrawItem(lParam);
 
     WM_MOUSEMOVE: begin
       if TTInstalled then
@@ -2128,9 +2128,7 @@ begin
     end;
 
     WM_COMMAND: begin
-      if CallService(MS_CLIST_MENUPROCESSCOMMAND,
-         MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU),
-         GetFocusedhContact)<>0 then
+      if Clist_MenuProcessCommand(LOWORD(wParam),MPCF_CONTACTMENU,GetFocusedhContact)<>0 then
       begin
         if (qsopt.flags and QSO_AUTOCLOSE)<>0 then
           CloseSrWindow;

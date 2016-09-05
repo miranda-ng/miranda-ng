@@ -1672,23 +1672,20 @@ begin
         inherited;
         if Message.Result <> 0 then
           exit;
-        Message.Result := CallService(MS_CLIST_MENUPROCESSCOMMAND,
-          MAKEWPARAM(Message.WParamLo, MPCF_CONTACTMENU), UserMenuContact);
+        Message.Result := Clist_MenuProcessCommand(Message.WParamLo, MPCF_CONTACTMENU, UserMenuContact);
         exit;
       end;
     WM_MEASUREITEM:
       if Self.UserMenu <> 0 then
       begin
-        Message.Result := CallService(MS_CLIST_MENUMEASUREITEM, Message.wParam,
-          Message.LParam);
+        Message.Result := Menu_MeasureItem(Message.LParam);
         if Message.Result <> 0 then
           exit;
       end;
     WM_DRAWITEM:
       if Self.UserMenu <> 0 then
       begin
-        Message.Result := CallService(MS_CLIST_MENUDRAWITEM, Message.wParam,
-          Message.LParam);
+        Message.Result := Menu_DrawItem(Message.LParam);
         if Message.Result <> 0 then
           exit;
       end;

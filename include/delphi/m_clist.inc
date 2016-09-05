@@ -117,28 +117,6 @@ const
                            // be NULL, lpszProtocol the protocol ID name to be set
 
   {
-    wParam : ControlID
-    lParam : Pointer to MEASUREITEMSTRUCT struct
-    Affect : Process a WM_MEASUREITEM message for user context menus, see notes
-    Notes  : just because wParam, lParam is defined here, only pass them
-             opaquely to this service, as is.
-             -
-             This is just to draw icons, if it is not called, the icons
-             will not be drawn
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_MENUMEASUREITEM:PAnsiChar = 'CList/MenuMeasureItem';
-
-  {
-    wParam :
-    lParam :
-    Affect : Process a WM_DRAWITEM message for user context menus,
-             wParam, lParam should be passed from such message handler.
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_MENUDRAWITEM:PAnsiChar = 'CList/MenuDrawItem';
-
-  {
     wParam : 0
     lParam : 0
     Affect : Get the image list handle with all the useful icons in it
@@ -161,74 +139,24 @@ const
 
   CLISTMENUIDMIN = $4000; // reserved range for clist menu ids
   CLISTMENUIDMAX = $7FFF;
-  {
-    NOTE:  v0.7.0.26+
-    Due to it is generic practice to handle menu command via WM_COMMAND
-    window message handle and practice to process it via calling service
-    in form: CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),
-             MPCF_CONTACTMENU),(LPARAM) hContact))
-    to ensure that WM_COMMAND was realy from clist menu not from other menu
-    it is reserved range of menu ids from CLISTMENUIDMIN to CLISTMENUIDMAX
-    the menu items with ids outside from such range will not be processed by service.
-    Moreover if you process WM_COMMAND youself and your window contains self menu
-    please be sure that you will not call service for non-clist menu items.
-    The simplest way is to ensure that your menus are not use item ids from such range.
-    Otherwise, you HAVE TO distinguish WM_COMMAND from clist menus and from your
-    internal menu and  DO NOT call MS_CLIST_MENUPROCESSCOMMAND for non clist menus.
-  }
+
   MPCF_CONTACTMENU = 1; // test commands from a contact menu
   MPCF_MAINMENU    = 2; // test commands from the main menu
   {
-    wParam : MAKEWPARAM(LOWORD(wParam of WM_COMMAND),flags)
-    lParam : TMCONTACT
     Affect : Process a menu selection from a menu, see notes
     Returns: True if it processed the command, False otherwise
     notes  : hContact is the currently selected contact, it is not used
              if this is a main menu command, if this is NULL then the command
              is a contact menu one, the command is ignored
-    Version: v0.1.1.0+
   }
-  MS_CLIST_MENUPROCESSCOMMAND:PAnsiChar = 'CList/MenuProcessCommand';
+  function Clist_MenuProcessCommand(menuid,flags:int; hContact:TMCONTACT) : integer; stdcall; external AppDll;
 
   {
-    wParam : virtual key code
-    lParam : MPCF_* flags
     Affect : Process a menu hotkey, see notes
     Returns: True if it processed the command, False otherwise
     Notes  : this should be called in WM_KEYDOWN
-    Version: v0.1.1.0+
   }
-  MS_CLIST_MENUPROCESSHOTKEY:PAnsiChar = 'CList/MenuProcessHotkey';
-
-  {
-    wParam : Pointer to a MSG structurer
-    lParam : Pointer to an LRESULT
-    Affect : Process all the messages required for docking, see notes
-    Returns: True if the message should NOT be processed anymore, False otherwise
-    Notes  : only msg.hwnd, msg.message, msg.wParam and msg.lParam are used
-             your WndProc should return the lResult if AND only IF, TRUE is returned
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_DOCKINGPROCESSMESSAGE:PAnsiChar = 'CList/DockingProcessMessage';
-
-  {
-    wParam : 0
-    lParam : 0
-    Affect : Determines wheter the contact list docked
-    Returns: pnon zero] if the contact list is docked, or 0 if it's not
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_DOCKINGISDOCKED:PAnsiChar = 'CList/DockingIsDocked';
-
-  {
-    wParam : Pointer to TMSG
-    lParam : Pointer to an LRESULT
-    Affect : Process all the messages required for hotkeys, see notes
-    Returns: True if the message should not be processed anymore or False otherwise
-    Notes  : only msg.hwnd, msg.message, msg.wParam, msg.lParam are used
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_HOTKEYSPROCESSMESSAGE:PAnsiChar = 'CList/HotkeysProcessMessage';
+  function Clist_MenuProcessHotkey(virtKey:uint) : integer; stdcall; external AppDll;
 
   {
     wParam : 0
@@ -237,6 +165,7 @@ const
     Returns: 0 on success, [non zero] on failure
     Version: v0.1.1.0+
   }
+const
   MS_CLIST_SHOWHIDE:PAnsiChar = 'CList/ShowHide';
 
 {

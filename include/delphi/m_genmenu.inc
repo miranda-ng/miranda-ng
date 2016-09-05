@@ -280,6 +280,18 @@ function Menu_GetItemInfo(hMenuItem:HGENMENU; var mi:TMO_MenuItem) : integer; st
 function Menu_GetDefaultItem(hMenuItem:HGENMENU) : HGENMENU; stdcall; external AppDLL;
 
 {
+  processes a WM_DRAWITEM message for user context menus,
+}
+
+function Menu_DrawItem(dis:LPARAM) : integer; stdcall; external AppDll;
+
+{
+  processes a WM_MEASUREITEM message for user context menus, see notes
+}
+
+function Menu_MeasureItem(mis:LPARAM) : integer; stdcall; external AppDll;
+
+{
   wparam=MenuObjectHandle
   lparam=vKey
   returns TRUE if it processed the command, FALSE otherwise
