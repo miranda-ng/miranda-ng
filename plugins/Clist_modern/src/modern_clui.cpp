@@ -305,7 +305,7 @@ HRESULT CLUI::LoadDllsRuntime()
 	g_CluiData.fSmoothAnimation = db_get_b(NULL, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
 	g_CluiData.fLayered = (g_CluiData.fLayered*db_get_b(NULL, "ModernData", "EnableLayering", g_CluiData.fLayered)) && !db_get_b(NULL, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
 
-	if (IsWinVerVistaPlus()) {
+	if (IsWinVerVistaPlus() && !IsWinVer8Plus()) {
 		m_hDwmapiDll = LoadLibrary(L"dwmapi.dll");
 		if (m_hDwmapiDll)
 			g_proc_DWMEnableBlurBehindWindow = (HRESULT(WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(m_hDwmapiDll, "DwmEnableBlurBehindWindow");
