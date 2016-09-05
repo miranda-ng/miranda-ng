@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 #define SETTING_TOOLWINDOW_DEFAULT              1 //"CList","ToolWindow"
-#define SETTING_ONTOP_DEFAULT                   0 //"CList","OnTop"
+#define SETTING_ONTOP_DEFAULT                   1 //"CList","OnTop"
 #define SETTING_MIN2TRAY_DEFAULT                1 //"CList","Min2Tray"
 #define SETTING_HIDEOFFLINE_DEFAULT             0 //"CList", "HideOffline"
 #define SETTING_HIDEEMPTYGROUPS_DEFAULT         0 //"CList","HideEmptyGroups"
@@ -54,7 +54,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_SBARPERPROTO_DEFAULT            0 //! "CLUI","SBarPerProto"
 #define SETTING_USECONNECTINGICON_DEFAULT       1 //! "CLUI","UseConnectingIcon"
 #define SETTING_SHOWXSTATUS_DEFAULT             6 //! "CLUI","ShowXStatus"
-#define SETTING_SHOWUNREADEMAILS_DEFAULT        0 //! "CLUI","ShowUnreadEmails"
+#define SETTING_SHOWUNREADEMAILS_DEFAULT        1 //! "CLUI","ShowUnreadEmails"
 #define SETTING_SBARSHOW_DEFAULT                3 //! "CLUI","SBarShow"
 #define SETTING_SBARACCOUNTISCUSTOM_DEFAULT     0 //! "CLUI","AccountIsCustom"
 #define SETTING_SBARHIDEACCOUNT_DEFAULT         0 //! "CLUI","HideAccount"
@@ -87,17 +87,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_SBHILIGHTMODE_DEFAULT           0 //! "StatusBar","HiLightMode"
 #define SETTING_HIDETOOLTIPTIME_DEFAULT      5000 //! "CLUIFrames","HideToolTipTime"
 
-#define SETTING_EXTRA_ICON_EMAIL_DEFAULT        0 //!
-#define SETTING_EXTRA_ICON_PROTO_DEFAULT        0 //!
-#define SETTING_EXTRA_ICON_SMS_DEFAULT          0 //!
-#define SETTING_EXTRA_ICON_ADV1_DEFAULT         1 //!
-#define SETTING_EXTRA_ICON_ADV2_DEFAULT         1 //!
-#define SETTING_EXTRA_ICON_WEB_DEFAULT          0 //!
-#define SETTING_EXTRA_ICON_CLIENT_DEFAULT       1 //!
-#define SETTING_EXTRA_ICON_VISMODE_DEFAULT      1 //!
-#define SETTING_EXTRA_ICON_ADV3_DEFAULT         1 //!
-#define SETTING_EXTRA_ICON_ADV4_DEFAULT         1 //!
-
 #define SETTING_EXTRACOLUMNSPACE_DEFAULT       18 //! "CLUI","ExtraColumnSpace"
 
 #define SETTING_HIDEBEHIND_DEFAULT              0 //! "ModernData","HideBehind" //(0-none, 1-leftedge, 2-rightedge)
@@ -105,7 +94,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_SHOWDELAY_DEFAULT               3 //! "ModernData","ShowDelay"
 #define SETTING_HIDEDELAY_DEFAULT               3 //! "ModernData","HideDelay"
 #define SETTING_HIDEBEHINDBORDERSIZE_DEFAULT    0 //! "ModernData","HideBehindBorderSize"
-#define SETTING_AEROGLASS_DEFAULT               1 //! "ModernData","AeroGlass"
+#define SETTING_AEROGLASS_DEFAULT               0 //! "ModernData","AeroGlass"
 
 #define SETTING_ROUNDCORNERS_DEFAULT            0 //! "CLC","RoundCorners"
 #define SETTING_GAPFRAMES_DEFAULT               1 //! "CLUIFrames","GapBetweenFrames"
@@ -130,12 +119,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 #define SETTING_SORTBY1_DEFAULT        SORTBY_RATE //"CList","SortBy1"
-#define SETTING_SORTBY2_DEFAULT        SORTBY_NAME //"CList","SortBy2"
-#define SETTING_SORTBY3_DEFAULT      SORTBY_STATUS //"CList","SortBy3"
+#define SETTING_SORTBY2_DEFAULT SORTBY_NAME_LOCALE //"CList","SortBy2"
+#define SETTING_SORTBY3_DEFAULT       SORTBY_PROTO //"CList","SortBy3"
 
 #define SETTING_NOOFFLINEBOTTOM_DEFAULT          0 //"CList","NoOfflineBottom"
 #define SETTING_HIDEOFFLINEATROOT_DEFAULT        0 //"CLC","HideOfflineRoot"
-#define SETTING_HILIGHTMODE_DEFAULT              0 //todo replace by constant //"CLC","HiLightMode"
+#define SETTING_HILIGHTMODE_DEFAULT              1 //todo replace by constant //"CLC","HiLightMode"
 
 #define SETTING_DISABLESKIN_DEFAULT              0 //"ModernData","DisableEngine"
 #define SETTING_ENABLELAYERING_DEFAULT           1 //! "ModernData","EnableLayering"
@@ -153,13 +142,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_ROW_ADVANCEDLAYOUT_DEFAULT       0 //"ModernData","UseAdvancedRowLayout"
 #define SETTING_ROW_ROWBORDER_DEFAULT            1 //"CList","RowBorder"
 #define SETTING_VARIABLEROWHEIGHT_DEFAULT        1 //"CList","VariableRowHeight"
-#define SETTING_ALIGNLEFTTOLEFT_DEFAULT          0 //"CList","AlignLeftItemsToLeft"
+#define SETTING_ALIGNLEFTTOLEFT_DEFAULT          1 //"CList","AlignLeftItemsToLeft"
 #define SETTING_ALIGNRIGHTORIGHT_DEFAULT         1 //"CList","AlignRightItemsToRight"
 #define SETTING_HIDEGROUPSICON_DEFAULT           0 //"CList","HideGroupsIcon"
 #define SETTING_ALIGNGROPCAPTION_DEFAULT         0 //left todo replace by const //"CList","AlignGroupCaptions"
-#define SETTINS_ROWITEMORDER_DEFAULT              {ITEM_AVATAR, ITEM_ICON, ITEM_TEXT, ITEM_EXTRA_ICONS, ITEM_CONTACT_TIME}
+#define SETTINS_ROWITEMORDER_DEFAULT              {ITEM_AVATAR, ITEM_ICON, ITEM_TEXT, ITEM_CONTACT_TIME, ITEM_EXTRA_ICONS}
 
-#define SETTINGS_SHOWAVATARS_DEFAULT             1 //"CList","AvatarsShow"
+#define SETTINGS_SHOWAVATARS_DEFAULT             0 //"CList","AvatarsShow"
 #define SETTINGS_AVATARDRAWBORDER_DEFAULT        0 //"CList","AvatarsDrawBorders"
 #define SETTINGS_AVATARBORDERCOLOR_DEFAULT       RGB(0,0,0) //"CList","AvatarsBorderColor"
 #define SETTINGS_AVATARROUNDCORNERS_DEFAULT      0 //"CList","AvatarsRoundCorners"
@@ -185,11 +174,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_TEXT_PROTOSMILEY_DEFAULT              1 //"CList","TextUseProtocolSmileys"
 #define SETTING_TEXT_IGNORESIZE_DEFAULT               0 //"CList","TextIgnoreSizeForRownHeight"
 
-#define SETTING_FIRSTLINE_SMILEYS_DEFAULT             1 //"CList","FirstLineDrawSmileys"
+#define SETTING_FIRSTLINE_SMILEYS_DEFAULT             0 //"CList","FirstLineDrawSmileys"
 #define SETTING_FIRSTLINE_APPENDNICK_DEFAULT          0 //"CList","FirstLineAppendNick"
 #define SETTING_FIRSTLINE_TRIMTEXT_DEFAULT        1 //"CList","TrimText"
 
-#define SETTING_SECONDLINE_SHOW_DEFAULT                   1 //"CList","SecondLineShow"
+#define SETTING_SECONDLINE_SHOW_DEFAULT                   0 //"CList","SecondLineShow"
 #define SETTING_SECONDLINE_TOPSPACE_DEFAULT           2 //"CList","SecondLineTopSpace"
 #define SETTING_SECONDLINE_SMILEYS_DEFAULT              1 //"CList","SecondLineDrawSmileys"
 #define SETTING_SECONDLINE_TYPE_DEFAULT                   TEXT_STATUS_MESSAGE //"CList","SecondLineType"

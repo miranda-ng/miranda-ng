@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-16 Miranda NG project (http://miranda-ng.org)
+Copyright (ï¿½) 2012-16 Miranda NG project (http://miranda-ng.org)
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -293,7 +293,7 @@ typedef struct {
 // Moreover if you process WM_COMMAND youself and your window contains self menu
 // please be sure that you will not call service for non-clist menu items.
 // The simplest way is to ensure that your menus are not use item ids from such range.
-// Otherwise, you HAVE TO distinguish WM_COMMAND from clist menus and from youê internal menu and
+// Otherwise, you HAVE TO distinguish WM_COMMAND from clist menus and from youï¿½ internal menu and
 // DO NOT call Clist_MenuProcessCommand for non clist menus.
 
 #define CLISTMENUIDMIN	0x4000	  // reserved range for clist menu ids
@@ -550,7 +550,7 @@ typedef struct {
 #define SETTING_SHOWMAINMENU_DEFAULT 1
 #define SETTING_SHOWCAPTION_DEFAULT  1
 #define SETTING_CLIENTDRAG_DEFAULT   1
-#define SETTING_ONTOP_DEFAULT        0
+#define SETTING_ONTOP_DEFAULT        1
 #define SETTING_MIN2TRAY_DEFAULT     1
 #define SETTING_TRAY1CLICK_DEFAULT   (IsWinVer7Plus()?1:0)
 #define SETTING_HIDEOFFLINE_DEFAULT  0
