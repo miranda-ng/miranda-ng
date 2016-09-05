@@ -121,10 +121,10 @@ LRESULT CALLBACK PopupMenuWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 {
 	switch (message) {
 	case WM_MEASUREITEM:
-		if (Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam)) return TRUE;
+		if (Menu_MeasureItem(lParam)) return TRUE;
 		break;
 	case WM_DRAWITEM:
-		if (Menu_DrawItem((LPDRAWITEMSTRUCT)lParam)) return TRUE;
+		if (Menu_DrawItem(lParam)) return TRUE;
 		break;
 	case WM_COMMAND:
 		if (Menu_ProcessCommandById(wParam, GetWindowLongPtr(hwnd, GWLP_USERDATA)))

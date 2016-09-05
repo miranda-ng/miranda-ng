@@ -107,11 +107,12 @@ TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *parent, pfnWalkFunc func,
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(BOOL) Menu_MeasureItem(MEASUREITEMSTRUCT *mis)
+MIR_APP_DLL(BOOL) Menu_MeasureItem(LPARAM lParam)
 {
 	if (!bIsGenMenuInited)
 		return FALSE;
 
+	MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT*)lParam;
 	if (mis == NULL)
 		return FALSE;
 
@@ -133,11 +134,12 @@ MIR_APP_DLL(BOOL) Menu_MeasureItem(MEASUREITEMSTRUCT *mis)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(BOOL) Menu_DrawItem(DRAWITEMSTRUCT *dis)
+MIR_APP_DLL(BOOL) Menu_DrawItem(LPARAM lParam)
 {
 	if (!bIsGenMenuInited)
 		return FALSE;
 
+	DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT*)lParam;
 	if (dis == NULL)
 		return FALSE;
 

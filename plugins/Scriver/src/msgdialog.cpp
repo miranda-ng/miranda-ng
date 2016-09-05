@@ -1497,7 +1497,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_MEASUREITEM:
 		if (!MeasureMenuItem(wParam, lParam))
-			return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+			return Menu_MeasureItem(lParam);
 		return TRUE;
 
 	case WM_DRAWITEM:
@@ -1545,7 +1545,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				return TRUE;
 			}
 		}
-		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+		return Menu_MeasureItem(lParam);
 
 	case WM_COMMAND:
 		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, dat->hContact))

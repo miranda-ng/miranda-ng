@@ -381,11 +381,11 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 		}
 
 	case WM_MEASUREITEM:
-		Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+		Menu_MeasureItem(lParam);
 		break;
 
 	case WM_DRAWITEM:
-		Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+		Menu_DrawItem(lParam);
 		break;
 
 	case WM_LBUTTONDOWN:

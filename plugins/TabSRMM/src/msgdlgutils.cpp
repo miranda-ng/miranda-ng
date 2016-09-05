@@ -1588,7 +1588,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM, LPARAM lParam, TWindowData *dat)
 		return TRUE;
 	}
 
-	return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+	return Menu_DrawItem(lParam);
 }
 
 void TSAPI LoadThemeDefaults(TContainerData *pContainer)

@@ -1058,7 +1058,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		{
 			MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;
 			if (mis->CtlType == ODT_MENU)
-				return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+				return Menu_MeasureItem(lParam);
 		}
 		return FALSE;
 
@@ -1066,7 +1066,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
 			if (dis->CtlType == ODT_MENU)
-				return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+				return Menu_DrawItem(lParam);
 		}
 		return FALSE;
 
@@ -1808,7 +1808,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;
 			if (mis->CtlType == ODT_MENU)
-				return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+				return Menu_MeasureItem(lParam);
 
 			int ih = GetTextPixelSize(L"AQGgl'", g_Settings.UserListFont, FALSE);
 			int ih2 = GetTextPixelSize(L"AQGg'", g_Settings.UserListHeadingsFont, FALSE);
@@ -1827,7 +1827,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
 			if (dis->CtlType == ODT_MENU)
-				return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+				return Menu_DrawItem(lParam);
 
 			if (dis->CtlID == IDC_LIST) {
 				int index = dis->itemID;

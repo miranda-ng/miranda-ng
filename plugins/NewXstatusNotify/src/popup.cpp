@@ -155,10 +155,10 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 	switch (message) {
 	case WM_MEASUREITEM: //Needed by the contact's context menu
-		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+		return Menu_MeasureItem(lParam);
 
 	case WM_DRAWITEM: //Needed by the contact's context menu
-		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+		return Menu_DrawItem(lParam);
 
 	case WM_COMMAND:
 		//This one returns TRUE if it processed the menu command, and FALSE if it did not process it.

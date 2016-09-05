@@ -1573,10 +1573,10 @@ panel_found:
 				return TRUE;
 			}
 		}
-		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+		return Menu_DrawItem(lParam);
 
 	case WM_MEASUREITEM:
-		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+		return Menu_MeasureItem(lParam);
 
 	case DM_QUERYCLIENTAREA:
 		{

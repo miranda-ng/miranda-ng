@@ -1278,7 +1278,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		{
 			LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
 			if (mis->CtlType == ODT_MENU)
-				return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+				return Menu_MeasureItem(lParam);
 		}
 		break;
 
@@ -1286,7 +1286,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->CtlType == ODT_MENU)
-				return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+				return Menu_DrawItem(lParam);
 			if (dis->hwndItem == dat->hwndStatus) {
 				DrawStatusIcons(dat->hContact, dis->hDC, dis->rcItem, 2);
 				return TRUE;

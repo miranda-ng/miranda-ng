@@ -197,10 +197,10 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		return TRUE;
 
 	case WM_MEASUREITEM:
-		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lparam);
+		return Menu_MeasureItem(lparam);
 
 	case WM_DRAWITEM:
-		return Menu_DrawItem((LPDRAWITEMSTRUCT)lparam);
+		return Menu_DrawItem(lparam);
 
 	case WM_COMMAND:
 		hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);

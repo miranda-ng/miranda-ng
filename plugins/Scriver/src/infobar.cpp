@@ -260,7 +260,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				return TRUE;
 			}
 		}
-		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+		return Menu_DrawItem(lParam);
 
 	case WM_LBUTTONDOWN:
 		SendMessage(idat->mwd->hwnd, WM_LBUTTONDOWN, wParam, lParam);

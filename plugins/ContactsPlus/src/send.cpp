@@ -443,11 +443,11 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 	
 	case WM_MEASUREITEM:
-		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+		return Menu_MeasureItem(lParam);
 
 	case WM_DRAWITEM:
 		DrawProtocolIcon(hwndDlg, lParam, wndData->hContact);
-		return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+		return Menu_DrawItem(lParam);
 
 	case DM_UPDATETITLE:
 		UpdateDialogTitle(hwndDlg, wndData ? wndData->hContact : NULL, TranslateT("Send Contacts to"));

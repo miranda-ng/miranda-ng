@@ -1621,7 +1621,7 @@ buttons_done:
 			((LPMEASUREITEMSTRUCT)lParam)->itemHeight = 0;
 			return TRUE;
 		}
-		return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+		return Menu_MeasureItem(lParam);
 
 	case WM_DRAWITEM:
 		{
@@ -1721,7 +1721,7 @@ buttons_done:
 			else if (dis->CtlType == ODT_MENU) {
 				if (dis->itemData == MENU_MIRANDAMENU)
 					break;
-				return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+				return Menu_DrawItem(lParam);
 			}
 		}
 		return 0;

@@ -2421,7 +2421,7 @@ LRESULT CLUI::OnMeasureItem(UINT, WPARAM, LPARAM lParam)
 		ReleaseDC(m_hWnd, hdc);
 		return TRUE;
 	}
-	return Menu_MeasureItem((LPMEASUREITEMSTRUCT)lParam);
+	return Menu_MeasureItem(lParam);
 }
 
 LRESULT CLUI::OnDrawItem(UINT, WPARAM, LPARAM lParam)
@@ -2499,7 +2499,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM, LPARAM lParam)
 		nMirMenuState = dis->itemState;
 	}
 
-	return Menu_DrawItem((LPDRAWITEMSTRUCT)lParam);
+	return Menu_DrawItem(lParam);
 }
 
 LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)

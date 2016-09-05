@@ -125,7 +125,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_CreateRoot(int hMenuObject, LPCWSTR ptszName
 // wParam, lParam, return value as for WM_MEASUREITEM
 // See comments for clist/menumeasureitem
 
-EXTERN_C MIR_APP_DLL(BOOL) Menu_DrawItem(DRAWITEMSTRUCT *dis);
+EXTERN_C MIR_APP_DLL(BOOL) Menu_DrawItem(LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // enables or disables a menu item
@@ -158,7 +158,7 @@ EXTERN_C MIR_APP_DLL(int) Menu_GetItemInfo(HGENMENU hMenuItem, TMO_MenuItem &pIn
 // and clist/menudrawitem whne drawing a menu returned by one of the three menu
 // services below then it'll work but you won't get any icons
 
-EXTERN_C MIR_APP_DLL(BOOL) Menu_MeasureItem(MEASUREITEMSTRUCT *mis);
+EXTERN_C MIR_APP_DLL(BOOL) Menu_MeasureItem(LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // modify an existing menu item 
