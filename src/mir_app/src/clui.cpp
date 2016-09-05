@@ -283,7 +283,7 @@ int LoadCLUIModule(void)
 	RECT pos;
 	pos.left = (int)db_get_dw(NULL, "CList", "x", 700);
 	pos.top = (int)db_get_dw(NULL, "CList", "y", 221);
-	pos.right = pos.left + (int)db_get_dw(NULL, "CList", "Width", 108);
+	pos.right = pos.left + (int)db_get_dw(NULL, "CList", "Width", 150);
 	pos.bottom = pos.top + (int)db_get_dw(NULL, "CList", "Height", 310);
 
 	Utils_AssertInsideScreen(&pos);
