@@ -96,7 +96,7 @@ static INT_PTR TrayMenuOnAddService(WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-static INT_PTR ShowHideStub(WPARAM wParam, LPARAM lParam)
+static INT_PTR ShowHideStub(WPARAM, LPARAM)
 {
 	return cli.pfnShowHide();
 }
