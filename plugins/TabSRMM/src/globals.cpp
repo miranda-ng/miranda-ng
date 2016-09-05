@@ -219,7 +219,7 @@ void CGlobals::reloadAdv()
 		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TabSRMM: typing"));
 		m_TypingSoundAdded = true;
 	}
-	m_bAllowOfflineMultisend = M.GetBool("AllowOfflineMultisend", false);
+	m_bAllowOfflineMultisend = M.GetBool("AllowOfflineMultisend", true);
 }
 
 const HMENU CGlobals::getMenuBar()

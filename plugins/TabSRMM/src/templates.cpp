@@ -45,26 +45,26 @@ char *TemplateNames[] = {
 };
 
 TTemplateSet LTR_Default = { TRUE,
-L"%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
-L"%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
-L"%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
-L"%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
+L"%I %N  %?&r%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M",
 L"%S %T%|%M",
 L"%S %T%|%M",
-L"%I %S %&D, %&T, %N %M%! ",
-L"%I%S %D, %T, %e%l%M",
+L"%I %S %&r, %&T, %N %M%! ",
+L"%I%S %r, %T, %e%l%M",
 "Default LTR"
 };
 
 TTemplateSet RTL_Default = { TRUE,
-L"%I %S %N  %D%n%S %T%|%M",
-L"%I %S %N  %D%n%S %T%|%M",
-L"%I %S %N  %D%n%S %T%|%M",
-L"%I %S %N  %D%n%S %T%|%M",
+L"%I %N  %r%n%S %T%|%M",
+L"%I %N  %r%n%S %T%|%M",
+L"%I %N  %r%n%S %T%|%M",
+L"%I %N  %r%n%S %T%|%M",
 L"%S %T%|%M",
 L"%S %T%|%M",
-L"%I%S %D, %T, %N %M%! ",
-L"%I%S %D, %T, %e%l%M",
+L"%I%S %r, %T, %N %M%! ",
+L"%I%S %r, %T, %e%l%M",
 "Default RTL"
 };
 

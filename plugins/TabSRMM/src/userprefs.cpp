@@ -280,7 +280,7 @@ int TSAPI LoadLocalFlags(TWindowData *dat)
 	int i = 0;
 	DWORD	dwMask = M.GetDword(dat->hContact, "mwmask", 0);
 	DWORD	dwLocal = M.GetDword(dat->hContact, "mwflags", 0);
-	DWORD	dwGlobal = M.GetDword("mwflags", 0);
+	DWORD	dwGlobal = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
 	dat->dwFlags &= ~MWF_LOG_ALL;
 	if (dat->pContainer->theme.isPrivate)
