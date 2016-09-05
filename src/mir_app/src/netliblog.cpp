@@ -74,7 +74,7 @@ static void InitLog()
 	}
 	else {
 		db_set_ws(NULL, "Netlib", "File", logOptions.tszUserFile = L"%miranda_logpath%\\netlog.txt");
-		logOptions.tszFile = Utils_ReplaceVarsT(logOptions.tszUserFile);
+		logOptions.tszFile = VARSW(logOptions.tszUserFile);
 	}
 
 	if (logOptions.toFile)

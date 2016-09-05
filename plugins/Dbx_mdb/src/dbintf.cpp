@@ -177,10 +177,10 @@ int CDbxMdb::Check(void)
 
 	fseek(pFile, (LONG)iDefHeaderOffset, SEEK_SET);
 	BYTE buf[_countof(bDefHeader)];
-	if (fread(buf, 1, _countof(buf), pFile) != _countof(buf))
-		return EGROKPRF_DAMAGED;
-
+	size_t cbRead = fread(buf, 1, _countof(buf), pFile);
 	fclose(pFile);
+	if (cbRead != _countof(buf))
+		return EGROKPRF_DAMAGED;
 
 	return (memcmp(buf, bDefHeader, _countof(bDefHeader))) ? EGROKPRF_UNKHEADER : 0;
 }
