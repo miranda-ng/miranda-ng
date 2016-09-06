@@ -1970,8 +1970,7 @@ begin
       grid:=GetDlgItem(Dialog,IDC_LIST);
 
       // ListView
-      ListView_SetImageList(grid,
-         CallService(MS_CLIST_GETICONSIMAGELIST,0,0),LVSIL_SMALL);
+      ListView_SetImageList(grid,Clist_GetImageList,LVSIL_SMALL);
 
       tmp:=LVS_EX_FULLROWSELECT or LVS_EX_SUBITEMIMAGES or LVS_EX_HEADERDRAGDROP or
            LVS_EX_LABELTIP or LVS_EX_DOUBLEBUFFER;

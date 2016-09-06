@@ -310,7 +310,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	mir_snwprintf(Group, LPGENW("Status icons")L"/%s/%S %s", m_tszUserName, proto, TranslateT("transport"));
 	mir_snprintf(defFile, "proto_%s.dll", proto);
 	if (!hAdvancedStatusIcon)
-		hAdvancedStatusIcon = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+		hAdvancedStatusIcon = Clist_GetImageList();
 
 	mir_cslock lck(m_csModeMsgMutex);
 	for (int i = 0; i < ID_STATUS_ONTHEPHONE - ID_STATUS_OFFLINE; i++) {

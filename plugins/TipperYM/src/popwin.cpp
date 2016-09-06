@@ -318,7 +318,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// status icon
 					if (pwd->bIsIconVisible[0]) {
 						for (i = 0; opt.exIconsOrder[i] != 0; i++);
-						pwd->extraIcons[i].hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), pwd->iIconIndex, 0);
+						pwd->extraIcons[i].hIcon = ImageList_GetIcon(Clist_GetImageList(), pwd->iIconIndex, 0);
 						pwd->extraIcons[i].bDestroy = true;
 					}
 

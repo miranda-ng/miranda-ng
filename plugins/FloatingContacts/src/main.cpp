@@ -211,7 +211,7 @@ static int OnContactDragStop(WPARAM hContact, LPARAM)
 static int OnSkinIconsChanged(WPARAM, LPARAM)
 {
 	// Get handle to the image list
-	himlMiranda = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	himlMiranda = Clist_GetImageList();
 
 	// Update thumbs
 	for (int i = 0; i < thumbList.getCount(); ++i)

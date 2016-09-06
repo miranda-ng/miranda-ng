@@ -226,8 +226,7 @@ begin
   begin
     SetWindowLongPtrW(list,GWL_STYLE,
         GetWindowLongPtrW(list,GWL_STYLE) or LVS_SHAREIMAGELISTS);
-    ListView_SetImageList(list,
-      CallService(MS_CLIST_GETICONSIMAGELIST,0,0),LVSIL_SMALL);
+    ListView_SetImageList(list,Clist_GetImageList,LVSIL_SMALL);
     lvc.mask:=LVCF_FMT+LVCF_IMAGE
   end
   else
@@ -309,8 +308,7 @@ begin
   begin
     SetWindowLongPtrW(list,GWL_STYLE,
         GetWindowLongPtrW(list,GWL_STYLE) or LVS_SHAREIMAGELISTS);
-    ListView_SetImageList(list,
-      CallService(MS_CLIST_GETICONSIMAGELIST,0,0),LVSIL_SMALL);
+    ListView_SetImageList(list,Clist_GetImageList,LVSIL_SMALL);
     lvc.mask:=LVCF_FMT+LVCF_IMAGE
   end
   else

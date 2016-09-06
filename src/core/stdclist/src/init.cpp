@@ -84,7 +84,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST,
 
 static int OnAccountsChanged(WPARAM, LPARAM)
 {
-	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	himlCListClc = Clist_GetImageList();
 	return 0;
 }
 
@@ -96,7 +96,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MODERNOPT_INITIALIZE, OnModernOptsInit);
 	RegisterCListFonts();
-	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	himlCListClc = Clist_GetImageList();
 	return 0;
 }
 

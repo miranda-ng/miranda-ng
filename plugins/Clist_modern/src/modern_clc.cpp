@@ -1623,7 +1623,7 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 
 HRESULT ClcLoadModule()
 {
-	g_himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	g_himlCListClc = Clist_GetImageList();
 
 	HookEvent(ME_MC_SUBCONTACTSCHANGED, clcMetacontactChanged);
 	HookEvent(ME_MC_ENABLED, clcMetaModeChanged);

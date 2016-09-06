@@ -271,3 +271,4 @@ Clist_MenuProcessHotkey @270
 Clist_ContactChangeGroup @271
 Clist_ContactCompare @272
 Clist_ContactDoubleClicked @273
+Clist_GetImageList @274

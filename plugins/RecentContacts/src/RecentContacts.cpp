@@ -213,7 +213,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			ListView_InsertColumn(hList, 0, &lvc);
 
 			// add conacts to listview
-			HIMAGELIST hImgList = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+			HIMAGELIST hImgList = Clist_GetImageList();
 			if (hImgList != NULL)
 				ListView_SetImageList(hList, hImgList, LVSIL_SMALL);
 

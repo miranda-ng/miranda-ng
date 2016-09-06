@@ -121,7 +121,7 @@ INT_PTR CSteamProto::OnRequestAdvStatusIconIdx(WPARAM wParam, LPARAM)
 		if (std::find(xstatusIconsValid.begin(), xstatusIconsValid.end(), status) == xstatusIconsValid.end())
 		{
 			// adding/updating icon
-			HIMAGELIST clistImageList = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+			HIMAGELIST clistImageList = Clist_GetImageList();
 			if (clistImageList)
 			{
 				HICON hXStatusIcon = GetXStatusIcon(status, LR_SHARED);

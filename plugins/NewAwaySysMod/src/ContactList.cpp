@@ -343,7 +343,7 @@ CCList::CCList(HWND hTreeView) :
 	CWndUserData(GetParent(hTreeView)).SetCList(this);
 	OrigTreeViewProc = (WNDPROC)SetWindowLongPtr(hTreeView, GWLP_WNDPROC, (LONG_PTR)ContactListSubclassProc);
 	OrigParentProc = (WNDPROC)SetWindowLongPtr(GetParent(hTreeView), GWLP_WNDPROC, (LONG_PTR)ParentSubclassProc);
-	TreeView_SetImageList(hTreeView, CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), TVSIL_NORMAL);
+	TreeView_SetImageList(hTreeView, Clist_GetImageList(), TVSIL_NORMAL);
 	WindowList_Add(hCLWindowList, hTreeView, NULL);
 	TreeView_SetIndent(hTreeView, 5); // doesn't set it less than the initial value on my system, and i guess it's because of icons... but who knows - maybe it will work somewhere
 }

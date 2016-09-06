@@ -258,14 +258,14 @@ typedef struct {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // gets the image list with all the useful icons in it
-// wParam = lParam = 0
-// returns a HIMAGELIST
 // the members of this image list are opaque, and you should trust what you are given
-
-#define MS_CLIST_GETICONSIMAGELIST    "CList/GetIconsImageList"
 
 #define IMAGE_GROUPOPEN     11
 #define IMAGE_GROUPSHUT     12
+
+#ifdef _INC_COMMCTRL
+EXTERN_C MIR_APP_DLL(HIMAGELIST) Clist_GetImageList(void);
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // The icon of a contact in the contact list has changed

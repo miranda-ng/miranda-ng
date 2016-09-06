@@ -204,7 +204,7 @@ int LoadCLCModule(void)
 	g_cxsmIcon = GetSystemMetrics(SM_CXSMICON);
 	g_cysmIcon = GetSystemMetrics(SM_CYSMICON);
 
-	hCListImages = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	hCListImages = Clist_GetImageList();
 
 	HookEvent(ME_MC_ENABLED, ClcMetamodeChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);

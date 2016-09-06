@@ -116,15 +116,10 @@ const
   CLEF_PROTOCOLGLOBAL = 8; // set event globally for protocol, hContact has to
                            // be NULL, lpszProtocol the protocol ID name to be set
 
-  {
-    wParam : 0
-    lParam : 0
-    Affect : Get the image list handle with all the useful icons in it
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_GETICONSIMAGELIST:PAnsiChar = 'CList/GetIconsImageList';
   IMAGE_GROUPOPEN = 11;
   IMAGE_GROUPSHUT = 12;
+
+  function Clist_GetImageList : HIMAGELIST; stdcall; external AppDll;
 
   {
     wParam : TMCONTACT
@@ -133,6 +128,7 @@ const
              ICON_ID is an index to what image has changed
     Version: v0.1.2.1+
   }
+const
   ME_CLIST_CONTACTICONCHANGED:PAnsiChar = 'CList/ContactIconChanged';
 
 //******************************* CLUI only *********************************

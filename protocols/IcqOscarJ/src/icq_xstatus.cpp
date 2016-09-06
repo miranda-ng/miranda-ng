@@ -1110,7 +1110,7 @@ INT_PTR CIcqProto::RequestAdvStatusIconIdx(WPARAM wParam, LPARAM)
 	if (bXStatus) {
 		if (!bXStatusCListIconsValid[bXStatus - 1]) { // adding icon
 			int idx = hXStatusCListIcons[bXStatus - 1];
-			HIMAGELIST hCListImageList = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+			HIMAGELIST hCListImageList = Clist_GetImageList();
 			if (hCListImageList) {
 				HICON hXStatusIcon = getXStatusIcon(bXStatus, LR_SHARED);
 

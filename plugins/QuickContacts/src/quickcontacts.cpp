@@ -183,7 +183,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Get the icons for the listbox
-	hIml = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
+	hIml = Clist_GetImageList();
 
 	// Add menu item
 	CMenuItem mi;

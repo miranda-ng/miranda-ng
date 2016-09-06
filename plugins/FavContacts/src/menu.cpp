@@ -241,7 +241,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 	char *proto = GetContactProto(hContact);
 
-	HIMAGELIST hIml = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	HIMAGELIST hIml = Clist_GetImageList();
 	int iIcon = pcli->pfnGetContactIcon(hContact);
 
 	if (db_get_dw(hContact, proto, "IdleTS", 0)) {

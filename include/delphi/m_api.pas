@@ -42,7 +42,7 @@ interface
 {$ENDIF}
 
 uses
-  Windows,Messages;//, FreeImage;
+  Windows,CommCtrl,Messages;//, FreeImage;
 
 // often used
 const

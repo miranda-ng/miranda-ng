@@ -443,7 +443,7 @@ begin
 
   ContactList := TObjectList.Create;
 
-  ilContacts.Handle := CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+  ilContacts.Handle := Clist_GetImageList();
   // delphi 2006 doesn't save toolbar's flat property in dfm if it is True
   // delphi 2006 doesn't save toolbar's edgeborder property in dfm
   ToolBar.Flat := True;

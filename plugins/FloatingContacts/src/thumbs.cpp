@@ -237,7 +237,7 @@ void ThumbInfo::ResizeThumb()
 {
 	int index = FLT_FONTID_NOTONLIST;
 
-	himlMiranda = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	himlMiranda = Clist_GetImageList();
 	if (himlMiranda == NULL)
 		return;
 

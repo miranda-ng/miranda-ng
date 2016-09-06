@@ -243,9 +243,9 @@ MIR_APP_DLL(void) Clist_ContactDoubleClicked(MCONTACT hContact)
 	}
 }
 
-static INT_PTR GetIconsImageList(WPARAM, LPARAM)
+MIR_APP_DLL(HIMAGELIST) Clist_GetImageList(void)
 {
-	return (INT_PTR)hCListImages;
+	return hCListImages;
 }
 
 static int CListIconsChanged(WPARAM, LPARAM)
@@ -431,7 +431,6 @@ int LoadContactListModule2(void)
 
 	hCListImages = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 13, 0);
 	HookEvent(ME_SKIN_ICONSCHANGED, CListIconsChanged);
-	CreateServiceFunction(MS_CLIST_GETICONSIMAGELIST, GetIconsImageList);
 
 	ImageList_AddIcon_NotShared(hCListImages, MAKEINTRESOURCE(IDI_BLANK));
 
