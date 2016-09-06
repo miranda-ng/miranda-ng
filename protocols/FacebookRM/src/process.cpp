@@ -409,7 +409,10 @@ void FacebookProto::LoadHistory(void *pParam)
 	MCONTACT hContact = *(MCONTACT*)pParam;
 	delete (MCONTACT*)pParam;
 
-	if (!isOnline())
+	ScopedLock s(facy.loading_history_lock_);
+
+	// Allow loading history only from one contact at a time
+	if (!isOnline() || facy.loading_history)
 		return;
 
 	facy.handle_entry("LoadHistory");
@@ -447,6 +450,8 @@ void FacebookProto::LoadHistory(void *pParam)
 
 	// Temporarily disable marking messages as read for this contact
 	facy.ignore_read.insert(hContact);
+	// Mark we're loading history, so we can behave differently (e.g., stickers won't be refreshed as it slows the whole process down drastically)
+	facy.loading_history = true;
 
 	POPUPDATAW pd = { sizeof(pd) };
 	pd.iSeconds = 5;
@@ -499,37 +504,30 @@ void FacebookProto::LoadHistory(void *pParam)
 				}
 				lastMessageId = msg.message_id;
 
-				if (msg.isIncoming && msg.isUnread && msg.type == MESSAGE) {
-					PROTORECVEVENT recv = { 0 };
-					recv.szMessage = const_cast<char*>(msg.message_text.c_str());
-					recv.timestamp = msg.time;
-					ProtoChainRecvMsg(hContact, &recv);
-				}
-				else {
-					DBEVENTINFO dbei = { 0 };
-					dbei.cbSize = sizeof(dbei);
+				// We don't use ProtoChainRecvMsg here as this is just loading of old messages, which we just add to log
+				DBEVENTINFO dbei = { 0 };
+				dbei.cbSize = sizeof(dbei);
 
-					if (msg.type == MESSAGE)
-						dbei.eventType = EVENTTYPE_MESSAGE;
-					else if (msg.type == VIDEO_CALL || msg.type == PHONE_CALL)
-						dbei.eventType = FACEBOOK_EVENTTYPE_CALL;
-					else
-						dbei.eventType = EVENTTYPE_URL; // FIXME: Use better and specific type for our other event types.
+				if (msg.type == MESSAGE)
+					dbei.eventType = EVENTTYPE_MESSAGE;
+				else if (msg.type == VIDEO_CALL || msg.type == PHONE_CALL)
+					dbei.eventType = FACEBOOK_EVENTTYPE_CALL;
+				else
+					dbei.eventType = EVENTTYPE_URL; // FIXME: Use better and specific type for our other event types.
 
-					dbei.flags = DBEF_UTF;
+				dbei.flags = DBEF_UTF;
 
-					if (!msg.isIncoming)
-						dbei.flags |= DBEF_SENT;
+				if (!msg.isIncoming)
+					dbei.flags |= DBEF_SENT;
 
-					if (!msg.isUnread)
-						dbei.flags |= DBEF_READ;
+				if (!msg.isUnread)
+					dbei.flags |= DBEF_READ;
 
-					dbei.szModule = m_szModuleName;
-					dbei.timestamp = msg.time;
-					dbei.cbBlob = (DWORD)msg.message_text.length() + 1;
-					dbei.pBlob = (PBYTE)msg.message_text.c_str();
-					db_event_add(hContact, &dbei);
-				}
+				dbei.szModule = m_szModuleName;
+				dbei.timestamp = msg.time;
+				dbei.cbBlob = (DWORD)msg.message_text.length() + 1;
+				dbei.pBlob = (PBYTE)msg.message_text.c_str();
+				db_event_add(hContact, &dbei);
 
 				loadedMessages++;
 			}
@@ -571,6 +569,8 @@ void FacebookProto::LoadHistory(void *pParam)
 
 	// Enable marking messages as read for this contact
 	facy.ignore_read.erase(hContact);
+	// Reset loading history flag
+	facy.loading_history = false;
 
 	if (ServiceExists(MS_POPUP_CHANGETEXTW) && popupHwnd) {
 		PUChangeTextW(popupHwnd, TranslateT("Loading history completed."));

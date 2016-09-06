@@ -39,7 +39,7 @@ public:
 	{
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = chat_req_ = 0;
 
-		send_message_lock_ = notifications_lock_ = cookies_lock_ = NULL;
+		send_message_lock_ = notifications_lock_ = cookies_lock_ = loading_history_lock_ = NULL;
 		hChannelCon = NULL;
 		hMessagesCon = NULL;
 		hFcbCon = NULL;
@@ -48,6 +48,7 @@ public:
 		parent = NULL;
 
 		mbasicWorks = true;
+		loading_history = false;
 	}
 
 	HANDLE hChannelCon;
@@ -195,6 +196,9 @@ public:
 
 	std::map<std::string, int> messages_ignore;
 	std::map<int, time_t> messages_timestamp;
+	
+	bool loading_history;
+	HANDLE  loading_history_lock_;
 
 	bool    channel();
 	bool	activity_ping();

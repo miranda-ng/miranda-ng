@@ -193,6 +193,10 @@ void FacebookProto::ReadMessageWorker(void *p)
 
 void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url, MCONTACT hContact)
 {
+	// Don't load stickers as smileys when we're loading history
+	if (facy.loading_history)
+		return;
+
 	std::string b64 = ptrA(mir_base64_encode((PBYTE)sticker.c_str(), (unsigned)sticker.length()));
 	b64 = utils::url::encode(b64);
 
@@ -202,7 +206,7 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 	filename += (wchar_t*)_A2T(b64.c_str());
 	filename += L".png";
 
-	// Check if we have this sticker already and download it it not
+	// Check if we have this sticker already and download it if not
 	if (GetFileAttributes(filename.c_str()) == INVALID_FILE_ATTRIBUTES) {
 		HANDLE nlc = NULL;
 		facy.save_url(url, filename, nlc);

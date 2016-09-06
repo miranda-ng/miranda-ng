@@ -36,6 +36,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.notifications_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.cookies_lock_ = CreateMutex(NULL, FALSE, NULL);
+	facy.loading_history_lock_ = CreateMutex(NULL, FALSE, NULL);
 
 	// Initialize random seed for this client
 	facy.random_ = ::time(NULL) + PtrToUint(&facy);
@@ -127,6 +128,7 @@ FacebookProto::~FacebookProto()
 	WaitForSingleObject(facy.send_message_lock_, IGNORE);
 	WaitForSingleObject(facy.notifications_lock_, IGNORE);
 	WaitForSingleObject(facy.cookies_lock_, IGNORE);
+	WaitForSingleObject(facy.loading_history_lock_, IGNORE);
 
 	CloseHandle(signon_lock_);
 	CloseHandle(avatar_lock_);
@@ -136,6 +138,7 @@ FacebookProto::~FacebookProto()
 	CloseHandle(facy.fcb_conn_lock_);
 	CloseHandle(facy.notifications_lock_);
 	CloseHandle(facy.cookies_lock_);
+	CloseHandle(facy.loading_history_lock_);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -782,6 +785,13 @@ INT_PTR FacebookProto::LoadHistory(WPARAM wParam, LPARAM)
 	if (isChatRoom(hContact))
 		return 0;
 
+	// Allow loading history only from one contact at a time
+	if (facy.loading_history) {
+		const wchar_t *message = TranslateT("Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.");
+		MessageBox(0, message, m_tszUserName, MB_ICONWARNING | MB_OK);
+		return 0;
+	}
+
 	ptrW name(getWStringA(hContact, FACEBOOK_KEY_NICK));
 	if (name == NULL)
 		name = getWStringA(hContact, FACEBOOK_KEY_ID);
@@ -790,9 +800,9 @@ INT_PTR FacebookProto::LoadHistory(WPARAM wParam, LPARAM)
 
 	CMStringW title;
 	title.AppendFormat(L"%s - %s", m_tszUserName, name);
-	CMStringW message("This will load all messages from the server. It might take a while, so be patient.\n\nDo you want to continue?");
+	const wchar_t *message = TranslateT("This will load all messages from the server. To avoid having duplicit messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?");
 
-	if (MessageBox(0, message, title, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
+	if (MessageBox(0, message, title, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 		ForkThread(&FacebookProto::LoadHistory, new MCONTACT(hContact));
 	}
 

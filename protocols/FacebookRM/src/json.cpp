@@ -333,7 +333,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 					attachments_text += sticker;
 
 					// Stickers as smileys
-					if (proto->getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
+					if (proto->getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS) && !proto->facy.loading_history) {
 						// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
 						if (!other_user_fbid.empty()) {
 							MCONTACT hContact = proto->ContactIDToHContact(other_user_fbid);
