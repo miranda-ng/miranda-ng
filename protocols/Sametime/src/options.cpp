@@ -165,11 +165,6 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			EnableWindow(hw, FALSE);
 		}
 
-		if (!ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-			HWND hw = GetDlgItem(hwndDlg, IDC_RAD_ERRBAL);
-			EnableWindow(hw, FALSE);
-		}
-
 		switch (proto->options.err_method) {
 			case ED_POP: CheckDlgButton(hwndDlg, IDC_RAD_ERRPOP, BST_CHECKED); break;
 			case ED_MB: CheckDlgButton(hwndDlg, IDC_RAD_ERRMB, BST_CHECKED); break;
@@ -403,12 +398,9 @@ void CSametimeProto::LoadOptions()
 	// if popups not installed, will be changed to 'ED_BAL' (balloons) in main.cpp, modules loaded
 	options.err_method = (ErrorDisplay)db_get_b(0, m_szModuleName, "ErrorDisplay", ED_POP);
 	// funny logic :) ... try to avoid message boxes
-	// if want baloons but no balloons, try popups
 	// if want popups but no popups, try baloons
-	// if, after that, you want balloons but no balloons, revert to message boxes
-	if (options.err_method == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) options.err_method = ED_POP;
-	if (options.err_method == ED_POP && !ServiceExists(MS_POPUP_SHOWMESSAGE)) options.err_method = ED_BAL;
-	if (options.err_method == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) options.err_method = ED_MB;
+	if (options.err_method == ED_POP && !ServiceExists(MS_POPUP_SHOWMESSAGE))
+		options.err_method = ED_BAL;
 
 	debugLogW(L"LoadOptions() loaded: ServerName:len=[%d], id:len=[%d], pword:len=[%d]", options.server_name == NULL ? -1 : mir_strlen(options.server_name), options.id == NULL ? -1 : mir_strlen(options.id), options.pword == NULL ? -1 : mir_strlen(options.pword));
 	debugLogW(L"LoadOptions() loaded: port=[%d], encrypt_session=[%d], ClientID=[%d], ClientVersionMajor=[%d], ClientVersionMinor=[%d]", options.port, options.encrypt_session, options.client_id, options.client_versionMajor, options.client_versionMinor);

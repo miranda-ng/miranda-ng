@@ -498,9 +498,6 @@ EXTERN_C MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hCon
 #define ME_CLUI_CONTACTDRAGSTOP     "CLUI/ContactDragStop"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// wParam = 0 (not used)
-// lParam = (LPARAM) &MIRANDASYSTRAYNOTIFY
-//
 // Affects: Show a message in a ballon tip against a protocol icon (if installed)
 // Returns: 0 on success, non zero on failure
 // Notes  : This service will not be created on systems that haven't got the Windows
@@ -512,54 +509,42 @@ EXTERN_C MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hCon
 #define NIIF_ERROR          0x00000003
 #define NIIF_ICON_MASK      0x0000000F
 #define NIIF_NOSOUND        0x00000010
-#define NIIF_INTERN_UNICODE 0x00000100
 
-typedef struct {
-	int cbSize;			// sizeof(MIRANDASYSTRAY)
-	char *szProto;		// protocol to show under (may have no effect)
-	union {
-		char *szInfoTitle;	// only 64chars of it will be used
-		wchar_t *tszInfoTitle; // used if NIIF_INTERN_UNICODE is specified
-	};
-	union {
-		char *szInfo;		// only 256chars of it will be used
-		wchar_t *tszInfo;   // used if NIIF_INTERN_UNICODE is specified
-	};
-	DWORD dwInfoFlags;	// see NIIF_* stuff
-	UINT uTimeout;		// how long to show the tip for
-} MIRANDASYSTRAYNOTIFY;
-#define MS_CLIST_SYSTRAY_NOTIFY "Miranda/Systray/Notify"
+EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyA(const char *szProto, const char *szInfoTitle, const char *szInfo, DWORD dwInfoFlags, UINT uTimeout);
+EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTitle, const wchar_t *wszInfo, DWORD dwInfoFlags, UINT uTimeout);
 
-#define SETTING_TOOLWINDOW_DEFAULT   1
-#define SETTING_SHOWMAINMENU_DEFAULT 1
-#define SETTING_SHOWCAPTION_DEFAULT  1
-#define SETTING_CLIENTDRAG_DEFAULT   1
-#define SETTING_ONTOP_DEFAULT        1
-#define SETTING_MIN2TRAY_DEFAULT     1
-#define SETTING_TRAY1CLICK_DEFAULT   (IsWinVer7Plus()?1:0)
-#define SETTING_HIDEOFFLINE_DEFAULT  0
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define SETTING_TOOLWINDOW_DEFAULT    1
+#define SETTING_SHOWMAINMENU_DEFAULT  1
+#define SETTING_SHOWCAPTION_DEFAULT   1
+#define SETTING_CLIENTDRAG_DEFAULT    1
+#define SETTING_ONTOP_DEFAULT         1
+#define SETTING_MIN2TRAY_DEFAULT      1
+#define SETTING_TRAY1CLICK_DEFAULT    (IsWinVer7Plus()?1:0)
+#define SETTING_HIDEOFFLINE_DEFAULT   0
 #define SETTING_HIDEEMPTYGROUPS_DEFAULT  0
-#define SETTING_USEGROUPS_DEFAULT    1
-#define SETTING_SORTBYSTATUS_DEFAULT 0
-#define SETTING_SORTBYPROTO_DEFAULT  0
-#define SETTING_TRANSPARENT_DEFAULT  0
-#define SETTING_ALPHA_DEFAULT        200
-#define SETTING_AUTOALPHA_DEFAULT    150
+#define SETTING_USEGROUPS_DEFAULT     1
+#define SETTING_SORTBYSTATUS_DEFAULT  0
+#define SETTING_SORTBYPROTO_DEFAULT   0
+#define SETTING_TRANSPARENT_DEFAULT   0
+#define SETTING_ALPHA_DEFAULT         200
+#define SETTING_AUTOALPHA_DEFAULT     150
 #define SETTING_CONFIRMDELETE_DEFAULT 1
-#define SETTING_AUTOHIDE_DEFAULT     0
-#define SETTING_HIDETIME_DEFAULT     30
-#define SETTING_CYCLETIME_DEFAULT    4
-#define SETTING_TRAYICON_DEFAULT     SETTING_TRAYICON_SINGLE
-#define SETTING_ALWAYSSTATUS_DEFAULT 0
-#define SETTING_ALWAYSMULTI_DEFAULT  0
+#define SETTING_AUTOHIDE_DEFAULT      0
+#define SETTING_HIDETIME_DEFAULT      30
+#define SETTING_CYCLETIME_DEFAULT     4
+#define SETTING_TRAYICON_DEFAULT      SETTING_TRAYICON_SINGLE
+#define SETTING_ALWAYSSTATUS_DEFAULT  0
+#define SETTING_ALWAYSMULTI_DEFAULT   0
 
-#define SETTING_TRAYICON_SINGLE   0
-#define SETTING_TRAYICON_CYCLE    1
-#define SETTING_TRAYICON_MULTI    2
+#define SETTING_TRAYICON_SINGLE       0
+#define SETTING_TRAYICON_CYCLE        1
+#define SETTING_TRAYICON_MULTI        2
 
-#define SETTING_STATE_HIDDEN      0
-#define SETTING_STATE_MINIMIZED   1
-#define SETTING_STATE_NORMAL      2
+#define SETTING_STATE_HIDDEN          0
+#define SETTING_STATE_MINIMIZED       1
+#define SETTING_STATE_NORMAL          2
 
 #define SETTING_BRINGTOFRONT_DEFAULT 0
 

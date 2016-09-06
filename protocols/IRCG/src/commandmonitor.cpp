@@ -1894,21 +1894,12 @@ bool CIrcProto::OnIrc_NOOFCHANNELS(const CIrcMessage* pmsg)
 bool CIrcProto::OnIrc_ERROR(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming && !m_disableErrorPopups && m_iDesiredStatus != ID_STATUS_OFFLINE) {
-		MIRANDASYSTRAYNOTIFY msn;
-		msn.cbSize = sizeof(MIRANDASYSTRAYNOTIFY);
-		msn.szProto = m_szModuleName;
-		msn.tszInfoTitle = TranslateT("IRC error");
-
 		CMStringW S;
 		if (pmsg->parameters.getCount() > 0)
 			S = DoColorCodes(pmsg->parameters[0].c_str(), TRUE, FALSE);
 		else
 			S = TranslateT("Unknown");
-
-		msn.tszInfo = (wchar_t*)S.c_str();
-		msn.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
-		msn.uTimeout = 15000;
-		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&msn);
+		Clist_TrayNotifyW(m_szModuleName, TranslateT("IRC error"), S, NIIF_ERROR, 15000);
 	}
 	ShowMessage(pmsg);
 	return true;

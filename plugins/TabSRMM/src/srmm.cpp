@@ -150,20 +150,10 @@ int _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...)
 	va_start(va, fmt);
 	mir_vsnwprintf(debug, ibsize, fmt, va);
 
-	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-		MIRANDASYSTRAYNOTIFY tn;
-		wchar_t	szTitle[128];
-		mir_snwprintf(szTitle, TranslateT("TabSRMM message (%s)"),
-			(hContact != 0) ? pcli->pfnGetContactDisplayName(hContact, 0) : TranslateT("Global"));
+	wchar_t	szTitle[128];
+	mir_snwprintf(szTitle, TranslateT("TabSRMM message (%s)"),
+		(hContact != 0) ? pcli->pfnGetContactDisplayName(hContact, 0) : TranslateT("Global"));
 
-		tn.szProto = NULL;
-		tn.cbSize = sizeof(tn);
-		tn.tszInfoTitle = szTitle;
-		tn.tszInfo = debug;
-		tn.dwInfoFlags = NIIF_INFO;
-		tn.dwInfoFlags |= NIIF_INTERN_UNICODE;
-		tn.uTimeout = 1000 * 4;
-		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&tn);
-	}
+	Clist_TrayNotifyW(NULL, szTitle, debug, NIIF_INFO, 1000 * 4);
 	return 0;
 }

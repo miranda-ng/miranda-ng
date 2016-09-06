@@ -403,7 +403,7 @@ type
     pfnTrayIconIconsChanged        : procedure ; cdecl;
     pfnTrayIconPauseAutoHide       : function (wParam:WPARAM; lParam:LPARAM):int; cdecl;
     pfnTrayIconProcessMessage      : function (wParam:WPARAM; lParam:LPARAM):int_ptr; cdecl;
-    pfnCListTrayNotify             : function (_para1:PMIRANDASYSTRAYNOTIFY):int; cdecl;
+    blablabla5 : procedure; cdecl;
 
   (* clui.c *)
     pfnContactListWndProc:function(hwnd:HWND; msg:uint; wParam:WPARAM; lParam:LPARAM):int; stdcall;

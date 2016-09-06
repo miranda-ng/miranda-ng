@@ -79,9 +79,6 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	// if want baloons but no balloons, try popups
 	// if want popups but no popups, try baloons
 	// if, after that, you want balloons but no balloons, revert to message boxes
-	if (disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_POP;
-	if (disp == ED_POP && !ServiceExists(MS_POPUP_ADDPOPUPCLASS)) disp = ED_BAL;
-	if (disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
 	if (disp == ED_POP) {
 		POPUPDATACLASS ppd = { sizeof(ppd) };
@@ -96,20 +93,13 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 	}
 	else if (disp == ED_BAL) {
-		MIRANDASYSTRAYNOTIFY sn = { sizeof(sn) };
-		sn.szProto = proto->m_szModuleName;
-		sn.tszInfoTitle = puData->title;
-		sn.tszInfo = puData->text;
-		sn.dwInfoFlags = NIIF_INTERN_UNICODE;
-		if (puData->flag == SAMETIME_POPUP_ERROR) {
-			sn.dwInfoFlags = sn.dwInfoFlags | NIIF_WARNING;
-			sn.uTimeout = 1000 * 10;
-		}
-		else {
-			sn.dwInfoFlags = sn.dwInfoFlags | NIIF_INFO;
-			sn.uTimeout = 1000 * 8;
-		}
-		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&sn);
+		int flags, timeout;
+		if (puData->flag == SAMETIME_POPUP_ERROR)
+			flags = NIIF_WARNING, timeout = 1000 * 10;
+		else
+			flags = NIIF_INFO, timeout = 1000 * 8;
+
+		Clist_TrayNotifyW(proto->m_szModuleName, puData->title, puData->text, flags, timeout);
 	}
 	else { //disp == ED_MB
 		if (puData->flag == SAMETIME_POPUP_ERROR)

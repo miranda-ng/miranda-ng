@@ -764,70 +764,72 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // processes tray icon's notifications
 
-int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
+static int sttGetIcon(const char *szProto)
 {
-	if (msn == NULL)
-		return 1;
-
-	if (msn->cbSize != sizeof(MIRANDASYSTRAYNOTIFY) || msn->szInfo == NULL || msn->szInfoTitle == NULL)
-		return 1;
-
-	if (cli.trayIcon == NULL)
-		return 2;
+	if (szProto == NULL)
+		return cli.trayIcon[0].id;
 
 	UINT iconId = 0;
-	if (msn->szProto) {
-		for (int j = 0; j < cli.trayIconCount; j++) {
-			if (cli.trayIcon[j].szProto != NULL) {
-				if (!mir_strcmp(msn->szProto, cli.trayIcon[j].szProto)) {
-					iconId = cli.trayIcon[j].id;
-					break;
-				}
-			}
-			else if (cli.trayIcon[j].isBase) {
+
+	for (int j = 0; j < cli.trayIconCount; j++) {
+		if (cli.trayIcon[j].szProto != NULL) {
+			if (!mir_strcmp(szProto, cli.trayIcon[j].szProto)) {
 				iconId = cli.trayIcon[j].id;
 				break;
 			}
 		}
+		else if (cli.trayIcon[j].isBase) {
+			iconId = cli.trayIcon[j].id;
+			break;
+		}
 	}
-	else iconId = cli.trayIcon[0].id;
 
-	if (msn->dwInfoFlags & NIIF_INTERN_UNICODE) {
-		NOTIFYICONDATAW nid = { 0 };
-		nid.cbSize = NOTIFYICONDATAW_V2_SIZE;
-		nid.hWnd = cli.hwndContactList;
-		nid.uID = iconId;
-		nid.uFlags = NIF_INFO;
-		mir_wstrncpy(nid.szInfo, msn->tszInfo, _countof(nid.szInfo));
-		mir_wstrncpy(nid.szInfoTitle, msn->tszInfoTitle, _countof(nid.szInfoTitle));
-		nid.szInfo[_countof(nid.szInfo) - 1] = 0;
-		nid.szInfoTitle[_countof(nid.szInfoTitle) - 1] = 0;
-		nid.uTimeout = msn->uTimeout;
-		nid.dwInfoFlags = (msn->dwInfoFlags & ~NIIF_INTERN_UNICODE);
-		return Shell_NotifyIconW(NIM_MODIFY, &nid) == 0;
-	}
-	else {
-		NOTIFYICONDATAA nid = { 0 };
-		nid.cbSize = NOTIFYICONDATAA_V2_SIZE;
-		nid.hWnd = cli.hwndContactList;
-		nid.uID = iconId;
-		nid.uFlags = NIF_INFO;
-		strncpy_s(nid.szInfo, msn->szInfo, _TRUNCATE);
-		strncpy_s(nid.szInfoTitle, msn->szInfoTitle, _TRUNCATE);
-		nid.uTimeout = msn->uTimeout;
-		nid.dwInfoFlags = msn->dwInfoFlags;
-		return Shell_NotifyIconA(NIM_MODIFY, &nid) == 0;
-	}
+	return iconId;
+}
+
+MIR_APP_DLL(int) Clist_TrayNotifyA(const char *szProto, const char *szInfoTitle, const char *szInfo, DWORD dwInfoFlags, UINT uTimeout)
+{
+	if (szInfo == NULL || szInfoTitle == NULL)
+		return 1;
+	if (cli.trayIcon == NULL)
+		return 2;
+
+	NOTIFYICONDATAA nid = { 0 };
+	nid.cbSize = NOTIFYICONDATAA_V2_SIZE;
+	nid.hWnd = cli.hwndContactList;
+	nid.uID = sttGetIcon(szProto);
+	nid.uFlags = NIF_INFO;
+	strncpy_s(nid.szInfo, szInfo, _TRUNCATE);
+	strncpy_s(nid.szInfoTitle, szInfoTitle, _TRUNCATE);
+	nid.uTimeout = uTimeout;
+	nid.dwInfoFlags = dwInfoFlags;
+	return Shell_NotifyIconA(NIM_MODIFY, &nid) == 0;
+}
+
+MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTitle, const wchar_t *wszInfo, DWORD dwInfoFlags, UINT uTimeout)
+{
+	if (wszInfo == NULL || wszInfoTitle == NULL)
+		return 1;
+	if (cli.trayIcon == NULL)
+		return 2;
+
+	NOTIFYICONDATAW nid = { 0 };
+	nid.cbSize = NOTIFYICONDATAW_V2_SIZE;
+	nid.hWnd = cli.hwndContactList;
+	nid.uID = sttGetIcon(szProto);
+	nid.uFlags = NIF_INFO;
+	mir_wstrncpy(nid.szInfo, wszInfo, _countof(nid.szInfo));
+	mir_wstrncpy(nid.szInfoTitle, wszInfoTitle, _countof(nid.szInfoTitle));
+	nid.szInfo[_countof(nid.szInfo) - 1] = 0;
+	nid.szInfoTitle[_countof(nid.szInfoTitle) - 1] = 0;
+	nid.uTimeout = uTimeout;
+	nid.dwInfoFlags = dwInfoFlags;
+	return Shell_NotifyIconW(NIM_MODIFY, &nid) == 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static DLLVERSIONINFO dviShell = { sizeof(dviShell) };
-
-static INT_PTR pfnCListTrayNotifyStub(WPARAM, LPARAM lParam)
-{
-	return cli.pfnCListTrayNotify((MIRANDASYSTRAYNOTIFY*)lParam);
-}
 
 void fnInitTray(void)
 {
@@ -838,7 +840,6 @@ void fnInitTray(void)
 		}
 	}
 
-	CreateServiceFunction(MS_CLIST_SYSTRAY_NOTIFY, pfnCListTrayNotifyStub);
 	fTrayInited = TRUE;
 }
 

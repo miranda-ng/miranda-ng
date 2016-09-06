@@ -84,17 +84,8 @@ void ShowInfoMessage(BYTE flags, const char *pszTitle, const char *pszTextFmt, .
 	mir_vsnprintf(szText, _countof(szText), pszTextFmt, va);
 	va_end(va);
 
-	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-		MIRANDASYSTRAYNOTIFY msn;
-		msn.cbSize = sizeof(msn);
-		msn.szProto = NULL;
-		msn.szInfoTitle = (char*)pszTitle;
-		msn.szInfo = (char*)szText;
-		msn.uTimeout = 30000; /* max timeout */
-		msn.dwInfoFlags = flags;
-		if (!CallServiceSync(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&msn))
-			return; /* success */
-	}
+	if (!Clist_TrayNotifyA(NULL, pszTitle, szText, flags, 30000)) // success
+		return;
 
 	MSGBOXPARAMSA *mbp = (MSGBOXPARAMSA*)mir_calloc(sizeof(*mbp));
 	if (mbp == NULL) return;

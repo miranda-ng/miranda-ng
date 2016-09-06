@@ -424,21 +424,10 @@ void WhatsAppProto::NotifyEvent(const wchar_t *title, const wchar_t *info, MCONT
 		}
 	}
 	else {
-		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-			MIRANDASYSTRAYNOTIFY err;
-			int niif_flags = flags;
-			REMOVE_FLAG(niif_flags, WHATSAPP_EVENT_CLIENT | WHATSAPP_EVENT_NOTIFICATION | WHATSAPP_EVENT_OTHER);
-			err.szProto = m_szModuleName;
-			err.cbSize = sizeof(err);
-			err.dwInfoFlags = NIIF_INTERN_TCHAR | niif_flags;
-			err.tszInfoTitle = (wchar_t*)title;
-			err.tszInfo = (wchar_t*)info;
-			err.uTimeout = 1000 * timeout;
-			ret = CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& err);
-
-			if (ret == 0)
-				goto exit;
-		}
+		int niif_flags = flags;
+		REMOVE_FLAG(niif_flags, WHATSAPP_EVENT_CLIENT | WHATSAPP_EVENT_NOTIFICATION | WHATSAPP_EVENT_OTHER);
+		if (!Clist_TrayNotifyW(m_szModuleName, title, info, niif_flags, 1000 * timeout))
+			goto exit;
 	}
 
 	if (FLAG_CONTAINS(flags, WHATSAPP_EVENT_CLIENT))

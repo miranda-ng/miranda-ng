@@ -158,45 +158,28 @@ void ShowWarning(wchar_t *msg) {
 	wchar_t buffer[512];
 	ErrorDisplay disp = options.err_method;
 	// funny logic :) ... try to avoid message boxes
-	// if want baloons but no balloons, try popups
 	// if want popups but no popups, try baloons
-	// if, after that, you want balloons but no balloons, revert to message boxes
-	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_POP; 
-	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
-	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
+	if(disp == ED_POP && !options.bHavePopups)
+		disp = ED_BAL;
 
 	mir_snwprintf(buffer, L"%s Warning", _A2W(MODULENAME));
-
 	
-	switch(disp) {
-		case ED_POP:
-			{
-				int size = int(mir_wstrlen(msg) + 515);
-				wchar_t *message = new wchar_t[size]; // newline and null terminator
-				mir_snwprintf(message, size, L"%s\r\n%s", buffer, msg);
-				PUShowMessageT(message, SM_WARNING);
-				delete[] message;
-			}
-			break;
-		case ED_MB:
-			MessageBox(0, msg, buffer, MB_OK | MB_ICONWARNING);
-			break;
-		case ED_BAL:
-			{
-				MIRANDASYSTRAYNOTIFY sn = {0};
-				sn.cbSize = sizeof(sn);
-				sn.szProto= MODULENAME;
-				sn.tszInfoTitle = buffer;
-				sn.tszInfo = msg;
-
-				sn.dwInfoFlags = NIIF_WARNING | NIIF_INTERN_UNICODE;
-
-				sn.uTimeout = 10;
-
-				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&sn);
-			}
-
-			break;
+	switch (disp) {
+	case ED_POP:
+		{
+			int size = int(mir_wstrlen(msg) + 515);
+			wchar_t *message = new wchar_t[size]; // newline and null terminator
+			mir_snwprintf(message, size, L"%s\r\n%s", buffer, msg);
+			PUShowMessageT(message, SM_WARNING);
+			delete[] message;
+		}
+		break;
+	case ED_MB:
+		MessageBox(0, msg, buffer, MB_OK | MB_ICONWARNING);
+		break;
+	case ED_BAL:
+		Clist_TrayNotifyW(MODULENAME, buffer, msg, NIIF_WARNING, 10000);
+		break;
 	}
 }
 
@@ -204,46 +187,29 @@ void ShowError(wchar_t *msg) {
 	wchar_t buffer[512];
 	ErrorDisplay disp = options.err_method;
 	// funny logic :) ... try to avoid message boxes
-	// if want baloons but no balloons, try popups
 	// if want popups but no popups, try baloons
-	// if, after that, you want balloons but no balloons, revert to message boxes
-	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_POP;
-	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
-	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
+	if(disp == ED_POP && !options.bHavePopups)
+		disp = ED_BAL;
 
 	mir_snwprintf(buffer, L"%s Error", _A2W(MODULENAME));
 
-
 	wchar_t *message;
-	switch(disp) {
-		case ED_POP:
-			{
-				int size = int(mir_wstrlen(msg) + 515);
-				message = new wchar_t[size]; // newline and null terminator
-				mir_snwprintf(message, size, L"%s\r\n%s", buffer, msg);
-				PUShowMessageT(message, SM_WARNING);
-				delete[] message;
-			}
-			break;
-		case ED_MB:
-			MessageBox(0, msg, buffer, MB_OK | MB_ICONERROR);
-			break;
-		case ED_BAL:
-			{
-				MIRANDASYSTRAYNOTIFY sn = {0};
-				sn.cbSize = sizeof(sn);
-				sn.szProto = MODULENAME;
-				sn.tszInfoTitle = buffer;
-				sn.tszInfo = msg;
-
-				sn.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
-
-				sn.uTimeout = 10;
-
-				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&sn);
-			}
-
-			break;
+	switch (disp) {
+	case ED_POP:
+		{
+			int size = int(mir_wstrlen(msg) + 515);
+			message = new wchar_t[size]; // newline and null terminator
+			mir_snwprintf(message, size, L"%s\r\n%s", buffer, msg);
+			PUShowMessageT(message, SM_WARNING);
+			delete[] message;
+		}
+		break;
+	case ED_MB:
+		MessageBox(0, msg, buffer, MB_OK | MB_ICONERROR);
+		break;
+	case ED_BAL:
+		Clist_TrayNotifyW(MODULENAME, buffer, msg, NIIF_ERROR, 10000);
+		break;
 	}
 }
 

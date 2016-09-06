@@ -97,19 +97,8 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* info, MCONTACT contact,
 		}
 	}
 	else {
-		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY))
-		{
-			MIRANDASYSTRAYNOTIFY err;
-			err.szProto = m_szModuleName;
-			err.cbSize = sizeof(err);
-			err.dwInfoFlags = NIIF_INTERN_UNICODE | (type == EVENT_CLIENT ? NIIF_WARNING : NIIF_INFO);
-			err.tszInfoTitle = title;
-			err.tszInfo = info;
-			err.uTimeout = 10000;
-
-			if (CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&err) == 0)
-				return NULL;
-		}
+		if (!Clist_TrayNotifyW(m_szModuleName, title, info, type == EVENT_CLIENT ? NIIF_WARNING : NIIF_INFO, 10000))
+			return NULL;
 	}
 
 	if (type == EVENT_CLIENT)

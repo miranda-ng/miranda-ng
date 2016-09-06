@@ -195,16 +195,8 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 		mir_snwprintf(newdisplaytext, L"%s: %s", ptszContactName, TranslateW(displaytext));
 		CallService("OSD/Announce", (WPARAM)newdisplaytext, 0);
 	}
-	else if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-		MIRANDASYSTRAYNOTIFY webview_tip = {0};
-		webview_tip.cbSize = sizeof(MIRANDASYSTRAYNOTIFY);
-		webview_tip.szProto = NULL;
-		webview_tip.tszInfoTitle = ptszContactName;
-		webview_tip.tszInfo = TranslateW(displaytext);
-		webview_tip.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
-		webview_tip.uTimeout = 15000;
-		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) &webview_tip);
-	}
+
+	Clist_TrayNotifyW(NULL, ptszContactName, TranslateW(displaytext), NIIF_ERROR, 15000);
 	return 0;
 }
 

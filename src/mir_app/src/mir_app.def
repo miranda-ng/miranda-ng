@@ -273,3 +273,5 @@ Clist_ContactCompare @272
 Clist_ContactDoubleClicked @273
 Clist_GetImageList @274
 Clist_GetInterface @275
+Clist_TrayNotifyA @276
+Clist_TrayNotifyW @277

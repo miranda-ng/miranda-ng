@@ -482,24 +482,14 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TYPETRAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY));
-		if (!ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), FALSE);
-			CheckDlgButton(hwndDlg, IDC_NOTIFYTRAY, BST_CHECKED);
-			SetDlgItemText(hwndDlg, IDC_NOTIFYBALLOON, TranslateT("Show balloon popup (unsupported system)"));
-		}
 		break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_TYPETRAY:
 			if (IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY)) {
-				if (!ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-					EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), TRUE);
-				}
-				else {
-					EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), TRUE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), TRUE);
-				}
+				EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), TRUE);
 			}
 			else {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), FALSE);
@@ -511,8 +501,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TYPEWIN), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TYPETRAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY)
-							 && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
 			//fall-thru
 		case IDC_TYPEWIN:
 		case IDC_NOTIFYTRAY:

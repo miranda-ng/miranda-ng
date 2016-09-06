@@ -915,11 +915,6 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		Utils::enableDlgControl(hwndDlg, IDC_TYPEFLASHWIN, IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY) != 0);
 		Utils::enableDlgControl(hwndDlg, IDC_MTN_POPUPMODE, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYPOPUP) != 0);
 
-		if (!ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-			Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, false);
-			SetDlgItemText(hwndDlg, IDC_NOTIFYBALLOON, TranslateT("Show balloon popup (unsupported system)"));
-		}
-
 		SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always"));
 		SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always, but no popup when window is focused"));
 		SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Only when no message window is open"));

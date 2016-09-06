@@ -173,7 +173,6 @@ MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)
 		cli.pfnTrayIconUpdateBase              = fnTrayIconUpdateBase;
 		cli.pfnTrayCalcChanged                 = fnTrayCalcChanged;
 		cli.pfnTrayIconUpdateWithImageList	   = fnTrayIconUpdateWithImageList;
-		cli.pfnCListTrayNotify                 = fnCListTrayNotify;
 
 		cli.pfnContactListWndProc              = fnContactListWndProc;
 		cli.pfnLoadCluiGlobalOpts              = fnLoadCluiGlobalOpts;

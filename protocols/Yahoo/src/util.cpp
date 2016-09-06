@@ -129,18 +129,9 @@ int CYahooProto::ShowPopup(const wchar_t* nickname, const wchar_t* msg, const ch
 
 int CYahooProto::ShowNotification(const wchar_t *title, const wchar_t *info, DWORD flags)
 {
-	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-		MIRANDASYSTRAYNOTIFY err;
-		err.szProto = m_szModuleName;
-		err.cbSize = sizeof(err);
-		err.tszInfoTitle = (wchar_t*)title;
-		err.tszInfo = (wchar_t*)info;
-		err.dwInfoFlags = flags | NIIF_INTERN_UNICODE;
-		err.uTimeout = 1000 * 3;
-		INT_PTR ret = CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& err);
-		if (ret == 0)
-			return 1;
-	}
+	int ret = Clist_TrayNotifyW(m_szModuleName, title, info, flags, 1000 * 3);
+	if (ret == 0)
+		return 1;
 
 	MessageBox(NULL, info, title, MB_OK | MB_ICONINFORMATION);
 	return 0;

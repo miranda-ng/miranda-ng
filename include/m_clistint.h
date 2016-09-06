@@ -383,7 +383,7 @@ struct CLIST_INTERFACE
 	void (*pfnTrayIconIconsChanged)(void);
 	int  (*pfnTrayIconPauseAutoHide)(WPARAM wParam, LPARAM lParam);
 	INT_PTR (*pfnTrayIconProcessMessage)(WPARAM wParam, LPARAM lParam);
-	int  (*pfnCListTrayNotify)(MIRANDASYSTRAYNOTIFY*);
+	int (*blablabla5)();
 
 	/* clui.c */
 	LRESULT (CALLBACK *pfnContactListWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

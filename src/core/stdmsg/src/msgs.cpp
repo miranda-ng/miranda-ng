@@ -169,16 +169,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 
-		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags & SMF_SHOWTYPINGCLIST)) {
-			MIRANDASYSTRAYNOTIFY tn = { sizeof(tn) };
-			tn.tszInfoTitle = TranslateT("Typing notification");
-			tn.tszInfo = szTip;
-			tn.dwInfoFlags = NIIF_INFO;
-			tn.dwInfoFlags |= NIIF_INTERN_UNICODE;
-			tn.uTimeout = 1000 * 4;
-			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& tn);
-		}
-		else {
+		if (g_dat.flags & SMF_SHOWTYPINGCLIST) {
 			pcli->pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
@@ -189,9 +180,10 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			cle.pszService = "SRMsg/ReadMessage";
 			cle.ptszTooltip = szTip;
 			pcli->pfnAddEvent(&cle);
-			
+
 			IcoLib_ReleaseIcon(cle.hIcon);
 		}
+		else Clist_TrayNotifyW(NULL, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
 	}
 	return 0;
 }

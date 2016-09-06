@@ -495,24 +495,10 @@ static void DlgUpdateSilent(void *param)
 	wchar_t tszTitle[100];
 	mir_snwprintf(tszTitle, TranslateT("%d component(s) was updated"), count);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
 		ShowPopup(tszTitle,TranslateT("You need to restart your Miranda to apply installed updates."),POPUP_TYPE_MSG);
-	} else {
-		bool notified = false;
-
-		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-			MIRANDASYSTRAYNOTIFY err;
-			err.szProto = MODULEA;
-			err.cbSize = sizeof(err);
-			err.dwInfoFlags = NIIF_INTERN_UNICODE | NIIF_INFO;
-			err.tszInfoTitle = tszTitle;
-			err.tszInfo = TranslateT("You need to restart your Miranda to apply installed updates.");
-			err.uTimeout = 30000;
-
-			notified = !CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&err);
-		}
-
-		if (!notified) {
+	else {
+		if (Clist_TrayNotifyW(MODULEA, tszTitle, TranslateT("You need to restart your Miranda to apply installed updates."), NIIF_INFO, 30000)) {
 			// Error, let's try to show MessageBox as last way to inform user about successful update
 			wchar_t tszText[200];
 			mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));

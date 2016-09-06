@@ -157,7 +157,6 @@ extern mir_cs trayLockCS;
 
 void   fnInitTray(void);
 void   fnUninitTray(void);
-int    fnCListTrayNotify(MIRANDASYSTRAYNOTIFY *msn);
 int    fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
 int    fnTrayIconDestroy(HWND hwnd);
 void   fnTrayIconIconsChanged(void);

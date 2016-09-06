@@ -732,14 +732,7 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 	}
 
 	if (iNewStatus != ID_STATUS_OFFLINE && !m_nick[0] || !m_userID[0] || !m_name[0]) {
-		MIRANDASYSTRAYNOTIFY msn;
-		msn.cbSize = sizeof(MIRANDASYSTRAYNOTIFY);
-		msn.szProto = m_szModuleName;
-		msn.tszInfoTitle = TranslateT("IRC error");
-		msn.tszInfo = TranslateT("Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).");
-		msn.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
-		msn.uTimeout = 15000;
-		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&msn);
+		Clist_TrayNotifyW(m_szModuleName, TranslateT("IRC error"), TranslateT("Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name)."), NIIF_ERROR, 15000);
 		return 0;
 	}
 

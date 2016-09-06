@@ -300,16 +300,9 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	if (mode) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
-		if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
-			MIRANDASYSTRAYNOTIFY tn;
-			tn.szProto = NULL;
-			tn.cbSize = sizeof(tn);
-			tn.tszInfoTitle = TranslateT("Typing notification");
-			tn.tszInfo = szTip;
-			tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
-			tn.uTimeout = 1000 * 4;
-			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&tn);
-		}
+		if (fShowOnClist && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0))
+			Clist_TrayNotifyW(NULL, TranslateT("Typing notification"), szTip, NIIF_INFO, 1000 * 4);
+
 		if (fShowOnClist) {
 			pcli->pfnRemoveEvent(hContact, 1);
 
