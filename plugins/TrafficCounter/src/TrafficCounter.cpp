@@ -131,7 +131,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	// Получаем дескриптор языкового пакета.
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	HookEvent(ME_OPT_INITIALISE, TrafficCounterOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, TrafficCounterModulesLoaded);

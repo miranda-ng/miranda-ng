@@ -40,7 +40,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (g_hToxLibrary == NULL)
 		return 0;
 
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 	mir_getLP(&pluginInfo);
 
 	PROTOCOLDESCRIPTOR pd = { 0 };

@@ -90,7 +90,7 @@ static int ircProtoUninit(CIrcProto *ppro)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	InitIcons();
 	InitServers();

@@ -852,7 +852,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	#endif
 
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	hExceptionsMutex = CreateMutex(NULL, FALSE, L"ExceptionsMutex");
 

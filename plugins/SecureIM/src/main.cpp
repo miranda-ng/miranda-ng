@@ -289,7 +289,7 @@ static int onShutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int __cdecl Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	DisableThreadLibraryCalls(g_hInst);
 

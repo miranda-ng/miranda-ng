@@ -131,7 +131,7 @@ static IconItem iconList[] =
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	use_raw_ping = false;
 	db_set_b(0, PLUG, "UsingRawSockets", (BYTE)use_raw_ping);

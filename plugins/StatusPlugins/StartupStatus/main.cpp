@@ -74,7 +74,7 @@ static INT_PTR SrvGetProfile( WPARAM wParam, LPARAM lParam )
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfoEx );
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	if ( db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1) ||
 		  db_get_b(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0))

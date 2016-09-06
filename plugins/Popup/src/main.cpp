@@ -319,7 +319,7 @@ MIRAPI int Load(void)
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 

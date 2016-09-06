@@ -61,7 +61,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	DEBUGOUTA("LOAD MIROTR");
 
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	InitIcons();
 

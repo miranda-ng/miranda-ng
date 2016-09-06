@@ -545,7 +545,7 @@ INT_PTR ToggleIgnore (WPARAM hContact, LPARAM)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfo );
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	CoInitialize(NULL);
 	hWindowList = WindowList_Create();

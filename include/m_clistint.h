@@ -496,13 +496,9 @@ struct CLIST_INTERFACE
 // retrieves the pointer to a CLIST_INTERFACE structure
 // NOTE: valid only for the clist clone building, not for the regular use
 
-#define MS_CLIST_RETRIEVE_INTERFACE "CList/RetrieveInterface"
+EXTERN_C MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void);
 
 #ifndef MIR_APP_EXPORTS
 	extern CLIST_INTERFACE *pcli;
-
-	__forceinline void mir_getCLI()
-	{	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
-	}
 #endif
 #endif // M_CLISTINT_H__

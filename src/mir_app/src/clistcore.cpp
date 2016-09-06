@@ -68,7 +68,7 @@ static void fnReloadProtoMenus(void)
 	cli.pfnCluiProtocolStatusChanged(0, 0);
 }
 
-static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
+MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)
 {
 	int rc;
 
@@ -213,11 +213,5 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		interfaceInited = 1;
 	}
 
-	return (LPARAM)&cli;
-}
-
-int LoadContactListModule()
-{
-	CreateServiceFunction(MS_CLIST_RETRIEVE_INTERFACE, srvRetrieveInterface);
-	return 0;
+	return &cli;
 }

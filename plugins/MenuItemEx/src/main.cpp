@@ -1081,7 +1081,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	Icon_Register(hinstance, LPGEN("MenuItemEx"), iconList, _countof(iconList));
 	Icon_Register(hinstance, LPGEN("MenuItemEx"), overlayIconList, _countof(overlayIconList));

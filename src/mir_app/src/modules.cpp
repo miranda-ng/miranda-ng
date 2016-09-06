@@ -42,7 +42,6 @@ int  LoadEventsModule(void);
 int  LoadSrmmModule(void);
 
 int  LoadContactsModule(void);
-int  LoadContactListModule(void);// ui: clist
 int  LoadDatabaseModule(void);
 int  LoadMetacontacts(void);
 int  LoadOptionsModule(void);	// ui: options dialog
@@ -144,7 +143,6 @@ int LoadDefaultModules(void)
 	if (LoadProtocolsModule()) return 1;
 	LoadDbAccounts();                    // retrieves the account array from a database
 	if (LoadContactsModule()) return 1;
-	if (LoadContactListModule()) return 1;   // prepare contact list interface
 	if (LoadAddContactModule()) return 1;
 	if (LoadMetacontacts()) return 1;
 

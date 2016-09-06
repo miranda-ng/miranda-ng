@@ -67,7 +67,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	delete[] workingDir;
 
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	HookEvent(ME_OPT_INITIALISE, IEViewOptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

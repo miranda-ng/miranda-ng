@@ -256,14 +256,6 @@ const
   TIM_CALLBACK     = WM_USER+1857;
   TIM_CREATE       = WM_USER+1858;
 
-const
-{
-  Miranda 0.4.3.0+
-  retrieves the pointer to a CLIST_INTERFACE structure
-  NOTE: valid only for the clist clone building, not for the regular use
-}
-  MS_CLIST_RETRIEVE_INTERFACE:PansiChar = 'CList/RetrieveInterface';
-
   {**************************************************************************
    * CLIST_INTERFACE structure definition
    ************************************************************************** }
@@ -524,6 +516,8 @@ type
     pfnInitAutoRebuild     :procedure(hwnd:HWND); cdecl;
     pfnSetContactCheckboxes:procedure(cc:PClcContact; checked:int); cdecl;
   end;
+
+function Clist_GetInterface : PCLIST_INTERFACE; stdcall; external AppDll;
 
 var
   cli : PCLIST_INTERFACE;

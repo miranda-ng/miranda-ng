@@ -55,7 +55,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Log("%s", "Entering function " __FUNCTION__);
 
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	INITCOMMONCONTROLSEX icex;
 	icex.dwSize = sizeof(icex);

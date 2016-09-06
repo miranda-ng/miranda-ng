@@ -78,7 +78,7 @@ static int dummyProtoUninit(CDummyProto *ppro)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	// Register protocol module
 	PROTOCOLDESCRIPTOR pd = { 0 };

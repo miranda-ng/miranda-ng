@@ -76,7 +76,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_AUTOAW
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	InitCommonStatus();
 	hCSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, CSModuleLoaded);

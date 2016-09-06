@@ -141,7 +141,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE, HookedOptions);
 
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	OptionsInit(&pluginOptions);
 	pluginOptions.hInst = g_hInst;

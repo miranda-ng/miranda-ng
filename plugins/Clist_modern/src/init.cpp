@@ -132,7 +132,7 @@ static HRESULT SubclassClistInterface()
 	//  'save*' - pointer to stored default parent handle
 	//	'cli_*'	- new handler with default core service calling
 
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 	corecli = *pcli;
 
 	pcli->hInst = g_hInst;

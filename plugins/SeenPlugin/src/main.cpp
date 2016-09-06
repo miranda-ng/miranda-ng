@@ -86,7 +86,7 @@ static int OnShutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	g_pUserInfo = WindowList_Create();
 	g_hShutdownEvent = CreateEvent(0, TRUE, FALSE, 0);

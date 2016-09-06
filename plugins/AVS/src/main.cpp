@@ -400,7 +400,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	INT_PTR result = CALLSERVICE_NOTFOUND;
 	if (ServiceExists(MS_IMG_GETINTERFACE))

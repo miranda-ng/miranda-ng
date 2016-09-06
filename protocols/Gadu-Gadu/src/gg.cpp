@@ -331,7 +331,7 @@ static int gg_proto_uninit(PROTO_INTERFACE *proto)
 extern "C" int __declspec(dllexport) Load(void)
 {
    mir_getLP(&pluginInfo);
-   mir_getCLI();
+   pcli = Clist_GetInterface();
 
    // Hook system events
    hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);

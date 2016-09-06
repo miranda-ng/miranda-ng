@@ -272,3 +272,4 @@ Clist_ContactChangeGroup @271
 Clist_ContactCompare @272
 Clist_ContactDoubleClicked @273
 Clist_GetImageList @274
+Clist_GetInterface @275

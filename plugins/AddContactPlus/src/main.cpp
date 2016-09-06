@@ -144,7 +144,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_USEREX_CLASSES };
 	InitCommonControlsEx(&icex);

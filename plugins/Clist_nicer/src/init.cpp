@@ -123,7 +123,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 {
 	mir_getLP(&pluginInfo);
 
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 	coreCli = *pcli;
 
 	API::onInit();

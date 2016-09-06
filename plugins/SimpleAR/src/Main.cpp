@@ -248,7 +248,7 @@ IconItemT iconList[] =
 extern "C" int __declspec(dllexport)Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);
 	CreateServiceFunction(protocolname"/ToggleAutoanswer", Toggle);

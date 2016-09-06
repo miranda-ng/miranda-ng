@@ -340,7 +340,7 @@ static void TabsInit()
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	AddIcons();
 	RegisterFonts();

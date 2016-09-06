@@ -56,7 +56,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&sPluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	g_pTooltipNotify = new CTooltipNotify();
 	assert(g_pTooltipNotify!=0);

@@ -72,7 +72,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		return 1;
 	}
 
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 	mir_getLP(&pluginInfo);
 
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);

@@ -315,7 +315,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	iCodePage = Langpack_GetDefaultCodePage();
 

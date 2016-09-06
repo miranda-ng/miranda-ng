@@ -107,7 +107,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&PluginInfoEx);
 
 	// Интерфейс контактлиста - макрос заполняет CLIST_INTERFACE *pcli;
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	// регистрация диалога опций
 	HookEvent(ME_OPT_INITIALISE, initializeOptions);

@@ -908,7 +908,7 @@ static int OnPreshutdown(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	Icon_RegisterT(hInst, MODULEW, g_iconList, _countof(g_iconList));
 	LoadMenus();

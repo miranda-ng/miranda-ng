@@ -115,7 +115,7 @@ static int OnPreshutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	// support for ComboBoxEx
 	INITCOMMONCONTROLSEX icc;

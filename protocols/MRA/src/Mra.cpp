@@ -79,7 +79,7 @@ static int __cdecl OnPreShutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	IconsLoad();
 	InitXStatusIcons();

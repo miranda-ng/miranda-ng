@@ -542,6 +542,6 @@ begin
 end;
 
 initialization
-   cli:=PCLIST_INTERFACE(CallService(MS_CLIST_RETRIEVE_INTERFACE,0,0));
+   cli := Clist_GetInterface();
 
 {$ENDIF}

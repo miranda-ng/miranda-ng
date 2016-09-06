@@ -258,7 +258,7 @@ ATOM g_clsTargetHighlighter = 0;
 DLL_EXPORT int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
 	if (FIP == NULL || result != S_OK) {

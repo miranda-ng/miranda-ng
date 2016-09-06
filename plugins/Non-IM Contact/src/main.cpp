@@ -118,7 +118,7 @@ IconItem icoList[] =
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	Icon_Register(g_hInst, LPGEN("Non-IM Contact"), icoList, _countof(icoList));
 

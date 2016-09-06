@@ -133,7 +133,7 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
- 	mir_getCLI();
+ 	pcli = Clist_GetInterface();
 
 	if (IsWinVerVistaPlus()) {
 		MessageBox(NULL, TranslateT("Plugin works under Windows XP only"), TranslateT("ZeroSwitch plugin failed"), MB_ICONSTOP);

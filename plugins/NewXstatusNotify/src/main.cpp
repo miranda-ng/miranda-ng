@@ -1148,7 +1148,7 @@ static int OnShutdown(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	//"Service" Hook, used when the DB settings change: we'll monitor the "status" setting.
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);

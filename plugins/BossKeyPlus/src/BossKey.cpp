@@ -691,7 +691,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	g_wMaskAdv = db_get_w(NULL, MOD_NAME, "optsmaskadv", 0);
 	g_bOldSetting = db_get_b(NULL, MOD_NAME, "OldSetting", 0);

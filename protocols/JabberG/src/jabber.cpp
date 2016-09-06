@@ -183,7 +183,7 @@ extern "C" int __declspec(dllexport) Load()
 {
 	// set the memory, lists & utf8 managers
 	mir_getLP(&pluginInfo);
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 	mir_getCI(NULL);
 
 	{

@@ -168,7 +168,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	memset(&myGlobals, 0, sizeof(MGLOBAL));
 
 	// init clist interface
-	mir_getCLI();
+	pcli = Clist_GetInterface();
 
 	// init freeimage interface
 	INT_PTR result = CALLSERVICE_NOTFOUND;
