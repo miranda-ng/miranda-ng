@@ -528,7 +528,7 @@ int ShowMenu(bool centered)
 	DestroyMenu(hMenu);
 
 	if (hContact)
-		CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
+		Clist_ContactDoubleClicked(hContact);
 
 	return 0;
 }

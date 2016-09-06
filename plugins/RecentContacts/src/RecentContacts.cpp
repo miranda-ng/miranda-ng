@@ -109,7 +109,7 @@ BOOL ShowListMainDlgProc_OpenContact(HWND hList, int item)
 		lvi.iSubItem = 0;
 		ListView_GetItem(hList, &lvi);
 		if (lvi.lParam != NULL) {
-			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)lvi.lParam, NULL);
+			Clist_ContactDoubleClicked(lvi.lParam);
 			return TRUE;
 		}
 	}

@@ -805,7 +805,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (hContact == NULL)
 					break;
 
-				CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
+				Clist_ContactDoubleClicked(hContact);
 
 				db_set_dw(NULL, MODULE_NAME, "LastSentTo", hContact);
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);

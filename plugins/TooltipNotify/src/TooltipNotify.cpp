@@ -863,7 +863,8 @@ void CTooltipNotify::OnTooltipDblClicked(CTooltip *pTooltip)
 			TooltipsList::iterator iter = FindBy(&STooltipData::pTooltip, pTooltip);
 			STooltipData* pTooltipData = *iter;
 			WPARAM wParam = (WPARAM)pTooltipData->hContact;
-			if (wParam)	::CallService(MS_CLIST_CONTACTDOUBLECLICKED, wParam, 0);
+			if (wParam)
+				Clist_ContactDoubleClicked(wParam);
 			break;
 		}
 

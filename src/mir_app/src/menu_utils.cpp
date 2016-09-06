@@ -1273,22 +1273,6 @@ int RegisterAllIconsInIconLib()
 	return 0;
 }
 
-int TryProcessDoubleClick(MCONTACT hContact)
-{
-	TIntMenuObject *pmo = GetMenuObjbyId(hContactMenuObject);
-	if (pmo != NULL) {
-		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
-
-		TMO_IntMenuItem *pimi = Menu_GetDefaultItem(pmo->m_items.first);
-		if (pimi != NULL) {
-			Menu_ProcessCommand(pimi, hContact);
-			return 0;
-		}
-	}
-
-	return 1;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Static services
 

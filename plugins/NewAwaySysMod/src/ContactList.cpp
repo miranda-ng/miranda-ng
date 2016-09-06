@@ -458,7 +458,7 @@ int CALLBACK CompareItemsCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lParamS
 	if (IsHContactGroup(dat->Items[lParam2].hContact))
 		return 1;
 	
-	return CallService(MS_CLIST_CONTACTSCOMPARE, dat->Items[lParam1].hContact, dat->Items[lParam2].hContact);
+	return Clist_ContactCompare(dat->Items[lParam1].hContact, dat->Items[lParam2].hContact);
 }
 
 void CCList::SortContacts()

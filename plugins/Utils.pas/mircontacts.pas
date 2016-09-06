@@ -471,7 +471,7 @@ CallService(MS_CLIST_CONTACTDOUBLECLICKED,hContact,0);
         end;
         if anystatus then
         begin
-          CallService(MS_CLIST_CONTACTDOUBLECLICKED,hContact,0); //??
+          Clist_ContactDoubleClicked(hContact);
         // if chat exist, open chat
         // else create new session
         end;

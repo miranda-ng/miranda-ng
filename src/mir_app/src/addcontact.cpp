@@ -202,7 +202,7 @@ public:
 
 		int item = m_group.GetCurSel();
 		if (item > 0)
-			CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, m_group.GetItemData(item));
+			Clist_ContactChangeGroup(hContact, m_group.GetItemData(item));
 
 		db_unset(hContact, "CList", "NotOnList");
 
@@ -218,7 +218,7 @@ public:
 		}
 
 		if (m_chkOpen.GetState())
-			CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
+			Clist_ContactDoubleClicked(hContact);
 	}
 };
 

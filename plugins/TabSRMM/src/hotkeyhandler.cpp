@@ -124,7 +124,7 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 		}
 	}
 
-	CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
+	Clist_ContactDoubleClicked(hContact);
 }
 
 void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle)
@@ -529,7 +529,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			FLASH_PARAMS *p = reinterpret_cast<FLASH_PARAMS*>(lParam);
 			if (1 == wParam) {
-				CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)p->hContact, 1);
+				Clist_ContactDoubleClicked(p->hContact);
 				p->bActiveTab = TRUE;
 				p->bInactive = FALSE;
 				p->bMustAutoswitch = p->bMustFlash = FALSE;

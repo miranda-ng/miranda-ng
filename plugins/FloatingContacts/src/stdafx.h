@@ -10,6 +10,7 @@
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
 #include <m_skin.h>
+#include <m_file.h>
 #include <m_fontservice.h>
 #include <m_langpack.h>
 #include <m_protosvc.h>

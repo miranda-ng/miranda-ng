@@ -1397,7 +1397,7 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 int CIcqProto::moveContactToCListGroup(MCONTACT hContact, const char *szGroup)
 {
 	MGROUP hGroup = Clist_GroupCreate(0, ptrW(mir_utf8decodeW(szGroup)));
-	return CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, hGroup);
+	return Clist_ContactChangeGroup(hContact, hGroup);
 }
 
 

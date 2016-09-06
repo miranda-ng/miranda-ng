@@ -453,39 +453,23 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // do the message processing associated with double clicking a contact
-// wParam = (MCONTACT)hContact
-// lParam = 0
-// returns 0 on success, nonzero on failure
 
-#define MS_CLIST_CONTACTDOUBLECLICKED "CList/ContactDoubleClicked"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// do the processing for when some files are dropped on a contact
-// wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(char**)ppFiles
-// returns 0 on success, nonzero on failure
-// ppFiles is an array of fully qualified filenames, ending with a NULL.
-
-#define MS_CLIST_CONTACTFILESDROPPED   "CList/ContactFilesDropped"
+EXTERN_C MIR_APP_DLL(void) Clist_ContactDoubleClicked(MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // change the group a contact belongs to
-// wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(MGROUP)hGroup
 // returns 0 on success, nonzero on failure
 // use hGroup = NULL to put the contact in no group
 
-#define MS_CLIST_CONTACTCHANGEGROUP   "CList/ContactChangeGroup"
+EXTERN_C MIR_APP_DLL(int) Clist_ContactChangeGroup(MCONTACT hContact, MGROUP hGroup);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // determines the ordering of two contacts
-// wParam = (WPARAM)(MCONTACT)hContact1
-// lParam = (LPARAM)(MCONTACT)hContact2
 // returns 0 if hContact1 is the same as hContact2
 // returns +1 if hContact2 should be displayed after hContact1
 // returns -1 if hContact1 should be displayed after hContact2
 
-#define MS_CLIST_CONTACTSCOMPARE      "CList/ContactsCompare"
+EXTERN_C MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hContact2);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // DRAG-N-DROP SUPPORT

@@ -357,7 +357,7 @@ void fnDoSelectionDefaultAction(HWND hwnd, ClcData *dat)
 	if (contact->type == CLCIT_GROUP)
 		cli.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
 	if (contact->type == CLCIT_CONTACT)
-		CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)contact->hContact, 0);
+		Clist_ContactDoubleClicked(contact->hContact);
 }
 
 int fnFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)

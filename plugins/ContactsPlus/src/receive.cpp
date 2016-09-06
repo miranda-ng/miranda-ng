@@ -318,13 +318,8 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 								if (!mir_wstrcmp(wndData->maReceived[j]->mcaUIN, caUIN)) {
 									char *szProto =GetContactProto(wndData->mhContact);
 									hContact = (MCONTACT)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(0, j), (LPARAM)wndData->mhDbEvent);
-									if (hContact && caGroup) {
-										// use newest group API if available
-										if (ServiceExists(MS_CLIST_CONTACTCHANGEGROUP))
-											CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, (LPARAM)nGroupId);
-										else
-											db_set_ws(hContact, "CList", "Group", caGroup);
-									}
+									if (hContact && caGroup)
+										Clist_ContactChangeGroup(hContact, nGroupId);
 									break;
 								}
 							mir_free(caUIN);

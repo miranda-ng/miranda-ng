@@ -554,7 +554,7 @@ int LoadSession(WPARAM, LPARAM lparam)
 	// TODO: change to "switch"
 	while (session_list_t[i] != 0) {
 		if (CheckForDuplicate(session_list, session_list_t[i]) == -1)
-			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)session_list_t[i], 0);
+			Clist_ContactDoubleClicked(session_list_t[i]);
 		else if (g_bWarnOnHidden) {
 			if (!CheckContactVisibility(session_list_t[i])) {
 				hidden[j] = i + 1;
@@ -584,7 +584,7 @@ int LoadSession(WPARAM, LPARAM lparam)
 		if (g_bWarnOnHidden) {
 			if (IDYES == MessageBox(NULL, TranslateT("This Session already opened (but probably hidden).\nDo you want to show hidden contacts?"), TranslateT("Sessions Manager"), MB_YESNO | MB_ICONQUESTION))
 				for (j = 0; hidden[j] != 0; j++)
-					CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)session_list_t[hidden[j] - 1], 0);
+					Clist_ContactDoubleClicked(session_list_t[hidden[j] - 1]);
 		}
 	}
 

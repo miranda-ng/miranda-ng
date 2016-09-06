@@ -695,10 +695,10 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 				CallService(MS_MSG_SENDMESSAGEW, hMeta, 0);
 			}
 			else // protocol does not support messaging - simulate double click
-				CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
+				Clist_ContactDoubleClicked(hContact);
 		}
 		else // protocol does not support messaging - simulate double click
-			CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
+			Clist_ContactDoubleClicked(hContact);
 	}
 	else if (options.menu_function == FT_MENU) // show contact's context menu
 		CallFunctionAsync(sttMenuThread, (void*)hContact);

@@ -189,47 +189,9 @@ const
 
 function Clist_GroupCreate(hParentGroup:integer; groupName:PWideChar) : integer; stdcall; external AppDll;
 
+procedure Clist_ContactDoubleClicked(hContact:TMCONTACT); stdcall; external AppDll;
+
 const
-  {
-    wParam : TMCONTACT
-    lParam : 0
-    Affect : Do the message processing associated with the double clicking a contact
-    Returns: 0 on success, [non zero] on failure
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_CONTACTDOUBLECLICKED:PAnsiChar = 'CList/ContactDoubleClicked';
-
-  {
-    wParam : TMCONTACT
-    lParam : Pointer to an array of PAnsiChar's containing files/dirs
-    Affect : Do the processing when some files are droppeed on a contact, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : the array is terminated when a NULL(0) entry is found
-    Version: v0.1.2.1+
-  }
-  MS_CLIST_CONTACTFILESDROPPED:PAnsiChar = 'CList/ContactFilesDropped';
-
-  {
-    wParam : TMCONTACT
-    lParam : HGROUP
-    Affect : Change the group a contact belongs to, see notes
-    Returns: 0 on success, [non zero] on failure
-    Notes  : use hGroup=NULL(0) to remove any group association with the contact
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_CONTACTCHANGEGROUP:PAnsiChar = 'CList/ContactChangeGroup';
-
-  {
-    wParam : HCONTACT_1
-    lParam : HCONTACT_2
-    Affect : Determine the ordering of two given contacts
-    Returns: 0 if hContact1 is the same as hContact2
-             1 if hContact1 should be displayed before hContact2
-            -1 if hContact1 should be displayed after hCotnact2
-    Version: v0.1.1.0+
-  }
-  MS_CLIST_CONTACTSCOMPARE:PAnsiChar = 'CList/ContactsCompare';
-
   {
     wParam=0 (not used)
     lParam=(LPARAM) &MIRANDASYSTRAYNOTIFY

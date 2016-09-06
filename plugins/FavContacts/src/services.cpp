@@ -38,7 +38,7 @@ INT_PTR svcShowMenuCentered(WPARAM, LPARAM)
 INT_PTR svcOpenContact(WPARAM wParam, LPARAM)
 {
 	hContactToActivate = wParam;
-	CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContactToActivate, 0);
+	Clist_ContactDoubleClicked(hContactToActivate);
 	return 0;
 }
 

@@ -23,9 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include "clc.h"
 
-INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam);
+#include "clc.h"
+#include "genmenu.h"
+
 int InitCListEvents(void);
 void UninitCListEvents(void);
 void UninitGroupServices(void);
@@ -221,30 +222,30 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR ContactDoubleClicked(WPARAM wParam, LPARAM)
+MIR_APP_DLL(void) Clist_ContactDoubleClicked(MCONTACT hContact)
 {
 	// Try to process event myself
-	if (cli.pfnEventsProcessContactDoubleClick(wParam) == 0)
-		return 0;
+	if (cli.pfnEventsProcessContactDoubleClick(hContact) == 0)
+		return;
 
 	// Allow third-party plugins to process a dblclick
-	if (NotifyEventHooks(hContactDoubleClicked, wParam, 0))
-		return 0;
+	if (NotifyEventHooks(hContactDoubleClicked, hContact, 0))
+		return;
 
 	// Otherwise try to execute the default action
-	TryProcessDoubleClick(wParam);
-	return 0;
+	TIntMenuObject *pmo = GetMenuObjbyId(hContactMenuObject);
+	if (pmo != NULL) {
+		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
+
+		TMO_IntMenuItem *pimi = Menu_GetDefaultItem(pmo->m_items.first);
+		if (pimi != NULL)
+			Menu_ProcessCommand(pimi, hContact);
+	}
 }
 
 static INT_PTR GetIconsImageList(WPARAM, LPARAM)
 {
 	return (INT_PTR)hCListImages;
-}
-
-static INT_PTR ContactFilesDropped(WPARAM wParam, LPARAM lParam)
-{
-	CallService(MS_FILE_SENDSPECIFICFILES, wParam, lParam);
-	return 0;
 }
 
 static int CListIconsChanged(WPARAM, LPARAM)
@@ -398,13 +399,14 @@ void fnChangeContactIcon(MCONTACT hContact, int iIcon)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hContact2)
 {
-	ClcContact *p1, *p2;
 	ClcData *dat = (ClcData*)GetWindowLongPtr(cli.hwndContactTree, 0);
-	if (dat != NULL)
-		if (!cli.pfnFindItem(cli.hwndContactTree, dat, wParam, &p1, NULL, NULL) && !cli.pfnFindItem(cli.hwndContactTree, dat, lParam, &p2, NULL, NULL))
+	if (dat != NULL) {
+		ClcContact *p1, *p2;
+		if (!cli.pfnFindItem(cli.hwndContactTree, dat, hContact1, &p1, NULL, NULL) && !cli.pfnFindItem(cli.hwndContactTree, dat, hContact2, &p2, NULL, NULL))
 			return cli.pfnCompareContacts(p1, p2);
+	}
 
 	return 0;
 }
@@ -422,11 +424,6 @@ int LoadContactListModule2(void)
 
 	hContactDoubleClicked = CreateHookableEvent(ME_CLIST_DOUBLECLICKED);
 	hContactIconChangedEvent = CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
-
-	CreateServiceFunction(MS_CLIST_CONTACTDOUBLECLICKED, ContactDoubleClicked);
-	CreateServiceFunction(MS_CLIST_CONTACTFILESDROPPED, ContactFilesDropped);
-	CreateServiceFunction(MS_CLIST_CONTACTSCOMPARE, CompareContacts);
-	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP, ContactChangeGroup);
 
 	InitCListEvents();
 	InitGroupServices();

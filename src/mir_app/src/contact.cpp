@@ -46,18 +46,18 @@ void fnLoadContactTree(void)
 	Clist_EndRebuild();
 }
 
-INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Clist_ContactChangeGroup(MCONTACT hContact, MGROUP hGroup)
 {
 	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, NULL };
 
-	if (lParam == NULL)
-		db_unset(wParam, "CList", "Group");
+	if (hGroup == NULL)
+		db_unset(hContact, "CList", "Group");
 	else {
-		grpChg.pszNewName = Clist_GroupGetName(lParam, NULL);
-		db_set_ws(wParam, "CList", "Group", grpChg.pszNewName);
+		grpChg.pszNewName = Clist_GroupGetName(hGroup, NULL);
+		db_set_ws(hContact, "CList", "Group", grpChg.pszNewName);
 	}
 
-	NotifyEventHooks(hGroupChangeEvent, wParam, (LPARAM)&grpChg);
+	NotifyEventHooks(hGroupChangeEvent, hContact, (LPARAM)&grpChg);
 	return 0;
 }
 

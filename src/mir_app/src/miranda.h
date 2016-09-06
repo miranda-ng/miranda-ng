@@ -123,8 +123,6 @@ extern const int skinIconStatusFlags[ MAX_STATUS_COUNT ];
 
 extern OBJLIST<CListEvent> g_cliEvents;
 
-int TryProcessDoubleClick(MCONTACT hContact);
-
 /**** protocols.cpp *********************************************************************/
 
 #define OFFSET_PROTOPOS 200

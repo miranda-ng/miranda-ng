@@ -1101,7 +1101,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					cli.pfnGetRowByIndex(dat, dat->selection, &contactn, NULL);
 					cli.pfnGetRowByIndex(dat, dat->iDragItem, &contacto, NULL);
 					if (contacto->type == CLCIT_CONTACT) //dropee is a contact
-						CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
+						Clist_ContactChangeGroup(contacto->hContact, contactn->groupId);
 					else if (contacto->type == CLCIT_GROUP) { //dropee is a group
 						wchar_t szNewName[120];
 						mir_snwprintf(szNewName, L"%s\\%s", Clist_GroupGetName(contactn->groupId, NULL), contacto->szText);
@@ -1147,7 +1147,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					Clist_GroupRename(contact->groupId, szNewName);
 				}
 				else if (contact->type == CLCIT_CONTACT) //dropee is a contact
-					CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contact->hContact, 0);
+					Clist_ContactChangeGroup(contact->hContact, 0);
 			}
 		}
 
