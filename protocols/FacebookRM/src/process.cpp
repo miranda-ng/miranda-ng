@@ -1003,6 +1003,10 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				dbei.pBlob = (PBYTE)msg.message_text.c_str();
 				db_event_add(hContact, &dbei);
 			}
+
+			// Reset the "message seen" info when we get any new message (doesn't matter if sent from other instance or received)
+			if (msg.isUnread)
+				facy.erase_reader(hContact);
 		}
 	}
 

@@ -26,9 +26,6 @@ int FacebookProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	StopTyping(hContact);
 
-	// Remove from "readers" list and clear statusbar
-	facy.erase_reader(hContact);
-
 	return Proto_RecvMessage(hContact, pre);
 }
 
