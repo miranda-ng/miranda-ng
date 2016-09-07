@@ -103,9 +103,9 @@ void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 			(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(pdp->newStatus)))
 		{
 			pdp->hWnd = hWnd;
-			//The following HookEventMessage will hook the ME_PROTO_ACK event and send a WM_AWAYMSG to hWnd when the hooks get notified.
+			// The following HookEventMessage will hook the ME_PROTO_ACK event and send a WM_AWAYMSG to hWnd when the hooks get notified.
 			pdp->hAwayMsgHook = HookEventParam(ME_PROTO_ACK, AwayMsgHook, (LPARAM)pdp);
-			//The following instruction asks Miranda to retrieve the away message and associates a hProcess (handle) to this request. This handle will appear in the ME_PROTO_ACK event.
+			// The following instruction asks Miranda to retrieve the away message and associates a hProcess (handle) to this request. This handle will appear in the ME_PROTO_ACK event.
 			pdp->hAwayMsgProcess = (HANDLE)ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0);
 		}
 	}
@@ -154,14 +154,14 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	PLUGINDATA *pdp = NULL;
 
 	switch (message) {
-	case WM_MEASUREITEM: //Needed by the contact's context menu
+	case WM_MEASUREITEM: // Needed by the contact's context menu
 		return Menu_MeasureItem(lParam);
 
-	case WM_DRAWITEM: //Needed by the contact's context menu
+	case WM_DRAWITEM: // Needed by the contact's context menu
 		return Menu_DrawItem(lParam);
 
 	case WM_COMMAND:
-		//This one returns TRUE if it processed the menu command, and FALSE if it did not process it.
+		// This one returns TRUE if it processed the menu command, and FALSE if it did not process it.
 		if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, PUGetContact(hwnd)))
 			break;
 

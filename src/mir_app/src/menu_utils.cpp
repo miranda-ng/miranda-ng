@@ -444,7 +444,7 @@ int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam)
 MIR_APP_DLL(BOOL) Menu_ProcessCommandById(int command, LPARAM lParam)
 {
 	if (!bIsGenMenuInited)
-		return -1;
+		return false;
 
 	mir_cslock lck(csMenuHook);
 	for (int i = 0; i < g_menus.getCount(); i++)
@@ -469,7 +469,7 @@ MIR_APP_DLL(BOOL) Menu_ProcessCommand(HGENMENU hMenuItem, LPARAM lParam)
 	}
 
 	LPCSTR srvname = pimi->parent->ExecService;
-	CallService(srvname, (WPARAM)pimi->pUserData, lParam);
+	CallServiceSync(srvname, (WPARAM)pimi->pUserData, lParam);
 	return true;
 }
 
