@@ -1635,7 +1635,7 @@ static void InitListView(HWND AHLV)
 	char *S;
 	char S1[128];
 
-	char *V = Translate("bVisible");
+	char *V = Translate("Visible");
 	char *T = Translate("Top");
 
 	ListView_SetHoverTime(AHLV, 700);
@@ -1786,7 +1786,7 @@ static INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog, UINT Message, WPARAM wPara
 			ListView_InsertColumn(H, 0, &lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = Translate("bVisible");
+			S = Translate("Visible");
 			lvCol.pszText = S;
 			lvCol.cx = g_notesListColGeom[1];
 			ListView_InsertColumn(H, 0, &lvCol);
