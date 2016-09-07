@@ -294,9 +294,9 @@ SMS с кодом подтверждения отправлено на ваш м
 [Loading memories...]
 Загрузка воспоминаний...
 [Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
-Выполняется загрузка истории. Данная возможность не работает для нескольких контактов, пожалуйста, подождите, завершения.
+Выполняется загрузка истории. Эта возможность не работает для нескольких контактов одновременно, пожалуйста, подождите завершения.
 [This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
-Все сообщения будут загружены с сервера. Чтобы избежать дублирования сообщений в истории - прежде чем продолжить, удалите существующие сообщения вручную.\nПроцесс загрузки может занять некоторое время.\n\nВы хотите продолжить?
+Все сообщения будут загружены с сервера. Чтобы избежать дублирования сообщений в истории, сперва удалите существующие сообщения вручную.\nПроцесс загрузки может занять некоторое время.\n\nВы хотите продолжить?
 [Do you want to cancel your friendship with '%s'?]
 Вы уверены, что хотите удалить '%s' из друзей?
 [Client errors]

@@ -230,7 +230,7 @@ Cоздать комнату чата
 [Error]
 Ошибка
 [You have to validate your account before you can use VK in Miranda NG]
-Вы должны подтвердить свой аккаунт, перед использованием ВК в Miranda NG
+Вы должны подтвердить свою учётную запись перед использованием протокола ВКонтакте в Miranda NG
 [Error %d. Data will not be sent or received.]
 Ошибка %d. Данные не будут приняты или отправлены.
 [One of the parameters specified was missing or invalid]
@@ -238,7 +238,7 @@ Cоздать комнату чата
 [Access to adding post denied]
 Превышено ограничение на число публикаций в сутки
 [Enter the missing digits between %s and %s of the phone number linked to your account]
-Введите недостающие цифры между %s и %s в телефонном номере привязанном к вашему аккаунту
+Введите недостающие цифры между %s и %s в телефонном номере, привязанном к вашей учётной записи
 [Attention!]
 Внимание!
 [Enter confirmation code]

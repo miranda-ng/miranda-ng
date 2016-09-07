@@ -7,6 +7,8 @@
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Заметки и напоминания для Miranda NG.
+[Visible]
+Видимая
 [Default Note Size]
 Размер заметки
 [Width (Pixels)]

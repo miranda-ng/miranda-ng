@@ -134,7 +134,7 @@
 [Aqua]
 [White]
 [Are you sure you want to delete this note?]
-[bVisible]
+[Visible]
 [Top]
 [Notes]
 [Note text]
