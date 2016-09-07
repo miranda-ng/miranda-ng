@@ -71,7 +71,7 @@
 [Save as raw data]
 [Popup delay]
 [Delay]
-[From Popup plugin]
+[From popup plugin]
 [Permanent]
 [Preview]
 [Colors]

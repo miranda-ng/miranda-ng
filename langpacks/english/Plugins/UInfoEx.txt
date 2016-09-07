@@ -71,7 +71,7 @@
 [Use Windows colors]
 [Use default colors]
 [Delay]
-[From Popup plugin]
+[From popup plugin]
 [Custom]
 [Permanent]
 [Show reminder messages as popups (if reminder is enabled)]
@@ -311,11 +311,8 @@
 [Main]
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
-[Extended user info/Zodiacs]
-[Extended user info/Dialogs]
-[Extended user info/Buttons]
-[Extended user info/Treeview]
-[Extended user info/Reminder]
+[Dialogs]
+[Buttons]
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 [User &details]

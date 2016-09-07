@@ -55,7 +55,7 @@
 Текст
 [Timeout]
 Таймаут
-[From Popup plugin]
+[From popup plugin]
 По умолчанию
 [Permanent]
 Постоянно

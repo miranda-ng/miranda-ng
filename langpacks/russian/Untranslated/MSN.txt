@@ -1,5 +1,4 @@
 ﻿[Live ID:]
-[Hotmail]
 [Live ID]
 [IID_IOleObject failed.]
 [IID_IOleInPlaceObject failed.]

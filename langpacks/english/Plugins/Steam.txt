@@ -17,7 +17,6 @@
 [Show chat state events (i.e., user closed chat session)]
 [Captcha]
 [Cancel]
-[Steam Guard]
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
 [Go to email domain]
 [Block]
@@ -58,7 +57,6 @@
 [Protocol icon]
 [Gaming icon]
 [%s connection]
-[SteamID]
 [You cannot send messages when you are offline.]
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]

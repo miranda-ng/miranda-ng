@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -120,10 +120,12 @@
 [VKontakte]
 [Access denied! Data will not be sent or received.]
 [Error]
-[You must validate your account before use VK in Miranda NG]
+[You have to validate your account before you can use VK in Miranda NG]
 [Error %d. Data will not be sent or received.]
 [One of the parameters specified was missing or invalid]
 [Access to adding post denied]
+[Enter the missing digits between %s and %s of the phone number linked to your account]
+[Attention!]
 [Enter confirmation code]
 [Enter new nickname]
 [Message read: %s]
@@ -188,7 +190,7 @@
 [%s is typing a message...]
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
-[Wall message for]
+[Wall message for %s]
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 [New notifications]
@@ -222,13 +224,12 @@
 [Unknown error occurred]
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
-[Attention!]
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
-[Error loading message history from server]
-[Loading messages for all contacts is completed]
+[Error loading message history from server.]
+[Loading messages for all contacts is completed.]
 [Loading history]
-[for]
-[Loading messages for %s is completed]
+[Error loading message history for %s from server.]
+[Loading messages for %s is completed.]
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 [Account]
@@ -281,6 +282,7 @@
 ;file \protocols\VKontakte\src\vk_struct.cpp
 [I\'m back]
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Service message]
 [Interests]
 [Activities]
 [Music]

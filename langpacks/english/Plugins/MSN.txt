@@ -31,7 +31,6 @@
 [Blocked contact]
 [Somebody included you in his/her server list]
 [Refresh]
-[Hotmail]
 [Enable Popup notifications]
 [Enable Contact List notifications]
 [Enable Tray notifications]

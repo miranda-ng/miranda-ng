@@ -101,7 +101,6 @@
 [Close chat after]
 [When in background]
 ;file \plugins\MirandaG15\src\CConfig.cpp
-[MirandaG15]
 [Appearance]
 [Notifications]
 [Chat sessions]

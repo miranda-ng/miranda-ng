@@ -579,8 +579,6 @@ Google Карты
 ** Новые контакты **
 [** Unknown contacts **]
 ** Неизвестные контакты **
-[Show balloon popup (unsupported system)]
-Показывать подсказки (неподдерживаемая система)
 [Message sessions]
 Беседы
 [Typing notify]

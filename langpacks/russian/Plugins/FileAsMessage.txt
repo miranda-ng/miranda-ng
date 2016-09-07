@@ -37,6 +37,10 @@
 Только буквенно-цифровая кодировка для передачи
 [Go to Options -> Events -> File Transfers, "Receiving files" group for extra settings]
 Дополнительные настройки находятся в группе "Приём файлов" раздела "Настройки -> События -> Передача файлов"
+[Receive file]
+Получить файл
+[Send file]
+Отправить файл
 [File already exists. Overwrite?]
 Файл уже есть. Перезаписать?
 [Couldn't open a file]

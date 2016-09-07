@@ -133,7 +133,7 @@
 Цвета по умолчанию
 [Delay]
 Задержка
-[From Popup plugin]
+[From popup plugin]
 По умолчанию
 [Custom]
 Настроить

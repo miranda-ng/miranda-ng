@@ -43,7 +43,7 @@
 [Background color]
 [Text color]
 [Delay]
-[From Popup plugin]
+[From popup plugin]
 [Custom]
 [Permanent]
 [Do not add to popup's history]

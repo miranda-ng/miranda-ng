@@ -1799,8 +1799,6 @@ UIN, E-mail и т.д.
 ** Новые контакты **
 [** Unknown contacts **]
 ** Неизвестные контакты **
-[Show balloon popup (unsupported system)]
-Показывать подсказки (неподдерживаемая система)
 [Messaging log]
 Журнал
 [Typing notify]

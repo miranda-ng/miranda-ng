@@ -942,7 +942,6 @@
 [Message log]
 [** New contacts **]
 [** Unknown contacts **]
-[Show balloon popup (unsupported system)]
 [Messaging log]
 [Typing notify]
 ;file \src\core\stdmsg\src\msgs.cpp

@@ -143,7 +143,6 @@
 [Wikipedia (en)]
 [Google Maps]
 [Google Translate]
-[Foodnetwork]
 [C&lear log]
 [&Open link]
 [&Copy link]
@@ -302,7 +301,6 @@
 [On the phone]
 [** New contacts **]
 [** Unknown contacts **]
-[Show balloon popup (unsupported system)]
 [Message sessions]
 [Typing notify]
 ;file \plugins\Scriver\src\msgs.cpp

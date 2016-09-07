@@ -31,7 +31,7 @@
 [Back]
 [Text]
 [Timeout]
-[From Popup plugin]
+[From popup plugin]
 [Permanent]
 [Custom]
 [On left click]

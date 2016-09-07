@@ -25,8 +25,6 @@
 Показывать уведомления Yahoo
 [Show Errors]
 Показывать ошибки
-[Yahoo Japan]
-Yahoo Япония
 [Create a new Yahoo account]
 Создать новую учётную запись Yahoo
 [Connection Settings]

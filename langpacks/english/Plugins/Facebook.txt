@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.3
+;  Version: 0.3.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -53,8 +53,8 @@
 [Multi user chats]
 [Enable multi user chats support]
 [Do not open chat windows on creation]
+[Automatically join active chats that exist in contact list]
 [History synchronization]
-[Load last messages (24 hours old) on login (EXPERIMENTAL)]
 [Load last messages on opening message window (EXPERIMENTAL)]
 [Number of messages to load:]
 [Facebook Login Approval]
@@ -143,6 +143,9 @@
 ;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
+[Loading history started.]
+[Loading messages: %d/%d]
+[Loading history completed.]
 [<attachment without text>]
 [On this day]
 ;file \protocols\FacebookRM\src\proto.cpp
@@ -160,6 +163,8 @@
 [Loading friendship requests...]
 [Loading notifications...]
 [Loading memories...]
+[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
 [Do you want to cancel your friendship with '%s'?]
 [Client errors]
 [Wall posts]
@@ -194,6 +199,7 @@
 [Wow]
 [Visit friendship details]
 [Visit conversation]
+[Load history]
 [Cancel friendship]
 [Cancel friendship request]
 [Request friendship]

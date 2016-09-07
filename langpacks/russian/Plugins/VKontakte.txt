@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.4
+;  Version: 0.1.2.5
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -229,14 +229,18 @@ Cоздать комнату чата
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
 Ошибка
-[You must validate your account before use VK in Miranda NG]
-Перед использованием протокола ВКонтакте в Miranda NG вы должны подтвердить свою учётную запись
+[You have to validate your account before you can use VK in Miranda NG]
+Вы должны подтвердить свой аккаунт, перед использованием ВК в Miranda NG
 [Error %d. Data will not be sent or received.]
 Ошибка %d. Данные не будут приняты или отправлены.
 [One of the parameters specified was missing or invalid]
 Один из заданных параметров отсутствует или неверен
 [Access to adding post denied]
 Превышено ограничение на число публикаций в сутки
+[Enter the missing digits between %s and %s of the phone number linked to your account]
+Введите недостающие цифры между %s и %s в телефонном номере привязанном к вашему аккаунту
+[Attention!]
+Внимание!
 [Enter confirmation code]
 Введите код подтверждения
 [Enter new nickname]
@@ -361,8 +365,8 @@ Cоздать комнату чата
 %s набирает текст...
 [Enter the text you see]
 Введите текст, который видите
-[Wall message for]
-Сообщение на стене пользователя
+[Wall message for %s]
+Сообщение на стену для %s
 [New news]
 Новости
 [New notifications]
@@ -423,20 +427,18 @@ ID получателя ошибочен или неизвестен
 Неизвестная ошибка
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
-[Attention!]
-Внимание!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
 Вы уверены, что хотите перезагрузить все сообщения для всех контактов из vk.com?\nЛокальная история контактов будет удалена и перезагружена с сервера.\nЭто может занять продолжительное время и/или повредить базу данных.\nРекомендуем проверить вашу базу данных (Miranda32.exe /svc:dbchecker или Miranda64.exe /svc:dbchecker) перед повторной загрузкой сообщений и после её.\nХотите продолжить?
-[Error loading message history from server]
-Ошибка загрузки истории сообщений с сервера
-[Loading messages for all contacts is completed]
-Загрузка сообщений для всех контактов завершена
+[Error loading message history from server.]
+Ошибка загрузки истории сообщений с сервера.
+[Loading messages for all contacts is completed.]
+Загрузка сообщений для всех контактов завершена.
 [Loading history]
 Загрузка истории
-[for]
-в течение
-[Loading messages for %s is completed]
-Загрузка сообщений для %s завершена
+[Error loading message history for %s from server.]
+Ошибка загрузки истории сообщений для %s с сервера.
+[Loading messages for %s is completed.]
+Загрузка сообщений для %s завершена.
 [Network]
 Сеть
 [Account]
@@ -531,6 +533,8 @@ ID получателя ошибочен или неизвестен
 Введите новое сообщение статуса
 [I\'m back]
 Я вернулся
+[Service message]
+Сервисное сообщение
 [Interests]
 Интересы
 [Activities]

@@ -83,7 +83,7 @@ P2P Подключения
 Текст
 [Delay]
 Задержка
-[&From Popup plugin]
+[&From popup plugin]
 &Установки Popup
 [&Custom]
 &Настроить

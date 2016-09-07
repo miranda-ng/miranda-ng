@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.0.5.1
+;  Version: 0.1.0.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -134,7 +134,7 @@
 [Aqua]
 [White]
 [Are you sure you want to delete this note?]
-[Visible]
+[bVisible]
 [Top]
 [Notes]
 [Note text]

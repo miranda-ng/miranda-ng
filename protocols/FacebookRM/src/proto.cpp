@@ -800,7 +800,7 @@ INT_PTR FacebookProto::LoadHistory(WPARAM wParam, LPARAM)
 
 	CMStringW title;
 	title.AppendFormat(L"%s - %s", m_tszUserName, name);
-	const wchar_t *message = TranslateT("This will load all messages from the server. To avoid having duplicit messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?");
+	const wchar_t *message = TranslateT("This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?");
 
 	if (MessageBox(0, message, title, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 		ForkThread(&FacebookProto::LoadHistory, new MCONTACT(hContact));

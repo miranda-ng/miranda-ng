@@ -17,7 +17,6 @@
 [Auto login to Yahoo Website(s)]
 [Display Yahoo notifications]
 [Show Errors]
-[Yahoo Japan]
 [Create a new Yahoo account]
 [Connection Settings]
 [Login server:]

@@ -27,7 +27,7 @@
 [Use Windows colors]
 [Use default colors]
 [Delay]
-[From Popup plugin]
+[From popup plugin]
 [Custom]
 [Permanent]
 [Actions]

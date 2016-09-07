@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.12
+;  Version: 3.4.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -252,7 +252,7 @@
 [Only &one popup for each contact]
 [Show &entry in the main menu]
 [...is typing]
-[From Popup plugin]
+[From popup plugin]
 [From protocol]
 [Permanent]
 [Custom]
@@ -687,7 +687,6 @@
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
 [** New contacts **]
 [** Unknown contacts **]
-[Show balloon popup (unsupported system)]
 [Always]
 [Always, but no popup when window is focused]
 [Only when no message window is open]
