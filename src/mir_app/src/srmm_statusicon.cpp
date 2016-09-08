@@ -76,9 +76,35 @@ static OBJLIST<StatusIconMain> arIcons(3, CompareIcons);
 
 static HANDLE hHookIconsChanged;
 
-INT_PTR ModifyStatusIcon(WPARAM hContact, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int hLangpack)
 {
-	StatusIconData *sid = (StatusIconData *)lParam;
+	if (sid == NULL || sid->cbSize != sizeof(StatusIconData))
+		return 1;
+
+	StatusIconMain *p = arIcons.find((StatusIconMain*)sid);
+	if (p != NULL)
+		return Srmm_ModifyIcon(0, sid);
+
+	p = new StatusIconMain;
+	memcpy(&p->sid, sid, sizeof(p->sid));
+	p->hLangpack = hLangpack;
+	p->sid.szModule = mir_strdup(sid->szModule);
+	if (sid->flags & MBF_UNICODE)
+		p->sid.tszTooltip = mir_wstrdup(sid->wszTooltip);
+	else
+		p->sid.tszTooltip = mir_a2u(sid->szTooltip);
+	arIcons.insert(p);
+
+	NotifyEventHooks(hHookIconsChanged, NULL, (LPARAM)p);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid)
+{
 	if (sid == NULL || sid->cbSize != sizeof(StatusIconData))
 		return 1;
 
@@ -116,52 +142,26 @@ INT_PTR ModifyStatusIcon(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR AddStatusIcon(WPARAM wParam, LPARAM lParam)
-{
-	StatusIconData *sid = (StatusIconData *)lParam;
-	if (sid == NULL || sid->cbSize != sizeof(StatusIconData))
-		return 1;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	StatusIconMain *p = arIcons.find((StatusIconMain*)sid);
+MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId)
+{
+	StatusIconData tmp = { sizeof(tmp), (char*)szProto, iconId };
+	StatusIconMain *p = arIcons.find((StatusIconMain*)&tmp);
 	if (p != NULL)
-		return ModifyStatusIcon(0, lParam);
-
-	p = new StatusIconMain;
-	memcpy(&p->sid, sid, sizeof(p->sid));
-	p->hLangpack = (int)wParam;
-	p->sid.szModule = mir_strdup(sid->szModule);
-	if (sid->flags & MBF_UNICODE)
-		p->sid.tszTooltip = mir_wstrdup(sid->wszTooltip);
-	else
-		p->sid.tszTooltip = mir_a2u(sid->szTooltip);
-	arIcons.insert(p);
-
-	NotifyEventHooks(hHookIconsChanged, NULL, (LPARAM)p);
-	return 0;
+		arIcons.remove(p);
 }
 
-static INT_PTR RemoveStatusIcon(WPARAM, LPARAM lParam)
-{
-	StatusIconData *sid = (StatusIconData *)lParam;
-	if (sid == NULL || sid->cbSize != sizeof(StatusIconData))
-		return 1;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	StatusIconMain *p = arIcons.find((StatusIconMain*)sid);
-	if (p == NULL)
-		return 1;
-
-	arIcons.remove(p);
-	return 0;
-}
-
-static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 {
 	static StatusIconData res;
 
 	for (int i=arIcons.getCount()-1, nVis = 0; i >= 0; i--) {
 		StatusIconMain &p = arIcons[i];
 
-		StatusIconChild *pc = p.arChildren.find((StatusIconChild*)&wParam);
+		StatusIconChild *pc = p.arChildren.find((StatusIconChild*)&hContact);
 		if (pc) {
 			if (pc->flags & MBF_HIDDEN)
 				continue;
@@ -169,7 +169,7 @@ static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
 		else if (p.sid.flags & MBF_HIDDEN)
 			continue;
 
-		if (nVis == (int)lParam) {
+		if (nVis == index) {
 			memcpy(&res, &p, sizeof(res));
 			if (pc) {
 				if (pc->hIcon) res.hIcon = pc->hIcon;
@@ -181,12 +181,12 @@ static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
 				res.flags = pc->flags;
 			}
 			res.tszTooltip = TranslateW_LP(res.tszTooltip, p.hLangpack);
-			return (INT_PTR)&res;
+			return &res;
 		}
 		nVis++;
 	}
 
-	return 0;
+	return NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -202,11 +202,6 @@ void KillModuleSrmmIcons(int _hLang)
 
 int LoadSrmmModule()
 {
-	CreateServiceFunction("MessageAPI/AddIcon", AddStatusIcon);
-	CreateServiceFunction(MS_MSG_REMOVEICON, RemoveStatusIcon);
-	CreateServiceFunction(MS_MSG_MODIFYICON, ModifyStatusIcon);
-	CreateServiceFunction("MessageAPI/GetNthIcon", GetNthIcon);
-
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);
 	return 0;
 }

@@ -40,11 +40,6 @@ function Langpack_Register:int_ptr;
 
 function CreateProtoServiceFunction(const szModule, szService: PAnsiChar; serviceProc: TMIRANDASERVICE): int_ptr;
 
-function  Srmm_AddIcon   (sid: PStatusIconData):int_ptr;
-procedure Srmm_RemoveIcon(sid: PStatusIconData);
-procedure Srmm_ModifyIcon(hContact:TMCONTACT; sid:PStatusIconData);
-function  Srmm_GetNthIcon(hContact:TMCONTACT; index:int):pStatusIconData;
-
 function SkinAddNewSound(const name, description, defaultFile: PAnsiChar): int_ptr;
 function SkinPlaySound  (const name: PAnsiChar): int_ptr;
 
@@ -334,30 +329,6 @@ begin
   lstrcpya(@szStr, szModule);
   lstrcata(@szStr, szService);
   Result := CreateServiceFunction(szStr, @serviceProc);
-end;
-
-// Hidden variable hLangpack - do not use Inline style
-function Srmm_AddIcon(sid: PStatusIconData):int_ptr;
-begin
-  result:=CallService(MS_MSG_ADDICON, hLangpack, LPARAM(sid));
-end;
-
-procedure Srmm_RemoveIcon(sid: PStatusIconData);
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  CallService(MS_MSG_REMOVEICON, 0, LPARAM(sid));
-end;
-
-procedure Srmm_ModifyIcon(hContact:TMCONTACT; sid:PStatusIconData);
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  CallService(MS_MSG_GETNTHICON, hContact, LPARAM(sid));
-end;
-
-function Srmm_GetNthIcon(hContact:TMCONTACT; index:int):PStatusIconData;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  result:=PStatusIconData(CallService(MS_MSG_GETNTHICON, hContact, index));
 end;
 
 function SkinAddNewSound(const name, description, defaultFile: PAnsiChar): int_ptr;

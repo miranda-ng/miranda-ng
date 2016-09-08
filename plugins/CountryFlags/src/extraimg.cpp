@@ -169,8 +169,7 @@ static int ExtraImgSettingChanged(WPARAM hContact, LPARAM lParam)
 			/* Extra Image */
 			SetExtraImage(hContact);
 			/* Status Icon */
-			if (ServiceExists(MS_MSG_REMOVEICON))
-				CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
+			CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
 		}
 	}
 	return 0;

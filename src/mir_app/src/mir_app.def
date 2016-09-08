@@ -275,3 +275,7 @@ Clist_GetImageList @274
 Clist_GetInterface @275
 Clist_TrayNotifyA @276
 Clist_TrayNotifyW @277
+Srmm_AddIcon @278
+Srmm_GetNthIcon @279 
+Srmm_ModifyIcon @280 
+Srmm_RemoveIcon @281

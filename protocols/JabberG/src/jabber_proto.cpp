@@ -286,9 +286,7 @@ int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
 	m_iqManager.Shutdown();
 	ConsoleUninit();
 
-	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = m_szModuleName;
-	Srmm_RemoveIcon(&sid);
+	Srmm_RemoveIcon(m_szModuleName, 0);
 	return 0;
 }
 

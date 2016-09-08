@@ -211,36 +211,6 @@ type
 
 const
 {
-  wParam = hLangpack
-  lParam = (StatusIconData *)&StatusIconData
-}
-  MS_MSG_ADDICON:PAnsiChar = 'MessageAPI/AddIcon';
-
-{
-  wParam = 0
-  lParam = (StatusIconData *)&StatusIconData
-  only szModule and szId are used
-}
-  MS_MSG_REMOVEICON:PAnsiChar = 'MessageAPI/RemoveIcon';
-
-{
-  wParam = (HANDLE)hContact
-  lParam = (int)zero-based index of a visible icon
-  returns (StatusIconData*)icon description filled for the required contact
-  don't free this memory.
-}
-  MS_MSG_GETNTHICON:PAnsiChar = 'MessageAPI/GetNthIcon';
-
-{
- wParam = (HANDLE)hContact
- lParam = (StatusIconData *)&StatusIconData
- if hContact is null, icon is modified for all contacts
- otherwise, only the flags field is valid
- if either hIcon, hIconDisabled or szTooltip is null, they will not be modified
-}
-  MS_MSG_MODIFYICON:PAnsiChar = 'MessageAPI/ModifyIcon';
-
-{
  wParam = (HANDLE)hContact;
  lParam = (StatusIconClickData *)&StatusIconClickData;
  catch to show a popup menu, etc.

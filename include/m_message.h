@@ -175,50 +175,38 @@ typedef struct {
 
 #define MBCF_RIGHTBUTTON   0x01     // if this flag is specified, the click was a right button - otherwize it was a left click
 
-typedef struct {
-	int   cbSize;
-	POINT clickLocation;             // click location, in screen coordinates
-	char *szModule;
-	DWORD dwId;
-	int   flags;                       // bitwize OR of MBCF_* flags above
-} StatusIconClickData;
+// adds an icon
 
-// wParam = (int)hLangpack
-// lParam = (StatusIconData *)&StatusIconData
-// #define MS_MSG_ADDICON "MessageAPI/AddIcon"
+EXTERN_C MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int _hLang = hLangpack);
 
-__forceinline INT_PTR Srmm_AddIcon(StatusIconData *sid)
-{	return CallService("MessageAPI/AddIcon", hLangpack, (LPARAM)sid);
-}
+// removes an icon
 
-// wParam = 0 (unused)
-// lParam = (StatusIconData *)&StatusIconData
-// only szModule and szId are used
-#define MS_MSG_REMOVEICON "MessageAPI/RemoveIcon"
+EXTERN_C MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId);
 
-__forceinline void Srmm_RemoveIcon(StatusIconData *sid)
-{	CallService(MS_MSG_REMOVEICON, 0, (LPARAM)sid);
-}
-
-// wParam = (HANDLE)hContact
-// lParam = (StatusIconData *)&StatusIconData
 // if hContact is null, icon is modified for all contacts
 // otherwise, only the flags field is valid
 // if either hIcon, hIconDisabled or szTooltip is null, they will not be modified
-#define MS_MSG_MODIFYICON "MessageAPI/ModifyIcon"
 
-__forceinline void Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid)
-{	CallService(MS_MSG_MODIFYICON, hContact, (LPARAM)sid);
-}
+EXTERN_C MIR_APP_DLL(int) Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid);
 
 // wParam = (HANDLE)hContact
 // lParam = (int)zero-based index of a visible icon
 // returns (StatusIconData*)icon description filled for the required contact
 // don't free this memory.
 
-__forceinline StatusIconData* Srmm_GetNthIcon(MCONTACT hContact, int index)
-{	return (StatusIconData*)CallService("MessageAPI/GetNthIcon", hContact, index);
-}
+EXTERN_C MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// status icons click notification
+
+struct StatusIconClickData
+{
+	int   cbSize;
+	POINT clickLocation;             // click location, in screen coordinates
+	char *szModule;
+	DWORD dwId;
+	int   flags;                       // bitwize OR of MBCF_* flags above
+};
 
 // wParam = (HANDLE)hContact;
 // lParam = (StatusIconClickData *)&StatusIconClickData;
