@@ -84,6 +84,8 @@ struct CJabberOptions
 	CMOption<BYTE> ProcessXMPPLinks;
 	CMOption<BYTE> IgnoreRosterGroups;
 
+	CMOption<BYTE> UseOMEMO;
+
 	CJabberOptions(PROTO_INTERFACE *proto) :
 		BsDirect(proto, "BsDirect", TRUE),
 		AllowVersionRequests(proto, "AllowVersionRequests", TRUE),
@@ -138,7 +140,8 @@ struct CJabberOptions
 		ConnectionKeepAliveInterval(proto, "ConnectionKeepAliveInterval", 60000),
 		ConnectionKeepAliveTimeout(proto, "ConnectionKeepAliveTimeout", 50000),
 		ProcessXMPPLinks(proto, "ProcessXMPPLinks", FALSE),
-		IgnoreRosterGroups(proto, "IgnoreRosterGroups", FALSE)
+		IgnoreRosterGroups(proto, "IgnoreRosterGroups", FALSE),
+		UseOMEMO(proto, "UseOMEMO", FALSE)
 	{}
 };
 

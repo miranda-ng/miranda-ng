@@ -111,7 +111,9 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_NEWGPG                      L"http://miranda-ng.org/caps/new_gpg"
 #define JABBER_CAPS_NEWGPG                      ((JabberCapsBits)1<<43)
 #define JABBER_FEAT_OMEMO						L"eu.siacs.conversations.axolotl" //will become "urn:xmpp:omemo:0" once standard get accepted
-#define JABBER_CAPS_OMEMO						((JabberCapsBits)1<<63)
+#define JABBER_CAPS_OMEMO						((JabberCapsBits)1<<46)
+#define JABBER_FEAT_OMEMO_NOTIFY				JABBER_FEAT_OMEMO L"+notify"
+#define JABBER_CAPS_OMEMO_NOTIFY				((JabberCapsBits)1<<47)
 #define JABBER_CAPS_PLATFORMX86                 ((JabberCapsBits)1<<44)
 #define JABBER_CAPS_PLATFORMX64                 ((JabberCapsBits)1<<45)
 #define JABBER_FEAT_PRIVACY_LISTS               L"jabber:iq:privacy"
@@ -154,7 +156,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_PUBSUB_EVENT                L"http://jabber.org/protocol/pubsub#event"
 #define JABBER_FEAT_PUBSUB_NODE_CONFIG          L"http://jabber.org/protocol/pubsub#node_config"
 
-#define JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY  ((JabberCapsBits)1<<62)
+#define JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY  ((JabberCapsBits)1<<63)
 #define JABBER_CAPS_OTHER_SPECIAL               (JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY|JABBER_RESOURCE_CAPS_ERROR) // must contain all the caps not listed in g_JabberFeatCapPairs, to prevent using these bits for features registered through IJabberNetInterface::RegisterFeature()
 
 #define JABBER_CAPS_MIRANDA_NODE    L"http://miranda-ng.org/caps"

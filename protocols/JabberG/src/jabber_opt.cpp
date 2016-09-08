@@ -811,6 +811,7 @@ public:
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Show information about operating system in version replies"), m_proto->m_options.ShowOSVersion);
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept only in band incoming filetransfers (don't disclose own IP)"), m_proto->m_options.BsOnlyIBB);
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_options.AcceptHttpAuth);
+		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Use OMEMO encryption  for messages if possible (placeholder)"), m_proto->m_options.UseOMEMO);
 	}
 
 	void OnInitDialog()
@@ -846,6 +847,23 @@ public:
 					}
 				}
 			}
+		}
+		//dynamic caps
+		{
+			JabberCapsBits jcb = 0;
+			// set all bits occupied by g_JabberFeatCapPairs
+			for (int i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
+				jcb |= g_JabberFeatCapPairs[i].jcbCap;
+
+			// set all bits already occupied by external plugins
+			for (int i = 0; i < m_proto->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+				jcb |= m_proto->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
+			if(m_proto->m_options.UseOMEMO)
+				jcb |= JABBER_CAPS_OMEMO_NOTIFY;
+			else
+				jcb &= ~JABBER_CAPS_OMEMO_NOTIFY;
+
+			m_proto->m_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szCoreVersion, jcb);
 		}
 
 		m_proto->SendPresence(m_proto->m_iStatus, true);
