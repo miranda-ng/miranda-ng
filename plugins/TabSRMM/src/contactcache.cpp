@@ -50,7 +50,7 @@ CContactCache::CContactCache(MCONTACT hContact)
 	cc = &ccInvalid;
 	m_szAccount = C_INVALID_ACCOUNT;
 	m_isMeta = false;
-	m_Valid = false;
+	m_isValid = false;
 }
 
 /**
@@ -66,8 +66,8 @@ void CContactCache::initPhaseTwo()
 			m_szAccount = acc->tszAccountName;
 	}
 
-	m_Valid = (cc->szProto != 0 && m_szAccount != 0) ? true : false;
-	if (m_Valid) {
+	m_isValid = (cc->szProto != 0 && m_szAccount != 0) ? true : false;
+	if (m_isValid) {
 		m_isMeta = db_mc_isMeta(cc->contactID) != 0; // don't use cc->IsMeta() here
 		if (m_isMeta)
 			updateMeta();
@@ -110,7 +110,7 @@ void CContactCache::closeWindow()
 bool CContactCache::updateNick()
 {
 	bool fChanged = false;
-	if (m_Valid) {
+	if (m_isValid) {
 		wchar_t *tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
 		if (tszNick && mir_wstrcmp(m_szNick, tszNick))
 			fChanged = true;
@@ -126,7 +126,7 @@ bool CContactCache::updateNick()
  */
 void CContactCache::updateMeta()
 {
-	if (m_Valid) {
+	if (m_isValid) {
 		MCONTACT hOldSub = m_hSub;
 		m_hSub = db_mc_getSrmmSub(cc->contactID);
 		m_szMetaProto = GetContactProto(m_hSub);
@@ -156,7 +156,7 @@ bool CContactCache::updateUIN()
 {
 	m_szUIN[0] = 0;
 
-	if (m_Valid) {
+	if (m_isValid) {
 		ptrW uid(Contact_GetInfo(CNF_DISPLAYUID, getActiveContact(), getActiveProto()));
 		if (uid != NULL)
 			wcsncpy_s(m_szUIN, uid, _TRUNCATE);
@@ -390,12 +390,13 @@ void CContactCache::releaseAlloced()
  */
 void CContactCache::deletedHandler()
 {
-	m_Valid = false;
+	cc = &ccInvalid;
+	m_isValid = false;
 	if (m_hwnd)
 		::SendMessage(m_hwnd, WM_CLOSE, 1, 2);
 
 	releaseAlloced();
-	m_hContact = (MCONTACT)-1;
+	m_hContact = INVALID_CONTACT_ID;
 }
 
 /**
@@ -416,7 +417,7 @@ void CContactCache::updateFavorite()
  */
 void CContactCache::updateStatusMsg(const char *szKey)
 {
-	if (!m_Valid)
+	if (!m_isValid)
 		return;
 
 	MCONTACT hContact = getActiveContact();
