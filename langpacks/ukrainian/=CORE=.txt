@@ -1797,8 +1797,6 @@ UIN, E-mail тощо
 ** Нові контакти **
 [** Unknown contacts **]
 ** Невідомі контакти **
-[Show balloon popup (unsupported system)]
-Показувати підказки (система не підтримується)
 [Messaging log]
 Журнал
 [Typing notify]

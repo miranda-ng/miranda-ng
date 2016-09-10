@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.3
+;  Version: 0.3.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -99,10 +99,10 @@
 Увімкнути чати
 [Do not open chat windows on creation]
 Не відкривати вікно чату при створенні
+[Automatically join active chats that exist in contact list]
+Автоматично заходити в активні чати зі списку контактів
 [History synchronization]
 Синхронізація історії
-[Load last messages (24 hours old) on login (EXPERIMENTAL)]
-Завантажувати історію за останню добу при підключенні (експериментально)
 [Load last messages on opening message window (EXPERIMENTAL)]
 Показувати історію при відкритті вікна (експериментально)
 [Number of messages to load:]
@@ -117,10 +117,10 @@
 Введіть текст, який бачите
 [Myself]
 Я
-[User]
-Користувач
 [Friend]
 Друг
+[User]
+Користувач
 [&Invite user...]
 &Запросити користувача...
 [&Leave chat session]
@@ -257,6 +257,12 @@ SMS з кодом підтвердження відправлено на ваш 
 Контакт доданий у список на сервері.
 [Contact is no longer on server-list.]
 Контакт видалений зі списку на сервері.
+[Loading history started.]
+Завантаження історії почалося.
+[Loading messages: %d/%d]
+Завантажено повідомлень: %d/%d
+[Loading history completed.]
+Завантаження історії завершено.
 [<attachment without text>]
 <вкладення без тексту>
 [On this day]
@@ -287,8 +293,12 @@ SMS з кодом підтвердження відправлено на ваш 
 Завантаження запитів дружби...
 [Loading notifications...]
 Завантаження сповіщень...
-[Loading what happened on this day...]
-Завантаження подій за цей день...
+[Loading memories...]
+Завантаження спогадів...
+[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+Триває завантаження історії. Завантаження неможливе для кількох контактів одночасно. Будь ласка, дочекайтеся завершення.
+[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
+Усі повідомлення буде завантажено з сервера. Щоб уникнути дублювання повідомлень в історії, заздалегідь видаліть наявні повідомлення вручну.\nПроцес завантаження може тривати деякий час.\n\nПродовжити?
 [Do you want to cancel your friendship with '%s'?]
 Ви впевнені, що хочете видалити "%s" з друзів?
 [Client errors]
@@ -301,8 +311,8 @@ SMS з кодом підтвердження відправлено на ваш 
 Події дружби
 [Real-time friends activity]
 Активність друзів у реальному часі
-["On this day" posts]
-Повідомлення "Цього дня"
+[Memories]
+Спогади
 [Visit profile]
 Профіль
 [Visit notifications]
@@ -319,8 +329,6 @@ SMS з кодом підтвердження відправлено на ваш 
 Подія дружби
 [Ticker event]
 Тікер
-["On this day" event]
-Подія "Цього дня"
 [Message read: %s by %s]
 Повідомлення прочитане о %s користувачем %s
 [Message read: %s]
@@ -357,6 +365,8 @@ SMS з кодом підтвердження відправлено на ваш 
 Інформація про дружбу
 [Visit conversation]
 Бесіда на сайті
+[Load history]
+Завантажити історію
 [Cancel friendship]
 Видалити із друзів
 [Cancel friendship request]
@@ -373,7 +383,7 @@ SMS з кодом підтвердження відправлено на ваш 
 Перевірити запити дружби
 [Check newsfeeds]
 Перевірити новини
-[Check "On this day" posts]
-Перевірити повідомлення "Цього дня"
+[Check memories]
+Перевірити спогади
 [Check notifications]
 Перевірити сповіщення

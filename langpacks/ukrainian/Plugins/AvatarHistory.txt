@@ -47,7 +47,7 @@
 Кольори за замовчанням
 [Delay]
 Затримка
-[From Popup plugin]
+[From popup plugin]
 З плагіна сплив. вікон
 [Custom]
 Обрані

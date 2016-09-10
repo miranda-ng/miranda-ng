@@ -133,7 +133,7 @@
 Затримка сплив. вікна
 [Delay]
 Затримка
-[From Popup plugin]
+[From popup plugin]
 За замовчанням
 [Permanent]
 Постійно

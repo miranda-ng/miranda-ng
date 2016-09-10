@@ -159,7 +159,7 @@
 Успішне підключення
 [Show other messages]
 Інші
-[From Popup plugin]
+[From popup plugin]
 За замовчанням
 [Custom]
 Вказати

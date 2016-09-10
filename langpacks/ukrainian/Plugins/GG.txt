@@ -315,10 +315,10 @@ HTTP невідома помилка
 Файли зображень (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Зображення не може бути записано на диск.
-[Delete image from the list]
-Видалити зображення зі списку
 [Save image to disk]
 Зберегти зображення на диск
+[Delete image from the list]
+Видалити зображення зі списку
 [Image from %s]
 Зображення від %s
 [Image for %s]

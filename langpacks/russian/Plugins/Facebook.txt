@@ -98,7 +98,7 @@
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
 [Automatically join active chats that exist in contact list]
-Автоматически подключаться к активным чатом из списка контактов
+Автоматически подключаться к активным чатам из списка контактов
 [History synchronization]
 Синхронизация истории
 [Load last messages on opening message window (EXPERIMENTAL)]
@@ -260,7 +260,7 @@ SMS с кодом подтверждения отправлено на ваш м
 [Loading messages: %d/%d]
 Загружено сообщений: %d/%d
 [Loading history completed.]
-Загрузка истории завершина.
+Загрузка истории завершена.
 [<attachment without text>]
 <вложение без текста>
 [On this day]

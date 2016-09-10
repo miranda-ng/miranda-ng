@@ -85,7 +85,7 @@
 Текст
 [Delay]
 Затримка
-[&From Popup plugin]
+[&From popup plugin]
 &За замовчанням
 [&Custom]
 &Вказати

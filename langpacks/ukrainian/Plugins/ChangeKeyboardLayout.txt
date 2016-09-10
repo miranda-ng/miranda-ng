@@ -55,7 +55,7 @@
 Текст
 [Timeout]
 Затримка
-[From Popup plugin]
+[From popup plugin]
 З плагіна сплив. вікон
 [Permanent]
 Постійно

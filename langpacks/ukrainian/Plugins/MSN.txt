@@ -53,8 +53,6 @@
 Вас додали до списку контактів на сервері
 [Refresh]
 Оновити
-[Hotmail]
-Пошта
 [Enable Popup notifications]
 Увімкнути сповіщення в спливаючих вікнах
 [Enable Contact List notifications]

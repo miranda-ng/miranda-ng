@@ -591,6 +591,10 @@
 Главный
 [Extended user info]
 Личные данные
+[Dialogs]
+Диалоги
+[Buttons]
+Кнопки
 [Export/import contact]
 Экспорт/Импорт контакта
 [User &details]

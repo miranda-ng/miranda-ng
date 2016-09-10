@@ -135,7 +135,7 @@
 За замовчанням
 [Delay]
 Затримка
-[From Popup plugin]
+[From popup plugin]
 За замовчанням
 [Custom]
 Вказати:
@@ -593,6 +593,10 @@
 Головний
 [Extended user info]
 Особисті дані
+[Dialogs]
+Діалоги
+[Buttons]
+Кнопки
 [Export/import contact]
 Експорт/Імпорт контакту
 [User &details]

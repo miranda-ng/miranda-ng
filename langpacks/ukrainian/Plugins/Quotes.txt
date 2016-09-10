@@ -77,7 +77,7 @@
 Колір тексту
 [Delay]
 Затримка
-[From Popup plugin]
+[From popup plugin]
 За замовчанням
 [Custom]
 Налаштувати

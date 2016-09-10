@@ -27,8 +27,6 @@
 Пам'ятати останнє положення вікна
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Примітка. Пункти меню відображаються лише за наявності хоча б одного правильно налаштованого облікового запису. Переконайтеся, що у вас є принаймні один обліковий запис з UIN.
-[Status]
-Статус
 [Add new item]
 Додати новий пункт
 [Add]

@@ -575,8 +575,6 @@
 ** Нові контакти **
 [** Unknown contacts **]
 ** Невідомі контакти **
-[Show balloon popup (unsupported system)]
-Показувати підказки (система не підтримується)
 [Message sessions]
 Бесіди
 [Typing notify]

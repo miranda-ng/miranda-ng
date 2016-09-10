@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.12
+;  Version: 3.4.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -491,7 +491,7 @@ ID користувача в панелі статусу
 &Пункт у головному меню
 [...is typing]
 ...друкує повідомлення
-[From Popup plugin]
+[From popup plugin]
 За замовчанням
 [From protocol]
 З протоколу
@@ -1331,8 +1331,6 @@ TabSRMM: Набирає
 ** Нові контакти **
 [** Unknown contacts **]
 ** Невідомі контакти **
-[Show balloon popup (unsupported system)]
-Показувати підказки (система не підтримується)
 [Always]
 Завжди
 [Always, but no popup when window is focused]

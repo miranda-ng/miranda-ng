@@ -40,7 +40,7 @@
 [Enter the password to continue.]
 Введіть пароль для продовження.
 [As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-Обліковий запис захищено двохфакторною авторизацією. Для надання доступу до нього введіть код, отриманий на мобільний телефон.
+Обліковий запис захищено двохетапною авторизацією. Для надання доступу до нього введіть код, отриманий на мобільний телефон.
 [Steam game]
 Гра Steam
 [Looking to play]

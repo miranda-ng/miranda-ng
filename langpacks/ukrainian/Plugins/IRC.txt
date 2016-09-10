@@ -327,10 +327,10 @@ DCC: Запит на продовження закачування файлу в
 в мережі з %s, очікування %s
 [Change nickname]
 Змінити нік
-[IRC error]
-Помилка IRC
 [Unknown]
 Невідомо
+[IRC error]
+Помилка IRC
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Введіть маску (nick!user@host)\nУвага: користувачі зі списку контактів не будуть ігноруватися!
 [Ignore]

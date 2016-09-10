@@ -1,5 +1,3 @@
 ﻿[Enter a representative name for the e-mail address here:]
-[Dialogs]
-[Buttons]
 [TmplPast Work Place]
 [TmplPast Organization]

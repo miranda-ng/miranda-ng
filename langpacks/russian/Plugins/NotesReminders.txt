@@ -7,8 +7,6 @@
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Заметки и напоминания для Miranda NG.
-[Visible]
-Видимая
 [Default Note Size]
 Размер заметки
 [Width (Pixels)]
@@ -251,6 +249,8 @@ Miranda не смогла загрузить плагин Notes & Reminders из
 Белый
 [Are you sure you want to delete this note?]
 Уверены, что хотите удалить заметку?
+[Visible]
+Видимая
 [Top]
 Поверх
 [Notes]
