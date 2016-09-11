@@ -105,6 +105,7 @@ struct Info
 	int         iSkinIcon;
 	const char *db[8];
 	void(*OnClick)(Info *info, const char *text);
+	int        flags;
 
 	HANDLE hIcolib, hExtraIcon;
 };
@@ -125,13 +126,13 @@ static Info infos[] =
 {
 	{ "homepage", "Homepage", SKINICON_OTHER_MIRANDAWEB,
 		{ NULL, "Homepage", "UserInfo", "Homepage" },
-		&HomepageOnClick },
+		&HomepageOnClick, EIF_DISABLED_BY_DEFAULT },
 	{ "sms", "Phone/SMS", SKINICON_OTHER_SMS,
 		{ NULL, "Cellular", "UserInfo", "Cellular", "UserInfo", "Phone", "UserInfo", "MyPhone0" },
-		NULL },
+		NULL, EIF_DISABLED_BY_DEFAULT },
 	{ "email", "E-mail", SKINICON_OTHER_SENDEMAIL,
 		{ NULL, "e-mail", "UserInfo", "e-mail", "UserInfo", "Mye-mail0" },
-		&EmailOnClick },
+		&EmailOnClick, EIF_DISABLED_BY_DEFAULT },
 };
 
 static void SetExtraIcons(MCONTACT hContact)
@@ -303,17 +304,17 @@ void DefaultExtraIcons_Load()
 {
 	hExtraChat = ExtraIcon_RegisterIcolib("chat_activity", LPGEN("Chat activity"), "ChatActivity");
 	hExtraVisibility = ExtraIcon_RegisterIcolib("visibility", "Visibility", Skin_GetIconName(SKINICON_OTHER_VISIBLE_ALL));
-	hExtraGender = ExtraIcon_RegisterIcolib("gender", "Gender", "gender_male");
+	hExtraGender = ExtraIcon_RegisterIcolib("gender", "Gender", "gender_male", 0, 0, EIF_DISABLED_BY_DEFAULT);
 	hExtraProto = ExtraIcon_RegisterCallback("protocol", "Account", Skin_GetIconName(SKINICON_OTHER_ACCMGR),
-		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick);
+		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick, 0, EIF_DISABLED_BY_DEFAULT);
 
 	for (int i = 0; i < _countof(infos); i++) {
 		Info &p = infos[i];
 		p.hIcolib = Skin_GetIconHandle(p.iSkinIcon);
 		if (p.OnClick)
-			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), DefaultOnClick, (LPARAM)&p);
+			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), DefaultOnClick, (LPARAM)&p, p.flags);
 		else
-			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon));
+			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), 0, 0, p.flags);
 	}
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
