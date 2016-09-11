@@ -42,12 +42,8 @@ Použít šablonu na informace od kontaktu (změní šablonu pro kontakt)
 Převzít informace z doplňku WATrack
 [Get info from these players:]
 Převzít informace z těchto přehrávačů:
-[Winamp (*)]
-Winamp (*)
 [Windows Media Player]
 Windows Media Player
-[iTunes]
-iTunes
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (vyžaduje ruční instalaci)
 [Other players]
@@ -58,8 +54,6 @@ Zjistit informace každých
 sek.
 [Allow auto-loading plugins into players (affect players with *)]
 Povolit automatické načtení doplňků do přehrávačů (týká se položek s *)
-[mRadio]
-Rádia
 [Listening to]
 Poslech hudby
 [Template:]

@@ -136,7 +136,7 @@ Použít barvy Windows
 Použít výchozí barvy
 [Delay]
 Prodleva
-[From Popup plugin]
+[From popup plugin]
 Globální nastavení
 [Custom]
 Vlastní
@@ -605,6 +605,10 @@ Hlavní
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Detaily uživatele
+[Dialogs]
+Dialogy
+[Buttons]
+Tlačítka
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Export/import kontaktu
@@ -1081,9 +1085,6 @@ jun.
 [sen.]
 sen.
 ;file \plugins\UserInfoEx\src\svc_constants.h
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
-['(Unknown Contact)']
-'(neznámý kontakt)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Poslat e-mail

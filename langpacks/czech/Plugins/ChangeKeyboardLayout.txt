@@ -56,7 +56,7 @@ Pozadí
 Text
 [Timeout]
 Doba zobrazení
-[From Popup plugin]
+[From popup plugin]
 Globální nastavení
 [Permanent]
 Trvale

@@ -102,8 +102,6 @@ Chyba
 ;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 %s - spojení se serverem
-[ID]
-ID
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 

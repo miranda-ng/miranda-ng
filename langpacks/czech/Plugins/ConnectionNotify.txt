@@ -30,16 +30,18 @@ Verze:
 Zobrazit upozornění pokud není definován žádný filtr
 [Attempt interval (ms)]
 Interval mezi pokusy (ms.)
-[X]
-X
+[Delete]
+Smazat
 ['Online' means:]
 Online znamená
 [Filters]
 Filtry
-[DN]
-Níž
-[UP]
-Výš
+[Move down]
+Přesunout dolů
+[Move up]
+Přesunout nahoru
+[Add]
+Přidat
 [Rule editor]
 Editor pravidel
 [Application name]

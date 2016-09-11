@@ -38,10 +38,6 @@ sek.
 Offline klíč vyprší za:
 [days]
 dnů
-[PGP]
-PGP
-[GPG]
-GPG
 [Reset All]
 Vše resetovat
 [Protocols]

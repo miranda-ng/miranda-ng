@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.2.2
+;  Version: 0.12.2.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -54,6 +54,8 @@ Skype Link protokol
 Admin
 [User]
 Uživatel
+[Enter new nickname]
+Zadejte novou přezdívku
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Tato diskuse bude navždy zrušena s veškerým jejím obsahem. Tuto akci nelze vrátit zpět. Přejete si pokračovat?
 [Warning]
@@ -62,8 +64,8 @@ Varování
 Pozvat k d&iskusi...
 [&Leave chat session]
 &Opustit diskusi
-[&Change topic]
-&Změnit téma
+[&Change topic...]
+&Změnit téma...
 [Kick &user]
 Vykopnout &uživatele
 [Set &role]
@@ -72,6 +74,8 @@ Určit &roli
 &Správce
 [&User]
 &Uživatel
+[Change nick...]
+Změnit přezdívku...
 [Enter new chatroom topic]
 Zadejte nové téma diskuse
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp

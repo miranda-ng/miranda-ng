@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.27
+;  Version: 0.1.2.5
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -50,6 +50,8 @@ Ostatní
 
 [Shorten links for audio attachments]
 
+[Use non-standard popups for news and event notifications]
+
 [News and event notifications]
 
 [WARNING: Causes excessive network traffic!!!]
@@ -71,7 +73,7 @@ Ostatní
 [News types]
 
 [Wall posts]
-
+Příspěvky ze zdi
 [Photos]
 Fotografie
 [Photos tags]
@@ -104,6 +106,8 @@ Pozvání
 
 [Mentions in comments]
 
+[Accepted friend requests]
+
 [E-mail or phone number:]
 E-mail nebo telefonní číslo:
 [Password:]
@@ -124,7 +128,9 @@ Vždy upozornit všechny příchozí zprávy jako nepřečtené
 
 [Use non-standard urlEncode for sent messages (less traffic)]
 
-[Use non-standard popups for news and event notifications]
+[Send VK-objects links as attachments]
+
+[and load sent attachments]
 
 [When I ban user...]
 
@@ -198,7 +204,7 @@ Ikona okna s captcha kódem
 [Notification icon]
 Ikona upozornění
 [Read message icon]
-
+Ikona přečtené zprávy
 [Visit profile icon]
 
 [Load server history icon]
@@ -227,7 +233,7 @@ Protokoly
 
 [Error]
 Chyba
-[You must validate your account before use VK in Miranda NG]
+[You have to validate your account before you can use VK in Miranda NG]
 
 [Error %d. Data will not be sent or received.]
 
@@ -235,8 +241,14 @@ Chyba
 
 [Access to adding post denied]
 
+[Enter the missing digits between %s and %s of the phone number linked to your account]
+
+[Attention!]
+
 [Enter confirmation code]
 Zadejte potvrzovací kód
+[Enter new nickname]
+Zadejte novou přezdívku
 [Message read: %s]
 Zpráva byla přečtena: %s
 [has invited you to a group]
@@ -293,6 +305,10 @@ Dokument
 Příspěvek na zdi
 [Link]
 Adresa
+[Product]
+
+[Price]
+
 [Gift]
 Dárek
 [Unsupported or unknown attachment type: %s]
@@ -346,6 +362,8 @@ Pozvat už&ivatele
 Zruši&t místnost
 [&User details]
 Informace o &uživateli
+[Change nick]
+
 [&Kick]
 Vy&kopnout
 [%s is typing a message...]
@@ -353,7 +371,7 @@ Vy&kopnout
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
-[Wall message for]
+[Wall message for %s]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
@@ -418,17 +436,17 @@ Protokol je offline
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 
-[Attention!]
-
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
 
-[Error loading message history from server]
+[Error loading message history from server.]
 
-[Loading messages for all contacts is completed]
+[Loading messages for all contacts is completed.]
 
 [Loading history]
 
-[Loading messages for %s is completed]
+[Error loading message history for %s from server.]
+
+[Loading messages for %s is completed.]
 
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
@@ -529,6 +547,8 @@ Oznámení
 [I\'m back]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Service message]
+
 [Interests]
 Zájmy
 [Activities]

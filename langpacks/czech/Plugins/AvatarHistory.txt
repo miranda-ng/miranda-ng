@@ -48,7 +48,7 @@ Použít barvy Windows
 Použít výchozí barvy
 [Delay]
 Prodleva
-[From Popup plugin]
+[From popup plugin]
 Globální nastavení
 [Custom]
 Vlastní
@@ -166,10 +166,10 @@ odstranil(a) svůj avatar
 [changed his/her avatar]
 změnil(a) svůj avatar
 ;file \plugins\AvatarHistory\src\utils.cpp
-[Unknown UIN]
-neznámé UIN
 [Unknown Protocol]
 neznámý protokol
+[Unknown UIN]
+neznámé UIN
 [AVH Debug: GetOldStyleAvatarName]
 
 [Avatar History: Unable to create shortcut]

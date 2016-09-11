@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.5
+;  Version: 0.95.6
 ;============================================================
 ;file \src\core\stdauth\res\resource.rc
 [Authorization request]
@@ -1841,8 +1841,6 @@ Záznam komunikace
 ** nové kontakty **
 [** Unknown contacts **]
 ** neznámé kontakty **
-[Show balloon popup (unsupported system)]
-Zobrazit oznámení bublinami (nepodporováno)
 [Messaging log]
 Záznam rozhovoru
 [Typing notify]
@@ -2098,6 +2096,19 @@ Aktuální téma: %s
 [The topic is '%s' (set by %s)]
 Aktuální téma: %s (nastavil %s)
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistgroups.cpp
+[New group]
+Nová skupina
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
+Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vrátit.
+[Delete group]
+Odstranit skupinu
+[You already have a group with that name. Please enter a unique name for the group.]
+Skupina téhož názvu už existuje. Zadejte prosím jiný název.
+[Rename group]
+Přejmenovat skupinu
+[This group]
+Tato skupina
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 Připojování
@@ -2243,19 +2254,6 @@ Záhlaví
 Běžný text
 [Small text]
 Poznámky
-;file \src\mir_app\src\groups.cpp
-[New group]
-nová skupina
-[Are you sure you want to delete group '%s'? This operation cannot be undone.]
-Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vrátit.
-[Delete group]
-Odstranit skupinu
-[You already have a group with that name. Please enter a unique name for the group.]
-Skupina téhož názvu už existuje. Zadejte prosím jiný název.
-[Rename group]
-Přejmenovat skupinu
-[This group]
-Tato skupina
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 Prohlížeč: Zpět
@@ -2405,8 +2403,6 @@ Přiřazení k metakontaktu se nezdařilo.
 [Assignment failure]
 Chyba přiřazování
 ;file \src\mir_app\src\meta_edit.cpp
-[ID]
-ID
 [Protocol]
 Protokol
 [Send offline]
@@ -2462,8 +2458,6 @@ Nebyly nalezeny žádné online kontakty
 [Select metacontact]
 Výběr metakontaktu
 ;file \src\mir_app\src\meta_utils.cpp
-[Sender]
-Odesílatel
 [Could not retrieve contact protocol]
 Nelze zjistit protokol kontaktu
 [Assignment error]

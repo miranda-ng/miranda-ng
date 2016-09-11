@@ -335,10 +335,10 @@ Přehled relací
 Soubory obrázků (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Obrázek nelze uložit na disk.
-[Delete image from the list]
-Smazat obrázek ze seznamu
 [Save image to disk]
 Uložit obrázek na disk
+[Delete image from the list]
+Smazat obrázek ze seznamu
 [Image from %s]
 Obrázek od %s
 [Image for %s]

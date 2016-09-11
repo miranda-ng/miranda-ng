@@ -2,6 +2,4 @@
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
 [0 means default timeout,\n-1 means no timeout]
 [Why C sucks]
-[brickstrace@gmail.com [1]]
-[    bems\n]
 [* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]

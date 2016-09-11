@@ -50,4 +50,3 @@ Chyba
 
 [Plugins]
 Doplňky
-;file \plugins\NotifyAnything\src\stdafx.h

@@ -2,14 +2,12 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.12.1.1
+;  Version: 0.12.1.2
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Microsoft Network (MSN) protokol pro Mirandu NG.
 ;file \protocols\MSN\res\msn.rc
-[MSN]
-MSN
 [Live ID:]
 Identifikátor:
 [Password:]
@@ -58,8 +56,6 @@ Zablokovaný kontakt
 Kontakt vás má umístěn ve svém seznamu na serveru
 [Refresh]
 Aktualizovat
-[Hotmail]
-Hotmail
 [Enable Popup notifications]
 Povolit oznámení
 [Enable Contact List notifications]

@@ -16,9 +16,9 @@ Verze:
 Popis:
 [Copyright:]
 Copyright:
-[Contact:]
-Kontakt:
-[WWW:]
+[E-mail:]
+E-mail:
+[Homepage:]
 WWW:
 [Account]
 Účet
@@ -28,10 +28,6 @@ Název:
 Server:
 [Port:]
 Port:
-[SSL]
-SSL
-[APOP]
-APOP
 [User Name:]
 Uživatelské jméno:
 [Password:]

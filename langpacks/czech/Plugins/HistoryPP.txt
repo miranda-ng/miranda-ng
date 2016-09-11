@@ -6,7 +6,7 @@
 ;  Authors: theMIROn, Art Fedorov
 ;============================================================
 [Easy, fast and feature complete history viewer.]
-
+Jednoduchý a rychlý prohlížeč historie s mnoha funkcemi.
 [Voice calls]
 Hovory
 [Voice call]
@@ -38,11 +38,11 @@ Odchozí oznámení WATrack
 [WATrack notify]
 Oznámení WATrack
 [Open Link]
-
+Otevřít odkaz
 [WATrack: information request]
 WATrack: požadavek na informaci
 [Artist: %s\\nTitle: %s\\nAlbum: %s]
-
+Umělec: %s\\nNázev: %s\\nAlbum: %s
 [WATrack: %s]
 WATrack: %s
 [WATrack: request denied]
@@ -50,7 +50,7 @@ WATrack: požadavek zamítnut
 [Imitate IEView API]
 Imitovat IEView API
 [Text formatting options]
-
+Nastavení formátování textu
 [Enable raw RTF support]
 Povolit RTF formátování
 [Display changed avatars]
@@ -288,9 +288,9 @@ Hledat: %s (F3 najde další)
 [Enable &Processing]
 
 [Do you really want to delete ALL items (%.0f) for this contact?]
-
+Opravdu si přejete smazat VŠECHNY položky (%.0f) tohoto kontaktu?
 [Note: It can take several minutes for large history.]
-
+Pozn.: Může to trvat i několik minut u dlouhé historie.
 [Empty History]
 Vymazání historie
 [Search Up (Ctrl+Up)]
@@ -460,7 +460,7 @@ XML soubor
 [Appearance options]
 Možnosti vzhledu
 [Message log options]
-Možnosti záznamu rozhovoru
+Možnosti záznamu komunikace
 [HTML file]
 HTML soubor
 [&Browse Received Files]
@@ -508,7 +508,7 @@ Odstranit historii systému...
 [&Empty History]
 Odstranit historii...
 [Do you really want to delete ALL items for this contact?]
-Opravdu chcete vymazat VŠECHNY záznamy u vybrané položky?
+Opravdu chcete vymazat VŠECHNY položky u tohoto kontaktu?
 [Note: It can take several minutes for large histories]
 Upozornění: Tato akce může trvat u dlouhé historie i několik minut.
 [Previous message]
@@ -520,7 +520,7 @@ Vaše verze doplňku SmileyAdd není podporována
 [Running version of Emoticons is not supported]
 Vaše verze doplňku Emoticons není podporována
 [%.0f items in history]
-
+%.0f položek v historii
 [%s (to %s)]
 %s (pro %s)
 [%s Header]
@@ -534,7 +534,7 @@ Vaše verze doplňku Emoticons není podporována
 [(time and date)]
 (čas a datum)
 [All Items]
-
+Všechny položky
 [and]
 a
 [Authorization Request by %s (%s%s%d): %s]
@@ -596,15 +596,15 @@ Příchozí odkaz
 [Outgoing Url]
 Odchozí odkaz
 [Recent at bottom]
-
+Nejnovější dole
 [Recent on top]
-
+Nejnovější nahoře
 [Save All as &HTML...]
-
+Uložit vše jako &HTML...
 [Save All as &Text...]
-
+Uložit vše jako &text...
 [Save All as &XML...]
-
+Uložit vše jako &XML...
 [Select search mode:]
 
 [Selected file and contact file folder not found]
@@ -614,7 +614,7 @@ Odchozí odkaz
 [Some Contact]
 
 [System History (%s)]
-
+Systémová historie (%s)
 [System Message Sample]
 
 [Use Miranda default settings]

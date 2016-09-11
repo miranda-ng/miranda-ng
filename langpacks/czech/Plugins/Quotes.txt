@@ -80,7 +80,7 @@ Barva pozadí
 Barva textu
 [Delay]
 Prodleva
-[From Popup plugin]
+[From popup plugin]
 Globální nastavení
 [Custom]
 Vlastní
@@ -127,7 +127,7 @@ Odst&ranit
 [Status &Message:]
 
 ;file \plugins\Quotes\src\Chart.h
-[There is no to show]
+[There is nothing to show]
 
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]

@@ -166,8 +166,6 @@ Domov
 Práce
 [Internet]
 Internet
-[X400]
-X400
 [Jabber vCard: Add Phone Number]
 Jabber vCard: Přidání telefonu
 [Phone number:]
@@ -184,14 +182,8 @@ Textovka
 Mobil
 [Video]
 Video
-[BBS]
-BBS
 [Modem]
 Modem
-[ISDN]
-ISDN
-[PCS]
-PCS
 [Load]
 Načíst
 [Save]
@@ -1476,8 +1468,6 @@ Změny funkce
 Změny stavu
 [Don't notify history messages]
 Neoznamovat staré zprávy
-[JID]
-Identifikátor
 [Group]
 Skupina
 [Subscription]

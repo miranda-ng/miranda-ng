@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.11
+;  Version: 3.4.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -393,7 +393,7 @@ Předchozí události starší méně než
 [minutes old]
 min.
 [Global message log display]
-Zobrazení globálního záznamu komunikace
+Zobrazení záznamu komunikace
 [Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -496,7 +496,7 @@ Pouze jedn&o oznámení na kontakt
 Zobrazit položku v hlavním m&enu
 [...is typing]
 ... píše zprávu
-[From Popup plugin]
+[From popup plugin]
 Globální nastavení
 [From protocol]
 Dle protokolu
@@ -926,7 +926,7 @@ Zavřít rozhovor
 [Quote last message OR selected text]
 Citovat poslední zprávu NEBO vybraný text
 [Message log options]
-Možnosti záznamu rozhovoru
+Možnosti záznamu komunikace
 [View user's history]
 Zobrazit historii
 [Edit user notes]
@@ -1097,29 +1097,33 @@ Odeslat soubor
 [Quote message]
 Citovat zprávu
 [Toggle send later]
-
+Přepnout zpožděné odesílání
 [Send message]
 Poslat zprávu
 [Smiley selector]
 Použití smajlíku
 [Show message history]
-
+Zobrazit historii zpráv
+[Show send menu]
+Zobrazit nabídku odesílání
+[Show protocol menu]
+Zobrazit nabídku protokolu
 [Show user menu]
-Zobrazit uživatelské menu
+Zobrazit nabídku uživatele
 [Show user details]
-
+Zobrazit detaily uživatele
 [Toggle toolbar]
-
+Přepnout tlačítkovou lištu
 [Toggle info panel]
-
+Přepnout info panel
 [Toggle text direction]
-
+Přepnout směr textu
 [Toggle multi send]
-
+Přepnout odesílání více uživatelům
 [Clear message log]
-
+Vymazat záznam komunikace
 [Collapse side bar]
-
+Skrýt boční lištu
 [Toggle filter]
 Přepnout filtr
 [Show server window]
@@ -1336,7 +1340,7 @@ Chcete se vzhledem nahrát také šablony záznamu?\nUPOZORNĚNÍ: Tato volba p�
 [Load theme]
 Nahrát vzhled
 [Internal message log]
-
+Vestavěný záznam komunikace
 [IEView plugin]
 Styly (IEView)
 [History++ plugin]
@@ -1347,8 +1351,6 @@ Vybrali jste externí plugin pro zobrazení záznamu zpráv v komunikačním okn
 ** nové kontakty **
 [** Unknown contacts **]
 ** neznámé kontakty **
-[Show balloon popup (unsupported system)]
-Zobrazit oznámení bublinami (nepodporováno)
 [Always]
 Vždy
 [Always, but no popup when window is focused]
@@ -1545,7 +1547,7 @@ Rozšířené rozvržení s avatary, horizontální orientace
 Rozšířené rozvržení s avatary, vertikální orientace
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
-
+Tato verze TabSRMM vyžaduje Windows 2000 nebo novější.
 [TabSRMM message (%s)]
 TabSRMM zpráva (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp

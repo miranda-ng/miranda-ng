@@ -25,30 +25,26 @@ Umožnit odesílání zpráv kontaktům
 ;file \protocols\Dummy\src\dummy.h
 [Custom]
 Vlastní
-[Screen Name]
+[Screen name]
 Identifikátor
 [User name]
 Uživatelské jméno
 [Facebook ID]
 Facebook ID
-[Gadu-Gadu Number]
-Identifikátor
+[Gadu-Gadu number]
+Gadu-Gadu číslo
 [User ID]
 Identifikátor
 [ICQ number]
 ICQ číslo
 [Nickname]
 Přezdívka
-[JID]
-Identifikátor
 [Visible name]
 Zobrazované jméno
 [E-mail address]
 E-mail
 [Live ID]
-Identifikátor
-[ID]
-ID
+Live ID
 [Skype name]
 Skype jméno
 [Steam ID]
@@ -59,8 +55,8 @@ Tlen login
 Tox ID
 [Username]
 Uživatel
-[VK ID]
-VK ID
+[VKontakte ID]
+VKontakte ID
 [WhatsApp ID]
 WhatsApp ID
 ;file \protocols\Dummy\src\dummy_proto.cpp

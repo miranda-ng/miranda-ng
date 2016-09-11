@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.20
+;  Version: 0.11.1.21
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -24,8 +24,6 @@ Název:
 Heslo:
 [Default group:]
 Výchozí skupina:
-[Tox]
-Tox
 [Create Tox profile]
 Vytvořit Tox profil
 [Import Tox profile]
@@ -54,6 +52,8 @@ Zrušit
 Tox profil je zašifrován. Zadejte heslo pro pokračování.
 [Add]
 Přidat
+[Update]
+Aktualizovat
 [IPv4 address/ Host]
 IPv4 adresa / hostitel
 [IPv6 address (optional)]
@@ -103,9 +103,6 @@ Pro:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Group chat]
 Skupinový rozhovor
-;file \protocols\Tox\src\tox_core.cpp
-[Unable to initialize Tox core]
-Nelze inicializovat jádro Tox
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Složka s profily
@@ -142,6 +139,9 @@ Odchozí hovor (%s)
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s - spojení se serverem
+;file \protocols\Tox\src\tox_network.cpp
+[Unable to initialize Tox core]
+Nelze inicializovat jádro Tox
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Tox profil
@@ -159,6 +159,8 @@ Změnit uzel
 Zadejte IPv4
 [Error]
 Chyba
+[Enter port]
+Zadejte port
 [Enter public key]
 Zadejte veřejný klíč
 [Common nodes]

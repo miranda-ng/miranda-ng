@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.2
+;  Version: 0.4.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -100,8 +100,6 @@ Možnosti stanice
 Meteorologická stanice
 [City name]
 Jméno města
-[ID]
-ID
 [Log Information]
 Záznam událostí
 [Use internal history]
@@ -156,7 +154,7 @@ Doba zobrazení
 Prodleva
 [seconds]
 sek.
-[From Popup plugin]
+[From popup plugin]
 Globální nastavení
 [Permanent]
 Trvale
@@ -249,7 +247,7 @@ Zobrazit historii
 [Open log file]
 Zobrazit záznam
 [Show user menu]
-Zobrazit uživatelské menu
+Zobrazit nabídku uživatele
 [Show user detail]
 Zobrazit informaci o osobě
 [To old setting]

@@ -29,8 +29,6 @@ Pamatovat poslední pozici okna
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Pozn.: Položky v menu budou zobrazeny pokud bude správně nastaven alespoň jeden účet. Zkontrolujte zda máte aspoň jeden účet s vyplněným identifikátorem.
 ;file \plugins\CSList\src\cslist.cpp
-[Status]
-Stavy
 [Add new item]
 Přidat nový stav
 [Add]

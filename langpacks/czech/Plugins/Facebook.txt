@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.12.1
+;  Version: 0.3.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -46,34 +46,32 @@ Automaticky ignorovat změnu stavu
 Zobrazit větší avatary
 [Prefer real names instead of nicknames]
 Preferovat reálná jména namísto přezdívek
-[Event notifications]
-Oznámení události
-[Notifications]
-Upozornění
-[News feeds (WARNING: Causes excessive network traffic!)]
-Novinky ze zdi (VAROVÁNÍ: Způsobuje zvýšený síťový přenos dat!)
+[Popup notifications]
+Oznámení
+[Show notifications]
+Zobrazovat upozornění
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
+Zobrazovat příspěvky ze zdi (kanál novinek) (VAROVÁNÍ: Způsobuje zvýšený síťový přenos dat!)
 [News feed types to notify:]
-Upozorňovat na tyto novinky:
+Upozorňovat na tyto příspěvky:
 [Don't show advertising posts]
 Nezobrazovat reklamní příspěvky
-[Other events]
-Jiné události
-[Client notifications]
-Upozornění klienta
-[Friendship notifications]
-Upozornění přátelství
-[Ticker feeds]
-Novinky z panelu
-[Show "On this day" posts at login]
-Zobrazovat příspěvky "V tento den" při přihlášení
-[Use this server for opening links:]
-Pro otevírání odkazů použít tento server:
+[Show friendships changes (when someone removes/approves you)]
+Zobrazovat změny přátelství (když vás někdo odebere nebo potvrdí)
+[Show real-time friends activity (ticker feed)]
+Zobrazit aktivitu přátel v reálném čase (kanál aktivity)
+[Show my "On this day" posts at login]
+Zobrazit vzpomínky (příspěvky "v tento den") po přihlášení
+[Chatroom logging]
+Záznam do skupinových rozhovorů
+[Log notifications into special chatroom]
+Zaznamenávat upozornění do speciálního skupinového rozhovoru
+[Extra]
+Další možnosti
 [Use balloon notifications in system tray instead of popups]
 Místo klasického oznámení použít bubliny v systémové liště
-[Use logging notifications into special chatroom]
-Zaznamenávat upozornění do speciálního skupinového rozhovoru
-[Preview]
-Náhled
+[Use this server for opening links:]
+Pro otevírání odkazů použít tento server:
 [Statuses]
 Stavy
 [Post Miranda statuses to Wall]
@@ -92,8 +90,6 @@ Instrukce:
 Potvrdit
 [Messages]
 Zprávy
-[Receive messages from "inbox" folder only]
-Přijímat pouze zprávy ze složky "příchozí"
 [Keep messages as unread on server (don't send "seen" info)]
 Ponechat zprávy na serveru jako nepřečtené (neodesílat informaci o času přečtení)
 [Show stickers as custom smileys (EXPERIMENTAL)]
@@ -104,24 +100,32 @@ Skupinové rozhovory
 Povolit podporu pro skupinové rozhovory
 [Do not open chat windows on creation]
 Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
+[Automatically join active chats that exist in contact list]
+Automaticky připojit existující skupinové rozhovory v seznamu
 [History synchronization]
 Synchronizace historie
-[Load last messages (24 hours old) on login (EXPERIMENTAL)]
-Načíst poslední zprávy (24 hodin staré) při přihlášení (EXPERIMENTÁLNÍ)
 [Load last messages on opening message window (EXPERIMENTAL)]
 Načíst poslední zprávy při otevření komunikačního okna (EXPERIMENTÁLNÍ)
 [Number of messages to load:]
 Počet zpráv pro načtení:
+[Facebook Login Approval]
+Potvrzení přihlášení Facebooku
+[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
+V rámci zabezpečení vašeho účtu musíte zadat bezpečnostní kód pro přístup přihlášení z neznámých prohlížečů.\n\nKód můžete získat v mobilní Facebook aplikaci na vašem telefonu nebo klikněte dole pro zaslání kódu v SMS.
+[Send SMS]
+Poslat SMS
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
 ;file \protocols\FacebookRM\src\chat.cpp
+[Former]
+Bývalý účastník
 [Myself]
 Já
-[User]
-Uživatel
 [Friend]
 Přítel
+[User]
+Uživatel
 [&Invite user...]
 Pozvat k d&iskusi...
 [&Leave chat session]
@@ -130,6 +134,8 @@ Pozvat k d&iskusi...
 &Detaily uživatele
 [User &history]
 Zobrazit &historii
+[Notifications]
+Upozornění
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Chyba připojení: %s
@@ -137,10 +143,18 @@ Chyba připojení: %s
 Neznámá chyba
 [Login error: Invalid request.]
 Chyba připojení: Neplatný požadavek.
-[Login error: Some Facebook things are required.]
-Chyba připojení: Něco je vyžadováno.
+[You entered too many invalid verification codes. Plugin will disconnect.]
+Zadali jste příliš mnoho neplatných ověřovacích kódů. Nyní budete odhlášeni.
+[You entered wrong verification code. Try it again.]
+Zadali jste neplatný ověřovací kód. Zkuste to znovu.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Chyba připojení: Váš účet je dočasně zablokován. Musíte potvrdit toto zařízení z webového prohlížeče.
+[Check last login]
+Zkontrolovavt poslední přihlášení
+[Do you recognize this activity?]
+Poznáváte tuto aktivitu?
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
+Chyba připojení: Je potřeba potvrdit poslední neznámé přihlášení nebo ho zamítnout z webového prohlížeče.
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 Chyba připojení: Facebook si myslí, že je váš počítač nakažen. To můžete vyřešit přihlášením ve vašem prohlížeči v "privátním režimu", kdy následně potvrdíte antivirovou kontrolu.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
@@ -161,6 +175,10 @@ Uživatel nezadal captcha kód.
 Vypršel čas na odeslání zprávy.
 [Status update was successful.]
 Stav byl úspěšně aktualizován.
+[Error occurred when requesting verification SMS code.]
+Nastala chyba při požadavku o ověřovací SMS kód.
+[Verification SMS code was sent to your mobile phone.]
+Ověřovací SMS kód byl odeslán na váš mobilní telefon.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Zadejte uživatelské jméno.
@@ -199,7 +217,7 @@ Nastala chyba při odebírání kontaktu z vašeho seznamu přátel.
 [Request for friendship was sent.]
 Požadavek o přátelství byl odeslán.
 [Error occurred when requesting friendship.]
-Nastala chyba při žádání o přátelství.
+Nastala chyba při požadavku o přátelství.
 [Request for friendship was accepted.]
 Požadavek o přátelství byl přijat.
 [Error occurred when accepting friendship request.]
@@ -219,20 +237,6 @@ Výchozí
 << Kontakty
 [What's on your mind, %s?]
 Co se vám honí hlavou, %s?
-[Sample event]
-Ukázková událost
-[Sample request]
-Ukázkový požadavek
-[Sample newsfeed]
-Ukázková příspěvek ze zdi
-[Sample notification]
-Ukázkové upozornění
-[Sample friendship]
-Ukázkové přátelství
-[Sample ticker]
-Ukázková novinka z panelu
-[Sample on this day]
-Ukázkový příspěvek v tento den
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 samolepku
@@ -246,6 +250,10 @@ soubor
 fotky
 [a photo]
 fotku
+[a video]
+video
+[a GIF]
+GIF
 [User sent %s:]
 Uživatel odeslal %s:
 [User sent an unsupported attachment. Open your browser to see it.]
@@ -262,6 +270,14 @@ Ve stavu offline nelze odesílat zprávy.
 Kontakt je zpět mezi vašimi přáteli.
 [Contact is no longer on server-list.]
 Kontakt již není mezi vašimi přáteli.
+[Loading history started.]
+Načítání historie spuštěno.
+[Loading messages: %d/%d]
+Načteno zpráv: %d/%d
+[Loading history completed.]
+Načítání historie dokončeno.
+[<attachment without text>]
+<příloha bez textu>
 [On this day]
 V tento den
 ;file \protocols\FacebookRM\src\proto.cpp
@@ -285,20 +301,32 @@ Komunikace
 Sdílet stav...
 [Own wall]
 Vlastní zeď
-[Loading newsfeeds...]
-Načítání novinek ze zdi...
-[Checking friend requests...]
-Kontrola žádostí o přátelství...
-[Refreshing buddy list...]
-Obnovování seznamu kontaktů...
+[Loading wall posts...]
+Načítání příspěvků ze zdi...
+[Loading friendship requests...]
+Načítání požadavků o přátelství...
+[Loading notifications...]
+Načítání upozornění...
+[Loading memories...]
+Načítání vzpomínek...
+[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+Načítání historie již probíhá a nemůže být spuštěno pro více kontaktů najednou. Počkejte prosím na jeho dokončení.
+[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
+Toto načte všechny zprávy ze serveru. Abyste zabránili duplicitním zprávám ve vaší historii, před pokračováním ručně smažte existující zpráv.\nNačítání může nějakou dobu trvat, buďte trpěliví.\n\nPřejete si pokračovat?
 [Do you want to cancel your friendship with '%s'?]
 Přejete si zrušit vaše přátelství s '%s'?
-[News feeds]
-Novinky
+[Client errors]
+Chyby klienta
+[Wall posts]
+Příspěvky ze zdi
+[Other events]
+Jiné události
 [Friendship events]
 Přátelství
-[On this day posts]
-Příspěvky v tento den
+[Real-time friends activity]
+Aktivita přátel v reálném čase
+[Memories]
+Vzpomínky
 [Visit profile]
 Zobrazit profil
 [Visit notifications]
@@ -315,8 +343,6 @@ Ostatní události
 Přátelství
 [Ticker event]
 Ticker události
-[On this day event]
-Příspěvek v tento den
 [Message read: %s by %s]
 Zpráva byla přečtena: %s - %s
 [Message read: %s]
@@ -338,10 +364,24 @@ Konverzace
 Zpráva přečtena
 [Captcha form icon]
 Ikona okna s captcha kódem
+[Angry]
+To mě štve
+[Haha]
+Haha
+[Like]
+To se mi líbí
+[Love]
+Super
+[Sad]
+To mě mrzí
+[Wow]
+Paráda
 [Visit friendship details]
 Zobrazit podrobnosti o přátelství
 [Visit conversation]
 Zobrazit konverzaci
+[Load history]
+Načíst historii
 [Cancel friendship]
 Zrušit přátelství
 [Cancel friendship request]
@@ -354,9 +394,11 @@ Potvrdit přátelství
 Odmítnout požadavek o přátelství
 [Services...]
 Služby
-[Refresh Buddy List]
-Obnovit seznam kontaktů
-[Check Friends Requests]
+[Check friendship requests]
 Zkontrolovat požadavky o přátelství
-[Check Newsfeeds]
+[Check newsfeeds]
 Zkontrolovat novinky ze zdi
+[Check memories]
+Zkontrolovat vzpomínky
+[Check notifications]
+Zkontrolovat upozornění

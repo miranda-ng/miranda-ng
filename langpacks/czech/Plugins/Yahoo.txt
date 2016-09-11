@@ -2,14 +2,12 @@
 ;============================================================
 ;  File: Yahoo.dll
 ;  Plugin: Yahoo protocol
-;  Version: 0.11.0.2
+;  Version: 0.95.5.1
 ;  Authors: Gennady Feldman
 ;============================================================
 [Yahoo protocol support for Miranda NG.]
 Yahoo protokol pro Mirandu NG.
 ;file \protocols\Yahoo\res\Yahoo.rc
-[Yahoo]
-Yahoo
 [ID:]
 Identifikátor:
 [Password:]
@@ -30,8 +28,6 @@ Automaticky přihlásit ke službám Yahoo
 Zobrazit upozornění serveru
 [Show Errors]
 Zobrazit chyby
-[Yahoo Japan]
-Yahoo (Japonsko)
 [Create a new Yahoo account]
 Zřídit nový účet v síti Yahoo
 [Connection Settings]
@@ -165,8 +161,6 @@ Filtrování
 Nová pošta
 [%s plugin connections]
 %s - spojení se serverem
-[ID]
-ID
 [Please enter your Yahoo ID in Options -> Network -> Yahoo]
 Zadejte prosím svůj identifikátor v Možnosti -> Sítě -> Yahoo
 [Please enter your Yahoo password in Options -> Network -> Yahoo]

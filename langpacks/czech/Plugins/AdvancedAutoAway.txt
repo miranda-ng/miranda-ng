@@ -104,10 +104,16 @@ Doba zobrazení
 s
 [Set window location]
 Umístit na souřadnice
+[Left]
+Vlevo
+[Top]
+Nahoře
 [Set window size]
 Velikost okna
-[x]
-x
+[Width]
+Šířka
+[Height]
+Výška
 [Allow override]
 Povolit potlačení
 [Note: status profiles can be created in the 'Status profiles' options screen]
@@ -154,7 +160,7 @@ Zobrazit při pokusu o navázání spojení
 Zobrazit po úspěšném navázání spojení
 [Show other messages]
 Zobrazit ostatní zprávy
-[From Popup plugin]
+[From popup plugin]
 Globální nastavení
 [Custom]
 Vlastní

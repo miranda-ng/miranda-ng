@@ -37,7 +37,6 @@
 [Set main nick]
 [Please enter the notice text]
 [Please enter the channel name to invite to]
-[NickServ]
 [Register nick]
 [Auth nick]
 [Remind password]

@@ -156,8 +156,6 @@ Rozhovor
 Nabídka &uživatele
 [User &details]
 &Detaily uživatele
-[&Emoticons]
-&Smajlíky
 [&Add]
 Přid&at
 [&History]
@@ -274,8 +272,6 @@ Zko&pírovat vše
 Vybr&at vše
 [Word lookup]
 Vyhledávání slova
-[Bing]
-Bing
 [Yandex]
 Yandex
 [Wikipedia (en)]
@@ -284,10 +280,6 @@ Wikipedia (en)
 Mapy Google
 [Google Translate]
 Překladač Google
-[Yahoo]
-Yahoo
-[Foodnetwork]
-Foodnetwork
 [C&lear log]
 Vy&mazat záznam
 [&Open link]
@@ -479,8 +471,6 @@ Vložit text a poslat
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
 Citovat
-[Smiley]
-Smajlík
 [User menu]
 Nabídka kontaktu
 [User details]
@@ -501,8 +491,6 @@ Zobrazit osobní údaje
 Zobrazit historii
 [Quote text]
 Citovat text
-[Insert emoticon]
-Vložit smajlík
 [User menu - %s]
 Uživatelské menu - %s
 [Sending in progress: %d message(s) left...]
@@ -512,8 +500,6 @@ Odesílání; počet zpráv k odeslání: %d
 [Last message received on %s at %s.]
 Poslední zpráva přijata %s v %s.
 ;file \plugins\Scriver\src\msglog.cpp
-[Unknown contact]
-Neznámý kontakt
 [Me]
 Já
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -605,8 +591,6 @@ Na telefonu
 ** nové kontakty **
 [** Unknown contacts **]
 ** neznámé kontakty **
-[Show balloon popup (unsupported system)]
-Zobrazit oznámení bublinami (nepodporováno)
 [Message sessions]
 Komunikace
 [Typing notify]
@@ -831,8 +815,6 @@ Filtr
 Manager
 [Nick list]
 Seznam přezdívek
-[Insert a smiley]
-Vloží vybraný smajlík
 [Make the text bold (CTRL+B)]
 Změní styl písma na tučné (CTRL+B)
 [Make the text italicized (CTRL+I)]

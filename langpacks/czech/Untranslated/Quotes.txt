@@ -12,7 +12,7 @@
 [Type &Stock Name or Symbol:]
 [&Watched Quotes:]
 [Status &Message:]
-[There is no to show]
+[There is nothing to show]
 [Enter positive number.]
 [Quotes]
 [Refresh All Quotes\\Rates]

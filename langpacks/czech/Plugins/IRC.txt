@@ -16,8 +16,6 @@ Aktivovat
 Název serveru
 [Internet address]
 Adresa
-[SSL]
-SSL
 [Port range]
 Rozsah portů
 [Password]
@@ -258,10 +256,6 @@ Soukr. zprávy
 Zprávy
 [Notices]
 Poznámky
-[CTCP]
-CTCP
-[DCC]
-DCC
 [Ignore mask (nick!user@host)]
 Maska (přezdívka!uživ_jméno@hostitel)
 [Network (*)]
@@ -336,10 +330,10 @@ Počet kanálů: %u
 online od %s, nečinnost %s
 [Change nickname]
 Změnit přezdívku
-[IRC error]
-Chyba sítě IRC
 [Unknown]
 neznámý
+[IRC error]
+Chyba sítě IRC
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Zadejte masku (přezdívka!uživ_jméno@hostitel)\nPozn. Nelze ignorovat uživatele uvedené v seznamu kontaktů
 [Ignore]
@@ -648,8 +642,6 @@ Vykopnout
 
 [Invite to channel]
 Pozvat na &kanál
-[NickServ]
-
 [Register nick]
 
 [Auth nick]

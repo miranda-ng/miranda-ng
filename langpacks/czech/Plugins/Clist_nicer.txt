@@ -628,7 +628,7 @@ Nastavit stavové módy
 Požadovanou operaci lze provést až po výběru osoby ze seznamu kontaktů.
 [Parameter mismatch]
 Parametry nesouhlasí
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
+[The service %S specified by the %S button definition was not found. You may need to install additional plugins.]
 Služba %s, specifikovaná tlačítkem %s, nebyla nalezena. Může být potřeba nainstalovat chybějící doplněk.
 [Service failure]
 Chyba služby
@@ -762,7 +762,7 @@ minut
 hodin
 [Days]
 dnů
-[Current view mode: %s]
+[Current view mode: %S]
 Režim zobrazení: %s
 [Filtering]
 Filtrování

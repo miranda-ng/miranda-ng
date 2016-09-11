@@ -136,7 +136,7 @@ Uložit záznam
 Doba zobrazení
 [Delay]
 Prodleva
-[From Popup plugin]
+[From popup plugin]
 Globální nastavení
 [Permanent]
 Trvale

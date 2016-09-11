@@ -16,8 +16,6 @@ Identifikátor:
 Zobr. jméno:
 [Password:]
 Heslo:
-[Login Server:]
-Server:
 [AIM Options]
 Možnosti AIM
 [Message Delivery Confirmation]
@@ -36,6 +34,8 @@ Vypnout informace o typu účtu
 Vypnout rozšířené stavové ikony
 [Notify about new mail]
 Upozornit na novou poštu
+[Manage Server Groups]
+Spravovat skupiny na serveru
 [Advanced Options]
 Pro experty
 [Instant Idle on Login]
@@ -44,22 +44,22 @@ Po přihlášení nečinnost
 Data přenášet jen přes proxy server
 [Masquerade as a Sidekick/Hiptop User]
 Vydávat se za uživatele Sidekick/Hiptop
-[* Some changes will take effect the next time you connect to the AIM network]
-* Některé změny se projeví až po opětovném připojení k síti AIM.
 [Connection]
 Spojení
+[Login Server:]
+Server:
 [Port:]
 Port:
 [Reset]
 Reset
 [Disable SSL]
 Vypnout SSL
-[Manage Server Groups]
-Spravovat skupiny na serveru
 [Force Single Client]
 Vynutit jediného klienta
 [Use "clientlogin" (recommended)]
 Použít "clientlogin" (doporučeno)
+[* Some changes will take effect the next time you connect to the AIM network]
+* Některé změny se projeví až po opětovném připojení k síti AIM.
 [Save Profile]
 Uložit profil
 [Create a new AIM account]
@@ -360,8 +360,6 @@ Potvrzeno
 Nepotvrzeno
 [Blocked list]
 Seznam zablokovaných
-[AOL]
-AOL
 [Foreground Color]
 Barva popředí
 [Background Color]

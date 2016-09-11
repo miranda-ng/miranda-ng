@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.5.1
+;  Version: 0.11.6.0
 ;  Authors: Miranda NG Team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -28,8 +28,6 @@ Zobrazovat události konverzace (např. uživatel ukončil komunikaci)
 Ověřovací kód
 [Cancel]
 Zrušit
-[Steam Guard]
-Steam Guard
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
 Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadáním speciálního kódu, který jsme vám právě odeslali na vaši e-mailovou adresu.
 [Go to email domain]
@@ -42,6 +40,8 @@ Zadejte heslo
 Uložit heslo
 [Enter the password to continue.]
 Zadejte heslo pro pokračování.
+[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
+Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadáním SMS kódu, který jsme vám právě odeslali na váš mobilní telefon.
 ;file \protocols\Steam\src\main.cpp
 [Steam game]
 Steam hra
@@ -99,8 +99,6 @@ Ikona protokolu
 Herní ikona
 [%s connection]
 %s - spojení se serverem
-[SteamID]
-SteamID
 [You cannot send messages when you are offline.]
 Ve stavu offline nelze odesílat zprávy.
 ;file \protocols\Steam\src\steam_utils.cpp

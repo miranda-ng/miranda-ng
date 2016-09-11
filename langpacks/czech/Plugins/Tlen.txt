@@ -16,8 +16,6 @@ Heslo:
 Uložit heslo
 [Create new account]
 Zřídit nový účet
-[Tlen]
-Tlen
 [Options]
 Možnosti
 [Automatically reconnect after unintentional disconnection]
@@ -88,7 +86,7 @@ Pozadí
 Text
 [Delay]
 Prodleva
-[&From Popup plugin]
+[&From popup plugin]
 G&lobální nastavení
 [&Custom]
 &Vlastní

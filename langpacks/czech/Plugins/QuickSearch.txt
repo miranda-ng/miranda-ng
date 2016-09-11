@@ -107,8 +107,6 @@ Znaménkové
 Hexadecimální
 [String]
 String
-[IP]
-IP
 [TimeStamp]
 Časový údaj
 [Module:]

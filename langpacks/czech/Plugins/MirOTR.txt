@@ -139,8 +139,6 @@ Ukončeno (OTR)
 Privátní (OTR)
 [OTR not secure]
 Nezabezpečeno (OTR)
-[OTR]
-Šifrování (OTR)
 [Refresh]
 Aktualizovat
 [Generating new private key for protocol '%s'.\nPlease Wait...]
