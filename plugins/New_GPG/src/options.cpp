@@ -424,7 +424,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_SET_BIN_PATH:
 			{
 				GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", L"*.exe", TranslateT("EXE Executables"));
-				wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe");
+				CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe")));
 				SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 				bool gpg_exists = false;
 				{
@@ -463,34 +463,25 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 													MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), L"Warning", MB_OK); */
 					}
 				}
-				char mir_path[MAX_PATH];
-				char *atmp = mir_u2a(tmp);
-				mir_free(tmp);
-				PathToAbsolute("\\", mir_path);
-				char* p_path = NULL;
-				if (StriStr(atmp, mir_path)) {
-					p_path = atmp + mir_strlen(mir_path);
-					tmp = mir_a2u(p_path);
-					SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
+				wchar_t mir_path[MAX_PATH];
+				PathToAbsoluteW(L"\\", mir_path);
+				if (tmp.Find(mir_path, 0) == 0) {
+					CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
+					SetDlgItemText(hwndDlg, IDC_BIN_PATH, path);
 				}
 			}
 			break;
 		case IDC_SET_HOME_DIR:
 			{
 				GetFolderPath(TranslateT("Set home directory"), "szHomePath");
-				wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+				CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"")));
 				SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
-				char mir_path[MAX_PATH];
-				char *atmp = mir_u2a(tmp);
-				mir_free(tmp);
-				PathToAbsolute("\\", mir_path);
-				char* p_path = NULL;
-				if (StriStr(atmp, mir_path)) {
-					p_path = atmp + mir_strlen(mir_path);
-					tmp = mir_a2u(p_path);
+				wchar_t mir_path[MAX_PATH];
+				PathToAbsoluteW(L"\\", mir_path);
+				if (tmp.Find(mir_path, 0) == 0) {
+					CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
 					SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 				}
-				mir_free(atmp);
 			}
 			break;
 		default:

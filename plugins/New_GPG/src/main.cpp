@@ -787,25 +787,23 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			wchar_t *path = (wchar_t*)mir_alloc(sizeof(wchar_t) * MAX_PATH);
+			CMStringW path;
 			bool gpg_exists = false, lang_exists = false;
 			{
-				ptrA mir_path((char*)mir_alloc(sizeof(char) * MAX_PATH));
-				PathToAbsolute("\\", mir_path);
-				SetCurrentDirectoryA(mir_path);
+				wchar_t mir_path[MAX_PATH];
+				PathToAbsoluteW(L"\\", mir_path);
+				SetCurrentDirectoryW(mir_path);
 				
-				ptrW tmp(mir_a2u(mir_path));
+				CMStringW gpg_path(mir_path); gpg_path.Append(L"\\GnuPG\\gpg.exe");
+				CMStringW gpg_lang_path(mir_path); gpg_lang_path.Append(L"\\GnuPG\\gnupg.nls\\en@quot.mo");
 
-				wstring gpg_path(tmp); gpg_path += L"\\GnuPG\\gpg.exe";
-				wstring gpg_lang_path(tmp); gpg_lang_path += L"\\GnuPG\\gnupg.nls\\en@quot.mo";
-
-				if (boost::filesystem::exists(gpg_path)) {
+				if (boost::filesystem::exists(gpg_path.c_str())) {
 					gpg_exists = true;
-					mir_wstrcpy(path, L"GnuPG\\gpg.exe");
+					path = L"GnuPG\\gpg.exe";
 				}
-				else mir_wstrcpy(path, gpg_path.c_str());
+				else path = gpg_path;
 				
-				if (boost::filesystem::exists(gpg_lang_path))
+				if (boost::filesystem::exists(gpg_lang_path.c_str()))
 					lang_exists = true;
 				if (gpg_exists && !lang_exists)
 					MessageBox(0, TranslateT("GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned."), TranslateT("Warning"), MB_OK);
@@ -815,13 +813,12 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				ptrW tmp;
 				if (!gpg_exists) {
-					tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, path, &len) == ERROR_SUCCESS) ? path : L"");
+					tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void*)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
 					if (tmp[0])
 						if (!boost::filesystem::exists((wchar_t*)tmp))
 							MessageBox(0, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 				}
-				else tmp = mir_wstrdup(path);
-				mir_free(path);
+				else tmp = mir_wstrdup(path.c_str());
 
 				SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 				if (gpg_exists/* && lang_exists*/) {
@@ -856,12 +853,11 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				ptrW tmp(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
 				if (!tmp[0]) {
-					mir_free(tmp);
-					char *mir_path = (char*)mir_alloc(sizeof(char) * MAX_PATH);
-					PathToAbsolute("\\", mir_path);
-					mir_strcat(mir_path, "\\gpg");
-					if (_access(mir_path, 0) != -1) {
-						tmp = mir_wstrdup(toUTF16(mir_path).c_str());
+					wchar_t mir_path[MAX_PATH];
+					PathToAbsoluteW(L"\\", mir_path);
+					mir_wstrcat(mir_path, L"\\gpg");
+					if (_waccess(mir_path, 0) != -1) {
+						tmp = mir_wstrdup(mir_path);
 						MessageBox(0, TranslateT("\"GPG\" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set."), TranslateT("Info"), MB_OK);
 					}
 					else {
@@ -887,34 +883,27 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			case IDC_SET_BIN_PATH:
 				{
 					GetFilePath(L"Choose gpg.exe", "szGpgBinPath", L"*.exe", L"EXE Executables");
-					wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe");
+					CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe")));
 					SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
-					char mir_path[MAX_PATH];
-					char *atmp = mir_u2a(tmp);
-					mir_free(tmp);
-					PathToAbsolute("\\", mir_path);
-					char* p_path = NULL;
-					if (StriStr(atmp, mir_path)) {
-						p_path = atmp + mir_strlen(mir_path);
-						tmp = mir_a2u(p_path);
-						SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
+					wchar_t mir_path[MAX_PATH];
+					PathToAbsoluteW(L"\\", mir_path);
+					if (tmp.Find(mir_path, 0) == 0) {
+						CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
+						SetDlgItemText(hwndDlg, IDC_BIN_PATH, path);
 					}
 				}
 				break;
 			case IDC_SET_HOME_DIR:
 				{
 					GetFolderPath(L"Set home directory", "szHomePath");
-					wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+					CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"")));
 					SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
-					char mir_path[MAX_PATH];
-					char *atmp = mir_u2a(tmp);
-					mir_free(tmp);
-					PathToAbsolute("\\", mir_path);
-					char* p_path = NULL;
-					if (StriStr(atmp, mir_path)) {
-						p_path = atmp + mir_strlen(mir_path);
-						tmp = mir_a2u(p_path);
-						SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
+					wchar_t mir_path[MAX_PATH];
+					PathToAbsoluteW(L"\\", mir_path);
+					PathToAbsoluteW(L"\\", mir_path);
+					if (tmp.Find(mir_path, 0) == 0) {
+						CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
+						SetDlgItemText(hwndDlg, IDC_HOME_DIR, path);
 					}
 				}
 				break;
@@ -923,10 +912,9 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					wchar_t tmp[512];
 					GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, _countof(tmp));
 					if (tmp[0]) {
-						char *mir_path = new char[MAX_PATH];
-						PathToAbsolute("\\", mir_path);
-						SetCurrentDirectoryA(mir_path);
-						delete[] mir_path;
+						wchar_t mir_path[MAX_PATH];
+						PathToAbsoluteW(L"\\", mir_path);
+						SetCurrentDirectoryW(mir_path);
 						if (!boost::filesystem::exists(tmp)) {
 							MessageBox(0, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 							break;
@@ -994,10 +982,9 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					wchar_t tmp[512];
 					GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, _countof(tmp));
 					if (tmp[0]) {
-						char *mir_path = new char[MAX_PATH];
-						PathToAbsolute("\\", mir_path);
-						SetCurrentDirectoryA(mir_path);
-						delete[] mir_path;
+						wchar_t mir_path[MAX_PATH];
+						PathToAbsoluteW(L"\\", mir_path);
+						SetCurrentDirectoryW(mir_path);
 						if (!boost::filesystem::exists(tmp)) {
 							MessageBox(0, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 							break;
@@ -1046,13 +1033,12 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					db_set_ws(NULL, szGPGModuleName, "szHomePath", tmp);
 					{
-						wchar_t *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+						ptrW path(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
 						DWORD dwFileAttr = GetFileAttributes(path);
 						if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 							dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
 							SetFileAttributes(path, dwFileAttr);
 						}
-						mir_free(path);
 					}
 				}
 				{
