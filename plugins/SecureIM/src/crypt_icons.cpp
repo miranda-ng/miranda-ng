@@ -56,7 +56,7 @@ HANDLE mode2clicon(int mode, int type)
 
 	ICON_CACHE &p = getCacheItem(mode, type);
 	if (p.hCLIcon == NULL)
-		p.hCLIcon = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)p.icon, 0);
+		p.hCLIcon = ExtraIcon_AddIcon(p.icon);
 
 	return p.hCLIcon;
 }

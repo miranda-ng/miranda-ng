@@ -42,8 +42,6 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage);
 
 void DefaultExtraIcons_Load();
 
-HANDLE ExtraIcon_Add(HICON hIcon);
-
 void fnReloadExtraIcons();
 void fnSetAllExtraIcons(MCONTACT hContact);
 

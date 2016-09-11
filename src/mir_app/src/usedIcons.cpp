@@ -55,7 +55,7 @@ static Icon* FindIcon(const char *icolibName)
 	if (icon->hImage == INVALID_HANDLE_VALUE) {
 		HICON hIcon = IcoLib_GetIcon(icon->name);
 		if (hIcon != NULL) {
-			icon->hImage = ExtraIcon_Add(hIcon);
+			icon->hImage = ExtraIcon_AddIcon(hIcon);
 			IcoLib_ReleaseIcon(hIcon);
 		}
 	}

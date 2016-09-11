@@ -78,7 +78,7 @@ static HANDLE hHookIconsChanged;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int hLangpack)
+MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int _hLangpack)
 {
 	if (sid == NULL || sid->cbSize != sizeof(StatusIconData))
 		return 1;
@@ -89,7 +89,7 @@ MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int hLangpack)
 
 	p = new StatusIconMain;
 	memcpy(&p->sid, sid, sizeof(p->sid));
-	p->hLangpack = hLangpack;
+	p->hLangpack = _hLangpack;
 	p->sid.szModule = mir_strdup(sid->szModule);
 	if (sid->flags & MBF_UNICODE)
 		p->sid.tszTooltip = mir_wstrdup(sid->wszTooltip);

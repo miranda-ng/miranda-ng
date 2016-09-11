@@ -278,7 +278,7 @@ HANDLE hEventExtraImageListRebuilding, hEventExtraImageApplying, hEventExtraClic
 static bool bImageCreated = false;
 static HIMAGELIST hExtraImageList;
 
-HANDLE ExtraIcon_Add(HICON hIcon)
+MIR_APP_DLL(HANDLE) ExtraIcon_AddIcon(HICON hIcon)
 {
 	if (hExtraImageList == 0 || hIcon == 0)
 		return INVALID_HANDLE_VALUE;
@@ -485,11 +485,6 @@ MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact)
 	return extra->setIcon((INT_PTR)hExtraIcon, hContact, NULL);
 }
 
-static INT_PTR svcExtraIcon_Add(WPARAM wParam, LPARAM)
-{
-	return (INT_PTR)ExtraIcon_Add((HICON)wParam);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 
 static IconItem iconList[] =
@@ -501,9 +496,7 @@ static IconItem iconList[] =
 
 void LoadExtraIconsModule()
 {
-	// Services
-	CreateServiceFunction(MS_CLIST_EXTRA_ADD_ICON, svcExtraIcon_Add);
-
+	// Events
 	hEventExtraClick = CreateHookableEvent(ME_CLIST_EXTRA_CLICK);
 	hEventExtraImageApplying = CreateHookableEvent(ME_CLIST_EXTRA_IMAGE_APPLY);
 	hEventExtraImageListRebuilding = CreateHookableEvent(ME_CLIST_EXTRA_LIST_REBUILD);

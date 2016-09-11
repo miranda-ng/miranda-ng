@@ -266,7 +266,7 @@ static ProtoInfo* FindProto(const char *proto)
 	if (hIcon == NULL)
 		return NULL;
 
-	HANDLE hImage = ExtraIcon_Add(hIcon);
+	HANDLE hImage = ExtraIcon_AddIcon(hIcon);
 	if (hImage == INVALID_HANDLE_VALUE)
 		return NULL;
 

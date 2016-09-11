@@ -722,7 +722,7 @@ HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer)
 		fiList[nFICount].dwArray = val;
 
 		if (hIcon != NULL) {
-			hFoundImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
+			hFoundImage = ExtraIcon_AddIcon(hIcon);
 			fiList[nFICount].hRegisteredImage = hFoundImage;
 			DestroyIcon(hIcon);
 		}

@@ -24,13 +24,6 @@ const
   EMPTY_EXTRA_ICON = $FFFF;
 
 const
-// Adding icon to extra image list.
-// Used for EXTRAICON_TYPE_CALLBACK extra icons
-//
-// wparam = (HICON)hIcon
-// lparam = 0 (unused)
-// return HANDLE hImage on success or INVALID_HANDLE_VALUE on failure
-  MS_CLIST_EXTRA_ADD_ICON:PansiChar = 'CListFrames/AddIconToExtraImageList';
 
 //called with wparam=hContact
   ME_CLIST_EXTRA_IMAGE_APPLY:PansiChar = 'CListFrames/OnExtraImageApply';

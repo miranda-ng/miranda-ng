@@ -32,14 +32,6 @@ Boston, MA 02111-1307, USA.
 
 #define EMPTY_EXTRA_ICON  0xFFFF
 
-// Adding icon to extra image list.
-// Used for EXTRAICON_TYPE_CALLBACK extra icons
-//
-// wparam = (HICON)hIcon
-// lparam = 0 (unused)
-// return HANDLE hImage on success or INVALID_HANDLE_VALUE on failure
-#define MS_CLIST_EXTRA_ADD_ICON     "CListFrames/AddIconToExtraImageList"
-
 //called with wparam=hContact
 #define ME_CLIST_EXTRA_IMAGE_APPLY  "CListFrames/OnExtraImageApply"
 
@@ -123,5 +115,10 @@ EXTERN_C MIR_APP_DLL(int) ExtraIcon_SetIcon(HANDLE hExtraIcon, MCONTACT hContact
 EXTERN_C MIR_APP_DLL(int) ExtraIcon_SetIconByName(HANDLE hExtraIcon, MCONTACT hContact, const char *icoName);
 
 EXTERN_C MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact);
+
+// Adding icon to extra image list.
+// Used for EXTRAICON_TYPE_CALLBACK extra icons
+
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_AddIcon(HICON hIcon);
 
 #endif // __M_EXTRAICONS_H__

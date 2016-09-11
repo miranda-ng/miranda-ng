@@ -279,3 +279,4 @@ Srmm_AddIcon @278
 Srmm_GetNthIcon @279 
 Srmm_ModifyIcon @280 
 Srmm_RemoveIcon @281
+ExtraIcon_AddIcon @282
