@@ -338,11 +338,11 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags, int
 
 	mir_snprintf(setting, "Slot_%s", name);
 	int slot = db_get_w(NULL, MODULE_NAME, setting, -100);
-	if (slot == 0xFFFF)
+	if (slot == EMPTY_EXTRA_ICON)
 		slot = -1;
 	else if (slot == -100) {
 		if (flags & EIF_DISABLED_BY_DEFAULT) {
-			db_set_w(NULL, MODULE_NAME, setting, 0xFFFF);
+			db_set_w(NULL, MODULE_NAME, setting, EMPTY_EXTRA_ICON);
 			slot = -1;
 		}
 		else slot = 1;
