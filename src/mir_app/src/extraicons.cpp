@@ -328,18 +328,25 @@ void fnSetAllExtraIcons(MCONTACT hContact)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Services
+// external functions
 
-static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int _hLang)
+static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags, int _hLang)
 {
 	char setting[512];
 	mir_snprintf(setting, "Position_%s", name);
 	extra->setPosition(db_get_w(NULL, MODULE_NAME, setting, 1000));
 
 	mir_snprintf(setting, "Slot_%s", name);
-	int slot = db_get_w(NULL, MODULE_NAME, setting, 1);
-	if (slot == (WORD)-1)
+	int slot = db_get_w(NULL, MODULE_NAME, setting, -100);
+	if (slot == 0xFFFF)
 		slot = -1;
+	else if (slot == -100) {
+		if (flags & EIF_DISABLED_BY_DEFAULT) {
+			db_set_w(NULL, MODULE_NAME, setting, 0xFFFF);
+			slot = -1;
+		}
+		else slot = 1;
+	}
 	extra->setSlot(slot);
 
 	extra->m_hLangpack = _hLang;
@@ -381,7 +388,7 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int _hLang)
 
 EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon, 
 	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon,
-	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int _hLang)
+	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int flags, int _hLang)
 {
 	// EXTRAICON_TYPE_CALLBACK 
 	if (IsEmpty(name) || IsEmpty(description))
@@ -399,12 +406,12 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 
 	int id = registeredExtraIcons.getCount() + 1;
 	BaseExtraIcon *extra = new CallbackExtraIcon(id, name, desc, descIcon == NULL ? "" : descIcon, RebuildIcons, ApplyIcon, OnClick, onClickParam);
-	EI_PostCreate(extra, name, _hLang);
+	EI_PostCreate(extra, name, flags, _hLang);
 	return (HANDLE)id;
 }
 
 EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, const char *descIcon,
-	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int _hLang)
+	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int flags, int _hLang)
 {
 	if (IsEmpty(name) || IsEmpty(description))
 		return 0;
@@ -443,7 +450,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 
 	int id = registeredExtraIcons.getCount() + 1;
 	extra = new IcolibExtraIcon(id, name, desc, descIcon == NULL ? "" : descIcon, OnClick, onClickParam);
-	EI_PostCreate(extra, name, _hLang);
+	EI_PostCreate(extra, name, flags, _hLang);
 	return (HANDLE)id;
 }
 
