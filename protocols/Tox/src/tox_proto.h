@@ -96,7 +96,7 @@ private:
 	void BootstrapTcpRelay(CToxThread *toxThread, const char *address, int port, const char *pubKey);
 
 	void BootstrapNodesFromDb(CToxThread *toxThread, bool isIPv6);
-	void BootstrapNodesFromJson(CToxThread *toxThread, bool isUdp, bool isIPv6);
+	void BootstrapNodesFromJson(CToxThread *toxThread, bool isIPv6);
 	void BootstrapNodes(CToxThread *toxThread);
 
 	void UpdateNodes();

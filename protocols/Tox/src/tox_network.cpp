@@ -62,7 +62,7 @@ void CToxProto::BootstrapNodesFromDb(CToxThread *toxThread, bool isIPv6)
 	}
 }
 
-void CToxProto::BootstrapNodesFromJson(CToxThread *toxThread, bool isUdp, bool isIPv6)
+void CToxProto::BootstrapNodesFromJson(CToxThread *toxThread, bool isIPv6)
 {
 	ptrA json;
 
@@ -98,7 +98,7 @@ void CToxProto::BootstrapNodesFromJson(CToxThread *toxThread, bool isUdp, bool i
 				JSONNode address = node.at("ipv4");
 				JSONNode pubKey = node.at("public_key");
 
-				if (isUdp)
+				if (node.at("status_udp").as_bool())
 				{
 					int port = node.at("port").as_int();
 					BootstrapUdpNode(toxThread, address.as_string().c_str(), port, pubKey.as_string().c_str());
@@ -108,9 +108,10 @@ void CToxProto::BootstrapNodesFromJson(CToxThread *toxThread, bool isUdp, bool i
 						BootstrapUdpNode(toxThread, address.as_string().c_str(), port, pubKey.as_string().c_str());
 					}
 				}
-				else
+
+				if (node.at("status_tcp").as_bool())
 				{
-					JSONNode tcpPorts = root.at("tcp_ports").as_array();
+					JSONNode tcpPorts = node.at("tcp_ports").as_array();
 					for (size_t i = 0; i < tcpPorts.size(); i++)
 					{
 						int port = tcpPorts[i].as_int();
@@ -133,7 +134,7 @@ void CToxProto::BootstrapNodes(CToxThread *toxThread)
 	bool isUdp = getBool("EnableUDP", 1);
 	bool isIPv6 = getBool("EnableIPv6", 0);
 	BootstrapNodesFromDb(toxThread, isIPv6);
-	BootstrapNodesFromJson(toxThread, isUdp, isIPv6);
+	BootstrapNodesFromJson(toxThread, isIPv6);
 }
 
 void CToxProto::UpdateNodes()
@@ -264,6 +265,7 @@ void CToxProto::PollingThread(void*)
 	CToxThread toxThread(options, &error);
 	if (error != TOX_ERR_NEW_OK)
 	{
+		SetStatus(ID_STATUS_OFFLINE);
 		debugLogA(__FUNCTION__": failed to initialize tox core (%d)", error);
 		ShowNotification(ToxErrorToString(error), TranslateT("Unable to initialize Tox core"), MB_ICONERROR);
 		tox_options_free(options);
