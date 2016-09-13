@@ -94,7 +94,12 @@ struct facebook_chatroom
 	bool is_subscribed;
 	bool read_only;
 
-	facebook_chatroom(std::string thread_id) : thread_id(thread_id) {}
+	facebook_chatroom(std::string thread_id) : thread_id(thread_id) {
+		this->can_reply = true;
+		this->is_archived = false;
+		this->is_subscribed = true;
+		this->read_only = false;
+	}
 };
 
 struct facebook_message
@@ -115,7 +120,8 @@ struct facebook_message
 	facebook_message()
 	{
 		this->time = 0;
-		this->isUnread = this->isIncoming = true;
+		this->isUnread = true;
+		this->isIncoming = true;
 		this->isChat = false;
 		this->type = MESSAGE;
 		this->flag_ = 0;
@@ -138,6 +144,7 @@ struct facebook_notification
 		this->time = 0;
 		this->seen = false;
 		this->hWndPopup = NULL;
+		this->icon = NULL;
 	}
 
 	void setIcon(const std::string &iconUrl)

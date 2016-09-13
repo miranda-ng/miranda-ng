@@ -714,8 +714,10 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 				auto participant = participants.find(from_id);
 				if (participant == participants.end()) {
 					// TODO: load name of this participant
-					participant->second.user_id = from_id;
-					proto->AddChatContact(tid.c_str(), participant->second, true);
+					chatroom_participant new_participant;
+					new_participant.user_id = from_id;
+					new_participant.nick = from_id;
+					proto->AddChatContact(tid.c_str(), new_participant, true);
 				}
 
 				participant = participants.find(from_id);

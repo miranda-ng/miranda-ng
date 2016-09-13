@@ -116,9 +116,6 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 		// Better to have something set explicitely as this value is compaired in all communication requests
 	}
 
-	// Delete the request object
-	delete request;
-
 	// Get Facebook's error message
 	if (resp.code == HTTP_CODE_OK) {
 		std::string::size_type pos = resp.data.find("\"error\":");
@@ -164,6 +161,9 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 			}
 		}
 	}
+
+	// Delete the request object
+	delete request;
 
 	return resp;
 }
@@ -490,10 +490,10 @@ bool facebook_client::login(const char *username, const char *password)
 				while (resp.data.find("id=\"approvals_code\"") != std::string::npos) {
 					parent->debugLogA("    Login info: Approval code required.");
 
-					const char *fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
-					const char *nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
+					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
-					CFacebookGuardDialog guardDialog(parent, fb_dtsg);
+					CFacebookGuardDialog guardDialog(parent, fb_dtsg.c_str());
 					if (guardDialog.DoModal() != DIALOG_RESULT_OK) {
 						parent->SetStatus(ID_STATUS_OFFLINE);
 						return false;
@@ -502,7 +502,7 @@ bool facebook_client::login(const char *username, const char *password)
 					// We need verification code from user (he can get it via Facebook application on phone or by requesting code via SMS)
 					const char *givenCode = guardDialog.GetCode();
 
-					request = new SetupMachineRequest(fb_dtsg, nh, "Continue");
+					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
 					request->Body << CHAR_VALUE("approvals_code", givenCode);
 					resp = sendRequest(request);
 
@@ -527,10 +527,10 @@ bool facebook_client::login(const char *username, const char *password)
 
 				// 1) Continue (it might have been sent with approval code above already)
 				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
-					const char *fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
-					const char *nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
+					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
-					request = new SetupMachineRequest(fb_dtsg, nh, "Continue");
+					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
 					resp = sendRequest(request);
 				}
 				
@@ -560,27 +560,27 @@ bool facebook_client::login(const char *username, const char *password)
 						return handle_error("login", FORCE_QUIT);
 					}
 
-					const char *fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
-					const char *nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
+					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
-					request = new SetupMachineRequest(fb_dtsg, nh, "This was me"); // Recognize device (or "This wasn't me" - this will force to change account password)
+					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "This was me"); // Recognize device (or "This wasn't me" - this will force to change account password)
 					resp = sendRequest(request);
 
 					// 3) Save last device
-					fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
-					nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
+					fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 					
-					request = new SetupMachineRequest(fb_dtsg, nh, "Continue");
+					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
 					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
 					resp = sendRequest(request);
 				}
 				
 				// Save this actual device
 				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
-					const char *fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"")).c_str();
-					const char *nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"").c_str();
+					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
-					request = new SetupMachineRequest(fb_dtsg, nh, "Continue");
+					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
 					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
 					resp = sendRequest(request);
 				}
