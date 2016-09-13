@@ -30,24 +30,24 @@ begin
       p^:='*'; inc(p); p^:=#0;
       DBDeleteGroup(0,DBBranch,setting);
 !!}
-      StrCopy(p,opt_Flags); DBDeleteSetting(0,DBBranch,setting);
+      StrCopy(p,opt_Flags); db_unset(0,DBBranch,setting);
     
-      StrCopy(p,opt_TTBTooltip        ); DBDeleteSetting(0,DBBranch,setting);
-      StrCopy(p,opt_TTBTooltipPressed ); DBDeleteSetting(0,DBBranch,setting);
-      StrCopy(p,opt_TTBShowWhenVars   ); DBDeleteSetting(0,DBBranch,setting);
+      StrCopy(p,opt_TTBTooltip        ); db_unset(0,DBBranch,setting);
+      StrCopy(p,opt_TTBTooltipPressed ); db_unset(0,DBBranch,setting);
+      StrCopy(p,opt_TTBShowWhenVars   ); db_unset(0,DBBranch,setting);
 
-      StrCopy(p,opt_TabBTooltip       ); DBDeleteSetting(0,DBBranch,setting);
-      StrCopy(p,opt_TabBTooltipPressed); DBDeleteSetting(0,DBBranch,setting);
+      StrCopy(p,opt_TabBTooltip       ); db_unset(0,DBBranch,setting);
+      StrCopy(p,opt_TabBTooltipPressed); db_unset(0,DBBranch,setting);
 
       for lmenu:=main_menu to HIGH(tMenuType) do
       begin
         pm:=p;
         pm^:=AnsiChar(ORD(lmenu)+ORD('0')); inc(pm);
         pm^:='_'; inc(pm);
-        StrCopy(pm,opt_MenuPopup       ); DBDeleteSetting(0,DBBranch,setting);
-        StrCopy(pm,opt_MenuNameVars    ); DBDeleteSetting(0,DBBranch,setting);
-        StrCopy(pm,opt_MenuShowWhenVars); DBDeleteSetting(0,DBBranch,setting);
-        StrCopy(pm,opt_MenuOptions     ); DBDeleteSetting(0,DBBranch,setting);
+        StrCopy(pm,opt_MenuPopup       ); db_unset(0,DBBranch,setting);
+        StrCopy(pm,opt_MenuNameVars    ); db_unset(0,DBBranch,setting);
+        StrCopy(pm,opt_MenuShowWhenVars); db_unset(0,DBBranch,setting);
+        StrCopy(pm,opt_MenuOptions     ); db_unset(0,DBBranch,setting);
       end;
     end;
   end;
@@ -55,13 +55,13 @@ end;
 
 procedure addSaveUA(setting:pAnsiChar;txt:pWideChar); overload;
 begin
-  if (txt=nil) or (txt^=#0) then DBDeleteSetting(0,DBBranch,setting)
+  if (txt=nil) or (txt^=#0) then db_unset(0,DBBranch,setting)
   else DBWriteUnicode(0,DBBranch,setting,txt);
 end;
 
 procedure addSaveUA(setting:pAnsiChar;txt:pAnsiChar); overload;
 begin
-  if (txt=nil) or (txt^=#0) then DBDeleteSetting(0,DBBranch,setting)
+  if (txt=nil) or (txt^=#0) then db_unset(0,DBBranch,setting)
   else DBWriteString(0,DBBranch,setting,txt);
 end;
 

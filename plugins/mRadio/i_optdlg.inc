@@ -172,7 +172,7 @@ begin
                     if dst<>nil then
                       DBWriteUnicode(i,strCList,optGroup,dst)
                     else
-                      DBDeleteSetting(i,strCList,optGroup);
+                      db_unset(i,strCList,optGroup);
                       
                   end
                   else if loword(wParam)=IDC_ADD_INI then

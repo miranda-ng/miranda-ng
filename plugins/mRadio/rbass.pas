@@ -185,7 +185,7 @@ begin
   chan:=0;
   mFreeMem(StationHeader);
   mFreeMem(ActiveURL);
-  DBDeleteSetting(ActiveContact,strCList,optStatusMsg);
+  db_unset(ActiveContact,strCList,optStatusMsg);
   MyStopBass;
 end;
 

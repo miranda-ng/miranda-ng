@@ -32,12 +32,7 @@ function DBWriteString (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiCha
 function DBWriteUTF8   (hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PAnsiChar):int_ptr;
 function DBWriteUnicode(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar;val:PWideChar):int_ptr;
 
-//function db_free(dbv:PDBVARIANT):int_ptr;
-function DBDeleteSetting(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):int_ptr;
-
 function DBDeleteGroup(hContact:TMCONTACT;szModule:PAnsiChar;prefix:PAnsiChar=nil):int_ptr;
-
-function DBDeleteModule(hContact:TMCONTACT;szModule:PAnsiChar):integer;
 
 function DBGetSettingType(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
 
@@ -204,12 +199,6 @@ begin
   result:=db_set_ws(hContact, szModule, szSetting, val);
 end;
 
-function DBDeleteSetting(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):int_ptr;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  result:=db_unset(hContact, szModule, szSetting);
-end;
-
 type
   ppchar = ^PAnsiChar;
 
@@ -238,7 +227,7 @@ var
 begin
   if (prefix=nil) or (prefix^=#0) then
   begin
-    DBDeleteModule(hContact,szModule);
+    DbModule_Delete(hContact,szModule);
     result:=0;
     exit;
   end;
@@ -307,18 +296,12 @@ begin
 
     if res then
     begin
-      DBDeleteSetting(hContact,szModule,ptr);
+      db_unset(hContact,szModule,ptr);
     end;
     while ptr^<>#0 do inc(ptr);
     inc(ptr);
   end;
   FreeMem(p);
-end;
-
-function DBDeleteModule(hContact:TMCONTACT;szModule:PAnsiChar):integer;
-begin
-  result:=0;
-  CallService(MS_DB_MODULE_DELETE,hContact,lParam(szModule));
 end;
 
 function DBGetSettingType(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;

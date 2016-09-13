@@ -32,7 +32,7 @@ begin
       if SendMessage(hwndList,CLM_GETCHECKMARK,hItem,0)<>0 then
         DBWriteByte(hContact,strCList,ShareOptText,1)
       else
-        DBDeleteSetting(hContact,strCList,ShareOptText);
+        db_unset(hContact,strCList,ShareOptText);
     end;
     hContact:=db_find_next(hContact);
   end;

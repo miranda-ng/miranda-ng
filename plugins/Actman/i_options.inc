@@ -467,7 +467,7 @@ begin
 
     if v2 then
     begin
-      DBDeleteSetting(0,DBBranch,opt_numacts);
+      db_unset(0,DBBranch,opt_numacts);
       SaveMacros;
       MessageBoxW(0,TranslateW(Notes),TranslateW(ConvResult),MB_ICONINFORMATION);
     end;

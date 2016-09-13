@@ -557,7 +557,7 @@ begin
     dbetd.flags      :=cdbetd[i].flags;
     dbetd.eventType  :=cdbetd[i].event;
     dbetd.descr      :=cdbetd[i].descr;
-    CallService(MS_DB_EVENT_REGISTERTYPE,0,TLPARAM(@dbetd));
+    DbEvent_RegisterType(@dbetd);
   end;
 
   // Load WATrack modules

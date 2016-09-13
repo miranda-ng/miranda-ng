@@ -134,8 +134,8 @@ begin
   while j>Length(Presets) do
   begin
     dec(j);
-    StrCopy(p ,IntToStr(num,j)); DBDeleteSetting(0,PluginName,preset);
-    StrCopy(pd,num);             DBDeleteSetting(0,PluginName,descr);
+    StrCopy(p ,IntToStr(num,j)); db_unset(0,PluginName,preset);
+    StrCopy(pd,num);             db_unset(0,PluginName,descr);
   end;
   DBWriteByte(0,PluginName,optOldPreset,OldEQPreset);
   DBWriteByte(0,PluginName,optPresets  ,Length(Presets));

@@ -389,64 +389,14 @@ const
   DETF_MSGWINDOW = 2; // show event in message window
   DETF_NONOTIFY  = 4; // block event notify (e.g. Popups)
 
-const
-  MS_DB_EVENT_REGISTERTYPE:PAnsiChar = 'DB/EventType/Register';
+function DbEvent_RegisterType(et:PDBEVENTTYPEDESCR) : int; stdcall; external AppDll;
 
-  { DB/EventType/Get service (0.7+)
-  Retrieves the previously registered database event type, by module & id.
-    wParam=(WPARAM)(AnsiChar*)szModule
-    lParam=(LPARAM)(int)eventType
-  Returns DBEVENTTYPEDESCR* or NULL, if an event isn't found.
-  }
-  MS_DB_EVENT_GETTYPE:PAnsiChar = 'DB/EventType/Get';
+function DbEvent_GetType(szModule:PAnsiChar; eventType:int) : PDBEVENTTYPEDESCR; stdcall; external AppDll;
 
-  { DB/Event/GetText (0.7.0+)
-    Retrieves the event's text
-      wParam=0
-      lParam=pointer to TDBEVENTGETTEXT
-    dbe should be the valid database event read via MS_DB_EVENT_GET
-    Only events of type EVENTTYPE_MESSAGE are supported.
+function DbEvent_GetTextA(dbei:PDBEVENTINFO; codepage:int) : PAnsiChar; stdcall; external AppDll;
+function DbEvent_GetTextW(dbei:PDBEVENTINFO; codepage:int) : PWideChar; stdcall; external AppDll;
 
-  egt->dbei should be the valid database event read via db_event_get()
-  egt->datatype = DBVT_WCHAR or DBVT_ASCIIZ or DBVT_TCHAR.
-  egt->codepage is any valid codepage, CP_ACP by default.
-
-    Function returns a pointer to a string in the required format.
-    This string should be freed by a call of mir_free
-  }
-type
-  TDBEVENTGETTEXT = record
-    dbei:PDBEVENTINFO;
-    datatype:int; // DBVT_ASCIIZ, DBVT_WCHAR (DBVT_TCHAR)
-    codepage:int;
-  end;
-
-const
-  MS_DB_EVENT_GETTEXT:PAnsiChar = 'DB/Event/GetText';
-
-  { DB/Event/GetIcon (0.7.0.1+)
-    wParam : flags - use LR_SHARED for shared HICON
-    lParam : dbei - pointer to DBEVENTINFO
-    affect : Retrieves the event's icon
-    Returns: HICON (use DestroyIcon to release resources if not LR_SHARED)
-    notes  : dbei should be a valid database event read via MS_DB_EVENT_GET
-             A plugin can register the standard event icon in IcoLib named
-             'eventicon_'+Module+EvtID,like eventicon_ICQ2001. Otherwise, to declare an icon
-             with the non-standard name, you can declare the special service,
-             Module/GetEventIcon<id>, which will retrieve the custom icon handle (HICON). This
-             service function has the same parameters MS_DB_EVENT_GETICON does.
-  }
-  MS_DB_EVENT_GETICON:PAnsiChar = 'DB/Event/GetIcon';
-
-{ DB/Event/GetString (0.9.0+)
-  Converts the event's string to TCHAR* depending on the event's format
-  wParam=(LPARAM)(DBEVENTINFO*)dbei
-  lParam=(WPARAM)(char*)str - string to be converted
-  returns TCHAR* - the converted string
-  Caller must free the result using mir_free
-}
-
-  MS_DB_EVENT_GETSTRINGT:PAnsiChar = 'DB/Event/GetStringT';
+function DbEvent_GetIcon(dbei:PDBEVENTINFO; flags:int) : HICON; stdcall; external AppDll;
 
 //*************************** Random *******************************
 
@@ -464,6 +414,7 @@ const
     Returns: Always returns 0 (successful)
     notes  : This is set to true initally
   }
+const
   MS_DB_SETSAFETYMODE:PAnsiChar = 'DB/SetSafetyMode';
 
 //*************************** Modules ******************************
@@ -491,13 +442,7 @@ type
 const
   MS_DB_MODULES_ENUM:PAnsiChar = 'DB/Modules/Enum';
 
-{ DB/Module/Delete  0.8.0+
-
-  Removes all settings for the specified module.
-  wParam=Contact's handle or 0 for global settings
-  lParam=(LPARAM)(AnsiChar*)szModuleName - the module name to be deleted
-}
-  MS_DB_MODULE_DELETE:PAnsiChar = 'DB/Module/Delete';
+function DbModule_Delete(hContact:TMCONTACT; szModuleName:PAnsiChar) : int; stdcall; external AppDll;
 
 //************************** EVENTS ********************************
 
@@ -512,6 +457,7 @@ const
              that TMEVENT is in any particular position in the chain.
 
   }
+const
   ME_DB_EVENT_ADDED:PAnsiChar = 'DB/Event/Added';
 
   {

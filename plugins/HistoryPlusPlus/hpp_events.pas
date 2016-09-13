@@ -298,8 +298,7 @@ begin
       exit;
     end;
   end;
-  etd := Pointer(CallService(MS_DB_EVENT_GETTYPE, WPARAM(PAnsiChar(Hi.Module)),
-    LPARAM(Hi.EventType)));
+  etd := DbEvent_GetType(PAnsiChar(Hi.Module), Hi.EventType);
   if etd = nil then
   begin
     Result := @EventRecords[mtOther];
@@ -525,16 +524,12 @@ end;
 
 function GetEventCoreText(EventInfo: TDBEventInfo; var Hi: THistoryItem): Boolean;
 var
-  dbegt: TDBEVENTGETTEXT;
-  msg: Pointer;
+  msg: PWideChar;
 begin
   Result := False;
-  dbegt.dbei := @EventInfo;
-  dbegt.datatype := DBVT_WCHAR;
-  dbegt.codepage := hi.Codepage;
   msg := nil;
   try
-    msg := Pointer(CallService(MS_DB_EVENT_GETTEXT,0,LPARAM(@dbegt)));
+    msg := DbEvent_GetTextW(@EventInfo, CP_ACP);
     Result := Assigned(msg);
   except
     if Assigned(msg) then mir_free(msg);

@@ -81,7 +81,7 @@ begin
     mFreeMem(buf);
   end
   else
-    DBDeleteSetting(ActiveContact,strCList,optStatusMsg);
+    db_unset(ActiveContact,strCList,optStatusMsg);
 end;
 
 {$IFDEF Debug}
@@ -351,7 +351,7 @@ begin
             SetStatus(ActiveContact,ID_STATUS_OFFLINE);
             ActiveContact:=0;
 
-            DBDeleteSetting(0,PluginName,optActiveURL);
+            db_unset(0,PluginName,optActiveURL);
 
             PlayStatus:=RD_STATUS_NOSTATION;
             // empty message
@@ -359,10 +359,10 @@ begin
 
           RD_STATUS_STOPPED: begin
             if ActiveContact<>0 then //!! fools proof
-              DBDeleteSetting(ActiveContact,strCList,optStatusMsg);
+              db_unset(ActiveContact,strCList,optStatusMsg);
 
-            DBDeleteSetting(0,PluginName,optTitle);
-            DBDeleteSetting(0,PluginName,optArtist);
+            db_unset(0,PluginName,optTitle);
+            db_unset(0,PluginName,optArtist);
 
             PlayStatus:=RD_STATUS_STOPPED;
             // empty message

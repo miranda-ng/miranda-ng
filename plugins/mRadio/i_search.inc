@@ -388,8 +388,8 @@ begin
           mFreeMem(p);
           if l then
           begin
-            DBDeleteSetting(hContact,strCList,'NotOnList');
-            DBDeleteSetting(hContact,strCList,'Hidden');
+            db_unset(hContact,strCList,'NotOnList');
+            db_unset(hContact,strCList,'Hidden');
             result:=hContact;
             exit;
           end;

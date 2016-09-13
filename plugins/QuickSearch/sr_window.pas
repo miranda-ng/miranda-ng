@@ -539,7 +539,7 @@ begin
     begin
       contact:=FlagBuf[LV_GetLParam(grid,i)].contact;
       if container^=#0 then
-        DBDeleteSetting(contact,'Tab_SRMsg','containerW')
+        db_unset(contact,'Tab_SRMsg','containerW')
       else
         DBWriteUnicode(contact,'Tab_SRMsg','containerW',container);
       if ((qsopt.flags and QSO_AUTOCLOSE)=0) and (grcol>=0) then
