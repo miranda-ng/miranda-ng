@@ -127,7 +127,7 @@ wchar_t* MakeRunCommand(BOOL fMirExe, BOOL fFixedDbProfile)
 {
 	wchar_t szDbFile[MAX_PATH], szExe[MAX_PATH], *pszFmt;
 	if (fFixedDbProfile) {
-		if (CallService(MS_DB_GETPROFILENAMEW, _countof(szDbFile), (LPARAM)szDbFile))
+		if (Profile_GetNameW(_countof(szDbFile), szDbFile))
 			return NULL;
 		wchar_t *p = wcsrchr(szDbFile, '.');
 		if (p)

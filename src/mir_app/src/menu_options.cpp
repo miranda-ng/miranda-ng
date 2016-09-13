@@ -130,7 +130,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		char szModule[256];
 		mir_snprintf(szModule, "%s_Items", pmo->pszName);
-		CallService(MS_DB_MODULE_DELETE, NULL, (LPARAM)szModule);
+		DbModule_Delete(NULL, szModule);
 		SaveTreeInternal(NULL, m_menuItems.GetRoot(), szModule);
 		db_set_b(NULL, szModule, "MenuFormat", 1);
 	}

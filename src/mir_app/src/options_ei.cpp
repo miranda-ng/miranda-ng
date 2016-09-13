@@ -372,7 +372,7 @@ public:
 			db_set_w(NULL, MODULE_NAME, setting, extra->getSlot());
 		}
 
-		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)MODULE_NAME "Groups");
+		DbModule_Delete(NULL, MODULE_NAME "Groups");
 		db_set_w(NULL, MODULE_NAME "Groups", "Count", groups.getCount());
 		for (int k = 0; k < groups.getCount(); k++) {
 			ExtraIconGroup *group = groups[k];

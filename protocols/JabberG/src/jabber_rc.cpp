@@ -477,7 +477,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 			dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
 			int nGetTextResult = db_event_get(hDbEvent, &dbei);
 			if (!nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-				wchar_t *szEventText = DbGetEventTextW(&dbei, CP_ACP);
+				wchar_t *szEventText = DbEvent_GetTextW(&dbei, CP_ACP);
 				if (szEventText) {
 					nEventsSent++;
 					mir_free(szEventText);
@@ -569,7 +569,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 				if (dbei.eventType != EVENTTYPE_MESSAGE || (dbei.flags & (DBEF_READ | DBEF_SENT)))
 					continue;
 
-				ptrW szEventText( DbGetEventTextW(&dbei, CP_ACP));
+				ptrW szEventText( DbEvent_GetTextW(&dbei, CP_ACP));
 				if (szEventText == NULL)
 					continue;
 

@@ -86,7 +86,7 @@ bool HistoryEventList::CanShowHistory(DBEVENTINFO* dbei)
 			return true;
 
 		default:
-			DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+			DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 			if (et && (et->flags & DETF_HISTORY))
 				return true;
 		}
@@ -448,7 +448,7 @@ std::wstring HistoryEventList::GetContactId()
 
 static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 {
-	wchar_t *msg = DbGetEventTextW(dbei, CP_ACP);
+	wchar_t *msg = DbEvent_GetTextW(dbei, CP_ACP);
 	wcsncpy_s(buf, cbBuf, msg ? msg : TranslateT("Invalid Message"), _TRUNCATE);
 	buf[cbBuf - 1] = 0;
 	mir_free(msg);
@@ -568,7 +568,7 @@ HICON HistoryEventList::GetEventCoreIcon(const EventIndex& ev)
 	if (ev.isExternal)
 		return NULL;
 
-	HICON ico = (HICON)CallService(MS_DB_EVENT_GETICON, LR_SHARED, (LPARAM)&m_dbei);
+	HICON ico = DbEvent_GetIcon(&m_dbei, LR_SHARED);
 	HICON icoMsg = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	if (icoMsg == ico)
 		return NULL;

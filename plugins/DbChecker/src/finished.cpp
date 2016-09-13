@@ -43,7 +43,7 @@ INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 	case WZN_CANCELCLICKED:
 		bLaunchMiranda = IsDlgButtonChecked(hdlg, IDC_LAUNCHMIRANDA) == BST_CHECKED;
-		CallService(MS_DB_SETDEFAULTPROFILE, (WPARAM)opts.filename, 0);
+		Profile_SetDefault(opts.filename);
 		wizardResult = 1;
 		return TRUE;
 	}

@@ -43,11 +43,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // database functions
 
-#if defined(__cplusplus)
-extern "C"
-{
-#endif
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // DBVARIANT: used by db/contact/getsetting and db/contact/writesetting
 
@@ -111,7 +106,7 @@ typedef struct
 #endif
 } DBEVENTINFO;
 
-MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
+EXTERN_C MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database contacts
@@ -125,9 +120,9 @@ are no contacts in the db.
 */
 
 #if defined(__cplusplus)
-MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto = NULL);
+EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto = NULL);
 #else
-MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto);
+EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto);
 #endif
 
 /*
@@ -139,9 +134,9 @@ hContact was the last contact in the db or hContact was invalid.
 */
 
 #if defined(__cplusplus)
-MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto = NULL);
+EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto = NULL);
 #else
-MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto);
+EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto);
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -169,7 +164,7 @@ db/time/x below with useful stuff for dealing with it.
 #define EVENTTYPE_AUTHREQUEST   1001  //specific codes, hence the module-
 #define EVENTTYPE_FILE          1002  //specific limit has been raised to 2000
 
-MIR_CORE_DLL(MEVENT) db_event_add(MCONTACT hContact, DBEVENTINFO *dbei);
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_add(MCONTACT hContact, DBEVENTINFO *dbei);
 
 /*
 Gets the number of events in the chain belonging to a contact in the database.
@@ -177,7 +172,7 @@ Returns the number of events in the chain owned by hContact or -1 if hContact
 is invalid. They can be retrieved using the db_event_first/last() services.
 */
 
-MIR_CORE_DLL(int) db_event_count(MCONTACT hContact);
+EXTERN_C MIR_CORE_DLL(int) db_event_count(MCONTACT hContact);
 
 /*
 Removes a single event from the database
@@ -186,7 +181,7 @@ Returns 0 on success, or nonzero if hDbEvent was invalid
 Triggers a db/event/deleted event just *before* the event is deleted
 */
 
-MIR_CORE_DLL(int) db_event_delete(MCONTACT hContact, MEVENT hDbEvent);
+EXTERN_C MIR_CORE_DLL(int) db_event_delete(MCONTACT hContact, MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the first event in the chain for hContact
@@ -194,7 +189,7 @@ Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact);
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact);
 
 /*
 Retrieves a handle to the first unread event in the chain for hContact
@@ -208,7 +203,7 @@ This service is designed for startup, reloading all the events that remained
 unread from last time
 */
 
-MIR_CORE_DLL(MEVENT) db_event_firstUnread(MCONTACT hContact);
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_firstUnread(MCONTACT hContact);
 
 /*
 Retrieves all the information stored in hDbEvent
@@ -225,7 +220,7 @@ On return, dbe.szModule is a pointer to the database module's own internal list
 of modules. Look but don't touch.
 */
 
-MIR_CORE_DLL(int) db_event_get(MEVENT hDbEvent, DBEVENTINFO *dbei);
+EXTERN_C MIR_CORE_DLL(int) db_event_get(MEVENT hDbEvent, DBEVENTINFO *dbei);
 
 /*
 Retrieves the space in bytes required to store the blob in hDbEvent
@@ -233,7 +228,7 @@ hDbEvent should have been returned by db_event_add/first/last/next/prev()
 Returns the space required in bytes, or -1 if hDbEvent is invalid
 */
 
-MIR_CORE_DLL(int) db_event_getBlobSize(MEVENT hDbEvent);
+EXTERN_C MIR_CORE_DLL(int) db_event_getBlobSize(MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the contact that owns hDbEvent.
@@ -242,7 +237,7 @@ NULL is a valid return value, meaning, as usual, the user.
 Returns INVALID_CONTACT_ID if hDbEvent is invalid, or the handle to the contact on success
 */
 
-MIR_CORE_DLL(MCONTACT) db_event_getContact(MEVENT hDbEvent);
+EXTERN_C MIR_CORE_DLL(MCONTACT) db_event_getContact(MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the last event in the chain for hContact
@@ -250,7 +245,7 @@ Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(MEVENT) db_event_last(MCONTACT hContact);
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_last(MCONTACT hContact);
 
 /*
 Changes the flags for an event to mark it as read.
@@ -261,7 +256,7 @@ This is the one database write operation that does not trigger an event.
 Modules should not save flags states for any length of time.
 */
 
-MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent);
+EXTERN_C MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the next event in a chain after hDbEvent
@@ -269,7 +264,7 @@ Returns the handle, or NULL if hDbEvent is invalid or is the last event
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(MEVENT) db_event_next(MCONTACT hContact, MEVENT hDbEvent);
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_next(MCONTACT hContact, MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the previous event in a chain before hDbEvent
@@ -277,97 +272,76 @@ Returns the handle, or NULL if hDbEvent is invalid or is the first event
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent);
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database settings
 
-MIR_CORE_DLL(INT_PTR)  db_get(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-MIR_CORE_DLL(int)      db_get_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue = 0);
-MIR_CORE_DLL(int)      db_get_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue = 0);
-MIR_CORE_DLL(DWORD)    db_get_dw(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DWORD errorValue = 0);
-MIR_CORE_DLL(char*)    db_get_sa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
-MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_get(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+EXTERN_C MIR_CORE_DLL(int)      db_get_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue = 0);
+EXTERN_C MIR_CORE_DLL(int)      db_get_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue = 0);
+EXTERN_C MIR_CORE_DLL(DWORD)    db_get_dw(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DWORD errorValue = 0);
+EXTERN_C MIR_CORE_DLL(char*)    db_get_sa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
+EXTERN_C MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
 
-MIR_CORE_DLL(int)      db_get_static(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
-MIR_CORE_DLL(int)      db_get_static_utf(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
-MIR_CORE_DLL(int)      db_get_wstatic(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, wchar_t *pDest, int cbDest);
+EXTERN_C MIR_CORE_DLL(int)      db_get_static(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
+EXTERN_C MIR_CORE_DLL(int)      db_get_static_utf(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
+EXTERN_C MIR_CORE_DLL(int)      db_get_wstatic(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, wchar_t *pDest, int cbDest);
 
 #if defined(__cplusplus)
-MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, const int nType = DBVT_ASCIIZ);
+EXTERN_C MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, const int nType = DBVT_ASCIIZ);
 #else
-MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, const int nType);
+EXTERN_C MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, const int nType);
 #endif
 
-MIR_CORE_DLL(INT_PTR)  db_set(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-MIR_CORE_DLL(INT_PTR)  db_set_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, BYTE val);
-MIR_CORE_DLL(INT_PTR)  db_set_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, WORD val);
-MIR_CORE_DLL(INT_PTR)  db_set_dw(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DWORD val);
-MIR_CORE_DLL(INT_PTR)  db_set_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
-MIR_CORE_DLL(INT_PTR)  db_set_ws(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCWSTR val);
-MIR_CORE_DLL(INT_PTR)  db_set_utf(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
-MIR_CORE_DLL(INT_PTR)  db_set_blob(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, void *val, unsigned len);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, BYTE val);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, WORD val);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_dw(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DWORD val);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_ws(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCWSTR val);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_utf(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_blob(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, void *val, unsigned len);
 
-MIR_CORE_DLL(INT_PTR) db_unset(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
+EXTERN_C MIR_CORE_DLL(INT_PTR) db_unset(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
 
 #if defined(__cplusplus)
-MIR_CORE_DLL(BOOL) db_set_resident(LPCSTR szModule, const char *szService, BOOL bEnable = TRUE);
+EXTERN_C MIR_CORE_DLL(BOOL) db_set_resident(LPCSTR szModule, const char *szService, BOOL bEnable = TRUE);
 #else
-MIR_CORE_DLL(BOOL) db_set_resident(LPCSTR szModule, const char *szService, BOOL bEnable);
+EXTERN_C MIR_CORE_DLL(BOOL) db_set_resident(LPCSTR szModule, const char *szService, BOOL bEnable);
 #endif
 
 #define db_get_ws(a,b,c,d)    db_get_s(a,b,c,d,DBVT_WCHAR)
 #define db_get_utf(a,b,c,d)   db_get_s(a,b,c,d,DBVT_UTF8)
 
-#if defined(__cplusplus)
-}
-#endif
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Profile services
 
-/* DB/GetProfileName service
-Gets the name of the profile currently being used by the database module. This
-is the same as the filename of the database
-  wParam = (WPARAM)(UINT)cbSize
-  lParam = (LPARAM)(char*)pszName
-pszName is a pointer to the buffer that receives the name of the profile
-cbSize is the size in characters of the pszName buffer
-Returns 0 on success or nonzero otherwise
-*/
-#define MS_DB_GETPROFILENAME  "DB/GetProfileName"
-#define MS_DB_GETPROFILENAMEW "DB/GetProfileNameW"
+// Gets the name of the profile currently being used by the database module. 
+// This is the same as the filename of the database
+// Returns 0 on success or nonzero otherwise
 
-/* DB/GetProfilePath service
-Get the path of the base folder where Miranda will store all individual profiles
-The returned path does NOT include a trailing backslash.
-Essentially this is what has been set in mirandaboot.ini as ProfileDir.
-For more options to retrieve profile paths check MS_UTILS_REPLACEVARS
-  wParam = (WPARAM)(UINT)cbSize
-  lParam = (LPARAM)(char*)pszName
-pszName is a pointer to the buffer that receives the path of the profile
-cbSize is the size in characters of the pszName buffer
-Returns 0 on success or nonzero otherwise
-*/
+EXTERN_C MIR_APP_DLL(int) Profile_GetNameA(size_t cbLen, char *pszDest);
+EXTERN_C MIR_APP_DLL(int) Profile_GetNameW(size_t cbLen, wchar_t *pwszDest);
 
-#define MS_DB_GETPROFILEPATH  "DB/GetProfilePath"
-#define MS_DB_GETPROFILEPATHW "DB/GetProfilePathW"
+// Get the path of the base folder where Miranda will store all individual profiles
+// The returned path does NOT include a trailing backslash.
+// Essentially this is what has been set in mirandaboot.ini as ProfileDir.
+// For more options to retrieve profile paths check MS_UTILS_REPLACEVARS
+// Returns 0 on success or nonzero otherwise
 
-/* DB/SetDefaultProfile service
-Sets the default profile name programmatically
-Analog of Database/DefaultProfile in mirandaboot.ini
-  wParam = (WPARAM)(wchar_t*)ptszProfileName
-  lParam = 0 (unused)
-*/
+EXTERN_C MIR_APP_DLL(int) Profile_GetPathA(size_t cbLen, char *pszDest);
+EXTERN_C MIR_APP_DLL(int) Profile_GetPathW(size_t cbLen, wchar_t *pwszDest);
 
-#define MS_DB_SETDEFAULTPROFILE "DB/SetDefaultProfile"
+// Sets the default profile name programmatically
+// Analog of Database/DefaultProfile in mirandaboot.ini
 
-/* DB/CheckProfile service
-Checks the specified profile like dbtool did.
-Implemented in the dbchecker plugins, thus it might not exist
-  wParam = (WPARAM)(wchar_t*)ptszProfileName
-  lParam = (BOOL)bConversionMode
-*/
+EXTERN_C MIR_APP_DLL(void) Profile_SetDefault(const wchar_t *pwszPath);
+
+// Checks the specified profile like dbtool did.
+// Implemented in the dbchecker plugins, thus it might not exist
+//  wParam = (WPARAM)(wchar_t*)ptszProfileName
+//  lParam = (BOOL)bConversionMode
 
 #define MS_DB_CHECKPROFILE "DB/CheckProfile"
 
@@ -454,17 +428,14 @@ Returns 1 if the contact is a contact, or 0 if the contact is not valid.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Event services
 
-/* DB/EventType/Register service (0.7+)
-Registers the specified database event type, with module, id & description.
-When someone needs to retrieve an event's text, a service named Module/GetEventText<id>
-will be called. For example, for module named 'foo' and event id 2000 a service
-foo/GetEventText2000 should be defined to process this request. That handler should
-decode a blob and return the event text in the required format, its prototype is identical
-to a call of MS_DB_EVENT_GETTEXT (see below)
-  wParam = 0
-  lParam = (LPARAM)(DBEVENTTYPEDESCR*)
-Returns -1 on error (e.g., event type already registred), 0 on success
-*/
+// Registers the specified database event type, with module, id & description.
+// When someone needs to retrieve an event's text, a service named Module/GetEventText<id>
+// will be called. For example, for module named 'foo' and event id 2000 a service
+// foo/GetEventText2000 should be defined to process this request. That handler should
+// decode a blob and return the event text in the required format, its prototype is identical
+// to a call of DbEvent_GetText (see below)
+//
+// Returns -1 on error (e.g., event type already registred), 0 on success
 
 typedef struct
 {
@@ -484,84 +455,54 @@ typedef struct
 #define DETF_MSGWINDOW  2   // show event in message window
 #define DETF_NONOTIFY   4   // block event notify (e.g. Popups)
 
-#define MS_DB_EVENT_REGISTERTYPE  "DB/EventType/Register"
+EXTERN_C MIR_APP_DLL(int) DbEvent_RegisterType(DBEVENTTYPEDESCR*);
 
-/* DB/EventType/Get service (0.7+)
-Retrieves the previously registered database event type, by module & id.
-  wParam = (WPARAM)(char*)szModule
-  lParam = (LPARAM)(int)eventType
-Returns DBEVENTTYPEDESCR* or NULL, if an event isn't found.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Retrieves the previously registered database event type, by module & id.
+// Returns DBEVENTTYPEDESCR* or NULL, if an event isn't found.
 
-#define MS_DB_EVENT_GETTYPE "DB/EventType/Get"
+EXTERN_C MIR_APP_DLL(DBEVENTTYPEDESCR*) DbEvent_GetType(const char *szModule, int eventType);
 
-__forceinline MCONTACT DbGetAuthEventContact(DBEVENTINFO* dbei)
+/////////////////////////////////////////////////////////////////////////////////////////
+// macro to extract MCONTACT from the auth blob
+
+__forceinline MCONTACT DbGetAuthEventContact(DBEVENTINFO *dbei)
 {
 	return (MCONTACT)(*(DWORD*)&dbei->pBlob[sizeof(DWORD)]);
 }
 
-/* DB/Event/GetText (0.7.0+)
-Retrieves the event's text
-  wParam = 0 (unused)
-  lParam = (LPARAM)(DBEVENTGETTEXT*)egt - pointer to structure with parameters
-  egt->dbei should be the valid database event read via db_event_get()
-  egt->datatype = DBVT_WCHAR or DBVT_ASCIIZ or DBVT_TCHAR.
-  egt->codepage is any valid codepage, CP_ACP by default.
+/////////////////////////////////////////////////////////////////////////////////////////
+// Retrieves the event's text
+// * dbei should be the valid database event read via db_event_get()
+// * codepage is any valid codepage, CP_ACP by default.
+//
+// Function returns a pointer to a string in the required format.
+// This string should be freed by a call of mir_free
 
-Function returns a pointer to a string in the required format.
-This string should be freed by a call of mir_free
-*/
+EXTERN_C MIR_APP_DLL(char*) DbEvent_GetTextA(DBEVENTINFO *dbei, int codepage);
+EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(DBEVENTINFO *dbei, int codepage);
 
-typedef struct {
-	DBEVENTINFO* dbei;
-	int datatype;
-	int codepage;
-} DBEVENTGETTEXT;
+/////////////////////////////////////////////////////////////////////////////////////////
+// Retrieves the event's icon
+// * use LR_SHARED in flags for shared HICON
+// dbei should be a valid database event read via db_event_get()
+//
+// Function returns HICON (use DestroyIcon to release resources if not LR_SHARED)
+// 
+// A plugin can register the standard event icon in IcoLib named
+// 'eventicon_'+Module+EvtID, like eventicon_ICQ2001. Otherwise, to declare an icon
+// with the non-standard name, you can declare the special service, Module/GetEventIcon<id>,
+// which will retrieve the custom icon handle (HICON). This service function has the
+// same parameters MS_DB_EVENT_GETICON does.
 
-#define MS_DB_EVENT_GETTEXT "DB/Event/GetText"
+EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 
-__forceinline char* DbGetEventTextA(DBEVENTINFO* dbei, int codepage)
-{
-	DBEVENTGETTEXT temp = { dbei, DBVT_ASCIIZ, codepage };
-	return (char*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// Converts the event's string to wchar_t* depending on the event's format
+// returns wchar_t* - the converted string
+// Caller must free the result using mir_free
 
-__forceinline wchar_t* DbGetEventTextW(DBEVENTINFO* dbei, int codepage)
-{
-	DBEVENTGETTEXT temp = { dbei, DBVT_WCHAR, codepage };
-	return (wchar_t*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
-}
-
-/* DB/Event/GetIcon (0.7.0.1+)
-Retrieves the event's icon
-  wParam = (WPARAM)(int)flags - use LR_SHARED for shared HICON
-  lParam = (LPARAM)(DBEVENTINFO*)dbei
-dbei should be a valid database event read via db_event_get()
-
-Function returns HICON (use DestroyIcon to release resources if not LR_SHARED)
-
-A plugin can register the standard event icon in IcoLib named
-'eventicon_'+Module+EvtID, like eventicon_ICQ2001. Otherwise, to declare an icon
-with the non-standard name, you can declare the special service, Module/GetEventIcon<id>,
-which will retrieve the custom icon handle (HICON). This service function has the
-same parameters MS_DB_EVENT_GETICON does.
-*/
-#define MS_DB_EVENT_GETICON "DB/Event/GetIcon"
-
-/* DB/Event/GetString (0.9.0+)
-Converts the event's string to wchar_t* depending on the event's format
-  wParam = (LPARAM)(DBEVENTINFO*)dbei
-  lParam = (WPARAM)(char*)str - string to be converted
-  returns wchar_t* - the converted string
-Caller must free the result using mir_free
-*/
-
-#define MS_DB_EVENT_GETSTRINGT "DB/Event/GetStringT"
-
-__forceinline wchar_t* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
-{
-	return (wchar_t*)CallService(MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str);
-}
+EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Random services
@@ -607,14 +548,11 @@ If you want to keep it for longer you must allocation your own storage.
 typedef int (*DBMODULEENUMPROC)(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam);
 #define MS_DB_MODULES_ENUM    "DB/Modules/Enum"
 
-/* DB/Module/Delete  0.8.0+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Removes all settings for the specified module.
+// hContact is 0 for global settings or matches the concrete contact
 
-Removes all settings for the specified module.
-wParam = (WPARAM)(MCONTACT)hContact or 0 for global settings
-lParam = (LPARAM)(char*)szModuleName - the module name to be deleted
-*/
-
-#define MS_DB_MODULE_DELETE "DB/Module/Delete"
+EXTERN_C MIR_APP_DLL(int) DbModule_Delete(MCONTACT hContact, const char *szModuleName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database events

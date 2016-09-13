@@ -1948,7 +1948,7 @@ static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 {
 	IniParser parser(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF", bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS);
 	if (parser.CheckOK()) {
-		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernSkin");
+		DbModule_Delete(0, "ModernSkin");
 		db_set_s(NULL, SKIN, "SkinFolder", "%Default%");
 		db_set_s(NULL, SKIN, "SkinFile", "%Default%");
 		parser.Parse(IniParser::WriteStrToDb, 0);
@@ -1966,7 +1966,7 @@ int ske_LoadSkinFromIniFile(wchar_t *szFileName, BOOL bOnlyObjects)
 	if (!parser.CheckOK())
 		return 0;
 
-	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernSkin");
+	DbModule_Delete(0, "ModernSkin");
 
 	wchar_t skinFolder[MAX_PATH], skinFile[MAX_PATH];
 	IniParser::GetSkinFolder(szFileName, skinFolder);
@@ -3314,7 +3314,7 @@ wchar_t* ske_ReplaceVar(wchar_t *var)
 	if (!var) return mir_wstrdup(L"");
 	if (!mir_wstrcmpi(var, L"Profile")) {
 		char buf[MAX_PATH] = { 0 };
-		CallService(MS_DB_GETPROFILENAME, (WPARAM)MAX_PATH, (LPARAM)buf);
+		Profile_GetNameA(MAX_PATH, buf);
 
 		char *p = strrchr(buf, '.');
 		if (p) *p = 0;

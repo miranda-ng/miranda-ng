@@ -152,7 +152,7 @@ begin
             Result := WideToAnsiString(dbv.szVal.w, hppCodepage);
         end;
         // free variant
-        DBFreeVariant(@dbv);
+        db_free(@dbv);
       end;
     end;
   end;
@@ -230,7 +230,7 @@ begin
   if Proto = '' then
     exit;
   case RTLMode of
-    hppRTLDefault: DBDeleteContactSetting(hContact, PAnsiChar(Proto), 'RTL');
+    hppRTLDefault: db_unset(hContact, PAnsiChar(Proto), 'RTL');
     hppRTLEnable:  WriteDBByte(hContact, Proto, 'RTL', Byte(True));
     hppRTLDisable: WriteDBByte(hContact, Proto, 'RTL', Byte(false));
   end;

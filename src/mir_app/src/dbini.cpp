@@ -110,7 +110,8 @@ static bool IsInSpaceSeparatedList(const char *szWord, const char *szList)
 	}
 }
 
-struct warnSettingChangeInfo_t {
+struct warnSettingChangeInfo_t
+{
 	wchar_t *szIniPath;
 	char *szSection;
 	char *szSafeSections;
@@ -362,7 +363,7 @@ LBL_NewLine:
 			if (szLine[1] == '?') {
 				DBCONTACTENUMSETTINGS dbces;
 				dbces.pfnEnumProc = SettingsEnumProc;
-				mir_strncpy(szSection, szLine+2, min(sizeof(szSection), (int)(szEnd-szLine-1)));
+				mir_strncpy(szSection, szLine + 2, min(sizeof(szSection), (int)(szEnd - szLine - 1)));
 				dbces.szModule = szSection;
 				dbces.ofsSettings = 0;
 				CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
@@ -387,7 +388,7 @@ LBL_NewLine:
 			continue;
 
 		char szName[128];
-		mir_strncpy(szName, szLine, min(sizeof(szName), (int)(szValue-szLine+1)));
+		mir_strncpy(szName, szLine, min(sizeof(szName), (int)(szValue - szLine + 1)));
 		szValue++;
 		{
 			warnSettingChangeInfo_t warnInfo;
@@ -411,15 +412,15 @@ LBL_NewLine:
 		switch (szValue[0]) {
 		case 'b':
 		case 'B':
-			db_set_b(NULL, szSection, szName, (BYTE)strtol(szValue+1, NULL, 0));
+			db_set_b(NULL, szSection, szName, (BYTE)strtol(szValue + 1, NULL, 0));
 			break;
 		case 'w':
 		case 'W':
-			db_set_w(NULL, szSection, szName, (WORD)strtol(szValue+1, NULL, 0));
+			db_set_w(NULL, szSection, szName, (WORD)strtol(szValue + 1, NULL, 0));
 			break;
 		case 'd':
 		case 'D':
-			db_set_dw(NULL, szSection, szName, (DWORD)strtoul(szValue+1, NULL, 0));
+			db_set_dw(NULL, szSection, szName, (DWORD)strtoul(szValue + 1, NULL, 0));
 			break;
 		case 'l':
 		case 'L':
@@ -442,10 +443,10 @@ LBL_NewLine:
 			break;
 		case 'e':
 		case 'E':
-			ConvertBackslashes(szValue+1, Langpack_GetDefaultCodePage());
+			ConvertBackslashes(szValue + 1, Langpack_GetDefaultCodePage());
 		case 's':
 		case 'S':
-			db_set_s(NULL, szSection, szName, szValue+1);
+			db_set_s(NULL, szSection, szName, szValue + 1);
 			break;
 		case 'g':
 		case 'G':
@@ -589,14 +590,12 @@ static void DoAutoExec(void)
 				mir_wstrcat(szNewPath, fd.cFileName);
 				MoveFile(szIniPath, szNewPath);
 			}
-			else if (!mir_wstrcmpi(szOnCompletion, L"ask"))
-			{
+			else if (!mir_wstrcmpi(szOnCompletion, L"ask")) {
 				CIniImportDoneDlg dlg(szIniPath);
 				dlg.DoModal();
 			}
 		}
-	}
-		while (FindNextFile(hFind, &fd));
+	} while (FindNextFile(hFind, &fd));
 
 	FindClose(hFind);
 }

@@ -896,7 +896,7 @@ extern "C" __declspec(dllexport) int Load()
 		return 1;
 	}
 
-	if (CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szPluginPath)) {
+	if (Profile_GetPathA(MAX_PATH, szPluginPath)) {
 		MessageBox(NULL, "Failed to retrieve plugin path.", MSG_BOX_TITEL, MB_OK);
 		return 1;
 	}

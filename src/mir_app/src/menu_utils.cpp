@@ -935,7 +935,7 @@ static INT_PTR sttUpdateMenuService(WPARAM wParam, LPARAM)
 			MO_RecursiveWalkMenu(pmo->m_items.first, sttReadOldItem, szModule);
 
 			// wipe out old trash, write new data & compatibility flag
-			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+			DbModule_Delete(NULL, szModule);
 			db_set_b(NULL, szModule, "MenuFormat", true);
 			MO_RecursiveWalkMenu(pmo->m_items.first, sttDumpItem, szModule);
 		}

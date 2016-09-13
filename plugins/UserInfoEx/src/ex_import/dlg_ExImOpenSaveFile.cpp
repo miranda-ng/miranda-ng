@@ -69,7 +69,7 @@ static void InitAlteredPlacesBar()
 			}
 
 			// Miranda's profile path
-			if (!CallService(MS_DB_GETPROFILEPATH, _countof(szProfilePath), (LPARAM)szProfilePath))
+			if (!Profile_GetPathA(_countof(szProfilePath), szProfilePath))
 			{
 				// only add if different from profile path
 				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (PBYTE)szProfilePath, (DWORD)mir_strlen(szProfilePath) + 1);

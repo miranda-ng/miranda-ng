@@ -39,7 +39,7 @@ static HGENMENU hContactMenu = 0;
 
 static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 {
-	wchar_t *msg = DbGetEventTextW(dbei, CP_ACP);
+	wchar_t *msg = DbEvent_GetTextW(dbei, CP_ACP);
 	wcsncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
 	buf[ cbBuf-1 ] = 0;
 	mir_free(msg);
@@ -87,7 +87,7 @@ static void GetObjectDescription(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 		break;
 
 	default:
-		DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+		DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 		if (et && (et->flags & DETF_HISTORY))
 			GetMessageDescription(dbei, str, cbStr);
 		else
@@ -115,7 +115,7 @@ static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 		break;
 
 	default:
-		DBEVENTTYPEDESCR* et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+		DBEVENTTYPEDESCR* et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 		if (et && (et->flags & DETF_HISTORY)) {
 			pszTmp = mir_a2u(et->descr);
 			pszSrc = TranslateW(pszTmp);

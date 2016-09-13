@@ -33,7 +33,7 @@
 LPTSTR CreateAvaFile(HANDLE *hFile)
 {
 	wchar_t name[MAX_PATH + 2];
-	if (CallService(MS_DB_GETPROFILENAMEW, (WPARAM)_countof(name), (LPARAM)&name))
+	if (Profile_GetNameW(_countof(name), name))
 		return NULL;
 
 	wchar_t *p = wcsrchr(name, '.');
@@ -41,8 +41,7 @@ LPTSTR CreateAvaFile(HANDLE *hFile)
 		*p = 0;
 
 	wchar_t path[MAX_PATH + 2];
-	if (CallService(MS_DB_GETPROFILEPATHW, (WPARAM)_countof(path), (LPARAM)&path))
-		return NULL;
+	Profile_GetPathW(_countof(path), path);
 
 	wchar_t full[MAX_PATH + 2];
 	mir_snwprintf(full, AVA_FILE_NAME_FORMAT, path, name);

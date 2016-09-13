@@ -34,11 +34,9 @@ char *fmtDBSettingName(const char *fmt, ...)
 wchar_t *getAbsoluteProfileName(wchar_t *absoluteProfileName, size_t maxLen)
 {
 	wchar_t profilePath[MAX_PATH+1], profileName[MAX_PATH+1];
+	Profile_GetPathW(MAX_PATH, profilePath);
+	Profile_GetNameW(MAX_PATH, profileName);
 
-	profilePath[0] = profileName[0] = '\0';
-	CallService(MS_DB_GETPROFILEPATHW, MAX_PATH, (LPARAM)profilePath);
-	CallService(MS_DB_GETPROFILENAMEW, MAX_PATH, (LPARAM)profileName);
 	mir_snwprintf(absoluteProfileName, maxLen, L"%s\\%s", profilePath, profileName);
-
 	return absoluteProfileName;
 }

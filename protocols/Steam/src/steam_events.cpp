@@ -13,8 +13,7 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 	dbEventType.module = m_szModuleName;
 	dbEventType.eventType = EVENTTYPE_STEAM_CHATSTATES;
 	dbEventType.descr = "Chat state notifications";
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
+	DbEvent_RegisterType(&dbEventType);
 	return 0;
 }
 

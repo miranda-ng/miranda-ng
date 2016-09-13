@@ -617,9 +617,8 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		// restore position
 		Utils_RestoreWindowPosition(hwndDlg, NULL, "Console", "Console", RWPF_HIDDEN);
 
-		CallService(MS_DB_GETPROFILENAMEW, (WPARAM)_countof(name), (LPARAM)name);
-
-		CallService(MS_DB_GETPROFILEPATHW, (WPARAM)_countof(path), (LPARAM)path);
+		Profile_GetNameW(_countof(name), name);
+		Profile_GetPathW(_countof(path), path);
 
 		mir_snwprintf(title, L"%s - %s\\%s", TranslateT("Miranda Console"), path, name);
 

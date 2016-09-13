@@ -52,7 +52,7 @@ std::wstring& MirandaUtils::getProfileName()
 	}
 	
 	wchar_t mirandaProfileNameW[128] = {0};
-	CallService(MS_DB_GETPROFILENAMEW, _countof(mirandaProfileNameW), (WPARAM)mirandaProfileNameW);
+	Profile_GetNameW(_countof(mirandaProfileNameW), mirandaProfileNameW);
 	profileName.append(mirandaProfileNameW);
 
 	return profileName;
@@ -527,6 +527,6 @@ void MirandaUtils::translateOldDBNames() {
 	}
 
 	//delete db module
-	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)OLD_PLUGIN_DB_ID);
+	DbModule_Delete(0, OLD_PLUGIN_DB_ID);
 }
 

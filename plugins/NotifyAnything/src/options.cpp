@@ -66,7 +66,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				ofn.lpstrFilter = TranslateT("Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0");
 				ofn.nFilterIndex = 1;
 				// Use profile directory as default, if path is not specified
-				CallService(MS_DB_GETPROFILEPATHW, (WPARAM)MAX_PATH, (LPARAM)szProfileDir);
+				Profile_GetPathW(MAX_PATH, szProfileDir);
 				ofn.lpstrInitialDir = szProfileDir;
 				ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
 				ofn.lpstrDefExt = L"log";

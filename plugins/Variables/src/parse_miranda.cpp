@@ -126,7 +126,7 @@ static wchar_t* parseDBProfileName(ARGUMENTSINFO *ai)
 		return NULL;
 
 	wchar_t name[MAX_PATH];
-	if (CallService(MS_DB_GETPROFILENAMEW, _countof(name), (LPARAM)name))
+	if (Profile_GetNameW(_countof(name), name))
 		return NULL;
 
 	return mir_wstrdup(name);
@@ -138,9 +138,7 @@ static wchar_t* parseDBProfilePath(ARGUMENTSINFO *ai)
 		return NULL;
 
 	wchar_t path[MAX_PATH];
-	if (CallService(MS_DB_GETPROFILEPATHW, _countof(path), (LPARAM)path))
-		return NULL;
-
+	Profile_GetPathW(_countof(path), path);
 	return mir_wstrdup(path);
 }
 
@@ -579,7 +577,7 @@ static wchar_t* parseDbEvent(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	wchar_t *res = DbGetEventTextW(&dbe, CP_ACP);
+	wchar_t *res = DbEvent_GetTextW(&dbe, CP_ACP);
 	mir_free(dbe.pBlob);
 	return res;
 }

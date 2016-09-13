@@ -69,7 +69,7 @@ static void PathToRelative(wchar_t *pOut, size_t outSize, const wchar_t *pSrc)
 	else {
 		if (dbPath[0] == '\0') {
 			char tmp[1024];
-			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
+			Profile_GetPathA(_countof(tmp), tmp);
 			mir_snwprintf(dbPath, L"%S\\", tmp);
 		}
 
@@ -87,7 +87,7 @@ static void PathToAbsolute(wchar_t *pOut, size_t outSize, const wchar_t *pSrc)
 	else {
 		if (dbPath[0] == '\0') {
 			char tmp[1024];
-			CallService(MS_DB_GETPROFILEPATH, _countof(tmp), (LPARAM)tmp);
+			Profile_GetPathA(_countof(tmp), tmp);
 			mir_snwprintf(dbPath, L"%S\\", tmp);
 		}
 

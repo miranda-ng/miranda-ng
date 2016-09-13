@@ -85,7 +85,7 @@ struct LogStreamData
 
 int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei)
 {
-	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
@@ -151,11 +151,11 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEven
 	if (evt->eventType == EVENTTYPE_FILE) {
 		char *filename = ((char*)dbei.pBlob) + sizeof(DWORD);
 		char *descr = filename + mir_strlen(filename) + 1;
-		evt->pszTextT = DbGetEventStringT(&dbei, filename);
+		evt->pszTextT = DbEvent_GetString(&dbei, filename);
 		if (*descr != 0)
-			evt->pszText2T = DbGetEventStringT(&dbei, descr);
+			evt->pszText2T = DbEvent_GetString(&dbei, descr);
 	}
-	else evt->pszTextT = DbGetEventTextW(&dbei, CP_UTF8);
+	else evt->pszTextT = DbEvent_GetTextW(&dbei, CP_UTF8);
 
 	if (!(dat->flags & SMF_RTL) && RTL_Detect(evt->pszTextT))
 		evt->dwFlags |= IEEDF_RTL;

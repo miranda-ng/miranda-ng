@@ -65,7 +65,7 @@ begin
   StrCopyW(pc,'plugins\mradio.ini');
   FastWideToAnsi(buf,storage);
   mGetMem(storagep,MAX_PATH+32);
-  CallService(MS_DB_GETPROFILEPATH,MAX_PATH-1,tlparam(storagep));
+  Profile_GetPathA(MAX_PATH,@storagep);
   StrCat(storagep,'\mradio.ini');
 
   DBWriteDWord(0,PluginName,optVersion,PluginInfo.version); //??

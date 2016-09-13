@@ -70,12 +70,10 @@ int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 		return 0;
 
 	//custom database event types
-	if (ServiceExists(MS_DB_EVENT_GETTYPE)) {
-		DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbe.szModule, (LPARAM)dbe.eventType);
-		// ignore events according to flags
-		if (pei && pei->flags & DETF_NONOTIFY)
-			return 0;
-    }
+	DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbe.szModule, dbe.eventType);
+	// ignore events according to flags
+	if (pei && pei->flags & DETF_NONOTIFY)
+		return 0;
 
 	//if event was allready read don't show it
 	if (pluginOptions.bReadCheck && (dbe.flags & DBEF_READ))

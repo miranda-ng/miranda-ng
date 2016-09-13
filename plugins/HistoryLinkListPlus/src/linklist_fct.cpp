@@ -58,7 +58,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 	date[0] = 0;
 	time[0] = 0;
 
-	msg = DbGetEventTextW(dbei, CP_ACP);
+	msg = DbEvent_GetTextW(dbei, CP_ACP);
 	if (msg == NULL)
 		return 0;
 
@@ -383,7 +383,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 						dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
 						db_event_get(actualElement->hEvent, &dbe);
 						dbe.pBlob[dbe.cbBlob] = 0;
-						LPTSTR msg = DbGetEventTextW(&dbe, CP_ACP);
+						LPTSTR msg = DbEvent_GetTextW(&dbe, CP_ACP);
 						if ( wcsstr(msg, searchString))
 							filter3 = 1;						
 						
@@ -617,7 +617,7 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 				dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
 				db_event_get(hEvent, &dbe);
 				dbe.pBlob[dbe.cbBlob] = 0;
-				LPCTSTR msg = DbGetEventTextW(&dbe, CP_ACP);
+				LPCTSTR msg = DbEvent_GetTextW(&dbe, CP_ACP);
 				SetDlgItemText(hDlg, IDC_MESSAGE, NULL);
 				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
 				mir_free((void*)msg);

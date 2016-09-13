@@ -18,19 +18,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #define INVALID_DATA Translate("SkypeWeb error: Invalid data!")
 
-INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
+INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 {
-	DBEVENTGETTEXT *pEvent = (DBEVENTGETTEXT *)lParam;
+	DBEVENTINFO *dbei = (DBEVENTINFO *)pEvent;
 
 	CMStringA szText; 
 
-	BOOL bUseBB = db_get_b(NULL, pEvent->dbei->szModule, "UseBBCodes", 1);
-	switch (pEvent->dbei->eventType)
+	BOOL bUseBB = db_get_b(NULL, dbei->szModule, "UseBBCodes", 1);
+	switch (dbei->eventType)
 	{
 	case SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE:
 		{
 			
-			JSONNode jMsg = JSONNode::parse((char*)pEvent->dbei->pBlob);
+			JSONNode jMsg = JSONNode::parse((char*)dbei->pBlob);
 			if (jMsg)
 			{
 				JSONNode &jOriginalMsg = jMsg["original_message"];
@@ -57,7 +57,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 		{
-			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)pEvent->dbei->pBlob)), 0, L"partlist");
+			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), 0, L"partlist");
 			if (xml != NULL)
 			{
 				ptrA type(mir_u2a(xmlGetAttrValue(xml, L"type")));
@@ -106,7 +106,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 		}
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
 		{
-			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)pEvent->dbei->pBlob)), 0, L"files");
+			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), 0, L"files");
 			if (xml != NULL)
 			{
 				for (int i = 0; i < xmlGetChildCount(xml); i++)
@@ -130,13 +130,14 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			{
 				szText = INVALID_DATA;
 			}
-			break;
 		}
+		break;
+
 	case SKYPE_DB_EVENT_TYPE_FILE:
 	case SKYPE_DB_EVENT_TYPE_MOJI:
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
 		{
-			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)pEvent->dbei->pBlob)), 0, L"URIObject");
+			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), 0, L"URIObject");
 			if (xml != NULL)
 			{
 				//szText.Append(_T2A(xmlGetText(xml)));
@@ -151,45 +152,22 @@ INT_PTR CSkypeProto::GetEventText(WPARAM, LPARAM lParam)
 			{
 				szText = INVALID_DATA;
 			}
-			break;
-
 		}
+		break;
 
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
-		{
-			szText = Translate("Incoming call");
-			break;
-		}
+		szText = Translate("Incoming call");
+		break;
+
 	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
-		{
-			szText.Format(Translate("Unknown event, please send this text for developer: \"%s\""), mir_utf8decodeA((char*)pEvent->dbei->pBlob));
-			break;
-		}
+		szText.Format(Translate("Unknown event, please send this text for developer: \"%s\""), mir_utf8decodeA((char*)dbei->pBlob));
+		break;
+
 	default:
-		{
-			szText = ptrA(mir_utf8decodeA((char*)pEvent->dbei->pBlob));
-		}
+		szText = ptrA(mir_utf8decodeA((char*)dbei->pBlob));
 	}
 
-	switch(pEvent->datatype)
-	{
-	case DBVT_WCHAR:
-		{
-			return (INT_PTR)mir_a2u(szText);
-		}
-	case DBVT_ASCIIZ:
-		{
-			return (INT_PTR)szText.Detach();
-		}
-	case DBVT_UTF8:
-		{
-			return (INT_PTR)mir_utf8encode(szText);
-		}
-	default:
-		{
-			return NULL;
-		}
-	}
+	return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_a2u(szText) : (INT_PTR)szText.Detach();
 }
 
 INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)

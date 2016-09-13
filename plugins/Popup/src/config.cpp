@@ -158,7 +158,7 @@ static void CopyModule(const char *szModule, const char *szNewModule)
 	dbces.lParam = (LPARAM)&param;
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 
-	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+	DbModule_Delete(0, szModule);
 }
 
 void UpgradeDb()

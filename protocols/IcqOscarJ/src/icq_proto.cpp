@@ -188,7 +188,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	eventType.textService = ICQ_DB_GETEVENTTEXT_MISSEDMESSAGE;
 	eventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	// for now keep default "message" icon
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&eventType);
+	DbEvent_RegisterType(&eventType);
 
 	// Protocol instance is ready
 	debugLogA("%s: Protocol instance '%s' created.", ICQ_PROTOCOL_NAME, m_szModuleName);
@@ -1862,11 +1862,11 @@ int __cdecl CIcqProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 		{
 			char szDbSetting[MAX_PATH];
 			mir_snprintf(szDbSetting, "%sP2P", m_szModuleName);
-			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbSetting);
+			DbModule_Delete(0, szDbSetting);
 			mir_snprintf(szDbSetting, "%sSrvGroups", m_szModuleName);
-			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbSetting);
+			DbModule_Delete(0, szDbSetting);
 			mir_snprintf(szDbSetting, "%sGroups", m_szModuleName);
-			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbSetting);
+			DbModule_Delete(0, szDbSetting);
 		}
 		break;
 

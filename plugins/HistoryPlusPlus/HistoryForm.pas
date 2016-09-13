@@ -860,7 +860,7 @@ begin
     end
     else
     begin
-      DBDeleteContactSetting(0, hppDBName, 'HistoryToolbar');
+      db_unset(0, hppDBName, 'HistoryToolbar');
       LoadToolbar;
       Exit;
     end;

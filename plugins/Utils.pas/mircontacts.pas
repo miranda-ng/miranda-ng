@@ -131,9 +131,9 @@ begin
     uid := PAnsiChar(CallProtoService(Proto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));
     if (uid <> PAnsiChar(CALLSERVICE_NOTFOUND)) and (uid <> nil) then
     begin
-      // DBGetContactSettingStr comparing to DBGetContactSetting don't translate strings
+      // db_get_s comparing to DBGetContactSetting don't translate strings
       // when uType=0 (DBVT_ASIS)
-      if DBGetContactSettingStr(hContact, Proto, uid, @dbv, DBVT_ASIS) = 0 then
+      if db_get_s(hContact, Proto, uid, @dbv, DBVT_ASIS) = 0 then
       begin
         case dbv._type of
           DBVT_BYTE:   StrDup(Result, IntToStr(buf,dbv.bVal));
@@ -150,7 +150,7 @@ begin
           end;
         end;
         // free variant
-        DBFreeVariant(@dbv);
+        db_free(@dbv);
       end;
     end;
   end;
@@ -315,7 +315,7 @@ begin
             end;
           end;
         end;
-        DBFreeVariant(@ldbv);
+        db_free(@ldbv);
       end;
     end;
     // added 2011.04.20
@@ -344,7 +344,7 @@ begin
 
   mFreeMem(Proto);
   if not is_chat then
-    DBFreeVariant(@dbv)
+    db_free(@dbv)
   else
     mFreeMem(dbv.szVal.W);
 end;
@@ -378,7 +378,7 @@ begin
         if DBReadSetting(hContact,Proto,uid,@cws)=0 then
         begin
           StrCopy(p,opt_cuid); DBWriteSetting(0,group,section,@cws);
-          DBFreeVariant(@cws);
+          db_free(@cws);
           result:=1;
         end;
       end;
@@ -613,7 +613,7 @@ begin
               StrReplaceW(buf,'%uid%',p);
               if ldbv._type in [DBVT_UTF8,DBVT_ASCIIZ] then
                 mFreeMem(p);
-              DBFreeVariant(@ldbv);
+              db_free(@ldbv);
             end;
           end;
           StrReplaceW(buf,'%uid%',nil);

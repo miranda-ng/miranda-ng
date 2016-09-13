@@ -421,7 +421,7 @@ static wchar_t* ShortenPreview(DBEVENTINFO* dbe)
 	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
-	wchar_t *buf = DbGetEventTextW(dbe, CP_ACP);
+	wchar_t *buf = DbEvent_GetTextW(dbe, CP_ACP);
 	if (mir_wstrlen(buf) > iPreviewLimit) {
 		fAddEllipsis = true;
 		size_t iIndex = iPreviewLimit;
@@ -462,11 +462,11 @@ static wchar_t* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 				if (dbe->cbBlob > (sizeof(DWORD) + namelength + 1))
 					szDescr = szFileName + namelength + 1;
 
-				ptrW tszFileName(DbGetEventStringT(dbe, szFileName));
+				ptrW tszFileName(DbEvent_GetString(dbe, szFileName));
 				wchar_t buf[1024];
 
 				if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
-					ptrW tszDescr(DbGetEventStringT(dbe, szDescr));
+					ptrW tszDescr(DbEvent_GetString(dbe, szDescr));
 					if (tszFileName && tszDescr) {
 						mir_snwprintf(buf, L"%s: %s (%s)", TranslateT("Incoming file"), tszFileName, tszDescr);
 						return mir_wstrdup(buf);
@@ -591,7 +591,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 		break;
 
 	default:
-		pud.lchIcon = (HICON)CallService(MS_DB_EVENT_GETICON, LR_SHARED, (LPARAM)&dbe);
+		pud.lchIcon = DbEvent_GetIcon(&dbe, LR_SHARED);
 		pud.colorBack = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colBackOthers;
 		pud.colorText = pluginOptions->bDefaultColorOthers ? 0 : pluginOptions->colTextOthers;
 		iSeconds = pluginOptions->iDelayOthers;

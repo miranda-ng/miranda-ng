@@ -44,28 +44,6 @@ namespace mu
 	}
 
 	/*
-	 * db
-	 */
-
-	namespace db
-	{
-		int getProfilePath(int cbName, wchar_t* pszName)
-		{
-			return CallService(MS_DB_GETPROFILEPATHW, cbName, reinterpret_cast<LPARAM>(pszName));
-		}
-
-		int getProfileName(int cbName, wchar_t* pszName)
-		{
-			return CallService(MS_DB_GETPROFILENAMEW, cbName, reinterpret_cast<LPARAM>(pszName));
-		}
-
-		void setSafetyMode(bool safetyMode)
-		{
-			CallService(MS_DB_SETSAFETYMODE, BOOL_(safetyMode), 0);
-		}
-	}
-
-	/*
 	 * db_time
 	 */
 

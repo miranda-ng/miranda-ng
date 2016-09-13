@@ -36,11 +36,22 @@ static int CompareEventTypes(const DBEVENTTYPEDESCR *p1, const DBEVENTTYPEDESCR 
 
 static LIST<DBEVENTTYPEDESCR> eventTypes(10, CompareEventTypes);
 
-static BOOL bModuleInitialized = FALSE;
-
-static INT_PTR DbEventTypeRegister(WPARAM, LPARAM lParam)
+void UnloadEventsModule()
 {
-	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)lParam;
+	for (int i = 0; i < eventTypes.getCount(); i++) {
+		DBEVENTTYPEDESCR *p = eventTypes[i];
+		mir_free(p->module);
+		mir_free(p->descr);
+		mir_free(p->textService);
+		mir_free(p->iconService);
+		mir_free(p);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) DbEvent_RegisterType(DBEVENTTYPEDESCR *et)
+{
 	if (et == NULL || et->cbSize != sizeof(DBEVENTTYPEDESCR))
 		return -1;
 
@@ -73,12 +84,12 @@ static INT_PTR DbEventTypeRegister(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR DbEventTypeGet(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(DBEVENTTYPEDESCR*) DbEvent_GetType(const char *szModule, int eventType)
 {
 	DBEVENTTYPEDESCR tmp;
-	tmp.module = (char*)wParam;
-	tmp.eventType = lParam;
-	return (INT_PTR)eventTypes.find(&tmp);
+	tmp.module = (char*)szModule;
+	tmp.eventType = eventType;
+	return eventTypes.find(&tmp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -90,19 +101,14 @@ static wchar_t* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
 	return (dbei->flags & DBEF_UTF) ? Utf8DecodeT(in) : mir_a2u(in);
 }
 
-static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
+static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatype)
 {
-	DBEVENTGETTEXT* egt = (DBEVENTGETTEXT*)lParam;
-	if (egt == NULL)
-		return 0;
-
-	DBEVENTINFO *dbei = egt->dbei;
 	if (dbei == NULL || dbei->szModule == NULL || dbei->cbSize != sizeof(DBEVENTINFO))
 		return 0;
 
-	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)DbEventTypeGet((WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 	if (et && ServiceExists(et->textService))
-		return CallService(et->textService, wParam, lParam);
+		return CallService(et->textService, (WPARAM)dbei, datatype);
 
 	if (!dbei->pBlob)
 		return 0;
@@ -143,7 +149,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		}
 		else text.Format(TranslateT("You were added by %s%s"),
 			(tszNick == NULL) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick);
-		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
+		return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
 	}
 
 	if (dbei->eventType == EVENTTYPE_CONTACTS) {
@@ -158,7 +164,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 			if (tszUin && *tszUin)
 				text.AppendFormat(L"<%s>; ", tszUin);
 		}
-		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
+		return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_wstrdup(text) : (INT_PTR)mir_u2a(text);
 	}
 
 	if (dbei->eventType == EVENTTYPE_FILE) {
@@ -166,7 +172,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		ptrW tszFileName(getEventString(dbei, buf));
 		ptrW tszDescription(getEventString(dbei, buf));
 		ptrW &ptszText = (mir_wstrlen(tszDescription) == 0) ? tszFileName : tszDescription;
-		switch (egt->datatype) {
+		switch (datatype) {
 		case DBVT_WCHAR:
 			return (INT_PTR)ptszText.detach();
 		case DBVT_ASCIIZ:
@@ -176,42 +182,53 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 	}
 
 	// by default treat an event's blob as a string
-	if (egt->datatype == DBVT_WCHAR) {
+	if (datatype == DBVT_WCHAR) {
 		char *str = (char*)alloca(dbei->cbBlob + 1);
 		memcpy(str, dbei->pBlob, dbei->cbBlob);
 		str[dbei->cbBlob] = 0;
 
 		if (dbei->flags & DBEF_UTF) {
 			WCHAR *msg = NULL;
-			Utf8DecodeCP(str, egt->codepage, &msg);
+			Utf8DecodeCP(str, codepage, &msg);
 			if (msg)
 				return (INT_PTR)msg;
 		}
 
-		return (INT_PTR)mir_a2u_cp(str, egt->codepage);
+		return (INT_PTR)mir_a2u_cp(str, codepage);
 	}
 
-	if (egt->datatype == DBVT_ASCIIZ) {
+	if (datatype == DBVT_ASCIIZ) {
 		char *msg = mir_strdup((char*)dbei->pBlob);
 		if (dbei->flags & DBEF_UTF)
-			Utf8DecodeCP(msg, egt->codepage, NULL);
+			Utf8DecodeCP(msg, codepage, NULL);
 
 		return (INT_PTR)msg;
 	}
 	return 0;
 }
 
-static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(char*) DbEvent_GetTextA(DBEVENTINFO *dbei, int codepage)
 {
-	DBEVENTINFO* dbei = (DBEVENTINFO*)lParam;
-	HICON icon = NULL;
-	DBEVENTTYPEDESCR* et = (DBEVENTTYPEDESCR*)DbEventTypeGet((WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	return (char*)DbEventGetTextWorker(dbei, codepage, DBVT_ASCIIZ);
+}
 
+MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(DBEVENTINFO *dbei, int codepage)
+{
+	return (wchar_t*)DbEventGetTextWorker(dbei, codepage, DBVT_WCHAR);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
+{
+	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 	if (et && ServiceExists(et->iconService)) {
-		icon = (HICON)CallService(et->iconService, wParam, lParam);
+		HICON icon = (HICON)CallService(et->iconService, (WPARAM)dbei, flags);
 		if (icon)
-			return (INT_PTR)icon;
+			return icon;
 	}
+
+	HICON icon = NULL;
 	if (et && et->eventIcon)
 		icon = IcoLib_GetIconByHandle(et->eventIcon);
 	if (!icon) {
@@ -236,18 +253,17 @@ static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	return (INT_PTR)((wParam & LR_SHARED) ? icon : CopyIcon(icon));
+	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
 }
 
-static INT_PTR DbEventGetStringT(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str)
 {
-	DBEVENTINFO* dbei = (DBEVENTINFO*)wParam;
-	char *string = (char*)lParam;
-
 	if (dbei->flags & DBEF_UTF)
-		return (INT_PTR)Utf8DecodeW(string);
+		return Utf8DecodeW(str);
 
-	return (INT_PTR)mir_a2u(string);
+	return mir_a2u(str);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -259,109 +275,67 @@ static int sttEnumVars(const char *szVarName, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR DbDeleteModule(WPARAM hContact, LPARAM lParam)
+MIR_APP_DLL(int) DbModule_Delete(MCONTACT hContact, const char *szModuleName)
 {
 	LIST<char> vars(20);
 
 	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = sttEnumVars;
 	dbces.lParam = (LPARAM)&vars;
-	dbces.szModule = (char*)lParam;
+	dbces.szModule = (char*)szModuleName;
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 
 	for (int i = vars.getCount()-1; i >= 0; i--) {
-		db_unset(hContact, (char*)lParam, vars[i]);
+		db_unset(hContact, szModuleName, vars[i]);
 		mir_free(vars[i]);
 	}
 	return 0;
 }
 
-static INT_PTR GetProfilePath(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Profile_GetPathA(size_t cbLen, char *pszDest)
 {
-	if (!wParam || !lParam)
+	if (!pszDest || !cbLen)
 		return 1;
 
-	char *dst = (char*)lParam;
-	strncpy(dst, _T2A(g_profileDir), wParam);
-	dst[wParam-1] = 0;
+	strncpy_s(pszDest, cbLen, _T2A(g_profileDir), _TRUNCATE);
 	return 0;
 }
 
-static INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Profile_GetPathW(size_t cbLen, wchar_t *pwszDest)
 {
-	if (!wParam || !lParam)
+	if (!pwszDest || !cbLen)
 		return 1;
 
-	char *dst = (char*)lParam;
-
-	char *tmp = makeFileName(g_profileName);
-	strncpy(dst, tmp, wParam);
-	mir_free(tmp);
-
-	dst[wParam-1] = 0;
-	return 0;
-}
-
-static INT_PTR GetProfilePathW(WPARAM wParam, LPARAM lParam)
-{
-	if (!wParam || !lParam)
-		return 1;
-
-	wchar_t *dst = (wchar_t*)lParam;
-	wcsncpy(dst, g_profileDir, wParam);
-	dst[wParam-1] = 0;
-	return 0;
-}
-
-static INT_PTR GetProfileNameW(WPARAM wParam, LPARAM lParam)
-{
-	wchar_t *dst = (wchar_t*)lParam;
-	wcsncpy(dst, g_profileName, wParam);
-	dst[wParam-1] = 0;
-	return 0;
-}
-
-static INT_PTR SetDefaultProfile(WPARAM wParam, LPARAM)
-{
-	extern wchar_t* g_defaultProfile;
-	replaceStrW(g_defaultProfile, (wchar_t*)wParam);
+	wcsncpy_s(pwszDest, cbLen, g_profileDir, _TRUNCATE);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int LoadEventsModule()
+MIR_APP_DLL(int) Profile_GetNameA(size_t cbLen, char *pszDest)
 {
-	bModuleInitialized = TRUE;
+	if (!cbLen || !pszDest)
+		return 1;
 
-	CreateServiceFunction(MS_DB_EVENT_REGISTERTYPE, DbEventTypeRegister);
-	CreateServiceFunction(MS_DB_EVENT_GETTYPE, DbEventTypeGet);
-	CreateServiceFunction(MS_DB_EVENT_GETTEXT, DbEventGetText);
-	CreateServiceFunction(MS_DB_EVENT_GETICON, DbEventGetIcon);
-	CreateServiceFunction(MS_DB_EVENT_GETSTRINGT, DbEventGetStringT);
-
-	CreateServiceFunction(MS_DB_MODULE_DELETE, DbDeleteModule);
-
-	CreateServiceFunction(MS_DB_GETPROFILEPATH, GetProfilePath);
-	CreateServiceFunction(MS_DB_GETPROFILENAME, GetProfileName);
-	CreateServiceFunction(MS_DB_GETPROFILEPATHW, GetProfilePathW);
-	CreateServiceFunction(MS_DB_GETPROFILENAMEW, GetProfileNameW);
-
-	CreateServiceFunction(MS_DB_SETDEFAULTPROFILE, SetDefaultProfile);
+	strncpy_s(pszDest, cbLen, ptrA(makeFileName(g_profileName)), _TRUNCATE);
 	return 0;
 }
 
-void UnloadEventsModule()
+MIR_APP_DLL(int) Profile_GetNameW(size_t cbLen, wchar_t *pwszDest)
 {
-	if (!bModuleInitialized)
-		return;
+	if (!cbLen || !pwszDest)
+		return 1;
 
-	for (int i=0; i < eventTypes.getCount(); i++) {
-		DBEVENTTYPEDESCR *p = eventTypes[i];
-		mir_free(p->module);
-		mir_free(p->descr);
-		mir_free(p->textService);
-		mir_free(p->iconService);
-		mir_free(p);
-	}
+	wcsncpy_s(pwszDest, cbLen, g_profileName, _TRUNCATE);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) Profile_SetDefault(const wchar_t *pwszPath)
+{
+	extern wchar_t* g_defaultProfile;
+	replaceStrW(g_defaultProfile, pwszPath);
 }

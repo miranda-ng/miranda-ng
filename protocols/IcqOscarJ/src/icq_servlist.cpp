@@ -1180,7 +1180,7 @@ int CIcqProto::IsServerGroupsDefined()
 
 		// flush obsolete linking data
 		mir_snprintf(szModule, "%sGroups", m_szModuleName);
-		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+		DbModule_Delete(0, szModule);
 
 		iRes = 0; // no groups defined, or older version
 	}
@@ -1193,9 +1193,8 @@ int CIcqProto::IsServerGroupsDefined()
 void CIcqProto::FlushSrvGroupsCache()
 {
 	char szModule[MAX_PATH];
-
 	mir_snprintf(szModule, "%sSrvGroups", m_szModuleName);
-	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+	DbModule_Delete(0, szModule);
 }
 
 // Look thru DB and collect all ContactIDs from a group

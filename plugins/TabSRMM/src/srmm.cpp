@@ -119,7 +119,7 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 		char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];
 		FILE *f;
 
-		CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
+		Profile_GetPathA(MAX_PATH, szDataPath);
 		mir_snprintf(szLogFileName, "%s\\%s", szDataPath, "tabsrmm_debug.log");
 		f = fopen(szLogFileName, "a+");
 		if (f) {

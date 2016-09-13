@@ -1670,7 +1670,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 					db_event_get(dat->hDbEventLast, &dbei);
 					if (DbEventIsMessageOrCustom(&dbei)) {
-						buffer = DbGetEventTextW(&dbei, CP_ACP);
+						buffer = DbEvent_GetTextW(&dbei, CP_ACP);
 						if (buffer != NULL) {
 							wchar_t *quotedBuffer = GetQuotedTextW(buffer);
 							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);

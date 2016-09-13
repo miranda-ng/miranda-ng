@@ -33,7 +33,7 @@ INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
 	wchar_t *filename = (wchar_t *)lParam;
 	if (db_get_ws(0, PLUG, "LogFilename", &dbv)) {
-		CallService(MS_DB_GETPROFILEPATHW, wParam, (LPARAM)filename);
+		Profile_GetPathW(wParam, filename);
 		mir_wstrncat(filename, L"\\ping_log.txt", wParam - mir_wstrlen(filename));
 	}
 	else {

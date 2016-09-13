@@ -299,7 +299,7 @@ var
   altfilename,filename:array [0..127] of AnsiChar;
   p:PAnsiChar;
 begin
-  CallService(MS_DB_GETPROFILEPATH,300,lparam(@profilepath));
+  Profile_GetPathA(300,@profilepath);
   p:=StrEnd(profilepath);
   p^:='\'; inc(p);
   p^:=#0;
@@ -309,7 +309,7 @@ begin
   begin
     StrCopy(filename,prefix);
     p:=StrEnd(filename);
-    CallService(MS_DB_GETPROFILENAME,SizeOf(filename)-integer(p-PAnsiChar(@filename)),lparam(p));
+    Profile_GetNameA(Sizeof(filename)-integer(p-PAnsiChar(@filename)),p);
     ChangeExt(filename,ext);
     result:=CheckPath(filename,profilepath,path);
   end

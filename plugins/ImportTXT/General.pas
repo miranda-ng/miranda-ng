@@ -342,11 +342,6 @@ begin
   result := Proto_GetProtoName(hContact);
 end;
 
-function DBFreeVariant(dbv: PDBVARIANT): integer;
-begin
-  result := db_free(dbv);
-end;
-
 function GetContactID(hContact: THandle; proto: AnsiString = '';
   Contact: boolean = false): WideString;
 var
@@ -387,7 +382,7 @@ begin
             result := dbv.szVal.w;
         end;
         // free variant
-        DBFreeVariant(@dbv);
+        db_free(@dbv);
       end;
     end;
   end;
@@ -429,7 +424,7 @@ begin
           result := dbv.szVal.w;
       end;
       // free variant
-      DBFreeVariant(@dbv);
+      db_free(@dbv);
     end;
   end;
 end;

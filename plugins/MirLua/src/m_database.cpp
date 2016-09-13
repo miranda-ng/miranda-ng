@@ -376,7 +376,7 @@ static int db_DeleteModule(lua_State *L)
 	MCONTACT hContact = lua_tointeger(L, 1);
 	LPCSTR szModule = luaL_checkstring(L, 2);
 
-	INT_PTR res = CallService(MS_DB_MODULE_DELETE, hContact, (LPARAM)szModule);
+	INT_PTR res = DbModule_Delete(hContact, szModule);
 	lua_pushboolean(L, !res);
 
 	return 1;

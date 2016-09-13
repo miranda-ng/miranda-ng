@@ -99,7 +99,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, wchar_t *pszDest
 	}
 	else {
 		wchar_t szBuf[MAX_PATH];
-		if (CallService(MS_DB_GETPROFILENAMEW, MAX_PATH, (LPARAM)szBuf))
+		if (Profile_GetNameW(MAX_PATH, szBuf))
 			mir_wstrcpy(pszDest + tPathLen, L"avatar");
 		else {
 			wchar_t *szLastDot = wcsrchr(szBuf, '.');

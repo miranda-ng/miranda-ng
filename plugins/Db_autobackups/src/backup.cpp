@@ -186,7 +186,7 @@ int Backup(wchar_t *backup_filename)
 	HWND progress_dialog = NULL;
 	SYSTEMTIME st;
 
-	CallService(MS_DB_GETPROFILENAMEW, _countof(dbname), (LPARAM)dbname);
+	Profile_GetNameW(_countof(dbname), dbname);
 
 	if (backup_filename == NULL) {
 		int err;

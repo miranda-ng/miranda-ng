@@ -1373,7 +1373,7 @@ void AddHistoryEvent(DBEVENTINFO *dbEvent, char *contact, PReply reply)
 	TimeZone_ToString(dbEvent->timestamp, "D, s", timestamp, sizeof(timestamp));
 
 	char *sender = (dbEvent->flags & DBEF_SENT) ? Translate("[me]") : contact;
-	char *message = DbGetEventTextA(dbEvent, CP_ACP);
+	char *message = DbEvent_GetTextA(dbEvent, CP_ACP);
 
 	static char buffer[8192];
 	mir_snprintf(buffer, "[%s] %15s: %s", timestamp, sender, message);

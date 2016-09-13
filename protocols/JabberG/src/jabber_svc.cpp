@@ -175,15 +175,15 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberGetEventTextChatStates - retrieves a chat state description from an event
 
-INT_PTR __cdecl CJabberProto::OnGetEventTextChatStates(WPARAM, LPARAM lParam)
+INT_PTR __cdecl CJabberProto::OnGetEventTextChatStates(WPARAM pEvent, LPARAM datatype)
 {
-	DBEVENTGETTEXT *pdbEvent = (DBEVENTGETTEXT *)lParam;
-	if (pdbEvent->dbei->cbBlob > 0) {
-		if (pdbEvent->dbei->pBlob[0] == JABBER_DB_EVENT_CHATSTATES_GONE) {
-			if (pdbEvent->datatype == DBVT_WCHAR)
+	DBEVENTINFO *dbei = (DBEVENTINFO *)pEvent;
+	if (dbei->cbBlob > 0) {
+		if (dbei->pBlob[0] == JABBER_DB_EVENT_CHATSTATES_GONE) {
+			if (datatype == DBVT_WCHAR)
 				return (INT_PTR)mir_wstrdup(TranslateT("closed chat session"));
-			else if (pdbEvent->datatype == DBVT_ASCIIZ)
-				return (INT_PTR)mir_strdup(Translate("closed chat session"));
+			
+			return (INT_PTR)mir_strdup(Translate("closed chat session"));
 		}
 	}
 
@@ -193,52 +193,40 @@ INT_PTR __cdecl CJabberProto::OnGetEventTextChatStates(WPARAM, LPARAM lParam)
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnGetEventTextPresence - retrieves presence state description from an event
 
-INT_PTR __cdecl CJabberProto::OnGetEventTextPresence(WPARAM, LPARAM lParam)
+INT_PTR __cdecl CJabberProto::OnGetEventTextPresence(WPARAM pEvent, LPARAM datatype)
 {
-	DBEVENTGETTEXT *pdbEvent = (DBEVENTGETTEXT *)lParam;
-	if (pdbEvent->dbei->cbBlob > 0) {
-		switch (pdbEvent->dbei->pBlob[0]) {
+	DBEVENTINFO *dbei = (DBEVENTINFO *)pEvent;
+	if (dbei->cbBlob > 0) {
+		switch (dbei->pBlob[0]) {
 		case JABBER_DB_EVENT_PRESENCE_SUBSCRIBE:
-			if (pdbEvent->datatype == DBVT_WCHAR)
+			if (datatype == DBVT_WCHAR)
 				return (INT_PTR)mir_wstrdup(TranslateT("sent subscription request"));
-			else if (pdbEvent->datatype == DBVT_ASCIIZ)
-				return (INT_PTR)mir_strdup(Translate("sent subscription request"));
-			break;
+			return (INT_PTR)mir_strdup(Translate("sent subscription request"));
 
 		case JABBER_DB_EVENT_PRESENCE_SUBSCRIBED:
-			if (pdbEvent->datatype == DBVT_WCHAR)
+			if (datatype == DBVT_WCHAR)
 				return (INT_PTR)mir_wstrdup(TranslateT("approved subscription request"));
-			else if (pdbEvent->datatype == DBVT_ASCIIZ)
-				return (INT_PTR)mir_strdup(Translate("approved subscription request"));
-			break;
+			return (INT_PTR)mir_strdup(Translate("approved subscription request"));
 
 		case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBE:
-			if (pdbEvent->datatype == DBVT_WCHAR)
+			if (datatype == DBVT_WCHAR)
 				return (INT_PTR)mir_wstrdup(TranslateT("declined subscription"));
-			else if (pdbEvent->datatype == DBVT_ASCIIZ)
-				return (INT_PTR)mir_strdup(Translate("declined subscription"));
-			break;
+			return (INT_PTR)mir_strdup(Translate("declined subscription"));
 
 		case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBED:
-			if (pdbEvent->datatype == DBVT_WCHAR)
+			if (datatype == DBVT_WCHAR)
 				return (INT_PTR)mir_wstrdup(TranslateT("declined subscription"));
-			else if (pdbEvent->datatype == DBVT_ASCIIZ)
-				return (INT_PTR)mir_strdup(Translate("declined subscription"));
-			break;
+			return (INT_PTR)mir_strdup(Translate("declined subscription"));
 
 		case JABBER_DB_EVENT_PRESENCE_ERROR:
-			if (pdbEvent->datatype == DBVT_WCHAR)
+			if (datatype == DBVT_WCHAR)
 				return (INT_PTR)mir_wstrdup(TranslateT("sent error presence"));
-			else if (pdbEvent->datatype == DBVT_ASCIIZ)
-				return (INT_PTR)mir_strdup(Translate("sent error presence"));
-			break;
+			return (INT_PTR)mir_strdup(Translate("sent error presence"));
 
 		default:
-			if (pdbEvent->datatype == DBVT_WCHAR)
+			if (datatype == DBVT_WCHAR)
 				return (INT_PTR)mir_wstrdup(TranslateT("sent unknown presence type"));
-			else if (pdbEvent->datatype == DBVT_ASCIIZ)
-				return (INT_PTR)mir_strdup(Translate("sent unknown presence type"));
-			break;
+			return (INT_PTR)mir_strdup(Translate("sent unknown presence type"));
 		}
 	}
 

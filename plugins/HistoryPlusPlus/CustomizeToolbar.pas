@@ -335,7 +335,7 @@ begin
   if ToolbarStr = '' then
     ToolbarStr := DEF_HISTORY_TOOLBAR;
   if ToolbarStr = DEF_HISTORY_TOOLBAR then
-    DBDeleteContactSetting(0, hppDBName, 'HistoryToolbar')
+    db_unset(0, hppDBName, 'HistoryToolbar')
   else
     WriteDBStr(hppDBName, 'HistoryToolbar', ToolbarStr);
 end;
@@ -557,7 +557,7 @@ end;
 
 procedure TfmCustomizeToolbar.bnResetClick(Sender: TObject);
 begin
-  DBDeleteContactSetting(0, hppDBName, 'HistoryToolbar');
+  db_unset(0, hppDBName, 'HistoryToolbar');
   NotifyAllForms(HM_NOTF_TOOLBARCHANGED, 0, 0);
   FillButtons;
   UpdateControlButtons;

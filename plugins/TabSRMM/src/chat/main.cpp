@@ -242,7 +242,7 @@ static void CheckUpdate()
 			mir_free(p);
 		}
 
-		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)CHAT_OLDFONTMODULE);
+		DbModule_Delete(NULL, CHAT_OLDFONTMODULE);
 		compat++;
 	}
 

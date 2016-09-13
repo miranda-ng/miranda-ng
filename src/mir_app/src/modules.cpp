@@ -38,7 +38,6 @@ int  LoadProtocolsModule(void);	// core: protocol manager
 int  LoadAccountsModule(void);    // core: account manager
 int  LoadIgnoreModule(void);		// protocol filter: ignore
 int  LoadDbintfModule(void);
-int  LoadEventsModule(void);
 int  LoadSrmmModule(void);
 
 int  LoadContactsModule(void);
@@ -52,7 +51,6 @@ int  LoadSkinHotkeys(void);
 int  LoadUserInfoModule(void);	// ui: user info
 int  LoadVisibilityModule(void);	// ui: visibility control
 
-int  LoadPluginOptionsModule(void);	// ui: plugin viewer
 int  LoadAddContactModule(void);	// ui: authcontrol contacts
 int  LoadUtilsModule(void);		// ui: utils (has a few window classes, like HyperLink)
 int  LoadCLCModule(void);		// window class: CLC control
@@ -61,13 +59,11 @@ int  LoadFontserviceModule(void); // ui: font manager
 int  LoadIcoLibModule(void);   // ui: icons manager
 int  LoadServiceModePlugin(void);
 int  LoadDefaultServiceModePlugin(void);
-int  LoadErrorsModule(void);
 
 void UnloadAccountsModule(void);
 void UnloadClcModule(void);
 void UnloadContactListModule(void);
 void UnloadDatabase(void);
-void UnloadErrorsModule(void);
 void UnloadEventsModule(void);
 void UnloadExtraIconsModule(void);
 void UnloadIcoLibModule(void);
@@ -80,9 +76,9 @@ void UnloadSkinHotkeys(void);
 void UnloadSrmmModule(void);
 void UnloadUtilsModule(void);
 
-int  LoadIcoTabsModule();
-int  LoadHeaderbarModule();
-int  LoadDescButtonModule();
+int LoadIcoTabsModule();
+int LoadHeaderbarModule();
+int LoadDescButtonModule();
 
 int LoadDefaultModules(void)
 {
@@ -94,7 +90,6 @@ int LoadDefaultModules(void)
 	if (LoadIcoTabsModule()) return 1;
 	if (LoadHeaderbarModule()) return 1;
 	if (LoadDbintfModule()) return 1;
-	if (LoadEventsModule()) return 1;
 
 	// load database drivers & service plugins without executing their Load()
 	if (LoadNewPluginsModuleInfos()) return 1;

@@ -173,7 +173,7 @@ wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 			if (dbei.cbBlob == 0 || dbei.pBlob == 0)
 				return 0;
 
-			wchar_t *buff = DbGetEventTextW( &dbei, CP_ACP );
+			wchar_t *buff = DbEvent_GetTextW( &dbei, CP_ACP );
 			wchar_t *swzMsg = mir_wstrdup(buff);
 			mir_free(buff);
 

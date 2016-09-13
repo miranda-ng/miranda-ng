@@ -185,7 +185,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		if (bShortModeDone) {
 			if (!errorCount) {
 				if (bLaunchMiranda)
-					CallService(MS_DB_SETDEFAULTPROFILE, (WPARAM)opts.filename, 0);
+					Profile_SetDefault(opts.filename);
 				wizardResult = 1;
 			}
 			return TRUE;

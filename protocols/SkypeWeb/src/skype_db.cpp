@@ -164,7 +164,7 @@ void CSkypeProto::InitDBEvents()
 		dbEventType.descr = Translate(cur.name);
 		dbEventType.flags |= cur.flags;
 
-		CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+		DbEvent_RegisterType(&dbEventType);
 
 		dbEventType.flags &= (~cur.flags);
 	}

@@ -118,7 +118,7 @@ var
 begin
   Result := (db_get(hContact, PAnsiChar(Module), PAnsiChar(Param), @dbv) = 0);
   if Result then
-    DBFreeVariant(@dbv);
+    db_free(@dbv);
 end;
 
 function DBDelete(const Module, Param: AnsiString): Boolean;
@@ -128,7 +128,7 @@ end;
 
 function DBDelete(const hContact: THandle; const Module, Param: AnsiString): Boolean;
 begin
-  Result := (DBDeleteContactSetting(hContact,PAnsiChar(Module),PAnsiChar(Param)) = 0);
+  Result := (db_unset(hContact,PAnsiChar(Module),PAnsiChar(Param)) = 0);
 end;
 
 function WriteDBBool(const Module,Param: AnsiString; Value: Boolean): Integer;
@@ -148,7 +148,7 @@ end;
 
 function WriteDBByte(const hContact: THandle; const Module,Param: AnsiString; Value: Byte): Integer;
 begin
-  Result := DBWriteContactSettingByte(hContact,PAnsiChar(Module), PAnsiChar(Param), Value);
+  Result := db_set_b(hContact,PAnsiChar(Module), PAnsiChar(Param), Value);
 end;
 
 function WriteDBWord(const Module,Param: AnsiString; Value: Word): Integer;
@@ -158,7 +158,7 @@ end;
 
 function WriteDBWord(const hContact: THandle; const Module,Param: AnsiString; Value: Word): Integer;
 begin
-  Result := DBWriteContactSettingWord(hContact,PAnsiChar(Module),PAnsiChar(Param),Value);
+  Result := db_set_w(hContact,PAnsiChar(Module),PAnsiChar(Param),Value);
 end;
 
 function WriteDBDWord(const Module,Param: AnsiString; Value: DWord): Integer;
@@ -168,7 +168,7 @@ end;
 
 function WriteDBDWord(const hContact: THandle; const Module,Param: AnsiString; Value: DWord): Integer;
 begin
-  Result := DBWriteContactSettingDWord(hContact,PAnsiChar(Module),PAnsiChar(Param),Value);
+  Result := db_set_dw(hContact,PAnsiChar(Module),PAnsiChar(Param),Value);
 end;
 
 function WriteDBInt(const Module,Param: AnsiString; Value: Integer): Integer;
@@ -188,7 +188,7 @@ end;
 
 function WriteDBStr(const hContact: THandle; const Module,Param: AnsiString; const Value: AnsiString): Integer;
 begin
-  Result := DBWriteContactSettingString(hContact,PAnsiChar(Module),PAnsiChar(Param),PAnsiChar(Value));
+  Result := db_set_s(hContact,PAnsiChar(Module),PAnsiChar(Param),PAnsiChar(Value));
 end;
 
 function WriteDBWideStr(const Module,Param: AnsiString; const Value: WideString): Integer;
@@ -247,7 +247,7 @@ begin
   if dbv.cpbVal = 0 then exit;
   GetMem(Value,dbv.cpbVal);
   Move(dbv.pbVal^,PByte(Value)^,dbv.cpbVal);
-  DBFreeVariant(@dbv);
+  db_free(@dbv);
   Result := True;
 end;
 
@@ -268,7 +268,7 @@ end;
 
 function GetDBByte(const hContact: THandle; const Module,Param: AnsiString; Default: Byte): Byte;
 begin
-  Result := DBGetContactSettingByte(hContact,PAnsiChar(Module),PAnsiChar(Param),Default);
+  Result := db_get_b(hContact,PAnsiChar(Module),PAnsiChar(Param),Default);
 end;
 
 function GetDBWord(const Module,Param: AnsiString; Default: Word): Word;
@@ -278,7 +278,7 @@ end;
 
 function GetDBWord(const hContact: THandle; const Module,Param: AnsiString; Default: Word): Word;
 begin
-  Result := DBGetContactSettingWord(hContact,PAnsiChar(Module),PAnsiChar(Param),Default);
+  Result := db_get_w(hContact,PAnsiChar(Module),PAnsiChar(Param),Default);
 end;
 
 function GetDBDWord(const Module,Param: AnsiString; Default: DWord): DWord;
@@ -288,7 +288,7 @@ end;
 
 function GetDBDWord(const hContact: THandle; const Module,Param: AnsiString; Default: DWord): DWord;
 begin
-  Result := DBGetContactSettingDWord(hContact,PAnsiChar(Module),PAnsiChar(Param),Default);
+  Result := db_get_dw(hContact,PAnsiChar(Module),PAnsiChar(Param),Default);
 end;
 
 function GetDBInt(const Module,Param: AnsiString; Default: Integer): Integer;
@@ -337,7 +337,7 @@ begin
         Result := WideToAnsiString(dbv.szVal.w,hppCodepage);
     end;
     // free variant
-    DBFreeVariant(@dbv);
+    db_free(@dbv);
   end;
 end;
 
@@ -367,7 +367,7 @@ begin
         Result := WideString(dbv.szVal.w);
     end;
     // free variant
-    DBFreeVariant(@dbv);
+    db_free(@dbv);
   end;
 end;
 

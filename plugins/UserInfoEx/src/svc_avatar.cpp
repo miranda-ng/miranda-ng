@@ -29,7 +29,7 @@ namespace NServices
 
 		static int GetContactAvatarFileName(LPCTSTR zodiac, LPSTR szFileName, int cchFileName)
 		{
-			if (!CallService(MS_DB_GETPROFILEPATH, (WPARAM)cchFileName, (LPARAM)szFileName)) {
+			if (!Profile_GetPathA(cchFileName, szFileName)) {
 				size_t len = mir_strlen(szFileName);
 
 				CHAR tmp[64];

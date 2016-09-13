@@ -468,9 +468,9 @@ bool bReadMirandaDirAndPath()
 	PathToAbsoluteW(L"miranda32.exe", tmp);
 	sMirandaPath = tmp;
 	sMirandaPath.erase(sMirandaPath.find_last_of(L"\\"));
-	CallService(MS_DB_GETPROFILEPATHW, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
+	Profile_GetPathW(MAX_PATH, szDBPath);
 	sDBPath = szDBPath;
-	CallService(MS_DB_GETPROFILENAMEW, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
+	Profile_GetNameW(MAX_PATH, szDBPath);
 	sDBPath.append(L"\\").append(szDBPath);
 	sDBPath.erase(sDBPath.size() - 4);
 	return true;
@@ -1013,7 +1013,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
 			{
-				wchar_t *msg = DbGetEventTextW(&dbei, CP_ACP);
+				wchar_t *msg = DbEvent_GetTextW(&dbei, CP_ACP);
 				if (!bWriteIndentedToFile(hFile, nIndent, msg, bWriteUTF8Format)) {
 					DisplayErrorDialog(LPGENW("Failed to write message to the file :\n"), sFilePath, &dbei);
 				}

@@ -18,24 +18,12 @@ namespace mu
 	}
 
 	/*
-	 * db
-	 */
-
-	namespace db
-	{
-		int getProfilePath(int cbName, wchar_t* pszName);
-		int getProfileName(int cbName, wchar_t* pszName);
-		void setSafetyMode(bool safetyMode);
-	}
-
-	/*
 	 * db_contact
 	 */
 
 	namespace db_contact
 	{
 		int enumSettings(MCONTACT hContact, const char* szModule, DBSETTINGENUMPROC pEnumProc, LPARAM lProcParam);
-		int getCount();
 	}
 
 	/*

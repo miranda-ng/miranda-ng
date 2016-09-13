@@ -1183,7 +1183,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	evtype.descr = LPGEN("Status change");
 	evtype.eventIcon = iconList[0].hIcolib;
 	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&evtype);
+	DbEvent_RegisterType(&evtype);
 
 	hServiceMenu = CreateServiceFunction(MS_STATUSCHANGE_MENUCOMMAND, EnableDisableMenuCommand);
 

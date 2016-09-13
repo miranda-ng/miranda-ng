@@ -216,11 +216,8 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	db_event_get(hDbEvent, &dbei);
 	if (dbei.flags & DBEF_SENT || dbei.flags & DBEF_READ || dbei.eventType != EVENTTYPE_MESSAGE)
 		return 0;
-	DBEVENTGETTEXT egt;
-	egt.codepage = CP_ACP;
-	egt.datatype = DBVT_WCHAR;
-	egt.dbei = &dbei;
-	wchar_t* s = (wchar_t*)(void*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&egt);
+
+	wchar_t *s = DbEvent_GetTextW(&dbei, CP_ACP);
 	free(dbei.pBlob);
 	if (Config.MarkAsRead)
 		db_event_markRead(hContact, hDbEvent);

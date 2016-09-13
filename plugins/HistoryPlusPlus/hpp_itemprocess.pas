@@ -479,7 +479,7 @@ begin
   begin
     // Get profile dir
     SetLength(hppProfileDir, MAX_PATH);
-    CallService(MS_DB_GETPROFILEPATH, MAX_PATH, lParam(@hppProfileDir[1]));
+    Profile_GetPathA(MAX_PATH, @hppProfileDir[1]);
     SetLength(hppProfileDir, StrLen(pAnsiChar(@hppProfileDir[1])));
     Link := AnsiString(hppProfileDir) + '\' + ird.pExtended; //!!
   end;

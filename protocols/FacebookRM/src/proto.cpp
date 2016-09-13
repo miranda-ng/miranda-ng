@@ -110,7 +110,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	evtype.descr = LPGEN("Video call");
 	evtype.eventIcon = GetIconHandle("facebook");
 	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&evtype);
+	DbEvent_RegisterType(&evtype);
 }
 
 FacebookProto::~FacebookProto()

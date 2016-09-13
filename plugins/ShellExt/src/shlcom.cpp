@@ -425,7 +425,7 @@ void __stdcall ipcService(ULONG_PTR)
 			if (pct != NULL) {
 				// will actually return with .dat if there's space for it, not what the docs say
 				pct->Status = STATUS_PROFILENAME;
-				CallService(MS_DB_GETPROFILENAME, 49, UINT_PTR(pct) + sizeof(TSlotIPC));
+				Profile_GetNameA(49, (char*)pct + sizeof(TSlotIPC));
 			}
 		}
 		if (*bits & REQUEST_NEWICONS)

@@ -630,15 +630,15 @@ INT_PTR __cdecl CIcqProto::IcqCheckCapability(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR icq_getEventTextMissedMessage(WPARAM, LPARAM lParam)
+INT_PTR icq_getEventTextMissedMessage(WPARAM pEvent, LPARAM datatype)
 {
-	DBEVENTGETTEXT *pEvent = (DBEVENTGETTEXT *)lParam;
+	DBEVENTINFO *dbei = (DBEVENTINFO *)pEvent;
 
 	INT_PTR nRetVal = 0;
 	char *pszText = NULL;
 
-	if (pEvent->dbei->cbBlob > 1) {
-		switch (((WORD*)pEvent->dbei->pBlob)[0]) {
+	if (dbei->cbBlob > 1) {
+		switch (((WORD*)dbei->pBlob)[0]) {
 		case 0:
 			pszText = LPGEN("** This message was blocked by the ICQ server ** The message was invalid.");
 			break;
@@ -659,18 +659,17 @@ INT_PTR icq_getEventTextMissedMessage(WPARAM, LPARAM lParam)
 			pszText = LPGEN("** Unknown missed message event.");
 			break;
 		}
-		if (pEvent->datatype == DBVT_WCHAR) {
-			WCHAR *pwszText;
+		if (datatype == DBVT_WCHAR) {
 			int wchars = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, (int)mir_strlen(pszText), NULL, 0);
 
-			pwszText = (WCHAR*)_alloca((wchars + 1) * sizeof(WCHAR));
+			WCHAR *pwszText = (WCHAR*)_alloca((wchars + 1) * sizeof(WCHAR));
 			pwszText[wchars] = 0;
 
 			MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, (int)mir_strlen(pszText), pwszText, wchars);
 
 			nRetVal = (INT_PTR)mir_wstrdup(TranslateW(pwszText));
 		}
-		else if (pEvent->datatype == DBVT_ASCIIZ)
+		else if (datatype == DBVT_ASCIIZ)
 			nRetVal = (INT_PTR)mir_strdup(Translate(pszText));
 	}
 

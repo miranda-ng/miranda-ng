@@ -231,13 +231,13 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				dat->fs = cle->lParam ? (HANDLE)cle->lParam : (HANDLE)*(PDWORD)dbei.pBlob;
 
 				char *str = (char*)dbei.pBlob + 4;
-				ptrW ptszFileName(DbGetEventStringT(&dbei, str));
+				ptrW ptszFileName(DbEvent_GetString(&dbei, str));
 				SetDlgItemText(hwndDlg, IDC_FILENAMES, ptszFileName);
 
 				unsigned len = (unsigned)mir_strlen(str) + 1;
 				if (len + 4 < dbei.cbBlob) {
 					str += len;
-					ptrW pwszDescription(DbGetEventStringT(&dbei, str));
+					ptrW pwszDescription(DbEvent_GetString(&dbei, str));
 					SetDlgItemText(hwndDlg, IDC_MSG, pwszDescription);
 				}
 			}

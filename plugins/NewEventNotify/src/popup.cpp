@@ -369,29 +369,20 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		break;
 
 	default:
-		if (ServiceExists(MS_DB_EVENT_GETTYPE)) {
-			DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
-			// support for custom database event types
-			if (pei && dbei->pBlob) {
-				DBEVENTGETTEXT svc = {dbei, DBVT_WCHAR, CP_ACP};
-				wchar_t *pet = (wchar_t*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&svc);
-				if (pet) {
-					// we've got event text, move to our memory space
-					comment1 = mir_wstrdup(pet);
-					mir_free(pet);
-				}
-				commentFix = pei->descr;
-			}
-			else commentFix = POPUP_COMMENT_OTHER;
+		DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbei->szModule, dbei->eventType);
+		// support for custom database event types
+		if (pei && dbei->pBlob) {
+			comment1 = DbEvent_GetTextW(dbei, CP_ACP);
+			commentFix = pei->descr;
 		}
 		else commentFix = POPUP_COMMENT_OTHER;
 	}
 
-	if ( mir_wstrlen(comment1) > 0) {
+	if (mir_wstrlen(comment1) > 0) {
 		mir_free(comment2);
 		return comment1;
 	}
-	if ( mir_wstrlen(comment2) > 0) {
+	if (mir_wstrlen(comment2) > 0) {
 		mir_free(comment1);
 		return comment2;
 	}

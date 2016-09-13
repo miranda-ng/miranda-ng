@@ -909,7 +909,7 @@ namespace utils
 		if (strProfilePath.empty()) {
 			wchar_t szPath[MAX_PATH] = { 0 };
 
-			mu::db::getProfilePath(MAX_PATH, szPath);
+			Profile_GetPathW(MAX_PATH, szPath);
 			strProfilePath = szPath;
 
 			if (strProfilePath.empty() || strProfilePath[strProfilePath.length() - 1] != '\\')
@@ -928,7 +928,7 @@ namespace utils
 		if (strProfileName.empty()) {
 			wchar_t szName[MAX_PATH] = { 0 };
 
-			mu::db::getProfileName(MAX_PATH, szName);
+			Profile_GetNameW(MAX_PATH, szName);
 			strProfileName = szName;
 
 			ext::string::size_type posDot = strProfileName.rfind('.');

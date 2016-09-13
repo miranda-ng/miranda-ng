@@ -338,7 +338,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 
 			db_unset(NULL, "CLUI", "ShowButtonBar");
 
-			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernToolBar");
+			DbModule_Delete(0, "ModernToolBar");
 		}
 		db_set_b(NULL, "Compatibility", "TTB_Upgrade", 1);
 	}

@@ -387,7 +387,7 @@ int TSAPI DbEventIsShown(DBEVENTINFO *dbei)
 
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 {
-	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
@@ -420,7 +420,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
 	wchar_t *formatted = NULL;
-	wchar_t *msg = DbGetEventTextW(&dbei, CP_UTF8);
+	wchar_t *msg = DbEvent_GetTextW(&dbei, CP_UTF8);
 	if (!msg) {
 		mir_free(dbei.pBlob);
 		return NULL;
@@ -824,11 +824,11 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 					}
 					{
 						char *szFileName = (char *)dbei.pBlob + sizeof(DWORD);
-						ptrW tszFileName(DbGetEventStringT(&dbei, szFileName));
+						ptrW tszFileName(DbEvent_GetString(&dbei, szFileName));
 
 						char *szDescr = szFileName + mir_strlen(szFileName) + 1;
 						if (*szDescr != 0) {
-							ptrW tszDescr(DbGetEventStringT(&dbei, szDescr));
+							ptrW tszDescr(DbEvent_GetString(&dbei, szDescr));
 
 							wchar_t buf[1000];
 							mir_snwprintf(buf, L"%s (%s)", tszFileName, tszDescr);
@@ -844,7 +844,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						str.AppendChar(' ');
 					}
 
-					ptrW tszText(DbGetEventTextW(&dbei, CP_ACP));
+					ptrW tszText(DbEvent_GetTextW(&dbei, CP_ACP));
 					AppendUnicodeToBuffer(str, tszText, 0);
 				}
 				break;

@@ -378,7 +378,7 @@ void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void EraseAccount(const char* pszModuleName)
+void EraseAccount(const char *pszModuleName)
 {
 	// remove protocol contacts first
 	for (MCONTACT hContact = db_find_first(pszModuleName); hContact != NULL;) {
@@ -388,7 +388,7 @@ void EraseAccount(const char* pszModuleName)
 	}
 
 	// remove all protocol settings
-	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)pszModuleName);
+	DbModule_Delete(NULL, pszModuleName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

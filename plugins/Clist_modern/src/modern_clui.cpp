@@ -1560,8 +1560,8 @@ LRESULT CLUI::PreProcessWndProc(UINT msg, WPARAM wParam, LPARAM lParam, BOOL& bH
 			hView = MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, MAX_PATH);
 			if (hView) {
 				char szFilePath[MAX_PATH], szProfile[MAX_PATH];
-				CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)&szFilePath);
-				CallService(MS_DB_GETPROFILENAME, MAX_PATH, (LPARAM)&szProfile);
+				Profile_GetPathA(MAX_PATH, szFilePath);
+				Profile_GetNameA(MAX_PATH, szProfile);
 				mir_snprintf((char*)hView, MAX_PATH, "%s\\%s", szFilePath, szProfile);
 				UnmapViewOfFile(hView);
 				rc = 1;

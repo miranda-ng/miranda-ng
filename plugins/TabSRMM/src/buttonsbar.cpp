@@ -611,7 +611,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		switch (LOWORD(wParam)) {
 		case IDC_BBRESET:
-			CallService(MS_DB_MODULE_DELETE, NULL, LPARAM("TabSRMM_Toolbar"));
+			DbModule_Delete(NULL, "TabSRMM_Toolbar");
 			CB_HardReInit();
 			BuildMenuObjectsTree(hToolBarTree);
 			break;

@@ -283,7 +283,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->bIsMe = FALSE;
 		}
 		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || Utils::DbEventIsForMsgWindow(&dbei)) {
-			eventData->pszTextW = DbGetEventTextW(&dbei, newEvent.codepage);
+			eventData->pszTextW = DbEvent_GetTextW(&dbei, newEvent.codepage);
 			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;
 			else if (dbei.eventType == EVENTTYPE_URL)
@@ -295,25 +295,25 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			//blob is: sequenceid(DWORD),filename(ASCIIZ),description(ASCIIZ)
 			char* filename = ((char *)dbei.pBlob) + sizeof(DWORD);
 			char* descr = filename + mir_strlen(filename) + 1;
-			eventData->ptszText = DbGetEventStringT(&dbei, filename);
+			eventData->ptszText = DbEvent_GetString(&dbei, filename);
 			if (*descr != '\0')
-				eventData->ptszText2 = DbGetEventStringT(&dbei, descr);
+				eventData->ptszText2 = DbEvent_GetString(&dbei, descr);
 			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 			eventData->ptszText = mir_wstrdup(TranslateT(" requested authorization"));
-			eventData->ptszNick = DbGetEventStringT(&dbei, (char *)dbei.pBlob + 8);
+			eventData->ptszNick = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else if (dbei.eventType == EVENTTYPE_ADDED) {
 			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 			eventData->ptszText = mir_wstrdup(TranslateT(" was added."));
-			eventData->ptszNick = DbGetEventStringT(&dbei, (char *)dbei.pBlob + 8);
+			eventData->ptszNick = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else { // custom event
-			eventData->pszTextW = DbGetEventTextW(&dbei, newEvent.codepage);
+			eventData->pszTextW = DbEvent_GetTextW(&dbei, newEvent.codepage);
 			eventData->iType = IEED_EVENT_MESSAGE;
 		}
 		free(dbei.pBlob);

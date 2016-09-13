@@ -258,83 +258,15 @@ function db_unset(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:
 function db_set_resident(const szModule:PAnsiChar; const szSetting:PAnsiChar; bEnable:int):int; stdcall;
                  external CoreDLL name 'db_set_resident';
 
-// deprecated Aliases
-function DBFreeVariant(dbv:PDBVARIANT):int_ptr; stdcall;
-                 external CoreDLL name 'db_free';
-function DBDeleteContactSetting(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):int_ptr; stdcall;
-                 external CoreDLL name 'db_unset';
-function DBGetContactSettingByte(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:int):int; stdcall;
-                 external CoreDLL name 'db_get_b';
-function DBGetContactSettingWord(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:int):int; stdcall;
-                 external CoreDLL name 'db_get_w';
-function DBGetContactSettingDWord(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:dword):dword; stdcall;
-                 external CoreDLL name 'db_get_dw';
-function DBGetContactSetting(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
-                 external CoreDLL name 'db_get';
-function DBGetContactSettingStr(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; dbv:PDBVARIANT; const nType:int=DBVT_ASCIIZ):int_ptr; stdcall;
-                 external CoreDLL name 'db_get_s';
-function DBGetContactSettingString(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):PAnsiChar; stdcall;
-                 external CoreDLL name 'db_get_sa';
-function DBGetContactSettingWString(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):PWideChar; stdcall;
-                 external CoreDLL name 'db_get_wsa';
+///////////////////////////////////////////////////////////////////////////////
 
-function DBWriteContactSettingByte(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:byte):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_b';
-function DBWriteContactSettingWord(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:word):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_w';
-function DBWriteContactSettingDWord(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:dword):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_dw';
-function DBWriteContactSettingString(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; const val:PAnsiChar):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_s';
-function DBWriteContactSettingWString(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; const val:PWideChar):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_ws';
-function DBWriteContactSettingUTF8String(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; const val:PAnsiChar):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_utf';
-function DBWriteContactSettingBlob(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:pointer; len:uint):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_blob';
+function Profile_GetNameA(cbLen:cardinal; pDest:PAnsiChar) : int; stdcall; external AppDll;
+function Profile_GetNameW(cbLen:cardinal; pDest:PWideChar) : int; stdcall; external AppDll;
 
+function Profile_GetPathA(cbLen:cardinal; pDest:PAnsiChar) : int; stdcall; external AppDll;
+function Profile_GetPathW(cbLen:cardinal; pDest:PWideChar) : int; stdcall; external AppDll;
 
-const
-  {
-    wParam : size of the buffer to be filled
-    lParam : pointer to the buffer to be filled
-    affect : Get's the name of the current profile being used by the database
-             module -- this is the same as the filename of the profile without
-             the .ext
-    return : 0 on success, non zero on failure
-  }
-  MS_DB_GETPROFILENAME :PAnsiChar = 'DB/GetProfileName';
-  MS_DB_GETPROFILENAMEW:PAnsiChar = 'DB/GetProfileNameW';
-
-  {
-    wParam : size of buffer pointed to by lParam
-    lParam : pointer to a buffer to be filled
-    affect : Get the path of the base folder where Miranda will store all individual profiles
-             The returned path does NOT include a trailing backslash.
-             Essentially this is what has been set in mirandaboot.ini as ProfileDir.
-             For more options to retrieve profile paths check MS_UTILS_REPLACEVARS
-    return : 0 on success, non zero on failure
-    version: 0.3a only
-  }
-  MS_DB_GETPROFILEPATH :PAnsiChar = 'DB/GetProfilePath';
-  MS_DB_GETPROFILEPATHW:PAnsiChar = 'DB/GetProfilePathW';
-
-  {
-  Sets the default profile name programmatically
-  Analog of Database/DefaultProfile in mirandaboot.ini
-    wParam = (WPARAM)(TCHAR*)ptszProfileName
-    lParam = 0 (unused)
-  }
-  MS_DB_SETDEFAULTPROFILE:PAnsiChar = 'DB/SetDefaultProfile';
-
-  {
-  Checks the specified profile like dbtool did.
-  Implemented in the dbchecker plugins, thus it might not exist
-    wParam = (WPARAM)(TCHAR*)ptszProfileName
-    lParam = (BOOL)bConversionMode
-  }
-
-  MS_DB_CHECKPROFILE:PAnsiChar = 'DB/CheckProfile';
+///////////////////////////////////////////////////////////////////////////////
 
 type
   PDBCONTACTWRITESETTING = ^TDBCONTACTWRITESETTING;

@@ -138,7 +138,7 @@ begin
           end;
         end;
       end;
-      DBFreeVariant(@cws);
+      db_free(@cws);
     end;
     if result<>0 then
     begin

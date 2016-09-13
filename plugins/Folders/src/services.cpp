@@ -79,8 +79,8 @@ INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 
 int InitServices()
 {
-	CallService(MS_DB_GETPROFILEPATHW, _countof(szCurrentProfilePath), (LPARAM)szCurrentProfilePath);
-	CallService(MS_DB_GETPROFILENAMEW, _countof(szCurrentProfile), (LPARAM)szCurrentProfile);
+	Profile_GetPathW(_countof(szCurrentProfilePath), szCurrentProfilePath);
+	Profile_GetNameW(_countof(szCurrentProfile), szCurrentProfile);
 	wchar_t *pos = wcsrchr(szCurrentProfile, '.'); if (pos) *pos = 0;
 
 	GetModuleFileName(GetModuleHandleA("mir_app.mir"), szMirandaPath, _countof(szMirandaPath));

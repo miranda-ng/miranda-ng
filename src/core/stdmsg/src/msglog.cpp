@@ -193,7 +193,7 @@ static char* SetToStyle(int style)
 
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 {
-	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
+	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
@@ -304,7 +304,7 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 		AppendToBufferWithRTF(buffer, szName);
 		AppendToBufferWithRTF(buffer, L" ");
 
-		msg = DbGetEventTextW(&dbei, CP_ACP);
+		msg = DbEvent_GetTextW(&dbei, CP_ACP);
 		if (msg) {
 			AppendToBufferWithRTF(buffer, msg);
 			mir_free(msg);
@@ -316,14 +316,14 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 			char* filename = (char*)dbei.pBlob + sizeof(DWORD);
 			char* descr = filename + mir_strlen(filename) + 1;
 			
-			ptrW ptszFileName(DbGetEventStringT(&dbei, filename));
+			ptrW ptszFileName(DbEvent_GetString(&dbei, filename));
 			buffer.AppendFormat(" %s ", SetToStyle(MSGFONTID_NOTICE));
 			AppendToBufferWithRTF(buffer, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
 			buffer.Append(": ");
 			AppendToBufferWithRTF(buffer, ptszFileName);
 
 			if (*descr != 0) {
-				ptrW ptszDescr(DbGetEventStringT(&dbei, descr));
+				ptrW ptszDescr(DbEvent_GetString(&dbei, descr));
 				buffer.Append(" (");
 				AppendToBufferWithRTF(buffer, ptszDescr);
 				buffer.Append(")");
@@ -333,7 +333,7 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 
 	case EVENTTYPE_MESSAGE:
 	default:
-		msg = DbGetEventTextW(&dbei, CP_ACP);
+		msg = DbEvent_GetTextW(&dbei, CP_ACP);
 		buffer.AppendFormat(" %s ", SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE));
 		AppendToBufferWithRTF(buffer, msg);
 		mir_free(msg);

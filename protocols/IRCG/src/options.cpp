@@ -747,7 +747,7 @@ void CConnectPrefsDlg::OnApply()
 
 	if (m_serverlistModified) {
 		m_serverlistModified = false;
-		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)SERVERSMODULE);
+		DbModule_Delete(0, SERVERSMODULE);
 
 		int j = m_serverCombo.GetCount();
 		if (j != CB_ERR && j != 0) {
