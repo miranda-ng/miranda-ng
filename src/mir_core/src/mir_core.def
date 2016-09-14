@@ -1002,3 +1002,10 @@ db_get_contact_count @1158
 db_is_contact @1159
 db_set_safety_mode @1160
 db_delete_module @1161
+??0CCtrlSpin@@QAE@ABV0@@Z @1162 NONAME
+??0CCtrlSpin@@QAE@PAVCDlgBase@@H@Z @1163 NONAME
+??1CCtrlSpin@@UAE@XZ @1164 NONAME
+??4CCtrlSpin@@QAEAAV0@ABV0@@Z @1165 NONAME
+??_7CCtrlSpin@@6B@ @1166 NONAME
+?SetMaxLength@CCtrlEdit@@QAEXI@Z @1167 NONAME
+?SetRange@CCtrlSpin@@QAEXFF@Z @1168 NONAME

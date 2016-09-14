@@ -597,6 +597,23 @@ void CCtrlEdit::OnReset()
 		SetInt(LoadInt());
 }
 
+void CCtrlEdit::SetMaxLength(unsigned int len)
+{
+	SendMsg(EM_SETLIMITTEXT, len, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlSpin class
+
+CCtrlSpin::CCtrlSpin(CDlgBase* dlg, int ctrlId)
+	: CCtrlBase(dlg, ctrlId)
+{}
+
+void CCtrlSpin::SetRange(short min, short max)
+{
+	SendMsg(UDM_SETRANGE, 0, MAKELONG(min, max));
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlData class
 

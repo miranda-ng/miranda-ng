@@ -697,6 +697,21 @@ public:
 
 	virtual void OnApply();
 	virtual void OnReset();
+
+	void SetMaxLength(unsigned int len);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlSpin
+
+class MIR_CORE_EXPORT CCtrlSpin : public CCtrlBase
+{
+	typedef CCtrlData CSuper;
+
+public:
+	CCtrlSpin(CDlgBase *dlg, int ctrlId);
+
+	void SetRange(short min, short max);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
