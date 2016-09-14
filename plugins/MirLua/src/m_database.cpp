@@ -376,7 +376,7 @@ static int db_DeleteModule(lua_State *L)
 	MCONTACT hContact = lua_tointeger(L, 1);
 	LPCSTR szModule = luaL_checkstring(L, 2);
 
-	INT_PTR res = DbModule_Delete(hContact, szModule);
+	INT_PTR res = db_delete_module(hContact, szModule);
 	lua_pushboolean(L, !res);
 
 	return 1;

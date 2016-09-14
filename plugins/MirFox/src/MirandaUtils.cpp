@@ -526,7 +526,7 @@ void MirandaUtils::translateOldDBNames() {
 		}
 	}
 
-	//delete db module
-	DbModule_Delete(0, OLD_PLUGIN_DB_ID);
+	// delete db module
+	db_delete_module(0, OLD_PLUGIN_DB_ID);
 }
 
