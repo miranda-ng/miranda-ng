@@ -149,7 +149,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
 			SetDlgItemTextA(hwndDlg, IDC_PASS, "");
 			SetFocus(hwndCombo);
-			acc[curIndex].hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
+			acc[curIndex].hContact = db_add_contact();
 			Proto_AddToContact(acc[curIndex].hContact, MODULE_NAME);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -164,7 +164,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendMessage(hwndCombo, CB_DELETESTRING, curIndex, 0);
 			DeleteResults(acc[curIndex].results.next);
 			acc[curIndex].results.next = NULL;
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)acc[curIndex].hContact, 0);
+			db_delete_contact(acc[curIndex].hContact);
 			for (int i = curIndex; i < acc_num; i++)
 				acc[i] = acc[i + 1];
 			curIndex = 0;

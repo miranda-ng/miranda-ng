@@ -403,14 +403,9 @@ int GetWeatherDataFromDB(const char *szSetting, LPARAM lparam)
 //
 void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM)
 {
+	// get all the settings and store them in a temporary list
 	LIST<char> arSettings(10);
-
-	// get all the settings and stored them in a temporary list
-	DBCONTACTENUMSETTINGS dbces;
-	dbces.lParam = (LPARAM)&arSettings;
-	dbces.pfnEnumProc = GetWeatherDataFromDB;
-	dbces.szModule = WEATHERCONDITION;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
+	db_enum_settings(hContact, GetWeatherDataFromDB, WEATHERCONDITION, &arSettings);
 
 	// begin deleting settings
 	for (int i = arSettings.getCount() - 1; i >= 0; i--) {

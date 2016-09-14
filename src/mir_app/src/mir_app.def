@@ -286,9 +286,9 @@ DbEvent_GetTextA @285
 DbEvent_GetTextW @286
 DbEvent_GetType @287
 DbEvent_RegisterType @288
-DbModule_Delete @289
 Profile_GetNameA @290
 Profile_GetNameW @291
 Profile_GetPathA @292
 Profile_GetPathW @293
 Profile_SetDefault @294
+DbModule_Delete @295 NONAME

@@ -330,7 +330,7 @@ void importSettings(MCONTACT hContact, char *utf8)
 			}
 
 			if (hContact == INVALID_CONTACT_ID) {
-				MCONTACT temp = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+				MCONTACT temp = db_add_contact();
 				if (temp)
 					hContact = temp;
 			}

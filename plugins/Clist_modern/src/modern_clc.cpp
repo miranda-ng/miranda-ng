@@ -1345,7 +1345,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	ClcGroup *group = NULL;
 	ClcContact *contact = NULL;
 	if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
-		if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
+		if (shouldShow && db_is_contact(wParam)) {
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 				hSelItem = Clist_ContactToHItem(selcontact);
 			pcli->pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);

@@ -696,7 +696,7 @@ var
 begin
   if DBGetSettingType(0,qs_module,so_flags)=DBVT_DELETED then
   begin
-    DbModule_Delete(0,qs_module);
+    db_delete_module(0,qs_module);
     qsopt.flags:=
         QSO_SORTBYSTATUS or QSO_DRAWGRID or
         QSO_CLIENTICONS  or QSO_COLORIZE or

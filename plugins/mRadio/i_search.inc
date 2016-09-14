@@ -397,7 +397,7 @@ begin
         end;
 // if not found
 }
-        hContact:=CallService(MS_DB_CONTACT_ADD,0,0);
+        hContact:=db_add_contact();
         if hContact<>0 then
         begin
           Proto_AddToContact(hContact,PluginName);

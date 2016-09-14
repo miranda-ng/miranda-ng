@@ -302,7 +302,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 
 		if (!Finder->hContact && (Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
 			//No account contact found, have to create one
-			Finder->hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
+			Finder->hContact = db_add_contact();
 			Proto_AddToContact(Finder->hContact, YAMN_DBMODULE);
 			db_set_s(Finder->hContact, YAMN_DBMODULE, "Id", Finder->Name);
 			db_set_s(Finder->hContact, YAMN_DBMODULE, "Nick", Finder->Name);

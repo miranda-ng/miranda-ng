@@ -165,10 +165,7 @@ void RereadServers()
 {
 	g_servers.destroy();
 
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = sttServerEnum;
-	dbces.szModule = SERVERSMODULE;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbces);
+	db_enum_settings(NULL, sttServerEnum, SERVERSMODULE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -747,7 +744,7 @@ void CConnectPrefsDlg::OnApply()
 
 	if (m_serverlistModified) {
 		m_serverlistModified = false;
-		DbModule_Delete(0, SERVERSMODULE);
+		db_delete_module(0, SERVERSMODULE);
 
 		int j = m_serverCombo.GetCount();
 		if (j != CB_ERR && j != 0) {

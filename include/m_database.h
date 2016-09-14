@@ -43,6 +43,91 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // database functions
 
+// Switches safety settings on or off
+// newSetting is TRUE initially.
+// Miranda's database is normally protected against corruption by agressively
+// flushing data to the disk on writes. If you're doing a lot of writes (eg in
+// an import plugin) it can sometimes be desirable to switch this feature off to
+// speed up the process. If you do switch it off, you must remember that crashes
+// are far more likely to be catastrophic, so switch it back on at the earliest
+// possible opportunity.
+// Note that if you're doing a lot of setting writes, the flush is already delayed
+// so you need not use this service for that purpose.
+
+EXTERN_C MIR_CORE_DLL(void) db_set_safety_mode(BOOL bNewMode);
+
+// Gets the number of contacts in the database, which does not count the user
+// Returns the number of contacts. They can be retrieved using contact/findfirst and contact/findnext
+
+EXTERN_C MIR_CORE_DLL(int) db_get_contact_count(void);
+
+// Removes all settings for the specified module.
+// hContact is 0 for global settings or matches the concrete contact
+
+EXTERN_C MIR_CORE_DLL(int) db_delete_module(MCONTACT hContact, const char *szModuleName);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// contact functions
+
+// Adds a new contact to the database. New contacts initially have no settings
+// whatsoever, they must all be added with db/contacts/writesetting.
+// Returns a handle to the newly created contact on success, or NULL otherwise.
+// Triggers a db/contact/added event just before it returns.
+
+EXTERN_C MIR_CORE_DLL(MCONTACT) db_add_contact(void);
+
+// Deletes the contact hContact from the database and all events and settings associated with it.
+// Returns 0 on success or nonzero if hContact was invalid
+// Please don't try to delete the user contact (hContact = NULL)
+// Triggers a db/contact/deleted event just *before* it removes anything
+// Because all events are deleted, lots of people may end up with invalid event
+// handles from this operation, which they should be prepared for.
+
+EXTERN_C MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact);
+
+// Checks if a given value is a valid contact handle, note that due
+// to the nature of multiple threading, a valid contact can still become
+// invalid after a call to this service.
+// Returns 1 if the contact is a contact, or 0 if the contact is not valid.
+
+EXTERN_C MIR_CORE_DLL(int) db_is_contact(MCONTACT hContact);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// enumerators
+
+// Enumerates the names of all modules that have stored or requested information from the database.
+// Returns the value returned by the last call to dbmep
+// This service is only really useful for debugging, in conjunction with db/contact/enumsettings
+// dbmep should return 0 to continue enumeration, or nonzero to stop.
+// ofsModuleName is the offset of the module name from the start of the profile
+// database, and is only useful for really heavyweight debugging
+// Modules names will be enumerated in no particular order
+// Writing to the database while module names are being enumerated will cause
+// unpredictable results in the enumeration, but the write will work.
+// szModuleName is only guaranteed to be valid for the duration of the callback.
+// If you want to keep it for longer you must allocation your own storage.
+
+typedef int(*DBMODULEENUMPROC)(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam);
+
+EXTERN_C MIR_CORE_DLL(int) db_enum_modules(DBMODULEENUMPROC dbmep, const void *param = NULL);
+
+// Lists all resident settings
+
+EXTERN_C MIR_CORE_DLL(int) db_enum_residents(DBMODULEENUMPROC pFunc, const void *param = NULL);
+
+// Lists all the settings a specific modules has stored in the database for a specific contact.
+// Returns the return value of the last call to pfnEnumProc, or -1 if there are
+// no settings for that module/contact pair
+// Writing to or deleting from the database while enumerating will have
+// unpredictable results for the enumeration, but the write will succeed.
+// Use db/modules/enum to get a complete list of module names
+// szSetting is only guaranteed to be valid for the duration of the callback. If
+// you want to keep it for longer you must allocation your own storage.
+
+typedef int (*DBSETTINGENUMPROC)(const char *szSetting, LPARAM lParam);
+
+EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, const void *param = NULL);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // DBVARIANT: used by db/contact/getsetting and db/contact/writesetting
 
@@ -362,69 +447,6 @@ typedef struct {
 	DBVARIANT value;        // variant containing the value to set
 } DBCONTACTWRITESETTING;
 
-/* db/contact/enumsettings    v0.1.0.1+
-Lists all the settings a specific modules has stored in the database for a
-specific contact.
-wParam = (MCONTACT)hContact
-lParam = (LPARAM)(DBCONTACTENUMSETTINGS*)&dbces
-Returns the return value of the last call to pfnEnumProc, or -1 if there are
-no settings for that module/contact pair
-Writing to or deleting from the database while enumerating will have
-unpredictable results for the enumeration, but the write will succeed.
-Use db/modules/enum to get a complete list of module names
-szSetting is only guaranteed to be valid for the duration of the callback. If
-you want to keep it for longer you must allocation your own storage.
-*/
-typedef int (*DBSETTINGENUMPROC)(const char *szSetting, LPARAM lParam);
-typedef struct {
-	DBSETTINGENUMPROC pfnEnumProc;
-	LPARAM lParam;        // passed direct to pfnEnumProc
-	const char *szModule; // name of the module to get settings for
-	DWORD ofsSettings;    // filled by the function to contain the offset from
-	                      // the start of the database of the requested settings group.
-} DBCONTACTENUMSETTINGS;
-#define MS_DB_CONTACT_ENUMSETTINGS   "DB/Contact/EnumSettings"
-
-/* DB/Contact/GetCount service
-Gets the number of contacts in the database, which does not count the user
-  wParam = lParam = 0
-Returns the number of contacts. They can be retrieved using contact/findfirst
-and contact/findnext
-*/
-#define MS_DB_CONTACT_GETCOUNT  "DB/Contact/GetCount"
-
-/* DB/Contact/Delete
-Deletes the contact hContact from the database and all events and settings
-associated with it.
-  wParam = (MCONTACT)hContact
-  lParam = 0
-Returns 0 on success or nonzero if hContact was invalid
-Please don't try to delete the user contact (hContact = NULL)
-Triggers a db/contact/deleted event just *before* it removes anything
-Because all events are deleted, lots of people may end up with invalid event
-handles from this operation, which they should be prepared for.
-*/
-#define MS_DB_CONTACT_DELETE  "DB/Contact/Delete"
-
-/* DB/Contact/Add
-Adds a new contact to the database. New contacts initially have no settings
-whatsoever, they must all be added with db/contacts/writesetting.
-  wParam = lParam = 0
-Returns a handle to the newly created contact on success, or NULL otherwise.
-Triggers a db/contact/added event just before it returns.
-*/
-#define MS_DB_CONTACT_ADD  "DB/Contact/Add"
-
-/* DB/Contact/Is
-Checks if a given value is a valid contact handle, note that due
-to the nature of multiple threading, a valid contact can still become
-invalid after a call to this service.
-	wParam = (WPARAM)hContact
-	lParam = 0
-Returns 1 if the contact is a contact, or 0 if the contact is not valid.
-*/
-#define MS_DB_CONTACT_IS "DB/Contact/Is"
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Event services
 
@@ -503,56 +525,6 @@ EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 // Caller must free the result using mir_free
 
 EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Random services
-
-/*
-Switches safety settings on or off
-wParam = (WPARAM)(BOOL)newSetting
-lParam = 0
-returns 0 always
-newSetting is TRUE initially.
-Miranda's database is normally protected against corruption by agressively
-flushing data to the disk on writes. If you're doing a lot of writes (eg in
-an import plugin) it can sometimes be desirable to switch this feature off to
-speed up the process. If you do switch it off, you must remember that crashes
-are far more likely to be catastrophic, so switch it back on at the earliest
-possible opportunity.
-Note that if you're doing a lot of setting writes, the flush is already delayed
-so you need not use this service for that purpose.
-*/
-#define MS_DB_SETSAFETYMODE     "DB/SetSafetyMode"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Module services
-
-/* db/modules/enum   v0.1.0.1+
-Enumerates the names of all modules that have stored or requested information
-from the database.
-wParam = lParam
-lParam = (WPARAM)(DBMODULEENUMPROC)dbmep
-Returns the value returned by the last call to dbmep
-This service is only really useful for debugging, in conjunction with
-db/contact/enumsettings
-lParam is passed directly to dbmep
-dbmep should return 0 to continue enumeration, or nonzero to stop.
-ofsModuleName is the offset of the module name from the start of the profile
-database, and is only useful for really heavyweight debugging
-Modules names will be enumerated in no particular order
-Writing to the database while module names are being enumerated will cause
-unpredictable results in the enumeration, but the write will work.
-szModuleName is only guaranteed to be valid for the duration of the callback.
-If you want to keep it for longer you must allocation your own storage.
-*/
-typedef int (*DBMODULEENUMPROC)(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam);
-#define MS_DB_MODULES_ENUM    "DB/Modules/Enum"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Removes all settings for the specified module.
-// hContact is 0 for global settings or matches the concrete contact
-
-EXTERN_C MIR_APP_DLL(int) DbModule_Delete(MCONTACT hContact, const char *szModuleName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database events

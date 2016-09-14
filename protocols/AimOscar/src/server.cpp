@@ -889,7 +889,7 @@ void CAimProto::delete_ssi_list(SNAC &snac, int &offset)
 			}
 		}
 		if (i == 1)
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			db_delete_contact(hContact);
 		break;
 
 	case 0x0001: //group record

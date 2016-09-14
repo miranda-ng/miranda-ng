@@ -139,7 +139,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 			DBVARIANT dbv;
 			if (!getWString(hContact, "ChatRoomID", &dbv)) {
 				if (dbv.ptszVal && !mir_wstrcmp(gch->pDest->ptszID, dbv.ptszVal))
-					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+					db_delete_contact(hContact);
 				db_free(&dbv);
 			}
 			hContact = hNext;

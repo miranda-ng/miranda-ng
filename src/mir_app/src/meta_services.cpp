@@ -473,7 +473,7 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 
 			// no more subs? remove the meta itself
 			if (ccMeta->nSubs == 0)
-				CallService(MS_DB_CONTACT_DELETE, ccMeta->contactID, 0);
+				db_delete_contact(ccMeta->contactID);
 		}
 		return 0;
 	}

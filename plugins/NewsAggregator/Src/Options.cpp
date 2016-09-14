@@ -53,7 +53,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					break;
 				}
 
-				MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+				MCONTACT hContact = db_add_contact();
 				Proto_AddToContact(hContact, MODULE);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
 				db_set_ws(hContact, MODULE, "Nick", str);
@@ -510,7 +510,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					if (mir_wstrcmp(dbURL, url))
 						continue;
 
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+					db_delete_contact(hContact);
 					ListView_DeleteItem(hwndList, sel);
 					break;
 				}

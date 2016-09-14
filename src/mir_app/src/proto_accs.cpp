@@ -114,7 +114,7 @@ void LoadDbAccounts(void)
 		WriteDbAccounts();
 
 	int anum = accounts.getCount();
-	CallService(MS_DB_MODULES_ENUM, 0, (LPARAM)EnumDbModules);
+	db_enum_modules(EnumDbModules);
 	if (anum != accounts.getCount())
 		WriteDbAccounts();
 }
@@ -144,13 +144,7 @@ void WriteDbAccounts()
 {
 	// enum all old settings to delete
 	enumDB_ProtoProcParam param = { 0, NULL };
-
-	DBCONTACTENUMSETTINGS dbces;
-	dbces.pfnEnumProc = enumDB_ProtoProc;
-	dbces.szModule = "Protocols";
-	dbces.ofsSettings = 0;
-	dbces.lParam = (LPARAM)&param;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+	db_enum_settings(NULL, enumDB_ProtoProc, "Protocols", &param);
 
 	// delete all settings
 	if (param.arrlen) {
@@ -383,12 +377,12 @@ void EraseAccount(const char *pszModuleName)
 	// remove protocol contacts first
 	for (MCONTACT hContact = db_find_first(pszModuleName); hContact != NULL;) {
 		MCONTACT hNext = db_find_next(hContact, pszModuleName);
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		db_delete_contact(hContact);
 		hContact = hNext;
 	}
 
 	// remove all protocol settings
-	DbModule_Delete(NULL, pszModuleName);
+	db_delete_module(NULL, pszModuleName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

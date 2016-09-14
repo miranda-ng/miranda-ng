@@ -1317,7 +1317,7 @@ ICQUser *ICQ::addUser(unsigned int uin, bool persistent)
 
 	u = new ICQUser();
 	u->uin = uin;
-	u->hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	u->hContact = db_add_contact();
 	icqUsers.push_back(u);
 
 	Proto_AddToContact(u->hContact, protoName);

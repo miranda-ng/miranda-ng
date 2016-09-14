@@ -109,7 +109,7 @@ interface MIDatabase
 	STDMETHOD_(MEVENT, FindNextEvent)(MCONTACT contactID, MEVENT hDbEvent) PURE;
 	STDMETHOD_(MEVENT, FindPrevEvent)(MCONTACT contactID, MEVENT hDbEvent) PURE;
 
-	STDMETHOD_(BOOL, EnumModuleNames)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
+	STDMETHOD_(BOOL, EnumModuleNames)(DBMODULEENUMPROC pFunc, const void *pParam) PURE;
 
 	STDMETHOD_(BOOL, GetContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
 	STDMETHOD_(BOOL, GetContactSettingStr)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
@@ -117,9 +117,9 @@ interface MIDatabase
 	STDMETHOD_(BOOL, FreeVariant)(DBVARIANT *dbv) PURE;
 	STDMETHOD_(BOOL, WriteContactSetting)(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws) PURE;
 	STDMETHOD_(BOOL, DeleteContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting) PURE;
-	STDMETHOD_(BOOL, EnumContactSettings)(MCONTACT contactID, DBCONTACTENUMSETTINGS* dbces) PURE;
+	STDMETHOD_(BOOL, EnumContactSettings)(MCONTACT contactID, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, const void *param) PURE;
 	STDMETHOD_(BOOL, SetSettingResident)(BOOL bIsResident, const char *pszSettingName) PURE;
-	STDMETHOD_(BOOL, EnumResidentSettings)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
+	STDMETHOD_(BOOL, EnumResidentSettings)(DBMODULEENUMPROC pFunc, const void *pParam) PURE;
 	STDMETHOD_(BOOL, IsSettingEncrypted)(LPCSTR szModule, LPCSTR szSetting) PURE;
 
 	STDMETHOD_(BOOL, MetaDetouchSub)(DBCachedContact*, int nSub) PURE;

@@ -76,7 +76,7 @@ void MirandaContact::addMenuItem()
 INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = MCONTACT(wParam);
-	if (!CallService(MS_DB_CONTACT_IS, wParam, 0))
+	if (!db_is_contact(wParam))
 		return 0;
 
 	save(hContact, !bIsActive(hContact));
@@ -89,7 +89,7 @@ int MirandaContact::onPreBuildContactMenu(WPARAM wParam, LPARAM)
 {
 	if (!hTransliterateCmdMenuItem) return 0;
 	MCONTACT hContact = MCONTACT(wParam);
-	if (!CallService(MS_DB_CONTACT_IS, wParam, 0)) return 0;
+	if (!db_is_contact(wParam)) return 0;
 
 	Menu_ModifyItem(hTransliterateCmdMenuItem, NULL, INVALID_HANDLE_VALUE, bIsActive(hContact) ? CMIF_CHECKED : 0);
 	return 0;

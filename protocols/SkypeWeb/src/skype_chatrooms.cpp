@@ -293,7 +293,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 		SendRequest(new KickUserRequest(_T2A(idT), li.szSkypename, li));
 
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		db_delete_contact(hContact);
 	}
 	return 0;
 }

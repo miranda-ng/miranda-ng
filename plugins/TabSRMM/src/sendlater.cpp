@@ -244,15 +244,8 @@ int _cdecl CSendLater::addStub(const char *szSetting, LPARAM lParam)
 void CSendLater::processSingleContact(const MCONTACT hContact)
 {
 	int iCount = db_get_dw(hContact, "SendLater", "count", 0);
-
-	if (iCount) {
-		DBCONTACTENUMSETTINGS ces = { 0 };
-		ces.pfnEnumProc = CSendLater::addStub;
-		ces.szModule = "SendLater";
-		ces.lParam = hContact;
-
-		CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&ces);
-	}
+	if (iCount)
+		db_enum_settings(hContact, CSendLater::addStub, "SendLater", (void*)hContact);
 }
 
 // called periodically from a timer, check if new contacts were added

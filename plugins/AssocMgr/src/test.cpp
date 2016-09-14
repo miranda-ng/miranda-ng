@@ -759,7 +759,7 @@ static int ServiceParseXmppURI(WPARAM wParam, LPARAM lParam)
 		MCONTACT hContact;
 		hContact = JabberHContactFromJID(jid);
 		if (hContact == NULL) /* not yet implemented: show standard miranda dialog here */
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			db_delete_contact(hContact);
 		return 0;
 	}
 	/* add user subscription */

@@ -547,7 +547,7 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 			}
 		}
 		else {
-			hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+			hContact = db_add_contact();
 			Proto_AddToContact(hContact, m_szModuleName);
 		}
 

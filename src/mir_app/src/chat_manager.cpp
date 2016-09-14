@@ -137,7 +137,7 @@ static int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, BOOL re
 			// contact may have been deleted here already, since function may be called after deleting
 			// contact so the handle may be invalid, therefore db_get_b shall return 0
 			if (pTemp->hContact && removeContact)
-				CallService(MS_DB_CONTACT_DELETE, (WPARAM)pTemp->hContact, 0);
+				db_delete_contact(pTemp->hContact);
 
 			SM_FreeSession(pTemp);
 

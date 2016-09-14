@@ -37,7 +37,7 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote, bool bWatch)
 			m_aContacts.erase(i);
 		}
 
-		CallService(MS_DB_CONTACT_DELETE, WPARAM(hContact), 0);
+		db_delete_contact(hContact);
 		return true;
 	}
 	

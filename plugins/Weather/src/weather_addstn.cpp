@@ -63,7 +63,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 
 	// if contact with the same ID was not found, add it
 	if (psr->cbSize < sizeof(PROTOSEARCHRESULT)) return 0;
-	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, WEATHERPROTONAME);
 	// suppress online notification for the new contact
 	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);

@@ -756,7 +756,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			bool bIsFriendGroup = IsGroupUser(hContact) && getBool(hContact, "friend");
 			if (userID == m_myUserId || userID == VK_FEED_USER || bIsFriendGroup)
 				continue;
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
+			db_delete_contact(hContact);
 		}
 	
 	arContacts.destroy();
@@ -898,7 +898,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 		<< CHAR_PARAM("code", code));
 
 	if (m_vkOptions.bRemoveFromCList)
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
+		db_delete_contact(hContact);
 
 	return 0;
 }

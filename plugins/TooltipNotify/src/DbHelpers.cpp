@@ -13,12 +13,7 @@ static int EnumSettingsProc1(const char*, LPARAM)
 
 bool ModuleSettingsExists(MCONTACT hContact, const char* pszModuleName)
 {
-	DBCONTACTENUMSETTINGS dbces = {0};
-	dbces.szModule = pszModuleName;
-	dbces.pfnEnumProc = EnumSettingsProc1;
-
-	int nResult = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
-	return (nResult != -1);
+	return db_enum_settings(hContact, EnumSettingsProc1, pszModuleName) != -1;
 }
 
 static int EnumSettingsProc2(const char *pszSetting, LPARAM lParam)
@@ -31,12 +26,7 @@ static int EnumSettingsProc2(const char *pszSetting, LPARAM lParam)
 void DeleteModuleSettings(MCONTACT hContact, const char* pszModuleName)
 {
 	SettingsList settingsList;
-	DBCONTACTENUMSETTINGS dbces = {0};
-	dbces.szModule = pszModuleName;
-	dbces.lParam = (LPARAM)&settingsList;
-	dbces.pfnEnumProc = EnumSettingsProc2;
-
-	int nResult = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
+	int nResult = db_enum_settings(hContact, EnumSettingsProc2, pszModuleName, &settingsList);
 	if (nResult != -1)
 	{
 		for(unsigned i=0; i<settingsList.size(); i++)
@@ -60,12 +50,7 @@ static int GetSetting(MCONTACT hContact, const char *szModule, const char *szSet
 void RenameModule(MCONTACT hContact, const char* pszOldName, const char* pszNewName)
 {
 	SettingsList settingsList;
-	DBCONTACTENUMSETTINGS dbces = {0};
-	dbces.szModule = pszOldName;
-	dbces.lParam = (LPARAM)&settingsList;
-	dbces.pfnEnumProc = EnumSettingsProc2;
-
-	int nResult = ::CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
+	int nResult = db_enum_settings(hContact, EnumSettingsProc2, pszOldName, &settingsList);
 	if (nResult != -1)
 	{
 		DBVARIANT dbv;

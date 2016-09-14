@@ -854,11 +854,7 @@ void CIcqProto::LoadServerIDs()
 	mir_snprintf(szModule, "%sSrvGroups", m_szModuleName);
 	GroupReserveIdsEnumParam param = { this, szModule };
 
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = &GroupReserveIdsEnumProc;
-	dbces.szModule = szModule;
-	dbces.lParam = (LPARAM)&param;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+	db_enum_settings(NULL, &GroupReserveIdsEnumProc, szModule, &param);
 
 	nGroups = nServerIDListCount - nStart;
 
@@ -1180,7 +1176,7 @@ int CIcqProto::IsServerGroupsDefined()
 
 		// flush obsolete linking data
 		mir_snprintf(szModule, "%sGroups", m_szModuleName);
-		DbModule_Delete(0, szModule);
+		db_delete_module(0, szModule);
 
 		iRes = 0; // no groups defined, or older version
 	}
@@ -1194,7 +1190,7 @@ void CIcqProto::FlushSrvGroupsCache()
 {
 	char szModule[MAX_PATH];
 	mir_snprintf(szModule, "%sSrvGroups", m_szModuleName);
-	DbModule_Delete(0, szModule);
+	db_delete_module(0, szModule);
 }
 
 // Look thru DB and collect all ContactIDs from a group
@@ -1279,12 +1275,7 @@ void CIcqProto::removeGroupPathLinks(WORD wGroupID)
 	pars[1] = (char*)wGroupID;
 	pars[2] = szModule;
 
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = &GroupLinksEnumProc;
-	dbces.szModule = szModule;
-	dbces.lParam = (LPARAM)pars;
-
-	if (!CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces)) { // we found some links, remove them
+	if (!db_enum_settings(NULL, &GroupLinksEnumProc, szModule, pars)) { // we found some links, remove them
 		char** list = (char**)pars[0];
 		while (list) {
 			void* bet;
@@ -1515,7 +1506,6 @@ static int SrvGroupNamesEnumProc(const char *szSetting, LPARAM lParam)
 char* CIcqProto::getServListUniqueGroupName(const char *szGroupName, int bAlloced)
 {
 	// enum ICQSrvGroups and create unique name if neccessary
-	DBCONTACTENUMSETTINGS dbces;
 	char szModule[MAX_PATH];
 	char *pars[4];
 	int uniqueID = 1;
@@ -1533,11 +1523,7 @@ char* CIcqProto::getServListUniqueGroupName(const char *szGroupName, int bAlloce
 		pars[1] = NULL;
 		pars[2] = szNewGroupName ? szNewGroupName : szGroupNameBase;
 		pars[3] = szModule;
-
-		dbces.pfnEnumProc = &SrvGroupNamesEnumProc;
-		dbces.szModule = szModule;
-		dbces.lParam = (LPARAM)pars;
-		CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+		db_enum_settings(NULL, &SrvGroupNamesEnumProc, szModule, pars);
 
 		if (pars[1]) { // the groupname already exists, create another
 			SAFE_FREE((void**)&szNewGroupName);

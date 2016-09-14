@@ -401,7 +401,7 @@ end;
 
 function TSearchThread.GetContactsCount: Integer;
 begin
-  Result := CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
+  Result := db_get_contact_count();
 end;
 
 function TSearchThread.GetItemsCount(hContact: THandle): Integer;

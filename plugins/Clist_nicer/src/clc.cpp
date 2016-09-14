@@ -323,7 +323,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				pcli->pfnGetContactIcon(hContact) != lParam); // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
 			if (!pcli->pfnFindItem(hwnd, dat, hContact, &contact, &group, NULL)) {
-				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
+				if (shouldShow && db_is_contact(wParam)) {
 					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
 					pcli->pfnAddContactToTree(hwnd, dat, hContact, 0, 0);

@@ -147,7 +147,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 
 	// switch off SAFETYMODE if necessary
 	if (unsafe)
-		CallService(MS_DB_SETSAFETYMODE, 0, 0);
+		db_set_safety_mode(FALSE);
 
 	GetBookmarks(hContact, &books, &bookcnt);
 
@@ -187,7 +187,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 
 	// switch ON safety mode as fast as we can to avoid  DB corruption
 	if (unsafe)
-		CallService(MS_DB_SETSAFETYMODE, 1, 0);
+		db_set_safety_mode(TRUE);
 
 	SetCursor(LoadCursor(0, IDC_ARROW));
 }

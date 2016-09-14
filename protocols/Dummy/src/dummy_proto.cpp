@@ -157,10 +157,9 @@ MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	if (psr->id.w == NULL)
 		return NULL;
 
-	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD);
-
+	MCONTACT hContact = db_add_contact();
 	if (hContact && Proto_AddToContact(hContact, m_szModuleName) != 0) {
-		CallService(MS_DB_CONTACT_DELETE, hContact);
+		db_delete_contact(hContact);
 		hContact = NULL;
 	}
 

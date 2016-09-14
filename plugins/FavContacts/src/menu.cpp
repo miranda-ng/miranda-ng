@@ -128,7 +128,7 @@ BOOL MenuMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options)
 	BOOL res = FALSE;
 	if (INT_PTR(lpmis->itemData) < 0)
 		res = sttMeasureItem_Group(lpmis, options);
-	else if (CallService(MS_DB_CONTACT_IS, lpmis->itemData, 0))
+	else if (db_is_contact(lpmis->itemData))
 		res = sttMeasureItem_Contact(lpmis, options);
 
 	if (res && (lpmis->itemWidth > g_maxItemWidth)) lpmis->itemWidth = g_maxItemWidth;
@@ -350,7 +350,7 @@ BOOL MenuDrawItem(LPDRAWITEMSTRUCT lpdis, Options *options)
 	if (INT_PTR(lpdis->itemData) < 0)
 		return sttDrawItem_Group(lpdis, options);
 
-	if (CallService(MS_DB_CONTACT_IS, lpdis->itemData, 0))
+	if (db_is_contact(lpdis->itemData))
 		return sttDrawItem_Contact(lpdis, options);
 
 	return FALSE;
@@ -419,7 +419,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 		GetMenuItemInfo((HMENU)lParam, wParam, TRUE, &mii);
 
 		MCONTACT cc = (MCONTACT)mii.dwItemData;
-		if (!CallService(MS_DB_CONTACT_IS, cc, 0))
+		if (!db_is_contact(cc))
 			return FALSE;
 
 		HMENU hMenu = Menu_BuildContactMenu(cc);

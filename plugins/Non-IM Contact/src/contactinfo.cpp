@@ -338,7 +338,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						i++;
 					}
 					free(replace);
-					MCONTACT hContact2 = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+					MCONTACT hContact2 = db_add_contact();
 					Proto_AddToContact(hContact2, MODNAME);
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
 					db_set_s(hContact2, MODNAME, "Nick", Translate("New Non-IM Contact"));
@@ -394,7 +394,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				char dbVar1[2000];
 				MCONTACT hContact1 = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (!db_get_static(hContact1, MODNAME, "Name", dbVar1, _countof(dbVar1))) {
-					MCONTACT hContact2 = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+					MCONTACT hContact2 = db_add_contact();
 					if (!hContact2) {
 						msg("contact did not get created", "");
 						return 0;
@@ -632,7 +632,7 @@ INT_PTR ImportContacts(WPARAM, LPARAM)
 			}
 
 			if (MessageBoxA(0, msg, modFullname, MB_YESNO) == IDYES) {
-				if (!(hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0))) {
+				if (!(hContact = db_add_contact())) {
 					msg("contact did get created", "");
 					continue;
 				}

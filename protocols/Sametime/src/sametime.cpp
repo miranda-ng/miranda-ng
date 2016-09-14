@@ -227,7 +227,7 @@ void CSametimeProto::SetAllOffline()
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0)) {
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			db_delete_contact(hContact);
 			continue;
 		}
 

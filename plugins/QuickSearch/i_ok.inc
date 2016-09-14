@@ -455,7 +455,7 @@ begin
   if qsopt.numcolumns=0 then
     exit;
   // calculating contacts
-  cnt:=CallService(MS_DB_CONTACT_GETCOUNT,0,0);
+  cnt:=db_get_contact_count();
   if cnt=0 then
     exit;
 

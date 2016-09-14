@@ -338,7 +338,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 
 			db_unset(NULL, "CLUI", "ShowButtonBar");
 
-			DbModule_Delete(0, "ModernToolBar");
+			db_delete_module(0, "ModernToolBar");
 		}
 		db_set_b(NULL, "Compatibility", "TTB_Upgrade", 1);
 	}

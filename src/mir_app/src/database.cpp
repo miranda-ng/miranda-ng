@@ -25,13 +25,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "profilemanager.h"
 
+MIDatabase *currDb = NULL;
+DATABASELINK *currDblink = NULL;
+
 // contains the location of mirandaboot.ini
 bool g_bDbCreated;
 wchar_t g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
 wchar_t* g_defaultProfile;
 void EnsureCheckerLoaded(bool);
-
-void LoadDatabaseServices();
 
 bool fileExist(const wchar_t *fname)
 {
@@ -485,8 +486,6 @@ int LoadDatabaseModule(void)
 	PathToAbsoluteW(L".", szProfile);
 	_tchdir(szProfile);
 	szProfile[0] = 0;
-
-	LoadDatabaseServices();
 
 	// find out which profile to load
 	if (!getProfile(szProfile, _countof(szProfile)))

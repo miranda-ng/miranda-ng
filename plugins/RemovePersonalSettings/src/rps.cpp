@@ -195,14 +195,14 @@ void RemoveUsers()
 			MCONTACT hContactOld = hContact;
 			hContact = db_find_next(hContact);
 
-			if (isMetaContact(hContactOld) )
-				CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContactOld, 0);
+			if (isMetaContact(hContactOld))
+				db_delete_contact(hContactOld);
 		}
 
 		// Now delete all left-overs
 		hContact = db_find_first();
 		while(hContact != NULL) {
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			db_delete_contact(hContact);
 
 			hContact = db_find_first();
 		}
@@ -632,7 +632,7 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 		dms.filter = szModule;
 		dms.lenFilterMinusOne = lenModule-1;
 
-		CallService(MS_DB_MODULES_ENUM, (WPARAM) &dms, (LPARAM) &ModuleEnumProc);
+		db_enum_modules(ModuleEnumProc, &dms);
 
 		// Delete then
 		szModule = dms.buffer;
@@ -647,19 +647,10 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 		size_t lenSetting = szSetting == NULL ? 0 : mir_strlen(szSetting);
 		if (szSetting == NULL || szSetting[0] == '*' || szSetting[lenSetting-1] == '*') {
 			DeleteModuleStruct dms;
-			DBCONTACTENUMSETTINGS dbces;
-
 			memset(&dms, 0, sizeof(dms));
-
 			dms.filter = szSetting;
 			dms.lenFilterMinusOne = lenSetting-1;
-
-			dbces.pfnEnumProc = EnumProc;
-			dbces.lParam = (LPARAM) &dms;
-			dbces.szModule = szModule;
-			dbces.ofsSettings = 0;
-
-			CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM) &dbces);
+			db_enum_settings(NULL, EnumProc, szModule, &dms);
 
 			// Delete then
 			szSetting = dms.buffer;

@@ -1923,12 +1923,8 @@ static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 	}
 
 	// Load objects
-	DBCONTACTENUMSETTINGS dbces;
 	pCurrentSkin = Skin;
-	dbces.pfnEnumProc = ske_enumdb_SkinObjectsProc;
-	dbces.szModule = SKIN;
-	dbces.ofsSettings = 0;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+	db_enum_settings(NULL, ske_enumdb_SkinObjectsProc, SKIN);
 
 	SortMaskList(pCurrentSkin->pMaskList);
 	ske_LinkSkinObjects(pCurrentSkin);
@@ -1948,7 +1944,7 @@ static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 {
 	IniParser parser(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF", bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS);
 	if (parser.CheckOK()) {
-		DbModule_Delete(0, "ModernSkin");
+		db_delete_module(0, "ModernSkin");
 		db_set_s(NULL, SKIN, "SkinFolder", "%Default%");
 		db_set_s(NULL, SKIN, "SkinFile", "%Default%");
 		parser.Parse(IniParser::WriteStrToDb, 0);
@@ -1966,7 +1962,7 @@ int ske_LoadSkinFromIniFile(wchar_t *szFileName, BOOL bOnlyObjects)
 	if (!parser.CheckOK())
 		return 0;
 
-	DbModule_Delete(0, "ModernSkin");
+	db_delete_module(0, "ModernSkin");
 
 	wchar_t skinFolder[MAX_PATH], skinFile[MAX_PATH];
 	IniParser::GetSkinFolder(szFileName, skinFolder);

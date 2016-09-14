@@ -246,11 +246,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	if (!getByte("PerformConversionDone", 0)) {
 		OBJLIST<CMStringA> performToConvert(10);
-		DBCONTACTENUMSETTINGS dbces = { 0 };
-		dbces.pfnEnumProc = sttCheckPerform;
-		dbces.lParam = (LPARAM)&performToConvert;
-		dbces.szModule = m_szModuleName;
-		CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbces);
+		db_enum_settings(NULL, sttCheckPerform, m_szModuleName, &performToConvert);
 
 		for (int i = 0; i < performToConvert.getCount(); i++) {
 			CMStringA s = performToConvert[i];

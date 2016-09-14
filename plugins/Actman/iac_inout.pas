@@ -129,7 +129,7 @@ begin
   begin
     if (flags and ACF_FILE_PATH)<>0 then
     begin
-      if CallService(MS_DB_CONTACT_IS,WorkData.Parameter,0)<>0 then
+      if db_is_contact(WorkData.Parameter)<>0 then
         hContact:=WorkData.Parameter
       else
         hContact:=0;
@@ -263,7 +263,7 @@ begin
 
     if hContact=0 then
     begin
-      if CallService(MS_DB_CONTACT_IS,WorkData.Parameter,0)<>0 then
+      if db_is_contact(WorkData.Parameter)<>0 then
         hContact:=WorkData.Parameter;
     end;
 

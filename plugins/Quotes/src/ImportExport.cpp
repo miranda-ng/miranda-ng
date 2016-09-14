@@ -106,13 +106,8 @@ int EnumDbModules(const char *szModuleName, DWORD, LPARAM lp)
 	if (pModule) {
 		ctx->m_pszModule = szModuleName;
 		ctx->m_pNode = pModule;
+		db_enum_settings(ctx->m_hContact, &enum_contact_settings, szModuleName, ctx);
 
-		DBCONTACTENUMSETTINGS dbces;
-		dbces.pfnEnumProc = &enum_contact_settings;
-		dbces.szModule = szModuleName;
-		dbces.lParam = reinterpret_cast<LPARAM>(ctx);
-
-		CallService(MS_DB_CONTACT_ENUMSETTINGS, WPARAM(ctx->m_hContact), reinterpret_cast<LPARAM>(&dbces));
 		if (pModule->GetChildCount() > 0)
 			pXml->AddChild(pModule);
 
@@ -131,7 +126,7 @@ IXMLNode::TXMLNodePtr export_contact(MCONTACT hContact, const CModuleInfo::TXMLE
 		ctx.m_pNode = pNode;
 		ctx.m_hContact = hContact;
 
-		CallService(MS_DB_MODULES_ENUM, (WPARAM)&ctx, (LPARAM)EnumDbModules);
+		db_enum_modules(EnumDbModules, &ctx);
 	}
 	return pNode;
 }
@@ -557,7 +552,7 @@ bool import_contact(const IXMLNode::TXMLNodePtr& pXmlContact, CImportContext& im
 	bool bResult = get_contact_state(pXmlContact, cst);
 	if (bResult) {
 		if (NULL == cst.m_hContact) {
-			cst.m_hContact = MCONTACT(CallService(MS_DB_CONTACT_ADD, 0, 0));
+			cst.m_hContact = db_add_contact();
 			cst.m_bNewContact = true;
 		}
 		else if (impctx.m_nFlags & QUOTES_IMPORT_SKIP_EXISTING_CONTACTS)

@@ -197,7 +197,7 @@ MCONTACT CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool tempo
 	}
 
 	if (addIfNeeded) {
-		MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		MCONTACT hContact = db_add_contact();
 		if (hContact) {
 			if (Proto_AddToContact(hContact, m_szModuleName) == 0) {
 				setString(hContact, AIM_KEY_SN, norm_sn);
@@ -207,7 +207,7 @@ MCONTACT CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool tempo
 					db_set_b(hContact, "CList", "NotOnList", 1);
 				return hContact;
 			}
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			db_delete_contact(hContact);
 		}
 	}
 

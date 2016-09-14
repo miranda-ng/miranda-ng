@@ -33,7 +33,7 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string &jid, const char *new
 	}
 
 	// If not, make a new contact!
-	if ((hContact = CallService(MS_DB_CONTACT_ADD, 0, 0)) == 0)
+	if ((hContact = db_add_contact()) == 0)
 		return INVALID_CONTACT_ID;
 
 	Proto_AddToContact(hContact, m_szModuleName);

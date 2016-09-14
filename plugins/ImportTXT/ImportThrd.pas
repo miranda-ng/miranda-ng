@@ -624,14 +624,14 @@ begin
         // [preMultiLine] модификатор для восприятия многострочного текста
         if DoMapFile then // Загружаем файл
         begin
-          CallService(MS_DB_SETSAFETYMODE, wParam(FALSE), 0);
+          db_set_safety_mode(0);
           case WorkPattern.IType of
             1: TextImportProcedure;
             2: BinImportProcedure;
           end; // case
         end; // DoMapFile
       finally
-        CallService(MS_DB_SETSAFETYMODE, wParam(true), 0);
+		  db_set_safety_mode(1);
         DoMessage(ITXT_THREAD_FINISH, AddedMessages, Duplicates);
         DoUnMapFile;
         RegExpr.Free;

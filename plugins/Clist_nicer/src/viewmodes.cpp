@@ -67,12 +67,7 @@ int CLVM_EnumProc(const char *szSetting, LPARAM lParam)
 
 void CLVM_EnumModes(pfnEnumCallback EnumCallback)
 {
-	DBCONTACTENUMSETTINGS dbces;
-	dbces.pfnEnumProc = CLVM_EnumProc;
-	dbces.szModule = CLVM_MODULE;
-	dbces.ofsSettings = 0;
-	dbces.lParam = (LPARAM)EnumCallback;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+	db_enum_settings(NULL, CLVM_EnumProc, CLVM_MODULE, EnumCallback);
 }
 
 int FillModes(char *szsetting)

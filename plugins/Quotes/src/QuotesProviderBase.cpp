@@ -662,7 +662,7 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, cons
 
 MCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
 {
-	MCONTACT hContact = MCONTACT(CallService(MS_DB_CONTACT_ADD, 0, 0));
+	MCONTACT hContact = db_add_contact();
 	if (hContact) {
 		if (0 == Proto_AddToContact(hContact, QUOTES_PROTOCOL_NAME)) {
 			tstring sProvName = GetInfo().m_sName;
@@ -674,7 +674,7 @@ MCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
 			m_aContacts.push_back(hContact);
 		}
 		else {
-			CallService(MS_DB_CONTACT_DELETE, WPARAM(hContact), 0);
+			db_delete_contact(hContact);
 			hContact = NULL;
 		}
 	}

@@ -149,7 +149,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											isGroupUTF = 1;
 									}
 
-									MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+									MCONTACT hContact = db_add_contact();
 									Proto_AddToContact(hContact, MODULE);
 									db_set_ws(hContact, MODULE, "Nick", text);
 									db_set_ws(hContact, MODULE, "URL", url);

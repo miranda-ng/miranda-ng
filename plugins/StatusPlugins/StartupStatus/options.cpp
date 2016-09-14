@@ -911,21 +911,15 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 
 static int ClearDatabase(char* filter)
 {
-	DBCONTACTENUMSETTINGS dbces;
-	char** settings;
-	int i, settingCount = 0;
-
 	settingIndex = 0;
-	dbces.szModule = MODULENAME;
-	dbces.lParam = (LPARAM)&settingCount;
-	dbces.pfnEnumProc = CountSettings;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 
-	settings = (char**)malloc(settingCount*sizeof(char*));
-	dbces.lParam = (LPARAM)&settings;
-	dbces.pfnEnumProc = DeleteSetting;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
-	for (i=0; i < settingCount; i++) {
+	int settingCount = 0;
+	db_enum_settings(NULL, CountSettings, MODULENAME, &settingCount);
+
+	char **settings = (char**)malloc(settingCount*sizeof(char*));
+	db_enum_settings(NULL, DeleteSetting, MODULENAME, &settings);
+
+	for (int i=0; i < settingCount; i++) {
 		if ((filter == NULL) || (!strncmp(filter, settings[i], mir_strlen(filter))))
 			db_unset(NULL, MODULENAME, settings[i]);
 		free(settings[i]);

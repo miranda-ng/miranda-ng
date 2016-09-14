@@ -53,7 +53,7 @@ bool CQuotesProviderGoogle::WatchForRate(const CRateInfo& ri,
 			m_aContacts.erase(i);
 		}
 
-		CallService(MS_DB_CONTACT_DELETE, WPARAM(hContact), 0);
+		db_delete_contact(hContact);
 		return true;
 	}
 

@@ -24,7 +24,7 @@ void CVkProto::AddFeedSpecialUser()
 	MCONTACT hContact = FindUser(VK_FEED_USER);
 	if (!bSpecialContact) {
 		if (hContact)
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
+			db_delete_contact(hContact);
 		return;
 	}
 

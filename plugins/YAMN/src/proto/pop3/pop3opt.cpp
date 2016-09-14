@@ -869,7 +869,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 			DlgSetItemTextT(hDlg, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
 
 			if (ActualAccount->hContact != NULL)
-				CallService(MS_DB_CONTACT_DELETE, ActualAccount->hContact, 0);
+				db_delete_contact(ActualAccount->hContact);
 
 			CallService(MS_YAMN_DELETEACCOUNT, (WPARAM)POP3Plugin, (LPARAM)ActualAccount);
 

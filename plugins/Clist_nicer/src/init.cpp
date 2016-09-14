@@ -130,7 +130,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 
 	memset(&cfg::dat, 0, sizeof(cfg::dat));
 
-	int iCount = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
+	int iCount = db_get_contact_count();
 
 	iCount += 20;
 	if (iCount < 300)

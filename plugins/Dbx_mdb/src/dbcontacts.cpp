@@ -165,7 +165,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::IsDbContact(MCONTACT contactID)
 
 BOOL CDbxMdb::MetaDetouchSub(DBCachedContact *cc, int nSub)
 {
-	DbModule_Delete(cc->pSubs[nSub], META_PROTO);
+	db_delete_module(cc->pSubs[nSub], META_PROTO);
 	return 0;
 }
 

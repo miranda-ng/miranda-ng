@@ -48,7 +48,7 @@ MCONTACT CDropbox::GetDefaultContact()
 		hDefaultContact = db_find_first(MODULE);
 
 	if (!hDefaultContact) {
-		hDefaultContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hDefaultContact = db_add_contact();
 		if (!Proto_AddToContact(hDefaultContact, MODULE)) {
 			db_set_s(NULL, MODULE, "Nick", MODULE);
 			db_set_s(hDefaultContact, MODULE, "Nick", MODULE);

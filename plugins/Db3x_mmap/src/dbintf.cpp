@@ -141,17 +141,15 @@ int CDb3Mmap::Load(bool bSkipInit)
 			if (m_dbHeader.version < DB_095_1_VERSION)
 				return EGROKPRF_CANTREAD;
 
-			// we don't need events in the service mode
-			if (ServiceExists(MS_DB_SETSAFETYMODE)) {
-				hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
-				hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
-				hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
-				hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
+			// retrieve the event handles
+			hContactDeletedEvent = CreateHookableEvent(ME_DB_CONTACT_DELETED);
+			hContactAddedEvent = CreateHookableEvent(ME_DB_CONTACT_ADDED);
+			hSettingChangeEvent = CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+			hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
 
-				hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
-				hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
-				hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
-			}
+			hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
+			hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
+			hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 		}
 
 		FillContacts();

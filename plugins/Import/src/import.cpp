@@ -163,12 +163,7 @@ static int CopySettingsEnum(const char *szSetting, LPARAM lParam)
 void CopySettings(MCONTACT srcID, const char *szSrcModule, MCONTACT dstID, const char *szDstModule)
 {
 	LIST<char> arSettings(50);
-
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.szModule = szSrcModule;
-	dbces.pfnEnumProc = CopySettingsEnum;
-	dbces.lParam = (LPARAM)&arSettings;
-	srcDb->EnumContactSettings(srcID, &dbces);
+	srcDb->EnumContactSettings(srcID, CopySettingsEnum, szSrcModule, &arSettings);
 
 	for (int i = arSettings.getCount() - 1; i >= 0; i--) {
 		DBVARIANT dbv = { 0 };
@@ -527,9 +522,9 @@ static MCONTACT MapContact(MCONTACT hSrc)
 
 static MCONTACT AddContact(char *szProto, char *pszUniqueSetting, DBVARIANT *id, const wchar_t *pszUserID, wchar_t *nick, wchar_t *group)
 {
-	MCONTACT hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
+	MCONTACT hContact = db_add_contact();
 	if (Proto_AddToContact(hContact, szProto) != 0) {
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		db_delete_contact(hContact);
 		AddMessage(LPGENW("Failed to add %S contact %s"), szProto, pszUserID);
 		return INVALID_CONTACT_ID;
 	}
@@ -572,8 +567,7 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 		return;
 
 	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc, pda->pa->szModuleName };
-
-	CallService(MS_DB_MODULES_ENUM, (WPARAM)&icd, (LPARAM)ModulesEnumProc);
+	db_enum_modules(ModulesEnumProc, &icd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -594,12 +588,7 @@ static int ImportGroup(const char* szSettingName, LPARAM lParam)
 static int ImportGroups()
 {
 	int nGroups = 0;
-
-	DBCONTACTENUMSETTINGS param = { 0 };
-	param.szModule = "CListGroups";
-	param.pfnEnumProc = ImportGroup;
-	param.lParam = (LPARAM)&nGroups;
-	srcDb->EnumContactSettings(NULL, &param);
+	db_enum_settings(NULL, ImportGroup, "CListGroups", &nGroups);
 	return nGroups;
 }
 
@@ -669,7 +658,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 
 		// do we need to add a new metacontact?
 		if (hDest == INVALID_CONTACT_ID) {
-			hDest = CallService(MS_DB_CONTACT_ADD, 0, 0);
+			hDest = db_add_contact();
 			Proto_AddToContact(hDest, META_PROTO);
 			CopySettings(ccSrc->contactID, META_PROTO, hDest, META_PROTO);
 

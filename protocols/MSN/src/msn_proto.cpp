@@ -385,10 +385,10 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	MSN_AddUser(NULL, email, msc->netId, LIST_RL);
 
 	if (!(msc->list & (LIST_FL | LIST_LL))) {
-		if (msc->hContact) CallService(MS_DB_CONTACT_DELETE, (WPARAM)msc->hContact, 0);
+		if (msc->hContact) db_delete_contact(msc->hContact);
 		msc->hContact = NULL;
 		MCONTACT hContact = MSN_HContactFromEmail(email);
-		if (hContact) CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		if (hContact) db_delete_contact(hContact);
 	}
 
 	return 0;
@@ -1199,7 +1199,7 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 	case EV_PROTO_ONERASE:
 		char szDbsettings[64];
 		mir_snprintf(szDbsettings, "%s_HTTPS", m_szModuleName);
-		DbModule_Delete(0, szDbsettings);
+		db_delete_module(0, szDbsettings);
 		break;
 
 	case EV_PROTO_ONCONTACTDELETED:

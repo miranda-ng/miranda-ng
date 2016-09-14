@@ -243,7 +243,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 		bHideOffline = true;
 
 	// get the number of contacts
-	int dwContacts = (int)CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
+	int dwContacts = db_get_contact_count();
 	if (dwContacts == 0)
 		return false;
 

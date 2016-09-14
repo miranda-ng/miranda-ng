@@ -442,7 +442,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 	if (Added) {
 		debugLogA("Attempt to create ICQ contact %u", dwUin);
 
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = db_add_contact();
 		if (!hContact) {
 			debugLogA("Failed to create ICQ contact %u", dwUin);
 			return INVALID_CONTACT_ID;
@@ -450,7 +450,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 
 		if (Proto_AddToContact(hContact, m_szModuleName) != 0) {
 			// For some reason we failed to register the protocol to this contact
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			db_delete_contact(hContact);
 			debugLogA("Failed to register ICQ contact %u", dwUin);
 			return INVALID_CONTACT_ID;
 		}
@@ -515,7 +515,7 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	if (Added) {
 		debugLogA("Attempt to create ICQ contact by string <%s>", szUid);
 
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = db_add_contact();
 		Proto_AddToContact(hContact, m_szModuleName);
 
 		setString(hContact, UNIQUEIDSETTING, szUid);

@@ -361,12 +361,8 @@ LBL_NewLine:
 				if (secFN) warnThisSection = 0;
 			}
 			if (szLine[1] == '?') {
-				DBCONTACTENUMSETTINGS dbces;
-				dbces.pfnEnumProc = SettingsEnumProc;
 				mir_strncpy(szSection, szLine + 2, min(sizeof(szSection), (int)(szEnd - szLine - 1)));
-				dbces.szModule = szSection;
-				dbces.ofsSettings = 0;
-				CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+				db_enum_settings(NULL, SettingsEnumProc, szSection);
 				while (setting_items) {
 					SettingsList *next = setting_items->next;
 
@@ -428,11 +424,8 @@ LBL_NewLine:
 			if (szValue[1] == '*') {
 				LIST<char> arSettings(1);
 				ESFDParam param = { &arSettings, szName };
-				DBCONTACTENUMSETTINGS dbep = {};
-				dbep.pfnEnumProc = EnumSettingsForDeletion;
-				dbep.szModule = szSection;
-				dbep.lParam = (LPARAM)&param;
-				CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, LPARAM(&dbep));
+				db_enum_settings(NULL, EnumSettingsForDeletion, szSection, &param);
+				
 				while (arSettings.getCount()) {
 					db_unset(NULL, szSection, arSettings[0]);
 					mir_free(arSettings[0]);

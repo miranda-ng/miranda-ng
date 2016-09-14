@@ -222,7 +222,7 @@ void CMsnProto::Lists_Populate(void)
 			else
 				Lists_Add(0, netId, szEmail, hContact);
 		}
-		else if (!isChatRoom(hContact)) CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		else if (!isChatRoom(hContact)) db_delete_contact(hContact);
 		hContact = hNext;
 	}
 }
@@ -260,7 +260,7 @@ void CMsnProto::MSN_CleanupLists(void)
 			}
 
 			if (!(p.list & (LIST_LL | LIST_FL))) {
-				CallService(MS_DB_CONTACT_DELETE, (WPARAM)p.hContact, 0);
+				db_delete_contact(p.hContact);
 				p.hContact = NULL;
 			}
 		}
@@ -483,7 +483,7 @@ static void SaveSettings(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 
 			if (xorMask & (LIST_FL | LIST_LL) && !(newMask & (LIST_FL | LIST_LL))) {
 				if (!IsHContactInfo(hItem)) {
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hItem, 0);
+					db_delete_contact(hItem);
 					MsnContact* msc = proto->Lists_Get(szEmail);
 					if (msc) msc->hContact = NULL;
 				}

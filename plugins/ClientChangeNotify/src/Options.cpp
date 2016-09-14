@@ -300,12 +300,7 @@ void COptItem_TreeCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 	m_value.RemoveAll();
 	sTreeReadEnumData pData(this, sModule, *sDBSettingPrefix);
 
-	DBCONTACTENUMSETTINGS dbEnum;
-	dbEnum.lParam = (LPARAM)&pData;
-	dbEnum.ofsSettings = 0;
-	dbEnum.pfnEnumProc = TreeReadEnum;
-	dbEnum.szModule = sModule;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbEnum);
+	db_enum_settings(NULL, TreeReadEnum, sModule, &pData);
 	if (!m_value.GetSize()) {
 		m_value = m_defValue;
 	}
@@ -481,12 +476,7 @@ void COptItem_TreeCtrl::CleanDBSettings(const CString &sModule, CString *sDBSett
 	sTreeDeleteEnumData TreeDeleteEnumData;
 	TreeDeleteEnumData.TreeCtrl = this;
 	TreeDeleteEnumData.sDBSettingPrefix = sDBSettingPrefix;
-	DBCONTACTENUMSETTINGS dbEnum;
-	dbEnum.lParam = (LPARAM)&TreeDeleteEnumData;
-	dbEnum.ofsSettings = 0;
-	dbEnum.pfnEnumProc = TreeDeleteEnum;
-	dbEnum.szModule = sModule;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbEnum);
+	db_enum_settings(NULL, TreeDeleteEnum, sModule, &TreeDeleteEnumData);
 
 	for (int i = 0; i < TreeDeleteEnumData.TreeSettings.GetSize(); i++)
 		db_unset(NULL, sModule, TreeDeleteEnumData.TreeSettings[i]);
@@ -672,12 +662,8 @@ void COptItem_ListCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 
 	m_value.RemoveAll();
 	sListReadEnumData pData(this, sModule, *sDBSettingPrefix);
-	DBCONTACTENUMSETTINGS dbEnum;
-	dbEnum.lParam = (LPARAM)&pData;
-	dbEnum.ofsSettings = 0;
-	dbEnum.pfnEnumProc = ListReadEnum;
-	dbEnum.szModule = sModule;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbEnum);
+	db_enum_settings(NULL, ListReadEnum, sModule, &pData);
+
 	if (!m_value.GetSize())
 		m_value = m_defValue;
 	else {
@@ -752,12 +738,7 @@ void COptItem_ListCtrl::CleanDBSettings(const CString &sModule, CString *sDBSett
 	sListDeleteEnumData ListDeleteEnumData;
 	ListDeleteEnumData.ListCtrl = this;
 	ListDeleteEnumData.sDBSettingPrefix = sDBSettingPrefix;
-	DBCONTACTENUMSETTINGS dbEnum;
-	dbEnum.lParam = (LPARAM)&ListDeleteEnumData;
-	dbEnum.ofsSettings = 0;
-	dbEnum.pfnEnumProc = ListDeleteEnum;
-	dbEnum.szModule = sModule;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbEnum);
+	db_enum_settings(NULL, ListDeleteEnum, sModule, &ListDeleteEnumData);
 
 	for (int i = 0; i < ListDeleteEnumData.ListSettings.GetSize(); i++)
 		db_unset(NULL, sModule, ListDeleteEnumData.ListSettings[i]);

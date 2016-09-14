@@ -268,32 +268,6 @@ MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int sttEnumVars(const char *szVarName, LPARAM lParam)
-{
-	LIST<char>* vars = (LIST<char>*)lParam;
-	vars->insert(mir_strdup(szVarName));
-	return 0;
-}
-
-MIR_APP_DLL(int) DbModule_Delete(MCONTACT hContact, const char *szModuleName)
-{
-	LIST<char> vars(20);
-
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = sttEnumVars;
-	dbces.lParam = (LPARAM)&vars;
-	dbces.szModule = (char*)szModuleName;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
-
-	for (int i = vars.getCount()-1; i >= 0; i--) {
-		db_unset(hContact, szModuleName, vars[i]);
-		mir_free(vars[i]);
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 MIR_APP_DLL(int) Profile_GetPathA(size_t cbLen, char *pszDest)
 {
 	if (!pszDest || !cbLen)

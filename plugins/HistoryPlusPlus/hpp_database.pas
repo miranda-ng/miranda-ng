@@ -104,7 +104,7 @@ uses
 
 procedure SetSafetyMode(Safe: Boolean);
 begin
-  CallService(MS_DB_SETSAFETYMODE,WPARAM(Safe),0);
+  db_set_safety_mode(int(Safe));
 end;
 
 function DBExists(const Module, Param: AnsiString): Boolean;

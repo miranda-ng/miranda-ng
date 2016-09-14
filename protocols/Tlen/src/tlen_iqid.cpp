@@ -217,7 +217,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 					if (szJid != NULL) {
 						if (!TlenListExist(proto, LIST_ROSTER, szJid)) {
 							proto->debugLogA("Syncing roster: deleting 0x%x", hContact);
-							CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+							db_delete_contact(hContact);
 						}
 					}
 					hContact = hNext;

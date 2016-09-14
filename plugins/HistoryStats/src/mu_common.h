@@ -18,15 +18,6 @@ namespace mu
 	}
 
 	/*
-	 * db_contact
-	 */
-
-	namespace db_contact
-	{
-		int enumSettings(MCONTACT hContact, const char* szModule, DBSETTINGENUMPROC pEnumProc, LPARAM lProcParam);
-	}
-
-	/*
 	 * icolib
 	 */
 

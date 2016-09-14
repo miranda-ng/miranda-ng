@@ -3295,7 +3295,7 @@ quote_from_last:
 			dat->cache->setWindowData();
 			if (dat->cache->isValid() && !dat->fIsReattach && dat->hContact && M.GetByte("deletetemp", 0))
 				if (db_get_b(dat->hContact, "CList", "NotOnList", 0))
-					CallService(MS_DB_CONTACT_DELETE, dat->hContact, 0);
+					db_delete_contact(dat->hContact);
 
 			delete dat->Panel;
 			mir_free(dat);

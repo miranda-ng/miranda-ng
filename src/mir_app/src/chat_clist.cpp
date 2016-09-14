@@ -54,7 +54,7 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	}
 
 	// here we create a new one since no one is to be found
-	if ((hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL)
+	if ((hContact = db_add_contact()) == NULL)
 		return NULL;
 
 	Proto_AddToContact(hContact, pszModule);

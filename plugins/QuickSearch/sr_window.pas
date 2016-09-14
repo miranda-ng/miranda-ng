@@ -362,7 +362,7 @@ begin
   if ServiceExists(strCListDel)>0 then
     CallService(strCListDel,hContact,0)
   else
-    CallService(MS_DB_CONTACT_DELETE,hContact,0);
+    db_delete_contact(hContact);
 end;
 
 procedure DeleteByList;
@@ -380,7 +380,7 @@ begin
     for i:=j downto 0 do
     begin
       if ListView_GetItemState(grid,i,LVIS_SELECTED)<>0 then
-        CallService(MS_DB_CONTACT_DELETE,FlagBuf[LV_GetLParam(grid,i)].contact,0);
+        db_delete_contact(FlagBuf[LV_GetLParam(grid,i)].contact);
     end;
     SendMessage(grid,WM_SETREDRAW,1,0);
   end;

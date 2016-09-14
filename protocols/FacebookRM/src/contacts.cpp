@@ -97,7 +97,7 @@ MCONTACT FacebookProto::ChatIDToHContact(const std::string &chat_id)
 	auto it = facy.chat_id_to_hcontact.find(chat_id);
 	if (it != facy.chat_id_to_hcontact.end()) {
 		// Check if contact is still valid
-		if (CallService(MS_DB_CONTACT_IS, (WPARAM)it->second) == 1)
+		if (db_is_contact((WPARAM)it->second) == 1)
 			return it->second;
 		else
 			facy.chat_id_to_hcontact.erase(it);
@@ -129,7 +129,7 @@ MCONTACT FacebookProto::ContactIDToHContact(const std::string &user_id)
 	std::map<std::string, MCONTACT>::iterator it = facy.user_id_to_hcontact.find(user_id);
 	if (it != facy.user_id_to_hcontact.end()) {
 		// Check if contact is still valid
-		if (CallService(MS_DB_CONTACT_IS, (WPARAM)it->second) == 1)
+		if (db_is_contact((WPARAM)it->second) == 1)
 			return it->second;
 		else
 			facy.user_id_to_hcontact.erase(it);
@@ -401,10 +401,10 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, bool force_add, boo
 	}
 
 	// Try to make a new contact
-	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD);
+	MCONTACT hContact = db_add_contact();
 
 	if (hContact && Proto_AddToContact(hContact, m_szModuleName) != 0) {
-		CallService(MS_DB_CONTACT_DELETE, hContact);
+		db_delete_contact(hContact);
 		hContact = NULL;
 	}
 
@@ -625,7 +625,7 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 
 		// Delete this contact, if he's temporary
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
-			CallService(MS_DB_CONTACT_DELETE, hContact);
+			db_delete_contact(hContact);
 	}
 	else facy.client_notify(TranslateT("Error occurred when ignoring friendship request."));
 

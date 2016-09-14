@@ -496,7 +496,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 			if (item && item->hContact && !item->bRealContact) {
 				debugLogW(L"Syncing roster: preparing to delete %s (hContact=0x%x)", item->jid, item->hContact);
-				CallService(MS_DB_CONTACT_DELETE, item->hContact, 0);
+				db_delete_contact(item->hContact);
 			}
 		}
 	}

@@ -446,7 +446,7 @@ void TwitterProto::UpdateSettings()
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact;) {
 			MCONTACT hNext = db_find_next(hContact, m_szModuleName);
 			if (isChatRoom(hContact))
-				CallService(MS_DB_CONTACT_DELETE, WPARAM(hContact), 0);
+				db_delete_contact(hContact);
 			hContact = hNext;
 		}
 	}

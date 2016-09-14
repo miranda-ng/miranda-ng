@@ -67,8 +67,7 @@ modules are free to define their own, beginning at 2000
 DBEVENTINFO.timestamp is in GMT, as returned by time(). There are services
 db/time/x below with useful stuff for dealing with it.
 }
-function db_event_add(hContact:TMCONTACT; dbei:PDBEVENTINFO):TMEVENT; stdcall;
-                 external CoreDLL name 'db_event_add';
+function db_event_add(hContact:TMCONTACT; dbei:PDBEVENTINFO):TMEVENT; stdcall; external CoreDLL;
 
 {
 Gets the number of events in the chain belonging to a contact in the database.
@@ -76,8 +75,7 @@ Returns the number of events in the chain owned by hContact or -1 if hContact
 is invalid. They can be retrieved using the db_event_first/last() services.
 Returns 0 for Subcontacts (use db_event_last to recognize empty history)
 }
-function db_event_count(hContact:TMCONTACT):int; stdcall;
-                 external CoreDLL name 'db_event_count';
+function db_event_count(hContact:TMCONTACT):int; stdcall; external CoreDLL;
 
 {
 Removes a single event from the database
@@ -85,16 +83,14 @@ hDbEvent should have been returned by db_event_add/first/last/next/prev()
 Returns 0 on success, or nonzero if hDbEvent was invalid
 Triggers a db/event/deleted event just *before* the event is deleted
 }
-function db_event_delete(hContact:TMCONTACT; hDbEvent:TMEVENT):int; stdcall;
-                 external CoreDLL name 'db_event_delete';
+function db_event_delete(hContact:TMCONTACT; hDbEvent:TMEVENT):int; stdcall; external CoreDLL;
 
 {
 Retrieves a handle to the first event in the chain for hContact
 Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 }
-function db_event_first(hContact:TMCONTACT):TMEVENT; stdcall;
-                 external CoreDLL name 'db_event_first';
+function db_event_first(hContact:TMCONTACT):TMEVENT; stdcall; external CoreDLL;
 
 {
 Retrieves a handle to the first unread event in the chain for hContact
@@ -107,8 +103,7 @@ should be checked individually with db_event_next() and db_event_get()
 This service is designed for startup, reloading all the events that remained
 unread from last time
 }
-function db_event_firstUnread(hContact:TMCONTACT):TMEVENT; stdcall;
-                 external CoreDLL name 'db_event_firstUnread';
+function db_event_firstUnread(hContact:TMCONTACT):TMEVENT; stdcall; external CoreDLL;
 
 {
 Retrieves all the information stored in hDbEvent
@@ -124,16 +119,14 @@ and then dbe.cbBlob is set to the required size of data to go in dbe.pBlob
 On return, dbe.szModule is a pointer to the database module's own internal list
 of modules. Look but don't touch.
 }
-function db_event_get(hDbEvent:TMEVENT; dbei:PDBEVENTINFO):int; stdcall;
-                 external CoreDLL name 'db_event_get';
+function db_event_get(hDbEvent:TMEVENT; dbei:PDBEVENTINFO):int; stdcall; external CoreDLL;
 
 {
 Retrieves the space in bytes required to store the blob in hDbEvent
 hDbEvent should have been returned by db_event_add/first/last/next/prev()
 Returns the space required in bytes, or -1 if hDbEvent is invalid
 }
-function db_event_getBlobSize(hDbEvent:TMEVENT):int; stdcall;
-                 external CoreDLL name 'db_event_getBlobSize';
+function db_event_getBlobSize(hDbEvent:TMEVENT):int; stdcall; external CoreDLL;
 
 {
 Retrieves a handle to the contact that owns hDbEvent.
@@ -144,16 +137,14 @@ success
 This service is exceptionally slow. Use only when you have no other choice at
 all.
 }
-function db_event_getContact(hDbEvent:TMEVENT):TMCONTACT; stdcall;
-                 external CoreDLL name 'db_event_getContact';
+function db_event_getContact(hDbEvent:TMEVENT):TMCONTACT; stdcall; external CoreDLL;
 
 {
 Retrieves a handle to the last event in the chain for hContact
 Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 }
-function db_event_last(hContact:TMCONTACT):TMEVENT; stdcall;
-                 external CoreDLL name 'db_event_last';
+function db_event_last(hContact:TMCONTACT):TMEVENT; stdcall; external CoreDLL;
 
 {
 Changes the flags for an event to mark it as read.
@@ -163,27 +154,23 @@ is invalid.
 This is the one database write operation that does not trigger an event.
 Modules should not save flags states for any length of time.
 }
-function db_event_markRead(hContact:TMCONTACT; hDbEvent:TMEVENT):int; stdcall;
-                 external CoreDLL name 'db_event_markRead';
+function db_event_markRead(hContact:TMCONTACT; hDbEvent:TMEVENT):int; stdcall; external CoreDLL;
 
 {
 Retrieves a handle to the next event in a chain after hDbEvent
 Returns the handle, or NULL if hDbEvent is invalid or is the last event
 Events in a chain are sorted chronologically automatically
 }
-function db_event_next(hContact:TMCONTACT; hDbEvent:TMEVENT):THANDLE; stdcall;
-                 external CoreDLL name 'db_event_next';
+function db_event_next(hContact:TMCONTACT; hDbEvent:TMEVENT):THANDLE; stdcall; external CoreDLL;
 
 {
 Retrieves a handle to the previous event in a chain before hDbEvent
 Returns the handle, or NULL if hDbEvent is invalid or is the first event
 Events in a chain are sorted chronologically automatically
 }
-function db_event_prev(hContact:TMCONTACT; hDbEvent:TMEVENT):THANDLE; stdcall;
-                 external CoreDLL name 'db_event_prev';
+function db_event_prev(hContact:TMCONTACT; hDbEvent:TMEVENT):THANDLE; stdcall; external CoreDLL;
 
-function db_free(dbv:PDBVARIANT):int_ptr; stdcall;
-                 external CoreDLL name 'db_free';
+function db_free(dbv:PDBVARIANT):int_ptr; stdcall; external CoreDLL;
 
 (******************************************************************************
  * DATABASE CONTACTS
@@ -196,8 +183,7 @@ You can specify szProto to find only its contacts
 Returns a handle to the first contact in the db on success, or NULL if there
 are no contacts in the db.
 }
-function db_find_first(const szModule:PAnsiChar=nil):TMCONTACT; stdcall;
-                 external CoreDLL name 'db_find_first';
+function db_find_first(const szModule:PAnsiChar=nil):TMCONTACT; stdcall; external CoreDLL;
 
 {
 Gets the handle of the next contact after hContact in the database. This handle
@@ -206,57 +192,45 @@ You can specify szProto to find only its contacts
 Returns a handle to the contact after hContact in the db on success or NULL if
 hContact was the last contact in the db or hContact was invalid.
 }
-function db_find_next(hContact:TMCONTACT; const szModule:PAnsiChar=nil):TMCONTACT; stdcall;
-                 external CoreDLL name 'db_find_next';
+function db_find_next(hContact:TMCONTACT; const szModule:PAnsiChar=nil):TMCONTACT; stdcall; external CoreDLL;
 
 (******************************************************************************
  * DATABASE SETTINGS
  *)
 
-function db_get(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
-                 external CoreDLL name 'db_get';
-function db_get_b(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:int):int; stdcall;
-                 external CoreDLL name 'db_get_b';
-function db_get_w(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:int):int; stdcall;
-                 external CoreDLL name 'db_get_w';
-function db_get_dw(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:dword):dword; stdcall;
-                 external CoreDLL name 'db_get_dw';
-function db_get_s(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; dbv:PDBVARIANT; const nType:int=DBVT_ASCIIZ):int_ptr; stdcall;
-                 external CoreDLL name 'db_get_s';
-function db_get_sa(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):PAnsiChar; stdcall;
-                 external CoreDLL name 'db_get_sa';
-function db_get_wsa(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):PWideChar; stdcall;
-                 external CoreDLL name 'db_get_wsa';
+function db_get(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall; external CoreDLL;
+function db_get_b(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:int):int; stdcall; external CoreDLL;
+function db_get_w(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:int):int; stdcall; external CoreDLL;
+function db_get_dw(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; errorValue:dword):dword; stdcall; external CoreDLL;
+function db_get_s(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; dbv:PDBVARIANT; const nType:int=DBVT_ASCIIZ):int_ptr; stdcall; external CoreDLL;
+function db_get_sa(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):PAnsiChar; stdcall; external CoreDLL;
+function db_get_wsa(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):PWideChar; stdcall; external CoreDLL;
 
-function db_get_static(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; szDest:PAnsiChar; destLen:int):int; stdcall;
-                 external CoreDLL name 'db_get_static';
-function db_get_static_utf(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; szDest:PAnsiChar; destLen:int):int; stdcall;
-                 external CoreDLL name 'db_get_static_utf';
-function db_get_wstatic(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; szDest:PWideChar; destLen:int):int; stdcall;
-                 external CoreDLL name 'db_get_wstatic';
+function db_get_static(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; szDest:PAnsiChar; destLen:int):int; stdcall; external CoreDLL;
+function db_get_static_utf(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; szDest:PAnsiChar; destLen:int):int; stdcall; external CoreDLL;
+function db_get_wstatic(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; szDest:PWideChar; destLen:int):int; stdcall; external CoreDLL;
 
-function db_set(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
-                 external CoreDLL name 'db_set';
-function db_set_b(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:byte):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_b';
-function db_set_w(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:word):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_w';
-function db_set_dw(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:dword):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_dw';
-function db_set_s(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; const val:PAnsiChar):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_s';
-function db_set_ws(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; const val:PWideChar):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_ws';
-function db_set_utf(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; const val:PAnsiChar):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_utf';
-function db_set_blob(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:pointer; len:uint):int_ptr; stdcall;
-                 external CoreDLL name 'db_set_blob';
+function db_set(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall; external CoreDLL;
+function db_set_b(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:byte):int_ptr; stdcall; external CoreDLL;
+function db_set_w(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:word):int_ptr; stdcall; external CoreDLL;
+function db_set_dw(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:dword):int_ptr; stdcall; external CoreDLL;
+function db_set_s(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; const val:PAnsiChar):int_ptr; stdcall; external CoreDLL;
+function db_set_ws(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; const val:PWideChar):int_ptr; stdcall; external CoreDLL;
+function db_set_utf(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; const val:PAnsiChar):int_ptr; stdcall; external CoreDLL;
+function db_set_blob(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar; val:pointer; len:uint):int_ptr; stdcall; external CoreDLL;
 
-function db_unset(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):int_ptr; stdcall;
-                  external CoreDLL name 'db_unset';
+function db_unset(hContact:TMCONTACT; const szModule:PAnsiChar; const szSetting:PAnsiChar):int_ptr; stdcall; external CoreDLL;
 
-function db_set_resident(const szModule:PAnsiChar; const szSetting:PAnsiChar; bEnable:int):int; stdcall;
-                 external CoreDLL name 'db_set_resident';
+function db_set_resident(const szModule:PAnsiChar; const szSetting:PAnsiChar; bEnable:int):int; stdcall; external CoreDLL;
+
+///////////////////////////////////////////////////////////////////////////////
+
+function db_add_contact() : TMCONTACT; stdcall; external CoreDLL;
+function db_delete_contact(hContact:TMCONTACT) : int; stdcall; external CoreDLL;
+
+function db_is_contact(hContact:TMCONTACT) : int; stdcall; external CoreDLL;
+
+function db_get_contact_count() : int; stdcall; external CoreDLL;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -299,62 +273,7 @@ type
 type
   TDBSETTINGENUMPROC = function(const szSetting: PAnsiChar; lParam: LPARAM): int; cdecl;
 
-  PDBCONTACTENUMSETTINGS = ^TDBCONTACTENUMSETTINGS;
-  TDBCONTACTENUMSETTINGS = record
-    pfnEnumProc: TDBSETTINGENUMPROC; // function pointer to call to start the
-                                     // enum via MS_DB_CONTACT_ENUMSETTINGS
-    lParam     : LPARAM;             // passed to the above function
-    szModule   : PAnsiChar;          // name of the module to get settings for
-    ofsSettings: dword;              // not used by us
-  end;
-
-const
-  MS_DB_CONTACT_ENUMSETTINGS:PAnsiChar = 'DB/Contact/EnumSettings';
-
-  {
-    wParam : 0
-    lParam : 0
-    affect : none
-    returns: Returns the number of contacts in the database for the loaded profile
-             not including the profile user, see notes.
-    notes  : the contacts in the database can be read with FindFirst/FindNext
-  }
-  MS_DB_CONTACT_GETCOUNT:PAnsiChar = 'DB/Contact/GetCount';
-
-  {
-    wParam : Handle of a contact to delete
-    lParam : 0
-    affect : the user by the given handle is deleted from the database, see notes
-    returns: Returns 0 on success or nonzero if the handle was invalid
-    notes  : this triggers DB/Contact/Deleted BEFORE it actually deletes the contact
-             all events are also deleted -- other modules may end up with invalid
-             handles because of this, which they should be prepared for.
-  }
-  MS_DB_CONTACT_DELETE:PAnsiChar = 'DB/Contact/Delete';
-
-  {
-    wParam : 0
-    lParam : 0
-    affects: creates a new contact in the database, they have no settings,
-             settings must be added with MS_DB_CONTACT_WRITESETTING or
-             database helper functions for writing, see notes
-    returns: A handle to a new contact or NULL(0) on failure.
-    notes  : triggers the ME_DB_CONTACT_ADDED event just before the service returns
-  }
-  MS_DB_CONTACT_ADD:PAnsiChar = 'DB/Contact/Add';
-
-
-  {
-    wParam : (HANDLE) hContact
-    lParam : 0
-    affects: Checks the given handle within the database for valid information, for
-           a proper internal header.
-    returns: Returns 1 if the contact handle is valid, 0 if it is not
-    notes  : Due to the nature of multiple threading a contact handle can be deleted
-         soon after this service has returned a handle as valid, however it will never point
-         to another contact.
-  }
-  MS_DB_CONTACT_IS:PAnsiChar = 'DB/Contact/Is';
+function db_enum_settings(hContact:TMCONTACT; pFunc:TDBSETTINGENUMPROC; szModule:PAnsiChar; param:pointer) : int; stdcall; external CoreDll;
 
 //************************** Event *********************************
 
@@ -398,51 +317,13 @@ function DbEvent_GetTextW(dbei:PDBEVENTINFO; codepage:int) : PWideChar; stdcall;
 
 function DbEvent_GetIcon(dbei:PDBEVENTINFO; flags:int) : HICON; stdcall; external AppDll;
 
-//*************************** Random *******************************
-
-  {
-    wParam : newSetting (BOOLEAN)
-    lParam : 0
-    Affect : Miranda's database is normally protected against corruption by
-             aggressively flushing data to the disk on writes, if you're doing
-             alot of writes e.g. an import plugin, it can sometimes be desirable
-             to switch this feature off to speed up the process, if you do switch
-             it off, you must remember that crashes are far more likely to be
-             catastrophic, so switch it back on at the earliest possible opportunity.
-             if you're doing a lot of setting writes, the flush is already delayed
-             so you need not use this service for that purpose, see notes.
-    Returns: Always returns 0 (successful)
-    notes  : This is set to true initally
-  }
-const
-  MS_DB_SETSAFETYMODE:PAnsiChar = 'DB/SetSafetyMode';
-
 //*************************** Modules ******************************
 
-  {
-    wParam : (caller defined data) will be passed to lParam of the call back
-    lParam : function pointer to TDBMODULEENUMPROC
-    Affects: Enumerates the names of all modules that have stored or
-             requested information from the database,
-             the modules are returned in no real order --
-             Writing to the database while module names are being enumerated will cause
-             unpredictable results in the enumeration, but the write will work.
+function db_delete_module(hContact:TMCONTACT; szModuleName:PAnsiChar) : int; stdcall; external CoreDll;
 
-             the enumeration will stop if the callback returns a non zero value.
+//************************** RANDOM ********************************
 
-    Returns: the last return value from the enumeration call back.
-    Notes  : This service is only useful for debugging or EnumSettings
-    version: The service registered to enumerate all modules that have touched
-             the database module uses wParam as the lParam cookie value and the lParam
-             value given here is the function pointer -- this is not safe
-             to use before v0.1.2.1 because I don't know if this was done in v0.1.2.1-
-  }
-type
-  TDBMODULEENUMPROC = function(const szModule: PAnsiChar; ofsModuleName: dword; lParam: LPARAM): int; cdecl;
-const
-  MS_DB_MODULES_ENUM:PAnsiChar = 'DB/Modules/Enum';
-
-function DbModule_Delete(hContact:TMCONTACT; szModuleName:PAnsiChar) : int; stdcall; external AppDll;
+function db_set_safety_mode(bMode:int) : int; stdcall; external CoreDll;
 
 //************************** EVENTS ********************************
 

@@ -240,7 +240,7 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 		AddChatContact(name);
 
 	// If not, make a new contact!
-	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = db_add_contact();
 	if (hContact) {
 		if (Proto_AddToContact(hContact, m_szModuleName) == 0) {
 			setString(hContact, TWITTER_KEY_UN, name);
@@ -258,7 +258,7 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 
 			return hContact;
 		}
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		db_delete_contact(hContact);
 	}
 
 	return 0;

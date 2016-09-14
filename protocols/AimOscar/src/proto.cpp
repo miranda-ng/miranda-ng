@@ -673,7 +673,7 @@ int __cdecl CAimProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 	case EV_PROTO_ONERASE:
 		char szDbsettings[64];
 		mir_snprintf(szDbsettings, "%sP2P", m_szModuleName);
-		DbModule_Delete(0, szDbsettings);
+		db_delete_module(0, szDbsettings);
 		break;
 
 	case EV_PROTO_ONCONTACTDELETED:

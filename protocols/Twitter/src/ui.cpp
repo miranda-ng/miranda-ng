@@ -318,8 +318,7 @@ namespace popup_options
 
 		// Pick a random contact
 		MCONTACT hContact = 0;
-		int n_contacts = (int)CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
-
+		int n_contacts = db_get_contact_count();
 		if (n_contacts != 0) {
 			int contact = rand() % n_contacts;
 			hContact = db_find_first();

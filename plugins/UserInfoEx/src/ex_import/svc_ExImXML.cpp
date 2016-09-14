@@ -366,11 +366,11 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 			int ret;
 			
 			// disable database safty mode to speed up the operation
-			CallService(MS_DB_SETSAFETYMODE, 0, 0);
+			db_set_safety_mode(0);
 			// import owner contact
 			ret = ImportOwner(xmlCard->FirstChildElement(XKEY_OWNER));
 			// as soon as possible enable safty mode again!
-			CallService(MS_DB_SETSAFETYMODE, 1, 0);
+			db_set_safety_mode(1);
 
 			if (!ret) {
 				MsgBox(NULL, MB_ICONINFORMATION, 
@@ -395,11 +395,11 @@ int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
 			if (_numContactsTodo > 0) {
 				_progress.SetContactCount(_numContactsTodo);
 				// disable database safty mode to speed up the operation
-				CallService(MS_DB_SETSAFETYMODE, 0, 0);
+				db_set_safety_mode(0);
 				// import the contacts
 				ImportContacts(xmlCard);
 				// as soon as possible enable safty mode again!
-				CallService(MS_DB_SETSAFETYMODE, 1, 0);
+				db_set_safety_mode(1);
 			}
 			// finally hide the progress dialog
 			_progress.Hide();

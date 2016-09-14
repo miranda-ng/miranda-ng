@@ -52,7 +52,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 	ptrW tszGroup(db_get_wsa(wParam, "CList", "Group"));
 
 	// Create a new metacontact
-	MCONTACT hMetaContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	MCONTACT hMetaContact = db_add_contact();
 	if (hMetaContact == NULL)
 		return NULL;
 
@@ -73,7 +73,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 	// Assign the contact to the MetaContact just created (and make default).
 	if (!Meta_Assign(wParam, hMetaContact, TRUE)) {
 		MessageBox(0, TranslateT("There was a problem in assigning the contact to the metacontact"), TranslateT("Error"), MB_ICONEXCLAMATION);
-		CallService(MS_DB_CONTACT_DELETE, hMetaContact, 0);
+		db_delete_contact(hMetaContact);
 		return 0;
 	}
 
@@ -200,7 +200,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 			Meta_RemoveContactNumber(cc, i, false);
 
 		NotifyEventHooks(hSubcontactsChanged, hContact, 0);
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		db_delete_contact(hContact);
 	}
 	else if (cc->IsSub()) {
 		if ((cc = currDb->m_cache->GetCachedContact(cc->parentID)) == NULL)

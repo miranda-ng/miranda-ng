@@ -24,70 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "database.h"
 
-MIDatabase *currDb = NULL;
-DATABASELINK *currDblink = NULL;
-
-MIR_CORE_DLL(void) db_setCurrent(MIDatabase*);
-
-static INT_PTR srvSetSafetyMode(WPARAM wParam, LPARAM)
-{
-	if (!currDb) return 1;
-
-	currDb->SetCacheSafetyMode(wParam != 0);
-	return 0;
-}
-
-static INT_PTR srvGetContactCount(WPARAM, LPARAM)
-{
-	return (currDb) ? currDb->GetContactCount() : 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// Contacts
-
-static INT_PTR srvDeleteContact(WPARAM wParam, LPARAM)
-{
-	DBVARIANT dbv = { 0 };
-	if (!db_get_ws(wParam, "ContactPhoto", "File", &dbv)) {
-		DeleteFile(dbv.ptszVal);
-		db_free(&dbv);
-	}
-	return (currDb) ? currDb->DeleteContact(wParam) : 0;
-}
-
-static INT_PTR srvAddContact(WPARAM, LPARAM)
-{
-	MCONTACT hNew = (currDb) ? currDb->AddContact() : 0;
-	Netlib_Logf(NULL, "New contact created: %d", hNew);
-	return hNew;
-}
-
-static INT_PTR srvIsDbContact(WPARAM wParam, LPARAM)
-{
-	return (currDb) ? currDb->IsDbContact(wParam) : 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// Module chain
-
-static INT_PTR srvEnumModuleNames(WPARAM wParam, LPARAM lParam)
-{
-	return (currDb) ? (INT_PTR)currDb->EnumModuleNames((DBMODULEENUMPROC)lParam, (void*)wParam) : 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// Settings
-
-static INT_PTR srvEnumContactSettings(WPARAM wParam, LPARAM lParam)
-{
-	return (currDb) ? (INT_PTR)currDb->EnumContactSettings(wParam, (DBCONTACTENUMSETTINGS*)lParam) : 0;
-}
-
-static INT_PTR srvEnumResidentSettings(WPARAM wParam, LPARAM lParam)
-{
-	return (currDb) ? (INT_PTR)currDb->EnumResidentSettings((DBMODULEENUMPROC)wParam, (void*)lParam) : 0;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 // Database list
 
@@ -121,7 +57,7 @@ static INT_PTR srvGetCurrentDb(WPARAM, LPARAM)
 
 static INT_PTR srvInitInstance(WPARAM, LPARAM lParam)
 {
-	MIDatabase* pDb = (MIDatabase*)lParam;
+	MIDatabase *pDb = (MIDatabase*)lParam;
 	if (pDb != NULL)
 		pDb->m_cache = new MDatabaseCache(pDb->GetContactSize());
 	return 0;
@@ -129,7 +65,7 @@ static INT_PTR srvInitInstance(WPARAM, LPARAM lParam)
 
 static INT_PTR srvDestroyInstance(WPARAM, LPARAM lParam)
 {
-	MIDatabase* pDb = (MIDatabase*)lParam;
+	MIDatabase *pDb = (MIDatabase*)lParam;
 	if (pDb != NULL) {
 		MDatabaseCache *pCache = (MDatabaseCache*)pDb->m_cache;
 		pDb->m_cache = NULL;
@@ -142,26 +78,21 @@ static INT_PTR srvDestroyInstance(WPARAM, LPARAM lParam)
 
 int LoadDbintfModule()
 {
-	CreateServiceFunction(MS_DB_CONTACT_GETCOUNT, srvGetContactCount);
-	CreateServiceFunction(MS_DB_CONTACT_DELETE, srvDeleteContact);
-	CreateServiceFunction(MS_DB_CONTACT_ADD, srvAddContact);
-	CreateServiceFunction(MS_DB_CONTACT_IS, srvIsDbContact);
-
-	CreateServiceFunction(MS_DB_MODULES_ENUM, srvEnumModuleNames);
-
-	CreateServiceFunction(MS_DB_CONTACT_ENUMSETTINGS, srvEnumContactSettings);
-	CreateServiceFunction("DB/ResidentSettings/Enum", srvEnumResidentSettings);
-
 	CreateServiceFunction(MS_DB_REGISTER_PLUGIN, srvRegisterPlugin);
 	CreateServiceFunction(MS_DB_FIND_PLUGIN, srvFindPlugin);
 	CreateServiceFunction(MS_DB_GET_CURRENT, srvGetCurrentDb);
 
 	CreateServiceFunction(MS_DB_INIT_INSTANCE, srvInitInstance);
 	CreateServiceFunction(MS_DB_DESTROY_INSTANCE, srvDestroyInstance);
-	return 0;
-}
 
-void LoadDatabaseServices()
-{
-	CreateServiceFunction(MS_DB_SETSAFETYMODE, srvSetSafetyMode);
+	// create events once, they will be inherited by all database plugins
+	CreateHookableEvent(ME_DB_CONTACT_DELETED);
+	CreateHookableEvent(ME_DB_CONTACT_ADDED);
+	CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
+	CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
+
+	CreateHookableEvent(ME_DB_EVENT_ADDED);
+	CreateHookableEvent(ME_DB_EVENT_DELETED);
+	CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
+	return 0;
 }

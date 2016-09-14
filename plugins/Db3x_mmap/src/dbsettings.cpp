@@ -811,9 +811,9 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBCONTACTENUMSETTINGS* dbces)
+STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, const void *param)
 {
-	if (!dbces->szModule)
+	if (!szModule)
 		return -1;
 
 	mir_cslock lck(m_csDbAccess);
@@ -826,12 +826,12 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBCONTACTE
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return -1;
 
-	DWORD ofsModuleName = GetModuleNameOfs(dbces->szModule);
-	dbces->ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsModuleName);
-	if (!dbces->ofsSettings)
+	DWORD ofsModuleName = GetModuleNameOfs(szModule);
+	DWORD ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsModuleName);
+	if (!ofsSettings)
 		return -1;
 
-	DWORD ofsBlobPtr = dbces->ofsSettings + offsetof(DBContactSettings, blob);
+	DWORD ofsBlobPtr = ofsSettings + offsetof(DBContactSettings, blob);
 	int bytesRemaining;
 	PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
 	if (pBlob[0] == 0)
@@ -843,7 +843,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBCONTACTE
 		NeedBytes(1 + pBlob[0]);
 		char szSetting[256];
 		memcpy(szSetting, pBlob + 1, pBlob[0]); szSetting[pBlob[0]] = 0;
-		result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
+		result = pfnEnumProc(szSetting, LPARAM(param));
 		MoveAlong(1 + pBlob[0]);
 		NeedBytes(3);
 		MoveAlong(1 + GetSettingValueLength(pBlob));
@@ -852,7 +852,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBCONTACTE
 	return result;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
+STDMETHODIMP_(BOOL) CDb3Mmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, const void *pParam)
 {
 	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
 		int ret = pFunc(m_lResidentSettings[i], 0, (LPARAM)pParam);

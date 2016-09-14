@@ -331,7 +331,7 @@ static int db_Modules(lua_State *L)
 {
 	LIST<char> *param = new LIST<char>(5, PtrKeySortT);
 
-	CallService(MS_DB_MODULES_ENUM, (WPARAM)param, (LPARAM)ModulesEnumProc);
+	db_enum_modules(ModulesEnumProc, param);
 
 	lua_pushinteger(L, 0);
 	lua_pushlightuserdata(L, param);
@@ -388,13 +388,7 @@ static int db_Settings(lua_State *L)
 	const char* szModule = luaL_checkstring(L, 2);
 
 	LIST<char> *param = new LIST<char>(5, PtrKeySortT);
-
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = SettingsEnumProc;
-	dbces.szModule = szModule;
-	dbces.ofsSettings = 0;
-	dbces.lParam = (LPARAM)param;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
+	db_enum_settings(hContact, SettingsEnumProc, szModule, param);
 
 	lua_pushinteger(L, 0);
 	lua_pushlightuserdata(L, param);

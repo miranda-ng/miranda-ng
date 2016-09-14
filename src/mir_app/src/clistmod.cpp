@@ -125,7 +125,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 			for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
 				MCONTACT hNext = db_find_next(hContact, ack->szModule);
 				if (db_get_b(hContact, "CList", "Delete", 0))
-					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+					db_delete_contact(hContact);
 				hContact = hNext;
 			}
 		}
@@ -453,7 +453,7 @@ void UnloadContactListModule()
 	for (MCONTACT hContact = db_find_first(); hContact != NULL; ) {
 		MCONTACT hNext = db_find_next(hContact);
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			db_delete_contact(hContact);
 		hContact = hNext;
 	}
 	ImageList_Destroy(hCListImages);

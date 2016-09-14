@@ -151,14 +151,9 @@ static int EnumProc(const char *szSetting, LPARAM lParam)
 static void CopyModule(const char *szModule, const char *szNewModule)
 {
 	EnumProcParam param = { szModule, szNewModule };
+	db_enum_settings(NULL, EnumProc, szModule, &param);
 
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = EnumProc;
-	dbces.szModule = szModule;
-	dbces.lParam = (LPARAM)&param;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
-
-	DbModule_Delete(0, szModule);
+	db_delete_module(0, szModule);
 }
 
 void UpgradeDb()

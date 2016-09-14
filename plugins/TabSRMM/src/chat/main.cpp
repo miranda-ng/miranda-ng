@@ -226,12 +226,7 @@ static void CheckUpdate()
 
 	if (compat == 0) {
 		LIST<char> szSettings(120);
-
-		DBCONTACTENUMSETTINGS dbces = { 0 };
-		dbces.szModule = CHAT_OLDFONTMODULE;
-		dbces.pfnEnumProc = CopyChatSetting;
-		dbces.lParam = (LPARAM)&szSettings;
-		CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+		db_enum_settings(NULL, CopyChatSetting, CHAT_OLDFONTMODULE, &szSettings);
 
 		DBVARIANT dbv;
 		for (int i = szSettings.getCount() - 1; i >= 0; i--) {
@@ -242,7 +237,7 @@ static void CheckUpdate()
 			mir_free(p);
 		}
 
-		DbModule_Delete(NULL, CHAT_OLDFONTMODULE);
+		db_delete_module(NULL, CHAT_OLDFONTMODULE);
 		compat++;
 	}
 

@@ -125,7 +125,7 @@ void CMirfoxMiranda::onContactAdded_async(void* threadArg)
 		canAdd = false;
 
 	// check if hContact still exist
-	if (canAdd && !CallService(MS_DB_CONTACT_IS, onContactAsyncThreadArgStruct->hContact, 0))
+	if (canAdd && !db_is_contact(onContactAsyncThreadArgStruct->hContact))
 		canAdd = false;
 
 	// execute
@@ -186,7 +186,7 @@ void CMirfoxMiranda::onContactSettingChanged_async(void* threadArg){
 		canAdd = false;
 
 	// check if hContact still exist
-	if (canAdd && !CallService(MS_DB_CONTACT_IS, onContactAsyncThreadArgStruct->hContact, 0))
+	if (canAdd && !db_is_contact(onContactAsyncThreadArgStruct->hContact))
 		canAdd = false;
 
 	// edit

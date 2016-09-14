@@ -195,7 +195,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 			}
 		}
 
-		CallService(MS_DB_CONTACT_DELETE, wParam, 0);
+		db_delete_contact(wParam);
 		break;
 	}
 

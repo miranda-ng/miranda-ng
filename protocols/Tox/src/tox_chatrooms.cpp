@@ -23,7 +23,7 @@ MCONTACT CToxProto::AddChatRoom(int groupNumber)
 	MCONTACT hContact = GetChatRoom(groupNumber);
 	if (!hContact)
 	{
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = db_add_contact();
 		Proto_AddToContact(hContact, m_szModuleName);
 
 		setWord(hContact, TOX_SETTINGS_CHAT_ID, groupNumber);

@@ -676,7 +676,7 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 	gcd.iType = GC_EVENT_CONTROL;
 	CallServiceSync(MS_GC_EVENT, close_window? SESSION_TERMINATE:SESSION_OFFLINE, (LPARAM)&gce);
 	if (delete_chat)
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)cc->m_hContact);
+		db_delete_contact(cc->m_hContact);
 	else
 		setByte(cc->m_hContact, "off", (int)true);
 	m_chats.remove(cc);
@@ -746,7 +746,7 @@ INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
 		<< CHAR_PARAM("code", code));
 
-	CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact);
+	db_delete_contact(hContact);
 
 	return 0;
 }

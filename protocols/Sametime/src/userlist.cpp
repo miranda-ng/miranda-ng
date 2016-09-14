@@ -64,13 +64,13 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 	MCONTACT hContact = FindContactByUserId(id);
 	bool new_contact = false;
 	if (!hContact) {
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = db_add_contact();
 		if (!hContact) {
 			debugLogW(L"AddContact(): Failed to create Sametime contact");
 			return NULL; ///TODO error handling
 		}
 		if (Proto_AddToContact(hContact, m_szModuleName) != 0) {
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			db_delete_contact(hContact);
 			debugLogW(L"AddContact(): Failed to register Sametime contact");
 			return NULL; ///TODO error handling
 		}

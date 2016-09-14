@@ -149,7 +149,7 @@ begin
   pc:=GetParamSectionStr(section,'URL');
   if pc<>nil then
   begin
-    result:=CallService(MS_DB_CONTACT_ADD,0,0);
+    result:=db_add_contact();
     if result<>0 then
     begin
       Proto_AddToContact(result,PluginName);
@@ -259,7 +259,7 @@ begin
     StrCopy(dst,PAnsiChar(lParam));
   if (lParam<>0) or ShowDlg(dst,'radio.ini',nil,false) then
   begin
-    if (wParam<>0) and (CallService(MS_DB_CONTACT_IS,wParam,0)<>0) then
+    if (wParam<>0) and (db_is_contact(wParam)<>0) then
     begin
       result:=1;
       ExportRadioContact(result,dst,wParam)
@@ -285,7 +285,7 @@ begin
   filter:=ConstructFilter;
   if ShowDlgW(@buf,nil,filter) then
   begin
-    result:=CallService(MS_DB_CONTACT_ADD,0,0);
+    result:=db_add_contact();
     if result<>0 then
     begin
       Proto_AddToContact(result,PluginName);

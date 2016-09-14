@@ -1628,7 +1628,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			NotifyLocalWinEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSE);
 			if (dat->hContact && db_get_b(NULL, SRMMMOD, SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP))
 				if (db_get_b(dat->hContact, "CList", "NotOnList", 0))
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)dat->hContact, 0);
+					db_delete_contact(dat->hContact);
 
 			Button_FreeIcon_IcoLib(hwndDlg, IDC_ADD);
 			Button_FreeIcon_IcoLib(hwndDlg, IDC_DETAILS);

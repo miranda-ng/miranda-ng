@@ -470,7 +470,7 @@ char* CIcqProto::buildUinList(int subtype, size_t wMaxLen, MCONTACT *hContactRes
 	WORD wCurrentLen = 0;
 	int add;
 
-	char *szList = (char*)SAFE_MALLOC(CallService(MS_DB_CONTACT_GETCOUNT, 0, 0) * UINMAXLEN);
+	char *szList = (char*)SAFE_MALLOC(db_get_contact_count() * UINMAXLEN);
 
 	char szLen[2];
 	szLen[1] = '\0';

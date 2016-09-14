@@ -236,18 +236,18 @@ MCONTACT CExImContactBase::toDB()
 		}
 
 		// create new contact
-		_hContact = DB::Contact::Add();
+		_hContact = db_add_contact();
 		if (!_hContact) {
 			return _hContact = INVALID_CONTACT_ID;
 		}
 		// Add the protocol to the new contact
 		if (Proto_AddToContact(_hContact, _pszProto)) {
-			DB::Contact::Delete(_hContact);
+			db_delete_contact(_hContact);
 			return _hContact = INVALID_CONTACT_ID;
 		}
 		// write uid to protocol module
 		if (db_set(_hContact, _pszProto, _pszUIDKey, &_dbvUID)) {
-			DB::Contact::Delete(_hContact);
+			db_delete_contact(_hContact);
 			return _hContact = INVALID_CONTACT_ID;
 		}
 		// write nick and display name

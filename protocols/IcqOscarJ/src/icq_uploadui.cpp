@@ -150,12 +150,7 @@ static void enumServerGroups(CIcqProto* ppro)
 {
 	char szModule[MAX_PATH + 9];
 	mir_snprintf(szModule, "%s%s", ppro->m_szModuleName, "SrvGroups");
-
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = &GroupEnumIdsEnumProc;
-	dbces.szModule = szModule;
-	dbces.lParam = (LPARAM)szModule;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+	db_enum_settings(NULL, &GroupEnumIdsEnumProc, szModule, szModule);
 }
 
 static DWORD sendUploadGroup(CIcqProto* ppro, WORD wAction, WORD wGroupId, char* szItemName)

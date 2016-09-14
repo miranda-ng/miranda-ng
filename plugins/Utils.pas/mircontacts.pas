@@ -459,7 +459,7 @@ begin
 {
 CallService(MS_CLIST_CONTACTDOUBLECLICKED,hContact,0);
 }
-  if (hContact<>0) and (CallService(MS_DB_CONTACT_IS,hContact,0)<>0) then
+  if (hContact<>0) and (db_is_contact(hContact)<>0) then
   begin
     if StrCopy(pc,GetContactProto(hContact))<>nil then
       if DblClk or (DBReadByte(hContact,pc,'ChatRoom',0)=1) then // chat room

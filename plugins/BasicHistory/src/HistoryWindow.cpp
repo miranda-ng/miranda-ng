@@ -392,13 +392,13 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 	if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return FALSE;
 
-	CallService(MS_DB_SETSAFETYMODE, FALSE, 0);
+	db_set_safety_mode(FALSE);
 	MEVENT hDbEvent = db_event_last(hContact);
 	while (hDbEvent != NULL) {
 		MEVENT hPrevEvent = db_event_prev(hContact, hDbEvent);
 		hDbEvent = (db_event_delete(hContact, hDbEvent) == 0) ? hPrevEvent : NULL;
 	}
-	CallService(MS_DB_SETSAFETYMODE, TRUE, 0);
+	db_set_safety_mode(TRUE);
 
 	if (HistoryEventList::IsImportedHistory(hContact)) {
 		message = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");

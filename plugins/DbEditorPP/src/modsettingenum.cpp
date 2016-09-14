@@ -51,7 +51,7 @@ int EnumModules(ModuleSettingLL *msll) // 1 = success, 0 = fail
 {
 	msll->first = 0;
 	msll->last = 0;
-	if (CallService(MS_DB_MODULES_ENUM, (WPARAM)msll, (WPARAM)enumModulesSettingsProc)) {
+	if (db_enum_modules(enumModulesSettingsProc, msll)) {
 		msg(TranslateT("Error loading module list"));
 		return 0;
 	}
@@ -67,14 +67,10 @@ int enumSettingsProc(const char *setting, LPARAM lParam)
 
 int EnumSettings(MCONTACT hContact, const char *module, ModuleSettingLL *msll)
 {
-	DBCONTACTENUMSETTINGS dbces;
 	// enum all setting the contact has for the module
-	dbces.pfnEnumProc = enumSettingsProc;
-	dbces.szModule = module;
-	dbces.lParam = (LPARAM)msll;
 	msll->first = 0;
 	msll->last = 0;
-	if (CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces)) {
+	if (db_enum_settings(hContact, enumSettingsProc, module, msll)) {
 		msg(TranslateT("Error loading setting list"));
 		return 0;
 	}
@@ -90,10 +86,7 @@ int CheckIfModuleIsEmptyProc(const char *, LPARAM)
 
 int IsModuleEmpty(MCONTACT hContact, const char *module)
 {
-	DBCONTACTENUMSETTINGS dbces;
-	dbces.pfnEnumProc = CheckIfModuleIsEmptyProc;
-	dbces.szModule = module;
-	return 0 > CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
+	return 0 > db_enum_settings(hContact, CheckIfModuleIsEmptyProc, module);
 }
 
 

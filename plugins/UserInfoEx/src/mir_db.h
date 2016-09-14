@@ -32,13 +32,7 @@ namespace Contact {
 	{	return pcli->pfnGetContactDisplayName(hContact, 0);
 	}
 
-	INT_PTR GetCount();
-
-	MCONTACT Add();
-	BYTE    Delete(MCONTACT hContact);
-
 	DWORD   WhenAdded(DWORD dwUIN, LPCSTR szBaseProto);
-
 } /* namespace Contact */
 
 namespace Module {

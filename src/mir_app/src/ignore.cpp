@@ -409,7 +409,7 @@ static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
 	DBEVENTINFO *dbei = (DBEVENTINFO*)lParam;
 	if (dbei && dbei->eventType == EVENTTYPE_ADDED && dbei->pBlob != NULL) {
 		MCONTACT hContact = DbGetAuthEventContact(dbei);
-		if (CallService(MS_DB_CONTACT_IS, hContact, 0) && IsIgnored(hContact, IGNOREEVENT_YOUWEREADDED))
+		if (db_is_contact(hContact) && IsIgnored(hContact, IGNOREEVENT_YOUWEREADDED))
 			return 1;
 	}
 	return 0;

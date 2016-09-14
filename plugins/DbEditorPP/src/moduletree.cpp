@@ -723,7 +723,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 				if (dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 					break;
 			}
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			db_delete_contact(hContact);
 			freeTree(hContact);
 			TreeView_DeleteItem(hwnd2Tree, tvi.hItem);
 			break;

@@ -1326,7 +1326,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 					else if (!mir_wstrcmp(action, L"delete")) {
 						MCONTACT cc = HContactFromJID(jid);
 						if (cc)
-							CallService(MS_DB_CONTACT_DELETE, cc, 0);
+							db_delete_contact(cc);
 					}
 				}
 			}

@@ -520,7 +520,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 			AddToSpammerList(dwUIN);
 			if (getByte("PopupsSpamEnabled", DEFAULT_SPAM_POPUPS_ENABLED))
 				ShowPopupMsg(hContact, LPGEN("Spambot Detected"), LPGEN("Contact deleted & further events blocked."), POPTYPE_SPAM);
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			db_delete_contact(hContact);
 
 			debugLogA("Contact %u deleted", dwUIN);
 		}

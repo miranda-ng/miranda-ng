@@ -52,7 +52,7 @@ public:
 
 		int hContact;
 		sscanf(s, "/fav/open/%d", &hContact);
-		if (CallService(MS_DB_CONTACT_IS, hContact, 0))
+		if (db_is_contact(hContact))
 			CallServiceSync(MS_FAVCONTACTS_OPEN_CONTACT, hContact, 0);
 	}
 

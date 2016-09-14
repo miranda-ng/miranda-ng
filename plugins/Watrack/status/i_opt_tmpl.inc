@@ -134,17 +134,12 @@ end;
 
 function EnumTemplates:PAnsiChar;
 var
-  ces:TDBCONTACTENUMSETTINGS;
   p:PAnsiChar;
 begin
   mGetMem(result,16384);
   result^:=#0;
   p:=result;
-  ces.pfnEnumProc:=@EnumSettingsProc;
-  ces.lParam     :=lparam(@p);
-  ces.szModule   :=PluginShort;
-  ces.ofsSettings:=0;
-  CallService(MS_DB_CONTACT_ENUMSETTINGS,0,lparam(@ces));
+  db_enum_settings(0, @EnumSettingsProc, PluginShort, @p);
 end;
 
 procedure LoadTemplates;

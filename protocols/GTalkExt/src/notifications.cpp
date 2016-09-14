@@ -168,7 +168,7 @@ MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 {
 	MCONTACT hContact = db_get_dw(NULL, acc, PSEUDOCONTACT_LINK, 0);
 	if (!hContact || !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = db_add_contact();
 		db_set_dw(0, acc, PSEUDOCONTACT_LINK, hContact);
 		db_set_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 1);
 		Proto_AddToContact(hContact, acc);

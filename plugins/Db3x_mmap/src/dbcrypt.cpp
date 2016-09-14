@@ -89,12 +89,7 @@ void sttContactEnum(MCONTACT contactID, const char *szModule, CDb3Mmap *db)
 {
 	OBJLIST<VarDescr> arSettings(1);
 	SettingUgraderParam param = { db, szModule, contactID, &arSettings };
-
-	DBCONTACTENUMSETTINGS dbces = { 0 };
-	dbces.pfnEnumProc = sttSettingUgrader;
-	dbces.szModule = szModule;
-	dbces.lParam = (LPARAM)&param;
-	db->EnumContactSettings(NULL, &dbces);
+	db->EnumContactSettings(NULL, sttSettingUgrader, szModule, &param);
 
 	for (int i = 0; i < arSettings.getCount(); i++) {
 		VarDescr &p = arSettings[i];

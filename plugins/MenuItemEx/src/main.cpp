@@ -159,17 +159,11 @@ void FreeModuleSettingLL(ModuleSettingLL* msll)
 void RenameDbProto(MCONTACT hContact, MCONTACT hContactNew, char* oldName, char* newName, int delOld)
 {
 	DBVARIANT dbv;
-	ModuleSettingLL settinglist;
 	struct ModSetLinkLinkItem *setting;
-	DBCONTACTENUMSETTINGS dbces;
 
 	// enum all setting the contact has for the module
-	dbces.pfnEnumProc = enumModulesSettingsProc;
-	dbces.szModule = oldName;
-	dbces.lParam = (LPARAM)&settinglist;
-	settinglist.first = 0;
-	settinglist.last = 0;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
+	ModuleSettingLL settinglist = { NULL, NULL };
+	db_enum_settings(hContact, enumModulesSettingsProc, oldName, &settinglist);
 
 	setting = settinglist.first;
 	while (setting) {
@@ -694,7 +688,7 @@ INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 		Proto_AddToContact(hContactNew, (char*)lparam);
 	}
 	else {
-		hContactNew = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContactNew = db_add_contact();
 		if (hContactNew) {
 			Proto_AddToContact(hContactNew, (char*)lparam);
 			RenameDbProto(hContact, hContactNew, GetContactProto(hContact), (char*)lparam, 0);

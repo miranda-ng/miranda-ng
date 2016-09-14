@@ -368,7 +368,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 		db_free(&dbv);
 	}
 
-	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = db_add_contact();
 	Proto_AddToContact(hContact, MODULENAME);
 
 	/////////write to db

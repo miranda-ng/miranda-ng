@@ -1235,12 +1235,8 @@ int handleEnum(const char *szSetting, LPARAM lParam)
 
 bool isTabsrmmUsed()
 {
-	DBCONTACTENUMSETTINGS enm = { 0 };
 	bool found = false;
-	enm.lParam = (LPARAM)&found;
-	enm.pfnEnumProc = handleEnum;
-	enm.szModule = "PluginDisable";
-	if (CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&enm) == -1)
+	if (db_enum_settings(NULL, handleEnum, "PluginDisable", &found) == -1)
 		return false;
 
 	return found;

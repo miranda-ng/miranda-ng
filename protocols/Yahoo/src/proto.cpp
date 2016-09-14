@@ -255,7 +255,7 @@ int CYahooProto::AuthDeny(MEVENT hdbe, const wchar_t *reason)
 
 			debugLogA("Rejecting buddy:%s msg: %s", who, u_reason);
 			reject(myid, who, getWord(hContact, "yprotoid", 0), u_reason);
-			CallService(MS_DB_CONTACT_DELETE, hContact);
+			db_delete_contact(hContact);
 		}
 	}
 	return 0;

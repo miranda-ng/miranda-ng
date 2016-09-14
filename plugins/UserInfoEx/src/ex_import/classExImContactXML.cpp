@@ -607,7 +607,7 @@ int CExImContactXML::ImportContact()
 						LPGENW("Importing a new contact was aborted!"), 
 						LPGENW("You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?"));
 					if (result == IDYES) {
-						DB::Contact::Delete(_hContact);
+						db_delete_contact(_hContact);
 						_hContact = INVALID_CONTACT_ID;
 					}
 				}
@@ -749,7 +749,7 @@ int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 				MIR_FREE(ptszNick);
 				MIR_FREE(ptszMetaNick);
 				if (result == IDYES) {
-					DB::Contact::Delete(_hContact);
+					db_delete_contact(_hContact);
 					_hContact = INVALID_CONTACT_ID;
 				}
 			}

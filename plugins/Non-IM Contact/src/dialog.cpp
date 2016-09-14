@@ -303,13 +303,13 @@ void DoPropertySheet(MCONTACT hContact)
 INT_PTR addContact(WPARAM, LPARAM)
 {
 	char tmp[256];
-	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, MODNAME);
 	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 	db_set_ws(hContact, MODNAME, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact);
 	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		db_delete_contact(hContact);
 	replaceAllStrings(hContact);
 	return 0;
 }
@@ -319,14 +319,14 @@ INT_PTR editContact(WPARAM wParam, LPARAM)
 	MCONTACT hContact = wParam;
 	char tmp[256];
 	if (!hContact) {
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		hContact = db_add_contact();
 		Proto_AddToContact(hContact, MODNAME);
 		CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 		db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
 	}
 	DoPropertySheet(hContact);
 	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		db_delete_contact(hContact);
 	replaceAllStrings(hContact);
 	return 0;
 }

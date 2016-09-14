@@ -495,7 +495,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			contact = NULL;
 			group = NULL;
 			if (!cli.pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
-				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
+				if (shouldShow && db_is_contact(wParam)) {
 					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
 					cli.pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);

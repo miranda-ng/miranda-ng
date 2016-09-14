@@ -134,7 +134,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 							if (dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 								break;
 						}
-						CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+						db_delete_contact(hContact);
 						freeTree(mtis->hContact);
 						TreeView_DeleteItem(hwnd, tvi.hItem);
 					}

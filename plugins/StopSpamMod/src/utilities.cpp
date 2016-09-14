@@ -261,7 +261,7 @@ void CleanProtocolTmpThread(std::string proto)
 	for (std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i) {
 		LogSpamToFile(*i, L"Deleted");
 		HistoryLogFunc(*i, "Deleted");
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)*i, 0);
+		db_delete_contact(*i);
 	}
 	clean_mutex.unlock();
 }
@@ -286,7 +286,7 @@ void CleanProtocolExclThread(std::string proto)
 	for (std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i) {
 		LogSpamToFile(*i, L"Deleted");
 		HistoryLogFunc(*i, "Deleted");
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)*i, 0);
+		db_delete_contact(*i);
 	}
 	clean_mutex.unlock();
 }

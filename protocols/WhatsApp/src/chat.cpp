@@ -489,7 +489,7 @@ void WhatsAppProto::onLeaveGroup(const std::string &gjid)
 	gce.ptszUID = pInfo->tszJid;
 	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 
-	CallService(MS_DB_CONTACT_DELETE, pInfo->hContact, 0);
+	db_delete_contact(pInfo->hContact);
 	m_chats.erase((char*)_T2A(pInfo->tszJid));
 }
 

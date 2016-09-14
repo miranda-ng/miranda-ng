@@ -44,25 +44,6 @@ namespace mu
 	}
 
 	/*
-	 * db_time
-	 */
-
-	namespace db_contact
-	{
-		int enumSettings(MCONTACT hContact, const char* szModule, DBSETTINGENUMPROC pEnumProc, LPARAM lProcParam)
-		{
-			DBCONTACTENUMSETTINGS dbces;
-
-			dbces.pfnEnumProc = pEnumProc;
-			dbces.lParam = lProcParam;
-			dbces.szModule = szModule;
-			dbces.ofsSettings = 0;
-
-			return CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, reinterpret_cast<LPARAM>(&dbces));
-		}
-	}
-
-	/*
 	 * icolib
 	 */
 

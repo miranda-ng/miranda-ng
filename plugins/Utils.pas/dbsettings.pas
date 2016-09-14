@@ -217,7 +217,6 @@ end;
 
 function DBDeleteGroup(hContact:TMCONTACT;szModule:PAnsiChar;prefix:PAnsiChar=nil):int_ptr;
 var
-  ces:TDBCONTACTENUMSETTINGS;
   p:PAnsiChar;
   code,num:integer;
   ptr:PAnsiChar;
@@ -227,26 +226,19 @@ var
 begin
   if (prefix=nil) or (prefix^=#0) then
   begin
-    DbModule_Delete(hContact,szModule);
+    db_delete_module(hContact,szModule);
     result:=0;
     exit;
   end;
 
-  ces.szModule:=szModule;
-  num:=0;
   //calculate size for setting names buffer
-  ces.pfnEnumProc:=@EnumSettingsProcCalc;
-  ces.lParam     :=lParam(@num);
-  ces.ofsSettings:=0;
-  CallService(MS_DB_CONTACT_ENUMSETTINGS,hContact,lparam(@ces));
+  num:=0;
+  db_enum_settings(hContact,@EnumSettingsProcCalc,szModule,@num);
 
   //get setting names list
   GetMem(p,num+1);
   ptr:=p;
-  ces.pfnEnumProc:=@EnumSettingsProc;
-  ces.lParam     :=lparam(@ptr);
-  ces.ofsSettings:=0;
-  result:=CallService(MS_DB_CONTACT_ENUMSETTINGS,hContact,lparam(@ces));
+  result:=db_enum_settings(hContact,@EnumSettingsProc,szModule,@ptr);
   ptr^:=#0;
 
   ptr:=p;

@@ -384,7 +384,7 @@ INT_PTR ContactStillAbsentAction(WPARAM hContact, LPARAM lParam)
 
 	switch (options.action2) {
 	case GCA_DELETE:
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		db_delete_contact(hContact);
 		break;
 	case GCA_UDETAILS:
 		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);

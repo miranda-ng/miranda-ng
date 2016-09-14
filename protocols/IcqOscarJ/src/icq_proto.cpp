@@ -415,7 +415,7 @@ int CIcqProto::AuthDeny(MEVENT hDbEvent, const wchar_t* szReason)
 		icq_sendAuthResponseServ(uin, uid, 0, szReason);
 
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
-			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+			db_delete_contact(hContact);
 
 		return 0; // Success
 	}
@@ -1862,11 +1862,11 @@ int __cdecl CIcqProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 		{
 			char szDbSetting[MAX_PATH];
 			mir_snprintf(szDbSetting, "%sP2P", m_szModuleName);
-			DbModule_Delete(0, szDbSetting);
+			db_delete_module(0, szDbSetting);
 			mir_snprintf(szDbSetting, "%sSrvGroups", m_szModuleName);
-			DbModule_Delete(0, szDbSetting);
+			db_delete_module(0, szDbSetting);
 			mir_snprintf(szDbSetting, "%sGroups", m_szModuleName);
-			DbModule_Delete(0, szDbSetting);
+			db_delete_module(0, szDbSetting);
 		}
 		break;
 

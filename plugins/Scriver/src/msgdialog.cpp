@@ -1835,7 +1835,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		db_set_b(dat->hContact, SRMMMOD, "UseRTL", (BYTE)((dat->flags & SMF_RTL) ? 1 : 0));
 		if (dat->hContact && (g_dat.flags & SMF_DELTEMP))
 			if (db_get_b(dat->hContact, "CList", "NotOnList", 0))
-				CallService(MS_DB_CONTACT_DELETE, dat->hContact, 0);
+				db_delete_contact(dat->hContact);
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		SendMessage(dat->hwndParent, CM_REMOVECHILD, 0, (LPARAM)hwndDlg);
