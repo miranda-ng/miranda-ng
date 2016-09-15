@@ -170,46 +170,37 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 	return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_a2u(szText) : (INT_PTR)szText.Detach();
 }
 
-INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
+INT_PTR CSkypeProto::EventGetIcon(WPARAM flags, LPARAM pEvent)
 {
-	DBEVENTINFO* dbei = (DBEVENTINFO*)lParam;
+	DBEVENTINFO *dbei = (DBEVENTINFO*)pEvent;
 	HICON icon = NULL;
 
-	switch (dbei->eventType)
-	{
+	switch (dbei->eventType) {
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
-		{
-			icon = GetIcon(IDI_CALL);
-			break;
-		}
+		icon = GetIcon(IDI_CALL);
+		break;
+
 	case SKYPE_DB_EVENT_TYPE_ACTION:
-		{
-			icon = GetIcon(IDI_ACTION_ME);
-			break;
-		}
+		icon = GetIcon(IDI_ACTION_ME);
+		break;
+
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
-		{
-			icon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-			break;
-		}
+		icon = Skin_LoadIcon(SKINICON_EVENT_FILE);
+		break;
+
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
-		{
-			icon = Skin_LoadIcon(SKINICON_EVENT_URL);
-			break;
-		}
+		icon = Skin_LoadIcon(SKINICON_EVENT_URL);
+		break;
+
 	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
-		{
-			icon = Skin_LoadIcon(SKINICON_WARNING);
-			break;
-		}
+		icon = Skin_LoadIcon(SKINICON_WARNING);
+		break;
+
 	default:
-		{
-			icon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-			break;
-		}
+		icon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+		break;
 	}
 
-	return (INT_PTR)((wParam & LR_SHARED) ? icon : CopyIcon(icon));
+	return (INT_PTR)((flags & LR_SHARED) ? icon : CopyIcon(icon));
 }
-

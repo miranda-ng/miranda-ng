@@ -63,23 +63,22 @@ MIR_APP_DLL(int) DbEvent_RegisterType(DBEVENTTYPEDESCR *et)
 	p->module = mir_strdup(et->module);
 	p->eventType = et->eventType;
 	p->descr = mir_strdup(et->descr);
-	if (et->textService)
-		p->textService = mir_strdup(et->textService);
-	if (et->iconService)
-		p->iconService = mir_strdup(et->iconService);
 	p->eventIcon = et->eventIcon;
 	p->flags = et->flags;
 
+	char szServiceName[100];
 	if (!p->textService) {
-		char szServiceName[100];
 		mir_snprintf(szServiceName, "%s/GetEventText%d", p->module, p->eventType);
 		p->textService = mir_strdup(szServiceName);
 	}
+	else p->textService = mir_strdup(et->textService);
+
 	if (!p->iconService) {
-		char szServiceName[100];
 		mir_snprintf(szServiceName, "%s/GetEventIcon%d", p->module, p->eventType);
 		p->iconService = mir_strdup(szServiceName);
 	}
+	else p->iconService = mir_strdup(et->iconService);
+
 	eventTypes.insert(p);
 	return 0;
 }
@@ -223,7 +222,7 @@ MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
 {
 	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 	if (et && ServiceExists(et->iconService)) {
-		HICON icon = (HICON)CallService(et->iconService, (WPARAM)dbei, flags);
+		HICON icon = (HICON)CallService(et->iconService, flags, (LPARAM)dbei);
 		if (icon)
 			return icon;
 	}
