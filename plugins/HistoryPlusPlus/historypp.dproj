@@ -133,6 +133,10 @@
 			<DCC_DcpOutput>..\..\bin12\Debug64\Obj\hpp\</DCC_DcpOutput>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<DCC_BplOutput>..\..\bin12\Debug\Plugins\</DCC_BplOutput>
+			<DCC_ExeOutput>..\..\bin12\Debug\Plugins\</DCC_ExeOutput>
+			<DCC_DcpOutput>..\..\bin12\Debug\Obj\hpp\</DCC_DcpOutput>
+			<DCC_DcuOutput>..\..\bin12\Debug\Obj\hpp\</DCC_DcuOutput>
 			<Debugger_CWD>W:\miranda-ng\bin12\Debug</Debugger_CWD>
 			<Debugger_HostApplication>W:\miranda-ng\bin12\Debug\Miranda32.exe</Debugger_HostApplication>
 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
