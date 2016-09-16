@@ -29,56 +29,42 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 LIST<DATABASELINK> arDbPlugins(5);
 
-static INT_PTR srvRegisterPlugin(WPARAM, LPARAM lParam)
+MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr)
 {
-	DATABASELINK* pPlug = (DATABASELINK*)lParam;
-	if (pPlug == NULL)
-		return 1;
-
-	arDbPlugins.insert(pPlug);
-	return 0;
+	if (pDescr != NULL)
+		arDbPlugins.insert(pDescr);
 }
 
-static INT_PTR srvFindPlugin(WPARAM, LPARAM lParam)
+MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName)
 {
 	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
-		int error = arDbPlugins[i]->grokHeader((wchar_t*)lParam);
+		int error = arDbPlugins[i]->grokHeader(ptszFileName);
 		if (error == ERROR_SUCCESS || error == EGROKPRF_OBSOLETE)
-			return (INT_PTR)arDbPlugins[i];
+			return arDbPlugins[i];
 	}
 
 	return NULL;
 }
 
-static INT_PTR srvInitInstance(WPARAM, LPARAM lParam)
+MIR_APP_DLL(void) InitDbInstance(MIDatabase *pDatabase)
 {
-	MIDatabase *pDb = (MIDatabase*)lParam;
-	if (pDb != NULL)
-		pDb->m_cache = new MDatabaseCache(pDb->GetContactSize());
-	return 0;
+	if (pDatabase != NULL)
+		pDatabase->m_cache = new MDatabaseCache(pDatabase->GetContactSize());
 }
 
-static INT_PTR srvDestroyInstance(WPARAM, LPARAM lParam)
+MIR_APP_DLL(void) DestroyDbInstance(MIDatabase *pDatabase)
 {
-	MIDatabase *pDb = (MIDatabase*)lParam;
-	if (pDb != NULL) {
-		MDatabaseCache *pCache = (MDatabaseCache*)pDb->m_cache;
-		pDb->m_cache = NULL;
+	if (pDatabase != NULL) {
+		MDatabaseCache *pCache = (MDatabaseCache*)pDatabase->m_cache;
+		pDatabase->m_cache = NULL;
 		delete pCache;
 	}
-	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 int LoadDbintfModule()
 {
-	CreateServiceFunction(MS_DB_REGISTER_PLUGIN, srvRegisterPlugin);
-	CreateServiceFunction(MS_DB_FIND_PLUGIN, srvFindPlugin);
-
-	CreateServiceFunction(MS_DB_INIT_INSTANCE, srvInitInstance);
-	CreateServiceFunction(MS_DB_DESTROY_INSTANCE, srvDestroyInstance);
-
 	// create events once, they will be inherited by all database plugins
 	CreateHookableEvent(ME_DB_CONTACT_DELETED);
 	CreateHookableEvent(ME_DB_CONTACT_ADDED);

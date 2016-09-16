@@ -291,3 +291,7 @@ Profile_GetNameW @291
 Profile_GetPathA @292
 Profile_GetPathW @293
 Profile_SetDefault @294
+DestroyDbInstance @295
+FindDatabasePlugin @296
+InitDbInstance @297
+RegisterDatabasePlugin @298

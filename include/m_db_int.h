@@ -225,51 +225,25 @@ struct DATABASELINK
 EXTERN_C MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT);
 
 ///////////////////////////////////////////////////////////////////////////////
-// Database list's services
+// Database list's functions
 
 EXTERN_C MIR_CORE_DLL(MIDatabase*) db_get_current(void);
 
-// MS_DB_REGISTER_PLUGIN : registers a database plugin
-// wParam : 0 (unused)
-// lParam : DATABASELINK* = database link description
+// registers a database plugin
 
-#define MS_DB_REGISTER_PLUGIN "DB/RegisterPlugin"
+EXTERN_C MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr);
 
-__forceinline void RegisterDatabasePlugin(DATABASELINK* pDescr)
-{	CallService(MS_DB_REGISTER_PLUGIN, 0, (LPARAM)pDescr);
-}
-
-// MS_DB_FIND_PLUGIN : looks for a database plugin suitable to open this file
-// wParam : 0 (unused)
-// lParam : const wchar_t* = name of the database file
+// looks for a database plugin suitable to open this file
 // returns DATABASELINK* of the required plugin or NULL on error
 
-#define MS_DB_FIND_PLUGIN "DB/FindPlugin"
+EXTERN_C MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName);
 
-__forceinline DATABASELINK* FindDatabasePlugin(const wchar_t* ptszFileName)
-{	return (DATABASELINK*)CallService(MS_DB_FIND_PLUGIN, 0, (LPARAM)ptszFileName);
-}
+// initializes a database instance
 
-// MS_DB_INIT_INSTANCE : initializes a database instance
-// wParam : 0 (unused)
-// lParam : MIDatabase* = pointer to a database instance
-// returns 0
+EXTERN_C MIR_APP_DLL(void) InitDbInstance(MIDatabase *pDatabase);
 
-#define MS_DB_INIT_INSTANCE "DB/InitDbInstance"
+// destroys a database instance
 
-__forceinline void InitDbInstance(MIDatabase* pDatabase)
-{	CallService(MS_DB_INIT_INSTANCE, 0, (LPARAM)pDatabase);
-}
-
-// MS_DB_DESTROY_INSTANCE : destroys a database instance
-// wParam : 0 (unused)
-// lParam : MIDatabase* = pointer to a database instance
-// returns 0
-
-#define MS_DB_DESTROY_INSTANCE "DB/DestroyDbInstance"
-
-__forceinline void DestroyDbInstance(MIDatabase* pDatabase)
-{	CallService(MS_DB_DESTROY_INSTANCE, 0, (LPARAM)pDatabase);
-}
+EXTERN_C MIR_APP_DLL(void) DestroyDbInstance(MIDatabase *pDatabase);
 
 #endif // M_DB_INT_H__
