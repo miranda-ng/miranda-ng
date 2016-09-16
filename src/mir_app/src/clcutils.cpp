@@ -541,7 +541,7 @@ int fnGetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 	cli.pfnGetRowByIndex(dat, dat->iDragItem, &movecontact, &movegroup);
 	if (hit == dat->iDragItem)
 		return DROPTARGET_ONSELF;
-	if (hit == -1 || hitFlags & CLCHT_ONITEMEXTRA)
+	if (hit == -1 || movecontact == NULL || (hitFlags & CLCHT_ONITEMEXTRA))
 		return DROPTARGET_ONNOTHING;
 
 	if (movecontact->type == CLCIT_GROUP) {
