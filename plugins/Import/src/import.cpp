@@ -961,7 +961,7 @@ void MirandaImport(HWND hdlg)
 {
 	hdlgProgress = hdlg;
 
-	if ((dstDb = GetCurrentDatabase()) == NULL) {
+	if ((dstDb = db_get_current()) == NULL) {
 		AddMessage(LPGENW("Error retrieving current profile, exiting."));
 		return;
 	}

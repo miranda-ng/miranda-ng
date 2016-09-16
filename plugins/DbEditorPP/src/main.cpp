@@ -189,7 +189,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hwnd2mainWindow = NULL;
 
 	hRestore = NULL;
-	g_db = GetCurrentDatabase();
+	g_db = db_get_current();
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OptInit);

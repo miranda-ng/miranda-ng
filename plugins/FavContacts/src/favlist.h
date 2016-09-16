@@ -94,7 +94,7 @@ private:
 public:
 	TFavContacts() : LIST<TContactInfo>(5, TContactInfo::cmp)
 	{
-		db = GetCurrentDatabase();
+		db = db_get_current();
 	}
 
 	~TFavContacts()

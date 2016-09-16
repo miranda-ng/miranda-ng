@@ -222,19 +222,12 @@ struct DATABASELINK
 ///////////////////////////////////////////////////////////////////////////////
 // cache access function
 
-#if defined(__cplusplus)
-extern "C"
-{
-#endif
-
-MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT);
-
-#if defined(__cplusplus)
-}
-#endif
+EXTERN_C MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Database list's services
+
+EXTERN_C MIR_CORE_DLL(MIDatabase*) db_get_current(void);
 
 // MS_DB_REGISTER_PLUGIN : registers a database plugin
 // wParam : 0 (unused)
@@ -255,17 +248,6 @@ __forceinline void RegisterDatabasePlugin(DATABASELINK* pDescr)
 
 __forceinline DATABASELINK* FindDatabasePlugin(const wchar_t* ptszFileName)
 {	return (DATABASELINK*)CallService(MS_DB_FIND_PLUGIN, 0, (LPARAM)ptszFileName);
-}
-
-// MS_DB_GET_CURRENT : returns the database pointer for the current profile
-// wParam : 0 (unused)
-// lParam : 0 (unused)
-// returns MIDatabase* of the current profile or NULL on error
-
-#define MS_DB_GET_CURRENT "DB/GetCurrentDb"
-
-__forceinline MIDatabase* GetCurrentDatabase(void)
-{	return (MIDatabase*)CallService(MS_DB_GET_CURRENT, 0, 0);
 }
 
 // MS_DB_INIT_INSTANCE : initializes a database instance

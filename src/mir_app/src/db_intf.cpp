@@ -50,11 +50,6 @@ static INT_PTR srvFindPlugin(WPARAM, LPARAM lParam)
 	return NULL;
 }
 
-static INT_PTR srvGetCurrentDb(WPARAM, LPARAM)
-{
-	return (INT_PTR)currDb;
-}
-
 static INT_PTR srvInitInstance(WPARAM, LPARAM lParam)
 {
 	MIDatabase *pDb = (MIDatabase*)lParam;
@@ -80,7 +75,6 @@ int LoadDbintfModule()
 {
 	CreateServiceFunction(MS_DB_REGISTER_PLUGIN, srvRegisterPlugin);
 	CreateServiceFunction(MS_DB_FIND_PLUGIN, srvFindPlugin);
-	CreateServiceFunction(MS_DB_GET_CURRENT, srvGetCurrentDb);
 
 	CreateServiceFunction(MS_DB_INIT_INSTANCE, srvInitInstance);
 	CreateServiceFunction(MS_DB_DESTROY_INSTANCE, srvDestroyInstance);
