@@ -289,9 +289,7 @@ begin
       dbei.flags    :=DBEF_SENT or DBEF_UTF;
       db_event_add(hContact, @dbei);
       mFreeMem(blob);
-    end
-    else
-      SendToChat(hContact,last);
+    end;
   end
   else
   begin

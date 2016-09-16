@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "version.h"
 
+CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst = NULL;
 
@@ -90,6 +91,7 @@ static int ircProtoUninit(CIrcProto *ppro)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
+	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 
 	InitIcons();

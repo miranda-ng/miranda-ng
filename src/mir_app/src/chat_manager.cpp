@@ -1179,17 +1179,16 @@ static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
 	return TRUE;
 }
 
-INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _hLangpack)
 {
-	if (lParam == NULL)
-		return (INT_PTR)&chatApi;
+	if (pInit == NULL)
+		return &chatApi;
 
 	// wipe out old junk
 	memset(PBYTE(&chatApi) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER) - offsetof(CHAT_MANAGER, OnCreateModule));
 
-	CHAT_MANAGER_INITDATA *pInit = (CHAT_MANAGER_INITDATA*)lParam;
 	if (g_cbSession) { // reallocate old sessions
-		mir_cslock lck(cs);
+		mir_cslock lck(csChat);
 		SESSION_INFO *pPrev = NULL;
 		for (SESSION_INFO *p = chatApi.wndList; p; p = p->next) {
 			SESSION_INFO *p1 = (SESSION_INFO*)mir_realloc(p, pInit->cbSession);
@@ -1205,7 +1204,7 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	if (g_cbModuleInfo) { // reallocate old modules
-		mir_cslock lck(cs);
+		mir_cslock lck(csChat);
 		MODULEINFO *pPrev = NULL;
 		for (MODULEINFO *p = m_ModList; p; p = p->next) {
 			MODULEINFO *p1 = (MODULEINFO*)mir_realloc(p, pInit->cbModuleInfo);
@@ -1225,7 +1224,7 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	g_cbSession = pInit->cbSession;
 	g_cbModuleInfo = pInit->cbModuleInfo;
 	g_iFontMode = pInit->iFontMode;
-	g_iChatLang = (int)wParam;
+	g_iChatLang = _hLangpack;
 
 	chatApi.SetActiveSession = SetActiveSession;
 	chatApi.SetActiveSessionEx = SetActiveSessionEx;
@@ -1326,5 +1325,5 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 
 	RegisterFonts();
 	OptionsInit();
-	return (INT_PTR)&chatApi;
+	return &chatApi;
 }

@@ -65,13 +65,13 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = wszTitle;
 	gcw.ptszID = sid;
-	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	GC_INFO gci = { 0 };
 	gci.pszModule = m_szModuleName;
 	gci.pszID = sid;
 	gci.Flags = GCF_BYID | GCF_HCONTACT;
-	CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
+	Chat_GetInfo(&gci);
 	c->m_hContact = gci.hContact;
 
 	setWString(gci.hContact, "Nick", wszTitle);
@@ -81,7 +81,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	GCEVENT gce = { sizeof(gce), &gcd };
 	for (int i = _countof(sttStatuses)-1; i >= 0; i--) {
 		gce.ptszStatus = TranslateW(sttStatuses[i]);
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 	}
 
 	setDword(gci.hContact, "vk_chat_id", id);
@@ -98,8 +98,8 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	}
 	gcd.iType = GC_EVENT_CONTROL;
 	gce.ptszStatus = 0;
-	CallServiceSync(MS_GC_EVENT, (m_vkOptions.bHideChats) ? WINDOW_HIDDEN : SESSION_INITDONE, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+	Chat_Event((m_vkOptions.bHideChats) ? WINDOW_HIDDEN : SESSION_INITDONE, &gce);
+	Chat_Event(SESSION_ONLINE, &gce);
 
 	RetrieveChatInfo(c);
 	return c;
@@ -207,7 +207,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				gce.ptszNick = wszNick;
 				gce.ptszStatus = TranslateW(sttStatuses[uid == cc->m_admin_id]);
 				gce.dwItemData = (INT_PTR)cu;
-				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+				Chat_Event(0, &gce);
 			}
 		}
 
@@ -225,7 +225,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			gce.dwFlags = GCEF_REMOVECONTACT | GCEF_NOTNOTIFY;
 			gce.time = time(NULL);
 			gce.ptszNick = mir_wstrdup(CMStringW(FORMAT, L"%s (https://vk.com/id%s)", cu.m_wszNick, wszId));
-			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+			Chat_Event(0, &gce);
 
 			cc->m_users.remove(i);
 		}
@@ -288,7 +288,7 @@ void CVkProto::SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic)
 	GCDEST gcd = { m_szModuleName, cc->m_wszId, GC_EVENT_CHANGESESSIONAME };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
 	gce.ptszText = wszTopic;
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -442,7 +442,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCWSTR 
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
 	gce.ptszNick = cu->m_wszNick ? mir_wstrdup(cu->m_wszNick) : mir_wstrdup(hContact ? ptrW(db_get_wsa(hContact, m_szModuleName, "Nick")) : TranslateT("Unknown"));
 	gce.ptszText = IsEmpty((wchar_t *)pwszBody) ? mir_wstrdup(L"...") : mir_wstrdup(pwszBody);
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 	StopChatContactTyping(cc->m_chatid, uid);
 }
 
@@ -471,7 +471,7 @@ void CVkProto::SetChatStatus(MCONTACT hContact, int iStatus)
 
 	GCDEST gcd = { m_szModuleName, wszChatID, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE, (LPARAM)&gce);
+	Chat_Event((iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE, &gce);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -672,9 +672,9 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 
 	GCDEST gcd = { m_szModuleName, cc->m_wszId, GC_EVENT_QUIT };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 	gcd.iType = GC_EVENT_CONTROL;
-	CallServiceSync(MS_GC_EVENT, close_window? SESSION_TERMINATE:SESSION_OFFLINE, (LPARAM)&gce);
+	Chat_Event(close_window? SESSION_TERMINATE:SESSION_OFFLINE, &gce);
 	if (delete_chat)
 		db_delete_contact(cc->m_hContact);
 	else
@@ -812,7 +812,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		gce.ptszText = mir_wstrdup(wszNewNick);
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.time = time(NULL);
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 
 		cu->m_wszNick = mir_wstrdup(wszNewNick);		
 		setWString(cc->m_hContact, CMStringA(FORMAT, "nick%d", cu->m_uid), wszNewNick);

@@ -400,7 +400,7 @@ void CMsnProto::MSN_GoOffline(void)
 				if (getWString(hContact, "ChatRoomID", &dbv) == 0) {
 					GCDEST gcd = { m_szModuleName, dbv.ptszVal, GC_EVENT_CONTROL };
 					GCEVENT gce = { sizeof(gce), &gcd };
-					CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
+					Chat_Event(SESSION_OFFLINE, &gce);
 					db_free(&dbv);
 				}
 			}

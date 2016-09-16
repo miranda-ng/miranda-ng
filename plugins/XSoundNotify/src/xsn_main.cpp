@@ -175,8 +175,6 @@ static int OnPlaySound(WPARAM, LPARAM)
 
 static int OnLoadInit(WPARAM, LPARAM)
 {
-	mir_getCI(NULL);
-
 	CMenuItem mi;
 	SET_UID(mi, 0x5d72ca1f, 0xc52, 0x436d, 0x81, 0x47, 0x29, 0xf6, 0xc3, 0x28, 0xb5, 0xd1);
 	mi.position = -0x7FFFFFFF;
@@ -210,6 +208,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
+	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 
 	CreateServiceFunction("XSoundNotify/ContactMenuCommand", ShowDialog);

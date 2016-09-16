@@ -532,7 +532,7 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 			gcw.ptszName = wszEMail;
 			gcw.ptszID = (LPWSTR)wszEMail.c_str();
 
-			if (CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw) == 0) {
+			if (Chat_NewSession(&gcw) == 0) {
 				BOOL bChatAdded = FALSE;
 				for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 					if (mraGetStringA(hContact, "ChatRoomID", szEMailLocal)) {

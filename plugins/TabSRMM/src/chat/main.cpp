@@ -265,7 +265,7 @@ int Chat_Load()
 	CheckUpdate();
 
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Message Sessions") L"/" LPGENW("Group chats"), FONTMODE_ALTER };
-	mir_getCI(&data);
+	pci = Chat_GetInterface(&data);
 	saveCI = *pci;
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnNewUser = OnNewUser;

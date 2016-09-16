@@ -27,7 +27,7 @@
 #include <m_protosvc.h>
 #include <m_options.h>
 #include <m_utils.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 
 #include <m_msg_buttonsbar.h>
 

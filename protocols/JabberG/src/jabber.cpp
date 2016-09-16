@@ -183,15 +183,13 @@ extern "C" int __declspec(dllexport) Load()
 {
 	// set the memory, lists & utf8 managers
 	mir_getLP(&pluginInfo);
+	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
-	mir_getCI(NULL);
 
-	{
-		INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
-		if (FIP == NULL || result != S_OK) {
-			MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Jabber Protocol will be disabled."), L"Error", MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
-			return 1;
-		}
+	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
+	if (FIP == NULL || result != S_OK) {
+		MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Jabber Protocol will be disabled."), L"Error", MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+		return 1;
 	}
 
 	WORD v[4];

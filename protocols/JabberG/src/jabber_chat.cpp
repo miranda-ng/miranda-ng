@@ -133,7 +133,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = szNick;
 	gcw.ptszID = item->jid;
-	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	GCSessionInfoBase *si = pci->SM_FindSession(item->jid, m_szModuleName);
 	if (si != NULL) {
@@ -171,12 +171,12 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	GCEVENT gce = { sizeof(gce), &gcd };
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--) {
 		gce.ptszStatus = TranslateW(sttStatuses[i]);
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 	}
 
 	gcd.iType = GC_EVENT_CONTROL;
-	CallServiceSync(MS_GC_EVENT, (item->bAutoJoin && m_options.AutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+	Chat_Event((item->bAutoJoin && m_options.AutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE, &gce);
+	Chat_Event(SESSION_ONLINE, &gce);
 	return 0;
 }
 
@@ -249,7 +249,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 		gce.ptszText = buf;
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.time = time(0);
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 	}
 }
 
@@ -308,7 +308,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 		}
 	}
 
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	if (statusToSet != 0) {
 		gce.ptszText = nick;
@@ -317,12 +317,12 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 		else
 			gce.dwItemData = 1;
 		gcd.iType = GC_EVENT_SETSTATUSEX;
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 
 		gce.ptszUID = resource;
 		gce.dwItemData = statusToSet;
 		gcd.iType = GC_EVENT_SETCONTACTSTATUS;
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 	}
 }
 
@@ -346,7 +346,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszUID = item->jid;
 	gce.ptszText = XmlGetText(reason);
-	CallServiceSync(MS_GC_EVENT, (code == 200) ? SESSION_TERMINATE : SESSION_OFFLINE, (LPARAM)&gce);
+	Chat_Event((code == 200) ? SESSION_TERMINATE : SESSION_OFFLINE, &gce);
 
 	db_unset(item->hContact, "CList", "Hidden");
 	item->bChatActive = false;

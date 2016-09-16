@@ -13,15 +13,12 @@ void CMraProto::MraChatDllError()
 
 bool CMraProto::MraChatRegister()
 {
-	if (!ServiceExists(MS_GC_REGISTER))
-		return FALSE;
-
 	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.iMaxText = MRA_MAXLENOFMESSAGE;
 	gcr.nColors = 0;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
-	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
+	Chat_Register(&gcr);
 
 	HookProtoEvent(ME_GC_EVENT, &CMraProto::MraChatGcEventHook);
 	return TRUE;
@@ -41,17 +38,17 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 		gcw.ptszID = wszEMail;
 		gcw.ptszStatusbarText = L"status bar";
 		gcw.dwItemData = (DWORD)hContact;
-		if (!CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw)) {
+		if (!Chat_NewSession(&gcw)) {
 			GCDEST gcd = { m_szModuleName, wszEMail.c_str(), GC_EVENT_ADDGROUP };
 			GCEVENT gce = { sizeof(gce), &gcd };
 			for (int i = 0; i < _countof(lpwszStatuses); i++) {
 				gce.ptszStatus = TranslateW(lpwszStatuses[i]);
-				CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+				Chat_Event(0, &gce);
 			}
 
 			gcd.iType = GC_EVENT_CONTROL;
-			CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
-			CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+			Chat_Event(SESSION_INITDONE, &gce);
+			Chat_Event(SESSION_ONLINE, &gce);
 
 			DWORD opcode = MULTICHAT_GET_MEMBERS;
 			CMStringA szEmail;
@@ -75,8 +72,8 @@ void CMraProto::MraChatSessionDestroy(MCONTACT hContact)
 	mraGetStringW(hContact, "e-mail", wszEMail);
 	gcd.ptszID = (LPWSTR)wszEMail.c_str();
 
-	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);
+	Chat_Event(SESSION_TERMINATE, &gce);
+	Chat_Event(WINDOW_CLEARLOG, &gce);
 }
 
 INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession, int iType, DWORD dwFlags, const CMStringA &lpszUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime)
@@ -119,7 +116,7 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession,
 			gce.ptszNick = wszUID;
 	}
 
-	return CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	return Chat_Event(0, &gce);
 }
 
 INT_PTR CMraProto::MraChatSessionInvite(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)

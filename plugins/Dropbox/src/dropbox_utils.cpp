@@ -112,7 +112,7 @@ void CDropbox::SendToContact(MCONTACT hContact, const wchar_t *data)
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.ptszText = mir_wstrdup(data);
 		gce.time = time(NULL);
-		CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
+		Chat_Event(WINDOW_VISIBLE, &gce);
 		mir_free((void*)gce.ptszText);
 		return;
 	}

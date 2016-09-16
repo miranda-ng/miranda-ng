@@ -295,3 +295,8 @@ DestroyDbInstance @295
 FindDatabasePlugin @296
 InitDbInstance @297
 RegisterDatabasePlugin @298
+Chat_GetInterface @299
+Chat_Event @300 
+Chat_GetInfo @301 
+Chat_NewSession @302 
+Chat_Register @303 

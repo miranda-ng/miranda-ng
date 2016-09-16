@@ -223,7 +223,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	gcr.pColors = &crCols[0];
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
-	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
+	Chat_Register(&gcr);
 
 	HookProtoEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);

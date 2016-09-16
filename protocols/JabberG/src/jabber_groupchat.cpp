@@ -802,13 +802,13 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const wchar_t *
 	if (jid != NULL)
 		gce.ptszUserInfo = jid;
 	gce.time = time(0);
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	gcd.iType = GC_EVENT_NICK;
 	gce.ptszNick = oldNick;
 	gce.ptszUID = newNick;
 	gce.ptszText = newNick;
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 }
 
 void CJabberProto::GroupchatProcessPresence(HXML node)
@@ -1123,14 +1123,14 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	if (m_options.GcLogChatHistory && isHistory)
 		gce.dwFlags |= GCEF_NOTNOTIFY;
 
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	item->bChatActive = 2;
 
 	if (gcd.iType == GC_EVENT_TOPIC) {
 		gce.dwFlags &= ~GCEF_ADDTOLOG;
 		gcd.iType = GC_EVENT_SETSBTEXT;
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 	}
 }
 

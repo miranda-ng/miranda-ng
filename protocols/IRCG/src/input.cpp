@@ -221,7 +221,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		if (m_useServer) {
 			GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			CallChatEvent(command == L"/servershow" ? WINDOW_VISIBLE : WINDOW_HIDDEN, (LPARAM)&gce);
+			CallChatEvent(command == L"/servershow" ? WINDOW_VISIBLE : WINDOW_HIDDEN, &gce);
 		}
 		return true;
 	}
@@ -252,7 +252,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 		GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
-		CallChatEvent(WINDOW_CLEARLOG, (LPARAM)&gce);
+		CallChatEvent(WINDOW_CLEARLOG, &gce);
 		return true;
 	}
 
@@ -368,7 +368,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		gci.Flags = GCF_BYID | GCF_NAME | GCF_COUNT;
 		gci.pszModule = m_szModuleName;
 		gci.pszID = S.c_str();
-		if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
+		if (!Chat_GetInfo(&gci))
 			mir_snwprintf(szTemp, L"users: %u", gci.iCount);
 
 		DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
@@ -477,7 +477,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		CMStringW S = MakeWndID(window);
 		GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
-		CallChatEvent(SESSION_TERMINATE, (LPARAM)&gce);
+		CallChatEvent(SESSION_TERMINATE, &gce);
 
 		PostIrcMessage(L"/JOIN %s", GetWordAddress(text, 1));
 		return true;

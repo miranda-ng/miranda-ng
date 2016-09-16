@@ -307,7 +307,7 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = ptszNick;
 	gcw.ptszID = ptszJid;
-	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	pInfo->hContact = (hOldContact != NULL) ? hOldContact : ContactIDToHContact(jid);
 
@@ -315,12 +315,12 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	GCEVENT gce = { sizeof(gce), &gcd };
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--) {
 		gce.ptszStatus = TranslateW(sttStatuses[i]);
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 	}
 
 	gcd.iType = GC_EVENT_CONTROL;
-	CallServiceSync(MS_GC_EVENT, getBool(WHATSAPP_KEY_AUTORUNCHATS, true) ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+	Chat_Event(getBool(WHATSAPP_KEY_AUTORUNCHATS, true) ? SESSION_INITDONE : WINDOW_HIDDEN, &gce);
+	Chat_Event(SESSION_ONLINE, &gce);
 
 	if (m_pConnection)
 		m_pConnection->sendGetParticipants(jid);
@@ -362,7 +362,7 @@ void WhatsAppProto::onGroupInfo(const std::string &jid, const std::string &owner
 	else {
 		GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
-		CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+		Chat_Event(SESSION_ONLINE, &gce);
 	}
 
 	if (!subject.empty()) {
@@ -406,7 +406,7 @@ void WhatsAppProto::onGroupMessage(const FMessage &pMsg)
 	gce.time = pMsg.timestamp;
 	gce.ptszText = tszText;
 	gce.bIsMe = m_szJid == pMsg.remote_resource;
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	if (isOnline())
 		m_pConnection->sendMessageReceived(pMsg);
@@ -434,7 +434,7 @@ void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string
 	gce.ptszNick = tszNick;
 	gce.time = ts;
 	gce.ptszText = tszText;
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	setWString(pInfo->hContact, WHATSAPP_KEY_NICK, tszText);
 }
@@ -455,7 +455,7 @@ void WhatsAppProto::onGroupAddUser(const std::string &gjid, const std::string &u
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
 	gce.time = ts;
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 }
 
 void WhatsAppProto::onGroupRemoveUser(const std::string &gjid, const std::string &ujid, int ts)
@@ -474,7 +474,7 @@ void WhatsAppProto::onGroupRemoveUser(const std::string &gjid, const std::string
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
 	gce.time = ts;
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 }
 
 void WhatsAppProto::onLeaveGroup(const std::string &gjid)
@@ -487,7 +487,7 @@ void WhatsAppProto::onLeaveGroup(const std::string &gjid)
 	
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszUID = pInfo->tszJid;
-	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+	Chat_Event(SESSION_TERMINATE, &gce);
 
 	db_delete_contact(pInfo->hContact);
 	m_chats.erase((char*)_T2A(pInfo->tszJid));
@@ -514,7 +514,7 @@ void WhatsAppProto::onGetParticipants(const std::string &gjid, const std::vector
 		gce.ptszNick = nick;
 		gce.ptszUID = utils::removeA(ujid);
 		gce.ptszStatus = (bIsOwner) ? L"Owners" : L"Members";
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 	}
 }
 
@@ -550,7 +550,7 @@ void WhatsAppProto::onGroupMessageReceived(const FMessage &msg)
 	gce.time = time(NULL);
 	gce.ptszText = p->second.c_str();
 	gce.bIsMe = m_szJid == msg.remote_resource;
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	pInfo->m_unsentMsgs.erase(p);
 }

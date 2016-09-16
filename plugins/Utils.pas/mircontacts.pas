@@ -45,7 +45,6 @@ function WndToContact(wnd:HWND):TMCONTACT; overload;
 function WndToContact:TMCONTACT; overload;
 
 procedure ShowContactDialog(hContact:TMCONTACT;DblClk:boolean=true;anystatus:boolean=true);
-procedure SendToChat(hContact:TMCONTACT;pszText:PWideChar);
 
 //----- List of contacts (combobox) -----
 
@@ -483,50 +482,6 @@ CallService(MS_CLIST_CONTACTDOUBLECLICKED,hContact,0);
         else
           CallService(MS_MSG_SENDMESSAGE,hContact,0)
       end;
-  end;
-end;
-
-procedure SendChatText(pszID:pointer;pszModule:PAnsiChar;pszText:pointer);
-var
-  gcd:TGCDEST;
-  gce:TGCEVENT;
-begin
-  gcd.pszModule:=pszModule;
-  gcd.iType    :=GC_EVENT_SENDMESSAGE;
-  gcd.szID.w   :=pszID;
-
-  FillChar(gce,SizeOf(TGCEVENT),0);
-  gce.cbSize  :=SizeOf(TGCEVENT);
-  gce.pDest   :=@gcd;
-  gce.bIsMe   :=true;
-  gce.szText.w:=pszText;
-  gce.dwFlags :=GCEF_ADDTOLOG;
-  gce.time    :=GetCurrentTimeStamp;
-
-  CallServiceSync(MS_GC_EVENT,0,lparam(@gce));
-end;
-
-procedure SendToChat(hContact:TMCONTACT;pszText:PWideChar);
-var
-  gci:TGC_INFO;
-  pszModule:PAnsiChar;
-  i,cnt:integer;
-begin
-  pszModule:=GetContactProto(hContact);
-  cnt:=CallService(MS_GC_GETSESSIONCOUNT,0,lparam(pszModule));
-  i:=0;
-  gci.pszModule:=pszModule;
-  while i<cnt do
-  begin
-    gci.iItem:=i;
-    gci.Flags:=GCF_BYINDEX+GCF_HCONTACT+GCF_ID;
-    CallService(MS_GC_GETINFO,0,lparam(@gci));
-    if gci.hContact=hContact then
-    begin
-      SendChatText(gci.pszID.w,pszModule,pszText);
-      break;
-    end;
-    inc(i);
   end;
 end;
 

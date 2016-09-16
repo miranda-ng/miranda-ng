@@ -450,7 +450,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 			if (p)
 				*p = 0;
 
-			CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+			Chat_NewSession(&gcw);
 
 			db_unset(hContact, "CList", "Hidden");
 			chatRooms.insert((HANDLE)hContact);

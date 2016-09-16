@@ -772,7 +772,7 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 		gce.ptszText = (LPTSTR)strAscii.c_str();
 		gce.time = time(NULL);
 		gce.bIsMe = true;
-		CallService(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		Chat_Event(NULL, &gce);
 
 		db_free(&dbv);
 		return 0;

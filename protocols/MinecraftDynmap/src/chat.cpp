@@ -47,7 +47,7 @@ void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, con
 
 	gce.ptszNick = tname;
 	gce.ptszUID  = gce.ptszNick;
-	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
@@ -103,7 +103,7 @@ void MinecraftDynmapProto::AddChatContact(const char *name)
 	else
 		gce.ptszStatus = L"Normal";
 
-	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0,&gce);
 }
 
 void MinecraftDynmapProto::DeleteChatContact(const char *name)
@@ -118,7 +118,7 @@ void MinecraftDynmapProto::DeleteChatContact(const char *name)
 	gce.time = DWORD(time(0));
 	gce.bIsMe = (m_nick == name);
 
-	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0,&gce);
 }
 
 INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
@@ -131,7 +131,7 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 	gcw.ptszID = m_tszUserName;
 	gcw.ptszName = tszTitle;
 	gcw.pszModule = m_szModuleName;
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	if (m_iStatus == ID_STATUS_OFFLINE)
 		return 0;
@@ -141,10 +141,10 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 	GCEVENT gce = { sizeof(gce), &gcd };
 	
 	gce.ptszStatus = L"Admin";
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 	
 	gce.ptszStatus = L"Normal";
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 		
 	// Note: Initialization will finish up in SetChatStatus, called separately
 	if (!suppress)
@@ -162,7 +162,7 @@ void MinecraftDynmapProto::SetTopic(const char *topic)
 	gce.time = ::time(NULL);
 	gce.ptszText = ttopic;
 
-	CallServiceSync(MS_GC_EVENT,0,  reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0,  &gce);
 }
 
 INT_PTR MinecraftDynmapProto::OnLeaveChat(WPARAM,LPARAM)
@@ -171,8 +171,8 @@ INT_PTR MinecraftDynmapProto::OnLeaveChat(WPARAM,LPARAM)
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 
-	CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,  reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT,SESSION_TERMINATE,reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(SESSION_OFFLINE,  &gce);
+	Chat_Event(SESSION_TERMINATE,&gce);
 
 	return 0;
 }
@@ -196,12 +196,12 @@ void MinecraftDynmapProto::SetChatStatus(int status)
 		// Add self contact
 		AddChatContact(m_nick.c_str());
 
-		CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
-		CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
+		Chat_Event(SESSION_INITDONE,&gce);
+		Chat_Event(SESSION_ONLINE,  &gce);
 	}
 	else
 	{
-		CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,reinterpret_cast<LPARAM>(&gce));
+		Chat_Event(SESSION_OFFLINE,&gce);
 	}
 }
 
@@ -209,7 +209,7 @@ void MinecraftDynmapProto::ClearChat()
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(WINDOW_CLEARLOG, &gce);
 }
 
 // TODO: Could this be done better?
@@ -232,7 +232,7 @@ MCONTACT MinecraftDynmapProto::GetChatHandle()
 	gci.Flags = GCF_HCONTACT;
 	gci.pszModule = m_szModuleName;
 	gci.pszID = m_tszUserName;
-	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
+	Chat_GetInfo(&gci);
 
 	return gci.hContact;
 }

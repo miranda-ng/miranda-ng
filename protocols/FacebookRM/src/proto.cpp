@@ -489,7 +489,7 @@ int FacebookProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.iMaxText = FACEBOOK_MESSAGE_LIMIT;
 	gcr.nColors = 0;
 	gcr.pColors = NULL;
-	CallService(MS_GC_REGISTER, 0, reinterpret_cast<LPARAM>(&gcr));
+	Chat_Register(&gcr);
 
 	return 0;
 }
@@ -750,7 +750,7 @@ INT_PTR FacebookProto::VisitNotifications(WPARAM, LPARAM)
 	if (useChatRoom) {
 	GCDEST gcd = { m_szModuleName, _T(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(WINDOW_VISIBLE, &gce);
 	}
 	else {*/
 	OpenUrl(FACEBOOK_URL_NOTIFICATIONS);

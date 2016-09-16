@@ -147,7 +147,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			gci.Flags = GCF_BYID | GCF_COUNT;
 			gci.pszModule = m_szModuleName;
 			gci.pszID = S.c_str();
-			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
+			if (!Chat_GetInfo(&gci)) {
 				wchar_t szTemp[40];
 				mir_snwprintf(szTemp, L"%u", gci.iCount);
 				sOutput = szTemp;
@@ -159,12 +159,12 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			gci.Flags = GCF_BYID | GCF_USERS;
 			gci.pszModule = m_szModuleName;
 			gci.pszID = S.c_str();
-			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
+			if (!Chat_GetInfo(&gci))
 				return (INT_PTR)mir_strdup(gci.pszUsers);
 		}
 		else if (sRequest == "channellist") {
 			CMStringW S = L"";
-			int n = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
+			int n = pci->SM_GetCount(m_szModuleName);
 			if (n >= 0) {
 				int j = 0;
 				while (j < n) {
@@ -172,7 +172,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 					gci.Flags = GCF_BYINDEX | GCF_ID;
 					gci.pszModule = m_szModuleName;
 					gci.iItem = j;
-					if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
+					if (!Chat_GetInfo(&gci)) {
 						if (mir_wstrcmpi(gci.pszID, SERVERWINDOW)) {
 							CMStringW S1 = gci.pszID;
 							int k = S1.Find(L" ");

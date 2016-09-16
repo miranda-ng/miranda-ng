@@ -838,7 +838,7 @@ retry:
 							gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gce.dwFlags = GCEF_ADDTOLOG;
 							debugLogW(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
-							CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+							Chat_Event(0, &gce);
 							mir_free(messageT);
 						}
 					}
@@ -908,7 +908,7 @@ retry:
 						gce.bIsMe = 1;
 						gce.dwFlags = GCEF_ADDTOLOG;
 						debugLogW(L"mainthread() (%x): Sent conference message to room %s.", this, chat);
-						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+						Chat_Event(0, &gce);
 						mir_free(messageT);
 						mir_free(nickT);
 					}
@@ -1286,8 +1286,8 @@ int GGPROTO::contactdeleted(WPARAM hContact, LPARAM)
 			free(chat->recipients);
 			list_remove(&chats, chat, 1);
 			// Terminate chat window / shouldn't cascade entry is deleted
-			CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
-			CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+			Chat_Event(SESSION_OFFLINE, &gce);
+			Chat_Event(SESSION_TERMINATE, &gce);
 		}
 
 		db_free(&dbv);
@@ -1359,7 +1359,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 				debugLogA("dbsettingchanged(): Conference %s was renamed.", dbv.pszVal);
 				// Mark cascading
 				/* FIXME */ cascade = 1;
-				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+				Chat_Event(0, &gce);
 				/* FIXME */ cascade = 0;
 			}
 			db_free(&dbv);

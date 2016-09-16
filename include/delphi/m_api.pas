@@ -194,7 +194,6 @@ var
   {$include m_awaymsg.inc}
   {$include m_button.inc}
   {$include m_button_int.inc}
-  {$include m_chat.inc}
   {$include m_clc.inc}
   {$include m_clistint.inc}
   {$include m_cluiframes.inc}

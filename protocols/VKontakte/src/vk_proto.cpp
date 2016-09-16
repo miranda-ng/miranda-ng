@@ -110,7 +110,7 @@ int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.pszModule = m_szModuleName;
 	gcr.nColors = _countof(sttColors);
 	gcr.pColors = sttColors;
-	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
+	Chat_Register(&gcr);
 	CreateProtoService(PS_LEAVECHAT, &CVkProto::OnLeaveChat);
 	CreateProtoService(PS_JOINCHAT, &CVkProto::OnJoinChat);
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);

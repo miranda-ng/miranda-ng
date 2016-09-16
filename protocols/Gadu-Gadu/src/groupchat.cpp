@@ -30,24 +30,20 @@
 //
 int GGPROTO::gc_init()
 {
-	if (ServiceExists(MS_GC_REGISTER)) {
-		char service[64];
+	char service[64];
 
-		// Register Gadu-Gadu proto
-		GCREGISTER gcr = { sizeof(gcr) };
-		gcr.ptszDispName = m_tszUserName;
-		gcr.pszModule = m_szModuleName;
-		CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+	// Register Gadu-Gadu proto
+	GCREGISTER gcr = { sizeof(gcr) };
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
 
-		HookProtoEvent(ME_GC_EVENT, &GGPROTO::gc_event);
+	HookProtoEvent(ME_GC_EVENT, &GGPROTO::gc_event);
 
-		gc_enabled = TRUE;
-		// create & hook event
-		mir_snprintf(service, GG_GC_GETCHAT, m_szModuleName);
-		debugLogA("gc_init(): Registered with groupchat plugin.");
-	}
-	else debugLogA("gc_init(): Cannot register with groupchat plugin !!!");
-
+	gc_enabled = TRUE;
+	// create & hook event
+	mir_snprintf(service, GG_GC_GETCHAT, m_szModuleName);
+	debugLogA("gc_init(): Registered with groupchat plugin.");
 	return 1;
 }
 
@@ -174,7 +170,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 		gce.bIsMe = 1;
 		gce.dwFlags = GCEF_ADDTOLOG;
 		debugLogW(L"gc_event(): Sending conference message to room %s, \"%s\".", gch->pDest->ptszID, gch->ptszText);
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 		mir_free(nickT);
 		
 		T2Utf pszText_utf8(gch->ptszText);
@@ -329,7 +325,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	gcwindow.ptszName = name;
 
 	// Create new room
-	if (CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM) &gcwindow)) {
+	if (Chat_NewSession( &gcwindow)) {
 		debugLogW(L"gc_getchat(): Cannot create new chat window %s.", chat->id);
 		free(name);
 		free(chat);
@@ -344,7 +340,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 
 	// Add normal group
 	gce.ptszStatus = TranslateT("Participants");
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 	gcd.iType = GC_EVENT_JOIN;
 
 	// Add myself
@@ -362,7 +358,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 		gce.ptszNick = nickT;
 
 		gce.bIsMe = 1;
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 		mir_free(nickT);
 		debugLogW(L"gc_getchat(): Myself %s: %s (%s) to the list...", gce.ptszUID, gce.ptszNick, gce.ptszStatus);
 	}
@@ -387,11 +383,11 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 		gce.bIsMe = 0;
 		gce.dwFlags = 0;
 		debugLogW(L"gc_getchat(): Added %s: %s (%s) to the list...", gce.ptszUID, gce.ptszNick, gce.ptszStatus);
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		Chat_Event(0, &gce);
 	}
 	gcd.iType = GC_EVENT_CONTROL;
-	CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+	Chat_Event(SESSION_INITDONE, &gce);
+	Chat_Event(SESSION_ONLINE, &gce);
 
 	debugLogW(L"gc_getchat(): Returning new chat window %s, count %d.", chat->id, chat->recipients_count);
 	list_add(&chats, chat, 0);
@@ -486,7 +482,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 						{
 							GCDEST gcd = { gg->m_szModuleName, chat, GC_EVENT_CONTROL };
 							GCEVENT gce = { sizeof(gce), &gcd };
-							CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
+							Chat_Event(WINDOW_VISIBLE, &gce);
 						}
 						free(participants);
 					}
@@ -642,7 +638,7 @@ int GGPROTO::gc_changenick(MCONTACT hContact, wchar_t *ptszNick)
 					gce.ptszText = ptszNick;
 
 					debugLogW(L"gc_changenick(): Found room %s with uin %d, sending nick change %s.", chat->id, uin, id);
-					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+					Chat_Event(0, &gce);
 
 					break;
 				}

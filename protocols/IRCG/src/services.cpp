@@ -35,7 +35,7 @@ void CIrcProto::InitMainMenus(void)
 	if (m_iStatus != ID_STATUS_OFFLINE) mi.flags |= CMIF_GRAYED;
 
 	mi.name.a = LPGEN("&Join channel");
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);//GetIconHandle(IDI_JOIN);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
 	mi.pszService = IRC_JOINCHANNEL;
 	mi.position = 201002;
 	hMenuJoin = Menu_AddProtoMenuItem(&mi, m_szModuleName);
@@ -208,7 +208,7 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 				S = SERVERWINDOW;
 			GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			int i = CallChatEvent(SESSION_TERMINATE, (LPARAM)&gce);
+			int i = CallChatEvent(SESSION_TERMINATE, &gce);
 			if (i && type == GCW_CHATROOM)
 				PostIrcMessage(L"/PART %s %s", dbv.ptszVal, m_userInfo);
 		}
@@ -253,7 +253,7 @@ INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
 			CMStringW S = MakeWndID(dbv.ptszVal);
 			GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			CallChatEvent(SESSION_TERMINATE, (LPARAM)&gce);
+			CallChatEvent(SESSION_TERMINATE, &gce);
 		}
 		db_free(&dbv);
 	}
@@ -369,7 +369,7 @@ INT_PTR __cdecl CIrcProto::OnShowServerMenuCommand(WPARAM, LPARAM)
 {
 	GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallChatEvent(WINDOW_VISIBLE, (LPARAM)&gce);
+	CallChatEvent(WINDOW_VISIBLE, &gce);
 	return 0;
 }
 
@@ -535,7 +535,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 						S = MakeWndID(p1);
 						GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 						GCEVENT gce = { sizeof(gce), &gcd };
-						CallChatEvent(SESSION_TERMINATE, (LPARAM)&gce);
+						CallChatEvent(SESSION_TERMINATE, &gce);
 					}
 					break;
 				case 4:		// show server window
@@ -1068,7 +1068,7 @@ void CIrcProto::DisconnectFromServer(void)
 
 	GCDEST gcd = { m_szModuleName, 0, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallChatEvent(SESSION_TERMINATE, (LPARAM)&gce);
+	CallChatEvent(SESSION_TERMINATE, &gce);
 	ForkThread(&CIrcProto::DisconnectServerThread, 0);
 }
 

@@ -167,7 +167,7 @@ int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.iMaxText = MINECRAFTDYNMAP_MESSAGE_LIMIT;
 	gcr.nColors = 0;
 	gcr.pColors = NULL;
-	CallService(MS_GC_REGISTER, 0, reinterpret_cast<LPARAM>(&gcr));
+	Chat_Register(&gcr);
 
 	return 0;
 }

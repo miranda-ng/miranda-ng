@@ -393,7 +393,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				gci.Flags = GCF_HCONTACT;
 				gci.pszModule = m_szModuleName;
 				gci.pszID = mChatID;
-				CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
+				Chat_GetInfo(&gci);
 				tContact = gci.hContact;
 			}
 			else tContact = MSN_HContactFromEmail(email, nick, true, true);
@@ -1888,7 +1888,7 @@ LBL_InvalidCommand:
 				gce.ptszUID = mir_a2u(data.userEmail);
 				gce.time = time(NULL);
 				gce.bIsMe = FALSE;
-				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+				Chat_Event(0, &gce);
 				mir_free((void*)gce.ptszUID);
 			}
 
@@ -1907,9 +1907,9 @@ LBL_InvalidCommand:
 					gce.bIsMe = FALSE;
 					gce.time = time(NULL);
 					gce.ptszText = TranslateT("This conversation has been inactive, participants will be removed.");
-					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+					Chat_Event(0, &gce);
 					gce.ptszText = TranslateT("To resume the conversation, please quit this session and start a new chat session.");
-					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+					Chat_Event(0, &gce);
 				}
 				else {
 					if (!g_bTerminated && MessageBox(NULL,
@@ -2145,7 +2145,7 @@ LBL_InvalidCommand:
 					gce.ptszStatus = TranslateT("Others");
 					gce.time = time(NULL);
 					gce.bIsMe = FALSE;
-					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+					Chat_Event(0, &gce);
 					mir_free((void*)gce.ptszUID);
 				}
 				else MSN_ChatStart(info);

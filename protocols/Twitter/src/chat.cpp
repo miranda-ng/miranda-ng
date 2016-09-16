@@ -49,7 +49,7 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 	else
 		gce.ptszNick = mir_a2u(update.username.c_str());
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 
 	mir_free(const_cast<wchar_t*>(gce.ptszNick));
 	mir_free(const_cast<wchar_t*>(gce.ptszUID));
@@ -96,7 +96,7 @@ void TwitterProto::AddChatContact(const char *name, const char *nick)
 	gce.ptszNick = mir_a2u(nick ? nick : name);
 	gce.ptszUID = mir_a2u(name);
 	gce.ptszStatus = L"Normal";
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 
 	mir_free(const_cast<wchar_t*>(gce.ptszNick));
 	mir_free(const_cast<wchar_t*>(gce.ptszUID));
@@ -109,7 +109,7 @@ void TwitterProto::DeleteChatContact(const char *name)
 	gce.time = DWORD(time(0));
 	gce.ptszNick = mir_a2u(name);
 	gce.ptszUID = gce.ptszNick;
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 
 	mir_free(const_cast<wchar_t*>(gce.ptszNick));
 }
@@ -122,7 +122,7 @@ INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = m_tszUserName;
 	gcw.ptszID = m_tszUserName;
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
@@ -131,7 +131,7 @@ INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszStatus = L"Normal";
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 
 	// ***** Hook events
 	HookProtoEvent(ME_GC_EVENT, &TwitterProto::OnChatOutgoing);
@@ -151,8 +151,8 @@ INT_PTR TwitterProto::OnLeaveChat(WPARAM, LPARAM)
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 
-	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(SESSION_OFFLINE, &gce);
+	Chat_Event(SESSION_TERMINATE, &gce);
 	return 0;
 }
 
@@ -183,9 +183,9 @@ void TwitterProto::SetChatStatus(int status)
 
 		// For some reason, I have to send an INITDONE message, even if I'm not actually
 		// initializing the room...
-		CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, reinterpret_cast<LPARAM>(&gce));
-		CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
+		Chat_Event(SESSION_INITDONE, &gce);
+		Chat_Event(SESSION_ONLINE, &gce);
 	}
 	else
-		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
+		Chat_Event(SESSION_OFFLINE, &gce);
 }

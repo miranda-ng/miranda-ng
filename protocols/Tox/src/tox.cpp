@@ -1,7 +1,8 @@
 #include "stdafx.h"
 
 int hLangpack;
-CLIST_INTERFACE* pcli;
+CHAT_MANAGER *pci;
+CLIST_INTERFACE *pcli;
 HINSTANCE g_hInstance;
 HMODULE g_hToxLibrary = NULL;
 
@@ -40,6 +41,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (g_hToxLibrary == NULL)
 		return 0;
 
+	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 	mir_getLP(&pluginInfo);
 

@@ -27,19 +27,11 @@ struct MODULEINFO : public GCModuleInfoBase {};
 struct SESSION_INFO : public GCSessionInfoBase {};
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
-// special service for tweaking performance
-#define MS_GC_GETEVENTPTR  "GChat/GetNewEventPtr"
-typedef INT_PTR(*GETEVENTFUNC)(WPARAM wParam, LPARAM lParam);
-struct GCPTRS
-{
-	GETEVENTFUNC pfnAddEvent;
-};
-
 extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
 extern GlobalLogSettingsBase *g_Settings;
 extern int g_cbSession, g_cbModuleInfo, g_iFontMode, g_iChatLang;
 extern wchar_t *g_szFontGroup;
-extern mir_cs cs;
+extern mir_cs csChat;
 
 extern char* pLogIconBmpBits[14];
 
@@ -61,11 +53,9 @@ BOOL     SetAllOffline(BOOL bHide, const char *pszModule);
 BOOL     SetOffline(MCONTACT hContact, BOOL bHide);
 
 int      RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
-INT_PTR  EventDoubleclicked(WPARAM wParam,LPARAM lParam);
 INT_PTR  JoinChat(WPARAM wParam, LPARAM lParam);
 INT_PTR  LeaveChat(WPARAM wParam, LPARAM lParam);
 int      PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
-INT_PTR  PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam);
 
 // colorchooser.c
 void ColorChooser(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser);

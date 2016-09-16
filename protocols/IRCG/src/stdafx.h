@@ -54,6 +54,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_skin.h"
 #include "m_netlib.h"
 #include "m_langpack.h"
+#include "m_chat_int.h"
 #include "m_message.h"
 #include "m_userinfo.h"
 #include "m_addcontact.h"
@@ -61,7 +62,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_genmenu.h"
 #include "m_file.h"
 #include "m_ignore.h"
-#include "m_chat.h"
+#include "m_chat_int.h"
 #include "m_icolib.h"
 #include "m_string.h"
 #include "win2k.h"
@@ -361,9 +362,9 @@ struct CIrcProto : public PROTO<CIrcProto>
 	bool     CList_SetAllOffline(BYTE ChatsToo);
 	MCONTACT CList_SetOffline(CONTACT *user);
 
-	bool     CList_AddEvent(CONTACT *user, HICON Icon, HANDLE event, const char *tooltip, int type ) ;
+	bool     CList_AddEvent(CONTACT *user, HICON Icon, HANDLE event, const char *tooltip, int type );
 	MCONTACT CList_FindContact(CONTACT *user);
-	BOOL     CList_AddDCCChat(const CMStringW &name, const CMStringW &hostmask, unsigned long adr, int port) ;
+	BOOL     CList_AddDCCChat(const CMStringW &name, const CMStringW &hostmask, unsigned long adr, int port);
 
 	//commandmonitor.cpp
 	UINT_PTR IdentTimer, InitTimer, KeepAliveTimer, OnlineNotifTimer, OnlineNotifTimer3;
@@ -374,7 +375,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void __cdecl ResolveIPThread(void *di);
 
 	bool AddIgnore(const wchar_t *mask, const wchar_t *mode, const wchar_t *network) ;
-	int  IsIgnored(const CMStringW &nick, const CMStringW &address, const CMStringW &host, char type) ;
+	int  IsIgnored(const CMStringW &nick, const CMStringW &address, const CMStringW &host, char type);
 	int  IsIgnored(CMStringW user, char type);
 	bool RemoveIgnore(const wchar_t *mask) ;
 
@@ -441,7 +442,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	//tools.cpp
 	void     AddToJTemp(wchar_t op, CMStringW& sCommand);
 	bool     AddWindowItemData(CMStringW window, const wchar_t* pszLimit, const wchar_t* pszMode, const wchar_t* pszPassword, const wchar_t* pszTopic);
-	INT_PTR  CallChatEvent(WPARAM wParam, LPARAM lParam);
+	INT_PTR  CallChatEvent(WPARAM wParam, GCEVENT *);
 	INT_PTR  DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* pszNick, const wchar_t* pszText, const wchar_t* pszStatus, const wchar_t* pszUserInfo, DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe,time_t timestamp = 1);
 	void     FindLocalIP(HANDLE con);
 	bool     FreeWindowItemData(CMStringW window, CHANNELINFO* wis);

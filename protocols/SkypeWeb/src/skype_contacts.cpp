@@ -51,7 +51,7 @@ void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
 		return;
 	GCDEST gcd = { m_szModuleName, tszChatID, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE, (LPARAM)&gce);
+	Chat_Event((iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE, &gce);
 }
 
 MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)

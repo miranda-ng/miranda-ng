@@ -48,7 +48,7 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	}
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 
 	facy.erase_reader(ChatIDToHContact(chat_id));
 }
@@ -61,7 +61,7 @@ void FacebookProto::RenameChat(const char *chat_id, const char *name)
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_CHANGESESSIONAME };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszText = tname;
-	CallService(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
@@ -199,7 +199,7 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 		}
 	}
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 void FacebookProto::RemoveChatContact(const char *chat_id, const char *id, const char *name)
@@ -220,7 +220,7 @@ void FacebookProto::RemoveChatContact(const char *chat_id, const char *id, const
 	gce.time = ::time(NULL);
 	gce.bIsMe = false;
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 /** Caller must free result */
@@ -232,7 +232,7 @@ char *FacebookProto::GetChatUsers(const char *chat_id)
 	gci.Flags = GCF_USERS;
 	gci.pszModule = m_szModuleName;
 	gci.pszID = ptszChatID;
-	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
+	Chat_GetInfo(&gci);
 
 	// mir_free(gci.pszUsers);
 	return gci.pszUsers;
@@ -254,7 +254,7 @@ void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 	gcw.ptszID = tid;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = tname;
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	// Send setting events
 	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
@@ -262,13 +262,13 @@ void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 
 	// Create a user statuses
 	gce.ptszStatus = TranslateT("Myself");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 	gce.ptszStatus = TranslateT("Friend");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 	gce.ptszStatus = TranslateT("User");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 	gce.ptszStatus = TranslateT("Former");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 
 	// Finish initialization
 	gcd.iType = GC_EVENT_CONTROL;
@@ -276,8 +276,8 @@ void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 	gce.pDest = &gcd;
 
 	bool hideChats = getBool(FACEBOOK_KEY_HIDE_CHATS, DEFAULT_HIDE_CHATS);
-	CallServiceSync(MS_GC_EVENT, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event((hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), &gce);
+	Chat_Event(SESSION_ONLINE, &gce);
 }
 
 INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
@@ -346,8 +346,8 @@ INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam, LPARAM)
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 
-	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(SESSION_OFFLINE, &gce);
+	Chat_Event(SESSION_TERMINATE, &gce);
 
 	if (!wParam) {
 		facy.clear_chatrooms();
@@ -438,15 +438,15 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 		gcw.ptszID = _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM);
 		gcw.pszModule = m_szModuleName;
 		gcw.ptszName = nameT;
-		CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+		Chat_NewSession(&gcw);
 
 		// Send setting events
 		GCDEST gcd = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.time = ::time(NULL);
 
-		CallServiceSync(MS_GC_EVENT, WINDOW_HIDDEN, reinterpret_cast<LPARAM>(&gce));
-		CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
+		Chat_Event(WINDOW_HIDDEN, &gce);
+		Chat_Event(SESSION_ONLINE, &gce);
 	}
 }
 
@@ -472,5 +472,5 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	gce.ptszNick = TranslateT("Notifications");
 	gce.ptszUID = idT;
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }

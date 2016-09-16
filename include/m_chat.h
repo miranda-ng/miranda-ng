@@ -121,9 +121,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	needed to make sure that the protocol obey rule 1 mentioned above, but also to
 	set protocol specific preferences.
 
-	* Use MS_GC_REGISTER like this: CallService(MS_GC_REGISTER, 0, (LPARAM)(GCREGISTER *) &gcr;
-
-	* returns 0 on success or error code on failure.
+	returns 0 on success or error code on failure.
 */
 
 // Flags
@@ -159,7 +157,7 @@ struct GCREGISTER
 	                              //	pColors = &crCols[0];
 };
 
-#define MS_GC_REGISTER  "GChat/Register"
+EXTERN_C MIR_APP_DLL(int) Chat_Register(const GCREGISTER*);
 
 /*
 	Step 2. -- CREATE a new SESSION --
@@ -168,11 +166,8 @@ struct GCREGISTER
 	The chat room will not be shown to the user until the 'set up' phase is
 	completed and SESSION_INITDONE is sent. See the MS_GC_EVENT for that.
 
-	* Use MS_GC_NEWSESSION like this: CallService(MS_GC_NEWSESSION, 0, (LPARAM)(GCSESSION *) &gcr;
-
-	* returns 0 on success or error code on failure
+	returns 0 on success or error code on failure
 */
-
 
 // Session type
 #define GCW_CHATROOM 1  // the session is a dedicated multi user chat room. ex "IRC channels".
@@ -199,7 +194,7 @@ struct GCSESSION
 	INT_PTR dwItemData;         // Set user defined data for this session. Retrieve it by using the GC_EVENT_GETITEMDATA event
 };
 
-#define MS_GC_NEWSESSION  "GChat/NewChat"
+EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *);
 
 /*
 	Step 3 -- SEND an EVENT --
@@ -261,10 +256,7 @@ struct GCSESSION
 	NOTE. You will not get %cRRRGGGBBB back, instead you will get the index of the colour as
 	registered with GC_REGISTER. Eg %c3 (the fourth colour of your index)
 
-	* Use MS_GC_EVENT like this: CallService(MS_GC_EVENT, 0, (LPARAM)(GCEVENT *) &gce;
-
-	* returns 0 on success or error code on failure
-
+	returns 0 on success or error code on failure
 */
 
 //	* List of possible events to send to Chat. Unlisted members are not valid	*
@@ -445,6 +437,11 @@ struct GCDEST
 };
 
 // The GCEVENT structure
+
+#define GCEF_ADDTOLOG       0x0001
+#define GCEF_REMOVECONTACT  0x0002
+#define GCEF_NOTNOTIFY      0x0004
+
 struct GCEVENT
 {
 	int     cbSize;                // set to sizeof(GCEVENT);
@@ -456,36 +453,17 @@ struct GCEVENT
 	LPCTSTR ptszUserInfo;			 //
 
 	BOOL    bIsMe;                 // Is this event from the Miranda user?
-	DWORD   dwFlags;               // event flags: GCEF_ADDTOLOG, GCEF_NOTNOTIFY
+	DWORD   dwFlags;               // event flags: GCEF_*
 
 	INT_PTR dwItemData;            // User specified data.
 	DWORD   time;                  // Timestamp of the event
 };
 
-#define MS_GC_EVENT  "GChat/NewEvent"
+EXTERN_C MIR_APP_DLL(int) Chat_Event(int sessionEvent, GCEVENT*);
 
 // This hook is fired when MS_GC_EVENT is called, with the same wParam and lParam as above.
 // It allows external plugins to intercept chat events and display then in other ways
 #define ME_GC_HOOK_EVENT "GChat/HookEvent"
-
-#define GCEF_ADDTOLOG       0x0001
-#define GCEF_REMOVECONTACT  0x0002
-// Added in Miranda NG 0.94.4+
-#define GCEF_NOTNOTIFY      0x0004
-
-// OK! That was about everything that you need to know about for operating Chat in a basic way.
-// There are however some more things you will need to know about. Some you may use and some you may not need,
-
-/*
-	 -- GETTING info about a SESSION or session data --
-
-	Use this service to get information on different aspects of the sessions that are registered with Chat.
-
-	* Use MS_GC_GETINFO like this: CallService(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)(char *) pszModule);
-	* returns -1 on failure and the sessioncount on success
-*/
-
-#define MS_GC_GETSESSIONCOUNT  "GChat/GetCount"
 
 /*
 	 -- GETTING info about a SESSION or session data --
@@ -522,7 +500,7 @@ struct GC_INFO
 	MCONTACT  hContact;     // hContact for the session (can be NULL)
 };
 
-#define MS_GC_GETINFO  "GChat/GetInfo"
+EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO*);
 
 //------------------------- HOOKS ------------------------
 /*

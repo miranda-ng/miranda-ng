@@ -140,7 +140,7 @@ void CToxProto::InitGroupChatModule()
 	gcr.iMaxText = 0;
 	gcr.ptszDispName = this->m_tszUserName;
 	gcr.pszModule = this->m_szModuleName;
-	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+	Chat_Register(&gcr);
 
 	HookProtoEvent(ME_GC_EVENT, &CToxProto::OnGroupChatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CToxProto::OnGroupChatMenuHook);
@@ -155,16 +155,16 @@ void CToxProto::CloseAllChatChatSessions()
 	gci.Flags = GCF_BYINDEX | GCF_ID | GCF_DATA;
 	gci.pszModule = m_szModuleName;
 
-	int count = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
+	int count = pci->SM_GetCount(m_szModuleName);
 	for (int i = 0; i < count; i++)
 	{
 		gci.iItem = i;
-		if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
+		if (!Chat_GetInfo(&gci))
 		{
 			GCDEST gcd = { m_szModuleName, gci.pszID, GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
-			CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+			Chat_Event(SESSION_OFFLINE, &gce);
+			Chat_Event(SESSION_TERMINATE, &gce);
 		}
 	}
 }

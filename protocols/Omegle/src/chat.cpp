@@ -44,7 +44,7 @@ void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool a
 
 	gce.ptszNick = name;
 	gce.ptszUID = gce.ptszNick;
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
@@ -223,7 +223,7 @@ void OmegleProto::SendChatMessage(std::string text)
 {
 GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 GCEVENT gce = { sizeof(gce), &gcd };
-CallServiceSync(MS_GC_EVENT,WINDOW_CLEARLOG,reinterpret_cast<LPARAM>(&gce));
+Chat_Event(WINDOW_CLEARLOG,&gce);
 }*/
 
 void OmegleProto::AddChatContact(const wchar_t *name)
@@ -245,7 +245,7 @@ void OmegleProto::AddChatContact(const wchar_t *name)
 	else
 		gce.ptszStatus = L"Normal";
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 void OmegleProto::DeleteChatContact(const wchar_t *name)
@@ -261,7 +261,7 @@ void OmegleProto::DeleteChatContact(const wchar_t *name)
 	else
 		gce.bIsMe = mir_wstrcmp(name, this->facy.nick_);
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
@@ -272,7 +272,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 	gcw.ptszID = m_tszUserName;
 	gcw.ptszName = m_tszUserName;
 	gcw.pszModule = m_szModuleName;
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	if (m_iStatus == ID_STATUS_OFFLINE)
 		return 0;
@@ -282,10 +282,10 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 	GCEVENT gce = { sizeof(gce), &gcd };
 
 	gce.ptszStatus = L"Admin";
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 
 	gce.ptszStatus = L"Normal";
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 
 	SetTopic();
 
@@ -307,7 +307,7 @@ void OmegleProto::SetTopic(const wchar_t *topic)
 	else
 		gce.ptszText = topic;
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 INT_PTR OmegleProto::OnLeaveChat(WPARAM, LPARAM)
@@ -316,8 +316,8 @@ INT_PTR OmegleProto::OnLeaveChat(WPARAM, LPARAM)
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 
-	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(SESSION_OFFLINE, &gce);
+	Chat_Event(SESSION_TERMINATE, &gce);
 
 	return 0;
 }
@@ -340,12 +340,12 @@ void OmegleProto::SetChatStatus(int status)
 		// Add self contact
 		AddChatContact(facy.nick_);
 
-		CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, reinterpret_cast<LPARAM>(&gce));
-		CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
+		Chat_Event(SESSION_INITDONE, &gce);
+		Chat_Event(SESSION_ONLINE, &gce);
 	}
 	else
 	{
-		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
+		Chat_Event(SESSION_OFFLINE, &gce);
 	}
 }
 
@@ -356,7 +356,7 @@ void OmegleProto::ClearChat()
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(WINDOW_CLEARLOG, &gce);
 }
 
 // TODO: Could this be done better?
@@ -379,7 +379,7 @@ MCONTACT OmegleProto::GetChatHandle()
 	gci.Flags = GCF_HCONTACT;
 	gci.pszModule = m_szModuleName;
 	gci.pszID = m_tszUserName;
-	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
+	Chat_GetInfo(&gci);
 
 	return gci.hContact;
 }

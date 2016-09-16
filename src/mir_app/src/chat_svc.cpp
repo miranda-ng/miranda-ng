@@ -27,7 +27,7 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 #include "chat.h"
 
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
-mir_cs cs;
+mir_cs csChat;
 
 static HANDLE
    hServiceRegister = NULL,
@@ -119,22 +119,12 @@ static int SmileyOptionsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR Service_GetCount(WPARAM, LPARAM lParam)
+EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO *gci)
 {
-	if (!lParam)
-		return -1;
-
-	mir_cslock lck(cs);
-	return chatApi.SM_GetCount((char *)lParam);
-}
-
-static INT_PTR Service_GetInfo(WPARAM, LPARAM lParam)
-{
-	GC_INFO *gci = (GC_INFO *)lParam;
 	if (!gci || !gci->pszModule)
 		return 1;
 
-	mir_cslock lck(cs);
+	mir_cslock lck(csChat);
 
 	SESSION_INFO *si;
 	if (gci->Flags & GCF_BYINDEX)
@@ -154,16 +144,15 @@ static INT_PTR Service_GetInfo(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Service_Register(WPARAM, LPARAM lParam)
+MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 {
-	GCREGISTER *gcr = (GCREGISTER *)lParam;
 	if (gcr == NULL)
 		return GC_REGISTER_ERROR;
 
 	if (gcr->cbSize != sizeof(GCREGISTER))
 		return GC_REGISTER_WRONGVER;
 
-	mir_cslock lck(cs);
+	mir_cslock lck(csChat);
 	MODULEINFO *mi = chatApi.MM_AddModule(gcr->pszModule);
 	if (mi == NULL)
 		return GC_REGISTER_ERROR;
@@ -192,16 +181,15 @@ static INT_PTR Service_Register(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
+EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 {
-	GCSESSION *gcw = (GCSESSION *)lParam;
 	if (gcw == NULL)
 		return GC_NEWSESSION_ERROR;
 
 	if (gcw->cbSize != sizeof(GCSESSION))
 		return GC_NEWSESSION_WRONGVER;
 
-	mir_cslock lck(cs);
+	mir_cslock lck(csChat);
 	MODULEINFO *mi = chatApi.MM_FindModule(gcw->pszModule);
 	if (mi == NULL)
 		return GC_NEWSESSION_ERROR;
@@ -399,9 +387,8 @@ static void AddUser(GCEVENT *gce)
 		chatApi.OnNewUser(si, ui);
 }
 
-static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
+EXTERN_C MIR_APP_DLL(int) Chat_Event(int sessionEvent, GCEVENT *gce)
 {
-	GCEVENT *gce = (GCEVENT*)lParam;
 	BOOL bIsHighlighted = FALSE;
 	BOOL bRemoveFlag = FALSE;
 
@@ -418,10 +405,10 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	if (!IsEventSupported(gcd->iType))
 		return GC_EVENT_ERROR;
 
-	if (NotifyEventHooks(hHookEvent, wParam, lParam))
+	if (NotifyEventHooks(hHookEvent, 0, LPARAM(gce)))
 		return 1;
 
-	mir_cslock lck(cs);
+	mir_cslock lck(csChat);
 
 	// Do different things according to type of event
 	switch (gcd->iType) {
@@ -442,7 +429,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	case GC_EVENT_ACK:
 	case GC_EVENT_SENDMESSAGE:
 	case GC_EVENT_SETSTATUSEX:
-		return DoControl(gce, wParam);
+		return DoControl(gce, sessionEvent);
 
 	case GC_EVENT_SETCONTACTSTATUS:
 		return chatApi.SM_SetContactStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
@@ -549,15 +536,6 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	return GC_EVENT_ERROR;
 }
 
-static INT_PTR Service_GetAddEventPtr(WPARAM, LPARAM lParam)
-{
-	GCPTRS *gp = (GCPTRS *)lParam;
-
-	mir_cslock lck(cs);
-	gp->pfnAddEvent = Service_AddEvent;
-	return 0;
-}
-
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	LoadChatIcons();
@@ -573,6 +551,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.name.a = LPGEN("&Join chat");
 	mi.pszService = "GChat/JoinChat";
 	hJoinMenuItem = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, JoinChat);
 
 	SET_UID(mi, 0x72b7440b, 0xd2db, 0x4e22, 0xa6, 0xb1, 0x2, 0xd0, 0x96, 0xee, 0xad, 0x88);
 	mi.position = -2000090000;
@@ -581,6 +560,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.name.a = LPGEN("&Leave chat");
 	mi.pszService = "GChat/LeaveChat";
 	hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, LeaveChat);
 
 	chatApi.SetAllOffline(TRUE, NULL);
 	return 0;
@@ -596,19 +576,6 @@ int LoadChatModule(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
-
-	CreateServiceFunction(MS_GC_REGISTER, Service_Register);
-	CreateServiceFunction(MS_GC_NEWSESSION, Service_NewChat);
-	CreateServiceFunction(MS_GC_EVENT, Service_AddEvent);
-	CreateServiceFunction(MS_GC_GETEVENTPTR, Service_GetAddEventPtr);
-	CreateServiceFunction(MS_GC_GETINFO, Service_GetInfo);
-	CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
-
-	CreateServiceFunction("GChat/DblClickEvent", EventDoubleclicked);
-	CreateServiceFunction("GChat/PrebuildMenuEvent", PrebuildContactMenuSvc);
-	CreateServiceFunction("GChat/JoinChat", JoinChat);
-	CreateServiceFunction("GChat/LeaveChat", LeaveChat);
-	CreateServiceFunction("GChat/GetInterface", SvcGetChatManager);
 
 	chatApi.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
 	chatApi.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);

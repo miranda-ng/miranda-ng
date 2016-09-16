@@ -376,9 +376,9 @@ wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplaceP
 	return szTemp;
 }
 
-INT_PTR CIrcProto::CallChatEvent(WPARAM wParam, LPARAM lParam)
+INT_PTR CIrcProto::CallChatEvent(WPARAM wParam, GCEVENT *lParam)
 {
-	return CallServiceSync(MS_GC_EVENT, wParam, (LPARAM)lParam);
+	return Chat_Event(wParam, lParam);
 }
 
 INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* pszNick,
@@ -427,7 +427,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	else
 		gce.time = timestamp;
 	gce.bIsMe = bIsMe;
-	return CallChatEvent(0, (LPARAM)&gce);
+	return CallChatEvent(0, &gce);
 }
 
 CMStringW CIrcProto::ModeToStatus(int sMode)

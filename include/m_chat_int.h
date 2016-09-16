@@ -442,9 +442,6 @@ struct CHAT_MANAGER
 extern CHAT_MANAGER *pci;
 extern int hLangpack;
 
-__forceinline void mir_getCI(CHAT_MANAGER_INITDATA *pData)
-{
-	pci = (CHAT_MANAGER*)CallService("GChat/GetInterface", hLangpack, (LPARAM)pData);
-}
+EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pData = NULL, int = hLangpack);
 
 #endif // M_CHAT_INT_H__

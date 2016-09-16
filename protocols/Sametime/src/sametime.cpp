@@ -202,7 +202,7 @@ int CSametimeProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = MAX_MESSAGE_SIZE;
-	CallService(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+	Chat_Register(&gcr);
 	return 0;
 }
 

@@ -199,7 +199,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.pColors = colors;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
-	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
+	Chat_Register(&gcr);
 
 	HookProtoEvent(ME_GC_EVENT, &CIrcProto::GCEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
@@ -209,14 +209,14 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcw.ptszID = SERVERWINDOW;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = NEWWSTR_ALLOCA((wchar_t*)_A2T(m_network));
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	if (m_useServer && !m_hideServerWindow)
-		CallChatEvent(WINDOW_VISIBLE, (LPARAM)&gce);
+		CallChatEvent(WINDOW_VISIBLE, &gce);
 	else
-		CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
+		CallChatEvent(WINDOW_HIDDEN, &gce);
 
 	wchar_t szTemp[MAX_PATH];
 	mir_snwprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_perform.ini", m_szModuleName);

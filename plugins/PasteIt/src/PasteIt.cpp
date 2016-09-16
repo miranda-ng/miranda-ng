@@ -54,6 +54,7 @@ PLUGININFOEX pluginInfo = {
 static IconItem icon = { LPGEN("Paste It"), "PasteIt_main", IDI_MENU };
 
 int hLangpack = 0;
+CHAT_MANAGER *pci;
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD, LPVOID)
 {
@@ -146,13 +147,13 @@ void PasteIt(MCONTACT hContact, int mode)
 					GC_INFO gci = { 0 };
 					GCDEST  gcd = { szProto, NULL, GC_EVENT_SENDMESSAGE };
 					GCEVENT gce = { sizeof(gce), &gcd };
-					int cnt = (int)CallService(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)szProto);
+					int cnt = pci->SM_GetCount(szProto);
 					for (int i = 0; i < cnt; i++)
 					{
 						gci.iItem = i;
 						gci.pszModule = szProto;
 						gci.Flags = GCF_BYINDEX | GCF_HCONTACT | GCF_ID;
-						CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
+						Chat_GetInfo(&gci);
 						if (gci.hContact == hContact)
 						{
 							// In this place session was finded, gci.pszID contains
@@ -163,7 +164,7 @@ void PasteIt(MCONTACT hContact, int mode)
 							gce.dwFlags = GCEF_ADDTOLOG;
 							gce.ptszText = mir_a2u_cp(pasteToWeb->szFileLink, CP_ACP);
 							gce.time = time(NULL);
-							CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
+							Chat_Event(0, &gce);
 							mir_free((void*)gce.ptszText);
 							break;
 						}
@@ -399,6 +400,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
+	pci = Chat_GetInterface();
 
 	Icon_Register(hInst, LPGEN("Paste It"), &icon, 1);
 

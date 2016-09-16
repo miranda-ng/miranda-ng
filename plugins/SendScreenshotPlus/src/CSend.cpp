@@ -222,14 +222,14 @@ void CSend::svcSendMsgExit(const char* szMessage)
 		}
 		GC_INFO gci = { 0 };
 		int res = GC_RESULT_NOSESSION;
-		int cnt = (int)CallService(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_pszProto);
+		int cnt = pci->SM_GetCount(m_pszProto);
 
 		//loop on all gc session to get the right (save) ptszID for the chatroom from m_hContact
 		gci.pszModule = m_pszProto;
 		for (int i = 0; i < cnt; i++) {
 			gci.iItem = i;
 			gci.Flags = GCF_BYINDEX | GCF_HCONTACT | GCF_ID;
-			CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
+			Chat_GetInfo(&gci);
 			if (gci.hContact == m_hContact) {
 				GCDEST gcd = { m_pszProto, gci.pszID, GC_EVENT_SENDMESSAGE };
 				GCEVENT gce = { sizeof(gce), &gcd };
@@ -239,7 +239,7 @@ void CSend::svcSendMsgExit(const char* szMessage)
 				gce.time = time(NULL);
 
 				//* returns 0 on success or error code on failure
-				res = 200 + (int)CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
+				res = 200 + (int)Chat_Event(0, &gce);
 				break;
 			}
 		}

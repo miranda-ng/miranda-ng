@@ -42,7 +42,7 @@ static int message_Send(lua_State *L)
 		gce.ptszText = mir_utf8decodeW(message);
 		gce.time = time(NULL);
 
-		res = CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
+		res = Chat_Event(WINDOW_VISIBLE, &gce);
 		lua_pushinteger(L, res);
 
 		mir_free((void*)gce.ptszText);

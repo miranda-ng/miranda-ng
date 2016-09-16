@@ -120,7 +120,7 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 	gcs.ptszName = tszConfTitle;
 	gcs.dwItemData = 0;
 
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcs);
+	Chat_NewSession(&gcs);
 	mir_free(tszConfTitle);
 
 	//add a group
@@ -132,7 +132,7 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszStatus = TranslateT("Normal");
 
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	// add users
 	gcd.iType = GC_EVENT_JOIN;
@@ -147,7 +147,7 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 		gce.ptszUID = tszUserId;
 		gce.bIsMe = (strcmp(((mwLoginInfo*)user->data)->login_id, proto->my_login_info->login_id) == 0);
 
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM) &gce);
+		Chat_Event(0,  &gce);
 
 		mir_free(tszUserName);
 		mir_free(tszUserId);
@@ -155,10 +155,10 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 
 	// finalize setup (show window)
 	gcd.iType = GC_EVENT_CONTROL;
-	CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
+	Chat_Event(SESSION_INITDONE, &gce);
 
 	gcd.iType = GC_EVENT_CONTROL;
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+	Chat_Event(SESSION_ONLINE, &gce);
 
 	if (conf == proto->my_conference)
 		proto->ClearInviteQueue();
@@ -182,8 +182,8 @@ void mwServiceConf_conf_closed(mwConference* conf, guint32 reason)
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 
-	CallService(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
-	CallService(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+	Chat_Event(SESSION_OFFLINE, &gce);
+	Chat_Event(SESSION_TERMINATE, &gce);
 	mir_free(tszConfId);
 }
 
@@ -224,7 +224,7 @@ void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo *user)
 	gce.ptszStatus = L"Normal";
 	gce.time = (DWORD)time(0);
 
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM) &gce);
+	Chat_Event(0,  &gce);
 
 	mir_free(tszUserName);
 	mir_free(tszUserId);
@@ -252,7 +252,7 @@ void mwServiceConf_on_peer_parted(mwConference* conf, mwLoginInfo* user)
 	gce.ptszUID = tszUserId;
 	gce.ptszStatus = L"Normal";
 	gce.time = (DWORD)time(0);
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 }
 
 /** triggered when someone says something */
@@ -278,7 +278,7 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 	gce.ptszUID = tszUserId;
 	gce.time = (DWORD)time(0);
 
-	CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	mir_free(textT);
 	mir_free(tszUserName);
@@ -324,7 +324,7 @@ void CSametimeProto::TerminateConference(char* name)
 
 			GCEVENT gce = { sizeof(gce), &gcd };
 			gce.dwFlags = GCEF_ADDTOLOG;
-			CallService(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+			Chat_Event(SESSION_TERMINATE, &gce);
 			
 			mir_free(idt);
 		}

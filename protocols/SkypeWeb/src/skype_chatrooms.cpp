@@ -23,7 +23,7 @@ void CSkypeProto::InitGroupChatModule()
 	gcr.iMaxText = 0;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
-	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+	Chat_Register(&gcr);
 
 	HookProtoEvent(ME_GC_EVENT, &CSkypeProto::OnGroupChatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGroupChatMenuHook);
@@ -42,12 +42,12 @@ void CSkypeProto::CloseAllChatChatSessions()
 	for (int i = 0; i < count; i++)
 	{
 		gci.iItem = i;
-		if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
+		if (!Chat_GetInfo(&gci))
 		{
 			GCDEST gcd = { m_szModuleName, gci.pszID, GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
-			CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+			Chat_Event(SESSION_OFFLINE, &gce);
+			Chat_Event(SESSION_TERMINATE, &gce);
 		}
 	}
 }
@@ -66,7 +66,7 @@ void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 	gcw.ptszID = tid;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = tname;
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	// Send setting events
 	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
@@ -74,9 +74,9 @@ void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 
 	// Create a user statuses
 	gce.ptszStatus = TranslateT("Admin");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 	gce.ptszStatus = TranslateT("User");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(NULL, &gce);
 
 	// Finish initialization
 	gcd.iType = GC_EVENT_CONTROL;
@@ -85,8 +85,8 @@ void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 
 	bool hideChats = getBool("HideChats", 1);
 
-	CallServiceSync(MS_GC_EVENT, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event((hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), &gce);
+	Chat_Event(SESSION_ONLINE, &gce);
 }
 
 void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
@@ -247,7 +247,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				gce.ptszText = tnick_new;
 				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.time = time(NULL);
-				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+				Chat_Event(0, &gce);
 
 				if (!reset)
 					db_set_ws(hChatContact, "UsersNicks", _T2A(gch->ptszUID), tnick_new);
@@ -288,8 +288,8 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 		GCEVENT gce = { sizeof(gce), &gcd };
 		gce.time = ::time(NULL);
 
-		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
-		CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, reinterpret_cast<LPARAM>(&gce));
+		Chat_Event(SESSION_OFFLINE, &gce);
+		Chat_Event(SESSION_TERMINATE, &gce);
 
 		SendRequest(new KickUserRequest(_T2A(idT), li.szSkypename, li));
 
@@ -422,7 +422,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			gce.time = time(NULL);
 			gce.bIsMe = IsMe(id);
 			gce.ptszStatus = TranslateT("Admin");
-			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+			Chat_Event(0, &gce);
 		}
 	}
 }
@@ -484,7 +484,7 @@ void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, 
 
 	if (isLoading) gce.dwFlags = GCEF_NOTNOTIFY;
 
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 }
 
 void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
@@ -524,7 +524,7 @@ void CSkypeProto::RenameChat(const char *chat_id, const char *name)
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_CHANGESESSIONAME };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszText = tname;
-	CallService(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const char *initiator)
@@ -538,7 +538,7 @@ void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const 
 	gce.ptszUID = tname;
 	gce.ptszNick = tname;
 	gce.ptszText = ttopic;
-	CallService(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 bool CSkypeProto::IsChatContact(const wchar_t *chat_id, const char *id)
@@ -553,7 +553,7 @@ char *CSkypeProto::GetChatUsers(const wchar_t *chat_id)
 	gci.Flags = GCF_USERS;
 	gci.pszModule = m_szModuleName;
 	gci.pszID = chat_id;
-	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
+	Chat_GetInfo(&gci);
 	return gci.pszUsers;
 }
 
@@ -610,7 +610,7 @@ void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const 
 	gce.bIsMe = IsMe(id);
 	gce.ptszStatus = TranslateW(role);
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, const char *name, bool isKick, const char *initiator)
@@ -640,7 +640,7 @@ void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, con
 		gce.bIsMe = IsMe(id);
 	}
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	Chat_Event(0, &gce);
 }
 
 INT_PTR CSkypeProto::SvcCreateChat(WPARAM, LPARAM)

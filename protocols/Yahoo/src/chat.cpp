@@ -142,7 +142,7 @@ void CYahooProto::ChatRegister(void)
 	gcr.pColors = (COLORREF*)crCols;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
-	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+	Chat_Register(&gcr);
 
 	HookProtoEvent(ME_GC_EVENT, &CYahooProto::OnGCEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CYahooProto::OnGCMenuHook);
@@ -157,21 +157,21 @@ void CYahooProto::ChatStart(const char* room)
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = idt;
 	gcw.ptszID = idt;
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+	Chat_NewSession(&gcw);
 
 	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszStatus = TranslateT("Me");
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	gcd.iType = GC_EVENT_ADDGROUP;
 	gce.ptszStatus = TranslateT("Others");
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	gcd.iType = GC_EVENT_CONTROL;
-	CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
+	Chat_Event(SESSION_INITDONE, &gce);
+	Chat_Event(SESSION_ONLINE, &gce);
+	Chat_Event(WINDOW_VISIBLE, &gce);
 
 	mir_free(idt);
 }
@@ -183,8 +183,8 @@ void CYahooProto::ChatLeave(const char* room)
 	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.dwFlags = GCEF_REMOVECONTACT;
-	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+	Chat_Event(SESSION_OFFLINE, &gce);
+	Chat_Event(SESSION_TERMINATE, &gce);
 
 	mir_free(idt);
 }
@@ -212,7 +212,7 @@ void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const wc
 	gce.ptszStatus = gce.bIsMe ? TranslateT("Me") : TranslateT("Others");
 	gce.ptszText = msg;
 	gce.time = time(NULL);
-	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	Chat_Event(0, &gce);
 
 	mir_free(snt);
 	mir_free(idt);

@@ -409,7 +409,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 	case WM_CLOSE:
 		{
-			OptsPagesData* optsPagesData = (OptsPagesData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			OptsPagesData *optsPagesData = (OptsPagesData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			delete optsPagesData;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			break;

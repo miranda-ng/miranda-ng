@@ -96,13 +96,13 @@ VOID CALLBACK OnlineNotifTimerProc3(HWND, UINT, UINT_PTR idEvent, DWORD)
 	CMStringW name = GetWord(ppro->m_channelsToWho.c_str(), 0);
 	if (name.IsEmpty()) {
 		ppro->m_channelsToWho = L"";
-		int count = (int)CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)ppro->m_szModuleName);
+		int count = pci->SM_GetCount(ppro->m_szModuleName);
 		for (int i = 0; i < count; i++) {
 			GC_INFO gci = { 0 };
 			gci.Flags = GCF_BYINDEX | GCF_NAME | GCF_TYPE | GCF_COUNT;
 			gci.iItem = i;
 			gci.pszModule = ppro->m_szModuleName;
-			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci) && gci.iType == GCW_CHATROOM)
+			if (!Chat_GetInfo(&gci) && gci.iType == GCW_CHATROOM)
 			if (gci.iCount <= ppro->m_onlineNotificationLimit)
 				ppro->m_channelsToWho += CMStringW(gci.pszName) + L" ";
 		}
@@ -376,7 +376,7 @@ bool CIrcProto::OnIrc_QUIT(const CIrcMessage* pmsg)
 		if (pmsg->prefix.sNick == m_info.sNick) {
 			GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			CallChatEvent(SESSION_OFFLINE, (LPARAM)&gce);
+			CallChatEvent(SESSION_OFFLINE, &gce);
 		}
 	}
 	else ShowMessage(pmsg);
@@ -393,7 +393,7 @@ bool CIrcProto::OnIrc_PART(const CIrcMessage* pmsg)
 			CMStringW S = MakeWndID(pmsg->parameters[0].c_str());
 			GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			CallChatEvent(SESSION_OFFLINE, (LPARAM)&gce);
+			CallChatEvent(SESSION_OFFLINE, &gce);
 		}
 	}
 	else ShowMessage(pmsg);
@@ -412,7 +412,7 @@ bool CIrcProto::OnIrc_KICK(const CIrcMessage* pmsg)
 		CMStringW S = MakeWndID(pmsg->parameters[0].c_str());
 		GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
-		CallChatEvent(SESSION_OFFLINE, (LPARAM)&gce);
+		CallChatEvent(SESSION_OFFLINE, &gce);
 
 		if (m_rejoinIfKicked) {
 			CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, pmsg->parameters[0].c_str(), NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
@@ -626,7 +626,7 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage* pmsg)
 					str.Delete(0, 1);
 					CMStringW Wnd = MakeWndID(str.c_str());
 					gci.pszID = Wnd.c_str();
-					if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci) && gci.iType == GCW_CHATROOM)
+					if (!Chat_GetInfo(&gci) && gci.iType == GCW_CHATROOM)
 						S2 = GetWord(gci.pszID, 0);
 					else
 						S2 = L"";
@@ -1278,7 +1278,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 			gcw.ptszID = sID.c_str();
 			gcw.pszModule = m_szModuleName;
 			gcw.ptszName = sChanName;
-			if (!CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw)) {
+			if (!Chat_NewSession(&gcw)) {
 				DBVARIANT dbv;
 				GCDEST gcd = { m_szModuleName, sID.c_str(), GC_EVENT_ADDGROUP };
 				GCEVENT gce = { sizeof(gce), &gcd };
@@ -1287,17 +1287,17 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 
 				// register the statuses
 				gce.ptszStatus = L"Owner";
-				CallChatEvent(0, (LPARAM)&gce);
+				CallChatEvent(0, &gce);
 				gce.ptszStatus = L"Admin";
-				CallChatEvent(0, (LPARAM)&gce);
+				CallChatEvent(0, &gce);
 				gce.ptszStatus = L"Op";
-				CallChatEvent(0, (LPARAM)&gce);
+				CallChatEvent(0, &gce);
 				gce.ptszStatus = L"Halfop";
-				CallChatEvent(0, (LPARAM)&gce);
+				CallChatEvent(0, &gce);
 				gce.ptszStatus = L"Voice";
-				CallChatEvent(0, (LPARAM)&gce);
+				CallChatEvent(0, &gce);
 				gce.ptszStatus = L"Normal";
-				CallChatEvent(0, (LPARAM)&gce);
+				CallChatEvent(0, &gce);
 				{
 					int k = 0;
 					CMStringW sTemp = GetWord(sNamesList.c_str(), k);
@@ -1333,7 +1333,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 						}
 						gce.bIsMe = bIsMe;
 						gce.time = bIsMe ? time(0) : 0;
-						CallChatEvent(0, (LPARAM)&gce);
+						CallChatEvent(0, &gce);
 						DoEvent(GC_EVENT_SETCONTACTSTATUS, sChanName, sTemp.c_str(), NULL, NULL, NULL, ID_STATUS_ONLINE, FALSE, FALSE);
 						// fix for networks like freshirc where they allow more than one prefix
 						if (PrefixToStatus(sTemp2[0]) != L"Normal") {
@@ -1407,17 +1407,17 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 						save += GetWordAddress(dbv.ptszVal, k);
 						switch (command[0]) {
 						case 'M':
-							CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
+							CallChatEvent(WINDOW_HIDDEN, &gce);
 							break;
 						case 'X':
-							CallChatEvent(WINDOW_MAXIMIZE, (LPARAM)&gce);
+							CallChatEvent(WINDOW_MAXIMIZE, &gce);
 							break;
 						default:
-							CallChatEvent(SESSION_INITDONE, (LPARAM)&gce);
+							CallChatEvent(SESSION_INITDONE, &gce);
 							break;
 						}
 					}
-					else CallChatEvent(SESSION_INITDONE, (LPARAM)&gce);
+					else CallChatEvent(SESSION_INITDONE, &gce);
 
 					if (save.IsEmpty())
 						db_unset(NULL, m_szModuleName, "JTemp");
@@ -1425,11 +1425,11 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 						setWString("JTemp", save.c_str());
 					db_free(&dbv);
 				}
-				else CallChatEvent(SESSION_INITDONE, (LPARAM)&gce);
+				else CallChatEvent(SESSION_INITDONE, &gce);
 
 				gcd.iType = GC_EVENT_CONTROL;
 				gce.pDest = &gcd;
-				CallChatEvent(SESSION_ONLINE, (LPARAM)&gce);
+				CallChatEvent(SESSION_ONLINE, &gce);
 			}
 		}
 	}
@@ -2283,7 +2283,7 @@ void CIrcProto::OnIrcDisconnected()
 
 	GCDEST gcd = { m_szModuleName, 0, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallChatEvent(SESSION_OFFLINE, (LPARAM)&gce);
+	CallChatEvent(SESSION_OFFLINE, &gce);
 
 	if (!Miranda_Terminated())
 		CList_SetAllOffline(m_disconnectDCCChats);
@@ -2344,13 +2344,13 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	}
 
 	if (m_rejoinChannels) {
-		int count = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
+		int count = pci->SM_GetCount(m_szModuleName);
 		for (int i = 0; i < count; i++) {
 			GC_INFO gci = { 0 };
 			gci.Flags = GCF_BYINDEX | GCF_DATA | GCF_NAME | GCF_TYPE;
 			gci.iItem = i;
 			gci.pszModule = m_szModuleName;
-			if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci) && gci.iType == GCW_CHATROOM) {
+			if (!Chat_GetInfo(&gci) && gci.iType == GCW_CHATROOM) {
 				CHANNELINFO *wi = (CHANNELINFO*)gci.dwItemData;
 				if (wi && wi->pszPassword)
 					PostIrcMessage(L"/JOIN %s %s", gci.pszName, wi->pszPassword);
@@ -2364,7 +2364,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	{
 		GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
 		GCEVENT gce = { sizeof(gce), &gcd };
-		CallChatEvent(SESSION_ONLINE, (LPARAM)&gce);
+		CallChatEvent(SESSION_ONLINE, &gce);
 	}
 
 	CallFunctionAsync(sttMainThrdOnConnect, this);

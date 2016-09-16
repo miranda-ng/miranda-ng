@@ -155,7 +155,7 @@ static void OnLoadSettings()
 int Chat_Load()
 {
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENW("Messaging") L"/" LPGENW("Group chats"), FONTMODE_SKIP };
-	mir_getCI(&data);
+	pci = Chat_GetInterface(&data);
 	saveCI = *pci;
 
 	pci->OnCreateModule = OnCreateModule;

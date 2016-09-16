@@ -30,6 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "Main.h"
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
+CHAT_MANAGER    *pci;
 CLIST_INTERFACE *pcli;
 HINSTANCE		g_hSendSS;
 MGLOBAL			g_myGlobals;
@@ -258,6 +259,7 @@ ATOM g_clsTargetHighlighter = 0;
 DLL_EXPORT int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 
 	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);

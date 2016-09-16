@@ -131,7 +131,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	return 1;
 }
 
-INT_PTR EventDoubleclicked(WPARAM,LPARAM lParam)
+static INT_PTR EventDoubleclicked(WPARAM,LPARAM lParam)
 {
 	return RoomDoubleclicked((WPARAM)((CLISTEVENT*)lParam)->hContact, 0);
 }
@@ -193,11 +193,6 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-INT_PTR PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam)
-{
-	return PrebuildContactMenu(wParam, lParam);
-}
-
 BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* fmt, ...)
 {
 	wchar_t szBuf[4096];
@@ -217,6 +212,10 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* 
 	cle.hIcon = hIcon;
 	cle.pszService = "GChat/DblClickEvent" ;
 	cle.ptszTooltip = TranslateW(szBuf);
+
+	if (!ServiceExists(cle.pszService))
+		CreateServiceFunction(cle.pszService, &EventDoubleclicked);
+
 	if (type) {
 		if (!cli.pfnGetEvent(hContact, 0))
 			cli.pfnAddEvent(&cle);

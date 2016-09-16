@@ -34,7 +34,7 @@ DEFINE_PROPERTYKEY(PKEY_Device_FriendlyName, 0xa45c254e, 0xdf1c, 0x4efd, 0x80, 0
 #include <m_message.h>
 #include <m_avatars.h>
 #include <m_skin.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_genmenu.h>
 #include <m_clc.h>
 #include <m_clist.h>
