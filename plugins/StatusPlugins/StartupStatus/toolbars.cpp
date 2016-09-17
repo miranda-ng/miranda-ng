@@ -43,7 +43,7 @@ void RemoveTopToolbarButtons()
 	ttbButtons.destroy();
 }
 
-int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
+int CreateTopToolbarButtons(WPARAM, LPARAM)
 {
 	if (iconList[0].hIcolib == NULL)
 		Icon_Register(hInst, "Toolbar/StartupStatus", iconList, _countof(iconList));

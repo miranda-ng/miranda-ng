@@ -193,14 +193,14 @@ int GetProfile(int profile, TSettingsList& arSettings)
 	return (arSettings.getCount() == 0) ? -1 : 0;
 }
 
-static void CALLBACK releaseTtbTimerFunction(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
+static void CALLBACK releaseTtbTimerFunction(HWND, UINT, UINT_PTR, DWORD)
 {
 	KillTimer(NULL, releaseTtbTimerId);
 	for (int i = 0; i < ttbButtonCount; i++)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)ttbButtons[i], 0);
 }
 
-INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam)
+INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM)
 {
 	// wParam == profile no.
 	int profileCount = GetProfileCount(0, 0);
@@ -240,7 +240,7 @@ static UINT GetFsModifiers(WORD wHotKey)
 	return fsm;
 }
 
-static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 {
 	if (msg == WM_HOTKEY) {
 		for (int i = 0; i < hkiCount; i++)

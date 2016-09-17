@@ -21,21 +21,14 @@
 #include "startupstatus.h"
 #include "../resource.h"
 
-// for db cleanup
-static int settingIndex;
-
 // prototypes
 INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 
-static int CountSettings(const char *szSetting,LPARAM lParam);
-static int DeleteSetting(const char *szSetting,LPARAM lParam);
-static int ClearDatabase(char* filter);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static TSettingsList* GetCurrentProtoSettings()
+TSettingsList* GetCurrentProtoSettings()
 {
 	int count;
 	PROTOACCOUNT **protos;
@@ -500,6 +493,49 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 
 ///////////////////////////////////////////////////////////////////////////////
 
+static int CountSettings(const char *, LPARAM lParam)
+{
+	*(int *)lParam++;
+
+	return 0;
+}
+
+// for db cleanup
+static int settingIndex;
+
+static int DeleteSetting(const char *szSetting, LPARAM lParam)
+{
+	char** settings = *(char ***)lParam;
+	settings[settingIndex] = (char*)malloc(mir_strlen(szSetting) + 1);
+	mir_strcpy(settings[settingIndex], szSetting);
+	settingIndex++;
+
+	return 0;
+}
+
+static int ClearDatabase(char* filter)
+{
+	settingIndex = 0;
+
+	int settingCount = 0;
+	db_enum_settings(NULL, CountSettings, MODULENAME, &settingCount);
+
+	char **settings = (char**)malloc(settingCount * sizeof(char*));
+	db_enum_settings(NULL, DeleteSetting, MODULENAME, &settings);
+
+	for (int i = 0; i < settingCount; i++) {
+		if ((filter == NULL) || (!strncmp(filter, settings[i], mir_strlen(filter))))
+			db_unset(NULL, MODULENAME, settings[i]);
+		free(settings[i]);
+	}
+	free(settings);
+	// < v0.0.0.9
+	if (filter == NULL)	db_unset(NULL, "AutoAway", "Confirm");
+
+	return 0;
+}
+
+
 static OBJLIST<PROFILEOPTIONS> arProfiles(5);
 
 static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
@@ -648,8 +684,8 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				if (ps->szMsg != NULL)
 					SetDlgItemText(hwndDlg, IDC_STATUSMSG, ps->szMsg);
 
-				bStatusMsg = ( (((CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND&~PF1_INDIVMODEMSG)) &&
-					(CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(ps->status))) || (ps->status == ID_STATUS_CURRENT) || (ps->status == ID_STATUS_LAST));
+				bStatusMsg = ( (((CallProtoService(ps->szName, PS_GETCAPS, PFLAGNUM_1, 0)&PF1_MODEMSGSEND&~PF1_INDIVMODEMSG)) &&
+					(CallProtoService(ps->szName, PS_GETCAPS, PFLAGNUM_3, 0)&Proto_Status2Flag(ps->status))) || (ps->status == ID_STATUS_CURRENT) || (ps->status == ID_STATUS_LAST));
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIRANDAMSG), bStatusMsg);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMMSG), bStatusMsg);
@@ -812,12 +848,12 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			char setting[128];
-			int i, oldCount = db_get_w(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
-			for (i=0; i < oldCount; i++) {
+			int oldCount = db_get_w(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
+			for (int i=0; i < oldCount; i++) {
 				mir_snprintf(setting, "%d_", i);
 				ClearDatabase(setting);
 			}
-			for (i=0; i < arProfiles.getCount(); i++) {
+			for (int i=0; i < arProfiles.getCount(); i++) {
 				PROFILEOPTIONS& po = arProfiles[i];
 				db_set_b(NULL, MODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), po.showDialog);
 				db_set_b(NULL, MODULENAME, OptName(i, SETTING_CREATETTBBUTTON), po.createTtb);
@@ -889,7 +925,7 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lP
 	return 0;
 }
 
-int OptionsInit(WPARAM wparam,LPARAM lparam)
+int OptionsInit(WPARAM wparam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
@@ -906,45 +942,6 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUSPROFILES);
 	odp.pfnDlgProc = StatusProfilesOptDlgProc;
 	Options_AddPage(wparam,&odp);
-	return 0;
-}
-
-static int ClearDatabase(char* filter)
-{
-	settingIndex = 0;
-
-	int settingCount = 0;
-	db_enum_settings(NULL, CountSettings, MODULENAME, &settingCount);
-
-	char **settings = (char**)malloc(settingCount*sizeof(char*));
-	db_enum_settings(NULL, DeleteSetting, MODULENAME, &settings);
-
-	for (int i=0; i < settingCount; i++) {
-		if ((filter == NULL) || (!strncmp(filter, settings[i], mir_strlen(filter))))
-			db_unset(NULL, MODULENAME, settings[i]);
-		free(settings[i]);
-	}
-	free(settings);
-	// < v0.0.0.9
-	if (filter == NULL)	db_unset(NULL, "AutoAway", "Confirm");
-
-	return 0;
-}
-
-static int CountSettings(const char *szSetting,LPARAM lParam)
-{
-	*(int *)lParam += 1;
-
-	return 0;
-}
-
-static int DeleteSetting(const char *szSetting,LPARAM lParam)
-{
-	char** settings = (char**)*(char ***)lParam;
-	settings[settingIndex] = ( char* )malloc(mir_strlen(szSetting)+1);
-	mir_strcpy(settings[settingIndex], szSetting);
-	settingIndex += 1;
-
 	return 0;
 }
 

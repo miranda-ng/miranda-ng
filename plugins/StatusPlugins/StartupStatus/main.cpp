@@ -37,7 +37,7 @@ int CSModuleLoaded( WPARAM, LPARAM );
 /////////////////////////////////////////////////////////////////////////////////////////
 // dll entry point
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -59,7 +59,7 @@ PLUGININFOEX pluginInfoEx={
 	{ 0x4b733944, 0x5a70, 0x4b52, { 0xab, 0x2d, 0x68, 0xb1, 0xef, 0x38, 0xff, 0xe8 } } // {4B733944-5A70-4b52-AB2D-68B1EF38FFE8}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }

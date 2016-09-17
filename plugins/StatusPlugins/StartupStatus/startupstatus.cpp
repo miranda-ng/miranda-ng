@@ -204,7 +204,7 @@ int OnAccChanged(WPARAM wParam, LPARAM lParam)
 }
 
 // 'allow override'
-static int ProcessProtoAck(WPARAM wParam, LPARAM lParam)
+static int ProcessProtoAck(WPARAM, LPARAM lParam)
 {
 	// 'something' made a status change
 	ACKDATA *ack = (ACKDATA*)lParam;
@@ -224,7 +224,7 @@ static int ProcessProtoAck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int StatusChange(WPARAM wParam, LPARAM lParam)
+static int StatusChange(WPARAM, LPARAM lParam)
 {
 	// change by menu
 	if (!db_get_b(NULL, MODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
@@ -249,7 +249,7 @@ static int StatusChange(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int CSStatusChangeEx(WPARAM wParam, LPARAM lParam)
+static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 {
 	// another status plugin made the change
 	if (!db_get_b(NULL, MODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
@@ -277,7 +277,7 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static VOID CALLBACK SetStatusTimed(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
+static void CALLBACK SetStatusTimed(HWND, UINT, UINT_PTR, DWORD)
 {
 	KillTimer(NULL, setStatusTimerId);
 	UnhookEvent(hProtoAckHook);
@@ -307,11 +307,11 @@ static int OnOkToExit(WPARAM, LPARAM)
 		mir_snprintf(lastMsg, "%s%s", PREFIX_LASTMSG, pa->szModuleName);
 		db_unset(NULL, MODULENAME, lastMsg);
 
-		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG))
 			continue;
 
 		int status = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0) & Proto_Status2Flag(status)))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)))
 			continue;
 
 		// NewAwaySys
@@ -333,7 +333,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 
 	if (db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1) || db_get_b(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0)) {
 		if (ServiceExists(MS_CLIST_SETSTATUSMODE))
-			CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)ID_STATUS_OFFLINE, 0);
+			CallService(MS_CLIST_SETSTATUSMODE, ID_STATUS_OFFLINE, 0);
 		else
 			log_debugA("StartupStatus: MS_CLIST_SETSTATUSMODE not available!");
 	}
@@ -341,7 +341,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 	return 0;
 }
 
-static int OnShutdown(WPARAM wParam, LPARAM lParam)
+static int OnShutdown(WPARAM, LPARAM)
 {
 	DeinitProfilesModule();
 
@@ -387,7 +387,7 @@ static int OnShutdown(WPARAM wParam, LPARAM lParam)
 }
 
 /* Window proc for poweroff event */
-static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_ENDSESSION:
@@ -403,7 +403,7 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	return TRUE;
 }
 
-int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
+int CSModuleLoaded(WPARAM, LPARAM)
 {
 	protoList = (OBJLIST<PROTOCOLSETTINGEX>*)&startupSettings;
 
