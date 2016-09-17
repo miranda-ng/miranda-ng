@@ -123,7 +123,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		if (!ret || !mir_wstrcmp(dbvOldHash.ptszVal, L"-")) {
 			//avoid duplicate "removed avatar" notifications
 			//do not notify on an empty profile
-			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Removed avatar, no avatar before... skipping"));
+			ShowDebugPopup(hContact, L"AVH Debug", L"Removed avatar, no avatar before... skipping");
 			db_free(&dbvOldHash);
 			return 0;
 		}
@@ -138,7 +138,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 	else {
 		if (ret && !mir_wstrcmp(dbvOldHash.ptszVal, avatar->hash)) {
 			// same avatar hash, skipping
-			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Hashes are the same... skipping"));
+			ShowDebugPopup(hContact, L"AVH Debug", L"Hashes are the same... skipping");
 			db_free(&dbvOldHash);
 			return 0;
 		}
@@ -154,7 +154,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 					if (CopyImageFile(avatar->filename, history_filename))
 						ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), history_filename);
 					else
-						ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), history_filename);
+						ShowDebugPopup(hContact, L"AVH Debug: File copied successfully", history_filename);
 
 					MCONTACT hMetaContact = db_mc_getMeta(hContact);
 					if (hMetaContact && ContactEnabled(hMetaContact, "LogToDisk", AVH_DEF_LOGTOHISTORY)) {
@@ -164,7 +164,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 						if (CopyImageFile(avatar->filename, filename))
 							ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), filename);
 						else
-							ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), filename);
+							ShowDebugPopup(hContact, L"AVH Debug: File copied successfully", filename);
 					}
 				}
 			}
@@ -193,7 +193,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 					if (CopyImageFile(avatar->filename, history_filename))
 						ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), history_filename);
 					else
-						ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), history_filename);
+						ShowDebugPopup(hContact, L"AVH Debug: File copied successfully", history_filename);
 				}
 
 				if (opts.log_per_contact_folders) {
