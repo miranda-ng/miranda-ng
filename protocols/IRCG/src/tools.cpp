@@ -376,28 +376,19 @@ wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplaceP
 	return szTemp;
 }
 
-INT_PTR CIrcProto::CallChatEvent(WPARAM wParam, GCEVENT *lParam)
-{
-	return Chat_Event(wParam, lParam);
-}
-
 INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* pszNick,
 	const wchar_t* pszText, const wchar_t* pszStatus, const wchar_t* pszUserInfo,
 	DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe, time_t timestamp)
 {
 	GCDEST gcd = { m_szModuleName, NULL, iEvent };
 	CMStringW sID;
-	CMStringW sText = L"";
+	CMStringW sText;
 
 	if (iEvent == GC_EVENT_INFORMATION && bIsMe && !bEcho)
 		return false;
 
-	if (pszText) {
-		if (iEvent != GC_EVENT_SENDMESSAGE)
-			sText = DoColorCodes(pszText, FALSE, TRUE);
-		else
-			sText = pszText;
-	}
+	if (pszText)
+		sText = DoColorCodes(pszText, FALSE, TRUE);
 
 	if (pszWindow) {
 		if (mir_wstrcmpi(pszWindow, SERVERWINDOW))
@@ -408,7 +399,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	}
 	else gcd.ptszID = NULL;
 
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.ptszStatus = pszStatus;
 	gce.dwFlags = (bAddToLog) ? GCEF_ADDTOLOG : 0;
 	gce.ptszNick = pszNick;
@@ -427,7 +418,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	else
 		gce.time = timestamp;
 	gce.bIsMe = bIsMe;
-	return CallChatEvent(0, &gce);
+	return Chat_Event(&gce);
 }
 
 CMStringW CIrcProto::ModeToStatus(int sMode)
@@ -542,7 +533,8 @@ int CIrcProto::SetChannelSBText(CMStringW sWindow, CHANNELINFO * wi)
 	if (wi->pszTopic)
 		sTemp += wi->pszTopic;
 	sTemp = DoColorCodes(sTemp.c_str(), TRUE, FALSE);
-	return DoEvent(GC_EVENT_SETSBTEXT, sWindow.c_str(), NULL, sTemp.c_str(), NULL, NULL, NULL, FALSE, FALSE, 0);
+	Chat_SetStatusbarText(m_szModuleName, sWindow, sTemp);
+	return 0;
 }
 
 CMStringW CIrcProto::MakeWndID(const wchar_t* sWindow)
@@ -552,11 +544,11 @@ CMStringW CIrcProto::MakeWndID(const wchar_t* sWindow)
 	return CMStringW(buf);
 }
 
-bool CIrcProto::FreeWindowItemData(CMStringW window, CHANNELINFO* wis)
+bool CIrcProto::FreeWindowItemData(CMStringW window, CHANNELINFO *wis)
 {
 	CHANNELINFO *wi;
 	if (!wis)
-		wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, window.c_str(), NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
+		wi = (CHANNELINFO*)Chat_GetUserInfo(m_szModuleName, window);
 	else
 		wi = wis;
 	if (wi) {
@@ -572,7 +564,7 @@ bool CIrcProto::FreeWindowItemData(CMStringW window, CHANNELINFO* wis)
 
 bool CIrcProto::AddWindowItemData(CMStringW window, const wchar_t* pszLimit, const wchar_t* pszMode, const wchar_t* pszPassword, const wchar_t* pszTopic)
 {
-	CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, window.c_str(), NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
+	CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, window);
 	if (wi) {
 		if (pszLimit) {
 			wi->pszLimit = (wchar_t*)realloc(wi->pszLimit, sizeof(wchar_t)*(mir_wstrlen(pszLimit) + 1));

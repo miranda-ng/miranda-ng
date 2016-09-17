@@ -74,7 +74,7 @@ int WhatsAppProto::OnEvent(PROTOEVENTTYPE evType, WPARAM, LPARAM)
 
 	case EV_PROTO_ONLOAD:
 		// Register group chat
-		GCREGISTER gcr = { sizeof(gcr) };
+		GCREGISTER gcr = {};
 		gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 		gcr.ptszDispName = m_tszUserName;
 		gcr.pszModule = m_szModuleName;

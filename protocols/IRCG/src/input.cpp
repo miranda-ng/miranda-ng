@@ -218,11 +218,9 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 	CMStringW therest = GetWordAddress(text, 4);
 
 	if (command == L"/servershow" || command == L"/serverhide") {
-		if (m_useServer) {
-			GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
-			GCEVENT gce = { sizeof(gce), &gcd };
-			CallChatEvent(command == L"/servershow" ? WINDOW_VISIBLE : WINDOW_HIDDEN, &gce);
-		}
+		if (m_useServer)
+			Chat_Control(m_szModuleName, SERVERWINDOW, command == L"/servershow" ? WINDOW_VISIBLE : WINDOW_HIDDEN);
+
 		return true;
 	}
 
@@ -250,9 +248,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		else
 			S = MakeWndID(window);
 
-		GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
-		GCEVENT gce = { sizeof(gce), &gcd };
-		CallChatEvent(WINDOW_CLEARLOG, &gce);
+		Chat_Control(m_szModuleName, S, WINDOW_CLEARLOG);
 		return true;
 	}
 
@@ -466,7 +462,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		PostIrcMessage(L"/PART %s", window);
 
 		if ((one.IsEmpty() || !IsChannel(one))) {
-			CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
+			CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, window);
 			if (wi && wi->pszPassword)
 				PostIrcMessage(L"/JOIN %s %s", window, wi->pszPassword);
 			else
@@ -474,10 +470,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			return true;
 		}
 
-		CMStringW S = MakeWndID(window);
-		GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
-		GCEVENT gce = { sizeof(gce), &gcd };
-		CallChatEvent(SESSION_TERMINATE, &gce);
+		Chat_Terminate(m_szModuleName, MakeWndID(window));
 
 		PostIrcMessage(L"/JOIN %s", GetWordAddress(text, 1));
 		return true;
@@ -518,7 +511,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 		CMStringW S = L"/ME " + DoIdentifiers(GetWordAddress(text.c_str(), 1), window);
 		S.Replace(L"%", L"%%");
-		DoEvent(GC_EVENT_SENDMESSAGE, NULL, NULL, S.c_str(), NULL, NULL, NULL, FALSE, FALSE);
+		Chat_SendUserMessage(m_szModuleName, NULL, S);
 		return true;
 	}
 
@@ -528,7 +521,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 		CMStringW S = DoIdentifiers(GetWordAddress(text.c_str(), 1), window);
 		S.Replace(L"%", L"%%");
-		DoEvent(GC_EVENT_SENDMESSAGE, NULL, NULL, S.c_str(), NULL, NULL, NULL, FALSE, FALSE);
+		Chat_SendUserMessage(m_szModuleName, NULL, S);
 		return true;
 	}
 
@@ -683,7 +676,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 					dci->iType = DCC_CHAT;
 					dci->bSender = true;
 
-					CDccSession* dcc = new CDccSession(this, dci);
+					CDccSession *dcc = new CDccSession(this, dci);
 					CDccSession* olddcc = FindDCCSession(ccNew);
 					if (olddcc)
 						olddcc->Disconnect();
@@ -844,7 +837,7 @@ bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wcha
 	if (Message.IsEmpty())
 		return 0;
 
-	CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, windowname, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
+	CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, windowname);
 	int cp = (wi) ? wi->codepage : getCodepage();
 
 	// process the message
@@ -899,7 +892,7 @@ bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wcha
 
 		if (hContact) {
 			if (flag && bDCC) {
-				CDccSession* dcc = FindDCCSession(hContact);
+				CDccSession *dcc = FindDCCSession(hContact);
 				if (dcc) {
 					FormatMsg(DoThis);
 					CMStringW mess = GetWordAddress(DoThis.c_str(), 2);

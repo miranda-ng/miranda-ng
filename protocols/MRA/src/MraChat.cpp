@@ -13,7 +13,7 @@ void CMraProto::MraChatDllError()
 
 bool CMraProto::MraChatRegister()
 {
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.iMaxText = MRA_MAXLENOFMESSAGE;
 	gcr.nColors = 0;
 	gcr.ptszDispName = m_tszUserName;
@@ -31,24 +31,23 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 		CMStringW wszEMail;
 		mraGetStringW(hContact, "e-mail", wszEMail);
 
-		GCSESSION gcw = { sizeof(gcw) };
+		GCSESSION gcw = {};
 		gcw.iType = GCW_CHATROOM;
 		gcw.pszModule = m_szModuleName;
 		gcw.ptszName = pcli->pfnGetContactDisplayName(hContact, 0);
 		gcw.ptszID = wszEMail;
 		gcw.ptszStatusbarText = L"status bar";
-		gcw.dwItemData = (DWORD)hContact;
+		gcw.pItemData = (void*)hContact;
 		if (!Chat_NewSession(&gcw)) {
 			GCDEST gcd = { m_szModuleName, wszEMail.c_str(), GC_EVENT_ADDGROUP };
-			GCEVENT gce = { sizeof(gce), &gcd };
+			GCEVENT gce = { &gcd };
 			for (int i = 0; i < _countof(lpwszStatuses); i++) {
 				gce.ptszStatus = TranslateW(lpwszStatuses[i]);
-				Chat_Event(0, &gce);
+				Chat_Event(&gce);
 			}
 
-			gcd.iType = GC_EVENT_CONTROL;
-			Chat_Event(SESSION_INITDONE, &gce);
-			Chat_Event(SESSION_ONLINE, &gce);
+			Chat_Control(m_szModuleName, wszEMail, SESSION_INITDONE);
+			Chat_Control(m_szModuleName, wszEMail, SESSION_ONLINE);
 
 			DWORD opcode = MULTICHAT_GET_MEMBERS;
 			CMStringA szEmail;
@@ -65,15 +64,11 @@ void CMraProto::MraChatSessionDestroy(MCONTACT hContact)
 	if (!bChatExists || hContact == NULL)
 		return;
 
-	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-
 	CMStringW wszEMail;
 	mraGetStringW(hContact, "e-mail", wszEMail);
-	gcd.ptszID = (LPWSTR)wszEMail.c_str();
 
-	Chat_Event(SESSION_TERMINATE, &gce);
-	Chat_Event(WINDOW_CLEARLOG, &gce);
+	Chat_Terminate(m_szModuleName, wszEMail);
+	Chat_Control(m_szModuleName, wszEMail, WINDOW_CLEARLOG);
 }
 
 INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession, int iType, DWORD dwFlags, const CMStringA &lpszUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime)
@@ -89,7 +84,7 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession,
 		gcd.ptszID = (LPWSTR)wszID.c_str();
 	}
 
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.dwFlags = dwFlags;
 	gce.ptszUID = wszUID;
 	gce.ptszStatus = lpwszStatus;
@@ -116,7 +111,7 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(MCONTACT hContactChatSession,
 			gce.ptszNick = wszUID;
 	}
 
-	return Chat_Event(0, &gce);
+	return Chat_Event(&gce);
 }
 
 INT_PTR CMraProto::MraChatSessionInvite(MCONTACT hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)

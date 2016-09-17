@@ -123,11 +123,11 @@ static int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, BOOL re
 	while (pTemp != NULL) {
 		// match
 		if ((!pszID && pTemp->iType != GCW_SERVER || !mir_wstrcmpi(pTemp->ptszID, pszID)) && !mir_strcmpi(pTemp->pszModule, pszModule)) {
-			DWORD dw = pTemp->dwItemData;
+			void *pItemData = pTemp->pItemData;
 
 			if (chatApi.OnRemoveSession)
 				chatApi.OnRemoveSession(pTemp);
-			DoEventHook(pTemp->ptszID, pTemp->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (DWORD)pTemp->dwItemData);
+			DoEventHook(pTemp->ptszID, pTemp->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (INT_PTR)pTemp->pItemData);
 
 			if (pLast == NULL)
 				chatApi.wndList = pTemp->next;
@@ -142,7 +142,8 @@ static int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, BOOL re
 			SM_FreeSession(pTemp);
 
 			if (pszID)
-				return (int)dw;
+				return (int)pItemData;
+			
 			if (pLast)
 				pTemp = pLast->next;
 			else
@@ -546,8 +547,8 @@ static BOOL SM_RemoveAll(void)
 		SESSION_INFO *pLast = chatApi.wndList->next;
 
 		if (chatApi.wndList->hWnd)
-			SendMessage(chatApi.wndList->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
-		DoEventHook(chatApi.wndList->ptszID, chatApi.wndList->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (DWORD)chatApi.wndList->dwItemData);
+			SendMessage(chatApi.wndList->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
+		DoEventHook(chatApi.wndList->ptszID, chatApi.wndList->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (INT_PTR)chatApi.wndList->pItemData);
 
 		SM_FreeSession(chatApi.wndList);
 		chatApi.wndList = pLast;

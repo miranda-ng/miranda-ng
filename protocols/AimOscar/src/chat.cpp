@@ -22,7 +22,7 @@ static const COLORREF crCols[16] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 };
 
 void CAimProto::chat_register(void)
 {
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.nColors = 16;
 	gcr.pColors = (COLORREF*)crCols;
@@ -34,11 +34,11 @@ void CAimProto::chat_register(void)
 	HookProtoEvent(ME_GC_BUILDMENU, &CAimProto::OnGCMenuHook);
 }
 
-void CAimProto::chat_start(const char* id, unsigned short exchange)
+void CAimProto::chat_start(const char *id, unsigned short exchange)
 {
 	wchar_t *idt = mir_a2u(id);
 
-	GCSESSION gcw = { sizeof(gcw) };
+	GCSESSION gcw = {};
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = idt;
@@ -46,18 +46,17 @@ void CAimProto::chat_start(const char* id, unsigned short exchange)
 	Chat_NewSession(&gcw);
 
 	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.ptszStatus = TranslateT("Me");
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	gcd.iType = GC_EVENT_ADDGROUP;
 	gce.ptszStatus = TranslateT("Others");
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
-	gcd.iType = GC_EVENT_CONTROL;
-	Chat_Event(SESSION_INITDONE, &gce);
-	Chat_Event(SESSION_ONLINE, &gce);
-	Chat_Event(WINDOW_VISIBLE, &gce);
+	Chat_Control(m_szModuleName, idt, SESSION_INITDONE);
+	Chat_Control(m_szModuleName, idt, SESSION_ONLINE);
+	Chat_Control(m_szModuleName, idt, WINDOW_VISIBLE);
 
 	setWord(find_chat_contact(id), "Exchange", exchange);
 
@@ -66,15 +65,14 @@ void CAimProto::chat_start(const char* id, unsigned short exchange)
 
 void CAimProto::chat_event(const char* id, const char* sn, int evt, const wchar_t* msg)
 {
-	wchar_t *idt = mir_a2u(id);
-	wchar_t *snt = mir_a2u(sn);
+	ptrW idt(mir_a2u(id));
+	ptrW snt(mir_a2u(sn));
 
 	MCONTACT hContact = contact_from_sn(sn);
-	wchar_t *nick = hContact ? (wchar_t*)pcli->pfnGetContactDisplayName(
-		WPARAM(hContact), 0) : snt;
+	wchar_t *nick = hContact ? (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0) : snt;
 
 	GCDEST gcd = { m_szModuleName, idt, evt };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.pDest = &gcd;
 	gce.ptszNick = nick;
@@ -83,25 +81,15 @@ void CAimProto::chat_event(const char* id, const char* sn, int evt, const wchar_
 	gce.ptszStatus = gce.bIsMe ? TranslateT("Me") : TranslateT("Others");
 	gce.ptszText = msg;
 	gce.time = time(NULL);
-	Chat_Event(0, &gce);
-
-	mir_free(snt);
-	mir_free(idt);
+	Chat_Event(&gce);
 }
 
 void CAimProto::chat_leave(const char* id)
 {
-	wchar_t *idt = mir_a2u(id);
-
-	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.pDest = &gcd;
-	Chat_Event(SESSION_OFFLINE, &gce);
-	Chat_Event(SESSION_TERMINATE, &gce);
-
-	mir_free(idt);
+	ptrW idt(mir_a2u(id));
+	Chat_Control(m_szModuleName, idt, SESSION_OFFLINE);
+	Chat_Terminate(m_szModuleName, idt);
 }
-
 
 int CAimProto::OnGCEvent(WPARAM, LPARAM lParam)
 {

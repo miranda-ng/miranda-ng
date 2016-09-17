@@ -1882,13 +1882,13 @@ LBL_InvalidCommand:
 			// modified for chat
 			{
 				GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_QUIT };
-				GCEVENT gce = { sizeof(gce), &gcd };
+				GCEVENT gce = { &gcd };
 				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.ptszNick = GetContactNameT(hContact);
 				gce.ptszUID = mir_a2u(data.userEmail);
 				gce.time = time(NULL);
 				gce.bIsMe = FALSE;
-				Chat_Event(0, &gce);
+				Chat_Event(&gce);
 				mir_free((void*)gce.ptszUID);
 			}
 
@@ -1902,14 +1902,14 @@ LBL_InvalidCommand:
 			if (info->mChatID[0] && personleft == 1) {
 				if (!mir_strcmp(data.isIdle, "1")) {
 					GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_INFORMATION };
-					GCEVENT gce = { sizeof(gce), &gcd };
+					GCEVENT gce = { &gcd };
 					gce.dwFlags = GCEF_ADDTOLOG;
 					gce.bIsMe = FALSE;
 					gce.time = time(NULL);
 					gce.ptszText = TranslateT("This conversation has been inactive, participants will be removed.");
-					Chat_Event(0, &gce);
+					Chat_Event(&gce);
 					gce.ptszText = TranslateT("To resume the conversation, please quit this session and start a new chat session.");
-					Chat_Event(0, &gce);
+					Chat_Event(&gce);
 				}
 				else {
 					if (!g_bTerminated && MessageBox(NULL,
@@ -2138,14 +2138,14 @@ LBL_InvalidCommand:
 
 				if (chatCreated) {
 					GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_JOIN };
-					GCEVENT gce = { sizeof(gce), &gcd };
+					GCEVENT gce = { &gcd };
 					gce.dwFlags = GCEF_ADDTOLOG;
 					gce.ptszNick = GetContactNameT(hContact);
 					gce.ptszUID = mir_a2u(data.userEmail);
 					gce.ptszStatus = TranslateT("Others");
 					gce.time = time(NULL);
 					gce.bIsMe = FALSE;
-					Chat_Event(0, &gce);
+					Chat_Event(&gce);
 					mir_free((void*)gce.ptszUID);
 				}
 				else MSN_ChatStart(info);

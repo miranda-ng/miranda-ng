@@ -36,7 +36,7 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	ptrW tchat_id(mir_a2u(chat_id));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_MESSAGE };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.ptszText = ttext;
 	gce.time = timestamp ? timestamp : ::time(NULL);
 	if (id != NULL)
@@ -48,7 +48,7 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	}
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	facy.erase_reader(ChatIDToHContact(chat_id));
 }
@@ -57,11 +57,7 @@ void FacebookProto::RenameChat(const char *chat_id, const char *name)
 {
 	ptrW tchat_id(mir_a2u(chat_id));
 	ptrW tname(mir_a2u_cp(name, CP_UTF8));
-
-	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_CHANGESESSIONAME };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.ptszText = tname;
-	Chat_Event(0, &gce);
+	Chat_ChangeSessionName(m_szModuleName, tchat_id, tname);
 }
 
 int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
@@ -174,7 +170,7 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 	ptrW tid(mir_a2u(user.user_id.c_str()));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.pDest = &gcd;
 	gce.dwFlags = addToLog ? GCEF_ADDTOLOG : 0;
 	gce.ptszNick = tnick;
@@ -199,7 +195,7 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 		}
 	}
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 void FacebookProto::RemoveChatContact(const char *chat_id, const char *id, const char *name)
@@ -213,14 +209,14 @@ void FacebookProto::RemoveChatContact(const char *chat_id, const char *id, const
 	ptrW tid(mir_a2u(id));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_PART };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
 	gce.time = ::time(NULL);
 	gce.bIsMe = false;
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 /** Caller must free result */
@@ -249,7 +245,7 @@ void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 	ptrW tid(mir_a2u(id));
 
 	// Create the group chat session
-	GCSESSION gcw = { sizeof(gcw) };
+	GCSESSION gcw = {};
 	gcw.iType = GCW_PRIVMESS;
 	gcw.ptszID = tid;
 	gcw.pszModule = m_szModuleName;
@@ -258,26 +254,22 @@ void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 
 	// Send setting events
 	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 
 	// Create a user statuses
 	gce.ptszStatus = TranslateT("Myself");
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 	gce.ptszStatus = TranslateT("Friend");
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 	gce.ptszStatus = TranslateT("User");
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 	gce.ptszStatus = TranslateT("Former");
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 
 	// Finish initialization
-	gcd.iType = GC_EVENT_CONTROL;
-	gce.time = ::time(NULL);
-	gce.pDest = &gcd;
-
 	bool hideChats = getBool(FACEBOOK_KEY_HIDE_CHATS, DEFAULT_HIDE_CHATS);
-	Chat_Event((hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), &gce);
-	Chat_Event(SESSION_ONLINE, &gce);
+	Chat_Control(m_szModuleName, tid, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE));
+	Chat_Control(m_szModuleName, tid, SESSION_ONLINE);
 }
 
 INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
@@ -340,14 +332,8 @@ INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam, LPARAM)
 {
 	ptrW idT(wParam ? getWStringA(wParam, "ChatRoomID") : NULL);
 
-	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
-	gcd.ptszID = idT;
-
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.time = ::time(NULL);
-
-	Chat_Event(SESSION_OFFLINE, &gce);
-	Chat_Event(SESSION_TERMINATE, &gce);
+	Chat_Control(m_szModuleName, idT, SESSION_OFFLINE);
+	Chat_Terminate(m_szModuleName, idT);
 
 	if (!wParam) {
 		facy.clear_chatrooms();
@@ -433,7 +419,7 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 		mir_snwprintf(nameT, L"%s: %s", m_tszUserName, TranslateT("Notifications"));
 
 		// Create the group chat session
-		GCSESSION gcw = { sizeof(gcw) };
+		GCSESSION gcw = {};
 		gcw.iType = GCW_PRIVMESS;
 		gcw.ptszID = _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM);
 		gcw.pszModule = m_szModuleName;
@@ -441,12 +427,8 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 		Chat_NewSession(&gcw);
 
 		// Send setting events
-		GCDEST gcd = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_CONTROL };
-		GCEVENT gce = { sizeof(gce), &gcd };
-		gce.time = ::time(NULL);
-
-		Chat_Event(WINDOW_HIDDEN, &gce);
-		Chat_Event(SESSION_ONLINE, &gce);
+		Chat_Control(m_szModuleName, gcw.ptszID, WINDOW_HIDDEN);
+		Chat_Control(m_szModuleName, gcw.ptszID, SESSION_ONLINE);
 	}
 }
 
@@ -464,7 +446,7 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	ptrW messageT(mir_a2u_cp(message.c_str(), CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.ptszText = messageT;
 	gce.time = notification->time ? notification->time : ::time(NULL);
 	gce.bIsMe = false;
@@ -472,5 +454,5 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	gce.ptszNick = TranslateT("Notifications");
 	gce.ptszUID = idT;
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }

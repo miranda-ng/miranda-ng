@@ -145,7 +145,7 @@ protected:
 
 public:
 	
-	CDccSession(CIrcProto*, DCCINFO* pdci);  // constructor
+	CDccSession(CIrcProto*, DCCINFO *pdci);  // constructor
 	~CDccSession();               // destructor, что характерно
 
 	time_t tLastPercentageUpdate; // time of last update of the filetransfer dialog

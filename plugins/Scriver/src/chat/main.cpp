@@ -61,7 +61,7 @@ static void OnDblClickSession(SESSION_INFO *si)
 static void OnRemoveSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
-		SendMessage(si->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
+		SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
 }
 
 static void OnRenameSession(SESSION_INFO *si)

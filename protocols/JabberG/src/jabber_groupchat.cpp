@@ -795,20 +795,17 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const wchar_t *
 			setWString(hContact, "MyNick", newNick);
 	}
 
-	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_CHUID };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.ptszNick = oldNick;
-	gce.ptszText = newNick;
+	Chat_ChangeUserId(m_szModuleName, item->jid, oldNick, newNick);
+
+	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_NICK };
+	GCEVENT gce = { &gcd };
 	if (jid != NULL)
 		gce.ptszUserInfo = jid;
 	gce.time = time(0);
-	Chat_Event(0, &gce);
-
-	gcd.iType = GC_EVENT_NICK;
 	gce.ptszNick = oldNick;
 	gce.ptszUID = newNick;
 	gce.ptszText = newNick;
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 void CJabberProto::GroupchatProcessPresence(HXML node)
@@ -1110,7 +1107,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	tszText.Replace(L"%", L"%%");
 	tszText += imgLink;
 
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.ptszUID = resource;
 	gce.ptszNick = nick;
 	gce.time = msgTime;
@@ -1123,15 +1120,12 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	if (m_options.GcLogChatHistory && isHistory)
 		gce.dwFlags |= GCEF_NOTNOTIFY;
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	item->bChatActive = 2;
 
-	if (gcd.iType == GC_EVENT_TOPIC) {
-		gce.dwFlags &= ~GCEF_ADDTOLOG;
-		gcd.iType = GC_EVENT_SETSBTEXT;
-		Chat_Event(0, &gce);
-	}
+	if (gcd.iType == GC_EVENT_TOPIC)
+		Chat_SetStatusbarText(m_szModuleName, item->jid, tszText);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

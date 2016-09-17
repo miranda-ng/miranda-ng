@@ -231,15 +231,8 @@ void CSend::svcSendMsgExit(const char* szMessage)
 			gci.Flags = GCF_BYINDEX | GCF_HCONTACT | GCF_ID;
 			Chat_GetInfo(&gci);
 			if (gci.hContact == m_hContact) {
-				GCDEST gcd = { m_pszProto, gci.pszID, GC_EVENT_SENDMESSAGE };
-				GCEVENT gce = { sizeof(gce), &gcd };
-				gce.bIsMe = TRUE;
-				gce.dwFlags = GCEF_ADDTOLOG;
-				gce.ptszText = tmp;
-				gce.time = time(NULL);
-
-				//* returns 0 on success or error code on failure
-				res = 200 + (int)Chat_Event(0, &gce);
+				Chat_SendUserMessage(m_pszProto, gci.pszID, tmp);
+				res = 200;
 				break;
 			}
 		}

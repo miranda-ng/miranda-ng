@@ -396,13 +396,9 @@ void CMsnProto::MSN_GoOffline(void)
 				hContact = db_find_next(hContact, m_szModuleName)) 
 		{
 			if (isChatRoom(hContact) != 0) {
-				DBVARIANT dbv;
-				if (getWString(hContact, "ChatRoomID", &dbv) == 0) {
-					GCDEST gcd = { m_szModuleName, dbv.ptszVal, GC_EVENT_CONTROL };
-					GCEVENT gce = { sizeof(gce), &gcd };
-					Chat_Event(SESSION_OFFLINE, &gce);
-					db_free(&dbv);
-				}
+				ptrW wszRoom(getWStringA(hContact, "ChatRoomID"));
+				if (wszRoom != NULL)
+					Chat_Control(m_szModuleName, wszRoom, SESSION_OFFLINE);
 			}
 			else {
 				if (ID_STATUS_OFFLINE != getWord(hContact, "Status", ID_STATUS_OFFLINE)) {

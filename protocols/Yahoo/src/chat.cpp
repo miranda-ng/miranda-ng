@@ -136,7 +136,7 @@ static const COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1
 
 void CYahooProto::ChatRegister(void)
 {
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.nColors = 16;
 	gcr.pColors = (COLORREF*)crCols;
@@ -150,9 +150,9 @@ void CYahooProto::ChatRegister(void)
 
 void CYahooProto::ChatStart(const char* room)
 {
-	wchar_t* idt = mir_a2u(room);
+	ptrW idt(mir_a2u(room));
 
-	GCSESSION gcw = { sizeof(gcw) };
+	GCSESSION gcw = {};
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = idt;
@@ -160,33 +160,24 @@ void CYahooProto::ChatStart(const char* room)
 	Chat_NewSession(&gcw);
 
 	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.ptszStatus = TranslateT("Me");
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	gcd.iType = GC_EVENT_ADDGROUP;
 	gce.ptszStatus = TranslateT("Others");
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
-	gcd.iType = GC_EVENT_CONTROL;
-	Chat_Event(SESSION_INITDONE, &gce);
-	Chat_Event(SESSION_ONLINE, &gce);
-	Chat_Event(WINDOW_VISIBLE, &gce);
-
-	mir_free(idt);
+	Chat_Control(m_szModuleName, idt, SESSION_INITDONE);
+	Chat_Control(m_szModuleName, idt, SESSION_ONLINE);
+	Chat_Control(m_szModuleName, idt, WINDOW_VISIBLE);
 }
 
 void CYahooProto::ChatLeave(const char* room)
 {
-	wchar_t* idt = mir_a2u(room);
-
-	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.dwFlags = GCEF_REMOVECONTACT;
-	Chat_Event(SESSION_OFFLINE, &gce);
-	Chat_Event(SESSION_TERMINATE, &gce);
-
-	mir_free(idt);
+	ptrW idt(mir_a2u(room));
+	Chat_Control(m_szModuleName, idt, SESSION_OFFLINE);
+	Chat_Terminate(m_szModuleName, idt, true);
 }
 
 void CYahooProto::ChatLeaveAll(void)
@@ -204,7 +195,7 @@ void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const wc
 	wchar_t* nick = hContact ? (wchar_t*)pcli->pfnGetContactDisplayName(WPARAM(hContact), 0) : snt;
 
 	GCDEST gcd = { m_szModuleName, idt, evt };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = nick;
 	gce.ptszUID = snt;
@@ -212,7 +203,7 @@ void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const wc
 	gce.ptszStatus = gce.bIsMe ? TranslateT("Me") : TranslateT("Others");
 	gce.ptszText = msg;
 	gce.time = time(NULL);
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	mir_free(snt);
 	mir_free(idt);

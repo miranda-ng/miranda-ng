@@ -165,7 +165,7 @@ INT_PTR OmegleProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 int OmegleProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	// Register group chat
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.dwFlags = 0; //GC_TYPNOTIF; //GC_ACKMSG;
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;

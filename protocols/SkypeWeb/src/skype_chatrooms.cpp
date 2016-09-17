@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::InitGroupChatModule()
 {
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.iMaxText = 0;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
@@ -35,7 +35,7 @@ void CSkypeProto::InitGroupChatModule()
 void CSkypeProto::CloseAllChatChatSessions()
 {
 	GC_INFO gci = { 0 };
-	gci.Flags = GCF_BYINDEX | GCF_ID | GCF_DATA;
+	gci.Flags = GCF_BYINDEX | GCF_ID;
 	gci.pszModule = m_szModuleName;
 
 	int count = pci->SM_GetCount(m_szModuleName);
@@ -44,10 +44,8 @@ void CSkypeProto::CloseAllChatChatSessions()
 		gci.iItem = i;
 		if (!Chat_GetInfo(&gci))
 		{
-			GCDEST gcd = { m_szModuleName, gci.pszID, GC_EVENT_CONTROL };
-			GCEVENT gce = { sizeof(gce), &gcd };
-			Chat_Event(SESSION_OFFLINE, &gce);
-			Chat_Event(SESSION_TERMINATE, &gce);
+			Chat_Control(m_szModuleName, gci.pszID, SESSION_OFFLINE);
+			Chat_Terminate(m_szModuleName, gci.pszID);
 		}
 	}
 }
@@ -61,7 +59,7 @@ MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 {
 	// Create the group chat session
-	GCSESSION gcw = { sizeof(gcw) };
+	GCSESSION gcw = {};
 	gcw.iType = GCW_CHATROOM;
 	gcw.ptszID = tid;
 	gcw.pszModule = m_szModuleName;
@@ -70,23 +68,19 @@ void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 
 	// Send setting events
 	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 
 	// Create a user statuses
 	gce.ptszStatus = TranslateT("Admin");
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 	gce.ptszStatus = TranslateT("User");
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 
 	// Finish initialization
-	gcd.iType = GC_EVENT_CONTROL;
-	gce.time = time(NULL);
-	gce.pDest = &gcd;
-
 	bool hideChats = getBool("HideChats", 1);
 
-	Chat_Event((hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), &gce);
-	Chat_Event(SESSION_ONLINE, &gce);
+	Chat_Control(m_szModuleName, tid, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE));
+	Chat_Control(m_szModuleName, tid, SESSION_ONLINE);
 }
 
 void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
@@ -239,7 +233,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 					break; // New nick is same, do nothing
 
 				GCDEST gcd = { m_szModuleName, gch->pDest->ptszID, GC_EVENT_NICK };
-				GCEVENT gce = { sizeof(GCEVENT), &gcd };
+				GCEVENT gce = { &gcd };
 
 				gce.ptszNick = tnick_old;
 				gce.bIsMe = IsMe(user_id);
@@ -247,7 +241,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				gce.ptszText = tnick_new;
 				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.time = time(NULL);
-				Chat_Event(0, &gce);
+				Chat_Event(&gce);
 
 				if (!reset)
 					db_set_ws(hChatContact, "UsersNicks", _T2A(gch->ptszUID), tnick_new);
@@ -278,18 +272,12 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 {
 	if (!IsOnline())
 		return 1;
+
 	if (hContact && IDYES == MessageBox(NULL, TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
 	{
 		ptrW idT(getWStringA(hContact, "ChatRoomID"));
-
-		GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
-		gcd.ptszID = idT;
-
-		GCEVENT gce = { sizeof(gce), &gcd };
-		gce.time = ::time(NULL);
-
-		Chat_Event(SESSION_OFFLINE, &gce);
-		Chat_Event(SESSION_TERMINATE, &gce);
+		Chat_Control(m_szModuleName, idT, SESSION_OFFLINE);
+		Chat_Terminate(m_szModuleName, idT);
 
 		SendRequest(new KickUserRequest(_T2A(idT), li.szSkypename, li));
 
@@ -410,7 +398,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			CMStringA id = ParseUrl(xId, "8:");
 
 			GCDEST gcd = { m_szModuleName, _A2T(szConversationName), !mir_strcmpi(xRole, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
-			GCEVENT gce = { sizeof(gce), &gcd };
+			GCEVENT gce = { &gcd };
 			ptrW tszId(mir_a2u(id));
 			ptrW tszRole(mir_a2u(xRole));
 			ptrW tszInitiator(mir_a2u(initiator));
@@ -422,7 +410,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			gce.time = time(NULL);
 			gce.bIsMe = IsMe(id);
 			gce.ptszStatus = TranslateT("Admin");
-			Chat_Event(0, &gce);
+			Chat_Event(&gce);
 		}
 	}
 }
@@ -460,7 +448,7 @@ void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszM
 void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
 {
 	GCDEST gcd = { m_szModuleName, chat_id, isAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
-	GCEVENT gce = { sizeof(GCEVENT), &gcd };
+	GCEVENT gce = { &gcd };
 	
 	ptrW tnick(GetChatContactNick(_T2A(chat_id), _T2A(from), _T2A(from)));
 
@@ -484,7 +472,7 @@ void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, 
 
 	if (isLoading) gce.dwFlags = GCEF_NOTNOTIFY;
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
@@ -520,11 +508,7 @@ void CSkypeProto::RenameChat(const char *chat_id, const char *name)
 {
 	ptrW tchat_id(mir_a2u(chat_id));
 	ptrW tname(mir_utf8decodeW(name));
-
-	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_CHANGESESSIONAME };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.ptszText = tname;
-	Chat_Event(0, &gce);
+	Chat_ChangeSessionName(m_szModuleName, tchat_id, tname);
 }
 
 void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const char *initiator)
@@ -534,11 +518,11 @@ void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const 
 	ptrW ttopic(mir_utf8decodeW(topic));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_TOPIC };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.ptszUID = tname;
 	gce.ptszNick = tname;
 	gce.ptszText = ttopic;
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 bool CSkypeProto::IsChatContact(const wchar_t *chat_id, const char *id)
@@ -601,7 +585,7 @@ void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const 
 	ptrW tid(mir_a2u(id));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.pDest = &gcd;
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
@@ -610,7 +594,7 @@ void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const 
 	gce.bIsMe = IsMe(id);
 	gce.ptszStatus = TranslateW(role);
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, const char *name, bool isKick, const char *initiator)
@@ -623,7 +607,7 @@ void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, con
 	ptrW tid(mir_a2u(id));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	if (isKick)
 	{
 		gce.ptszUID = tid;
@@ -640,7 +624,7 @@ void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, con
 		gce.bIsMe = IsMe(id);
 	}
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 INT_PTR CSkypeProto::SvcCreateChat(WPARAM, LPARAM)

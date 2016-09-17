@@ -69,7 +69,7 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 		pci->SetActiveSession(si->ptszID, si->pszModule);
 
 		if (!IsWindowVisible(g_TabSession.hWnd) || wp == WINDOW_HIDDEN)
-			SendMessage(g_TabSession.hWnd, GC_EVENT_CONTROL + WM_USER + 500, wp, 0);
+			SendMessage(g_TabSession.hWnd, GC_CONTROL_MSG, wp, 0);
 		else {
 			if (IsIconic(g_TabSession.hWnd))
 				ShowWindow(g_TabSession.hWnd, SW_NORMAL);
@@ -96,7 +96,7 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 
 	SetWindowLongPtr(si->hWnd, GWL_EXSTYLE, GetWindowLongPtr(si->hWnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
 	if (!IsWindowVisible(si->hWnd) || wp == WINDOW_HIDDEN)
-		SendMessage(si->hWnd, GC_EVENT_CONTROL + WM_USER + 500, wp, 0);
+		SendMessage(si->hWnd, GC_CONTROL_MSG, wp, 0);
 	else {
 		if (IsIconic(si->hWnd))
 			ShowWindow(si->hWnd, SW_NORMAL);

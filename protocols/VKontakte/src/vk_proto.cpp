@@ -105,7 +105,7 @@ CVkProto::~CVkProto()
 int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	// Chats
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	gcr.nColors = _countof(sttColors);

@@ -137,7 +137,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO *gci)
 	if (si == NULL)
 		return 1;
 
-	if (gci->Flags & GCF_DATA)     gci->dwItemData = si->dwItemData;
+	if (gci->Flags & GCF_DATA)     gci->pItemData = si->pItemData;
 	if (gci->Flags & GCF_HCONTACT) gci->hContact = si->hContact;
 	if (gci->Flags & GCF_TYPE)     gci->iType = si->iType;
 	if (gci->Flags & GCF_COUNT)    gci->iCount = si->nUsersInNicklist;
@@ -154,9 +154,6 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 {
 	if (gcr == NULL)
 		return GC_REGISTER_ERROR;
-
-	if (gcr->cbSize != sizeof(GCREGISTER))
-		return GC_REGISTER_WRONGVER;
 
 	mir_cslock lck(csChat);
 	MODULEINFO *mi = chatApi.MM_AddModule(gcr->pszModule);
@@ -195,9 +192,6 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 	if (gcw == NULL)
 		return GC_NEWSESSION_ERROR;
 
-	if (gcw->cbSize != sizeof(GCSESSION))
-		return GC_NEWSESSION_WRONGVER;
-
 	mir_cslock lck(csChat);
 	MODULEINFO *mi = chatApi.MM_FindModule(gcw->pszModule);
 	if (mi == NULL)
@@ -223,7 +217,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 	if ((si = chatApi.SM_AddSession(gcw->ptszID, gcw->pszModule)) == NULL)
 		return GC_NEWSESSION_ERROR;
 
-	si->dwItemData = gcw->dwItemData;
+	si->pItemData = gcw->pItemData;
 	if (gcw->iType != GCW_SERVER)
 		si->wStatus = ID_STATUS_ONLINE;
 	si->iType = gcw->iType;
@@ -264,7 +258,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// handles chat event
+// chat control
 
 struct ShowChatParam
 {
@@ -294,108 +288,70 @@ static void SetInitDone(SESSION_INFO *si)
 			p->hIcon = HICON(si->iStatusCount - (INT_PTR)p->hIcon - 1);
 }
 
-static int DoControl(GCEVENT *gce, WPARAM wp)
+MIR_APP_DLL(int) Chat_Control(const char *szModule, const wchar_t *wszId, int iCommand)
 {
 	SESSION_INFO *si;
 
-	if (gce->pDest->iType == GC_EVENT_CONTROL) {
-		switch (wp) {
-		case WINDOW_HIDDEN:
-			if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-				SetInitDone(si);
-				chatApi.SetActiveSession(si->ptszID, si->pszModule);
-				if (si->hWnd)
-					CallFunctionAsync(stubShowRoom, new ShowChatParam(si, wp, FALSE));
-			}
-			return 0;
-
-		case WINDOW_MINIMIZE:
-		case WINDOW_MAXIMIZE:
-		case WINDOW_VISIBLE:
-		case SESSION_INITDONE:
-			if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-				SetInitDone(si);
-				if (wp != SESSION_INITDONE || db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) == 0)
-					CallFunctionAsync(stubShowRoom, new ShowChatParam(si, wp, TRUE));
-				return 0;
-			}
-			break;
-
-		case SESSION_OFFLINE:
-			chatApi.SM_SetOffline(gce->pDest->ptszID, gce->pDest->pszModule);
-			// fall through
-
-		case SESSION_ONLINE:
-			chatApi.SM_SetStatus(gce->pDest->ptszID, gce->pDest->pszModule, wp == SESSION_ONLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
-			break;
-
-		case WINDOW_CLEARLOG:
-			if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-				chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
-				if (chatApi.OnClearLog)
-					chatApi.OnClearLog(si);
-				si->iEventCount = 0;
-				si->LastTime = 0;
-			}
-			break;
-
-		case SESSION_TERMINATE:
-			return chatApi.SM_RemoveSession(gce->pDest->ptszID, gce->pDest->pszModule, (gce->dwFlags & GCEF_REMOVECONTACT) != 0);
-		}
-		chatApi.SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_EVENT_CONTROL + WM_USER + 500, wp, 0);
-	}
-
-	else if (gce->pDest->iType == GC_EVENT_CHUID && gce->ptszText) {
-		chatApi.SM_ChangeUID(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszNick, gce->ptszText);
-	}
-
-	else if (gce->pDest->iType == GC_EVENT_CHANGESESSIONAME && gce->ptszText) {
-		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-			replaceStrW(si->ptszName, gce->ptszText);
+	mir_cslock lck(csChat);
+	switch (iCommand) {
+	case WINDOW_HIDDEN:
+		if (si = chatApi.SM_FindSession(wszId, szModule)) {
+			SetInitDone(si);
+			chatApi.SetActiveSession(si->ptszID, si->pszModule);
 			if (si->hWnd)
-				SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
-			if (chatApi.OnRenameSession)
-				chatApi.OnRenameSession(si);
-		}
-	}
-
-	else if (gce->pDest->iType == GC_EVENT_SETITEMDATA) {
-		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule))
-			si->dwItemData = gce->dwItemData;
-	}
-
-	else if (gce->pDest->iType == GC_EVENT_GETITEMDATA) {
-		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-			gce->dwItemData = si->dwItemData;
-			return si->dwItemData;
+				CallFunctionAsync(stubShowRoom, new ShowChatParam(si, iCommand, FALSE));
 		}
 		return 0;
-	}
-	else if (gce->pDest->iType == GC_EVENT_SETSBTEXT) {
-		if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
-			replaceStrW(si->ptszStatusbarText, gce->ptszText);
-			if (si->ptszStatusbarText)
-				db_set_ws(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
-			else
-				db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 
-			if (chatApi.OnSetStatusBar)
-				chatApi.OnSetStatusBar(si);
+	case WINDOW_MINIMIZE:
+	case WINDOW_MAXIMIZE:
+	case WINDOW_VISIBLE:
+	case SESSION_INITDONE:
+		if (si = chatApi.SM_FindSession(wszId, szModule)) {
+			SetInitDone(si);
+			if (iCommand != SESSION_INITDONE || db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) == 0)
+				CallFunctionAsync(stubShowRoom, new ShowChatParam(si, iCommand, TRUE));
+			return 0;
 		}
-	}
-	else if (gce->pDest->iType == GC_EVENT_ACK) {
-		chatApi.SM_SendMessage(gce->pDest->ptszID, gce->pDest->pszModule, GC_ACKMESSAGE, 0, 0);
-	}
-	else if (gce->pDest->iType == GC_EVENT_SENDMESSAGE && gce->ptszText) {
-		chatApi.SM_SendUserMessage(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszText);
-	}
-	else if (gce->pDest->iType == GC_EVENT_SETSTATUSEX) {
-		chatApi.SM_SetStatusEx(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszText, gce->dwItemData);
-	}
-	else return 1;
+		break;
 
+	case SESSION_OFFLINE:
+		chatApi.SM_SetOffline(wszId, szModule);
+		// fall through
+
+	case SESSION_ONLINE:
+		chatApi.SM_SetStatus(wszId, szModule, iCommand == SESSION_ONLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
+		break;
+
+	case SESSION_TERMINATE:
+		return chatApi.SM_RemoveSession(wszId, szModule, false);
+
+	case WINDOW_CLEARLOG:
+		if (si = chatApi.SM_FindSession(wszId, szModule)) {
+			chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
+			if (chatApi.OnClearLog)
+				chatApi.OnClearLog(si);
+			si->iEventCount = 0;
+			si->LastTime = 0;
+		}
+		break;
+
+	default:
+		return GC_EVENT_ERROR;
+	}
+
+	chatApi.SM_SendMessage(wszId, szModule, GC_CONTROL_MSG, iCommand, 0);
 	return 0;
 }
+
+MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *wszId, bool bRemoveContact)
+{
+	mir_cslock lck(csChat);
+	return chatApi.SM_RemoveSession(wszId, szModule, bRemoveContact);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// handles chat event
 
 static void AddUser(GCEVENT *gce)
 {
@@ -416,7 +372,7 @@ static void AddUser(GCEVENT *gce)
 		chatApi.OnNewUser(si, ui);
 }
 
-EXTERN_C MIR_APP_DLL(int) Chat_Event(int sessionEvent, GCEVENT *gce)
+EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 {
 	BOOL bIsHighlighted = FALSE;
 	BOOL bRemoveFlag = FALSE;
@@ -427,9 +383,6 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(int sessionEvent, GCEVENT *gce)
 	GCDEST *gcd = gce->pDest;
 	if (gcd == NULL)
 		return GC_EVENT_ERROR;
-
-	if (gce->cbSize != sizeof(GCEVENT))
-		return GC_EVENT_WRONGVER;
 
 	if (!IsEventSupported(gcd->iType))
 		return GC_EVENT_ERROR;
@@ -448,17 +401,6 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(int sessionEvent, GCEVENT *gce)
 				si->hIcon = CopyIcon((HICON)gce->dwItemData);
 		}
 		return 0;
-
-	case GC_EVENT_CHUID:
-	case GC_EVENT_CHANGESESSIONAME:
-	case GC_EVENT_SETITEMDATA:
-	case GC_EVENT_GETITEMDATA:
-	case GC_EVENT_CONTROL:
-	case GC_EVENT_SETSBTEXT:
-	case GC_EVENT_ACK:
-	case GC_EVENT_SENDMESSAGE:
-	case GC_EVENT_SETSTATUSEX:
-		return DoControl(gce, sessionEvent);
 
 	case GC_EVENT_SETCONTACTSTATUS:
 		return chatApi.SM_SetContactStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
@@ -565,6 +507,86 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(int sessionEvent, GCEVENT *gce)
 	return GC_EVENT_ERROR;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// chat control functions
+
+MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wszId, const wchar_t *wszNewName)
+{
+	if (wszNewName == NULL)
+		return GC_EVENT_ERROR;
+
+	mir_cslock lck(csChat);
+	if (SESSION_INFO *si = chatApi.SM_FindSession(wszId, szModule)) {
+		replaceStrW(si->ptszName, wszNewName);
+		if (si->hWnd)
+			SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
+		if (chatApi.OnRenameSession)
+			chatApi.OnRenameSession(si);
+	}
+	return 0;
+}
+
+MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, const wchar_t *wszOldId, const wchar_t *wszNewId)
+{
+	if (wszNewId == NULL)
+		return GC_EVENT_ERROR;
+	
+	mir_cslock lck(csChat);
+	return !chatApi.SM_ChangeUID(wszId, szModule, wszOldId, wszNewId);
+}
+
+MIR_APP_DLL(void*) Chat_GetUserInfo(const char *szModule, const wchar_t *wszId)
+{
+	mir_cslock lck(csChat);
+	if (SESSION_INFO *si = chatApi.SM_FindSession(wszId, szModule))
+		return si->pItemData;
+	return NULL;
+}
+
+MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId, const wchar_t *wszText)
+{
+	if (wszText == NULL)
+		return GC_EVENT_ERROR;
+	
+	mir_cslock lck(csChat);
+	return !chatApi.SM_SendUserMessage(wszId, szModule, wszText);
+}
+
+MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wchar_t *wszId, const wchar_t *wszText)
+{
+	mir_cslock lck(csChat);
+	if (SESSION_INFO *si = chatApi.SM_FindSession(wszId, szModule)) {
+		replaceStrW(si->ptszStatusbarText, wszText);
+		if (si->ptszStatusbarText)
+			db_set_ws(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
+		else
+			db_set_s(si->hContact, si->pszModule, "StatusBar", "");
+
+		if (chatApi.OnSetStatusBar)
+			chatApi.OnSetStatusBar(si);
+	}
+	return 0;
+}
+
+MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *wszId, int flags, const wchar_t *wszText)
+{
+	mir_cslock lck(csChat);
+	return !chatApi.SM_SetStatusEx(wszId, szModule, wszText, flags);
+}
+
+MIR_APP_DLL(int) Chat_SetUserInfo(const char *szModule, const wchar_t *wszId, void *pItemData)
+{
+	mir_cslock lck(csChat);
+	if (SESSION_INFO *si = chatApi.SM_FindSession(wszId, szModule)) {
+		si->pItemData = pItemData;
+		return 0;
+	}
+	return GC_EVENT_ERROR;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// module initialization
+
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	LoadChatIcons();
@@ -594,9 +616,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	chatApi.SetAllOffline(TRUE, NULL);
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Service creation
 
 static bool bInited = false;
 

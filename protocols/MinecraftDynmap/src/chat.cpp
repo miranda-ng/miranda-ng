@@ -31,7 +31,7 @@ void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, con
 	ptrW tname(mir_a2u_cp(name, CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.time = timestamp;
 	gce.ptszText = tmessage;
 
@@ -47,7 +47,7 @@ void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, con
 
 	gce.ptszNick = tname;
 	gce.ptszUID  = gce.ptszNick;
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
@@ -91,7 +91,7 @@ void MinecraftDynmapProto::AddChatContact(const char *name)
 	ptrW tname(mir_a2u_cp(name, CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.time = DWORD(time(0));
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tname;
@@ -103,7 +103,7 @@ void MinecraftDynmapProto::AddChatContact(const char *name)
 	else
 		gce.ptszStatus = L"Normal";
 
-	Chat_Event(0,&gce);
+	Chat_Event(&gce);
 }
 
 void MinecraftDynmapProto::DeleteChatContact(const char *name)
@@ -111,14 +111,14 @@ void MinecraftDynmapProto::DeleteChatContact(const char *name)
 	ptrW tname(mir_a2u_cp(name, CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tname;
 	gce.ptszUID = gce.ptszNick;
 	gce.time = DWORD(time(0));
 	gce.bIsMe = (m_nick == name);
 
-	Chat_Event(0,&gce);
+	Chat_Event(&gce);
 }
 
 INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
@@ -126,7 +126,7 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 	ptrW tszTitle(mir_a2u_cp(m_title.c_str(), CP_UTF8));
 
 	// Create the group chat session
-	GCSESSION gcw = {sizeof(gcw)};
+	GCSESSION gcw = {};
 	gcw.iType = GCW_PRIVMESS;
 	gcw.ptszID = m_tszUserName;
 	gcw.ptszName = tszTitle;
@@ -138,13 +138,13 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 
 	// Create a group
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	
 	gce.ptszStatus = L"Admin";
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 	
 	gce.ptszStatus = L"Normal";
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 		
 	// Note: Initialization will finish up in SetChatStatus, called separately
 	if (!suppress)
@@ -158,31 +158,22 @@ void MinecraftDynmapProto::SetTopic(const char *topic)
 	ptrW ttopic(mir_a2u_cp(topic, CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.time = ::time(NULL);
 	gce.ptszText = ttopic;
 
-	Chat_Event(0,  &gce);
+	Chat_Event( &gce);
 }
 
 INT_PTR MinecraftDynmapProto::OnLeaveChat(WPARAM,LPARAM)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.time = ::time(NULL);
-
-	Chat_Event(SESSION_OFFLINE,  &gce);
-	Chat_Event(SESSION_TERMINATE,&gce);
-
+	Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
+	Chat_Terminate(m_szModuleName, m_tszUserName);
 	return 0;
 }
 
 void MinecraftDynmapProto::SetChatStatus(int status)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.time = ::time(NULL);
-	
 	if (status == ID_STATUS_ONLINE)
 	{		
 		// Load actual name from database
@@ -196,20 +187,15 @@ void MinecraftDynmapProto::SetChatStatus(int status)
 		// Add self contact
 		AddChatContact(m_nick.c_str());
 
-		Chat_Event(SESSION_INITDONE,&gce);
-		Chat_Event(SESSION_ONLINE,  &gce);
+		Chat_Control(m_szModuleName, m_tszUserName, SESSION_INITDONE);
+		Chat_Control(m_szModuleName, m_tszUserName, SESSION_ONLINE);
 	}
-	else
-	{
-		Chat_Event(SESSION_OFFLINE,&gce);
-	}
+	else Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
 }
 
 void MinecraftDynmapProto::ClearChat()
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	Chat_Event(WINDOW_CLEARLOG, &gce);
+	Chat_Control(m_szModuleName, m_tszUserName, WINDOW_CLEARLOG);
 }
 
 // TODO: Could this be done better?

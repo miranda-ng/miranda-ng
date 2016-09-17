@@ -482,7 +482,7 @@ int FacebookProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &FacebookProto::OnPreCreateEvent);
 
 	// Register group chat
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.dwFlags = 0; //GC_ACKMSG;
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
@@ -749,8 +749,8 @@ INT_PTR FacebookProto::VisitNotifications(WPARAM, LPARAM)
 
 	if (useChatRoom) {
 	GCDEST gcd = { m_szModuleName, _T(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	Chat_Event(WINDOW_VISIBLE, &gce);
+	GCEVENT gce = { &gcd };
+	Chat_Control(WINDOW_VISIBLE);
 	}
 	else {*/
 	OpenUrl(FACEBOOK_URL_NOTIFICATIONS);

@@ -1459,7 +1459,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 			else Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, FALSE);
 		}
-		else SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
+		else SendMessage(hwndDlg, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
 		break;
 
 	case GC_REDRAWLOG2:
@@ -1478,7 +1478,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (si->pLogEnd)
 			Log_StreamInEvent(hwndDlg, si->pLog, si, FALSE, FALSE);
 		else
-			SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
+			SendMessage(hwndDlg, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
 		break;
 
 	case GC_SWITCHNEXTTAB:
@@ -1795,11 +1795,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-	case GC_ACKMESSAGE:
-		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, FALSE, 0);
-		SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
-		return TRUE;
-
 	case WM_CTLCOLORLISTBOX:
 		SetBkColor((HDC)wParam, g_Settings.crUserListBGColor);
 		return (INT_PTR)pci->hListBkgBrush;
@@ -1886,7 +1881,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-	case GC_EVENT_CONTROL + WM_USER + 500:
+	case GC_CONTROL_MSG:
 		switch (wParam) {
 		case SESSION_OFFLINE:
 			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);

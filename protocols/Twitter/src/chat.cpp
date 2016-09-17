@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void TwitterProto::UpdateChat(const twitter_user &update)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.pDest = &gcd;
 	gce.bIsMe = (update.username == twit_.get_username());
 	gce.dwFlags = GCEF_ADDTOLOG;
@@ -49,7 +49,7 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 	else
 		gce.ptszNick = mir_a2u(update.username.c_str());
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	mir_free(const_cast<wchar_t*>(gce.ptszNick));
 	mir_free(const_cast<wchar_t*>(gce.ptszUID));
@@ -91,12 +91,12 @@ int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 void TwitterProto::AddChatContact(const char *name, const char *nick)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.time = DWORD(time(0));
 	gce.ptszNick = mir_a2u(nick ? nick : name);
 	gce.ptszUID = mir_a2u(name);
 	gce.ptszStatus = L"Normal";
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	mir_free(const_cast<wchar_t*>(gce.ptszNick));
 	mir_free(const_cast<wchar_t*>(gce.ptszUID));
@@ -105,11 +105,11 @@ void TwitterProto::AddChatContact(const char *name, const char *nick)
 void TwitterProto::DeleteChatContact(const char *name)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.time = DWORD(time(0));
 	gce.ptszNick = mir_a2u(name);
 	gce.ptszUID = gce.ptszNick;
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	mir_free(const_cast<wchar_t*>(gce.ptszNick));
 }
@@ -117,7 +117,7 @@ void TwitterProto::DeleteChatContact(const char *name)
 INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 {
 	// ***** Create the group chat session
-	GCSESSION gcw = { sizeof(gcw) };
+	GCSESSION gcw = {};
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = m_tszUserName;
@@ -129,9 +129,9 @@ INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 
 	// ***** Create a group
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.ptszStatus = L"Normal";
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	// ***** Hook events
 	HookProtoEvent(ME_GC_EVENT, &TwitterProto::OnChatOutgoing);
@@ -148,19 +148,13 @@ INT_PTR TwitterProto::OnLeaveChat(WPARAM, LPARAM)
 {
 	in_chat_ = false;
 
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-
-	Chat_Event(SESSION_OFFLINE, &gce);
-	Chat_Event(SESSION_TERMINATE, &gce);
+	Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
+	Chat_Terminate(m_szModuleName, m_tszUserName);
 	return 0;
 }
 
 void TwitterProto::SetChatStatus(int status)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-
 	if (status == ID_STATUS_ONLINE) {
 		// Add all friends to contact list
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -183,9 +177,8 @@ void TwitterProto::SetChatStatus(int status)
 
 		// For some reason, I have to send an INITDONE message, even if I'm not actually
 		// initializing the room...
-		Chat_Event(SESSION_INITDONE, &gce);
-		Chat_Event(SESSION_ONLINE, &gce);
+		Chat_Control(m_szModuleName, m_tszUserName, SESSION_INITDONE);
+		Chat_Control(m_szModuleName, m_tszUserName, SESSION_ONLINE);
 	}
-	else
-		Chat_Event(SESSION_OFFLINE, &gce);
+	else Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
 }

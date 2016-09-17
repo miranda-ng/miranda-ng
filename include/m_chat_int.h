@@ -50,10 +50,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_SHOWFILTERMENU      (WM_USER+113)
 #define GC_SETWINDOWPOS        (WM_USER+114)
 #define GC_SAVEWNDPOS          (WM_USER+115)
+#define GC_CONTROL_MSG         (WM_USER+116)
 #define GC_REDRAWWINDOW        (WM_USER+118)
 #define GC_SHOWCOLORCHOOSER    (WM_USER+119)
 #define GC_ADDLOG              (WM_USER+120)
-#define GC_ACKMESSAGE          (WM_USER+121)
 #define GC_UPDATENICKLIST      (WM_USER+125)
 #define GC_TABCHANGE           (WM_USER+127)
 #define GC_ADDTAB              (WM_USER+128)
@@ -208,7 +208,7 @@ struct GCSessionInfoBase
    WORD        wStatus;
    WORD        wState;
    WORD        wCommandsNum;
-   DWORD       dwItemData;
+   void       *pItemData;
    DWORD       dwFlags;
 	MCONTACT    hContact;
    HWND        hwndStatus;

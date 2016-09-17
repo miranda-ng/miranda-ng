@@ -144,12 +144,10 @@ void PasteIt(MCONTACT hContact, int mode)
 					// in chat room. 
 					// Next step is to get all protocol sessions and find
 					// one with correct hContact 
-					GC_INFO gci = { 0 };
-					GCDEST  gcd = { szProto, NULL, GC_EVENT_SENDMESSAGE };
-					GCEVENT gce = { sizeof(gce), &gcd };
 					int cnt = pci->SM_GetCount(szProto);
 					for (int i = 0; i < cnt; i++)
 					{
+						GC_INFO gci = {};
 						gci.iItem = i;
 						gci.pszModule = szProto;
 						gci.Flags = GCF_BYINDEX | GCF_HCONTACT | GCF_ID;
@@ -159,13 +157,7 @@ void PasteIt(MCONTACT hContact, int mode)
 							// In this place session was finded, gci.pszID contains
 							// session ID, but it is in unicode or ascii format,
 							// depends on protocol wersion
-							gcd.ptszID = gci.pszID;
-							gce.bIsMe = TRUE;
-							gce.dwFlags = GCEF_ADDTOLOG;
-							gce.ptszText = mir_a2u_cp(pasteToWeb->szFileLink, CP_ACP);
-							gce.time = time(NULL);
-							Chat_Event(0, &gce);
-							mir_free((void*)gce.ptszText);
+							Chat_SendUserMessage(szProto, gci.pszID, _A2T(pasteToWeb->szFileLink));
 							break;
 						}
 					}

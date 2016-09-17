@@ -300,3 +300,11 @@ Chat_Event @300
 Chat_GetInfo @301 
 Chat_NewSession @302 
 Chat_Register @303 
+Chat_GetUserInfo @304
+Chat_SetUserInfo @305
+Chat_ChangeUserId @306
+Chat_ChangeSessionName @307
+Chat_SetStatusbarText @308
+Chat_SendUserMessage @309
+Chat_SetStatusEx @310
+Chat_Terminate @311

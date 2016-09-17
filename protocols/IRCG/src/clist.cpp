@@ -40,7 +40,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMStringW& name, const CMStringW& hostmas
 	hContact = CList_AddContact(&user, false, false);
 	setByte(hContact, "DCC", 1);
 
-	DCCINFO* pdci = new DCCINFO;
+	DCCINFO *pdci = new DCCINFO;
 	pdci->sHostmask = hostmask;
 	pdci->hContact = hContact;
 	pdci->dwAdr = (DWORD)adr;
@@ -50,7 +50,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMStringW& name, const CMStringW& hostmas
 	pdci->sContactName = name;
 
 	if (m_DCCChatAccept == 3 || m_DCCChatAccept == 2 && bFlag) {
-		CDccSession* dcc = new CDccSession(this, pdci);
+		CDccSession *dcc = new CDccSession(this, pdci);
 
 		CDccSession* olddcc = FindDCCSession(hContact);
 		if (olddcc)

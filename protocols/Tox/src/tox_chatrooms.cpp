@@ -136,7 +136,7 @@ INT_PTR CToxProto::OnCreateChatRoom(WPARAM, LPARAM)
 
 void CToxProto::InitGroupChatModule()
 {
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.iMaxText = 0;
 	gcr.ptszDispName = this->m_tszUserName;
 	gcr.pszModule = this->m_szModuleName;
@@ -152,7 +152,7 @@ void CToxProto::InitGroupChatModule()
 void CToxProto::CloseAllChatChatSessions()
 {
 	GC_INFO gci = { 0 };
-	gci.Flags = GCF_BYINDEX | GCF_ID | GCF_DATA;
+	gci.Flags = GCF_BYINDEX | GCF_ID;
 	gci.pszModule = m_szModuleName;
 
 	int count = pci->SM_GetCount(m_szModuleName);
@@ -161,10 +161,8 @@ void CToxProto::CloseAllChatChatSessions()
 		gci.iItem = i;
 		if (!Chat_GetInfo(&gci))
 		{
-			GCDEST gcd = { m_szModuleName, gci.pszID, GC_EVENT_CONTROL };
-			GCEVENT gce = { sizeof(gce), &gcd };
-			Chat_Event(SESSION_OFFLINE, &gce);
-			Chat_Event(SESSION_TERMINATE, &gce);
+			Chat_Control(m_szModuleName, gci.pszID, SESSION_OFFLINE);
+			Chat_Terminate(m_szModuleName, gci.pszID);
 		}
 	}
 }

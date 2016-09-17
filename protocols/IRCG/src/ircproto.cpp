@@ -193,7 +193,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.ptszDescriptiveName = name;
 	hNetlibDCC = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	GCREGISTER gcr = { sizeof(GCREGISTER) };
+	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;
 	gcr.nColors = 16;
 	gcr.pColors = colors;
@@ -204,19 +204,17 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_GC_EVENT, &CIrcProto::GCEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
 
-	GCSESSION gcw = { sizeof(GCSESSION) };
+	GCSESSION gcw = {};
 	gcw.iType = GCW_SERVER;
 	gcw.ptszID = SERVERWINDOW;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = NEWWSTR_ALLOCA((wchar_t*)_A2T(m_network));
 	Chat_NewSession(&gcw);
 
-	GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
 	if (m_useServer && !m_hideServerWindow)
-		CallChatEvent(WINDOW_VISIBLE, &gce);
+		Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_VISIBLE);
 	else
-		CallChatEvent(WINDOW_HIDDEN, &gce);
+		Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_HIDDEN);
 
 	wchar_t szTemp[MAX_PATH];
 	mir_snwprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_perform.ini", m_szModuleName);
@@ -357,7 +355,7 @@ HANDLE __cdecl CIrcProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* s
 	di->sPath = szPath;
 	di->sFileAndPath = di->sPath + di->sFile;
 
-	CDccSession* dcc = new CDccSession(this, di);
+	CDccSession *dcc = new CDccSession(this, di);
 	AddDCCSession(di, dcc);
 	dcc->Connect();
 	return di;
@@ -370,7 +368,7 @@ int __cdecl CIrcProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 
-	CDccSession* dcc = FindDCCSession(di);
+	CDccSession *dcc = FindDCCSession(di);
 	if (dcc) {
 		InterlockedExchange(&dcc->dwWhatNeedsDoing, (long)FILERESUME_CANCEL);
 		SetEvent(dcc->hEvent);
@@ -398,7 +396,7 @@ int __cdecl CIrcProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 
 	long i = (long)*action;
 
-	CDccSession* dcc = FindDCCSession(di);
+	CDccSession *dcc = FindDCCSession(di);
 	if (dcc) {
 		InterlockedExchange(&dcc->dwWhatNeedsDoing, i);
 		if (*action == FILERESUME_RENAME) {
@@ -573,7 +571,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 			dci->dwSize = size;
 
 			// create new dcc object
-			CDccSession* dcc = new CDccSession(this, dci);
+			CDccSession *dcc = new CDccSession(this, dci);
 
 			// keep track of all objects created
 			AddDCCSession(dci, dcc);

@@ -177,7 +177,7 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 	CLISTEVENT* pcle = (CLISTEVENT*)lParam;
 
 	if (getByte(pcle->hContact, "DCC", 0) != 0) {
-		DCCINFO* pdci = (DCCINFO*)pcle->lParam;
+		DCCINFO *pdci = (DCCINFO*)pcle->lParam;
 		CMessageBoxDlg* dlg = new CMessageBoxDlg(this, pdci);
 		dlg->Show();
 		HWND hWnd = dlg->GetHwnd();
@@ -201,21 +201,19 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 	if (!getWString(hContact, "Nick", &dbv)) {
 		int type = getByte(hContact, "ChatRoom", 0);
 		if (type != 0) {
-			CMStringW S = L"";
+			CMStringW S;
 			if (type == GCW_CHATROOM)
 				S = MakeWndID(dbv.ptszVal);
 			if (type == GCW_SERVER)
 				S = SERVERWINDOW;
-			GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
-			GCEVENT gce = { sizeof(gce), &gcd };
-			int i = CallChatEvent(SESSION_TERMINATE, &gce);
+			int i = Chat_Terminate(m_szModuleName, S, false);
 			if (i && type == GCW_CHATROOM)
 				PostIrcMessage(L"/PART %s %s", dbv.ptszVal, m_userInfo);
 		}
 		else {
 			BYTE bDCC = getByte((MCONTACT)wp, "DCC", 0);
 			if (bDCC) {
-				CDccSession* dcc = FindDCCSession((MCONTACT)wp);
+				CDccSession *dcc = FindDCCSession((MCONTACT)wp);
 				if (dcc)
 					dcc->Disconnect();
 			}
@@ -249,11 +247,7 @@ INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
 	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
 		if (getByte((MCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM) {
 			PostIrcMessage(L"/PART %s %s", dbv.ptszVal, m_userInfo);
-
-			CMStringW S = MakeWndID(dbv.ptszVal);
-			GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
-			GCEVENT gce = { sizeof(gce), &gcd };
-			CallChatEvent(SESSION_TERMINATE, &gce);
+			Chat_Terminate(m_szModuleName, MakeWndID(dbv.ptszVal));
 		}
 		db_free(&dbv);
 	}
@@ -290,7 +284,7 @@ INT_PTR __cdecl CIrcProto::OnMenuWhois(WPARAM wp, LPARAM)
 
 INT_PTR __cdecl CIrcProto::OnMenuDisconnect(WPARAM wp, LPARAM)
 {
-	CDccSession* dcc = FindDCCSession((MCONTACT)wp);
+	CDccSession *dcc = FindDCCSession((MCONTACT)wp);
 	if (dcc)
 		dcc->Disconnect();
 	return 0;
@@ -367,9 +361,7 @@ INT_PTR __cdecl CIrcProto::OnShowListMenuCommand(WPARAM, LPARAM)
 
 INT_PTR __cdecl CIrcProto::OnShowServerMenuCommand(WPARAM, LPARAM)
 {
-	GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	CallChatEvent(WINDOW_VISIBLE, &gce);
+	Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_VISIBLE);
 	return 0;
 }
 
@@ -531,13 +523,9 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 
 				case 3:
 					PostIrcMessage(L"/PART %s %s", p1, m_userInfo);
-					{
-						S = MakeWndID(p1);
-						GCDEST gcd = { m_szModuleName, S.c_str(), GC_EVENT_CONTROL };
-						GCEVENT gce = { sizeof(gce), &gcd };
-						CallChatEvent(SESSION_TERMINATE, &gce);
-					}
+					Chat_Terminate(m_szModuleName, MakeWndID(p1));
 					break;
+
 				case 4:		// show server window
 					PostIrcMessageWnd(p1, NULL, L"/SERVERSHOW");
 					break;
@@ -856,14 +844,14 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 					ulAdr = ConvertIPToInteger(m_mySpecifiedHostIP);
 				else
 					ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
-				gcmi->Item[23].bDisabled = ulAdr == 0 ? TRUE : FALSE;		//DCC submenu
+				gcmi->Item[23].bDisabled = ulAdr == 0 ? TRUE : FALSE;	// DCC submenu
 
 				wchar_t stzChanName[100];
 				const wchar_t* temp = wcschr(gcmi->pszID, ' ');
 				size_t len = min(((temp == NULL) ? mir_wstrlen(gcmi->pszID) : (int)(temp - gcmi->pszID + 1)), _countof(stzChanName) - 1);
 				mir_wstrncpy(stzChanName, gcmi->pszID, len);
 				stzChanName[len] = 0;
-				CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, stzChanName, NULL, NULL, NULL, NULL, NULL, false, false, 0);
+				CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, stzChanName);
 				BOOL bServOwner = strchr(sUserModes.c_str(), 'q') == NULL ? FALSE : TRUE;
 				BOOL bServAdmin = strchr(sUserModes.c_str(), 'a') == NULL ? FALSE : TRUE;
 				BOOL bOwner = bServOwner ? ((wi->OwnMode >> 4) & 01) : FALSE;
@@ -1002,7 +990,7 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 			if (m_mySpecifiedHost[0])
 				ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(m_mySpecifiedHost, IP_MANUAL));
 
-			DoEvent(GC_EVENT_CHANGESESSIONAME, SERVERWINDOW, NULL, m_info.sNetwork.c_str(), NULL, NULL, NULL, FALSE, TRUE);
+			Chat_ChangeSessionName(m_szModuleName, SERVERWINDOW, m_info.sNetwork);
 		}
 		else {
 			Temp = m_iDesiredStatus;
@@ -1066,9 +1054,7 @@ void CIrcProto::DisconnectFromServer(void)
 	if (m_perform && IsConnected())
 		DoPerform("Event: Disconnect");
 
-	GCDEST gcd = { m_szModuleName, 0, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	CallChatEvent(SESSION_TERMINATE, &gce);
+	Chat_Terminate(m_szModuleName, NULL);
 	ForkThread(&CIrcProto::DisconnectServerThread, 0);
 }
 

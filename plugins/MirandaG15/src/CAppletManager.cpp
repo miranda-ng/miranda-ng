@@ -757,44 +757,31 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(strProto);
 
 	if (pIRCCon && db_get_b(hContact, szProto, "ChatRoom", 0) != 0) {
-		DBVARIANT dbv;
-		if (db_get_ws(hContact, szProto, "Nick", &dbv))
+		ptrW wszNick(db_get_wsa(hContact, szProto, "Nick"));
+		if (wszNick == NULL)
 			return NULL;
 
-		GCDEST gcd = { szProto, 0, GC_EVENT_SENDMESSAGE };
-		gcd.ptszID = dbv.ptszVal;
-
-		tstring strID = tstring(gcd.ptszID) + L" - " + tstring(_A2T(toNarrowString(pIRCCon->strNetwork).c_str()));
-		gcd.ptszID = (LPTSTR)strID.c_str();
-
-		GCEVENT gce = { sizeof(gce), &gcd };
-		gce.ptszStatus = L"";
-		gce.ptszText = (LPTSTR)strAscii.c_str();
-		gce.time = time(NULL);
-		gce.bIsMe = true;
-		Chat_Event(NULL, &gce);
-
-		db_free(&dbv);
+		tstring strID = tstring(wszNick) + L" - " + tstring(_A2T(toNarrowString(pIRCCon->strNetwork).c_str()));
+		Chat_SendUserMessage(szProto, strID.c_str(), strAscii.c_str());
 		return 0;
 	}
-	else {
-		SMessageJob *pJob = new SMessageJob();
-		pJob->dwTimestamp = GetTickCount();
-		pJob->hContact = hContact;
 
-		char* szMsgUtf = mir_utf8encodeW(strMessage.c_str());
+	SMessageJob *pJob = new SMessageJob();
+	pJob->dwTimestamp = GetTickCount();
+	pJob->hContact = hContact;
 
-		pJob->iBufferSize = (int)mir_strlen(szMsgUtf) + 1;
-		pJob->pcBuffer = (char *)malloc(pJob->iBufferSize);
-		pJob->dwFlags = 0;
+	char* szMsgUtf = mir_utf8encodeW(strMessage.c_str());
 
-		memcpy(pJob->pcBuffer, szMsgUtf, pJob->iBufferSize);
-		mir_free(szMsgUtf);
+	pJob->iBufferSize = (int)mir_strlen(szMsgUtf) + 1;
+	pJob->pcBuffer = (char *)malloc(pJob->iBufferSize);
+	pJob->dwFlags = 0;
 
-		pJob->hEvent = (MEVENT)ProtoChainSend(pJob->hContact, PSS_MESSAGE, 0, (LPARAM)pJob->pcBuffer);
-		CAppletManager::GetInstance()->AddMessageJob(pJob);
-		return pJob->hEvent;
-	}
+	memcpy(pJob->pcBuffer, szMsgUtf, pJob->iBufferSize);
+	mir_free(szMsgUtf);
+
+	pJob->hEvent = (MEVENT)ProtoChainSend(pJob->hContact, PSS_MESSAGE, 0, (LPARAM)pJob->pcBuffer);
+	CAppletManager::GetInstance()->AddMessageJob(pJob);
+	return pJob->hEvent;
 }
 
 //************************************************************************
@@ -1126,13 +1113,13 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 	}
 
 	// fetch the network name
-	if (gcd->iType == GC_EVENT_CHANGESESSIONAME) {
-		if (gcd->ptszID && !mir_wstrcmpi(gcd->ptszID, L"Network log")) {
-			pIRCCon->strNetwork = toTstring(gce->ptszText);
-			TRACE(L"\t Found network identifier: %s\n", pIRCCon->strNetwork.c_str());
-			return 0;
-		}
-	}
+	// if (gcd->iType == GC_EVENT_CHANGESESSIONAME) {
+	// 	if (gcd->ptszID && !mir_wstrcmpi(gcd->ptszID, L"Network log")) {
+	// 		pIRCCon->strNetwork = toTstring(gce->ptszText);
+	// 		TRACE(L"\t Found network identifier: %s\n", pIRCCon->strNetwork.c_str());
+	// 		return 0;
+	// 	}
+	// }
 
 	CEvent Event;
 	if (gce->bIsMe)

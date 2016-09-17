@@ -337,7 +337,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	twit_.set_handle(this, m_hNetlibUser);
 
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = 159;

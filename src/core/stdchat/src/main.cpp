@@ -124,7 +124,7 @@ static void OnRemoveSession(SESSION_INFO *si)
 {
 	if (!g_Settings.bTabsEnable) {
 		if (si->hWnd)
-			SendMessage(si->hWnd, GC_EVENT_CONTROL + WM_USER + 500, SESSION_TERMINATE, 0);
+			SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
 	}
 	else if (g_TabSession.hWnd)
 		SendMessage(g_TabSession.hWnd, GC_REMOVETAB, 1, (LPARAM)si);

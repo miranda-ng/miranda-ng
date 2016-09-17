@@ -443,7 +443,7 @@ void __cdecl CIrcProto::ThreadProc(void*)
 	m_info.Reset();
 }
 
-void CIrcProto::AddDCCSession(MCONTACT, CDccSession* dcc)
+void CIrcProto::AddDCCSession(MCONTACT, CDccSession *dcc)
 {
 	mir_cslock lck(m_dcc);
 
@@ -454,7 +454,7 @@ void CIrcProto::AddDCCSession(MCONTACT, CDccSession* dcc)
 	m_dcc_chats.insert(dcc);
 }
 
-void CIrcProto::AddDCCSession(DCCINFO*, CDccSession* dcc)
+void CIrcProto::AddDCCSession(DCCINFO*, CDccSession *dcc)
 {
 	mir_cslock lck(m_dcc);
 	m_dcc_xfers.insert(dcc);
@@ -471,7 +471,7 @@ void CIrcProto::RemoveDCCSession(MCONTACT hContact)
 		}
 }
 
-void CIrcProto::RemoveDCCSession(DCCINFO* pdci)
+void CIrcProto::RemoveDCCSession(DCCINFO *pdci)
 {
 	mir_cslock lck(m_dcc);
 
@@ -494,7 +494,7 @@ CDccSession* CIrcProto::FindDCCSession(MCONTACT hContact)
 	return 0;
 }
 
-CDccSession* CIrcProto::FindDCCSession(DCCINFO* pdci)
+CDccSession* CIrcProto::FindDCCSession(DCCINFO *pdci)
 {
 	mir_cslock lck(m_dcc);
 
@@ -718,7 +718,7 @@ unsigned long ConvertIPToInteger(char* IP)
 ////////////////////////////////////////////////////////////////////
 
 // initialize basic stuff needed for the dcc objects, also start a timer for checking the status of connections (timeouts)
-CDccSession::CDccSession(CIrcProto* _pro, DCCINFO* pdci) :
+CDccSession::CDccSession(CIrcProto* _pro, DCCINFO *pdci) :
 	m_proto(_pro),
 	NewFileName(0),
 	dwWhatNeedsDoing(0),
@@ -767,7 +767,7 @@ CDccSession::~CDccSession() // destroy all that needs destroying
 	}
 
 	if (di->iType == DCC_CHAT) {
-		CDccSession* dcc = m_proto->FindDCCSession(di->hContact);
+		CDccSession *dcc = m_proto->FindDCCSession(di->hContact);
 		if (dcc && this == dcc) {
 			m_proto->RemoveDCCSession(di->hContact); // objects automatically remove themselves from the list of objects
 			m_proto->setWord(di->hContact, "Status", ID_STATUS_OFFLINE);
@@ -1389,7 +1389,7 @@ VOID CALLBACK DCCTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 // helper function for incoming dcc connections.
 void DoIncomingDcc(HANDLE hConnection, DWORD dwRemoteIP, void * p1)
 {
-	CDccSession* dcc = (CDccSession*)p1;
+	CDccSession *dcc = (CDccSession*)p1;
 	dcc->IncomingConnection(hConnection, dwRemoteIP);
 }
 

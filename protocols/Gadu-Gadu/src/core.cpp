@@ -829,7 +829,7 @@ retry:
 							UIN2IDT(e->event.msg.sender, id);
 
 							GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
-							GCEVENT gce = { sizeof(gce), &gcd };
+							GCEVENT gce = { &gcd };
 							time_t t = time(NULL);
 							gce.ptszUID = id;
 							wchar_t* messageT = mir_utf8decodeW(e->event.msg.message);
@@ -838,7 +838,7 @@ retry:
 							gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gce.dwFlags = GCEF_ADDTOLOG;
 							debugLogW(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
-							Chat_Event(0, &gce);
+							Chat_Event(&gce);
 							mir_free(messageT);
 						}
 					}
@@ -893,7 +893,7 @@ retry:
 						UIN2IDT(getDword(GG_KEY_UIN, 0), id);
 
 						GCDEST gcd = { m_szModuleName, chat, GC_EVENT_MESSAGE };
-						GCEVENT gce = { sizeof(gce), &gcd };
+						GCEVENT gce = { &gcd };
 						gce.ptszUID = id;
 						wchar_t* messageT = mir_utf8decodeW(e->event.multilogon_msg.message);
 						gce.ptszText = messageT;
@@ -908,7 +908,7 @@ retry:
 						gce.bIsMe = 1;
 						gce.dwFlags = GCEF_ADDTOLOG;
 						debugLogW(L"mainthread() (%x): Sent conference message to room %s.", this, chat);
-						Chat_Event(0, &gce);
+						Chat_Event(&gce);
 						mir_free(messageT);
 						mir_free(nickT);
 					}
@@ -1272,25 +1272,20 @@ int GGPROTO::contactdeleted(WPARAM hContact, LPARAM)
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 
 	// Terminate conference if contact is deleted
-	DBVARIANT dbv;
-	if ( isChatRoom(hContact) && !getWString(hContact, "ChatRoomID", &dbv) && gc_enabled)
+	ptrW wszRoomId(getWStringA(hContact, "ChatRoomID"));
+	if (isChatRoom(hContact) && wszRoomId != NULL && gc_enabled)
 	{
-		GCDEST gcd = { m_szModuleName, dbv.ptszVal, GC_EVENT_CONTROL };
-		GCEVENT gce = { sizeof(gce), &gcd };
-		GGGC *chat = gc_lookup(dbv.ptszVal);
-
-		debugLogA("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, dbv.pszVal);
+		GGGC *chat = gc_lookup(wszRoomId);
+		debugLogA("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, wszRoomId);
 		if (chat)
 		{
 			// Destroy chat entry
 			free(chat->recipients);
 			list_remove(&chats, chat, 1);
 			// Terminate chat window / shouldn't cascade entry is deleted
-			Chat_Event(SESSION_OFFLINE, &gce);
-			Chat_Event(SESSION_TERMINATE, &gce);
+			Chat_Control(m_szModuleName, wszRoomId, SESSION_OFFLINE);
+			Chat_Terminate(m_szModuleName, wszRoomId);
 		}
-
-		db_free(&dbv);
 		return 0;
 	}
 
@@ -1353,13 +1348,10 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 			static int cascade = 0;
 			if (!cascade && dbv.ptszVal)
 			{
-				GCDEST gcd = { m_szModuleName, dbv.ptszVal, GC_EVENT_CHANGESESSIONAME };
-				GCEVENT gce = { sizeof(gce), &gcd };
-				gce.ptszText = ptszVal;
 				debugLogA("dbsettingchanged(): Conference %s was renamed.", dbv.pszVal);
 				// Mark cascading
 				/* FIXME */ cascade = 1;
-				Chat_Event(0, &gce);
+				Chat_ChangeSessionName(m_szModuleName, dbv.ptszVal, ptszVal);
 				/* FIXME */ cascade = 0;
 			}
 			db_free(&dbv);

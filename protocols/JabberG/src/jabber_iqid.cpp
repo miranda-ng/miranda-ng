@@ -440,7 +440,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		else db_unset(hContact, "CList", "MyHandle");
 
 		if (isChatRoom(hContact)) {
-			GCSESSION gcw = { sizeof(gcw) };
+			GCSESSION gcw = {};
 			gcw.iType = GCW_CHATROOM;
 			gcw.pszModule = m_szModuleName;
 			gcw.ptszID = jid;

@@ -2058,7 +2058,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 			else Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE);
 		}
-		else SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
+		else SendMessage(hwndDlg, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
 		break;
 
 	case GC_REDRAWLOG2:
@@ -2089,13 +2089,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (si->pLogEnd)
 			Log_StreamInEvent(hwndDlg, si->pLog, si, FALSE);
 		else
-			SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
+			SendMessage(hwndDlg, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
 		break;
-
-	case GC_ACKMESSAGE:
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, FALSE, 0);
-		SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, L"");
-		return TRUE;
 
 	case DM_TYPING:
 		// Typing support for GCW_PRIVMESS sessions
@@ -2247,7 +2242,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
-	case GC_EVENT_CONTROL + WM_USER + 500:
+	case GC_CONTROL_MSG:
 		switch (wParam) {
 		case SESSION_OFFLINE:
 			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);

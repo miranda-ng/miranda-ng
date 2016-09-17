@@ -201,8 +201,7 @@ CMsnProto::~CMsnProto()
 
 int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	GCREGISTER gcr = { 0 };
-	gcr.cbSize = sizeof(GCREGISTER);
+	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
 	gcr.iMaxText = 0;
 	gcr.nColors = 16;

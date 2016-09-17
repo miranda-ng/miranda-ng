@@ -128,7 +128,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 	ptrW szNick(JabberNickFromJID(item->jid));
 
-	GCSESSION gcw = { sizeof(GCSESSION) };
+	GCSESSION gcw = {};
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = szNick;
@@ -168,15 +168,14 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	item->bChatActive = true;
 
 	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--) {
 		gce.ptszStatus = TranslateW(sttStatuses[i]);
-		Chat_Event(0, &gce);
+		Chat_Event(&gce);
 	}
 
-	gcd.iType = GC_EVENT_CONTROL;
-	Chat_Event((item->bAutoJoin && m_options.AutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE, &gce);
-	Chat_Event(SESSION_ONLINE, &gce);
+	Chat_Control(m_szModuleName, item->jid, (item->bAutoJoin && m_options.AutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(m_szModuleName, item->jid, SESSION_ONLINE);
 	return 0;
 }
 
@@ -243,13 +242,13 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 		buf.Replace(L"%", L"%%");
 
 		GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_INFORMATION };
-		GCEVENT gce = { sizeof(gce), &gcd };
+		GCEVENT gce = { &gcd };
 		gce.ptszNick = user->m_tszResourceName;
 		gce.ptszUID = user->m_tszResourceName;
 		gce.ptszText = buf;
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.time = time(0);
-		Chat_Event(0, &gce);
+		Chat_Event(&gce);
 	}
 }
 
@@ -270,7 +269,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 		myNick = JabberNickFromJID(m_szJabberJID);
 
 	GCDEST gcd = { m_szModuleName, item->jid };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.ptszNick = nick;
 	gce.ptszUID = resource;
 	if (jid != NULL)
@@ -308,21 +307,19 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 		}
 	}
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 
 	if (statusToSet != 0) {
-		gce.ptszText = nick;
+		int flags = GC_SSE_ONLYLISTED;
 		if (statusToSet == ID_STATUS_AWAY || statusToSet == ID_STATUS_NA || statusToSet == ID_STATUS_DND)
-			gce.dwItemData = 3;
-		else
-			gce.dwItemData = 1;
-		gcd.iType = GC_EVENT_SETSTATUSEX;
-		Chat_Event(0, &gce);
+			flags += GC_SSE_ONLINE;
+		Chat_SetStatusEx(m_szModuleName, item->jid, flags, nick);
 
+		gce.ptszText = nick;
 		gce.ptszUID = resource;
 		gce.dwItemData = statusToSet;
 		gcd.iType = GC_EVENT_SETCONTACTSTATUS;
-		Chat_Event(0, &gce);
+		Chat_Event(&gce);
 	}
 }
 
@@ -342,11 +339,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 		GcLogUpdateMemberStatus(item, myNick, myNick, NULL, GC_EVENT_KICK, reason);
 	}
 
-	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.ptszUID = item->jid;
-	gce.ptszText = XmlGetText(reason);
-	Chat_Event((code == 200) ? SESSION_TERMINATE : SESSION_OFFLINE, &gce);
+	Chat_Control(m_szModuleName, item->jid, (code == 200) ? SESSION_TERMINATE : SESSION_OFFLINE);
 
 	db_unset(item->hContact, "CList", "Hidden");
 	item->bChatActive = false;

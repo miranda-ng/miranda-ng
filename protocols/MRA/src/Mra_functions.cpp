@@ -526,7 +526,7 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 		if (IsEMailChatAgent(szEmail)) {
 			CMStringW wszEMail = szEmail;
 
-			GCSESSION gcw = { sizeof(gcw) };
+			GCSESSION gcw = {};
 			gcw.iType = GCW_CHATROOM;
 			gcw.pszModule = m_szModuleName;
 			gcw.ptszName = wszEMail;

@@ -160,15 +160,11 @@ INT_PTR MinecraftDynmapProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	// Register group chat
-	GCREGISTER gcr = {sizeof(gcr)};
-	gcr.dwFlags = 0;
+	GCREGISTER gcr = {};
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = MINECRAFTDYNMAP_MESSAGE_LIMIT;
-	gcr.nColors = 0;
-	gcr.pColors = NULL;
 	Chat_Register(&gcr);
-
 	return 0;
 }
 

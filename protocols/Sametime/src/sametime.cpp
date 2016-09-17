@@ -198,7 +198,7 @@ int CSametimeProto::OnIdleChanged(WPARAM, LPARAM lParam)
 int CSametimeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	// register with chat module
-	GCREGISTER gcr = { sizeof(gcr) };
+	GCREGISTER gcr = {};
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = MAX_MESSAGE_SIZE;

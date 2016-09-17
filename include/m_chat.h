@@ -137,7 +137,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_FONTSIZE        0x0200 // enable font size selection
 
 // Error messages
-#define GC_REGISTER_WRONGVER	1   // You appear to be using the wrong version of this API. Registration failed.
 #define GC_REGISTER_ERROR		2   // An internal error occurred. Registration failed.
 #define GC_REGISTER_NOUNICODE	3   // MS_GC_REGISTER returns this error if the Unicode version of chat
                                   // is not installed and GC_UNICODE is set. Registration failed
@@ -145,16 +144,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // GCREGISTER struct
 struct GCREGISTER
 {
-	int        cbSize;            // Set to sizeof(GCREGISTER);
-	DWORD      dwFlags;           // Use GC_* flags above to indicate features supported
-	LPCSTR     pszModule;         // This MUST be the protocol name as registered with Miranda IM
-	LPCTSTR    ptszDispName;      // This is the protocol's real name as it will be displayed to the user
-	int        iMaxText;          // Max message length the protocol supports. Will limit the typing area input. 0 = no limit
-	int        nColors;           // Number of colors in the colorchooser menu for the color buttons. Max = 100
-	COLORREF*  pColors;           // pointer to the first item in a static COLORREF array containing the colors
-	                              // that should be showed in the colorchooser menu.
-	                              // ie:	COLORREF crCols[nColors];
-	                              //	pColors = &crCols[0];
+	const char    *pszModule;      // This MUST be the protocol name as registered with Miranda IM
+	const wchar_t *ptszDispName;   // This is the protocol's real name as it will be displayed to the user
+	unsigned       dwFlags;        // Use GC_* flags above to indicate features supported
+	int            iMaxText;       // Max message length the protocol supports. Will limit the typing area input. 0 = no limit
+	int            nColors;        // Number of colors in the colorchooser menu for the color buttons. Max = 100
+	COLORREF      *pColors;        // pointer to the first item in a static COLORREF array containing the colors
+	                               // that should be showed in the colorchooser menu.
+	                               // ie:	COLORREF crCols[nColors];
+	                               //	pColors = &crCols[0];
 };
 
 EXTERN_C MIR_APP_DLL(int) Chat_Register(const GCREGISTER*);
@@ -178,20 +176,18 @@ EXTERN_C MIR_APP_DLL(int) Chat_Register(const GCREGISTER*);
                         // support for adding more users etc. ex "MSN session".
 
 // Error messages
-#define GC_NEWSESSION_WRONGVER  1  // You appear to be using the wrong version of this API.
 #define GC_NEWSESSION_ERROR     2  // An internal error occurred.
 
 // GCSESSION structure
 struct GCSESSION
 {
-	int     cbSize;             // set to sizeof(GCSESSION);
-	int     iType;              // Use one of the GCW_* flags above to set the type of session
-	LPCSTR pszModule;           // The name of the protocol owning the session (the same as pszModule when you register)
-	LPCTSTR ptszName;			    // The name of the session as it will be displayed to the user
-	LPCTSTR ptszID;             // The unique identifier for the session.
-	LPCTSTR ptszStatusbarText;  // Optional text to set in the statusbar of the chat room window, or NULL.
-	DWORD   dwFlags;
-	INT_PTR dwItemData;         // Set user defined data for this session. Retrieve it by using the GC_EVENT_GETITEMDATA event
+	const char    *pszModule;          // The name of the protocol owning the session (the same as pszModule when you register)
+	const wchar_t *ptszName;			  // The name of the session as it will be displayed to the user
+	const wchar_t *ptszID;             // The unique identifier for the session.
+	const wchar_t *ptszStatusbarText;  // Optional text to set in the statusbar of the chat room window, or NULL.
+	int            iType;              // Use one of the GCW_* flags above to set the type of session
+	DWORD          dwFlags;
+	void          *pItemData;          // Set user defined data for this session. Retrieve it by using the Chat_GetUserInfo() call
 };
 
 EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *);
@@ -354,78 +350,18 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *);
 //					registered with GC_EVENT_ADDGROUP. Ex "Voice" in IRC
 #define GC_EVENT_REMOVESTATUS	0x0800
 
-//	GC_EVENT_CHUID - not shown in the log (Change the unique identifier of a contact)
-//	pszID(in GCDEST)	- Should be NULL as a unique id's are global.
-//	pszUID				- The current unique identifier
-//	pszText				- The new unique identifier. Color codes are not valid
-#define GC_EVENT_CHUID			0x1000
-
-//	GC_EVENT_CHANGESESSIONAME - not shown in the log (Change the display name of a session)
-//	pszText		- The new name. Color codes are not valid
-#define GC_EVENT_CHANGESESSIONAME		0x1001
-
 //	GC_EVENT_ADDGROUP - not shown in the log (Add a possible status mode to the nicklist, ex IRC uses "Op", "Voice", "Normal" etc )
 //	NOTE. When adding several statuses, start with the highest status
 //	pszStatus		- The new group name
 //	dwItemData		- Optional HICON handle to a 10x10 icon. Set to NULL to use the built in icons.
 #define GC_EVENT_ADDGROUP		0x1002
 
-//	GC_EVENT_SETITEMDATA & GC_EVENT_SETITEMDATA - not shown in the log (Get/Set the user defined data of a session)
-//	dwItemData		- The itemdata to set or get
-#define GC_EVENT_SETITEMDATA	0x1003
-#define GC_EVENT_GETITEMDATA	0x1004
-
-//	GC_EVENT_SETSBTEXT - not shown in the log (Set the text of the statusbar for a chat room window)
-//	pszText		- Statusbar text. Color codes are not valid
-#define GC_EVENT_SETSBTEXT		0x1006
-
-//	GC_EVENT_ACK - not shown in the log (Acknowledge a outgoing message, when GC_ACKMSG is set
-#define GC_EVENT_ACK			0x1007
-
-//	GC_EVENT_SENDMESSAGE - not shown in the log ("Fake" a message from a chat room as if the user had typed it). Used by IRC to broadcast /AME and /AMSG messages
-//	pszText		- The text
-#define GC_EVENT_SENDMESSAGE	0x1008
-
-//	GC_EVENT_SETSTATUSEX - not shown in the log (Space or tab delimited list of pszUID's to indicate as away).
-//  Used by IRC to mark users as away in the nicklist. If UIDs can contain spaces, use tabs
-//	pszText		- Space or tab delimited list of pszUID's
-
-#define GC_SSE_ONLYLISTED     0x0001  // processes only listed contacts, resets all contacts otherwise
-#define GC_SSE_ONLINE         0x0002  // displays a contact online, otherwise away
-#define GC_SSE_TABDELIMITED   0x0004  // use tabs as delimiters
-#define GC_SSE_OFFLINE        0x0008  // displays a contact offline, otherwise away
-
-#define GC_EVENT_SETSTATUSEX	0x1009
-
 //	GC_EVENT_SETCONTACTSTATUS - sets status icon for contact
 //	pszUID		- Unique identifier of the one who receives a new status
 //	dwItemData	- (DWORD)ID_STATUS_* or zero to remove status icon
 #define GC_EVENT_SETCONTACTSTATUS	0x100A
 
-//	GC_EVENT_CONTROL  - not shown in the log (Control window associated to a session and the session itself)
-//	NOTE 1: No members of GCEVENT are used, send one of the below flags in wParam instead,
-//		Ex CallService(GC_EVENT_CONTROL, SESSION_INITDONE, (LPARAM)&gce);
-//	NOTE 2: The first four control events are the only ones you should use most likely!
-//		The ones below them are used by IRC to join channels hidden or maximized and show the server window from the system menu.
-//		The SESSION_VISIBLE, SESSION_HIDDEN, SESSION_MAXIMIZE and SESSION_MINIMIZE events CAN replace SESSION_INITDONE but I urge you not to
-//		do that as it will override any settings the user has made in the Chat options
-//	NOTE 3: If pszID (of GCDEST) = NULL then this message will be broadcasted to all sessions, which can be usefule for terminating
-//		all sessions when the protocol was disconnected
-#define SESSION_INITDONE		1   // send this when the session is fully set up (all users have ben added to the nicklist)
-#define SESSION_TERMINATE		7   // send to terminate a session and close the window associated with it
-#define SESSION_OFFLINE			8   // send to set the session as "online" (hContact is set to Online etc)
-#define SESSION_ONLINE			9   // send to set the session as "offline" (hContact is set to Offline etc)
-
-#define WINDOW_VISIBLE			2   // make the room window visible
-#define WINDOW_HIDDEN			3   // close the room window. Session is not terminated.
-#define WINDOW_MAXIMIZE			4   // make the room window maximized
-#define WINDOW_MINIMIZE			5   // make the room window minimized
-#define WINDOW_CLEARLOG			6   // clear the log of the room window
-
-#define GC_EVENT_CONTROL		0x1005
-
 // Error messages
-#define GC_EVENT_WRONGVER		1   // You appear to be using the wrong version of this API.
 #define GC_EVENT_ERROR			2   // An internal error occurred.
 
 // The GCDEST structure. It is passed to Chat inside GCEVENT.
@@ -439,12 +375,10 @@ struct GCDEST
 // The GCEVENT structure
 
 #define GCEF_ADDTOLOG       0x0001
-#define GCEF_REMOVECONTACT  0x0002
 #define GCEF_NOTNOTIFY      0x0004
 
 struct GCEVENT
 {
-	int     cbSize;                // set to sizeof(GCEVENT);
 	GCDEST *pDest;                 // pointer to a GCDEST structure which specifies the session to receive the event
 	LPCTSTR ptszText;					 //
 	LPCTSTR ptszNick;					 //
@@ -459,10 +393,46 @@ struct GCEVENT
 	DWORD   time;                  // Timestamp of the event
 };
 
-EXTERN_C MIR_APP_DLL(int) Chat_Event(int sessionEvent, GCEVENT*);
+EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT*);
 
+EXTERN_C MIR_APP_DLL(void*) Chat_GetUserInfo(const char *szModule, const wchar_t *wszId);
+EXTERN_C MIR_APP_DLL(int) Chat_SetUserInfo(const char *szModule, const wchar_t *wszId, void *pItemData);
+
+EXTERN_C MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wszId, const wchar_t *wszNewName);
+EXTERN_C MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, const wchar_t *wszOldId, const wchar_t *wszNewId);
+EXTERN_C MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId, const wchar_t *wszText);
+EXTERN_C MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wchar_t *wszId, const wchar_t *wszText);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define GC_SSE_ONLYLISTED     0x0001  // processes only listed contacts, resets all contacts otherwise
+#define GC_SSE_ONLINE         0x0002  // displays a contact online, otherwise away
+#define GC_SSE_TABDELIMITED   0x0004  // use tabs as delimiters
+#define GC_SSE_OFFLINE        0x0008  // displays a contact offline, otherwise away
+
+EXTERN_C MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *wszId, int flags, const wchar_t *wszText);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define SESSION_INITDONE		1   // send this when the session is fully set up (all users have ben added to the nicklist)
+#define SESSION_TERMINATE		7   // send to terminate a session and close the window associated with it
+#define SESSION_OFFLINE			8   // send to set the session as "online" (hContact is set to Online etc)
+#define SESSION_ONLINE			9   // send to set the session as "offline" (hContact is set to Offline etc)
+
+#define WINDOW_VISIBLE			2   // make the room window visible
+#define WINDOW_HIDDEN			3   // close the room window. Session is not terminated.
+#define WINDOW_MAXIMIZE			4   // make the room window maximized
+#define WINDOW_MINIMIZE			5   // make the room window minimized
+#define WINDOW_CLEARLOG			6   // clear the log of the room window
+
+// if wszId == NULL, this message is broadcasted to all windows of specified szModule
+EXTERN_C MIR_APP_DLL(int) Chat_Control(const char *szModule, const wchar_t *wszId, int command);
+EXTERN_C MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *wszId, bool bRemoveContact = false);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // This hook is fired when MS_GC_EVENT is called, with the same wParam and lParam as above.
 // It allows external plugins to intercept chat events and display then in other ways
+
 #define ME_GC_HOOK_EVENT "GChat/HookEvent"
 
 /*
@@ -493,7 +463,7 @@ struct GC_INFO
 	LPCSTR    pszModule;    // the module name as registered in MS_GC_REGISTER
 	LPCTSTR   pszID;        // unique ID of the session
 	LPTSTR    pszName;      // display name of the session
-	INT_PTR   dwItemData;   // user specified data.
+	void*     pItemData;    // user specified data.
 	int       iCount;       // count of users in the nicklist
 	LPSTR     pszUsers;     // space separated string containing the UID's of the users in the user list.
 	                        // NOTE. Use Mirandas mmi_free() on the returned string.
@@ -584,25 +554,6 @@ typedef struct {
 	GCMENUITEMS;
 
 #define ME_GC_BUILDMENU  "GChat/BuildMenu"
-
-/*
-	* Example of how to add 2 items to the popup menu for the userlist *
-
-	GCMENUITEMS *gcmi= (GCMENUITEMS*) lParam;
-  	if (gcmi->Type == MENU_ON_NICKLIST)
-	{
-		static struct gc_item Item[] = {
-				{Translate("User &details"), 1, MENU_ITEM, FALSE},
-				{Translate("&Op"), 2, MENU_POPUPITEM, FALSE},
-		};
-
-		gcmi->nItems = sizeof(Item)/sizeof(Item[0]);
-		gcmi->Item = &Item[0];
-		gcmi->Item[gcmi->nItems-1].bDisabled = bFlag;
-
-		return 0;
-	}
-*/
 
 //////////////////////////////////////////////////////////////////////////
 // Get Chat ToolTip Text for buddy

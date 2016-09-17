@@ -28,7 +28,7 @@ void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool a
 	utils::text::treplace_all(&smessage, L"%", L"%%");
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.time = ::time(NULL);
 	gce.ptszText = smessage.c_str();
 
@@ -44,7 +44,7 @@ void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool a
 
 	gce.ptszNick = name;
 	gce.ptszUID = gce.ptszNick;
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
@@ -222,14 +222,14 @@ void OmegleProto::SendChatMessage(std::string text)
 /*void OmegleProto::SendChatEvent(int type)
 {
 GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-GCEVENT gce = { sizeof(gce), &gcd };
+GCEVENT gce = { &gcd };
 Chat_Event(WINDOW_CLEARLOG,&gce);
 }*/
 
 void OmegleProto::AddChatContact(const wchar_t *name)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.time = DWORD(time(0));
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = name;
@@ -245,13 +245,13 @@ void OmegleProto::AddChatContact(const wchar_t *name)
 	else
 		gce.ptszStatus = L"Normal";
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 void OmegleProto::DeleteChatContact(const wchar_t *name)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = name;
 	gce.ptszUID = gce.ptszNick;
@@ -261,13 +261,13 @@ void OmegleProto::DeleteChatContact(const wchar_t *name)
 	else
 		gce.bIsMe = mir_wstrcmp(name, this->facy.nick_);
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 {
 	// Create the group chat session
-	GCSESSION gcw = { sizeof(gcw) };
+	GCSESSION gcw = {};
 	gcw.iType = GCW_PRIVMESS;
 	gcw.ptszID = m_tszUserName;
 	gcw.ptszName = m_tszUserName;
@@ -279,13 +279,13 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 
 	// Create a group
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 
 	gce.ptszStatus = L"Admin";
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 
 	gce.ptszStatus = L"Normal";
-	Chat_Event(NULL, &gce);
+	Chat_Event(&gce);
 
 	SetTopic();
 
@@ -299,7 +299,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 void OmegleProto::SetTopic(const wchar_t *topic)
 {
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.time = ::time(NULL);
 
 	if (topic == NULL)
@@ -307,27 +307,18 @@ void OmegleProto::SetTopic(const wchar_t *topic)
 	else
 		gce.ptszText = topic;
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 }
 
 INT_PTR OmegleProto::OnLeaveChat(WPARAM, LPARAM)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.time = ::time(NULL);
-
-	Chat_Event(SESSION_OFFLINE, &gce);
-	Chat_Event(SESSION_TERMINATE, &gce);
-
+	Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
+	Chat_Terminate(m_szModuleName, m_tszUserName);
 	return 0;
 }
 
 void OmegleProto::SetChatStatus(int status)
 {
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.time = ::time(NULL);
-
 	if (status == ID_STATUS_ONLINE)
 	{
 		// Load actual name from database
@@ -340,23 +331,19 @@ void OmegleProto::SetChatStatus(int status)
 		// Add self contact
 		AddChatContact(facy.nick_);
 
-		Chat_Event(SESSION_INITDONE, &gce);
-		Chat_Event(SESSION_ONLINE, &gce);
+		Chat_Control(m_szModuleName, m_tszUserName, SESSION_INITDONE);
+		Chat_Control(m_szModuleName, m_tszUserName, SESSION_ONLINE);
 	}
 	else
 	{
-		Chat_Event(SESSION_OFFLINE, &gce);
+		Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
 	}
 }
 
 void OmegleProto::ClearChat()
 {
-	if (getByte(OMEGLE_KEY_NO_CLEAR, 0))
-		return;
-
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	Chat_Event(WINDOW_CLEARLOG, &gce);
+	if (!getByte(OMEGLE_KEY_NO_CLEAR, 0))
+		Chat_Control(m_szModuleName, m_tszUserName, WINDOW_CLEARLOG);
 }
 
 // TODO: Could this be done better?

@@ -34,18 +34,10 @@ static int message_Send(lua_State *L)
 	const char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE)
 	{
-		ptrW tszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
-		GCDEST gcd = { szProto, tszChatRoom, GC_EVENT_SENDMESSAGE };
-		GCEVENT gce = { sizeof(gce), &gcd };
-		gce.bIsMe = TRUE;
-		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.ptszText = mir_utf8decodeW(message);
-		gce.time = time(NULL);
-
-		res = Chat_Event(WINDOW_VISIBLE, &gce);
+		ptrW wszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
+		ptrW wszMessage(mir_utf8decodeW(message));
+		res = Chat_SendUserMessage(szProto, wszChatRoom, wszMessage);
 		lua_pushinteger(L, res);
-
-		mir_free((void*)gce.ptszText);
 	}
 	else if ((res = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message)) != ACKRESULT_FAILED)
 	{

@@ -58,7 +58,7 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 	else mir_snwprintf(szName, L"%s %s%d",
 		m_tszUserName, TranslateT("Chat #"), m_chatID);
 
-	GCSESSION gcw = { sizeof(gcw) };
+	GCSESSION gcw = {};
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = szName;
@@ -66,16 +66,15 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 	Chat_NewSession(&gcw);
 
 	GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	for (int j = 0; j < _countof(m_ptszRoles); j++) {
 		gce.ptszStatus = m_ptszRoles[j];
-		Chat_Event(0, &gce);
+		Chat_Event(&gce);
 	}
 
-	gcd.iType = GC_EVENT_CONTROL;
-	Chat_Event(SESSION_INITDONE, &gce);
-	Chat_Event(SESSION_ONLINE, &gce);
-	Chat_Event(WINDOW_VISIBLE, &gce);
+	Chat_Control(m_szModuleName, info->mChatID, SESSION_INITDONE);
+	Chat_Control(m_szModuleName, info->mChatID, SESSION_ONLINE);
+	Chat_Control(m_szModuleName, info->mChatID, WINDOW_VISIBLE);
 
 	mir_free((wchar_t*)gce.ptszUID);
 	return 0;
@@ -99,11 +98,7 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 		MSN_ChatInit(info, pszID, ezxml_txt(ezxml_get(xmli, "properties", 0, "topic", -1)));
 		MSN_StartStopTyping(info, false);
 	}
-	else {
-		GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_CONTROL };
-		GCEVENT gce = { sizeof(gce), &gcd };
-		Chat_Event(SESSION_ONLINE, &gce);
-	}
+	else Chat_Control(m_szModuleName, info->mChatID, SESSION_ONLINE);
 
 	const char *pszCreator = ezxml_txt(ezxml_get(xmli, "properties", 0, "creator", -1));
 
@@ -145,11 +140,8 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 
 void CMsnProto::MSN_KillChatSession(const wchar_t* id)
 {
-	GCDEST gcd = { m_szModuleName, id, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.dwFlags = GCEF_REMOVECONTACT;
-	Chat_Event(SESSION_OFFLINE, &gce);
-	Chat_Event(SESSION_TERMINATE, &gce);
+	Chat_Control(m_szModuleName, id, SESSION_OFFLINE);
+	Chat_Terminate(m_szModuleName, id, true);
 }
 
 void CMsnProto::MSN_Kickuser(GCHOOK *gch)
@@ -183,21 +175,21 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID
 	if (!mir_strcmp(xmli->name, "topicupdate")) {
 		ezxml_t initiator = ezxml_child(xmli, "initiator");
 		GCDEST gcd = { m_szModuleName, mChatID, GC_EVENT_TOPIC};
-		GCEVENT gce = { sizeof(gce), &gcd };
+		GCEVENT gce = { &gcd };
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.time = MsnTSToUnixtime(ezxml_txt(ezxml_child(xmli, "eventtime")));
 		gce.ptszUID = initiator ? mir_a2u(initiator->txt) : NULL;
 		MCONTACT hContInitiator = MSN_HContactFromEmail(initiator ? initiator->txt : NULL);
 		gce.ptszNick = GetContactNameT(hContInitiator);
 		gce.ptszText = mir_a2u(ezxml_txt(ezxml_child(xmli, "value")));
-		Chat_Event(0, &gce);
+		Chat_Event(&gce);
 		mir_free((wchar_t*)gce.ptszUID);
 		mir_free((wchar_t*)gce.ptszText);
 	}
 	else if (ezxml_t target = ezxml_child(xmli, "target")) {
 		MCONTACT hContInitiator = NULL;
 		GCDEST gcd = { m_szModuleName, mChatID, 0};
-		GCEVENT gce = { sizeof(gce), &gcd };
+		GCEVENT gce = { &gcd };
 		gce.dwFlags = GCEF_ADDTOLOG;
 
 		if (!mir_strcmp(xmli->name, "deletemember")) {
@@ -247,12 +239,10 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID
 				gce.ptszUID = mir_a2u(pszTarget);
 				MCONTACT hContTarget = MSN_HContactFromEmail(pszTarget);
 				gce.ptszNick = GetContactNameT(hContTarget);
-				Chat_Event(0, &gce);
+				Chat_Event(&gce);
 				mir_free((wchar_t*)gce.ptszUID);
 				if ((gcd.iType == GC_EVENT_PART || gcd.iType == GC_EVENT_KICK) && gce.bIsMe) {
-					GCDEST gcd2 = { m_szModuleName, mChatID, GC_EVENT_CONTROL };
-					GCEVENT gce2 = { sizeof(gce2), &gcd2 };
-					Chat_Event(SESSION_OFFLINE, &gce2);
+					Chat_Control(m_szModuleName, mChatID, SESSION_OFFLINE);
 					break;
 				}
 				target = ezxml_next(target);
@@ -285,7 +275,7 @@ void CMsnProto::MSN_GCRefreshThreadsInfo(void)
 void CMsnProto::MSN_GCAddMessage(wchar_t *mChatID, MCONTACT hContact, char *email, time_t ts, bool sentMsg, char *msgBody)
 {
 	GCDEST gcd = { m_szModuleName, mChatID, GC_EVENT_MESSAGE };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	GCEVENT gce = { &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = mir_a2u(email);
 	gce.ptszNick = GetContactNameT(hContact);
@@ -296,7 +286,7 @@ void CMsnProto::MSN_GCAddMessage(wchar_t *mChatID, MCONTACT hContact, char *emai
 	gce.ptszText = EscapeChatTags(p);
 	mir_free(p);
 
-	Chat_Event(0, &gce);
+	Chat_Event(&gce);
 	mir_free((void*)gce.ptszUID);
 	mir_free((void*)gce.ptszText);
 }
@@ -509,14 +499,14 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 				int bError = getWString("Nick", &dbv);
 
 				GCDEST gcd = { m_szModuleName, gch->pDest->ptszID, GC_EVENT_MESSAGE };
-				GCEVENT gce = { sizeof(gce), &gcd };
+				GCEVENT gce = { &gcd };
 				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.ptszNick = bError ? L"" : dbv.ptszVal;
 				gce.ptszUID = mir_a2u(MyOptions.szEmail);
 				gce.time = time(NULL);
 				gce.ptszText = gch->ptszText;
 				gce.bIsMe = TRUE;
-				Chat_Event(0, &gce);
+				Chat_Event(&gce);
 
 				mir_free((void*)gce.ptszUID);
 				if (!bError)
