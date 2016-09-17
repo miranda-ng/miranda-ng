@@ -21,10 +21,6 @@
 #include "startupstatus.h"
 #include "../resource.h"
 
-// prototypes
-INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -538,6 +534,41 @@ static int ClearDatabase(char* filter)
 
 static OBJLIST<PROFILEOPTIONS> arProfiles(5);
 
+INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	static HWND hwndParent;
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		hwndParent = (HWND)lParam;
+		EnableWindow(GetDlgItem(hwndDlg, IDC_OK), FALSE);
+		break;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDC_OK) {
+			wchar_t profileName[128];
+			GetDlgItemText(hwndDlg, IDC_PROFILENAME, profileName, _countof(profileName));
+			SendMessage(hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName);
+			// done and exit
+			DestroyWindow(hwndDlg);
+		}
+		else if (LOWORD(wParam) == IDC_CANCEL) {
+			DestroyWindow(hwndDlg);
+		}
+		else if (LOWORD(wParam) == IDC_PROFILENAME) {
+			(SendDlgItemMessage(hwndDlg, IDC_PROFILENAME, EM_LINELENGTH, 0, 0) > 0) ? EnableWindow(GetDlgItem(hwndDlg, IDC_OK), TRUE) : EnableWindow(GetDlgItem(hwndDlg, IDC_OK), FALSE);
+		}
+		break;
+
+	case WM_DESTROY:
+		EnableWindow(hwndParent, TRUE);
+		break;
+	}
+
+	return 0;
+}
+
 static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	static BOOL bNeedRebuildMenu = FALSE;
@@ -884,41 +915,6 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 
 	case WM_DESTROY:
 		arProfiles.destroy();
-		break;
-	}
-
-	return 0;
-}
-
-INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
-{
-	static HWND hwndParent;
-
-	switch(msg) {
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hwndDlg);
-			hwndParent = (HWND)lParam;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_OK), FALSE);
-		break;
-
-		case WM_COMMAND:
-			if (LOWORD(wParam) == IDC_OK) {
-				wchar_t profileName[128];
-				GetDlgItemText(hwndDlg, IDC_PROFILENAME, profileName, _countof(profileName));
-				SendMessage(hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName);
-				// done and exit
-				DestroyWindow(hwndDlg);
-			}
-			else if (LOWORD(wParam) == IDC_CANCEL) {
-				DestroyWindow(hwndDlg);
-			}
-			else if (LOWORD(wParam) == IDC_PROFILENAME) {
-				(SendDlgItemMessage(hwndDlg,IDC_PROFILENAME,EM_LINELENGTH,0,0) > 0)?EnableWindow(GetDlgItem(hwndDlg, IDC_OK), TRUE):EnableWindow(GetDlgItem(hwndDlg, IDC_OK), FALSE);
-			}
-		break;
-
-		case WM_DESTROY:
-			EnableWindow(hwndParent, TRUE);
 		break;
 	}
 
