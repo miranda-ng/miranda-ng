@@ -119,6 +119,9 @@ static int SmileyOptionsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// retrieveing chat info
+
 EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO *gci)
 {
 	if (!gci || !gci->pszModule)
@@ -143,6 +146,9 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO *gci)
 	if (gci->Flags & GCF_NAME)     gci->pszName = si->ptszName;
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// registers protocol as chat provider
 
 MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 {
@@ -180,6 +186,9 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 	chatApi.SetAllOffline(TRUE, gcr->pszModule);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// starts new chat session
 
 EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 {
@@ -254,6 +263,26 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// handles chat event
+
+struct ShowChatParam
+{
+	ShowChatParam(SESSION_INFO *_si, int _command, int _bShow) :
+		si(_si), command(_command), bShow(_bShow)
+	{}
+
+	SESSION_INFO *si;
+	int command, bShow;
+};
+
+static void __stdcall stubShowRoom(void *param)
+{
+	ShowChatParam *p = (ShowChatParam*)param;
+	chatApi.ShowRoom(p->si, p->command, p->bShow);
+	delete p;
+}
+
 static void SetInitDone(SESSION_INFO *si)
 {
 	if (si->bInitDone)
@@ -276,7 +305,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 				SetInitDone(si);
 				chatApi.SetActiveSession(si->ptszID, si->pszModule);
 				if (si->hWnd)
-					chatApi.ShowRoom(si, wp, FALSE);
+					CallFunctionAsync(stubShowRoom, new ShowChatParam(si, wp, FALSE));
 			}
 			return 0;
 
@@ -287,7 +316,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 			if (si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
 				SetInitDone(si);
 				if (wp != SESSION_INITDONE || db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) == 0)
-					chatApi.ShowRoom(si, wp, TRUE);
+					CallFunctionAsync(stubShowRoom, new ShowChatParam(si, wp, TRUE));
 				return 0;
 			}
 			break;
