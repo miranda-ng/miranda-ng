@@ -108,7 +108,7 @@ HRESULT CDropTarget::DragOver(DWORD /*grfKeyState*/, POINTL pt, DWORD * pdwEffec
 		return S_OK;
 	}
 	cli.pfnTrayIconPauseAutoHide(0, 0);
-	ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
+	ClcData *dat = (ClcData*)GetWindowLongPtr(hwndCurrentDrag, 0);
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;
 	ScreenToClient(hwndCurrentDrag, &shortPt);

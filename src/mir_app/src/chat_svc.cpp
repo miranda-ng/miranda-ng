@@ -353,6 +353,19 @@ MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *wszId, bool
 /////////////////////////////////////////////////////////////////////////////////////////
 // handles chat event
 
+struct DoFlashParam
+{
+	SESSION_INFO *si;
+	GCEVENT *gce;
+	int i1, i2;
+};
+
+static INT_PTR __stdcall stubFlash(void *param)
+{
+	DoFlashParam *p = (DoFlashParam*)param;
+	return chatApi.DoSoundsFlashPopupTrayStuff(p->si, p->gce, p->i1, p->i2);
+}
+
 static void AddUser(GCEVENT *gce)
 {
 	SESSION_INFO *si = chatApi.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
@@ -370,6 +383,33 @@ static void AddUser(GCEVENT *gce)
 
 	if (chatApi.OnNewUser)
 		chatApi.OnNewUser(si, ui);
+}
+
+static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
+{
+	int bManyFix = 0;
+
+	for (SESSION_INFO *p = chatApi.wndList; p != NULL; p = p->next) {
+		if (!p->bInitDone || mir_strcmpi(p->pszModule, gce->pDest->pszModule))
+			continue;
+
+		if (!chatApi.UM_FindUser(p->pUsers, gce->ptszUID))
+			continue;
+
+		if (chatApi.OnEventBroadcast)
+			chatApi.OnEventBroadcast(p, gce);
+
+		if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
+			DoFlashParam param = { p, gce, FALSE, bManyFix };
+			CallFunctionSync(stubFlash, &param);
+		}
+
+		bManyFix++;
+		if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
+			chatApi.LogToFile(p, gce);
+	}
+
+	return 0;
 }
 
 EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
@@ -471,7 +511,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 	}
 	else {
 		// Send the event to all windows with a user pszUID. Used for broadcasting QUIT etc
-		chatApi.SM_AddEventToAllMatchingUID(gce);
+		AddEventToAllMatchingUID(gce);
 		if (!bRemoveFlag)
 			return 0;
 	}
@@ -480,7 +520,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 	if (pWnd) {
 		SESSION_INFO *si = chatApi.SM_FindSession(pWnd, pMod);
 
-		// fix for IRC's old stuyle mode notifications. Should not affect any other protocol
+		// fix for IRC's old style mode notifications. Should not affect any other protocol
 		if ((gcd->iType == GC_EVENT_ADDSTATUS || gcd->iType == GC_EVENT_REMOVESTATUS) && !(gce->dwFlags & GCEF_ADDTOLOG))
 			return 0;
 
@@ -491,8 +531,10 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 			int isOk = chatApi.SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
 			if (chatApi.OnAddLog)
 				chatApi.OnAddLog(si, isOk);
-			if (!(gce->dwFlags & GCEF_NOTNOTIFY))
-				chatApi.DoSoundsFlashPopupTrayStuff(si, gce, bIsHighlighted, 0);
+			if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
+				DoFlashParam param = { si, gce, bIsHighlighted, 0 };
+				CallFunctionSync(stubFlash, &param);
+			}
 			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
 				chatApi.LogToFile(si, gce);
 		}

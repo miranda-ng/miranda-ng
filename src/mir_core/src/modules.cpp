@@ -571,6 +571,8 @@ MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lP
 	return item.result;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_CORE_DLL(int) CallFunctionAsync(void(__stdcall *func)(void *), void *arg)
 {
 	if (GetCurrentThreadId() == mainThreadId)
@@ -579,6 +581,35 @@ MIR_CORE_DLL(int) CallFunctionAsync(void(__stdcall *func)(void *), void *arg)
 		QueueMainThread((PAPCFUNC)func, arg, 0);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct TSyncCallParam
+{
+	INT_PTR (__stdcall *func)(void *);
+	void *arg;
+	HANDLE hDoneEvent;
+	INT_PTR result;
+};
+
+static void CALLBACK CallFuncToMainAPCFunc(ULONG_PTR dwParam)
+{
+	TSyncCallParam *item = (TSyncCallParam*)dwParam;
+	item->result = (*item->func)(item->arg);
+	SetEvent(item->hDoneEvent);
+}
+
+MIR_CORE_DLL(INT_PTR) CallFunctionSync(INT_PTR (__stdcall *func)(void *), void *arg)
+{
+	if (GetCurrentThreadId() == mainThreadId)
+		return func(arg);
+
+	TSyncCallParam param = { func, arg, getThreadEvent() };
+	QueueMainThread(CallFuncToMainAPCFunc, &param, param.hDoneEvent);
+	return param.result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_CORE_DLL(void) KillModuleServices(HINSTANCE hInst)
 {

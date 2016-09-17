@@ -135,7 +135,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 	return PUAddPopupT(&pd);
 }
 
-BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce)
+BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	int iEvent = gce->pDest->iType;
 	if (si == NULL || !(iEvent & si->iLogPopupFlags))

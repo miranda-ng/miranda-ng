@@ -1010,3 +1010,4 @@ db_delete_module @1161
 ?SetMaxLength@CCtrlEdit@@QEAAXI@Z @1167 NONAME
 ?SetRange@CCtrlSpin@@QEAAXFF@Z @1168 NONAME
 db_get_current @1169
+CallFunctionSync @1170

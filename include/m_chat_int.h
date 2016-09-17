@@ -318,7 +318,6 @@ struct CHAT_MANAGER
 	BOOL          (*SM_SetStatusEx)(const wchar_t *pszID, const char *pszModule, const wchar_t* pszText, int flags);
 	BOOL          (*SM_SendUserMessage)(const wchar_t *pszID, const char *pszModule, const wchar_t* pszText);
 	STATUSINFO*   (*SM_AddStatus)(const wchar_t *pszID, const char *pszModule, const wchar_t *pszStatus);
-	BOOL          (*SM_AddEventToAllMatchingUID)(GCEVENT *gce);
 	BOOL          (*SM_AddEvent)(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, BOOL bIsHighlighted);
 	LRESULT       (*SM_SendMessage)(const wchar_t *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
 	BOOL          (*SM_PostMessage)(const wchar_t *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -344,28 +343,28 @@ struct CHAT_MANAGER
 	void          (*MM_IconsChanged)(void);
 	BOOL          (*MM_RemoveAll)(void);
 
-	STATUSINFO*   (*TM_AddStatus)(STATUSINFO** ppStatusList, const wchar_t *pszStatus, int* iCount);
-	STATUSINFO*   (*TM_FindStatus)(STATUSINFO* pStatusList, const wchar_t *pszStatus);
-	WORD          (*TM_StringToWord)(STATUSINFO* pStatusList, const wchar_t *pszStatus);
-	wchar_t*        (*TM_WordToString)(STATUSINFO* pStatusList, WORD Status);
+	STATUSINFO*   (*TM_AddStatus)(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int* iCount);
+	STATUSINFO*   (*TM_FindStatus)(STATUSINFO *pStatusList, const wchar_t *pszStatus);
+	WORD          (*TM_StringToWord)(STATUSINFO *pStatusList, const wchar_t *pszStatus);
+	wchar_t*      (*TM_WordToString)(STATUSINFO *pStatusList, WORD Status);
 	BOOL          (*TM_RemoveAll)(STATUSINFO** pStatusList);
 
-	BOOL          (*UM_SetStatusEx)(USERINFO* pUserList, const wchar_t* pszText, int onlyMe);
-	USERINFO*     (*UM_AddUser)(STATUSINFO* pStatusList, USERINFO** pUserList, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus);
-	USERINFO*     (*UM_SortUser)(USERINFO** ppUserList, const wchar_t *pszUID);
-	USERINFO*     (*UM_FindUser)(USERINFO* pUserList, const wchar_t *pszUID);
-	USERINFO*     (*UM_FindUserFromIndex)(USERINFO* pUserList, int index);
-	USERINFO*     (*UM_GiveStatus)(USERINFO* pUserList, const wchar_t *pszUID, WORD status);
-	USERINFO*     (*UM_SetContactStatus)(USERINFO* pUserList, const wchar_t *pszUID, WORD status);
-	USERINFO*     (*UM_TakeStatus)(USERINFO* pUserList, const wchar_t *pszUID, WORD status);
-	wchar_t*        (*UM_FindUserAutoComplete)(USERINFO* pUserList, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
-	BOOL          (*UM_RemoveUser)(USERINFO** pUserList, const wchar_t *pszUID);
-	BOOL          (*UM_RemoveAll)(USERINFO** ppUserList);
-	int           (*UM_CompareItem)(USERINFO * u1, const wchar_t *pszNick, WORD wStatus);
+	BOOL          (*UM_SetStatusEx)(USERINFO *pUserList, const wchar_t* pszText, int onlyMe);
+	USERINFO*     (*UM_AddUser)(STATUSINFO *pStatusList, USERINFO **pUserList, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus);
+	USERINFO*     (*UM_SortUser)(USERINFO **ppUserList, const wchar_t *pszUID);
+	USERINFO*     (*UM_FindUser)(USERINFO *pUserList, const wchar_t *pszUID);
+	USERINFO*     (*UM_FindUserFromIndex)(USERINFO *pUserList, int index);
+	USERINFO*     (*UM_GiveStatus)(USERINFO *pUserList, const wchar_t *pszUID, WORD status);
+	USERINFO*     (*UM_SetContactStatus)(USERINFO *pUserList, const wchar_t *pszUID, WORD status);
+	USERINFO*     (*UM_TakeStatus)(USERINFO *pUserList, const wchar_t *pszUID, WORD status);
+	wchar_t*      (*UM_FindUserAutoComplete)(USERINFO *pUserList, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
+	BOOL          (*UM_RemoveUser)(USERINFO **pUserList, const wchar_t *pszUID);
+	BOOL          (*UM_RemoveAll)(USERINFO **ppUserList);
+	int           (*UM_CompareItem)(USERINFO *u1, const wchar_t *pszNick, WORD wStatus);
 
-	LOGINFO*      (*LM_AddEvent)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd);
-	BOOL          (*LM_TrimLog)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd, int iCount);
-	BOOL          (*LM_RemoveAll)(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd);
+	LOGINFO*      (*LM_AddEvent)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd);
+	BOOL          (*LM_TrimLog)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd, int iCount);
+	BOOL          (*LM_RemoveAll)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd);
 
 	MCONTACT      (*AddRoom)(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType);
 	BOOL          (*SetOffline)(MCONTACT hContact, BOOL bHide);
@@ -376,7 +375,7 @@ struct CHAT_MANAGER
 	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
 	char*         (*Log_CreateRtfHeader)(MODULEINFO *mi);
 	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
-	wchar_t*        (*MakeTimeStamp)(wchar_t *pszStamp, time_t time);
+	wchar_t*      (*MakeTimeStamp)(wchar_t *pszStamp, time_t time);
 
 	BOOL          (*DoEventHook)(const wchar_t *pszID, const char *pszModule, int iType, const wchar_t *pszUID, const wchar_t* pszText, INT_PTR dwItem);
 	BOOL          (*DoEventHookAsync)(HWND hwnd, const wchar_t *pszID, const char *pszModule, int iType, const wchar_t* pszUID, const wchar_t* pszText, INT_PTR dwItem);
@@ -386,12 +385,12 @@ struct CHAT_MANAGER
 	BOOL          (*DoPopup)(SESSION_INFO *si, GCEVENT *gce);
 	int           (*ShowPopup)(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t* pszRoomName, COLORREF crBkg, const wchar_t* fmt, ...);
 	BOOL          (*LogToFile)(SESSION_INFO *si, GCEVENT *gce);
-	wchar_t*        (*GetChatLogsFilename)(SESSION_INFO *si, time_t tTime);
+	wchar_t*      (*GetChatLogsFilename)(SESSION_INFO *si, time_t tTime);
 	int           (*GetColorIndex)(const char *pszModule, COLORREF cr);
 	char*         (*Log_SetStyle)(int style);
 
 	BOOL          (*IsHighlighted)(SESSION_INFO *si, GCEVENT *pszText);
-	wchar_t*        (*RemoveFormatting)(const wchar_t *pszText);
+	wchar_t*      (*RemoveFormatting)(const wchar_t *pszText);
 	void          (*ReloadSettings)(void);
 
 	void          (*ColorChooser)(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser);

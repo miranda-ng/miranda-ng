@@ -210,7 +210,7 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* 
 	cle.hDbEvent = hEvent;
 	cle.flags = type | CLEF_TCHAR;
 	cle.hIcon = hIcon;
-	cle.pszService = "GChat/DblClickEvent" ;
+	cle.pszService = "GChat/DblClickEvent";
 	cle.ptszTooltip = TranslateW(szBuf);
 
 	if (!ServiceExists(cle.pszService))

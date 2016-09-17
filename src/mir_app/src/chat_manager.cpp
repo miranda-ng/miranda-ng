@@ -123,8 +123,6 @@ static int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, BOOL re
 	while (pTemp != NULL) {
 		// match
 		if ((!pszID && pTemp->iType != GCW_SERVER || !mir_wstrcmpi(pTemp->ptszID, pszID)) && !mir_strcmpi(pTemp->pszModule, pszModule)) {
-			void *pItemData = pTemp->pItemData;
-
 			if (chatApi.OnRemoveSession)
 				chatApi.OnRemoveSession(pTemp);
 			DoEventHook(pTemp->ptszID, pTemp->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (INT_PTR)pTemp->pItemData);
@@ -142,7 +140,7 @@ static int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, BOOL re
 			SM_FreeSession(pTemp);
 
 			if (pszID)
-				return (int)pItemData;
+				return 1;
 			
 			if (pLast)
 				pTemp = pLast->next;
@@ -222,31 +220,6 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 		return chatApi.hIcons[ICON_STATUS0 + (INT_PTR)ti->hIcon];
 	}
 	return chatApi.hIcons[ICON_STATUS0];
-}
-
-static BOOL SM_AddEventToAllMatchingUID(GCEVENT *gce)
-{
-	int bManyFix = 0;
-
-	for (SESSION_INFO *p = chatApi.wndList; p != NULL; p = p->next) {
-		if (!p->bInitDone || mir_strcmpi(p->pszModule, gce->pDest->pszModule))
-			continue;
-
-		if (!chatApi.UM_FindUser(p->pUsers, gce->ptszUID))
-			continue;
-
-		if (chatApi.OnEventBroadcast)
-			chatApi.OnEventBroadcast(p, gce);
-
-		if (!(gce->dwFlags & GCEF_NOTNOTIFY))
-			chatApi.DoSoundsFlashPopupTrayStuff(p, gce, FALSE, bManyFix);
-
-		bManyFix++;
-		if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
-			chatApi.LogToFile(p, gce);
-	}
-
-	return 0;
 }
 
 static BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, BOOL bIsHighlighted)
@@ -1244,7 +1217,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	chatApi.SM_SetStatusEx = SM_SetStatusEx;
 	chatApi.SM_SendUserMessage = SM_SendUserMessage;
 	chatApi.SM_AddStatus = SM_AddStatus;
-	chatApi.SM_AddEventToAllMatchingUID = SM_AddEventToAllMatchingUID;
 	chatApi.SM_AddEvent = SM_AddEvent;
 	chatApi.SM_SendMessage = SM_SendMessage;
 	chatApi.SM_PostMessage = SM_PostMessage;
