@@ -488,45 +488,28 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
-static int CountSettings(const char *, LPARAM lParam)
-{
-	*(int *)lParam++;
-
-	return 0;
-}
-
 // for db cleanup
-static int settingIndex;
 
 static int DeleteSetting(const char *szSetting, LPARAM lParam)
 {
-	char** settings = *(char ***)lParam;
-	settings[settingIndex] = (char*)malloc(mir_strlen(szSetting) + 1);
-	mir_strcpy(settings[settingIndex], szSetting);
-	settingIndex++;
-
+	LIST<char> *p = (LIST<char> *)lParam;
+	p->insert(mir_strdup(szSetting));
 	return 0;
 }
 
 static int ClearDatabase(char* filter)
 {
-	settingIndex = 0;
+	LIST<char> arSettings(10);
+	db_enum_settings(NULL, DeleteSetting, MODULENAME, &arSettings);
 
-	int settingCount = 0;
-	db_enum_settings(NULL, CountSettings, MODULENAME, &settingCount);
-
-	char **settings = (char**)malloc(settingCount * sizeof(char*));
-	db_enum_settings(NULL, DeleteSetting, MODULENAME, &settings);
-
-	for (int i = 0; i < settingCount; i++) {
-		if ((filter == NULL) || (!strncmp(filter, settings[i], mir_strlen(filter))))
-			db_unset(NULL, MODULENAME, settings[i]);
-		free(settings[i]);
+	for (int i = 0; i < arSettings.getCount(); i++) {
+		if ((filter == NULL) || (!strncmp(filter, arSettings[i], mir_strlen(filter))))
+			db_unset(NULL, MODULENAME, arSettings[i]);
+		mir_free(arSettings[i]);
 	}
-	free(settings);
-	// < v0.0.0.9
-	if (filter == NULL)	db_unset(NULL, "AutoAway", "Confirm");
+	
+	if (filter == NULL)
+		db_unset(NULL, "AutoAway", "Confirm");
 
 	return 0;
 }
