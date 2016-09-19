@@ -262,12 +262,8 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 
 struct ChatConrolParam
 {
-	ChatConrolParam(const char *_szModule, const wchar_t *_wszId, int _command) :
-		szModule(_szModule), wszId(_wszId), command(_command)
-	{}
-
-	const wchar_t *wszId;
 	const char *szModule;
+	const wchar_t *wszId;
 	int command;
 };
 
