@@ -56,7 +56,7 @@
 [Admin]
 Админ
 [Normal]
-Нормальный
+Обычный
 [Omegle is a great way of meeting new friends!]
 Omegle - отличный способ найти новых друзей!
 [You]

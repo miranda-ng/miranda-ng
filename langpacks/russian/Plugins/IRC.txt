@@ -198,7 +198,7 @@ Wildcard поиск по сети
 [Strip colors]
 Цвета полос
 [Normal]
-Нормальный
+Обычный
 [Send-ahead]
 Упреждающий
 [Attempt reverse DCC (good if firewalled)]

@@ -16,7 +16,7 @@
 [Admin]
 Админ
 [Normal]
-Нормальный
+Обычный
 [You]
 Вы
 [Message was not sent. Probably you are sending them too fast or chat is disabled completely.]
