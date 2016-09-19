@@ -405,6 +405,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wcha
 #define GC_SSE_TABDELIMITED   0x0004  // use tabs as delimiters
 #define GC_SSE_OFFLINE        0x0008  // displays a contact offline, otherwise away
 
+// if wszId == NULL, the status is applied to all windows of specified szModule
 EXTERN_C MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *wszId, int flags, const wchar_t *wszText);
 
 /////////////////////////////////////////////////////////////////////////////////////////

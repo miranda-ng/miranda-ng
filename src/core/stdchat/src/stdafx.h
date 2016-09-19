@@ -142,6 +142,7 @@ char* Log_CreateRtfHeader(MODULEINFO * mi);
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
 int GetTextPixelSize( wchar_t* pszText, HFONT hFont, BOOL bWidth);
 
+BOOL SM_SetTabbedWindowHwnd(SESSION_INFO *si, HWND hwnd);
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si);
 SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si);
 

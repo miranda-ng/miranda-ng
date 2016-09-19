@@ -1144,8 +1144,7 @@ bool facebook_client::post_status(status_data *status)
 
 	if (status->isPage) {
 		// Switch to page identity by which name we will share this post
-		HttpRequest *request = new SwitchIdentityRequest(this->dtsg_.c_str(), status->user_id.c_str());
-		sendRequest(request);
+		sendRequest(new SwitchIdentityRequest(this->dtsg_.c_str(), status->user_id.c_str()));
 	}
 
 	std::string linkData;
@@ -1165,8 +1164,7 @@ bool facebook_client::post_status(status_data *status)
 
 	if (status->isPage) {
 		// Switch back to our identity
-		HttpRequest *request = new SwitchIdentityRequest(this->dtsg_.c_str(), this->self_.user_id.c_str());
-		sendRequest(request);
+		sendRequest(new SwitchIdentityRequest(this->dtsg_.c_str(), this->self_.user_id.c_str()));
 	}
 
 	// cleanup status elements (delete users)

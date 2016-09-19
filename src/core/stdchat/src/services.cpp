@@ -61,7 +61,7 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 		// if the session was not the current tab we need to tell the window to
 		// redraw to show the contents of the current SESSION_INFO
 		if (!si->hWnd) {
-			pci->SM_SetTabbedWindowHwnd(si, g_TabSession.hWnd);
+			SM_SetTabbedWindowHwnd(si, g_TabSession.hWnd);
 			SendMessage(g_TabSession.hWnd, GC_ADDTAB, -1, (LPARAM)si);
 			SendMessage(g_TabSession.hWnd, GC_TABCHANGE, 0, (LPARAM)&g_TabSession);
 		}

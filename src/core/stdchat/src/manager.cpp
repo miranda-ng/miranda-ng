@@ -24,6 +24,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 TABLIST *g_TabList = 0;
 
+BOOL SM_SetTabbedWindowHwnd(SESSION_INFO *si, HWND hwnd)
+{
+	for (SESSION_INFO *p = pci->wndList; p != NULL; p = p->next) {
+		if (si && si == p)
+			p->hWnd = hwnd;
+		else
+			p->hWnd = NULL;
+	}
+	return TRUE;
+}
+
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si)
 {
 	if (!si)

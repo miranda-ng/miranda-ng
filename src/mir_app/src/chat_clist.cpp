@@ -114,7 +114,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	if (roomid == NULL)
 		return 0;
 
-	SESSION_INFO *si = chatApi.SM_FindSession(roomid, szProto);
+	SESSION_INFO *si = SM_FindSession(roomid, szProto);
 	if (si) {
 		// is the "toggle visibility option set, so we need to close the window?
 		if (si->hWnd != NULL &&

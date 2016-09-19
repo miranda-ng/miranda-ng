@@ -2590,7 +2590,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_CLOSEWINDOW:
 		if (g_Settings.bTabsEnable)
-			pci->SM_SetTabbedWindowHwnd(0, 0);
+			SM_SetTabbedWindowHwnd(0, 0);
 		DestroyWindow(hwndDlg);
 		break;
 
