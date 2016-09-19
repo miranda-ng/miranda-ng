@@ -1266,14 +1266,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 			CMStringW sID = MakeWndID(sChanName);
 			BYTE btOwnMode = 0;
 
-			GCSESSION gcw = {};
-			gcw.iType = GCW_CHATROOM;
-			gcw.ptszID = sID;
-			gcw.pszModule = m_szModuleName;
-			gcw.ptszName = sChanName;
-			if (!Chat_NewSession(&gcw)) {
-				DBVARIANT dbv;
-
+			if (!Chat_NewSession(GCW_CHATROOM, m_szModuleName, sID, sChanName)) {
 				PostIrcMessage(L"/MODE %s", sChanName);
 
 				// register the statuses
@@ -1359,6 +1352,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 					}
 				}
 
+				DBVARIANT dbv;
 				if (!getWString("JTemp", &dbv)) {
 					CMStringW command = L"a";
 					CMStringW save = L"";

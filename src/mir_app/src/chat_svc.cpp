@@ -153,12 +153,12 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO *gci)
 MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 {
 	if (gcr == NULL)
-		return GC_REGISTER_ERROR;
+		return GC_ERROR;
 
 	mir_cslock lck(csChat);
 	MODULEINFO *mi = chatApi.MM_AddModule(gcr->pszModule);
 	if (mi == NULL)
-		return GC_REGISTER_ERROR;
+		return GC_ERROR;
 
 	mi->ptszModDispName = mir_wstrdup(gcr->ptszDispName);
 	mi->bBold = (gcr->dwFlags & GC_BOLD) != 0;
@@ -187,18 +187,20 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 /////////////////////////////////////////////////////////////////////////////////////////
 // starts new chat session
 
-EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
+EXTERN_C MIR_APP_DLL(int) Chat_NewSession(
+	int            iType,      // Use one of the GCW_* flags above to set the type of session
+	const char    *pszModule,  // The name of the protocol owning the session (the same as pszModule when you register)
+	const wchar_t *ptszID,     // The unique identifier for the session.
+	const wchar_t *ptszName,   // The name of the session as it will be displayed to the user
+	void          *pItemData)  // Set user defined data for this session. Retrieve it by using the Chat_GetUserInfo() call
 {
-	if (gcw == NULL)
-		return GC_NEWSESSION_ERROR;
-
 	mir_cslockfull lck(csChat);
-	MODULEINFO *mi = chatApi.MM_FindModule(gcw->pszModule);
+	MODULEINFO *mi = chatApi.MM_FindModule(pszModule);
 	if (mi == NULL)
-		return GC_NEWSESSION_ERROR;
+		return GC_ERROR;
 
 	// try to restart a session first
-	SESSION_INFO *si = chatApi.SM_FindSession(gcw->ptszID, gcw->pszModule);
+	SESSION_INFO *si = chatApi.SM_FindSession(ptszID, pszModule);
 	if (si != NULL) {
 		chatApi.UM_RemoveAll(&si->pUsers);
 		chatApi.TM_RemoveAll(&si->pStatuses);
@@ -215,8 +217,8 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 
 	// create a new session
 	si = (SESSION_INFO*)mir_calloc(g_cbSession);
-	si->ptszID = mir_wstrdup(gcw->ptszID);
-	si->pszModule = mir_strdup(gcw->pszModule);
+	si->ptszID = mir_wstrdup(ptszID);
+	si->pszModule = mir_strdup(pszModule);
 
 	if (chatApi.wndList == NULL) // list is empty
 		chatApi.wndList = si;
@@ -227,13 +229,11 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 	lck.unlock();
 
 	// set the defaults
-	si->pItemData = gcw->pItemData;
-	if (gcw->iType != GCW_SERVER)
+	si->pItemData = pItemData;
+	if (iType != GCW_SERVER)
 		si->wStatus = ID_STATUS_ONLINE;
-	si->iType = gcw->iType;
-	si->dwFlags = gcw->dwFlags;
-	si->ptszName = mir_wstrdup(gcw->ptszName);
-	si->ptszStatusbarText = mir_wstrdup(gcw->ptszStatusbarText);
+	si->iType = iType;
+	si->ptszName = mir_wstrdup(ptszName);
 	si->iSplitterX = g_Settings->iSplitterX;
 	si->iSplitterY = g_Settings->iSplitterY;
 	si->iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
@@ -254,7 +254,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 		mir_snwprintf(szTemp, L"Server: %s", si->ptszName);
 	else
 		wcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
-	si->hContact = chatApi.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);
+	si->hContact = AddRoom(pszModule, ptszID, szTemp, si->iType);
 	db_set_s(si->hContact, si->pszModule, "Topic", "");
 	db_unset(si->hContact, "CList", "StatusMsg");
 	if (si->ptszStatusbarText)

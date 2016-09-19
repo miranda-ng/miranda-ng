@@ -440,17 +440,9 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		else db_unset(hContact, "CList", "MyHandle");
 
 		if (isChatRoom(hContact)) {
-			GCSESSION gcw = {};
-			gcw.iType = GCW_CHATROOM;
-			gcw.pszModule = m_szModuleName;
-			gcw.ptszID = jid;
-			gcw.ptszName = NEWWSTR_ALLOCA(jid);
-
-			wchar_t *p = (wchar_t*)wcschr(gcw.ptszName, '@');
-			if (p)
-				*p = 0;
-
-			Chat_NewSession(&gcw);
+			wchar_t *wszTitle = NEWWSTR_ALLOCA(jid);
+			if (wchar_t *p = wcschr(wszTitle, '@')) *p = 0;
+			Chat_NewSession(GCW_CHATROOM, m_szModuleName, jid, wszTitle);
 
 			db_unset(hContact, "CList", "Hidden");
 			chatRooms.insert((HANDLE)hContact);

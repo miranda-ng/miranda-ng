@@ -245,12 +245,7 @@ void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 	ptrW tid(mir_a2u(id));
 
 	// Create the group chat session
-	GCSESSION gcw = {};
-	gcw.iType = GCW_PRIVMESS;
-	gcw.ptszID = tid;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = tname;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_PRIVMESS, m_szModuleName, tid, tname);
 
 	// Send setting events
 	Chat_AddGroup(m_szModuleName, tid, TranslateT("Myself"));
@@ -411,16 +406,11 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 		mir_snwprintf(nameT, L"%s: %s", m_tszUserName, TranslateT("Notifications"));
 
 		// Create the group chat session
-		GCSESSION gcw = {};
-		gcw.iType = GCW_PRIVMESS;
-		gcw.ptszID = _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM);
-		gcw.pszModule = m_szModuleName;
-		gcw.ptszName = nameT;
-		Chat_NewSession(&gcw);
+		Chat_NewSession(GCW_PRIVMESS, m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), nameT);
 
 		// Send setting events
-		Chat_Control(m_szModuleName, gcw.ptszID, WINDOW_HIDDEN);
-		Chat_Control(m_szModuleName, gcw.ptszID, SESSION_ONLINE);
+		Chat_Control(m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), WINDOW_HIDDEN);
+		Chat_Control(m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), SESSION_ONLINE);
 	}
 }
 

@@ -1123,7 +1123,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	chatApi.LM_TrimLog = LM_TrimLog;
 	chatApi.LM_RemoveAll = LM_RemoveAll;
 
-	chatApi.AddRoom = AddRoom;
 	chatApi.SetOffline = SetOffline;
 	chatApi.SetAllOffline = SetAllOffline;
 	chatApi.AddEvent = AddEvent;

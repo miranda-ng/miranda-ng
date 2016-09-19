@@ -204,12 +204,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_GC_EVENT, &CIrcProto::GCEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
 
-	GCSESSION gcw = {};
-	gcw.iType = GCW_SERVER;
-	gcw.ptszID = SERVERWINDOW;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = NEWWSTR_ALLOCA((wchar_t*)_A2T(m_network));
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_SERVER, m_szModuleName, SERVERWINDOW, _A2T(m_network));
 
 	if (m_useServer && !m_hideServerWindow)
 		Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_VISIBLE);

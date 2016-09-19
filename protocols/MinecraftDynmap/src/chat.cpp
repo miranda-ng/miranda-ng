@@ -126,12 +126,7 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 	ptrW tszTitle(mir_a2u_cp(m_title.c_str(), CP_UTF8));
 
 	// Create the group chat session
-	GCSESSION gcw = {};
-	gcw.iType = GCW_PRIVMESS;
-	gcw.ptszID = m_tszUserName;
-	gcw.ptszName = tszTitle;
-	gcw.pszModule = m_szModuleName;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, tszTitle);
 
 	if (m_iStatus == ID_STATUS_OFFLINE)
 		return 0;

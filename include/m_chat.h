@@ -137,9 +137,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_FONTSIZE        0x0200 // enable font size selection
 
 // Error messages
-#define GC_REGISTER_ERROR		2   // An internal error occurred. Registration failed.
-#define GC_REGISTER_NOUNICODE	3   // MS_GC_REGISTER returns this error if the Unicode version of chat
-                                  // is not installed and GC_UNICODE is set. Registration failed
+#define GC_ERROR                1 // An internal error occurred.
 
 // GCREGISTER struct
 struct GCREGISTER
@@ -175,22 +173,13 @@ EXTERN_C MIR_APP_DLL(int) Chat_Register(const GCREGISTER*);
 #define GCW_PRIVMESS 3  // NOT SUPPORTED YET! the session is a 1 to 1 session, but with additional
                         // support for adding more users etc. ex "MSN session".
 
-// Error messages
-#define GC_NEWSESSION_ERROR     2  // An internal error occurred.
-
-// GCSESSION structure
-struct GCSESSION
-{
-	const char    *pszModule;          // The name of the protocol owning the session (the same as pszModule when you register)
-	const wchar_t *ptszName;			  // The name of the session as it will be displayed to the user
-	const wchar_t *ptszID;             // The unique identifier for the session.
-	const wchar_t *ptszStatusbarText;  // Optional text to set in the statusbar of the chat room window, or NULL.
-	int            iType;              // Use one of the GCW_* flags above to set the type of session
-	DWORD          dwFlags;
-	void          *pItemData;          // Set user defined data for this session. Retrieve it by using the Chat_GetUserInfo() call
-};
-
-EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *);
+EXTERN_C MIR_APP_DLL(int) Chat_NewSession(
+	int            iType,           // Use one of the GCW_* flags above to set the type of session
+	const char    *pszModule,       // The name of the protocol owning the session (the same as pszModule when you register)
+	const wchar_t *ptszID,          // The unique identifier for the session.
+	const wchar_t *ptszName,        // The name of the session as it will be displayed to the user
+	void          *pItemData = NULL // Set user defined data for this session. Retrieve it by using the Chat_GetUserInfo() call
+);
 
 /*
 	Step 3 -- SEND an EVENT --

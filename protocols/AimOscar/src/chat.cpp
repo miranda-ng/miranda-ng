@@ -37,13 +37,7 @@ void CAimProto::chat_register(void)
 void CAimProto::chat_start(const char *id, unsigned short exchange)
 {
 	wchar_t *idt = mir_a2u(id);
-
-	GCSESSION gcw = {};
-	gcw.iType = GCW_CHATROOM;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = idt;
-	gcw.ptszID = idt;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_CHATROOM, m_szModuleName, idt, idt);
 
 	Chat_AddGroup(m_szModuleName, idt, TranslateT("Me"));
 	Chat_AddGroup(m_szModuleName, idt, TranslateT("Others"));

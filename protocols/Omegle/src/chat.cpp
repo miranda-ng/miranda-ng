@@ -267,12 +267,7 @@ void OmegleProto::DeleteChatContact(const wchar_t *name)
 INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 {
 	// Create the group chat session
-	GCSESSION gcw = {};
-	gcw.iType = GCW_PRIVMESS;
-	gcw.ptszID = m_tszUserName;
-	gcw.ptszName = m_tszUserName;
-	gcw.pszModule = m_szModuleName;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, m_tszUserName);
 
 	if (m_iStatus == ID_STATUS_OFFLINE)
 		return 0;

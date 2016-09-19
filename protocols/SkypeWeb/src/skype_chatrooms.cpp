@@ -59,12 +59,7 @@ MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 {
 	// Create the group chat session
-	GCSESSION gcw = {};
-	gcw.iType = GCW_CHATROOM;
-	gcw.ptszID = tid;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = tname;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_CHATROOM, m_szModuleName, tid, tname);
 
 	// Create a user statuses
 	Chat_AddGroup(m_szModuleName, tid, TranslateT("Admin"));

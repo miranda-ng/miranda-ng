@@ -308,27 +308,10 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 		mir_snwprintf(status, TranslateT("This is my own conference."));
 	}
 
-	GCSESSION gcwindow = {};
-	gcwindow.iType = GCW_CHATROOM;
-	gcwindow.pszModule = m_szModuleName;
-	gcwindow.ptszName = sender ? senderName : TranslateT("Conference");
-	gcwindow.ptszID = chat->id;
-	gcwindow.pItemData = chat;
-	gcwindow.ptszStatusbarText = status;
-
-	// Here we put nice new hash sign
-	wchar_t *name = (wchar_t*)calloc(mir_wstrlen(gcwindow.ptszName) + 2, sizeof(wchar_t));
-	*name = '#'; mir_wstrcpy(name + 1, gcwindow.ptszName);
-	gcwindow.ptszName = name;
-
 	// Create new room
-	if (Chat_NewSession( &gcwindow)) {
-		debugLogW(L"gc_getchat(): Cannot create new chat window %s.", chat->id);
-		free(name);
-		free(chat);
-		return NULL;
-	}
-	free(name);
+	CMStringW wszTitle(L"#"); wszTitle.Append(sender ? senderName : TranslateT("Conference"));
+	Chat_NewSession(GCW_CHATROOM, m_szModuleName, chat->id, wszTitle, chat);
+	Chat_SetStatusbarText(m_szModuleName, chat->id, status);
 
 	// Add normal group
 	Chat_AddGroup(m_szModuleName, chat->id, TranslateT("Participants"));
@@ -367,8 +350,8 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	for(i = 0; i < chat->recipients_count; i++) {
 		MCONTACT hContact = getcontact(chat->recipients[i], 1, 0, NULL);
 		UIN2IDT(chat->recipients[i], id);
-		if (hContact && (name = pcli->pfnGetContactDisplayName(hContact, 0)) != NULL)
-			gce.ptszNick = name;
+		if (hContact)
+			gce.ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 		else
 			gce.ptszNick = TranslateT("'Unknown'");
 		gce.bIsMe = 0;

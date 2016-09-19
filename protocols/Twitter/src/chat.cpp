@@ -117,12 +117,7 @@ void TwitterProto::DeleteChatContact(const char *name)
 INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 {
 	// ***** Create the group chat session
-	GCSESSION gcw = {};
-	gcw.iType = GCW_CHATROOM;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = m_tszUserName;
-	gcw.ptszID = m_tszUserName;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_CHATROOM, m_szModuleName, m_tszUserName, m_tszUserName);
 
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;

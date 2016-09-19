@@ -59,13 +59,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	CMStringW sid; 
 	sid.Format(L"%S_%d", m_szModuleName, id);
 	c->m_wszId = mir_wstrdup(sid);
-
-	GCSESSION gcw = {};
-	gcw.iType = GCW_CHATROOM;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = wszTitle;
-	gcw.ptszID = sid;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_CHATROOM, m_szModuleName, sid, wszTitle);
 
 	GC_INFO gci = {};
 	gci.pszModule = m_szModuleName;

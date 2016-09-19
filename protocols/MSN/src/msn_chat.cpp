@@ -54,16 +54,11 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 
 	wchar_t szName[512];
 	InterlockedIncrement(&m_chatID);
-	if (*pszTopic) wcsncpy(szName, _A2T(pszTopic), _countof(szName));
+	if (*pszTopic)
+		wcsncpy(szName, _A2T(pszTopic), _countof(szName));
 	else mir_snwprintf(szName, L"%s %s%d",
 		m_tszUserName, TranslateT("Chat #"), m_chatID);
-
-	GCSESSION gcw = {};
-	gcw.iType = GCW_CHATROOM;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = szName;
-	gcw.ptszID = info->mChatID;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_CHATROOM, m_szModuleName, info->mChatID, szName);
 
 	for (int j = 0; j < _countof(m_ptszRoles); j++)
 		Chat_AddGroup(m_szModuleName, info->mChatID, m_ptszRoles[j]);

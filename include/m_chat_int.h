@@ -209,7 +209,6 @@ struct GCSessionInfoBase
    WORD        wState;
    WORD        wCommandsNum;
    void       *pItemData;
-   DWORD       dwFlags;
 	MCONTACT    hContact;
    HWND        hwndStatus;
    time_t      LastTime;
@@ -347,7 +346,6 @@ struct CHAT_MANAGER
 	BOOL          (*LM_TrimLog)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd, int iCount);
 	BOOL          (*LM_RemoveAll)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd);
 
-	MCONTACT      (*AddRoom)(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType);
 	BOOL          (*SetOffline)(MCONTACT hContact, BOOL bHide);
 	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);
 	BOOL          (*AddEvent)(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* fmt, ...);

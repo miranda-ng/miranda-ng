@@ -151,13 +151,7 @@ void CYahooProto::ChatRegister(void)
 void CYahooProto::ChatStart(const char* room)
 {
 	ptrW idt(mir_a2u(room));
-
-	GCSESSION gcw = {};
-	gcw.iType = GCW_CHATROOM;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = idt;
-	gcw.ptszID = idt;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_CHATROOM, m_szModuleName, idt, idt);
 
 	Chat_AddGroup(m_szModuleName, idt, TranslateT("Me"));
 	Chat_AddGroup(m_szModuleName, idt, TranslateT("Others"));

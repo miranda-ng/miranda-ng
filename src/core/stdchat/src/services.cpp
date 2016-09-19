@@ -38,7 +38,6 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 			g_TabSession.pLog = si->pLog;
 			g_TabSession.pLogEnd = si->pLogEnd;
 			g_TabSession.pMe = si->pMe;
-			g_TabSession.dwFlags = si->dwFlags;
 			g_TabSession.pStatuses = si->pStatuses;
 			g_TabSession.ptszID = si->ptszID;
 			g_TabSession.pszModule = si->pszModule;

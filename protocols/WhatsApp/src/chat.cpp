@@ -302,12 +302,7 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 		setString(hOldContact, "ChatRoomID", jid.c_str());
 	}
 
-	GCSESSION gcw = {};
-	gcw.iType = GCW_CHATROOM;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = ptszNick;
-	gcw.ptszID = ptszJid;
-	Chat_NewSession(&gcw);
+	Chat_NewSession(GCW_CHATROOM, m_szModuleName, ptszJid, ptszNick);
 
 	pInfo->hContact = (hOldContact != NULL) ? hOldContact : ContactIDToHContact(jid);
 

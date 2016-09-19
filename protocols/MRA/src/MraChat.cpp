@@ -27,32 +27,26 @@ bool CMraProto::MraChatRegister()
 INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 {
 	if (bChatExists)
-	if (hContact) {
-		CMStringW wszEMail;
-		mraGetStringW(hContact, "e-mail", wszEMail);
+	if (!hContact)
+		return 1;
+		
+	CMStringW wszEMail;
+	mraGetStringW(hContact, "e-mail", wszEMail);
 
-		GCSESSION gcw = {};
-		gcw.iType = GCW_CHATROOM;
-		gcw.pszModule = m_szModuleName;
-		gcw.ptszName = pcli->pfnGetContactDisplayName(hContact, 0);
-		gcw.ptszID = wszEMail;
-		gcw.ptszStatusbarText = L"status bar";
-		gcw.pItemData = (void*)hContact;
-		if (!Chat_NewSession(&gcw)) {
-			for (int i = 0; i < _countof(lpwszStatuses); i++)
-				Chat_AddGroup(m_szModuleName, wszEMail, TranslateW(lpwszStatuses[i]));
+	if (Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, pcli->pfnGetContactDisplayName(hContact, 0), (void*)hContact))
+		return 1;
 
-			Chat_Control(m_szModuleName, wszEMail, SESSION_INITDONE);
-			Chat_Control(m_szModuleName, wszEMail, SESSION_ONLINE);
+	for (int i = 0; i < _countof(lpwszStatuses); i++)
+		Chat_AddGroup(m_szModuleName, wszEMail, TranslateW(lpwszStatuses[i]));
 
-			DWORD opcode = MULTICHAT_GET_MEMBERS;
-			CMStringA szEmail;
-			if (mraGetStringA(hContact, "e-mail", szEmail))
-				MraMessage(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, L"", (LPBYTE)&opcode, sizeof(opcode));
-			return 0;
-		}
-	}
-	return 1;
+	Chat_Control(m_szModuleName, wszEMail, SESSION_INITDONE);
+	Chat_Control(m_szModuleName, wszEMail, SESSION_ONLINE);
+
+	DWORD opcode = MULTICHAT_GET_MEMBERS;
+	CMStringA szEmail;
+	if (mraGetStringA(hContact, "e-mail", szEmail))
+		MraMessage(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, L"", (LPBYTE)&opcode, sizeof(opcode));
+	return 0;
 }
 
 void CMraProto::MraChatSessionDestroy(MCONTACT hContact)
