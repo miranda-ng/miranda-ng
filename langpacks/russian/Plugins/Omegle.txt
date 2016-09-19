@@ -53,6 +53,10 @@
 Вы не подключены к незнакомцу. Наберите '/help' или '/commands' для справки.
 [You can't send messages in question mode.]
 Вы не можете отправлять сообщения в режиме вопросов.
+[Admin]
+Админ
+[Normal]
+Нормальный
 [Omegle is a great way of meeting new friends!]
 Omegle - отличный способ найти новых друзей!
 [You]

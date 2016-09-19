@@ -59,6 +59,8 @@
 [&Cancel]
 [Add]
 ;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+[User]
 [Chat #]
 [&Invite user...]
 [&Leave chat session]

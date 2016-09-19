@@ -2107,6 +2107,12 @@ Miranda NG не может открыть '%s'\nНе установлен под
 Miranda NG не может открыть этот профиль
 [Miranda can't understand that profile]
 Miranda не может распознать этот профиль
+[Authorization request from %s%s: %s]
+Запрос авторизации от %s%s: %s
+[You were added by %s%s]
+Вас добавил %s%s
+[Contacts: ]
+Контакты:\s
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед каждым произведённым изменением.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2121,12 +2127,6 @@ Miranda не может распознать этот профиль
 Неизвестно, будет ли изменение безопасным.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
-[Authorization request from %s%s: %s]
-Запрос авторизации от %s%s: %s
-[You were added by %s%s]
-Вас добавил %s%s
-[Contacts: ]
-Контакты:\s
 [Chat activity]
 Активность в чате
 [You haven't filled in the search field. Please enter a search term and try again.]

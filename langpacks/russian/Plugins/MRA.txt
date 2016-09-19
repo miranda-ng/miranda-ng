@@ -215,6 +215,10 @@ xСтатус "%s"
 Аватары: сервер вернул HTTP код: %lu
 [Avatars: can't open file %s, error]
 Аватары: невозможно открыть %s, ошибка
+[Owners]
+Владельцы
+[Visitors]
+Посетители
 [Chat plugin is required for conferences. Install it before chatting]
 Для конференций требуется плагин чата (StdChat, TabSRMM или Scriver).
 [invite sender]

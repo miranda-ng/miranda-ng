@@ -11,6 +11,8 @@
 [Visible name:]
 ;file \protocols\MinecraftDynmap\src\chat.cpp
 [Server]
+[Admin]
+[Normal]
 [You]
 ;file \protocols\MinecraftDynmap\src\communication.cpp
 [Message was not sent. Probably you are sending them too fast or chat is disabled completely.]

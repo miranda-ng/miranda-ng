@@ -117,16 +117,8 @@
 Сохранить аватар для %s
 [Save Avatar]
 Сохранить аватар
-[AVH Debug]
-Отладка AVH
-[Removed avatar, no avatar before... skipping]
-Аватар удалён, нет более ранних аватаров... пропускаем
-[Hashes are the same... skipping]
-Хэши аватаров совпадают... пропускаем
 [Avatar History: Unable to save avatar]
 История аватаров: невозможно сохранить аватар
-[AVH Debug: File copied successfully]
-Отладка AVH: файл успешно скопирован
 [Avatars]
 Аватары
 [Contact changed avatar]
@@ -163,9 +155,5 @@
 Неизвестный протокол
 [Unknown UIN]
 Неизвестный номер
-[AVH Debug: GetOldStyleAvatarName]
-Отладка AVH: GetOldStyleAvatarName
 [Avatar History: Unable to create shortcut]
 История аватаров: невозможно создать ярлык
-[AVH Debug: Shortcut created successfully]
-Отладка AVH: ярлык успешно создан
