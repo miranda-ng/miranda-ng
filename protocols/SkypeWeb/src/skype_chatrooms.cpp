@@ -66,20 +66,12 @@ void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 	gcw.ptszName = tname;
 	Chat_NewSession(&gcw);
 
-	// Send setting events
-	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { &gcd };
-
 	// Create a user statuses
-	gce.ptszStatus = TranslateT("Admin");
-	Chat_Event(&gce);
-	gce.ptszStatus = TranslateT("User");
-	Chat_Event(&gce);
+	Chat_AddGroup(m_szModuleName, tid, TranslateT("Admin"));
+	Chat_AddGroup(m_szModuleName, tid, TranslateT("User"));
 
 	// Finish initialization
-	bool hideChats = getBool("HideChats", 1);
-
-	Chat_Control(m_szModuleName, tid, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE));
+	Chat_Control(m_szModuleName, tid, (getBool("HideChats", 1) ? WINDOW_HIDDEN : SESSION_INITDONE));
 	Chat_Control(m_szModuleName, tid, SESSION_ONLINE);
 }
 

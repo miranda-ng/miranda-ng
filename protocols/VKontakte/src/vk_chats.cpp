@@ -77,12 +77,8 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	setWString(gci.hContact, "Nick", wszTitle);
 	m_chats.insert(c);
 
-	GCDEST gcd = { m_szModuleName, sid, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { &gcd };
-	for (int i = _countof(sttStatuses)-1; i >= 0; i--) {
-		gce.ptszStatus = TranslateW(sttStatuses[i]);
-		Chat_Event(&gce);
-	}
+	for (int i = _countof(sttStatuses)-1; i >= 0; i--)
+		Chat_AddGroup(m_szModuleName, sid, TranslateW(sttStatuses[i]));
 
 	setDword(gci.hContact, "vk_chat_id", id);
 
@@ -97,7 +93,6 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 		return NULL;
 	}
 
-	gce.ptszStatus = 0;
 	Chat_Control(m_szModuleName, sid, (m_vkOptions.bHideChats) ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(m_szModuleName, sid, SESSION_ONLINE);
 

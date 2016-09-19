@@ -350,12 +350,6 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *);
 //					registered with GC_EVENT_ADDGROUP. Ex "Voice" in IRC
 #define GC_EVENT_REMOVESTATUS	0x0800
 
-//	GC_EVENT_ADDGROUP - not shown in the log (Add a possible status mode to the nicklist, ex IRC uses "Op", "Voice", "Normal" etc )
-//	NOTE. When adding several statuses, start with the highest status
-//	pszStatus		- The new group name
-//	dwItemData		- Optional HICON handle to a 10x10 icon. Set to NULL to use the built in icons.
-#define GC_EVENT_ADDGROUP		0x1002
-
 //	GC_EVENT_SETCONTACTSTATUS - sets status icon for contact
 //	pszUID		- Unique identifier of the one who receives a new status
 //	dwItemData	- (DWORD)ID_STATUS_* or zero to remove status icon
@@ -398,6 +392,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT*);
 EXTERN_C MIR_APP_DLL(void*) Chat_GetUserInfo(const char *szModule, const wchar_t *wszId);
 EXTERN_C MIR_APP_DLL(int) Chat_SetUserInfo(const char *szModule, const wchar_t *wszId, void *pItemData);
 
+EXTERN_C MIR_APP_DLL(int) Chat_AddGroup(const char *szModule, const wchar_t *wszId, const wchar_t *wszText, HICON hIcon = NULL);
 EXTERN_C MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wszId, const wchar_t *wszNewName);
 EXTERN_C MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, const wchar_t *wszOldId, const wchar_t *wszNewId);
 EXTERN_C MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId, const wchar_t *wszText);

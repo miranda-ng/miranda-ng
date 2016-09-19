@@ -308,3 +308,4 @@ Chat_SetStatusbarText @308
 Chat_SendUserMessage @309
 Chat_SetStatusEx @310
 Chat_Terminate @311
+Chat_AddGroup @312

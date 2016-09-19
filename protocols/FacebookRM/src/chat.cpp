@@ -253,18 +253,10 @@ void FacebookProto::AddChat(const char *id, const wchar_t *tname)
 	Chat_NewSession(&gcw);
 
 	// Send setting events
-	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { &gcd };
-
-	// Create a user statuses
-	gce.ptszStatus = TranslateT("Myself");
-	Chat_Event(&gce);
-	gce.ptszStatus = TranslateT("Friend");
-	Chat_Event(&gce);
-	gce.ptszStatus = TranslateT("User");
-	Chat_Event(&gce);
-	gce.ptszStatus = TranslateT("Former");
-	Chat_Event(&gce);
+	Chat_AddGroup(m_szModuleName, tid, TranslateT("Myself"));
+	Chat_AddGroup(m_szModuleName, tid, TranslateT("Friend"));
+	Chat_AddGroup(m_szModuleName, tid, TranslateT("User"));
+	Chat_AddGroup(m_szModuleName, tid, TranslateT("Former"));
 
 	// Finish initialization
 	bool hideChats = getBool(FACEBOOK_KEY_HIDE_CHATS, DEFAULT_HIDE_CHATS);

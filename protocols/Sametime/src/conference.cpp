@@ -109,47 +109,34 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 	proto->debugLogW(L"mwServiceConf_conf_opened() start");
 
 	ptrW tszConfId(mir_utf8decodeW(mwConference_getName(conf)));
+	ptrW tszConfTitle(mir_utf8decodeW(mwConference_getTitle(conf)));
 
 	// create new chat session
-	{
-		ptrW tszConfTitle(mir_utf8decodeW(mwConference_getTitle(conf)));
+	GCSESSION gcs = {};
+	gcs.iType = GCW_CHATROOM;
+	gcs.pszModule = proto->m_szModuleName;
+	gcs.ptszID = tszConfId;
+	gcs.ptszName = tszConfTitle;
+	Chat_NewSession(&gcs);
 
-		GCSESSION gcs = {};
-		gcs.iType = GCW_CHATROOM;
-		gcs.pszModule = proto->m_szModuleName;
-		gcs.ptszID = tszConfId;
-		gcs.ptszName = tszConfTitle;
-		Chat_NewSession(&gcs);
-	}
-
-	//add a group
-	GCDEST gcd = { proto->m_szModuleName, 0 };
-	gcd.iType = GC_EVENT_ADDGROUP;
-	gcd.ptszID = tszConfId;
-
-	GCEVENT gce = { &gcd };
-	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszStatus = TranslateT("Normal");
-
-	Chat_Event(&gce);
+	// add a group
+	Chat_AddGroup(proto->m_szModuleName, tszConfId, TranslateT("Normal"));
 
 	// add users
-	gcd.iType = GC_EVENT_JOIN;
+	GCDEST gcd = { proto->m_szModuleName, tszConfId, GC_EVENT_JOIN };
+	GCEVENT gce = { &gcd };
 
 	GList *user = members;
 	for (;user; user=user->next) {
 		proto->debugLogW(L"mwServiceConf_conf_opened() add user");
 
-		wchar_t* tszUserName = mir_utf8decodeW(((mwLoginInfo*)user->data)->user_name);
-		wchar_t* tszUserId = mir_utf8decodeW(((mwLoginInfo*)user->data)->login_id);
+		ptrW tszUserName(mir_utf8decodeW(((mwLoginInfo*)user->data)->user_name));
+		ptrW tszUserId(mir_utf8decodeW(((mwLoginInfo*)user->data)->login_id));
+		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.ptszNick = tszUserName;
 		gce.ptszUID = tszUserId;
 		gce.bIsMe = (strcmp(((mwLoginInfo*)user->data)->login_id, proto->my_login_info->login_id) == 0);
-
 		Chat_Event( &gce);
-
-		mir_free(tszUserName);
-		mir_free(tszUserId);
 	}
 
 	// finalize setup (show window)

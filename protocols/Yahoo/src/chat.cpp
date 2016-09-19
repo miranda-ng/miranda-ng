@@ -159,14 +159,8 @@ void CYahooProto::ChatStart(const char* room)
 	gcw.ptszID = idt;
 	Chat_NewSession(&gcw);
 
-	GCDEST gcd = { m_szModuleName, idt, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { &gcd };
-	gce.ptszStatus = TranslateT("Me");
-	Chat_Event(&gce);
-
-	gcd.iType = GC_EVENT_ADDGROUP;
-	gce.ptszStatus = TranslateT("Others");
-	Chat_Event(&gce);
+	Chat_AddGroup(m_szModuleName, idt, TranslateT("Me"));
+	Chat_AddGroup(m_szModuleName, idt, TranslateT("Others"));
 
 	Chat_Control(m_szModuleName, idt, SESSION_INITDONE);
 	Chat_Control(m_szModuleName, idt, SESSION_ONLINE);

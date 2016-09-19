@@ -39,12 +39,8 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 		gcw.ptszStatusbarText = L"status bar";
 		gcw.pItemData = (void*)hContact;
 		if (!Chat_NewSession(&gcw)) {
-			GCDEST gcd = { m_szModuleName, wszEMail.c_str(), GC_EVENT_ADDGROUP };
-			GCEVENT gce = { &gcd };
-			for (int i = 0; i < _countof(lpwszStatuses); i++) {
-				gce.ptszStatus = TranslateW(lpwszStatuses[i]);
-				Chat_Event(&gce);
-			}
+			for (int i = 0; i < _countof(lpwszStatuses); i++)
+				Chat_AddGroup(m_szModuleName, wszEMail, TranslateW(lpwszStatuses[i]));
 
 			Chat_Control(m_szModuleName, wszEMail, SESSION_INITDONE);
 			Chat_Control(m_szModuleName, wszEMail, SESSION_ONLINE);

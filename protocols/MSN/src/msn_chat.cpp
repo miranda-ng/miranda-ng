@@ -65,18 +65,12 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 	gcw.ptszID = info->mChatID;
 	Chat_NewSession(&gcw);
 
-	GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { &gcd };
-	for (int j = 0; j < _countof(m_ptszRoles); j++) {
-		gce.ptszStatus = m_ptszRoles[j];
-		Chat_Event(&gce);
-	}
+	for (int j = 0; j < _countof(m_ptszRoles); j++)
+		Chat_AddGroup(m_szModuleName, info->mChatID, m_ptszRoles[j]);
 
 	Chat_Control(m_szModuleName, info->mChatID, SESSION_INITDONE);
 	Chat_Control(m_szModuleName, info->mChatID, SESSION_ONLINE);
 	Chat_Control(m_szModuleName, info->mChatID, WINDOW_VISIBLE);
-
-	mir_free((wchar_t*)gce.ptszUID);
 	return 0;
 }
 

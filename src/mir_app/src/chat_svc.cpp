@@ -192,17 +192,17 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 	if (gcw == NULL)
 		return GC_NEWSESSION_ERROR;
 
-	mir_cslock lck(csChat);
+	mir_cslockfull lck(csChat);
 	MODULEINFO *mi = chatApi.MM_FindModule(gcw->pszModule);
 	if (mi == NULL)
 		return GC_NEWSESSION_ERROR;
-
 
 	// try to restart a session first
 	SESSION_INFO *si = chatApi.SM_FindSession(gcw->ptszID, gcw->pszModule);
 	if (si != NULL) {
 		chatApi.UM_RemoveAll(&si->pUsers);
 		chatApi.TM_RemoveAll(&si->pStatuses);
+		lck.unlock();
 
 		si->iStatusCount = 0;
 		si->nUsersInNicklist = 0;
@@ -217,6 +217,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 	if ((si = chatApi.SM_AddSession(gcw->ptszID, gcw->pszModule)) == NULL)
 		return GC_NEWSESSION_ERROR;
 
+	lck.unlock();
 	si->pItemData = gcw->pItemData;
 	if (gcw->iType != GCW_SERVER)
 		si->wStatus = ID_STATUS_ONLINE;
@@ -410,9 +411,6 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 
 EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 {
-	BOOL bIsHighlighted = FALSE;
-	BOOL bRemoveFlag = FALSE;
-
 	if (gce == NULL)
 		return GC_EVENT_ERROR;
 
@@ -426,16 +424,11 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 	if (NotifyEventHooks(hHookEvent, 0, LPARAM(gce)))
 		return 1;
 
+	BOOL bIsHighlighted = FALSE;
+	BOOL bRemoveFlag = FALSE;
+
 	// Do different things according to type of event
 	switch (gcd->iType) {
-	case GC_EVENT_ADDGROUP:
-		{
-			STATUSINFO *si = chatApi.SM_AddStatus(gcd->ptszID, gcd->pszModule, gce->ptszStatus);
-			if (si && gce->dwItemData)
-				si->hIcon = CopyIcon((HICON)gce->dwItemData);
-		}
-		return 0;
-
 	case GC_EVENT_SETCONTACTSTATUS:
 		return chatApi.SM_SetContactStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
 
@@ -545,6 +538,18 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // chat control functions
+
+MIR_APP_DLL(int) Chat_AddGroup(const char *szModule, const wchar_t *wszId, const wchar_t *wszText, HICON hIcon)
+{
+	if (wszText == NULL)
+		return GC_EVENT_ERROR;
+
+	mir_cslock lck(csChat);
+	STATUSINFO *si = chatApi.SM_AddStatus(wszId, szModule, wszText);
+	if (si && hIcon)
+		si->hIcon = CopyIcon(hIcon);
+	return 0;
+}
 
 MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wszId, const wchar_t *wszNewName)
 {

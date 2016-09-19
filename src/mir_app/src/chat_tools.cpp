@@ -658,7 +658,6 @@ BOOL IsEventSupported(int eventType)
 	case GC_EVENT_ACTION:
 	case GC_EVENT_ADDSTATUS:
 	case GC_EVENT_REMOVESTATUS:
-	case GC_EVENT_ADDGROUP:
 	case GC_EVENT_SETCONTACTSTATUS:
 		return TRUE;
 	}

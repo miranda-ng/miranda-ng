@@ -209,9 +209,6 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	GGGC *chat;
 	wchar_t id[32];
 	uin_t uin;
-	DBVARIANT dbv;
-	GCDEST gcd = { m_szModuleName, 0, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { &gcd };
 
 	debugLogA("gc_getchat(): Count %d.", recipients_count);
 	if (!recipients) return NULL;
@@ -333,30 +330,24 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	}
 	free(name);
 
-	gcd.ptszID = chat->id;
+	// Add normal group
+	Chat_AddGroup(m_szModuleName, chat->id, TranslateT("Participants"));
+
+	GCDEST gcd = { m_szModuleName, chat->id, GC_EVENT_JOIN };
+	GCEVENT gce = { &gcd };
 	gce.ptszUID = id;
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.time = 0;
-
-	// Add normal group
-	gce.ptszStatus = TranslateT("Participants");
-	Chat_Event(&gce);
-	gcd.iType = GC_EVENT_JOIN;
 
 	// Add myself
 	if (uin = getDword(GG_KEY_UIN, 0))
 	{
 		UIN2IDT(uin, id);
 
-		wchar_t* nickT;
-		if (!getWString(GG_KEY_NICK, &dbv)) {
-			nickT = mir_wstrdup(dbv.ptszVal);
-			db_free(&dbv);
-		} else {
+		ptrW nickT(getWStringA(GG_KEY_NICK));
+		if (nickT == NULL)
 			nickT = mir_wstrdup(TranslateT("Me"));
-		}
-		gce.ptszNick = nickT;
 
+		gce.ptszNick = nickT;
 		gce.bIsMe = 1;
 		Chat_Event(&gce);
 		mir_free(nickT);

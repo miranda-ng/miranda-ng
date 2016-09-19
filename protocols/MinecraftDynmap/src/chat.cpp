@@ -137,14 +137,8 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 		return 0;
 
 	// Create a group
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { &gcd };
-	
-	gce.ptszStatus = L"Admin";
-	Chat_Event(&gce);
-	
-	gce.ptszStatus = L"Normal";
-	Chat_Event(&gce);
+	Chat_AddGroup(m_szModuleName, m_tszUserName, L"Admin");
+	Chat_AddGroup(m_szModuleName, m_tszUserName, L"Normal");
 		
 	// Note: Initialization will finish up in SetChatStatus, called separately
 	if (!suppress)

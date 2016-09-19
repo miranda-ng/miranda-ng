@@ -128,10 +128,7 @@ INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 		return 0;
 
 	// ***** Create a group
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { &gcd };
-	gce.ptszStatus = L"Normal";
-	Chat_Event(&gce);
+	Chat_AddGroup(m_szModuleName, m_tszUserName, TranslateT("Normal"));
 
 	// ***** Hook events
 	HookProtoEvent(ME_GC_EVENT, &TwitterProto::OnChatOutgoing);

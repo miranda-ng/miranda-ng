@@ -1277,20 +1277,12 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 				PostIrcMessage(L"/MODE %s", sChanName);
 
 				// register the statuses
-				GCDEST gcd = { m_szModuleName, sID, GC_EVENT_ADDGROUP };
-				GCEVENT gce = { &gcd };
-				gce.ptszStatus = L"Owner";
-				Chat_Event(&gce);
-				gce.ptszStatus = L"Admin";
-				Chat_Event(&gce);
-				gce.ptszStatus = L"Op";
-				Chat_Event(&gce);
-				gce.ptszStatus = L"Halfop";
-				Chat_Event(&gce);
-				gce.ptszStatus = L"Voice";
-				Chat_Event(&gce);
-				gce.ptszStatus = L"Normal";
-				Chat_Event(&gce);
+				Chat_AddGroup(m_szModuleName, sID, L"Owner");
+				Chat_AddGroup(m_szModuleName, sID, L"Admin");
+				Chat_AddGroup(m_szModuleName, sID, L"Op");
+				Chat_AddGroup(m_szModuleName, sID, L"Halfop");
+				Chat_AddGroup(m_szModuleName, sID, L"Voice");
+				Chat_AddGroup(m_szModuleName, sID, L"Normal");
 				{
 					int k = 0;
 					CMStringW sTemp = GetWord(sNamesList, k);
@@ -1305,7 +1297,8 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 						while (PrefixToStatus(sTemp[0]) != L"Normal")
 							sTemp.Delete(0, 1);
 
-						gcd.iType = GC_EVENT_JOIN;
+						GCDEST gcd = { m_szModuleName, sID, GC_EVENT_JOIN };
+						GCEVENT gce = { &gcd };
 						gce.ptszUID = sTemp;
 						gce.ptszNick = sTemp;
 						gce.ptszStatus = sStat;
@@ -2336,8 +2329,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 		}
 	}
 
-	DoEvent(GC_EVENT_ADDGROUP, SERVERWINDOW, NULL, NULL, L"Normal", NULL, NULL, FALSE, TRUE);
-
+	Chat_AddGroup(m_szModuleName, SERVERWINDOW, L"Normal");
 	Chat_Control(m_szModuleName, SERVERWINDOW, SESSION_ONLINE);
 
 	CallFunctionAsync(sttMainThrdOnConnect, this);

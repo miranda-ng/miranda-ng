@@ -167,12 +167,8 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 	item->bChatActive = true;
 
-	GCDEST gcd = { m_szModuleName, item->jid, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { &gcd };
-	for (int i = _countof(sttStatuses) - 1; i >= 0; i--) {
-		gce.ptszStatus = TranslateW(sttStatuses[i]);
-		Chat_Event(&gce);
-	}
+	for (int i = _countof(sttStatuses) - 1; i >= 0; i--)
+		Chat_AddGroup(m_szModuleName, item->jid, TranslateW(sttStatuses[i]));
 
 	Chat_Control(m_szModuleName, item->jid, (item->bAutoJoin && m_options.AutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(m_szModuleName, item->jid, SESSION_ONLINE);
