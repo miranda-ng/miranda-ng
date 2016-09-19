@@ -846,12 +846,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 					ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 				gcmi->Item[23].bDisabled = ulAdr == 0 ? TRUE : FALSE;	// DCC submenu
 
-				wchar_t stzChanName[100];
-				const wchar_t* temp = wcschr(gcmi->pszID, ' ');
-				size_t len = min(((temp == NULL) ? mir_wstrlen(gcmi->pszID) : (int)(temp - gcmi->pszID + 1)), _countof(stzChanName) - 1);
-				mir_wstrncpy(stzChanName, gcmi->pszID, len);
-				stzChanName[len] = 0;
-				CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, stzChanName);
+				CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, gcmi->pszID);
 				BOOL bServOwner = strchr(sUserModes.c_str(), 'q') == NULL ? FALSE : TRUE;
 				BOOL bServAdmin = strchr(sUserModes.c_str(), 'a') == NULL ? FALSE : TRUE;
 				BOOL bOwner = bServOwner ? ((wi->OwnMode >> 4) & 01) : FALSE;

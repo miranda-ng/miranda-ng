@@ -29,14 +29,14 @@ BOOL CIrcProto::CList_AddDCCChat(const CMStringW& name, const CMStringW& hostmas
 	char szService[256];
 	bool bFlag = false;
 
-	CONTACT usertemp = { (wchar_t*)name.c_str(), NULL, NULL, false, false, true };
+	CONTACT usertemp = { name, NULL, NULL, false, false, true };
 	MCONTACT hc = CList_FindContact(&usertemp);
 	if (hc && db_get_b(hc, "CList", "NotOnList", 0) == 0 && db_get_b(hc, "CList", "Hidden", 0) == 0)
 		bFlag = true;
 
 	CMStringW contactname = name; contactname += DCCSTRING;
 
-	CONTACT user = { (wchar_t*)contactname.c_str(), NULL, NULL, false, false, true };
+	CONTACT user = { contactname, NULL, NULL, false, false, true };
 	hContact = CList_AddContact(&user, false, false);
 	setByte(hContact, "DCC", 1);
 

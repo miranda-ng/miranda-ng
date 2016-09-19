@@ -540,7 +540,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		if (one.IsEmpty() || IsChannel(one.c_str()))
 			return true;
 
-		CONTACT user = { (wchar_t*)one.c_str(), NULL, NULL, false, false, false };
+		CONTACT user = { one, NULL, NULL, false, false, false };
 		MCONTACT hContact2 = CList_AddContact(&user, false, false);
 		if (hContact2) {
 			if (getByte(hContact, "AdvancedMode", 0) == 0)
@@ -613,7 +613,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 				ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 
 			if (ulAdr) {
-				CONTACT user = { (wchar_t*)two.c_str(), NULL, NULL, false, false, true };
+				CONTACT user = { two, NULL, NULL, false, false, true };
 				MCONTACT ccNew = CList_AddContact(&user, false, false);
 				if (ccNew) {
 					CMStringW s;
@@ -664,7 +664,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 			if (ulAdr) {
 				CMStringW contact = two;  contact += DCCSTRING;
-				CONTACT user = { (wchar_t*)contact.c_str(), NULL, NULL, false, false, true };
+				CONTACT user = { contact, NULL, NULL, false, false, true };
 				MCONTACT ccNew = CList_AddContact(&user, false, false);
 				setByte(ccNew, "DCC", 1);
 

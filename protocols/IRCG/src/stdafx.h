@@ -163,9 +163,9 @@ struct PERFORM_INFO  // Contains 'm_perform buffer' for different networks
 
 struct CONTACT // Contains info about users
 {
-	wchar_t* name;
-	wchar_t* user;
-	wchar_t* host;
+	const wchar_t *name;
+	const wchar_t *user;
+	const wchar_t *host;
 	bool ExactOnly;
 	bool ExactWCOnly;
 	bool ExactNick;
@@ -373,7 +373,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	// commandmonitor.cpp
 	UINT_PTR IdentTimer, InitTimer, KeepAliveTimer, OnlineNotifTimer, OnlineNotifTimer3;
 
-	int  AddOutgoingMessageToDB(MCONTACT hContact, wchar_t *msg);
+	int  AddOutgoingMessageToDB(MCONTACT hContact, const wchar_t *msg);
 	bool DoOnConnect(const CIrcMessage *pmsg);
 	int  DoPerform(const char *event);
 	void __cdecl ResolveIPThread(void *di);
