@@ -1270,12 +1270,12 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 				PostIrcMessage(L"/MODE %s", sChanName);
 
 				// register the statuses
-				Chat_AddGroup(m_szModuleName, sID, L"Owner");
-				Chat_AddGroup(m_szModuleName, sID, L"Admin");
-				Chat_AddGroup(m_szModuleName, sID, L"Op");
-				Chat_AddGroup(m_szModuleName, sID, L"Halfop");
-				Chat_AddGroup(m_szModuleName, sID, L"Voice");
-				Chat_AddGroup(m_szModuleName, sID, L"Normal");
+				Chat_AddGroup(m_szModuleName, sID, LPGENW("Owner"));
+				Chat_AddGroup(m_szModuleName, sID, LPGENW("Admin"));
+				Chat_AddGroup(m_szModuleName, sID, LPGENW("Op"));
+				Chat_AddGroup(m_szModuleName, sID, LPGENW("Halfop"));
+				Chat_AddGroup(m_szModuleName, sID, LPGENW("Voice"));
+				Chat_AddGroup(m_szModuleName, sID, LPGENW("Normal"));
 				{
 					int k = 0;
 					CMStringW sTemp = GetWord(sNamesList, k);
@@ -2323,7 +2323,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 		}
 	}
 
-	Chat_AddGroup(m_szModuleName, SERVERWINDOW, L"Normal");
+	Chat_AddGroup(m_szModuleName, SERVERWINDOW, LPGENW("Normal"));
 	Chat_Control(m_szModuleName, SERVERWINDOW, SESSION_ONLINE);
 
 	CallFunctionAsync(sttMainThrdOnConnect, this);

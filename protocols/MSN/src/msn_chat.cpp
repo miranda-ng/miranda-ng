@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_history.h>
 
 static const wchar_t *m_ptszRoles[] = {
-	L"admin",
-	L"user"
+	LPGENW("Admin"),
+	LPGENW("User")
 };
 
 MCONTACT CMsnProto::MSN_GetChatInernalHandle(MCONTACT hContact)

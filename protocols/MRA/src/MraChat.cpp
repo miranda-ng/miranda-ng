@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "proto.h"
 
-static LPWSTR lpwszStatuses[] = { L"Owners", L"Inviter", L"Visitors" };
+static LPWSTR lpwszStatuses[] = { LPGENW("Owners"), LPGENW("Inviter"), LPGENW("Visitors") };
 #define MRA_CHAT_STATUS_OWNER	0
 #define MRA_CHAT_STATUS_INVITER	1
 #define MRA_CHAT_STATUS_VISITOR	2

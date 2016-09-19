@@ -132,8 +132,8 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 		return 0;
 
 	// Create a group
-	Chat_AddGroup(m_szModuleName, m_tszUserName, L"Admin");
-	Chat_AddGroup(m_szModuleName, m_tszUserName, L"Normal");
+	Chat_AddGroup(m_szModuleName, m_tszUserName, LPGENW("Admin"));
+	Chat_AddGroup(m_szModuleName, m_tszUserName, LPGENW("Normal"));
 		
 	// Note: Initialization will finish up in SetChatStatus, called separately
 	if (!suppress)

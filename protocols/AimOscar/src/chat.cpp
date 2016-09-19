@@ -39,8 +39,8 @@ void CAimProto::chat_start(const char *id, unsigned short exchange)
 	wchar_t *idt = mir_a2u(id);
 	Chat_NewSession(GCW_CHATROOM, m_szModuleName, idt, idt);
 
-	Chat_AddGroup(m_szModuleName, idt, L"Me");
-	Chat_AddGroup(m_szModuleName, idt, L"Others");
+	Chat_AddGroup(m_szModuleName, idt, LPGENW("Me"));
+	Chat_AddGroup(m_szModuleName, idt, LPGENW("Others"));
 
 	Chat_Control(m_szModuleName, idt, SESSION_INITDONE);
 	Chat_Control(m_szModuleName, idt, SESSION_ONLINE);
