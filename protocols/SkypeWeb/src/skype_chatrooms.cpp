@@ -62,8 +62,8 @@ void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 	Chat_NewSession(GCW_CHATROOM, m_szModuleName, tid, tname);
 
 	// Create a user statuses
-	Chat_AddGroup(m_szModuleName, tid, LPGENW("Admin"));
-	Chat_AddGroup(m_szModuleName, tid, LPGENW("User"));
+	Chat_AddGroup(m_szModuleName, tid, TranslateT("Admin"));
+	Chat_AddGroup(m_szModuleName, tid, TranslateT("User"));
 
 	// Finish initialization
 	Chat_Control(m_szModuleName, tid, (getBool("HideChats", 1) ? WINDOW_HIDDEN : SESSION_INITDONE));

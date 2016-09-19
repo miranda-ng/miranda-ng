@@ -115,7 +115,7 @@ void mwServiceConf_conf_opened(mwConference* conf, GList* members)
 	Chat_NewSession(GCW_CHATROOM, proto->m_szModuleName, tszConfId, tszConfTitle);
 
 	// add a group
-	Chat_AddGroup(proto->m_szModuleName, tszConfId, LPGENW("Normal"));
+	Chat_AddGroup(proto->m_szModuleName, tszConfId, TranslateT("Normal"));
 
 	// add users
 	GCDEST gcd = { proto->m_szModuleName, tszConfId, GC_EVENT_JOIN };

@@ -273,8 +273,8 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 		return 0;
 
 	// Create a group
-	Chat_AddGroup(m_szModuleName, m_tszUserName, LPGENW("Admin"));
-	Chat_AddGroup(m_szModuleName, m_tszUserName, LPGENW("Normal"));
+	Chat_AddGroup(m_szModuleName, m_tszUserName, TranslateT("Admin"));
+	Chat_AddGroup(m_szModuleName, m_tszUserName, TranslateT("Normal"));
 
 	SetTopic();
 
