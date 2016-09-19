@@ -307,7 +307,7 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	pInfo->hContact = (hOldContact != NULL) ? hOldContact : ContactIDToHContact(jid);
 
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--)
-		Chat_AddGroup(m_szModuleName, ptszJid, TranslateW(sttStatuses[i]));
+		Chat_AddGroup(m_szModuleName, ptszJid, sttStatuses[i]);
 
 	Chat_Control(m_szModuleName, ptszJid, getBool(WHATSAPP_KEY_AUTORUNCHATS, true) ? SESSION_INITDONE : WINDOW_HIDDEN);
 	Chat_Control(m_szModuleName, ptszJid, SESSION_ONLINE);

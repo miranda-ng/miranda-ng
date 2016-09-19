@@ -314,7 +314,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	Chat_SetStatusbarText(m_szModuleName, chat->id, status);
 
 	// Add normal group
-	Chat_AddGroup(m_szModuleName, chat->id, TranslateT("Participants"));
+	Chat_AddGroup(m_szModuleName, chat->id, L"Participants");
 
 	GCDEST gcd = { m_szModuleName, chat->id, GC_EVENT_JOIN };
 	GCEVENT gce = { &gcd };

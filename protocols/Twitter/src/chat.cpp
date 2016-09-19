@@ -123,7 +123,7 @@ INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 		return 0;
 
 	// ***** Create a group
-	Chat_AddGroup(m_szModuleName, m_tszUserName, TranslateT("Normal"));
+	Chat_AddGroup(m_szModuleName, m_tszUserName, L"Normal");
 
 	// ***** Hook events
 	HookProtoEvent(ME_GC_EVENT, &TwitterProto::OnChatOutgoing);

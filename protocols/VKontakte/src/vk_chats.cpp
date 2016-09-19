@@ -72,7 +72,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	m_chats.insert(c);
 
 	for (int i = _countof(sttStatuses)-1; i >= 0; i--)
-		Chat_AddGroup(m_szModuleName, sid, TranslateW(sttStatuses[i]));
+		Chat_AddGroup(m_szModuleName, sid, sttStatuses[i]);
 
 	setDword(gci.hContact, "vk_chat_id", id);
 

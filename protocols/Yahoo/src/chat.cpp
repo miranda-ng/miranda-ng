@@ -153,8 +153,8 @@ void CYahooProto::ChatStart(const char* room)
 	ptrW idt(mir_a2u(room));
 	Chat_NewSession(GCW_CHATROOM, m_szModuleName, idt, idt);
 
-	Chat_AddGroup(m_szModuleName, idt, TranslateT("Me"));
-	Chat_AddGroup(m_szModuleName, idt, TranslateT("Others"));
+	Chat_AddGroup(m_szModuleName, idt, L"Me");
+	Chat_AddGroup(m_szModuleName, idt, L"Others");
 
 	Chat_Control(m_szModuleName, idt, SESSION_INITDONE);
 	Chat_Control(m_szModuleName, idt, SESSION_ONLINE);
