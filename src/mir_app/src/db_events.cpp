@@ -67,13 +67,13 @@ MIR_APP_DLL(int) DbEvent_RegisterType(DBEVENTTYPEDESCR *et)
 	p->flags = et->flags;
 
 	char szServiceName[100];
-	if (!p->textService) {
+	if (!et->textService) {
 		mir_snprintf(szServiceName, "%s/GetEventText%d", p->module, p->eventType);
 		p->textService = mir_strdup(szServiceName);
 	}
 	else p->textService = mir_strdup(et->textService);
 
-	if (!p->iconService) {
+	if (!et->iconService) {
 		mir_snprintf(szServiceName, "%s/GetEventIcon%d", p->module, p->eventType);
 		p->iconService = mir_strdup(szServiceName);
 	}

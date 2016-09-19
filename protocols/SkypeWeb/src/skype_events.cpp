@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 {
-	DBEVENTINFO *dbei = (DBEVENTINFO *)pEvent;
+	DBEVENTINFO *dbei = (DBEVENTINFO*)pEvent;
 
 	CMStringA szText; 
 
@@ -29,7 +29,6 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 	{
 	case SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE:
 		{
-			
 			JSONNode jMsg = JSONNode::parse((char*)dbei->pBlob);
 			if (jMsg)
 			{
