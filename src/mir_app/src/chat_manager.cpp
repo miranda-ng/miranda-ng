@@ -160,6 +160,7 @@ static SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule)
 	if (!pszID || !pszModule)
 		return NULL;
 
+	mir_cslock lck(csChat);
 	for (SESSION_INFO *si = chatApi.wndList; si != NULL; si = si->next)
 		if (!mir_wstrcmpi(si->ptszID, pszID) && !mir_strcmpi(si->pszModule, pszModule))
 			return si;

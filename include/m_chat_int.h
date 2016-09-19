@@ -110,7 +110,7 @@ struct LOGSTREAMDATA;
 struct GCModuleInfoBase
 {
 	char*     pszModule;
-	wchar_t*    ptszModDispName;
+	wchar_t*  ptszModDispName;
 	char*     pszHeader;
 	bool      bBold;
 	bool      bUnderline;
@@ -145,16 +145,16 @@ struct FONTINFO
 
 struct LOGINFO
 {
-   wchar_t*  ptszText;
-   wchar_t*  ptszNick;
-   wchar_t*  ptszUID;
-   wchar_t*  ptszStatus;
-   wchar_t*  ptszUserInfo;
-   BOOL    bIsMe;
-   BOOL    bIsHighlighted;
-   time_t  time;
-   int     iType;
-	DWORD   dwFlags;
+   wchar_t *ptszText;
+   wchar_t *ptszNick;
+   wchar_t *ptszUID;
+   wchar_t *ptszStatus;
+   wchar_t *ptszUserInfo;
+   BOOL     bIsMe;
+   BOOL     bIsHighlighted;
+   time_t   time;
+   int      iType;
+	DWORD    dwFlags;
    LOGINFO *next, *prev;
 };
 
@@ -188,10 +188,10 @@ struct GCSessionInfoBase
 	BOOL        bTrimmed;
 
    char*       pszModule;
-   wchar_t*      ptszID;
-   wchar_t*      ptszName;
-   wchar_t*      ptszStatusbarText;
-   wchar_t*      ptszTopic;
+   wchar_t*    ptszID;
+   wchar_t*    ptszName;
+   wchar_t*    ptszStatusbarText;
+   wchar_t*    ptszTopic;
 
    int         iType;
    int         iFG;

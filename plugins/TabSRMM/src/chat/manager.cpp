@@ -113,7 +113,7 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
 	if (prevSession == NULL && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
 		return currSession;
 
-	wchar_t* pszName = NULL;
+	wchar_t *pszName = NULL;
 	if (currSession == prevSession)
 		pszCurrent = pszOriginal;
 

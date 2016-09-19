@@ -260,22 +260,16 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(const GCSESSION *gcw)
 /////////////////////////////////////////////////////////////////////////////////////////
 // chat control
 
-struct ShowChatParam
+struct ChatConrolParam
 {
-	ShowChatParam(SESSION_INFO *_si, int _command, int _bShow) :
-		si(_si), command(_command), bShow(_bShow)
+	ChatConrolParam(const char *_szModule, const wchar_t *_wszId, int _command) :
+		szModule(_szModule), wszId(_wszId), command(_command)
 	{}
 
-	SESSION_INFO *si;
-	int command, bShow;
+	const wchar_t *wszId;
+	const char *szModule;
+	int command;
 };
-
-static void __stdcall stubShowRoom(void *param)
-{
-	ShowChatParam *p = (ShowChatParam*)param;
-	chatApi.ShowRoom(p->si, p->command, p->bShow);
-	delete p;
-}
 
 static void SetInitDone(SESSION_INFO *si)
 {
@@ -288,18 +282,18 @@ static void SetInitDone(SESSION_INFO *si)
 			p->hIcon = HICON(si->iStatusCount - (INT_PTR)p->hIcon - 1);
 }
 
-MIR_APP_DLL(int) Chat_Control(const char *szModule, const wchar_t *wszId, int iCommand)
+static INT_PTR __stdcall stubRoomControl(void *param)
 {
-	SESSION_INFO *si;
+	ChatConrolParam *p = (ChatConrolParam*)param;
 
 	mir_cslock lck(csChat);
-	switch (iCommand) {
+	switch (p->command) {
 	case WINDOW_HIDDEN:
-		if (si = chatApi.SM_FindSession(wszId, szModule)) {
+		if (SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule)) {
 			SetInitDone(si);
 			chatApi.SetActiveSession(si->ptszID, si->pszModule);
 			if (si->hWnd)
-				CallFunctionAsync(stubShowRoom, new ShowChatParam(si, iCommand, FALSE));
+				chatApi.ShowRoom(si, p->command, FALSE);
 		}
 		return 0;
 
@@ -307,27 +301,27 @@ MIR_APP_DLL(int) Chat_Control(const char *szModule, const wchar_t *wszId, int iC
 	case WINDOW_MAXIMIZE:
 	case WINDOW_VISIBLE:
 	case SESSION_INITDONE:
-		if (si = chatApi.SM_FindSession(wszId, szModule)) {
+		if (SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule)) {
 			SetInitDone(si);
-			if (iCommand != SESSION_INITDONE || db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) == 0)
-				CallFunctionAsync(stubShowRoom, new ShowChatParam(si, iCommand, TRUE));
+			if (p->command != SESSION_INITDONE || db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) == 0)
+				chatApi.ShowRoom(si, p->command, TRUE);
 			return 0;
 		}
 		break;
 
 	case SESSION_OFFLINE:
-		chatApi.SM_SetOffline(wszId, szModule);
+		chatApi.SM_SetOffline(p->wszId, p->szModule);
 		// fall through
 
 	case SESSION_ONLINE:
-		chatApi.SM_SetStatus(wszId, szModule, iCommand == SESSION_ONLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
+		chatApi.SM_SetStatus(p->wszId, p->szModule, p->command == SESSION_ONLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 		break;
 
 	case SESSION_TERMINATE:
-		return chatApi.SM_RemoveSession(wszId, szModule, false);
+		return chatApi.SM_RemoveSession(p->wszId, p->szModule, false);
 
 	case WINDOW_CLEARLOG:
-		if (si = chatApi.SM_FindSession(wszId, szModule)) {
+		if (SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule)) {
 			chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
 			if (chatApi.OnClearLog)
 				chatApi.OnClearLog(si);
@@ -340,8 +334,14 @@ MIR_APP_DLL(int) Chat_Control(const char *szModule, const wchar_t *wszId, int iC
 		return GC_EVENT_ERROR;
 	}
 
-	chatApi.SM_SendMessage(wszId, szModule, GC_CONTROL_MSG, iCommand, 0);
+	chatApi.SM_SendMessage(p->wszId, p->szModule, GC_CONTROL_MSG, p->command, 0);
 	return 0;
+}
+
+MIR_APP_DLL(int) Chat_Control(const char *szModule, const wchar_t *wszId, int iCommand)
+{
+	ChatConrolParam param = { szModule, wszId, iCommand };
+	return CallFunctionSync(stubRoomControl, &param);
 }
 
 MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *wszId, bool bRemoveContact)
@@ -429,8 +429,6 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 
 	if (NotifyEventHooks(hHookEvent, 0, LPARAM(gce)))
 		return 1;
-
-	mir_cslock lck(csChat);
 
 	// Do different things according to type of event
 	switch (gcd->iType) {
