@@ -381,12 +381,6 @@ void 	RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 size_t 	MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut);
 size_t 	MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut);
 
-#define DROPTARGET_OUTSIDE		0
-#define DROPTARGET_ONSELF		1
-#define DROPTARGET_ONNOTHING	2
-#define DROPTARGET_ONGROUP		3
-#define DROPTARGET_ONCONTACT	4
-#define DROPTARGET_INSERTION	5
 int GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
 void RecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);

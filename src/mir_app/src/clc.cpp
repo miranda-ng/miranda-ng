@@ -72,8 +72,12 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (hContact == NULL) {
-		if (!strcmp(cws->szModule, "CListGroups") && !g_bGroupsLocked)
-			Clist_Broadcast(INTM_GROUPSCHANGED, hContact, lParam);
+		if (!strcmp(cws->szModule, "CListGroups")) {
+			if (g_bGroupsLocked)
+				Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
+			else
+				Clist_Broadcast(INTM_GROUPSCHANGED, hContact, lParam);
+		}
 		return 0;
 	}
 

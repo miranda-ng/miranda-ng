@@ -268,30 +268,32 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 	if (hGroup == 0 || hGroup == hGroupBefore)
 		return 0;
 
-	CGroupInternal *pGroup = arByIds.find(hGroup - 1);
+	hGroup--;
+	CGroupInternal *pGroup = arByIds.find(hGroup);
 	if (pGroup == NULL)
 		return 0;
 
 	// shuffle list of groups up to fill gap
 	int shuffleFrom, shuffleTo, shuffleStep;
 	if (hGroupBefore == 0) {
-		shuffleFrom = hGroup - 1;
-		shuffleTo = -1;
+		shuffleFrom = 0;
+		shuffleTo = hGroup;
 		shuffleStep = 1;
 	}
 	else {
-		CGroupInternal *pDest = arByIds.find(hGroupBefore - 1);
+		hGroupBefore--;
+		CGroupInternal *pDest = arByIds.find(hGroupBefore);
 		if (pDest == NULL)
 			return 0;
 
 		if (hGroup < hGroupBefore) {
-			shuffleFrom = hGroup - 1;
-			shuffleTo = hGroupBefore - 2;
+			shuffleFrom = hGroup;
+			shuffleTo = hGroupBefore;
 			shuffleStep = 1;
 		}
 		else {
-			shuffleFrom = hGroup - 1;
-			shuffleTo = hGroupBefore - 1;
+			shuffleFrom = hGroupBefore;
+			shuffleTo = hGroup;
 			shuffleStep = -1;
 		}
 	}
@@ -299,17 +301,18 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 	g_bGroupsLocked = true;
 	arByIds.remove(pGroup);
 
-	for (int i = shuffleFrom; i != shuffleTo; i += shuffleStep) {
-		CGroupInternal *p = arByIds[i + shuffleStep];
+	for (int i = shuffleFrom; i < shuffleTo; i++) {
+		CGroupInternal *p = arByIds[i];
 		p->groupId -= shuffleStep;
 		p->save();
 	}
 
-	pGroup->groupId = shuffleTo; // reinsert group back
+	pGroup->groupId = hGroupBefore; // reinsert group back
 	pGroup->save();
 	
 	arByIds.insert(pGroup);
 	g_bGroupsLocked = false;
+	Clist_BroadcastAsync(CLM_AUTOREBUILD, 0, 0);
 	return shuffleTo + 1;
 }
 
@@ -374,7 +377,6 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 				}
 			}
 		}
-		Clist_BroadcastAsync(CLM_AUTOREBUILD, 0, 0);
 	}
 
 	const CLISTGROUPCHANGE grpChg = { sizeof(grpChg), oldName, (wchar_t*)szName };
