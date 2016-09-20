@@ -359,8 +359,8 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CManagerDlg *m_managerDlg;
 	CIgnorePrefsDlg *m_ignoreDlg;
 
-	int      m_noOfChannels, m_manualWhoisCount;
-	CMStringA   sChannelModes, sUserModes;
+	int m_noOfChannels, m_manualWhoisCount;
+	CMStringA sChannelModes, sUserModes;
 	CMStringW sChannelPrefixes, sUserModePrefixes, WhoisAwayReply;
 
 	// clist.cpp

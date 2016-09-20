@@ -1270,12 +1270,12 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 				PostIrcMessage(L"/MODE %s", sChanName);
 
 				// register the statuses
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Owner"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Admin"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Op"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Halfop"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Voice"));
-				Chat_AddGroup(m_szModuleName, sID, TranslateT("Normal"));
+				Chat_AddGroup(m_szModuleName, sID, L"Owner");
+				Chat_AddGroup(m_szModuleName, sID, L"Admin");
+				Chat_AddGroup(m_szModuleName, sID, L"Op");
+				Chat_AddGroup(m_szModuleName, sID, L"Halfop");
+				Chat_AddGroup(m_szModuleName, sID, L"Voice");
+				Chat_AddGroup(m_szModuleName, sID, L"Normal");
 				{
 					int k = 0;
 					CMStringW sTemp = GetWord(sNamesList, k);
