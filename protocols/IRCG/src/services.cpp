@@ -206,7 +206,7 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 				S = MakeWndID(dbv.ptszVal);
 			if (type == GCW_SERVER)
 				S = SERVERWINDOW;
-			int i = Chat_Terminate(m_szModuleName, S, false);
+			int i = Chat_Terminate(m_szModuleName, S);
 			if (i && type == GCW_CHATROOM)
 				PostIrcMessage(L"/PART %s %s", dbv.ptszVal, m_userInfo);
 		}

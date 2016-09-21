@@ -426,21 +426,21 @@ CMStringW CIrcProto::ModeToStatus(int sMode)
 	if (sUserModes.Find(sMode) != -1) {
 		switch (sMode) {
 		case 'q':
-			return (CMStringW)L"Owner";
+			return TranslateT("Owner");
 		case 'o':
-			return (CMStringW)L"Op";
+			return TranslateT("Op");
 		case 'v':
-			return (CMStringW)L"Voice";
+			return TranslateT("Voice");
 		case 'h':
-			return (CMStringW)L"Halfop";
+			return TranslateT("Halfop");
 		case 'a':
-			return (CMStringW)L"Admin";
+			return TranslateT("Admin");
 		default:
-			return (CMStringW)L"Unknown";
+			return TranslateT("Unknown");
 		}
 	}
 
-	return (CMStringW)L"Normal";
+	return TranslateT("Normal");
 }
 
 CMStringW CIrcProto::PrefixToStatus(int cPrefix)
@@ -451,7 +451,7 @@ CMStringW CIrcProto::PrefixToStatus(int cPrefix)
 		return ModeToStatus(sUserModes[index]);
 	}
 
-	return (CMStringW)L"Normal";
+	return TranslateT("Normal");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

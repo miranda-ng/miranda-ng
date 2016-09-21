@@ -358,7 +358,7 @@ bool CIrcProto::OnIrc_JOIN(const CIrcMessage* pmsg)
 {
 	if (pmsg->parameters.getCount() > 0 && pmsg->m_bIncoming && pmsg->prefix.sNick != m_info.sNick) {
 		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
-		DoEvent(GC_EVENT_JOIN, pmsg->parameters[0], pmsg->prefix.sNick, NULL, L"Normal", host, NULL, true, false);
+		DoEvent(GC_EVENT_JOIN, pmsg->parameters[0], pmsg->prefix.sNick, NULL, TranslateT("Normal"), host, NULL, true, false);
 		DoEvent(GC_EVENT_SETCONTACTSTATUS, pmsg->parameters[0], pmsg->prefix.sNick, NULL, NULL, NULL, ID_STATUS_ONLINE, FALSE, FALSE);
 	}
 	else ShowMessage(pmsg);
@@ -1270,15 +1270,16 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 				PostIrcMessage(L"/MODE %s", sChanName);
 
 				// register the statuses
-				Chat_AddGroup(m_szModuleName, sID, L"Owner");
-				Chat_AddGroup(m_szModuleName, sID, L"Admin");
-				Chat_AddGroup(m_szModuleName, sID, L"Op");
-				Chat_AddGroup(m_szModuleName, sID, L"Halfop");
-				Chat_AddGroup(m_szModuleName, sID, L"Voice");
-				Chat_AddGroup(m_szModuleName, sID, L"Normal");
+				Chat_AddGroup(m_szModuleName, sID, TranslateT("Owner"));
+				Chat_AddGroup(m_szModuleName, sID, TranslateT("Admin"));
+				Chat_AddGroup(m_szModuleName, sID, TranslateT("Op"));
+				Chat_AddGroup(m_szModuleName, sID, TranslateT("Halfop"));
+				Chat_AddGroup(m_szModuleName, sID, TranslateT("Voice"));
+				Chat_AddGroup(m_szModuleName, sID, TranslateT("Normal"));
 				{
 					int k = 0;
 					CMStringW sTemp = GetWord(sNamesList, k);
+					const wchar_t *pwszNormal = TranslateT("Normal");
 
 					// Fill the nicklist
 					while (!sTemp.IsEmpty()) {
@@ -1287,7 +1288,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 						sStat = PrefixToStatus(sTemp[0]);
 
 						// fix for networks like freshirc where they allow more than one prefix
-						while (PrefixToStatus(sTemp[0]) != L"Normal")
+						while (PrefixToStatus(sTemp[0]) != pwszNormal)
 							sTemp.Delete(0, 1);
 
 						GCDEST gcd = { m_szModuleName, sID, GC_EVENT_JOIN };
@@ -1315,10 +1316,10 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage* pmsg)
 						Chat_Event(&gce);
 						DoEvent(GC_EVENT_SETCONTACTSTATUS, sChanName, sTemp, NULL, NULL, NULL, ID_STATUS_ONLINE, FALSE, FALSE);
 						// fix for networks like freshirc where they allow more than one prefix
-						if (PrefixToStatus(sTemp2[0]) != L"Normal") {
+						if (PrefixToStatus(sTemp2[0]) != pwszNormal) {
 							sTemp2.Delete(0, 1);
 							sStat = PrefixToStatus(sTemp2[0]);
-							while (sStat != L"Normal") {
+							while (sStat != pwszNormal) {
 								DoEvent(GC_EVENT_ADDSTATUS, sID, sTemp, L"system", sStat, NULL, NULL, false, false, 0);
 								sTemp2.Delete(0, 1);
 								sStat = PrefixToStatus(sTemp2[0]);
