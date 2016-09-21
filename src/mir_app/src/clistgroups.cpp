@@ -309,11 +309,11 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 
 	pGroup->groupId = hGroupBefore; // reinsert group back
 	pGroup->save();
-	
 	arByIds.insert(pGroup);
+
 	g_bGroupsLocked = false;
 	Clist_BroadcastAsync(CLM_AUTOREBUILD, 0, 0);
-	return shuffleTo + 1;
+	return hGroupBefore + 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -331,13 +331,15 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 
 	// do the change
 	wchar_t *oldName = NEWWSTR_ALLOCA(pGroup->groupName+1);
+	arByName.remove(pGroup);
 
 	wchar_t str[256];
 	str[0] = pGroup->groupName[0];
 	mir_wstrncpy(str + 1, szName, _countof(str) - 1);
 
-	pGroup->groupName = mir_wstrdup(str);
+	replaceStrW(pGroup->groupName, str);
 	pGroup->save();
+	arByName.insert(pGroup);
 
 	// must rename setting in all child contacts too
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
