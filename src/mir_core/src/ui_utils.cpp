@@ -40,12 +40,22 @@ static LIST<CCtrlBase> arControls(10, CompareControls);
 
 #pragma comment(lib, "uxtheme")
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// CDlgBase
+
 static int CompareControlId(const CCtrlBase *c1, const CCtrlBase *c2)
-{	return c1->GetCtrlId() - c2->GetCtrlId();
+{
+	return c1->GetCtrlId() - c2->GetCtrlId();
+}
+
+static int CompareTimerId(const CTimer *t1, const CTimer *t2)
+{
+	return t1->GetEventId() - t2->GetEventId();
 }
 
 CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog)
-	: m_controls(1, CompareControlId)
+	: m_controls(1, CompareControlId),
+	m_timers(1, CompareTimerId)
 {
 	m_hInst = hInst;
 	m_idDialog = idDialog;
@@ -198,6 +208,11 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			Utils_ResizeDialog(m_hwnd, m_hInst, MAKEINTRESOURCEA(m_idDialog), GlobalDlgResizer);
 		return TRUE;
 
+	case WM_TIMER:
+		if (CTimer *timer = FindTimer(wParam))
+			return timer->OnTimer();
+		return FALSE;
+
 	case WM_CLOSE:
 		m_lresult = FALSE;
 		OnClose();
@@ -271,6 +286,12 @@ CCtrlBase* CDlgBase::FindControl(int idCtrl)
 {
 	CCtrlBase search(NULL, idCtrl);
 	return m_controls.find(&search);
+}
+
+CTimer* CDlgBase::FindTimer(int idEvent)
+{
+	CTimer search(NULL, idEvent);
+	return m_timers.find(&search);
 }
 
 CDlgBase* CDlgBase::Find(HWND hwnd)
@@ -609,7 +630,7 @@ CCtrlSpin::CCtrlSpin(CDlgBase* dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId)
 {}
 
-void CCtrlSpin::SetRange(short min, short max)
+void CCtrlSpin::SetRange(WORD max, WORD min)
 {
 	SendMsg(UDM_SETRANGE, 0, MAKELONG(min, max));
 }
@@ -709,6 +730,60 @@ BOOL CCtrlHyperlink::OnCommand(HWND, WORD, WORD)
 {
 	ShellExecuteA(m_hwnd, "open", m_url, "", "", SW_SHOW);
 	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CTimer
+
+CTimer::CTimer(CDlgBase *wnd, int idEvent)
+	: m_wnd(wnd), m_idEvent(idEvent)
+{
+}
+
+BOOL CTimer::OnTimer()
+{
+	OnEvent(this);
+	return FALSE;
+}
+
+void CTimer::Start(int elapse)
+{
+	SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, NULL);
+}
+
+void CTimer::Stop()
+{
+	KillTimer(m_wnd->GetHwnd(), m_idEvent);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CProgress
+
+CProgress::CProgress(CDlgBase *wnd, int idCtrl)
+	: CCtrlBase(wnd, idCtrl)
+{
+}
+
+void CProgress::SetRange(WORD max, WORD min)
+{
+	SendMsg(PBM_SETRANGE, 0, MAKELPARAM(min, max));
+}
+
+void CProgress::SetPosition(WORD value)
+{
+	SendMsg(PBM_SETPOS, value, 0);
+}
+
+void CProgress::SetStep(WORD value)
+{
+	SendMsg(PBM_SETSTEP, value, 0);
+}
+
+WORD CProgress::Move(WORD delta)
+{
+	return delta == 0
+		? SendMsg(PBM_STEPIT, 0, 0)
+		: SendMsg(PBM_DELTAPOS, delta, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

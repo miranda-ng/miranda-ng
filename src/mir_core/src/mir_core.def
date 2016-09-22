@@ -1008,6 +1008,25 @@ db_delete_module @1161
 ??4CCtrlSpin@@QAEAAV0@ABV0@@Z @1165 NONAME
 ??_7CCtrlSpin@@6B@ @1166 NONAME
 ?SetMaxLength@CCtrlEdit@@QAEXI@Z @1167 NONAME
-?SetRange@CCtrlSpin@@QAEXFF@Z @1168 NONAME
+?SetRange@CCtrlSpin@@QAEXGG@Z @1168 NONAME
 db_get_current @1169
 CallFunctionSync @1170
+??0CProgress@@QAE@ABV0@@Z @1171 NONAME
+??0CProgress@@QAE@PAVCDlgBase@@H@Z @1172 NONAME
+??0CTimer@@QAE@ABV0@@Z @1173 NONAME
+??0CTimer@@QAE@PAVCDlgBase@@H@Z @1174 NONAME
+??1CProgress@@UAE@XZ @1175 NONAME
+??4CProgress@@QAEAAV0@ABV0@@Z @1176 NONAME
+??4CTimer@@QAEAAV0@ABV0@@Z @1177 NONAME
+??_7CProgress@@6B@ @1178 NONAME
+??_7CTimer@@6B@ @1179 NONAME
+?FindTimer@CDlgBase@@AAEPAVCTimer@@H@Z @1180 NONAME
+?GetEventId@CTimer@@QBEHXZ @1181 NONAME
+?Move@CProgress@@QAEGG@Z @1182 NONAME
+?OnTimer@CDlgBase@@MAEXPAVCTimer@@@Z @1183 NONAME
+?OnTimer@CTimer@@UAEHXZ @1184 NONAME
+?SetPosition@CProgress@@QAEXG@Z @1185 NONAME
+?SetRange@CProgress@@QAEXGG@Z @1186 NONAME
+?SetStep@CProgress@@QAEXG@Z @1187 NONAME
+?Start@CTimer@@QAEXH@Z @1188 NONAME
+?Stop@CTimer@@QAEXXZ @1189 NONAME

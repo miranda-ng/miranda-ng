@@ -371,6 +371,7 @@ public:
 
 class MIR_CORE_EXPORT CDlgBase
 {
+	friend class CTimer;
 	friend class CCtrlBase;
 	friend class CCtrlData;
 
@@ -415,6 +416,8 @@ protected:
 	virtual void OnClose() { }
 	virtual void OnDestroy() { }
 
+	virtual void OnTimer(CTimer*) {}
+
 	// miranda-related stuff
 	virtual int Resizer(UTILRESIZECONTROL *urc);
 	virtual void OnApply() {}
@@ -431,13 +434,40 @@ protected:
 	void ThemeDialogBackground(BOOL tabbed);
 
 private:
+	LIST<CTimer> m_timers;
 	LIST<CCtrlBase> m_controls;
 
 	void NotifyControls(void (CCtrlBase::*fn)());
 	CCtrlBase *FindControl(int idCtrl);
 
+	CTimer* FindTimer(int idEvent);
+
 	static INT_PTR CALLBACK GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static int GlobalDlgResizer(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CTimer
+
+class MIR_CORE_EXPORT CTimer
+{
+	friend class CDlgBase;
+
+public:
+	CTimer(CDlgBase* wnd, int idEvent);
+
+	__forceinline int GetEventId() const { return m_idEvent; }
+
+	virtual BOOL OnTimer();
+
+	void Start(int elapse);
+	void Stop();
+
+	CCallback<CTimer> OnEvent;
+
+protected:
+	int m_idEvent;
+	CDlgBase* m_wnd;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -553,6 +583,20 @@ public:
 
 protected:
 	const char* m_url;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CProgress
+
+class MIR_CORE_EXPORT CProgress : public CCtrlBase
+{
+public:
+	CProgress(CDlgBase *dlg, int ctrlId);
+
+	void SetRange(WORD max, WORD min = 0);
+	void SetPosition(WORD value);
+	void SetStep(WORD value);
+	WORD Move(WORD delta = 0);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -711,7 +755,7 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlBase
 public:
 	CCtrlSpin(CDlgBase *dlg, int ctrlId);
 
-	void SetRange(short min, short max);
+	void SetRange(WORD max, WORD min = 0);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
