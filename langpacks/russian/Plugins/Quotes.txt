@@ -78,7 +78,7 @@
 [Delay]
 Задержка
 [From popup plugin]
-По умолчанию
+Из плагина вспл. окон
 [Custom]
 Настроить
 [Permanent]

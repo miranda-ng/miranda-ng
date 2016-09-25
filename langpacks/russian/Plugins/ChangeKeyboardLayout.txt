@@ -56,7 +56,7 @@
 [Timeout]
 Таймаут
 [From popup plugin]
-По умолчанию
+Из плагина вспл. окон
 [Permanent]
 Постоянно
 [Custom]

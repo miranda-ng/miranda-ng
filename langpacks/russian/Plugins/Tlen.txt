@@ -84,7 +84,7 @@ P2P Подключения
 [Delay]
 Задержка
 [&From popup plugin]
-&Установки Popup
+&Из плагина вспл. окон
 [&Custom]
 &Настроить
 [P&ermanent]
