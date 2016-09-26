@@ -404,7 +404,7 @@ MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hContact2)
 	ClcData *dat = (ClcData*)GetWindowLongPtr(cli.hwndContactTree, 0);
 	if (dat != NULL) {
 		ClcContact *p1, *p2;
-		if (!cli.pfnFindItem(cli.hwndContactTree, dat, hContact1, &p1, NULL, NULL) && !cli.pfnFindItem(cli.hwndContactTree, dat, hContact2, &p2, NULL, NULL))
+		if (cli.pfnFindItem(cli.hwndContactTree, dat, hContact1, &p1, NULL, NULL) && cli.pfnFindItem(cli.hwndContactTree, dat, hContact2, &p2, NULL, NULL))
 			return cli.pfnCompareContacts(p1, p2);
 	}
 
