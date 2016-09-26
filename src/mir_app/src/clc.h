@@ -46,8 +46,9 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 /* clcidents.c */
 int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
-int fnFindItem(HWND hwnd, struct ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 int fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
+
+ClcContact* fnFindItem(DWORD dwItem, ClcContact *contact);
 
 /* clcitems.c */
 ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);

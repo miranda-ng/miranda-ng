@@ -308,10 +308,10 @@ type
     pfnUnregisterFileDropping : procedure (hwnd:HWND); cdecl;
 
   (* clcidents.c *)
+    blablabla6 : procedure; cdecl;
+
     pfnGetRowsPriorTo      : function (var group:TClcGroup; var subgroup:TClcGroup;
                              contactIndex:int):int; cdecl;
-    pfnFindItem            : function (hwnd:HWND; var dat:TClcData; dwItem:dword;
-                             var contact:PClcContact; var subgroup:PClcGroup; var isVisible:int):int; cdecl;
     pfnGetRowByIndex       : function (var dat:TClcData; testindex:int;
                              var contact:PClcContact; var subgroup:PClcGroup):int; cdecl;
     unused1                : function (var contact:TClcContact):THANDLE;cdecl;

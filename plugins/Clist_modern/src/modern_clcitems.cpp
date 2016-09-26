@@ -186,7 +186,7 @@ void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int update
 
 	ClcGroup *group;
 	ClcContact *cont;
-	if (FindItem(hwnd, dat, hContact, &cont, &group, NULL, false))
+	if (Clist_FindItem(hwnd, dat, hContact, &cont, &group, NULL))
 		_LoadDataToContact(cont, pdnce, group, dat, hContact);
 }
 
@@ -213,7 +213,7 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 {
 	ClcGroup *selgroup = NULL;
 	ClcContact *selcontact = NULL;
-	if (!hSelected || !pcli->pfnFindItem(dat->hWnd, dat, hSelected, &selcontact, &selgroup, NULL)) {
+	if (!hSelected || !Clist_FindItem(dat->hWnd, dat, hSelected, &selcontact, &selgroup, NULL)) {
 		dat->selection = -1;
 		return dat->selection;
 	}

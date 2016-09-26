@@ -73,7 +73,21 @@ int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 	return -1;
 }
 
-int fnFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
+ClcContact* fnFindItem(DWORD dwItem, ClcContact *cc)
+{
+	if (IsHContactGroup(dwItem) && cc->type == CLCIT_GROUP && (dwItem & ~HCONTACT_ISGROUP) == cc->groupId)
+		return cc;
+
+	if (IsHContactContact(dwItem) && cc->type == CLCIT_CONTACT && cc->hContact == dwItem)
+		return cc;
+	
+	if (IsHContactInfo(dwItem) && cc->type == CLCIT_INFO && cc->hContact == (dwItem & ~HCONTACT_ISINFO))
+		return cc;
+
+	return NULL;
+}
+
+MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
 {
 	int index = 0;
 	int nowVisible = 1;
@@ -98,10 +112,8 @@ int fnFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcG
 			index++;
 
 		ClcContact *cc = group->cl[group->scanIndex];
-		if ((IsHContactGroup(dwItem) && cc->type == CLCIT_GROUP && (dwItem & ~HCONTACT_ISGROUP) == cc->groupId) || 
-			 (IsHContactContact(dwItem) && cc->type == CLCIT_CONTACT && cc->hContact == dwItem) ||
-			 (IsHContactInfo(dwItem) && cc->type == CLCIT_INFO && cc->hContact == (dwItem & ~HCONTACT_ISINFO)))
-		{
+		ClcContact *res = cli.pfnFindItem(dwItem, cc);
+		if (res != NULL) {
 			if (isVisible) {
 				if (!nowVisible)
 					*isVisible = 0;
@@ -120,11 +132,12 @@ int fnFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcG
 				}
 			}
 			if (contact)
-				*contact = cc;
+				*contact = res;
 			if (subgroup)
 				*subgroup = group;
-			return 1;
+			return true;
 		}
+		
 		if (cc->type == CLCIT_GROUP) {
 			group = cc->group;
 			group->scanIndex = 0;
@@ -137,7 +150,7 @@ int fnFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcG
 	if (isVisible) *isVisible = FALSE;
 	if (contact)   *contact = NULL;
 	if (subgroup)  *subgroup = NULL;
-	return 0;
+	return false;
 }
 
 int fnGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup)

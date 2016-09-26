@@ -310,3 +310,4 @@ Chat_SetStatusEx @310
 Chat_Terminate @311
 Chat_AddGroup @312
 Chat_Control @313
+Clist_FindItem @314

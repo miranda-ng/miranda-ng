@@ -526,7 +526,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 					if (ht) {
 						ClcContact *contact2;
 						ClcGroup *group2;
-						if (FindItem(hwnd, dat, contact->hContact, &contact2, &group2, NULL, false)) {
+						if (Clist_FindItem(hwnd, dat, contact->hContact, &contact2, &group2, NULL)) {
 							int i = cliGetRowsPriorTo(&dat->list, group2, GetContactIndex(group2, contact2));
 							pcli->pfnEnsureVisible(hwnd, dat, i + contact->iSubAllocated, 0);
 						}
@@ -620,7 +620,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				int i = 0;
 				ClcContact *contact;
 				ClcGroup *group;
-				if (FindItem(hwnd, dat, hitcontact->hContact, &contact, &group, NULL, false)) {
+				if (Clist_FindItem(hwnd, dat, hitcontact->hContact, &contact, &group, NULL)) {
 					i = cliGetRowsPriorTo(&dat->list, group, GetContactIndex(group, contact));
 					pcli->pfnEnsureVisible(hwnd, dat, i + hitcontact->iSubAllocated, 0);
 				}
@@ -1290,7 +1290,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 	BYTE flags = 0;
 
 	ClcContact *contact;
-	if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+	if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 		memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 	else {
 		memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
@@ -1300,7 +1300,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b(wParam, "CList", "Hidden", 0)) {
 		NMCLISTCONTROL nm;
 		pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
-		if (pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL)) {
+		if (Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL)) {
 			memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 			if (flags & CONTACTF_CHECKED)
 				contact->flags |= CONTACTF_CHECKED;
@@ -1344,13 +1344,13 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 
 	ClcGroup *group = NULL;
 	ClcContact *contact = NULL;
-	if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
+	if (!Clist_FindItem(hwnd, dat, wParam, &contact, &group, NULL)) {
 		if (shouldShow && db_is_contact(wParam)) {
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 				hSelItem = Clist_ContactToHItem(selcontact);
 			pcli->pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
 			needRepaint = TRUE;
-			pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL);
+			Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL);
 			if (contact) {
 				contact->iImage = lParam;
 				contact->bImageIsSpecial = bImageIsSpecial;
@@ -1391,7 +1391,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	}
 
 	if (hSelItem) {
-		if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
+		if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 		else
 			dat->selection = -1;
@@ -1415,7 +1415,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM hContact, LPARAM)
 {
 	ClcContact *contact;
-	if (FindItem(hwnd, dat, hContact, &contact, NULL, NULL, false))
+	if (Clist_FindItem(hwnd, dat, hContact, &contact, NULL, NULL))
 		Cache_GetAvatar(dat, contact);
 	else if (hContact == 0)
 		UpdateAllAvatars(dat);
@@ -1427,7 +1427,7 @@ static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM hCon
 static LRESULT clcOnIntmTimeZoneChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
-	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, false))
+	if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	if (contact) {
@@ -1443,7 +1443,7 @@ static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	LRESULT ret = corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	ClcContact *contact;
-	if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, false))
+	if (Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 		Cache_GetText(dat, contact);
 
 	return ret;
@@ -1460,7 +1460,7 @@ static LRESULT clcOnIntmStatusMsgChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 		return corecli.pfnContactListControlWndProc(hwnd, msg, hContact, lParam);
 
 	ClcContact *contact;
-	if (!FindItem(hwnd, dat, hContact, &contact, NULL, NULL, false))
+	if (!Clist_FindItem(hwnd, dat, hContact, &contact, NULL, NULL))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, hContact, lParam);
 
 	if (contact) {
@@ -1476,7 +1476,7 @@ static LRESULT clcOnIntmNotOnListChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 
 	ClcContact *contact;
-	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, true))
+	if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL)) /////////////// ??
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	if (contact->type != CLCIT_CONTACT)
@@ -1508,7 +1508,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 	
 	if (wParam != 0) {
 		ClcContact *contact;
-		if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, true)) {
+		if (Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL)) { /////////////////// ??
 			ClcCacheEntry *pdnce = contact->pce;
 			if (pdnce && pdnce->m_pszProto) {
 				if (!dat->bForceInDialog) {

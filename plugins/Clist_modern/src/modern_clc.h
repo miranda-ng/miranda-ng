@@ -335,7 +335,6 @@ void  ClcOptionsChanged(void);
 
 // clcidents.c
 int   cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
-int   FindItem(HWND hwnd, ClcData *dat, DWORD hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, bool isIgnoreSubcontacts);
 int   cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 
 // clcitems.c

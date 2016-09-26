@@ -90,9 +90,6 @@ int GetProtoIndex(char * szName)
 
 int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 {
-	if ((INT_PTR)contact1 < 100 || (INT_PTR)contact2 < 100)
-		return 0;
-
 	ClcCacheEntry *c1 = contact1->pce, *c2 = contact2->pce;
 
 	for (int i = 0; i < _countof(g_CluiData.bSortByOrder); i++) {

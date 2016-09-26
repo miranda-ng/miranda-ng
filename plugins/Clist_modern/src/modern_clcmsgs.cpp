@@ -106,7 +106,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		{
 			int i = 0;
 			if (wParam != CLGN_ROOT) {
-				if (!pcli->pfnFindItem(hwnd, dat, lParam, &contact, &group, NULL))
+				if (!Clist_FindItem(hwnd, dat, lParam, &contact, &group, NULL))
 					return NULL;
 				i = group->cl.indexOf(contact);
 				if (i < 0) return 0;
@@ -187,7 +187,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		{
 			int index = -1;
 			int mainindex = -1;
-			if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL))
+			if (!Clist_FindItem(hwnd, dat, wParam, &contact, &group, NULL))
 				break;
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
 				pcli->pfnSetGroupExpand(hwnd, dat, tgroup, 1);

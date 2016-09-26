@@ -77,84 +77,16 @@ int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 	return -1;
 }
 
-int cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible)
+ClcContact* cliFindItem(DWORD dwItem, ClcContact *cc)
 {
-	return FindItem(hwnd, dat, dwItem, contact, subgroup, isVisible, false);
-}
+	if (corecli.pfnFindItem(dwItem, cc))
+		return cc;
 
-int FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible, bool isIgnoreSubcontacts)
-{
-	int index = 0;
-	int nowVisible = 1;
+	if (IsHContactContact(dwItem) && cc->type == CLCIT_CONTACT && cc->iSubAllocated > 0)
+		for (int i = 0; i < cc->iSubAllocated; i++)
+			if (cc->subcontacts[i].hContact == dwItem)
+				return &cc->subcontacts[i];
 
-	ClcGroup *group = &dat->list;
-	group->scanIndex = 0;
-	group = &dat->list;
-
-	for (;;) {
-		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
-				break;
-
-			nowVisible = 1;
-			for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
-				if (!tgroup->expanded) {
-					nowVisible = 0;
-					break;
-				}
-
-			group->scanIndex++;
-			continue;
-		}
-
-		if (nowVisible)
-			index++;
-
-		ClcContact *cc = group->cl[group->scanIndex];
-		if ((IsHContactGroup(dwItem) && cc->type == CLCIT_GROUP && (dwItem & ~HCONTACT_ISGROUP) == cc->groupId) ||
-			(IsHContactContact(dwItem) && cc->type == CLCIT_CONTACT && cc->hContact == dwItem) ||
-			(IsHContactInfo(dwItem) && cc->type == CLCIT_INFO && cc->hContact == (dwItem & ~HCONTACT_ISINFO))) {
-			if (isVisible) {
-				if (!nowVisible) *isVisible = 0;
-				else {
-					int posy = cliGetRowTopY(dat, index + 1);
-					if (posy < dat->yScroll)
-						*isVisible = 0;
-					else {
-						RECT clRect;
-						GetClientRect(hwnd, &clRect);
-						*isVisible = (posy < dat->yScroll + clRect.bottom);
-					}
-				}
-			}
-			if (contact) *contact = cc;
-			if (subgroup) *subgroup = group;
-
-			return 1;
-		}
-
-		if (!isIgnoreSubcontacts && IsHContactContact(dwItem) && cc->type == CLCIT_CONTACT && cc->iSubAllocated > 0) {
-			for (int i = 0; i < cc->iSubAllocated; i++) {
-				if (cc->subcontacts[i].hContact == dwItem) {
-					if (contact) *contact = &cc->subcontacts[i];
-					if (subgroup) *subgroup = group;
-					return 1;
-				}
-			}
-		}
-
-		if (cc->type == CLCIT_GROUP) {
-			group = cc->group;
-			group->scanIndex = 0;
-			nowVisible &= group->expanded;
-			continue;
-		}
-		group->scanIndex++;
-	}
-
-	if (isVisible) *isVisible = FALSE;
-	if (contact)   *contact = NULL;
-	if (subgroup)  *subgroup = NULL;
 	return 0;
 }
 

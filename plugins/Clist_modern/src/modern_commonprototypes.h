@@ -227,34 +227,36 @@ void    ToolbarButtonUnloadModule();
 
 // INTERFACES
 
-void    cliCheckCacheItem(ClcCacheEntry *pdnce);
-void    cliFreeCacheItem(ClcCacheEntry *p);
-void    cliRebuildEntireList(HWND hwnd, ClcData *dat);
-void    cliRecalcScrollBar(HWND hwnd, ClcData *dat);
-int     cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
-int     cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
-int     cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
-int     cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact);
-int     cli_GetContactIcon(MCONTACT hContact);
-int     cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
-void    cli_FreeContact(ClcContact*);
-void    cli_SetContactCheckboxes(ClcContact*, int);
-LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
-CListEvent* cli_AddEvent(CLISTEVENT *cle);
-LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-int     cliShowHide(bool bAlwaysShow);
-BOOL    cliInvalidateRect(HWND hWnd, CONST RECT *lpRect, BOOL bErase);
-int     cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2);
-int     cliFindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
-int     cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
-void    cliCluiProtocolStatusChanged(int status, const char *proto);
-void    cliInvalidateDisplayNameCacheEntry(MCONTACT hContact);
-void    CLUI_cli_LoadCluiGlobalOpts(void);
-INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
-int     cliTrayIconInit(HWND hwnd);
-int     cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
+void     cliCheckCacheItem(ClcCacheEntry *pdnce);
+void     cliFreeCacheItem(ClcCacheEntry *p);
+void     cliRebuildEntireList(HWND hwnd, ClcData *dat);
+void     cliRecalcScrollBar(HWND hwnd, ClcData *dat);
+int      cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
+int      cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
+int      cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
+int      cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact);
+int      cli_GetContactIcon(MCONTACT hContact);
+int      cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
+void     cli_FreeContact(ClcContact*);
+void     cli_SetContactCheckboxes(ClcContact*, int);
+LRESULT  cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
+int      cliShowHide(bool bAlwaysShow);
+BOOL     cliInvalidateRect(HWND hWnd, CONST RECT *lpRect, BOOL bErase);
+int      cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2);
+int      cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
+void     cliCluiProtocolStatusChanged(int status, const char *proto);
+void     cliInvalidateDisplayNameCacheEntry(MCONTACT hContact);
+void     CLUI_cli_LoadCluiGlobalOpts(void);
+INT_PTR  cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
+int      cliTrayIconInit(HWND hwnd);
+int      cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
 
-ClcContact*    cliCreateClcContact(void);
+CListEvent* cli_AddEvent(CLISTEVENT *cle);
+
+LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+ClcContact* cliFindItem(DWORD dwItem, ClcContact *contact);
+ClcContact* cliCreateClcContact(void);
 ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact);
 
 #define WM_DWMCOMPOSITIONCHANGED  0x031E

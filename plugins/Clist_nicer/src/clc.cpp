@@ -275,7 +275,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		{
 			WORD iExtraImage[EXTRA_ICON_COUNT];
 			BYTE flags = 0;
-			if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+			if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 			else {
 				memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
@@ -284,7 +284,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			pcli->pfnDeleteItemFromTree(hwnd, wParam);
 			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(wParam, NULL, dat)) {
 				pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
-				if (pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL)) {
+				if (Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL)) {
 					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 					if (flags & CONTACTF_CHECKED)
 						contact->flags |= CONTACTF_CHECKED;
@@ -322,13 +322,13 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				!CLVM_GetContactHiddenStatus(hContact, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) ||
 				pcli->pfnGetContactIcon(hContact) != lParam); // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
-			if (!pcli->pfnFindItem(hwnd, dat, hContact, &contact, &group, NULL)) {
+			if (!Clist_FindItem(hwnd, dat, hContact, &contact, &group, NULL)) {
 				if (shouldShow && db_is_contact(wParam)) {
 					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 						hSelItem = Clist_ContactToHItem(selcontact);
 					pcli->pfnAddContactToTree(hwnd, dat, hContact, 0, 0);
 					recalcScrollBar = 1;
-					pcli->pfnFindItem(hwnd, dat, hContact, &contact, NULL, NULL);
+					Clist_FindItem(hwnd, dat, hContact, &contact, NULL, NULL);
 					if (contact) {
 						contact->iImage = (WORD)lParam;
 						pcli->pfnNotifyNewContact(hwnd, hContact);
@@ -357,7 +357,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 			if (hSelItem) {
 				ClcGroup *selgroup;
-				if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
+				if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 					dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 				else
 					dat->selection = -1;
@@ -371,7 +371,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_METACHANGED:
-		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+		if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
 
 		if (contact->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
@@ -381,7 +381,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (contact->pExtra) {
 				TExtraCache *pSub = cfg::getCache(contact->hSubContact, contact->metaProto);
 				ClcContact *subContact;
-				if (!pcli->pfnFindItem(hwnd, dat, contact->hSubContact, &subContact, NULL, NULL))
+				if (!Clist_FindItem(hwnd, dat, contact->hSubContact, &subContact, NULL, NULL))
 					break;
 
 				contact->pExtra->proto_status_item = GetProtocolStatusItem(contact->metaProto);
@@ -395,14 +395,14 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_METACHANGEDEVENT:
-		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+		if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
 		if (lParam == 0)
 			pcli->pfnInitAutoRebuild(hwnd);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_NAMECHANGED:
-		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+		if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
 		mir_wstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), _countof(contact->szText));
 
@@ -413,7 +413,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_CODEPAGECHANGED:
-		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+		if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
 
 		contact->codePage = db_get_dw(wParam, "Tab_SRMsg", "ANSIcodepage", db_get_dw(wParam, "UserInfo", "ANSIcodepage", CP_ACP));
@@ -433,7 +433,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				return DefWindowProc(hwnd, msg, wParam, lParam);
 			}
 
-			if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+			if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 				return 0;
 
 			contact->ace = cEntry;
@@ -460,7 +460,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			TExtraCache *p;
 			char *szProto = NULL;
 
-			if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+			if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 				p = cfg::getCache(wParam, NULL);
 			else {
 				p = contact->pExtra;
@@ -472,7 +472,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_STATUSCHANGED:
-		if (pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL)) {
+		if (Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL)) {
 			WORD wStatus = db_get_w(wParam, contact->proto, "Status", ID_STATUS_OFFLINE);
 			if (cfg::dat.bNoOfflineAvatars && wStatus != ID_STATUS_OFFLINE && contact->wStatus == ID_STATUS_OFFLINE) {
 				contact->wStatus = wStatus;
@@ -485,7 +485,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		break;
 
 	case INTM_PROTOCHANGED:
-		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+		if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
 			break;
 
 		contact->proto = GetContactProto(wParam);
@@ -520,7 +520,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_IDLECHANGED:
-		if (pcli->pfnFindItem(hwnd, dat, wParam, &contact, NULL, NULL)) {
+		if (Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL)) {
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 			char *szProto = (char*)cws->szModule;
 			if (szProto == NULL)
@@ -542,7 +542,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			MCONTACT hContact = wParam;
 			TExtraCache *p;
 
-			if (!pcli->pfnFindItem(hwnd, dat, hContact, &contact, NULL, NULL)) {
+			if (!Clist_FindItem(hwnd, dat, hContact, &contact, NULL, NULL)) {
 				p = cfg::getCache(hContact, szProto);
 				if (!dat->bisEmbedded && szProto) {				// may be a subcontact, forward the xstatus
 					MCONTACT hMasterContact = db_mc_tryMeta(hContact);

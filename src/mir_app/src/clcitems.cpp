@@ -305,7 +305,7 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 
 	ClcGroup *group;
 	ClcContact *contact;
-	if (!cli.pfnFindItem(hwnd, dat, hItem, &contact, &group, NULL)) {
+	if (!Clist_FindItem(hwnd, dat, hItem, &contact, &group, NULL)) {
 		DBVARIANT dbv;
 		int i, nameOffset;
 		if (!IsHContactContact(hItem))
@@ -581,7 +581,7 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 
 		if (hSelItem) {
 			ClcGroup *selgroup;
-			if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
+			if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
 		}
 
@@ -702,7 +702,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 			group = &dat->list;
 		else {
 			ClcContact *contact;
-			if (!cli.pfnFindItem(hwnd, dat, saveInfo[i].parentId | HCONTACT_ISGROUP, &contact, NULL, NULL))
+			if (!Clist_FindItem(hwnd, dat, saveInfo[i].parentId | HCONTACT_ISGROUP, &contact, NULL, NULL))
 				continue;
 			group = contact->group;
 		}
