@@ -350,10 +350,26 @@ MIR_APP_DLL(int) Chat_Control(const char *szModule, const wchar_t *wszId, int iC
 	return CallFunctionSync(stubRoomControl, &param);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// chat termination
+
+struct ChatTerminateParam
+{
+	const char *szModule;
+	const wchar_t *wszId;
+	bool bRemoveContact;
+};
+
+static INT_PTR __stdcall stubRoomTerminate(void *param)
+{
+	ChatTerminateParam *p = (ChatTerminateParam*)param;
+	return SM_RemoveSession(p->wszId, p->szModule, p->bRemoveContact);
+}
+
 MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *wszId, bool bRemoveContact)
 {
-	mir_cslock lck(csChat);
-	return SM_RemoveSession(wszId, szModule, bRemoveContact);
+	ChatTerminateParam param = { szModule, wszId, bRemoveContact };
+	return CallFunctionSync(stubRoomTerminate, &param);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
