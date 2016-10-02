@@ -145,34 +145,56 @@ static int SystemShutdownProc(WPARAM, LPARAM)
 #define MIRANDA_PROCESS_WAIT_TIMEOUT        60000
 #define MIRANDA_PROCESS_WAIT_RESOLUTION     1000
 #define MIRANDA_PROCESS_WAIT_STEPS          (MIRANDA_PROCESS_WAIT_TIMEOUT/MIRANDA_PROCESS_WAIT_RESOLUTION)
-static INT_PTR CALLBACK WaitForProcessDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+
+class CWaitRestartDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwnd);
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
-		SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_SETRANGE, 0, MAKELPARAM(0, MIRANDA_PROCESS_WAIT_STEPS));
-		SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_SETSTEP, 1, 0);
-		SetTimer(hwnd, 1, MIRANDA_PROCESS_WAIT_RESOLUTION, NULL);
-		break;
+	HANDLE m_hProcess;
+	CTimer m_timer;
+	CProgress m_progress;
+	CCtrlButton m_cancel;
 
-	case WM_TIMER:
-		if (SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_STEPIT, 0, 0) == MIRANDA_PROCESS_WAIT_STEPS)
-			EndDialog(hwnd, 0);
-		if (WaitForSingleObject((HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1) != WAIT_TIMEOUT) {
-			SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_SETPOS, MIRANDA_PROCESS_WAIT_STEPS, 0);
-			EndDialog(hwnd, 0);
-		}
-		break;
+protected:
+	void OnInitDialog();
+	
+	void Timer_OnEvent(CTimer*);
 
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDCANCEL) {
-			SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_SETPOS, MIRANDA_PROCESS_WAIT_STEPS, 0);
-			EndDialog(hwnd, 1);
-		}
-		break;
+	void Cancel_OnClick(CCtrlBase*);
+
+public:
+	CWaitRestartDlg(HANDLE hProcess);
+};
+
+CWaitRestartDlg::CWaitRestartDlg(HANDLE hProcess)
+	: CDlgBase(g_hInst, IDD_WAITRESTART), m_timer(this, 1),
+	m_progress(this, IDC_PROGRESSBAR), m_cancel(this, IDCANCEL)
+{
+	m_autoClose = 0;
+	m_hProcess = hProcess;
+	m_timer.OnEvent = Callback(this, &CWaitRestartDlg::Timer_OnEvent);
+	m_cancel.OnClick = Callback(this, &CWaitRestartDlg::Cancel_OnClick);
+}
+
+void CWaitRestartDlg::OnInitDialog()
+{
+	m_progress.SetRange(MIRANDA_PROCESS_WAIT_STEPS);
+	m_progress.SetStep(1);
+	m_timer.Start(MIRANDA_PROCESS_WAIT_RESOLUTION);
+}
+
+void CWaitRestartDlg::Timer_OnEvent(CTimer *timer)
+{
+	if (m_progress.Move() == MIRANDA_PROCESS_WAIT_STEPS)
+		EndModal(0);
+	if (WaitForSingleObject(m_hProcess, 1) != WAIT_TIMEOUT) {
+		m_progress.SetPosition(MIRANDA_PROCESS_WAIT_STEPS);
+		EndModal(0);
 	}
-	return FALSE;
+}
+
+void CWaitRestartDlg::Cancel_OnClick(CCtrlBase*)
+{
+	m_progress.SetPosition(MIRANDA_PROCESS_WAIT_STEPS);
+	EndModal(1);
 }
 
 INT_PTR CheckRestart()
@@ -181,7 +203,7 @@ INT_PTR CheckRestart()
 	if (tszPID) {
 		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _wtol(tszPID));
 		if (hProcess) {
-			INT_PTR result = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WAITRESTART), NULL, WaitForProcessDlgProc, (LPARAM)hProcess);
+			INT_PTR result = dlg.DoModal();
 			CloseHandle(hProcess);
 			return result;
 		}
