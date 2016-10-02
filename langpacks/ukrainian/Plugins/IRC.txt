@@ -307,6 +307,16 @@ DCC: Запит на продовження закачування файлу в
 СТСР PING відповідь від %s: %u с (с)
 [CTCP %s reply from %s: %s]
 СТСР %s відповідь від %s: %s
+[Owner]
+Власник
+[Admin]
+Адмін
+[Op]
+Оп
+[Halfop]
+Напівоп
+[Voice]
+Войс
 [Downloading list (%u%%) - %u channels]
 Завантажується список (%u%%) - %u% чат-кімнат
 [Downloading list - %u channels]

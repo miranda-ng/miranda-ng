@@ -44,11 +44,11 @@
 [Colors]
 Кольори
 [Use default colors]
-Кольори за замовчанням
+За замовчанням
 [Windows colors]
 Кольори Windows
 [Custom colors]
-Налаштувати кольори
+Налаштувати
 [Back]
 Фон
 [Text]

@@ -160,7 +160,7 @@
 [Show other messages]
 Інші
 [From popup plugin]
-За замовчанням
+З плагіна сплив. вікон
 [Custom]
 Вказати
 [Permanent]

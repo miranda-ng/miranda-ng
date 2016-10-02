@@ -126,7 +126,7 @@
 [Contacts]
 Контакти
 [Popups]
-Сплив. вікна
+Спливаючі вікна
 [not detected]
 не визначено
 [not found]

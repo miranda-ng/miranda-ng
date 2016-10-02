@@ -523,6 +523,8 @@ xHTML-формат повідомлень чату
 Підтримка Roster Exchange
 [Supports direct chat invitations (XEP-0249)]
 Підтримка прямих запрошень до чату (XEP-0249)
+[Receives information about OMEMO devices]
+Прийом інформації про пристрої OMEMO
 [Enter the text you see]
 Введіть текст, який бачите
 [None]
@@ -1417,6 +1419,8 @@ xHTML-формат повідомлень чату
 Дозволяти передачу файлів тільки всередині потоку (не розкривати свій IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Приймати запити аутентифікації HTTP (XEP-0070)
+[Use OMEMO encryption for messages if possible (placeholder)]
+Шифрувати повідомлення за допомогою OMEMO (якщо можливо) (НЕ ПРАЦЮЄ!)
 [General]
 Загальне
 [Autoaccept multiuser chat invitations]

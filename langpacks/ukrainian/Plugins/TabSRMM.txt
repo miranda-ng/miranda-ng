@@ -482,7 +482,7 @@ ID користувача в панелі статусу
 [Back]
 Фон
 [U&se Popup colors]
-Кольори плагіна Popup
+Кольори з плагіна сплив. вікон
 [&Use Windows colors]
 &Кольори Windows
 [Only &one popup for each contact]
@@ -492,7 +492,7 @@ ID користувача в панелі статусу
 [...is typing]
 ...друкує повідомлення
 [From popup plugin]
-За замовчанням
+З плагіна сплив. вікон
 [From protocol]
 З протоколу
 [Permanent]
@@ -502,7 +502,7 @@ ID користувача в панелі статусу
 [...stopped typing]
 ...закінчив друкувати
 [Popups timeout]
-Таймаут плагіна Popup
+Таймаут сплив. вікон
 [Templates]
 Шаблони
 [Edit template]

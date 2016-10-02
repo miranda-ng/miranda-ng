@@ -13,6 +13,10 @@
 Видиме ім'я:
 [Server]
 Сервер
+[Admin]
+Адмін
+[Normal]
+Звичайний
 [You]
 Ви
 [Message was not sent. Probably you are sending them too fast or chat is disabled completely.]

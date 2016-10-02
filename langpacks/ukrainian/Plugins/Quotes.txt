@@ -78,7 +78,7 @@
 [Delay]
 Затримка
 [From popup plugin]
-За замовчанням
+З плагіна сплив. вікон
 [Custom]
 Налаштувати
 [Permanent]

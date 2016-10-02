@@ -240,7 +240,7 @@ AIM Встановити Instant Idle
 [AOL Bot]
 Бот AOL
 [Admin]
-Адміністратор
+Адмін
 [Confirmed]
 Перевірений
 [Not Confirmed]

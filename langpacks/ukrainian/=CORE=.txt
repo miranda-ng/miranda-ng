@@ -2105,6 +2105,12 @@ Miranda не може відкрити '%s'.\nНе знайдено відпов
 Miranda не може відкрити цей профіль
 [Miranda can't understand that profile]
 Miranda не може зрозуміти цей профіль
+[Authorization request from %s%s: %s]
+Запит авторизації від %s%s: %s
+[You were added by %s%s]
+Вас додав %s%s
+[Contacts: ]
+Контакти:\s
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Захист від небезпечних змін увімкнено, вас попередять про будь-які зміни налаштувань.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2119,12 +2125,6 @@ Miranda не може зрозуміти цей профіль
 Невідомо, чи є ця зміна налаштувань безпечною.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Неправильний тип налаштувань для '%s'. Першою літерою будь-якого значения має бути b, w, d, l, s, e, u, g, h або n.
-[Authorization request from %s%s: %s]
-Запит авторизації від %s%s: %s
-[You were added by %s%s]
-Вас додав %s%s
-[Contacts: ]
-Контакти:\s
 [Chat activity]
 Активність у чаті
 [You haven't filled in the search field. Please enter a search term and try again.]

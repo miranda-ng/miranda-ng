@@ -154,7 +154,7 @@ URL додаткової інформації
 [seconds]
 секунд
 [From popup plugin]
-За замовчанням
+З плагіна сплив. вікон
 [Permanent]
 Постійно
 [Popup Text]
