@@ -430,8 +430,8 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Popups",IDC_STATIC,4,9,307,129
-    CONTROL         "...is &typing",IDC_START,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,20,80,13
-    CONTROL         "...stopped t&yping",IDC_STOP,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,46,80,13
+    CONTROL         "...is &typing",IDC_START,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,20,95,13
+    CONTROL         "...stopped t&yping",IDC_STOP,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,46,95,13
     CTEXT           "Back",IDC_STATIC,23,61,31,8
     CTEXT           "Text",IDC_STATIC,89,62,29,8
     CONTROL         "",IDC_TYPEON_TX,"ColourPicker",WS_TABSTOP,120,33,24,12
