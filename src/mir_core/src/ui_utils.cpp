@@ -288,6 +288,11 @@ CCtrlBase* CDlgBase::FindControl(int idCtrl)
 	return m_controls.find(&search);
 }
 
+void CDlgBase::AddTimer(CTimer *timer)
+{
+	m_timers.insert(timer);
+}
+
 CTimer* CDlgBase::FindTimer(int idEvent)
 {
 	CTimer search(NULL, idEvent);
@@ -738,6 +743,8 @@ BOOL CCtrlHyperlink::OnCommand(HWND, WORD, WORD)
 CTimer::CTimer(CDlgBase *wnd, int idEvent)
 	: m_wnd(wnd), m_idEvent(idEvent)
 {
+	if (wnd)
+		wnd->AddTimer(this);
 }
 
 BOOL CTimer::OnTimer()

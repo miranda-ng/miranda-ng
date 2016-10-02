@@ -429,6 +429,7 @@ protected:
 
 	// register controls
 	void AddControl(CCtrlBase *ctrl);
+	void AddTimer(CTimer *timer);
 
 	// win32 stuff
 	void ThemeDialogBackground(BOOL tabbed);

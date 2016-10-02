@@ -1030,3 +1030,4 @@ CallFunctionSync @1170
 ?SetStep@CProgress@@QEAAXG@Z @1187 NONAME
 ?Start@CTimer@@QEAAXH@Z @1188 NONAME
 ?Stop@CTimer@@QEAAXXZ @1189 NONAME
+?AddTimer@CDlgBase@@IEAAXPEAVCTimer@@@Z @1190 NONAME
