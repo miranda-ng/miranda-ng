@@ -502,10 +502,12 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 							}
 
 							// set bit for own mode on this channel (voice/hop/op/admin/owner)
-							if (bAdd && cModeBit >= 0)
-								wi->OwnMode |= (1 << cModeBit);
-							else
-								wi->OwnMode &= ~(1 << cModeBit);
+							if (cModeBit >= 0) {
+								if (bAdd)
+									wi->OwnMode |= (1 << cModeBit);
+								else
+									wi->OwnMode &= ~(1 << cModeBit);
+							}
 
 							Chat_SetUserInfo(m_szModuleName, pmsg->parameters[0], wi);
 						}
