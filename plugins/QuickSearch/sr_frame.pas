@@ -127,14 +127,9 @@ begin
 end;
 
 function ColorReload(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  cid:TColourID;
 begin
   result:=0;
-  cid.cbSize:=SizeOf(cid);
-  StrCopy(cid.group,'QuickSearch');
-  StrCopy(cid.name ,frm_back);
-  frm_bkg:=CallService(MS_COLOUR_GETA,twparam(@cid),0);
+  frm_bkg:=Colour_Get('QuickSearch',frm_back);
   DeleteObject(hbr);
   hbr:=CreateSolidBrush(frm_bkg);
 

@@ -95,11 +95,11 @@ void CTooltipNotify::RegisterFonts()
 		wcsncpy(fontId.name, s_fontTable[i].name, _countof(fontId.name) - 1);
 		strncpy(fontId.prefix, s_fontTable[i].fontPrefix, _countof(fontId.prefix) - 1);
 		wcsncpy(fontId.backgroundName, s_fontTable[i].name, _countof(fontId.backgroundName) - 1);
-		::FontRegisterW(&fontId);
+		::Font_RegisterW(&fontId);
 
 		wcsncpy(colorId.name, s_fontTable[i].name, _countof(colorId.name) - 1);
 		strncpy(colorId.setting, s_fontTable[i].clrPrefix, _countof(colorId.setting) - 1);
-		::ColourRegisterW(&colorId);
+		::Colour_RegisterW(&colorId);
 	}
 }
 
@@ -111,17 +111,12 @@ void CTooltipNotify::GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF*
 			fontName = s_fontTable[i].name;
 		}
 	}
-	if (fontName == 0) {
+	if (fontName == 0)
 		fontName = s_fontTable[_countof(s_fontTable) - 1].name;
-	}
 
 	// name and group only
-	FontIDW fontId = { sizeof(fontId), FONTSERV_GROUP, 0 };
-	wcsncpy(fontId.name, fontName, _countof(fontId.name) - 1);
-	*text = (COLORREF)::CallService(MS_FONT_GETW, (WPARAM)&fontId, (LPARAM)lf);
-	ColourIDW colorId = { sizeof(colorId), FONTSERV_GROUP, 0 };
-	wcsncpy(colorId.name, fontName, _countof(colorId.name) - 1);
-	*bg = (COLORREF)::CallService(MS_COLOUR_GETW, (WPARAM)&colorId, 0);
+	*text = ::Font_GetW(FONTSERV_GROUP, fontName, lf);
+	*bg = ::Colour_GetW(FONTSERV_GROUP, fontName);
 }
 
 int CTooltipNotify::ModulesLoaded(WPARAM, LPARAM)

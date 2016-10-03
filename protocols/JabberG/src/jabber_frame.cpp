@@ -239,25 +239,15 @@ void CJabberInfoFrame::Update()
 void CJabberInfoFrame::ReloadFonts()
 {
 	LOGFONT lfFont;
-
-	FontIDW fontid = {0};
-	fontid.cbSize = sizeof(fontid);
-	wcsncpy_s(fontid.group, L"Jabber", _TRUNCATE);
-	wcsncpy_s(fontid.name, L"Frame title", _TRUNCATE);
-	m_clTitle = CallService(MS_FONT_GETW, (WPARAM)&fontid, (LPARAM)&lfFont);
+	m_clTitle = Font_GetW(L"Jabber", L"Frame title", &lfFont);
 	DeleteObject(m_hfntTitle);
 	m_hfntTitle = CreateFontIndirect(&lfFont);
 
-	wcsncpy_s(fontid.name, L"Frame text", _TRUNCATE);
-	m_clText = CallService(MS_FONT_GETW, (WPARAM)&fontid, (LPARAM)&lfFont);
+	m_clText = Font_GetW(L"Jabber", L"Frame text",&lfFont);
 	DeleteObject(m_hfntText);
 	m_hfntText = CreateFontIndirect(&lfFont);
 
-	ColourIDW colourid = {0};
-	colourid.cbSize = sizeof(colourid);
-	wcsncpy_s(colourid.group, L"Jabber", _TRUNCATE);
-	wcsncpy_s(colourid.name, L"Background", _TRUNCATE);
-	m_clBack = CallService(MS_COLOUR_GETW, (WPARAM)&colourid, 0);
+	m_clBack = Colour_GetW(L"Jabber", L"Background");
 
 	UpdateSize();
 }

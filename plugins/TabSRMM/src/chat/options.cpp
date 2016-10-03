@@ -552,7 +552,7 @@ void RegisterFontServiceFonts()
 			wcsncpy(fid.backgroundName, LPGENW("Incoming background"), _countof(fid.backgroundName));
 			break;
 		}
-		FontRegisterW(&fid);
+		Font_RegisterW(&fid);
 	}
 
 	fontOptionsList = IP_fontOptionsList;
@@ -578,7 +578,7 @@ void RegisterFontServiceFonts()
 			wcsncpy(fid.backgroundName, L"", _countof(fid.backgroundName));
 			wcsncpy(fid.group, LPGENW("Message Sessions"), _countof(fid.group));
 		}
-		FontRegisterW(&fid);
+		Font_RegisterW(&fid);
 	}
 
 	wcsncpy(cid.group, LPGENW("Message Sessions") L"/" LPGENW("Group chats"), _countof(cid.group));
@@ -599,18 +599,18 @@ void RegisterFontServiceFonts()
 			cid.defcolour = RGB(0, 0, 0);
 			break;
 		}
-		ColourRegisterW(&cid);
+		Colour_RegisterW(&cid);
 	}
 	cid.order++;
 	wcsncpy_s(cid.name, LPGENW("Nick list background"), _TRUNCATE);
 	strncpy_s(cid.setting, "ColorNicklistBG", _TRUNCATE);
 	cid.defcolour = SRMSGDEFSET_BKGCOLOUR;
-	ColourRegisterW(&cid);
+	Colour_RegisterW(&cid);
 
 	cid.order++;
 	wcsncpy_s(cid.name, LPGENW("Group chat log background"), _TRUNCATE);
 	strncpy_s(cid.setting, "ColorLogBG", _TRUNCATE);
-	ColourRegisterW(&cid);
+	Colour_RegisterW(&cid);
 
 	// static colors (info panel, tool bar background etc...)
 	strncpy(fid.dbSettingsGroup, FONTMODULE, _countof(fid.dbSettingsGroup));
@@ -625,7 +625,7 @@ void RegisterFontServiceFonts()
 			cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
 		else
 			cid.defcolour = _clrs[i].def;
-		ColourRegisterW(&cid);
+		Colour_RegisterW(&cid);
 	}
 
 	strncpy(cid.dbSettingsGroup, SRMSGMOD_T, _countof(fid.dbSettingsGroup));
@@ -641,7 +641,7 @@ void RegisterFontServiceFonts()
 		else
 			cid.defcolour = _tabclrs[i].def;
 
-		ColourRegisterW(&cid);
+		Colour_RegisterW(&cid);
 	}
 }
 

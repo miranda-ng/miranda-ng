@@ -311,3 +311,15 @@ Chat_Terminate @311
 Chat_AddGroup @312
 Chat_Control @313
 Clist_FindItem @314
+Colour_Get @315
+Colour_GetW @316
+Colour_Register @317
+Colour_RegisterW @318
+Effect_Get @319
+Effect_GetW @320
+Effect_Register @321
+Effect_RegisterW @322
+Font_Get @323
+Font_GetW @324
+Font_Register @325
+Font_RegisterW @326

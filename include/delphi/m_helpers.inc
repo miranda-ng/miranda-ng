@@ -60,14 +60,8 @@ function Skin_AddIcon(si:PSKINICONDESC):THANDLE;
 procedure Icon_Register (hInst:HINST; const szSection:PAnsiChar; pIcons:pIconItem ; iCount:size_t; prefix:PAnsiChar);
 procedure Icon_RegisterW(hInst:HINST; const szSection:PWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar);
 
-procedure FontRegister (pFontID:pFontID);
-procedure FontRegisterW(pFontID:pFontIDW);
-
-procedure ColourRegister (pColorID:pColourID);
-procedure ColourRegisterW(pColorID:pColourIDW);
-
-procedure EffectRegister (pEffectID:pEffectID);
-procedure EffectRegisterW(pEffectID:pEffectIDW);
+procedure FontRegister(pFontID:pFontID);
+procedure ColourRegister(pColorID:pColourID);
 
 function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;
 
@@ -421,29 +415,12 @@ end;
 
 procedure FontRegister(pFontID:pFontID);
 begin
-	CallService(MS_FONT_REGISTERA, WPARAM(pFontID), hLangpack);
-end;
-procedure FontRegisterW(pFontID:pFontIDW);
-begin
-	CallService(MS_FONT_REGISTERW, WPARAM(pFontID), hLangpack);
+   Font_Register(pFontID, hLangpack);
 end;
 
 procedure ColourRegister(pColorID:pColourID);
 begin
-	CallService(MS_COLOUR_REGISTERA, WPARAM(pColorID), hLangpack);
-end;
-procedure ColourRegisterW(pColorID:pColourIDW);
-begin
-	CallService(MS_COLOUR_REGISTERW, WPARAM(pColorID), hLangpack);
-end;
-
-procedure EffectRegister(pEffectID:pEffectID);
-begin
-	CallService(MS_EFFECT_REGISTERA, WPARAM(pEffectID), hLangpack);
-end;
-procedure EffectRegisterW(pEffectID:pEffectIDW);
-begin
-	CallService(MS_EFFECT_REGISTERW, WPARAM(pEffectID), hLangpack);
+	Colour_Register(pColorID, hLangpack);
 end;
 
 function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;

@@ -532,7 +532,7 @@ static void CreateThumbsFont()
 		}
 
 		LOGFONT lf;
-		FontService_GetFont(LPGENW("Floating contacts"), s_fonts[nFontId], &tColor[nFontId], &lf);
+		tColor[nFontId] = Font_GetW(LPGENW("Floating contacts"), s_fonts[nFontId], &lf);
 		hFont[nFontId] = CreateFontIndirect(&lf);
 	}
 }

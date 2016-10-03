@@ -76,7 +76,7 @@ void RegisterCListFonts()
 		mir_snprintf(idstr, "Font%d", i);
 		strncpy(fontid.prefix, idstr, _countof(fontid.prefix));
 		fontid.order = i;
-		FontRegisterW(&fontid);
+		Font_RegisterW(&fontid);
 	}
 	ReleaseDC(NULL, hdc);
 
@@ -90,25 +90,25 @@ void RegisterCListFonts()
 	wcsncpy(colourid.name, LPGENW("Background"), _countof(colourid.name));
 	wcsncpy(colourid.group, LPGENW("Contact list"), _countof(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Selected text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Hottrack text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Quicksearch text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
 }

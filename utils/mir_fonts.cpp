@@ -30,17 +30,8 @@ int FontService_RegisterFont(const char *pszDbModule, const char *pszDbName, con
 		fid.deffontsettings.charset = plfDefault->lfCharSet;
 		mir_wstrncpy(fid.deffontsettings.szFace, plfDefault->lfFaceName, _countof(fid.deffontsettings.szFace)); /* buffer safe */
 	}
-	FontRegisterW(&fid);
+	Font_RegisterW(&fid);
 	return 0;
-}
-
-int FontService_GetFont(const wchar_t *pszSection, const wchar_t *pszDescription, COLORREF *pclr, LOGFONT *plf)
-{
-	FontIDW fid = { 0 };
-	mir_wstrncpy(fid.group, pszSection, _countof(fid.group)); /* buffer sfae */
-	mir_wstrncpy(fid.name, pszDescription, _countof(fid.name)); /* buffer safe */
-	*pclr = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)plf); /* uses fallback font on error */
-	return (int)*pclr == -1;
 }
 
 int FontService_RegisterColor(const char *pszDbModule, const char *pszDbName, const wchar_t *pszSection, const wchar_t *pszDescription, COLORREF clrDefault)
@@ -52,16 +43,6 @@ int FontService_RegisterColor(const char *pszDbModule, const char *pszDbName, co
 	mir_strncpy(cid.setting, pszDbName, sizeof(cid.setting)); /* buffer safe */
 	mir_wstrncpy(cid.group, pszSection, _countof(cid.group)); /* buffer safe */
 	mir_wstrncpy(cid.name, pszDescription, _countof(cid.name)); /* buffer safe */
-	ColourRegisterW(&cid);
+	Colour_RegisterW(&cid);
 	return 0;
-}
-
-int FontService_GetColor(const wchar_t *pszSection, const wchar_t *pszDescription, COLORREF *pclr)
-{
-	ColourIDW cid = { 0 };
-	cid.cbSize = sizeof(cid);
-	wcsncpy_s(cid.group, pszSection, _TRUNCATE);
-	wcsncpy_s(cid.name, pszDescription, _TRUNCATE);
-	*pclr = (COLORREF)CallService(MS_COLOUR_GETW, (WPARAM)&cid, 0);
-	return (int)*pclr == -1;
 }

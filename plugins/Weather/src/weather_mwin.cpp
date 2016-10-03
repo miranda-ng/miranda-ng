@@ -155,16 +155,8 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				}
 
 				clr = db_get_dw(NULL, WEATHERPROTONAME, "ColorMwinFrame", GetSysColor(COLOR_3DFACE));
-
-				{
-					FontIDW fntid = { 0 };
-					mir_wstrcpy(fntid.group, _A2W(WEATHERPROTONAME));
-					mir_wstrcpy(fntid.name, LPGENW("Frame Font"));
-					fntc = CallService(MS_FONT_GETW, (WPARAM)&fntid, (LPARAM)&lfnt);
-
-					mir_wstrcpy(fntid.name, LPGENW("Frame Title Font"));
-					fntc1 = CallService(MS_FONT_GETW, (WPARAM)&fntid, (LPARAM)&lfnt1);
-				}
+				fntc = Font_GetW(_A2W(WEATHERPROTONAME), LPGENW("Frame Font"), &lfnt);
+				fntc1 = Font_GetW(_A2W(WEATHERPROTONAME), LPGENW("Frame Title Font"), &lfnt1);
 
 				ptrW tszInfo(db_get_wsa(data->hContact, WEATHERCONDITION, "WeatherInfo"));
 
@@ -331,7 +323,7 @@ void InitMwin(void)
 	mir_wstrcpy(colourid.name, LPGENW("Frame Background"));
 	mir_wstrcpy(colourid.group, _A2W(WEATHERPROTONAME));
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	FontIDW fontid = { 0 };
 	fontid.cbSize = sizeof(FontIDW);
@@ -349,12 +341,12 @@ void InitMwin(void)
 	mir_wstrcpy(fontid.deffontsettings.szFace, L"Verdana");
 	mir_wstrcpy(fontid.backgroundGroup, _A2W(WEATHERPROTONAME));
 	mir_wstrcpy(fontid.backgroundName, LPGENW("Frame Background"));
-	FontRegisterW(&fontid);
+	Font_RegisterW(&fontid);
 
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	mir_wstrcpy(fontid.name, LPGENW("Frame Title Font"));
 	mir_strcpy(fontid.prefix, "fnt1");
-	FontRegisterW(&fontid);
+	Font_RegisterW(&fontid);
 
 	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))
 		if (db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0))

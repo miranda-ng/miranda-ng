@@ -123,7 +123,7 @@ void RegisterFontServiceFonts()
 		fid.deffontsettings.charset = DEFAULT_CHARSET;
 		wcsncpy(fid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fid.deffontsettings.szFace));
 		wcsncpy(fid.backgroundName, fontOptionsList[i].szBkgName, _countof(fid.backgroundName));
-		FontRegisterW(&fid);
+		Font_RegisterW(&fid);
 	}
 
 	ColourIDW cid = { sizeof(cid) };
@@ -139,7 +139,7 @@ void RegisterFontServiceFonts()
 			cid.defcolour = colourOptionsList[i].defColour;
 
 		strncpy(cid.setting, colourOptionsList[i].szSettingName, _countof(cid.setting));
-		ColourRegisterW(&cid);
+		Colour_RegisterW(&cid);
 	}
 }
 

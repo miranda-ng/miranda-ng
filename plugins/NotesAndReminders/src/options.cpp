@@ -253,7 +253,7 @@ void RegisterFontServiceFonts()
 		strncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
 		strncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, _countof(fontid.backgroundName));
 
-		FontRegister(&fontid);
+		Font_Register(&fontid);
 	}
 
 	ColourID colorid = { 0 };
@@ -269,7 +269,7 @@ void RegisterFontServiceFonts()
 		colorid.defcolour = colourOptionsList[i].defColour;
 		strncpy(colorid.setting, colourOptionsList[i].szSettingName, _countof(colorid.setting));
 
-		ColourRegister(&colorid);
+		Colour_Register(&colorid);
 	}
 
 	hkFontChange = HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
@@ -278,12 +278,7 @@ void RegisterFontServiceFonts()
 
 void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
 {
-	FontID fontid = { 0 };
-	fontid.cbSize = sizeof(fontid);
-	strncpy(fontid.group, LPGEN(SECTIONNAME), _countof(fontid.group));
-	strncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
-
-	COLORREF col = CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)lf);
+	COLORREF col = Font_Get(SECTIONNAME, fontOptionsList[i].szDescr, lf);
 	if (colour)
 		*colour = col;
 }

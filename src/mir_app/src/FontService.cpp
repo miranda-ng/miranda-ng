@@ -271,28 +271,28 @@ static int sttRegisterFontWorker(FontIDW *font_id, int _hLang)
 	return 0;
 }
 
-static INT_PTR RegisterFontW(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Font_RegisterW(FontIDW *pFont, int _hLang)
 {
-	return sttRegisterFontWorker((FontIDW*)wParam, (int)lParam);
+	return sttRegisterFontWorker(pFont, _hLang);
 }
 
-static INT_PTR RegisterFont(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Font_Register(FontID *pFont, int _hLang)
 {
 	FontIDW temp;
-	if (!ConvertFontID((FontID*)wParam, &temp)) return -1;
-	return sttRegisterFontWorker(&temp, (int)lParam);
+	if (!ConvertFontID(pFont, &temp)) return -1;
+	return sttRegisterFontWorker(&temp, _hLang);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetFont service
 
-static INT_PTR sttGetFontWorker(FontIDW *font_id, LOGFONT *lf)
+static COLORREF sttGetFontWorker(const wchar_t *wszGroup, const wchar_t *wszName, LOGFONTW *lf)
 {
 	COLORREF colour;
 
 	for (int i = 0; i < font_id_list.getCount(); i++) {
 		FontInternal& F = font_id_list[i];
-		if (!wcsncmp(F.name, font_id->name, _countof(F.name)) && !wcsncmp(F.group, font_id->group, _countof(F.group))) {
+		if (!wcsncmp(F.name, wszName, _countof(F.name)) && !wcsncmp(F.group, wszGroup, _countof(F.group))) {
 			if (GetFontSettingFromDB(F.dbSettingsGroup, F.prefix, lf, &colour, F.flags) && (F.flags & FIDF_DEFAULTVALID)) {
 				CreateFromFontSettings(&F.deffontsettings, lf);
 				colour = F.deffontsettings.colour;
@@ -306,20 +306,16 @@ static INT_PTR sttGetFontWorker(FontIDW *font_id, LOGFONT *lf)
 	return colour;
 }
 
-static INT_PTR GetFontW(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(COLORREF) Font_GetW(const wchar_t *wszGroup, const wchar_t *wszName, LOGFONTW *pFont)
 {
-	return sttGetFontWorker((FontIDW*)wParam, (LOGFONT*)lParam);
+	return sttGetFontWorker(wszGroup, wszName, pFont);
 }
 
-static INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(COLORREF) Font_Get(const char *szGroup, const char *szName, LOGFONTA *pFont)
 {
-	FontIDW temp;
-	if (!ConvertFontID((FontID*)wParam, &temp))
-		return -1;
-
-	LOGFONT lftemp;
-	int ret = sttGetFontWorker(&temp, &lftemp);
-	ConvertLOGFONT(&lftemp, (LOGFONTA*)lParam);
+	LOGFONTW lftemp;
+	COLORREF ret = sttGetFontWorker(_A2T(szGroup), _A2T(szName), &lftemp);
+	ConvertLOGFONT(&lftemp, pFont);
 	return ret;
 }
 
@@ -366,42 +362,40 @@ static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int _hLang)
 	return 0;
 }
 
-static INT_PTR RegisterColourW(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Colour_RegisterW(ColourIDW *pFont, int _hLang)
 {
-	return sttRegisterColourWorker((ColourIDW*)wParam, (int)lParam);
+	return sttRegisterColourWorker(pFont, _hLang);
 }
 
-static INT_PTR RegisterColour(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Colour_Register(ColourID *pFont, int _hLang)
 {
 	ColourIDW temp;
-	if (!ConvertColourID((ColourID*)wParam, &temp)) return -1;
-	return sttRegisterColourWorker(&temp, (int)lParam);
+	if (!ConvertColourID(pFont, &temp)) return -1;
+	return sttRegisterColourWorker(&temp, _hLang);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetColour service
 
-static INT_PTR sttGetColourWorker(ColourIDW *colour_id)
+static INT_PTR sttGetColourWorker(const wchar_t *wszGroup, const wchar_t *wszName)
 {
 	for (int i = 0; i < colour_id_list.getCount(); i++) {
 		ColourInternal& C = colour_id_list[i];
-		if (!mir_wstrcmp(C.group, colour_id->group) && !mir_wstrcmp(C.name, colour_id->name))
+		if (!mir_wstrcmp(C.group, wszGroup) && !mir_wstrcmp(C.name, wszName))
 			return db_get_dw(NULL, C.dbSettingsGroup, C.setting, C.defcolour);
 	}
 
 	return -1;
 }
 
-static INT_PTR GetColourW(WPARAM wParam, LPARAM)
+MIR_APP_DLL(COLORREF) Colour_GetW(const wchar_t *wszGroup, const wchar_t *wszName)
 {
-	return sttGetColourWorker((ColourIDW*)wParam);
+	return sttGetColourWorker(wszGroup, wszName);
 }
 
-static INT_PTR GetColour(WPARAM wParam, LPARAM)
+MIR_APP_DLL(COLORREF) Colour_Get(const char *szGroup, const char *szName)
 {
-	ColourIDW temp;
-	if (!ConvertColourID((ColourID*)wParam, &temp)) return -1;
-	return sttGetColourWorker(&temp);
+	return sttGetColourWorker(_A2T(szGroup), _A2T(szName));
 }
 
 static INT_PTR ReloadColours(WPARAM, LPARAM)
@@ -438,7 +432,7 @@ void UpdateEffectSettings(EffectIDW *effect_id, FONTEFFECT *effectsettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterEffect service
 
-static INT_PTR sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
+static int sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
 {
 	if (effect_id->cbSize != sizeof(EffectIDW))
 		return -1;
@@ -458,32 +452,27 @@ static INT_PTR sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
 	return 0;
 }
 
-static INT_PTR RegisterEffectW(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Effect_RegisterW(EffectIDW *pFont, int _hLang)
 {
-	return sttRegisterEffectWorker((EffectIDW*)wParam, (int)lParam);
+	return sttRegisterEffectWorker(pFont, _hLang);
 }
 
-static INT_PTR RegisterEffect(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Effect_Register(EffectID *pFont, int _hLang)
 {
 	EffectIDW temp;
-	if (!ConvertEffectID((EffectID*)wParam, &temp)) return -1;
-	return sttRegisterEffectWorker(&temp, (int)lParam);
+	if (!ConvertEffectID(pFont, &temp)) return -1;
+	return sttRegisterEffectWorker(&temp, _hLang);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetEffect service
 
-static INT_PTR sttGetEffectWorker(EffectIDW *effect_id, FONTEFFECT *effect)
+static INT_PTR sttGetEffectWorker(const wchar_t *wszGroup, const wchar_t *wszName, FONTEFFECT *effect)
 {
 	for (int i = 0; i < effect_id_list.getCount(); i++) {
 		EffectInternal& E = effect_id_list[i];
-		if (!wcsncmp(E.name, effect_id->name, _countof(E.name)) && !wcsncmp(E.group, effect_id->group, _countof(E.group))) {
-			FONTEFFECT temp;
-			UpdateEffectSettings(effect_id, &temp);
-
-			effect->effectIndex = temp.effectIndex;
-			effect->baseColour = temp.baseColour;
-			effect->secondaryColour = temp.secondaryColour;
+		if (!wcsncmp(E.name, wszName, _countof(E.name)) && !wcsncmp(E.group, wszGroup, _countof(E.group))) {
+			UpdateEffectSettings(&E, effect);
 			return TRUE;
 		}
 	}
@@ -491,16 +480,14 @@ static INT_PTR sttGetEffectWorker(EffectIDW *effect_id, FONTEFFECT *effect)
 	return FALSE;
 }
 
-static INT_PTR GetEffectW(WPARAM wParam, LPARAM lParam)
+EXTERN_C MIR_APP_DLL(int) Effect_GetW(const wchar_t *wszGroup, const wchar_t *wszName, FONTEFFECT *pEffect)
 {
-	return sttGetEffectWorker((EffectIDW*)wParam, (FONTEFFECT*)lParam);
+	return sttGetEffectWorker(wszGroup, wszName, pEffect);
 }
 
-static INT_PTR GetEffect(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Effect_Get(const char *szGroup, const char *szName, FONTEFFECT *pEffect)
 {
-	EffectIDW temp;
-	if (!ConvertEffectID((EffectID*)wParam, &temp)) return -1;
-	return sttGetEffectWorker(&temp, (FONTEFFECT*)lParam);
+	return sttGetEffectWorker(_A2T(szGroup), _A2T(szName), pEffect);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -538,21 +525,6 @@ int LoadFontserviceModule(void)
 {
 	code_page = Langpack_GetDefaultCodePage();
 
-	CreateServiceFunction("Font/Register", RegisterFont);
-	CreateServiceFunction("Font/RegisterW", RegisterFontW);
-	CreateServiceFunction(MS_FONT_GET, GetFont);
-	CreateServiceFunction(MS_FONT_GETW, GetFontW);
-
-	CreateServiceFunction("Colour/Register", RegisterColour);
-	CreateServiceFunction("Colour/RegisterW", RegisterColourW);
-	CreateServiceFunction(MS_COLOUR_GET, GetColour);
-	CreateServiceFunction(MS_COLOUR_GETW, GetColourW);
-
-	CreateServiceFunction("Effect/Register", RegisterEffect);
-	CreateServiceFunction("Effect/RegisterW", RegisterEffectW);
-	CreateServiceFunction(MS_EFFECT_GET, GetEffect);
-	CreateServiceFunction(MS_EFFECT_GETW, GetEffectW);
-
 	CreateServiceFunction(MS_FONT_RELOAD, ReloadFonts);
 	CreateServiceFunction(MS_COLOUR_RELOAD, ReloadColours);
 
@@ -567,17 +539,17 @@ int LoadFontserviceModule(void)
 	wcsncpy_s(fontid.name, LPGENW("Headers"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSHEADER;
 	strncpy(fontid.prefix, "Header", _countof(fontid.prefix));
-	FontRegisterW(&fontid);
+	Font_RegisterW(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Generic text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSGENERAL;
 	strncpy(fontid.prefix, "Generic", _countof(fontid.prefix));
-	FontRegisterW(&fontid);
+	Font_RegisterW(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Small text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSSMALL;
 	strncpy(fontid.prefix, "Small", _countof(fontid.prefix));
-	FontRegisterW(&fontid);
+	Font_RegisterW(&fontid);
 
 	// do last for silly dyna plugin
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

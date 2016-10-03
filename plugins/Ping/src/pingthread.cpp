@@ -781,11 +781,11 @@ int ReloadFont(WPARAM, LPARAM)
 	if (hFont) DeleteObject(hFont);
 
 	LOGFONT log_font;
-	CallService(MS_FONT_GETW, (WPARAM)&font_id, (LPARAM)&log_font);
+	Font_GetW(font_id, &log_font);
 	hFont = CreateFontIndirect(&log_font);
 	SendMessage(list_hwnd, WM_SETFONT, (WPARAM)hFont, TRUE);
 
-	bk_col = CallService(MS_COLOUR_GETW, (WPARAM)&bk_col_id, 0);
+	bk_col = Colour_GetW(bk_col_id);
 	RefreshWindow(0, 0);
 
 	return 0;
@@ -931,7 +931,7 @@ void InitList()
 	font_id.deffontsettings.colour = RGB(255, 255, 255);
 	mir_wstrncpy(font_id.deffontsettings.szFace, L"Tahoma", _countof(font_id.deffontsettings.szFace));
 
-	FontRegisterW(&font_id);
+	Font_RegisterW(&font_id);
 
 	bk_col_id.cbSize = sizeof(ColourIDW);
 	mir_wstrncpy(bk_col_id.group, L"Ping", _countof(bk_col_id.group));
@@ -939,7 +939,7 @@ void InitList()
 	mir_strncpy(bk_col_id.dbSettingsGroup, "PING", _countof(bk_col_id.dbSettingsGroup));
 	mir_strncpy(bk_col_id.setting, "BgColor", _countof(bk_col_id.setting));
 	bk_col_id.defcolour = RGB(0, 0, 0);
-	ColourRegisterW(&bk_col_id);
+	Colour_RegisterW(&bk_col_id);
 
 	HookEvent(ME_FONT_RELOAD, ReloadFont);
 

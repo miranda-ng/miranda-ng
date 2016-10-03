@@ -424,11 +424,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 int ReloadColors(WPARAM, LPARAM)
 {
-	ColourIDW colourid = { 0 };
-	colourid.cbSize = sizeof(colourid);
-	mir_wstrcpy(colourid.group, _A2W(ModuleName));
-	mir_wstrcpy(colourid.name, LPGENW("Frame background"));
-	clBack = CallService(MS_COLOUR_GETW, (WPARAM)&colourid, 0);
+	clBack = Colour_GetW(_A2W(ModuleName), LPGENW("Frame background"));
 
 	if (hBkgBrush)
 		DeleteObject(hBkgBrush);
@@ -474,7 +470,7 @@ void CreateFrame()
 	wcscpy_s(colourid.group, _A2W(ModuleName));
 
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	HookEvent(ME_COLOUR_RELOAD, ReloadColors);
 	ReloadColors(0, 0);

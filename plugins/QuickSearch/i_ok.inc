@@ -61,16 +61,12 @@ end;
 
 function ColorReload(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
-  cid:TColourID;
   i:tqscolor;
 begin
   result:=0;
-  cid.cbSize:=SizeOf(cid);
-  StrCopy(cid.group,qs_module);
   for i:=Low(tqscolor) to High(tqscolor) do
   begin
-    StrCopy(cid.name ,QSColors[i].descr);
-    QSColors[i].color:=CallService(MS_COLOUR_GETA,tlparam(@cid),0);
+    QSColors[i].color:=Colour_Get(qs_module,QSColors[i].descr);
   end;
 end;
 

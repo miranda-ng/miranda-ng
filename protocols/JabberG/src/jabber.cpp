@@ -142,12 +142,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	wcsncpy_s(fontid.name, LPGENW("Frame title"), _TRUNCATE);
 	strncpy_s(fontid.prefix, "fntFrameTitle", _TRUNCATE);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
-	FontRegisterW(&fontid);
+	Font_RegisterW(&fontid);
 
 	wcsncpy_s(fontid.name, LPGENW("Frame text"), _TRUNCATE);
 	strncpy_s(fontid.prefix, "fntFrameClock", _TRUNCATE);
 	fontid.deffontsettings.style = 0;
-	FontRegisterW(&fontid);
+	Font_RegisterW(&fontid);
 
 	ColourIDW colourid = {0};
 	colourid.cbSize = sizeof(colourid);
@@ -157,7 +157,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	wcsncpy_s(colourid.name, L"Background", _TRUNCATE);
 	strncpy_s(colourid.setting, "clFrameBack", _TRUNCATE);
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	return 0;
 }

@@ -73,7 +73,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	strcpy_s(cid.name, LPGEN("Background color"));
 	strcpy_s(cid.setting, "SelWndBkgClr");
 	cid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegister(&cid);
+	Colour_Register(&cid);
 	return 0;
 }
 

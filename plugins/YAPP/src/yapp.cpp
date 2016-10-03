@@ -57,19 +57,19 @@ int ReloadFont(WPARAM, LPARAM)
 {
 	LOGFONT log_font;
 	if (hFontFirstLine) DeleteObject(hFontFirstLine);
-	colFirstLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_firstline, (LPARAM)&log_font);
+	colFirstLine = Font_GetW(font_id_firstline, &log_font);
 	hFontFirstLine = CreateFontIndirect(&log_font);
 	if (hFontSecondLine) DeleteObject(hFontSecondLine);
-	colSecondLine = CallService(MS_FONT_GETW, (WPARAM)&font_id_secondline, (LPARAM)&log_font);
+	colSecondLine = Font_GetW(font_id_secondline, &log_font);
 	hFontSecondLine = CreateFontIndirect(&log_font);
 	if (hFontTime) DeleteObject(hFontTime);
-	colTime = CallService(MS_FONT_GETW, (WPARAM)&font_id_time, (LPARAM)&log_font);
+	colTime = Font_GetW(font_id_time, &log_font);
 	hFontTime = CreateFontIndirect(&log_font);
 
-	colBg = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_bg, 0);
-	colBorder = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_border, 0);
-	colSidebar = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_sidebar, 0);
-	colTitleUnderline = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_titleunderline, 0);
+	colBg = Colour_GetW(colour_id_bg);
+	colBorder = Colour_GetW(colour_id_border);
+	colSidebar = Colour_GetW(colour_id_sidebar);
+	colTitleUnderline = Colour_GetW(colour_id_titleunderline);
 	return 0;
 }
 
@@ -101,7 +101,7 @@ static void InitFonts()
 	mir_wstrcpy(font_id_firstline.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_firstline.backgroundName, L"Background");
 	font_id_firstline.order = 0;
-	FontRegisterW(&font_id_firstline);
+	Font_RegisterW(&font_id_firstline);
 
 	font_id_secondline.cbSize = sizeof(FontIDW);
 	font_id_secondline.flags = FIDF_ALLOWEFFECTS;
@@ -112,7 +112,7 @@ static void InitFonts()
 	mir_wstrcpy(font_id_secondline.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_secondline.backgroundName, L"Background");
 	font_id_secondline.order = 1;
-	FontRegisterW(&font_id_secondline);
+	Font_RegisterW(&font_id_secondline);
 
 	font_id_time.cbSize = sizeof(FontIDW);
 	font_id_time.flags = FIDF_ALLOWEFFECTS;
@@ -123,7 +123,7 @@ static void InitFonts()
 	mir_wstrcpy(font_id_time.backgroundGroup, L"Popups");
 	mir_wstrcpy(font_id_time.backgroundName, L"Background");
 	font_id_time.order = 2;
-	FontRegisterW(&font_id_time);
+	Font_RegisterW(&font_id_time);
 
 	colour_id_bg.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_bg.group, LPGENW("Popups"));
@@ -132,7 +132,7 @@ static void InitFonts()
 	mir_strcpy(colour_id_bg.setting, "ColourBg");
 	colour_id_bg.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_bg.order = 0;
-	ColourRegisterW(&colour_id_bg);
+	Colour_RegisterW(&colour_id_bg);
 
 	colour_id_border.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_border.group, LPGENW("Popups"));
@@ -141,7 +141,7 @@ static void InitFonts()
 	mir_strcpy(colour_id_border.setting, "ColourBorder");
 	colour_id_border.defcolour = RGB(0, 0, 0);
 	colour_id_border.order = 1;
-	ColourRegisterW(&colour_id_border);
+	Colour_RegisterW(&colour_id_border);
 
 	colour_id_sidebar.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_sidebar.group, LPGENW("Popups"));
@@ -150,7 +150,7 @@ static void InitFonts()
 	mir_strcpy(colour_id_sidebar.setting, "ColourSidebar");
 	colour_id_sidebar.defcolour = RGB(128, 128, 128);
 	colour_id_sidebar.order = 2;
-	ColourRegisterW(&colour_id_sidebar);
+	Colour_RegisterW(&colour_id_sidebar);
 
 	colour_id_titleunderline.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(colour_id_titleunderline.group, LPGENW("Popups"));
@@ -159,7 +159,7 @@ static void InitFonts()
 	mir_strcpy(colour_id_titleunderline.setting, "ColourTitleUnderline");
 	colour_id_titleunderline.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_titleunderline.order = 3;
-	ColourRegisterW(&colour_id_titleunderline);
+	Colour_RegisterW(&colour_id_titleunderline);
 
 	ReloadFont(0, 0);
 }

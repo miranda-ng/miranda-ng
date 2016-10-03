@@ -1071,15 +1071,7 @@ static int OptInit(WPARAM wParam, LPARAM)
 static int OnColourChange(WPARAM, LPARAM)
 {
 	if (hwndConsole) {
-		ColourID cid = { 0 };
-
-		cid.cbSize = sizeof(cid);
-		mir_strcpy(cid.group, "Console");
-		mir_strcpy(cid.name, "Background");
-		mir_strcpy(cid.dbSettingsGroup, "Console");
-		mir_strcpy(cid.setting, "BgColor");
-
-		colBackground = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&cid, 0);
+		colBackground = Colour_Get("Console", "Background");
 		if (colBackground != -1)
 			SendMessage(hwndConsole, HM_SETCOLOR, (WPARAM)hfLogFont, (LPARAM)colBackground);
 	}
@@ -1092,13 +1084,7 @@ static int OnFontChange(WPARAM, LPARAM)
 	if (hwndConsole) {
 		HFONT hf = NULL;
 		LOGFONT LogFont = { 0 };
-		FontIDW fid = { 0 };
-		fid.cbSize = sizeof(fid);
-
-		mir_wstrncpy(fid.group, LPGENW("Console"), _countof(fid.group));
-		mir_wstrncpy(fid.name, LPGENW("Text"), _countof(fid.name));
-
-		colLogFont = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&LogFont);
+		colLogFont = Font_GetW(L"Console", L"Text", &LogFont);
 
 		if (LogFont.lfHeight != 0) {
 			hf = CreateFontIndirect(&LogFont);
@@ -1131,7 +1117,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	fid.deffontsettings.size = 10;
 	fid.deffontsettings.style = 0;
 	mir_wstrncpy(fid.deffontsettings.szFace, L"Courier", _countof(fid.deffontsettings.szFace));
-	FontRegisterW(&fid);
+	Font_RegisterW(&fid);
 
 	HookEvent(ME_FONT_RELOAD, OnFontChange);
 
@@ -1142,7 +1128,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	mir_strncpy(cid.dbSettingsGroup, "Console", _countof(cid.dbSettingsGroup));
 	mir_strncpy(cid.setting, "BgColor", _countof(cid.setting));
 	cid.defcolour = RGB(255, 255, 255);
-	ColourRegisterW(&cid);
+	Colour_RegisterW(&cid);
 
 	HookEvent(ME_COLOUR_RELOAD, OnColourChange);
 

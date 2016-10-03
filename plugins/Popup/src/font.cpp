@@ -43,27 +43,27 @@ void InitFonts()
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TITLE);
 	fid.deffontsettings.style = DBFONTF_BOLD;
 	fid.deffontsettings.colour = RGB(0, 0, 0);
-	FontRegisterW(&fid);
+	Font_RegisterW(&fid);
 
 	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_CLOCK), _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_CLOCK);
-	FontRegisterW(&fid);
+	Font_RegisterW(&fid);
 
 	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_TEXT), _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_TEXT);
 	fid.deffontsettings.style = 0;
-	FontRegisterW(&fid);
+	Font_RegisterW(&fid);
 
 	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_ACTION), _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_ACTION);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 	fid.deffontsettings.colour = RGB(0, 0, 255);
-	FontRegisterW(&fid);
+	Font_RegisterW(&fid);
 
 	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_HOVERED_ACTION), _countof(fid.name));
 	mir_snprintf(fid.prefix, PU_FNT_PREFIX, PU_FNT_NAME_HOVERED_ACTION);
 	fid.deffontsettings.style = DBFONTF_UNDERLINE;
-	FontRegisterW(&fid);
+	Font_RegisterW(&fid);
 
 	ColourIDW cid = { 0 };
 	cid.cbSize = sizeof(ColourIDW);
@@ -73,12 +73,12 @@ void InitFonts()
 	mir_wstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
 	mir_strncpy(cid.setting, PU_COL_BACK_SETTING, _countof(cid.setting));
 	cid.defcolour = SETTING_BACKCOLOUR_DEFAULT;
-	ColourRegisterW(&cid);
+	Colour_RegisterW(&cid);
 
 	mir_wstrncpy(cid.name, PU_COL_AVAT_NAME, _countof(cid.name));
 	mir_strncpy(cid.setting, PU_COL_AVAT_SETTING, _countof(cid.setting));
 	cid.defcolour = SETTING_TEXTCOLOUR_DEFAULT;
-	ColourRegisterW(&cid);
+	Colour_RegisterW(&cid);
 
 	ReloadFonts();
 }
@@ -93,39 +93,23 @@ void ReloadFonts()
 	if (fonts.actionHover)	DeleteObject(fonts.actionHover);
 
 	LOGFONT lf = { 0 };
-	FontIDW fid = { 0 };
-	fid.cbSize = sizeof(FontIDW);
-	mir_wstrncpy(fid.group, _A2W(PU_FNT_AND_COLOR), _countof(fid.name));
-
-	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_TITLE), _countof(fid.name));
-	fonts.clTitle = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clTitle = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_TITLE), &lf);
 	fonts.title = CreateFontIndirect(&lf);
 
-	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_CLOCK), _countof(fid.name));
-	fonts.clClock = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clClock = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_CLOCK), &lf);
 	fonts.clock = CreateFontIndirect(&lf);
 
-	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_TEXT), _countof(fid.name));
-	fonts.clText = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clText = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_TEXT), &lf);
 	fonts.text = CreateFontIndirect(&lf);
 
-	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_ACTION), _countof(fid.name));
-	fonts.clAction = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clAction = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_ACTION), &lf);
 	fonts.action = CreateFontIndirect(&lf);
 
-	mir_wstrncpy(fid.name, _A2W(PU_FNT_NAME_HOVERED_ACTION), _countof(fid.name));
-	fonts.clActionHover = (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)&lf);
+	fonts.clActionHover = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_HOVERED_ACTION), &lf);
 	fonts.actionHover = CreateFontIndirect(&lf);
 
-	ColourIDW cid = { 0 };
-	cid.cbSize = sizeof(ColourIDW);
-	mir_wstrncpy(cid.group, _A2W(PU_FNT_AND_COLOR), _countof(cid.group));
-	mir_wstrncpy(cid.name, PU_COL_BACK_NAME, _countof(cid.name));
-	fonts.clBack = (COLORREF)CallService(MS_COLOUR_GETW, (WPARAM)&cid, (LPARAM)&lf);
-
-	mir_wstrncpy(cid.group, _A2W(PU_FNT_AND_COLOR), _countof(cid.group));
-	mir_wstrncpy(cid.name, PU_COL_AVAT_NAME, _countof(cid.name));
-	fonts.clAvatarBorder = (COLORREF)CallService(MS_COLOUR_GETW, (WPARAM)&cid, (LPARAM)&lf);
+	fonts.clBack = Colour_GetW(_A2W(PU_FNT_AND_COLOR), PU_COL_BACK_NAME);
+	fonts.clAvatarBorder = Colour_GetW(_A2W(PU_FNT_AND_COLOR), PU_COL_AVAT_NAME);
 
 	// update class popupps(only temp at this point, must rework)
 	char setting[256];

@@ -93,30 +93,26 @@ struct FontIDW
 };
 
 // register a font
-// wparam = (FontID *)&font_id
-// lparam = hLangpack
-
 extern int hLangpack;
 
-__forceinline void FontRegister(FontID* pFontID)
-{
-	CallService("Font/Register", (WPARAM)pFontID, hLangpack);
-}
-
-__forceinline void FontRegisterW(FontIDW* pFontID)
-{
-	CallService("Font/RegisterW", (WPARAM)pFontID, hLangpack);
-}
+EXTERN_C MIR_APP_DLL(int) Font_Register(FontID *pFont, int = hLangpack);
+EXTERN_C MIR_APP_DLL(int) Font_RegisterW(FontIDW *pFont, int = hLangpack);
 
 // get a font
 // will fill the logfont structure passed in with the user's choices, or the default if it was set and the user has not chosen a font yet,
 // or the global default font settings otherwise (i.e. no user choice and default set, or font not registered)
 // global default font is gotten using SPI_GETICONTITLELOGFONT, color COLOR_WINDOWTEXT, size 8.
-// wparam = (FontID *)&font_id (only name and group matter)
-// lParam = (LOGFONT *)&logfont
 // returns the font's colour
-#define MS_FONT_GET           "Font/Get"
-#define MS_FONT_GETW          "Font/GetW"
+
+EXTERN_C MIR_APP_DLL(COLORREF) Font_Get(const char *szGroup, const char *szName, LOGFONTA *pFont);
+EXTERN_C MIR_APP_DLL(COLORREF) Font_GetW(const wchar_t *wszGroup, const wchar_t *wszName, LOGFONTW *pFont);
+
+__forceinline COLORREF Font_Get(FontID &p, LOGFONTA *pFont)
+{	return Font_Get(p.group, p.name, pFont);
+}
+__forceinline COLORREF Font_GetW(FontIDW &p, LOGFONTW *pFont)
+{	return Font_GetW(p.group, p.name, pFont);
+}
 
 // fired when a user modifies font settings, so reload your fonts
 // wparam = lparam = 0
@@ -162,24 +158,17 @@ struct ColourIDW
 // register a colour (this should be used for everything except actual text colour for registered fonts)
 // [note - a colour with name 'Background' [translated!] has special meaning and will be used as the background colour of
 // the font list box in the options, for the given group]
-// wparam = (ColourID *)&colour_id
-// lparam = hLangpack
 
-__forceinline void ColourRegister(ColourID* pColorID)
-{
-	CallService("Colour/Register", (WPARAM)pColorID, hLangpack);
-}
-
-__forceinline void ColourRegisterW(ColourIDW* pColorID)
-{
-	CallService("Colour/RegisterW", (WPARAM)pColorID, hLangpack);
-}
+EXTERN_C MIR_APP_DLL(int) Colour_Register(ColourID *pFont, int = hLangpack);
+EXTERN_C MIR_APP_DLL(int) Colour_RegisterW(ColourIDW *pFont, int = hLangpack);
 
 // get a colour
-// wparam = (ColourID *)&colour_id (only name and group matter)
-// rerturns the colour (as COLORREF), or -1 if not found
-#define MS_COLOUR_GET         "Colour/Get"
-#define MS_COLOUR_GETW        "Colour/GetW"
+EXTERN_C MIR_APP_DLL(COLORREF) Colour_Get(const char *szGroup, const char *szName);
+EXTERN_C MIR_APP_DLL(COLORREF) Colour_GetW(const wchar_t *wszGroup, const wchar_t *wszName);
+
+__forceinline COLORREF Colour_GetW(ColourIDW &p)
+{	return Colour_GetW(p.group, p.name);
+}
 
 // fired when a user modifies font settings, so reget your fonts and colours
 // wparam = lparam = 0
@@ -230,22 +219,16 @@ struct EffectIDW
 // wparam = (EffectID *)&effect_id
 // lparam = 0
 
-__forceinline void EffectRegister(EffectID* pEffectID)
-{
-	CallService("Effect/Register", (WPARAM)pEffectID, hLangpack);
-}
-
-__forceinline void EffectRegisterW(EffectIDW* pEffectID)
-{
-	CallService("Effect/RegisterW", (WPARAM)pEffectID, hLangpack);
-}
+EXTERN_C MIR_APP_DLL(int) Effect_Register(EffectID *pEffect, int = hLangpack);
+EXTERN_C MIR_APP_DLL(int) Effect_RegisterW(EffectIDW *pEffect, int = hLangpack);
 
 // get a effect
 // wparam = (EffectID *)&effect_id (only name and group matter)
 // lparam = (FONTEFFECT *)&effect
 // rerturns 0, or -1 if not found
-#define MS_EFFECT_GET         "Effect/Get"
-#define MS_EFFECT_GETW        "Effect/GetW"
+
+EXTERN_C MIR_APP_DLL(int) Effect_Get(const char *szGroup, const char *wszName, FONTEFFECT *pEffect);
+EXTERN_C MIR_APP_DLL(int) Effect_GetW(const wchar_t *wszGroup, const wchar_t *szName, FONTEFFECT *pEffect);
 
 // fired when a user modifies font settings, so reget your fonts and colours
 // wparam = lparam = 0

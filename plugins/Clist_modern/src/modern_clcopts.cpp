@@ -150,7 +150,7 @@ void RegisterCLUIFonts(void)
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		mir_wstrncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _countof(fontid.deffontsettings.szFace));
 
-		FontRegisterW(&fontid);
+		Font_RegisterW(&fontid);
 
 		mir_wstrncpy(effectid.group, fontOptionsList[i].szGroup, _countof(effectid.group));
 		mir_wstrncpy(effectid.name, fontOptionsList[i].szDescr, _countof(effectid.name));
@@ -162,7 +162,7 @@ void RegisterCLUIFonts(void)
 		effectid.defeffect.baseColour = fontOptionsList[i].defeffect.baseColour;
 		effectid.defeffect.secondaryColour = fontOptionsList[i].defeffect.secondaryColour;
 
-		EffectRegisterW(&effectid);
+		Effect_RegisterW(&effectid);
 	}
 
 	ColourIDW colourid = { 0 };
@@ -175,7 +175,7 @@ void RegisterCLUIFonts(void)
 		mir_strncpy(colourid.dbSettingsGroup, colourOptionsList[i].chGroup, _countof(colourid.dbSettingsGroup));
 		colourid.defcolour = colourOptionsList[i].defColour;
 		colourid.order = i + 1;
-		ColourRegisterW(&colourid);
+		Colour_RegisterW(&colourid);
 	}
 	registered = true;
 }
@@ -203,12 +203,7 @@ void GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF
 	if (index == _countof(fontOptionsList))
 		return;
 
-	FontIDW fontid = { 0 };
-	fontid.cbSize = sizeof(fontid);
-	mir_wstrncpy(fontid.group, fontOptionsList[index].szGroup, _countof(fontid.group));
-	mir_wstrncpy(fontid.name, fontOptionsList[index].szDescr, _countof(fontid.name));
-
-	COLORREF col = CallService(MS_FONT_GETW, (WPARAM)&fontid, (LPARAM)lf);
+	COLORREF col = Font_GetW(fontOptionsList[index].szGroup, fontOptionsList[index].szDescr, lf);
 
 	if (colour)
 		*colour = col;

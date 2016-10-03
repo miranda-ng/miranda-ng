@@ -255,7 +255,7 @@ void Options::Load(void)
 		wcsncpy_s(fid.name, g_FontOptionsList[i].szDescr, _TRUNCATE);
 		wcsncpy_s(fid.backgroundName, g_FontOptionsList[i].szBackgroundName, _TRUNCATE);
 		fid.flags = FIDF_DEFAULTVALID | FIDF_CLASSGENERAL | g_FontOptionsList[i].flags;
-		FontRegisterW(&fid);
+		Font_RegisterW(&fid);
 	}
 
 	strncpy_s(cid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
@@ -265,7 +265,7 @@ void Options::Load(void)
 		mir_snprintf(cid.setting, _countof(cid.setting), "Color%d", i);
 		cid.order = i;
 		cid.defcolour = g_ColorOptionsList[i].def;
-		ColourRegisterW(&cid);
+		Colour_RegisterW(&cid);
 	}
 
 	hid.dwFlags = HKD_UNICODE;
@@ -412,20 +412,12 @@ void Options::Load(void)
 
 COLORREF Options::GetFont(Fonts fontId, PLOGFONT font)
 {
-	FontIDW fid = { 0 };
-	fid.cbSize = sizeof(FontIDW);
-	wcsncpy_s(fid.group, LPGENW("History"), _TRUNCATE);
-	wcsncpy_s(fid.name, g_FontOptionsList[fontId].szDescr, _TRUNCATE);
-	return (COLORREF)CallService(MS_FONT_GETW, (WPARAM)&fid, (LPARAM)font);
+	return Font_GetW(LPGENW("History"), g_FontOptionsList[fontId].szDescr, font);
 }
 
 COLORREF Options::GetColor(Colors colorId)
 {
-	ColourIDW cid = { 0 };
-	cid.cbSize = sizeof(ColourIDW);
-	wcsncpy_s(cid.group, LPGENW("History"), _TRUNCATE);
-	wcsncpy_s(cid.name, g_ColorOptionsList[colorId].tszName, _TRUNCATE);
-	return (COLORREF)CallService(MS_COLOUR_GETW, (WPARAM)&cid, NULL);
+	return Colour_GetW(LPGENW("History"), g_ColorOptionsList[colorId].tszName);
 }
 
 void Options::Save()

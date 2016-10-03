@@ -256,7 +256,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	TrafficFontID.deffontsettings.style = 0;
 	mir_wstrcpy(TrafficFontID.deffontsettings.szFace, L"Arial");
 	TrafficFontID.order = 0;
-	FontRegisterW(&TrafficFontID);
+	Font_RegisterW(&TrafficFontID);
 
 	// Регистрируем цвет фона
 	TrafficBackgroundColorID.cbSize = sizeof(ColourIDW);
@@ -265,7 +265,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
 	mir_strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
 	TrafficBackgroundColorID.defcolour = GetSysColor(COLOR_BTNFACE);
-	ColourRegisterW(&TrafficBackgroundColorID);
+	Colour_RegisterW(&TrafficBackgroundColorID);
 
 	HookEvent(ME_FONT_RELOAD, UpdateFonts);
 
@@ -1162,15 +1162,13 @@ int ProtocolAckHook(WPARAM, LPARAM lParam)
 int UpdateFonts(WPARAM, LPARAM)
 {
 	LOGFONT logfont;
-	//if no font service
-	if (!ServiceExists(MS_FONT_GETW)) return 0;
 	//update traffic font
 	if (Traffic_h_font) DeleteObject(Traffic_h_font);
-	Traffic_FontColor = CallService(MS_FONT_GETW, (WPARAM)&TrafficFontID, (LPARAM)&logfont);
+	Traffic_FontColor = Font_GetW(TrafficFontID, &logfont);
 	Traffic_h_font = CreateFontIndirect(&logfont);
-	//
+
 	TrafficFontHeight = abs(logfont.lfHeight) + 1;
-	Traffic_BkColor = CallService(MS_COLOUR_GETW, (WPARAM)&TrafficBackgroundColorID, 0);
+	Traffic_BkColor = Colour_GetW(TrafficBackgroundColorID);
 
 	// Ключевой цвет
 	UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);

@@ -112,21 +112,11 @@ type
   PFontIDW = ^TFontIDW;
 
 const
-  { register a font }
-  { wparam = pointer to FontID structure}
-  { lparam = hLangpack }
-  MS_FONT_REGISTERA:PAnsiChar = 'Font/Register';
-  MS_FONT_REGISTERW:PAnsiChar = 'Font/RegisterW';
-
-  { get a font }
-  { wparam = pointer to FontID structure (only name and group matter) }
-  { lParam = pointer to LOGFONT structure }
-  { returns the font's colour }
-  MS_FONT_GETA:PAnsiChar = 'Font/Get';
-  MS_FONT_GETW:PAnsiChar = 'Font/GetW';
-
   { fired when a user modifies font settings, so reget your fonts }
   ME_FONT_RELOAD:PAnsiChar = 'Font/Reload';
+
+function Font_Register(pFont:pFontID; hLang:int) : int; stdcall; external AppDll;
+function Font_Get(pGroup,pName:pAnsiChar; pFont:pLogFontA) : longint; stdcall; external AppDll;
 
 type
   PColourID_tag = ^TColourID_tag;
@@ -158,29 +148,11 @@ type
   PColourIDW = ^TColourIDW;
 
 const
-  { register a colour (this should be used for everything except actual text colour for registered fonts) }
-  { [note - a colour with name 'Background' has special meaning and will be used as the background colour of  }
-  { the font list box in the options, for the given group] }
-  { wparam = pointer to ColourID structure }
-  { lparam = hLangpack }
-  MS_COLOUR_REGISTERA:PAnsiChar = 'Colour/Register';
-  MS_COLOUR_REGISTERW:PAnsiChar = 'Colour/RegisterW';
-
-  { get a colour }
-  { wparam = pointer to ColourID structure (only name and group matter) }
-  { returns the colour (as COLORREF), or -1 if not found }
-  MS_COLOUR_GETA:PAnsiChar = 'Colour/Get';
-  MS_COLOUR_GETW:PAnsiChar = 'Colour/GetW';
-
   { fired when a user modifies font settings, so reget your fonts and colours }
   ME_COLOUR_RELOAD:PAnsiChar = 'Colour/Reload';
 
-var
-  MS_FONT_REGISTER  :PAnsiChar absolute MS_FONT_REGISTERW;
-  MS_FONT_GET       :PAnsiChar absolute MS_FONT_GETW;
-  MS_COLOUR_REGISTER:PAnsiChar absolute MS_COLOUR_REGISTERW;
-  MS_COLOUR_GET     :PAnsiChar absolute MS_COLOUR_GETW;
-
+function Colour_Register(pColour:pColourID; hLang:int) : int; stdcall; external AppDll;
+function Colour_Get(pGroup,pName:pAnsiChar) : longint; stdcall; external AppDll;
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -225,19 +197,6 @@ type
   TEffectIDW = EffectIDW_tag;
 
 const
-// register an effect
-// wparam = (EffectID *)&effect_id
-// lparam = hLangpack
-  MS_EFFECT_REGISTERA:PAnsiChar = 'Effect/Register';
-  MS_EFFECT_REGISTERW:PAnsiChar = 'Effect/RegisterW';
-
-// get a effect
-// wparam = (EffectID *)&effect_id (only name and group matter)
-// lparam = (FONTEFFECT *)&effect
-// rerturns 0, or -1 if not found
-  MS_EFFECT_GET :PAnsiChar = 'Effect/Get';
-  MS_EFFECT_GETW:PAnsiChar = 'Effect/GetW';
-
 // fired when a user modifies font settings, so reget your fonts and colours
 // wparam = lparam = 0
   ME_EFFECT_RELOAD:PAnsiChar = 'Effect/Reload';

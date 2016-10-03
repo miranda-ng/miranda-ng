@@ -196,7 +196,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_snprintf(fontid.name, "%s (colors only)", notification->lpzName);
 	mir_snprintf(fontid.prefix, "{%s/%s}text", notification->lpzGroup, notification->lpzName);
 	fontid.deffontsettings.style = 0;
-	FontRegister(&fontid);
+	Font_Register(&fontid);
 
 	ColourID colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
@@ -205,7 +205,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_snprintf(colourid.name, "%s (colors only)", notification->lpzName);
 	mir_snprintf(colourid.setting, "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
 	colourid.defcolour = ptd->notification.colorBack;
-	ColourRegister(&colourid);
+	Colour_Register(&colourid);
 
 	gTreeData.insert(ptd);
 	return (HANDLE)ptd;
@@ -234,17 +234,10 @@ void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
 	*disableWhen = ptd->enabled ? ptd->disableWhen : 0xFFFFFFFF;
 
 	LOGFONTA lf; // dummy to make FS happy (use LOGFONTA coz we use MS_FONT_GET)
-	FontID fontid = { 0 }; // use ansi version of fontID coz POPUPNOTIFICATION use char
-	fontid.cbSize = sizeof(fontid);
-	mir_snprintf(fontid.group, PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
-	mir_snprintf(fontid.name, "%s (colors only)", ptd->notification.lpzName);
-	ppd->colorText = (COLORREF)CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)&lf);
-
-	ColourID colourid = { 0 }; // use ansi version of ColourID coz POPUPNOTIFICATION use char
-	colourid.cbSize = sizeof(colourid);
-	mir_snprintf(colourid.group, PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
-	mir_snprintf(colourid.name, "%s (colors only)", ptd->notification.lpzName);
-	ppd->colorBack = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&colourid, 0);
+	CMStringA szGroup(FORMAT, PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
+	CMStringA szName(FORMAT, "%s (colors only)", ptd->notification.lpzName);
+	ppd->colorText = Font_Get(szGroup, szName, &lf);
+	ppd->colorBack = Colour_Get(szGroup, szName);
 
 	ppd->lchIcon = IcoLib_GetIconByHandle(ptd->hIcoLib);
 }

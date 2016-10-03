@@ -1999,7 +1999,7 @@ void FS_RegisterFonts()
 		mir_snprintf(idstr, "Font%d", i);
 		strncpy(fid.prefix, idstr, _countof(fid.prefix));
 		fid.order = i;
-		FontRegisterW(&fid);
+		Font_RegisterW(&fid);
 	}
 	ReleaseDC(NULL, hdc);
 
@@ -2013,30 +2013,30 @@ void FS_RegisterFonts()
 	wcsncpy(colourid.name, LPGENW("Background"), _countof(colourid.name));
 	wcsncpy(colourid.group, LPGENW("Contact list"), _countof(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Selected text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Hottrack text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Quicksearch text"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 
 	strncpy(colourid.dbSettingsGroup, "CLUI", sizeof(colourid.dbSettingsGroup));
 	strncpy(colourid.setting, "clr_frameborder", sizeof(colourid.setting));
 	wcsncpy(colourid.name, LPGENW("Embedded frames border"), _countof(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = RGB(40, 40, 40);
-	ColourRegisterW(&colourid);
+	Colour_RegisterW(&colourid);
 }

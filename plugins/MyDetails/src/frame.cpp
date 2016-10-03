@@ -198,7 +198,7 @@ int ReloadFont(WPARAM, LPARAM)
 			DeleteObject(hFont[i]);
 
 		LOGFONT log_font;
-		font_colour[i] = CallService(MS_FONT_GETW, (WPARAM)&font_id[i], (LPARAM)&log_font);
+		font_colour[i] = Font_GetW(font_id[i], &log_font);
 		hFont[i] = CreateFontIndirect(&log_font);
 	}
 
@@ -208,8 +208,8 @@ int ReloadFont(WPARAM, LPARAM)
 
 int ReloadColour(WPARAM, LPARAM)
 {
-	opts.bkg_color = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&bg_colour, 0);
-	opts.draw_avatar_border_color = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&av_colour, 0);
+	opts.bkg_color = Colour_Get(bg_colour.group, bg_colour.name);
+	opts.draw_avatar_border_color = Colour_Get(av_colour.group, av_colour.name);
 
 	RefreshFrame();
 	return 0;
@@ -225,8 +225,8 @@ int CreateFrame()
 {
 	HDC hdc = GetDC(NULL);
 
-	ColourRegister(&bg_colour);
-	ColourRegister(&av_colour);
+	Colour_Register(&bg_colour);
+	Colour_Register(&av_colour);
 	ReloadColour(0, 0);
 	HookEvent(ME_COLOUR_RELOAD, ReloadColour);
 
@@ -249,7 +249,7 @@ int CreateFrame()
 		mir_wstrncpy(font_id[i].deffontsettings.szFace, L"Tahoma", _countof(font_id[i].deffontsettings.szFace));
 		font_id[i].order = i;
 		font_id[i].flags = FIDF_DEFAULTVALID;
-		FontRegisterW(&font_id[i]);
+		Font_RegisterW(&font_id[i]);
 	}
 
 	ReleaseDC(NULL, hdc);

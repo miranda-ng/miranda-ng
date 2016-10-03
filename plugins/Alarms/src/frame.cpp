@@ -433,9 +433,9 @@ int ReloadFont(WPARAM, LPARAM)
 {
 	DeleteObject(hFont);
 
-	LOGFONT log_font;
-	fontColour = CallService(MS_FONT_GET, (WPARAM)&font_id, (LPARAM)&log_font);
-	hFont = CreateFontIndirect(&log_font);
+	LOGFONTA log_font;
+	fontColour = Font_Get(font_id, &log_font);
+	hFont = CreateFontIndirectA(&log_font);
 	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, TRUE);
 
 	DeleteObject(bk_brush);
@@ -568,7 +568,7 @@ int CreateFrame()
 	strncpy(font_id.dbSettingsGroup, MODULE, sizeof(font_id.dbSettingsGroup));
 	strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
 	font_id.order = 0;
-	FontRegister(&font_id);
+	Font_Register(&font_id);
 
 	framebk_colour_id.cbSize = sizeof(ColourID);
 	mir_strcpy(framebk_colour_id.dbSettingsGroup, MODULE);
@@ -578,11 +578,11 @@ int CreateFrame()
 	framebk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
 	framebk_colour_id.flags = 0;
 	framebk_colour_id.order = 0;
-	ColourRegister(&framebk_colour_id);
+	Colour_Register(&framebk_colour_id);
 
-	LOGFONT log_font;
-	fontColour = CallService(MS_FONT_GET, (WPARAM)&font_id, (LPARAM)&log_font);
-	hFont = CreateFontIndirect(&log_font);
+	LOGFONTA log_font;
+	fontColour = Font_Get(font_id, &log_font);
+	hFont = CreateFontIndirectA(&log_font);
 	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, TRUE);
 	
 	HookEvent(ME_FONT_RELOAD, ReloadFont);
