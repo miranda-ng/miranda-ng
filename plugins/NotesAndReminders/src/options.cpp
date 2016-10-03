@@ -279,12 +279,11 @@ void RegisterFontServiceFonts()
 void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
 {
 	FontID fontid = { 0 };
-
 	fontid.cbSize = sizeof(fontid);
 	strncpy(fontid.group, LPGEN(SECTIONNAME), _countof(fontid.group));
 	strncpy(fontid.name, fontOptionsList[i].szDescr, _countof(fontid.name));
 
-	COLORREF col = CallService(MS_FONT_GETW, (WPARAM)&fontid, (LPARAM)lf);
+	COLORREF col = CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)lf);
 	if (colour)
 		*colour = col;
 }
