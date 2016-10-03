@@ -181,7 +181,7 @@ void CWaitRestartDlg::OnInitDialog()
 	m_timer.Start(MIRANDA_PROCESS_WAIT_RESOLUTION);
 }
 
-void CWaitRestartDlg::Timer_OnEvent(CTimer *timer)
+void CWaitRestartDlg::Timer_OnEvent(CTimer*)
 {
 	if (m_progress.Move() == MIRANDA_PROCESS_WAIT_STEPS)
 		EndModal(0);
@@ -203,7 +203,7 @@ INT_PTR CheckRestart()
 	if (tszPID) {
 		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _wtol(tszPID));
 		if (hProcess) {
-			INT_PTR result = dlg.DoModal();
+			INT_PTR result = CWaitRestartDlg(hProcess).DoModal();
 			CloseHandle(hProcess);
 			return result;
 		}
