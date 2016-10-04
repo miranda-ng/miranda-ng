@@ -909,11 +909,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-static int ModulesLoaded(WPARAM, LPARAM)
-{
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);

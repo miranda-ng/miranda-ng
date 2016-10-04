@@ -229,8 +229,6 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 	int offset = 0;
 	int limit = 21;
 
-	http::response resp;
-
 	// FIXME: Rework this whole request as offset doesn't work anyway, and allow to load all the unread messages for each thread (IMHO could be done in 2 single requests = 1) get number of messages for all threads 2) load the counts of messages for all threads)
 
 	// TODO: First load info about amount of unread messages, then load exactly this amount for each thread
@@ -430,8 +428,7 @@ void FacebookProto::LoadHistory(void *pParam)
 	}
 
 	// first get info about this thread and how many messages is there
-	HttpRequest *request = new ThreadInfoRequest(&facy, isChat, item_id);
-	http::response resp = facy.sendRequest(request);
+	http::response resp = facy.sendRequest(new ThreadInfoRequest(&facy, isChat, item_id));
 
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("LoadHistory");
@@ -476,8 +473,7 @@ void FacebookProto::LoadHistory(void *pParam)
 			break;
 
 		// Load batch of messages
-		HttpRequest *request = new ThreadInfoRequest(&facy, isChat, item_id, batch, firstTimestamp.c_str(), messagesPerBatch);
-		resp = facy.sendRequest(request);
+		resp = facy.sendRequest(new ThreadInfoRequest(&facy, isChat, item_id, batch, firstTimestamp.c_str(), messagesPerBatch));
 
 		if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 			facy.handle_error("LoadHistory");
@@ -882,10 +878,11 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 
 			// Get name of this chat participant
 			std::string name = msg.user_id; // fallback to numeric id
-
-			auto jt = fbc->participants.find(msg.user_id);
-			if (jt != fbc->participants.end()) {
-				name = jt->second.nick;
+			{
+				auto jt = fbc->participants.find(msg.user_id);
+				if (jt != fbc->participants.end()) {
+					name = jt->second.nick;
+				}
 			}
 
 			switch (msg.type) {
@@ -898,34 +895,32 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				break;
 			case SUBSCRIBE:
 			case UNSUBSCRIBE:
-			{
 				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
-
-				std::vector<std::string> ids;
-				utils::text::explode(msg.data, ";", &ids);
-				for (std::vector<std::string>::size_type k = 0; k < ids.size(); k++)
 				{
-					auto jt = fbc->participants.find(ids[k]);
-					if (jt == fbc->participants.end()) {
-						// We don't have this user there yet, so load info about him and then process event
-						chatroom_participant participant;
-						participant.is_former = (msg.type == UNSUBSCRIBE);
-						participant.user_id = ids[k];
+					std::vector<std::string> ids;
+					utils::text::explode(msg.data, ";", &ids);
+					for (std::vector<std::string>::size_type k = 0; k < ids.size(); k++) {
+						auto jt = fbc->participants.find(ids[k]);
+						if (jt == fbc->participants.end()) {
+							// We don't have this user there yet, so load info about him and then process event
+							chatroom_participant participant;
+							participant.is_former = (msg.type == UNSUBSCRIBE);
+							participant.user_id = ids[k];
 
-						// FIXME: Load info about all participants at once
-						fbc->participants.insert(std::make_pair(participant.user_id, participant));
-						LoadParticipantsNames(fbc);
-						jt = fbc->participants.find(ids[k]);
-					}
-					if (jt != fbc->participants.end()) {
-						if (msg.type == SUBSCRIBE)
-							AddChatContact(thread_id.c_str(), jt->second, msg.isUnread);
-						else
-							RemoveChatContact(thread_id.c_str(), jt->second.user_id.c_str(), jt->second.nick.c_str());
+							// FIXME: Load info about all participants at once
+							fbc->participants.insert(std::make_pair(participant.user_id, participant));
+							LoadParticipantsNames(fbc);
+							jt = fbc->participants.find(ids[k]);
+						}
+						if (jt != fbc->participants.end()) {
+							if (msg.type == SUBSCRIBE)
+								AddChatContact(thread_id.c_str(), jt->second, msg.isUnread);
+							else
+								RemoveChatContact(thread_id.c_str(), jt->second.user_id.c_str(), jt->second.nick.c_str());
+						}
 					}
 				}
 				break;
-			}
 			case THREAD_NAME:
 				// proto->RenameChat(thread_id.c_str(), msg.data.c_str()); // this don't work, why?
 				setStringUtf(hChatContact, FACEBOOK_KEY_NICK, msg.data.c_str());
@@ -1367,17 +1362,14 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 	if (!isOffline())
 	{
-		HttpRequest *request = new ProfileRequest(facy.mbasicWorks, search.c_str());
-		http::response resp = facy.sendRequest(request);
+		http::response resp = facy.sendRequest(new ProfileRequest(facy.mbasicWorks, search.c_str()));
 
 		if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
 			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MBASIC"/", "_rdr");
 
 			// Use only valid username redirects
-			if (search.find("home.php") == std::string::npos) {
-				HttpRequest *request = new ProfileRequest(facy.mbasicWorks, search.c_str());
-				resp = facy.sendRequest(request);
-			}
+			if (search.find("home.php") == std::string::npos)
+				resp = facy.sendRequest(new ProfileRequest(facy.mbasicWorks, search.c_str()));
 		}
 
 		if (resp.code == HTTP_CODE_OK)
