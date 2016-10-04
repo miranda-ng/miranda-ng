@@ -131,7 +131,7 @@ void CToxProto::BootstrapNodesFromJson(CToxThread *toxThread, bool isIPv6)
 void CToxProto::BootstrapNodes(CToxThread *toxThread)
 {
 	debugLogA(__FUNCTION__": bootstraping DHT");
-	bool isUdp = getBool("EnableUDP", 1);
+	// bool isUdp = getBool("EnableUDP", 1);
 	bool isIPv6 = getBool("EnableIPv6", 0);
 	BootstrapNodesFromDb(toxThread, isIPv6);
 	BootstrapNodesFromJson(toxThread, isIPv6);

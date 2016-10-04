@@ -200,12 +200,10 @@ static void CALLBACK releaseTtbTimerFunction(HWND, UINT, UINT_PTR, DWORD)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)ttbButtons[i], 0);
 }
 
-INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM)
+INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 {
 	// wParam == profile no.
-	int profileCount = GetProfileCount(0, 0);
-	int profile = (int)wParam;
-
+	int profile = (int)iProfileNo;
 	TSettingsList profileSettings(10, CompareSettings);
 	if (!GetProfile(profile, profileSettings)) {
 		profile = (profile >= 0) ? profile : db_get_w(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);

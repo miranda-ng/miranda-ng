@@ -284,7 +284,7 @@ static int SendAuthentificationBlobLS(Skype_Inst *pInst, LSConnection *pConn, co
 		ObjOauth.Family = OBJ_FAMILY_STRING;
 		ObjOauth.Id = OBJ_ID_OAUTH;
 		ObjOauth.Value.Memory.Memory = (uchar *)User;
-		ObjOauth.Value.Memory.MsZ = strlen(User);
+		ObjOauth.Value.Memory.MsZ = (ulong)strlen(User);
 		WriteObject(&Browser, ObjOauth);
 
 		ObjVer.Family = OBJ_FAMILY_STRING;
@@ -343,9 +343,6 @@ static int SendAuthentificationBlobLS(Skype_Inst *pInst, LSConnection *pConn, co
 			ManageObjects(&Browser, BSize, &Response);
 		for (Idx = 0; Idx < Response.NbObj; Idx++)
 		{
-			uint LdIdx = 0;
-
-			
 			switch (Response.Objs[Idx].Id)
 			{
 			case OBJ_ID_LOGINANSWER:
