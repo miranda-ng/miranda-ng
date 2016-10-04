@@ -73,8 +73,6 @@ public:
 	ProfileRequest(bool mobileBasicWorks, const char *data) :
 		HttpRequest(REQUEST_GET, FORMAT, "%s/%s", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE, data)
 	{
-		flags |= NLHRF_REDIRECT;
-
 		Url
 			<< "v=info";
 	}

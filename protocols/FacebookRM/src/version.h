@@ -1,7 +1,7 @@
 #define __MAJOR_VERSION            0
 #define __MINOR_VERSION            3
 #define __RELEASE_NUM              0
-#define __BUILD_NUM                0
+#define __BUILD_NUM                1
 
 #include <stdver.h>
 
@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Michal Zelinka, Robert P\xf6" "sel"
 #define __AUTHOREMAIL              "robyer@seznam.cz"
 #define __AUTHORWEB                "http://miranda-ng.org/p/Facebook/"
-#define __COPYRIGHT                "© 2011-16 Robert P\xf6" "sel, 2009-11 Michal Zelinka"
+#define __COPYRIGHT                "ï¿½ 2011-16 Robert P\xf6" "sel, 2009-11 Michal Zelinka"

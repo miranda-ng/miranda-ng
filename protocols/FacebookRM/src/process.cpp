@@ -1373,8 +1373,11 @@ void FacebookProto::SearchIdAckThread(void *targ)
 		if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
 			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MBASIC"/", "_rdr");
 
-			HttpRequest *request = new ProfileRequest(facy.mbasicWorks, search.c_str());
-			http::response resp = facy.sendRequest(request);
+			// Use only valid username redirects
+			if (search.find("home.php") == std::string::npos) {
+				HttpRequest *request = new ProfileRequest(facy.mbasicWorks, search.c_str());
+				resp = facy.sendRequest(request);
+			}
 		}
 
 		if (resp.code == HTTP_CODE_OK)
