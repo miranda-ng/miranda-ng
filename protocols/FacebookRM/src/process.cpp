@@ -1363,7 +1363,7 @@ void FacebookProto::SearchIdAckThread(void *targ)
 {
 	facy.handle_entry("searchIdAckThread");
 
-	std::string search = utils::url::encode(T2Utf((wchar_t*)targ).str()) + "?";
+	std::string search = utils::url::encode(T2Utf((wchar_t*)targ).str());
 
 	if (!isOffline())
 	{
@@ -1371,7 +1371,7 @@ void FacebookProto::SearchIdAckThread(void *targ)
 		http::response resp = facy.sendRequest(request);
 
 		if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
-			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MBASIC"/", "_rdr", true);
+			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MBASIC"/", "_rdr");
 
 			HttpRequest *request = new ProfileRequest(facy.mbasicWorks, search.c_str());
 			http::response resp = facy.sendRequest(request);
@@ -1379,12 +1379,15 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 		if (resp.code == HTTP_CODE_OK)
 		{
-			std::string about = utils::text::source_get_value(&resp.data, 2, "<div id=\"root\"", "</body>");
+			std::string about = utils::text::source_get_value(&resp.data, 2, "id=\"root\"", "</body>");
 
 			std::string id = utils::text::source_get_value2(&about, ";id=", "&\"");
 			if (id.empty())
 				id = utils::text::source_get_value2(&about, "?bid=", "&\"");
 			std::string name = utils::text::source_get_value(&about, 3, "<strong", ">", "</strong");
+			if (name.empty()) {
+				name = utils::text::source_get_value(&resp.data, 2, "<title>", "</title>");
+			}
 			std::string surname;
 
 			std::string::size_type pos;
