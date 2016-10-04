@@ -19,39 +19,24 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-CLIST_INTERFACE *pcli;
-int hLangpack;
-
-PLUGININFOEX pluginInfo = {
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__AUTHOREMAIL,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {F981F3F5-035A-444F-9892-CA722C195ADA}
-	{ 0xf981f3f5, 0x35a, 0x444f, { 0x98, 0x92, 0xca, 0x72, 0x2c, 0x19, 0x5a, 0xda } }
-};
-
-HINSTANCE hInst;
-
-static HANDLE hEnableStateChangedEvent;
 HANDLE hExtraIcon;
 static HGENMENU hMainMenuGroup = NULL;
-static HANDLE hListeningInfoChangedEvent = NULL;
+static HANDLE hListeningInfoChangedEvent;
+static HANDLE hEnableStateChangedEvent;
 
 static HANDLE hTTB = NULL;
 BOOL loaded = FALSE;
 static UINT hTimer = 0;
 static DWORD lastInfoSetTime = 0;
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Listening to (enabled)"), "listening_to_icon", IDI_LISTENINGTO },
+	{ LPGEN("Listening to (disabled)"), "listening_off_icon", IDI_LISTENINGOFF },
+};
+
 std::vector<ProtocolInfo> proto_items;
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam);
-int PreShutdown(WPARAM wParam, LPARAM lParam);
 int PreBuildContactMenu(WPARAM wParam, LPARAM lParam);
 int TopToolBarLoaded(WPARAM wParam, LPARAM lParam);
 int SettingChanged(WPARAM wParam, LPARAM lParam);
@@ -73,86 +58,7 @@ INT_PTR HotkeysEnable(WPARAM wParam, LPARAM lParam);
 INT_PTR HotkeysDisable(WPARAM wParam, LPARAM lParam);
 INT_PTR HotkeysToggle(WPARAM wParam, LPARAM lParam);
 
-wchar_t* VariablesParseInfo(ARGUMENTSINFO *ai);
-wchar_t* VariablesParseType(ARGUMENTSINFO *ai);
-wchar_t* VariablesParseArtist(ARGUMENTSINFO *ai);
-wchar_t* VariablesParseAlbum(ARGUMENTSINFO *ai);
-wchar_t* VariablesParseTitle(ARGUMENTSINFO *ai);
-wchar_t* VariablesParseTrack(ARGUMENTSINFO *ai);
-wchar_t* VariablesParseYear(ARGUMENTSINFO *ai);
-wchar_t* VariablesParseGenre(ARGUMENTSINFO *ai);
-wchar_t* VariablesParseLength(ARGUMENTSINFO *ai);
-wchar_t* VariablesParsePlayer(ARGUMENTSINFO *ai);
-
-
 #define XSTATUS_MUSIC 11
-
-#define UNKNOWN(_X_) ( _X_ == NULL || _X_[0] == '\0' ? opts.unknown : _X_ )
-
-// Functions ////////////////////////////////////////////////////////////////////////////
-
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
-{
-	return &pluginInfo;
-}
-
-static IconItem iconList[] =
-{
-	{ LPGEN("Listening to (enabled)"), "listening_to_icon", IDI_LISTENINGTO },
-	{ LPGEN("Listening to (disabled)"), "listening_off_icon", IDI_LISTENINGOFF },
-};
-
-extern "C" int __declspec(dllexport) Load(void)
-{
-	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
-
-	CoInitialize(NULL);
-
-	// Services
-	CreateServiceFunction(MS_LISTENINGTO_ENABLED, ListeningToEnabled);
-	CreateServiceFunction(MS_LISTENINGTO_ENABLE, EnableListeningTo);
-	CreateServiceFunction(MS_LISTENINGTO_GETTEXTFORMAT, GetTextFormat);
-	CreateServiceFunction(MS_LISTENINGTO_GETPARSEDTEXT, GetParsedFormat);
-	CreateServiceFunction(MS_LISTENINGTO_OVERRIDECONTACTOPTION, GetOverrideContactOption);
-	CreateServiceFunction(MS_LISTENINGTO_GETUNKNOWNTEXT, GetUnknownText);
-	CreateServiceFunction(MS_LISTENINGTO_MAINMENU, MainMenuClicked);
-	CreateServiceFunction(MS_LISTENINGTO_SET_NEW_SONG, SetNewSong);
-	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_ENABLE, HotkeysEnable);
-	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_DISABLE, HotkeysDisable);
-	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_TOGGLE, HotkeysToggle);
-
-	// Hooks
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
-
-	hEnableStateChangedEvent = CreateHookableEvent(ME_LISTENINGTO_ENABLE_STATE_CHANGED);
-	hListeningInfoChangedEvent = CreateHookableEvent(ME_LISTENINGTO_LISTENING_INFO_CHANGED);
-
-	InitMusic();
-	InitOptions();
-
-	// icons
-	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, _countof(iconList));
-
-	// Extra icon support
-	hExtraIcon = ExtraIcon_RegisterIcolib(MODULE_NAME "_icon", LPGEN("Listening to music"), "listening_to_icon");
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
-	CoUninitialize();
-
-	return 0;
-}
 
 void UpdateGlobalStatusMenus()
 {
@@ -267,6 +173,9 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
+	// Extra icon support
+	hExtraIcon = ExtraIcon_RegisterIcolib(MODULE_NAME "_icon", LPGEN("Listening to music"), "listening_to_icon");
+
 	EnableDisablePlayers();
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -501,6 +410,73 @@ ProtocolInfo* GetProtoInfo(char *proto)
 			return &proto_items[i];
 
 	return NULL;
+}
+
+static void ReplaceVars(Buffer<wchar_t> *buffer, MCONTACT hContact, wchar_t **variables, int numVariables)
+{
+	if (buffer->len < 3)
+		return;
+
+	if (numVariables < 0)
+		return;
+
+	for (size_t i = buffer->len - 1; i > 0; i--) {
+		if (buffer->str[i] == '%') {
+			// Find previous
+			size_t j;
+			for (j = i - 1; j > 0 && ((buffer->str[j] >= 'a' && buffer->str[j] <= 'z')
+				|| (buffer->str[j] >= 'A' && buffer->str[j] <= 'Z')
+				|| buffer->str[j] == '-'
+				|| buffer->str[j] == '_'); j--);
+
+			if (buffer->str[j] == '%') {
+				size_t foundLen = i - j + 1;
+				if (foundLen == 9 && wcsncmp(&buffer->str[j], L"%contact%", 9) == 0) {
+					buffer->replace(j, i + 1, pcli->pfnGetContactDisplayName(hContact, 0));
+				}
+				else if (foundLen == 6 && wcsncmp(&buffer->str[j], L"%date%", 6) == 0) {
+					wchar_t tmp[128];
+					TimeZone_ToStringT(time(NULL), L"d s", tmp, _countof(tmp));
+					buffer->replace(j, i + 1, tmp);
+				}
+				else {
+					for (int k = 0; k < numVariables; k += 2) {
+						size_t len = mir_wstrlen(variables[k]);
+						if (foundLen == len + 2 && wcsncmp(&buffer->str[j] + 1, variables[k], len) == 0) {
+							buffer->replace(j, i + 1, variables[k + 1]);
+							break;
+						}
+					}
+				}
+			}
+
+			i = j;
+			if (i == 0)
+				break;
+		}
+		else if (buffer->str[i] == '\\' && i + 1 <= buffer->len - 1 && buffer->str[i + 1] == 'n') {
+			buffer->str[i] = '\r';
+			buffer->str[i + 1] = '\n';
+		}
+	}
+}
+
+void ReplaceTemplate(Buffer<wchar_t> *out, MCONTACT hContact, wchar_t *templ, wchar_t **vars, int numVars)
+{
+
+	if (ServiceExists(MS_VARS_FORMATSTRING)) {
+		wchar_t *tmp = variables_parse_ex(templ, NULL, hContact, vars, numVars);
+		if (tmp != NULL) {
+			out->append(tmp);
+			mir_free(tmp);
+			out->pack();
+			return;
+		}
+	}
+
+	out->append(templ);
+	ReplaceVars(out, hContact, vars, numVars);
+	out->pack();
 }
 
 void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
@@ -902,98 +878,28 @@ INT_PTR SetNewSong(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-wchar_t* VariablesParseInfo(ARGUMENTSINFO *ai)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void InitServices()
 {
-	if (ai->cbSize < sizeof(ARGUMENTSINFO))
-		return NULL;
+	// Services
+	CreateServiceFunction(MS_LISTENINGTO_ENABLED, ListeningToEnabled);
+	CreateServiceFunction(MS_LISTENINGTO_ENABLE, EnableListeningTo);
+	CreateServiceFunction(MS_LISTENINGTO_GETTEXTFORMAT, GetTextFormat);
+	CreateServiceFunction(MS_LISTENINGTO_GETPARSEDTEXT, GetParsedFormat);
+	CreateServiceFunction(MS_LISTENINGTO_OVERRIDECONTACTOPTION, GetOverrideContactOption);
+	CreateServiceFunction(MS_LISTENINGTO_GETUNKNOWNTEXT, GetUnknownText);
+	CreateServiceFunction(MS_LISTENINGTO_MAINMENU, MainMenuClicked);
+	CreateServiceFunction(MS_LISTENINGTO_SET_NEW_SONG, SetNewSong);
+	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_ENABLE, HotkeysEnable);
+	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_DISABLE, HotkeysDisable);
+	CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_TOGGLE, HotkeysToggle);
 
-	LISTENINGTOINFO *lti = GetListeningInfo();
-	if (lti == NULL) {
-		ai->flags = AIF_FALSE;
-		return mir_wstrdup(L"");
-	}
+	// Hooks
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
 
-	wchar_t *fr[] = {
-		L"artist", UNKNOWN(lti->ptszArtist),
-		L"album", UNKNOWN(lti->ptszAlbum),
-		L"title", UNKNOWN(lti->ptszTitle),
-		L"track", UNKNOWN(lti->ptszTrack),
-		L"year", UNKNOWN(lti->ptszYear),
-		L"genre", UNKNOWN(lti->ptszGenre),
-		L"length", UNKNOWN(lti->ptszLength),
-		L"player", UNKNOWN(lti->ptszPlayer),
-		L"type", UNKNOWN(lti->ptszType)
-	};
-
-	Buffer<wchar_t> ret;
-	ReplaceTemplate(&ret, NULL, opts.templ, fr, _countof(fr));
-	return ret.detach();
-}
-
-#define VARIABLES_PARSE_BODY(__field__) \
-	if (ai == NULL || ai->cbSize < sizeof(ARGUMENTSINFO)) \
-		return NULL; \
-	\
-	LISTENINGTOINFO *lti = GetListeningInfo(); \
-	if (lti == NULL) \
-			{ \
-		ai->flags = AIF_FALSE; \
-		return mir_wstrdup(L""); \
-			} \
-				else if (IsEmpty(lti->__field__))  \
-	{ \
-		ai->flags = AIF_FALSE; \
-		return mir_wstrdup(opts.unknown); \
-	} \
-				else \
-	{ \
-		ai->flags = AIF_DONTPARSE; \
-		wchar_t *ret = mir_wstrdup(lti->__field__); \
-		return ret; \
-	}
-
-
-wchar_t* VariablesParseType(ARGUMENTSINFO *ai)
-{
-	VARIABLES_PARSE_BODY(ptszType);
-}
-
-wchar_t* VariablesParseArtist(ARGUMENTSINFO *ai)
-{
-	VARIABLES_PARSE_BODY(ptszArtist);
-}
-
-wchar_t* VariablesParseAlbum(ARGUMENTSINFO *ai)
-{
-	VARIABLES_PARSE_BODY(ptszAlbum);
-}
-
-wchar_t* VariablesParseTitle(ARGUMENTSINFO *ai)
-{
-	VARIABLES_PARSE_BODY(ptszTitle);
-}
-
-wchar_t* VariablesParseTrack(ARGUMENTSINFO *ai)
-{
-	VARIABLES_PARSE_BODY(ptszTrack);
-}
-
-wchar_t* VariablesParseYear(ARGUMENTSINFO *ai)
-{
-	VARIABLES_PARSE_BODY(ptszYear);
-}
-
-wchar_t* VariablesParseGenre(ARGUMENTSINFO *ai)
-{
-	VARIABLES_PARSE_BODY(ptszGenre);
-}
-
-wchar_t* VariablesParseLength(ARGUMENTSINFO *ai)
-{
-	VARIABLES_PARSE_BODY(ptszLength);
-}
-
-wchar_t* VariablesParsePlayer(ARGUMENTSINFO *ai)
-{
-	VARIABLES_PARSE_BODY(ptszPlayer);
+	// icons
+	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, _countof(iconList));
 }
