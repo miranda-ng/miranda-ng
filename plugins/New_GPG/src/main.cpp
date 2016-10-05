@@ -2135,7 +2135,7 @@ void ImportKey()
 			ptmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", L"");
 
 		wfstream f(tmp2, std::ios::out);
-		f << ptmp;
+		f << ptmp.get();
 		f.close();
 		cmd.push_back(L"--batch");
 		cmd.push_back(L"--import");
