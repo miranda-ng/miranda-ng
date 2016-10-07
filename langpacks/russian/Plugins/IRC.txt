@@ -746,7 +746,7 @@ Nickserv убить фантома
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
 Медленнее: ищутся ники, удовлетворяющие указанным метасимволам. Необходимо указать маску узла и минимум 4 символа в поле "Ник". Поддерживаются метасимволы ? и *.
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Настройки не сохранены.\n\nПоле "Псевдоним" должно содержать как минимум четыре знака (включая маски), и совпадать с псевдонимом по умолчанию для этого контакта.
+Настройки не сохранены.\n\nПоле "Псевдоним" должно содержать как минимум четыре знака (включая маски) и совпадать с псевдонимом по умолчанию для этого контакта.
 [Please wait...]
 Подождите, пожалуйста...
 [Channel]
