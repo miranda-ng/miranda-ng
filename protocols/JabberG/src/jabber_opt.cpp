@@ -1579,7 +1579,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_OK, ACC_SMS, ACC_YANDEX };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_OK, ACC_SMS };
 
 	void OnInitDialog()
 	{
@@ -1625,7 +1625,6 @@ protected:
 		m_cbType.AddString(TranslateT("League Of Legends (US)"), ACC_LOL_US);
 		m_cbType.AddString(TranslateT("Odnoklassniki"), ACC_OK);
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
-		m_cbType.AddString(TranslateT("Yandex"), ACC_YANDEX);
 
 		char server[256], manualServer[256] = { 0 };
 		m_cbServer.GetTextA(server, _countof(server));
@@ -1664,10 +1663,6 @@ protected:
 		}
 		else if (!mir_strcmp(server, "S.ms")) {
 			m_cbType.SetCurSel(ACC_SMS);
-			m_canregister = false;
-		}
-		else if (!mir_strcmp(server, "ya.ru")) {
-			m_cbType.SetCurSel(ACC_YANDEX);
 			m_canregister = false;
 		}
 		else if (m_proto->m_options.UseSSL)
@@ -1766,7 +1761,6 @@ protected:
 		case ACC_TLS:
 		case ACC_LJTALK:
 		case ACC_SMS:
-		case ACC_YANDEX:
 			m_proto->m_options.UseSSL = FALSE;
 			m_proto->m_options.UseTLS = TRUE;
 			break;
@@ -1920,7 +1914,6 @@ private:
 	void setupLOLUS();
 	void setupOK();
 	void setupSMS();
-	void setupYA();
 	void RefreshServers(HXML node);
 	static void QueryServerListThread(void *arg);
 };
@@ -1962,7 +1955,6 @@ void CJabberDlgAccMgrUI::setupConnection(int type)
 	case ACC_LOL_US: setupLOLUS(); break;
 	case ACC_OK: setupOK(); break;
 	case ACC_SMS: setupSMS(); break;
-	case ACC_YANDEX: setupYA(); break;
 	}
 }
 
@@ -2147,24 +2139,6 @@ void CJabberDlgAccMgrUI::setupSMS()
 	m_cbServer.AddStringA("S.ms");
 	m_chkManualHost.SetState(BST_UNCHECKED);
 	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(5222);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupYA()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("ya.ru");
-	m_cbServer.AddStringA("ya.ru");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("xmpp.yandex.ru");
 	m_txtPort.SetInt(5222);
 
 	m_cbServer.Disable();
