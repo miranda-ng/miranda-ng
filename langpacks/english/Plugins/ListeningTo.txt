@@ -51,9 +51,8 @@
 ;file \plugins\ListeningTo\src\listeningto.cpp
 [Listening to (enabled)]
 [Listening to (disabled)]
-[ListeningTo]
-[Listening to music]
 [Send to %s]
+[Listening to music]
 [Send to all protocols]
 [Listening info]
 [Listening info as set in the options]
@@ -71,6 +70,7 @@
 [Enable/Disable sending Listening To info (to all protocols)]
 [Disable ListeningTo (to all protocols)]
 [Enable ListeningTo (to all protocols)]
+[ListeningTo]
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 [<Nothing is playing now>]
