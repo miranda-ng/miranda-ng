@@ -152,7 +152,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 				if (opts.log_per_contact_folders) {
 					GetOldStyleAvatarName(history_filename, hContact);
 					if (CopyImageFile(avatar->filename, history_filename))
-						ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), history_filename);
+						ShowPopup(hContact, TranslateT("Avatar history: Unable to save avatar"), history_filename);
 					else
 						ShowDebugPopup(hContact, L"AVH Debug: File copied successfully", history_filename);
 
@@ -162,7 +162,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 						GetOldStyleAvatarName(filename, hMetaContact);
 						if (CopyImageFile(avatar->filename, filename))
-							ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), filename);
+							ShowPopup(hContact, TranslateT("Avatar history: Unable to save avatar"), filename);
 						else
 							ShowDebugPopup(hContact, L"AVH Debug: File copied successfully", filename);
 					}
@@ -191,7 +191,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 							L"%s\\%s", history_filename, hash);
 
 					if (CopyImageFile(avatar->filename, history_filename))
-						ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), history_filename);
+						ShowPopup(hContact, TranslateT("Avatar history: Unable to save avatar"), history_filename);
 					else
 						ShowDebugPopup(hContact, L"AVH Debug: File copied successfully", history_filename);
 				}
@@ -345,8 +345,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	Profile_GetPathW(MAX_PATH, profilePath);
 
-	SkinAddNewSoundExW("avatar_changed",LPGENW("Avatar History"),LPGENW("Contact changed avatar"));
-	SkinAddNewSoundExW("avatar_removed",LPGENW("Avatar History"),LPGENW("Contact removed avatar"));
+	SkinAddNewSoundExW("avatar_changed",LPGENW("Avatar history"),LPGENW("Contact changed avatar"));
+	SkinAddNewSoundExW("avatar_removed",LPGENW("Avatar history"),LPGENW("Contact removed avatar"));
 
 	hAvatarWindowsList = WindowList_Create();
 

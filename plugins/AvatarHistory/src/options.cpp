@@ -134,7 +134,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			op.popup_use_default_colors = IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS) != 0;
 
 			MCONTACT hContact = db_find_first();
-			ShowTestPopup(hContact,TranslateT("Test Contact"), TranslateT("Test description"), &op);
+			ShowTestPopup(hContact,TranslateT("Test contact"), TranslateT("Test description"), &op);
 			break;
 		}
 	}
@@ -157,7 +157,7 @@ int OptInit(WPARAM wParam, LPARAM)
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pwszGroup = LPGENW("Popups");
-		odp.pwszTitle = LPGENW("Avatar Change");
+		odp.pwszTitle = LPGENW("Avatar change");
 		odp.pfnDlgProc = PopupsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
 		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;

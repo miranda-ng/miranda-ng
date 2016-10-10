@@ -26,9 +26,9 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 IDR_MENU1 MENU
 BEGIN
-    POPUP "Avatar List Popup"
+    POPUP "Avatar list popup"
     BEGIN
-        MENUITEM "Save As...",                  ID_AVATARLISTPOPUP_SAVEAS
+        MENUITEM "Save as...",                  ID_AVATARLISTPOPUP_SAVEAS
         MENUITEM "Delete this entry",           ID_AVATARLISTPOPUP_DELETE
         MENUITEM "Delete this entry and the bitmap file", ID_AVATARLISTPOPUP_DELETE_BOTH
     END
@@ -42,13 +42,13 @@ END
 
 IDD_AVATARDLG DIALOGEX 0, 0, 216, 195
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Avatar History"
+CAPTION "Avatar history"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LISTBOX         IDC_AVATARLIST,7,7,110,74,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "",IDC_AVATAR,"Static",SS_BITMAP | SS_NOTIFY | SS_CENTERIMAGE | SS_REALSIZEIMAGE | SS_SUNKEN,125,7,84,74
     LTEXT           "Static",IDC_AVATARPATH,7,105,204,26
-    PUSHBUTTON      "Open Folder",IDC_OPENFOLDER,6,81,49,14
+    PUSHBUTTON      "Open folder",IDC_OPENFOLDER,6,81,49,14
     PUSHBUTTON      "<",IDC_BACK,138,82,31,10,BS_CENTER | BS_VCENTER
     PUSHBUTTON      ">",IDC_NEXT,172,82,31,10,BS_CENTER | BS_VCENTER
     CONTROL         "Store this user's old avatars in disk",IDC_LOGUSER,
@@ -105,7 +105,7 @@ END
 
 IDD_FIRST_RUN DIALOGEX 0, 0, 451, 253
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Avatar History: Select how to store history avatars"
+CAPTION "Avatar history: Select how to store history avatars"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.",IDC_STATIC,15,7,416,23
@@ -120,13 +120,13 @@ BEGIN
     CONTROL         "Store history avatars in per contact folders",IDC_DUP,
                     "Button",BS_AUTORADIOBUTTON,15,181,416,11
     LTEXT           "History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,44,416,10
-    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>",IDC_STATIC,15,54,416,10
+    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Avatar hash>",IDC_STATIC,15,54,416,10
     LTEXT           "History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,77,416,10
-    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>",IDC_STATIC,15,87,416,10
+    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash>",IDC_STATIC,15,87,416,10
     LTEXT           "History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.",IDC_STATIC,15,110,416,10
-    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>",IDC_STATIC,15,120,416,18
+    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>",IDC_STATIC,15,120,416,18
     LTEXT           "History is stored only in disk. It can be seen by Avatar History internal viewer.",IDC_STATIC,15,151,416,10
-    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>",IDC_STATIC,15,161,416,18
+    LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>",IDC_STATIC,15,161,416,18
     LTEXT           "History is stored only in disk. It can be seen by Avatar History internal viewer.",IDC_STATIC,15,192,416,10
     LTEXT           "All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)",IDC_STATIC,15,203,416,18
     DEFPUSHBUTTON   "OK",IDOK,151,232,50,14

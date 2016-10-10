@@ -136,7 +136,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			wchar_t *displayName = pcli->pfnGetContactDisplayName(data->hContact, 0);
 			if (displayName) {
 				wchar_t title[MAX_PATH];
-				mir_snwprintf(title, TranslateT("Avatar History for %s"), displayName);
+				mir_snwprintf(title, TranslateT("Avatar history for %s"), displayName);
 				SetWindowText(hwnd, title);
 			}
 
@@ -260,10 +260,10 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 				BOOL blDelete;
 
 				if (le->hDbEvent)
-					blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!"), 
+					blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING: This can affect more than one entry in history!"), 
 					TranslateT("Delete avatar?"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2|MB_SETFOREGROUND|MB_TOPMOST) == IDYES;
 				else
-					blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!"), 
+					blDelete = MessageBox(hwnd, TranslateT("Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING: This can affect more than one shortcut!"), 
 					TranslateT("Delete avatar?"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2|MB_SETFOREGROUND|MB_TOPMOST) == IDYES;
 
 				if (blDelete) {
@@ -465,7 +465,7 @@ bool UpdateAvatarPic(HWND hwnd)
 	int cursel = SendMessage(list, LB_GETCURSEL, 0, 0);
 	if (cursel < 0)
 	{
-		SetDlgItemText(hwnd,IDC_AVATARPATH,TranslateT("Avatar History is empty!"));
+		SetDlgItemText(hwnd,IDC_AVATARPATH,TranslateT("Avatar history is empty!"));
 		return false;
 	}
 	
@@ -473,7 +473,7 @@ bool UpdateAvatarPic(HWND hwnd)
 
 	if (!le || !le->filename)
 	{
-		SetDlgItemText(hwnd,IDC_AVATARPATH,TranslateT("avatar path is null."));
+		SetDlgItemText(hwnd,IDC_AVATARPATH,TranslateT("Avatar path is null."));
 		return 0;
 	}
 	SetDlgItemText(hwnd,IDC_AVATARPATH,le->filename);
@@ -514,7 +514,7 @@ void InitMenuItem()
 
 	CMenuItem mi;
 	SET_UID(mi,0x2fb5c7eb, 0xa606, 0x4145, 0x9e, 0x86, 0x73, 0x88, 0x73, 0x1d, 0xe7, 0x5c);
-	mi.name.w = LPGENW("View Avatar History");
+	mi.name.w = LPGENW("View avatar history");
 	mi.flags = CMIF_UNICODE;
 	mi.position = 1000090010;
 	mi.hIcolibItem = createDefaultOverlayedIcon(FALSE);
@@ -550,12 +550,12 @@ int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact)
 	wchar_t title[MAX_PATH];
 	if (displayName)
 	{
-		mir_snwprintf(title, TranslateT("Save Avatar for %s"), displayName);
+		mir_snwprintf(title, TranslateT("Save avatar for %s"), displayName);
 		ofn.lpstrTitle = title;
 	}
 	else
 	{
-		ofn.lpstrTitle = TranslateT("Save Avatar");
+		ofn.lpstrTitle = TranslateT("Save avatar");
 	}
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_DONTADDTORECENT;

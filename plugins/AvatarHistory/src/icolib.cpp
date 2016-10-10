@@ -9,7 +9,7 @@ enum IconIndex
 static IconItem iconList[] =
 {
 	{ LPGEN("History"),        "",             IDI_AVATARHIST    },
-	{ LPGEN("Avatar Overlay"),	"avh_overlay",  IDI_AVATAROVERLAY }
+	{ LPGEN("Avatar overlay"),	"avh_overlay",  IDI_AVATAROVERLAY }
 };
 
 static HICON LoadIconEx(IconIndex i)
@@ -38,7 +38,7 @@ int IcoLibIconsChanged(WPARAM, LPARAM)
 void SetupIcoLib()
 {
 	iconList[0].hIcolib = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	Icon_Register(hInst, LPGEN("Avatar History"), iconList+1, _countof(iconList)-1);
+	Icon_Register(hInst, LPGEN("Avatar history"), iconList+1, _countof(iconList)-1);
 	IcoLibUpdateMenus();
 }
 
