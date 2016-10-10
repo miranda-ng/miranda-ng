@@ -140,7 +140,7 @@ wchar_t* GetOldStyleAvatarName(wchar_t *fn, MCONTACT hContact)
 		L"%s\\%04d-%02d-%02d %02dh%02dm%02ds", fn, 
 		curtime.wYear, curtime.wMonth, curtime.wDay, 
 		curtime.wHour, curtime.wMinute, curtime.wSecond);
-	ShowDebugPopup(hContact, L"AVH Debug: GetOldStyleAvatarName",fn);
+	ShowDebugPopup(hContact, L"AVH Debug: GetOldStyleAvatarName", fn);
 	return fn;
 }
 
@@ -159,7 +159,7 @@ void CreateOldStyleShortcut(MCONTACT hContact, wchar_t *history_filename)
 	}
 	else
 	{
-		ShowDebugPopup(hContact, L"AVH Debug: Shortcut created successfully"), shortcut);
+		ShowDebugPopup(hContact, L"AVH Debug: Shortcut created successfully", shortcut);
 	}
 }
 
