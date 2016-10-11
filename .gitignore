@@ -1,11 +1,16 @@
+#Visual Studio files
 Debug/
 Debug64/
 Release/
 Release64/
 ipch/
 .vs/
+*.VC.db
+*.VC.VC.opendb
 *.sdf
 *.suo
 *.user
 *.aps
-*.pdb
+
+#Miranda files
+include/m_version.h
