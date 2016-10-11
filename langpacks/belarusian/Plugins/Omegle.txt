@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.3.0
+;  Version: 0.1.3.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -53,6 +53,10 @@
 Вы не злучаны з незнаёмцам. Адпраўце '/help' ці ''/commands' для даведкі.
 [You can't send messages in question mode.]
 Вы не можаце адпраўляць паведамленні ў рэжыме запроса.
+[Admin]
+
+[Normal]
+
 [Omegle is a great way of meeting new friends!]
 Omegle гэта новы спосаб сяброўства!
 [You]

@@ -1841,8 +1841,6 @@ Dziennik wiadomości
 ** Nowe kontakty **
 [** Unknown contacts **]
 ** Nieznane kontakty **
-[Show balloon popup (unsupported system)]
-Pokaż podpowiedzi w chmurce (nieobsługiwany system)
 [Messaging log]
 Dziennik wiadomości
 [Typing notify]
@@ -2173,7 +2171,14 @@ Nie zainstalowano wsparcia dla profili!
 Miranda nie może uruchomić profilu
 [Miranda can't understand that profile]
 Miranda nie może otworzyć tego profilu
-;file \src\mir_app\src\dbini.cpp
+;file \src\mir_app\src\db_events.cpp
+[Authorization request from %s%s: %s]
+Prośba o autoryzację od %s%s: %s
+[You were added by %s%s]
+Zostałeś dodany przez %s%s
+[Contacts: ]
+Kontakty:\s
+;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 System bezpieczeństwa chroniący przed złośliwymi zmianami został aktywowany i będziesz powiadamiany o każdej dokonanej zmianie.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2188,13 +2193,6 @@ Ta zmiana wydaje się być potencjalnie ryzykowna.
 Ta zmiana wydaje się być niebezpieczna.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Nieprawidłowe ustawienie typu dla "%s". Pierwszym znakiem każdej wartości musi być b, w, d, l, s, e, u, g, h lub n.
-;file \src\mir_app\src\dbutils.cpp
-[Authorization request from %s%s: %s]
-Prośba o autoryzację od %s%s: %s
-[You were added by %s%s]
-Zostałeś dodany przez %s%s
-[Contacts: ]
-Kontakty:\s
 ;file \src\mir_app\src\DefaultExtraIcons.cpp
 [Chat activity]
 Aktywność czatu

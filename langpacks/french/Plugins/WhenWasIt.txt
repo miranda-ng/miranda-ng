@@ -223,6 +223,8 @@ Tous les fichiers
 
 [Error]
 Erreur
+[Could not find UID '%s [%S]' in current database, skipping]
+
 [Warning]
 Avertissement
 [Could not open file to export birthdays]
@@ -232,9 +234,6 @@ Avertissement
 [Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n]
 
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
-
-;file \plugins\WhenWasIt\src\services.h
-[Could not find UID '%s [%S]' in current database, skipping]
 
 ;file \plugins\WhenWasIt\src\WhenWasIt.cpp
 [Birthdays (When Was It)]

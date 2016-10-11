@@ -1801,8 +1801,6 @@ UIN, E-mail і г.д.
 ** Новыя кантакты **
 [** Unknown contacts **]
 ** Невядомыя кантакты **
-[Show balloon popup (unsupported system)]
-Паказваць падказкі (непадтрымоўваная сістэма)
 [Messaging log]
 Лог
 [Typing notify]
@@ -2111,6 +2109,12 @@ Miranda не можа адкрыць '%s'\nНе ўсталяваны неабх�
 Miranda NG не можа адкрыць гэты профіль
 [Miranda can't understand that profile]
 Miranda не можа распазнаць гэты профіль
+[Authorization request from %s%s: %s]
+Запыт аўтарызацыі от %s%s: %s
+[You were added by %s%s]
+Вас дадаў %s%s
+[Contacts: ]
+Кантакты:\s
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Сістэма бяспекі для прадухілення непажаданых змен актыўная і вы будзеце папярэджаны перад кожнай вырабленай зменай.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2125,12 +2129,6 @@ Miranda не можа распазнаць гэты профіль
 Невядома, ці будзе змена бяспечнай.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Наслушны тып налады для '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h ці n.
-[Authorization request from %s%s: %s]
-Запыт аўтарызацыі от %s%s: %s
-[You were added by %s%s]
-Вас дадаў %s%s
-[Contacts: ]
-Кантакты:\s
 [Chat activity]
 Актыўнасць у чаце
 [You haven't filled in the search field. Please enter a search term and try again.]

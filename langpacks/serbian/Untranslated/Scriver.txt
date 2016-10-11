@@ -59,7 +59,6 @@
 [Wikipedia (en)]
 [Google Maps]
 [Google Translate]
-[Foodnetwork]
 [Paste && send]
 [Close other tabs]
 [Close tab]

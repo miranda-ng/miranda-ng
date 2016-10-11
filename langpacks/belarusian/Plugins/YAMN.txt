@@ -27,8 +27,6 @@
 Сервер:
 [Port:]
 Порт:
-[APOP]
-
 [User Name:]
 Імя карыстача:
 [Password:]

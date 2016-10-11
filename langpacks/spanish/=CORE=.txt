@@ -1747,8 +1747,6 @@ Registro de mensaje
 ** Nuevos contactos **
 [** Unknown contacts **]
 ** Contactos desconocidos **
-[Show balloon popup (unsupported system)]
-Mostrar globo emergente (sistema sin soporte)
 [Messaging log]
 Registro de mensajería
 [Typing notify]

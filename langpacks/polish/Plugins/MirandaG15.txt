@@ -40,16 +40,6 @@ Użyj efektów przezroczystości podczas zmiany ekranów
 Podziękowania
 [About]
 O wtyczce
-[Mirandag15 + TrillianG15]
-Mirandag15 + TrillianG15
-[For updates and news check the thread on http://www.g15forums.com]
-Po aktualizacje i nowości zajrzyj do wątku pod adresem http://www.g15forums.com
-[Or visit http://www.mkleinhans.de]
-lub odwiedź http://www.mkleinhans.de
-[mail@mkleinhans.de]
-mail@mkleinhans.de
-[© 2006 by Martin Kleinhans]
-© 2006 by Martin Kleinhans
 [Device:]
 Urządzenie:
 [If the screensaver is active:]
@@ -205,8 +195,6 @@ Zamknij czat po
 [When in background]
 Gdy w tle
 ;file \plugins\MirandaG15\src\CConfig.cpp
-[MirandaG15]
-MirandaG15
 [Appearance]
 Personalizacja
 [Notifications]

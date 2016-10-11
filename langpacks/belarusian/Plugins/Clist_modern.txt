@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.4
+;  Version: 0.9.1.5
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -405,8 +405,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Рэжым без скінаў
 [Disable skin engine]
 Выключыць скіны
-[Enable Aero Glass (Vista+)]
-Стыль Аэро (Vista+)
+[Enable Aero Glass (Vista, Win 7)]
+Стыль Аэро (Vista, Win 7)
 [Order of items:]
 Парадак элементаў:
 [Minimum row height:]

@@ -10,7 +10,7 @@
 [Enable drop shadow (restart required)]
 [Gaps between frames:]
 [Gaps after captions:]
-[Enable Aero Glass (Vista+)]
+[Enable Aero Glass (Vista, Win 7)]
 [Max size (pixels):]
 [Ignore size for row height calcs]
 [Use old render method (fast, but has artifacts)]

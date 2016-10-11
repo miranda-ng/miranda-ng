@@ -1,4 +1,5 @@
 ﻿[Shows currency rates and economic quotes.]
+[From popup plugin]
 [Quotes]
 [Enable/Disable Quotes Auto Update]
 [Quotes Auto Update Enabled]

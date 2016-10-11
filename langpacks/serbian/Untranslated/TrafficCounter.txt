@@ -9,7 +9,7 @@
 [Background color:]
 [Text color:]
 [Popup timeout]
-[From Popup plugin]
+[From popup plugin]
 [Test]
 [Show now]
 [Space between lines:]

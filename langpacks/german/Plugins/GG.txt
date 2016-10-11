@@ -335,10 +335,10 @@ B&ild
 Bilddateien (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Das Bild konnte nicht auf die Festplatte geschrieben werden.
-[Delete image from the list]
-Lösche Bild(er) von der Liste
 [Save image to disk]
 Speichere Bild auf die Festplatte
+[Delete image from the list]
+Lösche Bild(er) von der Liste
 [Image from %s]
 Bild von %s
 [Image for %s]

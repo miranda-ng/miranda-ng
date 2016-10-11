@@ -279,8 +279,6 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
-[Foodnetwork]
-Foodnetwork
 [C&lear log]
 Изчистване на дневника
 [&Open link]
@@ -577,8 +575,6 @@ Latin I
 ** Нови контакти **
 [** Unknown contacts **]
 ** Непознати контакти **
-[Show balloon popup (unsupported system)]
-Показване на балонни popup (неподдържана система)
 [Message sessions]
 Разговори
 [Typing notify]

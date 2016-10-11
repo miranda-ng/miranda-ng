@@ -31,7 +31,7 @@
 Па змаўчанні
 [Popup timeout]
 Працягласць вакна
-[From Popup plugin]
+[From popup plugin]
 Па змаўчанні
 [Custom]
 Наладзіць

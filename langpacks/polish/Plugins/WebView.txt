@@ -136,8 +136,8 @@ Zapisz jako dane nieprzetworzone
 Wyświetlanie Popup
 [Delay]
 Wyświetlaj
-[From Popup plugin]
-Z wtyczki Popup
+[From popup plugin]
+
 [Permanent]
 Stałe
 [Preview]

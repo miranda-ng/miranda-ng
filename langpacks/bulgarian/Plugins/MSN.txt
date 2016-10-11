@@ -53,8 +53,6 @@ Live ID:
 Потребител добавил ви в списъка си с контакти
 [Refresh]
 Обновяване
-[Hotmail]
-Hotmail
 [Enable Popup notifications]
 Уведомяване с Popup
 [Ignore new messages not in Inbox folder]

@@ -56,7 +56,7 @@ Hgrd.
 Text
 [Timeout]
 Timeout
-[From Popup plugin]
+[From popup plugin]
 Vom Popup-Plugin
 [Permanent]
 Dauerhaft

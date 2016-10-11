@@ -80,7 +80,7 @@ koristi zadane boje
 
 [Delay]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Custom]
 

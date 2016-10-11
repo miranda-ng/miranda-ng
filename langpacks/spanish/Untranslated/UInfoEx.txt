@@ -212,6 +212,8 @@
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 [Extended user info]
+[Dialogs]
+[Buttons]
 [Export/import contact]
 [&Export user details]
 [&Import]

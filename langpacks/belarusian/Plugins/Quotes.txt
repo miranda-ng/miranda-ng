@@ -79,7 +79,7 @@
 Колер тэксту
 [Delay]
 Затрымка
-[From Popup plugin]
+[From popup plugin]
 Па змаўчанні
 [Custom]
 Наладзіць

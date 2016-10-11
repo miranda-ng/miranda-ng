@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.0
+;  Version: 0.3.0.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -59,10 +59,10 @@ URL:
 Въведете текста, който виждате
 [Myself]
 Аз
-[User]
-Потребител
 [Friend]
 Приятел
+[User]
+Потребител
 [&Invite user...]
 Покани потребител...
 [&Leave chat session]

@@ -256,10 +256,6 @@ Recherches
 Messages
 [Notices]
 Notifications
-[CTCP]
-CTCP
-[DCC]
-DCC
 [Ignore mask (nick!user@host)]
 Ignorer masque (nick!user@host)
 [Network (*)]
@@ -314,6 +310,16 @@ DCC : Rejet de la requête de reprise de transfert de s%
 Réponse PING CTCP de %s : %u sec (s)
 [CTCP %s reply from %s: %s]
 Réponse %s CTCP de %s : %s
+[Owner]
+Propriétaire
+[Admin]
+
+[Op]
+
+[Halfop]
+
+[Voice]
+Voix
 [Downloading list (%u%%) - %u channels]
 Chargement de la liste (%u%%) - %u canaux
 [Downloading list - %u channels]
@@ -334,10 +340,10 @@ Terminé : %u canaux
 
 [Change nickname]
 Changer le pseudo
-[IRC error]
-Erreur IRC
 [Unknown]
 Inconnu
+[IRC error]
+Erreur IRC
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Entrer le masque d'hôte nick!user@host)\nNote : les contacts de votre liste ne seront jamais ignorés
 [Ignore]
@@ -646,8 +652,6 @@ Veuillez taper votre notice
 Veuillez saisir le nom du salon
 [Invite to channel]
 Inviter sur un salon
-[NickServ]
-NickServ
 [Register nick]
 
 [Auth nick]

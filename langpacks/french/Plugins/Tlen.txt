@@ -86,8 +86,8 @@ Arrière-plan
 Texte
 [Delay]
 
-[&From Popup plugin]
-
+[&From popup plugin]
+&Comme le plugin popup
 [&Custom]
 &Défini
 [P&ermanent]

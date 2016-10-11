@@ -56,8 +56,6 @@ Zablokowany kontakt
 Ktoś dodał cię do swojej listy na serwerze
 [Refresh]
 Odśwież
-[Hotmail]
-Hotmail
 [Enable Popup notifications]
 Włącz powiadomienia
 [Enable Contact List notifications]
@@ -113,6 +111,10 @@ Identyfikator Live
 [Add]
 Dodaj
 ;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+Admin
+[User]
+Użytkownik
 [Chat #]
 Czat #
 [&Invite user...]

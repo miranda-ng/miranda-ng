@@ -256,10 +256,6 @@ Querys
 Nachrichten
 [Notices]
 Notizen
-[CTCP]
-CTCP
-[DCC]
-DCC
 [Ignore mask (nick!user@host)]
 Ignoriermaske (nick!user@host)
 [Network (*)]
@@ -314,6 +310,16 @@ CTCP %s Anfrage von %s
 CTCP-PING-Antwort von %s: %u Sekunde(n)
 [CTCP %s reply from %s: %s]
 CTCP %s Antwort von %s: %s
+[Owner]
+Inhaber
+[Admin]
+Administrator
+[Op]
+
+[Halfop]
+
+[Voice]
+Stimme
 [Downloading list (%u%%) - %u channels]
 Laden der Liste (%u%%) - %u Channels
 [Downloading list - %u channels]
@@ -334,10 +340,10 @@ Fertig: %u Channels
 Online seit %s, untätig %s
 [Change nickname]
 Nickname ändern
-[IRC error]
-IRC-Hinweis
 [Unknown]
 Unbekannt
+[IRC error]
+IRC-Hinweis
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Bitte Hostmaske eingeben (nick!user@host)\nKontakte auf der Kontaktliste werden nie ignoriert
 [Ignore]
@@ -646,8 +652,6 @@ Bitte die Notiz hier eingeben.
 Bitte den Namen des Channels hier eingeben.
 [Invite to channel]
 In einen anderen Channel einladen
-[NickServ]
-NickServ
 [Register nick]
 Nick registrieren
 [Auth nick]

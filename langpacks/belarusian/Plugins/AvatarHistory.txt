@@ -7,20 +7,18 @@
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 Плагін захоўвае гісторыю змены аватараў кантактаў і паказвае ўсплывальныя вокны.
-[Avatar List Popup]
-
-[Save As...]
+[Save as...]
 Захаваць як...
 [Delete this entry]
 Выдаліць гэты запіс
 [Delete this entry and the bitmap file]
 Выдаліць гэты запіс і файл малюнка
-[Avatar History]
+[Avatar history]
 Гісторыя аватараў
 [Static]
 Статычны
-[Open Folder]
-Адкрыць тэчку
+[Open folder]
+Адчыніць тэчку
 [Store this user's old avatars in disk]
 Захоўваць старыя аватары на дыску
 [Log this user's avatars changes to history]
@@ -47,7 +45,7 @@
 Колеры па змаўчанні
 [Delay]
 Затрымка
-[From Popup plugin]
+[From popup plugin]
 Па змаўчанні
 [Custom]
 Наладзіць
@@ -67,7 +65,7 @@
 Выдаленне аватара:
 [Preview]
 Прагляд
-[Avatar History: Select how to store history avatars]
+[Avatar history: Select how to store history avatars]
 Гісторыя аватараў: абярыце, як захоўваць гісторыю аватараў
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Абярыце, якім чынам захоўваць гісторыю аватараў кантактаў. Гэта наладу НЕЛЬГА будзе змяніць у будучыні, бо ўсе папярэднія падзеі гісторыі будуць страчаны.
@@ -83,17 +81,17 @@
 Захоўваць гісторыю ў тэчцы кожнага кантакту
 [History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
 Гісторыя захоўваецца ў БД Miranda. Яна можа быць адлюстравана ўбудаваным прагляднікам ці плагін History++
-[All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
+[All avatars are stored as <Profile>\\Avatars History\\<Avatar hash>]
 Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Хэш Аватара>
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash>]
 Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Пратакол>\\<Хэш Аватара>
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Пратакол>\\<Хэш аватара> і маюць цэтлік у гісторыі <Профіль>\\Avatars History\\<Пратакол>\\<ID кантакту>\\<Час>
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 Гісторыя захоўваецца толькі на дыск. Яе можна прагледзець убудаваным прагляднікам.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Пратакол>\\<ID кантакту>\\<час> (аднолькавыя аватары могуць быць захаваны некалькі разоў)
-[Avatar History for %s]
+[Avatar history for %s]
 Гісторыя аватараў %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Вы ўпэўнены, што жадаеце выдаліць гэты запіс з гісторыі?\n Будзе выдалена толькі сам запіс, файл малюнка застанецца!
@@ -101,41 +99,35 @@
 Выдаліць запісы змен аватараў?
 [Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
 Вы ўпэўнены, што жадаеце выдаліць гэты цэтлік аватара?\n Будзе выдалены толькі цэтлік, файл малюнка застанецца!
-[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING: This can affect more than one entry in history!]
 Вы ўпэўнены, што жадаеце выдаліць гэты захаваны аватар?\n Будуць выдалены запіс з гісторыі і файл малюнка.\n УВАГА: Гэта можа закрануць некалькі запісаў у гісторыі!
 [Delete avatar?]
 Выдаліць аватар?
-[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING: This can affect more than one shortcut!]
 Вы ўпэўнены, што жадаеце выдаліць гэты захаваны аватар?\n Будуць выдалены цэтлік і файл малюнка.\n УВАГА: Гэта можа закрануць некалькі цэтлікаў!
-[Avatar History is empty!]
+[Avatar history is empty!]
 Гісторыя аватараў пустая!
-[avatar path is null.]
-шлях да аватара пусты.
-[View Avatar History]
+[Avatar path is null.]
+Шлях да аватара пусты.
+[View avatar history]
 Паказаць гісторыю аватараў
-[Save Avatar for %s]
+[Save avatar for %s]
 Захаваць аватар %s
-[Save Avatar]
+[Save avatar]
 Захаваць аватар
-[AVH Debug]
-
-[Removed avatar, no avatar before... skipping]
-Аватара няма ці ён быў выдалены раней. Пропуск
-[Hashes are the same... skipping]
-Хэшы аднолькавыя. Пропуск
-[Avatar History: Unable to save avatar]
+[Avatar history: Unable to save avatar]
 Гісторыяя аватараў: Не атрымалася захаваць аватар
-[AVH Debug: File copied successfully]
-
 [Avatars]
 Аватары
+[Avatar History]
+Гісторыя аватараў
 [Contact changed avatar]
 Кантакт змяніў выяву
 [Contact removed avatar]
 Кантакт выдаліў выяву
 [History]
 Гісторыя
-[Avatar Overlay]
+[Avatar overlay]
 Адбітак аватара
 [Do nothing]
 Нічога не рабіць
@@ -145,7 +137,7 @@
 Паказаць гісторыю аватараў
 [Show contact history]
 Паказаць гісторыю кантакту
-[Test Contact]
+[Test contact]
 Тэставы кантакт
 [Test description]
 Тэставае апісанне
@@ -153,19 +145,15 @@
 Аватар
 [Popups]
 Усплывальныя вокны
-[Avatar Change]
+[Avatar change]
 Змена аватара
 [removed his/her avatar]
 выдаліў(ла) свой аватар
 [changed his/her avatar]
 змяніў(ла) свой аватар
-[Unknown Protocol]
+[Unknown protocol]
 Невядомы пратакол
 [Unknown UIN]
 Невядомы нумар
-[AVH Debug: GetOldStyleAvatarName]
-
-[Avatar History: Unable to create shortcut]
+[Avatar history: Unable to create shortcut]
 Гісторыя аватараў: Нельга стварыць цэтлік
-[AVH Debug: Shortcut created successfully]
-

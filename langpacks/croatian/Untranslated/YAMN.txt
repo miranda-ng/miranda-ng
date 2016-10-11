@@ -9,7 +9,6 @@
 [Name:]
 [Server:]
 [Port:]
-[APOP]
 [User Name:]
 [Password:]
 [Codepage:]

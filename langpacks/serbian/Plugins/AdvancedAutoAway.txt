@@ -160,7 +160,7 @@ Događaji
 
 [Show other messages]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Custom]
 Izmenjeno

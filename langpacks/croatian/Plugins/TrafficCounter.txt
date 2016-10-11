@@ -32,7 +32,7 @@
 
 [Popup timeout]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Custom]
 

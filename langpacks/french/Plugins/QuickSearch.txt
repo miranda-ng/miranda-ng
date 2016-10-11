@@ -107,8 +107,6 @@ Autre
 
 [String]
 
-[IP]
-
 [TimeStamp]
 Horodateur
 [Module:]

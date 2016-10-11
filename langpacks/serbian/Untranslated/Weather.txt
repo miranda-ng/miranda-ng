@@ -64,7 +64,7 @@
 [Right Click]
 [Popup Delay]
 [Delay]
-[From Popup plugin]
+[From popup plugin]
 [Permanent]
 [Popup Text]
 [Popup Title]

@@ -56,8 +56,8 @@ Tło
 Tekst
 [Timeout]
 Wyświetlaj
-[From Popup plugin]
-Z wtyczki Popup
+[From popup plugin]
+
 [Permanent]
 Stałe
 [Custom]

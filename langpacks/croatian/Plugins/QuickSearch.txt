@@ -107,8 +107,6 @@ drugo
 
 [String]
 
-[IP]
-
 [TimeStamp]
 vrijeme u satima minutama i sekundama
 [Module:]

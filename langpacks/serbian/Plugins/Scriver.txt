@@ -280,8 +280,6 @@ Pronađi reč
 
 [Google Translate]
 
-[Foodnetwork]
-
 [C&lear log]
 Izbriši &log
 [&Open link]
@@ -593,8 +591,6 @@ Telefoniram
 ** Novi kontakti **
 [** Unknown contacts **]
 ** Nepoznati kontakti **
-[Show balloon popup (unsupported system)]
-Prikaži balončiće (sistem nepodržan)
 [Message sessions]
 Celi razgovori
 [Typing notify]

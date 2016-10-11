@@ -335,10 +335,10 @@ Wyślij &obrazek
 Pliki obrazów (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Nie można zapisać obrazka na dysku.
-[Delete image from the list]
-Usuń obrazek z listy
 [Save image to disk]
 Zapisz obrazek na dysk
+[Delete image from the list]
+Usuń obrazek z listy
 [Image from %s]
 Obrazek od %s
 [Image for %s]

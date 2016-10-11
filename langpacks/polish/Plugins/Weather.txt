@@ -154,8 +154,8 @@ Wyświetlanie Popup
 Wyświetlaj
 [seconds]
 s
-[From Popup plugin]
-Z wtyczki Popup
+[From popup plugin]
+
 [Permanent]
 Stałe
 [Popup Text]

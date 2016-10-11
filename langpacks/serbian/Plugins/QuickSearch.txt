@@ -107,8 +107,6 @@ Ostalo
 
 [String]
 
-[IP]
-
 [TimeStamp]
 Vreme
 [Module:]

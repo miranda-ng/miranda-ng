@@ -37,6 +37,10 @@
 Толькі літарна-цыфравая кадоўка для перадачы
 [Go to Options -> Events -> File Transfers, "Receiving files" group for extra settings]
 Дад. налады: "Падзеі -> Перадача файлаў", "Прыём файлаў"
+[Receive file]
+
+[Send file]
+
 [File already exists. Overwrite?]
 Файл ужо існуе. Перазапісаць?
 [Couldn't open a file]

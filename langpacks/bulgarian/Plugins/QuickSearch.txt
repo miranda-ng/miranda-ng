@@ -81,8 +81,6 @@ WORD
 DWORD
 [String]
 STRING
-[IP]
-IP
 [TimeStamp]
 Времева марка
 [Module:]

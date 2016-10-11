@@ -255,10 +255,6 @@ Wildcard пошук па сетцы
 Паведамленні
 [Notices]
 Абвесткі
-[CTCP]
-
-[DCC]
-
 [Ignore mask (nick!user@host)]
 Маска ігнаравання (nick!user@host)
 [Network (*)]
@@ -311,6 +307,16 @@ CTCP %s запыт ад %s
 CTCP PING адказ ад %s: %u сек (з)
 [CTCP %s reply from %s: %s]
 CTCP %s адказ ад %s: %s
+[Owner]
+Уладальнік
+[Admin]
+
+[Op]
+
+[Halfop]
+
+[Voice]
+
 [Downloading list (%u%%) - %u channels]
 Загружаецца спіс (%u%%) - %u% чатаў
 [Downloading list - %u channels]
@@ -331,10 +337,10 @@ CTCP %s адказ ад %s: %s
 
 [Change nickname]
 Змяніць мянушку
-[IRC error]
-Памылка IRC
 [Unknown]
 Невядома
+[IRC error]
+Памылка IRC
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Увядзіце маску вузла (мянушка!імя_карыстача@вузел)\nУвага! Кантакты ў вашым спісе ніколі не ігнаруюцца
 [Ignore]
@@ -637,8 +643,6 @@ CTCP %s адказ пасланы для %s: %s
 Увядзіце імя чата для запрашэння
 [Invite to channel]
 Запрасіць у чат
-[NickServ]
-
 [Register nick]
 Зарэгістраваць мянушку
 [Auth nick]

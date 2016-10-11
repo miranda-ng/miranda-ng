@@ -28,8 +28,6 @@
 
 [Port:]
 
-[APOP]
-
 [User Name:]
 
 [Password:]

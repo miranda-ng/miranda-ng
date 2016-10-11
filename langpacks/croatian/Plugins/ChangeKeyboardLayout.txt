@@ -56,7 +56,7 @@ koristi zadane boje
 tekst
 [Timeout]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Permanent]
 

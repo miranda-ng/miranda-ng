@@ -160,8 +160,8 @@ Aperçu
 
 [Show other messages]
 
-[From Popup plugin]
-Comme le plugin Popup
+[From popup plugin]
+Comme le plugin popup
 [Custom]
 Défini
 [Permanent]

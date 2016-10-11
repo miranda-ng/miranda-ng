@@ -29,8 +29,6 @@ Pamiętaj ostatnią pozycję okna
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Uwaga: elementy menu są widoczne tylko wtedy, gdy co najmniej jedno konto jest prawidłowo ustawione. Sprawdź, czy masz w co najmniej jednym koncie wypełniony UIN.
 ;file \plugins\CSList\src\cslist.cpp
-[Status]
-Status
 [Add new item]
 Dodawanie
 [Add]

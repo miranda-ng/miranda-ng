@@ -32,7 +32,7 @@ Nalozi
 Vrati na standardno
 [Popup timeout]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Custom]
 Izmenjeno

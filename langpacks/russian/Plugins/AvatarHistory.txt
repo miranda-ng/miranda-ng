@@ -7,19 +7,17 @@
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 Сохраняет историю изменения аватаров контактов и показывает всплывающие окна.
-[Avatar List Popup]
-Всплывающие окна списка аватаров
-[Save As...]
+[Save as...]
 Сохранить как...
 [Delete this entry]
 Удалить эту запись
 [Delete this entry and the bitmap file]
 Удалить эту запись и файл изображения
-[Avatar History]
+[Avatar history]
 История аватаров
 [Static]
 Статический
-[Open Folder]
+[Open folder]
 Открыть папку
 [Store this user's old avatars in disk]
 Сохранять старые аватары на диске
@@ -67,7 +65,7 @@
 Удаление аватара:
 [Preview]
 Тест
-[Avatar History: Select how to store history avatars]
+[Avatar history: Select how to store history avatars]
 История аватаров: выберите, как хранить историю аватаров
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Выберите, каким образом сохранять историю аватаров контактов. Это настройку НЕЛЬЗЯ будет изменить в будущем, т.к. все предыдущие события истории будут потеряны.
@@ -83,17 +81,17 @@
 Сохранять историю в папке каждого контакта
 [History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
 История сохраняется в базе данных Miranda. Она может быть отображена встроенным просмотрщиком или плагином History++
-[All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
+[All avatars are stored as <Profile>\\Avatars History\\<Avatar hash>]
 Все аватары сохраняются как <Профиль>\\Avatars History\\<Хэш Аватара>
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash>]
 Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<Хэш Аватара>
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<Хэш аватара> и имеют ярлык в истории <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<Время>
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 История сохраняется только на диск. Её можно просмотреть встроенным просмотрщиком.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<Время> (одинаковые аватары могут быть сохранены несколько раз)
-[Avatar History for %s]
+[Avatar history for %s]
 История аватаров для %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Вы уверены, что хотите удалить эту запись из истории?\nБудет удалена только сама запись, файл изображения останется!
@@ -101,33 +99,35 @@
 Удалить записи изменений аватаров?
 [Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
 Вы уверены, что хотите удалить этот ярлык аватара?\nБудет удалён только ярлык, файл изображения останется!
-[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING: This can affect more than one entry in history!]
 Вы уверены, что хотите удалить этот сохранённый аватар?\nБудут удалены запись из истории и файл изображения.\nВНИМАНИЕ: Это может затронуть несколько записей в истории!
 [Delete avatar?]
 Удалить аватар?
-[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING: This can affect more than one shortcut!]
 Вы уверены, что хотите удалить этот сохранённый аватар?\nБудут удалены ярлык и файл изображения.\nВНИМАНИЕ: Это может затронуть несколько ярлыков!
-[Avatar History is empty!]
+[Avatar history is empty!]
 История аватаров пуста!
-[avatar path is null.]
+[Avatar path is null.]
 Не задан путь к аватарам.
-[View Avatar History]
+[View avatar history]
 Показать историю аватаров
-[Save Avatar for %s]
+[Save avatar for %s]
 Сохранить аватар для %s
-[Save Avatar]
+[Save avatar]
 Сохранить аватар
-[Avatar History: Unable to save avatar]
+[Avatar history: Unable to save avatar]
 История аватаров: невозможно сохранить аватар
 [Avatars]
 Аватары
+[Avatar History]
+История аватаров
 [Contact changed avatar]
 Контакт сменил аватар
 [Contact removed avatar]
 Контакт удалил аватар
 [History]
 История
-[Avatar Overlay]
+[Avatar overlay]
 Оверлей аватара
 [Do nothing]
 Ничего не делать
@@ -137,7 +137,7 @@
 Показать историю аватаров
 [Show contact history]
 Показать историю контакта
-[Test Contact]
+[Test contact]
 Тестовый контакт
 [Test description]
 Тестовое описание
@@ -145,15 +145,15 @@
 Аватар
 [Popups]
 Всплывающие окна
-[Avatar Change]
+[Avatar change]
 Смена аватара
 [removed his/her avatar]
 удалил(а) свой аватар
 [changed his/her avatar]
 сменил(а) свой аватар
-[Unknown Protocol]
+[Unknown protocol]
 Неизвестный протокол
 [Unknown UIN]
 Неизвестный номер
-[Avatar History: Unable to create shortcut]
+[Avatar history: Unable to create shortcut]
 История аватаров: невозможно создать ярлык

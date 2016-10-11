@@ -26,7 +26,7 @@
 [Proxy requires authorization]
 [Mail Notification]
 [Enable incoming mail notification]
-[&From Popup plugin]
+[&From popup plugin]
 [&Custom]
 [P&ermanent]
 [Tlen Password]

@@ -31,8 +31,8 @@ Usar colores de Windows
 Retardo
 [seconds]
 segundos
-[From Popup plugin]
-Desde Popup plugin
+[From popup plugin]
+Desde popup plugin
 [Permanent]
 Permanente
 [Variables]

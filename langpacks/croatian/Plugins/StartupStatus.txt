@@ -160,7 +160,7 @@ koristi zadane boje
 
 [Show other messages]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Custom]
 

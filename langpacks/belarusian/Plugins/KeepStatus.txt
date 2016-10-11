@@ -159,7 +159,7 @@ Dial-up (эксперыментальна)
 Паспяховае далучэнне
 [Show other messages]
 Іншыя
-[From Popup plugin]
+[From popup plugin]
 Па змаўчанні
 [Custom]
 Наладзіць

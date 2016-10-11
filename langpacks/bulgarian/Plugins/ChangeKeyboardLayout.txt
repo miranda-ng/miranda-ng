@@ -55,8 +55,6 @@
 Текст
 [Timeout]
 Времетраене
-[From Popup plugin]
-От приставката Popup
 [Permanent]
 Постоянно
 [Custom]

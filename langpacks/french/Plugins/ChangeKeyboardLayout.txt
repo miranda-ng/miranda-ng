@@ -56,8 +56,8 @@ Fond
 Texte
 [Timeout]
 Délai du popup
-[From Popup plugin]
-Comme le plugin Popup
+[From popup plugin]
+Comme le plugin popup
 [Permanent]
 
 [Custom]

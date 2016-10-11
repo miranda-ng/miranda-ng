@@ -27,8 +27,6 @@
 Памятаць апошняе становішча вакна
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Нататка: Пункты меню адлюстроўваюцца толькі пры наяўнасці хоць бы аднаго правільна ўсталяванага ўліковага запісу ICQ. Праверце, калі ў вас ёсць прынамсі адзін Конт з UIN.
-[Status]
-Статус
 [Add new item]
 Дадаць новы пункт
 [Add]

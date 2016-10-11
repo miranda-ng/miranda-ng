@@ -31,8 +31,6 @@
 Стандарт
 [Popup timeout]
 Popup времетраене
-[From Popup plugin]
-От приставката Popup
 [Custom]
 Избор
 [Test]

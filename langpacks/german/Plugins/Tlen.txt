@@ -86,7 +86,7 @@ Hintergrund
 Text
 [Delay]
 Verzögerung
-[&From Popup plugin]
+[&From popup plugin]
 Vom Popup-Plugin
 [&Custom]
 Benutzerdefiniert

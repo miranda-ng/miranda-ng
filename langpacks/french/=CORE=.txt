@@ -1841,8 +1841,6 @@ Historique récent
 ** Nouveaux contacts **
 [** Unknown contacts **]
 ** Contacts inconnus **
-[Show balloon popup (unsupported system)]
-Afficher les popups (système non supporté)
 [Messaging log]
 Fenêtre de dialogue
 [Typing notify]
@@ -2173,7 +2171,14 @@ Pas de support de profil installé !
 Miranda ne peut pas ouvrir ce profil
 [Miranda can't understand that profile]
 Miranda ne comprend pas ce profil !
-;file \src\mir_app\src\dbini.cpp
+;file \src\mir_app\src\db_events.cpp
+[Authorization request from %s%s: %s]
+Demande d'autorisation de %s%s : %s
+[You were added by %s%s]
+Vous avez été ajouté par %s%s
+[Contacts: ]
+Contacts :\s
+;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2188,13 +2193,6 @@ Ce changement est connu pour être potentiellement dangereux.
 
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 
-;file \src\mir_app\src\dbutils.cpp
-[Authorization request from %s%s: %s]
-Demande d'autorisation de %s%s : %s
-[You were added by %s%s]
-Vous avez été ajouté par %s%s
-[Contacts: ]
-Contacts :\s
 ;file \src\mir_app\src\DefaultExtraIcons.cpp
 [Chat activity]
 

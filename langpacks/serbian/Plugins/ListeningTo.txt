@@ -95,11 +95,9 @@ sekundi
 
 [Listening to (disabled)]
 
-[ListeningTo]
+[Send to %s]
 
 [Listening to music]
-
-[Send to %s]
 
 [Send to all protocols]
 
@@ -134,6 +132,8 @@ sekundi
 [Disable ListeningTo (to all protocols)]
 
 [Enable ListeningTo (to all protocols)]
+
+[ListeningTo]
 
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]

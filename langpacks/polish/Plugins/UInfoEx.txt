@@ -136,8 +136,8 @@ Użyj kolorów Windows
 Użyj domyślnych kolorów
 [Delay]
 Wyświetlaj
-[From Popup plugin]
-Z wtyczki Popup
+[From popup plugin]
+
 [Custom]
 Niestandardowe
 [Permanent]
@@ -605,6 +605,10 @@ Ogólne
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Rozszerzone dane kontaktu
+[Dialogs]
+Okna
+[Buttons]
+Przyciski
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Eksportuj/importuj kontakt

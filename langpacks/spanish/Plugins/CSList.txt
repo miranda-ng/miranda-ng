@@ -7,8 +7,6 @@
 ;============================================================
 [Cancel]
 Cancelar
-[Status]
-Estado
 [Add]
 Añadir
 [Modify]

@@ -1,5 +1,2 @@
-﻿[Avatar List Popup]
-[avatar path is null.]
-[Removed avatar, no avatar before... skipping]
-[Hashes are the same... skipping]
-[AVH Debug: GetOldStyleAvatarName]
+﻿[From popup plugin]
+[Avatar path is null.]

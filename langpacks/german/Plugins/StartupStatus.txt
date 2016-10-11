@@ -160,7 +160,7 @@ Bei Versuch des Neuverbindens
 Wenn Wiederverbinden beendet
 [Show other messages]
 Andere Meldungen anzeigen
-[From Popup plugin]
+[From popup plugin]
 Vom Popup-Plugin
 [Custom]
 Benutzerdef.

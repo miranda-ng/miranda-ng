@@ -1477,8 +1477,6 @@ Google Hangouts
 ЖЖ
 [Odnoklassniki]
 Однокласники
-[Yandex]
-Яндекс
 [Some changes will take effect the next time you connect to the Jabber network.]
 Деякі зміни наберуть чинності при наступному вході в мережу Jabber.
 [Set New Password for %s@%S]

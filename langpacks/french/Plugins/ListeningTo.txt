@@ -95,12 +95,10 @@ Si rien n'est en lecture, remplacer %listening% par :
 
 [Listening to (disabled)]
 
-[ListeningTo]
-
-[Listening to music]
-
 [Send to %s]
 Envoyer à %s
+[Listening to music]
+
 [Send to all protocols]
 Envoyer à tous les protocoles
 [Listening info]
@@ -134,6 +132,8 @@ nom du lecteur
 [Disable ListeningTo (to all protocols)]
 
 [Enable ListeningTo (to all protocols)]
+
+[ListeningTo]
 
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]

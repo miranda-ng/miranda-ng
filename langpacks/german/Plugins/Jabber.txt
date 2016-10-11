@@ -166,8 +166,6 @@ Wohnort
 Arbeit
 [Internet]
 Internet
-[X400]
-X400
 [Jabber vCard: Add Phone Number]
 Jabber-vCard: Telefonnummer hinzufügen
 [Phone number:]
@@ -184,14 +182,8 @@ Text/Nachrichten
 Mobiltelefon
 [Video]
 Video
-[BBS]
-BBS
 [Modem]
 Modem
-[ISDN]
-ISDN
-[PCS]
-PCS
 [Load]
 Laden
 [Save]
@@ -540,6 +532,8 @@ Unterstützt Jingle
 Unterstützt Kontaktlistenaustausch
 [Supports direct chat invitations (XEP-0249)]
 Unterstützt direkte Chateinladungen (XEP-0249)
+[Receives information about OMEMO devices]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -1450,6 +1444,8 @@ Informationen über das Betriebssystem bei Versionsanfragen anzeigen
 Nur "In-Band"-Dateitransfers akzeptieren (enthüllt nicht die eigene IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP-Authentifizierungs-Anfragen akzeptieren (XEP-0070)
+[Use OMEMO encryption for messages if possible (placeholder)]
+
 [General]
 Allgemein
 [Autoaccept multiuser chat invitations]
@@ -1514,8 +1510,6 @@ League Of Legends (Ozeanien)
 League Of Legends (US)
 [Odnoklassniki]
 Odnoklassniki
-[Yandex]
-Yandex
 [Some changes will take effect the next time you connect to the Jabber network.]
 Einige Änderungen werden sich erst bei Ihrer nächsten Verbindung mit Jabber auswirken.
 ;file \protocols\JabberG\src\jabber_password.cpp

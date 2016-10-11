@@ -136,7 +136,7 @@ Boje operativnog sistema
 Standardne boje
 [Delay]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Custom]
 Izmenjeno
@@ -604,6 +604,10 @@ Pretraga
 
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
+
+[Dialogs]
+
+[Buttons]
 
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]

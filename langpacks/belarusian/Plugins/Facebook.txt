@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.0
+;  Version: 0.3.0.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -55,7 +55,7 @@ URL:
 Абвяшчаць пра тыпы навін:
 [Don't show advertising posts]
 
-[Show friendships changes (when someone remove/approve you)]
+[Show friendships changes (when someone removes/approves you)]
 
 [Show real-time friends activity (ticker feed)]
 
@@ -99,9 +99,9 @@ URL:
 
 [Do not open chat windows on creation]
 
-[History synchronization]
+[Automatically join active chats that exist in contact list]
 
-[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+[History synchronization]
 
 [Load last messages on opening message window (EXPERIMENTAL)]
 
@@ -115,12 +115,14 @@ URL:
 Адправіць SMS
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
+[Former]
+
 [Myself]
+
+[Friend]
 
 [User]
 Карыстач
-[Friend]
-
 [&Invite user...]
 &Запрасіць кантакт...
 [&Leave chat session]
@@ -142,6 +144,12 @@ URL:
 [You entered wrong verification code. Try it again.]
 
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+
+[Check last login]
+
+[Do you recognize this activity?]
+
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
 
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 
@@ -233,6 +241,8 @@ URL:
 фатаграфіі
 [a photo]
 фатаграфію
+[a video]
+
 [a GIF]
 
 [User sent %s:]
@@ -249,6 +259,14 @@ URL:
 Кантакт даданы ў спіс на серверы.
 [Contact is no longer on server-list.]
 Кантакт выдалены з спісу сервера.
+[Loading history started.]
+
+[Loading messages: %d/%d]
+
+[Loading history completed.]
+
+[<attachment without text>]
+
 [On this day]
 
 [%s server connection]
@@ -277,7 +295,11 @@ Facebook ID павінна быць лічбавым значэннем.
 
 [Loading notifications...]
 
-[Loading what happened on this day...]
+[Loading memories...]
+
+[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+
+[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
 
 [Do you want to cancel your friendship with '%s'?]
 Хочаце адмяніць сяброўства з '%s'?
@@ -291,7 +313,7 @@ Facebook ID павінна быць лічбавым значэннем.
 
 [Real-time friends activity]
 
-["On this day" posts]
+[Memories]
 
 [Visit profile]
 Профіль
@@ -308,8 +330,6 @@ Facebook ID павінна быць лічбавым значэннем.
 [Friendship event]
 
 [Ticker event]
-
-["On this day" event]
 
 [Message read: %s by %s]
 Паведамленне прачытана ў: %s карытальнікам %s
@@ -347,6 +367,8 @@ Facebook ID павінна быць лічбавым значэннем.
 Дэталі сяброўства
 [Visit conversation]
 Гутарка на сайце
+[Load history]
+
 [Cancel friendship]
 Выдаліць з сяброў
 [Cancel friendship request]
@@ -363,7 +385,7 @@ Facebook ID павінна быць лічбавым значэннем.
 Праверыць запыты сяброўства
 [Check newsfeeds]
 Праверыць навіны
-[Check "On this day" posts]
+[Check memories]
 
 [Check notifications]
 

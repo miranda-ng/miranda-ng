@@ -28,8 +28,6 @@ Name:
 Server:
 [Port:]
 Port:
-[APOP]
-APOP
 [User Name:]
 Benutzer:
 [Password:]

@@ -31,7 +31,7 @@
 Скинути
 [Popup timeout]
 Тривалість вікна
-[From Popup plugin]
+[From popup plugin]
 З плагіна сплив. вікон
 [Custom]
 Налаштувати

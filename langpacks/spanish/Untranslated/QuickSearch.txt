@@ -37,7 +37,6 @@
 [Signed]
 [As hex]
 [String]
-[IP]
 [Module:]
 [Setting:]
 [Param]

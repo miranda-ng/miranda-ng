@@ -154,8 +154,8 @@ Délai des popups
 
 [seconds]
 secondes
-[From Popup plugin]
-Comme le plugin Popup
+[From popup plugin]
+Comme le plugin popup
 [Permanent]
 
 [Popup Text]

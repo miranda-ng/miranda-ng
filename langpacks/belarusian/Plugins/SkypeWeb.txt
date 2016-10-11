@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.2.2
+;  Version: 0.12.2.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -61,8 +61,8 @@
 &Запрасіць кантакт...
 [&Leave chat session]
 &Пакінуць сеанс
-[&Change topic]
-&Змяніць тэму
+[&Change topic...]
+&Змяніць тэму...
 [Kick &user]
 Выгнаць карыстальніка
 [Set &role]
@@ -71,7 +71,7 @@
 &Адмін
 [&User]
 &Карыстач
-[Change nick]
+[Change nick...]
 
 [Enter new chatroom topic]
 Увядзіце новую тэму чату

@@ -86,7 +86,7 @@ Pozadina
 Tekst
 [Delay]
 
-[&From Popup plugin]
+[&From popup plugin]
 
 [&Custom]
 

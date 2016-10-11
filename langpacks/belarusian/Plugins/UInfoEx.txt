@@ -135,7 +135,7 @@
 Колеры па змаўчанні
 [Delay]
 Затрымка
-[From Popup plugin]
+[From popup plugin]
 Па змаўчанні
 [Custom]
 Наладзіць
@@ -593,6 +593,10 @@ E-Mail
 Галоўны
 [Extended user info]
 Асабістыя дадзеныя
+[Dialogs]
+
+[Buttons]
+
 [Export/import contact]
 Экс-/Імпарт кантакт
 [User &details]

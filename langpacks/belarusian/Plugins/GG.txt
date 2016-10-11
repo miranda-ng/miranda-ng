@@ -325,10 +325,10 @@ HTTP невядомая памылка
 Выявы (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Малюнак не можа быць запісана на дыск.
-[Delete image from the list]
-Выдаліць выяву з спісу
 [Save image to disk]
 Захаваць выяву на дыск
+[Delete image from the list]
+Выдаліць выяву з спісу
 [Image from %s]
 Малюнак ад %s
 [Image for %s]

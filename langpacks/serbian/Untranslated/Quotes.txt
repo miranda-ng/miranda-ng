@@ -29,7 +29,7 @@
 [Colors]
 [Use user-defined colors]
 [Delay]
-[From Popup plugin]
+[From popup plugin]
 [Permanent]
 [Do not add to popup's history]
 [Preview]

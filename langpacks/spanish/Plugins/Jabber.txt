@@ -165,8 +165,6 @@ Inicio
 Trabajo
 [Internet]
 Internet
-[X400]
-X400
 [Jabber vCard: Add Phone Number]
 vCard Jabber: Agregar número de teléfono
 [Phone number:]
@@ -183,14 +181,8 @@ Texto/Mensajes
 Celular
 [Video]
 Vídeo
-[BBS]
-BBS
 [Modem]
 Módem
-[ISDN]
-ISDN
-[PCS]
-PCS
 [Load]
 Cargar
 [Save]

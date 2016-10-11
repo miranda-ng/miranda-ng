@@ -62,7 +62,7 @@
 [Show when a connection attempt is made]
 [Show when reconnection has finished]
 [Show other messages]
-[From Popup plugin]
+[From popup plugin]
 [Permanent]
 [Show additional information in popups]
 [Use Miranda's message setting]

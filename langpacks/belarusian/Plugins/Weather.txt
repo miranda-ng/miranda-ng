@@ -153,7 +153,7 @@
 Затрымка
 [seconds]
 секунд(ы)
-[From Popup plugin]
+[From popup plugin]
 Па змаўчанні
 [Permanent]
 Пастаянна

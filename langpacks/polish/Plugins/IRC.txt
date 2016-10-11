@@ -256,10 +256,6 @@ Zapytania
 Wiadomości
 [Notices]
 Powiadomienia
-[CTCP]
-CTCP
-[DCC]
-DCC
 [Ignore mask (nick!user@host)]
 Ignoruj maskę (nazwa!użytkownik@host)
 [Network (*)]
@@ -314,6 +310,16 @@ CTCP %s zażądane przez %s
 CTCP PING odpowiedź od %s: %u s
 [CTCP %s reply from %s: %s]
 CTCP %s odpowiedź od %s: %s
+[Owner]
+Właściciel
+[Admin]
+Admin
+[Op]
+
+[Halfop]
+
+[Voice]
+Głos
 [Downloading list (%u%%) - %u channels]
 Pobieranie listy (%u%%) - %u kanałów
 [Downloading list - %u channels]
@@ -334,10 +340,10 @@ Pobrano: %u kanałów
 dostępny od %s, bezczynny %s
 [Change nickname]
 Zmień nick
-[IRC error]
-Błąd IRC
 [Unknown]
 Nieznany
+[IRC error]
+Błąd IRC
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Proszę podać maskę hosta (nazwa!użytkownik@host)\nUWAGA! Kontakty na liście nigdy nie są ignorowane
 [Ignore]
@@ -646,8 +652,6 @@ Proszę wpisać tekst powiadomienia
 Proszę wpisz nazwę kanału, do którego zaprosić
 [Invite to channel]
 Zaproś na kanał
-[NickServ]
-NickServ
 [Register nick]
 Zarejestruj nick
 [Auth nick]

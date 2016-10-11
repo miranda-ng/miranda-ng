@@ -93,12 +93,10 @@ foobar2000 (встановіть плагін вручну)
 Музика (ввімкнено)
 [Listening to (disabled)]
 Музика (вимкнено)
-[ListeningTo]
-Музика в статусі
-[Listening to music]
-Слухаю музику
 [Send to %s]
 Відправляти в %s
+[Listening to music]
+Слухаю музику
 [Send to all protocols]
 Відправляти всім протоколам
 [Listening info]
@@ -133,6 +131,8 @@ foobar2000 (встановіть плагін вручну)
 Вимкнути "Слухаю" (для всіх протоколів)
 [Enable ListeningTo (to all protocols)]
 Увімкнути "Слухаю" (для всіх протоколів)
+[ListeningTo]
+Музика в статусі
 [<Unknown>]
 <Невідомо>
 [<Nothing is playing now>]

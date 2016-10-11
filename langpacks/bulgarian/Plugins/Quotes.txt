@@ -77,8 +77,6 @@ Popup настройки...
 Цвят на текста
 [Delay]
 Закъснение
-[From Popup plugin]
-От приставката Popup
 [Custom]
 Избор
 [Permanent]

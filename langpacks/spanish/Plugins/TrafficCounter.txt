@@ -15,8 +15,8 @@ minutos
 Color del fondo:
 [Reset to default]
 Restaurar por defecto
-[From Popup plugin]
-Desde Popup plugin
+[From popup plugin]
+Desde popup plugin
 [Custom]
 Personalizado
 [Test]

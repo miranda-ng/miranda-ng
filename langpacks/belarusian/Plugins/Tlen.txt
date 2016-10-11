@@ -85,7 +85,7 @@ P2P далучэнні
 Тэкст
 [Delay]
 Затрымка
-[&From Popup plugin]
+[&From popup plugin]
 Устаноўкі Popup
 [&Custom]
 Наладзіць

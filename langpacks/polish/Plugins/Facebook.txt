@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.0
+;  Version: 0.3.0.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -56,7 +56,7 @@ Preferuj prawdziwe imiona niż nicki
 Powiadamiaj o następujących typach aktualności:
 [Don't show advertising posts]
 Nie pokazuj proponowanych postów
-[Show friendships changes (when someone remove/approve you)]
+[Show friendships changes (when someone removes/approves you)]
 
 [Show real-time friends activity (ticker feed)]
 
@@ -100,10 +100,10 @@ Czaty grupowe
 Włącz wsparcie dla czatów grupowych
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
+[Automatically join active chats that exist in contact list]
+
 [History synchronization]
 Synchronizacja historii
-[Load last messages (24 hours old) on login (EXPERIMENTAL)]
-Załaduj ostatnie wiadomości (ostatnie 24 godziny)
 [Load last messages on opening message window (EXPERIMENTAL)]
 Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
 [Number of messages to load:]
@@ -118,12 +118,14 @@ Wyślij SMS
 [Enter the text you see]
 Wprowadź tekst, który widzisz
 ;file \protocols\FacebookRM\src\chat.cpp
+[Former]
+
 [Myself]
 Ja
-[User]
-Użytkownik
 [Friend]
 Znajomy
+[User]
+Użytkownik
 [&Invite user...]
 &Zaproś użytkownika
 [&Leave chat session]
@@ -147,6 +149,12 @@ Błąd logowania: Nieprawidłowe żądanie.
 
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Błąd logowania: twoje konto jest tymczasowo zablokowane. Musisz potwierdzić to urządzenie w przeglądarce.
+[Check last login]
+
+[Do you recognize this activity?]
+
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
+
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 Błąd logowania: Facebook uważa, że Twój komputer jest zainfekowany. Aby to naprawić, zaloguj się w trybie prywatnym swojej przeglądarki i uruchom ich kontrolę antywirusową.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
@@ -242,6 +250,8 @@ plik
 zdjęcia
 [a photo]
 zdjęcie
+[a video]
+
 [a GIF]
 
 [User sent %s:]
@@ -260,6 +270,14 @@ Nie można wysłać wiadomości, gdy jesteś offline.
 Kontakt powrócił na listę na serwerze.
 [Contact is no longer on server-list.]
 Kontakt nie jest już na liście serwera.
+[Loading history started.]
+
+[Loading messages: %d/%d]
+
+[Loading history completed.]
+
+[<attachment without text>]
+
 [On this day]
 Tego dnia
 ;file \protocols\FacebookRM\src\proto.cpp
@@ -289,7 +307,11 @@ Własna tablica
 
 [Loading notifications...]
 
-[Loading what happened on this day...]
+[Loading memories...]
+
+[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+
+[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
 
 [Do you want to cancel your friendship with '%s'?]
 Czy chcesz anulować znajomość z "%s"?
@@ -303,7 +325,7 @@ Inne zdarzenia
 Zdarzenia znajomości
 [Real-time friends activity]
 
-["On this day" posts]
+[Memories]
 
 [Visit profile]
 Odwiedź profil
@@ -321,8 +343,6 @@ Inne zdarzenie
 Zdarzenie Znajomości
 [Ticker event]
 Wydarzenie paska
-["On this day" event]
-
 [Message read: %s by %s]
 Wiadomość odczytana: %s przez %s
 [Message read: %s]
@@ -360,6 +380,8 @@ Przykro mi
 Sprawdź dane znajomości
 [Visit conversation]
 Przejdź do historii rozmowy
+[Load history]
+
 [Cancel friendship]
 Cofnij znajomość
 [Cancel friendship request]
@@ -376,7 +398,7 @@ Usługi...
 Sprawdź zaproszenia do grona znajomych
 [Check newsfeeds]
 Sprawdź aktualności
-[Check "On this day" posts]
+[Check memories]
 
 [Check notifications]
 

@@ -153,8 +153,6 @@ Popup времетраене
 Закъснение
 [seconds]
 секунди
-[From Popup plugin]
-От приставката Popup
 [Permanent]
 Постоянно
 [Popup Text]

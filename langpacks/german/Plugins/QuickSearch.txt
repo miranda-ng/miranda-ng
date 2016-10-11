@@ -107,8 +107,6 @@ Mit Vorzeichen
 Als Hex
 [String]
 String
-[IP]
-IP
 [TimeStamp]
 Zeitstempel
 [Module:]

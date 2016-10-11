@@ -3,7 +3,6 @@
 [Version:]
 [Account]
 [Server:]
-[APOP]
 [User Name:]
 [Codepage:]
 [Disable STLS]

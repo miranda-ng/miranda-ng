@@ -145,8 +145,6 @@ Dial-up (експериментално)
 Показване след приключване на повторно свързване
 [Show other messages]
 Показване на други съобщения
-[From Popup plugin]
-От приставката Popup
 [Custom]
 Избор
 [Permanent]

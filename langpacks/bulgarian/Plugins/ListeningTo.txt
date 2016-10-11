@@ -93,12 +93,10 @@ foobar2000 (необходимо е да инсталирате компонен
 ListeningTo (включена)
 [Listening to (disabled)]
 ListeningTo (изключена)
-[ListeningTo]
-ListeningTo
-[Listening to music]
-Слуша музика
 [Send to %s]
 Изпращане до %s
+[Listening to music]
+Слуша музика
 [Send to all protocols]
 Изпращане до всеки акаунт
 [Listening info]
@@ -133,6 +131,8 @@ ListeningTo
 Изключи ListeningTo за всички протоколи
 [Enable ListeningTo (to all protocols)]
 Включи ListeningTo за всички протоколи
+[ListeningTo]
+ListeningTo
 [<Unknown>]
 <Неизвестно>
 [<Nothing is playing now>]

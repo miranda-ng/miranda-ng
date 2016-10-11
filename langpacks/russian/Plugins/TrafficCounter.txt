@@ -31,7 +31,7 @@
 Сброс на умолчания
 [Popup timeout]
 Длительность окна
-[From Popup plugin]
+[From popup plugin]
 Из плагина вспл. окон
 [Custom]
 Настроить

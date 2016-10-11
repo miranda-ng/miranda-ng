@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.4
+;  Version: 0.9.1.5
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -406,8 +406,8 @@ Runde Ecken
 Nichtlayermodus
 [Disable skin engine]
 Skinengine deaktivieren
-[Enable Aero Glass (Vista+)]
-Aero Glass aktivieren (ab Windows Vista)
+[Enable Aero Glass (Vista, Win 7)]
+Aero Glass aktivieren (ab Windows Vista, 7))
 [Order of items:]
 Reihenfolge der Elemente:
 [Minimum row height:]

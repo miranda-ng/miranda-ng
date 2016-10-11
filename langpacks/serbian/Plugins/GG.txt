@@ -335,9 +335,9 @@ Spisak kontakata
 
 [Image cannot be written to disk.]
 
-[Delete image from the list]
-
 [Save image to disk]
+
+[Delete image from the list]
 
 [Image from %s]
 

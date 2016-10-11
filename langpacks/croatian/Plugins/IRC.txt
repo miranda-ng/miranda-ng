@@ -256,10 +256,6 @@ isključen
 poruke
 [Notices]
 obavještava
-[CTCP]
-
-[DCC]
-
 [Ignore mask (nick!user@host)]
 
 [Network (*)]
@@ -314,6 +310,16 @@ obavještava
 
 [CTCP %s reply from %s: %s]
 
+[Owner]
+
+[Admin]
+
+[Op]
+
+[Halfop]
+
+[Voice]
+
 [Downloading list (%u%%) - %u channels]
 
 [Downloading list - %u channels]
@@ -334,9 +340,9 @@ obavještava
 
 [Change nickname]
 
-[IRC error]
-
 [Unknown]
+
+[IRC error]
 
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 
@@ -645,8 +651,6 @@ obavještava
 [Please enter the channel name to invite to]
 
 [Invite to channel]
-
-[NickServ]
 
 [Register nick]
 

@@ -257,10 +257,10 @@ Gadu-Gadu номер
 Изображения (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Изображението не може да бъде записано на диска.
-[Delete image from the list]
-Изтриване на изображението от списъка
 [Save image to disk]
 Запиши изображението
+[Delete image from the list]
+Изтриване на изображението от списъка
 [Image from %s]
 Изображение от %s
 [Image for %s]

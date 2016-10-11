@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.1
+;  Version: 0.1.2.6
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -50,6 +50,8 @@ Inne
 Przetwarzaj naklejki jako uśmieszki
 [Shorten links for audio attachments]
 Skracaj linki do załączników audio
+[Use non-standard popups for news and event notifications]
+Użyj niestandardowych popupów dla powiadomień o aktualnościach i zdarzeniach
 [News and event notifications]
 Powiadomienia o aktualnościach i zdarzeniach
 [WARNING: Causes excessive network traffic!!!]
@@ -126,8 +128,10 @@ Wymuś status niewidoczny po wykryciu aktywności użytkownika
 Czas wygasania niewidoczności (min):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Niestandardowe kodowanie linków dla wysyłanych wiadomości (mniejsze obciążenie)
-[Use non-standard popups for news and event notifications]
-Użyj niestandardowych popupów dla powiadomień o aktualnościach i zdarzeniach
+[Send VK-objects links as attachments]
+
+[and load sent attachments]
+
 [When I ban user...]
 Gdy banuję użytkownika...
 [Report abuse]
@@ -229,7 +233,7 @@ VKontakte
 Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 [Error]
 Błąd
-[You must validate your account before use VK in Miranda NG]
+[You have to validate your account before you can use VK in Miranda NG]
 Musisz aktywować swoje konto zanim użyjesz VK w Mirandzie NG
 [Error %d. Data will not be sent or received.]
 Błąd %d. Dane nie zostaną wysłane lub odebrane.
@@ -237,6 +241,10 @@ Błąd %d. Dane nie zostaną wysłane lub odebrane.
 Brakuje jednego z określonych parametrów lub jest on nieprawidłowy
 [Access to adding post denied]
 Odmówiono dostępu do dodawania postów
+[Enter the missing digits between %s and %s of the phone number linked to your account]
+
+[Attention!]
+Uwaga!
 [Enter confirmation code]
 Wprowadź kod weryfikacyjny
 [Enter new nickname]
@@ -363,8 +371,8 @@ Dane &kontaktu
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
-[Wall message for]
-Post na tablicy dla
+[Wall message for %s]
+Post na tablicy dla %s
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 Nowe aktualności
@@ -428,20 +436,18 @@ Wystąpił nieznany błąd
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokalna historia kontaktu zostanie usunięta i ponownie załadowana z serwera.\nTo może zająć dużo czasu.\nCzy chcesz kontynuować?
-[Attention!]
-Uwaga!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
 
-[Error loading message history from server]
-Błąd w trakcie pobierania historii wiadomości z serwera
-[Loading messages for all contacts is completed]
-Zakończono pobieranie wiadomości dla wszystkich kontaktów
+[Error loading message history from server.]
+Błąd w trakcie pobierania historii wiadomości z serwera.
+[Loading messages for all contacts is completed.]
+Zakończono pobieranie wiadomości dla wszystkich kontaktów.
 [Loading history]
 Pobieranie historii
-[for]
-przez
-[Loading messages for %s is completed]
-Zakończono pobieranie wiadomości dla %s
+[Error loading message history for %s from server.]
+
+[Loading messages for %s is completed.]
+Zakończono pobieranie wiadomości dla %s.
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Protokoły
@@ -541,6 +547,8 @@ Wprowadź nowy opis
 [I\'m back]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Service message]
+
 [Interests]
 Zainteresowania
 [Activities]

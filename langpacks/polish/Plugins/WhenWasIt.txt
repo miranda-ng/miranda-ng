@@ -223,6 +223,8 @@ Eksportowanie urodzin zakończone
 Nie udało się otworzyć pliku, z którego mają zostać zaimportowane urodziny
 [Error]
 Błąd
+[Could not find UID '%s [%S]' in current database, skipping]
+Nie można odnaleźć UID "%s [%S]" w aktualnej bazie danych, pomijanie
 [Warning]
 Ostrzeżenie
 [Could not open file to export birthdays]
@@ -233,9 +235,6 @@ Proszę nie edytować tego pliku ręcznie i zamiast tego użyć opcji eksportowa
 Ostrzeżenie! Proszę nie mieszać wyeksportowanych plików urodzin o kodowaniu Ansi i Unicode. Powinno się używać tej samej wersji (Ansi/Unicode) WhenWasIt, która została użyta do eksportu informacji.
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 Ten plik został wyeksportowany przy użyciu wersji Unicode WhenWasIt. Proszę używać tylko wersji Unicode do importu urodzin.
-;file \plugins\WhenWasIt\src\services.h
-[Could not find UID '%s [%S]' in current database, skipping]
-Nie można odnaleźć UID "%s [%S]" w aktualnej bazie danych, pomijanie
 ;file \plugins\WhenWasIt\src\WhenWasIt.cpp
 [Birthdays (When Was It)]
 Urodziny (When Was It)

@@ -95,12 +95,10 @@ Wenn nichts spielt, ersetze %listening% durch:
 Hört gerade (aktiviert)
 [Listening to (disabled)]
 Hört gerade (deaktiviert)
-[ListeningTo]
-ListeningTo
-[Listening to music]
-Musik hören
 [Send to %s]
 In %s senden
+[Listening to music]
+Musik hören
 [Send to all protocols]
 In allen Protokollen senden
 [Listening info]
@@ -135,6 +133,8 @@ Hört-gerade-Informationen aktivieren/deaktivieren (für alle Protokolle)
 ListeningTo deaktivieren (in alle Protokolle)
 [Enable ListeningTo (to all protocols)]
 ListeningTo aktivieren (in alle Protokolle)
+[ListeningTo]
+ListeningTo
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <Unbekannt>

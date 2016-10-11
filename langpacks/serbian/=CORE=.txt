@@ -1841,8 +1841,6 @@ Log poruke
 ** Novi kontakti **
 [** Unknown contacts **]
 ** Nepoznati kontakti **
-[Show balloon popup (unsupported system)]
-Prikaži balončiće (sistem nepodržan)
 [Messaging log]
 Log razgovora
 [Typing notify]
@@ -2173,7 +2171,14 @@ Miranda nema podršku za (taj) profil!
 Miranda ne može da otvori taj profil
 [Miranda can't understand that profile]
 Miranda ne razume sadržaj datog profila
-;file \src\mir_app\src\dbini.cpp
+;file \src\mir_app\src\db_events.cpp
+[Authorization request from %s%s: %s]
+Zahtev za autorizaciju od %s%s: %s
+[You were added by %s%s]
+%s%s vas dodaje na spisak kontakata.
+[Contacts: ]
+Kontakti:
+;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Sistem(i) zaštite za prevenciju štetnih promena su pokrenuti i obaveštavaju korisnika o svakoj promeni.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2188,13 +2193,6 @@ Ova izmena ume da bude vrlo štetna.
 Ova izmena može biti štetna.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Nedozvoljen tip podešavanja za: '%s'. Prvi znak svake vrednosti mora biti b, w, d, l, s, e, u, g, h ili n.
-;file \src\mir_app\src\dbutils.cpp
-[Authorization request from %s%s: %s]
-Zahtev za autorizaciju od %s%s: %s
-[You were added by %s%s]
-%s%s vas dodaje na spisak kontakata.
-[Contacts: ]
-Kontakti:
 ;file \src\mir_app\src\DefaultExtraIcons.cpp
 [Chat activity]
 Aktivnosti razgovora

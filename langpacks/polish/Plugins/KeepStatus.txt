@@ -160,8 +160,8 @@ Pokaż w trakcie próby połączenia
 Pokaż po ponownym połączeniu
 [Show other messages]
 Pokaż inne wiadomości
-[From Popup plugin]
-Z wtyczki Popup
+[From popup plugin]
+
 [Custom]
 Niestandardowe
 [Permanent]

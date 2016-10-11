@@ -256,10 +256,6 @@ Nema
 Poruke
 [Notices]
 naznake
-[CTCP]
-
-[DCC]
-
 [Ignore mask (nick!user@host)]
 
 [Network (*)]
@@ -314,6 +310,16 @@ naznake
 
 [CTCP %s reply from %s: %s]
 
+[Owner]
+Vlasnik
+[Admin]
+
+[Op]
+
+[Halfop]
+
+[Voice]
+
 [Downloading list (%u%%) - %u channels]
 
 [Downloading list - %u channels]
@@ -334,10 +340,10 @@ naznake
 
 [Change nickname]
 
-[IRC error]
-
 [Unknown]
 Nepoznati
+[IRC error]
+
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 
 [Ignore]
@@ -645,8 +651,6 @@ Napredno
 [Please enter the channel name to invite to]
 
 [Invite to channel]
-
-[NickServ]
 
 [Register nick]
 

@@ -1,4 +1,6 @@
-﻿[League Of Legends (EU Nordic)]
+﻿[Receives information about OMEMO devices]
+[Use OMEMO encryption for messages if possible (placeholder)]
+[League Of Legends (EU Nordic)]
 [League Of Legends (EU West)]
 [League Of Legends (Oceania)]
 [League Of Legends (US)]

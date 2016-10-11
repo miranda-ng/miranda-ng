@@ -56,8 +56,6 @@ Blockierter Kontakt
 Jemand führt Sie in seiner/ihrer Serverliste
 [Refresh]
 Aktualisieren
-[Hotmail]
-Hotmail
 [Enable Popup notifications]
 Popup-Benachrichtigungen aktivieren
 [Enable Contact List notifications]
@@ -113,6 +111,10 @@ Abbre&chen
 [Add]
 Hinzufügen
 ;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+Administrator
+[User]
+Benutzer
 [Chat #]
 Chat #
 [&Invite user...]

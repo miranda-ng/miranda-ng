@@ -18,7 +18,7 @@
 [Custom colors]
 [Back]
 [Timeout]
-[From Popup plugin]
+[From popup plugin]
 [Permanent]
 [On left click]
 [Copy to clipboard]

@@ -206,6 +206,8 @@
 [Toggle send later]
 [Send message]
 [Show message history]
+[Show send menu]
+[Show protocol menu]
 [Show user menu]
 [Show user details]
 [Toggle toolbar]

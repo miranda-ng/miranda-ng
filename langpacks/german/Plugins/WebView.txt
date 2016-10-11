@@ -136,7 +136,7 @@ Als Rohdaten speichern
 Popup-Verzögerung
 [Delay]
 Verzögerung
-[From Popup plugin]
+[From popup plugin]
 Vom Popup-Plugin
 [Permanent]
 Dauerhaft

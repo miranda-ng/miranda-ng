@@ -14,6 +14,8 @@
 [Received]
 [Use only alphanumeric encoding on transfer]
 [Go to Options -> Events -> File Transfers, "Receiving files" group for extra settings]
+[Receive file]
+[Send file]
 [File already exists. Overwrite?]
 [Couldn't open a file]
 [Size: %d bytes]

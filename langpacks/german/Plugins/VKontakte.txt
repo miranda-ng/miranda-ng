@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.1
+;  Version: 0.1.2.6
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -50,6 +50,8 @@ Sonstige
 Sticker als Smileys darstellen
 [Shorten links for audio attachments]
 Links für Audioanhänge abkürzen
+[Use non-standard popups for news and event notifications]
+Nicht-Standard-Popups für Neuigkeiten und Ereignisbenachrichtigungen verwenden
 [News and event notifications]
 Neuigkeiten- und Ereignisbenachrichtigungen
 [WARNING: Causes excessive network traffic!!!]
@@ -126,8 +128,10 @@ Unsichtbarstatus bei Benutzeraktivität erzwingen
 Intervall der Unsichtbarkeit (Min.):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Nicht-Standard urlEncode für gesendete Nachrichten verwenden (weniger Verkehr)
-[Use non-standard popups for news and event notifications]
-Nicht-Standard-Popups für Neuigkeiten und Ereignisbenachrichtigungen verwenden
+[Send VK-objects links as attachments]
+
+[and load sent attachments]
+
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -229,7 +233,7 @@ VKontakte
 Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 [Error]
 Fehler
-[You must validate your account before use VK in Miranda NG]
+[You have to validate your account before you can use VK in Miranda NG]
 Sie müssen Ihr Konto verifizieren bevor Sie VK in Miranda NG verwenden können.
 [Error %d. Data will not be sent or received.]
 Fehler %d. Daten werden weder gesendet noch empfangen.
@@ -237,6 +241,10 @@ Fehler %d. Daten werden weder gesendet noch empfangen.
 Einer der angegebenen Parameter fehlte oder war ungültig.
 [Access to adding post denied]
 Zugriff auf Pinnwand verweigert
+[Enter the missing digits between %s and %s of the phone number linked to your account]
+
+[Attention!]
+Achtung!
 [Enter confirmation code]
 Bestätigungscode eingeben
 [Enter new nickname]
@@ -363,8 +371,8 @@ Nick ändern
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
-[Wall message for]
-Pinnwandnachricht für
+[Wall message for %s]
+Pinnwandnachricht für %s
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
 Neue Neuigkeiten
@@ -428,20 +436,18 @@ Unbekannter Fehler aufgetreten
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf des Kontaktes wird gelöscht und vom Server neu geladen.\nDas kann lange dauern.\nMöchten Sie fortfahren?
-[Attention!]
-Achtung!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
 Sind Sie sich sicher, dass Sie alle Nachrichten für alle Kontakte von vk.com laden wollen?\nDer lokale Verlauf Ihrer Kontakte wird gelöscht und vom Server neu geladen.\nDies kann sehr lange Zeit dauern und/oder die Miranda-Datenbank beschädigen.\nWir empfehlen Ihnen eine Überprüfung Ihrer Datenbank vorher und nachher (Miranda32.exe /svc:dbchecker oder Miranda64.exe /svc:dbchecker).\nMöchten Sie fortfahren?
-[Error loading message history from server]
-Fehler beim Laden des Verlaufes vom Server
-[Loading messages for all contacts is completed]
-Nachrichten für alle Kontakte wurden komplett geladen
+[Error loading message history from server.]
+Fehler beim Laden des Verlaufes vom Server.
+[Loading messages for all contacts is completed.]
+Nachrichten für alle Kontakte wurden komplett geladen.
 [Loading history]
 Verlauf laden
-[for]
-für
-[Loading messages for %s is completed]
-Nachrichten für %s wurden komplett geladen
+[Error loading message history for %s from server.]
+
+[Loading messages for %s is completed.]
+Nachrichten für %s wurden komplett geladen.
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Netzwerk
@@ -541,6 +547,8 @@ Neue Statusnachricht eingeben
 [I\'m back]
 Ich bin zurück
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Service message]
+
 [Interests]
 Interessen
 [Activities]

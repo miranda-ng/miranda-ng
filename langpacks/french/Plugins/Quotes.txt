@@ -80,8 +80,8 @@ Couleur de fond
 Couleur du texte
 [Delay]
 
-[From Popup plugin]
-Comme le plugin Popup
+[From popup plugin]
+Comme le plugin popup
 [Custom]
 Défini
 [Permanent]

@@ -154,7 +154,7 @@ Boje operativnog sistema
 
 [seconds]
 sekundi
-[From Popup plugin]
+[From popup plugin]
 
 [Permanent]
 

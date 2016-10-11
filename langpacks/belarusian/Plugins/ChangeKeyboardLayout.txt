@@ -55,7 +55,7 @@
 Тэкст
 [Timeout]
 Затрымка
-[From Popup plugin]
+[From popup plugin]
 Па змаўчанні
 [Permanent]
 Пастаянна

@@ -21,8 +21,8 @@ Color de fondo
 Color de texto
 [Delay]
 Retardo
-[From Popup plugin]
-Desde Popup plugin
+[From popup plugin]
+Desde popup plugin
 [Custom]
 Personalizado
 [Permanent]

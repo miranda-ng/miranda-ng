@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.12
+;  Version: 3.4.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -479,8 +479,6 @@ Windows Aero - настройки
 Добавяне на елемент в главното меню
 [...is typing]
 ...пише съобщение
-[From Popup plugin]
-От приставката Popup
 [From protocol]
 От протокола
 [Permanent]
@@ -1279,8 +1277,6 @@ Latin I
 ** Нови контакти **
 [** Unknown contacts **]
 ** Непознати контакти **
-[Show balloon popup (unsupported system)]
-Показване на балонни popup (неподдържана система)
 [Always]
 Винаги
 [Always, but no popup when window is focused]

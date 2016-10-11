@@ -56,8 +56,6 @@ Contact bloqué
 Vous êtes dans la liste de ce contact
 [Refresh]
 Actualiser
-[Hotmail]
-
 [Enable Popup notifications]
 Activer les notifications par popup
 [Enable Contact List notifications]
@@ -113,6 +111,10 @@ Pseudo
 [Add]
 Ajouter
 ;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+
+[User]
+Utilisateur
 [Chat #]
 
 [&Invite user...]

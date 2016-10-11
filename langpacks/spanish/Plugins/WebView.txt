@@ -29,8 +29,8 @@ Buscar siguiente
 Añadir datos al archivo
 [Delay]
 Retardo
-[From Popup plugin]
-Desde Popup plugin
+[From popup plugin]
+Desde popup plugin
 [Permanent]
 Permanente
 [Preview]

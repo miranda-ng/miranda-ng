@@ -280,8 +280,6 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
-[Foodnetwork]
-Foodnetwork
 [C&lear log]
 Effacer le journal
 [&Open link]
@@ -593,8 +591,6 @@ Au téléphone
 ** Nouveaux contacts **
 [** Unknown contacts **]
 ** Contacts inconnus **
-[Show balloon popup (unsupported system)]
-Afficher les popups (système non supporté)
 [Message sessions]
 Sessions de message
 [Typing notify]

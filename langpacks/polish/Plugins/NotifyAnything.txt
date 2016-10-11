@@ -50,4 +50,3 @@ Nieprawidłowy numer portu
 Powiadamiaj o wszystkim
 [Plugins]
 Wtyczki
-;file \plugins\NotifyAnything\src\stdafx.h

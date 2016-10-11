@@ -29,8 +29,6 @@ Letzte Fensterposition merken
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Hinweis: Menüpunkte sind nur sichtbar, wenn mindestens ein Account richtig eingestellt ist. Prüfen Sie, ob mindestens ein Konto mit UIN ausgefüllt ist.
 ;file \plugins\CSList\src\cslist.cpp
-[Status]
-Status
 [Add new item]
 Hinzufügen
 [Add]

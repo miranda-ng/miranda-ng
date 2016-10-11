@@ -28,8 +28,6 @@
 
 [Cancel]
 
-[Steam Guard]
-
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
 
 [Go to email domain]
@@ -100,8 +98,6 @@ Zahtjevaj autorizaciju
 [Gaming icon]
 
 [%s connection]
-
-[SteamID]
 
 [You cannot send messages when you are offline.]
 

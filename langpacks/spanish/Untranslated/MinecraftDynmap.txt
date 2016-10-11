@@ -1,6 +1,8 @@
 ﻿[Minecraft Dynmap support for Miranda NG.]
 [Visible name:]
 [Server]
+[Admin]
+[Normal]
 [You]
 [Message was not sent. Probably you are sending them too fast or chat is disabled completely.]
 [Set server address to connect.]

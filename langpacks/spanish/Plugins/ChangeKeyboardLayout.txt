@@ -21,8 +21,8 @@ Atras
 Texto
 [Timeout]
 Tiempo de espera
-[From Popup plugin]
-Desde Popup plugin
+[From popup plugin]
+Desde popup plugin
 [Permanent]
 Permanente
 [Custom]

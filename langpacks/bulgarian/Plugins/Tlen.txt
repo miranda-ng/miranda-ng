@@ -35,8 +35,6 @@
 Текст
 [Delay]
 Закъснение
-[&From Popup plugin]
-От приставката Popup
 [&Custom]
 Избор
 [P&ermanent]

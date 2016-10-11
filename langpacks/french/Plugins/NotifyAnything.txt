@@ -50,4 +50,3 @@ Erreur
 
 [Plugins]
 Plugins
-;file \plugins\NotifyAnything\src\stdafx.h

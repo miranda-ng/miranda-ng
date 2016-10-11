@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.12
+;  Version: 3.4.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -496,7 +496,7 @@ Pozadina
 
 [...is typing]
 
-[From Popup plugin]
+[From popup plugin]
 
 [From protocol]
 
@@ -1104,6 +1104,10 @@ drugo
 
 [Show message history]
 
+[Show send menu]
+
+[Show protocol menu]
+
 [Show user menu]
 
 [Show user details]
@@ -1346,8 +1350,6 @@ drugo
 [** New contacts **]
 
 [** Unknown contacts **]
-
-[Show balloon popup (unsupported system)]
 
 [Always]
 

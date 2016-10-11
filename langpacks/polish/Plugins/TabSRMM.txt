@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.12
+;  Version: 3.4.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -496,8 +496,8 @@ Tylko &jeden popup dla każdego kontaktu
 Pokaż &wpis w menu głównym
 [...is typing]
 ...pisze
-[From Popup plugin]
-Z wtyczki Popup
+[From popup plugin]
+
 [From protocol]
 Z protokołu
 [Permanent]
@@ -1104,6 +1104,10 @@ Wyślij wiadomość
 Pokaż okno emotikon
 [Show message history]
 Pokaż historię
+[Show send menu]
+
+[Show protocol menu]
+
 [Show user menu]
 Pokaż menu użytkownika
 [Show user details]
@@ -1347,8 +1351,6 @@ Masz wybór jaka wtyczka ma obsługiwać historię wiadomości w oknie rozmowy. 
 ** Nowe kontakty **
 [** Unknown contacts **]
 ** Nieznane kontakty **
-[Show balloon popup (unsupported system)]
-Pokaż podpowiedzi w chmurce (nieobsługiwany system)
 [Always]
 Zawsze
 [Always, but no popup when window is focused]

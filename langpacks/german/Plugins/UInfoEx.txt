@@ -136,7 +136,7 @@ Windowsfarben verwenden
 Standardfarben verwenden
 [Delay]
 Verzögerung
-[From Popup plugin]
+[From popup plugin]
 Vom Popup-Plugin
 [Custom]
 Benutzerdef.
@@ -605,6 +605,10 @@ Allgemein
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 Erweiterte Benutzerinfos
+[Dialogs]
+Dialoge
+[Buttons]
+Schaltflächen
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Kontakt ex-/importieren

@@ -335,9 +335,9 @@ Effacer l'image
 
 [Image cannot be written to disk.]
 L'image n'a pu être copiée sur le disque.
-[Delete image from the list]
-
 [Save image to disk]
+
+[Delete image from the list]
 
 [Image from %s]
 Image de %s

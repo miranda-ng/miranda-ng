@@ -50,4 +50,3 @@ Greška
 
 [Plugins]
 Plug-inovi
-;file \plugins\NotifyAnything\src\stdafx.h

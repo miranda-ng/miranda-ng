@@ -1,1 +1,2 @@
-﻿[There is nothing to show]
+﻿[From popup plugin]
+[There is nothing to show]

@@ -155,8 +155,8 @@ Mostrar cuando se realiza un intento de conexión
 Mostrar cuando la reconexión ha terminado
 [Show other messages]
 Mostrar otros mensajes
-[From Popup plugin]
-Desde Popup plugin
+[From popup plugin]
+Desde popup plugin
 [Custom]
 Personalizado
 [Permanent]

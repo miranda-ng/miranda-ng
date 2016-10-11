@@ -28,8 +28,6 @@ Okno rozmowy
 Kod Captcha
 [Cancel]
 Anuluj
-[Steam Guard]
-Steam Guard
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
 Jako środek bezpieczeństwa dodanego konta, będziesz musiał udzielić dostępu podając specjalny kod, który właśnie wysłaliśmy na twój adres e-mail.
 [Go to email domain]
@@ -101,8 +99,6 @@ Ikona protokołu
 Ikona grania
 [%s connection]
 Połączenie %s
-[SteamID]
-SteamID
 [You cannot send messages when you are offline.]
 Nie można wysłać wiadomości, gdy jesteś offline.
 ;file \protocols\Steam\src\steam_utils.cpp

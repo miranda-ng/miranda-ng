@@ -55,8 +55,6 @@
 Вы ў спісе кантакту на серверы
 [Refresh]
 Абнавіць
-[Hotmail]
-Пошта
 [Enable Popup notifications]
 Уключыць абвесткі ўсплывальнымі вокнамі
 [Enable Contact List notifications]
@@ -111,6 +109,10 @@
 С&касаваць
 [Add]
 Дадаць
+[Admin]
+
+[User]
+
 [Chat #]
 Чат #
 [&Invite user...]

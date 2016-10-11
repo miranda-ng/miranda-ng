@@ -32,7 +32,7 @@ Textfarbe:
 Zurücksetzen auf Standard
 [Popup timeout]
 Popup Anzeigedauer
-[From Popup plugin]
+[From popup plugin]
 Vom Popup-Plugin
 [Custom]
 Benutzerdef.

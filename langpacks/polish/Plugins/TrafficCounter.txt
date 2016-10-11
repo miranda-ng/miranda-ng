@@ -32,8 +32,8 @@ Kolor tekstu:
 Domyślne ustawienia
 [Popup timeout]
 Opóźnienie
-[From Popup plugin]
-Z wtyczki Popup
+[From popup plugin]
+
 [Custom]
 Niestandardowe
 [Test]

@@ -107,8 +107,6 @@ Podpisane
 Jako hex
 [String]
 STRING
-[IP]
-IP
 [TimeStamp]
 Sygnatura czasu
 [Module:]

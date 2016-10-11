@@ -107,8 +107,6 @@
 Шаснадцаткавы
 [String]
 Радок
-[IP]
-
 [TimeStamp]
 Час
 [Module:]

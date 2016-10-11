@@ -136,8 +136,8 @@ Ajouter les données au fichier
 Délai des popups
 [Delay]
 
-[From Popup plugin]
-Comme le plugin Popup
+[From popup plugin]
+Comme le plugin popup
 [Permanent]
 
 [Preview]

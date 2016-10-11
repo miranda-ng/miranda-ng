@@ -15,6 +15,10 @@ Serveur :
 ;file \protocols\MinecraftDynmap\src\chat.cpp
 [Server]
 Serveur
+[Admin]
+
+[Normal]
+Normale
 [You]
 
 ;file \protocols\MinecraftDynmap\src\communication.cpp

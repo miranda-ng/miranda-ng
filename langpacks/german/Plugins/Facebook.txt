@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.0
+;  Version: 0.3.0.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -56,8 +56,8 @@ Newsfeed-Einträge anzeigen (WARNUNG: Verursacht exzessiven Netzwerkverkehr!)
 Newsfeed-Ereignisse melden:
 [Don't show advertising posts]
 Werbebeiträge nicht anzeigen
-[Show friendships changes (when someone remove/approve you)]
-Freundschaftsänderungen anzeigen (wenn jemand Sie entfernt/annimmt)
+[Show friendships changes (when someone removes/approves you)]
+
 [Show real-time friends activity (ticker feed)]
 Echtzeit-Freundesaktivität (Ticker-Feed) anzeigen
 [Show my "On this day" posts at login]
@@ -100,10 +100,10 @@ Mehrbenutzerchats
 Unterstützung für Mehrbenutzerchats aktivieren
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
+[Automatically join active chats that exist in contact list]
+
 [History synchronization]
 Verlauf synchronisieren
-[Load last messages (24 hours old) on login (EXPERIMENTAL)]
-Letzte Nachrichten (24 Stunden alt) bei Anmeldung laden (EXPERIMENTELL)
 [Load last messages on opening message window (EXPERIMENTAL)]
 Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
 [Number of messages to load:]
@@ -118,12 +118,14 @@ SMS senden
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
 ;file \protocols\FacebookRM\src\chat.cpp
+[Former]
+
 [Myself]
 Ich
-[User]
-Benutzer
 [Friend]
 Freund
+[User]
+Benutzer
 [&Invite user...]
 Kontakt e&inladen...
 [&Leave chat session]
@@ -147,6 +149,12 @@ Sie haben zu viele falsche Überprüfungscodes eingegeben. Verbindung wird getre
 Sie haben einen falschen Überprüfungscode eingegeben. Versuchen Sie es nochmal.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Anmeldefehler: Ihr Konto ist vorrübergehend gesperrt. Sie müssen dieses Gerät in Ihrem Webbrowser bestätigen.
+[Check last login]
+
+[Do you recognize this activity?]
+
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
+
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 Anmeldefehler: Facebook denkt, dass Ihr Computer infiziert ist. Lösen Sie dies, indem sie sich im "Privat Browsen"-Modus Ihres Webbrowsers anmelden und deren Antiviren-Überprüfung ausführen.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
@@ -242,6 +250,8 @@ eine Datei
 Fotos
 [a photo]
 ein Foto
+[a video]
+
 [a GIF]
 ein GIF
 [User sent %s:]
@@ -260,6 +270,14 @@ Nachrichten senden ist nicht möglich, wenn Sie offline sind.
 Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
 Kontakt ist nicht mehr in Ihrer Server-Liste.
+[Loading history started.]
+
+[Loading messages: %d/%d]
+
+[Loading history completed.]
+
+[<attachment without text>]
+
 [On this day]
 An diesem Tag
 ;file \protocols\FacebookRM\src\proto.cpp
@@ -289,8 +307,12 @@ Pinnwand-Einträge laden...
 Freundschaftsanfragen laden...
 [Loading notifications...]
 Benachrichtigungen laden...
-[Loading what happened on this day...]
-Laden, was an diesem Tag passiert ist...
+[Loading memories...]
+
+[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+
+[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
+
 [Do you want to cancel your friendship with '%s'?]
 Möchten Sie Ihre Freundschaft mit "%s" beenden?
 [Client errors]
@@ -303,8 +325,8 @@ Sonstige Ereignisse
 Freundschaftsereignisse
 [Real-time friends activity]
 Echtzeit-Freundesaktivität
-["On this day" posts]
-Beiträge "an diesem Tag"
+[Memories]
+
 [Visit profile]
 Profil besuchen
 [Visit notifications]
@@ -321,8 +343,6 @@ Anderes Ereignis
 Freundschaftsereignis
 [Ticker event]
 Ticker-Ereignis
-["On this day" event]
-Ereignis "an diesem Tag"
 [Message read: %s by %s]
 Nachricht gelesen: %s von %s
 [Message read: %s]
@@ -360,6 +380,8 @@ Wow
 Freundschaft-Details besuchen
 [Visit conversation]
 Unterhaltung besuchen
+[Load history]
+
 [Cancel friendship]
 Freundschaft beenden
 [Cancel friendship request]
@@ -376,7 +398,7 @@ Dienste...
 Freundschaftsanfragen überprüfen
 [Check newsfeeds]
 Newsfeeds überprüfen
-[Check "On this day" posts]
-Beiträge "an diesem Tag" überprüfen
+[Check memories]
+
 [Check notifications]
 Benachrichtigungen überprüfen

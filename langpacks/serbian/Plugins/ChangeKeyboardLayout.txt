@@ -56,7 +56,7 @@ Standardne boje
 Tekst
 [Timeout]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Permanent]
 

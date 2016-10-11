@@ -80,7 +80,7 @@ Boja pozadine
 Boja teksta
 [Delay]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Custom]
 Izmenjeno

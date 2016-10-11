@@ -279,8 +279,6 @@ KB
 
 [Google Translate]
 
-[Foodnetwork]
-
 [C&lear log]
 Сцерці лог
 [&Open link]
@@ -587,8 +585,6 @@ URL атрыманы
 ** Новыя кантакты **
 [** Unknown contacts **]
 ** Невядомыя кантакты **
-[Show balloon popup (unsupported system)]
-Паказваць падказкі (непадтрымоўваная сістэма)
 [Message sessions]
 Гутаркі
 [Typing notify]

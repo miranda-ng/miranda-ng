@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.2.2
+;  Version: 0.12.2.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -64,8 +64,8 @@ Warnung
 Kontakt e&inladen...
 [&Leave chat session]
 Chatsitzung ver&lassen
-[&Change topic]
-Thema &ändern
+[&Change topic...]
+Thema &ändern...
 [Kick &user]
 Ben&utzer kicken
 [Set &role]
@@ -74,8 +74,8 @@ Ben&utzer kicken
 &Administrator
 [&User]
 Ben&utzer
-[Change nick]
-Nick ändern
+[Change nick...]
+Nick ändern...
 [Enter new chatroom topic]
 Neues Thema für diesen Chatraum eingeben
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.14.0
+;  Version: 0.3.0.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -56,7 +56,7 @@ Utiliser des grands avatars
 
 [Don't show advertising posts]
 
-[Show friendships changes (when someone remove/approve you)]
+[Show friendships changes (when someone removes/approves you)]
 
 [Show real-time friends activity (ticker feed)]
 
@@ -100,9 +100,9 @@ Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
 
 [Do not open chat windows on creation]
 
-[History synchronization]
+[Automatically join active chats that exist in contact list]
 
-[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+[History synchronization]
 
 [Load last messages on opening message window (EXPERIMENTAL)]
 
@@ -118,12 +118,14 @@ Envoyer SMS
 [Enter the text you see]
 
 ;file \protocols\FacebookRM\src\chat.cpp
+[Former]
+
 [Myself]
+
+[Friend]
 
 [User]
 Utilisateur
-[Friend]
-
 [&Invite user...]
 &Inviter l'utilisateur...
 [&Leave chat session]
@@ -146,6 +148,12 @@ Erreur inconnue
 [You entered wrong verification code. Try it again.]
 
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+
+[Check last login]
+
+[Do you recognize this activity?]
+
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
 
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 
@@ -242,6 +250,8 @@ un fichier
 photos
 [a photo]
 une photo
+[a video]
+
 [a GIF]
 
 [User sent %s:]
@@ -260,6 +270,14 @@ Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
 
 [Contact is no longer on server-list.]
 Le contact n'est plus sur la liste du serveur.
+[Loading history started.]
+
+[Loading messages: %d/%d]
+
+[Loading history completed.]
+
+[<attachment without text>]
+
 [On this day]
 
 ;file \protocols\FacebookRM\src\proto.cpp
@@ -289,7 +307,11 @@ Partager le statut
 
 [Loading notifications...]
 
-[Loading what happened on this day...]
+[Loading memories...]
+
+[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+
+[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
 
 [Do you want to cancel your friendship with '%s'?]
 
@@ -303,7 +325,7 @@ Autres événements
 
 [Real-time friends activity]
 
-["On this day" posts]
+[Memories]
 
 [Visit profile]
 Visiter le profil
@@ -320,8 +342,6 @@ Autre événement
 [Friendship event]
 
 [Ticker event]
-
-["On this day" event]
 
 [Message read: %s by %s]
 
@@ -360,6 +380,8 @@ Wouah
 Voir les détails
 [Visit conversation]
 
+[Load history]
+
 [Cancel friendship]
 Supprimer
 [Cancel friendship request]
@@ -376,7 +398,7 @@ Services...
 
 [Check newsfeeds]
 
-[Check "On this day" posts]
+[Check memories]
 
 [Check notifications]
 

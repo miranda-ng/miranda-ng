@@ -95,12 +95,10 @@ Jeśli niczego nie odtwarzam zamień %listening% na:
 Teraz odtwarzane (włączony)
 [Listening to (disabled)]
 Teraz odtwarzane (wyłączony)
-[ListeningTo]
-Teraz odtwarzane
-[Listening to music]
-Tune
 [Send to %s]
 Wyślij do %s
+[Listening to music]
+Tune
 [Send to all protocols]
 Wyślij do wszystkich protokołów
 [Listening info]
@@ -135,6 +133,8 @@ Włącz/Wyłącz wysyłanie "Teraz odtwarzane" (wszystkie protokoły)
 Wyłącz Teraz odtwarzane (wszystkie protokoły)
 [Enable ListeningTo (to all protocols)]
 Włącz Teraz odtwarzane (wszystkie protokoły)
+[ListeningTo]
+Teraz odtwarzane
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <Nieznany>

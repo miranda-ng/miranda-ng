@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.1
+;  Version: 0.1.2.6
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -49,6 +49,8 @@
 Апрацоўваць стыкеры як смайлы
 [Shorten links for audio attachments]
 Пакарочаныя спасылкі для аўдыё
+[Use non-standard popups for news and event notifications]
+
 [News and event notifications]
 Паведамленні аб навінах і падзеях
 [WARNING: Causes excessive network traffic!!!]
@@ -125,7 +127,9 @@
 
 [Use non-standard urlEncode for sent messages (less traffic)]
 
-[Use non-standard popups for news and event notifications]
+[Send VK-objects links as attachments]
+
+[and load sent attachments]
 
 [When I ban user...]
 
@@ -227,13 +231,17 @@
 
 [Error]
 Памылка
-[You must validate your account before use VK in Miranda NG]
+[You have to validate your account before you can use VK in Miranda NG]
 
 [Error %d. Data will not be sent or received.]
 
 [One of the parameters specified was missing or invalid]
 
 [Access to adding post denied]
+
+[Enter the missing digits between %s and %s of the phone number linked to your account]
+
+[Attention!]
 
 [Enter confirmation code]
 
@@ -359,7 +367,7 @@
 %s набірае тэкст...
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
-[Wall message for]
+[Wall message for %s]
 
 [New news]
 
@@ -421,19 +429,17 @@
 
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 
-[Attention!]
-
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
 
-[Error loading message history from server]
+[Error loading message history from server.]
 
-[Loading messages for all contacts is completed]
+[Loading messages for all contacts is completed.]
 
 [Loading history]
 
-[for]
-на працягу
-[Loading messages for %s is completed]
+[Error loading message history for %s from server.]
+
+[Loading messages for %s is completed.]
 
 [Network]
 Сеціва
@@ -528,6 +534,8 @@
 [Enter new status message]
 
 [I\'m back]
+
+[Service message]
 
 [Interests]
 

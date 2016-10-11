@@ -219,6 +219,12 @@ Poissons
 [Avatars: can't open file %s, error]
 
 ;file \protocols\MRA\src\MraChat.cpp
+[Owners]
+
+[Inviter]
+
+[Visitors]
+Visiteurs
 [Chat plugin is required for conferences. Install it before chatting]
 
 [invite sender]

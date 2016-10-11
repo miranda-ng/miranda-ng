@@ -7,7 +7,6 @@
 [Login server:]
 [Mail Notification]
 [Delay]
-[&From Popup plugin]
 [P&ermanent]
 [Tlen Password]
 [Public avatar]

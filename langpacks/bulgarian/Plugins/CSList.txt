@@ -11,8 +11,6 @@
 Отказ
 [Remember last window position]
 Запис на последната позиция на прозорец
-[Status]
-Състояние
 [Add new item]
 Добавяне на елемент
 [Add]

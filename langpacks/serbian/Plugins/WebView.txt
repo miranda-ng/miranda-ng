@@ -136,7 +136,7 @@ Pronaći šta:
 
 [Delay]
 
-[From Popup plugin]
+[From popup plugin]
 
 [Permanent]
 

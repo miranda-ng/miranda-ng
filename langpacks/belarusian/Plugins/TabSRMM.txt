@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.12
+;  Version: 3.4.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -493,7 +493,7 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 Пункт у галоўным меню
 [...is typing]
 ...піша
-[From Popup plugin]
+[From popup plugin]
 Па змаўчанні
 [From protocol]
 З пратаколу
@@ -1093,6 +1093,10 @@ TabSRMM: Набірае
 Выбар смайліка
 [Show message history]
 Паказаць гісторыю
+[Show send menu]
+
+[Show protocol menu]
+
 [Show user menu]
 Меню карыстача
 [Show user details]
@@ -1329,8 +1333,6 @@ TabSRMM: Набірае
 ** Новыя кантакты **
 [** Unknown contacts **]
 ** Невядомыя кантакты **
-[Show balloon popup (unsupported system)]
-Паказваць падказкі (непадтрымоўваная сістэма)
 [Always]
 Заўсёды
 [Always, but no popup when window is focused]

@@ -15,6 +15,10 @@ Widoczna nazwa:
 ;file \protocols\MinecraftDynmap\src\chat.cpp
 [Server]
 Serwer
+[Admin]
+Admin
+[Normal]
+Normalne
 [You]
 Ty
 ;file \protocols\MinecraftDynmap\src\communication.cpp

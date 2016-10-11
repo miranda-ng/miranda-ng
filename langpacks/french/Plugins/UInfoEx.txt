@@ -136,8 +136,8 @@ Utiliser les couleurs Windows
 Couleurs par défaut
 [Delay]
 
-[From Popup plugin]
-Comme le plugin Popup
+[From popup plugin]
+Comme le plugin popup
 [Custom]
 Défini
 [Permanent]
@@ -604,6 +604,10 @@ Attention : La version de votre pack d'icônes n'est pas prévue pour votre User
 Principales
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
+
+[Dialogs]
+
+[Buttons]
 
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]

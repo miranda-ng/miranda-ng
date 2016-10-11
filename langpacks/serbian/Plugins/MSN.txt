@@ -56,8 +56,6 @@ Reset
 
 [Refresh]
 
-[Hotmail]
-
 [Enable Popup notifications]
 
 [Enable Contact List notifications]
@@ -113,6 +111,10 @@ Nadimak
 [Add]
 Dodaj
 ;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+
+[User]
+
 [Chat #]
 
 [&Invite user...]

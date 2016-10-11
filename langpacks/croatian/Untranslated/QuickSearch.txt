@@ -48,7 +48,6 @@
 [Signed]
 [As hex]
 [String]
-[IP]
 [Module:]
 [Setting:]
 [Service:]

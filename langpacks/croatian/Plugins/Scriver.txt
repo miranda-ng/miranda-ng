@@ -280,8 +280,6 @@ vrijeme nestanka (s)
 
 [Google Translate]
 
-[Foodnetwork]
-
 [C&lear log]
 
 [&Open link]
@@ -592,8 +590,6 @@ Povijest
 [** New contacts **]
 
 [** Unknown contacts **]
-
-[Show balloon popup (unsupported system)]
 
 [Message sessions]
 

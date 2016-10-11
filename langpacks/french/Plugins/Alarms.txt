@@ -17,7 +17,7 @@ Effacer
 [Alarms]
 Alarmes
 [Use popup plugin]
-Utiliser le plugin Popup
+Utiliser le plugin popup
 [Default snooze:]
 Son par défaut :
 [minutes]

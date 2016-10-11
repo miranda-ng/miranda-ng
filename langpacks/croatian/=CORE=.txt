@@ -1841,8 +1841,6 @@ sve datoteke
 
 [** Unknown contacts **]
 
-[Show balloon popup (unsupported system)]
-
 [Messaging log]
 
 [Typing notify]
@@ -2173,7 +2171,14 @@ sve datoteke
 
 [Miranda can't understand that profile]
 
-;file \src\mir_app\src\dbini.cpp
+;file \src\mir_app\src\db_events.cpp
+[Authorization request from %s%s: %s]
+
+[You were added by %s%s]
+
+[Contacts: ]
+
+;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2187,13 +2192,6 @@ sve datoteke
 [This change is not known to be safe.]
 
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-
-;file \src\mir_app\src\dbutils.cpp
-[Authorization request from %s%s: %s]
-
-[You were added by %s%s]
-
-[Contacts: ]
 
 ;file \src\mir_app\src\DefaultExtraIcons.cpp
 [Chat activity]

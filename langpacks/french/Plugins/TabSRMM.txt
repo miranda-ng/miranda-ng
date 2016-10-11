@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.12
+;  Version: 3.4.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -496,8 +496,8 @@ Seulement &un popup par contact
 Voir dans le &Menu de Miranda
 [...is typing]
 
-[From Popup plugin]
-Comme le plugin Popup
+[From popup plugin]
+Comme le plugin popup
 [From protocol]
 Comme le Protocole
 [Permanent]
@@ -1104,6 +1104,10 @@ Envoyer un fichier
 Sélecteur de smileys
 [Show message history]
 
+[Show send menu]
+
+[Show protocol menu]
+
 [Show user menu]
 
 [Show user details]
@@ -1347,8 +1351,6 @@ plugin History++
 ** Nouveaux contacts **
 [** Unknown contacts **]
 ** Contacts inconnus **
-[Show balloon popup (unsupported system)]
-Afficher les popups (système non supporté)
 [Always]
 Toujours
 [Always, but no popup when window is focused]

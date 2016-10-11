@@ -161,8 +161,6 @@ Jabber vCard: Добавяне на имейл
 Работа
 [Internet]
 Интернет
-[X400]
-X400
 [Jabber vCard: Add Phone Number]
 Jabber vCard: Добавяне на телефон
 [Phone number:]
@@ -179,14 +177,8 @@ Jabber vCard: Добавяне на телефон
 Мобилен тел.
 [Video]
 Видео
-[BBS]
-BBS
 [Modem]
 Модем
-[ISDN]
-ISDN
-[PCS]
-PCS
 [Load]
 Зареди
 [Save]
@@ -1337,8 +1329,6 @@ XML за MS Excel (кодиран с UTF-8)
 Google Talk!
 [LiveJournal Talk]
 LiveJournal Talk
-[Yandex]
-Yandex
 [Some changes will take effect the next time you connect to the Jabber network.]
 Някои промени ще бъдат осъществени при следващо свързване към мрежата Jabber.
 [Set New Password for %s@%S]

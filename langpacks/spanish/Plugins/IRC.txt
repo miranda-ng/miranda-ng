@@ -59,6 +59,8 @@ Avisos
 Servidor:
 [Password:]
 Contraseña:
+[Owner]
+Propietario
 [Unknown]
 Desconocido
 [Ignore]

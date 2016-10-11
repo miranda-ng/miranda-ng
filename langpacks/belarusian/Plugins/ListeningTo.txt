@@ -93,12 +93,10 @@ foobar2000 (усталюйце плагін уручную)
 Слухаю (укл.)
 [Listening to (disabled)]
 Слухаю (адкл.)
-[ListeningTo]
-Слухаю
-[Listening to music]
-Слухаю музыку
 [Send to %s]
 Адпраўляць у %s
+[Listening to music]
+Слухаю музыку
 [Send to all protocols]
 Адпраўляць усім пратаколам
 [Listening info]
@@ -133,6 +131,8 @@ foobar2000 (усталюйце плагін уручную)
 Выключыць ListeningTo (для ўсіх пратаколаў)
 [Enable ListeningTo (to all protocols)]
 Уключыць ListeningTo (для ўсіх пратаколаў)
+[ListeningTo]
+Слухаю
 [<Unknown>]
 Невядома
 [<Nothing is playing now>]

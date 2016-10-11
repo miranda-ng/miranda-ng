@@ -8,19 +8,17 @@
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 Dieses Plugin speichert die Avatare Ihrer Kontakte und/oder zeigt Popups an.
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
-[Avatar List Popup]
-Avatarlistenpopup
-[Save As...]
-Speichern unter..
+[Save as...]
+Speichern unter...
 [Delete this entry]
 Diesen Eintrag löschen
 [Delete this entry and the bitmap file]
 Diesen Eintrag inklusive Avatar löschen
-[Avatar History]
+[Avatar history]
 Avatarverlauf
 [Static]
 Statisch
-[Open Folder]
+[Open folder]
 Ordner öffnen
 [Store this user's old avatars in disk]
 Avatare auf Datenträger speichern
@@ -48,7 +46,7 @@ Windowsfarben verwenden
 Standardfarben verwenden
 [Delay]
 Verzögerung
-[From Popup plugin]
+[From popup plugin]
 Vom Popup-Plugin
 [Custom]
 Benutzerdef.
@@ -68,7 +66,7 @@ Avataränderung:
 Avatarentfernung:
 [Preview]
 Vorschau
-[Avatar History: Select how to store history avatars]
+[Avatar history: Select how to store history avatars]
 Wie sollen Avatare im Verlauf und auf der Festplatte gespeichert werden?
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Bitte sorgfältig auswählen, wie der Avatar-Verlauf gespeichert werden soll. Diese Einstellung kann in Zukunft NICHT ohne den Verlust des Verlaufes geändert werden.
@@ -84,18 +82,18 @@ Bilddateien über Verknüpfungen in einem Verzeichnis pro Kontakt speichern
 Bilddateien in einem Verzeichnis pro Kontakt speichern
 [History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
 Der Verlauf wird in der Miranda-DB gespeichert und kann per History++ oder den AvatarHistory-Dialog eingesehen werden.
-[All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
+[All avatars are stored as <Profile>\\Avatars History\\<Avatar hash>]
 Alle Avatare werden gespeichert unter <Profile>\\Avatars History\\<Avatar Hash>
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash>]
 Alle Avatare werden gespeichert unter <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 Alle Avatare werden gespeichert unter <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> und haben pro Eintrag eine Verknüpfung unter <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 Verlauf wird nur auf der Festplatte gespeichert und kann über den Avatarverlaufsdialog eingesehen werden
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Alle Avatare werden unter <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> gespeichert (identische Bilder werden mehrfach gespeichert)
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
-[Avatar History for %s]
+[Avatar history for %s]
 Avatarverlauf für %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Soll dieser Verlaufseintrag wirklich gelöscht werden?\nNur der Verlaufseintrag wird gelöscht, Bilddatei bleibt erhalten!
@@ -103,35 +101,29 @@ Soll dieser Verlaufseintrag wirklich gelöscht werden?\nNur der Verlaufseintrag 
 Verlaufseintrag löschen?
 [Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
 Soll diese Verknüpfung wirklich gelöscht werden?\nNur die Verknüpfung wird gelöscht, Bilddatei bleibt erhalten!
-[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING: This can affect more than one entry in history!]
 Soll dieses Avatar wirklich gelöscht werden?\nDies löscht den Verlaufseintrag und die Bilddatei.\nWARNUNG: Dies kann sich auf mehr als einen Verlaufseintrag auswirken!
 [Delete avatar?]
 Avatar löschen?
-[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING: This can affect more than one shortcut!]
 Soll dieses Avatar wirklich gelöscht werden?\nDies löscht die Verknüpfung und die Bilddatei.\nWARNUNG: Dies kann sich auf mehr als einen Verlaufseintrag auswirken!
-[Avatar History is empty!]
+[Avatar history is empty!]
 Avatarverlauf ist leer!
-[avatar path is null.]
+[Avatar path is null.]
 Avatarpfad ist leer.
-[View Avatar History]
+[View avatar history]
 Avatarverlauf ansehen
-[Save Avatar for %s]
+[Save avatar for %s]
 Avatar für %s speichern
-[Save Avatar]
+[Save avatar]
 Avatar speichern
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[AVH Debug]
-AVH-Debug
-[Removed avatar, no avatar before... skipping]
-Avatar entfernt, zuvor kein Avatar... überspringe
-[Hashes are the same... skipping]
-Hashwerte sind identisch... überspringe
-[Avatar History: Unable to save avatar]
+[Avatar history: Unable to save avatar]
 Avatarverlauf: Konnte Avatar nicht speichern
-[AVH Debug: File copied successfully]
-AVH-Debug: Datei erfolgreich kopiert
 [Avatars]
 Avatare
+[Avatar History]
+Avatarverlauf
 [Contact changed avatar]
 Kontakt ändert Avatar
 [Contact removed avatar]
@@ -139,7 +131,7 @@ Kontakt entfernt Avatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Verlauf
-[Avatar Overlay]
+[Avatar overlay]
 Avataroverlay
 ;file \plugins\AvatarHistory\src\options.cpp
 [Do nothing]
@@ -150,7 +142,7 @@ Popup schließen
 Avatarverlauf zeigen
 [Show contact history]
 Gesprächsverlauf zeigen
-[Test Contact]
+[Test contact]
 Test-Kontakt
 [Test description]
 Test-Beschreibung
@@ -158,7 +150,7 @@ Test-Beschreibung
 Avatar
 [Popups]
 Popups
-[Avatar Change]
+[Avatar change]
 Avataränderung
 ;file \plugins\AvatarHistory\src\stdafx.h
 [removed his/her avatar]
@@ -166,13 +158,9 @@ entfernt sein/ihr Avatar
 [changed his/her avatar]
 ändert sein/ihr Avatar
 ;file \plugins\AvatarHistory\src\utils.cpp
-[Unknown Protocol]
+[Unknown protocol]
 Unbekanntes Protokoll
 [Unknown UIN]
 Unbekannte UIN
-[AVH Debug: GetOldStyleAvatarName]
-AVH-Debug: GetOldStyleAvatarName
-[Avatar History: Unable to create shortcut]
+[Avatar history: Unable to create shortcut]
 Avatarverlauf: Konnte Verknüpfung nicht erzeugen
-[AVH Debug: Shortcut created successfully]
-AVH-Debug: Verknüpfung erfolgreich erzeugt

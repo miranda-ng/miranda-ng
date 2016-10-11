@@ -56,8 +56,6 @@
 
 [Refresh]
 
-[Hotmail]
-
 [Enable Popup notifications]
 
 [Enable Contact List notifications]
@@ -113,6 +111,10 @@ drugo
 [Add]
 
 ;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+
+[User]
+
 [Chat #]
 
 [&Invite user...]

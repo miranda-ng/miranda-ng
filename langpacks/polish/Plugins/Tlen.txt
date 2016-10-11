@@ -86,8 +86,8 @@ Tło
 Tekst
 [Delay]
 Wyświetlaj
-[&From Popup plugin]
-&Z wtyczki Popup
+[&From popup plugin]
+
 [&Custom]
 &Niestandardowe
 [P&ermanent]

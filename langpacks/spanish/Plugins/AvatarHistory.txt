@@ -5,9 +5,9 @@
 ;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
-[Save As...]
+[Save as...]
 Guardar como...
-[Open Folder]
+[Open folder]
 Abrir carpeta
 [Protocols]
 Protocolos
@@ -23,8 +23,8 @@ Usar colores de Windows
 Usar colores predeterminados
 [Delay]
 Retardo
-[From Popup plugin]
-Desde Popup plugin
+[From popup plugin]
+Desde popup plugin
 [Custom]
 Personalizado
 [Permanent]
@@ -43,5 +43,5 @@ No hacer nada
 Cerrar popup
 [Popups]
 Ventanas emergentes
-[Unknown Protocol]
+[Unknown protocol]
 Protocolo desconocido

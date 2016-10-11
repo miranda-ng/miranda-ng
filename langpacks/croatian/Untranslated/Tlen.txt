@@ -35,7 +35,7 @@
 [Enable incoming mail notification]
 [Colors]
 [Delay]
-[&From Popup plugin]
+[&From popup plugin]
 [&Custom]
 [P&ermanent]
 [Preview]

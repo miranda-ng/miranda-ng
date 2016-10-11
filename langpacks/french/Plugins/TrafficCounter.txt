@@ -32,8 +32,8 @@ Couleur d'arrière-plan :
 Paramètres par défaut
 [Popup timeout]
 Durée du popup
-[From Popup plugin]
-Comme le plugin Popup
+[From popup plugin]
+Comme le plugin popup
 [Custom]
 Défini
 [Test]

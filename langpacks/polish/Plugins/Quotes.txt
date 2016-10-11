@@ -80,8 +80,8 @@ Kolor tła
 Kolor tekstu
 [Delay]
 Wyświetlaj
-[From Popup plugin]
-Z wtyczki Popup
+[From popup plugin]
+
 [Custom]
 Niestandardowe
 [Permanent]

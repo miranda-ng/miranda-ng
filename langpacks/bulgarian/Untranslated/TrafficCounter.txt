@@ -1,1 +1,2 @@
-﻿[Adaptive]
+﻿[From popup plugin]
+[Adaptive]
