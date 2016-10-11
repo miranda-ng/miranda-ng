@@ -25,7 +25,6 @@ fast.
 - Twitter
 - VKontakte
 - WhatsApp
-- Yahoo
 
 ## Supported Operating Systems ##
 
