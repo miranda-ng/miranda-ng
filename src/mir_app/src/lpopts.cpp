@@ -25,73 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "langpack.h"
 
-static void SetDlgItemText_CP(HWND hwndDlg, int ctrlID, LPCSTR str)
-{
-	SetDlgItemText(hwndDlg, ctrlID, ptrW(mir_utf8decodeW(str)));
-}
-
-static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
-{
-	/* locale string */
-	if (!(pack->flags & LPF_NOLOCALE)) {
-		wchar_t szLocaleName[256], szLanguageName[128], szContryName[128];
-
-		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHLANGUAGENAME : LOCALE_SENGLANGUAGE, szLanguageName, _countof(szLanguageName)))
-			szLanguageName[0] = '\0';
-		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHCOUNTRYNAME : LOCALE_SENGCOUNTRY, szContryName, _countof(szContryName)))
-			szContryName[0] = '\0';
-		
-		/* add some note if its incompatible */
-		if (szLanguageName[0] && szContryName[0]) {
-			mir_snwprintf(szLocaleName, L"%s (%s)", TranslateW(szLanguageName), TranslateW(szContryName));
-			if (!IsValidLocale(pack->Locale, LCID_INSTALLED)) {
-				wchar_t *pszIncompat;
-				pszIncompat = TranslateT("(incompatible)");
-				szLocaleName[_countof(szLocaleName) - mir_wstrlen(pszIncompat) - 1] = 0;
-				mir_wstrcat(mir_wstrcat(szLocaleName, L" "), pszIncompat);
-			}
-			SetDlgItemText(hwndDlg, IDC_LANGLOCALE, szLocaleName);
-		}
-		else SetDlgItemText(hwndDlg, IDC_LANGLOCALE, TranslateT("Unknown"));
-	}
-	else SetDlgItemText(hwndDlg, IDC_LANGLOCALE, TranslateT("Unknown"));
-	
-	/* file date */
-	SYSTEMTIME stFileDate;
-	wchar_t szDate[128]; szDate[0] = 0;
-	if (FileTimeToSystemTime(&pack->ftFileDate, &stFileDate))
-		GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, NULL, szDate, _countof(szDate));
-	SetDlgItemText(hwndDlg, IDC_LANGDATE, szDate);
-	
-	/* general */
-	SetDlgItemText_CP(hwndDlg, IDC_LANGMODUSING, pack->szLastModifiedUsing);
-	SetDlgItemText_CP(hwndDlg, IDC_LANGAUTHORS, pack->szAuthors);
-	SetDlgItemText_CP(hwndDlg, IDC_LANGEMAIL, pack->szAuthorEmail);
-	SetDlgItemText(hwndDlg, IDC_LANGINFOFRAME, TranslateW(pack->tszLanguage));
-}
-
-static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM)
-{
-	LANGPACK_INFO *pack2 = new LANGPACK_INFO();
-	*pack2 = *pack;
-
-	/* insert */
-	wchar_t tszName[512];
-	mir_snwprintf(tszName, L"%s [%s]",
-		TranslateW(pack->tszLanguage),
-		pack->flags & LPF_DEFAULT ? TranslateT("built-in") : pack->tszFileName);
-	UINT message = pack->flags & LPF_DEFAULT ? CB_INSERTSTRING : CB_ADDSTRING;
-	int idx = SendMessage((HWND)wParam, message, 0, (LPARAM)tszName);
-	SendMessage((HWND)wParam, CB_SETITEMDATA, idx, (LPARAM)pack2);
-	if (pack->flags & LPF_ENABLED) {
-		SendMessage((HWND)wParam, CB_SETCURSEL, idx, 0);
-		DisplayPackInfo(GetParent((HWND)wParam), pack);
-		EnableWindow(GetDlgItem(GetParent((HWND)wParam), IDC_RELOAD), !(pack->flags & LPF_DEFAULT));
-	}
-
-	return TRUE;
-}
-
 static void CALLBACK OpenOptions(void*)
 {
 	OPENOPTIONSDIALOG ood = { sizeof(ood) };
@@ -108,91 +41,247 @@ static void ReloadOptions(void *hWnd)
 	CallFunctionAsync(OpenOptions, 0);
 }
 
-INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+MIR_CORE_DLL(int) LoadLangPackDescr(const wchar_t *szLangPack, LANGPACK_INFO *lpInfo);
+
+class CLangpackDlg : public CDlgBase
 {
-	HWND hwndList = GetDlgItem(hwndDlg, IDC_LANGUAGES);
+	CCtrlCombo m_languages;
+	CCtrlBase m_infoFrame;
+	CCtrlBase m_authors;
+	CCtrlButton m_email;
+	CCtrlBase m_lastModUsing;
+	CCtrlBase m_date;
+	CCtrlBase m_locale;
+	CCtrlButton m_reload;
+	
+	CCtrlHyperlink m_more;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		ComboBox_ResetContent(hwndList);
-		EnumLangpacks(InsertPackItemEnumProc, (WPARAM)hwndList, (LPARAM)0);
-		return TRUE;
+	void LoadLangpacks();
+	void LoadLangpack(LANGPACK_INFO *pack);
+	void DisplayPackInfo(const LANGPACK_INFO *pack);
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_LANGEMAIL:
+protected:
+	void OnInitDialog();
+	void OnApply();
+	void OnDestroy();
+
+	void Languages_OnChange(CCtrlBase*);
+	void Email_OnClick(CCtrlBase*);
+	void Reload_OnClick(CCtrlBase*);
+
+public:
+	CLangpackDlg();
+};
+
+CLangpackDlg::CLangpackDlg()
+	: CDlgBase(g_hInst, IDD_OPT_LANGUAGES),
+	m_languages(this, IDC_LANGUAGES), m_infoFrame(this, IDC_LANGINFOFRAME),
+	m_authors(this, IDC_LANGAUTHORS), m_email(this, IDC_LANGEMAIL),
+	m_locale(this, IDC_LANGLOCALE), m_lastModUsing(this, IDC_LANGMODUSING),
+	m_date(this, IDC_LANGDATE), m_reload(this, IDC_RELOAD),
+	m_more(this, IDC_MORELANG, "http://wiki.miranda-ng.org/index.php?title=Langpacks/en#Download")
+{
+	m_languages.OnChange = Callback(this, &CLangpackDlg::Languages_OnChange);
+	m_email.OnClick = Callback(this, &CLangpackDlg::Email_OnClick);
+	m_reload.OnClick = Callback(this, &CLangpackDlg::Reload_OnClick);
+}
+
+void CLangpackDlg::OnInitDialog()
+{
+	m_languages.ResetContent();
+	LoadLangpacks();
+}
+
+void CLangpackDlg::LoadLangpacks()
+{
+	ptrW langpack(db_get_wsa(NULL, "Langpack", "Current"));
+
+	wchar_t tszFullPath[MAX_PATH];
+	PathToAbsoluteW(L"\\Languages\\langpack_*.txt", tszFullPath);
+
+	bool isPackFound = false;
+	WIN32_FIND_DATA wfd;
+	HANDLE hFind = FindFirstFile(tszFullPath, &wfd);
+	if (hFind != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				continue;
+
+			PathToAbsoluteW(L"\\Languages\\", tszFullPath);
+			mir_wstrcat(tszFullPath, wfd.cFileName);
+
+			LANGPACK_INFO pack;
+			if (!LoadLangPackDescr(tszFullPath, &pack))
 			{
-				char buf[512];
-				mir_strcpy(buf, "mailto:");
-				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), &buf[7], _countof(buf) - 7))
-					Utils_OpenUrl(buf);
-			}
-			break;
-
-		case IDC_MORELANG:
-			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Langpacks/en#Download");
-			break;
-
-		case IDC_LANGUAGES:
-			if (HIWORD(wParam) == CBN_SELCHANGE) {
-				int idx = ComboBox_GetCurSel(hwndList);
-				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, idx);
-				DisplayPackInfo(hwndDlg, pack);
-				if (!(pack->flags & LPF_ENABLED))
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_RELOAD), (pack->flags & LPF_ENABLED) && !(pack->flags & LPF_DEFAULT));
-			}
-			break;
-
-		case IDC_RELOAD:
-			{
-				EnableWindow(GetDlgItem(hwndDlg, IDC_RELOAD), FALSE);
-				int idx = ComboBox_GetCurSel(hwndList);
-				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, idx);
-				ReloadLangpack(pack->tszFullPath);
-				DisplayPackInfo(hwndDlg, pack);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_RELOAD), TRUE);
-			}
-			break;
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (LPNMHDR(lParam)->code == PSN_APPLY) {
-			wchar_t tszPath[MAX_PATH]; tszPath[0] = 0;
-			int idx = ComboBox_GetCurSel(hwndList);
-			int count = ComboBox_GetCount(hwndList);
-			for (int i = 0; i < count; i++) {
-				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, i);
-				if (i == idx) {
-					db_set_ws(NULL, "Langpack", "Current", pack->tszFileName);
-					mir_wstrcpy(tszPath, pack->tszFullPath);
-					pack->flags |= LPF_ENABLED;
+				pack.ftFileDate = wfd.ftLastWriteTime;
+				if (langpack && !mir_wstrcmpi(langpack, wfd.cFileName))
+				{
+					if (!isPackFound) pack.flags |= LPF_ENABLED;
+					isPackFound = true;
 				}
-				else pack->flags &= ~LPF_ENABLED;
+				LoadLangpack(&pack);
 			}
-
-			if (tszPath[0]) {
-				ReloadLangpack(tszPath);
-
-				if (LPPSHNOTIFY(lParam)->lParam == IDC_APPLY) {
-					HWND hwndParent = GetParent(hwndDlg);
-					PostMessage(hwndParent, WM_CLOSE, 1, 0);
-					mir_forkthread(ReloadOptions, hwndParent);
-				}
-			}
-		}
-		break;
-
-	case WM_DESTROY:
-		int count = ListBox_GetCount(hwndList);
-		for (int i = 0; i < count; i++)
-			delete (LANGPACK_INFO*)ListBox_GetItemData(hwndList, i);
-		ComboBox_ResetContent(hwndList);
-		return TRUE;
+		} while (FindNextFile(hFind, &wfd));
+		FindClose(hFind);
 	}
-	return FALSE;
+
+	{ // default langpack: English
+		LANGPACK_INFO pack;
+		pack.flags = LPF_DEFAULT;
+		pack.Locale = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
+		mir_wstrcpy(pack.tszLanguage, L"English");
+		pack.szAuthors = "Miranda NG Development Team";
+		pack.szAuthorEmail = "project-info@miranda-ng.org";
+		DWORD v = CallService(MS_SYSTEM_GETVERSION, 0, 0);
+		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
+
+		if (GetModuleFileName(NULL, pack.tszFullPath, _countof(pack.tszFullPath)))
+		{
+			mir_wstrcpy(pack.tszFileName, L"default");
+			HANDLE hFile = CreateFile(pack.tszFileName, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+			if (hFile != INVALID_HANDLE_VALUE)
+			{
+				GetFileTime(hFile, NULL, NULL, &pack.ftFileDate);
+				CloseHandle(hFile);
+			}
+		}
+
+		if (!isPackFound)
+			pack.flags |= LPF_ENABLED;
+
+		LoadLangpack(&pack);
+	}
+}
+
+void CLangpackDlg::LoadLangpack(LANGPACK_INFO *pack)
+{
+	LANGPACK_INFO *pack2 = new LANGPACK_INFO();
+	*pack2 = *pack;
+
+	wchar_t tszName[512];
+	mir_snwprintf(tszName, L"%s [%s]",
+		TranslateW(pack->tszLanguage),
+		pack->flags & LPF_DEFAULT ? TranslateT("built-in") : pack->tszFileName);
+	UINT message = pack->flags & LPF_DEFAULT ? CB_INSERTSTRING : CB_ADDSTRING;
+	int idx = pack->flags & LPF_DEFAULT
+		? m_languages.InsertString(tszName, 0, (LPARAM)pack2)
+		: m_languages.AddString(tszName, (LPARAM)pack2);
+	if (pack->flags & LPF_ENABLED)
+	{
+		m_languages.SetCurSel(idx);
+		DisplayPackInfo(pack);
+		m_reload.Enable(!(pack->flags & LPF_DEFAULT));
+	}
+}
+
+void CLangpackDlg::DisplayPackInfo(const LANGPACK_INFO *pack)
+{
+	if (!(pack->flags & LPF_NOLOCALE))
+	{
+		wchar_t szLocaleName[256], szLanguageName[128], szContryName[128];
+
+		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHLANGUAGENAME : LOCALE_SENGLANGUAGE, szLanguageName, _countof(szLanguageName)))
+			szLanguageName[0] = '\0';
+		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHCOUNTRYNAME : LOCALE_SENGCOUNTRY, szContryName, _countof(szContryName)))
+			szContryName[0] = '\0';
+
+		if (szLanguageName[0] && szContryName[0])
+		{
+			mir_snwprintf(szLocaleName, L"%s (%s)", TranslateW(szLanguageName), TranslateW(szContryName));
+			if (!IsValidLocale(pack->Locale, LCID_INSTALLED))
+			{
+				wchar_t *pszIncompat;
+				pszIncompat = TranslateT("(incompatible)");
+				szLocaleName[_countof(szLocaleName) - mir_wstrlen(pszIncompat) - 1] = 0;
+				mir_wstrcat(mir_wstrcat(szLocaleName, L" "), pszIncompat);
+			}
+			m_locale.SetText(szLocaleName);
+		}
+		else m_locale.SetText(TranslateT("Unknown"));
+	}
+	else m_locale.SetText(TranslateT("Unknown"));
+
+	SYSTEMTIME stFileDate;
+	wchar_t szDate[128]; szDate[0] = 0;
+	if (FileTimeToSystemTime(&pack->ftFileDate, &stFileDate))
+		GetDateFormat(Langpack_GetDefaultLocale(), DATE_SHORTDATE, &stFileDate, NULL, szDate, _countof(szDate));
+	m_date.SetText(szDate);
+
+	m_lastModUsing.SetText(ptrW(mir_utf8decodeW(pack->szLastModifiedUsing)));
+	m_authors.SetText(ptrW(mir_utf8decodeW(pack->szAuthors)));
+	m_email.SetText(ptrW(mir_utf8decodeW(pack->szAuthorEmail)));
+	m_infoFrame.SetText(TranslateW(pack->tszLanguage));
+}
+
+void CLangpackDlg::Languages_OnChange(CCtrlBase*)
+{
+	int idx = m_languages.GetCurSel();
+	LANGPACK_INFO *pack = (LANGPACK_INFO*)m_languages.GetItemData(idx);
+	DisplayPackInfo(pack);
+	if (!(pack->flags & LPF_ENABLED))
+		SendMessage(GetParent(GetHwnd()), PSM_CHANGED, 0, 0);
+	m_reload.Enable((pack->flags & LPF_ENABLED) && !(pack->flags & LPF_DEFAULT));
+}
+
+void CLangpackDlg::Email_OnClick(CCtrlBase*)
+{
+	ptrA email(m_email.GetTextA());
+	if (email)
+	{
+		char buf[512];
+		mir_snprintf(buf, "mailto:%s", email);
+		Utils_OpenUrl(buf);
+	}
+}
+
+void CLangpackDlg::Reload_OnClick(CCtrlBase*)
+{
+	m_reload.Enable(FALSE);
+	int idx = m_languages.GetCurSel();
+	LANGPACK_INFO *pack = (LANGPACK_INFO*)m_languages.GetItemData(idx);
+	ReloadLangpack(pack->tszFullPath);
+	DisplayPackInfo(pack);
+	m_reload.Enable(TRUE);
+}
+
+void CLangpackDlg::OnApply()
+{
+	wchar_t tszPath[MAX_PATH]; tszPath[0] = 0;
+	int idx = m_languages.GetCurSel();
+	int count = m_languages.GetCount();
+	for (int i = 0; i < count; i++)
+	{
+		LANGPACK_INFO *pack = (LANGPACK_INFO*)m_languages.GetItemData(i);
+		if (i == idx)
+		{
+			db_set_ws(NULL, "Langpack", "Current", pack->tszFileName);
+			mir_wstrcpy(tszPath, pack->tszFullPath);
+			pack->flags |= LPF_ENABLED;
+		}
+		else pack->flags &= ~LPF_ENABLED;
+	}
+
+	if (tszPath[0])
+	{
+		ReloadLangpack(tszPath);
+		// there no variants to determine button id
+		//if (LPPSHNOTIFY(lParam)->lParam == IDC_APPLY)
+		{
+			HWND hwndParent = GetParent(GetHwnd());
+			PostMessage(hwndParent, WM_CLOSE, 1, 0);
+			mir_forkthread(ReloadOptions, hwndParent);
+		}
+	}
+}
+
+void CLangpackDlg::OnDestroy()
+{
+	int count = m_languages.GetCount();
+	for (int i = 0; i < count; i++)
+		delete (LANGPACK_INFO*)m_languages.GetItemData(i);
+	m_languages.ResetContent();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -201,12 +290,11 @@ int LangpackOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
-	odp.pfnDlgProc = DlgLangpackOpt;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LANGUAGES);
 	odp.position = -1300000000;
 	odp.pszTitle = LPGEN("Languages");
 	odp.pszGroup = LPGEN("Customize");
 	odp.flags = ODPF_BOLDGROUPS;
+	odp.pDialog = new CLangpackDlg();
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
