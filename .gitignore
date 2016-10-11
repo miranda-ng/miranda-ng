@@ -1,7 +1,11 @@
-Debug
-Debug64
-Release
-Release64
+Debug/
+Debug64/
+Release/
+Release64/
+ipch/
+.vs/
 *.sdf
 *.suo
 *.user
+*.aps
+*.pdb
