@@ -36,8 +36,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GG", "..\protocols\Gadu-Gad
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IRC", "..\protocols\IRCG\IRC.vcxproj", "{3A12F777-56A8-42EC-BD17-8F325524241E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Yahoo", "..\protocols\Yahoo\Yahoo.vcxproj", "{E42870DB-9FED-44E7-9C93-4E64D0C87F51}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQ", "..\protocols\IcqOscarJ\icqoscar8.vcxproj", "{01DDCB36-4DE2-405D-BC36-2C8BDEB86659}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Jabber", "..\protocols\JabberG\jabber.vcxproj", "{33276462-8313-4192-8306-13717ECCA60A}"
@@ -357,8 +355,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NimContact", "..\plugins\No
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XSoundNotify", "..\plugins\XSoundNotify\XSoundNotify.vcxproj", "{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YahooGroups", "..\plugins\YahooGroups\YahooGroups.vcxproj", "{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YARelay", "..\plugins\YARelay\YARelay.vcxproj", "{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeStatusChange", "..\plugins\SkypeStatusChange\SkypeStatusChange.vcxproj", "{10F78F26-2B20-4158-869F-CB29533B4C2C}"
@@ -579,14 +575,6 @@ Global
 		{3A12F777-56A8-42EC-BD17-8F325524241E}.Release|Win32.Build.0 = Release|Win32
 		{3A12F777-56A8-42EC-BD17-8F325524241E}.Release|x64.ActiveCfg = Release|x64
 		{3A12F777-56A8-42EC-BD17-8F325524241E}.Release|x64.Build.0 = Release|x64
-		{E42870DB-9FED-44E7-9C93-4E64D0C87F51}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E42870DB-9FED-44E7-9C93-4E64D0C87F51}.Debug|Win32.Build.0 = Debug|Win32
-		{E42870DB-9FED-44E7-9C93-4E64D0C87F51}.Debug|x64.ActiveCfg = Debug|x64
-		{E42870DB-9FED-44E7-9C93-4E64D0C87F51}.Debug|x64.Build.0 = Debug|x64
-		{E42870DB-9FED-44E7-9C93-4E64D0C87F51}.Release|Win32.ActiveCfg = Release|Win32
-		{E42870DB-9FED-44E7-9C93-4E64D0C87F51}.Release|Win32.Build.0 = Release|Win32
-		{E42870DB-9FED-44E7-9C93-4E64D0C87F51}.Release|x64.ActiveCfg = Release|x64
-		{E42870DB-9FED-44E7-9C93-4E64D0C87F51}.Release|x64.Build.0 = Release|x64
 		{01DDCB36-4DE2-405D-BC36-2C8BDEB86659}.Debug|Win32.ActiveCfg = Debug|Win32
 		{01DDCB36-4DE2-405D-BC36-2C8BDEB86659}.Debug|Win32.Build.0 = Debug|Win32
 		{01DDCB36-4DE2-405D-BC36-2C8BDEB86659}.Debug|x64.ActiveCfg = Debug|x64
@@ -1679,14 +1667,6 @@ Global
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|Win32.Build.0 = Release|Win32
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|x64.ActiveCfg = Release|x64
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|x64.Build.0 = Release|x64
-		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Debug|Win32.ActiveCfg = Debug|Win32
-		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Debug|Win32.Build.0 = Debug|Win32
-		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Debug|x64.ActiveCfg = Debug|x64
-		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Debug|x64.Build.0 = Debug|x64
-		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Release|Win32.ActiveCfg = Release|Win32
-		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Release|Win32.Build.0 = Release|Win32
-		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Release|x64.ActiveCfg = Release|x64
-		{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}.Release|x64.Build.0 = Release|x64
 		{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}.Debug|Win32.ActiveCfg = Debug|Win32
 		{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}.Debug|Win32.Build.0 = Debug|Win32
 		{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}.Debug|x64.ActiveCfg = Debug|x64
