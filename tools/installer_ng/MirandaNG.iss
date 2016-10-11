@@ -65,7 +65,6 @@ Source: "Files\Icons\Proto_IRC.dll"; DestDir: "{app}\Icons"; Components: protoco
 Source: "Files\Icons\Proto_Jabber.dll"; DestDir: "{app}\Icons"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_MetaContacts.dll"; DestDir: "{app}\Icons"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_MSN.dll"; DestDir: "{app}\Icons"; Components: protocols\msn; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Icons\Proto_Yahoo.dll"; DestDir: "{app}\Icons"; Components: protocols\yahoo; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\xStatus_ICQ.dll"; DestDir: "{app}\Icons"; Components: protocols\icq; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\xStatus_Jabber.dll"; DestDir: "{app}\Icons"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\TabSRMM_icons.dll"; DestDir: "{app}\Icons"; Components: messagewin\tabsrmm; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -120,7 +119,6 @@ Source: "Files\Plugins\ICQ.dll"; DestDir: "{app}\Plugins"; Components: protocols
 Source: "Files\Plugins\IRC.dll"; DestDir: "{app}\Plugins"; Components: protocols\irc; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Jabber.dll"; DestDir: "{app}\Plugins"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\MSN.dll"; DestDir: "{app}\Plugins"; Components: protocols\msn; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Plugins\Yahoo.dll"; DestDir: "{app}\Plugins"; Components: protocols\yahoo; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Clists
 Source: "Files\Plugins\Clist_blind.dll"; DestDir: "{app}\Plugins"; Components: clicts\blind; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -157,7 +155,6 @@ Name: "protocols\icq"; Description: "{cm:Icq}"; Types: extended regular minimal
 Name: "protocols\irc"; Description: "{cm:Irc}"; Types: extended regular minimal 
 Name: "protocols\jabber"; Description: "{cm:Jabber}"; Types: extended regular minimal 
 Name: "protocols\msn"; Description: "{cm:Msn}"; Types: extended regular minimal 
-Name: "protocols\yahoo"; Description: "{cm:Yahoo}"; Types: extended regular minimal 
 Name: "clists"; Description: "{cm:Clists}"; Types: extended regular minimal custom; Flags: fixed 
 Name: "clicts\stdclist"; Description: "{cm:StdClist}"; Types: minimal; Flags: exclusive 
 Name: "clicts\blind"; Description: "{cm:BlindClist}"; Types: custom; Flags: exclusive 
@@ -230,7 +227,6 @@ en.Icq=ICQ protocol
 en.Irc=IRC protocol
 en.Jabber=Jabber protocol
 en.Msn=MSN protocol
-en.Yahoo=Yahoo protocol
 en.Clists=Contact lists
 en.StdClist=StdClist contact list
 en.BlindClist=Contact list for blind folks
@@ -260,7 +256,6 @@ en.ProtocolsICQDescription=ICQ (OSCAR) protocol support for Miranda NG.
 en.ProtocolsIRCDescription=Internet Relay Chat (IRC) protocol support for Miranda NG.
 en.ProtocolsJabberDescription=Open-standard communications protocol (XMPP) for message-oriented middleware based on XML.
 en.ProtocolsMSNDescription=Microsoft Network (MSN) protocol support for Miranda NG.
-en.ProtocolsYahooDescription=Yahoo protocol support for Miranda NG.
 en.ClistsDescription=Contact list plugins.
 en.StdClistDescription=Basic contact list core module.
 en.BlindClistDescription=This is a contact list for blind folks. It uses a list control to show all contacts, so screen readers can "read" the clist to the user.
@@ -308,7 +303,6 @@ ru.Icq=Протокол ICQ
 ru.Irc=Протокол IRC
 ru.Jabber=Протокол Jabber
 ru.Msn=Протокол MSN
-ru.Yahoo=Протокол Yahoo
 ru.Clists=Списки контактов
 ru.StdClist=Список контактов StdClist
 ru.BlindClist=Список контактов для слабовидящих
@@ -338,7 +332,6 @@ ru.ProtocolsICQDescription=Поддержка протокола ICQ в Miranda 
 ru.ProtocolsIRCDescription=Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
 ru.ProtocolsJabberDescription=Поддержка протокола Jabber (XMPP) в Miranda NG. Протокол основан на открытых стандартах, базирующихся на XML.
 ru.ProtocolsMSNDescription=Поддержка протокола Microsoft Network (MSN) в Miranda NG.
-ru.ProtocolsYahooDescription=Поддержка протокола Yahoo в Miranda NG.
 ru.ClistsDescription=Плагины списков контактов.
 ru.StdClistDescription=Список контактов, являющийся модулем ядра, обеспечивает базовый функционал.
 ru.BlindClistDescription=Список контактов для слабовидящих. Вспомогательные программы для людей с проблемами зрения могут легко "считать" информацию пользователю.
@@ -386,7 +379,6 @@ cz.Icq=ICQ protokol
 cz.Irc=IRC protokol
 cz.Jabber=Jabber protokol
 cz.Msn=MSN protokol
-cz.Yahoo=Yahoo protokol
 cz.Clists=Seznamy kontaktů
 cz.StdClist=StdClist
 cz.BlindClist=Clist_blind (pro nevidomé)
@@ -416,7 +408,6 @@ cz.protocolsICQDescription=ICQ (OSCAR) protokol pro Mirandu NG.
 cz.protocolsIRCDescription=Internet Relay Chat (IRC) protokol pro Mirandu NG.
 cz.protocolsJabberDescription=Otevřený komunikační protokol Jabber (XMPP) pro Mirandu NG.
 cz.protocolsMSNDescription=Microsoft Network (MSN) protokol pro Mirandu NG.
-cz.protocolsYahooDescription=Yahoo protokol pro Mirandu NG.
 cz.ClistsDescription=Doplňky pro seznamy kontaktů.
 cz.StdClistDescription=Základní integrovaný modul pro seznam kontaktů.
 cz.BlindClistDescription=Seznam kontaktů pro nevidomé uživatele. Pro zobrazení kontaktů využívá jednoduchý seznam, který může být jednoduše přečten.
@@ -464,7 +455,6 @@ de.Icq=ICQ-Protokoll
 de.Irc=IRC-Protokoll
 de.Jabber=Jabber-Protokoll
 de.Msn=MSN-Protokoll
-de.Yahoo=Yahoo-Protokoll
 de.Clists=Kontaktlisten
 de.StdClist=Klassische Kontaktliste
 de.BlindClist=Kontaktliste für Blinde
@@ -494,7 +484,6 @@ de.ProtocolsICQDescription=ICQ- (OSCAR-)Protokollunterstützung für Miranda NG.
 de.ProtocolsIRCDescription=Internet-Relay-Chat- (IRC-)Protokollunterstützung für Miranda NG.
 de.ProtocolsJabberDescription=Unterstützung des Extensible Messaging and Presence Protocols (XMPP) für Miranda NG.
 de.ProtocolsMSNDescription=Microsoft-Network- (MSN)-Protokollunterstützung für Miranda NG.
-de.ProtocolsYahooDescription=Yahoo-Protokollunterstützung für Miranda NG.
 de.ClistsDescription=Kontaktlistenplugins.
 de.StdClistDescription=Grundlegendes Kontaktlisten-Kernmodul.
 de.BlindClistDescription=Dies ist eine Kontaktliste für Blinde. Sie benutzt eine Liste, um alle Kontakte anzuzeigen, so dass Bildschirmleser die Kontaktliste dem Benutzer "vorlesen" können.
@@ -542,7 +531,6 @@ pl.Icq=ICQ
 pl.Irc=IRC
 pl.Jabber=Jabber
 pl.Msn=MSN
-pl.Yahoo=Yahoo
 pl.Clists=Lista kontaktów
 pl.StdClist=Lista klasyczna (StdClist)
 pl.BlindClist=Dla niewidomych (Blind)
@@ -572,7 +560,6 @@ pl.ProtocolsICQDescription=Zapewnia obsługę protokołu ICQ (OSCAR).
 pl.ProtocolsIRCDescription=Zapewnia obsługę protokołu Internet Relay Chat (IRC).
 pl.ProtocolsJabberDescription=Zapewnia obsługę protokołu Jabber/XMPP.
 pl.ProtocolsMSNDescription=Zapewnia obsługę protokołu Microsoft Network (MSN).
-pl.ProtocolsYahooDescription=Zapewnia obsługę protokołu Yahoo.
 pl.ClistsDescription=Wtyczki listy kontaktów.
 pl.StdClistDescription=Podstawowy moduł listy kontaktów zawarty w rdzeniu.
 pl.BlindClistDescription=Jest to lista kontaktów dla ludzi niewidomych. Używa kontrolki listy, aby pokazać wszystkie kontakty, dzięki temu czytnik ekranu może "czytać" listę użtkownikowi.
@@ -859,7 +846,6 @@ begin
     ComponentList.Add('protocols\irc');
     ComponentList.Add('protocols\jabber');
     ComponentList.Add('protocols\msn');
-    ComponentList.Add('protocols\yahoo');
     ComponentList.Add('clists');
     ComponentList.Add('clists\stdclist');
     ComponentList.Add('clists\blind');
@@ -917,15 +903,15 @@ begin
   if CurPageID = wpSelectComponents then
   begin
     if ActiveLanguage = 'en' then
-      WizardForm.ComponentsList.Checked[26]:= True
+      WizardForm.ComponentsList.Checked[25]:= True
     else if ActiveLanguage = 'ru' then
-      WizardForm.ComponentsList.Checked[22]:= True
+      WizardForm.ComponentsList.Checked[21]:= True
     else if ActiveLanguage = 'cz' then
-      WizardForm.ComponentsList.Checked[23]:= True
+      WizardForm.ComponentsList.Checked[22]:= True
     else if ActiveLanguage = 'pl' then
-      WizardForm.ComponentsList.Checked[24]:= True
+      WizardForm.ComponentsList.Checked[23]:= True
     else if ActiveLanguage = 'de' then
-      WizardForm.ComponentsList.Checked[25]:= True;
+      WizardForm.ComponentsList.Checked[24]:= True;
   end;
 end;
 
@@ -949,7 +935,6 @@ begin
     ExpandConstant('{cm:ProtocolsIRCDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsJabberDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsMSNDescription}') + ';' +
-    ExpandConstant('{cm:ProtocolsYahooDescription}') + ';' +
     ExpandConstant('{cm:ClistsDescription}') + ';' +
     ExpandConstant('{cm:StdClistDescription}') + ';' +
     ExpandConstant('{cm:BlindClistDescription}') + ';' +

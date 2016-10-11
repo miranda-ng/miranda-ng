@@ -1,6 +1,6 @@
-Microsoft Visual Studio Solution File, Format Version 14.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 14 for Windows Desktop
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
@@ -39,8 +39,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_ICQ", "..\protocols\IcqOscarJ\icq_xstatus\xStatus_ICQ.vcxproj", "{E98A8615-1082-1979-D6D8-F763F13BFCBD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_Jabber", "..\protocols\JabberG\jabber_xstatus\xStatus_Jabber.vcxproj", "{6BBEEA1E-3C87-6CD1-F32A-027C3EC5320E}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Yahoo", "..\protocols\Yahoo\proto_yahoo\Proto_Yahoo.vcxproj", "{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryPP_icons", "..\plugins\HistoryPlusPlus\historypp_icons\HistoryPP_icons.vcxproj", "{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}"
 EndProject
@@ -246,14 +244,6 @@ Global
 		{6BBEEA1E-3C87-6CD1-F32A-027C3EC5320E}.Release|Win32.Build.0 = Release|Win32
 		{6BBEEA1E-3C87-6CD1-F32A-027C3EC5320E}.Release|x64.ActiveCfg = Release|x64
 		{6BBEEA1E-3C87-6CD1-F32A-027C3EC5320E}.Release|x64.Build.0 = Release|x64
-		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Debug|Win32.ActiveCfg = Debug|Win32
-		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Debug|Win32.Build.0 = Debug|Win32
-		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Debug|x64.ActiveCfg = Debug|x64
-		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Debug|x64.Build.0 = Debug|x64
-		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Release|Win32.ActiveCfg = Release|Win32
-		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Release|Win32.Build.0 = Release|Win32
-		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Release|x64.ActiveCfg = Release|x64
-		{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}.Release|x64.Build.0 = Release|x64
 		{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}.Debug|Win32.Build.0 = Debug|Win32
 		{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}.Debug|x64.ActiveCfg = Debug|x64
