@@ -27,8 +27,6 @@ ID:
 Изобразяване на Yahoo уведомявания
 [Show Errors]
 Показване на грешки
-[Yahoo Japan]
-Yahoo Япония
 [Create a new Yahoo account]
 Създаване на Yahoo акаунт
 [Connection Settings]

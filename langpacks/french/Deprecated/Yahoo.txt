@@ -28,8 +28,6 @@ Montrer les avatars
 Afficher les notifications
 [Show Errors]
 Voir les erreurs
-[Yahoo Japan]
-Yahoo Japon
 [Create a new Yahoo account]
 
 [Connection Settings]

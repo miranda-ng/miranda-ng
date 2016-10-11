@@ -28,8 +28,6 @@ Automatisch auf Yahoo-Webseite(n) anmelden
 Yahoo-Benachrichtigungen zeigen
 [Show Errors]
 Fehler anzeigen
-[Yahoo Japan]
-Yahoo Japan
 [Create a new Yahoo account]
 Ein neues Yahoo-Konto erstellen ...
 [Connection Settings]
