@@ -42,8 +42,7 @@ Miranda NG is published under the [GNU GPL license][2].
 - [Official web site](http://miranda-ng.org/)
 - [Forums](http://forum.miranda-ng.org/)
 - [Community Wiki](http://wiki.miranda-ng.org/)
-- [Main SVN repository](http://svn.miranda-ng.org/)
-- [Read-only Git mirror](https://github.com/miranda-ng/miranda-ng)
+- [Main Git repository](https://github.com/miranda-ng/miranda-ng)
 
 
 ## Miranda NG Communities ##
