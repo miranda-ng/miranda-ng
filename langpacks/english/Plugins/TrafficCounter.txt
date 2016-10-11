@@ -19,7 +19,7 @@
 [Text color:]
 [Reset to default]
 [Popup timeout]
-[From Popup plugin]
+[From popup plugin]
 [Custom]
 [Test]
 [Show now]

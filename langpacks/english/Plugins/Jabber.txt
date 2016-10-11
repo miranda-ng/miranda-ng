@@ -769,7 +769,6 @@
 [League Of Legends (Oceania)]
 [League Of Legends (US)]
 [Odnoklassniki]
-[Yandex]
 [Some changes will take effect the next time you connect to the Jabber network.]
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%S]
