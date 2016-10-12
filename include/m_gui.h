@@ -405,6 +405,7 @@ protected:
 	bool      m_isModal;
 	bool      m_initialized;
 	bool      m_forceResizable;
+	bool      m_bExiting; // window received WM_CLOSE and gonna die soon
 	LRESULT   m_lresult;
 
 	enum { CLOSE_ON_OK = 0x1, CLOSE_ON_CANCEL = 0x2 };
