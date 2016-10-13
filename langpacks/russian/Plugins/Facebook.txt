@@ -113,6 +113,8 @@
 Отправить SMS
 [Enter the text you see]
 Введите текст, который видите
+[Former]
+Основатель
 [Myself]
 Я
 [Friend]

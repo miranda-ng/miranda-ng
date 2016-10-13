@@ -121,5 +121,11 @@ HTTP сервер
 HTTP Новый общий файл
 [Share removed]
 Общее удалено
+[Failed to open or create log file]
+Не удалось открыть или создать файл журнала
+[Failed to open or create file ]
+Не удалось открыть или создать файл\s
+[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+Не удалось выполнить привязку к порту %s\r\nВероятно, это вызвано тем, что этот порт уже используется другой программой или службой
 [Disable HTTP server]
 Отключить HTTP сервер

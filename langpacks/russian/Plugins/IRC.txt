@@ -392,7 +392,7 @@ DCC: Запрос на продолжение закачки файла от %s 
 [DCC CHAT request sent to %s]
 Запрос на DCC-чат отправлен для %s
 [DCC ERROR: Unable to bind port]
-Ошибка DCC: Невозможно определить порт
+Ошибка DCC: Невозможно выполнить привязку к порту
 [Input command]
 Ввод команды
 [Please enter the reply]
@@ -400,7 +400,7 @@ DCC: Запрос на продолжение закачки файла от %s 
 [Failed to connect to]
 Не удалось подключиться к
 [DCC ERROR: Unable to bind local port for passive file transfer]
-Ошибка DCC: Невозможно открыть локальный порт для пассивной передачи файлов
+Ошибка DCC: Невозможно выполнить привязку к локальному порту для пассивной передачи файлов
 [%s server connection]
 %s подключение к серверу
 [%s client-to-client connections]
@@ -414,7 +414,7 @@ DCC-запрос на реверсную передачу послан %s [%s]
 [DCC file transfer request sent to %s [%s]]
 DCC-запрос на передачу файла послан %s [%s]
 [DCC ERROR: Unable to bind local port]
-Ошибка DCC: Невозможно получить порт
+Ошибка DCC: Невозможно выполнить привязку к локальному порту
 [The protocol is not online]
 Протокол не в сети
 [The dcc chat connection is not active]

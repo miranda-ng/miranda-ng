@@ -1796,7 +1796,7 @@ xСтатус ICQ
 [The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Слишком большие файлы не могут быть отправлены за раз. Файлы больше 4 Гб могут быть отосланы только отдельно.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
-Невозможно начать передачу файла. Невозможно назначить локальный порт, и файловый прокси недоступен.
+Невозможно начать передачу файла. Невозможно выполнить привязку к локальному порту, и файловый прокси недоступен.
 [Connection lost during file transfer.]
 Соединение потеряно при передачи файла.
 [File transfer negotiation failed for unknown reason.]
