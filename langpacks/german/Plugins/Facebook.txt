@@ -57,7 +57,7 @@ Newsfeed-Ereignisse melden:
 [Don't show advertising posts]
 Werbebeiträge nicht anzeigen
 [Show friendships changes (when someone removes/approves you)]
-
+Freundschaftsänderungen anzeigen (wenn jemand Sie entfernt/annimmt)
 [Show real-time friends activity (ticker feed)]
 Echtzeit-Freundesaktivität (Ticker-Feed) anzeigen
 [Show my "On this day" posts at login]
@@ -101,7 +101,7 @@ Unterstützung für Mehrbenutzerchats aktivieren
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
 [Automatically join active chats that exist in contact list]
-
+Aktiven Chats in der Kontaktliste automatisch beitreten
 [History synchronization]
 Verlauf synchronisieren
 [Load last messages on opening message window (EXPERIMENTAL)]
@@ -119,7 +119,7 @@ SMS senden
 Geben Sie den Text ein, den Sie sehen
 ;file \protocols\FacebookRM\src\chat.cpp
 [Former]
-
+Ehemaliger
 [Myself]
 Ich
 [Friend]
@@ -150,11 +150,11 @@ Sie haben einen falschen Überprüfungscode eingegeben. Versuchen Sie es nochmal
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 Anmeldefehler: Ihr Konto ist vorrübergehend gesperrt. Sie müssen dieses Gerät in Ihrem Webbrowser bestätigen.
 [Check last login]
-
+Letzte Anmeldung überprüfen
 [Do you recognize this activity?]
-
+Erinnern Sie sich an diese Aktivität?
 [Login error: You need to confirm last unknown login or revoke it from web browser.]
-
+Anmeldefehler: Sie müssen die letzte unbekannte Anmeldung bestätigen oder diese über Ihren Webbrowser widerrufen.
 [Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
 Anmeldefehler: Facebook denkt, dass Ihr Computer infiziert ist. Lösen Sie dies, indem sie sich im "Privat Browsen"-Modus Ihres Webbrowsers anmelden und deren Antiviren-Überprüfung ausführen.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
@@ -251,7 +251,7 @@ Fotos
 [a photo]
 ein Foto
 [a video]
-
+ein Video
 [a GIF]
 ein GIF
 [User sent %s:]
@@ -271,13 +271,13 @@ Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
 Kontakt ist nicht mehr in Ihrer Server-Liste.
 [Loading history started.]
-
+Laden des Verlaufes begonnen.
 [Loading messages: %d/%d]
-
+Lade Nachrichten: %d/%d
 [Loading history completed.]
-
+Verlauf komplett geladen.
 [<attachment without text>]
-
+<Anhang ohne Text>
 [On this day]
 An diesem Tag
 ;file \protocols\FacebookRM\src\proto.cpp
@@ -308,11 +308,11 @@ Freundschaftsanfragen laden...
 [Loading notifications...]
 Benachrichtigungen laden...
 [Loading memories...]
-
+Erinnerungen laden...
 [Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
-
+Es wird bereits ein Verlauf geladen. Es kann nur für einen Kontakt auf einmal ausgeführt werden, also warten Sie bitte bis es beendet ist.
 [This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
-
+Dies läd alle Nachrichten vom Server. Um doppelte Nachrichten im Verlauf zu vermeiden, löschen Sie alle existierenden Nachrichten manuell bevor Sie fortfahren.\nDer Prozess des ladens kann eine Weile dauern, also gedulden Sie sich bitte.\nMöchten Sie fortfahren?
 [Do you want to cancel your friendship with '%s'?]
 Möchten Sie Ihre Freundschaft mit "%s" beenden?
 [Client errors]
@@ -326,7 +326,7 @@ Freundschaftsereignisse
 [Real-time friends activity]
 Echtzeit-Freundesaktivität
 [Memories]
-
+Erinnerungen
 [Visit profile]
 Profil besuchen
 [Visit notifications]
@@ -381,7 +381,7 @@ Freundschaft-Details besuchen
 [Visit conversation]
 Unterhaltung besuchen
 [Load history]
-
+Verlauf laden
 [Cancel friendship]
 Freundschaft beenden
 [Cancel friendship request]
@@ -399,6 +399,6 @@ Freundschaftsanfragen überprüfen
 [Check newsfeeds]
 Newsfeeds überprüfen
 [Check memories]
-
+Erinnerungen überprüfen
 [Check notifications]
 Benachrichtigungen überprüfen

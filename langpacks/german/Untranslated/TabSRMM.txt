@@ -1,2 +1,0 @@
-﻿[Show send menu]
-[Show protocol menu]

@@ -609,7 +609,7 @@ Trennlinien anzeigen
 [Message grouping]
 Nachrichten gruppieren
 [Support BBCode]
-Unterstütze BBCode
+BBCode unterstützen
 [Misc]
 Diverses
 [RTL is default text direction]
@@ -930,7 +930,7 @@ Verlaufseinstellungen
 [View user's history]
 Verlauf anzeigen
 [Edit user notes]
-Bearbeite Benutzernotizen
+Benutzernotizen bearbeiten
 [Change background color]
 Hintergrundfarbe ändern
 [Toggle nick list]
@@ -1087,7 +1087,7 @@ meldet sich an und ist nun %s.
 ändert den Status von %s zu %s.
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 [Most recent unread session]
-Die letzten ungelesenen Sitzung
+Letzte ungelesene Sitzung
 [Paste and send]
 Einfügen und senden
 [Contact's messaging preferences]
@@ -1095,7 +1095,7 @@ Kontakt Nachrichten Präferenz
 [Send a file]
 Eine Datei senden
 [Quote message]
-Nachrichtenzitieren
+Nachricht zitieren
 [Toggle send later]
 Später senden
 [Send message]
@@ -1103,11 +1103,11 @@ Nachricht senden
 [Smiley selector]
 Smiley-Auswahlfenster
 [Show message history]
-Zeige Nachrichtenverlauf
+Nachrichtenverlauf anzeigen
 [Show send menu]
-
+Sendemenü anzeigen
 [Show protocol menu]
-
+Protokollmenü anzeigen
 [Show user menu]
 Benutzermenü anzeigen
 [Show user details]
@@ -1121,11 +1121,11 @@ Textrichtung umschalten
 [Toggle multi send]
 Nachrichten an mehrere Personen senden
 [Clear message log]
-Lösche Nachrichtenverlauf
+Nachrichtenverlauf löschen
 [Collapse side bar]
-Schließe Sidebar
+Sidebar schließen
 [Toggle filter]
-Wechsel Filter
+Filter umschalten
 [Show server window]
 Serverfenster anzeigen
 ;file \plugins\TabSRMM\src\infopanel.cpp
@@ -1718,9 +1718,9 @@ Einfache Textformatierung (*fett* etc.)
 [Support BBCode formatting]
 BBCode-Formatierung verwenden
 [Place a separator in the log after a window lost its foreground status]
-Einen Abstandshalter im Verlaufplatzieren, wenn ein Fenster den Fokus verliert
+Einen Abstandshalter im Verlauf platzieren, wenn ein Fenster den Fokus verliert
 [Only place a separator when an incoming event is announced with a popup]
-Nur einen Abstandshalter platzieren, wenn eingehendes Ereignis mit einem Popup angekündigt wird
+Abstandshalter nur dann platzieren wenn eingehendes Ereignis mit einem Popup angekündigt wird
 [Show events at the new line (IEView Compatibility Mode)]
 Ereignisse in einer neuen Zeile anzeigen (IEView-Kompatibilitätsmodus)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
@@ -1956,11 +1956,11 @@ Benutzerliste im Chatfenster anzeigen
 [Colorize nicknames in member list]
 Nicknamen in der Nickliste färben
 [Show button menus when right clicking the buttons]
-Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
+Buttonmenü bei Rechtsklick auf Button anzeigen
 [Show topic as status message on the contact list]
 Thema als Statusnachricht in der Kontaktliste anzeigen
 [Do not pop up the window when joining a chat room]
-Fenster nicht automatisch anzeigen, wenn man einen Raum betritt
+Fenster beim Betreten eines Chatraumes nicht automatisch erzeugen
 [Hide or show the window by double click in the contact list]
 Fenster bei Doppelklick in der Kontaktliste anzeigen oder verstecken
 [Sync splitter position with standard IM sessions]

@@ -129,9 +129,9 @@ Intervall der Unsichtbarkeit (Min.):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Nicht-Standard urlEncode für gesendete Nachrichten verwenden (weniger Verkehr)
 [Send VK-objects links as attachments]
-
+Links zu VK-Objekten als Anhang senden
 [and load sent attachments]
-
+und gesendete Anhänge laden
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -242,7 +242,7 @@ Einer der angegebenen Parameter fehlte oder war ungültig.
 [Access to adding post denied]
 Zugriff auf Pinnwand verweigert
 [Enter the missing digits between %s and %s of the phone number linked to your account]
-
+Geben Sie die fehlenden Ziffern zwischen %s und %s der mit Ihrem Konto verknüpften Telefonnummer ein.
 [Attention!]
 Achtung!
 [Enter confirmation code]
@@ -445,9 +445,9 @@ Nachrichten für alle Kontakte wurden komplett geladen.
 [Loading history]
 Verlauf laden
 [Error loading message history for %s from server.]
-
+Vehler beim Laden des Nachrichtenverlaufes von %s vom Server.
 [Loading messages for %s is completed.]
-Nachrichten für %s wurden komplett geladen.
+Laden der Nachrichten von %s ist fertig.
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Netzwerk
@@ -548,7 +548,7 @@ Neue Statusnachricht eingeben
 Ich bin zurück
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
-
+Dienstnachricht
 [Interests]
 Interessen
 [Activities]

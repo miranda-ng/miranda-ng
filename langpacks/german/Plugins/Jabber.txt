@@ -533,7 +533,7 @@ Unterstützt Kontaktlistenaustausch
 [Supports direct chat invitations (XEP-0249)]
 Unterstützt direkte Chateinladungen (XEP-0249)
 [Receives information about OMEMO devices]
-
+Empfängt Informationen über OMEMO-Geräte
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -1445,7 +1445,7 @@ Nur "In-Band"-Dateitransfers akzeptieren (enthüllt nicht die eigene IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP-Authentifizierungs-Anfragen akzeptieren (XEP-0070)
 [Use OMEMO encryption for messages if possible (placeholder)]
-
+OMEMO-Verschlüsselung für Nachhrichten verwenden wenn möglich (Platzhalter)
 [General]
 Allgemein
 [Autoaccept multiuser chat invitations]

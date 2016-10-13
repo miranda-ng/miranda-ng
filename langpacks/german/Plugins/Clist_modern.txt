@@ -407,7 +407,7 @@ Nichtlayermodus
 [Disable skin engine]
 Skinengine deaktivieren
 [Enable Aero Glass (Vista, Win 7)]
-Aero Glass aktivieren (ab Windows Vista, 7))
+Aero Glass aktivieren (Windows Vista, 7)
 [Order of items:]
 Reihenfolge der Elemente:
 [Minimum row height:]

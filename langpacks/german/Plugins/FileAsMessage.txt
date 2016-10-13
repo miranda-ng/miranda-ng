@@ -40,7 +40,7 @@ Nur alphanumerische Kodierung in Übertragungen verwenden
 Weitere Einstellungen unter Ereignisse -> Dateiübertragungen, Gruppe "Dateien empfangen"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [Receive file]
-
+Datei empfangen
 [Send file]
 Datei senden
 [File already exists. Overwrite?]

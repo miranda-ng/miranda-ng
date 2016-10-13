@@ -315,9 +315,9 @@ Inhaber
 [Admin]
 Administrator
 [Op]
-
+Op
 [Halfop]
-
+Halfop
 [Voice]
 Stimme
 [Downloading list (%u%%) - %u channels]
@@ -343,7 +343,7 @@ Nickname ändern
 [Unknown]
 Unbekannt
 [IRC error]
-IRC-Hinweis
+IRC-Fehler
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Bitte Hostmaske eingeben (nick!user@host)\nKontakte auf der Kontaktliste werden nie ignoriert
 [Ignore]

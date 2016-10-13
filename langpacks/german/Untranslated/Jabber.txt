@@ -1,2 +1,0 @@
-﻿[Receives information about OMEMO devices]
-[Use OMEMO encryption for messages if possible (placeholder)]

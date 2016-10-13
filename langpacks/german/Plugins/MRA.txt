@@ -222,7 +222,7 @@ Avatare: Kann Datei %s nicht öffnen, Fehler.
 [Owners]
 Besitzer
 [Inviter]
-
+Einlader
 [Visitors]
 Besucher
 [Chat plugin is required for conferences. Install it before chatting]

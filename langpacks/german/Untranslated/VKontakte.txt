@@ -1,5 +1,0 @@
-﻿[Send VK-objects links as attachments]
-[and load sent attachments]
-[Enter the missing digits between %s and %s of the phone number linked to your account]
-[Error loading message history for %s from server.]
-[Service message]
