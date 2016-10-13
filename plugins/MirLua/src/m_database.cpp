@@ -169,6 +169,16 @@ static int db_GetLastEvent(lua_State *L)
 	return 1;
 }
 
+static int db_GetFirstUnreadEvent(lua_State *L)
+{
+	MCONTACT hContact = luaL_checkinteger(L, 1);
+
+	MEVENT res = db_event_firstUnread(hContact);
+	lua_pushinteger(L, res);
+
+	return 1;
+}
+
 static int db_EventIterator(lua_State *L)
 {
 	MCONTACT hContact = luaL_checkinteger(L, lua_upvalueindex(1));
@@ -233,6 +243,36 @@ static int db_EventsFromEnd(lua_State *L)
 	return 1;
 }
 
+static int db_UnreadEventIterator(lua_State *L)
+{
+	MCONTACT hContact = luaL_checkinteger(L, lua_upvalueindex(1));
+	MEVENT hDbEvent = luaL_checkinteger(L, lua_upvalueindex(2));
+
+	hDbEvent = db_event_firstUnread(hContact);
+
+	if (hDbEvent)
+	{
+		lua_pushinteger(L, hDbEvent);
+		lua_pushvalue(L, -1);
+		lua_replace(L, lua_upvalueindex(2));
+	}
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+static int db_UnreadEvents(lua_State *L)
+{
+	MCONTACT hContact = luaL_checkinteger(L, 1);
+
+	lua_pushinteger(L, hContact);
+	lua_pushinteger(L, NULL);
+	lua_pushcclosure(L, db_UnreadEventIterator, 2);
+
+	return 1;
+}
+
 void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 {
 	dbei.cbSize = sizeof(dbei);
@@ -289,6 +329,17 @@ static int db_AddEvent(lua_State *L)
 		lua_pushnumber(L, hDbEvent);
 	else
 		lua_pushnil(L);
+
+	return 1;
+}
+
+static int db_MarkReadEvent(lua_State *L)
+{
+	MCONTACT hContact = luaL_checkinteger(L, 1);
+	MEVENT hDbEvent = luaL_checkinteger(L, 2);
+
+	int res = db_event_markRead(hContact, hDbEvent);
+	lua_pushnumber(L, res);
 
 	return 1;
 }
@@ -555,9 +606,12 @@ static luaL_Reg databaseApi[] =
 	{ "GetPrevEvent", db_GetPrevEvent },
 	{ "GetNextEvent", db_GetNextEvent },
 	{ "GetLastEvent", db_GetLastEvent },
+	{ "GetFirstUnreadEvent", db_GetFirstUnreadEvent },
 	{ "Events", db_Events },
 	{ "EventsFromEnd", db_EventsFromEnd },
+	{ "UnreadEvents", db_UnreadEvents },
 	{ "AddEvent", db_AddEvent },
+	{ "MarkReadEvent", db_MarkReadEvent },
 
 	{ "Settings", db_Settings },
 	{ "Modules", db_Modules },
