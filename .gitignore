@@ -8,6 +8,7 @@ ipch/
 *.VC.db
 *.VC.VC.opendb
 *.sdf
+*.sln
 *.suo
 *.user
 *.aps
