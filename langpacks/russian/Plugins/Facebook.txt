@@ -114,7 +114,7 @@
 [Enter the text you see]
 Введите текст, который видите
 [Former]
-Основатель
+Бывший
 [Myself]
 Я
 [Friend]
