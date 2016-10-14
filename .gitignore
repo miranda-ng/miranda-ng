@@ -13,5 +13,8 @@ ipch/
 *.user
 *.aps
 
+#Keep predefined Miranda solutions
+!/bin*/*.sln
+
 #Miranda files
 include/m_version.h
