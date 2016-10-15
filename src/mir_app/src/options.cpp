@@ -748,6 +748,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 	OptionsPageData *opd;
 	OptionsDlgData *dat = (OptionsDlgData*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 	HWND hwndTree = GetDlgItem(hdlg, IDC_PAGETREE);
+	PSHNOTIFY pshn;
 
 	switch (message) {
 	case WM_CTLCOLORSTATIC:
@@ -885,7 +886,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			case TVN_SELCHANGING:
 				opd = dat->getCurrent();
 				if (opd && opd->getHwnd() != NULL) {
-					PSHNOTIFY pshn;
 					pshn.hdr.code = PSN_KILLACTIVE;
 					pshn.hdr.hwndFrom = dat->arOpd[dat->currentPage]->getHwnd();
 					pshn.hdr.idFrom = 0;
@@ -1033,20 +1033,17 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			break;
 
 		case IDCANCEL:
-			{
-				PSHNOTIFY pshn;
-				pshn.hdr.idFrom = 0;
-				pshn.lParam = 0;
-				pshn.hdr.code = PSN_RESET;
-				for (int i = 0; i < dat->arOpd.getCount(); i++) {
-					OptionsPageData *p = dat->arOpd[i];
-					if (p->getHwnd() == NULL || !p->changed)
-						continue;
-					pshn.hdr.hwndFrom = p->getHwnd();
-					SendMessage(p->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn);
-				}
-				DestroyWindow(hdlg);
+			pshn.hdr.idFrom = 0;
+			pshn.lParam = 0;
+			pshn.hdr.code = PSN_RESET;
+			for (int i = 0; i < dat->arOpd.getCount(); i++) {
+				OptionsPageData *p = dat->arOpd[i];
+				if (p->getHwnd() == NULL || !p->changed)
+					continue;
+				pshn.hdr.hwndFrom = p->getHwnd();
+				SendMessage(p->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn);
 			}
+			DestroyWindow(hdlg);
 			break;
 
 		case IDOK:
@@ -1054,7 +1051,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			if (LOWORD(wParam) == IDOK && GetParent(GetFocus()) == GetDlgItem(hdlg, IDC_KEYWORD_FILTER))
 				return TRUE;
 
-			PSHNOTIFY pshn;
 			EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
 			SetFocus(hwndTree);
 

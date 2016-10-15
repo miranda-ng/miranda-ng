@@ -53,7 +53,7 @@ class CLangpackDlg : public CDlgBase
 	CCtrlBase m_date;
 	CCtrlBase m_locale;
 	CCtrlButton m_reload;
-	
+
 	CCtrlHyperlink m_more;
 
 	void LoadLangpacks();
@@ -102,10 +102,8 @@ void CLangpackDlg::LoadLangpacks()
 	bool isPackFound = false;
 	WIN32_FIND_DATA wfd;
 	HANDLE hFind = FindFirstFile(tszFullPath, &wfd);
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
+	if (hFind != INVALID_HANDLE_VALUE) {
+		do {
 			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				continue;
 
@@ -113,11 +111,9 @@ void CLangpackDlg::LoadLangpacks()
 			mir_wstrcat(tszFullPath, wfd.cFileName);
 
 			LANGPACK_INFO pack;
-			if (!LoadLangPackDescr(tszFullPath, &pack))
-			{
+			if (!LoadLangPackDescr(tszFullPath, &pack)) {
 				pack.ftFileDate = wfd.ftLastWriteTime;
-				if (langpack && !mir_wstrcmpi(langpack, wfd.cFileName))
-				{
+				if (langpack && !mir_wstrcmpi(langpack, wfd.cFileName)) {
 					if (!isPackFound) pack.flags |= LPF_ENABLED;
 					isPackFound = true;
 				}
@@ -137,12 +133,10 @@ void CLangpackDlg::LoadLangpacks()
 		DWORD v = CallService(MS_SYSTEM_GETVERSION, 0, 0);
 		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
 
-		if (GetModuleFileName(NULL, pack.tszFullPath, _countof(pack.tszFullPath)))
-		{
+		if (GetModuleFileName(NULL, pack.tszFullPath, _countof(pack.tszFullPath))) {
 			mir_wstrcpy(pack.tszFileName, L"default");
 			HANDLE hFile = CreateFile(pack.tszFileName, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
-			if (hFile != INVALID_HANDLE_VALUE)
-			{
+			if (hFile != INVALID_HANDLE_VALUE) {
 				GetFileTime(hFile, NULL, NULL, &pack.ftFileDate);
 				CloseHandle(hFile);
 			}
@@ -164,12 +158,11 @@ void CLangpackDlg::LoadLangpack(LANGPACK_INFO *pack)
 	mir_snwprintf(tszName, L"%s [%s]",
 		TranslateW(pack->tszLanguage),
 		pack->flags & LPF_DEFAULT ? TranslateT("built-in") : pack->tszFileName);
-	UINT message = pack->flags & LPF_DEFAULT ? CB_INSERTSTRING : CB_ADDSTRING;
-	int idx = pack->flags & LPF_DEFAULT
+
+	int idx = (pack->flags & LPF_DEFAULT)
 		? m_languages.InsertString(tszName, 0, (LPARAM)pack2)
 		: m_languages.AddString(tszName, (LPARAM)pack2);
-	if (pack->flags & LPF_ENABLED)
-	{
+	if (pack->flags & LPF_ENABLED) {
 		m_languages.SetCurSel(idx);
 		DisplayPackInfo(pack);
 		m_reload.Enable(!(pack->flags & LPF_DEFAULT));
@@ -178,8 +171,7 @@ void CLangpackDlg::LoadLangpack(LANGPACK_INFO *pack)
 
 void CLangpackDlg::DisplayPackInfo(const LANGPACK_INFO *pack)
 {
-	if (!(pack->flags & LPF_NOLOCALE))
-	{
+	if (!(pack->flags & LPF_NOLOCALE)) {
 		wchar_t szLocaleName[256], szLanguageName[128], szContryName[128];
 
 		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHLANGUAGENAME : LOCALE_SENGLANGUAGE, szLanguageName, _countof(szLanguageName)))
@@ -187,11 +179,9 @@ void CLangpackDlg::DisplayPackInfo(const LANGPACK_INFO *pack)
 		if (!GetLocaleInfo(pack->Locale, WINVER >= _WIN32_WINNT_WIN7 ? LOCALE_SENGLISHCOUNTRYNAME : LOCALE_SENGCOUNTRY, szContryName, _countof(szContryName)))
 			szContryName[0] = '\0';
 
-		if (szLanguageName[0] && szContryName[0])
-		{
+		if (szLanguageName[0] && szContryName[0]) {
 			mir_snwprintf(szLocaleName, L"%s (%s)", TranslateW(szLanguageName), TranslateW(szContryName));
-			if (!IsValidLocale(pack->Locale, LCID_INSTALLED))
-			{
+			if (!IsValidLocale(pack->Locale, LCID_INSTALLED)) {
 				wchar_t *pszIncompat;
 				pszIncompat = TranslateT("(incompatible)");
 				szLocaleName[_countof(szLocaleName) - mir_wstrlen(pszIncompat) - 1] = 0;
@@ -228,8 +218,7 @@ void CLangpackDlg::Languages_OnChange(CCtrlBase*)
 void CLangpackDlg::Email_OnClick(CCtrlBase*)
 {
 	ptrA email(m_email.GetTextA());
-	if (email)
-	{
+	if (email) {
 		char buf[512];
 		mir_snprintf(buf, "mailto:%s", email);
 		Utils_OpenUrl(buf);
@@ -251,11 +240,9 @@ void CLangpackDlg::OnApply()
 	wchar_t tszPath[MAX_PATH]; tszPath[0] = 0;
 	int idx = m_languages.GetCurSel();
 	int count = m_languages.GetCount();
-	for (int i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++) {
 		LANGPACK_INFO *pack = (LANGPACK_INFO*)m_languages.GetItemData(i);
-		if (i == idx)
-		{
+		if (i == idx) {
 			db_set_ws(NULL, "Langpack", "Current", pack->tszFileName);
 			mir_wstrcpy(tszPath, pack->tszFullPath);
 			pack->flags |= LPF_ENABLED;
@@ -263,12 +250,10 @@ void CLangpackDlg::OnApply()
 		else pack->flags &= ~LPF_ENABLED;
 	}
 
-	if (tszPath[0])
-	{
+	if (tszPath[0]) {
 		ReloadLangpack(tszPath);
-		// there no variants to determine button id
-		//if (LPPSHNOTIFY(lParam)->lParam == IDC_APPLY)
-		{
+		
+		if (m_bExiting) {
 			HWND hwndParent = GetParent(GetHwnd());
 			PostMessage(hwndParent, WM_CLOSE, 1, 0);
 			mir_forkthread(ReloadOptions, hwndParent);
