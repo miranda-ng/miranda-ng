@@ -60,8 +60,7 @@ CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog)
 	m_hInst = hInst;
 	m_idDialog = idDialog;
 	m_hwnd = m_hwndParent = NULL;
-	m_isModal = false;
-	m_initialized = false;
+	m_isModal = m_initialized = m_bExiting = false;
 	m_autoClose = CLOSE_ON_OK | CLOSE_ON_CANCEL;
 	m_forceResizable = false;
 }
@@ -192,6 +191,9 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			NMHDR *pnmh = (NMHDR *)lParam;
 			if (pnmh->idFrom == 0) {
 				if (pnmh->code == PSN_APPLY) {
+					if (LPPSHNOTIFY(lParam)->lParam != 3) // IDC_APPLY
+						m_bExiting = true;
+
 					m_lresult = true;
 					NotifyControls(&CCtrlBase::OnApply);
 					if (m_lresult)
