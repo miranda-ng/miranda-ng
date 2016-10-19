@@ -151,6 +151,10 @@ AIM Установить Instant Idle
 Вы подключаетесь слишком часто. Подождите 10 минут и попробуйте снова.
 [Unknown error occurred when attempting to connect.]
 Неизвестная ошибка при соединении.
+[Invalid SNAC header.]
+Недействительный заголовок SNAC.
+[You sent obsolete SNAC.]
+Вы послали устаревший SNAC.
 [Not supported by server.]
 Не поддерживается сервером.
 [Not supported by the client.]
@@ -227,6 +231,12 @@ AIM Установить Instant Idle
 Письмо с подтверждением было отправлено на новый адрес электронной почты. Следуйте инструкциям в нём.
 [A confirmation message has been sent to your email address. Please follow its instructions.]
 Письмо с подтверждением было отправлено на ваш адрес электронной почты. Следуйте инструкциям в нём.
+[Unable to confirm at this time. Please try again later.]
+Невозможно подтвердить сейчас. Попробуйте позже.
+[Your account has already been confirmed.]
+Ваша учётная запись уже подтверждена.
+[Can't start the confirmation procedure.]
+Не удалось начать процедуру подтверждения.
 [Block]
 Заблокировать
 [Profile]

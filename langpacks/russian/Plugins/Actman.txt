@@ -569,6 +569,8 @@ UTF16+сигнатура
 целочисленный 0
 [Import settings/contacts from file]
 Импортирует настройки/контакты из файла
+[Opens or activate database editor]
+Открывает или активирует редактор базы
 [displays File Transfer window]
 Показывает окно передачи файлов
 [on Desktop]
@@ -629,12 +631,16 @@ wParam содержит имя станции в кодировке Unicode
 Вызывает окно установки аватара для всех доступных протоколов
 [Open Options dialog]
 Открывает окно настроек программы
+[Opens the options dialog, optionally at the specified page]
+Открывает окно настроек, допускается указание конкретного раздела
 [Check for updates]
 Проверяет наличие обновлений
 [with confirmation]
 с подтверждением
 [without confirmation]
 без подтверждения
+[Empty updater download folder]
+Очищает папку загрузки обновлений
 [Enables or disables Popup windows]
 Включает или отключает всплывающие окна
 [Notify]
@@ -659,12 +665,16 @@ wParam в ANSI
 Воспроизводит звук, добавленный с помощью Skin/Sounds/AddNew. Если звук не найден, будет воспроизведён стандартный звук Windows
 [struct]
 структура
+[Open contact received file directory]
+Открывает папку с принятым от контакта файлом
 [Send file to contact.]
 Отправляет контакту файл
 [Opens message window for contact with handle in wparam]
 Открывает окно беседы с контактом, хендл которого находится в wparam
 [remove all temporary contacts from db]
 Удаляет из базы все временные контакты
+[Call avatar option dialog for contact]
+Вызывает окно настроек аватара контакта
 [Filename]
 Имя файла
 [Shows contact property window.]

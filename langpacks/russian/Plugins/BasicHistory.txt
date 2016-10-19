@@ -183,12 +183,16 @@
 Импорт
 [Export]
 Экспорт
+[File does not contain selected contact]
+Выбранный контакт в файле отсутствует.
 [File is corrupted]
 Файл повреждён
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Эта операция полностью удалит историю этого контакта.\nВы уверены?
 [Are You sure?]
 Вы уверены?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Хотите удалить все импортированные сообщения для этого контакта?\nУчтите, что следующее задание планировщика снова импортирует эти сообщения.
 [Open in &new window]
 &Открыть в новом окне
 [&Open in existing window]
@@ -227,6 +231,8 @@ Dat (плагин mContacts)
 Сохранить положение окна
 [Save window position for all contacts]
 Сохранить положение окна для всех контактов
+[File contains history for different contact. Do you want to change contact and import?]
+В файле содержится история другого контакта. Хотите сменить контакт и импортировать?
 [Error]
 Ошибка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
@@ -325,10 +331,16 @@ Dat (плагин mContacts)
 Имя фильтра существует
 [Event already exists]
 Событие уже существует
+[Browse WinSCP file]
+Указать WinSCP
+[Save WinSCP log file]
+Сохранить журнал WinSCP
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
 Вы ввели неверную кодовую страницу. Выберите кодовую страницу из выпадающего списка или введите правильное имя.
 [Invalid codepage]
 Неверная кодовая страница
+[Browse CSS file]
+Указать CSS
 [Export and Delete]
 Экспортировать и удалить
 [Import and Marge]
