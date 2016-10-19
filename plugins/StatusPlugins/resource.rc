@@ -57,7 +57,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Check connection",IDC_CHECKCONNECTION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,51,162,10
     EDITTEXT        IDC_MAXRETRIES,21,70,22,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Max. retries",IDC_STATIC,47,73,129,14
+    LTEXT           "Maximum retries (0 - infinite)",IDC_STATIC,47,73,129,14
     GROUPBOX        "Account connection",IDC_STATIC,3,32,286,116
     EDITTEXT        IDC_INITDELAY,21,92,22,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Delay between retries (secs)",IDC_STATIC,47,95,130,17
