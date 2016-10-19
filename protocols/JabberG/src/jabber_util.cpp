@@ -384,53 +384,55 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 		XmlAddChild(p, extra);
 
 	// XEP-0115:Entity Capabilities
-	HXML c = p << XCHILDNS(L"c", JABBER_FEAT_ENTITY_CAPS) << XATTR(L"node", JABBER_CAPS_MIRANDA_NODE)
-		<< XATTR(L"ver", szCoreVersion);
+	if (m_options.AllowVersionRequests) {
+		HXML c = p << XCHILDNS(L"c", JABBER_FEAT_ENTITY_CAPS) << XATTR(L"node", JABBER_CAPS_MIRANDA_NODE)
+			<< XATTR(L"ver", szCoreVersion);
 
-	LIST<wchar_t> arrExtCaps(5);
-	if (bSecureIM)
-		arrExtCaps.insert(JABBER_EXT_SECUREIM);
+		LIST<wchar_t> arrExtCaps(5);
+		if (bSecureIM)
+			arrExtCaps.insert(JABBER_EXT_SECUREIM);
 
-	if (bMirOTR)
-		arrExtCaps.insert(JABBER_EXT_MIROTR);
+		if (bMirOTR)
+			arrExtCaps.insert(JABBER_EXT_MIROTR);
 
-	if (bNewGPG)
-		arrExtCaps.insert(JABBER_EXT_NEWGPG);
+		if (bNewGPG)
+			arrExtCaps.insert(JABBER_EXT_NEWGPG);
 
-	if (bPlatform)
-		arrExtCaps.insert(JABBER_EXT_PLATFORMX64);
-	else
-		arrExtCaps.insert(JABBER_EXT_PLATFORMX86);
+		if (bPlatform)
+			arrExtCaps.insert(JABBER_EXT_PLATFORMX64);
+		else
+			arrExtCaps.insert(JABBER_EXT_PLATFORMX86);
 
-	if (m_options.EnableRemoteControl)
-		arrExtCaps.insert(JABBER_EXT_COMMANDS);
+		if (m_options.EnableRemoteControl)
+			arrExtCaps.insert(JABBER_EXT_COMMANDS);
 
-	if (m_options.EnableUserMood)
-		arrExtCaps.insert(JABBER_EXT_USER_MOOD);
+		if (m_options.EnableUserMood)
+			arrExtCaps.insert(JABBER_EXT_USER_MOOD);
 
-	if (m_options.EnableUserTune)
-		arrExtCaps.insert(JABBER_EXT_USER_TUNE);
+		if (m_options.EnableUserTune)
+			arrExtCaps.insert(JABBER_EXT_USER_TUNE);
 
-	if (m_options.EnableUserActivity)
-		arrExtCaps.insert(JABBER_EXT_USER_ACTIVITY);
+		if (m_options.EnableUserActivity)
+			arrExtCaps.insert(JABBER_EXT_USER_ACTIVITY);
 
-	if (m_options.AcceptNotes)
-		arrExtCaps.insert(JABBER_EXT_MIR_NOTES);
+		if (m_options.AcceptNotes)
+			arrExtCaps.insert(JABBER_EXT_MIR_NOTES);
 
-	NotifyFastHook(hExtListInit, (WPARAM)&arrExtCaps, (LPARAM)(IJabberInterface*)this);
+		NotifyFastHook(hExtListInit, (WPARAM)&arrExtCaps, (LPARAM)(IJabberInterface*)this);
 
-	// add features enabled through IJabberNetInterface::AddFeatures()
-	for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		if (m_uEnabledFeatCapsDynamic & m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
-			arrExtCaps.insert(m_lstJabberFeatCapPairsDynamic[i]->szExt);
+		// add features enabled through IJabberNetInterface::AddFeatures()
+		for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+			if (m_uEnabledFeatCapsDynamic & m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
+				arrExtCaps.insert(m_lstJabberFeatCapPairsDynamic[i]->szExt);
 
-	if (arrExtCaps.getCount()) {
-		CMStringW szExtCaps = arrExtCaps[0];
-		for (int i = 1; i < arrExtCaps.getCount(); i++) {
-			szExtCaps.AppendChar(' ');
-			szExtCaps += arrExtCaps[i];
+		if (arrExtCaps.getCount()) {
+			CMStringW szExtCaps = arrExtCaps[0];
+			for (int i = 1; i < arrExtCaps.getCount(); i++) {
+				szExtCaps.AppendChar(' ');
+				szExtCaps += arrExtCaps[i];
+			}
+			XmlAddAttr(c, L"ext", szExtCaps);
 		}
-		XmlAddAttr(c, L"ext", szExtCaps);
 	}
 
 	if (m_options.EnableAvatars) {
