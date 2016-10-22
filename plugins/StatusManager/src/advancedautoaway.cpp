@@ -160,7 +160,7 @@ int LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char* protoName)
 	return 0;
 }
 
-static int ProcessProtoAck(WPARAM wParam, LPARAM lParam)
+static int ProcessProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type != ACKTYPE_STATUS || ack->result != ACKRESULT_SUCCESS)
@@ -252,7 +252,7 @@ static int changeState(TAAAProtoSetting &setting, STATES newState)
 	return 0;
 }
 
-static VOID CALLBACK AutoAwayTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
+static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	int statusChanged = FALSE;
 	int confirm = FALSE;
@@ -548,7 +548,7 @@ static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lPa
 /////////////////////////////////////////////////////////////////////////////////////////
 // Inits & stuff
 
-static int AutoAwayShutdown(WPARAM wParam, LPARAM lParam)
+static int AutoAwayShutdown(WPARAM, LPARAM)
 {
 	KillTimer(NULL, hAutoAwayTimer);
 
@@ -562,7 +562,7 @@ static int AutoAwayShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int AAACSModuleLoaded(WPARAM wParam, LPARAM lParam)
+int AAACSModuleLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAAAAccChanged);
 	HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
