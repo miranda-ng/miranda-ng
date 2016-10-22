@@ -2217,12 +2217,12 @@ Ctrl+Искать добавляет контакт
 Настройки журналирования сети
 [Open 'Find user' dialog]
 Открыть диалог поиска контактов
+[built-in]
+встроенный
 [(incompatible)]
 (несовместим)
 [Unknown]
 Неизвестно
-[built-in]
-встроенный
 [Languages]
 Языки
 [Custom status]

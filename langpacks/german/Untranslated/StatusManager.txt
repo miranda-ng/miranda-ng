@@ -1,0 +1,1 @@
+﻿[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]

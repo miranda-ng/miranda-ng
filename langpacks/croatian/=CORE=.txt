@@ -2332,11 +2332,11 @@ sve datoteke
 [Open 'Find user' dialog]
 
 ;file \src\mir_app\src\lpopts.cpp
+[built-in]
+
 [(incompatible)]
 
 [Unknown]
-
-[built-in]
 
 [Languages]
 

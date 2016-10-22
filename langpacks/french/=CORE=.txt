@@ -2284,7 +2284,7 @@ Petit texte
 [Media: Play/Pause]
 
 [Mail]
-
+e-mail
 [Media: Select]
 
 [App 1]
@@ -2332,12 +2332,12 @@ Lire le message
 [Open 'Find user' dialog]
 
 ;file \src\mir_app\src\lpopts.cpp
+[built-in]
+
 [(incompatible)]
 (incompatible)
 [Unknown]
 Inconnu
-[built-in]
-
 [Languages]
 Langages
 ;file \src\mir_app\src\menu_clist.cpp

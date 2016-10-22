@@ -9,5 +9,6 @@
 [Price]
 [Change nick]
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
+[Error loading message history for %s from server.]
 [I\'m back]
 [Service message]

@@ -2259,12 +2259,12 @@ Ctrl+Шукаць дадае карыстальніка
 Налады лога сеціва
 [Open 'Find user' dialog]
 Адкрыць дыялог пошуку кантактаў
+[built-in]
+убудаваны
 [(incompatible)]
 (несумяшчальны)
 [Unknown]
 Невядома
-[built-in]
-убудаваны
 [Languages]
 Мовы
 [Custom status]

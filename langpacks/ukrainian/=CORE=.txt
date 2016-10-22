@@ -2211,12 +2211,12 @@ Miranda
 Опції журналу з'єднань
 [Open 'Find user' dialog]
 Знайти/додати контакти
+[built-in]
+вбудований
 [(incompatible)]
 (несумісний)
 [Unknown]
 Невідомо
-[built-in]
-вбудований
 [Languages]
 Локалізації
 [Custom status]

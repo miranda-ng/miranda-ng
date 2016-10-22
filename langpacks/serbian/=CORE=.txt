@@ -2332,12 +2332,12 @@ Pregledaj podešavanja log-a
 [Open 'Find user' dialog]
 Otvori prozor za pretragu korisnika
 ;file \src\mir_app\src\lpopts.cpp
+[built-in]
+predefinisani
 [(incompatible)]
 (nekompatibilni)
 [Unknown]
 Nepoznati
-[built-in]
-predefinisani
 [Languages]
 Jezici
 ;file \src\mir_app\src\menu_clist.cpp

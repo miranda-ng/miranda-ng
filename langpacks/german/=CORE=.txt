@@ -2332,12 +2332,12 @@ Logeinstellungen öffnen
 [Open 'Find user' dialog]
 'Kontakte suchen/hinzufügen'-Fenster öffnen
 ;file \src\mir_app\src\lpopts.cpp
+[built-in]
+eingebaut
 [(incompatible)]
 (inkompatibel)
 [Unknown]
 Unbekannt
-[built-in]
-eingebaut
 [Languages]
 Sprachen
 ;file \src\mir_app\src\menu_clist.cpp

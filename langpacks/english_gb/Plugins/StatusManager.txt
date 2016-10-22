@@ -1,0 +1,19 @@
+﻿#muuid {fadd4a8a-1fd0-4398-83bd-e378b85ed8f1}
+;============================================================
+;  File: StatusManager.dll
+;  Plugin: Status manager
+;  Version: 0.11.0.0
+;  Authors: P Boon
+;============================================================
+[Background color]
+Background colour
+[Text color]
+Text colour
+[Use Windows colors]
+Use Windows colours
+[Use default colors]
+Use default colours
+[Colors]
+Colours
+[Minimized]
+Minimised

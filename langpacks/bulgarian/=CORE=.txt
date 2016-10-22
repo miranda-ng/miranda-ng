@@ -2185,12 +2185,12 @@ Win +\s
 Отваря "Настройки на дневника на мрежовите връзки"
 [Open 'Find user' dialog]
 Отваря "Търсене/Добавяне на контакти"
+[built-in]
+Вграден
 [(incompatible)]
 (несъвместимо)
 [Unknown]
 Неизвестно
-[built-in]
-Вграден
 [Languages]
 Езици
 [Custom status]

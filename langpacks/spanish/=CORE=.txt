@@ -2133,12 +2133,12 @@ Abrir opciones de página
 Abrir opciones de registro
 [Open 'Find user' dialog]
 Abrir diálogo 'Buscar usuario'
+[built-in]
+construido
 [(incompatible)]
 (incompatible)
 [Unknown]
 Desconocido
-[built-in]
-construido
 [Languages]
 Idiomas
 [Custom status]

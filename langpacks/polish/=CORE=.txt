@@ -2332,12 +2332,12 @@ Otwórz okno opcji logowania
 [Open 'Find user' dialog]
 Otwórz okno szukania użytkowników
 ;file \src\mir_app\src\lpopts.cpp
+[built-in]
+wbudowany
 [(incompatible)]
 (niezgodny)
 [Unknown]
 Nieznany
-[built-in]
-wbudowany
 [Languages]
 Języki
 ;file \src\mir_app\src\menu_clist.cpp
