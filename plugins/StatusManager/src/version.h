@@ -10,9 +10,7 @@
 // stuff that will be used in PluginInfo section and in Version resource
 #define __PLUGIN_NAME           "Status manager"
 #define __FILENAME              "StatusManager.dll"
-#define __DESC                  "KeepStatus, A connection checker.\r\n\
-StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.\r\n\
-An Auto Away module with some more options than the original."
+#define __DESC                  "A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol."
 #define __AUTHOR                "P Boon"
 #define __AUTHOREMAIL           "unregistered@users.sourceforge.net"
 #define __AUTHORWEB             "http://miranda-ng.org/p/StatusManager/"

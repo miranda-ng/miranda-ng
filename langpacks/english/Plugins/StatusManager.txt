@@ -5,6 +5,7 @@
 ;  Version: 0.11.0.0
 ;  Authors: P Boon
 ;============================================================
+[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 ;file \plugins\StatusManager\res\resource.rc
 [Check connection]
 [Maximum retries (0 - infinite)]
