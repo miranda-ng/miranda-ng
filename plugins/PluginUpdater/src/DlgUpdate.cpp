@@ -554,6 +554,9 @@ static renameTable[] =
 	{ L"skype.dll",                      L"Plugins\\skypeweb.dll" },
 	{ L"skypeclassic.dll",               L"Plugins\\skypeweb.dll" },
 	{ L"historysweeper.dll",             L"Plugins\\historysweeperlight.dll" },
+	{ L"advancedautoaway.dll",           L"Plugins\\statusmanager.dll" },
+	{ L"keepstatus.dll",                 L"Plugins\\statusmanager.dll" },
+	{ L"startupstatus.dll",              L"Plugins\\statusmanager.dll" },
 
 #if MIRANDA_VER >= 0x0A00
 	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmap.dll" },

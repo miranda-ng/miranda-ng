@@ -224,8 +224,6 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     FindFiles(pluginpath,"\\.rc$",resourcefiles);
     //find all source files and list files in array
     FindFiles(pluginpath,"\\.h$|\\.cpp$|\\.c$|\\.pas$|\\.dpr$|\\.inc$",sourcefiles);
-    //Check for "Status plugins". They have few common resource files to translate, which located one layer upper, than plugin folder.
-    CheckStatusPlugins(plugin);
     //Parse files "resourcefiles", put result into "foundstrings" using "ParseRCFile" function
     ParseFiles(resourcefiles,foundstrings,ParseRCFile);
     //Parse files "sourcefiles", put result into "foundstrings" using "ParseSourceFile" function
@@ -371,15 +369,6 @@ function GetMUUID (folder,array) {
  //log output
  if (log) WScript.Echo(muuid);
 };
-
-//For status plugins, namely KeepStatus, StartupStatus and AdvancedAutoAway we need add for all of them common source files to parsing array, because they exist one layer upper of pluginfolder
-function CheckStatusPlugins (plug) {
-if (plug.match(/(KeepStatus|StartupStatus|AdvancedAutoAway)/)) {
-    resourcefiles.push(trunk+"\\Plugins\\StatusPlugins\\resource.rc");
-    sourcefiles.push(trunk+"\\Plugins\\StatusPlugins\\commonstatus.cpp");
-    sourcefiles.push(trunk+"\\Plugins\\StatusPlugins\\confirmdialog.cpp");
-    }
-}
 
 //read text file, removing all commented text for further processing
 function ReadFile (file) {

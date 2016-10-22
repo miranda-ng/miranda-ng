@@ -1204,9 +1204,9 @@
 [Open logging options]
 [Open 'Find user' dialog]
 ;file \src\mir_app\src\lpopts.cpp
+[built-in]
 [(incompatible)]
 [Unknown]
-[built-in]
 [Languages]
 ;file \src\mir_app\src\menu_clist.cpp
 [Custom status]
