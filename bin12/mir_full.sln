@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio Express 2013 for Windows Desktop
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
@@ -105,12 +105,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmileyAdd", "..\plugins\SmileyAdd\SmileyAdd.vcxproj", "{5BBA7E51-B494-4462-BC4F-1AE5F57F9857}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SplashScreen", "..\plugins\SplashScreen\splashscreen.vcxproj", "{5A6095F4-B037-4DA8-8410-8004A90C961A}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvancedAutoAway", "..\plugins\StatusPlugins\AdvancedAutoAway\AdvancedAutoAway_12.vcxproj", "{66503A70-B1E8-4545-B4FF-2108DFB40C72}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeepStatus", "..\plugins\StatusPlugins\KeepStatus\KeepStatus_12.vcxproj", "{D548A54E-310B-4A86-A545-64BDD5748745}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupStatus", "..\plugins\StatusPlugins\StartupStatus\StartupStatus_12.vcxproj", "{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StopSpam", "..\plugins\StopSpamPlus\stopspam.vcxproj", "{3E6CEC79-5E93-4607-B10E-498586ECF6A6}"
 EndProject
@@ -431,7 +425,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liblua", "..\libs\liblua\li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winapi", "..\plugins\MirLua\Modules\WinAPI\WinAPI.vcxproj", "{045BAC91-34D1-4B43-B52B-566801BE7F85}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "..\plugins\MirLua\Modules\m_json\m_json.vcxproj", "{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_json", "..\plugins\MirLua\Modules\m_json\m_json.vcxproj", "{8A645067-7F45-4E65-AAFC-AFDA81C29A1D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libaxolotl", "..\libs\libaxolotl\libaxolotl.vcxproj", "{620E0BE7-3763-4F35-9DBD-4770104E269C}"
 EndProject
@@ -446,6 +440,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_msg_buttonsbar", "..\plugins\MirLua\Modules\m_msg_buttonsbar\m_msg_buttonsbar.vcxproj", "{DCBE5EC2-84B2-4C03-810C-BD13D975D8D9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevent", "..\libs\libevent\libevent.vcxproj", "{46D53888-E60E-32A7-91EB-6336DE0D84D8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusManager", "..\plugins\StatusManager\StatusManager.vcxproj", "{D2EF305F-5255-49E8-A738-D4206D62D2B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -855,30 +851,6 @@ Global
 		{5A6095F4-B037-4DA8-8410-8004A90C961A}.Release|Win32.Build.0 = Release|Win32
 		{5A6095F4-B037-4DA8-8410-8004A90C961A}.Release|x64.ActiveCfg = Release|x64
 		{5A6095F4-B037-4DA8-8410-8004A90C961A}.Release|x64.Build.0 = Release|x64
-		{66503A70-B1E8-4545-B4FF-2108DFB40C72}.Debug|Win32.ActiveCfg = Debug|Win32
-		{66503A70-B1E8-4545-B4FF-2108DFB40C72}.Debug|Win32.Build.0 = Debug|Win32
-		{66503A70-B1E8-4545-B4FF-2108DFB40C72}.Debug|x64.ActiveCfg = Debug|x64
-		{66503A70-B1E8-4545-B4FF-2108DFB40C72}.Debug|x64.Build.0 = Debug|x64
-		{66503A70-B1E8-4545-B4FF-2108DFB40C72}.Release|Win32.ActiveCfg = Release|Win32
-		{66503A70-B1E8-4545-B4FF-2108DFB40C72}.Release|Win32.Build.0 = Release|Win32
-		{66503A70-B1E8-4545-B4FF-2108DFB40C72}.Release|x64.ActiveCfg = Release|x64
-		{66503A70-B1E8-4545-B4FF-2108DFB40C72}.Release|x64.Build.0 = Release|x64
-		{D548A54E-310B-4A86-A545-64BDD5748745}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D548A54E-310B-4A86-A545-64BDD5748745}.Debug|Win32.Build.0 = Debug|Win32
-		{D548A54E-310B-4A86-A545-64BDD5748745}.Debug|x64.ActiveCfg = Debug|x64
-		{D548A54E-310B-4A86-A545-64BDD5748745}.Debug|x64.Build.0 = Debug|x64
-		{D548A54E-310B-4A86-A545-64BDD5748745}.Release|Win32.ActiveCfg = Release|Win32
-		{D548A54E-310B-4A86-A545-64BDD5748745}.Release|Win32.Build.0 = Release|Win32
-		{D548A54E-310B-4A86-A545-64BDD5748745}.Release|x64.ActiveCfg = Release|x64
-		{D548A54E-310B-4A86-A545-64BDD5748745}.Release|x64.Build.0 = Release|x64
-		{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}.Debug|Win32.Build.0 = Debug|Win32
-		{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}.Debug|x64.ActiveCfg = Debug|x64
-		{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}.Debug|x64.Build.0 = Debug|x64
-		{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}.Release|Win32.ActiveCfg = Release|Win32
-		{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}.Release|Win32.Build.0 = Release|Win32
-		{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}.Release|x64.ActiveCfg = Release|x64
-		{1BD5E5B9-A750-4CF8-A370-0FBD40A92CB2}.Release|x64.Build.0 = Release|x64
 		{3E6CEC79-5E93-4607-B10E-498586ECF6A6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3E6CEC79-5E93-4607-B10E-498586ECF6A6}.Debug|Win32.Build.0 = Debug|Win32
 		{3E6CEC79-5E93-4607-B10E-498586ECF6A6}.Debug|x64.ActiveCfg = Debug|x64
@@ -2027,6 +1999,14 @@ Global
 		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|Win32.Build.0 = Release|Win32
 		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|x64.ActiveCfg = Release|x64
 		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|x64.Build.0 = Release|x64
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|Win32.Build.0 = Debug|Win32
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|x64.ActiveCfg = Debug|x64
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|x64.Build.0 = Debug|x64
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|Win32.ActiveCfg = Release|Win32
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|Win32.Build.0 = Release|Win32
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|x64.ActiveCfg = Release|x64
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
