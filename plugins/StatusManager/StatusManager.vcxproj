@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D2EF305F-5255-49E8-A738-D4206D62D2B8}</ProjectGuid>
-    <ProjectName>SatatusManager</ProjectName>
+    <ProjectName>StatusManager</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
