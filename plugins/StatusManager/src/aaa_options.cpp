@@ -200,7 +200,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				// clear box and add new status, loop status and check if compatible with proto
 				SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_RESETCONTENT, 0, 0);
 				SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_RESETCONTENT, 0, 0);
-				for (int i=0; i < _countof(statusModeList); i++) {
+				for (int i = 0; i < _countof(statusModeList); i++) {
 					if ((flags & statusModePf2List[i]) || statusModePf2List[i] == PF2_OFFLINE || bSettingSame) {
 						wchar_t *statusMode = pcli->pfnGetStatusModeDescription(statusModeList[i], 0);
 						int item = SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
@@ -221,7 +221,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 		case IDC_LV1STATUS:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
-				SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 			setting->lv1Status = (int)SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_GETCURSEL, 0, 0), 0);
 			SetDlgItemText(hwndDlg, IDC_SETNASTR, CMStringW(FORMAT, TranslateT("minutes of %s mode"), pcli->pfnGetStatusModeDescription(setting->lv1Status, 0)));
@@ -229,7 +229,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 		case IDC_LV2STATUS:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
-				SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 			setting->lv2Status = (int)SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_GETCURSEL, 0, 0), 0);
 			break;
@@ -260,30 +260,30 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 			break;
 
 		case IDC_AWAYTIME:
-			setting->awayTime = GetDlgItemInt(hwndDlg,IDC_AWAYTIME, NULL, FALSE);
+			setting->awayTime = GetDlgItemInt(hwndDlg, IDC_AWAYTIME, NULL, FALSE);
 			break;
 
 		case IDC_NATIME:
-			setting->naTime = GetDlgItemInt(hwndDlg,IDC_NATIME, NULL, FALSE);
+			setting->naTime = GetDlgItemInt(hwndDlg, IDC_NATIME, NULL, FALSE);
 			break;
 
 		case IDC_LV2ONINACTIVE:
-			setting->optionFlags^=FLAG_LV2ONINACTIVE;
+			setting->optionFlags ^= FLAG_LV2ONINACTIVE;
 			SetDialogItems(hwndDlg, setting);
 			break;
 
 		case IDC_CONFIRM:
-			setting->optionFlags^=FLAG_CONFIRM;
+			setting->optionFlags ^= FLAG_CONFIRM;
 			SetDialogItems(hwndDlg, setting);
 			break;
 
 		case IDC_RESETSTATUS:
-			setting->optionFlags^=FLAG_RESET;
+			setting->optionFlags ^= FLAG_RESET;
 			SetDialogItems(hwndDlg, setting);
 			break;
 
 		case IDC_MONITORMIRANDA:
-			setting->optionFlags^=FLAG_MONITORMIRANDA;
+			setting->optionFlags ^= FLAG_MONITORMIRANDA;
 			SetDialogItems(hwndDlg, setting);
 			break;
 		}
@@ -300,12 +300,12 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 		break;
 
 	case WM_NOTIFY:
-		switch(((NMHDR*)lParam)->idFrom) {
+		switch (((NMHDR*)lParam)->idFrom) {
 		case IDC_STATUSLIST:
 			if (init)
 				break;
 
-			switch(((NMHDR*)lParam)->code) {
+			switch (((NMHDR*)lParam)->code) {
 			case LVN_ITEMCHANGED:
 				NMLISTVIEW *nmlv = (NMLISTVIEW*)lParam;
 				if (IsWindowVisible(GetDlgItem(hwndDlg, IDC_STATUSLIST)) && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)) {
@@ -334,7 +334,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 			if (bSettingSame)
 				WriteAutoAwaySetting(*sameSetting, SETTING_ALL);
 			else {
-				for (int i=0; i < optionSettings.getCount(); i++ )
+				for (int i = 0; i < optionSettings.getCount(); i++)
 					WriteAutoAwaySetting(optionSettings[i], optionSettings[i].szName);
 			}
 			LoadOptions(autoAwaySettings, FALSE);
@@ -371,18 +371,18 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 	case WM_SHOWWINDOW:
 		ShowWindow(GetDlgItem(hwndDlg, IDC_IDLEWARNING), (db_get_b(NULL, "Idle", "AAEnable", 0)));
 		break;
-	
+
 	case WM_COMMAND:
-		if (( HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == BN_CLICKED ) && (HWND)lParam == GetFocus())
+		if ((HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == BN_CLICKED) && (HWND)lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_MONITORMOUSE:
-			CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, (((BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE))&&(BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD)))||(IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE)) ? BST_CHECKED : BST_UNCHECKED));
+			CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, (((BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE)) && (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD))) || (IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE)) ? BST_CHECKED : BST_UNCHECKED));
 			break;
 
 		case IDC_MONITORKEYBOARD:
-			CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, (((BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE))&&(BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD)))||(IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD)) ? BST_CHECKED : BST_UNCHECKED));
+			CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, (((BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE)) && (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD))) || (IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD)) ? BST_CHECKED : BST_UNCHECKED));
 			break;
 
 		case IDC_SAMESETTINGS:
@@ -393,7 +393,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			db_set_b(NULL, AAAMODULENAME, SETTING_IGNLOCK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNLOCK));
 			db_set_b(NULL, AAAMODULENAME, SETTING_IGNSYSKEYS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNSYSKEYS));
 			db_set_b(NULL, AAAMODULENAME, SETTING_IGNALTCOMBO, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNALTCOMBO));
@@ -412,9 +412,9 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 /////////////////////////////////////////////////////////////////////////////////////////
 // Tab window procedure
 
-static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
@@ -436,36 +436,36 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 
 			tci.lParam = (LPARAM)hPage;
 			GetClientRect(hPage, &rcPage);
-			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right-rcTabs.left)-(rcPage.right-rcPage.left))/2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom-rcTabs.top)-(rcPage.bottom-rcPage.top))/2, rcPage.right-rcPage.left, rcPage.bottom-rcPage.top, TRUE);
+			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right - rcTabs.left) - (rcPage.right - rcPage.left)) / 2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom - rcTabs.top) - (rcPage.bottom - rcPage.top)) / 2, rcPage.right - rcPage.left, rcPage.bottom - rcPage.top, TRUE);
 			ShowWindow(hPage, SW_HIDE);
 			TabCtrl_InsertItem(hTab, tabCount++, &tci);
 			HWND hShow = hPage;
 
 			// rules tab
-			tci.mask = TCIF_TEXT|TCIF_PARAM;
+			tci.mask = TCIF_TEXT | TCIF_PARAM;
 			tci.pszText = TranslateT("Rules");
 			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_AUTOAWAY), hwndDlg, DlgProcAutoAwayRulesOpts, (LPARAM)GetParent(hwndDlg));
 			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)hPage;
 			GetClientRect(hPage, &rcPage);
-			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right-rcTabs.left)-(rcPage.right-rcPage.left))/2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom-rcTabs.top)-(rcPage.bottom-rcPage.top))/2, rcPage.right-rcPage.left, rcPage.bottom-rcPage.top, TRUE);
+			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right - rcTabs.left) - (rcPage.right - rcPage.left)) / 2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom - rcTabs.top) - (rcPage.bottom - rcPage.top)) / 2, rcPage.right - rcPage.left, rcPage.bottom - rcPage.top, TRUE);
 			ShowWindow(hPage, SW_HIDE);
 			TabCtrl_InsertItem(hTab, tabCount++, &tci);
 
 			// messages tab
-			tci.mask = TCIF_TEXT|TCIF_PARAM;
+			tci.mask = TCIF_TEXT | TCIF_PARAM;
 			tci.pszText = TranslateT("Status messages");
 			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_AUTOAWAYMSG), hwndDlg, DlgProcAutoAwayMsgOpts, (LPARAM)GetParent(hwndDlg));
 			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)hPage;
 			GetClientRect(hPage, &rcPage);
-			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right-rcTabs.left)-(rcPage.right-rcPage.left))/2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom-rcTabs.top)-(rcPage.bottom-rcPage.top))/2, rcPage.right-rcPage.left, rcPage.bottom-rcPage.top, TRUE);
+			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right - rcTabs.left) - (rcPage.right - rcPage.left)) / 2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom - rcTabs.top) - (rcPage.bottom - rcPage.top)) / 2, rcPage.right - rcPage.left, rcPage.bottom - rcPage.top, TRUE);
 			ShowWindow(hPage, SW_HIDE);
 			TabCtrl_InsertItem(hTab, tabCount++, &tci);
 
-			ShowWindow(hShow, SW_SHOW);			
+			ShowWindow(hShow, SW_SHOW);
 		}
 		break;
 
@@ -508,7 +508,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 /////////////////////////////////////////////////////////////////////////////////////////
 // Options initialization procedure
 
-int AutoAwayOptInitialise(WPARAM wParam,LPARAM lParam)
+int AutoAwayOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 1000000000;
