@@ -38,7 +38,7 @@ class AppendToUploadSessionRequest : public HttpRequest
 {
 public:
 	AppendToUploadSessionRequest(const char *token, const char *sessionId, size_t offset, const char *data, size_t size) :
-		HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload_session/append")
+		HttpRequest(REQUEST_POST, DROPBOX_API_CU "/files/upload_session/append_v2")
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/octet-stream");
