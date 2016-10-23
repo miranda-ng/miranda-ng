@@ -53,7 +53,7 @@ static INT_PTR WebsiteCommand(WPARAM, LPARAM)
 
 static INT_PTR BugCommand(WPARAM, LPARAM)
 {
-	Utils_OpenUrl("http://trac.miranda-ng.org/newticket");
+	Utils_OpenUrl("https://github.com/miranda-ng/miranda-ng/issues/new");
 	return 0;
 }
 
