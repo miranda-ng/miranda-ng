@@ -173,7 +173,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,132,287,8
     CONTROL         "Clear History",IDC_BOPTHIST,"MButtonClass",WS_TABSTOP,236,73,61,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Clear Predefined",IDC_BOPTDEF,"MButtonClass",WS_TABSTOP,236,90,61,14,WS_EX_NOACTIVATE | 0x10000000L
-    LTEXT           "* This feature is available only when using StartupStatus plugin.",IDC_NOTE1,11,149,287,8,NOT WS_VISIBLE
+    LTEXT           "* This feature is available only when using StatusManager plugin.",IDC_NOTE1,11,149,287,8,NOT WS_VISIBLE
 END
 
 IDD_OPT_STATUS DIALOGEX 0, 0, 241, 162
