@@ -6,16 +6,16 @@
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
-
+Überprüft Ihre Verbindung und ist ein erweitertes Abwesenheitsmodul. Erlaubt es Ihnen auch, den Status von Miranda beim Start pro Protokoll festzulegen.
 ;file \plugins\StatusManager\res\resource.rc
 [Check connection]
 Verbindung prüfen
 [Maximum retries (0 - infinite)]
-Maximale Anzahl Versuche (0 - Infinite)
+Max. Anzahl Versuche (0 - unendlich)
 [Account connection]
-Account Verbindung
+Konto-Verbindung
 [Delay between retries (secs)]
-Verzögerung der Versuche (Sek.)
+Verzögerung zwischen Versuchen (Sek.)
 [Show popups]
 Popups anzeigen
 [General]
@@ -43,7 +43,7 @@ Nachricht
 [Account]
 Konto
 [Set]
-Setzen
+Setze
 [when full-screen mode is active]
 wenn Vollbildmodus aktiv ist
 [when screen saver engages]
@@ -145,7 +145,7 @@ Nichts tun
 [Close popup]
 Popup schließen
 [Cancel reconnecting]
-Wiederverb. stoppen
+Wiederverbindung abbrechen
 [Colors]
 Farben
 [Preview]
@@ -183,9 +183,9 @@ Selbe Einstellungen für alle Konten verwenden
 [Ignore Caps Lock, Num Lock and Scroll Lock keys]
 Feststell-, Nummernblock- und Rollentaste ignorieren
 [Check interval (secs)]
-Prüfintervall (s)
+Prüfintervall (Sek.)
 [Confirm dialog timeout (secs)]
-Dialogfenster autom. schließen (s)
+Dialogfenster automatisch schließen (Sek.)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
 Sie haben "Meinen Status ändern in" in den "Untätigkeits-Einstellungen" aktiviert, Einstellungen von AdvancedAutoAway werden ignoriert.
 [Monitor keyboard activity]
@@ -215,7 +215,7 @@ TopToolbar-Button erstellen
 [Show confirm dialog when loading]
 Bestätigungsdialog beim Profilaufruf
 [Create a main menu item]
-Erzeuge einen Hauptmenüeintrag
+Hauptmenüeintrag erstellen
 [Status profiles]
 Statusprofile
 [Hotkey]
@@ -227,15 +227,15 @@ Max. Verzögerung (Sek.)
 [Increase delay exponential]
 Verzögerung exponentiell erhöhen
 [Cancel all if an account connects from another location]
-Alles abbrechen, wenn sich ein Konto von einem anderen Ort aus verbindet.
+Alles abbrechen, wenn sich ein Konto von einem anderen Ort aus verbindet
 [Reconnect on APM resume]
 Wiederverbinden nach Energiesparmodus (APM)
 [Stop trying to reconnect]
 Wiederverbinden abbrechen
 [Set delay to]
-Verzögerung
+Setze Verzögerung auf
 [React on login errors]
-Reaktion bei Einwahlfehlern:
+Reaktion bei Anmeldefehlern:
 [seconds]
 Sekunden
 [Set account offline before a connection attempt]
@@ -253,7 +253,7 @@ Verbindung ist verloren nach
 [failed pings]
 fehlgeschlagenen Pings
 [Continuously check interval (secs)]
-Prüfintervall(e) (in Sek.)
+Kontinuierliches Prüfintervall (Sek.)
 [Entering first auto-away status]
 Aktiviere ersten Auto-abwesend-Status
 [Entering second auto-away status]
