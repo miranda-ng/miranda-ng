@@ -480,7 +480,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			ppd.lchContact = NULL;
 			ppd.lchIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
-			wcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
+			wcsncpy(ppd.lptzContactName, TranslateT("Keep status"), MAX_CONTACTNAME);
 			wcsncpy(ppd.lptzText, TranslateT("You broke the Internet!"), MAX_SECONDLINE);
 			if (IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS))
 			{
@@ -568,7 +568,7 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pwszGroup = LPGENW("Status");
-	odp.pwszTitle = LPGENW("KeepStatus");
+	odp.pwszTitle = LPGENW("Keep status");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
 	odp.pfnDlgProc = DlgProcKsTabs;
@@ -581,7 +581,7 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 		odp.groupPosition = 910000000;
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
-		odp.pwszTitle = LPGENW("KeepStatus");
+		odp.pwszTitle = LPGENW("Keep status");
 		odp.pfnDlgProc = PopupOptDlgProc;
 		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		Options_AddPage(wparam, &odp);

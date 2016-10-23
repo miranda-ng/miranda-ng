@@ -725,7 +725,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		int i=(int)wParam;
 
 		if ( arProfiles.getCount() == 1) {
-			MessageBox(NULL, TranslateT("At least one profile must exist"), TranslateT("StartupStatus"), MB_OK);
+			MessageBox(NULL, TranslateT("At least one profile must exist"), TranslateT("Status manager"), MB_OK);
 			break;
 		}
 
@@ -734,7 +734,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		int defProfile;
 		GetProfileCount((WPARAM)&defProfile, 0);
 		if (i == defProfile) {
-			MessageBox(NULL, TranslateT("Your default profile will be changed"), TranslateT("StartupStatus"), MB_OK);
+			MessageBox(NULL, TranslateT("Your default profile will be changed"), TranslateT("Status manager"), MB_OK);
 			db_set_w(NULL, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 		}
 		SendMessage(hwndDlg, UM_REINITPROFILES, 0, 0);
@@ -906,7 +906,7 @@ int StartupStatusOptionsInit(WPARAM wparam,LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("Status");
-	odp.pszTitle = LPGEN("StartupStatus");
+	odp.pszTitle = LPGEN("Startup status");
 	odp.flags = ODPF_BOLDGROUPS;
 
 	odp.pszTab = LPGEN("General");

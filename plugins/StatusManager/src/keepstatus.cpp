@@ -981,7 +981,7 @@ static INT_PTR ShowPopup(wchar_t *msg, HICON hIcon)
 {
 	POPUPDATAT ppd = { 0 };
 	ppd.lchIcon = hIcon;
-	wcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
+	wcsncpy(ppd.lptzContactName, TranslateT("Keep status"), MAX_CONTACTNAME);
 	wcsncpy(ppd.lptzText, msg, MAX_SECONDLINE);
 	if (db_get_b(NULL, KSMODULENAME, SETTING_POPUP_USEWINCOLORS, 0)) {
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);

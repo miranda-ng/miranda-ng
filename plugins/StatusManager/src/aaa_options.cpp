@@ -514,7 +514,7 @@ int AutoAwayOptInitialise(WPARAM wParam, LPARAM)
 	odp.position = 1000000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
-	odp.pszTitle = LPGEN("Auto Away");
+	odp.pszTitle = LPGEN("Auto away");
 	odp.pszGroup = LPGEN("Status");
 	odp.pfnDlgProc = DlgProcAutoAwayTabs;
 	odp.flags = ODPF_BOLDGROUPS;
