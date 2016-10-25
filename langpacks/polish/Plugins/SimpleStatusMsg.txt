@@ -96,8 +96,8 @@ Pokaż element "Zmień opis..." w menu statusu
 Wyczyść historię
 [Clear Predefined]
 Wyczyść ulubione
-[* This feature is available only when using StartupStatus plugin.]
-* Ta opcja jest dostępna tylko przy aktywnej wtyczce StartupStatus.
+[* This feature is available only when using StatusManager plugin.]
+* Ta opcja jest dostępna tylko przy aktywnej wtyczce StatusManager.
 [Status on startup]
 Status po uruchomieniu
 [Set status after]

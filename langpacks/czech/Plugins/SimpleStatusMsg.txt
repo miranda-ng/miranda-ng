@@ -96,7 +96,7 @@ Zobrazit v menu stavů 'Zpráva stavu...'
 Smazat historii
 [Clear Predefined]
 Smazat předdef.
-[* This feature is available only when using StartupStatus plugin.]
+[* This feature is available only when using StatusManager plugin.]
 * Tato funkce je dostupná pouze při použítí doplňku StartupStatus.
 [Status on startup]
 Stav po spuštění

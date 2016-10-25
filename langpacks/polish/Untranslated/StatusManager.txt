@@ -1,2 +1,4 @@
 ﻿[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 [Maximum retries (0 - infinite)]
+[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
+[Status manager]

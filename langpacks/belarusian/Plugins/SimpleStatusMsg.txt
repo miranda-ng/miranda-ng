@@ -95,8 +95,8 @@
 Сцерці гісторыю
 [Clear Predefined]
 Сцерці
-[* This feature is available only when using StartupStatus plugin.]
-* Гэта магчымасць даступная толькі пры выкарыстанні дадатку StartupStatus
+[* This feature is available only when using StatusManager plugin.]
+* Гэта магчымасць даступная толькі пры выкарыстанні дадатку StatusManager.
 [Status on startup]
 Пачатковы стан
 [Set status after]

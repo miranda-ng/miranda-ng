@@ -8,21 +8,21 @@
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 
 ;file \plugins\StatusManager\res\resource.rc
+[General]
+Ogólne
+[Show popups]
+Pokaż popupy
+[Account connection]
+Połączenie konta
 [Check connection]
 Sprawdź połączenie
 [Maximum retries (0 - infinite)]
 
-[Account connection]
-Połączenie konta
 [Delay between retries (secs)]
 Przerwa między powtórzeniami
-[Show popups]
-Pokaż popupy
-[General]
-Ogólne
 [Accounts to check]
 Konta do sprawdzenia
-[Dial-Up]
+[Dial-up]
 Połączenie
 [Don't reconnect if no internet connection seems available]
 Nie próbuj łączyć ponownie, jeśli nie wykryjesz połączenia z internetem
@@ -186,8 +186,8 @@ Ignoruj Caps Lock, Num Lock i Scroll Lock
 Sprawdzaj co (s)
 [Confirm dialog timeout (secs)]
 Czas wyświetlania okna potwierdzenia
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Włączyłeś "Zmień mój status na" w opcjach "Bezczynności", ustawienia AdvancedAutoAway będą ignorowane.
+[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
+
 [Monitor keyboard activity]
 Śledź aktywność klawiatury
 [Monitor mouse activity]
@@ -222,32 +222,32 @@ Profile statusów
 Skrót
 [In submenu]
 W podmenu
-[Max. delay (secs)]
-Opóźnienie (s)
-[Increase delay exponential]
-Zwiększ opóźnienie wyświetlania
-[Cancel all if an account connects from another location]
-Anuluj wszystko, jeśli konto łączy się z innej lokalizacji
-[Reconnect on APM resume]
-Połącz po przywróceniu APM
-[Stop trying to reconnect]
-Przerwij próby ponownego łączenia
-[Set delay to]
-Ustaw opóźnienie na
-[React on login errors]
-Reakcja na błędy logowania
-[seconds]
-s
-[Set account offline before a connection attempt]
-Rozłącz konto przed próbą połączenia
-[Max. account connecting time (secs)]
-Maksymalny czas prób łączenia konta
 [Timers]
 Stopery
+[Maximum delay (secs)]
+Opóźnienie (s)
+[Maximum account connecting time (secs)]
+Maksymalny czas prób łączenia konta
 [Reconnecting]
 Ponowne łączenie
 [Ignore locked status of accounts]
 Ignoruj zablokowane statusy
+[Increase delay exponential]
+Zwiększ opóźnienie wyświetlania
+[Set account offline before a connection attempt]
+Rozłącz konto przed próbą połączenia
+[Cancel all if an account connects from another location]
+Anuluj wszystko, jeśli konto łączy się z innej lokalizacji
+[Reconnect on APM resume]
+Połącz po przywróceniu APM
+[React on login errors]
+Reakcja na błędy logowania
+[Stop trying to reconnect]
+Przerwij próby ponownego łączenia
+[Set delay to]
+Ustaw opóźnienie na
+[seconds]
+s
 [Consider connection lost after]
 Reaguj na utratę połączenia po
 [failed pings]
@@ -277,7 +277,7 @@ minutach "%s"
 Zasady
 [Status messages]
 Opisy
-[Auto Away]
+[Auto away]
 Zmiany statusu
 ;file \plugins\StatusManager\src\commonstatus.cpp
 [I've been away since %time%.]
@@ -340,7 +340,7 @@ Brak połączenia z internetem... (następna próba (%d) za %d s)
 Status przywrócony pomyślnie.
 [Giving up]
 Rezygnacja z przywracania statusu.
-[KeepStatus]
+[Keep status]
 Przywracanie statusu
 ;file \plugins\StatusManager\src\ks_options.cpp
 [Basic]
@@ -376,10 +376,12 @@ domyślny
 nieznany
 [At least one profile must exist]
 Musi istnieć przynajmniej 1 profil
-[StartupStatus]
-Status podczas uruchamiania
+[Status manager]
+
 [Your default profile will be changed]
 Twój domyślny profil zostanie zmieniony
+[Startup status]
+Status podczas uruchamiania
 ;file \plugins\StatusManager\src\ss_profiles.cpp
 ;file \plugins\StatusManager\src\ss_toolbars.cpp
 [Pressed toolbar icon]

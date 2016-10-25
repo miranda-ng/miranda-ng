@@ -95,8 +95,8 @@
 Очистить
 [Clear Predefined]
 Очистить
-[* This feature is available only when using StartupStatus plugin.]
-* Эта возможность доступна только при использовании плагина StartupStatus
+[* This feature is available only when using StatusManager plugin.]
+* Эта возможность доступна только при использовании плагина StatusManager.
 [Status on startup]
 Начальный статус
 [Set status after]

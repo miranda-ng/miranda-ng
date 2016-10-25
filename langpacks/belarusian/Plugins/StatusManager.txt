@@ -7,21 +7,21 @@
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Правярае наяўнасць далучэння і аўтаматычна перадалучае пры парывах. Дазваляе вам наладзіць, які статус будзе пры запуску Miranda у кожнага конта.
+[General]
+Агульнае
+[Show popups]
+Паказваць вокны
+[Account connection]
+Далучэнне конту
 [Check connection]
 Правяраць
 [Maximum retries (0 - infinite)]
 Максімум спроб (0 - бясконца)
-[Account connection]
-Далучэнне конту
 [Delay between retries (secs)]
 Затрымка паміж спробамі (сек)
-[Show popups]
-Паказваць вокны
-[General]
-Агульнае
 [Accounts to check]
 Правяраць наступныя:
-[Dial-Up]
+[Dial-up]
 Выдалены доступ
 [Don't reconnect if no internet connection seems available]
 Не далучацца, калі няма злучэння з Інтэрнэтам
@@ -185,8 +185,8 @@ Dial-up (эксперыментальна)
 Правяраць праз (сек):
 [Confirm dialog timeout (secs)]
 Падцвердзіць праз(сек)
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Вы ўключылі функцыю змены статусу ў частцы налад "Рэжым чакання", налады ААА будуць ігнаравацца.
+[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
+
 [Monitor keyboard activity]
 Сачыць за актыўнасцю клавіятуры
 [Monitor mouse activity]
@@ -221,32 +221,32 @@ Dial-up (эксперыментальна)
 Гарачая клавіша
 [In submenu]
 У падменю
-[Max. delay (secs)]
-Макс. затрымка (сек)
-[Increase delay exponential]
-Павялічыць экспанентна
-[Cancel all if an account connects from another location]
-Адмяніць, калі конт далучаны з другога месца
-[Reconnect on APM resume]
-Перадалучыцца пасля спячага рэжыму
-[Stop trying to reconnect]
-Спыніць далучэнне
-[Set delay to]
-Пачакаць
-[React on login errors]
-Улічваць памылкі ўваходу
-[seconds]
-секунд(ы)
-[Set account offline before a connection attempt]
-Адключыць конт перад далучэннем
-[Max. account connecting time (secs)]
-Спрабаваць далучацца (сек):
 [Timers]
 Таймеры
+[Maximum delay (secs)]
+Макс. затрымка (сек)
+[Maximum account connecting time (secs)]
+Спрабаваць далучацца (сек):
 [Reconnecting]
 Перадалучэнне
 [Ignore locked status of accounts]
 Ігнараваць блакаваныя конты
+[Increase delay exponential]
+Павялічыць экспанентна
+[Set account offline before a connection attempt]
+Адключыць конт перад далучэннем
+[Cancel all if an account connects from another location]
+Адмяніць, калі конт далучаны з другога месца
+[Reconnect on APM resume]
+Перадалучыцца пасля спячага рэжыму
+[React on login errors]
+Улічваць памылкі ўваходу
+[Stop trying to reconnect]
+Спыніць далучэнне
+[Set delay to]
+Пачакаць
+[seconds]
+секунд(ы)
 [Consider connection lost after]
 Сувязь страчана пасля
 [failed pings]
@@ -275,7 +275,7 @@ Dial-up (эксперыментальна)
 Кіравала
 [Status messages]
 Паведамленні статусу
-[Auto Away]
+[Auto away]
 Адсутнасць
 [I've been away since %time%.]
 Адышоў %time%. Хутка буду.
@@ -335,7 +335,7 @@ Dial-up (эксперыментальна)
 Статус усталяваны
 [Giving up]
 Спыняю
-[KeepStatus]
+[Keep status]
 Перадалучэнне
 [Basic]
 Асноўныя
@@ -369,10 +369,12 @@ Dial-up (эксперыментальна)
 невядома
 [At least one profile must exist]
 Мінімум адзін профіль павінен існаваць
-[StartupStatus]
-Пачатковы статус
+[Status manager]
+
 [Your default profile will be changed]
 Профіль па змаўчанні будзе зменены
+[Startup status]
+Пачатковы статус
 [Pressed toolbar icon]
 Націснуты абразок панэлі
 [Released toolbar icon]

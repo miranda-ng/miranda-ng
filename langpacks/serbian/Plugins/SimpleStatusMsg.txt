@@ -96,7 +96,7 @@ Ostalo
 
 [Clear Predefined]
 
-[* This feature is available only when using StartupStatus plugin.]
+[* This feature is available only when using StatusManager plugin.]
 
 [Status on startup]
 

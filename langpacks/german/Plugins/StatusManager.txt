@@ -8,21 +8,21 @@
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Überprüft Ihre Verbindung und ist ein erweitertes Abwesenheitsmodul. Erlaubt es Ihnen auch, den Status von Miranda beim Start pro Protokoll festzulegen.
 ;file \plugins\StatusManager\res\resource.rc
+[General]
+Allgemein
+[Show popups]
+Popups anzeigen
+[Account connection]
+Konto-Verbindung
 [Check connection]
 Verbindung prüfen
 [Maximum retries (0 - infinite)]
 Max. Anzahl Versuche (0 - unendlich)
-[Account connection]
-Konto-Verbindung
 [Delay between retries (secs)]
 Verzögerung zwischen Versuchen (Sek.)
-[Show popups]
-Popups anzeigen
-[General]
-Allgemein
 [Accounts to check]
 Folgende Konten prüfen
-[Dial-Up]
+[Dial-up]
 Internetverbindung
 [Don't reconnect if no internet connection seems available]
 Nicht wiederverbinden, wenn keine Internetverbindung
@@ -186,8 +186,8 @@ Feststell-, Nummernblock- und Rollentaste ignorieren
 Prüfintervall (Sek.)
 [Confirm dialog timeout (secs)]
 Dialogfenster automatisch schließen (Sek.)
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Sie haben "Meinen Status ändern in" in den "Untätigkeits-Einstellungen" aktiviert, Einstellungen von AdvancedAutoAway werden ignoriert.
+[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
+
 [Monitor keyboard activity]
 Tastaturaktivität überwachen
 [Monitor mouse activity]
@@ -222,32 +222,32 @@ Statusprofile
 Hotkey
 [In submenu]
 In Untermenü
-[Max. delay (secs)]
-Max. Verzögerung (Sek.)
-[Increase delay exponential]
-Verzögerung exponentiell erhöhen
-[Cancel all if an account connects from another location]
-Alles abbrechen, wenn sich ein Konto von einem anderen Ort aus verbindet
-[Reconnect on APM resume]
-Wiederverbinden nach Energiesparmodus (APM)
-[Stop trying to reconnect]
-Wiederverbinden abbrechen
-[Set delay to]
-Setze Verzögerung auf
-[React on login errors]
-Reaktion bei Anmeldefehlern:
-[seconds]
-Sekunden
-[Set account offline before a connection attempt]
-Konto vor Verbindungsversuch offline setzen
-[Max. account connecting time (secs)]
-Max. Kontoverbindungsdauer (Sek.)
 [Timers]
 Zeitplan
+[Maximum delay (secs)]
+Max. Verzögerung (Sek.)
+[Maximum account connecting time (secs)]
+Max. Kontoverbindungsdauer (Sek.)
 [Reconnecting]
 Wiederverbindung
 [Ignore locked status of accounts]
 Gesperrten Status des Konten ignorieren
+[Increase delay exponential]
+Verzögerung exponentiell erhöhen
+[Set account offline before a connection attempt]
+Konto vor Verbindungsversuch offline setzen
+[Cancel all if an account connects from another location]
+Alles abbrechen, wenn sich ein Konto von einem anderen Ort aus verbindet
+[Reconnect on APM resume]
+Wiederverbinden nach Energiesparmodus (APM)
+[React on login errors]
+Reaktion bei Anmeldefehlern:
+[Stop trying to reconnect]
+Wiederverbinden abbrechen
+[Set delay to]
+Setze Verzögerung auf
+[seconds]
+Sekunden
 [Consider connection lost after]
 Verbindung ist verloren nach
 [failed pings]
@@ -277,7 +277,7 @@ Min. im Status "%s"
 Regeln
 [Status messages]
 Statusnachrichten
-[Auto Away]
+[Auto away]
 Automatisch abwesend
 ;file \plugins\StatusManager\src\commonstatus.cpp
 [I've been away since %time%.]
@@ -340,8 +340,8 @@ Keine Internetverbindung verfügbar... (nächster Versuch (%d) in %ds)
 Status setzen erfolgreich
 [Giving up]
 Aufgeben.
-[KeepStatus]
-KeepStatus
+[Keep status]
+
 ;file \plugins\StatusManager\src\ks_options.cpp
 [Basic]
 Allgemein
@@ -376,10 +376,12 @@ Standard
 Unbekannt
 [At least one profile must exist]
 Mindestens ein Profil muss angelegt sein
-[StartupStatus]
-StartupStatus
+[Status manager]
+
 [Your default profile will be changed]
 Ihre Profile wurden geändert
+[Startup status]
+
 ;file \plugins\StatusManager\src\ss_profiles.cpp
 ;file \plugins\StatusManager\src\ss_toolbars.cpp
 [Pressed toolbar icon]

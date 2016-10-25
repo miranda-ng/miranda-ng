@@ -5,21 +5,21 @@
 ;  Version: 0.11.0.0
 ;  Authors: P Boon
 ;============================================================
+[General]
+General
+[Show popups]
+Mostrar pop-ups
+[Account connection]
+Conexión de cuenta
 [Check connection]
 Comprobar la conexión
 [Maximum retries (0 - infinite)]
 Número máximo de reintentos (0 - infinito)
-[Account connection]
-Conexión de cuenta
 [Delay between retries (secs)]
 Tiempo entre reintentos (segundos)
-[Show popups]
-Mostrar pop-ups
-[General]
-General
 [Accounts to check]
 Cuentas a comprobar
-[Dial-Up]
+[Dial-up]
 Dial-Up
 [Don't reconnect if no internet connection seems available]
 No volver a conectar si parece que no hay conexión a Internet disponible
@@ -181,8 +181,6 @@ Ignorar teclas Bloq Mayús, Bloq Núm y Bloq Desplazamiento
 Comprobar cada (segundos)
 [Confirm dialog timeout (secs)]
 Tiempo de espera de diálogo confirmar (segundos)
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Usted permite "Cambiar mi modo de estado a" en el diálogo de opciones "Inactivo" Se ignoran las opciones de AdvancedAutoAway.
 [Monitor keyboard activity]
 Monitorear la actividad del teclado
 [Monitor mouse activity]
@@ -217,32 +215,32 @@ Perfiles de estado
 Tecla de acceso directo
 [In submenu]
 En el submenú
-[Max. delay (secs)]
-Retardo máximo (segundos)
-[Increase delay exponential]
-Aumentar retraso exponencial
-[Cancel all if an account connects from another location]
-Cancelar todo si una cuenta se conecta desde otro lugar
-[Reconnect on APM resume]
-Reconectar en resumen APM
-[Stop trying to reconnect]
-Deja de tratar de volver a conectar
-[Set delay to]
-Establecer demora a
-[React on login errors]
-Reaccionar en los errores de inicio de sesión
-[seconds]
-segundos
-[Set account offline before a connection attempt]
-Establecer cuenta Fuera de línea ante un intento de conexión
-[Max. account connecting time (secs)]
-Máximo tiempo de conexión de cuenta (segundos)
 [Timers]
 Minuteros
+[Maximum delay (secs)]
+Retardo máximo (segundos)
 [Reconnecting]
 Reconectando
 [Ignore locked status of accounts]
 No hacer caso de estado de bloqueo de cuentas
+[Increase delay exponential]
+Aumentar retraso exponencial
+[Set account offline before a connection attempt]
+Establecer cuenta Fuera de línea ante un intento de conexión
+[Cancel all if an account connects from another location]
+Cancelar todo si una cuenta se conecta desde otro lugar
+[Reconnect on APM resume]
+Reconectar en resumen APM
+[React on login errors]
+Reaccionar en los errores de inicio de sesión
+[Maximum account connecting time (secs)]
+Máximo tiempo de conexión de cuenta (segundos)
+[Stop trying to reconnect]
+Deja de tratar de volver a conectar
+[Set delay to]
+Establecer demora a
+[seconds]
+segundos
 [Consider connection lost after]
 Considerar posibilidad de pérdida de conexión después de
 [failed pings]
@@ -271,8 +269,8 @@ minutos de modo %s
 Reglas
 [Status messages]
 Mensajes de estado
-[Auto Away]
-Auto Fuera
+[Auto away]
+Auto fuera
 [I've been away since %time%.]
 He estado fuera desde %time%.
 [Give it up, I'm not in!]
@@ -335,8 +333,6 @@ por defecto
 desconocido
 [At least one profile must exist]
 Por lo menos un perfil debe existir
-[StartupStatus]
-StartupStatus
 [Your default profile will be changed]
 Su perfil predeterminado se cambiará
 [Pressed toolbar icon]

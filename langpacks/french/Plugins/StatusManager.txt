@@ -8,21 +8,21 @@
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 
 ;file \plugins\StatusManager\res\resource.rc
+[General]
+Général
+[Show popups]
+
+[Account connection]
+
 [Check connection]
 
 [Maximum retries (0 - infinite)]
 
-[Account connection]
-
 [Delay between retries (secs)]
 
-[Show popups]
-
-[General]
-Général
 [Accounts to check]
 
-[Dial-Up]
+[Dial-up]
 
 [Don't reconnect if no internet connection seems available]
 
@@ -186,7 +186,7 @@ Utiliser %time% et %date% pour l'heure et la date actuelles.
 
 [Confirm dialog timeout (secs)]
 
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
 
 [Monitor keyboard activity]
 
@@ -222,32 +222,32 @@ Créer un élément de menu principal
 Raccourci clavier
 [In submenu]
 
-[Max. delay (secs)]
-
-[Increase delay exponential]
-
-[Cancel all if an account connects from another location]
-
-[Reconnect on APM resume]
-
-[Stop trying to reconnect]
-
-[Set delay to]
-
-[React on login errors]
-
-[seconds]
-secondes
-[Set account offline before a connection attempt]
-
-[Max. account connecting time (secs)]
-
 [Timers]
+
+[Maximum delay (secs)]
+
+[Maximum account connecting time (secs)]
 
 [Reconnecting]
 
 [Ignore locked status of accounts]
 
+[Increase delay exponential]
+
+[Set account offline before a connection attempt]
+
+[Cancel all if an account connects from another location]
+
+[Reconnect on APM resume]
+
+[React on login errors]
+
+[Stop trying to reconnect]
+
+[Set delay to]
+
+[seconds]
+secondes
 [Consider connection lost after]
 
 [failed pings]
@@ -277,7 +277,7 @@ minutes en mode %s
 
 [Status messages]
 Messages d'état
-[Auto Away]
+[Auto away]
 Absence automatique
 ;file \plugins\StatusManager\src\commonstatus.cpp
 [I've been away since %time%.]
@@ -340,7 +340,7 @@ Pas de connexion Internet... (dernière tentative (%d))
 L'état est réglé
 [Giving up]
 Abandon
-[KeepStatus]
+[Keep status]
 
 ;file \plugins\StatusManager\src\ks_options.cpp
 [Basic]
@@ -376,10 +376,12 @@ Défaut
 Inconnu
 [At least one profile must exist]
 Au moins un profil doit exister
-[StartupStatus]
-Startup Status
+[Status manager]
+
 [Your default profile will be changed]
 Votre profil par défaut a été modifié
+[Startup status]
+
 ;file \plugins\StatusManager\src\ss_profiles.cpp
 ;file \plugins\StatusManager\src\ss_toolbars.cpp
 [Pressed toolbar icon]

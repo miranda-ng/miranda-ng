@@ -35,7 +35,7 @@
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 [Show 'Status message...' item in status menu]
 [Clear Predefined]
-[* This feature is available only when using StartupStatus plugin.]
+[* This feature is available only when using StatusManager plugin.]
 [Set status after]
 [Protocol:]
 [Status:]

@@ -5,16 +5,16 @@
 ;  Version: 0.11.0.0
 ;  Authors: P Boon
 ;============================================================
+[General]
+Основни
+[Show popups]
+Показване на popups
 [Check connection]
 Проверяване на връзката
 [Maximum retries (0 - infinite)]
 Максимален брой опити (0 - безкрайно)
 [Delay between retries (secs)]
 Пауза между 2 опита (сек)
-[Show popups]
-Показване на popups
-[General]
-Основни
 [Don't reconnect if no internet connection seems available]
 Без автовписване, когато връзката с интернет се възстанови
 [Continuously check for internet connection]
@@ -199,20 +199,20 @@ Dial-up (експериментално)
 Клавишна комбинация
 [In submenu]
 В подменю
-[Max. delay (secs)]
+[Maximum delay (secs)]
 Макс. пауза (сек)
+[Reconnecting]
+Повторно свързване
 [Increase delay exponential]
 Експоненциално увеличаване на паузата между опитите
+[React on login errors]
+Ако възникне грешка при вписване
 [Stop trying to reconnect]
 Без повече опити за повторно свързване
 [Set delay to]
 Пауза:
-[React on login errors]
-Ако възникне грешка при вписване
 [seconds]
 секунди
-[Reconnecting]
-Повторно свързване
 [Consider connection lost after]
 Считай връзката за загубена след
 [failed pings]
@@ -225,7 +225,7 @@ Dial-up (експериментално)
 Правила
 [Status messages]
 Текст за състояние
-[Auto Away]
+[Auto away]
 Авто "Отсъстващ"
 [I've been away since %time%.]
 Отсъствам от %time%.

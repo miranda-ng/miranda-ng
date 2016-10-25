@@ -96,8 +96,8 @@ Menüpunkt 'Statusnachricht...' im Statusmenü anzeigen
 Verlauf leeren
 [Clear Predefined]
 Alles löschen
-[* This feature is available only when using StartupStatus plugin.]
-* Diese Funktion steht nur mit dem StartupStatus-Plugin zur Verfügung
+[* This feature is available only when using StatusManager plugin.]
+* Diese Funktion steht nur mit dem StatusManager-Plugin zur Verfügung
 [Status on startup]
 Status beim Start
 [Set status after]

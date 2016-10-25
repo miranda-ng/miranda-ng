@@ -7,21 +7,21 @@
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Перевіряє наявність підключення до мережі і автоматично перепідключає при розриві. Розширений набір функцій для керування режимом очікування. Дозволяє встановлювати статус, який буде виставлений при запуску Miranda в кожного протоколу.
+[General]
+Загальне
+[Show popups]
+Показувати спливаючі вікна
+[Account connection]
+З'єднання
 [Check connection]
 Перевіряти
 [Maximum retries (0 - infinite)]
 Максимальна кількість спроб (0 - нескінченно)
-[Account connection]
-З'єднання
 [Delay between retries (secs)]
 Затримка між спробами (с)
-[Show popups]
-Показувати спливаючі вікна
-[General]
-Загальне
 [Accounts to check]
 Перевіряти облікові записи
-[Dial-Up]
+[Dial-up]
 Віддалений доступ
 [Don't reconnect if no internet connection seems available]
 Не підключатися, якщо немає з'єднання з Інтернетом
@@ -185,8 +185,6 @@
 Інтервал перевірки (с)
 [Confirm dialog timeout (secs)]
 Інтервал підтвердження (с)
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Ви ввімкнули функцію "Змінити статус" у розділі налаштувань "Очікування", налаштування AdvancedAutoAway ігноруються.
 [Monitor keyboard activity]
 Стежити за активністю клавіатури
 [Monitor mouse activity]
@@ -221,32 +219,32 @@
 Гаряча клавіша
 [In submenu]
 У підменю
-[Max. delay (secs)]
-Макс. затримка (с)
-[Increase delay exponential]
-Збільшити експоненціально
-[Cancel all if an account connects from another location]
-Скасувати, якщо обліковий запис підключено з іншого місця
-[Reconnect on APM resume]
-Перепідключатися після сплячого режиму
-[Stop trying to reconnect]
-Припинити підключення
-[Set delay to]
-Зачекати
-[React on login errors]
-Враховувати помилки входу
-[seconds]
-секунд
-[Set account offline before a connection attempt]
-Перемикати у "Не в мережі" перед спробою з'єднання
-[Max. account connecting time (secs)]
-Макс. час підключення (с)
 [Timers]
 Таймери
+[Maximum delay (secs)]
+Макс. затримка (с)
+[Maximum account connecting time (secs)]
+Макс. час підключення (с)
 [Reconnecting]
 Перепідключення
 [Ignore locked status of accounts]
 Ігнорувати заблоковані облікові записи
+[Increase delay exponential]
+Збільшити експоненціально
+[Set account offline before a connection attempt]
+Перемикати у "Не в мережі" перед спробою з'єднання
+[Cancel all if an account connects from another location]
+Скасувати, якщо обліковий запис підключено з іншого місця
+[Reconnect on APM resume]
+Перепідключатися після сплячого режиму
+[React on login errors]
+Враховувати помилки входу
+[Stop trying to reconnect]
+Припинити підключення
+[Set delay to]
+Зачекати
+[seconds]
+секунд
 [Consider connection lost after]
 Зв'язок втрачено після
 [failed pings]
@@ -261,7 +259,7 @@
 Правила
 [Status messages]
 Статусні повідомлення
-[Auto Away]
+[Auto away]
 Відсутність
 [I've been away since %time%.]
 Відійшов о %time%. Скоро повернуся.
@@ -321,7 +319,7 @@
 Статус встановлено
 [Giving up]
 Припиняю
-[KeepStatus]
+[Keep status]
 Перепідключення
 [Basic]
 Основні
@@ -355,7 +353,7 @@
 невідомо
 [At least one profile must exist]
 Повинен існувати хоча б один профіль
-[StartupStatus]
+[Startup Status]
 Початковий статус
 [Your default profile will be changed]
 Профіль за замовчанням буде змінено

@@ -35,7 +35,7 @@
 [Show 'Status message...' item in status menu]
 [Clear History]
 [Clear Predefined]
-[* This feature is available only when using StartupStatus plugin.]
+[* This feature is available only when using StatusManager plugin.]
 [Set status after]
 [Independent setting for each protocol]
 [Pop up dialog asking for status message]

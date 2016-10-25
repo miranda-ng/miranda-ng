@@ -7,21 +7,21 @@
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 Проверяет наличие подключения к сети и автоматически повторно подключает при разрывах. Предоставляет управление режимом ожидания с расширенным набором функций. Начальный статус, позволяет вам устанавливать, какой статус будет выставлен при запуске Miranda у каждого протокола.
+[General]
+Общее
+[Show popups]
+Показывать всплывающие окна
+[Account connection]
+Подключение учётной записи
 [Check connection]
 Проверять
 [Maximum retries (0 - infinite)]
 Максимальное количество попыток (0 - бесконечно)
-[Account connection]
-Подключение учётной записи
 [Delay between retries (secs)]
 Задержка между попытками (сек)
-[Show popups]
-Показывать всплывающие окна
-[General]
-Общее
 [Accounts to check]
 Проверять следующие
-[Dial-Up]
+[Dial-up]
 Удалённый доступ
 [Don't reconnect if no internet connection seems available]
 Не подключаться, если нет соединения с Интернетом
@@ -185,8 +185,8 @@ Cтатус-профиль
 Интервал проверки (сек)
 [Confirm dialog timeout (secs)]
 Интервал подтверждения (сек)
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Вы включили функцию смены статуса в разделе настроек "Режим ожидания", настройки ААА будут игнорироваться.
+[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
+Эти настройки будут проигнорированы, поскольку вы включили функцию смены статуса в разделе настроек "Ожидание".
 [Monitor keyboard activity]
 Следить за активностью клавиатуры
 [Monitor mouse activity]
@@ -221,32 +221,32 @@ Cтатус-профиль
 Горячая клавиша
 [In submenu]
 В подменю
-[Max. delay (secs)]
-Макс. задержка (сек)
-[Increase delay exponential]
-Увеличить экспоненциально
-[Cancel all if an account connects from another location]
-Отменить, если учётная запись подключена из другого места
-[Reconnect on APM resume]
-Повторно подключиться после спящего режима
-[Stop trying to reconnect]
-Прекратить подключение
-[Set delay to]
-Подождать
-[React on login errors]
-Учитывать ошибки входа
-[seconds]
-секунд
-[Set account offline before a connection attempt]
-Отключать учётную запись перед подключением
-[Max. account connecting time (secs)]
-Макс. время подключения (сек)
 [Timers]
 Таймеры
+[Maximum delay (secs)]
+Максимальная задержка (сек)
+[Maximum account connecting time (secs)]
+Максимальное время подключения (сек)
 [Reconnecting]
 Повторное подключение
 [Ignore locked status of accounts]
 Игнорировать блокированные учётные записи
+[Increase delay exponential]
+Увеличить экспоненциально
+[Set account offline before a connection attempt]
+Отключать учётную запись перед подключением
+[Cancel all if an account connects from another location]
+Отменить, если учётная запись подключена из другого места
+[Reconnect on APM resume]
+Повторно подключиться после спящего режима
+[React on login errors]
+Учитывать ошибки входа
+[Stop trying to reconnect]
+Прекратить подключение
+[Set delay to]
+Подождать
+[seconds]
+секунд
 [Consider connection lost after]
 Связь потеряна после
 [failed pings]
@@ -261,7 +261,7 @@ Cтатус-профиль
 Правила
 [Status messages]
 Статусные сообщения
-[Auto Away]
+[Auto away]
 Отсутствие
 [I've been away since %time%.]
 Отсутствую с %time%.
@@ -321,7 +321,7 @@ Cтатус-профиль
 Статус установлен
 [Giving up]
 Прекращаю
-[KeepStatus]
+[Keep status]
 Повторное подключение
 [Basic]
 Основные
@@ -355,10 +355,12 @@ Cтатус-профиль
 неизвестно
 [At least one profile must exist]
 Минимум один профиль должен существовать
-[StartupStatus]
-Начальный статус
+[Status manager]
+Менеджер статусов
 [Your default profile will be changed]
 Профиль по умолчанию будет изменён
+[Startup status]
+Начальный статус
 [Pressed toolbar icon]
 Нажатый значок панели
 [Released toolbar icon]
