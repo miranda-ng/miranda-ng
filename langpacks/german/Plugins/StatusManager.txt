@@ -187,7 +187,7 @@ Prüfintervall (Sek.)
 [Confirm dialog timeout (secs)]
 Dialogfenster automatisch schließen (Sek.)
 [This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
-
+Diese Einstellungen werden ignoriert, da Sie "Meinen Status ändern zu" in den Untätigkeits-Einstellungen aktiviert haben.
 [Monitor keyboard activity]
 Tastaturaktivität überwachen
 [Monitor mouse activity]
@@ -319,9 +319,9 @@ In %d schließen
 [%s connected from another location]
 %s ist von einem anderen Ort verbunden.
 [%s login error, cancel reconnecting]
-%s Loginfehler, Wiederverbindung abbrechen
+%s Anmeldefehler, Wiederverbindung abbrechen
 [%s login error (next retry (%d) in %d s)]
-%s Loginfehler (nächster Versuch (%d) in %d Sek.)
+%s Anmeldefehler (nächster Versuch (%d) in %d Sek.)
 [%s status error (next retry (%d) in %d s)]
 %s Statusfehler (nächster Versuch (%d) in %d Sek.)
 [Status error (next retry (%d) in %d s)]
@@ -331,17 +331,17 @@ Statusfehler (nächster Versuch (%d) in %d Sek.)
 [Resetting status... (last try (%d))%s]
 Status zurücksetzen... (letzer Versuch (%d))%s
 [Resetting status... (next retry (%d) in %d s)%s]
-Status zurücksetzen... (nächster Versuch (%d) in %ds)%s
+Status zurücksetzen... (nächster Versuch (%d) in %d Sek.)%s
 [No internet connection seems available... (last try (%d))]
 Keine Internetverbindung verfügbar... (letzer Versuch (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]
-Keine Internetverbindung verfügbar... (nächster Versuch (%d) in %ds)
+Keine Internetverbindung verfügbar... (nächster Versuch (%d) in %d Sek.)
 [Status was set ok]
 Status setzen erfolgreich
 [Giving up]
 Aufgeben.
 [Keep status]
-
+Keep Status
 ;file \plugins\StatusManager\src\ks_options.cpp
 [Basic]
 Allgemein
@@ -377,11 +377,11 @@ Unbekannt
 [At least one profile must exist]
 Mindestens ein Profil muss angelegt sein
 [Status manager]
-
+Status-Manager
 [Your default profile will be changed]
 Ihre Profile wurden geändert
 [Startup status]
-
+Startup Status
 ;file \plugins\StatusManager\src\ss_profiles.cpp
 ;file \plugins\StatusManager\src\ss_toolbars.cpp
 [Pressed toolbar icon]

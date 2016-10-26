@@ -1,4 +1,0 @@
-﻿[This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
-[Keep status]
-[Status manager]
-[Startup status]
