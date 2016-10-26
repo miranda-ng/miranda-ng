@@ -1,1 +1,0 @@
-!include "miranda-core.nsi"
