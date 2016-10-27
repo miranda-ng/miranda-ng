@@ -19,17 +19,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL)
-	{
-		ShowNotification(m_tszUserName, TranslateT("Failed to establish a TRouter connection."), NULL, 1);
+	if (response == NULL || response->pData == NULL) {
+LBL_Error:
+		debugLogA("Failed to establish a TRouter connection.");
 		return;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
-	if (!root) {
-		ShowNotification(m_tszUserName, TranslateT("Failed to establish a TRouter connection."), NULL, 1);
-		return;
-	}
+	if (!root)
+		goto LBL_Error;
 
 	const JSONNode &ccid = root["ccid"];
 	const JSONNode &connId = root["connId"];
@@ -38,10 +36,7 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 	const JSONNode &url = root["url"];
 
 	if (!ccid || !connId || !instance || !socketio || !url)
-	{
-		ShowNotification(m_tszUserName, TranslateT("Failed to establish a TRouter connection."), NULL, 1);
-		return;
-	}
+		goto LBL_Error;
 
 	TRouter.ccid = ccid.as_string();
 	TRouter.connId = connId.as_string();
@@ -54,28 +49,22 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL)
-	{
-		ShowNotification(m_tszUserName, TranslateT("Failed to establish a TRouter connection."), NULL, 1);
+	if (response == NULL || response->pData == NULL) {
+LBL_Error:
+		debugLogA("Failed to establish a TRouter connection.");
 		return;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (!root)
-	{
-		ShowNotification(m_tszUserName, TranslateT("Failed to establish a TRouter connection."), NULL, 1);
-		return;
-	}
+		goto LBL_Error;
 
 	const JSONNode &st = root["st"];
 	const JSONNode &se = root["se"];
 	const JSONNode &sig = root["sig"];
 
 	if (!st || !se || !sig)
-	{
-		ShowNotification(m_tszUserName, TranslateT("Failed to establish a TRouter connection."), NULL, 1);
-		return;
-	}
+		goto LBL_Error;
 
 	TRouter.st = st.as_string();
 	TRouter.se = se.as_string();
@@ -95,7 +84,7 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
 	{
-		ShowNotification(m_tszUserName, TranslateT("Failed to establish a TRouter connection."), NULL, 1);
+		debugLogA("Failed to establish a TRouter connection.");
 		return;
 	}
 
