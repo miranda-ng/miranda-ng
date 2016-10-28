@@ -105,6 +105,7 @@ inline tstring quotes_a2t(const char* s)
 #include "QuotesProviderVisitorFormater.h"
 #include "QuotesProviderVisitorTendency.h"
 #include "QuotesProviderVisitorFormatSpecificator.h"
+#define CHART_IMPLEMENT
 #ifdef CHART_IMPLEMENT
 #include "QuoteChart.h"
 #include "Chart.h"

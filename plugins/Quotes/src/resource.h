@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Code\My code\Miranda NG\plugins\Quotes\res\Forex.rc
+// Used by C:\Code\My code\MirandaNG\plugins\Quotes\res\Forex.rc
 //
 #define IDD_DIALOG_ECONOMIC_RATES       101
 #define IDI_ICON_MAIN                   102
@@ -14,8 +14,6 @@
 #define IDI_ICON_NOTCHANGED             116
 #define IDD_CURRENCY_CONVERTER          116
 #define IDI_ICON_CURRENCY_CONVERTER     117
-#define IDD_DUKASCOPY_CHART             117
-#define IDD_CHART                       117
 #define IDD_DIALOG_QUOTE_INFO_1         118
 #define IDI_ICON_REFRESH                118
 #define IDD_DIALOG_OPT_FINANCE          119
@@ -71,7 +69,6 @@
 #define IDC_BUTTON_LOG_FILE_DESCRIPTION2 1037
 #define IDC_BUTTON_POPUP_FORMAT_DESCRIPTION 1037
 #define IDC_EDIT_RESULT                 1039
-#define IDC_STATIC_IMAGE                1056
 #define IDC_EDIT_QUOTE                  1059
 #define IDC_BUTTON_SWAP                 1060
 #define IDC_BUTTON_ADVANCED_SETTINGS    1061
@@ -83,11 +80,7 @@
 #define IDC_MFCCOLORBUTTON1             1066
 #define IDC_CHECK1                      1067
 #define IDC_CHECK_DONT_USE_POPUPHISTORY 1067
-#define IDC_COMBO_DATA_SOURCE           1068
-#define IDC_COMBO_FILTER                1069
-#define IDC_EDIT_FROM                   1070
 #define IDC_EDIT_FROM2                  1071
-#define IDC_EDIT_TO                     1071
 #define IDC_STATIC_PROVIDER_NAME        1071
 #define IDC_DELAY                       1072
 #define IDC_EDIT1                       1072

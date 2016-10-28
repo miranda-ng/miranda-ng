@@ -146,7 +146,6 @@ void InitMenu()
 #ifdef CHART_IMPLEMENT
 	SET_UID(mi, 0x65da7256, 0x43a2, 0x4857, 0xac, 0x52, 0x1c, 0xb7, 0xff, 0xd7, 0x96, 0xfa);
 	mi.name.w = LPGENW("Chart...");
-	mi.popupPosition = 2;
 	mi.hIcolibItem = NULL;
 	mi.pszService = "Quotes/Chart";
 	g_hMenuChart = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
