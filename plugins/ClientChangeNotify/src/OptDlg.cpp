@@ -163,12 +163,12 @@ int OptionsDlgInit(WPARAM wParam, LPARAM)
 	if (bPopupExists) {
 		OPTIONSDIALOGPAGE optDi = { sizeof(optDi) };
 		optDi.position = 920000000;
-		optDi.pwszTitle = LPGENW("ClientChangeNotify");
+		optDi.szGroup.a = LPGEN("Popups");
+		optDi.szTitle.a = LPGEN("ClientChangeNotify");
 		optDi.pfnDlgProc = PopupOptDlg;
 		optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
 		optDi.hInstance = g_hInstance;
-		optDi.pwszGroup = LPGENW("Popups");
-		optDi.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+		optDi.flags = ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &optDi);
 	}
 	return 0;

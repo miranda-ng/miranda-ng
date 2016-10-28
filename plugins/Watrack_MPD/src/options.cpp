@@ -71,9 +71,9 @@ int WaMpdOptInit(WPARAM wParam,LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WA_MPD);
-	odp.pwszTitle = LPGENW("Winamp Track");
-	odp.pwszGroup = LPGENW("Plugins");
-	odp.pwszTab = LPGENW("Watrack MPD");
+	odp.szTitle.w = LPGENW("Winamp Track");
+	odp.szGroup.w = LPGENW("Plugins");
+	odp.szTab.w = LPGENW("Watrack MPD");
 	odp.flags=ODPF_BOLDGROUPS|ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcWaMpdOpts;
 	Options_AddPage(wParam, &odp);

@@ -865,15 +865,10 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			idx = ListBox_GetCurSel(hwndList);
 			if (idx != -1) {
 				pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, idx);
-				if (pa->bOldProto) {
-					OPENOPTIONSDIALOG ood;
-					ood.cbSize = sizeof(ood);
-					ood.pszGroup = "Network";
-					ood.pszPage = pa->szModuleName;
-					ood.pszTab = NULL;
-					Options_Open(&ood);
-				}
-				else OpenAccountOptions(pa);
+				if (pa->bOldProto)
+					Options_Open(L"Network", _A2T(pa->szModuleName));
+				else
+					OpenAccountOptions(pa);
 			}
 			break;
 
@@ -890,12 +885,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			pshn.hdr.code = PSN_APPLY;
 			pshn.hdr.hwndFrom = hwndDlg;
 			SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&pshn);
-			{
-				OPENOPTIONSDIALOG ood = { 0 };
-				ood.cbSize = sizeof(ood);
-				ood.pszPage = "Network";
-				Options_Open(&ood);
-			}
+
+			Options_Open(L"Network");
 			break;
 
 		case IDC_LNK_ADDONS:

@@ -873,22 +873,22 @@ int GGPROTO::options_init(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_UNICODE;
 	odp.position = 1003000;
 	odp.hInstance = hInstance;
-	odp.pwszGroup = LPGENW("Network");
-	odp.pwszTitle = m_tszUserName;
+	odp.szGroup.w = LPGENW("Network");
+	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_UNICODE | ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
 
-	odp.pwszTab = LPGENW("General");
+	odp.szTab.w = LPGENW("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_GENERAL);
 	odp.pfnDlgProc = gg_genoptsdlgproc;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Conference");
+	odp.szTab.w = LPGENW("Conference");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_CONFERENCE);
 	odp.pfnDlgProc = gg_confoptsdlgproc;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Advanced");
+	odp.szTab.w = LPGENW("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_ADVANCED);
 	odp.pfnDlgProc = gg_advoptsdlgproc;
 	Options_AddPage(wParam, &odp);
@@ -923,7 +923,7 @@ int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = gg_detailsdlgproc;
 	odp.position = -1900000000;
 	odp.pszTemplate = pszTemplate;
-	odp.pwszTitle = m_tszUserName;
+	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
 	UserInfo_AddPage(wParam, &odp);
 

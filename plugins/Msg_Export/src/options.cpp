@@ -1227,16 +1227,16 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pwszTitle = LPGENW("Message export");
-	odp.pwszGroup = LPGENW("History");
-	odp.pwszTab = LPGENW("General");
+	odp.szTitle.w = LPGENW("Message export");
+	odp.szGroup.w = LPGENW("History");
+	odp.szTab.w = LPGENW("General");
 	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = DlgProcMsgExportOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.position = 100000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT2);
-	odp.pwszTab = LPGENW("Additional");
+	odp.szTab.w = LPGENW("Additional");
 	odp.pfnDlgProc = DlgProcMsgExportOpts2;
 	Options_AddPage(wParam, &odp);
 	return 0;

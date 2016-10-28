@@ -172,9 +172,9 @@ int OnOptInitialized(WPARAM wParam, LPARAM)
 	mir_snprintf(tabName, "%s %x", Translate("Button"), iNumber + 1);
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pszGroup = LPGEN("Message sessions");
-	odp.pszTitle = LPGEN("Quick Replies");
-	odp.pszTab = tabName;
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Quick Replies");
+	odp.szTab.a = tabName;
 	odp.position = iNumber;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PAGE);

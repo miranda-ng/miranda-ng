@@ -506,15 +506,15 @@ int PingOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pwszGroup = LPGENW("Network");
-	odp.pwszTitle = LPGENW("Ping");
+	odp.szGroup.w = LPGENW("Network");
+	odp.szTitle.w = LPGENW("Ping");
 
-	odp.pwszTab = LPGENW("Settings");
+	odp.szTab.w = LPGENW("Settings");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG1);
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Hosts");
+	odp.szTab.w = LPGENW("Hosts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG2);
 	odp.pfnDlgProc = DlgProcOpts2;
 	Options_AddPage(wParam, &odp);

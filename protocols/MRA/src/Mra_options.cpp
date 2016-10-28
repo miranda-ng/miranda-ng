@@ -216,26 +216,26 @@ int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.dwInitParam = (LPARAM)this;
 	odp.hInstance = g_hInstance;
-	odp.pwszTitle = m_tszUserName;
-	odp.pwszGroup = LPGENW("Network");
+	odp.szTitle.w = m_tszUserName;
+	odp.szGroup.w = LPGENW("Network");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
-	odp.pwszTab = LPGENW("Account");
+	odp.szTab.w = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ACCOUNT);
 	odp.pfnDlgProc = DlgProcOptsAccount;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Connections");
+	odp.szTab.w = LPGENW("Connections");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONNECTIONS);
 	odp.pfnDlgProc = DlgProcOptsConnections;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Files");
+	odp.szTab.w = LPGENW("Files");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILES);
 	odp.pfnDlgProc = MraFilesQueueDlgProcOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Avatars");
+	odp.szTab.w = LPGENW("Avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AVATRS);
 	odp.pfnDlgProc = MraAvatarsQueueDlgProcOpts;
 	Options_AddPage(wParam, &odp);

@@ -131,11 +131,11 @@ int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position      = 150000000;
-	odp.pszGroup      = LPGEN("Services");
+	odp.szGroup.a      = LPGEN("Services");
 	odp.groupPosition = 910000000;
 	odp.hInstance     = hInst;
 	odp.pszTemplate   = MAKEINTRESOURCEA(IDD_OPTS_DIALOG);
-	odp.pszTitle      = LPGEN("Variables");
+	odp.szTitle.a      = LPGEN("Variables");
 	odp.pfnDlgProc    = SetOptsDlgProc;
 	odp.flags         = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

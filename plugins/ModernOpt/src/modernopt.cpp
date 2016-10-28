@@ -221,10 +221,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 		case IDC_BTN_CLASSICOPT:
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
 			db_set_b(NULL, "Options", "Expert", 1);
-			{
-				OPENOPTIONSDIALOG ood = { sizeof(ood) };
-				Options_Open(&ood);
-			}
+			Options_Open(NULL);
 			break;
 
 		case IDC_BTN_HELP:
@@ -248,15 +245,10 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 			g_iSectionRestore = dat->iSection;
 			{	
 				struct ModernOptionsObject *obj = (struct ModernOptionsObject *)dat->pObjectList[dat->iPage];
-				if (obj->optObject.lpzClassicGroup || obj->optObject.lpzClassicPage) {
-					OPENOPTIONSDIALOG ood = { 0 };
-					ood.cbSize = sizeof(ood);
-					ood.pszGroup = obj->optObject.lpzClassicGroup;
-					ood.pszPage = obj->optObject.lpzClassicPage;
-					ood.pszTab = obj->optObject.lpzClassicTab;
-					Options_OpenPage(&ood);
-				}
-				else CallService("Options/OptionsCommand", 0, 0);
+				if (obj->optObject.lpzClassicGroup || obj->optObject.lpzClassicPage)
+					Options_OpenPage(_A2T(obj->optObject.lpzClassicGroup), _A2T(obj->optObject.lpzClassicPage), _A2T(obj->optObject.lpzClassicTab));
+				else 
+					CallService("Options/OptionsCommand", 0, 0);
 
 				PostMessage(hwndDlg, WM_CLOSE, 0, 0);
 			}
@@ -465,10 +457,8 @@ static INT_PTR svcModernOpt_Impl(WPARAM, LPARAM)
 
 static INT_PTR svcModernOpt_Show(WPARAM wParam, LPARAM lParam)
 {
-	if ( db_get_b(NULL, "Options", "Expert", 0)) {
-		OPENOPTIONSDIALOG ood = { sizeof(ood) };
-		return Options_Open(&ood);
-	}
+	if (db_get_b(NULL, "Options", "Expert", 0))
+		return Options_Open(NULL);
 
 	g_iSectionRestore = 0;
 	return svcModernOpt_Impl(wParam, lParam);

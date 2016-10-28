@@ -66,8 +66,8 @@ int NimcOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszGroup = LPGEN("Plugins");
-	odp.pszTitle = LPGEN("Non-IM Contacts");
+	odp.szGroup.a = LPGEN("Plugins");
+	odp.szTitle.a = LPGEN("Non-IM Contacts");
 	odp.pfnDlgProc = DlgProcNimcOpts;
 	Options_AddPage(wParam, &odp);
 	return 0;

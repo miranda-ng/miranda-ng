@@ -82,8 +82,8 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXCHANGE);
-	odp.pwszTitle = LPGENW("Exchange notify");
-	odp.pwszGroup = LPGENW("Plugins");
+	odp.szTitle.w = LPGENW("Exchange notify");
+	odp.szGroup.w = LPGENW("Plugins");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcOptions;

@@ -1099,9 +1099,9 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.position = 940000000;
 	odp.hInstance = hinstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = LPGEN("Quick Messages");
+	odp.szTitle.a = LPGEN("Quick Messages");
 	odp.pfnDlgProc = OptionsProc;
-	odp.pszGroup = LPGEN("Message sessions");
+	odp.szGroup.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wparam, &odp);
 	return 0;

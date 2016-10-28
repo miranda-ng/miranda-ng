@@ -22,8 +22,8 @@
 int onOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pszGroup = LPGEN("Icons");
-	odp.pszTitle = LPGEN("Auth state");
+	odp.szGroup.a = LPGEN("Icons");
+	odp.szTitle.a = LPGEN("Auth state");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new COptionsDialog;
 	Options_AddPage(wParam, &odp);

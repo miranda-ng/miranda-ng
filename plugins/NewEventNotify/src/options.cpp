@@ -292,8 +292,8 @@ int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-		odp.pszTitle = LPGEN("Event Notify");
-		odp.pszGroup = LPGEN("Popups");
+		odp.szTitle.a = LPGEN("Event Notify");
+		odp.szGroup.a = LPGEN("Popups");
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = OptionsDlgProc;
 		Options_AddPage(addInfo, &odp);

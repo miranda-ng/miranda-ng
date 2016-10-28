@@ -496,8 +496,8 @@ int TN_OptionsInitialize(WPARAM wParam, LPARAM)
 		odp.position = 100000000;
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TYPINGNOTIFYPOPUP);
-		odp.pszTitle = LPGEN("Typing notify");
-		odp.pszGroup = LPGEN("Popups");
+		odp.szTitle.a = LPGEN("Typing notify");
+		odp.szGroup.a = LPGEN("Popups");
 		odp.groupPosition = 910000000;
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = DlgProcOpts;

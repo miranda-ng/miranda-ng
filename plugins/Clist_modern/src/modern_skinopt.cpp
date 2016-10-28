@@ -53,8 +53,8 @@ int SkinOptInit(WPARAM wParam, LPARAM)
 		odp.hInstance = g_hInst;
 		odp.pfnDlgProc = DlgSkinOpts;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
-		odp.pwszGroup = LPGENW("Skins");
-		odp.pwszTitle = LPGENW("Contact list");
+		odp.szGroup.w = LPGENW("Skins");
+		odp.szTitle.w = LPGENW("Contact list");
 		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		Options_AddPage(wParam, &odp);
 	}

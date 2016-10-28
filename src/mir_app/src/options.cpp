@@ -43,10 +43,23 @@ static int FilterPage = 0;
 static int FilterLoadProgress = 100;
 static int FilterTimerId = 0;
 
-struct OptionsPageInit
+struct OptionsPage : public OPTIONSDIALOGPAGE
 {
-	int pageCount;
-	OPTIONSDIALOGPAGE *odp;
+	~OptionsPage()
+	{
+		mir_free(szTitle.a);
+		mir_free(szGroup.a);
+		mir_free(szTab.a);
+		if ((DWORD_PTR)pszTemplate & 0xFFFF0000)
+			mir_free((char*)pszTemplate);
+	}
+};
+
+typedef OBJLIST<OptionsPage> OptionsPageList;
+
+struct OPENOPTIONSDIALOG
+{
+	const wchar_t *pszGroup, *pszPage, *pszTab;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -92,19 +105,19 @@ struct OptionsPageData : public MZeroedObject
 		hLangpack = src->hLangpack;
 
 		if (src->flags & ODPF_UNICODE)
-			ptszTitle = mir_wstrdup(src->pwszTitle);
+			ptszTitle = mir_wstrdup(src->szTitle.w);
 		else
-			ptszTitle = mir_a2u(src->pszTitle);
+			ptszTitle = mir_a2u(src->szTitle.a);
 
 		if (src->flags & ODPF_UNICODE)
-			ptszGroup = mir_wstrdup(src->pwszGroup);
+			ptszGroup = mir_wstrdup(src->szGroup.w);
 		else
-			ptszGroup = mir_a2u(src->pszGroup);
+			ptszGroup = mir_a2u(src->szGroup.a);
 
 		if (src->flags & ODPF_UNICODE)
-			ptszTab = mir_wstrdup(src->pwszTab);
+			ptszTab = mir_wstrdup(src->szTab.w);
 		else
-			ptszTab = mir_a2u(src->pszTab);
+			ptszTab = mir_a2u(src->szTab.a);
   	}
 	
 	~OptionsPageData()
@@ -360,18 +373,6 @@ static BOOL IsAeroMode()
 {
 	BOOL result;
 	return dwmIsCompositionEnabled && (dwmIsCompositionEnabled(&result) == S_OK) && result;
-}
-
-static void FreeOptionsData(OptionsPageInit* popi)
-{
-	for (int i = 0; i < popi->pageCount; i++) {
-		mir_free((char*)popi->odp[i].pszTitle);
-		mir_free(popi->odp[i].pszGroup);
-		mir_free(popi->odp[i].pszTab);
-		if ((DWORD_PTR)popi->odp[i].pszTemplate & 0xFFFF0000)
-			mir_free((char*)popi->odp[i].pszTemplate);
-	}
-	mir_free(popi->odp);
 }
 
 static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -705,20 +706,19 @@ static BOOL IsInsideTab(HWND hdlg, OptionsDlgData *dat, int i)
 
 static void LoadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 {
-	OptionsPageInit opi = { 0 };
-	CallPluginEventHook(hInst, hOptionsInitEvent, (WPARAM)&opi, 0);
-	if (opi.pageCount == 0)
+	OptionsPageList arPages(1);
+	CallPluginEventHook(hInst, hOptionsInitEvent, (WPARAM)&arPages, 0);
+	if (arPages.getCount() == 0)
 		return;
 
-	for (int i = 0; i < opi.pageCount; i++) {
-		OptionsPageData *opd = new OptionsPageData(&opi.odp[i]);
+	for (int i = 0; i < arPages.getCount(); i++) {
+		OptionsPageData *opd = new OptionsPageData(&arPages[i]);
 		if (opd->pDialog == NULL) // smth went wrong
 			delete opd;
 		else
 			dat->arOpd.insert(opd);
 	}
 
-	FreeOptionsData(&opi);
 	PostMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
 }
 
@@ -804,28 +804,28 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				if (ood->pszGroup == NULL)
 					lastGroup = db_get_wsa(NULL, "Options", "LastGroup");
 				else
-					lastGroup = mir_a2u(ood->pszGroup);
+					lastGroup = mir_wstrdup(ood->pszGroup);
 			}
 			else {
-				lastPage = mir_a2u(ood->pszPage);
-				lastGroup = mir_a2u(ood->pszGroup);
+				lastPage = mir_wstrdup(ood->pszPage);
+				lastGroup = mir_wstrdup(ood->pszGroup);
 			}
 
 			if (ood->pszTab == NULL)
 				lastTab = db_get_wsa(NULL, "Options", "LastTab");
 			else
-				lastTab = mir_a2u(ood->pszTab);
+				lastTab = mir_wstrdup(ood->pszTab);
 
-			OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
-			for (UINT i = 0; i < psh->nPages; i++, odp++) {
-				opd = new OptionsPageData(odp);
+			OPTIONSDIALOGPAGE **odp = (OPTIONSDIALOGPAGE**)psh->ppsp;
+			for (UINT i = 0; i < psh->nPages; i++) {
+				opd = new OptionsPageData(odp[i]);
 				if (opd->pDialog == NULL) // smth went wrong
 					delete opd;
 				else
 					dat->arOpd.insert(opd);
 
-				if (!mir_wstrcmp(lastPage, odp->pwszTitle) && !mir_wstrcmp(lastGroup, odp->pwszGroup))
-					if ((ood->pszTab == NULL && dat->currentPage == -1) || !mir_wstrcmp(lastTab, odp->pwszTab))
+				if (!mir_wstrcmp(lastPage, odp[i]->szTitle.w) && !mir_wstrcmp(lastGroup, odp[i]->szGroup.w))
+					if ((ood->pszTab == NULL && dat->currentPage == -1) || !mir_wstrcmp(lastTab, odp[i]->szTab.w))
 						dat->currentPage = (int)i;
 			}
 
@@ -1138,58 +1138,55 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 	if (pa->ppro == NULL)
 		return;
 
-	OptionsPageInit opi = { 0 };
-	pa->ppro->OnEvent(EV_PROTO_ONOPTIONS, (WPARAM)&opi, 0);
-	if (opi.pageCount == 0)
+	OptionsPageList arPages(1);
+	pa->ppro->OnEvent(EV_PROTO_ONOPTIONS, (WPARAM)&arPages, 0);
+	if (arPages.getCount() == 0)
 		return;
 
 	wchar_t tszTitle[100];
 	mir_snwprintf(tszTitle, TranslateT("%s options"), pa->tszAccountName);
 
-	OPENOPTIONSDIALOG ood = { sizeof(ood) };
-	ood.pszGroup = LPGEN("Network");
-	ood.pszPage = mir_u2a(pa->tszAccountName);
+	OPENOPTIONSDIALOG ood;
+	ood.pszGroup = LPGENW("Network");
+	ood.pszPage = pa->tszAccountName;
+	ood.pszTab = NULL;
 
 	PROPSHEETHEADER psh = { sizeof(psh) };
 	psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
 	psh.hwndParent = NULL;
-	psh.nPages = opi.pageCount;
+	psh.nPages = arPages.getCount();
 	psh.pStartPage = (LPCTSTR)&ood;
 	psh.pszCaption = tszTitle;
-	psh.ppsp = (PROPSHEETPAGE*)opi.odp;
+	psh.ppsp = (PROPSHEETPAGE*)arPages.getArray();
 	hwndOptions = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPTIONSPAGE), NULL, OptionsDlgProc, (LPARAM)&psh);
 	mir_free((void*)ood.pszPage);
-	FreeOptionsData(&opi);
 }
 
-static void OpenOptionsNow(int _hLang, const char *pszGroup, const char *pszPage, const char *pszTab, bool bSinglePage = false)
+static void OpenOptionsNow(int _hLang, const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, bool bSinglePage)
 {
 	if (IsWindow(hwndOptions)) {
 		ShowWindow(hwndOptions, SW_RESTORE);
 		SetForegroundWindow(hwndOptions);
 		if (pszPage != NULL) {
-			ptrW ptszPage(mir_a2u(pszPage));
 			HTREEITEM hItem = NULL;
 			if (pszGroup != NULL) {
-				ptrW ptszGroup(mir_a2u(pszGroup));
-				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateW_LP(ptszGroup, _hLang));
+				hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateW_LP(pszGroup, _hLang));
 				if (hItem != NULL)
-					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateW_LP(ptszPage, _hLang));
+					hItem = FindNamedTreeItemAtChildren(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem, TranslateW_LP(pszPage, _hLang));
 			}
-			else hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateW_LP(ptszPage, _hLang));
+			else hItem = FindNamedTreeItemAtRoot(GetDlgItem(hwndOptions, IDC_PAGETREE), TranslateW_LP(pszPage, _hLang));
 
 			if (hItem != NULL)
 				TreeView_SelectItem(GetDlgItem(hwndOptions, IDC_PAGETREE), hItem);
 		}
 	}
 	else {
-		OptionsPageInit opi = { 0 };
-		NotifyEventHooks(hOptionsInitEvent, (WPARAM)&opi, 0);
-		if (opi.pageCount == 0)
+		OptionsPageList arPages(1);
+		NotifyEventHooks(hOptionsInitEvent, (WPARAM)&arPages, 0);
+		if (arPages.getCount() == 0)
 			return;
 
 		OPENOPTIONSDIALOG ood = { 0 };
-		ood.cbSize = sizeof(ood);
 		ood.pszGroup = pszGroup;
 		ood.pszPage = pszPage;
 		ood.pszTab = pszTab;
@@ -1197,82 +1194,64 @@ static void OpenOptionsNow(int _hLang, const char *pszGroup, const char *pszPage
 		PROPSHEETHEADER psh = { 0 };
 		psh.dwSize = sizeof(psh);
 		psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
-		psh.nPages = opi.pageCount;
+		psh.nPages = arPages.getCount();
 		psh.pStartPage = (LPCTSTR)&ood; // more structure misuse
 		psh.pszCaption = TranslateT("Miranda NG options");
-		psh.ppsp = (PROPSHEETPAGE*)opi.odp; // blatent misuse of the structure, but what the hell
+		psh.ppsp = (PROPSHEETPAGE*)arPages.getArray(); // blatent misuse of the structure, but what the hell
 
 		hwndOptions = CreateDialogParam(g_hInst,
 			MAKEINTRESOURCE(bSinglePage ? IDD_OPTIONSPAGE : IDD_OPTIONS),
 			NULL, OptionsDlgProc, (LPARAM)&psh);
-
-		FreeOptionsData(&opi);
 	}
 }
 
-static INT_PTR OpenOptions(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, int _hLangpack)
 {
-	OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)lParam;
-	if (ood == NULL || ood->cbSize != sizeof(OPENOPTIONSDIALOG))
-		return 1;
-	
-	OpenOptionsNow((int)wParam, ood->pszGroup, ood->pszPage, ood->pszTab);
+	OpenOptionsNow(_hLangpack, pszGroup, pszPage, pszTab, false);
 	return 0;
 }
 
-static INT_PTR OpenOptionsPage(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, int _hLangpack)
 {
-	OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)lParam;
-	if (ood == NULL || ood->cbSize != sizeof(OPENOPTIONSDIALOG))
-		return 1;
-
-	OpenOptionsNow((int)wParam, ood->pszGroup, ood->pszPage, ood->pszTab, true);
-	return (INT_PTR)hwndOptions;
+	OpenOptionsNow(_hLangpack, pszGroup, pszPage, pszTab, true);
+	return hwndOptions;
 }
 
-static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
-{
-	if (hwndOptions || !ServiceExists(MS_MODERNOPT_SHOW))
-		OpenOptionsNow(NULL, NULL, NULL, NULL);
-	else
-		CallService(MS_MODERNOPT_SHOW, 0, 0);
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int _hLangpack)
 {
-	OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)lParam, *dst;
-	OptionsPageInit *opi = (OptionsPageInit*)wParam;
-	if (odp == NULL || opi == NULL)
+	OptionsPageList *pList = (OptionsPageList*)wParam;
+	if (odp == NULL || pList == NULL)
 		return 1;
 
-	opi->odp = (OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount + 1));
-	dst = opi->odp + opi->pageCount;
+	OptionsPage *dst = new OptionsPage();
 	memcpy(dst, odp, sizeof(OPTIONSDIALOGPAGE));
+	dst->hLangpack = _hLangpack;
 
-	if (odp->pwszTitle != NULL) {
+	if (odp->szTitle.w != NULL) {
 		if (odp->flags & ODPF_UNICODE)
-			dst->pwszTitle = mir_wstrdup(odp->pwszTitle);
+			dst->szTitle.w = mir_wstrdup(odp->szTitle.w);
 		else {
-			dst->pwszTitle = mir_a2u(odp->pszTitle);
+			dst->szTitle.w = mir_a2u(odp->szTitle.a);
 			dst->flags |= ODPF_UNICODE;
 		}
 	}
 
-	if (odp->pwszGroup != NULL) {
+	if (odp->szGroup.w != NULL) {
 		if (odp->flags & ODPF_UNICODE)
-			dst->pwszGroup = mir_wstrdup(odp->pwszGroup);
+			dst->szGroup.w = mir_wstrdup(odp->szGroup.w);
 		else {
-			dst->pwszGroup = mir_a2u(odp->pszGroup);
+			dst->szGroup.w = mir_a2u(odp->szGroup.a);
 			dst->flags |= ODPF_UNICODE;
 		}
 	}
 
-	if (odp->pwszTab != NULL) {
+	if (odp->szTab.w != NULL) {
 		if (odp->flags & ODPF_UNICODE)
-			dst->pwszTab = mir_wstrdup(odp->pwszTab);
+			dst->szTab.w = mir_wstrdup(odp->szTab.w);
 		else {
-			dst->pwszTab = mir_a2u(odp->pszTab);
+			dst->szTab.w = mir_a2u(odp->szTab.a);
 			dst->flags |= ODPF_UNICODE;
 		}
 	}
@@ -1280,7 +1259,18 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 	if ((DWORD_PTR)odp->pszTemplate & 0xFFFF0000)
 		dst->pszTemplate = mir_strdup(odp->pszTemplate);
 
-	opi->pageCount++;
+	pList->insert(dst);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
+{
+	if (hwndOptions || !ServiceExists(MS_MODERNOPT_SHOW))
+		OpenOptionsNow(NULL, NULL, NULL, NULL, false);
+	else
+		CallService(MS_MODERNOPT_SHOW, 0, 0);
 	return 0;
 }
 
@@ -1293,6 +1283,7 @@ static int OptModulesLoaded(WPARAM, LPARAM)
 	mi.name.a = LPGEN("&Options...");
 	mi.pszService = "Options/OptionsCommand";
 	Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, OpenOptionsDialog);
 	return 0;
 }
 
@@ -1311,10 +1302,6 @@ int LoadOptionsModule(void)
 	hOptionsInitEvent = CreateHookableEvent(ME_OPT_INITIALISE);
 	HookEvent(ME_OPT_INITIALISE, LangpackOptionsInit);
 
-	CreateServiceFunction("Opt/AddPage", AddOptionsPage);
-	CreateServiceFunction("Opt/OpenOptions", OpenOptions);
-	CreateServiceFunction("Opt/OpenOptionsPage", OpenOptionsPage);
-	CreateServiceFunction("Options/OptionsCommand", OpenOptionsDialog);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OptModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownOptionsModule);
 	return 0;

@@ -130,8 +130,8 @@ int initializeOptions(WPARAM wParam, LPARAM)
 	OptDlgPg.hInstance = hInstance;
 	OptDlgPg.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	OptDlgPg.pszTemplate = MAKEINTRESOURCEA(dlg_options);
-	OptDlgPg.pwszGroup = LPGENW("Customize");
-	OptDlgPg.pwszTitle = LPGENW("Hardware HotKeys");
+	OptDlgPg.szGroup.w = LPGENW("Customize");
+	OptDlgPg.szTitle.w = LPGENW("Hardware HotKeys");
 	OptDlgPg.pfnDlgProc = OptDlgProc;
 	OptDlgPg.hLangpack = hLangpack;
 	Options_AddPage(wParam, &OptDlgPg);

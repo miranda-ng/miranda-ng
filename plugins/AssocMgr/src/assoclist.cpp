@@ -919,8 +919,8 @@ static int AssocListOptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ASSOCLIST);
 	odp.position = 900000100; // network opts  =  900000000
-	odp.pszGroup = LPGEN("Services"); // autotranslated
-	odp.pszTitle = LPGEN("Associations"); // autotranslated
+	odp.szGroup.a = LPGEN("Services"); // autotranslated
+	odp.szTitle.a = LPGEN("Associations"); // autotranslated
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = AssocListOptDlgProc;
 	Options_AddPage(wParam, &odp);

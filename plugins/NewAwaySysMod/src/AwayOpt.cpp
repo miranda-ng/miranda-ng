@@ -850,10 +850,7 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTITLE));
 				break;
 			case IDC_LNK_AUTOAWAY:
-				OPENOPTIONSDIALOG ood = { sizeof(ood) };
-				ood.pszPage = "Status";
-				ood.pszTab = "Autoreply";
-				Options_OpenPage(&ood);
+				Options_OpenPage(NULL, L"Status", L"Autoreply");
 			}
 			break;
 		case EN_CHANGE:
@@ -1234,25 +1231,25 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	optDi.hInstance = g_hInstance;
 	optDi.flags = ODPF_BOLDGROUPS;
 
-	optDi.pszTitle = OPT_MAINGROUP;
+	optDi.szTitle.a = OPT_MAINGROUP;
 	optDi.pfnDlgProc = MessagesOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
-	optDi.pszTab = LPGEN("Status messages");
+	optDi.szTab.a = LPGEN("Status messages");
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = MoreOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_MOREOPTDIALOG);
-	optDi.pszTab = LPGEN("Main options");
+	optDi.szTab.a = LPGEN("Main options");
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = AutoreplyOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_AUTOREPLY);
-	optDi.pszTab = LPGEN("Autoreply");
+	optDi.szTab.a = LPGEN("Autoreply");
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = ContactsOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACTSOPTDLG);
-	optDi.pszTab = LPGEN("Contacts");
+	optDi.szTab.a = LPGEN("Contacts");
 	Options_AddPage(wParam, &optDi);
 	return 0;
 }

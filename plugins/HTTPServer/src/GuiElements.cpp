@@ -1343,8 +1343,8 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_HTTP_SERVER);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pwszTitle = LPGENW("HTTP Server");
-	odp.pwszGroup = LPGENW("Network");
+	odp.szTitle.w = LPGENW("HTTP Server");
+	odp.szGroup.w = LPGENW("Network");
 	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

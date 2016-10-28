@@ -477,15 +477,15 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -790000000;
 	odp.hInstance = hInst;
-	odp.pszTitle = LPGEN("Popups");
+	odp.szTitle.a = LPGEN("Popups");
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
-	odp.pszTab = LPGEN("Settings");
+	odp.szTab.a = LPGEN("Settings");
 	odp.pfnDlgProc = DlgProcOpts1;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CLASSES);
-	odp.pszTab = LPGEN("Classes");
+	odp.szTab.a = LPGEN("Classes");
 	odp.pfnDlgProc = DlgProcOptsClasses;
 	Options_AddPage(wParam, &odp);
 	return 0;

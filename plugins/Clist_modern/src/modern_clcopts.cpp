@@ -1817,13 +1817,13 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
-	odp.pszTitle = LPGEN("Contact list");
+	odp.szTitle.a = LPGEN("Contact list");
 	odp.pfnDlgProc = DlgProcClistListOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 
 	for (int i = 0; i < _countof(clist_opt_items); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(clist_opt_items[i].id);
-		odp.pszTab = clist_opt_items[i].name;
+		odp.szTab.a = clist_opt_items[i].name;
 		odp.pfnDlgProc = clist_opt_items[i].wnd_proc;
 		odp.flags = ODPF_BOLDGROUPS | clist_opt_items[i].flag;
 		Options_AddPage(wParam, &odp);
@@ -1831,9 +1831,9 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 
 	if (g_CluiData.fDisableSkinEngine) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST_LISTBKG);
-		odp.pszGroup = LPGEN("Skins");
-		odp.pszTitle = LPGEN("Contact list");
-		odp.pszTab = LPGEN("List background");
+		odp.szGroup.a = LPGEN("Skins");
+		odp.szTitle.a = LPGEN("Contact list");
+		odp.szTab.a = LPGEN("List background");
 		odp.pfnDlgProc = DlgProcClcBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);

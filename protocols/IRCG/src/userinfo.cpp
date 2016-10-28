@@ -210,14 +210,14 @@ int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_DONTTRANSLATE;
-	odp.pszTitle = m_szModuleName;
+	odp.szTitle.a = m_szModuleName;
 	odp.hIcon = NULL;
 	odp.dwInitParam = (LPARAM)this;
 	odp.hInstance = hInst;
 	odp.position = -1900000000;
 	odp.pfnDlgProc = UserDetailsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
-	odp.pszTitle = m_szModuleName;
+	odp.szTitle.a = m_szModuleName;
 	UserInfo_AddPage(wParam, &odp);
 	return 0;
 }

@@ -414,8 +414,8 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.groupPosition = 950000000;
 	odp.hInstance = hI;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG1);
-	odp.pwszGroup = LPGENW("Plugins");
-	odp.pwszTitle = LPGENW("OSD");
+	odp.szGroup.w = LPGENW("Plugins");
+	odp.szTitle.w = LPGENW("OSD");
 	odp.pfnDlgProc = OptDlgProc;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wparam, &odp);

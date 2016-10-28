@@ -244,8 +244,8 @@ INT OptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pwszGroup = LPGENW("Sounds");
-	odp.pwszTitle = LPGENW("XSound Notify");
+	odp.szGroup.w = LPGENW("Sounds");
+	odp.szTitle.w = LPGENW("XSound Notify");
 	odp.pfnDlgProc = OptsProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

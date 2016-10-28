@@ -81,13 +81,13 @@ namespace mu
 		void addPage(WPARAM addInfo, const wchar_t* pszGroup, const wchar_t* pszTitle, const wchar_t* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags /* = ODPF_BOLDGROUPS */)
 		{
 			OPTIONSDIALOGPAGE odp = { 0 };
-			odp.pwszTitle = const_cast<wchar_t*>(pszTitle);
+			odp.szTitle.w = const_cast<wchar_t*>(pszTitle);
 			odp.pfnDlgProc = pfnDlgProc;
 			odp.pszTemplate = const_cast<char*>(pszTemplate);
 			odp.hInstance = hInstance;
-			odp.pwszGroup = const_cast<wchar_t*>(pszGroup);
+			odp.szGroup.w = const_cast<wchar_t*>(pszGroup);
 			odp.flags = flags | ODPF_UNICODE;
-			odp.pwszTab = const_cast<wchar_t*>(pszTab);
+			odp.szTab.w = const_cast<wchar_t*>(pszTab);
 			Options_AddPage(addInfo, &odp);
 		}
 	}

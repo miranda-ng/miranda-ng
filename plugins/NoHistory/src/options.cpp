@@ -223,9 +223,9 @@ int OptInit(WPARAM wParam, LPARAM)
    odp.position    = -790000000;
    odp.hInstance   = hInst;
    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-   odp.pwszTitle   = LPGENW("No History");
-   odp.pwszGroup   = LPGENW("History");
-   odp.pwszTab     = LPGENW("Logging");
+   odp.szTitle.w   = LPGENW("No History");
+   odp.szGroup.w   = LPGENW("History");
+   odp.szTab.w     = LPGENW("Logging");
    odp.pfnDlgProc  = DlgProcOpts;
 	Options_AddPage(wParam, &odp);
 	return 0;

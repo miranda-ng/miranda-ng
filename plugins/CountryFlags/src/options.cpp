@@ -86,9 +86,9 @@ int OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXTRAIMG);
 	odp.position = 900000002;
-	odp.pszGroup = LPGEN("Icons");  /* autotranslated */
-	odp.pszTitle = LPGEN("Country Flags"); /* autotranslated */
-	odp.pszTab = LPGEN("Country Flags");   /* autotranslated, can be made a tab */
+	odp.szGroup.a = LPGEN("Icons");  /* autotranslated */
+	odp.szTitle.a = LPGEN("Country Flags"); /* autotranslated */
+	odp.szTab.a = LPGEN("Country Flags");   /* autotranslated, can be made a tab */
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = ExtraImgOptDlgProc;
 	Options_AddPage(wParam, &odp);

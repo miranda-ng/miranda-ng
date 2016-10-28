@@ -124,34 +124,34 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pwszTitle = LPGENW("History");
+	odp.szTitle.w = LPGENW("History");
 
-	odp.pwszTab = LPGENW("Group list");
+	odp.szTab.w = LPGENW("Group list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GROUPLIST);
 	odp.pfnDlgProc = Options::DlgProcOptsGroupList;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Messages");
+	odp.szTab.w = LPGENW("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MESSAGES);
 	odp.pfnDlgProc = Options::DlgProcOptsMessages;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Searching");
+	odp.szTab.w = LPGENW("Searching");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SEARCHING);
 	odp.pfnDlgProc = Options::DlgProcOptsSearching;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Export");
+	odp.szTab.w = LPGENW("Export");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXPORT);
 	odp.pfnDlgProc = Options::DlgProcOptsExport;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Scheduler");
+	odp.szTab.w = LPGENW("Scheduler");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SCHEDULER);
 	odp.pfnDlgProc = Options::DlgProcOptsScheduler;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Advanced");
+	odp.szTab.w = LPGENW("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
 	odp.pfnDlgProc = Options::DlgProcOptsMain;
 	Options_AddPage(wParam, &odp);

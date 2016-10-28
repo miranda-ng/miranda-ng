@@ -506,12 +506,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			refreshTree(1);
 			break;
 		case MENU_OPEN_OPTIONS:
-			OPENOPTIONSDIALOG odp = { 0 };
-			odp.cbSize = sizeof(odp);
-			odp.pszGroup = "Database";
-			odp.pszPage = modFullname;
-			odp.pszTab = 0;
-			Options_Open(&odp);
+			Options_Open(L"Database", _A2W(modFullname));
 			break;
 		}
 		return TRUE; // case WM_COMMAND

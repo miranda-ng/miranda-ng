@@ -202,7 +202,7 @@ int CListOptInit(WPARAM wParam, LPARAM)
 	odp.position = -1000000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST);
-	odp.pszTitle = LPGEN("Contact list");
+	odp.szTitle.a = LPGEN("Contact list");
 	odp.pfnDlgProc = DlgProcGenOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

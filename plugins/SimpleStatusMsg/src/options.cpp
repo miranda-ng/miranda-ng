@@ -1654,7 +1654,7 @@ int InitOptions(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 
 	if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
-		odp.pszTitle = LPGEN("Status");
+		odp.szTitle.a = LPGEN("Status");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUS);
 		odp.pfnDlgProc = DlgStatusOptionsProc;
 		Options_AddPage(wParam, &odp);
@@ -1665,18 +1665,18 @@ int InitOptions(WPARAM wParam, LPARAM)
 
 	odp.position = 870000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
-	odp.pszTitle = LPGEN("Status messages");
-	odp.pszGroup = LPGEN("Status");
-	odp.pszTab = LPGEN("General");
+	odp.szTitle.a = LPGEN("Status messages");
+	odp.szGroup.a = LPGEN("Status");
+	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = DlgOptionsProc;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Variables");
+	odp.szTab.a = LPGEN("Variables");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VARIABLES);
 	odp.pfnDlgProc = DlgVariablesOptionsProc;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Advanced");
+	odp.szTab.a = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgAdvancedOptionsProc;
 	Options_AddPage(wParam, &odp);

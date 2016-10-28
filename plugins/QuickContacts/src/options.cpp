@@ -51,8 +51,8 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pwszGroup = LPGENW("Contacts");
-	odp.pwszTitle = LPGENW("Quick Contacts");
+	odp.szGroup.w = LPGENW("Contacts");
+	odp.szTitle.w = LPGENW("Quick Contacts");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;

@@ -78,20 +78,20 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.pszGroup = LPGEN("Status");
-	odp.pszTitle = LPGEN("Listening info");
-	odp.pszTab = LPGEN("General");
+	odp.szGroup.a = LPGEN("Status");
+	odp.szTitle.a = LPGEN("Listening info");
+	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Format");
+	odp.szTab.a = LPGEN("Format");
 	odp.pfnDlgProc = FormatDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_FORMAT);
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Players");
+	odp.szTab.a = LPGEN("Players");
 	odp.pfnDlgProc = PlayersDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PLAYERS);
 	Options_AddPage(wParam, &odp);

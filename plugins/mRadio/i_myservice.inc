@@ -63,15 +63,9 @@ begin
 end;
 
 function Service_RadioSettings(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  ood:TOPENOPTIONSDIALOG;
 begin
   result:=0;
-  ood.cbSize:=SizeOf(ood);
-  ood.pszGroup:='Network';
-  ood.pszPage :=PluginName;
-  ood.pszTab  :=Translate('Advanced');
-  CallService(MS_OPT_OPENOPTIONS,0,tlparam(@ood));
+  Options_Open('Network','mRadio','Advanced');
 end;
 
 function Service_RadioRecord(wParam:WPARAM;lParam:LPARAM):int;cdecl;

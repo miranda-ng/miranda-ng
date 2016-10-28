@@ -276,18 +276,18 @@ int TwitterProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 271828;
 	odp.hInstance = g_hInstance;
-	odp.pwszGroup = LPGENW("Network");
-	odp.pwszTitle = m_tszUserName;
+	odp.szGroup.w = LPGENW("Network");
+	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
-	odp.pwszTab = LPGENW("Basic");
+	odp.szTab.w = LPGENW("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = options_proc;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		odp.pwszTab = LPGENW("Popups");
+		odp.szTab.w = LPGENW("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
 		odp.pfnDlgProc = popup_options_proc;
 		Options_AddPage(wParam, &odp);

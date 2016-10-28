@@ -223,11 +223,11 @@ int OptionsInitialization(WPARAM wParam, LPARAM)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { 0 };
-		odp.pwszTitle = MAIL_NOTIFICATIONS;
+		odp.szTitle.w = MAIL_NOTIFICATIONS;
 		odp.pfnDlgProc = PopupsOptionsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPSETTINGS);
 		odp.hInstance = g_hInst;
-		odp.pwszGroup = POPUPS_OPTIONS_GROUP;
+		odp.szGroup.w = POPUPS_OPTIONS_GROUP;
 		odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
 		Options_AddPage(wParam, &odp);
 	}
@@ -237,13 +237,13 @@ int OptionsInitialization(WPARAM wParam, LPARAM)
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa != NULL) {
 			OPTIONSDIALOGPAGE odp = { 0 };
-			odp.pwszTitle = pa->tszAccountName;
+			odp.szTitle.w = pa->tszAccountName;
 			odp.pfnDlgProc = AccOptionsDlgProc;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);
 			odp.hInstance = g_hInst;
-			odp.pwszGroup = NETWORK_OPTIONS_GROUP;
+			odp.szGroup.w = NETWORK_OPTIONS_GROUP;
 			odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
-			odp.pwszTab = MAIL_NOTIFICATIONS;
+			odp.szTab.w = MAIL_NOTIFICATIONS;
 			odp.dwInitParam = (LPARAM)szProto;
 			Options_AddPage(wParam, &odp);
 		}

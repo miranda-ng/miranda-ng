@@ -295,8 +295,8 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-	odp.pszGroup = LPGEN("Network");
-	odp.pszTitle = MODULENAME;
+	odp.szGroup.a = LPGEN("Network");
+	odp.szTitle.a = MODULENAME;
 	odp.pfnDlgProc = DlgProcOpt;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
@@ -304,7 +304,7 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	// if popup service exists
 	if ((ServiceExists(MS_POPUP_ADDPOPUPT))) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.pwszGroup = LPGENW("Popups");
+		odp.szGroup.w = LPGENW("Popups");
 		odp.pfnDlgProc = DlgPopUpOpts;
 		Options_AddPage(wParam, &odp);
 	}

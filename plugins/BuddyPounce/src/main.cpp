@@ -98,8 +98,8 @@ int BuddyPounceOptInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pwszGroup = LPGENW("Message sessions");
-	odp.pwszTitle = LPGENW("Buddy Pounce");
+	odp.szGroup.w = LPGENW("Message sessions");
+	odp.szTitle.w = LPGENW("Buddy Pounce");
 	odp.pfnDlgProc = BuddyPounceOptionsDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

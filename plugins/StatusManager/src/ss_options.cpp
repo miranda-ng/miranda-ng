@@ -905,16 +905,16 @@ int StartupStatusOptionsInit(WPARAM wparam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Status");
-	odp.pszTitle = LPGEN("Startup status");
+	odp.szGroup.a = LPGEN("Status");
+	odp.szTitle.a = LPGEN("Startup status");
 	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.pszTab = LPGEN("General");
+	odp.szTab.a = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STARTUPSTATUS);
 	odp.pfnDlgProc = StartupStatusOptDlgProc;
 	Options_AddPage(wparam,&odp);
 
-	odp.pszTab = LPGEN("Status profiles");
+	odp.szTab.a = LPGEN("Status profiles");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUSPROFILES);
 	odp.pfnDlgProc = StatusProfilesOptDlgProc;
 	Options_AddPage(wparam,&odp);

@@ -29,13 +29,13 @@ begin
   odp.pszTemplate:=PAnsiChar(IDD_OPT_PARTS);
   odp.pfnDlgProc :=@DlgProcOptions0;
   odp.szTab.a    :='Modules';
-  CallService(MS_OPT_ADDPAGE,wParam,tlparam(@odp));
+  Options_AddPage(wParam,@odp);
 
   odp.flags      :=ODPF_BOLDGROUPS;
   odp.pszTemplate:=PAnsiChar(IDD_OPT_BASIC);
   odp.pfnDlgProc :=@DlgProcOptions1;
   odp.szTab.a    :='Basic';
-  CallService(MS_OPT_ADDPAGE,wParam,tlparam(@odp));
+  Options_AddPage(wParam,@odp);
 
   ptr:=ModuleLink;
   while ptr<>nil do
@@ -46,7 +46,7 @@ begin
       odp.pszTemplate:=tmpl;
       odp.pfnDlgProc :=proc;
       odp.szTab.a    :=name;
-      CallService(MS_OPT_ADDPAGE,wParam,tlparam(@odp));
+      Options_AddPage(wParam,@odp);
       if i>0 then continue;
     end;
     ptr:=ptr^.Next;

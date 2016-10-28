@@ -709,20 +709,20 @@ int OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszGroup = LPGEN("Contacts");
-	odp.pszTitle = LPGEN("Avatars");
+	odp.szGroup.a = LPGEN("Contacts");
+	odp.szTitle.a = LPGEN("Avatars");
 
-	odp.pszTab = LPGEN("Protocols");
+	odp.szTab.a = LPGEN("Protocols");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PICTS);
 	odp.pfnDlgProc = DlgProcOptionsProtos;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Contact avatars");
+	odp.szTab.a = LPGEN("Contact avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_AVATARS);
 	odp.pfnDlgProc = DlgProcOptionsAvatars;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Own avatars");
+	odp.szTab.a = LPGEN("Own avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_OWN);
 	odp.pfnDlgProc = DlgProcOptionsOwn;
 	Options_AddPage(wParam, &odp);
@@ -1104,7 +1104,7 @@ int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hIcon = g_hIcon;
 	odp.hInstance = g_hInst;
-	odp.pszTitle = LPGEN("Avatar");
+	odp.szTitle.a = LPGEN("Avatar");
 
 	MCONTACT hContact = lParam;
 	if (hContact == NULL) {

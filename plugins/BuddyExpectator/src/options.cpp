@@ -433,15 +433,15 @@ static int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pwszGroup = LPGENW("Contacts");
+	odp.szGroup.w = LPGENW("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPANEL);
-	odp.pwszTitle = LPGENW("Buddy Expectator");
+	odp.szTitle.w = LPGENW("Buddy Expectator");
 	odp.pfnDlgProc = OptionsFrameProc;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		odp.pwszGroup = LPGENW("Popups");
+		odp.szGroup.w = LPGENW("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPPANEL);
 		odp.pfnDlgProc = PopupOptionsFrameProc;
 		Options_AddPage(wParam, &odp);
@@ -531,8 +531,7 @@ int UserinfoInit(WPARAM wparam, LPARAM lparam)
 		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
 		uip.hInstance = hInst;
 		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
-		uip.flags = ODPF_UNICODE;
-		uip.pwszTitle = LPGENW("Buddy Expectator");
+		uip.szTitle.a = LPGEN("Buddy Expectator");
 		uip.pfnDlgProc = UserinfoDlgProc;
 		UserInfo_AddPage(wparam, &uip);
 	}

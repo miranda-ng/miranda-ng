@@ -977,8 +977,8 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
-	odp.pszTitle = LPGEN("Alarms");
-	odp.pszGroup = LPGEN("Events");
+	odp.szTitle.a = LPGEN("Alarms");
+	odp.szGroup.a = LPGEN("Events");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);

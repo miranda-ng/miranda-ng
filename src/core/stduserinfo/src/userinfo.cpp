@@ -66,12 +66,12 @@ struct DetailsData
 
 wchar_t* getTitle(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->pwszTitle : TranslateW_LP(p->pwszTitle, p->hLangpack);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTitle.w : TranslateW_LP(p->szTitle.w, p->hLangpack);
 }
 
 wchar_t* getTab(OPTIONSDIALOGPAGE *p)
 {
-	return (p->flags & ODPF_DONTTRANSLATE) ? p->pwszTab : TranslateW_LP(p->pwszTab, p->hLangpack);
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->szTab.w : TranslateW_LP(p->szTab.w, p->hLangpack);
 }
 
 static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
@@ -121,8 +121,8 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProcDetails, (LPARAM)&psh);
 	for (int i = 0; i < opi.pageCount; i++) {
 		//cleanup moved to WM_DESTROY
-		if (opi.odp[i].pszGroup != NULL)
-			mir_free(opi.odp[i].pszGroup);
+		if (opi.odp[i].szGroup.w != NULL)
+			mir_free(opi.odp[i].szGroup.a);
 		if ((DWORD_PTR)opi.odp[i].pszTemplate & 0xFFFF0000)
 			mir_free((char*)opi.odp[i].pszTemplate);
 	}
@@ -147,12 +147,12 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	dst->pszTemplate = ((DWORD_PTR)odp->pszTemplate & 0xFFFF0000) ? mir_strdup(odp->pszTemplate) : odp->pszTemplate;
 
 	if (odp->flags & ODPF_UNICODE) {
-		dst->pwszTitle = (odp->pwszTitle == 0) ? NULL : mir_wstrdup(odp->pwszTitle);
-		dst->pwszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->pwszTab) ? NULL : mir_wstrdup(odp->pwszTab);
+		dst->szTitle.w = (odp->szTitle.w == 0) ? NULL : mir_wstrdup(odp->szTitle.w);
+		dst->szTab.w = (odp->flags & ODPF_USERINFOTAB) ? mir_wstrdup(odp->szTab.w) : NULL;
 	}
 	else {
-		dst->pwszTitle = mir_a2u(odp->pszTitle);
-		dst->pwszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : mir_a2u(odp->pszTab);
+		dst->szTitle.w = mir_a2u(odp->szTitle.a);
+		dst->szTab.w = (odp->flags & ODPF_USERINFOTAB) ? mir_a2u(odp->szTab.a) : NULL;
 	}
 
 	dst->hLangpack = odp->hLangpack;
@@ -289,8 +289,8 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				p.dlgParam = odp[i].dwInitParam;
 				p.hInst = odp[i].hInstance;
 
-				p.ptszTitle = odp[i].pwszTitle;
-				p.ptszTab = odp[i].pwszTab;
+				p.ptszTitle = odp[i].szTitle.w;
+				p.ptszTab = odp[i].szTab.w;
 				p.hLangpack = odp[i].hLangpack;
 
 				if (i && p.ptszTab && !mir_wstrcmp(dat->opd[i - 1].ptszTitle, p.ptszTitle)) {

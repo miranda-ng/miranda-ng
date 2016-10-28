@@ -437,20 +437,20 @@ int IEViewOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInstance;
-	odp.pwszGroup = LPGENW("Message sessions");
-	odp.pwszTitle = LPGENW("IEView");
+	odp.szGroup.w = LPGENW("Message sessions");
+	odp.szTitle.w = LPGENW("IEView");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(tabPages[0].dlgId);
 	odp.pfnDlgProc = tabPages[0].dlgProc;
-	odp.pwszTab = tabPages[0].tabName;
+	odp.szTab.w = tabPages[0].tabName;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszGroup = LPGENW("Skins");
-	odp.pwszTitle = LPGENW("IEView");
+	odp.szGroup.w = LPGENW("Skins");
+	odp.szTitle.w = LPGENW("IEView");
 	for (size_t i = 1; i < _countof(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
-		odp.pwszTab = tabPages[i].tabName;
+		odp.szTab.w = tabPages[i].tabName;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

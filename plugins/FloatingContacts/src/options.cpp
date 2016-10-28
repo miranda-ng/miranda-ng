@@ -335,15 +335,15 @@ int OnOptionsInitialize(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FLTCONT);
-	odp.pszTitle = LPGEN("Floating Contacts");
-	odp.pszGroup = LPGEN("Contact list");
-	odp.pszTab = LPGEN("Main Features");
+	odp.szTitle.a = LPGEN("Floating Contacts");
+	odp.szGroup.a = LPGEN("Contact list");
+	odp.szTab.a = LPGEN("Main Features");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptWndProc;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.pszTab = LPGEN("Appearance");
+	odp.szTab.a = LPGEN("Appearance");
 	odp.pfnDlgProc = OptSknWndProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

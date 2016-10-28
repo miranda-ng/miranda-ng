@@ -203,8 +203,8 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = PluginName;
-	odp.pszGroup = LPGEN("Services");
+	odp.szTitle.a = PluginName;
+	odp.szGroup.a = LPGEN("Services");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);

@@ -107,9 +107,9 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.position = 955000000;
 	odp.hInstance = hinstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = MODULENAME;
+	odp.szTitle.a = MODULENAME;
 	odp.pfnDlgProc = OptionsProc;
-	odp.pszGroup = LPGEN("Customize");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wparam, &odp);
 	return 0;

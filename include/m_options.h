@@ -56,36 +56,25 @@ DLUs.
 // WARNING: do not use Translate(TS) for pszTitle, pszGroup or pszTab as they
 // are translated by the core, which may lead to double translation.
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
-typedef struct {
-	int position;        //a position number, lower numbers are topmost
-	union {
-		char *pszTitle; // [TRANSLATED-BY-CORE]
-		wchar_t *pwszTitle;
-	};
+
+struct OPTIONSDIALOGPAGE
+{
+	int position; // a position number, lower numbers are topmost
+	MAllStrings szTitle, szGroup, szTab; // [TRANSLATED-BY-CORE]
 	DLGPROC pfnDlgProc;
 	char *pszTemplate;
 	HINSTANCE hInstance;
 	HICON hIcon;
-	union {
-		char *pszGroup;
-		wchar_t *pwszGroup;
-	};
 	int groupPosition;
+	int hLangpack;
 	HICON hGroupIcon;
 	DWORD flags;
-
-	union {
-		char *pszTab;
-		wchar_t *pwszTab;
-	};
 
 	union {
 		LPARAM dwInitParam; // a value to pass to lParam of WM_INITDIALOG message
 		class CDlgBase *pDialog;
 	};
-	int hLangpack;
-}
-	OPTIONSDIALOGPAGE;
+};
 
 #define ODPF_BOLDGROUPS     4   // give group box titles a bold font
 #define ODPF_UNICODE        8   // string fields in OPTIONSDIALOGPAGE are wchar_t*
@@ -94,37 +83,20 @@ typedef struct {
 
 #define PSM_GETBOLDFONT   (WM_USER+102)   //returns HFONT used for group box titles
 
-__forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
-{	odp->hLangpack = hLangpack;
-	return CallService("Opt/AddPage", wParam, (LPARAM)odp);
-}
+EXTERN_C MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int = hLangpack);
 
-//Opens the options dialog, optionally at the specified page    v0.1.2.1+
-//wParam = 0
-//lParam = (LPARAM)(OPENOPTIONSDIALOG*)&ood;
-//Returns 0 on success, nonzero on failure
-//The behaviour if the options dialog is already open is that it will just be
-//activated, the page won't be changed. This may change in the future.
-typedef struct {
-	int cbSize;
-	const char *pszGroup;    //set to NULL if it's a root item
-	const char *pszPage;     //set to NULL to just open the options at no
-	                         //specific page
-	const char *pszTab;      //set to NULL to just open the options at no
-	                         //specific tab
-}
-	OPENOPTIONSDIALOG;
+// The behaviour if the options dialog is already open is that it will just be
+// activated, the page won't be changed. This may change in the future.
 
-__forceinline INT_PTR Options_Open(OPENOPTIONSDIALOG *ood)
-{
-	return CallService("Opt/OpenOptions", hLangpack, (LPARAM)ood);
-}
+// set pszGroup to NULL if it's a root item
+// set pszPage to NULL to just open the options at no specific page
+// set pszTab to NULL to just open the options at no specific tab
 
-//Opens the options dialog, with only specified page    v0.8.0.x+
+// Opens the options dialog, optionally at the specified page
+// Returns 0 on success, nonzero on failure
+EXTERN_C MIR_APP_DLL(int) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage = NULL, const wchar_t *pszTab = NULL, int = hLangpack);
 
-__forceinline HWND Options_OpenPage(OPENOPTIONSDIALOG *ood)
-{
-	return (HWND)CallService("Opt/OpenOptionsPage", hLangpack, (LPARAM)ood);
-}
+// Opens the options dialog, with only specified page
+EXTERN_C MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage = NULL, const wchar_t *pszTab = NULL, int = hLangpack);
 
 #endif  //M_OPTIONS_H__

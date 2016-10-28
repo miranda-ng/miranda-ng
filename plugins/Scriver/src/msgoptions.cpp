@@ -709,15 +709,9 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_FONTSCOLORS:
-			{
-				OPENOPTIONSDIALOG ood;
-				ood.cbSize = sizeof(ood);
-				ood.pszGroup = "Customize";
-				ood.pszPage = "Fonts and colors";
-				ood.pszTab = NULL;
-				Options_Open(&ood);
-			}
+			Options_Open(L"Customize", L"Fonts and colors");
 			break;
+
 		case IDC_LOADUNREAD:
 		case IDC_LOADCOUNT:
 		case IDC_LOADTIME:
@@ -730,14 +724,17 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LOADTIMESPIN), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STMINSOLD), bChecked);
 			break;
+		
 		case IDC_SHOWTIMES:
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSECONDS), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWDATES), bChecked);
+		
 		case IDC_SHOWDATES:
 			bChecked = IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_USELONGDATE), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_USERELATIVEDATE), bChecked);
+		
 		case IDC_SHOWNAMES:
 		case IDC_SHOWSECONDS:
 		case IDC_USELONGDATE:
@@ -748,25 +745,30 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_DRAWLINES:
 			ShowPreview(hwndDlg);
 			break;
+		
 		case IDC_GROUPMESSAGES:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MARKFOLLOWUPS), IsDlgButtonChecked(hwndDlg, IDC_GROUPMESSAGES));
 			ShowPreview(hwndDlg);
 			break;
+		
 		case IDC_INDENTTEXT:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSIZE), IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_INDENTSPIN), IsDlgButtonChecked(hwndDlg, IDC_INDENTTEXT));
 			ShowPreview(hwndDlg);
 			break;
+		
 		case IDC_INDENTSIZE:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 				return TRUE;
 			ShowPreview(hwndDlg);
 			break;
+		
 		case IDC_LOADCOUNTN:
 		case IDC_LOADTIMEN:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 				return TRUE;
 			break;
+		
 		case IDC_LOG:
 			return 0;
 		}
@@ -945,20 +947,20 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
-	odp.pszTitle = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	for (int i = 0; i < _countof(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
-		odp.pszTab = (char *)tabPages[i].tabName;
+		odp.szTab.a = (char *)tabPages[i].tabName;
 		Options_AddPage(wParam, &odp);
 	}
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
-	odp.pszGroup = LPGEN("Message sessions");
-	odp.pszTitle = LPGEN("Typing notify");
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
-	odp.pszTab = NULL;
+	odp.szTab.a = NULL;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

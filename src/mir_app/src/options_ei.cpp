@@ -462,9 +462,9 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pszGroup = LPGEN("Contact list");
-	odp.pszTitle = LPGEN("Extra icons");
-	odp.pszTab = LPGEN("General");
+	odp.szGroup.a = LPGEN("Contact list");
+	odp.szTitle.a = LPGEN("Extra icons");
+	odp.szTab.a = LPGEN("General");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new CExtraIconOptsDlg();
 	Options_AddPage(wParam, &odp);

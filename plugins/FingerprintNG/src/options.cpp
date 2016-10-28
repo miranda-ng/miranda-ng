@@ -117,9 +117,9 @@ int OnOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
-	odp.pwszGroup = LPGENW("Icons");
+	odp.szGroup.w = LPGENW("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG);
-	odp.pwszTitle = LPGENW("Fingerprint");
+	odp.szTitle.w = LPGENW("Fingerprint");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wParam, &odp);

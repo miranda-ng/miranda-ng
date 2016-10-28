@@ -275,8 +275,8 @@ int HSOptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORYSWEEPER);
-	odp.pszTitle = ModuleName;
-	odp.pszGroup = LPGEN("History");
+	odp.szTitle.a = ModuleName;
+	odp.szGroup.a = LPGEN("History");
 	odp.pfnDlgProc = DlgProcHSOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

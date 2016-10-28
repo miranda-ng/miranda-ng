@@ -263,9 +263,9 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
-	odp.pszGroup = LPGEN("Contact list");
+	odp.szGroup.a = LPGEN("Contact list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
-	odp.pszTitle = LPGEN("List");
+	odp.szTitle.a = LPGEN("List");
 	odp.pfnDlgProc = DlgProcClcMainOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

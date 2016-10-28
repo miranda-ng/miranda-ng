@@ -173,13 +173,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case IDC_BTN_FONTS:
-		{
-			OPENOPTIONSDIALOG ood = { sizeof(ood) };
-			ood.pszGroup = "Customize";
-			ood.pszPage = "Fonts and colors";
-			ood.pszTab = NULL;
-			Options_Open(&ood);
-		}
+			Options_Open(L"Customize", L"Fonts and colors");
 			break;
 
 		case IDC_TXT_RADIUS:
@@ -263,8 +257,8 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszGroup = LPGEN("Contacts");
-	odp.pszTitle = LPGEN("Favorites");
+	odp.szGroup.a = LPGEN("Contacts");
+	odp.szTitle.a = LPGEN("Favorites");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptionsDlgProc;

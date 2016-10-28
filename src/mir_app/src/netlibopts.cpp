@@ -522,7 +522,7 @@ int NetlibOptInitialise(WPARAM wParam, LPARAM)
 	odp.position = 900000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NETLIB);
-	odp.pszTitle = LPGEN("Network");
+	odp.szTitle.a = LPGEN("Network");
 	odp.pfnDlgProc = DlgProcNetlibOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

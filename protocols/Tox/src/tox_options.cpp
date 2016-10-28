@@ -680,19 +680,19 @@ void CToxOptionsNodeList::OnApply()
 int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pwszTitle = m_tszUserName;
+	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.pwszGroup = LPGENW("Network");
+	odp.szGroup.w = LPGENW("Network");
 
-	odp.pwszTab = LPGENW("Account");
+	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = CToxOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
-	/*odp.pwszTab = LPGENW("Multimedia");
+	/*odp.szTab.w = LPGENW("Multimedia");
 	odp.pDialog = CToxOptionsMultimedia::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);*/
 
-	odp.pwszTab = LPGENW("Nodes");
+	odp.szTab.w = LPGENW("Nodes");
 	odp.pDialog = CToxOptionsNodeList::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 

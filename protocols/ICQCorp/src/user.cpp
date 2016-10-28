@@ -146,7 +146,7 @@ int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -1900000000;
-	odp.pszTitle = protoName;
+	odp.szTitle.a = protoName;
 	odp.pfnDlgProc = icqUserInfoDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_INFO_ICQCORP);
 	odp.hInstance = hInstance;

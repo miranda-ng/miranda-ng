@@ -85,8 +85,8 @@ static int OnInitOptions(WPARAM wparam, LPARAM)
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = CSOptionsProc;
-	odp.pwszGroup = L"Status";
-	odp.pwszTitle = MODULENAME;
+	odp.szGroup.w = L"Status";
+	odp.szTitle.w = MODULENAME;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wparam, &odp);
 	return 0;

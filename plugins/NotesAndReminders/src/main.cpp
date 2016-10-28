@@ -120,8 +120,8 @@ static int OnOptInitialise(WPARAM w, LPARAM)
 	odp.position = 900002000;
 	odp.hInstance = hinstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_STNOTEOPTIONS);
-	odp.pszTitle = SECTIONNAME;
-	odp.pszGroup = LPGEN("Plugins");
+	odp.szTitle.a = SECTIONNAME;
+	odp.szGroup.a = LPGEN("Plugins");
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(w, &odp);
 	return 0;

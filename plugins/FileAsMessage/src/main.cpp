@@ -149,8 +149,8 @@ int OnOptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = {};
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = SERVICE_TITLE;
-	odp.pszGroup = LPGEN("Events");
+	odp.szTitle.a = SERVICE_TITLE;
+	odp.szGroup.a = LPGEN("Events");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);

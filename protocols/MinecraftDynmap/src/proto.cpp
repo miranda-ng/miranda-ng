@@ -172,13 +172,13 @@ int MinecraftDynmapProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance   = g_hInstance;
-	odp.pwszTitle   = m_tszUserName;
+	odp.szTitle.w   = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags       = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	odp.position    = 271828;
-	odp.pwszGroup   = LPGENW("Network");
-	odp.pwszTab     = LPGENW("Account");
+	odp.szGroup.w   = LPGENW("Network");
+	odp.szTab.w     = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc  = MinecraftDynmapOptionsProc;
 	Options_AddPage(wParam, &odp);

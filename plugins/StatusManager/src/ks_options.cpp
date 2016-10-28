@@ -567,8 +567,8 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pwszGroup = LPGENW("Status");
-	odp.pwszTitle = LPGENW("Keep status");
+	odp.szGroup.w = LPGENW("Status");
+	odp.szTitle.w = LPGENW("Keep status");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
 	odp.pfnDlgProc = DlgProcKsTabs;
@@ -577,11 +577,11 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		memset(&odp, 0, sizeof(odp));
 		odp.position = 150000000;
-		odp.pwszGroup = LPGENW("Popups");
+		odp.szGroup.w = LPGENW("Popups");
 		odp.groupPosition = 910000000;
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
-		odp.pwszTitle = LPGENW("Keep status");
+		odp.szTitle.w = LPGENW("Keep status");
 		odp.pfnDlgProc = PopupOptDlgProc;
 		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		Options_AddPage(wparam, &odp);

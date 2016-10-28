@@ -39,7 +39,7 @@ int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.pwszTitle = LPGENW("History");
+	odp.szTitle.w = LPGENW("History");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORY);
 	odp.hInstance = hInstance;

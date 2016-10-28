@@ -106,9 +106,9 @@ int onOptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszGroup = LPGEN("Icons");
+	odp.szGroup.a = LPGEN("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_IGNORE_OPT);
-	odp.pszTitle = LPGEN("Ignore State");
+	odp.szTitle.a = LPGEN("Ignore State");
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 	return 0;

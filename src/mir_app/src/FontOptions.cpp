@@ -1190,8 +1190,8 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FONTS);
-	odp.pszTitle = LPGEN("Fonts and colors");
-	odp.pszGroup = LPGEN("Customize");
+	odp.szTitle.a = LPGEN("Fonts and colors");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcLogOptions;
 	Options_AddPage(wParam, &odp);

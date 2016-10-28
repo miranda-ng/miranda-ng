@@ -143,15 +143,15 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN_OPTION_FORM);
-	odp.pszTitle = ModuleName;
-	odp.pszGroup = LPGEN("Message sessions");
+	odp.szTitle.a = ModuleName;
+	odp.szGroup.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgMainProcOptions;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
-		odp.pszGroup = LPGEN("Popups");
+		odp.szGroup.a = LPGEN("Popups");
 		odp.pfnDlgProc = DlgPopupsProcOptions;
 		Options_AddPage(wParam, &odp);
 	}

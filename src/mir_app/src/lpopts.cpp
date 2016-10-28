@@ -27,10 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void CALLBACK OpenOptions(void*)
 {
-	OPENOPTIONSDIALOG ood = { sizeof(ood) };
-	ood.pszGroup = "Customize";
-	ood.pszPage = "Languages";
-	Options_Open(&ood);
+	Options_Open(L"Customize", L"Languages");
 }
 
 static void ReloadOptions(void *hWnd)
@@ -276,8 +273,8 @@ int LangpackOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
 	odp.position = -1300000000;
-	odp.pszTitle = LPGEN("Languages");
-	odp.pszGroup = LPGEN("Customize");
+	odp.szTitle.a = LPGEN("Languages");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new CLangpackDlg();
 	Options_AddPage(wParam, &odp);

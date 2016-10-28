@@ -383,12 +383,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case ID_REMINDERFRAMECONTEXT_OPTIONS:
-			OPENOPTIONSDIALOG oop;
-			oop.cbSize = sizeof(oop);
-			oop.pszGroup = "Events";
-			oop.pszPage = "Alarms";
-			oop.pszTab = 0;
-			Options_Open(&oop);
+			Options_Open(L"Events", L"Alarms");
 			break;
 
 		case ID_REMINDERFRAMECONTEXT_SUSPEND:

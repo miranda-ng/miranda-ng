@@ -735,25 +735,25 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
-	odp.pszGroup = LPGEN("Message sessions");
-	odp.pszTitle = LPGEN("Group chats");
-	odp.pszTab = LPGEN("General");
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Group chats");
+	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = DlgProcOptions1;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	odp.position = 910000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
-	odp.pszTab = LPGEN("Chat log");
+	odp.szTab.a = LPGEN("Chat log");
 	odp.pfnDlgProc = DlgProcOptions2;
 	Options_AddPage(wParam, &odp);
 
 	if (PopupInstalled) {
 		odp.position = 910000002;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
-		odp.pszTitle = LPGEN(CHAT_MODULE);
-		odp.pszGroup = LPGEN("Popups");
-		odp.pszTab = NULL;
+		odp.szTitle.a = LPGEN(CHAT_MODULE);
+		odp.szGroup.a = LPGEN("Popups");
+		odp.szTab.a = NULL;
 		odp.pfnDlgProc = DlgProcOptionsPopup;
 		Options_AddPage(wParam, &odp);
 	}

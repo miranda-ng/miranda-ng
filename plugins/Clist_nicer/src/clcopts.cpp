@@ -521,28 +521,28 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 
 	odp.position = -1000000000;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTitle = LPGEN("Contact list");
-	odp.pszTab = LPGEN("General");
+	odp.szTitle.a = LPGEN("Contact list");
+	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = DlgProcGenOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("List layout");
+	odp.szTab.a = LPGEN("List layout");
 	odp.pfnDlgProc = DlgProcClcMainOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Window");
+	odp.szTab.a = LPGEN("Window");
 	odp.pfnDlgProc = DlgProcCluiOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Background");
+	odp.szTab.a = LPGEN("Background");
 	odp.pfnDlgProc = DlgProcClcBkgOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Status bar");
+	odp.szTab.a = LPGEN("Status bar");
 	odp.pfnDlgProc = DlgProcSBarOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
 	Options_AddPage(wParam, &odp);
@@ -551,25 +551,25 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 	// Contact rows tabs
 
 	odp.position = 0;
-	odp.pszGroup = LPGEN("Contact list");
-	odp.pszTitle = LPGEN("Row items");
-	odp.pszTab = LPGEN("Contacts");
+	odp.szGroup.a = LPGEN("Contact list");
+	odp.szTitle.a = LPGEN("Row items");
+	odp.szTab.a = LPGEN("Contacts");
 	odp.pfnDlgProc = DlgProcDspItems;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPITEMS);
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Groups and layout");
+	odp.szTab.a = LPGEN("Groups and layout");
 	odp.pfnDlgProc = DlgProcDspGroups;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPGROUPS);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Advanced");
+	odp.szTab.a = LPGEN("Advanced");
 	odp.pfnDlgProc = DlgProcDspAdvanced;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPADVANCED);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Icons");
+	odp.szTab.a = LPGEN("Icons");
 	odp.pfnDlgProc = DlgProcIcons;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICONS);
 	Options_AddPage(wParam, &odp);
@@ -578,8 +578,8 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 	// Other options
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-	odp.pszGroup = LPGEN("Skins");
-	odp.pszTitle = LPGEN("Contact list");
+	odp.szGroup.a = LPGEN("Skins");
+	odp.szTitle.a = LPGEN("Contact list");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);

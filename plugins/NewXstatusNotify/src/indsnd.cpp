@@ -599,7 +599,7 @@ int UserInfoInitialise(WPARAM wParam, LPARAM lParam)
 		odp.position = 100000000;
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SOUNDS);
-		odp.pszTitle = LPGEN("Status Notify");
+		odp.szTitle.a = LPGEN("Status Notify");
 		odp.pfnDlgProc = DlgProcSoundUIPage;
 		UserInfo_AddPage(wParam, &odp);
 	}

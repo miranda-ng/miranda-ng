@@ -23,7 +23,6 @@ static HGENMENU hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcons[5];
 BOOL bPopupService = FALSE;
 PROTOACCOUNT **accs;
-OPENOPTIONSDIALOG ood;
 int protoCount;
 int hLangpack;
 
@@ -988,10 +987,6 @@ static int PluginInit(WPARAM, LPARAM)
 		hIgnoreItem[i] = AddSubmenuItem(hmenuIgnore, ii[i].name, Skin_LoadIcon(ii[i].icon), 0, MS_IGNORE, pos++, ii[i].type);
 
 	pos += 100000; // insert separator
-	ood.cbSize = sizeof(ood);
-	ood.pszGroup = "Contacts";
-	ood.pszPage = "Ignore";
-	AddSubmenuItem(hmenuIgnore, LPGENW("Open ignore settings"), IcoLib_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (INT_PTR)&ood);
 
 	SET_UID(mi, 0x820f4637, 0xbcc4, 0x46b7, 0x9c, 0x67, 0xf9, 0x69, 0xed, 0xc2, 0x46, 0xa2);
 	mi.position++;

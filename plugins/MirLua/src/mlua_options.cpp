@@ -161,9 +161,9 @@ int CMLuaOptions::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.pwszGroup = LPGENW("Services");
-	odp.pwszTitle = L"Lua";
-	odp.pwszTab = LPGENW("Scripts");
+	odp.szGroup.w = LPGENW("Services");
+	odp.szTitle.w = L"Lua";
+	odp.szTab.w = LPGENW("Scripts");
 	odp.pDialog = CMLuaOptions::CreateOptionsPage();
 	Options_AddPage(wParam, &odp);
 

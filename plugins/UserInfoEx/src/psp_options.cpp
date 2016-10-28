@@ -1032,32 +1032,32 @@ static int OnInitOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 95400;
 	odp.hInstance = ghInst;
-	odp.pszTitle = MODULELONGNAME;
-	odp.pszGroup = LPGEN("Contacts");
+	odp.szTitle.a = MODULELONGNAME;
+	odp.szGroup.a = LPGEN("Contacts");
 
 	// Common page
-	odp.pszTab = LPGEN("Common");
+	odp.szTab.a = LPGEN("Common");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_COMMON);
 	odp.pfnDlgProc = DlgProc_CommonOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	// Advanced page
-	odp.pszTab = LPGEN("Advanced");
+	odp.szTab.a = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgProc_AdvancedOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	// Details Dialog page
-	odp.pszTab = LPGEN("Details dialog");
+	odp.szTab.a = LPGEN("Details dialog");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DETAILSDLG);
 	odp.pfnDlgProc = DlgProc_DetailsDlgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	// Reminder page
-	odp.pszTab = LPGEN("Reminder");
+	odp.szTab.a = LPGEN("Reminder");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_REMINDER);
 	odp.pfnDlgProc = DlgProc_ReminderOpts;
 	odp.flags = ODPF_BOLDGROUPS;
@@ -1065,8 +1065,8 @@ static int OnInitOptions(WPARAM wParam, LPARAM)
 
 	// Popups page
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		odp.pszTitle = MODULELONGNAME;
-		odp.pszGroup = LPGEN("Popups");
+		odp.szTitle.a = MODULELONGNAME;
+		odp.szGroup.a = LPGEN("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProc_Popups;
 		odp.flags = ODPF_BOLDGROUPS;

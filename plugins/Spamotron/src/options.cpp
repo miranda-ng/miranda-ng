@@ -556,21 +556,21 @@ int OnOptInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Message sessions");
-	odp.pszTitle = PLUGIN_NAME;
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = PLUGIN_NAME;
 	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.pszTab = LPGEN("Settings");
+	odp.szTab.a = LPGEN("Settings");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_MAIN);
 	odp.pfnDlgProc = DlgProcOptionsMain;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Messages");
+	odp.szTab.a = LPGEN("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_Q);
 	odp.pfnDlgProc = DlgProcOptionsQuestion;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Bayes");
+	odp.szTab.a = LPGEN("Bayes");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_BAYES);
 	odp.pfnDlgProc = DlgProcOptionsBayes;
 	Options_AddPage(wParam, &odp);
@@ -578,8 +578,8 @@ int OnOptInitialize(WPARAM wParam, LPARAM)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_POPUPS);
 		odp.pfnDlgProc = DlgProcOptionsPopups;
-		odp.pszGroup = LPGEN("Popups");
-		odp.pszTab = NULL;
+		odp.szGroup.a = LPGEN("Popups");
+		odp.szTab.a = NULL;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

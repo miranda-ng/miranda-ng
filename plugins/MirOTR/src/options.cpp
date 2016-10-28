@@ -820,26 +820,26 @@ static int OpenOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100;
 	odp.hInstance = hInst;
-	odp.pwszGroup = LPGENW("Services");
-	odp.pwszTitle = L"OTR";
+	odp.szGroup.w = LPGENW("Services");
+	odp.szTitle.w = L"OTR";
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
-	odp.pwszTab = LANG_OPT_GENERAL;
+	odp.szTab.w = LANG_OPT_GENERAL;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
 	odp.pfnDlgProc = DlgProcMirOTROpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LANG_OPT_PROTO;
+	odp.szTab.w = LANG_OPT_PROTO;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PROTO);
 	odp.pfnDlgProc = DlgProcMirOTROptsProto;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LANG_OPT_CONTACTS;
+	odp.szTab.w = LANG_OPT_CONTACTS;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACTS);
 	odp.pfnDlgProc = DlgProcMirOTROptsContacts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LANG_OPT_FINGER;
+	odp.szTab.w = LANG_OPT_FINGER;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FINGER);
 	odp.pfnDlgProc = DlgProcMirOTROptsFinger;
 	Options_AddPage(wParam, &odp);

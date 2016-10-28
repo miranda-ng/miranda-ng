@@ -1455,21 +1455,21 @@ int LotusNotifyOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pwszGroup = LPGENW("Plugins");
-	odp.pwszTitle = _A2W(__PLUGIN_NAME);
+	odp.szGroup.w = LPGENW("Plugins");
+	odp.szTitle.w = _A2W(__PLUGIN_NAME);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
-	odp.pwszTab = LPGENW("Connection");
+	odp.szTab.w = LPGENW("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_CONECTION);
 	odp.pfnDlgProc = DlgProcLotusNotifyConnectionOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Popup");
+	odp.szTab.w = LPGENW("Popup");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_POPUP);
 	odp.pfnDlgProc = DlgProcLotusNotifyPopupOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Miscellaneous");
+	odp.szTab.w = LPGENW("Miscellaneous");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOTUS_MISC);
 	odp.pfnDlgProc = DlgProcLotusNotifyMiscOpts;
 	Options_AddPage(wParam, &odp);

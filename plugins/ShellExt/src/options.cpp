@@ -111,9 +111,9 @@ int OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE opt = { sizeof(opt) };
 	opt.flags = ODPF_BOLDGROUPS;
-	opt.pszGroup = LPGEN("Services");
+	opt.szGroup.a = LPGEN("Services");
+	opt.szTitle.a = LPGEN("Shell context menus");
 	opt.position = -1066;
-	opt.pszTitle = LPGEN("Shell context menus");
 	opt.pszTemplate = MAKEINTRESOURCEA(IDD_SHLOPTS);
 	opt.hInstance = hInst;
 	opt.pfnDlgProc = OptDialogProc;

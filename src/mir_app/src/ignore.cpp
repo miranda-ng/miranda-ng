@@ -329,8 +329,8 @@ static int IgnoreOptInitialise(WPARAM wParam, LPARAM)
 	odp.position = 900000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_IGNORE);
-	odp.pszTitle = LPGEN("Ignore");
-	odp.pszGroup = LPGEN("Contacts");
+	odp.szTitle.a = LPGEN("Ignore");
+	odp.szGroup.a = LPGEN("Contacts");
 	odp.pfnDlgProc = DlgProcIgnoreOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

@@ -511,27 +511,27 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -800000000;
 	odp.hInstance = hInst;
-	odp.pwszGroup = LPGENW("Network");
+	odp.szGroup.w = LPGENW("Network");
 	odp.dwInitParam = LPARAM(this);
-	odp.pwszTitle = m_tszUserName;
+	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
-	odp.pwszTab = LPGENW("Account");
+	odp.szTab.w = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQ);
 	odp.pfnDlgProc = DlgProcIcqOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Contacts");
+	odp.szTab.w = LPGENW("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQCONTACTS);
 	odp.pfnDlgProc = DlgProcIcqContactsOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Features");
+	odp.szTab.w = LPGENW("Features");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQFEATURES);
 	odp.pfnDlgProc = DlgProcIcqFeaturesOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Privacy");
+	odp.szTab.w = LPGENW("Privacy");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQPRIVACY);
 	odp.pfnDlgProc = DlgProcIcqPrivacyOpts;
 	Options_AddPage(wParam, &odp);
@@ -541,8 +541,8 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.groupPosition = 900000000;
 		odp.pfnDlgProc = DlgProcIcqPopupOpts;
-		odp.pwszGroup = LPGENW("Popups");
-		odp.pwszTab = NULL;
+		odp.szGroup.w = LPGENW("Popups");
+		odp.szTab.w = NULL;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

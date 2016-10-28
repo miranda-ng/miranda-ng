@@ -531,8 +531,8 @@ int GenMenuOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -1000000000;
-	odp.pszTitle = LPGEN("Menus");
-	odp.pszGroup = LPGEN("Customize");
+	odp.szTitle.a = LPGEN("Menus");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new CGenMenuOptionsPage();
 	Options_AddPage(wParam, &odp);

@@ -152,15 +152,15 @@ void CDropboxOptionsInterception::OnApply()
 int CDropbox::OnOptionsInitialized(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pwszTitle = MODULEW;
+	odp.szTitle.w = MODULEW;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.pwszGroup = LPGENW("Network");
+	odp.szGroup.w = LPGENW("Network");
 
-	odp.pwszTab = LPGENW("General");
+	odp.szTab.w = LPGENW("General");
 	odp.pDialog = CDropboxOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Interception");
+	odp.szTab.w = LPGENW("Interception");
 	odp.pDialog = CDropboxOptionsInterception::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 

@@ -1633,23 +1633,23 @@ void CIgnorePrefsDlg::UpdateList()
 int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pwszTitle = m_tszUserName;
-	odp.pwszGroup = LPGENW("Network");
+	odp.szTitle.w = m_tszUserName;
+	odp.szGroup.w = LPGENW("Network");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
-	odp.pwszTab = LPGENW("Account");
+	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = new CConnectPrefsDlg(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("DCC and CTCP");
+	odp.szTab.w = LPGENW("DCC and CTCP");
 	odp.pDialog = new CCtcpPrefsDlg(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Advanced");
+	odp.szTab.w = LPGENW("Advanced");
 	odp.pDialog = new COtherPrefsDlg(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Ignore");
+	odp.szTab.w = LPGENW("Ignore");
 	odp.pDialog = new CIgnorePrefsDlg(this);
 	Options_AddPage(wParam, &odp);
 	return 0;

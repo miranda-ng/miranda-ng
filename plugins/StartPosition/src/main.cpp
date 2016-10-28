@@ -196,8 +196,8 @@ int OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszGroup = LPGEN("Contact list");
-	odp.pszTitle = LPGEN("Start position");
+	odp.szGroup.a = LPGEN("Contact list");
+	odp.szTitle.a = LPGEN("Start position");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

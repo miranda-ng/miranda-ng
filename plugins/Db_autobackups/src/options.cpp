@@ -322,14 +322,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_LNK_FOLDERS:
-			{
-				OPENOPTIONSDIALOG ood = { 0 };
-				ood.cbSize = sizeof(ood);
-				ood.pszGroup = "Customize";
-				ood.pszPage = "Folders";
-				Options_Open(&ood);
+				Options_Open(L"Customize", L"Folders");
 				break;
-			}
 			}
 		}
 		break;
@@ -406,8 +400,8 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = g_hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = LPGEN("Automatic backups");
-	odp.pszGroup = LPGEN("Database");
+	odp.szTitle.a = LPGEN("Automatic backups");
+	odp.szGroup.a = LPGEN("Database");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);

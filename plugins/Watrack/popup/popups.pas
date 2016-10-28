@@ -361,7 +361,7 @@ begin
   odp.szGroup.a  :='Popups';
   odp.pszTemplate:=PAnsiChar(IDD_OPT_POPUP);
   odp.pfnDlgProc :=@DlgPopupOpt;
-  CallService(MS_OPT_ADDPAGE,wParam,tlparam(@odp));
+  Options_AddPage(wParam,@odp);
   result:=0;
 end;
 

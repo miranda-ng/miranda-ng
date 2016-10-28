@@ -1000,7 +1000,7 @@ int SkinOptionsInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -180000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICOLIB);
-	odp.pszTitle = LPGEN("Icons");
+	odp.szTitle.a = LPGEN("Icons");
 	odp.pfnDlgProc = DlgProcIcoLibOpts;
 	Options_AddPage(wParam, &odp);
 	return 0;

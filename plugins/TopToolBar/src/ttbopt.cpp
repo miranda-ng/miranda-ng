@@ -544,10 +544,10 @@ int TTBOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Contact list");
+	odp.szGroup.a = LPGEN("Contact list");
 	odp.position = -1000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BUTORDER);
-	odp.pszTitle = LPGEN("Toolbar");
+	odp.szTitle.a = LPGEN("Toolbar");
 	odp.pfnDlgProc = ButOrderOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

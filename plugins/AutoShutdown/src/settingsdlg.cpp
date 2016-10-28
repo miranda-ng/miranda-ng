@@ -331,15 +331,8 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_URL_IDLE:
-			{
-				OPENOPTIONSDIALOG ood;
-				ood.cbSize = sizeof(ood);
-				ood.pszGroup = "Status"; /* autotranslated */
-				ood.pszPage = "Idle"; /* autotranslated */
-				ood.pszTab = NULL;
-				Options_Open(&ood);
-				return TRUE;
-			}
+			Options_Open(L"Status", L"Idle");
+			return TRUE;
 
 		case IDC_COMBO_SHUTDOWNTYPE:
 			if (HIWORD(wParam) == CBN_SELCHANGE)

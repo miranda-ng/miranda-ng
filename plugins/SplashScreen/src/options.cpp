@@ -398,9 +398,9 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Skins");
+	odp.szGroup.a = LPGEN("Skins");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPLASH_OPT);
-	odp.pszTitle = LPGEN("Splash Screen");
+	odp.szTitle.a = LPGEN("Splash Screen");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

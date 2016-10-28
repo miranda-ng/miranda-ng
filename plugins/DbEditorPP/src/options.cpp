@@ -64,8 +64,8 @@ INT OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszGroup = LPGEN("Database");
-	odp.pszTitle = modFullname;
+	odp.szGroup.a = LPGEN("Database");
+	odp.szTitle.a = modFullname;
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

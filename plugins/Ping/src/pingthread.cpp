@@ -678,25 +678,11 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 
 		case ID_MENU_OPTIONS:
-			{
-				OPENOPTIONSDIALOG oop = { 0 };
-				oop.cbSize = sizeof(oop);
-				oop.pszGroup = "Network";
-				oop.pszPage = "Ping";
-				oop.pszTab = "Settings";
-				Options_Open(&oop);
-			}
+			Options_Open(L"Network", L"Ping", L"Settings");
 			return TRUE;
 
 		case ID_MENU_DESTINATIONS:
-			{
-				OPENOPTIONSDIALOG oop = { 0 };
-				oop.cbSize = sizeof(oop);
-				oop.pszGroup = "Network";
-				oop.pszPage = "Ping";
-				oop.pszTab = "Hosts";
-				Options_Open(&oop);
-			}
+			Options_Open(L"Network", L"Ping", L"Hosts");
 			return TRUE;
 		}
 

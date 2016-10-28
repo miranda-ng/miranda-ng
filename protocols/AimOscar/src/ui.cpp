@@ -685,15 +685,15 @@ int CAimProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.position = -1900000000;
 		odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
 		odp.hInstance = hInstance;
-		odp.pwszTitle = m_tszUserName;
+		odp.szTitle.w = m_tszUserName;
 		odp.dwInitParam = LPARAM(this);
 
-		odp.pwszTab = LPGENW("Profile");
+		odp.szTab.w = LPGENW("Profile");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
 		odp.pfnDlgProc = userinfo_dialog;
 		UserInfo_AddPage(wParam, &odp);
 
-		odp.pwszTab = LPGENW("Admin");
+		odp.szTab.w = LPGENW("Admin");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADMIN);
 		odp.pfnDlgProc = admin_dialog;
 		UserInfo_AddPage(wParam, &odp);
@@ -1058,17 +1058,17 @@ int CAimProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 1003000;
 	odp.hInstance = hInstance;
-	odp.pwszGroup = LPGENW("Network");
-	odp.pwszTitle = m_tszUserName;
+	odp.szGroup.w = LPGENW("Network");
+	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
-	odp.pwszTab = LPGENW("Basic");
+	odp.szTab.w = LPGENW("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_AIM);
 	odp.pfnDlgProc = options_dialog;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Privacy");
+	odp.szTab.w = LPGENW("Privacy");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PRIVACY);
 	odp.pfnDlgProc = privacy_dialog;
 	Options_AddPage(wParam, &odp);

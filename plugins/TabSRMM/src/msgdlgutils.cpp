@@ -400,13 +400,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 	else if (menuId == MENU_LOGMENU) {
 		switch (selection) {
 		case ID_MESSAGELOGSETTINGS_GLOBAL:
-			{
-				OPENOPTIONSDIALOG ood = { sizeof(ood) };
-				ood.pszPage = "Message sessions";
-				ood.pszGroup = NULL;
-				ood.pszTab = "Message log";
-				Options_Open(&ood);
-			}
+			Options_Open(NULL, L"Message sessions", L"Message log");
 			return 1;
 
 		case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:

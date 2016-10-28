@@ -139,7 +139,7 @@ int TlenProtocol::UserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = TlenUserInfoDlgProc;
 		odp.position = -2000000000;
 		odp.pszTemplate = ((HANDLE)lParam != NULL) ? MAKEINTRESOURCEA(IDD_USER_INFO):MAKEINTRESOURCEA(IDD_USER_VCARD);
-		odp.pwszTitle = (hContact != NULL) ? LPGENW("Account") : m_tszUserName;
+		odp.szTitle.w = (hContact != NULL) ? LPGENW("Account") : m_tszUserName;
 		odp.dwInitParam = (LPARAM)this;
 		UserInfo_AddPage(wParam, &odp);
 

@@ -1508,19 +1508,19 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRosterControl(WPARAM, LPARAM)
 int CJabberProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pwszGroup = LPGENW("Network");
-	odp.pwszTitle = m_tszUserName;
+	odp.szGroup.w = LPGENW("Network");
+	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
-	odp.pwszTab = LPGENW("Account");
+	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = new CDlgOptAccount(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Conferences");
+	odp.szTab.w = LPGENW("Conferences");
 	odp.pDialog = new CDlgOptGc(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Advanced");
+	odp.szTab.w = LPGENW("Advanced");
 	odp.pDialog = new CDlgOptAdvanced(this);
 	Options_AddPage(wParam, &odp);
 	return 0;
@@ -2225,14 +2225,7 @@ void CJabberProto::JabberUpdateDialogs(BOOL)
 
 INT_PTR __cdecl CJabberProto::OnMenuOptions(WPARAM, LPARAM)
 {
-	OPENOPTIONSDIALOG ood = { 0 };
-	ood.cbSize = sizeof(ood);
-	ood.pszGroup = "Network";
-	ood.pszPage = mir_u2a(m_tszUserName);
-	ood.pszTab = "Account";
-	Options_Open(&ood);
-
-	mir_free((void*)ood.pszPage);
+	Options_Open(L"Network", m_tszUserName, L"Account");
 	return 0;
 }
 

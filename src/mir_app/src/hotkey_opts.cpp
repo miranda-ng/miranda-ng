@@ -1037,8 +1037,8 @@ int HotkeyOptionsInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -180000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HOTKEYS);
-	odp.pszTitle = LPGEN("Hotkeys");
-	odp.pszGroup = LPGEN("Customize");
+	odp.szTitle.a = LPGEN("Hotkeys");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.pfnDlgProc = sttOptionsDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

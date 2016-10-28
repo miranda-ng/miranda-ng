@@ -62,9 +62,9 @@ int onOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Contacts");
+	odp.szGroup.a = LPGEN("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_LASTUC_OPT);
-	odp.pszTitle = msLastUC_ShowListName;
+	odp.szTitle.a = msLastUC_ShowListName;
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

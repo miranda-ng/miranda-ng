@@ -316,10 +316,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 
 void __stdcall OpenPluginOptions(void*)
 {
-	OPENOPTIONSDIALOG ood = {0};
-	ood.cbSize = sizeof(ood);
-	ood.pszPage = "Plugins";
-	Options_Open(&ood);
+	Options_Open(L"Plugins");
 }
 
 //   FUNCTION: IsRunAsAdmin()

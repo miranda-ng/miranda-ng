@@ -308,8 +308,8 @@ int SSC_OptInitialise(WPARAM wp, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
 	odp.hInstance = g_hModule;
-	odp.pszTitle = LPGEN("Change Skype status");
-	odp.pszGroup = LPGEN("Plugins");
+	odp.szTitle.a = LPGEN("Change Skype status");
+	odp.szGroup.a = LPGEN("Plugins");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_SETTINGS);
 	odp.pfnDlgProc = SettingsDlgProc;
 	Options_AddPage(wp, &odp);

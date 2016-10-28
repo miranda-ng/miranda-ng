@@ -318,29 +318,29 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	UNREFERENCED_PARAMETER(l);
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pwszGroup = LPGENW("Message sessions");
-	odp.pwszTitle = LPGENW("StopSpam");
+	odp.szGroup.w = LPGENW("Message sessions");
+	odp.szTitle.w = LPGENW("StopSpam");
 	odp.position = -1;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_UNICODE;
 
-	odp.pwszTab = LPGENW("General");
+	odp.szTab.w = LPGENW("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pfnDlgProc = MainDlgProc;
 	Options_AddPage(w, &odp);
 
 
-	odp.pwszTab = LPGENW("Messages");
+	odp.szTab.w = LPGENW("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
 	odp.pfnDlgProc = MessagesDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.pwszTab = LPGENW("Accounts");
+	odp.szTab.w = LPGENW("Accounts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
 	odp.pfnDlgProc = ProtoDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.pwszTab = LPGENW("Advanced");
+	odp.szTab.w = LPGENW("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADVANCED);
 	odp.pfnDlgProc = AdvancedDlgProc;
 	Options_AddPage(w, &odp);

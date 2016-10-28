@@ -52,7 +52,6 @@ function Menu_AddTrayMenuItem        (mi:PMO_MenuItem):HGENMENU;
 
 procedure SET_UID(pmi:PMO_MenuItem; strguid:PAnsiChar);
 
-function UserInfo_AddPage(wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
 function Options_AddPage (wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
 function Hotkey_Register(hk:PHOTKEYDESC):int_ptr;
 
@@ -65,8 +64,7 @@ procedure ColourRegister(pColorID:pColourID);
 
 function TopToolbar_AddButton(pButton:PTTBButton):THANDLE;
 
-function Options_Open    (ood:POPENOPTIONSDIALOG):int_ptr;
-function Options_OpenPage(ood:POPENOPTIONSDIALOG):HWND;
+function Options_Open(group,page,tab:PWideChar):int_ptr;
 
 procedure MIcoTab_AddItem (hwnd:HWND; lptzName:PAnsiChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
 procedure MIcoTab_AddItemW(hwnd:HWND; lptzName:PWideChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
@@ -380,19 +378,6 @@ begin
   result:=_AddTrayMenuItem(mi);
 end;
 
-
-function UserInfo_AddPage(wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
-begin
-  odp^.hLangpack:=hLangpack;
-	result:=CallService(MS_USERINFO_ADDPAGE, wParam, LPARAM(odp));
-end;
-
-function Options_AddPage(wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
-begin
-  odp^.hLangpack:=hLangpack;
-	result:=CallService(MS_OPT_ADDPAGE, wParam, LPARAM(odp));
-end;
-
 function Hotkey_Register(hk:PHOTKEYDESC):int_ptr;
 begin
 	result:=CallService(MS_HOTKEY_REGISTER, hLangpack, LPARAM(hk));
@@ -428,14 +413,14 @@ begin
   result:=CallService(MS_TTB_ADDBUTTON, WPARAM(pButton), hLangpack);
 end;
 
-function Options_Open(ood:POPENOPTIONSDIALOG):int_ptr;
+function Options_AddPage(wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
 begin
-	result:=CallService(MS_OPT_OPENOPTIONS, hLangpack, LPARAM(ood));
+  result:=_Options_AddPage(wParam, odp, hLangpack);
 end;
 
-function Options_OpenPage(ood:POPENOPTIONSDIALOG):HWND;
+function Options_Open(group,page,tab:PWideChar):int_ptr;
 begin
-	result:=CallService(MS_OPT_OPENOPTIONSPAGE, hLangpack, LPARAM(ood));
+	result:=_Options_Open(group,page,tab,hLangpack);
 end;
 
 procedure MIcoTab_AddItem(hwnd:HWND; lptzName:PAnsiChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);

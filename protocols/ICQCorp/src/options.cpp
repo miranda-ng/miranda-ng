@@ -74,11 +74,11 @@ int icqOptionsInitialise(WPARAM wParam, LPARAM)
     OPTIONSDIALOGPAGE odp = { 0 };
 
     odp.position = -800000000;
-    odp.pszTitle = protoName;
+    odp.szTitle.a = protoName;
     odp.pfnDlgProc = icqOptionsDlgProc;
     odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_ICQCORP);
     odp.hInstance = hInstance;
-	odp.pszGroup = LPGEN("Network");
+	odp.szGroup.a = LPGEN("Network");
     odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 

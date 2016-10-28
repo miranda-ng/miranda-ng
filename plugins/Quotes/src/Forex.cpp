@@ -268,8 +268,8 @@ int QuotesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
 	odp.hInstance = g_hInstance;
-	odp.pwszTitle = _T(QUOTES_PROTOCOL_NAME);
-	odp.pwszGroup = LPGENW("Network");
+	odp.szTitle.w = _T(QUOTES_PROTOCOL_NAME);
+	odp.szGroup.w = LPGENW("Network");
 	odp.hIcon = Quotes_LoadIconEx(IDI_ICON_MAIN);
 	odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
 

@@ -104,8 +104,8 @@ int InitOptionsDlg(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("History");
-	odp.pszTitle = LPGEN("History Linklist");
+	odp.szGroup.a = LPGEN("History");
+	odp.szTitle.a = LPGEN("History Linklist");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_DLG);
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.flags = ODPF_BOLDGROUPS;

@@ -228,8 +228,8 @@ int FileOptInitialise(WPARAM wParam, LPARAM)
 	odp.position = 900000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILETRANSFER);
-	odp.pszTitle = LPGEN("File transfers");
-	odp.pszGroup = LPGEN("Events");
+	odp.szTitle.a = LPGEN("File transfers");
+	odp.szGroup.a = LPGEN("Events");
 	odp.pfnDlgProc = DlgProcFileOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

@@ -681,15 +681,15 @@ int Options::InitOptions(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pwszTitle = LPGENW("Paste It");
-	odp.pwszGroup = LPGENW("Services");
+	odp.szTitle.w = LPGENW("Paste It");
+	odp.szGroup.w = LPGENW("Services");
 
-	odp.pwszTab = LPGENW("Main");
+	odp.szTab.w = LPGENW("Main");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
 	odp.pfnDlgProc = Options::DlgProcOptsMain;
 	Options_AddPage(wParam, &odp);
 
-	odp.pwszTab = LPGENW("Web page");
+	odp.szTab.w = LPGENW("Web page");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PAGES);
 	odp.pfnDlgProc = Options::DlgProcOptsPages;
 	Options_AddPage(wParam, &odp);

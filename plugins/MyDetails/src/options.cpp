@@ -166,8 +166,8 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS);
-	odp.pwszGroup = LPGENW("Contact list");
-	odp.pwszTitle = LPGENW("My details");
+	odp.szGroup.w = LPGENW("Contact list");
+	odp.szTitle.w = LPGENW("My details");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	Options_AddPage(wParam, &odp);
 	return 0;

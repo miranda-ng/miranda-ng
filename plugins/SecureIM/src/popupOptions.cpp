@@ -165,8 +165,8 @@ int onRegisterPopOptions(WPARAM wParam, LPARAM)
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
-		odp.pszTitle = (char*)MODULENAME;
-		odp.pszGroup = LPGEN("Popups");
+		odp.szTitle.a = (char*)MODULENAME;
+		odp.szGroup.a = LPGEN("Popups");
 		odp.pfnDlgProc = PopOptionsDlgProc;
 		Options_AddPage(wParam, &odp);
 	}

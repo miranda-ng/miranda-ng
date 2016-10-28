@@ -381,15 +381,15 @@ int NudgeOptInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NUDGE);
-	odp.pszTitle = LPGEN("Nudge");
-	odp.pszGroup = LPGEN("Events");
-	odp.pszTab = LPGEN("Nudge");
+	odp.szTitle.a = LPGEN("Nudge");
+	odp.szGroup.a = LPGEN("Events");
+	odp.szTab.a = LPGEN("Nudge");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcNudgeOpt;
 	Options_AddPage(wParam, &odp);
 
 	odp.position = -790000001;
-	odp.pszTab = LPGEN("Window Shaking");
+	odp.szTab.a = LPGEN("Window Shaking");
 	odp.pfnDlgProc = DlgProcShakeOpt;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHAKE);
 	Options_AddPage(wParam, &odp);

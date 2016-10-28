@@ -933,13 +933,13 @@ int CListOptInit(WPARAM wParam, LPARAM)
 	odp.position = -200000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ITEMS);
-	odp.pszGroup = LPGEN("Contact list");
-	odp.pszTitle = LPGEN("Row items");
+	odp.szGroup.a = LPGEN("Contact list");
+	odp.szTitle.a = LPGEN("Row items");
 	odp.flags = ODPF_BOLDGROUPS;
 
 	for (int i = 0; i < _countof(row_opt_items); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(row_opt_items[i].id);
-		odp.pszTab = row_opt_items[i].name;
+		odp.szTab.a = row_opt_items[i].name;
 		odp.pfnDlgProc = row_opt_items[i].wnd_proc;
 		Options_AddPage(wParam, &odp);
 	}

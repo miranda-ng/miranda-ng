@@ -347,16 +347,16 @@ int TrafficCounterOptInitialise(WPARAM wParam, LPARAM)
 	odp.groupPosition = 1;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TRAFFIC);
-	odp.pszGroup = LPGEN("Services");
-	odp.pszTab = LPGEN("Options");
-	odp.pszTitle = LPGEN("Traffic counter");
+	odp.szGroup.a = LPGEN("Services");
+	odp.szTab.a = LPGEN("Options");
+	odp.szTitle.a = LPGEN("Traffic counter");
 	odp.pfnDlgProc = DlgProcTCOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	// Statistics options page
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATS);
-	odp.pszTab = LPGEN("Statistics");
+	odp.szTab.a = LPGEN("Statistics");
 	odp.pfnDlgProc = DlgProcOptStatistics;
 	Options_AddPage(wParam, &odp);
 	
@@ -364,8 +364,8 @@ int TrafficCounterOptInitialise(WPARAM wParam, LPARAM)
 	if (bPopupExists) {
 		odp.groupPosition = 100;
 		odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_TRAFFIC_POPUPS);
-		odp.pszGroup=LPGEN("Popups");
-		odp.pszTitle=LPGEN("Traffic counter");
+		odp.szGroup.a=LPGEN("Popups");
+		odp.szTitle.a=LPGEN("Traffic counter");
 		odp.pfnDlgProc=DlgProcPopupsTraffic;
 		odp.flags=ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);

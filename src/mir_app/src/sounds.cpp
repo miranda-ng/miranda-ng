@@ -440,7 +440,7 @@ static int SkinOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = -200000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SOUND);
-	odp.pszTitle = LPGEN("Sounds");
+	odp.szTitle.a = LPGEN("Sounds");
 	odp.pfnDlgProc = DlgProcSoundOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

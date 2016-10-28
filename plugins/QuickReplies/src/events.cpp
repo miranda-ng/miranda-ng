@@ -72,14 +72,9 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 {
-	char key[64];
-	int count = 0;
-	HMENU hMenu = NULL;
-	char buttonName[32];
-	CMStringW replies;
-	LIST<wchar_t> replyList(1);
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 
+	char buttonName[32];
 	mir_snprintf(buttonName, MODULE" %x", iNumber + 1);
 	if (mir_strcmp(cbcd->pszModule, buttonName))
 		return 0;
@@ -87,59 +82,51 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 	if (cbcd->dwButtonId != iNumber)
 		return 1;
 
+	char key[64];
 	mir_snprintf(key, "RepliesCount_%x", iNumber);
-	count = db_get_w(NULL, MODULE, key, 0);
+	int count = db_get_w(NULL, MODULE, key, 0);
 
+	if (count == 0 || cbcd->flags & BBCF_RIGHTBUTTON)
 	{
-		if (count == 0 || cbcd->flags & BBCF_RIGHTBUTTON)
-		{
-			mir_snprintf(buttonName, "%s %x", Translate("Button"), iNumber + 1);
-
-			OPENOPTIONSDIALOG ood = {0};
-			ood.cbSize = sizeof(ood);
-			ood.pszGroup = "Message Sessions";
-			ood.pszPage = "Quick Replies";
-			ood.pszTab = buttonName;
-			Options_Open(&ood);
-			return 0;
-		}
-
-		hMenu = CreatePopupMenu();
-
-		for (int i = 0; i < count; i++)
-		{
-			mir_snprintf(key, "Reply_%x_%x", iNumber, i);
-			wchar_t *value = db_get_wsa(NULL, MODULE, key);
-
-			if (!value)
-				replyList.insert(mir_wstrdup(L""));
-			else
-				replyList.insert(variables_parsedup(value, 0, wParam));
-
-			if (!mir_wstrcmp(value, L"---"))
-				AppendMenu((HMENU)hMenu, MF_SEPARATOR, i + 1, NULL);
-			else
-				AppendMenu((HMENU)hMenu, MF_STRING, i + 1, replyList[i]);
-
-			mir_free(value);
-		}
+		mir_snprintf(buttonName, "%s %x", Translate("Button"), iNumber + 1);
+		Options_Open(L"Message Sessions", L"Quick Replies", _A2T(buttonName));
+		return 0;
 	}
 
+	HMENU hMenu = CreatePopupMenu();
+
+	LIST<wchar_t> replyList(1);
+	for (int i = 0; i < count; i++)
 	{
-		int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
-		if (index > 0)
+		mir_snprintf(key, "Reply_%x_%x", iNumber, i);
+		wchar_t *value = db_get_wsa(NULL, MODULE, key);
+
+		if (!value)
+			replyList.insert(mir_wstrdup(L""));
+		else
+			replyList.insert(variables_parsedup(value, 0, wParam));
+
+		if (!mir_wstrcmp(value, L"---"))
+			AppendMenu((HMENU)hMenu, MF_SEPARATOR, i + 1, NULL);
+		else
+			AppendMenu((HMENU)hMenu, MF_STRING, i + 1, replyList[i]);
+
+		mir_free(value);
+	}
+
+	int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
+	if (index > 0)
+	{
+		if (mir_wstrcmp(replyList[index - 1], L""))
 		{
-			if (mir_wstrcmp(replyList[index - 1], L""))
-			{
-				HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
-				if (!hEdit) hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
+			HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
+			if (!hEdit) hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
 
-				SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)replyList[index - 1]);
+			SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)replyList[index - 1]);
 
-				mir_snprintf(key, "ImmediatelySend_%x", iNumber);
-				if ((BYTE)db_get_b(NULL, MODULE, key, 1) || cbcd->flags & BBCF_CONTROLPRESSED)
-					SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-			}
+			mir_snprintf(key, "ImmediatelySend_%x", iNumber);
+			if ((BYTE)db_get_b(NULL, MODULE, key, 1) || cbcd->flags & BBCF_CONTROLPRESSED)
+				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 		}
 	}
 	

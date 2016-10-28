@@ -121,8 +121,8 @@ int Meta_OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTitle = LPGEN("Metacontacts");
-	odp.pszGroup = LPGEN("Contacts");
+	odp.szTitle.a = LPGEN("Metacontacts");
+	odp.szGroup.a = LPGEN("Contacts");
 	odp.pDialog = new CMetaOptionsDlg();
 	Options_AddPage(wParam, &odp);
 	return 0;

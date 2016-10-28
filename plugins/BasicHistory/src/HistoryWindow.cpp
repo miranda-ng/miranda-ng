@@ -467,16 +467,6 @@ void ConvertSize(HWND hwndSrc, HWND hwndDest, RECT& rc)
 	rc.bottom = pt.y;
 }
 
-void OpenOptions(char* group, char* page, char* tab = NULL)
-{
-	OPENOPTIONSDIALOG op;
-	op.cbSize = sizeof(OPENOPTIONSDIALOG);
-	op.pszGroup = group;
-	op.pszPage = page;
-	op.pszTab = tab;
-	Options_Open(&op);
-}
-
 #define DlgReturn(ret){\
 	SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, (ret));\
 	return (ret);\
@@ -545,12 +535,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			DlgReturn(TRUE);
 
 		case IDM_CONFIG:
-			{
-				OPENOPTIONSDIALOG opd = { 0 };
-				opd.cbSize = sizeof(opd);
-				opd.pszPage = LPGEN("History");
-				Options_Open(&opd);
-			}
+			Options_Open(LPGENW("History"));
 			DlgReturn(TRUE);
 
 		case IDM_DELETE:
@@ -1784,13 +1769,13 @@ void HistoryWindow::ConfigToolbarClicked(LPNMTOOLBAR lpnmTB)
 			SendMessage(m_hWnd, WM_COMMAND, IDM_CONFIG, 0);
 			break;
 		case IDM_FONTS:
-			OpenOptions("Customize", "Fonts and colors");
+			Options_Open(L"Customize", L"Fonts and colors");
 			break;
 		case IDM_ICONS:
-			OpenOptions("Customize", "Icons");
+			Options_Open(L"Customize", L"Icons");
 			break;
 		case IDM_HOTKEYS:
-			OpenOptions("Customize", "Hotkeys");
+			Options_Open(L"Customize", L"Hotkeys");
 			break;
 		case IDM_SAVEPOS:
 			SavePos(false);

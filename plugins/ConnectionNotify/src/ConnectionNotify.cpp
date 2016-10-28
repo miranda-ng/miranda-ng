@@ -588,8 +588,8 @@ int ConnectionNotifyOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
-	odp.pwszTitle = _A2W(PLUGINNAME);
-	odp.pwszGroup = LPGENW("Plugins");
+	odp.szTitle.w = _A2W(PLUGINNAME);
+	odp.szGroup.w = LPGENW("Plugins");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcConnectionNotifyOpts;//callback function name
 	Options_AddPage(wParam, &odp);

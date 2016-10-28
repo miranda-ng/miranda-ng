@@ -315,8 +315,8 @@ int StatusChangeOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pwszTitle = LPGENW("Status Change");
-	odp.pwszGroup = LPGENW("Status");
+	odp.szTitle.w = LPGENW("Status Change");
+	odp.szGroup.w = LPGENW("Status");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcStatusChangeOpts;
 	Options_AddPage(wParam, &odp);

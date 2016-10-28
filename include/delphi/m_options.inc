@@ -54,17 +54,17 @@ type
   TOPTIONSDIALOGPAGE = record
     position              :int;     // a position number, lower numbers are topmost
     szTitle               :TChar;   // [TRANSLATED-BY-CORE]
+    szGroup               :TChar;   // [TRANSLATED-BY-CORE]
+    szTab                 :TChar;   // [TRANSLATED-BY-CORE]
     pfnDlgProc            :pointer;
     pszTemplate           :PAnsiChar;
     hInstance             :THANDLE;
-    hIcon                 :HICON;   // v0.1.0.1+
-    szGroup               :TChar;   // v0.1.0.1+ [TRANSLATED-BY-CORE]
-    groupPosition         :int;     // v0.1.0.1+
-    hGroupIcon            :HICON;   // v0.1.0.1+
-    flags                 :dword;   // v0.1.2.1+
-    szTab                 :TChar;   // v0.6.0.0+ [TRANSLATED-BY-CORE]
-    dwInitParam           :LPARAM;  // v0.8.0.0+ a value to pass to lParam of WM_INITDIALOG message
+    hIcon                 :HICON;   // 
+    groupPosition         :int;     // 
     hLangpack             :int;
+    hGroupIcon            :HICON;   // 
+    flags                 :dword;   // 
+    dwInitParam           :LPARAM;  // a value to pass to lParam of WM_INITDIALOG message
   end;
 
 const
@@ -76,27 +76,9 @@ const
 const
   PSM_GETBOLDFONT   = WM_USER+102;   //returns HFONT used for group box titles
 
-  MS_OPT_ADDPAGE:PAnsiChar = 'Opt/AddPage';
+function _Options_AddPage(param:WPARAM; opts:POPTIONSDIALOGPAGE; lang:int) : int; stdcall; external AppDll name 'Options_AddPage';
 
-  { Opens the options dialog, optionally at the specified page    v0.1.2.1+
-    wParam=0
-    lParam=(LPARAM)(OPENOPTIONSDIALOG*)&ood;
-    Returns 0 on success, nonzero on failure
-    The behaviour if the options dialog is already open is that it will just be
-    activated, the page won't be changed. This may change in the future. }
-type
-  POPENOPTIONSDIALOG = ^TOPENOPTIONSDIALOG;
-  TOPENOPTIONSDIALOG = record
-    cbSize  :int;
-    pszGroup:PAnsiChar;  // set to NULL if it's a root item
-    pszPage :PAnsiChar;  // set to NULL to just open the options at no specific page
-    pszTab  :PAnsiChar;  // set to NULL to just open the options at no specific tab
-  end;
-
-const
-  MS_OPT_OPENOPTIONS:PAnsiChar = 'Opt/OpenOptions';
-
-//Opens the options dialog, with only specified page    v0.8.0.x+
-  MS_OPT_OPENOPTIONSPAGE = 'Opt/OpenOptionsPage';
+function _Options_Open(group,page,tab:PWideChar; lang:int):int_ptr; stdcall; external AppDll name 'Options_Open';
+function _Options_OpenPage(group,page,tab:PWideChar; lang:int):HWND; stdcall; external AppDll name 'Options_OpenPage';
 
 {$ENDIF}

@@ -341,8 +341,8 @@ static int ContactOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -1000000000;
-	odp.pszGroup = LPGEN("Contact list");
-	odp.pszTitle = LPGEN("Contact names");
+	odp.szGroup.a = LPGEN("Contact list");
+	odp.szTitle.a = LPGEN("Contact names");
 	odp.pDialog = new CContactOptsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

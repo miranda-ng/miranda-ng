@@ -1689,8 +1689,8 @@ int onRegisterOptions(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSTAB);
-	odp.pszTitle = (char*)MODULENAME;
-	odp.pszGroup = LPGEN("Services");
+	odp.szTitle.a = (char*)MODULENAME;
+	odp.szGroup.a = LPGEN("Services");
 	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

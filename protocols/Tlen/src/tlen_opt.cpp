@@ -86,14 +86,14 @@ int TlenProtocol::OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.pwszGroup = LPGENW("Network");
-	odp.pwszTitle = m_tszUserName;
+	odp.szGroup.w = LPGENW("Network");
+	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.dwInitParam = (LPARAM)this;
 	for (int i = 0; i < _countof(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
-		odp.pwszTab = tabPages[i].tabName;
+		odp.szTab.w = tabPages[i].tabName;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

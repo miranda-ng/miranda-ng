@@ -2134,36 +2134,36 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_APPEARANCE);
-	odp.pszTab = LPGEN("Appearance");
-	odp.pszTitle = LPGEN("Tooltips");
-	odp.pszGroup = LPGEN("Customize");
+	odp.szTab.a = LPGEN("Appearance");
+	odp.szTitle.a = LPGEN("Tooltips");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.pfnDlgProc = DlgProcOptsAppearance;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.pszTab = LPGEN("Tooltips");
-	odp.pszGroup = LPGEN("Skins");
+	odp.szTab.a = LPGEN("Tooltips");
+	odp.szGroup.a = LPGEN("Skins");
 	odp.pfnDlgProc = DlgProcOptsSkin;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTENT);
-	odp.pszTab = LPGEN("Content");
-	odp.pszTitle = LPGEN("Tooltips");
-	odp.pszGroup = LPGEN("Customize");
+	odp.szTab.a = LPGEN("Content");
+	odp.szTitle.a = LPGEN("Tooltips");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.pfnDlgProc = DlgProcOptsContent;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TRAYTIP);
-	odp.pszTab = LPGEN("Tray tooltip");
-	odp.pszTitle = LPGEN("Tooltips");
-	odp.pszGroup = LPGEN("Customize");
+	odp.szTab.a = LPGEN("Tray tooltip");
+	odp.szTitle.a = LPGEN("Tooltips");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.pfnDlgProc = DlgProcOptsTraytip;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXTRA);
-	odp.pszTab = LPGEN("Extra");
-	odp.pszTitle = LPGEN("Tooltips");
-	odp.pszGroup = LPGEN("Customize");
+	odp.szTab.a = LPGEN("Extra");
+	odp.szTitle.a = LPGEN("Tooltips");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.pfnDlgProc = DlgProcOptsExtra;
 	Options_AddPage(wParam, &odp);
 	return 0;

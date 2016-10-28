@@ -278,8 +278,8 @@ int __cdecl EMPCreateOptionsDlg(WPARAM wParam, LPARAM)
 	odp.position = 100000000;
 	odp.hInstance = g_hInstance;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_EMP_FORM_OPT);
-	odp.pszTitle = LPGEN("E-mage LAN protocol");
-	odp.pszGroup = LPGEN("Network");
+	odp.szTitle.a = LPGEN("E-mage LAN protocol");
+	odp.szGroup.a = LPGEN("Network");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = EMPDlgProcMainOpts;

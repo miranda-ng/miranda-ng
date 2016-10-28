@@ -546,19 +546,19 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
-	odp.pszTab = LPGEN("Messaging");
-	odp.pszTitle = LPGEN("Message sessions");
+	odp.szTab.a = LPGEN("Messaging");
+	odp.szTitle.a = LPGEN("Message sessions");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
-	odp.pszTab = LPGEN("Messaging log");
+	odp.szTab.a = LPGEN("Messaging log");
 	odp.pfnDlgProc = DlgProcLogOptions;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
-	odp.pszTab = LPGEN("Typing notify");
+	odp.szTab.a = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	Options_AddPage(wParam, &odp);
 	return 0;

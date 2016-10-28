@@ -586,8 +586,8 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszGroup = LPGEN("Network");
-	odp.pszTitle = LPGEN("News Aggregator");
+	odp.szGroup.a = LPGEN("Network");
+	odp.szTitle.a = LPGEN("News Aggregator");
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

@@ -401,7 +401,7 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
 		odp.hInstance = g_hInstance;
 		odp.dwInitParam = (LPARAM)this;
-		odp.pwszTitle = m_tszUserName;
+		odp.szTitle.w = m_tszUserName;
 
 		odp.pfnDlgProc = UserInfoProc;
 		odp.position = -2000000000;

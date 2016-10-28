@@ -130,10 +130,10 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = ghInst;
 		odp.flags = ODPF_UNICODE;
-		odp.pwszTitle = mir_utf8decodeW(pszGroup);
+		odp.szTitle.w = mir_utf8decodeW(pszGroup);
 		
 		INT_PTR rc = UserInfo_AddPage((WPARAM)&psh, &odp);
-		mir_free(odp.pwszTitle);
+		mir_free(odp.szTitle.w);
 		if (!rc) {
 			_pItems = psh._pPages;
 			_numItems = psh._numPages;

@@ -184,12 +184,8 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				return true;
 
 			case IDC_MAINOPT_LNK_HOTKEY:
-				OPENOPTIONSDIALOG ood = { 0 };
-				ood.cbSize = sizeof(ood);
-				ood.pszGroup = "Customize";
-				ood.pszPage = "Hotkeys";
-				Options_Open(&ood);
-				return (true);
+				Options_Open(L"Customize", L"Hotkeys");
+				return true;
 			}
 			return 0;
 
@@ -323,15 +319,15 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	optDi.pfnDlgProc = MainOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGMAIN);
 	optDi.hInstance = g_hInstance;
-	optDi.pwszTitle = LPGENW("BossKey");
-	optDi.pwszGroup = LPGENW("Events");
-	optDi.pwszTab = LPGENW("Main");
-	optDi.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+	optDi.szTitle.a = LPGEN("BossKey");
+	optDi.szGroup.a = LPGEN("Events");
+	optDi.szTab.a = LPGEN("Main");
+	optDi.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = AdvOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGADV);
-	optDi.pwszTab = LPGENW("Advanced");
+	optDi.szTab.a = LPGEN("Advanced");
 	Options_AddPage(wParam, &optDi);
 	return 0;
 }

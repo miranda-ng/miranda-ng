@@ -43,25 +43,25 @@ int GpgOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG);
-	odp.pwszTitle = _T(szGPGModuleName);
-	odp.pwszGroup = LPGENW("Services");
-	odp.pwszTab = LPGENW("Main");
+	odp.szTitle.w = _T(szGPGModuleName);
+	odp.szGroup.w = LPGENW("Services");
+	odp.szTab.w = LPGENW("Main");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pfnDlgProc = DlgProcGpgOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_BIN);
-	odp.pwszTab = LPGENW("GnuPG Variables");
+	odp.szTab.w = LPGENW("GnuPG Variables");
 	odp.pfnDlgProc = DlgProcGpgBinOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_MESSAGES);
-	odp.pwszTab = LPGENW("Messages");
+	odp.szTab.w = LPGENW("Messages");
 	odp.pfnDlgProc = DlgProcGpgMsgOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG_ADVANCED);
-	odp.pwszTab = LPGENW("Advanced");
+	odp.szTab.w = LPGENW("Advanced");
 	odp.pfnDlgProc = DlgProcGpgAdvOpts;
 	Options_AddPage(wParam, &odp);
 	return 0;

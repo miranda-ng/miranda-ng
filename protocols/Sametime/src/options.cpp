@@ -345,8 +345,8 @@ int CSametimeProto::OptInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTNET);
-	odp.pwszTitle = m_tszUserName;
-	odp.pwszGroup = LPGENW("Network");
+	odp.szTitle.w = m_tszUserName;
+	odp.szGroup.w = LPGENW("Network");
 	odp.pfnDlgProc = DlgProcOptNet;
 	odp.dwInitParam = (LPARAM)this;
 	Options_AddPage(wParam, &odp);

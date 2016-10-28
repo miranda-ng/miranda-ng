@@ -139,8 +139,8 @@ INT OptInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.hInstance = hinstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTION);
-	odp.pszTitle = LPGEN("Simple Auto Replier");
-	odp.pszGroup = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Simple Auto Replier");
+	odp.szGroup.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);

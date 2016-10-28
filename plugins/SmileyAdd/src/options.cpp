@@ -658,8 +658,8 @@ int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMILEYS);
-	odp.pszTitle = LPGEN("Smileys");
-	odp.pszGroup = LPGEN("Customize");
+	odp.szTitle.a = LPGEN("Smileys");
+	odp.szGroup.a = LPGEN("Customize");
 	odp.pfnDlgProc = DlgProcSmileysOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(addInfo, &odp);

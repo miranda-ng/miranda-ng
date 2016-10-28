@@ -370,12 +370,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					break;
 
 				case IDC_MORE:
-					{
-						OPENOPTIONSDIALOG ood = { sizeof(ood) };
-						ood.pszGroup = "Customize";
-						ood.pszPage = "Fonts and colors";
-						Options_Open(&ood);
-					}
+					Options_Open(L"Customize", L"Fonts and colors");
 					break;
 
 				case IDC_SOFFLINE:  case IDC_SONLINE:     case IDC_SAWAY:       case IDC_SNA:     case IDC_SOCCUPIED:

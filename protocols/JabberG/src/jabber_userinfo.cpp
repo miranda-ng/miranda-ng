@@ -818,13 +818,13 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = JabberUserInfoDlgProc;
 		odp.position = -2000000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_JABBER);
-		odp.pszTitle = LPGEN("Account");
+		odp.szTitle.a = LPGEN("Account");
 		UserInfo_AddPage(wParam, &odp);
 
 		odp.pfnDlgProc = JabberUserPhotoDlgProc;
 		odp.position = 2000000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PHOTO);
-		odp.pszTitle = LPGEN("Photo");
+		odp.szTitle.a = LPGEN("Photo");
 		UserInfo_AddPage(wParam, &odp);
 	}
 	return 0;

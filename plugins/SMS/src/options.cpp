@@ -91,10 +91,10 @@ int OptInitialise(WPARAM wParam,LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
 	odp.hInstance = ssSMSSettings.hInstance;
-	odp.pszGroup = LPGEN("Events");
+	odp.szGroup.a = LPGEN("Events");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMSPLUGIN);
-	odp.pszTitle = PROTOCOL_DISPLAY_NAME_ORIG;
+	odp.szTitle.a = PROTOCOL_DISPLAY_NAME_ORIG;
 	odp.pfnDlgProc = DlgProcEditorOptions;
 	Options_AddPage(wParam, &odp);	
 	return 0;

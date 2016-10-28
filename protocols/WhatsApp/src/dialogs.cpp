@@ -133,11 +133,11 @@ INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pwszTitle = m_tszUserName;
+	odp.szTitle.w = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.pwszGroup = LPGENW("Network");
+	odp.szGroup.w = LPGENW("Network");
 
-	odp.pwszTab = LPGENW("Account");
+	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = new COptionsDlg(this, IDD_OPTIONS);
 	Options_AddPage(wParam, &odp);
 	return 0;

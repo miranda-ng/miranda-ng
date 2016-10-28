@@ -504,31 +504,31 @@ int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
-	odp.pwszTitle = m_tszUserName;
+	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 
 	odp.position = 271828;
-	odp.pwszGroup = LPGENW("Network");
-	odp.pwszTab = LPGENW("Account");
+	odp.szGroup.w = LPGENW("Network");
+	odp.szTab.w = LPGENW("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = FBOptionsProc;
 	Options_AddPage(wParam, &odp);
 
 	odp.position = 271829;
-	odp.pwszTab = LPGENW("Events");
+	odp.szTab.w = LPGENW("Events");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_EVENTS);
 	odp.pfnDlgProc = FBOptionsEventsProc;
 	Options_AddPage(wParam, &odp);
 
 	odp.position = 271830;
-	odp.pwszTab = LPGENW("Statuses");
+	odp.szTab.w = LPGENW("Statuses");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_STATUSES);
 	odp.pfnDlgProc = FBOptionsStatusesProc;
 	Options_AddPage(wParam, &odp);
 
 	odp.position = 271831;
-	odp.pwszTab = LPGENW("Messaging");
+	odp.szTab.w = LPGENW("Messaging");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_MESSAGING);
 	odp.pfnDlgProc = FBOptionsMessagingProc;
 	Options_AddPage(wParam, &odp);

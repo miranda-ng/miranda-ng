@@ -288,7 +288,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTitle = LPGEN("Database");
+	odp.szTitle.a = LPGEN("Database");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.dwInitParam = (LPARAM)obj;
 	Options_AddPage(wParam, &odp);

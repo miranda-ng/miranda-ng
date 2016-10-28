@@ -434,15 +434,15 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.hInstance = hInstance;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
-	odp.pwszGroup = LPGENW("Contacts");
-	odp.pwszTitle = LPGENW("Last seen");
+	odp.szGroup.w = LPGENW("Contacts");
+	odp.szTitle.w = LPGENW("Last seen");
 	odp.pfnDlgProc = OptsSettingsDlgProc;
 	Options_AddPage(wparam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
-		odp.pwszGroup = LPGENW("Popups");
-		odp.pwszTitle = LPGENW("Last seen");
+		odp.szGroup.w = LPGENW("Popups");
+		odp.szTitle.w = LPGENW("Last seen");
 		odp.pfnDlgProc = OptsPopupsDlgProc;
 		Options_AddPage(wparam, &odp);
 	}

@@ -1058,8 +1058,8 @@ static int OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszGroup = LPGEN("Services");
-	odp.pszTitle = LPGEN("Console");
+	odp.szGroup.a = LPGEN("Services");
+	odp.szTitle.a = LPGEN("Console");
 	odp.pfnDlgProc = OptDlgProc;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

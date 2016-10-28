@@ -316,7 +316,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.position = 100000000;
-	odp.pszTitle = WEATHERPROTONAME;
+	odp.szTitle.a = WEATHERPROTONAME;
 
 	if (lParam == 0) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);

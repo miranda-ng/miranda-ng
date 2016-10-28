@@ -167,22 +167,22 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	UNREFERENCED_PARAMETER(l);
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.pszGroup = LPGEN("Message sessions");
-	odp.pszTitle = pluginName;
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = pluginName;
 	odp.position = -1;
 	odp.hInstance = hInst;
 
-	odp.pszTab = LPGEN("General");
+	odp.szTab.a = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pfnDlgProc = MainDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.pszTab = LPGEN("Messages");
+	odp.szTab.a = LPGEN("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
 	odp.pfnDlgProc = MessagesDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.pszTab = LPGEN("Accounts");
+	odp.szTab.a = LPGEN("Accounts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
 	odp.pfnDlgProc = ProtoDlgProc;
 	Options_AddPage(w, &odp);

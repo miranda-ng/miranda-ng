@@ -446,16 +446,16 @@ static int MessageOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
 	odp.hInstance = hInst;
-	odp.pszGroup = BOLTUN_GROUP;
-	odp.pszTitle = BOLTUN_NAME;
+	odp.szGroup.a = BOLTUN_GROUP;
+	odp.szTitle.a = BOLTUN_NAME;
 	odp.pfnDlgProc = MainDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
-	odp.pszTab = TAB_GENERAL;
+	odp.szTab.a = TAB_GENERAL;
 	Options_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = EngineDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ENGINE);
-	odp.pszTab = TAB_ENGINE;
+	odp.szTab.a = TAB_ENGINE;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

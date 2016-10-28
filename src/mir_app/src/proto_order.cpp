@@ -222,8 +222,8 @@ int ProtocolOrderOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -10000000;
 	odp.groupPosition = 1000000;
-	odp.pszTitle = LPGEN("Accounts");
-	odp.pszGroup = LPGEN("Contact list");
+	odp.szTitle.a = LPGEN("Accounts");
+	odp.szGroup.a = LPGEN("Contact list");
 	odp.pDialog = new CProtocolOrderOpts();
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
