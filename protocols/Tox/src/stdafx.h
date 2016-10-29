@@ -69,7 +69,6 @@ struct CToxProto;
 extern HINSTANCE g_hInstance;
 
 #define MODULE "Tox"
-#define MODULEW L"Tox"
 
 #define TOX_ERROR -1
 

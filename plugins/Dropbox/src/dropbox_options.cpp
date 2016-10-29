@@ -152,7 +152,7 @@ void CDropboxOptionsInterception::OnApply()
 int CDropbox::OnOptionsInitialized(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.szTitle.w = MODULEW;
+	odp.szTitle.w = _A2W(MODULE);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
 	odp.szGroup.w = LPGENW("Network");
 

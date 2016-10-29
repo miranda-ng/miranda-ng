@@ -181,7 +181,7 @@ void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 
 void CSteamProto::ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
 {
-	ShowNotification(MODULEW, message, flags, hContact);
+	ShowNotification(_A2W(MODULE), message, flags, hContact);
 }
 
 INT_PTR __cdecl CSteamProto::OnGetEventTextChatStates(WPARAM pEvent, LPARAM datatype)

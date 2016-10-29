@@ -910,7 +910,7 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	Icon_RegisterT(hInst, MODULEW, g_iconList, _countof(g_iconList));
+	Icon_RegisterT(hInst, _A2W(MODULE), g_iconList, _countof(g_iconList));
 	LoadMenus();
 	InitOptions();
 

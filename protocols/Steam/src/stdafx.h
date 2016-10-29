@@ -41,7 +41,6 @@
 #include "version.h"
 
 #define MODULE "Steam"
-#define MODULEW L"Steam"
 
 #define STEAM_API_TIMEOUT 30
 #define STEAM_API_IDLEOUT_AWAY 600

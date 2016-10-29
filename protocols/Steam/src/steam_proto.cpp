@@ -18,7 +18,7 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
 
 	wchar_t sectionName[100];
-	mir_snwprintf(sectionName, L"%s/%s", LPGENW("Protocols"), MODULEW);
+	mir_snwprintf(sectionName, L"%s/%s", LPGENW("Protocols"), _A2W(MODULE));
 
 	char settingName[100];
 	mir_snprintf(settingName, "%s_%s", MODULE, "main");

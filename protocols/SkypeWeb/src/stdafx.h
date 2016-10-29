@@ -191,7 +191,6 @@ public:
 
 
 #define MODULE "Skype"
-#define MODULEW L"Skype"
 
 #define SKYPE_MAX_CONNECT_RETRIES 10
 

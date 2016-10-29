@@ -65,7 +65,6 @@ public:
 };
 
 #define MODULE "Dropbox"
-#define MODULEW L"Dropbox"
 
 #include "dropbox_options.h"
 #include "http_request.h"

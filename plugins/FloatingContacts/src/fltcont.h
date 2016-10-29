@@ -58,7 +58,6 @@ enum
 //
 
 #define MODULE "FloatingContacts"
-#define MODULEW L"FloatingContacts"
 
 #define TOTOPTIME_P	1000
 #define TOTOPTIME_MAX	(15*(60000/TOTOPTIME_P))

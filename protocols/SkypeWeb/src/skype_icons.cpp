@@ -32,7 +32,7 @@ IconItemT CSkypeProto::Icons[] =
 
 void CSkypeProto::InitIcons()
 {
-	Icon_RegisterT(g_hInstance, LPGENW("Protocols") L"/" MODULEW, Icons, _countof(Icons), MODULE);
+	Icon_RegisterT(g_hInstance, LPGENW("Protocols") L"/" _A2W(MODULE), Icons, _countof(Icons), MODULE);
 }
 
 HICON CSkypeProto::GetIcon(int iconId)
