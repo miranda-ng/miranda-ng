@@ -206,7 +206,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					TextColour = TextClr;
 				}
 				ppd.lchContact = NULL;
-				mir_wstrcpy(ppd.lptzContactName, MODULENAMEW);
+				mir_wstrcpy(ppd.lptzContactName, _A2W(MODULENAME));
 				ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 				mir_wstrcpy(ppd.lptzText, TranslateT("This is a preview popup."));
 				ppd.colorBack = BGColour;
@@ -715,18 +715,18 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (eventIndex == 0) // string present
 					if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_ALERT_STRING))))
 						if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
-							MessageBox(NULL, TranslateT("You need to supply a search string."), MODULENAMEW, MB_OK);
+							MessageBox(NULL, TranslateT("You need to supply a search string."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 
 				if (eventIndex == 2) // part of web page changed
 					if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
 						if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_START2)))) {
-							MessageBox(NULL, TranslateT("You need to supply a start string."), MODULENAMEW, MB_OK);
+							MessageBox(NULL, TranslateT("You need to supply a start string."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 						if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_END2)))) {
-							MessageBox(NULL, TranslateT("You need to supply an end string."), MODULENAMEW, MB_OK);
+							MessageBox(NULL, TranslateT("You need to supply an end string."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 					}
@@ -734,14 +734,14 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (alertIndex == 1) // log to file
 					if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_FILENAME))))
 						if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
-							MessageBox(NULL, TranslateT("You need to supply a file name and path."), MODULENAMEW, MB_OK);
+							MessageBox(NULL, TranslateT("You need to supply a file name and path."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYS_LOG))
 					if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_FILENAME))))
 						if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
-							MessageBox(NULL, TranslateT("You need to supply a file name and path."), MODULENAMEW, MB_OK);
+							MessageBox(NULL, TranslateT("You need to supply a file name and path."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 
@@ -952,61 +952,61 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				wchar_t str[128], contactname[128];
 				if (!GetWindowTextLength(GetDlgItem(hwndDlg, IDC_URL))) {
-					MessageBox(NULL, TranslateT("You need to supply a URL."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("You need to supply a URL."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (!GetWindowTextLength(GetDlgItem(hwndDlg, IDC_START))) {
 					if (IsDlgButtonChecked(hwndDlg, IDC_U_SE_STRINGS)) {
-						MessageBox(NULL, TranslateT("You need to supply a start string."), MODULENAMEW, MB_OK);
+						MessageBox(NULL, TranslateT("You need to supply a start string."), _A2W(MODULENAME), MB_OK);
 						break;
 					}
 				}
 				if (!GetWindowTextLength(GetDlgItem(hwndDlg, IDC_END))) {
 					if (IsDlgButtonChecked(hwndDlg, IDC_U_SE_STRINGS)) {
-						MessageBox(NULL, TranslateT("You need to supply an end string."), MODULENAMEW, MB_OK);
+						MessageBox(NULL, TranslateT("You need to supply an end string."), _A2W(MODULENAME), MB_OK);
 						break;
 					}
 				}
 				if (!GetWindowTextLength(GetDlgItem(hwndDlg, IDC_SITE_NAME))) {
-					MessageBox(NULL, TranslateT("You need to supply a name for the contact."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("You need to supply a name for the contact."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 
 				GetDlgItemText(hwndDlg, IDC_SITE_NAME, contactname, _countof(contactname));
 				if (wcschr(contactname, '\\') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (wcschr(contactname, '/') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (wcschr(contactname, ':') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (wcschr(contactname, '*') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (wcschr(contactname, '?') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (wcschr(contactname, '\"') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (wcschr(contactname, '<') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (wcschr(contactname, '>') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (wcschr(contactname, '|') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), MODULENAMEW, MB_OK);
+					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 

@@ -119,7 +119,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 		mir_wstrncpy(ppd.lptzContactName, dbv.ptszVal, _countof(ppd.lptzContactName));
 		db_free(&dbv);
 	}
-	else mir_wstrcpy(ppd.lptzContactName, MODULENAMEW);
+	else mir_wstrcpy(ppd.lptzContactName, _A2W(MODULENAME));
 
 	ppd.lchContact = wParam;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
@@ -332,7 +332,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 
 				SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Start/end strings not found or strings not set."));
 			}
-			else MessageBox(NULL, TranslateT("Start/end strings not found or strings not set."), MODULENAMEW, MB_OK);
+			else MessageBox(NULL, TranslateT("Start/end strings not found or strings not set."), _A2W(MODULENAME), MB_OK);
 		}
 
 		if (eventIndex == 0) { // string present
@@ -405,7 +405,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 							SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download successful; about to process data..."));
 						}
-						else MessageBox(NULL, TranslateT("Unknown alert type."), MODULENAMEW, MB_OK);
+						else MessageBox(NULL, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
 					}
 				}
 			}
@@ -500,7 +500,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 							db_set_s(hContact, "CList", "MyHandle", tstr);
 					}
-					else MessageBox(NULL, TranslateT("Unknown alert type."), MODULENAMEW, MB_OK);
+					else MessageBox(NULL, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
 				}
 			}
 		}
@@ -616,7 +616,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Alert start/end strings not found or strings not set."));
 				}
-				else MessageBox(NULL, TranslateT("Alert start/end strings not found or strings not set."), MODULENAMEW, MB_OK);
+				else MessageBox(NULL, TranslateT("Alert start/end strings not found or strings not set."), _A2W(MODULENAME), MB_OK);
 
 				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
 			}
@@ -710,7 +710,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
-						else MessageBox(NULL, TranslateT("Unknown alert type."), MODULENAMEW, MB_OK);
+						else MessageBox(NULL, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
 					}
 				}
 			}

@@ -164,7 +164,7 @@ extern "C" int __declspec(dllexport) Load()
 	InitServices();
 
 	//add sound event to options
-	SkinAddNewSoundExW("webviewalert", MODULENAMEW, LPGENW("Alert event"));
+	SkinAddNewSoundExW("webviewalert", _A2W(MODULENAME), LPGENW("Alert event"));
 
 	//value is 1 if menu is disabled
 	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);
@@ -175,7 +175,7 @@ extern "C" int __declspec(dllexport) Load()
 		//value is 0 if menu is enabled
 		db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 0);
 
-		mi.root = Menu_CreateRoot(MO_MAIN, MODULENAMEW, 20200001);
+		mi.root = Menu_CreateRoot(MO_MAIN, _A2W(MODULENAME), 20200001);
 		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "403BE07B-7954-4F3E-B318-4301571776B8");
 
 		/*DISABLE WEBVIEW*/

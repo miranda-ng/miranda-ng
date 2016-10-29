@@ -23,7 +23,6 @@
 #define CFM_BACKCOLOR   0x04000000
 
 #define MODULENAME "WebView"
-#define MODULENAMEW L"WebView"
 
 #define MENU_OFF    "DisableMenu"
 #define REFRESH_KEY "Refresh interval"

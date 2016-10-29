@@ -85,12 +85,12 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			wchar_t *cacheend = wcsrchr(cachepath, '\\');
 			cacheend++;
 			*cacheend = '\0';
-			mir_snwprintf(cachedirectorypath, L"%s" MODULENAMEW L"cache\\", cachepath);
+			mir_snwprintf(cachedirectorypath, L"%s" _A2W(MODULENAME) L"cache\\", cachepath);
 			CreateDirectory(cachedirectorypath, NULL);
 
 			wchar_t newcachepath[MAX_PATH + 50], renamedcachepath[MAX_PATH + 50];
-			mir_snwprintf(newcachepath, L"%s" MODULENAMEW L"cache\\%s.txt", cachepath, oldName);
-			mir_snwprintf(renamedcachepath, L"%s" MODULENAMEW L"cache\\%s.txt", cachepath, nick);
+			mir_snwprintf(newcachepath, L"%s" _A2W(MODULENAME) L"cache\\%s.txt", cachepath, oldName);
+			mir_snwprintf(renamedcachepath, L"%s" _A2W(MODULENAME) L"cache\\%s.txt", cachepath, nick);
 
 			// file exists?
 			if ( _waccess(newcachepath, 0) != -1) {
@@ -124,9 +124,9 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_snwprintf(cachedirectorypath, L"%s" MODULENAMEW L"cache\\", cachepath);
+	mir_snwprintf(cachedirectorypath, L"%s" _A2W(MODULENAME) L"cache\\", cachepath);
 	CreateDirectory(cachedirectorypath, NULL);
-	mir_snwprintf(newcachepath, L"%s" MODULENAMEW L"cache\\%s.txt", cachepath,  contactName);
+	mir_snwprintf(newcachepath, L"%s" _A2W(MODULENAME) L"cache\\%s.txt", cachepath,  contactName);
 	// file exists?
 	if ( _waccess(newcachepath, 0) != -1) {
 		FILE *pcachefile = _wfopen(newcachepath, L"r");
@@ -149,7 +149,7 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_snwprintf(cachedirectorypath, L"%s" MODULENAMEW L"cache\\%s", cachepath, cacheend);
+	mir_snwprintf(cachedirectorypath, L"%s" _A2W(MODULENAME) L"cache\\%s", cachepath, cacheend);
 
 	if( _waccess(cachedirectorypath, 0) != 0)
 		WErrorPopup((UINT_PTR)"ERROR", TranslateT("Cache folder does not exist."));
