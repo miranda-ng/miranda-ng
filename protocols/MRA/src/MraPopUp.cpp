@@ -133,7 +133,6 @@ int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.szTitle.w = m_tszUserName;
 		odp.szGroup.w = LPGENW("Popups");
-		odp.groupPosition = 900000000;
 		odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 		odp.pfnDlgProc = MraPopupDlgProcOpts;
 		Options_AddPage(wParam, &odp);

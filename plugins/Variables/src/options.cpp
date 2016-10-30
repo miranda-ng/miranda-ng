@@ -130,14 +130,13 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.position      = 150000000;
-	odp.szGroup.a      = LPGEN("Services");
-	odp.groupPosition = 910000000;
-	odp.hInstance     = hInst;
-	odp.pszTemplate   = MAKEINTRESOURCEA(IDD_OPTS_DIALOG);
-	odp.szTitle.a      = LPGEN("Variables");
-	odp.pfnDlgProc    = SetOptsDlgProc;
-	odp.flags         = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.position = 150000000;
+	odp.szGroup.a = LPGEN("Services");
+	odp.szTitle.a = LPGEN("Variables");
+	odp.hInstance = hInst;
+	odp.pfnDlgProc = SetOptsDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS_DIALOG);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

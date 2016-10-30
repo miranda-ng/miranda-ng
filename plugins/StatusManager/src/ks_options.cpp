@@ -578,7 +578,6 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 		memset(&odp, 0, sizeof(odp));
 		odp.position = 150000000;
 		odp.szGroup.w = LPGENW("Popups");
-		odp.groupPosition = 910000000;
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PUOPT_KEEPSTATUS);
 		odp.szTitle.w = LPGENW("Keep status");

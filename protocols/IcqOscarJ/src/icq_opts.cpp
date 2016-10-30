@@ -539,7 +539,6 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	if (bPopupService) {
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
-		odp.groupPosition = 900000000;
 		odp.pfnDlgProc = DlgProcIcqPopupOpts;
 		odp.szGroup.w = LPGENW("Popups");
 		odp.szTab.w = NULL;

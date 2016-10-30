@@ -259,7 +259,6 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szGroup.a = LPGEN("Contacts");
 	odp.szTitle.a = LPGEN("Favorites");
-	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);

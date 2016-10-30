@@ -65,7 +65,6 @@ struct OPTIONSDIALOGPAGE
 	char *pszTemplate;
 	HINSTANCE hInstance;
 	HICON hIcon;
-	int groupPosition;
 	int hLangpack;
 	HICON hGroupIcon;
 	DWORD flags;

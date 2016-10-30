@@ -157,7 +157,6 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 
 	dst->hLangpack = odp->hLangpack;
 	dst->flags = odp->flags;
-	dst->groupPosition = odp->groupPosition;
 	dst->hGroupIcon = odp->hGroupIcon;
 	dst->hIcon = odp->hIcon;
 	dst->dwInitParam = odp->dwInitParam;

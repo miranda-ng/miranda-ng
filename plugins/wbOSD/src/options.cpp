@@ -411,7 +411,6 @@ int OptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 150000000;
-	odp.groupPosition = 950000000;
 	odp.hInstance = hI;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG1);
 	odp.szGroup.w = LPGENW("Plugins");

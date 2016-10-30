@@ -465,7 +465,6 @@ int InitializeOptions(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SSOPT);
 	odp.szGroup.a = LPGEN("Events");//FIXME: move to...Group?
 	odp.szTitle.a = MENU_NAME;
-	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);

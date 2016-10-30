@@ -221,7 +221,6 @@ int ProtocolOrderOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -10000000;
-	odp.groupPosition = 1000000;
 	odp.szTitle.a = LPGEN("Accounts");
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.pDialog = new CProtocolOrderOpts();

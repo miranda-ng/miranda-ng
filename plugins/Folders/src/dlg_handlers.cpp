@@ -253,7 +253,6 @@ static int OnOptionsInitialize(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FOLDERS);
 	odp.szTitle.a = LPGEN("Folders");
 	odp.szGroup.a = LPGEN("Customize");
-	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);

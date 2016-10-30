@@ -1230,7 +1230,6 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	odp.szTitle.w = LPGENW("Message export");
 	odp.szGroup.w = LPGENW("History");
 	odp.szTab.w = LPGENW("General");
-	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = DlgProcMsgExportOpts;
 	Options_AddPage(wParam, &odp);
 

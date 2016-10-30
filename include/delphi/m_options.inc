@@ -60,7 +60,6 @@ type
     pszTemplate           :PAnsiChar;
     hInstance             :THANDLE;
     hIcon                 :HICON;   // 
-    groupPosition         :int;     // 
     hLangpack             :int;
     hGroupIcon            :HICON;   // 
     flags                 :dword;   // 

@@ -178,7 +178,6 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Plugins");
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	return 0;

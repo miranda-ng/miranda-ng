@@ -594,7 +594,6 @@ int OptInit(WPARAM wParam, LPARAM)
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.szGroup.a = LPGEN("Popups");
-		odp.groupPosition = 910000000;
 		odp.szTab.a = NULL;
 		odp.pfnDlgProc = DlgPopupOpts;
 		Options_AddPage(wParam, &odp);
