@@ -61,7 +61,6 @@ type
     hInstance             :THANDLE;
     hIcon                 :HICON;   // 
     hLangpack             :int;
-    hGroupIcon            :HICON;   // 
     flags                 :dword;   // 
     dwInitParam           :LPARAM;  // a value to pass to lParam of WM_INITDIALOG message
   end;

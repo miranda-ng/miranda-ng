@@ -66,7 +66,6 @@ struct OPTIONSDIALOGPAGE
 	HINSTANCE hInstance;
 	HICON hIcon;
 	int hLangpack;
-	HICON hGroupIcon;
 	DWORD flags;
 
 	union {
