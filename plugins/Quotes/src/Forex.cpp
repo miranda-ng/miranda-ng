@@ -270,7 +270,6 @@ int QuotesEventFunc_OptInitialise(WPARAM wp, LPARAM/* lp*/)
 	odp.hInstance = g_hInstance;
 	odp.szTitle.w = _T(QUOTES_PROTOCOL_NAME);
 	odp.szGroup.w = LPGENW("Network");
-	odp.hIcon = Quotes_LoadIconEx(IDI_ICON_MAIN);
 	odp.flags = ODPF_USERINFOTAB | ODPF_UNICODE;
 
 	std::for_each(rapProviders.begin(), rapProviders.end(), boost::bind(&IQuotesProvider::ShowPropertyPage, _1, wp, boost::ref(odp)));

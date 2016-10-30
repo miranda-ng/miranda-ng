@@ -332,7 +332,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 
 				// icon library exists?
 				if (sid.defaultFile.w)
-					sid.iDefaultIndex = (INT_PTR)odp->hIcon;
+					sid.iDefaultIndex = odp->dwInitParam;
 				// no valid icon library
 				else {
 					bNeedFree = true;
@@ -342,10 +342,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 			}
 			// default icon is delivered by the page to add
 			else {
-				if (odp->hIcon)
-					sid.hDefaultIcon = odp->hIcon;
-				else
-					sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL), bNeedFree = true;
+				sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL), bNeedFree = true;
 				sid.iDefaultIndex = -1;
 			}
 		}

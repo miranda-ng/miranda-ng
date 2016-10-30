@@ -1102,7 +1102,6 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hIcon = g_hIcon;
 	odp.hInstance = g_hInst;
 	odp.szTitle.a = LPGEN("Avatar");
 

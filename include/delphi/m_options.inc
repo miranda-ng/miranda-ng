@@ -59,7 +59,6 @@ type
     pfnDlgProc            :pointer;
     pszTemplate           :PAnsiChar;
     hInstance             :THANDLE;
-    hIcon                 :HICON;   // 
     hLangpack             :int;
     flags                 :dword;   // 
     dwInitParam           :LPARAM;  // a value to pass to lParam of WM_INITDIALOG message
