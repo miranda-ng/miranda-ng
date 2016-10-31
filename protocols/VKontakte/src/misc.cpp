@@ -1452,3 +1452,33 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 	wszHTMLPath = L"file://" + wszHTMLPath;
 	Utils_OpenUrlW(wszHTMLPath);
 }
+
+void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
+{
+	CVKDeactivateEvent vkDeactivateEvent[] = {
+		{ L"", Translate("User restored control over own page") },
+		{ L"deleted", Translate("User was deactivated (deleted)") },
+		{ L"banned", Translate("User was deactivated (banned)") }
+	};
+
+	int iDEIdx = -1;
+	for (int i = 0; i < _countof(vkDeactivateEvent); i++)
+		if (wszType == vkDeactivateEvent[i].wszType) {
+			iDEIdx = i;
+			break;
+		}
+
+	if (iDEIdx == -1)
+		return;
+
+	DBEVENTINFO dbei;
+	dbei.cbSize = sizeof(dbei);
+	dbei.szModule = m_szModuleName;
+	dbei.timestamp = time(NULL);
+	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
+	dbei.cbBlob = mir_strlen(vkDeactivateEvent[iDEIdx].szDescription) + 1;
+	dbei.pBlob = (PBYTE)mir_strdup(vkDeactivateEvent[iDEIdx].szDescription);
+	dbei.flags = DBEF_UTF;
+	db_event_add(hContact, &dbei);
+}
+

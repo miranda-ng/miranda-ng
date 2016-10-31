@@ -298,6 +298,19 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	if (!wszNick.IsEmpty())
 		setWString(hContact, "Nick", wszNick);
 
+	wszValue = jnItem["deactivated"].as_mstring();
+	CMStringW wszOldDeactivated(ptrW(db_get_wsa(hContact,  m_szModuleName, "Deactivated")));
+	if (wszValue != wszOldDeactivated) {
+		AddVkDeactivateEvent(hContact, wszValue);
+		if (wszValue.IsEmpty()) 
+			db_unset(hContact, m_szModuleName, "Deactivated");		
+		else 
+			setWString(hContact, "Deactivated", wszValue);
+	}	
+
+	if (!wszValue.IsEmpty())
+		return hContact;
+
 	int sex = jnItem["sex"].as_int();
 	if (sex)
 		setByte(hContact, "Gender", sex == 2 ? 'M' : 'F');

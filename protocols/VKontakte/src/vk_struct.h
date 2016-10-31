@@ -361,3 +361,9 @@ struct CVKOptions {
 	__forceinline BBCSupport BBCForAttachments() { return (BBCSupport)(BYTE)iBBCForAttachments; };
 
 };
+
+
+struct CVKDeactivateEvent {
+	wchar_t *wszType;
+	char *szDescription;
+};

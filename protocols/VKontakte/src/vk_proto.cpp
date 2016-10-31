@@ -124,6 +124,7 @@ int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	InitPopups();
 	InitMenus();
+	InitDBCustomEvents();
 	return 0;
 }
 
@@ -466,6 +467,21 @@ void CVkProto::MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t 
 		DWORD mtype = MB_OK | MB_SETFOREGROUND | (err ? MB_ICONERROR : MB_ICONINFORMATION);
 		MessageBoxW(NULL, wszMsg, wszTitle, mtype);
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void  CVkProto::InitDBCustomEvents()
+{
+	// custom event
+	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	dbEventType.module = m_szModuleName;
+	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
+
+	dbEventType.eventType = VK_USER_DEACTIVATE_ACTION;
+	dbEventType.descr = Translate("VK user activate/deactivate action");
+	DbEvent_RegisterType(&dbEventType);
+
 }
 
 //////////////////////////////////////////////////////////////////////////////

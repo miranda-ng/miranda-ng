@@ -120,7 +120,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void ClearAccessToken();
 	wchar_t* GetUserStoredPassword(void);
 	void ShowCaptchaInBrowser(HBITMAP hBitmap);
-
+	
 	static mir_cs m_csTimer;
 	static UINT_PTR m_timer;
 	CVKOptions m_vkOptions;
@@ -233,6 +233,8 @@ private:
 
 	void InitPopups(void);
 	void MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t *wszTitle, bool err = false);
+
+	void InitDBCustomEvents();
 
 //==== Hooks =========================================================================
 
@@ -350,6 +352,7 @@ private:
 	CMStringW GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC = bbcNo);
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
+	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
 	void InitQueue();
 	void UninitQueue();
 	void ExecuteRequest(AsyncHttpRequest*);
