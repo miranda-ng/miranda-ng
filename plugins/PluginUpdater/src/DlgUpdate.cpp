@@ -579,6 +579,7 @@ static renameTable[] =
 	{ L"clist_classic.dll",              NULL },
 	{ L"chat.dll",                       NULL },
 	{ L"srmm.dll",                       NULL },
+	{ L"stdchat.dll",                    NULL },
 	{ L"stdurl.dll",                     NULL },
 	{ L"extraicons.dll",                 NULL },
 	{ L"firstrun.dll",                   NULL },
