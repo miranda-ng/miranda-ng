@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 int LoadSendRecvMessageModule(void);
-int SplitmsgShutdown(void);
+void SplitmsgShutdown(void);
 
 CLIST_INTERFACE *pcli;
 HINSTANCE g_hInst;
@@ -52,17 +52,20 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRMM, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, MIID_LAST };
 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
+	Load_ChatModule();
 	return LoadSendRecvMessageModule();
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	return SplitmsgShutdown();
+	SplitmsgShutdown();
+	Unload_ChatModule();
+	return 0;
 }

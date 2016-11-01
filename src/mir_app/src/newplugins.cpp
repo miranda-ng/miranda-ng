@@ -46,7 +46,6 @@ LIST<pluginEntry>
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MUUID miid_last = MIID_LAST;
-MUUID miid_chat = MIID_CHAT;
 MUUID miid_srmm = MIID_SRMM;
 MUUID miid_clist = MIID_CLIST;
 MUUID miid_database = MIID_DATABASE;
@@ -139,8 +138,7 @@ static MuuidReplacement pluginDefault[] =
 	{ MIID_USERONLINE, L"stduseronline", NULL }, // 8
 	{ MIID_SRAWAY,     L"stdaway",       NULL }, // 9
 	{ MIID_CLIST,      L"stdclist",      NULL }, // 10
-	{ MIID_CHAT,       L"stdchat",       NULL }, // 11
-	{ MIID_SRMM,       L"stdmsg",        NULL }  // 12
+	{ MIID_SRMM,       L"stdmsg",        NULL }  // 11
 };
 
 int getDefaultPluginIdx(const MUUID &muuid)
@@ -162,7 +160,7 @@ int LoadStdPlugins()
 			return 1;
 	}
 
-	if (pluginDefault[12].pImpl == NULL)
+	if (pluginDefault[11].pImpl == NULL)
 		MessageBox(NULL, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"StdMsg.dll\""), L"Miranda NG", MB_OK | MB_ICONWARNING);
 
 	return 0;

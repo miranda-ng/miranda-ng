@@ -447,7 +447,7 @@ int LoadSendRecvMessageModule(void)
 	return 0;
 }
 
-int SplitmsgShutdown(void)
+void SplitmsgShutdown(void)
 {
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurHyperlinkHand);
@@ -461,7 +461,6 @@ int SplitmsgShutdown(void)
 	FreeLibrary(hMsftEdit);
 	RichUtil_Unload();
 	msgQueue_destroy();
-	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////

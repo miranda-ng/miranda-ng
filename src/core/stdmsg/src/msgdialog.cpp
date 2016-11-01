@@ -212,7 +212,6 @@ static void SetEditorText(HWND hwnd, const wchar_t* txt)
 	SendMessage(hwnd, EM_SETSEL, -1, -1);
 }
 
-#define EM_SUBCLASSED             (WM_USER+0x101)
 #define ENTERCLICKTIME   1000   //max time in ms during which a double-tap on enter will cause a send
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
