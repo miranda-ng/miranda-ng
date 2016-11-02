@@ -1203,8 +1203,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			HWND hNickList = GetDlgItem(hwndDlg, IDC_LIST);
 			si = (SESSION_INFO*)lParam;
-			si->pAccPropServicesForNickList = NULL;
-			CoCreateInstance(CLSID_AccPropServices, NULL, CLSCTX_SERVER, IID_IAccPropServices, (LPVOID *)si->pAccPropServicesForNickList);
 			TranslateDialogDefault(hwndDlg);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)si);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
@@ -1860,12 +1858,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					SetTextColor(dis->hDC, ui->iStatusEx == 0 ? g_Settings.crUserListColor : g_Settings.crUserListHeadingsColor);
 					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, (int)mir_wstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
-
-					if (si->pAccPropServicesForNickList) {
-						wchar_t *nick = mir_wstrdup(ui->pszNick);
-						si->pAccPropServicesForNickList->SetHwndPropStr(GetDlgItem(hwndDlg, IDC_LIST), OBJID_CLIENT, dis->itemID + 1, PROPID_ACC_NAME, nick);
-						mir_free(nick);
-					}
 				}
 				return TRUE;
 			}
@@ -2349,16 +2341,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, item);
 				if (ui) {
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
-						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETSEL, 0, 0);
-						int start = LOWORD(lResult);
-						size_t dwNameLenMax = (mir_wstrlen(ui->pszUID) + 3);
-						wchar_t* pszName = (wchar_t*)alloca(sizeof(wchar_t) * dwNameLenMax);
-						if (start == 0)
-							mir_snwprintf(pszName, dwNameLenMax, L"%s: ", ui->pszUID);
-						else
-							mir_snwprintf(pszName, dwNameLenMax, L"%s ", ui->pszUID);
-
-						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pszName);
+						int start = LOWORD(SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETSEL, 0, 0));
+						CMStringW buf(FORMAT, (start == 0) ? L"%s: " : L"%s ", ui->pszUID);
+						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)buf.c_str());
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 					}
 					else pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
@@ -2602,7 +2587,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		DestroyWindow(si->hwndStatus);
 		si->hwndStatus = NULL;
 
-		if (si->pAccPropServicesForNickList) si->pAccPropServicesForNickList->Release();
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}

@@ -99,7 +99,6 @@ struct MODULEINFO : public GCModuleInfoBase
 struct SESSION_INFO : public GCSessionInfoBase
 {
 	int iX, iY;
-	IAccPropServices* pAccPropServicesForNickList;
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
