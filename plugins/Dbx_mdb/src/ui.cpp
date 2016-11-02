@@ -158,7 +158,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -790000000;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTitle = LPGEN("Database");
+	odp.szTitle.a = LPGEN("Database");
 	odp.pDialog = new COptionsDialog((CDbxMdb*)obj);
 	Options_AddPage(wParam, &odp);
 	return 0;
