@@ -744,70 +744,6 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	return mir_callNextSubclass(hwnd, LogSubclassProc, msg, wParam, lParam);
 }
 
-static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO * parentdat)
-{
-	static int currentHovered = -1;
-	static HWND hwndToolTip = NULL;
-	static HWND oldParent = NULL;
-
-	if (hoveredItem == currentHovered)
-		return;
-
-	currentHovered = hoveredItem;
-
-	if (oldParent != hwnd && hwndToolTip) {
-		SendMessage(hwndToolTip, TTM_DELTOOL, 0, 0);
-		DestroyWindow(hwndToolTip);
-		hwndToolTip = NULL;
-	}
-	if (hoveredItem == -1) {
-		SendMessage(hwndToolTip, TTM_ACTIVATE, 0, 0);
-		return;
-	}
-
-	BOOL bNewTip = FALSE;
-	if (!hwndToolTip) {
-		hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
-			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			hwnd, NULL, g_hInst, NULL);
-		bNewTip = TRUE;
-	}
-
-	RECT clientRect;
-	GetClientRect(hwnd, &clientRect);
-	TOOLINFO ti = { sizeof(TOOLINFO) };
-	ti.uFlags = TTF_SUBCLASS;
-	ti.hinst = g_hInst;
-	ti.hwnd = hwnd;
-	ti.uId = 1;
-	ti.rect = clientRect;
-
-	wchar_t tszBuf[1024]; tszBuf[0] = 0;
-	USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
-	if (ui) {
-		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui->pszUID);
-			if (p != NULL) {
-				wcsncpy_s(tszBuf, p, _TRUNCATE);
-				mir_free(p);
-			}
-		}
-
-		if (tszBuf[0] == 0)
-			mir_snwprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
-				TranslateT("Nickname"), ui->pszNick,
-				TranslateT("Unique ID"), ui->pszUID,
-				TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui->Status));
-
-		ti.lpszText = tszBuf;
-	}
-
-	SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
-	SendMessage(hwndToolTip, TTM_ACTIVATE, ti.lpszText != NULL, 0);
-	SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, 400);
-}
-
 static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *si = (SESSION_INFO*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
@@ -991,28 +927,8 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_MOUSEMOVE:
-		POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-		RECT clientRect;
-		GetClientRect(hwnd, &clientRect);
-
-		// Mouse capturing/releasing
-		BOOL bInClient = PtInRect(&clientRect, pt);
-		if (bInClient && GetCapture() != hwnd)
-			SetCapture(hwnd);
-		else if (!bInClient)
-			ReleaseCapture();
-
-		if (bInClient) {
-			// hit test item under mouse
-			DWORD nItemUnderMouse = (DWORD)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, lParam);
-			if (HIWORD(nItemUnderMouse) == 1)
-				nItemUnderMouse = (DWORD)(-1);
-			else
-				nItemUnderMouse &= 0xFFFF;
-
-			ProcessNickListHovering(hwnd, (int)nItemUnderMouse, si);
-		}
-		else ProcessNickListHovering(hwnd, -1, NULL);
+		Chat_HoverMouse(si, hwnd, lParam, ServiceExists("mToolTip/HideTip"));
+		break;
 	}
 
 	return mir_callNextSubclass(hwnd, NicklistSubclassProc, msg, wParam, lParam);

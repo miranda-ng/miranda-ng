@@ -751,3 +751,158 @@ wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 	return si->pszLogFileName;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// process mouse - hovering for the nickname list.fires events so the protocol can
+// show the userinfo - tooltip.
+
+static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *parentdat)
+{
+	static int currentHovered = -1;
+	static HWND hwndToolTip = NULL;
+	static HWND oldParent = NULL;
+
+	if (hoveredItem == currentHovered)
+		return;
+
+	currentHovered = hoveredItem;
+
+	if (oldParent != hwnd && hwndToolTip) {
+		SendMessage(hwndToolTip, TTM_DELTOOL, 0, 0);
+		DestroyWindow(hwndToolTip);
+		hwndToolTip = NULL;
+	}
+
+	if (hoveredItem == -1) {
+		SendMessage(hwndToolTip, TTM_ACTIVATE, 0, 0);
+		return;
+	}
+
+	bool bNewTip = false;
+	if (!hwndToolTip) {
+		bNewTip = true;
+		hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
+			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+			hwnd, NULL, g_hInst, NULL);
+	}
+
+	RECT clientRect;
+	GetClientRect(hwnd, &clientRect);
+
+	TOOLINFO ti = { sizeof(ti) };
+	ti.uFlags = TTF_SUBCLASS;
+	ti.hinst = g_hInst;
+	ti.hwnd = hwnd;
+	ti.uId = 1;
+	ti.rect = clientRect;
+
+	wchar_t tszBuf[1024]; tszBuf[0] = 0;
+
+	USERINFO *ui1 = chatApi.SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
+	if (ui1) {
+		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+			if (p != NULL) {
+				wcsncpy_s(tszBuf, p, _TRUNCATE);
+				mir_free(p);
+			}
+		}
+
+		if (tszBuf[0] == 0)
+			mir_snwprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
+			TranslateT("Nickname"), ui1->pszNick,
+			TranslateT("Unique ID"), ui1->pszUID,
+			TranslateT("Status"), chatApi.TM_WordToString(parentdat->pStatuses, ui1->Status));
+		ti.lpszText = tszBuf;
+	}
+
+	SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
+	SendMessage(hwndToolTip, TTM_ACTIVATE, (ti.lpszText != NULL), 0);
+	SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, 400);
+}
+
+static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
+{
+	SESSION_INFO *si = (SESSION_INFO*)idEvent;
+
+	POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(hwnd, &pt);
+
+	DWORD nItemUnderMouse = (DWORD)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
+	if (HIWORD(nItemUnderMouse) == 1)
+		nItemUnderMouse = (DWORD)(-1);
+	else
+		nItemUnderMouse &= 0xFFFF;
+	if (((int)nItemUnderMouse != si->currentHovered) || (nItemUnderMouse == -1)) {
+		KillTimer(hwnd, idEvent);
+		return;
+	}
+
+	USERINFO *ui1 = chatApi.SM_GetUserFromIndex(si->ptszID, si->pszModule, si->currentHovered);
+	if (ui1) {
+		wchar_t tszBuf[1024]; tszBuf[0] = 0;
+		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+			wchar_t *p = (wchar_t*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui1->pszUID);
+			if (p) {
+				wcsncpy_s(tszBuf, p, _TRUNCATE);
+				mir_free(p);
+			}
+		}
+		if (tszBuf[0] == 0)
+			mir_snwprintf(tszBuf, L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
+			TranslateT("Nick"), ui1->pszNick,
+			TranslateT("Unique ID"), ui1->pszUID,
+			TranslateT("Status"), chatApi.TM_WordToString(si->pStatuses, ui1->Status));
+
+		CLCINFOTIP ti = { sizeof(ti) };
+		if (CallService("mToolTip/ShowTipW", (WPARAM)tszBuf, (LPARAM)&ti))
+			si->isToolTip = TRUE;
+	}
+	KillTimer(hwnd, idEvent);
+}
+
+MIR_APP_DLL(void) Chat_HoverMouse(SESSION_INFO *si, HWND hwnd, LPARAM lParam, bool bUseToolTip)
+{
+	RECT clientRect;
+	{
+		POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+		GetClientRect(hwnd, &clientRect);
+		if (PtInRect(&clientRect, pt)) {
+			// hit test item under mouse
+			DWORD nItemUnderMouse = (DWORD)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, lParam);
+			if (HIWORD(nItemUnderMouse) == 1)
+				nItemUnderMouse = (DWORD)(-1);
+			else
+				nItemUnderMouse &= 0xFFFF;
+
+			if (bUseToolTip) {
+				if ((int)nItemUnderMouse == si->currentHovered)
+					return;
+				si->currentHovered = (int)nItemUnderMouse;
+
+				KillTimer(hwnd, 1);
+
+				if (si->isToolTip) {
+					CallService("mToolTip/HideTip", 0, 0);
+					si->isToolTip = FALSE;
+				}
+
+				if (nItemUnderMouse != -1)
+					SetTimer(hwnd, (UINT_PTR)si, 450, ChatTimerProc);
+			}
+			else ProcessNickListHovering(hwnd, (int)nItemUnderMouse, si);
+		}
+		else {
+			if (bUseToolTip) {
+				KillTimer(hwnd, 1);
+				if (si->isToolTip) {
+					CallService("mToolTip/HideTip", 0, 0);
+					si->isToolTip = FALSE;
+				}
+			}
+			else ProcessNickListHovering(hwnd, -1, NULL);
+		}
+	}
+}

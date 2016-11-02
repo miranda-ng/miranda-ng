@@ -62,7 +62,7 @@ struct SESSION_INFO : public GCSessionInfoBase
 	int             iLogTrayFlags, iLogPopupFlags, iDiskLogFlags;
 
 	int             iSearchItem;
-	wchar_t           szSearch[255];
+	wchar_t         szSearch[255];
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase

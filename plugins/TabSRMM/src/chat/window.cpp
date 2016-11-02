@@ -1264,85 +1264,12 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// process mouse - hovering for the nickname list.fires events so the protocol can
-// show the userinfo - tooltip.
-
-static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *parentdat)
-{
-	static int currentHovered = -1;
-	static HWND hwndToolTip = NULL;
-	static HWND oldParent = NULL;
-
-	if (hoveredItem == currentHovered)
-		return;
-
-	currentHovered = hoveredItem;
-
-	if (oldParent != hwnd && hwndToolTip) {
-		SendMessage(hwndToolTip, TTM_DELTOOL, 0, 0);
-		DestroyWindow(hwndToolTip);
-		hwndToolTip = NULL;
-	}
-
-	if (hoveredItem == -1) {
-		SendMessage(hwndToolTip, TTM_ACTIVATE, 0, 0);
-		return;
-	}
-
-	bool bNewTip = false;
-	if (!hwndToolTip) {
-		bNewTip = true;
-		hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
-			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			hwnd, NULL, g_hInst, NULL);
-	}
-
-	RECT clientRect;
-	GetClientRect(hwnd, &clientRect);
-
-	TOOLINFO ti = { sizeof(ti) };
-	ti.uFlags = TTF_SUBCLASS;
-	ti.hinst = g_hInst;
-	ti.hwnd = hwnd;
-	ti.uId = 1;
-	ti.rect = clientRect;
-
-	wchar_t tszBuf[1024]; tszBuf[0] = 0;
-
-	USERINFO *ui1 = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
-	if (ui1) {
-		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
-			if (p != NULL) {
-				wcsncpy_s(tszBuf, p, _TRUNCATE);
-				mir_free(p);
-			}
-		}
-
-		if (tszBuf[0] == 0)
-			mir_snwprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
-			TranslateT("Nickname"), ui1->pszNick,
-			TranslateT("Unique ID"), ui1->pszUID,
-			TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
-		ti.lpszText = tszBuf;
-	}
-
-	SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
-	SendMessage(hwndToolTip, TTM_ACTIVATE, (ti.lpszText != NULL), 0);
-	SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, 400);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // subclassing for the nickname list control.It is an ownerdrawn listbox
 
 static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndParent = GetParent(hwnd);
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
-
-	static BOOL isToolTip = NULL;
-	static int currentHovered = -1;
 
 	switch (msg) {
 	case WM_NCCALCSIZE:
@@ -1521,8 +1448,8 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case WM_CONTEXTMENU:
 		{
-			SESSION_INFO *parentdat = dat->si;
-			if (parentdat == NULL)
+			SESSION_INFO *si = dat->si;
+			if (si == NULL)
 				break;
 
 			int height = 0;
@@ -1544,7 +1471,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			else
 				item &= 0xFFFF;
 
-			USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
+			USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, item);
 			if (ui) {
 				HMENU hMenu = 0;
 				USERINFO uinew;
@@ -1553,26 +1480,26 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					hti.pt.y += height - 4;
 				ClientToScreen(hwnd, &hti.pt);
 
-				UINT uID = CreateGCMenu(hwnd, &hMenu, 0, hti.pt, parentdat, uinew.pszUID, uinew.pszNick);
+				UINT uID = CreateGCMenu(hwnd, &hMenu, 0, hti.pt, si, uinew.pszUID, uinew.pszNick);
 				switch (uID) {
 				case 0:
 					break;
 
 				case 20020: // add to highlight...
 					{
-						THighLightEdit the = { THighLightEdit::CMD_ADD, parentdat, ui };
-						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), parentdat->dat->pContainer->hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
+						THighLightEdit the = { THighLightEdit::CMD_ADD, si, ui };
+						HWND hwndDlg = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDHIGHLIGHT), si->dat->pContainer->hwnd, CMUCHighlight::dlgProcAdd, (LPARAM)&the);
 						TranslateDialogDefault(hwndDlg);
 
 						RECT rc, rcWnd;
-						GetClientRect(parentdat->pContainer->hwnd, &rcWnd);
+						GetClientRect(si->pContainer->hwnd, &rcWnd);
 						GetWindowRect(hwndDlg, &rc);
 						SetWindowPos(hwndDlg, HWND_TOP, (rcWnd.right - (rc.right - rc.left)) / 2, (rcWnd.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 					}
 					break;
 
 				case ID_MESS:
-					pci->DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+					pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 					break;
 
 				default:
@@ -1584,9 +1511,9 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 							if (pItems) {
 								if (SendMessage(hwnd, LB_GETSELITEMS, iSelectedItems, (LPARAM)pItems) != LB_ERR) {
 									for (int i = 0; i < iSelectedItems; i++) {
-										USERINFO *ui1 = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, pItems[i]);
+										USERINFO *ui1 = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, pItems[i]);
 										if (ui1)
-											pci->DoEventHookAsync(hwndParent, parentdat->ptszID, parentdat->pszModule, GC_USER_NICKLISTMENU, ui1->pszUID, NULL, (LPARAM)uID);
+											pci->DoEventHookAsync(hwndParent, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui1->pszUID, NULL, (LPARAM)uID);
 									}
 								}
 								mir_free(pItems);
@@ -1602,86 +1529,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_MOUSEMOVE:
-		RECT clientRect;
-		{
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			GetClientRect(hwnd, &clientRect);
-			if (PtInRect(&clientRect, pt)) {
-				// hit test item under mouse
-				DWORD nItemUnderMouse = (DWORD)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, lParam);
-				if (HIWORD(nItemUnderMouse) == 1)
-					nItemUnderMouse = (DWORD)(-1);
-				else
-					nItemUnderMouse &= 0xFFFF;
-
-				if (M.GetByte("adv_TipperTooltip", 1) && ServiceExists("mToolTip/HideTip")) {
-					if ((int)nItemUnderMouse == currentHovered) break;
-					currentHovered = (int)nItemUnderMouse;
-
-					KillTimer(hwnd, 1);
-
-					if (isToolTip) {
-						CallService("mToolTip/HideTip", 0, 0);
-						isToolTip = FALSE;
-					}
-
-					if (nItemUnderMouse != -1)
-						SetTimer(hwnd, 1, 450, 0);
-				}
-				else ProcessNickListHovering(hwnd, (int)nItemUnderMouse, dat->si);
-			}
-			else {
-				if (M.GetByte("adv_TipperTooltip", 1) && ServiceExists("mToolTip/HideTip")) {
-					KillTimer(hwnd, 1);
-					if (isToolTip) {
-						CallService("mToolTip/HideTip", 0, 0);
-						isToolTip = FALSE;
-					}
-				}
-				else ProcessNickListHovering(hwnd, -1, NULL);
-			}
-		}
-		break;
-
-	case WM_TIMER:
-		POINT pt;
-		GetCursorPos(&pt);
-		ScreenToClient(hwnd, &pt);
-		{
-			SESSION_INFO *parentdat = dat->si;
-
-			DWORD nItemUnderMouse = (DWORD)SendDlgItemMessage(dat->hwnd, IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
-			if (HIWORD(nItemUnderMouse) == 1)
-				nItemUnderMouse = (DWORD)(-1);
-			else
-				nItemUnderMouse &= 0xFFFF;
-			if (((int)nItemUnderMouse != currentHovered) || (nItemUnderMouse == -1)) {
-				KillTimer(hwnd, 1);
-				break;
-			}
-
-			USERINFO *ui1 = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
-			if (ui1) {
-				wchar_t tszBuf[1024]; tszBuf[0] = 0;
-				if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-					wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
-					if (p) {
-						wcsncpy_s(tszBuf, p, _TRUNCATE);
-						mir_free(p);
-					}
-				}
-				if (tszBuf[0] == 0)
-					mir_snwprintf(tszBuf, L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
-					TranslateT("Nick"), ui1->pszNick,
-					TranslateT("Unique ID"), ui1->pszUID,
-					TranslateT("Status"), pci->TM_WordToString(parentdat->pStatuses, ui1->Status));
-
-				CLCINFOTIP ti = { sizeof(ti) };
-				if (CallService("mToolTip/ShowTipW", (WPARAM)tszBuf, (LPARAM)&ti))
-					isToolTip = TRUE;
-			}
-			KillTimer(hwnd, 1);
-		}
+		Chat_HoverMouse(dat->si, hwnd, lParam, M.GetByte("adv_TipperTooltip", 1) && ServiceExists("mToolTip/HideTip"));
 		break;
 	}
 	return mir_callNextSubclass(hwnd, NicklistSubclassProc, msg, wParam, lParam);

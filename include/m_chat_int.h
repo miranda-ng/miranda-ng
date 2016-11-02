@@ -133,106 +133,109 @@ struct GCModuleInfoBase
 
 struct COMMANDINFO
 {
-   char *lpCommand;
-   COMMANDINFO *last, *next;
+	char *lpCommand;
+	COMMANDINFO *last, *next;
 };
 
 struct FONTINFO
 {
-   LOGFONT  lf;
-   COLORREF color;
+	LOGFONT  lf;
+	COLORREF color;
 };
 
 struct LOGINFO
 {
-   wchar_t *ptszText;
-   wchar_t *ptszNick;
-   wchar_t *ptszUID;
-   wchar_t *ptszStatus;
-   wchar_t *ptszUserInfo;
-   BOOL     bIsMe;
-   BOOL     bIsHighlighted;
-   time_t   time;
-   int      iType;
+	wchar_t *ptszText;
+	wchar_t *ptszNick;
+	wchar_t *ptszUID;
+	wchar_t *ptszStatus;
+	wchar_t *ptszUserInfo;
+	BOOL     bIsMe;
+	BOOL     bIsHighlighted;
+	time_t   time;
+	int      iType;
 	DWORD    dwFlags;
-   LOGINFO *next, *prev;
+	LOGINFO *next, *prev;
 };
 
 struct STATUSINFO
 {
-   wchar_t*  pszGroup;
-   HICON   hIcon;
-   WORD    Status;
-   STATUSINFO *next;
+	wchar_t    *pszGroup;
+	HICON       hIcon;
+	WORD        Status;
+	STATUSINFO *next;
 };
 
 struct USERINFO
 {
-   wchar_t* pszNick;
-   wchar_t* pszUID;
-   WORD   Status;
-   int    iStatusEx;
-   WORD   ContactStatus;
-   USERINFO *next;
+	wchar_t* pszNick;
+	wchar_t* pszUID;
+	WORD   Status;
+	int    iStatusEx;
+	WORD   ContactStatus;
+	USERINFO *next;
 };
 
 struct GCSessionInfoBase
 {
-   HWND        hWnd;
+	HWND        hWnd;
 
-   BOOL        bFGSet;
-   BOOL        bBGSet;
-   BOOL        bFilterEnabled;
-   BOOL        bNicklistEnabled;
-   BOOL        bInitDone;
+	BOOL        bFGSet;
+	BOOL        bBGSet;
+	BOOL        bFilterEnabled;
+	BOOL        bNicklistEnabled;
+	BOOL        bInitDone;
 	BOOL        bTrimmed;
 
-   char*       pszModule;
-   wchar_t*    ptszID;
-   wchar_t*    ptszName;
-   wchar_t*    ptszStatusbarText;
-   wchar_t*    ptszTopic;
+	char*       pszModule;
+	wchar_t*    ptszID;
+	wchar_t*    ptszName;
+	wchar_t*    ptszStatusbarText;
+	wchar_t*    ptszTopic;
 
-   int         iType;
-   int         iFG;
-   int         iBG;
-   int         iSplitterY;
-   int         iSplitterX;
-   int         iLogFilterFlags;
-   int         nUsersInNicklist;
-   int         iEventCount;
-   int         iWidth;
-   int         iHeight;
-   int         iStatusCount;
+	int         iType;
+	int         iFG;
+	int         iBG;
+	int         iSplitterY;
+	int         iSplitterX;
+	int         iLogFilterFlags;
+	int         nUsersInNicklist;
+	int         iEventCount;
+	int         iWidth;
+	int         iHeight;
+	int         iStatusCount;
 
-   WORD        wStatus;
-   WORD        wState;
-   WORD        wCommandsNum;
-   void       *pItemData;
+	WORD        wStatus;
+	WORD        wState;
+	WORD        wCommandsNum;
+	void       *pItemData;
 	MCONTACT    hContact;
-   HWND        hwndStatus;
-   time_t      LastTime;
+	HWND        hwndStatus;
+	time_t      LastTime;
 
-   COMMANDINFO* lpCommands;
-   COMMANDINFO* lpCurrentCommand;
-   LOGINFO*    pLog;
-   LOGINFO*    pLogEnd;
-   USERINFO*   pUsers;
-   USERINFO*   pMe;
-   STATUSINFO* pStatuses;
+	BOOL        isToolTip;
+	int         currentHovered;
 
-	wchar_t       pszLogFileName[MAX_PATH];
+	COMMANDINFO* lpCommands;
+	COMMANDINFO* lpCurrentCommand;
+	LOGINFO*    pLog;
+	LOGINFO*    pLogEnd;
+	USERINFO*   pUsers;
+	USERINFO*   pMe;
+	STATUSINFO* pStatuses;
+
+	wchar_t     pszLogFileName[MAX_PATH];
 	SESSION_INFO *next;
 };
 
 struct GCLogStreamDataBase
 {
-   char*         buffer;
-   int           bufferOffset, bufferLen;
-   HWND          hwnd;
-   LOGINFO*      lin;
-   BOOL          bStripFormat;
-   BOOL          bRedraw;
+	char*         buffer;
+	int           bufferOffset, bufferLen;
+	HWND          hwnd;
+	LOGINFO*      lin;
+	BOOL          bStripFormat;
+	BOOL          bRedraw;
 	SESSION_INFO *si;
 };
 
@@ -266,12 +269,12 @@ struct GlobalLogSettingsBase
 	int      iSplitterY;
 	int      iWidth;
 	int      iHeight;
-	wchar_t*   pszTimeStamp;
-	wchar_t*   pszTimeStampLog;
-	wchar_t*   pszIncomingNick;
-	wchar_t*   pszOutgoingNick;
-	wchar_t*   pszHighlightWords;
-	wchar_t*   pszLogDir;
+	wchar_t *pszTimeStamp;
+	wchar_t *pszTimeStampLog;
+	wchar_t *pszIncomingNick;
+	wchar_t *pszOutgoingNick;
+	wchar_t *pszHighlightWords;
+	wchar_t *pszLogDir;
 	HFONT    UserListFont;
 	HFONT    UserListHeadingsFont;
 	HFONT    NameFont;

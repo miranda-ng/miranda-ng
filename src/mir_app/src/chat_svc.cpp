@@ -239,6 +239,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_NewSession(
 	si->iLogFilterFlags = db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
 	si->bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
 	si->bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);
+	si->currentHovered = -1;
 
 	if (mi->bColor) {
 		si->iFG = 4;
