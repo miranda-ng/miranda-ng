@@ -211,6 +211,7 @@ int CVkProto::PollServer()
 		}
 		else {
 			debugLogA("CVkProto::PollServer => ShutdownSession");
+			m_hPollingThread = NULL;
 			ShutdownSession();
 			return 0;
 		}
@@ -256,7 +257,7 @@ void CVkProto::PollingThread(void*)
 	debugLogA("CVkProto::PollingThread: entering");
 
 	while (!m_bTerminated)
-		if (PollServer() == -1)
+		if (PollServer() == -1 || !m_hPollingThread)
 			break;
 
 	m_hPollingThread = NULL;
