@@ -46,6 +46,12 @@ static int OnShutdown(WPARAM, LPARAM)
 {
 	WindowList_Destroy(g_dat.hMessageWindowList);
 	g_dat.hMessageWindowList = NULL;
+
+	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
+		SendMessage(si->hWnd, WM_CLOSE, 0, 0);
+
+	TabM_RemoveAll();
+	ImageList_Destroy(hIconsList);
 	return 0;
 }
 

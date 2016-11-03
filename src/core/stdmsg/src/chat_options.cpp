@@ -729,7 +729,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wPar
 	return FALSE;
 }
 
-int OptionsInitialize(WPARAM wParam, LPARAM)
+int ChatOptionsInitialize(WPARAM wParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;

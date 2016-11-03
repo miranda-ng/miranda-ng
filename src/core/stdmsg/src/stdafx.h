@@ -141,7 +141,6 @@ SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si);
 SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si);
 
 // options.c
-int OptionsInitialize(WPARAM wParam, LPARAM lParam);
 void AddIcons(void);
 HICON LoadIconEx(const char *pszIcoLibName, bool big);
 HANDLE GetIconHandle(const char *pszIcolibName);

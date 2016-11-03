@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_fontservice.h"
 #include "m_modernopt.h"
 
+int ChatOptionsInitialize(WPARAM);
+
 struct FontOptionsList
 {
 	const wchar_t* szDescr;
@@ -561,6 +563,8 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	Options_AddPage(wParam, &odp);
+
+	ChatOptionsInitialize(wParam);
 	return 0;
 }
 

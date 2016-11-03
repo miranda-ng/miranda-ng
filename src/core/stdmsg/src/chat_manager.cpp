@@ -136,16 +136,6 @@ HIMAGELIST hIconsList;
 
 GlobalLogSettings g_Settings;
 
-static int OnShutdown(WPARAM, LPARAM)
-{
-	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
-		SendMessage(si->hWnd, WM_CLOSE, 0, 0);
-
-	TabM_RemoveAll();
-	ImageList_Destroy(hIconsList);
-	return 0;
-}
-
 static void OnCreateModule(MODULEINFO *mi)
 {
 	mi->OnlineIconIndex = ImageList_AddIcon(hIconsList, Skin_LoadProtoIcon(mi->pszModule, ID_STATUS_ONLINE));
@@ -384,7 +374,7 @@ static void RegisterFonts()
 	Colour_RegisterW(&colourid);
 }
 
-static int OnCheckPlugins(WPARAM, LPARAM)
+int OnCheckPlugins(WPARAM, LPARAM)
 {
 	SmileyAddInstalled = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
 	PopupInstalled = ServiceExists(MS_POPUP_ADDPOPUPT);
@@ -453,10 +443,7 @@ void Load_ChatModule()
 
 	TabsInit();
 
-	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
-	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_SYSTEM_MODULELOAD, OnCheckPlugins);
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnCheckPlugins);
 }
 
 void Unload_ChatModule()
