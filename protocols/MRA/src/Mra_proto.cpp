@@ -280,7 +280,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 		if ( !dwBytesReceived || dwBytesReceived == SOCKET_ERROR) { // disconnected
 			if (m_iStatus != ID_STATUS_OFFLINE) {
 				dwRetErrorCode = GetLastError();
-				ShowFormattedErrorMessage(L"Disconnected, socket read error", dwRetErrorCode);
+				debugLogA("Disconnected, socket read error %d", dwRetErrorCode);
 			}
 			break;
 		}

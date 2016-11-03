@@ -178,7 +178,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 									}
 									else { // disconnected
 										dwRetErrorCode = GetLastError();
-										ShowFormattedErrorMessage(L"Disconnected, socket read error", dwRetErrorCode);
+										debugLogA("Disconnected, socket read error %d", dwRetErrorCode);
 										bContinue = FALSE;
 									}
 								}
