@@ -96,7 +96,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDBEvent, &dbei);
-		if (dbei.timestamp > tTime)
+		if (dbei.timestamp > tTime && dbei.eventType != VK_USER_DEACTIVATE_ACTION)
 			db_event_delete(hContact, hDBEvent);
 		hDBEvent = hDBEventNext;
 	}
