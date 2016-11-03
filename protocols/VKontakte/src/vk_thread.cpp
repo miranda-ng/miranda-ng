@@ -651,8 +651,12 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		const JSONNode &jnItem = (*it);
 		
 		int iGroupId = (-1)*jnItem["id"].as_int();
+		bool bIsMember = jnItem["is_member"].as_bool();
+
+		if (!bIsMember && m_vkOptions.bAutoClean)
+			continue;
+
 		MCONTACT hContact = FindUser(iGroupId, true);
-		
 		if (!hContact)
 			continue;
 
@@ -665,11 +669,9 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE)
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
 
-		setByte(hContact, "IsGroup", 1);
-
-		bool bIsMember = jnItem["is_member"].as_bool();
 		setByte(hContact, "Auth", !bIsMember);
 		setByte(hContact, "friend", bIsMember);
+		setByte(hContact, "IsGroup", 1);
 		
 		wszValue = jnItem["screen_name"].as_mstring();
 		if (!wszValue.IsEmpty()) {
@@ -735,7 +737,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		return;
 	
 	CVkSendMsgParam *param = (CVkSendMsgParam *)pReq->pUserInfo;
-	bool bCleanContacts = getBool("AutoClean") || (param->iMsgID != 0);
+	bool bCleanContacts = m_vkOptions.bAutoClean || (param->iMsgID != 0);
 	delete param;
 
 	LIST<void> arContacts(10, PtrKeySortT);
