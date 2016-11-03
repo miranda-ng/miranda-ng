@@ -1,4 +1,4 @@
-#Visual Studio files
+# Visual Studio files
 Debug/
 Debug64/
 Release/
@@ -12,9 +12,13 @@ ipch/
 *.suo
 *.user
 *.aps
+*.opensdf
 
-#Keep predefined Miranda solutions
+# Keep predefined Miranda solutions
 !/bin*/*.sln
+/bin*/my.sln
 
-#Miranda files
+# Miranda files
 include/m_version.h
+export.cmd
+vsbuild.cmd
