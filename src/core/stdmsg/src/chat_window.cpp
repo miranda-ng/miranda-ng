@@ -1110,7 +1110,7 @@ static void __cdecl phase2(void * lParam)
 
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	SESSION_INFO *si = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	SESSION_INFO *s, *si = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	RECT rc;
 
 	switch (uMsg) {
@@ -1248,7 +1248,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case GC_UPDATESTATUSBAR:
 		{
 			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-			wchar_t* ptszDispName = mi->ptszModDispName;
+			wchar_t *ptszDispName = mi->ptszModDispName;
 			int x = 12;
 			x += GetTextPixelSize(ptszDispName, (HFONT)SendMessage(si->hwndStatus, WM_GETFONT, 0, 0), TRUE);
 			x += GetSystemMetrics(SM_CXSMICON);
@@ -1275,12 +1275,13 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case GC_SETWINDOWPOS:
 		{
 			SESSION_INFO *pActive = pci->GetActiveSession();
-			RECT screen;
 			int savePerContact = db_get_b(NULL, CHAT_MODULE, "SavePosition", 0);
 
 			WINDOWPLACEMENT wp;
 			wp.length = sizeof(wp);
 			GetWindowPlacement(hwndDlg, &wp);
+
+			RECT screen;
 			SystemParametersInfo(SPI_GETWORKAREA, 0, &screen, 0);
 
 			if (si->iX) {
@@ -1438,20 +1439,17 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_REMOVETAB:
 		{
-			SESSION_INFO* s2;
 			int i = -1;
 			SESSION_INFO* s1 = (SESSION_INFO*)lParam;
 			int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
-
 			if (s1) {
 				if (tabId) {
 					for (i = 0; i < tabId; i++) {
-						int ii;
 						TCITEM tci = { 0 };
 						tci.mask = TCIF_PARAM;
-						ii = TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
+						int ii = TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
 						if (ii != -1) {
-							s2 = (SESSION_INFO*)tci.lParam;
+							SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
 							if (s1 == s2)
 								goto END_REMOVETAB;
 						}
@@ -1463,7 +1461,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		END_REMOVETAB:
 			if (i != -1 && i < tabId) {
 				TCITEM id = { 0 };
-				SESSION_INFO *s;
 				TabCtrl_DeleteItem(GetDlgItem(hwndDlg, IDC_TAB), i);
 				id.mask = TCIF_PARAM;
 				if (!TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id)) {
@@ -1473,7 +1470,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					}
 				}
 
-				s = (SESSION_INFO*)id.lParam;
+				SESSION_INFO *s = (SESSION_INFO*)id.lParam;
 				if (s)
 					pci->ShowRoom(s, (WPARAM)WINDOW_VISIBLE, wParam == 1 ? FALSE : TRUE);
 			}
@@ -1482,23 +1479,20 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_ADDTAB:
 		{
-			TCITEM tci;
 			int tabId;
-			WORD w = 0;
-			int i = 0;
 			int indexfound = -1;
 			int lastlocked = -1;
 			BOOL bFound = FALSE;
-			SESSION_INFO* s2;
 			SESSION_INFO* s1 = (SESSION_INFO*)lParam;
 
+			TCITEM tci;
 			tci.mask = TCIF_PARAM;
-			tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
+			int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
 
 			// does the tab already exist?
-			for (i = 0; i < tabId; i++) {
+			for (int i = 0; i < tabId; i++) {
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
-				s2 = (SESSION_INFO*)tci.lParam;
+				SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
 				if (s2) {
 					if (s1 == s2 && !bFound) {
 						if (!bFound) {
@@ -1507,13 +1501,13 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						}
 					}
 
-					w = db_get_w(s2->hContact, s2->pszModule, "TabPosition", 0);
+					int w = db_get_w(s2->hContact, s2->pszModule, "TabPosition", 0);
 					if (w)
-						lastlocked = (int)w;
+						lastlocked = w;
 				}
 			}
 
-			w = 0;
+			int w = 0;
 
 			if (!bFound) { // create a new tab
 				int insertat;
@@ -1548,81 +1542,72 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case GC_FIXTABICONS:
-		{
-			SESSION_INFO *s = (SESSION_INFO*)lParam;
-			if (s) {
-				int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
-				for (int i = 0; i < tabId; i++) {
-					TCITEM tci;
-					tci.mask = TCIF_PARAM | TCIF_IMAGE;
-					TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
-					SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
-					if (s2 && s == s2) {
-						int image = 0;
-						if (!(s2->wState & GC_EVENT_HIGHLIGHT)) {
-							MODULEINFO *mi = pci->MM_FindModule(s2->pszModule);
-							image = (s2->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
-							if (s2->wState & STATE_TALK)
-								image++;
-						}
+		if (s = (SESSION_INFO*)lParam) {
+			int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
+			for (int i = 0; i < tabId; i++) {
+				TCITEM tci;
+				tci.mask = TCIF_PARAM | TCIF_IMAGE;
+				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
+				SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
+				if (s2 && s == s2) {
+					int image = 0;
+					if (!(s2->wState & GC_EVENT_HIGHLIGHT)) {
+						MODULEINFO *mi = pci->MM_FindModule(s2->pszModule);
+						image = (s2->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
+						if (s2->wState & STATE_TALK)
+							image++;
+					}
 
-						if (tci.iImage != image) {
-							tci.mask = TCIF_IMAGE;
-							tci.iImage = image;
-							TabCtrl_SetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
-						}
+					if (tci.iImage != image) {
+						tci.mask = TCIF_IMAGE;
+						tci.iImage = image;
+						TabCtrl_SetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
 					}
 				}
 			}
-			else RedrawWindow(GetDlgItem(hwndDlg, IDC_TAB), NULL, NULL, RDW_INVALIDATE);
 		}
+		else RedrawWindow(GetDlgItem(hwndDlg, IDC_TAB), NULL, NULL, RDW_INVALIDATE);
 		break;
 
 	case GC_SETMESSAGEHIGHLIGHT:
-		{
-			SESSION_INFO *s = (SESSION_INFO*)lParam;
-			if (s) {
-				int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
-				for (int i = 0; i < tabId; i++) {
-					TCITEM tci;
-					tci.mask = TCIF_PARAM;
-					TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
-					SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
-					if (s2 && s == s2) { // highlight
-						s2->wState |= GC_EVENT_HIGHLIGHT;
-						if (pci->SM_FindSession(si->ptszID, si->pszModule) == s2)
-							si->wState = s2->wState;
-						SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)s2);
-						if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != hwndDlg && GetForegroundWindow() != hwndDlg)
-							SetTimer(hwndDlg, TIMERID_FLASHWND, 900, NULL);
-						break;
-					}
+		if (s = (SESSION_INFO*)lParam) {
+			int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
+			for (int i = 0; i < tabId; i++) {
+				TCITEM tci;
+				tci.mask = TCIF_PARAM;
+				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
+				SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
+				if (s2 && s == s2) { // highlight
+					s2->wState |= GC_EVENT_HIGHLIGHT;
+					if (pci->SM_FindSession(si->ptszID, si->pszModule) == s2)
+						si->wState = s2->wState;
+					SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)s2);
+					if (g_Settings.bFlashWindowHighlight && GetActiveWindow() != hwndDlg && GetForegroundWindow() != hwndDlg)
+						SetTimer(hwndDlg, TIMERID_FLASHWND, 900, NULL);
+					break;
 				}
 			}
-			else RedrawWindow(GetDlgItem(hwndDlg, IDC_TAB), NULL, NULL, RDW_INVALIDATE);
 		}
+		else RedrawWindow(GetDlgItem(hwndDlg, IDC_TAB), NULL, NULL, RDW_INVALIDATE);
 		break;
 
 	case GC_SETTABHIGHLIGHT:
-		{
-			SESSION_INFO *s = (SESSION_INFO*)lParam;
-			if (s) {
-				int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
-				for (int i = 0; i < tabId; i++) {
-					TCITEM tci;
-					tci.mask = TCIF_PARAM;
-					TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
-					SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
-					if (s2 && s == s2) { // highlight
-						SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)s2);
-						if (g_Settings.bFlashWindow && GetActiveWindow() != hwndDlg && GetForegroundWindow() != hwndDlg)
-							SetTimer(hwndDlg, TIMERID_FLASHWND, 900, NULL);
-						break;
-					}
+		if (s = (SESSION_INFO*)lParam) {
+			int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
+			for (int i = 0; i < tabId; i++) {
+				TCITEM tci;
+				tci.mask = TCIF_PARAM;
+				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
+				SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
+				if (s2 && s == s2) { // highlight
+					SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)s2);
+					if (g_Settings.bFlashWindow && GetActiveWindow() != hwndDlg && GetForegroundWindow() != hwndDlg)
+						SetTimer(hwndDlg, TIMERID_FLASHWND, 900, NULL);
+					break;
 				}
 			}
-			else RedrawWindow(GetDlgItem(hwndDlg, IDC_TAB), NULL, NULL, RDW_INVALIDATE);
 		}
+		else RedrawWindow(GetDlgItem(hwndDlg, IDC_TAB), NULL, NULL, RDW_INVALIDATE);
 		break;
 
 	case GC_TABCHANGE:
@@ -1671,7 +1656,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			TCITEM tci;
 			tci.mask = TCIF_PARAM;
 			TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), begin, &tci);
-			SESSION_INFO *s = (SESSION_INFO*)tci.lParam;
+			s = (SESSION_INFO*)tci.lParam;
 			if (s) {
 				TabCtrl_DeleteItem(GetDlgItem(hwndDlg, IDC_TAB), begin);
 
@@ -1690,8 +1675,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case GC_SESSIONNAMECHANGE:
+		s = (SESSION_INFO*)lParam;
 		{
-			SESSION_INFO* s1 = (SESSION_INFO*)lParam;
 			int tabId = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_TAB));
 			for (int i = 0; i < tabId; i++) {
 				TCITEM tci;
@@ -1699,9 +1684,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				int j = TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
 				if (j != -1) {
 					SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
-					if (s1 == s2) {
+					if (s == s2) {
 						tci.mask = TCIF_TEXT;
-						tci.pszText = s1->ptszName;
+						tci.pszText = s->ptszName;
 						TabCtrl_SetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
 					}
 				}
@@ -2459,7 +2444,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case WM_GETMINMAXINFO:
 		{
-			MINMAXINFO* mmi = (MINMAXINFO*)lParam;
+			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
 			mmi->ptMinTrackSize.x = si->iSplitterX + 43;
 			if (mmi->ptMinTrackSize.x < 350)
 				mmi->ptMinTrackSize.x = 350;
