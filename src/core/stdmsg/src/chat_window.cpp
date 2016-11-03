@@ -1479,7 +1479,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_ADDTAB:
 		{
-			int tabId;
 			int indexfound = -1;
 			int lastlocked = -1;
 			BOOL bFound = FALSE;
