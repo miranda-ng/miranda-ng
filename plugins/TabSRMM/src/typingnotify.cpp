@@ -174,6 +174,8 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	WORD idCtrl, wNotifyCode;
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -227,8 +229,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_COMMAND:
-	{
-		WORD idCtrl = LOWORD(wParam), wNotifyCode = HIWORD(wParam);
+		idCtrl = LOWORD(wParam), wNotifyCode = HIWORD(wParam);
 
 		if (wNotifyCode == CPN_COLOURCHANGED) {
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -448,8 +449,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
-	}
-	break;
+		break;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {

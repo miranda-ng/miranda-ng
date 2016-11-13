@@ -895,7 +895,6 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN));
 		ResetCList(hwndDlg);
-		RebuildList(hwndDlg, hItemNew, hItemUnknown);
 
 		CheckDlgButton(hwndDlg, IDC_SHOWNOTIFY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_TYPEFLASHWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH) ? BST_CHECKED : BST_UNCHECKED);
@@ -962,6 +961,9 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				break;
 			case CLN_CHECKCHANGED:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
+			case CLN_LISTREBUILT:
+				RebuildList(hwndDlg, hItemNew, hItemUnknown);
 				break;
 			}
 			break;
