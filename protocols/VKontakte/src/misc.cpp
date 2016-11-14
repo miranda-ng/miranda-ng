@@ -1455,6 +1455,8 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 
 void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 {
+	debugLogW(L"CVkProto::AddVkDeactivateEvent hContact=%d, wszType=%s bShowVkDeactivateEvents=%d", hContact, wszType, (int)m_vkOptions.bShowVkDeactivateEvents);
+
 	CVKDeactivateEvent vkDeactivateEvent[] = {
 		{ L"", Translate("User restored control over own page") },
 		{ L"deleted", Translate("User was deactivated (deleted)") },
@@ -1478,7 +1480,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
 	dbei.cbBlob = mir_strlen(vkDeactivateEvent[iDEIdx].szDescription) + 1;
 	dbei.pBlob = (PBYTE)mir_strdup(vkDeactivateEvent[iDEIdx].szDescription);
-	dbei.flags = DBEF_UTF;
+	dbei.flags = DBEF_UTF | (m_vkOptions.bShowVkDeactivateEvents ? 0 : DBEF_READ);
 	db_event_add(hContact, &dbei);
 }
 
