@@ -1,4 +1,4 @@
-
+@echo off
 rem Get version
 if not exist tmp mkdir tmp
 if exist tmp\build.no goto mkver
