@@ -3,7 +3,7 @@ set GetVer=for /F "tokens=1,2,3 delims= " %%i in (build.no) do set MirVer=%%i.%%
 rem Get version
 if exist ..\..\build\build.no goto localgetver
 if not exist tmp mkdir tmp
-Tools\wget.exe -O tmp\build.no http://svn.miranda-ng.org/main/trunk/build/build.no
+copy /V /Y ..\..\build\build.no tmp\build.no
 pushd tmp
 %GetVer%
 popd

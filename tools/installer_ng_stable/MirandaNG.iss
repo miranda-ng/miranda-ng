@@ -83,7 +83,6 @@ Source: "Files\Libs\Zlib.mir"; DestDir: "{app}\Libs"; Components: program; Flags
 Source: "Files\Core\StdAuth.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdAutoAway.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdAway.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Core\StdChat.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdClist.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdCrypt.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdEmail.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
