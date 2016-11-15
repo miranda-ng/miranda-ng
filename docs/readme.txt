@@ -85,10 +85,10 @@ will increase.
 
 7. License and Copyright
 ------------------------
-Source code is available at: http://svn.miranda-ng.org/
+Source code is available at: https://github.com/miranda-ng/miranda-ng/
 
 Miranda NG is released under the terms of the GNU General Public License. See
-"License.txt" for more details.
+"LICENSE" for more details.
 
 Miranda NG is copyright 2000-2012 by the people listed in contributors.txt.
 
