@@ -32,11 +32,6 @@ struct TreeItem
 	DWORD value;
 };
 
-struct IcoLibOptsData
-{
-	HWND hwndIndex;
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
@@ -200,11 +195,6 @@ void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
 	}
 }
 
-static void OpenIconsPage()
-{
-	Utils_OpenUrl("http://miranda-ng.org/");
-}
-
 static int OpenPopupMenu(HWND hwndDlg)
 {
 	HMENU hMenu, hPopup;
@@ -333,239 +323,236 @@ static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar
 /////////////////////////////////////////////////////////////////////////////////////////
 // icon import dialog's window procedure
 
-static int IconDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
+class CIconImportDlg : public CDlgBase
 {
-	switch (urc->wId) {
-	case IDC_ICONSET:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+	HWND m_hwndParent, m_hwndDragOver;
+	int  m_iDragItem, m_iDropHiLite;
+	bool m_bDragging;
 
-	case IDC_BROWSE:
-		return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
+	CCtrlListView m_preview;
+	CCtrlButton m_btnGetMore, m_btnBrowse;
+	CCtrlEdit m_iconSet;
 
-	case IDC_PREVIEW:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-
-	case IDC_GETMORE:
-		return RD_ANCHORX_CENTRE | RD_ANCHORY_BOTTOM;
+public:
+	CIconImportDlg(HWND _parent) :
+		CDlgBase(g_hInst, IDD_ICOLIB_IMPORT),
+		m_preview(this, IDC_PREVIEW),
+		m_iconSet(this, IDC_ICONSET),
+		m_btnBrowse(this, IDC_BROWSE),
+		m_btnGetMore(this, IDC_GETMORE),
+		m_hwndParent(_parent),
+		m_bDragging(false),
+		m_iDragItem(0),
+		m_iDropHiLite(0)
+	{
+		m_btnBrowse.OnClick = Callback(this, &CIconImportDlg::OnBrowseClick);
+		m_btnGetMore.OnClick = Callback(this, &CIconImportDlg::OnGetMoreClick);
+		m_iconSet.OnChange = Callback(this, &CIconImportDlg::OnEditChange);
+		m_preview.OnBeginDrag = Callback(this, &CIconImportDlg::OnBeginDragPreview);
 	}
-	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP; // default
-}
 
-INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static HWND hwndParent, hwndDragOver;
-	static int dragging;
-	static int dragItem, dropHiLite;
-	static HWND hPreview = NULL;
+	virtual void OnInitDialog() override
+	{
+		m_preview.SetImageList(ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 0, 100), LVSIL_NORMAL);
+		m_preview.SetIconSpacing(56, 67);
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		hwndParent = (HWND)lParam;
-		hPreview = GetDlgItem(hwndDlg, IDC_PREVIEW);
-		dragging = dragItem = 0;
-		ListView_SetImageList(hPreview, ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 0, 100), LVSIL_NORMAL);
-		ListView_SetIconSpacing(hPreview, 56, 67);
-		{
-			RECT rcThis, rcParent;
-			int cxScreen = GetSystemMetrics(SM_CXSCREEN);
+		RECT rcThis, rcParent;
+		int cxScreen = GetSystemMetrics(SM_CXSCREEN);
 
-			GetWindowRect(hwndDlg, &rcThis);
-			GetWindowRect(hwndParent, &rcParent);
-			OffsetRect(&rcThis, rcParent.right - rcThis.left, 0);
-			OffsetRect(&rcThis, 0, rcParent.top - rcThis.top);
-			GetWindowRect(GetParent(hwndParent), &rcParent);
-			if (rcThis.right > cxScreen) {
-				OffsetRect(&rcParent, cxScreen - rcThis.right, 0);
-				OffsetRect(&rcThis, cxScreen - rcThis.right, 0);
-				MoveWindow(GetParent(hwndParent), rcParent.left, rcParent.top, rcParent.right - rcParent.left, rcParent.bottom - rcParent.top, TRUE);
-			}
-			MoveWindow(hwndDlg, rcThis.left, rcThis.top, rcThis.right - rcThis.left, rcThis.bottom - rcThis.top, FALSE);
-			GetClientRect(hwndDlg, &rcThis);
-			SendMessage(hwndDlg, WM_SIZE, 0, MAKELPARAM(rcThis.right - rcThis.left, rcThis.bottom - rcThis.top));
+		GetWindowRect(m_hwnd, &rcThis);
+		GetWindowRect(m_hwndParent, &rcParent);
+		OffsetRect(&rcThis, rcParent.right - rcThis.left, 0);
+		OffsetRect(&rcThis, 0, rcParent.top - rcThis.top);
+		GetWindowRect(GetParent(m_hwndParent), &rcParent);
+		if (rcThis.right > cxScreen) {
+			OffsetRect(&rcParent, cxScreen - rcThis.right, 0);
+			OffsetRect(&rcThis, cxScreen - rcThis.right, 0);
+			MoveWindow(GetParent(m_hwndParent), rcParent.left, rcParent.top, rcParent.right - rcParent.left, rcParent.bottom - rcParent.top, TRUE);
 		}
+		MoveWindow(m_hwnd, rcThis.left, rcThis.top, rcThis.right - rcThis.left, rcThis.bottom - rcThis.top, FALSE);
+		GetClientRect(m_hwnd, &rcThis);
+		SendMessage(m_hwnd, WM_SIZE, 0, MAKELPARAM(rcThis.right - rcThis.left, rcThis.bottom - rcThis.top));
 
-		SHAutoComplete(GetDlgItem(hwndDlg, IDC_ICONSET), 1);
+		SHAutoComplete(m_iconSet.GetHwnd(), 1);
+		m_iconSet.SetText(L"icons.dll");
+	}
 
-		SetDlgItemText(hwndDlg, IDC_ICONSET, L"icons.dll");
-		return TRUE;
+	virtual void OnClose() override
+	{
+		EnableWindow(GetDlgItem(m_hwndParent, IDC_IMPORT), TRUE);
+	}
 
-	case DM_REBUILDICONSPREVIEW:
-		{
-			MySetCursor(IDC_WAIT);
-			ListView_DeleteAllItems(hPreview);
-			HIMAGELIST hIml = ListView_GetImageList(hPreview, LVSIL_NORMAL);
-			ImageList_RemoveAll(hIml);
+	virtual int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_ICONSET:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
-			wchar_t filename[MAX_PATH], caption[64];
-			GetDlgItemText(hwndDlg, IDC_ICONSET, filename, _countof(filename));
-			{
-				RECT rcPreview, rcGroup;
-
-				GetWindowRect(hPreview, &rcPreview);
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_IMPORTMULTI), &rcGroup);
-				//SetWindowPos(hPreview, 0, 0, 0, rcPreview.right-rcPreview.left, rcGroup.bottom-rcPreview.top, SWP_NOZORDER|SWP_NOMOVE);
-			}
-
-			if (_waccess(filename, 0) != 0) {
-				MySetCursor(IDC_ARROW);
-				break;
-			}
-
-			LVITEM lvi;
-			lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
-			lvi.iSubItem = 0;
-			lvi.iItem = 0;
-			int count = (int)_ExtractIconEx(filename, -1, 16, 16, NULL, LR_DEFAULTCOLOR);
-			for (int i = 0; i < count; lvi.iItem++, i++) {
-				mir_snwprintf(caption, L"%d", i + 1);
-				lvi.pszText = caption;
-
-				HICON hIcon = NULL;
-				if (_ExtractIconEx(filename, i, 16, 16, &hIcon, LR_DEFAULTCOLOR) == 1) {
-					lvi.iImage = ImageList_AddIcon(hIml, hIcon);
-					DestroyIcon(hIcon);
-					lvi.lParam = i;
-					ListView_InsertItem(hPreview, &lvi);
-				}
-			}
-			MySetCursor(IDC_ARROW);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
 		case IDC_BROWSE:
-			{
-				wchar_t str[MAX_PATH], *file;
-				GetDlgItemText(hwndDlg, IDC_ICONSET, str, _countof(str));
-				if (!(file = OpenFileDlg(GetParent(hwndDlg), str, TRUE)))
-					break;
-				SetDlgItemText(hwndDlg, IDC_ICONSET, file);
-				mir_free(file);
-			}
-			break;
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
+
+		case IDC_PREVIEW:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 
 		case IDC_GETMORE:
-			OpenIconsPage();
-			break;
-
-		case IDC_ICONSET:
-			if (HIWORD(wParam) == EN_CHANGE)
-				SendMessage(hwndDlg, DM_REBUILDICONSPREVIEW, 0, 0);
-			break;
+			return RD_ANCHORX_CENTRE | RD_ANCHORY_BOTTOM;
 		}
-		break;
-
-	case WM_MOUSEMOVE:
-		if (dragging) {
-			LVHITTESTINFO lvhti;
-			int onItem = 0;
-			HWND hwndOver;
-			RECT rc;
-			POINT ptDrag;
-			HWND hPPreview = GetDlgItem(hwndParent, IDC_PREVIEW);
-
-			lvhti.pt.x = (short)LOWORD(lParam); lvhti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(hwndDlg, &lvhti.pt);
-			hwndOver = WindowFromPoint(lvhti.pt);
-			GetWindowRect(hwndOver, &rc);
-			ptDrag.x = lvhti.pt.x - rc.left; ptDrag.y = lvhti.pt.y - rc.top;
-			if (hwndOver != hwndDragOver) {
-				ImageList_DragLeave(hwndDragOver);
-				hwndDragOver = hwndOver;
-				ImageList_DragEnter(hwndDragOver, ptDrag.x, ptDrag.y);
-			}
-
-			ImageList_DragMove(ptDrag.x, ptDrag.y);
-			if (hwndOver == hPPreview) {
-				ScreenToClient(hPPreview, &lvhti.pt);
-
-				if (ListView_HitTest(hPPreview, &lvhti) != -1) {
-					if (lvhti.iItem != dropHiLite) {
-						ImageList_DragLeave(hwndDragOver);
-						if (dropHiLite != -1)
-							ListView_SetItemState(hPPreview, dropHiLite, 0, LVIS_DROPHILITED);
-						dropHiLite = lvhti.iItem;
-						ListView_SetItemState(hPPreview, dropHiLite, LVIS_DROPHILITED, LVIS_DROPHILITED);
-						UpdateWindow(hPPreview);
-						ImageList_DragEnter(hwndDragOver, ptDrag.x, ptDrag.y);
-					}
-					onItem = 1;
-				}
-			}
-
-			if (!onItem && dropHiLite != -1) {
-				ImageList_DragLeave(hwndDragOver);
-				ListView_SetItemState(hPPreview, dropHiLite, 0, LVIS_DROPHILITED);
-				UpdateWindow(hPPreview);
-				ImageList_DragEnter(hwndDragOver, ptDrag.x, ptDrag.y);
-				dropHiLite = -1;
-			}
-			MySetCursor(onItem ? IDC_ARROW : IDC_NO);
-		}
-		break;
-
-	case WM_LBUTTONUP:
-		if (dragging) {
-			ReleaseCapture();
-			ImageList_EndDrag();
-			dragging = 0;
-			if (dropHiLite != -1) {
-				wchar_t path[MAX_PATH], fullPath[MAX_PATH], filename[MAX_PATH];
-				LVITEM lvi;
-
-				GetDlgItemText(hwndDlg, IDC_ICONSET, fullPath, _countof(fullPath));
-				PathToRelativeT(fullPath, filename);
-				lvi.mask = LVIF_PARAM;
-				lvi.iItem = dragItem; lvi.iSubItem = 0;
-				ListView_GetItem(hPreview, &lvi);
-				mir_snwprintf(path, L"%s,%d", filename, (int)lvi.lParam);
-				SendMessage(hwndParent, DM_CHANGEICON, dropHiLite, (LPARAM)path);
-				ListView_SetItemState(GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_PREVIEW:
-			switch (((LPNMHDR)lParam)->code) {
-			case LVN_BEGINDRAG:
-				SetCapture(hwndDlg);
-				dragging = 1;
-				dragItem = ((LPNMLISTVIEW)lParam)->iItem;
-				dropHiLite = -1;
-				ImageList_BeginDrag(ListView_GetImageList(hPreview, LVSIL_NORMAL), dragItem, g_iIconX / 2, g_iIconY / 2);
-				{
-					POINT pt;
-					RECT rc;
-
-					GetCursorPos(&pt);
-					GetWindowRect(hwndDlg, &rc);
-					ImageList_DragEnter(hwndDlg, pt.x - rc.left, pt.y - rc.top);
-					hwndDragOver = hwndDlg;
-				}
-				break;
-			}
-			break;
-		}
-		break;
-
-	case WM_SIZE: // make the dlg resizeable
-		if (!IsIconic(hwndDlg))
-			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_ICOLIB_IMPORT), IconDlg_Resize);
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		EnableWindow(GetDlgItem(hwndParent, IDC_IMPORT), TRUE);
-		break;
-
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP; // default
 	}
 
-	return FALSE;
-}
+	void OnEditChange(void*)
+	{	RebuildIconsPreview();
+	}
+
+	void OnGetMoreClick(void*)
+	{	Utils_OpenUrl("http://miranda-ng.org/");
+	}
+
+	void OnBrowseClick(void*)
+	{
+		wchar_t str[MAX_PATH];
+		GetDlgItemText(m_hwnd, IDC_ICONSET, str, _countof(str));
+		if (wchar_t *file = OpenFileDlg(GetParent(m_hwnd), str, TRUE)) {
+			m_iconSet.SetText(file);
+			mir_free(file);
+		}
+	}
+
+	void OnBeginDragPreview(CCtrlListView::TEventInfo *evt)
+	{
+		SetCapture(m_hwnd);
+		m_bDragging = true;
+		m_iDragItem = evt->nmlv->iItem;
+		m_iDropHiLite = -1;
+		ImageList_BeginDrag(m_preview.GetImageList(LVSIL_NORMAL), m_iDragItem, g_iIconX / 2, g_iIconY / 2);
+
+		POINT pt;
+		GetCursorPos(&pt);
+
+		RECT rc;
+		GetWindowRect(m_hwnd, &rc);
+		ImageList_DragEnter(m_hwnd, pt.x - rc.left, pt.y - rc.top);
+		m_hwndDragOver = m_hwnd;
+	}
+
+	void RebuildIconsPreview()
+	{
+		MySetCursor(IDC_WAIT);
+		m_preview.DeleteAllItems();
+		HIMAGELIST hIml = m_preview.GetImageList(LVSIL_NORMAL);
+		ImageList_RemoveAll(hIml);
+
+		wchar_t filename[MAX_PATH], caption[64];
+		m_iconSet.GetText(filename, _countof(filename));
+
+		RECT rcPreview, rcGroup;
+		GetWindowRect(m_preview.GetHwnd(), &rcPreview);
+		GetWindowRect(GetDlgItem(m_hwnd, IDC_IMPORTMULTI), &rcGroup);
+		// SetWindowPos(hPreview, 0, 0, 0, rcPreview.right-rcPreview.left, rcGroup.bottom-rcPreview.top, SWP_NOZORDER|SWP_NOMOVE);
+
+		if (_waccess(filename, 0) != 0) {
+			MySetCursor(IDC_ARROW);
+			return;
+		}
+
+		LVITEM lvi;
+		lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
+		lvi.iSubItem = 0;
+		lvi.iItem = 0;
+		int count = (int)_ExtractIconEx(filename, -1, 16, 16, NULL, LR_DEFAULTCOLOR);
+		for (int i = 0; i < count; lvi.iItem++, i++) {
+			mir_snwprintf(caption, L"%d", i + 1);
+			lvi.pszText = caption;
+
+			HICON hIcon = NULL;
+			if (_ExtractIconEx(filename, i, 16, 16, &hIcon, LR_DEFAULTCOLOR) == 1) {
+				lvi.iImage = ImageList_AddIcon(hIml, hIcon);
+				DestroyIcon(hIcon);
+				lvi.lParam = i;
+				m_preview.InsertItem(&lvi);
+			}
+		}
+		MySetCursor(IDC_ARROW);
+	}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		switch (msg) {
+		case WM_MOUSEMOVE:
+			if (m_bDragging) {
+				LVHITTESTINFO lvhti;
+				int onItem = 0;
+				HWND hwndOver;
+				POINT ptDrag;
+				HWND hPPreview = GetDlgItem(m_hwndParent, IDC_PREVIEW);
+
+				lvhti.pt.x = (short)LOWORD(lParam); lvhti.pt.y = (short)HIWORD(lParam);
+				ClientToScreen(m_hwnd, &lvhti.pt);
+				hwndOver = WindowFromPoint(lvhti.pt);
+
+				RECT rc;
+				GetWindowRect(hwndOver, &rc);
+				ptDrag.x = lvhti.pt.x - rc.left; ptDrag.y = lvhti.pt.y - rc.top;
+				if (hwndOver != m_hwndDragOver) {
+					ImageList_DragLeave(m_hwndDragOver);
+					m_hwndDragOver = hwndOver;
+					ImageList_DragEnter(m_hwndDragOver, ptDrag.x, ptDrag.y);
+				}
+
+				ImageList_DragMove(ptDrag.x, ptDrag.y);
+				if (hwndOver == hPPreview) {
+					ScreenToClient(hPPreview, &lvhti.pt);
+
+					if (ListView_HitTest(hPPreview, &lvhti) != -1) {
+						if (lvhti.iItem != m_iDropHiLite) {
+							ImageList_DragLeave(m_hwndDragOver);
+							if (m_iDropHiLite != -1)
+								ListView_SetItemState(hPPreview, m_iDropHiLite, 0, LVIS_DROPHILITED);
+							m_iDropHiLite = lvhti.iItem;
+							ListView_SetItemState(hPPreview, m_iDropHiLite, LVIS_DROPHILITED, LVIS_DROPHILITED);
+							UpdateWindow(hPPreview);
+							ImageList_DragEnter(m_hwndDragOver, ptDrag.x, ptDrag.y);
+						}
+						onItem = 1;
+					}
+				}
+
+				if (!onItem && m_iDropHiLite != -1) {
+					ImageList_DragLeave(m_hwndDragOver);
+					ListView_SetItemState(hPPreview, m_iDropHiLite, 0, LVIS_DROPHILITED);
+					UpdateWindow(hPPreview);
+					ImageList_DragEnter(m_hwndDragOver, ptDrag.x, ptDrag.y);
+					m_iDropHiLite = -1;
+				}
+				MySetCursor(onItem ? IDC_ARROW : IDC_NO);
+			}
+			break;
+
+		case WM_LBUTTONUP:
+			if (m_bDragging) {
+				ReleaseCapture();
+				ImageList_EndDrag();
+				m_bDragging = 0;
+				if (m_iDropHiLite != -1) {
+					wchar_t fullPath[MAX_PATH], filename[MAX_PATH];
+					m_iconSet.GetText(fullPath, _countof(fullPath));
+					PathToRelativeT(fullPath, filename);
+
+					LVITEM lvi;
+					lvi.mask = LVIF_PARAM;
+					lvi.iItem = m_iDragItem; lvi.iSubItem = 0;
+					m_preview.GetItem(&lvi);
+
+					SendMessage(m_hwndParent, DM_CHANGEICON, m_iDropHiLite, (LPARAM)CMStringW(FORMAT, L"%s,%d", filename, (int)lvi.lParam).c_str());
+					ListView_SetItemState(GetDlgItem(m_hwndParent, IDC_PREVIEW), m_iDropHiLite, 0, LVIS_DROPHILITED);
+				}
+			}
+			break;
+		}
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib options window procedure
@@ -612,6 +599,13 @@ static void SaveCollapseState(HWND hwndTree)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct IcoLibOptsData
+{
+	CIconImportDlg *pDialog;
+};
+
 INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	struct IcoLibOptsData *dat;
@@ -624,7 +618,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		TranslateDialogDefault(hwndDlg);
 		hPreview = GetDlgItem(hwndDlg, IDC_PREVIEW);
 		dat = (struct IcoLibOptsData*)mir_alloc(sizeof(struct IcoLibOptsData));
-		dat->hwndIndex = NULL;
+		dat->pDialog = NULL;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		//
 		//  Reset temporary data & upload sections list
@@ -820,11 +814,12 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_IMPORT) {
-			dat->hwndIndex = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ICOLIB_IMPORT), GetParent(hwndDlg), DlgProcIconImport, (LPARAM)hwndDlg);
+			dat->pDialog = new CIconImportDlg(hwndDlg);
+			dat->pDialog->Show();
 			EnableWindow((HWND)lParam, FALSE);
 		}
 		else if (LOWORD(wParam) == IDC_GETMORE) {
-			OpenIconsPage();
+			Utils_OpenUrl("http://miranda-ng.org/");
 			break;
 		}
 		else if (LOWORD(wParam) == IDC_LOADICONS) {
@@ -975,7 +970,8 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_DESTROY:
 		SaveCollapseState(GetDlgItem(hwndDlg, IDC_CATEGORYLIST));
-		DestroyWindow(dat->hwndIndex);
+		if (dat->pDialog)
+			dat->pDialog->Close();
 		{
 			mir_cslock lck(csIconList);
 			for (int indx = 0; indx < iconList.getCount(); indx++) {
