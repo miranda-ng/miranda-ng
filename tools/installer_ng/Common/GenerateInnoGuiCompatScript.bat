@@ -3,16 +3,9 @@ if not exist MirandaNG.iss goto end
 set GetVer=for /F "tokens=1,2,3 delims= " %%i in (build.no) do set MirVer=%%i.%%j.%%k
 for %%* in (.) do set InnoX=%%~n*
 rem Get version
-if exist ..\..\..\build\build.no goto localgetver
-..\Tools\wget.exe -O build.no http://svn.miranda-ng.org/main/trunk/build/build.no
-%GetVer%
-del /F /Q build.no
-goto esclocal
-:localgetver
 pushd ..\..\..\build
 %GetVer%
 popd
-:esclocal
 rem end
 
 rem Create Inno setup compatible script that compiles without passing parameters to compiler
