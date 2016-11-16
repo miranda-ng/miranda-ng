@@ -102,115 +102,19 @@ HICON IconItem_GetIcon_Preview(IcolibItem* item)
 	return hIcon;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// IcoLib GUI service routines
+//  User interface
 
-static void __fastcall MySetCursor(wchar_t* nCursor)
+#define DM_REBUILDICONSPREVIEW  (WM_USER+10)
+#define DM_CHANGEICON           (WM_USER+11)
+#define DM_CHANGESPECIFICICON   (WM_USER+12)
+#define DM_UPDATEICONSPREVIEW   (WM_USER+13)
+
+static void __fastcall MySetCursor(wchar_t *nCursor)
 {
 	SetCursor(LoadCursor(NULL, nCursor));
 }
 
-static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
-{
-	wchar_t path[MAX_PATH];
-	mir_snwprintf(path, L"%s,", filename);
-	size_t suffIndx = mir_wstrlen(path);
-
-	mir_cslock lck(csIconList);
-
-	for (int indx = 0; indx < iconList.getCount(); indx++) {
-		IcolibItem *item = iconList[indx];
-
-		if (item->default_file && item->section == sectionActive) {
-			_itow(item->default_indx, path + suffIndx, 10);
-			HICON hIcon = ExtractIconFromPath(path, item->cx, item->cy);
-			if (!hIcon)
-				continue;
-
-			replaceStrW(item->temp_file, NULL);
-			SafeDestroyIcon(item->temp_icon);
-
-			item->temp_file = mir_wstrdup(path);
-			item->temp_icon = hIcon;
-			item->temp_reset = FALSE;
-		}
-	}
-}
-
-void LoadSubIcons(HWND htv, wchar_t *filename, HTREEITEM hItem)
-{
-	TVITEM tvi;
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-	tvi.hItem = hItem;
-	TreeView_GetItem(htv, &tvi);
-
-	TreeItem *treeItem = (TreeItem *)tvi.lParam;
-	SectionItem* sectionActive = sectionList[SECTIONPARAM_INDEX(treeItem->value)];
-
-	tvi.hItem = TreeView_GetChild(htv, tvi.hItem);
-	while (tvi.hItem) {
-		LoadSubIcons(htv, filename, tvi.hItem);
-		tvi.hItem = TreeView_GetNextSibling(htv, tvi.hItem);
-	}
-
-	if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE)
-		LoadSectionIcons(filename, sectionActive);
-}
-
-static void UndoChanges(int iconIndx, int cmd)
-{
-	IcolibItem *item = iconList[iconIndx];
-
-	if (!item->temp_file && !item->temp_icon && item->temp_reset && cmd == ID_CANCELCHANGE)
-		item->temp_reset = FALSE;
-	else {
-		replaceStrW(item->temp_file, NULL);
-		SafeDestroyIcon(item->temp_icon);
-	}
-
-	if (cmd == ID_RESET)
-		item->temp_reset = TRUE;
-}
-
-void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
-{
-	TVITEM tvi = { 0 };
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-	tvi.hItem = hItem;
-	TreeView_GetItem(htv, &tvi);
-
-	TreeItem *treeItem = (TreeItem *)tvi.lParam;
-	if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE) {
-		mir_cslock lck(csIconList);
-
-		for (int indx = 0; indx < iconList.getCount(); indx++)
-			if (iconList[indx]->section == sectionList[SECTIONPARAM_INDEX(treeItem->value)])
-				UndoChanges(indx, cmd);
-	}
-
-	tvi.hItem = TreeView_GetChild(htv, tvi.hItem);
-	while (tvi.hItem) {
-		UndoSubItemChanges(htv, tvi.hItem, cmd);
-		tvi.hItem = TreeView_GetNextSibling(htv, tvi.hItem);
-	}
-}
-
-static int OpenPopupMenu(HWND hwndDlg)
-{
-	HMENU hMenu, hPopup;
-	POINT pt;
-	int cmd;
-
-	GetCursorPos(&pt);
-	hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
-	hPopup = GetSubMenu(hMenu, 0);
-	TranslateMenu(hPopup);
-	cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-	DestroyMenu(hMenu);
-	return cmd;
-}
-
-static wchar_t* OpenFileDlg(HWND hParent, const wchar_t* szFile, BOOL bAll)
+static wchar_t* OpenFileDlg(HWND hParent, const wchar_t *szFile, BOOL bAll)
 {
 	OPENFILENAME ofn = { 0 };
 	wchar_t filter[512], *pfilter, file[MAX_PATH * 2];
@@ -249,75 +153,6 @@ static wchar_t* OpenFileDlg(HWND hParent, const wchar_t* szFile, BOOL bAll)
 		return NULL;
 
 	return mir_wstrdup(file);
-}
-
-//
-//  User interface
-//
-
-#define DM_REBUILDICONSPREVIEW  (WM_USER+10)
-#define DM_CHANGEICON           (WM_USER+11)
-#define DM_CHANGESPECIFICICON   (WM_USER+12)
-#define DM_UPDATEICONSPREVIEW   (WM_USER+13)
-#define DM_REBUILD_CTREE        (WM_USER+14)
-
-INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-void DoOptionsChanged(HWND hwndDlg)
-{
-	SendMessage(hwndDlg, DM_UPDATEICONSPREVIEW, 0, 0);
-	SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-}
-
-void DoIconsChanged(HWND hwndDlg)
-{
-	SendMessage(hwndDlg, DM_UPDATEICONSPREVIEW, 0, 0);
-
-	iconEventActive = 1; // Disable icon destroying - performance boost
-	NotifyEventHooks(hIconsChangedEvent, 0, 0);
-	NotifyEventHooks(hIcons2ChangedEvent, 0, 0);
-	iconEventActive = 0;
-
-	mir_cslock lck(csIconList); // Destroy unused icons
-	for (int indx = 0; indx < iconList.getCount(); indx++) {
-		IcolibItem *item = iconList[indx];
-		if (item->source_small && !item->source_small->icon_ref_count) {
-			item->source_small->icon_ref_count++;
-			item->source_small->releaseIcon();
-		}
-		if (item->source_big && !item->source_big->icon_ref_count) {
-			item->source_big->icon_ref_count++;
-			item->source_big->releaseIcon();
-		}
-	}
-}
-
-static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar_t *name)
-{
-	TVITEM tvi = { 0 };
-	wchar_t str[MAX_PATH];
-
-	if (hItem)
-		tvi.hItem = TreeView_GetChild(hwndTree, hItem);
-	else
-		tvi.hItem = TreeView_GetRoot(hwndTree);
-
-	if (!name)
-		return tvi.hItem;
-
-	tvi.mask = TVIF_TEXT;
-	tvi.pszText = str;
-	tvi.cchTextMax = _countof(str);
-
-	while (tvi.hItem) {
-		TreeView_GetItem(hwndTree, &tvi);
-
-		if (!mir_wstrcmp(tvi.pszText, name))
-			return tvi.hItem;
-
-		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
-	}
-	return NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -567,437 +402,573 @@ static int CALLBACK DoSortIconsFuncByOrder(LPARAM lParam1, LPARAM lParam2, LPARA
 	return iconList[lParam1]->orderID - iconList[lParam2]->orderID;
 }
 
-static void SaveCollapseState(HWND hwndTree)
+static int OpenPopupMenu(HWND hwndDlg)
 {
-	HTREEITEM hti = TreeView_GetRoot(hwndTree);
-	while (hti != NULL) {
-		TVITEM tvi;
-		tvi.mask = TVIF_STATE | TVIF_HANDLE | TVIF_CHILDREN | TVIF_PARAM;
-		tvi.hItem = hti;
-		tvi.stateMask = (DWORD)-1;
+	POINT pt;
+	GetCursorPos(&pt);
+	HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
+	HMENU hPopup = GetSubMenu(hMenu, 0);
+	TranslateMenu(hPopup);
+	int cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+	DestroyMenu(hMenu);
+	return cmd;
+}
+
+static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
+{
+	wchar_t path[MAX_PATH];
+	mir_snwprintf(path, L"%s,", filename);
+	size_t suffIndx = mir_wstrlen(path);
+
+	mir_cslock lck(csIconList);
+
+	for (int indx = 0; indx < iconList.getCount(); indx++) {
+		IcolibItem *item = iconList[indx];
+
+		if (item->default_file && item->section == sectionActive) {
+			_itow(item->default_indx, path + suffIndx, 10);
+			HICON hIcon = ExtractIconFromPath(path, item->cx, item->cy);
+			if (!hIcon)
+				continue;
+
+			replaceStrW(item->temp_file, NULL);
+			SafeDestroyIcon(item->temp_icon);
+
+			item->temp_file = mir_wstrdup(path);
+			item->temp_icon = hIcon;
+			item->temp_reset = FALSE;
+		}
+	}
+}
+
+static void LoadSubIcons(HWND htv, wchar_t *filename, HTREEITEM hItem)
+{
+	TVITEM tvi;
+	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+	tvi.hItem = hItem;
+	TreeView_GetItem(htv, &tvi);
+
+	TreeItem *treeItem = (TreeItem *)tvi.lParam;
+	SectionItem* sectionActive = sectionList[SECTIONPARAM_INDEX(treeItem->value)];
+
+	tvi.hItem = TreeView_GetChild(htv, tvi.hItem);
+	while (tvi.hItem) {
+		LoadSubIcons(htv, filename, tvi.hItem);
+		tvi.hItem = TreeView_GetNextSibling(htv, tvi.hItem);
+	}
+
+	if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE)
+		LoadSectionIcons(filename, sectionActive);
+}
+
+static void UndoChanges(int iconIndx, int cmd)
+{
+	IcolibItem *item = iconList[iconIndx];
+
+	if (!item->temp_file && !item->temp_icon && item->temp_reset && cmd == ID_CANCELCHANGE)
+		item->temp_reset = FALSE;
+	else {
+		replaceStrW(item->temp_file, NULL);
+		SafeDestroyIcon(item->temp_icon);
+	}
+
+	if (cmd == ID_RESET)
+		item->temp_reset = TRUE;
+}
+
+static void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
+{
+	TVITEM tvi = { 0 };
+	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+	tvi.hItem = hItem;
+	TreeView_GetItem(htv, &tvi);
+
+	TreeItem *treeItem = (TreeItem *)tvi.lParam;
+	if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE) {
+		mir_cslock lck(csIconList);
+
+		for (int indx = 0; indx < iconList.getCount(); indx++)
+			if (iconList[indx]->section == sectionList[SECTIONPARAM_INDEX(treeItem->value)])
+				UndoChanges(indx, cmd);
+	}
+
+	tvi.hItem = TreeView_GetChild(htv, tvi.hItem);
+	while (tvi.hItem) {
+		UndoSubItemChanges(htv, tvi.hItem, cmd);
+		tvi.hItem = TreeView_GetNextSibling(htv, tvi.hItem);
+	}
+}
+
+static void DoOptionsChanged(HWND hwndDlg)
+{
+	SendMessage(hwndDlg, DM_UPDATEICONSPREVIEW, 0, 0);
+	SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+}
+
+static void DoIconsChanged(HWND hwndDlg)
+{
+	SendMessage(hwndDlg, DM_UPDATEICONSPREVIEW, 0, 0);
+
+	iconEventActive = 1; // Disable icon destroying - performance boost
+	NotifyEventHooks(hIconsChangedEvent, 0, 0);
+	NotifyEventHooks(hIcons2ChangedEvent, 0, 0);
+	iconEventActive = 0;
+
+	mir_cslock lck(csIconList); // Destroy unused icons
+	for (int indx = 0; indx < iconList.getCount(); indx++) {
+		IcolibItem *item = iconList[indx];
+		if (item->source_small && !item->source_small->icon_ref_count) {
+			item->source_small->icon_ref_count++;
+			item->source_small->releaseIcon();
+		}
+		if (item->source_big && !item->source_big->icon_ref_count) {
+			item->source_big->icon_ref_count++;
+			item->source_big->releaseIcon();
+		}
+	}
+}
+
+static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar_t *name)
+{
+	TVITEM tvi = { 0 };
+	wchar_t str[MAX_PATH];
+
+	if (hItem)
+		tvi.hItem = TreeView_GetChild(hwndTree, hItem);
+	else
+		tvi.hItem = TreeView_GetRoot(hwndTree);
+
+	if (!name)
+		return tvi.hItem;
+
+	tvi.mask = TVIF_TEXT;
+	tvi.pszText = str;
+	tvi.cchTextMax = _countof(str);
+
+	while (tvi.hItem) {
 		TreeView_GetItem(hwndTree, &tvi);
 
-		if (tvi.cChildren > 0) {
-			TreeItem *treeItem = (TreeItem *)tvi.lParam;
-			if (tvi.state & TVIS_EXPANDED)
-				db_set_b(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
-			else
-				db_set_b(NULL, "SkinIconsUI", treeItem->paramName, 0);
-		}
+		if (!mir_wstrcmp(tvi.pszText, name))
+			return tvi.hItem;
 
-		HTREEITEM ht = TreeView_GetChild(hwndTree, hti);
-		if (ht == NULL) {
-			ht = TreeView_GetNextSibling(hwndTree, hti);
-			while (ht == NULL) {
-				hti = TreeView_GetParent(hwndTree, hti);
-				if (hti == NULL) break;
-				ht = TreeView_GetNextSibling(hwndTree, hti);
-			}
-		}
-
-		hti = ht;
+		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
 	}
+	return NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct IcoLibOptsData
+class CIcoLibOptsDlg : public CDlgBase
 {
-	CIconImportDlg *pDialog;
-};
+	CIconImportDlg *m_pDialog;
+	HTREEITEM m_hPrevItem;
 
-INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	struct IcoLibOptsData *dat;
-	static HTREEITEM prevItem = 0;
-	static HWND hPreview = NULL;
+	CCtrlTreeView m_categoryList;
+	CCtrlListView m_preview;
+	CCtrlButton m_btnGetMore, m_btnImport, m_btnLoadIcons;
 
-	dat = (struct IcoLibOptsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		hPreview = GetDlgItem(hwndDlg, IDC_PREVIEW);
-		dat = (struct IcoLibOptsData*)mir_alloc(sizeof(struct IcoLibOptsData));
-		dat->pDialog = NULL;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-		//
-		//  Reset temporary data & upload sections list
-		//
+	void RebuildTree()
+	{
+		if (!m_categoryList.GetHwnd())
+			return;
+
+		m_categoryList.SelectItem(NULL);
+		m_categoryList.DeleteAllItems();
+
+		for (int indx = 0; indx < sectionList.getCount(); indx++) {
+			int sectionLevel = 0;
+
+			HTREEITEM hSection = NULL;
+			wchar_t itemName[1024];
+			mir_wstrcpy(itemName, sectionList[indx]->name);
+			wchar_t *sectionName = itemName;
+
+			while (sectionName) {
+				// allow multi-level tree
+				wchar_t *pItemName = sectionName;
+				HTREEITEM hItem;
+
+				if (sectionName = wcschr(sectionName, '/')) {
+					// one level deeper
+					*sectionName = 0;
+				}
+
+				pItemName = TranslateW(pItemName);
+				hItem = FindNamedTreeItemAt(m_categoryList.GetHwnd(), hSection, pItemName);
+				if (!sectionName || !hItem) {
+					if (!hItem) {
+						TVINSERTSTRUCT tvis = { 0 };
+						TreeItem *treeItem = (TreeItem *)mir_alloc(sizeof(TreeItem));
+						treeItem->value = SECTIONPARAM_MAKE(indx, sectionLevel, sectionName ? 0 : SECTIONPARAM_HAVEPAGE);
+						treeItem->paramName = mir_u2a(itemName);
+
+						tvis.hParent = hSection;
+						tvis.hInsertAfter = TVI_SORT;
+						tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
+						tvis.item.pszText = pItemName;
+						tvis.item.lParam = (LPARAM)treeItem;
+						tvis.item.state = tvis.item.stateMask = db_get_b(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
+						hItem = m_categoryList.InsertItem(&tvis);
+					}
+					else {
+						TVITEMEX tvi = { 0 };
+						tvi.hItem = hItem;
+						tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+						m_categoryList.GetItem(&tvi);
+						TreeItem *treeItem = (TreeItem *)tvi.lParam;
+						treeItem->value = SECTIONPARAM_MAKE(indx, sectionLevel, SECTIONPARAM_HAVEPAGE);
+					}
+				}
+
+				if (sectionName) {
+					*sectionName = '/';
+					sectionName++;
+				}
+				sectionLevel++;
+
+				hSection = hItem;
+			}
+		}
+
+		ShowWindow(m_categoryList.GetHwnd(), SW_SHOW);
+
+		m_categoryList.SelectItem(FindNamedTreeItemAt(m_categoryList.GetHwnd(), 0, NULL));
+	}
+
+public:
+	CIcoLibOptsDlg() :
+		CDlgBase(g_hInst, IDD_OPT_ICOLIB),
+		m_preview(this, IDC_PREVIEW),
+		m_btnImport(this, IDC_IMPORT),
+		m_btnGetMore(this, IDC_GETMORE),
+		m_btnLoadIcons(this, IDC_LOADICONS),
+		m_categoryList(this, IDC_CATEGORYLIST),
+		m_hPrevItem(NULL),
+		m_pDialog(NULL)
+	{
+		m_btnImport.OnClick = Callback(this, &CIcoLibOptsDlg::OnImport);
+		m_btnGetMore.OnClick = Callback(this, &CIcoLibOptsDlg::OnGetMore);
+		m_btnLoadIcons.OnClick = Callback(this, &CIcoLibOptsDlg::OnLoadIcons);
+
+		m_preview.OnGetInfoTip = Callback(this, &CIcoLibOptsDlg::OnGetInfoTip);
+		m_categoryList.OnSelChanged = Callback(this, &CIcoLibOptsDlg::OnCategoryChanged);
+		m_categoryList.OnDeleteItem = Callback(this, &CIcoLibOptsDlg::OnCategoryDeleted);
+	}
+
+	virtual void OnInitDialog() override
+	{
+		// Reset temporary data & upload sections list
 		{
 			mir_cslock lck(csIconList);
 
 			for (int indx = 0; indx < iconList.getCount(); indx++) {
 				iconList[indx]->temp_file = NULL;
 				iconList[indx]->temp_icon = NULL;
-				iconList[indx]->temp_reset = FALSE;
+				iconList[indx]->temp_reset = false;
 			}
-			bNeedRebuild = FALSE;
+			bNeedRebuild = false;
 		}
 
-		//
-		//  Setup preview listview
-		//
-		ListView_SetUnicodeFormat(hPreview, TRUE);
-		ListView_SetExtendedListViewStyleEx(hPreview, LVS_EX_INFOTIP, LVS_EX_INFOTIP);
-		ListView_SetImageList(hPreview, ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 0, 30), LVSIL_NORMAL);
-		ListView_SetIconSpacing(hPreview, 56, 67);
+		// Setup preview listview
+		m_preview.SetUnicodeFormat(TRUE);
+		m_preview.SetExtendedListViewStyleEx(LVS_EX_INFOTIP, LVS_EX_INFOTIP);
+		m_preview.SetImageList(ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 0, 30), LVSIL_NORMAL);
+		m_preview.SetIconSpacing(56, 67);
 
-		SendMessage(hwndDlg, DM_REBUILD_CTREE, 0, 0);
-		return TRUE;
+		RebuildTree();
+	}
 
-	case DM_REBUILD_CTREE:
-		{
-			HWND hwndTree = GetDlgItem(hwndDlg, IDC_CATEGORYLIST);
-			int indx;
-			wchar_t itemName[1024];
-			HTREEITEM hSection;
-
-			if (!hwndTree) break;
-
-			TreeView_SelectItem(hwndTree, NULL);
-			TreeView_DeleteAllItems(hwndTree);
-
-			for (indx = 0; indx < sectionList.getCount(); indx++) {
-				wchar_t* sectionName;
-				int sectionLevel = 0;
-
-				hSection = NULL;
-				mir_wstrcpy(itemName, sectionList[indx]->name);
-				sectionName = itemName;
-
-				while (sectionName) {
-					// allow multi-level tree
-					wchar_t* pItemName = sectionName;
-					HTREEITEM hItem;
-
-					if (sectionName = wcschr(sectionName, '/')) {
-						// one level deeper
-						*sectionName = 0;
-					}
-
-					pItemName = TranslateW(pItemName);
-					hItem = FindNamedTreeItemAt(hwndTree, hSection, pItemName);
-					if (!sectionName || !hItem) {
-						if (!hItem) {
-							TVINSERTSTRUCT tvis = { 0 };
-							TreeItem *treeItem = (TreeItem *)mir_alloc(sizeof(TreeItem));
-							treeItem->value = SECTIONPARAM_MAKE(indx, sectionLevel, sectionName ? 0 : SECTIONPARAM_HAVEPAGE);
-							treeItem->paramName = mir_u2a(itemName);
-
-							tvis.hParent = hSection;
-							tvis.hInsertAfter = TVI_SORT;
-							tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
-							tvis.item.pszText = pItemName;
-							tvis.item.lParam = (LPARAM)treeItem;
-
-							tvis.item.state = tvis.item.stateMask = db_get_b(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
-							hItem = TreeView_InsertItem(hwndTree, &tvis);
-						}
-						else {
-							TVITEM tvi = { 0 };
-							tvi.hItem = hItem;
-							tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-							TreeView_GetItem(hwndTree, &tvi);
-							TreeItem *treeItem = (TreeItem *)tvi.lParam;
-							treeItem->value = SECTIONPARAM_MAKE(indx, sectionLevel, SECTIONPARAM_HAVEPAGE);
-						}
-					}
-
-					if (sectionName) {
-						*sectionName = '/';
-						sectionName++;
-					}
-					sectionLevel++;
-
-					hSection = hItem;
-				}
-			}
-
-			ShowWindow(hwndTree, SW_SHOW);
-
-			TreeView_SelectItem(hwndTree, FindNamedTreeItemAt(hwndTree, 0, NULL));
-		}
-		break;
-
-		//  Rebuild preview to new section
-	case DM_REBUILDICONSPREVIEW:
-		{
-			SectionItem* sectionActive = (SectionItem*)lParam;
-			EnableWindow(hPreview, sectionActive != NULL);
-
-			ListView_DeleteAllItems(hPreview);
-			HIMAGELIST hIml = ListView_GetImageList(hPreview, LVSIL_NORMAL);
-			ImageList_RemoveAll(hIml);
-
-			if (sectionActive == NULL)
-				break;
-
-			LVITEM lvi = { 0 };
-			lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		switch (msg) {
+		case DM_REBUILDICONSPREVIEW: // Rebuild preview to new section
 			{
-				mir_cslock lck(csIconList);
+				SectionItem* sectionActive = (SectionItem*)lParam;
+				m_preview.Enable(sectionActive != NULL);
 
-				for (int indx = 0; indx < iconList.getCount(); indx++) {
-					IcolibItem *item = iconList[indx];
-					if (item->section == sectionActive) {
-						lvi.pszText = item->getDescr();
-						HICON hIcon = item->temp_icon;
-						if (!hIcon)
-							hIcon = IconItem_GetIcon_Preview(item);
-						lvi.iImage = ImageList_AddIcon(hIml, hIcon);
-						lvi.lParam = indx;
-						ListView_InsertItem(hPreview, &lvi);
-						if (hIcon != item->temp_icon)
-							SafeDestroyIcon(hIcon);
-					}
-				}
-			}
+				m_preview.DeleteAllItems();
+				HIMAGELIST hIml = m_preview.GetImageList(LVSIL_NORMAL);
+				ImageList_RemoveAll(hIml);
 
-			if (sectionActive->flags & SIDF_SORTED)
-				ListView_SortItems(hPreview, DoSortIconsFunc, 0);
-			else
-				ListView_SortItems(hPreview, DoSortIconsFuncByOrder, 0);
-		}
-		break;
-
-	// Refresh preview to new section
-	case DM_UPDATEICONSPREVIEW:
-		{
-			LVITEM lvi = { 0 };
-			HICON hIcon;
-			int indx, count;
-			HIMAGELIST hIml = ListView_GetImageList(hPreview, LVSIL_NORMAL);
-
-			lvi.mask = LVIF_IMAGE | LVIF_PARAM;
-			count = ListView_GetItemCount(hPreview);
-
-			for (indx = 0; indx < count; indx++) {
-				lvi.iItem = indx;
-				ListView_GetItem(hPreview, &lvi);
-				{
-					mir_cslock lck(csIconList);
-					hIcon = iconList[lvi.lParam]->temp_icon;
-					if (!hIcon)
-						hIcon = IconItem_GetIcon_Preview(iconList[lvi.lParam]);
-				}
-
-				if (hIcon)
-					ImageList_ReplaceIcon(hIml, lvi.iImage, hIcon);
-				if (hIcon != iconList[lvi.lParam]->temp_icon)
-					SafeDestroyIcon(hIcon);
-			}
-			ListView_RedrawItems(hPreview, 0, count);
-		}
-		break;
-
-	// Temporary change icon - only inside options dialog
-	case DM_CHANGEICON:
-		{
-			LVITEM lvi = { 0 };
-			lvi.mask = LVIF_PARAM;
-			lvi.iItem = wParam;
-			ListView_GetItem(hPreview, &lvi);
-			{
-				mir_cslock lck(csIconList);
-
-				IcolibItem *item = iconList[lvi.lParam];
-				SafeDestroyIcon(item->temp_icon);
-
-				wchar_t *path = (wchar_t*)lParam;
-				replaceStrW(item->temp_file, path);
-				item->temp_icon = (HICON)ExtractIconFromPath(path, item->cx, item->cy);
-				item->temp_reset = FALSE;
-			}
-			DoOptionsChanged(hwndDlg);
-		}
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_IMPORT) {
-			dat->pDialog = new CIconImportDlg(hwndDlg);
-			dat->pDialog->Show();
-			EnableWindow((HWND)lParam, FALSE);
-		}
-		else if (LOWORD(wParam) == IDC_GETMORE) {
-			Utils_OpenUrl("http://miranda-ng.org/");
-			break;
-		}
-		else if (LOWORD(wParam) == IDC_LOADICONS) {
-			wchar_t filetmp[1] = { 0 };
-			wchar_t *file;
-
-			if (file = OpenFileDlg(hwndDlg, filetmp, FALSE)) {
-				HWND htv = GetDlgItem(hwndDlg, IDC_CATEGORYLIST);
-				wchar_t filename[MAX_PATH];
-
-				PathToRelativeT(file, filename);
-				mir_free(file);
-
-				MySetCursor(IDC_WAIT);
-				LoadSubIcons(htv, filename, TreeView_GetSelection(htv));
-				MySetCursor(IDC_ARROW);
-
-				DoOptionsChanged(hwndDlg);
-			}
-		}
-		break;
-
-	case WM_CONTEXTMENU:
-		if ((HWND)wParam == hPreview) {
-			UINT count = ListView_GetSelectedCount(hPreview);
-
-			if (count > 0) {
-				int cmd = OpenPopupMenu(hwndDlg);
-				switch (cmd) {
-				case ID_CANCELCHANGE:
-				case ID_RESET:
-					{
-						LVITEM lvi = { 0 };
-						int itemIndx = -1;
-
-						while ((itemIndx = ListView_GetNextItem(hPreview, itemIndx, LVNI_SELECTED)) != -1) {
-							lvi.mask = LVIF_PARAM;
-							lvi.iItem = itemIndx; //lvhti.iItem;
-							ListView_GetItem(hPreview, &lvi);
-
-							UndoChanges(lvi.lParam, cmd);
-						}
-
-						DoOptionsChanged(hwndDlg);
-						break;
-					}
-				}
-			}
-		}
-		else {
-			HWND htv = GetDlgItem(hwndDlg, IDC_CATEGORYLIST);
-			if ((HWND)wParam == htv) {
-				int cmd = OpenPopupMenu(hwndDlg);
-
-				switch (cmd) {
-				case ID_CANCELCHANGE:
-				case ID_RESET:
-					UndoSubItemChanges(htv, TreeView_GetSelection(htv), cmd);
-					DoOptionsChanged(hwndDlg);
+				if (sectionActive == NULL)
 					break;
-				}
-			}
-		}
-		break;
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
+				LVITEM lvi = { 0 };
+				lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 				{
 					mir_cslock lck(csIconList);
 
 					for (int indx = 0; indx < iconList.getCount(); indx++) {
 						IcolibItem *item = iconList[indx];
-						if (item->temp_reset) {
-							db_unset(NULL, "SkinIcons", item->name);
-							if (item->source_small != item->default_icon) {
-								item->source_small->release();
-								item->source_small = NULL;
-							}
-						}
-						else if (item->temp_file) {
-							db_set_ws(NULL, "SkinIcons", item->name, item->temp_file);
-							item->source_small->release();
-							item->source_small = NULL;
-							SafeDestroyIcon(item->temp_icon);
+						if (item->section == sectionActive) {
+							lvi.pszText = item->getDescr();
+							HICON hIcon = item->temp_icon;
+							if (!hIcon)
+								hIcon = IconItem_GetIcon_Preview(item);
+							lvi.iImage = ImageList_AddIcon(hIml, hIcon);
+							lvi.lParam = indx;
+							m_preview.InsertItem(&lvi);
+							if (hIcon != item->temp_icon)
+								SafeDestroyIcon(hIcon);
 						}
 					}
 				}
 
-				DoIconsChanged(hwndDlg);
-				return TRUE;
+				if (sectionActive->flags & SIDF_SORTED)
+					m_preview.SortItems(DoSortIconsFunc, 0);
+				else
+					m_preview.SortItems(DoSortIconsFuncByOrder, 0);
 			}
 			break;
 
-		case IDC_PREVIEW:
-			if (((LPNMHDR)lParam)->code == LVN_GETINFOTIP) {
-				NMLVGETINFOTIP *pInfoTip = (NMLVGETINFOTIP *)lParam;
-				LVITEM lvi;
+		case DM_UPDATEICONSPREVIEW: // Refresh preview to new section
+			{
+				LVITEM lvi = { 0 };
+				HICON hIcon;
+				int indx, count;
+				HIMAGELIST hIml = m_preview.GetImageList(LVSIL_NORMAL);
+
+				lvi.mask = LVIF_IMAGE | LVIF_PARAM;
+				count = m_preview.GetItemCount();
+
+				for (indx = 0; indx < count; indx++) {
+					lvi.iItem = indx;
+					m_preview.GetItem(&lvi);
+					{
+						mir_cslock lck(csIconList);
+						hIcon = iconList[lvi.lParam]->temp_icon;
+						if (!hIcon)
+							hIcon = IconItem_GetIcon_Preview(iconList[lvi.lParam]);
+					}
+
+					if (hIcon)
+						ImageList_ReplaceIcon(hIml, lvi.iImage, hIcon);
+					if (hIcon != iconList[lvi.lParam]->temp_icon)
+						SafeDestroyIcon(hIcon);
+				}
+				m_preview.RedrawItems(0, count);
+			}
+			break;
+
+			// Temporary change icon - only inside options dialog
+		case DM_CHANGEICON:
+			{
+				LVITEM lvi = { 0 };
 				lvi.mask = LVIF_PARAM;
-				lvi.iItem = pInfoTip->iItem;
-				ListView_GetItem(pInfoTip->hdr.hwndFrom, &lvi);
+				lvi.iItem = wParam;
+				m_preview.GetItem(&lvi);
+				{
+					mir_cslock lck(csIconList);
 
-				if (lvi.lParam < iconList.getCount()) {
 					IcolibItem *item = iconList[lvi.lParam];
-					if (item->temp_file)
-						wcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, item->temp_file, _TRUNCATE);
-					else if (item->default_file)
-						mir_snwprintf(pInfoTip->pszText, pInfoTip->cchTextMax, L"%s, %d", item->default_file->file, item->default_indx);
+					SafeDestroyIcon(item->temp_icon);
+
+					wchar_t *path = (wchar_t*)lParam;
+					replaceStrW(item->temp_file, path);
+					item->temp_icon = (HICON)ExtractIconFromPath(path, item->cx, item->cy);
+					item->temp_reset = false;
 				}
-			}
-			if (bNeedRebuild) {
-				bNeedRebuild = FALSE;
-				SendMessage(hwndDlg, DM_REBUILD_CTREE, 0, 0);
+				DoOptionsChanged(m_hwnd);
 			}
 			break;
 
-		case IDC_CATEGORYLIST:
-			switch (((NMHDR*)lParam)->code) {
-			case TVN_SELCHANGED:
-				{
-					NMTREEVIEW *pnmtv = (NMTREEVIEW*)lParam;
-					TVITEM tvi = pnmtv->itemNew;
-					TreeItem *treeItem = (TreeItem *)tvi.lParam;
-					if (treeItem)
-						SendMessage(hwndDlg, DM_REBUILDICONSPREVIEW, 0, (LPARAM)(
-						(SECTIONPARAM_FLAGS(treeItem->value)&SECTIONPARAM_HAVEPAGE) ?
-						sectionList[SECTIONPARAM_INDEX(treeItem->value)] : NULL));
-				}
-				break;
-
-			case TVN_DELETEITEM:
-				TreeItem *treeItem = (TreeItem *)(((LPNMTREEVIEW)lParam)->itemOld.lParam);
-				if (treeItem) {
-					mir_free(treeItem->paramName);
-					mir_free(treeItem);
-				}
-				break;
-			}
-
+		case WM_NOTIFY:
 			if (bNeedRebuild) {
-				bNeedRebuild = FALSE;
-				SendMessage(hwndDlg, DM_REBUILD_CTREE, 0, 0);
+				bNeedRebuild = false;
+				RebuildTree();
 			}
-		}
-		break;
+			break;
 
-	case WM_DESTROY:
-		SaveCollapseState(GetDlgItem(hwndDlg, IDC_CATEGORYLIST));
-		if (dat->pDialog)
-			dat->pDialog->Close();
-		{
-			mir_cslock lck(csIconList);
-			for (int indx = 0; indx < iconList.getCount(); indx++) {
-				IcolibItem *item = iconList[indx];
+		case WM_CONTEXTMENU:
+			if ((HWND)wParam == m_preview.GetHwnd()) {
+				UINT count = m_preview.GetSelectedCount();
 
-				replaceStrW(item->temp_file, NULL);
-				SafeDestroyIcon(item->temp_icon);
+				if (count > 0) {
+					int cmd = OpenPopupMenu(m_hwnd);
+					switch (cmd) {
+					case ID_CANCELCHANGE:
+					case ID_RESET:
+						{
+							LVITEM lvi = { 0 };
+							int itemIndx = -1;
+
+							while ((itemIndx = m_preview.GetNextItem(itemIndx, LVNI_SELECTED)) != -1) {
+								lvi.mask = LVIF_PARAM;
+								lvi.iItem = itemIndx; //lvhti.iItem;
+								m_preview.GetItem(&lvi);
+
+								UndoChanges(lvi.lParam, cmd);
+							}
+
+							DoOptionsChanged(m_hwnd);
+							break;
+						}
+					}
+				}
 			}
+			else {
+				if ((HWND)wParam == m_categoryList.GetHwnd()) {
+					int cmd = OpenPopupMenu(m_hwnd);
+
+					switch (cmd) {
+					case ID_CANCELCHANGE:
+					case ID_RESET:
+						UndoSubItemChanges(m_categoryList.GetHwnd(), m_categoryList.GetSelection(), cmd);
+						DoOptionsChanged(m_hwnd);
+						break;
+					}
+				}
+			}
+			break;
 		}
 
-		mir_free(dat);
-		break;
+		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	return FALSE;
-}
+	void OnImport(void*)
+	{
+		m_pDialog = new CIconImportDlg(m_hwnd);
+		m_pDialog->Show();
+		m_btnImport.Disable();
+	}
+
+	void OnGetMore(void*)
+	{
+		Utils_OpenUrl("http://miranda-ng.org/");
+	}
+
+	void OnLoadIcons(void*)
+	{
+		wchar_t filetmp[1] = { 0 };
+		if (wchar_t *file = OpenFileDlg(m_hwnd, filetmp, FALSE)) {
+			HWND htv = GetDlgItem(m_hwnd, IDC_CATEGORYLIST);
+			wchar_t filename[MAX_PATH];
+
+			PathToRelativeT(file, filename);
+			mir_free(file);
+
+			MySetCursor(IDC_WAIT);
+			LoadSubIcons(htv, filename, TreeView_GetSelection(htv));
+			MySetCursor(IDC_ARROW);
+
+			DoOptionsChanged(m_hwnd);
+		}
+	}
+
+	virtual void OnApply() override
+	{
+		{
+			mir_cslock lck(csIconList);
+
+			for (int indx = 0; indx < iconList.getCount(); indx++) {
+				IcolibItem *item = iconList[indx];
+				if (item->temp_reset) {
+					db_unset(NULL, "SkinIcons", item->name);
+					if (item->source_small != item->default_icon) {
+						item->source_small->release();
+						item->source_small = NULL;
+					}
+				}
+				else if (item->temp_file) {
+					db_set_ws(NULL, "SkinIcons", item->name, item->temp_file);
+					item->source_small->release();
+					item->source_small = NULL;
+					SafeDestroyIcon(item->temp_icon);
+				}
+			}
+		}
+
+		DoIconsChanged(m_hwnd);
+	}
+
+	virtual void OnDestroy() override
+	{
+		HTREEITEM hti = m_categoryList.GetRoot();
+		while (hti != NULL) {
+			TVITEMEX tvi;
+			tvi.mask = TVIF_STATE | TVIF_HANDLE | TVIF_CHILDREN | TVIF_PARAM;
+			tvi.hItem = hti;
+			tvi.stateMask = (DWORD)-1;
+			m_categoryList.GetItem(&tvi);
+
+			if (tvi.cChildren > 0) {
+				TreeItem *treeItem = (TreeItem *)tvi.lParam;
+				if (tvi.state & TVIS_EXPANDED)
+					db_set_b(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
+				else
+					db_set_b(NULL, "SkinIconsUI", treeItem->paramName, 0);
+			}
+
+			HTREEITEM ht = m_categoryList.GetChild(hti);
+			if (ht == NULL) {
+				ht = m_categoryList.GetNextSibling(hti);
+				while (ht == NULL) {
+					hti = m_categoryList.GetParent(hti);
+					if (hti == NULL)
+						break;
+					
+					ht = m_categoryList.GetNextSibling(hti);
+				}
+			}
+
+			hti = ht;
+		}
+
+		if (m_pDialog)
+			m_pDialog->Close();
+
+		mir_cslock lck(csIconList);
+		for (int indx = 0; indx < iconList.getCount(); indx++) {
+			IcolibItem *item = iconList[indx];
+
+			replaceStrW(item->temp_file, NULL);
+			SafeDestroyIcon(item->temp_icon);
+		}
+	}
+
+	void OnGetInfoTip(CCtrlListView::TEventInfo *evt)
+	{
+		NMLVGETINFOTIP *pInfoTip = evt->nmlvit;
+		LVITEM lvi;
+		lvi.mask = LVIF_PARAM;
+		lvi.iItem = pInfoTip->iItem;
+		ListView_GetItem(pInfoTip->hdr.hwndFrom, &lvi);
+
+		if (lvi.lParam < iconList.getCount()) {
+			IcolibItem *item = iconList[lvi.lParam];
+			if (item->temp_file)
+				wcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, item->temp_file, _TRUNCATE);
+			else if (item->default_file)
+				mir_snwprintf(pInfoTip->pszText, pInfoTip->cchTextMax, L"%s, %d", item->default_file->file, item->default_indx);
+		}
+	}
+
+	void OnCategoryChanged(CCtrlTreeView::TEventInfo *evt)
+	{
+		NMTREEVIEW *pnmtv = evt->nmtv;
+		TVITEM tvi = pnmtv->itemNew;
+		TreeItem *treeItem = (TreeItem *)tvi.lParam;
+		if (treeItem)
+			SendMessage(m_hwnd, DM_REBUILDICONSPREVIEW, 0, (LPARAM)((SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE) ? sectionList[SECTIONPARAM_INDEX(treeItem->value)] : NULL));
+	}
+
+	void OnCategoryDeleted(CCtrlTreeView::TEventInfo *evt)
+	{
+		TreeItem *treeItem = (TreeItem *)(evt->nmtv->itemOld.lParam);
+		if (treeItem) {
+			mir_free(treeItem->paramName);
+			mir_free(treeItem);
+		}
+	}
+};
 
 int SkinOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -180000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICOLIB);
+	odp.pDialog = new CIcoLibOptsDlg();
 	odp.szTitle.a = LPGEN("Icons");
-	odp.pfnDlgProc = DlgProcIcoLibOpts;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
