@@ -199,7 +199,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			tr.lpstrText = (wchar_t *)mir_alloc(sizeof(wchar_t)*(tr.chrg.cpMax - tr.chrg.cpMin + 2));
 			SendMessage(param->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
-			Utils_OpenUrlT(tr.lpstrText);
+			Utils_OpenUrlW(tr.lpstrText);
 			mir_free(tr.lpstrText);
 		}
 		return TRUE;

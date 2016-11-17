@@ -116,7 +116,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_OPT_BUTTON_CHOOSE_SOUND:
 		{
 			wchar_t FileName[MAX_PATH];
-			wchar_t *tszMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
+			wchar_t *tszMirDir = Utils_ReplaceVarsW(L"%miranda_path%");
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = sizeof(ofn);

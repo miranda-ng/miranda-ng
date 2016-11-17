@@ -110,7 +110,7 @@ static REPLACEVARSARRAY sttVarsToReplace[] =
 
 static void patchDir(wchar_t *str, size_t strSize)
 {
-	wchar_t *result = Utils_ReplaceVarsT(str, 0, sttVarsToReplace);
+	wchar_t *result = Utils_ReplaceVarsW(str, 0, sttVarsToReplace);
 	if (result) {
 		wcsncpy(str, result, strSize);
 		mir_free(result);
@@ -146,7 +146,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, B
 		for (int i = 0; i < (_countof(rvaVarsToReplace) - 1); i++)
 			RemoveInvalidFilenameChars(rvaVarsToReplace[i].value.w);
 
-		wchar_t *result = Utils_ReplaceVarsT(tszTemp, hContact, rvaVarsToReplace);
+		wchar_t *result = Utils_ReplaceVarsW(tszTemp, hContact, rvaVarsToReplace);
 		if (result) {
 			wcsncpy(tszTemp, result, _countof(tszTemp));
 			mir_free(result);

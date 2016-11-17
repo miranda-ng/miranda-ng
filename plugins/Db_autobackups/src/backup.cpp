@@ -194,7 +194,7 @@ int Backup(wchar_t *backup_filename)
 		DWORD size = _countof(buffer);
 
 		bZip = options.use_zip != 0;
-		backupfolder = Utils_ReplaceVarsT(options.folder);
+		backupfolder = Utils_ReplaceVarsW(options.folder);
 		// ensure the backup folder exists (either create it or return non-zero signifying error)
 		err = CreateDirectoryTreeW(backupfolder);
 		if (err != ERROR_ALREADY_EXISTS && err != 0) {
@@ -222,7 +222,7 @@ int Backup(wchar_t *backup_filename)
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
 
 	mir_snwprintf(source_file, L"%s\\%s", profilePath, dbname);
-	wchar_t *pathtmp = Utils_ReplaceVarsT(source_file);
+	wchar_t *pathtmp = Utils_ReplaceVarsW(source_file);
 	BOOL res = 0;
 	if (bZip)
 	{

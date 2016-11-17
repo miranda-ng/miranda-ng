@@ -734,7 +734,7 @@ wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		}
 		else ptszVarPath = g_Settings->pszLogDir;
 
-		wchar_t *tszParsedName = Utils_ReplaceVarsT(ptszVarPath, si->hContact, rva);
+		wchar_t *tszParsedName = Utils_ReplaceVarsW(ptszVarPath, si->hContact, rva);
 		if (chatApi.OnGetLogName)
 			chatApi.OnGetLogName(si, tszParsedName);
 		else

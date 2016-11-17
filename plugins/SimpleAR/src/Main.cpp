@@ -211,7 +211,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						if (ServiceExists(MS_VARS_FORMATSTRING)) {
 							ptszTemp = variables_parse(ptszTemp2, 0, hContact);
 						}
-						else ptszTemp = Utils_ReplaceVarsT(ptszTemp2);
+						else ptszTemp = Utils_ReplaceVarsW(ptszTemp2);
 
 						T2Utf pszUtf(ptszTemp);
 						ProtoChainSend(hContact, PSS_MESSAGE, 0, pszUtf);

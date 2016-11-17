@@ -43,7 +43,7 @@ int LoadOptions(void)
 		DBVARIANT dbv;
 
 		if (!db_get_ws(0, "AutoBackups", "Folder", &dbv)) {
-			wchar_t *tmp = Utils_ReplaceVarsT(dbv.ptszVal);
+			wchar_t *tmp = Utils_ReplaceVarsW(dbv.ptszVal);
 
 			if (mir_wstrlen(tmp) >= 2 && tmp[1] == ':')
 				wcsncpy_s(options.folder, dbv.ptszVal, _TRUNCATE);
@@ -87,7 +87,7 @@ int SaveOptions(void)
 	else
 		db_set_ws(0, "AutoBackups", "Folder", options.folder);
 
-	wchar_t *tmp = Utils_ReplaceVarsT(options.folder);
+	wchar_t *tmp = Utils_ReplaceVarsW(options.folder);
 	if (mir_wstrlen(tmp) < 2 || tmp[1] != ':') {
 		wcsncpy_s(prof_dir, options.folder, _TRUNCATE);
 		mir_snwprintf(options.folder, L"%s\\%s", profilePath, prof_dir);
@@ -171,7 +171,7 @@ int CALLBACK BrowseProc(HWND hwnd, UINT uMsg, LPARAM, LPARAM)
 	switch (uMsg)
 	{
 	case BFFM_INITIALIZED:
-		wchar_t *folder = Utils_ReplaceVarsT(options.folder);
+		wchar_t *folder = Utils_ReplaceVarsW(options.folder);
 		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)folder);
 		mir_free(folder);
 		break;
@@ -351,7 +351,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				wchar_t backupfolder[MAX_PATH] = { 0 };
 				BOOL folder_ok = TRUE;
-				wchar_t *tmp = Utils_ReplaceVarsT(folder_buff);
+				wchar_t *tmp = Utils_ReplaceVarsW(folder_buff);
 
 				if (mir_wstrlen(tmp) >= 2 && tmp[1] == ':')
 					wcsncpy_s(backupfolder, tmp, _TRUNCATE);

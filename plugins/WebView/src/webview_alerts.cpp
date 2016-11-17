@@ -42,7 +42,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 				// open url
 				if (db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0)) {
-					Utils_OpenUrlT(url);
+					Utils_OpenUrlW(url);
 					PUDeletePopup(hWnd);
 					db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}
@@ -63,7 +63,7 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 				// open url
 				if (db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1)) {
-					Utils_OpenUrlT(url);
+					Utils_OpenUrlW(url);
 					PUDeletePopup(hWnd);
 					db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 				}

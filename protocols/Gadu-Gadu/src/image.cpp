@@ -801,7 +801,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	int i, res;
 
 	if (hImagesFolder == NULL || FoldersGetCustomPathT(hImagesFolder, path, MAX_PATH, L"")) {
-		wchar_t *tmpPath = Utils_ReplaceVarsT( L"%miranda_userdata%");
+		wchar_t *tmpPath = Utils_ReplaceVarsW( L"%miranda_userdata%");
 		tPathLen = mir_snwprintf(szPath, L"%s\\%s\\ImageCache", tmpPath, m_tszUserName);
 		mir_free(tmpPath);
 	}

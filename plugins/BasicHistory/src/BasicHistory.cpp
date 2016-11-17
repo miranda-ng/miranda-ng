@@ -223,7 +223,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	wchar_t *log = L"%miranda_logpath%\\BasicHistory\\ftplog.txt";
-	wchar_t *logAbsolute = Utils_ReplaceVarsT(log);
+	wchar_t *logAbsolute = Utils_ReplaceVarsW(log);
 	Options::instance->ftpLogPath = logAbsolute;
 	mir_free(logAbsolute);
 	Options::instance->Load();

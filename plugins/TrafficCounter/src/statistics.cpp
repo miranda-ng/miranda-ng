@@ -300,7 +300,7 @@ void Stat_ReadFile(BYTE n)
 	wchar_t FileName[MAX_PATH], *pszPath;
 	SYSTEMTIME stNow;
 
-	pszPath = Utils_ReplaceVarsT(L"%miranda_userdata%\\statistics");
+	pszPath = Utils_ReplaceVarsW(L"%miranda_userdata%\\statistics");
 	CreateDirectoryTreeW(pszPath);
 	mir_snwprintf(FileName, L"%s\\%S.stat", pszPath, ProtoList[n].name);
 	mir_free(pszPath);

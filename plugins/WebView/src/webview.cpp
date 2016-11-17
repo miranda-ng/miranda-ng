@@ -174,7 +174,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 	int action = db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1);
 	if (action == 0) {
 		ptrW url(db_get_wsa(hContact, MODULENAME, "URL"));
-		Utils_OpenUrlT(url);
+		Utils_OpenUrlW(url);
 
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 	}
@@ -445,7 +445,7 @@ INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM)
 	MCONTACT hContact = wParam;
 	ptrW url(db_get_wsa(hContact, MODULENAME, "URL"));
 	if (url)
-		Utils_OpenUrlT(url);
+		Utils_OpenUrlW(url);
 
 	db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 	return 0;

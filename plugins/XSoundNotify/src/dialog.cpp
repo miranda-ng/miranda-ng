@@ -94,7 +94,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDC_CONT_BUTTON_CHOOSE_SOUND:
 			{
 				wchar_t FileName[MAX_PATH];
-				wchar_t *tszMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
+				wchar_t *tszMirDir = Utils_ReplaceVarsW(L"%miranda_path%");
 
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);

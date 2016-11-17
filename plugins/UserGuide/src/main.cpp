@@ -57,7 +57,7 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 		mir_free(ptszHelpFile);
 	}
 	LPTSTR pszDirNameEx;
-	pszDirNameEx = Utils_ReplaceVarsT(pszDirName);
+	pszDirNameEx = Utils_ReplaceVarsW(pszDirName);
 	mir_free(pszDirName);
 
 	ShellExecute(NULL, L"open", pszFileName, NULL, pszDirNameEx, SW_SHOW);

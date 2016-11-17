@@ -634,7 +634,7 @@ static wchar_t *parseMirandaCoreVar(ARGUMENTSINFO *ai)
 
 	wchar_t corevar[MAX_PATH];
 	mir_snwprintf(corevar, L"%%%s%%", ai->targv[0]);
-	return Utils_ReplaceVarsT(corevar);
+	return Utils_ReplaceVarsW(corevar);
 }
 
 static wchar_t *parseMirSrvExists(ARGUMENTSINFO *ai)

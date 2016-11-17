@@ -117,7 +117,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 				wchar_t link[MAX_PATH];
 				mir_snwprintf(link, PLUGIN_INFO_URL, tszFileName);
-				Utils_OpenUrlT(link);
+				Utils_OpenUrlW(link);
 			}
 		}
 	}

@@ -444,7 +444,7 @@ void ClickLink(HWND hwnd, ENLINK *penLink)
 			tr.chrg = penLink->chrg;
 			tr.lpstrText = buf;
 			SendMessage(hwnd, EM_GETTEXTRANGE, 0, (LPARAM)& tr);
-			Utils_OpenUrlT(tr.lpstrText, penLink->nmhdr.code == IDM_OPENNEW);
+			Utils_OpenUrlW(tr.lpstrText, penLink->nmhdr.code == IDM_OPENNEW);
 		}
 	}
 }

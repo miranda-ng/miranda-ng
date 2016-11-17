@@ -365,8 +365,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	mir_getLP(&pluginInfoEx);
 
-	profname = Utils_ReplaceVarsT(L"%miranda_profilename%.dat");
-	profpath = Utils_ReplaceVarsT(L"%miranda_userdata%");
+	profname = Utils_ReplaceVarsW(L"%miranda_profilename%.dat");
+	profpath = Utils_ReplaceVarsW(L"%miranda_userdata%");
 	if (catchcrashes && !needrestart)
 		mir_snwprintf(CrashLogFolder, TEXT("%s\\CrashLog"), profpath);
 	wcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);

@@ -148,7 +148,7 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 #endif
 	vars[1].lptzKey = vars[1].lptzValue = 0;
 #endif
-	baseUrl = Utils_ReplaceVarsT(ptszUrl, 0, vars);
+	baseUrl = Utils_ReplaceVarsW(ptszUrl, 0, vars);
 
 	// Download version info
 	FILEURL pFileUrl;

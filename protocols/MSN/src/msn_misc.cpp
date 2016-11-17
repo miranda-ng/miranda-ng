@@ -318,7 +318,7 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, wchar_t* pszDest,
 
 	wchar_t* path = (wchar_t*)alloca(cbLen * sizeof(wchar_t));
 	if (hCustomSmileyFolder == NULL || FoldersGetCustomPathT(hCustomSmileyFolder, path, (int)cbLen, L"")) {
-		wchar_t *tmpPath = Utils_ReplaceVarsT(L"%miranda_userdata%");
+		wchar_t *tmpPath = Utils_ReplaceVarsW(L"%miranda_userdata%");
 		wchar_t *tszModuleName = mir_a2u(m_szModuleName);
 		tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%s\\CustomSmiley", tmpPath, tszModuleName);
 		mir_free(tszModuleName);

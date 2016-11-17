@@ -81,7 +81,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 	mi.position = 500100001;
 	Menu_AddMainMenuItem(&mi);
 
-	profilePath = Utils_ReplaceVarsT(L"%miranda_userdata%");
+	profilePath = Utils_ReplaceVarsW(L"%miranda_userdata%");
 
 	if (hFolder = FoldersRegisterCustomPathT(LPGEN("Database backups"), LPGEN("Backup folder"), DIR SUB_DIR)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);

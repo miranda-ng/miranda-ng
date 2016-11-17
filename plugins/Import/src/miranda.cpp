@@ -119,7 +119,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 			break;
 
 		case IDC_OTHER:
-			ptrW pfd(Utils_ReplaceVarsT(L"%miranda_profilesdir%"));
+			ptrW pfd(Utils_ReplaceVarsW(L"%miranda_profilesdir%"));
 
 			wchar_t str[MAX_PATH], text[256];
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));

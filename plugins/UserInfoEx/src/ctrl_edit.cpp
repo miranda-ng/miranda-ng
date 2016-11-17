@@ -287,7 +287,7 @@ void CEditCtrl::OpenUrl()
 	}
 
 	if (szUrl && (GetWindowText(_hwnd, szUrl, lenUrl) > 0))
-		Utils_OpenUrlT(szUrl);
+		Utils_OpenUrlW(szUrl);
 
 	if (need_free)
 		MIR_FREE(szUrl);
@@ -328,7 +328,7 @@ LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 					memcpy(tr.lpstrText, L"mailto:", (7 * sizeof(wchar_t)));
 				}
 
-				Utils_OpenUrlT(tr.lpstrText);
+				Utils_OpenUrlW(tr.lpstrText);
 			}
 
 			if (need_free)

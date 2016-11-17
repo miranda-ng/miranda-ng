@@ -1163,7 +1163,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 					stToGet.chrg = pstLink->chrg;
 					stToGet.lpstrText = szUrl;
 					if (SendMessage(pstLink->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&stToGet) > 0)
-						Utils_OpenUrlT(szUrl);
+						Utils_OpenUrlW(szUrl);
 
 					return TRUE;
 				}

@@ -71,7 +71,7 @@ IconItem ICONS_BTN[ICO_BTN_END_] =
 static HANDLE m_hFolderScreenshot = 0;
 wchar_t* GetCustomPath()
 {
-	wchar_t* pszPath = Utils_ReplaceVarsT(L"%miranda_userdata%\\Screenshots");
+	wchar_t* pszPath = Utils_ReplaceVarsW(L"%miranda_userdata%\\Screenshots");
 	if (m_hFolderScreenshot) {
 		wchar_t szPath[1024] = { 0 };
 		FoldersGetCustomPathT(m_hFolderScreenshot, szPath, 1024, pszPath);

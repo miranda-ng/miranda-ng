@@ -2407,14 +2407,14 @@ LABEL_SHOWWINDOW:
 
 					case ID_SEARCH_GOOGLE:
 						if (pszWord[0])
-							Utils_OpenUrlT(CMStringW(FORMAT, L"http://www.google.com/search?q=%s", pszWord));
+							Utils_OpenUrlW(CMStringW(FORMAT, L"http://www.google.com/search?q=%s", pszWord));
 
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						break;
 
 					case ID_SEARCH_WIKIPEDIA:
 						if (pszWord[0])
-							Utils_OpenUrlT(CMStringW(FORMAT, L"http://en.wikipedia.org/wiki/%s", pszWord));
+							Utils_OpenUrlW(CMStringW(FORMAT, L"http://en.wikipedia.org/wiki/%s", pszWord));
 
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						break;
@@ -2473,10 +2473,10 @@ LABEL_SHOWWINDOW:
 								ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
 								switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 								case ID_NEW:
-									Utils_OpenUrlT(tr.lpstrText);
+									Utils_OpenUrlW(tr.lpstrText);
 									break;
 								case ID_CURR:
-									Utils_OpenUrlT(tr.lpstrText,false);
+									Utils_OpenUrlW(tr.lpstrText,false);
 									break;
 								case ID_COPY:
 									Utils::CopyToClipBoard(tr.lpstrText, hwndDlg);
@@ -2487,7 +2487,7 @@ LABEL_SHOWWINDOW:
 								return TRUE;
 							}
 							if (((ENLINK*)lParam)->msg == WM_LBUTTONUP) {
-								Utils_OpenUrlT(tr.lpstrText);
+								Utils_OpenUrlW(tr.lpstrText);
 								SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 								mir_free(tr.lpstrText);
 								return TRUE;

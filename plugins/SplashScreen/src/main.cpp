@@ -64,7 +64,7 @@ void SplashMain()
 {
 	if (bstartup) {
 		// Retrive path to exe of current running Miranda is located
-		szMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
+		szMirDir = Utils_ReplaceVarsW(L"%miranda_path%");
 		mir_snwprintf(szhAdvaimgPath, L"%s\\plugins\\advaimg.dll", szMirDir);
 		CallService(MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, (LPARAM)szVersion);
 

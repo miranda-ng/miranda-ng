@@ -111,19 +111,19 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		dictionariesFolder = (wchar_t *)mir_alloc(sizeof(wchar_t) * MAX_PATH);
 		FoldersGetCustomPathT(hDictionariesFolder, dictionariesFolder, MAX_PATH, L".");
 	}
-	else dictionariesFolder = Utils_ReplaceVarsT(DICTIONARIES_FOLDER);
+	else dictionariesFolder = Utils_ReplaceVarsW(DICTIONARIES_FOLDER);
 
 	if (hCustomDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Custom Dictionaries"), CUSTOM_DICTIONARIES_FOLDER)) {
 		customDictionariesFolder = (wchar_t *)mir_alloc(sizeof(wchar_t) * MAX_PATH);
 		FoldersGetCustomPathT(hCustomDictionariesFolder, customDictionariesFolder, MAX_PATH, L".");
 	}
-	else customDictionariesFolder = Utils_ReplaceVarsT(CUSTOM_DICTIONARIES_FOLDER);
+	else customDictionariesFolder = Utils_ReplaceVarsW(CUSTOM_DICTIONARIES_FOLDER);
 
 	if (hFlagsDllFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Flags DLL"), FLAGS_DLL_FOLDER)) {
 		flagsDllFolder = (wchar_t *)mir_alloc(sizeof(wchar_t) * MAX_PATH);
 		FoldersGetCustomPathT(hFlagsDllFolder, flagsDllFolder, MAX_PATH, L".");
 	}
-	else flagsDllFolder = Utils_ReplaceVarsT(FLAGS_DLL_FOLDER);
+	else flagsDllFolder = Utils_ReplaceVarsW(FLAGS_DLL_FOLDER);
 
 	InitOptions();
 

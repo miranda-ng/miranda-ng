@@ -982,7 +982,7 @@ tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsQu
 	}
 
 	if (nFlags & glfnResolveUserProfile) {
-		wchar_t *ptszParsedName = Utils_ReplaceVarsT(sPath.c_str());
+		wchar_t *ptszParsedName = Utils_ReplaceVarsW(sPath.c_str());
 		if (ptszParsedName) {
 			sPath = ptszParsedName;
 			mir_free(ptszParsedName);

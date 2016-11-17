@@ -1314,7 +1314,7 @@ void CIrcProto::InitIgnore(void)
 {
 	wchar_t szTemp[MAX_PATH];
 	mir_snwprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_ignore.ini", m_szModuleName);
-	wchar_t *szLoadFileName = Utils_ReplaceVarsT(szTemp);
+	wchar_t *szLoadFileName = Utils_ReplaceVarsW(szTemp);
 	char* pszIgnoreData = IrcLoadFile(szLoadFileName);
 	if (pszIgnoreData != NULL) {
 		char *p1 = pszIgnoreData;
@@ -1844,14 +1844,14 @@ static void sttImportIni(const wchar_t* szIniFile)
 
 void InitServers()
 {
-	wchar_t *szTemp = Utils_ReplaceVarsT(L"%miranda_path%\\Plugins\\IRC_servers.ini");
+	wchar_t *szTemp = Utils_ReplaceVarsW(L"%miranda_path%\\Plugins\\IRC_servers.ini");
 	sttImportIni(szTemp);
 	mir_free(szTemp);
 
 	RereadServers();
 
 	if (g_servers.getCount() == 0) {
-		wchar_t *szIniFile = Utils_ReplaceVarsT(L"%temp%\\default_servers.ini");
+		wchar_t *szIniFile = Utils_ReplaceVarsW(L"%temp%\\default_servers.ini");
 		FILE *serverFile = _wfopen(szIniFile, L"a");
 		if (serverFile) {
 			char* pszSvrs = (char*)LockResource(LoadResource(hInst, FindResource(hInst, MAKEINTRESOURCE(IDR_SERVERS), L"TEXT")));

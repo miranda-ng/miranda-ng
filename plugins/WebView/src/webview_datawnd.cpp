@@ -338,7 +338,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		switch (LOWORD(wParam)) {
 		case IDC_OPEN_URL:
 			GetDlgItemText(hwndDlg, IDC_OPEN_URL, url, _countof(url));
-			Utils_OpenUrlT(url);  
+			Utils_OpenUrlW(url);  
 			db_set_w(wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 			break;
 

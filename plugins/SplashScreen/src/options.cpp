@@ -175,7 +175,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							*pos = 0;
 					}
 					else {
-						szMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
+						szMirDir = Utils_ReplaceVarsW(L"%miranda_path%");
 						mir_wstrcpy(initDir, szMirDir);
 						mir_free(szMirDir);
 					}
@@ -231,7 +231,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						if (pos != NULL) *pos = 0;
 					}
 					else {
-						szMirDir = Utils_ReplaceVarsT(L"%miranda_path%");
+						szMirDir = Utils_ReplaceVarsW(L"%miranda_path%");
 						mir_wstrcpy(initDir, szMirDir);
 						mir_free(szMirDir);
 					}

@@ -50,8 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrl(const char *pszUrl, bool bOpenInNewWindow = true);
 EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNewWindow = true);
 
-#define Utils_OpenUrlT Utils_OpenUrlW
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Resizes a dialog by calling a custom routine to move the individual
 // Returns 0 on success, or nonzero on failure
@@ -91,7 +89,7 @@ lParam = 0
 Returns a pointer to the string containing the country name on success,
 or NULL on failure
 */
-#define MS_UTILS_GETCOUNTRYBYNUMBER   "Utils/GetCountryByNumber"
+#define MS_UTILS_GETCOUNTRYBYNUMBER "Utils/GetCountryByNumber"
 
 /* Gets the name of a country given its ISO code	v0.1.2.0+
 wParam = (char*)ISOcode
@@ -99,7 +97,7 @@ lParam = 0
 Returns a pointer to the string containing the country name on success,
 or NULL on failure
 */
-#define MS_UTILS_GETCOUNTRYBYISOCODE   "Utils/GetCountryByISOCode"
+#define MS_UTILS_GETCOUNTRYBYISOCODE "Utils/GetCountryByISOCode"
 
 /* Gets the full list of country IDs	 v0.1.2.0+
 wParam = (WPARAM)(int*)piCount
@@ -114,7 +112,7 @@ struct CountryListEntry {
 	const char *szName;
 	char ISOcode[3];
 };
-#define MS_UTILS_GETCOUNTRYLIST    "Utils/GetCountryList"
+#define MS_UTILS_GETCOUNTRYLIST "Utils/GetCountryList"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// Window lists //////////////////////////////////////
@@ -353,8 +351,6 @@ struct REPLACEVARSARRAY
 
 EXTERN_C MIR_APP_DLL(char*) Utils_ReplaceVars(const char *szData, MCONTACT hContact = 0, REPLACEVARSARRAY *vars = NULL);
 EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTACT hContact = 0, REPLACEVARSARRAY *vars = NULL);
-
-#define Utils_ReplaceVarsT Utils_ReplaceVarsW
 
 #if defined(__cplusplus)
 	#if !defined(M_SYSTEM_CPP_H__)

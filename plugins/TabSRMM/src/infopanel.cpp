@@ -1569,7 +1569,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
 				ptrW tszUrl(Utils::extractURLFromRichEdit(e, m_hRich));
 				if (tszUrl)
-					Utils_OpenUrlT(tszUrl);
+					Utils_OpenUrlW(tszUrl);
 
 				::DestroyWindow(hwnd);
 			}

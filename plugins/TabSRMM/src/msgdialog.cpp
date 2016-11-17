@@ -2022,7 +2022,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						break;
 
 					if (pLink->msg != WM_RBUTTONDOWN) {
-						Utils_OpenUrlT(tszUrl);
+						Utils_OpenUrlW(tszUrl);
 						SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 						break;
 					}
@@ -2034,11 +2034,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
 					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 					case IDM_OPENNEW:
-						Utils_OpenUrlT(tszUrl);
+						Utils_OpenUrlW(tszUrl);
 						break;
 
 					case IDM_OPENEXISTING:
-						Utils_OpenUrlT(tszUrl, false);
+						Utils_OpenUrlW(tszUrl, false);
 						break;
 
 					case IDM_COPYLINK:

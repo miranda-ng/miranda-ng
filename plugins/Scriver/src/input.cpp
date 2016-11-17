@@ -409,7 +409,7 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 		DestroyMenu(hMenu);
 	}
 	if (bOpenLink)
-		Utils_OpenUrlT(tr.lpstrText);
+		Utils_OpenUrlW(tr.lpstrText);
 
 	SetFocus(hwndFocus);
 	mir_free(tr.lpstrText);

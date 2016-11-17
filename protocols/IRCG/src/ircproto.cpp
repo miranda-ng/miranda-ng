@@ -213,7 +213,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	wchar_t szTemp[MAX_PATH];
 	mir_snwprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_perform.ini", m_szModuleName);
-	wchar_t *szLoadFileName = Utils_ReplaceVarsT(szTemp);
+	wchar_t *szLoadFileName = Utils_ReplaceVarsW(szTemp);
 	char* pszPerformData = IrcLoadFile(szLoadFileName);
 	if (pszPerformData != NULL) {
 		char *p1 = pszPerformData, *p2 = pszPerformData;

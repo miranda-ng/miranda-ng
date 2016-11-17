@@ -464,7 +464,7 @@ void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 	GetLanguageString(buffer);
 	buffer.Append(L"\r\n");
 
-	wchar_t *profpathfull = Utils_ReplaceVarsT(profpath);
+	wchar_t *profpathfull = Utils_ReplaceVarsW(profpath);
 	if (flags & VI_FLAG_PRNVAR) {
 		GetFreeDiskString(profpathfull, buffer);
 		buffer.Append(L"\r\n");

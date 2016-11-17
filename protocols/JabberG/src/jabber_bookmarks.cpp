@@ -347,7 +347,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 				m_proto->GroupchatJoinRoom(server, room, ptrW(JabberNickFromJID(m_proto->m_szJabberJID)), item->password);
 		}
 	}
-	else Utils_OpenUrlT(item->jid);
+	else Utils_OpenUrlW(item->jid);
 }
 
 INT_PTR CJabberDlgBookmarks::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

@@ -212,7 +212,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					tr.chrg = enlink->chrg;
 					tr.lpstrText = (LPTSTR)mir_alloc(sizeof(wchar_t)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
 					SendMessage(pNmhdr->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-					Utils_OpenUrlT(tr.lpstrText);
+					Utils_OpenUrlW(tr.lpstrText);
 					mir_free(tr.lpstrText);
 					break;
 				}

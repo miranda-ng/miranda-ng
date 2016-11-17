@@ -450,7 +450,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 								CallFunctionAsync(ExitMe, 0);
 								break;
 							case 2:
-								tszUtilRootPlug = Utils_ReplaceVarsT(L"%miranda_path%\\Plugins");
+								tszUtilRootPlug = Utils_ReplaceVarsW(L"%miranda_path%\\Plugins");
 								if (mir_wstrcmp(arAdvFolder[i].c_str(), L"") == 0)
 									mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRootPlug, arFileName[i].c_str());
 								else
@@ -463,7 +463,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									CallFunctionAsync(RestartMe, 0);
 								break;
 							case 3:
-								tszUtilRootIco = Utils_ReplaceVarsT(L"%miranda_path%\\Icons");
+								tszUtilRootIco = Utils_ReplaceVarsW(L"%miranda_path%\\Icons");
 								if (mir_wstrcmp(arAdvFolder[i].c_str(), L"") == 0)
 									mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRootIco, arFileName[i].c_str());
 								else
@@ -476,7 +476,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									CallFunctionAsync(RestartMe, 0);
 								break;
 							case 4:
-								tszUtilRoot = Utils_ReplaceVarsT(L"%miranda_path%");
+								tszUtilRoot = Utils_ReplaceVarsW(L"%miranda_path%");
 								if (mir_wstrcmp(arAdvFolder[i].c_str(), L"") == 0)
 									mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRoot, arFileName[i].c_str());
 								else
@@ -489,7 +489,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									CallFunctionAsync(RestartMe, 0);
 								break;
 							case 5:
-								tszUtilRoot = Utils_ReplaceVarsT(L"%miranda_path%");
+								tszUtilRoot = Utils_ReplaceVarsW(L"%miranda_path%");
 								if (mir_wstrcmp(arAdvFolder[i].c_str(), L"") == 0)
 									mir_snwprintf(tszFilePathDest, L"%s\\%s", tszUtilRoot, arFileName[i].c_str());
 								else
@@ -529,7 +529,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			case IDC_INFO:
 				int sel = ListView_GetSelectionMark(hwndList);
 				vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-				Utils_OpenUrlT(todo[sel].tszInfoURL);
+				Utils_OpenUrlW(todo[sel].tszInfoURL);
 			}
 			break;
 		}

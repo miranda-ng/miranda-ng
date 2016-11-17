@@ -30,7 +30,7 @@ static void OpenUrl(wchar_t* format, wchar_t* id)
 	wchar_t loc[512];
 	GetID(id);
 	mir_snwprintf(loc, format, id);
-	Utils_OpenUrlT(loc);
+	Utils_OpenUrlW(loc);
 }
 
 //============ BASIC CONTACTS FUNCTIONS AND LINKS  ============
