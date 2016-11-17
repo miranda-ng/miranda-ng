@@ -798,7 +798,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					mir_wstrcat(tszDirectory, L"\\");
 
 					wchar_t tszTemp[MAX_PATH];
-					PathToRelativeT(tszDirectory, tszTemp, szUserDir);
+					PathToRelativeW(tszDirectory, tszTemp, szUserDir);
 					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_wstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 				}
 				psMalloc->Free(idList);

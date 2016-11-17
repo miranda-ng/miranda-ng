@@ -64,7 +64,7 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 	// dll name for uninstall
 	if (assoc->hInstance != NULL && assoc->hInstance != hInst && assoc->hInstance != GetModuleHandle(NULL))
 		if (GetModuleFileName(assoc->hInstance, szBuf, _countof(szBuf)))
-			if (PathToRelativeT(szBuf, szDLL)) {
+			if (PathToRelativeW(szBuf, szDLL)) {
 				mir_snprintf(szSetting, "module_%s", assoc->pszClassName);
 				db_set_ws(NULL, "AssocMgr", szSetting, szDLL);
 			}

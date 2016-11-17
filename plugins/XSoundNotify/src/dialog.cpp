@@ -81,7 +81,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			if (p != NULL) {
 				if (mir_wstrcmpi(p->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
-					PathToRelativeT(p->path, shortpath);
+					PathToRelativeW(p->path, shortpath);
 					db_set_ws(hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
 				}
 				db_set_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, p->ignore);

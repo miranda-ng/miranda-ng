@@ -220,7 +220,7 @@ int IniParser::GetSkinFolder(IN const wchar_t * szFileName, OUT wchar_t * pszFol
 		mir_snwprintf(pszFolderName, MAX_PATH, L"%s\\%s", custom_folder, cus);
 
 	mir_free(szBuff);
-	PathToRelativeT(pszFolderName, pszFolderName);
+	PathToRelativeW(pszFolderName, pszFolderName);
 	return 0;
 }
 
@@ -1966,7 +1966,7 @@ int ske_LoadSkinFromIniFile(wchar_t *szFileName, BOOL bOnlyObjects)
 
 	wchar_t skinFolder[MAX_PATH], skinFile[MAX_PATH];
 	IniParser::GetSkinFolder(szFileName, skinFolder);
-	PathToRelativeT(szFileName, skinFile);
+	PathToRelativeW(szFileName, skinFile);
 
 	db_set_ws(NULL, SKIN, "SkinFolder", skinFolder);
 	db_set_ws(NULL, SKIN, "SkinFile", skinFile);

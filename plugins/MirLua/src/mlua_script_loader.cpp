@@ -8,7 +8,7 @@ void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file
 {
 	wchar_t fullPath[MAX_PATH], path[MAX_PATH];
 	mir_snwprintf(fullPath, L"%s\\%s", scriptDir, file);
-	PathToRelativeT(fullPath, path);
+	PathToRelativeW(fullPath, path);
 
 	CMLuaScript *script = new CMLuaScript(L, path);
 	g_mLua->Scripts.insert(script);

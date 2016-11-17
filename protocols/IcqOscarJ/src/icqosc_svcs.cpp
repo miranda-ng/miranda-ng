@@ -523,7 +523,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			debugLogA("Failed to save avatar hash.");
 
 		wchar_t tmp[MAX_PATH];
-		PathToRelativeT(tszMyFile, tmp);
+		PathToRelativeW(tszMyFile, tmp);
 		setWString(NULL, "AvatarFile", tmp);
 		SAFE_FREE((void**)&hash);
 	}

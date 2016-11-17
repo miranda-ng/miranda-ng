@@ -318,7 +318,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			if (db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
 				wcsncpy_s(ai.filename, wszFileName, _TRUNCATE);
 			else
-				PathToRelativeT(wszFileName, ai.filename);
+				PathToRelativeW(wszFileName, ai.filename);
 
 			SetContactAvatarFormat(pmraaqiAvatarsQueueItem->hContact, dwAvatarFormat);
 			MraAvatarsSetContactTime(pmraaqiAvatarsQueueItem->hContact, "AvatarLastModifiedTime", &itAvatarLastModifiedTimeServer.stTime);
@@ -532,7 +532,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hQueue, DWORD dwFlags, MCONTACT
 				if (db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
 					mir_wstrncpy(lpszPath, wszFileName, MAX_PATH);
 				else
-					PathToRelativeT(wszFileName, lpszPath);
+					PathToRelativeW(wszFileName, lpszPath);
 			}
 			if (pdwFormat)
 				*pdwFormat = ProtoGetAvatarFormat(lpszPath);

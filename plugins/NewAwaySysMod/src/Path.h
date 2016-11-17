@@ -27,7 +27,7 @@ __inline TCString Path_ToRelative(TCString &Path)
 {
 	TCString Str;
 	Str.GetBuffer(MAX_PATH);
-	PathToRelativeT(Path, Str);
+	PathToRelativeW(Path, Str);
 	Str.ReleaseBuffer();
 	return Str;
 }

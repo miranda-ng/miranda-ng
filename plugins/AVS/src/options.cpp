@@ -120,7 +120,7 @@ static void SetProtoPic(char *szProto)
 		return;
 
 	wchar_t szNewPath[MAX_PATH];
-	PathToRelativeT(FileName, szNewPath, g_szDataPath);
+	PathToRelativeW(FileName, szNewPath, g_szDataPath);
 	db_set_ws(NULL, PPICT_MODULE, szProto, szNewPath);
 
 	if (!mir_strcmp(AVS_DEFAULT, szProto)) {

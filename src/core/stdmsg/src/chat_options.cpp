@@ -491,7 +491,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 		}
 		{
 			wchar_t szTemp[MAX_PATH];
-			PathToRelativeT(g_Settings.pszLogDir, szTemp);
+			PathToRelativeW(g_Settings.pszLogDir, szTemp);
 			SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, szTemp);
 		}
 		SetDlgItemText(hwndDlg, IDC_HIGHLIGHTWORDS, g_Settings.pszHighlightWords);
@@ -543,7 +543,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				if (idList) {
 					SHGetPathFromIDList(idList, szDirectory);
 					mir_wstrcat(szDirectory, L"\\");
-					PathToRelativeT(szDirectory, szTemp);
+					PathToRelativeW(szDirectory, szTemp);
 					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_wstrlen(szTemp) > 1 ? szTemp : L"Logs\\");
 					CoTaskMemFree(idList);
 				}

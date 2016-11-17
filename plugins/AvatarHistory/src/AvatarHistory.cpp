@@ -211,7 +211,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 		if (ContactEnabled(hContact, "LogToHistory", AVH_DEF_LOGTOHISTORY)) {
 			wchar_t rel_path[MAX_PATH];
-			PathToRelativeT(history_filename, rel_path);
+			PathToRelativeW(history_filename, rel_path);
 			T2Utf blob(rel_path);
 
 			DBEVENTINFO dbei = { sizeof(dbei) };

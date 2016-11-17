@@ -673,7 +673,7 @@ public:
 		wchar_t filetmp[1] = { 0 };
 		if (wchar_t *file = OpenFileDlg(m_hwnd, filetmp, FALSE)) {
 			wchar_t filename[MAX_PATH];
-			PathToRelativeT(file, filename);
+			PathToRelativeW(file, filename);
 			mir_free(file);
 
 			MySetCursor(IDC_WAIT);
@@ -940,7 +940,7 @@ INT_PTR CIconImportDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (m_iDropHiLite != -1) {
 				wchar_t fullPath[MAX_PATH], filename[MAX_PATH];
 				m_iconSet.GetText(fullPath, _countof(fullPath));
-				PathToRelativeT(fullPath, filename);
+				PathToRelativeW(fullPath, filename);
 
 				LVITEM lvi;
 				lvi.mask = LVIF_PARAM;

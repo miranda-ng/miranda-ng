@@ -160,7 +160,7 @@ static INT_PTR avSetAvatar(MCONTACT hContact, wchar_t *tszPath)
 
 	// file exists...
 	wchar_t szBackupName[MAX_PATH];
-	PathToRelativeT(szFinalName, szBackupName, g_szDataPath);
+	PathToRelativeW(szFinalName, szBackupName, g_szDataPath);
 	db_set_ws(hContact, "ContactPhoto", "Backup", szBackupName);
 
 	db_set_b(hContact, "ContactPhoto", "Locked", is_locked);
@@ -589,7 +589,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 
 			if (saved) {
 				wchar_t relFile[1024];
-				if (PathToRelativeT(globalFile, relFile, g_szDataPath))
+				if (PathToRelativeW(globalFile, relFile, g_szDataPath))
 					db_set_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", relFile);
 				else
 					db_set_ws(NULL, AVS_MODULE, "GlobalUserAvatarFile", globalFile);

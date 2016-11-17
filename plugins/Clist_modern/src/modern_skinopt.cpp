@@ -255,7 +255,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					SkinListData *sd = (SkinListData*)nmtv->itemNew.lParam;
 
 					wchar_t buf[MAX_PATH];
-					PathToRelativeT(sd->File, buf);
+					PathToRelativeW(sd->File, buf);
 					SetDlgItemText(hwndDlg, IDC_EDIT_SKIN_FILENAME, buf);
 
 					wchar_t prfn[MAX_PATH] = { 0 }, imfn[MAX_PATH] = { 0 }, skinfolder[MAX_PATH] = { 0 };

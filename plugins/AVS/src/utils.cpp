@@ -42,7 +42,7 @@ void MakePathRelative(MCONTACT hContact, wchar_t *path)
 	wchar_t szFinalPath[MAX_PATH];
 	szFinalPath[0] = '\0';
 
-	size_t result = PathToRelativeT(path, szFinalPath, g_szDataPath);
+	size_t result = PathToRelativeW(path, szFinalPath, g_szDataPath);
 	if (result && szFinalPath[0] != '\0') {
 		db_set_ws(hContact, "ContactPhoto", "RFile", szFinalPath);
 		if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))

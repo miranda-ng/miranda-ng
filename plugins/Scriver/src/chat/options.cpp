@@ -358,7 +358,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 		SendDlgItemMessage(hwndDlg,IDC_CHAT_SPIN3,UDM_SETPOS,0,MAKELONG(db_get_w(NULL,CHAT_MODULE,"LoggingLimit",100),0));
 		{
 			wchar_t tszTemp[MAX_PATH];
-			PathToRelativeT(g_Settings.pszLogDir, tszTemp);
+			PathToRelativeW(g_Settings.pszLogDir, tszTemp);
 			SetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, tszTemp);
 		}
 		
@@ -465,7 +465,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				if (idList) {
 					SHGetPathFromIDList(idList, tszDirectory);
 					mir_wstrcat(tszDirectory, L"\\");
-					PathToRelativeT(tszDirectory, tszTemp);
+					PathToRelativeW(tszDirectory, tszTemp);
 					SetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, mir_wstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 				}
 				psMalloc->Free(idList);

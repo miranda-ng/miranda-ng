@@ -1225,7 +1225,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 
 						if (!pCookieData->hContact) { // our avatar, set filename
 							wchar_t tmp[MAX_PATH * 2];
-							PathToRelativeT(tszImageFile, tmp);
+							PathToRelativeW(tszImageFile, tmp);
 							ppro->setWString(NULL, "AvatarFile", tmp);
 						}
 						else { // contact's avatar set hash

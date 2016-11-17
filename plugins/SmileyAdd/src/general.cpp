@@ -127,7 +127,7 @@ HICON ImageList_GetIconFixed(HIMAGELIST himl, INT i, UINT fStyle)
 void pathToRelative(const CMStringW &pSrc, CMStringW &pOut)
 {
 	wchar_t szOutPath[MAX_PATH];
-	PathToRelativeT(pSrc.c_str(), szOutPath);
+	PathToRelativeW(pSrc.c_str(), szOutPath);
 	pOut = szOutPath;
 }
 

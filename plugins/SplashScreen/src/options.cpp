@@ -201,7 +201,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						logMessage(L"Set path", szSplashFile);
 						#endif
 						// Make path relative
-						int result = PathToRelativeT(szTempPath, szPath2Spash);
+						int result = PathToRelativeW(szTempPath, szPath2Spash);
 						if (result && mir_wstrlen(szPath2Spash) > 0) {
 							if (options.random) {
 								wchar_t *pos = wcsrchr(szPath2Spash, '\\');
@@ -258,7 +258,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						#endif
 
 						// Make path relative
-						int result = PathToRelativeT(szTempPath, szSoundFilePath);
+						int result = PathToRelativeW(szTempPath, szSoundFilePath);
 						if (result && mir_wstrlen(szSoundFile) > 0)
 							SetDlgItemText(hwndDlg, IDC_SNDPATH, szSoundFilePath);
 

@@ -330,7 +330,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if (!GetOpenFileName(&ofn))
 				break;
 
-			PathToRelativeT(str, strFull);
+			PathToRelativeW(str, strFull);
 			snd.ptszTempFile = mir_wstrdup(strFull);
 			SetDlgItemText(hwndDlg, IDC_LOCATION, strFull);
 		}

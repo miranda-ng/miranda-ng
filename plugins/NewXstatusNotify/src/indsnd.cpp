@@ -244,7 +244,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 				else {
 					wchar_t stzSoundPath[MAX_PATH] = { 0 };
-					PathToRelativeT(buff, stzSoundPath);
+					PathToRelativeW(buff, stzSoundPath);
 					if (lvi.lParam < ID_STATUS_MIN)
 						db_set_ws(hContact, MODULE, StatusListEx[lvi.lParam].lpzSkinSoundName, stzSoundPath);
 					else

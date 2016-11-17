@@ -263,8 +263,6 @@ EXTERN_C MIR_CORE_DLL(int) PathToRelative(const char *pszSrc, char *pszOut, cons
 EXTERN_C MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase);
 #endif
 
-#define PathToRelativeT PathToRelativeW
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Saves a path to a absolute path (from the miranda directory)
 //

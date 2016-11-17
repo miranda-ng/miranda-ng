@@ -125,7 +125,7 @@ static int TSAPI ScanSkinDir(const wchar_t* tszFolder, HWND hwndCombobox)
 			wcsncpy_s(szBuf, fd.cFileName, _TRUNCATE);
 		}
 
-		PathToRelativeT(tszFinalName, tszRel, M.getSkinPath());
+		PathToRelativeW(tszFinalName, tszRel, M.getSkinPath());
 		if ((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
 			wchar_t *idata = (wchar_t*)mir_alloc((mir_wstrlen(tszRel) + 1) * sizeof(wchar_t));
 

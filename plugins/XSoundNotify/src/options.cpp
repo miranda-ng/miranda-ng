@@ -226,7 +226,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			for (int i = 0; i < XSN_Users.getCount(); i++) {
 				if (mir_wstrcmpi(XSN_Users[i]->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
-					PathToRelativeT(XSN_Users[i]->path, shortpath);
+					PathToRelativeW(XSN_Users[i]->path, shortpath);
 					db_set_ws(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
 				}
 				db_set_b(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSIGNOREKEY, XSN_Users[i]->ignore);

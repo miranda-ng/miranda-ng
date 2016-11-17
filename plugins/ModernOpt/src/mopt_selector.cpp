@@ -89,7 +89,7 @@ struct TSkinListItem
 		GetCurrentDirectory(_countof(curPath), curPath);
 
 		path = (wchar_t *)mir_alloc(MAX_PATH * sizeof(wchar_t));
-		PathToRelativeT(curPath, path);
+		PathToRelativeW(curPath, path);
 
 		size_t length = mir_wstrlen(curPath) + mir_wstrlen(fn) + 2;
 		filename = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
