@@ -36,16 +36,13 @@ struct TreeItem
 
 static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 {
-	wchar_t *comma;
-	wchar_t file[MAX_PATH], fileFull[MAX_PATH];
-	int n;
-	HICON hIcon;
-
 	if (!path)
 		return (HICON)NULL;
 
+	int n;
+	wchar_t file[MAX_PATH], fileFull[MAX_PATH];
 	mir_wstrncpy(file, path, _countof(file));
-	comma = wcsrchr(file, ',');
+	wchar_t *comma = wcsrchr(file, ',');
 	if (!comma)
 		n = 0;
 	else {
@@ -53,9 +50,9 @@ static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 		*comma = 0;
 	}
 	PathToAbsoluteW(file, fileFull);
-	hIcon = NULL;
 
-	//SHOULD BE REPLACED WITH GOOD ENOUGH FUNCTION
+	// SHOULD BE REPLACED WITH GOOD ENOUGH FUNCTION
+	HICON hIcon = NULL;
 	_ExtractIconEx(fileFull, n, cxIcon, cyIcon, &hIcon, LR_COLOR);
 	return hIcon;
 }
@@ -63,7 +60,7 @@ static HICON ExtractIconFromPath(const wchar_t *path, int cxIcon, int cyIcon)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IconItem_GetIcon_Preview
 
-HICON IconItem_GetIcon_Preview(IcolibItem* item)
+static HICON IconItem_GetIcon_Preview(IcolibItem *item)
 {
 	HICON hIcon = NULL;
 
@@ -102,12 +99,7 @@ HICON IconItem_GetIcon_Preview(IcolibItem* item)
 	return hIcon;
 }
 
-//  User interface
-
-#define DM_REBUILDICONSPREVIEW  (WM_USER+10)
-#define DM_CHANGEICON           (WM_USER+11)
-#define DM_CHANGESPECIFICICON   (WM_USER+12)
-#define DM_UPDATEICONSPREVIEW   (WM_USER+13)
+// User interface
 
 static void __fastcall MySetCursor(wchar_t *nCursor)
 {
@@ -160,22 +152,24 @@ static wchar_t* OpenFileDlg(HWND hParent, const wchar_t *szFile, BOOL bAll)
 
 class CIconImportDlg : public CDlgBase
 {
-	HWND m_hwndParent, m_hwndDragOver;
+	HWND m_hwndDragOver;
 	int  m_iDragItem, m_iDropHiLite;
 	bool m_bDragging;
+
+	class CIcoLibOptsDlg *m_pParent;
 
 	CCtrlListView m_preview;
 	CCtrlButton m_btnGetMore, m_btnBrowse;
 	CCtrlEdit m_iconSet;
 
 public:
-	CIconImportDlg(HWND _parent) :
+	CIconImportDlg(CIcoLibOptsDlg *_parent) :
 		CDlgBase(g_hInst, IDD_ICOLIB_IMPORT),
 		m_preview(this, IDC_PREVIEW),
 		m_iconSet(this, IDC_ICONSET),
 		m_btnBrowse(this, IDC_BROWSE),
 		m_btnGetMore(this, IDC_GETMORE),
-		m_hwndParent(_parent),
+		m_pParent(_parent),
 		m_bDragging(false),
 		m_iDragItem(0),
 		m_iDropHiLite(0)
@@ -186,36 +180,8 @@ public:
 		m_preview.OnBeginDrag = Callback(this, &CIconImportDlg::OnBeginDragPreview);
 	}
 
-	virtual void OnInitDialog() override
-	{
-		m_preview.SetImageList(ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 0, 100), LVSIL_NORMAL);
-		m_preview.SetIconSpacing(56, 67);
-
-		RECT rcThis, rcParent;
-		int cxScreen = GetSystemMetrics(SM_CXSCREEN);
-
-		GetWindowRect(m_hwnd, &rcThis);
-		GetWindowRect(m_hwndParent, &rcParent);
-		OffsetRect(&rcThis, rcParent.right - rcThis.left, 0);
-		OffsetRect(&rcThis, 0, rcParent.top - rcThis.top);
-		GetWindowRect(GetParent(m_hwndParent), &rcParent);
-		if (rcThis.right > cxScreen) {
-			OffsetRect(&rcParent, cxScreen - rcThis.right, 0);
-			OffsetRect(&rcThis, cxScreen - rcThis.right, 0);
-			MoveWindow(GetParent(m_hwndParent), rcParent.left, rcParent.top, rcParent.right - rcParent.left, rcParent.bottom - rcParent.top, TRUE);
-		}
-		MoveWindow(m_hwnd, rcThis.left, rcThis.top, rcThis.right - rcThis.left, rcThis.bottom - rcThis.top, FALSE);
-		GetClientRect(m_hwnd, &rcThis);
-		SendMessage(m_hwnd, WM_SIZE, 0, MAKELPARAM(rcThis.right - rcThis.left, rcThis.bottom - rcThis.top));
-
-		SHAutoComplete(m_iconSet.GetHwnd(), 1);
-		m_iconSet.SetText(L"icons.dll");
-	}
-
-	virtual void OnClose() override
-	{
-		EnableWindow(GetDlgItem(m_hwndParent, IDC_IMPORT), TRUE);
-	}
+	virtual void OnInitDialog() override;
+	virtual void OnClose() override;
 
 	virtual int Resizer(UTILRESIZECONTROL *urc) override
 	{
@@ -236,17 +202,19 @@ public:
 	}
 
 	void OnEditChange(void*)
-	{	RebuildIconsPreview();
+	{
+		RebuildIconsPreview();
 	}
 
 	void OnGetMoreClick(void*)
-	{	Utils_OpenUrl("http://miranda-ng.org/");
+	{
+		Utils_OpenUrl("http://miranda-ng.org/");
 	}
 
 	void OnBrowseClick(void*)
 	{
 		wchar_t str[MAX_PATH];
-		GetDlgItemText(m_hwnd, IDC_ICONSET, str, _countof(str));
+		m_iconSet.GetText(str, _countof(str));
 		if (wchar_t *file = OpenFileDlg(GetParent(m_hwnd), str, TRUE)) {
 			m_iconSet.SetText(file);
 			mir_free(file);
@@ -310,83 +278,7 @@ public:
 		MySetCursor(IDC_ARROW);
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
-	{
-		switch (msg) {
-		case WM_MOUSEMOVE:
-			if (m_bDragging) {
-				LVHITTESTINFO lvhti;
-				int onItem = 0;
-				HWND hwndOver;
-				POINT ptDrag;
-				HWND hPPreview = GetDlgItem(m_hwndParent, IDC_PREVIEW);
-
-				lvhti.pt.x = (short)LOWORD(lParam); lvhti.pt.y = (short)HIWORD(lParam);
-				ClientToScreen(m_hwnd, &lvhti.pt);
-				hwndOver = WindowFromPoint(lvhti.pt);
-
-				RECT rc;
-				GetWindowRect(hwndOver, &rc);
-				ptDrag.x = lvhti.pt.x - rc.left; ptDrag.y = lvhti.pt.y - rc.top;
-				if (hwndOver != m_hwndDragOver) {
-					ImageList_DragLeave(m_hwndDragOver);
-					m_hwndDragOver = hwndOver;
-					ImageList_DragEnter(m_hwndDragOver, ptDrag.x, ptDrag.y);
-				}
-
-				ImageList_DragMove(ptDrag.x, ptDrag.y);
-				if (hwndOver == hPPreview) {
-					ScreenToClient(hPPreview, &lvhti.pt);
-
-					if (ListView_HitTest(hPPreview, &lvhti) != -1) {
-						if (lvhti.iItem != m_iDropHiLite) {
-							ImageList_DragLeave(m_hwndDragOver);
-							if (m_iDropHiLite != -1)
-								ListView_SetItemState(hPPreview, m_iDropHiLite, 0, LVIS_DROPHILITED);
-							m_iDropHiLite = lvhti.iItem;
-							ListView_SetItemState(hPPreview, m_iDropHiLite, LVIS_DROPHILITED, LVIS_DROPHILITED);
-							UpdateWindow(hPPreview);
-							ImageList_DragEnter(m_hwndDragOver, ptDrag.x, ptDrag.y);
-						}
-						onItem = 1;
-					}
-				}
-
-				if (!onItem && m_iDropHiLite != -1) {
-					ImageList_DragLeave(m_hwndDragOver);
-					ListView_SetItemState(hPPreview, m_iDropHiLite, 0, LVIS_DROPHILITED);
-					UpdateWindow(hPPreview);
-					ImageList_DragEnter(m_hwndDragOver, ptDrag.x, ptDrag.y);
-					m_iDropHiLite = -1;
-				}
-				MySetCursor(onItem ? IDC_ARROW : IDC_NO);
-			}
-			break;
-
-		case WM_LBUTTONUP:
-			if (m_bDragging) {
-				ReleaseCapture();
-				ImageList_EndDrag();
-				m_bDragging = 0;
-				if (m_iDropHiLite != -1) {
-					wchar_t fullPath[MAX_PATH], filename[MAX_PATH];
-					m_iconSet.GetText(fullPath, _countof(fullPath));
-					PathToRelativeT(fullPath, filename);
-
-					LVITEM lvi;
-					lvi.mask = LVIF_PARAM;
-					lvi.iItem = m_iDragItem; lvi.iSubItem = 0;
-					m_preview.GetItem(&lvi);
-
-					SendMessage(m_hwndParent, DM_CHANGEICON, m_iDropHiLite, (LPARAM)CMStringW(FORMAT, L"%s,%d", filename, (int)lvi.lParam).c_str());
-					ListView_SetItemState(GetDlgItem(m_hwndParent, IDC_PREVIEW), m_iDropHiLite, 0, LVIS_DROPHILITED);
-				}
-			}
-			break;
-		}
-
-		return CDlgBase::DlgProc(msg, wParam, lParam);
-	}
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override; // forward declaration
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -448,7 +340,7 @@ static void LoadSubIcons(HWND htv, wchar_t *filename, HTREEITEM hItem)
 	tvi.hItem = hItem;
 	TreeView_GetItem(htv, &tvi);
 
-	TreeItem *treeItem = (TreeItem *)tvi.lParam;
+	TreeItem *treeItem = (TreeItem*)tvi.lParam;
 	SectionItem* sectionActive = sectionList[SECTIONPARAM_INDEX(treeItem->value)];
 
 	tvi.hItem = TreeView_GetChild(htv, tvi.hItem);
@@ -499,35 +391,6 @@ static void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
 	}
 }
 
-static void DoOptionsChanged(HWND hwndDlg)
-{
-	SendMessage(hwndDlg, DM_UPDATEICONSPREVIEW, 0, 0);
-	SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-}
-
-static void DoIconsChanged(HWND hwndDlg)
-{
-	SendMessage(hwndDlg, DM_UPDATEICONSPREVIEW, 0, 0);
-
-	iconEventActive = 1; // Disable icon destroying - performance boost
-	NotifyEventHooks(hIconsChangedEvent, 0, 0);
-	NotifyEventHooks(hIcons2ChangedEvent, 0, 0);
-	iconEventActive = 0;
-
-	mir_cslock lck(csIconList); // Destroy unused icons
-	for (int indx = 0; indx < iconList.getCount(); indx++) {
-		IcolibItem *item = iconList[indx];
-		if (item->source_small && !item->source_small->icon_ref_count) {
-			item->source_small->icon_ref_count++;
-			item->source_small->releaseIcon();
-		}
-		if (item->source_big && !item->source_big->icon_ref_count) {
-			item->source_big->icon_ref_count++;
-			item->source_big->releaseIcon();
-		}
-	}
-}
-
 static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar_t *name)
 {
 	TVITEM tvi = { 0 };
@@ -560,6 +423,8 @@ static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar
 
 class CIcoLibOptsDlg : public CDlgBase
 {
+	friend class CIconImportDlg;
+
 	CIconImportDlg *m_pDialog;
 	HTREEITEM m_hPrevItem;
 
@@ -635,6 +500,63 @@ class CIcoLibOptsDlg : public CDlgBase
 		m_categoryList.SelectItem(FindNamedTreeItemAt(m_categoryList.GetHwnd(), 0, NULL));
 	}
 
+	void UpdateIconsPreview()
+	{
+		HIMAGELIST hIml = m_preview.GetImageList(LVSIL_NORMAL);
+
+		LVITEM lvi = { 0 };
+		lvi.mask = LVIF_IMAGE | LVIF_PARAM;
+		int count = m_preview.GetItemCount();
+
+		for (int indx = 0; indx < count; indx++) {
+			lvi.iItem = indx;
+			m_preview.GetItem(&lvi);
+
+			HICON hIcon;
+			{
+				mir_cslock lck(csIconList);
+				hIcon = iconList[lvi.lParam]->temp_icon;
+				if (!hIcon)
+					hIcon = IconItem_GetIcon_Preview(iconList[lvi.lParam]);
+			}
+
+			if (hIcon)
+				ImageList_ReplaceIcon(hIml, lvi.iImage, hIcon);
+			if (hIcon != iconList[lvi.lParam]->temp_icon)
+				SafeDestroyIcon(hIcon);
+		}
+		m_preview.RedrawItems(0, count);
+	}
+
+	void DoOptionsChanged()
+	{
+		UpdateIconsPreview();
+		NotifyChange();
+	}
+
+	void DoIconsChanged()
+	{
+		UpdateIconsPreview();
+
+		iconEventActive = 1; // Disable icon destroying - performance boost
+		NotifyEventHooks(hIconsChangedEvent, 0, 0);
+		NotifyEventHooks(hIcons2ChangedEvent, 0, 0);
+		iconEventActive = 0;
+
+		mir_cslock lck(csIconList); // Destroy unused icons
+		for (int indx = 0; indx < iconList.getCount(); indx++) {
+			IcolibItem *item = iconList[indx];
+			if (item->source_small && !item->source_small->icon_ref_count) {
+				item->source_small->icon_ref_count++;
+				item->source_small->releaseIcon();
+			}
+			if (item->source_big && !item->source_big->icon_ref_count) {
+				item->source_big->icon_ref_count++;
+				item->source_big->releaseIcon();
+			}
+		}
+	}
+
 public:
 	CIcoLibOptsDlg() :
 		CDlgBase(g_hInst, IDD_OPT_ICOLIB),
@@ -681,97 +603,6 @@ public:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
-		case DM_REBUILDICONSPREVIEW: // Rebuild preview to new section
-			{
-				SectionItem* sectionActive = (SectionItem*)lParam;
-				m_preview.Enable(sectionActive != NULL);
-
-				m_preview.DeleteAllItems();
-				HIMAGELIST hIml = m_preview.GetImageList(LVSIL_NORMAL);
-				ImageList_RemoveAll(hIml);
-
-				if (sectionActive == NULL)
-					break;
-
-				LVITEM lvi = { 0 };
-				lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
-				{
-					mir_cslock lck(csIconList);
-
-					for (int indx = 0; indx < iconList.getCount(); indx++) {
-						IcolibItem *item = iconList[indx];
-						if (item->section == sectionActive) {
-							lvi.pszText = item->getDescr();
-							HICON hIcon = item->temp_icon;
-							if (!hIcon)
-								hIcon = IconItem_GetIcon_Preview(item);
-							lvi.iImage = ImageList_AddIcon(hIml, hIcon);
-							lvi.lParam = indx;
-							m_preview.InsertItem(&lvi);
-							if (hIcon != item->temp_icon)
-								SafeDestroyIcon(hIcon);
-						}
-					}
-				}
-
-				if (sectionActive->flags & SIDF_SORTED)
-					m_preview.SortItems(DoSortIconsFunc, 0);
-				else
-					m_preview.SortItems(DoSortIconsFuncByOrder, 0);
-			}
-			break;
-
-		case DM_UPDATEICONSPREVIEW: // Refresh preview to new section
-			{
-				LVITEM lvi = { 0 };
-				HICON hIcon;
-				int indx, count;
-				HIMAGELIST hIml = m_preview.GetImageList(LVSIL_NORMAL);
-
-				lvi.mask = LVIF_IMAGE | LVIF_PARAM;
-				count = m_preview.GetItemCount();
-
-				for (indx = 0; indx < count; indx++) {
-					lvi.iItem = indx;
-					m_preview.GetItem(&lvi);
-					{
-						mir_cslock lck(csIconList);
-						hIcon = iconList[lvi.lParam]->temp_icon;
-						if (!hIcon)
-							hIcon = IconItem_GetIcon_Preview(iconList[lvi.lParam]);
-					}
-
-					if (hIcon)
-						ImageList_ReplaceIcon(hIml, lvi.iImage, hIcon);
-					if (hIcon != iconList[lvi.lParam]->temp_icon)
-						SafeDestroyIcon(hIcon);
-				}
-				m_preview.RedrawItems(0, count);
-			}
-			break;
-
-			// Temporary change icon - only inside options dialog
-		case DM_CHANGEICON:
-			{
-				LVITEM lvi = { 0 };
-				lvi.mask = LVIF_PARAM;
-				lvi.iItem = wParam;
-				m_preview.GetItem(&lvi);
-				{
-					mir_cslock lck(csIconList);
-
-					IcolibItem *item = iconList[lvi.lParam];
-					SafeDestroyIcon(item->temp_icon);
-
-					wchar_t *path = (wchar_t*)lParam;
-					replaceStrW(item->temp_file, path);
-					item->temp_icon = (HICON)ExtractIconFromPath(path, item->cx, item->cy);
-					item->temp_reset = false;
-				}
-				DoOptionsChanged(m_hwnd);
-			}
-			break;
-
 		case WM_NOTIFY:
 			if (bNeedRebuild) {
 				bNeedRebuild = false;
@@ -800,7 +631,7 @@ public:
 								UndoChanges(lvi.lParam, cmd);
 							}
 
-							DoOptionsChanged(m_hwnd);
+							DoOptionsChanged();
 							break;
 						}
 					}
@@ -814,7 +645,7 @@ public:
 					case ID_CANCELCHANGE:
 					case ID_RESET:
 						UndoSubItemChanges(m_categoryList.GetHwnd(), m_categoryList.GetSelection(), cmd);
-						DoOptionsChanged(m_hwnd);
+						DoOptionsChanged();
 						break;
 					}
 				}
@@ -827,7 +658,7 @@ public:
 
 	void OnImport(void*)
 	{
-		m_pDialog = new CIconImportDlg(m_hwnd);
+		m_pDialog = new CIconImportDlg(this);
 		m_pDialog->Show();
 		m_btnImport.Disable();
 	}
@@ -841,17 +672,15 @@ public:
 	{
 		wchar_t filetmp[1] = { 0 };
 		if (wchar_t *file = OpenFileDlg(m_hwnd, filetmp, FALSE)) {
-			HWND htv = GetDlgItem(m_hwnd, IDC_CATEGORYLIST);
 			wchar_t filename[MAX_PATH];
-
 			PathToRelativeT(file, filename);
 			mir_free(file);
 
 			MySetCursor(IDC_WAIT);
-			LoadSubIcons(htv, filename, TreeView_GetSelection(htv));
+			LoadSubIcons(m_categoryList.GetHwnd(), filename, m_categoryList.GetSelection());
 			MySetCursor(IDC_ARROW);
 
-			DoOptionsChanged(m_hwnd);
+			DoOptionsChanged();
 		}
 	}
 
@@ -878,7 +707,7 @@ public:
 			}
 		}
 
-		DoIconsChanged(m_hwnd);
+		DoIconsChanged();
 	}
 
 	virtual void OnDestroy() override
@@ -920,7 +749,6 @@ public:
 		mir_cslock lck(csIconList);
 		for (int indx = 0; indx < iconList.getCount(); indx++) {
 			IcolibItem *item = iconList[indx];
-
 			replaceStrW(item->temp_file, NULL);
 			SafeDestroyIcon(item->temp_icon);
 		}
@@ -948,8 +776,47 @@ public:
 		NMTREEVIEW *pnmtv = evt->nmtv;
 		TVITEM tvi = pnmtv->itemNew;
 		TreeItem *treeItem = (TreeItem *)tvi.lParam;
-		if (treeItem)
-			SendMessage(m_hwnd, DM_REBUILDICONSPREVIEW, 0, (LPARAM)((SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE) ? sectionList[SECTIONPARAM_INDEX(treeItem->value)] : NULL));
+		if (treeItem) {
+			SectionItem *sectionActive;
+			if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE)
+				sectionActive = sectionList[SECTIONPARAM_INDEX(treeItem->value)];
+			else
+				sectionActive = NULL;
+
+			m_preview.Enable(sectionActive != NULL);
+			m_preview.DeleteAllItems();
+			HIMAGELIST hIml = m_preview.GetImageList(LVSIL_NORMAL);
+			ImageList_RemoveAll(hIml);
+
+			if (sectionActive == NULL)
+				return;
+
+			LVITEM lvi = { 0 };
+			lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
+			{
+				mir_cslock lck(csIconList);
+
+				for (int indx = 0; indx < iconList.getCount(); indx++) {
+					IcolibItem *item = iconList[indx];
+					if (item->section == sectionActive) {
+						lvi.pszText = item->getDescr();
+						HICON hIcon = item->temp_icon;
+						if (!hIcon)
+							hIcon = IconItem_GetIcon_Preview(item);
+						lvi.iImage = ImageList_AddIcon(hIml, hIcon);
+						lvi.lParam = indx;
+						m_preview.InsertItem(&lvi);
+						if (hIcon != item->temp_icon)
+							SafeDestroyIcon(hIcon);
+					}
+				}
+			}
+
+			if (sectionActive->flags & SIDF_SORTED)
+				m_preview.SortItems(DoSortIconsFunc, 0);
+			else
+				m_preview.SortItems(DoSortIconsFuncByOrder, 0);
+		}
 	}
 
 	void OnCategoryDeleted(CCtrlTreeView::TEventInfo *evt)
@@ -960,7 +827,139 @@ public:
 			mir_free(treeItem);
 		}
 	}
+
+	void ChangeIcon(int iItem, const wchar_t *path)
+	{
+		LVITEM lvi = { 0 };
+		lvi.mask = LVIF_PARAM;
+		lvi.iItem = iItem;
+		m_preview.GetItem(&lvi);
+		{
+			mir_cslock lck(csIconList);
+
+			IcolibItem *item = iconList[lvi.lParam];
+			SafeDestroyIcon(item->temp_icon);
+
+			replaceStrW(item->temp_file, path);
+			item->temp_icon = (HICON)ExtractIconFromPath(path, item->cx, item->cy);
+			item->temp_reset = false;
+		}
+		DoOptionsChanged();
+	}
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CIconImportDlg::OnInitDialog()
+{
+	m_preview.SetImageList(ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 0, 100), LVSIL_NORMAL);
+	m_preview.SetIconSpacing(56, 67);
+
+	RECT rcThis, rcParent;
+	int cxScreen = GetSystemMetrics(SM_CXSCREEN);
+
+	GetWindowRect(m_hwnd, &rcThis);
+	GetWindowRect(m_pParent->GetHwnd(), &rcParent);
+	OffsetRect(&rcThis, rcParent.right - rcThis.left, 0);
+	OffsetRect(&rcThis, 0, rcParent.top - rcThis.top);
+	GetWindowRect(GetParent(m_pParent->GetHwnd()), &rcParent);
+	if (rcThis.right > cxScreen) {
+		OffsetRect(&rcParent, cxScreen - rcThis.right, 0);
+		OffsetRect(&rcThis, cxScreen - rcThis.right, 0);
+		MoveWindow(GetParent(m_pParent->GetHwnd()), rcParent.left, rcParent.top, rcParent.right - rcParent.left, rcParent.bottom - rcParent.top, TRUE);
+	}
+	MoveWindow(m_hwnd, rcThis.left, rcThis.top, rcThis.right - rcThis.left, rcThis.bottom - rcThis.top, FALSE);
+	GetClientRect(m_hwnd, &rcThis);
+	SendMessage(m_hwnd, WM_SIZE, 0, MAKELPARAM(rcThis.right - rcThis.left, rcThis.bottom - rcThis.top));
+
+	SHAutoComplete(m_iconSet.GetHwnd(), 1);
+	m_iconSet.SetText(L"icons.dll");
+}
+
+void CIconImportDlg::OnClose()
+{
+	m_pParent->m_btnImport.Enable();
+}
+
+INT_PTR CIconImportDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_MOUSEMOVE:
+		if (m_bDragging) {
+			int onItem = 0;
+
+			LVHITTESTINFO lvhti;
+			lvhti.pt.x = (short)LOWORD(lParam); lvhti.pt.y = (short)HIWORD(lParam);
+			ClientToScreen(m_hwnd, &lvhti.pt);
+			HWND hwndOver = WindowFromPoint(lvhti.pt);
+
+			RECT rc;
+			GetWindowRect(hwndOver, &rc);
+
+			int dragX = lvhti.pt.x - rc.left, dragY = lvhti.pt.y - rc.top;
+			if (hwndOver != m_hwndDragOver) {
+				ImageList_DragLeave(m_hwndDragOver);
+				m_hwndDragOver = hwndOver;
+				ImageList_DragEnter(m_hwndDragOver, dragX, dragY);
+			}
+
+			ImageList_DragMove(dragX, dragY);
+			if (hwndOver == m_preview.GetHwnd()) {
+				ScreenToClient(m_preview.GetHwnd(), &lvhti.pt);
+
+				if (m_preview.HitTest(&lvhti) != -1) {
+					if (lvhti.iItem != m_iDropHiLite) {
+						ImageList_DragLeave(m_hwndDragOver);
+						if (m_iDropHiLite != -1)
+							m_preview.SetItemState(m_iDropHiLite, 0, LVIS_DROPHILITED);
+						m_iDropHiLite = lvhti.iItem;
+						m_preview.SetItemState(m_iDropHiLite, LVIS_DROPHILITED, LVIS_DROPHILITED);
+						UpdateWindow(m_preview.GetHwnd());
+						ImageList_DragEnter(m_hwndDragOver, dragX, dragY);
+					}
+					onItem = 1;
+				}
+			}
+
+			if (!onItem && m_iDropHiLite != -1) {
+				ImageList_DragLeave(m_hwndDragOver);
+				m_preview.SetItemState(m_iDropHiLite, 0, LVIS_DROPHILITED);
+				UpdateWindow(m_preview.GetHwnd());
+				ImageList_DragEnter(m_hwndDragOver, dragX, dragY);
+				m_iDropHiLite = -1;
+			}
+			MySetCursor(onItem ? IDC_ARROW : IDC_NO);
+		}
+		break;
+
+	case WM_LBUTTONUP:
+		if (m_bDragging) {
+			ReleaseCapture();
+			ImageList_EndDrag();
+			m_bDragging = 0;
+			if (m_iDropHiLite != -1) {
+				wchar_t fullPath[MAX_PATH], filename[MAX_PATH];
+				m_iconSet.GetText(fullPath, _countof(fullPath));
+				PathToRelativeT(fullPath, filename);
+
+				LVITEM lvi;
+				lvi.mask = LVIF_PARAM;
+				lvi.iItem = m_iDragItem;
+				lvi.iSubItem = 0;
+				m_preview.GetItem(&lvi);
+
+				m_pParent->ChangeIcon(m_iDropHiLite, CMStringW(FORMAT, L"%s,%d", filename, (int)lvi.lParam));
+				m_pParent->m_preview.SetItemState(m_iDropHiLite, 0, LVIS_DROPHILITED);
+			}
+		}
+		break;
+	}
+
+	return CDlgBase::DlgProc(msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// module initialization
 
 int SkinOptionsInit(WPARAM wParam, LPARAM)
 {
