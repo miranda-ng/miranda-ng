@@ -176,7 +176,7 @@ void RegisterFonts(void)
 		fontid.deffontsettings.colour = FO.defColour;
 		fontid.deffontsettings.size = FO.defSize;
 		fontid.deffontsettings.style = FO.defStyle;
-		CallService("Font/RegisterW", (WPARAM)&fontid, g_iChatLang);
+		Font_RegisterW(&fontid, g_iChatLang);
 	}
 }
 
