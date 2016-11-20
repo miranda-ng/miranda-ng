@@ -194,12 +194,8 @@
     <None Include="res\popup_notify.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\resource.rc">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\src\lib\</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\src\lib\</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\src\lib\</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\src\lib\</AdditionalIncludeDirectories>
-    </ResourceCompile>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h" />
