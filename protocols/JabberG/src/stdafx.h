@@ -669,7 +669,6 @@ int    g_OnToolbarInit(WPARAM, LPARAM);
 
 //---- jabber_misc.c ------------------------------------------------
 
-void   JabberChatDllError(void);
 wchar_t* UnEscapeChatTags(wchar_t* str_in);
 
 //---- jabber_adhoc.cpp	---------------------------------------------

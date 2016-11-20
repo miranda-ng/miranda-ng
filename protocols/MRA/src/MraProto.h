@@ -311,7 +311,6 @@ struct CMraProto : public PROTO<CMraProto>
 	void   __cdecl MraFilesQueueSendThreadProc(LPVOID lpParameter);
 
 	bool    bChatExists;
-	void    MraChatDllError();
 	bool    MraChatRegister();
 	INT_PTR MraChatSessionNew(MCONTACT hContactChatSession);
 	void    MraChatSessionDestroy(MCONTACT hContactChatSession);
