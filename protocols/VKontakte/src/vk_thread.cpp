@@ -527,6 +527,11 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 		LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 		if (userID == VK_INVALID_USER || userID == VK_FEED_USER || userID < 0)
 			continue;
+
+		bool bIsFriend = !getBool(hContact, "Auth", true);
+		if (bFreeOffline && !m_vkOptions.bLoadFullCList && bIsFriend)
+			continue;
+
 		if (!userIDs.IsEmpty())
 			userIDs.AppendChar(',');
 		userIDs.AppendFormat(L"%i", userID);
@@ -542,7 +547,8 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 		codeformat += L"API.account.setOnline();";
 
 	if (bFreeOffline && !m_vkOptions.bLoadFullCList)
-		codeformat += CMStringW("var US=[];var res=[];var t=10;while(t>0){"
+		codeformat += CMStringW("var US=[];var res=API.users.get({\"user_ids\":API.friends.getOnline(),\"fields\":_fields,\"name_case\":\"nom\"});"
+			"var t=10;while(t>0){"
 			"US=API.users.get({\"user_ids\":userIDs,\"fields\":_fields,\"name_case\":\"nom\"});"
 			"var index=US.length;while(index>0){"
 			"index=index-1;if(US[index].online!=0){res.push(US[index]);};};"

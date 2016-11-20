@@ -357,7 +357,7 @@ void CVkProto::InitMenus()
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	bool bisFriend = (getBool(hContact, "Auth", true) == 0);
+	bool bisFriend = !getBool(hContact, "Auth", true);
 	bool bisBroadcast = !(IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl"))));
 	bool bIsGroup = IsGroupUser(hContact);
 	Menu_ShowItem(m_hContactMenuItems[CMI_VISITPROFILE], userID != VK_FEED_USER);
