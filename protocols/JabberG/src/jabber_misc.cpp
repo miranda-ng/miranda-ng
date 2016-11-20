@@ -41,16 +41,6 @@ void CJabberProto::AddContactToRoster(const wchar_t *jid, const wchar_t *nick, c
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// JabberChatDllError() - missing CHAT.DLL
-
-void JabberChatDllError()
-{
-	MessageBox(NULL,
-		TranslateT("Chat plugin is required for conferences. Install it before chatting"),
-		TranslateT("Jabber Error"), MB_OK | MB_SETFOREGROUND);
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // JabberDBAddAuthRequest()
 
 void CJabberProto::DBAddAuthRequest(const wchar_t *jid, const wchar_t *nick)

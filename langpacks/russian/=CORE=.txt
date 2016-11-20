@@ -49,144 +49,6 @@
 Изменить сообщение "%s"
 [Closing in %d]
 Закрыть (%d)
-[&Send]
-&Отправить
-[&Emoticons]
-&Смайлы
-[&Bold]
-&Жирный
-[&Italic]
-&Курсив
-[&Underline]
-&Подчёркнутый
-[&Color]
-&Цвет
-[&Background color]
-Цвет &фона
-[&History]
-&История
-[&Filter]
-&Фильтр
-[&Room settings]
-&Настройки
-[&Show/Hide nick list]
-&Показать/Скрыть список пользователей
-[Show these events only:]
-Показывать только:
-[Actions]
-Действия
-[Messages]
-Сообщения
-[Nick changes]
-Смена ника
-[Users joining]
-Входы в чат
-[Users leaving]
-Выходы из чата
-[Topic changes]
-Смены темы
-[Status changes]
-Смены статуса
-[Information]
-Информация
-[Disconnects]
-Отключения
-[User kicks]
-Пинки
-[Notices]
-Уведомления
-[Options]
-Настройки
-[Log options]
-Настройки журнала
-[Log timestamp]
-Записывать время
-[Timestamp]
-Время
-[Other name]
-Имена других
-[Your name]
-Ваше имя
-[Enable highlighting]
-Включить выделение
-[Limit log text to (events):]
-Ограничить журнал до (событий):
-[Trim to (KB)]
-Лимит (КБ)
-[Words to highlight (wildcards allowed)]
-Слова для подсветки (разрешены маски)
-[Enable logging to disk]
-Запись журнала на диск
-[Log directory]
-Папка журнала
-[Other]
-Другое
-[Add new rooms to group:]
-Добавлять комнаты чата в группу:
-[Nick list row distance (pixels):]
-Расстояние между строками (пикс.):
-[Use same style as in the message log]
-Тот же стиль, что и в журнале
-[Use default colors]
-Цвета по умолчанию
-[Use custom colors]
-Задать цвета
-[Popups for the Chat plugin]
-Всплывающие окна чата
-[Timeout (s)]
-Длительность (с)
-[Text]
-Текст
-[Background]
-Фон
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(Установка таймаута в 0 = значение по умолчанию, -1 = бесконечно)
-[List]
-Список
-[&Message]
-&Сообщение
-[Log]
-Журнал
-[Clear lo&g]
-Очистить ча&т
-[Co&py all]
-Ко&пировать всё
-[Word lookup]
-Найти слово
-[Wikipedia]
-Википедия
-[Link]
-Ссылка
-[Open a &new browser window]
-Открыть в &новом окне
-[&Open in current browser window]
-&Открыть в текущем окне
-[&Copy link]
-&Копировать ссылку
-[Message]
-Сообщение
-[Undo]
-Откат
-[Redo]
-Вернуть
-[Copy]
-Копировать
-[Cut]
-Вырезать
-[Paste]
-Вставить
-[Select all]
-Выделить всё
-[Clear]
-Очистить
-[Tabs]
-Вкладки
-[&Close tab]
-&Закрыть вкладку
-[C&lose other tabs]
-За&крыть остальные вкладки
-[&Open at this position]
-&Открыть в этом месте
 [Delete contact]
 Удалить контакт
 [No]
@@ -421,6 +283,8 @@
 Обед&аю\tCtrl+9
 [Send file(s)]
 Отправить файл(ы)
+[&Send]
+&Отправить
 [Cancel]
 Отмена
 [To:]
@@ -435,6 +299,8 @@
 Описание:
 [&User menu]
 Меню &пользователя
+[&History]
+&История
 [Incoming file transfer]
 Входящий файл
 [A&ccept]
@@ -659,6 +525,140 @@
 Поведение окна сообщений:
 [Messaging:]
 Сообщения:
+[&Emoticons]
+&Смайлы
+[&Bold]
+&Жирный
+[&Italic]
+&Курсив
+[&Underline]
+&Подчёркнутый
+[&Color]
+&Цвет
+[&Background color]
+Цвет &фона
+[&Filter]
+&Фильтр
+[&Room settings]
+&Настройки
+[&Show/Hide nick list]
+&Показать/Скрыть список пользователей
+[Show these events only:]
+Показывать только:
+[Actions]
+Действия
+[Messages]
+Сообщения
+[Nick changes]
+Смена ника
+[Users joining]
+Входы в чат
+[Users leaving]
+Выходы из чата
+[Topic changes]
+Смены темы
+[Status changes]
+Смены статуса
+[Information]
+Информация
+[Disconnects]
+Отключения
+[User kicks]
+Пинки
+[Notices]
+Уведомления
+[Options]
+Настройки
+[Log options]
+Настройки журнала
+[Log timestamp]
+Записывать время
+[Timestamp]
+Время
+[Other name]
+Имена других
+[Your name]
+Ваше имя
+[Enable highlighting]
+Включить выделение
+[Limit log text to (events):]
+Ограничить журнал до (событий):
+[Trim to (KB)]
+Лимит (КБ)
+[Words to highlight (wildcards allowed)]
+Слова для подсветки (разрешены маски)
+[Enable logging to disk]
+Запись журнала на диск
+[Log directory]
+Папка журнала
+[Other]
+Другое
+[Add new rooms to group:]
+Добавлять комнаты чата в группу:
+[Nick list row distance (pixels):]
+Расстояние между строками (пикс.):
+[Use same style as in the message log]
+Тот же стиль, что и в журнале
+[Use default colors]
+Цвета по умолчанию
+[Use custom colors]
+Задать цвета
+[Popups for the Chat plugin]
+Всплывающие окна чата
+[Timeout (s)]
+Длительность (с)
+[Text]
+Текст
+[Background]
+Фон
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Установка таймаута в 0 = значение по умолчанию, -1 = бесконечно)
+[List]
+Список
+[&Message]
+&Сообщение
+[Log]
+Журнал
+[Clear lo&g]
+Очистить ча&т
+[Co&py all]
+Ко&пировать всё
+[Word lookup]
+Найти слово
+[Wikipedia]
+Википедия
+[Link]
+Ссылка
+[Open a &new browser window]
+Открыть в &новом окне
+[&Open in current browser window]
+&Открыть в текущем окне
+[&Copy link]
+&Копировать ссылку
+[Message]
+Сообщение
+[Undo]
+Откат
+[Redo]
+Вернуть
+[Copy]
+Копировать
+[Cut]
+Вырезать
+[Paste]
+Вставить
+[Select all]
+Выделить всё
+[Clear]
+Очистить
+[Tabs]
+Вкладки
+[&Close tab]
+&Закрыть вкладку
+[C&lose other tabs]
+За&крыть остальные вкладки
+[&Open at this position]
+&Открыть в этом месте
 [C&lear log]
 Оч&истить журнал
 [&Copy]
@@ -1301,6 +1301,164 @@ UIN, E-mail и т.д.
 ожидание...
 [Status]
 Статус
+[Standard contacts]
+Стандартные контакты
+[Online contacts to whom you have a different visibility]
+Контакты с изменённой видимостью (в сети)
+[Offline contacts]
+Отключённые контакты
+[Contacts which are 'not on list']
+Контакты 'не в списке'
+[Group member counts]
+Счётчики групп
+[Dividers]
+Разделители
+[Offline contacts to whom you have a different visibility]
+Контакты с изменённой видимостью (отключённые)
+[Selected text]
+Выделенный текст
+[Hottrack text]
+Под курсором
+[Quicksearch text]
+Быстрый поиск
+[Not focused]
+Не в фокусе
+[Offline]
+Не в сети
+[Online]
+В сети
+[Away]
+Отсутствую
+[Not available]
+Недоступен
+[Occupied]
+Занят
+[Do not disturb]
+Не беспокоить
+[Free for chat]
+Готов болтать
+[Invisible]
+Невидимый
+[Out to lunch]
+Обедаю
+[On the phone]
+На телефоне
+[List background]
+Фон списка
+[Global]
+Глобальные
+[Standard crypto provider]
+Поставщик шифрования по умолчанию
+[User has not registered an e-mail address]
+Пользователь не зарегистрировал свой адрес e-mail.
+[Send e-mail]
+Отправить e-mail
+[File from %s]
+Файл от %s
+[bytes]
+байт
+[&File]
+&Файл
+[File &transfers...]
+Передачи &файлов...
+[Incoming]
+Входящие
+[Complete]
+Готово
+[Error]
+Ошибка
+[Denied]
+Отказано
+[%s file]
+%s файл
+[All files]
+Все файлы
+[Executable files]
+Исполняемые файлы
+[Events]
+События
+[Select folder]
+Выбрать папку
+[My received files]
+Принятые файлы
+[View user's history]
+История сообщений
+[User menu]
+Меню пользователя
+[Canceled]
+Отменённые
+[This file transfer has been canceled by the other side]
+Передача файла отменена другой стороной
+[%d files]
+%d файла(ов)
+[%d directories]
+%d каталога(ов)
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Этот файл ещё не проверялся антивирусом. Вы всё-таки хотите открыть его?
+[File received]
+Файл получен
+[of]
+из
+[Request sent, waiting for acceptance...]
+Запрос отправлен, ожидание подтверждения...
+[Waiting for connection...]
+Ожидание соединения...
+[Unable to initiate transfer.]
+Невозможно начать передачу.
+[Contact menu]
+Меню контакта
+[Open...]
+Открыть...
+[sec]
+с
+[remaining]
+осталось
+[Decision sent]
+Решение отправлено
+[Connecting...]
+Подключение...
+[Connecting to proxy...]
+Подключение к прокси...
+[Connected]
+Подключён
+[Initializing...]
+Инициализация...
+[Moving to next file...]
+Следующий файл...
+[Sending...]
+Передача...
+[Receiving...]
+Получение...
+[File transfer denied]
+В передаче файла отказано
+[File transfer failed]
+Неудачная передача файла
+[Transfer completed.]
+Передача завершена.
+[Transfer completed, open file.]
+Передача завершена, открыть файл.
+[Transfer completed, open folder.]
+Передача завершена, открыть папку.
+[Scanning for viruses...]
+Проверка на вирусы...
+[Transfer and virus scan complete]
+Передача и проверка на вирусы завершены
+[Outgoing]
+Исходящие
+[< Copyright]
+< Авторские права
+[&Help]
+&Справка
+[&About...]
+&О программе...
+[&Support]
+&Поддержка
+[&Miranda NG homepage]
+О&фициальный сайт Miranda NG
+[&Report bug]
+Сооб&щить об ошибке
+[Idle]
+Ожидание
 [Chat module]
 Модуль чата
 [Group chat log background]
@@ -1553,8 +1711,6 @@ UIN, E-mail и т.д.
 Значки в трее
 [Popups to display]
 Всплывающие окна
-[Select folder]
-Выбрать папку
 [Message sessions]
 Беседы
 [General]
@@ -1591,10 +1747,6 @@ UIN, E-mail и т.д.
 Включить/выключить фильтр событий (CTRL+F)
 [Close current tab (CTRL+F4)]
 Закрыть текущую вкладку (CTRL+F4)
-[Nickname]
-Ник
-[Unique ID]
-Уник. ID
 [%s: chat room (%u user)]
 %s: комната чата (%u пользователь)
 [%s: chat room (%u users)]
@@ -1603,162 +1755,10 @@ UIN, E-mail и т.д.
 %s: беседа
 [%s: message session (%u users)]
 %s: беседа (%u пользователей)
-[Standard contacts]
-Стандартные контакты
-[Online contacts to whom you have a different visibility]
-Контакты с изменённой видимостью (в сети)
-[Offline contacts]
-Отключённые контакты
-[Contacts which are 'not on list']
-Контакты 'не в списке'
-[Group member counts]
-Счётчики групп
-[Dividers]
-Разделители
-[Offline contacts to whom you have a different visibility]
-Контакты с изменённой видимостью (отключённые)
-[Selected text]
-Выделенный текст
-[Hottrack text]
-Под курсором
-[Quicksearch text]
-Быстрый поиск
-[Not focused]
-Не в фокусе
-[Offline]
-Не в сети
-[Online]
-В сети
-[Away]
-Отсутствую
-[Not available]
-Недоступен
-[Occupied]
-Занят
-[Do not disturb]
-Не беспокоить
-[Free for chat]
-Готов болтать
-[Invisible]
-Невидимый
-[Out to lunch]
-Обедаю
-[On the phone]
-На телефоне
-[List background]
-Фон списка
-[Global]
-Глобальные
-[Standard crypto provider]
-Поставщик шифрования по умолчанию
-[User has not registered an e-mail address]
-Пользователь не зарегистрировал свой адрес e-mail.
-[Send e-mail]
-Отправить e-mail
-[File from %s]
-Файл от %s
-[bytes]
-байт
-[&File]
-&Файл
-[File &transfers...]
-Передачи &файлов...
-[Incoming]
-Входящие
-[Complete]
-Готово
-[Error]
-Ошибка
-[Denied]
-Отказано
-[%s file]
-%s файл
-[All files]
-Все файлы
-[Executable files]
-Исполняемые файлы
-[Events]
-События
-[My received files]
-Принятые файлы
-[View user's history]
-История сообщений
-[User menu]
-Меню пользователя
-[Canceled]
-Отменённые
-[This file transfer has been canceled by the other side]
-Передача файла отменена другой стороной
-[%d files]
-%d файла(ов)
-[%d directories]
-%d каталога(ов)
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Этот файл ещё не проверялся антивирусом. Вы всё-таки хотите открыть его?
-[File received]
-Файл получен
-[of]
-из
-[Request sent, waiting for acceptance...]
-Запрос отправлен, ожидание подтверждения...
-[Waiting for connection...]
-Ожидание соединения...
-[Unable to initiate transfer.]
-Невозможно начать передачу.
-[Contact menu]
-Меню контакта
-[Open...]
-Открыть...
-[sec]
-с
-[remaining]
-осталось
-[Decision sent]
-Решение отправлено
-[Connecting...]
-Подключение...
-[Connecting to proxy...]
-Подключение к прокси...
-[Connected]
-Подключён
-[Initializing...]
-Инициализация...
-[Moving to next file...]
-Следующий файл...
-[Sending...]
-Передача...
-[Receiving...]
-Получение...
-[File transfer denied]
-В передаче файла отказано
-[File transfer failed]
-Неудачная передача файла
-[Transfer completed.]
-Передача завершена.
-[Transfer completed, open file.]
-Передача завершена, открыть файл.
-[Transfer completed, open folder.]
-Передача завершена, открыть папку.
-[Scanning for viruses...]
-Проверка на вирусы...
-[Transfer and virus scan complete]
-Передача и проверка на вирусы завершены
-[Outgoing]
-Исходящие
-[< Copyright]
-< Авторские права
-[&Help]
-&Справка
-[&About...]
-&О программе...
-[&Support]
-&Поддержка
-[&Miranda NG homepage]
-О&фициальный сайт Miranda NG
-[&Report bug]
-Сооб&щить об ошибке
-[Idle]
-Ожидание
+[Nickname]
+Ник
+[Unique ID]
+Уник. ID
 [The message send timed out.]
 Таймаут отправки сообщения
 [Incoming message (10x10)]
@@ -2039,6 +2039,8 @@ Miranda не смогла загрузить встроенную систему
 Тема '%s'
 [The topic is '%s' (set by %s)]
 Тема '%s' (установлена %s)
+[Nick]
+Ник
 [New group]
 Новая группа
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2067,8 +2069,6 @@ Miranda не смогла загрузить встроенную систему
 &Добавить в постоянный список
 [My custom name (not movable)]
 Заданное имя (всегда первое)
-[Nick]
-Ник
 [FirstName]
 Имя
 [E-mail]

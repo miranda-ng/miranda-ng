@@ -179,7 +179,5 @@ URI объект
 Звук отмены входящего звонка
 [Skypename]
 Логин Skype
-[Failed to establish a TRouter connection.]
-Невозможно установить соединение для TRouter.
 [Incoming call from %s]
 Входящий звонок от %s

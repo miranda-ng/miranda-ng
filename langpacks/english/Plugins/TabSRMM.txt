@@ -1098,8 +1098,6 @@
 [Highlight user...]
 [Edit highlight list...]
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Unique ID]
-[Nick]
 [%s: chat room (%u user%s)]
 [%s: chat room (%u users%s)]
 [, event filter active]

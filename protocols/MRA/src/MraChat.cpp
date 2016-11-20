@@ -6,10 +6,6 @@ static LPWSTR lpwszStatuses[] = { LPGENW("Owners"), LPGENW("Inviter"), LPGENW("V
 #define MRA_CHAT_STATUS_INVITER	1
 #define MRA_CHAT_STATUS_VISITOR	2
 
-void CMraProto::MraChatDllError()
-{
-	MessageBox(NULL, TranslateT("Chat plugin is required for conferences. Install it before chatting"), m_tszUserName, (MB_OK | MB_ICONWARNING));
-}
 
 bool CMraProto::MraChatRegister()
 {

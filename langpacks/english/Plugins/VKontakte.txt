@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.7
+;  Version: 0.1.2.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -163,6 +163,9 @@
 [(Unknown contact)]
 [Message from]
 [at]
+[User restored control over own page]
+[User was deactivated (deleted)]
+[User was deactivated (banned)]
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 [Owners]
@@ -271,6 +274,7 @@
 [for all time]
 [Errors]
 [Notification]
+[VK user activate/deactivate action]
 [User %s added as friend]
 [You cannot add yourself as friend]
 [Cannot add this user to friends as they have put you on their blacklist]

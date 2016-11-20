@@ -813,12 +813,6 @@ ID текущего контакта (если определён). Наприм
 Управление комнатой чата (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Включить/выключить фильтр событий (CTRL+F)
-[Nickname]
-Ник
-[Unique ID]
-Уник. ID
-[Status]
-Статус
 [%s: chat room (%u user)]
 %s: комната чата (%u пользователь)
 [%s: chat room (%u users)]
@@ -827,3 +821,9 @@ ID текущего контакта (если определён). Наприм
 %s: беседа
 [%s: message session (%u users)]
 %s: беседа (%u пользователей)
+[Nickname]
+Ник
+[Unique ID]
+Уник. ID
+[Status]
+Статус

@@ -1,1 +1,5 @@
 ﻿[URL:]
+[User restored control over own page]
+[User was deactivated (deleted)]
+[User was deactivated (banned)]
+[VK user activate/deactivate action]
