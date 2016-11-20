@@ -212,7 +212,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	bSplitFormatFwdMsg(proto, "SplitFormatFwdMsg", true),
 	bSyncReadMessageStatusFromServer(proto, "SyncReadMessageStatusFromServer", false),
 	bLoadFullCList(proto, "LoadFullCList", false),
-	bShowVkDeactivateEvents(proto, "ShowVkDeactivateEvens", true),
+	bShowVkDeactivateEvents(proto, "ShowVkDeactivateEvents", true),
 
 	bShowProtoMenuItem0(proto, "ShowProtoMenuItem0", true), 
 	bShowProtoMenuItem1(proto, "ShowProtoMenuItem1", true),
