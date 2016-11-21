@@ -184,7 +184,6 @@
 #define IDC_FONTBOLD                    1106
 #define IDC_FONTITALIC                  1107
 #define IDC_FONTUNDERLINE               1108
-#define IDC_FONTFACE                    1110
 #define IDC_HISTORY                     1111
 #define IDC_CANCELADD                   1112
 #define IDC_FONTSTRIKEOUT               1113

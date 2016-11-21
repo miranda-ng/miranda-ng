@@ -888,13 +888,6 @@ void CB_InitDefaultButtons()
 	bbd.ptszTooltip = LPGENW("Strike-through text");
 	CB_AddButton(0, (LPARAM)&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_FONTFACE;
-	bbd.dwDefPos = 80;
-	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[14];
-	bbd.ptszTooltip = LPGENW("Select font color");
-	CB_AddButton(0, (LPARAM)&bbd);
-
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDOK;
 	bbd.dwDefPos = 10;
@@ -971,8 +964,15 @@ void CB_InitDefaultButtons()
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
-	bbd.dwButtonID = IDC_BKGCOLOR;
+	bbd.dwButtonID = IDC_COLOR;
 	bbd.pszModuleName = "Tabsrmm";
+	bbd.dwDefPos = 80;
+	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[14];
+	bbd.ptszTooltip = LPGENW("Select font color");
+	CB_AddButton(0, (LPARAM)&bbd);
+
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
+	bbd.dwButtonID = IDC_BKGCOLOR;
 	bbd.dwDefPos = 81;
 	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[16];

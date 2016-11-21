@@ -248,39 +248,6 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *pContainer, T
 		}
 		break;
 
-	case IDC_FONTFACE:
-		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
-		{
-			CHARFORMAT2 cf;
-			memset(&cf, 0, sizeof(CHARFORMAT2));
-			cf.cbSize = sizeof(CHARFORMAT2);
-			cf.dwMask = CFM_COLOR;
-
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_FONTFACE), &rc);
-			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
-			if (iSelection == ID_FONT_CLEARALLFORMATTING) {
-				cf.dwMask = CFM_BOLD | CFM_COLOR | CFM_ITALIC | CFM_UNDERLINE | CFM_STRIKEOUT;
-				cf.crTextColor = M.GetDword(FONTMODULE, "Font16Col", 0);
-				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-				break;
-			}
-			if (iSelection == ID_FONT_DEFAULTCOLOR) {
-				cf.crTextColor = M.GetDword(FONTMODULE, "Font16Col", 0);
-				for (int i = 0; i < Utils::rtf_ctable_size; i++)
-					if (Utils::rtf_ctable[i].clr == cf.crTextColor)
-						cf.crTextColor = RGB(GetRValue(cf.crTextColor), GetGValue(cf.crTextColor), GetBValue(cf.crTextColor) == 0 ? GetBValue(cf.crTextColor) + 1 : GetBValue(cf.crTextColor) - 1);
-
-				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-				break;
-			}
-			for (int i = 0; i < RTF_CTABLE_DEFSIZE; i++)
-				if (Utils::rtf_ctable[i].menuid == iSelection) {
-					cf.crTextColor = Utils::rtf_ctable[i].clr;
-					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-				}
-		}
-		break;
-
 	case IDCANCEL:
 		ShowWindow(hwndContainer, SW_MINIMIZE);
 		return FALSE;

@@ -1224,7 +1224,7 @@ void TSAPI PlayIncomingSound(const TWindowData *dat)
 
 void TSAPI GetSendFormat(TWindowData *dat)
 {
-	UINT controls[5] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT, IDC_FONTFACE };
+	UINT controls[5] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT };
 
 	dat->SendFormat = M.GetDword(dat->hContact, "sendformat", PluginConfig.m_SendFormat);
 	if (dat->SendFormat == -1)          // per contact override to disable it..
