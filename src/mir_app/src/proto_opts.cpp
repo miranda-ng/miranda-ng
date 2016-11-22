@@ -679,7 +679,7 @@ public:
 		}
 	}
 
-	virtual LRESULT DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
 		case WM_CTLCOLORSTATIC:
