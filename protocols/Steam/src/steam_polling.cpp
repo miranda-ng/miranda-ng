@@ -51,7 +51,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 		else if (!lstrcmpi(type, L"typing"))
 		{
 			// FIXME: Temporary solution for receivng too many duplicated typing events; should be reworked better
-			if (typingUser == steamId)
+			if (typingUser == (char*)steamId)
 				continue;
 			typingUser = steamId;
 			
