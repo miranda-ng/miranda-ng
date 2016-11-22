@@ -792,7 +792,8 @@ public:
 	int    SelectString(wchar_t *str);
 	int    SetCurSel(int index);
 	void   SetItemData(int index, LPARAM data);
-	void   SetSel(int index, bool sel=true);
+	void   SetItemHeight(int index, int iHeight);
+	void   SetSel(int index, bool sel = true);
 
 	// Events
 	CCallback<CCtrlListBox>	OnDblClick;

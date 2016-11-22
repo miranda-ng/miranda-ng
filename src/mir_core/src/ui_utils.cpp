@@ -332,7 +332,7 @@ CDlgBase* CDlgBase::Find(HWND hwnd)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlCombo class
 
-CCtrlCombo::CCtrlCombo(CDlgBase* dlg, int ctrlId)
+CCtrlCombo::CCtrlCombo(CDlgBase *dlg, int ctrlId)
 	: CCtrlData(dlg, ctrlId)
 {}
 
@@ -470,7 +470,7 @@ void CCtrlCombo::ShowDropdown(bool show)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlListBox class
 
-CCtrlListBox::CCtrlListBox(CDlgBase* dlg, int ctrlId)
+CCtrlListBox::CCtrlListBox(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId)
 {}
 
@@ -486,13 +486,13 @@ BOOL CCtrlListBox::OnCommand(HWND, WORD, WORD idCode)
 
 int CCtrlListBox::AddString(wchar_t *text, LPARAM data)
 {
-	int iItem = SendMessage(m_hwnd, LB_ADDSTRING, 0, (LPARAM)text);
-	SendMessage(m_hwnd, LB_SETITEMDATA, iItem, data);
+	int iItem = ListBox_AddString(m_hwnd, text);
+	ListBox_SetItemData(m_hwnd, iItem, data);
 	return iItem;
 }
 
 void CCtrlListBox::DeleteString(int index)
-{	SendMessage(m_hwnd, LB_DELETESTRING, index, 0);
+{	ListBox_DeleteString(m_hwnd, index);
 }
 
 int CCtrlListBox::FindString(wchar_t *str, int index, bool exact)
@@ -500,15 +500,15 @@ int CCtrlListBox::FindString(wchar_t *str, int index, bool exact)
 }
 
 int CCtrlListBox::GetCount()
-{	return SendMessage(m_hwnd, LB_GETCOUNT, 0, 0);
+{	return ListBox_GetCount(m_hwnd);
 }
 
 int CCtrlListBox::GetCurSel()
-{	return SendMessage(m_hwnd, LB_GETCURSEL, 0, 0);
+{	return ListBox_GetCurSel(m_hwnd);
 }
 
 LPARAM CCtrlListBox::GetItemData(int index)
-{	return SendMessage(m_hwnd, LB_GETITEMDATA, index, 0);
+{	return ListBox_GetItemData(m_hwnd, index);
 }
 
 int CCtrlListBox::GetItemRect(int index, RECT *pResult)
@@ -531,16 +531,16 @@ wchar_t* CCtrlListBox::GetItemText(int index, wchar_t *buf, int size)
 }
 
 bool CCtrlListBox::GetSel(int index)
-{	return SendMessage(m_hwnd, LB_GETSEL, index, 0) ? true : false;
+{	return ListBox_GetSel(m_hwnd, index) ? true : false;
 }
 
 int CCtrlListBox::GetSelCount()
-{	return SendMessage(m_hwnd, LB_GETSELCOUNT, 0, 0);
+{	return ListBox_GetSelCount(m_hwnd);
 }
 
 int* CCtrlListBox::GetSelItems(int *items, int count)
 {
-	SendMessage(m_hwnd, LB_GETSELITEMS, count, (LPARAM)items);
+	ListBox_GetSelItems(m_hwnd, count, items);
 	return items;
 }
 
@@ -548,42 +548,46 @@ int* CCtrlListBox::GetSelItems()
 {
 	int count = GetSelCount() + 1;
 	int *result = (int *)mir_alloc(sizeof(int) * count);
-	SendMessage(m_hwnd, LB_GETSELITEMS, count, (LPARAM)result);
+	ListBox_GetSelItems(m_hwnd, count, result);
 	result[count-1] = -1;
 	return result;
 }
 
 int CCtrlListBox::InsertString(wchar_t *text, int pos, LPARAM data)
 {
-	int iItem = SendMessage(m_hwnd, CB_INSERTSTRING, pos, (LPARAM)text);
-	SendMessage(m_hwnd, CB_SETITEMDATA, iItem, data);
+	int iItem = ListBox_InsertString(m_hwnd, pos, text);
+	ListBox_SetItemData(m_hwnd, iItem, data);
 	return iItem;
 }
 
 void CCtrlListBox::ResetContent()
-{	SendMessage(m_hwnd, LB_RESETCONTENT, 0, 0);
+{	ListBox_ResetContent(m_hwnd);
 }
 
 int CCtrlListBox::SelectString(wchar_t *str)
-{	return SendMessage(m_hwnd, LB_SELECTSTRING, 0, (LPARAM)str);
+{	return ListBox_SelectString(m_hwnd, 0, str);
 }
 
 int CCtrlListBox::SetCurSel(int index)
-{	return SendMessage(m_hwnd, LB_SETCURSEL, index, 0);
+{	return ListBox_SetCurSel(m_hwnd, index);
 }
 
 void CCtrlListBox::SetItemData(int index, LPARAM data)
-{	SendMessage(m_hwnd, LB_SETITEMDATA, index, data);
+{	ListBox_SetItemData(m_hwnd, index, data);
+}
+
+void CCtrlListBox::SetItemHeight(int index, int iHeight)
+{	ListBox_SetItemHeight(m_hwnd, index, iHeight);
 }
 
 void CCtrlListBox::SetSel(int index, bool sel)
-{	SendMessage(m_hwnd, LB_SETSEL, sel ? TRUE : FALSE, index);
+{	ListBox_SetSel(m_hwnd, sel ? TRUE : FALSE, index);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlCheck class
 
-CCtrlCheck::CCtrlCheck(CDlgBase* dlg, int ctrlId)
+CCtrlCheck::CCtrlCheck(CDlgBase *dlg, int ctrlId)
 	: CCtrlData(dlg, ctrlId)
 {}
 
@@ -616,7 +620,7 @@ void CCtrlCheck::SetState(int state)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlEdit class
 
-CCtrlEdit::CCtrlEdit(CDlgBase* dlg, int ctrlId)
+CCtrlEdit::CCtrlEdit(CDlgBase *dlg, int ctrlId)
 	: CCtrlData(dlg, ctrlId)
 {}
 
@@ -658,7 +662,7 @@ void CCtrlEdit::SetMaxLength(unsigned int len)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlSpin class
 
-CCtrlSpin::CCtrlSpin(CDlgBase* dlg, int ctrlId)
+CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId)
 {}
 
@@ -700,13 +704,13 @@ void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, wc
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlMButton
 
-CCtrlMButton::CCtrlMButton(CDlgBase* dlg, int ctrlId, HICON hIcon, const char* tooltip) 
+CCtrlMButton::CCtrlMButton(CDlgBase *dlg, int ctrlId, HICON hIcon, const char* tooltip) 
 	: CCtrlButton(dlg, ctrlId),
 	m_hIcon(hIcon),
 	m_toolTip(tooltip)
 {}
 
-CCtrlMButton::CCtrlMButton(CDlgBase* dlg, int ctrlId, int iCoreIcon, const char* tooltip)
+CCtrlMButton::CCtrlMButton(CDlgBase *dlg, int ctrlId, int iCoreIcon, const char* tooltip)
 	: CCtrlButton(dlg, ctrlId),
 	m_hIcon(::Skin_LoadIcon(iCoreIcon)),
 	m_toolTip(tooltip)
@@ -822,7 +826,7 @@ WORD CProgress::Move(WORD delta)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlClc
-CCtrlClc::CCtrlClc(CDlgBase* dlg, int ctrlId)
+CCtrlClc::CCtrlClc(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId)
 {}
 
@@ -1034,7 +1038,7 @@ void CCtrlClc::SetTextColor(int iFontId, COLORREF clText)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlListView
 
-CCtrlListView::CCtrlListView(CDlgBase* dlg, int ctrlId)
+CCtrlListView::CCtrlListView(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId)
 {}
 
@@ -1486,7 +1490,7 @@ BOOL CCtrlListView::Update(int iItem)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlTreeView
 
-CCtrlTreeView::CCtrlTreeView(CDlgBase* dlg, int ctrlId)
+CCtrlTreeView::CCtrlTreeView(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId),
 	m_dwFlags(0)
 {}
@@ -2181,7 +2185,7 @@ void CCtrlTreeView::SortChildrenCB(TVSORTCB *cb, BOOL fRecurse)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlPages
 
-CCtrlPages::CCtrlPages(CDlgBase* dlg, int ctrlId)
+CCtrlPages::CCtrlPages(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId),
 	m_hIml(NULL),
 	m_pActivePage(NULL),
