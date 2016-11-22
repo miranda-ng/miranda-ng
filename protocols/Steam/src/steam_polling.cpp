@@ -5,6 +5,9 @@
 void CSteamProto::ParsePollData(JSONNode *data)
 {
 	JSONNode *node, *item = NULL;
+	
+	// FIXME: Temporary solution for receivng too many duplicated typing events; should be reworked better
+	std::string typingUser;
 
 	std::string steamIds;
 	for (size_t i = 0; i < json_size(data); i++)
@@ -47,6 +50,11 @@ void CSteamProto::ParsePollData(JSONNode *data)
 		}
 		else if (!lstrcmpi(type, L"typing"))
 		{
+			// FIXME: Temporary solution for receivng too many duplicated typing events; should be reworked better
+			if (typingUser == steamId)
+				continue;
+			typingUser = steamId;
+			
 			MCONTACT hContact = FindContact(steamId);
 			if (hContact)
 			{
