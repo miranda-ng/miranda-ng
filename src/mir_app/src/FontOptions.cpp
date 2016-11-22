@@ -1336,7 +1336,6 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 	return FALSE;
 }
 
-INT_PTR CALLBACK AccMgrDlgProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK DlgPluginOpt(HWND, UINT, WPARAM, LPARAM);
 
 int FontsModernOptInit(WPARAM wParam, LPARAM)
@@ -1363,7 +1362,7 @@ int FontsModernOptInit(WPARAM wParam, LPARAM)
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_FONTS);
 	obj.pfnDlgProc = DlgProcModernOptions;
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-
+/*
 	obj.iSection = MODERNOPT_PAGE_ACCOUNTS;
 	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_ACCOUNTS);
@@ -1372,7 +1371,7 @@ int FontsModernOptInit(WPARAM wParam, LPARAM)
 	obj.lpzClassicPage = "Network";
 	obj.lpzHelpUrl = "http://wiki.miranda-ng.org/";
 	CallService(MS_MODERNOPT_ADDOBJECT, wParam, (LPARAM)&obj);
-
+*/
 	obj.iSection = MODERNOPT_PAGE_MODULES;
 	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
 	obj.lpzTemplate = MAKEINTRESOURCEA(IDD_MODERNOPT_MODULES);
