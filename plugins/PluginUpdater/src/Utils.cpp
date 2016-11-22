@@ -316,7 +316,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 
 void __stdcall OpenPluginOptions(void*)
 {
-	Options_Open(L"Plugins");
+	Options_Open(NULL, L"Plugins");
 }
 
 //   FUNCTION: IsRunAsAdmin()

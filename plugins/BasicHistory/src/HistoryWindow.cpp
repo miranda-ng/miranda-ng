@@ -535,7 +535,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			DlgReturn(TRUE);
 
 		case IDM_CONFIG:
-			Options_Open(LPGENW("History"));
+			Options_Open(NULL, LPGENW("History"));
 			DlgReturn(TRUE);
 
 		case IDM_DELETE:
