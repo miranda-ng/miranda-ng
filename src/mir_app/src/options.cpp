@@ -1159,7 +1159,6 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 	psh.pszCaption = tszTitle;
 	psh.ppsp = (PROPSHEETPAGE*)arPages.getArray();
 	hwndOptions = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPTIONSPAGE), NULL, OptionsDlgProc, (LPARAM)&psh);
-	mir_free((void*)ood.pszPage);
 }
 
 static void OpenOptionsNow(int _hLang, const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, bool bSinglePage)
