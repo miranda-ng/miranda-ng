@@ -210,6 +210,11 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return FALSE;
 
+	case WM_CONTEXTMENU:
+		if (CCtrlBase *ctrl = FindControl(HWND(wParam)))
+			ctrl->OnBuildMenu(ctrl);
+		break;
+
 	case WM_SIZE:
 		if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_SIZEBOX))
 			Utils_ResizeDialog(m_hwnd, m_hInst, MAKEINTRESOURCEA(m_idDialog), GlobalDlgResizer);
@@ -295,6 +300,15 @@ CCtrlBase* CDlgBase::FindControl(int idCtrl)
 {
 	CCtrlBase search(NULL, idCtrl);
 	return m_controls.find(&search);
+}
+
+CCtrlBase* CDlgBase::FindControl(HWND hwnd)
+{
+	for (int i = 0; i < m_controls.getCount(); i++)
+		if (m_controls[i]->GetHwnd() == hwnd)
+			return m_controls[i];
+	
+	return NULL;
 }
 
 void CDlgBase::AddTimer(CTimer *timer)

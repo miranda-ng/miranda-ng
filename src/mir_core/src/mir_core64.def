@@ -1031,3 +1031,5 @@ CallFunctionSync @1170
 ?Start@CTimer@@QEAAXH@Z @1188 NONAME
 ?Stop@CTimer@@QEAAXXZ @1189 NONAME
 ?AddTimer@CDlgBase@@IEAAXPEAVCTimer@@@Z @1190 NONAME
+??0CCtrlBase@@AEAA@PEAUHWND__@@@Z @1191 NONAME
+?FindControl@CDlgBase@@AEAAPEAVCCtrlBase@@PEAUHWND__@@@Z @1192 NONAME

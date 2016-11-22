@@ -440,7 +440,8 @@ private:
 	LIST<CCtrlBase> m_controls;
 
 	void NotifyControls(void (CCtrlBase::*fn)());
-	CCtrlBase *FindControl(int idCtrl);
+	CCtrlBase* FindControl(int idCtrl);
+	CCtrlBase* FindControl(HWND hwnd);
 
 	CTimer* FindTimer(int idEvent);
 
@@ -478,6 +479,8 @@ protected:
 class MIR_CORE_EXPORT CCtrlBase
 {
 	friend class CDlgBase;
+
+	__forceinline CCtrlBase(HWND hwnd) : m_hwnd(hwnd) {}
 
 public:
 	CCtrlBase(CDlgBase *wnd, int idCtrl);
@@ -530,6 +533,7 @@ protected:
 
 public:
 	CCallback<CCtrlBase> OnChange;
+	CCallback<CCtrlBase> OnBuildMenu;
 
 protected:
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);

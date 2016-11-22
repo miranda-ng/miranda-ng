@@ -294,18 +294,6 @@ static int CALLBACK DoSortIconsFuncByOrder(LPARAM lParam1, LPARAM lParam2, LPARA
 	return iconList[lParam1]->orderID - iconList[lParam2]->orderID;
 }
 
-static int OpenPopupMenu(HWND hwndDlg)
-{
-	POINT pt;
-	GetCursorPos(&pt);
-	HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
-	HMENU hPopup = GetSubMenu(hMenu, 0);
-	TranslateMenu(hPopup);
-	int cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-	DestroyMenu(hMenu);
-	return cmd;
-}
-
 static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
 {
 	wchar_t path[MAX_PATH];
@@ -333,26 +321,6 @@ static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
 	}
 }
 
-static void LoadSubIcons(HWND htv, wchar_t *filename, HTREEITEM hItem)
-{
-	TVITEM tvi;
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-	tvi.hItem = hItem;
-	TreeView_GetItem(htv, &tvi);
-
-	TreeItem *treeItem = (TreeItem*)tvi.lParam;
-	SectionItem* sectionActive = sectionList[SECTIONPARAM_INDEX(treeItem->value)];
-
-	tvi.hItem = TreeView_GetChild(htv, tvi.hItem);
-	while (tvi.hItem) {
-		LoadSubIcons(htv, filename, tvi.hItem);
-		tvi.hItem = TreeView_GetNextSibling(htv, tvi.hItem);
-	}
-
-	if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE)
-		LoadSectionIcons(filename, sectionActive);
-}
-
 static void UndoChanges(int iconIndx, int cmd)
 {
 	IcolibItem *item = iconList[iconIndx];
@@ -368,57 +336,6 @@ static void UndoChanges(int iconIndx, int cmd)
 		item->temp_reset = TRUE;
 }
 
-static void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
-{
-	TVITEM tvi = { 0 };
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-	tvi.hItem = hItem;
-	TreeView_GetItem(htv, &tvi);
-
-	TreeItem *treeItem = (TreeItem *)tvi.lParam;
-	if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE) {
-		mir_cslock lck(csIconList);
-
-		for (int indx = 0; indx < iconList.getCount(); indx++)
-			if (iconList[indx]->section == sectionList[SECTIONPARAM_INDEX(treeItem->value)])
-				UndoChanges(indx, cmd);
-	}
-
-	tvi.hItem = TreeView_GetChild(htv, tvi.hItem);
-	while (tvi.hItem) {
-		UndoSubItemChanges(htv, tvi.hItem, cmd);
-		tvi.hItem = TreeView_GetNextSibling(htv, tvi.hItem);
-	}
-}
-
-static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar_t *name)
-{
-	TVITEM tvi = { 0 };
-	wchar_t str[MAX_PATH];
-
-	if (hItem)
-		tvi.hItem = TreeView_GetChild(hwndTree, hItem);
-	else
-		tvi.hItem = TreeView_GetRoot(hwndTree);
-
-	if (!name)
-		return tvi.hItem;
-
-	tvi.mask = TVIF_TEXT;
-	tvi.pszText = str;
-	tvi.cchTextMax = _countof(str);
-
-	while (tvi.hItem) {
-		TreeView_GetItem(hwndTree, &tvi);
-
-		if (!mir_wstrcmp(tvi.pszText, name))
-			return tvi.hItem;
-
-		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
-	}
-	return NULL;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 class CIcoLibOptsDlg : public CDlgBase
@@ -431,6 +348,33 @@ class CIcoLibOptsDlg : public CDlgBase
 	CCtrlTreeView m_categoryList;
 	CCtrlListView m_preview;
 	CCtrlButton m_btnGetMore, m_btnImport, m_btnLoadIcons;
+
+	HTREEITEM FindNamedTreeItemAt(HTREEITEM hItem, const wchar_t *name)
+	{
+		TVITEMEX tvi = { 0 };
+		if (hItem)
+			tvi.hItem = m_categoryList.GetChild(hItem);
+		else
+			tvi.hItem = m_categoryList.GetRoot();
+
+		if (!name)
+			return tvi.hItem;
+
+		wchar_t str[MAX_PATH];
+		tvi.mask = TVIF_TEXT;
+		tvi.pszText = str;
+		tvi.cchTextMax = _countof(str);
+
+		while (tvi.hItem) {
+			m_categoryList.GetItem(&tvi);
+
+			if (!mir_wstrcmp(tvi.pszText, name))
+				return tvi.hItem;
+
+			tvi.hItem = m_categoryList.GetNextSibling(tvi.hItem);
+		}
+		return NULL;
+	}
 
 	void RebuildTree()
 	{
@@ -459,7 +403,7 @@ class CIcoLibOptsDlg : public CDlgBase
 				}
 
 				pItemName = TranslateW(pItemName);
-				hItem = FindNamedTreeItemAt(m_categoryList.GetHwnd(), hSection, pItemName);
+				hItem = FindNamedTreeItemAt(hSection, pItemName);
 				if (!sectionName || !hItem) {
 					if (!hItem) {
 						TVINSERTSTRUCT tvis = { 0 };
@@ -497,7 +441,19 @@ class CIcoLibOptsDlg : public CDlgBase
 
 		ShowWindow(m_categoryList.GetHwnd(), SW_SHOW);
 
-		m_categoryList.SelectItem(FindNamedTreeItemAt(m_categoryList.GetHwnd(), 0, NULL));
+		m_categoryList.SelectItem(FindNamedTreeItemAt(0, NULL));
+	}
+
+	int OpenPopupMenu()
+	{
+		POINT pt;
+		GetCursorPos(&pt);
+		HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
+		HMENU hPopup = GetSubMenu(hMenu, 0);
+		TranslateMenu(hPopup);
+		int cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, NULL);
+		DestroyMenu(hMenu);
+		return cmd;
 	}
 
 	void UpdateIconsPreview()
@@ -557,6 +513,46 @@ class CIcoLibOptsDlg : public CDlgBase
 		}
 	}
 
+	void LoadSubIcons(wchar_t *filename, HTREEITEM hItem)
+	{
+		TVITEMEX tvi;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+		tvi.hItem = hItem;
+		m_categoryList.GetItem(&tvi);
+
+		TreeItem *treeItem = (TreeItem*)tvi.lParam;
+		SectionItem *sectionActive = sectionList[SECTIONPARAM_INDEX(treeItem->value)];
+
+		tvi.hItem = m_categoryList.GetChild(tvi.hItem);
+		while (tvi.hItem) {
+			LoadSubIcons(filename, tvi.hItem);
+			tvi.hItem = m_categoryList.GetNextSibling(tvi.hItem);
+		}
+
+		if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE)
+			LoadSectionIcons(filename, sectionActive);
+	}
+
+	void UndoSubItemChanges(HTREEITEM hItem, int cmd)
+	{
+		TVITEMEX tvi = { 0 };
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+		tvi.hItem = hItem;
+		m_categoryList.GetItem(&tvi);
+
+		TreeItem *treeItem = (TreeItem *)tvi.lParam;
+		if (SECTIONPARAM_FLAGS(treeItem->value) & SECTIONPARAM_HAVEPAGE) {
+			mir_cslock lck(csIconList);
+
+			for (int indx = 0; indx < iconList.getCount(); indx++)
+				if (iconList[indx]->section == sectionList[SECTIONPARAM_INDEX(treeItem->value)])
+					UndoChanges(indx, cmd);
+		}
+
+		for (hItem = m_categoryList.GetChild(tvi.hItem); hItem; hItem = m_categoryList.GetNextSibling(hItem))
+			UndoSubItemChanges(hItem, cmd);
+	}
+
 public:
 	CIcoLibOptsDlg() :
 		CDlgBase(g_hInst, IDD_OPT_ICOLIB),
@@ -573,8 +569,11 @@ public:
 		m_btnLoadIcons.OnClick = Callback(this, &CIcoLibOptsDlg::OnLoadIcons);
 
 		m_preview.OnGetInfoTip = Callback(this, &CIcoLibOptsDlg::OnGetInfoTip);
+		m_preview.OnBuildMenu = Callback(this, &CIcoLibOptsDlg::OnPreviewMenu);
+		
 		m_categoryList.OnSelChanged = Callback(this, &CIcoLibOptsDlg::OnCategoryChanged);
 		m_categoryList.OnDeleteItem = Callback(this, &CIcoLibOptsDlg::OnCategoryDeleted);
+		m_categoryList.OnBuildMenu = Callback(this, &CIcoLibOptsDlg::OnTreeMenu);
 	}
 
 	virtual void OnInitDialog() override
@@ -609,48 +608,6 @@ public:
 				RebuildTree();
 			}
 			break;
-
-		case WM_CONTEXTMENU:
-			if ((HWND)wParam == m_preview.GetHwnd()) {
-				UINT count = m_preview.GetSelectedCount();
-
-				if (count > 0) {
-					int cmd = OpenPopupMenu(m_hwnd);
-					switch (cmd) {
-					case ID_CANCELCHANGE:
-					case ID_RESET:
-						{
-							LVITEM lvi = { 0 };
-							int itemIndx = -1;
-
-							while ((itemIndx = m_preview.GetNextItem(itemIndx, LVNI_SELECTED)) != -1) {
-								lvi.mask = LVIF_PARAM;
-								lvi.iItem = itemIndx; //lvhti.iItem;
-								m_preview.GetItem(&lvi);
-
-								UndoChanges(lvi.lParam, cmd);
-							}
-
-							DoOptionsChanged();
-							break;
-						}
-					}
-				}
-			}
-			else {
-				if ((HWND)wParam == m_categoryList.GetHwnd()) {
-					int cmd = OpenPopupMenu(m_hwnd);
-
-					switch (cmd) {
-					case ID_CANCELCHANGE:
-					case ID_RESET:
-						UndoSubItemChanges(m_categoryList.GetHwnd(), m_categoryList.GetSelection(), cmd);
-						DoOptionsChanged();
-						break;
-					}
-				}
-			}
-			break;
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);
@@ -677,7 +634,7 @@ public:
 			mir_free(file);
 
 			MySetCursor(IDC_WAIT);
-			LoadSubIcons(m_categoryList.GetHwnd(), filename, m_categoryList.GetSelection());
+			LoadSubIcons(filename, m_categoryList.GetSelection());
 			MySetCursor(IDC_ARROW);
 
 			DoOptionsChanged();
@@ -751,6 +708,41 @@ public:
 			IcolibItem *item = iconList[indx];
 			replaceStrW(item->temp_file, NULL);
 			SafeDestroyIcon(item->temp_icon);
+		}
+	}
+
+	void OnPreviewMenu(void*)
+	{
+		UINT count = m_preview.GetSelectedCount();
+		if (count <= 0)
+			return;
+
+		int cmd = OpenPopupMenu();
+		switch (cmd) {
+		case ID_CANCELCHANGE:
+		case ID_RESET:
+			int itemIndx = -1;
+			while ((itemIndx = m_preview.GetNextItem(itemIndx, LVNI_SELECTED)) != -1) {
+				LVITEM lvi;
+				lvi.mask = LVIF_PARAM;
+				lvi.iItem = itemIndx;
+				m_preview.GetItem(&lvi);
+
+				UndoChanges(lvi.lParam, cmd);
+			}
+
+			DoOptionsChanged();
+		}
+	}
+
+	void OnTreeMenu(void*)
+	{
+		int cmd = OpenPopupMenu();
+		switch (cmd) {
+		case ID_CANCELCHANGE:
+		case ID_RESET:
+			UndoSubItemChanges(m_categoryList.GetSelection(), cmd);
+			DoOptionsChanged();
 		}
 	}
 
