@@ -1222,17 +1222,17 @@ void TSAPI PlayIncomingSound(const TWindowData *dat)
 // reads send format and configures the toolbar buttons
 // if mode == 0, int only configures the buttons and does not change send format
 
+static UINT controls[] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT };
+
 void TSAPI GetSendFormat(TWindowData *dat)
 {
-	UINT controls[5] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT };
-
 	dat->SendFormat = M.GetDword(dat->hContact, "sendformat", PluginConfig.m_SendFormat);
 	if (dat->SendFormat == -1)          // per contact override to disable it..
 		dat->SendFormat = 0;
 	else if (dat->SendFormat == 0)
 		dat->SendFormat = PluginConfig.m_SendFormat ? 1 : 0;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < _countof(controls); i++)
 		Utils::enableDlgControl(dat->hwnd, controls[i], dat->SendFormat != 0);
 	return;
 }

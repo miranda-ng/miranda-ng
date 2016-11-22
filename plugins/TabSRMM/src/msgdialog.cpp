@@ -35,7 +35,7 @@ bool IsStringValidLink(wchar_t* pszText);
 const wchar_t *pszIDCSAVE_close = 0, *pszIDCSAVE_save = 0;
 
 static const UINT sendControls[] = { IDC_MESSAGE, IDC_LOG };
-static const UINT formatControls[] = { IDC_SMILEYBTN, IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT };
+static const UINT formatControls[] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT };
 static const UINT addControls[] = { IDC_ADD, IDC_CANCELADD };
 static const UINT btnControls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER, IDC_ADD, IDC_CANCELADD };
 static const UINT errorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
@@ -388,12 +388,12 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	if (dat->hContact) {
 		if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) {
 			dat->bNotOnList = TRUE;
-			ShowMultipleControls(hwndDlg, addControls, 2, SW_SHOW);
+			ShowMultipleControls(hwndDlg, addControls, _countof(addControls), SW_SHOW);
 			Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_SHOW);
 			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, TranslateT("Contact not on list. You may add it..."));
 		}
 		else {
-			ShowMultipleControls(hwndDlg, addControls, 2, SW_HIDE);
+			ShowMultipleControls(hwndDlg, addControls, _countof(addControls), SW_HIDE);
 			dat->bNotOnList = FALSE;
 			Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_HIDE);
 		}
@@ -406,12 +406,12 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 		Utils::enableDlgControl(hwndDlg, IDC_LOG, false);
 		Utils::showDlgControl(hwndDlg, IDC_MESSAGE, SW_SHOW);
 	}
-	else ShowMultipleControls(hwndDlg, sendControls, sizeof(sendControls) / sizeof(sendControls[0]), SW_SHOW);
+	else ShowMultipleControls(hwndDlg, sendControls, _countof(sendControls), SW_SHOW);
 
-	ShowMultipleControls(hwndDlg, errorControls, sizeof(errorControls) / sizeof(errorControls[0]), dat->dwFlags & MWF_ERRORSTATE ? SW_SHOW : SW_HIDE);
+	ShowMultipleControls(hwndDlg, errorControls, _countof(errorControls), dat->dwFlags & MWF_ERRORSTATE ? SW_SHOW : SW_HIDE);
 
 	if (!dat->SendFormat)
-		ShowMultipleControls(hwndDlg, &formatControls[1], 5, SW_HIDE);
+		ShowMultipleControls(hwndDlg, formatControls, _countof(formatControls), SW_HIDE);
 
 	ConfigureSmileyButton(dat);
 
@@ -2800,7 +2800,7 @@ quote_from_last:
 				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
 				if (!db_get_b(dat->hContact, "CList", "NotOnList", 0)) {
 					dat->bNotOnList = FALSE;
-					ShowMultipleControls(hwndDlg, addControls, 2, SW_HIDE);
+					ShowMultipleControls(hwndDlg, addControls, _countof(addControls), SW_HIDE);
 					if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 						Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_HIDE);
 					SendMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -2810,7 +2810,7 @@ quote_from_last:
 
 		case IDC_CANCELADD:
 			dat->bNotOnList = FALSE;
-			ShowMultipleControls(hwndDlg, addControls, 2, SW_HIDE);
+			ShowMultipleControls(hwndDlg, addControls, _countof(addControls), SW_HIDE);
 			if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 				Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_HIDE);
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
