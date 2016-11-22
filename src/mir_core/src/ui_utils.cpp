@@ -470,8 +470,8 @@ void CCtrlCombo::ShowDropdown(bool show)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlListBox class
 
-CCtrlListBox::CCtrlListBox(CDlgBase* dlg, int ctrlId) :
-CCtrlBase(dlg, ctrlId)
+CCtrlListBox::CCtrlListBox(CDlgBase* dlg, int ctrlId)
+	: CCtrlBase(dlg, ctrlId)
 {}
 
 BOOL CCtrlListBox::OnCommand(HWND, WORD, WORD idCode)
@@ -509,6 +509,10 @@ int CCtrlListBox::GetCurSel()
 
 LPARAM CCtrlListBox::GetItemData(int index)
 {	return SendMessage(m_hwnd, LB_GETITEMDATA, index, 0);
+}
+
+int CCtrlListBox::GetItemRect(int index, RECT *pResult)
+{	return ListBox_GetItemRect(m_hwnd, index, pResult);
 }
 
 wchar_t* CCtrlListBox::GetItemText(int index)

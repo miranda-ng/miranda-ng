@@ -780,6 +780,7 @@ public:
 	int    GetCount();
 	int    GetCurSel();
 	LPARAM GetItemData(int index);
+	int    GetItemRect(int index, RECT *pResult);
 	wchar_t* GetItemText(int index);
 	wchar_t* GetItemText(int index, wchar_t *buf, int size);
 	bool   GetSel(int index);

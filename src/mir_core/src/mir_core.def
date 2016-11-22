@@ -1033,3 +1033,4 @@ CallFunctionSync @1170
 ?AddTimer@CDlgBase@@IAEXPAVCTimer@@@Z @1190 NONAME
 ??0CCtrlBase@@AAE@PAUHWND__@@@Z @1191 NONAME
 ?FindControl@CDlgBase@@AAEPAVCCtrlBase@@PAUHWND__@@@Z @1192 NONAME
+?GetItemRect@CCtrlListBox@@QAEHHPAUtagRECT@@@Z @1193 NONAME
