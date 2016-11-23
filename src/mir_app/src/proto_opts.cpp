@@ -94,16 +94,6 @@ PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBasePr
 	return pa;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Account edit form
-// Gets PROTOACCOUNT* as a parameter, or NULL to edit a new one
-
-struct AccFormDlgParam
-{
-	int action;
-	PROTOACCOUNT *pa;
-};
-
 static bool FindAccountByName(const char *szModuleName)
 {
 	if (!mir_strlen(szModuleName))
@@ -116,120 +106,122 @@ static bool FindAccountByName(const char *szModuleName)
 	return false;
 }
 
-static bool OnCreateAccount(HWND hwndDlg)
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Account edit form
+// gets PROTOACCOUNT* as a parameter, or NULL to edit a new one
+
+class ÑAccountFormDlg : public CDlgBase
 {
-	AccFormDlgParam *param = (AccFormDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	PROTOACCOUNT *pa = param->pa;
+	int m_action;
+	PROTOACCOUNT *m_pa;
 
-	wchar_t tszAccName[256];
-	GetDlgItemText(hwndDlg, IDC_ACCNAME, tszAccName, _countof(tszAccName));
-	rtrimw(tszAccName);
-	if (tszAccName[0] == 0) {
-		MessageBox(hwndDlg, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
-		return false;
+	CCtrlEdit m_accName, m_internalName;
+	CCtrlCombo m_prototype;
+	CCtrlButton m_btnOk;
+
+public:
+	ÑAccountFormDlg(CDlgBase *pParent, int action, PROTOACCOUNT *pa) :
+		CDlgBase(g_hInst, IDD_ACCFORM),
+		m_btnOk(this, IDOK),
+		m_accName(this, IDC_ACCNAME),
+		m_prototype(this, IDC_PROTOTYPECOMBO),
+		m_internalName(this, IDC_ACCINTERNALNAME),
+		m_pa(pa),
+		m_action(action)
+	{
+		m_hwndParent = pParent->GetHwnd();
+		m_btnOk.OnClick = Callback(this, &ÑAccountFormDlg::OnOk);
 	}
 
-	if (param->action == PRAC_ADDED) {
-		char buf[200];
-		GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, _countof(buf));
-		if (FindAccountByName(rtrim(buf))) {
-			MessageBox(hwndDlg, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
-			return false;
-		}
-	}
-
-	if (param->action == PRAC_UPGRADED) {
-		BOOL oldProto = pa->bOldProto;
-		wchar_t szPlugin[MAX_PATH];
-		mir_snwprintf(szPlugin, L"%s.dll", _A2T(pa->szProtoName));
-		int idx = accounts.getIndex(pa);
-		UnloadAccount(pa, false, false);
-		accounts.remove(idx);
-		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
-			wchar_t szNewName[MAX_PATH];
-			mir_snwprintf(szNewName, L"%s~", szPlugin);
-			MoveFile(szPlugin, szNewName);
-		}
-		param->action = PRAC_ADDED;
-	}
-
-	if (param->action == PRAC_ADDED) {
-		char buf[200];
-		GetDlgItemTextA(hwndDlg, IDC_PROTOTYPECOMBO, buf, _countof(buf));
-		char *szBaseProto = NEWSTR_ALLOCA(buf);
-
-		GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, _countof(buf));
-		rtrim(buf);
-
-		pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
-	}
-	else replaceStrW(pa->tszAccountName, tszAccName);
-
-	WriteDbAccounts();
-	NotifyEventHooks(hAccListChanged, param->action, (LPARAM)pa);
-
-	SendMessage(GetParent(hwndDlg), WM_MY_REFRESH, 0, 0);
-	return true;
-}
-
-static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			PROTOCOLDESCRIPTOR **proto;
-			int protoCount, i, cnt = 0;
-			Proto_EnumProtocols(&protoCount, &proto);
-			for (i = 0; i < protoCount; i++) {
-				PROTOCOLDESCRIPTOR* pd = proto[i];
-				if (pd->type == PROTOTYPE_PROTOCOL && pd->cbSize == sizeof(*pd)) {
-					SendDlgItemMessageA(hwndDlg, IDC_PROTOTYPECOMBO, CB_ADDSTRING, 0, (LPARAM)proto[i]->szName);
-					++cnt;
-				}
+	virtual void OnInitDialog() override
+	{
+		PROTOCOLDESCRIPTOR **proto;
+		int protoCount, i, cnt = 0;
+		Proto_EnumProtocols(&protoCount, &proto);
+		for (i = 0; i < protoCount; i++) {
+			PROTOCOLDESCRIPTOR *pd = proto[i];
+			if (pd->type == PROTOTYPE_PROTOCOL && pd->cbSize == sizeof(*pd)) {
+				m_prototype.AddStringA(proto[i]->szName);
+				++cnt;
 			}
-			SendDlgItemMessage(hwndDlg, IDC_PROTOTYPECOMBO, CB_SETCURSEL, 0, 0);
-			EnableWindow(GetDlgItem(hwndDlg, IDOK), cnt != 0);
+		}
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			AccFormDlgParam* param = (AccFormDlgParam*)lParam;
+		m_prototype.SetCurSel(0);
+		m_btnOk.Enable(cnt != 0);
 
-			if (param->action == PRAC_ADDED) // new account
-				SetWindowText(hwndDlg, TranslateT("Create new account"));
-			else {
-				wchar_t str[200];
-				if (param->action == PRAC_CHANGED) { // update
-					EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOTYPECOMBO), FALSE);
-					mir_snwprintf(str, L"%s: %s", TranslateT("Editing account"), param->pa->tszAccountName);
-				}
-				else mir_snwprintf(str, L"%s: %s", TranslateT("Upgrading account"), param->pa->tszAccountName);
-
-				SetWindowText(hwndDlg, str);
-				SetDlgItemText(hwndDlg, IDC_ACCNAME, param->pa->tszAccountName);
-				SetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, param->pa->szModuleName);
-				SendDlgItemMessageA(hwndDlg, IDC_PROTOTYPECOMBO, CB_SELECTSTRING, -1, (LPARAM)param->pa->szProtoName);
-
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ACCINTERNALNAME), FALSE);
+		if (m_action == PRAC_ADDED) // new account
+			SetCaption(TranslateT("Create new account"));
+		else {
+			wchar_t str[200];
+			if (m_action == PRAC_CHANGED) { // update
+				m_prototype.Disable();
+				mir_snwprintf(str, L"%s: %s", TranslateT("Editing account"), m_pa->tszAccountName);
 			}
-			SendDlgItemMessage(hwndDlg, IDC_ACCINTERNALNAME, EM_LIMITTEXT, 40, 0);
-		}
-		return TRUE;
+			else mir_snwprintf(str, L"%s: %s", TranslateT("Upgrading account"), m_pa->tszAccountName);
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			if (OnCreateAccount(hwndDlg))
-				EndDialog(hwndDlg, TRUE);
-			break;
-
-		case IDCANCEL:
-			EndDialog(hwndDlg, FALSE);
-			break;
+			SetCaption(str);
+			m_accName.SetText(m_pa->tszAccountName);
+			m_internalName.SetTextA(m_pa->szModuleName);
+			m_internalName.Disable();
+			m_prototype.SelectString(_A2T(m_pa->szProtoName));
 		}
+
+		m_internalName.SendMsg(EM_LIMITTEXT, 40, 0);
 	}
 
-	return FALSE;
-}
+	void OnOk(CCtrlButton*)
+	{
+		wchar_t tszAccName[256];
+		m_accName.GetText(tszAccName, _countof(tszAccName));
+		rtrimw(tszAccName);
+		if (tszAccName[0] == 0) {
+			MessageBox(m_hwnd, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+			return;
+		}
+
+		if (m_action == PRAC_ADDED) {
+			char buf[200];
+			m_internalName.GetTextA(buf, _countof(buf));
+			if (FindAccountByName(rtrim(buf))) {
+				MessageBox(m_hwnd, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+				return;
+			}
+		}
+
+		if (m_action == PRAC_UPGRADED) {
+			BOOL oldProto = m_pa->bOldProto;
+			wchar_t szPlugin[MAX_PATH];
+			mir_snwprintf(szPlugin, L"%s.dll", _A2T(m_pa->szProtoName));
+			int idx = accounts.getIndex(m_pa);
+			UnloadAccount(m_pa, false, false);
+			accounts.remove(idx);
+			if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
+				wchar_t szNewName[MAX_PATH];
+				mir_snwprintf(szNewName, L"%s~", szPlugin);
+				MoveFile(szPlugin, szNewName);
+			}
+			m_action = PRAC_ADDED;
+		}
+
+		if (m_action == PRAC_ADDED) {
+			char buf[200];
+			GetDlgItemTextA(m_hwnd, IDC_PROTOTYPECOMBO, buf, _countof(buf));
+			char *szBaseProto = NEWSTR_ALLOCA(buf);
+
+			m_internalName.GetTextA(buf, _countof(buf));
+			rtrim(buf);
+
+			m_pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
+		}
+		else replaceStrW(m_pa->tszAccountName, tszAccName);
+
+		WriteDbAccounts();
+		NotifyEventHooks(hAccListChanged, m_action, (LPARAM)m_pa);
+
+		SendMessage(GetParent(m_hwnd), WM_MY_REFRESH, 0, 0);
+		EndModal(IDOK);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Account manager dialog
@@ -243,7 +235,7 @@ class CAccountListCtrl : public CCtrlListBox
 	HWND m_hwndEdit;
 
 public:
-	CAccountListCtrl(CDlgBase* dlg, int ctrlId) :
+	CAccountListCtrl(CDlgBase *dlg, int ctrlId) :
 		CCtrlListBox(dlg, ctrlId),
 		m_iItem(-1),
 		m_hwndEdit(NULL)
@@ -598,8 +590,7 @@ public:
 
 	void OnAdd(CCtrlButton*)
 	{
-		AccFormDlgParam param = { PRAC_ADDED, NULL };
-		if (IDOK == DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_ACCFORM), m_hwnd, AccFormDlgProc, (LPARAM)&param))
+		if (IDOK == ÑAccountFormDlg(this, PRAC_ADDED, NULL).DoModal())
 			SendMessage(m_hwnd, WM_MY_REFRESH, 0, 0);
 	}
 
@@ -673,10 +664,8 @@ public:
 	void OnUpgrade(CCtrlButton*)
 	{
 		int idx = m_accList.GetCurSel();
-		if (idx != -1) {
-			AccFormDlgParam param = { PRAC_UPGRADED, (PROTOACCOUNT*)m_accList.GetItemData(idx) };
-			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_ACCFORM), m_hwnd, AccFormDlgProc, (LPARAM)&param);
-		}
+		if (idx != -1)
+			ÑAccountFormDlg(this, PRAC_UPGRADED, (PROTOACCOUNT*)m_accList.GetItemData(idx)).DoModal();
 	}
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
