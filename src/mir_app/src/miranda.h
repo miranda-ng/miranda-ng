@@ -90,10 +90,6 @@ __forceinline char* Utf8DecodeA(const char* src)
 
 #pragma optimize("", on)
 
-/**** options.cpp **********************************************************************/
-
-HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const wchar_t* name);
-
 /**** skinicons.cpp ********************************************************************/
 
 extern int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;

@@ -68,6 +68,24 @@ MIR_APP_DLL(void) KillModuleSounds(int _hLang)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const wchar_t* name)
+{
+	wchar_t str[128];
+	TVITEM tvi;
+	tvi.mask = TVIF_TEXT;
+	tvi.pszText = str;
+	tvi.cchTextMax = _countof(str);
+	tvi.hItem = TreeView_GetRoot(hwndTree);
+	while (tvi.hItem != NULL) {
+		SendMessage(hwndTree, TVM_GETITEM, 0, (LPARAM)&tvi);
+		if (!mir_wstrcmpi(str, name))
+			return tvi.hItem;
+
+		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
+	}
+	return NULL;
+}
+
 static BOOL bModuleInitialized = FALSE;
 static HANDLE hPlayEvent = NULL;
 
