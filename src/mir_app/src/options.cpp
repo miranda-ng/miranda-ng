@@ -1090,22 +1090,15 @@ public:
 			}
 			break;
 
-		case WM_TIMER:
-			if (wParam == FILTER_TIMEOUT_TIMER) {
-				SaveOptionsTreeState();
-				RebuildPageTree();
-
-				KillTimer(m_hwnd, FILTER_TIMEOUT_TIMER);
-			}
-			break;
-
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 			case IDC_KEYWORD_FILTER:
 				// add a timer - when the timer elapses filter the option pages
-				if ((HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == CBN_EDITCHANGE))
-					if (!SetTimer(m_hwnd, FILTER_TIMEOUT_TIMER, 400, NULL))
-						MessageBeep(MB_ICONSTOP);
+				if ((HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == CBN_EDITCHANGE)) {
+					CTimer *pTimer = new CTimer(this, FILTER_TIMEOUT_TIMER);
+					pTimer->OnEvent = Callback(this, &COptionsDlg::OnTimer);
+					pTimer->Start(400);
+				}
 				break;
 
 			case IDC_MODERN:
@@ -1119,6 +1112,13 @@ public:
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+
+	void OnTimer(CTimer *pTimer)
+	{
+		pTimer->Stop();
+		SaveOptionsTreeState();
+		RebuildPageTree();
 	}
 
 	void Locate(const wchar_t *pszGroup, const wchar_t *pszPage, int _hLang)
