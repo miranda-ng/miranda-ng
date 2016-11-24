@@ -147,7 +147,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		}
 
 #ifndef _WIN64
-		SetDlgItemText(hwndDlg, IDC_CHANGE_PLATFORM, TranslateT("Change platform to x64"));
+		SetDlgItemText(hwndDlg, IDC_CHANGE_PLATFORM, TranslateT("Change platform to 64-bit"));
 		{
 			BOOL bIsWow64 = FALSE;
 			IsWow64Process(GetCurrentProcess(), &bIsWow64);
