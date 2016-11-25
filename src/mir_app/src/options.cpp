@@ -728,6 +728,8 @@ public:
 		m_szTab(pszTab),
 		m_pages(arPages)
 	{
+		m_keywordFilter.UseSystemColors();
+
 		m_pageTree.OnSelChanging = Callback(this, &COptionsDlg::OnChanging);
 		m_pageTree.OnSelChanged = Callback(this, &COptionsDlg::OnTreeChanged);
 
@@ -1040,15 +1042,6 @@ public:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
-		case WM_CTLCOLORSTATIC:
-			switch (GetDlgCtrlID((HWND)lParam)) {
-			case IDC_WHITERECT:
-			case IDC_KEYWORD_FILTER:
-				SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-				return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-			}
-			break;
-
 		case HM_MODULELOAD:
 			LoadOptionsModule((HINSTANCE)lParam);
 			break;

@@ -620,20 +620,6 @@ public:
 		}
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		switch (msg) {
-		case WM_CTLCOLORSTATIC:
-			switch (GetDlgCtrlID((HWND)lParam)) {
-			case IDC_WHITERECT:
-				SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-				return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-			}
-			break;
-		}
-		return CDlgBase::DlgProc(msg, wParam, lParam);
-	}
-
 	virtual void OnDestroy()
 	{
 		LRESULT curSel = m_servicePlugs.GetCurSel();

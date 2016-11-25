@@ -78,6 +78,8 @@ public:
 		RECT rc;
 		GetWindowRect(hwndChooser, &rc);
 
+		m_text.UseSystemColors();
+
 		m_hwndParent = hwndDlg;
 		m_hwndTarget = hwndTarget;
 		m_pModule = chatApi.MM_FindModule(si->pszModule);
@@ -115,15 +117,6 @@ public:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
-		case WM_CTLCOLOREDIT:
-		case WM_CTLCOLORSTATIC:
-			if ((HWND)lParam == m_text.GetHwnd()) {
-				SetTextColor((HDC)wParam, RGB(60, 60, 150));
-				SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-				return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-			}
-			break;
-
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 			case IDOK:

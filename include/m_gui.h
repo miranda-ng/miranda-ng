@@ -491,6 +491,7 @@ public:
 	__forceinline CDlgBase *GetParent() { return m_parentWnd; }
 	__forceinline bool IsChanged() const { return m_bChanged; }
 	__forceinline void SetSilent() { m_bSilent = true; }
+	__forceinline void UseSystemColors() { m_bUseSystemColors = true; }
 
 	void Enable(int bIsEnable = true);
 	__forceinline void Disable() { Enable(false); }
@@ -529,7 +530,7 @@ protected:
 	HWND m_hwnd;  // must be the first data item
 	int m_idCtrl;
 	CDlgBase* m_parentWnd;
-	bool m_bChanged, m_bSilent;
+	bool m_bChanged, m_bSilent, m_bUseSystemColors;
 
 public:
 	CCallback<CCtrlBase> OnChange;

@@ -269,6 +269,7 @@ class CAccountManagerDlg : public CDlgBase
 	CAccountListCtrl m_accList;
 	CCtrlButton m_btnAdd, m_btnEdit, m_btnUpgrade, m_btnRemove, m_btnOptions, m_btnNetwork;
 	CCtrlButton m_btnOk, m_btnCancel;
+	CCtrlBase m_name;
 
 	void ClickButton(CCtrlButton &btn)
 	{
@@ -346,6 +347,7 @@ public:
 	CAccountManagerDlg() :
 		CDlgBase(g_hInst, IDD_ACCMGR),
 		m_accList(this, IDC_ACCLIST),
+		m_name(this, IDC_NAME),
 		m_btnOk(this, IDOK),
 		m_btnAdd(this, IDC_ADD),
 		m_btnEdit(this, IDC_EDIT),
@@ -355,6 +357,8 @@ public:
 		m_btnOptions(this, IDC_OPTIONS),
 		m_btnNetwork(this, IDC_LNK_NETWORK)
 	{
+		m_name.UseSystemColors();
+
 		m_accList.OnDblClick = Callback(this, &CAccountManagerDlg::OnListDblClick);
 		m_accList.OnSelChange = Callback(this, &CAccountManagerDlg::OnListSelChange);
 		m_accList.OnBuildMenu = Callback(this, &CAccountManagerDlg::OnListMenu);
@@ -408,7 +412,7 @@ public:
 		m_normalHeight = 4 + max(m_titleHeight, g_iIconSY);
 		m_selectedHeight = m_normalHeight + 4 + 2 * m_textHeight;
 
-		SendDlgItemMessage(m_hwnd, IDC_NAME, WM_SETFONT, (WPARAM)m_hfntTitle, 0);
+		m_name.SendMsg(WM_SETFONT, (WPARAM)m_hfntTitle, 0);
 		SendDlgItemMessage(m_hwnd, IDC_TXT_ACCOUNT, WM_SETFONT, (WPARAM)m_hfntTitle, 0);
 		SendDlgItemMessage(m_hwnd, IDC_TXT_ADDITIONAL, WM_SETFONT, (WPARAM)m_hfntTitle, 0);
 
@@ -671,15 +675,6 @@ public:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
-		case WM_CTLCOLORSTATIC:
-			switch (GetDlgCtrlID((HWND)lParam)) {
-			case IDC_WHITERECT:
-			case IDC_NAME:
-				SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-				return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-			}
-			break;
-
 		case WM_MY_REFRESH:
 			m_iSelected = -1;
 			{

@@ -122,6 +122,16 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		m_initialized = true;
 		return TRUE;
 
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		if (CCtrlBase *ctrl = FindControl(HWND(lParam))) {
+			if (ctrl->m_bUseSystemColors) {
+				SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+				return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+			}
+		}
+		break;
+
 	case WM_MEASUREITEM:
 		{
 			MEASUREITEMSTRUCT *param = (MEASUREITEMSTRUCT *)lParam;
