@@ -195,7 +195,5 @@ Dźwięk anulowania rozmowy przychodzącej
 [Skypename]
 
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Failed to establish a TRouter connection.]
-Nie udało się ustanowić połączenia TRouter.
 [Incoming call from %s]
 Przychodząca rozmowa od %s

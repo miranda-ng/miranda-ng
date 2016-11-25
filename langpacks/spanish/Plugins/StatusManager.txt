@@ -219,6 +219,8 @@ En el submenú
 Minuteros
 [Maximum delay (secs)]
 Retardo máximo (segundos)
+[Maximum account connecting time (secs)]
+Máximo tiempo de conexión de cuenta (segundos)
 [Reconnecting]
 Reconectando
 [Ignore locked status of accounts]
@@ -233,8 +235,6 @@ Cancelar todo si una cuenta se conecta desde otro lugar
 Reconectar en resumen APM
 [React on login errors]
 Reaccionar en los errores de inicio de sesión
-[Maximum account connecting time (secs)]
-Máximo tiempo de conexión de cuenta (segundos)
 [Stop trying to reconnect]
 Deja de tratar de volver a conectar
 [Set delay to]

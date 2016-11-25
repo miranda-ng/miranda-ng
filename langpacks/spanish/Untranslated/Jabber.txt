@@ -347,7 +347,6 @@
 [No activity yet, use server's choice]
 [Highest priority (server's choice)]
 [Status Message]
-[Chat plugin is required for conferences. Install it before chatting]
 [From]
 [Both]
 [Incoming note from %s]

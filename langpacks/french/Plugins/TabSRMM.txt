@@ -917,8 +917,6 @@ Italique
 Souligné
 [Strike-through text]
 Barré
-[Select font color]
-Couleur
 [Send message\nClick dropdown arrow for sending options]
 Envoyer le message\nCliquez sur la flèche pour les options d'envois
 [Close session]
@@ -931,6 +929,8 @@ Options
 Voir l'historique
 [Edit user notes]
 
+[Select font color]
+Couleur
 [Change background color]
 Couleur de fond
 [Toggle nick list]
@@ -2151,10 +2151,6 @@ Aucun mot à chercher
 [Edit highlight list...]
 
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Unique ID]
-ID unique
-[Nick]
-Pseudo
 [%s: chat room (%u user%s)]
 %s : Salon de Chat (%u contact%s)
 [%s: chat room (%u users%s)]

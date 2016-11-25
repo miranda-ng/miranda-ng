@@ -51,145 +51,6 @@ Statusnachrichten:
 '%s'-Nachricht ändern
 [Closing in %d]
 In %d schließen
-;file \src\core\stdchat\res\chat.rc
-[&Send]
-&Senden
-[&Emoticons]
-Smil&eys
-[&Bold]
-&Fett
-[&Italic]
-&Kursiv
-[&Underline]
-&Unterstrichen
-[&Color]
-&Farbe
-[&Background color]
-&Hintergrundfarbe
-[&History]
-&Verlauf
-[&Filter]
-&Filter
-[&Room settings]
-&Raumeinstellungen
-[&Show/Hide nick list]
-Nickliste &anzeigen/verbergen
-[Show these events only:]
-Nur folgende Ereignisse anzeigen:
-[Actions]
-Aktionen
-[Messages]
-Nachrichten
-[Nick changes]
-Nickänderungen
-[Users joining]
-Beitretende Benutzer
-[Users leaving]
-Verlassende Benutzer
-[Topic changes]
-Themenänderungen
-[Status changes]
-Statusänderungen
-[Information]
-Information
-[Disconnects]
-Verbindungsabbrüche
-[User kicks]
-Gekickte Benutzer
-[Notices]
-Notizen
-[Options]
-Einstellungen
-[Log options]
-Verlaufseinstellungen
-[Log timestamp]
-Zeitstempel in Logdatei
-[Timestamp]
-Zeitstempel
-[Other name]
-Andere Namen
-[Your name]
-Ihr Name
-[Enable highlighting]
-Hervorhebungen aktivieren
-[Limit log text to (events):]
-Textbegrenzung (Ereignisse):
-[Trim to (KB)]
-Max. Größe (KB)
-[Words to highlight (wildcards allowed)]
-Wörter zum Hervorheben (Wildcards möglich)
-[Enable logging to disk]
-Logdatei aktivieren
-[Log directory]
-Verzeichnis für Logdateien
-[Other]
-Sonstige
-[Add new rooms to group:]
-Gruppe für neue Räume:
-[Nick list row distance (pixels):]
-Vertikaler Abstand Benutzerliste:
-[Use same style as in the message log]
-Selben Stil wie im Verlaufsfenster verwenden
-[Use default colors]
-Standardfarben verwenden
-[Use custom colors]
-Benutzerdefinierte Farben
-[Popups for the Chat plugin]
-Popups für das Chatplugin
-[Timeout (s)]
-Zeitüberschreitung (s)
-[Text]
-Text
-[Background]
-Hintergrund
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(0 = Standardwert vom Popup-Plugin, -1 = dauerhafte Anzeige)
-[List]
-Liste
-[&Message]
-&Nachricht
-[Log]
-Verlauf
-[Clear lo&g]
-&Verlauf löschen
-[Co&py all]
-Alles ko&pieren
-[Word lookup]
-Wort nachschlagen
-[Wikipedia]
-Wikipedia
-[Link]
-Link
-[Open a &new browser window]
-In &neuem Browserfenster öffnen
-[&Open in current browser window]
-In aktuellem Br&owserfenster öffnen
-[&Copy link]
-Link &kopieren
-[Message]
-Nachricht
-[Undo]
-Rückgängig
-[Redo]
-Wiederherstellen
-[Copy]
-Kopieren
-[Cut]
-Ausschneiden
-[Paste]
-Einfügen
-[Select all]
-Alles markieren
-[Clear]
-Löschen
-[Tabs]
-Tabs
-[&Close tab]
-Tab s&chließen
-[C&lose other tabs]
-Andere Tabs sch&ließen
-[&Open at this position]
-An dieser Position &öffnen
 ;file \src\core\stdclist\res\resource.rc
 [Delete contact]
 Kontakt löschen
@@ -426,6 +287,8 @@ Am &Telefon\tStrg+8
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Datei(en) senden
+[&Send]
+&Senden
 [Cancel]
 Abbrechen
 [To:]
@@ -440,6 +303,8 @@ Gesamtgröße:
 Beschreibung:
 [&User menu]
 &Kontaktmenü
+[&History]
+&Verlauf
 [Incoming file transfer]
 Eingehende Dateiübertragung
 [A&ccept]
@@ -667,6 +532,140 @@ Fenster-Position für jeden Kontakt speichern
 Verhalten des Nachrichtenfensters:
 [Messaging:]
 Nachrichten:
+[&Emoticons]
+Smil&eys
+[&Bold]
+&Fett
+[&Italic]
+&Kursiv
+[&Underline]
+&Unterstrichen
+[&Color]
+&Farbe
+[&Background color]
+&Hintergrundfarbe
+[&Filter]
+&Filter
+[&Room settings]
+&Raumeinstellungen
+[&Show/Hide nick list]
+Nickliste &anzeigen/verbergen
+[Show these events only:]
+Nur folgende Ereignisse anzeigen:
+[Actions]
+Aktionen
+[Messages]
+Nachrichten
+[Nick changes]
+Nickänderungen
+[Users joining]
+Beitretende Benutzer
+[Users leaving]
+Verlassende Benutzer
+[Topic changes]
+Themenänderungen
+[Status changes]
+Statusänderungen
+[Information]
+Information
+[Disconnects]
+Verbindungsabbrüche
+[User kicks]
+Gekickte Benutzer
+[Notices]
+Notizen
+[Options]
+Einstellungen
+[Log options]
+Verlaufseinstellungen
+[Log timestamp]
+Zeitstempel in Logdatei
+[Timestamp]
+Zeitstempel
+[Other name]
+Andere Namen
+[Your name]
+Ihr Name
+[Enable highlighting]
+Hervorhebungen aktivieren
+[Limit log text to (events):]
+Textbegrenzung (Ereignisse):
+[Trim to (KB)]
+Max. Größe (KB)
+[Words to highlight (wildcards allowed)]
+Wörter zum Hervorheben (Wildcards möglich)
+[Enable logging to disk]
+Logdatei aktivieren
+[Log directory]
+Verzeichnis für Logdateien
+[Other]
+Sonstige
+[Add new rooms to group:]
+Gruppe für neue Räume:
+[Nick list row distance (pixels):]
+Vertikaler Abstand Benutzerliste:
+[Use same style as in the message log]
+Selben Stil wie im Verlaufsfenster verwenden
+[Use default colors]
+Standardfarben verwenden
+[Use custom colors]
+Benutzerdefinierte Farben
+[Popups for the Chat plugin]
+Popups für das Chatplugin
+[Timeout (s)]
+Zeitüberschreitung (s)
+[Text]
+Text
+[Background]
+Hintergrund
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(0 = Standardwert vom Popup-Plugin, -1 = dauerhafte Anzeige)
+[List]
+Liste
+[&Message]
+&Nachricht
+[Log]
+Verlauf
+[Clear lo&g]
+&Verlauf löschen
+[Co&py all]
+Alles ko&pieren
+[Word lookup]
+Wort nachschlagen
+[Wikipedia]
+Wikipedia
+[Link]
+Link
+[Open a &new browser window]
+In &neuem Browserfenster öffnen
+[&Open in current browser window]
+In aktuellem Br&owserfenster öffnen
+[&Copy link]
+Link &kopieren
+[Message]
+Nachricht
+[Undo]
+Rückgängig
+[Redo]
+Wiederherstellen
+[Copy]
+Kopieren
+[Cut]
+Ausschneiden
+[Paste]
+Einfügen
+[Select all]
+Alles markieren
+[Clear]
+Löschen
+[Tabs]
+Tabs
+[&Close tab]
+Tab s&chließen
+[C&lose other tabs]
+Andere Tabs sch&ließen
+[&Open at this position]
+An dieser Position &öffnen
 [C&lear log]
 Verlauf &leeren
 [&Copy]
@@ -1316,7 +1315,183 @@ Hmm... Essen.
 Langweilig
 [Status]
 Status
-;file \src\core\stdchat\src\main.cpp
+;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Standardkontakte
+[Online contacts to whom you have a different visibility]
+Online-Kontakte mit anderer Sichtbarkeit
+[Offline contacts]
+Offline-Kontakte
+[Contacts which are 'not on list']
+Temporäre Kontakte
+[Group member counts]
+Kontaktzähler einer Gruppe
+[Dividers]
+Trennlinien
+[Offline contacts to whom you have a different visibility]
+Offline-Kontakte mit anderer Sichtbarkeit
+[Selected text]
+Markierter Text
+[Hottrack text]
+Hottracktext
+[Quicksearch text]
+Schnellsuche-Text
+;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+nicht fokussiert
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Abwesend
+[Not available]
+Außer Haus
+[Occupied]
+Beschäftigt
+[Do not disturb]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[Out to lunch]
+Zum Essen
+[On the phone]
+Am Telefon
+[List background]
+Hintergrund Liste
+;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+Global
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
+[Standard crypto provider]
+Standard-Verschlüsselungsanbieter
+;file \src\core\stdemail\src\email.cpp
+[User has not registered an e-mail address]
+Kontakt hat keine E-Mail-Adresse angegeben
+[Send e-mail]
+E-Mail senden
+[&E-mail]
+&E-Mail
+;file \src\core\stdfile\src\file.cpp
+[File from %s]
+Datei von %s
+[bytes]
+Bytes
+[&File]
+&Datei
+[File &transfers...]
+Dateiüber&tragungen...
+[Incoming]
+Eingehend
+[Complete]
+Fertig
+[Error]
+Fehler
+[Denied]
+Verweigert
+;file \src\core\stdfile\src\fileexistsdlg.cpp
+[%s file]
+%s Datei
+[All files]
+Alle Dateien
+;file \src\core\stdfile\src\fileopts.cpp
+[Executable files]
+Ausführbare Dateien
+[Events]
+Ereignisse
+;file \src\core\stdfile\src\filerecvdlg.cpp
+[Select folder]
+Ordner wählen
+[My received files]
+Meine empfangenen Dateien
+[View user's history]
+Verlauf anzeigen
+[User menu]
+Benutzermenü
+[Canceled]
+Abgebrochen
+[This file transfer has been canceled by the other side]
+Diese Dateiübertragung wurde von der anderen Seite abgebrochen.
+;file \src\core\stdfile\src\filesenddlg.cpp
+[%d files]
+%d Dateien
+[%d directories]
+%d Verzeichnisse
+;file \src\core\stdfile\src\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Diese Datei wurde noch nicht auf Viren untersucht, wirklich öffnen?
+[File received]
+Datei empfangen
+[of]
+von
+[Request sent, waiting for acceptance...]
+Anfrage gesendet, warte auf Annahme...
+[Waiting for connection...]
+Warte auf Verbindung...
+[Unable to initiate transfer.]
+Übertragung kann nicht gestartet werden.
+[Contact menu]
+Kontaktmenü
+[Open...]
+Öffnen...
+[sec]
+Sek.
+[remaining]
+verbleibend
+[Decision sent]
+Entscheidung gesendet
+[Connecting...]
+Verbinden...
+[Connecting to proxy...]
+Verbinde zum Proxy...
+[Connected]
+Verbunden
+[Initializing...]
+Vorbereitung...
+[Moving to next file...]
+Nächste Datei...
+[Sending...]
+Sende...
+[Receiving...]
+Empfange...
+[File transfer denied]
+Dateiübertragung abgelehnt
+[File transfer failed]
+Dateiübertragung gescheitert
+[Transfer completed.]
+Übertragung abgeschlossen.
+[Transfer completed, open file.]
+Übertragung abgeschlossen, Datei öffnen.
+[Transfer completed, open folder.]
+Übertragung abgeschlossen, Ordner öffnen.
+[Scanning for viruses...]
+Untersuche auf Viren...
+[Transfer and virus scan complete]
+Übertragung und Untersuchung auf Viren beendet.
+;file \src\core\stdfile\src\ftmanager.cpp
+[Outgoing]
+Ausgehend
+;file \src\core\stdhelp\src\about.cpp
+[< Copyright]
+< Copyright
+;file \src\core\stdhelp\src\help.cpp
+[&Help]
+&Hilfe
+[&About...]
+&Über...
+[&Support]
+Hilfe&seite
+[&Miranda NG homepage]
+&Miranda-NG-Webseite
+[&Report bug]
+Fehle&r melden
+;file \src\core\stdidle\src\idle.cpp
+[Idle]
+Untätigkeit
+;file \src\core\stdmsg\src\chat_manager.cpp
 [Chat module]
 Chatfenster
 [Group chat log background]
@@ -1329,7 +1504,7 @@ Benutzerliste Hintergrund
 Benutzerliste Linien
 [Nick list background (selected)]
 Benutzerliste Hintergrund (ausgewählt)
-;file \src\core\stdchat\src\options.cpp
+;file \src\core\stdmsg\src\chat_options.cpp
 [Use a tabbed interface]
 Chatfenster mit Tabs verwenden
 [Close tab on double click]
@@ -1570,8 +1745,6 @@ Folgende Icons im Verlaufsfenster anzeigen
 Folgende Icons im Tray anzeigen
 [Popups to display]
 Folgende Popups anzeigen
-[Select folder]
-Ordner wählen
 [Message sessions]
 Nachrichtensitzungen
 [General]
@@ -1580,14 +1753,14 @@ Allgemein
 Chatverlauf
 [Popups]
 Popups
-;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdmsg\src\chat_util.cpp
 [Look up '%s':]
 Suche nach '%s'
 [No word to look up]
 Kein Wort zum Nachschlagen
 [&Message %s]
 &Nachricht an %s
-;file \src\core\stdchat\src\window.cpp
+;file \src\core\stdmsg\src\chat_window.cpp
 [Insert a smiley]
 Smiley einfügen
 [Make the text bold (CTRL+B)]
@@ -1610,10 +1783,6 @@ Diesen Raum kontrollieren (Strg+O)
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Close current tab (CTRL+F4)]
 Aktuellen Tab schließen (Strg+F4)
-[Nickname]
-Nickname
-[Unique ID]
-Unique ID
 [%s: chat room (%u user)]
 %s: Chatraum (%u Benutzer)
 [%s: chat room (%u users)]
@@ -1622,180 +1791,10 @@ Unique ID
 %s: Nachrichtensitzung
 [%s: message session (%u users)]
 %s: Nachrichtensitzung (%u Benutzer)
-;file \src\core\stdclist\src\clcfonts.cpp
-[Standard contacts]
-Standardkontakte
-[Online contacts to whom you have a different visibility]
-Online-Kontakte mit anderer Sichtbarkeit
-[Offline contacts]
-Offline-Kontakte
-[Contacts which are 'not on list']
-Temporäre Kontakte
-[Group member counts]
-Kontaktzähler einer Gruppe
-[Dividers]
-Trennlinien
-[Offline contacts to whom you have a different visibility]
-Offline-Kontakte mit anderer Sichtbarkeit
-[Selected text]
-Markierter Text
-[Hottrack text]
-Hottracktext
-[Quicksearch text]
-Schnellsuche-Text
-;file \src\core\stdclist\src\clcopts.cpp
-[Not focused]
-nicht fokussiert
-[Offline]
-Offline
-[Online]
-Online
-[Away]
-Abwesend
-[Not available]
-Außer Haus
-[Occupied]
-Beschäftigt
-[Do not disturb]
-Bitte nicht stören
-[Free for chat]
-Für Chat bereit
-[Invisible]
-Unsichtbar
-[Out to lunch]
-Zum Essen
-[On the phone]
-Am Telefon
-[List background]
-Hintergrund Liste
-;file \src\core\stdclist\src\clistopts.cpp
-[Global]
-Global
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\src\encrypt.cpp
-[Standard crypto provider]
-Standard-Verschlüsselungsanbieter
-;file \src\core\stdemail\src\email.cpp
-[User has not registered an e-mail address]
-Kontakt hat keine E-Mail-Adresse angegeben
-[Send e-mail]
-E-Mail senden
-[&E-mail]
-&E-Mail
-;file \src\core\stdfile\src\file.cpp
-[File from %s]
-Datei von %s
-[bytes]
-Bytes
-[&File]
-&Datei
-[File &transfers...]
-Dateiüber&tragungen...
-[Incoming]
-Eingehend
-[Complete]
-Fertig
-[Error]
-Fehler
-[Denied]
-Verweigert
-;file \src\core\stdfile\src\fileexistsdlg.cpp
-[%s file]
-%s Datei
-[All files]
-Alle Dateien
-;file \src\core\stdfile\src\fileopts.cpp
-[Executable files]
-Ausführbare Dateien
-[Events]
-Ereignisse
-;file \src\core\stdfile\src\filerecvdlg.cpp
-[My received files]
-Meine empfangenen Dateien
-[View user's history]
-Verlauf anzeigen
-[User menu]
-Benutzermenü
-[Canceled]
-Abgebrochen
-[This file transfer has been canceled by the other side]
-Diese Dateiübertragung wurde von der anderen Seite abgebrochen.
-;file \src\core\stdfile\src\filesenddlg.cpp
-[%d files]
-%d Dateien
-[%d directories]
-%d Verzeichnisse
-;file \src\core\stdfile\src\filexferdlg.cpp
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Diese Datei wurde noch nicht auf Viren untersucht, wirklich öffnen?
-[File received]
-Datei empfangen
-[of]
-von
-[Request sent, waiting for acceptance...]
-Anfrage gesendet, warte auf Annahme...
-[Waiting for connection...]
-Warte auf Verbindung...
-[Unable to initiate transfer.]
-Übertragung kann nicht gestartet werden.
-[Contact menu]
-Kontaktmenü
-[Open...]
-Öffnen...
-[sec]
-Sek.
-[remaining]
-verbleibend
-[Decision sent]
-Entscheidung gesendet
-[Connecting...]
-Verbinden...
-[Connecting to proxy...]
-Verbinde zum Proxy...
-[Connected]
-Verbunden
-[Initializing...]
-Vorbereitung...
-[Moving to next file...]
-Nächste Datei...
-[Sending...]
-Sende...
-[Receiving...]
-Empfange...
-[File transfer denied]
-Dateiübertragung abgelehnt
-[File transfer failed]
-Dateiübertragung gescheitert
-[Transfer completed.]
-Übertragung abgeschlossen.
-[Transfer completed, open file.]
-Übertragung abgeschlossen, Datei öffnen.
-[Transfer completed, open folder.]
-Übertragung abgeschlossen, Ordner öffnen.
-[Scanning for viruses...]
-Untersuche auf Viren...
-[Transfer and virus scan complete]
-Übertragung und Untersuchung auf Viren beendet.
-;file \src\core\stdfile\src\ftmanager.cpp
-[Outgoing]
-Ausgehend
-;file \src\core\stdhelp\src\about.cpp
-[< Copyright]
-< Copyright
-;file \src\core\stdhelp\src\help.cpp
-[&Help]
-&Hilfe
-[&About...]
-&Über...
-[&Support]
-Hilfe&seite
-[&Miranda NG homepage]
-&Miranda-NG-Webseite
-[&Report bug]
-Fehle&r melden
-;file \src\core\stdidle\src\idle.cpp
-[Idle]
-Untätigkeit
+[Nickname]
+Nickname
+[Unique ID]
+Unique ID
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Timeout beim Nachrichtenversand
@@ -2095,6 +2094,8 @@ Notiz von %s: %s
 Das Thema ist '%s'
 [The topic is '%s' (set by %s)]
 Das Thema ist '%s' (gesetzt von %s)
+[Nick]
+Nick
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2130,8 +2131,6 @@ D&auerhaft zur Kontaktliste hinzufügen
 ;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
 Selbst gewählter Name (nicht verschiebbar)
-[Nick]
-Nick
 [FirstName]
 Vorname
 [E-mail]
@@ -2596,18 +2595,18 @@ WARNUNG! Das Konto wird gelöscht. Das heißt, dass all seine Einstellungen, Kon
 Dieses Konto wurde erfolgreich aktualisiert. Um es zu aktivieren, muss Miranda neu gestartet werden.\n\nUm Miranda nun neu zu starten, klicken Sie auf "Ja", wenn Sie ein weiteres Konto aktualisieren möchten, klicken Sie auf "Nein".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Dieses Konto verwendet ein Protokoll, welches die Kontenverwaltung nicht unterstützt. Verwenden Sie bitte die Miranda NG Einstellungen, um die zugehörigen Einstellungen zu ändern.
-[Account name must be filled.]
-Kontenname muss ausgefüllt werden.
-[Account error]
-Konto-Fehler
-[Account name has to be unique. Please enter unique name.]
-Kontenname muss einmalig sein. Bitte geben Sie einen einmaligen Namen ein.
 [Create new account]
 Neues Konto erstellen...
 [Editing account]
 Bearbeite Konto
 [Upgrading account]
 Aktualisiere Konto
+[Account name must be filled.]
+Kontenname muss ausgefüllt werden.
+[Account error]
+Konto-Fehler
+[Account name has to be unique. Please enter unique name.]
+Kontenname muss einmalig sein. Bitte geben Sie einen einmaligen Namen ein.
 [Account is disabled. Please activate it to access options.]
 Konto ist deaktiviert. Bitte aktivieren Sie es, um auf die Kontoeinstellungen zugreifen zu können.
 [New account]
@@ -2618,12 +2617,6 @@ Konto entfernen
 Einstellungen...
 [Upgrade account]
 Konto aktualisieren
-[Account ID]
-Konto-ID
-[<unknown>]
-<unbekannt>
-[Protocol is not loaded.]
-Protokoll ist nicht geladen.
 [Rename]
 Umbenennen
 [Configure]
@@ -2638,6 +2631,12 @@ Account ist online. Account deaktivieren?
 Konto %s wird gelöscht
 [You need to disable plugin to delete this account]
 Um dieses Konto zu loschen, mussen Sie das dazugehorige Plugin deaktivieren
+[Account ID]
+Konto-ID
+[<unknown>]
+<unbekannt>
+[Protocol is not loaded.]
+Protokoll ist nicht geladen.
 [&Accounts...]
 &Konten...
 ;file \src\mir_app\src\proto_order.cpp

@@ -877,8 +877,6 @@ Mаксимална ширина за лента с бутони
 Подчертан текст
 [Strike-through text]
 Зачертаване
-[Select font color]
-Избор на цвят за шрифта
 [Send message\nClick dropdown arrow for sending options]
 Изпращане\nНатиснете падащия триъгълник за повече опции
 [Close session]
@@ -891,6 +889,8 @@ Mаксимална ширина за лента с бутони
 История на съобщенията
 [Edit user notes]
 Бележки за потребителя
+[Select font color]
+Избор на цвят за шрифта
 [Change background color]
 Избор на цвят за фон
 [Toggle nick list]
@@ -1995,10 +1995,6 @@ UIN
 Отличаване на потребителя...
 [Edit highlight list...]
 Редактиране списъка за отличаване...
-[Unique ID]
-Уникален ID
-[Nick]
-Прякор
 [%s: chat room (%u user%s)]
 %s: Чат стая (%u потребител%s)
 [%s: chat room (%u users%s)]

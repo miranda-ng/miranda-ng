@@ -120,7 +120,7 @@
 [Minutes]
 минут(ы)
 [Hours]
-Часов
+часов
 [Enter integer value between 1 and 60.]
 Введите целое число между 1 и 60.
 [Enter integer value between 1 and 24.]

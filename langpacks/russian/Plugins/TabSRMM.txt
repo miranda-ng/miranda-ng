@@ -913,8 +913,6 @@ BBCode ([b][i][u])
 Подчёркнутый
 [Strike-through text]
 Перечёркнутый
-[Select font color]
-Выбор цвета
 [Send message\nClick dropdown arrow for sending options]
 Отправить
 [Close session]
@@ -927,6 +925,8 @@ BBCode ([b][i][u])
 История сообщений
 [Edit user notes]
 Редактировать заметки о пользователе
+[Select font color]
+Выбор цвета
 [Change background color]
 Изменить цвет фона
 [Toggle nick list]

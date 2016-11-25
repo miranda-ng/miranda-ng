@@ -917,8 +917,6 @@ Pomoć
 
 [Strike-through text]
 
-[Select font color]
-
 [Send message\nClick dropdown arrow for sending options]
 
 [Close session]
@@ -930,6 +928,8 @@ Pomoć
 [View user's history]
 Vidi istoriju korisnika
 [Edit user notes]
+
+[Select font color]
 
 [Change background color]
 
@@ -2151,10 +2151,6 @@ Nije navedena reč za pretragu
 [Edit highlight list...]
 
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Unique ID]
-Jedinstveni broj (ID)
-[Nick]
-Nadimak
 [%s: chat room (%u user%s)]
 
 [%s: chat room (%u users%s)]

@@ -833,12 +833,6 @@ Afficher/cacher la liste des pseudos (CTRL+N)
 Contrôler ce salon (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Activer/désactiver les filtres d'évènement (CTRL+F)
-[Nickname]
-Pseudo
-[Unique ID]
-ID unique
-[Status]
-État
 [%s: chat room (%u user)]
 %s : salon de chat (%u usager)
 [%s: chat room (%u users)]
@@ -847,3 +841,9 @@ ID unique
 %s : session de message
 [%s: message session (%u users)]
 %s : session de message (%u usagers)
+[Nickname]
+Pseudo
+[Unique ID]
+ID unique
+[Status]
+État

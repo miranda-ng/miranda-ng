@@ -978,8 +978,6 @@ Ukloni autorizaciju
 
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
-[Chat plugin is required for conferences. Install it before chatting]
-
 [To]
 U
 [From]

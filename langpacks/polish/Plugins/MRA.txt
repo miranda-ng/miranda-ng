@@ -225,8 +225,6 @@ Właściciel
 
 [Visitors]
 Goście
-[Chat plugin is required for conferences. Install it before chatting]
-Żeby móc brać udział w konferencjach musisz zainstalować wtyczkę do czatowania
 [invite sender]
 zaproś nadawcę
 [invite new members]

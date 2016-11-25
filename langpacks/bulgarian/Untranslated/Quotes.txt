@@ -5,7 +5,6 @@
 [Quotes Auto Update Enabled]
 [Quotes Auto Update Disabled]
 [Quote Section]
-[User-Defined]
 [Error occurred during html parsing.]
 [Error occurred during site access.]
 [Tabulation]

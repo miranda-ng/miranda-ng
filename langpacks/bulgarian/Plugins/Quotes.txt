@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
-;  Version: 0.1.0.1
+;  Version: 0.1.0.101
 ;  Authors: Dioksin
 ;============================================================
 [Variable List]
@@ -55,14 +55,6 @@ Popup настройки...
 Източник на информацията Google
 [Close]
 Затваряне
-[Chart]
-Диаграма
-[Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
-Източник на информацията Dukascopy Swiss Forex Group
-[Get data from:]
-Извличане на данни от:
-[Filter:]
-Филтър:
 [Popup Window Settings]
 Настройки на Popup прозореца
 [Colors]
@@ -189,20 +181,6 @@ XML файлове (*.xml)
 Зареждането на приставката Quotes е невъзможно. Липсва Microsoft XML parser.
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 Зареждането на приставката Quotes е невъзможно. Липсва Microsoft HTML parser.
-[Log File]
-Файл на дневника
-[Miranda's History]
-Истори на Miranda
-[All]
-Всички
-[Last Day]
-Последния ден
-[Last Week]
-Последната седмица
-[Last Month]
-Последния месец
-[Last Year]
-Последната година
 [Quote Symbol]
 Символ на стойността
 [Quote Name]

@@ -40,7 +40,6 @@
 [Owners]
 [Inviter]
 [Visitors]
-[Chat plugin is required for conferences. Install it before chatting]
 [invite sender]
 [invite new members]
 [Your contact wakes you]

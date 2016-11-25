@@ -219,8 +219,6 @@ xСтатус "%s"
 Власники
 [Visitors]
 Відвідувачі
-[Chat plugin is required for conferences. Install it before chatting]
-Для конференцій потрібен плагін StdMsg, Scriver або TabSRMM.
 [invite sender]
 запросити відправника
 [invite new members]

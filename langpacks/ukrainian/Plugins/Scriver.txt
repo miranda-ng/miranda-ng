@@ -809,12 +809,6 @@ ID поточного контакту (якщо визначено). Напри
 Налаштування кімнати (Ctrl+O)
 [Enable/disable the event filter (CTRL+F)]
 Увімк./вимк. фільтр подій (Ctrl+F)
-[Nickname]
-Нік
-[Unique ID]
-Унікальний ID
-[Status]
-Статус
 [%s: chat room (%u user)]
 %s - чат (%u)
 [%s: chat room (%u users)]
@@ -823,3 +817,9 @@ ID поточного контакту (якщо визначено). Напри
 %s - бесіда
 [%s: message session (%u users)]
 %s - бесіда (%u)
+[Nickname]
+Нік
+[Unique ID]
+Унікальний ID
+[Status]
+Статус

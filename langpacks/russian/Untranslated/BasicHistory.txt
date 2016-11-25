@@ -1,4 +1,3 @@
 ﻿[Txt]
 [Do you want to save imported messages to local profile?]
-[Some value is invalid]
 [_files]

@@ -819,12 +819,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Кантраляваць гэты чат (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Уключыць/выключыць фільтр падзей (CTRL+F)
-[Nickname]
-Мянушка
-[Unique ID]
-Асабісты конт
-[Status]
-Статус
 [%s: chat room (%u user)]
 %s: Чат (%u удзельнік)
 [%s: chat room (%u users)]
@@ -833,3 +827,9 @@ ID бягучага кантакту (калі вызначаны). Напрык
 %s: гутарка
 [%s: message session (%u users)]
 %s: гутарка (%u удзельнікаў)
+[Nickname]
+Мянушка
+[Unique ID]
+Асабісты конт
+[Status]
+Статус

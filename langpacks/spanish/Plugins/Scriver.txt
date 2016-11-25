@@ -487,12 +487,6 @@ Mostrar/ocultar la lista de apodos (CTRL+N)
 Controlar esta sala (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Activar/desactivar el filtro de eventos (CTRL+F)
-[Nickname]
-Apodo
-[Unique ID]
-ID único
-[Status]
-Estado
 [%s: chat room (%u user)]
 %s: sala de chat (%u usuario)
 [%s: chat room (%u users)]
@@ -501,3 +495,9 @@ Estado
 %s: sesión de mensaje
 [%s: message session (%u users)]
 %s: sesión de mensaje (%u usuarios)
+[Nickname]
+Apodo
+[Unique ID]
+ID único
+[Status]
+Estado

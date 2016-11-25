@@ -955,8 +955,6 @@ xHTML-формат повідомлень чату
 Найвищий пріоритет (за вибором сервера)
 [Status Message]
 Статусне повідомлення
-[Chat plugin is required for conferences. Install it before chatting]
-Для конференцій потрібен плагін StdMsg, Scriver або TabSRMM.
 [To]
 До
 [From]

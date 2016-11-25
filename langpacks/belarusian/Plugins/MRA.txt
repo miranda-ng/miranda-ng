@@ -221,8 +221,6 @@ xСтатус "%s"
 
 [Visitors]
 
-[Chat plugin is required for conferences. Install it before chatting]
-Для канферэнцый патрэбны убудаваны плагін чатаў.
 [invite sender]
 адпраўшчык запрашэння
 [invite new members]

@@ -49,144 +49,6 @@
 Змяніць паведамленне "%s"
 [Closing in %d]
 Зачыніць (%d)
-[&Send]
-&Адправіць
-[&Emoticons]
-Эмоцыі
-[&Bold]
-Тлусты
-[&Italic]
-Курсіў
-[&Underline]
-Падкрэсліць
-[&Color]
-Колер
-[&Background color]
-Колер фона
-[&History]
-Гісторыя
-[&Filter]
-фільтр
-[&Room settings]
-Налады чата
-[&Show/Hide nick list]
-Паказаць/Схаваць спіс
-[Show these events only:]
-Паказваць толькі:
-[Actions]
-Дзеянні
-[Messages]
-Паведамленні
-[Nick changes]
-Змена ніка
-[Users joining]
-Уваходы ў чат
-[Users leaving]
-Выйсці з чата
-[Topic changes]
-Змены тэмы
-[Status changes]
-Змены статусу
-[Information]
-Інфармацыя
-[Disconnects]
-Адключэнні
-[User kicks]
-Выспятак
-[Notices]
-Абвесткі
-[Options]
-Налады
-[Log options]
-Налады лога
-[Log timestamp]
-Запісваць час
-[Timestamp]
-Час
-[Other name]
-Імёны іншых
-[Your name]
-Ваша імя
-[Enable highlighting]
-Уключыць вылучэнне
-[Limit log text to (events):]
-Абмежаваць лог да (падзей):
-[Trim to (KB)]
-Ліміт (КБ)
-[Words to highlight (wildcards allowed)]
-Словы для падсвятлення (дазволены маскі)
-[Enable logging to disk]
-Запіс лога на дыск
-[Log directory]
-Тэчка лога
-[Other]
-Іншае
-[Add new rooms to group:]
-Дадаваць чаты ў гурт:
-[Nick list row distance (pixels):]
-Адлегласць паміж радкамі (пікс.):
-[Use same style as in the message log]
-Той жа стыль, што і ў логе
-[Use default colors]
-Колеры па змаўчанні
-[Use custom colors]
-Задаць колеры
-[Popups for the Chat plugin]
-Усплывальныя вокны чата
-[Timeout (s)]
-Працягласць (з)
-[Text]
-Тэкст
-[Background]
-Фон
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-( 0 - па змаўчанні, -1 - бясконца)
-[List]
-Спіс
-[&Message]
-Паведамленне
-[Log]
-Лог
-[Clear lo&g]
-Сцерці чат
-[Co&py all]
-Капіяваць усё
-[Word lookup]
-Знайсці слова
-[Wikipedia]
-
-[Link]
-Спасылка
-[Open a &new browser window]
-Адкрыць у &новым вакне
-[&Open in current browser window]
-Адкрыць у бягучым вакне
-[&Copy link]
-Капіяваць спасылку
-[Message]
-Паведамленне
-[Undo]
-Адкат
-[Redo]
-Вярнуць
-[Copy]
-Капіяваць
-[Cut]
-Выразаць
-[Paste]
-Уставіць
-[Select all]
-Вылучыць усё
-[Clear]
-Сцерці
-[Tabs]
-Укладкі
-[&Close tab]
-Зачыніць укладку
-[C&lose other tabs]
-Зачыніць астатнія ўкладкі
-[&Open at this position]
-Адкрыць у гэтым месцы
 [Delete contact]
 Выдаліць кантакт
 [No]
@@ -421,6 +283,8 @@
 А&бедаю\tCtrl+9
 [Send file(s)]
 Адправіць файл(ы)
+[&Send]
+&Адправіць
 [Cancel]
 Скасаваць
 [To:]
@@ -435,6 +299,8 @@
 Апісанне:
 [&User menu]
 Меню кантакта
+[&History]
+Гісторыя
 [Incoming file transfer]
 Уваходны файл
 [A&ccept]
@@ -659,6 +525,140 @@
 Паводзіны вакна гутаркі:
 [Messaging:]
 Адсылаць паведамленні:
+[&Emoticons]
+Эмоцыі
+[&Bold]
+Тлусты
+[&Italic]
+Курсіў
+[&Underline]
+Падкрэсліць
+[&Color]
+Колер
+[&Background color]
+Колер фона
+[&Filter]
+фільтр
+[&Room settings]
+Налады чата
+[&Show/Hide nick list]
+Паказаць/Схаваць спіс
+[Show these events only:]
+Паказваць толькі:
+[Actions]
+Дзеянні
+[Messages]
+Паведамленні
+[Nick changes]
+Змена ніка
+[Users joining]
+Уваходы ў чат
+[Users leaving]
+Выйсці з чата
+[Topic changes]
+Змены тэмы
+[Status changes]
+Змены статусу
+[Information]
+Інфармацыя
+[Disconnects]
+Адключэнні
+[User kicks]
+Выспятак
+[Notices]
+Абвесткі
+[Options]
+Налады
+[Log options]
+Налады лога
+[Log timestamp]
+Запісваць час
+[Timestamp]
+Час
+[Other name]
+Імёны іншых
+[Your name]
+Ваша імя
+[Enable highlighting]
+Уключыць вылучэнне
+[Limit log text to (events):]
+Абмежаваць лог да (падзей):
+[Trim to (KB)]
+Ліміт (КБ)
+[Words to highlight (wildcards allowed)]
+Словы для падсвятлення (дазволены маскі)
+[Enable logging to disk]
+Запіс лога на дыск
+[Log directory]
+Тэчка лога
+[Other]
+Іншае
+[Add new rooms to group:]
+Дадаваць чаты ў гурт:
+[Nick list row distance (pixels):]
+Адлегласць паміж радкамі (пікс.):
+[Use same style as in the message log]
+Той жа стыль, што і ў логе
+[Use default colors]
+Колеры па змаўчанні
+[Use custom colors]
+Задаць колеры
+[Popups for the Chat plugin]
+Усплывальныя вокны чата
+[Timeout (s)]
+Працягласць (з)
+[Text]
+Тэкст
+[Background]
+Фон
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+( 0 - па змаўчанні, -1 - бясконца)
+[List]
+Спіс
+[&Message]
+Паведамленне
+[Log]
+Лог
+[Clear lo&g]
+Сцерці чат
+[Co&py all]
+Капіяваць усё
+[Word lookup]
+Знайсці слова
+[Wikipedia]
+
+[Link]
+Спасылка
+[Open a &new browser window]
+Адкрыць у &новым вакне
+[&Open in current browser window]
+Адкрыць у бягучым вакне
+[&Copy link]
+Капіяваць спасылку
+[Message]
+Паведамленне
+[Undo]
+Адкат
+[Redo]
+Вярнуць
+[Copy]
+Капіяваць
+[Cut]
+Выразаць
+[Paste]
+Уставіць
+[Select all]
+Вылучыць усё
+[Clear]
+Сцерці
+[Tabs]
+Укладкі
+[&Close tab]
+Зачыніць укладку
+[C&lose other tabs]
+Зачыніць астатнія ўкладкі
+[&Open at this position]
+Адкрыць у гэтым месцы
 [C&lear log]
 Сцерці лог
 [&Copy]
@@ -1301,6 +1301,166 @@ UIN, E-mail і г.д.
 чаканне...
 [Status]
 Статус
+[Standard contacts]
+Стандартныя кантакты
+[Online contacts to whom you have a different visibility]
+Са змененай бачнасцю (далучаны)
+[Offline contacts]
+Адключаныя кантакты
+[Contacts which are 'not on list']
+Кантакты 'не ў спісе'
+[Group member counts]
+Лічыльнікі гуртоў
+[Dividers]
+Падзельнікі
+[Offline contacts to whom you have a different visibility]
+Са змененай бачнасцю (адключаныя)
+[Selected text]
+Вылучаны тэкст
+[Hottrack text]
+Пад курсорам
+[Quicksearch text]
+Хуткі пошук
+[Not focused]
+Не ў фокусе
+[Offline]
+Адключаны
+[Online]
+Далучаны
+[Away]
+Адсутнічаю
+[Not available]
+Недаступны
+[Occupied]
+Заняты
+[Do not disturb]
+Не турбаваць
+[Free for chat]
+Вольны
+[Invisible]
+Нябачны
+[Out to lunch]
+Абедаю
+[On the phone]
+На тэлефоне
+[List background]
+Фон спісу
+[Global]
+Глабальныя
+[Standard crypto provider]
+Звычайны шыфравальнік
+[User has not registered an e-mail address]
+Карыстач не зарэгістраваў свой адрас e-mail.
+[Send e-mail]
+Адправіць e-mail
+[&E-mail]
+&E-mail
+[File from %s]
+Файл ад %s
+[bytes]
+байт
+[&File]
+&Файл
+[File &transfers...]
+Перадачы &файлаў
+[Incoming]
+Уваходныя
+[Complete]
+Зроблена
+[Error]
+Памылка
+[Denied]
+Адмоўлена
+[%s file]
+%s файл
+[All files]
+Усе файлы
+[Executable files]
+Выкананыя файлы
+[Events]
+Падзеі
+[Select folder]
+Абраць тэчку
+[My received files]
+Мае атрыманыя файлы
+[View user's history]
+Гісторыя паведамленняў
+[User menu]
+Меню кантакта
+[Canceled]
+Скасавана
+[This file transfer has been canceled by the other side]
+
+[%d files]
+%d файла(аў)
+[%d directories]
+%d каталога(аў)
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Гэты файл яшчэ не правяраўся антывірусам. Вы ўсё ж і жадаеце адкрыць яго?
+[File received]
+Файл атрыманы
+[of]
+з
+[Request sent, waiting for acceptance...]
+Запыт адпраўлены, чаканне пацверджання...
+[Waiting for connection...]
+Чаканне злучэння
+[Unable to initiate transfer.]
+Немагчыма пачаць перадачу.
+[Contact menu]
+Меню кантакту
+[Open...]
+Адчыніць...
+[sec]
+сек
+[remaining]
+засталося
+[Decision sent]
+Рашэнне адпраўлена
+[Connecting...]
+Далучэнне...
+[Connecting to proxy...]
+Далучэнне да проксі...
+[Connected]
+Злучаны
+[Initializing...]
+Ініцыялізацыя...
+[Moving to next file...]
+Наступны файл...
+[Sending...]
+Перадача...
+[Receiving...]
+Атрыманне...
+[File transfer denied]
+У перадачы файла адмоўлена
+[File transfer failed]
+Няўдалая перадача файла
+[Transfer completed.]
+Перадача завершана.
+[Transfer completed, open file.]
+Перадача завершана, адкрыць файл.
+[Transfer completed, open folder.]
+Перадача завершана, адкрыць тэчку.
+[Scanning for viruses...]
+Праверка на вірусы...
+[Transfer and virus scan complete]
+Перадача і праверка на вірусы завершаны
+[Outgoing]
+Выходныя
+[< Copyright]
+< Правы
+[&Help]
+Даведка
+[&About...]
+&Пра праграму
+[&Support]
+&Падтрымка
+[&Miranda NG homepage]
+А&фіцыйны сайт Miranda NG
+[&Report bug]
+Паведаміць пра памылку
+[Idle]
+Чаканне
 [Chat module]
 Плагін чата
 [Group chat log background]
@@ -1553,8 +1713,6 @@ UIN, E-mail і г.д.
 Абразкі ў сістэмным латку
 [Popups to display]
 Усплывальныя вокны
-[Select folder]
-Абраць тэчку
 [Message sessions]
 Гутаркі
 [General]
@@ -1591,10 +1749,6 @@ UIN, E-mail і г.д.
 Уключыць/выключыць фільтр падзей (CTRL+F)
 [Close current tab (CTRL+F4)]
 Зачыніць бягучую ўкладку (CTRL+F4)
-[Nickname]
-Мянушка
-[Unique ID]
-Асабісты конт
 [%s: chat room (%u user)]
 %s: Чат (%u удзельнік)
 [%s: chat room (%u users)]
@@ -1603,164 +1757,10 @@ UIN, E-mail і г.д.
 %s: гутарка
 [%s: message session (%u users)]
 %s: гутарка (%u удзельнікаў)
-[Standard contacts]
-Стандартныя кантакты
-[Online contacts to whom you have a different visibility]
-Са змененай бачнасцю (далучаны)
-[Offline contacts]
-Адключаныя кантакты
-[Contacts which are 'not on list']
-Кантакты 'не ў спісе'
-[Group member counts]
-Лічыльнікі гуртоў
-[Dividers]
-Падзельнікі
-[Offline contacts to whom you have a different visibility]
-Са змененай бачнасцю (адключаныя)
-[Selected text]
-Вылучаны тэкст
-[Hottrack text]
-Пад курсорам
-[Quicksearch text]
-Хуткі пошук
-[Not focused]
-Не ў фокусе
-[Offline]
-Адключаны
-[Online]
-Далучаны
-[Away]
-Адсутнічаю
-[Not available]
-Недаступны
-[Occupied]
-Заняты
-[Do not disturb]
-Не турбаваць
-[Free for chat]
-Вольны
-[Invisible]
-Нябачны
-[Out to lunch]
-Абедаю
-[On the phone]
-На тэлефоне
-[List background]
-Фон спісу
-[Global]
-Глабальныя
-[Standard crypto provider]
-Звычайны шыфравальнік
-[User has not registered an e-mail address]
-Карыстач не зарэгістраваў свой адрас e-mail.
-[Send e-mail]
-Адправіць e-mail
-[&E-mail]
-&E-mail
-[File from %s]
-Файл ад %s
-[bytes]
-байт
-[&File]
-&Файл
-[File &transfers...]
-Перадачы &файлаў
-[Incoming]
-Уваходныя
-[Complete]
-Зроблена
-[Error]
-Памылка
-[Denied]
-Адмоўлена
-[%s file]
-%s файл
-[All files]
-Усе файлы
-[Executable files]
-Выкананыя файлы
-[Events]
-Падзеі
-[My received files]
-Мае атрыманыя файлы
-[View user's history]
-Гісторыя паведамленняў
-[User menu]
-Меню кантакта
-[Canceled]
-Скасавана
-[This file transfer has been canceled by the other side]
-
-[%d files]
-%d файла(аў)
-[%d directories]
-%d каталога(аў)
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Гэты файл яшчэ не правяраўся антывірусам. Вы ўсё ж і жадаеце адкрыць яго?
-[File received]
-Файл атрыманы
-[of]
-з
-[Request sent, waiting for acceptance...]
-Запыт адпраўлены, чаканне пацверджання...
-[Waiting for connection...]
-Чаканне злучэння
-[Unable to initiate transfer.]
-Немагчыма пачаць перадачу.
-[Contact menu]
-Меню кантакту
-[Open...]
-Адчыніць...
-[sec]
-сек
-[remaining]
-засталося
-[Decision sent]
-Рашэнне адпраўлена
-[Connecting...]
-Далучэнне...
-[Connecting to proxy...]
-Далучэнне да проксі...
-[Connected]
-Злучаны
-[Initializing...]
-Ініцыялізацыя...
-[Moving to next file...]
-Наступны файл...
-[Sending...]
-Перадача...
-[Receiving...]
-Атрыманне...
-[File transfer denied]
-У перадачы файла адмоўлена
-[File transfer failed]
-Няўдалая перадача файла
-[Transfer completed.]
-Перадача завершана.
-[Transfer completed, open file.]
-Перадача завершана, адкрыць файл.
-[Transfer completed, open folder.]
-Перадача завершана, адкрыць тэчку.
-[Scanning for viruses...]
-Праверка на вірусы...
-[Transfer and virus scan complete]
-Перадача і праверка на вірусы завершаны
-[Outgoing]
-Выходныя
-[< Copyright]
-< Правы
-[&Help]
-Даведка
-[&About...]
-&Пра праграму
-[&Support]
-&Падтрымка
-[&Miranda NG homepage]
-А&фіцыйны сайт Miranda NG
-[&Report bug]
-Паведаміць пра памылку
-[Idle]
-Чаканне
+[Nickname]
+Мянушка
+[Unique ID]
+Асабісты конт
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
 [Incoming message (10x10)]
@@ -2041,6 +2041,8 @@ Miranda не здолела загрузіць убудаваную сістэм
 Тэма '%s'
 [The topic is '%s' (set by %s)]
 Тэма '%s' (усталявана %s)
+[Nick]
+Мянушка
 [New group]
 Новы гурт
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2069,8 +2071,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Дадаць у сталы спіс
 [My custom name (not movable)]
 Зададзенае імя (заўсёды першае)
-[Nick]
-Мянушка
 [FirstName]
 Імя
 [E-mail]
@@ -2499,18 +2499,18 @@ xСтатус
 Ваш конт паспяхова адноўлены. Для яго актывацыі неабходна перазапусціць Miranda\n\nДля перазапуску націсніце "Так", калі жадаеце аднавіць іншы конт, націсніце "Не".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Гэты конт выкарыстоўвае стары пратакол. Змена налад карыстача робіцца праз асноўныя налады.
-[Account name must be filled.]
-Неабходна ўвесці імя ўліковага запісу
-[Account error]
-Памылка ўліковага запісу
-[Account name has to be unique. Please enter unique name.]
-Імя ўліковага запісу павінна быць унікальным. Калі ласка, увядзіце іншае імя.
 [Create new account]
 Новы ўліковы запіс
 [Editing account]
 Кіраваць ўліковым запісам
 [Upgrading account]
 Аднавіць ўліковы запіс
+[Account name must be filled.]
+Неабходна ўвесці імя ўліковага запісу
+[Account error]
+Памылка ўліковага запісу
+[Account name has to be unique. Please enter unique name.]
+Імя ўліковага запісу павінна быць унікальным. Калі ласка, увядзіце іншае імя.
 [Account is disabled. Please activate it to access options.]
 Уліковы запіс адключаны. Уключыце для кіравання.
 [New account]
@@ -2521,12 +2521,6 @@ xСтатус
 Налада...
 [Upgrade account]
 Аднаўленне
-[Account ID]
-ID конта
-[<unknown>]
-<невядома>
-[Protocol is not loaded.]
-Пратакол не загружаны.
 [Rename]
 Пераназваць
 [Configure]
@@ -2541,6 +2535,12 @@ ID конта
 Выдаленне конту %s
 [You need to disable plugin to delete this account]
 Для выдалення конта неабходна яго адключыць
+[Account ID]
+ID конта
+[<unknown>]
+<невядома>
+[Protocol is not loaded.]
+Пратакол не загружаны.
 [&Accounts...]
 Уліковыя запісы...
 [Account]

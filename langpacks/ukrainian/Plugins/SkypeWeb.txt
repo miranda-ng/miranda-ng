@@ -179,7 +179,5 @@
 Вхідний дзвінок скасовано
 [Skypename]
 Логін Skype
-[Failed to establish a TRouter connection.]
-Неможливо встановити з'єднання для TRouter.
 [Incoming call from %s]
 Вхідний дзвінок від %s

@@ -51,145 +51,6 @@ Statusne poruke:
 Promijeni %s poruku
 [Closing in %d]
 Zatvaranje za %d
-;file \src\core\stdchat\res\chat.rc
-[&Send]
-&Šalji
-[&Emoticons]
-&Emotikoni
-[&Bold]
-&Podebljano
-[&Italic]
-&Kosa slova
-[&Underline]
-Pod&crtano
-[&Color]
-&Boja
-[&Background color]
-&Boja pozadine
-[&History]
-p&ovijest
-[&Filter]
-&Filtriraj
-[&Room settings]
-Pos&tavke sobe za čavrljanje
-[&Show/Hide nick list]
-Prika&ži/sakrij popis nadimaka
-[Show these events only:]
-Prikaži samo ove događaje:
-[Actions]
-akcije
-[Messages]
-poruke
-[Nick changes]
-promjene nadimka
-[Users joining]
-korisnici se pridružuju
-[Users leaving]
-korisnici napuštaju
-[Topic changes]
-rubrika se mijenja
-[Status changes]
-promjene statusa
-[Information]
-informacija
-[Disconnects]
-odspaja se
-[User kicks]
-korisnik istjeruje
-[Notices]
-obavještava
-[Options]
-opcije
-[Log options]
-opcije zapisnika
-[Log timestamp]
-vrijeme u zapisniku
-[Timestamp]
-vrijeme u satima minutama i sekundama
-[Other name]
-drugo ime
-[Your name]
-vaše ime
-[Enable highlighting]
-omogući oznake
-[Limit log text to (events):]
-ogranići tekst dnevnika na (događaje):
-[Trim to (KB)]
-izreži u (kb)
-[Words to highlight (wildcards allowed)]
-riječi koje treba označiti (wildcards su dozvoljene)
-[Enable logging to disk]
-omogući logiranje na disk
-[Log directory]
-mapa zapisnika
-[Other]
-drugo
-[Add new rooms to group:]
-dodaj nove sobe u grupu
-[Nick list row distance (pixels):]
-lista nadimaka (udaljenost redaka u pikselima)
-[Use same style as in the message log]
-koristi isti stil kao i u dnevnicima poruka
-[Use default colors]
-koristi zadane boje
-[Use custom colors]
-koristi prilagođene boje
-[Popups for the Chat plugin]
-skočni prozori za dodatak čavrljanja
-[Timeout (s)]
-vrijeme nestanka (s)
-[Text]
-tekst
-[Background]
-Pozadina
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(Postavljanje vremena nestanka na 0 znači podrazumjevana postavka i -1 znači beskonačno vrijeme)
-[List]
-popis
-[&Message]
-&Poruka
-[Log]
-&Zapisnik
-[Clear lo&g]
-&Očisti zapisnik
-[Co&py all]
-&Kopiraj sve
-[Word lookup]
-&Traženje riječi
-[Wikipedia]
-Wikipedija
-[Link]
-Link
-[Open a &new browser window]
-Otvori &u novom prozoru preglednika
-[&Open in current browser window]
-&Otvori u trenutnom prozoru preglednika
-[&Copy link]
-&Kopiraj link
-[Message]
-Poruka
-[Undo]
-poništi
-[Redo]
-povrati
-[Copy]
-kopiraj
-[Cut]
-izreži
-[Paste]
-zalijepi
-[Select all]
-označi sve
-[Clear]
-očisti
-[Tabs]
-kartice
-[&Close tab]
-&Zatvori karticu
-[C&lose other tabs]
-z&atvori druge kartice
-[&Open at this position]
-Otvori na o&voj poziciji
 ;file \src\core\stdclist\res\resource.rc
 [Delete contact]
 izbriši kontakt
@@ -426,6 +287,8 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 ;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 
+[&Send]
+&Šalji
 [Cancel]
 
 [To:]
@@ -440,6 +303,8 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [&User menu]
 
+[&History]
+p&ovijest
 [Incoming file transfer]
 
 [A&ccept]
@@ -667,6 +532,140 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Messaging:]
 
+[&Emoticons]
+&Emotikoni
+[&Bold]
+&Podebljano
+[&Italic]
+&Kosa slova
+[&Underline]
+Pod&crtano
+[&Color]
+&Boja
+[&Background color]
+&Boja pozadine
+[&Filter]
+&Filtriraj
+[&Room settings]
+Pos&tavke sobe za čavrljanje
+[&Show/Hide nick list]
+Prika&ži/sakrij popis nadimaka
+[Show these events only:]
+Prikaži samo ove događaje:
+[Actions]
+akcije
+[Messages]
+poruke
+[Nick changes]
+promjene nadimka
+[Users joining]
+korisnici se pridružuju
+[Users leaving]
+korisnici napuštaju
+[Topic changes]
+rubrika se mijenja
+[Status changes]
+promjene statusa
+[Information]
+informacija
+[Disconnects]
+odspaja se
+[User kicks]
+korisnik istjeruje
+[Notices]
+obavještava
+[Options]
+opcije
+[Log options]
+opcije zapisnika
+[Log timestamp]
+vrijeme u zapisniku
+[Timestamp]
+vrijeme u satima minutama i sekundama
+[Other name]
+drugo ime
+[Your name]
+vaše ime
+[Enable highlighting]
+omogući oznake
+[Limit log text to (events):]
+ogranići tekst dnevnika na (događaje):
+[Trim to (KB)]
+izreži u (kb)
+[Words to highlight (wildcards allowed)]
+riječi koje treba označiti (wildcards su dozvoljene)
+[Enable logging to disk]
+omogući logiranje na disk
+[Log directory]
+mapa zapisnika
+[Other]
+drugo
+[Add new rooms to group:]
+dodaj nove sobe u grupu
+[Nick list row distance (pixels):]
+lista nadimaka (udaljenost redaka u pikselima)
+[Use same style as in the message log]
+koristi isti stil kao i u dnevnicima poruka
+[Use default colors]
+koristi zadane boje
+[Use custom colors]
+koristi prilagođene boje
+[Popups for the Chat plugin]
+skočni prozori za dodatak čavrljanja
+[Timeout (s)]
+vrijeme nestanka (s)
+[Text]
+tekst
+[Background]
+Pozadina
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Postavljanje vremena nestanka na 0 znači podrazumjevana postavka i -1 znači beskonačno vrijeme)
+[List]
+popis
+[&Message]
+&Poruka
+[Log]
+&Zapisnik
+[Clear lo&g]
+&Očisti zapisnik
+[Co&py all]
+&Kopiraj sve
+[Word lookup]
+&Traženje riječi
+[Wikipedia]
+Wikipedija
+[Link]
+Link
+[Open a &new browser window]
+Otvori &u novom prozoru preglednika
+[&Open in current browser window]
+&Otvori u trenutnom prozoru preglednika
+[&Copy link]
+&Kopiraj link
+[Message]
+Poruka
+[Undo]
+poništi
+[Redo]
+povrati
+[Copy]
+kopiraj
+[Cut]
+izreži
+[Paste]
+zalijepi
+[Select all]
+označi sve
+[Clear]
+očisti
+[Tabs]
+kartice
+[&Close tab]
+&Zatvori karticu
+[C&lose other tabs]
+z&atvori druge kartice
+[&Open at this position]
+Otvori na o&voj poziciji
 [C&lear log]
 
 [&Copy]
@@ -1316,7 +1315,183 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Status]
 
-;file \src\core\stdchat\src\main.cpp
+;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+
+[Online contacts to whom you have a different visibility]
+
+[Offline contacts]
+
+[Contacts which are 'not on list']
+
+[Group member counts]
+
+[Dividers]
+
+[Offline contacts to whom you have a different visibility]
+
+[Selected text]
+
+[Hottrack text]
+
+[Quicksearch text]
+
+;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+
+[Offline]
+
+[Online]
+
+[Away]
+
+[Not available]
+
+[Occupied]
+
+[Do not disturb]
+
+[Free for chat]
+
+[Invisible]
+
+[Out to lunch]
+
+[On the phone]
+
+[List background]
+
+;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+
+;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
+[Standard crypto provider]
+
+;file \src\core\stdemail\src\email.cpp
+[User has not registered an e-mail address]
+
+[Send e-mail]
+
+[&E-mail]
+
+;file \src\core\stdfile\src\file.cpp
+[File from %s]
+
+[bytes]
+
+[&File]
+
+[File &transfers...]
+
+[Incoming]
+
+[Complete]
+
+[Error]
+
+[Denied]
+
+;file \src\core\stdfile\src\fileexistsdlg.cpp
+[%s file]
+
+[All files]
+sve datoteke
+;file \src\core\stdfile\src\fileopts.cpp
+[Executable files]
+
+[Events]
+
+;file \src\core\stdfile\src\filerecvdlg.cpp
+[Select folder]
+
+[My received files]
+
+[View user's history]
+
+[User menu]
+
+[Canceled]
+
+[This file transfer has been canceled by the other side]
+
+;file \src\core\stdfile\src\filesenddlg.cpp
+[%d files]
+
+[%d directories]
+
+;file \src\core\stdfile\src\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+
+[File received]
+
+[of]
+
+[Request sent, waiting for acceptance...]
+
+[Waiting for connection...]
+
+[Unable to initiate transfer.]
+
+[Contact menu]
+
+[Open...]
+
+[sec]
+
+[remaining]
+
+[Decision sent]
+
+[Connecting...]
+
+[Connecting to proxy...]
+
+[Connected]
+
+[Initializing...]
+
+[Moving to next file...]
+
+[Sending...]
+
+[Receiving...]
+
+[File transfer denied]
+
+[File transfer failed]
+
+[Transfer completed.]
+
+[Transfer completed, open file.]
+
+[Transfer completed, open folder.]
+
+[Scanning for viruses...]
+
+[Transfer and virus scan complete]
+
+;file \src\core\stdfile\src\ftmanager.cpp
+[Outgoing]
+
+;file \src\core\stdhelp\src\about.cpp
+[< Copyright]
+
+;file \src\core\stdhelp\src\help.cpp
+[&Help]
+
+[&About...]
+
+[&Support]
+
+[&Miranda NG homepage]
+
+[&Report bug]
+
+;file \src\core\stdidle\src\idle.cpp
+[Idle]
+
+;file \src\core\stdmsg\src\chat_manager.cpp
 [Chat module]
 
 [Group chat log background]
@@ -1329,7 +1504,7 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Nick list background (selected)]
 
-;file \src\core\stdchat\src\options.cpp
+;file \src\core\stdmsg\src\chat_options.cpp
 [Use a tabbed interface]
 
 [Close tab on double click]
@@ -1570,8 +1745,6 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Popups to display]
 
-[Select folder]
-
 [Message sessions]
 
 [General]
@@ -1580,14 +1753,14 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Popups]
 
-;file \src\core\stdchat\src\tools.cpp
+;file \src\core\stdmsg\src\chat_util.cpp
 [Look up '%s':]
 
 [No word to look up]
 
 [&Message %s]
 
-;file \src\core\stdchat\src\window.cpp
+;file \src\core\stdmsg\src\chat_window.cpp
 [Insert a smiley]
 
 [Make the text bold (CTRL+B)]
@@ -1610,10 +1783,6 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Close current tab (CTRL+F4)]
 
-[Nickname]
-
-[Unique ID]
-
 [%s: chat room (%u user)]
 
 [%s: chat room (%u users)]
@@ -1622,179 +1791,9 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [%s: message session (%u users)]
 
-;file \src\core\stdclist\src\clcfonts.cpp
-[Standard contacts]
+[Nickname]
 
-[Online contacts to whom you have a different visibility]
-
-[Offline contacts]
-
-[Contacts which are 'not on list']
-
-[Group member counts]
-
-[Dividers]
-
-[Offline contacts to whom you have a different visibility]
-
-[Selected text]
-
-[Hottrack text]
-
-[Quicksearch text]
-
-;file \src\core\stdclist\src\clcopts.cpp
-[Not focused]
-
-[Offline]
-
-[Online]
-
-[Away]
-
-[Not available]
-
-[Occupied]
-
-[Do not disturb]
-
-[Free for chat]
-
-[Invisible]
-
-[Out to lunch]
-
-[On the phone]
-
-[List background]
-
-;file \src\core\stdclist\src\clistopts.cpp
-[Global]
-
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\src\encrypt.cpp
-[Standard crypto provider]
-
-;file \src\core\stdemail\src\email.cpp
-[User has not registered an e-mail address]
-
-[Send e-mail]
-
-[&E-mail]
-
-;file \src\core\stdfile\src\file.cpp
-[File from %s]
-
-[bytes]
-
-[&File]
-
-[File &transfers...]
-
-[Incoming]
-
-[Complete]
-
-[Error]
-
-[Denied]
-
-;file \src\core\stdfile\src\fileexistsdlg.cpp
-[%s file]
-
-[All files]
-sve datoteke
-;file \src\core\stdfile\src\fileopts.cpp
-[Executable files]
-
-[Events]
-
-;file \src\core\stdfile\src\filerecvdlg.cpp
-[My received files]
-
-[View user's history]
-
-[User menu]
-
-[Canceled]
-
-[This file transfer has been canceled by the other side]
-
-;file \src\core\stdfile\src\filesenddlg.cpp
-[%d files]
-
-[%d directories]
-
-;file \src\core\stdfile\src\filexferdlg.cpp
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-
-[File received]
-
-[of]
-
-[Request sent, waiting for acceptance...]
-
-[Waiting for connection...]
-
-[Unable to initiate transfer.]
-
-[Contact menu]
-
-[Open...]
-
-[sec]
-
-[remaining]
-
-[Decision sent]
-
-[Connecting...]
-
-[Connecting to proxy...]
-
-[Connected]
-
-[Initializing...]
-
-[Moving to next file...]
-
-[Sending...]
-
-[Receiving...]
-
-[File transfer denied]
-
-[File transfer failed]
-
-[Transfer completed.]
-
-[Transfer completed, open file.]
-
-[Transfer completed, open folder.]
-
-[Scanning for viruses...]
-
-[Transfer and virus scan complete]
-
-;file \src\core\stdfile\src\ftmanager.cpp
-[Outgoing]
-
-;file \src\core\stdhelp\src\about.cpp
-[< Copyright]
-
-;file \src\core\stdhelp\src\help.cpp
-[&Help]
-
-[&About...]
-
-[&Support]
-
-[&Miranda NG homepage]
-
-[&Report bug]
-
-;file \src\core\stdidle\src\idle.cpp
-[Idle]
+[Unique ID]
 
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
@@ -2095,6 +2094,8 @@ sve datoteke
 
 [The topic is '%s' (set by %s)]
 
+[Nick]
+
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2129,8 +2130,6 @@ sve datoteke
 ;file \src\mir_app\src\colorchooser.cpp
 ;file \src\mir_app\src\contacts.cpp
 [My custom name (not movable)]
-
-[Nick]
 
 [FirstName]
 
@@ -2596,17 +2595,17 @@ sve datoteke
 
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 
-[Account name must be filled.]
-
-[Account error]
-
-[Account name has to be unique. Please enter unique name.]
-
 [Create new account]
 
 [Editing account]
 
 [Upgrading account]
+
+[Account name must be filled.]
+
+[Account error]
+
+[Account name has to be unique. Please enter unique name.]
 
 [Account is disabled. Please activate it to access options.]
 
@@ -2617,12 +2616,6 @@ sve datoteke
 [Configure...]
 
 [Upgrade account]
-
-[Account ID]
-
-[<unknown>]
-
-[Protocol is not loaded.]
 
 [Rename]
 
@@ -2637,6 +2630,12 @@ sve datoteke
 [Account %s is being deleted]
 
 [You need to disable plugin to delete this account]
+
+[Account ID]
+
+[<unknown>]
+
+[Protocol is not loaded.]
 
 [&Accounts...]
 

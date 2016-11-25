@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.7
+;  Version: 0.1.2.9
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -317,6 +317,12 @@
 
 [at]
 
+[User restored control over own page]
+
+[User was deactivated (deleted)]
+
+[User was deactivated (banned)]
+
 [Participants]
 Удзельнікі
 [Owners]
@@ -519,6 +525,8 @@
 Памылкі
 [Notification]
 Абвестка
+[VK user activate/deactivate action]
+
 [User %s added as friend]
 
 [You cannot add yourself as friend]

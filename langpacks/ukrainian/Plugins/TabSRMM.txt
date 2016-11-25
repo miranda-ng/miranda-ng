@@ -911,8 +911,6 @@ BBCode ([b][i][u])
 Підкреслений
 [Strike-through text]
 Перекреслений
-[Select font color]
-Вибір кольору
 [Send message\nClick dropdown arrow for sending options]
 Надіслати
 [Close session]
@@ -925,6 +923,8 @@ BBCode ([b][i][u])
 Історія повідомлень
 [Edit user notes]
 Редагувати нотатки про користувача
+[Select font color]
+Вибір кольору
 [Change background color]
 Змінити колір фону
 [Toggle nick list]
@@ -2109,10 +2109,6 @@ ID поточного контакту (якщо визначено). Напри
 Підсвічувати користувачів...
 [Edit highlight list...]
 Редагувати список підсвічування...
-[Unique ID]
-Унікальний ID
-[Nick]
-Нік
 [%s: chat room (%u user%s)]
 %s - Чат (%u користувач%s)
 [%s: chat room (%u users%s)]

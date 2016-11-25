@@ -246,7 +246,6 @@
 [Last active (%s)]
 [No activity yet, use server's choice]
 [Status Message]
-[Chat plugin is required for conferences. Install it before chatting]
 [Incoming note from %s]
 [Send note to %s]
 [All tags]

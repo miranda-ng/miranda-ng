@@ -49,144 +49,6 @@ Mensajes de estado:
 Cambiar %s mensaje
 [Closing in %d]
 Cerrando en %d
-[&Send]
-&Enviar
-[&Emoticons]
-&Emoticones
-[&Bold]
-&Negrita
-[&Italic]
-C&ursiva
-[&Underline]
-S&ubrayar
-[&Color]
-&Color
-[&Background color]
-Color &de fondo
-[&History]
-&Historial
-[&Filter]
-&Filtro
-[&Room settings]
-Configu&ración de espacio
-[&Show/Hide nick list]
-&Mostrar/ocultar lista de nicks
-[Show these events only:]
-Mostrar sólo estos eventos:
-[Actions]
-Acciones
-[Messages]
-Mensajes
-[Nick changes]
-Cambios de Nick
-[Users joining]
-Usuarios entrando
-[Users leaving]
-Usuarios saliendo
-[Topic changes]
-Cambios de tema
-[Status changes]
-Cambios de estado
-[Information]
-Información
-[Disconnects]
-Desconectados
-[User kicks]
-Usuarios sacados
-[Notices]
-Avisos
-[Options]
-Opciones
-[Log options]
-Opciones de registro
-[Log timestamp]
-Registro de marca de tiempo
-[Timestamp]
-Marca de tiempo
-[Other name]
-Otro nombre
-[Your name]
-Su nombre
-[Enable highlighting]
-Habilitar resaltando
-[Limit log text to (events):]
-Limitar el texto del registro a (eventos):
-[Trim to (KB)]
-Recortar a (KB)
-[Words to highlight (wildcards allowed)]
-Palabras a resaltar (comodines permitidos)
-[Enable logging to disk]
-Habilitar registro en el disco
-[Log directory]
-Directorio de registro
-[Other]
-Otro
-[Add new rooms to group:]
-Añadir nuevas salas de grupo:
-[Nick list row distance (pixels):]
-Lista de usuarios distancia entre hileras (píxeles):
-[Use same style as in the message log]
-Usar mismo estilo que en el registro de mensajes
-[Use default colors]
-Usar colores predeterminados
-[Use custom colors]
-Usar colores personalizados
-[Popups for the Chat plugin]
-Ventanas emergentes para el plugin de chat
-[Timeout (s)]
-Tiempo de espera (s)
-[Text]
-Texto
-[Background]
-Fondo
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(Ajuste de tiempo de espera a 0 significa Ajuste predeterminado y -1 significa tiempo indefinido)
-[List]
-Lista
-[&Message]
-&Mensaje
-[Log]
-Registro
-[Clear lo&g]
-Limpiar re&gistro
-[Co&py all]
-Co&piar todo
-[Word lookup]
-Palabra de búsqueda
-[Wikipedia]
-Wikipedia
-[Link]
-Enlace
-[Open a &new browser window]
-Abrir una nueva ventana del navegador
-[&Open in current browser window]
-Abrir en ventana actual del navegad&or
-[&Copy link]
-Copiar enlace
-[Message]
-Mensaje
-[Undo]
-Deshacer
-[Redo]
-Rehacer
-[Copy]
-Copiar
-[Cut]
-Cortar
-[Paste]
-Pegar
-[Select all]
-Seleccionar todo
-[Clear]
-Limpiar
-[Tabs]
-Pestañas
-[&Close tab]
-&Cerrar pestaña
-[C&lose other tabs]
-C&errar otras pestañas
-[&Open at this position]
-Abrir en esta p&osición
 [Delete contact]
 Eliminar contacto
 [No]
@@ -421,6 +283,8 @@ En el &teléfono\tCtrl+8
 Salí a &comer\tCtrl+9
 [Send file(s)]
 Enviar archivo(s)
+[&Send]
+&Enviar
 [Cancel]
 Cancelar
 [To:]
@@ -435,6 +299,8 @@ Tamaño total:
 Detalles:
 [&User menu]
 Menú de usuario
+[&History]
+&Historial
 [Incoming file transfer]
 Transferencia de archivos entrantes
 [A&ccept]
@@ -659,6 +525,140 @@ Guardar la posición de la ventana para cada contacto
 Comportamiento de la ventana de mensaje:
 [Messaging:]
 Mensajería:
+[&Emoticons]
+&Emoticones
+[&Bold]
+&Negrita
+[&Italic]
+C&ursiva
+[&Underline]
+S&ubrayar
+[&Color]
+&Color
+[&Background color]
+Color &de fondo
+[&Filter]
+&Filtro
+[&Room settings]
+Configu&ración de espacio
+[&Show/Hide nick list]
+&Mostrar/ocultar lista de nicks
+[Show these events only:]
+Mostrar sólo estos eventos:
+[Actions]
+Acciones
+[Messages]
+Mensajes
+[Nick changes]
+Cambios de Nick
+[Users joining]
+Usuarios entrando
+[Users leaving]
+Usuarios saliendo
+[Topic changes]
+Cambios de tema
+[Status changes]
+Cambios de estado
+[Information]
+Información
+[Disconnects]
+Desconectados
+[User kicks]
+Usuarios sacados
+[Notices]
+Avisos
+[Options]
+Opciones
+[Log options]
+Opciones de registro
+[Log timestamp]
+Registro de marca de tiempo
+[Timestamp]
+Marca de tiempo
+[Other name]
+Otro nombre
+[Your name]
+Su nombre
+[Enable highlighting]
+Habilitar resaltando
+[Limit log text to (events):]
+Limitar el texto del registro a (eventos):
+[Trim to (KB)]
+Recortar a (KB)
+[Words to highlight (wildcards allowed)]
+Palabras a resaltar (comodines permitidos)
+[Enable logging to disk]
+Habilitar registro en el disco
+[Log directory]
+Directorio de registro
+[Other]
+Otro
+[Add new rooms to group:]
+Añadir nuevas salas de grupo:
+[Nick list row distance (pixels):]
+Lista de usuarios distancia entre hileras (píxeles):
+[Use same style as in the message log]
+Usar mismo estilo que en el registro de mensajes
+[Use default colors]
+Usar colores predeterminados
+[Use custom colors]
+Usar colores personalizados
+[Popups for the Chat plugin]
+Ventanas emergentes para el plugin de chat
+[Timeout (s)]
+Tiempo de espera (s)
+[Text]
+Texto
+[Background]
+Fondo
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Ajuste de tiempo de espera a 0 significa Ajuste predeterminado y -1 significa tiempo indefinido)
+[List]
+Lista
+[&Message]
+&Mensaje
+[Log]
+Registro
+[Clear lo&g]
+Limpiar re&gistro
+[Co&py all]
+Co&piar todo
+[Word lookup]
+Palabra de búsqueda
+[Wikipedia]
+Wikipedia
+[Link]
+Enlace
+[Open a &new browser window]
+Abrir una nueva ventana del navegador
+[&Open in current browser window]
+Abrir en ventana actual del navegad&or
+[&Copy link]
+Copiar enlace
+[Message]
+Mensaje
+[Undo]
+Deshacer
+[Redo]
+Rehacer
+[Copy]
+Copiar
+[Cut]
+Cortar
+[Paste]
+Pegar
+[Select all]
+Seleccionar todo
+[Clear]
+Limpiar
+[Tabs]
+Pestañas
+[&Close tab]
+&Cerrar pestaña
+[C&lose other tabs]
+C&errar otras pestañas
+[&Open at this position]
+Abrir en esta p&osición
 [C&lear log]
 &Limpiar registro
 [&Copy]
@@ -1253,6 +1253,164 @@ Mmm... comida.
 libreeeeeeee
 [Status]
 Estado
+[Standard contacts]
+Contactos estándar
+[Online contacts to whom you have a different visibility]
+Contactos en línea a los que usted tiene una visibilidad diferente
+[Offline contacts]
+Contactos fuera de línea
+[Contacts which are 'not on list']
+Contactos que son 'no está en la lista'
+[Group member counts]
+Recuentos miembros del grupo
+[Dividers]
+Divisores
+[Offline contacts to whom you have a different visibility]
+Contactos desconectados a los que usted tiene una visibilidad diferente
+[Selected text]
+Texto seleccionado
+[Hottrack text]
+Texto rondado
+[Quicksearch text]
+Búsqueda rápida de texto
+[Not focused]
+No enfocado
+[Offline]
+Fuera de línea
+[Online]
+En línea
+[Away]
+Fuera
+[Not available]
+No disponible
+[Occupied]
+Ocupado
+[Do not disturb]
+No molestar
+[Free for chat]
+Libre para el chat
+[Invisible]
+Invisible
+[Out to lunch]
+Salí a comer
+[On the phone]
+En el teléfono
+[List background]
+Lista de fondos
+[Global]
+Global
+[Standard crypto provider]
+Proveedor estándar de cifrado
+[User has not registered an e-mail address]
+El usuario no ha registrado una dirección de correo electrónico
+[Send e-mail]
+Enviar e-mail
+[&E-mail]
+E-mail
+[File from %s]
+Archivo de %s
+[bytes]
+bytes
+[&File]
+&Archivo
+[File &transfers...]
+&Transferencias de archivos...
+[Incoming]
+Entrante
+[Complete]
+Completo
+[Error]
+Error
+[Denied]
+Denegado
+[%s file]
+%s archivo
+[All files]
+Todos los archivos
+[Executable files]
+Archivos ejecutables
+[Events]
+Eventos
+[Select folder]
+Seleccionar carpeta
+[My received files]
+Mis archivos recibidos
+[View user's history]
+Ver historial del usuario
+[User menu]
+Menú del usuario
+[Canceled]
+Cancelado
+[%d files]
+%d Archivos
+[%d directories]
+%d directorios
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Este archivo aún no ha sido escaneado en busca de virus. ¿Estás seguro de que quieres abrirlo?
+[File received]
+Archivo recibido
+[of]
+de
+[Request sent, waiting for acceptance...]
+Solicitud enviada, en espera de la aceptación
+[Waiting for connection...]
+Esperando por conexión...
+[Unable to initiate transfer.]
+No se puede iniciar la transferencia.
+[Contact menu]
+Menú de contacto
+[Open...]
+Abrir...
+[sec]
+seg
+[remaining]
+restante
+[Decision sent]
+Decisión enviada
+[Connecting...]
+Conectando...
+[Connecting to proxy...]
+Conectando al proxy...
+[Connected]
+Conectado
+[Initializing...]
+Inicializando...
+[Moving to next file...]
+Pasando al siguiente archivo...
+[Sending...]
+Enviando...
+[Receiving...]
+Recibiendo...
+[File transfer denied]
+Transferencia de archivo denegada
+[File transfer failed]
+Transferencia de archivos fallida
+[Transfer completed.]
+Transferencia finalizada.
+[Transfer completed, open file.]
+Transferencia finalizada, abrir archivo.
+[Transfer completed, open folder.]
+Transferencia finalizada, abrir carpeta.
+[Scanning for viruses...]
+Análisis en busca de virus...
+[Transfer and virus scan complete]
+Transferencia y Análisis en busca de virus finalizado
+[Outgoing]
+Saliendo
+[< Copyright]
+< Copyright
+[&Help]
+A&yuda
+[&About...]
+&Acerca de...
+[&Support]
+&Soporte
+[&Miranda NG homepage]
+&Miranda NG página principal
+[&Report bug]
+&Reportar error
+[Idle]
+Inactivo
 [Chat module]
 Módulo de chat
 [Message background]
@@ -1503,8 +1661,6 @@ Iconos a mostrar en el registro de mensajes
 Iconos a mostrar en la bandeja
 [Popups to display]
 Ventanas emergentes mostrar
-[Select folder]
-Seleccionar carpeta
 [Message sessions]
 Sesiones de mensaje
 [General]
@@ -1541,10 +1697,6 @@ Controlar esta sala (CTRL+O)
 Activar/desactivar el filtro de eventos (CTRL+F)
 [Close current tab (CTRL+F4)]
 Cerrar pestaña actual (CTRL+F4)
-[Nickname]
-Apodo
-[Unique ID]
-ID único
 [%s: chat room (%u user)]
 %s: sala de chat (%u usuario)
 [%s: chat room (%u users)]
@@ -1553,162 +1705,10 @@ ID único
 %s: sesión de mensaje
 [%s: message session (%u users)]
 %s: sesión de mensaje (%u usuarios)
-[Standard contacts]
-Contactos estándar
-[Online contacts to whom you have a different visibility]
-Contactos en línea a los que usted tiene una visibilidad diferente
-[Offline contacts]
-Contactos fuera de línea
-[Contacts which are 'not on list']
-Contactos que son 'no está en la lista'
-[Group member counts]
-Recuentos miembros del grupo
-[Dividers]
-Divisores
-[Offline contacts to whom you have a different visibility]
-Contactos desconectados a los que usted tiene una visibilidad diferente
-[Selected text]
-Texto seleccionado
-[Hottrack text]
-Texto rondado
-[Quicksearch text]
-Búsqueda rápida de texto
-[Not focused]
-No enfocado
-[Offline]
-Fuera de línea
-[Online]
-En línea
-[Away]
-Fuera
-[Not available]
-No disponible
-[Occupied]
-Ocupado
-[Do not disturb]
-No molestar
-[Free for chat]
-Libre para el chat
-[Invisible]
-Invisible
-[Out to lunch]
-Salí a comer
-[On the phone]
-En el teléfono
-[List background]
-Lista de fondos
-[Global]
-Global
-[Standard crypto provider]
-Proveedor estándar de cifrado
-[User has not registered an e-mail address]
-El usuario no ha registrado una dirección de correo electrónico
-[Send e-mail]
-Enviar e-mail
-[&E-mail]
-E-mail
-[File from %s]
-Archivo de %s
-[bytes]
-bytes
-[&File]
-&Archivo
-[File &transfers...]
-&Transferencias de archivos...
-[Incoming]
-Entrante
-[Complete]
-Completo
-[Error]
-Error
-[Denied]
-Denegado
-[%s file]
-%s archivo
-[All files]
-Todos los archivos
-[Executable files]
-Archivos ejecutables
-[Events]
-Eventos
-[My received files]
-Mis archivos recibidos
-[View user's history]
-Ver historial del usuario
-[User menu]
-Menú del usuario
-[Canceled]
-Cancelado
-[%d files]
-%d Archivos
-[%d directories]
-%d directorios
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Este archivo aún no ha sido escaneado en busca de virus. ¿Estás seguro de que quieres abrirlo?
-[File received]
-Archivo recibido
-[of]
-de
-[Request sent, waiting for acceptance...]
-Solicitud enviada, en espera de la aceptación
-[Waiting for connection...]
-Esperando por conexión...
-[Unable to initiate transfer.]
-No se puede iniciar la transferencia.
-[Contact menu]
-Menú de contacto
-[Open...]
-Abrir...
-[sec]
-seg
-[remaining]
-restante
-[Decision sent]
-Decisión enviada
-[Connecting...]
-Conectando...
-[Connecting to proxy...]
-Conectando al proxy...
-[Connected]
-Conectado
-[Initializing...]
-Inicializando...
-[Moving to next file...]
-Pasando al siguiente archivo...
-[Sending...]
-Enviando...
-[Receiving...]
-Recibiendo...
-[File transfer denied]
-Transferencia de archivo denegada
-[File transfer failed]
-Transferencia de archivos fallida
-[Transfer completed.]
-Transferencia finalizada.
-[Transfer completed, open file.]
-Transferencia finalizada, abrir archivo.
-[Transfer completed, open folder.]
-Transferencia finalizada, abrir carpeta.
-[Scanning for viruses...]
-Análisis en busca de virus...
-[Transfer and virus scan complete]
-Transferencia y Análisis en busca de virus finalizado
-[Outgoing]
-Saliendo
-[< Copyright]
-< Copyright
-[&Help]
-A&yuda
-[&About...]
-&Acerca de...
-[&Support]
-&Soporte
-[&Miranda NG homepage]
-&Miranda NG página principal
-[&Report bug]
-&Reportar error
-[Idle]
-Inactivo
+[Nickname]
+Apodo
+[Unique ID]
+ID único
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
 [Incoming message (10x10)]
@@ -1963,6 +1963,8 @@ Aviso de %s: %s
 El tema es '%s'
 [The topic is '%s' (set by %s)]
 El tema es '%s' (establecido por %s)
+[Nick]
+Apodo
 [New group]
 Nuevo grupo
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1989,8 +1991,6 @@ E&liminar
 &Añadir a la lista de forma permanente
 [My custom name (not movable)]
 Mi nombre personalizado (no movible)
-[Nick]
-Apodo
 [FirstName]
 Nombre
 [E-mail]
@@ -2267,16 +2267,16 @@ Nuevo perfil
 Tu cuenta ha sido actualizada correctamente. Para activarla, es necesario reiniciar Miranda.\n\nSi desea reiniciar Miranda ahora, pulse Sí, si usted desea actualizar otra cuenta, presione No
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Esta cuenta utiliza protocolo heredado de plugin. Use diálogos de opciones de Miranda NG para cambiar sus preferencias.
-[Account error]
-Error de cuenta
-[Account name has to be unique. Please enter unique name.]
-El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
 [Create new account]
 Crear nueva cuenta
 [Editing account]
 Editar cuenta
 [Upgrading account]
 Actualizar cuenta
+[Account error]
+Error de cuenta
+[Account name has to be unique. Please enter unique name.]
+El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
 [Account is disabled. Please activate it to access options.]
 Cuenta deshabilitada. Active para acceder a las opciones.
 [New account]
@@ -2287,12 +2287,6 @@ Eliminar cuenta
 Configurar...]
 [Upgrade account]
 Actualiza cuenta
-[Account ID]
-ID de la cuenta
-[<unknown>]
-<desconocido>
-[Protocol is not loaded.]
-Protocolo no está cargado.
 [Rename]
 Renombrar
 [Configure]
@@ -2307,6 +2301,12 @@ La cuenta está en línea. ¿Desactivar la cuenta?
 La cuenta %s se está borrando
 [You need to disable plugin to delete this account]
 Es necesario desactivar plugin para eliminar esta cuenta
+[Account ID]
+ID de la cuenta
+[<unknown>]
+<desconocido>
+[Protocol is not loaded.]
+Protocolo no está cargado.
 [&Accounts...]
 &Cuentas...
 [Account]

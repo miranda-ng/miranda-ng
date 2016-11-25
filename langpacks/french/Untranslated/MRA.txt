@@ -60,7 +60,6 @@
 [Avatars: can't open file %s, error]
 [Owners]
 [Inviter]
-[Chat plugin is required for conferences. Install it before chatting]
 [invite sender]
 [invite new members]
 [Your contact wakes you]

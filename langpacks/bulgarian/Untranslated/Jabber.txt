@@ -28,7 +28,6 @@
 [Group chat invitation to\n%s]
 [Jabber Bookmarks Error]
 [Voice List]
-[Chat plugin is required for conferences. Install it before chatting]
 [Bambara]
 [Bihari]
 [Corsican]

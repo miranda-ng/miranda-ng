@@ -833,12 +833,6 @@ Prikaži / skloni listu nadimaka (CTRL+N)
 Upravljaj sobom za razgovor (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Uključi / isključi filter za razgovor (CTRL+F)
-[Nickname]
-Nadimak
-[Unique ID]
-Jedinstveni broj (ID)
-[Status]
-Status
 [%s: chat room (%u user)]
 %s: soba za razgovor (%u korisnik)
 [%s: chat room (%u users)]
@@ -847,3 +841,9 @@ Status
 %s: razgovor
 [%s: message session (%u users)]
 %s: razgovor (%u korisnik(a))
+[Nickname]
+Nadimak
+[Unique ID]
+Jedinstveni broj (ID)
+[Status]
+Status

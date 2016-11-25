@@ -689,6 +689,8 @@ wParam в ANSI
 С форматированием
 [Don't use formating]
 Без форматирования
+[Returns a string containing the versioninfo post]
+Возвращает строку, содержащую сообщение с информацией о версии
 [int 0, if unsuccessful]
 целочисленный 0 в случае неудачи
 [Manage Jabber Bookmarks]

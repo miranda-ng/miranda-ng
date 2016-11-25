@@ -179,7 +179,5 @@ URI аб'ект
 
 [Skypename]
 
-[Failed to establish a TRouter connection.]
-
 [Incoming call from %s]
 

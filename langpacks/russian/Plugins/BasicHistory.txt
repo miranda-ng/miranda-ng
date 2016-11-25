@@ -381,6 +381,8 @@ Dat (плагин mContacts)
 Неверное значение '%s'.
 [Events older than]
 События старше чем
+[Some value is invalid]
+Некоторые значения некорректны
 [Invalid '%s' value.\n%s]
 Неверное значение '%s'.\n%s
 [** Use <ext> to insert extension, <contact> to insert contact name]

@@ -978,8 +978,6 @@ Höchste Priorität (Auswahl durch Server)
 Statusnachricht
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
-[Chat plugin is required for conferences. Install it before chatting]
-StdMsg.dll ist für Mehrbenutzerkonferenzen erforderlich. Bitte installieren Sie diese Datei nach.
 [To]
 An
 [From]

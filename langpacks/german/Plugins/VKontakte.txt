@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.7
+;  Version: 0.1.2.9
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -319,6 +319,12 @@ Nicht unterstützter oder unbekannter Anhangtyp: %s
 Nachricht von
 [at]
 um
+[User restored control over own page]
+
+[User was deactivated (deleted)]
+
+[User was deactivated (banned)]
+
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 Teilnehmer
@@ -528,6 +534,8 @@ Für immer
 Fehler
 [Notification]
 Benachrichtigung
+[VK user activate/deactivate action]
+
 [User %s added as friend]
 Benutzer %s wurde als Freund hinzugefügt.
 [You cannot add yourself as friend]

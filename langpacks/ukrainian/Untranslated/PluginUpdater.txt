@@ -1,1 +1,3 @@
-﻿[Plugin updater URI scheme]
+﻿[Change platform to 32-bit]
+[Plugin updater URI scheme]
+[Change platform to 64-bit]

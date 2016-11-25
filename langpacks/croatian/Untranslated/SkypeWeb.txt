@@ -82,5 +82,4 @@
 [Incoming call sound]
 [Incoming call canceled sound]
 [Skypename]
-[Failed to establish a TRouter connection.]
 [Incoming call from %s]

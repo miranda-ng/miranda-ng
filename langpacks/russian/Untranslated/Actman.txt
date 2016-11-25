@@ -24,7 +24,6 @@
 [Send Email to contact]
 [Returns the received files folder for a contact]
 [Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
-[Returns a string containing the versioninfo post]
 [Show or save (call default action) Modules version Info]
 [Show popup or Info window with current music information.]
 [log filename]

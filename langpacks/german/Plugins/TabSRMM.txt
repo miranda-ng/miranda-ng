@@ -917,8 +917,6 @@ Kursiver Text
 Unterstrichener Text
 [Strike-through text]
 Durchgestrichener Text
-[Select font color]
-Schriftfarbe auswählen
 [Send message\nClick dropdown arrow for sending options]
 Nachricht senden\nDropdown für Sendeoptionen
 [Close session]
@@ -931,6 +929,8 @@ Verlaufseinstellungen
 Verlauf anzeigen
 [Edit user notes]
 Benutzernotizen bearbeiten
+[Select font color]
+Schriftfarbe auswählen
 [Change background color]
 Hintergrundfarbe ändern
 [Toggle nick list]
@@ -2151,10 +2151,6 @@ Benutzer hervorheben...
 [Edit highlight list...]
 Hervorhebungsliste bearbeiten...
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Unique ID]
-Unique ID
-[Nick]
-Nick
 [%s: chat room (%u user%s)]
 %s: Chatraum (%u Benutzer%s)
 [%s: chat room (%u users%s)]

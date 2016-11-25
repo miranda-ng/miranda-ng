@@ -978,8 +978,6 @@ Haute priorité (choix du serveur)
 
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
-[Chat plugin is required for conferences. Install it before chatting]
-
 [To]
 Vers
 [From]

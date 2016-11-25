@@ -2457,18 +2457,18 @@ xСтатус
 Ваша учётная запись успешно обновлена. Для её активации нужно перезапустить Miranda.\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Эта учётная запись использует старый протокол. Смена личных данных пользователя производится через основные настройки программы.
-[Account name must be filled.]
-Необходимо указать имя учётной записи.
-[Account error]
-Ошибка учётной записи
-[Account name has to be unique. Please enter unique name.]
-Имя учётной записи должно быть уникальным. Введите уникальное имя.
 [Create new account]
 Новая учётная запись
 [Editing account]
 Изменение учётной записи
 [Upgrading account]
 Модернизация учётной записи
+[Account name must be filled.]
+Необходимо указать имя учётной записи.
+[Account error]
+Ошибка учётной записи
+[Account name has to be unique. Please enter unique name.]
+Имя учётной записи должно быть уникальным. Введите уникальное имя.
 [Account is disabled. Please activate it to access options.]
 Учётная запись отключена. Активируйте её для получения доступа к настройкам.
 [New account]
@@ -2479,12 +2479,6 @@ xСтатус
 Настройка...
 [Upgrade account]
 Модернизация
-[Account ID]
-ID учётной записи
-[<unknown>]
-<неизвестно>
-[Protocol is not loaded.]
-Протокол не загружен.
 [Rename]
 Переименовать
 [Configure]
@@ -2499,6 +2493,12 @@ ID учётной записи
 Удаление учётной записи %s
 [You need to disable plugin to delete this account]
 Для удаления учётной записи нужно отключить протокол
+[Account ID]
+ID учётной записи
+[<unknown>]
+<неизвестно>
+[Protocol is not loaded.]
+Протокол не загружен.
 [&Accounts...]
 &Учётные записи...
 [Account]

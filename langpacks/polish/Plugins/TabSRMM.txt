@@ -917,8 +917,6 @@ Kursywa
 Podkreślenie
 [Strike-through text]
 Przekreślenie
-[Select font color]
-Wybierz kolor czcionki
 [Send message\nClick dropdown arrow for sending options]
 Wyślij wiadomość
 [Close session]
@@ -931,6 +929,8 @@ Opcje dziennika wiadomości
 Zobacz historię użytkownika
 [Edit user notes]
 Edytuj notatkę kontaktu
+[Select font color]
+Wybierz kolor czcionki
 [Change background color]
 Zmień kolor tła
 [Toggle nick list]
@@ -2151,10 +2151,6 @@ Podświetlany użytkownik...
 [Edit highlight list...]
 Edytuj listę podświetleń...
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[Unique ID]
-Unikalne ID
-[Nick]
-Nick
 [%s: chat room (%u user%s)]
 Pokój czatowy: %s (jest %u%s użytkownik(ów))
 [%s: chat room (%u users%s)]

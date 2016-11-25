@@ -793,12 +793,6 @@ Latin I
 Управление на стаята (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Включване/Изключване на филтъра за събития (CTRL+F)
-[Nickname]
-Прякор
-[Unique ID]
-Уникален ID
-[Status]
-Състояние
 [%s: chat room (%u user)]
 %s: чат стая (%u потребител)
 [%s: chat room (%u users)]
@@ -807,3 +801,9 @@ Latin I
 %s: разговор
 [%s: message session (%u users)]
 %s: разговор (%u потребителя)
+[Nickname]
+Прякор
+[Unique ID]
+Уникален ID
+[Status]
+Състояние

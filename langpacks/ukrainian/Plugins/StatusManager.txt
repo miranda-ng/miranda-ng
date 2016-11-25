@@ -353,10 +353,10 @@
 невідомо
 [At least one profile must exist]
 Повинен існувати хоча б один профіль
-[Startup Status]
-Початковий статус
 [Your default profile will be changed]
 Профіль за замовчанням буде змінено
+[Startup status]
+Початковий статус
 [Pressed toolbar icon]
 Натиснутий значок панелі
 [Released toolbar icon]

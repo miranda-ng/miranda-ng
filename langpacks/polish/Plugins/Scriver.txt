@@ -833,12 +833,6 @@ Pokaż/Ukryj listę nazw (Ctrl+N)
 Kontroluj ten pokój (Ctrl + O)
 [Enable/disable the event filter (CTRL+F)]
 Włącz/Wyłącz filtr zdarzeń (Ctrl+F)
-[Nickname]
-Nazwa
-[Unique ID]
-Unikalne ID
-[Status]
-Status
 [%s: chat room (%u user)]
 %s: Konferencja (%u użytkownik)
 [%s: chat room (%u users)]
@@ -847,3 +841,9 @@ Status
 %s: Rozmowa
 [%s: message session (%u users)]
 %s: Rozmowa (%u użytkowników)
+[Nickname]
+Nazwa
+[Unique ID]
+Unikalne ID
+[Status]
+Status

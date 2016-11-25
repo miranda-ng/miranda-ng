@@ -145,6 +145,8 @@ AIM Установить Instant Idle
 &Информация
 [User &history]
 История &пользователя
+[Invalid Screen Name or password.]
+Недействительное имя AIM или пароль.
 [Mismatched Screen Name or password.]
 Неправильное имя AIM или пароль.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]

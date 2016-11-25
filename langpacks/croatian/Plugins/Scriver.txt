@@ -833,12 +833,6 @@ uvijek na vrhu
 
 [Enable/disable the event filter (CTRL+F)]
 
-[Nickname]
-
-[Unique ID]
-
-[Status]
-
 [%s: chat room (%u user)]
 
 [%s: chat room (%u users)]
@@ -846,4 +840,10 @@ uvijek na vrhu
 [%s: message session]
 
 [%s: message session (%u users)]
+
+[Nickname]
+
+[Unique ID]
+
+[Status]
 

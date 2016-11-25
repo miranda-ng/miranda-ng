@@ -913,8 +913,6 @@ Esc зачыняе сесію (інакш - згортвае)
 Падкрэслены
 [Strike-through text]
 Закрэслены
-[Select font color]
-Выбар колеру
 [Send message\nClick dropdown arrow for sending options]
 Адправіць
 [Close session]
@@ -927,6 +925,8 @@ Esc зачыняе сесію (інакш - згортвае)
 Гісторыя паведамленняў
 [Edit user notes]
 Кіраваць нататкі кантакта
+[Select font color]
+Выбар колеру
 [Change background color]
 Змяніць колер фону
 [Toggle nick list]
@@ -2111,10 +2111,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Падсвятляць удзельнікаў
 [Edit highlight list...]
 Кіраваць спіс падсвятлення
-[Unique ID]
-Асабісты конт
-[Nick]
-Мянушка
 [%s: chat room (%u user%s)]
 %s: Чат (%u удзельнікаў)
 [%s: chat room (%u users%s)]

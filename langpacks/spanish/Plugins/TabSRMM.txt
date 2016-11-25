@@ -405,10 +405,6 @@ Buscar '%s':
 Ni una palabra para buscar
 [&Message %s]
 &Mensaje %s
-[Unique ID]
-ID único
-[Nick]
-Apodo
 [%s: message session]
 %s: sesión de mensaje
 [%s: message session (%u users)]
