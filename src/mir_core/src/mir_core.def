@@ -1035,3 +1035,4 @@ CallFunctionSync @1170
 ?FindControl@CDlgBase@@AAEPAVCCtrlBase@@PAUHWND__@@@Z @1192 NONAME
 ?GetItemRect@CCtrlListBox@@QAEHHPAUtagRECT@@@Z @1193 NONAME
 ?SetItemHeight@CCtrlListBox@@QAEXHH@Z @1194 NONAME
+?UseSystemColors@CCtrlBase@@QAEXXZ @1195 NONAME
