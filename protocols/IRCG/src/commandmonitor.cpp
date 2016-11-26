@@ -408,7 +408,7 @@ bool CIrcProto::OnIrc_KICK(const CIrcMessage* pmsg)
 		Chat_Control(m_szModuleName, S, SESSION_OFFLINE);
 
 		if (m_rejoinIfKicked) {
-			CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, pmsg->parameters[0]);
+			CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, MakeWndID(pmsg->parameters[0]));
 			if (wi && wi->pszPassword)
 				PostIrcMessage(L"/JOIN %s %s", pmsg->parameters[0], wi->pszPassword);
 			else
@@ -492,7 +492,8 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 					if ((int)pmsg->parameters.getCount() > iParametercount) {
 						if (!mir_wstrcmp(pmsg->parameters[2], m_info.sNick)) {
 							char cModeBit = -1;
-							CHANNELINFO *wi = (CHANNELINFO*)Chat_GetUserInfo(m_szModuleName, pmsg->parameters[0]);
+							CMStringW windowName = MakeWndID(pmsg->parameters[0]);
+							CHANNELINFO *wi = (CHANNELINFO*)Chat_GetUserInfo(m_szModuleName, windowName);
 							switch (*p1) {
 							case 'v':      cModeBit = 0;       break;
 							case 'h':      cModeBit = 1;       break;
@@ -502,14 +503,14 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 							}
 
 							// set bit for own mode on this channel (voice/hop/op/admin/owner)
-							if (cModeBit >= 0) {
+							if (wi && cModeBit >= 0) {
 								if (bAdd)
 									wi->OwnMode |= (1 << cModeBit);
 								else
 									wi->OwnMode &= ~(1 << cModeBit);
 							}
 
-							Chat_SetUserInfo(m_szModuleName, pmsg->parameters[0], wi);
+							Chat_SetUserInfo(m_szModuleName, windowName, wi);
 						}
 						DoEvent(bAdd ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS, pmsg->parameters[0], pmsg->parameters[iParametercount], pmsg->prefix.sNick, sStatus, NULL, NULL, m_oldStyleModes ? false : true, false);
 						iParametercount++;
