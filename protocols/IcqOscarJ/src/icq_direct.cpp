@@ -774,9 +774,6 @@ int DecryptDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 	if (size < 4)
 		return 1;
 
-	if (dc->wVersion < 4)
-		return 1;
-
 	// backup the first 6 bytes
 	unsigned long offset = (dc->wVersion == 4 || dc->wVersion == 5) ? 6 : 0;
 	if (offset)
