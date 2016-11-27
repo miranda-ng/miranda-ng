@@ -320,11 +320,11 @@ Nachricht von
 [at]
 um
 [User restored control over own page]
-
+Benutzer hat Kontrolle über seine eigene Seite wiederhergestellt.
 [User was deactivated (deleted)]
-
+Benutzer wurde deaktiviert (gelöscht)
 [User was deactivated (banned)]
-
+Benutzer wurde deaktiviert (gebannt)
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 Teilnehmer
@@ -535,7 +535,7 @@ Fehler
 [Notification]
 Benachrichtigung
 [VK user activate/deactivate action]
-
+VK-Benutzer wurde aktiviert/deaktiviert
 [User %s added as friend]
 Benutzer %s wurde als Freund hinzugefügt.
 [You cannot add yourself as friend]
