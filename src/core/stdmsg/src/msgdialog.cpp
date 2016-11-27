@@ -178,7 +178,7 @@ static void SetDialogToType(HWND hwndDlg)
 		ShowMultipleControls(hwndDlg, infoLineControls, _countof(infoLineControls), SW_HIDE);
 
 	if (dat->hContact) {
-		ShowMultipleControls(hwndDlg, buttonLineControls, _countof(buttonLineControls), (g_dat.flags&SMF_SHOWBTNS) ? SW_SHOW : SW_HIDE);
+		ShowMultipleControls(hwndDlg, buttonLineControls, _countof(buttonLineControls), (g_dat.flags & SMF_SHOWBTNS) ? SW_SHOW : SW_HIDE);
 		if (!db_get_b(dat->hContact, "CList", "NotOnList", 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 	}

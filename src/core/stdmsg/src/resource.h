@@ -127,12 +127,7 @@
 #define IDC_RADIO1                      1067
 #define IDC_RADIO2                      1068
 #define IDC_RADIO3                      1069
-#define IDC_TEXT                        1064
-#define IDC_BKG                         1065
-#define IDC_TIMEOUT                     1067
-#define IDC_HIGHLIGHT                   1068
-#define IDC_TEXTO                       1069
-#define IDC_LOGGING                     1069
+#define IDC_ADD                         1070
 #define IDC_LIST                        1072
 #define IDC_TAB                         1074
 #define IDC_1                           1075
@@ -146,9 +141,14 @@
 #define IDC_9                           1083
 #define IDC_10                          1084
 #define IDC_11                          1085
+#define IDC_TEXT                        1086
+#define IDC_BKG                         1087
+#define IDC_TIMEOUT                     1088
+#define IDC_HIGHLIGHT                   1089
+#define IDC_TEXTO                       1090
+#define IDC_LOGGING                     1091
 
 #define IDC_DETAILS                     1469
-#define IDC_ADD                         1470
 #define IDC_USERMENU                    1471
 #define IDC_STMSGLOGGROUP               1442
 #define IDC_PROTOCOL                    1580
