@@ -52,7 +52,7 @@ begin
   result:=0;
 
 // toptoolbar
-  if ServiceExists(MS_TTB_GETBUTTONOPTIONS)<>0 then
+  if ServiceExists(MS_TTB_GETBUTTONOPTIONS) then
   begin
     CallService(MS_TTB_GETBUTTONOPTIONS,(hTTBButton shl 16)+TTBO_ALLDATA,TLPARAM(@ttb));
     ttb.hIconUp:=IcoLib_GetIcon(QS_QS,0);

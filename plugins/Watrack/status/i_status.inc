@@ -91,9 +91,7 @@ begin
         todo  :=true;
       end;
 
-      if (UseListeningTo<>BST_UNCHECKED) and
-         IsTunesSupported(j) then
-//         (ProtoServiceExists(proto,PS_SET_LISTENINGTO)<>0) then
+      if (UseListeningTo<>BST_UNCHECKED) and IsTunesSupported(j) then
       begin
         if doClear then
           CallProtoService(proto,PS_SET_LISTENINGTO,0,0)

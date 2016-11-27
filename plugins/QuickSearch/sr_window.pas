@@ -359,7 +359,7 @@ end;
 
 procedure DeleteOneContact(hContact:TMCONTACT);
 begin
-  if ServiceExists(strCListDel)>0 then
+  if ServiceExists(strCListDel) then
     CallService(strCListDel,hContact,0)
   else
     db_delete_contact(hContact);
@@ -899,7 +899,7 @@ begin
   AppendMenuW(mmenu,MF_SEPARATOR,0,nil);
   AppendMenuW(mmenu,MF_STRING,101,TranslateW('&Delete'));
   AppendMenuW(mmenu,MF_STRING,102,TranslateW('&Copy'));
-  if ServiceExists(MS_MC_CONVERTTOMETA)<>0 then
+  if ServiceExists(MS_MC_CONVERTTOMETA) then
     AppendMenuW(mmenu,MF_STRING,103,TranslateW('C&onvert to Meta'));
 
   cntmenu:=MakeContainerMenu(300);
@@ -1485,7 +1485,7 @@ begin
         if j>0 then
         begin
           StrCopy(StrCopyE(buf,GetProtoName(FlagBuf[i].proto)),PS_GETCUSTOMSTATUSICON);
-          if ServiceExists(buf)<>0 then
+          if ServiceExists(buf) then
           begin
             h:=CallService(buf,j,LR_SHARED);
 
@@ -1508,7 +1508,7 @@ begin
         MirVerW:=MainBuf[lplvcd^.nmcd.lItemlParam,sub].text;
 
 //!!
-        if (MirVerW<>nil) and (MirVerW[0]<>#0) and (ServiceExists(MS_FP_GETCLIENTICONW)<>0) then
+        if (MirVerW<>nil) and (MirVerW[0]<>#0) and ServiceExists(MS_FP_GETCLIENTICONW) then
         begin
           h:=CallService(MS_FP_GETCLIENTICONW,tlparam(MirVerW),0);
           ListView_GetSubItemRect(grid,lplvcd^.nmcd.dwItemSpec,lplvcd^.iSubItem,LVIR_ICON,@rc);
@@ -1622,7 +1622,7 @@ begin
 
       else if (datatype=QSTS_STRING) and
          (StrCmp(setting,'MirVer')=0) and
-         (ServiceExists(MS_FP_GETCLIENTICONW)<>0) then
+         ServiceExists(MS_FP_GETCLIENTICONW) then
         flags:=flags or COL_CLIENT;
 
     end
@@ -2258,7 +2258,7 @@ begin
   if j=0 then
     exit;
 
-  TTInstalled := ServiceExists(MS_TIPPER_SHOWTIP)<>0;
+  TTInstalled := ServiceExists(MS_TIPPER_SHOWTIP);
   // too lazy to move pattern and flags to thread
   if apattern<>nil then
   begin

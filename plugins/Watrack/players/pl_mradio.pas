@@ -186,7 +186,7 @@ var
   ptr:PavatarCacheEntry;
 begin
   result:=nil;
-  if ServiceExists(MS_AV_GETAVATARBITMAP)<>0 then
+  if ServiceExists(MS_AV_GETAVATARBITMAP) then
   begin
     ptr:=PavatarCacheEntry(CallService(MS_AV_GETAVATARBITMAP,CurrentStation,0));
     if ptr<>nil then

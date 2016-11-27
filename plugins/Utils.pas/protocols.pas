@@ -448,11 +448,11 @@ begin
 
       p:=StrCopyE(buf,name);
       StrCopy(p,PS_GETCUSTOMSTATUSEX);
-      if ServiceExists(buf)<>0 then
+      if ServiceExists(buf) then
         status:=status or psf_icq;
 
       StrCopy(p,PS_SET_LISTENINGTO);
-      if ServiceExists(buf)<>0 then
+      if ServiceExists(buf) then
         status:=status or psf_tunes;
 
     end;

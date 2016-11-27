@@ -50,7 +50,7 @@ begin
   else
     Menu_ModifyItem(hMenuDisable, 'Disable WATrack', IcoLib_GetIcon(IcoBtnEnable,0));
 
-  if ServiceExists(MS_TTB_SETBUTTONSTATE)<>0 then
+  if ServiceExists(MS_TTB_SETBUTTONSTATE) then
   begin
     if f1<>0 then
     begin
@@ -75,7 +75,7 @@ begin
   Menu_ModifyItem(hMenuDisable, nil, IcoLib_GetIcon(IcoBtnEnable,0));
 
   // toptoolbar
-  if ServiceExists(MS_TTB_GETBUTTONOPTIONS)<>0 then
+  if ServiceExists(MS_TTB_GETBUTTONOPTIONS) then
   begin
     CallService(MS_TTB_GETBUTTONOPTIONS,(ttbState shl 16)+TTBO_ALLDATA,tlparam(@ttb));
     ttb.hIconDn:=IcoLib_GetIcon(IcoBtnEnable,0);

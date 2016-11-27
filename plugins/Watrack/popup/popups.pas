@@ -247,7 +247,6 @@ begin
         colorBack       :=cb;
         colorText       :=ct;
 
-    //    if ServiceExists(MS_POPUP_REGISTERACTIONS)=0 then
         if ActionList=nil then
           flag:=0
         else
@@ -392,18 +391,18 @@ var
 begin
   result:=true;
   // Popups
-  newstate:=ServiceExists(MS_POPUP_ADDPOPUPW)<>0;
+  newstate:=ServiceExists(MS_POPUP_ADDPOPUPW);
   if newstate=PopupPresent then
     exit;
 
   PopupPresent:=newstate;
   if PopupPresent then
   begin
-    IsFreeImagePresent:=ServiceExists(MS_IMG_LOAD       )<>0;
-    IsPopup2Present   :=ServiceExists(MS_POPUP_ADDPOPUP2)<>0;
+    IsFreeImagePresent:=ServiceExists(MS_IMG_LOAD);
+    IsPopup2Present   :=ServiceExists(MS_POPUP_ADDPOPUP2);
     opthook:=HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
 
-    if ServiceExists(MS_POPUP_REGISTERACTIONS)<>0 then
+    if ServiceExists(MS_POPUP_REGISTERACTIONS) then
     begin
       if RegisterButtonIcons then
       begin
@@ -420,7 +419,7 @@ begin
   end;
 
   // TTB
-  newstate:=ServiceExists(MS_TTB_ADDBUTTON)<>0;
+  newstate:=ServiceExists(MS_TTB_ADDBUTTON);
   if newstate=(ttbInfo<>0) then
     exit;
 
@@ -433,7 +432,7 @@ begin
   end
   else
   begin
-    if ServiceExists(MS_TTB_REMOVEBUTTON)>0 then
+    if ServiceExists(MS_TTB_REMOVEBUTTON) then
       CallService(MS_TTB_REMOVEBUTTON,WPARAM(ttbInfo),0);
     ttbInfo:=0;
   end;
@@ -481,15 +480,15 @@ begin
   hMenuInfo:=Menu_AddMainMenuItem(@mi);
 
   ActionList:=nil;
-  if ServiceExists(MS_POPUP_ADDPOPUPW)<>0 then
+  if ServiceExists(MS_POPUP_ADDPOPUPW) then
   begin
-    IsFreeImagePresent:=ServiceExists(MS_IMG_LOAD       )<>0;
-    IsPopup2Present   :=ServiceExists(MS_POPUP_ADDPOPUP2)<>0;
+    IsFreeImagePresent:=ServiceExists(MS_IMG_LOAD);
+    IsPopup2Present   :=ServiceExists(MS_POPUP_ADDPOPUP2);
     PopupPresent:=true;
     opthook:=HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
     loadpopup;
 
-    if ServiceExists(MS_POPUP_REGISTERACTIONS)<>0 then
+    if ServiceExists(MS_POPUP_REGISTERACTIONS) then
     begin
       if RegisterButtonIcons then
       begin
@@ -508,7 +507,7 @@ begin
 
   plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 
-  if ServiceExists(MS_TTB_ADDBUTTON)>0 then
+  if ServiceExists(MS_TTB_ADDBUTTON) then
   begin
     onttbhook:=0;
     OnTTBLoaded(0,0);
@@ -532,7 +531,7 @@ begin
 
   if ttbInfo<>0 then
   begin
-    if ServiceExists(MS_TTB_REMOVEBUTTON)>0 then
+    if ServiceExists(MS_TTB_REMOVEBUTTON) then
       CallService(MS_TTB_REMOVEBUTTON,WPARAM(ttbInfo),0);
     ttbInfo:=0;
   end;

@@ -456,7 +456,7 @@ begin
   end;
 
   // TTB
-  newstate:=ServiceExists(MS_TTB_ADDBUTTON)<>0;
+  newstate:=ServiceExists(MS_TTB_ADDBUTTON);
   if newstate=(ttbState<>0) then
     exit;
 
@@ -471,7 +471,7 @@ begin
   end
   else
   begin
-    if ServiceExists(MS_TTB_REMOVEBUTTON)>0 then
+    if ServiceExists(MS_TTB_REMOVEBUTTON) then
       CallService(MS_TTB_REMOVEBUTTON,WPARAM(ttbState),0);
     ttbState:=0;
   end;
@@ -520,7 +520,7 @@ begin
 
   CreateMenus;
 
-  if ServiceExists(MS_TTB_ADDBUTTON)<>0 then
+  if ServiceExists(MS_TTB_ADDBUTTON) then
     HookEvent(ME_TTB_MODULELOADED,@OnTTBLoaded)
   else
     ttbState:=0;
@@ -608,7 +608,7 @@ begin
 
   if ttbState<>0 then
   begin
-    if ServiceExists(MS_TTB_REMOVEBUTTON)>0 then
+    if ServiceExists(MS_TTB_REMOVEBUTTON) then
       CallService(MS_TTB_REMOVEBUTTON,TWPARAM(ttbState),0);
     ttbState:=0;
   end;

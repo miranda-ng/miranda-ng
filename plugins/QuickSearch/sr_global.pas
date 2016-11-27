@@ -201,7 +201,7 @@ procedure removetoolbar;
 begin
   if hTTBButton<>0 then
   begin
-    if ServiceExists(MS_TTB_REMOVEBUTTON)>0 then
+    if ServiceExists(MS_TTB_REMOVEBUTTON) then
     begin
       CallService(MS_TTB_REMOVEBUTTON,WPARAM(hTTBButton),0);
       hTTBButton:=0;
@@ -215,7 +215,7 @@ var
 begin
   removetoolbar;
 
-  if ServiceExists(MS_TTB_ADDBUTTON)>0 then
+  if ServiceExists(MS_TTB_ADDBUTTON) then
   begin
     ZeroMemory(@ttbopt,sizeof(ttbopt));
     ttbopt.pszService:=QS_SHOWSERVICE;

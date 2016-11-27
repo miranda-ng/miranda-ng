@@ -451,19 +451,6 @@ begin
   actptr:=p.Create;
   SendMessage(p.DlgHandle,WM_ACT_SAVE,0,tlparam(actptr));
   actptr.flags:=actptr.flags or ACF_INTRODUCED;
-{ maybe do it at full chain saving?
-  
-  li.iItem     :=listnum;
-  li.mask      :=LVIF_TEXT;
-  li.iSubItem  :=0;
-  li.pszText   :=@arr;
-  li.cchTextMax:=SizeOf(arr) div SizeOf(WideChar);
-  SendDlgItemMessageW(Dialog,IDC_ACTION_LIST,LVM_GETITEMW,0,tlparam(@li));
-  StrDupW(actptr.ActionDescr,arr);
-
-  if ListView_GetCheckState(wnd,listnum)=0 then
-    actptr.flags:=actptr.flags or ACF_DISABLED;
-}
   LV_SetLParam(wnd,tlparam(actptr),listnum);
 end;
 
@@ -760,16 +747,7 @@ begin
       if (CurMacro^.flags and ACF_ASSIGNED)<>0 then
       begin
         lvi.iItem :=i;
-
         lvi.lParam:=LPARAM(i) or LPARAM(CurMacro^.flags and ACF_MACROFLAG);
-{!!
-        if (CurMacro^.flags and ACF_FIRSTRUN)<>0 then
-          lvi.lParam:=lvi.lParam or ACF_FIRSTRUN;
-        if (CurMacro^.flags and ACF_VOLATILE)<>0 then
-          lvi.lParam:=lvi.lParam or ACF_VOLATILE;
-        if (CurMacro^.flags and ACF_SINGLEINST)<>0 then
-          lvi.lParam:=lvi.lParam or ACF_SINGLEINST;
-!!}
         lvi.pszText:=@(CurMacro^.descr);
         SendMessageW(list,LVM_INSERTITEMW,0,tlparam(@lvi));
         inc(result);
@@ -779,7 +757,6 @@ begin
   end;
 
   CheckMacroList(Dialog);
-//??  SendMessage(list,CB_SETCURSEL,0,0);
   SendMessage(list,LVM_SETCOLUMNWIDTH,0,LVSCW_AUTOSIZE_USEHEADER);
 
   ListView_SetItemState(list,0,
@@ -815,11 +792,6 @@ begin
   ti.lpszText:=TranslateW('New');
   OptSetButtonIcon(ti.uId,ACI_NEW);
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
-{
-  hNew:=GetDlgItem(Dialog,IDC_NEW);
-  SendMessage  (hNew,BUTTONADDTOOLTIP,TWPARAM(TranslateW('New')),BATF_UNICODE);
-  OptSetButtonIcon(hNew,ACI_NEW);
-}
 
   ti.uId     :=GetDlgItem(Dialog,IDC_GROUP_NEW);
   OptSetButtonIcon(ti.uId,ACI_NEW);
@@ -851,27 +823,11 @@ begin
   ti.uId     :=GetDlgItem(Dialog,IDC_GROUP_DELETE);
   OptSetButtonIcon(ti.uId,ACI_DELETE);
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
-{
-  ti.uId     :=GetDlgItem(Dialog,IDC_GROUP_RELOAD);
-  ti.lpszText:=TranslateW('Reload');
-  OptSetButtonIcon(ti.uId,ACI_RELOAD);
-  SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
-}
+
   ti.uId     :=GetDlgItem(Dialog,IDC_GROUP_TEST);
   ti.lpszText:=TranslateW('Test');
   OptSetButtonIcon(ti.uId,ACI_TEST);
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
-{!!
-  ti.uId     :=GetDlgItem(Dialog,IDC_GROUP_IMPORT);
-  ti.lpszText:=TranslateW('Import');
-  OptSetButtonIcon(ti.uId,ACI_IMPORT);
-  SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
-
-  ti.uId     :=GetDlgItem(Dialog,IDC_GROUP_EXPORT);
-  ti.lpszText:=TranslateW('Export');
-  OptSetButtonIcon(ti.uId,ACI_EXPORT);
-  SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
-}
 end;
 
 function DlgProcOpt2(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
@@ -910,14 +866,7 @@ begin
 
       // action type combobox
       FillActTypeList(GetDlgItem(Dialog,IDC_ACTION_TYPE));
-{!!
-      // XML import/export service
-      if ServiceExists(MS_SYSTEM_GET_XI)=0 then
-      begin
-        EnableWindow(GetDlgItem(Dialog,IDC_GROUP_EXPORT),false);
-        EnableWindow(GetDlgItem(Dialog,IDC_GROUP_IMPORT),false);
-      end;
-}      
+
       OldActTableProc  :=pointer(SetWindowLongPtrW(wnd,GWL_WNDPROC,long_ptr(@NewActTableProc)));
       OldGroupTableProc:=pointer(SetWindowLongPtrW(MacroListWindow,
             GWL_WNDPROC,long_ptr(@NewGroupTableProc)));
@@ -944,15 +893,6 @@ begin
     WM_COMMAND: begin
       if DontReact then exit;
       case wParam shr 16 of
-{
-        EN_CHANGE: begin
-// check for group renaming
-          if loword(wParam)<>IDC_EDIT_FORMAT then
-          begin
-            SetChanged(Dialog,etACT);
-          end;
-        end;
-}
         CBN_SELCHANGE:  begin
           case loword(wParam) of
             IDC_ACTION_TYPE: begin
@@ -995,43 +935,6 @@ begin
           end;
 
           case loword(wParam) of
-{
-            IDC_GROUP_EXPORT: begin
-              if ShowDlgW(xmlfilename,xmlfilename,TranslateW(inoutfilter),false) then
-              begin
-                wnd:=MacroListWindow;
-                for i:=0 to ListView_GetItemCount(wnd)-1 do
-                begin
-                  if ListView_GetItemState(wnd,i,LVIS_SELECTED)<>0 then
-                  begin
-                    with EditMacroList[LV_GetLParam(wnd,i)] do
-                      if (flags and ACF_ASSIGNED)<>0 then // must be always true
-                        flags:=flags or ACF_EXPORT;
-                  end
-                  else
-                    with EditMacroList[i] do
-                      if (flags and (ACF_EXPORT or ACF_ASSIGNED))=
-                                    (ACF_EXPORT or ACF_ASSIGNED) then
-                        flags:=flags and not ACF_EXPORT;
-                end;
-                i:=ACIO_EXPORT or ACIO_SELECTED;
-                if GetFSize(xmlfilename)>0 then
-                  if MessageBoxW(Dialog,TranslateW('Append data to file?'),
-                     PluginName,MB_YESNO+MB_ICONWARNING)=IDYES then
-                    i:=i or ACIO_APPEND;
-//!!!!!!!!!!!!!!!
-// we MUST Export EditMacroList, NOT MacroList
-// OR
-// Use "Apply" code before
-                CallService(MS_ACT_INOUT,i,TLPARAM(@xmlfilename));
-                for i:=0 to MaxGroups-1 do
-                  with EditMacroList[i] do
-                    if (flags and (ACF_EXPORT or ACF_ASSIGNED))=
-                                  (ACF_EXPORT or ACF_ASSIGNED) then
-                      flags:=flags and not ACF_EXPORT;
-              end;
-            end;
-}
             IDC_GROUP_IMPORT: begin
               if ShowDlgW(xmlfilename,xmlfilename,TranslateW(inoutfilter)) then
               begin
@@ -1039,7 +942,6 @@ begin
                 BuildActionChain(Dialog);
 
                 if Import(EditMacroList,xmlfilename,0)<>0 then
-//                if CallService(MS_ACT_INOUT,0,TLPARAM(@xmlfilename))<>0 then
                 begin
                   // copy from WM_INITDIALOG
                   FillMacroList(Dialog);
@@ -1236,16 +1138,6 @@ begin
                 ChangeListNotify(2);
 
                 DontReact:=false;
-              end
-              else
-              begin
-{??
-                lvflag:=(PNMLISTVIEW(lParam)^.uOldState and LVNI_SELECTED)-
-                        (PNMLISTVIEW(lParam)^.uNewState and LVNI_SELECTED);
-
-                if lvflag<>0 then
-                  CheckMacroListDirectionButtons(Dialog);
-}
               end;
             end;
           end
@@ -1273,13 +1165,6 @@ begin
             end
             else
             begin // checkboxes
-{??
-              lvflag:=(PNMLISTVIEW(lParam)^.uOldState and LVNI_SELECTED)-
-                      (PNMLISTVIEW(lParam)^.uNewState and LVNI_SELECTED);
-
-              if lvflag<>0 then
-                CheckMacroListDirectionButtons(Dialog);
-}
               if (PNMLISTVIEW(lParam)^.uOldState or PNMLISTVIEW(lParam)^.uNewState)=$3000 then
               begin
                 SetChanged(Dialog,etACT);
@@ -1331,8 +1216,5 @@ begin
 
       end;
     end;
-  else
-//  {result:=}DefWindowProc(Dialog,hMessage,wParam,lParam);
   end;
-//  {result:=}DefWindowProc(Dialog,hMessage,wParam,lParam);
 end;

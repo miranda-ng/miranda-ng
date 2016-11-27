@@ -167,108 +167,6 @@ type
     hFont   :HFONT;
   end;
 
-//* HELPER FUNCTIONS */
-(*
-//Paint  ObjectID as parent background for frame hwndIn
-int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT * rcClip, char * objectID)
-{
-	SKINDRAWREQUEST rq;
-	POINT pt={0};
-	RECT rc,r1;
-
-	HWND hwnd=(HWND)CallService(MS_CLUI_GETHWND,0,0);
-	if (!objectID) return 0;
-	GetWindowRect(hwndIn,&r1);
-	pt.x=r1.left;
-	pt.y=r1.top;
-	//ClientToScreen(hwndIn,&pt);
-	GetWindowRect(hwnd,&rc);
-	OffsetRect(&rc,-pt.x ,-pt.y);
-	rq.hDC=hdc;
-	rq.rcDestRect=rc;
-	rq.rcClipRect=*rcClip;
-	lstrcpynA(rq.szObjectID,objectID,sizeof(rq.szObjectID));
-	///ske_Service_DrawGlyph((WPARAM)&rq,0);    //$$$
-	return CallService(MS_SKIN_DRAWGLYPH,(WPARAM)&rq,0);
-}
-
-
-//Paint  ObjectID
-int __inline SkinDrawGlyph(HDC hdc, RECT * rcSize, RECT * rcClip, char * objectID);
-
-//Register object with predefined style
-int __inline CreateGlyphedObjectDefStyle(char * ObjID,BYTE defStyle);
-int __inline CreateGlyphedObjectDefColor(char * ObjID,dword defColor);
-//Register default object
-int __inline CreateGlyphedObject(char * ObjID);
-
-
-//// Creating and registering objects
-//int __inline CreateGlyphedObject(char * ObjID)
-//{   
-//    DEF_SKIN_OBJECT_PARAMS prm={0};
-//    prm.defColor=DEFAULT_BKCOLOUR;
-//    prm.defStyle=DEFAULT_STYLE;
-//    prm.szObjectID=ObjID;   
-//    return CallService(MS_SKIN_REGISTERDEFOBJECT,(WPARAM)&prm,0);
-//}
-static BOOL __inline ScreenToClientRect(HWND hWnd, LPRECT lpRect)
-{
-	BOOL ret;
-
-	POINT pt;
-
-	pt.x = lpRect->left;
-	pt.y = lpRect->top;
-
-	ret = ScreenToClient(hWnd, &pt);
-
-	if (!ret) return ret;
-
-	lpRect->left = pt.x;
-	lpRect->top = pt.y;
-
-
-	pt.x = lpRect->right;
-	pt.y = lpRect->bottom;
-
-	ret = ScreenToClient(hWnd, &pt);
-
-	lpRect->right = pt.x;
-	lpRect->bottom = pt.y;
-
-	return ret;
-}
-
-//int __inline CreateGlyphedObjectDefStyle(char * ObjID,BYTE defStyle)
-//{
-//    DEF_SKIN_OBJECT_PARAMS prm={0};
-//    prm.defColor=DEFAULT_BKCOLOUR;
-//    prm.defStyle=defStyle;
-//    prm.szObjectID=ObjID;
-//    return CallService(MS_SKIN_REGISTERDEFOBJECT,(WPARAM)&prm,0);
-//}  
-//int __inline CreateGlyphedObjectDefColor(char * ObjID,dword defColor)
-//{
-//    DEF_SKIN_OBJECT_PARAMS prm={0};
-//    prm.defColor=defColor;
-//    prm.defStyle=ST_BRUSH;
-//    prm.szObjectID=ObjID;
-//    return CallService(MS_SKIN_REGISTERDEFOBJECT,(WPARAM)&prm,0);
-//}  
-static int __inline SkinDrawGlyph(HDC hdc, RECT * rcSize, RECT * rcClip, char * objectID)
-{
-	SKINDRAWREQUEST rq;
-	if (!objectID) return 0;
-	rq.hDC=hdc;
-	rq.rcDestRect=*rcSize;
-	rq.rcClipRect=*rcClip;  
-	lstrcpynA(rq.szObjectID,objectID,sizeof(rq.szObjectID));
-	return CallService(MS_SKIN_DRAWGLYPH,(WPARAM)&rq,0);
-}
-*)
-//#include "../hdr/modern_skin_selector.h"
-
 //////////////////////////////////////////////
 //                                          //
 //  New Painting sequence servises          //
@@ -309,53 +207,6 @@ type
   tPaintCallbackProc = function(hWnd:HWND; hDC:HDC; rcPaint:PRECT; rgnUpdate:HRGN;
        dFlags:dword; CallBackData:pointer):int;
 
-// HELPER TO UPDATEIMAGEFRAME
-
-(*
-inline BOOL isSkinEngineEnabled()
-{
-	return ServiceExists(MS_SKINENG_REGISTERPAINTSUB) && !DBGetContactSettingByte(NULL, "ModernData", "DisableEngine", FALSE);
-}
-
-
-inline BOOL isLayeredEnabled()
-{
-	return isSkinEngineEnabled() && DBGetContactSettingByte(NULL, "ModernData", "EnableLayering", TRUE);
-}
-
-int __inline SkinEngUpdateImageFrame(HWND hwnd, RECT * rcUpdate, dword dwFlags, void * CallBackData)
-{
-  sPaintRequest sr={0};
-  sr.dStructSize=sizeof(sPaintRequest);
-  sr.hWnd=hwnd;
-  if (rcUpdate)
-    sr.rcUpdate=*rcUpdate;
-  sr.dwFlags=dwFlags;
-  sr.CallbackData=CallBackData;
-  return CallService(MS_SKINENG_UPTATEFRAMEIMAGE,(WPARAM)hwnd,(LPARAM)&sr);
-}
-
-int __inline SkinEngInvalidateImageFrame(HWND hwnd, CONST RECT * rcUpdate, dword dwFlags, void * CallBackData)
-{
-  sPaintRequest sr={0};
-  if (hwnd && !isLayeredEnabled()) return InvalidateRect(hwnd,rcUpdate,dwFlags);
-  sr.dStructSize=sizeof(sPaintRequest);
-  sr.hWnd=hwnd;
-  if (rcUpdate)
-    sr.rcUpdate=*rcUpdate;
-  sr.dwFlags=dwFlags;
-  sr.CallbackData=CallBackData;
-  return CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE,(WPARAM)hwnd,(LPARAM)&sr);
-}
-
-
-int __inline SkinInvalidateFrame(HWND hWnd, CONST RECT* lpRect,BOOL bErase)
-{
-	return SkinEngInvalidateImageFrame(hWnd,lpRect,0,0);
-}
-*)
-// Alpha channel GDI replacements/helpers
-
 const
 // 
 // Paints text with correct alpha channel
@@ -372,19 +223,7 @@ type
     ARGBcolor:dword;
     reserv   :array [0..15] of byte;
   end;
-(*
-int __inline AlphaText(HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRect, UINT format, dword ARGBcolor)
-{
-  AlphaTextOutParams ap={0};
-  ap.hDC=hDC;
-  ap.lpString=lpString;
-  ap.nCount=nCount;
-  ap.lpRect=lpRect;
-  ap.format=format;
-  ap.ARGBcolor=ARGBcolor;
-  return CallService(MS_SKINENG_ALPHATEXTOUT,(WPARAM)&ap,0);
-}
-*)
+
 type
   ImageListFixParam = record
     himl :THANDLE; //HIMAGELIST;
@@ -408,22 +247,7 @@ type
 const
 //wParam - pointer to DrawIconFixParam
   MS_SKINENG_DRAWICONEXFIX:PAnsiChar = 'SkinEngine/DrawIconEx_Fix';
-(*
-int __inline mod_DrawIconEx_helper(HDC hdc,int xLeft,int yTop,HICON hIcon,int cxWidth,int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags)
-{
-  DrawIconFixParam p={0};
-  p.hdc=hdc;
-  p.xLeft=xLeft;
-  p.yTop=yTop;
-  p.hIcon=hIcon;
-  p.cxWidth=cxWidth;
-  p.cyWidth=cyWidth;
-  p.istepIfAniCur=istepIfAniCur;
-  p.hbrFlickerFreeDraw=hbrFlickerFreeDraw;
-  p.diFlags=diFlags;
-  return CallService(MS_SKINENG_DRAWICONEXFIX,(WPARAM)&p,0);
-}
-*)
+
 const
 //  Register of plugin's user
 //
@@ -440,6 +264,5 @@ const
 //  wParam = ModuleName
 //  lParam = 0
   ME_BACKGROUNDCONFIG_CHANGED:PAnsiChar = 'ModernBkgrCfg/Changed';
-
 
 {$ENDIF}

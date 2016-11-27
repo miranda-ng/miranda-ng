@@ -588,7 +588,7 @@ begin
   end;
 
   // Register in SmileyAdd
-  SmileyAddEnabled := boolean(ServiceExists(MS_SMILEYADD_REPLACESMILEYS));
+  SmileyAddEnabled := ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
 end;
 
 procedure PrepareSaveDialog(SaveDialog: TSaveDialog; SaveFormat: TSaveFormat; AllFormats: boolean = false);

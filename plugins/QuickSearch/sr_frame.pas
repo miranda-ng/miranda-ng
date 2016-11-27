@@ -144,7 +144,7 @@ var
   tr:TRECT;
   cid:TColourID;
 begin
-  if ServiceExists(MS_CLIST_FRAMES_ADDFRAME)=0 then
+  if not ServiceExists(MS_CLIST_FRAMES_ADDFRAME) then
     exit;
 
   hbr:=0;

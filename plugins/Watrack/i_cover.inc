@@ -20,7 +20,7 @@ begin
     begin
       move(p1^,line,i*SizeOf(WideChar));
       line[i]:=#0;
-      if ServiceExists(MS_WAT_REPLACETEXT)<>0 then
+      if ServiceExists(MS_WAT_REPLACETEXT) then
         wr:=pWideChar(CallService(MS_WAT_REPLACETEXT,0,lparam(@line)))
       else
         wr:=@line;

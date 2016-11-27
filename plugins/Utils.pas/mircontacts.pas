@@ -477,7 +477,7 @@ CallService(MS_CLIST_CONTACTDOUBLECLICKED,hContact,0);
       end
       else
       begin
-        if ServiceExists(MS_MSG_CONVERS)<>0 then // Convers compat.
+        if ServiceExists(MS_MSG_CONVERS) then // Convers compat.
           CallService(MS_MSG_CONVERS,hContact,0)
         else
           CallService(MS_MSG_SENDMESSAGE,hContact,0)

@@ -566,7 +566,7 @@ begin
     else
       Exit;
 
-  if ServiceExists(buf)<>0 then
+  if ServiceExists(buf) then
   begin
     result:=true;
 

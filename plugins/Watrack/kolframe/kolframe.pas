@@ -198,7 +198,7 @@ var
   FrameWnd:HWND;
 begin
   result:=false;
-  if ServiceExists(MS_CLIST_FRAMES_ADDFRAME)=0 then
+  if not ServiceExists(MS_CLIST_FRAMES_ADDFRAME) then
     exit;
 
   if parent=0 then

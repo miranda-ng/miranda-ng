@@ -55,7 +55,7 @@ begin
   begin
     with NamesArray[i] do
     begin
-      enable:=(service=nil) or (ServiceExists(service)<>0);
+      enable:=(service=nil) or ServiceExists(service);
     end;
   end;
 end;

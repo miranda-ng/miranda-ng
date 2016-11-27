@@ -142,7 +142,7 @@ begin
 
   StrCopy(buf,GetProtoName(CurProto));
   StrCat(buf,PS_GETCUSTOMSTATUSICON);
-  endis:=ServiceExists(buf)<>0;
+  endis:=ServiceExists(buf);
 
   EnableWindow(GetDlgItem(Dialog,IDC_CBEX       ),endis);
   EnableWindow(GetDlgItem(Dialog,IDC_XSTAT_AUDIO),endis);

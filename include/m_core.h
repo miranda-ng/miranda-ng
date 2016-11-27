@@ -113,7 +113,7 @@ MIR_CORE_DLL(HANDLE)  CreateServiceFunctionObj(const char *name, MIRANDASERVICEO
 MIR_CORE_DLL(HANDLE)  CreateServiceFunctionObjParam(const char *name, MIRANDASERVICEOBJPARAM serviceProc, void* object, LPARAM lParam);
 MIR_CORE_DLL(HANDLE)  CreateProtoServiceFunction(const char *szModule, const char *szService, MIRANDASERVICE serviceProc);
 MIR_CORE_DLL(int)     DestroyServiceFunction(HANDLE hService);
-MIR_CORE_DLL(int)     ServiceExists(const char *name);
+MIR_CORE_DLL(bool)    ServiceExists(const char *name);
 
 MIR_CORE_DLL(INT_PTR) CallService(const char *name, WPARAM wParam = 0, LPARAM lParam = 0);
 MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam = 0, LPARAM lParam = 0);

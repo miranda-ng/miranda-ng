@@ -127,16 +127,12 @@ begin
       ShowWindow(GetDlgItem(Dialog,idhide),SW_HIDE);
 
       wnd:=GetDlgItem(Dialog,IDC_SCRIPT_HELP);
-      if ServiceExists(MS_VARS_FORMATSTRING)<>0 then
+      if ServiceExists(MS_VARS_FORMATSTRING) then
       begin
         SendMessage(wnd,BM_SETIMAGE,IMAGE_ICON,
             CallService(MS_VARS_GETSKINITEM,0,VSI_HELPICON));
         SendMessage(wnd,BUTTONADDTOOLTIP,
             CallService(MS_VARS_GETSKINITEM,0,VSI_HELPTIPTEXT),0);
-{
-        SendMessage(wnd,BM_SETIMAGE,IMAGE_ICON,
-            CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
-}
       end
       else
       begin
@@ -414,16 +410,12 @@ begin
       ShowWindow(GetDlgItem(Dialog,idhide),SW_HIDE);
 
       wnd:=GetDlgItem(Dialog,IDC_SCRIPT_HELP);
-      if ServiceExists(MS_VARS_FORMATSTRING)<>0 then
+      if ServiceExists(MS_VARS_FORMATSTRING) then
       begin
         SendMessage(wnd,BM_SETIMAGE,IMAGE_ICON,
             CallService(MS_VARS_GETSKINITEM,0,VSI_HELPICON));
         SendMessage(wnd,BUTTONADDTOOLTIP,
             CallService(MS_VARS_GETSKINITEM,0,VSI_HELPTIPTEXT),0);
-{
-        SendMessage(wnd,BM_SETIMAGE,IMAGE_ICON,
-            CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
-}
       end
       else
       begin

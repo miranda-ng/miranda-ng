@@ -511,7 +511,7 @@ MIR_CORE_DLL(int) DestroyServiceFunction(HANDLE hService)
 	return 0;
 }
 
-MIR_CORE_DLL(int) ServiceExists(const char *name)
+MIR_CORE_DLL(bool) ServiceExists(const char *name)
 {
 	if (name == NULL)
 		return FALSE;

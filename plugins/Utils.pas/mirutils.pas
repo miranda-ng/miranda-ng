@@ -139,7 +139,7 @@ end;
 function isVarsInstalled:bool;
 {$IFDEF AllowInline}inline;{$ENDIF}
 begin
-  result:=ServiceExists(MS_VARS_FORMATSTRING)<>0;
+  result:=ServiceExists(MS_VARS_FORMATSTRING);
 end;
 
 function ParseVarString(astr:PAnsiChar;aContact:TMCONTACT=0;extra:PAnsiChar=nil):PAnsiChar;
@@ -228,7 +228,7 @@ procedure ShowPopupW(text:PWideChar;title:PWideChar=nil);
 var
   ppdu:TPOPUPDATAW;
 begin
-  if ServiceExists(MS_POPUP_ADDPOPUPW)=0 then
+  if not ServiceExists(MS_POPUP_ADDPOPUPW) then
     exit;
 
   FillChar(ppdu,SizeOf(TPOPUPDATAW),0);

@@ -126,7 +126,7 @@ function CreateServiceFunctionObjParam(const name:PAnsiChar; serviceProc:TMIRAND
                  external CoreDLL name 'CreateServiceFunctionObjParam';
 function DestroyServiceFunction(hService:THANDLE):int; stdcall;
                  external CoreDLL name 'DestroyServiceFunction';
-function ServiceExists(const name:PAnsiChar):int; stdcall;
+function ServiceExists(const name:PAnsiChar):byteBool; stdcall;
                  external CoreDLL name 'ServiceExists';
 
 function CallService(const name:PAnsiChar; wParam:WPARAM; lParam:LPARAM):int_ptr; stdcall;

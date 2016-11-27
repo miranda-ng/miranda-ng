@@ -36,7 +36,7 @@ begin
   end;
   StrCopyW(StrCopyEW(buf,'MyShows: '),TranslateW(ppc));
   
-  if ServiceExists(MS_POPUP_SHOWMESSAGEW)<>0 then
+  if ServiceExists(MS_POPUP_SHOWMESSAGEW) then
     CallService(MS_POPUP_SHOWMESSAGEW,TWPARAM(@buf),SM_WARNING)
   else
     MessageBoxW(0,@buf,'ERROR',MB_ICONERROR)
@@ -195,23 +195,11 @@ begin
   begin
     // Episode check
     StrCopy(StrCopyE(buf,API_URL+'profile/episodes/check/'),epId);
-//      json_free(epId);        // !! cause memory error (no need for GetName?)
-  //  StrCopy(request,API_URL+'profile/shows/');
+
     if SendMSRequest(buf,show) then
     begin
-{
-      if si.cover=nil then
-      begin
-        jn:=json_get(jroot,'show');
-        img:=json_as_string(json_get(jn,'image'));
-        si:=pointer(CallService(MS_WAT_RETURNGLOBAL,WAT_INF_UNICODE,0));
-        FastAnsiToWide(img,pSongInfoW(si)^.cover);
-        json_free(img);
-      end;
-}
-
       //!! add option to show it??
-      if ServiceExists(MS_POPUP_SHOWMESSAGEW)<>0 then
+      if ServiceExists(MS_POPUP_SHOWMESSAGEW) then
       begin
         jn:=json_get(jroot,'show');
         shId:=json_as_string(json_get(jn,'title'));
@@ -232,9 +220,6 @@ begin
         '" checked');
         CallService(MS_POPUP_SHOWMESSAGEW,TWPARAM(pc),SM_NOTIFY);
         mFreeMem(pc);
-
-  {!!json_free(shId);} mir_free(shId);
-  {!!json_free(epId);} mir_free(epId);
       end;
       result:=true;
     end;
