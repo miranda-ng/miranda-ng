@@ -1116,7 +1116,7 @@ public:
 
 	void Locate(const wchar_t *pszGroup, const wchar_t *pszPage, int _hLang)
 	{
-		Show(SW_RESTORE);
+		ShowWindow(GetHwnd(), SW_RESTORE);
 		SetForegroundWindow(m_hwnd);
 		if (pszPage != NULL) {
 			HTREEITEM hItem = NULL;
