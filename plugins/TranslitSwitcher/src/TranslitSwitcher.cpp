@@ -87,21 +87,21 @@ int OnModulesLoaded(WPARAM, LPARAM)
 		bbd.cbSize = sizeof(BBButton);
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
 		bbd.pszModuleName = "Switch Layout and Send";
-		bbd.ptszTooltip = TranslateT("Switch Layout and Send");
+		bbd.pwszTooltip = TranslateT("Switch Layout and Send");
 		bbd.hIcon = iconList[0].hIcolib;
 		bbd.dwButtonID = 1;
 		bbd.dwDefPos = 30;
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
 		bbd.pszModuleName = "Translit and Send";
-		bbd.ptszTooltip = TranslateT("Translit and Send");
+		bbd.pwszTooltip = TranslateT("Translit and Send");
 		bbd.hIcon = iconList[1].hIcolib;
 		bbd.dwButtonID = 1;
 		bbd.dwDefPos = 40;
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
 		bbd.pszModuleName = "Invert Case and Send";
-		bbd.ptszTooltip = TranslateT("Invert Case and Send");
+		bbd.pwszTooltip = TranslateT("Invert Case and Send");
 		bbd.hIcon = iconList[2].hIcolib;
 		bbd.dwButtonID = 1;
 		bbd.dwDefPos = 50;
@@ -117,21 +117,21 @@ int OnPreShutdown(WPARAM, LPARAM)
 		bbd.cbSize = sizeof(BBButton);
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
 		bbd.pszModuleName = "Switch Layout and Send";
-		bbd.ptszTooltip = TranslateT("Switch Layout and Send");
+		bbd.pwszTooltip = TranslateT("Switch Layout and Send");
 		bbd.hIcon = iconList[0].hIcolib;
 		bbd.dwButtonID = 1;
 		bbd.dwDefPos = 30;
 		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
 
 		bbd.pszModuleName = "Translit and Send";
-		bbd.ptszTooltip = TranslateT("Translit and Send");
+		bbd.pwszTooltip = TranslateT("Translit and Send");
 		bbd.hIcon = iconList[1].hIcolib;
 		bbd.dwButtonID = 1;
 		bbd.dwDefPos = 40;
 		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
 
 		bbd.pszModuleName = "Invert Case and Send";
-		bbd.ptszTooltip = TranslateT("Invert Case and Send");
+		bbd.pwszTooltip = TranslateT("Invert Case and Send");
 		bbd.hIcon = iconList[2].hIcolib;
 		bbd.dwButtonID = 1;
 		bbd.dwDefPos = 50;

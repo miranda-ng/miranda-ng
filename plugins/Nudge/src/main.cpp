@@ -250,7 +250,7 @@ static int TabsrmmButtonInit(WPARAM, LPARAM)
 {
 	BBButton bbd = { sizeof(bbd) };
 	bbd.pszModuleName = "Nudge";
-	bbd.ptszTooltip = LPGENW("Send Nudge");
+	bbd.pwszTooltip = LPGENW("Send Nudge");
 	bbd.dwDefPos = 300;
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;

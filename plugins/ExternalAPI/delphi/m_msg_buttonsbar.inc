@@ -96,15 +96,13 @@ const
   BBBF_ISRSIDEBUTTON = $0080;
   BBBF_CANBEHIDDEN   = $0100;
   BBBF_ISDUMMYBUTTON = $0200;
-  BBBF_ANSITOOLTIP   = $0400;
-  BBBF_CREATEBYID    = $0800; //only for tabsrmm internal use
 
 type
   tagBBButton = record
     cbSize       :int;   // size of structure
     dwButtonID   :dword; // your button ID, will be combined with pszModuleName for storing settings, etc...  
     pszModuleName:PAnsiChar; // module name without spaces and underline symbols (e.g. "tabsrmm")
-    szTooltip    :TChar; // button's tooltip
+    szTooltip    :PWideChar; // button's tooltip
     dwDefPos     :dword; // default order pos of button, counted from window edge (left or right)
                          // use value >100, because internal buttons using 10,20,30... 80, etc
     iButtonWidth :int;   // must be 0

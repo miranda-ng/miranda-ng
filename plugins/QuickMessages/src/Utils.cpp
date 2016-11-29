@@ -381,7 +381,7 @@ int RegisterCustomButton(WPARAM, LPARAM)
 		bbd.dwDefPos = 320 + i;
 		bbd.hIcon = AddIcon(iconname);
 		bbd.pszModuleName = PLGNAME;
-		bbd.ptszTooltip = ld->ptszButtonName;
+		bbd.pwszTooltip = ld->ptszButtonName;
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 	}
 	return 0;

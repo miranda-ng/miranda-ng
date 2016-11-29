@@ -590,7 +590,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 	bbd.cbSize = sizeof(BBButton);
 	bbd.pszModuleName = MOD_NAME;
 	bbd.dwDefPos = 5000;
-	bbd.ptszTooltip = LPGENW("Hide Miranda NG");
+	bbd.pwszTooltip = LPGENW("Hide Miranda NG");
 	bbd.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;
 	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);

@@ -900,7 +900,7 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 	bbd.pszModuleName = MODULENAME;
 	bbd.dwButtonID = 0;
 	bbd.dwDefPos = 1000;
-	bbd.ptszTooltip = LPGENW("Browse Received Files");
+	bbd.pwszTooltip = LPGENW("Browse Received Files");
 	bbd.bbbFlags = BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = IcoLib_GetIconHandle("miex_recfiles");
 	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);

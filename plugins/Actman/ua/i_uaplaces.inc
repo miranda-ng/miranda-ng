@@ -63,7 +63,7 @@ begin
     tabb.bbbFlags:=BBSF_RELEASED;
   end;
   if pc=nil then pc:=ActionItem.szActDescr;
-  tabb.szTooltip.w:=pc;
+  tabb.szTooltip:=pc;
   CallService(MS_BB_SETBUTTONSTATE,hContact,TLPARAM(@tabb));
 end;
 
@@ -745,9 +745,9 @@ begin
                      BBBF_ISCHATBUTTON;
 
     if ActionItem.szTabBTooltip<>nil then
-      tabb.szTooltip.w:=ActionItem.szTabBTooltip
+      tabb.szTooltip:=ActionItem.szTabBTooltip
     else
-      tabb.szTooltip.w:=ActionItem.szActDescr;
+      tabb.szTooltip:=ActionItem.szActDescr;
 
     if CallService(MS_BB_ADDBUTTON,0,LPARAM(@tabb))=0 then
       ActionItem.flags:=ActionItem.flags or UAF_TBREGGED;

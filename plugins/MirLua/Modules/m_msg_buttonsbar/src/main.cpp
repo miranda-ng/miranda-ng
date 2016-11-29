@@ -18,11 +18,8 @@ static BBButton* MakeBBButton(lua_State *L)
 	bbb->bbbFlags = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 
-	if ((bbb->bbbFlags & BBBF_ANSITOOLTIP))
-		bbb->bbbFlags &= ~BBBF_ANSITOOLTIP;
-
 	lua_getfield(L, -1, "Tooltip");
-	bbb->ptszTooltip = mir_utf8decodeW(lua_tostring(L, -1));
+	bbb->pwszTooltip = mir_utf8decodeW(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Icon");
@@ -62,7 +59,7 @@ static int lua_ModifyButton(lua_State *L)
 	lua_pushinteger(L, res);
 
 	mir_free(bbb->pszModuleName);
-	mir_free(bbb->ptszTooltip);
+	mir_free(bbb->pwszTooltip);
 	mir_free(bbb);
 
 	return 1;

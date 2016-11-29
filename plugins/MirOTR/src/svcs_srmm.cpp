@@ -40,22 +40,22 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 		switch (level) {
 		case TRUST_FINISHED:
 			sid.flags = 0;
-			button.ptszTooltip = TranslateW(LANG_STATUS_FINISHED);
+			button.pwszTooltip = TranslateW(LANG_STATUS_FINISHED);
 			button.hIcon = IcoLib_GetIconHandle(ICON_FINISHED);
 			break;
 		case TRUST_UNVERIFIED:
 			sid2.flags = MBF_DISABLED;
-			button.ptszTooltip = TranslateW(LANG_STATUS_UNVERIFIED);
+			button.pwszTooltip = TranslateW(LANG_STATUS_UNVERIFIED);
 			button.hIcon = IcoLib_GetIconHandle(ICON_UNVERIFIED);
 			break;
 		case TRUST_PRIVATE:
 			sid2.flags = 0;
-			button.ptszTooltip = TranslateW(LANG_STATUS_PRIVATE);
+			button.pwszTooltip = TranslateW(LANG_STATUS_PRIVATE);
 			button.hIcon = IcoLib_GetIconHandle(ICON_PRIVATE);
 			break;
 		default:
 			sid.flags = MBF_DISABLED;
-			button.ptszTooltip = TranslateW(LANG_STATUS_DISABLED);
+			button.pwszTooltip = TranslateW(LANG_STATUS_DISABLED);
 			button.hIcon = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 			break;
 		}
@@ -140,7 +140,7 @@ void InitSRMM()
 		OTRButton.pszModuleName = MODULENAME;
 		OTRButton.dwDefPos = 200;
 		OTRButton.bbbFlags = BBBF_ISRSIDEBUTTON|BBBF_CANBEHIDDEN|BBBF_ISIMBUTTON;
-		OTRButton.ptszTooltip = TranslateT(LANG_OTR_TOOLTIP);
+		OTRButton.pwszTooltip = TranslateT(LANG_OTR_TOOLTIP);
 		OTRButton.hIcon = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
 		HookEvent(ME_MSG_TOOLBARLOADED, SVC_ButtonsBarLoaded);
 		HookEvent(ME_MSG_BUTTONPRESSED, SVC_ButtonsBarPressed);

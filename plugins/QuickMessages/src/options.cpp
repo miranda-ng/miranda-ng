@@ -257,7 +257,7 @@ void SaveMenuTree()
 			bb.cbSize = sizeof(BBButton);
 			bb.pszModuleName = PLGNAME;
 			bb.dwButtonID = iBl;
-			bb.ptszTooltip = ld->ptszButtonName;
+			bb.pwszTooltip = ld->ptszButtonName;
 			CallService(MS_BB_MODIFYBUTTON, 0, (LPARAM)&bb);
 		}
 
