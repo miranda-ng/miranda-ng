@@ -57,7 +57,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 		BBButton bbd = {0};
 		bbd.cbSize = sizeof(BBButton);
-		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
+		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
 		bbd.pszModuleName = buttonName;
 		bbd.pwszTooltip = LPGENW("Quick Replies\r\nLeft button - open menu\r\nRight button - options page");
 		bbd.hIcon = icon.hIcolib;

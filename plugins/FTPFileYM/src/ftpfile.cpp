@@ -188,7 +188,7 @@ void InitTabsrmmButton()
 		btn.pszModuleName = MODULE;
 		btn.dwDefPos = 105;
 		btn.hIcon = iconList[ServerList::FTP_COUNT].hIcolib;
-		btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
+		btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
 		btn.pwszTooltip = TranslateT("FTP File");
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&btn);
 		HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);

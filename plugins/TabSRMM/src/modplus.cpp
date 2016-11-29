@@ -54,7 +54,7 @@ static int RegisterCustomButton(WPARAM, LPARAM)
 
 	BBButton bbd = { 0 };
 	bbd.cbSize = sizeof(BBButton);
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 200;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];

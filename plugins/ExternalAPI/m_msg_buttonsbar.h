@@ -95,7 +95,6 @@ typedef struct {
 #define BBBF_ISARROWBUTTON		(1<<3)
 #define BBBF_ISCHATBUTTON		(1<<4)
 #define BBBF_ISIMBUTTON			(1<<5)
-#define BBBF_ISLSIDEBUTTON		(1<<6)
 #define BBBF_ISRSIDEBUTTON		(1<<7)
 #define BBBF_CANBEHIDDEN		(1<<8)
 #define BBBF_ISDUMMYBUTTON		(1<<9)

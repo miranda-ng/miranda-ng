@@ -344,7 +344,7 @@ void InitTabsrmmButton()
 		btn.pszModuleName = MODULE;
 		btn.dwDefPos = 110;
 		btn.hIcon = icon.hIcolib;
-		btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
+		btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
 		btn.pwszTooltip = TranslateT("Paste It");
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&btn);
 

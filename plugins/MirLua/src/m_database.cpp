@@ -297,7 +297,7 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	switch (lua_type(L, -1))
 	{
 	case LUA_TTABLE:
-		dbei.cbBlob = lua_rawlen(L, 4);
+		dbei.cbBlob = (DWORD)lua_rawlen(L, 4);
 		dbei.pBlob = (BYTE*)mir_calloc(dbei.cbBlob);
 		for (DWORD i = 0; i < dbei.cbBlob; i++)
 		{
@@ -309,7 +309,7 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	case LUA_TSTRING:
 		size_t nLen;
 		const char *str = lua_tolstring(L, -1, &nLen);
-		dbei.cbBlob = nLen;
+		dbei.cbBlob = (DWORD)nLen;
 		dbei.pBlob = (BYTE*)mir_alloc(nLen);
 		memcpy(dbei.pBlob, str, nLen);
 		break;

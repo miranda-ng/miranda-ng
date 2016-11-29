@@ -28,7 +28,7 @@ struct CustomButtonData : public MZeroedObject
 
 	bool   m_bIMButton, m_bChatButton;
 	bool   m_bCanBeHidden, m_bHidden, m_bAutoHidden, m_bSeparator, m_bDisabled, m_bPushButton;
-	bool   m_bLSided, m_bRSided;
+	bool   m_bRSided;
 	BYTE   m_opFlags;
 };
 
@@ -73,7 +73,6 @@ static void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 		token = strtok(NULL, "_");
 		cbd->m_bChatButton = atoi(token) != 0;
 		token = strtok(NULL, "_");
-		cbd->m_bLSided = atoi(token) != 0;
 		token = strtok(NULL, "_");
 		cbd->m_bRSided = atoi(token) != 0;
 		token = strtok(NULL, "_");
@@ -122,7 +121,6 @@ static INT_PTR CB_AddButton(WPARAM, LPARAM lParam)
 	// ugly workaround for smileys plugins
 	cbd->m_dwArrowCID = (bbdi->bbbFlags & BBBF_ISARROWBUTTON) ? (cbd->m_dwButtonCID == IDOK ? IDC_SENDMENU : (cbd->m_dwButtonCID + 1)) : 0;
 	cbd->m_bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) != 0;
-	cbd->m_bLSided = (bbdi->bbbFlags & BBBF_ISLSIDEBUTTON) != 0;
 	cbd->m_bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) != 0;
 	cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
 	cbd->m_bSeparator = (bbdi->bbbFlags & BBBF_ISDUMMYBUTTON) != 0;
@@ -133,14 +131,10 @@ static INT_PTR CB_AddButton(WPARAM, LPARAM lParam)
 
 	CB_GetButtonSettings(NULL, cbd);
 
-	if (cbd->m_bLSided)
-		LButtonsList.insert(cbd);
-	else if (cbd->m_bRSided)
+	if (cbd->m_bRSided)
 		RButtonsList.insert(cbd);
-	else {
-		delete cbd;
-		return 1;
-	}
+	else 
+		LButtonsList.insert(cbd);
 
 	if (cbd->m_dwButtonCID != cbd->m_dwButtonOrigID)
 		LastCID++;
@@ -263,7 +257,7 @@ static INT_PTR CB_RemoveButton(WPARAM, LPARAM lParam)
 	}
 
 	if (pFound) {
-		M.BroadcastMessage(DM_CBDESTROY, pFound->m_dwButtonCID, pFound->m_bLSided ? BBBF_ISLSIDEBUTTON : BBBF_ISRSIDEBUTTON);
+		M.BroadcastMessage(DM_CBDESTROY, pFound->m_dwButtonCID, pFound->m_bRSided ? BBBF_ISRSIDEBUTTON : ~BBBF_ISRSIDEBUTTON);
 		delete pFound;
 	}
 	return 0;
@@ -305,7 +299,6 @@ static INT_PTR CB_ModifyButton(WPARAM, LPARAM lParam)
 				cbd->m_hIcon = bbdi->hIcon;
 			if (bbdi->bbbFlags) {
 				cbd->m_bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) != 0;
-				cbd->m_bLSided = (bbdi->bbbFlags & BBBF_ISLSIDEBUTTON) != 0;
 				cbd->m_bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) != 0;
 				cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
 				cbd->m_bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) != 0;
@@ -327,7 +320,7 @@ static void BB_RegisterSeparators()
 	bbd.cbSize = sizeof(BBButton);
 	bbd.pszModuleName = "Tabsrmm_sep";
 	for (; dwSepCount > i; i++) {
-		bbd.bbbFlags = BBBF_ISDUMMYBUTTON | BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON;
+		bbd.bbbFlags = BBBF_ISDUMMYBUTTON | BBBF_ISIMBUTTON;
 		bbd.dwButtonID = i + 1;
 		bbd.dwDefPos = 410 + i;
 		CB_AddButton(0, (LPARAM)&bbd);
@@ -367,13 +360,11 @@ static int SaveTree(HWND hToolBarTree)
 					cbd->m_bChatButton = (cbd->m_opFlags & BBSF_CHATBUTTON) != 0;
 					cbd->m_bCanBeHidden = (cbd->m_opFlags & BBSF_CANBEHIDDEN) != 0;
 				}
-				if (RSide && cbd->m_bLSided) {
-					cbd->m_bLSided = false;
+				if (RSide && !cbd->m_bRSided) {
 					cbd->m_bRSided = true;
 					cbd->m_opFlags |= BBSF_NTBSWAPED;
 				}
 				else if (!RSide && cbd->m_bRSided) {
-					cbd->m_bLSided = true;
 					cbd->m_bRSided = false;
 					cbd->m_opFlags |= BBSF_NTBSWAPED;
 				}
@@ -607,7 +598,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				hItem = TVI_FIRST;
 
 			CustomButtonData *cbd = new CustomButtonData();
-			cbd->m_bSeparator = cbd->m_bHidden = cbd->m_bIMButton = cbd->m_bLSided = true;
+			cbd->m_bSeparator = cbd->m_bHidden = cbd->m_bIMButton = true;
 			cbd->m_dwButtonOrigID = ++dwSepCount;
 			cbd->m_pszModuleName = "Tabsrmm_sep";
 			cbd->m_iButtonWidth = 22;
@@ -809,7 +800,7 @@ void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 	//modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
 	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
-	mir_snprintf(SettingParameter, "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, cbd->m_bLSided, cbd->m_bRSided, cbd->m_bCanBeHidden);
+	mir_snprintf(SettingParameter, "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, 0, cbd->m_bRSided, cbd->m_bCanBeHidden);
 	if (!(cbd->m_opFlags & BBSF_NTBDESTRUCT))
 		db_set_s(hContact, "TabSRMM_Toolbar", SettingName, SettingParameter);
 	else
@@ -820,7 +811,7 @@ void CB_InitDefaultButtons()
 {
 	BBButton bbd = { 0 };
 	bbd.cbSize = sizeof(BBButton);
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_PROTOCOL;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_CONNECTING);
@@ -828,7 +819,7 @@ void CB_InitDefaultButtons()
 	bbd.pwszTooltip = LPGENW("Protocol button");
 	CB_AddButton(0, (LPARAM)&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_NAME;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[20];
@@ -836,7 +827,7 @@ void CB_InitDefaultButtons()
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	if (PluginConfig.g_SmileyAddAvail) {
-		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CREATEBYID;
+		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_CREATEBYID;
 		bbd.dwButtonID = IDC_SMILEYBTN;
 		bbd.iButtonWidth = 0;
 		bbd.dwDefPos = 30;
@@ -845,28 +836,28 @@ void CB_InitDefaultButtons()
 		CB_AddButton(0, (LPARAM)&bbd);
 	}
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTBOLD;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[10];
 	bbd.pwszTooltip = LPGENW("Bold text");
 	CB_AddButton(0, (LPARAM)&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTITALIC;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[11];
 	bbd.pwszTooltip = LPGENW("Italic text");
 	CB_AddButton(0, (LPARAM)&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTUNDERLINE;
 	bbd.dwDefPos = 60;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[12];
 	bbd.pwszTooltip = LPGENW("Underlined text");
 	CB_AddButton(0, (LPARAM)&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTSTRIKEOUT;
 	bbd.dwDefPos = 70;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[15];
@@ -922,7 +913,7 @@ void CB_InitDefaultButtons()
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	// chat buttons
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISDUMMYBUTTON;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISDUMMYBUTTON;
 	bbd.dwButtonID = 1;
 	bbd.pszModuleName = "tb_splitter";
 	bbd.dwDefPos = 31;
@@ -931,17 +922,17 @@ void CB_InitDefaultButtons()
 	bbd.pwszTooltip = 0;
 	CB_AddButton(0, (LPARAM)&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISDUMMYBUTTON;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISDUMMYBUTTON;
 	bbd.dwButtonID = 2;
 	bbd.dwDefPos = 22;
 	CB_AddButton(0, (LPARAM)&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISDUMMYBUTTON;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISDUMMYBUTTON;
 	bbd.dwButtonID = 3;
 	bbd.dwDefPos = 71;
 	CB_AddButton(0, (LPARAM)&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_COLOR;
 	bbd.pszModuleName = "Tabsrmm";
 	bbd.dwDefPos = 80;
@@ -949,7 +940,7 @@ void CB_InitDefaultButtons()
 	bbd.pwszTooltip = LPGENW("Select font color");
 	CB_AddButton(0, (LPARAM)&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_BKGCOLOR;
 	bbd.dwDefPos = 81;
 	bbd.iButtonWidth = 22;
@@ -1363,10 +1354,10 @@ void CB_DestroyButton(HWND hwndDlg, TWindowData *dat, DWORD dwButtonCID, DWORD d
 
 	RECT rc = { 0 };
 	GetClientRect(hwndBtn, &rc);
-	if (dwFlags & BBBF_ISLSIDEBUTTON)
-		dat->bbLSideWidth -= rc.right;
-	else if (dwFlags & BBBF_ISRSIDEBUTTON)
+	if (dwFlags & BBBF_ISRSIDEBUTTON)
 		dat->bbRSideWidth -= rc.right;
+	else 
+		dat->bbLSideWidth -= rc.right;
 
 	DestroyWindow(hwndBtn);
 	BB_SetButtonsPos(dat);

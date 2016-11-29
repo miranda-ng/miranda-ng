@@ -252,7 +252,7 @@ DWORD BalanceButtons(int buttonsWas, int buttonsNow)
 			if (ServiceExists(MS_BB_ADDBUTTON)) {
 				char iconname[40];
 				mir_snprintf(iconname, LPGEN("Quick Messages Button %u"), buttonsWas);
-				bb.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
+				bb.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
 				bb.dwButtonID = buttonsWas++;
 				bb.dwDefPos = 300 + buttonsWas;
 				bb.hIcon = AddIcon(iconname);
@@ -376,7 +376,7 @@ int RegisterCustomButton(WPARAM, LPARAM)
 		mir_snprintf(iconname, LPGEN("Quick Messages Button %u"), i);
 
 		BBButton bbd = { sizeof(bbd) };
-		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
+		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
 		bbd.dwButtonID = i;
 		bbd.dwDefPos = 320 + i;
 		bbd.hIcon = AddIcon(iconname);

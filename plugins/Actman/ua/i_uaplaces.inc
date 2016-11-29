@@ -738,11 +738,9 @@ begin
     tabb.iButtonWidth :=0;
     tabb.hIcon        :=ActionItem.hIcolibIcon;
     if (ActionItem.flags and UAF_2STATE)<>0 then
-      tabb.bbbFlags:=BBBF_ISIMBUTTON or BBBF_ISLSIDEBUTTON or
-                     BBBF_ISCHATBUTTON or BBBF_ISPUSHBUTTON
+      tabb.bbbFlags:=BBBF_ISIMBUTTON or BBBF_ISCHATBUTTON or BBBF_ISPUSHBUTTON
     else
-      tabb.bbbFlags:=BBBF_ISIMBUTTON or BBBF_ISLSIDEBUTTON or
-                     BBBF_ISCHATBUTTON;
+      tabb.bbbFlags:=BBBF_ISIMBUTTON or BBBF_ISCHATBUTTON;
 
     if ActionItem.szTabBTooltip<>nil then
       tabb.szTooltip:=ActionItem.szTabBTooltip
