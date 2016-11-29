@@ -23,66 +23,62 @@
 
 static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    DBVARIANT dbv;
-    char str[128];
+	DBVARIANT dbv;
+	char str[128];
 
-    switch (msg)
-    {
-    case WM_INITDIALOG:
-        TranslateDialogDefault(hWnd);
-        SetDlgItemInt(hWnd, IDC_OPT_UIN, db_get_dw(NULL, protoName, "UIN", 0), FALSE);
-        if (!db_get(NULL, protoName, "Password", &dbv))
-        {
-            SetDlgItemText(hWnd, IDC_OPT_PASSWORD, dbv.pszVal);
-            db_free(&dbv);
-        }
-        if(!db_get(NULL, protoName, "Server", &dbv))
-        {
-            SetDlgItemText(hWnd, IDC_OPT_SERVER, dbv.pszVal);
-            db_free(&dbv);
-        }
-        SetDlgItemInt(hWnd, IDC_OPT_PORT, db_get_w(NULL, protoName, "Port", 4000), FALSE);
-        ShowWindow(GetDlgItem(hWnd, IDC_OPT_RECONNECT), SW_HIDE);
-        return TRUE;
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hWnd);
+		SetDlgItemInt(hWnd, IDC_OPT_UIN, db_get_dw(NULL, protoName, "UIN", 0), FALSE);
+		if (!db_get(NULL, protoName, "Password", &dbv)) {
+			SetDlgItemText(hWnd, IDC_OPT_PASSWORD, dbv.pszVal);
+			db_free(&dbv);
+		}
+		if (!db_get(NULL, protoName, "Server", &dbv)) {
+			SetDlgItemText(hWnd, IDC_OPT_SERVER, dbv.pszVal);
+			db_free(&dbv);
+		}
+		SetDlgItemInt(hWnd, IDC_OPT_PORT, db_get_w(NULL, protoName, "Port", 4000), FALSE);
+		ShowWindow(GetDlgItem(hWnd, IDC_OPT_RECONNECT), SW_HIDE);
+		return TRUE;
 
-    case WM_NOTIFY:
-        switch (((LPNMHDR)lParam)->code)
-        {
-        case PSN_APPLY:
-            db_set_dw(NULL, protoName, "UIN", (DWORD)GetDlgItemInt(hWnd, IDC_OPT_UIN, NULL, FALSE));
-            GetDlgItemText(hWnd, IDC_OPT_PASSWORD, str, sizeof(str));
-            db_set_s(NULL, protoName, "Password", str);
-            GetDlgItemText(hWnd, IDC_OPT_SERVER, str, sizeof(str));
-            db_set_s(NULL, protoName, "Server", str);
-            db_set_w(NULL, protoName, "Port", (WORD)GetDlgItemInt(hWnd, IDC_OPT_PORT, NULL, FALSE));
-            return TRUE;
-        }
-        break;
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_APPLY:
+			db_set_dw(NULL, protoName, "UIN", (DWORD)GetDlgItemInt(hWnd, IDC_OPT_UIN, NULL, FALSE));
+			GetDlgItemText(hWnd, IDC_OPT_PASSWORD, str, sizeof(str));
+			db_set_s(NULL, protoName, "Password", str);
+			GetDlgItemText(hWnd, IDC_OPT_SERVER, str, sizeof(str));
+			db_set_s(NULL, protoName, "Server", str);
+			db_set_w(NULL, protoName, "Port", (WORD)GetDlgItemInt(hWnd, IDC_OPT_PORT, NULL, FALSE));
+			return TRUE;
+		}
+		break;
 
-    case WM_COMMAND:
-        if ((LOWORD(wParam) == IDC_OPT_UIN || LOWORD(wParam) == IDC_OPT_PASSWORD || LOWORD(wParam) == IDC_OPT_SERVER || LOWORD(wParam) == IDC_OPT_PORT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
-        SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-        break;
-    }
-    return FALSE;
+	case WM_COMMAND:
+		if ((LOWORD(wParam) == IDC_OPT_UIN || LOWORD(wParam) == IDC_OPT_PASSWORD || LOWORD(wParam) == IDC_OPT_SERVER || LOWORD(wParam) == IDC_OPT_PORT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
+		SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
+		break;
+	}
+	return FALSE;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 int icqOptionsInitialise(WPARAM wParam, LPARAM)
 {
-    OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = { 0 };
 
-    odp.position = -800000000;
-    odp.szTitle.a = protoName;
-    odp.pfnDlgProc = icqOptionsDlgProc;
-    odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_ICQCORP);
-    odp.hInstance = hInstance;
+	odp.position = -800000000;
+	odp.szTitle.a = protoName;
+	odp.pfnDlgProc = icqOptionsDlgProc;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_ICQCORP);
+	odp.hInstance = hInstance;
 	odp.szGroup.a = LPGEN("Network");
-    odp.flags = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
-    return 0;
+	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

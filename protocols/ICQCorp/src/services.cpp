@@ -72,16 +72,21 @@ static INT_PTR icqSetStatus(WPARAM wParam, LPARAM)
 	T("[   ] set status\n");
 
 	// on change status to online set away msg not calling
-	if (desiredStatus == ID_STATUS_ONLINE) icq.awayMessage[0] = 0;
+	if (desiredStatus == ID_STATUS_ONLINE)
+		icq.awayMessage[0] = 0;
 
-	if (icq.desiredStatus == desiredStatus) return 0;
+	if (icq.desiredStatus == desiredStatus)
+		return 0;
+	
 	if (desiredStatus == ID_STATUS_OFFLINE) {
 		icq.desiredStatus = desiredStatus;
 		icq.logoff(false);
 	}
 	else {
-		if (icq.statusVal == ID_STATUS_OFFLINE) icq.logon(desiredStatus);
-		else icq.setStatus(desiredStatus);
+		if (icq.statusVal == ID_STATUS_OFFLINE)
+			icq.logon(desiredStatus);
+		else
+			icq.setStatus(desiredStatus);
 	}
 	return 0;
 }
@@ -144,21 +149,23 @@ static INT_PTR icqAddToList(WPARAM wParam, LPARAM lParam)
 	bool persistent = (wParam & PALF_TEMPORARY) == 0;
 
 	T("[   ] add user to list\n");
-	if (isr->hdr.cbSize != sizeof(ICQSEARCHRESULT) || isr->uin == icq.uin) return NULL;
-	return (int)icq.addUser(isr->uin, persistent)->hContact;
+
+	if (isr->hdr.cbSize != sizeof(ICQSEARCHRESULT) || isr->uin == icq.uin)
+		return NULL;
+	
+	return icq.addUser(isr->uin, persistent)->hContact;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR icqGetInfo(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	ICQUser *u;
-
 	T("[   ] get user info\n");
 
-	u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL || icq.statusVal <= ID_STATUS_OFFLINE) return 1;
+	CCSDATA *ccs = (CCSDATA *)lParam;
+	ICQUser *u = icq.getUserByContact(ccs->hContact);
+	if (u == NULL || icq.statusVal <= ID_STATUS_OFFLINE)
+		return 1;
 
 	icq.getUserInfo(u, ccs->wParam & SGIF_MINIMAL);
 	return 0;
@@ -168,17 +175,15 @@ static INT_PTR icqGetInfo(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	ICQUser *u;
-	ICQEvent *icqEvent;
-
 	T("[   ] send message\n");
 
-	u = icq.getUserByContact(ccs->hContact);
+	CCSDATA *ccs = (CCSDATA *)lParam;
+	ICQUser *u = icq.getUserByContact(ccs->hContact);
 	//  uin = db_get_dw(ccs->hContact, ICQCORP_PROTONAME, "UIN", 0);
-	if (u == NULL || icq.statusVal <= ID_STATUS_OFFLINE) return 0;
+	if (u == NULL || icq.statusVal <= ID_STATUS_OFFLINE)
+		return 0;
 
-	icqEvent = icq.sendMessage(u, ptrA(mir_utf8decodeA((char*)ccs->lParam)));
+	ICQEvent *icqEvent = icq.sendMessage(u, ptrA(mir_utf8decodeA((char*)ccs->lParam)));
 	return icqEvent ? icqEvent->sequence : 0;
 }
 
@@ -186,14 +191,14 @@ static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 {
-	DBEVENTINFO dbei;
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
 
 	T("[   ] recieve message\n");
 
 	db_unset(ccs->hContact, "CList", "Hidden");
-	ZeroMemory(&dbei, sizeof(dbei));
+
+	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
 	dbei.szModule = protoName;
 	dbei.timestamp = pre->timestamp;

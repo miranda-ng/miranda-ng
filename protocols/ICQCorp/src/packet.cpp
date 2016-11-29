@@ -23,86 +23,74 @@
 
 Packet::Packet()
 {
-    maxSize = MAX_PACKET_SIZE;
-    buff = new char[maxSize];
-    nextData = buff;
-    sizeVal = 0;
+	maxSize = MAX_PACKET_SIZE;
+	buff = new char[maxSize];
+	nextData = buff;
+	sizeVal = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 Packet::Packet(Packet *packet)
 {
-    maxSize = packet->maxSize;
-    buff = new char[maxSize];
-    nextData = buff + (packet->nextData - packet->buff);
-    sizeVal = packet->sizeVal;
-    memcpy(buff, packet->buff, sizeVal);
+	maxSize = packet->maxSize;
+	buff = new char[maxSize];
+	nextData = buff + (packet->nextData - packet->buff);
+	sizeVal = packet->sizeVal;
+	memcpy(buff, packet->buff, sizeVal);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-/*
-Packet::Packet(char *newBuff, unsigned long buffSize)
-{
-    maxSize = MAX_PACKET_SIZE;
-    if (buffSize > maxSize) buffSize = maxSize;
-    buff = new char[maxSize];
-    memcpy(buff, newBuff, buffSize);
-    nextData = buff;
-    sizeVal = buffSize;
-}
 
-///////////////////////////////////////////////////////////////////////////////
-*/
 Packet::~Packet()
 {
-    delete [] buff;
+	delete[] buff;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void Packet::clearPacket()
 {
-    nextData = buff;
-    sizeVal = 0;
+	nextData = buff;
+	sizeVal = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void Packet::add(unsigned int s)
 {
-    nextData += s;
-    sizeVal += s;
+	nextData += s;
+	sizeVal += s;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 Packet &Packet::operator << (unsigned int data)
 {
-    *(unsigned int*)nextData = data;
-    sizeVal += sizeof(unsigned int);
-    nextData += sizeof(unsigned int);
-    return *this;
+	*(unsigned int*)nextData = data;
+	sizeVal += sizeof(unsigned int);
+	nextData += sizeof(unsigned int);
+	return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 Packet &Packet::operator << (unsigned short data)
 {
-    *(unsigned short*)nextData = data;
-    sizeVal += sizeof(unsigned short);
-    nextData += sizeof(unsigned short);
-    return *this;
+	*(unsigned short*)nextData = data;
+	sizeVal += sizeof(unsigned short);
+	nextData += sizeof(unsigned short);
+	return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 Packet &Packet::operator << (unsigned char data)
 {
-    *(unsigned char*)nextData = data;
-    sizeVal += sizeof(unsigned char);
-    nextData += sizeof(unsigned char);
-    return *this;
+	*(unsigned char*)nextData = data;
+	sizeVal += sizeof(unsigned char);
+	nextData += sizeof(unsigned char);
+	return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -110,108 +98,103 @@ Packet &Packet::operator << (unsigned char data)
 Packet &Packet::operator << (char *data)
 {
 	unsigned int s = (unsigned int)mir_strlen(data) + 1;
-    operator << ((unsigned short)s);
-    memcpy(nextData, data, s);
-    sizeVal += s;
-    nextData += s;
-    return *this;
+	operator << ((unsigned short)s);
+	memcpy(nextData, data, s);
+	sizeVal += s;
+	nextData += s;
+	return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 Packet &Packet::operator << (Packet *packet)
 {
-    unsigned int s = packet->dataSize();
-    memcpy(nextData, packet->nextData, s);
-    sizeVal += s;
-    nextData += s;
-    return *this;
+	unsigned int s = packet->dataSize();
+	memcpy(nextData, packet->nextData, s);
+	sizeVal += s;
+	nextData += s;
+	return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 Packet &Packet::operator >> (unsigned int &in)
 {
-    if (nextData+sizeof(unsigned int) > buff+sizeVal) in = 0;
-    else
-    {
-        in = *(unsigned int*)nextData;
-        nextData += sizeof(unsigned int);
-    }
-    return *this;
+	if (nextData + sizeof(unsigned int) > buff + sizeVal) in = 0;
+	else {
+		in = *(unsigned int*)nextData;
+		nextData += sizeof(unsigned int);
+	}
+	return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-Packet &Packet::operator >> (unsigned short &in)
+Packet& Packet::operator >> (unsigned short &in)
 {
-    if (nextData+sizeof(unsigned short) > buff+sizeVal) in = 0;
-    else
-    {
-        in = *(unsigned short*)nextData;
-        nextData += sizeof(unsigned short);
-    }
-    return *this;
+	if (nextData + sizeof(unsigned short) > buff + sizeVal) in = 0;
+	else {
+		in = *(unsigned short*)nextData;
+		nextData += sizeof(unsigned short);
+	}
+	return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-Packet &Packet::operator >> (unsigned char &in)
+Packet& Packet::operator >> (unsigned char &in)
 {
-    if (nextData+sizeof(unsigned char) > buff+sizeVal) in = 0;
-    else
-    {
-        in = *(unsigned char*)nextData;
-        nextData += sizeof(unsigned char);
-    }
-    return *this;
+	if (nextData + sizeof(unsigned char) > buff + sizeVal) in = 0;
+	else {
+		in = *(unsigned char*)nextData;
+		nextData += sizeof(unsigned char);
+	}
+	return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-Packet &Packet::operator >> (char *&in)
+Packet& Packet::operator >> (char *&in)
 {
-    unsigned short s;
+	unsigned short s;
 
-    operator >> (s);
-    if (nextData+s > buff+sizeVal) in = 0;
-    else
-    {
-        if (in == NULL) in = new char[s];
-        memcpy(in, nextData, s);
-        nextData += s;
-    }
-    return *this;
+	operator >> (s);
+	if (nextData + s > buff + sizeVal) in = 0;
+	else {
+		if (in == NULL) in = new char[s];
+		memcpy(in, nextData, s);
+		nextData += s;
+	}
+	return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-char *Packet::print()
+char* Packet::print()
 {
-    unsigned int i;
-    static char p[8196];
-    char *pPos = p;
+	unsigned int i;
+	static char p[8196];
+	char *pPos = p;
 
-    for (i=0; i<sizeVal; i++)
-    {
-        if (i % 16 == 0)
-        {
-            sprintf(pPos, "  0x%04X:  %65c\n\0", i, ' ');
-            pPos += 11;
-        }
+	for (i = 0; i<sizeVal; i++) {
+		if (i % 16 == 0) {
+			sprintf(pPos, "  0x%04X:  %65c\n\0", i, ' ');
+			pPos += 11;
+		}
 
-        sprintf(pPos, "%02X ", (unsigned char)buff[i]);
-        if ((unsigned char)buff[i] > ' ') pPos[48 - (i % 16)*2 + 1] = buff[i];
+		sprintf(pPos, "%02X ", (unsigned char)buff[i]);
+		if ((unsigned char)buff[i] > ' ')
+			pPos[48 - (i % 16) * 2 + 1] = buff[i];
 
-        pPos += 3;
-        if ((i+1) % 16 == 0)
-        {
-            pPos[0] = ' ';
-            pPos += 18;
-        }
-    }
-    if (sizeVal % 16 != 0) pPos[0] = ' ';
-    return p;
+		pPos += 3;
+		if ((i + 1) % 16 == 0) {
+			pPos[0] = ' ';
+			pPos += 18;
+		}
+	}
+	if (sizeVal % 16 != 0)
+		pPos[0] = ' ';
+	return p;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

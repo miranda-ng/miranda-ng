@@ -25,87 +25,90 @@ std::vector <ICQEvent *> icqEvents;
 
 static void WINAPI eventTimerProc(HWND, UINT, UINT_PTR hTimer, DWORD)
 {
-    unsigned int i;
+	KillTimer(NULL, hTimer);
 
-    KillTimer(NULL, hTimer);
-    for (i=0; i<icqEvents.size(); i++) if (hTimer == icqEvents[i]->hTimer) icqEvents[i]->noAck();
+	for (size_t i = 0; i < icqEvents.size(); i++)
+		if (hTimer == icqEvents[i]->hTimer)
+			icqEvents[i]->noAck();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-ICQEvent *getEvent(SOCKET hSocket, unsigned int sequence)
+ICQEvent* getEvent(SOCKET hSocket, unsigned int sequence)
 {
-    unsigned int i;
+	for (size_t i = 0; i < icqEvents.size(); i++)
+		if (icqEvents[i]->isEvent(hSocket, sequence))
+			return icqEvents[i];
 
-    for (i=0; i<icqEvents.size(); i++) if (icqEvents[i]->isEvent(hSocket, sequence)) return icqEvents[i];
-    return NULL;
+	return NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 ICQEvent::ICQEvent(unsigned short theCmd, unsigned short theSubCmd, unsigned int theSequence,
-                   unsigned int theUin, Socket *theSocket, Packet *thePacket, int theReply)
+	unsigned int theUin, Socket *theSocket, Packet *thePacket, int theReply)
 {
-    cmd = theCmd;
-    subCmd = theSubCmd;
-    sequence = theSequence;
-    uin = theUin;
-    socket = theSocket;
-    packet = new Packet(thePacket);
-    reply = theReply;
+	cmd = theCmd;
+	subCmd = theSubCmd;
+	sequence = theSequence;
+	uin = theUin;
+	socket = theSocket;
+	packet = new Packet(thePacket);
+	reply = theReply;
 
-    hTimer = NULL;
-    retries = 0;
+	hTimer = NULL;
+	retries = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 ICQEvent::~ICQEvent()
 {
-    stop();
-    delete packet;
+	stop();
+	delete packet;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 bool ICQEvent::start()
 {
-    // send the packet
-    if (!socket->sendPacket(*packet)) return false;
+	// send the packet
+	if (!socket->sendPacket(*packet))
+		return false;
 
-    if (cmd != ICQ_CMDxTCP_START) hTimer = SetTimer(NULL, 0, MAX_WAIT_ACK, eventTimerProc);
-    return true;
+	if (cmd != ICQ_CMDxTCP_START)
+		hTimer = SetTimer(NULL, 0, MAX_WAIT_ACK, eventTimerProc);
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void ICQEvent::stop()
 {
-    if (hTimer)
-    {
-        KillTimer(NULL, hTimer);
-        hTimer = NULL;
-    }
+	if (hTimer) {
+		KillTimer(NULL, hTimer);
+		hTimer = NULL;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 bool ICQEvent::isEvent(SOCKET hSocket, unsigned long theSequence)
 {
-    return socket->handleVal == hSocket && sequence == theSequence;
+	return socket->handleVal == hSocket && sequence == theSequence;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void ICQEvent::noAck()
 {
-    hTimer = NULL;
-    if (socket->connected() && retries < MAX_SERVER_RETRIES && cmd != ICQ_CMDxTCP_START)
-    {
-        retries++;
-        start();
-    }
-    else icq.doneEvent(false, socket->handleVal, sequence);
+	hTimer = NULL;
+	if (socket->connected() && retries < MAX_SERVER_RETRIES && cmd != ICQ_CMDxTCP_START)
+	{
+		retries++;
+		start();
+	}
+	else icq.doneEvent(false, socket->handleVal, sequence);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
