@@ -422,16 +422,13 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 
 	case BUTTONSETARROW: // turn arrow on/off
 		if (wParam) {
-			if (!bct->arrow) {
+			if (!bct->arrow)
 				bct->arrow = Skin_LoadIcon(SKINICON_OTHER_DOWNARROW);
-				SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_BUTTONDROPDOWN);
-			}
 		}
 		else {
 			if (bct->arrow) {
 				IcoLib_ReleaseIcon(bct->arrow);
 				bct->arrow = NULL;
-				SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_PUSHBUTTON);
 			}
 		}
 		InvalidateRect(bct->hwnd, NULL, TRUE);
