@@ -84,7 +84,7 @@ static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 			buf.AppendChar('\\');
 			buf.AppendChar(*line);
 		}
-		else if (*line == '[' && (g_dat.flags & SMF_SHOWFORMAT)) {
+		else if (*line == '[' && (g_dat.flags.bShowFormat)) {
 			int i, found = 0;
 			for (i = 0; i < _countof(bbcodes); ++i) {
 				if (line[1] == bbcodes[i][1]) {
@@ -245,21 +245,21 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 			buffer.Append("\\rtlch\\ltrch");
 	}
 
-	if (g_dat.flags & SMF_SHOWICONS) {
+	if (g_dat.flags.bShowIcons) {
 		int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN): LOGICON_MSG_NOTICE);
 		
 		buffer.Append("\\f0\\fs14");
 		buffer.Append(pLogIconBmpBits[i]);
 	}
 
-	if (g_dat.flags & SMF_SHOWTIME) {
+	if (g_dat.flags.bShowTime) {
 		const wchar_t* szFormat;
 		wchar_t str[64];
 
-		if (g_dat.flags & SMF_SHOWSECS)
-			szFormat = g_dat.flags & SMF_SHOWDATE ? L"d s" : L"s";
+		if (g_dat.flags.bShowSecs)
+			szFormat = g_dat.flags.bShowDate ? L"d s" : L"s";
 		else
-			szFormat = g_dat.flags & SMF_SHOWDATE ? L"d t" : L"t";
+			szFormat = g_dat.flags.bShowDate ? L"d t" : L"t";
 
 		TimeZone_PrintTimeStamp(NULL, dbei.timestamp, szFormat, str, _countof(str), 0);
 
@@ -268,7 +268,7 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 		showColon = 1;
 	}
 
-	if (!(g_dat.flags & SMF_HIDENAMES) && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
+	if (!(g_dat.flags.bHideNames) && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
 		wchar_t *szName;
 
 		if (dbei.flags & DBEF_SENT) {

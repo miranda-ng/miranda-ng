@@ -22,33 +22,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_GLOBALS_H
 #define SRMM_GLOBALS_H
 
-#define SMF_SHOWINFO        0x00000001
-#define SMF_SHOWBTNS        0x00000002
-#define SMF_SENDBTN         0x00000004
-#define SMF_SHOWTYPING      0x00000008
-#define SMF_SHOWTYPINGWIN   0x00000010
-#define SMF_SHOWTYPINGTRAY  0x00000020
-#define SMF_SHOWTYPINGCLIST 0x00000040
-#define SMF_SHOWICONS       0x00000080
-#define SMF_SHOWTIME        0x00000100
-#define SMF_AVATAR          0x00000200
-#define SMF_SHOWDATE        0x00000400
-#define SMF_HIDENAMES       0x00000800
-#define SMF_SHOWSECS        0x00001000
-#define SMF_SHOWREADCHAR    0x00002000
-#define SMF_SENDONENTER     0x00004000
-#define SMF_SENDONDBLENTER  0x00008000
-#define SMF_AUTOCLOSE       0x00010000
-#define SMF_AUTOMIN         0x00020000
-#define SMF_TYPINGUNKNOWN   0x00040000
-#define SMF_CTRLSUPPORT     0x00080000
-#define SMF_SHOWFORMAT      0x00100000
-
-#define SMF_ICON_TYPING     0
+struct SrmmFlags
+{
+	bool bShowInfo : 1;
+	bool bShowButtons : 1;
+	bool bSendButton : 1;
+	bool bShowTyping : 1;
+	bool bShowTypingWin : 1;
+	bool bShowTypingTray : 1;
+	bool bShowTypingClist : 1;
+	bool bShowIcons : 1;
+	bool bShowTime : 1;
+	bool bShowDate : 1;
+	bool bShowAvatar : 1;
+	bool bHideNames : 1;
+	bool bShowSecs : 1;
+	bool bShowReadChar : 1;
+	bool bSendOnEnter : 1;
+	bool bSendOnDblEnter : 1;
+	bool bAutoClose : 1;
+	bool bAutoMin : 1;
+	bool bTypingUnknown : 1;
+	bool bCtrlSupport : 1;
+	bool bShowFormat : 1;
+};
 
 struct GlobalMessageData
 {
-	unsigned int flags;
+	SrmmFlags flags;
 	MWindowList hMessageWindowList;
 	DWORD openFlags;
 	DWORD msgTimeout;

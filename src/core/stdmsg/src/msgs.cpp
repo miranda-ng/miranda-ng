@@ -157,7 +157,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 
 static int TypingMessage(WPARAM hContact, LPARAM lParam)
 {
-	if (!(g_dat.flags & SMF_SHOWTYPING))
+	if (!g_dat.flags.bShowTyping)
 		return 0;
 
 	hContact = db_mc_tryMeta(hContact);
@@ -167,11 +167,11 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
-	else if (lParam && (g_dat.flags & SMF_SHOWTYPINGTRAY)) {
+	else if (lParam && g_dat.flags.bShowTypingTray) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 
-		if (g_dat.flags & SMF_SHOWTYPINGCLIST) {
+		if (g_dat.flags.bShowTypingClist) {
 			pcli->pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};

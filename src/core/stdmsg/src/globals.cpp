@@ -104,49 +104,49 @@ int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 void ReloadGlobals()
 {
-	g_dat.flags = 0;
+	memset(&g_dat.flags, 0, sizeof(g_dat.flags));
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWINFOLINE, SRMSGDEFSET_SHOWINFOLINE))
-		g_dat.flags |= SMF_SHOWINFO;
+		g_dat.flags.bShowInfo = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE))
-		g_dat.flags |= SMF_SHOWBTNS;
+		g_dat.flags.bShowButtons = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDBUTTON, SRMSGDEFSET_SENDBUTTON))
-		g_dat.flags |= SMF_SENDBTN;
+		g_dat.flags.bSendButton = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
-		g_dat.flags |= SMF_SHOWTYPING;
+		g_dat.flags.bShowTyping = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN))
-		g_dat.flags |= SMF_SHOWTYPINGWIN;
+		g_dat.flags.bShowTypingWin = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, SRMSGDEFSET_SHOWTYPINGNOWIN))
-		g_dat.flags |= SMF_SHOWTYPINGTRAY;
+		g_dat.flags.bShowTypingTray = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST))
-		g_dat.flags |= SMF_SHOWTYPINGCLIST;
+		g_dat.flags.bShowTypingClist = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS))
-		g_dat.flags |= SMF_SHOWICONS;
+		g_dat.flags.bShowIcons = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME))
-		g_dat.flags |= SMF_SHOWTIME;
+		g_dat.flags.bShowTime = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_AVATARENABLE, SRMSGDEFSET_AVATARENABLE))
-		g_dat.flags |= SMF_AVATAR;
+		g_dat.flags.bShowAvatar = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE))
-		g_dat.flags |= SMF_SHOWDATE;
+		g_dat.flags.bShowDate = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSECS, SRMSGDEFSET_SHOWSECS))
-		g_dat.flags |= SMF_SHOWSECS;
+		g_dat.flags.bShowSecs = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES))
-		g_dat.flags |= SMF_HIDENAMES;
+		g_dat.flags.bHideNames = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_CHARCOUNT, SRMSGDEFSET_CHARCOUNT))
-		g_dat.flags |= SMF_SHOWREADCHAR;
+		g_dat.flags.bShowReadChar = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))
-		g_dat.flags |= SMF_SENDONENTER;
+		g_dat.flags.bSendOnEnter = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER))
-		g_dat.flags |= SMF_SENDONDBLENTER;
+		g_dat.flags.bSendOnDblEnter = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE))
-		g_dat.flags |= SMF_AUTOCLOSE;
+		g_dat.flags.bAutoClose = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
-		g_dat.flags |= SMF_AUTOMIN;
+		g_dat.flags.bAutoMin = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
-		g_dat.flags |= SMF_TYPINGUNKNOWN;
+		g_dat.flags.bTypingUnknown = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_CTRLSUPPORT, SRMSGDEFSET_CTRLSUPPORT))
-		g_dat.flags |= SMF_CTRLSUPPORT;
+		g_dat.flags.bCtrlSupport = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWFORMAT, SRMSGDEFSET_SHOWFORMAT))
-		g_dat.flags |= SMF_SHOWFORMAT;
+		g_dat.flags.bShowFormat = true;
 
 	g_dat.openFlags = db_get_dw(NULL, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS);
 	g_dat.nFlashMax = db_get_b(NULL, SRMMMOD, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
