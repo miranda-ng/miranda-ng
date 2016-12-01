@@ -676,6 +676,11 @@ CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId)
 {}
 
+void CCtrlSpin::SetPosition(WORD max, WORD min)
+{
+	SendMsg(UDM_GETPOS, 0, MAKELONG(min, max));
+}
+
 void CCtrlSpin::SetRange(WORD max, WORD min)
 {
 	SendMsg(UDM_SETRANGE, 0, MAKELONG(min, max));
