@@ -78,6 +78,7 @@ void InitPathVar(void);
 /**** srmm.cpp *************************************************************************/
 
 void KillModuleSrmmIcons(int hLangpack);
+void KillModuleToolbarIcons(int hLangpack);
 
 /**** utf.cpp **************************************************************************/
 

@@ -1658,17 +1658,17 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			GetMYUIN(dat);
 			GetMyNick(dat);
 
-			CustomizeButton(CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
-				hwndDlg, (HMENU)IDC_CHAT_TOGGLESIDEBAR, g_hInst, NULL));
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, 1, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASFLATBTN, FALSE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Expand or collapse the side bar"), BATF_UNICODE);
+			HWND hwndBtn = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20), hwndDlg, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, NULL);
+			CustomizeButton(hwndBtn);
+			SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, 1, 0);
+			SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
+			SendMessage(hwndBtn, BUTTONSETASFLATBTN, FALSE, 0);
+			SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
+			SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Expand or collapse the side bar"), BATF_UNICODE);
 
 			DM_InitTip(dat);
 			BB_InitDlgButtons(dat);
-			SendMessage(hwndDlg, DM_LOADBUTTONBARICONS, 0, 0);
+			SendMessage(hwndDlg, WM_CBD_LOADICONS, 0, 0);
 
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERY), SplitterSubclassProc);
@@ -1706,8 +1706,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		PostMessage(hwndDlg, GC_REDRAWLOG, 0, 0);
 		break;
 
-	case DM_LOADBUTTONBARICONS:
-		BB_UpdateIcons(hwndDlg);
+	case WM_CBD_LOADICONS:
+		Srmm_UpdateToolbarIcons(hwndDlg);
 		return 0;
 
 	case GC_SETWNDPROPS:
@@ -2647,7 +2647,7 @@ LABEL_SHOWWINDOW:
 				RedrawWindow(GetDlgItem(hwndDlg, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 			break;
 
-		case IDC_CHAT_TOGGLESIDEBAR:
+		case IDC_TOGGLESIDEBAR:
 			SendMessage(dat->pContainer->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 			break;
 

@@ -41,7 +41,6 @@ private:
 
 	// hooks
 	static int OnProtoAck(WPARAM wParam, LPARAM lParam);
-	static int OnPreShutdown(WPARAM wParam, LPARAM lParam);
 	int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 	int OnContactDeleted(WPARAM wParam, LPARAM lParam);
 	int OnOptionsInitialized(WPARAM wParam, LPARAM lParam);

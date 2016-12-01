@@ -248,15 +248,14 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 
 static int TabsrmmButtonInit(WPARAM, LPARAM)
 {
-	BBButton bbd = { sizeof(bbd) };
+	BBButton bbd = {};
 	bbd.pszModuleName = "Nudge";
 	bbd.pwszTooltip = LPGENW("Send Nudge");
 	bbd.dwDefPos = 300;
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = 6000;
-	bbd.iButtonWidth = 0;
-	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+	Srmm_AddButton(&bbd);
 
 	return 0;
 }
@@ -265,11 +264,11 @@ void HideNudgeButton(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (!ProtoServiceExists(szProto, PS_SEND_NUDGE)) {
-		BBButton bbd = { sizeof(bbd) };
-		bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
+		BBButton bbd = {};
 		bbd.pszModuleName = "Nudge";
 		bbd.dwButtonID = 6000;
-		CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
+		bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
+		Srmm_SetButtonState(hContact, &bbd);
 	}
 }
 

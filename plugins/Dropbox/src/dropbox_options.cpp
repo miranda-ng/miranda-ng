@@ -133,12 +133,11 @@ void CDropboxOptionsInterception::OnApply()
 			msgw.cbSize = sizeof(msgw);
 
 			if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgwi, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
-				BBButton bbd = { sizeof(bbd) };
+				BBButton bbd = {};
 				bbd.pszModuleName = MODULE;
 				bbd.dwButtonID = BBB_ID_FILE_SEND;
 				bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
-
-				CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
+				Srmm_SetButtonState(hContact, &bbd);
 			}
 		}
 	}

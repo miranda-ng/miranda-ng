@@ -49,18 +49,14 @@ static wchar_t* getMenuEntry(int i)
 
 static int RegisterCustomButton(WPARAM, LPARAM)
 {
-	if (!ServiceExists(MS_BB_ADDBUTTON))
-		return 1;
-
-	BBButton bbd = { 0 };
-	bbd.cbSize = sizeof(BBButton);
+	BBButton bbd = {};
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 200;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];
 	bbd.pszModuleName = "Tabmodplus";
 	bbd.pwszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
-	return CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+	return Srmm_AddButton(&bbd);
 }
 
 static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
@@ -69,10 +65,10 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	if (mir_strcmp(cbcd->pszModule, "Tabmodplus") || cbcd->dwButtonId != 1)
 		return 0;
 
-	BBButton bbd = { sizeof(bbd) };
+	BBButton bbd = {};
 	bbd.dwButtonID = 1;
 	bbd.pszModuleName = "Tabmodplus";
-	CallService(MS_BB_GETBUTTONSTATE, wParam, (LPARAM)&bbd);
+	Srmm_SetButtonState(wParam, &bbd);
 
 	wchar_t *pszText = L"";
 	CHARRANGE cr;
@@ -133,21 +129,21 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 		bbd.pwszTooltip = 0;
 		bbd.hIcon = 0;
 		bbd.bbbFlags = BBSF_RELEASED;
-		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
+		Srmm_SetButtonState(wParam, &bbd);
 		break;
 
 	case 3:
 		pszFormatedText = L"[img]";
 
 		bbd.pwszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
-		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
+		Srmm_SetButtonState(wParam, &bbd);
 		break;
 
 	case 4:
 		pszFormatedText = L"[/img]";
 
 		bbd.pwszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
-		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
+		Srmm_SetButtonState(wParam, &bbd);
 		break;
 	}
 

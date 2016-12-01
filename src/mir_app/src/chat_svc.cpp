@@ -741,6 +741,7 @@ int LoadChatModule(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 
+	chatApi.hWindowList = WindowList_Create();
 	chatApi.hSendEvent = CreateHookableEvent(ME_GC_EVENT);
 	chatApi.hBuildMenuEvent = CreateHookableEvent(ME_GC_BUILDMENU);
 	hHookEvent = CreateHookableEvent(ME_GC_HOOK_EVENT);
@@ -762,6 +763,8 @@ void UnloadChatModule(void)
 
 	FreeMsgLogBitmaps();
 	OptionsUnInit();
+
+	WindowList_Destroy(chatApi.hWindowList);
 
 	DestroyHookableEvent(chatApi.hSendEvent);
 	DestroyHookableEvent(chatApi.hBuildMenuEvent);

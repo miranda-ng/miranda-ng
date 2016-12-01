@@ -21,33 +21,16 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 	WORD status = ProtoGetStatus(0, 0);
 	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, status);
 
-	if (ServiceExists(MS_BB_ADDBUTTON)) {
-		BBButton bbd = { sizeof(bbd) };
-		bbd.pszModuleName = MODULE;
+	BBButton bbd = {};
+	bbd.pszModuleName = MODULE;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
+	bbd.pwszTooltip = TranslateT("Upload files to Dropbox");
+	bbd.hIcon = GetIconHandleByName("upload");
+	bbd.dwButtonID = BBB_ID_FILE_SEND;
+	bbd.dwDefPos = 100 + bbd.dwButtonID;
+	Srmm_AddButton(&bbd);
 
-		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
-		bbd.pwszTooltip = TranslateT("Upload files to Dropbox");
-		bbd.hIcon = GetIconHandleByName("upload");
-		bbd.dwButtonID = BBB_ID_FILE_SEND;
-		bbd.dwDefPos = 100 + bbd.dwButtonID;
-		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
-
-		HookEventObj(ME_MSG_BUTTONPRESSED, GlobalEvent<&CDropbox::OnTabSrmmButtonPressed>, this);
-	}
-
-	return 0;
-}
-
-int CDropbox::OnPreShutdown(WPARAM, LPARAM)
-{
-	if (ServiceExists(MS_BB_ADDBUTTON)) {
-		BBButton bbd = { sizeof(bbd) };
-		bbd.pszModuleName = MODULE;
-
-		bbd.dwButtonID = BBB_ID_FILE_SEND;
-		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
-	}
-
+	HookEventObj(ME_MSG_BUTTONPRESSED, GlobalEvent<&CDropbox::OnTabSrmmButtonPressed>, this);
 	return 0;
 }
 
@@ -70,7 +53,7 @@ int CDropbox::OnSrmmWindowOpened(WPARAM, LPARAM lParam)
 		WORD status = db_get_w(ev->hContact, proto, "Status", ID_STATUS_OFFLINE);
 		bool canSendOffline = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE) > 0;
 
-		BBButton bbd = { sizeof(bbd) };
+		BBButton bbd = {};
 		bbd.pszModuleName = MODULE;
 		bbd.dwButtonID = BBB_ID_FILE_SEND;
 		bbd.bbbFlags = BBSF_RELEASED;
@@ -79,7 +62,7 @@ int CDropbox::OnSrmmWindowOpened(WPARAM, LPARAM lParam)
 		else if (!isProtoOnline || (status == ID_STATUS_OFFLINE && !canSendOffline))
 			bbd.bbbFlags = BBSF_DISABLED;
 
-		CallService(MS_BB_SETBUTTONSTATE, ev->hContact, (LPARAM)&bbd);
+		Srmm_SetButtonState(ev->hContact, &bbd);
 	}
 
 	return 0;
@@ -132,7 +115,7 @@ int CDropbox::OnProtoAck(WPARAM, LPARAM lParam)
 			msgw.cbSize = sizeof(msgw);
 
 			if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgwi, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
-				BBButton bbd = { sizeof(bbd) };
+				BBButton bbd = {};
 				bbd.pszModuleName = MODULE;
 				bbd.dwButtonID = BBB_ID_FILE_SEND;
 				bbd.bbbFlags = BBSF_RELEASED;
@@ -140,7 +123,7 @@ int CDropbox::OnProtoAck(WPARAM, LPARAM lParam)
 				if (status == ID_STATUS_OFFLINE && !canSendOffline)
 					bbd.bbbFlags = BBSF_DISABLED;
 
-				CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
+				Srmm_SetButtonState(hContact, &bbd);
 			}
 		}
 	}

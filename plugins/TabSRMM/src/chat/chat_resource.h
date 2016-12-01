@@ -89,7 +89,6 @@
 #define IDC_10                          1209
 #define IDC_11                          1210
 #define IDC_PANELSPLITTER               1216
-#define IDC_CHAT_TOGGLESIDEBAR          1277
 #define IDC_P1                          1300
 #define IDC_P2                          1301
 #define IDC_P3                          1302

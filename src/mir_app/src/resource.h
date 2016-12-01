@@ -12,6 +12,7 @@
 #define IDI_SMS                         103
 #define IDI_ONLINE                      104
 #define IDI_OFFLINE                     105
+#define IDD_OPT_TOOLBAR                 106
 #define IDD_OPT_FONTS                   107
 #define IDD_OPT_GENMENU                 108
 #define IDD_OPT_PROTOCOLORDER           109
@@ -220,6 +221,7 @@
 #define IDC_URLS                        1037
 #define IDC_COLORTEXT                   1038
 #define IDC_REPLY                       1039
+#define IDC_TOOLBARTREE						 1040
 #define IDC_URL                         1041
 #define IDC_FONTGROUP                   1042
 #define IDC_BTN_RESET                   1045
@@ -230,6 +232,7 @@
 #define IDC_NAMENICK                    1049
 #define IDC_NAMEFIRST                   1050
 #define IDC_NAMELAST                    1051
+#define IDC_BBRESET                     1052
 #define IDC_NICK                        1053
 #define IDC_BTN_EXPORT                  1054
 #define IDC_FONTLIST                    1056
@@ -278,6 +281,11 @@
 #define IDC_TXT_PASSWORD                1097
 #define IDC_TXT_COMBO                   1098
 #define IDC_TXT_RICHEDIT                1099
+#define IDC_IMCHECK                     1100
+#define IDC_CHATCHECK                   1101
+#define IDC_CANBEHIDDEN                 1102
+#define IDC_SPIN1								 1103
+#define IDC_SEPARATOR						 1104
 #define IDC_BUILDTIME                   1108
 #define IDC_CREDITSFILE                 1109
 #define IDC_NUMBER                      1113

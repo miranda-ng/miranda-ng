@@ -40,7 +40,6 @@ static TContainerSettings _cnt_default = { false, CNT_FLAGS_DEFAULT, CNT_FLAGSEX
 wchar_t* CGlobals::m_default_container_name = L"default";
 
 extern HANDLE 	hHookButtonPressedEvt;
-extern HANDLE 	hHookToolBarLoadedEvt;
 
 EXCEPTION_RECORD CGlobals::m_exRecord = { 0 };
 CONTEXT          CGlobals::m_exCtx = { 0 };
@@ -116,7 +115,6 @@ void CGlobals::reloadSystemModulesChanged()
 	}
 	else db_set_b(0, SRMSGMOD_T, "ieview_installed", 0);
 
-	m_iButtonsBarGap = M.GetByte("ButtonsBarGap", 1);
 	m_hwndClist = pcli->hwndContactList;
 
 	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT) != 0;
@@ -297,9 +295,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	::Chat_ModulesLoaded();
 	::BuildContainerMenu();
 
-	::CB_InitDefaultButtons();
 	::ModPlus_Init();
-	::NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
 
 	if (M.GetByte("avatarmode", -1) == -1)
 		db_set_b(0, SRMSGMOD_T, "avatarmode", 2);

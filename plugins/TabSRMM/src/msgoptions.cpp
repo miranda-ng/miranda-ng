@@ -1281,11 +1281,6 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcLogOptions;
 	Options_AddPage(wParam, &odp);
 
-	odp.szTab.a = LPGEN("Toolbar");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TOOLBAR);
-	odp.pfnDlgProc = DlgProcToolBar;
-	Options_AddPage(wParam, &odp);
-
 	odp.szTab.a = LPGEN("Advanced tweaks");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PLUS);
 	odp.pfnDlgProc = PlusOptionsProc;

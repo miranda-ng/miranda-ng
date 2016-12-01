@@ -53,7 +53,6 @@
 #define IDD_SELECTCONTAINER             299
 #define IDD_CONTAINEROPTIONS            300
 #define IDD_OPT_CONTAINERS              301
-#define IDD_OPT_TOOLBAR                 304
 #define IDR_MENUBAR                     308
 #define IDD_CHOOSESTATUSMODES           310
 #define IDD_SKINTABDIALOG               312
@@ -456,13 +455,8 @@
 #define IDC_DESC                        1404
 #define IDC_LABEL_PRIVATETHEME          1405
 #define IDC_MSGLOGDIDSPLAY              1407
-#define IDC_IMCHECK                     1410
-#define IDC_CHATCHECK                   1411
-#define IDC_CANBEHIDDEN                 1412
-#define IDC_BBRESET                     1413
 #define IDC_BOTTOMTOOLBAR               1414
 #define IDC_BUTTON1                     1415
-#define IDC_SEPARATOR                   1415
 #define IDC_PLUS_REVERT                 1415
 #define IDC_SIZECOMPACT                 1415
 #define IDC_RESCANSKIN                  1415
@@ -516,7 +510,6 @@
 #define IDC_SKIN_WARN                   1440
 #define IDC_QMGR_LIST                   1441
 #define IDC_QMGR_FILTER                 1442
-#define IDC_TOOLBARTREE                 1444
 #define IDC_QMGR_HELP                   1444
 #define IDC_QMGR_ERRORPOPUPS            1445
 #define IDC_QMGR_ERRORPOPUPS2           1446
@@ -553,7 +546,6 @@
 #define IDC_O_SOUNDSINACTIVE            1704
 #define IDC_O_SOUNDSFOCUSED             1705
 #define IDC_O_TITLEBARFORMAT            1706
-#define IDC_EDIT1                       1720
 #define IDC_O_CNTPRIVATE                1901
 #define IDC_PLUS_CHECKTREE              2000
 #define IDC_COPYRIGHT                   2002

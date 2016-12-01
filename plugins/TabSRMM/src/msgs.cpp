@@ -878,7 +878,7 @@ static int TSAPI LoadFromIconLib()
 	PluginConfig.g_iconClock = IcoLib_GetIcon("tabSRMM_clock_symbol");
 
 	CacheMsgLogIcons();
-	M.BroadcastMessage(DM_LOADBUTTONBARICONS, 0, 0);
+	M.BroadcastMessage(WM_CBD_LOADICONS, 0, 0);
 	return 0;
 }
 

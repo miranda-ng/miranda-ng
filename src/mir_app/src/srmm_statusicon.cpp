@@ -23,6 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+void LoadSrmmToolbarModule();
+void UnloadSrmmToolbarModule();
+
 void SafeDestroyIcon(HICON hIcon)
 {
 	if (hIcon != NULL)
@@ -202,6 +205,8 @@ void KillModuleSrmmIcons(int _hLang)
 
 int LoadSrmmModule()
 {
+	LoadSrmmToolbarModule();
+	
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);
 	return 0;
 }
@@ -211,4 +216,6 @@ void UnloadSrmmModule()
 	arIcons.destroy();
 	NotifyEventHooks(hHookIconsChanged, NULL, NULL);
 	DestroyHookableEvent(hHookIconsChanged);
+	
+	UnloadSrmmToolbarModule();
 }

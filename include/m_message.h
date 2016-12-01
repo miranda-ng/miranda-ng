@@ -29,21 +29,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int hLangpack;
 
-//brings up the send message dialog for a contact
-//wParam = (MCONTACT)hContact
-//lParam = (LPARAM)(char*)szText
-//returns 0 on success or nonzero on failure
-//returns immediately, just after the dialog is shown
-//szText is the text to put in the edit box of the window (but not send)
-//szText = NULL will not use any text
-//szText != NULL is only supported on v0.1.2.0+
+// brings up the send message dialog for a contact
+// wParam = (MCONTACT)hContact
+// lParam = (LPARAM)(char*)szText
+// returns 0 on success or nonzero on failure
+// returns immediately, just after the dialog is shown
+// szText is the text to put in the edit box of the window (but not send)
+// szText = NULL will not use any text
+// szText != NULL is only supported on v0.1.2.0+
 #define MS_MSG_SENDMESSAGE   "SRMsg/SendCommand"
 #define MS_MSG_SENDMESSAGEW  "SRMsg/SendCommandW"
 
 #define ME_MSG_WINDOWEVENT "MessageAPI/WindowEvent"
-//wparam = 0
-//lparam = (WPARAM)(MessageWindowEventData*)hWindowEvent;
-//Event types
+// wparam = 0
+// lparam = (WPARAM)(MessageWindowEventData*)hWindowEvent;
+// Event types
 #define MSG_WINDOW_EVT_OPENING 1 //window is about to be opened
 #define MSG_WINDOW_EVT_OPEN    2 //window has been opened
 #define MSG_WINDOW_EVT_CLOSING 3 //window is about to be closed
@@ -72,20 +72,20 @@ typedef struct {
 	wchar_t tszText[100];
 } StatusTextData;
 
-//wparam = (MCONTACT)hContact
-//lparam = (StatusTextData*) or NULL to clear statusbar
-//Sets a statusbar line text for the appropriate contact
+// wparam = (MCONTACT)hContact
+// lparam = (StatusTextData*) or NULL to clear statusbar
+// Sets a statusbar line text for the appropriate contact
 #define MS_MSG_SETSTATUSTEXT "MessageAPI/SetStatusText"
 
-//wparam = 0
-//lparam = 0
-//Returns a dword with the current message api version
-//Current version is 0, 0, 0, 4
+// wparam = 0
+// lparam = 0
+// Returns a dword with the current message api version
+// Current version is 0, 0, 0, 4
 #define MS_MSG_GETWINDOWAPI "MessageAPI/WindowAPI"
 
-//wparam = (char*)szBuf
-//lparam = (int)cbSize size of buffer
-//Sets the window class name in wParam (ex. "SRMM" for srmm.dll)
+// wparam = (char*)szBuf
+// lparam = (int)cbSize size of buffer
+// Sets the window class name in wParam (ex. "SRMM" for srmm.dll)
 #define MS_MSG_GETWINDOWCLASS "MessageAPI/WindowClass"
 
 typedef struct {
@@ -108,14 +108,14 @@ typedef struct {
 	void *local; // used to store pointer to custom data
 } MessageWindowData;
 
-//wparam = (MessageWindowInputData*)
-//lparam = (MessageWindowData*)
-//returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
+// wparam = (MessageWindowInputData*)
+// lparam = (MessageWindowData*)
+// returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
 #define MS_MSG_GETWINDOWDATA "MessageAPI/GetWindowData"
 
-//wparam = 0 (unused)
-//lparam = (MessageWindowEvent*)
-//fired before SRMM writes an entered message into the database
+// wparam = 0 (unused)
+// lparam = (MessageWindowEvent*)
+// fired before SRMM writes an entered message into the database
 #define ME_MSG_PRECREATEEVENT    "MessageAPI/PreCreateEvent"
 
 typedef struct {
@@ -176,24 +176,20 @@ typedef struct {
 #define MBCF_RIGHTBUTTON   0x01     // if this flag is specified, the click was a right button - otherwize it was a left click
 
 // adds an icon
-
 EXTERN_C MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, int _hLang = hLangpack);
 
 // removes an icon
-
 EXTERN_C MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId);
 
 // if hContact is null, icon is modified for all contacts
 // otherwise, only the flags field is valid
 // if either hIcon, hIconDisabled or szTooltip is null, they will not be modified
-
 EXTERN_C MIR_APP_DLL(int) Srmm_ModifyIcon(MCONTACT hContact, StatusIconData *sid);
 
 // wParam = (HANDLE)hContact
 // lParam = (int)zero-based index of a visible icon
 // returns (StatusIconData*)icon description filled for the required contact
 // don't free this memory.
-
 EXTERN_C MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index);
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -217,5 +213,130 @@ struct StatusIconClickData
 // lParam = (StatusIconkData*)pIcon
 // catch to be notified about the icon list's change.
 #define ME_MSG_ICONSCHANGED   "MessageAPI/IconsChanged"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// srmm toolbar icons' support
+
+// button state flags
+#define BBSF_HIDDEN           (1<<0)
+#define BBSF_DISABLED         (1<<1)
+#define BBSF_PUSHED           (1<<2)
+#define BBSF_RELEASED         (1<<3)
+
+// button flags
+#define BBBF_DISABLED			(1<<0)
+#define BBBF_HIDDEN				(1<<1)
+#define BBBF_ISPUSHBUTTON		(1<<2)
+#define BBBF_ISARROWBUTTON		(1<<3)
+#define BBBF_ISCHATBUTTON		(1<<4)
+#define BBBF_ISIMBUTTON			(1<<5)
+#define BBBF_ISRSIDEBUTTON		(1<<7)
+#define BBBF_CANBEHIDDEN		(1<<8)
+#define BBBF_ISDUMMYBUTTON		(1<<9)
+
+#define BBBF_CREATEBYID			(1<<11)  //only for tabsrmm internal use
+
+struct BBButton
+{
+	char    *pszModuleName;  // module name without spaces and underline symbols (e.g. "tabsrmm")
+	DWORD    dwButtonID;     // your button ID, will be combined with pszModuleName for storing settings, etc...
+
+	wchar_t *pwszTooltip;
+	DWORD    dwDefPos;       // default order pos of button, counted from window edge (left or right)
+	                         // use value >100, because internal buttons using 10,20,30... 80, etc
+	int      iButtonWidth;   // must be 0
+	DWORD    bbbFlags;       // combine of BBBF_ flags above
+	HANDLE   hIcon;          // Handle to icolib registered icon, it's better to register with pszSection = "TabSRMM/Toolbar"
+};
+
+// adds a new toolbar button
+// returns 0 on success and nonzero value otherwise
+EXTERN_C MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int = hLangpack);
+
+// modifies the existing toolbar button
+// returns 0 on success and nonzero value otherwise
+EXTERN_C MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi);
+
+// removes a toolbar button identified by a structure
+// returns 0 on success and nonzero value otherwise
+EXTERN_C MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi);
+
+// retrieves data from a toolbar button to a structure
+// returns 0 on success and nonzero value otherwise
+EXTERN_C MIR_APP_DLL(int) Srmm_GetButtonState(HWND hwndDlg, BBButton *bbdi);
+
+// applies a new data to a toolbar button
+// returns 0 on success and nonzero value otherwise
+EXTERN_C MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi);
+
+// resets toolbar settings to these default values
+// returns 0 on success and nonzero value otherwise
+EXTERN_C MIR_APP_DLL(void) Srmm_ResetToolbar();
+
+// updates all toolbar icons in a message dialog
+EXTERN_C MIR_APP_DLL(void) Srmm_UpdateToolbarIcons(HWND hdlg);
+
+// draws all toolbar icons in a message dialog
+EXTERN_C MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg);
+
+// ToolBar loaded event
+// This event will be send after module loaded and after each toolbar reset
+// You should add your buttons on this event
+#define ME_MSG_TOOLBARLOADED "SRMM/ButtonsBar/ModuleLoaded"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// toolbar button internal representation
+
+#define BBSF_IMBUTTON		(1<<0)
+#define BBSF_CHATBUTTON		(1<<1)
+#define BBSF_CANBEHIDDEN	(1<<2)
+#define BBSF_NTBSWAPED		(1<<3)
+#define BBSF_NTBDESTRUCT	(1<<4)
+
+struct CustomButtonData : public MZeroedObject
+{
+	~CustomButtonData()
+	{}
+
+	DWORD  m_dwPosition;    // default order pos of button, counted from window edge (left or right)
+
+	DWORD  m_dwButtonOrigID; // id of button used while button creation and to store button info in DB
+	ptrA   m_pszModuleName;  // module name without spaces and underline symbols (e.g. "tabsrmm")
+
+	DWORD  m_dwButtonCID;
+	DWORD  m_dwArrowCID;    // only use with BBBF_ISARROWBUTTON flag
+
+	ptrW   m_pwszTooltip;   // button's tooltip
+
+	int    m_iButtonWidth;  // must be 22 for regular button and 33 for button with arrow
+	HANDLE m_hIcon;         // Handle to icolib registred icon
+
+	bool   m_bIMButton, m_bChatButton;
+	bool   m_bCanBeHidden, m_bHidden, m_bAutoHidden, m_bSeparator, m_bDisabled, m_bPushButton;
+	bool   m_bRSided;
+	BYTE   m_opFlags;
+	int    m_hLangpack;
+};
+
+// gets the required button or NULL, if i is out of boundaries
+EXTERN_C MIR_APP_DLL(CustomButtonData*) Srmm_GetNthButton(int i);
+
+// retrieves total number of toolbar buttons
+EXTERN_C MIR_APP_DLL(int) Srmm_GetButtonCount(void);
+
+// these messages are sent to the message windows if toolbar buttons are changed
+#define WM_CBD_FIRST   (WM_USER+0x600)
+
+// wParam = 0 (ignored)
+// lParam = (CustomButtonData*)pointer to button or null if any button can be changed
+#define WM_CBD_UPDATED (WM_CBD_FIRST+1)
+
+// wParam = button id
+// lParam = (CustomButtonData*)pointer to button
+#define WM_CBD_REMOVED (WM_CBD_FIRST+2)
+
+// wParam = 0 (ignored)
+// lParam = 0 (ignored)
+#define WM_CBD_LOADICONS (WM_CBD_FIRST+3)
 
 #endif // M_MESSAGE_H__

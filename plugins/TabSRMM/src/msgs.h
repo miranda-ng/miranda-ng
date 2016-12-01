@@ -542,7 +542,6 @@ struct TNewWindowData
 #define DM_PROTOACK              (TM_USER+54)
 #define DM_OWNNICKCHANGED        (TM_USER+55)
 #define DM_CONFIGURETOOLBAR      (TM_USER+56)
-#define DM_LOADBUTTONBARICONS    (TM_USER+57)
 #define DM_ACTIVATETOOLTIP       (TM_USER+58)
 #define DM_UINTOCLIPBOARD        (TM_USER+59)
 #define DM_SENDMESSAGECOMMAND    (TM_USER+61)

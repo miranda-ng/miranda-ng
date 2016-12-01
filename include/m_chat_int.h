@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_string.h>
 #include <m_chat.h>
+#include <m_utils.h>
 
 #define OPTIONS_FONTCOUNT 20
 #define STATUSICONCOUNT 6
@@ -387,6 +388,7 @@ struct CHAT_MANAGER
 	FONTINFO aFonts[OPTIONS_FONTCOUNT];
 	SESSION_INFO *wndList;
 	char **pLogIconBmpBits;
+	MWindowList hWindowList;
 
 	// user-defined custom callbacks
 	void (*OnCreateModule)(MODULEINFO*);

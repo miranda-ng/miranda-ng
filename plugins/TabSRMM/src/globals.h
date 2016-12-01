@@ -113,7 +113,6 @@ public:
 	double      m_DPIscaleX;
 	double      m_DPIscaleY;
 	HBITMAP     m_hbmMsgArea;
-	BYTE        m_iButtonsBarGap;
 	BYTE        m_WinVerMajor;
 	BYTE        m_WinVerMinor;
 	bool        m_bIsVista, m_bIsWin7;

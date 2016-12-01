@@ -1268,7 +1268,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		dat->minEditBoxSize.cy = rc.bottom - rc.top;
 
 		BB_InitDlgButtons(dat);
-		SendMessage(hwndDlg, DM_LOADBUTTONBARICONS, 0, 0);
+		SendMessage(hwndDlg, WM_CBD_LOADICONS, 0, 0);
 
 		SendDlgItemMessage(hwndDlg, IDC_ADD, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CANCELADD, BUTTONSETASFLATBTN, TRUE, 0);
@@ -2106,13 +2106,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		}
 		return 0;
 
-	case DM_LOADBUTTONBARICONS:
+	case WM_CBD_LOADICONS:
 		for (int i = 0; i < _countof(buttonicons); i++) {
 			SendDlgItemMessage(hwndDlg, buttonicons[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)*buttonicons[i].pIcon);
 			SendDlgItemMessage(hwndDlg, buttonicons[i].id, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
 		}
 
-		BB_UpdateIcons(hwndDlg);
+		Srmm_UpdateToolbarIcons(hwndDlg);
 		SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 		return 0;
 

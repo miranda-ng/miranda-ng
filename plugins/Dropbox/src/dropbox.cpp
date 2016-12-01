@@ -3,7 +3,6 @@
 CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 {
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	HookEventObj(ME_SYSTEM_MODULESLOADED, GlobalEvent<&CDropbox::OnModulesLoaded>, this);
 
 	hUploadedEventHook = CreateHookableEvent(ME_DROPBOX_UPLOADED);

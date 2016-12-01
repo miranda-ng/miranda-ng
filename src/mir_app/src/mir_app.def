@@ -327,3 +327,13 @@ Options_AddPage @327
 Options_Open @328
 Options_OpenPage @329
 Chat_HoverMouse @330
+Srmm_ModifyButton @331
+Srmm_AddButton @332
+Srmm_GetButtonState @333
+Srmm_RemoveButton @334
+Srmm_ResetToolbar @335
+Srmm_SetButtonState @336
+Srmm_UpdateToolbarIcons @337
+Srmm_RedrawToolbarIcons @338
+Srmm_GetNthButton @339
+Srmm_GetButtonCount @340

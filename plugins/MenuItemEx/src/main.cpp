@@ -895,16 +895,12 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 static int TabsrmmButtonsInit(WPARAM, LPARAM)
 {
 	BBButton bbd = { 0 };
-
-	bbd.cbSize = sizeof(BBButton);
 	bbd.pszModuleName = MODULENAME;
-	bbd.dwButtonID = 0;
 	bbd.dwDefPos = 1000;
 	bbd.pwszTooltip = LPGENW("Browse Received Files");
 	bbd.bbbFlags = BBBF_CANBEHIDDEN;
 	bbd.hIcon = IcoLib_GetIconHandle("miex_recfiles");
-	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
-
+	Srmm_AddButton(&bbd);
 	return 0;
 }
 
@@ -913,11 +909,10 @@ static void TabsrmmButtonsModify(MCONTACT hContact)
 	if (!DirectoryExists(hContact))
 	{
 		BBButton bbd = { 0 };
-		bbd.cbSize = sizeof(BBButton);
 		bbd.dwButtonID = 0;
 		bbd.pszModuleName = MODULENAME;
 		bbd.bbbFlags = BBSF_DISABLED | BBSF_HIDDEN;
-		CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
+		Srmm_SetButtonState(hContact, &bbd);
 	}
 }
 
