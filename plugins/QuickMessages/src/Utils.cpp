@@ -239,27 +239,24 @@ static HANDLE AddIcon(char* szIcoName)
 
 DWORD BalanceButtons(int buttonsWas, int buttonsNow)
 {
-	if (!ServiceExists(MS_BB_ADDBUTTON)) {
-		BBButton bb = { sizeof(bb) };
-		bb.pszModuleName = PLGNAME;
+	BBButton bb = {};
+	bb.pszModuleName = PLGNAME;
 
-		while (buttonsWas > buttonsNow) {
-			bb.dwButtonID = --buttonsWas;
-			CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bb);
-		}
-
-		while (buttonsWas < buttonsNow) {
-			if (ServiceExists(MS_BB_ADDBUTTON)) {
-				char iconname[40];
-				mir_snprintf(iconname, LPGEN("Quick Messages Button %u"), buttonsWas);
-				bb.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
-				bb.dwButtonID = buttonsWas++;
-				bb.dwDefPos = 300 + buttonsWas;
-				bb.hIcon = AddIcon(iconname);
-				CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bb);
-			}
-		}
+	while (buttonsWas > buttonsNow) {
+		bb.dwButtonID = --buttonsWas;
+		Srmm_RemoveButton(&bb);
 	}
+
+	while (buttonsWas < buttonsNow) {
+		char iconname[40];
+		mir_snprintf(iconname, LPGEN("Quick Messages Button %u"), buttonsWas);
+		bb.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+		bb.dwButtonID = buttonsWas++;
+		bb.dwDefPos = 300 + buttonsWas;
+		bb.hIcon = AddIcon(iconname);
+		Srmm_AddButton(&bb);
+	}
+
 	return buttonsNow;
 }
 
@@ -366,23 +363,20 @@ wchar_t* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
 
 int RegisterCustomButton(WPARAM, LPARAM)
 {
-	if (!ServiceExists(MS_BB_ADDBUTTON))
-		return 1;
-
 	for (int i = 0; i < g_iButtonsCount; i++) {
 		ListData* ld = ButtonsList[i];
 
 		char iconname[40];
 		mir_snprintf(iconname, LPGEN("Quick Messages Button %u"), i);
 
-		BBButton bbd = { sizeof(bbd) };
+		BBButton bbd = {};
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
 		bbd.dwButtonID = i;
 		bbd.dwDefPos = 320 + i;
 		bbd.hIcon = AddIcon(iconname);
 		bbd.pszModuleName = PLGNAME;
 		bbd.pwszTooltip = ld->ptszButtonName;
-		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+		Srmm_AddButton(&bbd);
 	}
 	return 0;
 }

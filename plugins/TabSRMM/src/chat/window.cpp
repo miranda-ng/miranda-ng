@@ -2074,7 +2074,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			DWORD idFrom = GetDlgCtrlID((HWND)wParam);
 			if (idFrom >= MIN_CBUTTONID && idFrom <= MAX_CBUTTONID)
-				BB_CustomButtonClick(dat, idFrom, (HWND)wParam, 1);
+				Srmm_ClickToolbarIcon(dat->hContact, idFrom, (HWND)wParam, 1);
 		}
 		break;
 
@@ -2611,7 +2611,7 @@ LABEL_SHOWWINDOW:
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID){
-			BB_CustomButtonClick(dat, LOWORD(wParam), GetDlgItem(hwndDlg, LOWORD(wParam)), 0);
+			Srmm_ClickToolbarIcon(dat->hContact, LOWORD(wParam), GetDlgItem(hwndDlg, LOWORD(wParam)), 0);
 			break;
 		}
 
@@ -3196,7 +3196,7 @@ LABEL_SHOWWINDOW:
 		UpdateStatusBar(dat);
 		break;
 
-	case DM_BBNEEDUPDATE:
+	case WM_CBD_UPDATED:
 		if (lParam)
 			CB_ChangeButton(hwndDlg, dat, (CustomButtonData*)lParam);
 		else
@@ -3205,7 +3205,7 @@ LABEL_SHOWWINDOW:
 		BB_SetButtonsPos(dat);
 		return 0;
 
-	case DM_CBDESTROY:
+	case WM_CBD_REMOVED:
 		if (lParam)
 			CB_DestroyButton(hwndDlg, dat, (DWORD)wParam, (DWORD)lParam);
 		else

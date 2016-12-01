@@ -470,7 +470,6 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 		db_set_dw(hContact, SRMSGMOD_T, "messagecount", 0);
 
 	::SI_DeinitStatusIcons();
-	::CB_DeInitCustomButtons();
 
 	// the event API
 	DestroyHookableEvent(PluginConfig.m_event_MsgWin);

@@ -252,13 +252,12 @@ void SaveMenuTree()
 		}
 
 
-		if (ServiceExists(MS_BB_MODIFYBUTTON) && ((ld->dwOPFlags&QMF_NEW) || (ld->dwOPFlags&QMF_RENAMED) || bDeleted)) {
+		if (((ld->dwOPFlags & QMF_NEW) || (ld->dwOPFlags & QMF_RENAMED) || bDeleted)) {
 			BBButton bb = { 0 };
-			bb.cbSize = sizeof(BBButton);
 			bb.pszModuleName = PLGNAME;
 			bb.dwButtonID = iBl;
 			bb.pwszTooltip = ld->ptszButtonName;
-			CallService(MS_BB_MODIFYBUTTON, 0, (LPARAM)&bb);
+			Srmm_ModifyButton(&bb);
 		}
 
 
@@ -278,7 +277,7 @@ void SaveMenuTree()
 		for (i = 0; i < sl->realCount; i++) {
 			ButtonData * bd = (ButtonData *)sl->items[i];
 
-			if (bd->dwOPFlags&QMF_DELETNEEDED) {
+			if (bd->dwOPFlags & QMF_DELETNEEDED) {
 				RemoveMenuEntryNode(sl, i--);
 				continue;
 			}

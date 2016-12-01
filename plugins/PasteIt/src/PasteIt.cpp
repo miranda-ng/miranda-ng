@@ -336,23 +336,19 @@ void DefWebPageChanged()
 
 void InitTabsrmmButton()
 {
-	if (ServiceExists(MS_BB_ADDBUTTON))
-	{
-		BBButton btn = { 0 };
-		btn.cbSize = sizeof(btn);
-		btn.dwButtonID = 1;
-		btn.pszModuleName = MODULE;
-		btn.dwDefPos = 110;
-		btn.hIcon = icon.hIcolib;
-		btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
-		btn.pwszTooltip = TranslateT("Paste It");
-		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&btn);
+	BBButton btn = {};
+	btn.dwButtonID = 1;
+	btn.pszModuleName = MODULE;
+	btn.dwDefPos = 110;
+	btn.hIcon = icon.hIcolib;
+	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
+	btn.pwszTooltip = TranslateT("Paste It");
+	Srmm_AddButton(&btn);
 
-		if (hTabsrmmButtonPressed != NULL)
-			UnhookEvent(hTabsrmmButtonPressed);
+	if (hTabsrmmButtonPressed != NULL)
+		UnhookEvent(hTabsrmmButtonPressed);
 
-		hTabsrmmButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
-	}
+	hTabsrmmButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 }
 
 int WindowEvent(WPARAM, MessageWindowEventData* lParam)

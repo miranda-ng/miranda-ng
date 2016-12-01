@@ -80,63 +80,31 @@ INT_PTR ServiceInvert(WPARAM, LPARAM lParam)
 int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
-	if (ServiceExists(MS_BB_ADDBUTTON)) {
-		Icon_Register(hInst, "TabSRMM/TranslitSwitcher", iconList, _countof(iconList));
 
-		BBButton bbd = { 0 };
-		bbd.cbSize = sizeof(BBButton);
-		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
-		bbd.pszModuleName = "Switch Layout and Send";
-		bbd.pwszTooltip = TranslateT("Switch Layout and Send");
-		bbd.hIcon = iconList[0].hIcolib;
-		bbd.dwButtonID = 1;
-		bbd.dwDefPos = 30;
-		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+	Icon_Register(hInst, "TabSRMM/TranslitSwitcher", iconList, _countof(iconList));
 
-		bbd.pszModuleName = "Translit and Send";
-		bbd.pwszTooltip = TranslateT("Translit and Send");
-		bbd.hIcon = iconList[1].hIcolib;
-		bbd.dwButtonID = 1;
-		bbd.dwDefPos = 40;
-		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+	BBButton bbd = {};
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
+	bbd.pszModuleName = "Switch Layout and Send";
+	bbd.pwszTooltip = TranslateT("Switch Layout and Send");
+	bbd.hIcon = iconList[0].hIcolib;
+	bbd.dwButtonID = 1;
+	bbd.dwDefPos = 30;
+	Srmm_AddButton(&bbd);
 
-		bbd.pszModuleName = "Invert Case and Send";
-		bbd.pwszTooltip = TranslateT("Invert Case and Send");
-		bbd.hIcon = iconList[2].hIcolib;
-		bbd.dwButtonID = 1;
-		bbd.dwDefPos = 50;
-		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
-	}
-	return 0;
-}
+	bbd.pszModuleName = "Translit and Send";
+	bbd.pwszTooltip = TranslateT("Translit and Send");
+	bbd.hIcon = iconList[1].hIcolib;
+	bbd.dwButtonID = 1;
+	bbd.dwDefPos = 40;
+	Srmm_AddButton(&bbd);
 
-int OnPreShutdown(WPARAM, LPARAM)
-{
-	if (ServiceExists(MS_BB_REMOVEBUTTON)) {
-		BBButton bbd = { 0 };
-		bbd.cbSize = sizeof(BBButton);
-		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
-		bbd.pszModuleName = "Switch Layout and Send";
-		bbd.pwszTooltip = TranslateT("Switch Layout and Send");
-		bbd.hIcon = iconList[0].hIcolib;
-		bbd.dwButtonID = 1;
-		bbd.dwDefPos = 30;
-		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
-
-		bbd.pszModuleName = "Translit and Send";
-		bbd.pwszTooltip = TranslateT("Translit and Send");
-		bbd.hIcon = iconList[1].hIcolib;
-		bbd.dwButtonID = 1;
-		bbd.dwDefPos = 40;
-		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
-
-		bbd.pszModuleName = "Invert Case and Send";
-		bbd.pwszTooltip = TranslateT("Invert Case and Send");
-		bbd.hIcon = iconList[2].hIcolib;
-		bbd.dwButtonID = 1;
-		bbd.dwDefPos = 50;
-		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
-	}
+	bbd.pszModuleName = "Invert Case and Send";
+	bbd.pwszTooltip = TranslateT("Invert Case and Send");
+	bbd.hIcon = iconList[2].hIcolib;
+	bbd.dwButtonID = 1;
+	bbd.dwDefPos = 50;
+	Srmm_AddButton(&bbd);
 	return 0;
 }
 
@@ -151,7 +119,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_TS_INVERTCASE, ServiceInvert);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.dwFlags = HKD_UNICODE;

@@ -573,8 +573,6 @@ struct TNewWindowData
 #define DM_PLAYINCOMINGSOUND     (TM_USER+92)
 #define DM_SENDMESSAGECOMMANDW   (TM_USER+93)
 #define DM_REMOVEPOPUPS          (TM_USER+94)
-#define DM_BBNEEDUPDATE          (TM_USER+96)
-#define DM_CBDESTROY	            (TM_USER+97)
 #define DM_LOGSTATUSCHANGE	      (TM_USER+98)
 #define DM_SC_BUILDLIST          (TM_USER+100)
 #define DM_SC_INITDIALOG         (TM_USER+101)

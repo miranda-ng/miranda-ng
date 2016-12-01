@@ -285,7 +285,36 @@ EXTERN_C MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg);
 #define ME_MSG_TOOLBARLOADED "SRMM/ButtonsBar/ModuleLoaded"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// toolbar button clicked event
+
+EXTERN_C MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hwndFrom, BOOL code);
+
+// wParam = (HANDLE)hContact;
+// lParam = (CustomButtonClickData *)&CustomButtonClickData;
+// catch to show a popup menu, etc.
+#define ME_MSG_BUTTONPRESSED "SRMM/ButtonsBar/ButtonPressed"
+
+// event flags
+#define BBCF_RIGHTBUTTON	(1<<0)
+#define BBCF_SHIFTPRESSED	(1<<1)
+#define BBCF_CONTROLPRESSED	(1<<2)
+#define BBCF_ARROWCLICKED	(1<<3)
+
+struct CustomButtonClickData
+{
+	char    *pszModule;   // button owners name
+	POINT    pt;          // screen coordinates for menus
+	DWORD    dwButtonId;  // registered button ID
+	HWND     hwndFrom;    // button parents HWND
+	MCONTACT hContact;
+	DWORD    flags;       // BBCF_ flags
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // toolbar button internal representation
+
+#define MIN_CBUTTONID      4000
+#define MAX_CBUTTONID      5000
 
 #define BBSF_IMBUTTON		(1<<0)
 #define BBSF_CHATBUTTON		(1<<1)

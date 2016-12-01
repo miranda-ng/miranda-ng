@@ -181,18 +181,15 @@ void InitHotkeys()
 
 void InitTabsrmmButton()
 {
-	if (ServiceExists(MS_BB_ADDBUTTON)) {
-		BBButton btn = { 0 };
-		btn.cbSize = sizeof(btn);
-		btn.dwButtonID = 1;
-		btn.pszModuleName = MODULE;
-		btn.dwDefPos = 105;
-		btn.hIcon = iconList[ServerList::FTP_COUNT].hIcolib;
-		btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
-		btn.pwszTooltip = TranslateT("FTP File");
-		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&btn);
-		HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
-	}
+	BBButton btn = {};
+	btn.dwButtonID = 1;
+	btn.pszModuleName = MODULE;
+	btn.dwDefPos = 105;
+	btn.hIcon = iconList[ServerList::FTP_COUNT].hIcolib;
+	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
+	btn.pwszTooltip = TranslateT("FTP File");
+	Srmm_AddButton(&btn);
+	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 }
 
 //------------ MENU & BUTTON HANDLERS ------------//

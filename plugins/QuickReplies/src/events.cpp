@@ -48,25 +48,21 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	hOnOptInitialized = HookEvent(ME_OPT_INITIALISE, OnOptInitialized);
 	hOnButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
 
-	if ( ServiceExists(MS_BB_ADDBUTTON)) {
-		Icon_Register(hInstance, "TabSRMM/Quick Replies", &icon, 1);
+	Icon_Register(hInstance, "TabSRMM/Quick Replies", &icon, 1);
 
-		char buttonNameTranslated[32], buttonName[32];
-		mir_snprintf(buttonNameTranslated, "%s %x", Translate("Button"), iNumber + 1);
-		mir_snprintf(buttonName, MODULE" %x", iNumber + 1);
+	char buttonNameTranslated[32], buttonName[32];
+	mir_snprintf(buttonNameTranslated, "%s %x", Translate("Button"), iNumber + 1);
+	mir_snprintf(buttonName, MODULE" %x", iNumber + 1);
 
-		BBButton bbd = {0};
-		bbd.cbSize = sizeof(BBButton);
-		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
-		bbd.pszModuleName = buttonName;
-		bbd.pwszTooltip = LPGENW("Quick Replies\r\nLeft button - open menu\r\nRight button - options page");
-		bbd.hIcon = icon.hIcolib;
-		bbd.dwButtonID = iNumber;
-		bbd.dwDefPos = 220;
-		
-		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
-	}
+	BBButton bbd = {};
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+	bbd.pszModuleName = buttonName;
+	bbd.pwszTooltip = LPGENW("Quick Replies\r\nLeft button - open menu\r\nRight button - options page");
+	bbd.hIcon = icon.hIcolib;
+	bbd.dwButtonID = iNumber;
+	bbd.dwDefPos = 220;
 
+	Srmm_AddButton(&bbd);
 	return 0;
 }
 
@@ -139,18 +135,6 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 
 int OnPreShutdown(WPARAM, LPARAM)
 {
-	if (ServiceExists(MS_BB_REMOVEBUTTON))
-	{
-		char buttonName[32];
-		mir_snprintf(buttonName, MODULE" %x", iNumber + 1);
-
-		BBButton bbd = {0};
-		bbd.cbSize = sizeof(BBButton);
-		bbd.pszModuleName = buttonName;
-		bbd.dwButtonID = iNumber;
-
-		CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bbd);
-	}
 	UnhookEvent(hOnButtonPressed);
 	UnhookEvent(hOnOptInitialized);
 	UnhookEvent(hOnPreShutdown);

@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-HANDLE hHookButtonPressedEvt;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Global functions
 
@@ -396,38 +394,6 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 	return EndDeferWindowPos(hdwp);
 }
 
-void BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, BOOL code)
-{
-	RECT rc;
-	GetWindowRect(hwndFrom, &rc);
-
-	bool bFromArrow = false;
-	
-	CustomButtonClickData cbcd = { 0 };
-	cbcd.cbSize = sizeof(cbcd);
-	cbcd.pt.x = rc.left;
-	cbcd.pt.y = rc.bottom;
-
-	CustomButtonData *cbd;
-	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
-		if (cbd->m_dwButtonCID == idFrom) {
-			cbcd.pszModule = cbd->m_pszModuleName;
-			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
-		}
-		else if (cbd->m_dwArrowCID == idFrom) {
-			bFromArrow = true;
-			cbcd.pszModule = cbd->m_pszModuleName;
-			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
-		}
-	}
-
-	cbcd.hwndFrom = dat->hwnd;
-	cbcd.hContact = dat->hContact;
-	cbcd.flags = (code ? BBCF_RIGHTBUTTON : 0) | (GetKeyState(VK_SHIFT) & 0x8000 ? BBCF_SHIFTPRESSED : 0) | (GetKeyState(VK_CONTROL) & 0x8000 ? BBCF_CONTROLPRESSED : 0) | (bFromArrow ? BBCF_ARROWCLICKED : 0);
-
-	NotifyEventHooks(hHookButtonPressedEvt, dat->hContact, (LPARAM)&cbcd);
-}
-
 void CB_DestroyAllButtons(HWND hwndDlg)
 {
 	CustomButtonData *cbd;
@@ -474,12 +440,5 @@ void CB_ChangeButton(HWND hwndDlg, TWindowData *dat, CustomButtonData *cbd)
 
 void CB_InitCustomButtons()
 {
-	hHookButtonPressedEvt = CreateHookableEvent(ME_MSG_BUTTONPRESSED);
-
 	HookEvent(ME_MSG_TOOLBARLOADED, CB_InitDefaultButtons);
-}
-
-void CB_DeInitCustomButtons()
-{
-	DestroyHookableEvent(hHookButtonPressedEvt);
 }

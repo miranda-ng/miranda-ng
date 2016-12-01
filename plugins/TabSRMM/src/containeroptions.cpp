@@ -93,7 +93,7 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 	if (fForceResize)
 		SendMessage(pContainer->hwnd, WM_SIZE, 0, 1);
 
-	BroadCastContainer(pContainer, DM_BBNEEDUPDATE, 0, 0);
+	BroadCastContainer(pContainer, WM_CBD_UPDATED, 0, 0);
 }
 
 #define NR_O_PAGES 10

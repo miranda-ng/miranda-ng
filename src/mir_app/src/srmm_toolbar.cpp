@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define MODULENAME "SRMsg"
+#define MODULENAME "SRMM_Toolbar"
 
 #define DPISCALEY_S(argY) ((int)((double)(argY) * g_DPIscaleY))
 #define DPISCALEX_S(argX) ((int)((double)(argX) * g_DPIscaleX))
@@ -39,11 +39,11 @@ static int SortButtons(const CustomButtonData *p1, const CustomButtonData *p2)
 
 static LIST<CustomButtonData> arButtonsList(1, SortButtons);
 
-DWORD LastCID = 4000;
+DWORD LastCID = MIN_CBUTTONID;
 DWORD dwSepCount = 0;
 
 static mir_cs csToolBar;
-static HANDLE hHookToolBarLoadedEvt;
+static HANDLE hHookToolBarLoadedEvt, hHookButtonPressedEvt;
 
 static void wipeList(LIST<CustomButtonData> &list)
 {
@@ -80,7 +80,7 @@ static void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 
 	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
 
-	if (!db_get_s(hContact, "TabSRMM_Toolbar", SettingName, &dbv)) {
+	if (!db_get_s(hContact, MODULENAME, SettingName, &dbv)) {
 		token = strtok(dbv.pszVal, "_");
 		cbd->m_dwPosition = (DWORD)atoi(token);
 		token = strtok(NULL, "_");
@@ -278,12 +278,43 @@ MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi)
 	return 0;
 }
 
+MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hwndFrom, BOOL code)
+{
+	RECT rc;
+	GetWindowRect(hwndFrom, &rc);
+
+	bool bFromArrow = false;
+
+	CustomButtonClickData cbcd = {};
+	cbcd.pt.x = rc.left;
+	cbcd.pt.y = rc.bottom;
+
+	for (int i = 0; i < arButtonsList.getCount(); i++) {
+		CustomButtonData *cbd = arButtonsList[i];
+		if	(cbd->m_dwButtonCID == idFrom) {
+			cbcd.pszModule = cbd->m_pszModuleName;
+			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
+		}
+		else if (cbd->m_dwArrowCID == idFrom) {
+			bFromArrow = true;
+			cbcd.pszModule = cbd->m_pszModuleName;
+			cbcd.dwButtonId = cbd->m_dwButtonOrigID;
+		}
+	}
+
+	cbcd.hwndFrom = GetParent(hwndFrom);
+	cbcd.hContact = hContact;
+	cbcd.flags = (code ? BBCF_RIGHTBUTTON : 0) | (GetKeyState(VK_SHIFT) & 0x8000 ? BBCF_SHIFTPRESSED : 0) | (GetKeyState(VK_CONTROL) & 0x8000 ? BBCF_CONTROLPRESSED : 0) | (bFromArrow ? BBCF_ARROWCLICKED : 0);
+
+	NotifyEventHooks(hHookButtonPressedEvt, hContact, (LPARAM)&cbcd);
+}
+
 MIR_APP_DLL(void) Srmm_ResetToolbar()
 {
 	{	mir_cslock lck(csToolBar);
 		wipeList(arButtonsList);
 	}
-	LastCID = 4000;
+	LastCID = MIN_CBUTTONID;
 	dwSepCount = 0;
 }
 
@@ -291,13 +322,12 @@ MIR_APP_DLL(void) Srmm_UpdateToolbarIcons(HWND hwndDlg)
 {
 	for (int i = 0; i < arButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = arButtonsList[i];
-		if (cbd) {
-			if (!cbd->m_bSeparator) {
-				HWND hwndBtn = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-				if (hwndBtn && cbd->m_hIcon)
-					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
-			}
-		}
+		if (cbd->m_bSeparator || cbd->m_hIcon == NULL)
+			continue;
+
+		HWND hwndBtn = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+		if (hwndBtn)
+			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
 	}
 }
 
@@ -349,9 +379,9 @@ static void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName, cbd->m_dwButtonOrigID);
 	mir_snprintf(SettingParameter, "%d_%u_%u_%u_%u_%u", cbd->m_dwPosition, cbd->m_bIMButton, cbd->m_bChatButton, 0, cbd->m_bRSided, cbd->m_bCanBeHidden);
 	if (!(cbd->m_opFlags & BBSF_NTBDESTRUCT))
-		db_set_s(hContact, "TabSRMM_Toolbar", SettingName, SettingParameter);
+		db_set_s(hContact, MODULENAME, SettingName, SettingParameter);
 	else
-		db_unset(hContact, "TabSRMM_Toolbar", SettingName);
+		db_unset(hContact, MODULENAME, SettingName);
 }
 
 #define MIDDLE_SEPARATOR L">-------M-------<"
@@ -436,7 +466,7 @@ class CSrmmToolbarOptions : public CDlgBase
 
 			qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
 		}
-		db_set_dw(0, "TabSRMM_Toolbar", "SeparatorsCount", loc_sepcout);
+		db_set_dw(0, MODULENAME, "SeparatorsCount", loc_sepcout);
 		dwSepCount = loc_sepcout;
 	}
 
@@ -511,6 +541,8 @@ public:
 		m_hImgl(NULL)
 	{
 		m_toolBar.SetFlags(MTREE_DND); // enable drag-n-drop
+		m_toolBar.OnSelChanged = Callback(this, &CSrmmToolbarOptions::OnTreeSelChanged);
+		m_toolBar.OnSelChanging = Callback(this, &CSrmmToolbarOptions::OnTreeSelChanging);
 
 		m_btnReset.OnClick = Callback(this, &CSrmmToolbarOptions::btnResetClicked);
 		m_btnSeparator.OnClick = Callback(this, &CSrmmToolbarOptions::btnSeparatorClicked);
@@ -712,15 +744,27 @@ void KillModuleToolbarIcons(int _hLang)
 
 static int SrmmModulesLoaded(WPARAM, LPARAM)
 {
+	HookEvent(ME_OPT_INITIALISE, SrmmOptionsInit);
+
 	NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
+	return 0;
+}
+
+static int ConvertToolbarData(const char *szSetting, LPARAM)
+{
+	DBVARIANT dbv;
+	if (!db_get(NULL, "Tab" MODULENAME, szSetting, &dbv)) {
+		db_set(NULL, MODULENAME, szSetting, &dbv);
+		db_free(&dbv);
+	}
 	return 0;
 }
 
 void LoadSrmmToolbarModule()
 {
-	HookEvent(ME_OPT_INITIALISE, SrmmOptionsInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, SrmmModulesLoaded);
 
+	hHookButtonPressedEvt = CreateHookableEvent(ME_MSG_BUTTONPRESSED);
 	hHookToolBarLoadedEvt = CreateHookableEvent(ME_MSG_TOOLBARLOADED);
 
 	HDC hScrnDC = GetDC(0);
@@ -728,12 +772,20 @@ void LoadSrmmToolbarModule()
 	g_DPIscaleY = GetDeviceCaps(hScrnDC, LOGPIXELSY) / 96.0;
 	ReleaseDC(0, hScrnDC);
 
-	dwSepCount = db_get_dw(NULL, "TabSRMM_Toolbar", "SeparatorsCount", 0);
+	// old data? convert them
+	if (db_get_dw(NULL, "Tab" MODULENAME, "SeparatorsCount", -1) != -1) {
+		db_enum_settings(NULL, ConvertToolbarData, "Tab" MODULENAME, NULL);
+		db_delete_module(NULL, "Tab" MODULENAME);
+	}
+
+	dwSepCount = db_get_dw(NULL, MODULENAME, "SeparatorsCount", 0);
 	CB_RegisterSeparators();
 }
 
 void UnloadSrmmToolbarModule()
 {
+	DestroyHookableEvent(hHookButtonPressedEvt);
 	DestroyHookableEvent(hHookToolBarLoadedEvt);
+
 	wipeList(arButtonsList);
 }

@@ -65,8 +65,8 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 
 	Srmm_ModifyIcon(hContact, &sid);
 	Srmm_ModifyIcon(hContact, &sid2);
+	Srmm_SetButtonState(hContact, &button);
 
-	if (options.bHaveButtonsBar) CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&button);
 	db_set_dw(hContact, MODULENAME, "TrustLevel", level);
 
 	if (!chat_room) {
@@ -88,14 +88,14 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 
 int SVC_ButtonsBarLoaded(WPARAM, LPARAM)
 {
-	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&OTRButton);
+	Srmm_AddButton(&OTRButton);
 	return 0;
 }
 
 int SVC_ButtonsBarPressed(WPARAM w, LPARAM l)
 {
-	CustomButtonClickData* cbcd = (CustomButtonClickData *)l;
-	if (cbcd->cbSize == sizeof(CustomButtonClickData) && cbcd->dwButtonId == 0 && mir_strcmp(cbcd->pszModule, MODULENAME)==0) {
+	CustomButtonClickData *cbcd = (CustomButtonClickData *)l;
+	if (cbcd->dwButtonId == 0 && !mir_strcmp(cbcd->pszModule, MODULENAME)) {
 		MCONTACT hContact = (MCONTACT)w;
 	
 		char *proto = GetContactProto(hContact);
@@ -133,19 +133,17 @@ void InitSRMM()
 	// hook the window events so that we can can change the status of the icon
 	HookEvent(ME_MSG_ICONPRESSED, SVC_IconPressed);
 
-	if (options.bHaveButtonsBar) {
-		memset(&OTRButton, 0, sizeof(OTRButton));
-		OTRButton.cbSize = sizeof(OTRButton);
-		OTRButton.dwButtonID = 0;
-		OTRButton.pszModuleName = MODULENAME;
-		OTRButton.dwDefPos = 200;
-		OTRButton.bbbFlags = BBBF_ISRSIDEBUTTON|BBBF_CANBEHIDDEN|BBBF_ISIMBUTTON;
-		OTRButton.pwszTooltip = TranslateT(LANG_OTR_TOOLTIP);
-		OTRButton.hIcon = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
-		HookEvent(ME_MSG_TOOLBARLOADED, SVC_ButtonsBarLoaded);
-		HookEvent(ME_MSG_BUTTONPRESSED, SVC_ButtonsBarPressed);
-	}
+	memset(&OTRButton, 0, sizeof(OTRButton));
+	OTRButton.pszModuleName = MODULENAME;
+	OTRButton.dwDefPos = 200;
+	OTRButton.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN | BBBF_ISIMBUTTON;
+	OTRButton.pwszTooltip = TranslateT(LANG_OTR_TOOLTIP);
+	OTRButton.hIcon = IcoLib_GetIconHandle(ICON_NOT_PRIVATE);
+
+	HookEvent(ME_MSG_TOOLBARLOADED, SVC_ButtonsBarLoaded);
+	HookEvent(ME_MSG_BUTTONPRESSED, SVC_ButtonsBarPressed);
 }
+
 void DeinitSRMM()
 {
 	IcoLib_Release(ICON_NOT_PRIVATE, 0);

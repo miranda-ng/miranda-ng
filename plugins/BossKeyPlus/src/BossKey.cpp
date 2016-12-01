@@ -585,25 +585,24 @@ static int TabsrmmButtonPressed(WPARAM, LPARAM lParam)
 
 static int TabsrmmButtonsInit(WPARAM, LPARAM)
 {
-	BBButton bbd = { 0 };
-
-	bbd.cbSize = sizeof(BBButton);
+	BBButton bbd = {};
 	bbd.pszModuleName = MOD_NAME;
 	bbd.dwDefPos = 5000;
 	bbd.pwszTooltip = LPGENW("Hide Miranda NG");
 	bbd.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;
-	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
-
+	Srmm_AddButton(&bbd);
 	return 0;
 }
 
-static wchar_t *VariablesBossKey(ARGUMENTSINFO *ai) {
-	if (ai->cbSize < sizeof(ARGUMENTSINFO))	return NULL;
-	if (ai->argc != 1) return NULL;
+static wchar_t* VariablesBossKey(ARGUMENTSINFO *ai)
+{
+	if (ai->cbSize < sizeof(ARGUMENTSINFO))
+		return NULL;
+	if (ai->argc != 1)
+		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
-
 	return GetBossKeyText();
 }
 

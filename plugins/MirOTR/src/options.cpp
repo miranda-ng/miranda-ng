@@ -89,7 +89,6 @@ void LoadOptions()
 
 	options.bHavePopups = 0 != ServiceExists(MS_POPUP_ADDPOPUPT) && ServiceExists(MS_POPUP_SHOWMESSAGE);
 	options.bHaveSecureIM = 0 != ServiceExists("SecureIM/IsContactSecured");
-	options.bHaveButtonsBar = 0 != ServiceExists(MS_BB_ADDBUTTON);
 
 	LoadFilenames();
 }

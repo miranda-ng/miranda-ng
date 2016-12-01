@@ -1,9 +1,10 @@
 #include "stdafx.h"
 
+int hLangpack = 0;
+
 static BBButton* MakeBBButton(lua_State *L)
 {
 	BBButton *bbb = (BBButton*)mir_calloc(sizeof(BBButton));
-	bbb->cbSize = sizeof(BBButton);
 	bbb->dwDefPos = 100;
 
 	lua_getfield(L, -1, "Module");
@@ -39,7 +40,7 @@ static int lua_AddButton(lua_State *L)
 
 	BBButton* bbb = MakeBBButton(L);
 
-	INT_PTR res = CallService(MS_BB_ADDBUTTON, 0, (LPARAM)bbb);
+	INT_PTR res = Srmm_AddButton(bbb);
 	lua_pushinteger(L, res);
 
 	return 1;
@@ -55,7 +56,7 @@ static int lua_ModifyButton(lua_State *L)
 
 	BBButton* bbb = MakeBBButton(L);
 
-	INT_PTR res = CallService(MS_BB_MODIFYBUTTON, 0, (LPARAM)bbb);
+	INT_PTR res = Srmm_ModifyButton(bbb);
 	lua_pushinteger(L, res);
 
 	mir_free(bbb->pszModuleName);
@@ -69,11 +70,11 @@ static int lua_RemoveButton(lua_State *L)
 {
 	ptrA szModuleName(mir_utf8decodeA(luaL_checkstring(L, 1)));
 
-	BBButton mbb = { sizeof(BBButton) };
+	BBButton mbb = {};
 	mbb.pszModuleName = szModuleName;
 	mbb.dwButtonID = luaL_checkinteger(L, 2);
 
-	INT_PTR res = ::CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&mbb);
+	INT_PTR res = ::Srmm_RemoveButton(&mbb);
 	lua_pushinteger(L, res);
 
 	return 1;
