@@ -231,7 +231,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 	string idx;
 	DBVARIANT dbv;
 
-	if (WASocketConnection::hNetlibUser == NULL) {
+	if (g_hNetlibUser == NULL) {
 		NotifyEvent(m_tszUserName, TranslateT("Network connection error."), NULL, WHATSAPP_EVENT_CLIENT);
 		return false;
 	}
@@ -261,8 +261,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 	nlhr.headersCount = _countof(s_registerHeaders);
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL;
 
-	NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
-		(WPARAM)WASocketConnection::hNetlibUser, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&nlhr);
 
 	const wchar_t *ptszTitle = TranslateT("Registration");
 	if (pnlhr == NULL) {

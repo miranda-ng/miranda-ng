@@ -6,10 +6,6 @@
 
 class WASocketConnection : public ISocketConnection
 {
-public:
-	static HANDLE hNetlibUser;
-
-private:
 	int readSize;
 	int maxBufRead;
 	bool connected;

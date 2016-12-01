@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "WASocketConnection.h"
 
-HANDLE WASocketConnection::hNetlibUser = NULL;
+HANDLE g_hNetlibUser = NULL;
 
 void WASocketConnection::initNetwork(HANDLE hNetlibUser) throw (WAException)
 {
-	WASocketConnection::hNetlibUser = hNetlibUser;
+	g_hNetlibUser = hNetlibUser;
 }
 
 void WASocketConnection::quitNetwork()
@@ -18,8 +18,7 @@ WASocketConnection::WASocketConnection(const std::string &dir, int port) throw (
 	noc.szHost = dir.c_str();
 	noc.wPort = port;
 	noc.flags = NLOCF_V2; // | NLOCF_SSL;
-	this->hConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, reinterpret_cast<WPARAM>(this->hNetlibUser),
-												 reinterpret_cast<LPARAM>(&noc));
+	this->hConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, WPARAM(g_hNetlibUser), LPARAM(&noc));
 	if (this->hConn == NULL)
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_OPEN);
 
@@ -36,10 +35,9 @@ void WASocketConnection::write(int i)
 	nlb.len = 1;
 	nlb.flags = MSG_NOHTTPGATEWAYWRAP | MSG_NODUMP;
 
-	int result = CallService(MS_NETLIB_SEND, reinterpret_cast<WPARAM>(this->hConn), reinterpret_cast<LPARAM>(&nlb));
-	if (result < 1) {
+	int result = CallService(MS_NETLIB_SEND, WPARAM(this->hConn), LPARAM(&nlb));
+	if (result < 1)
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_SEND);
-	}
 }
 
 void WASocketConnection::makeNonBlock()
@@ -58,9 +56,8 @@ void WASocketConnection::write(const std::vector<unsigned char> &bytes, int leng
 	nlb.flags = MSG_NODUMP;
 
 	int result = CallService(MS_NETLIB_SEND, WPARAM(hConn), LPARAM(&nlb));
-	if (result < length) {
+	if (result < length)
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_SEND);
-	}
 }
 
 unsigned char WASocketConnection::read()
@@ -107,7 +104,7 @@ void WASocketConnection::forceShutdown()
 
 void WASocketConnection::log(const char *prefix, const char *str)
 {
-	Netlib_Logf(WASocketConnection::hNetlibUser, "%s%s", prefix, str);
+	Netlib_Logf(g_hNetlibUser, "%s%s", prefix, str);
 }
 
 WASocketConnection::~WASocketConnection()
