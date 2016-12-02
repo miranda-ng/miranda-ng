@@ -24,7 +24,6 @@
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_string.h>
-#include <m_msg_buttonsbar.h>
 #include <m_gui.h>
 #include <m_chat.h>
 

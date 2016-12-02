@@ -42,7 +42,6 @@ using namespace std;
 #include <win2k.h>
 
 #include <m_ftpfile.h>
-#include <m_msg_buttonsbar.h>
 
 #include "curl.h"
 

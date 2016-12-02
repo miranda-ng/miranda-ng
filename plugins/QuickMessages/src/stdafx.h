@@ -34,8 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_contacts.h>
 #include <win2k.h>
 
-#include <m_msg_buttonsbar.h>
-
 #include "resource.h"
 #include "version.h"
 #include "Utils.h"

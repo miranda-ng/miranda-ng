@@ -84,7 +84,6 @@
 #include <m_fingerprint.h>
 #include <m_nudge.h>
 #include <m_folders.h>
-#include <m_msg_buttonsbar.h>
 #include <m_smileyadd.h>
 
 #define TSAPI __stdcall

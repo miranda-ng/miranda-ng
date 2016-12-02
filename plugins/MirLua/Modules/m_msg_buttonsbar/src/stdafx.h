@@ -8,6 +8,5 @@
 #include <m_core.h>
 #include <m_utils.h>
 #include <m_message.h>
-#include <m_msg_buttonsbar.h>
 
 #endif //_COMMON_H_

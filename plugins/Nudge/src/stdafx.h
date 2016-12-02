@@ -22,7 +22,6 @@
 
 #include <m_metacontacts.h>
 #include <m_nudge.h>
-#include <m_msg_buttonsbar.h>
 
 #include "resource.h"
 #include "shake.h"

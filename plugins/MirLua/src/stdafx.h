@@ -29,7 +29,6 @@
 #include <m_contacts.h>
 
 #include <m_folders.h>
-#include <m_msg_buttonsbar.h>
 #include <m_popup.h>
 #include <m_toptoolbar.h>
 

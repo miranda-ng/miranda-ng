@@ -23,7 +23,6 @@
 
 #include <m_fingerprint.h>
 #include <m_metacontacts.h>
-#include <m_msg_buttonsbar.h>
 
 #include "images.h"
 #include "version.h"

@@ -43,7 +43,6 @@
 
 #include <m_variables.h>
 #include <m_toptoolbar.h>
-#include <m_msg_buttonsbar.h>
 
 #include "resource.h"
 #include "version.h"

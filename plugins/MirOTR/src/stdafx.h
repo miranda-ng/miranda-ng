@@ -39,7 +39,6 @@ using namespace std;
 
 //ExternalAPI
 #include <m_folders.h>
-#include <m_msg_buttonsbar.h>
 #include <m_metacontacts.h>
 
 #include "otr.h"

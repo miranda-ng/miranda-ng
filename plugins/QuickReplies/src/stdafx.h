@@ -30,7 +30,6 @@ Boston, MA 02111-1307, USA.
 #include <m_message.h>
 #include <m_options.h>
 
-#include <m_msg_buttonsbar.h>
 #include <m_variables.h>
 
 #include "version.h"

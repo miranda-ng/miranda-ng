@@ -29,8 +29,6 @@
 #include <m_utils.h>
 #include <m_chat_int.h>
 
-#include <m_msg_buttonsbar.h>
-
 #include "PasteToWeb.h"
 #include "PasteToWeb1.h"
 #include "PasteToWeb2.h"
