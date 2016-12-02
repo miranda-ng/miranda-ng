@@ -676,14 +676,14 @@ CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId)
 {}
 
-void CCtrlSpin::SetPosition(WORD max, WORD min)
+void CCtrlSpin::SetPosition(WORD wMax, WORD wMin)
 {
-	SendMsg(UDM_GETPOS, 0, MAKELONG(min, max));
+	SendMsg(UDM_SETPOS, 0, MAKELONG(wMin, wMax));
 }
 
-void CCtrlSpin::SetRange(WORD max, WORD min)
+void CCtrlSpin::SetRange(WORD wMax, WORD wMin)
 {
-	SendMsg(UDM_SETRANGE, 0, MAKELONG(min, max));
+	SendMsg(UDM_SETRANGE, 0, MAKELONG(wMin, wMax));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
