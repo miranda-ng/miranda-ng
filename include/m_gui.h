@@ -762,6 +762,7 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlBase
 public:
 	CCtrlSpin(CDlgBase *dlg, int ctrlId);
 
+	WORD GetPosition();
 	void SetPosition(WORD max, WORD min = 0);
 	void SetRange(WORD max, WORD min = 0);
 };
