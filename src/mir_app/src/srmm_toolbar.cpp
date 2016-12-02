@@ -741,13 +741,9 @@ static int SrmmModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR SrmmLoadToolbar(WPARAM wParam, LPARAM)
+static void CALLBACK SrmmLoadToolbar()
 {
-	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
-	CloseHandle((HANDLE)wParam);
-
 	NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
-	return 0;
 }
 
 static int ConvertToolbarData(const char *szSetting, LPARAM)
@@ -764,9 +760,7 @@ void LoadSrmmToolbarModule()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, SrmmModulesLoaded);
 
-	HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
-	CreateServiceFunction("Srmm/LoadToolbar", SrmmLoadToolbar);
-	CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)"Srmm/LoadToolbar");
+	Miranda_WaitOnHandle(SrmmLoadToolbar);
 
 	hHookButtonPressedEvt = CreateHookableEvent(ME_MSG_BUTTONPRESSED);
 	hHookToolBarLoadedEvt = CreateHookableEvent(ME_MSG_TOOLBARLOADED);

@@ -338,3 +338,4 @@ Srmm_RedrawToolbarIcons @338
 Srmm_GetNthButton @339
 Srmm_GetButtonCount @340
 Srmm_ClickToolbarIcon @341
+Miranda_WaitOnHandle @342

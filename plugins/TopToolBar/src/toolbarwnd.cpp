@@ -238,14 +238,11 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR OnEventFire(WPARAM wParam, LPARAM)
+void CALLBACK OnEventFire()
 {
-	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
-	CloseHandle((HANDLE)wParam);
-
 	HWND parent = pcli->hwndContactList;
 	if (parent == NULL) // no clist, no buttons
-		return -1;
+		return;
 
 	WNDCLASS wndclass = {0};
 	wndclass.lpfnWndProc = TopToolBarProc;
@@ -284,8 +281,6 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM)
 
 	// receive buttons
 	NotifyEventHooks(hTTBModuleLoaded, 0, 0);
-
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -309,6 +304,5 @@ int LoadBackgroundOptions()
 	GetClientRect(g_ctrl->hWnd, &rc);
 	InvalidateRect(g_ctrl->hWnd, &rc, TRUE);
 	UpdateWindow(g_ctrl->hWnd);
-
 	return 0;
 }

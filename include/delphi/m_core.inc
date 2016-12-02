@@ -153,6 +153,14 @@ function mir_urlEncode(url:PAnsiChar): PAnsiChar; stdcall;
                  external CoreDLL name 'mir_urlEncode';
 
 ///////////////////////////////////////////////////////////////////////////////
+// wait handles
+
+type
+  MWaitableStub = procedure; stdcall;
+
+procedure Miranda_WaitOnHandle(pFunc:MWaitableStub; hEvent:THANDLE); stdcall; external AppDll;
+
+///////////////////////////////////////////////////////////////////////////////
 // exceptions
 
 type

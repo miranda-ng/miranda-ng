@@ -593,11 +593,10 @@ static void DoAutoExec(void)
 	FindClose(hFind);
 }
 
-static INT_PTR CheckIniImportNow(WPARAM, LPARAM)
+static void CALLBACK CheckIniImportNow()
 {
 	DoAutoExec();
 	FindNextChangeNotification(hIniChangeNotification);
-	return 0;
 }
 
 static INT_PTR ImportINI(WPARAM wParam, LPARAM)
@@ -616,10 +615,9 @@ int InitIni(void)
 	wchar_t szMirandaDir[MAX_PATH];
 	PathToAbsoluteW(L".", szMirandaDir);
 	hIniChangeNotification = FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
-	if (hIniChangeNotification != INVALID_HANDLE_VALUE) {
-		CreateServiceFunction("DB/Ini/CheckImportNow", CheckIniImportNow);
-		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hIniChangeNotification, (LPARAM)"DB/Ini/CheckImportNow");
-	}
+	if (hIniChangeNotification != INVALID_HANDLE_VALUE)
+		Miranda_WaitOnHandle(CheckIniImportNow, hIniChangeNotification);
+
 	return 0;
 }
 
@@ -628,6 +626,5 @@ void UninitIni(void)
 	if (!bModuleInitialized)
 		return;
 
-	CallService(MS_SYSTEM_REMOVEWAIT, (WPARAM)hIniChangeNotification, 0);
 	FindCloseChangeNotification(hIniChangeNotification);
 }

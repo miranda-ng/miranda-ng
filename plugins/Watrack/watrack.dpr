@@ -417,14 +417,10 @@ begin
   NotifyEventHooks(hHookWATStatus,WAT_EVENT_PLUGINSTATUS,DisablePlugin);
 end;
 
-function WaitAllModules(wParam:WPARAM;lParam:LPARAM):int;cdecl;
+procedure WaitAllModules; stdcall;
 var
   ptr:pwModule;
 begin
-  result:=0;
-
-  CallService(MS_SYSTEM_REMOVEWAIT,wParam,0);
-
   ptr:=ModuleLink;
   while ptr<>nil do
   begin
@@ -439,7 +435,6 @@ begin
   StartTimer;
 
   NotifyEventHooks(hHookWATLoaded,0,0);
-  CloseHandle(hEvent);
 end;
 
 procedure DoTheDew(load:boolean);
@@ -561,13 +556,7 @@ begin
   end;
 
   // Load WATrack modules
-  hEvent:=CreateEvent(nil,true,true,nil);
-  if hEvent<>0 then
-  begin
-    p:='WAT_INIT';
-    CreateServiceFunction(p,@WaitAllModules);
-    CallService(MS_SYSTEM_WAITONHANDLE,hEvent,tlparam(p));
-  end;
+  Miranda_WaitOnHandle(@WaitAllModules, 0);
 
   LoadOpt;
   if DisablePlugin=dsPermanent then

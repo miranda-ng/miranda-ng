@@ -916,11 +916,8 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 	return 0;
 }
 
-static INT_PTR sttUpdateMenuService(WPARAM wParam, LPARAM)
+static void CALLBACK sttUpdateMenuService()
 {
-	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
-	CloseHandle((HANDLE)wParam);
-
 	for (int i = 0; i < g_menus.getCount(); i++) {						 
 		TIntMenuObject *pmo = g_menus[i];
 		if (!pmo->m_bUseUserDefinedItems)
@@ -963,16 +960,11 @@ static INT_PTR sttUpdateMenuService(WPARAM wParam, LPARAM)
 			MO_RecursiveWalkMenu(pmo->m_items.first, Menu_LoadFromDatabase, szModule);
 		}
 	}
-	return 0;
 }
-
-#define MS_MENU_UPDATE "System/Genmenu/Update"
 
 void ScheduleMenuUpdate()
 {
-	HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
-	CreateServiceFunction(MS_MENU_UPDATE, sttUpdateMenuService);
-	CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)MS_MENU_UPDATE);
+	Miranda_WaitOnHandle(sttUpdateMenuService);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -19,7 +19,7 @@ const LPSTR lpcszContentType[9] =
 struct MRA_AVATARS_QUEUE : public FIFO_MT
 {
 	HANDLE hNetlibUser;
-	HANDLE hThreadEvents[MAXIMUM_WAIT_OBJECTS];
+	HANDLE hThreadEvents[64];
 	int    iThreadsCount, iThreadsRunning;
 };
 
@@ -67,8 +67,8 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 		pmraaqAvatarsQueue->iThreadsCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
 		if (pmraaqAvatarsQueue->iThreadsCount == 0)
 			pmraaqAvatarsQueue->iThreadsCount = 1;
-		if (pmraaqAvatarsQueue->iThreadsCount > MAXIMUM_WAIT_OBJECTS)
-			pmraaqAvatarsQueue->iThreadsCount = MAXIMUM_WAIT_OBJECTS;
+		if (pmraaqAvatarsQueue->iThreadsCount > 64)
+			pmraaqAvatarsQueue->iThreadsCount = 64;
 
 		pmraaqAvatarsQueue->iThreadsRunning = 0;
 		for (int i = 0; i < pmraaqAvatarsQueue->iThreadsCount; i++)

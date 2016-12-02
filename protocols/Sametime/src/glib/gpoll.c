@@ -261,7 +261,7 @@ g_poll (GPollFD *fds,
 	guint    nfds,
 	gint     timeout)
 {
-  HANDLE handles[MAXIMUM_WAIT_OBJECTS];
+  HANDLE handles[64];
   gboolean poll_msgs = FALSE;
   GPollFD *f;
   gint nhandles = 0;
@@ -291,7 +291,7 @@ g_poll (GPollFD *fds,
 
 	if (i == nhandles)
 	  {
-	    if (nhandles == MAXIMUM_WAIT_OBJECTS)
+	    if (nhandles == _countof(handles))
 	      {
 		g_warning ("Too many handles to wait for!\n");
 		break;

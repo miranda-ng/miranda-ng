@@ -42,19 +42,52 @@ pfnGetBufferedPaintBits getBufferedPaintBits;
 pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
 pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
-ITaskbarList3 * pTaskbarInterface;
+ITaskbarList3 *pTaskbarInterface;
 
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
 HANDLE hShutdownEvent, hPreShutdownEvent;
-static HANDLE hWaitObjects[MAXIMUM_WAIT_OBJECTS-1];
-static char *pszWaitServices[MAXIMUM_WAIT_OBJECTS-1];
-static int waitObjectCount = 0;
 HANDLE hMirandaShutdown;
 HINSTANCE g_hInst;
 DWORD hMainThreadId;
 int hLangpack = 0;
 bool bModulesLoadedFired = false;
 int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct MWaitableObject
+{
+	MWaitableObject(MWaitableStub pFunc, HANDLE hEvent) :
+		m_bOwnsEvent(false),
+		m_hEvent(hEvent),
+		m_pFunc(pFunc)
+	{
+		if (hEvent == NULL) {
+			m_hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
+			m_bOwnsEvent = true;
+		}
+	}
+
+	~MWaitableObject()
+	{	
+		if (m_bOwnsEvent)
+			::CloseHandle(m_hEvent);
+	}
+
+	bool m_bOwnsEvent;
+	HANDLE m_hEvent;
+	MWaitableStub m_pFunc;
+};
+
+static OBJLIST<MWaitableObject> arWaitableObjects(1, HandleKeySortT);
+
+MIR_APP_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent)
+{
+	arWaitableObjects.insert(new MWaitableObject(pFunc, hEvent));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// dll entry point
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID)
 {
@@ -214,6 +247,15 @@ INT_PTR CheckRestart()
 static void crtErrorHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned, uintptr_t)
 {}
 
+static DWORD myWait()
+{
+	HANDLE *hWaitObjects = (HANDLE*)_alloca(arWaitableObjects.getCount() * sizeof(HANDLE));
+	for (int i = 0; i < arWaitableObjects.getCount(); i++)
+		hWaitObjects[i] = arWaitableObjects[i].m_hEvent;
+
+	return MsgWaitForMultipleObjectsEx(arWaitableObjects.getCount(), hWaitObjects, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
+}
+
 int WINAPI mir_main(LPTSTR cmdLine)
 {
 	hMainThreadId = GetCurrentThreadId();
@@ -286,12 +328,13 @@ int WINAPI mir_main(LPTSTR cmdLine)
 		while (messageloop) {
 			MSG msg;
 			BOOL dying = FALSE;
-			DWORD rc = MsgWaitForMultipleObjectsEx(waitObjectCount, hWaitObjects, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
-			if (rc < WAIT_OBJECT_0 + waitObjectCount) {
+			DWORD rc = myWait();
+			if (rc < WAIT_OBJECT_0 + arWaitableObjects.getCount()) {
 				rc -= WAIT_OBJECT_0;
-				CallService(pszWaitServices[rc], (WPARAM)hWaitObjects[rc], 0);
+				(*arWaitableObjects[rc].m_pFunc)();
+				arWaitableObjects.remove(rc);
 			}
-			//
+
 			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 				if (msg.message != WM_QUIT) {
 					HWND h = GetForegroundWindow();
@@ -402,34 +445,6 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR WaitOnHandle(WPARAM wParam, LPARAM lParam)
-{
-	if (waitObjectCount >= MAXIMUM_WAIT_OBJECTS - 1)
-		return 1;
-
-	hWaitObjects[waitObjectCount] = (HANDLE)wParam;
-	pszWaitServices[waitObjectCount] = (char*)lParam;
-	waitObjectCount++;
-	return 0;
-}
-
-static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
-{
-	int i;
-
-	for (i = 0; i < waitObjectCount; i++)
-		if (hWaitObjects[i] == (HANDLE)wParam)
-			break;
-
-	if (i == waitObjectCount)
-		return 1;
-
-	waitObjectCount--;
-	memmove(&hWaitObjects[i], &hWaitObjects[i + 1], sizeof(HANDLE)*(waitObjectCount - i));
-	memmove(&pszWaitServices[i], &pszWaitServices[i + 1], sizeof(char*)*(waitObjectCount - i));
-	return 0;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 
 int LoadSystemModule(void)
@@ -446,8 +461,6 @@ int LoadSystemModule(void)
 	CreateServiceFunction(MS_SYSTEM_GETVERSION, GetMirandaVersion);
 	CreateServiceFunction(MS_SYSTEM_GETFILEVERSION, GetMirandaFileVersion);
 	CreateServiceFunction(MS_SYSTEM_GETVERSIONTEXT, GetMirandaVersionText);
-	CreateServiceFunction(MS_SYSTEM_WAITONHANDLE, WaitOnHandle);
-	CreateServiceFunction(MS_SYSTEM_REMOVEWAIT, RemoveWait);
 	CreateServiceFunction(MS_SYSTEM_GETEXCEPTFILTER, srvGetExceptionFilter);
 	CreateServiceFunction(MS_SYSTEM_SETEXCEPTFILTER, srvSetExceptionFilter);
 	return 0;

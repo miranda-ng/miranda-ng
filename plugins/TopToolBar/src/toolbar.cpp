@@ -5,7 +5,7 @@ pfnCustomProc g_CustomProc = NULL;
 LPARAM g_CustomProcParam = 0;
 TTBCtrl *g_ctrl = NULL;
 
-INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam);
+void CALLBACK OnEventFire();
 
 HWND hwndContactList = 0;
 
@@ -575,9 +575,7 @@ static int OnModulesLoad(WPARAM, LPARAM)
 
 	ArrangeButtons();
 
-	HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);//anonymous event
-	if (hEvent != 0)
-		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)"TTB_ONSTARTUPFIRE");
+	Miranda_WaitOnHandle(OnEventFire);
 
 	if (HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange)) {
 		char buf[256];
@@ -662,7 +660,6 @@ int LoadToolbarModule()
 	CreateServiceFunction(TTB_LAUNCHSERVICE, LaunchService);
 
 	CreateServiceFunction("TopToolBar/SetCustomProc", TTBSetCustomProc);
-	CreateServiceFunction("TTB_ONSTARTUPFIRE", OnEventFire);
 
 	buttonWndProc = (WNDPROC)CallService("Button/GetWindowProc", 0, 0);
 	WNDCLASSEX wc = {0};

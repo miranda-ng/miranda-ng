@@ -740,11 +740,8 @@ static int CreateButtons(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR LaunchSessions(WPARAM wParam, LPARAM)
+static void CALLBACK LaunchSessions()
 {
-	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
-	CloseHandle((HANDLE)wParam);
-
 	int startup = db_get_b(NULL, MODNAME, "StartupMode", 3);
 	if (startup == 1 || (startup == 3 && isLastTRUE == TRUE)) {
 		StartUp = TRUE;
@@ -754,7 +751,6 @@ static INT_PTR LaunchSessions(WPARAM wParam, LPARAM)
 		g_hghostw = TRUE;
 		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
 	}
-	return 0;
 }
 
 static int PluginInit(WPARAM, LPARAM)
@@ -846,11 +842,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_SESSIONS_SAVEUSERSESSION, SaveUserSessionHandles);
 	CreateServiceFunction(MS_SESSIONS_CLOSESESSION, CloseCurrentSession);
 
-	HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
-	if (hEvent != 0) {
-		CreateServiceFunction(MS_SESSIONS_LAUNCHME, LaunchSessions);
-		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)MS_SESSIONS_LAUNCHME);
-	}
+	Miranda_WaitOnHandle(LaunchSessions);
 
 	g_ses_count = db_get_b(NULL, MODNAME, "UserSessionsCount", 0);
 	g_ses_limit = db_get_b(NULL, MODNAME, "TrackCount", 10);

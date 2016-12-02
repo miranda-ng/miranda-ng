@@ -96,44 +96,6 @@ const
   }
   MS_SYSTEM_GETVERSIONTEXT:PAnsiChar = 'Miranda/System/GetVersionText';
 
-  { Adds a HANDLE to the list to be checked in the main message loop v0.1.2.0+
-    wParam=(WPARAM)(HANDLE)hObject
-    lParam=(LPARAM)(const AnsiChar*)pszService
-    returns 0 on success or nonzero on failure
-    Causes pszService to be CallService()d (wParam=hObject,lParam=0) from the
-    main thread whenever hObject is signalled.
-    The Miranda message loop has a MsgWaitForMultipleObjects() call in it to
-    implement this feature. See the documentation for that function for
-    information on what objects are supported.
-    There is a limit of MAXIMUM_WAIT_OBJECTS minus one (MWO is defined in winnt.h
-    to be 64) on the number of handles MSFMO() can process. This service will
-    return nonzero if that many handles are already being waited on.
-    As of writing, the following parts of Miranda are thread-safe, so can be
-    called from any thread:
-    All of modules.h except NotifyEventHooks()
-    Read-only parts of m_database.h (since the write parts will call hooks)
-    All of m_langpack.h
-    for all other routines your mileage may vary, but I would strongly recommend
-    that you call them from the main thread, or ask about it on plugin-dev if you
-    think it really ought to work.
-    Update during 0.1.2.0 development, 16/10/01:
-    NotifyEventHooks() now translates all calls into the context of the main
-    thread, which means that all of m_database.h is now completely safe.
-    Update during 0.1.2.2 development, 17/4/02:
-    The main thread's message loop now also deals with asynchronous procedure
-    calls. Loop up QueueUserAPC() for a neater way to accomplish a lot of the
-    things that used to require ms_system_waitonhandle.
-    Miranda is compiled with the multithreaded runtime - don't forget to do the
-    same with your plugin.
-  }
-  MS_SYSTEM_WAITONHANDLE:PAnsiChar = 'Miranda/System/WaitOnHandle';
-
-  {Removes a HANDLE from the wait list   v0.1.2.0+ }
-  {wParam=(WPARAM)(HANDLE)hObject }
-  {lParam=0 }
-  {returns 0 on success or nonzero on failure. }
-  MS_SYSTEM_REMOVEWAIT:PAnsiChar = 'Miranda/System/RemoveWait';
-
   {
     wParam=0
     lParam=0

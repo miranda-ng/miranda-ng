@@ -44,8 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MODNAME "Sessions"
 
-#define MS_SESSIONS_LAUNCHME "Sessions/Service/LaunchMe"
-
 extern IconItem iconList[];
 
 #define MIIM_STRING	0x00000040

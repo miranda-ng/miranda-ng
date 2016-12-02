@@ -13,6 +13,8 @@
 #include <unistd.h>
 #endif
 
+#define MAXIMUM_WAIT_OBJECTS 64
+
 NAMESPACE_BEGIN(CryptoPP)
 
 unsigned int WaitObjectContainer::MaxWaitObjects()
