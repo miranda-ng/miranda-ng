@@ -93,7 +93,7 @@ void __cdecl SendThread(LPVOID param) {
 	pfts.totalFiles = ftcd->first->ft_count;
 	pfts.totalBytes = ftcd->first->totalSize;
 
-	while(SendFileChunk(proto, ft, ftcd) && !Miranda_Terminated()) {
+	while(SendFileChunk(proto, ft, ftcd) && !Miranda_IsTerminated()) {
 		pfts.currentFileNumber = ftcd->ft_number;
 		pfts.totalProgress = ftcd->sizeToHere + mwFileTransfer_getSent(ft);
 		pfts.szWorkingDir = ftcd->save_path;

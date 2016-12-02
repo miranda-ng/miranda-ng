@@ -53,7 +53,7 @@ int CAimProto::aim_auth_request(HANDLE hServerConn, unsigned short &seqno, const
 	mir_md5_finish(&state, auth_hash);
 
 	char client_id[64], mirver[64];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mirver), (LPARAM)mirver);
+	Miranda_GetVersionText(mirver, sizeof(mirver));
 	int client_id_len = mir_snprintf(client_id, "Miranda AIM, version %s", mirver);
 
 	char* buf = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE * 13 + MD5_HASH_LENGTH + mir_strlen(username) + client_id_len + 30 + mir_strlen(language) + mir_strlen(country));

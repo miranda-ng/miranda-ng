@@ -894,7 +894,7 @@ void avatars_server_connection::connectionThread()
 
 		if (recvResult == SOCKET_ERROR) {
 			if (GetLastError() == ERROR_TIMEOUT) {  // timeout, check if we should be still running
-				if (Miranda_Terminated())
+				if (Miranda_IsTerminated())
 					break;
 
 				if (time(0) >= dwLastKeepAlive) { // limit frequency (HACK: on some systems select() does not work well)

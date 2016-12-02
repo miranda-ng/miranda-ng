@@ -142,7 +142,7 @@ int KSLoadMainOptions()
 		if (ServiceExists(ME_CS_STATUSCHANGE))
 			hCSStatusChangeHook = HookEvent(ME_CS_STATUSCHANGE, CSStatusChange);
 		hCSStatusChangeExHook = HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChangeEx);
-		if (db_get_b(NULL, KSMODULENAME, SETTING_CHECKAPMRESUME, 0) && (CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00040000)) {
+		if (db_get_b(NULL, KSMODULENAME, SETTING_CHECKAPMRESUME, 0)) {
 			if (!IsWindow(hMessageWindow)) {
 				hMessageWindow = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 				SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);

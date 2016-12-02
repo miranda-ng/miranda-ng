@@ -290,7 +290,7 @@ static void UpdateThreadProc(void *)
 	ReleaseMutex(hUpdateMutex);
 
 	// update weather by getting the first station from the queue until the queue is empty
-	while (UpdateListHead != NULL && !Miranda_Terminated())
+	while (UpdateListHead != NULL && !Miranda_IsTerminated())
 		UpdateWeather(UpdateGetFirst());
 
 	NetlibHttpDisconnect();
@@ -588,7 +588,7 @@ int GetWeatherData(MCONTACT hContact)
 void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	// only run if it is not current updating and the auto update option is enabled
-	if (!ThreadRunning && opt.CAutoUpdate && !Miranda_Terminated() && (opt.NoProtoCondition || status == ID_STATUS_ONLINE))
+	if (!ThreadRunning && opt.CAutoUpdate && !Miranda_IsTerminated() && (opt.NoProtoCondition || status == ID_STATUS_ONLINE))
 		UpdateAll(TRUE, FALSE);
 }
 
@@ -600,7 +600,7 @@ void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;
 
-	if (Miranda_Terminated())
+	if (Miranda_IsTerminated())
 		return;
 
 	if (opt.StartupUpdate && opt.NoProtoCondition)

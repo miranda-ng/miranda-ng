@@ -18,7 +18,7 @@ void Log(const wchar_t *format, ...)
 
 void ShowNotification(const char *caption, const char *message, int flags, MCONTACT hContact)
 {
-	if (Miranda_Terminated())
+	if (Miranda_IsTerminated())
 		return;
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))

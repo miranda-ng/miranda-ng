@@ -64,38 +64,6 @@ const
   }
   ME_SYSTEM_OKTOEXIT:PAnsiChar = 'Miranda/System/OkToExitEvent';
 
-  { miranda/system/oktoexit service
-    Check if everyone is happy to exit
-    wParam=lParam=0
-    if everyone acknowleges OK to exit then returns true, otherwise false
-  }
-  MS_SYSTEM_OKTOEXIT:PAnsiChar = 'Miranda/System/OkToExit';
-
-  { gets the version number of Miranda encoded as a dword v0.1.0.1+
-    wParam=lParam=0
-    returns the version number, encoded as one version per byte, therefore
-    version 1.2.3.10 is 0x0102030a
-  }
-  MS_SYSTEM_GETVERSION:PAnsiChar = 'Miranda/System/GetVersion';
-
-  {
-    gets the version number of Miranda encoded as four WORDs   v0.92.2+
-    wParam = 0
-    lParam = word[4]*
-    returns the version number, encoded as one version per word, therefore
-    version 1.2.3.3210 is 0x0001, 0x0002, 0x0003, 0x0C8a
-  }
-  MS_SYSTEM_GETFILEVERSION:PAnsiChar = 'Miranda/System/GetFileVersion';
-
-  { gets the version of Miranda encoded as text   v0.1.0.1+
-    wParam=cch
-    lParam=(LPARAM)(AnsiChar*)pszVersion
-    cch is the size of the buffer pointed to by pszVersion, in bytes
-    may return a build qualifier, such as "0.1.0.1 alpha"
-    returns 0 on success, nonzero on failure
-  }
-  MS_SYSTEM_GETVERSIONTEXT:PAnsiChar = 'Miranda/System/GetVersionText';
-
   {
     wParam=0
     lParam=0
@@ -105,15 +73,6 @@ const
     processing to do, etc.
   }
   ME_SYSTEM_PRESHUTDOWN:PAnsiChar = 'Miranda/System/PShutdown';
-
-  {
-    wParam=0
-    lParam=0
-
-    Returns TRUE when Miranda has got WM_QUIT and is in the process
-    of shutting down
-  }
-  MS_SYSTEM_TERMINATED:PAnsiChar = 'Miranda/SysTerm';
 
   {
     wParam : 0
@@ -148,36 +107,6 @@ const
   }
   MS_SYSTEM_GETBUILDSTRING:PAnsiChar = 'Miranda/GetBuildString';
 
-  {
-    Missing service catcher
-    Is being called when one calls the non-existent service.
-    All parameters are stored in the special structure
-
-    The event handler takes 0 as wParam and TMissingServiceParams* as lParam.
-
-    0.4.3+ addition (2006/03/27)
-  }
-type
-  PTMissingServiceParams = ^TMissingServiceParams;
-  TMissingServiceParams = record
-    name :PAnsiChar;
-    wParam:WPARAM;
-    lParam:LPARAM;
-  end;
-
-const
-  ME_SYSTEM_MISSINGSERVICE:PAnsiChar = 'System/MissingService';
-
-{ Unhandled exceptions filter
-Is being called inside any thread launched via mir_forkthread, including the main thread.
-If a plugin's author executes a large piece of code inside __try/__except, he should
-obtain this filter and call it inside the __except section
-
-0.8.0+ addition (2008/07/20)
-}
-
-const
-  MS_SYSTEM_GETEXCEPTFILTER:PAnsiChar = 'System/GetExceptFilter';
-
+function Miranda_IsTerminated : bytebool; stdcall; external AppDll;
 
 {$ENDIF}

@@ -1555,7 +1555,7 @@ void HandleVersionCommand(PCommand command, TArgument*, int argc, PReply reply)
 		else {
 			char miranda[512];
 			DWORD v = pluginInfo.version;
-			CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM) sizeof(miranda), (LPARAM)miranda);
+			Miranda_GetVersionText(miranda, sizeof(miranda));
 			mir_snprintf(reply->message, "Miranda %s\nCmdLine v.%d.%d.%d.%d", miranda, ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF), (v & 0xFF));
 		}
 	}

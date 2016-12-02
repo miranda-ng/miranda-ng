@@ -110,35 +110,13 @@ namespace mu
 	}
 
 	/*
-	 * system
-	 */
-
-	namespace system
-	{
-		DWORD getVersion()
-		{
-			return static_cast<DWORD>(CallService(MS_SYSTEM_GETVERSION, 0, 0));
-		}
-
-		int getVersionText(int cchVersion, char* szVersion)
-		{
-			return CallService(MS_SYSTEM_GETVERSIONTEXT, cchVersion, reinterpret_cast<LPARAM>(szVersion));
-		}
-
-		int terminated()
-		{
-			return CallService(MS_SYSTEM_TERMINATED, 0, 0);
-		}
-	}
-
-	/*
 	 * core interface functions
 	 */
 
 	bool load()
 	{
 		// check for version
-		if (!isMirandaVersionOk(system::getVersion()))
+		if (!isMirandaVersionOk(Miranda_GetVersion()))
 			return false;
 
 		return true;
@@ -160,17 +138,6 @@ namespace mu
 
 	bool isMirandaUnicode()
 	{
-		if (system::getVersion() < PLUGIN_MAKE_VERSION(0, 4, 3, 33))
-			return false;
-
-		char szVersion[256] = { 0 };
-
-		if (system::getVersionText(256, szVersion) != 0)
-			return false;
-
-		if (!strstr(szVersion, "Unicode"))
-			return false;
-
 		return true;
 	}
 

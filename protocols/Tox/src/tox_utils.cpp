@@ -105,7 +105,7 @@ wchar_t* CToxProto::ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error)
 
 void CToxProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
 {
-	if (Miranda_Terminated())
+	if (Miranda_IsTerminated())
 	{
 		return;
 	}

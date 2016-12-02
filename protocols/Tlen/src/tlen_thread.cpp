@@ -561,7 +561,7 @@ static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode *node)
 	if ( os == NULL ) os = TlenTextEncode("Windows");
 
 	mir_strcpy(mversion, "Miranda NG ");
-	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof( mversion ) - 11, ( LPARAM )mversion + 11 );
+	Miranda_GetVersionText(mversion + 11, sizeof(mversion) - 11);
 	mir_strcat(mversion, " (Tlen v.");
 	mir_strcat(mversion, TLEN_VERSION_STRING);
 	mir_strcat(mversion, ")");

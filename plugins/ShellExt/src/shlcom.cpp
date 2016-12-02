@@ -74,7 +74,7 @@ BOOL AddToList(TAddArgList& args)
 	DWORD attr = GetFileAttributesA(args.szFile);
 	if (attr != 0xFFFFFFFF && (attr & FILE_ATTRIBUTE_HIDDEN) == 0) {
 		if ((args.count % 10) == 5)
-			if (CallService(MS_SYSTEM_TERMINATED, 0, 0) != 0)
+			if (Miranda_IsTerminated() != 0)
 				return true;
 
 		if (attr & FILE_ATTRIBUTE_DIRECTORY) {
@@ -490,7 +490,7 @@ void __cdecl ThreadServer(HANDLE hMainThread)
 		if (retVal == WAIT_OBJECT_0)
 			QueueUserAPC(ipcService, hMainThread, 0);
 
-		if (CallService(MS_SYSTEM_TERMINATED, 0, 0) == 1)
+		if (Miranda_IsTerminated() == 1)
 			break;
 	}
 	CloseHandle(hEvent);

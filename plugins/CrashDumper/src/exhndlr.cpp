@@ -137,12 +137,12 @@ DWORD MirandaThreadFilter(DWORD code, EXCEPTION_POINTERS* info)
 
 void InitExceptionHandler(void)
 {
-	threadfltr = Miranda_SetExceptFilter(MirandaThreadFilter);
+	threadfltr = SetExceptionFilter(MirandaThreadFilter);
 	SetExceptionHandler();
 }
 
 void DestroyExceptionHandler(void)
 {
-	Miranda_SetExceptFilter(threadfltr);
+	SetExceptionFilter(threadfltr);
 	RemoveExceptionHandler();
 }

@@ -28,7 +28,7 @@ UPDATELIST *UpdateListTail = NULL;
 void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	// only run if it is not current updating and the auto update option is enabled
-	if (!ThreadRunning && !Miranda_Terminated()) {
+	if (!ThreadRunning && !Miranda_IsTerminated()) {
 		bool HaveUpdates = FALSE;
 		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 			if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
@@ -51,7 +51,7 @@ void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;
 
-	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) && !Miranda_Terminated()) {
+	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) && !Miranda_IsTerminated()) {
 		if (db_get_b(NULL, MODULE, "StartupRetrieve", 1))
 			CheckAllFeeds(0, 1);
 		timerId = SetTimer(NULL, 0, 30000, (TIMERPROC)timerProc);
@@ -125,7 +125,7 @@ void UpdateThreadProc(void *AvatarCheck)
 	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 
 	// update news by getting the first station from the queue until the queue is empty
-	while (UpdateListHead != NULL && !Miranda_Terminated()) {
+	while (UpdateListHead != NULL && !Miranda_IsTerminated()) {
 		if (AvatarCheck != NULL)
 			CheckCurrentFeedAvatar(UpdateGetFirst());
 		else

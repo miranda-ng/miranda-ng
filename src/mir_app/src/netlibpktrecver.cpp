@@ -58,7 +58,7 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
-	if (Miranda_Terminated()) { /* HACK: Lame, break while loops of protocols that can't kill their while loops, (cough, ICQ, cough) */
+	if (Miranda_IsTerminated()) { /* HACK: Lame, break while loops of protocols that can't kill their while loops, (cough, ICQ, cough) */
 		SetLastError(ERROR_TIMEOUT);
 		return SOCKET_ERROR;
 	}

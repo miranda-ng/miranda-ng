@@ -680,7 +680,7 @@ int ModeChange(WPARAM, LPARAM lparam)
 	if ((isetting > ID_STATUS_OFFLINE) && ((WORD)ack->hProcess <= ID_STATUS_OFFLINE)) {
 		//we have just loged-in
 		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
-		if (!Miranda_Terminated() && IsWatchedProtocol(ack->szModule)) {
+		if (!Miranda_IsTerminated() && IsWatchedProtocol(ack->szModule)) {
 			logthread_info *info = (logthread_info *)mir_alloc(sizeof(logthread_info));
 			mir_strncpy(info->sProtoName, courProtoName, _countof(info->sProtoName));
 			info->hContact = 0;

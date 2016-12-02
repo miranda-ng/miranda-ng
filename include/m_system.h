@@ -48,82 +48,67 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_core.h>
 
-//miranda/system/modulesloaded
-//called after all modules have been successfully initialised
-//wParam = lParam = 0
-//used to resolve double-dependencies in the module load order
+// miranda/system/modulesloaded
+// called after all modules have been successfully initialised
+// wParam = lParam = 0
+// used to resolve double-dependencies in the module load order
 #define ME_SYSTEM_MODULESLOADED  "Miranda/System/ModulesLoaded"
 
-//miranda/system/shutdown event
-//called just before the application terminates
-//the database is still guaranteed to be running during this hook.
-//wParam = lParam = 0
+// miranda/system/shutdown event
+// called just before the application terminates
+// the database is still guaranteed to be running during this hook.
+// wParam = lParam = 0
 #define ME_SYSTEM_SHUTDOWN   "Miranda/System/Shutdown"
 
-//restarts miranda (0.8+)
-//wParam = 0 or 1. 1 - restart with current profile, 0 - restart in default profile or profile manager
-//lParam = (wchar_t*)path to a new miranda32.exe binary or NULL to use current
+// restarts miranda (0.8+)
+// wParam = 0 or 1. 1 - restart with current profile, 0 - restart in default profile or profile manager
+// lParam = (wchar_t*)path to a new miranda32.exe binary or NULL to use current
 #define MS_SYSTEM_RESTART    "Miranda/System/Restart"
 
-//miranda/system/oktoexit event
-//called before the app goes into shutdown routine to make sure everyone is
-//happy to exit
-//wParam = lParam = 0
-//return nonzero to stop the exit cycle
+// miranda/system/oktoexit event
+// called before the app goes into shutdown routine to make sure everyone is
+// happy to exit
+// wParam = lParam = 0
+// return nonzero to stop the exit cycle
 #define ME_SYSTEM_OKTOEXIT   "Miranda/System/OkToExitEvent"
 
-//miranda/system/oktoexit service
-//Check if everyone is happy to exit
-//wParam = lParam = 0
-//if everyone acknowleges OK to exit then returns true, otherwise false
-#define MS_SYSTEM_OKTOEXIT   "Miranda/System/OkToExit"
+// gets the version number of Miranda encoded as a DWORD
+// returns the version number, encoded as one version per byte, therefore
+// version 1.2.3.10 is 0x0102030a
+EXTERN_C MIR_APP_DLL(DWORD) Miranda_GetVersion(void);
 
-//gets the version number of Miranda encoded as a DWORD     v0.1.0.1+
-//wParam = lParam = 0
-//returns the version number, encoded as one version per byte, therefore
-//version 1.2.3.10 is 0x0102030a
-#define MS_SYSTEM_GETVERSION "Miranda/System/GetVersion"
+// gets the version number of Miranda encoded as four WORDs   v0.92.2+
+// returns the version number, encoded as one version per word, therefore
+// version 1.2.3.3210 is 0x0001, 0x0002, 0x0003, 0x0C8a
+typedef WORD MFileVersion[4];
+EXTERN_C MIR_APP_DLL(void) Miranda_GetFileVersion(MFileVersion*);
 
-//gets the version number of Miranda encoded as four WORDs   v0.92.2+
-//wParam = 0
-//lParam = WORD[4]*
-//returns the version number, encoded as one version per word, therefore
-//version 1.2.3.3210 is 0x0001, 0x0002, 0x0003, 0x0C8a
-#define MS_SYSTEM_GETFILEVERSION "Miranda/System/GetFileVersion"
-
-// gets the version of Miranda encoded as text   v0.1.0.1+
-// wParam = cch
-// lParam = (LPARAM)(char*)pszVersion
+// gets the version of Miranda encoded as text
 // cch is the size of the buffer pointed to by pszVersion, in bytes
 // may return a build qualifier, such as "0.1.0.1 alpha"
 // returns 0 on success, nonzero on failure
-#define MS_SYSTEM_GETVERSIONTEXT "Miranda/System/GetVersionText"
+EXTERN_C MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize);
 
 // Adds an event to the list to be checked in the main message loop
 // when a handle gets triggered, an appopriate stub gets called
-
 typedef void (CALLBACK *MWaitableStub)(void);
-MIR_APP_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent = NULL);
 
-/*
-wParam = 0
-lParam = 0
+EXTERN_C MIR_APP_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent = NULL);
 
-This hook is fired just before the thread unwind stack is used,
-it allows MT plugins to shutdown threads if they have any special
-processing to do, etc.
-
-*/
+// wParam = 0 (ignored)
+// lParam = 0 (ignored)
+//
+// This hook is fired just before the thread unwind stack is used,
+// it allows MT plugins to shutdown threads if they have any special
+// processing to do, etc.
 #define ME_SYSTEM_PRESHUTDOWN		"Miranda/System/PShutdown"
 
-/*
-wParam = 0
-lParam = 0
+//	Returns true when Miranda has got WM_QUIT and is in the process of shutting down
+EXTERN_C MIR_APP_DLL(bool) Miranda_IsTerminated(void);
 
-Returns TRUE when Miranda has got WM_QUIT and is in the process
-of shutting down
-*/
-#define MS_SYSTEM_TERMINATED		"Miranda/SysTerm"
+// Check if everyone is happy to exit
+// if everyone acknowleges OK to exit then returns true, otherwise false
+EXTERN_C MIR_APP_DLL(bool) Miranda_OkToExit(void);
 
 /*
 	wParam : 0
@@ -159,20 +144,6 @@ of shutting down
 */
 #define MS_SYSTEM_GETBUILDSTRING "Miranda/GetBuildString"
 
-#ifdef MIR_APP_EXPORTS
-INT_PTR MirandaIsTerminated(WPARAM, LPARAM);
-
-__forceinline INT_PTR Miranda_Terminated(void)
-{
-	return MirandaIsTerminated(0, 0);
-}
-#else
-__forceinline INT_PTR Miranda_Terminated(void)
-{
-	return CallService(MS_SYSTEM_TERMINATED, 0, 0);
-}
-#endif
-
 /* Missing service catcher
 Is being called when one calls the non-existent service.
 All parameters are stored in the special structure
@@ -191,25 +162,5 @@ typedef struct
 	MISSING_SERVICE_PARAMS;
 
 #define ME_SYSTEM_MISSINGSERVICE "System/MissingService"
-
-/* Unhandled exceptions filter
-Is being called inside any thread launched via mir_forkthread, including the main thread.
-If a plugin's author executes a large piece of code inside __try/__except, he should
-obtain this filter and call it inside the __except section
-
-0.8.0+ addition (2008/07/20)
-*/
-
-#define MS_SYSTEM_GETEXCEPTFILTER "System/GetExceptFilter"
-
-__forceinline pfnExceptionFilter Miranda_GetExceptFilter(void)
-{	return GetExceptionFilter();
-}
-
-#define MS_SYSTEM_SETEXCEPTFILTER "System/SetExceptFilter"
-
-__forceinline pfnExceptionFilter Miranda_SetExceptFilter(pfnExceptionFilter foo)
-{	return SetExceptionFilter(foo);
-}
 
 #endif // M_SYSTEM_H

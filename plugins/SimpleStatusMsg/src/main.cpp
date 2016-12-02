@@ -822,7 +822,7 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM, LPARAM lParam)
 	struct MsgBoxInitData *box_data;
 	BOOL idvstatusmsg = FALSE;
 
-	if (Miranda_Terminated()) return 0;
+	if (Miranda_IsTerminated()) return 0;
 
 	if (hTTBButton) {
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButton, (LPARAM)0);
@@ -898,7 +898,7 @@ INT_PTR ShowStatusMessageDialog(WPARAM, LPARAM lParam)
 	struct MsgBoxInitData *box_data;
 	BOOL idvstatusmsg = FALSE;
 
-	if (Miranda_Terminated()) return 0;
+	if (Miranda_IsTerminated()) return 0;
 
 	box_data = (struct MsgBoxInitData *)mir_alloc(sizeof(struct MsgBoxInitData));
 
@@ -945,7 +945,7 @@ INT_PTR ShowStatusMessageDialog(WPARAM, LPARAM lParam)
 
 int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 {
-	if (Miranda_Terminated())
+	if (Miranda_IsTerminated())
 		return 0;
 
 	int iStatus = (int)wParam;

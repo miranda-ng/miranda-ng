@@ -441,7 +441,7 @@ retry:
 				hConnStopEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 				dwResult = WaitForSingleObjectEx(hConnStopEvent, dwInterval, TRUE);
 				if ((dwResult == WAIT_OBJECT_0 && m_iDesiredStatus == ID_STATUS_OFFLINE)
-					|| (dwResult == WAIT_IO_COMPLETION && Miranda_Terminated()))
+					|| (dwResult == WAIT_IO_COMPLETION && Miranda_IsTerminated()))
 					bRetry = FALSE;
 				CloseHandle(hConnStopEvent);
 				hConnStopEvent = NULL;

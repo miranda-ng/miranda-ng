@@ -676,7 +676,7 @@ void CIcqProto::setUserInfo()
 	packDWord(&packet, 0x6E64614E);
 
 	WORD v[4];
-	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
+	Miranda_GetFileVersion(&v);
 	packWord(&packet, v[0]);
 	packWord(&packet, v[1]);
 	packWord(&packet, v[2]);

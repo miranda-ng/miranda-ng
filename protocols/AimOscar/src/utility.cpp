@@ -149,7 +149,7 @@ bool CAimProto::wait_conn(HANDLE& hConn, HANDLE& hEvent, unsigned short service)
 	if (WaitForSingleObjectEx(hEvent, 10000, TRUE) != WAIT_OBJECT_0)
 		return false;
 
-	if (Miranda_Terminated() || m_iStatus == ID_STATUS_OFFLINE)
+	if (Miranda_IsTerminated() || m_iStatus == ID_STATUS_OFFLINE)
 		return false;
 
 	return true;

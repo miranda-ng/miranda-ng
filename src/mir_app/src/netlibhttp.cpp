@@ -97,7 +97,7 @@ static int RecvWithTimeoutTime(NetlibConnection *nlc, unsigned dwTimeoutTime, ch
 				return NLRecv(nlc, buf, len, flags);
 			}
 
-			if (nlc->termRequested || Miranda_Terminated())
+			if (nlc->termRequested || Miranda_IsTerminated())
 				return 0;
 		}
 		SetLastError(ERROR_TIMEOUT);
@@ -303,7 +303,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 			SetLastError(ERROR_BUFFER_OVERFLOW);
 			return 0;
 		}
-		if (Miranda_Terminated())
+		if (Miranda_IsTerminated())
 			return 0;
 		Sleep(10);
 	}

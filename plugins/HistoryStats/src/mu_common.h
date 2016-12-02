@@ -58,17 +58,6 @@ namespace mu
 	}
 
 	/*
-	 * system
-	 */
-
-	namespace system
-	{
-		DWORD getVersion();
-		int getVersionText(int cchVersion, char* szVersion);
-		int terminated();
-	}
-
-	/*
 	 * updater [external]
 	 */
 

@@ -36,7 +36,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 	PROTOACCOUNT **accs;
 	Proto_EnumAccounts(&numAccs, &accs);
 
-	while (WaitForSingleObject(g_hTerminateUpdateMsgsThread, 0) == WAIT_TIMEOUT && !Miranda_Terminated()) {
+	while (WaitForSingleObject(g_hTerminateUpdateMsgsThread, 0) == WAIT_TIMEOUT && !Miranda_IsTerminated()) {
 		DWORD MinUpdateTimeDifference = (DWORD)g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
 		for (int i = 0; i < numAccs; i++) {
 			PROTOACCOUNT *p = accs[i];

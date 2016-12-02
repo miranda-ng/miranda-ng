@@ -234,7 +234,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				else {
 					char str[MAX_PATH];
 					WORD v[4];
-					CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)&v);
+					Miranda_GetFileVersion(&v);
 					mir_snprintf(str, "Miranda NG %d.%d.%d.%d (ICQ %s)", v[0], v[1], v[2], v[3], __VERSION_STRING_DOTS);
 
 					SetValue(ppro, hwndDlg, IDC_PORT, hContact, (char*)DBVT_WORD, (char*)ppro->wListenPort, SVS_ZEROISUNSPEC);

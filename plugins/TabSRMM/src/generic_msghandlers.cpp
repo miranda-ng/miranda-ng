@@ -577,7 +577,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		TranslateDialogDefault(hwndDlg);
 		{
 			WORD v[4];
-			CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)&v);
+			Miranda_GetFileVersion(&v);
 
 			wchar_t tStr[80];
 			mir_snwprintf(tStr, L"%s %d.%d.%d.%d [build %d]",

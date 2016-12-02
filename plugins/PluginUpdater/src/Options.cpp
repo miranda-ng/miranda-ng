@@ -44,7 +44,7 @@ static int GetUpdateMode()
 	if (UpdateMode < 0 || UpdateMode > UPDATE_MODE_MAX_VALUE) {
 		// Missing or unknown mode, determine correct from version of running core
 		char coreVersion[512];
-		CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)_countof(coreVersion), (LPARAM)coreVersion);
+		Miranda_GetVersionText(coreVersion, _countof(coreVersion));
 		UpdateMode = (strstr(coreVersion, "alpha") == NULL) ? UPDATE_MODE_STABLE : UPDATE_MODE_TRUNK;
 	}
 

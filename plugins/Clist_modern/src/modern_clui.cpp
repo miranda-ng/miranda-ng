@@ -538,7 +538,7 @@ static BOOL CLUI_WaitThreadsCompletion()
 	static const BYTE bcMAX_AWAITING_RETRY = 10; // repeat awaiting only 10 times
 	TRACE("CLUI_WaitThreadsCompletion Enter");
 	if (bEntersCount < bcMAX_AWAITING_RETRY &&
-		(g_CluiData.mutexPaintLock || g_hAwayMsgThread || g_hGetTextAsyncThread || g_hSmoothAnimationThread) && !Miranda_Terminated())
+		(g_CluiData.mutexPaintLock || g_hAwayMsgThread || g_hGetTextAsyncThread || g_hSmoothAnimationThread) && !Miranda_IsTerminated())
 	{
 		TRACE("Waiting threads");
 		TRACEVAR("g_CluiData.mutexPaintLock: %x", g_CluiData.mutexPaintLock);

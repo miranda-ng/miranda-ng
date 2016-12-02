@@ -864,7 +864,7 @@ int LoadNewPluginsModuleInfos(void)
 	LoadPluginOptions();
 
 	hPluginListHeap = HeapCreate(HEAP_NO_SERIALIZE, 0, 0);
-	mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
+	mirandaVersion = Miranda_GetVersion();
 
 	// remember where the mirandaboot.ini goes
 	PathToAbsoluteW(L"mirandaboot.ini", mirandabootini);

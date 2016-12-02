@@ -157,7 +157,7 @@ int CToxProto::SetStatus(int iNewStatus)
 			toxThread = NULL;
 		}
 
-		if (!Miranda_Terminated())
+		if (!Miranda_IsTerminated())
 		{
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
 			CloseAllChatChatSessions();

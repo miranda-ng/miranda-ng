@@ -105,7 +105,7 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 				int i;
 				for (i = 21; --i; )
 				{
-					if (Miranda_Terminated()) return;
+					if (Miranda_IsTerminated()) return;
 					Sleep(100);
 					if (ft->accepted) break;
 				}

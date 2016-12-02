@@ -134,17 +134,17 @@ static DWORD ShutdownNow(BYTE shutdownType)
 	DWORD dwErrCode = ERROR_SUCCESS;
 	switch (shutdownType) {
 	case SDSDT_CLOSEMIRANDA:
-		if (!Miranda_Terminated()) {
+		if (!Miranda_IsTerminated()) {
 			/* waiting for short until ready (but not too long...) */
 			DWORD dwLastTickCount = GetTickCount();
-			while (!CallService(MS_SYSTEM_OKTOEXIT, 0, 0)) {
+			while (!Miranda_OkToExit()) {
 				/* infinite loop protection (max 5 sec) */
 				if (GetTickCount() - dwLastTickCount >= 5000) { /* wraparound works */
 					OutputDebugStringA("Timeout (5 sec)\n"); /* tell others, all ascii */
 					break;
 				}
 				SleepEx(1000, TRUE);
-				if (Miranda_Terminated()) break; /* someone else did it */
+				if (Miranda_IsTerminated()) break; /* someone else did it */
 				OutputDebugStringA("Not ready to exit. Waiting...\n"); /* tell others, all ascii */
 			}
 			/* shutdown service must be called from main thread anyway */

@@ -129,7 +129,7 @@ void __cdecl SmileyDownloadThread(void*)
 	bool needext = false;
 	HANDLE hHttpDwnl = NULL;
 	WaitForSingleObject(g_hDlMutex, 3000);
-	while (!Miranda_Terminated() && dlQueue.getCount()) {
+	while (!Miranda_IsTerminated() && dlQueue.getCount()) {
 		ReleaseMutex(g_hDlMutex);
 		if (_waccess(dlQueue[0].fname.c_str(), 0) != 0) {
 			InternetDownloadFile(_T2A(dlQueue[0].url.c_str()), _T2A(dlQueue[0].fname.c_str()), hHttpDwnl);
@@ -148,7 +148,7 @@ void __cdecl SmileyDownloadThread(void*)
 	threadRunning = false;
 	ReleaseMutex(g_hDlMutex);
 
-	if (!Miranda_Terminated()) {
+	if (!Miranda_IsTerminated()) {
 		if (needext)
 			CallServiceSync(MS_SMILEYADD_RELOAD, 0, 0);
 		else

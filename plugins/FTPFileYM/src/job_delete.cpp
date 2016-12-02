@@ -42,7 +42,7 @@ void DeleteJob::waitingThread(void *arg)
 {
 	DeleteJob *job = (DeleteJob *)arg;
 
-	while (!Miranda_Terminated()) {
+	while (!Miranda_IsTerminated()) {
 		mir_cslockfull lock(mutexJobCount);
 		if (iRunningJobCount < MAX_RUNNING_JOBS) {
 			iRunningJobCount++;

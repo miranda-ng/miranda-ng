@@ -203,7 +203,7 @@ extern "C" {
 		wchar_t buff[512];
 		mir_snwprintf(buff, TranslateW(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(hContact));
 		//MessageBox(0, buff, Translate("OTR Information"), MB_OK);
-		if (!Miranda_Terminated()) {
+		if (!Miranda_IsTerminated()) {
 			ShowMessage(hContact, buff);
 		}
 

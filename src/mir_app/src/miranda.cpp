@@ -102,33 +102,15 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// exception handling
-
-static INT_PTR srvGetExceptionFilter(WPARAM, LPARAM)
-{
-	return (INT_PTR)GetExceptionFilter();
-}
-
-static INT_PTR srvSetExceptionFilter(WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)SetExceptionFilter((pfnExceptionFilter)lParam);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 typedef LONG(WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 #define ThreadQuerySetWin32StartAddress 9
-
-INT_PTR MirandaIsTerminated(WPARAM, LPARAM)
-{
-	return WaitForSingleObject(hMirandaShutdown, 0) == WAIT_OBJECT_0;
-}
 
 static void __cdecl compactHeapsThread(void*)
 {
 	Thread_SetName("compactHeapsThread");
 
-	while (!Miranda_Terminated()) {
+	while (!Miranda_IsTerminated()) {
 		HANDLE hHeaps[256];
 		DWORD hc;
 		SleepEx((1000 * 60) * 5, TRUE); // every 5 minutes
@@ -382,12 +364,22 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	return result;
 }
 
-static INT_PTR OkToExit(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(bool) Miranda_IsTerminated()
+{
+	return WaitForSingleObject(hMirandaShutdown, 0) == WAIT_OBJECT_0;
+}
+
+MIR_APP_DLL(bool) Miranda_OkToExit()
 {
 	return NotifyEventHooks(hOkToExitEvent, 0, 0) == 0;
 }
 
-static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+// version functions
+
+MIR_APP_DLL(DWORD) Miranda_GetVersion()
 {
 	wchar_t filename[MAX_PATH];
 	GetModuleFileName(g_hInst, filename, _countof(filename));
@@ -399,14 +391,13 @@ static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 	UINT blockSize;
 	VS_FIXEDFILEINFO *vsffi;
 	VerQueryValue(pVerInfo, L"\\", (PVOID*)&vsffi, &blockSize);
-	DWORD ver = (((vsffi->dwProductVersionMS >> 16) & 0xFF) << 24) |
+	return (((vsffi->dwProductVersionMS >> 16) & 0xFF) << 24) |
 		((vsffi->dwProductVersionMS & 0xFF) << 16) |
 		(((vsffi->dwProductVersionLS >> 16) & 0xFF) << 8) |
 		(vsffi->dwProductVersionLS & 0xFF);
-	return (INT_PTR)ver;
 }
 
-static INT_PTR GetMirandaFileVersion(WPARAM, LPARAM lParam)
+MIR_APP_DLL(void) Miranda_GetFileVersion(MFileVersion *pVer)
 {
 	wchar_t filename[MAX_PATH];
 	GetModuleFileName(g_hInst, filename, _countof(filename));
@@ -419,15 +410,13 @@ static INT_PTR GetMirandaFileVersion(WPARAM, LPARAM lParam)
 	VS_FIXEDFILEINFO *vsffi;
 	VerQueryValue(pVerInfo, L"\\", (PVOID*)&vsffi, &blockSize);
 
-	WORD* p = (WORD*)lParam;
-	p[0] = HIWORD(vsffi->dwProductVersionMS);
-	p[1] = LOWORD(vsffi->dwProductVersionMS);
-	p[2] = HIWORD(vsffi->dwProductVersionLS);
-	p[3] = LOWORD(vsffi->dwProductVersionLS);
-	return 0;
+	*pVer[0] = HIWORD(vsffi->dwProductVersionMS);
+	*pVer[1] = LOWORD(vsffi->dwProductVersionMS);
+	*pVer[2] = HIWORD(vsffi->dwProductVersionLS);
+	*pVer[3] = LOWORD(vsffi->dwProductVersionLS);
 }
 
-static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize)
 {
 	wchar_t filename[MAX_PATH], *productVersion;
 	GetModuleFileName(g_hInst, filename, _countof(filename));
@@ -438,11 +427,10 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 
 	UINT blockSize;
 	VerQueryValue(pVerInfo, L"\\StringFileInfo\\000004b0\\ProductVersion", (LPVOID*)&productVersion, &blockSize);
-	strncpy((char*)lParam, _T2A(productVersion), wParam);
+	strncpy_s(pDest, cbSize, _T2A(productVersion), _TRUNCATE);
 #if defined(_WIN64)
-	strcat_s((char*)lParam, wParam, " x64");
+	strcat_s(pDest, cbSize, " x64");
 #endif
-	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -455,13 +443,5 @@ int LoadSystemModule(void)
 	hPreShutdownEvent = CreateHookableEvent(ME_SYSTEM_PRESHUTDOWN);
 	hModulesLoadedEvent = CreateHookableEvent(ME_SYSTEM_MODULESLOADED);
 	hOkToExitEvent = CreateHookableEvent(ME_SYSTEM_OKTOEXIT);
-
-	CreateServiceFunction(MS_SYSTEM_TERMINATED, MirandaIsTerminated);
-	CreateServiceFunction(MS_SYSTEM_OKTOEXIT, OkToExit);
-	CreateServiceFunction(MS_SYSTEM_GETVERSION, GetMirandaVersion);
-	CreateServiceFunction(MS_SYSTEM_GETFILEVERSION, GetMirandaFileVersion);
-	CreateServiceFunction(MS_SYSTEM_GETVERSIONTEXT, GetMirandaVersionText);
-	CreateServiceFunction(MS_SYSTEM_GETEXCEPTFILTER, srvGetExceptionFilter);
-	CreateServiceFunction(MS_SYSTEM_SETEXCEPTFILTER, srvSetExceptionFilter);
 	return 0;
 }

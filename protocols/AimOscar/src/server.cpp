@@ -941,7 +941,7 @@ void CAimProto::snac_contact_list(SNAC &snac, HANDLE hServerConn, unsigned short
 
 			if (getDword(AIM_KEY_LV, 0) < 0x80500) {
 				upload_nicks();
-				setDword(AIM_KEY_LV, (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0));
+				setDword(AIM_KEY_LV, Miranda_GetVersion());
 			}
 
 			if (getByte(AIM_KEY_CM, 0))

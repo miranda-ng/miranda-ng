@@ -44,7 +44,7 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 	if (result == 0)
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 	else {
-		if (!ft->requester && result == 1 && !Miranda_Terminated()) {
+		if (!ft->requester && result == 1 && !Miranda_IsTerminated()) {
 			ft->accepted = false;
 			HANDLE hConn = aim_peer_connect(AIM_PROXY_SERVER, get_default_port());
 			if (hConn) {

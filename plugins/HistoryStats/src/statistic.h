@@ -133,7 +133,7 @@ private:
 
 	// misc routines
 	DWORD getTimeStarted() { return m_TimeStarted; }
-	bool shouldTerminate() { return (WaitForSingleObject(m_hCancelEvent, 0) == WAIT_OBJECT_0) || (bool_(mu::system::terminated())); }
+	bool shouldTerminate() { return (WaitForSingleObject(m_hCancelEvent, 0) == WAIT_OBJECT_0) || bool_(Miranda_IsTerminated()); }
 	void handleAddMessage(Contact& contact, Message& msg);
 	void handleAddChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration);
 

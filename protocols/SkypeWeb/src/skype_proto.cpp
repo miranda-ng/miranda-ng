@@ -266,7 +266,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		CloseDialogs();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, ID_STATUS_OFFLINE);
 
-		if (!Miranda_Terminated())
+		if (!Miranda_IsTerminated())
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
 		return 0;
 	}

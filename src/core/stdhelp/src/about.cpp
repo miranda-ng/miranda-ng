@@ -48,7 +48,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		{
 			char productVersion[56];
-			CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(productVersion), (LPARAM)productVersion);
+			Miranda_GetVersionText(productVersion, _countof(productVersion));
 
 			wchar_t str[64];
 			mir_snwprintf(str, STR_VERSION_FORMAT, productVersion);

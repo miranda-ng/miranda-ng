@@ -1482,7 +1482,7 @@ buttons_done:
 			case ID_TRAY_EXIT:
 			case ID_ICQ_EXIT:
 				cfg::shutDown = 1;
-				if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
+				if (Miranda_OkToExit())
 					DestroyWindow(hwnd);
 				break;
 			case ID_TRAY_HIDE:

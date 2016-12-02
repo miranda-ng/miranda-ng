@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static INT_PTR CloseAction(WPARAM, LPARAM)
 {
-	if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
+	if (Miranda_OkToExit())
 		DestroyWindow(pcli->hwndContactList);
 
 	return(0);

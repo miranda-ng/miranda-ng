@@ -109,7 +109,7 @@ unsigned int CALLBACK MessagePumpThread(void*)
 	CLCINFOTIPEX *clcitex = NULL;
 	MSG hwndMsg = {0};
 
-	while (GetMessage(&hwndMsg, NULL, 0, 0) > 0 && !Miranda_Terminated()) {
+	while (GetMessage(&hwndMsg, NULL, 0, 0) > 0 && !Miranda_IsTerminated()) {
 		if (hwndMsg.hwnd != NULL && IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) /* Wine fix. */
 			continue;
 		switch (hwndMsg.message) {

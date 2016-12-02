@@ -113,7 +113,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 
 void CSametimeProto::showPopup(const wchar_t* msg, SametimePopupEnum flag)
 {
-	if (Miranda_Terminated()) return;
+	if (Miranda_IsTerminated()) return;
 
 	PopupData *puData = (PopupData*)mir_calloc(sizeof(PopupData));
 	puData->flag = flag;

@@ -391,7 +391,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				uDlg->m_tabs[i]->m_job->pause();
 
 			int result = IDYES;
-			if (!Miranda_Terminated() && UploadJob::iRunningJobCount > 0)
+			if (!Miranda_IsTerminated() && UploadJob::iRunningJobCount > 0)
 				result = Utils::msgBox(TranslateT("Do you really want to cancel all running jobs?"), MB_YESNO | MB_ICONQUESTION);
 
 			if (result == IDYES) {

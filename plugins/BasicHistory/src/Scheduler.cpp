@@ -1295,7 +1295,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 	}
 
 	if (Options::instance->schedulerAlerts) {
-		if (CallService(MS_SYSTEM_TERMINATED, 0, 0))
+		if (Miranda_IsTerminated())
 			return;
 
 		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))

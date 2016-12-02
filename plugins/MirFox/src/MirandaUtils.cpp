@@ -68,7 +68,7 @@ std::wstring& MirandaUtils::getDisplayName()
 
 	displayName.append(L"Miranda NG v.");
 	char mirandaVersion[128];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)_countof(mirandaVersion), (LPARAM)mirandaVersion);
+	Miranda_GetVersionText(mirandaVersion, _countof(mirandaVersion));
 	displayName.append(_A2T(mirandaVersion));
 	displayName.append(L" (");
 	displayName.append(getProfileName());
@@ -175,11 +175,11 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 				EnterCriticalSection(&ackMapCs);
 				myMfAck = ackMap[hProcess];
 				LeaveCriticalSection(&ackMapCs);
-				if(Miranda_Terminated() || args->mirfoxDataPtr->Plugin_Terminated){
-					logger->log_p(L"SMTC: ACK break by Plugin_Terminated (=%d) or Miranda_Terminated()", args->mirfoxDataPtr->Plugin_Terminated);
+				if(Miranda_IsTerminated() || args->mirfoxDataPtr->Plugin_Terminated){
+					logger->log_p(L"SMTC: ACK break by Plugin_Terminated (=%d) or Miranda_IsTerminated()", args->mirfoxDataPtr->Plugin_Terminated);
 					break;
 				}
-			} while (myMfAck == NULL && counter <= MAX_ACK_WAIT_COUNTER); //TODO or Plugin_Terminated or Miranda_Terminated()
+			} while (myMfAck == NULL && counter <= MAX_ACK_WAIT_COUNTER); //TODO or Plugin_Terminated or Miranda_IsTerminated()
 
 			logger->log_p(L"SMTC: ACK found  counter = [%d]   myMfAck = [" SCNuPTR L"]", counter, myMfAck);
 		}

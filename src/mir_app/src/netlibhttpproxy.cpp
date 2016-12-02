@@ -266,7 +266,7 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 				if (nlc->pHttpProxyPacketQueue != NULL && GetTickCount() - nlc->lastPost > 1000)
 					break;
 
-				if (nlc->termRequested || (SleepEx(1000, TRUE) && Miranda_Terminated()))
+				if (nlc->termRequested || (SleepEx(1000, TRUE) && Miranda_IsTerminated()))
 					return SOCKET_ERROR;
 			}
 

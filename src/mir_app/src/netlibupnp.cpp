@@ -595,7 +595,7 @@ static void discoverUPnP(void)
 			LongLog(buf);
 		}
 
-		if (Miranda_Terminated()) break;
+		if (Miranda_IsTerminated()) break;
 
 		FD_ZERO(&readfd);
 		FD_SET(s, &readfd);
@@ -760,7 +760,7 @@ void NetlibUPnPCleanup(void*)
 			num = atol(buf);
 
 		WORD ports[30];
-		for (unsigned i = 0; i < num && !Miranda_Terminated(); i++) {
+		for (unsigned i = 0; i < num && !Miranda_IsTerminated(); i++) {
 			mir_snprintf(szData, 4096, get_port_mapping, i);
 
 			ReleaseMutex(portListMutex);
@@ -792,7 +792,7 @@ void NetlibUPnPCleanup(void*)
 
 		ReleaseMutex(portListMutex);
 
-		for (unsigned i = 0; i < j && !Miranda_Terminated(); i++)
+		for (unsigned i = 0; i < j && !Miranda_IsTerminated(); i++)
 			NetlibUPnPDeletePortMapping(ports[i], "TCP");
 	}
 }

@@ -114,7 +114,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(g_szMirVer), LPARAM(g_szMirVer));
+	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);

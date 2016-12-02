@@ -111,7 +111,7 @@ wchar_t* ProtoGetNickname(const char* proto)
 }
 
 void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MCONTACT hContact) {
-	if(CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
+	if(Miranda_IsTerminated()) return;
 
 	if ( !options.bHavePopups) {	
 		wchar_t title[256];

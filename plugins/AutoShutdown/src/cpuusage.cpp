@@ -69,7 +69,7 @@ static BOOL CallBackAndWait(struct CpuUsageThreadParams *param, BYTE nCpuUsage)
 	}
 	if (!param->pfnDataAvailProc(nCpuUsage, param->lParam)) return FALSE;
 	SleepEx(param->dwDelayMillis, TRUE);
-	return !Miranda_Terminated();
+	return !Miranda_IsTerminated();
 }
 
 static void WinNT_PollThread(void *vparam)

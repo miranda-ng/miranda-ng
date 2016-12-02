@@ -598,9 +598,7 @@ static wchar_t* parseVersionString(ARGUMENTSINFO *ai)
 
 	ai->flags |= AIF_DONTPARSE;
 	char versionString[128];
-	if (CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)sizeof(versionString), (LPARAM)versionString))
-		return NULL;
-
+	Miranda_GetVersionText(versionString, sizeof(versionString));
 	return mir_a2u(versionString);
 }
 

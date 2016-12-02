@@ -2252,7 +2252,7 @@ void CIrcProto::OnIrcDisconnected()
 
 	Chat_Control(m_szModuleName, NULL, SESSION_OFFLINE);
 
-	if (!Miranda_Terminated())
+	if (!Miranda_IsTerminated())
 		CList_SetAllOffline(m_disconnectDCCChats);
 
 	// restore the original nick, cause it might be changed

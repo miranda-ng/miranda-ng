@@ -315,7 +315,7 @@ int CSteamProto::SetStatus(int new_status)
 
 		requestQueue->Stop();
 
-		if (!Miranda_Terminated())
+		if (!Miranda_IsTerminated())
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
 	}
 	else if (old_status == ID_STATUS_OFFLINE)

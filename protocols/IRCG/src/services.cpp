@@ -963,7 +963,7 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 
 	InterlockedIncrement((long *)&m_bConnectThreadRunning);
 	InterlockedIncrement((long *)&m_bConnectRequested);
-	while (!Miranda_Terminated() && m_bConnectRequested > 0) {
+	while (!Miranda_IsTerminated() && m_bConnectRequested > 0) {
 		while (m_bConnectRequested > 0)
 			InterlockedDecrement((long *)&m_bConnectRequested);
 		if (IsConnected()) {

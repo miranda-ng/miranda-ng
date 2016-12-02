@@ -127,7 +127,7 @@ void CLangpackDlg::LoadLangpacks()
 		mir_wstrcpy(pack.tszLanguage, L"English");
 		pack.szAuthors = "Miranda NG Development Team";
 		pack.szAuthorEmail = "project-info@miranda-ng.org";
-		DWORD v = CallService(MS_SYSTEM_GETVERSION, 0, 0);
+		DWORD v = Miranda_GetVersion();
 		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
 
 		if (GetModuleFileName(NULL, pack.tszFullPath, _countof(pack.tszFullPath))) {

@@ -28,7 +28,7 @@ void CALLBACK sttMainThreadCallback(ULONG_PTR dwParam)
 
 void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags)
 {
-	if (CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
+	if (Miranda_IsTerminated()) return;
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		ShowClassPopupT("pingpopups", line1, line2);

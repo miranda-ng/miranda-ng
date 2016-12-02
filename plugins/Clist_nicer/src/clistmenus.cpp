@@ -34,10 +34,9 @@ void InitIconLibMenuIcons();
 
 INT_PTR CloseAction(WPARAM, LPARAM)
 {
-	int k;
 	cfg::shutDown = 1;
-	k = CallService(MS_SYSTEM_OKTOEXIT, 0, 0);
-	if (k) {
+
+	if (Miranda_OkToExit()) {
 		DestroyWindow(pcli->hwndContactList);
 		PostQuitMessage(0);
 		Sleep(0);

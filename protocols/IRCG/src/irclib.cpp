@@ -218,7 +218,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 		}
 	}
 
-	if (Miranda_Terminated()) {
+	if (Miranda_IsTerminated()) {
 		Disconnect();
 		return false;
 	}

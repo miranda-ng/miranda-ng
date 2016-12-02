@@ -105,7 +105,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Init native User-Agent
 	WORD v[4];
-	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
+	Miranda_GetFileVersion(&v);
 	std::stringstream agent;
 	agent << "Miranda NG/" << v[0] << "." << v[1] << "." << v[2];
 #ifdef _WIN64

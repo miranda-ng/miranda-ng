@@ -174,7 +174,7 @@ CMStringW CIrcProto::DoIdentifiers(CMStringW text, const wchar_t*)
 	text.Replace(L"%me", m_info.sNick.c_str());
 
 	char mirver[100];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, _countof(mirver), LPARAM(mirver));
+	Miranda_GetVersionText(mirver, _countof(mirver));
 	text.Replace(L"%mirver", _A2T(mirver));
 	text.Replace(L"%version", _A2T(__VERSION_STRING_DOTS));
 

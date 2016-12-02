@@ -148,7 +148,7 @@ void UploadJob::waitingThread(void *arg)
 {
 	UploadJob *job = (UploadJob *)arg;
 
-	while (!Miranda_Terminated()) {
+	while (!Miranda_IsTerminated()) {
 		mir_cslockfull lock(mutexJobCount);
 		if (iRunningJobCount < MAX_RUNNING_JOBS) {
 			iRunningJobCount++;

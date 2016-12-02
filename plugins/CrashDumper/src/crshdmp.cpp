@@ -241,7 +241,7 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	char temp[MAX_PATH];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)_countof(temp), (LPARAM)temp);
+	Miranda_GetVersionText(temp, _countof(temp));
 	crs_a2t(vertxt, temp);
 
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {

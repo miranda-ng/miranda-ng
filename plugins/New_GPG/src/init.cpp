@@ -83,7 +83,7 @@ void init_vars()
 	bSameAction = db_get_b(NULL, szGPGModuleName, "bSameAction", 0) != 0;
 	password = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
 	debuglog.init();
-	bIsMiranda09 = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00090001;
+	bIsMiranda09 = false;
 	bJabberAPI = db_get_b(NULL, szGPGModuleName, "bJabberAPI", bIsMiranda09) != 0;
 	bPresenceSigning = db_get_b(NULL, szGPGModuleName, "bPresenceSigning", 0) != 0;
 	bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0) != 0;

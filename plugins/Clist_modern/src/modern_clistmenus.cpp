@@ -30,11 +30,13 @@ int LoadFavoriteContactMenu();
 
 INT_PTR CloseAction(WPARAM, LPARAM)
 {
-	int k;
 	g_CluiData.bSTATE = STATE_PREPARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
-	do
-		k = CallService(MS_SYSTEM_OKTOEXIT, 0, 0);
-	while (!k);
+
+	bool k;
+	do {
+		k = Miranda_OkToExit();
+	}
+		while (!k);
 
 	if (k)
 		DestroyWindow(pcli->hwndContactList);

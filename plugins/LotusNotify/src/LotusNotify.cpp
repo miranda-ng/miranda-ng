@@ -524,8 +524,8 @@ int check() {
 		return 1;
 	}
 
-	if (Plugin_Terminated || Miranda_Terminated()){
-		log_p(L"check: Plugin_Terminated (=%d) OR Miranda_Terminated()", Plugin_Terminated);
+	if (Plugin_Terminated || Miranda_IsTerminated()){
+		log_p(L"check: Plugin_Terminated (=%d) OR Miranda_IsTerminated()", Plugin_Terminated);
 		return 0;
 	}
 
@@ -641,8 +641,8 @@ void checkthread(void*)
 		TIMEDATE     sendDate;
 		char strLink[4 * 16];
 
-		if (Plugin_Terminated || Miranda_Terminated()) {
-			log_p(L"checkthread: Plugin_Terminated (=%d) OR Miranda_Terminated()", Plugin_Terminated);
+		if (Plugin_Terminated || Miranda_IsTerminated()) {
+			log_p(L"checkthread: Plugin_Terminated (=%d) OR Miranda_IsTerminated()", Plugin_Terminated);
 			break;
 		}
 

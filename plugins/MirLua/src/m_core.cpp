@@ -423,7 +423,7 @@ LUAMOD_API int luaopen_m_core(lua_State *L)
 	lua_setfield(L, -2, "CALLSERVICE_NOTFOUND");
 
 	char version[128];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)_countof(version), (LPARAM)version);
+	Miranda_GetVersionText(version, _countof(version));
 	lua_pushstring(L, ptrA(mir_utf8encode(version)));
 	lua_setfield(L, -2, "Version");
 

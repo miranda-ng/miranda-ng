@@ -362,7 +362,7 @@ void __cdecl KeepAliveThread(LPVOID param)
 		SleepEx(250, TRUE);
 
 		mir_cslock lck(proto->session_cs);
-		if (Miranda_Terminated() || !proto->session) {
+		if (Miranda_IsTerminated() || !proto->session) {
 			proto->debugLogW(L"KeepAliveThread() end");
 			break;
 		}

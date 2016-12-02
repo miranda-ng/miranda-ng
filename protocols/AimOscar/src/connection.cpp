@@ -391,7 +391,7 @@ void __cdecl CAimProto::aim_protocol_negotiation(void*)
 					{
 						unsigned short offset = 0;
 						char client_id[64], mirver[64];
-						CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mirver), (LPARAM)mirver);
+						Miranda_GetVersionText(mirver, sizeof(mirver));
 						int client_id_len = mir_snprintf(client_id, "Miranda AIM, version %s", mirver);
 
 						char* buf_ = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE * 8 + COOKIE_LENGTH + client_id_len + 30); //TODO: correct length

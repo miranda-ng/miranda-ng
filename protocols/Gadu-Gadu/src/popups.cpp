@@ -151,7 +151,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 
 void GGPROTO::showpopup(const wchar_t* nickname, const wchar_t* msg, int flags)
 {
-	if (Miranda_Terminated()) return;
+	if (Miranda_IsTerminated()) return;
 
 	PopupData *puData = (PopupData*)mir_calloc(sizeof(PopupData));
 	puData->flags = flags;

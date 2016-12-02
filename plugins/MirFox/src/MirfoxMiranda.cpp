@@ -121,7 +121,7 @@ void CMirfoxMiranda::onContactAdded_async(void* threadArg)
 	bool canAdd = true;
 
 	// ceck miranda
-	if (Miranda_Terminated() || mirfoxMiranda->getMirfoxData().Plugin_Terminated)
+	if (Miranda_IsTerminated() || mirfoxMiranda->getMirfoxData().Plugin_Terminated)
 		canAdd = false;
 
 	// check if hContact still exist
@@ -182,7 +182,7 @@ void CMirfoxMiranda::onContactSettingChanged_async(void* threadArg){
 	bool canAdd = true;
 
 	// ceck miranda
-	if (Miranda_Terminated() || mirfoxMiranda->getMirfoxData().Plugin_Terminated)
+	if (Miranda_IsTerminated() || mirfoxMiranda->getMirfoxData().Plugin_Terminated)
 		canAdd = false;
 
 	// check if hContact still exist
@@ -393,8 +393,8 @@ void CMirfoxMiranda::csmThread(void* threadArg)
 		SleepEx(CSMTHREAD_TICK_TIME, TRUE);	//check exit every 0,1s
 
 		//if miranda is exiting - exit this thread
-		if (Miranda_Terminated() || mirfoxDataPtr->Plugin_Terminated){
-			logger->log_p(L"MirfoxMiranda::csmThread break by Plugin_Terminated (=%d) or Miranda_Terminated()", mirfoxDataPtr->Plugin_Terminated);
+		if (Miranda_IsTerminated() || mirfoxDataPtr->Plugin_Terminated){
+			logger->log_p(L"MirfoxMiranda::csmThread break by Plugin_Terminated (=%d) or Miranda_IsTerminated()", mirfoxDataPtr->Plugin_Terminated);
 			break;
 		}
 
@@ -540,8 +540,8 @@ void CMirfoxMiranda::msgQueueThread(void* threadArg)
 		SleepEx(MQTHREAD_TICK_TIME, TRUE);	//check exit every 0,1s
 	
 		//if miranda is exiting - exit this thread
-		if (Miranda_Terminated() || mirfoxDataPtr->Plugin_Terminated){
-			logger->log_p(L"mqThread break by Plugin_Terminated (=%d) or Miranda_Terminated()", mirfoxDataPtr->Plugin_Terminated);
+		if (Miranda_IsTerminated() || mirfoxDataPtr->Plugin_Terminated){
+			logger->log_p(L"mqThread break by Plugin_Terminated (=%d) or Miranda_IsTerminated()", mirfoxDataPtr->Plugin_Terminated);
 			delete [] userActionSelection;
 			break;
 		}

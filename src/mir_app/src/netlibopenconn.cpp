@@ -367,7 +367,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		ReleaseMutex(hConnectionOpenMutex);
 
 		// might of died in between the wait
-		if (Miranda_Terminated()) return false;
+		if (Miranda_IsTerminated()) return false;
 	}
 
 	PHOSTENT he;
@@ -393,7 +393,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		he = gethostbyname(nloc->szHost);
 	}
 
-	for (char** har = he->h_addr_list; *har && !Miranda_Terminated(); ++har) {
+	for (char** har = he->h_addr_list; *har && !Miranda_IsTerminated(); ++har) {
 		sin.sin_addr.s_addr = *(u_long*)*har;
 
 		char* szIp = NetlibAddressToString((SOCKADDR_INET_M*)&sin);
@@ -459,7 +459,7 @@ retry:
 				}
 				break;
 			}
-			else if (Miranda_Terminated()) {
+			else if (Miranda_IsTerminated()) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
 				break;
@@ -510,7 +510,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		ReleaseMutex(hConnectionOpenMutex);
 
 		// might of died in between the wait
-		if (Miranda_Terminated()) return false;
+		if (Miranda_IsTerminated()) return false;
 	}
 
 	char szPort[6];
@@ -553,7 +553,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		}
 	}
 
-	for (ai = air; ai && !Miranda_Terminated(); ai = ai->ai_next) {
+	for (ai = air; ai && !Miranda_IsTerminated(); ai = ai->ai_next) {
 		NetlibLogf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, ptrA(NetlibAddressToString((SOCKADDR_INET_M*)ai->ai_addr)));
 retry:
 		nlc->s = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
@@ -622,7 +622,7 @@ retry:
 				}
 				break;
 			}
-			else if (Miranda_Terminated()) {
+			else if (Miranda_IsTerminated()) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
 				break;
@@ -804,7 +804,7 @@ bool NetlibReconnect(NetlibConnection *nlc)
 	}
 
 	if (!opened) {
-		if (Miranda_Terminated())
+		if (Miranda_IsTerminated())
 			return false;
 
 		if (nlc->usingHttpGateway) {

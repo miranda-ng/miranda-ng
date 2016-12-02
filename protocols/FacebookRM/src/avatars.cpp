@@ -98,7 +98,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = avatar_queue[0];
 
-		if (Miranda_Terminated())
+		if (Miranda_IsTerminated())
 		{
 			debugLogA("*** Terminating avatar update early: %s", url.c_str());
 			break;

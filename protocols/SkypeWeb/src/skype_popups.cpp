@@ -49,7 +49,7 @@ void CSkypeProto::UninitPopups()
 
 void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact, int type)
 {
-	if (Miranda_Terminated())
+	if (Miranda_IsTerminated())
 		return;
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {

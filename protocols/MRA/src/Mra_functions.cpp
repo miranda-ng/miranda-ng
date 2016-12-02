@@ -32,7 +32,7 @@ CMStringA MraGetSelfVersionString()
 	LPSTR lpszSecIM = ServiceExists("SecureIM/IsContactSecured") ? " + SecureIM" : "";
 
 	CMStringA szSelfVersion;
-	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
+	Miranda_GetFileVersion(&v);
 	szSelfVersion.Format("Miranda NG %lu.%lu.%lu.%lu Unicode (MRA v%lu.%lu.%lu.%lu)%s, version: %lu.%lu",
 		v[0], v[1], v[2], v[3], __FILEVERSION_STRING, lpszSecIM, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
 	return szSelfVersion;

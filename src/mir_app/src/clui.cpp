@@ -688,7 +688,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		switch (LOWORD(wParam)) {
 		case ID_TRAY_EXIT:
 		case ID_ICQ_EXIT:
-			if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
+			if (Miranda_OkToExit())
 				DestroyWindow(hwnd);
 			break;
 
@@ -1012,7 +1012,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return 0;
 
 	case WM_CLOSE:
-		if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
+		if (Miranda_OkToExit())
 			DestroyWindow(hwnd);
 		return FALSE;
 

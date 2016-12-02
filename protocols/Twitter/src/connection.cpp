@@ -417,7 +417,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	debugLogA("***** Updating avatar: %s", data->url.c_str());
 	mir_cslock lck(avatar_lock_);
 
-	if (CallService(MS_SYSTEM_TERMINATED, 0, 0)) // if miranda is shutting down...
+	if (Miranda_IsTerminated()) // if miranda is shutting down...
 	{
 		debugLogA("***** Terminating avatar update early: %s", data->url.c_str());
 		return;

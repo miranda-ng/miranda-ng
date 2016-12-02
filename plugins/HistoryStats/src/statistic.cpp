@@ -1379,7 +1379,7 @@ void __cdecl Statistic::threadProc(void *lpParameter)
 	pStats->createStatistics();
 
 	// check for errors
-	if (!pStats->m_ErrorText.empty() && !mu::system::terminated())
+	if (!pStats->m_ErrorText.empty() && !Miranda_IsTerminated())
 		MessageBox(0, pStats->m_ErrorText.c_str(), TranslateT("HistoryStats - Error"), MB_ICONERROR | MB_OK);
 
 	// free statistics

@@ -81,7 +81,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Init native User-Agent
 	WORD v[4];
-	CallService(MS_SYSTEM_GETFILEVERSION, 0, LPARAM(&v));
+	Miranda_GetFileVersion(&v);
 
 	WAConnection::globalInit();
 	return 0;
