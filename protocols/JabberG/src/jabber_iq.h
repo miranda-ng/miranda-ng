@@ -59,19 +59,19 @@ protected:
 	DWORD    m_dwParamsToParse;
 	DWORD    m_dwRequestTime;
 	DWORD    m_dwTimeout;
-	wchar_t   *m_szReceiver;
+	wchar_t *m_szReceiver;
 	int      m_iPriority;
 
 public:
 	void    *m_pUserData;
 	int      m_nIqType;
-	wchar_t   *m_szFrom;
-	wchar_t   *m_szChildTagXmlns;
-	wchar_t   *m_szChildTagName;
+	wchar_t *m_szFrom;
+	wchar_t *m_szChildTagXmlns;
+	wchar_t *m_szChildTagName;
 	HXML     m_pChildNode;
 	MCONTACT m_hContact;
-	wchar_t   *m_szTo;
-	wchar_t   *m_szId;
+	wchar_t *m_szTo;
+	wchar_t *m_szId;
 
 public:
 	__forceinline CJabberIqInfo()
@@ -89,13 +89,13 @@ public:
 	__forceinline DWORD    GetRequestTime() const { return m_dwRequestTime; }
 	__forceinline int      GetIqType() const { return m_nIqType; }	
 	__forceinline void*    GetUserData() const {	return m_pUserData; }
-	__forceinline wchar_t*   GetFrom() const {	return m_szFrom; }
-	__forceinline wchar_t*   GetTo() const { return m_szTo; }
-	__forceinline wchar_t*   GetIdStr() const { return m_szId; }
+	__forceinline wchar_t* GetFrom() const {	return m_szFrom; }
+	__forceinline wchar_t* GetTo() const { return m_szTo; }
+	__forceinline wchar_t* GetIdStr() const { return m_szId; }
 	__forceinline MCONTACT GetHContact() const { return m_hContact; }
 	__forceinline HXML     GetChildNode() const { return m_pChildNode; }
-	__forceinline wchar_t*   GetChildNodeName() const { return m_szChildTagName; }
-	__forceinline wchar_t*   GetReceiver() const { return m_szReceiver; }
+	__forceinline wchar_t* GetChildNodeName() const { return m_szChildTagName; }
+	__forceinline wchar_t* GetReceiver() const { return m_szReceiver; }
 	__forceinline int      GetPriority() const { return m_iPriority; }
 
 	char* GetCharIqType()

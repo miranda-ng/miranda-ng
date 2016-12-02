@@ -144,7 +144,6 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 {
 	wchar_t szPort[8];
 	HANDLE hEvent = NULL;
-	CJabberIqInfo *pInfo = NULL;
 	int nIqId = 0;
 
 	debugLogA("Thread started: type=bytestream_send");
@@ -161,29 +160,28 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			jbt->szProxyJid = NULL;
 			jbt->hProxyEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-			pInfo = AddIQ(&CJabberProto::IqResultProxyDiscovery, JABBER_IQ_TYPE_GET, proxyJid, 0, -1, jbt);
+			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::IqResultProxyDiscovery, JABBER_IQ_TYPE_GET, proxyJid, 0, -1, jbt);
 			nIqId = pInfo->GetIqId();
 			XmlNodeIq iq(pInfo);
 			iq << XQUERY(JABBER_FEAT_BYTESTREAMS);
 			m_ThreadInfo->send(iq);
 
 			WaitForSingleObject(jbt->hProxyEvent, INFINITE);
-			m_iqManager.ExpireIq (nIqId);
+			m_iqManager.ExpireIq(nIqId);
 			CloseHandle(jbt->hProxyEvent);
 			jbt->hProxyEvent = NULL;
 
 			if (jbt->state == JBT_ERROR && !bDirect) {
 				debugLogA("Bytestream proxy failure");
-				MsgPopup( pInfo->GetHContact(), TranslateT("Bytestream Proxy not available"), pInfo->GetReceiver());
+				MsgPopup(pInfo->GetHContact(), TranslateT("Bytestream Proxy not available"), proxyJid);
 				jbt->ft->state = FT_DENIED;
 				(this->*jbt->pfnFinal)(FALSE, jbt->ft);
 				jbt->ft = NULL;
 				delete jbt;
 				return;
-			}
-	}	}
+	}	}	}
 
-	pInfo = AddIQ(&CJabberProto::ByteInitiateResult, JABBER_IQ_TYPE_SET, jbt->dstJID, 0, -1, jbt);
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::ByteInitiateResult, JABBER_IQ_TYPE_SET, jbt->dstJID, 0, -1, jbt);
 	nIqId = pInfo->GetIqId();
 	{
 		XmlNodeIq iq(pInfo);
