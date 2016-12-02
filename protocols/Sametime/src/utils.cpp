@@ -75,10 +75,6 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	CSametimeProto* proto = puData->proto;
 
 	ErrorDisplay disp = proto->options.err_method;
-	// funny logic :) ... try to avoid message boxes
-	// if want baloons but no balloons, try popups
-	// if want popups but no popups, try baloons
-	// if, after that, you want balloons but no balloons, revert to message boxes
 
 	if (disp == ED_POP) {
 		POPUPDATACLASS ppd = { sizeof(ppd) };
