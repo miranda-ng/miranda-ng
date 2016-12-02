@@ -45,7 +45,6 @@ var
   pc:pWideChar;
 begin
   FillChar(tabb,SizeOf(tabb),0);
-  tabb.cbSize       :=SizeOf(tabb);
   tabb.dwButtonID   :=ActionItem.dwActID;
   tabb.pszModuleName:=MODULE_NAME;
 
@@ -64,7 +63,7 @@ begin
   end;
   if pc=nil then pc:=ActionItem.szActDescr;
   tabb.szTooltip:=pc;
-  CallService(MS_BB_SETBUTTONSTATE,hContact,TLPARAM(@tabb));
+  Srmm_SetButtonState(hContact,@tabb);
 end;
 
 function IsLocalItem(const UAItem:tMyActionItem):boolean;
@@ -731,7 +730,6 @@ begin
   begin
     FillChar(tabb,SizeOf(tabb),0);
     // register Tab ButtonBar button
-    tabb.cbSize       :=SizeOf(tabb);
     tabb.dwButtonID   :=ActionItem.dwActID;
     tabb.pszModuleName:=MODULE_NAME;
     tabb.dwDefPos     :=(TABTOOLBAR_INITPOS+ActionItem.wSortIndex*10) and $7FFF;
@@ -747,8 +745,8 @@ begin
     else
       tabb.szTooltip:=ActionItem.szActDescr;
 
-    if CallService(MS_BB_ADDBUTTON,0,LPARAM(@tabb))=0 then
-      ActionItem.flags:=ActionItem.flags or UAF_TBREGGED;
+    Srmm_AddButton(@tabb);
+    ActionItem.flags:=ActionItem.flags or UAF_TBREGGED;
   end;
 end;
 
@@ -759,10 +757,9 @@ begin
   if (ActionItem.flags and UAF_TBREGGED)<>0 then
   begin
     FillChar(tabb,SizeOf(tabb),0);
-    tabb.cbSize       :=SizeOf(tabb);
     tabb.dwButtonID   :=ActionItem.dwActID;
     tabb.pszModuleName:=MODULE_NAME;
-    CallService(MS_BB_REMOVEBUTTON,0,LPARAM(@tabb));
+    Srmm_RemoveButton(@tabb);
     ActionItem.flags:=ActionItem.flags and not UAF_TBREGGED;
   end;
 end;

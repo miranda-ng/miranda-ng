@@ -1,52 +1,11 @@
 {$IFNDEF M_MSG_BUTTONSBAR}
 {$DEFINE M_MSG_BUTTONSBAR}
 
-//////////////////////////////////////////////////////////////////////////
-// Services
-//
-//////////////////////////////////////////////////////////////////////////
-// Adding a button
-//
-// wParam  = 0
-// lParam  = (BBButton *) &description
 const
-  MS_BB_ADDBUTTON:PAnsiChar = 'TabSRMM/ButtonsBar/AddButton';
-
-//////////////////////////////////////////////////////////////////////////
-// Remove button
-//
-// wParam = 0 
-// lParam  = (BBButton *) &description, only button ID and ModuleName used
-  MS_BB_REMOVEBUTTON:PAnsiChar = 'TabSRMM/ButtonsBar/RemoveButton';
-
-//////////////////////////////////////////////////////////////////////////
-// ModifyButton(global)
-//
-// wParam = 0
-// lParam = (BBButton *) &description
-  MS_BB_MODIFYBUTTON:PAnsiChar = 'TabSRMM/ButtonsBar/ModifyButton';
-
-
   BBSF_HIDDEN   = 1;
   BBSF_DISABLED = 2;
   BBSF_PUSHED   = 4;
   BBSF_RELEASED = 8;
-
-//////////////////////////////////////////////////////////////////////////
-// GetButtonState(local)
-//
-// wParam =  hContact
-// lParam = (BBButton *) &description , only ModuleName and ID used
-// Returns BBButton struct with BBSF_ bbbFlags: 
-  MS_BB_GETBUTTONSTATE:PansiChar = 'TabSRMM/ButtonsBar/GetButtonState';
-
-//////////////////////////////////////////////////////////////////////////
-// SetButtonState (local)
-//
-// wParam =  hContact
-// lParam = (BBButton *) &description , ModuleName, ID,hIcon,Tooltip, and BBSF_ bbbFlags are used
-  MS_BB_SETBUTTONSTATE:PAnsiChar = 'TabSRMM/ButtonsBar/SetButtonState';
-
 
 ////////////////////////////////////////////////////////////////
 //Events
@@ -75,7 +34,6 @@ const
 type
   pCustomButtonClickData = ^tCustomButtonClickData;
   tCustomButtonClickData = record
-    cbSize    :int;
     pt        :TPOINT;    // screen coordinates for menus
     pszModule :PAnsiChar; // button owners name 
     dwButtonId:dword;     // registered button ID
@@ -97,8 +55,8 @@ const
   BBBF_ISDUMMYBUTTON = $0200;
 
 type
-  tagBBButton = record
-    cbSize       :int;   // size of structure
+  pBBButton = ^tBBButton;
+  tBBButton = record
     dwButtonID   :dword; // your button ID, will be combined with pszModuleName for storing settings, etc...  
     pszModuleName:PAnsiChar; // module name without spaces and underline symbols (e.g. "tabsrmm")
     szTooltip    :PWideChar; // button's tooltip
@@ -108,7 +66,8 @@ type
     bbbFlags     :dword; // combine of BBBF_ flags above
     hIcon        :HICON; // Handle to icolib registered icon, it's better to register with pszSection = "TabSRMM/Toolbar"
   end;	
-  tBBButton = tagBBButton;
 
-
+function Srmm_RemoveButton(bbdi:pBBButton) : integer; stdcall; external AppDll;
+function Srmm_SetButtonState(hContact:TMCONTACT;bbdi:pBBButton) : integer; stdcall; external AppDll;
+                                                             
 {$ENDIF}

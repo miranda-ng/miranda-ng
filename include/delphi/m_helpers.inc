@@ -50,6 +50,8 @@ function Menu_AddStatusMenuItem      (mi:PMO_MenuItem):HGENMENU;
 function Menu_AddProtoMenuItem       (mi:PMO_MenuItem):HGENMENU;
 function Menu_AddTrayMenuItem        (mi:PMO_MenuItem):HGENMENU;
 
+procedure Srmm_AddButton(bbdi:pBBButton);
+
 procedure SET_UID(pmi:PMO_MenuItem; strguid:PAnsiChar);
 
 function Options_AddPage (wParam:WPARAM; odp:POPTIONSDIALOGPAGE):int_ptr;
@@ -77,6 +79,9 @@ function  Crypto_GetProvider(pszName:PAnsiChar):PCRYPTO_PROVIDER;
 
 var
   hLangpack:int = 0;
+
+function _Srmm_AddButton(bbdi:pBBButton;_hLang:int) : integer; stdcall; 
+             external AppDll name 'Srmm_AddButton';
 
 function _AddMainMenuItem(mi:PMO_MenuItem) : HGENMENU; stdcall;
              external AppDll name 'Menu_AddMainMenuItem';
@@ -451,6 +456,10 @@ begin
   SendMessage(hwnd, ITCM_ADDITEM, WPARAM(@mit), 0);
 end;
 
+procedure Srmm_AddButton(bbdi:pBBButton);
+begin
+   _Srmm_AddButton(bbdi,hLangpack);
+end;
 
 function Crypto_RegisterEngine(pProvider:PCRYPTO_PROVIDER):THANDLE;
 begin
