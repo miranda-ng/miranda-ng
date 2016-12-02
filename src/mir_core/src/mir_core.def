@@ -1036,5 +1036,6 @@ CallFunctionSync @1170
 ?GetItemRect@CCtrlListBox@@QAEHHPAUtagRECT@@@Z @1193 NONAME
 ?SetItemHeight@CCtrlListBox@@QAEXHH@Z @1194 NONAME
 ?UseSystemColors@CCtrlBase@@QAEXXZ @1195 NONAME
-?SetPosition@CCtrlSpin@@QAEXGG@Z @1196 NONAME
+?SetPosition@CCtrlSpin@@QAEXG@Z @1196 NONAME
 ?GetPosition@CCtrlSpin@@QAEGXZ @1197 NONAME
+?OnNotify@CCtrlSpin@@EAEHHPAUtagNMHDR@@@Z @1198 NONAME

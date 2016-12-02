@@ -555,7 +555,7 @@ class MIR_CORE_EXPORT CCtrlButton : public CCtrlBase
 public:
 	CCtrlButton(CDlgBase *dlg, int ctrlId);
 
-	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode);
+	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
 
 	CCallback<CCtrlButton> OnClick;
 };
@@ -586,7 +586,7 @@ class MIR_CORE_EXPORT CCtrlHyperlink : public CCtrlBase
 public:
 	CCtrlHyperlink(CDlgBase *dlg, int ctrlId, const char* url);
 
-	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode);
+	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
 
 protected:
 	const char* m_url;
@@ -687,7 +687,7 @@ public:
 	CCallback<TEventInfo>	OnClick;
 
 protected:
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -726,10 +726,10 @@ class MIR_CORE_EXPORT CCtrlCheck : public CCtrlData
 
 public:
 	CCtrlCheck(CDlgBase *dlg, int ctrlId);
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/);
+	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) override;
 
-	virtual void OnApply();
-	virtual void OnReset();
+	virtual void OnApply() override;
+	virtual void OnReset() override;
 
 	int GetState();
 	void SetState(int state);
@@ -744,10 +744,10 @@ class MIR_CORE_EXPORT CCtrlEdit : public CCtrlData
 
 public:
 	CCtrlEdit(CDlgBase *dlg, int ctrlId);
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode);
+	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
 
-	virtual void OnApply();
-	virtual void OnReset();
+	virtual void OnApply() override;
+	virtual void OnReset() override;
 
 	void SetMaxLength(unsigned int len);
 };
@@ -759,11 +759,13 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlBase
 {
 	typedef CCtrlData CSuper;
 
+	virtual BOOL OnNotify(int, NMHDR*) override;
+
 public:
 	CCtrlSpin(CDlgBase *dlg, int ctrlId);
 
 	WORD GetPosition();
-	void SetPosition(WORD max, WORD min = 0);
+	void SetPosition(WORD pos);
 	void SetRange(WORD max, WORD min = 0);
 };
 
@@ -804,7 +806,7 @@ public:
 	CCallback<CCtrlListBox>	OnSelChange;
 
 protected:
-	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode);
+	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -817,7 +819,7 @@ class MIR_CORE_EXPORT CCtrlCombo : public CCtrlData
 public:
 	CCtrlCombo(CDlgBase *dlg, int ctrlId);
 
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode);
+	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
 	virtual void OnInit();
 	virtual void OnApply();
 	virtual void OnReset();
@@ -1026,7 +1028,7 @@ public:
 	CCallback<TEventInfo> OnSetDispInfo;
 
 protected:
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1162,7 +1164,7 @@ public:
 
 protected:
 	virtual void OnInit();
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -1198,7 +1200,7 @@ public:
 	void ActivatePage(int iPage);
 
 protected:
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	
 	virtual void OnInit();
 	virtual void OnDestroy();
@@ -1257,7 +1259,7 @@ public:
 		m_pfnOnDeleteItem	= pfnOnDeleteItem;
 	}
 
-	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode)
+	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override
 	{
 		if (m_parentWnd && m_pfnOnCommand) {
 			m_parentWnd->m_lresult = 0;
@@ -1266,7 +1268,7 @@ public:
 		}
 		return FALSE;
 	}
-	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh)
+	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override
 	{
 		if (m_parentWnd && m_pfnOnNotify) {
 			m_parentWnd->m_lresult = 0;
@@ -1276,7 +1278,7 @@ public:
 		return FALSE;
 	}
 
-	virtual BOOL OnMeasureItem(MEASUREITEMSTRUCT *param)
+	virtual BOOL OnMeasureItem(MEASUREITEMSTRUCT *param) override
 	{
 		if (m_parentWnd && m_pfnOnMeasureItem) {
 			m_parentWnd->m_lresult = 0;
@@ -1285,7 +1287,7 @@ public:
 		}
 		return FALSE;
 	}
-	virtual BOOL OnDrawItem(DRAWITEMSTRUCT *param)
+	virtual BOOL OnDrawItem(DRAWITEMSTRUCT *param) override
 	{
 		if (m_parentWnd && m_pfnOnDrawItem) {
 			m_parentWnd->m_lresult = 0;
@@ -1294,7 +1296,7 @@ public:
 		}
 		return FALSE;
 	}
-	virtual BOOL OnDeleteItem(DELETEITEMSTRUCT *param)
+	virtual BOOL OnDeleteItem(DELETEITEMSTRUCT *param) override
 	{
 		if (m_parentWnd && m_pfnOnDeleteItem) {
 			m_parentWnd->m_lresult = 0;

@@ -676,19 +676,29 @@ CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId)
 {}
 
+BOOL CCtrlSpin::OnNotify(int, NMHDR *pnmh)
+{
+	if (pnmh->code == UDN_DELTAPOS) {
+		NotifyChange();
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 WORD CCtrlSpin::GetPosition()
 {
 	return SendMsg(UDM_GETPOS, 0, 0);
 }
 
-void CCtrlSpin::SetPosition(WORD wMax, WORD wMin)
+void CCtrlSpin::SetPosition(WORD wPos)
 {
-	SendMsg(UDM_SETPOS, 0, MAKELONG(wMin, wMax));
+	SendMsg(UDM_SETPOS, 0, wPos);
 }
 
 void CCtrlSpin::SetRange(WORD wMax, WORD wMin)
 {
-	SendMsg(UDM_SETRANGE, 0, MAKELONG(wMin, wMax));
+	SendMsg(UDM_SETRANGE, 0, MAKELPARAM(wMax, wMin));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
