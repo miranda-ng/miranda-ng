@@ -192,7 +192,7 @@ extern "C" int __declspec(dllexport) Load()
 		return 1;
 	}
 
-	WORD v[4];
+	MFileVersion v;
 	Miranda_GetFileVersion(&v);
 	mir_snwprintf(szCoreVersion, L"%d.%d.%d.%d", v[0], v[1], v[2], v[3]);
 

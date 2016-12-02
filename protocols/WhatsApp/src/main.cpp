@@ -80,7 +80,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	//InitContactMenus();
 
 	// Init native User-Agent
-	WORD v[4];
+	MFileVersion v;
 	Miranda_GetFileVersion(&v);
 
 	WAConnection::globalInit();

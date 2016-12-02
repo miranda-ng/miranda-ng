@@ -576,7 +576,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			WORD v[4];
+			MFileVersion v;
 			Miranda_GetFileVersion(&v);
 
 			wchar_t tStr[80];

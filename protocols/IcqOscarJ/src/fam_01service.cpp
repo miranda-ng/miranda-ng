@@ -675,7 +675,7 @@ void CIcqProto::setUserInfo()
 	packDWord(&packet, 0x4D697261);   // Miranda Signature
 	packDWord(&packet, 0x6E64614E);
 
-	WORD v[4];
+	MFileVersion v;
 	Miranda_GetFileVersion(&v);
 	packWord(&packet, v[0]);
 	packWord(&packet, v[1]);
