@@ -410,10 +410,10 @@ MIR_APP_DLL(void) Miranda_GetFileVersion(MFileVersion *pVer)
 	VS_FIXEDFILEINFO *vsffi;
 	VerQueryValue(pVerInfo, L"\\", (PVOID*)&vsffi, &blockSize);
 
-	*pVer[0] = HIWORD(vsffi->dwProductVersionMS);
-	*pVer[1] = LOWORD(vsffi->dwProductVersionMS);
-	*pVer[2] = HIWORD(vsffi->dwProductVersionLS);
-	*pVer[3] = LOWORD(vsffi->dwProductVersionLS);
+	(*pVer)[0] = HIWORD(vsffi->dwProductVersionMS);
+	(*pVer)[1] = LOWORD(vsffi->dwProductVersionMS);
+	(*pVer)[2] = HIWORD(vsffi->dwProductVersionLS);
+	(*pVer)[3] = LOWORD(vsffi->dwProductVersionLS);
 }
 
 MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize)
