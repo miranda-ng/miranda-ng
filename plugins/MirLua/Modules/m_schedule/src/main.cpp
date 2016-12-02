@@ -68,7 +68,7 @@ wait:	WaitForSingleObject(hScheduleEvent, waitTime);
 
 		while (ScheduleTask *task = tasks[0])
 		{
-			if (Miranda_Terminated())
+			if (Miranda_IsTerminated())
 				return;
 
 			mir_cslock lock(threadLock);
