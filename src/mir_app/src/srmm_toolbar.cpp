@@ -543,6 +543,7 @@ public:
 		m_toolBar.SetFlags(MTREE_DND); // enable drag-n-drop
 		m_toolBar.OnSelChanged = Callback(this, &CSrmmToolbarOptions::OnTreeSelChanged);
 		m_toolBar.OnSelChanging = Callback(this, &CSrmmToolbarOptions::OnTreeSelChanging);
+		m_toolBar.OnChange = Callback(this, &CSrmmToolbarOptions::OnTreeChanged);
 
 		m_btnReset.OnClick = Callback(this, &CSrmmToolbarOptions::btnResetClicked);
 		m_btnSeparator.OnClick = Callback(this, &CSrmmToolbarOptions::btnSeparatorClicked);
@@ -695,24 +696,14 @@ public:
 		m_btnHidden.Enable(); m_btnHidden.SetState(cbd->m_bCanBeHidden);
 	}
 
-	void OnTreeClicked(void*)
+	void OnTreeChanged(void*)
 	{
-		TVHITTESTINFO hti = { 0 };
-		GetCursorPos(&hti.pt);
-		ScreenToClient(m_toolBar.GetHwnd(), &hti.pt);
-		if (m_toolBar.HitTest(&hti)) {
-			if (hti.flags & TVHT_ONITEMSTATEICON) {
-				NotifyChange();
-				int iNewState = m_toolBar.GetCheckState(hti.hItem);
-				m_btnIM.Enable(iNewState);
-				m_btnChat.Enable(iNewState);
-				m_btnHidden.Enable(iNewState);
-				if (iNewState)
-					m_btnIM.SetState(true);
-
-				m_toolBar.SelectItem(hti.hItem);
-			}
-		}
+		int iNewState = !m_toolBar.GetCheckState(m_toolBar.GetSelection());
+		m_btnIM.Enable(iNewState);
+		m_btnChat.Enable(iNewState);
+		m_btnHidden.Enable(iNewState);
+		if (iNewState)
+			m_btnIM.SetState(true);
 	}
 };
 

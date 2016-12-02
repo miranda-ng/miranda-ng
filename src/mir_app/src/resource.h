@@ -286,6 +286,7 @@
 #define IDC_CANBEHIDDEN                 1102
 #define IDC_SPIN1								 1103
 #define IDC_SEPARATOR						 1104
+#define IDC_EDIT1								 1105
 #define IDC_BUILDTIME                   1108
 #define IDC_CREDITSFILE                 1109
 #define IDC_NUMBER                      1113
