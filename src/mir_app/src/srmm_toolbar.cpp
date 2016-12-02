@@ -589,11 +589,11 @@ public:
 		SaveTree();
 		CB_ReInitCustomButtons();
 
-		BYTE newGap = (BYTE)SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_GETPOS, 0, 0);
-		if (newGap != db_get_b(NULL, MODULENAME, "ButtonsBarGap", 1))
+		WORD newGap = m_gap.GetPosition();
+		if (newGap != db_get_b(NULL, MODULENAME, "ButtonsBarGap", 1)) {
 			WindowList_BroadcastAsync(chatApi.hWindowList, WM_SIZE, 0, 0);
-
-		db_set_b(0, MODULENAME, "ButtonsBarGap", newGap);
+			db_set_b(0, MODULENAME, "ButtonsBarGap", newGap);
+		}
 
 		BuildMenuObjectsTree();
 
@@ -613,6 +613,7 @@ public:
 		db_delete_module(NULL, MODULENAME);
 		CB_HardReInit();
 		BuildMenuObjectsTree();
+		NotifyChange();
 	}
 
 	void btnSeparatorClicked(void*)
@@ -640,6 +641,7 @@ public:
 		hItem = m_toolBar.InsertItem(&tvis);
 
 		m_toolBar.SetCheckState(hItem, (cbd->m_bIMButton || cbd->m_bChatButton));
+		NotifyChange();
 	}
 
 	void OnTreeSelChanging(void*)
@@ -736,6 +738,13 @@ void KillModuleToolbarIcons(int _hLang)
 static int SrmmModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_OPT_INITIALISE, SrmmOptionsInit);
+	return 0;
+}
+
+static INT_PTR SrmmLoadToolbar(WPARAM wParam, LPARAM)
+{
+	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
+	CloseHandle((HANDLE)wParam);
 
 	NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
 	return 0;
@@ -754,6 +763,10 @@ static int ConvertToolbarData(const char *szSetting, LPARAM)
 void LoadSrmmToolbarModule()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, SrmmModulesLoaded);
+
+	HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
+	CreateServiceFunction("Srmm/LoadToolbar", SrmmLoadToolbar);
+	CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)"Srmm/LoadToolbar");
 
 	hHookButtonPressedEvt = CreateHookableEvent(ME_MSG_BUTTONPRESSED);
 	hHookToolBarLoadedEvt = CreateHookableEvent(ME_MSG_TOOLBARLOADED);
