@@ -248,7 +248,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 
 				if (item["mood"])
 				{
-					db_set_s(hContact, "CList", "StatusMsg", ptrA(RemoveHtml(ptrA(mir_utf8decodeA(item["mood"].as_string().c_str())))));
+					db_set_utf(hContact, "CList", "StatusMsg", ptrA(RemoveHtml(item["mood"].as_string().c_str())));
 				}
 
 				SetAvatarUrl(hContact, avatar_url);
