@@ -358,23 +358,71 @@ char *CSkypeProto::RemoveHtml(const char *text)
 			continue;
 		}
 
-		if (data.at(i) == '&') {
+		if (data.at(i) == '&')
+		{
 			std::string::size_type begin = i;
 			i = data.find(";", i);
-			if (i == std::string::npos) {
+			if (i == std::string::npos)
+			{
 				i = begin;
 			}
 			else {
 				std::string entity = data.substr(begin + 1, i - begin - 1);
 
 				bool found = false;
-				for (int j = 0; j < _countof(htmlEntities); j++)
+				if (entity.length() > 1 && entity.at(0) == '#')
 				{
-					if (!mir_strcmpi(entity.c_str(), htmlEntities[j].entity))
+					// Numeric replacement
+					bool hex = false;
+					if (data.at(1) == 'x')
 					{
-						new_string += htmlEntities[j].symbol;
+						hex = true;
+						entity = entity.substr(2);
+					}
+					else
+					{
+						entity = entity.substr(1);
+					}
+					if (!entity.empty())
+					{
+						unsigned long value = strtoul(entity.c_str(), NULL, hex ? 16 : 10);
+
+						if (value <= 127)
+						{ // U+0000 .. U+007F
+							new_string += (char)value;
+						}
+						else if (value >= 128 && value <= 2047)
+						{ // U+0080 .. U+07FF
+							new_string += (char)(192 + (value / 64));
+							new_string += (char)(128 + (value % 64));
+						}
+						else if (value >= 2048 && value <= 65535)
+						{ // U+0800 .. U+FFFF
+							new_string += (char)(224 + (value / 4096));
+							new_string += (char)(128 + ((value / 64) % 64));
+							new_string += (char)(128 + (value % 64));
+						}
+						else
+						{
+							new_string += (char)((value >> 24) & 0xFF);
+							new_string += (char)((value >> 16) & 0xFF);
+							new_string += (char)((value >> 8) & 0xFF);
+							new_string += (char)((value)& 0xFF);
+						}
 						found = true;
-						break;
+					}
+				}
+				else
+				{
+					// Keyword replacement
+					for (int j = 0; j < _countof(htmlEntities); j++)
+					{
+						if (!mir_strcmpi(entity.c_str(), htmlEntities[j].entity))
+						{
+							new_string += htmlEntities[j].symbol;
+							found = true;
+							break;
+						}
 					}
 				}
 
