@@ -134,7 +134,10 @@ HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
 			CMStringW str = mood.as_mstring();
 			this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
 		}
-		this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+		else
+		{
+			this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+		}
 	});
 	return (HANDLE)1;
 }
