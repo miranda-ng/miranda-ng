@@ -129,7 +129,7 @@ MEVENT CSkypeProto::AppendDBEvent(MCONTACT hContact, MEVENT hEvent, const char *
 
 	}
 	db_event_delete(hContact, hEvent);	
-	return AddDbEvent(SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, hContact, dbei.timestamp, DBEF_UTF, jMsg.write().c_str(), szUid);
+	return AddDbEvent(SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, hContact, dbei.timestamp, dbei.flags, jMsg.write().c_str(), szUid);
 }
 
 MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
