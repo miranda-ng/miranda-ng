@@ -43,6 +43,8 @@ void CSkypeProto::PollingThread(void*)
 
 			if (response->resultCode == 200)
 			{
+				nErrors = 0;
+
 				if (response->pData)
 				{
 					char *pData = mir_strdup(response->pData);

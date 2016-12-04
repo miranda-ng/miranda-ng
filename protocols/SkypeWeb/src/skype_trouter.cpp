@@ -144,6 +144,8 @@ void CSkypeProto::TRouterThread(void*)
 
 			if (response->resultCode == 200)
 			{
+				errors = 0;
+
 				if (response->pData)
 				{
 					char *json = strstr(response->pData, "{");
