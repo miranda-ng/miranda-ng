@@ -159,12 +159,20 @@ void CSkypeProto::TRouterThread(void*)
 			}
 			else
 			{
+				errors++;
+
 				SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
 				m_hTrouterHealthEvent.Wait();
 			}
 			m_TrouterConnection = response->nlc;
 		}
 		delete request;
+
+		if (m_iStatus != ID_STATUS_OFFLINE)
+		{
+			debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
+			SetStatus(ID_STATUS_OFFLINE);
+		}
 	}
 	m_hTrouterThread = NULL;
 	m_TrouterConnection = NULL;
