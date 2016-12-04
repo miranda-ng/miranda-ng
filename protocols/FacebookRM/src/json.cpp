@@ -34,6 +34,7 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 	std::string type = it["type"].as_string(); // "friend", "page", "user" (friend with disabled account or not friend)
 	bool isFriend = it["is_friend"].as_bool(); // e.g. "True" or "False" for type="friend" (I don't know why), "False" for type="user", doesn't exist for type="page"
 	int gender = it["gender"].as_int();
+	// bool isMessengerContact = it["is_nonfriend_messenger_contact"].as_bool(); // "True" or "False", but we don't care as "is_friend" and "type" are enough for us
 
 	//const JSONNode &uri = it["uri"); // profile url	
 
@@ -178,6 +179,12 @@ int facebook_json_parser::parse_friends(std::string *data, std::map< std::string
 	for (auto it = payload.begin(); it != payload.end(); ++it) {
 		facebook_user *fbu = new facebook_user();
 		parseUser(*it, fbu);
+
+		// Facebook now sends also other types of contacts, which we do not want here
+		if (fbu->type != CONTACT_FRIEND) {
+			delete fbu;
+			continue;
+		}
 
 		friends->insert(std::make_pair(fbu->user_id, fbu));
 	}
@@ -772,9 +779,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 
 				MCONTACT hContact = proto->ContactIDToHContact(id);
 				if (!hContact) {
-					// FIXME: What to do, when we don't have this contact? What does it mean?
-					// fbu->type = CONTACT_FRIEND; // add this contact as a friend?
-					// fbu->handle = AddToContactList(fbu);
+					// Facebook now sends info also about some nonfriends, so we just ignore status change of contacts we don't have in list
 					continue;
 				}
 
@@ -855,9 +860,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 
 				MCONTACT hContact = proto->ContactIDToHContact(id);
 				if (!hContact) {
-					// FIXME: What to do, when we don't have this contact? What does it mean?
-					// fbu->type = CONTACT_FRIEND; // add this contact as a friend?
-					// fbu->handle = AddToContactList(fbu);
+					// Facebook now sends info also about some nonfriends, so we just ignore status change of contacts we don't have in list
 					continue;
 				}
 
