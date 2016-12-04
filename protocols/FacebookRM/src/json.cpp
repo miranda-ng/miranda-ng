@@ -287,6 +287,12 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 		if (type == "photo") {
 			std::string filename = attach_["name"].as_string();
 			std::string link = attach_["hires_url"].as_string();
+			if (link.empty()) {
+				link = attach_["large_preview_url"].as_string();
+			}
+			if (link.empty()) {
+				link = attach_["preview_url"].as_string();
+			}
 
 			if (!link.empty()) {
 				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
@@ -311,7 +317,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 				if (description.length() > MAX_LINK_DESCRIPTION_LEN)
 					description = description.substr(0, MAX_LINK_DESCRIPTION_LEN) + TEXT_ELLIPSIS;
 
-				if (link.find("l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
+				if (link.find("//www." FACEBOOK_SERVER_DOMAIN) != std::string::npos || link.find("//l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
 					// de-facebook this link
 					link = utils::url::decode(utils::text::source_get_value2(&link, "l.php?u=", "&", true));
 				}
@@ -352,6 +358,12 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 		}
 		else if (type == "animated_image") {
 			std::string link = attach_["hires_url"].as_string();
+			if (link.empty()) {
+				link = attach_["large_preview_url"].as_string();
+			}
+			if (link.empty()) {
+				link = attach_["preview_url"].as_string();
+			}
 
 			if (!link.empty()) {
 				attachments_text += "\n" + absolutizeUrl(link) + "\n";
@@ -391,6 +403,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 	}
 	else {
 		*message_text += T2Utf(TranslateT("User sent an unsupported attachment. Open your browser to see it."));
+		proto->debugLogA("json::parseAttachments (%s) - Unsupported attachment:\n%s", legacy ? "legacy" : "not legacy", attachments_.as_string());
 	}
 }
 
