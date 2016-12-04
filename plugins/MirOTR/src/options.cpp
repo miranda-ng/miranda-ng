@@ -259,6 +259,58 @@ static char* GetProtoName(HWND lv, int iItem)
 	return (ListView_GetItem(lv, &item) == -1) ? NULL : (char*)item.lParam;
 }
 
+static void ChangeContactSetting(HWND hwndDlg, int iItem, bool changeHtml)
+{
+	if (iItem < 0)
+		return;
+
+	LVITEM lvi = { 0 };
+	lvi.mask = LVIF_PARAM;
+	lvi.iItem = iItem;
+	lvi.iSubItem = 0;
+	
+	ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS), &lvi);
+
+	ContactPolicyMap* cpm = (ContactPolicyMap*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT hContact = (MCONTACT)lvi.lParam;
+
+	// Handle HtmlConv
+	{
+		wchar_t buff[50];
+		ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS), lvi.iItem, 3, buff, _countof(buff));
+
+		bool htmlEnabled = !wcsncmp(buff, TranslateW(LANG_YES), 50);
+		if (changeHtml) {
+			htmlEnabled = !htmlEnabled;
+		}
+
+		// Update wanted state
+		(*cpm)[hContact].htmlconv = htmlEnabled ? HTMLCONV_ENABLE : HTMLCONV_DISABLE;
+		ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS), lvi.iItem, 3, TranslateW(htmlEnabled ? LANG_YES : LANG_NO));
+	}
+	
+	// Handle Policy
+	{
+		OtrlPolicy policy = CONTACT_DEFAULT_POLICY;
+
+		int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_GETCURSEL, 0, 0);
+		if (sel != CB_ERR) {
+			int len = SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_GETLBTEXTLEN, sel, 0);
+			if (len >= 0) {
+				wchar_t *text = new wchar_t[len + 1];
+				SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_GETLBTEXT, sel, (LPARAM)text);
+				ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS), iItem, 2, text);
+				policy = policy_from_string(text);
+				delete[] text;
+			}
+		}
+
+		(*cpm)[hContact].policy = policy;
+	}
+
+	SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+}
+
 static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND lv = GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS);
@@ -523,27 +575,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			switch (LOWORD(wParam)) {
 			case IDC_CMB_CONT_POLICY:
 				int iUser = ListView_GetSelectionMark(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS));
-				if (iUser == -1) break;
-				int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_GETCURSEL, 0, 0);
-				if (sel == CB_ERR) break;
-				int len = SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_GETLBTEXTLEN, sel, 0);
-				if (len < 0) break;
-				wchar_t *text = new wchar_t[len + 1];
-				SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_GETLBTEXT, sel, (LPARAM)text);
-				ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS), iUser, 2, text);
-				OtrlPolicy policy = policy_from_string(text);
-				delete[] text;
-
-				LVITEM lvi = { 0 };
-				lvi.mask = LVIF_PARAM;
-				lvi.iItem = iUser;
-				lvi.iSubItem = 0;
-				ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS), &lvi);
-
-				ContactPolicyMap* cpm = (ContactPolicyMap*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				MCONTACT hContact = (MCONTACT)lvi.lParam;
-				(*cpm)[hContact].policy = policy;
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				ChangeContactSetting(hwndDlg, iUser, false);
 				break;
 			}
 			break;
@@ -580,26 +612,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			}
 			else if (((LPNMHDR)lParam)->code == NM_CLICK) {
 				if (notif->iSubItem == 3) {
-					LVITEM lvi;
-					lvi.mask = LVIF_PARAM;
-					lvi.iItem = notif->iItem;
-					if (lvi.iItem < 0) return FALSE;
-					lvi.iSubItem = 0;
-					SendDlgItemMessage(hwndDlg, IDC_LV_CONT_CONTACTS, LVM_GETITEM, 0, (LPARAM)&lvi);
-
-					MCONTACT hContact = (MCONTACT)lvi.lParam;
-					ContactPolicyMap *cp = (ContactPolicyMap *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					wchar_t buff[50];
-					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, buff, _countof(buff));
-					if (wcsncmp(buff, TranslateW(LANG_YES), 50) == 0) {
-						(*cp)[hContact].htmlconv = HTMLCONV_DISABLE;
-						ListView_SetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, TranslateW(LANG_NO));
-					}
-					else {
-						(*cp)[hContact].htmlconv = HTMLCONV_ENABLE;
-						ListView_SetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, TranslateW(LANG_YES));
-					}
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					ChangeContactSetting(hwndDlg, notif->iItem, true);
 				}
 			}
 		}
