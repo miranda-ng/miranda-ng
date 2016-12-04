@@ -246,7 +246,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		(!_strnicmp(tContentType, "application/user+xml", 10) && tHeader["Message-Type"] && !strncmp(tHeader["Message-Type"], "RichText", 8))) {
 		MCONTACT hContact = strncmp(email, "19:", 3)?MSN_HContactFromEmail(email, nick, true, true):NULL;
 
-		if (!_stricmp(tHeader["Message-Type"], "RichText/UriObject")) {
+		if (!_stricmp(tHeader["Message-Type"], "RichText/UriObject") || !_stricmp(tHeader["Message-Type"], "RichText/Media_GenericFile")) {
 			ezxml_t xmli = ezxml_parse_str(msgBody, strlen(msgBody));
 			if (xmli) {
 				MSN_ProcessURIObject(hContact, xmli);
@@ -1151,7 +1151,7 @@ LBL_InvalidCommand:
 										ezxml_free(xmlact);
 									}
 									continue;
-								} else if (!mir_strcmp(msgtype->txt, "RichText/UriObject")) {
+								} else if (!mir_strcmp(msgtype->txt, "RichText/UriObject") || !mir_strcmp(msgtype->txt, "RichText/Media_GenericFile")) {
 									if (ezxml_t xmlact = ezxml_parse_str(content->txt, mir_strlen(content->txt))) {
 										MSN_ProcessURIObject(hContact, xmlact);
 										ezxml_free(xmlact);
