@@ -146,7 +146,12 @@ public:
 			<< "__a=1";
 
 		for (int i = 0; i < ids.getCount(); i++) {
-			CMStringA id(::FORMAT, "ids[%s]=true", ptrA(mir_urlEncode(ids[i])));
+			std::string id_ = ids[i];
+			// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
+			if (id_.substr(0, 3) == "id.")
+				id_ = id_.substr(3);
+
+			CMStringA id(::FORMAT, "ids[%s]=true", ptrA(mir_urlEncode(id_.c_str())));
 			Body << id.c_str();
 		}
 

@@ -1118,12 +1118,8 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 	const JSONNode &roger = payload["roger"];
 	for (auto it = roger.begin(); it != roger.end(); ++it) {
 		std::string id = (*it).name();
-
-		// Ignore "wrong" (duplicit) identifiers - these that doesn't begin with "id."
-		if (id.substr(0, 3) == "id.") {
-			facebook_chatroom *room = new facebook_chatroom(id);
-			chatrooms->insert(std::make_pair(id, room));
-		}
+		facebook_chatroom *room = new facebook_chatroom(id);
+		chatrooms->insert(std::make_pair(id, room));
 	}
 
 	std::map<std::string, std::string> thread_ids;
@@ -1177,7 +1173,7 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		const JSONNode &author = (*it)["author"];
 		const JSONNode &other_user_fbid = (*it)["other_user_fbid"];
 		const JSONNode &body = (*it)["body"];
-		const JSONNode &tid = (*it)["thread_id"];
+		const JSONNode &tid = (*it)["thread_fbid"];
 		const JSONNode &mid = (*it)["message_id"];
 		const JSONNode &timestamp = (*it)["timestamp"];
 		const JSONNode &filtered = (*it)["is_filtered_content"];
@@ -1232,6 +1228,7 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 			// this is chatroom message
 			message.isChat = true;
 			message.user_id = author_id;
+			message.thread_id = "id." + thread_id;
 		}
 		else {
 			// this is standard message
@@ -1406,15 +1403,15 @@ int facebook_json_parser::parse_chat_info(std::string *data, facebook_chatroom* 
 
 	for (auto it = threads.begin(); it != threads.end(); ++it) {
 		const JSONNode &is_canonical_user_ = (*it)["is_canonical_user"];
-		const JSONNode &thread_id_ = (*it)["thread_id"];
+		const JSONNode &thread_fbid_ = (*it)["thread_fbid"];
 		const JSONNode &name_ = (*it)["name"];
 		//const JSONNode &message_count_ = (*it)["message_count");
 		//const JSONNode &unread_count_ = (*it)["unread_count"); // TODO: use it to check against number of loaded messages... but how?
 
-		if (!thread_id_ || !is_canonical_user_ || is_canonical_user_.as_bool())
+		if (!thread_fbid_ || !is_canonical_user_ || is_canonical_user_.as_bool())
 			continue;
 
-		std::string tid = thread_id_.as_string();
+		std::string tid = "id." + thread_fbid_.as_string();
 
 		// TODO: allow more chats to parse at once
 		if (fbc->thread_id != tid)

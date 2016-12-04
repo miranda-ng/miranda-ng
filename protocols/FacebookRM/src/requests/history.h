@@ -37,8 +37,14 @@ public:
 
 		setCommonBody(fc);
 
-		const char *type = isChat ? "thread_ids" : "user_ids";
-		ptrA idEncoded(mir_urlEncode(id));
+		const char *type = isChat ? "thread_fbids" : "user_ids";
+		std::string id_ = id; // FIXME: Rewrite this without std::string...
+		if (isChat) {
+			// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
+			if (id_.substr(0, 3) == "id.")
+				id_ = id_.substr(3);
+		}
+		ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
 		//if (loadMessages) {
 			// Grrr, offset doesn't work at all, we need to use timestamps to get back in history...
@@ -65,8 +71,14 @@ public:
 
 		setCommonBody(fc);
 
-		const char *type = isChat ? "thread_ids" : "user_ids";
-		ptrA idEncoded(mir_urlEncode(id));
+		const char *type = isChat ? "thread_fbids" : "user_ids";
+		std::string id_ = id; // FIXME: Rewrite this without std::string...
+		if (isChat) {
+			// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
+			if (id_.substr(0, 3) == "id.")
+				id_ = id_.substr(3);
+		}
+		ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
 		// Load only thread info
 		Body << CMStringA(::FORMAT, "threads[%s][0]=%s", type, idEncoded).c_str();
@@ -81,8 +93,14 @@ public:
 
 		setCommonBody(fc);
 
-		const char *type = isChat ? "thread_ids" : "user_ids";
-		ptrA idEncoded(mir_urlEncode(id));
+		const char *type = isChat ? "thread_fbids" : "user_ids";
+		std::string id_ = id; // FIXME: Rewrite this without std::string...
+		if (isChat) {
+			// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
+			if (id_.substr(0, 3) == "id.")
+				id_ = id_.substr(3);
+		}
+		ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
 		// Load messages
 		CMStringA begin(::FORMAT, "messages[%s][%s]", type, idEncoded);
@@ -106,17 +124,21 @@ public:
 		setCommonBody(fc);
 
 		for (int i = 0; i < ids.getCount(); i++) {
-			ptrA idEncoded(mir_urlEncode(ids[i]));
+			// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
+			std::string id_ = ids[i]; // FIXME: Rewrite this without std::string...
+			if (id_.substr(0, 3) == "id.")
+				id_ = id_.substr(3);
+			ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
 			// Load messages
-			CMStringA begin(::FORMAT, "messages[%s][%s]", "thread_ids", idEncoded);
+			CMStringA begin(::FORMAT, "messages[%s][%s]", "thread_fbids", idEncoded);
 			Body
 				<< CMStringA(::FORMAT, "%s[offset]=%i", begin, offset).c_str()
 				//<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin, "").c_str()
 				<< CMStringA(::FORMAT, "%s[limit]=%i", begin, limit).c_str();
 
 			// Load thread info
-			Body << CMStringA(::FORMAT, "threads[%s][%i]=%s", "thread_ids", i, idEncoded).c_str();
+			Body << CMStringA(::FORMAT, "threads[%s][%i]=%s", "thread_fbids", i, idEncoded).c_str();
 		}
 	}
 
