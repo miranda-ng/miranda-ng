@@ -26,14 +26,22 @@ std::string utils::url::encode(const std::string &s)
 
 std::string utils::url::decode(std::string data)
 {
-	// TODO: Better and universal method?
-	utils::text::replace_all(&data, "%2F", "/");
-	utils::text::replace_all(&data, "%3F", "?");
-	utils::text::replace_all(&data, "%3D", "=");
-	utils::text::replace_all(&data, "%26", "&");
-	utils::text::replace_all(&data, "%3A", ":");
+	std::string new_string;
+	for (std::string::size_type i = 0; i < data.length(); i++)
+	{
+		if (data.at(i) == '%' && (i + 2) < data.length())
+		{
+			std::string num = data.substr(i + 1, 2);
+			unsigned long udn = strtoul(num.c_str(), NULL, 16);
+			utils::text::append_ordinal(udn, &new_string);
+			i += 2;
+			continue;
+		}
 
-	return data;
+		new_string += data.at(i);
+	}
+
+	return new_string;
 }
 
 std::string utils::time::unix_timestamp()
