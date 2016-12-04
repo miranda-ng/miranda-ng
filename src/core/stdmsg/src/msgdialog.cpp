@@ -617,13 +617,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			NotifyLocalWinEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING);
 			if (newData->szInitialText) {
-				int len;
-
 				if (newData->isWchar)
 					SetDlgItemText(hwndDlg, IDC_MESSAGE, (wchar_t*)newData->szInitialText);
 				else
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
-				len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
+				
+				int len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
 				PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
 			}
 

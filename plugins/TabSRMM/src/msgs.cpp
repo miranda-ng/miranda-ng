@@ -936,7 +936,7 @@ int IconsChanged(WPARAM, LPARAM)
 static void TSAPI InitAPI()
 {
 	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
-	CreateServiceFunction(MS_MSG_SENDMESSAGE "W", SendMessageCommand_W);
+	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
 	CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
 	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);

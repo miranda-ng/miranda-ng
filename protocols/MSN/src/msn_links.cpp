@@ -113,7 +113,6 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 		arg += 5;
 
 		MCONTACT hContact = GetContact(arg, NULL, proto);
-
 		if (hContact != NULL) {
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			return 0;
@@ -123,7 +122,6 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 		arg += 6;
 
 		MCONTACT hContact = GetContact(arg, NULL, proto);
-
 		if (hContact != NULL) {
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			return 0;
@@ -133,7 +131,6 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 		arg += 6;
 
 		MCONTACT hContact = GetContact(arg, NULL, proto);
-
 		if (hContact != NULL) {
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			return 0;

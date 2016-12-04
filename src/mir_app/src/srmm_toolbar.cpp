@@ -158,16 +158,15 @@ MIR_APP_DLL(int) Srmm_GetButtonState(HWND hwndDlg, BBButton *bbdi)
 		return 1;
 
 	DWORD tempCID = 0;
-	bool realbutton = false;
 	bbdi->bbbFlags = 0;
 	for (int i = 0; i < arButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = arButtonsList[i];
 		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
-			realbutton = true;
 			tempCID = cbd->m_dwButtonCID;
+			break;
 		}
 	}
-	if (!realbutton)
+	if (!tempCID)
 		return 1;
 
 	HWND hwndBtn = GetDlgItem(hwndDlg, tempCID);
@@ -180,16 +179,15 @@ MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 	if (hContact == NULL || bbdi == NULL)
 		return 1;
 
-	bool realbutton = false;
 	DWORD tempCID = 0;
 	for (int i = 0; i < arButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = arButtonsList[i];
 		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
-			realbutton = true;
 			tempCID = cbd->m_dwButtonCID;
+			break;
 		}
 	}
-	if (!realbutton)
+	if (!tempCID)
 		return 1;
 
 	HWND hwndDlg = WindowList_Find(NULL, hContact);
