@@ -74,7 +74,7 @@ class CVkOptionAdvancedForm : public CVkDlgBase
 
 	CCtrlCheck m_cbForceInvisibleStatus;
 	CCtrlEdit m_edtInvInterval;
-	CCtrlButton m_spInvInterval;
+	CCtrlSpin m_spInvInterval;
 
 	CCtrlCheck m_cbUseNonStandardUrlEncode;
 	CCtrlCheck m_cbSendVKLinksAsAttachments;
@@ -107,12 +107,12 @@ class CVkOptionFeedsForm : public CVkDlgBase
 	CCtrlCheck m_cbNewsEnabled;
 	
 	CCtrlEdit m_edtNewsInterval;
-	CCtrlButton m_spNewsInterval;
+	CCtrlSpin m_spNewsInterval;
 
 	CCtrlCheck m_cbNotificationsEnabled;
 
 	CCtrlEdit m_edtNotificationsInterval;
-	CCtrlButton m_spNotificationsInterval;
+	CCtrlSpin m_spNotificationsInterval;
 
 	CCtrlCheck m_cbNotificationsMarkAsViewed;
 	CCtrlCheck m_cbSpecialContactAlwaysEnabled;

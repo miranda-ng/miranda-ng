@@ -270,8 +270,8 @@ void CVkOptionAdvancedForm::OnInitDialog()
 	m_cbSendMetodBroadcast.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendBroadcastOnly);
 	m_cbMusicSendStatus.SetState(m_proto->m_vkOptions.iMusicSendMetod == MusicSendMetod::sendStatusOnly);
 
-	m_spInvInterval.SendMsg(UDM_SETRANGE, 0, MAKELONG(15, 0));
-	m_spInvInterval.SendMsg(UDM_SETPOS, 0, m_proto->m_vkOptions.iInvisibleInterval);
+	m_spInvInterval.SetRange(15);
+	m_spInvInterval.SetPosition(m_proto->m_vkOptions.iInvisibleInterval);
 
 	On_cbForceInvisibleStatusChange(&m_cbForceInvisibleStatus);
 	On_cbSendVKLinksAsAttachmentsChange(&m_cbSendVKLinksAsAttachments);
@@ -366,12 +366,12 @@ CVkOptionFeedsForm::CVkOptionFeedsForm(CVkProto *proto):
 
 void CVkOptionFeedsForm::OnInitDialog()
 {
-	m_spNewsInterval.SendMsg(UDM_SETRANGE, 0, MAKELONG(60 * 24, 1));
-	m_spNewsInterval.SendMsg(UDM_SETPOS, 0, m_proto->m_vkOptions.iNewsInterval);
+	m_spNewsInterval.SetRange(60 * 24, 1);
+	m_spNewsInterval.SetPosition(m_proto->m_vkOptions.iNewsInterval);	
 
-	m_spNotificationsInterval.SendMsg(UDM_SETRANGE, 0, MAKELONG(60 * 24, 1));
-	m_spNotificationsInterval.SendMsg(UDM_SETPOS, 0, m_proto->m_vkOptions.iNotificationsInterval);
-
+	m_spNotificationsInterval.SetRange(60 * 24, 1);
+	m_spNotificationsInterval.SetPosition(m_proto->m_vkOptions.iNotificationsInterval);
+	
 	On_cbNewsEnabledChange(&m_cbNewsEnabled);
 	On_cbNotificationsEnabledChange(&m_cbNotificationsEnabled);
 }
