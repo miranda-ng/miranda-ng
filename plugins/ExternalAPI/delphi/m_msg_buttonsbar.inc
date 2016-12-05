@@ -34,8 +34,8 @@ const
 type
   pCustomButtonClickData = ^tCustomButtonClickData;
   tCustomButtonClickData = record
-    pt        :TPOINT;    // screen coordinates for menus
     pszModule :PAnsiChar; // button owners name 
+    pt        :TPOINT;    // screen coordinates for menus
     dwButtonId:dword;     // registered button ID
     hwndFrom  :HWND;      // button parents HWND
     hContact  :TMCONTACT;
@@ -57,8 +57,8 @@ const
 type
   pBBButton = ^tBBButton;
   tBBButton = record
-    dwButtonID   :dword; // your button ID, will be combined with pszModuleName for storing settings, etc...  
     pszModuleName:PAnsiChar; // module name without spaces and underline symbols (e.g. "tabsrmm")
+    dwButtonID   :dword; // your button ID, will be combined with pszModuleName for storing settings, etc...  
     szTooltip    :PWideChar; // button's tooltip
     dwDefPos     :dword; // default order pos of button, counted from window edge (left or right)
                          // use value >100, because internal buttons using 10,20,30... 80, etc
