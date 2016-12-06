@@ -1529,6 +1529,12 @@ LABEL_SHOWWINDOW:
 		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, si->hContact))
 			break;
 
+		if (HIWORD(wParam) == BN_CLICKED)
+			if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
+				Srmm_ClickToolbarIcon(si->hContact, LOWORD(wParam), GetDlgItem(hwndDlg, LOWORD(wParam)), 0);
+				break;
+			}
+
 		switch (LOWORD(wParam)) {
 		case IDC_CHAT_LIST:
 			if (HIWORD(wParam) == LBN_DBLCLK) {

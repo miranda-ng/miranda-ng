@@ -1145,6 +1145,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
 			}
 
+			NotifyLocalWinEvent(si->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERY), SplitterSubclassProc);
 			mir_subclassWindow(hNickList, NicklistSubclassProc);
@@ -1187,6 +1188,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendMessage(hwndDlg, GC_UPDATETITLE, 0, 0);
 			SendMessage(hwndDlg, GC_SETWINDOWPOS, 0, 0);
 		}
+		NotifyLocalWinEvent(si->hContact, hwndDlg, MSG_WINDOW_EVT_OPEN);
 		break;
 
 	case GC_SETWNDPROPS:
@@ -2251,6 +2253,12 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED)
+			if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
+				Srmm_ClickToolbarIcon(si->hContact, LOWORD(wParam), GetDlgItem(hwndDlg, LOWORD(wParam)), 0);
+				break;
+			}
+
 		switch (LOWORD(wParam)) {
 		case IDC_LIST:
 			if (HIWORD(wParam) == LBN_DBLCLK) {
@@ -2484,6 +2492,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_DESTROY:
+		NotifyLocalWinEvent(si->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSING);
 		SendMessage(hwndDlg, GC_SAVEWNDPOS, 0, 0);
 
 		si->hWnd = NULL;
@@ -2492,6 +2501,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		si->hwndStatus = NULL;
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		NotifyLocalWinEvent(si->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSE);
 		break;
 	}
 	return FALSE;

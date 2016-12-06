@@ -1516,6 +1516,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (!lParam && Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, dat->hContact))
 			break;
 
+		if (HIWORD(wParam) == BN_CLICKED)
+			if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
+				Srmm_ClickToolbarIcon(dat->hContact, LOWORD(wParam), GetDlgItem(hwndDlg, LOWORD(wParam)), 0);
+				break;
+			}
+
 		switch (LOWORD(wParam)) {
 		case IDC_SENDALL:
 			int result;

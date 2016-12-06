@@ -159,6 +159,7 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour);
 // message.c
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
 
+void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type);
 BOOL TabM_AddTab(const wchar_t *pszID, const char* pszModule);
 BOOL TabM_RemoveAll(void);
 

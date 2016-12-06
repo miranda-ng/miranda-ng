@@ -36,7 +36,7 @@ static void UpdateReadChars(HWND hwndDlg, HWND hwndStatus);
 static const UINT infoLineControls[] = { IDC_PROTOCOL, IDC_NAME };
 static const UINT sendControls[] = { IDC_MESSAGE };
 
-static void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
+void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 {
 	if (hContact != NULL && hwnd != NULL) {
 		MessageWindowEventData mwe = { 0 };
