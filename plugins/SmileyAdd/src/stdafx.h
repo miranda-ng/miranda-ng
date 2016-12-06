@@ -99,9 +99,7 @@ extern SmileyCategoryListType g_SmileyCategories;
 extern SmileyPackListType g_SmileyPacks;
 extern LIST<void> menuHandleArray;
 
-#define IDC_SMLBUTTON        (WM_USER + 33)
-
-#define MI_IDC_ADD           1070     // Add button
+#define MODULENAME "SmileyAdd"
 
 #define DM_REMAKELOG         (WM_USER + 11)
 #define DM_OPTIONSAPPLIED    (WM_USER + 14)
@@ -116,9 +114,12 @@ extern LIST<void> menuHandleArray;
 // init functions
 void InstallDialogBoxHook(void);
 void RemoveDialogBoxHook(void);
-int UpdateSrmmDlg(WPARAM wParam, LPARAM lParam);
 
-//functions for general use (defined in general.cpp)
+int  UpdateSrmmDlg(WPARAM, LPARAM);
+int  SmileyButtonCreate(WPARAM, LPARAM);
+int  SmileyButtonPressed(WPARAM, LPARAM);
+
+// functions for general use (defined in general.cpp)
 int CalculateTextHeight(HDC hdc, CHARFORMAT2 *chf);
 const wchar_t* GetImageExt(CMStringW &fname);
 

@@ -50,7 +50,6 @@ static HOTKEYDESC _hotkeydescs[] = {
 	{ 0, "tabsrmm_sendlater", LPGEN("Toggle send later"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'S'), TABSRMM_HK_TOGGLESENDLATER },
 
 	{ 0, "tabsrmm_send", LPGEN("Send message"), TABSRMM_HK_SECTION_GENERIC, 0, 0, TABSRMM_HK_SEND },
-	{ 0, "tabsrmm_emot", LPGEN("Smiley selector"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT, 'E'), TABSRMM_HK_EMOTICONS },
 	{ 0, "tabsrmm_hist", LPGEN("Show message history"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT, 'H'), TABSRMM_HK_HISTORY },
 	{ 0, "tabsrmm_sendmenu", LPGEN("Show send menu"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'S'), TABSRMM_HK_SENDMENU },
 	{ 0, "tabsrmm_protomenu", LPGEN("Show protocol menu"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'P'), TABSRMM_HK_PROTOMENU },

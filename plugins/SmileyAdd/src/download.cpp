@@ -220,7 +220,7 @@ void DownloadInit(void)
 {
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
-	nlu.szSettingsModule = "SmileyAdd";
+	nlu.szSettingsModule = MODULENAME;
 	nlu.ptszDescriptiveName = TranslateT("SmileyAdd HTTP connections");
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 

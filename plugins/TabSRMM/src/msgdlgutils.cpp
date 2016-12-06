@@ -1652,25 +1652,6 @@ void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 	LoadThemeDefaults(pContainer);
 }
 
-void TSAPI ConfigureSmileyButton(TWindowData *dat)
-{
-	HWND hwndDlg = dat->hwnd;
-	int nrSmileys = 0;
-	int showToolbar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
-	int iItemID = IDC_SMILEYBTN;
-
-	if (PluginConfig.g_SmileyAddAvail) {
-		nrSmileys = CheckValidSmileyPack(dat->cache->getActiveProto(), dat->cache->getActiveContact());
-		dat->bShowSmileys = true;
-	}
-
-	if (nrSmileys == 0 || dat->hContact == 0)
-		dat->bShowSmileys = false;
-
-	Utils::showDlgControl(hwndDlg, iItemID, (dat->bShowSmileys && showToolbar) ? SW_SHOW : SW_HIDE);
-	Utils::enableDlgControl(hwndDlg, iItemID, dat->bShowSmileys);
-}
-
 HICON TSAPI GetXStatusIcon(const TWindowData *dat)
 {
 	BYTE xStatus = dat->cache->getXStatusId();

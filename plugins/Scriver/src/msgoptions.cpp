@@ -23,28 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-struct TabDef
-{
-	DLGPROC dlgProc;
-	DWORD dlgId;
-	const char *tabName;
-};
-
-static const TabDef tabPages[] = {
-	{ DlgProcOptions, IDD_OPT_MSGDLG, LPGEN("General") },
-	{ DlgProcTabsOptions, IDD_OPT_MSGTABS, LPGEN("Tabs") },
-	{ DlgProcLayoutOptions, IDD_OPT_LAYOUT, LPGEN("Layout") },
-	{ DlgProcLogOptions, IDD_OPT_MSGLOG, LPGEN("Event log") },
-	{ DlgProcOptions1, IDD_OPTIONS1, LPGEN("Group chat") },
-	{ DlgProcOptions2, IDD_OPTIONS2, LPGEN("Group chat log") }
-};
+INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #define FONTF_BOLD		1
 #define FONTF_ITALIC	2
@@ -946,6 +927,8 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -953,12 +936,36 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.hInstance = g_hInst;
 	odp.szTitle.a = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
-	for (int i = 0; i < _countof(tabPages); i++) {
-		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
-		odp.pfnDlgProc = tabPages[i].dlgProc;
-		odp.szTab.a = (char *)tabPages[i].tabName;
-		Options_AddPage(wParam, &odp);
-	}
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
+	odp.pfnDlgProc = DlgProcOptions;
+	odp.szTab.a = LPGEN("General");
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTABS);
+	odp.pfnDlgProc = DlgProcTabsOptions;
+	odp.szTab.a = LPGEN("Tabs");
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LAYOUT);
+	odp.pfnDlgProc = DlgProcLayoutOptions;
+	odp.szTab.a = LPGEN("Layout");
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
+	odp.pfnDlgProc = DlgProcLogOptions;
+	odp.szTab.a = LPGEN("Event log");
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
+	odp.pfnDlgProc = DlgProcOptions1;
+	odp.szTab.a = LPGEN("Group chat");
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
+	odp.pfnDlgProc = DlgProcOptions2;
+	odp.szTab.a = LPGEN("Group chat log");
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
 	odp.szGroup.a = LPGEN("Message sessions");
@@ -966,5 +973,17 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	odp.szTab.a = NULL;
 	Options_AddPage(wParam, &odp);
+
+	if (g_dat.popupInstalled) {
+		OPTIONSDIALOGPAGE odp = { 0 };
+		odp.position = 910000002;
+		odp.hInstance = g_hInst;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
+		odp.szTitle.a = LPGEN("Messaging");
+		odp.szGroup.a = LPGEN("Popups");
+		odp.pfnDlgProc = DlgProcOptionsPopup;
+		odp.flags = ODPF_BOLDGROUPS;
+		Options_AddPage(wParam, &odp);
+	}
 	return 0;
 }

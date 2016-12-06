@@ -113,12 +113,10 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 		return 1;
 
 	CustomButtonData *cbd = new CustomButtonData();
-	if (!bbdi->iButtonWidth && (bbdi->bbbFlags & BBBF_ISARROWBUTTON))
+	if (bbdi->bbbFlags & BBBF_ISARROWBUTTON)
 		cbd->m_iButtonWidth = DPISCALEX_S(34);
-	else if (!bbdi->iButtonWidth)
-		cbd->m_iButtonWidth = DPISCALEX_S(22);
 	else
-		cbd->m_iButtonWidth = DPISCALEX_S(bbdi->iButtonWidth);
+		cbd->m_iButtonWidth = DPISCALEX_S(22);
 
 	cbd->m_pszModuleName = mir_strdup(bbdi->pszModuleName);
 	cbd->m_pwszTooltip = mir_wstrdup(bbdi->pwszTooltip);

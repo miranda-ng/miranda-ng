@@ -1647,7 +1647,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 			dat->Panel->loadHeight();
-			Utils::enableDlgControl(hwndDlg, IDC_SMILEYBTN, true);
 
 			if (PluginConfig.g_hMenuTrayUnread != 0 && dat->hContact != 0 && dat->szProto != NULL)
 				UpdateTrayMenu(0, dat->wStatus, dat->szProto, dat->szStatus, dat->hContact, FALSE);
@@ -1712,7 +1711,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_SETWNDPROPS:
 		InitButtons(hwndDlg, si);
-		ConfigureSmileyButton(dat);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETBKGNDCOLOR, 0, M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 
 		DM_InitRichEdit(dat);
@@ -2740,28 +2738,6 @@ LABEL_SHOWWINDOW:
 			}
 			break;
 
-		case IDC_SMILEY:
-		case IDC_SMILEYBTN:
-			if (lParam == 0)
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEYBTN), &rc);
-			else
-				GetWindowRect((HWND)lParam, &rc);
-			{
-				SMADD_SHOWSEL3 smaddInfo = { sizeof(smaddInfo) };
-				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE);
-				smaddInfo.targetMessage = EM_REPLACESEL;
-				smaddInfo.targetWParam = TRUE;
-				smaddInfo.Protocolname = si->pszModule;
-				smaddInfo.Direction = 0;
-				smaddInfo.xPosition = rc.left;
-				smaddInfo.yPosition = rc.top + 24;
-				smaddInfo.hContact = si->hContact;
-				smaddInfo.hwndParent = dat->pContainer->hwnd;
-				if (PluginConfig.g_SmileyAddAvail)
-					CallService(MS_SMILEYADD_SHOWSELECTION, 0, (LPARAM)&smaddInfo);
-			}
-			break;
-
 		case IDC_CHAT_HISTORY:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHAT_HISTORY))) {
 				MODULEINFO *pInfo = pci->MM_FindModule(si->pszModule);
@@ -3217,7 +3193,6 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case DM_SMILEYOPTIONSCHANGED:
-		ConfigureSmileyButton(dat);
 		SendMessage(hwndDlg, GC_REDRAWLOG, 0, 1);
 		break;
 

@@ -44,8 +44,6 @@ wchar_t *GetRichTextWord(HWND hwnd, POINTL *pt);
 int SetRichText(HWND hwnd, const wchar_t *text);
 int SetRichTextRTF(HWND hwnd, const char *text);
 void SearchWord(wchar_t * word, int engine);
-HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cControls, const ToolbarButton * buttons, int controlVisibility);
-void ShowToolbarControls(HWND hwndDlg, int cControls, const ToolbarButton * buttons, int controlVisibility, int state);
 void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...);
 int MeasureMenuItem(WPARAM wParam, LPARAM lParam);
 int DrawMenuItem(WPARAM wParam, LPARAM lParam);
@@ -54,6 +52,5 @@ void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen);
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rect);
 void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTitle);
 void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect);
-int GetToolbarWidth(int cControls, const ToolbarButton * buttons);
-BOOL IsToolbarVisible(int cControls, int visibilityFlags);
+void SetButtonsPos(HWND hwndDlg);
 #endif

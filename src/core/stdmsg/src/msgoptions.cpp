@@ -312,7 +312,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, msgTimeout);
 
 				ReloadGlobals();
-				WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
 				return TRUE;
 			}
 		}
@@ -407,7 +407,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				FreeMsgLogIcons();
 				LoadMsgLogIcons();
 				ReloadGlobals();
-				WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
 				return TRUE;
 			}
 			break;
@@ -536,7 +536,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
 				ReloadGlobals();
-				WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
 			}
 		}
 		break;
@@ -549,11 +549,12 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
 	odp.szTab.a = LPGEN("Messaging");
+	odp.flags = ODPF_BOLDGROUPS;
+
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
 	odp.szTitle.a = LPGEN("Message sessions");
 	odp.pfnDlgProc = DlgProcOptions;
-	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);

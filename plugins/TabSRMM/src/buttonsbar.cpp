@@ -21,16 +21,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Info button");
 	Srmm_AddButton(&bbd);
 
-	if (PluginConfig.g_SmileyAddAvail) {
-		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_CREATEBYID;
-		bbd.dwButtonID = IDC_SMILEYBTN;
-		bbd.iButtonWidth = 0;
-		bbd.dwDefPos = 30;
-		bbd.hIcon = PluginConfig.g_buttonBarIconHandles[9];
-		bbd.pwszTooltip = LPGENW("Insert emoticon");
-		Srmm_AddButton(&bbd);
-	}
-
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTBOLD;
 	bbd.dwDefPos = 40;
@@ -62,7 +52,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDOK;
 	bbd.dwDefPos = 10;
-	bbd.iButtonWidth = 51;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[6];
 	bbd.pwszTooltip = LPGENW("Send message\nClick dropdown arrow for sending options");
 	Srmm_AddButton(&bbd);
@@ -70,7 +59,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SAVE;
 	bbd.dwDefPos = 20;
-	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[8];
 	bbd.pwszTooltip = LPGENW("Close session");
 	Srmm_AddButton(&bbd);
@@ -78,7 +66,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_QUOTE;
 	bbd.dwDefPos = 30;
-	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[4];
 	bbd.pwszTooltip = LPGENW("Quote last message OR selected text");
 	Srmm_AddButton(&bbd);
@@ -86,7 +73,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_TIME;
 	bbd.dwDefPos = 40;
-	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[2];
 	bbd.pwszTooltip = LPGENW("Message log options");
 	Srmm_AddButton(&bbd);
@@ -94,7 +80,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_HISTORY;
 	bbd.dwDefPos = 50;
-	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[0];
 	bbd.pwszTooltip = LPGENW("View user's history");
 	Srmm_AddButton(&bbd);
@@ -102,7 +87,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_PIC;
 	bbd.dwDefPos = 60;
-	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[7];
 	bbd.pwszTooltip = LPGENW("Edit user notes");
 	Srmm_AddButton(&bbd);
@@ -112,7 +96,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.dwButtonID = 1;
 	bbd.pszModuleName = "tb_splitter";
 	bbd.dwDefPos = 31;
-	bbd.iButtonWidth = 22;
 	bbd.hIcon = 0;
 	bbd.pwszTooltip = 0;
 	Srmm_AddButton(&bbd);
@@ -138,7 +121,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_BKGCOLOR;
 	bbd.dwDefPos = 81;
-	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[16];
 	bbd.pwszTooltip = LPGENW("Change background color");
 	Srmm_AddButton(&bbd);
@@ -146,7 +128,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SHOWNICKLIST;
 	bbd.dwDefPos = 22;
-	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[19];
 	bbd.pwszTooltip = LPGENW("Toggle nick list");
 	Srmm_AddButton(&bbd);
@@ -154,7 +135,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FILTER;
 	bbd.dwDefPos = 24;
-	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[18];
 	bbd.pwszTooltip = LPGENW("Event filter - right click to setup, left click to activate/deactivate");
 	Srmm_AddButton(&bbd);
@@ -162,7 +142,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_CHANMGR;
 	bbd.dwDefPos = 33;
-	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[17];
 	bbd.pwszTooltip = LPGENW("Channel manager");
 	Srmm_AddButton(&bbd);

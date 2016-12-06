@@ -382,6 +382,9 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// status icons processing
+
 static void RegisterStatusIcons()
 {
 	StatusIconData sid = { sizeof(sid) };
@@ -418,6 +421,108 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 		SendMessage(hwnd, DM_SWITCHTYPING, 0, 0);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// toolbar icons processing
+
+int RegisterToolbarIcons(WPARAM, LPARAM)
+{
+	BBButton bbd = {};
+	bbd.pszModuleName = "SRMM";
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISIMBUTTON | BBBF_CREATEBYID | BBBF_ISRSIDEBUTTON;
+	bbd.dwButtonID = IDOK;
+	bbd.dwDefPos = 5;
+	bbd.hIcon = IcoLib_GetIconHandle("scriver_SEND");
+	bbd.pwszTooltip = LPGENW("Send message");
+	Srmm_AddButton(&bbd);
+	
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_CREATEBYID;
+	bbd.dwButtonID = IDC_QUOTE;
+	bbd.dwDefPos = 10;
+	bbd.hIcon = IcoLib_GetIconHandle("scriver_QUOTE");
+	bbd.pwszTooltip = LPGENW("Quote");
+	Srmm_AddButton(&bbd);
+
+	bbd.bbbFlags |= BBBF_ISRSIDEBUTTON;
+	bbd.dwButtonID = IDC_ADD;
+	bbd.dwDefPos = 20;
+	bbd.hIcon = IcoLib_GetIconHandle("scriver_ADD");
+	bbd.pwszTooltip = LPGENW("Add contact permanently to list");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_USERMENU;
+	bbd.dwDefPos = 30;
+	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_DOWNARROW);
+	bbd.pwszTooltip = LPGENW("User menu");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_DETAILS;
+	bbd.dwDefPos = 40;
+	bbd.hIcon = IcoLib_GetIconHandle("scriver_USERDETAILS");
+	bbd.pwszTooltip = LPGENW("View user's details");
+	Srmm_AddButton(&bbd);
+
+	bbd.bbbFlags |= BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
+	bbd.dwButtonID = IDC_HISTORY;
+	bbd.dwDefPos = 50;
+	bbd.hIcon = IcoLib_GetIconHandle("scriver_HISTORY");
+	bbd.pwszTooltip = LPGENW("View user's history");
+	Srmm_AddButton(&bbd);
+
+	// chat buttons
+	bbd.bbbFlags = BBBF_ISPUSHBUTTON | BBBF_ISCHATBUTTON | BBBF_CREATEBYID;
+	bbd.dwButtonID = IDC_CHAT_BOLD;
+	bbd.dwDefPos = 10;
+	bbd.hIcon = IcoLib_GetIconHandle("chat_bold");
+	bbd.pwszTooltip = LPGENW("Make the text bold(CTRL+B)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_CHAT_ITALICS;
+	bbd.dwDefPos = 15;
+	bbd.hIcon = IcoLib_GetIconHandle("chat_italics");
+	bbd.pwszTooltip = LPGENW("Make the text italicized (CTRL+I)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_CHAT_UNDERLINE;
+	bbd.dwDefPos = 20;
+	bbd.hIcon = IcoLib_GetIconHandle("chat_underline");
+	bbd.pwszTooltip = LPGENW("Make the text underlined (CTRL+U)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_CHAT_COLOR;
+	bbd.dwDefPos = 25;
+	bbd.hIcon = IcoLib_GetIconHandle("chat_fgcol");
+	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (CTRL+K)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_CHAT_BKGCOLOR;
+	bbd.dwDefPos = 30;
+	bbd.hIcon = IcoLib_GetIconHandle("chat_bkgcol");
+	bbd.pwszTooltip = LPGENW("Select a background color for the text");
+	Srmm_AddButton(&bbd);
+
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
+	bbd.dwButtonID = IDC_CHAT_CHANMGR;
+	bbd.dwDefPos = 30;
+	bbd.hIcon = IcoLib_GetIconHandle("chat_settings");
+	bbd.pwszTooltip = LPGENW("Control this room (CTRL+O)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_CHAT_SHOWNICKLIST;
+	bbd.dwDefPos = 20;
+	bbd.hIcon = IcoLib_GetIconHandle("chat_nicklist");
+	bbd.pwszTooltip = LPGENW("Show/hide the nick list (CTRL+N)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_CHAT_FILTER;
+	bbd.dwDefPos = 10;
+	bbd.hIcon = IcoLib_GetIconHandle("chat_filter");
+	bbd.pwszTooltip = LPGENW("Enable/disable the event filter (CTRL+F)");
+	Srmm_AddButton(&bbd);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int ModuleLoad(WPARAM, LPARAM)
 {
@@ -459,10 +564,10 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
 	HookEvent(ME_FONT_RELOAD, FontServiceFontsChanged);
 	HookEvent(ME_MSG_ICONPRESSED, StatusIconPressed);
+	HookEvent(ME_MSG_TOOLBARLOADED, RegisterToolbarIcons);
 	HookEvent(ME_MC_DEFAULTTCHANGED, MetaContactChanged);
 
 	RestoreUnreadMessageAlerts();
-	OptionsInit();
 	RegisterStatusIcons();
 	return 0;
 }

@@ -171,9 +171,6 @@ LRESULT TSAPI DM_GenericHotkeysCheck(MSG *message, TWindowData *dat)
 		dat->Panel->setActive(!dat->Panel->isActive());
 		dat->Panel->showHide();
 		return 1;
-	case TABSRMM_HK_EMOTICONS:
-		SendMessage(hwndDlg, WM_COMMAND, IDC_SMILEYBTN, 0);
-		return 1;
 	case TABSRMM_HK_TOGGLETOOLBAR:
 		SendMessage(hwndDlg, WM_COMMAND, IDC_TOGGLETOOLBAR, 0);
 		return 1;
@@ -265,31 +262,6 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *pContainer, T
 
 	case IDC_HISTORY:
 		CallService(MS_HISTORY_SHOWCONTACTHISTORY, dat->hContact, 0);
-		break;
-
-	case IDC_SMILEYBTN:
-		if (dat->bShowSmileys && PluginConfig.g_SmileyAddAvail) {
-			MCONTACT hContact = dat->cache->getActiveContact();
-			if (CheckValidSmileyPack(dat->cache->getProto(), hContact) != 0) {
-				if (lParam == 0)
-					GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEYBTN), &rc);
-				else
-					GetWindowRect((HWND)lParam, &rc);
-
-				SMADD_SHOWSEL3 smaddInfo = { 0 };
-				smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
-				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
-				smaddInfo.targetMessage = EM_REPLACESEL;
-				smaddInfo.targetWParam = TRUE;
-				smaddInfo.Protocolname = const_cast<char *>(dat->cache->getProto());
-				smaddInfo.Direction = 0;
-				smaddInfo.xPosition = rc.left;
-				smaddInfo.yPosition = rc.top + 24;
-				smaddInfo.hwndParent = hwndContainer;
-				smaddInfo.hContact = hContact;
-				CallService(MS_SMILEYADD_SHOWSELECTION, (WPARAM)hwndContainer, (LPARAM)&smaddInfo);
-			}
-		}
 		break;
 
 	case IDC_TIME:

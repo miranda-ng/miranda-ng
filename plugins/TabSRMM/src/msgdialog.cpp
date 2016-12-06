@@ -413,8 +413,6 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	if (!dat->SendFormat)
 		ShowMultipleControls(hwndDlg, formatControls, _countof(formatControls), SW_HIDE);
 
-	ConfigureSmileyButton(dat);
-
 	if (dat->pContainer->hwndActive == hwndDlg)
 		UpdateReadChars(dat);
 
@@ -2940,7 +2938,6 @@ quote_from_last:
 		break;
 
 	case DM_SMILEYOPTIONSCHANGED:
-		ConfigureSmileyButton(dat);
 		SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 		break;
 

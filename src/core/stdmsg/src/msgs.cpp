@@ -62,7 +62,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	pcli->pfnRemoveEvent(hContact, 1);
 	/* does a window for the contact exist? */
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd) {
 		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS)) {
 			ShowWindow(hwnd, SW_RESTORE);
@@ -113,7 +113,7 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar)
 
 	hContact = db_mc_tryMeta(hContact);
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd) {
 		if (msg) {
 			SendDlgItemMessage(hwnd, IDC_MESSAGE, EM_SETSEL, -1, SendDlgItemMessage(hwnd, IDC_MESSAGE, WM_GETTEXTLENGTH, 0, 0));
@@ -164,7 +164,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 
 	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && g_dat.flags.bShowTypingTray) {
@@ -197,14 +197,14 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (!strcmp(cws->szModule, "CList"))
-		WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
+		WindowList_Broadcast(pci->hWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
 	else if (hContact) {
 		if (cws->szSetting && !strcmp(cws->szSetting, "Timezone"))
-			WindowList_Broadcast(g_dat.hMessageWindowList, DM_NEWTIMEZONE, (WPARAM)cws, 0);
+			WindowList_Broadcast(pci->hWindowList, DM_NEWTIMEZONE, (WPARAM)cws, 0);
 		else {
 			char *szProto = GetContactProto(hContact);
 			if (szProto && !strcmp(cws->szModule, szProto))
-				WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
+				WindowList_Broadcast(pci->hWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
 		}
 	}
 	return 0;
@@ -213,7 +213,7 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 // If a contact gets deleted, close its message window if there is any
 static int ContactDeleted(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
+	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
 	if (hwnd)
 		SendMessage(hwnd, WM_CLOSE, 0, 0);
 
@@ -246,7 +246,7 @@ static void RestoreUnreadMessageAlerts(void)
 			dbei.cbBlob = 0;
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
-				int windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
+				int windowAlreadyExists = WindowList_Find(pci->hWindowList, hContact) != NULL;
 				if (windowAlreadyExists)
 					continue;
 
@@ -284,9 +284,93 @@ static void RestoreUnreadMessageAlerts(void)
 
 void RegisterSRMMFonts(void);
 
+int RegisterToolbarIcons(WPARAM, LPARAM)
+{
+	BBButton bbd = {};
+	bbd.pszModuleName = "SRMM";
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_CREATEBYID;
+
+	bbd.dwButtonID = IDC_ADD;
+	bbd.dwDefPos = 10;
+	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
+	bbd.pwszTooltip = LPGENW("Add contact permanently to list");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_USERMENU;
+	bbd.dwDefPos = 20;
+	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_DOWNARROW);
+	bbd.pwszTooltip = LPGENW("User menu");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_DETAILS;
+	bbd.dwDefPos = 30;
+	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
+	bbd.pwszTooltip = LPGENW("View user's details");
+	Srmm_AddButton(&bbd);
+
+	bbd.bbbFlags |= BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
+	bbd.dwButtonID = IDC_HISTORY;
+	bbd.dwDefPos = 40;
+	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
+	bbd.pwszTooltip = LPGENW("View user's history");
+	Srmm_AddButton(&bbd);
+
+	// chat buttons
+	bbd.bbbFlags = BBBF_ISPUSHBUTTON | BBBF_ISCHATBUTTON | BBBF_CREATEBYID;
+	bbd.dwButtonID = IDC_BOLD;
+	bbd.dwDefPos = 10;
+	bbd.hIcon = GetIconHandle("bold");
+	bbd.pwszTooltip = LPGENW("Make the text bold(CTRL + B)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_ITALICS;
+	bbd.dwDefPos = 15;
+	bbd.hIcon = GetIconHandle("italics");
+	bbd.pwszTooltip = LPGENW("Make the text italicized (CTRL+I)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_UNDERLINE;
+	bbd.dwDefPos = 20;
+	bbd.hIcon = GetIconHandle("underline");
+	bbd.pwszTooltip = LPGENW("Make the text underlined (CTRL+U)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_COLOR;
+	bbd.dwDefPos = 25;
+	bbd.hIcon = GetIconHandle("fgcol");
+	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (CTRL+K)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_BKGCOLOR;
+	bbd.dwDefPos = 30;
+	bbd.hIcon = GetIconHandle("bkgcol");
+	bbd.pwszTooltip = LPGENW("Select a background color for the text");
+	Srmm_AddButton(&bbd);
+
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
+	bbd.dwButtonID = IDC_CHANMGR;
+	bbd.dwDefPos = 30;
+	bbd.hIcon = GetIconHandle("settings");
+	bbd.pwszTooltip = LPGENW("Control this room (CTRL+O)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_SHOWNICKLIST;
+	bbd.dwDefPos = 20;
+	bbd.hIcon = GetIconHandle("nicklist");
+	bbd.pwszTooltip = LPGENW("Show/hide the nick list (CTRL+N)");
+	Srmm_AddButton(&bbd);
+
+	bbd.dwButtonID = IDC_FILTER;
+	bbd.dwDefPos = 10;
+	bbd.hIcon = GetIconHandle("filter");
+	bbd.pwszTooltip = LPGENW("Enable/disable the event filter (CTRL+F)");
+	Srmm_AddButton(&bbd);
+	return 0;
+}
+
 static int FontsChanged(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+	WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
 	return 0;
 }
 
@@ -306,6 +390,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
+	HookEvent(ME_MSG_TOOLBARLOADED, RegisterToolbarIcons);
 
 	RestoreUnreadMessageAlerts();
 	return 0;
@@ -313,7 +398,7 @@ static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 
 int PreshutdownSendRecv(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
+	WindowList_Broadcast(pci->hWindowList, WM_CLOSE, 0, 0);
 
 	DeinitStatusIcons();
 	return 0;
@@ -323,9 +408,9 @@ static int IconsChanged(WPARAM, LPARAM)
 {
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();
-	WindowList_Broadcast(g_dat.hMessageWindowList, DM_REMAKELOG, 0, 0);
+	WindowList_Broadcast(pci->hWindowList, DM_REMAKELOG, 0, 0);
 	// change all the icons
-	WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATEWINICON, 0, 0);
+	WindowList_Broadcast(pci->hWindowList, DM_UPDATEWINICON, 0, 0);
 	return 0;
 }
 
@@ -361,7 +446,7 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
+	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
 	if (hwnd == NULL)
 		return 1;
 
@@ -389,7 +474,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	if(mwd == NULL || (mwd->cbSize != sizeof(MessageWindowData)))
 		return 1;
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, mwid->hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
 	mwd->local = 0;

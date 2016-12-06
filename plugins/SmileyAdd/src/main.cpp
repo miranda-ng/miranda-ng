@@ -61,14 +61,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	DownloadInit();
 
-	//install hooks if enabled
+	// install hooks if enabled
 	InstallDialogBoxHook();
 
 	g_SmileyCategories.AddAllProtocolsAsCategory();
 	g_SmileyCategories.ClearAndLoadAll();
 
 	ColourID cid = { sizeof(cid) };
-	strcpy_s(cid.dbSettingsGroup, "SmileyAdd");
+	strcpy_s(cid.dbSettingsGroup, MODULENAME);
 	strcpy_s(cid.group, LPGEN("SmileyAdd"));
 	strcpy_s(cid.name, LPGEN("Background color"));
 	strcpy_s(cid.setting, "SelWndBkgClr");
@@ -113,6 +113,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AccountListChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DbSettingChanged);
 	HookEvent(ME_COLOUR_RELOAD, ReloadColour);
+
+	HookEvent(ME_MSG_BUTTONPRESSED, SmileyButtonPressed);
+	HookEvent(ME_MSG_TOOLBARLOADED, SmileyButtonCreate);
 
 	//create the smiley services
 	CreateServiceFunction(MS_SMILEYADD_REPLACESMILEYS, ReplaceSmileysCommand);

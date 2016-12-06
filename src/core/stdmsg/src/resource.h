@@ -67,7 +67,6 @@
 #define IDC_AUTOCLOSE                   1004
 #define IDC_AUTOMIN                     1005
 #define IDC_DONOTSTEALFOCUS             1006
-#define IDC_SMILEY                      1007
 #define IDC_SPLITTERY                   1008
 #define IDC_SPLITTER                    1008
 #define IDC_NAME                        1009

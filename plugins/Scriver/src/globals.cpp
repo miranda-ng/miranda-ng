@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 GlobalMessageData g_dat;
 
-int Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam);
-
 static const char *buttonIcons[] =
 {
 	"scriver_CLOSEX", "scriver_QUOTE", "scriver_ADD", NULL, 

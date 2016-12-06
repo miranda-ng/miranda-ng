@@ -543,68 +543,67 @@ void OptionsDialogType::ShowSmileyPreview(void)
 
 void OptionsType::Save(void)
 {
-	db_set_b(NULL, "SmileyAdd", "PluginSupportEnabled", PluginSupportEnabled);
-	db_set_b(NULL, "SmileyAdd", "EnforceSpaces", EnforceSpaces);
-	db_set_b(NULL, "SmileyAdd", "ScaleToTextheight", ScaleToTextheight);
-	db_set_b(NULL, "SmileyAdd", "UseOneForAll", UseOneForAll);
-	db_set_b(NULL, "SmileyAdd", "UsePhysProto", UsePhysProto);
-	db_set_b(NULL, "SmileyAdd", "SurroundSmileyWithSpaces", SurroundSmileyWithSpaces);
-	db_set_b(NULL, "SmileyAdd", "ScaleAllSmileys", ScaleAllSmileys);
-	db_set_b(NULL, "SmileyAdd", "IEViewStyle", IEViewStyle);
-	db_set_b(NULL, "SmileyAdd", "AnimateSel", AnimateSel);
-	db_set_b(NULL, "SmileyAdd", "AnimateDlg", AnimateDlg);
-	db_set_b(NULL, "SmileyAdd", "InputSmileys", InputSmileys);
-	db_set_b(NULL, "SmileyAdd", "DCursorSmiley", DCursorSmiley);
-	db_set_b(NULL, "SmileyAdd", "DisableCustom", DisableCustom);
-	db_set_b(NULL, "SmileyAdd", "HQScaling", HQScaling);
-	db_set_b(NULL, "SmileyAdd", "ButtonStatus", (BYTE)ButtonStatus);
-	db_set_dw(NULL, "SmileyAdd", "MaxCustomSmileySize", MaxCustomSmileySize);
-	db_set_dw(NULL, "SmileyAdd", "MinSmileySize", MinSmileySize);
-	db_set_b(NULL, "SmileyAdd", "HorizontalSorting", HorizontalSorting);
+	db_set_b(NULL, MODULENAME, "PluginSupportEnabled", PluginSupportEnabled);
+	db_set_b(NULL, MODULENAME, "EnforceSpaces", EnforceSpaces);
+	db_set_b(NULL, MODULENAME, "ScaleToTextheight", ScaleToTextheight);
+	db_set_b(NULL, MODULENAME, "UseOneForAll", UseOneForAll);
+	db_set_b(NULL, MODULENAME, "UsePhysProto", UsePhysProto);
+	db_set_b(NULL, MODULENAME, "SurroundSmileyWithSpaces", SurroundSmileyWithSpaces);
+	db_set_b(NULL, MODULENAME, "ScaleAllSmileys", ScaleAllSmileys);
+	db_set_b(NULL, MODULENAME, "IEViewStyle", IEViewStyle);
+	db_set_b(NULL, MODULENAME, "AnimateSel", AnimateSel);
+	db_set_b(NULL, MODULENAME, "AnimateDlg", AnimateDlg);
+	db_set_b(NULL, MODULENAME, "InputSmileys", InputSmileys);
+	db_set_b(NULL, MODULENAME, "DCursorSmiley", DCursorSmiley);
+	db_set_b(NULL, MODULENAME, "DisableCustom", DisableCustom);
+	db_set_b(NULL, MODULENAME, "HQScaling", HQScaling);
+	db_set_b(NULL, MODULENAME, "ButtonStatus", (BYTE)ButtonStatus);
+	db_set_dw(NULL, MODULENAME, "MaxCustomSmileySize", MaxCustomSmileySize);
+	db_set_dw(NULL, MODULENAME, "MinSmileySize", MinSmileySize);
+	db_set_b(NULL, MODULENAME, "HorizontalSorting", HorizontalSorting);
 }
 
 void OptionsType::Load(void)
 {
-	PluginSupportEnabled = db_get_b(NULL, "SmileyAdd", "PluginSupportEnabled", TRUE) != 0;
-	EnforceSpaces = db_get_b(NULL, "SmileyAdd", "EnforceSpaces", FALSE) != 0;
-	ScaleToTextheight = db_get_b(NULL, "SmileyAdd", "ScaleToTextheight", FALSE) != 0;
-	UseOneForAll = db_get_b(NULL, "SmileyAdd", "UseOneForAll", TRUE) != 0;
-	UsePhysProto = db_get_b(NULL, "SmileyAdd", "UsePhysProto", FALSE) != 0;
-	SurroundSmileyWithSpaces =
-		db_get_b(NULL, "SmileyAdd", "SurroundSmileyWithSpaces", FALSE) != 0;
-	ScaleAllSmileys = db_get_b(NULL, "SmileyAdd", "ScaleAllSmileys", FALSE) != 0;
-	IEViewStyle = db_get_b(NULL, "SmileyAdd", "IEViewStyle", FALSE) != 0;
-	AnimateSel = db_get_b(NULL, "SmileyAdd", "AnimateSel", TRUE) != 0;
-	AnimateDlg = db_get_b(NULL, "SmileyAdd", "AnimateDlg", TRUE) != 0;
-	InputSmileys = db_get_b(NULL, "SmileyAdd", "InputSmileys", TRUE) != 0;
-	DCursorSmiley = db_get_b(NULL, "SmileyAdd", "DCursorSmiley", FALSE) != 0;
-	DisableCustom = db_get_b(NULL, "SmileyAdd", "DisableCustom", FALSE) != 0;
-	HQScaling = db_get_b(NULL, "SmileyAdd", "HQScaling", FALSE) != 0;
+	PluginSupportEnabled = db_get_b(NULL, MODULENAME, "PluginSupportEnabled", TRUE) != 0;
+	EnforceSpaces = db_get_b(NULL, MODULENAME, "EnforceSpaces", FALSE) != 0;
+	ScaleToTextheight = db_get_b(NULL, MODULENAME, "ScaleToTextheight", FALSE) != 0;
+	UseOneForAll = db_get_b(NULL, MODULENAME, "UseOneForAll", TRUE) != 0;
+	UsePhysProto = db_get_b(NULL, MODULENAME, "UsePhysProto", FALSE) != 0;
+	SurroundSmileyWithSpaces = db_get_b(NULL, MODULENAME, "SurroundSmileyWithSpaces", FALSE) != 0;
+	ScaleAllSmileys = db_get_b(NULL, MODULENAME, "ScaleAllSmileys", FALSE) != 0;
+	IEViewStyle = db_get_b(NULL, MODULENAME, "IEViewStyle", FALSE) != 0;
+	AnimateSel = db_get_b(NULL, MODULENAME, "AnimateSel", TRUE) != 0;
+	AnimateDlg = db_get_b(NULL, MODULENAME, "AnimateDlg", TRUE) != 0;
+	InputSmileys = db_get_b(NULL, MODULENAME, "InputSmileys", TRUE) != 0;
+	DCursorSmiley = db_get_b(NULL, MODULENAME, "DCursorSmiley", FALSE) != 0;
+	DisableCustom = db_get_b(NULL, MODULENAME, "DisableCustom", FALSE) != 0;
+	HQScaling = db_get_b(NULL, MODULENAME, "HQScaling", FALSE) != 0;
 
-	ButtonStatus = db_get_b(NULL, "SmileyAdd", "ButtonStatus", 1);
-	SelWndBkgClr = db_get_dw(NULL, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
-	MaxCustomSmileySize = db_get_dw(NULL, "SmileyAdd", "MaxCustomSmileySize", 0);
-	MinSmileySize = db_get_dw(NULL, "SmileyAdd", "MinSmileySize", 0);
-	HorizontalSorting = db_get_b(NULL, "SmileyAdd", "HorizontalSorting", 1) != 0;
+	ButtonStatus = db_get_b(NULL, MODULENAME, "ButtonStatus", 1);
+	SelWndBkgClr = db_get_dw(NULL, MODULENAME, "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
+	MaxCustomSmileySize = db_get_dw(NULL, MODULENAME, "MaxCustomSmileySize", 0);
+	MinSmileySize = db_get_dw(NULL, MODULENAME, "MinSmileySize", 0);
+	HorizontalSorting = db_get_b(NULL, MODULENAME, "HorizontalSorting", 1) != 0;
 }
 
 void OptionsType::ReadPackFileName(CMStringW &filename, const CMStringW &name, const CMStringW &defaultFilename)
 {
 	CMStringW settingKey = name + L"-filename";
 
-	ptrW tszValue(db_get_wsa(NULL, "SmileyAdd", _T2A(settingKey.c_str())));
+	ptrW tszValue(db_get_wsa(NULL, MODULENAME, _T2A(settingKey.c_str())));
 	filename = (tszValue != NULL) ? (wchar_t*)tszValue : defaultFilename;
 }
 
 void OptionsType::WritePackFileName(const CMStringW &filename, const CMStringW &name)
 {
 	CMStringW settingKey = name + L"-filename";
-	db_set_ws(NULL, "SmileyAdd", _T2A(settingKey.c_str()), filename.c_str());
+	db_set_ws(NULL, MODULENAME, _T2A(settingKey.c_str()), filename.c_str());
 }
 
 void OptionsType::ReadCustomCategories(CMStringW &cats)
 {
-	ptrW tszValue(db_get_wsa(NULL, "SmileyAdd", "CustomCategories"));
+	ptrW tszValue(db_get_wsa(NULL, MODULENAME, "CustomCategories"));
 	if (tszValue != NULL)
 		cats = tszValue;
 }
@@ -612,14 +611,14 @@ void OptionsType::ReadCustomCategories(CMStringW &cats)
 void OptionsType::WriteCustomCategories(const CMStringW &cats)
 {
 	if (cats.IsEmpty())
-		db_unset(NULL, "SmileyAdd", "CustomCategories");
+		db_unset(NULL, MODULENAME, "CustomCategories");
 	else
-		db_set_ws(NULL, "SmileyAdd", "CustomCategories", cats.c_str());
+		db_set_ws(NULL, MODULENAME, "CustomCategories", cats.c_str());
 }
 
 void OptionsType::ReadContactCategory(MCONTACT hContact, CMStringW &cats)
 {
-	ptrW tszValue(db_get_wsa(hContact, "SmileyAdd", "CustomCategory"));
+	ptrW tszValue(db_get_wsa(hContact, MODULENAME, "CustomCategory"));
 	if (tszValue != NULL)
 		cats = tszValue;
 }
@@ -627,9 +626,9 @@ void OptionsType::ReadContactCategory(MCONTACT hContact, CMStringW &cats)
 void OptionsType::WriteContactCategory(MCONTACT hContact, const CMStringW &cats)
 {
 	if (cats.IsEmpty())
-		db_unset(hContact, "SmileyAdd", "CustomCategory");
+		db_unset(hContact, MODULENAME, "CustomCategory");
 	else
-		db_set_ws(hContact, "SmileyAdd", "CustomCategory", cats.c_str());
+		db_set_ws(hContact, MODULENAME, "CustomCategory", cats.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

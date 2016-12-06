@@ -179,7 +179,6 @@
 #define IDC_DELAY_ERR                   1102
 #define IDC_RTL                         1103
 #define IDC_PIC                         1104
-#define IDC_SMILEYBTN                   1105
 #define IDC_FONTBOLD                    1106
 #define IDC_FONTITALIC                  1107
 #define IDC_FONTUNDERLINE               1108

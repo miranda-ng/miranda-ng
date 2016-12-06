@@ -434,54 +434,36 @@ void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT *rect)
 	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM)&ti);
 }
 
-/* toolbar-related stuff, to be moved to a separate file */
-
-HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cControls, const ToolbarButton *buttons, int controlVisibility)
+void SetButtonsPos(HWND hwndDlg)
 {
-	HWND hCtrl;
-	int i;
-	int lPos = 0;
-	int rPos = width;
-	for (i = 0; i < cControls; i++) {
-		if (!buttons[i].alignment && (controlVisibility & (1 << i))) {
-			lPos += buttons[i].spacing;
-			hCtrl = GetDlgItem(hwnd, buttons[i].controlId);
-			if (NULL != hCtrl) /* Wine fix. */
-				hdwp = DeferWindowPos(hdwp, hCtrl, 0, lPos, vPos, buttons[i].width, height, SWP_NOZORDER);
-			lPos += buttons[i].width;
+	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount());
+
+	RECT rc;
+	GetWindowRect(GetDlgItem(hwndDlg, IDC_SPLITTERY), &rc);
+	POINT pt = { 0, rc.top };
+	ScreenToClient(hwndDlg, &pt);
+	pt.y -= 20;
+
+	GetClientRect(hwndDlg, &rc);
+	int iLeftX = 2, iRightX = rc.right - 2;
+	int iGap = db_get_b(NULL, SRMMMOD, "ButtonsBarGap", 1);
+
+	CustomButtonData *cbd;
+	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
+		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+		if (hwndButton == NULL)
+			continue;
+
+		int width = iGap + ((cbd->m_dwArrowCID) ? 34 : 22);
+		if (cbd->m_bRSided) {
+			iRightX -= width;
+			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		}
+		else {
+			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			iLeftX += width;
 		}
 	}
-	for (i = cControls - 1; i >= 0; i--) {
-		if (buttons[i].alignment && (controlVisibility & (1 << i))) {
-			rPos -= buttons[i].spacing + buttons[i].width;
-			hCtrl = GetDlgItem(hwnd, buttons[i].controlId);
-			if (NULL != hCtrl) /* Wine fix. */
-				hdwp = DeferWindowPos(hdwp, hCtrl, 0, rPos, vPos, buttons[i].width, height, SWP_NOZORDER);
-		}
-	}
-	return hdwp;
-}
 
-void ShowToolbarControls(HWND hwndDlg, int cControls, const ToolbarButton* buttons, int controlVisibility, int state)
-{
-	for (int i = 0; i < cControls; i++)
-		ShowWindow(GetDlgItem(hwndDlg, buttons[i].controlId), (controlVisibility & (1 << i)) ? state : SW_HIDE);
-}
-
-int GetToolbarWidth(int cControls, const ToolbarButton *buttons)
-{
-	int w = 0;
-	for (int i = 0; i < cControls; i++)
-		w += buttons[i].width + buttons[i].spacing;
-
-	return w;
-}
-
-BOOL IsToolbarVisible(int cControls, int visibilityFlags)
-{
-	for (int i = 0; i < cControls; i++)
-		if (visibilityFlags & (1 << i))
-			return TRUE;
-
-	return FALSE;
+	EndDeferWindowPos(hdwp);
 }

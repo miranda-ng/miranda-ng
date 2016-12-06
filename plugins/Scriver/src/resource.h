@@ -88,7 +88,6 @@
 #define IDC_LIMITCHATSTABS              1013
 #define IDC_LIMITCHATSTABSNUM           1014
 #define IDC_LIMITCHATSTABSNUMSPIN       1015
-#define IDC_SPLITTER                    1017
 #define IDC_SHOWNAMES                   1020
 #define IDC_USETABS                     1022
 #define IDC_SHOWSECONDS                 1023
@@ -171,8 +170,8 @@
 #define IDC_INPUTLINES                  1647
 #define IDC_INPUTLINESSPIN              1648
 #define IDC_CHAT_LOG                    5005
-#define IDC_CHAT_SPLITTERX              5006
-#define IDC_CHAT_SPLITTERY              5008
+#define IDC_SPLITTERX              5006
+#define IDC_SPLITTERY              5008
 #define IDC_CHAT_MESSAGE                5009
 #define IDC_CHAT_BOLD                   5010
 #define IDC_CHAT_ITALICS                5011

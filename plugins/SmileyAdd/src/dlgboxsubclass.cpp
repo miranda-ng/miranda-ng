@@ -23,72 +23,13 @@ static mir_cs csWndList;
 
 // type definitions 
 
-class MsgWndData : public MZeroedObject
+struct MsgWndData : public MZeroedObject
 {
-public:
-	HWND hwnd;
-	char ProtocolName[52];
-	HWND REdit;
-	HWND MEdit;
-	HWND LButton;
-	mutable HWND hSmlButton;
-	mutable HBITMAP hSmlBmp;
-	mutable HICON hSmlIco;
-	int idxLastChar;
+	HWND hwnd, hwndLog, hwndInput;
+	int  idxLastChar;
+	bool doSmileyReplace, doSmileyButton;
 	MCONTACT hContact;
-	bool doSmileyReplace;
-	bool doSmileyButton;
-	bool isSplit;
-	bool isSend;
-
-	MsgWndData()
-	{
-	}
-
-	~MsgWndData()
-	{
-		clear();
-	}
-
-	void clear(void)
-	{
-		if (hSmlBmp != NULL) {
-			DeleteObject(hSmlBmp);
-			hSmlBmp = NULL;
-		}
-		if (hSmlIco != NULL) {
-			DestroyIcon(hSmlIco);
-			hSmlIco = NULL;
-		}
-		if (hSmlButton != NULL) {
-			DestroyWindow(hSmlButton);
-			hSmlButton = NULL;
-		}		
-	}
-
-	RECT CalcSmileyButtonPos(void)
-	{
-		RECT rect;
-		GetWindowRect(LButton, &rect);
-
-		POINT pt;
-		pt.y = rect.top;
-
-		MUUID muidScriver = { 0x84636f78, 0x2057, 0x4302, { 0x8a, 0x65, 0x23, 0xa1, 0x6d, 0x46, 0x84, 0x4c } };
-		int iShift = (IsPluginLoaded(muidScriver)) ? 28 : -28;
-
-		if ((GetWindowLongPtr(LButton, GWL_STYLE) & WS_VISIBLE) != 0)
-			pt.x = rect.left + iShift;
-		else
-			pt.x = rect.left;
-
-		ScreenToClient(GetParent(LButton), &pt);
-		rect.bottom += pt.y - rect.top;
-		rect.right += pt.x - rect.left;
-		rect.top = pt.y;
-		rect.left = pt.x;
-		return rect;
-	}
+	char ProtocolName[52];
 
 	void CreateSmileyButton(void)
 	{
@@ -98,7 +39,6 @@ public:
 		doSmileyButton &= SmileyPack != NULL && SmileyPack->VisibleSmileyCount() != 0;
 
 		doSmileyReplace = true;
-		doSmileyButton &= db_get_b(NULL, "SRMM", "ShowButtonLine", TRUE) != 0;
 
 		if (ProtocolName[0] != 0) {
 			INT_PTR cap = CallProtoService(ProtocolName, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -106,37 +46,13 @@ public:
 			doSmileyReplace &= ((cap & (PF1_IMRECV | PF1_CHAT)) != 0);
 		}
 
-		if (doSmileyButton && opt.PluginSupportEnabled) {
-			// create smiley button
-			RECT rect = CalcSmileyButtonPos();
-
-			hSmlButton = CreateWindowEx(
-				WS_EX_LEFT | WS_EX_NOPARENTNOTIFY | WS_EX_TOPMOST,
-				MIRANDABUTTONCLASS,
-				L"S",
-				WS_CHILD | WS_VISIBLE | WS_TABSTOP,
-				rect.left,
-				rect.top,
-				rect.bottom - rect.top + 1,
-				rect.bottom - rect.top + 1,
-				GetParent(LButton),
-				(HMENU)IDC_SMLBUTTON,
-				NULL, NULL);
-
-			// Conversion to bitmap done to prevent Miranda from scaling the image
-			SmileyType *sml = FindButtonSmiley(SmileyPack);
-			if (sml != NULL) {
-				hSmlBmp = sml->GetBitmap(GetSysColor(COLOR_BTNFACE), 0, 0);
-				SendMessage(hSmlButton, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hSmlBmp);
-			}
-			else {
-				hSmlIco = GetDefaultIcon();
-				SendMessage(hSmlButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hSmlIco);
-			}
-
-			SendMessage(hSmlButton, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show smiley selection window"), 0);
-			SendMessage(hSmlButton, BUTTONSETASFLATBTN, TRUE, 0);
-		}
+		BBButton bbd = {};
+		bbd.pszModuleName = MODULENAME;
+		if (!doSmileyButton)
+			bbd.bbbFlags = BBBF_DISABLED;
+		else if (!opt.PluginSupportEnabled)
+			bbd.bbbFlags = BBBF_HIDDEN;
+		Srmm_SetButtonState(hContact, &bbd);
 	}
 };
 
@@ -172,7 +88,6 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 
 	switch (uMsg) {
 	case DM_OPTIONSAPPLIED:
-		dat->clear();
 		dat->CreateSmileyButton();
 		break;
 
@@ -182,7 +97,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			GETTEXTLENGTHEX gtl;
 			gtl.codepage = 1200;
 			gtl.flags = GTL_PRECISE | GTL_NUMCHARS;
-			dat->idxLastChar = (int)SendMessage(dat->REdit, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
+			dat->idxLastChar = (int)SendMessage(dat->hwndLog, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 		}
 		break;
 	}
@@ -203,20 +118,13 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		}
 		break;
 
-	case WM_SIZE:
-		if (dat->doSmileyButton) {
-			RECT rect = dat->CalcSmileyButtonPos();
-			SetWindowPos(dat->hSmlButton, NULL, rect.left, rect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
-		}
-		break;
-
 	case DM_APPENDTOLOG:
 		if (dat->doSmileyReplace) {
 			SmileyPackCType *smcp;
 			SmileyPackType *SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
 			if (SmileyPack != NULL) {
 				const CHARRANGE sel = { dat->idxLastChar, LONG_MAX };
-				ReplaceSmileys(dat->REdit, SmileyPack, smcp, sel, false, false, false);
+				ReplaceSmileys(dat->hwndLog, SmileyPack, smcp, sel, false, false, false);
 			}
 		}
 		break;
@@ -227,37 +135,55 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			SmileyPackType *SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
 			if (SmileyPack != NULL) {
 				static const CHARRANGE sel = { 0, LONG_MAX };
-				ReplaceSmileys(dat->REdit, SmileyPack, smcp, sel, false, false, false);
+				ReplaceSmileys(dat->hwndLog, SmileyPack, smcp, sel, false, false, false);
 			}
-		}
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_SMLBUTTON && HIWORD(wParam) == BN_CLICKED) {
-			RECT rect;
-			GetWindowRect(dat->hSmlButton, &rect);
-
-			SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
-			stwp->pSmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact);
-			stwp->hWndParent = hwnd;
-			stwp->hWndTarget = dat->MEdit;
-			stwp->targetMessage = EM_REPLACESEL;
-			stwp->targetWParam = TRUE;
-			stwp->direction = 0;
-			stwp->xPosition = rect.left;
-			stwp->yPosition = rect.top + 24;
-			mir_forkthread(SmileyToolThread, stwp);
-		}
-
-		if (LOWORD(wParam) == MI_IDC_ADD && HIWORD(wParam) == BN_CLICKED && dat->doSmileyButton) {
-			RECT rect = dat->CalcSmileyButtonPos();
-			SetWindowPos(dat->hSmlButton, NULL, rect.left, rect.top,	0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
 		}
 		break;
 	}
 
 	return result;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// toolbar button processing
+
+int SmileyButtonCreate(WPARAM, LPARAM)
+{
+	BBButton bbd = {};
+	bbd.pszModuleName = MODULENAME;
+	bbd.pwszTooltip = LPGENW("Show smiley selection window");
+	bbd.dwDefPos = 31;
+	bbd.hIcon = IcoLib_GetIconHandle("SmileyAdd_ButtonSmiley");
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON;
+	Srmm_AddButton(&bbd);
+	return 0;
+}
+
+int SmileyButtonPressed(WPARAM, LPARAM lParam)
+{
+	CustomButtonClickData *pcbc = (CustomButtonClickData*)lParam;
+	if (mir_strcmp(pcbc->pszModule, MODULENAME))
+		return 0;
+
+	MsgWndData *dat = IsMsgWnd(pcbc->hwndFrom);
+	if (dat == NULL)
+		return 0;
+
+	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
+	stwp->pSmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact);
+	stwp->hWndParent = pcbc->hwndFrom;
+	stwp->hWndTarget = dat->hwndInput;
+	stwp->targetMessage = EM_REPLACESEL;
+	stwp->targetWParam = TRUE;
+	stwp->direction = 0;
+	stwp->xPosition = pcbc->pt.x;
+	stwp->yPosition = pcbc->pt.y;
+	mir_forkthread(SmileyToolThread, stwp);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// window hook
 
 static int MsgDlgHook(WPARAM, LPARAM lParam)
 {
@@ -268,11 +194,8 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 			MsgWndData *msgwnd = new MsgWndData();
 			msgwnd->hwnd = wndEvtData->hwndWindow;
 			msgwnd->hContact = wndEvtData->hContact;
-			msgwnd->REdit = wndEvtData->hwndLog;
-			msgwnd->MEdit = wndEvtData->hwndInput;
-			msgwnd->LButton = GetDlgItem(wndEvtData->hwndWindow, MI_IDC_ADD);
-			if (msgwnd->LButton == NULL)
-				msgwnd->LButton = GetDlgItem(wndEvtData->hwndWindow, 5019);
+			msgwnd->hwndLog = wndEvtData->hwndLog;
+			msgwnd->hwndInput = wndEvtData->hwndInput;
 
 			// Get the protocol for this contact to display correct smileys.
 			char *protonam = GetContactProto(DecodeMetaContact(msgwnd->hContact));

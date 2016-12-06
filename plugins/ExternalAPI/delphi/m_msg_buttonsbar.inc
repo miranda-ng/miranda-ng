@@ -62,7 +62,6 @@ type
     szTooltip    :PWideChar; // button's tooltip
     dwDefPos     :dword; // default order pos of button, counted from window edge (left or right)
                          // use value >100, because internal buttons using 10,20,30... 80, etc
-    iButtonWidth :int;   // must be 0
     bbbFlags     :dword; // combine of BBBF_ flags above
     hIcon        :HICON; // Handle to icolib registered icon, it's better to register with pszSection = "TabSRMM/Toolbar"
   end;	

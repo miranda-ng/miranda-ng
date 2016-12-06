@@ -193,9 +193,3 @@ int Chat_Unload(void)
 	DestroyMenu(g_hMenu);
 	return 0;
 }
-
-int Chat_ModulesLoaded(WPARAM, LPARAM)
-{
-	OptionsInit();
-	return 0;
-}

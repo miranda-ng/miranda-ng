@@ -50,7 +50,6 @@ struct SrmmFlags
 struct GlobalMessageData
 {
 	SrmmFlags flags;
-	MWindowList hMessageWindowList;
 	DWORD openFlags;
 	DWORD msgTimeout;
 	DWORD nFlashMax;

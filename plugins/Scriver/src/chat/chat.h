@@ -81,9 +81,6 @@ void   FreeMsgLogBitmaps(void);
 // window.c
 int GetTextPixelSize( wchar_t* pszText, HFONT hFont, BOOL bWidth);
 
-// options.c
-int OptionsInit(void);
-
 // services.c
 void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 

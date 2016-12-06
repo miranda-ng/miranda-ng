@@ -66,46 +66,12 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 {
-	SendDlgItemMessage(hwndDlg, IDC_SMILEY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("smiley", FALSE));
-	SendDlgItemMessage(hwndDlg, IDC_BOLD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("bold", FALSE));
-	SendDlgItemMessage(hwndDlg, IDC_ITALICS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("italics", FALSE));
-	SendDlgItemMessage(hwndDlg, IDC_UNDERLINE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("underline", FALSE));
-	SendDlgItemMessage(hwndDlg, IDC_COLOR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("fgcol", FALSE));
-	SendDlgItemMessage(hwndDlg, IDC_BKGCOLOR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("bkgcol", FALSE));
-	SendDlgItemMessage(hwndDlg, IDC_HISTORY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("history", FALSE));
-	SendDlgItemMessage(hwndDlg, IDC_CHANMGR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("settings", FALSE));
 	SendDlgItemMessage(hwndDlg, IDC_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx("close", FALSE));
+	SendDlgItemMessage(hwndDlg, IDC_CLOSE, BUTTONSETASFLATBTN, TRUE, 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Close current tab (CTRL+F4)"), 0);
+
 	SendDlgItemMessage(hwndDlg, IDC_SHOWNICKLIST, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(si->bNicklistEnabled ? "nicklist" : "nicklist2", FALSE));
 	SendDlgItemMessage(hwndDlg, IDC_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadIconEx(si->bFilterEnabled ? "filter" : "filter2", FALSE));
-
-	SendDlgItemMessage(hwndDlg, IDC_SMILEY, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_BOLD, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_ITALICS, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_UNDERLINE, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_BKGCOLOR, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_COLOR, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_HISTORY, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_SHOWNICKLIST, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHANMGR, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_FILTER, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CLOSE, BUTTONSETASFLATBTN, TRUE, 0);
-
-	SendDlgItemMessage(hwndDlg, IDC_SMILEY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert a smiley"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_BOLD, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text bold (CTRL+B)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_ITALICS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text italicized (CTRL+I)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_UNDERLINE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text underlined (CTRL+U)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_BKGCOLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a background color for the text (CTRL+L)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_COLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a foreground color for the text (CTRL+K)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_HISTORY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show the history (CTRL+H)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_SHOWNICKLIST, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nick list (CTRL+N)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHANMGR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Control this room (CTRL+O)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_FILTER, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Enable/disable the event filter (CTRL+F)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Close current tab (CTRL+F4)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_BOLD, BUTTONSETASPUSHBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_ITALICS, BUTTONSETASPUSHBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_UNDERLINE, BUTTONSETASPUSHBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_COLOR, BUTTONSETASPUSHBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_BKGCOLOR, BUTTONSETASPUSHBTN, TRUE, 0);
 
 	MODULEINFO *pInfo = pci->MM_FindModule(si->pszModule);
 	if (pInfo) {
@@ -136,7 +102,6 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	int TabHeight = rcTabs.bottom - rcTabs.top;
 	TabCtrl_AdjustRect(GetDlgItem(hwndDlg, IDC_TAB), FALSE, &rcTabs);
 	TabHeight -= (rcTabs.bottom - rcTabs.top);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_SMILEY), (SmileyAddInstalled && bFormat) ? SW_SHOW : SW_HIDE);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_BOLD), bFormat ? SW_SHOW : SW_HIDE);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_UNDERLINE), bFormat ? SW_SHOW : SW_HIDE);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_ITALICS), bFormat ? SW_SHOW : SW_HIDE);
@@ -220,7 +185,6 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 		urc->rcItem.bottom = urc->dlgNewSize.cy - (rc.bottom - rc.top) - 1;
 		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 
-	case IDC_SMILEY:
 	case IDC_ITALICS:
 	case IDC_BOLD:
 	case IDC_UNDERLINE:
@@ -1108,6 +1072,51 @@ static void __cdecl phase2(void * lParam)
 		PostMessage(si->hWnd, GC_REDRAWLOG3, 0, 0);
 }
 
+static void SetButtonsPos(HWND hwndDlg)
+{
+	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount());
+
+	RECT rc;
+	GetWindowRect(GetDlgItem(hwndDlg, IDC_SPLITTERY), &rc);
+	POINT pt = { 0, rc.bottom };
+	ScreenToClient(hwndDlg, &pt);
+	pt.y -= 2;
+
+	GetClientRect(hwndDlg, &rc);
+	int iLeftX = 2, iRightX = rc.right - 2;
+	int iGap = db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1);
+
+	for (int i = 0;; i++) {
+		CustomButtonData *cbd = Srmm_GetNthButton(i);
+		if (cbd == NULL || cbd->m_bRSided)
+			break;
+		
+		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+		if (hwndButton == NULL)
+			continue;
+
+		int width = iGap + ((cbd->m_dwArrowCID) ? 34 : 22);
+		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		iLeftX += width;
+	}
+
+	for (int i = Srmm_GetButtonCount() - 1; i >= 0; i--) {
+		CustomButtonData *cbd = Srmm_GetNthButton(i);
+		if (!cbd->m_bRSided)
+			break;
+
+		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+		if (hwndButton == NULL)
+			continue;
+
+		int width = iGap + ((cbd->m_dwArrowCID) ? 34 : 22);
+		iRightX -= width;
+		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+	}
+
+	EndDeferWindowPos(hdwp);
+}
+
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *s, *si = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -1121,6 +1130,21 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			si = (SESSION_INFO*)lParam;
 			TranslateDialogDefault(hwndDlg);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)si);
+
+			CustomButtonData *cbd;
+			for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
+				if (!cbd->m_bChatButton)
+					continue;
+
+				int width = (cbd->m_dwArrowCID) ? 34 : 22;
+				HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, width, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
+				SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
+				if (cbd->m_pwszTooltip)
+					SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
+				if (cbd->m_hIcon)
+					SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
+			}
+
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERY), SplitterSubclassProc);
 			mir_subclassWindow(hNickList, NicklistSubclassProc);
@@ -1156,8 +1180,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			TabM_RemoveAll();
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SMILEY), TRUE);
-
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
 
 			SendMessage(hwndDlg, GC_SETWNDPROPS, 0, 0);
@@ -1169,7 +1191,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_SETWNDPROPS:
 		{
-			// LoadGlobalSettings(); !!!!!!!!!!!!!!!!!!!!!!
 			InitButtons(hwndDlg, si);
 
 			// stupid hack to make icons show. I dunno why this is needed currently
@@ -1343,6 +1364,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendMessage(si->hwndStatus, WM_SIZE, 0, 0);
 
 			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_CHANNEL), RoomWndResize, (LPARAM)si);
+			SetButtonsPos(hwndDlg);
 
 			InvalidateRect(si->hwndStatus, NULL, TRUE);
 			RedrawWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), NULL, NULL, RDW_INVALIDATE);
@@ -1838,7 +1860,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			POINT pt;
 			RECT rcLog;
-			BOOL bFormat = IsWindowVisible(GetDlgItem(hwndDlg, IDC_SMILEY));
 
 			static int x = 0;
 
@@ -1858,6 +1879,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				g_Settings.iSplitterX = si->iSplitterX;
 			}
 			else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTERY)) {
+				BOOL bFormat = IsWindowVisible(GetDlgItem(hwndDlg, IDC_BOLD));
 				int oldSplitterY;
 				GetClientRect(hwndDlg, &rc);
 				pt.x = 0; pt.y = wParam;
@@ -2302,24 +2324,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 		case IDC_MESSAGE:
 			EnableWindow(GetDlgItem(hwndDlg, IDOK), GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE)) != 0);
-			break;
-
-		case IDC_SMILEY:
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEY), &rc);
-
-			if (SmileyAddInstalled) {
-				SMADD_SHOWSEL3 smaddInfo = { sizeof(smaddInfo) };
-				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
-				smaddInfo.targetMessage = EM_REPLACESEL;
-				smaddInfo.targetWParam = TRUE;
-				smaddInfo.Protocolname = si->pszModule;
-				smaddInfo.Direction = 3;
-				smaddInfo.xPosition = rc.left + 3;
-				smaddInfo.yPosition = rc.top - 1;
-				smaddInfo.hContact = si->hContact;
-				smaddInfo.hwndParent = hwndDlg;
-				CallService(MS_SMILEYADD_SHOWSELECTION, 0, (LPARAM)&smaddInfo);
-			}
 			break;
 
 		case IDC_HISTORY:

@@ -121,7 +121,6 @@ extern CREOleCallback2 reOleCallback2;
 
 int Chat_Load();
 int Chat_Unload();
-int Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam);
 int OptInitialise(WPARAM wParam, LPARAM lParam);
 int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
 int StatusIconPressed(WPARAM wParam, LPARAM lParam);

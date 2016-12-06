@@ -21,19 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../stdafx.h"
 
-static ToolbarButton toolbarButtons[] = {
-	{ LPGENW("Bold"), IDC_CHAT_BOLD, 0, 4, 24 },
-	{ LPGENW("Italic"), IDC_CHAT_ITALICS, 0, 0, 24 },
-	{ LPGENW("Underline"), IDC_CHAT_UNDERLINE, 0, 0, 24 },
-	{ LPGENW("Text color"), IDC_CHAT_COLOR, 0, 0, 24 },
-	{ LPGENW("Background color"), IDC_CHAT_BKGCOLOR, 0, 0, 24 },
-	{ LPGENW("History"), IDC_CHAT_HISTORY, 1, 0, 24 },
-	{ LPGENW("Filter"), IDC_CHAT_FILTER, 1, 0, 24 },
-	{ LPGENW("Manager"), IDC_CHAT_CHANMGR, 1, 0, 24 },
-	{ LPGENW("Nick list"), IDC_CHAT_SHOWNICKLIST, 1, 0, 24 },
-	{ LPGENW("Send"), IDOK, 1, 0, 38 },
-};
-
 struct MESSAGESUBDATA
 {
 	time_t lastEnterTime;
@@ -76,44 +63,8 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 {
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_BOLD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_bold"));
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_ITALICS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_italics"));
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_UNDERLINE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_underline"));
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_COLOR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_fgcol"));
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_BKGCOLOR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_bkgcol"));
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_HISTORY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_history"));
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_CHANMGR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("chat_settings"));
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_SHOWNICKLIST, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(si->bNicklistEnabled ? "chat_nicklist" : "chat_nicklist2"));
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon(si->bFilterEnabled ? "chat_filter" : "chat_filter2"));
-	SendDlgItemMessage(hwndDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetCachedIcon("scriver_SEND"));
-
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_BOLD, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_ITALICS, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_UNDERLINE, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_BKGCOLOR, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_COLOR, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_HISTORY, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_SHOWNICKLIST, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_CHANMGR, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_FILTER, BUTTONSETASFLATBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASFLATBTN, TRUE, 0);
-
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_BOLD, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text bold (CTRL+B)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_ITALICS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text italicized (CTRL+I)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_UNDERLINE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text underlined (CTRL+U)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_BKGCOLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a background color for the text (CTRL+L)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_COLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a foreground color for the text (CTRL+K)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_HISTORY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show the history (CTRL+H)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_SHOWNICKLIST, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nick list (CTRL+N)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_CHANMGR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Control this room (CTRL+O)"), 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_FILTER, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Enable/disable the event filter (CTRL+F)"), 0);
-	SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Send message"), 0);
-
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_BOLD, BUTTONSETASPUSHBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_ITALICS, BUTTONSETASPUSHBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_UNDERLINE, BUTTONSETASPUSHBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_COLOR, BUTTONSETASPUSHBTN, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_CHAT_BKGCOLOR, BUTTONSETASPUSHBTN, TRUE, 0);
 
 	MODULEINFO *pInfo = pci->MM_FindModule(si->pszModule);
 	if (pInfo) {
@@ -132,9 +83,8 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 	int  logBottom, toolbarTopY;
 	BOOL bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
 	BOOL bToolbar = SendMessage(GetParent(hwndDlg), CM_GETTOOLBARSTATUS, 0, 0);
-	int  buttonVisibility = bToolbar ? g_dat.chatBbuttonVisibility : 0;
 	int  hSplitterMinTop = TOOLBAR_HEIGHT + si->minLogBoxHeight, hSplitterMinBottom = si->minEditBoxHeight;
-	int  toolbarHeight = bToolbar ? IsToolbarVisible(_countof(toolbarButtons), g_dat.chatBbuttonVisibility) ? TOOLBAR_HEIGHT : TOOLBAR_HEIGHT / 3 : 0;
+	int  toolbarHeight = TOOLBAR_HEIGHT;
 
 	si->iSplitterY = si->desiredInputAreaHeight + SPLITTER_HEIGHT + 3;
 
@@ -143,8 +93,7 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 	if (si->iSplitterY < hSplitterMinBottom)
 		si->iSplitterY = hSplitterMinBottom;
 
-	ShowToolbarControls(hwndDlg, _countof(toolbarButtons), toolbarButtons, buttonVisibility, SW_SHOW);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERX), bNick ? SW_SHOW : SW_HIDE);
+	ShowWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), bNick ? SW_SHOW : SW_HIDE);
 	if (si->iType != GCW_SERVER)
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CHAT_LIST), si->bNicklistEnabled ? SW_SHOW : SW_HIDE);
 	else
@@ -162,7 +111,7 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_CHANMGR), pci->MM_FindModule(si->pszModule)->bChanMgr);
 	}
 
-	HDWP hdwp = BeginDeferWindowPos(20);
+	HDWP hdwp = BeginDeferWindowPos(5);
 	toolbarTopY = bToolbar ? h - si->iSplitterY - toolbarHeight : h - si->iSplitterY;
 	if (si->hwndLog != NULL)
 		logBottom = toolbarTopY / 2;
@@ -171,11 +120,13 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_LOG), 0, 1, 0, bNick ? w - si->iSplitterX - 1 : w - 2, logBottom, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_LIST), 0, w - si->iSplitterX + 2, 0, si->iSplitterX - 3, toolbarTopY, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERX), 0, w - si->iSplitterX, 1, 2, toolbarTopY - 1, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERY), 0, 0, h - si->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_SPLITTERX), 0, w - si->iSplitterX, 1, 2, toolbarTopY - 1, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_SPLITTERY), 0, 0, h - si->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), 0, 1, h - si->iSplitterY + SPLITTER_HEIGHT, w - 2, si->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
-	hdwp = ResizeToolbar(hwndDlg, hdwp, w, toolbarTopY + 1, toolbarHeight - 1, _countof(toolbarButtons), toolbarButtons, buttonVisibility);
 	EndDeferWindowPos(hdwp);
+
+	SetButtonsPos(hwndDlg);
+
 	if (si->hwndLog != NULL) {
 		IEVIEWWINDOW ieWindow;
 		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
@@ -986,13 +937,27 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_CHAT_LOG));
 			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_CHAT_LIST));
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERX), SplitterSubclassProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_LIST), NicklistSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_LOG), LogSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_FILTER), ButtonSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_COLOR), ButtonSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_BKGCOLOR), ButtonSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), MessageSubclassProc);
+
+			CustomButtonData *cbd;
+			for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
+				if (!cbd->m_bChatButton)
+					continue;
+
+				int width = (cbd->m_dwArrowCID) ? 34 : 22;
+				HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, width, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
+				SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
+				if (cbd->m_pwszTooltip)
+					SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
+				if (cbd->m_hIcon)
+					SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
+			}
 
 			RECT minEditInit;
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), &minEditInit);
@@ -1406,7 +1371,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case GC_SPLITTERMOVED:
-		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERX)) {
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTERX)) {
 			GetClientRect(hwndDlg, &rc);
 			pt.x = wParam; pt.y = 0;
 			ScreenToClient(hwndDlg, &pt);
@@ -1418,7 +1383,7 @@ LABEL_SHOWWINDOW:
 				si->iSplitterX = rc.right - rc.left - 35;
 			g_Settings.iSplitterX = si->iSplitterX;
 		}
-		else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERY)) {
+		else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTERY)) {
 			GetClientRect(hwndDlg, &rc);
 			pt.x = 0; pt.y = wParam;
 			ScreenToClient(hwndDlg, &pt);
@@ -1805,34 +1770,6 @@ LABEL_SHOWWINDOW:
 
 	case WM_LBUTTONDOWN:
 		SendMessage(GetParent(hwndDlg), WM_LBUTTONDOWN, wParam, lParam);
-		return TRUE;
-
-	case WM_RBUTTONUP:
-		hToolbarMenu = CreatePopupMenu();
-		for (int i = 0; i < _countof(toolbarButtons); i++) {
-			MENUITEMINFO mii = { 0 };
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_ID | MIIM_STRING | MIIM_STATE | MIIM_DATA | MIIM_BITMAP;
-			mii.fType = MFT_STRING;
-			mii.fState = (g_dat.chatBbuttonVisibility & (1 << i)) ? MFS_CHECKED : MFS_UNCHECKED;
-			mii.wID = i + 1;
-			mii.dwItemData = (ULONG_PTR)g_dat.hChatButtonIconList;
-			mii.hbmpItem = HBMMENU_CALLBACK;
-			mii.dwTypeData = TranslateW((toolbarButtons[i].name));
-			InsertMenuItem(hToolbarMenu, i, TRUE, &mii);
-		}
-
-		pt.x = (short)LOWORD(GetMessagePos());
-		pt.y = (short)HIWORD(GetMessagePos());
-		{
-			int res = TrackPopupMenu(hToolbarMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-			if (res > 0) {
-				g_dat.chatBbuttonVisibility ^= (1 << (res - 1));
-				db_set_dw(NULL, SRMMMOD, SRMSGSET_CHATBUTTONVISIBILITY, g_dat.chatBbuttonVisibility);
-				pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
-			}
-		}
-		DestroyMenu(hToolbarMenu);
 		return TRUE;
 
 	case DM_GETCONTEXTMENU:

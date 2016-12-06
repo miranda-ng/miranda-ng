@@ -44,9 +44,6 @@ static int IconsChanged(WPARAM, LPARAM)
 
 static int OnShutdown(WPARAM, LPARAM)
 {
-	WindowList_Destroy(g_dat.hMessageWindowList);
-	g_dat.hMessageWindowList = NULL;
-
 	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
 		SendMessage(si->hWnd, WM_CLOSE, 0, 0);
 
@@ -58,7 +55,7 @@ static int OnShutdown(WPARAM, LPARAM)
 static int OnMetaChanged(WPARAM hMeta, LPARAM)
 {
 	if (hMeta) {
-		HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hMeta);
+		HWND hwnd = WindowList_Find(pci->hWindowList, hMeta);
 		if (hwnd != NULL)
 			SendMessage(hwnd, DM_GETAVATAR, 0, 0);
 	}
@@ -68,13 +65,13 @@ static int OnMetaChanged(WPARAM hMeta, LPARAM)
 static int dbaddedevent(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (hContact) {
-		HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
+		HWND h = WindowList_Find(pci->hWindowList, hContact);
 		if (h)
 			SendMessage(h, HM_DBEVENTADDED, hContact, hDbEvent);
 
 		MCONTACT hEventContact = db_event_getContact(hDbEvent);
 		if (hEventContact != hContact)
-			if ((h = WindowList_Find(g_dat.hMessageWindowList, hEventContact)) != NULL)
+			if ((h = WindowList_Find(pci->hWindowList, hEventContact)) != NULL)
 				SendMessage(h, HM_DBEVENTADDED, hEventContact, hDbEvent);
 	}
 	return 0;
@@ -94,7 +91,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 
 int AvatarChanged(WPARAM hContact, LPARAM lParam)
 {
-	HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	HWND h = WindowList_Find(pci->hWindowList, hContact);
 	if (h)
 		SendMessage(h, HM_AVATARACK, hContact, lParam);
 	return 0;
@@ -157,8 +154,6 @@ void ReloadGlobals()
 
 void InitGlobals()
 {
-	g_dat.hMessageWindowList = WindowList_Create();
-
 	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
 	HookEvent(ME_PROTO_ACK, ackevent);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);

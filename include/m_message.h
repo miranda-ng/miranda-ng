@@ -244,9 +244,8 @@ struct BBButton
 	wchar_t *pwszTooltip;
 	DWORD    dwDefPos;       // default order pos of button, counted from window edge (left or right)
 	                         // use value >100, because internal buttons using 10,20,30... 80, etc
-	int      iButtonWidth;   // must be 0
 	DWORD    bbbFlags;       // combine of BBBF_ flags above
-	HANDLE   hIcon;          // Handle to icolib registered icon, it's better to register with pszSection = "TabSRMM/Toolbar"
+	HANDLE   hIcon;          // Handle to icolib registered icon
 };
 
 // adds a new toolbar button
@@ -290,7 +289,7 @@ EXTERN_C MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg);
 EXTERN_C MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, DWORD idFrom, HWND hwndFrom, BOOL code);
 
 // wParam = (HANDLE)hContact;
-// lParam = (CustomButtonClickData *)&CustomButtonClickData;
+// lParam = (CustomButtonClickData*) pointer to the click data;
 // catch to show a popup menu, etc.
 #define ME_MSG_BUTTONPRESSED "SRMM/ButtonsBar/ButtonPressed"
 
