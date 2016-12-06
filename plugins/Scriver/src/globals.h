@@ -82,7 +82,6 @@ struct GlobalMessageData
 {
 	unsigned int flags;
 	unsigned int flags2;
-	MWindowList hMessageWindowList;
 	DWORD openFlags;
 	MWindowList hParentWindowList;
 	ParentWindowData *lastParent;

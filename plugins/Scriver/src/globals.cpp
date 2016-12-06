@@ -287,7 +287,6 @@ void InitGlobals()
 	HDC hdc = GetDC(NULL);
 
 	memset(&g_dat, 0, sizeof(struct GlobalMessageData));
-	g_dat.hMessageWindowList = WindowList_Create();
 	g_dat.hParentWindowList = WindowList_Create();
 
 	HookEvent(ME_PROTO_ACK, ackevent);
@@ -324,7 +323,6 @@ void FreeGlobals()
 		ImageList_Destroy(g_dat.hSearchEngineIconList);
 	mir_free(g_dat.tabIconListUsage);
 
-	WindowList_Destroy(g_dat.hMessageWindowList);
 	WindowList_Destroy(g_dat.hParentWindowList);
 
 	memset(&g_dat, 0, sizeof(g_dat));

@@ -78,7 +78,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	CLISTEVENT *pcle = (CLISTEVENT*)lParam;
 	MCONTACT hContact = db_mc_tryMeta(pcle->hContact);
 
-	HWND hwndExisting = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	HWND hwndExisting = WindowList_Find(pci->hWindowList, hContact);
 	if (hwndExisting == NULL) {
 		NewMessageWindowLParam newData = { 0 };
 		newData.hContact = hContact;
@@ -96,9 +96,9 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return 0;
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd == NULL)
-		hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact = db_event_getContact(hDbEvent));
+		hwnd = WindowList_Find(pci->hWindowList, hContact = db_event_getContact(hDbEvent));
 	if (hwnd)
 		SendMessage(hwnd, HM_DBEVENTADDED, hContact, lParam);
 
@@ -149,7 +149,7 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, LPCSTR pszMsg, bool i
 	if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 		return 1;
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd != NULL) {
 		if (pszMsg) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
@@ -201,7 +201,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 
 	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
@@ -217,13 +217,13 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	char *szProto = GetContactProto(hContact); // szProto maybe NULL
 	if (!strcmp(cws->szModule, "CList") || !mir_strcmp(cws->szModule, szProto))
-		WindowList_Broadcast(g_dat.hMessageWindowList, DM_CLISTSETTINGSCHANGED, hContact, lParam);
+		WindowList_Broadcast(pci->hWindowList, DM_CLISTSETTINGSCHANGED, hContact, lParam);
 	return 0;
 }
 
 static int ContactDeleted(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
+	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
 	if (hwnd)
 		SendMessage(hwnd, WM_CLOSE, 0, 0);
 	return 0;
@@ -255,7 +255,7 @@ static void RestoreUnreadMessageAlerts(void)
 			if ((dbei.flags & (DBEF_SENT | DBEF_READ)) || !DbEventIsMessageOrCustom(&dbei))
 				continue;
 
-			int windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
+			int windowAlreadyExists = WindowList_Find(pci->hWindowList, hContact) != NULL;
 			if (windowAlreadyExists)
 				continue;
 
@@ -310,7 +310,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	if (mwd == NULL || mwd->cbSize != sizeof(MessageWindowData))
 		return 1;
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, mwid->hContact);
 	if (hwnd == NULL)
 		hwnd = SM_FindWindowByContact(mwid->hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
@@ -327,7 +327,7 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 		return 1;
 
 	ParentWindowData *pdat;
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd == NULL) {
 		hwnd = SM_FindWindowByContact(hContact);
 		if (hwnd == NULL)
@@ -374,9 +374,9 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == 0)          // protocol picture has changed...
-		WindowList_Broadcast(g_dat.hMessageWindowList, DM_AVATARCHANGED, wParam, lParam);
+		WindowList_Broadcast(pci->hWindowList, DM_AVATARCHANGED, wParam, lParam);
 	else {
-		HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
+		HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
 		SendMessage(hwnd, DM_AVATARCHANGED, wParam, lParam);
 	}
 	return 0;
@@ -413,7 +413,7 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 	if (mir_strcmp(SRMMMOD, sicd->szModule))
 		return 0;
 
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
+	HWND hwnd = WindowList_Find(pci->hWindowList, wParam);
 	if (hwnd == NULL)
 		hwnd = SM_FindWindowByContact(wParam);
 
@@ -535,7 +535,7 @@ static int ModuleLoad(WPARAM, LPARAM)
 static int MetaContactChanged(WPARAM hMeta, LPARAM)
 {
 	if (hMeta) {
-		HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hMeta);
+		HWND hwnd = WindowList_Find(pci->hWindowList, hMeta);
 		if (hwnd != NULL)
 			SendMessage(hwnd, DM_GETAVATAR, 0, 0);
 	}
@@ -574,7 +574,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 int OnSystemPreshutdown(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
+	WindowList_Broadcast(pci->hWindowList, WM_CLOSE, 0, 0);
 	WindowList_Broadcast(g_dat.hParentWindowList, WM_CLOSE, 0, 0);
 	DeinitStatusIcons();
 	return 0;

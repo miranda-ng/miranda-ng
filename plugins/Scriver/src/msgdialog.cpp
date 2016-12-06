@@ -116,7 +116,7 @@ void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 	mwe.szModule = SRMMMOD;
 	mwe.uType = type;
 	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	if (WindowList_Find(g_dat.hMessageWindowList, hContact)) {
+	if (WindowList_Find(pci->hWindowList, hContact)) {
 		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
 		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
 	}
@@ -675,7 +675,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat = (SrmmWindowData*)mir_calloc(sizeof(SrmmWindowData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->hContact = newData->hContact;
-			WindowList_Add(g_dat.hMessageWindowList, hwndDlg, dat->hContact);
+			WindowList_Add(pci->hWindowList, hwndDlg, dat->hContact);
 
 			NotifyLocalWinEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING);
 
@@ -1791,7 +1791,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 
 		tcmdlist_free(dat->cmdList);
-		WindowList_Remove(g_dat.hMessageWindowList, hwndDlg);
+		WindowList_Remove(pci->hWindowList, hwndDlg);
 
 		HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_GETFONT, 0, 0);
 		if (hFont != NULL && hFont != (HFONT)SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0))

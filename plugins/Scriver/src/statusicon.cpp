@@ -64,7 +64,7 @@ static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 	if (hContact == NULL)
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_STATUSICONCHANGE, 0, 0);
 	else {
-		HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+		HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 		if (hwnd == NULL)
 			hwnd = SM_FindWindowByContact(hContact);
 		if (hwnd != NULL)

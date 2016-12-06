@@ -80,7 +80,7 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 {
 	LoadMsgLogIcons();
 	LoadInfobarFonts();
-	WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+	WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
 	return 0;
 }
 
@@ -131,14 +131,14 @@ int IconsChanged(WPARAM, LPARAM)
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();
 	ChangeStatusIcons();
-	WindowList_Broadcast(g_dat.hMessageWindowList, DM_REMAKELOG, 0, 0);
-	WindowList_Broadcast(g_dat.hMessageWindowList, DM_CHANGEICONS, 0, 1);
+	WindowList_Broadcast(pci->hWindowList, DM_REMAKELOG, 0, 0);
+	WindowList_Broadcast(pci->hWindowList, DM_CHANGEICONS, 0, 1);
 	return 0;
 }
 
 int SmileySettingsChanged(WPARAM wParam, LPARAM)
 {
-	WindowList_Broadcast(g_dat.hMessageWindowList, DM_REMAKELOG, wParam, 0);
+	WindowList_Broadcast(pci->hWindowList, DM_REMAKELOG, wParam, 0);
 	return 0;
 }
 
@@ -238,7 +238,7 @@ static void ApplyChanges(int i)
 	if (changed == 0) {
 		ReloadGlobals();
 		WindowList_Broadcast(g_dat.hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
-		WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+		WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
 		pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 	}
 }
@@ -918,7 +918,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGSWITCH, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TYPINGSWITCH));
 				ReloadGlobals();
-				WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
 			}
 			break;
 		}
