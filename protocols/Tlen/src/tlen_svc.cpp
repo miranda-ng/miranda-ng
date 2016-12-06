@@ -743,12 +743,7 @@ int TlenProtocol::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t*)
 
 	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)hTransfer;
 	char *nick = TlenNickFromJID(ft->jid);
-	if (ft->newP2P) {
-		TlenSend(this, "<f i='%s' e='4' t='%s'/>", ft->iqId, nick); \
-	}
-	else {
-		TlenSend(this, "<f i='%s' e='4' t='%s'/>", ft->iqId, nick); \
-	}
+	TlenSend(this, "<f i='%s' e='4' t='%s'/>", ft->iqId, nick); \
 	mir_free(nick);
 	TlenP2PFreeFileTransfer(ft);
 	return 0;
