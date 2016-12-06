@@ -17,7 +17,7 @@
 #include "stdafx.h"
 
 //global variables
-bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bIsMiranda09 = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false;
+bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false;
 wchar_t *inopentag = NULL, *inclosetag = NULL, *outopentag = NULL, *outclosetag = NULL, *password = NULL;
 
 list <JabberAccount*> Accounts;
@@ -83,8 +83,7 @@ void init_vars()
 	bSameAction = db_get_b(NULL, szGPGModuleName, "bSameAction", 0) != 0;
 	password = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
 	debuglog.init();
-	bIsMiranda09 = false;
-	bJabberAPI = db_get_b(NULL, szGPGModuleName, "bJabberAPI", bIsMiranda09) != 0;
+	bJabberAPI = db_get_b(NULL, szGPGModuleName, "bJabberAPI", true) != 0;
 	bPresenceSigning = db_get_b(NULL, szGPGModuleName, "bPresenceSigning", 0) != 0;
 	bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0) != 0;
 	firstrun_rect.left = db_get_dw(NULL, szGPGModuleName, "FirstrunWindowX", 0);
@@ -138,12 +137,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	sid.szTooltip = LPGEN("GPG Turn on encryption");
 	Srmm_AddIcon(&sid);
 
-	if(bJabberAPI && bIsMiranda09)
+	if(bJabberAPI)
 		GetJabberInterface(0,0);
 
 	HookEvent(ME_OPT_INITIALISE, GpgOptInit);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, HookSendMsg);
-	if(bJabberAPI && bIsMiranda09)
+	if(bJabberAPI)
 		HookEvent(ME_PROTO_ACCLISTCHANGED, GetJabberInterface);
 
 	HookEvent(ME_PROTO_ACK, onProtoAck);

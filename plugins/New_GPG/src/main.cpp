@@ -871,8 +871,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			//TODO: additional check for write access
 			if (gpg_exists && lang_exists && !bad_version)
 				MessageBox(0, TranslateT("Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue."), TranslateT("Info"), MB_OK);
-			extern bool bIsMiranda09;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), bIsMiranda09);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), TRUE);
 			return TRUE;
 		}
 

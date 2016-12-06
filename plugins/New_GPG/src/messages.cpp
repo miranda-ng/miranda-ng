@@ -664,7 +664,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	DWORD code;
 	wstring file = toUTF16(get_random(10)), path;
 	std::vector<std::wstring> cmd;
-	extern bool bJabberAPI, bIsMiranda09;
+	extern bool bJabberAPI;
 	{
 		wchar_t *tmp2;
 		{
@@ -675,7 +675,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 				ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)msg);
 				return;
 			}
-			if (!bJabberAPI || !bIsMiranda09) //force jabber to handle encrypted message by itself
+			if (!bJabberAPI) //force jabber to handle encrypted message by itself
 			{
 				cmd.push_back(L"--comment");
 				cmd.push_back(L"\"\"");

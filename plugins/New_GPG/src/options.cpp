@@ -80,7 +80,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 	hwndList_p = hwndList;
 	hwndCurKey_p = GetDlgItem(hwndDlg, IDC_CURRENT_KEY);
 	LVITEM item = { 0 };
-	extern bool bIsMiranda09, bJabberAPI;
+	extern bool bJabberAPI;
 	NMLISTVIEW *hdr = (NMLISTVIEW *)lParam;
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -172,8 +172,8 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, (mir_wstrlen(tmp) > 1) ? tmp : L"c:\\GPGdebug.log");
 			mir_free(tmp);
 			CheckStateLoadDB(hwndDlg, IDC_DEBUG_LOG, "bDebugLog", 0);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_JABBER_API), bIsMiranda09);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), (bIsMiranda09 && bJabberAPI));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_JABBER_API), TRUE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), bJabberAPI);
 			{
 				string keyinfo = Translate("Default private key ID");
 				keyinfo += ": ";
@@ -182,8 +182,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				mir_free(keyid);
 				SetDlgItemTextA(hwndDlg, IDC_CURRENT_KEY, keyinfo.c_str());
 			}
-			if (bIsMiranda09)
-				CheckStateLoadDB(hwndDlg, IDC_JABBER_API, "bJabberAPI", 1);
+			CheckStateLoadDB(hwndDlg, IDC_JABBER_API, "bJabberAPI", 1);
 			CheckStateLoadDB(hwndDlg, IDC_FILE_TRANSFERS, "bFileTransfers", 0);
 			CheckStateLoadDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange", 0);
 		}
@@ -367,7 +366,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		break;
 
 	case WM_NOTIFY:
-		EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), (bIsMiranda09 && IsDlgButtonChecked(hwndDlg, IDC_JABBER_API)));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), IsDlgButtonChecked(hwndDlg, IDC_JABBER_API));
 		if (hdr && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1)) {
 			if (hdr->hdr.code == NM_CLICK)
 				item_num = hdr->iItem;
