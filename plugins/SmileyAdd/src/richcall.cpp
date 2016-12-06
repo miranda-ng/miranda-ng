@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-struct RichEditData
+struct RichEditData : public MZeroedObject
 {
 	HWND hwnd;
 	MCONTACT hContact;
@@ -306,9 +306,7 @@ bool SetRichCallback(HWND hwnd, MCONTACT hContact, bool subany, bool subnew)
 		rdt->hwnd = hwnd;
 		rdt->hContact = hContact;
 		rdt->inputarea = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) == 0;
-		rdt->dontReplace = false;
 		rdt->tipActive = -1;
-		rdt->hToolTip = NULL;
 		g_RichEditList.insert(rdt);
 
 		if (subnew)
