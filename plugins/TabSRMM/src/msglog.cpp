@@ -1132,8 +1132,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 		else
 			smadd.rangeToReplace = NULL;
 		smadd.disableRedraw = TRUE;
-		if (dat->bShowSmileys)
-			CallService(MS_SMILEYADD_REPLACESMILEYS, TABSRMM_SMILEYADD_BKGCOLORMODE, (LPARAM)&smadd);
+		CallService(MS_SMILEYADD_REPLACESMILEYS, TABSRMM_SMILEYADD_BKGCOLORMODE, (LPARAM)&smadd);
 	}
 
 	if (dat->hHistoryEvents && dat->curHistory == dat->maxHistory) {

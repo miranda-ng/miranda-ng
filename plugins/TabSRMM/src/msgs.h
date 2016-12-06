@@ -275,7 +275,7 @@ struct TWindowData
 	HBITMAP  hOwnPic;
 	SIZE     pic;
 	BYTE     bShowTyping;
-	bool     bShowAvatar, bShowInfoAvatar, bShowSmileys, bShowUIElements;
+	bool     bShowAvatar, bShowInfoAvatar, bShowUIElements;
 	bool     bUseOffset;
 	bool     bIsHistory, bIsMeta, bNotOnList;
 	HICON    hSmileyIcon;
