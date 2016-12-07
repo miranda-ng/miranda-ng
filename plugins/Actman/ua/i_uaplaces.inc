@@ -733,7 +733,6 @@ begin
     tabb.dwButtonID   :=ActionItem.dwActID;
     tabb.pszModuleName:=MODULE_NAME;
     tabb.dwDefPos     :=(TABTOOLBAR_INITPOS+ActionItem.wSortIndex*10) and $7FFF;
-    tabb.iButtonWidth :=0;
     tabb.hIcon        :=ActionItem.hIcolibIcon;
     if (ActionItem.flags and UAF_2STATE)<>0 then
       tabb.bbbFlags:=BBBF_ISIMBUTTON or BBBF_ISCHATBUTTON or BBBF_ISPUSHBUTTON
