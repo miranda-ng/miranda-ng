@@ -245,23 +245,24 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
 			}
 			break;
-		case IDC_SAVETEMPLATE:
-		{
-			wchar_t newTemplate[TEMPLATE_LENGTH + 2];
 
-			GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, newTemplate, _countof(newTemplate));
-			memcpy(tSet->szTemplates[teInfo->inEdit], newTemplate, sizeof(wchar_t) * TEMPLATE_LENGTH);
-			teInfo->changed = FALSE;
-			teInfo->updateInfo[teInfo->inEdit] = FALSE;
-			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
-			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
-			db_set_ws(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit], newTemplate);
-			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
-		}
-		break;
+		case IDC_SAVETEMPLATE:
+			{
+				wchar_t newTemplate[TEMPLATE_LENGTH + 2];
+
+				GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, newTemplate, _countof(newTemplate));
+				memcpy(tSet->szTemplates[teInfo->inEdit], newTemplate, sizeof(wchar_t) * TEMPLATE_LENGTH);
+				teInfo->changed = FALSE;
+				teInfo->updateInfo[teInfo->inEdit] = FALSE;
+				Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
+				Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
+				Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
+				Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
+				db_set_ws(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit], newTemplate);
+				SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
+			}
+			break;
 
 		case IDC_FORGET:
 			teInfo->changed = FALSE;
@@ -302,68 +303,70 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DRAWITEM:
-	{
-		DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
-		int iItem = dis->itemData;
-		SetBkMode(dis->hDC, TRANSPARENT);
-		FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
-		if (dis->itemState & ODS_SELECTED) {
-			if (teInfo->updateInfo[iItem] == TRUE) {
-				HBRUSH bkg = CreateSolidBrush(RGB(255, 0, 0));
-				HBRUSH oldBkg = (HBRUSH)SelectObject(dis->hDC, bkg);
-				FillRect(dis->hDC, &dis->rcItem, bkg);
-				SelectObject(dis->hDC, oldBkg);
-				DeleteObject(bkg);
+		{
+			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
+			int iItem = dis->itemData;
+			SetBkMode(dis->hDC, TRANSPARENT);
+			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
+			if (dis->itemState & ODS_SELECTED) {
+				if (teInfo->updateInfo[iItem] == TRUE) {
+					HBRUSH bkg = CreateSolidBrush(RGB(255, 0, 0));
+					HBRUSH oldBkg = (HBRUSH)SelectObject(dis->hDC, bkg);
+					FillRect(dis->hDC, &dis->rcItem, bkg);
+					SelectObject(dis->hDC, oldBkg);
+					DeleteObject(bkg);
+				}
+				else FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
+
+				SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
 			}
-			else
-				FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
-
-			SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
+			else {
+				if (teInfo->updateInfo[iItem] == TRUE)
+					SetTextColor(dis->hDC, RGB(255, 0, 0));
+				else
+					SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+			}
+			char *pszName = Translate(TemplateNames[iItem]);
+			TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, pszName, (int)mir_strlen(pszName));
 		}
-		else {
-			if (teInfo->updateInfo[iItem] == TRUE)
-				SetTextColor(dis->hDC, RGB(255, 0, 0));
-			else
-				SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
-		}
-		char *pszName = Translate(TemplateNames[iItem]);
-		TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, pszName, (int)mir_strlen(pszName));
-	}
-	return TRUE;
+		return TRUE;
 
-	case DM_UPDATETEMPLATEPREVIEW: {
-		DBEVENTINFO dbei = { 0 };
-		int iIndex = SendDlgItemMessage(hwndDlg, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
-		wchar_t szTemp[TEMPLATE_LENGTH + 2];
+	case DM_UPDATETEMPLATEPREVIEW:
+		{
+			int iIndex = SendDlgItemMessage(hwndDlg, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
+			wchar_t szTemp[TEMPLATE_LENGTH + 2];
 
-		if (teInfo->changed) {
-			memcpy(szTemp, tSet->szTemplates[teInfo->inEdit], (TEMPLATE_LENGTH * sizeof(wchar_t)));
-			GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit], TEMPLATE_LENGTH);
+			if (teInfo->changed) {
+				memcpy(szTemp, tSet->szTemplates[teInfo->inEdit], (TEMPLATE_LENGTH * sizeof(wchar_t)));
+				GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit], TEMPLATE_LENGTH);
+			}
+
+			DBEVENTINFO dbei = { 0 };
+			dbei.szModule = dat->szProto;
+			dbei.timestamp = time(NULL);
+			dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
+			dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
+			if (dbei.eventType == EVENTTYPE_ERRMSG)
+				dbei.szModule = (char *)L"Sample error message";
+			dbei.cbSize = sizeof(dbei);
+			dbei.pBlob = (iIndex == 6) ? (BYTE *)"is now offline (was online)" : (BYTE *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
+			dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
+			dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
+			dbei.flags |= (teInfo->rtl ? DBEF_RTL : 0);
+			dat->lastEventTime = (iIndex == 4 || iIndex == 5) ? time(NULL) - 1 : 0;
+			dat->iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
+			SetDlgItemText(hwndDlg, IDC_PREVIEW, L"");
+			dat->dwFlags = MWF_LOG_ALL;
+			dat->dwFlags = (teInfo->rtl ? dat->dwFlags | MWF_LOG_RTL : dat->dwFlags & ~MWF_LOG_RTL);
+			dat->dwFlags = (iIndex == 0 || iIndex == 1) ? dat->dwFlags & ~MWF_LOG_GROUPMODE : dat->dwFlags | MWF_LOG_GROUPMODE;
+			mir_snwprintf(dat->szMyNickname, L"My Nickname");
+			StreamInEvents(hwndDlg, 0, 1, 0, &dbei);
+			SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
+			if (teInfo->changed)
+				memcpy(tSet->szTemplates[teInfo->inEdit], szTemp, TEMPLATE_LENGTH * sizeof(wchar_t));
 		}
-		dbei.szModule = dat->szProto;
-		dbei.timestamp = time(NULL);
-		dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
-		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
-		if (dbei.eventType == EVENTTYPE_ERRMSG)
-			dbei.szModule = (char *)L"Sample error message";
-		dbei.cbSize = sizeof(dbei);
-		dbei.pBlob = (iIndex == 6) ? (BYTE *)"is now offline (was online)" : (BYTE *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
-		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
-		dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
-		dbei.flags |= (teInfo->rtl ? DBEF_RTL : 0);
-		dat->lastEventTime = (iIndex == 4 || iIndex == 5) ? time(NULL) - 1 : 0;
-		dat->iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
-		SetDlgItemText(hwndDlg, IDC_PREVIEW, L"");
-		dat->dwFlags = MWF_LOG_ALL;
-		dat->dwFlags = (teInfo->rtl ? dat->dwFlags | MWF_LOG_RTL : dat->dwFlags & ~MWF_LOG_RTL);
-		dat->dwFlags = (iIndex == 0 || iIndex == 1) ? dat->dwFlags & ~MWF_LOG_GROUPMODE : dat->dwFlags | MWF_LOG_GROUPMODE;
-		mir_snwprintf(dat->szMyNickname, L"My Nickname");
-		StreamInEvents(hwndDlg, 0, 1, 0, &dbei);
-		SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
-		if (teInfo->changed)
-			memcpy(tSet->szTemplates[teInfo->inEdit], szTemp, TEMPLATE_LENGTH * sizeof(wchar_t));
 		break;
-	}
+
 	case WM_DESTROY:
 		Utils::enableDlgControl(teInfo->hwndParent, IDC_MODIFY, TRUE);
 		Utils::enableDlgControl(teInfo->hwndParent, IDC_RTLMODIFY, TRUE);

@@ -47,6 +47,8 @@
 #include <locale.h>
 
 #include <msapi/vsstyle.h>
+#include <msapi/comptr.h>
+
 #include <m_avatars.h>
 #include <m_message.h>
 #include <win2k.h>
@@ -230,7 +232,6 @@ extern LOGFONTA logfonts[MSGDLGFONTCOUNT + 2];
 extern COLORREF fontcolors[MSGDLGFONTCOUNT + 2];
 extern HINSTANCE hinstance;
 extern BOOL g_bIMGtagButton;
-extern TLogIcon msgLogIcons[NR_LOGICONS * 3];
 extern const wchar_t *pszIDCSAVE_save, *pszIDCSAVE_close;
 extern char *TemplateNames[];
 extern HANDLE hUserPrefsWindowList;
@@ -247,9 +248,6 @@ int  SplitmsgShutdown(void);
 void LogErrorMessage(HWND hwndDlg, TWindowData *dat, int i, wchar_t *szMsg);
 int  Chat_Load(), Chat_Unload();
 void FreeLogFonts();
-void ImageDataInsertBitmap(IRichEditOle *ole, HBITMAP hBm);
-int  CacheIconToBMP(TLogIcon *theIcon, HICON hIcon, COLORREF backgroundColor, int sizeX, int sizeY);
-void DeleteCachedIcon(TLogIcon *theIcon);
 
 INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam);

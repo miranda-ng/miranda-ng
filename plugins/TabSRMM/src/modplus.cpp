@@ -68,9 +68,9 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	BBButton bbd = {};
 	bbd.dwButtonID = 1;
 	bbd.pszModuleName = "Tabmodplus";
-	Srmm_SetButtonState(wParam, &bbd);
+	Srmm_GetButtonState(cbcd->hwndFrom, &bbd);
 
-	wchar_t *pszText = L"";
+	ptrW pszText;
 	CHARRANGE cr;
 	cr.cpMin = cr.cpMax = 0;
 	SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&cr);
@@ -81,80 +81,56 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
 
-	int state = 0;
-	if (cbcd->flags & BBCF_RIGHTBUTTON)
-		state = 1;
-	else if (textlenght)
-		state = 2;
-	else if (bbd.bbbFlags & BBSF_PUSHED)
-		state = 3;
-	else
-		state = 4;
-
-	wchar_t *pszFormatedText = NULL, *pszMenu[256] = { 0 };
-
 	size_t bufSize;
+	CMStringW pwszFormatedText;
 
-	switch (state) {
-	case 1:
-	{
+	if (cbcd->flags & BBCF_RIGHTBUTTON) {
 		int menulimit = M.GetByte("tabmodplus", "MenuCount", 0);
-		if (menulimit == 0)
-			break;
+		if (menulimit != 0) {
+			HMENU hMenu = CreatePopupMenu();
+			LIST<wchar_t> arMenuLines(1);
 
-		HMENU hMenu = CreatePopupMenu();
+			for (int menunum = 0; menunum < menulimit; menunum++) {
+				wchar_t *pwszText = getMenuEntry(menunum);
+				arMenuLines.insert(pwszText);
+				AppendMenu(hMenu, MF_STRING, menunum + 1, pwszText);
+			}
 
-		for (int menunum = 0; menunum < menulimit; menunum++) {
-			pszMenu[menunum] = getMenuEntry(menunum);
-			AppendMenu(hMenu, MF_STRING, menunum + 1, pszMenu[menunum]);
+			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
+			if (res != 0) {
+				bufSize = textlenght + mir_wstrlen(arMenuLines[res-1]) + 2;
+				pwszFormatedText.Format(arMenuLines[res-1], pszText);
+			}
+
+			for (int i = 0; i < arMenuLines.getCount(); i++)
+				mir_free(arMenuLines[i]);
 		}
-
-		int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
-		if (res == 0)
-			break;
-
-		bufSize = textlenght + mir_wstrlen(pszMenu[res - 1]) + 2;
-		pszFormatedText = (wchar_t*)_alloca(bufSize*sizeof(wchar_t));
-		mir_snwprintf(pszFormatedText, bufSize, pszMenu[res - 1], pszText);
 	}
-	break;
-
-	case 2:
+	else if (textlenght) {
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 
-		bufSize = textlenght + 12;
-		pszFormatedText = (wchar_t*)_alloca(bufSize*sizeof(wchar_t));
-		mir_snwprintf(pszFormatedText, bufSize, L"[img]%s[/img]", pszText);
+		pwszFormatedText.Format(L"[img]%s[/img]", pszText);
 
 		bbd.pwszTooltip = 0;
 		bbd.hIcon = 0;
 		bbd.bbbFlags = BBSF_RELEASED;
 		Srmm_SetButtonState(wParam, &bbd);
-		break;
-
-	case 3:
-		pszFormatedText = L"[img]";
-
-		bbd.pwszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
-		Srmm_SetButtonState(wParam, &bbd);
-		break;
-
-	case 4:
-		pszFormatedText = L"[/img]";
+	}
+	else if (bbd.bbbFlags & BBSF_PUSHED) {
+		pwszFormatedText = L"[img]";
 
 		bbd.pwszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
 		Srmm_SetButtonState(wParam, &bbd);
-		break;
+	}
+	else {
+		pwszFormatedText = L"[/img]";
+
+		bbd.pwszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
+		Srmm_SetButtonState(wParam, &bbd);
 	}
 
-	for (int i = 0; pszMenu[i]; i++)
-		mir_free(pszMenu[i]);
-
-	if (pszFormatedText)
-		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)pszFormatedText);
-
-	if (textlenght)
-		mir_free(pszText);
+	if (!pwszFormatedText.IsEmpty())
+		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)pwszFormatedText.c_str());
 	return 1;
 }
 

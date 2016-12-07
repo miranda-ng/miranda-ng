@@ -178,8 +178,13 @@ void FreeLogFonts()
 			DeleteObject(CInfoPanel::m_ipConfig.hFonts[i]);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void TSAPI CacheMsgLogIcons()
 {
+	for (int i = 0; i < _countof(Logicons); i++)
+		DestroyIcon(Logicons[i]);
+
 	Logicons[0] = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	Logicons[1] = Skin_LoadIcon(SKINICON_EVENT_URL);
 	Logicons[2] = Skin_LoadIcon(SKINICON_EVENT_FILE);
@@ -188,6 +193,56 @@ void TSAPI CacheMsgLogIcons()
 	Logicons[5] = PluginConfig.g_iconStatus;
 	Logicons[6] = PluginConfig.g_iconErr;
 }
+
+struct TLogIcon
+{
+	TLogIcon(HICON, COLORREF);
+	~TLogIcon();
+
+	HBITMAP m_hBmp;
+	HDC m_hdc, m_hdcMem;
+	HBRUSH m_hBkgBrush;
+};
+
+TLogIcon::TLogIcon(HICON hIcon, COLORREF backgroundColor)
+{
+	int IconSizeX = 0, IconSizeY = 0;
+	Utils::getIconSize(hIcon, IconSizeX, IconSizeY);
+
+	m_hBkgBrush = CreateSolidBrush(backgroundColor);
+
+	BITMAPINFOHEADER bih = { 0 };
+	bih.biSize = sizeof(bih);
+	bih.biBitCount = 24;
+	bih.biPlanes = 1;
+	bih.biCompression = BI_RGB;
+	bih.biHeight = IconSizeY;
+	bih.biWidth = IconSizeX;
+
+	RECT rc;
+	rc.top = rc.left = 0;
+	rc.right = bih.biWidth;
+	rc.bottom = bih.biHeight;
+
+	m_hdc = GetDC(0);
+	m_hBmp = CreateCompatibleBitmap(m_hdc, bih.biWidth, bih.biHeight);
+	m_hdcMem = CreateCompatibleDC(m_hdc);
+
+	HBITMAP hoBmp = (HBITMAP)SelectObject(m_hdcMem, m_hBmp);
+	FillRect(m_hdcMem, &rc, m_hBkgBrush);
+	DrawIconEx(m_hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
+	SelectObject(m_hdcMem, hoBmp);
+}
+
+TLogIcon::~TLogIcon()
+{
+	DeleteDC(m_hdcMem);
+	DeleteObject(m_hBmp);
+	ReleaseDC(NULL, m_hdc);
+	DeleteObject(m_hBkgBrush);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int TSAPI GetColorIndex(char *rtffont)
 {
@@ -1033,8 +1088,6 @@ static void SetupLogFormatting(TWindowData *dat)
 
 static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppend, BOOL isSent)
 {
-	DWORD dwScale = M.GetDword("iconscale", 0);
-
 	wchar_t trbuffer[40];
 	TEXTRANGE tr;
 	tr.lpstrText = trbuffer;
@@ -1076,8 +1129,6 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 
 	fi.chrg.cpMin = startAt;
 	if (dat->dwFlags & MWF_LOG_SHOWICONS) {
-		BYTE bIconIndex = 0;
-		char bDirection = 0;
 		fi.lpstrText = L"#~#";
 		fi.chrg.cpMax = -1;
 
@@ -1086,7 +1137,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 		cf2.cbSize = sizeof(cf2);
 		cf2.dwMask = CFM_BACKCOLOR;
 
-		IRichEditOle *ole;
+		CComPtr<IRichEditOle> ole;
 		SendMessage(hwndrtf, EM_GETOLEINTERFACE, 0, (LPARAM)&ole);
 		while (SendMessageA(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
 			CHARRANGE cr;
@@ -1097,23 +1148,27 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 			tr.chrg.cpMin = fi.chrgText.cpMin + 3;
 			tr.chrg.cpMax = fi.chrgText.cpMin + 5;
 			SendMessage(hwndrtf, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-			bIconIndex = ((BYTE)trbuffer[0] - (BYTE)'0');
+			
+			int bIconIndex = trbuffer[0] - '0';
 			if (bIconIndex >= NR_LOGICONS) {
 				fi.chrg.cpMin = fi.chrgText.cpMax + 6;
 				continue;
 			}
-			bDirection = trbuffer[1];
+			
+			char bDirection = trbuffer[1];
 			SendMessage(hwndrtf, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
-			COLORREF crDefault = cf2.crBackColor == 0 ? (true ? (bDirection == '>' ? (fAppend ? dat->pContainer->theme.outbg : dat->pContainer->theme.oldoutbg) :
-				(fAppend ? dat->pContainer->theme.inbg : dat->pContainer->theme.oldinbg)) : dat->pContainer->theme.bg) : cf2.crBackColor;
+			COLORREF crDefault;
+			if (cf2.crBackColor != 0)
+				crDefault = cf2.crBackColor;
+			else if (bDirection == '>')
+				crDefault = (fAppend) ? dat->pContainer->theme.outbg : dat->pContainer->theme.oldoutbg;
+			else 
+				crDefault = (fAppend) ? dat->pContainer->theme.inbg : dat->pContainer->theme.oldinbg;
 
-			TLogIcon theIcon;
-			CacheIconToBMP(&theIcon, Logicons[bIconIndex], crDefault, dwScale, dwScale);
-			ImageDataInsertBitmap(ole, theIcon.hBmp);
-			DeleteCachedIcon(&theIcon);
+			TLogIcon theIcon(Logicons[bIconIndex], crDefault);
+			CImageDataObject::InsertBitmap(ole, theIcon.m_hBmp);
 			fi.chrg.cpMin = cr.cpMax + 6;
 		}
-		ole->Release();
 	}
 
 	// do smiley replacing, using the service

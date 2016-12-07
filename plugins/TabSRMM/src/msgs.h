@@ -126,7 +126,7 @@ struct TitleBtn {
 #define BTN_MAX 1
 #define BTN_CLOSE 2
 
-#define NR_LOGICONS 8
+#define NR_LOGICONS 7
 #define NR_BUTTONBARICONS 37//MaD: 29
 #define NR_SIDEBARICONS 2
 
@@ -740,12 +740,6 @@ struct CREOleCallback2 : public CREOleCallback
 #define HOTKEY_MODIFIERS_CTRLSHIFT 0
 #define HOTKEY_MODIFIERS_CTRLALT 1
 #define HOTKEY_MODIFIERS_ALTSHIFT 2
-
-struct TLogIcon {
-	HBITMAP hBmp, hoBmp;
-	HDC hdc, hdcMem;
-	HBRUSH hBkgBrush;
-};
 
 #include "../TabSRMM_icons/resource.h"         // icon pack values
 
