@@ -249,40 +249,10 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		if (resp.code == HTTP_CODE_OK) {
 			try {
 				std::vector<facebook_message> messages;
-				std::map<std::string, facebook_chatroom*> chatrooms;
 
 				facebook_json_parser* p = new facebook_json_parser(this);
-				p->parse_thread_messages(&resp.data, &messages, &chatrooms, false);
+				p->parse_thread_messages(&resp.data, &messages, false);
 				delete p;
-
-				for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
-
-					// TODO: refactor this too!
-					// TODO: have all chatrooms in facy, in memory, and then handle them as needed... somehow think about it...
-					/*	facebook_chatroom *room = it->second;
-					MCONTACT hChatContact = NULL;
-					ptrA users(GetChatUsers(room->thread_id.c_str()));
-					if (users == NULL) {
-					AddChat(room->thread_id.c_str(), room->chat_name.c_str());
-					hChatContact = ChatIDToHContact(room->thread_id);
-					// Set thread id (TID) for later
-					setWString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
-
-					for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end(); ) {
-					AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
-					++jt;
-					}
-					}
-
-					if (!hChatContact)
-					hChatContact = ChatIDToHContact(room->thread_id);
-
-					ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);*/
-
-					delete it->second;
-					it = chatrooms.erase(it);
-				}
-				chatrooms.clear();
 
 				ReceiveMessages(messages, true);
 
@@ -348,39 +318,10 @@ void FacebookProto::LoadLastMessages(void *pParam)
 
 	try {
 		std::vector<facebook_message> messages;
-		std::map<std::string, facebook_chatroom*> chatrooms;
 
 		facebook_json_parser* p = new facebook_json_parser(this);
-		p->parse_thread_messages(&resp.data, &messages, &chatrooms, false);
+		p->parse_thread_messages(&resp.data, &messages, false);
 		delete p;
-
-		// TODO: do something with this, chat is loading somewhere else... (in receiveMessages method right now)
-		/*for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
-
-			facebook_chatroom *room = it->second;
-			MCONTACT hChatContact = NULL;
-			ptrA users(GetChatUsers(room->thread_id.c_str()));
-			if (users == NULL) {
-			AddChat(room->thread_id.c_str(), room->chat_name.c_str());
-			hChatContact = ChatIDToHContact(room->thread_id);
-			// Set thread id (TID) for later
-			setWString(hChatContact, FACEBOOK_KEY_TID, room->thread_id.c_str());
-
-			for (std::map<std::string, std::string>::iterator jt = room->participants.begin(); jt != room->participants.end();) {
-			AddChatContact(room->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
-			++jt;
-			}
-			}
-
-			if (!hChatContact)
-			hChatContact = ChatIDToHContact(room->thread_id);
-
-			ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
-
-			delete it->second;
-			it = chatrooms.erase(it);
-			}
-			chatrooms.clear();*/
 
 		ReceiveMessages(messages, true);
 

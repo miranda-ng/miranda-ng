@@ -1098,7 +1098,7 @@ int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< s
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< facebook_message >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly)
+int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< facebook_message >* messages, bool unreadOnly)
 {
 	std::string jsonData = data->substr(9);
 
@@ -1115,102 +1115,50 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 	if (!actions || !threads)
 		return EXIT_FAILURE;
 
-	const JSONNode &roger = payload["roger"];
-	for (auto it = roger.begin(); it != roger.end(); ++it) {
-		std::string id = (*it).name();
-		facebook_chatroom *room = new facebook_chatroom(id);
-		chatrooms->insert(std::make_pair(id, room));
-	}
-
-	std::map<std::string, std::string> thread_ids;
-	for (auto it = threads.begin(); it != threads.end(); ++it) {
-		const JSONNode &is_canonical_user = (*it)["is_canonical_user"];
-		const JSONNode &other_user_fbid = (*it)["other_user_fbid"]; // other_user_fbid is better than thread_fbid, because even multi chat has thread_fbid, but they have other_user_fbid=null
-		const JSONNode &thread_id = (*it)["thread_id"];
-		const JSONNode &name = (*it)["name"];
-		//const JSONNode &message_count = (*it)["message_count");
-		//const JSONNode &unread_count = (*it)["unread_count"); // TODO: use it to check against number of loaded messages... but how?
-
-		if (!other_user_fbid || !thread_id) {
-			proto->debugLogA("!!! Missing other_user_fbid/thread_id");
-			continue;
-		}
-
-		std::string id = other_user_fbid.as_string();
-		std::string tid = thread_id.as_string();
-
-		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(tid);
-		if (iter != chatrooms->end()) {
-			if (is_canonical_user.as_bool()) {
-				chatrooms->erase(iter); // this is not chatroom
-			}
-			else {
-				iter->second->chat_name = std::wstring(ptrW(mir_utf8decodeW(name.as_string().c_str()))); // TODO: create name from users if there is no name...
-
-				const JSONNode &participants = (*it)["participants"];
-				for (auto jt = participants.begin(); jt != participants.end(); ++jt) {
-					chatroom_participant user;
-					user.user_id = (*jt).name();
-					// user.nick = (*jt).name(); // TODO: get name somehow
-					/// user. ...
-
-					iter->second->participants.insert(std::make_pair(user.user_id, user)); 
-				}
-			}
-		}
-
-		iter = chatrooms->find(id);
-		if (iter != chatrooms->end())
-			chatrooms->erase(iter); // this is not chatroom
-
-		if (id == "null")
-			continue;
-
-		thread_ids.insert(std::make_pair(tid, id));
-	}
-
 	for (auto it = actions.begin(); it != actions.end(); ++it) {
-		const JSONNode &author = (*it)["author"];
-		const JSONNode &other_user_fbid = (*it)["other_user_fbid"];
-		const JSONNode &body = (*it)["body"];
-		const JSONNode &tid = (*it)["thread_fbid"];
-		const JSONNode &mid = (*it)["message_id"];
-		const JSONNode &timestamp = (*it)["timestamp"];
-		const JSONNode &filtered = (*it)["is_filtered_content"];
-		const JSONNode &is_unread = (*it)["is_unread"];
+		const JSONNode &author_ = (*it)["author"];
+		const JSONNode &other_user_fbid_ = (*it)["other_user_fbid"];
+		const JSONNode &body_ = (*it)["body"];
+		const JSONNode &thread_id_ = (*it)["thread_id"];
+		const JSONNode &thread_fbid_ = (*it)["thread_fbid"];
+		const JSONNode &mid_ = (*it)["message_id"];
+		const JSONNode &timestamp_ = (*it)["timestamp"];
+		const JSONNode &filtered_ = (*it)["is_filtered_content"];
+		const JSONNode &is_unread_ = (*it)["is_unread"];
 
 		// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
 		const JSONNode &log_type_ = (*it)["log_message_type"];
 		const JSONNode &log_body_ = (*it)["log_message_body"];
 		const JSONNode &log_data_ = (*it)["log_message_data"]; // additional data for this log message
 
-		if (!author || (!body && !log_body_) || !mid || !tid || !timestamp) {
-			proto->debugLogA("parse_thread_messages: ignoring message (%s) - missing attribute", mid.as_string().c_str());
+		if (!author_ || (!body_ && !log_body_) || !mid_ || (!thread_fbid_ && !thread_id_) || !timestamp_) {
+			proto->debugLogA("parse_thread_messages: ignoring message (%s) - missing attribute", mid_.as_string().c_str());
 			continue;
 		}
 
-		std::string thread_id = tid.as_string();
-		std::string message_id = mid.as_string();
-		std::string message_text = body ? body.as_string() : log_body_.as_string();
-		std::string author_id = author.as_string();
-		std::string other_user_id = other_user_fbid ? other_user_fbid.as_string() : "";
+		std::string thread_id = thread_id_.as_string();
+		std::string thread_fbid = thread_fbid_.as_string();
+		std::string message_id = mid_.as_string();
+		std::string message_text = body_ ? body_.as_string() : log_body_.as_string();
+		std::string author_id = author_.as_string();
+		std::string other_user_fbid = other_user_fbid_ ? other_user_fbid_.as_string() : "";
 		std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
 		if (pos != std::string::npos)
 			author_id = author_id.substr(pos + 1);
 
 		// Process attachements and stickers
-		parseAttachments(proto, &message_text, *it, other_user_id, true);
+		parseAttachments(proto, &message_text, *it, other_user_fbid, true);
 
-		if (filtered.as_bool() && message_text.empty())
+		if (filtered_.as_bool() && message_text.empty())
 			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
 
 		message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
 		if (message_text.empty()) {
-			proto->debugLogA("parse_thread_messages: ignoring message (%s) - empty message text", mid.as_string().c_str());
+			proto->debugLogA("parse_thread_messages: ignoring message (%s) - empty message text", mid_.as_string().c_str());
 			continue;
 		}
 
-		bool isUnread = is_unread.as_bool();
+		bool isUnread = is_unread_.as_bool();
 
 		// Ignore read messages if we want only unread messages
 		if (unreadOnly && !isUnread)
@@ -1218,30 +1166,21 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 
 		facebook_message message;
 		message.message_text = message_text;
-		message.time = utils::time::from_string(timestamp.as_string());
-		message.thread_id = thread_id;
+		message.time = utils::time::from_string(timestamp_.as_string());
 		message.message_id = message_id;
 		message.isIncoming = (author_id != proto->facy.self_.user_id);
 		message.isUnread = isUnread;
 
-		if (chatrooms->find(thread_id) != chatrooms->end()) {
-			// this is chatroom message
-			message.isChat = true;
+		message.isChat = other_user_fbid.empty();
+		if (message.isChat) {
 			message.user_id = author_id;
-			message.thread_id = "id." + thread_id;
+			message.thread_id = "id." + thread_fbid;
 		}
 		else {
-			// this is standard message
-			message.isChat = false;
-			auto iter = thread_ids.find(thread_id);
-			if (iter != thread_ids.end())
-				message.user_id = iter->second; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
-			else if (!other_user_id.empty())
-				message.user_id = other_user_id;
-			else
-				continue;
+			message.user_id = other_user_fbid;
+			message.thread_id = thread_id;
 		}
-		
+
 		parseMessageType(proto, message, log_type_, log_body_, log_data_);
 
 		messages->push_back(message);
