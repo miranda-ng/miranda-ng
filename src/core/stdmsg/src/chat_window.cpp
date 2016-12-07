@@ -1095,9 +1095,8 @@ static void SetButtonsPos(HWND hwndDlg)
 		if (hwndButton == NULL)
 			continue;
 
-		int width = iGap + ((cbd->m_dwArrowCID) ? 34 : 22);
 		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-		iLeftX += width;
+		iLeftX += iGap + cbd->m_iButtonWidth;
 	}
 
 	for (int i = Srmm_GetButtonCount() - 1; i >= 0; i--) {
@@ -1109,8 +1108,7 @@ static void SetButtonsPos(HWND hwndDlg)
 		if (hwndButton == NULL)
 			continue;
 
-		int width = iGap + ((cbd->m_dwArrowCID) ? 34 : 22);
-		iRightX -= width;
+		iRightX -= iGap + cbd->m_iButtonWidth;
 		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 	}
 
@@ -1136,8 +1134,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				if (!cbd->m_bChatButton)
 					continue;
 
-				int width = (cbd->m_dwArrowCID) ? 34 : 22;
-				HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, width, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
+				HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
 				SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
 				if (cbd->m_pwszTooltip)
 					SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);

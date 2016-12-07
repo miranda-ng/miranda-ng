@@ -490,7 +490,7 @@ static void SetButtonsPos(SrmmWindowData *dat, HWND hwndDlg)
 
 	for (int i = Srmm_GetButtonCount()-1; i >= 0; i--) {
 		CustomButtonData *cbd = Srmm_GetNthButton(i);
-		int width = iGap + ((cbd->m_dwArrowCID) ? 34 : 22);
+		int width = iGap + cbd->m_iButtonWidth;
 
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 		if (NULL != hwndButton) /* Wine fix. */ {
@@ -688,8 +688,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					if (!cbd->m_bIMButton)
 						continue;
 
-					int width = (cbd->m_dwArrowCID) ? 34 : 22;
-					HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, width, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
+					HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
 					if (cbd->m_pwszTooltip)
 						SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
 					if (cbd->m_hIcon)

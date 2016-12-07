@@ -454,7 +454,7 @@ void SetButtonsPos(HWND hwndDlg)
 		if (hwndButton == NULL)
 			continue;
 
-		int width = iGap + ((cbd->m_dwArrowCID) ? 34 : 22);
+		int width = iGap + cbd->m_iButtonWidth;
 		if (cbd->m_bRSided) {
 			iRightX -= width;
 			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);

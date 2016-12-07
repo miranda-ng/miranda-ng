@@ -950,8 +950,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				if (!cbd->m_bChatButton)
 					continue;
 
-				int width = (cbd->m_dwArrowCID) ? 34 : 22;
-				HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, width, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
+				HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
 				SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
 				if (cbd->m_pwszTooltip)
 					SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
