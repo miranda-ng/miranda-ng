@@ -483,7 +483,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				if (nlhrReply->resultCode == 200) {
 					char *pLength, *pEnd;
 					
-					if ((pLength = strstr(nlhrReply->pData, "\"contents\":")) && (pLength = strstr(pLength, "\"imgpsh\"")) &&
+					if ((pLength = strstr(nlhrReply->pData, "\"contents\":")) && 
 						(pLength = strstr(pLength, "\"length\":")) && (pEnd = strchr(pLength+9, ','))) {
 							pLength+=9;
 							*pEnd = 0;
@@ -496,7 +496,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 
 			if (fileSize) {
 				filetransfer* ft = new filetransfer(this);
-				char *pszFile = "";
+				char *pszFile = "", *pszType;
 				ezxml_t originalName, desc;
 
 				ft->std.hContact = hContact;
@@ -517,7 +517,10 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				ft->std.totalBytes = ft->std.currentFileSize = fileSize;
 				ft->std.totalFiles = 1;
 				ft->szInvcookie = (char*)mir_calloc(strlen(uri)+16);
-				sprintf(ft->szInvcookie, "%s/content/imgpsh", uri);
+				if ((pszType = (char*)ezxml_attr(xmli, "type")) && !mir_strcmp(pszType, "File.1"))
+					sprintf(ft->szInvcookie, "%s/content/original", uri);
+				else
+					sprintf(ft->szInvcookie, "%s/content/imgpsh", uri);
 
 				wchar_t tComment[40];
 				mir_snwprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
