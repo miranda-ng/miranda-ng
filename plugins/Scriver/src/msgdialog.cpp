@@ -445,7 +445,8 @@ static void SubclassLogEdit(HWND hwnd)
 static void MessageDialogResize(HWND hwndDlg, SrmmWindowData *dat, int w, int h)
 {
 	ParentWindowData *pdat = dat->parent;
-	int hSplitterPos = dat->splitterPos, toolbarHeight = dat->toolbarSize.cy;
+	bool bToolbar = (pdat->flags2 & SMF2_SHOWTOOLBAR) != 0;
+	int hSplitterPos = dat->splitterPos, toolbarHeight = (bToolbar) ? dat->toolbarSize.cy : 0;
 	int hSplitterMinTop = toolbarHeight + dat->minLogBoxHeight, hSplitterMinBottom = dat->minEditBoxHeight;
 	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
 	int infobarHeight = INFO_BAR_HEIGHT;
@@ -510,7 +511,7 @@ static void MessageDialogResize(HWND hwndDlg, SrmmWindowData *dat, int w, int h)
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_SPLITTERY), 0, 0, h - hSplitterPos - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
 	EndDeferWindowPos(hdwp);
 
-	SetButtonsPos(hwndDlg);
+	SetButtonsPos(hwndDlg, bToolbar);
 
 	if (dat->hwndLog != NULL) {
 		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };

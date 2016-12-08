@@ -434,7 +434,7 @@ void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT *rect)
 	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM)&ti);
 }
 
-void SetButtonsPos(HWND hwndDlg)
+void SetButtonsPos(HWND hwndDlg, bool bShow)
 {
 	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount());
 
@@ -453,6 +453,8 @@ void SetButtonsPos(HWND hwndDlg)
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 		if (hwndButton == NULL)
 			continue;
+
+		ShowWindow(hwndButton, bShow ? SW_SHOW : SW_HIDE);
 
 		int width = iGap + cbd->m_iButtonWidth;
 		if (cbd->m_bRSided) {

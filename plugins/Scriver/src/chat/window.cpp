@@ -81,10 +81,10 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 {
 	int  logBottom, toolbarTopY;
-	BOOL bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
-	BOOL bToolbar = SendMessage(GetParent(hwndDlg), CM_GETTOOLBARSTATUS, 0, 0);
+	bool bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
+	bool bToolbar = SendMessage(GetParent(hwndDlg), CM_GETTOOLBARSTATUS, 0, 0) != 0;
 	int  hSplitterMinTop = TOOLBAR_HEIGHT + si->minLogBoxHeight, hSplitterMinBottom = si->minEditBoxHeight;
-	int  toolbarHeight = TOOLBAR_HEIGHT;
+	int  toolbarHeight = bToolbar ? TOOLBAR_HEIGHT : 0;
 
 	si->iSplitterY = si->desiredInputAreaHeight + SPLITTER_HEIGHT + 3;
 
@@ -125,7 +125,7 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 1, h - si->iSplitterY + SPLITTER_HEIGHT, w - 2, si->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 	EndDeferWindowPos(hdwp);
 
-	SetButtonsPos(hwndDlg);
+	SetButtonsPos(hwndDlg, bToolbar);
 
 	if (si->hwndLog != NULL) {
 		IEVIEWWINDOW ieWindow;
