@@ -118,11 +118,11 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 	else
 		logBottom = toolbarTopY;
 
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_LOG), 0, 1, 0, bNick ? w - si->iSplitterX - 1 : w - 2, logBottom, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_LOG), 0, 1, 0, bNick ? w - si->iSplitterX - 1 : w - 2, logBottom, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_LIST), 0, w - si->iSplitterX + 2, 0, si->iSplitterX - 3, toolbarTopY, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_SPLITTERX), 0, w - si->iSplitterX, 1, 2, toolbarTopY - 1, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_SPLITTERY), 0, 0, h - si->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), 0, 1, h - si->iSplitterY + SPLITTER_HEIGHT, w - 2, si->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 1, h - si->iSplitterY + SPLITTER_HEIGHT, w - 2, si->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 	EndDeferWindowPos(hdwp);
 
 	SetButtonsPos(hwndDlg);
@@ -139,10 +139,10 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 		ieWindow.cy = logBottom;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 	}
-	else RedrawWindow(GetDlgItem(hwndDlg, IDC_CHAT_LOG), NULL, NULL, RDW_INVALIDATE);
+	else RedrawWindow(GetDlgItem(hwndDlg, IDC_LOG), NULL, NULL, RDW_INVALIDATE);
 
 	RedrawWindow(GetDlgItem(hwndDlg, IDC_CHAT_LIST), NULL, NULL, RDW_INVALIDATE);
-	RedrawWindow(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), NULL, NULL, RDW_INVALIDATE);
+	RedrawWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), NULL, NULL, RDW_INVALIDATE);
 }
 
 static void TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
@@ -255,7 +255,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case WM_MOUSEWHEEL:
 		if ((GetWindowLongPtr(hwnd, GWL_STYLE) & WS_VSCROLL) == 0)
-			SendDlgItemMessage(GetParent(hwnd), IDC_CHAT_LOG, WM_MOUSEWHEEL, wParam, lParam);
+			SendDlgItemMessage(GetParent(hwnd), IDC_LOG, WM_MOUSEWHEEL, wParam, lParam);
 
 		dat->lastEnterTime = 0;
 		return TRUE;
@@ -366,7 +366,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		}
 
 		if (wParam == 0x48 && isCtrl && !isAlt) { // ctrl-h (history)
-			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_CHAT_HISTORY, 0), 0);
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_HISTORY, 0), 0);
 			return TRUE;
 		}
 
@@ -383,7 +383,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 		if (wParam == VK_NEXT || wParam == VK_PRIOR) {
 			HWND htemp = GetParent(hwnd);
-			SendDlgItemMessage(htemp, IDC_CHAT_LOG, msg, wParam, lParam);
+			SendDlgItemMessage(htemp, IDC_LOG, msg, wParam, lParam);
 			return TRUE;
 		}
 		break;
@@ -606,7 +606,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			sel.cpMin = sel.cpMax;
 			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&sel);
 		}
-		SetFocus(GetDlgItem(GetParent(hwnd), IDC_CHAT_MESSAGE));
+		SetFocus(GetDlgItem(GetParent(hwnd), IDC_MESSAGE));
 		break;
 
 	case WM_ACTIVATE:
@@ -687,8 +687,8 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_CHAR:
-		SetFocus(GetDlgItem(GetParent(hwnd), IDC_CHAT_MESSAGE));
-		SendDlgItemMessage(GetParent(hwnd), IDC_CHAT_MESSAGE, WM_CHAR, wParam, lParam);
+		SetFocus(GetDlgItem(GetParent(hwnd), IDC_MESSAGE));
+		SendDlgItemMessage(GetParent(hwnd), IDC_MESSAGE, WM_CHAR, wParam, lParam);
 		break;
 	}
 
@@ -934,16 +934,16 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			TranslateDialogDefault(hwndDlg);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)psi);
 			si = psi;
-			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
-			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_CHAT_LOG));
+			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_MESSAGE));
+			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_LOG));
 			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_CHAT_LIST));
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_LIST), NicklistSubclassProc);
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_LOG), LogSubclassProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_LOG), LogSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_FILTER), ButtonSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_COLOR), ButtonSubclassProc);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_BKGCOLOR), ButtonSubclassProc);
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), MessageSubclassProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), MessageSubclassProc);
 
 			CustomButtonData *cbd;
 			for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
@@ -959,17 +959,17 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			}
 
 			RECT minEditInit;
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), &minEditInit);
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_MESSAGE), &minEditInit);
 			si->minEditBoxHeight = minEditInit.bottom - minEditInit.top;
 			si->minLogBoxHeight = si->minEditBoxHeight;
 
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SUBCLASSED, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_AUTOURLDETECT, 1, 0);
-			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_GETEVENTMASK, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
+			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SUBCLASSED, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_AUTOURLDETECT, 1, 0);
+			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETEVENTMASK, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
+			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 
 			if (db_get_b(NULL, CHAT_MODULE, "UseIEView", 0)) {
 				IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
@@ -990,7 +990,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&iee);
 			}
 
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_HIDESELECTION, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
 
 			SendMessage(hwndDlg, GC_SETWNDPROPS, 0, 0);
 			SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
@@ -1010,7 +1010,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		SendMessage(hwndDlg, DM_UPDATETITLEBAR, 0, 0);
 		SendMessage(hwndDlg, GC_FIXTABICONS, 0, 0);
 
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 		{
 			// messagebox
 			COLORREF crFore;
@@ -1022,9 +1022,9 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			cf.dwEffects = 0;
 			cf.crTextColor = crFore;
 			cf.crBackColor = db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETFONT, (WPARAM)g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
+			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
+			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_SETFONT, (WPARAM)g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
+			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 		
 			// nicklist
 			int ih = GetTextPixelSize(L"AQG_glo'", g_Settings.UserListFont, FALSE);
@@ -1331,7 +1331,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			return TRUE;
 
 		case WINDOW_CLEARLOG:
-			SetDlgItemText(hwndDlg, IDC_CHAT_LOG, L"");
+			SetDlgItemText(hwndDlg, IDC_LOG, L"");
 			return TRUE;
 
 		case SESSION_TERMINATE:
@@ -1421,24 +1421,24 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case GC_SHOWCOLORCHOOSER:
-		pci->ColorChooser(si, lParam == IDC_CHAT_COLOR, hwndDlg, GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), GetDlgItem(hwndDlg, lParam));
+		pci->ColorChooser(si, lParam == IDC_CHAT_COLOR, hwndDlg, GetDlgItem(hwndDlg, IDC_MESSAGE), GetDlgItem(hwndDlg, lParam));
 		break;
 
 	case GC_SCROLLTOBOTTOM:
-		if ((GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHAT_LOG), GWL_STYLE) & WS_VSCROLL) != 0) {
+		if ((GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_STYLE) & WS_VSCROLL) != 0) {
 			SCROLLINFO sci = { 0 };
 			sci.cbSize = sizeof(sci);
 			sci.fMask = SIF_PAGE | SIF_RANGE;
-			GetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &sci);
+			GetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &sci);
 
 			sci.fMask = SIF_POS;
 			sci.nPos = sci.nMax - sci.nPage + 1;
-			SetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &sci, TRUE);
+			SetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &sci, TRUE);
 
 			CHARRANGE sel;
-			sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOG), CP_ACP, FALSE);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
-			PostMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+			sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), CP_ACP, FALSE);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
+			PostMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 		}
 		break;
 
@@ -1449,7 +1449,7 @@ LABEL_SHOWWINDOW:
 		//fall through
 	case WM_MOUSEACTIVATE:
 		if (uMsg != WM_ACTIVATE)
-			SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
+			SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 
 		pci->SetActiveSession(si->ptszID, si->pszModule);
 
@@ -1464,7 +1464,7 @@ LABEL_SHOWWINDOW:
 			LPNMHDR pNmhdr = (LPNMHDR)lParam;
 			switch (pNmhdr->code) {
 			case EN_REQUESTRESIZE:
-				if (pNmhdr->idFrom == IDC_CHAT_MESSAGE) {
+				if (pNmhdr->idFrom == IDC_MESSAGE) {
 					REQRESIZE *rr = (REQRESIZE *)lParam;
 					int height = rr->rc.bottom - rr->rc.top + 1;
 					if (height < g_dat.minInputAreaHeight)
@@ -1479,19 +1479,19 @@ LABEL_SHOWWINDOW:
 				break;
 
 			case EN_MSGFILTER:
-				if (pNmhdr->idFrom == IDC_CHAT_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
+				if (pNmhdr->idFrom == IDC_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
 					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
 					return TRUE;
 				}
 				break;
 
 			case EN_LINK:
-				if (pNmhdr->idFrom == IDC_CHAT_LOG) {
+				if (pNmhdr->idFrom == IDC_LOG) {
 					switch (((ENLINK *)lParam)->msg) {
 					case WM_RBUTTONDOWN:
 					case WM_LBUTTONUP:
 					case WM_LBUTTONDBLCLK:
-						if (HandleLinkClick(g_hInst, hwndDlg, GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), (ENLINK*)lParam)) {
+						if (HandleLinkClick(g_hInst, hwndDlg, GetDlgItem(hwndDlg, IDC_MESSAGE), (ENLINK*)lParam)) {
 							SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
 							return TRUE;
 						}
@@ -1546,7 +1546,7 @@ LABEL_SHOWWINDOW:
 				USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, item);
 				if (ui) {
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
-						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETSEL, 0, 0);
+						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
 						size_t dwNameLenMax = (mir_wstrlen(ui->pszUID) + 4);
 						wchar_t* pszName = (wchar_t*)alloca(sizeof(wchar_t) * dwNameLenMax);
@@ -1555,7 +1555,7 @@ LABEL_SHOWWINDOW:
 						else
 							mir_snwprintf(pszName, dwNameLenMax, L"%s ", ui->pszUID);
 
-						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pszName);
+						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 					}
 					else pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
@@ -1570,7 +1570,7 @@ LABEL_SHOWWINDOW:
 
 		case IDOK:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDOK))) {
-				char *pszRtf = GetRichTextRTF(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
+				char *pszRtf = GetRichTextRTF(GetDlgItem(hwndDlg, IDC_MESSAGE));
 				if (pszRtf == NULL)
 					break;
 
@@ -1593,15 +1593,15 @@ LABEL_SHOWWINDOW:
 				ptszText.Replace(L"%", L"%%");
 
 				if (mi->bAckMsg) {
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), FALSE);
-					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), FALSE);
+					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
-				else SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, L"");
+				else SetDlgItemText(hwndDlg, IDC_MESSAGE, L"");
 
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 
 				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
-				SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
+				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 			}
 			break;
 
@@ -1618,15 +1618,15 @@ LABEL_SHOWWINDOW:
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			break;
 
-		case IDC_CHAT_MESSAGE:
+		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
 				si->cmdListCurrent = NULL;
-				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), 1200, FALSE) != 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, FALSE) != 0);
 			}
 			break;
 
-		case IDC_CHAT_HISTORY:
-			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHAT_HISTORY))) {
+		case IDC_HISTORY:
+			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_HISTORY))) {
 				MODULEINFO *pInfo = pci->MM_FindModule(si->pszModule);
 				if (pInfo)
 					ShellExecute(hwndDlg, NULL, pci->GetChatLogsFilename(si, 0), NULL, NULL, SW_SHOW);
@@ -1666,18 +1666,18 @@ LABEL_SHOWWINDOW:
 						cf.dwMask = CFM_BACKCOLOR;
 						cf.crBackColor = pInfo->crColors[si->iBG];
 						if (pInfo->bSingleFormat)
-							SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
+							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 						else
-							SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 					}
 				}
 				else {
 					cf.dwMask = CFM_BACKCOLOR;
 					cf.crBackColor = (COLORREF)db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 					if (pInfo->bSingleFormat)
-						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
+						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 					else
-						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				}
 			}
 			break;
@@ -1699,9 +1699,9 @@ LABEL_SHOWWINDOW:
 						cf.dwMask = CFM_COLOR;
 						cf.crTextColor = pInfo->crColors[si->iFG];
 						if (pInfo->bSingleFormat)
-							SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
+							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 						else
-							SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 					}
 				}
 				else {
@@ -1710,9 +1710,9 @@ LABEL_SHOWWINDOW:
 					cf.dwMask = CFM_COLOR;
 					cf.crTextColor = cr;
 					if (pInfo->bSingleFormat)
-						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
+						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 					else
-						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				}
 			}
 			break;
@@ -1740,9 +1740,9 @@ LABEL_SHOWWINDOW:
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_UNDERLINE))
 					cf.dwEffects |= CFE_UNDERLINE;
 				if (pInfo->bSingleFormat)
-					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
+					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 				else
-					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 			}
 			break;
 
@@ -1752,7 +1752,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_KEYDOWN:
-		SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
+		SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 		break;
 
 	case WM_GETMINMAXINFO:
@@ -1833,5 +1833,5 @@ void ShowRoom(SESSION_INFO *si, WPARAM, BOOL)
 	SendMessage(GetParent(si->hWnd), CM_ACTIVATECHILD, 0, (LPARAM)si->hWnd);
 	SendMessage(GetParent(si->hWnd), CM_POPUPWINDOW, 0, (LPARAM)si->hWnd);
 	SendMessage(si->hWnd, WM_MOUSEACTIVATE, 0, 0);
-	SetFocus(GetDlgItem(si->hWnd, IDC_CHAT_MESSAGE));
+	SetFocus(GetDlgItem(si->hWnd, IDC_MESSAGE));
 }

@@ -116,14 +116,8 @@ void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 	mwe.szModule = SRMMMOD;
 	mwe.uType = type;
 	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	if (WindowList_Find(pci->hWindowList, hContact)) {
-		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
-		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
-	}
-	else {
-		mwe.hwndInput = GetDlgItem(hwnd, IDC_CHAT_MESSAGE);
-		mwe.hwndLog = GetDlgItem(hwnd, IDC_CHAT_LOG);
-	}
+	mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
+	mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
 	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
 }
 

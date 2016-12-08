@@ -61,7 +61,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 
 	BOOL bFlag = FALSE;
 
-	HWND hwndRich = GetDlgItem(hwndDlg, IDC_CHAT_LOG);
+	HWND hwndRich = GetDlgItem(hwndDlg, IDC_LOG);
 
 	LOGSTREAMDATA streamData;
 	memset(&streamData, 0, sizeof(streamData));

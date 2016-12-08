@@ -169,10 +169,8 @@
 #define IDC_XSTATUSICON                 1646
 #define IDC_INPUTLINES                  1647
 #define IDC_INPUTLINESSPIN              1648
-#define IDC_CHAT_LOG                    5005
-#define IDC_SPLITTERX              5006
-#define IDC_SPLITTERY              5008
-#define IDC_CHAT_MESSAGE                5009
+#define IDC_SPLITTERX                   5006
+#define IDC_SPLITTERY                   5008
 #define IDC_CHAT_BOLD                   5010
 #define IDC_CHAT_ITALICS                5011
 #define IDC_CHAT_UNDERLINE              5012
@@ -182,7 +180,6 @@
 #define IDC_CHAT_COLOR                  5017
 #define IDC_CHAT_BKGCOLOR               5019
 #define IDC_CHAT_CHECKBOXES             5021
-#define IDC_CHAT_HISTORY                5022
 #define IDC_CHAT_NICKROW                5024
 #define IDC_CHAT_LOGLIMIT               5024
 #define IDC_CHAT_SPIN1                  5028
