@@ -25,10 +25,9 @@ void CDropbox::CommandList(void *arg)
 	char path[MAX_PATH];
 	PreparePath((char*)param->data, path);
 	if (path[0] == NULL) {
-		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/share");
+		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/list");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
-
 		return;
 	}
 
@@ -74,7 +73,6 @@ void CDropbox::CommandShare(void *arg)
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/share");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
-
 		return;
 	}
 
@@ -108,7 +106,6 @@ void CDropbox::CommandSearch(void *arg)
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/search");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
-
 		return;
 	}
 
@@ -154,9 +151,9 @@ void CDropbox::CommandDelete(void *arg)
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/delete");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
-
 		return;
 	}
+
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	DeleteRequest request(token, path);
 	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
