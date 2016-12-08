@@ -180,6 +180,12 @@ begin
   end;
 end;
 
+function DoAddButton(wParam:WPARAM;lParam:LPARAM):int;cdecl;
+begin
+  Srmm_AddButton(pBBButton(lParam));
+  result := 0;
+end;
+
 function DoCallContactService(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   ccs:PCCSDATA;
@@ -241,6 +247,7 @@ begin
 
   CreateServiceFunction('Utils/OpenURL',@DoOpenUrl);
   CreateServiceFunction('Proto/CallContactService', @DoCallContactService);
+  CreateServiceFunction('Actman/ButtonsBar/AddButton', @DoAddButton);
 
   HookEvent(ME_SYSTEM_MODULESLOADED,@OnModulesLoaded);
 end;

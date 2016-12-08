@@ -105,20 +105,20 @@ const
   NamesArray: array [0..NumTypes-1] of tNameRec = (
     (name:'TopToolbar'; service:'TopToolBar/AddButton';
      mask:UAF_REGTTBB  ; atype:uaTTB; enable:false),
-    (name:'TabSRMM toolbar'     ; service:'TabSRMM/ButtonsBar/AddButton';
-     mask:UAF_REGTABB  ; atype:uaTAB; enable:false),
-    (name:'Core Hotkey'         ; service:nil{MS_HOTKEY_REGISTER};
+    (name:'TabSRMM toolbar'; service:'Actman/ButtonsBar/AddButton';
+     mask:UAF_REGTABB; atype:uaTAB; enable:false),
+    (name:'Core Hotkey'; service:nil;
      mask:UAF_REGHOTKEY; atype:uaHotkey; enable:false),
-    (name:'Main menu'           ; service:nil;
-     mask:0; atype:uaMenu+(ORD(main_menu   ) shl 8); enable:false),
-    (name:'Contact menu'        ; service:nil;
+    (name:'Main menu'; service:nil;
+     mask:0; atype:uaMenu+(ORD(main_menu) shl 8); enable:false),
+    (name:'Contact menu'; service:nil;
      mask:0; atype:uaMenu+(ORD(contact_menu) shl 8); enable:false),
-    (name:'Tray menu'           ; service:nil;
-     mask:0; atype:uaMenu+(ORD(tray_menu   ) shl 8); enable:false),
-    (name:'Protocol menus'      ; service:nil;
-     mask:0; atype:uaMenu+(ORD(proto_menu  ) shl 8); enable:false),
-    (name:'Status menu'         ; service:nil;
-     mask:0; atype:uaMenu+(ORD(status_menu ) shl 8); enable:false)
+    (name:'Tray menu'; service:nil;
+     mask:0; atype:uaMenu+(ORD(tray_menu) shl 8); enable:false),
+    (name:'Protocol menus'; service:nil;
+     mask:0; atype:uaMenu+(ORD(proto_menu) shl 8); enable:false),
+    (name:'Status menu'; service:nil;
+     mask:0; atype:uaMenu+(ORD(status_menu) shl 8); enable:false)
     );
 
 var

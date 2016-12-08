@@ -16,14 +16,14 @@ const
 // lParam = 0;
 // This event will be send after module loaded and after each toolbar reset
 // You should add your buttons on this event
-  ME_MSG_TOOLBARLOADED:PAnsiChar = 'TabSRMM/ButtonsBar/ModuleLoaded';
+  ME_MSG_TOOLBARLOADED:PAnsiChar = 'SRMM/ButtonsBar/ModuleLoaded';
 
 ///////////////////////////////////////////////////
 // ButtonClicked event
 // wParam = (HANDLE)hContact;
 // lParam = (CustomButtonClickData *)&CustomButtonClickData;
 // catch to show a popup menu, etc.
-  ME_MSG_BUTTONPRESSED:PAnsiChar = 'TabSRMM/ButtonsBar/ButtonPressed';
+  ME_MSG_BUTTONPRESSED:PAnsiChar = 'SRMM/ButtonsBar/ButtonPressed';
 
 //event flags
   BBCF_RIGHTBUTTON    = 1;
