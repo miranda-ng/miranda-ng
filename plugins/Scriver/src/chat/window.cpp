@@ -80,7 +80,6 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 
 static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 {
-	int  logBottom, toolbarTopY;
 	bool bNick = si->iType != GCW_SERVER && si->bNicklistEnabled;
 	bool bToolbar = SendMessage(GetParent(hwndDlg), CM_GETTOOLBARSTATUS, 0, 0) != 0;
 	int  hSplitterMinTop = TOOLBAR_HEIGHT + si->minLogBoxHeight, hSplitterMinBottom = si->minEditBoxHeight;
@@ -112,11 +111,8 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h)
 	}
 
 	HDWP hdwp = BeginDeferWindowPos(5);
-	toolbarTopY = bToolbar ? h - si->iSplitterY - toolbarHeight : h - si->iSplitterY;
-	if (si->hwndLog != NULL)
-		logBottom = toolbarTopY / 2;
-	else
-		logBottom = toolbarTopY;
+	int toolbarTopY = bToolbar ? h - si->iSplitterY - toolbarHeight : h - si->iSplitterY;
+	int logBottom = (si->hwndLog != NULL) ? toolbarTopY / 2 : toolbarTopY;
 
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_LOG), 0, 1, 0, bNick ? w - si->iSplitterX - 1 : w - 2, logBottom, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_LIST), 0, w - si->iSplitterX + 2, 0, si->iSplitterX - 3, toolbarTopY, SWP_NOZORDER);
