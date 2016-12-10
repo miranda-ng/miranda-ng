@@ -271,7 +271,7 @@ void RegisterKeyBindings()
 	HOTKEYDESC desc = { sizeof(desc) };
 	desc.pszSection = LPGEN("Messaging");
 	desc.pszName = "Scriver/Nav/Previous Tab";
-	desc.pszDescription = LPGEN("Navigate: previous tab");
+	desc.pszDescription = LPGEN("Navigate: Previous tab");
 	desc.lParam = KB_PREV_TAB;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_TAB);
 	Hotkey_Register(&desc);
@@ -281,7 +281,7 @@ void RegisterKeyBindings()
 	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Nav/Next Tab";
-	desc.pszDescription = LPGEN("Navigate: next tab");
+	desc.pszDescription = LPGEN("Navigate: Next tab");
 	desc.lParam = KB_NEXT_TAB;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_TAB);
 	Hotkey_Register(&desc);
@@ -294,7 +294,7 @@ void RegisterKeyBindings()
 	desc.pszDescription = strDesc;
 	for (int i = 0; i < 9; i++) {
 		mir_snprintf(strName, "Scriver/Nav/Tab %d", i + 1);
-		mir_snprintf(strDesc, Translate("Navigate: tab %d"), i + 1);
+		mir_snprintf(strDesc, Translate("Navigate: Tab %d"), i + 1);
 		desc.lParam = KB_TAB1 + i;
 		desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, '1' + i);
 		Hotkey_Register(&desc);

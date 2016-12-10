@@ -474,7 +474,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.dwButtonID = IDC_CHAT_BOLD;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_bold");
-	bbd.pwszTooltip = LPGENW("Make the text bold(CTRL+B)");
+	bbd.pwszTooltip = LPGENW("Make the text bold (CTRL+B)");
 	Srmm_AddButton(&bbd);
 
 	bbd.dwButtonID = IDC_CHAT_ITALICS;
