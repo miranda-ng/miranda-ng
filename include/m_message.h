@@ -238,14 +238,15 @@ struct StatusIconClickData
 
 struct BBButton
 {
-	char    *pszModuleName;  // module name without spaces and underline symbols (e.g. "tabsrmm")
-	DWORD    dwButtonID;     // your button ID, will be combined with pszModuleName for storing settings, etc...
+	const char    *pszModuleName;  // module name without spaces and underline symbols (e.g. "tabsrmm")
+	DWORD          dwButtonID;     // your button ID, will be combined with pszModuleName for storing settings, etc...
 
-	wchar_t *pwszTooltip;
-	DWORD    dwDefPos;       // default order pos of button, counted from window edge (left or right)
-	                         // use value >100, because internal buttons using 10,20,30... 80, etc
-	DWORD    bbbFlags;       // combine of BBBF_ flags above
-	HANDLE   hIcon;          // Handle to icolib registered icon
+	const wchar_t *pwszText;       // button's text, might be NULL
+	const wchar_t *pwszTooltip;    // button's tooltip, might be NULL
+	DWORD          dwDefPos;       // default order pos of button, counted from window edge (left or right)
+	                               // use value >100, because internal buttons using 10,20,30... 80, etc
+	DWORD          bbbFlags;       // combine of BBBF_ flags above
+	HANDLE         hIcon;          // Handle to icolib registered icon
 };
 
 // adds a new toolbar button
@@ -271,6 +272,10 @@ EXTERN_C MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 // resets toolbar settings to these default values
 // returns 0 on success and nonzero value otherwise
 EXTERN_C MIR_APP_DLL(void) Srmm_ResetToolbar();
+
+// creates toolbar buttons for a SRMM window
+// flags might be either BBBF_ISIMBUTTON or BBBF_ISCHATBUTTON, depending on a window type
+EXTERN_C MIR_APP_DLL(void) Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
 
 // updates all toolbar icons in a message dialog
 EXTERN_C MIR_APP_DLL(void) Srmm_UpdateToolbarIcons(HWND hdlg);
@@ -334,6 +339,7 @@ struct CustomButtonData : public MZeroedObject
 	DWORD  m_dwButtonCID;
 	DWORD  m_dwArrowCID;    // only use with BBBF_ISARROWBUTTON flag
 
+	ptrW   m_pwszText;      // button's text
 	ptrW   m_pwszTooltip;   // button's tooltip
 
 	int    m_iButtonWidth;  // must be 22 for regular button and 33 for button with arrow

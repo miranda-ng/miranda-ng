@@ -156,25 +156,23 @@ void BB_InitDlgButtons(TWindowData *dat)
 	HWND hdlg = dat->hwnd;
 	if (hdlg == 0)
 		return;
-	RECT rect;
-	RECT rcSplitter;
-	POINT ptSplitter;
-	int splitterY;
+
 	BYTE gap = DPISCALEX_S(db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1));
 
+	RECT rcSplitter;
 	GetWindowRect(GetDlgItem(hdlg, (dat->bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
-	ptSplitter.x = 0;
-	ptSplitter.y = rcSplitter.top;
+	POINT ptSplitter = { 0, rcSplitter.top };
 	ScreenToClient(hdlg, &ptSplitter);
 
+	RECT rect;
 	GetClientRect(hdlg, &rect);
-	splitterY = ptSplitter.y - DPISCALEY_S(1);
+	int splitterY = ptSplitter.y - DPISCALEY_S(1);
 
-	HWND hwndBtn = NULL;
 	dat->bbLSideWidth = dat->bbRSideWidth = 0;
 
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
+		HWND hwndBtn = GetDlgItem(hdlg, cbd->m_dwButtonCID);
 		if (((dat->bType == SESSIONTYPE_IM && cbd->m_bIMButton) || (dat->bType == SESSIONTYPE_CHAT && cbd->m_bChatButton))) {
 			if (!cbd->m_bHidden) {
 				if (cbd->m_bRSided)
@@ -184,37 +182,41 @@ void BB_InitDlgButtons(TWindowData *dat)
 			}
 			if (!cbd->m_bHidden && !cbd->m_bCanBeHidden)
 				dat->iButtonBarReallyNeeds += cbd->m_iButtonWidth + gap;
-			if (!cbd->m_bSeparator && !GetDlgItem(hdlg, cbd->m_dwButtonCID)) {
+
+			if (cbd->m_bSeparator)
+				continue;
+
+			if (hwndBtn == NULL) {
 				int x = cbd->m_bRSided ? rect.right - dat->bbRSideWidth + gap : 2 + dat->bbLSideWidth;
 				hwndBtn = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, x, splitterY, cbd->m_iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
+				if (hwndBtn == NULL)
+					continue;
 				CustomizeButton(hwndBtn);
 			}
-			if (!cbd->m_bSeparator && hwndBtn) {
-				SendMessage(hwndBtn, BUTTONSETASFLATBTN, TRUE, 0);
-				SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, CSkin::IsThemed(), 0);
-				if (cbd->m_hIcon)
-					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
-				if (cbd->m_pwszTooltip)
-					SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateW(cbd->m_pwszTooltip), BATF_UNICODE);
-				SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
-				SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 
-				if (hwndBtn) {
-					if (cbd->m_dwArrowCID)
-						SendMessage(hwndBtn, BUTTONSETARROW, cbd->m_dwArrowCID, 0);
-					if (cbd->m_bPushButton)
-						SendMessage(hwndBtn, BUTTONSETASPUSHBTN, TRUE, 0);
-				}
-			}
+			SendMessage(hwndBtn, BUTTONSETASFLATBTN, TRUE, 0);
+			SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, CSkin::IsThemed(), 0);
+			if (cbd->m_hIcon)
+				SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
+			if (cbd->m_pwszText)
+				SetWindowTextW(hwndBtn, cbd->m_pwszText);
+			if (cbd->m_pwszTooltip)
+				SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateW(cbd->m_pwszTooltip), BATF_UNICODE);
+			SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
+			SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
+
+			if (cbd->m_dwArrowCID)
+				SendMessage(hwndBtn, BUTTONSETARROW, cbd->m_dwArrowCID, 0);
+			if (cbd->m_bPushButton)
+				SendMessage(hwndBtn, BUTTONSETASPUSHBTN, TRUE, 0);
+
+			if (cbd->m_bDisabled)
+				EnableWindow(hwndBtn, 0);
+			if (cbd->m_bHidden)
+				ShowWindow(hwndBtn, SW_HIDE);
 		}
-		else if (GetDlgItem(hdlg, cbd->m_dwButtonCID))
-			DestroyWindow(GetDlgItem(hdlg, cbd->m_dwButtonCID));
-
-		if (cbd->m_bDisabled)
-			EnableWindow(hwndBtn, 0);
-		if (cbd->m_bHidden)
-			ShowWindow(hwndBtn, SW_HIDE);
-
+		else if (hwndBtn)
+			DestroyWindow(hwndBtn);
 	}
 }
 

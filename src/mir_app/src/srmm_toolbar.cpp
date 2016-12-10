@@ -119,6 +119,7 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 		cbd->m_iButtonWidth = DPISCALEX_S(22);
 
 	cbd->m_pszModuleName = mir_strdup(bbdi->pszModuleName);
+	cbd->m_pwszText = mir_wstrdup(bbdi->pwszText);
 	cbd->m_pwszTooltip = mir_wstrdup(bbdi->pwszTooltip);
 
 	cbd->m_dwButtonOrigID = bbdi->dwButtonID;
@@ -312,6 +313,35 @@ MIR_APP_DLL(void) Srmm_ResetToolbar()
 	}
 	LastCID = MIN_CBUTTONID;
 	dwSepCount = 0;
+}
+
+MIR_APP_DLL(void) Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
+{
+	HINSTANCE hInstance = (HINSTANCE)GetWindowLongPtr(hwndDlg, GWLP_HINSTANCE);
+
+	for (int i = 0; i < arButtonsList.getCount(); i++) {
+		CustomButtonData *cbd = arButtonsList[i];
+		if (cbd->m_bSeparator)
+			continue;
+
+		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+		if ((flags & BBBF_ISIMBUTTON) && cbd->m_bIMButton || (flags & BBBF_ISCHATBUTTON) && cbd->m_bChatButton) {
+			if (hwndButton == NULL) {
+				hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, hInstance, NULL);
+				if (hwndButton == NULL) // smth went wrong
+					continue;
+			}
+			SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
+			if (cbd->m_pwszText)
+				SetWindowTextW(hwndButton, cbd->m_pwszText);
+			if (cbd->m_pwszTooltip)
+				SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
+			if (cbd->m_hIcon)
+				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
+		}
+		else if (hwndButton)
+			DestroyWindow(hwndButton);
+	}
 }
 
 MIR_APP_DLL(void) Srmm_UpdateToolbarIcons(HWND hwndDlg)

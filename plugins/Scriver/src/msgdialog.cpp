@@ -755,19 +755,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
 			}
 
-			CustomButtonData *cbd;
-			for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
-				if (!cbd->m_bIMButton)
-					continue;
-
-				HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
-				SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0);
-				if (cbd->m_pwszTooltip)
-					SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
-				if (cbd->m_hIcon)
-					SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
-			}
-
+			Srmm_CreateToolbarIcons(hwndDlg, BBBF_ISIMBUTTON);
 			SendMessage(hwndDlg, DM_CHANGEICONS, 0, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);

@@ -59,8 +59,8 @@ static int lua_ModifyButton(lua_State *L)
 	INT_PTR res = Srmm_ModifyButton(bbb);
 	lua_pushinteger(L, res);
 
-	mir_free(bbb->pszModuleName);
-	mir_free(bbb->pwszTooltip);
+	mir_free((void*)bbb->pszModuleName);
+	mir_free((void*)bbb->pwszTooltip);
 	mir_free(bbb);
 
 	return 1;

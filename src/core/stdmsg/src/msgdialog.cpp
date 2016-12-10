@@ -682,19 +682,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				dat->originalSplitterPos = pt.y;
 				if (dat->splitterPos == -1)
 					dat->splitterPos = dat->originalSplitterPos;// + 60;
-
-				CustomButtonData *cbd;
-				for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
-					if (!cbd->m_bIMButton)
-						continue;
-
-					HWND hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, g_hInst, NULL);
-					if (cbd->m_pwszTooltip)
-						SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
-					if (cbd->m_hIcon)
-						SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
-				}
 			}
+
+			Srmm_CreateToolbarIcons(hwndDlg, BBBF_ISIMBUTTON);
+
 			WindowList_Add(pci->hWindowList, hwndDlg, dat->hContact);
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_MESSAGE), &dat->minEditInit);
 			SendMessage(hwndDlg, DM_UPDATESIZEBAR, 0, 0);
