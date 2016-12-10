@@ -320,7 +320,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.dwButtonID = IDC_BOLD;
 	bbd.dwDefPos = 10;
 	bbd.hIcon = GetIconHandle("bold");
-	bbd.pwszTooltip = LPGENW("Make the text bold(CTRL + B)");
+	bbd.pwszTooltip = LPGENW("Make the text bold (CTRL+B)");
 	Srmm_AddButton(&bbd);
 
 	bbd.dwButtonID = IDC_ITALICS;
