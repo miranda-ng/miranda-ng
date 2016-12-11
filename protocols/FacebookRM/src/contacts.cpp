@@ -51,7 +51,7 @@ void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
 
 	// Save nick
 	std::string nick = fbu->real_name;
-	if (!getBool(FACEBOOK_KEY_NAME_AS_NICK, 1) && !fbu->nick.empty())
+	if (!getBool(FACEBOOK_KEY_NAME_AS_NICK, DEFAULT_NAME_AS_NICK) && !fbu->nick.empty())
 		nick = fbu->nick;
 
 	updateStringUtf(this, hContact, FACEBOOK_KEY_NICK, nick);

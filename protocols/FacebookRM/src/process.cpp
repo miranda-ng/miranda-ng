@@ -307,7 +307,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 
 	int count = min(FACEBOOK_MESSAGES_ON_OPEN_LIMIT, getByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, DEFAULT_MESSAGES_ON_OPEN_COUNT));
 
-	HttpRequest *request = new ThreadInfoRequest(&facy, isChat, item_id, count);
+	HttpRequest *request = new ThreadInfoRequest(&facy, isChat, (const char*) item_id, count);
 	http::response resp = facy.sendRequest(request);
 
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
