@@ -164,7 +164,7 @@ int facebook_json_parser::parse_chat_participant_names(std::string *data, std::m
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_friends(std::string *data, std::map< std::string, facebook_user* >* friends)
+int facebook_json_parser::parse_friends(std::string *data, std::map< std::string, facebook_user* >* friends, bool loadAllContacts)
 {
 	std::string jsonData = data->substr(9);
 
@@ -181,7 +181,7 @@ int facebook_json_parser::parse_friends(std::string *data, std::map< std::string
 		parseUser(*it, fbu);
 
 		// Facebook now sends also other types of contacts, which we do not want here
-		if (fbu->type != CONTACT_FRIEND) {
+		if (!loadAllContacts && fbu->type != CONTACT_FRIEND) {
 			delete fbu;
 			continue;
 		}

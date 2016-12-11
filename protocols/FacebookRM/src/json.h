@@ -30,7 +30,7 @@ class facebook_json_parser
 {
 public:
 	FacebookProto* proto;
-	int parse_friends(std::string*, std::map< std::string, facebook_user* >*);
+	int parse_friends(std::string*, std::map< std::string, facebook_user* >*, bool);
 	int parse_notifications(std::string*, std::map< std::string, facebook_notification* >*);
 	int parse_messages(std::string*, std::vector< facebook_message >*, std::map< std::string, facebook_notification* >*);
 	int parse_unread_threads(std::string*, std::vector< std::string >*);

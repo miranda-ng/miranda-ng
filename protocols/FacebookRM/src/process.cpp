@@ -59,8 +59,10 @@ void FacebookProto::ProcessFriendList(void*)
 	try {
 		std::map<std::string, facebook_user*> friends;
 
+		bool loadAllContacts = getBool(FACEBOOK_KEY_LOAD_ALL_CONTACTS, DEFAULT_LOAD_ALL_CONTACTS);
+
 		facebook_json_parser* p = new facebook_json_parser(this);
-		p->parse_friends(&resp.data, &friends);
+		p->parse_friends(&resp.data, &friends, loadAllContacts);
 		delete p;
 
 		// Check and update old contacts
@@ -117,8 +119,8 @@ void FacebookProto::ProcessFriendList(void*)
 						// TODO: remove that popup and use "Contact added you" event?
 					}
 
-					// Wasn't contact removed from "server-list" someday?
-					if (getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
+					// Wasn't contact removed from "server-list" someday? And is it friend now? (as we can get also non-friends from this request now)?
+					if (fbu->type == CONTACT_FRIEND && getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
 						delSetting(hContact, FACEBOOK_KEY_DELETED);
 
 						// Notify it, if user wants to be notified

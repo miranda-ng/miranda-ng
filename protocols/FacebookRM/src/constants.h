@@ -98,6 +98,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_JOIN_EXISTING_CHATS				1
 #define DEFAULT_NOTIFICATIONS_CHATROOM			0
 #define DEFAULT_NAME_AS_NICK					1
+#define DEFAULT_LOAD_ALL_CONTACTS				0
 
 #define DEFAULT_EVENT_NOTIFICATIONS_ENABLE		1
 #define DEFAULT_EVENT_FEEDS_ENABLE				0

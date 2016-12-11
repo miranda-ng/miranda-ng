@@ -37,6 +37,7 @@
 #define IDC_BIGGER_AVATARS              1030
 #define IDC_NAME_AS_NICK                1031
 #define IDC_MAP_STATUSES                1032
+#define IDC_LOAD_ALL_CONTACTS           1033
 #define IDC_CUSTOM_SMILEYS              1034
 #define IDC_LOAD_PAGES                  1036
 #define IDC_KEEP_UNREAD                 1037
