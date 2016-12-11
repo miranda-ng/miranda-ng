@@ -507,42 +507,6 @@ void AutoFindeFileNames(HWND hwndDlg)
 }
 
 /////////////////////////////////////////////////////////////////////
-// Member Function : OpenHelp
-// Type            : Global
-// Parameters      : hwndDlg - handle to the parrent, ( Options Dlg )
-// Returns         : void
-// Description     : 
-//                   
-// References      : -
-// Remarks         : -
-// Created         : 020427, 27 April 2002
-// Developer       : KN   
-/////////////////////////////////////////////////////////////////////
-
-void OpenHelp(HWND hwndDlg)
-{
-	wchar_t szPath[MAX_PATH];
-	if (GetModuleFileName(hInstance, szPath, _countof(szPath))) {
-		size_t nLen = mir_wstrlen(szPath);
-		if (nLen > 3) {
-			szPath[nLen - 1] = 't';
-			szPath[nLen - 2] = 'x';
-			szPath[nLen - 3] = 't';
-
-			SHELLEXECUTEINFO st = { 0 };
-			st.cbSize = sizeof(st);
-			st.fMask = SEE_MASK_INVOKEIDLIST;
-			st.hwnd = NULL;
-			st.lpFile = szPath;
-			st.nShow = SW_SHOWDEFAULT;
-			ShellExecuteEx(&st);
-		}
-	}
-
-	MessageBox(hwndDlg, TranslateT("Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself"), MSG_BOX_TITEL, MB_OK);
-}
-
-/////////////////////////////////////////////////////////////////////
 // Member Function : DlgProcMsgExportOpts
 // Type            : Global
 // Parameters      : hwndDlg - handle to this dialog
@@ -781,7 +745,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			return TRUE;
 
 		case IDC_OPEN_HELP:
-			OpenHelp(hwndDlg);
+			Utils_OpenUrl("http://wiki.miranda-ng.org/index.php?title=Plugin:Msg_Export");
 			return TRUE;
 
 		case ID_SET_TO_DEFAULT:
