@@ -211,7 +211,6 @@ int CVkProto::PollServer()
 		}
 		else {
 			debugLogA("CVkProto::PollServer => ShutdownSession");
-			m_hPollingThread = NULL;
 			ShutdownSession();
 			return 0;
 		}

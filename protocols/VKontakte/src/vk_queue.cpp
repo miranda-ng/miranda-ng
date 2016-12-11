@@ -172,7 +172,7 @@ void CVkProto::WorkerThread(void*)
 		}
 	}
 
-	m_hWorkerThread = 0;
+	m_hWorkerThread = NULL;
 	if (m_hAPIConnection) {
 		debugLogA("CVkProto::WorkerThread: Netlib_CloseHandle(m_hAPIConnection) beg");
 		Netlib_CloseHandle(m_hAPIConnection);

@@ -102,11 +102,14 @@ void CVkProto::OnLoggedOut()
 	debugLogA("CVkProto::OnLoggedOut");
 	m_bOnline = false;
 
+	m_hPollingThread = NULL;
+	m_hWorkerThread = NULL;
+
 	if (m_hAPIConnection)
 		Netlib_CloseHandle(m_hAPIConnection);
 
 	if (m_pollingConn)
-		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConn);
+		Netlib_Shutdown(m_pollingConn);
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
