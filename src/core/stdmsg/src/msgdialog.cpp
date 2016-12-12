@@ -485,18 +485,17 @@ static void SetButtonsPos(SrmmWindowData *dat, HWND hwndDlg)
 
 	GetClientRect(hwndDlg, &rc);
 	int iButtonX = rc.right - 2;
-	int iGap = db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1);
 	bool bIsRight = true;
 
 	for (int i = Srmm_GetButtonCount()-1; i >= 0; i--) {
 		CustomButtonData *cbd = Srmm_GetNthButton(i);
-		int width = iGap + cbd->m_iButtonWidth;
+		iButtonX -= g_dat.iGap + cbd->m_iButtonWidth;
+		if (cbd->m_bSeparator)
+			continue;
 
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-		if (NULL != hwndButton) /* Wine fix. */ {
-			iButtonX -= width;
+		if (NULL != hwndButton) /* Wine fix. */
 			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iButtonX, iButtonY, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-		}
 
 		if (bIsRight && !cbd->m_bRSided) {
 			bIsRight = false;
@@ -509,7 +508,7 @@ static void SetButtonsPos(SrmmWindowData *dat, HWND hwndDlg)
 
 static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
-	SrmmWindowData *dat = (SrmmWindowData *)lParam;
+	SrmmWindowData *dat = (SrmmWindowData*)lParam;
 
 	switch (urc->wId) {
 	case IDC_NAME:
@@ -627,7 +626,7 @@ static void NotifyTyping(SrmmWindowData *dat, int mode)
 
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	SrmmWindowData *dat = (SrmmWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (uMsg) {
 	case WM_INITDIALOG:

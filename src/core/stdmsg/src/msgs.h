@@ -190,6 +190,8 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF* colour);
 #define SRMSGSET_MSGTIMEOUT_MIN    5000 // minimum value (5 seconds)
 #define SRMSGSET_FLASHCOUNT        "FlashMax"
 #define SRMSGDEFSET_FLASHCOUNT     5
+#define SRMSGSET_BUTTONGAP         "ButtonsBarGap"
+#define SRMSGDEFSET_BUTTONGAP      1 
 
 #define SRMSGSET_LOADHISTORY       "LoadHistory"
 #define SRMSGDEFSET_LOADHISTORY    LOADHISTORY_UNREAD

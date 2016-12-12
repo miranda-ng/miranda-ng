@@ -723,7 +723,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			if (IsDlgButtonChecked(hwndDlg, IDC_11) == BST_CHECKED)
 				iFlags |= GC_EVENT_NOTICE;
 
-			if (iFlags&GC_EVENT_ADDSTATUS)
+			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
 			SendMessage(GetParent(hwndDlg), GC_CHANGEFILTERFLAG, 0, (LPARAM)iFlags);
@@ -763,17 +763,16 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 {
 	switch (msg) {
 	case WM_LBUTTONUP:
-		{
-			CHARRANGE sel;
-			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				SendMessage(hwnd, WM_COPY, 0, 0);
-				sel.cpMin = sel.cpMax;
-				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&sel);
-			}
-			SetFocus(GetDlgItem(GetParent(hwnd), IDC_MESSAGE));
+		CHARRANGE sel;
+		SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
+		if (sel.cpMin != sel.cpMax) {
+			SendMessage(hwnd, WM_COPY, 0, 0);
+			sel.cpMin = sel.cpMax;
+			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&sel);
 		}
+		SetFocus(GetDlgItem(GetParent(hwnd), IDC_MESSAGE));
 		break;
+
 	case WM_KEYDOWN:
 		if (wParam == 0x57 && GetKeyState(VK_CONTROL) & 0x8000) { // ctrl-w (close window)
 			PostMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
@@ -783,7 +782,6 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) == WA_INACTIVE) {
-			CHARRANGE sel;
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin != sel.cpMax) {
 				sel.cpMin = sel.cpMax;
@@ -1084,7 +1082,6 @@ static void SetButtonsPos(HWND hwndDlg)
 
 	GetClientRect(hwndDlg, &rc);
 	int iLeftX = 2, iRightX = rc.right - 2;
-	int iGap = db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1);
 
 	for (int i = 0;; i++) {
 		CustomButtonData *cbd = Srmm_GetNthButton(i);
@@ -1096,7 +1093,7 @@ static void SetButtonsPos(HWND hwndDlg)
 			continue;
 
 		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-		iLeftX += iGap + cbd->m_iButtonWidth;
+		iLeftX += g_dat.iGap + cbd->m_iButtonWidth;
 	}
 
 	for (int i = Srmm_GetButtonCount() - 1; i >= 0; i--) {
@@ -1108,7 +1105,7 @@ static void SetButtonsPos(HWND hwndDlg)
 		if (hwndButton == NULL)
 			continue;
 
-		iRightX -= iGap + cbd->m_iButtonWidth;
+		iRightX -= g_dat.iGap + cbd->m_iButtonWidth;
 		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 	}
 

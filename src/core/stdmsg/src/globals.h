@@ -53,6 +53,7 @@ struct GlobalMessageData
 	DWORD openFlags;
 	DWORD msgTimeout;
 	DWORD nFlashMax;
+	int iGap;
 };
 
 void InitGlobals();
