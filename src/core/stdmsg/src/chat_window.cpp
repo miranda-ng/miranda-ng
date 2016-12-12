@@ -2320,18 +2320,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		case IDC_HISTORY:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_HISTORY))) {
 				MODULEINFO *pInfo = pci->MM_FindModule(si->pszModule);
-				if (pInfo) {
-					wchar_t szFile[MAX_PATH], szName[MAX_PATH], szFolder[MAX_PATH];
-					wcsncpy_s(szName, (pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule)), _TRUNCATE);
-					ValidateFilename(szName);
-
-					mir_snwprintf(szFolder, L"%s\\%s", g_Settings.pszLogDir, szName);
-					mir_snwprintf(szName, L"%s.log", si->ptszID);
-					ValidateFilename(szName);
-
-					mir_snwprintf(szFile, L"%s\\%s", szFolder, szName);
-					ShellExecute(hwndDlg, L"open", szFile, NULL, NULL, SW_SHOW);
-				}
+				if (pInfo)
+					ShellExecute(hwndDlg, NULL, pci->GetChatLogsFilename(si, 0), NULL, NULL, SW_SHOW);
 			}
 			break;
 
