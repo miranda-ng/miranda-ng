@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_GLOBALS_H
 #define SRMM_GLOBALS_H
 
-struct SrmmFlags
+struct GlobalMessageData
 {
 	bool bShowButtons : 1;
 	bool bSendButton : 1;
@@ -44,11 +44,12 @@ struct SrmmFlags
 	bool bTypingUnknown : 1;
 	bool bCtrlSupport : 1;
 	bool bShowFormat : 1;
-};
+	bool bSavePerContact : 1;
+	bool bUseStatusWinIcon : 1;
+	bool bDoNotStealFocus : 1;
+	bool bCascade : 1;
+	bool bDeleteTempCont : 1;
 
-struct GlobalMessageData
-{
-	SrmmFlags flags;
 	DWORD openFlags;
 	DWORD msgTimeout;
 	DWORD nFlashMax;

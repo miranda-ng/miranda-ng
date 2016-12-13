@@ -64,7 +64,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	/* does a window for the contact exist? */
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd) {
-		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS)) {
+		if (!g_dat.bDoNotStealFocus) {
 			ShowWindow(hwnd, SW_RESTORE);
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			SetForegroundWindow(hwnd);
@@ -85,7 +85,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
 		NewMessageWindowLParam newData = { 0 };
 		newData.hContact = hContact;
-		newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
+		newData.noActivate = g_dat.bDoNotStealFocus;
 		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
 		return 0;
 	}
@@ -157,7 +157,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 
 static int TypingMessage(WPARAM hContact, LPARAM lParam)
 {
-	if (!g_dat.flags.bShowTyping)
+	if (!g_dat.bShowTyping)
 		return 0;
 
 	hContact = db_mc_tryMeta(hContact);
@@ -167,11 +167,11 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	HWND hwnd = WindowList_Find(pci->hWindowList, hContact);
 	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
-	else if (lParam && g_dat.flags.bShowTypingTray) {
+	else if (lParam && g_dat.bShowTypingTray) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
 
-		if (g_dat.flags.bShowTypingClist) {
+		if (g_dat.bShowTypingClist) {
 			pcli->pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
@@ -257,7 +257,7 @@ static void RestoreUnreadMessageAlerts(void)
 				if (autoPopup && !windowAlreadyExists) {
 					NewMessageWindowLParam newData = { 0 };
 					newData.hContact = hContact;
-					newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
+					newData.noActivate = g_dat.bDoNotStealFocus;
 					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)& newData);
 				}
 				else arEvents.insert(new MSavedEvent(hContact, hDbEvent));

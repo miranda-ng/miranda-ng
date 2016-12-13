@@ -188,40 +188,42 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_POPLIST), statusValues, _countof(statusValues), db_get_dw(NULL, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
+
+		CheckDlgButton(hwndDlg, IDC_DELTEMP, g_dat.bDeleteTempCont ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTOMIN, g_dat.bAutoMin ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CASCADE, g_dat.bCascade ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, g_dat.bAutoClose ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHARCOUNT, g_dat.bShowReadChar ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_STATUSWIN, g_dat.bUseStatusWinIcon ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CTRLSUPPORT, g_dat.bCtrlSupport ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWSENDBTN, g_dat.bSendButton ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SENDONENTER, g_dat.bSendOnEnter ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LIMITAVATARH, db_get_b(NULL, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, SRMSGDEFSET_LIMITAVHEIGHT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SENDONDBLENTER, g_dat.bSendOnDblEnter ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AVATARSUPPORT, g_dat.bShowAvatar ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWBUTTONLINE, g_dat.bShowButtons ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SAVEPERCONTACT, g_dat.bSavePerContact ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DONOTSTEALFOCUS, g_dat.bDoNotStealFocus ? BST_CHECKED : BST_UNCHECKED);
 		{
-			DWORD avatarHeight, msgTimeout;
-
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_POPLIST), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_POPLIST), statusValues, _countof(statusValues), db_get_dw(NULL, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
-			CheckDlgButton(hwndDlg, IDC_DONOTSTEALFOCUS, db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS) ? BST_CHECKED : BST_UNCHECKED);
+			DWORD avatarHeight = db_get_dw(NULL, SRMMMOD, SRMSGSET_AVHEIGHT, SRMSGDEFSET_AVHEIGHT);
 			SetDlgItemInt(hwndDlg, IDC_NFLASHES, db_get_b(NULL, SRMMMOD, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT), FALSE);
-			CheckDlgButton(hwndDlg, IDC_SHOWBUTTONLINE, g_dat.flags.bShowButtons ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOMIN, db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SAVEPERCONTACT, db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CASCADE, db_get_b(NULL, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SENDONENTER, db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SENDONDBLENTER, db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_STATUSWIN, db_get_b(NULL, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_AVATARSUPPORT, g_dat.flags.bShowAvatar ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_LIMITAVATARH, db_get_b(NULL, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, SRMSGDEFSET_LIMITAVHEIGHT) ? BST_CHECKED : BST_UNCHECKED);
-			avatarHeight = db_get_dw(NULL, SRMMMOD, SRMSGSET_AVHEIGHT, SRMSGDEFSET_AVHEIGHT);
 			SetDlgItemInt(hwndDlg, IDC_AVATARHEIGHT, avatarHeight, FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIMITAVATARH), IsDlgButtonChecked(hwndDlg, IDC_AVATARSUPPORT));
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_AVATARSUPPORT))
 				EnableWindow(GetDlgItem(hwndDlg, IDC_AVATARHEIGHT), FALSE);
-			else EnableWindow(GetDlgItem(hwndDlg, IDC_AVATARHEIGHT), IsDlgButtonChecked(hwndDlg, IDC_LIMITAVATARH));
-			CheckDlgButton(hwndDlg, IDC_SHOWSENDBTN, g_dat.flags.bSendButton ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHARCOUNT, db_get_b(NULL, SRMMMOD, SRMSGSET_CHARCOUNT, SRMSGDEFSET_CHARCOUNT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CTRLSUPPORT, db_get_b(NULL, SRMMMOD, SRMSGSET_CTRLSUPPORT, SRMSGDEFSET_CTRLSUPPORT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DELTEMP, db_get_b(NULL, SRMMMOD, SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP) ? BST_CHECKED : BST_UNCHECKED);
-			msgTimeout = db_get_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
+			else
+				EnableWindow(GetDlgItem(hwndDlg, IDC_AVATARHEIGHT), IsDlgButtonChecked(hwndDlg, IDC_LIMITAVATARH));
+			
+			DWORD msgTimeout = db_get_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
 			SetDlgItemInt(hwndDlg, IDC_SECONDS, msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout / 1000 : SRMSGDEFSET_MSGTIMEOUT / 1000, FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CASCADE), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SAVEPERCONTACT));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CTRLSUPPORT), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_AUTOCLOSE));
 		}
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CASCADE), !g_dat.bSavePerContact);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CTRLSUPPORT), !g_dat.bAutoClose);
 		return TRUE;
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_AUTOMIN:
@@ -260,6 +262,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
+	
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_POPLIST:
@@ -296,6 +299,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				db_set_b(NULL, SRMMMOD, SRMSGSET_AVATARENABLE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AVATARSUPPORT));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_LIMITAVATARH));
+				
 				DWORD avatarHeight = GetDlgItemInt(hwndDlg, IDC_AVATARHEIGHT, NULL, TRUE);
 				db_set_dw(NULL, SRMMMOD, SRMSGSET_AVHEIGHT, avatarHeight <= 0 ? SRMSGDEFSET_AVHEIGHT : avatarHeight);
 
