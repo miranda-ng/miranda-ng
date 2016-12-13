@@ -64,7 +64,7 @@ static int RTL_Detect(const wchar_t *ptszText)
 	return 0;
 }
 
-int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact, char*)
+int SendMessageDirect(const wchar_t *szMsg, MCONTACT hContact)
 {
 	if (hContact == NULL)
 		return NULL;
@@ -1058,6 +1058,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				RedrawWindow(GetDlgItem(hwndDlg, IDOK), NULL, NULL, RDW_INVALIDATE);
 				RedrawWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), NULL, NULL, RDW_INVALIDATE);
 			}
+			
 			if (g_dat.bShowAvatar && dat->avatarPic)
 				RedrawWindow(GetDlgItem(hwndDlg, IDC_AVATAR), NULL, NULL, RDW_INVALIDATE);
 
@@ -1278,7 +1279,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (!temp[0])
 					break;
 
-				int sendId = SendMessageDirect(rtrimw(temp), dat->hContact, dat->szProto);
+				int sendId = SendMessageDirect(rtrimw(temp), dat->hContact);
 				if (sendId) {
 					dat->cmdList.insert(mir_wstrdup(temp));
 

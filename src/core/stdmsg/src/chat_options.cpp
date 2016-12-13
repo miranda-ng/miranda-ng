@@ -751,7 +751,7 @@ int ChatOptionsInitialize(WPARAM wParam)
 	if (PopupInstalled) {
 		odp.position = 910000002;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
-		odp.szTitle.a = LPGEN(CHAT_MODULE);
+		odp.szTitle.a = LPGEN("Chat");
 		odp.szGroup.a = LPGEN("Popups");
 		odp.szTab.a = NULL;
 		odp.pfnDlgProc = DlgProcOptionsPopup;

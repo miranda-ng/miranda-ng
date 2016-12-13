@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
-	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA *) dwCookie;
+	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA*)dwCookie;
 	if (lstrdat) {
 		// create the RTF
 		if (lstrdat->buffer == NULL) {
@@ -51,12 +51,8 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 	return 0;
 }
 
-void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw, BOOL)
+void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw, BOOL)
 {
-	CHARRANGE oldsel, sel, newsel;
-	POINT point ={0};
-	WPARAM wp;
-
 	if (hwndDlg == 0 || lin == 0 || si == 0)
 		return;
 
@@ -64,7 +60,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedr
 		return;
 
 	HWND hwndRich = GetDlgItem(hwndDlg, IDC_LOG);
-	
+
 	LOGSTREAMDATA streamData;
 	memset(&streamData, 0, sizeof(streamData));
 	streamData.hwnd = hwndRich;
@@ -76,29 +72,32 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedr
 
 	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = Log_StreamCallback;
-	stream.dwCookie = (DWORD_PTR) & streamData;
+	stream.dwCookie = (DWORD_PTR)& streamData;
 
 	SCROLLINFO scroll;
 	scroll.cbSize = sizeof(SCROLLINFO);
-	scroll.fMask= SIF_RANGE | SIF_POS|SIF_PAGE;
+	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
 	GetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &scroll);
-	SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM) &point);
+
+	POINT point = { 0 };
+	SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do not scroll to bottom if there is a selection
-	SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM) &oldsel);
+	CHARRANGE oldsel, sel;
+	SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&oldsel);
 	if (oldsel.cpMax != oldsel.cpMin)
 		SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
 
 	//set the insertion point at the bottom
 	sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-	SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) &sel);
+	SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
 
 	// fix for the indent... must be a M$ bug
 	if (sel.cpMax == 0)
 		bRedraw = TRUE;
 
 	// should the event(s) be appended to the current log
-	wp = bRedraw?SF_RTF:SFF_SELECTION|SF_RTF;
+	WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
 
 	//get the number of pixels per logical inch
 	if (bRedraw) {
@@ -113,41 +112,35 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedr
 	// stream in the event(s)
 	streamData.lin = lin;
 	streamData.bRedraw = bRedraw;
-	SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM) & stream);
+	SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)& stream);
 
 	// do smileys
-	if (SmileyAddInstalled && (bRedraw
-		|| (lin->ptszText
-		&& lin->iType != GC_EVENT_JOIN
-		&& lin->iType != GC_EVENT_NICK
-		&& lin->iType != GC_EVENT_ADDSTATUS
-		&& lin->iType != GC_EVENT_REMOVESTATUS )))
-	{
-		SMADD_RICHEDIT3 sm = {0};
-
+	if (SmileyAddInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
+		CHARRANGE newsel;
 		newsel.cpMax = -1;
 		newsel.cpMin = sel.cpMin;
 		if (newsel.cpMin < 0)
 			newsel.cpMin = 0;
-		memset(&sm, 0, sizeof(sm));
+
+		SMADD_RICHEDIT3 sm = {};
 		sm.cbSize = sizeof(sm);
 		sm.hwndRichEditControl = hwndRich;
 		sm.Protocolname = si->pszModule;
-		sm.rangeToReplace = bRedraw?NULL:&newsel;
+		sm.rangeToReplace = bRedraw ? NULL : &newsel;
 		sm.disableRedraw = TRUE;
 		sm.hContact = si->hContact;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 	}
 
 	// scroll log to bottom if the log was previously scrolled to bottom, else restore old position
-	if (bRedraw ||  (UINT)scroll.nPos >= (UINT)scroll.nMax-scroll.nPage-5 || scroll.nMax-scroll.nMin-scroll.nPage < 50)
+	if (bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50)
 		SendMessage(GetParent(hwndRich), GC_SCROLLTOBOTTOM, 0, 0);
 	else
-		SendMessage(hwndRich, EM_SETSCROLLPOS, 0, (LPARAM) &point);
+		SendMessage(hwndRich, EM_SETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do we need to restore the selection
 	if (oldsel.cpMax != oldsel.cpMin) {
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) & oldsel);
+		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& oldsel);
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(hwndRich, NULL, TRUE);
 	}
@@ -155,17 +148,18 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedr
 	// need to invalidate the window
 	if (bFlag) {
 		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) &sel);
+		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(hwndRich, NULL, TRUE);
-}	}
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
 	static DWORD dwRead;
-	char ** ppText = (char **)dwCookie;
+	char **ppText = (char **)dwCookie;
 
 	if (*ppText == NULL) {
 		*ppText = (char *)mir_alloc(cb + 1);
@@ -190,19 +184,17 @@ static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 {
-	EDITSTREAM stream;
-	char* pszText = NULL;
-	DWORD dwFlags;
-
 	if (hwndDlg == 0 || si == 0)
 		return NULL;
 
+	char* pszText = NULL;
+	EDITSTREAM stream;
 	memset(&stream, 0, sizeof(stream));
 	stream.pfnCallback = Message_StreamCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
 
-	dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
-	SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_STREAMOUT, dwFlags, (LPARAM)& stream);
+	DWORD dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
+	SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
 	return pszText; // pszText contains the text
 }
 
@@ -343,15 +335,15 @@ int GetRichTextLength(HWND hwnd)
 
 int GetColorIndex(const char* pszModule, COLORREF cr)
 {
-	MODULEINFO * pMod = pci->MM_FindModule(pszModule);
+	MODULEINFO *pMod = pci->MM_FindModule(pszModule);
 	int i = 0;
 
 	if (!pMod || pMod->nColorCount == 0)
 		return -1;
 
 	for (i = 0; i < pMod->nColorCount; i++)
-	if (pMod->crColors[i] == cr)
-		return i;
+		if (pMod->crColors[i] == cr)
+			return i;
 
 	return -1;
 }

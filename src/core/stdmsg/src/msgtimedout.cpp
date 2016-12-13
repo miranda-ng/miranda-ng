@@ -43,27 +43,19 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			if (!param->szMsg || !param->szMsg[0])
 				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occurred."));
-			else {
-				ptrW ptszError(Langpack_PcharToTchar(param->szMsg));
-				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ptszError);
-			}
+			else
+				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ptrW(Langpack_PcharToTchar(param->szMsg)));
 
 			SetDlgItemText(hwndDlg, IDC_MSGTEXT, ptrW(mir_utf8decodeW(item->szMsg)));
 
 			HWND hwndParent = GetParent(hwndDlg);
-			if (hwndParent != NULL)
-			{
-				RECT rc;
+			if (hwndParent != NULL) {
+				RECT rc, rcParent;
 				if (GetWindowRect(hwndDlg, &rc))
-				{
-					RECT rcParent;
 					if (GetWindowRect(hwndParent, &rcParent))
-					{
 						SetWindowPos(hwndDlg, 0, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2,
 							(rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2,
 							0, 0, SWP_NOZORDER | SWP_NOSIZE);
-					}
-				}
 			}
 		}
 		return TRUE;
@@ -76,7 +68,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			SendMessageDirect(ptrW(mir_utf8decodeW(item->szMsg)), item->hContact, GetContactProto(item->hContact));
+			SendMessageDirect(ptrW(mir_utf8decodeW(item->szMsg)), item->hContact);
 			DestroyWindow(hwndDlg);
 			break;
 

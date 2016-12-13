@@ -134,7 +134,8 @@ void ReloadGlobals()
 	g_dat.iGap = db_get_b(NULL, SRMSGMOD, SRMSGSET_BUTTONGAP, SRMSGDEFSET_BUTTONGAP);
 
 	g_dat.msgTimeout = db_get_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
-	if (g_dat.msgTimeout < SRMSGSET_MSGTIMEOUT_MIN) g_dat.msgTimeout = SRMSGDEFSET_MSGTIMEOUT;
+	if (g_dat.msgTimeout < SRMSGSET_MSGTIMEOUT_MIN)
+		g_dat.msgTimeout = SRMSGDEFSET_MSGTIMEOUT;
 }
 
 void InitGlobals()
