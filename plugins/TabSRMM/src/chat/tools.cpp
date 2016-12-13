@@ -209,7 +209,7 @@ passed:
 	return TRUE;
 }
 
-void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
+void DoFlashAndSoundWorker(FLASH_PARAMS* p)
 {
 	SESSION_INFO *si = SM_FindSessionByHCONTACT(p->hContact);
 	if (si == 0)
