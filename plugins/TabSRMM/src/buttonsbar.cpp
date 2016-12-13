@@ -14,7 +14,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Protocol button");
 	Srmm_AddButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_NAME;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[20];
@@ -28,14 +27,12 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Bold text");
 	Srmm_AddButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTITALIC;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[11];
 	bbd.pwszTooltip = LPGENW("Italic text");
 	Srmm_AddButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FONTUNDERLINE;
 	bbd.dwDefPos = 60;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[12];
@@ -70,7 +67,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Quote last message OR selected text");
 	Srmm_AddButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_TIME;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[2];
@@ -100,12 +96,10 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = 0;
 	Srmm_AddButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISDUMMYBUTTON;
 	bbd.dwButtonID = 2;
 	bbd.dwDefPos = 22;
 	Srmm_AddButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISDUMMYBUTTON;
 	bbd.dwButtonID = 3;
 	bbd.dwDefPos = 71;
 	Srmm_AddButton(&bbd);
@@ -118,7 +112,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Select font color");
 	Srmm_AddButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISPUSHBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_BKGCOLOR;
 	bbd.dwDefPos = 81;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[16];
@@ -132,14 +125,12 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Toggle nick list");
 	Srmm_AddButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_FILTER;
 	bbd.dwDefPos = 24;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[18];
 	bbd.pwszTooltip = LPGENW("Event filter - right click to setup, left click to activate/deactivate");
 	Srmm_AddButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_CHANMGR;
 	bbd.dwDefPos = 33;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[17];
