@@ -554,16 +554,17 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 			return 0;
 
 		if (si && (si->bInitDone || gcd->iType == GC_EVENT_TOPIC || (gcd->iType == GC_EVENT_JOIN && gce->bIsMe))) {
+			int isOk = SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
+
+			if (chatApi.OnAddLog)
+				chatApi.OnAddLog(si);
+
 			if (si->hWnd) {
-				int isOk = SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
 				if (isOk)
 					SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
 				else
 					SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 			}
-
-			if (chatApi.OnAddLog)
-				chatApi.OnAddLog(si);
 
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
 				DoFlashParam param = { si, gce, bIsHighlighted, 0 };
