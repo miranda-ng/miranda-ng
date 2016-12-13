@@ -49,7 +49,6 @@ struct SrmmWindowData : public MZeroedObject
 	int lineHeight;
 	int windowWasCascaded;
 	DWORD nFlash;
-	int nLabelRight;
 	int nTypeSecs;
 	int nTypeMode;
 	int avatarWidth;

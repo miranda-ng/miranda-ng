@@ -102,8 +102,6 @@ int AvatarChanged(WPARAM hContact, LPARAM lParam)
 void ReloadGlobals()
 {
 	memset(&g_dat.flags, 0, sizeof(g_dat.flags));
-	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWINFOLINE, SRMSGDEFSET_SHOWINFOLINE))
-		g_dat.flags.bShowInfo = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE))
 		g_dat.flags.bShowButtons = true;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDBUTTON, SRMSGDEFSET_SENDBUTTON))

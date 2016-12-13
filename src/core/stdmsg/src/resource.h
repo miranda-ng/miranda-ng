@@ -68,8 +68,6 @@
 #define IDC_AUTOMIN                     1005
 #define IDC_DONOTSTEALFOCUS             1006
 #define IDC_SPLITTERY                   1008
-#define IDC_SPLITTER                    1008
-#define IDC_NAME                        1009
 #define IDC_BOLD                        1010
 #define IDC_ITALICS                     1011
 #define IDC_UNDERLINE                   1012
@@ -95,7 +93,6 @@
 #define IDC_SAVEPERCONTACT              1037
 #define IDC_LOADCOUNTN                  1039
 #define IDC_LOADCOUNTSPIN               1040
-#define IDC_SHOWINFOLINE                1041
 #define IDC_SHOWBUTTONLINE              1042
 #define IDC_LOADUNREAD                  1043
 #define IDC_SENDONENTER                 1043
@@ -150,7 +147,6 @@
 #define IDC_DETAILS                     1469
 #define IDC_USERMENU                    1471
 #define IDC_STMSGLOGGROUP               1442
-#define IDC_PROTOCOL                    1580
 #define IDC_ERRORTEXT                   1596
 #define IDC_MSGTEXT                     1597
 #define IDC_SHOWNOTIFY                  1600

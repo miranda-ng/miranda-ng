@@ -153,7 +153,7 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 		urc->rcItem.top = bTabs ? (bTabBottom ? 0 : rcTabs.top - 1) : 0;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - si->iSplitterX : urc->dlgNewSize.cx;
-	LBL_CalcBottom:
+LBL_CalcBottom:
 		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY;
 		if (bTabs && bTabBottom) urc->rcItem.bottom += 6 - TabHeight;
 		if (!bToolbar) urc->rcItem.bottom += 20;
@@ -1070,48 +1070,6 @@ static void __cdecl phase2(void * lParam)
 		PostMessage(si->hWnd, GC_REDRAWLOG3, 0, 0);
 }
 
-static void SetButtonsPos(HWND hwndDlg)
-{
-	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount());
-
-	RECT rc;
-	GetWindowRect(GetDlgItem(hwndDlg, IDC_SPLITTERY), &rc);
-	POINT pt = { 0, rc.bottom };
-	ScreenToClient(hwndDlg, &pt);
-	pt.y -= 2;
-
-	GetClientRect(hwndDlg, &rc);
-	int iLeftX = 2, iRightX = rc.right - 2;
-
-	for (int i = 0;; i++) {
-		CustomButtonData *cbd = Srmm_GetNthButton(i);
-		if (cbd == NULL || cbd->m_bRSided)
-			break;
-		
-		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-		if (hwndButton == NULL)
-			continue;
-
-		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-		iLeftX += g_dat.iGap + cbd->m_iButtonWidth;
-	}
-
-	for (int i = Srmm_GetButtonCount() - 1; i >= 0; i--) {
-		CustomButtonData *cbd = Srmm_GetNthButton(i);
-		if (!cbd->m_bRSided)
-			break;
-
-		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-		if (hwndButton == NULL)
-			continue;
-
-		iRightX -= g_dat.iGap + cbd->m_iButtonWidth;
-		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-	}
-
-	EndDeferWindowPos(hdwp);
-}
-
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *s, *si = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -1349,7 +1307,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendMessage(si->hwndStatus, WM_SIZE, 0, 0);
 
 			Utils_ResizeDialog(hwndDlg, g_hInst, MAKEINTRESOURCEA(IDD_CHANNEL), RoomWndResize, (LPARAM)si);
-			SetButtonsPos(hwndDlg);
+			SetButtonsPos(hwndDlg, true);
 
 			InvalidateRect(si->hwndStatus, NULL, TRUE);
 			RedrawWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), NULL, NULL, RDW_INVALIDATE);

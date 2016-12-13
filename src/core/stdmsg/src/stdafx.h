@@ -155,6 +155,7 @@ int  GetRichTextLength(HWND hwnd);
 UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
 void DestroyGCMenu(HMENU *hMenu, int iIndex);
 bool LoadMessageFont(LOGFONT *lf, COLORREF *colour);
+void SetButtonsPos(HWND hwndDlg, bool bIsChat);
 
 // message.c
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);

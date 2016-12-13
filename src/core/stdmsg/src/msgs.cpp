@@ -284,6 +284,9 @@ static void RestoreUnreadMessageAlerts(void)
 
 void RegisterSRMMFonts(void);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// toolbar buttons support
+
 int RegisterToolbarIcons(WPARAM, LPARAM)
 {
 	BBButton bbd = {};
@@ -379,6 +382,54 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 	return 0;
 }
+
+void SetButtonsPos(HWND hwndDlg, bool bIsChat)
+{
+	HDWP hdwp = BeginDeferWindowPos(Srmm_GetButtonCount());
+
+	int yPos;
+	RECT rc;
+	if (bIsChat) {
+		GetWindowRect(GetDlgItem(hwndDlg, IDC_SPLITTERY), &rc);
+		POINT pt = { 0, rc.top };
+		ScreenToClient(hwndDlg, &pt);
+		yPos = pt.y - 2;
+	}
+	else yPos = 2;
+
+	GetClientRect(hwndDlg, &rc);
+	int iLeftX = 2, iRightX = rc.right - 2;
+
+	for (int i = 0;; i++) {
+		CustomButtonData *cbd = Srmm_GetNthButton(i);
+		if (cbd == NULL || cbd->m_bRSided)
+			break;
+
+		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+		if (hwndButton == NULL || cbd->m_bHidden)
+			continue;
+
+		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		iLeftX += g_dat.iGap + cbd->m_iButtonWidth;
+	}
+
+	for (int i = Srmm_GetButtonCount() - 1; i >= 0; i--) {
+		CustomButtonData *cbd = Srmm_GetNthButton(i);
+		if (!cbd->m_bRSided)
+			break;
+
+		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+		if (hwndButton == NULL || cbd->m_bHidden)
+			continue;
+
+		iRightX -= g_dat.iGap + cbd->m_iButtonWidth;
+		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+	}
+
+	EndDeferWindowPos(hdwp);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int FontsChanged(WPARAM, LPARAM)
 {
