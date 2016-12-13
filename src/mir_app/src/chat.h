@@ -46,6 +46,7 @@ char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
 char*  Log_SetStyle(int style);
 
 // chat_manager.cpp
+BOOL     SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool bIsHighlighted);
 BOOL     SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce);
 char*    SM_GetUsers(SESSION_INFO *si);
 BOOL     SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus);
@@ -99,7 +100,7 @@ BOOL     DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighl
 int      GetColorIndex(const char *pszModule, COLORREF cr);
 void     CheckColorsInModule(const char *pszModule);
 int      GetRichTextLength(HWND hwnd);
-BOOL     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
+bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 UINT     CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, wchar_t* pszUID, wchar_t* pszWordText);
 void     DestroyGCMenu(HMENU *hMenu, int iIndex);
 BOOL     DoEventHookAsync(HWND hwnd, const wchar_t *pszID, const char *pszModule, int iType, const wchar_t* pszUID, const wchar_t* pszText, INT_PTR dwItem);

@@ -671,7 +671,7 @@ char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 	return 0;
 }
 
-BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
+bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
 	if (!g_Settings.bHighlightEnabled || !gce || gce->bIsMe)
 		return FALSE;

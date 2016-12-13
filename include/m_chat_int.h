@@ -70,7 +70,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_SETTABHIGHLIGHT     (WM_USER+138)
 #define GC_SETMESSAGEHIGHLIGHT (WM_USER+139)
 #define GC_REDRAWLOG2          (WM_USER+140)
-#define GC_REDRAWLOG3          (WM_USER+141)
 
 #define TIMERID_FLASHWND       1
 
@@ -309,7 +308,6 @@ struct CHAT_MANAGER
 	SESSION_INFO* (*GetActiveSession)(void);
 	SESSION_INFO* (*SM_FindSession)(const wchar_t *pszID, const char *pszModule);
 	HICON         (*SM_GetStatusIcon)(SESSION_INFO *si, USERINFO * ui);
-	BOOL          (*SM_AddEvent)(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, BOOL bIsHighlighted);
 	BOOL          (*SM_PostMessage)(const wchar_t *pszID, const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam);
 	BOOL          (*SM_BroadcastMessage)(const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam, BOOL bAsync);
 	void          (*SM_AddCommand)(const wchar_t *pszID, const char *pszModule, const char* lpNewCommand);
@@ -372,7 +370,7 @@ struct CHAT_MANAGER
 	int           (*GetColorIndex)(const char *pszModule, COLORREF cr);
 	char*         (*Log_SetStyle)(int style);
 
-	BOOL          (*IsHighlighted)(SESSION_INFO *si, GCEVENT *pszText);
+	bool          (*IsHighlighted)(SESSION_INFO *si, GCEVENT *pszText);
 	wchar_t*      (*RemoveFormatting)(const wchar_t *pszText);
 	void          (*ReloadSettings)(void);
 
@@ -401,7 +399,7 @@ struct CHAT_MANAGER
 	void (*OnReplaceSession)(SESSION_INFO*);
 
 	void (*ShowRoom)(SESSION_INFO*, WPARAM wp, BOOL bSetForeground);
-	void (*OnAddLog)(SESSION_INFO*, int);
+	void (*OnAddLog)(SESSION_INFO*);
 	void (*OnClearLog)(SESSION_INFO*);
 	void (*OnGetLogName)(SESSION_INFO*, const wchar_t*);
 	void (*OnEventBroadcast)(SESSION_INFO *si, GCEVENT *gce);

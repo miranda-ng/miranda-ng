@@ -185,7 +185,7 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 	return chatApi.hIcons[ICON_STATUS0];
 }
 
-static BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, BOOL bIsHighlighted)
+BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool bIsHighlighted)
 {
 	SESSION_INFO *p = SM_FindSession(pszID, pszModule);
 	if (p == NULL)
@@ -1083,7 +1083,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	chatApi.GetActiveSession = GetActiveSession;
 	chatApi.SM_FindSession = SM_FindSession;
 	chatApi.SM_GetStatusIcon = SM_GetStatusIcon;
-	chatApi.SM_AddEvent = SM_AddEvent;
 	chatApi.SM_BroadcastMessage = SM_BroadcastMessage;
 	chatApi.SM_AddCommand = SM_AddCommand;
 	chatApi.SM_GetPrevCommand = SM_GetPrevCommand;

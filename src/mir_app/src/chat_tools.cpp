@@ -413,7 +413,7 @@ const wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 
 static wchar_t szTrimString[] = L":,.!?;\'>)";
 
-BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
+bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 {
 	if (!g_Settings->bHighlightEnabled || !g_Settings->pszHighlightWords || !gce || !si || !si->pMe)
 		return FALSE;

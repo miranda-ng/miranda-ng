@@ -903,7 +903,7 @@ static void __cdecl phase2(void *lParam)
 	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	Sleep(30);
 	if (si && si->hWnd)
-		PostMessage(si->hWnd, GC_REDRAWLOG3, 0, 0);
+		PostMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 }
 
 static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1135,12 +1135,6 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		break;
 
 	case GC_REDRAWLOG2:
-		si->LastTime = 0;
-		if (si->pLog)
-			Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE);
-		break;
-
-	case GC_REDRAWLOG3:
 		si->LastTime = 0;
 		if (si->pLog)
 			Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE);

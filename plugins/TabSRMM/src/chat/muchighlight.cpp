@@ -110,18 +110,18 @@ void CMUCHighlight::tokenize(wchar_t *tszString, wchar_t**& patterns, UINT& nr)
 	}
 }
 
-int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwFlags)
+bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwFlags)
 {
 	int result = 0, nResult = 0;
 
 	if (pgce == 0 || m_Valid == false)
-		return 0;
+		return false;
 
 	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
 		wchar_t	*p = pci->RemoveFormatting(pgce->ptszText);
 		p = NEWWSTR_ALLOCA(p);
 		if (p == NULL)
-			return 0;
+			return false;
 		CharLower(p);
 
 		wchar_t	*tszMe = ((psi && psi->pMe) ? NEWWSTR_ALLOCA(psi->pMe->pszNick) : 0);
@@ -173,7 +173,7 @@ skip_textpatterns:
 		}
 	}
 
-	return(result | nResult);
+	return result || nResult;
 }
 
 /**

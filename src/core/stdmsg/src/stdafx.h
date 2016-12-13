@@ -128,7 +128,7 @@ void Unload_ChatModule();
 void Load_ChatModule();
 
 // log.c
-void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw, BOOL bPhaseTwo);
+void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw);
 void ValidateFilename(wchar_t * filename);
 char* Log_CreateRtfHeader(MODULEINFO * mi);
 

@@ -149,17 +149,11 @@ static void OnCreateModule(MODULEINFO *mi)
 	ImageList_AddIcon(hIconsList, mi->hOfflineTalkIcon);
 }
 
-static void OnAddLog(SESSION_INFO *si, int isOk)
+static void OnAddLog(SESSION_INFO *si)
 {
-	if (isOk && si->hWnd) {
+	if (si->hWnd) {
 		g_TabSession.pLog = si->pLog;
 		g_TabSession.pLogEnd = si->pLogEnd;
-		SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
-	}
-	else if (si->hWnd) {
-		g_TabSession.pLog = si->pLog;
-		g_TabSession.pLogEnd = si->pLogEnd;
-		SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 	}
 }
 
@@ -224,15 +218,9 @@ static void OnOfflineSession(SESSION_INFO *si)
 
 static void OnEventBroadcast(SESSION_INFO *si, GCEVENT *gce)
 {
-	if (pci->SM_AddEvent(si->ptszID, si->pszModule, gce, FALSE) && si->hWnd && si->bInitDone) {
+	if (si->hWnd && si->bInitDone) {
 		g_TabSession.pLog = si->pLog;
 		g_TabSession.pLogEnd = si->pLogEnd;
-		SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
-	}
-	else if (si->hWnd && si->bInitDone) {
-		g_TabSession.pLog = si->pLog;
-		g_TabSession.pLogEnd = si->pLogEnd;
-		SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 	}
 }
 

@@ -216,6 +216,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 {
 	SESSION_INFO *Parentsi = (SESSION_INFO*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 	MESSAGESUBDATA *dat = (MESSAGESUBDATA*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CHARRANGE sel;
 
 	switch (msg) {
 	case EM_SUBCLASSED:
@@ -269,8 +270,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					}
 				}
 			}
-			else
-				dat->lastEnterTime = 0;
+			else dat->lastEnterTime = 0;
 
 			if (wParam == 1 && isCtrl && !isAlt) {      //ctrl-a
 				SendMessage(hwnd, EM_SETSEL, 0, -1);
@@ -526,8 +526,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				return TRUE;
 			}
 		}
-		//fall through
-
+	
+		// fall through
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 	case WM_KILLFOCUS:
@@ -536,7 +536,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case WM_RBUTTONDOWN:
 		{
-			CHARRANGE sel, all = { 0, -1 };
 			HMENU hSubMenu = GetSubMenu(g_hMenu, 4);
 			TranslateMenu(hSubMenu);
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
@@ -553,6 +552,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			pt.y = (short)HIWORD(lParam);
 			ClientToScreen(hwnd, &pt);
 
+			CHARRANGE all = { 0, -1 };
 			UINT uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
 			switch (uID) {
 			case 0:
@@ -579,7 +579,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				break;
 
 			case ID_MESSAGE_SELECTALL:
-				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& all);
+				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&all);
 				break;
 
 			case ID_MESSAGE_CLEAR:
@@ -761,9 +761,10 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	CHARRANGE sel;
+
 	switch (msg) {
 	case WM_LBUTTONUP:
-		CHARRANGE sel;
 		SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 		if (sel.cpMin != sel.cpMax) {
 			SendMessage(hwnd, WM_COPY, 0, 0);
@@ -810,18 +811,14 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
-				int i;
 				tci.flags = TCHT_ONITEM;
-
 				ScreenToClient(hwnd, &tci.pt);
-				i = TabCtrl_HitTest(hwnd, &tci);
+				int i = TabCtrl_HitTest(hwnd, &tci);
 				if (i != -1) {
 					TCITEM tc;
-					SESSION_INFO *s = NULL;
-
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
-					s = (SESSION_INFO*)tc.lParam;
+					SESSION_INFO *s = (SESSION_INFO*)tc.lParam;
 					if (s) {
 						BOOL bOnline = db_get_w(s->hContact, s->pszModule, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE ? TRUE : FALSE;
 						MODULEINFO *mi = pci->MM_FindModule(s->pszModule);
@@ -873,7 +870,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_LBUTTONDBLCLK:
 		{
-			TCHITTESTINFO tci = { 0 };
+			TCHITTESTINFO tci = {};
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			tci.flags = TCHT_ONITEM;
@@ -886,7 +883,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_MBUTTONUP:
-		TCHITTESTINFO tci = { 0 };
+		TCHITTESTINFO tci = {};
 		tci.pt.x = (short)LOWORD(GetMessagePos());
 		tci.pt.y = (short)HIWORD(GetMessagePos());
 		tci.flags = TCHT_ONITEM;
@@ -1067,13 +1064,14 @@ static void __cdecl phase2(void * lParam)
 	SESSION_INFO *si = (SESSION_INFO*)lParam;
 	Sleep(30);
 	if (si && si->hWnd)
-		PostMessage(si->hWnd, GC_REDRAWLOG3, 0, 0);
+		PostMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 }
 
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *s, *si = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	RECT rc;
+	CHARRANGE sel;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -1112,7 +1110,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (g_Settings.bTabsEnable && g_Settings.TabRestore) {
 				TABLIST *node = g_TabList;
 				while (node) {
-					SESSION_INFO *s = pci->SM_FindSession(node->pszID, node->pszModule);
+					s = pci->SM_FindSession(node->pszID, node->pszModule);
 					if (s)
 						SendMessage(hwndDlg, GC_ADDTAB, -1, (LPARAM)s);
 
@@ -1133,10 +1131,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case GC_SETWNDPROPS:
+		InitButtons(hwndDlg, si);
 		{
-			InitButtons(hwndDlg, si);
-
-			// stupid hack to make icons show. I dunno why this is needed currently
 			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 			HICON hIcon = si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
 			if (!hIcon) {
@@ -1334,10 +1330,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					if (si->iType != GCW_CHATROOM || !si->bFilterEnabled || (si->iLogFilterFlags&pLog->iType) != 0)
 						index++;
 				}
-				Log_StreamInEvent(hwndDlg, pLog, si, TRUE, FALSE);
+				Log_StreamInEvent(hwndDlg, pLog, si, TRUE);
 				mir_forkthread(phase2, si);
 			}
-			else Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, FALSE);
+			else Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE);
 		}
 		else SendMessage(hwndDlg, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
 		break;
@@ -1345,18 +1341,12 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case GC_REDRAWLOG2:
 		si->LastTime = 0;
 		if (si->pLog)
-			Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, FALSE);
-		break;
-
-	case GC_REDRAWLOG3:
-		si->LastTime = 0;
-		if (si->pLog)
-			Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, TRUE);
+			Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE);
 		break;
 
 	case GC_ADDLOG:
 		if (si->pLogEnd)
-			Log_StreamInEvent(hwndDlg, si->pLog, si, FALSE, FALSE);
+			Log_StreamInEvent(hwndDlg, si->pLog, si, FALSE);
 		else
 			SendMessage(hwndDlg, GC_CONTROL_MSG, WINDOW_CLEARLOG, 0);
 		break;
@@ -1423,7 +1413,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 			else i = TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TAB));
 
-		END_REMOVETAB:
+END_REMOVETAB:
 			if (i != -1 && i < tabId) {
 				TCITEM id = { 0 };
 				TabCtrl_DeleteItem(GetDlgItem(hwndDlg, IDC_TAB), i);
@@ -1435,7 +1425,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					}
 				}
 
-				SESSION_INFO *s = (SESSION_INFO*)id.lParam;
+				s = (SESSION_INFO*)id.lParam;
 				if (s)
 					pci->ShowRoom(s, (WPARAM)WINDOW_VISIBLE, wParam == 1 ? FALSE : TRUE);
 			}
@@ -1586,7 +1576,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				TCITEM id = { 0 };
 				id.mask = TCIF_PARAM;
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id);
-				SESSION_INFO *s = (SESSION_INFO*)id.lParam;
+				s = (SESSION_INFO*)id.lParam;
 				if (s) {
 					if (s->wState & STATE_TALK) {
 						s->wState &= ~STATE_TALK;
@@ -1887,7 +1877,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			scroll.nPos = scroll.nMax - scroll.nPage + 1;
 			SetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &scroll, TRUE);
 
-			CHARRANGE sel;
 			sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG));
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
 			PostMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
@@ -1920,7 +1909,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					TCITEM tci;
 					tci.mask = TCIF_PARAM;
 					TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &tci);
-					SESSION_INFO *s = (SESSION_INFO*)tci.lParam;
+					s = (SESSION_INFO*)tci.lParam;
 					if (s) {
 						s->wState &= ~GC_EVENT_HIGHLIGHT;
 						s->wState &= ~STATE_TALK;
@@ -1962,11 +1951,12 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				TCITEM id = { 0 };
 				id.mask = TCIF_PARAM;
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id);
-				SESSION_INFO *s = (SESSION_INFO*)id.lParam;
 
 				ClientToScreen(GetDlgItem(hwndDlg, IDC_TAB), &tci.pt);
 				HMENU hSubMenu = GetSubMenu(g_hMenu, 5);
 				TranslateMenu(hSubMenu);
+
+				s = (SESSION_INFO*)id.lParam;
 				if (s) {
 					WORD w = db_get_w(s->hContact, s->pszModule, "TabPosition", 0);
 					if (w == 0)
@@ -2018,19 +2008,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 		case EN_MSGFILTER:
 			if (((LPNMHDR)lParam)->idFrom == IDC_LOG && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
-				CHARRANGE sel, all = { 0, -1 };
-				POINT pt;
-				UINT uID = 0;
-				HMENU hMenu = 0;
-				wchar_t pszWord[4096];
-
-				pt.x = (short)LOWORD(((ENLINK *)lParam)->lParam);
-				pt.y = (short)HIWORD(((ENLINK *)lParam)->lParam);
+				POINT pt = { GET_X_LPARAM(((ENLINK *)lParam)->lParam), GET_Y_LPARAM(((ENLINK *)lParam)->lParam) };
 				ClientToScreen(((LPNMHDR)lParam)->hwndFrom, &pt);
 
 				// fixing stuff for searches
-				pszWord[0] = '\0';
-
 				POINTL ptl = { (LONG)pt.x, (LONG)pt.y };
 				ScreenToClient(GetDlgItem(hwndDlg, IDC_LOG), (LPPOINT)&ptl);
 				long iCharIndex = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_CHARFROMPOS, 0, (LPARAM)&ptl);
@@ -2040,22 +2021,21 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				long start = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
 				long end = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
 
+				wchar_t pszWord[4096]; pszWord[0] = '\0';
 				if (end - start > 0) {
 					TEXTRANGE tr;
-					memset(&tr, 0, sizeof(TEXTRANGE));
-
-					CHARRANGE cr;
-					cr.cpMin = start;
-					cr.cpMax = end;
-					tr.chrg = cr;
 					tr.lpstrText = pszWord;
+					tr.chrg.cpMin = start;
+					tr.chrg.cpMax = end;
 					long iRes = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 					if (iRes > 0)
 						for (size_t iLen = mir_wstrlen(pszWord) - 1; wcschr(szTrimString, pszWord[iLen]); iLen--)
 							pszWord[iLen] = 0;
 				}
 
-				uID = CreateGCMenu(hwndDlg, &hMenu, 1, pt, si, NULL, pszWord);
+				CHARRANGE all = { 0, -1 };
+				HMENU hMenu = 0;
+				UINT uID = CreateGCMenu(hwndDlg, &hMenu, 1, pt, si, NULL, pszWord);
 				switch (uID) {
 				case 0:
 					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
@@ -2063,26 +2043,24 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				case ID_COPYALL:
 					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
-					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)& all);
+					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
 					SendMessage(((LPNMHDR)lParam)->hwndFrom, WM_COPY, 0, 0);
 					SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXSETSEL, 0, (LPARAM)&sel);
 					PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 					break;
 
 				case ID_CLEARLOG:
-					{
-						SESSION_INFO *s = pci->SM_FindSession(si->ptszID, si->pszModule);
-						if (s) {
-							SetDlgItemText(hwndDlg, IDC_LOG, L"");
-							pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
-							s->iEventCount = 0;
-							s->LastTime = 0;
-							si->iEventCount = 0;
-							si->LastTime = 0;
-							si->pLog = s->pLog;
-							si->pLogEnd = s->pLogEnd;
-							PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
-						}
+					s = pci->SM_FindSession(si->ptszID, si->pszModule);
+					if (s) {
+						SetDlgItemText(hwndDlg, IDC_LOG, L"");
+						pci->LM_RemoveAll(&s->pLog, &s->pLogEnd);
+						s->iEventCount = 0;
+						s->LastTime = 0;
+						si->iEventCount = 0;
+						si->LastTime = 0;
+						si->pLog = s->pLog;
+						si->pLogEnd = s->pLogEnd;
+						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 					}
 					break;
 
@@ -2111,12 +2089,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 		case EN_LINK:
 			if (((LPNMHDR)lParam)->idFrom == IDC_LOG) {
-				switch (((ENLINK *)lParam)->msg) {
+				switch (((ENLINK*)lParam)->msg) {
 				case WM_RBUTTONDOWN:
 				case WM_LBUTTONUP:
 				case WM_LBUTTONDBLCLK:
 					{
-						CHARRANGE sel;
 						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
 						if (sel.cpMin != sel.cpMax)
 							break;
@@ -2407,7 +2384,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			id.mask = TCIF_PARAM;
 			for (j; j >= 0; j--) {
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), j, &id);
-				SESSION_INFO *s = (SESSION_INFO*)id.lParam;
+				s = (SESSION_INFO*)id.lParam;
 				if (s)
 					TabM_AddTab(s->ptszID, s->pszModule);
 			}

@@ -429,6 +429,13 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 		if (chatApi.OnEventBroadcast)
 			chatApi.OnEventBroadcast(p, gce);
 
+		if (p->hWnd && p->bInitDone) {
+			if (SM_AddEvent(p->ptszID, p->pszModule, gce, FALSE))
+				SendMessage(p->hWnd, GC_ADDLOG, 0, 0);
+			else
+				SendMessage(p->hWnd, GC_REDRAWLOG2, 0, 0);
+		}
+
 		if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
 			DoFlashParam param = { p, gce, FALSE, bManyFix };
 			CallFunctionSync(stubFlash, &param);
@@ -457,8 +464,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 	if (NotifyEventHooks(hHookEvent, 0, LPARAM(gce)))
 		return 1;
 
-	BOOL bIsHighlighted = FALSE;
-	BOOL bRemoveFlag = FALSE;
+	bool bIsHighlighted = false, bRemoveFlag = false;
 
 	// Do different things according to type of event
 	switch (gcd->iType) {
@@ -548,13 +554,22 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 			return 0;
 
 		if (si && (si->bInitDone || gcd->iType == GC_EVENT_TOPIC || (gcd->iType == GC_EVENT_JOIN && gce->bIsMe))) {
-			int isOk = chatApi.SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
+			if (si->hWnd) {
+				int isOk = SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
+				if (isOk)
+					SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
+				else
+					SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
+			}
+
 			if (chatApi.OnAddLog)
-				chatApi.OnAddLog(si, isOk);
+				chatApi.OnAddLog(si);
+
 			if (!(gce->dwFlags & GCEF_NOTNOTIFY)) {
 				DoFlashParam param = { si, gce, bIsHighlighted, 0 };
 				CallFunctionSync(stubFlash, &param);
 			}
+			
 			if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
 				chatApi.LogToFile(si, gce);
 		}

@@ -34,14 +34,6 @@ HMENU  g_hMenu = NULL;
 CHAT_MANAGER *pci;
 TMUCSettings g_Settings;
 
-static void OnAddLog(SESSION_INFO *si, int isOk)
-{
-	if (isOk && si->hWnd)
-		SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
-	else if (si->hWnd)
-		SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
-}
-
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 {
 	si->bFilterEnabled = db_get_b(si->hContact, "Chat", "FilterEnabled", M.GetByte("Chat", "FilterEnabled", 0));
@@ -76,14 +68,6 @@ static void OnReplaceSession(SESSION_INFO *si)
 		Chat_SetFilters(si);
 	if (si->hWnd)
 		RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
-}
-
-static void OnEventBroadcast(SESSION_INFO *si, GCEVENT *gce)
-{
-	if (pci->SM_AddEvent(si->ptszID, si->pszModule, gce, FALSE) && si->hWnd && si->bInitDone)
-		SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
-	else if (si->hWnd && si->bInitDone)
-		SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 }
 
 static void OnSetTopic(SESSION_INFO *si)
@@ -273,15 +257,12 @@ int Chat_Load()
 	pci->OnSetStatus = OnSetStatus;
 	pci->OnSetTopic = OnSetTopic;
 
-	pci->OnAddLog = OnAddLog;
-
 	pci->OnCreateSession = OnCreateSession;
 	pci->OnRemoveSession = OnRemoveSession;
 	pci->OnRenameSession = OnRenameSession;
 	pci->OnReplaceSession = OnReplaceSession;
 	pci->OnDblClickSession = OnDblClickSession;
 
-	pci->OnEventBroadcast = OnEventBroadcast;
 	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnChangeNick = OnChangeNick;
 	pci->ShowRoom = ShowRoom;
