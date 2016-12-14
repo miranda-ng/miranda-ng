@@ -1039,3 +1039,4 @@ CallFunctionSync @1170
 ?SetPosition@CCtrlSpin@@QAEXG@Z @1196 NONAME
 ?GetPosition@CCtrlSpin@@QAEGXZ @1197 NONAME
 ?OnNotify@CCtrlSpin@@EAEHHPAUtagNMHDR@@@Z @1198 NONAME
+?GetCount@CCtrlPages@@QAEHXZ @1199 NONAME

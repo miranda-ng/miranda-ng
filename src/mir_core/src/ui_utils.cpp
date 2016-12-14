@@ -2268,8 +2268,6 @@ void CCtrlPages::OnInit()
 
 LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PSHNOTIFY pshn;
-
 	switch (msg) {
 	case WM_SIZE:
 		RECT rc;
@@ -2289,6 +2287,7 @@ LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case PSM_FORCECHANGED:
+		PSHNOTIFY pshn;
 		pshn.hdr.code = PSN_INFOCHANGED;
 		pshn.hdr.idFrom = 0;
 		pshn.lParam = 0;
@@ -2325,6 +2324,11 @@ void CCtrlPages::ActivatePage(int iPage)
 	ShowPage(m_pActivePage);
 
 	TabCtrl_SetCurSel(m_hwnd, info->m_pageId);
+}
+
+int CCtrlPages::GetCount()
+{
+	return m_pages.getCount();
 }
 
 CCtrlPages::TPageInfo* CCtrlPages::GetCurrPage()

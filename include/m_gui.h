@@ -1198,6 +1198,7 @@ public:
 
 	void AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg);
 	void ActivatePage(int iPage);
+	int  GetCount(void);
 
 protected:
 	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
