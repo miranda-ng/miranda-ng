@@ -226,7 +226,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SIZE:
-		if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_SIZEBOX))
+		if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_THICKFRAME))
 			Utils_ResizeDialog(m_hwnd, m_hInst, MAKEINTRESOURCEA(m_idDialog), GlobalDlgResizer);
 		return TRUE;
 
@@ -2231,24 +2231,8 @@ void CCtrlPages::OnInit()
 	CSuper::OnInit();
 	Subclass();
 
-	for (int i = 0; i < m_pages.getCount(); i++) {
-		TPageInfo *p = m_pages[i];
-		TCITEM tci = { 0 };
-		tci.mask = TCIF_PARAM | TCIF_TEXT;
-		tci.lParam = (LPARAM)p;
-		tci.pszText = TranslateW(p->m_ptszHeader);
-		if (p->m_hIcon) {
-			if (!m_hIml) {
-				m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
-				TabCtrl_SetImageList(m_hwnd, m_hIml);
-			}
-
-			tci.mask |= TCIF_IMAGE;
-			tci.iImage = ImageList_AddIcon(m_hIml, p->m_hIcon);
-		}
-
-		p->m_pageId = TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
-	}
+	for (int i = 0; i < m_pages.getCount(); i++)
+		InsertPage(m_pages[i]);
 
 	::SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, ::GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_CONTROLPARENT);
 
@@ -2309,6 +2293,15 @@ void CCtrlPages::AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
 	info->m_hIcon = hIcon;
 	info->m_ptszHeader = mir_wstrdup(ptszName);
 	m_pages.insert(info);
+
+	if (m_hwnd != NULL) {
+		InsertPage(info);
+
+		if (m_pages.getCount() == 1) {
+			m_pActivePage = info->m_pDlg;
+			ShowPage(m_pActivePage);
+		}
+	}
 }
 
 void CCtrlPages::ActivatePage(int iPage)
@@ -2331,6 +2324,12 @@ int CCtrlPages::GetCount()
 	return m_pages.getCount();
 }
 
+CDlgBase* CCtrlPages::GetNthPage(int iPage)
+{
+	TPageInfo *info = m_pages[iPage];
+	return (info == NULL) ? NULL : info->m_pDlg;
+}
+
 CCtrlPages::TPageInfo* CCtrlPages::GetCurrPage()
 {
 	TCITEM tci = { 0 };
@@ -2339,6 +2338,43 @@ CCtrlPages::TPageInfo* CCtrlPages::GetCurrPage()
 		return NULL;
 
 	return (TPageInfo*)tci.lParam;
+}
+
+int CCtrlPages::GetDlgIndex(CDlgBase *pDlg)
+{
+	int tabCount = TabCtrl_GetItemCount(m_hwnd);
+	for (int i = 0; i < tabCount; i++) {
+		TCITEM tci;
+		tci.mask = TCIF_PARAM | TCIF_IMAGE;
+		TabCtrl_GetItem(m_hwnd, i, &tci);
+		TPageInfo *pPage = (TPageInfo *)tci.lParam;
+		if (pPage == NULL)
+			continue;
+
+		if (pPage->m_pDlg == pDlg)
+			return i;
+	}
+
+	return -1;
+}
+
+void CCtrlPages::InsertPage(TPageInfo *pPage)
+{
+	TCITEM tci = { 0 };
+	tci.mask = TCIF_PARAM | TCIF_TEXT;
+	tci.lParam = (LPARAM)pPage;
+	tci.pszText = TranslateW(pPage->m_ptszHeader);
+	if (pPage->m_hIcon) {
+		if (!m_hIml) {
+			m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
+			TabCtrl_SetImageList(m_hwnd, m_hIml);
+		}
+
+		tci.mask |= TCIF_IMAGE;
+		tci.iImage = ImageList_AddIcon(m_hIml, pPage->m_hIcon);
+	}
+
+	pPage->m_pageId = TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
 }
 
 void CCtrlPages::ShowPage(CDlgBase *pDlg)
@@ -2350,7 +2386,7 @@ void CCtrlPages::ShowPage(CDlgBase *pDlg)
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
 		TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
-		SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, 0, 0, SWP_NOSIZE);
+		SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE);
 
 		EnableThemeDialogTexture(pDlg->GetHwnd(), ETDT_ENABLETAB);
 

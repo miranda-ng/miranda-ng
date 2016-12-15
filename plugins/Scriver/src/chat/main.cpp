@@ -56,12 +56,6 @@ static void OnRemoveSession(SESSION_INFO *si)
 		SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
 }
 
-static void OnRenameSession(SESSION_INFO *si)
-{
-	if (si->hWnd)
-		SendMessage(si->hWnd, DM_UPDATETITLEBAR, 0, 0);
-}
-
 static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
@@ -149,7 +143,6 @@ int Chat_Load()
 	pci->OnSetStatus = OnSetStatus;
 
 	pci->OnRemoveSession = OnRemoveSession;
-	pci->OnRenameSession = OnRenameSession;
 	pci->OnReplaceSession = OnReplaceSession;
 	pci->OnDblClickSession = OnDblClickSession;
 

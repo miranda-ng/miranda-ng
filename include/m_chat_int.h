@@ -49,7 +49,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_FILTERFIX           (WM_USER+111)
 #define GC_CHANGEFILTERFLAG    (WM_USER+112)
 #define GC_SHOWFILTERMENU      (WM_USER+113)
-#define GC_SETWINDOWPOS        (WM_USER+114)
 #define GC_SAVEWNDPOS          (WM_USER+115)
 #define GC_CONTROL_MSG         (WM_USER+116)
 #define GC_REDRAWWINDOW        (WM_USER+118)
@@ -57,13 +56,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_ADDLOG              (WM_USER+120)
 #define GC_UPDATENICKLIST      (WM_USER+125)
 #define GC_TABCHANGE           (WM_USER+127)
-#define GC_ADDTAB              (WM_USER+128)
 #define GC_SCROLLTOBOTTOM      (WM_USER+129)
-#define GC_REMOVETAB           (WM_USER+130)
-#define GC_SESSIONNAMECHANGE   (WM_USER+131)
 #define GC_FIXTABICONS         (WM_USER+132)
-#define GC_DROPPEDTAB          (WM_USER+133)
-#define GC_TABCLICKED          (WM_USER+134)
 #define GC_SWITCHNEXTTAB       (WM_USER+135)
 #define GC_SWITCHPREVTAB       (WM_USER+136)
 #define GC_SWITCHTAB           (WM_USER+137)
@@ -395,12 +389,9 @@ struct CHAT_MANAGER
 	void (*OnDblClickSession)(SESSION_INFO*);
 	void (*OnOfflineSession)(SESSION_INFO*);
 	void (*OnRemoveSession)(SESSION_INFO*);
-	void (*OnRenameSession)(SESSION_INFO*);
 	void (*OnReplaceSession)(SESSION_INFO*);
 
 	void (*ShowRoom)(SESSION_INFO*, WPARAM wp, BOOL bSetForeground);
-	void (*OnAddLog)(SESSION_INFO*);
-	void (*OnClearLog)(SESSION_INFO*);
 	void (*OnGetLogName)(SESSION_INFO*, const wchar_t*);
 	void (*OnEventBroadcast)(SESSION_INFO *si, GCEVENT *gce);
 	

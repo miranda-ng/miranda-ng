@@ -47,6 +47,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_button.h>
 #include <m_clist.h>
 #include <m_clc.h>
+#include <m_gui.h>
 #include <m_options.h>
 #include <m_protosvc.h>
 #include <m_utils.h>
@@ -83,13 +84,6 @@ extern CREOleCallback reOleCallback;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct TABLIST
-{
-	wchar_t *pszID;
-	char *pszModule;
-	TABLIST *next;
-};
-
 struct MODULEINFO : public GCModuleInfoBase
 {
 	int OnlineIconIndex;
@@ -99,6 +93,7 @@ struct MODULEINFO : public GCModuleInfoBase
 struct SESSION_INFO : public GCSessionInfoBase
 {
 	int iX, iY;
+	class CChatRoomDlg *pDlg;
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase {};
@@ -106,49 +101,47 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {
 	int   iX, iY;
-	bool  bTabsEnable, TabsAtBottom, TabCloseOnDblClick, TabRestore;
+	bool  bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick, bTabRestore;
 
 	HFONT MessageAreaFont;
 	COLORREF MessageAreaColor;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern GlobalLogSettings g_Settings;
-extern SESSION_INFO g_TabSession;
 extern CHAT_MANAGER saveCI;
-extern TABLIST *g_TabList;
 extern HMENU g_hMenu;
 extern HIMAGELIST hIconsList;
 
 extern HINSTANCE g_hInst;
 extern BOOL SmileyAddInstalled, PopupInstalled;
 
-//main.c
+// main.cpp
 void LoadIcons(void);
-void Unload_ChatModule();
-void Load_ChatModule();
+void Unload_ChatModule(void);
+void Load_ChatModule(void);
 
-// log.c
-void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw);
-void ValidateFilename(wchar_t * filename);
-char* Log_CreateRtfHeader(MODULEINFO * mi);
+// log.cpp
+void  Log_StreamInEvent(HWND hwndDlg, LOGINFO *lin, SESSION_INFO *si, BOOL bRedraw);
+void  ValidateFilename(wchar_t *filename);
+char* Log_CreateRtfHeader(MODULEINFO *mi);
 
-// window.c
-INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+// window.cpp
 int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth);
 
-BOOL SM_SetTabbedWindowHwnd(SESSION_INFO *si, HWND hwnd);
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si);
 SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si);
 
-// options.c
+// options.cpp
 void AddIcons(void);
 HICON LoadIconEx(const char *pszIcoLibName, bool big);
 HANDLE GetIconHandle(const char *pszIcolibName);
 
-// services.c
+// services.cpp
 void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
 
-// tools.c
+// tools.cpp
 int  GetColorIndex(const char* pszModule, COLORREF cr);
 void CheckColorsInModule(const char* pszModule);
 int  GetRichTextLength(HWND hwnd);
@@ -156,12 +149,65 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 void DestroyGCMenu(HMENU *hMenu, int iIndex);
 bool LoadMessageFont(LOGFONT *lf, COLORREF *colour);
 void SetButtonsPos(HWND hwndDlg, bool bIsChat);
+int  RestoreWindowPosition(HWND hwnd, MCONTACT hContact, char *szModule, char *szNamePrefix, UINT showCmd);
 
-// message.c
+
+// message.cpp
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
+void  NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type);
 
-void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type);
-BOOL TabM_AddTab(const wchar_t *pszID, const char* pszModule);
-BOOL TabM_RemoveAll(void);
+// tabs.cpp
+void InitTabs(void);
+void UninitTabs(void);
+
+void TB_SaveSession(SESSION_INFO *si);
 
 #pragma comment(lib,"comctl32.lib")
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define GC_ADDTAB		  (WM_USER+200)
+#define GC_REMOVETAB   (WM_USER+201)
+#define GC_DROPPEDTAB  (WM_USER+202)
+#define GC_RENAMETAB   (WM_USER+203)
+
+class CChatRoomDlg : public CDlgBase
+{
+	friend class CTabbedWindow;
+
+	SESSION_INFO *m_si;
+
+	CCtrlEdit m_message, m_log;
+	CCtrlListBox m_nickList;
+	CCtrlButton m_btnOk, m_btnCancel;
+	CCtrlButton m_btnFilter, m_btnChannelMgr, m_btnNickList, m_btnHistory;
+	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;
+
+	HWND getCaptionWindow() const
+	{	return (g_Settings.bTabsEnable) ? GetParent(m_hwndParent) : m_hwnd;
+	}
+
+	void SetWindowPosition();
+
+public:
+	CChatRoomDlg(SESSION_INFO*);
+
+	virtual void OnInitDialog() override;
+	virtual void OnDestroy() override;
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void OnClick_Bold(CCtrlButton*);
+	void OnClick_Color(CCtrlButton*);
+	void OnClick_BkColor(CCtrlButton*);
+
+	void OnClick_Ok(CCtrlButton*);
+	void OnClick_Cancel(CCtrlButton*);
+
+	void OnClick_Filter(CCtrlButton*);
+	void OnClick_History(CCtrlButton*);
+	void OnClick_Options(CCtrlButton*);
+	void OnClick_NickList(CCtrlButton*);
+
+	void OnListDblclick(CCtrlListBox*);
+};

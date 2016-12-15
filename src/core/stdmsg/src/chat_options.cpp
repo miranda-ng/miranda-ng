@@ -31,8 +31,8 @@ struct branch_t
 
 static const struct branch_t branch0[] = {
 	{ LPGENW("Use a tabbed interface"), "Tabs", 0, 1 },
-	{ LPGENW("Close tab on double click"), "TabCloseOnDblClick", 0, 0 },
-	{ LPGENW("Restore previously open tabs when showing the window"), "TabRestore", 0, 0 },
+	{ LPGENW("Close tab on double click"), "bTabCloseOnDblClick", 0, 0 },
+	{ LPGENW("Restore previously open tabs when showing the window"), "bTabRestore", 0, 0 },
 	{ LPGENW("Show tabs at the bottom"), "TabBottom", 0, 0 },
 };
 

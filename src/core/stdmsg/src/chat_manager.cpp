@@ -22,19 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-TABLIST *g_TabList = 0;
-
-BOOL SM_SetTabbedWindowHwnd(SESSION_INFO *si, HWND hwnd)
-{
-	for (SESSION_INFO *p = pci->wndList; p != NULL; p = p->next) {
-		if (si && si == p)
-			p->hWnd = hwnd;
-		else
-			p->hWnd = NULL;
-	}
-	return TRUE;
-}
-
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si)
 {
 	if (!si)
@@ -82,53 +69,10 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 	return NULL;
 }
 
-//---------------------------------------------------
-//		Tab list manager functions
-//
-//		Necessary to keep track of what tabs should
-//		be restored
-//---------------------------------------------------
-
-BOOL TabM_AddTab(const wchar_t *pszID, const char* pszModule)
-{
-	TABLIST *node = NULL;
-	if (!pszID || !pszModule)
-		return FALSE;
-
-	node = (TABLIST*)mir_alloc(sizeof(TABLIST));
-	memset(node, 0, sizeof(TABLIST));
-	node->pszID = mir_wstrdup(pszID);
-	node->pszModule = mir_strdup(pszModule);
-
-	if (g_TabList == NULL) { // list is empty
-		g_TabList = node;
-		node->next = NULL;
-	}
-	else {
-		node->next = g_TabList;
-		g_TabList = node;
-	}
-	return TRUE;
-}
-
-BOOL TabM_RemoveAll(void)
-{
-	while (g_TabList != NULL) {
-		TABLIST *pLast = g_TabList->next;
-		mir_free(g_TabList->pszModule);
-		mir_free(g_TabList->pszID);
-		mir_free(g_TabList);
-		g_TabList = pLast;
-	}
-	g_TabList = NULL;
-	return TRUE;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CHAT_MANAGER *pci, saveCI;
 
-SESSION_INFO g_TabSession;
 HMENU g_hMenu = NULL;
 
 BOOL SmileyAddInstalled = FALSE, PopupInstalled = FALSE;
@@ -149,22 +93,6 @@ static void OnCreateModule(MODULEINFO *mi)
 	ImageList_AddIcon(hIconsList, mi->hOfflineTalkIcon);
 }
 
-static void OnAddLog(SESSION_INFO *si)
-{
-	if (si->hWnd) {
-		g_TabSession.pLog = si->pLog;
-		g_TabSession.pLogEnd = si->pLogEnd;
-	}
-}
-
-static void OnClearLog(SESSION_INFO *si)
-{
-	if (si->hWnd) {
-		g_TabSession.pLog = si->pLog;
-		g_TabSession.pLogEnd = si->pLogEnd;
-	}
-}
-
 static void OnDblClickSession(SESSION_INFO *si)
 {
 	if (g_Settings.bTabsEnable)
@@ -175,105 +103,26 @@ static void OnDblClickSession(SESSION_INFO *si)
 
 static void OnRemoveSession(SESSION_INFO *si)
 {
-	if (!g_Settings.bTabsEnable) {
-		if (si->hWnd)
-			SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
-	}
-	else if (g_TabSession.hWnd)
-		SendMessage(g_TabSession.hWnd, GC_REMOVETAB, 1, (LPARAM)si);
-
 	if (si->hWnd)
-		g_TabSession.nUsersInNicklist = 0;
-}
-
-static void OnRenameSession(SESSION_INFO *si)
-{
-	if (g_TabSession.hWnd && g_Settings.bTabsEnable) {
-		g_TabSession.ptszName = si->ptszName;
-		SendMessage(g_TabSession.hWnd, GC_SESSIONNAMECHANGE, 0, (LPARAM)si);
-	}
+		SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
 }
 
 static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
-		g_TabSession.nUsersInNicklist = 0;
-
-	if (!g_Settings.bTabsEnable) {
-		if (si->hWnd)
-			RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
-	}
-	else if (g_TabSession.hWnd)
-		RedrawWindow(GetDlgItem(g_TabSession.hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
-}
-
-static void OnOfflineSession(SESSION_INFO *si)
-{
-	if (si->hWnd) {
-		g_TabSession.nUsersInNicklist = 0;
-		if (g_Settings.bTabsEnable)
-			g_TabSession.pUsers = 0;
-	}
-}
-
-static void OnEventBroadcast(SESSION_INFO *si, GCEVENT *gce)
-{
-	if (si->hWnd && si->bInitDone) {
-		g_TabSession.pLog = si->pLog;
-		g_TabSession.pLogEnd = si->pLogEnd;
-	}
+		RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 }
 
 static void OnSetStatusBar(SESSION_INFO *si)
 {
-	if (si->hWnd) {
-		g_TabSession.ptszStatusbarText = si->ptszStatusbarText;
-		SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
-	}
-}
-
-static void OnAddUser(SESSION_INFO *si, USERINFO*)
-{
 	if (si->hWnd)
-		g_TabSession.nUsersInNicklist++;
+		SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
 {
-	if (si->hWnd) {
-		g_TabSession.pUsers = si->pUsers;
-		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
-	}
-}
-
-static void OnRemoveUser(SESSION_INFO *si, USERINFO*)
-{
-	if (si->hWnd) {
-		g_TabSession.pUsers = si->pUsers;
-		g_TabSession.nUsersInNicklist--;
-	}
-}
-
-static void OnAddStatus(SESSION_INFO *si, STATUSINFO*)
-{
-	if (g_Settings.bTabsEnable && si->hWnd)
-		g_TabSession.pStatuses = si->pStatuses;
-}
-
-static void OnSetStatus(SESSION_INFO *si, int wStatus)
-{
-	if (g_Settings.bTabsEnable) {
-		if (si->hWnd)
-			g_TabSession.wStatus = wStatus;
-		if (g_TabSession.hWnd)
-			PostMessage(g_TabSession.hWnd, GC_FIXTABICONS, 0, (LPARAM)si);
-	}
-}
-
-static void OnSetTopic(SESSION_INFO *si)
-{
 	if (si->hWnd)
-		g_TabSession.ptszTopic = si->ptszTopic;
+		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
 }
 
 static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
@@ -283,8 +132,8 @@ static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 
 	if (!g_Settings.bTabsEnable && si->hWnd && g_Settings.bFlashWindowHighlight)
 		SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
-	if (g_Settings.bTabsEnable && g_TabSession.hWnd)
-		SendMessage(g_TabSession.hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
+	if (g_Settings.bTabsEnable && si->pDlg)
+		SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si->pDlg);
 }
 
 static void OnFlashWindow(SESSION_INFO *si, int bInactive)
@@ -294,8 +143,8 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 
 	if (!g_Settings.bTabsEnable && si->hWnd && g_Settings.bFlashWindow)
 		SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
-	if (g_Settings.bTabsEnable && g_TabSession.hWnd)
-		SendMessage(g_TabSession.hWnd, GC_SETTABHIGHLIGHT, 0, (LPARAM)si);
+	if (g_Settings.bTabsEnable && si->pDlg)
+		SendMessage(si->hWnd, GC_SETTABHIGHLIGHT, 0, (LPARAM)si->pDlg);
 }
 
 static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
@@ -325,9 +174,9 @@ static void OnLoadSettings()
 	g_Settings.iY = db_get_dw(NULL, CHAT_MODULE, "roomy", -1);
 
 	g_Settings.bTabsEnable = db_get_b(NULL, CHAT_MODULE, "Tabs", 1) != 0;
-	g_Settings.TabRestore = db_get_b(NULL, CHAT_MODULE, "TabRestore", 0) != 0;
-	g_Settings.TabsAtBottom = db_get_b(NULL, CHAT_MODULE, "TabBottom", 0) != 0;
-	g_Settings.TabCloseOnDblClick = db_get_b(NULL, CHAT_MODULE, "TabCloseOnDblClick", 0) != 0;
+	g_Settings.bTabRestore = db_get_b(NULL, CHAT_MODULE, "bTabRestore", 0) != 0;
+	g_Settings.bTabsAtBottom = db_get_b(NULL, CHAT_MODULE, "TabBottom", 0) != 0;
+	g_Settings.bTabCloseOnDblClick = db_get_b(NULL, CHAT_MODULE, "bTabCloseOnDblClick", 0) != 0;
 }
 
 static void RegisterFonts()
@@ -369,21 +218,6 @@ int OnCheckPlugins(WPARAM, LPARAM)
 	return 0;
 }
 
-static void TabsInit()
-{
-	memset(&g_TabSession, 0, sizeof(SESSION_INFO));
-	g_TabSession.iType = GCW_TABROOM;
-	g_TabSession.iSplitterX = g_Settings.iSplitterX;
-	g_TabSession.iSplitterY = g_Settings.iSplitterY;
-	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, CHAT_MODULE, "FilterFlags", 0x03E0);
-	g_TabSession.bFilterEnabled = db_get_b(NULL, CHAT_MODULE, "FilterEnabled", 0);
-	g_TabSession.bNicklistEnabled = db_get_b(NULL, CHAT_MODULE, "ShowNicklist", 1);
-	g_TabSession.iFG = 4;
-	g_TabSession.bFGSet = TRUE;
-	g_TabSession.iBG = 2;
-	g_TabSession.bBGSet = TRUE;
-}
-
 void Load_ChatModule()
 {
 	AddIcons();
@@ -393,25 +227,13 @@ void Load_ChatModule()
 	pci = Chat_GetInterface(&data);
 	saveCI = *pci;
 
-	pci->OnAddUser = OnAddUser;
 	pci->OnNewUser = OnNewUser;
-	pci->OnRemoveUser = OnRemoveUser;
-
-	pci->OnAddStatus = OnAddStatus;
-	pci->OnSetStatus = OnSetStatus;
-	pci->OnSetTopic = OnSetTopic;
-
-	pci->OnAddLog = OnAddLog;
-	pci->OnClearLog = OnClearLog;
 
 	pci->OnCreateModule = OnCreateModule;
-	pci->OnOfflineSession = OnOfflineSession;
 	pci->OnRemoveSession = OnRemoveSession;
-	pci->OnRenameSession = OnRenameSession;
 	pci->OnReplaceSession = OnReplaceSession;
 	pci->OnDblClickSession = OnDblClickSession;
 
-	pci->OnEventBroadcast = OnEventBroadcast;
 	pci->OnLoadSettings = OnLoadSettings;
 	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnFlashWindow = OnFlashWindow;
@@ -429,9 +251,8 @@ void Load_ChatModule()
 	ImageList_AddIcon(hIconsList, LoadIconEx("overlay", FALSE));
 	ImageList_SetOverlayImage(hIconsList, 1, 1);
 
-	TabsInit();
-
 	HookEvent(ME_SYSTEM_MODULELOAD, OnCheckPlugins);
+	InitTabs();
 }
 
 void Unload_ChatModule()

@@ -406,7 +406,7 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 	HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
 
 	SendMessage(hwndLog, WM_SETREDRAW, FALSE, 0);
-	SendMessage(hwndLog, EM_EXGETSEL, 0, (LPARAM)& oldSel);
+	SendMessage(hwndLog, EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = { 0 };
 	streamData.hContact = dat->hContact;
@@ -433,13 +433,13 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 	}
 	if (fAppend) {
 		sel.cpMin = sel.cpMax = -1;
-		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)& sel);
+		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 
 	mir_strcpy(szSep2, fAppend ? "\\par\\sl0" : "\\sl1000");
 	mir_strcpy(szSep2_RTL, fAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
 
-	SendMessage(hwndLog, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)& stream);
+	SendMessage(hwndLog, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
 	if (bottomScroll) {
 		sel.cpMin = sel.cpMax = -1;
 		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)&sel);

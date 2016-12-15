@@ -1199,6 +1199,13 @@ public:
 	void AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg);
 	void ActivatePage(int iPage);
 	int  GetCount(void);
+	int  GetDlgIndex(CDlgBase*);
+
+	CDlgBase* GetNthPage(int iPage);
+	
+	__forceinline CDlgBase* GetActivePage() const
+	{	return m_pActivePage;
+	}
 
 protected:
 	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
@@ -1224,6 +1231,7 @@ private:
 		CDlgBase *m_pDlg;
 	};
 
+	void InsertPage(TPageInfo *pPage);
 	void ShowPage(CDlgBase *pDlg);
 
 	TPageInfo* GetCurrPage();

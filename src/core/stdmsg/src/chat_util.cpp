@@ -112,7 +112,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	// stream in the event(s)
 	streamData.lin = lin;
 	streamData.bRedraw = bRedraw;
-	SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)& stream);
+	SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)&stream);
 
 	// do smileys
 	if (SmileyAddInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
@@ -140,7 +140,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 
 	// do we need to restore the selection
 	if (oldsel.cpMax != oldsel.cpMin) {
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& oldsel);
+		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&oldsel);
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(hwndRich, NULL, TRUE);
 	}
@@ -199,91 +199,6 @@ char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
-{
-	if (!si)
-		return;
-
-	if (g_Settings.bTabsEnable) {
-		// the session is not the current tab, so we copy the necessary
-		// details into the SESSION_INFO for the tabbed window
-		if (!si->hWnd) {
-			g_TabSession.iEventCount = si->iEventCount;
-			g_TabSession.iStatusCount = si->iStatusCount;
-			g_TabSession.iType = si->iType;
-			g_TabSession.nUsersInNicklist = si->nUsersInNicklist;
-			g_TabSession.pLog = si->pLog;
-			g_TabSession.pLogEnd = si->pLogEnd;
-			g_TabSession.pMe = si->pMe;
-			g_TabSession.pStatuses = si->pStatuses;
-			g_TabSession.ptszID = si->ptszID;
-			g_TabSession.pszModule = si->pszModule;
-			g_TabSession.ptszName = si->ptszName;
-			g_TabSession.ptszStatusbarText = si->ptszStatusbarText;
-			g_TabSession.ptszTopic = si->ptszTopic;
-			g_TabSession.pUsers = si->pUsers;
-			g_TabSession.hContact = si->hContact;
-			g_TabSession.wStatus = si->wStatus;
-			g_TabSession.lpCommands = si->lpCommands;
-			g_TabSession.lpCurrentCommand = NULL;
-		}
-
-		// Do we need to create a tabbed window?
-		if (g_TabSession.hWnd == NULL)
-			g_TabSession.hWnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHANNEL), NULL, RoomWndProc, (LPARAM)&g_TabSession);
-
-		SetWindowLongPtr(g_TabSession.hWnd, GWL_EXSTYLE, GetWindowLongPtr(g_TabSession.hWnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
-
-		// if the session was not the current tab we need to tell the window to
-		// redraw to show the contents of the current SESSION_INFO
-		if (!si->hWnd) {
-			SM_SetTabbedWindowHwnd(si, g_TabSession.hWnd);
-			SendMessage(g_TabSession.hWnd, GC_ADDTAB, -1, (LPARAM)si);
-			SendMessage(g_TabSession.hWnd, GC_TABCHANGE, 0, (LPARAM)&g_TabSession);
-		}
-
-		pci->SetActiveSession(si->ptszID, si->pszModule);
-
-		if (!IsWindowVisible(g_TabSession.hWnd) || wp == WINDOW_HIDDEN)
-			SendMessage(g_TabSession.hWnd, GC_CONTROL_MSG, wp, 0);
-		else {
-			if (IsIconic(g_TabSession.hWnd))
-				ShowWindow(g_TabSession.hWnd, SW_NORMAL);
-
-			PostMessage(g_TabSession.hWnd, WM_SIZE, 0, 0);
-			if (si->iType != GCW_SERVER)
-				SendMessage(g_TabSession.hWnd, GC_UPDATENICKLIST, 0, 0);
-			else
-				SendMessage(g_TabSession.hWnd, GC_UPDATETITLE, 0, 0);
-			SendMessage(g_TabSession.hWnd, GC_REDRAWLOG, 0, 0);
-			SendMessage(g_TabSession.hWnd, GC_UPDATESTATUSBAR, 0, 0);
-			ShowWindow(g_TabSession.hWnd, SW_SHOW);
-			if (bSetForeground)
-				SetForegroundWindow(g_TabSession.hWnd);
-		}
-		SendMessage(g_TabSession.hWnd, WM_MOUSEACTIVATE, 0, 0);
-		SetFocus(GetDlgItem(g_TabSession.hWnd, IDC_MESSAGE));
-		return;
-	}
-
-	// Do we need to create a window?
-	if (si->hWnd == NULL)
-		si->hWnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHANNEL), NULL, RoomWndProc, (LPARAM)si);
-
-	SetWindowLongPtr(si->hWnd, GWL_EXSTYLE, GetWindowLongPtr(si->hWnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
-	if (!IsWindowVisible(si->hWnd) || wp == WINDOW_HIDDEN)
-		SendMessage(si->hWnd, GC_CONTROL_MSG, wp, 0);
-	else {
-		if (IsIconic(si->hWnd))
-			ShowWindow(si->hWnd, SW_NORMAL);
-		ShowWindow(si->hWnd, SW_SHOW);
-		SetForegroundWindow(si->hWnd);
-	}
-
-	SendMessage(si->hWnd, WM_MOUSEACTIVATE, 0, 0);
-	SetFocus(GetDlgItem(si->hWnd, IDC_MESSAGE));
-}
 
 bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 {
@@ -471,4 +386,32 @@ void ValidateFilename(wchar_t *filename)
 			*p1 = '_';
 		p1 += 1;
 	}
+}
+
+int RestoreWindowPosition(HWND hwnd, MCONTACT hContact, char *szModule, char *szNamePrefix, UINT showCmd)
+{
+	char szSettingName[64];
+	mir_snprintf(szSettingName, "%sx", szNamePrefix);
+	int x = db_get_dw(hContact, szModule, szSettingName, -1);
+	if (x == -1)
+		return 0;
+
+	mir_snprintf(szSettingName, "%sy", szNamePrefix);
+	int y = (int)db_get_dw(hContact, szModule, szSettingName, -1);
+	mir_snprintf(szSettingName, "%swidth", szNamePrefix);
+	int width = db_get_dw(hContact, szModule, szSettingName, -1);
+	mir_snprintf(szSettingName, "%sheight", szNamePrefix);
+	int height = db_get_dw(hContact, szModule, szSettingName, -1);
+
+	WINDOWPLACEMENT wp;
+	wp.length = sizeof(wp);
+	GetWindowPlacement(hwnd, &wp);
+
+	wp.rcNormalPosition.left = x;
+	wp.rcNormalPosition.top = y;
+	wp.rcNormalPosition.right = wp.rcNormalPosition.left + width;
+	wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + height;
+	wp.showCmd = showCmd;
+	SetWindowPlacement(hwnd, &wp);
+	return 1;
 }

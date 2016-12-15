@@ -67,7 +67,6 @@ void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, const RECT
 	sicd.dwId = sid->dwId;
 	sicd.szModule = sid->szModule;
 	sicd.flags = click_flags;
-
 	NotifyEventHooks(hHookIconPressedEvt, hContact, (LPARAM)&sicd);
 }
 

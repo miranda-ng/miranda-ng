@@ -56,12 +56,6 @@ static void OnRemoveSession(SESSION_INFO *si)
 		SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
 }
 
-static void OnRenameSession(SESSION_INFO *si)
-{
-	if (si->hWnd)
-		SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
-}
-
 static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hContact)
@@ -98,11 +92,6 @@ static void OnChangeNick(SESSION_INFO *si)
 			GetMyNick(si->dat);
 		SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
 	}
-}
-
-static void OnSetStatus(SESSION_INFO *si, int)
-{
-	PostMessage(si->hWnd, GC_FIXTABICONS, 0, 0);
 }
 
 static void OnCreateModule(MODULEINFO *mi)
@@ -254,12 +243,10 @@ int Chat_Load()
 	pci->OnCreateModule = OnCreateModule;
 	pci->OnNewUser = OnNewUser;
 
-	pci->OnSetStatus = OnSetStatus;
 	pci->OnSetTopic = OnSetTopic;
 
 	pci->OnCreateSession = OnCreateSession;
 	pci->OnRemoveSession = OnRemoveSession;
-	pci->OnRenameSession = OnRenameSession;
 	pci->OnReplaceSession = OnReplaceSession;
 	pci->OnDblClickSession = OnDblClickSession;
 

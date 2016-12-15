@@ -1040,3 +1040,7 @@ CallFunctionSync @1170
 ?GetPosition@CCtrlSpin@@QEAAGXZ @1197 NONAME
 ?OnNotify@CCtrlSpin@@EEAAHHPEAUtagNMHDR@@@Z @1198 NONAME
 ?GetCount@CCtrlPages@@QEAAHXZ @1199 NONAME
+?GetActivePage@CCtrlPages@@QEBAPEAVCDlgBase@@XZ @1200 NONAME
+?InsertPage@CCtrlPages@@AEAAXPEAUTPageInfo@1@@Z @1201 NONAME
+?GetDlgIndex@CCtrlPages@@QEAAHPEAVCDlgBase@@@Z @1202 NONAME
+?GetNthPage@CCtrlPages@@QEAAPEAVCDlgBase@@H@Z @1203 NONAME

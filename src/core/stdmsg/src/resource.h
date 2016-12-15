@@ -8,6 +8,8 @@
 #define IDD_OPTIONS1                    104
 #define IDD_FILTER                      105
 #define IDD_OPTIONSPOPUP                106
+#define IDD_CONTAINER                   107
+#define IDD_CHANNEL_TAB						 108
 #define IDI_BUNDERLINE                  120
 #define IDI_BBOLD                       121
 #define IDI_BITALICS                    122
@@ -79,7 +81,6 @@
 #define IDC_BKGCOLOR                    1019
 #define IDC_NICKLISTBKG                 1021
 #define IDC_HISTORY                     1022
-#define IDC_CLOSE                       1023
 #define IDC_NICKROW                     1024
 #define IDC_LOGLIMIT                    1024
 #define IDC_NICKROW2                    1025

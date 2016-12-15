@@ -330,8 +330,6 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 	case WINDOW_CLEARLOG:
 		if (SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule)) {
 			chatApi.LM_RemoveAll(&si->pLog, &si->pLogEnd);
-			if (chatApi.OnClearLog)
-				chatApi.OnClearLog(si);
 			si->iEventCount = 0;
 			si->LastTime = 0;
 		}
@@ -556,9 +554,6 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 		if (si && (si->bInitDone || gcd->iType == GC_EVENT_TOPIC || (gcd->iType == GC_EVENT_JOIN && gce->bIsMe))) {
 			int isOk = SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
 
-			if (chatApi.OnAddLog)
-				chatApi.OnAddLog(si);
-
 			if (si->hWnd) {
 				if (isOk)
 					SendMessage(si->hWnd, GC_ADDLOG, 0, 0);
@@ -620,8 +615,6 @@ MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wsz
 		replaceStrW(si->ptszName, wszNewName);
 		if (si->hWnd)
 			SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
-		if (chatApi.OnRenameSession)
-			chatApi.OnRenameSession(si);
 	}
 	return 0;
 }

@@ -258,7 +258,7 @@ static void RestoreUnreadMessageAlerts(void)
 					NewMessageWindowLParam newData = { 0 };
 					newData.hContact = hContact;
 					newData.noActivate = g_dat.bDoNotStealFocus;
-					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)& newData);
+					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
 				}
 				else arEvents.insert(new MSavedEvent(hContact, hDbEvent));
 			}

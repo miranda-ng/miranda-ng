@@ -47,7 +47,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
 		SendMessage(si->hWnd, WM_CLOSE, 0, 0);
 
-	TabM_RemoveAll();
+	UninitTabs();
 	ImageList_Destroy(hIconsList);
 	return 0;
 }
