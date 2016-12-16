@@ -400,30 +400,20 @@ void SetButtonsPos(HWND hwndDlg, bool bIsChat)
 	GetClientRect(hwndDlg, &rc);
 	int iLeftX = 2, iRightX = rc.right - 2;
 
-	for (int i = 0;; i++) {
-		CustomButtonData *cbd = Srmm_GetNthButton(i);
-		if (cbd == NULL || cbd->m_bRSided)
-			break;
-
+	CustomButtonData *cbd;
+	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 		if (hwndButton == NULL || cbd->m_bHidden)
 			continue;
 
-		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-		iLeftX += g_dat.iGap + cbd->m_iButtonWidth;
-	}
-
-	for (int i = Srmm_GetButtonCount() - 1; i >= 0; i--) {
-		CustomButtonData *cbd = Srmm_GetNthButton(i);
-		if (!cbd->m_bRSided)
-			break;
-
-		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-		if (hwndButton == NULL || cbd->m_bHidden)
-			continue;
-
-		iRightX -= g_dat.iGap + cbd->m_iButtonWidth;
-		hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		if (cbd->m_bRSided) {
+			iRightX -= g_dat.iGap + cbd->m_iButtonWidth;
+			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iRightX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		}
+		else {
+			hdwp = DeferWindowPos(hdwp, hwndButton, NULL, iLeftX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			iLeftX += g_dat.iGap + cbd->m_iButtonWidth;
+		}
 	}
 
 	EndDeferWindowPos(hdwp);

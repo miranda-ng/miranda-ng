@@ -906,6 +906,8 @@ void CChatRoomDlg::OnInitDialog()
 	m_btnColor.OnInit(); m_btnBkColor.OnInit();
 	m_btnFilter.OnInit(); m_btnHistory.OnInit(); m_btnChannelMgr.OnInit();
 
+	WindowList_Add(pci->hWindowList, m_hwnd, m_si->hContact);
+
 	NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_OPENING);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERX), SplitterSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERY), SplitterSubclassProc);
@@ -945,6 +947,8 @@ void CChatRoomDlg::OnDestroy()
 {
 	NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
 	SaveWindowPosition(true);
+
+	WindowList_Remove(pci->hWindowList, m_hwnd);
 
 	m_si->pDlg = NULL;
 	m_si->hWnd = NULL;
@@ -1258,6 +1262,14 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 
 		SetWindowText(getCaptionWindow(), szTemp);
+		break;
+
+	case WM_CBD_LOADICONS:
+		Srmm_UpdateToolbarIcons(m_hwnd);
+		break;
+
+	case WM_CBD_UPDATED:
+		SetButtonsPos(m_hwnd, true);
 		break;
 
 	case GC_UPDATESTATUSBAR:

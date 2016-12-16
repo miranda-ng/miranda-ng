@@ -1034,6 +1034,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		}
 		return 0;
 
+	case WM_CBD_LOADICONS:
+		Srmm_UpdateToolbarIcons(hwndDlg);
+		break;
+
+	case WM_CBD_UPDATED:
+		SetButtonsPos(hwndDlg, false);
+		break;
+
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg)) {
 			BOOL bottomScroll = TRUE;
