@@ -1,26 +1,7 @@
 #include "stdafx.h"
 
-int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
+int CDropbox::OnToolbarLoaded(WPARAM, LPARAM)
 {
-	HookEventObj(ME_DB_CONTACT_DELETED, GlobalEvent<&CDropbox::OnContactDeleted>, this);
-	HookEventObj(ME_OPT_INITIALISE, GlobalEvent<&CDropbox::OnOptionsInitialized>, this);
-	HookEventObj(ME_CLIST_PREBUILDCONTACTMENU, GlobalEvent<&CDropbox::OnPrebuildContactMenu>, this);
-
-	HookEventObj(ME_MSG_WINDOWEVENT, GlobalEvent<&CDropbox::OnSrmmWindowOpened>, this);
-	HookEventObj(ME_FILEDLG_CANCELED, GlobalEvent<&CDropbox::OnFileDialogCancelled>, this);
-
-	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szSettingsModule = MODULE;
-	nlu.ptszDescriptiveName = L"Dropbox";
-
-	hNetlibConnection = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-
-	GetDefaultContact();
-
-	WORD status = ProtoGetStatus(0, 0);
-	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, status);
-
 	BBButton bbd = {};
 	bbd.pszModuleName = MODULE;
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
@@ -29,6 +10,29 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 	bbd.dwButtonID = BBB_ID_FILE_SEND;
 	bbd.dwDefPos = 100 + bbd.dwButtonID;
 	Srmm_AddButton(&bbd);
+	return 0;
+}
+
+int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
+{
+	HookEventObj(ME_DB_CONTACT_DELETED, GlobalEvent<&CDropbox::OnContactDeleted>, this);
+	HookEventObj(ME_OPT_INITIALISE, GlobalEvent<&CDropbox::OnOptionsInitialized>, this);
+	HookEventObj(ME_CLIST_PREBUILDCONTACTMENU, GlobalEvent<&CDropbox::OnPrebuildContactMenu>, this);
+	HookEventObj(ME_MSG_TOOLBARLOADED, GlobalEvent<&CDropbox::OnToolbarLoaded>, this);
+
+	HookEventObj(ME_MSG_WINDOWEVENT, GlobalEvent<&CDropbox::OnSrmmWindowOpened>, this);
+	HookEventObj(ME_FILEDLG_CANCELED, GlobalEvent<&CDropbox::OnFileDialogCancelled>, this);
+
+	NETLIBUSER nlu = { sizeof(nlu) };
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szSettingsModule = MODULE;
+	nlu.ptszDescriptiveName = L"Dropbox";
+	hNetlibConnection = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+
+	GetDefaultContact();
+
+	WORD status = ProtoGetStatus(0, 0);
+	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, status);
 
 	HookEventObj(ME_MSG_BUTTONPRESSED, GlobalEvent<&CDropbox::OnTabSrmmButtonPressed>, this);
 	return 0;

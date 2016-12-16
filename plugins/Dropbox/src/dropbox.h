@@ -41,6 +41,7 @@ private:
 
 	// hooks
 	static int OnProtoAck(WPARAM wParam, LPARAM lParam);
+	int OnToolbarLoaded(WPARAM wParam, LPARAM lParam);
 	int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 	int OnContactDeleted(WPARAM wParam, LPARAM lParam);
 	int OnOptionsInitialized(WPARAM wParam, LPARAM lParam);
