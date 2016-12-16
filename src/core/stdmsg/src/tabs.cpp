@@ -222,7 +222,7 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 
 	TCITEM tci;
 	tci.mask = TCIF_PARAM;
-	int tabCount = TabCtrl_GetItemCount(m_tab.GetHwnd());
+	int tabCount = m_tab.GetCount();
 
 	// does the tab already exist?
 	for (int i = 0; i < tabCount; i++) {
@@ -323,14 +323,14 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case GC_SWITCHNEXTTAB:
 		{
-			int total = TabCtrl_GetItemCount(m_tab.GetHwnd());
+			int total = m_tab.GetCount();
 			int i = TabCtrl_GetCurSel(m_tab.GetHwnd());
-			if (i != -1 && total != -1 && total != 1) {
+			if (i != -1 && total > 1) {
 				if (i < total - 1)
 					i++;
 				else
 					i = 0;
-				TabCtrl_SetCurSel(m_tab.GetHwnd(), i);
+				m_tab.ActivatePage(i);
 				TabClicked();
 			}
 		}
@@ -338,14 +338,14 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case GC_SWITCHPREVTAB:
 		{
-			int total = TabCtrl_GetItemCount(m_tab.GetHwnd());
+			int total = m_tab.GetCount();
 			int i = TabCtrl_GetCurSel(m_tab.GetHwnd());
-			if (i != -1 && total != -1 && total != 1) {
+			if (i != -1 && total >= 1) {
 				if (i > 0)
 					i--;
 				else
 					i = total - 1;
-				TabCtrl_SetCurSel(m_tab.GetHwnd(), i);
+				m_tab.ActivatePage(i);
 				TabClicked();
 			}
 		}
@@ -353,10 +353,10 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case GC_SWITCHTAB:
 		{
-			int total = TabCtrl_GetItemCount(m_tab.GetHwnd());
+			int total = m_tab.GetCount();
 			int i = TabCtrl_GetCurSel(m_tab.GetHwnd());
 			if (i != -1 && total != -1 && total != 1 && i != lParam && total > lParam) {
-				TabCtrl_SetCurSel(m_tab.GetHwnd(), lParam);
+				m_tab.ActivatePage(i);
 				TabClicked();
 			}
 		}
@@ -365,7 +365,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case GC_REMOVETAB:
 		{
 			int i = -1;
-			int tabCount = TabCtrl_GetItemCount(m_tab.GetHwnd());
+			int tabCount = m_tab.GetCount();
 			if (lParam) {
 				for (i = 0; i < tabCount; i++) {
 					TCITEM tci = {};
@@ -378,7 +378,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			else i = TabCtrl_GetCurSel(m_tab.GetHwnd());
 
 			if (i != -1 && i < tabCount) {
-				TabCtrl_DeleteItem(m_tab.GetHwnd(), i);
+				m_tab.RemovePage(i);
 
 				TCITEM id = {};
 				id.mask = TCIF_PARAM;
@@ -439,12 +439,11 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			TabCtrl_GetItem(m_tab.GetHwnd(), begin, &tci);
 			SESSION_INFO *s = (SESSION_INFO*)tci.lParam;
 			if (s) {
-				TabCtrl_DeleteItem(m_tab.GetHwnd(), begin);
-
-				SendMessage(m_hwnd, GC_ADDTAB, end, (LPARAM)s);
+				m_tab.RemovePage(begin);
+				AddPage(s);
 
 				// fix the "fixed" positions
-				int tabCount = TabCtrl_GetItemCount(m_tab.GetHwnd());
+				int tabCount = m_tab.GetCount();
 				for (int i = 0; i < tabCount; i++) {
 					TabCtrl_GetItem(m_tab.GetHwnd(), i, &tci);
 					s = (SESSION_INFO*)tci.lParam;
@@ -510,23 +509,20 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				if (TabCtrl_GetCurSel(GetDlgItem(m_hwnd, IDC_TAB)) == i)
 					PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, BN_CLICKED), 0);
 				else
-					TabCtrl_DeleteItem(GetDlgItem(m_hwnd, IDC_TAB), i);
+					m_tab.RemovePage(i);
 				break;
 
 			case ID_CLOSEOTHER:
 				{
-					int tabCount = TabCtrl_GetItemCount(GetDlgItem(m_hwnd, IDC_TAB)) - 1;
+					int tabCount = m_tab.GetCount()-1;
 					if (tabCount > 0) {
-						if (TabCtrl_GetCurSel(GetDlgItem(m_hwnd, IDC_TAB)) != i)
-							if (s)
-								pci->ShowRoom(s, WINDOW_VISIBLE, TRUE);
-
 						for (tabCount; tabCount >= 0; tabCount--) {
 							if (tabCount == i)
 								continue;
 
-							TabCtrl_DeleteItem(GetDlgItem(m_hwnd, IDC_TAB), tabCount);
+							m_tab.RemovePage(tabCount);
 						}
+						m_tab.ActivatePage(0);
 					}
 				}
 				break;

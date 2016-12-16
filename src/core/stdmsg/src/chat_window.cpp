@@ -216,7 +216,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 			if (wParam == VK_TAB && isCtrl && !isShift) { // CTRL-TAB (switch tab/window)
 				if (g_Settings.bTabsEnable)
-					SendMessage(hwndDlg, GC_SWITCHNEXTTAB, 0, 0);
+					SendMessage(GetParent(GetParent(hwndDlg)), GC_SWITCHNEXTTAB, 0, 0);
 				else
 					pci->ShowRoom(SM_GetNextWindow(dat->si), WINDOW_VISIBLE, TRUE);
 				return TRUE;
@@ -224,7 +224,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 			if (wParam == VK_TAB && isCtrl && isShift) { // CTRL_SHIFT-TAB (switch tab/window)
 				if (g_Settings.bTabsEnable)
-					SendMessage(hwndDlg, GC_SWITCHPREVTAB, 0, 0);
+					SendMessage(GetParent(GetParent(hwndDlg)), GC_SWITCHPREVTAB, 0, 0);
 				else
 					pci->ShowRoom(SM_GetPrevWindow(dat->si), WINDOW_VISIBLE, TRUE);
 				return TRUE;
@@ -946,7 +946,7 @@ void CChatRoomDlg::OnInitDialog()
 void CChatRoomDlg::OnDestroy()
 {
 	NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
-	SendMessage(m_hwnd, GC_SAVEWNDPOS, 0, 0);
+	SaveWindowPosition(true);
 
 	m_si->pDlg = NULL;
 	m_si->hWnd = NULL;
@@ -1167,6 +1167,25 @@ void CChatRoomDlg::SetWindowPosition()
 	}
 }
 
+void CChatRoomDlg::SaveWindowPosition(bool bUpdateSession)
+{
+	WINDOWPLACEMENT wp = { 0 };
+	wp.length = sizeof(wp);
+	GetWindowPlacement(getCaptionWindow(), &wp);
+
+	g_Settings.iX = wp.rcNormalPosition.left;
+	g_Settings.iY = wp.rcNormalPosition.top;
+	g_Settings.iWidth = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
+	g_Settings.iHeight = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
+
+	if (bUpdateSession) {
+		m_si->iX = g_Settings.iX;
+		m_si->iY = g_Settings.iY;
+		m_si->iWidth = g_Settings.iWidth;
+		m_si->iHeight = g_Settings.iHeight;
+	}
+}
+
 INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *s;
@@ -1275,26 +1294,6 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return TRUE;
 
-	case GC_SAVEWNDPOS:
-		{
-			WINDOWPLACEMENT wp = { 0 };
-			wp.length = sizeof(wp);
-			GetWindowPlacement(getCaptionWindow(), &wp);
-
-			g_Settings.iX = wp.rcNormalPosition.left;
-			g_Settings.iY = wp.rcNormalPosition.top;
-			g_Settings.iWidth = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
-			g_Settings.iHeight = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
-
-			if (!lParam) {
-				m_si->iX = g_Settings.iX;
-				m_si->iY = g_Settings.iY;
-				m_si->iWidth = g_Settings.iWidth;
-				m_si->iHeight = g_Settings.iHeight;
-			}
-		}
-		break;
-
 	case WM_SIZE:
 		if (wParam == SIZE_MAXIMIZED)
 			PostMessage(m_hwnd, GC_SCROLLTOBOTTOM, 0, 0);
@@ -1342,7 +1341,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			InvalidateRect(m_si->hwndStatus, NULL, TRUE);
 			RedrawWindow(m_message.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
 			RedrawWindow(m_btnOk.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
-			SendMessage(m_hwnd, GC_SAVEWNDPOS, 0, 1);
+			SaveWindowPosition(false);
 		}
 		return TRUE;
 
@@ -1486,7 +1485,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		case SESSION_TERMINATE:
 			if (!g_Settings.bTabsEnable) {
-				SendMessage(m_hwnd, GC_SAVEWNDPOS, 0, 0);
+				SaveWindowPosition(true);
 				if (db_get_b(NULL, CHAT_MODULE, "SavePosition", 0)) {
 					db_set_dw(m_si->hContact, CHAT_MODULE, "roomx", m_si->iX);
 					db_set_dw(m_si->hContact, CHAT_MODULE, "roomy", m_si->iY);
@@ -1850,7 +1849,7 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_MOVE:
-		SendMessage(m_hwnd, GC_SAVEWNDPOS, 0, 1);
+		SaveWindowPosition(false);
 		break;
 
 	case WM_GETMINMAXINFO:

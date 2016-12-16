@@ -187,6 +187,7 @@ class CChatRoomDlg : public CDlgBase
 	{	return (g_Settings.bTabsEnable) ? GetParent(m_hwndParent) : m_hwnd;
 	}
 
+	void SaveWindowPosition(bool bUpdateSession);
 	void SetWindowPosition();
 
 public:

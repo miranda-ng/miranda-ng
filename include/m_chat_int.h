@@ -49,7 +49,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GC_FILTERFIX           (WM_USER+111)
 #define GC_CHANGEFILTERFLAG    (WM_USER+112)
 #define GC_SHOWFILTERMENU      (WM_USER+113)
-#define GC_SAVEWNDPOS          (WM_USER+115)
 #define GC_CONTROL_MSG         (WM_USER+116)
 #define GC_REDRAWWINDOW        (WM_USER+118)
 #define GC_SHOWCOLORCHOOSER    (WM_USER+119)
