@@ -375,8 +375,7 @@ class COptionsDlg : public CDlgBase
 
 	CCtrlTreeView m_pageTree;
 	CCtrlCombo m_keywordFilter;
-	CCtrlPages m_tab;
-	CCtrlButton m_btnApply, m_btnCancel;
+	CCtrlButton m_btnApply, m_btnCancel, m_btnModern;
 
 	COptionsDlg& operator=(const COptionsDlg&);
 
@@ -716,9 +715,9 @@ class COptionsDlg : public CDlgBase
 public:
 	COptionsDlg(const wchar_t *pszCaption, const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, bool bSinglePage, const OptionsPageList &arPages) :
 		CDlgBase(g_hInst, bSinglePage ? IDD_OPTIONSPAGE : IDD_OPTIONS),
-		m_tab(this, IDC_TAB),
 		m_btnApply(this, IDC_APPLY),
 		m_btnCancel(this, IDCANCEL),
+		m_btnModern(this, IDC_MODERN),
 		m_pageTree(this, IDC_PAGETREE),
 		m_keywordFilter(this, IDC_KEYWORD_FILTER),
 		m_arOpd(10),
@@ -729,12 +728,14 @@ public:
 		m_pages(arPages)
 	{
 		m_keywordFilter.UseSystemColors();
+		m_keywordFilter.OnChange = Callback(this, &COptionsDlg::OnFilterChanged);
 
 		m_pageTree.OnSelChanging = Callback(this, &COptionsDlg::OnChanging);
 		m_pageTree.OnSelChanged = Callback(this, &COptionsDlg::OnTreeChanged);
 
 		m_btnCancel.OnClick = Callback(this, &COptionsDlg::OnCancel);
-		m_btnApply.OnClick = Callback(this, &COptionsDlg::btnApply);
+		m_btnApply.OnClick = Callback(this, &COptionsDlg::btnApply_Click);
+		m_btnModern.OnClick = Callback(this, &COptionsDlg::btnModern_Click);
 	}
 
 	virtual void OnInitDialog() override
@@ -893,10 +894,18 @@ public:
 		}
 	}
 
-	void btnApply(CCtrlButton*)
+	void btnApply_Click(CCtrlButton*)
 	{
 		OnApply();
 		m_btnApply.Disable();
+	}
+
+	void btnModern_Click(CCtrlButton*)
+	{
+		db_set_b(NULL, "Options", "Expert", 0);
+		SaveOptionsTreeState();
+		PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+		CallService(MS_MODERNOPT_SHOW, 0, 0);
 	}
 
 	void OnOk(void*)
@@ -937,6 +946,14 @@ public:
 				return;
 			}
 		}
+	}
+
+	void OnFilterChanged(void*)
+	{
+		// add a timer - when the timer elapses filter the option pages
+		CTimer *pTimer = new CTimer(this, FILTER_TIMEOUT_TIMER);
+		pTimer->OnEvent = Callback(this, &COptionsDlg::OnTimer);
+		pTimer->Start(400);
 	}
 
 	void OnTreeChanged(CCtrlTreeView::TEventInfo *evt)
@@ -1080,26 +1097,6 @@ public:
 					OnTabChanged();
 					return TRUE;
 				}
-			}
-			break;
-
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-			case IDC_KEYWORD_FILTER:
-				// add a timer - when the timer elapses filter the option pages
-				if ((HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == CBN_EDITCHANGE)) {
-					CTimer *pTimer = new CTimer(this, FILTER_TIMEOUT_TIMER);
-					pTimer->OnEvent = Callback(this, &COptionsDlg::OnTimer);
-					pTimer->Start(400);
-				}
-				break;
-
-			case IDC_MODERN:
-				db_set_b(NULL, "Options", "Expert", 0);
-				SaveOptionsTreeState();
-				PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-				CallService(MS_MODERNOPT_SHOW, 0, 0);
-				break;
 			}
 			break;
 		}
