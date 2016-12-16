@@ -1200,9 +1200,9 @@ public:
 	void ActivatePage(int iPage);
 	int  GetCount(void);
 	int  GetDlgIndex(CDlgBase*);
-
 	CDlgBase* GetNthPage(int iPage);
-	
+	void RemovePage(int iPage);
+
 	__forceinline CDlgBase* GetActivePage() const
 	{	return m_pActivePage;
 	}
@@ -1224,6 +1224,12 @@ private:
 
 	struct TPageInfo : public MZeroedObject
 	{
+		~TPageInfo()
+		{
+			if (m_hIcon)
+				DestroyIcon(m_hIcon);
+		}
+
 		int m_pageId;
 		ptrW m_ptszHeader;
 		HICON m_hIcon;
@@ -1235,6 +1241,7 @@ private:
 	void ShowPage(CDlgBase *pDlg);
 
 	TPageInfo* GetCurrPage();
+	TPageInfo* GetItemPage(int iPage);
 	LIST<TPageInfo> m_pages;
 };
 

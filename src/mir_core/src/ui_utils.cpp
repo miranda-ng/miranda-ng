@@ -2233,6 +2233,7 @@ void CCtrlPages::OnInit()
 
 	for (int i = 0; i < m_pages.getCount(); i++)
 		InsertPage(m_pages[i]);
+	m_pages.destroy();
 
 	::SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, ::GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_CONTROLPARENT);
 
@@ -2252,16 +2253,19 @@ void CCtrlPages::OnInit()
 
 LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	int tabCount;
+
 	switch (msg) {
 	case WM_SIZE:
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
 		TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
 
-		for (int i = 0; i < m_pages.getCount(); i++) {
-			TPageInfo *p = m_pages[i];
-			if (p->m_pDlg->GetHwnd() != NULL)
-				SetWindowPos(m_pActivePage->GetHwnd(), HWND_TOP, rc.left, rc.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		tabCount = GetCount();
+		for (int i = 0; i < tabCount; i++) {
+			TPageInfo *p = GetItemPage(i);
+			if (p && p->m_pDlg->GetHwnd() != NULL)
+				SetWindowPos(p->m_pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		}
 		break;
 
@@ -2271,14 +2275,19 @@ LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case PSM_FORCECHANGED:
+		tabCount = GetCount();
+
 		PSHNOTIFY pshn;
 		pshn.hdr.code = PSN_INFOCHANGED;
 		pshn.hdr.idFrom = 0;
 		pshn.lParam = 0;
-		for (int i = 0; i < m_pages.getCount(); i++) {
-			pshn.hdr.hwndFrom = m_pages[i]->m_pDlg->GetHwnd();
-			if (pshn.hdr.hwndFrom != NULL)
-				SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
+		for (int i = 0; i < tabCount; i++) {
+			TPageInfo *p = GetItemPage(i);
+			if (p) {
+				pshn.hdr.hwndFrom = p->m_pDlg->GetHwnd();
+				if (pshn.hdr.hwndFrom != NULL)
+					SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
+			}
 		}
 		break;
 	}
@@ -2292,21 +2301,21 @@ void CCtrlPages::AddPage(wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
 	info->m_pDlg = pDlg;
 	info->m_hIcon = hIcon;
 	info->m_ptszHeader = mir_wstrdup(ptszName);
-	m_pages.insert(info);
 
 	if (m_hwnd != NULL) {
 		InsertPage(info);
 
-		if (m_pages.getCount() == 1) {
+		if (GetCount() == 1) {
 			m_pActivePage = info->m_pDlg;
 			ShowPage(m_pActivePage);
 		}
 	}
+	else m_pages.insert(info);
 }
 
 void CCtrlPages::ActivatePage(int iPage)
 {
-	TPageInfo *info = m_pages[iPage];
+	TPageInfo *info = GetItemPage(iPage);
 	if (info == NULL)
 		return;
 
@@ -2321,12 +2330,12 @@ void CCtrlPages::ActivatePage(int iPage)
 
 int CCtrlPages::GetCount()
 {
-	return m_pages.getCount();
+	return TabCtrl_GetItemCount(m_hwnd);
 }
 
 CDlgBase* CCtrlPages::GetNthPage(int iPage)
 {
-	TPageInfo *info = m_pages[iPage];
+	TPageInfo *info = GetItemPage(iPage);
 	return (info == NULL) ? NULL : info->m_pDlg;
 }
 
@@ -2335,6 +2344,16 @@ CCtrlPages::TPageInfo* CCtrlPages::GetCurrPage()
 	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM;
 	if (!TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci))
+		return NULL;
+
+	return (TPageInfo*)tci.lParam;
+}
+
+CCtrlPages::TPageInfo* CCtrlPages::GetItemPage(int iPage)
+{
+	TCITEM tci = { 0 };
+	tci.mask = TCIF_PARAM;
+	if (!TabCtrl_GetItem(m_hwnd, iPage, &tci))
 		return NULL;
 
 	return (TPageInfo*)tci.lParam;
@@ -2358,6 +2377,7 @@ int CCtrlPages::GetDlgIndex(CDlgBase *pDlg)
 	return -1;
 }
 
+
 void CCtrlPages::InsertPage(TPageInfo *pPage)
 {
 	TCITEM tci = { 0 };
@@ -2375,6 +2395,16 @@ void CCtrlPages::InsertPage(TPageInfo *pPage)
 	}
 
 	pPage->m_pageId = TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
+}
+
+void CCtrlPages::RemovePage(int iPage)
+{
+	TPageInfo *p = GetItemPage(iPage);
+	if (p == NULL)
+		return;
+
+	TabCtrl_DeleteItem(m_hwnd, iPage);
+	delete p;
 }
 
 void CCtrlPages::ShowPage(CDlgBase *pDlg)
@@ -2443,8 +2473,9 @@ void CCtrlPages::OnReset()
 	pshn.hdr.idFrom = 0;
 	pshn.lParam = 0;
 
-	for (int i = 0; i < m_pages.getCount(); i++) {
-		TPageInfo *p = m_pages[i];
+	int tabCount = GetCount();
+	for (int i = 0; i < tabCount; i++) {
+		TPageInfo *p = GetItemPage(i);
 		if (p->m_pDlg->GetHwnd() == NULL || !p->m_bChanged)
 			continue;
 
@@ -2469,8 +2500,9 @@ void CCtrlPages::OnApply()
 	}
 
 	pshn.hdr.code = PSN_APPLY;
-	for (int i = 0; i < m_pages.getCount(); i++) {
-		TPageInfo *p = m_pages[i];
+	int tabCount = GetCount();
+	for (int i = 0; i < tabCount; i++) {
+		TPageInfo *p = GetItemPage(i);
 		if (p->m_pDlg->GetHwnd() == NULL || !p->m_bChanged)
 			continue;
 
@@ -2492,8 +2524,9 @@ void CCtrlPages::OnApply()
 
 void CCtrlPages::OnDestroy()
 {
-	for (int i = 0; i < m_pages.getCount(); i++) {
-		TPageInfo *p = m_pages[i];
+	int tabCount = GetCount();
+	for (int i = 0; i < tabCount; i++) {
+		TPageInfo *p = GetItemPage(i);
 		if (p->m_pDlg->GetHwnd())
 			p->m_pDlg->Close();
 		delete p;

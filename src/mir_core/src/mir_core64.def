@@ -1044,3 +1044,5 @@ CallFunctionSync @1170
 ?InsertPage@CCtrlPages@@AEAAXPEAUTPageInfo@1@@Z @1201 NONAME
 ?GetDlgIndex@CCtrlPages@@QEAAHPEAVCDlgBase@@@Z @1202 NONAME
 ?GetNthPage@CCtrlPages@@QEAAPEAVCDlgBase@@H@Z @1203 NONAME
+?GetItemPage@CCtrlPages@@AEAAPEAUTPageInfo@1@H@Z @1204 NONAME
+?RemovePage@CCtrlPages@@QEAAXH@Z @1205 NONAME
