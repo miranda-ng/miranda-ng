@@ -96,7 +96,7 @@ static void OnCreateModule(MODULEINFO *mi)
 static void OnDblClickSession(SESSION_INFO *si)
 {
 	if (g_Settings.bTabsEnable)
-		SendMessage(si->hWnd, GC_REMOVETAB, 1, (LPARAM)si);
+		SendMessage(GetParent(GetParent(si->hWnd)), GC_REMOVETAB, 0, (LPARAM)si->pDlg);
 	else
 		PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
 }

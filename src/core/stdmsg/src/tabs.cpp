@@ -42,11 +42,10 @@ void TB_SaveSession(SESSION_INFO *si)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class CTabbedWindow : public CDlgBase
+struct CTabbedWindow : public CDlgBase
 {
 	CCtrlPages m_tab;
 
-public:
 	CTabbedWindow() :
 		CDlgBase(g_hInst, IDD_CONTAINER),
 		m_tab(this, IDC_TAB)
@@ -157,7 +156,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			ScreenToClient(hwnd, &tci.pt);
 			int i = TabCtrl_HitTest(hwnd, &tci);
 			if (i != -1 && g_Settings.bTabCloseOnDblClick)
-				PostMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDCANCEL, BN_CLICKED), 0);
+				PostMessage(GetParent(hwnd), GC_CLOSEWINDOW, 0, 0);
 		}
 		break;
 
@@ -169,14 +168,8 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 		ScreenToClient(hwnd, &tci.pt);
 		int i = TabCtrl_HitTest(hwnd, &tci);
-		if (i != -1) {
-			TCITEM tc;
-			tc.mask = TCIF_PARAM;
-			TabCtrl_GetItem(hwnd, i, &tc);
-			SESSION_INFO *si = (SESSION_INFO*)tc.lParam;
-			if (si)
-				SendMessage(GetParent(hwnd), GC_REMOVETAB, 1, (LPARAM)si);
-		}
+		if (i != -1)
+			SendMessage(GetParent(hwnd), GC_REMOVETAB, 0, (LPARAM)pOwner->m_tab.GetNthPage(i));
 		break;
 	}
 
@@ -364,34 +357,17 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case GC_REMOVETAB:
 		{
-			int i = -1;
-			int tabCount = m_tab.GetCount();
-			if (lParam) {
-				for (i = 0; i < tabCount; i++) {
-					TCITEM tci = {};
-					tci.mask = TCIF_PARAM;
-					TabCtrl_GetItem(m_tab.GetHwnd(), i, &tci);
-					if (lParam == tci.lParam)
-						break;
-				}
-			}
-			else i = TabCtrl_GetCurSel(m_tab.GetHwnd());
+			int idx = (lParam) ? m_tab.GetDlgIndex((CDlgBase*)lParam) : TabCtrl_GetCurSel(m_tab.GetHwnd());
+			if (idx == -1)
+				break;
 
-			if (i != -1 && i < tabCount) {
-				m_tab.RemovePage(i);
-
-				TCITEM id = {};
-				id.mask = TCIF_PARAM;
-				if (!TabCtrl_GetItem(m_tab.GetHwnd(), i, &id)) {
-					if (!TabCtrl_GetItem(m_tab.GetHwnd(), i - 1, &id)) {
-						SendMessage(m_hwnd, WM_CLOSE, 0, 0);
-						break;
-					}
-				}
-
-				SESSION_INFO *s = (SESSION_INFO*)id.lParam;
-				if (s)
-					pci->ShowRoom(s, WINDOW_VISIBLE, wParam == 1 ? FALSE : TRUE);
+			m_tab.RemovePage(idx);
+			if (m_tab.GetCount() == 0)
+				PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+			else {
+				if (m_tab.GetNthPage(idx) == NULL)
+					idx--;
+				m_tab.ActivatePage(idx);
 			}
 		}
 		break;
@@ -507,7 +483,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, tci.pt.x, tci.pt.y, 0, m_hwnd, NULL)) {
 			case ID_CLOSE:
 				if (TabCtrl_GetCurSel(GetDlgItem(m_hwnd, IDC_TAB)) == i)
-					PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, BN_CLICKED), 0);
+					PostMessage(m_hwnd, GC_CLOSEWINDOW, 0, 0);
 				else
 					m_tab.RemovePage(i);
 				break;

@@ -173,13 +173,13 @@ void TB_SaveSession(SESSION_INFO *si);
 
 class CChatRoomDlg : public CDlgBase
 {
-	friend class CTabbedWindow;
+	friend struct CTabbedWindow;
 
 	SESSION_INFO *m_si;
 
 	CCtrlEdit m_message, m_log;
 	CCtrlListBox m_nickList;
-	CCtrlButton m_btnOk, m_btnCancel;
+	CCtrlButton m_btnOk;
 	CCtrlButton m_btnFilter, m_btnChannelMgr, m_btnNickList, m_btnHistory;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnColor, m_btnBkColor;
 
@@ -203,7 +203,6 @@ public:
 	void OnClick_BkColor(CCtrlButton*);
 
 	void OnClick_Ok(CCtrlButton*);
-	void OnClick_Cancel(CCtrlButton*);
 
 	void OnClick_Filter(CCtrlButton*);
 	void OnClick_History(CCtrlButton*);

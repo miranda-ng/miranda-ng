@@ -301,7 +301,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == VK_F4 && isCtrl && !isAlt) { // ctrl-F4 (close tab)
-				SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, BN_CLICKED), 0);
+				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
 				return TRUE;
 			}
 
@@ -860,7 +860,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_log(this, IDC_LOG),
 
 	m_btnOk(this, IDOK),
-	m_btnCancel(this, IDCANCEL),
 
 	m_btnBold(this, IDC_BOLD),
 	m_btnItalic(this, IDC_ITALICS),
@@ -874,7 +873,7 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_btnNickList(this, IDC_SHOWNICKLIST),
 	m_btnChannelMgr(this, IDC_CHANMGR)
 {
-	m_autoClose = CLOSE_ON_CANCEL;
+	m_autoClose = 0;
 
 	m_btnBold.OnClick = Callback(this, &CChatRoomDlg::OnClick_Bold);
 	m_btnItalic.OnClick = Callback(this, &CChatRoomDlg::OnClick_Bold);
@@ -884,7 +883,6 @@ CChatRoomDlg::CChatRoomDlg(SESSION_INFO *si) :
 	m_btnBkColor.OnClick = Callback(this, &CChatRoomDlg::OnClick_BkColor);
 
 	m_btnOk.OnClick = Callback(this, &CChatRoomDlg::OnClick_Ok);
-	m_btnCancel.OnClick = Callback(this, &CChatRoomDlg::OnClick_Cancel);
 
 	m_btnFilter.OnClick = Callback(this, &CChatRoomDlg::OnClick_Filter);
 	m_btnHistory.OnClick = Callback(this, &CChatRoomDlg::OnClick_History);
@@ -947,6 +945,9 @@ void CChatRoomDlg::OnDestroy()
 {
 	NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
 	SaveWindowPosition(true);
+
+	if (g_Settings.bTabsEnable)
+		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
 
 	m_si->pDlg = NULL;
 	m_si->hWnd = NULL;
@@ -1062,11 +1063,6 @@ void CChatRoomDlg::OnClick_Options(CCtrlButton *pButton)
 {
 	if (pButton->Enabled())
 		pci->DoEventHookAsync(m_hwnd, m_si->ptszID, m_si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
-}
-
-void CChatRoomDlg::OnClick_Cancel(CCtrlButton*)
-{
-	SendMessage(m_hwndParent, GC_REMOVETAB, 0, 0);
 }
 
 void CChatRoomDlg::OnClick_Ok(CCtrlButton *pButton)
@@ -1586,6 +1582,10 @@ LABEL_SHOWWINDOW:
 			mir_free((void*)gch->ptszUID);
 			mir_free(gch);
 		}
+		break;
+
+	case GC_CLOSEWINDOW:
+		Close();
 		break;
 
 	case GC_CHANGEFILTERFLAG:
