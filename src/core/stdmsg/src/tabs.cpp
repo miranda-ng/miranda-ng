@@ -209,33 +209,9 @@ void CTabbedWindow::OnInitDialog()
 
 void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 { 
-	int indexfound = -1;
-	int lastlocked = -1;
-	BOOL bFound = FALSE;
-
-	TCITEM tci;
-	tci.mask = TCIF_PARAM;
-	int tabCount = m_tab.GetCount();
-
 	// does the tab already exist?
-	for (int i = 0; i < tabCount; i++) {
-		TabCtrl_GetItem(m_tab.GetHwnd(), i, &tci);
-		SESSION_INFO *s2 = (SESSION_INFO*)tci.lParam;
-		if (s2) {
-			if (si == s2 && !bFound) {
-				if (!bFound) {
-					bFound = TRUE;
-					indexfound = i;
-				}
-			}
-
-			int w = db_get_w(s2->hContact, s2->pszModule, "TabPosition", 0);
-			if (w)
-				lastlocked = w;
-		}
-	}
-
-	if (!bFound) { // create a new tab
+	int indexfound = (si->pDlg) ? m_tab.GetDlgIndex(si->pDlg) : -1;
+	if (indexfound == -1) { // create a new tab
 		wchar_t szTemp[30];
 		mir_wstrncpy(szTemp, si->ptszName, 21);
 		if (mir_wstrlen(si->ptszName) > 20)
@@ -250,9 +226,8 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 
 		m_tab.ActivatePage(m_tab.GetCount() - 1);
 	}
-
-	if (insertAt == -1 && bFound)
-		TabCtrl_SetCurSel(m_tab.GetHwnd(), indexfound);
+	else if (insertAt == -1)
+		m_tab.ActivatePage(indexfound);
 }
 
 void CTabbedWindow::TabClicked()

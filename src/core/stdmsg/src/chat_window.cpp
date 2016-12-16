@@ -378,7 +378,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == 0x57 && isCtrl && !isAlt) { // ctrl-w (close window)
-				PostMessage(hwndDlg, WM_CLOSE, 0, 0);
+				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
 				return TRUE;
 			}
 
@@ -691,7 +691,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_KEYDOWN:
 		if (wParam == 0x57 && GetKeyState(VK_CONTROL) & 0x8000) { // ctrl-w (close window)
-			PostMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
+			PostMessage(GetParent(hwnd), GC_CLOSEWINDOW, 0, 0);
 			return TRUE;
 		}
 		break;
@@ -747,7 +747,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case WM_KEYDOWN:
 		if (wParam == 0x57 && GetKeyState(VK_CONTROL) & 0x8000) { // ctrl-w (close window)
-			PostMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
+			PostMessage(GetParent(hwnd), GC_CLOSEWINDOW, 0, 0);
 			return TRUE;
 		}
 		break;
@@ -945,9 +945,6 @@ void CChatRoomDlg::OnDestroy()
 {
 	NotifyLocalWinEvent(m_si->hContact, m_hwnd, MSG_WINDOW_EVT_CLOSING);
 	SaveWindowPosition(true);
-
-	if (g_Settings.bTabsEnable)
-		SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
 
 	m_si->pDlg = NULL;
 	m_si->hWnd = NULL;
@@ -1585,6 +1582,8 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case GC_CLOSEWINDOW:
+		if (g_Settings.bTabsEnable)
+			SendMessage(GetParent(m_hwndParent), GC_REMOVETAB, 0, (LPARAM)this);
 		Close();
 		break;
 
