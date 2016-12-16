@@ -83,7 +83,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
-		NewMessageWindowLParam newData = { 0 };
+		NewMessageWindowLParam newData = {};
 		newData.hContact = hContact;
 		newData.noActivate = g_dat.bDoNotStealFocus;
 		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
@@ -127,7 +127,7 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar)
 		SetForegroundWindow(hwnd);
 	}
 	else {
-		NewMessageWindowLParam newData = { 0 };
+		NewMessageWindowLParam newData = {};
 		newData.hContact = hContact;
 		newData.szInitialText = msg;
 		newData.isWchar = isWchar;
@@ -255,7 +255,7 @@ static void RestoreUnreadMessageAlerts(void)
 					autoPopup = true;
 
 				if (autoPopup && !windowAlreadyExists) {
-					NewMessageWindowLParam newData = { 0 };
+					NewMessageWindowLParam newData = {};
 					newData.hContact = hContact;
 					newData.noActivate = g_dat.bDoNotStealFocus;
 					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);

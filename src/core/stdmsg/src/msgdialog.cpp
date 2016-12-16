@@ -38,7 +38,7 @@ static const UINT sendControls[] = { IDC_MESSAGE };
 void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 {
 	if (hContact != NULL && hwnd != NULL) {
-		MessageWindowEventData mwe = { 0 };
+		MessageWindowEventData mwe = {};
 		mwe.cbSize = sizeof(mwe);
 		mwe.hContact = hContact;
 		mwe.hwndWindow = hwnd;
@@ -316,7 +316,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		{
 			static const CHARRANGE all = { 0, -1 };
 
-			MessageWindowPopupData mwpd = { 0 };
+			MessageWindowPopupData mwpd = {};
 			mwpd.cbSize = sizeof(mwpd);
 			mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
 			mwpd.uFlags = MSG_WINDOWPOPUP_INPUT;
@@ -833,7 +833,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 	case DM_GETAVATAR:
 		{
-			PROTO_AVATAR_INFORMATION ai = { 0 };
+			PROTO_AVATAR_INFORMATION ai = {};
 			ai.hContact = dat->hContact;
 			CallProtoService(dat->szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&ai);
 
@@ -912,7 +912,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		InvalidateRect(GetDlgItem(hwndDlg, IDC_MESSAGE), NULL, FALSE);
 		{
 			LOGFONT lf;
-			CHARFORMAT cf = { 0 };
+			CHARFORMAT cf = {};
 			if (dat->hFont) DeleteObject(dat->hFont);
 			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &cf.crTextColor);
 			dat->hFont = CreateFontIndirect(&lf);
@@ -1044,7 +1044,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			}
 
 			if (GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_STYLE) & WS_VSCROLL) {
-				SCROLLINFO si = { 0 };
+				SCROLLINFO si = {};
 				si.cbSize = sizeof(si);
 				si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
 				GetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &si);
@@ -1106,7 +1106,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		{
 			HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
 			if (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL) {
-				SCROLLINFO si = { 0 };
+				SCROLLINFO si = {};
 				si.cbSize = sizeof(si);
 				si.fMask = SIF_PAGE | SIF_RANGE;
 				GetScrollInfo(hwndLog, SB_VERT, &si);
@@ -1149,7 +1149,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					if (GetActiveWindow() == hwndDlg && GetForegroundWindow() == hwndDlg) {
 						HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
 						if (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL) {
-							SCROLLINFO si = { 0 };
+							SCROLLINFO si = {};
 							si.cbSize = sizeof(si);
 							si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
 							GetScrollInfo(hwndLog, SB_VERT, &si);
@@ -1329,7 +1329,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		case IDC_ADD:
 			{
-				ADDCONTACTSTRUCT acs = { 0 };
+				ADDCONTACTSTRUCT acs = {};
 				acs.hContact = dat->hContact;
 				acs.handleType = HANDLE_CONTACT;
 				acs.szProto = 0;
@@ -1430,7 +1430,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			case EN_VSCROLL:
 				if (LOWORD(wParam) == IDC_LOG && GetWindowLongPtr((HWND)lParam, GWL_STYLE) & WS_VSCROLL) {
-					SCROLLINFO si = { 0 };
+					SCROLLINFO si = {};
 					si.cbSize = sizeof(si);
 					si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
 					GetScrollInfo((HWND)lParam, SB_VERT, &si);

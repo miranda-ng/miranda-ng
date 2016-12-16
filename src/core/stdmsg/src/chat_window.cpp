@@ -247,14 +247,14 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				end = HIWORD(lResult);
 				SendMessage(hwnd, EM_SETSEL, end, end);
 
-				GETTEXTLENGTHEX gtl = { 0 };
+				GETTEXTLENGTHEX gtl = {};
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
 				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 				if (iLen > 0) {
 					pszText = (wchar_t *)mir_alloc(sizeof(wchar_t)*(iLen + 100));
 
-					GETTEXTEX gt = { 0 };
+					GETTEXTEX gt = {};
 					gt.cb = iLen + 99;
 					gt.flags = GT_DEFAULT;
 					gt.codepage = 1200;
@@ -402,7 +402,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				}
 				else SetWindowText(hwnd, L"");
 
-				GETTEXTLENGTHEX gtl = { 0 };
+				GETTEXTLENGTHEX gtl = {};
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
 				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
@@ -426,7 +426,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				}
 				else SetWindowText(hwnd, L"");
 
-				GETTEXTLENGTHEX gtl = { 0 };
+				GETTEXTLENGTHEX gtl = {};
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
 				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
@@ -734,7 +734,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (height == LB_ERR)
 				return 0;
 
-			RECT rc = { 0 };
+			RECT rc = {};
 			GetClientRect(hwnd, &rc);
 
 			int items = si->nUsersInNicklist - index;
@@ -835,7 +835,7 @@ int GetTextPixelSize(wchar_t* pszText, HFONT hFont, BOOL bWidth)
 
 	HDC hdc = GetDC(NULL);
 	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
-	RECT rc = { 0 };
+	RECT rc = {};
 	DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
 	SelectObject(hdc, hOldFont);
 	ReleaseDC(NULL, hdc);
@@ -1169,7 +1169,7 @@ void CChatRoomDlg::SetWindowPosition()
 
 void CChatRoomDlg::SaveWindowPosition(bool bUpdateSession)
 {
-	WINDOWPLACEMENT wp = { 0 };
+	WINDOWPLACEMENT wp = {};
 	wp.length = sizeof(wp);
 	GetWindowPlacement(getCaptionWindow(), &wp);
 
@@ -1607,7 +1607,7 @@ LABEL_SHOWWINDOW:
 
 	case GC_SCROLLTOBOTTOM:
 		if ((GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) != 0) {
-			SCROLLINFO scroll = { 0 };
+			SCROLLINFO scroll = {};
 			scroll.cbSize = sizeof(scroll);
 			scroll.fMask = SIF_PAGE | SIF_RANGE;
 			GetScrollInfo(m_log.GetHwnd(), SB_VERT, &scroll);
@@ -1642,7 +1642,7 @@ LABEL_SHOWWINDOW:
 
 	case WM_MOUSEACTIVATE:
 		{
-			WINDOWPLACEMENT wp = { 0 };
+			WINDOWPLACEMENT wp = {};
 			wp.length = sizeof(wp);
 			GetWindowPlacement(m_hwnd, &wp);
 			g_Settings.iX = wp.rcNormalPosition.left;

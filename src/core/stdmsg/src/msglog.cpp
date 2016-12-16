@@ -408,21 +408,21 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 	SendMessage(hwndLog, WM_SETREDRAW, FALSE, 0);
 	SendMessage(hwndLog, EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
-	LogStreamData streamData = { 0 };
+	LogStreamData streamData = {};
 	streamData.hContact = dat->hContact;
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.dlgDat = dat;
 	streamData.eventsToInsert = count;
 	streamData.isEmpty = !fAppend || GetWindowTextLength(hwndLog) == 0;
 
-	EDITSTREAM stream = { 0 };
+	EDITSTREAM stream = {};
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR)&streamData;
 
 	if (!streamData.isEmpty) {
 		bottomScroll = (GetFocus() != hwndLog);
 		if (bottomScroll && (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL)) {
-			SCROLLINFO si = { 0 };
+			SCROLLINFO si = {};
 			si.cbSize = sizeof(si);
 			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
 			GetScrollInfo(hwndLog, SB_VERT, &si);

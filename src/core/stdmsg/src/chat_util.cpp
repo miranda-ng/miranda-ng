@@ -70,7 +70,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 
 	BOOL bFlag = FALSE;
 
-	EDITSTREAM stream = { 0 };
+	EDITSTREAM stream = {};
 	stream.pfnCallback = Log_StreamCallback;
 	stream.dwCookie = (DWORD_PTR)& streamData;
 
@@ -79,7 +79,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
 	GetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &scroll);
 
-	POINT point = { 0 };
+	POINT point = {};
 	SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do not scroll to bottom if there is a selection
@@ -293,7 +293,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	*hMenu = GetSubMenu(g_hMenu, iIndex);
 	TranslateMenu(*hMenu);
 
-	GCMENUITEMS gcmi = { 0 };
+	GCMENUITEMS gcmi = {};
 	gcmi.pszID = si->ptszID;
 	gcmi.pszModule = si->pszModule;
 	gcmi.pszUID = pszUID;
@@ -367,7 +367,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 
 void DestroyGCMenu(HMENU *hMenu, int iIndex)
 {
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU;
 	while (GetMenuItemInfo(*hMenu, iIndex, TRUE, &mii)) {

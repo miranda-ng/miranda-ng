@@ -159,7 +159,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		if (ru->hasUglyBorder && IsThemeActive()) {
 			HANDLE hTheme = OpenThemeData(hwnd, L"EDIT");
 			if (hTheme) {
-				RECT rcClient = { 0 };
+				RECT rcClient = {};
 				HDC hdc = GetDC(GetParent(hwnd));
 
 				if (GetThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &ncsParam->rgrc[0], &rcClient) == S_OK) {

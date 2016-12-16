@@ -86,7 +86,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	switch (msg) {
 	case WM_LBUTTONDOWN:
 		{
-			TCHITTESTINFO tci = { 0 };
+			TCHITTESTINFO tci = {};
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
@@ -122,7 +122,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_MOUSEMOVE:
 		if (bDragging) {
-			TCHITTESTINFO tci = { 0 };
+			TCHITTESTINFO tci = {};
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			ScreenToClient(hwnd, &tci.pt);
@@ -132,7 +132,7 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_LBUTTONUP:
 		if (bDragging && ReleaseCapture()) {
-			TCHITTESTINFO tci = { 0 };
+			TCHITTESTINFO tci = {};
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			tci.flags = TCHT_ONITEM;
@@ -478,7 +478,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (i == -1)
 				break;
 
-			TCHITTESTINFO tci = { 0 };
+			TCHITTESTINFO tci = {};
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			tci.flags = TCHT_ONITEM;
@@ -486,7 +486,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if ((i = TabCtrl_HitTest(((LPNMHDR)lParam)->hwndFrom, &tci)) == -1)
 				break;
 
-			TCITEM id = { 0 };
+			TCITEM id = {};
 			id.mask = TCIF_PARAM;
 			TabCtrl_GetItem(GetDlgItem(m_hwnd, IDC_TAB), i, &id);
 

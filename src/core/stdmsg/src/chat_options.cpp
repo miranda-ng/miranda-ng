@@ -23,122 +23,115 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct branch_t
 {
-	const wchar_t* szDescr;
-	const char*  szDBName;
-	int          iMode;
-	BYTE         bDefault;
+	const wchar_t *szDescr;
+	const char *szDBName;
+	int iMode;
+	bool bDefault;
+	HTREEITEM hItem;
 };
 
-static const struct branch_t branch0[] = {
-	{ LPGENW("Use a tabbed interface"), "Tabs", 0, 1 },
-	{ LPGENW("Close tab on double click"), "bTabCloseOnDblClick", 0, 0 },
-	{ LPGENW("Restore previously open tabs when showing the window"), "bTabRestore", 0, 0 },
-	{ LPGENW("Show tabs at the bottom"), "TabBottom", 0, 0 },
+static branch_t branch0[] = {
+	{ LPGENW("Use a tabbed interface"), "Tabs", 0, true },
+	{ LPGENW("Close tab on double click"), "bTabCloseOnDblClick", 0, false },
+	{ LPGENW("Restore previously open tabs when showing the window"), "bTabRestore", 0, false },
+	{ LPGENW("Show tabs at the bottom"), "TabBottom", 0, false },
 };
 
-static const struct branch_t branch1[] = {
-	{ LPGENW("Send message by pressing the 'Enter' key"), "SendOnEnter", 0, 1 },
-	{ LPGENW("Send message by pressing the 'Enter' key twice"), "SendOnDblEnter", 0, 0 },
-	{ LPGENW("Flash window when someone speaks"), "FlashWindow", 0, 0 },
-	{ LPGENW("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, 1 },
-	{ LPGENW("Show list of users in the chat room"), "ShowNicklist", 0, 1 },
-	{ LPGENW("Show button for sending messages"), "ShowSend", 0, 0 },
-	{ LPGENW("Show buttons for controlling the chat room"), "ShowTopButtons", 0, 1 },
-	{ LPGENW("Show buttons for formatting the text you are typing"), "ShowFormatButtons", 0, 1 },
-	{ LPGENW("Show button menus when right clicking the buttons"), "RightClickFilter", 0, 0 },
-	{ LPGENW("Show new windows cascaded"), "CascadeWindows", 0, 1 },
-	{ LPGENW("Save the size and position of chat rooms"), "SavePosition", 0, 0 },
-	{ LPGENW("Show the topic of the room on your contact list (if supported)"), "TopicOnClist", 0, 0 },
-	{ LPGENW("Do not play sounds when the chat room is focused"), "SoundsFocus", 0, 0 },
-	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0 },
-	{ LPGENW("Toggle the visible state when double clicking in the contact list"), "ToggleVisibility", 0, 0 },
-	{ LPGENW("Show contact statuses if protocol supports them"), "ShowContactStatus", 0, 0 },
-	{ LPGENW("Display contact status icon before user role icon"), "ContactStatusFirst", 0, 0 },
+static branch_t branch1[] = {
+	{ LPGENW("Send message by pressing the 'Enter' key"), "SendOnEnter", 0, true },
+	{ LPGENW("Send message by pressing the 'Enter' key twice"), "SendOnDblEnter", 0, false },
+	{ LPGENW("Flash window when someone speaks"), "FlashWindow", 0, false },
+	{ LPGENW("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, true },
+	{ LPGENW("Show list of users in the chat room"), "ShowNicklist", 0, true },
+	{ LPGENW("Show button for sending messages"), "ShowSend", 0, false },
+	{ LPGENW("Show buttons for controlling the chat room"), "ShowTopButtons", 0, true },
+	{ LPGENW("Show buttons for formatting the text you are typing"), "ShowFormatButtons", 0, true },
+	{ LPGENW("Show button menus when right clicking the buttons"), "RightClickFilter", 0, false },
+	{ LPGENW("Show new windows cascaded"), "CascadeWindows", 0, true },
+	{ LPGENW("Save the size and position of chat rooms"), "SavePosition", 0, false },
+	{ LPGENW("Show the topic of the room on your contact list (if supported)"), "TopicOnClist", 0, false },
+	{ LPGENW("Do not play sounds when the chat room is focused"), "SoundsFocus", 0, false },
+	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, false },
+	{ LPGENW("Toggle the visible state when double clicking in the contact list"), "ToggleVisibility", 0, false },
+	{ LPGENW("Show contact statuses if protocol supports them"), "ShowContactStatus", 0, false },
+	{ LPGENW("Display contact status icon before user role icon"), "ContactStatusFirst", 0, false },
 };
 
-static const struct branch_t branch2[] = {
-	{ LPGENW("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1 },
-	{ LPGENW("Only prefix with timestamp if it has changed"), "ShowTimeStampIfChanged", 0, 0 },
-	{ LPGENW("Timestamp has same color as the event"), "TimeStampEventColour", 0, 0 },
-	{ LPGENW("Indent the second line of a message"), "LogIndentEnabled", 0, 1 },
-	{ LPGENW("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, 1 },
-	{ LPGENW("Add ':' to auto-completed user names"), "AddColonToAutoComplete", 0, 1 },
-	{ LPGENW("Strip colors from messages in the log"), "StripFormatting", 0, 0 },
+static branch_t branch2[] = {
+	{ LPGENW("Prefix all events with a timestamp"), "ShowTimeStamp", 0, true },
+	{ LPGENW("Only prefix with timestamp if it has changed"), "ShowTimeStampIfChanged", 0, false },
+	{ LPGENW("Timestamp has same color as the event"), "TimeStampEventColour", 0, false },
+	{ LPGENW("Indent the second line of a message"), "LogIndentEnabled", 0, true },
+	{ LPGENW("Limit user names in the message log to 20 characters"), "LogLimitNames", 0, true },
+	{ LPGENW("Add ':' to auto-completed user names"), "AddColonToAutoComplete", 0, true },
+	{ LPGENW("Strip colors from messages in the log"), "StripFormatting", 0, false },
 	{ LPGENW("Enable the 'event filter' for new rooms"), "FilterEnabled", 0, 0 }
 };
 
-static const struct branch_t branch3[] = {
-	{ LPGENW("Show topic changes"), "FilterFlags", GC_EVENT_TOPIC, 0 },
-	{ LPGENW("Show users joining"), "FilterFlags", GC_EVENT_JOIN, 0 },
-	{ LPGENW("Show users disconnecting"), "FilterFlags", GC_EVENT_QUIT, 0 },
-	{ LPGENW("Show messages"), "FilterFlags", GC_EVENT_MESSAGE, 1 },
-	{ LPGENW("Show actions"), "FilterFlags", GC_EVENT_ACTION, 1 },
-	{ LPGENW("Show users leaving"), "FilterFlags", GC_EVENT_PART, 0 },
-	{ LPGENW("Show users being kicked"), "FilterFlags", GC_EVENT_KICK, 1 },
-	{ LPGENW("Show notices"), "FilterFlags", GC_EVENT_NOTICE, 1 },
-	{ LPGENW("Show users changing name"), "FilterFlags", GC_EVENT_NICK, 0 },
-	{ LPGENW("Show information messages"), "FilterFlags", GC_EVENT_INFORMATION, 1 },
-	{ LPGENW("Show status changes of users"), "FilterFlags", GC_EVENT_ADDSTATUS, 0 },
+static branch_t branch3[] = {
+	{ LPGENW("Show topic changes"), "FilterFlags", GC_EVENT_TOPIC, false },
+	{ LPGENW("Show users joining"), "FilterFlags", GC_EVENT_JOIN, false },
+	{ LPGENW("Show users disconnecting"), "FilterFlags", GC_EVENT_QUIT, false },
+	{ LPGENW("Show messages"), "FilterFlags", GC_EVENT_MESSAGE, true },
+	{ LPGENW("Show actions"), "FilterFlags", GC_EVENT_ACTION, true },
+	{ LPGENW("Show users leaving"), "FilterFlags", GC_EVENT_PART, false },
+	{ LPGENW("Show users being kicked"), "FilterFlags", GC_EVENT_KICK, true },
+	{ LPGENW("Show notices"), "FilterFlags", GC_EVENT_NOTICE, true },
+	{ LPGENW("Show users changing name"), "FilterFlags", GC_EVENT_NICK, false },
+	{ LPGENW("Show information messages"), "FilterFlags", GC_EVENT_INFORMATION, true },
+	{ LPGENW("Show status changes of users"), "FilterFlags", GC_EVENT_ADDSTATUS, false },
 };
 
-static const struct branch_t branch4[] = {
-	{ LPGENW("Show icon for topic changes"), "IconFlags", GC_EVENT_TOPIC, 0 },
-	{ LPGENW("Show icon for users joining"), "IconFlags", GC_EVENT_JOIN, 1 },
-	{ LPGENW("Show icon for users disconnecting"), "IconFlags", GC_EVENT_QUIT, 0 },
-	{ LPGENW("Show icon for messages"), "IconFlags", GC_EVENT_MESSAGE, 0 },
-	{ LPGENW("Show icon for actions"), "IconFlags", GC_EVENT_ACTION, 0 },
-	{ LPGENW("Show icon for highlights"), "IconFlags", GC_EVENT_HIGHLIGHT, 0 },
-	{ LPGENW("Show icon for users leaving"), "IconFlags", GC_EVENT_PART, 0 },
-	{ LPGENW("Show icon for users kicking other user"), "IconFlags", GC_EVENT_KICK, 0 },
-	{ LPGENW("Show icon for notices"), "IconFlags", GC_EVENT_NOTICE, 0 },
-	{ LPGENW("Show icon for name changes"), "IconFlags", GC_EVENT_NICK, 0 },
-	{ LPGENW("Show icon for information messages"), "IconFlags", GC_EVENT_INFORMATION, 0 },
-	{ LPGENW("Show icon for status changes"), "IconFlags", GC_EVENT_ADDSTATUS, 0 },
+static branch_t branch4[] = {
+	{ LPGENW("Show icon for topic changes"), "IconFlags", GC_EVENT_TOPIC, false },
+	{ LPGENW("Show icon for users joining"), "IconFlags", GC_EVENT_JOIN, true },
+	{ LPGENW("Show icon for users disconnecting"), "IconFlags", GC_EVENT_QUIT, false },
+	{ LPGENW("Show icon for messages"), "IconFlags", GC_EVENT_MESSAGE, false },
+	{ LPGENW("Show icon for actions"), "IconFlags", GC_EVENT_ACTION, false },
+	{ LPGENW("Show icon for highlights"), "IconFlags", GC_EVENT_HIGHLIGHT, false },
+	{ LPGENW("Show icon for users leaving"), "IconFlags", GC_EVENT_PART, false },
+	{ LPGENW("Show icon for users kicking other user"), "IconFlags", GC_EVENT_KICK, false },
+	{ LPGENW("Show icon for notices"), "IconFlags", GC_EVENT_NOTICE, false },
+	{ LPGENW("Show icon for name changes"), "IconFlags", GC_EVENT_NICK, false },
+	{ LPGENW("Show icon for information messages"), "IconFlags", GC_EVENT_INFORMATION, false },
+	{ LPGENW("Show icon for status changes"), "IconFlags", GC_EVENT_ADDSTATUS, false },
 };
 
-static const struct branch_t branch5[] = {
-	{ LPGENW("Show icons in tray only when the chat room is not active"), "TrayIconInactiveOnly", 0, 1 },
-	{ LPGENW("Show icon in tray for topic changes"), "TrayIconFlags", GC_EVENT_TOPIC, 0 },
-	{ LPGENW("Show icon in tray for users joining"), "TrayIconFlags", GC_EVENT_JOIN, 0 },
-	{ LPGENW("Show icon in tray for users disconnecting"), "TrayIconFlags", GC_EVENT_QUIT, 0 },
-	{ LPGENW("Show icon in tray for messages"), "TrayIconFlags", GC_EVENT_MESSAGE, 0 },
-	{ LPGENW("Show icon in tray for actions"), "TrayIconFlags", GC_EVENT_ACTION, 0 },
-	{ LPGENW("Show icon in tray for highlights"), "TrayIconFlags", GC_EVENT_HIGHLIGHT, 1 },
-	{ LPGENW("Show icon in tray for users leaving"), "TrayIconFlags", GC_EVENT_PART, 0 },
-	{ LPGENW("Show icon in tray for users kicking other user"), "TrayIconFlags", GC_EVENT_KICK, 0 },
-	{ LPGENW("Show icon in tray for notices"), "TrayIconFlags", GC_EVENT_NOTICE, 0 },
-	{ LPGENW("Show icon in tray for name changes"), "TrayIconFlags", GC_EVENT_NICK, 0 },
-	{ LPGENW("Show icon in tray for information messages"), "TrayIconFlags", GC_EVENT_INFORMATION, 0 },
-	{ LPGENW("Show icon in tray for status changes"), "TrayIconFlags", GC_EVENT_ADDSTATUS, 0 },
+static branch_t branch5[] = {
+	{ LPGENW("Show icons in tray only when the chat room is not active"), "TrayIconInactiveOnly", 0, true },
+	{ LPGENW("Show icon in tray for topic changes"), "TrayIconFlags", GC_EVENT_TOPIC, false },
+	{ LPGENW("Show icon in tray for users joining"), "TrayIconFlags", GC_EVENT_JOIN, false },
+	{ LPGENW("Show icon in tray for users disconnecting"), "TrayIconFlags", GC_EVENT_QUIT, false },
+	{ LPGENW("Show icon in tray for messages"), "TrayIconFlags", GC_EVENT_MESSAGE, false },
+	{ LPGENW("Show icon in tray for actions"), "TrayIconFlags", GC_EVENT_ACTION, false },
+	{ LPGENW("Show icon in tray for highlights"), "TrayIconFlags", GC_EVENT_HIGHLIGHT, true },
+	{ LPGENW("Show icon in tray for users leaving"), "TrayIconFlags", GC_EVENT_PART, false },
+	{ LPGENW("Show icon in tray for users kicking other user"), "TrayIconFlags", GC_EVENT_KICK, false },
+	{ LPGENW("Show icon in tray for notices"), "TrayIconFlags", GC_EVENT_NOTICE, false },
+	{ LPGENW("Show icon in tray for name changes"), "TrayIconFlags", GC_EVENT_NICK, false },
+	{ LPGENW("Show icon in tray for information messages"), "TrayIconFlags", GC_EVENT_INFORMATION, false },
+	{ LPGENW("Show icon in tray for status changes"), "TrayIconFlags", GC_EVENT_ADDSTATUS, false },
 };
 
-static const struct branch_t branch6[] = {
-	{ LPGENW("Show popups only when the chat room is not active"), "PopupInactiveOnly", 0, 1 },
-	{ LPGENW("Show popup for topic changes"), "PopupFlags", GC_EVENT_TOPIC, 0 },
-	{ LPGENW("Show popup for users joining"), "PopupFlags", GC_EVENT_JOIN, 0 },
-	{ LPGENW("Show popup for users disconnecting"), "PopupFlags", GC_EVENT_QUIT, 0 },
-	{ LPGENW("Show popup for messages"), "PopupFlags", GC_EVENT_MESSAGE, 0 },
-	{ LPGENW("Show popup for actions"), "PopupFlags", GC_EVENT_ACTION, 0 },
-	{ LPGENW("Show popup for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, 0 },
-	{ LPGENW("Show popup for users leaving"), "PopupFlags", GC_EVENT_PART, 0 },
-	{ LPGENW("Show popup for users kicking other user"), "PopupFlags", GC_EVENT_KICK, 0 },
-	{ LPGENW("Show popup for notices"), "PopupFlags", GC_EVENT_NOTICE, 0 },
-	{ LPGENW("Show popup for name changes"), "PopupFlags", GC_EVENT_NICK, 0 },
-	{ LPGENW("Show popup for information messages"), "PopupFlags", GC_EVENT_INFORMATION, 0 },
-	{ LPGENW("Show popup for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, 0 },
+static branch_t branch6[] = {
+	{ LPGENW("Show popups only when the chat room is not active"), "PopupInactiveOnly", 0, true },
+	{ LPGENW("Show popup for topic changes"), "PopupFlags", GC_EVENT_TOPIC, false },
+	{ LPGENW("Show popup for users joining"), "PopupFlags", GC_EVENT_JOIN, false },
+	{ LPGENW("Show popup for users disconnecting"), "PopupFlags", GC_EVENT_QUIT, false },
+	{ LPGENW("Show popup for messages"), "PopupFlags", GC_EVENT_MESSAGE, false },
+	{ LPGENW("Show popup for actions"), "PopupFlags", GC_EVENT_ACTION, false },
+	{ LPGENW("Show popup for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, false },
+	{ LPGENW("Show popup for users leaving"), "PopupFlags", GC_EVENT_PART, false },
+	{ LPGENW("Show popup for users kicking other user"), "PopupFlags", GC_EVENT_KICK, false },
+	{ LPGENW("Show popup for notices"), "PopupFlags", GC_EVENT_NOTICE, false },
+	{ LPGENW("Show popup for name changes"), "PopupFlags", GC_EVENT_NICK, false },
+	{ LPGENW("Show popup for information messages"), "PopupFlags", GC_EVENT_INFORMATION, false },
+	{ LPGENW("Show popup for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, false },
 };
-
-HTREEITEM hItemB0[_countof(branch0)];
-HTREEITEM hItemB1[_countof(branch1)];
-HTREEITEM hItemB2[_countof(branch2)];
-HTREEITEM hItemB3[_countof(branch3)];
-HTREEITEM hItemB4[_countof(branch4)];
-HTREEITEM hItemB5[_countof(branch5)];
-HTREEITEM hItemB6[_countof(branch6)];
 
 static HTREEITEM InsertBranch(HWND hwndTree, char* pszDescr, BOOL bExpanded)
 {
-	TVINSERTSTRUCT tvis = { 0 };
+	TVINSERTSTRUCT tvis = {};
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
 	tvis.item.pszText = Langpack_PcharToTchar(pszDescr);
@@ -149,7 +142,7 @@ static HTREEITEM InsertBranch(HWND hwndTree, char* pszDescr, BOOL bExpanded)
 	return res;
 }
 
-static void FillBranch(HWND hwndTree, HTREEITEM hParent, const struct branch_t *branch, HTREEITEM *hItemB, int nValues, DWORD defaultval)
+static void FillBranch(HWND hwndTree, HTREEITEM hParent, struct branch_t *branch, int nValues, DWORD defaultval)
 {
 	int iState;
 
@@ -168,18 +161,18 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, const struct branch_t *
 		else
 			iState = db_get_b(NULL, CHAT_MODULE, branch[i].szDBName, branch[i].bDefault) != 0 ? 2 : 1;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK(iState);
-		hItemB[i] = TreeView_InsertItem(hwndTree, &tvis);
+		branch[i].hItem = TreeView_InsertItem(hwndTree, &tvis);
 	}
 }
 
-static void SaveBranch(HWND hwndTree, const struct branch_t *branch, HTREEITEM *hItemB, int nValues)
+static void SaveBranch(HWND hwndTree, struct branch_t *branch, int nValues)
 {
 	int iState = 0;
 
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
-		tvi.hItem = hItemB[i];
+		tvi.hItem = branch[i].hItem;
 		TreeView_GetItem(hwndTree, &tvi);
 		BYTE bChecked = (((tvi.state & TVIS_STATEIMAGEMASK) >> 12) == 1) ? 0 : 1;
 		if (branch[i].iMode) {
@@ -204,7 +197,7 @@ static void CheckHeading(HWND hwndTree, HTREEITEM hHeading)
 	tvi.mask = TVIF_HANDLE | TVIF_STATE;
 	tvi.hItem = TreeView_GetNextItem(hwndTree, hHeading, TVGN_CHILD);
 	while (tvi.hItem && bChecked) {
-		if (tvi.hItem != hItemB1[0] && tvi.hItem != hItemB1[1]) {
+		if (tvi.hItem != branch1[0].hItem && tvi.hItem != branch1[1].hItem) {
 			TreeView_GetItem(hwndTree, &tvi);
 			if (((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 1))
 				bChecked = FALSE;
@@ -234,7 +227,7 @@ static void CheckBranches(HWND hwndTree, HTREEITEM hHeading)
 	tvi.stateMask = TVIS_STATEIMAGEMASK;
 	while (tvi.hItem) {
 		tvi.state = INDEXTOSTATEIMAGEMASK(bChecked ? 2 : 1);
-		if (tvi.hItem != hItemB1[0] && tvi.hItem != hItemB1[1])
+		if (tvi.hItem != branch1[0].hItem && tvi.hItem != branch1[1].hItem)
 			TreeView_SetItem(hwndTree, &tvi);
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
 	}
@@ -351,13 +344,13 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 		hListHeading5 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Icons to display in the tray"), db_get_b(NULL, CHAT_MODULE, "Branch5Exp", 0) ? TRUE : FALSE);
 		if (PopupInstalled)
 			hListHeading6 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), LPGEN("Popups to display"), db_get_b(NULL, CHAT_MODULE, "Branch6Exp", 0) ? TRUE : FALSE);
-		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading0, branch0, hItemB0, _countof(branch0), 0);
-		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, hItemB1, _countof(branch1), 0);
-		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, hItemB2, _countof(branch2), 0);
-		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading3, branch3, hItemB3, _countof(branch3), 0x03E0);
-		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading4, branch4, hItemB4, _countof(branch4), 0x0000);
-		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading5, branch5, hItemB5, _countof(branch5), 0x1000);
-		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading6, branch6, hItemB6, _countof(branch6), 0x0000);
+		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading0, branch0, _countof(branch0), 0);
+		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, _countof(branch1), 0);
+		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, _countof(branch2), 0);
+		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading3, branch3, _countof(branch3), 0x03E0);
+		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading4, branch4, _countof(branch4), 0x0000);
+		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading5, branch5, _countof(branch5), 0x1000);
+		FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading6, branch6, _countof(branch6), 0x0000);
 		SendMessage(hwndDlg, OPT_FIXHEADINGS, 0, 0);
 		break;
 
@@ -385,14 +378,14 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
 				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
 					if (hti.flags & TVHT_ONITEMSTATEICON) {
-						TVITEM tvi = { 0 };
+						TVITEM tvi = {};
 						tvi.mask = TVIF_HANDLE | TVIF_STATE;
 						tvi.hItem = hti.hItem;
 						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-						if (tvi.hItem == hItemB1[0] && INDEXTOSTATEIMAGEMASK(1) == tvi.state)
-							TreeView_SetItemState(((LPNMHDR)lParam)->hwndFrom, hItemB1[1], INDEXTOSTATEIMAGEMASK(1), TVIS_STATEIMAGEMASK);
-						if (tvi.hItem == hItemB1[1] && INDEXTOSTATEIMAGEMASK(1) == tvi.state)
-							TreeView_SetItemState(((LPNMHDR)lParam)->hwndFrom, hItemB1[0], INDEXTOSTATEIMAGEMASK(1), TVIS_STATEIMAGEMASK);
+						if (tvi.hItem == branch1[0].hItem && INDEXTOSTATEIMAGEMASK(1) == tvi.state)
+							TreeView_SetItemState(((LPNMHDR)lParam)->hwndFrom, branch1[1].hItem, INDEXTOSTATEIMAGEMASK(1), TVIS_STATEIMAGEMASK);
+						if (tvi.hItem == branch1[1].hItem && INDEXTOSTATEIMAGEMASK(1) == tvi.state)
+							TreeView_SetItemState(((LPNMHDR)lParam)->hwndFrom, branch1[0].hItem, INDEXTOSTATEIMAGEMASK(1), TVIS_STATEIMAGEMASK);
 
 						if (tvi.hItem == hListHeading0)
 							CheckBranches(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading0);
@@ -420,14 +413,14 @@ static INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM 
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				BYTE b = db_get_b(NULL, CHAT_MODULE, "Tabs", 1);
-				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch0, hItemB0, _countof(branch0));
-				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, hItemB1, _countof(branch1));
-				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, hItemB2, _countof(branch2));
-				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch3, hItemB3, _countof(branch3));
-				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch4, hItemB4, _countof(branch4));
-				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch5, hItemB5, _countof(branch5));
+				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch0, _countof(branch0));
+				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, _countof(branch1));
+				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, _countof(branch2));
+				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch3, _countof(branch3));
+				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch4, _countof(branch4));
+				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch5, _countof(branch5));
 				if (PopupInstalled)
-					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch6, hItemB6, _countof(branch6));
+					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch6, _countof(branch6));
 				g_Settings.dwIconFlags = db_get_dw(NULL, CHAT_MODULE, "IconFlags", 0x0000);
 				g_Settings.dwTrayIconFlags = db_get_dw(NULL, CHAT_MODULE, "TrayIconFlags", 0x1000);
 				g_Settings.dwPopupFlags = db_get_dw(NULL, CHAT_MODULE, "PopupFlags", 0x0000);
@@ -532,7 +525,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				wchar_t szDirectory[MAX_PATH];
 				wchar_t szTemp[MAX_PATH];
 
-				BROWSEINFO bi = { 0 };
+				BROWSEINFO bi = {};
 				bi.hwndOwner = hwndDlg;
 				bi.pszDisplayName = szDirectory;
 				bi.lpszTitle = TranslateT("Select folder");
@@ -731,7 +724,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 int ChatOptionsInitialize(WPARAM wParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
