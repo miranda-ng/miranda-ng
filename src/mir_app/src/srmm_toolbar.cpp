@@ -327,7 +327,7 @@ MIR_APP_DLL(void) Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 		if ((flags & BBBF_ISIMBUTTON) && cbd->m_bIMButton || (flags & BBBF_ISCHATBUTTON) && cbd->m_bChatButton) {
 			if (hwndButton == NULL) {
-				hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, 22, hwndDlg, (HMENU)cbd->m_dwButtonCID, hInstance, NULL);
+				hwndButton = CreateWindowEx(0, L"MButtonClass", L"", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, cbd->m_iButtonWidth, DPISCALEX_S(22), hwndDlg, (HMENU)cbd->m_dwButtonCID, hInstance, NULL);
 				if (hwndButton == NULL) // smth went wrong
 					continue;
 			}
@@ -338,6 +338,16 @@ MIR_APP_DLL(void) Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 				SendMessage(hwndButton, BUTTONADDTOOLTIP, LPARAM(cbd->m_pwszTooltip), BATF_UNICODE);
 			if (cbd->m_hIcon)
 				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
+
+			if (cbd->m_dwArrowCID)
+				SendMessage(hwndButton, BUTTONSETARROW, cbd->m_dwArrowCID, 0);
+			if (cbd->m_bPushButton)
+				SendMessage(hwndButton, BUTTONSETASPUSHBTN, TRUE, 0);
+
+			if (cbd->m_bDisabled)
+				EnableWindow(hwndButton, FALSE);
+			if (cbd->m_bHidden)
+				ShowWindow(hwndButton, SW_HIDE);
 		}
 		else if (hwndButton)
 			DestroyWindow(hwndButton);

@@ -56,27 +56,27 @@ bool   CMimAPI::m_haveBufferedPaint = false;
 
 void CMimAPI::BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WindowList_Broadcast(m_hMessageWindowList, msg, wParam, lParam);
+	WindowList_Broadcast(pci->hWindowList, msg, wParam, lParam);
 }
 
 void CMimAPI::BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WindowList_BroadcastAsync(m_hMessageWindowList, msg, wParam, lParam);
+	WindowList_BroadcastAsync(pci->hWindowList, msg, wParam, lParam);
 }
 
 HWND CMimAPI::FindWindow(MCONTACT h) const
 {
-	return WindowList_Find(m_hMessageWindowList, h);
+	return WindowList_Find(pci->hWindowList, h);
 }
 
 INT_PTR CMimAPI::AddWindow(HWND hWnd, MCONTACT h)
 {
-	return WindowList_Add(m_hMessageWindowList, hWnd, h);
+	return WindowList_Add(pci->hWindowList, hWnd, h);
 }
 
 INT_PTR CMimAPI::RemoveWindow(HWND hWnd)
 {
-	return WindowList_Remove(m_hMessageWindowList, hWnd);
+	return WindowList_Remove(pci->hWindowList, hWnd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
