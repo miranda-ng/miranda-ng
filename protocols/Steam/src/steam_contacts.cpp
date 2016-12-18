@@ -173,10 +173,10 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNode *data)
 
 	// status
 	// NOTE: this here is wrong info, probably depending on publicity of steam profile, but we don't need this at all, we get status updates by polling
-	// NOTE: polling won't always give us info about all contacts (e.g. in case of quick disconnect and reconnect), so we try to use this anyway
-	node = json_get(data, "personastate");
-	WORD status = SteamToMirandaStatus(json_as_int(node));
+	/*node = json_get(data, "personastate");
+	status = SteamToMirandaStatus(json_as_int(node));
 	SetContactStatus(hContact, status);
+	*/
 
 	// client
 	node = json_get(data, "personastateflags");
