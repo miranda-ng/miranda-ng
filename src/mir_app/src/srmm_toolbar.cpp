@@ -579,7 +579,7 @@ public:
 		m_toolBar.SetFlags(MTREE_DND); // enable drag-n-drop
 		m_toolBar.OnSelChanged = Callback(this, &CSrmmToolbarOptions::OnTreeSelChanged);
 		m_toolBar.OnSelChanging = Callback(this, &CSrmmToolbarOptions::OnTreeSelChanging);
-		m_toolBar.OnChange = Callback(this, &CSrmmToolbarOptions::OnTreeChanged);
+		m_toolBar.OnItemChanged = Callback(this, &CSrmmToolbarOptions::OnTreeItemChanged);
 
 		m_btnReset.OnClick = Callback(this, &CSrmmToolbarOptions::btnResetClicked);
 		m_btnSeparator.OnClick = Callback(this, &CSrmmToolbarOptions::btnSeparatorClicked);
@@ -734,7 +734,7 @@ public:
 		m_btnHidden.Enable(); m_btnHidden.SetState(cbd->m_bCanBeHidden);
 	}
 
-	void OnTreeChanged(void*)
+	void OnTreeItemChanged(void*)
 	{
 		int iNewState = !m_toolBar.GetCheckState(m_toolBar.GetSelection());
 		m_btnIM.Enable(iNewState);

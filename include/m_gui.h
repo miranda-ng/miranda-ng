@@ -1154,6 +1154,7 @@ public:
 	CCallback<TEventInfo> OnEndLabelEdit;
 	CCallback<TEventInfo> OnGetDispInfo;
 	CCallback<TEventInfo> OnGetInfoTip;
+	CCallback<TEventInfo> OnItemChanged;
 	CCallback<TEventInfo> OnItemExpanded;
 	CCallback<TEventInfo> OnItemExpanding;
 	CCallback<TEventInfo> OnKeyDown;
