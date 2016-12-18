@@ -91,7 +91,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISDUMMYBUTTON;
 	bbd.dwButtonID = 1;
 	bbd.pszModuleName = "tb_splitter";
-	bbd.dwDefPos = 31;
+	bbd.dwDefPos = 35;
 	bbd.hIcon = 0;
 	bbd.pwszTooltip = 0;
 	Srmm_AddButton(&bbd);
@@ -157,7 +157,6 @@ void BB_InitDlgButtons(TWindowData *dat)
 
 	RECT rect;
 	GetClientRect(hdlg, &rect);
-	int splitterY = ptSplitter.y - DPISCALEY_S(1);
 
 	dat->bbLSideWidth = dat->bbRSideWidth = 0;
 
