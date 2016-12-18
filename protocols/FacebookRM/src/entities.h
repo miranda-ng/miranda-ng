@@ -149,17 +149,17 @@ struct facebook_notification
 
 	void setIcon(const std::string &iconUrl)
 	{
-		if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yj/r/6WffvhOaXGY.png")
+		if (iconUrl == "https://www.facebook.com/rsrc.php/v3/yj/r/6WffvhOaXGY.png")
 			icon = "like";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/y1/r/RvGKklgAefT.png")
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/y1/r/RvGKklgAefT.png")
 			icon = "love";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yV/r/McJA2ZjdJmf.png")
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/yV/r/McJA2ZjdJmf.png")
 			icon = "haha";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yL/r/IfsimazVjj4.png")
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/yL/r/IfsimazVjj4.png")
 			icon = "wow";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yH/r/jOeSrGlcPLG.png")
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/yH/r/jOeSrGlcPLG.png")
 			icon = "sad";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v2/yL/r/IfsimazVjj4.png")
+		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/y9/r/6K8v8Ju8kL2.png")
 			icon = "angry";
 		else
 			icon = NULL;
