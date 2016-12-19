@@ -25,54 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <richedit.h>
 #include <richole.h>
 
-struct NewMessageWindowLParam
-{
-	MCONTACT hContact;
-	const char *szInitialText;
-	int isWchar;
-	int noActivate;
-};
-
-struct SrmmWindowData : public MZeroedObject
-{
-	SrmmWindowData() :
-		cmdList(20)
-		{}
-
-	MCONTACT hContact;
-	MEVENT hDbEventFirst, hDbEventLast;
-	HBRUSH hBkgBrush;
-	HFONT hFont;
-	int splitterPos, originalSplitterPos;
-	SIZE minEditBoxSize;
-	RECT minEditInit;
-	int lineHeight;
-	int windowWasCascaded;
-	DWORD nFlash;
-	int nTypeSecs;
-	int nTypeMode;
-	int avatarWidth;
-	int avatarHeight;
-	int limitAvatarH;
-	HBITMAP avatarPic;
-	DWORD nLastTyping;
-	int showTyping;
-	DWORD lastMessage;
-	HWND hwndStatus;
-	HANDLE hTimeZone;
-	char *szProto;
-	WORD wStatus;
-	WORD wOldStatus;
-	int cmdListInd;
-	LIST<wchar_t> cmdList;
-	bool bIsAutoRTL, bIsMeta;
-	WORD wMinute;
-
-	__forceinline MCONTACT getActiveContact() const
-	{	return (bIsMeta) ? db_mc_getSrmmSub(hContact) : hContact;
-	}
-};
-
 #define DM_REMAKELOG         (WM_USER+11)
 #define HM_DBEVENTADDED      (WM_USER+12)
 #define DM_CASCADENEWWINDOW  (WM_USER+13)
@@ -97,30 +49,53 @@ struct SrmmWindowData : public MZeroedObject
 #define EVENTTYPE_JABBER_CHATSTATES     2000
 #define EVENTTYPE_JABBER_PRESENCE       2001
 
-struct CREOleCallback : public IRichEditOleCallback
+class CSrmmWindow : public CDlgBase, public MZeroedObject
 {
-	CREOleCallback() : refCount(0), nextStgId(0), pictStg(NULL) {}
-	unsigned refCount;
-	IStorage *pictStg;
-	int nextStgId;
+	void NotifyTyping(int mode);
+	void ShowAvatar();
 
-	STDMETHOD(QueryInterface)(REFIID riid, LPVOID FAR * lplpObj);
-	STDMETHOD_(ULONG,AddRef)(THIS);
-	STDMETHOD_(ULONG,Release)(THIS);
+public:
+	MCONTACT m_hContact;
+	MEVENT m_hDbEventFirst, m_hDbEventLast;
+	HBRUSH m_hBkgBrush;
+	HFONT m_hFont;
+	int m_splitterPos, m_originalSplitterPos;
+	SIZE m_minEditBoxSize;
+	RECT m_minEditInit;
+	int m_lineHeight;
+	int m_windowWasCascaded;
+	DWORD m_nFlash;
+	int m_nTypeSecs;
+	int m_nTypeMode;
+	int m_avatarWidth;
+	int m_avatarHeight;
+	int m_limitAvatarH;
+	HBITMAP m_avatarPic;
+	DWORD m_nLastTyping;
+	DWORD m_lastMessage;
+	HWND m_hwndStatus;
+	HANDLE m_hTimeZone;
+	char *m_szProto;
+	WORD m_wStatus;
+	WORD m_wOldStatus;
+	int m_cmdListInd;
+	LIST<wchar_t> m_cmdList;
+	bool m_bIsAutoRTL, m_bIsMeta, m_bShowTyping, m_bNoActivate;
+	WORD m_wMinute;
+	wchar_t *m_wszInitialText;
 
-	STDMETHOD(ContextSensitiveHelp)(BOOL fEnterMode);
-	STDMETHOD(GetNewStorage)(LPSTORAGE FAR * lplpstg);
-	STDMETHOD(GetInPlaceContext)(LPOLEINPLACEFRAME FAR * lplpFrame, LPOLEINPLACEUIWINDOW FAR * lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo);
-	STDMETHOD(ShowContainerUI)(BOOL fShow);
-	STDMETHOD(QueryInsertObject)(LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp);
-	STDMETHOD(DeleteObject)(LPOLEOBJECT lpoleobj);
-	STDMETHOD(QueryAcceptData)(LPDATAOBJECT lpdataobj, CLIPFORMAT FAR * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict);
-	STDMETHOD(GetClipboardData)(CHARRANGE FAR *lpchrg, DWORD reco, LPDATAOBJECT FAR * lplpdataobj);
-	STDMETHOD(GetDragDropEffect)(BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect);
-	STDMETHOD(GetContextMenu)(WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR * lpchrg, HMENU FAR * lphmenu) ;
+	CSrmmWindow(MCONTACT hContact, bool bNoActivate, const char *szInitialText = NULL, bool bIsUnicode = false);
+
+	virtual void OnInitDialog() override;
+	virtual void OnDestroy() override;
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	__forceinline MCONTACT getActiveContact() const
+	{	return (m_bIsMeta) ? db_mc_getSrmmSub(m_hContact) : m_hContact;
+	}
 };
 
-INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int  DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 int  DbEventIsShown(DBEVENTINFO *dbei);

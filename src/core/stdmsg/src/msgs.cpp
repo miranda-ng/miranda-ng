@@ -83,10 +83,8 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
-		NewMessageWindowLParam newData = {};
-		newData.hContact = hContact;
-		newData.noActivate = g_dat.bDoNotStealFocus;
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
+		CSrmmWindow *pDlg = new CSrmmWindow(hContact, g_dat.bDoNotStealFocus);
+		pDlg->Show();
 		return 0;
 	}
 
@@ -127,11 +125,8 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar)
 		SetForegroundWindow(hwnd);
 	}
 	else {
-		NewMessageWindowLParam newData = {};
-		newData.hContact = hContact;
-		newData.szInitialText = msg;
-		newData.isWchar = isWchar;
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
+		CSrmmWindow *pDlg = new CSrmmWindow(hContact, false, msg, isWchar != 0);
+		pDlg->Show();
 	}
 	return 0;
 }
@@ -255,10 +250,8 @@ static void RestoreUnreadMessageAlerts(void)
 					autoPopup = true;
 
 				if (autoPopup && !windowAlreadyExists) {
-					NewMessageWindowLParam newData = {};
-					newData.hContact = hContact;
-					newData.noActivate = g_dat.bDoNotStealFocus;
-					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
+					CSrmmWindow *pDlg = new CSrmmWindow(hContact, g_dat.bDoNotStealFocus);
+					pDlg->Show();
 				}
 				else arEvents.insert(new MSavedEvent(hContact, hDbEvent));
 			}
@@ -503,7 +496,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 	if (hwnd == NULL)
 		return 1;
 
-	SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (dat == NULL)
 		return 1;
 
@@ -511,8 +504,8 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 	if (st != NULL && st->cbSize != sizeof(StatusTextData))
 		return 1;
 
-	SendMessage(dat->hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
-	SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? L"" : st->tszText));
+	SendMessage(dat->m_hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
+	SendMessage(dat->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? L"" : st->tszText));
 
 	return 0;
 }

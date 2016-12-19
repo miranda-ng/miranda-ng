@@ -43,7 +43,7 @@ struct LogStreamData
 	int bufferOffset, bufferLen;
 	int eventsToInsert;
 	int isEmpty;
-	SrmmWindowData *dlgDat;
+	CSrmmWindow *dlgDat;
 };
 
 static int logPixelSY;
@@ -147,7 +147,7 @@ static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 
 #define FONT_FORMAT "{\\f%u\\fnil\\fcharset%u %S;}"
 
-static char* CreateRTFHeader(SrmmWindowData*)
+static char* CreateRTFHeader(CSrmmWindow*)
 {
 	HDC hdc = GetDC(NULL);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
@@ -175,7 +175,7 @@ static char* CreateRTFHeader(SrmmWindowData*)
 }
 
 // mir_free() the return value
-static char* CreateRTFTail(SrmmWindowData*)
+static char* CreateRTFTail(CSrmmWindow*)
 {
 	return mir_strdup("}");
 }
@@ -203,7 +203,7 @@ int DbEventIsShown(DBEVENTINFO *dbei)
 }
 
 //mir_free() the return value
-static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEvent, struct LogStreamData *streamData)
+static char* CreateRTFFromDbEvent(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent, struct LogStreamData *streamData)
 {
 	int showColon = 0;
 
@@ -227,18 +227,18 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 	}
 
 	CMStringA buffer;
-	if (!dat->bIsAutoRTL && !streamData->isEmpty)
+	if (!dat->m_bIsAutoRTL && !streamData->isEmpty)
 		buffer.Append("\\par");
 
 	if (dbei.flags & DBEF_RTL) {
 		buffer.Append("\\rtlpar");
-		dat->bIsAutoRTL = TRUE;
+		dat->m_bIsAutoRTL = TRUE;
 	}
 	else buffer.Append("\\ltrpar");
 
 	streamData->isEmpty = 0;
 
-	if (dat->bIsAutoRTL) {
+	if (dat->m_bIsAutoRTL) {
 		if (dbei.flags & DBEF_RTL)
 			buffer.Append("\\ltrch\\rtlch");
 		else
@@ -339,7 +339,7 @@ static char* CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 		mir_free(msg);
 	}
 
-	if (dat->bIsAutoRTL)
+	if (dat->m_bIsAutoRTL)
 		buffer.Append("\\par");
 
 	mir_free(dbei.pBlob);
@@ -398,7 +398,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 {
-	SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
 	BOOL bottomScroll = TRUE;
 	POINT scrollPos;
@@ -409,7 +409,7 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 	SendMessage(hwndLog, EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = {};
-	streamData.hContact = dat->hContact;
+	streamData.hContact = dat->m_hContact;
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.dlgDat = dat;
 	streamData.eventsToInsert = count;
@@ -457,7 +457,7 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 	if (bottomScroll)
 		RedrawWindow(hwndLog, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 
-	dat->hDbEventLast = streamData.hDbEventLast;
+	dat->m_hDbEventLast = streamData.hDbEventLast;
 }
 
 #define RTFPICTHEADERMAXSIZE   78
