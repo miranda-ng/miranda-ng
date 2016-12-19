@@ -124,7 +124,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			RECT r;
 			GetClientRect(hwnd, &r);
 
-			int min = MinutesInFuture(alarm.time, alarm.occurrence);
+			int min = MinutesInFuture(alarm.time, alarm.occurrence, alarm.day_mask);
 
 			FillRect(dis->hDC, &dis->rcItem, bk_brush);
 

@@ -44,7 +44,7 @@ typedef struct ALARM_tag {
 	wchar_t *szCommand;
 	wchar_t *szCommandParams;
 	BYTE sound_num;
-	int flags;
+	int flags, day_mask;
 } ALARM;
 
 #endif

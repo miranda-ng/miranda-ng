@@ -27,6 +27,7 @@ void free_alarm_data(ALARM *alarm) {
 void copy_alarm_data(ALARM *dest, ALARM *src) {
 	dest->action = src->action;
 	dest->flags = src->flags;
+	dest->day_mask = src->day_mask;
 	dest->id = src->id;
 	dest->occurrence = src->occurrence;
 	dest->snoozer = src->snoozer;
@@ -45,8 +46,8 @@ void GetPluginTime(SYSTEMTIME *t) {
 	*t = last_check;
 }
 
-int MinutesInFuture(SYSTEMTIME time, Occurrence occ) {
-	if (!UpdateAlarm(time, occ)) return 0;
+int MinutesInFuture(SYSTEMTIME time, Occurrence occ, int selected_days) {
+	if (!UpdateAlarm(time, occ, selected_days)) return 0;
 
 	SYSTEMTIME now;
 	GetPluginTime(&now);
@@ -87,7 +88,40 @@ void TimeForMinutesInFuture(int mins, SYSTEMTIME *time) {
 
 
 // update an alarm so that the systemtime reflects the next time the alarm will go off, based on the last_check time
-bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ) {
+
+bool is_day_selected(int day, int selected_days)
+{
+	switch (day)
+	{
+	case 0:
+		return selected_days & ALDF_7;
+		break;
+	case 1:
+		return selected_days & ALDF_1;
+		break;
+	case 2:
+		return selected_days & ALDF_2;
+		break;
+	case 3:
+		return selected_days & ALDF_3;
+		break;
+	case 4:
+		return selected_days & ALDF_4;
+		break;
+	case 5:
+		return selected_days & ALDF_5;
+		break;
+	case 6:
+		return selected_days & ALDF_6;
+		break;
+	default:
+		return false;
+	}
+
+//	return false;
+}
+
+bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ, int selected_days) {
 
 	FILETIME ft_now, ft_then;
 	ULARGE_INTEGER uli_then;
@@ -96,6 +130,7 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ) {
 	case OC_DAILY:
 	case OC_WEEKDAYS:
 	case OC_WEEKLY:
+	case OC_SELECTED_DAYS:
 		time.wDay = last_check.wDay;
 	case OC_MONTHLY:
 		time.wMonth = last_check.wMonth;
@@ -159,6 +194,24 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ) {
 				}
 			} while(temp.wDayOfWeek == 0 || temp.wDayOfWeek == 6 || CompareFileTime(&ft_then, &ft_now) < 0);
 		}
+		break;
+	case OC_SELECTED_DAYS: //////TODO:::::
+	{
+		SYSTEMTIME temp;
+		uli_then.HighPart = ft_then.dwHighDateTime;
+		uli_then.LowPart = ft_then.dwLowDateTime;
+		FileTimeToSystemTime(&ft_now, &temp);
+		int day = temp.wDayOfWeek;
+		while (CompareFileTime(&ft_then, &ft_now) < 0 || (selected_days && !is_day_selected(day, selected_days))) {
+			uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
+			ft_then.dwHighDateTime = uli_then.HighPart;
+			ft_then.dwLowDateTime = uli_then.LowPart;
+			if (day < 7)
+				day++;
+			else
+				day = 0;
+		}
+	}
 		break;
 	case OC_DAILY:
 		uli_then.HighPart = ft_then.dwHighDateTime;
@@ -239,7 +292,7 @@ void LoadAlarms() {
 			break;
 		}
 
-		if (UpdateAlarm(alarm.time, alarm.occurrence)) {
+		if (UpdateAlarm(alarm.time, alarm.occurrence, alarm.day_mask)) {
 			mir_snprintf(buff, "ActionFlags%d", i);
 			alarm.action = (unsigned short)db_get_dw(0, MODULE, buff, AAF_POPUP | AAF_SOUND);
 			if (alarm.action & AAF_COMMAND) {
@@ -272,6 +325,9 @@ void LoadAlarms() {
 
 			mir_snprintf(buff, "Flags%d", i);
 			alarm.flags = db_get_dw(0, MODULE, buff, alarm.flags);
+
+			mir_snprintf(buff, "SelectedDays%d", i);
+			alarm.flags = db_get_dw(0, MODULE, buff, alarm.day_mask);
 
 			alarm.id = next_alarm_id++;
 			alarms.push_back(&alarm);
@@ -344,6 +400,8 @@ void SaveAlarms() {
 
 		mir_snprintf(buff, "Flags%d", index);
 		db_set_dw(0, MODULE, buff, i->flags);
+		mir_snprintf(buff, "SelectedDays%d", index);
+		db_set_dw(0, MODULE, buff, i->day_mask);
 	}
 	db_set_w(0, MODULE, "Count", index);
 }
@@ -580,7 +638,7 @@ void CheckAlarms() {
 	mir_cslock lck(alarm_cs);
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next()) {
-		if (!UpdateAlarm(i->time, i->occurrence)) { 
+		if (!UpdateAlarm(i->time, i->occurrence, i->day_mask)) { 
 			// somehow an expired one-off alarm is in our list
 			remove_list.push_back(i);
 			continue;

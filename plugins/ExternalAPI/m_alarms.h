@@ -10,6 +10,7 @@
 typedef enum { 
 	OC_ONCE,								// all fields in time (see below) are valid
 	OC_DAILY,								// only wHour, wMinute, and wSecond are valid
+	OC_SELECTED_DAYS,						// only wHour, wMinute, and wSecond are valid
 	OC_WEEKLY,								// wHour, wMinute, wSecond, and wDayOfWeek are valid
 	OC_WEEKDAYS,							// only wHour, wMinute, and wSecond are valid
 	OC_MONTHLY,								// wHour, wMinute, wSecond, and wDay are valid
@@ -22,6 +23,15 @@ typedef enum {
 #define ALF_SUSPENDED	0x04				// do not trigger next occurence
 #define ALF_NOSTARTUP	0x08				// do not trigger on startup if it was due when miranda was not running
 #define ALF_NOSNOOZE	0x10				// do not allow snoozing of this alarm
+
+//day flags
+#define ALDF_1 0x01
+#define ALDF_2 0x02
+#define ALDF_3 0x04
+#define ALDF_4 0x08
+#define ALDF_5 0x10
+#define ALDF_6 0x20
+#define ALDF_7 0x40
 
 typedef struct {
 	TCHAR *szTitle;

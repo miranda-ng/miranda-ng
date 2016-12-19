@@ -11,11 +11,11 @@ void free_alarm_data(ALARM *alarm);
 
 void copy_alarm_data(ALARM *dest, ALARM *src);
 
-int MinutesInFuture(SYSTEMTIME time, Occurrence occ);
+int MinutesInFuture(SYSTEMTIME time, Occurrence occ, int selected_days = 0);
 void TimeForMinutesInFuture(int mins, SYSTEMTIME *time);
 
 static bool operator<(const ALARM &a1, const ALARM &a2) {
-	return MinutesInFuture(a1.time, a1.occurrence) < MinutesInFuture(a2.time, a2.occurrence); // less-than inverted 'cause we want ascending order
+	return MinutesInFuture(a1.time, a1.occurrence, a1.day_mask) < MinutesInFuture(a2.time, a2.occurrence, a2.day_mask); // less-than inverted 'cause we want ascending order
 }
 
 class AlarmList {
@@ -138,7 +138,7 @@ void suspend(unsigned short alarm_id);
 void GetPluginTime(SYSTEMTIME *t);
 
 // increase 'time' to next occurrence
-bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ);
+bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ, int selected_days = 0);
 
 
 const ULARGE_INTEGER mult = { 600000000, 0}; // number of 100 microsecond blocks in a minute

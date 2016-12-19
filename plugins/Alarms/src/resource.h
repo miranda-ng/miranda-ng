@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by X:\install\git\miranda\miranda-ng\plugins\Alarms\res\resource.rc
 //
 #define IDD_DIALOG1                     101
 #define IDD_OPT1                        102
@@ -70,6 +70,15 @@
 #define IDC_CHK_LOOPSOUND               1065
 #define IDC_ED_DESC                     1066
 #define IDC_DATE                        1071
+#define IDC_RAD_DAYS                    1072
+#define IDC_CHK_DAY1                    1073
+#define IDC_CHK_DAY2                    1074
+#define IDC_CHK_DAY3                    1075
+#define IDC_CHK_DAY4                    1076
+#define IDC_CHK_DAY5                    1077
+#define IDC_CHK_DAY6                    1078
+#define IDC_CHECK7                      1079
+#define IDC_CHK_DAY7                    1079
 #define ID_REMINDERFRAMECONTEXT_SUSPEND 40003
 #define ID_REMINDERFRAMECONTEXT_EDIT    40004
 #define ID_REMINDERFRAMECONTEXT_DELETE  40005
@@ -80,9 +89,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        127
+#define _APS_NEXT_RESOURCE_VALUE        128
 #define _APS_NEXT_COMMAND_VALUE         40008
-#define _APS_NEXT_CONTROL_VALUE         1072
+#define _APS_NEXT_CONTROL_VALUE         1080
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
