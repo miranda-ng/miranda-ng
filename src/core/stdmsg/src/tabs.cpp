@@ -182,7 +182,7 @@ void CTabbedWindow::OnInitDialog()
 	mir_subclassWindow(m_tab.GetHwnd(), TabSubclassProc);
 
 	if (db_get_b(NULL, CHAT_MODULE, "SavePosition", 0))
-		RestoreWindowPosition(m_hwnd, NULL, CHAT_MODULE, "room", SW_NORMAL);
+		RestoreWindowPosition(m_hwnd, NULL, false);
 
 	LONG_PTR mask = GetWindowLongPtr(m_tab.GetHwnd(), GWL_STYLE);
 	if (g_Settings.bTabsAtBottom)
@@ -268,22 +268,24 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case GC_FIXTABICONS:
 		if (CChatRoomDlg *pDlg = (CChatRoomDlg*)lParam) {
 			int idx = m_tab.GetDlgIndex(pDlg);
-			if (idx != -1) {
-				int image = 0;
-				if (!(pDlg->m_si->wState & GC_EVENT_HIGHLIGHT)) {
-					MODULEINFO *mi = pci->MM_FindModule(pDlg->m_si->pszModule);
-					image = (pDlg->m_si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
-					if (pDlg->m_si->wState & STATE_TALK)
-						image++;
-				}
+			if (idx == -1)
+				break;
 
-				TCITEM tci = {};
-				tci.mask = TCIF_IMAGE;
-				TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
-				if (tci.iImage != image) {
-					tci.iImage = image;
-					TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
-				}
+			SESSION_INFO *si = pDlg->m_si;
+			int image = 0;
+			if (!(si->wState & GC_EVENT_HIGHLIGHT)) {
+				MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+				image = (si->wStatus == ID_STATUS_ONLINE) ? mi->OnlineIconIndex : mi->OfflineIconIndex;
+				if (si->wState & STATE_TALK)
+					image++;
+			}
+
+			TCITEM tci = {};
+			tci.mask = TCIF_IMAGE;
+			TabCtrl_GetItem(m_tab.GetHwnd(), idx, &tci);
+			if (tci.iImage != image) {
+				tci.iImage = image;
+				TabCtrl_SetItem(m_tab.GetHwnd(), idx, &tci);
 			}
 		}
 		else RedrawWindow(m_tab.GetHwnd(), NULL, NULL, RDW_INVALIDATE);
@@ -437,17 +439,14 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if ((i = TabCtrl_HitTest(((LPNMHDR)lParam)->hwndFrom, &tci)) == -1)
 				break;
 
-			TCITEM id = {};
-			id.mask = TCIF_PARAM;
-			TabCtrl_GetItem(GetDlgItem(m_hwnd, IDC_TAB), i, &id);
+			SESSION_INFO *si = ((CChatRoomDlg*)m_tab.GetNthPage(i))->m_si;
 
 			ClientToScreen(GetDlgItem(m_hwnd, IDC_TAB), &tci.pt);
 			HMENU hSubMenu = GetSubMenu(g_hMenu, 5);
 			TranslateMenu(hSubMenu);
 
-			SESSION_INFO *s = (SESSION_INFO*)id.lParam;
-			if (s) {
-				WORD w = db_get_w(s->hContact, s->pszModule, "TabPosition", 0);
+			if (si) {
+				WORD w = db_get_w(si->hContact, si->pszModule, "TabPosition", 0);
 				if (w == 0)
 					CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
 				else
@@ -457,35 +456,29 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, tci.pt.x, tci.pt.y, 0, m_hwnd, NULL)) {
 			case ID_CLOSE:
-				if (TabCtrl_GetCurSel(GetDlgItem(m_hwnd, IDC_TAB)) == i)
-					PostMessage(m_hwnd, GC_CLOSEWINDOW, 0, 0);
-				else
-					m_tab.RemovePage(i);
-				break;
-
-			case ID_CLOSEOTHER:
-				{
-					int tabCount = m_tab.GetCount()-1;
-					if (tabCount > 0) {
-						for (tabCount; tabCount >= 0; tabCount--) {
-							if (tabCount == i)
-								continue;
-
-							m_tab.RemovePage(tabCount);
-						}
-						m_tab.ActivatePage(0);
-					}
-				}
+				SendMessage(m_hwnd, GC_REMOVETAB, 0, (LPARAM)m_tab.GetNthPage(i));
 				break;
 
 			case ID_LOCKPOSITION:
-				TabCtrl_GetItem(GetDlgItem(m_hwnd, IDC_TAB), i, &id);
-				if (s != 0) {
+				if (si != 0) {
 					if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
-						if (s->hContact)
-							db_set_w(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
+						if (si->hContact)
+							db_set_w(si->hContact, si->pszModule, "TabPosition", (WORD)(i + 1));
 					}
-					else db_unset(s->hContact, s->pszModule, "TabPosition");
+					else db_unset(si->hContact, si->pszModule, "TabPosition");
+				}
+				break;
+
+			case ID_CLOSEOTHER:
+				int tabCount = m_tab.GetCount() - 1;
+				if (tabCount > 0) {
+					for (tabCount; tabCount >= 0; tabCount--) {
+						if (tabCount == i)
+							continue;
+
+						m_tab.RemovePage(tabCount);
+					}
+					m_tab.ActivatePage(0);
 				}
 				break;
 			}

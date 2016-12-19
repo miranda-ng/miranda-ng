@@ -388,30 +388,19 @@ void ValidateFilename(wchar_t *filename)
 	}
 }
 
-int RestoreWindowPosition(HWND hwnd, MCONTACT hContact, char *szModule, char *szNamePrefix, UINT showCmd)
+int RestoreWindowPosition(HWND hwnd, MCONTACT hContact, bool bHide)
 {
-	char szSettingName[64];
-	mir_snprintf(szSettingName, "%sx", szNamePrefix);
-	int x = db_get_dw(hContact, szModule, szSettingName, -1);
+	int x = db_get_dw(hContact, CHAT_MODULE, "roomx", -1);
 	if (x == -1)
 		return 0;
 
-	mir_snprintf(szSettingName, "%sy", szNamePrefix);
-	int y = (int)db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, "%swidth", szNamePrefix);
-	int width = db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, "%sheight", szNamePrefix);
-	int height = db_get_dw(hContact, szModule, szSettingName, -1);
+	int y = (int)db_get_dw(hContact, CHAT_MODULE, "roomy", -1);
+	int width = db_get_dw(hContact, CHAT_MODULE, "roomwidth", -1);
+	int height = db_get_dw(hContact, CHAT_MODULE, "roomheight", -1);
 
-	WINDOWPLACEMENT wp;
-	wp.length = sizeof(wp);
-	GetWindowPlacement(hwnd, &wp);
-
-	wp.rcNormalPosition.left = x;
-	wp.rcNormalPosition.top = y;
-	wp.rcNormalPosition.right = wp.rcNormalPosition.left + width;
-	wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + height;
-	wp.showCmd = showCmd;
-	SetWindowPlacement(hwnd, &wp);
+	DWORD dwFlags = SWP_NOACTIVATE | SWP_NOZORDER;
+	if (bHide)
+		dwFlags |= SWP_HIDEWINDOW;
+	SetWindowPos(hwnd, NULL, x, y, width, height, dwFlags);
 	return 1;
 }

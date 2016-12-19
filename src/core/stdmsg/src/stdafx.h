@@ -149,7 +149,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 void DestroyGCMenu(HMENU *hMenu, int iIndex);
 bool LoadMessageFont(LOGFONT *lf, COLORREF *colour);
 void SetButtonsPos(HWND hwndDlg, bool bIsChat);
-int  RestoreWindowPosition(HWND hwnd, MCONTACT hContact, char *szModule, char *szNamePrefix, UINT showCmd);
+int  RestoreWindowPosition(HWND hwnd, MCONTACT hContact, bool bHide);
 
 
 // message.cpp

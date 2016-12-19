@@ -1143,8 +1143,10 @@ void CChatRoomDlg::SetWindowPosition()
 	}
 	
 	if (db_get_b(NULL, CHAT_MODULE, "SavePosition", 0)) {
-		if (RestoreWindowPosition(m_hwnd, m_si->hContact, CHAT_MODULE, "room", SW_HIDE))
+		if (RestoreWindowPosition(m_hwnd, m_si->hContact, true)) {
+			ShowWindow(m_hwnd, SW_HIDE);
 			return;
+		}
 		SetWindowPos(m_hwnd, 0, (screen.right - screen.left) / 2 - (550) / 2, (screen.bottom - screen.top) / 2 - (400) / 2, (550), (400), SWP_NOZORDER | SWP_HIDEWINDOW | SWP_NOACTIVATE);
 	}
 	else SetWindowPos(m_hwnd, 0, (screen.right - screen.left) / 2 - (550) / 2, (screen.bottom - screen.top) / 2 - (400) / 2, (550), (400), SWP_NOZORDER | SWP_HIDEWINDOW | SWP_NOACTIVATE);
