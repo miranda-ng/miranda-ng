@@ -45,27 +45,10 @@ void LoadModuleIcons(MODULEINFO *mi)
 	ImageList_Destroy(hList);
 }
 
-static void OnDblClickSession(SESSION_INFO *si)
-{
-	PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
-}
-
-static void OnRemoveSession(SESSION_INFO *si)
-{
-	if (si->hWnd)
-		SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
-}
-
 static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
 		RedrawWindow(GetDlgItem(si->hWnd, IDC_CHAT_LIST), NULL, NULL, RDW_INVALIDATE);
-}
-
-static void OnSetStatusBar(SESSION_INFO *si)
-{
-	if (si->hWnd)
-		SendMessage(si->hWnd, DM_UPDATETITLEBAR, 0, 0);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
@@ -142,11 +125,8 @@ int Chat_Load()
 
 	pci->OnSetStatus = OnSetStatus;
 
-	pci->OnRemoveSession = OnRemoveSession;
 	pci->OnReplaceSession = OnReplaceSession;
-	pci->OnDblClickSession = OnDblClickSession;
 
-	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnFlashWindow = OnFlashWindow;
 	pci->OnFlashHighlight = OnFlashHighlight;
 	pci->ShowRoom = ShowRoom;

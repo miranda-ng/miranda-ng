@@ -93,30 +93,10 @@ static void OnCreateModule(MODULEINFO *mi)
 	ImageList_AddIcon(hIconsList, mi->hOfflineTalkIcon);
 }
 
-static void OnDblClickSession(SESSION_INFO *si)
-{
-	if (g_Settings.bTabsEnable)
-		SendMessage(GetParent(GetParent(si->hWnd)), GC_REMOVETAB, 0, (LPARAM)si->pDlg);
-	else
-		PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
-}
-
-static void OnRemoveSession(SESSION_INFO *si)
-{
-	if (si->hWnd)
-		SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
-}
-
 static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hWnd)
 		RedrawWindow(GetDlgItem(si->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
-}
-
-static void OnSetStatusBar(SESSION_INFO *si)
-{
-	if (si->hWnd)
-		SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
@@ -230,12 +210,9 @@ void Load_ChatModule()
 	pci->OnNewUser = OnNewUser;
 
 	pci->OnCreateModule = OnCreateModule;
-	pci->OnRemoveSession = OnRemoveSession;
 	pci->OnReplaceSession = OnReplaceSession;
-	pci->OnDblClickSession = OnDblClickSession;
 
 	pci->OnLoadSettings = OnLoadSettings;
-	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnFlashWindow = OnFlashWindow;
 	pci->OnFlashHighlight = OnFlashHighlight;
 	pci->ShowRoom = ShowRoom;

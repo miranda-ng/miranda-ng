@@ -674,8 +674,8 @@ MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wchar_t *wszI
 		else
 			db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 
-		if (chatApi.OnSetStatusBar)
-			chatApi.OnSetStatusBar(si);
+		if (si->hWnd)
+			SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
 	}
 	return 0;
 }

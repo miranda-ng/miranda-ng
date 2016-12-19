@@ -978,7 +978,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
 
 			SendMessage(hwndDlg, GC_SETWNDPROPS, 0, 0);
-			SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 			SendMessage(hwndDlg, DM_UPDATETITLEBAR, 0, 0);
 
 			SendMessage(GetParent(hwndDlg), CM_ADDCHILD, (WPARAM)hwndDlg, psi->hContact);
@@ -991,7 +991,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		// LoadGlobalSettings();
 		InitButtons(hwndDlg, si);
 
-		SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+		SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 		SendMessage(hwndDlg, DM_UPDATETITLEBAR, 0, 0);
 		SendMessage(hwndDlg, GC_FIXTABICONS, 0, 0);
 
@@ -1061,7 +1061,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		SendMessage(hwndDlg, DM_UPDATETABCONTROL, 0, 0);
 		break;
 
-	case DM_UPDATESTATUSBAR:
+	case GC_UPDATESTATUSBAR:
 		{
 			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 			hIcon = si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
@@ -1297,12 +1297,12 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 	case GC_CONTROL_MSG:
 		switch (wParam) {
 		case SESSION_OFFLINE:
-			SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 			SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
 			return TRUE;
 
 		case SESSION_ONLINE:
-			SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 			return TRUE;
 
 		case WINDOW_HIDDEN:
@@ -1340,7 +1340,7 @@ LABEL_SHOWWINDOW:
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			SendMessage(hwndDlg, GC_REDRAWLOG, 0, 0);
 			SendMessage(hwndDlg, GC_UPDATENICKLIST, 0, 0);
-			SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 			ShowWindow(hwndDlg, SW_SHOW);
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			SetForegroundWindow(hwndDlg);

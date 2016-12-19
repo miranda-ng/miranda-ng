@@ -385,16 +385,13 @@ struct CHAT_MANAGER
 	void (*OnCreateModule)(MODULEINFO*);
 
 	void (*OnCreateSession)(SESSION_INFO*, MODULEINFO*);
-	void (*OnDblClickSession)(SESSION_INFO*);
 	void (*OnOfflineSession)(SESSION_INFO*);
-	void (*OnRemoveSession)(SESSION_INFO*);
 	void (*OnReplaceSession)(SESSION_INFO*);
 
 	void (*ShowRoom)(SESSION_INFO*, WPARAM wp, BOOL bSetForeground);
 	void (*OnGetLogName)(SESSION_INFO*, const wchar_t*);
 	void (*OnEventBroadcast)(SESSION_INFO *si, GCEVENT *gce);
 	
-	void (*OnSetStatusBar)(SESSION_INFO*);
 	void (*OnSetTopic)(SESSION_INFO*);
 
 	void (*OnAddUser)(SESSION_INFO*, USERINFO*);

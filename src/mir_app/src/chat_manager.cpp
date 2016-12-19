@@ -99,37 +99,37 @@ int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, BOOL removeCon
 	if (!pszModule)
 		return FALSE;
 
-	SESSION_INFO *pTemp = chatApi.wndList, *pLast = NULL;
-	while (pTemp != NULL) {
+	SESSION_INFO *si = chatApi.wndList, *pLast = NULL;
+	while (si != NULL) {
 		// match
-		if ((!pszID && pTemp->iType != GCW_SERVER || !mir_wstrcmpi(pTemp->ptszID, pszID)) && !mir_strcmpi(pTemp->pszModule, pszModule)) {
-			if (chatApi.OnRemoveSession)
-				chatApi.OnRemoveSession(pTemp);
-			DoEventHook(pTemp->ptszID, pTemp->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (INT_PTR)pTemp->pItemData);
+		if ((!pszID && si->iType != GCW_SERVER || !mir_wstrcmpi(si->ptszID, pszID)) && !mir_strcmpi(si->pszModule, pszModule)) {
+			if (si->hWnd)
+				SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
+			DoEventHook(si->ptszID, si->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (INT_PTR)si->pItemData);
 
 			if (pLast == NULL)
-				chatApi.wndList = pTemp->next;
+				chatApi.wndList = si->next;
 			else
-				pLast->next = pTemp->next;
+				pLast->next = si->next;
 
 			// contact may have been deleted here already, since function may be called after deleting
 			// contact so the handle may be invalid, therefore db_get_b shall return 0
-			if (pTemp->hContact && removeContact)
-				db_delete_contact(pTemp->hContact);
+			if (si->hContact && removeContact)
+				db_delete_contact(si->hContact);
 
-			SM_FreeSession(pTemp);
+			SM_FreeSession(si);
 
 			if (pszID)
 				return 1;
 			
 			if (pLast)
-				pTemp = pLast->next;
+				si = pLast->next;
 			else
-				pTemp = chatApi.wndList;
+				si = chatApi.wndList;
 		}
 		else {
-			pLast = pTemp;
-			pTemp = pTemp->next;
+			pLast = si;
+			si = si->next;
 		}
 	}
 	return FALSE;

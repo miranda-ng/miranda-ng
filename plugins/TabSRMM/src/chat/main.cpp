@@ -45,17 +45,6 @@ static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 	}
 }
 
-static void OnDblClickSession(SESSION_INFO *si)
-{
-	PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
-}
-
-static void OnRemoveSession(SESSION_INFO *si)
-{
-	if (si->hWnd)
-		SendMessage(si->hWnd, GC_CONTROL_MSG, SESSION_TERMINATE, 0);
-}
-
 static void OnReplaceSession(SESSION_INFO *si)
 {
 	if (si->hContact)
@@ -68,12 +57,6 @@ static void OnSetTopic(SESSION_INFO *si)
 {
 	if (si->hWnd)
 		SendMessage(si->hWnd, DM_INVALIDATEPANEL, 0, 0);
-}
-
-static void OnSetStatusBar(SESSION_INFO *si)
-{
-	if (si->hWnd)
-		SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
 }
 
 static void OnNewUser(SESSION_INFO *si, USERINFO*)
@@ -246,11 +229,8 @@ int Chat_Load()
 	pci->OnSetTopic = OnSetTopic;
 
 	pci->OnCreateSession = OnCreateSession;
-	pci->OnRemoveSession = OnRemoveSession;
 	pci->OnReplaceSession = OnReplaceSession;
-	pci->OnDblClickSession = OnDblClickSession;
 
-	pci->OnSetStatusBar = OnSetStatusBar;
 	pci->OnChangeNick = OnChangeNick;
 	pci->ShowRoom = ShowRoom;
 	pci->OnLoadSettings = OnLoadSettings;
