@@ -605,24 +605,8 @@ public:
 
 	virtual void OnApply() override
 	{
-		HTREEITEM hItem = m_toolBar.GetSelection();
-		if (hItem) {
-			TVITEMEX tvi;
-			tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-			tvi.hItem = hItem;
-			m_toolBar.GetItem(&tvi);
-
-			if (tvi.lParam) {
-				CustomButtonData *cbd = (CustomButtonData*)tvi.lParam;
-				if (cbd) {
-					cbd->m_bIMButton = m_btnIM.Enabled() != 0;
-					cbd->m_bChatButton = m_btnChat.Enabled() != 0;
-					cbd->m_bCanBeHidden = m_btnHidden.Enabled() != 0;
-				}
-			}
-		}
-
-		SaveTree();
+		OnTreeSelChanging(NULL);  // save latest changes
+		SaveTree();               // save the whole tree then
 		CB_ReInitCustomButtons();
 
 		WORD newGap = m_gap.GetPosition();
