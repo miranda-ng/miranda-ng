@@ -299,8 +299,6 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 		if (SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule)) {
 			SetInitDone(si);
 			chatApi.SetActiveSession(si->ptszID, si->pszModule);
-			if (si->hWnd)
-				chatApi.ShowRoom(si, p->command, FALSE);
 		}
 		return 0;
 
@@ -311,7 +309,7 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 		if (SESSION_INFO *si = chatApi.SM_FindSession(p->wszId, p->szModule)) {
 			SetInitDone(si);
 			if (p->command != SESSION_INITDONE || db_get_b(NULL, CHAT_MODULE, "PopupOnJoin", 0) == 0)
-				chatApi.ShowRoom(si, p->command, TRUE);
+				chatApi.ShowRoom(si);
 			return 0;
 		}
 		break;

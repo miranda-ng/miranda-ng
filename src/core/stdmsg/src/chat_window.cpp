@@ -218,7 +218,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				if (g_Settings.bTabsEnable)
 					SendMessage(GetParent(GetParent(hwndDlg)), GC_SWITCHNEXTTAB, 0, 0);
 				else
-					pci->ShowRoom(SM_GetNextWindow(dat->si), WINDOW_VISIBLE, TRUE);
+					pci->ShowRoom(SM_GetNextWindow(dat->si));
 				return TRUE;
 			}
 
@@ -226,7 +226,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				if (g_Settings.bTabsEnable)
 					SendMessage(GetParent(GetParent(hwndDlg)), GC_SWITCHPREVTAB, 0, 0);
 				else
-					pci->ShowRoom(SM_GetPrevWindow(dat->si), WINDOW_VISIBLE, TRUE);
+					pci->ShowRoom(SM_GetPrevWindow(dat->si));
 				return TRUE;
 			}
 

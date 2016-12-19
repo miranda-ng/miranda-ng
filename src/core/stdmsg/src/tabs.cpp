@@ -252,7 +252,7 @@ void CTabbedWindow::TabClicked()
 
 		SendMessage(m_hwnd, GC_FIXTABICONS, 0, (LPARAM)pDlg);
 		if (!s->hWnd) {
-			pci->ShowRoom(s, WINDOW_VISIBLE, TRUE);
+			pci->ShowRoom(s);
 			SendMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 		}
 	}
@@ -529,7 +529,7 @@ void UninitTabs()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL)
+void ShowRoom(SESSION_INFO *si)
 {
 	if (!si)
 		return;
@@ -559,14 +559,11 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL)
 	}
 
 	SetWindowLongPtr(si->hWnd, GWL_EXSTYLE, GetWindowLongPtr(si->hWnd, GWL_EXSTYLE) | WS_EX_APPWINDOW);
-	if (!IsWindowVisible(si->hWnd) || wp == WINDOW_HIDDEN)
-		SendMessage(si->hWnd, GC_CONTROL_MSG, wp, 0);
-	else {
-		if (IsIconic(si->hWnd))
-			ShowWindow(si->hWnd, SW_NORMAL);
-		ShowWindow(si->hWnd, SW_SHOW);
-		SetForegroundWindow(si->hWnd);
-	}
+
+	if (IsIconic(si->hWnd))
+		ShowWindow(si->hWnd, SW_NORMAL);
+	ShowWindow(si->hWnd, SW_SHOW);
+	SetForegroundWindow(si->hWnd);
 
 	SendMessage(si->hWnd, WM_MOUSEACTIVATE, 0, 0);
 	SetFocus(GetDlgItem(si->hWnd, IDC_MESSAGE));

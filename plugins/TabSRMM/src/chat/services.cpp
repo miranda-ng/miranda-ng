@@ -153,7 +153,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	return hwndNew;		// return handle of the new dialog
 }
 
-void ShowRoom(SESSION_INFO *si, WPARAM, BOOL)
+void ShowRoom(SESSION_INFO *si)
 {
 	if (si == NULL)
 		return;

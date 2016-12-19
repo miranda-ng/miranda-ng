@@ -125,7 +125,7 @@ void  AddIcons(void);
 HICON LoadIconEx(char *pszIcoLibName);
 
 // services.c
-void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL);
+void ShowRoom(SESSION_INFO *si);
 
 HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup);
 

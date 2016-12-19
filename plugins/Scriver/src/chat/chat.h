@@ -82,7 +82,7 @@ void   FreeMsgLogBitmaps(void);
 int GetTextPixelSize( wchar_t* pszText, HFONT hFont, BOOL bWidth);
 
 // services.c
-void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+void ShowRoom(SESSION_INFO *si);
 
 // manager.c
 HWND          SM_FindWindowByContact(MCONTACT hContact);

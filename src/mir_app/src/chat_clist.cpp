@@ -121,7 +121,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 			PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
 			return 1;
 		}
-		chatApi.ShowRoom(si, WINDOW_VISIBLE, TRUE);
+		chatApi.ShowRoom(si);
 	}
 	return 1;
 }

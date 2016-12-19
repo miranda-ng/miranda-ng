@@ -139,7 +139,7 @@ HICON LoadIconEx(const char *pszIcoLibName, bool big);
 HANDLE GetIconHandle(const char *pszIcolibName);
 
 // services.cpp
-void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+void ShowRoom(SESSION_INFO *si);
 
 // tools.cpp
 int  GetColorIndex(const char* pszModule, COLORREF cr);

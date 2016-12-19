@@ -1197,7 +1197,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 		SendMessage(hwndDlg, GC_FIXTABICONS, 0, 0);
 		if (!si->hWnd) {
-			ShowRoom(si, WINDOW_VISIBLE, TRUE);
+			ShowRoom(si);
 			SendMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 		}
 		break;
@@ -1797,7 +1797,7 @@ LABEL_SHOWWINDOW:
 	return FALSE;
 }
 
-void ShowRoom(SESSION_INFO *si, WPARAM, BOOL)
+void ShowRoom(SESSION_INFO *si)
 {
 	if (si == NULL)
 		return;
