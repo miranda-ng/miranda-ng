@@ -24,31 +24,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct GlobalMessageData
 {
-	bool bShowButtons : 1;
-	bool bSendButton : 1;
-	bool bShowTyping : 1;
-	bool bShowTypingWin : 1;
-	bool bShowTypingTray : 1;
-	bool bShowTypingClist : 1;
-	bool bShowIcons : 1;
-	bool bShowTime : 1;
-	bool bShowDate : 1;
-	bool bShowAvatar : 1;
-	bool bHideNames : 1;
-	bool bShowSecs : 1;
-	bool bShowReadChar : 1;
-	bool bSendOnEnter : 1;
-	bool bSendOnDblEnter : 1;
-	bool bAutoClose : 1;
-	bool bAutoMin : 1;
-	bool bTypingUnknown : 1;
-	bool bCtrlSupport : 1;
-	bool bShowFormat : 1;
-	bool bSavePerContact : 1;
-	bool bUseStatusWinIcon : 1;
-	bool bDoNotStealFocus : 1;
-	bool bCascade : 1;
-	bool bDeleteTempCont : 1;
+	bool bShowButtons;
+	bool bSendButton;
+	bool bShowTyping;
+	bool bShowTypingWin;
+	bool bShowTypingTray;
+	bool bShowTypingClist;
+	bool bShowIcons;
+	bool bShowTime;
+	bool bShowDate;
+	bool bShowAvatar;
+	bool bHideNames;
+	bool bShowSecs;
+	bool bShowReadChar;
+	bool bSendOnEnter;
+	bool bSendOnDblEnter;
+	bool bAutoClose;
+	bool bAutoMin;
+	bool bTypingUnknown;
+	bool bCtrlSupport;
+	bool bShowFormat;
+	bool bSavePerContact;
+	bool bUseStatusWinIcon;
+	bool bDoNotStealFocus;
+	bool bCascade;
+	bool bDeleteTempCont;
 
 	DWORD openFlags;
 	DWORD msgTimeout;
