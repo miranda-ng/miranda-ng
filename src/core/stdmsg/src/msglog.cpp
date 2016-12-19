@@ -232,7 +232,7 @@ static char* CreateRTFFromDbEvent(CSrmmWindow *dat, MCONTACT hContact, MEVENT hD
 
 	if (dbei.flags & DBEF_RTL) {
 		buffer.Append("\\rtlpar");
-		dat->m_bIsAutoRTL = TRUE;
+		dat->m_bIsAutoRTL = true;
 	}
 	else buffer.Append("\\ltrpar");
 

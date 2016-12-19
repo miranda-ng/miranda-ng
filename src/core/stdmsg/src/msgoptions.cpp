@@ -314,7 +314,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, msgTimeout);
 
 				ReloadGlobals();
-				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
+				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, TRUE, 0);
 				return TRUE;
 			}
 		}
@@ -409,7 +409,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				FreeMsgLogIcons();
 				LoadMsgLogIcons();
 				ReloadGlobals();
-				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
+				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, TRUE, 0);
 				return TRUE;
 			}
 			break;
@@ -538,7 +538,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TYPETRAY));
 				db_set_b(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
 				ReloadGlobals();
-				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
+				WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, TRUE, 0);
 			}
 		}
 		break;

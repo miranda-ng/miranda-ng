@@ -416,7 +416,7 @@ void SetButtonsPos(HWND hwndDlg, bool bIsChat)
 
 static int FontsChanged(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, 0, 0);
+	WindowList_Broadcast(pci->hWindowList, DM_OPTIONSAPPLIED, TRUE, 0);
 	return 0;
 }
 
@@ -504,9 +504,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 	if (st != NULL && st->cbSize != sizeof(StatusTextData))
 		return 1;
 
-	SendMessage(dat->m_hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
-	SendMessage(dat->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? L"" : st->tszText));
-
+	dat->SetStatusData(st);
 	return 0;
 }
 

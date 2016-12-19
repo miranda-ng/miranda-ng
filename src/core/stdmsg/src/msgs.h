@@ -52,44 +52,57 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class CSrmmWindow : public CDlgBase, public MZeroedObject
 {
 	void NotifyTyping(int mode);
-	void ShowAvatar();
+	void ShowAvatar(void);
+	void ShowTime(void);
+	void SetupStatusBar(void);
+
+	char *m_szProto;
+	HWND m_hwndStatus;
+	HFONT m_hFont;
+	HBRUSH m_hBkgBrush;
+
+	SIZE m_minEditBoxSize;
+	RECT m_minEditInit;
+
+	int m_windowWasCascaded;
+	DWORD m_nFlash;
+	int m_nTypeSecs, m_nTypeMode;
+	int m_limitAvatarH;
+	DWORD m_nLastTyping;
+	DWORD m_lastMessage;
+	HANDLE m_hTimeZone;
+	WORD m_wStatus, m_wOldStatus;
+	WORD m_wMinute;
+	wchar_t *m_wszInitialText;
+	bool m_bIsMeta, m_bShowTyping, m_bNoActivate;
 
 public:
 	MCONTACT m_hContact;
 	MEVENT m_hDbEventFirst, m_hDbEventLast;
-	HBRUSH m_hBkgBrush;
-	HFONT m_hFont;
-	int m_splitterPos, m_originalSplitterPos;
-	SIZE m_minEditBoxSize;
-	RECT m_minEditInit;
-	int m_lineHeight;
-	int m_windowWasCascaded;
-	DWORD m_nFlash;
-	int m_nTypeSecs;
-	int m_nTypeMode;
+	bool m_bIsAutoRTL;
+
 	int m_avatarWidth;
 	int m_avatarHeight;
-	int m_limitAvatarH;
-	HBITMAP m_avatarPic;
-	DWORD m_nLastTyping;
-	DWORD m_lastMessage;
-	HWND m_hwndStatus;
-	HANDLE m_hTimeZone;
-	char *m_szProto;
-	WORD m_wStatus;
-	WORD m_wOldStatus;
+	int m_splitterPos, m_originalSplitterPos;
+	int m_lineHeight;
+
 	int m_cmdListInd;
 	LIST<wchar_t> m_cmdList;
-	bool m_bIsAutoRTL, m_bIsMeta, m_bShowTyping, m_bNoActivate;
-	WORD m_wMinute;
-	wchar_t *m_wszInitialText;
 
+	HBITMAP m_avatarPic;
+
+public:
 	CSrmmWindow(MCONTACT hContact, bool bNoActivate, const char *szInitialText = NULL, bool bIsUnicode = false);
 
 	virtual void OnInitDialog() override;
 	virtual void OnDestroy() override;
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	void OnOptionsApplied(bool bUpdateAvatar);
+
+	void SetStatusData(StatusTextData*);
+	void UpdateReadChars(void);
 
 	__forceinline MCONTACT getActiveContact() const
 	{	return (m_bIsMeta) ? db_mc_getSrmmSub(m_hContact) : m_hContact;
