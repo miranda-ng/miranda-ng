@@ -181,13 +181,12 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 	}
 	else {
 		if (ctl->pContainer && CSkin::m_skinEnabled) {
-			CSkinItem *item, *realItem = 0;
+			CSkinItem *item;
 			if (ctl->bTitleButton)
 				item = &SkinItems[ctl->stateId == PBS_NORMAL ? ID_EXTBKTITLEBUTTON : (ctl->stateId == PBS_HOT ? ID_EXTBKTITLEBUTTONMOUSEOVER : ID_EXTBKTITLEBUTTONPRESSED)];
-			else {
+			else
 				item = &SkinItems[(ctl->stateId == PBS_NORMAL || ctl->stateId == PBS_DISABLED) ? ID_EXTBKBUTTONSNPRESSED : (ctl->stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : ID_EXTBKBUTTONSPRESSED)];
-				realItem = item;
-			}
+
 			CSkin::SkinDrawBG(ctl->hwnd, ctl->pContainer->hwnd, ctl->pContainer, &rcClient, hdcMem);
 			if (!item->IGNORED) {
 				RECT rc1 = rcClient;
@@ -211,7 +210,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 			else {
 				CSkin::m_switchBarItem->setAlphaFormat(AC_SRC_ALPHA, state == PBS_NORMAL ? 140 : 240);
 				if (state == PBS_PRESSED) {
-					RECT	rc = rcClient;
+					RECT rc = rcClient;
 					InflateRect(&rc, -1, -1);
 					HBRUSH bBack = CreateSolidBrush(PluginConfig.m_tbBackgroundLow ? PluginConfig.m_tbBackgroundLow : GetSysColor(COLOR_3DDKSHADOW));
 					FillRect(hdcMem, &rc, bBack);
@@ -229,9 +228,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 		}
 	}
 
-	/*
-	 * render content
-	 */
+	// render content
 	if (ctl->arrow) {
 		rcContent.top += 2;
 		rcContent.bottom -= 2;
@@ -442,7 +439,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				bct->stateId = PBS_PRESSED;
 			else if (LOWORD(lParam) > rc.right - 12) {
 				if (GetDlgCtrlID(hwndDlg) == IDOK || bct->stateId != PBS_DISABLED) {
-					WORD w = (WORD)((INT_PTR)bct->arrow & 0x0000ffff);
+					WORD w = LOWORD((INT_PTR)bct->arrow);
 					SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(w, BN_CLICKED), (LPARAM)hwndDlg);
 				}
 			}
@@ -481,8 +478,8 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_TIMER: // use a timer to check if they have did a mouseout
 		if (wParam == BUTTON_POLLID) {
 			RECT rc;
-			POINT pt;
 			GetWindowRect(hwndDlg, &rc);
+			POINT pt;
 			GetCursorPos(&pt);
 			if (!PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
 				PostMessage(hwndDlg, WM_MOUSELEAVE, 0, 0L);

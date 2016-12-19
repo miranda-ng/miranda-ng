@@ -1754,7 +1754,7 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 		if (evt.nmtvkey->wVKey == VK_SPACE) {
 			if (m_bCheckBox)
 				InvertCheck(GetSelection());
-			OnChange(this);
+			OnItemChanged(&evt);
 			NotifyChange();
 		}
 
@@ -1773,7 +1773,7 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 					InvertCheck(hti.hItem);
 				else
 					SelectItem(hti.hItem);
-				OnChange(this);
+				OnItemChanged(&evt);
 				NotifyChange();
 			}
 		}

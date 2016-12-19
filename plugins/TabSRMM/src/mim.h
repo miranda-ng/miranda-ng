@@ -193,8 +193,6 @@ public:
 	static	int MessageEventAdded(WPARAM wParam, LPARAM lParam);
 
 public:
-	MWindowList m_hMessageWindowList;
-
 	// various function pointers
 	static PDTTE  m_pfnDrawThemeTextEx;
 	static DEFICA m_pfnDwmExtendFrameIntoClientArea;
