@@ -849,7 +849,7 @@ void CSrmmWindow::UpdateReadChars()
 	}
 }
 
-INT_PTR CALLBACK CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	ENLINK *pLink;
 	CHARRANGE sel;
