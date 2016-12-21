@@ -182,9 +182,6 @@ void FreeLogFonts()
 
 void TSAPI CacheMsgLogIcons()
 {
-	for (int i = 0; i < _countof(Logicons); i++)
-		DestroyIcon(Logicons[i]);
-
 	Logicons[0] = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	Logicons[1] = Skin_LoadIcon(SKINICON_EVENT_URL);
 	Logicons[2] = Skin_LoadIcon(SKINICON_EVENT_FILE);
