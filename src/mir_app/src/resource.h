@@ -93,7 +93,6 @@
 #define IDI_NOTICK                      205
 #define IDD_OPT_PLUGINS                 206
 #define IDI_TICK                        206
-#define IDD_OPT_ICONS                   207
 #define IDI_FILE                        207
 #define IDI_ADDCONTACT                  210
 #define IDI_SMALLDOT                    211
