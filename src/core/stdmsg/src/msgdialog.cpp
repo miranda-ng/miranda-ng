@@ -1021,7 +1021,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if (hIcon) {
 						SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 						IcoLib_ReleaseIcon(hIcon);
-						return TRUE;
 					}
 				}
 				if (g_dat.bUseStatusWinIcon)
