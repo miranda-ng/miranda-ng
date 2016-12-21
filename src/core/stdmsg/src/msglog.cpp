@@ -37,12 +37,11 @@ static char *pLogIconBmpBits[3];
 struct LogStreamData
 {
 	int stage;
-	MCONTACT hContact;
 	MEVENT hDbEvent, hDbEventLast;
-	char *buffer;
-	int bufferOffset, bufferLen;
+	MCONTACT hContact;
+	CMStringA buf;
 	int eventsToInsert;
-	int isEmpty;
+	bool isEmpty;
 	CSrmmWindow *dlgDat;
 };
 
@@ -99,7 +98,7 @@ static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 			}
 			if (!found) {
 				if (!wcsnicmp(line, L"[url", 4)) {
-					const wchar_t* tag = wcschr(line + 4, ']');
+					const wchar_t *tag = wcschr(line + 4, ']');
 					if (tag) {
 						const wchar_t *tagu = (line[4] == '=') ? line + 5 : tag + 1;
 						const wchar_t *tage = wcsstr(tag, L"[/url]");
@@ -147,13 +146,12 @@ static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 
 #define FONT_FORMAT "{\\f%u\\fnil\\fcharset%u %S;}"
 
-static char* CreateRTFHeader(CSrmmWindow*)
+static void CreateRTFHeader(CMStringA &buffer)
 {
 	HDC hdc = GetDC(NULL);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	ReleaseDC(NULL, hdc);
 
-	CMStringA buffer;
 	buffer.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
 
 	LOGFONT lf;
@@ -171,24 +169,22 @@ static char* CreateRTFHeader(CSrmmWindow*)
 		colour = GetSysColor(COLOR_HOTLIGHT);
 	buffer.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	buffer.Append("}");
-	return buffer.Detach();
 }
 
 // mir_free() the return value
-static char* CreateRTFTail(CSrmmWindow*)
+static void CreateRTFTail(CMStringA &buffer)
 {
-	return mir_strdup("}");
+	buffer = "}";
 }
 
 //return value is static
-static char* SetToStyle(int style)
+static void SetToStyle(int style, CMStringA &dest)
 {
-	static char szStyle[128];
 	LOGFONT lf;
-
 	LoadMsgDlgFont(style, &lf, NULL);
-	mir_snprintf(szStyle, "\\f%u\\cf%u\\b%d\\i%d\\fs%u", style, style, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
-	return szStyle;
+	if (style != MSGFONTID_MYCOLON && style != MSGFONTID_YOURCOLON)
+		dest.AppendChar(' ');
+	dest.AppendFormat("\\f%u\\cf%u\\b%d\\i%d\\fs%u ", style, style, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / logPixelSY);
 }
 
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
@@ -203,55 +199,56 @@ int DbEventIsShown(DBEVENTINFO *dbei)
 }
 
 //mir_free() the return value
-static char* CreateRTFFromDbEvent(CSrmmWindow *dat, MCONTACT hContact, MEVENT hDbEvent, struct LogStreamData *streamData)
+static bool CreateRTFFromDbEvent(LogStreamData *dat)
 {
-	int showColon = 0;
-
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+	dbei.cbBlob = db_event_getBlobSize(dat->hDbEvent);
 	if (dbei.cbBlob == -1)
-		return NULL;
+		return false;
 
 	dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-	db_event_get(hDbEvent, &dbei);
+	db_event_get(dat->hDbEvent, &dbei);
 	if (!DbEventIsShown(&dbei)) {
 		mir_free(dbei.pBlob);
-		return NULL;
+		return false;
 	}
+	
 	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
-		db_event_markRead(hContact, hDbEvent);
-		pcli->pfnRemoveEvent(hContact, hDbEvent);
+		db_event_markRead(dat->hContact, dat->hDbEvent);
+		pcli->pfnRemoveEvent(dat->hContact, dat->hDbEvent);
 	}
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
-		db_event_markRead(hContact, hDbEvent);
+		db_event_markRead(dat->hContact, dat->hDbEvent);
 	}
 
-	CMStringA buffer;
-	if (!dat->m_bIsAutoRTL && !streamData->isEmpty)
-		buffer.Append("\\par");
+	CMStringA &buf = dat->buf;
+	bool bIsRtl = dat->dlgDat->m_bIsAutoRTL;
+	if (!bIsRtl && !dat->isEmpty)
+		buf.Append("\\par");
 
 	if (dbei.flags & DBEF_RTL) {
-		buffer.Append("\\rtlpar");
-		dat->m_bIsAutoRTL = true;
+		buf.Append("\\rtlpar");
+		bIsRtl = true;
 	}
-	else buffer.Append("\\ltrpar");
+	else buf.Append("\\ltrpar");
 
-	streamData->isEmpty = 0;
+	dat->isEmpty = false;
 
-	if (dat->m_bIsAutoRTL) {
+	if (bIsRtl) {
 		if (dbei.flags & DBEF_RTL)
-			buffer.Append("\\ltrch\\rtlch");
+			buf.Append("\\ltrch\\rtlch");
 		else
-			buffer.Append("\\rtlch\\ltrch");
+			buf.Append("\\rtlch\\ltrch");
 	}
 
 	if (g_dat.bShowIcons) {
 		int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN): LOGICON_MSG_NOTICE);
 		
-		buffer.Append("\\f0\\fs14");
-		buffer.Append(pLogIconBmpBits[i]);
+		buf.Append("\\f0\\fs14");
+		buf.Append(pLogIconBmpBits[i]);
 	}
 
+	int showColon = 0;
 	if (g_dat.bShowTime) {
 		const wchar_t* szFormat;
 		wchar_t str[64];
@@ -263,8 +260,8 @@ static char* CreateRTFFromDbEvent(CSrmmWindow *dat, MCONTACT hContact, MEVENT hD
 
 		TimeZone_PrintTimeStamp(NULL, dbei.timestamp, szFormat, str, _countof(str), 0);
 
-		buffer.AppendFormat(" %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
-		AppendToBufferWithRTF(buffer, str);
+		SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME, buf);
+		AppendToBufferWithRTF(buf, str);
 		showColon = 1;
 	}
 
@@ -277,15 +274,15 @@ static char* CreateRTFFromDbEvent(CSrmmWindow *dat, MCONTACT hContact, MEVENT hD
 			else
 				szName = TranslateT("Me");
 		}
-		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
+		else szName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
-		buffer.AppendFormat(" %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
-		AppendToBufferWithRTF(buffer, szName);
+		SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME, buf);
+		AppendToBufferWithRTF(buf, szName);
 		showColon = 1;
 	}
 
 	if (showColon)
-		buffer.AppendFormat("%s :", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
+		SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON, buf);
 
 	wchar_t *msg, *szName;
 	switch (dbei.eventType) {
@@ -298,35 +295,34 @@ static char* CreateRTFFromDbEvent(CSrmmWindow *dat, MCONTACT hContact, MEVENT hD
 			}
 			else szName = L"";
 		}
-		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
+		else szName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
-		buffer.AppendFormat(" %s ", SetToStyle(MSGFONTID_NOTICE));
-		AppendToBufferWithRTF(buffer, szName);
-		AppendToBufferWithRTF(buffer, L" ");
+		SetToStyle(MSGFONTID_NOTICE, buf);
+		AppendToBufferWithRTF(buf, szName);
+		AppendToBufferWithRTF(buf, L" ");
 
 		msg = DbEvent_GetTextW(&dbei, CP_ACP);
 		if (msg) {
-			AppendToBufferWithRTF(buffer, msg);
+			AppendToBufferWithRTF(buf, msg);
 			mir_free(msg);
 		}
 		break;
 
 	case EVENTTYPE_FILE:
 		{
-			char* filename = (char*)dbei.pBlob + sizeof(DWORD);
-			char* descr = filename + mir_strlen(filename) + 1;
+			char *filename = (char*)dbei.pBlob + sizeof(DWORD);
+			char *descr = filename + mir_strlen(filename) + 1;
 			
-			ptrW ptszFileName(DbEvent_GetString(&dbei, filename));
-			buffer.AppendFormat(" %s ", SetToStyle(MSGFONTID_NOTICE));
-			AppendToBufferWithRTF(buffer, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
-			buffer.Append(": ");
-			AppendToBufferWithRTF(buffer, ptszFileName);
+			SetToStyle(MSGFONTID_NOTICE, buf);
+			AppendToBufferWithRTF(buf, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
+			buf.Append(": ");
+			AppendToBufferWithRTF(buf, ptrW(DbEvent_GetString(&dbei, filename)));
 
 			if (*descr != 0) {
 				ptrW ptszDescr(DbEvent_GetString(&dbei, descr));
-				buffer.Append(" (");
-				AppendToBufferWithRTF(buffer, ptszDescr);
-				buffer.Append(")");
+				buf.Append(" (");
+				AppendToBufferWithRTF(buf, ptszDescr);
+				buf.Append(")");
 			}
 		}
 		break;
@@ -334,86 +330,85 @@ static char* CreateRTFFromDbEvent(CSrmmWindow *dat, MCONTACT hContact, MEVENT hD
 	case EVENTTYPE_MESSAGE:
 	default:
 		msg = DbEvent_GetTextW(&dbei, CP_ACP);
-		buffer.AppendFormat(" %s ", SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE));
-		AppendToBufferWithRTF(buffer, msg);
+		SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE, buf);
+		AppendToBufferWithRTF(buf, msg);
 		mir_free(msg);
 	}
 
-	if (dat->m_bIsAutoRTL)
-		buffer.Append("\\par");
+	if (bIsRtl)
+		buf.Append("\\par");
 
 	mir_free(dbei.pBlob);
-	return buffer.Detach();
+	return true;
 }
 
-static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
+static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	struct LogStreamData *dat = (struct LogStreamData *) dwCookie;
+	LogStreamData *dat = (LogStreamData*)dwCookie;
 
-	if (dat->buffer == NULL) {
-		dat->bufferOffset = 0;
+	if (dat->buf.IsEmpty()) {
 		switch (dat->stage) {
 		case STREAMSTAGE_HEADER:
-			dat->buffer = CreateRTFHeader(dat->dlgDat);
+			CreateRTFHeader(dat->buf);
 			dat->stage = STREAMSTAGE_EVENTS;
 			break;
 
 		case STREAMSTAGE_EVENTS:
 			if (dat->eventsToInsert) {
+				bool bOk;
 				do {
-					dat->buffer = CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, dat);
-					if (dat->buffer)
+					bOk = CreateRTFFromDbEvent(dat);
+					if (bOk)
 						dat->hDbEventLast = dat->hDbEvent;
 					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
 					if (--dat->eventsToInsert == 0)
 						break;
-				}
-				while (dat->buffer == NULL && dat->hDbEvent);
-				if (dat->buffer) {
-					dat->isEmpty = 0;
+				} while (!bOk && dat->hDbEvent);
+
+				if (bOk) {
+					dat->isEmpty = false;
 					break;
 				}
 			}
 			dat->stage = STREAMSTAGE_TAIL;
-			//fall through
+			// fall through
 		case STREAMSTAGE_TAIL:
-			dat->buffer = CreateRTFTail(dat->dlgDat);
+			CreateRTFTail(dat->buf);
 			dat->stage = STREAMSTAGE_STOP;
 			break;
 		case STREAMSTAGE_STOP:
 			*pcb = 0;
 			return 0;
 		}
-		dat->bufferLen = (int)mir_strlen(dat->buffer);
 	}
-	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
-	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
-	dat->bufferOffset += *pcb;
-	if (dat->bufferOffset == dat->bufferLen) {
-		mir_free(dat->buffer);
-		dat->buffer = NULL;
-	}
+
+	*pcb = min(cb, dat->buf.GetLength());
+	memcpy(pbBuff, dat->buf.GetBuffer(), *pcb);
+	if (dat->buf.GetLength() == *pcb)
+		dat->buf.Empty();
+	else
+		dat->buf.Delete(0, *pcb);
+
 	return 0;
 }
 
-void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
+void CSrmmWindow::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 {
-	CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
 	BOOL bottomScroll = TRUE;
 	POINT scrollPos;
 
-	HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
+	HWND hwndLog = GetDlgItem(m_hwnd, IDC_LOG);
 
 	SendMessage(hwndLog, WM_SETREDRAW, FALSE, 0);
 	SendMessage(hwndLog, EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = {};
-	streamData.hContact = dat->m_hContact;
+	streamData.hContact = m_hContact;
 	streamData.hDbEvent = hDbEventFirst;
-	streamData.dlgDat = dat;
+	streamData.dlgDat = this;
 	streamData.eventsToInsert = count;
-	streamData.isEmpty = !fAppend || GetWindowTextLength(hwndLog) == 0;
+	streamData.isEmpty = !bAppend || GetWindowTextLength(hwndLog) == 0;
 
 	EDITSTREAM stream = {};
 	stream.pfnCallback = LogStreamInEvents;
@@ -431,21 +426,21 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 		if (!bottomScroll)
 			SendMessage(hwndLog, EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
 	}
-	if (fAppend) {
+	if (bAppend) {
 		sel.cpMin = sel.cpMax = -1;
 		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 
-	mir_strcpy(szSep2, fAppend ? "\\par\\sl0" : "\\sl1000");
-	mir_strcpy(szSep2_RTL, fAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
+	mir_strcpy(szSep2, bAppend ? "\\par\\sl0" : "\\sl1000");
+	mir_strcpy(szSep2_RTL, bAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
 
-	SendMessage(hwndLog, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
+	SendMessage(hwndLog, EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
 	if (bottomScroll) {
 		sel.cpMin = sel.cpMax = -1;
 		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)&sel);
 		if (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL) {
-			SendMessage(hwndDlg, DM_SCROLLLOGTOBOTTOM, 0, 0);
-			PostMessage(hwndDlg, DM_SCROLLLOGTOBOTTOM, 0, 0);
+			SendMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
+			PostMessage(m_hwnd, DM_SCROLLLOGTOBOTTOM, 0, 0);
 		}
 	}
 	else {
@@ -457,7 +452,7 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 	if (bottomScroll)
 		RedrawWindow(hwndLog, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 
-	dat->m_hDbEventLast = streamData.hDbEventLast;
+	m_hDbEventLast = streamData.hDbEventLast;
 }
 
 #define RTFPICTHEADERMAXSIZE   78

@@ -1163,11 +1163,11 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_REMAKELOG:
-		StreamInEvents(m_hwnd, m_hDbEventFirst, -1, 0);
+		StreamInEvents(m_hDbEventFirst, -1, 0);
 		break;
 
 	case DM_APPENDTOLOG:   //takes wParam=hDbEvent
-		StreamInEvents(m_hwnd, wParam, 1, 1);
+		StreamInEvents(wParam, 1, 1);
 		break;
 
 	case DM_SCROLLLOGTOBOTTOM:

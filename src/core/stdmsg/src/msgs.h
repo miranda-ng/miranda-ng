@@ -55,6 +55,7 @@ class CSrmmWindow : public CDlgBase, public MZeroedObject
 	void ShowAvatar(void);
 	void ShowTime(void);
 	void SetupStatusBar(void);
+	void StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend);
 
 	char *m_szProto;
 	HWND m_hwndStatus;
