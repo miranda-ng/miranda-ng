@@ -896,17 +896,18 @@ INT_PTR CIconImportDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			ImageList_DragMove(dragX, dragY);
-			if (hwndOver == m_preview.GetHwnd()) {
-				ScreenToClient(m_preview.GetHwnd(), &lvhti.pt);
+			CCtrlListView &mainList = m_pParent->m_preview;
+			if (hwndOver == mainList.GetHwnd()) {
+				ScreenToClient(mainList.GetHwnd(), &lvhti.pt);
 
-				if (m_preview.HitTest(&lvhti) != -1) {
+				if (mainList.HitTest(&lvhti) != -1) {
 					if (lvhti.iItem != m_iDropHiLite) {
 						ImageList_DragLeave(m_hwndDragOver);
 						if (m_iDropHiLite != -1)
-							m_preview.SetItemState(m_iDropHiLite, 0, LVIS_DROPHILITED);
+							mainList.SetItemState(m_iDropHiLite, 0, LVIS_DROPHILITED);
 						m_iDropHiLite = lvhti.iItem;
-						m_preview.SetItemState(m_iDropHiLite, LVIS_DROPHILITED, LVIS_DROPHILITED);
-						UpdateWindow(m_preview.GetHwnd());
+						mainList.SetItemState(m_iDropHiLite, LVIS_DROPHILITED, LVIS_DROPHILITED);
+						UpdateWindow(mainList.GetHwnd());
 						ImageList_DragEnter(m_hwndDragOver, dragX, dragY);
 					}
 					onItem = 1;
@@ -915,8 +916,8 @@ INT_PTR CIconImportDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			if (!onItem && m_iDropHiLite != -1) {
 				ImageList_DragLeave(m_hwndDragOver);
-				m_preview.SetItemState(m_iDropHiLite, 0, LVIS_DROPHILITED);
-				UpdateWindow(m_preview.GetHwnd());
+				mainList.SetItemState(m_iDropHiLite, 0, LVIS_DROPHILITED);
+				UpdateWindow(mainList.GetHwnd());
 				ImageList_DragEnter(m_hwndDragOver, dragX, dragY);
 				m_iDropHiLite = -1;
 			}
