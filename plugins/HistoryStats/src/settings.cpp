@@ -566,7 +566,7 @@ void Settings::ensureConstraints()
 	utils::ensureRange(m_TableHeaderRepeat, 0, 1000, 0);
 }
 
-void Settings::openURL(const wchar_t* szURL)
+void Settings::openURL(const wchar_t *szURL)
 {
 	if (m_PathToBrowser.empty())
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);

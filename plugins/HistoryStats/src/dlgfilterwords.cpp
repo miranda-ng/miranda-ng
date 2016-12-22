@@ -229,7 +229,7 @@ void DlgFilterWords::onSetSelChanging(HANDLE hItem, INT_PTR dwData)
 			utils::replaceAllInPlace(strText, L"\r", L"");
 			pFilter->clearWords();
 
-			ext::string::size_type nPos = strText.find('\n');
+			size_t nPos = strText.find('\n');
 
 			while (nPos != ext::string::npos) {
 				if (nPos > 0)

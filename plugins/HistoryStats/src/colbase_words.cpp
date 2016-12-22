@@ -131,8 +131,8 @@ void ColBaseWords::parseMsg(WordMap* pWords, const ext::string& msg, bool bOutgo
 	}
 
 	// start parsing into words if not already filtered
-	ext::string::size_type firstChar = 0;
-	ext::string::size_type nextSpace;
+	size_t firstChar = 0;
+	size_t nextSpace;
 
 	while (firstChar < msg.length() && getCharMapper()->mapChar(msg[firstChar]) == ' ')
 		++firstChar;

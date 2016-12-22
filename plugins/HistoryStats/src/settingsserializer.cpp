@@ -4,76 +4,8 @@
 #include "settingstree.h"
 #include "column.h"
 
-/*
- * SettingsSerializer
- */
-
-static const char* g_UsedSettings[] = {
-	// special
-	con::SettVersion,
-	con::SettLastPage,
-	con::SettShowColumnInfo,
-	con::SettShowSupportInfo,
-	con::SettLastStatisticsFile,
-
-	// normal
-	con::SettAutoOpenOptions,
-	con::SettAutoOpenStartup,
-	con::SettAutoOpenMenu,
-	con::SettAverageMinTime,
-	con::SettCalcTotals,
-	con::SettChatSessionMinDur,
-	con::SettChatSessionTimeout,
-	con::SettColumns,
-	con::SettFilterBBCodes,
-	con::SettFilterWords,
-	con::SettGraphicsMode,
-	con::SettHeaderTooltips,
-	con::SettHeaderTooltipsIfCustom,
-	con::SettHideContactMenuProtos,
-	con::SettIgnoreAfter,
-	con::SettIgnoreBefore,
-	con::SettIgnoreOld,
-	con::SettMenuItem,
-	con::SettMergeContacts,
-	con::SettMergeContactsGroups,
-	con::SettMergeMode,
-	con::SettMetaContactsMode,
-	con::SettNickname,
-	con::SettOmitByRank,
-	con::SettOmitByTime,
-	con::SettOmitByTimeDays,
-	con::SettOmitByValue,
-	con::SettOmitByValueData,
-	con::SettOmitByValueLimit,
-	con::SettOmitContacts,
-	con::SettOmitNumOnTop,
-	con::SettOmittedInTotals,
-	con::SettOmittedInExtraRow,
-	con::SettOnStartup,
-	con::SettOutput,
-	con::SettOutputExtraFolder,
-	con::SettOutputExtraToFolder,
-	con::SettOutputVariables,
-	con::SettOverwriteAlways,
-	con::SettPathToBrowser,
-	con::SettPNGMode,
-	con::SettProtosIgnore,
-	con::SettRemoveEmptyContacts,
-	con::SettRemoveInChatsZero,
-	con::SettRemoveInBytesZero,
-	con::SettRemoveOutChatsZero,
-	con::SettRemoveOutBytesZero,
-	con::SettShowContactMenu,
-	con::SettShowContactMenuPseudo,
-	con::SettShowMenuSub,
-	con::SettSort,
-	con::SettTableHeader,
-	con::SettTableHeaderRepeat,
-	con::SettTableHeaderVerbose,
-	con::SettThreadLowPriority,
-	con::SettWordDelimiters,
-};
+/////////////////////////////////////////////////////////////////////////////////////////
+// SettingsSerializer
 
 SettingsSerializer::SettingsSerializer(const char* module) : m_VersionInDB(0)
 {	
@@ -91,8 +23,7 @@ void SettingsSerializer::readFromDB()
 	// read version tag
 	m_VersionInDB = m_DB.readDWord(con::SettVersion, 0);
 
-	// -- global settings --
-
+	// global settings
 	m_OnStartup = m_DB.readBool(con::SettOnStartup, false);
 	m_GraphicsMode = m_DB.readByte(con::SettGraphicsMode, gmHTML);
 	m_PNGMode = m_DB.readByte(con::SettPNGMode, pmHTMLFallBack);
@@ -113,7 +44,7 @@ void SettingsSerializer::readFromDB()
 		m_HideContactMenuProtos.insert(utils::toA(settingsTree.readStr(utils::intToString(i).c_str(), L"")));
 	}
 
-	// -- input settings --
+	// input settings
 	m_ChatSessionMinDur = m_DB.readWord(con::SettChatSessionMinDur, 0);
 	m_ChatSessionTimeout = m_DB.readWord(con::SettChatSessionTimeout, 900);
 	m_AverageMinTime = m_DB.readWord(con::SettAverageMinTime, 0);
@@ -139,8 +70,7 @@ void SettingsSerializer::readFromDB()
 	m_MergeContactsGroups = m_DB.readBool(con::SettMergeContactsGroups, false);
 	m_MergeMode = m_DB.readByte(con::SettMergeMode, mmStrictMerge);
 
-	// -- column settings --
-
+	// column settings
 	clearColumns();
 	m_DB.readTree(con::SettColumns, getDefaultColumns(), settingsTree);
 
@@ -152,8 +82,7 @@ void SettingsSerializer::readFromDB()
 
 		settingsTree.setKey(colPrefix.c_str());
 
-		Column* pCol = Column::fromUID(settingsTree.readStr(con::KeyGUID, L""));
-
+		Column *pCol = Column::fromUID(settingsTree.readStr(con::KeyGUID, L""));
 		if (pCol) {
 			pCol->setEnabled(settingsTree.readBool(con::KeyEnabled, true));
 			pCol->setCustomTitle(settingsTree.readStr(con::KeyTitle, L""));
@@ -166,8 +95,7 @@ void SettingsSerializer::readFromDB()
 		}
 	}
 
-	// -- output settings --
-
+	// output settings
 	m_RemoveEmptyContacts = m_DB.readBool(con::SettRemoveEmptyContacts, false);
 	m_RemoveOutChatsZero = m_DB.readBool(con::SettRemoveOutChatsZero, false);
 	m_RemoveOutBytesZero = m_DB.readBool(con::SettRemoveOutBytesZero, false);
@@ -210,8 +138,7 @@ void SettingsSerializer::readFromDB()
 	m_AutoOpenStartup = m_DB.readBool(con::SettAutoOpenStartup, false);
 	m_AutoOpenMenu = m_DB.readBool(con::SettAutoOpenMenu, false);
 
-	// -- shared column data --
-
+	// shared column data
 	m_FilterWords.clear();
 	m_DB.readTree(con::SettFilterWords, getDefaultFilterWords(), settingsTree);
 
@@ -252,14 +179,16 @@ void SettingsSerializer::writeToDB()
 {
 	// update silently if DB entries are from an older version
 	if (isDBUpdateNeeded()) {
-		updateDB();
-	}
+		db_delete_module(NULL, m_DB.getModule().c_str());
 
+		// write version tag
+		m_DB.writeDWord(con::SettVersion, m_VersionCurrent);
+		m_VersionInDB = m_VersionCurrent;
+	}
 
 	SettingsTree settingsTree;
 
-	// -- global settings --
-
+	// global settings
 	m_DB.writeBool(con::SettOnStartup, m_OnStartup);
 	m_DB.writeBool(con::SettMenuItem, m_ShowMainMenu);
 	m_DB.writeBool(con::SettShowMenuSub, m_ShowMainMenuSub);
@@ -284,8 +213,7 @@ void SettingsSerializer::writeToDB()
 
 	m_DB.writeTree(con::SettHideContactMenuProtos, settingsTree);
 
-	// -- input settings --
-
+	// input settings
 	m_DB.writeWord(con::SettChatSessionMinDur, m_ChatSessionMinDur);
 	m_DB.writeWord(con::SettChatSessionTimeout, m_ChatSessionTimeout);
 	m_DB.writeWord(con::SettAverageMinTime, m_AverageMinTime);
@@ -296,7 +224,6 @@ void SettingsSerializer::writeToDB()
 
 	{
 		int i = 0;
-
 		citer_each_(ProtoSet, j, m_ProtosIgnore)
 		{
 			settingsTree.writeStr(utils::intToString(i++).c_str(), utils::fromA(*j).c_str());
@@ -315,8 +242,7 @@ void SettingsSerializer::writeToDB()
 	m_DB.writeBool(con::SettMergeContactsGroups, m_MergeContactsGroups);
 	m_DB.writeByte(con::SettMergeMode, m_MergeMode);
 
-	// -- column settings --
-
+	// column settings
 	settingsTree.clear();
 	settingsTree.writeInt(con::KeyNum, countCol());
 
@@ -341,8 +267,7 @@ void SettingsSerializer::writeToDB()
 
 	m_DB.writeTree(con::SettColumns, settingsTree);
 
-	// -- output settings --
-
+	// output settings
 	m_DB.writeBool(con::SettRemoveEmptyContacts, m_RemoveEmptyContacts);
 	m_DB.writeBool(con::SettRemoveOutChatsZero, m_RemoveOutChatsZero);
 	m_DB.writeBool(con::SettRemoveOutBytesZero, m_RemoveOutBytesZero);
@@ -387,36 +312,33 @@ void SettingsSerializer::writeToDB()
 
 	m_DB.writeTree(con::SettSort, settingsTree);
 
-	// -- shared column data --
-
+	// shared column data
 	settingsTree.clear();
 	settingsTree.writeInt(con::KeyNum, m_FilterWords.size());
 
+	int nFilterNr = 0;
+
+	citer_each_(FilterSet, i, m_FilterWords)
 	{
-		int nFilterNr = 0;
+		ext::string strPrefix = utils::intToString(nFilterNr++);
 
-		citer_each_(FilterSet, i, m_FilterWords)
-		{
-			ext::string strPrefix = utils::intToString(nFilterNr++);
+		// write filter attributes
+		settingsTree.setKey(strPrefix.c_str());
+		settingsTree.writeStr(con::KeyID, i->getID().c_str());
+		settingsTree.writeStr(con::KeyName, i->getName().c_str());
+		settingsTree.writeInt(con::KeyMode, i->getMode());
+		settingsTree.writeInt(con::KeyNumWords, i->getWords().size());
 
-			// write filter attributes
+		if (!i->getWords().empty()) {
+			// write filter words
+			strPrefix += con::SuffixWords;
 			settingsTree.setKey(strPrefix.c_str());
-			settingsTree.writeStr(con::KeyID, i->getID().c_str());
-			settingsTree.writeStr(con::KeyName, i->getName().c_str());
-			settingsTree.writeInt(con::KeyMode, i->getMode());
-			settingsTree.writeInt(con::KeyNumWords, i->getWords().size());
 
-			if (!i->getWords().empty()) {
-				// write filter words
-				strPrefix += con::SuffixWords;
-				settingsTree.setKey(strPrefix.c_str());
+			int nWordNr = 0;
 
-				int nWordNr = 0;
-
-				citer_each_(WordSet, j, i->getWords())
-				{
-					settingsTree.writeStr(utils::intToString(nWordNr++).c_str(), j->c_str());
-				}
+			citer_each_(WordSet, j, i->getWords())
+			{
+				settingsTree.writeStr(utils::intToString(nWordNr++).c_str(), j->c_str());
 			}
 		}
 	}
@@ -427,26 +349,6 @@ void SettingsSerializer::writeToDB()
 bool SettingsSerializer::isDBUpdateNeeded()
 {
 	return (m_VersionInDB < m_VersionCurrent);
-}
-
-void SettingsSerializer::updateDB()
-{
-	std::set<ext::a::string> settings;
-	m_DB.enumSettings(std::inserter(settings, settings.begin()));
-
-	array_each_(i, g_UsedSettings)
-	{
-		settings.erase(g_UsedSettings[i]);
-	}
-
-	iter_each_(std::set<ext::a::string>, si, settings)
-	{
-		m_DB.delSetting((*si).c_str());
-	}
-
-	// write version tag
-	m_DB.writeDWord(con::SettVersion, m_VersionCurrent);
-	m_VersionInDB = m_VersionCurrent;
 }
 
 int SettingsSerializer::getLastPage()

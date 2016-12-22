@@ -21,7 +21,6 @@ public:
 	void writeToDB();
 
 	bool isDBUpdateNeeded();
-	void updateDB();
 
 	int getLastPage();
 	void setLastPage(int nPage);

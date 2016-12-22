@@ -30,7 +30,7 @@ void SettingsTree::fromString(const ext::string& config)
 {
 	m_Keys.clear();
 
-	ext::string::size_type i = 0;
+	size_t i = 0;
 	ext::string curKey;
 
 	while (i < config.length()) {

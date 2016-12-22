@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "dlgoption.h"
 
-#include "protocol.h"
-
 /*
  * DlgOption::SubInput
  */
@@ -108,7 +106,7 @@ void DlgOption::SubInput::onWMInitDialog()
 	{
 		m_hProtosIgnore.push_back(m_Options.insertCheck(
 			m_hProtocols,
-			Protocol::getDisplayName(protoList[i]->szModuleName).c_str(),
+			protoList[i]->tszAccountName,
 			0,
 			reinterpret_cast<INT_PTR>(protoList[i]->szModuleName)));
 	}

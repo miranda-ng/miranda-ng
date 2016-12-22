@@ -17,19 +17,15 @@ void MirandaHistory::populateProtocols()
 	upto_each_(i, protoCount) 
 	{
 		ext::a::string protoName = protoList[i]->szModuleName;
-
-		Protocol& curProto = m_Protocols[protoName];
-
-		curProto.displayName = Protocol::getDisplayName(protoName);
+		m_Protocols[protoName] = protoList[i]->tszAccountName;
 	}
 
-	m_DefaultProtocol.displayName = TranslateT("(Unknown)");
+	m_DefaultProtocol = TranslateT("(Unknown)");
 }
 
-const Protocol& MirandaHistory::getProtocol(const ext::a::string& protocol) const
+const ext::string& MirandaHistory::getProtocol(const ext::a::string& protocol) const
 {
-	std::map<ext::a::string, Protocol>::const_iterator i = m_Protocols.find(protocol);
-
+	auto i = m_Protocols.find(protocol);
 	return (i != m_Protocols.end()) ? i->second : m_DefaultProtocol;
 }
 
@@ -59,81 +55,72 @@ void MirandaHistory::readContacts()
 {
 	bool bHandleMeta = m_Settings.m_MetaContactsMode != Settings::mcmIgnoreMeta;
 	ext::a::string strMetaProto = bHandleMeta ? META_PROTO : "";
+	
 	MirandaSettings db;
+	db.setModule(con::ModCList);
 
 	std::vector<MCONTACT> sources;
 
-	MCONTACT hContact = db_find_first();
-	while (hContact) {
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		db.setContact(hContact);
 
 		const char* pProtoName = GetContactProto(hContact);
 
-		// if something leads to ignorance of conact jump to end of
-		// processing this contact via 'break'
-		do {
-			// ignore because of bad or not loaded protocol?
-			if (!pProtoName)
-				pProtoName = con::ProtoUnknown; // MEMO: alternative would be "break;"
+		// ignore because of bad or not loaded protocol?
+		if (!pProtoName)
+			pProtoName = con::ProtoUnknown; // MEMO: alternative would be "break;"
 
-			ext::string curNick = pcli->pfnGetContactDisplayName(hContact, 0);
+		ext::string curNick = pcli->pfnGetContactDisplayName(hContact, 0);
 
-			// retrieve protocol
-			const ext::a::string curProtoName = pProtoName;
-			const Protocol& curProto = getProtocol(curProtoName);
+		// retrieve protocol
+		const ext::a::string curProtoName = pProtoName;
+		const ext::string& curProto = getProtocol(curProtoName);
 
-			// retrieve group
-			db.setModule(con::ModCList);
-			ext::string curGroup = db.readStrDirect(con::SettGroup, TranslateT("(none)"));
+		// retrieve group
+		ext::string curGroup = db.readStrDirect(con::SettGroup, TranslateT("(none)"));
 
-			// ignore because of filtered protocol?
-			if (m_Settings.m_ProtosIgnore.find(curProtoName) != m_Settings.m_ProtosIgnore.end())
-				break;
+		// ignore because of filtered protocol?
+		if (m_Settings.m_ProtosIgnore.find(curProtoName) != m_Settings.m_ProtosIgnore.end())
+			continue;
 
-			// init list of event sources
-			sources.clear();
-			sources.push_back(hContact);
+		// init list of event sources
+		sources.clear();
+		sources.push_back(hContact);
 
-			// handle meta-contacts
-			if (bHandleMeta) {
-				if (curProtoName == strMetaProto) {
-					// don't include meta-contact history
-					if (m_Settings.m_MetaContactsMode == Settings::mcmSubOnly)
-						sources.clear();
+		// handle meta-contacts
+		if (bHandleMeta) {
+			if (curProtoName == strMetaProto) {
+				// don't include meta-contact history
+				if (m_Settings.m_MetaContactsMode == Settings::mcmSubOnly)
+					sources.clear();
 
-					// include meta-contact's subcontact
-					if (m_Settings.m_MetaContactsMode != Settings::mcmMetaOnly) {
-						// find subcontacts to read history from
-						int numSubs = db_mc_getSubCount(hContact);
-						if (numSubs > 0) {
-							for (int i = 0; i < numSubs; ++i) {
-								MCONTACT hSubContact = db_mc_getSub(hContact, i);
-								if (hSubContact)
-									sources.push_back(hSubContact);
-							}
+				// include meta-contact's subcontact
+				if (m_Settings.m_MetaContactsMode != Settings::mcmMetaOnly) {
+					// find subcontacts to read history from
+					int numSubs = db_mc_getSubCount(hContact);
+					if (numSubs > 0) {
+						for (int i = 0; i < numSubs; ++i) {
+							MCONTACT hSubContact = db_mc_getSub(hContact, i);
+							if (hSubContact)
+								sources.push_back(hSubContact);
 						}
 					}
 				}
-				else {
-					// ignore because of meta-contact?
-					if (db_mc_isMeta(hContact))
-						break;
-				}
 			}
-
-			// ignore because of exclude?
-			db.setModule(con::ModHistoryStats);
-
-			if (db.readBool(con::SettExclude, false))
-				break;
-
-			// finally add to list
-			MirandaContact* pContact = MirandaContactFactory::makeMirandaContact(m_Settings.m_MergeMode, curNick, curProto.displayName, curGroup, sources);
-			m_Contacts.push_back(pContact);
+			else {
+				// ignore because of meta-contact?
+				if (db_mc_isMeta(hContact))
+					continue;
+			}
 		}
-			while (false);
 
-		hContact = db_find_next(hContact);
+		// ignore because of exclude?
+		if (db_get_b(hContact, con::ModHistoryStats, con::SettExclude, false))
+			continue;
+
+		// finally add to list
+		MirandaContact* pContact = MirandaContactFactory::makeMirandaContact(m_Settings.m_MergeMode, curNick, curProto, curGroup, sources);
+		m_Contacts.push_back(pContact);
 	}
 }
 
@@ -142,10 +129,10 @@ void MirandaHistory::mergeContacts()
 	if (!m_Settings.m_MergeContacts)
 		return;
 
-	for (ContactList::size_type i = 0; i < m_Contacts.size(); ++i) {
+	for (size_t i = 0; i < m_Contacts.size(); ++i) {
 		MirandaContact& cur = *m_Contacts[i];
 
-		for (ContactList::size_type j = i + 1; j < m_Contacts.size(); ++j) {
+		for (size_t j = i + 1; j < m_Contacts.size(); ++j) {
 			if (m_Contacts[j]->getNick() == cur.getNick()) {
 				if (!m_Settings.m_MergeContactsGroups || m_Contacts[j]->getGroup() == cur.getGroup()) {
 					cur.merge(*m_Contacts[j]);

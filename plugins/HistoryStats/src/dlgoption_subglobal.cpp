@@ -33,8 +33,8 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 
 			if (!linkTexts.empty()) {
 				while (!linkTexts.empty() && nCurLink < _countof(LinkIDs)) {
-					ext::string::size_type posTexts = linkTexts.rfind('|');
-					ext::string::size_type posURLs = linkURLs.rfind('|');
+					size_t posTexts = linkTexts.rfind('|');
+					size_t posURLs = linkURLs.rfind('|');
 
 					if (posTexts == ext::string::npos || posURLs == ext::string::npos) {
 						posTexts = posURLs = -1;
@@ -246,7 +246,7 @@ void DlgOption::SubGlobal::onWMInitDialog()
 	{
 		m_hHideContactMenuProtos.push_back(m_Options.insertCheck(
 			m_hProtocols,
-			Protocol::getDisplayName(protoList[i]->szModuleName).c_str(),
+			protoList[i]->tszAccountName,
 			0,
 			reinterpret_cast<INT_PTR>(protoList[i]->szModuleName)));
 	}

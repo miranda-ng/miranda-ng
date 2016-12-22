@@ -10,7 +10,6 @@
 #include <list>
 
 #include "settings.h"
-#include "protocol.h"
 #include "message.h"
 
 class Contact; // forward declaration instead of #include "contact.h"
@@ -83,8 +82,9 @@ private:
 	Contact* m_pTotals;
 	Contact* m_pOmitted;
 
-	// did we really omit something
-	bool m_bActuallyOmitted;
+	bool
+		m_bActuallyOmitted,  // did we really omit something
+		m_bResult;           // result of calculations
 
 	// start time for statistics
 	DWORD m_TimeStarted;
@@ -159,7 +159,7 @@ private:
 	// private constructor & main statistic creation routine
 	explicit Statistic(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst);
 	bool createStatistics();
-	bool createStatisticsSteps();
+	void createStatisticsSteps();
 	static void __cdecl threadProc(void *lpParameter);
 	static void __cdecl threadProcSteps(void *lpParameter);
 

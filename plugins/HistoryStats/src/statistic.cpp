@@ -29,15 +29,13 @@ void Statistic::prepareColumns()
 
 	upto_each_(i, m_Settings.countCol())
 	{
-		Column* pCol = m_Settings.getCol(i);
-
+		Column *pCol = m_Settings.getCol(i);
 		if (pCol->isEnabled()) {
 			int restrictions = pCol->configGetRestrictions(NULL);
 
 			// MEMO: checks for columns having no HTML-only support
-			if (!bOutputPNG && !(restrictions & Column::crHTMLMask)) {
+			if (!bOutputPNG && !(restrictions & Column::crHTMLMask))
 				continue;
-			}
 
 			m_ActiveCols.push_back(pCol);
 
@@ -132,13 +130,11 @@ DWORD Statistic::getFirstTime()
 			l.push_back(&getContact(i));
 		}
 
-		if (hasOmitted()) {
+		if (hasOmitted())
 			l.push_back(&getOmitted());
-		}
 
-		if (hasTotals()) {
+		if (hasTotals())
 			l.push_back(&getTotals());
-		}
 
 		if (l.size() > 0) {
 			DWORD nFirstTime = con::MaxDateTime, nLastTime = con::MinDateTime;
@@ -151,17 +147,14 @@ DWORD Statistic::getFirstTime()
 				}
 			}
 
-			if (nFirstTime == con::MaxDateTime && nLastTime == con::MinDateTime) {
+			if (nFirstTime == con::MaxDateTime && nLastTime == con::MinDateTime)
 				m_nFirstTime = m_nLastTime = 0;
-			}
 			else {
 				m_nFirstTime = nFirstTime;
 				m_nLastTime = nLastTime;
 			}
 		}
-		else {
-			m_nFirstTime = m_nLastTime = 0;
-		}
+		else m_nFirstTime = m_nLastTime = 0;
 
 		// mark data as available
 		m_bHistoryTimeAvailable = true;
@@ -172,20 +165,16 @@ DWORD Statistic::getFirstTime()
 
 DWORD Statistic::getLastTime()
 {
-	if (!m_bHistoryTimeAvailable) {
-		// trigger calculation
+	if (!m_bHistoryTimeAvailable) // trigger calculation
 		getFirstTime();
-	}
 
 	return m_nLastTime;
 }
 
 DWORD Statistic::getHistoryTime()
 {
-	if (!m_bHistoryTimeAvailable) {
-		// trigger calculation
+	if (!m_bHistoryTimeAvailable) // trigger calculation
 		getFirstTime();
-	}
 
 	return m_nLastTime - m_nFirstTime;
 }
@@ -196,10 +185,8 @@ ext::string Statistic::createFile(const ext::string& desiredName)
 		wchar_t tempBuf[MAX_PATH];
 
 		UINT nUnique = GetTempFileName(m_TempPath.c_str(), L"his", 0, tempBuf);
-
-		if (nUnique == 0) {
+		if (!nUnique)
 			abort();
-		}
 
 		ext::string tempName = tempBuf;
 
@@ -236,31 +223,24 @@ bool Statistic::newFile(const wchar_t* fileExt, ext::string& writeFile, ext::str
 bool Statistic::newFilePNG(Canvas& canvas, ext::string& finalURL)
 {
 	Canvas::Digest digest;
-
-	if (!canvas.getDigest(digest)) {
+	if (!canvas.getDigest(digest))
 		return false;
-	}
 
 	ImageMap::const_iterator i = m_Images.find(digest);
 
 	if (i == m_Images.end()) {
 		ext::string writeFile;
 
-		if (newFilePNG(writeFile, finalURL)) {
-			canvas.writePNG(writeFile.c_str());
-			m_Images.insert(std::make_pair(digest, finalURL));
-
-			return true;
-		}
-		else {
+		if (!newFilePNG(writeFile, finalURL)) 
 			return false;
-		}
-	}
-	else {
-		finalURL = i->second;
 
+		canvas.writePNG(writeFile.c_str());
+		m_Images.insert(std::make_pair(digest, finalURL));
 		return true;
 	}
+
+	finalURL = i->second;
+	return true;
 }
 
 void Statistic::handleAddMessage(Contact& contact, Message& msg)
@@ -354,10 +334,8 @@ bool Statistic::stepInit()
 	// file management
 	wchar_t tempPath[MAX_PATH];
 	int nRes = GetTempPath(MAX_PATH, tempPath);
-
-	if (nRes > 0) {
+	if (nRes > 0)
 		m_TempPath.assign(tempPath, nRes);
-	}
 
 	m_OutputFile = m_Settings.getOutputFile(getTimeStarted());
 	m_OutputPath = utils::extractPath(m_OutputFile);
@@ -370,31 +348,26 @@ bool Statistic::stepInit()
 	m_TimeMin = 0;
 	m_TimeMax = 0xFFFFFFFF;
 
-	if (m_Settings.m_IgnoreOld != 0) {
+	if (m_Settings.m_IgnoreOld != 0)
 		m_TimeMin = getTimeStarted() - 86400 * m_Settings.m_IgnoreOld;
-	}
 
 	if (m_Settings.getIgnoreBefore() != 0) {
-		if (m_Settings.m_IgnoreOld != 0) {
+		if (m_Settings.m_IgnoreOld != 0)
 			m_TimeMin = max(m_TimeMin, m_Settings.getIgnoreBefore());
-		}
-		else {
+		else
 			m_TimeMin = m_Settings.getIgnoreBefore();
-		}
 	}
 
-	if (m_Settings.getIgnoreAfter() != 0) {
+	if (m_Settings.getIgnoreAfter() != 0)
 		m_TimeMax = m_Settings.getIgnoreAfter() + 86399;
-	}
 
 	return true;
 }
 
 bool Statistic::stepReadDB()
 {
-	if (shouldTerminate()) {
+	if (shouldTerminate())
 		return false;
-	}
 
 	iter_each_(std::vector<Column*>, i, m_AcquireCols)
 	{
@@ -447,7 +420,6 @@ bool Statistic::stepReadDB()
 						char* pAnsiText = reinterpret_cast<char*>(dbei.pBlob);
 						int nAnsiLenP1 = ext::a::strfunc::len(pAnsiText) + 1;
 
-#if defined(_UNICODE)
 						WCHAR* pWideText = reinterpret_cast<WCHAR*>(pAnsiText + nAnsiLenP1);
 						int nWideLen = 0;
 						int nWideMaxLen = (dbei.cbBlob - nAnsiLenP1) / sizeof(WCHAR);
@@ -461,15 +433,10 @@ bool Statistic::stepReadDB()
 							}
 						}
 
-						if (nWideLen > 0 && nWideLen < nAnsiLenP1) {
+						if (nWideLen > 0 && nWideLen < nAnsiLenP1)
 							curMsg.assignText(pWideText, nWideLen);
-						}
-						else {
+						else
 							curMsg.assignText(pAnsiText, nAnsiLenP1 - 1);
-						}
-#else // _UNICODE
-						curMsg.assignText(pAnsiText, nAnsiLenP1 - 1);
-#endif // _UNICODE
 					}
 
 					curMsg.assignInfo(bOutgoing, localTimestamp);
@@ -480,9 +447,8 @@ bool Statistic::stepReadDB()
 					// handle chats
 					if (localTimestamp - lastAddedTime >= (DWORD)m_Settings.m_ChatSessionTimeout || lastAddedTime == 0) {
 						// new chat started
-						if (chatStartTime != 0) {
+						if (chatStartTime != 0)
 							handleAddChat(curContact, bChatOutgoing, chatStartTime, lastAddedTime - chatStartTime);
-						}
 
 						chatStartTime = localTimestamp;
 						bChatOutgoing = bOutgoing;
@@ -493,17 +459,15 @@ bool Statistic::stepReadDB()
 			}
 
 			// non-message events
-			if (dbei.eventType != etMessage) {
+			if (dbei.eventType != etMessage)
 				curContact.addEvent(dbei.eventType, bOutgoing);
-			}
 
 			hisContact.readNext();
 		}
 
 		// post processing for chat detection
-		if (chatStartTime != 0) {
+		if (chatStartTime != 0)
 			handleAddChat(curContact, bChatOutgoing, chatStartTime, lastAddedTime - chatStartTime);
-		}
 
 		// signal end of history for this contact
 		curContact.endMessages();
@@ -511,9 +475,8 @@ bool Statistic::stepReadDB()
 
 		stepProgress(true);
 
-		if (shouldTerminate()) {
+		if (shouldTerminate())
 			return false;
-		}
 	}
 
 	iter_each_(std::vector<Column*>, i, m_AcquireCols)
@@ -526,30 +489,25 @@ bool Statistic::stepReadDB()
 
 bool Statistic::stepRemoveContacts()
 {
-	if (!m_Settings.m_RemoveEmptyContacts && !m_Settings.m_RemoveOutChatsZero && !m_Settings.m_RemoveInChatsZero) {
+	if (!m_Settings.m_RemoveEmptyContacts && !m_Settings.m_RemoveOutChatsZero && !m_Settings.m_RemoveInChatsZero)
 		return true;
-	}
 
-	if (shouldTerminate()) {
+	if (shouldTerminate())
 		return false;
-	}
 
 	vector_each_(i, m_Contacts)
 	{
 		bool bRemove = false;
 		Contact* pCur = m_Contacts[i];
 
-		if (!bRemove && m_Settings.m_RemoveEmptyContacts) {
+		if (!bRemove && m_Settings.m_RemoveEmptyContacts)
 			bRemove = (pCur->getTotalMessages() == 0);
-		}
 
-		if (!bRemove && m_Settings.m_RemoveOutChatsZero) {
+		if (!bRemove && m_Settings.m_RemoveOutChatsZero)
 			bRemove = (pCur->getOutChats() == 0 && (!m_Settings.m_RemoveOutBytesZero || pCur->getOutBytes() == 0));
-		}
 
-		if (!bRemove && m_Settings.m_RemoveInChatsZero) {
+		if (!bRemove && m_Settings.m_RemoveInChatsZero)
 			bRemove = (pCur->getInChats() == 0 && (!m_Settings.m_RemoveInBytesZero || pCur->getInBytes() == 0));
-		}
 
 		if (bRemove) {
 			freeContactData(*pCur);
@@ -565,9 +523,8 @@ bool Statistic::stepRemoveContacts()
 
 bool Statistic::stepSortContacts()
 {
-	if (shouldTerminate()) {
+	if (shouldTerminate())
 		return false;
-	}
 
 	ContactCompareBase cmpLast;
 	ContactCompareStr cmpName(&cmpLast, &Contact::getNick);
@@ -877,7 +834,7 @@ bool Statistic::stepCalcTotals()
 	// normal contacts
 	vector_each_(i, m_Contacts)
 	{
-		Contact& curContact = *m_Contacts[i];
+		Contact &curContact = *m_Contacts[i];
 
 		setProgressLabel(true, curContact.getNick());
 
@@ -899,7 +856,6 @@ bool Statistic::stepCalcTotals()
 	}
 
 	stepProgress(true);
-
 	return true;
 }
 
@@ -1130,10 +1086,7 @@ bool Statistic::stepWriteHTML()
 
 	stepProgress(true);
 
-	/*
-	 * Output totals.
-	 */
-
+	// Output totals.
 	if (!bInterrupted && m_Settings.m_CalcTotals) {
 		setProgressLabel(true, TranslateT("Writing totals"));
 
@@ -1291,31 +1244,16 @@ bool Statistic::createStatistics()
 		DestroyWindow(m_hWndProgress);
 	}
 
-	/*
-	 * Get result from thread.
-	 */
-
-	bool bSuccess = false;
-	DWORD threadRes;
-	if (GetExitCodeThread(hThread, &threadRes))
-		bSuccess = (threadRes == 0);
-
-	/*
-	 * Cleanup.
-	 */
+	// Cleanup.
 	CloseHandle(m_hCancelEvent);
 	m_hCancelEvent = NULL;
 	m_hWndProgress = NULL;
 
-	if (bSuccess) {
-		/*
-		 * Save last successfully created statistics
-		 */
+	if (m_bResult) {
+		// Save last successfully created statistics
 		g_pSettings->setLastStatisticsFile(m_OutputFile.c_str());
 
-		/*
-		 * Open afterwards, if requested.
-		 */
+		// Open afterwards, if requested.
 		bool bOpenAfterwards =
 			(m_InvokedFrom == fromOptions && m_Settings.m_AutoOpenOptions) ||
 			(m_InvokedFrom == fromStartup && m_Settings.m_AutoOpenStartup) ||
@@ -1325,10 +1263,10 @@ bool Statistic::createStatistics()
 			m_Settings.openURL(m_OutputFile.c_str());
 	}
 
-	return bSuccess;
+	return m_bResult;
 }
 
-bool Statistic::createStatisticsSteps()
+void Statistic::createStatisticsSteps()
 {
 	static const struct
 	{
@@ -1348,6 +1286,7 @@ bool Statistic::createStatisticsSteps()
 		{ &Statistic::stepWriteHTML, LPGENW("Creating HTML") }
 	};
 
+	m_bResult = false;
 	setProgressMax(false, _countof(stepsInfo));
 
 	array_each_(i, stepsInfo)
@@ -1355,17 +1294,14 @@ bool Statistic::createStatisticsSteps()
 		setProgressLabel(false, TranslateW(stepsInfo[i].stepMsg));
 
 		if (!(this->*stepsInfo[i].stepFn)())
-			return false;
+			return;
 
 		stepProgress(false);
 	}
 
-	/*
-	 * Last step: We are done.
-	 */
+	// Last step: We are done.
+	m_bResult = true;
 	setProgressLabel(false, TranslateT("Done"));
-
-	return true;
 }
 
 void __cdecl Statistic::threadProc(void *lpParameter)
@@ -1391,7 +1327,7 @@ void __cdecl Statistic::threadProc(void *lpParameter)
 void __cdecl Statistic::threadProcSteps(void *lpParameter)
 {
 	Thread_SetName("HistoryStats: Statistic::threadProcSteps");
-	Statistic* pStats = reinterpret_cast<Statistic*>(lpParameter);
+	Statistic *pStats = reinterpret_cast<Statistic*>(lpParameter);
 	if (pStats->m_Settings.m_ThreadLowPriority)
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
 
@@ -1408,7 +1344,7 @@ INT_PTR CALLBACK Statistic::staticConflictProc(HWND hDlg, UINT uMsg, WPARAM wPar
 		utils::centerDialog(hDlg);
 
 		HWND hWndFiles = GetDlgItem(hDlg, IDC_FILES);
-		ConflictingFiles* pFiles = reinterpret_cast<ConflictingFiles*>(lParam);
+		ConflictingFiles *pFiles = reinterpret_cast<ConflictingFiles*>(lParam);
 
 		LVCOLUMN lvc;
 		lvc.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_FMT;
@@ -1467,8 +1403,8 @@ void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINS
 	// check if running and make running
 	if (m_bRunning) {
 		MessageBox(0,
-					  TranslateT("HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again."),
-					  TranslateT("HistoryStats"), MB_ICONINFORMATION | MB_OK);
+			TranslateT("HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again."),
+			TranslateT("HistoryStats"), MB_ICONINFORMATION | MB_OK);
 		return;
 	}
 

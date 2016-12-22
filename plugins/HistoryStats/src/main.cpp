@@ -49,9 +49,8 @@ static HGENMENU g_hMenuToggleExclude    = NULL;
 	static HGENMENU g_hHistoryCopyContact = NULL;
 #endif
 
-/*
- * services (see m_historystats.h for details)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// services(see m_historystats.h for details)
 
 static INT_PTR SvcIsExcluded(WPARAM hContact, LPARAM)
 {
@@ -75,28 +74,21 @@ static INT_PTR SvcSetExclude(WPARAM hContact, LPARAM lParam)
 		db.setContact(hContact);
 		db.setModule(con::ModHistoryStats);
 
-		if (db.readBool(con::SettExclude, false))
-		{
+		if (db.readBool(con::SettExclude, false)) {
 			if (!lParam)
-			{
 				db.delSetting(con::SettExclude);
-			}
 		}
-		else
-		{
+		else {
 			if (lParam)
-			{
 				db.writeBool(con::SettExclude, true);
-			}
 		}
 	}
 
 	return 0;
 }
 
-/*
- * global menu stuff
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// global menu stuff
 
 static void MenuIconsChanged(LPARAM)
 {
@@ -113,9 +105,8 @@ static void MenuIconsChanged(LPARAM)
 		Menu_ModifyItem(g_hMenuToggleExclude, NULL, IconLib::getIcon(IconLib::iiContactMenu));
 }
 
-/*
- * main menu related stuff
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// main menu related stuff
 
 static INT_PTR MenuCreateStatistics(WPARAM, LPARAM)
 {
@@ -144,9 +135,7 @@ static INT_PTR MenuConfigure(WPARAM, LPARAM)
 void AddMainMenu()
 {
 	if (!g_pSettings->m_ShowMainMenu || g_bMainMenuExists)
-	{
 		return;
-	}
 
 	g_bMainMenuExists = true;
 
@@ -171,9 +160,8 @@ void AddMainMenu()
 		0, 1910000002, IconLib::getIcon(IconLib::iiMenuConfigure), con::SvcConfigure, hRoot);
 }
 
-/*
- * contact menu related stuff
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// contact menu related stuff
 
 static INT_PTR MenuToggleExclude(WPARAM hContact, LPARAM)
 {
@@ -283,11 +271,8 @@ static int EventPreBuildContactMenu(WPARAM hContact, LPARAM)
 	{
 		const char* szProto = GetContactProto(hContact);
 
-		if ((!g_pSettings->m_ShowContactMenuPseudo && (!szProto || !(mu::protosvc::getCaps(szProto, PFLAGNUM_2) & ~mu::protosvc::getCaps(szProto, PFLAGNUM_5)))) ||
-			g_pSettings->m_HideContactMenuProtos.find(szProto) != g_pSettings->m_HideContactMenuProtos.end())
-		{
+		if ((!g_pSettings->m_ShowContactMenuPseudo && (!szProto || !(mu::protosvc::getCaps(szProto, PFLAGNUM_2) & ~mu::protosvc::getCaps(szProto, PFLAGNUM_5)))) || g_pSettings->m_HideContactMenuProtos.find(szProto) != g_pSettings->m_HideContactMenuProtos.end())
 			Menu_ShowItem(g_hMenuToggleExclude, false);
-		}
 		else {
 			MirandaSettings db;
 			db.setContact(hContact);
@@ -345,9 +330,8 @@ void AddContactMenu()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, EventPreBuildContactMenu);
 }
 
-/*
- * options integration
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// options integration
 
 static int EventOptInitialise(WPARAM wParam, LPARAM)
 {
@@ -363,9 +347,8 @@ static int EventOptInitialise(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-/*
- * second initialization phase
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// second initialization phase
 
 static int EventModulesLoaded(WPARAM, LPARAM)
 {
@@ -394,9 +377,8 @@ static int EventModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-/*
- * external interface
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// external interface
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {

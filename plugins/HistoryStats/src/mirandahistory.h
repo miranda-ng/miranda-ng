@@ -6,26 +6,25 @@
 #include <vector>
 
 #include "mirandacontact.h"
-#include "protocol.h"
 #include "settings.h"
 
 class MirandaHistory
 	: private pattern::NotCopyable<MirandaHistory>
 {
 private:
-	typedef std::map<ext::a::string, Protocol> ProtocolMap;
+	typedef std::map<ext::a::string, ext::string> ProtocolMap;
 	typedef std::vector<MirandaContact*> ContactList;
 
 private:
 	const Settings& m_Settings;
 	ProtocolMap m_Protocols;
-	Protocol m_DefaultProtocol;
+	ext::string m_DefaultProtocol;
 	bool m_bContactsAvailable;
 	ContactList m_Contacts;
 
 private:
 	void populateProtocols();
-	const Protocol& getProtocol(const ext::a::string& protocol) const;
+	const ext::string& getProtocol(const ext::a::string& protocol) const;
 	void makeContactsAvailable();
 	void readContacts();
 	void mergeContacts();

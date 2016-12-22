@@ -66,8 +66,8 @@ void Message::stripBBCodes()
 		int lenOpen = ext::strfunc::len(szOpenTag);
 		int lenClose = ext::strfunc::len(szCloseTag);
 
-		ext::string::size_type posOpen = 0;
-		ext::string::size_type posClose = 0;
+		size_t posOpen = 0;
+		size_t posClose = 0;
 
 		while (true) {
 			if ((posOpen = strRawLC.find(szOpenTag, posOpen)) == ext::string::npos)
@@ -94,9 +94,9 @@ void Message::stripBBCodes()
 		int lenOpen = ext::strfunc::len(szOpenTag);
 		int lenClose = ext::strfunc::len(szCloseTag);
 
-		ext::string::size_type posOpen = 0;
-		ext::string::size_type posOpen2 = 0;
-		ext::string::size_type posClose = 0;
+		size_t posOpen = 0;
+		size_t posOpen2 = 0;
+		size_t posClose = 0;
 
 		while (true) {
 			if ((posOpen = strRawLC.find(szOpenTag, posOpen)) == ext::string::npos)
@@ -130,7 +130,7 @@ void Message::filterLinks()
 	m_WithoutLinks = getRaw();
 
 	ext::string& msg = m_WithoutLinks;
-	ext::string::size_type pos = -1;
+	size_t pos = -1;
 
 	// detect: protocol://[user[:password]@]host[/path]
 	while (true) {
@@ -138,13 +138,13 @@ void Message::filterLinks()
 			break;
 
 		// find start of URL
-		ext::string::size_type pos_proto = msg.find_last_not_of(szValidProtocol, pos - 1);
+		size_t pos_proto = msg.find_last_not_of(szValidProtocol, pos - 1);
 
 		(pos_proto == ext::string::npos) ? pos_proto = 0 : ++pos_proto;
 
 		if (pos_proto < pos) {
 			// find end of URL
-			ext::string::size_type pos_last = msg.find_first_of(szSpaces, pos + 3);
+			size_t pos_last = msg.find_first_of(szSpaces, pos + 3);
 
 			(pos_last == ext::string::npos) ? pos_last = msg.length() - 1 : --pos_last;
 
@@ -153,20 +153,20 @@ void Message::filterLinks()
 				--pos_last;
 
 			// find slash: for host name validation
-			ext::string::size_type pos_slash = msg.find('/', pos + 3);
+			size_t pos_slash = msg.find('/', pos + 3);
 
 			if (pos_slash == ext::string::npos || pos_slash > pos_last)
 				pos_slash = pos_last + 1;
 
 			// find at: for host name validation
-			ext::string::size_type pos_at = msg.find('@', pos + 3);
+			size_t pos_at = msg.find('@', pos + 3);
 
 			if (pos_at == ext::string::npos || pos_at > pos_slash)
 				pos_at = pos + 2;
 
 			// check for valid host (x.x)
 			if (pos_slash - pos_at > 3) {
-				ext::string::size_type pos_invalid = msg.find_first_not_of(szValidHost, pos_at + 1);
+				size_t pos_invalid = msg.find_first_not_of(szValidHost, pos_at + 1);
 
 				if (pos_invalid == ext::string::npos || pos_invalid >= pos_slash) {
 					if (std::count(msg.begin() + pos_at + 1, msg.begin() + pos_slash, '.') >= 1) {
@@ -191,7 +191,7 @@ void Message::filterLinks()
 			break;
 
 		// find end of URL
-		ext::string::size_type pos_last = msg.find_first_of(szSpaces, pos + 4);
+		size_t pos_last = msg.find_first_of(szSpaces, pos + 4);
 
 		(pos_last == ext::string::npos) ? pos_last = msg.length() - 1 : --pos_last;
 
@@ -200,17 +200,17 @@ void Message::filterLinks()
 			--pos_last;
 
 		// find slash: for host name validation
-		ext::string::size_type pos_slash = msg.find('/', pos + 4);
+		size_t pos_slash = msg.find('/', pos + 4);
 
 		if (pos_slash == ext::string::npos || pos_slash > pos_last)
 			pos_slash = pos_last + 1;
 
 		// find at: for host name validation
-		ext::string::size_type pos_at = pos + 3;
+		size_t pos_at = pos + 3;
 
 		// check for valid host (x.x)
 		if (pos_slash - pos_at > 3) {
-			ext::string::size_type pos_invalid = msg.find_first_not_of(szValidHost, pos_at + 1);
+			size_t pos_invalid = msg.find_first_not_of(szValidHost, pos_at + 1);
 
 			if (pos_invalid == ext::string::npos || pos_invalid >= pos_slash) {
 				if (std::count(msg.begin() + pos_at + 1, msg.begin() + pos_slash, '.') >= 1) {
@@ -235,7 +235,7 @@ void Message::filterLinks()
 
 		if (pos > 0 && pos < msg.length() - 1) {
 			// find end of address
-			ext::string::size_type pos_last = msg.find_first_not_of(szValidHost, pos + 1);
+			size_t pos_last = msg.find_first_not_of(szValidHost, pos + 1);
 
 			(pos_last == ext::string::npos) ? pos_last = msg.length() - 1 : --pos_last;
 
@@ -244,7 +244,7 @@ void Message::filterLinks()
 				--pos_last;
 
 			// find start of address
-			ext::string::size_type pos_first = msg.find_last_of(szSpaces, pos - 1);
+			size_t pos_first = msg.find_last_of(szSpaces, pos - 1);
 
 			(pos_first == ext::string::npos) ? pos_first = 0 : ++pos_first;
 

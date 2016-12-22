@@ -13,13 +13,12 @@ namespace ext
 	public:
 		typedef typename T_ char_type;
 		typedef typename std::basic_string<T_> str_type;
-		typedef typename std::basic_string<T_>::size_type size_type;
 		typedef typename ext::basic_strfunc<T_> _Func;
 
 	private:
 		str_type m_Str;
 		char_type m_Sep;
-		size_type m_NextPos;
+		size_t m_NextPos;
 
 	public:
 		explicit basic_format(const str_type& str, char_type sep = '|')
@@ -34,11 +33,11 @@ namespace ext
 
 		basic_format& operator %(const char_type* szValue)
 		{
-			str_type::size_type pos = m_Str.find(m_Sep, m_NextPos);
+			size_t pos = m_Str.find(m_Sep, m_NextPos);
 
 			if (pos != str_type::npos)
 			{
-				size_type len = _Func::len(szValue);
+				size_t len = _Func::len(szValue);
 
 				m_Str.replace(pos, 1, szValue, len);
 				m_NextPos = pos + len;
@@ -89,7 +88,6 @@ namespace ext
 	public:
 		typedef typename T_ char_type;
 		typedef typename std::basic_string<T_> str_type;
-		typedef typename std::basic_string<T_>::size_type size_type;
 		typedef typename ext::basic_strfunc<T_> _Func;
 
 	private:
@@ -119,9 +117,9 @@ namespace ext
 		{
 			if (!m_CurKey.empty())
 			{
-				ext::string::size_type pos = 0;
-				ext::string::size_type key_len = m_CurKey.length();
-				ext::string::size_type value_len = _Func::len(szValue);
+				size_t pos = 0;
+				size_t key_len = m_CurKey.length();
+				size_t value_len = _Func::len(szValue);
 
 				while ((pos = m_Str.find(m_CurKey, pos)) != ext::string::npos)
 				{
