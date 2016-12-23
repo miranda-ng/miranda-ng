@@ -489,16 +489,17 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					UpdateWindow(hwnd);
 				}
 				else if (thinfo.flags == TCHT_NOWHERE) {
-					TCITEM tci;
-					POINT pt;
-					NewMessageWindowLParam newData = { 0 };
 					dat->destTab = -1;
+
+					TCITEM tci;
 					tci.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, dat->srcTab, &tci);
 					MessageWindowTabData *mwtd = (MessageWindowTabData *)tci.lParam;
 					if (mwtd != NULL) {
 						HWND hChild = mwtd->hwnd;
 						MCONTACT hContact = mwtd->hContact;
+
+						POINT pt;
 						GetCursorPos(&pt);
 						HWND hParent = WindowFromPoint(pt);
 						while (GetParent(hParent) != NULL)
@@ -507,19 +508,22 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						hParent = WindowList_Find(g_dat.hParentWindowList, (UINT_PTR)hParent);
 						if ((hParent != NULL && hParent != GetParent(hwnd)) || (hParent == NULL && mwtd->parent->childrenCount > 1 && (GetKeyState(VK_CONTROL) & 0x8000))) {
 							if (hParent == NULL) {
-								RECT rc, rcDesktop;
-								newData.hContact = hContact;
-								hParent = (HWND)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM)&newData);
+								hParent = GetParentWindow(hContact, FALSE);
+
+								RECT rc;
 								GetWindowRect(hParent, &rc);
+								
 								rc.right = (rc.right - rc.left);
 								rc.bottom = (rc.bottom - rc.top);
 								rc.left = pt.x - rc.right / 2;
 								rc.top = pt.y - rc.bottom / 2;
 								HMONITOR hMonitor = MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST);
+								
 								MONITORINFO mi;
 								mi.cbSize = sizeof(mi);
 								GetMonitorInfo(hMonitor, &mi);
-								rcDesktop = mi.rcWork;
+								
+								RECT rcDesktop = mi.rcWork;
 								if (rc.left < rcDesktop.left)
 									rc.left = rcDesktop.left;
 								if (rc.top < rcDesktop.top)
@@ -586,8 +590,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else SendMessage(hwnd, WM_LBUTTONDOWN, dat->clickWParam, dat->clickLParam);
 
-			dat->bDragged = FALSE;
-			dat->bDragging = FALSE;
+			dat->bDragged = dat->bDragging = FALSE;
 			dat->destTab = -1;
 			ReleaseCapture();
 		}
@@ -678,7 +681,45 @@ __forceinline void UnsubclassTabCtrl(HWND hwnd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szModule, const char *szNamePrefix, int flags, int showCmd)
+{
+	WINDOWPLACEMENT wp;
+	wp.length = sizeof(wp);
+	GetWindowPlacement(hwnd, &wp);
+
+	char szSettingName[64];
+	mir_snprintf(szSettingName, "%sx", szNamePrefix);
+	int x = db_get_dw(hContact, szModule, szSettingName, -1);
+	mir_snprintf(szSettingName, "%sy", szNamePrefix);
+	int y = db_get_dw(hContact, szModule, szSettingName, -1);
+	if (x == -1)
+		return 1;
+
+	if (flags & RWPF_NOSIZE)
+		OffsetRect(&wp.rcNormalPosition, x - wp.rcNormalPosition.left, y - wp.rcNormalPosition.top);
+	else {
+		wp.rcNormalPosition.left = x;
+		wp.rcNormalPosition.top = y;
+		mir_snprintf(szSettingName, "%swidth", szNamePrefix);
+		wp.rcNormalPosition.right = wp.rcNormalPosition.left + db_get_dw(hContact, szModule, szSettingName, -1);
+		mir_snprintf(szSettingName, "%sheight", szNamePrefix);
+		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + db_get_dw(hContact, szModule, szSettingName, -1);
+	}
+	wp.flags = 0;
+	wp.showCmd = showCmd;
+
+	HMONITOR hMonitor = MonitorFromRect(&wp.rcNormalPosition, MONITOR_DEFAULTTONEAREST);
+	MONITORINFO mi;
+	mi.cbSize = sizeof(mi);
+	GetMonitorInfo(hMonitor, &mi);
+	RECT rcDesktop = mi.rcWork;
+	if (wp.rcNormalPosition.left > rcDesktop.right || wp.rcNormalPosition.top > rcDesktop.bottom ||
+		wp.rcNormalPosition.right < rcDesktop.left || wp.rcNormalPosition.bottom < rcDesktop.top) return 1;
+	SetWindowPlacement(hwnd, &wp);
+	return 0;
+}
+
+static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ParentWindowData *dat = (ParentWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (!dat && msg != WM_INITDIALOG)
@@ -1448,44 +1489,6 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM, LPARAM lParam)
 		if (hTheme)
 			CloseThemeData(hTheme);
 	}
-}
-
-int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szModule, const char *szNamePrefix, int flags, int showCmd)
-{
-	WINDOWPLACEMENT wp;
-	wp.length = sizeof(wp);
-	GetWindowPlacement(hwnd, &wp);
-
-	char szSettingName[64];
-	mir_snprintf(szSettingName, "%sx", szNamePrefix);
-	int x = db_get_dw(hContact, szModule, szSettingName, -1);
-	mir_snprintf(szSettingName, "%sy", szNamePrefix);
-	int y = db_get_dw(hContact, szModule, szSettingName, -1);
-	if (x == -1)
-		return 1;
-
-	if (flags & RWPF_NOSIZE)
-		OffsetRect(&wp.rcNormalPosition, x - wp.rcNormalPosition.left, y - wp.rcNormalPosition.top);
-	else {
-		wp.rcNormalPosition.left = x;
-		wp.rcNormalPosition.top = y;
-		mir_snprintf(szSettingName, "%swidth", szNamePrefix);
-		wp.rcNormalPosition.right = wp.rcNormalPosition.left + db_get_dw(hContact, szModule, szSettingName, -1);
-		mir_snprintf(szSettingName, "%sheight", szNamePrefix);
-		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + db_get_dw(hContact, szModule, szSettingName, -1);
-	}
-	wp.flags = 0;
-	wp.showCmd = showCmd;
-
-	HMONITOR hMonitor = MonitorFromRect(&wp.rcNormalPosition, MONITOR_DEFAULTTONEAREST);
-	MONITORINFO mi;
-	mi.cbSize = sizeof(mi);
-	GetMonitorInfo(hMonitor, &mi);
-	RECT rcDesktop = mi.rcWork;
-	if (wp.rcNormalPosition.left > rcDesktop.right || wp.rcNormalPosition.top > rcDesktop.bottom ||
-		wp.rcNormalPosition.right < rcDesktop.left || wp.rcNormalPosition.bottom < rcDesktop.top) return 1;
-	SetWindowPlacement(hwnd, &wp);
-	return 0;
 }
 
 HWND GetParentWindow(MCONTACT hContact, BOOL bChat)
