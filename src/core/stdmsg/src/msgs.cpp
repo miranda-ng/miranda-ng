@@ -454,8 +454,9 @@ static int IconsChanged(WPARAM, LPARAM)
 {
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();
-	WindowList_Broadcast(pci->hWindowList, DM_REMAKELOG, 0, 0);
+
 	// change all the icons
+	WindowList_Broadcast(pci->hWindowList, DM_REMAKELOG, 0, 0);
 	WindowList_Broadcast(pci->hWindowList, DM_UPDATEWINICON, 0, 0);
 	return 0;
 }
@@ -522,7 +523,13 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
 	mwd->local = 0;
-	mwd->uState = SendMessage(hwnd, DM_GETWINDOWSTATE, 0, 0);
+	mwd->uState = MSG_WINDOW_STATE_EXISTS;
+	if (IsWindowVisible(hwnd))
+		mwd->uState |= MSG_WINDOW_STATE_VISIBLE;
+	if (GetForegroundWindow() == hwnd)
+		mwd->uState |= MSG_WINDOW_STATE_FOCUS;
+	if (IsIconic(hwnd))
+		mwd->uState |= MSG_WINDOW_STATE_ICONIC;
 	return 0;
 }
 

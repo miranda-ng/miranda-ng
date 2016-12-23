@@ -43,7 +43,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DM_GETAVATAR         (WM_USER+26)
 #define DM_UPDATESIZEBAR     (WM_USER+27)
 #define HM_AVATARACK         (WM_USER+28)
-#define DM_GETWINDOWSTATE    (WM_USER+30)
 #define DM_STATUSICONCHANGE  (WM_USER+31)
 
 #define EVENTTYPE_JABBER_CHATSTATES     2000

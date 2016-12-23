@@ -1045,19 +1045,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SendMessage(m_hwnd, WM_SIZE, 0, 0);
 		break;
 
-	case DM_GETWINDOWSTATE:
-		{
-			UINT state = MSG_WINDOW_STATE_EXISTS;
-			if (IsWindowVisible(m_hwnd))
-				state |= MSG_WINDOW_STATE_VISIBLE;
-			if (GetForegroundWindow() == m_hwnd)
-				state |= MSG_WINDOW_STATE_FOCUS;
-			if (IsIconic(m_hwnd))
-				state |= MSG_WINDOW_STATE_ICONIC;
-			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, state);
-		}
-		return TRUE;
-
 	case DM_CASCADENEWWINDOW:
 		if ((HWND)wParam != m_hwnd) {
 			RECT rcThis, rcNew;
