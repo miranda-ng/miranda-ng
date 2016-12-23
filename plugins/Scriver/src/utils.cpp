@@ -444,8 +444,7 @@ void SetButtonsPos(HWND hwndDlg, bool bShow)
 	ScreenToClient(hwndDlg, &pt);
 	pt.y -= 20;
 
-	GetClientRect(hwndDlg, &rc);
-	int iLeftX = 2, iRightX = rc.right - 2;
+	int iLeftX = 2, iRightX = rc.right - rc.left - 2;
 	int iGap = db_get_b(NULL, SRMMMOD, "ButtonsBarGap", 1);
 
 	CustomButtonData *cbd;
