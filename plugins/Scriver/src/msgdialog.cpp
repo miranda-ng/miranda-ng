@@ -937,7 +937,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case DM_CHANGEICONS:
-		SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+		SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 		SetStatusIcon(dat);
 
 	case DM_UPDATEICON:
@@ -1055,7 +1055,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 		SendMessage(hwndDlg, DM_UPDATETITLEBAR, 0, 0);
 		SendMessage(hwndDlg, DM_UPDATETABCONTROL, 0, 0);
-		SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+		SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REQUESTRESIZE, 0, 0);
 		SetupInfobar(dat->infobarData);
 		break;
@@ -1267,7 +1267,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (!IsWindowVisible(GetParent(hwndDlg)) && dat->hDbUnreadEventFirst == NULL)
 						dat->hDbUnreadEventFirst = hDbEvent;
 					dat->lastMessage = dbei.timestamp;
-					SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+					SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 					if (GetForegroundWindow() == dat->hwndParent && dat->parent->hwndActive == hwndDlg)
 						SkinPlaySound("RecvMsgActive");
 					else SkinPlaySound("RecvMsgInactive");
@@ -1292,7 +1292,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		break;
 
-	case DM_UPDATESTATUSBAR:
+	case GC_UPDATESTATUSBAR:
 		if (dat->parent->hwndActive == hwndDlg) {
 			wchar_t szText[256];
 			StatusBarData sbd = { 0 };
@@ -1363,14 +1363,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					dat->nTypeSecs--;
 				else {
 					dat->showTyping = 0;
-					SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+					SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 					SendMessage(hwndDlg, DM_UPDATEICON, 0, 0);
 				}
 			}
 			else {
 				if (dat->nTypeSecs) {
 					dat->showTyping = 1;
-					SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
+					SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 					SendMessage(hwndDlg, DM_UPDATEICON, 0, 0);
 				}
 			}
@@ -1406,14 +1406,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_SHOWMESSAGESENDING:
 		SetTimer(hwndDlg, TIMERID_MSGSEND, 1000, NULL);
 		if (g_dat.flags & SMF_SHOWPROGRESS)
-			SendMessage(dat->hwnd, DM_UPDATESTATUSBAR, 0, 0);
+			SendMessage(dat->hwnd, GC_UPDATESTATUSBAR, 0, 0);
 		break;
 
 	case DM_STOPMESSAGESENDING:
 		if (dat->messagesInProgress > 0) {
 			dat->messagesInProgress--;
 			if (g_dat.flags & SMF_SHOWPROGRESS)
-				SendMessage(dat->hwnd, DM_UPDATESTATUSBAR, 0, 0);
+				SendMessage(dat->hwnd, GC_UPDATESTATUSBAR, 0, 0);
 		}
 		if (dat->messagesInProgress == 0)
 			KillTimer(hwndDlg, TIMERID_MSGSEND);
