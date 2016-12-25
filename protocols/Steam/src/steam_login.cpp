@@ -395,9 +395,9 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 		new GetFriendListRequest(token, steamId),
 		&CSteamProto::OnGotFriendList);
 
-	// start polling thread
-	m_hPollingThread = ForkThreadEx(&CSteamProto::PollingThread, 0, NULL);
-
 	// go to online now
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
+
+	// start polling thread
+	m_hPollingThread = ForkThreadEx(&CSteamProto::PollingThread, 0, NULL);
 }
