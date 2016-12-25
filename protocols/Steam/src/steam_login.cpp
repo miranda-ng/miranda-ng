@@ -391,7 +391,8 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(getStringA("SteamID"));
 
-	PushRequest(
+	// send this request immediately, so we can start polling thread with already loaded all contacts
+	SendRequest(
 		new GetFriendListRequest(token, steamId),
 		&CSteamProto::OnGotFriendList);
 
