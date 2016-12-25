@@ -258,11 +258,10 @@ void CSteamProto::ContactIsRemoved(MCONTACT hContact)
 {
 	delSetting(hContact, "AuthAsked");
 
+	// If this contact was authorized and now is not (and isn't filled time of deletion), notify it 
 	if (!getDword(hContact, "DeletedTS", 0) && getByte(hContact, "Auth", 0) == 0)
 	{
-		setByte(hContact, "Auth", 1);
 		setDword(hContact, "DeletedTS", ::time(NULL));
-		SetContactStatus(hContact, ID_STATUS_OFFLINE);
 
 		ptrW nick(getWStringA(hContact, "Nick"));
 		wchar_t message[MAX_PATH];
@@ -270,23 +269,35 @@ void CSteamProto::ContactIsRemoved(MCONTACT hContact)
 
 		ShowNotification(L"Steam", message);
 	}
+
+	if (getByte(hContact, "Auth", 0) != 1)
+	{
+		setByte(hContact, "Auth", 1);
+	}
+
+	SetContactStatus(hContact, ID_STATUS_OFFLINE);
 }
 
 void CSteamProto::ContactIsFriend(MCONTACT hContact)
 {
 	delSetting(hContact, "AuthAsked");
 
-	if (getDword(hContact, "DeletedTS", 0) || getByte(hContact, "Auth", 0) != 0)
+	// Check if this contact was removed someday and if so, notify he's back
+	if (getDword(hContact, "DeletedTS", 0) && getByte(hContact, "Auth", 0) != 0)
 	{
-		delSetting(hContact, "Auth");
 		delSetting(hContact, "DeletedTS");
-		delSetting(hContact, "Grant");
 
 		ptrW nick(getWStringA(hContact, "Nick"));
 		wchar_t message[MAX_PATH];
 		mir_snwprintf(message, MAX_PATH, TranslateT("%s is back in your contact list"), nick);
 
 		ShowNotification(L"Steam", message);
+	}
+
+	if (getByte(hContact, "Auth", 0) != 0 || getByte(hContact, "Grant", 0) != 0)
+	{
+		delSetting(hContact, "Auth");
+		delSetting(hContact, "Grant");
 	}
 }
 
@@ -446,7 +457,7 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 
 			std::string steamId = (char*)_T2A(ptrW(json_as_string(node)));
 			friends.insert(std::make_pair(steamId, child));
-		}		
+		}
 	}
 
 	// Check and update contacts in database
@@ -631,6 +642,7 @@ void CSteamProto::OnFriendAdded(const HttpResponse *response, void *arg)
 
 	delSetting(param->hContact, "Auth");
 	delSetting(param->hContact, "Grant");
+	delSetting(param->hContact, "DeletedTS");
 	db_unset(param->hContact, "CList", "NotOnList");
 
 	ProtoBroadcastAck(param->hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, param->hAuth, 0);
@@ -647,14 +659,18 @@ void CSteamProto::OnFriendBlocked(const HttpResponse *response, void *arg)
 
 void CSteamProto::OnFriendRemoved(const HttpResponse *response, void *arg)
 {
+	MCONTACT hContact = (UINT_PTR)arg;
+
 	if (!response || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
 	{
-		MCONTACT hContact = (UINT_PTR)arg;
 		ptrA who(getStringA(hContact, "SteamID"));
 
 		debugLogA("CSteamProto::OnFriendRemoved: failed to remove friend %s", who);
 		return;
 	}
+
+	setByte(hContact, "Auth", 1);
+	setDword(hContact, "DeletedTS", ::time(NULL));
 }
 
 void CSteamProto::OnAuthRequested(const HttpResponse *response, void *arg)
@@ -671,7 +687,7 @@ void CSteamProto::OnAuthRequested(const HttpResponse *response, void *arg)
 
 	JSONNode *node = json_get(root, "players");
 	JSONNode *nodes = json_as_array(node);
-	JSONNode *nroot = json_at(nodes, 0);	
+	JSONNode *nroot = json_at(nodes, 0);
 
 	if (nroot != NULL)
 	{
@@ -714,7 +730,7 @@ void CSteamProto::OnPendingIgnoreded(const HttpResponse *response, void *arg)
 {
 	if (!ResponseHttpOk(response))
 	{
-		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s", (char*)arg);
+		debugLogA("CSteamProto::OnPendingIgnored: failed to ignore pending from %s", (char*)arg);
 		return;
 	}
 
@@ -726,7 +742,7 @@ void CSteamProto::OnPendingIgnoreded(const HttpResponse *response, void *arg)
 	if (json_as_int(node) == 0)
 	{
 		node = json_get(root, "error_text");
-		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s (%s)", (char*)arg, ptrA(mir_utf8encodeW(ptrW(json_as_string(node)))));
+		debugLogA("CSteamProto::OnPendingIgnored: failed to ignore pending from %s (%s)", (char*)arg, ptrA(mir_utf8encodeW(ptrW(json_as_string(node)))));
 	}
 }
 
