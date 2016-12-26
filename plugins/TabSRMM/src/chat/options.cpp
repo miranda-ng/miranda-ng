@@ -33,24 +33,24 @@
 
 struct FontOptionsList
 {
-	wchar_t*   szDescr;
+	wchar_t *szDescr;
 	COLORREF defColour;
-	wchar_t*   szDefFace;
+	wchar_t *szDefFace;
 	BYTE     defCharset, defStyle;
 	char     defSize;
 	COLORREF colour;
-	wchar_t    szFace[LF_FACESIZE];
+	wchar_t  szFace[LF_FACESIZE];
 	BYTE     charset, style;
 	char     size;
 };
 
 struct ColorOptionsList
 {
-	int			order;
-	wchar_t*		tszGroup;
-	wchar_t*		tszName;
-	char*		szSetting;
-	COLORREF 	def;
+	int		order;
+	wchar_t *tszGroup;
+	wchar_t *tszName;
+	char    *szSetting;
+	COLORREF def;
 };
 
 /*
@@ -744,68 +744,68 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		// and possibly delete archived logs.
 		switch (LOWORD(wParam)) {
 		case IDC_MUC_OPENLOGBASEDIR:
-		{
-			wchar_t	tszTemp[MAX_PATH + 20];
-			wcsncpy_s(tszTemp, g_Settings.pszLogDir, _TRUNCATE);
+			{
+				wchar_t	tszTemp[MAX_PATH + 20];
+				wcsncpy_s(tszTemp, g_Settings.pszLogDir, _TRUNCATE);
 
-			wchar_t *p = tszTemp;
-			while (*p && (*p == '\\' || *p == '.'))
-				p++;
+				wchar_t *p = tszTemp;
+				while (*p && (*p == '\\' || *p == '.'))
+					p++;
 
-			if (*p)
-				if (wchar_t *p1 = wcschr(p, '\\'))
-					*p1 = 0;
+				if (*p)
+					if (wchar_t *p1 = wcschr(p, '\\'))
+						*p1 = 0;
 
-			wchar_t tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
-			mir_snwprintf(tszInitialDir, L"%s%s", M.getChatLogPath(), p);
-			if (!PathFileExists(tszInitialDir))
-				wcsncpy_s(tszInitialDir, M.getChatLogPath(), _TRUNCATE);
+				wchar_t tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
+				mir_snwprintf(tszInitialDir, L"%s%s", M.getChatLogPath(), p);
+				if (!PathFileExists(tszInitialDir))
+					wcsncpy_s(tszInitialDir, M.getChatLogPath(), _TRUNCATE);
 
-			wchar_t	tszReturnName[MAX_PATH]; tszReturnName[0] = 0;
-			mir_snwprintf(tszTemp, L"%s%c*.*%c%c", TranslateT("All files"), 0, 0, 0);
+				wchar_t	tszReturnName[MAX_PATH]; tszReturnName[0] = 0;
+				mir_snwprintf(tszTemp, L"%s%c*.*%c%c", TranslateT("All files"), 0, 0, 0);
 
-			OPENFILENAME ofn = { 0 };
-			ofn.lpstrInitialDir = tszInitialDir;
-			ofn.lpstrFilter = tszTemp;
-			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-			ofn.lpstrFile = tszReturnName;
-			ofn.nMaxFile = MAX_PATH;
-			ofn.nMaxFileTitle = MAX_PATH;
-			ofn.Flags = OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-			ofn.lpstrDefExt = L"log";
-			GetOpenFileName(&ofn);
-		}
-		break;
+				OPENFILENAME ofn = { 0 };
+				ofn.lpstrInitialDir = tszInitialDir;
+				ofn.lpstrFilter = tszTemp;
+				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+				ofn.lpstrFile = tszReturnName;
+				ofn.nMaxFile = MAX_PATH;
+				ofn.nMaxFileTitle = MAX_PATH;
+				ofn.Flags = OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
+				ofn.lpstrDefExt = L"log";
+				GetOpenFileName(&ofn);
+			}
+			break;
 
 		case IDC_FONTCHOOSE:
-		{
-			wchar_t tszDirectory[MAX_PATH];
-			LPMALLOC psMalloc;
+			{
+				wchar_t tszDirectory[MAX_PATH];
+				LPMALLOC psMalloc;
 
-			if (SUCCEEDED(CoGetMalloc(1, &psMalloc))) {
-				BROWSEINFO bi = { 0 };
-				bi.hwndOwner = hwndDlg;
-				bi.pszDisplayName = tszDirectory;
-				bi.lpszTitle = TranslateT("Select folder");
-				bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX | BIF_RETURNONLYFSDIRS;
-				bi.lpfn = BrowseCallbackProc;
-				bi.lParam = (LPARAM)tszDirectory;
+				if (SUCCEEDED(CoGetMalloc(1, &psMalloc))) {
+					BROWSEINFO bi = { 0 };
+					bi.hwndOwner = hwndDlg;
+					bi.pszDisplayName = tszDirectory;
+					bi.lpszTitle = TranslateT("Select folder");
+					bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX | BIF_RETURNONLYFSDIRS;
+					bi.lpfn = BrowseCallbackProc;
+					bi.lParam = (LPARAM)tszDirectory;
 
-				LPITEMIDLIST idList = SHBrowseForFolder(&bi);
-				if (idList) {
-					const wchar_t *szUserDir = M.getUserDir();
-					SHGetPathFromIDList(idList, tszDirectory);
-					mir_wstrcat(tszDirectory, L"\\");
+					LPITEMIDLIST idList = SHBrowseForFolder(&bi);
+					if (idList) {
+						const wchar_t *szUserDir = M.getUserDir();
+						SHGetPathFromIDList(idList, tszDirectory);
+						mir_wstrcat(tszDirectory, L"\\");
 
-					wchar_t tszTemp[MAX_PATH];
-					PathToRelativeW(tszDirectory, tszTemp, szUserDir);
-					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_wstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+						wchar_t tszTemp[MAX_PATH];
+						PathToRelativeW(tszDirectory, tszTemp, szUserDir);
+						SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_wstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+					}
+					psMalloc->Free(idList);
+					psMalloc->Release();
 				}
-				psMalloc->Free(idList);
-				psMalloc->Release();
 			}
-		}
-		break;
+			break;
 
 		case IDC_LOGGING:
 			Utils::enableDlgControl(hwndDlg, IDC_LOGDIRECTORY, IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED ? TRUE : FALSE);
@@ -963,7 +963,6 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 
 		SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_SETCURSEL, (g_Settings.bLogSymbols ? 2 : (g_Settings.dwIconFlags ? 1 : 0)), 0);
 
-		CheckDlgButton(hwndDlg, IDC_NOPOPUPSFORCLOSEDWINDOWS, M.GetByte(CHAT_MODULE, "SkipWhenNoWindow", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_TRAYONLYFORINACTIVE, M.GetByte(CHAT_MODULE, "TrayIconInactiveOnly", 0) ? BST_CHECKED : BST_UNCHECKED);
 		break;
 
@@ -998,7 +997,6 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 				db_set_dw(0, CHAT_MODULE, "IconFlags", lr == 1 ? 1 : 0);
 				db_set_b(0, CHAT_MODULE, "LogSymbols", lr == 2 ? 1 : 0);
 
-				db_set_b(0, CHAT_MODULE, "SkipWhenNoWindow", IsDlgButtonChecked(hwndDlg, IDC_NOPOPUPSFORCLOSEDWINDOWS) ? 1 : 0);
 				db_set_b(0, CHAT_MODULE, "TrayIconInactiveOnly", IsDlgButtonChecked(hwndDlg, IDC_TRAYONLYFORINACTIVE) ? 1 : 0);
 
 				pci->ReloadSettings();

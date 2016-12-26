@@ -57,7 +57,6 @@
 #define IDC_STATIC110                   1082
 #define IDC_STATIC112                   1085
 #define IDC_TRAYONLYFORINACTIVE         1086
-#define IDC_NOPOPUPSFORCLOSEDWINDOWS    1087
 #define IDC_LOGICONTYPE                 1088
 #define IDC_HIGHLIGHTNICKENABLE         1089
 #define IDC_HIGHLIGHTNICKUID            1090
