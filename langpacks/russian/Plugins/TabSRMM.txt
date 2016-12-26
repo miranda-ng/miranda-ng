@@ -79,8 +79,6 @@
 В трее
 [Suppress tray notifications for focused channel windows]
 Выключить уведомления в трее при активном окне чата
-[Do not show popups when the channel window is not open]
-Выключить всплывающие окна при закрытом окне чата
 [Highlight event]
 Подсветка
 [Line markers in the message log]
@@ -433,18 +431,6 @@ Cтатусы для автоматического создания вклад�
 Создать новый контейнер
 [Create new]
 Создать
-[Reset]
-Сброс
-[Show in IM chats]
-Показывать в обычном окне
-[Show in chat rooms]
-Показывать в окне чата
-[Gap between buttons:]
-Промежуток кнопок:
-[Hide if there isn't enough space]
-Скрывать, если недостаточно места
-[Insert separator]
-Вставить разделитель
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 Для настройки используйте диалог "Настройки контейнера". Он доступен:\n1. Из системного меню контейнера (Alt+стрелка).\n2. По правому щелчку на вкладке или панели кнопок в окне сообщений.
 [Tabs should be used in the following way]
@@ -897,14 +883,10 @@ BBCode ([b][i][u])
 Справка
 [About TabSRMM...]
 О плагине TabSRMM...
-[<Separator>]
-<Разделитель>
 [Protocol button]
 Меню контакта
 [Info button]
 Информация о контакте
-[Insert emoticon]
-Смайлы
 [Bold text]
 Жирный
 [Italic text]
@@ -1089,8 +1071,6 @@ TabSRMM: набирает
 Вкл/выкл отправку с задержкой
 [Send message]
 Отправить
-[Smiley selector]
-Выбор смайла
 [Show message history]
 Показать историю сообщений
 [Show send menu]

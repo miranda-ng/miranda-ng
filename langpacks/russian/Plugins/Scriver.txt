@@ -151,16 +151,6 @@
 Отмена
 [Message session]
 Беседа
-[&User menu]
-Меню &пользователя
-[User &details]
-&Информация
-[&Add]
-&Добавить
-[&History]
-&История
-[&Quote]
-&Цитировать
 [Send to all tabs]
 Отправить всем вкладкам
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -171,22 +161,6 @@
 Да
 [No]
 Нет
-[&Bold]
-&Жирный
-[&Italic]
-&Курсив
-[&Underline]
-&Подчёркнутый
-[&Color]
-&Цвет
-[&Background color]
-Цвет &фона
-[&Filter]
-&Фильтр
-[&Room settings]
-&Настройки
-[&Show/hide nick list]
-&Показать/Скрыть список ников
 [Show these events only:]
 Показывать только:
 [Actions]
@@ -437,11 +411,11 @@ Google Карты
 Корейский (Johab)
 [Messaging]
 Сообщения
-[Navigate: previous tab]
+[Navigate: Previous tab]
 Навигация: предыдущая вкладка
-[Navigate: next tab]
+[Navigate: Next tab]
 Навигация: следующая вкладка
-[Navigate: tab %d]
+[Navigate: Tab %d]
 Навигация: вкладка %d
 [Window: Toggle status bar]
 Окно: Вкл./выкл. строку состояния
@@ -463,28 +437,10 @@ Google Карты
 Действие: Отправить всем
 [Action: Paste and send]
 Действие: Вставить и отправить
-[Quote]
-Цитата
-[User menu]
-Меню пользователя
-[User details]
-О пользователе
-[History]
-История
-[Send]
-Отправить
 [Look up '%s':]
 Искать '%s':
 [No word to look up]
 Нет слов для просмотра
-[Add contact permanently to list]
-Добавить в список контактов
-[View user's details]
-Информация о пользователе
-[View user's history]
-История сообщений
-[Quote text]
-Цитата
 [User menu - %s]
 Меню пользователя - %s
 [Sending in progress: %d message(s) left...]
@@ -513,12 +469,6 @@ Google Карты
 Отправлен URL
 [URL received]
 Получен URL
-[General]
-Общее
-[Event log]
-Журнал событий
-[Group chat log]
-Журнал чатов
 [Outgoing messages]
 Исходящие сообщения
 [Outgoing background]
@@ -581,14 +531,74 @@ Google Карты
 ** Неизвестные контакты **
 [Message sessions]
 Беседы
+[General]
+Общее
+[Event log]
+Журнал событий
+[Group chat log]
+Журнал чатов
 [Typing notify]
 Набирает текст
+[Popups]
+Всплывающие окна
 [Message from %s]
 Сообщение от %s
 [%s is typing a message]
 %s набирает текст
 [Typing notification]
 Уведомление о наборе текста
+[&Quote]
+&Цитировать
+[Quote]
+Цитата
+[&Add]
+&Добавить
+[Add contact permanently to list]
+Добавить в список контактов
+[&User menu]
+Меню &пользователя
+[User menu]
+Меню пользователя
+[User &details]
+&Информация
+[View user's details]
+Информация о пользователе
+[&History]
+&История
+[View user's history]
+История сообщений
+[&Bold]
+&Жирный
+[Make the text bold (CTRL+B)]
+Сделать текст жирным (CTRL+B)
+[&Italic]
+&Курсив
+[Make the text italicized (CTRL+I)]
+Сделать текст курсивом (CTRL+I)
+[&Underline]
+&Подчёркнутый
+[Make the text underlined (CTRL+U)]
+Подчеркнуть текст (CTRL+U)
+[&Color]
+&Цвет
+[Select a foreground color for the text (CTRL+K)]
+Выбрать цвет текста (CTRL+K)
+[&Background color]
+Цвет &фона
+[Select a background color for the text]
+Выбрать фон текста
+[&Room settings]
+&Настройки
+[Control this room (CTRL+O)]
+Управление комнатой чата (CTRL+O)
+[&Show/hide nick list]
+&Показать/Скрыть список ников
+[Show/hide the nick list (CTRL+N)]
+Показать/скрыть список пользователей (CTRL+N)
+[&Filter]
+&Фильтр
+[Enable/disable the event filter (CTRL+F)]
+Включить/выключить фильтр событий (CTRL+F)
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия Msftedit.dll. Если вы используете WINE, то убедитесь, что установлена библиотека Msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
 [Instant messages]
@@ -607,10 +617,10 @@ Miranda не смогла загрузить встроенную систему
 Контакт закончил набор текста
 [An unknown error has occurred.]
 Неизвестная ошибка.
-[Always on top]
-Поверх всех окон
 [The message send timed out.]
 Таймаут отправки сообщения
+[Always on top]
+Поверх всех окон
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
 [Flash when a word is highlighted]
@@ -781,38 +791,8 @@ ID текущего контакта (если определён). Наприм
 Показать в новом окне, если 'Фильтр событий' включён
 [Select folder]
 Выбрать папку
-[Popups]
-Всплывающие окна
 [&Message %s]
 &Сообщение %s
-[Italic]
-Курсив
-[Underline]
-Подчёркивание
-[Filter]
-Фильтр
-[Manager]
-Настройки комнаты
-[Nick list]
-Список пользователей
-[Make the text bold (CTRL+B)]
-Сделать текст жирным (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Сделать текст курсивом (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Подчеркнуть текст (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Выбрать фон текста (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Выбрать цвет текста (CTRL+K)
-[Show the history (CTRL+H)]
-Показать историю (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Показать/скрыть список пользователей (CTRL+N)
-[Control this room (CTRL+O)]
-Управление комнатой чата (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Включить/выключить фильтр событий (CTRL+F)
 [%s: chat room (%u user)]
 %s: комната чата (%u пользователь)
 [%s: chat room (%u users)]

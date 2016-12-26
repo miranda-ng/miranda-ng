@@ -1,1 +1,2 @@
 ﻿[URL:]
+[At login load also contacts you recently chat with]

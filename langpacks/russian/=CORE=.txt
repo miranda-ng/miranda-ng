@@ -228,7 +228,7 @@
 [Status bar]
 Панель статусов
 [Show status bar]
-Показывать панель статусов
+Показывать строку состояния
 [Show icons]
 Показывать значки
 [Show protocol names]
@@ -451,14 +451,12 @@
 Располагать новые окна каскадом
 [Show 'Send' button]
 Показывать кнопку "Отправить"
-[Show username on top row]
-Показывать имя в верхней строке
 [Show toolbar buttons on top row]
 Показывать кнопки в верхней строке
 [Send message on double 'Enter']
-Посылать по двойному "Enter"
+Отправлять по двойному "Enter"
 [Send message on 'Enter']
-Посылать по "Enter"
+Отправлять по "Enter"
 [Show character count]
 Показывать счётчик символов
 [Show warning when message has not been received after]
@@ -483,8 +481,6 @@
 Ещё раз
 [Message session]
 Беседа
-[&Details]
-&Детали
 [Message window event log]
 Журнал в окне сообщений
 [Show names]
@@ -508,7 +504,7 @@
 [minutes old]
 минут назад
 [Send typing notifications to the following users when you are typing a message to them:]
-Уведомлять отмеченных пользователей о том, что вы набираете сообщение:
+Отправлять уведомления набора указанным контактам в то время, когда вы набираете им сообщение:
 [Show typing notifications when a user is typing a message]
 Показывать уведомления о наборе текста
 [Update inactive message window icons when a user is typing]
@@ -525,24 +521,6 @@
 Поведение окна сообщений:
 [Messaging:]
 Сообщения:
-[&Emoticons]
-&Смайлы
-[&Bold]
-&Жирный
-[&Italic]
-&Курсив
-[&Underline]
-&Подчёркнутый
-[&Color]
-&Цвет
-[&Background color]
-Цвет &фона
-[&Filter]
-&Фильтр
-[&Room settings]
-&Настройки
-[&Show/Hide nick list]
-&Показать/Скрыть список пользователей
 [Show these events only:]
 Показывать только:
 [Actions]
@@ -814,7 +792,7 @@
 [Add to list]
 Добавить в список
 [Custom]
-Настроить
+Указать
 [Here you can add contacts to your contact list]
 Здесь вы можете найти и добавить контакты в список контактов
 [Configure your Miranda NG options]
@@ -909,16 +887,6 @@
 Имя:
 [Enable sound events]
 Включить звуки событий
-[Icons]
-Значки
-[Show category:]
-Категория:
-[&Load icon set...]
-&Выбрать набор значков...
-[&Import icons >>]
-&Импорт значков >>
-[Download more icons]
-Загрузить с сайта Miranda NG
 [The following events are being ignored:]
 Следующие события будут проигнорированы:
 [URLs]
@@ -961,6 +929,8 @@
 В
 [<< &Import]
 << &Импорт
+[Download more icons]
+Загрузить с сайта Miranda NG
 [To default status icons]
 Значки по умолчанию
 [Logging...]
@@ -1035,6 +1005,12 @@
 Цвет текста
 [Choose font]
 Выбор шрифта
+[Icons]
+Значки
+[&Load icon set...]
+&Выбрать набор значков...
+[&Import icons >>]
+&Импорт значков >>
 [Menu objects]
 Виды меню
 [Menu items]
@@ -1152,7 +1128,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Contacts]
 Контакты
 [&Remove]
-&Удалить
+&Очистить
 [&Set as default]
 &По умолчанию
 [Move &up]
@@ -1195,6 +1171,14 @@ UIN, E-mail и т.д.
 Перезагрузить языковой пакет
 [Download more language packs]
 Загрузить дополнительные переводы
+[Show in IM chats]
+Показывать в обычном окне
+[Show in chat rooms]
+Показывать в окне чата
+[Gap between buttons:]
+Промежуток кнопок:
+[Hide if there isn't enough space]
+Скрывать, если недостаточно места
 [Tray]
 Трей
 [&Hide/Show]
@@ -1717,6 +1701,8 @@ UIN, E-mail и т.д.
 Общее
 [Chat log]
 Журнал чата
+[Chat]
+Чат
 [Popups]
 Всплывающие окна
 [Look up '%s':]
@@ -1725,28 +1711,6 @@ UIN, E-mail и т.д.
 Нет слов для просмотра
 [&Message %s]
 &Сообщение %s
-[Insert a smiley]
-Вставить смайл
-[Make the text bold (CTRL+B)]
-Сделать текст жирным (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Сделать текст курсивом (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Подчеркнуть текст (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Выбрать фон текста (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Выбрать цвет текста (CTRL+K)
-[Show the history (CTRL+H)]
-Показать историю (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Показать/скрыть список пользователей (CTRL+N)
-[Control this room (CTRL+O)]
-Управление комнатой чата (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Включить/выключить фильтр событий (CTRL+F)
-[Close current tab (CTRL+F4)]
-Закрыть текущую вкладку (CTRL+F4)
 [%s: chat room (%u user)]
 %s: комната чата (%u пользователь)
 [%s: chat room (%u users)]
@@ -1809,6 +1773,38 @@ UIN, E-mail и т.д.
 %s набирает текст
 [Typing notification]
 Уведомление о наборе текста
+[&Bold]
+&Жирный
+[Make the text bold (CTRL+B)]
+Сделать текст жирным (CTRL+B)
+[&Italic]
+&Курсив
+[Make the text italicized (CTRL+I)]
+Сделать текст курсивом (CTRL+I)
+[&Underline]
+&Подчёркнутый
+[Make the text underlined (CTRL+U)]
+Подчеркнуть текст (CTRL+U)
+[&Color]
+&Цвет
+[Select a foreground color for the text (CTRL+K)]
+Выбрать цвет текста (CTRL+K)
+[&Background color]
+Цвет &фона
+[Select a background color for the text]
+Выбрать фон текста
+[&Room settings]
+&Настройки
+[Control this room (CTRL+O)]
+Управление комнатой чата (CTRL+O)
+[&Show/hide nick list]
+&Показать/Скрыть список пользователей
+[Show/hide the nick list (CTRL+N)]
+Показать/скрыть список пользователей (CTRL+N)
+[&Filter]
+&Фильтр
+[Enable/disable the event filter (CTRL+F)]
+Включить/выключить фильтр событий (CTRL+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
 [Instant messages]
@@ -1944,7 +1940,7 @@ Miranda не смогла загрузить встроенную систему
 [The topic is '%s%s']
 Тема '%s%s'
 [ (set by %s on %s)]
- (установлена %s %s)
+ (установлено %s %s)
 [ (set by %s)]
  (установлена %s)
 [%s enables '%s' status for %s]
@@ -2605,6 +2601,10 @@ ANSI плагин
 Звуковые файлы
 [WAV files]
 Файлы WAV
+[<Separator>]
+<Разделитель>
+[Toolbar]
+Панель кнопок
 [Unspecified]
 Не указано
 [Afghanistan]
