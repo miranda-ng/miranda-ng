@@ -509,7 +509,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.dwDefPos = 30;
 	bbd.hIcon = IcoLib_GetIconHandle("chat_bkgcol");
 	bbd.pwszText = LPGENW("&Background color");
-	bbd.pwszTooltip = LPGENW("Select a background color for the text");
+	bbd.pwszTooltip = LPGENW("Select a background color for the text (CTRL+L)");
 	Srmm_AddButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
