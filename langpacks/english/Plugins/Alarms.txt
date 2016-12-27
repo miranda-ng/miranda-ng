@@ -52,7 +52,7 @@
 [Disable next occurrence]
 [Don't trigger on startup]
 [No reminder]
-[Selected Days]
+[Selected days]
 [Dismiss]
 [Snooze]
 [Static]
