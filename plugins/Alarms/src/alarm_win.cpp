@@ -17,12 +17,13 @@ HBRUSH hBackgroundBrush = 0;
 #define WMU_ADDSNOOZER		(WM_USER + 63)
 
 int win_num = 0;
-typedef struct WindowData_tag {
+struct WindowData
+{
 	ALARM *alarm;
 	POINT p;
 	bool moving;
 	int win_num;
-} WindowData;
+};
 
 void SetAlarmWinOptions()
 {
@@ -33,36 +34,34 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 {
 	WindowData *wd = (WindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch ( msg ) {
-	case WM_INITDIALOG: 
-		TranslateDialogDefault( hwndDlg );
-		{
-			Utils_RestoreWindowPositionNoSize(hwndDlg, 0, MODULE, "Notify");
-			SetFocus(GetDlgItem(hwndDlg, IDC_SNOOZE));
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 
-			wd = new WindowData;
-			wd->moving = false;
-			wd->alarm = 0;
-			wd->win_num = win_num++;
+		Utils_RestoreWindowPositionNoSize(hwndDlg, 0, MODULE, "Notify");
+		SetFocus(GetDlgItem(hwndDlg, IDC_SNOOZE));
 
-			if (wd->win_num > 0) {
-				RECT r;
-				GetWindowRect(hwndDlg, &r);
-				r.top += 20;
-				r.left += 20;
+		wd = new WindowData;
+		wd->moving = false;
+		wd->alarm = 0;
+		wd->win_num = win_num++;
 
-				SetWindowPos(hwndDlg, 0, r.left, r.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
-				Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
-			}
+		if (wd->win_num > 0) {
+			RECT r;
+			GetWindowRect(hwndDlg, &r);
+			r.top += 20;
+			r.left += 20;
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)wd);
-
-			// options
-			SendMessage(hwndDlg, WMU_SETOPT, 0, 0);
-		
-			// fonts
-			SendMessage(hwndDlg, WMU_SETFONTS, 0, 0);
+			SetWindowPos(hwndDlg, 0, r.left, r.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
+			Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
 		}
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)wd);
+
+		// options
+		SendMessage(hwndDlg, WMU_SETOPT, 0, 0);
+
+		// fonts
+		SendMessage(hwndDlg, WMU_SETFONTS, 0, 0);
 		return FALSE;
 
 	case WMU_REFRESH:
@@ -119,7 +118,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			GetWindowRect(hwndDlg, &r);
 			int h = (r.right - r.left) > (w * 2) ? w : (r.right - r.left);
 			int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
-			h = (h<v) ? h : v;
+			h = (h < v) ? h : v;
 			hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
 			SetWindowRgn(hwndDlg, hRgn1, 1);
 		}
@@ -128,7 +127,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			RECT r;
 			int w = 10;
 			GetWindowRect(hwndDlg, &r);
-			int h = (r.right - r.left)>(w * 2) ? w : (r.right - r.left);
+			int h = (r.right - r.left) > (w * 2) ? w : (r.right - r.left);
 			int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 			h = (h < v) ? h : v;
 			hRgn1 = CreateRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1));
@@ -204,7 +203,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				FILETIME ft;
 				GetLocalTime(&data->time);
 				SystemTimeToFileTime(&data->time, &ft);
-				
+
 				ULARGE_INTEGER uli;
 				uli.LowPart = ft.dwLowDateTime;
 				uli.HighPart = ft.dwHighDateTime;

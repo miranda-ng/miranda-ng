@@ -17,14 +17,16 @@ bool startup = true;
 
 bool is_idle = false;
 
-void free_alarm_data(ALARM *alarm) {
+void free_alarm_data(ALARM *alarm)
+{
 	mir_free(alarm->szTitle); alarm->szTitle = 0;
 	mir_free(alarm->szDesc); alarm->szDesc = 0;
 	mir_free(alarm->szCommand); alarm->szCommand = 0;
 	mir_free(alarm->szCommandParams); alarm->szCommandParams = 0;
 }
 
-void copy_alarm_data(ALARM *dest, ALARM *src) {
+void copy_alarm_data(ALARM *dest, ALARM *src)
+{
 	dest->action = src->action;
 	dest->flags = src->flags;
 	dest->day_mask = src->day_mask;
@@ -41,13 +43,16 @@ void copy_alarm_data(ALARM *dest, ALARM *src) {
 	dest->szCommandParams = mir_wstrdup(src->szCommandParams);
 }
 
-void GetPluginTime(SYSTEMTIME *t) {
+void GetPluginTime(SYSTEMTIME *t)
+{
 	mir_cslock lck(alarm_cs);
 	*t = last_check;
 }
 
-int MinutesInFuture(SYSTEMTIME time, Occurrence occ, int selected_days) {
-	if (!UpdateAlarm(time, occ, selected_days)) return 0;
+int MinutesInFuture(SYSTEMTIME time, Occurrence occ, int selected_days)
+{
+	if (!UpdateAlarm(time, occ, selected_days))
+		return 0;
 
 	SYSTEMTIME now;
 	GetPluginTime(&now);
@@ -55,7 +60,7 @@ int MinutesInFuture(SYSTEMTIME time, Occurrence occ, int selected_days) {
 	FILETIME ft_now, ft_then;
 	SystemTimeToFileTime(&now, &ft_now);
 	SystemTimeToFileTime(&time, &ft_then);
-	
+
 	ULARGE_INTEGER uli_now, uli_then, diff;
 	uli_now.HighPart = ft_now.dwHighDateTime;
 	uli_now.LowPart = ft_now.dwLowDateTime;
@@ -69,10 +74,12 @@ int MinutesInFuture(SYSTEMTIME time, Occurrence occ, int selected_days) {
 	return (int)(diff.QuadPart / mult.QuadPart + (inc ? 1 : 0));
 }
 
-void TimeForMinutesInFuture(int mins, SYSTEMTIME *time) {
+void TimeForMinutesInFuture(int mins, SYSTEMTIME *time)
+{
 	SYSTEMTIME now;
-	FILETIME ft_now;
 	GetPluginTime(&now);
+
+	FILETIME ft_now;
 	SystemTimeToFileTime(&now, &ft_now);
 
 	ULARGE_INTEGER uli_now;
@@ -91,42 +98,32 @@ void TimeForMinutesInFuture(int mins, SYSTEMTIME *time) {
 
 bool is_day_selected(int day, int selected_days)
 {
-	switch (day)
-	{
+	switch (day) {
 	case 0:
-		return selected_days & ALDF_7;
-		break;
+		return (selected_days & ALDF_7) != 0;
 	case 1:
-		return selected_days & ALDF_1;
-		break;
+		return (selected_days & ALDF_1) != 0;
 	case 2:
-		return selected_days & ALDF_2;
-		break;
+		return (selected_days & ALDF_2) != 0;
 	case 3:
-		return selected_days & ALDF_3;
-		break;
+		return (selected_days & ALDF_3) != 0;
 	case 4:
-		return selected_days & ALDF_4;
-		break;
+		return (selected_days & ALDF_4) != 0;
 	case 5:
-		return selected_days & ALDF_5;
-		break;
+		return (selected_days & ALDF_5) != 0;
 	case 6:
-		return selected_days & ALDF_6;
-		break;
-	default:
-		return false;
+		return (selected_days & ALDF_6) != 0;
 	}
 
-//	return false;
+	return false;
 }
 
-bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ, int selected_days) {
-
+bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ, int selected_days)
+{
 	FILETIME ft_now, ft_then;
 	ULARGE_INTEGER uli_then;
 
-	switch(occ) {
+	switch (occ) {
 	case OC_DAILY:
 	case OC_WEEKDAYS:
 	case OC_WEEKLY:
@@ -138,85 +135,88 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ, int selected_days) {
 		time.wYear = last_check.wYear;
 	case OC_ONCE:
 		break; // all fields valid
-	};
+	}
 
 	SystemTimeToFileTime(&last_check, &ft_now); // consider 'now' to be last check time
 	SystemTimeToFileTime(&time, &ft_then);
-	
-	switch(occ) {
+
+	switch (occ) {
 	case OC_ONCE:
 		if (CompareFileTime(&ft_then, &ft_now) < 0)
 			return false;
 		break;
+
 	case OC_YEARLY:
-		while(CompareFileTime(&ft_then, &ft_now) < 0) {
+		while (CompareFileTime(&ft_then, &ft_now) < 0) {
 			time.wYear++;
 			SystemTimeToFileTime(&time, &ft_then);
 		}
 		break;
+
 	case OC_MONTHLY:
-		while(CompareFileTime(&ft_then, &ft_now) < 0) {
+		while (CompareFileTime(&ft_then, &ft_now) < 0) {
 			if (time.wMonth == 12) {
 				time.wMonth = 1;
 				time.wYear++;
-			} else
+			}
+			else
 				time.wMonth++;
 			SystemTimeToFileTime(&time, &ft_then);
 		}
 		break;
+
 	case OC_WEEKLY:
-		{
-			SYSTEMTIME temp;
-			uli_then.HighPart = ft_then.dwHighDateTime;
-			uli_then.LowPart = ft_then.dwLowDateTime;
-			FileTimeToSystemTime(&ft_then, &temp);
-			do {
-				if (temp.wDayOfWeek != time.wDayOfWeek || CompareFileTime(&ft_then, &ft_now) < 0) {
-					uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
-					ft_then.dwHighDateTime = uli_then.HighPart;
-					ft_then.dwLowDateTime = uli_then.LowPart;
-					FileTimeToSystemTime(&ft_then, &temp);
-				}
-			} while(temp.wDayOfWeek != time.wDayOfWeek || CompareFileTime(&ft_then, &ft_now) < 0);
-		}
-		break;
-	case OC_WEEKDAYS:
-		{
-			SYSTEMTIME temp;
-			uli_then.HighPart = ft_then.dwHighDateTime;
-			uli_then.LowPart = ft_then.dwLowDateTime;
-			do {
-				FileTimeToSystemTime(&ft_then, &temp);
-				if (temp.wDayOfWeek == 0 || temp.wDayOfWeek == 6 || CompareFileTime(&ft_then, &ft_now) < 0) {
-					uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
-					ft_then.dwHighDateTime = uli_then.HighPart;
-					ft_then.dwLowDateTime = uli_then.LowPart;
-				}
-			} while(temp.wDayOfWeek == 0 || temp.wDayOfWeek == 6 || CompareFileTime(&ft_then, &ft_now) < 0);
-		}
-		break;
-	case OC_SELECTED_DAYS: //////TODO:::::
-	{
 		SYSTEMTIME temp;
 		uli_then.HighPart = ft_then.dwHighDateTime;
 		uli_then.LowPart = ft_then.dwLowDateTime;
-		FileTimeToSystemTime(&ft_now, &temp);
-		int day = temp.wDayOfWeek;
-		while (CompareFileTime(&ft_then, &ft_now) < 0 || (selected_days && !is_day_selected(day, selected_days))) {
-			uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
-			ft_then.dwHighDateTime = uli_then.HighPart;
-			ft_then.dwLowDateTime = uli_then.LowPart;
-			if (day < 7)
-				day++;
-			else
-				day = 0;
+		FileTimeToSystemTime(&ft_then, &temp);
+		do {
+			if (temp.wDayOfWeek != time.wDayOfWeek || CompareFileTime(&ft_then, &ft_now) < 0) {
+				uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
+				ft_then.dwHighDateTime = uli_then.HighPart;
+				ft_then.dwLowDateTime = uli_then.LowPart;
+				FileTimeToSystemTime(&ft_then, &temp);
+			}
 		}
-	}
+			while (temp.wDayOfWeek != time.wDayOfWeek || CompareFileTime(&ft_then, &ft_now) < 0);
 		break;
+
+	case OC_WEEKDAYS:
+		uli_then.HighPart = ft_then.dwHighDateTime;
+		uli_then.LowPart = ft_then.dwLowDateTime;
+		do {
+			FileTimeToSystemTime(&ft_then, &temp);
+			if (temp.wDayOfWeek == 0 || temp.wDayOfWeek == 6 || CompareFileTime(&ft_then, &ft_now) < 0) {
+				uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
+				ft_then.dwHighDateTime = uli_then.HighPart;
+				ft_then.dwLowDateTime = uli_then.LowPart;
+			}
+		}
+			while (temp.wDayOfWeek == 0 || temp.wDayOfWeek == 6 || CompareFileTime(&ft_then, &ft_now) < 0);
+		break;
+
+	case OC_SELECTED_DAYS: //////TODO:::::
+		uli_then.HighPart = ft_then.dwHighDateTime;
+		uli_then.LowPart = ft_then.dwLowDateTime;
+		FileTimeToSystemTime(&ft_now, &temp);
+		{
+			int day = temp.wDayOfWeek;
+			while (CompareFileTime(&ft_then, &ft_now) < 0 || (selected_days && !is_day_selected(day, selected_days))) {
+				uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
+				ft_then.dwHighDateTime = uli_then.HighPart;
+				ft_then.dwLowDateTime = uli_then.LowPart;
+				if (day < 7)
+					day++;
+				else
+					day = 0;
+			}
+		}
+		break;
+
 	case OC_DAILY:
 		uli_then.HighPart = ft_then.dwHighDateTime;
 		uli_then.LowPart = ft_then.dwLowDateTime;
-		while(CompareFileTime(&ft_then, &ft_now) < 0) {
+		while (CompareFileTime(&ft_then, &ft_now) < 0) {
 			uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
 			ft_then.dwHighDateTime = uli_then.HighPart;
 			ft_then.dwLowDateTime = uli_then.LowPart;
@@ -228,7 +228,8 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ, int selected_days) {
 	return true;
 }
 
-void LoadAlarms() {
+void LoadAlarms()
+{
 	int num_alarms = db_get_w(0, MODULE, "Count", 0);
 	char buff[256];
 	DBVARIANT dbv;
@@ -239,7 +240,7 @@ void LoadAlarms() {
 	mir_cslock lck(alarm_cs);
 	alarms.clear();
 
-	for(int i = 0; i < num_alarms; i++) {
+	for (int i = 0; i < num_alarms; i++) {
 		memset(&alarm, 0, sizeof(ALARM));
 
 		mir_snprintf(buff, "Title%d", i);
@@ -262,7 +263,7 @@ void LoadAlarms() {
 		mir_snprintf(buff, "STSecond%d", i);
 		alarm.time.wSecond = db_get_w(0, MODULE, buff, 0);
 
-		switch(alarm.occurrence) {
+		switch (alarm.occurrence) {
 
 		case OC_ONCE:
 			mir_snprintf(buff, "STYear%d", i);
@@ -336,14 +337,15 @@ void LoadAlarms() {
 	}
 }
 
-void SaveAlarms() {
+void SaveAlarms()
+{
 	int index = 0;
 	char buff[256];
 
 	mir_cslock lck(alarm_cs);
 
 	ALARM *i;
-	for(alarms.reset(); i = alarms.current(); alarms.next(), index++) {
+	for (alarms.reset(); i = alarms.current(); alarms.next(), index++) {
 		mir_snprintf(buff, "Title%d", index);
 		db_set_ws(0, MODULE, buff, i->szTitle);
 		mir_snprintf(buff, "Desc%d", index);
@@ -358,7 +360,7 @@ void SaveAlarms() {
 		mir_snprintf(buff, "STSecond%d", index);
 		db_set_w(0, MODULE, buff, i->time.wSecond);
 
-		switch(i->occurrence) {
+		switch (i->occurrence) {
 		case OC_DAILY:
 			break;
 		case OC_WEEKDAYS:
@@ -391,7 +393,7 @@ void SaveAlarms() {
 				}
 			}
 		}
-		
+
 		mir_snprintf(buff, "SoundNum%d", index);
 		db_set_b(0, MODULE, buff, i->sound_num);
 
@@ -406,34 +408,38 @@ void SaveAlarms() {
 	db_set_w(0, MODULE, "Count", index);
 }
 
-void copy_list(AlarmList &copy) {
+void copy_list(AlarmList &copy)
+{
 	copy.clear();
 	ALARM *i;
 	mir_cslock lck(alarm_cs);
-	for(alarms.reset(); i = alarms.current(); alarms.next())
+	for (alarms.reset(); i = alarms.current(); alarms.next())
 		copy.push_back(i);
 }
 
-void copy_list(AlarmList &copy, SYSTEMTIME &start, SYSTEMTIME &end) {
+void copy_list(AlarmList &copy, SYSTEMTIME &start, SYSTEMTIME &end)
+{
 	copy.clear();
 	ALARM *i;
 	mir_cslock lck(alarm_cs);
-	for(alarms.reset(); i = alarms.current(); alarms.next())
+	for (alarms.reset(); i = alarms.current(); alarms.next())
 		if (IsBetween(i->time, start, end))
 			copy.push_back(i);
 }
 
-void set_list(AlarmList &copy) {
+void set_list(AlarmList &copy)
+{
 	mir_cslock lck(alarm_cs);
 	alarms.clear();
 	ALARM *i;
-	for(copy.reset(); i = copy.current(); copy.next())
+	for (copy.reset(); i = copy.current(); copy.next())
 		alarms.push_back(i);
 
 	SaveAlarms();
 }
 
-void append_to_list(ALARM *alarm) {
+void append_to_list(ALARM *alarm)
+{
 	mir_cslock lck(alarm_cs);
 	if (!alarm->id)
 		alarm->id = next_alarm_id++;
@@ -442,12 +448,13 @@ void append_to_list(ALARM *alarm) {
 	SaveAlarms();
 }
 
-void alter_alarm_list(ALARM *alarm) {
+void alter_alarm_list(ALARM *alarm)
+{
 	bool found = false;
 	mir_cslock lck(alarm_cs);
 	if (alarm->id != 0) {
 		ALARM *i;
-		for(alarms.reset(); i = alarms.current(); alarms.next()) {
+		for (alarms.reset(); i = alarms.current(); alarms.next()) {
 			if (i->id == alarm->id) {
 				copy_alarm_data(i, alarm);
 				found = true;
@@ -464,10 +471,11 @@ void alter_alarm_list(ALARM *alarm) {
 	SaveAlarms();
 }
 
-void remove(unsigned short alarm_id) {
+void remove(unsigned short alarm_id)
+{
 	mir_cslock lck(alarm_cs);
 	ALARM *i;
-	for(alarms.reset(); i = alarms.current(); alarms.next()) {
+	for (alarms.reset(); i = alarms.current(); alarms.next()) {
 		if (i->id == alarm_id) {
 			alarms.erase();
 			break;
@@ -477,10 +485,11 @@ void remove(unsigned short alarm_id) {
 	SaveAlarms();
 }
 
-void suspend(unsigned short alarm_id) {
+void suspend(unsigned short alarm_id)
+{
 	mir_cslock lck(alarm_cs);
 	ALARM *i;
-	for(alarms.reset(); i = alarms.current(); alarms.next()) {
+	for (alarms.reset(); i = alarms.current(); alarms.next()) {
 		if (i->id == alarm_id && i->occurrence != OC_ONCE) {
 			i->flags |= ALF_SUSPENDED;
 			break;
@@ -492,7 +501,7 @@ void suspend(unsigned short alarm_id) {
 
 static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message) {
+	switch (message) {
 	case WM_COMMAND: // snooze
 		if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
 			ALARM *mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
@@ -527,11 +536,11 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 		PUDeletePopup(hWnd);
 		return TRUE;
 
-	case WM_CONTEXTMENU: 
+	case WM_CONTEXTMENU:
 		PUDeletePopup(hWnd);
 		return TRUE;
 
-	case UM_FREEPLUGINDATA: 
+	case UM_FREEPLUGINDATA:
 		ALARM *mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
 		if (mpd > 0) {
 			free_alarm_data(mpd);
@@ -544,7 +553,7 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 
 void ShowPopup(ALARM *alarm)
 {
-	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		ALARM *data = new ALARM;
 		memset(data, 0, sizeof(ALARM));
 		copy_alarm_data(data, alarm);
@@ -575,13 +584,13 @@ void DoAlarm(ALARM *alarm)
 	alarminfo.sound_num = alarm->sound_num;
 
 	if (!NotifyEventHooks(hAlarmTriggeredEvent, 0, (LPARAM)&alarminfo)) {
-
 		if (alarm->action & AAF_SOUND) {
 			if (alarm->sound_num > 0 && alarm->sound_num <= 3) {
 				char buff[128];
 				mir_snprintf(buff, "Triggered%d", alarm->sound_num);
 				SkinPlaySound(buff);
-			} else if (alarm->sound_num == 4) {
+			}
+			else if (alarm->sound_num == 4) {
 				if (alarm->szTitle != NULL && alarm->szTitle[0] != '\0') {
 					if (ServiceExists("Speak/Say")) {
 						CallService("Speak/Say", 0, (LPARAM)alarm->szTitle);
@@ -589,8 +598,9 @@ void DoAlarm(ALARM *alarm)
 				}
 			}
 		}
+
 		if (alarm->action & AAF_POPUP) {
-			if (options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUPT)) 
+			if (options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUPT))
 				ShowPopup(alarm);
 			else {
 				HWND hwndDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);
@@ -611,8 +621,7 @@ void DoAlarm(ALARM *alarm)
 		if (alarm->action & AAF_COMMAND)
 			ShellExecute(0, 0, alarm->szCommand, alarm->szCommandParams, 0, SW_NORMAL);
 
-		if (alarm->action & AAF_SYSTRAY)
-		{
+		if (alarm->action & AAF_SYSTRAY) {
 			CLISTEVENT cle = {};
 			cle.hIcon = hIconSystray;
 			cle.ptszTooltip = alarm->szTitle;
@@ -622,13 +631,15 @@ void DoAlarm(ALARM *alarm)
 	}
 }
 
-void WriteLastCheckTime() {
+void WriteLastCheckTime()
+{
 	// save last-check time
 	db_set_blob(NULL, MODULE, "LastCheck", &last_check, sizeof(SYSTEMTIME));
 	last_saved_check = last_check;
 }
 
-void CheckAlarms() {
+void CheckAlarms()
+{
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
@@ -637,14 +648,14 @@ void CheckAlarms() {
 
 	mir_cslock lck(alarm_cs);
 	ALARM *i;
-	for(alarms.reset(); i = alarms.current(); alarms.next()) {
-		if (!UpdateAlarm(i->time, i->occurrence, i->day_mask)) { 
+	for (alarms.reset(); i = alarms.current(); alarms.next()) {
+		if (!UpdateAlarm(i->time, i->occurrence, i->day_mask)) {
 			// somehow an expired one-off alarm is in our list
 			remove_list.push_back(i);
 			continue;
 		}
 
-		switch(i->occurrence) {
+		switch (i->occurrence) {
 		case OC_ONCE:
 			if (IsBetween(i->time, last_check, time)) {
 				if (!startup || !(i->flags & ALF_NOSTARTUP)) triggered_list.push_back(i);
@@ -652,6 +663,7 @@ void CheckAlarms() {
 				remove_list.push_back(i);
 			}
 			break;
+
 		default:
 			if (IsBetween(i->time, last_check, time)) {
 				if (i->flags & ALF_SUSPENDED)
@@ -662,29 +674,27 @@ void CheckAlarms() {
 			break;
 		}
 	}
-	
+
 	last_check = time;
 	WriteLastCheckTime();
 
 	startup = false;
 
-	for(triggered_list.reset(); i = triggered_list.current(); triggered_list.next())
+	for (triggered_list.reset(); i = triggered_list.current(); triggered_list.next())
 		DoAlarm(i);
-	for(remove_list.reset(); i = remove_list.current(); remove_list.next())
+	for (remove_list.reset(); i = remove_list.current(); remove_list.next())
 		remove(i->id);
-
-
 }
 
-VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD) {
+VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
+{
 	CheckAlarms();
 }
-
 
 INT_PTR AddAlarmService(WPARAM, LPARAM lParam)
 {
 	ALARMINFO *alarm_info = (ALARMINFO *)lParam;
-	ALARM alarm = {0};
+	ALARM alarm = { 0 };
 	alarm.action = alarm_info->action;
 	alarm.flags = alarm_info->flags;
 	alarm.id = next_alarm_id++;
@@ -738,8 +748,8 @@ void InitList()
 }
 
 
-void DeinitList() {
-
+void DeinitList()
+{
 	DeinitAlarmWin();
 
 	// i don't think this should be necessary, but...
@@ -751,4 +761,3 @@ void DeinitList() {
 
 	SaveAlarms(); // we may have erased some 'cause they were once-offs that were triggeredf
 }
-

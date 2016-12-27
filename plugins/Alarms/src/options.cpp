@@ -11,11 +11,12 @@ Options options;
 // defined in header
 //#define		WMU_INITOPTLIST		(WM_USER + 20)
 
-typedef struct AddEditParam_tag {
+struct AddEditParam
+{
 	ALARM *alarm_ptr;
 	BOOL edit;
 	BOOL self_add;
-} AddEditParam;
+};
 
 HGENMENU hMainMenuItem = 0;
 
@@ -307,7 +308,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			add_edit_alarm->occurrence = OC_ONCE;
 		else if (IsDlgButtonChecked(hwndDlg, IDC_RAD_DAILY))
 			add_edit_alarm->occurrence = OC_DAILY;
-		else if(IsDlgButtonChecked(hwndDlg, IDC_RAD_DAYS))
+		else if (IsDlgButtonChecked(hwndDlg, IDC_RAD_DAYS))
 			add_edit_alarm->occurrence = OC_SELECTED_DAYS;
 		else if (IsDlgButtonChecked(hwndDlg, IDC_RAD_WEEKDAYS))
 			add_edit_alarm->occurrence = OC_WEEKDAYS;
@@ -604,7 +605,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_SND3), bChecked);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_SPK), bChecked);
 				// drop though
-	
+
 			case IDC_RAD_SND1:
 			case IDC_RAD_SND2:
 			case IDC_RAD_SND3:

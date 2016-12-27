@@ -20,12 +20,12 @@ mir_cs list_cs;
 
 HGENMENU hMenuShowReminders = 0;
 
-#define ID_FRAME_UPDATE_TIMER						1011
-#define ID_FRAME_SHOWHIDE_TIMER						1012
+#define ID_FRAME_UPDATE_TIMER   1011
+#define ID_FRAME_SHOWHIDE_TIMER 1012
 
-#define WMU_FILL_LIST		(WM_USER + 10)
-#define WMU_SIZE_LIST		(WM_USER + 11)
-#define WMU_INITIALIZE		(WM_USER + 12)
+#define WMU_FILL_LIST  (WM_USER + 10)
+#define WMU_SIZE_LIST  (WM_USER + 11)
+#define WMU_INITIALIZE (WM_USER + 12)
 
 void FixMainMenu();
 
@@ -41,7 +41,7 @@ int height_client_to_frame(int client_height, LONG style, LONG ex_style)
 
 LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_CREATE:
 		return TRUE;
 
@@ -50,7 +50,8 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			db_set_b(0, MODULE, "ReminderFrameVisible", 1);
 			Utils_RestoreWindowPosition(hwnd, 0, MODULE, "reminders_window");
 			PostMessage(hwnd, WM_SIZE, 0, 0);
-		} else {
+		}
+		else {
 			db_set_b(0, MODULE, "ReminderFrameVisible", 0);
 			Utils_SaveWindowPosition(hwnd, 0, MODULE, "reminders_window");
 		}
@@ -79,13 +80,13 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 bool FrameIsFloating()
 {
-	if (frame_id == -1) 
+	if (frame_id == -1)
 		return true; // no frames, always floating
-	
+
 	return CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLOATING, frame_id), 0) != 0;
 }
 
-ALARM context_menu_alarm = {0};
+ALARM context_menu_alarm = { 0 };
 
 LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -94,12 +95,12 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	SIZE textSize;
 	SIZE timeSize;
 
-	switch(msg) {
+	switch (msg) {
 
-	case WM_CREATE: 
+	case WM_CREATE:
 		hwnd_list = CreateWindow(L"LISTBOX", L"",
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_STANDARD | LBS_NOTIFY | LBS_OWNERDRAWFIXED) & ~LBS_SORT
-			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst,0);		
+			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst, 0);
 		return FALSE;
 
 	case WMU_INITIALIZE:
@@ -116,7 +117,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_DRAWITEM:
 		dis = (DRAWITEMSTRUCT *)lParam;
 		if (dis->itemID != (DWORD)-1) {
-			ALARM alarm = {0};
+			ALARM alarm = { 0 };
 			mir_cslock lck(list_cs);
 			ALARM &list_alarm = alarm_list.at(dis->itemData);
 			copy_alarm_data(&alarm, &list_alarm);
@@ -134,9 +135,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SetTextColor(dis->hDC, fontColour);
 
 			HICON hIcon = (min <= 5 ? hIconList2 : hIconList1);
-			DrawIconEx(dis->hDC,dis->rcItem.left,(dis->rcItem.top + dis->rcItem.bottom - 16)>>1,hIcon,0, 0, 0, NULL, DI_NORMAL);
+			DrawIconEx(dis->hDC, dis->rcItem.left, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 0, 0, 0, NULL, DI_NORMAL);
 
-			GetTextExtentPoint32(dis->hDC,alarm.szTitle,(int)mir_wstrlen(alarm.szTitle),&textSize);
+			GetTextExtentPoint32(dis->hDC, alarm.szTitle, (int)mir_wstrlen(alarm.szTitle), &textSize);
 
 			wchar_t buff[100];
 			if (min >= 60)
@@ -144,26 +145,26 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			else
 				mir_snwprintf(buff, TranslateT("%dm"), min);
 
-			GetTextExtentPoint32(dis->hDC,buff,(int)mir_wstrlen(buff),&timeSize);
+			GetTextExtentPoint32(dis->hDC, buff, (int)mir_wstrlen(buff), &timeSize);
 
 			if (textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
 				// need elipsis
 				wchar_t titlebuff[512];
 				size_t len = mir_wstrlen(alarm.szTitle);
 				if (len > 511) len = 511;
-				while(len > 0 && textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
+				while (len > 0 && textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
 					len--;
 					wcsncpy(titlebuff, alarm.szTitle, len);
 					titlebuff[len] = 0;
 					mir_wstrcat(titlebuff, L"...");
-					GetTextExtentPoint32(dis->hDC,titlebuff,(int)mir_wstrlen(titlebuff),&textSize);
+					GetTextExtentPoint32(dis->hDC, titlebuff, (int)mir_wstrlen(titlebuff), &textSize);
 				}
-				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,titlebuff,(int)mir_wstrlen(titlebuff));
-				TextOut(dis->hDC,dis->rcItem.right - timeSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom - timeSize.cy)>>1, buff,(int)mir_wstrlen(buff));
+				TextOut(dis->hDC, dis->rcItem.left + 16 + 4, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, titlebuff, (int)mir_wstrlen(titlebuff));
+				TextOut(dis->hDC, dis->rcItem.right - timeSize.cx - 2, (dis->rcItem.top + dis->rcItem.bottom - timeSize.cy) >> 1, buff, (int)mir_wstrlen(buff));
 			}
-			else {				
-				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,alarm.szTitle,(int)mir_wstrlen(alarm.szTitle));
-				TextOut(dis->hDC,dis->rcItem.right - timeSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom - timeSize.cy)>>1, buff,(int)mir_wstrlen(buff));
+			else {
+				TextOut(dis->hDC, dis->rcItem.left + 16 + 4, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, alarm.szTitle, (int)mir_wstrlen(alarm.szTitle));
+				TextOut(dis->hDC, dis->rcItem.right - timeSize.cx - 2, (dis->rcItem.top + dis->rcItem.bottom - timeSize.cy) >> 1, buff, (int)mir_wstrlen(buff));
 			}
 
 			SetBkMode(dis->hDC, OPAQUE);
@@ -265,7 +266,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					else if (!IsWindowVisible(hwnd) && count > 0) {
 						// we have reminders - show if not linked to clist or if clist is visible
 						if ((!options.hide_with_clist && FrameIsFloating()) || IsWindowVisible(pcli->hwndContactList)) {
-							CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)frame_id, 0);						
+							CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)frame_id, 0);
 							CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, FU_FMREDRAW | FU_FMPOS);
 						}
 					}
@@ -300,7 +301,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			alarm_list.sort();
 			int index = 0;
 			ALARM *i;
-			for(alarm_list.reset(); i = alarm_list.current(); alarm_list.next(), index++) {
+			for (alarm_list.reset(); i = alarm_list.current(); alarm_list.next(), index++) {
 				if (i->flags & (ALF_HIDDEN | ALF_SUSPENDED | ALF_NOREMINDER))
 					continue;
 				SendMessage(hwnd_list, LB_ADDSTRING, 0, (LPARAM)index);
@@ -373,7 +374,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			//ClientToScreen(hwnd_list, &pt);
 			GetCursorPos(&pt);
 
-			BOOL ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+			BOOL ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
 			DestroyMenu(menu);
 			if (ret)
 				PostMessage(hwnd, WM_COMMAND, ret, 0);
@@ -381,7 +382,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return TRUE;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case ID_REMINDERFRAMECONTEXT_OPTIONS:
 			Options_Open(L"Events", L"Alarms");
 			break;
@@ -411,7 +412,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case ID_REMINDERFRAMECONTEXT_NEWALARM:
 			NewAlarmMenuFunc(0, 0);
 			break;
-		}			
+		}
 		return TRUE;
 
 	case WM_DESTROY:
@@ -436,7 +437,6 @@ int ReloadFont(WPARAM, LPARAM)
 	DeleteObject(bk_brush);
 	bk_brush = CreateSolidBrush(db_get_dw(0, "Alarm", "clFrameBack", GetSysColor(COLOR_3DFACE)));
 	RefreshReminderFrame();
-
 	return 0;
 }
 
@@ -461,7 +461,7 @@ bool ReminderFrameVisible()
 
 void SetReminderFrameVisible(bool visible)
 {
-	if (frame_id == -1 && hwnd_frame != 0) 
+	if (frame_id == -1 && hwnd_frame != 0)
 		ShowWindow(hwnd_frame, visible ? SW_SHOW : SW_HIDE);
 }
 
@@ -488,9 +488,9 @@ int CreateFrame()
 	RegisterClass(&wndclass);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"), 
-			WS_CHILD | WS_CLIPCHILDREN, 
-			0,0,10,10, pcli->hwndContactList, NULL,hInst,NULL);
+		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"),
+			WS_CHILD | WS_CLIPCHILDREN,
+			0, 0, 10, 10, pcli->hwndContactList, NULL, hInst, NULL);
 
 		CLISTFrame Frame = { sizeof(CLISTFrame) };
 		Frame.tname = TranslateT("Alarms");
@@ -499,7 +499,7 @@ int CreateFrame()
 		Frame.Flags = F_UNICODE | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 		Frame.height = 30;
 		Frame.hIcon = hIconMenuSet;
-		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
+		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 	}
 	else {
 		wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -508,14 +508,13 @@ int CreateFrame()
 		wndclass.lpszClassName = L"AlarmsFrameContainer";
 		RegisterClass(&wndclass);
 
-		hwnd_frame = CreateWindowEx(WS_EX_TOOLWINDOW, L"AlarmsFrameContainer", TranslateT("Alarms"), 
+		hwnd_frame = CreateWindowEx(WS_EX_TOOLWINDOW, L"AlarmsFrameContainer", TranslateT("Alarms"),
 			(WS_POPUPWINDOW | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~WS_VISIBLE,
-			0,0,200,100, pcli->hwndContactList, NULL,hInst,NULL);
-			//0,0,200,100, GetDesktopWindow(), NULL,hInst,NULL);
-	
-		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"), 
+			0, 0, 200, 100, pcli->hwndContactList, NULL, hInst, NULL);
+
+		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"),
 			WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE,
-			0,0,10,10, hwnd_frame, NULL,hInst,NULL);
+			0, 0, 10, 10, hwnd_frame, NULL, hInst, NULL);
 
 		SetWindowLongPtr(hwnd_frame, GWLP_USERDATA, (LONG_PTR)hwnd_plugin);
 
@@ -579,7 +578,7 @@ int CreateFrame()
 	fontColour = Font_Get(font_id, &log_font);
 	hFont = CreateFontIndirectA(&log_font);
 	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, TRUE);
-	
+
 	HookEvent(ME_FONT_RELOAD, ReloadFont);
 
 	// create the brush used for the background in the absence of clist_modern skinning features - match clist

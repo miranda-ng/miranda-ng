@@ -10,7 +10,6 @@ There is no warranty.
 #include "stdafx.h"
 #include "alarms.h"
 
-
 #define SERVICENAME L"mp"
 #define COMMANDPREFIX L"/" SERVICENAME
 
@@ -52,13 +51,14 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message) {
+	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
 			PUDeletePopup(hWnd);
 			return TRUE;
 		}
 		break;
+
 	case UM_FREEPLUGINDATA:
 		return TRUE;
 	}
@@ -73,43 +73,44 @@ void ShowPopup(MCONTACT hContact, const wchar_t *msg)
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
 		ppd.lchIcon = hIconList1;
-		mir_wstrncpy(ppd.lptzContactName, lpzContactName,MAX_CONTACTNAME);
-		mir_wstrncpy(ppd.lptzText, msg,  MAX_SECONDLINE);
+		mir_wstrncpy(ppd.lptzContactName, lpzContactName, MAX_CONTACTNAME);
+		mir_wstrncpy(ppd.lptzText, msg, MAX_SECONDLINE);
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-		ppd.colorText = RGB(0,0,0);
+		ppd.colorText = RGB(0, 0, 0);
 		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.PluginData = 0;
 		ppd.iSeconds = 3;
 
-		//Now that every field has been filled, we want to see the popup.
+		// Now that every field has been filled, we want to see the popup.
 		PUAddPopupT(&ppd);
 	}
 }
 
 HBITMAP LoadBmpFromIcon(int IdRes)
 {
-	HICON hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IdRes));
+	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IdRes));
 
-	RECT rc;
-	BITMAPINFOHEADER bih = {0};
-
-	HBRUSH hBkgBrush = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
+	BITMAPINFOHEADER bih = { 0 };
 	bih.biSize = sizeof(bih);
 	bih.biBitCount = 24;
 	bih.biPlanes = 1;
 	bih.biCompression = BI_RGB;
 	bih.biHeight = 16;
 	bih.biWidth = 20;
+
+	RECT rc;
 	rc.top = rc.left = 0;
 	rc.right = bih.biWidth;
 	rc.bottom = bih.biHeight;
+
 	HDC hdc = GetDC(NULL);
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
+
+	HBRUSH hBkgBrush = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
 	FillRect(hdcMem, &rc, hBkgBrush);
 	DrawIconEx(hdcMem, 2, 0, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-
 
 	SelectObject(hdcMem, hoBmp);
 	DeleteDC(hdcMem);
@@ -160,7 +161,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	ccx.dwICC = ICC_DATE_CLASSES;
 	InitCommonControlsEx(&ccx);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED,MainInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, MainDeInit);
 
 	LoadOptions();
