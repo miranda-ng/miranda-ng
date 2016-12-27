@@ -312,7 +312,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.dwDefPos = 40;
 	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	bbd.pwszText = LPGENW("&History");
-	bbd.pwszTooltip = LPGENW("View user's history");
+	bbd.pwszTooltip = LPGENW("View user's history (CTRL+H)");
 	Srmm_AddButton(&bbd);
 
 	// chat buttons
