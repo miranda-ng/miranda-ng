@@ -39,3 +39,6 @@
 #include <win2k.h>
 
 extern HINSTANCE g_hInstance;
+
+#include "version.h"
+#include "proto.h"

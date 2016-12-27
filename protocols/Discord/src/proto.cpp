@@ -1,5 +1,6 @@
 /*
-Copyright © 2016 Miranda NG team
+Copyright © 2012-16 Miranda NG team
+Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,3 +17,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
+
+DiscordProto::DiscordProto(const char *proto_name, const wchar_t *username) :
+	PROTO<DiscordProto>(proto_name, username)
+{
+	CreateProtoService(PS_GETNAME, &DiscordProto::GetName);
+	CreateProtoService(PS_GETSTATUS, &DiscordProto::GetStatus);
+}
+
+DiscordProto::~DiscordProto()
+{
+}
+
+INT_PTR DiscordProto::GetName(WPARAM wParam, LPARAM lParam)
+{
+	mir_strncpy((char*)lParam, m_szModuleName, (int)wParam);
+	return 0;
+}
+
+INT_PTR DiscordProto::GetStatus(WPARAM, LPARAM)
+{
+	return m_iStatus;
+}
