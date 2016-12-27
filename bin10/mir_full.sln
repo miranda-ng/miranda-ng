@@ -434,6 +434,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevent", "..\libs\libeven
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusManager", "..\plugins\StatusManager\StatusManager.vcxproj", "{D2EF305F-5255-49E8-A738-D4206D62D2B8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Discord", "..\protocols\Discord\discord.vcxproj", "{88928401-2CE8-4568-AAA7-226141870CBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1982,6 +1984,14 @@ Global
 		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|Win32.Build.0 = Release|Win32
 		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|x64.ActiveCfg = Release|x64
 		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|x64.Build.0 = Release|x64
+		{88928401-2CE8-4568-AAA7-226141870CBF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{88928401-2CE8-4568-AAA7-226141870CBF}.Debug|Win32.Build.0 = Debug|Win32
+		{88928401-2CE8-4568-AAA7-226141870CBF}.Debug|x64.ActiveCfg = Debug|x64
+		{88928401-2CE8-4568-AAA7-226141870CBF}.Debug|x64.Build.0 = Debug|x64
+		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|Win32.ActiveCfg = Release|Win32
+		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|Win32.Build.0 = Release|Win32
+		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|x64.ActiveCfg = Release|x64
+		{88928401-2CE8-4568-AAA7-226141870CBF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
