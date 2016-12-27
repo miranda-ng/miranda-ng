@@ -55,5 +55,27 @@ END
 IDI_MAIN              ICON                    "discord.ico"
 IDI_OFFLINE           ICON                    "offline.ico"
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS_ACCOUNT DIALOGEX 0, 0, 305, 190
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "User details",IDC_STATIC,7,7,291,62
+    LTEXT           "E-mail:",IDC_STATIC,17,20,61,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_USERNAME,84,18,123,13,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,17,36,61,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_PASSWORD,84,34,123,13,ES_PASSWORD | ES_AUTOHSCROLL
+
+    GROUPBOX        "Contacts",IDC_STATIC,7,77,291,88
+    LTEXT           "Default group:",IDC_STATIC,17,91,61,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_GROUP,84,89,123,13,ES_AUTOHSCROLL
+END
+
 #endif    // English (United States) resources
+
 /////////////////////////////////////////////////////////////////////////////

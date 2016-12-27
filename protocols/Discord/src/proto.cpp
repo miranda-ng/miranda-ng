@@ -1,6 +1,5 @@
 /*
-Copyright © 2012-16 Miranda NG team
-Copyright © 2009 Jim Porter
+Copyright © 2016 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,24 +17,72 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-DiscordProto::DiscordProto(const char *proto_name, const wchar_t *username) :
-	PROTO<DiscordProto>(proto_name, username)
+ÑDiscordProto::ÑDiscordProto(const char *proto_name, const wchar_t *username) :
+	PROTO<ÑDiscordProto>(proto_name, username)
 {
-	CreateProtoService(PS_GETNAME, &DiscordProto::GetName);
-	CreateProtoService(PS_GETSTATUS, &DiscordProto::GetStatus);
+	// Services
+	CreateProtoService(PS_GETNAME, &ÑDiscordProto::GetName);
+	CreateProtoService(PS_GETSTATUS, &ÑDiscordProto::GetStatus);
+
+	// Events
+	HookProtoEvent(ME_OPT_INITIALISE, &ÑDiscordProto::OnOptionsInit);
 }
 
-DiscordProto::~DiscordProto()
+ÑDiscordProto::~ÑDiscordProto()
 {
 }
 
-INT_PTR DiscordProto::GetName(WPARAM wParam, LPARAM lParam)
+DWORD_PTR ÑDiscordProto::GetCaps(int type, MCONTACT)
+{
+	switch (type) {
+	case PFLAGNUM_1:
+		return PF1_IM | PF1_MODEMSGRECV | PF1_SERVERCLIST;
+	case PFLAGNUM_2:
+		return PF2_ONLINE;
+	case PFLAGNUM_3:
+		return PF2_ONLINE;
+	case PFLAGNUM_4:
+		return PF4_NOCUSTOMAUTH | PF4_AVATARS;
+	case PFLAG_UNIQUEIDTEXT:
+		return (DWORD_PTR)"E-mail";
+	case PFLAG_UNIQUEIDSETTING:
+		return (DWORD_PTR)DB_KEY_EMAIL;
+	}
+	return 0;
+}
+
+INT_PTR ÑDiscordProto::GetName(WPARAM wParam, LPARAM lParam)
 {
 	mir_strncpy((char*)lParam, m_szModuleName, (int)wParam);
 	return 0;
 }
 
-INT_PTR DiscordProto::GetStatus(WPARAM, LPARAM)
+INT_PTR ÑDiscordProto::GetStatus(WPARAM, LPARAM)
 {
 	return m_iStatus;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int ÑDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
+{
+	return 0;
+}
+
+int ÑDiscordProto::OnPreShutdown(WPARAM, LPARAM)
+{
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int ÑDiscordProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
+{
+	switch (event) {
+		case EV_PROTO_ONLOAD:    return OnModulesLoaded(wParam, lParam);
+		case EV_PROTO_ONEXIT:    return OnPreShutdown(wParam, lParam);
+		case EV_PROTO_ONOPTIONS: return OnOptionsInit(wParam, lParam);
+	}
+
+	return 1;
 }

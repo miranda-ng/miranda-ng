@@ -55,7 +55,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
 {
-	return new DiscordProto(proto_name, username);
+	return new ÑDiscordProto(proto_name, username);
 }
 
 static int protoUninit(PROTO_INTERFACE *proto)

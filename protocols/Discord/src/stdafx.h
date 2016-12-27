@@ -30,6 +30,7 @@
 #include <m_protosvc.h>
 #include <m_protoint.h>
 #include <m_skin.h>
+#include <m_gui.h>
 #include <m_system.h>
 #include <m_userinfo.h>
 #include <m_icolib.h>
@@ -42,3 +43,9 @@ extern HINSTANCE g_hInstance;
 
 #include "version.h"
 #include "proto.h"
+
+#define DB_KEY_EMAIL    "Email"
+#define DB_KEY_PASSWORD "Password"
+
+#define DB_KEY_GROUP    "GroupName"
+#define DB_KEYVAL_GROUP L"Discord"
