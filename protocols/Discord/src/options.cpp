@@ -17,13 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-class CDiscardAccountOptions : public CProtoDlgBase<ÑDiscordProto>
+class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 {
 	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
 
 public:
-	CDiscardAccountOptions(ÑDiscordProto *ppro) :
-		CProtoDlgBase<ÑDiscordProto>(ppro, IDD_OPTIONS_ACCOUNT),
+	CDiscardAccountOptions(CDiscordProto *ppro) :
+		CProtoDlgBase<CDiscordProto>(ppro, IDD_OPTIONS_ACCOUNT),
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
 		m_edPassword(this, IDC_PASSWORD)
@@ -56,7 +56,7 @@ public:
 	}
 };
 
-int ÑDiscordProto::OnOptionsInit(WPARAM wParam, LPARAM)
+int CDiscordProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;

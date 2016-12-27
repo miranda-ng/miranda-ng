@@ -1,13 +1,18 @@
 
-class ÑDiscordProto : public PROTO<ÑDiscordProto>
+class CDiscordProto : public PROTO<CDiscordProto>
 {
+	void __cdecl ServerThread(void*);
+
+	void SetAllContactStatuses(int iStatus);
 
 public:
-	ÑDiscordProto(const char*,const wchar_t*);
-	~ÑDiscordProto();
+	CDiscordProto(const char*,const wchar_t*);
+	~CDiscordProto();
 
 	// PROTO_INTERFACE
 	virtual DWORD_PTR __cdecl GetCaps(int, MCONTACT = 0) override;
+
+	virtual int __cdecl SetStatus(int iNewStatus) override;
 
 	virtual int __cdecl OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
 

@@ -17,22 +17,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-ÑDiscordProto::ÑDiscordProto(const char *proto_name, const wchar_t *username) :
-	PROTO<ÑDiscordProto>(proto_name, username)
+CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
+	PROTO<CDiscordProto>(proto_name, username)
 {
 	// Services
-	CreateProtoService(PS_GETNAME, &ÑDiscordProto::GetName);
-	CreateProtoService(PS_GETSTATUS, &ÑDiscordProto::GetStatus);
+	CreateProtoService(PS_GETNAME, &CDiscordProto::GetName);
+	CreateProtoService(PS_GETSTATUS, &CDiscordProto::GetStatus);
 
 	// Events
-	HookProtoEvent(ME_OPT_INITIALISE, &ÑDiscordProto::OnOptionsInit);
+	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
 }
 
-ÑDiscordProto::~ÑDiscordProto()
+CDiscordProto::~CDiscordProto()
 {
 }
 
-DWORD_PTR ÑDiscordProto::GetCaps(int type, MCONTACT)
+DWORD_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -51,32 +51,66 @@ DWORD_PTR ÑDiscordProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-INT_PTR ÑDiscordProto::GetName(WPARAM wParam, LPARAM lParam)
+INT_PTR CDiscordProto::GetName(WPARAM wParam, LPARAM lParam)
 {
 	mir_strncpy((char*)lParam, m_szModuleName, (int)wParam);
 	return 0;
 }
 
-INT_PTR ÑDiscordProto::GetStatus(WPARAM, LPARAM)
+INT_PTR CDiscordProto::GetStatus(WPARAM, LPARAM)
 {
 	return m_iStatus;
 }
 
+int CDiscordProto::SetStatus(int iNewStatus)
+{
+	if (iNewStatus == m_iStatus)
+		return 0;
+
+	m_iDesiredStatus = iNewStatus;
+	int iOldStatus = m_iStatus;
+
+	// all statuses but offline are treated as online
+	if (iNewStatus >= ID_STATUS_ONLINE && iNewStatus <= ID_STATUS_OUTTOLUNCH) {
+		m_iDesiredStatus = ID_STATUS_ONLINE;
+
+		// if we're already connecting and they want to go online
+		if (IsStatusConnecting(m_iStatus))
+			return 0;
+
+		// if we're already connected, don't try to reconnect
+		if (m_iStatus >= ID_STATUS_ONLINE && m_iStatus <= ID_STATUS_OUTTOLUNCH)
+			return 0;
+
+		m_iStatus = ID_STATUS_CONNECTING;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+		ForkThread(&CDiscordProto::ServerThread, this);
+	}
+	else if (iNewStatus == ID_STATUS_OFFLINE) {
+		m_iStatus = m_iDesiredStatus;
+		SetAllContactStatuses(ID_STATUS_OFFLINE);
+
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	}
+
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int ÑDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
+int CDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	return 0;
 }
 
-int ÑDiscordProto::OnPreShutdown(WPARAM, LPARAM)
+int CDiscordProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int ÑDiscordProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
+int CDiscordProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
 		case EV_PROTO_ONLOAD:    return OnModulesLoaded(wParam, lParam);
