@@ -20,39 +20,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 {
 	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
+	ptrW m_wszOldGroup;
 
 public:
 	CDiscardAccountOptions(CDiscordProto *ppro) :
 		CProtoDlgBase<CDiscordProto>(ppro, IDD_OPTIONS_ACCOUNT),
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
-		m_edPassword(this, IDC_PASSWORD)
-	{}
+		m_edPassword(this, IDC_PASSWORD),
+		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
+	{
+		CreateLink(m_edGroup, ppro->m_wszDefaultGroup);
+		CreateLink(m_edUserName, ppro->m_wszEmail);
+	}
 
 	virtual void OnInitDialog() override
 	{
-		ptrW buf(m_proto->getWStringA(DB_KEY_EMAIL));
-		if (buf)
-			m_edUserName.SetText(buf);
-
-		buf = m_proto->getWStringA(DB_KEY_PASSWORD);
+		ptrW buf(m_proto->getWStringA(DB_KEY_PASSWORD));
 		if (buf)
 			m_edPassword.SetText(buf);
-
-		buf = m_proto->getWStringA(DB_KEY_GROUP);
-		m_edGroup.SetText(buf ? buf : DB_KEYVAL_GROUP);
 	}
 
 	virtual void OnApply() override
 	{
-		ptrW buf(m_edUserName.GetText());
-		m_proto->setWString(DB_KEY_EMAIL, buf);
+		if (mir_wstrcmp(m_proto->m_wszDefaultGroup, m_wszOldGroup))
+			Clist_GroupCreate(NULL, m_proto->m_wszDefaultGroup);
 
-		buf = m_edPassword.GetText();
+		ptrW buf(m_edPassword.GetText());
 		m_proto->setWString(DB_KEY_PASSWORD, buf);
-
-		buf = m_edGroup.GetText();
-		m_proto->setWString(DB_KEY_GROUP, buf);
 	}
 };
 

@@ -19,29 +19,77 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CDiscordProto::RetrieveMyInfo()
 {
-
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveMyInfo));
 }
+
+void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	if (pReply->resultCode != 200) {
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		return;
+	}
+
+	JSONNode *root = json_parse(pReply->pData);
+	if (root == NULL) {
+		ConnectionFailed(LOGINERR_NOSERVER);
+		return;
+	}
+
+	setWString("Username", root->at("username").as_mstring());
+	setByte("MfaEnabled", root->at("mfa_enabled").as_bool());
+	setWString("id", root->at("id").as_mstring());
+	setWString("AvatarHash", root->at("avatar").as_mstring());
+	setDword("Discriminator", root->at("discriminator").as_int());
+	setWString("Email", root->at("email").as_mstring());
+
+	OnLoggedIn();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CDiscordProto::SetServerStatus(int iStatus)
 {
 	if (!m_bOnline)
 		return;
 
+	if (iStatus == ID_STATUS_OFFLINE)
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", NULL));
+
 	int iOldStatus = m_iStatus; m_iStatus = iStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::OnReceiveChannels(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	if (pReply->resultCode != 200)
+		return;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::OnReceiveGuilds(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	if (pReply->resultCode != 200)
+		return;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
 	if (pReply->resultCode != 200) {
-LBL_Error:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
 
 	JSONNode *root = json_parse(pReply->pData);
-	if (root == NULL)
-		goto LBL_Error;
+	if (root == NULL) {
+LBL_Error:
+		ConnectionFailed(LOGINERR_NOSERVER);
+		return;
+	}
 
 	CMStringA szToken = root->at("token").as_mstring();
 	if (szToken.IsEmpty())
@@ -49,5 +97,8 @@ LBL_Error:
 
 	m_szAccessToken = szToken.Detach();
 	setString("AccessToken", m_szAccessToken);
-	OnLoggedIn();
+
+	RetrieveMyInfo();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////

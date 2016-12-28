@@ -25,7 +25,9 @@ static int compareRequests(const AsyncHttpRequest *p1, const AsyncHttpRequest *p
 CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CDiscordProto>(proto_name, username),
 	m_arHttpQueue(10, compareRequests),
-	m_evRequestsQueue(CreateEvent(NULL, FALSE, FALSE, NULL))
+	m_evRequestsQueue(CreateEvent(NULL, FALSE, FALSE, NULL)),
+	m_wszDefaultGroup(this, DB_KEY_GROUP, DB_KEYVAL_GROUP),
+	m_wszEmail(this, DB_KEY_EMAIL, L"")
 {
 	// Services
 	CreateProtoService(PS_GETNAME, &CDiscordProto::GetName);
@@ -33,6 +35,9 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
+
+	// Clist
+	Clist_GroupCreate(NULL, m_wszDefaultGroup);
 
 	// Network initialization
 	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);

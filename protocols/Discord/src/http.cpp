@@ -49,17 +49,17 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	else m_szUrl = _url;
 
 	flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_SSL;
-	if (ppro->m_szAccessToken == NULL)
-		flags |= NLHRF_NODUMPSEND;
-	else
+	if (ppro->m_szAccessToken != NULL) {
+		AddHeader("Authorization", ppro->m_szAccessToken);
 		flags |= NLHRF_DUMPASTEXT;
+	}
+	else flags |= NLHRF_NODUMPSEND;
 
+	AddHeader("Content-Type", "application/json");
 	if (pRoot != NULL) {
 		ptrW text(json_write(pRoot));
 		pData = mir_utf8encodeW(text);
 		dataLength = (int)mir_strlen(pData);
-
-		AddHeader("Content-Type", "application/json");
 	}
 
 	requestType = iRequestType;

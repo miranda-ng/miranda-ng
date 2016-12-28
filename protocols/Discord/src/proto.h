@@ -74,11 +74,11 @@ __forceinline JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param)
 class CDiscordProto : public PROTO<CDiscordProto>
 {
 	friend struct AsyncHttpRequest;
+	friend class CDiscardAccountOptions;
 
 	void __cdecl ServerThread(void*);
 
 	void SetAllContactStatuses(int iStatus);
-	bool TryToConnect(void);
 	void ConnectionFailed(int iReason);
 	void ShutdownSession(void);
 
@@ -98,6 +98,9 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	bool 
 		m_bOnline,         // protocol is online
 		m_bTerminated;     // Miranda's going down
+
+	CMOption<wchar_t*> m_wszEmail;        // my own email
+	CMOption<wchar_t*> m_wszDefaultGroup; // clist group to store contacts 
 
 public:
 	CDiscordProto(const char*,const wchar_t*);
@@ -123,8 +126,12 @@ public:
 	void OnLoggedOut();
 	
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	void RetrieveMyInfo();
 
 	// Misc
-	void RetrieveMyInfo(void);
 	void SetServerStatus(int iStatus);
 };

@@ -63,6 +63,9 @@ void CDiscordProto::OnLoggedIn()
 	debugLogA("CDiscordProto::OnLoggedIn");
 	m_bOnline = true;
 	SetServerStatus(m_iDesiredStatus);
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me/guilds", &CDiscordProto::OnReceiveGuilds));
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me/channels", &CDiscordProto::OnReceiveChannels));
 }
 
 void CDiscordProto::OnLoggedOut()
@@ -96,23 +99,6 @@ void CDiscordProto::ConnectionFailed(int iReason)
 	ShutdownSession();
 }
 
-bool CDiscordProto::TryToConnect(void)
-{
-	ptrW wszLogin(getWStringA(DB_KEY_EMAIL)), wszPassword(getWStringA(DB_KEY_PASSWORD));
-	if (wszLogin == NULL) {
-		ConnectionFailed(LOGINERR_BADUSERID);
-		return false;
-	}
-	if (wszPassword == NULL) {
-		ConnectionFailed(LOGINERR_WRONGPASSWORD);
-		return false;
-	}
-
-	JSONNode root; root << WCHAR_PARAM("email", wszLogin) << WCHAR_PARAM("password", wszPassword);
-	Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/login", &CDiscordProto::OnReceiveToken, &root));
-	return true;
-}
-
 void CDiscordProto::ServerThread(void*)
 {
 	m_szAccessToken = getStringA("AccessToken");
@@ -124,8 +110,21 @@ void CDiscordProto::ServerThread(void*)
 	if (m_szAccessToken != NULL)
 		// try to receive a response from server
 		RetrieveMyInfo();
-	else if (!TryToConnect())
-		return;
+	else {
+		if (mir_wstrlen(m_wszEmail) == NULL) {
+			ConnectionFailed(LOGINERR_BADUSERID);
+			return;
+		}
+
+		ptrW wszPassword(getWStringA(DB_KEY_PASSWORD));
+		if (wszPassword == NULL) {
+			ConnectionFailed(LOGINERR_WRONGPASSWORD);
+			return;
+		}
+
+		JSONNode root; root << WCHAR_PARAM("email", m_wszEmail) << WCHAR_PARAM("password", wszPassword);
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/login", &CDiscordProto::OnReceiveToken, &root));
+	}
 
 	while (true) {
 		WaitForSingleObject(m_evRequestsQueue, 1000);
