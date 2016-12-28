@@ -228,7 +228,7 @@
 [Status bar]
 Панель статусов
 [Show status bar]
-Показывать строку состояния
+Показывать панель статусов
 [Show icons]
 Показывать значки
 [Show protocol names]
@@ -454,9 +454,9 @@
 [Show toolbar buttons on top row]
 Показывать кнопки в верхней строке
 [Send message on double 'Enter']
-Отправлять по двойному "Enter"
+Посылать по двойному "Enter"
 [Send message on 'Enter']
-Отправлять по "Enter"
+Посылать по "Enter"
 [Show character count]
 Показывать счётчик символов
 [Show warning when message has not been received after]
@@ -504,7 +504,7 @@
 [minutes old]
 минут назад
 [Send typing notifications to the following users when you are typing a message to them:]
-Отправлять уведомления набора указанным контактам в то время, когда вы набираете им сообщение:
+Уведомлять отмеченных пользователей о том, что вы набираете сообщение:
 [Show typing notifications when a user is typing a message]
 Показывать уведомления о наборе текста
 [Update inactive message window icons when a user is typing]
@@ -792,7 +792,7 @@
 [Add to list]
 Добавить в список
 [Custom]
-Указать
+Настроить
 [Here you can add contacts to your contact list]
 Здесь вы можете найти и добавить контакты в список контактов
 [Configure your Miranda NG options]
@@ -1128,7 +1128,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Contacts]
 Контакты
 [&Remove]
-&Очистить
+&Удалить
 [&Set as default]
 &По умолчанию
 [Move &up]
@@ -1773,6 +1773,8 @@ UIN, E-mail и т.д.
 %s набирает текст
 [Typing notification]
 Уведомление о наборе текста
+[View user's history (CTRL+H)]
+История сообщений (CTRL+H)
 [&Bold]
 &Жирный
 [Make the text bold (CTRL+B)]
@@ -1791,8 +1793,8 @@ UIN, E-mail и т.д.
 Выбрать цвет текста (CTRL+K)
 [&Background color]
 Цвет &фона
-[Select a background color for the text]
-Выбрать фон текста
+[Select a background color for the text (CTRL+L)]
+Выбрать фон текста (CTRL+L)
 [&Room settings]
 &Настройки
 [Control this room (CTRL+O)]
@@ -1940,7 +1942,7 @@ Miranda не смогла загрузить встроенную систему
 [The topic is '%s%s']
 Тема '%s%s'
 [ (set by %s on %s)]
- (установлено %s %s)
+ (установлена %s %s)
 [ (set by %s)]
  (установлена %s)
 [%s enables '%s' status for %s]

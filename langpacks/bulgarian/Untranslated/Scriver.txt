@@ -10,4 +10,3 @@
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 [will return parsed string %miranda_userdata%\\Logs]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-[Manager]

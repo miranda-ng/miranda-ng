@@ -98,6 +98,8 @@ Désactiver la prochaine occurrence
 Ne pas activer au démarrage
 [No reminder]
 Ne pas répéter
+[Selected days]
+
 [Dismiss]
 
 [Snooze]

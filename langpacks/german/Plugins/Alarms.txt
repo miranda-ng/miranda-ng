@@ -98,6 +98,8 @@ Nächstes Ereignis deaktivieren
 Beim Start nicht auslösen
 [No reminder]
 Keine Erinnerung
+[Selected days]
+
 [Dismiss]
 Verwerfen
 [Snooze]

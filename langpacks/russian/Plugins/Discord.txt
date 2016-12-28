@@ -1,0 +1,23 @@
+﻿#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.0.0.1
+;  Authors: George Hazan
+;============================================================
+[Discord support for Miranda NG.]
+Поддержка протокола Discord в Miranda NG.
+[User details]
+О пользователе
+[E-mail:]
+Почта:
+[Password:]
+Пароль:
+[Contacts]
+Контакты
+[Default group:]
+Группа:
+[Network]
+Сеть
+[Account]
+Учётная запись

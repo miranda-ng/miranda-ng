@@ -1,0 +1,7 @@
+﻿[Discord support for Miranda NG.]
+[E-mail:]
+[Password:]
+[Contacts]
+[Default group:]
+[Network]
+[Account]

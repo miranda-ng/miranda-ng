@@ -61,34 +61,10 @@ Intentar de nuevo
 Cancelar
 [Message session]
 Sesión de mensaje
-[&User menu]
-Menú de usuario
-[User &details]
-&Detalles del usuario
-[&Add]
-&Añadir
-[&History]
-&Historial
 [Yes]
 Sí
 [No]
 No
-[&Bold]
-&Negrita
-[&Italic]
-C&ursiva
-[&Underline]
-S&ubrayar
-[&Color]
-&Color
-[&Background color]
-Color &de fondo
-[&Filter]
-&Filtro
-[&Room settings]
-Configu&ración de espacio
-[&Show/hide nick list]
-&Mostrar/ocultar lista de nicks
 [Show these events only:]
 Mostrar sólo estos eventos:
 [Actions]
@@ -271,24 +247,10 @@ Información (10x10)
 Grupo de chats
 [Messaging]
 Mensajería
-[User menu]
-Menú del usuario
-[User details]
-Información del usuario
-[History]
-Historial
-[Send]
-Enviar
 [Look up '%s':]
 Buscar '%s':
 [No word to look up]
 Ni una palabra para buscar
-[Add contact permanently to list]
-Añadir contacto permanentemente a la lista
-[View user's details]
-Ver detalles del usuario
-[View user's history]
-Ver historial del usuario
 [%s is typing a message...]
 %s está escribiendo un mensaje...
 [Last message received on %s at %s.]
@@ -297,8 +259,6 @@ Ver historial del usuario
 Archivo enviado
 [File received]
 Archivo recibido
-[General]
-General
 [Outgoing messages]
 Mensajes salientes
 [Incoming messages]
@@ -347,14 +307,66 @@ En el teléfono
 ** Contactos desconocidos **
 [Message sessions]
 Sesiones de mensaje
+[General]
+General
 [Typing notify]
 Notificación de escritura
+[Popups]
+Ventanas emergentes
 [Message from %s]
 Mensaje de
 [%s is typing a message]
 %s está escribiendo un mensaje
 [Typing notification]
 Escribiendo notificación
+[&Add]
+&Añadir
+[Add contact permanently to list]
+Añadir contacto permanentemente a la lista
+[&User menu]
+Menú de usuario
+[User menu]
+Menú del usuario
+[User &details]
+&Detalles del usuario
+[View user's details]
+Ver detalles del usuario
+[&History]
+&Historial
+[View user's history (CTRL+H)]
+Ver historial del usuario
+[&Bold]
+&Negrita
+[Make the text bold (CTRL+B)]
+Hacer el texto negrita (CTRL+B)
+[&Italic]
+C&ursiva
+[Make the text italicized (CTRL+I)]
+Hacer el texto cursiva (CTRL+I)
+[&Underline]
+S&ubrayar
+[Make the text underlined (CTRL+U)]
+Hacer el texto subrayado (CTRL+U)
+[&Color]
+&Color
+[Select a foreground color for the text (CTRL+K)]
+Seleccione un color de primer plano para el texto (CTRL+K)
+[&Background color]
+Color &de fondo
+[Select a background color for the text (CTRL+L)]
+Seleccione un color de fondo para el texto (CTRL+L)
+[&Room settings]
+Configu&ración de espacio
+[Control this room (CTRL+O)]
+Controlar esta sala (CTRL+O)
+[&Show/hide nick list]
+&Mostrar/ocultar lista de nicks
+[Show/hide the nick list (CTRL+N)]
+Mostrar/ocultar la lista de apodos (CTRL+N)
+[&Filter]
+&Filtro
+[Enable/disable the event filter (CTRL+F)]
+Activar/desactivar el filtro de eventos (CTRL+F)
 [Instant messages]
 Mensajes instantáneos
 [Incoming (focused window)]
@@ -371,10 +383,10 @@ El contacto ha comenzado a escribir
 El contacto dejó de escribir
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
-[Always on top]
-Siempre en primer plano
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
+[Always on top]
+Siempre en primer plano
 [Prefix all events with a timestamp]
 Prefijo de todos los eventos con una fecha y hora
 [Only prefix with timestamp if it has changed]
@@ -465,28 +477,8 @@ Apariencia
 Eventos predeterminados a mostrar en nuevas salas de chat, si está activado el "filtro de eventos'
 [Select folder]
 Seleccionar carpeta
-[Popups]
-Ventanas emergentes
 [&Message %s]
 &Mensaje %s
-[Make the text bold (CTRL+B)]
-Hacer el texto negrita (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Hacer el texto cursiva (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Hacer el texto subrayado (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Seleccione un color de fondo para el texto (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Seleccione un color de primer plano para el texto (CTRL+K)
-[Show the history (CTRL+H)]
-Mostrar el historial (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Mostrar/ocultar la lista de apodos (CTRL+N)
-[Control this room (CTRL+O)]
-Controlar esta sala (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Activar/desactivar el filtro de eventos (CTRL+F)
 [%s: chat room (%u user)]
 %s: sala de chat (%u usuario)
 [%s: chat room (%u users)]

@@ -17,6 +17,7 @@
 [Automatically set 'Ignore status change' flag]
 [Use bigger avatars]
 [Prefer real names instead of nicknames]
+[At login load also contacts you recently chat with]
 [Popup notifications]
 [Show notifications]
 [Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]

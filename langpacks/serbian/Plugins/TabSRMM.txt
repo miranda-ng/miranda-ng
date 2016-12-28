@@ -80,8 +80,6 @@ Drugi naziv
 
 [Suppress tray notifications for focused channel windows]
 
-[Do not show popups when the channel window is not open]
-
 [Highlight event]
 
 [Line markers in the message log]
@@ -436,18 +434,6 @@ Promena naziva
 
 [Create new]
 
-[Reset]
-Reset
-[Show in IM chats]
-
-[Show in chat rooms]
-
-[Gap between buttons:]
-
-[Hide if there isn't enough space]
-
-[Insert separator]
-Ubaci razdelnik
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 
 [Tabs should be used in the following way]
@@ -901,13 +887,9 @@ Pomoć
 [About TabSRMM...]
 
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
-[<Separator>]
-
 [Protocol button]
 
 [Info button]
-
-[Insert emoticon]
 
 [Bold text]
 
@@ -1099,8 +1081,6 @@ Ubaci i pošalji
 [Toggle send later]
 
 [Send message]
-
-[Smiley selector]
 
 [Show message history]
 

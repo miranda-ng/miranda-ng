@@ -80,8 +80,6 @@ Popup anzeig.
 Tray-Benachr.
 [Suppress tray notifications for focused channel windows]
 Tray-Benachrichtigungen verbergen wenn Channelfenster fokusiert ist
-[Do not show popups when the channel window is not open]
-Keine Popups anzeigen wenn das Channelfenster nicht geöffnet ist
 [Highlight event]
 Hervorgehobenes Ereignis
 [Line markers in the message log]
@@ -436,18 +434,6 @@ Umbenennen
 Einen neuen Container erstellen
 [Create new]
 Neu erstellen
-[Reset]
-Standard
-[Show in IM chats]
-In Einzelchats anzeigen
-[Show in chat rooms]
-In Gruppenchats anzeigen
-[Gap between buttons:]
-Schaltflächenabstand:
-[Hide if there isn't enough space]
-Verstecken, wenn nicht genügend Platz
-[Insert separator]
-Trennlinie einfügen
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 Um Containereinstellungen festzulegen, bitte den entsprechenden Dialog benutzen. (Rechtsklick auf die Iconleiste eines Nachrichtenfensters oder über die Containereinstellungen in der Menüleiste.)
 [Tabs should be used in the following way]
@@ -901,14 +887,10 @@ Hilfe
 [About TabSRMM...]
 Über TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
-[<Separator>]
-<Trennlinie>
 [Protocol button]
 Protokoll-Schaltfläche
 [Info button]
 Info-Schaltfläche
-[Insert emoticon]
-Emoticon einfügen
 [Bold text]
 Fetter Text
 [Italic text]
@@ -1100,8 +1082,6 @@ Nachricht zitieren
 Später senden
 [Send message]
 Nachricht senden
-[Smiley selector]
-Smiley-Auswahlfenster
 [Show message history]
 Nachrichtenverlauf anzeigen
 [Show send menu]

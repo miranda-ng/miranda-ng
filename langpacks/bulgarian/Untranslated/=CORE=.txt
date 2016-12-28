@@ -20,6 +20,7 @@
 [Lock name to first contact]
 [find/add]
 [Toggle the visible state when double clicking in the contact list]
+[Chat]
 [The message send timed out.]
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
@@ -55,3 +56,4 @@
 [Account name must be filled.]
 [Filled blob]
 [Add group]
+[Toolbar]

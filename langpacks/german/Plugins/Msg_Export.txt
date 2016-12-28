@@ -125,8 +125,6 @@ Sortiere und schreibe Datenbankinformationen (Phase 2 von 2)
 Max Zeilen-Breite muss mindestens %d betragen
 [You need to restart Miranda to change the history function]
 Miranda muss zum ändern der History-Funktionen neu gestartet werden
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
-Konnte den Pfad zu Msg_Export.dll nicht finden\nBitte suche Msg_export.txt selbst
 [File]
 Datei
 [Nick]

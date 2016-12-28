@@ -25,10 +25,6 @@ Minimise the file transfer window
 Minimise the message window on send
 [Message window behavior:]
 Message window behaviour:
-[&Color]
-&Colour
-[&Background color]
-&Background colour
 [Use default colors]
 Use default colours
 [Use custom colors]
@@ -73,10 +69,14 @@ Timestamp has same colour as the event
 Strip colours from messages in the log
 [Make the text italicized (CTRL+I)]
 Make the text italicised (CTRL+I)
-[Select a background color for the text (CTRL+L)]
-Select a background colour for the text (CTRL+L)
+[&Color]
+&Colour
 [Select a foreground color for the text (CTRL+K)]
 Select a foreground colour for the text (CTRL+K)
+[&Background color]
+&Background colour
+[Select a background color for the text (CTRL+L)]
+Select a background colour for the text (CTRL+L)
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
 [Authorization request from %s%s: %s]

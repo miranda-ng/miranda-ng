@@ -152,16 +152,6 @@ Réessayer
 Annuler
 [Message session]
 Session message
-[&User menu]
-&Menu utilisateur
-[User &details]
-&Détails du contact
-[&Add]
-&Ajouter
-[&History]
-&Historique
-[&Quote]
-&Citer
 [Send to all tabs]
 Envoyer à tous les onglets
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -172,22 +162,6 @@ Se rapeller de mon choix pour ce conteneur
 Oui
 [No]
 Non
-[&Bold]
-&Gras
-[&Italic]
-&Italique
-[&Underline]
-&Souligné
-[&Color]
-&Couleur
-[&Background color]
-&Couleur de fond
-[&Filter]
-
-[&Room settings]
-
-[&Show/hide nick list]
-
 [Show these events only:]
 Voir ces évènements si :
 [Actions]
@@ -442,11 +416,11 @@ Coréen (Johab)
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Envoi de message
-[Navigate: previous tab]
+[Navigate: Previous tab]
 
-[Navigate: next tab]
+[Navigate: Next tab]
 
-[Navigate: tab %d]
+[Navigate: Tab %d]
 
 [Window: Toggle status bar]
 
@@ -469,28 +443,10 @@ Envoi de message
 [Action: Paste and send]
 
 ;file \plugins\Scriver\src\msgdialog.cpp
-[Quote]
-
-[User menu]
-Menu contact
-[User details]
-Détails du contact
-[History]
-Historique
-[Send]
-
 [Look up '%s':]
 
 [No word to look up]
 Aucun mot à chercher
-[Add contact permanently to list]
-Ajouter le contact à la liste
-[View user's details]
-Voir les détails du contact
-[View user's history]
-Voir l'historique
-[Quote text]
-Citer
 [User menu - %s]
 Menu contact - %s
 [Sending in progress: %d message(s) left...]
@@ -525,12 +481,6 @@ Fichier reçu
 [URL received]
 
 ;file \plugins\Scriver\src\msgoptions.cpp
-[General]
-Général
-[Event log]
-
-[Group chat log]
-
 [Outgoing messages]
 Messages envoyés
 [Outgoing background]
@@ -593,8 +543,16 @@ Au téléphone
 ** Contacts inconnus **
 [Message sessions]
 Sessions de message
+[General]
+Général
+[Event log]
+
+[Group chat log]
+
 [Typing notify]
 Notification de frappe
+[Popups]
+Popups
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Message de %s
@@ -602,6 +560,58 @@ Message de %s
 %s écrit un message
 [Typing notification]
 Notification de frappe
+[&Quote]
+&Citer
+[Quote]
+
+[&Add]
+&Ajouter
+[Add contact permanently to list]
+Ajouter le contact à la liste
+[&User menu]
+&Menu utilisateur
+[User menu]
+Menu contact
+[User &details]
+&Détails du contact
+[View user's details]
+Voir les détails du contact
+[&History]
+&Historique
+[View user's history (CTRL+H)]
+Voir l'historique (CTRL+H)
+[&Bold]
+&Gras
+[Make the text bold (CTRL+B)]
+Texte en gras (CTRL+B)
+[&Italic]
+&Italique
+[Make the text italicized (CTRL+I)]
+Texte en italique (CTRL+I)
+[&Underline]
+&Souligné
+[Make the text underlined (CTRL+U)]
+Texte souligné (CTRL+U)
+[&Color]
+&Couleur
+[Select a foreground color for the text (CTRL+K)]
+Couleur du texte (CTRL+K)
+[&Background color]
+&Couleur de fond
+[Select a background color for the text (CTRL+L)]
+Couleur de fond du texte (CTRL+L)
+[&Room settings]
+
+[Control this room (CTRL+O)]
+Contrôler ce salon (CTRL+O)
+[&Show/hide nick list]
+
+[Show/hide the nick list (CTRL+N)]
+Afficher/cacher la liste des pseudos (CTRL+N)
+[&Filter]
+
+[Enable/disable the event filter (CTRL+F)]
+Activer/désactiver les filtres d'évènement (CTRL+F)
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, Msftedit.dll est manquant. Si vous utilisez WINE, veuillez vous assurer que vous avez installé Msftedit.dll. Cliquez sur "Oui" pour continuer le chargement de Miranda.
 [Instant messages]
@@ -621,12 +631,12 @@ Sortant
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.
-;file \plugins\Scriver\src\msgwindow.cpp
-[Always on top]
-Toujours visible
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Délai d'envoi du message expiré
+;file \plugins\Scriver\src\tabs.cpp
+[Always on top]
+Toujours visible
 ;file \plugins\Scriver\src\chat\main.cpp
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
@@ -799,40 +809,10 @@ Apparence
 
 [Select folder]
 Sélectionnez un répertoire
-[Popups]
-Popups
 ;file \plugins\Scriver\src\chat\tools.cpp
 [&Message %s]
 &Message %s
 ;file \plugins\Scriver\src\chat\window.cpp
-[Italic]
-
-[Underline]
-
-[Filter]
-
-[Manager]
-
-[Nick list]
-
-[Make the text bold (CTRL+B)]
-Texte en gras (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Texte en italique (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Texte souligné (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Couleur de fond du texte (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Couleur du texte (CTRL+K)
-[Show the history (CTRL+H)]
-Afficher l'historique (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Afficher/cacher la liste des pseudos (CTRL+N)
-[Control this room (CTRL+O)]
-Contrôler ce salon (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Activer/désactiver les filtres d'évènement (CTRL+F)
 [%s: chat room (%u user)]
 %s : salon de chat (%u usager)
 [%s: chat room (%u users)]

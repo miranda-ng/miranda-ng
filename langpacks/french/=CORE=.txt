@@ -458,8 +458,6 @@ Sauvegarder taille et emplacement de fenêtre pour chaque contact
 Voir les nouvelles fenêtres en cascade
 [Show 'Send' button]
 Voir le bouton "Envoyer"
-[Show username on top row]
-Voir le nom du contact en haut
 [Show toolbar buttons on top row]
 Voir boutons d'outils en haut
 [Send message on double 'Enter']
@@ -490,8 +488,6 @@ tout en envoyant le message suivant :
 Réessayer
 [Message session]
 Session message
-[&Details]
-&Détails
 [Message window event log]
 Zone de texte de la Fenêtre
 [Show names]
@@ -531,24 +527,6 @@ Sauvegarder la position de la fenêtre pour chaque contact
 [Message window behavior:]
 Comportement de la fenêtre de message :
 [Messaging:]
-
-[&Emoticons]
-
-[&Bold]
-&Gras
-[&Italic]
-&Italique
-[&Underline]
-&Souligné
-[&Color]
-&Couleur
-[&Background color]
-&Couleur de fond
-[&Filter]
-
-[&Room settings]
-
-[&Show/Hide nick list]
 
 [Show these events only:]
 Voir ces évènements si :
@@ -919,16 +897,6 @@ Lieu :
 Nom :
 [Enable sound events]
 Activer les évènements sonore
-[Icons]
-Icônes
-[Show category:]
-Afficher la catégorie
-[&Load icon set...]
-&Charger un pack d'icônes
-[&Import icons >>]
-&Importer des icônes
-[Download more icons]
-Télécharger plus d'icônes
 [The following events are being ignored:]
 Les événements suivants sont ignorés :
 [URLs]
@@ -971,6 +939,8 @@ Icônes principales
 Vers
 [<< &Import]
 &Importer
+[Download more icons]
+Télécharger plus d'icônes
 [To default status icons]
 Icônes d'état par défaut
 [Logging...]
@@ -1045,6 +1015,12 @@ Effet du texte
 Couleur du texte
 [Choose font]
 Choisir la police
+[Icons]
+Icônes
+[&Load icon set...]
+&Charger un pack d'icônes
+[&Import icons >>]
+&Importer des icônes
 [Menu objects]
 Objet du menu
 [Menu items]
@@ -1205,6 +1181,14 @@ Locale :
 
 [Download more language packs]
 Télécharger plus de pack de traduction
+[Show in IM chats]
+
+[Show in chat rooms]
+
+[Gap between buttons:]
+
+[Hide if there isn't enough space]
+
 [Tray]
 Tray
 [&Hide/Show]
@@ -1751,6 +1735,8 @@ Sessions de message
 Général
 [Chat log]
 Fenêtre de chat
+[Chat]
+
 [Popups]
 Popups
 ;file \src\core\stdmsg\src\chat_util.cpp
@@ -1761,28 +1747,6 @@ Aucun mot à chercher
 [&Message %s]
 &Message %s
 ;file \src\core\stdmsg\src\chat_window.cpp
-[Insert a smiley]
-Insérer un smiley
-[Make the text bold (CTRL+B)]
-Texte en gras (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Texte en italique (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Texte souligné (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Couleur de fond du texte (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Couleur du texte (CTRL+K)
-[Show the history (CTRL+H)]
-Afficher l'historique (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Afficher/cacher la liste des pseudos (CTRL+N)
-[Control this room (CTRL+O)]
-Contrôler ce salon (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Activer/désactiver les filtres d'évènement (CTRL+F)
-[Close current tab (CTRL+F4)]
-Fermer l'onglet courant (CTRL+F4)
 [%s: chat room (%u user)]
 %s : Salon de chat (%u usager)
 [%s: chat room (%u users)]
@@ -1851,6 +1815,40 @@ Message de %s
 %s écrit un message
 [Typing notification]
 Notification de frappe
+[View user's history (CTRL+H)]
+Voir l'historique (CTRL+H)
+[&Bold]
+&Gras
+[Make the text bold (CTRL+B)]
+Texte en gras (CTRL+B)
+[&Italic]
+&Italique
+[Make the text italicized (CTRL+I)]
+Texte en italique (CTRL+I)
+[&Underline]
+&Souligné
+[Make the text underlined (CTRL+U)]
+Texte souligné (CTRL+U)
+[&Color]
+&Couleur
+[Select a foreground color for the text (CTRL+K)]
+Couleur du texte (CTRL+K)
+[&Background color]
+&Couleur de fond
+[Select a background color for the text (CTRL+L)]
+Couleur de fond du texte (CTRL+L)
+[&Room settings]
+
+[Control this room (CTRL+O)]
+Contrôler ce salon (CTRL+O)
+[&Show/hide nick list]
+
+[Show/hide the nick list (CTRL+N)]
+Afficher/cacher la liste des pseudos (CTRL+N)
+[&Filter]
+
+[Enable/disable the event filter (CTRL+F)]
+Activer/désactiver les filtres d'évènement (CTRL+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, msftedit.dll est manquant. Cliquez sur "Oui" pour continuer le chargement de Miranda.
 [Instant messages]
@@ -2749,6 +2747,11 @@ Icônes principales
 Fichiers son
 [WAV files]
 Fichiers WAV
+;file \src\mir_app\src\srmm_toolbar.cpp
+[<Separator>]
+<Séparateur>
+[Toolbar]
+Barre d'outils
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Non spécifié

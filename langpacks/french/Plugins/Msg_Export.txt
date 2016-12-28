@@ -125,8 +125,6 @@ Sortie et écriture des infos de la basse de données ( étape 2/2 )
 La largeur maximum de ligne doit être au moins de %d
 [You need to restart Miranda to change the history function]
 Vous devez relancer Miranda pour changer la gestion de l'historique
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
-N'a pas trouvé Msg_Export.dll Veuillez localisé Msg_Export.txt manuellement.
 [File]
 Fichier
 [Nick]

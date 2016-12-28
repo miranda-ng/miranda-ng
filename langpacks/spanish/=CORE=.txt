@@ -451,8 +451,6 @@ Guardar el tamaño de la ventana y la ubicación de forma individual para cada c
 Ventanas en cascada nueva
 [Show 'Send' button]
 Mostrar botón 'Enviar'
-[Show username on top row]
-Mostrar nombre de usuario en la fila superior
 [Show toolbar buttons on top row]
 Mostrar botones de barra de herramientas en la parte superior de la fila
 [Send message on double 'Enter']
@@ -483,8 +481,6 @@ al enviar el siguiente mensaje:
 Intentar de nuevo
 [Message session]
 Sesión de mensaje
-[&Details]
-&Detalles
 [Message window event log]
 Ventana de mensajes de registro de eventos
 [Show names]
@@ -525,24 +521,6 @@ Guardar la posición de la ventana para cada contacto
 Comportamiento de la ventana de mensaje:
 [Messaging:]
 Mensajería:
-[&Emoticons]
-&Emoticones
-[&Bold]
-&Negrita
-[&Italic]
-C&ursiva
-[&Underline]
-S&ubrayar
-[&Color]
-&Color
-[&Background color]
-Color &de fondo
-[&Filter]
-&Filtro
-[&Room settings]
-Configu&ración de espacio
-[&Show/Hide nick list]
-&Mostrar/ocultar lista de nicks
 [Show these events only:]
 Mostrar sólo estos eventos:
 [Actions]
@@ -909,16 +887,6 @@ Ubicación:
 Nombre:
 [Enable sound events]
 Activar eventos de sonido
-[Icons]
-Iconos
-[Show category:]
-Mostrar categoría:
-[&Load icon set...]
-&Cargar grupo de iconos...
-[&Import icons >>]
-&Importar iconos >>
-[Download more icons]
-Descargar más iconos
 [The following events are being ignored:]
 Los siguientes eventos seran ignorados:
 [URLs]
@@ -961,6 +929,8 @@ A iconos principales
 A
 [<< &Import]
 << &Importar
+[Download more icons]
+Descargar más iconos
 [To default status icons]
 Para reajustar los iconos de estado
 [Logging...]
@@ -1033,6 +1003,12 @@ Efecto de texto
 Color de texto
 [Choose font]
 Elegir fuente
+[Icons]
+Iconos
+[&Load icon set...]
+&Cargar grupo de iconos...
+[&Import icons >>]
+&Importar iconos >>
 [Menu objects]
 Objetos del menú
 [Menu items]
@@ -1675,28 +1651,6 @@ Buscar '%s':
 Ni una palabra para buscar
 [&Message %s]
 &Mensaje %s
-[Insert a smiley]
-Inserte un emoticono
-[Make the text bold (CTRL+B)]
-Hacer el texto negrita (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Hacer el texto cursiva (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Hacer el texto subrayado (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Seleccione un color de fondo para el texto (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Seleccione un color de primer plano para el texto (CTRL+K)
-[Show the history (CTRL+H)]
-Mostrar el historial (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Mostrar/ocultar la lista de apodos (CTRL+N)
-[Control this room (CTRL+O)]
-Controlar esta sala (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Activar/desactivar el filtro de eventos (CTRL+F)
-[Close current tab (CTRL+F4)]
-Cerrar pestaña actual (CTRL+F4)
 [%s: chat room (%u user)]
 %s: sala de chat (%u usuario)
 [%s: chat room (%u users)]
@@ -1757,6 +1711,40 @@ Mensaje de
 %s está escribiendo un mensaje
 [Typing notification]
 Escribiendo notificación
+[View user's history (CTRL+H)]
+Ver historial del usuario
+[&Bold]
+&Negrita
+[Make the text bold (CTRL+B)]
+Hacer el texto negrita (CTRL+B)
+[&Italic]
+C&ursiva
+[Make the text italicized (CTRL+I)]
+Hacer el texto cursiva (CTRL+I)
+[&Underline]
+S&ubrayar
+[Make the text underlined (CTRL+U)]
+Hacer el texto subrayado (CTRL+U)
+[&Color]
+&Color
+[Select a foreground color for the text (CTRL+K)]
+Seleccione un color de primer plano para el texto (CTRL+K)
+[&Background color]
+Color &de fondo
+[Select a background color for the text (CTRL+L)]
+Seleccione un color de fondo para el texto (CTRL+L)
+[&Room settings]
+Configu&ración de espacio
+[Control this room (CTRL+O)]
+Controlar esta sala (CTRL+O)
+[&Show/hide nick list]
+&Mostrar/ocultar lista de nicks
+[Show/hide the nick list (CTRL+N)]
+Mostrar/ocultar la lista de apodos (CTRL+N)
+[&Filter]
+&Filtro
+[Enable/disable the event filter (CTRL+F)]
+Activar/desactivar el filtro de eventos (CTRL+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda no pudo cargar el módulo de mensajes incorporado, falta msftedit.dll. Pulse 'Sí ' para continuar cargando Miranda.
 [Instant messages]
@@ -2411,6 +2399,8 @@ Iconos principales
 Archivos de sonido
 [WAV files]
 Archivos WAV
+[<Separator>]
+<Separador>
 [Unspecified]
 <Sin especificar>
 [Afghanistan]

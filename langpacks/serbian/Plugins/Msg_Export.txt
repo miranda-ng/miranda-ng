@@ -125,8 +125,6 @@ Datoteka nije kreirana
 
 [You need to restart Miranda to change the history function]
 
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
-
 [File]
 Datoteka
 [Nick]

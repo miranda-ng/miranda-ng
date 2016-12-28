@@ -98,6 +98,8 @@ akcije
 
 [No reminder]
 
+[Selected days]
+
 [Dismiss]
 
 [Snooze]

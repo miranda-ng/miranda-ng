@@ -125,8 +125,6 @@ Sortowanie i zapisywanie informacji z profilu ( Etap 2 z 2 )
 Szerokość linii musi mieć co najmniej %d
 [You need to restart Miranda to change the history function]
 Musisz zrestartować Mirandę aby zmienić funkcję historii
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
-Nie udało się pobrać ścieżki Msg_Export.dll\nProszę samemu wskazać Msg_Export.txt
 [File]
 Plik
 [Nick]

@@ -152,16 +152,6 @@ prikaži naslovnu traku
 
 [Message session]
 
-[&User menu]
-
-[User &details]
-Detalji o &Korisniku
-[&Add]
-&Dodaj
-[&History]
-p&ovijest
-[&Quote]
-
 [Send to all tabs]
 
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -172,22 +162,6 @@ p&ovijest
 da
 [No]
 ne
-[&Bold]
-&Podebljano
-[&Italic]
-&Kosa slova
-[&Underline]
-Pod&crtano
-[&Color]
-&Boja
-[&Background color]
-&Boja pozadine
-[&Filter]
-&Filtriraj
-[&Room settings]
-Pos&tavke sobe za čavrljanje
-[&Show/hide nick list]
-Prika&ži/sakrij popis nadimaka
 [Show these events only:]
 Prikaži samo ove događaje:
 [Actions]
@@ -442,11 +416,11 @@ popis
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 
-[Navigate: previous tab]
+[Navigate: Previous tab]
 
-[Navigate: next tab]
+[Navigate: Next tab]
 
-[Navigate: tab %d]
+[Navigate: Tab %d]
 
 [Window: Toggle status bar]
 
@@ -469,27 +443,9 @@ popis
 [Action: Paste and send]
 
 ;file \plugins\Scriver\src\msgdialog.cpp
-[Quote]
-
-[User menu]
-
-[User details]
-Pojedinosti o korisniku
-[History]
-Povijest
-[Send]
-
 [Look up '%s':]
 
 [No word to look up]
-
-[Add contact permanently to list]
-
-[View user's details]
-
-[View user's history]
-
-[Quote text]
 
 [User menu - %s]
 
@@ -525,12 +481,6 @@ Povijest
 [URL received]
 
 ;file \plugins\Scriver\src\msgoptions.cpp
-[General]
-
-[Event log]
-
-[Group chat log]
-
 [Outgoing messages]
 
 [Outgoing background]
@@ -593,7 +543,15 @@ Povijest
 
 [Message sessions]
 
+[General]
+
+[Event log]
+
+[Group chat log]
+
 [Typing notify]
+
+[Popups]
 
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
@@ -601,6 +559,58 @@ Povijest
 [%s is typing a message]
 
 [Typing notification]
+
+[&Quote]
+
+[Quote]
+
+[&Add]
+&Dodaj
+[Add contact permanently to list]
+
+[&User menu]
+
+[User menu]
+
+[User &details]
+Detalji o &Korisniku
+[View user's details]
+
+[&History]
+p&ovijest
+[View user's history (CTRL+H)]
+
+[&Bold]
+&Podebljano
+[Make the text bold (CTRL+B)]
+
+[&Italic]
+&Kosa slova
+[Make the text italicized (CTRL+I)]
+
+[&Underline]
+Pod&crtano
+[Make the text underlined (CTRL+U)]
+
+[&Color]
+&Boja
+[Select a foreground color for the text (CTRL+K)]
+
+[&Background color]
+&Boja pozadine
+[Select a background color for the text (CTRL+L)]
+
+[&Room settings]
+Pos&tavke sobe za čavrljanje
+[Control this room (CTRL+O)]
+
+[&Show/hide nick list]
+Prika&ži/sakrij popis nadimaka
+[Show/hide the nick list (CTRL+N)]
+
+[&Filter]
+&Filtriraj
+[Enable/disable the event filter (CTRL+F)]
 
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 
@@ -621,12 +631,12 @@ Povijest
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 
-;file \plugins\Scriver\src\msgwindow.cpp
-[Always on top]
-uvijek na vrhu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 
+;file \plugins\Scriver\src\tabs.cpp
+[Always on top]
+uvijek na vrhu
 ;file \plugins\Scriver\src\chat\main.cpp
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
@@ -799,40 +809,10 @@ uvijek na vrhu
 
 [Select folder]
 
-[Popups]
-
 ;file \plugins\Scriver\src\chat\tools.cpp
 [&Message %s]
 
 ;file \plugins\Scriver\src\chat\window.cpp
-[Italic]
-
-[Underline]
-
-[Filter]
-
-[Manager]
-
-[Nick list]
-
-[Make the text bold (CTRL+B)]
-
-[Make the text italicized (CTRL+I)]
-
-[Make the text underlined (CTRL+U)]
-
-[Select a background color for the text (CTRL+L)]
-
-[Select a foreground color for the text (CTRL+K)]
-
-[Show the history (CTRL+H)]
-
-[Show/hide the nick list (CTRL+N)]
-
-[Control this room (CTRL+O)]
-
-[Enable/disable the event filter (CTRL+F)]
-
 [%s: chat room (%u user)]
 
 [%s: chat room (%u users)]

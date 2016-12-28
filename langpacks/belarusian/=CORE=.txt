@@ -451,8 +451,6 @@
 Размяшчаць новыя вокны каскадам
 [Show 'Send' button]
 Паказваць кнопку "адправіць"
-[Show username on top row]
-Паказваць імя ў верхнім радку
 [Show toolbar buttons on top row]
 Паказваць кнопкі ў верхнім радку
 [Send message on double 'Enter']
@@ -483,8 +481,6 @@
 Яшчэ раз
 [Message session]
 Гутарка
-[&Details]
-Падрабязна
 [Message window event log]
 Журнал гутаркі
 [Show names]
@@ -525,24 +521,6 @@
 Паводзіны вакна гутаркі:
 [Messaging:]
 Адсылаць паведамленні:
-[&Emoticons]
-Эмоцыі
-[&Bold]
-Тлусты
-[&Italic]
-Курсіў
-[&Underline]
-Падкрэсліць
-[&Color]
-Колер
-[&Background color]
-Колер фона
-[&Filter]
-фільтр
-[&Room settings]
-Налады чата
-[&Show/Hide nick list]
-Паказаць/Схаваць спіс
 [Show these events only:]
 Паказваць толькі:
 [Actions]
@@ -909,16 +887,6 @@
 Імя:
 [Enable sound events]
 Уключыць гукі падзей
-[Icons]
-Абразкі
-[Show category:]
-Катэгорыя:
-[&Load icon set...]
-Абраць набор абразкоў...
-[&Import icons >>]
-Імпарт абразкоў >>
-[Download more icons]
-Запампаваць яшчэ
 [The following events are being ignored:]
 Наступныя падзеі будуць праігнараваны:
 [URLs]
@@ -961,6 +929,8 @@
 У
 [<< &Import]
 << Імпарт
+[Download more icons]
+Запампаваць яшчэ
 [To default status icons]
 Абразкі па змаўчанні
 [Logging...]
@@ -1035,6 +1005,12 @@
 Колер тэксту
 [Choose font]
 Шрыфт
+[Icons]
+Абразкі
+[&Load icon set...]
+Абраць набор абразкоў...
+[&Import icons >>]
+Імпарт абразкоў >>
 [Menu objects]
 Выгляды меню
 [Menu items]
@@ -1195,6 +1171,14 @@ UIN, E-mail і г.д.
 Аднавіць пераклад
 [Download more language packs]
 Загрузіць дадатковыя пераклады
+[Show in IM chats]
+Паказваць у звычайным вакне
+[Show in chat rooms]
+Паказваць у вакне чата
+[Gap between buttons:]
+Прамежак кнопак:
+[Hide if there isn't enough space]
+Хаваць, калі недастаткова месцы
 [Tray]
 Трэй
 [&Hide/Show]
@@ -1719,6 +1703,8 @@ UIN, E-mail і г.д.
 Агульнае
 [Chat log]
 Лог чата
+[Chat]
+
 [Popups]
 Усплывальныя вокны
 [Look up '%s':]
@@ -1727,28 +1713,6 @@ UIN, E-mail і г.д.
 Няма слоў для пошуку
 [&Message %s]
 &Паведамленне %s
-[Insert a smiley]
-Уставіць смайл
-[Make the text bold (CTRL+B)]
-Зрабіць тэкст тоўстым (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Зрабіць тэкст курсівам (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Падкрэсліць тэкст (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Абраць фон тэксту (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Абраць колер тэксту (CTRL+K)
-[Show the history (CTRL+H)]
-Паказаць гісторыю (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Паказаць/схаваць спіс кантактаў (CTRL+N)
-[Control this room (CTRL+O)]
-Кантраляваць гэты чат(CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Уключыць/выключыць фільтр падзей (CTRL+F)
-[Close current tab (CTRL+F4)]
-Зачыніць бягучую ўкладку (CTRL+F4)
 [%s: chat room (%u user)]
 %s: Чат (%u удзельнік)
 [%s: chat room (%u users)]
@@ -1811,6 +1775,40 @@ UIN, E-mail і г.д.
 %s набірае тэкст
 [Typing notification]
 Абвестка пра набор тэксту
+[View user's history (CTRL+H)]
+Гісторыя паведамленняў (CTRL+H)
+[&Bold]
+Тлусты
+[Make the text bold (CTRL+B)]
+Зрабіць тэкст тоўстым (CTRL+B)
+[&Italic]
+Курсіў
+[Make the text italicized (CTRL+I)]
+Зрабіць тэкст курсівам (CTRL+I)
+[&Underline]
+Падкрэсліць
+[Make the text underlined (CTRL+U)]
+Падкрэсліць тэкст (CTRL+U)
+[&Color]
+Колер
+[Select a foreground color for the text (CTRL+K)]
+Абраць колер тэксту (CTRL+K)
+[&Background color]
+Колер фона
+[Select a background color for the text (CTRL+L)]
+Абраць фон тэксту (CTRL+L)
+[&Room settings]
+Налады чата
+[Control this room (CTRL+O)]
+Кантраляваць гэты чат(CTRL+O)
+[&Show/hide nick list]
+Паказаць/Схаваць спіс
+[Show/hide the nick list (CTRL+N)]
+Паказаць/схаваць спіс кантактаў (CTRL+N)
+[&Filter]
+фільтр
+[Enable/disable the event filter (CTRL+F)]
+Уключыць/выключыць фільтр падзей (CTRL+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае msftedit.dll. націсніце "Так" для працягу загрузкі праграмы.
 [Instant messages]
@@ -2647,6 +2645,10 @@ ANSI плагін
 Файлы гукаў
 [WAV files]
 Файлы гукаў
+[<Separator>]
+<Падзельнік>
+[Toolbar]
+
 [Unspecified]
 Не пазначана
 [Afghanistan]

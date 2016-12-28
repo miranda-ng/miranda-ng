@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.0.1
+;  Version: 0.3.0.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -46,6 +46,8 @@ Automatycznie ustaw "Ignoruj zmiany statusu"
 Użyj większych awatarów
 [Prefer real names instead of nicknames]
 Preferuj prawdziwe imiona niż nicki
+[At login load also contacts you recently chat with]
+
 [Popup notifications]
 
 [Show notifications]

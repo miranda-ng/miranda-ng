@@ -13,10 +13,6 @@ and stay minimised
 Minimise on send
 [Customize fonts and colors]
 Customise fonts and colours
-[&Color]
-&Colour
-[&Background color]
-&Background colour
 [Use default colors]
 Use default colours
 [Use custom colors]
@@ -27,13 +23,17 @@ Text colour
 Background colour
 [Window: Minimize]
 Window: Minimise
+[Make the text italicized (CTRL+I)]
+Make the text italicised (CTRL+I)
+[&Color]
+&Colour
+[Select a foreground color for the text (CTRL+K)]
+Select a foreground colour for the text (CTRL+K)
+[&Background color]
+&Background colour
+[Select a background color for the text (CTRL+L)]
+Select a background colour for the text (CTRL+L)
 [Timestamp has same color as event]
 Timestamp has same colour as event
 [Strip colors from messages]
 Strip colours from messages
-[Make the text italicized (CTRL+I)]
-Make the text italicised (CTRL+I)
-[Select a background color for the text (CTRL+L)]
-Select a background colour for the text (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Select a foreground colour for the text (CTRL+K)

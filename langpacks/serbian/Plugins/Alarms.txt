@@ -98,6 +98,8 @@ Akcije
 
 [No reminder]
 
+[Selected days]
+
 [Dismiss]
 
 [Snooze]

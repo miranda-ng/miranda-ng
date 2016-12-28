@@ -133,10 +133,6 @@ Mostrar notificación de escritura cuando no hay diálogo de mensaje abierto
 Eliminar
 [Rename]
 Renombrar
-[Reset]
-Reiniciar
-[Insert separator]
-Insertar separador
 [milliseconds]
 milisegundos
 [Popups]

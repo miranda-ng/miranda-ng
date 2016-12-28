@@ -98,6 +98,8 @@ Wyłącz następne wystąpienie
 Nie włączaj na starcie
 [No reminder]
 Nie przypominaj
+[Selected days]
+
 [Dismiss]
 Odrzuć
 [Snooze]

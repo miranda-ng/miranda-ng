@@ -1,4 +1,5 @@
-﻿[Popup notifications]
+﻿[At login load also contacts you recently chat with]
+[Popup notifications]
 [Show notifications]
 [Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
 [Show friendships changes (when someone removes/approves you)]

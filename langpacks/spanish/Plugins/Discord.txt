@@ -1,0 +1,19 @@
+﻿#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.0.0.1
+;  Authors: George Hazan
+;============================================================
+[User details]
+Información del usuario
+[E-mail:]
+E-mail:
+[Password:]
+Contraseña:
+[Contacts]
+Contactos
+[Network]
+Red
+[Account]
+Cuenta

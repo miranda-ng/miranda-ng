@@ -97,6 +97,8 @@
 Не спрацоўваць пры загрузцы
 [No reminder]
 Не паказваць у спісе
+[Selected days]
+
 [Dismiss]
 Прыбраць
 [Snooze]

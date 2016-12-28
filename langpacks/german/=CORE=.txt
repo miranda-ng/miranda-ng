@@ -458,8 +458,6 @@ Fenstergröße und Position für jeden Kontakt einzeln speichern
 Neue Fenster überlappend
 [Show 'Send' button]
 'Senden'-Button anzeigen
-[Show username on top row]
-Kontaktname oben anzeigen
 [Show toolbar buttons on top row]
 Toolbarbuttons oben anzeigen
 [Send message on double 'Enter']
@@ -490,8 +488,6 @@ Während des Sendens folgender Nachricht:
 Erneut versuchen
 [Message session]
 Nachrichtensitzung
-[&Details]
-&Details
 [Message window event log]
 Nachrichtenfenster-Ereignislog
 [Show names]
@@ -532,24 +528,6 @@ Fenster-Position für jeden Kontakt speichern
 Verhalten des Nachrichtenfensters:
 [Messaging:]
 Nachrichten:
-[&Emoticons]
-Smil&eys
-[&Bold]
-&Fett
-[&Italic]
-&Kursiv
-[&Underline]
-&Unterstrichen
-[&Color]
-&Farbe
-[&Background color]
-&Hintergrundfarbe
-[&Filter]
-&Filter
-[&Room settings]
-&Raumeinstellungen
-[&Show/Hide nick list]
-Nickliste &anzeigen/verbergen
 [Show these events only:]
 Nur folgende Ereignisse anzeigen:
 [Actions]
@@ -919,16 +897,6 @@ Ort:
 Name:
 [Enable sound events]
 Klänge aktivieren
-[Icons]
-Icons
-[Show category:]
-Kategorie anzeigen:
-[&Load icon set...]
-Iconsammlung &laden...
-[&Import icons >>]
-Icons &importieren>>
-[Download more icons]
-Weitere Icons herunterladen
 [The following events are being ignored:]
 Die folgenden Ereignisse werden ignoriert:
 [URLs]
@@ -971,6 +939,8 @@ in allg. Icon
 An
 [<< &Import]
 << &Import
+[Download more icons]
+Weitere Icons herunterladen
 [To default status icons]
 Als Standard-Statusicon
 [Logging...]
@@ -1045,6 +1015,12 @@ Texteffekt
 Textfarbe
 [Choose font]
 Schriftart auswählen
+[Icons]
+Icons
+[&Load icon set...]
+Iconsammlung &laden...
+[&Import icons >>]
+Icons &importieren>>
 [Menu objects]
 Menüobjekte
 [Menu items]
@@ -1205,6 +1181,14 @@ Locale:
 Sprachdatei neu laden
 [Download more language packs]
 Weitere Sprachdateien herunterladen
+[Show in IM chats]
+In Einzelchats anzeigen
+[Show in chat rooms]
+In Gruppenchats anzeigen
+[Gap between buttons:]
+Schaltflächenabstand:
+[Hide if there isn't enough space]
+Verstecken, wenn nicht genügend Platz
 [Tray]
 Tray
 [&Hide/Show]
@@ -1751,6 +1735,8 @@ Nachrichtensitzungen
 Allgemein
 [Chat log]
 Chatverlauf
+[Chat]
+
 [Popups]
 Popups
 ;file \src\core\stdmsg\src\chat_util.cpp
@@ -1761,28 +1747,6 @@ Kein Wort zum Nachschlagen
 [&Message %s]
 &Nachricht an %s
 ;file \src\core\stdmsg\src\chat_window.cpp
-[Insert a smiley]
-Smiley einfügen
-[Make the text bold (CTRL+B)]
-Fett (Strg+B)
-[Make the text italicized (CTRL+I)]
-Kursiv (Strg+I)
-[Make the text underlined (CTRL+U)]
-Unterstrichen (Strg+U)
-[Select a background color for the text (CTRL+L)]
-Schrifthintergrundfarbe wählen (Strg+L)
-[Select a foreground color for the text (CTRL+K)]
-Schriftfarbe wählen (Strg+K)
-[Show the history (CTRL+H)]
-Logdatei öffnen (Strg+H)
-[Show/hide the nick list (CTRL+N)]
-Benutzerliste anzeigen/verstecken (Strg+N)
-[Control this room (CTRL+O)]
-Diesen Raum kontrollieren (Strg+O)
-[Enable/disable the event filter (CTRL+F)]
-Ereignisfilter aktivieren/deaktivieren (Strg+F)
-[Close current tab (CTRL+F4)]
-Aktuellen Tab schließen (Strg+F4)
 [%s: chat room (%u user)]
 %s: Chatraum (%u Benutzer)
 [%s: chat room (%u users)]
@@ -1851,6 +1815,40 @@ Nachricht von %s
 %s tippt eine Nachricht
 [Typing notification]
 Tippbenachrichtigungen
+[View user's history (CTRL+H)]
+Verlauf anzeigen (CTRL+H)
+[&Bold]
+&Fett
+[Make the text bold (CTRL+B)]
+Fett (Strg+B)
+[&Italic]
+&Kursiv
+[Make the text italicized (CTRL+I)]
+Kursiv (Strg+I)
+[&Underline]
+&Unterstrichen
+[Make the text underlined (CTRL+U)]
+Unterstrichen (Strg+U)
+[&Color]
+&Farbe
+[Select a foreground color for the text (CTRL+K)]
+Schriftfarbe wählen (Strg+K)
+[&Background color]
+&Hintergrundfarbe
+[Select a background color for the text (CTRL+L)]
+Schrifthintergrundfarbe wählen (Strg+L)
+[&Room settings]
+&Raumeinstellungen
+[Control this room (CTRL+O)]
+Diesen Raum kontrollieren (Strg+O)
+[&Show/hide nick list]
+Nickliste &anzeigen/verbergen
+[Show/hide the nick list (CTRL+N)]
+Benutzerliste anzeigen/verstecken (Strg+N)
+[&Filter]
+&Filter
+[Enable/disable the event filter (CTRL+F)]
+Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda konnte nicht das eingebaute Nachrichtenmodul laden, msftedit.dll fehlt. Drücken Sie "Ja" um Miranda weiter laden zu können.
 [Instant messages]
@@ -2749,6 +2747,11 @@ Allgemeine Icons
 Klangdateien
 [WAV files]
 WAV-Dateien
+;file \src\mir_app\src\srmm_toolbar.cpp
+[<Separator>]
+<Trennlinie>
+[Toolbar]
+Toolbar
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 unspezifiziert

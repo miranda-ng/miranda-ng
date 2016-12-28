@@ -151,16 +151,6 @@
 Скасаваць
 [Message session]
 Гутарка
-[&User menu]
-Меню кантакта
-[User &details]
-&Інфармацыя
-[&Add]
-&Дадаць
-[&History]
-Гісторыя
-[&Quote]
-Цытыраваць
 [Send to all tabs]
 Адправіць усім укладкам
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -171,22 +161,6 @@
 Так
 [No]
 Не
-[&Bold]
-Тлусты
-[&Italic]
-Курсіў
-[&Underline]
-Падкрэсліць
-[&Color]
-Колер
-[&Background color]
-колер фона
-[&Filter]
-фільтр
-[&Room settings]
-Налады
-[&Show/hide nick list]
-Паказаць/Схаваць спіс мянушак
 [Show these events only:]
 Паказваць толькі:
 [Actions]
@@ -439,11 +413,11 @@ KB
 Карэйскі (Johab)
 [Messaging]
 Паведамленні
-[Navigate: previous tab]
+[Navigate: Previous tab]
 Навігацыя: Папярэдняя ўкладка
-[Navigate: next tab]
+[Navigate: Next tab]
 Навігацыя: Наступная ўкладка
-[Navigate: tab %d]
+[Navigate: Tab %d]
 Навігацыя: Укладка %d
 [Window: Toggle status bar]
 Вакно: укл/выкл панэль статусу
@@ -465,28 +439,10 @@ KB
 Дзеянне: Паслаць усім
 [Action: Paste and send]
 Дзеянне: Уставіць і адправіць
-[Quote]
-Цытата
-[User menu]
-Меню кантакта
-[User details]
-Пра кантакт
-[History]
-Гісторыя
-[Send]
-Адправіць
 [Look up '%s':]
 Шукаць '%s':
 [No word to look up]
 Няма слоў для пошуку
-[Add contact permanently to list]
-Дадаць у спіс
-[View user's details]
-Пра кантакт
-[View user's history]
-Гісторыя паведамленняў
-[Quote text]
-Цытата
 [User menu - %s]
 Меню кантакта - %s
 [Sending in progress: %d message(s) left...]
@@ -519,12 +475,6 @@ KB
 URL адасланы
 [URL received]
 URL атрыманы
-[General]
-Агульнае
-[Event log]
-Лог падзей
-[Group chat log]
-Лог чата
 [Outgoing messages]
 Выходныя паведамленні
 [Outgoing background]
@@ -587,14 +537,74 @@ URL атрыманы
 ** Невядомыя кантакты **
 [Message sessions]
 Гутаркі
+[General]
+Агульнае
+[Event log]
+Лог падзей
+[Group chat log]
+Лог чата
 [Typing notify]
 Набірае тэкст
+[Popups]
+Усплывальныя вокны
 [Message from %s]
 Паведамленне ад %s
 [%s is typing a message]
 %s набірае тэкст
 [Typing notification]
 Абвестка пра набор тэксту
+[&Quote]
+Цытыраваць
+[Quote]
+Цытата
+[&Add]
+&Дадаць
+[Add contact permanently to list]
+Дадаць у спіс
+[&User menu]
+Меню кантакта
+[User menu]
+Меню кантакта
+[User &details]
+&Інфармацыя
+[View user's details]
+Пра кантакт
+[&History]
+Гісторыя
+[View user's history (CTRL+H)]
+Гісторыя паведамленняў (CTRL+H)
+[&Bold]
+Тлусты
+[Make the text bold (CTRL+B)]
+Зрабіць тэкст тоўстым (CTRL+B)
+[&Italic]
+Курсіў
+[Make the text italicized (CTRL+I)]
+Зрабіць тэкст курсівам (CTRL+I)
+[&Underline]
+Падкрэсліць
+[Make the text underlined (CTRL+U)]
+Падкрэсліць тэкст (CTRL+U)
+[&Color]
+Колер
+[Select a foreground color for the text (CTRL+K)]
+Абраць колер тэксту (CTRL+K)
+[&Background color]
+колер фона
+[Select a background color for the text (CTRL+L)]
+Абраць фон тэксту (CTRL+L)
+[&Room settings]
+Налады
+[Control this room (CTRL+O)]
+Кантраляваць гэты чат (CTRL+O)
+[&Show/hide nick list]
+Паказаць/Схаваць спіс мянушак
+[Show/hide the nick list (CTRL+N)]
+Паказаць/схаваць спіс кантактаў (CTRL+N)
+[&Filter]
+фільтр
+[Enable/disable the event filter (CTRL+F)]
+Уключыць/выключыць фільтр падзей (CTRL+F)
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda не змагла загрузіць убудаваную сістэму сообпаведамленняў, бо адсутнічае Msftedit.dll. Калі ў вас WINE, праверце наяўнасць файла Msftedit.dll. Нажміце "Да", каб працягнуць загрузку.
 [Instant messages]
@@ -613,10 +623,10 @@ Miranda не змагла загрузіць убудаваную сістэму
 Кантакт скончыў пісаць
 [An unknown error has occurred.]
 Невядомая памылка.
-[Always on top]
-Па-над усімі вокнамі
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
+[Always on top]
+Па-над усімі вокнамі
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
 [Flash when a word is highlighted]
@@ -787,38 +797,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Паказаць у новым вакне, калі 'Фільтр падзей' уключаны
 [Select folder]
 Абраць тэчку
-[Popups]
-Усплывальныя вокны
 [&Message %s]
 Паведамленне %s
-[Italic]
-Курсіў
-[Underline]
-Падкрэсленне
-[Filter]
-Фільтр
-[Manager]
-Мэнэджар
-[Nick list]
-Спіс мянушак
-[Make the text bold (CTRL+B)]
-Зрабіць тэкст тоўстым (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Зрабіць тэкст курсівам (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Падкрэсліць тэкст (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Абраць фон тэксту (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Абраць колер тэксту (CTRL+K)
-[Show the history (CTRL+H)]
-Паказаць гісторыю (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Паказаць/схаваць спіс кантактаў (CTRL+N)
-[Control this room (CTRL+O)]
-Кантраляваць гэты чат (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Уключыць/выключыць фільтр падзей (CTRL+F)
 [%s: chat room (%u user)]
 %s: Чат (%u удзельнік)
 [%s: chat room (%u users)]

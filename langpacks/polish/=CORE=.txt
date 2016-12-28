@@ -458,8 +458,6 @@ Zapamiętaj rozmiar i położenie okna oddzielnie dla każdego kontaktu
 Kaskaduj nowe okna
 [Show 'Send' button]
 Pokaż przycisk "Wyślij"
-[Show username on top row]
-Pokazuj nazwę użytkownika w górnym wierszu
 [Show toolbar buttons on top row]
 Pokazuj pasek narzędzi u góry
 [Send message on double 'Enter']
@@ -490,8 +488,6 @@ podczas wysyłania wiadomości:
 Spróbuj ponownie
 [Message session]
 Sesja rozmowy
-[&Details]
-&Szczegóły
 [Message window event log]
 Dziennik okna rozmowy
 [Show names]
@@ -532,24 +528,6 @@ Zapamiętaj pozycję okna dla każdego kontaktu
 Zachowanie okna rozmowy:
 [Messaging:]
 Rozmowa:
-[&Emoticons]
-&Emotikony
-[&Bold]
-&Pogrubienie
-[&Italic]
-&Kursywa
-[&Underline]
-P&odkreślenie
-[&Color]
-K&olor
-[&Background color]
-Kolor &tła
-[&Filter]
-&Filtr
-[&Room settings]
-Ustawienia &pokoju
-[&Show/Hide nick list]
-Po&każ/Ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]
@@ -919,16 +897,6 @@ Lokalizacja:
 Nazwa:
 [Enable sound events]
 Włącz dźwięki wydarzeń
-[Icons]
-Ikony
-[Show category:]
-Pokaż kategorie:
-[&Load icon set...]
-&Załaduj zestaw ikon...
-[&Import icons >>]
-&Importuj ikony >>
-[Download more icons]
-Pobierz więcej ikon
 [The following events are being ignored:]
 Następujące zdarzenia są ignorowane:
 [URLs]
@@ -971,6 +939,8 @@ Do głównych ikon
 Do
 [<< &Import]
 << &Importuj
+[Download more icons]
+Pobierz więcej ikon
 [To default status icons]
 Do domyślnych ikon statusu
 [Logging...]
@@ -1045,6 +1015,12 @@ Efekt tekstu
 Kolor tekstu
 [Choose font]
 Wybierz czcionkę
+[Icons]
+Ikony
+[&Load icon set...]
+&Załaduj zestaw ikon...
+[&Import icons >>]
+&Importuj ikony >>
 [Menu objects]
 Obiekty menu
 [Menu items]
@@ -1205,6 +1181,14 @@ Język:
 Załaduj pakiet językowy ponownie
 [Download more language packs]
 Pobierz więcej tłumaczeń
+[Show in IM chats]
+Pokaż w oknie rozmowy
+[Show in chat rooms]
+Pokaż w oknie czatu
+[Gap between buttons:]
+Odstępy przycisków:
+[Hide if there isn't enough space]
+Ukryj, jeśli nie ma miejsca
 [Tray]
 Zasobnik
 [&Hide/Show]
@@ -1751,6 +1735,8 @@ Okno rozmowy
 Ogólne
 [Chat log]
 Dziennik czatu
+[Chat]
+Czat
 [Popups]
 Popupy
 ;file \src\core\stdmsg\src\chat_util.cpp
@@ -1761,28 +1747,6 @@ Nie podano słowa do wyszukania
 [&Message %s]
 &Wiadomość %s
 ;file \src\core\stdmsg\src\chat_window.cpp
-[Insert a smiley]
-Wstaw emotikonę
-[Make the text bold (CTRL+B)]
-Pogrub tekst (Ctrl+B)
-[Make the text italicized (CTRL+I)]
-Dodaj kursywę do tekstu (Ctrl+I)
-[Make the text underlined (CTRL+U)]
-Podkreśl tekst (Ctrl+U)
-[Select a background color for the text (CTRL+L)]
-Wybierz kolor tła dla tekstu (Ctrl+L)
-[Select a foreground color for the text (CTRL+K)]
-Wybierz kolor dla tekstu (Ctrl+K)
-[Show the history (CTRL+H)]
-Pokaż historię (Ctrl+H)
-[Show/hide the nick list (CTRL+N)]
-Pokaż/Ukryj listę nazw (Ctrl+N)
-[Control this room (CTRL+O)]
-Kontroluj ten pokój (Ctrl + O)
-[Enable/disable the event filter (CTRL+F)]
-Włącz/wyłącz filtr zdarzeń (Ctrl+F)
-[Close current tab (CTRL+F4)]
-Zamknij bieżącą kartę (Ctrl+F4)
 [%s: chat room (%u user)]
 %s: Konferencja (%u użytkownik)
 [%s: chat room (%u users)]
@@ -1851,6 +1815,40 @@ Wiadomość od %s
 %s pisze wiadomość
 [Typing notification]
 Pisanie
+[View user's history (CTRL+H)]
+Zobacz historię użytkownika (CTRL+H)
+[&Bold]
+&Pogrubienie
+[Make the text bold (CTRL+B)]
+Pogrub tekst (Ctrl+B)
+[&Italic]
+&Kursywa
+[Make the text italicized (CTRL+I)]
+Dodaj kursywę do tekstu (Ctrl+I)
+[&Underline]
+P&odkreślenie
+[Make the text underlined (CTRL+U)]
+Podkreśl tekst (Ctrl+U)
+[&Color]
+K&olor
+[Select a foreground color for the text (CTRL+K)]
+Wybierz kolor dla tekstu (Ctrl+K)
+[&Background color]
+Kolor &tła
+[Select a background color for the text (CTRL+L)]
+Wybierz kolor tła dla tekstu (Ctrl+L)
+[&Room settings]
+Ustawienia &pokoju
+[Control this room (CTRL+O)]
+Kontroluj ten pokój (Ctrl + O)
+[&Show/hide nick list]
+&Pokaż/Ukryj listę nicków
+[Show/hide the nick list (CTRL+N)]
+Pokaż/Ukryj listę nazw (Ctrl+N)
+[&Filter]
+&Filtr
+[Enable/disable the event filter (CTRL+F)]
+Włącz/wyłącz filtr zdarzeń (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda nie może załadować wbudowanego modułu wiadomości, brakuje msftedit.dll. Wciśnij "Tak" aby kontynuować.
 [Instant messages]
@@ -2749,6 +2747,11 @@ Główne ikony
 Dźwięki
 [WAV files]
 Pliki WAV
+;file \src\mir_app\src\srmm_toolbar.cpp
+[<Separator>]
+<Separator>
+[Toolbar]
+Pasek narzędzi
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Nieokreślone

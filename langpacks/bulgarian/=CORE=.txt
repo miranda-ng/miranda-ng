@@ -447,8 +447,6 @@
 Каскадно подреждане на новите прозорци
 [Show 'Send' button]
 Показване на бутон "Изпращане"
-[Show username on top row]
-Потребителско име на горния ред
 [Show toolbar buttons on top row]
 Лента с инструменти на горния ред
 [Send message on double 'Enter']
@@ -479,8 +477,6 @@
 Опитай отново
 [Message session]
 Разговор
-[&Details]
-Подробности
 [Message window event log]
 Дневник на събитията в прозореца за съобщения
 [Show names]
@@ -517,24 +513,6 @@
 Запис на позицията на прозореца поотделно за всеки контакт
 [Message window behavior:]
 Поведение на прозореца за съобщения:
-[&Emoticons]
-Емотикони
-[&Bold]
-Получер
-[&Italic]
-Курсив
-[&Underline]
-Подчертан
-[&Color]
-Цвят
-[&Background color]
-Фонов цвят
-[&Filter]
-Филтър
-[&Room settings]
-Настройки на стаята
-[&Show/Hide nick list]
-Скриване/Показване на списъка с прякори
 [Show these events only:]
 Показване само на следните събития:
 [Actions]
@@ -887,16 +865,6 @@ OutputDebugString()
 Име:
 [Enable sound events]
 Включване на звука
-[Icons]
-Икони
-[Show category:]
-Показване на категория:
-[&Load icon set...]
-Зареди комплект икони...
-[&Import icons >>]
-Внос на икони >>
-[Download more icons]
-Сваляне на още икони
 [The following events are being ignored:]
 Следните събития ще бъдат игнорирани:
 [URLs]
@@ -939,6 +907,8 @@ URL адреси
 За
 [<< &Import]
 << Внос
+[Download more icons]
+Сваляне на още икони
 [To default status icons]
 Стандартни икони за състоянието
 [Logging...]
@@ -1007,6 +977,12 @@ Copyright:
 Цвят на текста
 [Choose font]
 Избор на шрифт
+[Icons]
+Икони
+[&Load icon set...]
+Зареди комплект икони...
+[&Import icons >>]
+Внос на икони >>
 [Menu objects]
 Менюта
 [Menu items]
@@ -1155,6 +1131,14 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Презареждане на пакета
 [Download more language packs]
 Сваляне на още езикови пакети
+[Show in IM chats]
+Показване в обикновени прозорци
+[Show in chat rooms]
+Показване в чат стаи
+[Gap between buttons:]
+Пролука м/у бутоните:
+[Hide if there isn't enough space]
+Скриване, ако няма достатъчно място
 [Tray]
 Трей
 [&Hide/Show]
@@ -1683,28 +1667,6 @@ Popups за изобразяване
 Няма дума за търсене
 [&Message %s]
 Съобщение %s
-[Insert a smiley]
-Вмъкване на усмивка
-[Make the text bold (CTRL+B)]
-Удебеляване (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Наклоняване (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Подчертаване (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Фон за текста (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Цвят на текста (CTRL+K)
-[Show the history (CTRL+H)]
-Показване на историята (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Показване/Скриване на списъка с прякори (CTRL+N)
-[Control this room (CTRL+O)]
-Управление на стаята (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Включване/Изключване на филтъра за събития (CTRL+F)
-[Close current tab (CTRL+F4)]
-Затваряне на текущия таб (CTRL+F4)
 [%s: chat room (%u user)]
 %s: Чат стая (%u потребител)
 [%s: chat room (%u users)]
@@ -1765,6 +1727,40 @@ Popups за изобразяване
 %s пише съобщение
 [Typing notification]
 Уведомявания при писане
+[View user's history (CTRL+H)]
+История на съобщенията (CTRL+H)
+[&Bold]
+Получер
+[Make the text bold (CTRL+B)]
+Удебеляване (CTRL+B)
+[&Italic]
+Курсив
+[Make the text italicized (CTRL+I)]
+Наклоняване (CTRL+I)
+[&Underline]
+Подчертан
+[Make the text underlined (CTRL+U)]
+Подчертаване (CTRL+U)
+[&Color]
+Цвят
+[Select a foreground color for the text (CTRL+K)]
+Цвят на текста (CTRL+K)
+[&Background color]
+Фонов цвят
+[Select a background color for the text (CTRL+L)]
+Фон за текста (CTRL+L)
+[&Room settings]
+Настройки на стаята
+[Control this room (CTRL+O)]
+Управление на стаята (CTRL+O)
+[&Show/hide nick list]
+Скриване/Показване на списъка с прякори
+[Show/hide the nick list (CTRL+N)]
+Показване/Скриване на списъка с прякори (CTRL+N)
+[&Filter]
+Филтър
+[Enable/disable the event filter (CTRL+F)]
+Включване/Изключване на филтъра за събития (CTRL+F)
 [Instant messages]
 Незабавни съобщения
 [Incoming (focused window)]
@@ -2533,6 +2529,8 @@ ANSI приставка
 Файлове със звуци
 [WAV files]
 WAV файлове
+[<Separator>]
+<Разделител>
 [Unspecified]
 Неуточнено
 [Afghanistan]

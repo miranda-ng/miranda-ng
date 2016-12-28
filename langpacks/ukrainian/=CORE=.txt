@@ -451,8 +451,6 @@
 Розміщувати нові вікна каскадом
 [Show 'Send' button]
 Показувати кнопку "Надіслати"
-[Show username on top row]
-Показувати ім'я у верхньому рядку
 [Show toolbar buttons on top row]
 Кнопки у верхньому рядку
 [Send message on double 'Enter']
@@ -483,8 +481,6 @@
 Повторити
 [Message session]
 Вікно повідомлень
-[&Details]
-Деталі &користувача
 [Message window event log]
 Журнал у вікні повідомлень
 [Show names]
@@ -525,24 +521,6 @@
 Поведінка вікна повідомлень:
 [Messaging:]
 Повідомлення:
-[&Emoticons]
-Смайли
-[&Bold]
-&Жирний
-[&Italic]
-&Курсив
-[&Underline]
-&Підкреслений
-[&Color]
-&Колір
-[&Background color]
-Колір фону
-[&Filter]
-Фільтр
-[&Room settings]
-&Налаштування кімнати
-[&Show/Hide nick list]
-&Показати/сховати список
 [Show these events only:]
 Показувати лише:
 [Actions]
@@ -905,16 +883,6 @@
 Ім'я:
 [Enable sound events]
 Увімкнути звуки
-[Icons]
-Значки
-[Show category:]
-Категорія:
-[&Load icon set...]
-&Вибрати набір значків...
-[&Import icons >>]
-&Імпорт значків >>
-[Download more icons]
-Завантажити більше значків
 [The following events are being ignored:]
 Ці події ігноруватимуться:
 [URLs]
@@ -957,6 +925,8 @@
 До
 [<< &Import]
 << &Імпорт
+[Download more icons]
+Завантажити більше значків
 [To default status icons]
 Стандартні значки
 [Logging...]
@@ -1031,6 +1001,12 @@
 Колір тексту
 [Choose font]
 Шрифт
+[Icons]
+Значки
+[&Load icon set...]
+&Вибрати набір значків...
+[&Import icons >>]
+&Імпорт значків >>
 [Menu objects]
 Види меню
 [Menu items]
@@ -1191,6 +1167,14 @@ UIN, E-mail тощо
 Перезавантажити мовний пакет
 [Download more language packs]
 Завантажити додаткові переклади
+[Show in IM chats]
+Показувати у звичайному вікні
+[Show in chat rooms]
+Показувати у вікні чату
+[Gap between buttons:]
+Проміжок кнопок:
+[Hide if there isn't enough space]
+Ховати, якщо недостатньо місця
 [Tray]
 Трей
 [&Hide/Show]
@@ -1723,28 +1707,6 @@ UIN, E-mail тощо
 Нічого шукати
 [&Message %s]
 &Написати %s
-[Insert a smiley]
-Вставити смайл
-[Make the text bold (CTRL+B)]
-Виділити жирним (Ctrl+B)
-[Make the text italicized (CTRL+I)]
-Виділити курсивом (Ctrl+I)
-[Make the text underlined (CTRL+U)]
-Підкреслити (Ctrl+U)
-[Select a background color for the text (CTRL+L)]
-Вибрати фон тексту (Ctrl+L)
-[Select a foreground color for the text (CTRL+K)]
-Вибрати колір тексту (Ctrl+K)
-[Show the history (CTRL+H)]
-Показати історію (Ctrl+H)
-[Show/hide the nick list (CTRL+N)]
-Показати/сховати список користувачів (Ctrl+N)
-[Control this room (CTRL+O)]
-Налаштування кімнати (Ctrl+O)
-[Enable/disable the event filter (CTRL+F)]
-Увімк./вимк. фільтр подій (Ctrl+F)
-[Close current tab (CTRL+F4)]
-Закрити поточну вкладку (Ctrl+F4)
 [%s: chat room (%u user)]
 %s - Чат (%u)
 [%s: chat room (%u users)]
@@ -1807,6 +1769,40 @@ UIN, E-mail тощо
 %s друкує вам повідомлення
 [Typing notification]
 Увага!
+[View user's history (CTRL+H)]
+Історія (CTRL+H)
+[&Bold]
+&Жирний
+[Make the text bold (CTRL+B)]
+Виділити жирним (Ctrl+B)
+[&Italic]
+&Курсив
+[Make the text italicized (CTRL+I)]
+Виділити курсивом (Ctrl+I)
+[&Underline]
+&Підкреслений
+[Make the text underlined (CTRL+U)]
+Підкреслити (Ctrl+U)
+[&Color]
+&Колір
+[Select a foreground color for the text (CTRL+K)]
+Вибрати колір тексту (Ctrl+K)
+[&Background color]
+Колір фону
+[Select a background color for the text (CTRL+L)]
+Вибрати фон тексту (Ctrl+L)
+[&Room settings]
+&Налаштування кімнати
+[Control this room (CTRL+O)]
+Налаштування кімнати (Ctrl+O)
+[&Show/hide nick list]
+&Показати/сховати список
+[Show/hide the nick list (CTRL+N)]
+Показати/сховати список користувачів (Ctrl+N)
+[&Filter]
+Фільтр
+[Enable/disable the event filter (CTRL+F)]
+Увімк./вимк. фільтр подій (Ctrl+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Неможливо завантажити вбудований модуль повідомлень, оскільки Msftedit.dll відсутній. Натисніть "Так" щоб продовжити запуск програми.
 [Instant messages]
@@ -2599,6 +2595,8 @@ ANSI-плагін
 Звукові файли
 [WAV files]
 Файли WAV
+[<Separator>]
+<Роздільник>
 [Unspecified]
 <не вказано>
 [Afghanistan]

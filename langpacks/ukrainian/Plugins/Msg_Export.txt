@@ -101,8 +101,6 @@ UTF8 у нових файлах
 Макс. ширина рядка повинна бути не менше %d
 [You need to restart Miranda to change the history function]
 Зміни функції історії набудуть чинності після перезапуску Miranda
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
-Не вдалося отримати шлях до Msg_Export.dll\nБудь ласка, знайдіть Msg_Export.txt самостійно.
 [File]
 Файл
 [Nick]

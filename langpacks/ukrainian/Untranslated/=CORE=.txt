@@ -1,5 +1,6 @@
 ﻿[Wikipedia]
 [OutputDebugString()]
+[Chat]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]
@@ -22,3 +23,4 @@
 [Alt + ]
 [Shift + ]
 [Win + ]
+[Toolbar]

@@ -565,8 +565,8 @@ Google Карты
 Информация о пользователе
 [&History]
 &История
-[View user's history]
-История сообщений
+[View user's history (CTRL+H)]
+История сообщений (CTRL+H)
 [&Bold]
 &Жирный
 [Make the text bold (CTRL+B)]
@@ -585,8 +585,8 @@ Google Карты
 Выбрать цвет текста (CTRL+K)
 [&Background color]
 Цвет &фона
-[Select a background color for the text]
-Выбрать фон текста
+[Select a background color for the text (CTRL+L)]
+Выбрать фон текста (CTRL+L)
 [&Room settings]
 &Настройки
 [Control this room (CTRL+O)]

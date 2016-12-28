@@ -43,6 +43,7 @@
 [Disable next occurrence]
 [Don't trigger on startup]
 [No reminder]
+[Selected days]
 [Dismiss]
 [Snooze]
 [Static]

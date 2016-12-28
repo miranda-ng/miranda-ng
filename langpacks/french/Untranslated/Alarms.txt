@@ -9,6 +9,7 @@
 [Daily]
 [Monthly]
 [Yearly]
+[Selected days]
 [Dismiss]
 [5 mins]
 [15 mins]

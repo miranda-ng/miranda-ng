@@ -152,16 +152,6 @@ Spróbuj ponownie
 Anuluj
 [Message session]
 Sesja rozmowy
-[&User menu]
-Menu &użytkownika
-[User &details]
-&Dane kontaktu
-[&Add]
-&Dodaj
-[&History]
-&Historia
-[&Quote]
-&Cytuj
 [Send to all tabs]
 Wyślij do wszystkich zakładek
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -172,22 +162,6 @@ Pamiętaj mój wybór dla tego kontenera
 Tak
 [No]
 Nie
-[&Bold]
-&Pogrubienie
-[&Italic]
-&Kursywa
-[&Underline]
-P&odkreślenie
-[&Color]
-Ko&lor
-[&Background color]
-Kolor &tła
-[&Filter]
-&Filtr
-[&Room settings]
-Ustawienia &pokoju
-[&Show/hide nick list]
-&Pokaż/Ukryj listę nicków
 [Show these events only:]
 Pokaż tylko te zdarzenia:
 [Actions]
@@ -442,11 +416,11 @@ Koreański (Johab)
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Wiadomości
-[Navigate: previous tab]
+[Navigate: Previous tab]
 Przejdź: Poprzednia karta
-[Navigate: next tab]
+[Navigate: Next tab]
 Przejdź: Następna karta
-[Navigate: tab %d]
+[Navigate: Tab %d]
 Przejdź: Karta %d
 [Window: Toggle status bar]
 Okno: Przełącz pasek statusu
@@ -469,28 +443,10 @@ Akcja: Wyślij do wszystkich
 [Action: Paste and send]
 Akcja: Wklej i wyślij
 ;file \plugins\Scriver\src\msgdialog.cpp
-[Quote]
-Cytat
-[User menu]
-Menu użytkownika
-[User details]
-Dane kontaktu
-[History]
-Historia
-[Send]
-Wyślij
 [Look up '%s':]
 Zobacz "%s":
 [No word to look up]
 Nie podano słowa do wyszukania
-[Add contact permanently to list]
-Dodaj kontakt na stałe do listy
-[View user's details]
-Zobacz dane kontaktu
-[View user's history]
-Zobacz historię użytkownika
-[Quote text]
-Cytuj
 [User menu - %s]
 Menu kontaktu - %s
 [Sending in progress: %d message(s) left...]
@@ -525,12 +481,6 @@ Wysłany link
 [URL received]
 Otrzymany link
 ;file \plugins\Scriver\src\msgoptions.cpp
-[General]
-Ogólne
-[Event log]
-Dziennik zdarzeń
-[Group chat log]
-Dziennik rozmów grupowych
 [Outgoing messages]
 Wychodzące wiadomości
 [Outgoing background]
@@ -593,8 +543,16 @@ Pod telefonem
 ** Nieznane kontakty **
 [Message sessions]
 Okno rozmowy
+[General]
+Ogólne
+[Event log]
+Dziennik zdarzeń
+[Group chat log]
+Dziennik rozmów grupowych
 [Typing notify]
 Powiadomienie o pisaniu
+[Popups]
+Popupy
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Wiadomość od %s
@@ -602,6 +560,58 @@ Wiadomość od %s
 %s pisze wiadomość
 [Typing notification]
 Kontakt
+[&Quote]
+&Cytuj
+[Quote]
+Cytat
+[&Add]
+&Dodaj
+[Add contact permanently to list]
+Dodaj kontakt na stałe do listy
+[&User menu]
+Menu &użytkownika
+[User menu]
+Menu użytkownika
+[User &details]
+&Dane kontaktu
+[View user's details]
+Zobacz dane kontaktu
+[&History]
+&Historia
+[View user's history (CTRL+H)]
+Zobacz historię użytkownika (CTRL+H)
+[&Bold]
+&Pogrubienie
+[Make the text bold (CTRL+B)]
+Pogrub tekst (Ctrl+B)
+[&Italic]
+&Kursywa
+[Make the text italicized (CTRL+I)]
+Dodaj kursywę do tekstu (Ctrl+I)
+[&Underline]
+P&odkreślenie
+[Make the text underlined (CTRL+U)]
+Podkreśl tekst (Ctrl+U)
+[&Color]
+Ko&lor
+[Select a foreground color for the text (CTRL+K)]
+Wybierz kolor dla tekstu (Ctrl+K)
+[&Background color]
+Kolor &tła
+[Select a background color for the text (CTRL+L)]
+Wybierz kolor tła dla tekstu (Ctrl+L)
+[&Room settings]
+Ustawienia &pokoju
+[Control this room (CTRL+O)]
+Kontroluj ten pokój (Ctrl + O)
+[&Show/hide nick list]
+&Pokaż/Ukryj listę nicków
+[Show/hide the nick list (CTRL+N)]
+Pokaż/Ukryj listę nazw (Ctrl+N)
+[&Filter]
+&Filtr
+[Enable/disable the event filter (CTRL+F)]
+Włącz/Wyłącz filtr zdarzeń (Ctrl+F)
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Msftedit.dll. Jeśli używasz WINE, upewnij się, że posiadasz zainstalowany Msftedit.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
 [Instant messages]
@@ -621,12 +631,12 @@ Kontakt przestał pisać
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Nieznany błąd.
-;file \plugins\Scriver\src\msgwindow.cpp
-[Always on top]
-Zawsze na wierzchu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Przekroczono czas wysyłania wiadomości.
+;file \plugins\Scriver\src\tabs.cpp
+[Always on top]
+Zawsze na wierzchu
 ;file \plugins\Scriver\src\chat\main.cpp
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
@@ -799,40 +809,10 @@ Personalizacja
 Domyślne zdarzenia pokazywane w nowych pokojach, gdy "filtr zdarzeń" jest aktywny
 [Select folder]
 Wybierz folder
-[Popups]
-Popupy
 ;file \plugins\Scriver\src\chat\tools.cpp
 [&Message %s]
 &Wiadomość %s
 ;file \plugins\Scriver\src\chat\window.cpp
-[Italic]
-Kursywa
-[Underline]
-Podkreślenie
-[Filter]
-Filtr
-[Manager]
-Menedżer
-[Nick list]
-Lista nicków
-[Make the text bold (CTRL+B)]
-Pogrub tekst (Ctrl+B)
-[Make the text italicized (CTRL+I)]
-Dodaj kursywę do tekstu (Ctrl+I)
-[Make the text underlined (CTRL+U)]
-Podkreśl tekst (Ctrl+U)
-[Select a background color for the text (CTRL+L)]
-Wybierz kolor tła dla tekstu (Ctrl+L)
-[Select a foreground color for the text (CTRL+K)]
-Wybierz kolor dla tekstu (Ctrl+K)
-[Show the history (CTRL+H)]
-Pokaż historię (Ctrl+H)
-[Show/hide the nick list (CTRL+N)]
-Pokaż/Ukryj listę nazw (Ctrl+N)
-[Control this room (CTRL+O)]
-Kontroluj ten pokój (Ctrl + O)
-[Enable/disable the event filter (CTRL+F)]
-Włącz/Wyłącz filtr zdarzeń (Ctrl+F)
 [%s: chat room (%u user)]
 %s: Konferencja (%u użytkownik)
 [%s: chat room (%u users)]

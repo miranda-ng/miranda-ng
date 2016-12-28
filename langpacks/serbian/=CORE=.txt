@@ -458,8 +458,6 @@ Zasebna veličina i pozicija prozora svakog kontakta
 Poređaj novootvorene prozore
 [Show 'Send' button]
 Prikaži taster za slanje
-[Show username on top row]
-Korisničko ime u prvom redu
 [Show toolbar buttons on top row]
 Prikaži tastere opcija u prvom redu
 [Send message on double 'Enter']
@@ -490,8 +488,6 @@ usled slanja ove poruke:
 Pokušaj ponovo
 [Message session]
 Razgovor
-[&Details]
-&Detalji
 [Message window event log]
 Log događaja tokom razgovora
 [Show names]
@@ -532,24 +528,6 @@ Zapamti položaj prozora svakog kontakta
 Navike prozora za poruke
 [Messaging:]
 Komunikacija:
-[&Emoticons]
-&Emotikoni
-[&Bold]
-&Bold
-[&Italic]
-&Kurziv
-[&Underline]
-&Podvučeno
-[&Color]
-B&oja
-[&Background color]
-Boja &pozadine
-[&Filter]
-&Filter
-[&Room settings]
-Parametri so&be
-[&Show/Hide nick list]
-Prikazati/sakriti spis&ak
 [Show these events only:]
 Prikazati samo događaje:
 [Actions]
@@ -919,16 +897,6 @@ Mesto:
 Ime:
 [Enable sound events]
 Dozvoliti audio obaveštenja
-[Icons]
-Ikonice
-[Show category:]
-Kategorija
-[&Load icon set...]
-&Učitavanje kompleta ikonica...
-[&Import icons >>]
-&Uvoz ikonica >>
-[Download more icons]
-Pronađi još ikonica na Miranda NG sajtu
 [The following events are being ignored:]
 Ignorišu se događaji:
 [URLs]
@@ -971,6 +939,8 @@ U glavni odeljak ikonica
 U
 [<< &Import]
 << &Uvoz
+[Download more icons]
+Pronađi još ikonica na Miranda NG sajtu
 [To default status icons]
 U odeljak glavnih ikonica statusa
 [Logging...]
@@ -1045,6 +1015,12 @@ Dekoracija teksta
 Boja teksta
 [Choose font]
 Izbor fonta
+[Icons]
+Ikonice
+[&Load icon set...]
+&Učitavanje kompleta ikonica...
+[&Import icons >>]
+&Uvoz ikonica >>
 [Menu objects]
 Celine Menija
 [Menu items]
@@ -1205,6 +1181,14 @@ Jezik:
 Osvežiti jezički paket
 [Download more language packs]
 Preuzimanje jezičkih paketa
+[Show in IM chats]
+
+[Show in chat rooms]
+
+[Gap between buttons:]
+
+[Hide if there isn't enough space]
+
 [Tray]
 Tray
 [&Hide/Show]
@@ -1751,6 +1735,8 @@ Celi razgovori
 Uopšteno
 [Chat log]
 Log-ovi razgovora
+[Chat]
+
 [Popups]
 Balončići
 ;file \src\core\stdmsg\src\chat_util.cpp
@@ -1761,28 +1747,6 @@ Nije navedena reč za pretragu
 [&Message %s]
 &Poruka %s
 ;file \src\core\stdmsg\src\chat_window.cpp
-[Insert a smiley]
-Ubaci smeška
-[Make the text bold (CTRL+B)]
-Podebljaj tekst (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Ulepšaj tekst kurzivom (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Podvuci tekst (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Boja pozadine teksta (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Boja teksta (CTRL+K)
-[Show the history (CTRL+H)]
-Prikaži raniji tok razgovora (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Prikaži / skloni listu nadimaka (CTRL+N)
-[Control this room (CTRL+O)]
-Upravljaj sobom za razgovor (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Uključi / isključi filter za razgovor (CTRL+F)
-[Close current tab (CTRL+F4)]
-Zatvori aktivni jezičak (CTRL+F4)
 [%s: chat room (%u user)]
 %s: soba za razgovor (%u korisnik)
 [%s: chat room (%u users)]
@@ -1851,6 +1815,40 @@ Poruka od: %s
 %s kuca poruku
 [Typing notification]
 Obaveštenje o kucanju
+[View user's history (CTRL+H)]
+Vidi istoriju korisnika (CTRL+H)
+[&Bold]
+&Bold
+[Make the text bold (CTRL+B)]
+Podebljaj tekst (CTRL+B)
+[&Italic]
+&Kurziv
+[Make the text italicized (CTRL+I)]
+Ulepšaj tekst kurzivom (CTRL+I)
+[&Underline]
+&Podvučeno
+[Make the text underlined (CTRL+U)]
+Podvuci tekst (CTRL+U)
+[&Color]
+B&oja
+[Select a foreground color for the text (CTRL+K)]
+Boja teksta (CTRL+K)
+[&Background color]
+Boja &pozadine
+[Select a background color for the text (CTRL+L)]
+Boja pozadine teksta (CTRL+L)
+[&Room settings]
+Parametri so&be
+[Control this room (CTRL+O)]
+Upravljaj sobom za razgovor (CTRL+O)
+[&Show/hide nick list]
+Prikazati/sakriti spis&ak
+[Show/hide the nick list (CTRL+N)]
+Prikaži / skloni listu nadimaka (CTRL+N)
+[&Filter]
+&Filter
+[Enable/disable the event filter (CTRL+F)]
+Uključi / isključi filter za razgovor (CTRL+F)
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda ne može da upotrebi sopstveni modul za poruke, ne postoji msftedit.dll. Odgovor 'Da' za nastavak učitavanja.
 [Instant messages]
@@ -2749,6 +2747,11 @@ Glavne ikonice
 Zvučne datoteke
 [WAV files]
 WAV datoteke
+;file \src\mir_app\src\srmm_toolbar.cpp
+[<Separator>]
+<Razdelnik>
+[Toolbar]
+
 ;file \src\mir_app\src\utils.cpp
 [Unspecified]
 Nije navedeno
