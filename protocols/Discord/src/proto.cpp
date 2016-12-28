@@ -17,8 +17,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static int compareRequests(const AsyncHttpRequest *p1, const AsyncHttpRequest *p2)
+{
+	return p1->m_iReqNum - p2->m_iReqNum;
+}
+
 CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
-	PROTO<CDiscordProto>(proto_name, username)
+	PROTO<CDiscordProto>(proto_name, username),
+	m_arHttpQueue(10, compareRequests),
+	m_evRequestsQueue(CreateEvent(NULL, FALSE, FALSE, NULL))
 {
 	// Services
 	CreateProtoService(PS_GETNAME, &CDiscordProto::GetName);
@@ -26,10 +33,25 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
+
+	// Network initialization
+	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);
+
+	NETLIBUSER nlu = { sizeof(nlu) };
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szSettingsModule = m_szModuleName;
+	nlu.ptszDescriptiveName = descr.GetBuffer();
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }
 
 CDiscordProto::~CDiscordProto()
 {
+	debugLogA("CDiscordProto::~CDiscordProto");
+	Netlib_CloseHandle(m_hNetlibUser);
+	m_hNetlibUser = NULL;
+
+	m_arHttpQueue.destroy();
+	::CloseHandle(m_evRequestsQueue);
 }
 
 DWORD_PTR CDiscordProto::GetCaps(int type, MCONTACT)
@@ -84,7 +106,7 @@ int CDiscordProto::SetStatus(int iNewStatus)
 
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-		ForkThread(&CDiscordProto::ServerThread, this);
+		m_hWorkerThread = ForkThreadEx(&CDiscordProto::ServerThread, NULL, NULL);
 	}
 	else if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = m_iDesiredStatus;
@@ -105,6 +127,10 @@ int CDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
 
 int CDiscordProto::OnPreShutdown(WPARAM, LPARAM)
 {
+	debugLogA("CDiscordProto::OnPreShutdown");
+
+	m_bTerminated = true;
+	SetEvent(m_evRequestsQueue);
 	return 0;
 }
 
