@@ -591,6 +591,9 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SendMessage(hwndDlg, WMU_UPDATETIME, 0, 0);
 				SendMessage(hwndDlg, WMU_SETTIME, 0, 0);
 				break;
+			case IDC_CHK_DAY1: case IDC_CHK_DAY2: case IDC_CHK_DAY3: case IDC_CHK_DAY4: case IDC_CHK_DAY5: case IDC_CHK_DAY6: case IDC_CHK_DAY7:
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
+				break;
 
 			case IDC_CHK_ACOMMAND:
 				bChecked = IsDlgButtonChecked(hwndDlg, IDC_CHK_ACOMMAND) != 0;

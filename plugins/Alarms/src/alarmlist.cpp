@@ -279,6 +279,10 @@ void LoadAlarms()
 			break;
 		case OC_WEEKDAYS:
 			break;
+		case OC_SELECTED_DAYS:
+			mir_snprintf(buff, "SelectedDays%d", i);
+			alarm.day_mask = db_get_dw(0, MODULE, buff, alarm.day_mask);
+			break;
 		case OC_DAILY:
 			break;
 		case OC_MONTHLY:
@@ -327,9 +331,6 @@ void LoadAlarms()
 			mir_snprintf(buff, "Flags%d", i);
 			alarm.flags = db_get_dw(0, MODULE, buff, alarm.flags);
 
-			mir_snprintf(buff, "SelectedDays%d", i);
-			alarm.flags = db_get_dw(0, MODULE, buff, alarm.day_mask);
-
 			alarm.id = next_alarm_id++;
 			alarms.push_back(&alarm);
 		}
@@ -364,6 +365,10 @@ void SaveAlarms()
 		case OC_DAILY:
 			break;
 		case OC_WEEKDAYS:
+			break;
+		case OC_SELECTED_DAYS:
+			mir_snprintf(buff, "SelectedDays%d", index);
+			db_set_dw(0, MODULE, buff, i->day_mask);
 			break;
 		case OC_WEEKLY:
 			mir_snprintf(buff, "STDayOfWeek%d", index);
@@ -402,8 +407,6 @@ void SaveAlarms()
 
 		mir_snprintf(buff, "Flags%d", index);
 		db_set_dw(0, MODULE, buff, i->flags);
-		mir_snprintf(buff, "SelectedDays%d", index);
-		db_set_dw(0, MODULE, buff, i->day_mask);
 	}
 	db_set_w(0, MODULE, "Count", index);
 }
