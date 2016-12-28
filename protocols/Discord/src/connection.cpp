@@ -107,10 +107,9 @@ bool CDiscordProto::TryToConnect(void)
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return false;
 	}
-	
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/user/login", &CDiscordProto::OnReceiveToken)
-		<< WCHAR_PARAM("email", wszLogin)
-		<< WCHAR_PARAM("password", wszPassword));
+
+	JSONNode root; root << WCHAR_PARAM("email", wszLogin) << WCHAR_PARAM("password", wszPassword);
+	Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/login", &CDiscordProto::OnReceiveToken, &root));
 	return true;
 }
 

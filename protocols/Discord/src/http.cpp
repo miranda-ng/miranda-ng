@@ -35,27 +35,32 @@ static LONG g_reqNum = 0;
 AsyncHttpRequest::AsyncHttpRequest()
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
-	AddHeader("Connection", "keep-alive");
-	pUserInfo = NULL;
-	m_iErrorCode = 0;
-	m_pCallback = NULL;
 	m_iReqNum = ::InterlockedIncrement(&g_reqNum);
 }
 
-AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR _url, HttpCallback pFunc)
+AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR _url, HttpCallback pFunc, JSONNode *pRoot)
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
-	AddHeader("Connection", "keep-alive");
-		
+
 	if (*_url == '/') {	// relative url leads to a site
-		m_szUrl = "https://discardapp.com";
+		m_szUrl = "https://discordapp.com/api";
 		m_szUrl += _url;
 	}
 	else m_szUrl = _url;
 
-	flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_SSL;
-	if (ppro->m_szAccessToken != NULL)
-		this << CHAR_PARAM("access_token", ppro->m_szAccessToken);
+	flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_SSL;
+	if (ppro->m_szAccessToken == NULL)
+		flags |= NLHRF_NODUMPSEND;
+	else
+		flags |= NLHRF_DUMPASTEXT;
+
+	if (pRoot != NULL) {
+		ptrW text(json_write(pRoot));
+		pData = mir_utf8encodeW(text);
+		dataLength = (int)mir_strlen(pData);
+
+		AddHeader("Content-Type", "application/json");
+	}
 
 	requestType = iRequestType;
 	m_pCallback = pFunc;

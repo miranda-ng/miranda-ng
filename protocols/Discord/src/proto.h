@@ -5,7 +5,7 @@ typedef void (CDiscordProto::*HttpCallback)(NETLIBHTTPREQUEST*, struct AsyncHttp
 struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
 	AsyncHttpRequest();
-	AsyncHttpRequest(CDiscordProto*, int iRequestType, LPCSTR szUrl, HttpCallback pFunc);
+	AsyncHttpRequest(CDiscordProto*, int iRequestType, LPCSTR szUrl, HttpCallback pFunc, JSONNode *pNode = NULL);
 	~AsyncHttpRequest();
 
 	void AddHeader(LPCSTR, LPCSTR);
@@ -50,6 +50,24 @@ struct WCHAR_PARAM : public PARAM
 	{}
 };
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const WCHAR_PARAM&);
+
+__forceinline JSONNode& operator<<(JSONNode &json, const INT_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.iValue));
+	return json;
+}
+
+__forceinline JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.szValue));
+	return json;
+}
+
+__forceinline JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, ptrA(mir_utf8encodeW(param.wszValue))));
+	return json;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

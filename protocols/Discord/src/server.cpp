@@ -24,10 +24,30 @@ void CDiscordProto::RetrieveMyInfo()
 
 void CDiscordProto::SetServerStatus(int iStatus)
 {
+	if (!m_bOnline)
+		return;
 
+	int iOldStatus = m_iStatus; m_iStatus = iStatus;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 }
 
-void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
+	if (pReply->resultCode != 200) {
+LBL_Error:
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		return;
+	}
 
+	JSONNode *root = json_parse(pReply->pData);
+	if (root == NULL)
+		goto LBL_Error;
+
+	CMStringA szToken = root->at("token").as_mstring();
+	if (szToken.IsEmpty())
+		goto LBL_Error;
+
+	m_szAccessToken = szToken.Detach();
+	setString("AccessToken", m_szAccessToken);
+	OnLoggedIn();
 }
