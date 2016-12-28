@@ -401,6 +401,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 	case REQUEST_HEAD:    pszRequest = "HEAD";    break;
 	case REQUEST_PUT:     pszRequest = "PUT";     break;
 	case REQUEST_DELETE:  pszRequest = "DELETE";  break;
+	case REQUEST_PATCH:   pszRequest = "PATCH";   break;
 	default:
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;

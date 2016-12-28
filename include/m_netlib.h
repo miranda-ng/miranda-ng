@@ -452,9 +452,10 @@ typedef struct {
 #define REQUEST_GET      1
 #define REQUEST_POST     2
 #define REQUEST_CONNECT  3
-#define REQUEST_HEAD  	 4	// new in 0.5.1
+#define REQUEST_HEAD  	 4
 #define REQUEST_PUT      5
 #define REQUEST_DELETE   6
+#define REQUEST_PATCH    7
 
 #define NLHRF_MANUALHOST      0x00000001   // do not remove any host and/or protocol portion of szUrl before sending it
 #define NLHRF_HTTP11          0x00000010   // use HTTP 1.1
