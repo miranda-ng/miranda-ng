@@ -59,12 +59,36 @@ JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct CDiscordUser : public MZeroedObject
+{
+	CDiscordUser(SnowFlake _id) :
+		id(_id)
+		{}
+
+	SnowFlake id;
+	MCONTACT  hContact;
+
+	SnowFlake channelId;
+	SnowFlake lastMessageId;
+	bool      bIsPrivate;
+
+	CMStringW wszUsername;
+	int       iDiscriminator;
+};
+
 class CDiscordProto : public PROTO<CDiscordProto>
 {
 	friend struct AsyncHttpRequest;
 	friend class CDiscardAccountOptions;
 
+	//////////////////////////////////////////////////////////////////////////////////////
+	// threads
+
 	void __cdecl ServerThread(void*);
+	void __cdecl SearchThread(void *param);
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// session control
 
 	void SetAllContactStatuses(int iStatus);
 	void ConnectionFailed(int iReason);
@@ -87,10 +111,24 @@ class CDiscordProto : public PROTO<CDiscordProto>
 		m_bOnline,         // protocol is online
 		m_bTerminated;     // Miranda's going down
 
+	//////////////////////////////////////////////////////////////////////////////////////
+	// options
+
 	CMOption<wchar_t*> m_wszEmail;        // my own email
 	CMOption<wchar_t*> m_wszDefaultGroup; // clist group to store contacts 
 
+	//////////////////////////////////////////////////////////////////////////////////////
+	// common data
+
 	SnowFlake m_ownId;
+
+	OBJLIST<CDiscordUser> arUsers;
+	CDiscordUser* FindUser(SnowFlake id);
+	CDiscordUser* FindUser(const wchar_t *pwszUsername, int iDiscriminator);
+	CDiscordUser* PrepareUser(const JSONNode&);
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// misc methods
 
 	SnowFlake getId(const char *szName);
 	SnowFlake getId(MCONTACT hContact, const char *szName);
@@ -105,8 +143,15 @@ public:
 	// PROTO_INTERFACE
 	virtual DWORD_PTR __cdecl GetCaps(int, MCONTACT = 0) override;
 
-	virtual int __cdecl SetStatus(int iNewStatus) override;
+	virtual HWND __cdecl CreateExtendedSearchUI(HWND owner) override;
+	virtual HWND __cdecl SearchAdvanced(HWND owner) override;
 
+	virtual HANDLE __cdecl SearchBasic(const wchar_t* id) override;
+	virtual MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr) override;
+	
+	virtual int __cdecl AuthRequest(MCONTACT hContact, const wchar_t*) override;
+
+	virtual int __cdecl SetStatus(int iNewStatus) override;
 	virtual int __cdecl OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
 
 	// Services
@@ -120,13 +165,15 @@ public:
 
 	void OnLoggedIn();
 	void OnLoggedOut();
-	
+
+	void OnReceiveAuth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	void RetrieveMyInfo();
+	void RetrieveUserInfo(MCONTACT hContact);
 
 	// Misc
 	void SetServerStatus(int iStatus);

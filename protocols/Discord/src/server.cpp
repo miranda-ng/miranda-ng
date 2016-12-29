@@ -17,34 +17,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CDiscordProto::RetrieveMyInfo()
+void CDiscordProto::RetrieveUserInfo(MCONTACT hContact)
 {
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveMyInfo));
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveUserInfo);
+	pReq->pUserInfo = (void*)hContact;
+	Push(pReq);
 }
 
-void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
+	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
 	if (pReply->resultCode != 200) {
-		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		if (hContact == NULL)
+			ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
 
-	JSONNode *root = json_parse(pReply->pData);
-	if (root == NULL) {
-		ConnectionFailed(LOGINERR_NOSERVER);
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (!root) {
+		if (hContact == NULL)
+			ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
 
-	m_ownId = _wtoi64(root->at("id").as_mstring());
-	setId("id", m_ownId);
+	m_ownId = _wtoi64(root["id"].as_mstring());
+	setId(hContact, DB_KEY_ID, m_ownId);
 
-	setWString("Username", root->at("username").as_mstring());
-	setByte("MfaEnabled", root->at("mfa_enabled").as_bool());
-	setWString("AvatarHash", root->at("avatar").as_mstring());
-	setDword("Discriminator", root->at("discriminator").as_int());
-	setWString("Email", root->at("email").as_mstring());
+	setByte(hContact, DB_KEY_MFA, root["mfa_enabled"].as_bool());
+	setDword(hContact, DB_KEY_DISCR, root["discriminator"].as_int());
+	setWString(hContact, DB_KEY_NICK, root["username"].as_mstring());
+	setWString(hContact, DB_KEY_AVHASH, root["avatar"].as_mstring());
+	setWString(hContact, DB_KEY_EMAIL, root["email"].as_mstring());
 
-	OnLoggedIn();
+	if (hContact == NULL)
+		OnLoggedIn();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -61,12 +67,56 @@ void CDiscordProto::SetServerStatus(int iStatus)
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 }
 
+void CDiscordProto::OnReceiveAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+	if (pReply->resultCode == 204)
+		RetrieveUserInfo(hContact);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CDiscordProto::OnReceiveChannels(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
 	if (pReply->resultCode != 200)
 		return;
+
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (!root)
+		return;
+
+	for (auto it = root.begin(); it != root.end(); ++it) {
+		JSONNode &p = *it;
+
+		JSONNode &user = p["recipient"];
+		if (!user)
+			continue;
+
+		CDiscordUser *pUser = PrepareUser(user);
+		pUser->lastMessageId = _wtoi64(p["last_message_id"].as_mstring());
+		pUser->channelId = _wtoi64(p["id"].as_mstring());
+		pUser->bIsPrivate = p["is_private"].as_bool();
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::OnReceiveFriends(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	if (pReply->resultCode != 200)
+		return;
+
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (!root)
+		return;
+
+	for (auto it = root.begin(); it != root.end(); ++it) {
+		JSONNode &p = *it;
+
+		JSONNode &user = p["user"];
+		if (user)
+			PrepareUser(user);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -86,21 +136,21 @@ void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 		return;
 	}
 
-	JSONNode *root = json_parse(pReply->pData);
-	if (root == NULL) {
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (!root) {
 LBL_Error:
 		ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
 
-	CMStringA szToken = root->at("token").as_mstring();
+	CMStringA szToken = root["token"].as_mstring();
 	if (szToken.IsEmpty())
 		goto LBL_Error;
 
 	m_szAccessToken = szToken.Detach();
 	setString("AccessToken", m_szAccessToken);
 
-	RetrieveMyInfo();
+	RetrieveUserInfo(NULL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

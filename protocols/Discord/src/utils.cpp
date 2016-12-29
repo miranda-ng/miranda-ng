@@ -48,22 +48,26 @@ JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param)
 
 SnowFlake CDiscordProto::getId(const char *szSetting)
 {
-	SnowFlake result;
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
-	dbv.pbVal = (BYTE*)&result;
-	dbv.cpbVal = sizeof(result);
-	return (db_get(NULL, m_szModuleName, szSetting, &dbv)) ? 0 : result;
+	if (db_get(NULL, m_szModuleName, szSetting, &dbv))
+		return 0;
+	
+	SnowFlake result = (dbv.cpbVal == sizeof(SnowFlake)) ? *(SnowFlake*)dbv.pbVal : 0;
+	db_free(&dbv);
+	return result;
 }
 
 SnowFlake CDiscordProto::getId(MCONTACT hContact, const char *szSetting)
 {
-	SnowFlake result;
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
-	dbv.pbVal = (BYTE*)&result;
-	dbv.cpbVal = sizeof(result);
-	return (db_get(hContact, m_szModuleName, szSetting, &dbv)) ? 0 : result;
+	if (db_get(hContact, m_szModuleName, szSetting, &dbv))
+		return 0;
+
+	SnowFlake result = (dbv.cpbVal == sizeof(SnowFlake)) ? *(SnowFlake*)dbv.pbVal : 0;
+	db_free(&dbv);
+	return result;
 }
 
 void CDiscordProto::setId(const char *szSetting, SnowFlake iValue)
@@ -74,4 +78,54 @@ void CDiscordProto::setId(const char *szSetting, SnowFlake iValue)
 void CDiscordProto::setId(MCONTACT hContact, const char *szSetting, SnowFlake iValue)
 {
 	db_set_blob(hContact, m_szModuleName, szSetting, &iValue, sizeof(iValue));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CDiscordUser* CDiscordProto::FindUser(SnowFlake id)
+{
+	return arUsers.find((CDiscordUser*)&id);
+}
+
+CDiscordUser* CDiscordProto::FindUser(const wchar_t *pwszUsername, int iDiscriminator)
+{
+	for (int i = 0; i < arUsers.getCount(); i++) {
+		CDiscordUser &p = arUsers[i];
+		if (p.wszUsername == pwszUsername && p.iDiscriminator == iDiscriminator)
+			return &p;
+	}
+
+	return NULL;
+}
+
+CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
+{
+	SnowFlake id = _wtoi64(user["id"].as_mstring());
+	int iDiscriminator = _wtoi(user["discriminator"].as_mstring());
+	CMStringW avatar = user["avatar"].as_mstring();
+	CMStringW username = user["username"].as_mstring();
+
+	CDiscordUser *pUser = FindUser(id);
+	if (pUser == NULL)
+		pUser = FindUser(username, iDiscriminator);
+	if (pUser == NULL) {
+		pUser = new CDiscordUser(id);
+		pUser->wszUsername = username;
+		pUser->iDiscriminator = iDiscriminator;
+		arUsers.insert(pUser);
+	}
+
+	if (pUser->hContact == 0) {
+		MCONTACT hContact = db_add_contact();
+		Proto_AddToContact(hContact, m_szModuleName);
+
+		setId(hContact, DB_KEY_ID, id);
+		setWString(hContact, DB_KEY_NICK, username);
+		setDword(hContact, DB_KEY_DISCR, iDiscriminator);
+
+		pUser->hContact = hContact;
+	}
+
+	setWString(pUser->hContact, DB_KEY_AVHASH, avatar);
+	return pUser;
 }

@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 {
 	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
@@ -50,6 +52,8 @@ public:
 		m_proto->setWString(DB_KEY_PASSWORD, buf);
 	}
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int CDiscordProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {

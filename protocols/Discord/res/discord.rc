@@ -76,6 +76,15 @@ BEGIN
     EDITTEXT        IDC_GROUP,84,89,123,13,ES_AUTOHSCROLL
 END
 
+IDD_EXTSEARCH DIALOGEX 0, 0, 114, 55
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_TRANSPARENT | WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Nick:",IDC_STATIC,6,7,99,8
+    EDITTEXT        IDC_NICK,3,18,103,12,0,WS_EX_CLIENTEDGE
+END
+
 #endif    // English (United States) resources
 
 /////////////////////////////////////////////////////////////////////////////
