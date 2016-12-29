@@ -23,3 +23,23 @@ void CDiscordProto::SetAllContactStatuses(int status)
 		if (!getByte(hContact, "ChatRoom"))
 			setWord(hContact, "Status", (WORD)status);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+JSONNode& operator<<(JSONNode &json, const INT_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.iValue));
+	return json;
+}
+
+JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.szValue));
+	return json;
+}
+
+JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, ptrA(mir_utf8encodeW(param.wszValue)).get()));
+	return json;
+}

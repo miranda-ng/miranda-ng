@@ -51,23 +51,9 @@ struct WCHAR_PARAM : public PARAM
 };
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const WCHAR_PARAM&);
 
-__forceinline JSONNode& operator<<(JSONNode &json, const INT_PARAM &param)
-{
-	json.push_back(JSONNode(param.szName, param.iValue));
-	return json;
-}
-
-__forceinline JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param)
-{
-	json.push_back(JSONNode(param.szName, param.szValue));
-	return json;
-}
-
-__forceinline JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param)
-{
-	json.push_back(JSONNode(param.szName, ptrA(mir_utf8encodeW(param.wszValue)).get()));
-	return json;
-}
+JSONNode& operator<<(JSONNode &json, const INT_PARAM &param);
+JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param);
+JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
