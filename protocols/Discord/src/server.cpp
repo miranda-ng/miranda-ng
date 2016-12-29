@@ -35,9 +35,11 @@ void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 		return;
 	}
 
+	m_ownId = _wtoi64(root->at("id").as_mstring());
+	setId("id", m_ownId);
+
 	setWString("Username", root->at("username").as_mstring());
 	setByte("MfaEnabled", root->at("mfa_enabled").as_bool());
-	setWString("id", root->at("id").as_mstring());
 	setWString("AvatarHash", root->at("avatar").as_mstring());
 	setDword("Discriminator", root->at("discriminator").as_int());
 	setWString("Email", root->at("email").as_mstring());

@@ -43,3 +43,35 @@ JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param)
 	json.push_back(JSONNode(param.szName, ptrA(mir_utf8encodeW(param.wszValue)).get()));
 	return json;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+SnowFlake CDiscordProto::getId(const char *szSetting)
+{
+	SnowFlake result;
+	DBVARIANT dbv;
+	dbv.type = DBVT_BLOB;
+	dbv.pbVal = (BYTE*)&result;
+	dbv.cpbVal = sizeof(result);
+	return (db_get(NULL, m_szModuleName, szSetting, &dbv)) ? 0 : result;
+}
+
+SnowFlake CDiscordProto::getId(MCONTACT hContact, const char *szSetting)
+{
+	SnowFlake result;
+	DBVARIANT dbv;
+	dbv.type = DBVT_BLOB;
+	dbv.pbVal = (BYTE*)&result;
+	dbv.cpbVal = sizeof(result);
+	return (db_get(hContact, m_szModuleName, szSetting, &dbv)) ? 0 : result;
+}
+
+void CDiscordProto::setId(const char *szSetting, SnowFlake iValue)
+{
+	db_set_blob(NULL, m_szModuleName, szSetting, &iValue, sizeof(iValue));
+}
+
+void CDiscordProto::setId(MCONTACT hContact, const char *szSetting, SnowFlake iValue)
+{
+	db_set_blob(hContact, m_szModuleName, szSetting, &iValue, sizeof(iValue));
+}

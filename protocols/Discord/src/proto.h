@@ -1,4 +1,6 @@
 
+typedef __int64 SnowFlake;
+
 class CDiscordProto;
 typedef void (CDiscordProto::*HttpCallback)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
 
@@ -87,6 +89,14 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	CMOption<wchar_t*> m_wszEmail;        // my own email
 	CMOption<wchar_t*> m_wszDefaultGroup; // clist group to store contacts 
+
+	SnowFlake m_ownId;
+
+	SnowFlake getId(const char *szName);
+	SnowFlake getId(MCONTACT hContact, const char *szName);
+
+	void setId(const char *szName, SnowFlake iValue);
+	void setId(MCONTACT hContact, const char *szName, SnowFlake iValue);
 
 public:
 	CDiscordProto(const char*,const wchar_t*);
