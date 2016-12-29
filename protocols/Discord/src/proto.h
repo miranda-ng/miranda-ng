@@ -65,7 +65,7 @@ __forceinline JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param)
 
 __forceinline JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param)
 {
-	json.push_back(JSONNode(param.szName, ptrA(mir_utf8encodeW(param.wszValue))));
+	json.push_back(JSONNode(param.szName, ptrA(mir_utf8encodeW(param.wszValue)).get()));
 	return json;
 }
 
