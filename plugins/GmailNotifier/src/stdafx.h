@@ -41,8 +41,8 @@ typedef struct s_resultLink{
 }resultLink;
 
 typedef struct s_Account{
-	char name[64];
-	char pass[64];
+	char name[256];
+	char pass[256];
 	char hosted[64];
 	MCONTACT hContact;
 	int oldResults_num;
