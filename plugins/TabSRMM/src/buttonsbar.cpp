@@ -88,7 +88,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	Srmm_AddButton(&bbd);
 
 	// chat buttons
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISDUMMYBUTTON;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISSEPARATOR;
 	bbd.dwButtonID = 1;
 	bbd.pszModuleName = "tb_splitter";
 	bbd.dwDefPos = 35;

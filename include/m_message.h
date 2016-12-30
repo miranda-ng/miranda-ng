@@ -232,7 +232,7 @@ struct StatusIconClickData
 #define BBBF_ISIMBUTTON			(1<<5)
 #define BBBF_ISRSIDEBUTTON		(1<<7)
 #define BBBF_CANBEHIDDEN		(1<<8)
-#define BBBF_ISDUMMYBUTTON		(1<<9)
+#define BBBF_ISSEPARATOR		(1<<9)
 
 #define BBBF_CREATEBYID			(1<<11)  //only for tabsrmm internal use
 

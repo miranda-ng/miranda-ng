@@ -63,7 +63,7 @@ static void CB_RegisterSeparators()
 	BBButton bbd = { 0 };
 	bbd.pszModuleName = "Tabsrmm_sep";
 	for (DWORD i = 0; dwSepCount > i; i++) {
-		bbd.bbbFlags = BBBF_ISDUMMYBUTTON | BBBF_ISIMBUTTON;
+		bbd.bbbFlags = BBBF_ISSEPARATOR | BBBF_ISIMBUTTON;
 		bbd.dwButtonID = i + 1;
 		bbd.dwDefPos = 410 + i;
 		Srmm_AddButton(&bbd);
@@ -130,7 +130,7 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	cbd->m_bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) != 0;
 	cbd->m_bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) != 0;
 	cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
-	cbd->m_bSeparator = (bbdi->bbbFlags & BBBF_ISDUMMYBUTTON) != 0;
+	cbd->m_bSeparator = (bbdi->bbbFlags & BBBF_ISSEPARATOR) != 0;
 	cbd->m_bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) != 0;
 	cbd->m_bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) != 0;
 	cbd->m_bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) != 0;
