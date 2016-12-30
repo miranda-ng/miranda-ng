@@ -130,6 +130,7 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	cbd->m_bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) != 0;
 	cbd->m_bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) != 0;
 	cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
+	cbd->m_bCantBeHidden = (bbdi->bbbFlags & BBBF_CANTBEHIDDEN) != 0;
 	cbd->m_bSeparator = (bbdi->bbbFlags & BBBF_ISSEPARATOR) != 0;
 	cbd->m_bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) != 0;
 	cbd->m_bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) != 0;
@@ -462,6 +463,7 @@ class CSrmmToolbarOptions : public CDlgBase
 						cbd->m_bChatButton = (cbd->m_opFlags & BBSF_CHATBUTTON) != 0;
 						cbd->m_bCanBeHidden = (cbd->m_opFlags & BBSF_CANBEHIDDEN) != 0;
 					}
+					
 					if (RSide && !cbd->m_bRSided) {
 						cbd->m_bRSided = true;
 						cbd->m_opFlags |= BBSF_NTBSWAPED;
@@ -470,7 +472,8 @@ class CSrmmToolbarOptions : public CDlgBase
 						cbd->m_bRSided = false;
 						cbd->m_opFlags |= BBSF_NTBSWAPED;
 					}
-					if (!m_toolBar.GetCheckState(tvi.hItem)) {
+					
+					if (!cbd->m_bCantBeHidden && !m_toolBar.GetCheckState(tvi.hItem)) {
 						cbd->m_bIMButton = false;
 						cbd->m_bChatButton = false;
 
@@ -481,7 +484,7 @@ class CSrmmToolbarOptions : public CDlgBase
 						if (!cbd->m_bIMButton && !cbd->m_bChatButton)
 							cbd->m_bIMButton = true;
 						if (cbd->m_bSeparator && !mir_strcmp(cbd->m_pszModuleName, "Tabsrmm_sep")) {
-							cbd->m_bHidden = 0;
+							cbd->m_bHidden = false;
 							cbd->m_opFlags &= ~BBSF_NTBDESTRUCT;
 							++loc_sepcout;
 						}
@@ -537,13 +540,14 @@ class CSrmmToolbarOptions : public CDlgBase
 
 				TVINSERTSTRUCT tvis2 = {};
 				tvis.hInsertAfter = TVI_LAST;
-				tvis2.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_SELECTEDIMAGE | TVIF_IMAGE | TVIF_STATE;
-				tvis2.item.pszText = MIDDLE_SEPARATOR;
-				tvis2.item.stateMask = TVIS_BOLD;
-				tvis2.item.state = TVIS_BOLD;
-				tvis2.item.iImage = tvis.item.iSelectedImage = -1;
+				tvis2.itemex.mask = TVIF_PARAM | TVIF_TEXT | TVIF_SELECTEDIMAGE | TVIF_IMAGE | TVIF_STATE | TVIF_STATEEX;
+				tvis2.itemex.pszText = MIDDLE_SEPARATOR;
+				tvis2.itemex.stateMask = TVIS_BOLD;
+				tvis2.itemex.state = TVIS_BOLD;
+				tvis2.itemex.iImage = tvis.item.iSelectedImage = -1;
+				tvis2.itemex.uStateEx = TVIS_EX_DISABLED;
 				tvis.hInsertAfter = hti = m_toolBar.InsertItem(&tvis2);
-				m_toolBar.SetCheckState(hti, 1);
+				m_toolBar.SetItemState(hti, 0x3000, TVIS_STATEIMAGEMASK);
 			}
 
 			tvis.item.lParam = (LPARAM)cbd;
@@ -561,6 +565,8 @@ class CSrmmToolbarOptions : public CDlgBase
 			hti = m_toolBar.InsertItem(&tvis);
 
 			m_toolBar.SetCheckState(hti, (cbd->m_bIMButton || cbd->m_bChatButton));
+			if (cbd->m_bCantBeHidden)
+				m_toolBar.SetItemState(hti, 0x3000, TVIS_STATEIMAGEMASK);
 		}
 	}
 
@@ -684,7 +690,7 @@ public:
 		CustomButtonData *cbd = (CustomButtonData*)tvi.lParam;
 		cbd->m_bIMButton = m_btnIM.GetState() != 0;
 		cbd->m_bChatButton = m_btnChat.GetState() != 0;
-		cbd->m_bCanBeHidden = m_btnHidden.GetState() != 0;
+		cbd->m_bCanBeHidden = !cbd->m_bCantBeHidden && m_btnHidden.GetState() != 0;
 		cbd->m_opFlags = (cbd->m_bIMButton ? BBSF_IMBUTTON : 0) + (cbd->m_bChatButton ? BBSF_CHATBUTTON : 0) + (cbd->m_bCanBeHidden ? BBSF_CANBEHIDDEN : 0);
 	}
 

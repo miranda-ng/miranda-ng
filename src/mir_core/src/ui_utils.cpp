@@ -1785,9 +1785,12 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 void CCtrlTreeView::InvertCheck(HTREEITEM hItem)
 {
 	TVITEMEX tvi;
-	tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+	tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_STATEEX;
 	tvi.hItem = hItem;
 	if (!GetItem(&tvi))
+		return;
+
+	if (tvi.uStateEx & TVIS_EX_DISABLED)
 		return;
 
 	tvi.iImage = tvi.iSelectedImage = !tvi.iImage;

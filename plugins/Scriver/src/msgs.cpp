@@ -429,7 +429,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 {
 	BBButton bbd = {};
 	bbd.pszModuleName = "SRMM";
-	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISIMBUTTON | BBBF_CREATEBYID | BBBF_ISRSIDEBUTTON;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISIMBUTTON | BBBF_CREATEBYID | BBBF_ISRSIDEBUTTON | BBBF_CANTBEHIDDEN;
 	bbd.dwButtonID = IDOK;
 	bbd.dwDefPos = 5;
 	bbd.hIcon = IcoLib_GetIconHandle("scriver_SEND");

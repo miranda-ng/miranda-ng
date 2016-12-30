@@ -233,8 +233,8 @@ struct StatusIconClickData
 #define BBBF_ISRSIDEBUTTON		(1<<7)
 #define BBBF_CANBEHIDDEN		(1<<8)
 #define BBBF_ISSEPARATOR		(1<<9)
-
-#define BBBF_CREATEBYID			(1<<11)  //only for tabsrmm internal use
+#define BBBF_CANTBEHIDDEN		(1<<10)
+#define BBBF_CREATEBYID			(1<<11)  // only for the internal use
 
 struct BBButton
 {
@@ -346,7 +346,7 @@ struct CustomButtonData : public MZeroedObject
 	HANDLE m_hIcon;         // Handle to icolib registred icon
 
 	bool   m_bIMButton, m_bChatButton;
-	bool   m_bCanBeHidden, m_bHidden, m_bAutoHidden, m_bSeparator, m_bDisabled, m_bPushButton;
+	bool   m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bAutoHidden, m_bSeparator, m_bDisabled, m_bPushButton;
 	bool   m_bRSided;
 	BYTE   m_opFlags;
 	int    m_hLangpack;
