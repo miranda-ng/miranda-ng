@@ -7,45 +7,45 @@
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
 Поддержка протокола AOL Instant Messenger (AIM) в Miranda NG.
-[AIM User Details]
-AIM Детали пользователя
-[Screen Name:]
+[AIM user details]
+Информация о пользователе AIM
+[Screen name:]
 Имя AIM:
-[Display Name:]
+[Display name:]
 Отображаемое имя:
 [Password:]
 Пароль:
-[AIM Options]
+[AIM options]
 Настройки AIM
-[Message Delivery Confirmation]
+[Message delivery confirmation]
 Подтверждение приёма
-[Do Not Autoreply When Away]
+[Do not autoreply when away]
 Не отвечать авт. когда Отсутствую
-[Convert Incoming Messages to BBCode]
+[Convert incoming messages to BBCode]
 Переводить вх. сообщения в BBCode
-[Convert Outgoing Messages to HTML]
+[Convert outgoing messages to HTML]
 Переводить исх. сообщения в HTML
-[Disable Avatars]
+[Disable avatars]
 Отключить аватары
-[Disable Account Type Icons]
+[Disable account type icons]
 Откл. значки типов учётных записей
-[Disable Extended Status Icons]
+[Disable extended status icons]
 Откл. расширенные значки статуса
 [Notify about new mail]
 Уведомлять о новой почте
-[Manage Server Groups]
+[Manage server groups]
 Управлять группами на сервере
-[Advanced Options]
+[Advanced options]
 Дополнительно
-[Instant Idle on Login]
+[Instant idle on login]
 Режим ожидания при входе
-[Force Proxy File Transfers]
+[Force proxy file transfers]
 Передачи файлов через прокси
-[Masquerade as a Sidekick/Hiptop User]
+[Masquerade as a Sidekick/Hiptop user]
 Представляться как Sidekick/Hiptop
 [Connection]
 Подключение
-[Login Server:]
+[Login server:]
 Сервер:
 [Port:]
 Порт:
@@ -53,23 +53,25 @@ AIM Детали пользователя
 Сброс
 [Disable SSL]
 Выкл. SSL
-[Force Single Client]
+[Force single client]
 Только одна сессия
+[Use "clientlogin" (recommended)]
+Использовать "clientlogin" (рекомендуется)
 [* Some changes will take effect the next time you connect to the AIM network]
 * Некоторые изменения вступят в силу при следующем подключении к сети AIM
-[Save Profile]
+[Save profile]
 Сохранить профиль
 [Create a new AIM account]
 Создать новую учётную запись AIM
-[AIM Instant Idler]
-AIM Установить Instant Idle
-[Number of Hours:]
+[AIM instant idler]
+Установить Instant Idle
+[Number of hours:]
 Число часов:
-[Number of Minutes:]
+[Number of minutes:]
 Число минут:
-[Set Idle]
+[Set idle]
 Установить
-[Unset Idle]
+[Unset idle]
 Снять
 [Users who can contact me:]
 Те кто может связаться со мной:
@@ -91,15 +93,15 @@ AIM Установить Instant Idle
 Ожидание
 [Allow contacts to be notified of:]
 Уведомить контакты об:
-[Join Chat Room]
+[Join chat room]
 Зайти в чат
-[Chat Room]
+[Chat room]
 Чат
 [&Join]
 &Зайти
 [&Cancel]
 О&тмена
-[Change Password]
+[Change password]
 Сменить пароль
 [Original]
 Старый
@@ -109,23 +111,23 @@ AIM Установить Instant Idle
 Повторить
 [*Passwords don't match.]
 *Пароли не совпадают.
-[Screen Name]
+[Screen name]
 Имя AIM
 [E-mail]
 Почта
-[Confirm Account]
+[Confirm account]
 Подтвердить
 [*Applied upon reconnect]
 *Требуется перезапуск
-[Save Changes]
+[Save changes]
 Сохранить изменения
-[Invite Buddy To Chat Room]
+[Invite buddy to chat room]
 Приглашение в комнату чата
 [&Invite]
 &Пригласить
 [Invitation reason]
 Причина приглашения
-[Chat Room Invitation Request]
+[Chat room invitation request]
 Запрос приглашения в чат
 [&Deny]
 &Запретить
@@ -145,9 +147,9 @@ AIM Установить Instant Idle
 &Информация
 [User &history]
 История &пользователя
-[Invalid Screen Name or password.]
+[Invalid screen name or password.]
 Недействительное имя AIM или пароль.
-[Mismatched Screen Name or password.]
+[Mismatched screen name or password.]
 Неправильное имя AIM или пароль.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Вы подключаетесь слишком часто. Подождите 10 минут и попробуйте снова.
@@ -167,51 +169,51 @@ AIM Установить Instant Idle
 Неправильный формат SNAC.
 [User temporarily unavailable.]
 Пользователь временно недоступен.
-[No Match.]
+[No match.]
 Нет совпадений.
-[Check your Screen Name.]
+[Check your screen name.]
 Проверьте свой псевдоним.
-[Check your Password.]
+[Check your password.]
 Проверьте свой пароль.
-[Check your Email Address.]
+[Check your email address.]
 Проверьте свой адрес электронной почты.
 [Service temporarily unavailable.]
 Сервис временно недоступен.
-[Invalid Screen Name.]
+[Invalid screen name.]
 Некорректное отображаемое имя.
-[Invalid Password.]
+[Invalid password.]
 Неправильный пароль.
-[Invalid Email.]
+[Invalid email.]
 Некорректный адрес электронной почты.
-[Invalid Old Password.]
+[Invalid old password.]
 Неправильный старый пароль.
-[Invalid Screen Name Length.]
+[Invalid screen name Length.]
 Некорректная длина отображаемого имени.
-[Invalid Password Length.]
+[Invalid password length.]
 Некорректная длина пароля.
-[Invalid Email Length.]
+[Invalid email length.]
 Некорректная длина адреса электронной почты.
-[Invalid Old Password Length.]
+[Invalid old password length.]
 Некорректная длина старого пароля.
-[Need Old Password.]
+[Need old password.]
 Требуется старый пароль.
-[An Error has occurred.]
+[An error has occurred.]
 Неизвестная ошибка.
-[Internal Error.]
+[Internal error.]
 Внутренняя ошибка.
-[DNS Fail.]
+[DNS fail.]
 Ошибка DNS.
 [Failed to open file: %s : %s]
 Не удалось открыть файл: %s : %s
-[AIM Link Protocol]
+[AIM link protocol]
 Протокол AIM
-[%s Protocol]
+[%s protocol]
 Протокол %s
 [%s server connection]
 %s подключение к серверу
 [%s client-to-client connections]
 %s подключения между пользователями
-[[Auto-Response]:]
+[[Auto-response]:]
 (Автоответ):
 [No information has been provided by the server.]
 Сервер не предоставил никакой информации.
@@ -243,67 +245,67 @@ AIM Установить Instant Idle
 Заблокировать
 [Profile]
 Профиль
-[AOL Mail]
+[AOL mail]
 Почта AOL
-[AIM Icon]
+[AIM icon]
 Значок AIM
-[AOL Bot]
+[AOL bot]
 Бот AOL
 [Admin]
 Админ
 [Confirmed]
 Проверенный
-[Not Confirmed]
+[Not confirmed]
 Непроверенный
 [Blocked list]
 Список заблокированных
-[Foreground Color]
+[Foreground color]
 Цвет переднего плана
-[Background Color]
+[Background color]
 Цвет фона
 [Bold]
 Жирный
-[Not Bold]
+[Not bold]
 Не жирный
 [Italic]
 Курсив
-[Not Italic]
+[Not italic]
 Не курсив
 [Underline]
 Подчёркивание
-[Not Underline]
+[Not underline]
 Не подчёркнутый
 [Subscript]
 Подскрипт
-[Not Subscript]
+[Not subscript]
 Не подскрипт
 [Superscript]
 Суперскрипт
-[Not Superscript]
+[Not superscript]
 Не суперскрипт
-[Normal Script]
+[Normal script]
 Стандартный скрипт
-[Not Normal Script]
+[Not normal script]
 Нестандартный скрипт
-[Profile Editor]
+[Profile editor]
 Редактор профиля
-[AIM Account Type]
+[AIM account type]
 Тип учётной записи AIM
-[AIM Extended Status]
+[AIM extended status]
 Расширенный статус AIM
 [&Block]
 &Блокировать
 [&Unblock]
 &Разблокировать
-[Manage Account]
+[Manage account]
 Управление учётной записью
-[Instant Idle]
+[Instant idle]
 Установить Instant Idle
-[Read &HTML Away Message]
+[Read &HTML away message]
 Читать &HTML статусное сообщение
-[Read Profile]
+[Read profile]
 Просмотреть профиль
-[Add To Server List]
+[Add to server list]
 Добавить в список на сервере
 [Network]
 Сеть
@@ -311,8 +313,8 @@ AIM Установить Instant Idle
 Основные
 [Privacy]
 Приватность
-[Please, enter a username in the options dialog.]
-Пожалуйста, введите имя пользователя в настройках
+[Please, enter a user name in the options dialog.]
+Пожалуйста, введите имя пользователя в настройках.
 [Please, enter a password in the options dialog.]
 Пожалуйста, введите пароль в настройках
 [Failed to open file: %s %s]

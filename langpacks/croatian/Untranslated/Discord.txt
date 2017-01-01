@@ -3,5 +3,8 @@
 [Password:]
 [Contacts]
 [Default group:]
+[Nick:]
 [Network]
 [Account]
+[%s server connection]
+[User ID]

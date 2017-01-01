@@ -7,7 +7,7 @@
 ;============================================================
 [Cannot add this buddy because it requires authorization.]
 Cannot add this buddy because it requires authorisation.
-[Foreground Color]
-Foreground Colour
-[Background Color]
-Background Colour
+[Foreground color]
+Foreground colour
+[Background color]
+Background colour

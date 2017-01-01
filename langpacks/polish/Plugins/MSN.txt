@@ -181,7 +181,7 @@ Powiązanie protokołu MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Kontakt %s został usunięty z serwera.\nCzy chciałbyś pozostawić go na liście jako kontakt lokalny w celu zachowania historii?
 [%s protocol]
-protokół %s
+Protokół %s
 ;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Temat: %s

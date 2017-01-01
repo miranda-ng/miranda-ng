@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.0.0.1
+;  Version: 0.0.0.3
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -13,7 +13,11 @@
 Парола:
 [Contacts]
 Контакти
+[Nick:]
+Прякор:
 [Network]
 Мрежа
 [Account]
 Акаунт
+[%s server connection]
+%s връзка със сървъра

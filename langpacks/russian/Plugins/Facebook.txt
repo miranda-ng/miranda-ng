@@ -43,6 +43,8 @@
 Большие аватары
 [Prefer real names instead of nicknames]
 Предпочитать реальные имена вместо ников
+[At login load also contacts you recently chat with]
+При входе загружать также контакты, с которыми вы недавно общались
 [Popup notifications]
 Настройка уведомлений вспл. окнами
 [Show notifications]

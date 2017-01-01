@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.0.0.1
+;  Version: 0.0.0.3
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -17,7 +17,13 @@
 Кантакты
 [Default group:]
 
+[Nick:]
+Мянушка:
 [Network]
 Сеціва
 [Account]
 Уліковы запіс
+[%s server connection]
+
+[User ID]
+

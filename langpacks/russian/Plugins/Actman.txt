@@ -521,6 +521,8 @@ UTF16+сигнатура
 Показывает все фреймы
 [Show All Titlebars]
 Показывает названия
+[will return Unicode instead of AnsiChar]
+вернёт Unicode вместо AnsiChar
 [int hMenu handle]
 целочисленный хендл hMenu
 [Show All Users]

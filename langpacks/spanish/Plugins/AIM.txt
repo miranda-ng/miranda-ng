@@ -23,7 +23,7 @@ Inactivo
 &Entrar
 [&Cancel]
 &Cancelar
-[Change Password]
+[Change password]
 Cambiar contraseña
 [New]
 Nuevo
@@ -45,7 +45,7 @@ Mensaje
 %s conexión al servidor
 [Profile]
 Perfil
-[Background Color]
+[Background color]
 Color de fondo
 [Bold]
 Negrita

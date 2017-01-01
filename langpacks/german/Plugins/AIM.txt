@@ -8,45 +8,45 @@
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
 AOL-Instant-Messenger- (AIM-) Unterstützung für Miranda NG.
 ;file \protocols\AimOscar\res\aim.rc
-[AIM User Details]
+[AIM user details]
 AIM-Benutzerangaben
-[Screen Name:]
+[Screen name:]
 Benutzername:
-[Display Name:]
+[Display name:]
 Anzeigename:
 [Password:]
 Passwort:
-[AIM Options]
+[AIM options]
 AIM-Einstellungen
-[Message Delivery Confirmation]
+[Message delivery confirmation]
 Empfangsbestätigungen anfordern
-[Do Not Autoreply When Away]
+[Do not autoreply when away]
 Keine Autoantwort, wenn abwesend
-[Convert Incoming Messages to BBCode]
+[Convert incoming messages to BBCode]
 Eingehende Nachrichten in BBCode
-[Convert Outgoing Messages to HTML]
+[Convert outgoing messages to HTML]
 Ausgehende Nachrichten in HTML
-[Disable Avatars]
+[Disable avatars]
 Avatare deaktivieren
-[Disable Account Type Icons]
+[Disable account type icons]
 Kontentyp-Icons deaktivieren
-[Disable Extended Status Icons]
+[Disable extended status icons]
 Erweiterte Statusicons deaktivieren
 [Notify about new mail]
 Über neue Mails benachrichtigen
-[Manage Server Groups]
-Server-Gruppen verwalten
-[Advanced Options]
+[Manage server groups]
+Serverseitige Gruppen verwalten
+[Advanced options]
 Erweiterte Einstellungen
-[Instant Idle on Login]
+[Instant idle on login]
 Sofort als untätig anmelden
-[Force Proxy File Transfers]
+[Force proxy file transfers]
 Dateien per Proxy versenden
-[Masquerade as a Sidekick/Hiptop User]
+[Masquerade as a Sidekick/Hiptop user]
 Als Sidekick-/Hiptop-Nutzer ausgeben
 [Connection]
 Verbindung
-[Login Server:]
+[Login server:]
 Loginserver:
 [Port:]
 Port:
@@ -54,25 +54,25 @@ Port:
 Standard
 [Disable SSL]
 SSL deaktivieren
-[Force Single Client]
+[Force single client]
 Kein mehrfaches Einloggen erlauben
 [Use "clientlogin" (recommended)]
 "Clientlogin" verwenden (empfohlen)
 [* Some changes will take effect the next time you connect to the AIM network]
 Einige Änderungen werden sich erst bei Ihrer nächsten Verbindung mit AIM auswirken.
-[Save Profile]
+[Save profile]
 Profil speichern
 [Create a new AIM account]
 Ein neues AIM-Konto erstellen
-[AIM Instant Idler]
+[AIM instant idler]
 AIM: Untätigkeit einstellen
-[Number of Hours:]
+[Number of hours:]
 Anzahl Stunden:
-[Number of Minutes:]
+[Number of minutes:]
 Anzahl Minuten:
-[Set Idle]
+[Set idle]
 Setzen
-[Unset Idle]
+[Unset idle]
 Aufheben
 [Users who can contact me:]
 Benutzer, die mich kontaktieren dürfen:
@@ -94,9 +94,9 @@ Entfernen
 Untätigkeit
 [Allow contacts to be notified of:]
 Kontakte dürfen informiert werden über:
-[Join Chat Room]
+[Join chat room]
 Chatraum betreten
-[Chat Room]
+[Chat room]
 Chatraum
 [&Join]
 Betreten
@@ -104,7 +104,7 @@ Betreten
 Abbre&chen
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 Dies erlaubt Zugang zu benutzerdefinierten Chaträumen. Um vordefinierten Chaträumen beizutreten verwenden Sie Web-Links.
-[Change Password]
+[Change password]
 Passwort ändern
 [Original]
 Original
@@ -114,23 +114,23 @@ Neu
 Wiederholen
 [*Passwords don't match.]
 *Passwörter nicht identisch.
-[Screen Name]
+[Screen name]
 Benutzername
 [E-mail]
 E-Mail
-[Confirm Account]
+[Confirm account]
 Account bestätigen
 [*Applied upon reconnect]
 *Bei Neuverb. gespeich.
-[Save Changes]
-Speichern
-[Invite Buddy To Chat Room]
+[Save changes]
+Änderungen speichern
+[Invite buddy to chat room]
 Kontakt in Chatraum einladen
 [&Invite]
 E&inladen
 [Invitation reason]
 Grund der Einlad.
-[Chat Room Invitation Request]
+[Chat room invitation request]
 Einladung in einen Chatraum
 [&Deny]
 Ablehnen
@@ -152,9 +152,9 @@ Kontaktprofil
 [User &history]
 Verlauf des Kontakts
 ;file \protocols\AimOscar\src\error.cpp
-[Invalid Screen Name or password.]
+[Invalid screen name or password.]
 Ungültiger Anzeigename oder Passwort.
-[Mismatched Screen Name or password.]
+[Mismatched screen name or password.]
 Falsches Anzeigename oder Passwort.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Sie verbinden sich zu schnell. Bitte warten Sie 10 Minuten.
@@ -198,7 +198,7 @@ Absender zu böse.
 Empfänger zu böse.
 [User temporarily unavailable.]
 Benutzer vorübergehend nicht verfügbar.
-[No Match.]
+[No match.]
 Keine Übereinstimmung.
 [List overflow.]
 Listenüberlauf.
@@ -208,83 +208,83 @@ Anfrage mehrdeutig.
 Serverwarteschlange voll.
 [Not while on AOL.]
 Nicht auf AOL.
-[Check your Screen Name.]
+[Check your screen name.]
 Prüfen Sie Ihren Anzeigenamen.
-[Check your Password.]
+[Check your password.]
 Prüfen Sie Ihr Passwort.
-[Check your Email Address.]
+[Check your email address.]
 Prüfen Sie Ihre E-Mail-Adresse.
 [Service temporarily unavailable.]
 Dienst vorübergehend nicht verfügbar.
 [Field change temporarily unavailable.]
 Feldwechsel vorübergehend nicht verfügbar.
-[Invalid Screen Name.]
+[Invalid screen name.]
 Ungültiger Anzeigename.
-[Invalid Password.]
+[Invalid password.]
 Ungültiges Passwort.
-[Invalid Email.]
+[Invalid email.]
 Ungültige E-Mail-Adresse.
-[Invalid Registration Preference.]
+[Invalid registration preference.]
 Ungültige Registrierungseinstellung.
-[Invalid Old Password.]
+[Invalid old password.]
 Ungültiges altes Passwort.
-[Invalid Screen Name Length.]
+[Invalid screen name Length.]
 Ungültige Anzeigenamenslänge.
-[Invalid Password Length.]
+[Invalid password length.]
 Ungültige Passwortlänge.
-[Invalid Email Length.]
+[Invalid email length.]
 Ungültige E-Mail-Adresslänge.
-[Invalid Old Password Length.]
+[Invalid old password length.]
 Ungültige Länge des alten Passworts.
-[Need Old Password.]
+[Need old password.]
 Benötige altes Passwort.
-[Read Only Field.]
+[Read only field.]
 Nur-lesen-Feld.
-[Write Only Field.]
+[Write only field.]
 Nur-schreiben-Feld.
-[Unsupported Type.]
+[Unsupported type.]
 Nicht unterstützter Typ.
-[An Error has occurred.]
+[An error has occurred.]
 Ein Fehler ist aufgetreten.
-[Invalid Account.]
+[Invalid account.]
 Ungültiges Konto.
-[Delete Account.]
-Konto löschen.
-[Expired Account.]
+[Deleted account.]
+
+[Expired account.]
 Abgelaufenes Konto.
-[No Database access.]
+[No database access.]
 Kein Datenbankzugriff.
-[Invalid Database fields.]
+[Invalid database fields.]
 Ungültige Datenbankfelder.
-[Bad Database status.]
+[Bad database status.]
 Schlechter Datenbankzustand.
-[Migration Cancel.]
+[Migration cancel.]
 Migration abgebrochen.
-[Internal Error.]
+[Internal error.]
 Interner Fehler.
-[There is already a Pending Request for this Screen Name.]
+[There is already a pending request for this screen name.]
 Es gibt bereits eine Anfrage für diesen Anzeigenamen.
 [Not DT status.]
 Nicht DT Status.
-[Outstanding Confirmation.]
+[Outstanding confirmation.]
 Ausstehende Bestätigung.
-[No Email Address.]
+[No email address.]
 Keine E-Mail-Adresse.
-[Over Limit.]
+[Over limit.]
 Über Grenze.
-[Email Host Fail.]
+[Email host fail.]
 E-Mail-Hostfehler.
-[DNS Fail.]
+[DNS fail.]
 DNS-Fehler.
 ;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 Konnte die Datei nicht öffnen: %s : %s
 ;file \protocols\AimOscar\src\links.cpp
-[AIM Link Protocol]
+[AIM link protocol]
 AIM-Link-Protokoll
 ;file \protocols\AimOscar\src\popup.cpp
-[%s Protocol]
-%s-Protokoll
+[%s protocol]
+%s Protokoll
 [Open mail account?]
 Mailkonto öffnen?
 ;file \protocols\AimOscar\src\proto.cpp
@@ -293,7 +293,7 @@ Mailkonto öffnen?
 [%s client-to-client connections]
 %s Client-to-Client-Verbindungen
 ;file \protocols\AimOscar\src\server.cpp
-[[Auto-Response]:]
+[[Auto-response]:]
 \[Automatische Antwort]:
 [Contact tried to open an audio/video conference (not currently supported)]
 Kontakt versucht, eine Audio-/Video-Konferenz zu öffnen (momentan nicht unterstützt).
@@ -344,70 +344,70 @@ Kann die Verbindungsprozedur nicht starten.
 Blockieren
 [Profile]
 Profil
-[AOL Mail]
+[AOL mail]
 AOL-Mail
-[AIM Icon]
+[AIM icon]
 AIM-Icon
 [Hiptop]
 Hiptop
-[AOL Bot]
+[AOL bot]
 AOL-Bot
 [Admin]
 Administrator
 [Confirmed]
 Bestätigt
-[Not Confirmed]
+[Not confirmed]
 Unbestätigt
 [Blocked list]
 Blockierliste
-[Foreground Color]
+[Foreground color]
 Vordergrundfarbe
-[Background Color]
+[Background color]
 Hintergrundfarbe
 [Bold]
 Fett
-[Not Bold]
+[Not bold]
 Nicht fett
 [Italic]
 Kursiv
-[Not Italic]
+[Not italic]
 Nicht kursiv
 [Underline]
 Unterstrichen
-[Not Underline]
+[Not underline]
 Nicht unterstrichen
 [Subscript]
 Tiefgestellt
-[Not Subscript]
+[Not subscript]
 Nicht tiefgestellt
 [Superscript]
 Hochgestellt
-[Not Superscript]
+[Not superscript]
 Nicht hochgestellt
-[Normal Script]
+[Normal script]
 Normaler Stil
-[Not Normal Script]
+[Not normal script]
 Nicht normaler Stil
-[Profile Editor]
+[Profile editor]
 Profileditor
-[AIM Account Type]
+[AIM account type]
 AIM-Kontentyp
-[AIM Extended Status]
+[AIM extended status]
 AIM erweiterter Status
 [&Block]
 &Blockieren
 [&Unblock]
 Blockieren a&ufheben
-[Manage Account]
+[Manage account]
 Account verwalten
-[Instant Idle]
+[Instant idle]
 Sofort untätig
-[Read &HTML Away Message]
+[Read &HTML away message]
 &HTML-Abwesenheitsnachricht lesen
-[Read Profile]
+[Read profile]
 Profil lesen
-[Add To Server List]
-Zum Server hinzufügen
+[Add to server list]
+Zur Serverliste hinzufügen
 ;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Netzwerk
@@ -418,7 +418,7 @@ Privatsphäre
 [Join me in this buddy chat!]
 Bitte komm zu mir in diesen Chatraum!
 ;file \protocols\AimOscar\src\utility.cpp
-[Please, enter a username in the options dialog.]
+[Please, enter a user name in the options dialog.]
 Bitte einen Benutzernamen in den Einstellungen angeben.
 [Please, enter a password in the options dialog.]
 Bitte ein Passwort in den Einstellungen angeben.

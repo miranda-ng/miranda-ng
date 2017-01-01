@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.0.0.1
+;  Version: 0.0.0.3
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -13,6 +13,8 @@ E-mail:
 Contraseña:
 [Contacts]
 Contactos
+[Nick:]
+Nick:
 [Network]
 Red
 [Account]

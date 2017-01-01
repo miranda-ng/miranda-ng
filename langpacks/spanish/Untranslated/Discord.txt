@@ -1,2 +1,4 @@
 ﻿[Discord support for Miranda NG.]
 [Default group:]
+[%s server connection]
+[User ID]

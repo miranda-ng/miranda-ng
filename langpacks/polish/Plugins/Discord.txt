@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.0.0.1
+;  Version: 0.0.0.3
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -18,8 +18,15 @@ Hasło:
 Kontakty
 [Default group:]
 Domyślna grupa:
+[Nick:]
+Nick:
 ;file \protocols\Discord\src\options.cpp
 [Network]
 Protokoły
 [Account]
 Konto
+;file \protocols\Discord\src\proto.cpp
+[%s server connection]
+Połączenie %s
+[User ID]
+ID użytkownika

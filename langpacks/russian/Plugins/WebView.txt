@@ -45,6 +45,10 @@
 Показывать
 [Between start and end strings]
 Между начальной и конечной строками
+[Start:]
+Начало:
+[End:]
+Конец:
 [Opens data window]
 Открыть окно с данными
 [Display clean-up]
@@ -143,6 +147,10 @@
 Всплывающие окна
 [Cannot write to file]
 Невозможно записать в файл
+[The string]
+Строка
+[has been found on the web page]
+найдена на веб-странице
 [Cannot read from file]
 Невозможно прочитать из файла
 [Cannot write to file 1]
