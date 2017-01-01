@@ -65,7 +65,7 @@ void CAimProto::ShowPopup(const char* msg, int flags, char* url)
 {
 	POPUPDATAT ppd = {0};
 
-	mir_snwprintf(ppd.lptzContactName, TranslateT("%s Protocol"), m_tszUserName);
+	mir_snwprintf(ppd.lptzContactName, TranslateT("%s protocol"), m_tszUserName);
 
 	if (flags & ERROR_POPUP) 
 	{

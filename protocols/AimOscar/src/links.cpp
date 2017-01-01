@@ -169,7 +169,7 @@ void aim_links_init(void)
 	static const char szService[] = "AIM/ParseAimLink";
 
 	hServiceParseLink = CreateServiceFunction(szService, ServiceParseAimLink);
-	AssocMgr_AddNewUrlTypeT("aim:", TranslateT("AIM Link Protocol"), hInstance, IDI_AOL, szService, 0);
+	AssocMgr_AddNewUrlTypeT("aim:", TranslateT("AIM link protocol"), hInstance, IDI_AOL, szService, 0);
 }
 
 void aim_links_destroy(void)

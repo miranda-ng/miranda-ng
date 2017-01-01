@@ -55,35 +55,35 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "AIM User Details",IDC_DETAILS,3,7,147,72,WS_GROUP
-    RTEXT           "Screen Name:",IDC_STATIC,8,20,50,11
+    GROUPBOX        "AIM user details",IDC_DETAILS,3,7,147,72,WS_GROUP
+    RTEXT           "Screen name:",IDC_STATIC,8,20,50,11
     EDITTEXT        IDC_SN,60,17,87,15,ES_LOWERCASE | ES_AUTOHSCROLL
-    RTEXT           "Display Name:",IDC_STATIC,8,39,50,9
+    RTEXT           "Display name:",IDC_STATIC,8,39,50,9
     EDITTEXT        IDC_NK,60,37,87,15,ES_AUTOHSCROLL
     RTEXT           "Password:",IDC_STATIC,8,59,50,11
     EDITTEXT        IDC_PW,60,57,87,15,ES_PASSWORD | ES_AUTOHSCROLL
-    GROUPBOX        "AIM Options",IDC_OPTIONS,3,83,147,120,WS_GROUP
-    CONTROL         "Message Delivery Confirmation",IDC_DC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,93,139,13
-    CONTROL         "Do Not Autoreply When Away",IDC_DM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,105,139,13
-    CONTROL         "Convert Incoming Messages to BBCode",IDC_FI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,117,139,13
-    CONTROL         "Convert Outgoing Messages to HTML",IDC_FO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,129,139,13
-    CONTROL         "Disable Avatars",IDC_DA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,141,139,13
-    CONTROL         "Disable Account Type Icons",IDC_AT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,153,139,13
-    CONTROL         "Disable Extended Status Icons",IDC_ES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,165,139,13
+    GROUPBOX        "AIM options",IDC_OPTIONS,3,83,147,120,WS_GROUP
+    CONTROL         "Message delivery confirmation",IDC_DC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,93,139,13
+    CONTROL         "Do not autoreply when away",IDC_DM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,105,139,13
+    CONTROL         "Convert incoming messages to BBCode",IDC_FI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,117,139,13
+    CONTROL         "Convert outgoing messages to HTML",IDC_FO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,129,139,13
+    CONTROL         "Disable avatars",IDC_DA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,141,139,13
+    CONTROL         "Disable account type icons",IDC_AT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,153,139,13
+    CONTROL         "Disable extended status icons",IDC_ES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,165,139,13
     CONTROL         "Notify about new mail",IDC_CM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,177,139,13
-    CONTROL         "Manage Server Groups",IDC_MG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,188,139,13
-    GROUPBOX        "Advanced Options",IDC_EXPERT,154,7,145,72,WS_GROUP
-    CONTROL         "Instant Idle on Login",IDC_II,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,18,138,15
-    CONTROL         "Force Proxy File Transfers",IDC_FP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,33,138,11
-    CONTROL         "Masquerade as a Sidekick/Hiptop User",IDC_HF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,46,138,13
+    CONTROL         "Manage server groups",IDC_MG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,188,139,13
+    GROUPBOX        "Advanced options",IDC_EXPERT,154,7,145,72,WS_GROUP
+    CONTROL         "Instant idle on login",IDC_II,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,18,138,15
+    CONTROL         "Force proxy file transfers",IDC_FP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,33,138,11
+    CONTROL         "Masquerade as a Sidekick/Hiptop user",IDC_HF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,46,138,13
     GROUPBOX        "Connection",IDC_STATIC,154,83,145,80
-    RTEXT           "Login Server:",IDC_STATIC,157,98,52,12
+    RTEXT           "Login server:",IDC_STATIC,157,98,52,12
     EDITTEXT        IDC_HN,212,96,83,13,ES_AUTOHSCROLL
     RTEXT           "Port:",IDC_STATIC,157,115,52,12
     EDITTEXT        IDC_PN,212,113,38,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Reset",IDC_SVRRESET,260,112,35,14
     CONTROL         "Disable SSL",IDC_DSSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,129,138,10
-    CONTROL         "Force Single Client",IDC_FSC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,149,138,10
+    CONTROL         "Force single client",IDC_FSC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,149,138,10
     CONTROL         "Use ""clientlogin"" (recommended)",IDC_CLIENTLOGIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,139,138,10
     CTEXT           "* Some changes will take effect the next time you connect to the AIM network",IDC_MASQ,157,168,138,28,NOT WS_VISIBLE
@@ -94,7 +94,7 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT | WS_EX_APPWINDOW
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    PUSHBUTTON      "Save Profile",IDC_SETPROFILE,157,4,60,30,WS_DISABLED
+    PUSHBUTTON      "Save profile",IDC_SETPROFILE,157,4,60,30,WS_DISABLED
     CONTROL         "",IDC_PROFILE,"RichEdit50W",WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP | 0x11c4,4,36,213,112
     CONTROL         "",IDC_BOLD,"Button",BS_OWNERDRAW,4,4,16,14,WS_EX_RIGHT
     CONTROL         "",IDC_ITALIC,"Button",BS_OWNERDRAW,20,4,16,14,WS_EX_RIGHT
@@ -115,7 +115,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Screen Name:",IDC_STATIC,0,0,53,12
+    LTEXT           "Screen name:",IDC_STATIC,0,0,53,12
     EDITTEXT        IDC_SN,54,0,131,12,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,0,16,53,12
     EDITTEXT        IDC_PW,54,16,131,12,ES_PASSWORD | ES_AUTOHSCROLL
@@ -126,15 +126,15 @@ END
 IDD_IDLE DIALOGEX 0, 0, 173, 74
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "AIM Instant Idler"
+CAPTION "AIM instant idler"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_IIH,86,11,28,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    LTEXT           "Number of Hours:",IDC_STATIC,18,13,62,12
-    LTEXT           "Number of Minutes:",IDC_STATIC,12,29,64,12
+    LTEXT           "Number of hours:",IDC_STATIC,18,13,62,12
+    LTEXT           "Number of minutes:",IDC_STATIC,12,29,64,12
     EDITTEXT        IDC_IIM,86,28,28,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
-    DEFPUSHBUTTON   "Set Idle",IDOK,78,50,46,14
-    PUSHBUTTON      "Unset Idle",IDCANCEL,129,50,39,14
+    DEFPUSHBUTTON   "Set idle",IDOK,78,50,46,14
+    PUSHBUTTON      "Unset idle",IDCANCEL,129,50,39,14
 END
 
 IDD_PRIVACY DIALOGEX 0, 0, 305, 220
@@ -163,10 +163,10 @@ END
 IDD_CHAT DIALOGEX 0, 0, 162, 82
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "Join Chat Room"
+CAPTION "Join chat room"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Chat Room",IDC_STATIC,7,10,86,9
+    LTEXT           "Chat room",IDC_STATIC,7,10,86,9
     EDITTEXT        IDC_ROOM,6,26,96,12,ES_LOWERCASE | ES_AUTOHSCROLL
     DEFPUSHBUTTON   "&Join",IDOK,110,6,46,14
     PUSHBUTTON      "&Cancel",IDCANCEL,110,24,45,14
@@ -178,7 +178,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Change Password",IDC_STATIC,2,2,101,103
+    GROUPBOX        "Change password",IDC_STATIC,2,2,101,103
     LTEXT           "Original",IDC_STATIC,8,14,87,8
     EDITTEXT        IDC_CPW,5,23,90,14,ES_PASSWORD | ES_AUTOHSCROLL
     LTEXT           "New",IDC_STATIC,7,40,87,8
@@ -186,22 +186,22 @@ BEGIN
     LTEXT           "Repeat",IDC_STATIC,7,65,88,8
     EDITTEXT        IDC_NPW2,5,74,90,14,ES_PASSWORD | ES_AUTOHSCROLL
     LTEXT           "*Passwords don't match.",IDC_PINFO,7,92,82,9,NOT WS_VISIBLE
-    LTEXT           "Screen Name",IDC_STATIC,118,15,92,8
+    LTEXT           "Screen name",IDC_STATIC,118,15,92,8
     EDITTEXT        IDC_FNAME,117,23,93,14,ES_AUTOHSCROLL
     LTEXT           "E-mail",IDC_STATIC,118,41,92,8
     EDITTEXT        IDC_CEMAIL,117,49,93,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Confirm Account",IDC_CONFIRM,5,122,86,16,BS_MULTILINE
+    PUSHBUTTON      "Confirm account",IDC_CONFIRM,5,122,86,16,BS_MULTILINE
     LTEXT           "*Applied upon reconnect",IDC_STATIC,127,109,80,8
-    PUSHBUTTON      "Save Changes",IDC_SAVECHANGES,131,122,79,16
+    PUSHBUTTON      "Save changes",IDC_SAVECHANGES,131,122,79,16
 END
 
 IDD_CHATROOM_INVITE DIALOGEX 0, 0, 302, 125
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "Invite Buddy To Chat Room"
+CAPTION "Invite buddy to chat room"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Screen Name",IDC_STATIC,154,31,43,9
+    LTEXT           "Screen name",IDC_STATIC,154,31,43,9
     PUSHBUTTON      "&Invite",IDOK,165,107,46,14
     PUSHBUTTON      "&Cancel",IDCANCEL,234,107,45,14
     LTEXT           "Invitation reason",IDC_STATIC,155,58,60,9
@@ -215,7 +215,7 @@ END
 IDD_CHATROOM_INVITE_REQ DIALOGEX 0, 0, 177, 116
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_TOPMOST | WS_EX_WINDOWEDGE
-CAPTION "Chat Room Invitation Request"
+CAPTION "Chat room invitation request"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "&Join",IDOK,77,97,46,14
@@ -224,7 +224,7 @@ BEGIN
     CTEXT           "",IDC_ROOMNAME,80,4,93,12,SS_SUNKEN
     EDITTEXT        IDC_MSG,6,50,166,40,ES_MULTILINE | ES_LOWERCASE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
     LTEXT           "Room",IDC_STATIC,5,6,73,8
-    LTEXT           "Screen Name",IDC_STATIC,5,24,73,8
+    LTEXT           "Screen name",IDC_STATIC,5,24,73,8
     CTEXT           "",IDC_SCREENNAME,80,22,93,12,SS_SUNKEN
 END
 

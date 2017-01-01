@@ -87,7 +87,7 @@ void CAimProto::start_connection(void*)
 		if (!getString(AIM_KEY_SN, &dbv))
 			db_free(&dbv);
 		else {
-			ShowPopup(LPGEN("Please, enter a username in the options dialog."), 0);
+			ShowPopup(LPGEN("Please, enter a user name in the options dialog."), 0);
 			broadcast_status(ID_STATUS_OFFLINE);
 			return;
 		}

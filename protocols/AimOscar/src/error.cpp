@@ -23,11 +23,11 @@ void CAimProto::login_error(unsigned short error)
 {
 	switch (error) {
 	case 0x0004:
-		ShowPopup(LPGEN("Invalid Screen Name or password."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid screen name or password."), ERROR_POPUP);
 		break;
 
 	case 0x0005:
-		ShowPopup(LPGEN("Mismatched Screen Name or password."), ERROR_POPUP);
+		ShowPopup(LPGEN("Mismatched screen name or password."), ERROR_POPUP);
 		break;
 
 	case 0x0018:
@@ -120,7 +120,7 @@ void CAimProto::get_error(unsigned short error)
 		break;
 
 	case 0x14:
-		ShowPopup(LPGEN("No Match."), ERROR_POPUP);
+		ShowPopup(LPGEN("No match."), ERROR_POPUP);
 		break;
 
 	case 0x15:
@@ -145,15 +145,15 @@ void CAimProto::admin_error(unsigned short error)
 {
 	switch (error) {
 	case 0x01:
-		ShowPopup(LPGEN("Check your Screen Name."), ERROR_POPUP);
+		ShowPopup(LPGEN("Check your screen name."), ERROR_POPUP);
 		break;
 
 	case 0x02:
-		ShowPopup(LPGEN("Check your Password."), ERROR_POPUP);
+		ShowPopup(LPGEN("Check your password."), ERROR_POPUP);
 		break;
 
 	case 0x03:
-		ShowPopup(LPGEN("Check your Email Address."), ERROR_POPUP);
+		ShowPopup(LPGEN("Check your email address."), ERROR_POPUP);
 		break;
 
 	case 0x04:
@@ -165,59 +165,59 @@ void CAimProto::admin_error(unsigned short error)
 		break;
 
 	case 0x06:
-		ShowPopup(LPGEN("Invalid Screen Name."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid screen name."), ERROR_POPUP);
 		break;
 
 	case 0x07:
-		ShowPopup(LPGEN("Invalid Password."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid password."), ERROR_POPUP);
 		break;
 
 	case 0x08:
-		ShowPopup(LPGEN("Invalid Email."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid email."), ERROR_POPUP);
 		break;
 
 	case 0x09:
-		ShowPopup(LPGEN("Invalid Registration Preference."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid registration preference."), ERROR_POPUP);
 		break;
 
 	case 0x0a:
-		ShowPopup(LPGEN("Invalid Old Password."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid old password."), ERROR_POPUP);
 		break;
 
 	case 0x0b:
-		ShowPopup(LPGEN("Invalid Screen Name Length."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid screen name Length."), ERROR_POPUP);
 		break;
 
 	case 0x0c:
-		ShowPopup(LPGEN("Invalid Password Length."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid password length."), ERROR_POPUP);
 		break;
 
 	case 0x0d:
-		ShowPopup(LPGEN("Invalid Email Length."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid email length."), ERROR_POPUP);
 		break;
 
 	case 0x0e:
-		ShowPopup(LPGEN("Invalid Old Password Length."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid old password length."), ERROR_POPUP);
 		break;
 
 	case 0x0f:
-		ShowPopup(LPGEN("Need Old Password."), ERROR_POPUP);
+		ShowPopup(LPGEN("Need old password."), ERROR_POPUP);
 		break;
 
 	case 0x10:
-		ShowPopup(LPGEN("Read Only Field."), ERROR_POPUP);
+		ShowPopup(LPGEN("Read only field."), ERROR_POPUP);
 		break;
 
 	case 0x11:
-		ShowPopup(LPGEN("Write Only Field."), ERROR_POPUP);
+		ShowPopup(LPGEN("Write only field."), ERROR_POPUP);
 		break;
 
 	case 0x12:
-		ShowPopup(LPGEN("Unsupported Type."), ERROR_POPUP);
+		ShowPopup(LPGEN("Unsupported type."), ERROR_POPUP);
 		break;
 
 	case 0x13:
-		ShowPopup(LPGEN("An Error has occurred."), ERROR_POPUP);
+		ShowPopup(LPGEN("An error has occurred."), ERROR_POPUP);
 		break;
 
 	case 0x14:
@@ -225,39 +225,39 @@ void CAimProto::admin_error(unsigned short error)
 		break;
 
 	case 0x15:
-		ShowPopup(LPGEN("Invalid Account."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid account."), ERROR_POPUP);
 		break;
 
 	case 0x16:
-		ShowPopup(LPGEN("Delete Account."), ERROR_POPUP);
+		ShowPopup(LPGEN("Deleted account."), ERROR_POPUP);
 		break;
 
 	case 0x17:
-		ShowPopup(LPGEN("Expired Account."), ERROR_POPUP);
+		ShowPopup(LPGEN("Expired account."), ERROR_POPUP);
 		break;
 
 	case 0x18:
-		ShowPopup(LPGEN("No Database access."), ERROR_POPUP);
+		ShowPopup(LPGEN("No database access."), ERROR_POPUP);
 		break;
 
 	case 0x19:
-		ShowPopup(LPGEN("Invalid Database fields."), ERROR_POPUP);
+		ShowPopup(LPGEN("Invalid database fields."), ERROR_POPUP);
 		break;
 
 	case 0x1a:
-		ShowPopup(LPGEN("Bad Database status."), ERROR_POPUP);
+		ShowPopup(LPGEN("Bad database status."), ERROR_POPUP);
 		break;
 
 	case 0x1b:
-		ShowPopup(LPGEN("Migration Cancel."), ERROR_POPUP);
+		ShowPopup(LPGEN("Migration cancel."), ERROR_POPUP);
 		break;
 
 	case 0x1c:
-		ShowPopup(LPGEN("Internal Error."), ERROR_POPUP);
+		ShowPopup(LPGEN("Internal error."), ERROR_POPUP);
 		break;
 
 	case 0x1d:
-		ShowPopup(LPGEN("There is already a Pending Request for this Screen Name."), ERROR_POPUP);
+		ShowPopup(LPGEN("There is already a pending request for this screen name."), ERROR_POPUP);
 		break;
 
 	case 0x1e:
@@ -265,23 +265,23 @@ void CAimProto::admin_error(unsigned short error)
 		break;
 
 	case 0x1f:
-		ShowPopup(LPGEN("Outstanding Confirmation."), ERROR_POPUP);
+		ShowPopup(LPGEN("Outstanding confirmation."), ERROR_POPUP);
 		break;
 
 	case 0x20:
-		ShowPopup(LPGEN("No Email Address."), ERROR_POPUP);
+		ShowPopup(LPGEN("No email address."), ERROR_POPUP);
 		break;
 
 	case 0x21:
-		ShowPopup(LPGEN("Over Limit."), ERROR_POPUP);
+		ShowPopup(LPGEN("Over limit."), ERROR_POPUP);
 		break;
 
 	case 0x22:
-		ShowPopup(LPGEN("Email Host Fail."), ERROR_POPUP);
+		ShowPopup(LPGEN("Email host fail."), ERROR_POPUP);
 		break;
 
 	case 0x23:
-		ShowPopup(LPGEN("DNS Fail."), ERROR_POPUP);
+		ShowPopup(LPGEN("DNS fail."), ERROR_POPUP);
 		break;
 	}
 }
