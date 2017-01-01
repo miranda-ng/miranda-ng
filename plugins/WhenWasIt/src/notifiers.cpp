@@ -138,12 +138,8 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 		sex = TranslateT("He/She");
 		break;
 	}
-	if (age > 0){
-		if (dab > 0)
-			mir_snwprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
-		else
-			mir_snwprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
-	}
+	if (age > 0)
+		mir_snwprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	else
 		mir_wstrncpy(pd.lptzText, text, MAX_SECONDLINE - 1);
 
