@@ -39,10 +39,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // a pointer, I have decided to diverge from the rest of Miranda and go with
 // the convention that functions return false on failure and nonzero on success.
 
-struct NETLIBHTTPREQUEST_tag;
-typedef struct NETLIBHTTPREQUEST_tag NETLIBHTTPREQUEST;
-struct NETLIBOPENCONNECTION_tag;
-typedef struct NETLIBOPENCONNECTION_tag NETLIBOPENCONNECTION;
+struct NETLIBHTTPREQUEST;
+struct NETLIBOPENCONNECTION;
 
 #define NETLIB_USER_AGENT "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)"
 
@@ -65,7 +63,9 @@ typedef int (*NETLIBHTTPGATEWAYINITPROC)(HANDLE hConn, NETLIBOPENCONNECTION *nlo
 typedef int (*NETLIBHTTPGATEWAYBEGINPROC)(HANDLE hConn, NETLIBOPENCONNECTION *nloc);
 typedef int (*NETLIBHTTPGATEWAYWRAPSENDPROC)(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend);
 typedef PBYTE (*NETLIBHTTPGATEWAYUNWRAPRECVPROC)(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *(*NetlibRealloc)(void*, size_t));
-typedef struct {
+
+struct NETLIBUSER
+{
 	int cbSize;
 	char *szSettingsModule;         // used for db settings and log
 	union {
@@ -80,7 +80,8 @@ typedef struct {
 	NETLIBHTTPGATEWAYWRAPSENDPROC pfnHttpGatewayWrapSend;  // can be NULL if no wrapping required
 	NETLIBHTTPGATEWAYUNWRAPRECVPROC pfnHttpGatewayUnwrapRecv;  // can be NULL if no wrapping required
 	int minIncomingPorts;     // only if NUF_INCOMING. Will be used for validation of user input.
-} NETLIBUSER;
+};
+
 #define NUF_INCOMING      0x01  // binds incoming ports
 #define NUF_OUTGOING      0x02  // makes outgoing plain connections
 #define NUF_HTTPGATEWAY   0x04  // can use HTTP gateway for plain sockets. ???HttpGateway* are valid.  Enables the HTTP proxy option in options.
@@ -186,7 +187,9 @@ should use the MSG_DUMPPROXY flag so that the logging is neat.
 #define PROXYTYPE_HTTP     3
 #define PROXYTYPE_HTTPS    4
 #define PROXYTYPE_IE       5
-typedef struct {
+
+struct NETLIBUSERSETTINGS
+{
 	int cbSize;                 // to be filled in before calling
 	int useProxy;	            // 1 or 0
 	int proxyType;	            // a PROXYTYPE_
@@ -203,7 +206,7 @@ typedef struct {
 	char *szOutgoingPorts;      // 0.3.3a+
 	int enableUPnP;             // 0.6.1+ only for NUF_INCOMING
 	int validateSSL;
-} NETLIBUSERSETTINGS;
+};
 
 #define MS_NETLIB_GETUSERSETTINGS  "Netlib/GetUserSettings"
 
@@ -268,7 +271,8 @@ it shouldnt matter */
 typedef void (*NETLIBNEWCONNECTIONPROC_V2)(HANDLE hNewConnection, DWORD dwRemoteIP, void * pExtra);
 typedef void (*NETLIBNEWCONNECTIONPROC)(HANDLE hNewConnection, DWORD dwRemoteIP);
 
-typedef struct {
+struct NETLIBBIND
+{
 	int cbSize;
 	union { // new code should use V2
 		NETLIBNEWCONNECTIONPROC pfnNewConnection;
@@ -281,7 +285,7 @@ typedef struct {
 	void * pExtra;		  // argument is sent to callback, added during 0.3.4+
 	DWORD dwExternalIP;   // set on return, host byte order
 	WORD wExPort;		  // set on return, host byte order
-} NETLIBBIND;
+};
 
 #define MS_NETLIB_BINDPORT     "Netlib/BindPort"
 
@@ -329,7 +333,8 @@ this is attempted, clearing sucking - so now you can set a timeout of any value,
 always reached by Windows, If a timeout occurs, or Miranda is exiting then you will get ERROR_TIMEOUT as soon as possible.
 */
 
-struct NETLIBOPENCONNECTION_tag {
+struct NETLIBOPENCONNECTION
+{
 	int cbSize;
 	const char *szHost;	  // can contain the string representation of an IP
 	WORD wPort;			  // host byte order
@@ -355,14 +360,16 @@ struct NETLIBOPENCONNECTION_tag {
 #define NLHPIF_USEPOSTSEQUENCE     0x0002   // append sequence numbers to POST requests
 #define NLHPIF_GETPOSTSAMESEQUENCE 0x0004	// GET and POST use the same sequence
 #define NLHPIF_HTTP11              0x0008	// HTTP 1.1 proxy
-typedef struct {
+
+struct NETLIBHTTPPROXYINFO
+{
 	int cbSize;
 	DWORD flags;
 	char *szHttpPostUrl;
 	char *szHttpGetUrl;
 	int firstGetSequence, firstPostSequence;
 	int combinePackets;
-} NETLIBHTTPPROXYINFO;
+};
 #define MS_NETLIB_SETHTTPPROXYINFO   "Netlib/SetHttpProxyInfo"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -401,12 +408,13 @@ typedef struct {
 
 #define MS_NETLIB_ADDRESSTOSTRING  "Netlib/AddressToString"
 
-typedef struct {
+struct NETLIBCONNINFO
+{
 	int cbSize;
 	char szIpPort[64];
 	unsigned dwIpv4;
 	WORD wPort;
-} NETLIBCONNINFO;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get connection Information
@@ -418,10 +426,11 @@ typedef struct {
 
 #define MS_NETLIB_GETCONNECTIONINFO  "Netlib/GetConnectionInfo"
 
-typedef struct {
+struct NETLIBIPLIST
+{
 	unsigned cbNum;
 	char szIp[1][64];
-} NETLIBIPLIST;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get connection Information
@@ -443,10 +452,11 @@ typedef struct {
 // nlhr.resultCode and nlhr.szResultDescr are ignored by this function.
 // Errors: ERROR_INVALID_PARAMETER, anything returned by MS_NETLIB_SEND
 
-typedef struct {
+struct NETLIBHTTPHEADER
+{
 	char *szName;
 	char *szValue;
-} NETLIBHTTPHEADER;
+};
 
 #define REQUEST_RESPONSE 0	// used by structure returned by MS_NETLIB_RECVHTTPHEADERS
 #define REQUEST_GET      1
@@ -470,7 +480,7 @@ typedef struct {
 #define NLHRF_DUMPASTEXT      0x00080000   // dump posted and reply data as text. Headers are always dumped as text.
 #define NLHRF_NODUMPSEND      0x00100000   // do not dump sent message.
 
-struct NETLIBHTTPREQUEST_tag
+struct NETLIBHTTPREQUEST
 {
 	int cbSize;
 	int requestType;	// a REQUEST_
@@ -605,11 +615,13 @@ public:
 #define MSG_DUMPASTEXT         0x080000  // this is textual data, don't dump as hex
 #define MSG_RAW                0x100000	 // send as raw data, bypass any HTTP proxy stuff
 #define MSG_DUMPSSL            0x200000	 // this is SSL traffic. For dump filtering only.
-typedef struct {
+
+struct NETLIBBUFFER
+{
 	char *buf;
 	int len;
 	int flags;
-} NETLIBBUFFER;
+};
 
 #define MS_NETLIB_SEND	   "Netlib/Send"
 
@@ -662,25 +674,28 @@ __inline INT_PTR Netlib_Recv(HANDLE hConn, char *buf, int len, int flags)
 // INVALID_HANDLE_VALUE.
 // Errors: ERROR_INVALID_HANDLE, ERROR_INVALID_DATA, anything from select()
 
-typedef struct {
+struct NETLIBSELECT
+{
 	int cbSize;
 	DWORD dwTimeout;      // in milliseconds, INFINITE is acceptable
 	HANDLE hReadConns[FD_SETSIZE+1];
 	HANDLE hWriteConns[FD_SETSIZE+1];
 	HANDLE hExceptConns[FD_SETSIZE+1];
-} NETLIBSELECT;
+};
 
-typedef struct {
+struct NETLIBSELECTEX
+{
 	int cbSize;
 	DWORD dwTimeout;      // in milliseconds, INFINITE is acceptable
 	HANDLE hReadConns[FD_SETSIZE+1];
 	HANDLE hWriteConns[FD_SETSIZE+1];
 	HANDLE hExceptConns[FD_SETSIZE+1];
+
 	/* Added in v0.3.3+ */
 	BOOL hReadStatus[FD_SETSIZE+1]; /* out, [in, expected to be FALSE] */
 	BOOL hWriteStatus[FD_SETSIZE+1]; /* out, [in, expected to be FALSE] */
 	BOOL hExceptStatus[FD_SETSIZE+1]; /* out, [in, expected to be FALSE] */
-} NETLIBSELECTEX;
+};
 
 #define MS_NETLIB_SELECT	   "Netlib/Select"
 #define MS_NETLIB_SELECTEX	   "Netlib/SelectEx"
@@ -732,14 +747,15 @@ __forceinline void Netlib_Shutdown(HANDLE h)
 // Errors: ERROR_INVALID_PARAMETER, ERROR_TIMEOUT,
 //        anything from select(), MS_NETLIB_RECV
 
-typedef struct {
+struct NETLIBPACKETRECVER
+{
 	int cbSize;
 	DWORD dwTimeout;	  // fill before calling. In milliseconds. INFINITE is valid
 	int bytesUsed;		  // fill before calling. This many bytes are removed from the start of the buffer. Set to 0 on return
 	int bytesAvailable;	  // equal to the return value, unless the return value is 0
 	int bufferSize;		  // same as parameter to MS_NETLIB_CREATEPACKETRECVER
 	BYTE *buffer;		  // contains the recved data
-} NETLIBPACKETRECVER;
+};
 
 #define MS_NETLIB_GETMOREPACKETS    "Netlib/GetMorePackets"
 
@@ -771,12 +787,12 @@ typedef struct {
 
 #define MS_NETLIB_STARTSSL "Netlib/StartSsl"
 
-typedef struct
+struct NETLIBSSL
 {
 	int cbSize;
 	const char *host; // Expected host name
 	int flags;        // Reserved
-} NETLIBSSL;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // here's a handy piece of code to let you log using printf-style specifiers:
@@ -860,12 +876,12 @@ __forceinline void Netlib_DestroySecurityProvider(char* szProviderName, HANDLE h
 /////////////////////////////////////////////////////////////////////////////////////////
 // Returns the NTLM response string. The result value should be freed using mir_free
 
-typedef struct {
-	char* szChallenge;
-	char* userName;
-	char* password;
-}
-	NETLIBNTLMREQUEST;
+struct NETLIBNTLMREQUEST
+{
+	char *szChallenge;
+	char *userName;
+	char *password;
+};
 
 #define MS_NETLIB_NTLMCREATERESPONSE "Netlib/NtlmCreateResponse"
 
@@ -875,22 +891,22 @@ typedef struct {
 	return (char*)CallService(MS_NETLIB_NTLMCREATERESPONSE, (WPARAM)hProvider, (LPARAM)&temp);
 }
 
-typedef struct {
+struct NETLIBNTLMREQUEST2
+{
 	size_t cbSize;
-	const char* szChallenge;
-	const wchar_t* szUserName;
-	const wchar_t* szPassword;
+	const char *szChallenge;
+	const wchar_t *szUserName;
+	const wchar_t *szPassword;
 	unsigned complete;
 	unsigned flags;
-}
-	NETLIBNTLMREQUEST2;
+};
 
 #define MS_NETLIB_NTLMCREATERESPONSE2 "Netlib/NtlmCreateResponse2"
 
 static __inline char* Netlib_NtlmCreateResponse2(HANDLE hProvider, char* szChallenge, wchar_t* szLogin, wchar_t* szPass, unsigned *complete)
 {
 	NETLIBNTLMREQUEST2 temp = { sizeof(temp), szChallenge, szLogin, szPass, *complete, NNR_TCHAR };
-	char* res = (char*)CallService(MS_NETLIB_NTLMCREATERESPONSE2, (WPARAM)hProvider, (LPARAM)&temp);
+	char *res = (char*)CallService(MS_NETLIB_NTLMCREATERESPONSE2, (WPARAM)hProvider, (LPARAM)&temp);
 	*complete = temp.complete;
 	return res;
 }
@@ -906,11 +922,11 @@ static __inline char* Netlib_NtlmCreateResponse2(HANDLE hProvider, char* szChall
 //    wParam: NETLIBNOTIFY* - points to the data being sent/received
 //    lParam: NETLIBUSER*   - points to the protocol definition
 
-typedef struct {
-	NETLIBBUFFER* nlb;      // pointer to the request buffer
-	int           result;   // amount of bytes really sent/received
-}
-	NETLIBNOTIFY;
+struct NETLIBNOTIFY
+{
+	NETLIBBUFFER* nlb;   // pointer to the request buffer
+	int result;          // amount of bytes really sent/received
+};
 
 #define ME_NETLIB_FASTRECV "Netlib/OnRecv"  // being called on every receive
 #define ME_NETLIB_FASTSEND "Netlib/OnSend"  // being called on every send
