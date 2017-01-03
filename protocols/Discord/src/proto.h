@@ -117,6 +117,18 @@ class CDiscordProto : public PROTO<CDiscordProto>
 		m_bTerminated;     // Miranda's going down
 
 	//////////////////////////////////////////////////////////////////////////////////////
+	// gateway
+
+	CMStringA m_szGateway;
+	HANDLE 
+		m_hGatewayNetlibUser,  // the separate netlib user handle for gateways
+		m_hGatewayConnection;  // gateway connection
+	void __cdecl GatewayThread(void*);
+	void GatewaySend(int opCode, const char*);
+
+	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	// options
 
 	CMOption<wchar_t*> m_wszEmail;        // my own email

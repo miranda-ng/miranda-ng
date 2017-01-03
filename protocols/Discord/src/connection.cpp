@@ -67,6 +67,11 @@ void CDiscordProto::OnLoggedIn()
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me/guilds", &CDiscordProto::OnReceiveGuilds));
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me/channels", &CDiscordProto::OnReceiveChannels));
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me/relationships", &CDiscordProto::OnReceiveFriends));
+
+	if (m_szGateway.IsEmpty())
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/gateway", &CDiscordProto::OnReceiveGateway));
+	else
+		ForkThread(&CDiscordProto::GatewayThread, NULL);
 }
 
 void CDiscordProto::OnLoggedOut()
