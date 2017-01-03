@@ -82,6 +82,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Tox", "..\protocols\T
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinecraftDynmap", "..\protocols\MinecraftDynmap\MinecraftDynmap.vcxproj", "{B4327D10-ACDC-4C12-9555-749DD49A7BB0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Discord", "..\protocols\Discord\proto_discord\Proto_Discord.vcxproj", "{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -418,6 +420,14 @@ Global
 		{B4327D10-ACDC-4C12-9555-749DD49A7BB0}.Release|Win32.Build.0 = Release|Win32
 		{B4327D10-ACDC-4C12-9555-749DD49A7BB0}.Release|x64.ActiveCfg = Release|x64
 		{B4327D10-ACDC-4C12-9555-749DD49A7BB0}.Release|x64.Build.0 = Release|x64
+		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Debug|Win32.Build.0 = Debug|Win32
+		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Debug|x64.ActiveCfg = Debug|x64
+		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Debug|x64.Build.0 = Debug|x64
+		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Release|Win32.ActiveCfg = Release|Win32
+		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Release|Win32.Build.0 = Release|Win32
+		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Release|x64.ActiveCfg = Release|x64
+		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
