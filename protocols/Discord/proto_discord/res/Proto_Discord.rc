@@ -53,8 +53,8 @@ END
 // remains consistent on all systems.
 IDI_ICON1               ICON                    "Offline.ico"
 IDI_ICON2               ICON                    "Online.ico"
-IDI_ICON3               ICON                    "DND.ico"
-IDI_ICON4               ICON                    "Idle.ico"
+IDI_ICON4               ICON                    "Invisible.ico"
+IDI_ICON6               ICON                    "DND.ico"
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
