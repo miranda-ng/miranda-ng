@@ -30,7 +30,6 @@ TwitterProto::TwitterProto(const char *proto_name, const wchar_t *username) :
 	PROTO<TwitterProto>(proto_name, username)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &TwitterProto::SvcCreateAccMgrUI);
-	CreateProtoService(PS_GETNAME, &TwitterProto::GetName);
 	CreateProtoService(PS_GETSTATUS, &TwitterProto::GetStatus);
 
 	CreateProtoService(PS_JOINCHAT, &TwitterProto::OnJoinChat);
@@ -204,12 +203,6 @@ int TwitterProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 INT_PTR TwitterProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_TWITTERACCOUNT), (HWND)lParam, first_run_dialog, (LPARAM)this);
-}
-
-INT_PTR TwitterProto::GetName(WPARAM wParam, LPARAM lParam)
-{
-	mir_strncpy(reinterpret_cast<char*>(lParam), m_szModuleName, (int)wParam);
-	return 0;
 }
 
 INT_PTR TwitterProto::GetStatus(WPARAM, LPARAM)

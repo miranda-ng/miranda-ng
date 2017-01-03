@@ -36,7 +36,6 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	arUsers(50, compareUsers)
 {
 	// Services
-	CreateProtoService(PS_GETNAME, &CDiscordProto::GetName);
 	CreateProtoService(PS_GETSTATUS, &CDiscordProto::GetStatus);
 
 	// Events
@@ -91,12 +90,6 @@ DWORD_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)DB_KEY_EMAIL;
 	}
-	return 0;
-}
-
-INT_PTR CDiscordProto::GetName(WPARAM wParam, LPARAM lParam)
-{
-	mir_strncpy((char*)lParam, m_szModuleName, (int)wParam);
 	return 0;
 }
 

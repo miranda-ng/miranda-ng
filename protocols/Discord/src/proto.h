@@ -155,7 +155,6 @@ public:
 	virtual int __cdecl OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
 
 	// Services
-	INT_PTR __cdecl GetName(WPARAM, LPARAM);
 	INT_PTR __cdecl GetStatus(WPARAM, LPARAM);
 
 	// Events
