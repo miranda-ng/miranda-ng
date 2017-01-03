@@ -56,3 +56,5 @@ extern HINSTANCE g_hInstance;
 
 #define DB_KEY_GROUP    "GroupName"
 #define DB_KEYVAL_GROUP L"Discord"
+
+time_t StringToDate(const CMStringW &str);

@@ -17,6 +17,76 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// retrieves server history 
+
+void CDiscordProto::RetrieveHistory(MCONTACT hContact, CDiscordHitoryOp iOp, SnowFlake msgid, int iLimit)
+{
+	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
+	if (pUser == NULL)
+		return;
+
+	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveHistory);
+	pReq << INT_PARAM("limit", iLimit);
+	switch (iOp) {
+	case MSG_AFTER:
+		pReq << CHAR_PARAM("after", CMStringA(FORMAT, "%lld", msgid)); break;
+	case MSG_BEFORE:
+		pReq << CHAR_PARAM("before", CMStringA(FORMAT, "%lld", msgid)); break;
+	}
+	pReq->pUserInfo = pUser;
+	Push(pReq);
+}
+
+void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	CDiscordUser *pUser = (CDiscordUser*)pReq->pUserInfo;
+
+	if (pReply->resultCode != 200)
+		return;
+
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (!root)
+		return;
+
+	DBEVENTINFO dbei = {};
+	dbei.cbSize = sizeof(dbei);
+	dbei.szModule = m_szModuleName;
+	dbei.flags = DBEF_READ | DBEF_UTF;
+	dbei.eventType = EVENTTYPE_MESSAGE;
+
+	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
+
+	for (auto it = root.begin(); it != root.end(); ++it) {
+		JSONNode &p = *it;
+
+		SnowFlake authorid = _wtoi64(p["author"]["id"].as_mstring());
+		if (authorid == m_ownId)
+			dbei.flags |= DBEF_SENT;
+		else
+			dbei.flags &= ~DBEF_SENT;
+
+		SnowFlake msgid = _wtoi64(p["id"].as_mstring());
+
+		CMStringA szBody(ptrA(mir_utf8encodeW(p["content"].as_mstring())));
+		szBody.AppendFormat("%c%lld", 0, msgid);
+
+		dbei.timestamp = StringToDate(p["timestamp"].as_mstring());
+		dbei.pBlob = (PBYTE)szBody.GetBuffer();
+		dbei.cbBlob = szBody.GetLength();
+		db_event_add(pUser->hContact, &dbei);
+
+		if (lastId < msgid)
+			lastId = msgid;
+	}
+
+	setId(pUser->hContact, DB_KEY_LASTMSGID, lastId);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// retrieves user info
+
 void CDiscordProto::RetrieveUserInfo(MCONTACT hContact)
 {
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveUserInfo);
@@ -96,6 +166,8 @@ void CDiscordProto::OnReceiveChannels(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 		pUser->lastMessageId = _wtoi64(p["last_message_id"].as_mstring());
 		pUser->channelId = _wtoi64(p["id"].as_mstring());
 		pUser->bIsPrivate = p["is_private"].as_bool();
+
+		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
 	}
 }
 

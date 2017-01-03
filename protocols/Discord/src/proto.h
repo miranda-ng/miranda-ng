@@ -59,6 +59,11 @@ JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+enum CDiscordHitoryOp
+{
+	MSG_NOFILTER, MSG_AFTER, MSG_BEFORE
+};
+
 struct CDiscordUser : public MZeroedObject
 {
 	CDiscordUser(SnowFlake _id) :
@@ -161,18 +166,22 @@ public:
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int  __cdecl OnSrmmEvent(WPARAM, LPARAM);
 
 	void OnLoggedIn();
 	void OnLoggedOut();
 
 	void OnReceiveAuth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveUserInfo(MCONTACT hContact);
+	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	void RetrieveHistory(MCONTACT hContact, CDiscordHitoryOp iOp = MSG_NOFILTER, SnowFlake msgid = 0, int iLimit = 50);
+	void OnReceiveHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	// Misc
 	void SetServerStatus(int iStatus);

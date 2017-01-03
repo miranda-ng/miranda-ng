@@ -46,6 +46,24 @@ JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+time_t StringToDate(const CMStringW &str)
+{
+	struct tm T = { 0 };
+	int boo;
+	if (swscanf(str, L"%04d-%02d-%02dT%02d:%02d:%02d.%d", &T.tm_year, &T.tm_mon, &T.tm_mday, &T.tm_hour, &T.tm_min, &T.tm_sec, &boo) != 7)
+		return 0;
+
+	T.tm_year -= 1900;
+	T.tm_mon--;
+	time_t t = mktime(&T);
+
+	_tzset();
+	t -= _timezone;
+	return (t >= 0) ? t : 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 SnowFlake CDiscordProto::getId(const char *szSetting)
 {
 	DBVARIANT dbv;
