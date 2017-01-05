@@ -26,6 +26,7 @@ CSendHost_UploadPie::~CSendHost_UploadPie()
 {
 }
 
+static const char kHostURL[] = "https://uploadpie.com/";
 //---------------------------------------------------------------------------
 int CSendHost_UploadPie::Send()
 {
@@ -45,10 +46,10 @@ int CSendHost_UploadPie::Send()
 		//{"expire",HTTPFORM_INT(3)},// 6h
 		//{"expire",HTTPFORM_INT(4)},// 1d
 		//{"expire",HTTPFORM_INT(5)},// 1w
-		//{"x",HTTPFORM_INT(130)},// ??
-		//{"y",HTTPFORM_INT(17)},// ??
+		//{"x",HTTPFORM_INT(130)},// relative X coordinate of "BAKE FILE" button (unused?)
+		//{"y",HTTPFORM_INT(17)},// relative Y coordinate of "BAKE FILE" button (unused?)
 	};
-	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, "http://uploadpie.com/", frm, sizeof(frm) / sizeof(HTTPFormData));
+	int error = HTTPFormCreate(&m_nlhr, REQUEST_POST, kHostURL, frm, sizeof(frm) / sizeof(HTTPFormData));
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;
@@ -73,11 +74,11 @@ void CSendHost_UploadPie::SendThread(void* obj)
 			char* url = reply->pData;
 			do {
 				char* pos;
-				if ((url = strstr(url, "http://uploadpie.com/"))) {
-					for (pos = url + 21; (*pos >= '0'&&*pos <= '9') || (*pos >= 'a'&&*pos <= 'z') || (*pos >= 'A'&&*pos <= 'Z') || *pos == '_' || *pos == '-' || *pos == '"' || *pos == '\''; ++pos) {
+				if ((url = strstr(url, kHostURL))) {
+					for (pos = url + _countof(kHostURL)-1; (*pos >= '0'&&*pos <= '9') || (*pos >= 'a'&&*pos <= 'z') || (*pos >= 'A'&&*pos <= 'Z') || *pos == '_' || *pos == '-' || *pos == '"' || *pos == '\''; ++pos) {
 						if (*pos == '"' || *pos == '\'') break;
 					}
-					if (url + 21 != pos && (*pos == '"' || *pos == '\'')) {
+					if (url + _countof(kHostURL)-1 != pos && (*pos == '"' || *pos == '\'')) {
 						*pos = '\0';
 						break;
 					}
