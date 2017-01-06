@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by E:\Projects\C++\miranda-ng\plugins\StatusManager\res\resource.rc
 //
 #define IDD_OPT_KEEPSTATUS              101
 #define IDD_OPT_KS_BASIC                101
@@ -11,8 +11,6 @@
 #define IDD_OPT_STARTUPSTATUS           110
 #define IDD_PUOPT_KEEPSTATUS            113
 #define IDD_OPT_AUTOAWAYMSG             114
-#define IDI_TICK                        117
-#define IDI_NOTICK                      118
 #define IDD_OPT_GENAUTOAWAY             119
 #define IDD_OPT_KS_ACTION               120
 #define IDD_SETSTSMSGDIALOG             121
@@ -22,6 +20,7 @@
 #define IDD_OPT_KS_ADV                  127
 #define IDD_TRG_AAASTATECHANGE          128
 #define IDI_TTBDOWN                     129
+#define IDD_OPT_SUBPLUGINS              129
 #define IDI_TTBUP                       130
 #define IDC_PROTOCOL                    1000
 #define IDC_STATUS                      1001
@@ -145,6 +144,10 @@
 #define IDC_LEAVEFIRST                  1136
 #define IDC_LEAVESECOND                 1137
 #define IDC_BECOMEACTIVE                1138
+#define IDC_ENABLE_KEEPSTATUS           1141
+#define IDC_ENABLE_STARTUPSTATUS        1142
+#define IDC_ENABLEADVANCEDAUTOAWAY      1143
+#define IDC_ENABLE_ADVANCEDAUTOAWAY     1143
 #define IDC_SCREENSAVE                  1145
 #define IDC_TIMED                       1146
 #define IDC_AWAYTIME                    1147
@@ -160,9 +163,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        129
+#define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1141
+#define _APS_NEXT_CONTROL_VALUE         1144
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

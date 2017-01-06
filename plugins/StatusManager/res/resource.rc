@@ -13,6 +13,60 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
+// English resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_SUBPLUGINS DIALOGEX 0, 0, 212, 144
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Enable ""%s"" *",IDC_ENABLE_KEEPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,24,173,10
+    CONTROL         "Enable ""%s"" *",IDC_ENABLE_STARTUPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,37,173,10
+    CONTROL         "Enable ""%s"" *",IDC_ENABLE_ADVANCEDAUTOAWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,50,173,10
+    GROUPBOX        "Subplugins control",IDC_STATIC,7,7,198,89
+    LTEXT           "* requires a reboot for applying changes",IDC_STATIC,19,81,173,9
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT_SUBPLUGINS, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_SUBPLUGINS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
 // German (Germany) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
@@ -360,7 +414,7 @@ BEGIN
 END
 
 IDD_TRG_AAASTATECHANGE DIALOGEX 0, 0, 212, 144
-STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
@@ -368,12 +422,12 @@ BEGIN
     CONTROL         "Entering second auto-away status",IDC_ENTERSECOND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,37,123,10
     CONTROL         "Leaving first auto-away status",IDC_LEAVEFIRST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,50,109,10
-    CONTROL         "Leaving second auto-away status",IDC_LEAVESECOND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,63,122,10
+    GROUPBOX        "Pre-conditions",IDC_STATIC,7,7,198,89
+    LTEXT           "Status: The status the account will change to\r\nAccount: The account changing state",IDC_STATIC,19,111,177,18
+    GROUPBOX        "TriggerData",IDC_STATIC,7,97,198,40
     CONTROL         "Becoming active without status change",IDC_BECOMEACTIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,76,140,10
-    GROUPBOX        "Pre-conditions",IDC_STATIC,7,7,198,89
-    GROUPBOX        "TriggerData",IDC_STATIC,7,97,198,40
-    LTEXT           "Status: The status the account will change to\r\nAccount: The account changing state",IDC_STATIC,19,111,177,18
+    CONTROL         "Leaving second auto-away status",IDC_LEAVESECOND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,63,122,10
 END
 
 
@@ -445,6 +499,10 @@ BEGIN
         VERTGUIDE, 11
         VERTGUIDE, 283
     END
+
+    IDD_TRG_AAASTATECHANGE, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -479,7 +537,12 @@ BEGIN
     0
 END
 
-#endif    // Deutsch (Deutschland) resources
+IDD_TRG_AAASTATECHANGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

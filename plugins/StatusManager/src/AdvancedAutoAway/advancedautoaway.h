@@ -19,6 +19,8 @@
 #ifndef __ADVANCED_AUTOAWAY_HEADER
 #define __ADVANCED_AUTOAWAY_HEADER
 
+extern int hAAALangpack;
+
 #define AAAMODULENAME        "AdvancedAutoAway"
 #define SETTING_IGNLOCK      "IgnoreLockKeys"
 #define SETTING_IGNSYSKEYS   "IgnoreSysKeys"

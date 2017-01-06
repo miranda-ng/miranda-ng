@@ -19,6 +19,8 @@
 #ifndef __STARTUPSTATUSHEADER
 #define __STARTUPSTATUSHEADER
 
+extern int hSSLangpack;
+
 #define SSMODULENAME    "StartupStatus"
 
 struct TSSSetting : public PROTOCOLSETTINGEX, public MZeroedObject

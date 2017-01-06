@@ -20,6 +20,7 @@
 #ifndef __KEEPSTATUS_HEADER
 #define __KEEPSTATUS_HEADER
 
+extern int hKSLangpack;
 
 #define KSMODULENAME                 "KeepStatus"
 #define SETTING_CHECKCONNECTION      "CheckConnection"

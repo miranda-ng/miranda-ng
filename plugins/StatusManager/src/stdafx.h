@@ -21,9 +21,12 @@
 #include <m_protocols.h>
 #include <m_toptoolbar.h>
 #include <m_statusplugins.h>
+#include <m_gui.h>
 
 #include "version.h"
 #include "resource.h"
+
+#define MODULENAME "StatusManager"
 
 #include "commonstatus.h"
 #include "KeepStatus\keepstatus.h"
@@ -31,5 +34,30 @@
 #include "AdvancedAutoAway\advancedautoaway.h"
 
 extern HINSTANCE hInst;
+
+static BYTE IsSubPluginEnabled(const char* name)
+{
+	char setting[128];
+	mir_snprintf(setting, "%s_enabled", name);
+	return db_get_b(NULL, MODULENAME, setting, 1);
+}
+
+class CSubPluginsOptionsDlg : CPluginDlgBase
+{
+private:
+	CCtrlCheck m_enableKeepStatus;
+	CCtrlCheck m_enableStartupStatus;
+	CCtrlCheck m_enableAdvancedAutoAway;
+
+protected:
+	void OnInitDialog();
+	void OnApply();
+
+public:
+	CSubPluginsOptionsDlg();
+
+	static int OnOptionsInit(WPARAM wParam, LPARAM);
+	static CDlgBase *CreateOptionsPage() { return new CSubPluginsOptionsDlg(); }
+};
 
 #endif //_COMMON_H_

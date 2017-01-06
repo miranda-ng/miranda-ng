@@ -59,21 +59,41 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 // interfaces
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_AUTOAWAY, MIID_LAST };
+MUUID Interfaces[2] = {0};
+
+MUUID* GetInterfaces(void)
+{
+	if (IsSubPluginEnabled(AAAMODULENAME))
+		Interfaces[0] = MIID_AUTOAWAY;
+	return Interfaces;
+};
+
+extern "C" __declspec(dllexport) MUUID* MirandaInterfaces = GetInterfaces();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin's entry point
+
+int OnModulesLoaded(WPARAM, LPARAM)
+{
+	HookEvent(ME_OPT_INITIALISE, CSubPluginsOptionsDlg::OnOptionsInit);
+	return 0;
+}
 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+
 	InitCommonStatus();
 
-	KeepStatusLoad();
-	StartupStatusLoad();
-	AdvancedAutoAwayLoad();
+	if (IsSubPluginEnabled(KSMODULENAME))
+		KeepStatusLoad();
+	if (IsSubPluginEnabled(SSMODULENAME))
+		StartupStatusLoad();
+	if (IsSubPluginEnabled(AAAMODULENAME))
+		AdvancedAutoAwayLoad();
 
 	return 0;
 }

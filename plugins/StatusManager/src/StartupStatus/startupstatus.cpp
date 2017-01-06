@@ -19,6 +19,8 @@
 
 #include "..\stdafx.h"
 
+int hSSLangpack = 0;
+
 static UINT_PTR setStatusTimerId = 0;
 
 static TSettingsList startupSettings(10, SSCompareSettings);
@@ -488,6 +490,9 @@ HANDLE hSSModuleLoadedHook = NULL,
 
 void StartupStatusLoad()
 {
+	MUUID muidLast = MIID_LAST;
+	hSSLangpack = GetPluginLangId(muidLast, 0);
+
 	hSSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
 
 	if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1) ||
@@ -513,6 +518,9 @@ void StartupStatusLoad()
 
 void StartupStatusUnload()
 {
+	KillModuleIcons(hSSLangpack);
+	KillModuleMenus(hSSLangpack);
+
 	DeinitProfilesModule();
 	UnloadProfileModule();
 

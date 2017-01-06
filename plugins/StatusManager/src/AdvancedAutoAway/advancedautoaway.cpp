@@ -22,6 +22,8 @@
 
 #include "..\stdafx.h"
 
+int hAAALangpack = 0;
+
 #ifdef _DEBUG
 	#define SECS_PER_MINUTE		20 /* speedup */
 #else
@@ -587,6 +589,9 @@ int AAAModuleLoaded(WPARAM, LPARAM)
 
 void AdvancedAutoAwayLoad()
 {
+	MUUID muidLast = MIID_LAST;
+	hAAALangpack = GetPluginLangId(muidLast, 0);
+
 	hAAAModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
 	hStateChangedEvent = CreateHookableEvent(ME_AAA_STATECHANGED);
 }
