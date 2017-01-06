@@ -26,12 +26,10 @@
 #include "resource.h"
 
 #include "commonstatus.h"
-#include "keepstatus.h"
-#include "startupstatus.h"
-#include "advancedautoaway.h"
+#include "KeepStatus\keepstatus.h"
+#include "StartupStatus\startupstatus.h"
+#include "AdvancedAutoAway\advancedautoaway.h"
 
-int KSCSModuleLoaded(WPARAM, LPARAM);
-int SSCSModuleLoaded(WPARAM, LPARAM);
-int AAACSModuleLoaded(WPARAM, LPARAM);
+extern HINSTANCE hInst;
 
 #endif //_COMMON_H_

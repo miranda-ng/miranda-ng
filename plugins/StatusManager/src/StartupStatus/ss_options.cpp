@@ -17,7 +17,7 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "stdafx.h"
+#include "..\stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -27,7 +27,7 @@ TSettingsList* GetCurrentProtoSettings()
 	PROTOACCOUNT **protos;
 	Proto_EnumAccounts(&count, &protos);
 
-	TSettingsList *result = new TSettingsList(count, CompareSettings);
+	TSettingsList *result = new TSettingsList(count, SSCompareSettings);
 	if (result == NULL)
 		return NULL;
 

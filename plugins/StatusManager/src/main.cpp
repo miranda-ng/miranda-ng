@@ -19,21 +19,6 @@
 
 #include "stdafx.h"
 
-unsigned long mainThreadId = 0;
-
-HANDLE hMainThread = 0,
-	hCSModuleLoadedHook,
-	hGetProfileService,
-	hGetProfileCountService,
-	hGetProfileNameService,
-	hStateChangedEvent;
-
-HANDLE hConnectionEvent = NULL,
-	hStopRecon = NULL,
-	hEnableProto = NULL,
-	hIsProtoEnabled = NULL,
-	hAnnounceStat = NULL;
-
 HINSTANCE hInst;
 int hLangpack = 0;
 CLIST_INTERFACE *pcli;
@@ -79,63 +64,16 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_AUTOAW
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin's entry point
 
-INT_PTR StopReconnectingService(WPARAM wParam, LPARAM lParam);
-INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam);
-INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
-INT_PTR AnnounceStatusChangeService(WPARAM wParam, LPARAM lParam);
-
-static INT_PTR SrvGetProfile(WPARAM wParam, LPARAM lParam)
-{
-	return GetProfile((int)wParam, *(TSettingsList*)lParam);
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	//common
 	InitCommonStatus();
 
-	/* KeepStatus */
-	hCSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, KSCSModuleLoaded);
-
-	hConnectionEvent = CreateHookableEvent(ME_KS_CONNECTIONEVENT);
-
-	hStopRecon = CreateServiceFunction(MS_KS_STOPRECONNECTING, StopReconnectingService);
-	hEnableProto = CreateServiceFunction(MS_KS_ENABLEPROTOCOL, EnableProtocolService);
-	hIsProtoEnabled = CreateServiceFunction(MS_KS_ISPROTOCOLENABLED, IsProtocolEnabledService);
-	hAnnounceStat = CreateServiceFunction(MS_KS_ANNOUNCESTATUSCHANGE, AnnounceStatusChangeService);
-
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
-	mainThreadId = GetCurrentThreadId();
-
-	/* StartupStatus */
-	hCSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, SSCSModuleLoaded);
-
-	if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1) ||
-		db_get_b(NULL, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
-		db_set_w(NULL, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
-
-	// docking
-	if (db_get_b(NULL, SSMODULENAME, SETTING_SETDOCKED, 0)) {
-		int docked = db_get_b(NULL, SSMODULENAME, SETTING_DOCKED, DOCKED_NONE);
-		if (docked == DOCKED_LEFT || docked == DOCKED_RIGHT)
-			docked = -docked;
-
-		db_set_b(NULL, MODULE_CLIST, SETTING_DOCKED, (BYTE)docked);
-	}
-
-	// Create service functions; the get functions are created here; they don't rely on commonstatus
-	hGetProfileService = CreateServiceFunction(MS_SS_GETPROFILE, SrvGetProfile);
-	hGetProfileCountService = CreateServiceFunction(MS_SS_GETPROFILECOUNT, GetProfileCount);
-	hGetProfileNameService = CreateServiceFunction(MS_SS_GETPROFILENAME, GetProfileName);
-
-	LoadProfileModule();
-
-	/* AdvancedAutoAway */
-	hCSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, AAACSModuleLoaded);
-	hStateChangedEvent = CreateHookableEvent(ME_AAA_STATECHANGED);
+	KeepStatusLoad();
+	StartupStatusLoad();
+	AdvancedAutoAwayLoad();
 
 	return 0;
 }
@@ -145,22 +83,9 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnhookEvent(hCSModuleLoadedHook);
-
-	// StartupStatus
-	DestroyHookableEvent(hConnectionEvent);
-
-	if (hMainThread)
-		CloseHandle(hMainThread);
-	DestroyServiceFunction(hStopRecon);
-	DestroyServiceFunction(hEnableProto);
-	DestroyServiceFunction(hIsProtoEnabled);
-	DestroyServiceFunction(hAnnounceStat);
-
-	// StartupStatus
-	DestroyServiceFunction(hGetProfileService);
-	DestroyServiceFunction(hGetProfileCountService);
-	DestroyServiceFunction(hGetProfileNameService);
+	KeepStatusUnload();
+	StartupStatusUnload();
+	AdvancedAutoAwayUnload();
 
 	return 0;
 }

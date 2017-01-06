@@ -17,7 +17,7 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	*/
 
-#include "stdafx.h"
+#include "..\stdafx.h"
 
 // prototypes
 INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcKsTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				SendMessage((HWND)tci.lParam, WM_NOTIFY, 0, lParam);
 			}
 			// let main reload options
-			KSLoadMainOptions();
+			KSLoadOptions();
 		}
 		break;
 	}
@@ -497,7 +497,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				ppd.colorBack = SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);
 				ppd.colorText = SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0);
 			}
-			ppd.PluginWindowProc = PopupDlgProc;
+			ppd.PluginWindowProc = KSPopupDlgProc;
 			ppd.PluginData = NULL;
 			if (IsDlgButtonChecked(hwndDlg, IDC_DELAYFROMPU))
 			{

@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "stdafx.h"
+#include "..\stdafx.h"
 
 int LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char* protoName);
 
@@ -119,7 +119,7 @@ static void SetDialogStatus(HWND hwndDlg, TAAAProtoSetting *sameSetting)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Rules dialog window procedure
 
-static TAAAProtoSettingList optionSettings(10, CompareSettings);
+static TAAAProtoSettingList optionSettings(10, AAACompareSettings);
 
 static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -337,7 +337,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				for (int i = 0; i < optionSettings.getCount(); i++)
 					WriteAutoAwaySetting(optionSettings[i], optionSettings[i].szName);
 			}
-			LoadOptions(autoAwaySettings, FALSE);
+			AAALoadOptions(autoAwaySettings, FALSE);
 		}
 		break;
 
@@ -402,7 +402,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 			db_set_w(NULL, AAAMODULENAME, SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, NULL, FALSE));
 			db_set_b(NULL, AAAMODULENAME, SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
 			db_set_b(NULL, AAAMODULENAME, SETTING_MONITORKEYBOARD, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
-			LoadOptions(autoAwaySettings, FALSE);
+			AAALoadOptions(autoAwaySettings, FALSE);
 		}
 		break;
 	}

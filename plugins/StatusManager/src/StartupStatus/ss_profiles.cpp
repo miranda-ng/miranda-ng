@@ -17,7 +17,7 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "stdafx.h"
+#include "..\stdafx.h"
 
 #define MAX_MMITEMS		6
 
@@ -199,7 +199,7 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 {
 	// wParam == profile no.
 	int profile = (int)iProfileNo;
-	TSettingsList profileSettings(10, CompareSettings);
+	TSettingsList profileSettings(10, SSCompareSettings);
 	if (!GetProfile(profile, profileSettings)) {
 		profile = (profile >= 0) ? profile : db_get_w(NULL, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 
@@ -313,6 +313,12 @@ int LoadProfileModule()
 	return 0;
 }
 
+int UnloadProfileModule()
+{
+	DestroyServiceFunction(hLoadAndSetProfileService);
+	return 0;
+}
+
 int InitProfileModule()
 {
 	hTTBModuleLoadedHook = HookEvent(ME_TTB_MODULELOADED, CreateTopToolbarButtons);
@@ -337,7 +343,5 @@ int DeinitProfilesModule()
 
 	UnregisterHotKeys();
 	RemoveTopToolbarButtons();
-
-	DestroyServiceFunction(hLoadAndSetProfileService);
 	return 0;
 }

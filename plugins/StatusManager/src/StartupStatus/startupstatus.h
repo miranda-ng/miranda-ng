@@ -28,6 +28,11 @@ struct TSSSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 	~TSSSetting();
 };
 
+static int SSCompareSettings(const TSSSetting *p1, const TSSSetting *p2)
+{
+	return mir_strcmp(p1->szName, p2->szName);
+}
+
 typedef OBJLIST<TSSSetting> TSettingsList;
 
 struct PROFILECE
@@ -130,15 +135,21 @@ int StartupStatusOptionsInit(WPARAM wparam,LPARAM lparam);
 char* OptName(int i, const char* setting);
 
 // startupstatus
-int SSLoadMainOptions();
+void StartupStatusLoad();
+void StartupStatusUnload();
 
-int CompareSettings( const TSSSetting* p1, const TSSSetting* p2 );
+int SSLoadMainOptions();
 
 TSettingsList* GetCurrentProtoSettings();
 
 // profile
 int GetProfile(int profileID, TSettingsList& arSettings );
 wchar_t *GetStatusMessage(int profile, char *szProto);
+
+static INT_PTR SrvGetProfile(WPARAM wParam, LPARAM lParam)
+{
+	return GetProfile((int)wParam, *(TSettingsList*)lParam);
+}
 
 INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam);
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam);
@@ -149,6 +160,7 @@ void RemoveTopToolbarButtons();
 int  CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam);
 
 int LoadProfileModule();
+int UnloadProfileModule();
 int InitProfileModule();
 int DeinitProfilesModule();
 

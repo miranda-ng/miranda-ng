@@ -20,7 +20,7 @@
 	Some code is copied from Miranda's AutoAway module
 */
 
-#include "stdafx.h"
+#include "..\stdafx.h"
 
 #ifdef _DEBUG
 	#define SECS_PER_MINUTE		20 /* speedup */
@@ -30,12 +30,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2)
-{
-	return mir_strcmp(p1->szName, p2->szName);
-}
-
-TAAAProtoSettingList autoAwaySettings(10, CompareSettings);
+TAAAProtoSettingList autoAwaySettings(10, AAACompareSettings);
 
 TAAAProtoSetting::TAAAProtoSetting(PROTOACCOUNT *pa)
 {
@@ -55,7 +50,8 @@ TAAAProtoSetting::~TAAAProtoSetting()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern HANDLE hStateChangedEvent;
+HANDLE hAAAModuleLoadedHook = NULL,
+	hStateChangedEvent = NULL;
 
 static BOOL ignoreLockKeys = FALSE;
 static BOOL ignoreSysKeys = FALSE;
@@ -95,7 +91,7 @@ extern char *StatusModeToDbSetting(int status,const char *suffix);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load from DB
 
-void LoadOptions(TAAAProtoSettingList &loadSettings, BOOL override)
+void AAALoadOptions(TAAAProtoSettingList &loadSettings, BOOL override)
 {
 	// if override is enabled, samesettings will be ignored (for options loading)
 	int monitorMiranda = FALSE; // use windows hooks?
@@ -562,7 +558,7 @@ static int AutoAwayShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-int AAACSModuleLoaded(WPARAM, LPARAM)
+int AAAModuleLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAAAAccChanged);
 	HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
@@ -585,6 +581,18 @@ int AAACSModuleLoaded(WPARAM, LPARAM)
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
-	LoadOptions(autoAwaySettings, FALSE);
+	AAALoadOptions(autoAwaySettings, FALSE);
 	return 0;
+}
+
+void AdvancedAutoAwayLoad()
+{
+	hAAAModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
+	hStateChangedEvent = CreateHookableEvent(ME_AAA_STATECHANGED);
+}
+
+void AdvancedAutoAwayUnload()
+{
+	UnhookEvent(hAAAModuleLoadedHook);
+	DestroyHookableEvent(hStateChangedEvent);
 }

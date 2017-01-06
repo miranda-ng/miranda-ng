@@ -70,6 +70,11 @@ struct TAAAProtoSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 	unsigned int sts1setTimer;
 };
 
+static int AAACompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2)
+{
+	return mir_strcmp(p1->szName, p2->szName);
+}
+
 struct AAMSGSETTING
 {
 	short useCustom;
@@ -77,14 +82,13 @@ struct AAMSGSETTING
 	char* msg;
 };
 
-extern HINSTANCE hInst;
-
-int CompareSettings( const TAAAProtoSetting *p1, const TAAAProtoSetting *p2 );
+void AdvancedAutoAwayLoad();
+void AdvancedAutoAwayUnload();
 
 typedef OBJLIST<TAAAProtoSetting> TAAAProtoSettingList;
 extern TAAAProtoSettingList autoAwaySettings;
 
 int  LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char *protoName);
-void LoadOptions(TAAAProtoSettingList &settings, BOOL override);
+void AAALoadOptions(TAAAProtoSettingList &settings, BOOL override);
 
 #endif

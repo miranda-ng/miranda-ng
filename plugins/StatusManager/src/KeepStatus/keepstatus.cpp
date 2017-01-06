@@ -17,7 +17,7 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	*/
 
-#include "stdafx.h"
+#include "..\stdafx.h"
 
 struct TimerInfo {
 	int timer;
@@ -27,15 +27,22 @@ struct TimerInfo {
 	HANDLE hEvent;
 };
 
+HANDLE hMainThread = 0;
+unsigned long mainThreadId = 0;
+
+HANDLE hKSModuleLoadedHook = NULL,
+	hConnectionEvent = NULL,
+	hStopRecon = NULL,
+	hEnableProto = NULL,
+	hIsProtoEnabled = NULL,
+	hAnnounceStat = NULL;
+
 static mir_cs GenTimerCS, GenStatusCS, CheckContinueslyCS;
 
 static HANDLE hProtoAckHook = NULL;
 static HANDLE hStatusChangeHook = NULL;
 static HANDLE hCSStatusChangeHook = NULL;
 static HANDLE hCSStatusChangeExHook = NULL;
-
-extern HANDLE hConnectionEvent;
-extern PLUGININFOEX pluginInfoEx;
 
 static HWND hMessageWindow = NULL;
 
@@ -64,7 +71,6 @@ static int showConnectionPopups = 0;
 // prototypes
 static int StartTimer(int timer, int timeout, BOOL restart);
 static int StopTimer(int timer);
-int KSLoadMainOptions();
 static void GetCurrentConnectionSettings();
 static int AssignStatus(TConnectionSettings* connSetting, int status, int lastStatus, wchar_t *szMsg);
 static int ProcessProtoAck(WPARAM wParam, LPARAM lParam);
@@ -83,7 +89,7 @@ INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
 
 static int ProcessPopup(int reason, LPARAM lParam);
 static INT_PTR ShowPopup(wchar_t *msg, HICON hIcon);
-LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK KSPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // options.c
@@ -106,7 +112,7 @@ TConnectionSettings::~TConnectionSettings()
 		free(szMsg);
 }
 
-int KSLoadMainOptions()
+int KSLoadOptions()
 {
 	UnhookEvent(hProtoAckHook);
 	UnhookEvent(hStatusChangeHook);
@@ -991,7 +997,7 @@ static INT_PTR ShowPopup(wchar_t *msg, HICON hIcon)
 		ppd.colorBack = db_get_dw(NULL, KSMODULENAME, SETTING_POPUP_BACKCOLOR, 0xAAAAAA);
 		ppd.colorText = db_get_dw(NULL, KSMODULENAME, SETTING_POPUP_TEXTCOLOR, 0x0000CC);
 	}
-	ppd.PluginWindowProc = PopupDlgProc;
+	ppd.PluginWindowProc = KSPopupDlgProc;
 
 	switch (db_get_b(NULL, KSMODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
 	case POPUP_DELAYCUSTOM:
@@ -1012,7 +1018,7 @@ static INT_PTR ShowPopup(wchar_t *msg, HICON hIcon)
 	return PUAddPopupT(&ppd);
 }
 
-LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK KSPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
 	case WM_CONTEXTMENU: // right
@@ -1193,15 +1199,48 @@ static int onShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-int KSCSModuleLoaded(WPARAM, LPARAM)
+int KSModuleLoaded(WPARAM, LPARAM)
 {
 	protoList = (OBJLIST<PROTOCOLSETTINGEX>*)&connectionSettings;
 
 	hMessageWindow = NULL;
-	KSLoadMainOptions();
+	KSLoadOptions();
 
 	HookEvent(ME_OPT_INITIALISE, KeepStatusOptionsInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnKSAccChanged);
 	return 0;
+}
+
+void KeepStatusLoad()
+{
+	hKSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, KSModuleLoaded);
+
+	CreateHookableEvent(ME_KS_CONNECTIONEVENT);
+
+	hStopRecon = CreateServiceFunction(MS_KS_STOPRECONNECTING, StopReconnectingService);
+	hEnableProto = CreateServiceFunction(MS_KS_ENABLEPROTOCOL, EnableProtocolService);
+	hIsProtoEnabled = CreateServiceFunction(MS_KS_ISPROTOCOLENABLED, IsProtocolEnabledService);
+	hAnnounceStat = CreateServiceFunction(MS_KS_ANNOUNCESTATUSCHANGE, AnnounceStatusChangeService);
+
+	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
+	mainThreadId = GetCurrentThreadId();
+}
+
+void KeepStatusUnload()
+{
+	if (hMainThread)
+		CloseHandle(hMainThread);
+
+	DestroyServiceFunction(hStopRecon);
+	DestroyServiceFunction(hEnableProto);
+	DestroyServiceFunction(hIsProtoEnabled);
+	DestroyServiceFunction(hAnnounceStat);
+
+	if (hMainThread)
+		CloseHandle(hMainThread);
+
+	DestroyHookableEvent(hConnectionEvent);
+
+	UnhookEvent(hKSModuleLoadedHook);
 }

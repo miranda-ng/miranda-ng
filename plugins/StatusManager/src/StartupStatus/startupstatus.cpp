@@ -17,16 +17,11 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "stdafx.h"
+#include "..\stdafx.h"
 
 static UINT_PTR setStatusTimerId = 0;
 
-int CompareSettings(const TSSSetting *p1, const TSSSetting *p2)
-{
-	return mir_strcmp(p1->szName, p2->szName);
-}
-
-static TSettingsList startupSettings(10, CompareSettings);
+static TSettingsList startupSettings(10, SSCompareSettings);
 
 TSSSetting::TSSSetting(PROTOACCOUNT *pa)
 {
@@ -343,6 +338,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 static int OnShutdown(WPARAM, LPARAM)
 {
 	DeinitProfilesModule();
+	UnloadProfileModule();
 
 	// set windowstate and docked for next startup
 	if (db_get_b(NULL, SSMODULENAME, SETTING_SETWINSTATE, 0)) {
@@ -402,7 +398,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 	return TRUE;
 }
 
-int SSCSModuleLoaded(WPARAM, LPARAM)
+int SSModuleLoaded(WPARAM, LPARAM)
 {
 	protoList = (OBJLIST<PROTOCOLSETTINGEX>*)&startupSettings;
 
@@ -483,4 +479,46 @@ int SSCSModuleLoaded(WPARAM, LPARAM)
 	}	}	}	}
 	
 	return 0;
+}
+
+HANDLE hSSModuleLoadedHook = NULL,
+	hGetProfileService,
+	hGetProfileCountService,
+	hGetProfileNameService;
+
+void StartupStatusLoad()
+{
+	hSSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
+
+	if (db_get_b(NULL, SSMODULENAME, SETTING_SETPROFILE, 1) ||
+		db_get_b(NULL, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
+		db_set_w(NULL, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
+
+	// docking
+	if (db_get_b(NULL, SSMODULENAME, SETTING_SETDOCKED, 0)) {
+		int docked = db_get_b(NULL, SSMODULENAME, SETTING_DOCKED, DOCKED_NONE);
+		if (docked == DOCKED_LEFT || docked == DOCKED_RIGHT)
+			docked = -docked;
+
+		db_set_b(NULL, MODULE_CLIST, SETTING_DOCKED, (BYTE)docked);
+	}
+
+	// Create service functions; the get functions are created here; they don't rely on commonstatus
+	hGetProfileService = CreateServiceFunction(MS_SS_GETPROFILE, SrvGetProfile);
+	hGetProfileCountService = CreateServiceFunction(MS_SS_GETPROFILECOUNT, GetProfileCount);
+	hGetProfileNameService = CreateServiceFunction(MS_SS_GETPROFILENAME, GetProfileName);
+
+	LoadProfileModule();
+}
+
+void StartupStatusUnload()
+{
+	DeinitProfilesModule();
+	UnloadProfileModule();
+
+	DestroyServiceFunction(hGetProfileService);
+	DestroyServiceFunction(hGetProfileCountService);
+	DestroyServiceFunction(hGetProfileNameService);
+
+	UnhookEvent(hSSModuleLoadedHook);
 }

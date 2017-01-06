@@ -113,16 +113,12 @@ typedef struct {
 #define ME_CS_STATUSCHANGE				"CommonStatus/StatusChange"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// main.cpp
-
-extern HINSTANCE hInst;
-extern HANDLE hMainThread;
-extern unsigned long mainThreadId;
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // keepstatus.cpp
 
-int KSLoadMainOptions();
-LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+void KeepStatusLoad();
+void KeepStatusUnload();
+int KSLoadOptions();
+
+LRESULT CALLBACK KSPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 #endif //__KEEPSTATUS_HEADER
