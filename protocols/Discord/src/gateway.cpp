@@ -34,13 +34,15 @@ void CDiscordProto::OnReceiveGateway(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	ForkThread(&CDiscordProto::GatewayThread, NULL);
 }
 
-void CDiscordProto::GatewaySend(int opCode, const char *szBuf)
+void CDiscordProto::GatewaySend(int opCode, const JSONNode &pRoot)
 {
 	if (m_hGatewayConnection == NULL)
 		return;
 
+	json_string szText = pRoot.write();
+
 	BYTE header[20];
-	size_t datalen, strLen = mir_strlen(szBuf);
+	size_t datalen, strLen = szText.length();
 	header[0] = 0x80 + (opCode & 0x7F);
 	if (strLen < 126) {
 		header[1] = (strLen & 0xFF);
@@ -68,7 +70,7 @@ void CDiscordProto::GatewaySend(int opCode, const char *szBuf)
 	ptrA sendBuf((char*)mir_alloc(strLen + datalen));
 	memcpy(sendBuf, header, datalen);
 	if (strLen)
-		memcpy(sendBuf.get() + datalen, szBuf, strLen);
+		memcpy(sendBuf.get() + datalen, szText.c_str(), strLen);
 	Netlib_Send(m_hGatewayConnection, sendBuf, int(strLen + datalen), 0);
 }
 
@@ -100,7 +102,7 @@ void CDiscordProto::GatewayThread(void*)
 	}
 	{
 		CMStringA szBuf;
-		szBuf.AppendFormat("GET https://%s/?encoding=etf&v=6 HTTP/1.1\r\n", m_szGateway.c_str());
+		szBuf.AppendFormat("GET https://%s/?v=6 HTTP/1.1\r\n", m_szGateway.c_str());
 		szBuf.AppendFormat("Host: %s\r\n", m_szGateway.c_str());
 		szBuf.AppendFormat("Upgrade: websocket\r\n");
 		szBuf.AppendFormat("Pragma: no-cache\r\n");
@@ -134,8 +136,9 @@ void CDiscordProto::GatewayThread(void*)
 
 	bool bExit = false;
 	int offset = 0;
-	unsigned char *dataBuf = NULL;
+	char *dataBuf = NULL;
 	size_t dataBufSize = 0;
+	bool bDataBufAllocated = false;
 
 	while (!bExit) {
 		if (m_bTerminated)
@@ -145,8 +148,12 @@ void CDiscordProto::GatewayThread(void*)
 		sel.cbSize = sizeof(sel);
 		sel.dwTimeout = 1000;
 		sel.hReadConns[0] = m_hGatewayConnection;
-		if (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&sel) == 0) // timeout, send a hartbeat packet
-			GatewaySend(0, "{ \"op\":1, \"d\":(null) }");
+		CallService(MS_NETLIB_SELECT, 0, (LPARAM)&sel);
+		{
+			int iInterval = GetTickCount() - m_dwLastHeartbeat;
+			if (m_iHartbeatInterval && iInterval > m_iHartbeatInterval)
+				GatewaySendHeartbeat();
+		}
 
 		unsigned char buf[2048];
 		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf+offset, _countof(buf) - offset, 0);
@@ -201,12 +208,21 @@ void CDiscordProto::GatewayThread(void*)
 
 		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, opCode, headerSize, bIsFinal, bIsMasked);
 
+		// we have some additional data, not only opcode
 		if (bufSize > headerSize) {
-			size_t newSize = dataBufSize + bufSize - headerSize;
-			dataBuf = (unsigned char*)mir_realloc(dataBuf, newSize);
-			memcpy(dataBuf + dataBufSize, buf + headerSize, bufSize - headerSize);
-			dataBufSize = newSize;
-			debugLogA("data buffer reallocated to %d bytes", dataBufSize);
+			if (bIsFinal && dataBuf == NULL) { // it fits, no need to reallocate a buffer
+				bDataBufAllocated = false;
+				dataBuf = (char*)buf + headerSize;
+				dataBufSize = bufSize - headerSize;
+			}
+			else {
+				size_t newSize = dataBufSize + bufSize - headerSize;
+				dataBuf = (char*)mir_realloc(dataBuf, newSize+1);
+				memcpy(dataBuf + dataBufSize, buf + headerSize, bufSize - headerSize);
+				dataBufSize = newSize;
+				debugLogA("data buffer reallocated to %d bytes", dataBufSize);
+			}
+			dataBuf[dataBufSize] = 0;
 		}
 
 		if (dataBufSize < payloadSize)
@@ -218,12 +234,12 @@ void CDiscordProto::GatewayThread(void*)
 		case 2: // continuation
 			if (bIsFinal) {
 				// process a packet here
-				z_stream stream = {};
-				stream.next_in = dataBuf + headerSize;
-				stream.avail_in = bufSize - headerSize;
-				deflate(&stream, true);
-
-				mir_free(dataBuf); dataBuf = NULL;
+				JSONNode root = JSONNode::parse(dataBuf);
+				if (root)
+					GatewayProcess(root);
+				if (bDataBufAllocated)
+					mir_free(dataBuf);
+				dataBuf = NULL;
 				dataBufSize = 0;
 			}
 			break;
@@ -243,4 +259,46 @@ void CDiscordProto::GatewayThread(void*)
 	Netlib_CloseHandle(m_hGatewayConnection);
 	m_hGatewayConnection = NULL;
 	ShutdownSession();
+}
+
+void CDiscordProto::GatewayProcess(const JSONNode &pRoot)
+{
+	int opCode = pRoot["op"].as_int();
+	switch (opCode) {
+	case 10: // hello
+		m_iHartbeatInterval = pRoot["d"]["heartbeat_interval"].as_int();
+		m_dwLastHeartbeat = GetTickCount();
+		m_iGatewaySeq = 1;
+
+		GatewaySendIdentify();
+		break;
+	}
+}
+
+void CDiscordProto::GatewaySendHeartbeat()
+{
+	JSONNode root;
+	root << INT_PARAM("op", 1) << INT_PARAM("d", m_iGatewaySeq);
+	GatewaySend(1, root);
+}
+
+void CDiscordProto::GatewaySendIdentify()
+{
+	wchar_t wszOs[256];
+	GetOSDisplayString(wszOs, _countof(wszOs));
+	
+	char szVersion[256];
+	Miranda_GetVersionText(szVersion, _countof(szVersion));
+
+	JSONNode props; props.set_name("properties");
+	props << WCHAR_PARAM("$os", L"Windows") << CHAR_PARAM("$browser", "Miranda NG") << CHAR_PARAM("$device", "Miranda NG")
+		<< CHAR_PARAM("$referrer", "") << CHAR_PARAM("$referring_domain", "");
+
+	JSONNode shards(JSON_ARRAY); shards.set_name("shard");
+	shards << INT_PARAM("", 1) << INT_PARAM("", 10);
+
+	JSONNode root;
+	root << CHAR_PARAM("token", m_szAccessToken) << BOOL_PARAM("compress", false) << INT_PARAM("large_threshold", 250);
+	root << props; // << shards;
+	GatewaySend(1, root);
 }

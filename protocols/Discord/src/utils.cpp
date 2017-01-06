@@ -32,6 +32,12 @@ JSONNode& operator<<(JSONNode &json, const INT_PARAM &param)
 	return json;
 }
 
+JSONNode& operator<<(JSONNode &json, const BOOL_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.bValue));
+	return json;
+}
+
 JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param)
 {
 	json.push_back(JSONNode(param.szName, param.szValue));

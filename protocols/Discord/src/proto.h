@@ -26,6 +26,15 @@ struct PARAM
 	{}
 };
 
+struct BOOL_PARAM : public PARAM
+{
+	bool bValue;
+	__forceinline BOOL_PARAM(LPCSTR _name, bool _value) :
+		PARAM(_name), bValue(_value)
+	{}
+};
+AsyncHttpRequest* operator<<(AsyncHttpRequest*, const BOOL_PARAM&);
+
 struct INT_PARAM : public PARAM
 {
 	int iValue;
@@ -54,6 +63,7 @@ struct WCHAR_PARAM : public PARAM
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const WCHAR_PARAM&);
 
 JSONNode& operator<<(JSONNode &json, const INT_PARAM &param);
+JSONNode& operator<<(JSONNode &json, const BOOL_PARAM &param);
 JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param);
 JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param);
 
@@ -123,10 +133,19 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	HANDLE 
 		m_hGatewayNetlibUser,  // the separate netlib user handle for gateways
 		m_hGatewayConnection;  // gateway connection
+	
 	void __cdecl GatewayThread(void*);
-	void GatewaySend(int opCode, const char*);
+	void  GatewaySend(int opCode, const JSONNode&);
+	void  GatewayProcess(const JSONNode&);
 
-	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void  GatewaySendHeartbeat(void);
+	void  GatewaySendIdentify(void);
+
+	void  OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	int   m_iHartbeatInterval;
+	int   m_iGatewaySeq;  // gateway sequence number
+	DWORD m_dwLastHeartbeat;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// options
