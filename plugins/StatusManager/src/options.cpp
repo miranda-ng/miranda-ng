@@ -39,7 +39,7 @@ int CSubPluginsOptionsDlg::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szTitle.w = LPGENW("Status");
 	odp.szTab.w = LPGENW("Status manager");
 	odp.pDialog = CSubPluginsOptionsDlg::CreateOptionsPage();

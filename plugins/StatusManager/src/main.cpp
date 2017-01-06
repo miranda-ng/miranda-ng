@@ -60,11 +60,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 // interfaces
 
 MUUID Interfaces[2] = {0};
+MUUID miidAutoAway = MIID_AUTOAWAY;
+
 
 MUUID* GetInterfaces(void)
 {
 	if (IsSubPluginEnabled(AAAMODULENAME))
-		Interfaces[0] = MIID_AUTOAWAY;
+		Interfaces[0] = miidAutoAway;
 	return Interfaces;
 };
 
