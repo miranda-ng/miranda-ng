@@ -146,7 +146,7 @@ void CDiscordProto::GatewayThread(void*)
 		sel.dwTimeout = 1000;
 		sel.hReadConns[0] = m_hGatewayConnection;
 		if (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&sel) == 0) // timeout, send a hartbeat packet
-			GatewaySend(3, "{ \"op\":1, \"d\":(null) }");
+			GatewaySend(0, "{ \"op\":1, \"d\":(null) }");
 
 		unsigned char buf[2048];
 		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf+offset, _countof(buf) - offset, 0);
@@ -218,6 +218,11 @@ void CDiscordProto::GatewayThread(void*)
 		case 2: // continuation
 			if (bIsFinal) {
 				// process a packet here
+				z_stream stream = {};
+				stream.next_in = dataBuf + headerSize;
+				stream.avail_in = bufSize - headerSize;
+				deflate(&stream, true);
+
 				mir_free(dataBuf); dataBuf = NULL;
 				dataBufSize = 0;
 			}

@@ -39,6 +39,8 @@
 #include <m_json.h>
 #include <win2k.h>
 
+#include "../../libs/zlib/src/zlib.h"
+
 extern HINSTANCE g_hInstance;
 
 #include "version.h"
