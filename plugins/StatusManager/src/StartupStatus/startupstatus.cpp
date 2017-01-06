@@ -339,9 +339,6 @@ static int OnOkToExit(WPARAM, LPARAM)
 
 static int OnShutdown(WPARAM, LPARAM)
 {
-	DeinitProfilesModule();
-	UnloadProfileModule();
-
 	// set windowstate and docked for next startup
 	if (db_get_b(NULL, SSMODULENAME, SETTING_SETWINSTATE, 0)) {
 		int state = db_get_b(NULL, SSMODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
