@@ -17,30 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#pragma pack(4)
-
-struct CDiscordCommand
-{
-	const wchar_t *szCommandId;
-	GatewayHandlerFunc pFunc;
-}
-static handlers[] = // these structures must me sorted alphabetically
-{
-	{ L"READY", &CDiscordProto::OnCommandReady }
-};
-
-static int __cdecl pSearchFunc(const void *p1, const void *p2)
-{
-	return wcscmp(((CDiscordCommand*)p1)->szCommandId, ((CDiscordCommand*)p2)->szCommandId);
-}
-
-GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
-{
-	CDiscordCommand tmp = { pwszCommand, NULL };
-	CDiscordCommand *p = (CDiscordCommand*)bsearch(&tmp, handlers, _countof(handlers), sizeof(handlers[0]), pSearchFunc);
-	return (p != NULL) ? p->pFunc : NULL;
-}
-
 //////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
@@ -176,7 +152,7 @@ void CDiscordProto::GatewayThreadWorker()
 			break;
 
 		unsigned char buf[2048];
-		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf + offset, _countof(buf) - offset, MSG_DUMPASTEXT);
+		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf + offset, _countof(buf) - offset, 0);
 		if (bufSize == 0) {
 			debugLogA("Gateway connection gracefully closed");
 			break;

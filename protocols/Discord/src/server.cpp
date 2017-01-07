@@ -221,6 +221,17 @@ void CDiscordProto::OnReceiveGuilds(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	bool bSucceeded = true;
+	if (pReply->resultCode != 200 && pReply->resultCode != 204)
+		bSucceeded = false;
+
+	ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_MESSAGE, bSucceeded ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)pReq->m_iReqNum, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
 	if (pReply->resultCode != 200) {

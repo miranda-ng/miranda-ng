@@ -70,6 +70,15 @@ time_t StringToDate(const CMStringW &str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static LONG volatile g_counter = 1;
+
+int SerialNext()
+{
+	return InterlockedIncrement(&g_counter);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 SnowFlake CDiscordProto::getId(const char *szSetting)
 {
 	DBVARIANT dbv;
@@ -106,6 +115,8 @@ void CDiscordProto::setId(MCONTACT hContact, const char *szSetting, SnowFlake iV
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static CDiscordUser *g_myUser = new CDiscordUser(0);
+
 CDiscordUser* CDiscordProto::FindUser(SnowFlake id)
 {
 	return arUsers.find((CDiscordUser*)&id);
@@ -122,9 +133,23 @@ CDiscordUser* CDiscordProto::FindUser(const wchar_t *pwszUsername, int iDiscrimi
 	return NULL;
 }
 
+CDiscordUser* CDiscordProto::FindUserByChannel(SnowFlake channelId)
+{
+	for (int i = 0; i < arUsers.getCount(); i++) {
+		CDiscordUser &p = arUsers[i];
+		if (p.channelId == channelId)
+			return &p;
+	}
+
+	return NULL;
+}
+
 CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 {
 	SnowFlake id = _wtoi64(user["id"].as_mstring());
+	if (id == m_ownId)
+		return g_myUser;
+
 	int iDiscriminator = _wtoi(user["discriminator"].as_mstring());
 	CMStringW avatar = user["avatar"].as_mstring();
 	CMStringW username = user["username"].as_mstring();

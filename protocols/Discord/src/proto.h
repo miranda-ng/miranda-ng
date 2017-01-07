@@ -102,6 +102,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void __cdecl ServerThread(void*);
 	void __cdecl SearchThread(void *param);
+	void __cdecl SendMessageAckThread(void* param);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// session control
@@ -147,8 +148,6 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void  GatewaySendHeartbeat(void);
 	void  GatewaySendIdentify(void);
 
-	void  OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-
 	GatewayHandlerFunc GetHandler(const wchar_t*);
 
 	int   m_iHartbeatInterval;	// in milliseconds
@@ -168,6 +167,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	OBJLIST<CDiscordUser> arUsers;
 	CDiscordUser* FindUser(SnowFlake id);
 	CDiscordUser* FindUser(const wchar_t *pwszUsername, int iDiscriminator);
+	CDiscordUser* FindUserByChannel(SnowFlake channelId);
 	CDiscordUser* PrepareUser(const JSONNode&);
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -194,6 +194,9 @@ public:
 	
 	virtual int __cdecl AuthRequest(MCONTACT hContact, const wchar_t*) override;
 
+	virtual int __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt) override;
+	virtual int __cdecl SendMsg(MCONTACT hContact, int flags, const char* pszSrc) override;
+
 	virtual int __cdecl SetStatus(int iNewStatus) override;
 	virtual int __cdecl OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
 
@@ -207,7 +210,10 @@ public:
 	int  __cdecl OnSrmmEvent(WPARAM, LPARAM);
 
 	// dispatch commands
+	void OnCommandMessage(const JSONNode&);
+	void OnCommandPresence(const JSONNode&);
 	void OnCommandReady(const JSONNode&);
+	void OnCommandTyping(const JSONNode&);
 
 	void OnLoggedIn();
 	void OnLoggedOut();
@@ -217,6 +223,8 @@ public:
 	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveUserInfo(MCONTACT hContact);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

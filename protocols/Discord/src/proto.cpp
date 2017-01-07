@@ -42,6 +42,9 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CDiscordProto::OnSrmmEvent);
 
+	// database
+	db_set_resident(m_szModuleName, "XStatusMsg");
+
 	// Clist
 	Clist_GroupCreate(NULL, m_wszDefaultGroup);
 
@@ -256,6 +259,50 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	setDword(hContact, DB_KEY_DISCR, pUser->iDiscriminator);
 
 	return hContact;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+// RecvMsg
+
+int CDiscordProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
+{
+	T2Utf szResUtf((const wchar_t*)evt->lParam);
+	evt->pCustomData = (char*)szResUtf;
+	evt->cbCustomDataSize = (DWORD)mir_strlen(szResUtf);
+	Proto_RecvMessage(hContact, evt);
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+// SendMsg
+
+void __cdecl CDiscordProto::SendMessageAckThread(void *param)
+{
+	Sleep(100);
+	ProtoBroadcastAck((MCONTACT)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)Translate("Protocol is offline or no JID"));
+}
+
+int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
+{
+	if (!m_bOnline) {
+		ForkThread(&CDiscordProto::SendMessageAckThread, (void*)hContact);
+		return 1;
+	}
+
+	ptrW wszText(mir_utf8decodeW(pszSrc));
+	if (wszText == NULL)
+		return 0;
+
+	CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
+	if (pUser == NULL || pUser->channelId == NULL)
+		return 0;
+
+	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
+	JSONNode body; body << WCHAR_PARAM("content", wszText);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessageAck, &body);
+	pReq->pUserInfo = (void*)hContact;
+	Push(pReq);
+	return pReq->m_iReqNum;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
