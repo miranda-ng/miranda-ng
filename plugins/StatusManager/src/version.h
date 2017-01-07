@@ -1,7 +1,7 @@
 // plugin version part
 #define __MAJOR_VERSION          0
 #define __MINOR_VERSION          11
-#define __RELEASE_NUM            1
+#define __RELEASE_NUM            2
 #define __BUILD_NUM              0
 
 // other stuff for Version resource
@@ -14,4 +14,4 @@
 #define __AUTHOR                "P Boon"
 #define __AUTHOREMAIL           "unregistered@users.sourceforge.net"
 #define __AUTHORWEB             "http://miranda-ng.org/p/StatusManager/"
-#define __COPYRIGHT             "© 2003-08 P. Boon, 2008-17 George Hazan"
+#define __COPYRIGHT             "ï¿½ 2003-08 P. Boon, 2008-17 George Hazan"

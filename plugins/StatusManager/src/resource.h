@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by E:\Projects\C++\miranda-ng\plugins\StatusManager\res\resource.rc
 //
-#define IDD_OPT_KEEPSTATUS              101
 #define IDD_OPT_KS_BASIC                101
 #define IDD_CONFIRMDIALOG               102
 #define IDD_OPT_AUTOAWAY                104
@@ -15,7 +14,6 @@
 #define IDD_OPT_KS_ACTION               120
 #define IDD_SETSTSMSGDIALOG             121
 #define IDD_OPT_STATUSPROFILES          123
-#define IDD_OPT_AAATABS                 126
 #define IDD_OPT_TABS                    126
 #define IDD_OPT_KS_ADV                  127
 #define IDD_TRG_AAASTATECHANGE          128
@@ -27,11 +25,8 @@
 #define IDC_PROFILE                     1002
 #define IDC_STARTUPLIST                 1008
 #define IDC_STATUSMSG                   1008
-#define IDC_SETSTATUSONSTARTUP          1010
 #define IDC_SETPROFILE                  1010
-#define IDC_SETWINDOW                   1011
 #define IDC_SETWINSTATE                 1011
-#define IDC_WINDOW                      1012
 #define IDC_WINSTATE                    1012
 #define IDC_CLOSE                       1013
 #define IDC_SHOWDIALOG                  1014
@@ -45,7 +40,6 @@
 #define IDC_CHECKCONNECTION             1025
 #define IDC_MAXRETRIES                  1026
 #define IDC_INITDELAY                   1027
-#define IDC_SETSTATUSDELAY              1027
 #define IDC_SETPROFILEDELAY             1027
 #define IDC_DOCKED                      1028
 #define IDC_SETDOCKED                   1029
@@ -62,12 +56,10 @@
 #define IDC_DELPROFILE                  1042
 #define IDC_PROFILENAME                 1043
 #define IDC_CANCEL                      1044
-#define IDC_DEFAULTPROFILE              1045
 #define IDC_MONITORMIRANDA              1045
 #define IDC_WINCOLORS                   1045
 #define IDC_CHKINET                     1045
 #define IDC_IGNLOCK                     1045
-#define IDC_CREATETTBBUTTONS            1046
 #define IDC_CREATETTB                   1046
 #define IDC_PERPROTOCOLSETTINGS         1050
 #define IDC_SAMESETTINGS                1051
@@ -146,14 +138,12 @@
 #define IDC_BECOMEACTIVE                1138
 #define IDC_ENABLE_KEEPSTATUS           1141
 #define IDC_ENABLE_STARTUPSTATUS        1142
-#define IDC_ENABLEADVANCEDAUTOAWAY      1143
 #define IDC_ENABLE_ADVANCEDAUTOAWAY     1143
 #define IDC_SCREENSAVE                  1145
 #define IDC_TIMED                       1146
 #define IDC_AWAYTIME                    1147
 #define IDC_SETNA                       1148
 #define IDC_NATIME                      1149
-#define IDC_SCREENSAVE2                 1150
 #define IDC_FULLSCREEN                  1150
 #define IDC_RADUSEMIRANDA               1210
 #define IDC_RADUSECUSTOM                1212

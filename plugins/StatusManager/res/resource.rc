@@ -24,18 +24,19 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_OPT_SUBPLUGINS DIALOGEX 0, 0, 212, 144
+IDD_OPT_SUBPLUGINS DIALOGEX 0, 0, 302, 181
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Enable ""Keep status"" *",IDC_ENABLE_KEEPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,24,173,10
-    CONTROL         "Enable ""Startup status"" *",IDC_ENABLE_STARTUPSTATUS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,37,173,10
-    CONTROL         "Enable ""Advanced auto away"" *",IDC_ENABLE_ADVANCEDAUTOAWAY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,50,173,10
-    GROUPBOX        "Subplugins control",IDC_STATIC,7,7,198,89
-    LTEXT           "* requires a reboot for applying changes",IDC_STATIC,19,81,173,9
+    GROUPBOX        "Enable modules",IDC_STATIC,9,8,282,156
+    CONTROL         "Keep status",IDC_ENABLE_KEEPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,24,262,10
+    LTEXT           "A connection checker. Automatically reconnects your accounts after protocol error or internet drop.",IDC_STATIC,40,36,241,24
+    CONTROL         "Startup status",IDC_ENABLE_STARTUPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,64,262,10
+    LTEXT           "Allows you to define the status Miranda should set on startup, configurable per account.",IDC_STATIC,40,76,241,24
+    CONTROL         "Advanced auto away",IDC_ENABLE_ADVANCEDAUTOAWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,105,262,10
+    LTEXT           "Improved Auto Away module with some more options than the built in, configurable per account.",IDC_STATIC,40,117,241,24
+    LTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",IDC_STATIC,19,148,270,9
 END
 
 
@@ -49,6 +50,11 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_SUBPLUGINS, DIALOG
     BEGIN
+        RIGHTMARGIN, 298
+        VERTGUIDE, 19
+        VERTGUIDE, 40
+        VERTGUIDE, 281
+        BOTTOMMARGIN, 176
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -59,9 +65,9 @@ END
 // AFX_DIALOG_LAYOUT
 //
 
-IDD_OPT_SUBPLUGINS AFX_DIALOG_LAYOUT
+IDD_OPT_SUBPLUGINS AFX_DIALOG_LAYOUT 
 BEGIN
-    0
+    0x0000
 END
 
 #endif    // English resources
@@ -74,44 +80,6 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
 LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 #pragma code_page(1252)
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "..\\src\\resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""winres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_TTBDOWN             ICON                    "ttbDown.ico"
-
-IDI_TTBUP               ICON                    "ttbUp.ico"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -514,36 +482,72 @@ END
 // AFX_DIALOG_LAYOUT
 //
 
-IDD_OPT_KS_ADV AFX_DIALOG_LAYOUT
+IDD_OPT_KS_ADV AFX_DIALOG_LAYOUT 
 BEGIN
-    0
+    0x0000
 END
 
-IDD_OPT_AUTOAWAY AFX_DIALOG_LAYOUT
+IDD_OPT_AUTOAWAY AFX_DIALOG_LAYOUT 
 BEGIN
-    0
+    0x0000
 END
 
-IDD_OPT_GENAUTOAWAY AFX_DIALOG_LAYOUT
+IDD_OPT_GENAUTOAWAY AFX_DIALOG_LAYOUT 
 BEGIN
-    0
+    0x0000
 END
 
-IDD_OPT_KS_BASIC AFX_DIALOG_LAYOUT
+IDD_OPT_KS_BASIC AFX_DIALOG_LAYOUT 
 BEGIN
-    0
+    0x0000
 END
 
-IDD_PUOPT_KEEPSTATUS AFX_DIALOG_LAYOUT
+IDD_PUOPT_KEEPSTATUS AFX_DIALOG_LAYOUT 
 BEGIN
-    0
+    0x0000
 END
 
-IDD_TRG_AAASTATECHANGE AFX_DIALOG_LAYOUT
+IDD_TRG_AAASTATECHANGE AFX_DIALOG_LAYOUT 
 BEGIN
-    0
+    0x0000
 END
 
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_TTBDOWN             ICON                    "ttbDown.ico"
+IDI_TTBUP               ICON                    "ttbUp.ico"
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
