@@ -29,9 +29,11 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Enable ""%s"" *",IDC_ENABLE_KEEPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,24,173,10
-    CONTROL         "Enable ""%s"" *",IDC_ENABLE_STARTUPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,37,173,10
-    CONTROL         "Enable ""%s"" *",IDC_ENABLE_ADVANCEDAUTOAWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,50,173,10
+    CONTROL         "Enable ""Keep status"" *",IDC_ENABLE_KEEPSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,24,173,10
+    CONTROL         "Enable ""Startup status"" *",IDC_ENABLE_STARTUPSTATUS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,37,173,10
+    CONTROL         "Enable ""Advanced auto away"" *",IDC_ENABLE_ADVANCEDAUTOAWAY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,50,173,10
     GROUPBOX        "Subplugins control",IDC_STATIC,7,7,198,89
     LTEXT           "* requires a reboot for applying changes",IDC_STATIC,19,81,173,9
 END

@@ -12,15 +12,8 @@ void CSubPluginsOptionsDlg::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
-	wchar_t text[128];
-	mir_snwprintf(text, L"Enable \"%s\" *", L"Keep status");
-	m_enableKeepStatus.SetText(text);
 	m_enableKeepStatus.SetState(IsSubPluginEnabled(KSMODULENAME));
-	mir_snwprintf(text, L"Enable \"%s\" *", L"Startup status");
-	m_enableStartupStatus.SetText(text);
 	m_enableStartupStatus.SetState(IsSubPluginEnabled(SSMODULENAME));
-	mir_snwprintf(text, L"Enable \"%s\" *", L"Advanced auto away");
-	m_enableAdvancedAutoAway.SetText(text);
 	m_enableAdvancedAutoAway.SetState(IsSubPluginEnabled(AAAMODULENAME));
 }
 
