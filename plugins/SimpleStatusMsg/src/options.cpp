@@ -1654,7 +1654,8 @@ int InitOptions(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 
 	if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
-		odp.szTitle.a = LPGEN("Status");
+		odp.szTitle.a = LPGEN("Startup status");
+		odp.szGroup.a = LPGEN("Status");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUS);
 		odp.pfnDlgProc = DlgStatusOptionsProc;
 		Options_AddPage(wParam, &odp);
