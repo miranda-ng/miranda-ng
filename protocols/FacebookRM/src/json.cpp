@@ -403,7 +403,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 	}
 	else {
 		*message_text += T2Utf(TranslateT("User sent an unsupported attachment. Open your browser to see it."));
-		proto->debugLogA("json::parseAttachments (%s) - Unsupported attachment:\n%s", legacy ? "legacy" : "not legacy", attachments_.as_string());
+		proto->debugLogA("json::parseAttachments (%s) - Unsupported attachment:\n%s", legacy ? "legacy" : "not legacy", attachments_.as_string().c_str());
 	}
 }
 
@@ -1089,7 +1089,7 @@ int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< s
 		return EXIT_FAILURE;
 
 	for (auto it = unread_threads.begin(); it != unread_threads.end(); ++it) {
-		const JSONNode &thread_ids = (*it)["thread_ids"];
+		const JSONNode &thread_ids = (*it)["thread_fbids"];
 
 		for (auto jt = thread_ids.begin(); jt != thread_ids.end(); ++jt)
 			threads->push_back((*jt).as_string());
