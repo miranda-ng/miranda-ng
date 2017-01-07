@@ -3,6 +3,7 @@ typedef __int64 SnowFlake;
 
 class CDiscordProto;
 typedef void (CDiscordProto::*HttpCallback)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
+typedef void (CDiscordProto::*GatewayHandlerFunc)(const JSONNode&);
 
 struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
@@ -129,13 +130,18 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	//////////////////////////////////////////////////////////////////////////////////////
 	// gateway
 
-	CMStringA m_szGateway;
+	CMStringA
+		m_szGateway,           // gateway url
+		m_szGatewaySessionId;  // current session id
+	
 	HANDLE 
 		m_hGatewayNetlibUser,  // the separate netlib user handle for gateways
 		m_hGatewayConnection;  // gateway connection
 	
 	void __cdecl GatewayThread(void*);
-	void  GatewaySend(int opCode, const JSONNode&);
+	void CDiscordProto::GatewayThreadWorker(void);
+	
+	void  GatewaySend(const JSONNode&, int opCode = 1);
 	void  GatewayProcess(const JSONNode&);
 
 	void  GatewaySendHeartbeat(void);
@@ -143,9 +149,10 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void  OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	int   m_iHartbeatInterval;
-	int   m_iGatewaySeq;  // gateway sequence number
-	DWORD m_dwLastHeartbeat;
+	GatewayHandlerFunc GetHandler(const wchar_t*);
+
+	int   m_iHartbeatInterval;	// in milliseconds
+	int   m_iGatewaySeq;       // gateway sequence number
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// options
@@ -199,6 +206,9 @@ public:
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnSrmmEvent(WPARAM, LPARAM);
 
+	// dispatch commands
+	void OnCommandReady(const JSONNode&);
+
 	void OnLoggedIn();
 	void OnLoggedOut();
 
@@ -216,4 +226,7 @@ public:
 
 	// Misc
 	void SetServerStatus(int iStatus);
+
+	static void CALLBACK HeartbeatTimerProc(HWND hwnd, UINT msg, UINT_PTR id, DWORD);
+	__forceinline int getHeartbeatInterval() const { return m_iHartbeatInterval; }
 };

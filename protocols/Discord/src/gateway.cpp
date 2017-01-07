@@ -17,24 +17,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CDiscordProto::OnReceiveGateway(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+#pragma pack(4)
+
+struct CDiscordCommand
 {
-	if (pReply->resultCode != 200) {
-		ShutdownSession();
-		return;
-	}
+	const wchar_t *szCommandId;
+	GatewayHandlerFunc pFunc;
+}
+static handlers[] = // these structures must me sorted alphabetically
+{
+	{ L"READY", &CDiscordProto::OnCommandReady }
+};
 
-	JSONNode root = JSONNode::parse(pReply->pData);
-	if (!root) {
-		ShutdownSession();
-		return;
-	}
-
-	m_szGateway = root["url"].as_mstring();
-	ForkThread(&CDiscordProto::GatewayThread, NULL);
+static int __cdecl pSearchFunc(const void *p1, const void *p2)
+{
+	return wcscmp(((CDiscordCommand*)p1)->szCommandId, ((CDiscordCommand*)p2)->szCommandId);
 }
 
-void CDiscordProto::GatewaySend(int opCode, const JSONNode &pRoot)
+GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
+{
+	CDiscordCommand tmp = { pwszCommand, NULL };
+	CDiscordCommand *p = (CDiscordCommand*)bsearch(&tmp, handlers, _countof(handlers), sizeof(handlers[0]), pSearchFunc);
+	return (p != NULL) ? p->pFunc : NULL;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// sends a piece of JSON to a server via a websocket, masked
+
+void CDiscordProto::GatewaySend(const JSONNode &pRoot, int opCode)
 {
 	if (m_hGatewayConnection == NULL)
 		return;
@@ -42,7 +52,9 @@ void CDiscordProto::GatewaySend(int opCode, const JSONNode &pRoot)
 	json_string szText = pRoot.write();
 
 	BYTE header[20];
-	size_t datalen, strLen = szText.length();
+	size_t datalen;
+	uint64_t strLen = szText.length();
+
 	header[0] = 0x80 + (opCode & 0x7F);
 	if (strLen < 126) {
 		header[1] = (strLen & 0xFF);
@@ -67,14 +79,35 @@ void CDiscordProto::GatewaySend(int opCode, const JSONNode &pRoot)
 		datalen = 10;
 	}
 
+	union {
+		uLong dwMask;
+		Bytef arMask[4];
+	};
+	dwMask = crc32(rand(), (Bytef*)szText.c_str(), (uInt)szText.length());
+	memcpy(header + datalen, arMask, _countof(arMask));
+	datalen += _countof(arMask);
+	header[1] |= 0x80;
+
 	ptrA sendBuf((char*)mir_alloc(strLen + datalen));
 	memcpy(sendBuf, header, datalen);
-	if (strLen)
+	if (strLen) {
 		memcpy(sendBuf.get() + datalen, szText.c_str(), strLen);
+		for (size_t i = 0; i < strLen; i++)
+			sendBuf[i + datalen] ^= arMask[i & 3];
+	}
 	Netlib_Send(m_hGatewayConnection, sendBuf, int(strLen + datalen), 0);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+// gateway worker thread
+
 void CDiscordProto::GatewayThread(void*)
+{
+	GatewayThreadWorker();
+	ShutdownSession();
+}
+
+void CDiscordProto::GatewayThreadWorker()
 {
 	// connect to the gateway server
 	if (!mir_strncmp(m_szGateway, "wss://", 6))
@@ -96,13 +129,11 @@ void CDiscordProto::GatewayThread(void*)
 	m_hGatewayConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hGatewayNetlibUser, (LPARAM)&conn);
 	if (m_hGatewayConnection == NULL) {
 		debugLogA("Gateway connection failed to connect to %s:%d, exiting", m_szGateway.c_str(), conn.wPort);
-	LBL_Fatal:
-		ShutdownSession();
 		return;
 	}
 	{
 		CMStringA szBuf;
-		szBuf.AppendFormat("GET https://%s/?v=6 HTTP/1.1\r\n", m_szGateway.c_str());
+		szBuf.AppendFormat("GET https://%s/?encoding=json&v=6 HTTP/1.1\r\n", m_szGateway.c_str());
 		szBuf.AppendFormat("Host: %s\r\n", m_szGateway.c_str());
 		szBuf.AppendFormat("Upgrade: websocket\r\n");
 		szBuf.AppendFormat("Pragma: no-cache\r\n");
@@ -114,7 +145,7 @@ void CDiscordProto::GatewayThread(void*)
 		szBuf.AppendFormat("\r\n");
 		if (Netlib_Send(m_hGatewayConnection, szBuf, szBuf.GetLength(), MSG_DUMPASTEXT) == SOCKET_ERROR) {
 			debugLogA("Error establishing gateway connection to %s:%d, send failed", m_szGateway.c_str(), conn.wPort);
-			goto LBL_Fatal;
+			return;
 		}
 	}
 	{
@@ -122,13 +153,13 @@ void CDiscordProto::GatewayThread(void*)
 		int bufSize = Netlib_Recv(m_hGatewayConnection, buf, _countof(buf), MSG_DUMPASTEXT);
 		if (bufSize <= 0) {
 			debugLogA("Error establishing gateway connection to %s:%d, read failed", m_szGateway.c_str(), conn.wPort);
-			goto LBL_Fatal;
+			return;
 		}
 
 		int status = 0;
 		if (sscanf(buf, "HTTP/1.1 %d", &status) != 1 || status != 101) {
 			debugLogA("Error establishing gateway connection to %s:%d, status %d", m_szGateway.c_str(), conn.wPort, status);
-			goto LBL_Fatal;
+			return;
 		}
 	}
 
@@ -144,19 +175,8 @@ void CDiscordProto::GatewayThread(void*)
 		if (m_bTerminated)
 			break;
 
-		NETLIBSELECT sel = {};
-		sel.cbSize = sizeof(sel);
-		sel.dwTimeout = 1000;
-		sel.hReadConns[0] = m_hGatewayConnection;
-		CallService(MS_NETLIB_SELECT, 0, (LPARAM)&sel);
-		{
-			int iInterval = GetTickCount() - m_dwLastHeartbeat;
-			if (m_iHartbeatInterval && iInterval > m_iHartbeatInterval)
-				GatewaySendHeartbeat();
-		}
-
 		unsigned char buf[2048];
-		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf+offset, _countof(buf) - offset, 0);
+		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf + offset, _countof(buf) - offset, MSG_DUMPASTEXT);
 		if (bufSize == 0) {
 			debugLogA("Gateway connection gracefully closed");
 			break;
@@ -258,28 +278,56 @@ void CDiscordProto::GatewayThread(void*)
 
 	Netlib_CloseHandle(m_hGatewayConnection);
 	m_hGatewayConnection = NULL;
-	ShutdownSession();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+// handles server commands
 
 void CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 {
 	int opCode = pRoot["op"].as_int();
 	switch (opCode) {
+	case 0:  // process incoming command
+		{
+			int iSeq = pRoot["s"].as_int();
+			if (iSeq != 0)
+				m_iGatewaySeq = iSeq;
+
+			CMStringW wszCommand = pRoot["t"].as_mstring();
+			debugLogA("got a server command to dispatch: %S", wszCommand.c_str());
+			
+			GatewayHandlerFunc pFunc = GetHandler(wszCommand);
+			if (pFunc)
+				(this->*pFunc)(pRoot["d"]);
+		}
+		break;
+
 	case 10: // hello
 		m_iHartbeatInterval = pRoot["d"]["heartbeat_interval"].as_int();
-		m_dwLastHeartbeat = GetTickCount();
-		m_iGatewaySeq = 1;
 
 		GatewaySendIdentify();
 		break;
+	
+	case 11: // heartbeat ack
+		break;
+
+	default:
+		debugLogA("ACHTUNG! Unknown opcode: %d, report it to developer", opCode);
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+// requests to be sent to a gateway
+
 void CDiscordProto::GatewaySendHeartbeat()
 {
+	// we don't send heartbeat packets until we get logged in
+	if (!m_iHartbeatInterval || !m_iGatewaySeq)
+		return;
+
 	JSONNode root;
 	root << INT_PARAM("op", 1) << INT_PARAM("d", m_iGatewaySeq);
-	GatewaySend(1, root);
+	GatewaySend(root);
 }
 
 void CDiscordProto::GatewaySendIdentify()
@@ -291,14 +339,13 @@ void CDiscordProto::GatewaySendIdentify()
 	Miranda_GetVersionText(szVersion, _countof(szVersion));
 
 	JSONNode props; props.set_name("properties");
-	props << WCHAR_PARAM("$os", L"Windows") << CHAR_PARAM("$browser", "Miranda NG") << CHAR_PARAM("$device", "Miranda NG")
-		<< CHAR_PARAM("$referrer", "") << CHAR_PARAM("$referring_domain", "");
+	props << WCHAR_PARAM("os", wszOs) << CHAR_PARAM("browser", "Chrome") << CHAR_PARAM("device", "Miranda NG")
+		<< CHAR_PARAM("referrer", "http://miranda-ng.org") << CHAR_PARAM("referring_domain", "miranda-ng.org");
 
-	JSONNode shards(JSON_ARRAY); shards.set_name("shard");
-	shards << INT_PARAM("", 1) << INT_PARAM("", 10);
+	JSONNode payload; payload.set_name("d");
+	payload << CHAR_PARAM("token", m_szAccessToken) << props << BOOL_PARAM("compress", false) << INT_PARAM("large_threshold", 250);
 
 	JSONNode root;
-	root << CHAR_PARAM("token", m_szAccessToken) << BOOL_PARAM("compress", false) << INT_PARAM("large_threshold", 250);
-	root << props; // << shards;
-	GatewaySend(1, root);
+	root << INT_PARAM("op", 2) << payload;
+	GatewaySend(root);
 }

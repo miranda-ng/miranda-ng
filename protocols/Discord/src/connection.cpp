@@ -64,10 +64,6 @@ void CDiscordProto::OnLoggedIn()
 	m_bOnline = true;
 	SetServerStatus(m_iDesiredStatus);
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me/guilds", &CDiscordProto::OnReceiveGuilds));
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me/channels", &CDiscordProto::OnReceiveChannels));
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me/relationships", &CDiscordProto::OnReceiveFriends));
-
 	if (m_szGateway.IsEmpty())
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/gateway", &CDiscordProto::OnReceiveGateway));
 	else
@@ -91,6 +87,7 @@ void CDiscordProto::ShutdownSession()
 {
 	debugLogA("CDiscordProto::ShutdownSession");
 	m_bTerminated = true;
+	m_iGatewaySeq = 0;
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
 	OnLoggedOut();

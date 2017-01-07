@@ -124,6 +124,26 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// finds a gateway address
+
+void CDiscordProto::OnReceiveGateway(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	if (pReply->resultCode != 200) {
+		ShutdownSession();
+		return;
+	}
+
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (!root) {
+		ShutdownSession();
+		return;
+	}
+
+	m_szGateway = root["url"].as_mstring();
+	ForkThread(&CDiscordProto::GatewayThread, NULL);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CDiscordProto::SetServerStatus(int iStatus)
 {
@@ -224,5 +244,3 @@ LBL_Error:
 
 	RetrieveUserInfo(NULL);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
