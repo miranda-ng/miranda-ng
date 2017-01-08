@@ -163,20 +163,6 @@ INT_PTR CDiscordProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::OnReceiveMyAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
-{
-	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
-	if (pReply->resultCode != 200)
-		return;
-
-	JSONNode root = JSONNode::parse(pReply->pData);
-	if (!root)
-		return;
-
-	setWString(hContact, DB_KEY_AVHASH, root["avatar"].as_mstring());
-	CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
-}
-
 INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
 	CMStringW wszFileName(GetAvatarFilename(NULL));
@@ -213,6 +199,6 @@ INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	szPayload.Append(ptrA(mir_base64_encode((BYTE*)szFileContents.get(), iFileLength)));
 
 	JSONNode root; root << CHAR_PARAM("avatar", szPayload);
-	Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me", &CDiscordProto::OnReceiveMyAvatar, &root));
+	Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me", NULL, &root));
 	return 0;
 }

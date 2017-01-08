@@ -218,6 +218,7 @@ public:
 	void OnCommandPresence(const JSONNode&);
 	void OnCommandReady(const JSONNode&);
 	void OnCommandTyping(const JSONNode&);
+	void OnCommandUserUpdate(const JSONNode&);
 
 	void OnLoggedIn();
 	void OnLoggedOut();
@@ -229,7 +230,6 @@ public:
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveMyAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveUserInfo(MCONTACT hContact);

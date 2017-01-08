@@ -36,6 +36,8 @@ static handlers[] = // these structures must me sorted alphabetically
 	{ L"READY", &CDiscordProto::OnCommandReady },
 
 	{ L"TYPING_START", &CDiscordProto::OnCommandTyping },
+
+	{ L"USER_UPDATE", &CDiscordProto::OnCommandUserUpdate },
 };
 
 static int __cdecl pSearchFunc(const void *p1, const void *p2)
@@ -180,5 +182,34 @@ void CDiscordProto::OnCommandTyping(const JSONNode &pRoot)
 	}
 	else {
 		debugLogA("user is typing in a group channel, skipped");
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// UTN support
+
+void CDiscordProto::OnCommandUserUpdate(const JSONNode &pRoot)
+{
+	SnowFlake id = _wtoi64(pRoot["id"].as_mstring());
+
+	MCONTACT hContact;
+	if (id != m_ownId) {
+		CDiscordUser *pUser = FindUser(id);
+		if (pUser == NULL)
+			return;
+
+		hContact = pUser->hContact;
+	}
+	else hContact = 0;
+
+	// force rereading avatar
+	ptrW wszOldHash(getWStringA(hContact, DB_KEY_AVHASH));
+	CMStringW wszNewHash(pRoot["avatar"].as_mstring());
+	if (mir_wstrcmp(wszOldHash, wszNewHash)) {
+		setWString(hContact, DB_KEY_AVHASH, wszNewHash);
+
+		PROTO_AVATAR_INFORMATION ai = {};
+		ai.hContact = hContact;
+		GetAvatarInfo(GAIF_FORCE, (LPARAM)&ai);
 	}
 }
