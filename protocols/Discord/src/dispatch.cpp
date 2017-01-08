@@ -148,16 +148,16 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 	for (auto it = channels.begin(); it != channels.end(); ++it) {
 		const JSONNode &p = *it;
 
-		const JSONNode &user = p["recipient"];
-		if (!user)
-			continue;
+		const JSONNode &recipients = p["recipients"];
+		for (auto it2 = recipients.begin(); it2 != recipients.end(); ++it2) {
+			const JSONNode &r = *it2;
+			CDiscordUser *pUser = PrepareUser(r);
+			pUser->lastMessageId = _wtoi64(r["last_message_id"].as_mstring());
+			pUser->channelId = _wtoi64(p["id"].as_mstring());
+			pUser->bIsPrivate = true;
 
-		CDiscordUser *pUser = PrepareUser(user);
-		pUser->lastMessageId = _wtoi64(p["last_message_id"].as_mstring());
-		pUser->channelId = _wtoi64(p["id"].as_mstring());
-		pUser->bIsPrivate = true;
-
-		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
+			setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
+		}
 	}
 }
 

@@ -206,24 +206,35 @@ void CDiscordProto::GatewayThreadWorker()
 
 		// we have some additional data, not only opcode
 		if (bufSize > headerSize) {
-			if (bIsFinal && dataBuf == NULL) { // it fits, no need to reallocate a buffer
+			if (bIsFinal && payloadSize < _countof(buf)) { // it fits, no need to reallocate a buffer
 				bDataBufAllocated = false;
 				dataBuf = (char*)buf + headerSize;
 				dataBufSize = bufSize - headerSize;
 			}
 			else {
 				bDataBufAllocated = true;
-				size_t newSize = dataBufSize + bufSize - headerSize;
+				size_t newSize = dataBufSize + payloadSize;
+				size_t currPacketSize = bufSize - headerSize;
 				dataBuf = (char*)mir_realloc(dataBuf, newSize+1);
-				memcpy(dataBuf + dataBufSize, buf + headerSize, bufSize - headerSize);
+				memcpy(dataBuf + dataBufSize, buf + headerSize, currPacketSize);
+				while (currPacketSize < payloadSize) {
+					int result = Netlib_Recv(m_hGatewayConnection, dataBuf + dataBufSize + currPacketSize, int(payloadSize - currPacketSize), 0);
+					if (result == 0) {
+						debugLogA("Gateway connection gracefully closed");
+						break;
+					}
+					if (result < 0) {
+						debugLogA("Gateway connection error, exiting");
+						break;
+					}
+					currPacketSize += result;
+				}
+
 				dataBufSize = newSize;
 				debugLogA("data buffer reallocated to %d bytes", dataBufSize);
 			}
 			dataBuf[dataBufSize] = 0;
 		}
-
-		if (dataBufSize < payloadSize)
-			continue;
 
 		switch (opCode){
 		case 0: // text packet
