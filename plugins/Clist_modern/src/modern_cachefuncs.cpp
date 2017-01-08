@@ -645,7 +645,7 @@ BOOL ReduceAvatarPosition(ClcContact *contact, BOOL, void *param)
 
 void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 {
-	avatarCacheEntry *ace = contact->avatar_data;
+	AVATARCACHEENTRY *ace = contact->avatar_data;
 	int old_pos = contact->avatar_pos;
 
 	if (ace == NULL || ace->dwFlags == AVS_BITMAP_EXPIRED || ace->hbmPic == NULL) {
@@ -718,8 +718,8 @@ void Cache_GetAvatar(ClcData *dat, ClcContact *contact)
 	}
 
 	if (dat->avatars_show && !db_get_b(contact->hContact, "CList", "HideContactAvatar", 0)) {
-		contact->avatar_data = (avatarCacheEntry*)CallService(MS_AV_GETAVATARBITMAP, contact->hContact, 0);
-		if (contact->avatar_data == NULL || contact->avatar_data->cbSize != sizeof(avatarCacheEntry) || contact->avatar_data->dwFlags == AVS_BITMAP_EXPIRED)
+		contact->avatar_data = (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, contact->hContact, 0);
+		if (contact->avatar_data == NULL || contact->avatar_data->cbSize != sizeof(AVATARCACHEENTRY) || contact->avatar_data->dwFlags == AVS_BITMAP_EXPIRED)
 			contact->avatar_data = NULL;
 
 		if (contact->avatar_data != NULL)

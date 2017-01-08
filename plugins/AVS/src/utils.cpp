@@ -65,7 +65,7 @@ void MakePathRelative(MCONTACT hContact)
 // create the avatar in cache
 // returns 0 if not created (no avatar), iIndex otherwise, -2 if has to request avatar, -3 if avatar too big
 
-int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
+int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, char *szProto)
 {
 	ptrW  tszValue;
 	wchar_t tszFilename[MAX_PATH]; tszFilename[0] = 0;
@@ -157,7 +157,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 	BITMAP bminfo;
 	GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
 
-	ace->cbSize = sizeof(avatarCacheEntry);
+	ace->cbSize = sizeof(AVATARCACHEENTRY);
 	ace->dwFlags = AVS_BITMAP_VALID;
 	if (hContact != NULL && db_get_b(hContact, "ContactPhoto", "Hidden", 0))
 		ace->dwFlags |= AVS_HIDEONCLIST;
@@ -280,7 +280,7 @@ void protoPicCacheEntry::clear()
 	if (hbmPic != 0)
 		DeleteObject(hbmPic);
 
-	memset(this, 0, sizeof(avatarCacheEntry));
+	memset(this, 0, sizeof(AVATARCACHEENTRY));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

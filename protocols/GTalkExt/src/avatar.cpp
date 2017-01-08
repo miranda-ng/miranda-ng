@@ -138,7 +138,7 @@ void SetAvatar(MCONTACT hContact)
 {
 	mir_cslock lck(g_csSetAvatar);
 
-	avatarCacheEntry *ava = (avatarCacheEntry*)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
+	AVATARCACHEENTRY *ava = (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 	if (ava && GetFileAttributes(&ava->szFilename[0]) != INVALID_FILE_ATTRIBUTES)
 		return;
 
@@ -153,7 +153,7 @@ void SetAvatar(MCONTACT hContact)
 		return;
 
 	if (ava)
-		CallService(MS_AV_SETAVATART, hContact, (LPARAM)L"");
-	CallService(MS_AV_SETAVATART, hContact, (LPARAM)avaFile);
+		CallService(MS_AV_SETAVATARW, hContact, (LPARAM)L"");
+	CallService(MS_AV_SETAVATARW, hContact, (LPARAM)avaFile);
 	db_set_ws(hContact, SRMM_MODULE_NAME, SRMM_AVATAR_SETTING_NAME, avaFile);
 }

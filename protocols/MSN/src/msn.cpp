@@ -79,7 +79,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 //	OnModulesLoaded - finalizes plugin's configuration on load
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	avsPresent = ServiceExists(MS_AV_SETMYAVATART) != 0;
+	avsPresent = ServiceExists(MS_AV_SETMYAVATARW) != 0;
 
 	MsnLinks_Init();
 

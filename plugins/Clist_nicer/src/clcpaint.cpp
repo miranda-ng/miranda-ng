@@ -262,7 +262,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 	if (!cfg::dat.bAvatarServiceAvail || dat->bisEmbedded)
 		return 0;
 
-	if (contact->ace != NULL && contact->ace->cbSize == sizeof(struct avatarCacheEntry)) {
+	if (contact->ace != NULL && contact->ace->cbSize == sizeof(struct AVATARCACHEENTRY)) {
 		if (contact->ace->dwFlags & AVS_HIDEONCLIST)
 			return (cfg::dat.dwFlags & CLUI_FRAME_ALWAYSALIGNNICK) ? avatar_size + 2 : 0;
 
@@ -1458,11 +1458,11 @@ bgdone:
 		line_num++;
 		ClcContact *cc = group->cl[group->scanIndex];
 		if (cfg::dat.bForceRefetchOnPaint)
-			cc->ace = (struct avatarCacheEntry*) - 1;
+			cc->ace = (struct AVATARCACHEENTRY*) - 1;
 
 		if (y > rcPaint->top - dat->row_heights[line_num] && y <= rcPaint->bottom) {
-			if (cc->ace == (struct avatarCacheEntry*) - 1)
-				cc->ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)cc->hContact, 0);
+			if (cc->ace == (struct AVATARCACHEENTRY*) - 1)
+				cc->ace = (struct AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)cc->hContact, 0);
 			RowHeight::getRowHeight(dat, cc, line_num, style);
 			PaintItem(hdcMem, group, cc, indent, y, dat, index, hwnd, style, &clRect, &bFirstNGdrawn, groupCountsFontTopShift, dat->row_heights[line_num]);
 		}

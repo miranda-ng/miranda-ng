@@ -39,14 +39,14 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 	wchar_t *result = NULL;
 
 	if (Options::getAvatarServiceFlags() == Options::AVATARSERVICE_PRESENT) {
-		avatarCacheEntry *ace;
+		AVATARCACHEENTRY *ace;
 		if (hContact == NULL)
-			ace = (avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)szProto);
+			ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)szProto);
 		else
-			ace = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
+			ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 
 		if (ace != NULL) {
-			if (ace->cbSize == sizeof(avatarCacheEntry))
+			if (ace->cbSize == sizeof(AVATARCACHEENTRY))
 				result = ace->szFilename;
 			else // compatibility: in M0.9 it will always be char*
 				MultiByteToWideChar(CP_ACP, 0, (char*)ace->szFilename, -1, tmpPath, _countof(tmpPath));

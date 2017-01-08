@@ -64,7 +64,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-struct CacheNode : public avatarCacheEntry, public MZeroedObject
+struct CacheNode : public AVATARCACHEENTRY, public MZeroedObject
 {
 	CacheNode();
 	~CacheNode();
@@ -76,8 +76,8 @@ struct CacheNode : public avatarCacheEntry, public MZeroedObject
 	void   wipeInfo();
 };
 
-// The same fields as avatarCacheEntry + proto name
-struct protoPicCacheEntry : public avatarCacheEntry, public MZeroedObject
+// The same fields as AVATARCACHEENTRY + proto name
+struct protoPicCacheEntry : public AVATARCACHEENTRY, public MZeroedObject
 {
 	protoPicCacheEntry() { memset(this, 0, sizeof(*this)); };
 	~protoPicCacheEntry();
@@ -126,10 +126,10 @@ void  MakePathRelative(MCONTACT hContact);
 void  MakePathRelative(MCONTACT hContact, wchar_t *dest);
 void  MyPathToAbsolute(const wchar_t *ptszPath, wchar_t *ptszDest);
 
-HBITMAP LoadPNG(struct avatarCacheEntry *ace, char *szFilename);
+HBITMAP LoadPNG(struct AVATARCACHEENTRY *ace, char *szFilename);
 
 void UnloadCache(void);
-int  CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto);
+int  CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, char *szProto);
 void DeleteAvatarFromCache(MCONTACT hContact, bool bForever);
 void PicLoader(LPVOID param);
 void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY*)-1);

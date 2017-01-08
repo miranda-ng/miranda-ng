@@ -608,7 +608,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 	debugLogA("%d bytes written", nWritten);
 	if (hContact == NULL) {
 		hasPhoto = true;
-		CallService(MS_AV_SETMYAVATART, (WPARAM)m_szModuleName, (LPARAM)szAvatarFileName);
+		CallService(MS_AV_SETMYAVATARW, (WPARAM)m_szModuleName, (LPARAM)szAvatarFileName);
 
 		debugLogW(L"My picture saved to %s", szAvatarFileName);
 	}

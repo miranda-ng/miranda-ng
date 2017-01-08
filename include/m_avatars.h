@@ -70,7 +70,7 @@ unless AF_FETCHIFPROTONOTVISIBLE is set.
 #define AVS_OWNAVATAR 128           // is own avatar entry
 #define AVS_NOTREADY  4096
 
-typedef struct avatarCacheEntry
+struct AVATARCACHEENTRY
 {
 	DWORD cbSize;                    // set to sizeof(struct)
 	MCONTACT hContact;               // contacts handle, 0, if it is a protocol avatar
@@ -82,8 +82,7 @@ typedef struct avatarCacheEntry
 	                                 // to implement cache expiration
 	LPVOID lpDIBSection;             // unused field
 	wchar_t szFilename[MAX_PATH];      // filename of the avatar (absolute path)
-}
-	AVATARCACHEENTRY;
+};
 
 #define AVDRQ_FALLBACKPROTO            0x0001        // use the protocol picture as fallback (currently not used)
 #define AVDRQ_FAILIFNOTCACHED          0x0002        // don't create a cache entry if it doesn't already exist. (currently not working)
@@ -159,7 +158,6 @@ typedef struct _avatarDrawRequest
 
 #define MS_AV_SETAVATAR "SV_Avatars/SetAvatar"
 #define MS_AV_SETAVATARW "SV_Avatars/SetAvatarW"
-#define MS_AV_SETAVATART MS_AV_SETAVATARW
 
 // set a local picture for the given protocol
 //
@@ -169,7 +167,6 @@ typedef struct _avatarDrawRequest
 
 #define MS_AV_SETMYAVATAR "SV_Avatars/SetMyAvatar"
 #define MS_AV_SETMYAVATARW "SV_Avatars/SetMyAvatarW"
-#define MS_AV_SETMYAVATART MS_AV_SETMYAVATARW
 
 // see if is possible to set the avatar for the expecified protocol
 //
@@ -213,17 +210,18 @@ typedef struct _avatarDrawRequest
 
 #define ME_AV_AVATARCHANGED "SV_Avatars/AvatarChanged"
 
-typedef struct _contactAvatarChangedNotification {
+struct CONTACTAVATARCHANGEDNOTIFICATION
+{
 	int      cbSize;             // sizeof()
 	MCONTACT hContact;           // this might have to be set by the caller too
 	int      format;             // PA_FORMAT_*
 	wchar_t  filename[MAX_PATH]; // full path to filename which contains the avatar
 	wchar_t  hash[128];          // avatar hash
-} CONTACTAVATARCHANGEDNOTIFICATION;
+};
 
 // fired when the contacts avatar is changed by the contact
 // wParam = hContact
-// lParam = struct CONTACTAVATARCHANGEDNOTIFICATION *cacn
+// lParam = CONTACTAVATARCHANGEDNOTIFICATION *cacn
 // the event CAN pass a NULL pointer in lParam which means that the contact deleted its avatar
 
 #define ME_AV_CONTACTAVATARCHANGED "SV_Avatars/ContactAvatarChanged"
@@ -255,14 +253,14 @@ typedef struct _contactAvatarChangedNotification {
 /*
 wParam=0
 lParam=(const wchar_t*)Avatar file name or NULL to remove the avatar
-return=0 for sucess
+return=0 for success
 */
 #define PS_SETMYAVATAR "/SetMyAvatar"
 
 /*
 wParam=(wchar_t*)Buffer to file name
 lParam=(int)Buffer size
-return=0 for sucess
+return=0 for success
 */
 #define PS_GETMYAVATAR "/GetMyAvatar"
 

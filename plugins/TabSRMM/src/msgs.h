@@ -302,7 +302,7 @@ struct TWindowData
 	HANDLE   hTimeZone;
 	DWORD    panelStatusCX;
 	COLORREF inputbg;
-	avatarCacheEntry *ace, *ownAce;
+	AVATARCACHEENTRY *ace, *ownAce;
 	MEVENT  *hHistoryEvents;
 	int      maxHistory, curHistory;
 	HANDLE   hTheme, hThemeIP, hThemeToolbar;

@@ -75,7 +75,7 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 	if (szProto == NULL || !db_get_b(NULL, AVS_MODULE, szProto, 1))
 		return NULL;
 
-	avatarCacheEntry tmp;
+	AVATARCACHEENTRY tmp;
 	tmp.hContact = hContact;
 
 	mir_cslock lck(cachecs);
@@ -167,7 +167,7 @@ void DeleteAvatarFromCache(MCONTACT hContact, bool bForever)
 	if (g_shutDown)
 		return;
 
-	avatarCacheEntry tmp;
+	AVATARCACHEENTRY tmp;
 	tmp.hContact = GetContactThatHaveTheAvatar(hContact);
 
 	mir_cslock lck(cachecs);
@@ -193,7 +193,7 @@ int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
 	if (g_shutDown)
 		return 0;
 
-	avatarCacheEntry tmp;
+	AVATARCACHEENTRY tmp;
 	tmp.hContact = hContact;
 
 	mir_cslock lck(cachecs);

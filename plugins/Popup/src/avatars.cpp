@@ -27,7 +27,7 @@ PopupAvatar *PopupAvatar::create(MCONTACT hContact)
 {
 	if (hContact) {
 		if (ServiceExists(MS_AV_GETAVATARBITMAP)) {
-			avatarCacheEntry *av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
+			AVATARCACHEENTRY *av = (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 			if (av && (mir_wstrlen(av->szFilename) > 4))
 				if (!mir_wstrcmpi(av->szFilename + mir_wstrlen(av->szFilename) - 4, L".gif"))
 					if (db_get_b(NULL, MODULNAME, "EnableGifAnimation", 1) && GDIPlus_IsAnimatedGIF(av->szFilename))

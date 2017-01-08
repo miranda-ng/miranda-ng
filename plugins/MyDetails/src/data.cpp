@@ -265,7 +265,7 @@ void Protocol::GetAvatar()
 	ace = NULL;
 
 	// Get HBITMAP from cache
-	ace = (avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)name);
+	ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)name);
 	if (ace != NULL)
 		avatar_bmp = ace->hbmPic;
 
@@ -317,7 +317,7 @@ bool Protocol::CanSetAvatar()
 void Protocol::SetAvatar(const wchar_t *file_name)
 {
 	if (CanSetAvatar())
-		CallService(MS_AV_SETMYAVATART, (WPARAM)name, (LPARAM)file_name);
+		CallService(MS_AV_SETMYAVATARW, (WPARAM)name, (LPARAM)file_name);
 }
 
 bool Protocol::CanGetListeningTo()
@@ -450,7 +450,7 @@ void ProtocolArray::SetAvatars(const wchar_t *file_name)
 	if (!CanSetAvatars())
 		return;
 
-	CallService(MS_AV_SETMYAVATART, NULL, (WPARAM)file_name);
+	CallService(MS_AV_SETMYAVATARW, NULL, (WPARAM)file_name);
 }
 
 void ProtocolArray::SetNicks(const wchar_t *nick)

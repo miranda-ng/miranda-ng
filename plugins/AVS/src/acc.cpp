@@ -496,11 +496,11 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			int *height = (int*)lParam;
 
 			// Get avatar
-			avatarCacheEntry *ace;
+			AVATARCACHEENTRY *ace;
 			if (data->hContact == NULL)
-				ace = (avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)data->proto);
+				ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)data->proto);
 			else
-				ace = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)data->hContact, 0);
+				ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)data->hContact, 0);
 
 			if (ace == NULL || ace->bmHeight == 0 || ace->bmWidth == 0 || (data->respectHidden && (ace->dwFlags & AVS_HIDEONCLIST))) {
 				*width = 0;

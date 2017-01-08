@@ -84,8 +84,8 @@ void LoadAvatarForContact(ClcContact *p)
 
 	p->ace = NULL;
 	if (cfg::dat.bAvatarServiceAvail && (p->cFlags & ECF_AVATAR) && (!cfg::dat.bNoOfflineAvatars || p->wStatus != ID_STATUS_OFFLINE)) {
-		p->ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)p->hContact, 0);
-		if (p->ace != NULL && p->ace->cbSize != sizeof(struct avatarCacheEntry))
+		p->ace = (struct AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)p->hContact, 0);
+		if (p->ace != NULL && p->ace->cbSize != sizeof(struct AVATARCACHEENTRY))
 			p->ace = NULL;
 		if (p->ace != NULL)
 			p->ace->t_lastAccess = cfg::dat.t_now;

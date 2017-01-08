@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 GifAvatar::GifAvatar(MCONTACT hContact) : PopupAvatar()
 {
-	av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
+	av = (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 	bIsAnimated = true;
 	bIsValid = true;
 	GDIPlus_GetGIFSize(av->szFilename, &this->width, &this->height);

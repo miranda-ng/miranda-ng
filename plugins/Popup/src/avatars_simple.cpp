@@ -36,7 +36,7 @@ SimpleAvatar::SimpleAvatar(HANDLE h, bool bUseBitmap)
 		height = abs(bmp.bmHeight);
 
 		avNeedFree = true;
-		av = new avatarCacheEntry;
+		av = new AVATARCACHEENTRY;
 		av->bmHeight = abs(bmp.bmHeight);
 		av->bmWidth = abs(bmp.bmWidth);
 		av->hbmPic = (HBITMAP)h;
@@ -46,7 +46,7 @@ SimpleAvatar::SimpleAvatar(HANDLE h, bool bUseBitmap)
 
 	if (h && ServiceExists(MS_AV_GETAVATARBITMAP)) {
 		avNeedFree = false;
-		av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)h, 0);
+		av = (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)h, 0);
 		if (av) {
 			if (av->hbmPic && (av->dwFlags&AVS_BITMAP_VALID) && !(av->dwFlags&AVS_HIDEONCLIST) && !(av->dwFlags&AVS_NOTREADY)) {
 				width = av->bmWidth;

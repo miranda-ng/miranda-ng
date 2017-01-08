@@ -423,7 +423,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case INTM_AVATARCHANGED:
 		contact = NULL;
 		{
-			avatarCacheEntry *cEntry = (struct avatarCacheEntry *)lParam;
+			AVATARCACHEENTRY *cEntry = (struct AVATARCACHEENTRY *)lParam;
 
 			if (wParam == 0) {
 				//RemoveFromImgCache(0, cEntry);

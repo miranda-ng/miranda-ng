@@ -180,7 +180,7 @@ struct ClcContact : public ClcContactBase
 	bool bSubExpanded, bImageIsSpecial;
 	
 	int avatar_pos;
-	avatarCacheEntry *avatar_data;
+	AVATARCACHEENTRY *avatar_data;
 	SIZE avatar_size;
 	CSmileyString ssText;
 

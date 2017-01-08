@@ -134,7 +134,7 @@ struct SrmmWindowData : public CommonWindowData
 	int lastEventType;
 	DWORD flags;
 	int messagesInProgress;
-	struct avatarCacheEntry *ace;
+	struct AVATARCACHEENTRY *ace;
 	int isMixed;
 	int sendAllConfirm;
 	HICON statusIcon;
