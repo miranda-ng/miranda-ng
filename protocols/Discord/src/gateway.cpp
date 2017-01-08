@@ -212,6 +212,7 @@ void CDiscordProto::GatewayThreadWorker()
 				dataBufSize = bufSize - headerSize;
 			}
 			else {
+				bDataBufAllocated = true;
 				size_t newSize = dataBufSize + bufSize - headerSize;
 				dataBuf = (char*)mir_realloc(dataBuf, newSize+1);
 				memcpy(dataBuf + dataBufSize, buf + headerSize, bufSize - headerSize);
@@ -233,10 +234,6 @@ void CDiscordProto::GatewayThreadWorker()
 				JSONNode root = JSONNode::parse(dataBuf);
 				if (root)
 					GatewayProcess(root);
-				if (bDataBufAllocated)
-					mir_free(dataBuf);
-				dataBuf = NULL;
-				dataBufSize = 0;
 			}
 			break;
 
@@ -249,6 +246,13 @@ void CDiscordProto::GatewayThreadWorker()
 			debugLogA("ping received", dataBufSize);
 			Netlib_Send(m_hGatewayConnection, (char*)buf + headerSize, bufSize - headerSize, 0);
 			break;
+		}
+
+		if (bIsFinal) {
+			if (bDataBufAllocated)
+				mir_free(dataBuf);
+			dataBuf = NULL;
+			dataBufSize = 0;
 		}
 	}
 
@@ -315,7 +319,7 @@ void CDiscordProto::GatewaySendIdentify()
 	Miranda_GetVersionText(szVersion, _countof(szVersion));
 
 	JSONNode props; props.set_name("properties");
-	props << WCHAR_PARAM("os", wszOs) << CHAR_PARAM("browser", "Chrome") << CHAR_PARAM("device", "Miranda NG")
+	props << WCHAR_PARAM("os", wszOs) << CHAR_PARAM("browser", "Chrome") << CHAR_PARAM("device", szVersion)
 		<< CHAR_PARAM("referrer", "http://miranda-ng.org") << CHAR_PARAM("referring_domain", "miranda-ng.org");
 
 	JSONNode payload; payload.set_name("d");
