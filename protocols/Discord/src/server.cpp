@@ -110,17 +110,28 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 		return;
 	}
 
+	ptrW wszOldAvatar(getWStringA(hContact, DB_KEY_AVHASH));
+
 	m_ownId = _wtoi64(root["id"].as_mstring());
 	setId(hContact, DB_KEY_ID, m_ownId);
 
 	setByte(hContact, DB_KEY_MFA, root["mfa_enabled"].as_bool());
 	setDword(hContact, DB_KEY_DISCR, root["discriminator"].as_int());
 	setWString(hContact, DB_KEY_NICK, root["username"].as_mstring());
-	setWString(hContact, DB_KEY_AVHASH, root["avatar"].as_mstring());
 	setWString(hContact, DB_KEY_EMAIL, root["email"].as_mstring());
 
-	if (hContact == NULL)
+	CMStringW wszNewAvatar(root["avatar"].as_mstring());
+	setWString(hContact, DB_KEY_AVHASH, wszNewAvatar);
+
+	if (hContact == NULL) {
+		// if avatar's hash changed, we need to request a new one
+		if (mir_wstrcmp(wszNewAvatar, wszOldAvatar)) {
+			PROTO_AVATAR_INFORMATION ai = {};
+			GetAvatarInfo(GAIF_FORCE, (LPARAM)&ai);
+		}			
+
 		OnLoggedIn();
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

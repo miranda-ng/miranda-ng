@@ -9,6 +9,7 @@
 #include <Shlwapi.h>
 #include <Wincrypt.h>
 #include <stdio.h>
+#include <io.h>
 #include <direct.h>
 #include <time.h>
 
@@ -37,6 +38,7 @@
 #include <m_utils.h>
 #include <m_hotkeys.h>
 #include <m_json.h>
+#include <m_avatars.h>
 #include <win2k.h>
 
 #include "../../libs/zlib/src/zlib.h"

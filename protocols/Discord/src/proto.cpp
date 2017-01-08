@@ -38,6 +38,11 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	// Services
 	CreateProtoService(PS_GETSTATUS, &CDiscordProto::GetStatus);
 
+	CreateProtoService(PS_GETAVATARINFO, &CDiscordProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS, &CDiscordProto::GetAvatarCaps);
+	CreateProtoService(PS_GETMYAVATAR, &CDiscordProto::GetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &CDiscordProto::SetMyAvatar);
+
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CDiscordProto::OnSrmmEvent);

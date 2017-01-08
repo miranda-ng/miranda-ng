@@ -202,6 +202,10 @@ public:
 
 	// Services
 	INT_PTR __cdecl GetStatus(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
@@ -219,12 +223,14 @@ public:
 	void OnLoggedOut();
 
 	void OnReceiveAuth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveMyAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveUserInfo(MCONTACT hContact);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -234,6 +240,8 @@ public:
 
 	// Misc
 	void SetServerStatus(int iStatus);
+
+	CMStringW GetAvatarFilename(MCONTACT hContact);
 
 	static void CALLBACK HeartbeatTimerProc(HWND hwnd, UINT msg, UINT_PTR id, DWORD);
 	__forceinline int getHeartbeatInterval() const { return m_iHartbeatInterval; }
