@@ -753,7 +753,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 
 	if (newStatus != ID_STATUS_OFFLINE) {
 		DBVARIANT msnObject = { 0 };
-		if (ServiceExists(MS_AV_SETMYAVATAR))
+		if (ServiceExists(MS_AV_SETMYAVATARW))
 			getString("PictObject", &msnObject);
 
 		// Capabilties: WLM 2009, Chunking, UUN Bootstrap

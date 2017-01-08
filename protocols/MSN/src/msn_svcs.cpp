@@ -118,7 +118,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	}
 
 	if ((wParam & GAIF_FORCE) != 0 && pai->hContact != NULL) {
-		if (avsPresent < 0) avsPresent = ServiceExists(MS_AV_SETMYAVATAR) != 0;
+		if (avsPresent < 0) avsPresent = ServiceExists(MS_AV_SETMYAVATARW) != 0;
 		if (!avsPresent)
 			return GAIR_NOAVATAR;
 

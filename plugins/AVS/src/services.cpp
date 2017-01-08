@@ -115,7 +115,7 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
-static INT_PTR avSetAvatar(MCONTACT hContact, wchar_t *tszPath)
+INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 {
 	wchar_t FileName[MAX_PATH];
 	wchar_t *szFinalName;
@@ -126,6 +126,7 @@ static INT_PTR avSetAvatar(MCONTACT hContact, wchar_t *tszPath)
 
 	int is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
+	wchar_t *tszPath = (wchar_t*)lParam;
 	if (tszPath == NULL) {
 		wchar_t filter[256];
 		Bitmap_GetFilter(filter, _countof(filter));
@@ -170,16 +171,6 @@ static INT_PTR avSetAvatar(MCONTACT hContact, wchar_t *tszPath)
 	// Fix cache
 	ChangeAvatar(hContact, true);
 	return 0;
-}
-
-INT_PTR SetAvatar(WPARAM wParam, LPARAM lParam)
-{
-	return avSetAvatar(wParam, _A2T((const char*)lParam));
-}
-
-INT_PTR SetAvatarW(WPARAM wParam, LPARAM lParam)
-{
-	return avSetAvatar(wParam, (wchar_t*)lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -608,7 +599,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 	return ret;
 }
 
-INT_PTR avSetMyAvatar(char* protocol, wchar_t* tszPath)
+INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	wchar_t FileName[MAX_PATH];
 	wchar_t *szFinalName = NULL;
@@ -616,9 +607,11 @@ INT_PTR avSetMyAvatar(char* protocol, wchar_t* tszPath)
 	BOOL allAcceptSWF;
 
 	// Protocol allow seting of avatar?
+	char* protocol = (char*)wParam;
 	if (protocol != NULL && !CanSetMyAvatar((WPARAM)protocol, 0))
 		return -1;
 
+	wchar_t* tszPath = (wchar_t*)lParam;
 	if (tszPath == NULL && hwndSetMyAvatar != 0) {
 		SetForegroundWindow(hwndSetMyAvatar);
 		SetFocus(hwndSetMyAvatar);
@@ -705,16 +698,6 @@ INT_PTR avSetMyAvatar(char* protocol, wchar_t* tszPath)
 		return InternalRemoveMyAvatar(protocol);
 
 	return InternalSetMyAvatar(protocol, szFinalName, data, allAcceptXML, allAcceptSWF);
-}
-
-static INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
-{
-	return avSetMyAvatar((char*)wParam, _A2T((const char*)lParam));
-}
-
-static INT_PTR SetMyAvatarW(WPARAM wParam, LPARAM lParam)
-{
-	return avSetMyAvatar((char*)wParam, (wchar_t*)lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -859,10 +842,8 @@ void InitServices()
 {
 	CreateServiceFunction(MS_AV_GETAVATARBITMAP, GetAvatarBitmap);
 	CreateServiceFunction(MS_AV_PROTECTAVATAR, ProtectAvatar);
-	CreateServiceFunction(MS_AV_SETAVATAR, SetAvatar);
-	CreateServiceFunction(MS_AV_SETAVATARW, SetAvatarW);
-	CreateServiceFunction(MS_AV_SETMYAVATAR, SetMyAvatar);
-	CreateServiceFunction(MS_AV_SETMYAVATARW, SetMyAvatarW);
+	CreateServiceFunction(MS_AV_SETAVATARW, SetAvatar);
+	CreateServiceFunction(MS_AV_SETMYAVATARW, SetMyAvatar);
 	CreateServiceFunction(MS_AV_CANSETMYAVATAR, CanSetMyAvatar);
 	CreateServiceFunction(MS_AV_CONTACTOPTIONS, ContactOptions);
 	CreateServiceFunction(MS_AV_DRAWAVATAR, DrawAvatarPicture);

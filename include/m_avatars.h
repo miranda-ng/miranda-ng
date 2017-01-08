@@ -156,16 +156,14 @@ typedef struct _avatarDrawRequest
 // lParam = either a full picture filename or NULL. If lParam == NULL, the service
 // will open a file selection dialog.
 
-#define MS_AV_SETAVATAR "SV_Avatars/SetAvatar"
 #define MS_AV_SETAVATARW "SV_Avatars/SetAvatarW"
 
 // set a local picture for the given protocol
 //
-// wParam = (char *) protocol name or NULL for all protocols
+// wParam = (char*) protocol name or NULL for all protocols
 // lParam = either a full picture filename or NULL. If lParam == NULL, the service
 // will open a file selection dialog. If lParam == "" the avatar will be removed
 
-#define MS_AV_SETMYAVATAR "SV_Avatars/SetMyAvatar"
 #define MS_AV_SETMYAVATARW "SV_Avatars/SetMyAvatarW"
 
 // see if is possible to set the avatar for the expecified protocol

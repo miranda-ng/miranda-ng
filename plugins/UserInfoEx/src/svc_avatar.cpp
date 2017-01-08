@@ -27,16 +27,13 @@ namespace NServices
 	{
 		static HANDLE ghChangedHook = NULL;
 
-		static int GetContactAvatarFileName(LPCTSTR zodiac, LPSTR szFileName, int cchFileName)
+		static int GetContactAvatarFileName(LPCWSTR zodiac, LPWSTR szFileName, int cchFileName)
 		{
-			if (!Profile_GetPathA(cchFileName, szFileName)) {
-				size_t len = mir_strlen(szFileName);
+			if (!Profile_GetPathW(cchFileName, szFileName)) {
+				size_t len = mir_wstrlen(szFileName);
+				mir_snwprintf(szFileName + len, cchFileName - len, L"\\avatars\\%s.png", zodiac);
 
-				CHAR tmp[64];
-				if (WideCharToMultiByte(CP_ACP, 0, zodiac, 64, tmp, _countof(tmp), 0, 0) > 0)
-					mir_snprintf(szFileName + len, cchFileName - len, "\\avatars\\%s.png", tmp);
-
-				return !PathFileExistsA(szFileName);
+				return !PathFileExistsW(szFileName);
 			}
 			return 1;
 		}
@@ -49,7 +46,7 @@ namespace NServices
 			if (!mtb.DBGetBirthDate(hContact)) {
 				MZodiac zodiac;
 				//ICONINFO iinfo;
-				CHAR szFileName[MAX_PATH];
+				WCHAR szFileName[MAX_PATH];
 
 				// get zodiac for birthday
 				zodiac = mtb.Zodiac();
@@ -59,7 +56,7 @@ namespace NServices
 					//GetIconInfo(zodiac.hIcon, &iinfo);
 
 					// save the bitmap to a file used as avatar later
-					if (!CallService(MS_AV_SETAVATAR, hContact, (LPARAM)szFileName))
+					if (!CallService(MS_AV_SETAVATARW, hContact, (LPARAM)szFileName))
 						db_set_b(hContact, "ContactPhoto", "IsZodiac", 1);
 				}
 			}

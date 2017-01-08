@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DM_PROTOCOLCHANGED (WM_USER + 13)
 
 extern int _DebugPopup(MCONTACT hContact, const char *fmt, ...);
-extern INT_PTR SetAvatar(WPARAM wParam, LPARAM lParam);
 extern OBJLIST<protoPicCacheEntry> g_ProtoPictures;
 extern HANDLE hEventChanged;
 extern HINSTANCE g_hInst;
@@ -1062,18 +1061,18 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 		switch (LOWORD(wParam)) {
 		case IDC_CHANGE:
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO))
-				avSetMyAvatar(NULL, NULL);
+				SetMyAvatar(NULL, NULL);
 			else {
 				char *proto = GetSelectedProtocol(hwndDlg);
 				if (proto != NULL)
-					avSetMyAvatar(proto, NULL);
+					SetMyAvatar((WPARAM)proto, NULL);
 			}
 			break;
 
 		case IDC_DELETE:
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO)) {
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), TranslateT("Global avatar"), MB_YESNO) == IDYES)
-					avSetMyAvatar(NULL, L"");
+					SetMyAvatar(NULL, (LPARAM)L"");
 			}
 			else {
 				char *proto = GetSelectedProtocol(hwndDlg);
@@ -1084,7 +1083,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 				CallProtoService(proto, PS_GETNAME, _countof(description), (LPARAM)description);
 				wchar_t *descr = mir_a2u(description);
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), descr, MB_YESNO) == IDYES)
-					avSetMyAvatar(proto, L"");
+					SetMyAvatar((WPARAM)proto, (LPARAM)L"");
 				mir_free(descr);
 			}
 			break;

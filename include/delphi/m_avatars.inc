@@ -169,7 +169,7 @@ const
     lParam = either a full picture filename or NIL. If lParam = NIL, the service
     will open a file selection dialog.
   }
-  MS_AV_SETAVATAR:PAnsiChar = 'SV_Avatars/SetAvatar';
+  MS_AV_SETAVATARW:PAnsiChar = 'SV_Avatars/SetAvatarW';
 
   {
    set a local picture for the given protocol
@@ -178,7 +178,7 @@ const
    lParam = either a full picture filename or NULL. If lParam == NULL, the service
    will open a file selection dialog.
   }
-  MS_AV_SETMYAVATAR:PAnsiChar = 'SV_Avatars/SetMyAvatar';
+  MS_AV_SETMYAVATARW:PAnsiChar = 'SV_Avatars/SetMyAvatarW';
 
   {
    see if is possible to set the avatar for the expecified protocol
