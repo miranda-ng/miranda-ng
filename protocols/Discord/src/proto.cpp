@@ -94,7 +94,7 @@ DWORD_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 		return PF1_IM | PF1_MODEMSGRECV | PF1_SERVERCLIST | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_ADDSEARCHRES;
 	case PFLAGNUM_2:
 	case PFLAGNUM_3:
-		return PF2_ONLINE | PF2_HEAVYDND | PF2_INVISIBLE | PF2_IDLE;
+		return PF2_ONLINE | PF2_LONGAWAY | PF2_HEAVYDND | PF2_INVISIBLE;
 	case PFLAGNUM_4:
 		return PF4_FORCEADDED | PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_SUPPORTIDLE | PF4_AVATARS | PF4_IMSENDOFFLINE;
 	case PFLAG_UNIQUEIDTEXT:
@@ -112,33 +112,34 @@ INT_PTR CDiscordProto::GetStatus(WPARAM, LPARAM)
 
 int CDiscordProto::SetStatus(int iNewStatus)
 {
+	debugLogA("CDiscordProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %p", iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread);
+
 	if (iNewStatus == m_iStatus)
 		return 0;
 
 	m_iDesiredStatus = iNewStatus;
 	int iOldStatus = m_iStatus;
 
-	// all statuses but offline are treated as online
-	if (iNewStatus >= ID_STATUS_ONLINE && iNewStatus <= ID_STATUS_OUTTOLUNCH) {
-		m_iDesiredStatus = ID_STATUS_ONLINE;
-
-		// if we're already connecting and they want to go online
-		if (IsStatusConnecting(m_iStatus))
-			return 0;
-
-		// if we're already connected, don't try to reconnect
-		if (m_iStatus >= ID_STATUS_ONLINE && m_iStatus <= ID_STATUS_OUTTOLUNCH)
-			return 0;
-
-		m_iStatus = ID_STATUS_CONNECTING;
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-		m_hWorkerThread = ForkThreadEx(&CDiscordProto::ServerThread, NULL, NULL);
-	}
-	else if (iNewStatus == ID_STATUS_OFFLINE) {
+	// go offline
+	if (iNewStatus == ID_STATUS_OFFLINE) {
+		if (m_bOnline) {
+			SetServerStatus(ID_STATUS_OFFLINE);
+			ShutdownSession();
+		}
 		m_iStatus = m_iDesiredStatus;
 		SetAllContactStatuses(ID_STATUS_OFFLINE);
 
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	}
+	// not logged in? come on
+	else if (m_hWorkerThread == NULL && !IsStatusConnecting(m_iStatus)) {
+		m_iStatus = ID_STATUS_CONNECTING;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+		m_hWorkerThread = ForkThreadEx(&CDiscordProto::ServerThread, NULL, NULL);
+	}
+	else if (m_bOnline) {
+		debugLogA("setting server online status to %d", iNewStatus);
+		SetServerStatus(iNewStatus);
 	}
 
 	return 0;
