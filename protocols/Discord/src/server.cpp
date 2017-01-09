@@ -31,9 +31,9 @@ void CDiscordProto::RetrieveHistory(MCONTACT hContact, CDiscordHitoryOp iOp, Sno
 	pReq << INT_PARAM("limit", iLimit);
 	switch (iOp) {
 	case MSG_AFTER:
-		pReq << CHAR_PARAM("after", CMStringA(FORMAT, "%lld", msgid)); break;
+		pReq << INT64_PARAM("after", msgid); break;
 	case MSG_BEFORE:
-		pReq << CHAR_PARAM("before", CMStringA(FORMAT, "%lld", msgid)); break;
+		pReq << INT64_PARAM("before", msgid); break;
 	}
 	pReq->pUserInfo = pUser;
 	Push(pReq);

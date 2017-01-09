@@ -45,6 +45,15 @@ struct INT_PARAM : public PARAM
 };
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT_PARAM&);
 
+struct INT64_PARAM : public PARAM
+{
+	SnowFlake iValue;
+	__forceinline INT64_PARAM(LPCSTR _name, SnowFlake _value) :
+		PARAM(_name), iValue(_value)
+	{}
+};
+AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT64_PARAM&);
+
 struct CHAR_PARAM : public PARAM
 {
 	LPCSTR szValue;

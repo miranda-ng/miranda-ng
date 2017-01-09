@@ -98,6 +98,15 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const INT_PARAM &param)
 	return pReq;
 }
 
+AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const INT64_PARAM &param)
+{
+	CMStringA &s = pReq->m_szParam;
+	if (!s.IsEmpty())
+		s.AppendChar('&');
+	s.AppendFormat("%s=%lld", param.szName, param.iValue);
+	return pReq;
+}
+
 AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const CHAR_PARAM &param)
 {
 	CMStringA &s = pReq->m_szParam;
