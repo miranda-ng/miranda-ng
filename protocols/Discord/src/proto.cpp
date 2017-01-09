@@ -45,7 +45,6 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
-	HookProtoEvent(ME_MSG_WINDOWEVENT, &CDiscordProto::OnSrmmEvent);
 
 	// database
 	db_set_resident(m_szModuleName, "XStatusMsg");
@@ -327,23 +326,6 @@ int CDiscordProto::OnPreShutdown(WPARAM, LPARAM)
 
 	if (m_hGatewayConnection)
 		Netlib_Shutdown(m_hGatewayConnection);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int CDiscordProto::OnSrmmEvent(WPARAM, LPARAM lParam)
-{
-	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
-
-	if (MWeventdata->uType == MSG_WINDOW_EVT_OPENING && MWeventdata->hContact) {
-		SnowFlake oldid = getId(MWeventdata->hContact, DB_KEY_LASTMSGID);
-		if (oldid > 0)
-			RetrieveHistory(MWeventdata->hContact, MSG_AFTER, oldid, 99);
-		else
-			RetrieveHistory(MWeventdata->hContact, MSG_NOFILTER, 0, 99);
-	}
-
 	return 0;
 }
 

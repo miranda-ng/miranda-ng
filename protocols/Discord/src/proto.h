@@ -220,7 +220,6 @@ public:
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int  __cdecl OnSrmmEvent(WPARAM, LPARAM);
 
 	// dispatch commands
 	void OnCommandMessage(const JSONNode&);
