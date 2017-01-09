@@ -168,7 +168,7 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 
 		SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
 		if (pUser->lastMessageId > oldMsgId)
-			RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId);
+			RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId, 99);
 	}
 }
 

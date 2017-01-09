@@ -74,10 +74,8 @@ void CDiscordProto::OnLoggedOut()
 {
 	debugLogA("CDiscordProto::OnLoggedOut");
 	m_bOnline = false;
-	m_hWorkerThread = NULL;
-
-	if (m_hAPIConnection)
-		Netlib_CloseHandle(m_hAPIConnection);
+	m_bTerminated = true;
+	m_iGatewaySeq = 0;
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
@@ -85,11 +83,19 @@ void CDiscordProto::OnLoggedOut()
 
 void CDiscordProto::ShutdownSession()
 {
+	if (m_bTerminated)
+		return;
+
 	debugLogA("CDiscordProto::ShutdownSession");
-	m_bTerminated = true;
-	m_iGatewaySeq = 0;
+
+	// shutdown all resources
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
+	if (m_hGatewayConnection)
+		Netlib_Shutdown(m_hGatewayConnection);
+	if (m_hAPIConnection)
+		Netlib_Shutdown(m_hAPIConnection);
+
 	OnLoggedOut();
 }
 
