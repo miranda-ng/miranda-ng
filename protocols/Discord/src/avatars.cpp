@@ -108,7 +108,21 @@ LBL_Error:
 		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 }
 
-INT_PTR CDiscordProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
+bool CDiscordProto::RetrieveAvatar(MCONTACT hContact)
+{
+	ptrA szAvatarHash(getStringA(hContact, DB_KEY_AVHASH));
+	SnowFlake id = getId(hContact, DB_KEY_ID);
+	if (id == 0 || szAvatarHash == NULL)
+		return false;
+
+	CMStringA szUrl(FORMAT, "https://cdn.discordapp.com/avatars/%lld/%s.jpg", id, szAvatarHash);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveAvatar);
+	pReq->pUserInfo = (void*)hContact;
+	Push(pReq);
+	return true;
+}
+
+INT_PTR CDiscordProto::GetAvatarInfo(WPARAM flags, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 
@@ -119,19 +133,11 @@ INT_PTR CDiscordProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		bool bFileExist = _waccess(wszFileName, 0) == 0;
 
 		// if we still need to load an avatar
-		if ((wParam & GAIF_FORCE) || !bFileExist) {
-			ptrA szAvatarHash(getStringA(pai->hContact, DB_KEY_AVHASH));
-			SnowFlake id = getId(pai->hContact, DB_KEY_ID);
-			if (id == 0 || szAvatarHash == NULL)
-				return GAIR_NOAVATAR;
-		
-			CMStringA szUrl(FORMAT, "https://cdn.discordapp.com/avatars/%lld/%s.jpg", id, szAvatarHash);
-			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveAvatar);
-			pReq->pUserInfo = (void*)pai->hContact;
-			Push(pReq);
-			return GAIR_WAITFOR;
+		if ((flags & GAIF_FORCE) || !bFileExist) {
+			if (RetrieveAvatar(pai->hContact))
+				return GAIR_WAITFOR;
 		}
-		if (bFileExist)
+		else if (bFileExist)
 			return GAIR_SUCCESS;
 	}
 

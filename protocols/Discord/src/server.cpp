@@ -125,10 +125,8 @@ void CDiscordProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpReques
 
 	if (hContact == NULL) {
 		// if avatar's hash changed, we need to request a new one
-		if (mir_wstrcmp(wszNewAvatar, wszOldAvatar)) {
-			PROTO_AVATAR_INFORMATION ai = {};
-			GetAvatarInfo(GAIF_FORCE, (LPARAM)&ai);
-		}			
+		if (mir_wstrcmp(wszNewAvatar, wszOldAvatar))
+			RetrieveAvatar(NULL);
 
 		OnLoggedIn();
 	}

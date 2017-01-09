@@ -233,7 +233,6 @@ public:
 	void OnLoggedOut();
 
 	void OnReceiveAuth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveChannels(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -246,6 +245,9 @@ public:
 
 	void RetrieveHistory(MCONTACT hContact, CDiscordHitoryOp iOp = MSG_NOFILTER, SnowFlake msgid = 0, int iLimit = 50);
 	void OnReceiveHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	bool RetrieveAvatar(MCONTACT hContact);
+	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	// Misc
 	void SetServerStatus(int iStatus);
