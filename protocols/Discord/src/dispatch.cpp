@@ -82,6 +82,10 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 	recv.szMessage = buf;
 	recv.lParam = (LPARAM)msgId.c_str();
 	ProtoChainRecvMsg(pUser->hContact, &recv);
+
+	SnowFlake lastId = getId(pUser->hContact, DB_KEY_LASTMSGID); // as stored in a database
+	if (lastId < _wtoi64(msgId))
+		setId(pUser->hContact, DB_KEY_LASTMSGID, _wtoi64(msgId));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -148,20 +152,23 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 	for (auto it = channels.begin(); it != channels.end(); ++it) {
 		const JSONNode &p = *it;
 
+		CDiscordUser *pUser = NULL;
 		const JSONNode &recipients = p["recipients"];
-		for (auto it2 = recipients.begin(); it2 != recipients.end(); ++it2) {
-			const JSONNode &r = *it2;
-			CDiscordUser *pUser = PrepareUser(r);
-			pUser->lastMessageId = _wtoi64(r["last_message_id"].as_mstring());
-			pUser->channelId = _wtoi64(p["id"].as_mstring());
-			pUser->bIsPrivate = true;
+		for (auto it2 = recipients.begin(); it2 != recipients.end(); ++it2)
+			pUser = PrepareUser(*it2);
 
-			setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
+		if (pUser == NULL)
+			continue;
+			
+		pUser->channelId = _wtoi64(p["id"].as_mstring());
+		pUser->lastMessageId = _wtoi64(p["last_message_id"].as_mstring());
+		pUser->bIsPrivate = true;
 
-			SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
-			if (pUser->lastMessageId > oldMsgId)
-				RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId);
-		}
+		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
+
+		SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
+		if (pUser->lastMessageId > oldMsgId)
+			RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId);
 	}
 }
 
