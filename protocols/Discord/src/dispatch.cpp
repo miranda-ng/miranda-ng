@@ -157,6 +157,10 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 			pUser->bIsPrivate = true;
 
 			setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
+
+			SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
+			if (pUser->lastMessageId > oldMsgId)
+				RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId);
 		}
 	}
 }
@@ -207,9 +211,6 @@ void CDiscordProto::OnCommandUserUpdate(const JSONNode &pRoot)
 	CMStringW wszNewHash(pRoot["avatar"].as_mstring());
 	if (mir_wstrcmp(wszOldHash, wszNewHash)) {
 		setWString(hContact, DB_KEY_AVHASH, wszNewHash);
-
-		PROTO_AVATAR_INFORMATION ai = {};
-		ai.hContact = hContact;
-		GetAvatarInfo(GAIF_FORCE, (LPARAM)&ai);
+		RetrieveAvatar(hContact);
 	}
 }
