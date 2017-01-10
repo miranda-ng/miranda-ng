@@ -164,8 +164,8 @@ void BB_InitDlgButtons(TWindowData *dat)
 
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
-		HWND hwndBtn = GetDlgItem(hdlg, cbd->m_dwButtonCID);
-		if (hwndBtn == NULL)
+		HWND hwndButton = GetDlgItem(hdlg, cbd->m_dwButtonCID);
+		if (hwndButton == NULL)
 			continue;
 
 		if (!cbd->m_bHidden) {
@@ -180,11 +180,14 @@ void BB_InitDlgButtons(TWindowData *dat)
 		if (cbd->m_bSeparator)
 			continue;
 
-		CustomizeButton(hwndBtn);
+		CustomizeButton(hwndButton);
 
-		SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, CSkin::IsThemed(), 0);
-		SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
-		SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
+		if (cbd->m_dwArrowCID)
+			SendMessage(hwndButton, BUTTONSETARROW, (cbd->m_dwButtonCID == IDOK) ? IDC_SENDMENU : cbd->m_dwArrowCID, 0);
+
+		SendMessage(hwndButton, BUTTONSETASTHEMEDBTN, CSkin::IsThemed(), 0);
+		SendMessage(hwndButton, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
+		SendMessage(hwndButton, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 	}
 }
 
@@ -211,7 +214,7 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 
 	HWND hwnd = dat->hwnd;
 	RECT rect;
-	HWND hwndBtn = 0;
+	HWND hwndButton = 0;
 
 	BYTE gap = DPISCALEX_S(db_get_b(NULL, SRMSGMOD, "ButtonsBarGap", 1));
 	bool showToolbar = !(dat->pContainer->dwFlags & CNT_HIDETOOLBAR);
@@ -252,40 +255,40 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 			continue;
 
 		if (((dat->bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((dat->bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
-			hwndBtn = GetDlgItem(hwnd, cbd->m_dwButtonCID);
+			hwndButton = GetDlgItem(hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {
-				ShowWindow(hwndBtn, SW_HIDE);
-				if (NULL != hwndBtn) /* Wine fix. */
-					hdwp = DeferWindowPos(hdwp, hwndBtn, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-				if (IsWindowVisible(hwndBtn) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
+				ShowWindow(hwndButton, SW_HIDE);
+				if (NULL != hwndButton) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, hwndButton, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+				if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
 					lwidth += cbd->m_iButtonWidth + gap;
-				if (!IsWindowEnabled(hwndBtn) && !IsWindowVisible(hwndBtn) && !cbd->m_bAutoHidden)
+				if (!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton) && !cbd->m_bAutoHidden)
 					cbd->m_bAutoHidden = 1;
 				continue;
 			}
-			if (!cbd->m_bCanBeHidden && !cbd->m_bHidden && !(!IsWindowEnabled(hwndBtn) && !IsWindowVisible(hwndBtn) && !cbd->m_bAutoHidden)) {
-				ShowWindow(hwndBtn, SW_SHOW);
+			if (!cbd->m_bCanBeHidden && !cbd->m_bHidden && !(!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton) && !cbd->m_bAutoHidden)) {
+				ShowWindow(hwndButton, SW_SHOW);
 				cbd->m_bAutoHidden = 0;
 			}
 
-			if (!cbd->m_bSeparator && !IsWindowVisible(hwndBtn) && !IsWindowEnabled(hwndBtn) && !cbd->m_bAutoHidden)
+			if (!cbd->m_bSeparator && !IsWindowVisible(hwndButton) && !IsWindowEnabled(hwndButton) && !cbd->m_bAutoHidden)
 				tempL -= cbd->m_iButtonWidth + gap;
 
-			if (cbd->m_bCanBeHidden && !cbd->m_bHidden && (cbd->m_bSeparator || !((!IsWindowEnabled(hwndBtn) && !IsWindowVisible(hwndBtn)) && !cbd->m_bAutoHidden))) {
+			if (cbd->m_bCanBeHidden && !cbd->m_bHidden && (cbd->m_bSeparator || !((!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton)) && !cbd->m_bAutoHidden))) {
 				if (tempL + tempR > (rect.right - foravatar)) {
-					ShowWindow(hwndBtn, SW_HIDE);
+					ShowWindow(hwndButton, SW_HIDE);
 					cbd->m_bAutoHidden = 1;
 					tempL -= cbd->m_iButtonWidth + gap;
 				}
 				else if (cbd->m_bAutoHidden) {
-					ShowWindow(hwndBtn, SW_SHOW);
+					ShowWindow(hwndButton, SW_SHOW);
 					cbd->m_bAutoHidden = 0;
 				}
 			}
-			if (NULL != hwndBtn) /* Wine fix. */
-				hdwp = DeferWindowPos(hdwp, hwndBtn, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);// SWP_NOCOPYBITS);
-			if (IsWindowVisible(hwndBtn) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
+			if (NULL != hwndButton) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hwndButton, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);// SWP_NOCOPYBITS);
+			if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
 				lwidth += cbd->m_iButtonWidth + gap;
 		}
 	}
@@ -302,42 +305,42 @@ BOOL BB_SetButtonsPos(TWindowData *dat)
 			continue;
 
 		if (((dat->bType == SESSIONTYPE_IM) && cbd->m_bIMButton) || ((dat->bType == SESSIONTYPE_CHAT) && cbd->m_bChatButton)) {
-			hwndBtn = GetDlgItem(hwnd, cbd->m_dwButtonCID);
+			hwndButton = GetDlgItem(hwnd, cbd->m_dwButtonCID);
 
 			if (!showToolbar) {
-				ShowWindow(hwndBtn, SW_HIDE);
-				if (IsWindowVisible(hwndBtn) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
+				ShowWindow(hwndButton, SW_HIDE);
+				if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
 					rwidth += cbd->m_iButtonWidth + gap;
-				if (NULL != hwndBtn) /* Wine fix. */
-					hdwp = DeferWindowPos(hdwp, hwndBtn, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-				if (!IsWindowEnabled(hwndBtn) && !IsWindowVisible(hwndBtn) && !cbd->m_bAutoHidden)
+				if (NULL != hwndButton) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, hwndButton, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+				if (!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton) && !cbd->m_bAutoHidden)
 					cbd->m_bAutoHidden = 1;
 				continue;
 			}
-			if (!cbd->m_bCanBeHidden && !cbd->m_bHidden && !((!IsWindowEnabled(hwndBtn) && !IsWindowVisible(hwndBtn)) && !cbd->m_bAutoHidden)) {
-				ShowWindow(hwndBtn, SW_SHOW);
+			if (!cbd->m_bCanBeHidden && !cbd->m_bHidden && !((!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton)) && !cbd->m_bAutoHidden)) {
+				ShowWindow(hwndButton, SW_SHOW);
 				cbd->m_bAutoHidden = 0;
 			}
 
-			if (!cbd->m_bSeparator && !IsWindowVisible(hwndBtn) && !IsWindowEnabled(hwndBtn) && !cbd->m_bAutoHidden)
+			if (!cbd->m_bSeparator && !IsWindowVisible(hwndButton) && !IsWindowEnabled(hwndButton) && !cbd->m_bAutoHidden)
 				tempR -= cbd->m_iButtonWidth + gap;
 
-			if (cbd->m_bCanBeHidden && !cbd->m_bHidden && (cbd->m_bSeparator || !((!IsWindowEnabled(hwndBtn) && !IsWindowVisible(hwndBtn)) && !cbd->m_bAutoHidden))) {
+			if (cbd->m_bCanBeHidden && !cbd->m_bHidden && (cbd->m_bSeparator || !((!IsWindowEnabled(hwndButton) && !IsWindowVisible(hwndButton)) && !cbd->m_bAutoHidden))) {
 				if (tempL + tempR > (rect.right - foravatar)) {
-					ShowWindow(hwndBtn, SW_HIDE);
+					ShowWindow(hwndButton, SW_HIDE);
 					cbd->m_bAutoHidden = 1;
 					tempR -= cbd->m_iButtonWidth + gap;
 				}
 				else if (cbd->m_bAutoHidden) {
-					ShowWindow(hwndBtn, SW_SHOW);
+					ShowWindow(hwndButton, SW_SHOW);
 					cbd->m_bAutoHidden = 0;
 				}
 			}
 
-			if (IsWindowVisible(hwndBtn) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
+			if (IsWindowVisible(hwndButton) || (cbd->m_bSeparator && !(cbd->m_bAutoHidden || cbd->m_bHidden)))
 				rwidth += cbd->m_iButtonWidth + gap;
-			if (NULL != hwndBtn) /* Wine fix. */
-				hdwp = DeferWindowPos(hdwp, hwndBtn, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			if (NULL != hwndButton) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hwndButton, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 	}
 	return EndDeferWindowPos(hdwp);
@@ -347,41 +350,41 @@ void CB_DestroyAllButtons(HWND hwndDlg)
 {
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
-		HWND hwndBtn = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-		if (hwndBtn)
-			DestroyWindow(hwndBtn);
+		HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+		if (hwndButton)
+			DestroyWindow(hwndButton);
 	}
 }
 
 void CB_DestroyButton(HWND hwndDlg, TWindowData *dat, DWORD dwButtonCID, DWORD dwFlags)
 {
-	HWND hwndBtn = GetDlgItem(hwndDlg, dwButtonCID);
-	if (hwndBtn == NULL)
+	HWND hwndButton = GetDlgItem(hwndDlg, dwButtonCID);
+	if (hwndButton == NULL)
 		return;
 
 	RECT rc = { 0 };
-	GetClientRect(hwndBtn, &rc);
+	GetClientRect(hwndButton, &rc);
 	if (dwFlags & BBBF_ISRSIDEBUTTON)
 		dat->bbRSideWidth -= rc.right;
 	else 
 		dat->bbLSideWidth -= rc.right;
 
-	DestroyWindow(hwndBtn);
+	DestroyWindow(hwndButton);
 	BB_SetButtonsPos(dat);
 }
 
 void CB_ChangeButton(HWND hwndDlg, TWindowData *dat, CustomButtonData *cbd)
 {
-	HWND hwndBtn = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-	if (hwndBtn == NULL)
+	HWND hwndButton = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
+	if (hwndButton == NULL)
 		return;
 
 	if (cbd->m_hIcon)
-		SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
+		SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(cbd->m_hIcon));
 	if (cbd->m_pwszTooltip)
-		SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)cbd->m_pwszTooltip, BATF_UNICODE);
-	SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
-	SetWindowTextA(hwndBtn, cbd->m_pszModuleName);
+		SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)cbd->m_pwszTooltip, BATF_UNICODE);
+	SendMessage(hwndButton, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
+	SetWindowTextA(hwndButton, cbd->m_pszModuleName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
