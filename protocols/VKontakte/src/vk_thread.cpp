@@ -416,7 +416,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	}
 
 	// MaritalStatus
-	BYTE cMaritalStatus[] = {0, 10, 11, 12, 20, 70, 50, 60};
+	BYTE cMaritalStatus[] = {0, 10, 11, 12, 20, 70, 50, 60, 80};
 
 	if (jnItem["relation"] && jnItem["relation"].as_int() < _countof(cMaritalStatus))
 		setByte(hContact, "MaritalStatus", cMaritalStatus[jnItem["relation"].as_int()]);
