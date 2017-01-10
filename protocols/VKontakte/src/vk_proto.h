@@ -353,16 +353,6 @@ private:
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
-
-	bool DBSetByte(MCONTACT hContact, LPCSTR szKey, BYTE bValue, BYTE bDefaultValue = 0);
-	bool DBSetByte(MCONTACT hContact, LPCSTR szModuleName, LPCSTR szKey, BYTE bValue, BYTE bDefaultValue = 0);
-	bool DBSetWord(MCONTACT hContact, LPCSTR szKey, WORD wValue, WORD wDefaultValue = 0);
-	bool DBSetWord(MCONTACT hContact, LPCSTR szModuleName, LPCSTR szKey, WORD wValue, WORD wDefaultValue = 0);
-	bool DBSetDWord(MCONTACT hContact, LPCSTR szKey, DWORD dwValue, DWORD dwDefaultValue = 0);
-	bool DBSetDWord(MCONTACT hContact, LPCSTR szModuleName, LPCSTR szKey, DWORD dwValue, DWORD dwDefaultValue = 0);
-	bool DBSetWString(MCONTACT hContact, LPCSTR szKey, LPCWSTR wszValue);
-	bool DBSetWString(MCONTACT hContact, LPCSTR szModuleName, LPCSTR szKey, LPCWSTR wszValue);	
-
 	void InitQueue();
 	void UninitQueue();
 	void ExecuteRequest(AsyncHttpRequest*);

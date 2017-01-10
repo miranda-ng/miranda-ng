@@ -287,19 +287,19 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	wszValue = jnItem["first_name"].as_mstring();
 	if (!wszValue.IsEmpty()) {
-		DBSetWString(hContact, "FirstName", wszValue);
+		setWString(hContact, "FirstName", wszValue);
 		wszNick.Append(wszValue);
 		wszNick.AppendChar(' ');
 	}
 
 	wszValue = jnItem["last_name"].as_mstring();
 	if (!wszValue.IsEmpty()) {
-		DBSetWString(hContact, "LastName", wszValue);
+		setWString(hContact, "LastName", wszValue);
 		wszNick.Append(wszValue);
 	}
 
 	if (!wszNick.IsEmpty())
-		DBSetWString(hContact, "Nick", wszNick);
+		setWString(hContact, "Nick", wszNick);
 
 	wszValue = jnItem["deactivated"].as_mstring();
 	CMStringW wszOldDeactivated(ptrW(db_get_wsa(hContact,  m_szModuleName, "Deactivated")));
@@ -316,7 +316,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	int sex = jnItem["sex"].as_int();
 	if (sex)
-		DBSetByte(hContact, "Gender", sex == 2 ? 'M' : 'F');
+		setByte(hContact, "Gender", sex == 2 ? 'M' : 'F');
 
 	wszValue = jnItem["bdate"].as_mstring();
 	if (!wszValue.IsEmpty()) {
@@ -324,9 +324,9 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		iReadCount = swscanf(wszValue, L"%d.%d.%d", &d, &m, &y);
 		if (iReadCount > 1) {
 			if (iReadCount == 3)
-				DBSetWord(hContact, "BirthYear", y);
-			DBSetByte(hContact, "BirthDay", d);
-			DBSetByte(hContact, "BirthMonth", m);
+				setWord(hContact, "BirthYear", y);
+			setByte(hContact, "BirthDay", d);
+			setByte(hContact, "BirthMonth", m);
 		}
 	}
 
@@ -342,16 +342,17 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		int iOldLastSeen = db_get_dw(hContact, "BuddyExpectator", "LastSeen");
 		if (iLastSeen && iLastSeen > iOldLastSeen)  {
 			db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)iLastSeen);
-			DBSetDWord(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
+			db_set_w(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
 		}
 	}
 
 	int iNewStatus = (jnItem["online"].as_int() == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
-	DBSetWord(hContact, "Status", iNewStatus, ID_STATUS_OFFLINE);
+	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != iNewStatus)
+		setWord(hContact, "Status", iNewStatus);
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
 		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(NULL));
-		DBSetDWord(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
+		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
 
 		int online_app = _wtoi(jnItem["online_app"].as_mstring());
 		int online_mobile = jnItem["online_mobile"].as_int();
@@ -367,27 +368,32 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		SetMirVer(hContact, -1); // unset MinVer
 
 	if ((iValue = jnItem["timezone"].as_int()) != 0)
-		DBSetByte(hContact, "Timezone", iValue * -2);
+		setByte(hContact, "Timezone", iValue * -2);
 
 	wszValue = jnItem["mobile_phone"].as_mstring();
 	if (!wszValue.IsEmpty())
-		DBSetWString(hContact, "Cellular", wszValue);
+		setWString(hContact, "Cellular", wszValue);
 
 	wszValue = jnItem["home_phone"].as_mstring();
 	if (!wszValue.IsEmpty())
-		DBSetWString(hContact, "Phone", wszValue);
+		setWString(hContact, "Phone", wszValue);
 
 	wszValue = jnItem["status"].as_mstring();
-	DBSetWString(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", wszValue);
+	CMStringW wszOldStatus(ptrW(db_get_wsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
+	if (wszValue != wszOldStatus)
+		db_set_ws(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", wszValue);
 
+	CMStringW wszOldListeningTo(ptrW(db_get_wsa(hContact, m_szModuleName, "ListeningTo")));
 	const JSONNode &jnAudio = jnItem["status_audio"];
 	if (jnAudio) {
 		CMStringW wszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
-		if (DBSetWString(hContact, "ListeningTo", wszListeningTo))
-			DBSetWString(hContact, "AudioUrl", jnAudio["url"].as_mstring());	
+		if (wszListeningTo != wszOldListeningTo) {
+			setWString(hContact, "ListeningTo", wszListeningTo);
+			setWString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
+		}
 	}
 	else if (wszValue[0] == wchar_t(9835) && wszValue.GetLength() > 2) {
-		DBSetWString(hContact, "ListeningTo", &(wszValue.GetBuffer())[2]);
+		setWString(hContact, "ListeningTo", &(wszValue.GetBuffer())[2]);
 		db_unset(hContact, m_szModuleName, "AudioUrl");
 	}
 	else {
@@ -399,21 +405,21 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	if (jnCountry) {
 		wszValue = jnCountry["title"].as_mstring();
 		if (!wszValue.IsEmpty())
-			DBSetWString(hContact, "Country", wszValue);
+			setWString(hContact, "Country", wszValue);
 	}
 
 	const JSONNode &jnCity = jnItem["city"];
 	if (jnCity) {
 		wszValue = jnCity["title"].as_mstring();
 		if (!wszValue.IsEmpty())
-			DBSetWString(hContact, "City", wszValue);
+			setWString(hContact, "City", wszValue);
 	}
 
 	// MaritalStatus
 	BYTE cMaritalStatus[] = {0, 10, 11, 12, 20, 70, 50, 60, 80};
 
 	if (jnItem["relation"] && jnItem["relation"].as_int() < _countof(cMaritalStatus))
-		DBSetByte(hContact, "MaritalStatus", cMaritalStatus[jnItem["relation"].as_int()]);
+		setByte(hContact, "MaritalStatus", cMaritalStatus[jnItem["relation"].as_int()]);
 
 	//  interests, activities, music, movies, tv, books, games, quotes
 	CVKInteres vkInteres[] = { 
@@ -437,8 +443,8 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		CMStringA InteresCat(FORMAT, "Interest%dCat", iInteres);
 		CMStringA InteresText(FORMAT, "Interest%dText", iInteres);
 
-		DBSetWString(hContact, InteresCat, vkInteres[i].pwszTranslate);
-		DBSetWString(hContact, InteresText, wszValue);
+		setWString(hContact, InteresCat, vkInteres[i].pwszTranslate);
+		setWString(hContact, InteresText, wszValue);
 
 		iInteres++;
 		
@@ -460,14 +466,14 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	wszValue = jnItem["about"].as_mstring();
 	if (!wszValue.IsEmpty())
-		DBSetWString(hContact, "About", wszValue);
+		setWString(hContact, "About", wszValue);
 
 	wszValue = jnItem["domain"].as_mstring();
 	if (!wszValue.IsEmpty()) {
-		DBSetWString(hContact, "domain", wszValue);
+		setWString(hContact, "domain", wszValue);
 		CMStringW wszUrl("https://vk.com/");
 		wszUrl.Append(wszValue);
-		DBSetWString(hContact, "Homepage", wszUrl);
+		setWString(hContact, "Homepage", wszUrl);
 	}
 
 	return hContact;
@@ -667,24 +673,25 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 		wszValue = jnItem["name"].as_mstring();
 		if (!wszValue.IsEmpty())
-			DBSetWString(hContact, "Nick", wszValue);
+			setWString(hContact, "Nick", wszValue);
 				
-		DBSetWord(hContact, "Status", ID_STATUS_ONLINE, ID_STATUS_OFFLINE);
+		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE)
+			setWord(hContact, "Status", ID_STATUS_ONLINE);
 
-		DBSetByte(hContact, "Auth", !bIsMember);
-		DBSetByte(hContact, "friend", bIsMember);
-		DBSetByte(hContact, "IsGroup", 1);
+		setByte(hContact, "Auth", !bIsMember);
+		setByte(hContact, "friend", bIsMember);
+		setByte(hContact, "IsGroup", 1);
 		
 		wszValue = jnItem["screen_name"].as_mstring();
 		if (!wszValue.IsEmpty()) {
-			DBSetWString(hContact, "domain", wszValue);
+			setWString(hContact, "domain", wszValue);
 			wszValue = L"https://vk.com/" + wszValue;
-			DBSetWString(hContact, "Homepage", wszValue);
+			setWString(hContact, "Homepage", wszValue);
 		}
 
 		wszValue = jnItem["description"].as_mstring(); 
 		if (!wszValue.IsEmpty())
-			DBSetWString(hContact, "About", wszValue);
+			setWString(hContact, "About", wszValue);
 
 		wszValue = jnItem["photo_100"].as_mstring();
 		if (!wszValue.IsEmpty()) {
@@ -693,16 +700,21 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		}		
 		
 		wszValue = jnItem["status"].as_mstring();
-		DBSetWString(hContact, "CList", "StatusMsg", wszValue);
+		CMStringW wszOldStatus(ptrW(db_get_wsa(hContact, "CList", "StatusMsg")));
+		if (wszValue != wszOldStatus)
+			db_set_ws(hContact, "CList", "StatusMsg", wszValue);
 
+		CMStringW wszOldListeningTo(ptrW(db_get_wsa(hContact, m_szModuleName, "ListeningTo")));
 		const JSONNode &jnAudio = jnItem["status_audio"];
 		if (jnAudio) {
 			CMStringW wszListeningTo(FORMAT, L"%s - %s", jnAudio["artist"].as_mstring(), jnAudio["title"].as_mstring());
-			if (DBSetWString(hContact, "ListeningTo", wszListeningTo))
-				DBSetWString(hContact, "AudioUrl", jnAudio["url"].as_mstring());			
+			if (wszListeningTo != wszOldListeningTo) {
+				setWString(hContact, "ListeningTo", wszListeningTo);
+				setWString(hContact, "AudioUrl", jnAudio["url"].as_mstring());
+			}
 		}
 		else if (wszValue[0] == wchar_t(9835) && wszValue.GetLength() > 2) {
-			DBSetWString(hContact, "ListeningTo", &(wszValue.GetBuffer())[2]);
+			setWString(hContact, "ListeningTo", &(wszValue.GetBuffer())[2]);
 			db_unset(hContact, m_szModuleName, "AudioUrl");
 		}
 		else {
@@ -758,7 +770,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 				continue;
 
 			arContacts.remove((HANDLE)hContact);
-			DBSetByte(hContact, "Auth", 0);
+			setByte(hContact, "Auth", 0);
 		}
 
 	if (bCleanContacts)

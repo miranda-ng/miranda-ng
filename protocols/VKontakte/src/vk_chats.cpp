@@ -68,7 +68,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	Chat_GetInfo(&gci);
 	c->m_hContact = gci.hContact;
 
-	DBSetWString(gci.hContact, "Nick", wszTitle);
+	setWString(gci.hContact, "Nick", wszTitle);
 	m_chats.insert(c);
 
 	for (int i = _countof(sttStatuses)-1; i >= 0; i--)
@@ -77,7 +77,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	setDword(gci.hContact, "vk_chat_id", id);
 
 	CMStringW wszHomepage(FORMAT, L"https://vk.com/im?sel=c%d", id);
-	DBSetWString(gci.hContact, "Homepage", wszHomepage);
+	setWString(gci.hContact, "Homepage", wszHomepage);
 	
 	db_unset(gci.hContact, m_szModuleName, "off");
 
@@ -233,9 +233,9 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			continue;
 
 		hContact = SetContactInfo(jnUser, true);
-		DBSetByte(hContact, "CList", "Hidden", 1);
-		DBSetByte(hContact, "CList", "NotOnList", 1);
-		DBSetDWord(hContact, "Ignore", "Mask1", 0);
+		db_set_b(hContact, "CList", "Hidden", 1);
+		db_set_b(hContact, "CList", "NotOnList", 1);
+		db_set_dw(hContact, "Ignore", "Mask1", 0);
 	}
 
 	const JSONNode &jnMsgs = jnResponse["msgs"];
@@ -272,7 +272,7 @@ void CVkProto::SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic)
 		return;
 
 	cc->m_wszTopic = mir_wstrdup(wszTopic);
-	DBSetWString(cc->m_hContact, "Nick", wszTopic);
+	setWString(cc->m_hContact, "Nick", wszTopic);
 
 	Chat_ChangeSessionName(m_szModuleName, cc->m_wszId, wszTopic);
 }
@@ -794,7 +794,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		Chat_Event(&gce);
 
 		cu->m_wszNick = mir_wstrdup(wszNewNick);		
-		DBSetWString(cc->m_hContact, CMStringA(FORMAT, "nick%d", cu->m_uid), wszNewNick);
+		setWString(cc->m_hContact, CMStringA(FORMAT, "nick%d", cu->m_uid), wszNewNick);
 	}
 		break;
 
