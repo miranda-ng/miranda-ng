@@ -231,7 +231,8 @@ static IDSTRLIST TmplMarital[]={
 	{40, LPGEN("Widowed"), 0},
 	{50, LPGEN("Actively searching"), 0 },
 	{60, LPGEN("In love"), 0 },
-	{70, LPGEN("It\'s complicated"), 0 }
+	{70, LPGEN("It\'s complicated"), 0 },
+	{80, LPGEN("In a civil union"), 0 }
 };
 
 static IDSTRLIST TmplPrefixes[]={
