@@ -243,11 +243,21 @@ void CDiscordProto::OnReceiveGuilds(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 
 void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
+	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
+
 	bool bSucceeded = true;
 	if (pReply->resultCode != 200 && pReply->resultCode != 204)
 		bSucceeded = false;
 
-	ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_MESSAGE, bSucceeded ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)pReq->m_iReqNum, 0);
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (root) {
+		SnowFlake newLastId = _wtoi64(root["id"].as_mstring());
+		SnowFlake oldLastId = getId(hContact, DB_KEY_LASTMSGID); // as stored in a database
+		if (oldLastId < newLastId)
+			setId(hContact, DB_KEY_LASTMSGID, newLastId);
+	}
+
+	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, bSucceeded ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)pReq->m_iReqNum, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
