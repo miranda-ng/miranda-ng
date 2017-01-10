@@ -1334,7 +1334,7 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		setWord(hContact, "Status", ID_STATUS_INVISIBLE);
 		SetMirVer(hContact, 1);
-		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_INVISIBLE);
+		DBSetDWord(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_INVISIBLE);
 		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", VK_INVALID_USER));
 	}
 	time_t now = time(NULL);
@@ -1484,3 +1484,68 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	db_event_add(hContact, &dbei);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool CVkProto::DBSetByte(MCONTACT hContact, LPCSTR szKey, BYTE bValue, BYTE bDefaultValue)
+{
+	return DBSetByte(hContact, m_szModuleName, szKey, bValue, bDefaultValue);
+}
+
+bool CVkProto::DBSetByte(MCONTACT hContact, LPCSTR szModuleName, LPCSTR szKey, BYTE bValue, BYTE bDefaultValue)
+{
+	DWORD bOldValue = db_get_b(hContact, szModuleName, szKey, bDefaultValue);
+
+	if (bOldValue == bValue)
+		return false;
+
+	db_set_b(hContact, szModuleName, szKey, bValue);
+	return true;
+}
+
+bool CVkProto::DBSetWord(MCONTACT hContact, LPCSTR szKey, WORD wValue, WORD wDefaultValue)
+{
+	return DBSetWord(hContact, m_szModuleName, szKey, wValue, wDefaultValue);
+}
+
+bool CVkProto::DBSetWord(MCONTACT hContact, LPCSTR szModuleName, LPCSTR szKey, WORD wValue, WORD wDefaultValue)
+{
+	DWORD wOldValue = db_get_w(hContact, szModuleName, szKey, wDefaultValue);
+
+	if (wOldValue == wValue)
+		return false;
+
+	db_set_w(hContact, szModuleName, szKey, wValue);
+	return true;
+}
+
+bool CVkProto::DBSetDWord(MCONTACT hContact, LPCSTR szKey, DWORD dwValue, DWORD dwDefaultValue)
+{
+	return DBSetDWord(hContact, m_szModuleName, szKey, dwValue, dwDefaultValue);
+}
+
+bool CVkProto::DBSetDWord(MCONTACT hContact, LPCSTR szModuleName, LPCSTR szKey, DWORD dwValue, DWORD dwDefaultValue)
+{
+	DWORD dwOldValue = db_get_dw(hContact, szModuleName, szKey, dwDefaultValue);		
+
+	if (dwOldValue == dwValue)
+		return false;
+
+	db_set_dw(hContact, szModuleName, szKey, dwValue);
+	return true;
+}
+
+bool CVkProto::DBSetWString(MCONTACT hContact, LPCSTR szKey, LPCWSTR wszValue)
+{
+	return DBSetWString(hContact, m_szModuleName, szKey, wszValue);
+}
+
+bool CVkProto::DBSetWString(MCONTACT hContact, LPCSTR szModuleName, LPCSTR szKey, LPCWSTR wszValue)
+{
+	CMStringW wszOldValue(ptrW(db_get_wsa(hContact, szModuleName, szKey)));
+
+	if (wszOldValue == wszValue)
+		return false;
+
+	db_set_ws(hContact, szModuleName, szKey, wszValue);
+	return true;
+}

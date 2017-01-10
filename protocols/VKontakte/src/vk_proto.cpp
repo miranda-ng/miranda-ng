@@ -73,7 +73,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	Clist_GroupCreate(NULL, m_vkOptions.pwszDefaultGroup);
 
 	CMStringA szListeningTo(FORMAT, "%sEnabled", m_szModuleName);
-	db_set_b(NULL, "ListeningTo", szListeningTo, m_vkOptions.iMusicSendMetod == 0 ? 0 : 1);
+	DBSetByte(NULL, "ListeningTo", szListeningTo, m_vkOptions.iMusicSendMetod == 0 ? 0 : 1);
 
 	delSetting("InviteGroupIds");
 

@@ -144,7 +144,7 @@ void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		return;
 
 	RetrieveStatusMsg(wszNewStatusMsg);
-	setWString("OldStatusMsg", pwszOldStatusMsg);
+	DBSetWString(NULL, "OldStatusMsg", pwszOldStatusMsg);
 }
 
 void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -161,7 +161,7 @@ void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	if (!jnAudio) {
 		CMStringW wszStatusText(jnResponse["text"].as_mstring());
 		if (wszStatusText[0] != wchar_t(9835))
-			setWString("OldStatusMsg", wszStatusText);
+			DBSetWString(NULL, "OldStatusMsg", wszStatusText);
 	}
 }
 
@@ -245,7 +245,7 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 			wszListeningTo.Format(L"%s - %s",
 			pliInfo->ptszArtist ? pliInfo->ptszArtist : L"",
 			pliInfo->ptszTitle ? pliInfo->ptszTitle : L"");
-		setWString("ListeningTo", wszListeningTo);
+		DBSetWString(NULL ,"ListeningTo", wszListeningTo);
 	}
 	RetrieveStatusMusic(wszListeningTo);
 	return 0;

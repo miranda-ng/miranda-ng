@@ -40,10 +40,8 @@ void CVkProto::AddFeedSpecialUser()
 		setWString(hContact, "Homepage", L"https://vk.com/feed");
 	} 
 
-	if (getWord(hContact, "Status") != ID_STATUS_ONLINE)
-		setWord(hContact, "Status", ID_STATUS_ONLINE);
+	DBSetWord(hContact, "Status", ID_STATUS_ONLINE, ID_STATUS_OFFLINE);
 	SetMirVer(hContact, 7);
-
 }
 
 void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)
