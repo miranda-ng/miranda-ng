@@ -132,6 +132,9 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				case 70:
 					ptstr = TranslateT("It\'s complicated");
 					break;
+				case 80:
+					ptstr = TranslateT("In a civil union");
+					break;
 				default:
 					unspecified = 1;
 				}
