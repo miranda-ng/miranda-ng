@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -32,7 +32,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
@@ -44,6 +44,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -51,9 +52,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-
-IDI_MAIN              ICON                    "discord.ico"
-IDI_OFFLINE           ICON                    "offline.ico"
+IDI_MAIN                ICON                    "discord.ico"
+IDI_OFFLINE             ICON                    "offline.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -70,10 +70,24 @@ BEGIN
     EDITTEXT        IDC_USERNAME,84,18,123,13,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,17,36,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_PASSWORD,84,34,123,13,ES_PASSWORD | ES_AUTOHSCROLL
-
     GROUPBOX        "Contacts",IDC_STATIC,7,77,291,88
     LTEXT           "Default group:",IDC_STATIC,17,91,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_GROUP,84,89,123,13,ES_AUTOHSCROLL
+END
+
+IDD_OPTIONS_ACCMGR DIALOGEX 0, 0, 200, 88
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "User details",IDC_STATIC,7,7,178,46
+    LTEXT           "E-mail:",IDC_STATIC,17,20,69,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_USERNAME,92,18,86,13,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,17,36,69,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_PASSWORD,92,34,86,13,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "Contacts",IDC_STATIC,7,56,178,28
+    LTEXT           "Default group:",IDC_STATIC,17,67,69,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_GROUP,92,65,86,13,ES_AUTOHSCROLL
 END
 
 IDD_EXTSEARCH DIALOGEX 0, 0, 114, 55

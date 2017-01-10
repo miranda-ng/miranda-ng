@@ -25,8 +25,8 @@ class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 	ptrW m_wszOldGroup;
 
 public:
-	CDiscardAccountOptions(CDiscordProto *ppro) :
-		CProtoDlgBase<CDiscordProto>(ppro, IDD_OPTIONS_ACCOUNT),
+	CDiscardAccountOptions(CDiscordProto *ppro, int iDlgID) :
+		CProtoDlgBase<CDiscordProto>(ppro, iDlgID, false),
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
 		m_edPassword(this, IDC_PASSWORD),
@@ -55,6 +55,14 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+INT_PTR CDiscordProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
+{
+	CDiscardAccountOptions *pDlg = new CDiscardAccountOptions(this, IDD_OPTIONS_ACCMGR);
+	pDlg->SetParent((HWND)hwndParent);
+	pDlg->Create();
+	return (INT_PTR)pDlg->GetHwnd();
+}
+
 int CDiscordProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
@@ -65,7 +73,7 @@ int CDiscordProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 	odp.position = 1;
 	odp.szTab.w = LPGENW("Account");
-	odp.pDialog = new CDiscardAccountOptions(this);
+	odp.pDialog = new CDiscardAccountOptions(this, IDD_OPTIONS_ACCOUNT);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

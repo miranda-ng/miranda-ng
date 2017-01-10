@@ -37,6 +37,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 {
 	// Services
 	CreateProtoService(PS_GETSTATUS, &CDiscordProto::GetStatus);
+	CreateProtoService(PS_CREATEACCMGRUI, &CDiscordProto::SvcCreateAccMgrUI);
 
 	CreateProtoService(PS_GETAVATARINFO, &CDiscordProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CDiscordProto::GetAvatarCaps);

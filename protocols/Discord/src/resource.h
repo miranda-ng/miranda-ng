@@ -1,17 +1,16 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by twitter.rc
+// Used by w:\miranda-ng\protocols\Discord\res\discord.rc
 //
-
 #define IDI_MAIN                        101
 #define IDI_OFFLINE                     102
 #define IDD_OPTIONS_ACCOUNT             103
 #define IDD_EXTSEARCH                   104
-
-#define IDC_PASSWORD                   1001
-#define IDC_USERNAME                   1002
-#define IDC_GROUP                      1003
-#define IDC_NICK								1004
+#define IDD_OPTIONS_ACCMGR              105
+#define IDC_PASSWORD                    1001
+#define IDC_USERNAME                    1002
+#define IDC_GROUP                       1003
+#define IDC_NICK                        1004
 
 // Next default values for new objects
 // 

@@ -210,7 +210,9 @@ public:
 	virtual int __cdecl OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM) override;
 
 	// Services
+	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR __cdecl GetStatus(WPARAM, LPARAM);
+
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
