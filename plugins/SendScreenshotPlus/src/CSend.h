@@ -128,7 +128,7 @@ class CSend {
 		static int GetJSONInteger(const char* json, size_t jsonlen, const char* variable,int defvalue);
 		static bool GetJSONBool(const char* json, size_t jsonlen, const char* variable);
 		void HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr); /// use to free data inside "nlhr" created by HTTPFormCreate
-		int HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTPFormData* frm,size_t frmNum); /// returns "0" on success, Exit() will be called on failure (stop processing)
+		int HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum); /// returns "0" on success, Exit() will be called on failure (stop processing)
 };
 
 #endif

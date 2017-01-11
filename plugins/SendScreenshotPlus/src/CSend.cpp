@@ -649,7 +649,7 @@ void CSend::HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr)
 	mir_free(nlhr->pData), nlhr->pData = NULL;
 }
 
-int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, char* url, HTTPFormData* frm, size_t frmNum)
+int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum)
 {
 	char boundary[16];
 	memcpy(boundary, "--M461C/", 8);
@@ -670,7 +670,7 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, char* url, H
 	nlhr->requestType = requestType;
 	nlhr->flags = NLHRF_HTTP11;
 	if (!strncmp(url, "https://", 8)) nlhr->flags |= NLHRF_SSL;
-	nlhr->szUrl = url;
+	nlhr->szUrl = (char*)url;
 	nlhr->headersCount = 3;
 	for (HTTPFormData* iter = frm, *end = frm + frmNum; iter != end; ++iter) {
 		if (!(iter->flags&HTTPFF_HEADER)) break;
