@@ -347,8 +347,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	}
 
 	int iNewStatus = (jnItem["online"].as_int() == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
-	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != iNewStatus)
-		setWord(hContact, "Status", iNewStatus);
+	setWord(hContact, "Status", iNewStatus);
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
 		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(NULL));
@@ -379,9 +378,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		setWString(hContact, "Phone", wszValue);
 
 	wszValue = jnItem["status"].as_mstring();
-	CMStringW wszOldStatus(ptrW(db_get_wsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
-	if (wszValue != wszOldStatus)
-		db_set_ws(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", wszValue);
+	db_set_ws(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", wszValue);
 
 	CMStringW wszOldListeningTo(ptrW(db_get_wsa(hContact, m_szModuleName, "ListeningTo")));
 	const JSONNode &jnAudio = jnItem["status_audio"];
@@ -675,8 +672,7 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		if (!wszValue.IsEmpty())
 			setWString(hContact, "Nick", wszValue);
 				
-		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE)
-			setWord(hContact, "Status", ID_STATUS_ONLINE);
+		setWord(hContact, "Status", ID_STATUS_ONLINE);
 
 		setByte(hContact, "Auth", !bIsMember);
 		setByte(hContact, "friend", bIsMember);
@@ -700,9 +696,7 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		}		
 		
 		wszValue = jnItem["status"].as_mstring();
-		CMStringW wszOldStatus(ptrW(db_get_wsa(hContact, "CList", "StatusMsg")));
-		if (wszValue != wszOldStatus)
-			db_set_ws(hContact, "CList", "StatusMsg", wszValue);
+		db_set_ws(hContact, "CList", "StatusMsg", wszValue);
 
 		CMStringW wszOldListeningTo(ptrW(db_get_wsa(hContact, m_szModuleName, "ListeningTo")));
 		const JSONNode &jnAudio = jnItem["status_audio"];
