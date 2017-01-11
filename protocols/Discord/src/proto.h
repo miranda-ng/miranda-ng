@@ -173,6 +173,9 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	SnowFlake m_ownId;
 
+	mir_cs csMarkReadQueue;
+	LIST<CDiscordUser> arMarkReadQueue;
+
 	OBJLIST<CDiscordUser> arUsers;
 	CDiscordUser* FindUser(SnowFlake id);
 	CDiscordUser* FindUser(const wchar_t *pwszUsername, int iDiscriminator);
@@ -222,6 +225,7 @@ public:
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 
 	// dispatch commands
 	void OnCommandMessage(const JSONNode&);
@@ -238,6 +242,7 @@ public:
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGuilds(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
@@ -255,6 +260,8 @@ public:
 
 	CMStringW GetAvatarFilename(MCONTACT hContact);
 
-	static void CALLBACK HeartbeatTimerProc(HWND hwnd, UINT msg, UINT_PTR id, DWORD);
 	__forceinline int getHeartbeatInterval() const { return m_iHartbeatInterval; }
+
+	static void CALLBACK HeartbeatTimerProc(HWND hwnd, UINT msg, UINT_PTR id, DWORD);
+	static void CALLBACK MarkReadTimerProc(HWND hwnd, UINT msg, UINT_PTR id, DWORD);
 };

@@ -33,6 +33,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_evRequestsQueue(CreateEvent(NULL, FALSE, FALSE, NULL)),
 	m_wszDefaultGroup(this, DB_KEY_GROUP, DB_KEYVAL_GROUP),
 	m_wszEmail(this, DB_KEY_EMAIL, L""),
+	arMarkReadQueue(1, compareUsers),
 	arUsers(50, compareUsers)
 {
 	// Services
@@ -46,6 +47,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
+	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CDiscordProto::OnDbEventRead);
 
 	// database
 	db_set_resident(m_szModuleName, "XStatusMsg");
@@ -305,10 +307,52 @@ int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 
 	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
 	JSONNode body; body << WCHAR_PARAM("content", wszText);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessageAck, &body);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessage, &body);
 	pReq->pUserInfo = (void*)hContact;
 	Push(pReq);
 	return pReq->m_iReqNum;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
+{
+	CDiscordProto *ppro = (CDiscordProto*)(id - 1);
+
+	JSONNode root; root.push_back(JSONNode("token", NULL));
+
+	mir_cslock lck(ppro->csMarkReadQueue);
+	while (ppro->arMarkReadQueue.getCount()) {
+		CDiscordUser *pUser = ppro->arMarkReadQueue[0];
+		CMStringA szUrl(FORMAT, "/channels/%lld/messages/%lld/ack", pUser->channelId, pUser->lastMessageId);
+		ppro->Push(new AsyncHttpRequest(ppro, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMessageAck));
+		ppro->arMarkReadQueue.remove(0);
+	}
+	KillTimer(hwnd, id);
+}
+
+int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
+{
+	MCONTACT hContact = db_event_getContact(hDbEvent);
+	if (!hContact)
+		return 0;
+
+	// filter out only events of my protocol
+	const char *szProto = GetContactProto(hContact);
+	if (mir_strcmp(szProto, m_szModuleName))
+		return 0;
+
+	if (m_bOnline) {
+		SetTimer(g_hwndHeartbeat, UINT_PTR(this) + 1, 200, &CDiscordProto::MarkReadTimerProc);
+
+		CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
+		if (pUser != NULL) {
+			mir_cslock lck(csMarkReadQueue);
+			if (arMarkReadQueue.indexOf(pUser) == -1)
+				arMarkReadQueue.insert(pUser);
+		}
+	}
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

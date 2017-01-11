@@ -77,6 +77,8 @@ void CDiscordProto::OnLoggedOut()
 	m_bTerminated = true;
 	m_iGatewaySeq = 0;
 
+	KillTimer(g_hwndHeartbeat, (UINT_PTR)this);
+
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 }

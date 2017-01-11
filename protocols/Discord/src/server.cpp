@@ -241,7 +241,7 @@ void CDiscordProto::OnReceiveGuilds(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+void CDiscordProto::OnReceiveMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	MCONTACT hContact = (MCONTACT)pReq->pUserInfo;
 
@@ -258,6 +258,25 @@ void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequ
 	}
 
 	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, bSucceeded ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)pReq->m_iReqNum, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	if (pReply->resultCode != 200)
+		return;
+
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (!root)
+		return;
+
+	CMStringW wszToken(root["token"].as_mstring());
+	if (!wszToken.IsEmpty()) {
+		JSONNode props; props.set_name("properties");
+		root << CHAR_PARAM("event", "ack_messages") << props;
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/track", NULL, &root));
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

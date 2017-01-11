@@ -44,6 +44,7 @@
 #include "../../libs/zlib/src/zlib.h"
 
 extern HINSTANCE g_hInstance;
+extern HWND g_hwndHeartbeat;
 
 #include "version.h"
 #include "proto.h"

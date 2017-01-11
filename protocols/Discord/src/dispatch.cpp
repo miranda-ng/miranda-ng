@@ -17,8 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-extern HWND g_hwndHeartbeat;
-
 #pragma pack(4)
 
 struct CDiscordCommand
