@@ -25,7 +25,7 @@ static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
 int msn_httpGatewayInit(HANDLE hConn,NETLIBOPENCONNECTION *nloc,NETLIBHTTPREQUEST *nlhr);
 int msn_httpGatewayBegin(HANDLE hConn,NETLIBOPENCONNECTION *nloc);
-int msn_httpGatewayWrapSend(HANDLE hConn,PBYTE buf,int len,int flags,MIRANDASERVICE pfnNetlibSend);
+int msn_httpGatewayWrapSend(HANDLE hConn,PBYTE buf,int len,int flags);
 PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr,PBYTE buf,int len,int *outBufLen,void *(*NetlibRealloc)(void*,size_t));
 
 static int CompareLists(const MsnContact *p1, const MsnContact *p2)

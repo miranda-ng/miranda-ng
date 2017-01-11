@@ -30,12 +30,7 @@ void WASocketConnection::write(int i)
 	char buffer;
 	buffer = (char)i;
 
-	NETLIBBUFFER nlb;
-	nlb.buf = &buffer;
-	nlb.len = 1;
-	nlb.flags = MSG_NOHTTPGATEWAYWRAP | MSG_NODUMP;
-
-	int result = CallService(MS_NETLIB_SEND, WPARAM(this->hConn), LPARAM(&nlb));
+	int result = Netlib_Send(this->hConn, &buffer, 1, MSG_NOHTTPGATEWAYWRAP | MSG_NODUMP);
 	if (result < 1)
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_SEND);
 }
@@ -49,13 +44,8 @@ void WASocketConnection::flush() {}
 
 void WASocketConnection::write(const std::vector<unsigned char> &bytes, int length)
 {
-	NETLIBBUFFER nlb;
 	std::string tmpBuf = std::string(bytes.begin(), bytes.end());
-	nlb.buf = (char*)&(tmpBuf.c_str()[0]);
-	nlb.len = length;
-	nlb.flags = MSG_NODUMP;
-
-	int result = CallService(MS_NETLIB_SEND, WPARAM(hConn), LPARAM(&nlb));
+	int result = Netlib_Send(hConn, tmpBuf.c_str(), length, MSG_NODUMP);
 	if (result < length)
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_SEND);
 }

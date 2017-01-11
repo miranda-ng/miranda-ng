@@ -130,7 +130,7 @@ begin
 
   DestroyHookableEvent(hhRadioStatus);
 
-  CallService(MS_NETLIB_CLOSEHANDLE,hNetLib,0);
+  Netlib_CloseHandle(hNetLib);
 
   mFreeMem(storage);
   mFreeMem(storagep);

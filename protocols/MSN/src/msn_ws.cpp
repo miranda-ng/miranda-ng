@@ -27,8 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int ThreadData::send(const char data[], size_t datalen)
 {
-	NETLIBBUFFER nlb = { (char*)data, (int)datalen, 0 };
-
 	resetTimeout();
 
 	if (proto->usingGateway && !(mType == SERVER_FILETRANS || mType == SERVER_P2P_DIRECT)) {
@@ -36,7 +34,7 @@ int ThreadData::send(const char data[], size_t datalen)
 		CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
 	}
 
-	int rlen = CallService(MS_NETLIB_SEND, (WPARAM)s, (LPARAM)&nlb);
+	int rlen = Netlib_Send(s, data, (int)datalen);
 	if (rlen == SOCKET_ERROR) {
 		// should really also check if sendlen is the same as datalen
 		proto->debugLogA("Send failed: %d", WSAGetLastError());
@@ -113,8 +111,6 @@ bool ThreadData::isTimeout(void)
 
 int ThreadData::recv(char* data, size_t datalen)
 {
-	NETLIBBUFFER nlb = { data, (int)datalen, 0 };
-
 	if (!proto->usingGateway) {
 		resetTimeout();
 		NETLIBSELECT nls = { 0 };
@@ -137,7 +133,7 @@ int ThreadData::recv(char* data, size_t datalen)
 	}
 
 LBL_RecvAgain:
-	int ret = CallService(MS_NETLIB_RECV, (WPARAM)s, (LPARAM)&nlb);
+	int ret = Netlib_Recv(s, data, (int)datalen);
 	if (ret == 0) {
 		proto->debugLogA("Connection closed gracefully");
 		return 0;

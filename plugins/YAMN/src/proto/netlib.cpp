@@ -119,14 +119,7 @@ void CNLClient::Connect(const char* servername, const int port) throw(DWORD)
 // query- command to send
 int CNLClient::LocalNetlib_Send(HANDLE hConn, const char *buf, int len, int flags)
 {
-	if (isTLSed) {
-		#ifdef DEBUG_COMM
-		SSL_DebugLog("SSL send: %s", buf);
-		#endif
-	}
-
-	NETLIBBUFFER nlb = { (char*)buf,len,flags };
-	return CallService(MS_NETLIB_SEND, (WPARAM)hConn, (LPARAM)&nlb);
+	return Netlib_Send(hConn, buf, len, flags);
 }
 
 void CNLClient::Send(const char *query) throw(DWORD)
@@ -166,8 +159,7 @@ void CNLClient::Send(const char *query) throw(DWORD)
 
 int CNLClient::LocalNetlib_Recv(HANDLE hConn, char *buf, int len, int flags)
 {
-	NETLIBBUFFER nlb = { buf,len,flags };
-	int iReturn = CallService(MS_NETLIB_RECV, (WPARAM)hConn, (LPARAM)&nlb);
+	int iReturn = Netlib_Recv(hConn, buf, len, flags);
 	if (isTLSed) {
 		#ifdef DEBUG_COMM
 		SSL_DebugLog("SSL recv: %s", buf);

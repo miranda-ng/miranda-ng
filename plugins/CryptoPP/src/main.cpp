@@ -130,8 +130,7 @@ void InitNetlib()
 
 void DeinitNetlib()
 {
-	if (hNetlibUser)
-		CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)hNetlibUser, 0);
+	Netlib_CloseHandle(hNetlibUser);
 }
 
 int Sent_NetLog(const char *fmt, ...)

@@ -313,27 +313,6 @@ const
   }
   MS_NETLIB_REGISTERUSER:PAnsiChar = 'Netlib/RegisterUser';
 
-{
-  Assign a Netlib user handle a set of dynamic HTTP headers to be used with all
-
-  HTTP connections that enable the HTTP-use-sticky headers flag.
-  The headers persist until cleared with lParam=NULL.
-
-  All memory should be allocated by the caller using malloc() from MS_SYSTEM_GET_MMI
-  Once it has passed to Netlib, Netlib is the owner of it, the caller should not refer to the memory
-  In any way after this point.
-
-  wParam=(WPARAM)hNetLibUser
-  lParam=(LPARAM)(AnsiChar*)szHeaders
-
-  NOTE: The szHeaders parameter should be a NULL terminated string following the HTTP header syntax.
-  This string will be injected verbatim, thus the user should be aware of setting strings that are not
-  headers. This service is NOT THREAD SAFE, only a single thread is expected to set the headers and a single
-  thread reading the pointer internally, stopping race conditions and mutual exclusion don't happen.
-
-  Version 0.3.2a+ (2003/10/27)
-}
-  MS_NETLIB_SETSTICKYHEADERS:PAnsiChar = 'Netlib/SetStickyHeaders';
 
   {
     wParam : HANDLE
@@ -348,20 +327,6 @@ const
     Errors : ERROR_INVALID_PARAMETER
   }
   MS_NETLIB_GETUSERSETTINGS:PAnsiChar = 'Netlib/GetUserSettings';
-
-  {
-    wParam : HANDLE
-    lParam : Pointer to a initalised NETLIBUSERSETTINGS structure
-    Affect : Changes the configurable settings for a Netlib user -- see notes
-    Returns: [non zero] on success, NULL(0) on failure
-    Notes  : This service is only really useful for people that specify NUF_NOOPTIONS
-             when registering and want to create their own options.
-             Settings will be stored even if the option to enable it, is it not enabled,
-             e.g. useProxyAuth is 0, szProxyAuthPassword will still be saved
-    Errors : ERROR_INVALID_PARAMETER
-  }
-  MS_NETLIB_SETUSERSETTINGS:PAnsiChar = 'Netlib/SetUserSettings';
-
   {
     wParam : HANDLE / SOCKET
     lParam : 0
@@ -371,7 +336,8 @@ const
              If a SOCKET type is passed instead of netlib handle type, it is closed
     Errors : ERROR_INVALID_PARAMETER
   }
-  MS_NETLIB_CLOSEHANDLE:PAnsiChar = 'Netlib/CloseHandle';
+
+function Netlib_CloseHandle(pHandle:THANDLE) : int; stdcall; external AppDll;
 
   {
     wParam : HANDLE
@@ -390,6 +356,8 @@ const
     Errors : ERROR_INVALID_PARAMETER, any returned by socket(), bind(), listen()
              getsockname()
   }
+
+const
   MS_NETLIB_BINDPORT:PAnsiChar = 'Netlib/BindPort';
 
   {
@@ -602,8 +570,6 @@ const
   MS_NETLIB_HTTPTRANSACTION:PAnsiChar = 'Netlib/HttpTransaction';
 
   {
-    wParam : HANDLE
-    lParam : Pointer to an initialised TNETLIBBUFFER structure
     Affect : Send data over an open connection see notes
     Returns: The number of bytes sent on success, SOCKET_ERROR on failure
     Notes  : see Netlib_Send() helper function
@@ -613,11 +579,10 @@ const
              (HTTP proxy): ERROR_GEN_FAILURE (http result code wasn't 2xx)
              MS_NETLIB_SENDHTTPREQUEST, MS_NETLIB_RECVHTTPHEADERS
   }
-  MS_NETLIB_SEND:PAnsiChar = 'Netlib/Send';
+
+function Netlib_Send(hConn:THANDLE; pBuf:Pointer; len,flags:int) : int; stdcall; external AppDll;
 
   {
-    wParam : HANDLE
-    lParam : Pointer to an initialised TNETLIBBUFFER structure
     Affect : Receive data over a connection, see notes
     Returns: The number of bytes read on success, SOCKET_ERROR on failure
     Notes  :
@@ -646,7 +611,8 @@ const
              connect(), MS_NETLIB_SENDHTTPREQUEST
 
   }
-  MS_NETLIB_RECV:PAnsiChar = 'Netlib/Recv';
+
+function Netlib_Recv(hConn:THANDLE; pBuf:Pointer; len,flags:int) : int; stdcall; external AppDll;
 
   {
     wParam : 0
@@ -659,6 +625,7 @@ const
              or INVALID_HANDLE_VALUE.
     Errors : ERROR_INVALID_HANDLE, ERROR_INVALID_DATA, anything from select()
   }
+const
   MS_NETLIB_SELECT  :PAnsiChar = 'Netlib/Select';
   MS_NETLIB_SELECTEX:PAnsiChar = 'Netlib/SelectEx'; // added in v0.3.3
 

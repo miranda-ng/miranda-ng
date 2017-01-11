@@ -87,5 +87,5 @@ begin
     CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
   end;
 
-  CallService(MS_NETLIB_CLOSEHANDLE,hTmpNetLib,0);
+  Netlib_CloseHandle(hTmpNetLib);
 end;

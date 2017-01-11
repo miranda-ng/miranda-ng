@@ -37,7 +37,7 @@
 
 int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
 int icq_httpGatewayBegin(HANDLE hConn, NETLIBOPENCONNECTION *nloc);
-int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend);
+int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags);
 PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int bufLen, int *outBufLen, void *(*NetlibRealloc)(void *, size_t));
 int icq_httpGatewayWalkTo(HANDLE hConn, NETLIBOPENCONNECTION* nloc);
 

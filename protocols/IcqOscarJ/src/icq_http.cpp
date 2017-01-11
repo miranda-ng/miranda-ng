@@ -101,7 +101,7 @@ int icq_httpGatewayBegin(HANDLE hConn, NETLIBOPENCONNECTION* nloc)
 
 
 
-int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend)
+int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags)
 {
 	PBYTE sendBuf = buf;
 	int sendLen = len;
@@ -119,8 +119,7 @@ int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDA
 		write_httphdr(&packet, HTTP_PACKETTYPE_FLAP, GetGatewayIndex(hConn));
 		packBuffer(&packet, sendBuf, curLen);
 
-		NETLIBBUFFER nlb={ (char*)packet.pData, packet.wLen, flags };
-		curResult = pfnNetlibSend((WPARAM)hConn, (LPARAM)&nlb);
+		curResult = Netlib_Send(hConn, (char*)packet.pData, packet.wLen, flags);
 		
 		SAFE_FREE((void**)&packet.pData);
 

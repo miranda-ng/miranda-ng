@@ -16,11 +16,6 @@ function CreateVersionStringPlugin(pluginInfo:PPluginInfoEx;buf:PAnsiChar):PAnsi
 function PLUGIN_MAKE_VERSION(a,b,c,d: Cardinal): int;
 function PLUGIN_CMP_VERSION(verA: LongInt; verB: LongInt): int;
 
-function Netlib_CloseHandle(Handle: THANDLE): int;
-function Netlib_GetBase64DecodedBufferSize(const cchEncoded: int): int;
-function Netlib_GetBase64EncodedBufferSize(const cbDecoded: int): int;
-function Netlib_Send(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
-function Netlib_Recv(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
 procedure Netlib_Log(hNetLib: THANDLE; const sz: PAnsiChar);
 
 function mir_hashstr (const key:PAnsiChar):uint; {inline;}
@@ -176,44 +171,6 @@ begin
   Inc(Result, (verA and $FF00    ) - (verB and $FF00));
   Inc(Result, (verA and $FF0000  ) - (verB and $FF0000));
   Inc(Result, (verA and $FF000000) - (verB and $FF000000));
-end;
-
-function Netlib_CloseHandle(Handle: THANDLE): int;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := CallService(MS_NETLIB_CLOSEHANDLE, Handle, 0);
-end;
-
-function Netlib_GetBase64DecodedBufferSize(const cchEncoded: int): int;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := (cchEncoded shr 2) * 3;
-end;
-
-function Netlib_GetBase64EncodedBufferSize(const cbDecoded: int): int;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := (cbDecoded * 4+11) div 12*4+1;
-end;
-
-function Netlib_Send(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
-var
-  nlb: TNETLIBBUFFER;
-begin
-  nlb.buf   := buf;
-  nlb.len   := len;
-  nlb.flags := flags;
-  Result := CallService(MS_NETLIB_SEND, wParam(hConn), lParam(@nlb));
-end;
-
-function Netlib_Recv(hConn: THANDLE; const buf: PAnsiChar; len: int; flags: int): int_ptr;
-var
-  nlb: TNETLIBBUFFER;
-begin
-  nlb.buf   := buf;
-  nlb.len   := len;
-  nlb.flags := flags;
-  Result := CallService(MS_NETLIB_RECV, wParam(hConn), lParam(@nlb));
 end;
 
 procedure Netlib_Log(hNetLib: THANDLE; const sz: PAnsiChar);

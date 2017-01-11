@@ -61,7 +61,7 @@ struct NETLIBOPENCONNECTION;
 
 typedef int (*NETLIBHTTPGATEWAYINITPROC)(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
 typedef int (*NETLIBHTTPGATEWAYBEGINPROC)(HANDLE hConn, NETLIBOPENCONNECTION *nloc);
-typedef int (*NETLIBHTTPGATEWAYWRAPSENDPROC)(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend);
+typedef int (*NETLIBHTTPGATEWAYWRAPSENDPROC)(HANDLE hConn, PBYTE buf, int len, int flags);
 typedef PBYTE (*NETLIBHTTPGATEWAYUNWRAPRECVPROC)(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *(*NetlibRealloc)(void*, size_t));
 
 struct NETLIBUSER
@@ -223,18 +223,13 @@ struct NETLIBUSERSETTINGS
 #define MS_NETLIB_SETUSERSETTINGS  "Netlib/SetUserSettings"
 
 // Closes a netlib handle
-// wParam = (WPARAM)(HANDLE)hNetlibHandle
-// lParam = 0
 // Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 // This function should be called on all handles returned by netlib functions
 // once you are done with them. If it's called on a socket-type handle, the
 // socket will be closed.
 // Errors: ERROR_INVALID_PARAMETER
-#define MS_NETLIB_CLOSEHANDLE   "Netlib/CloseHandle"
 
-__forceinline INT_PTR Netlib_CloseHandle(HANDLE h)
-{	return CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)h, 0);
-}
+EXTERN_C MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE h);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Open a port and wait for connections on it
@@ -599,8 +594,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Send data over a connection
-// wParam = (WPARAM)(HANDLE)hConnection
-// lParam = (LPARAM)(NETLIBBUFFER*)&nlb
+//
 // Returns the number of bytes sent on success, SOCKET_ERROR on failure
 // Errors: ERROR_INVALID_PARAMETER
 //        anything from send(), nlu.pfnHttpGatewayWrapSend()
@@ -610,31 +604,18 @@ public:
 // flags:
 
 #define MSG_NOHTTPGATEWAYWRAP  0x010000	 // don't wrap the outgoing packet using nlu.pfnHttpGatewayWrapSend
-#define MSG_NODUMP             0x020000  // don't dump this packet to the log
+#define MSG_NODUMP             0x020000    // don't dump this packet to the log
 #define MSG_DUMPPROXY          0x040000	 // this is proxy communiciation. For dump filtering only.
-#define MSG_DUMPASTEXT         0x080000  // this is textual data, don't dump as hex
+#define MSG_DUMPASTEXT         0x080000    // this is textual data, don't dump as hex
 #define MSG_RAW                0x100000	 // send as raw data, bypass any HTTP proxy stuff
 #define MSG_DUMPSSL            0x200000	 // this is SSL traffic. For dump filtering only.
+#define MSG_NOTITLE            0x400000	 // skip date, time & protocol from dump
 
-struct NETLIBBUFFER
-{
-	char *buf;
-	int len;
-	int flags;
-};
-
-#define MS_NETLIB_SEND	   "Netlib/Send"
-
-__inline INT_PTR Netlib_Send(HANDLE hConn, const char *buf, int len, int flags)
-{
-	NETLIBBUFFER nlb = {(char*)buf, len, flags};
-	return CallService(MS_NETLIB_SEND, (WPARAM)hConn, (LPARAM)&nlb);
-}
+EXTERN_C MIR_APP_DLL(int) Netlib_Send(HANDLE hConn, const char *buf, int len, int flags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Receive data over a connection
-// wParam = (WPARAM)(HANDLE)hConnection
-// lParam = (LPARAM)(NETLIBBUFFER*)&nlb
+//
 // Returns the number of bytes read on success, SOCKET_ERROR on failure,
 // 0 if the connection has been closed
 // Flags supported: MSG_PEEK, MSG_NODUMP, MSG_DUMPPROXY, MSG_NOHTTPGATEWAYWRAP,
@@ -654,13 +635,7 @@ __inline INT_PTR Netlib_Send(HANDLE hConn, const char *buf, int len, int flags)
 // 						  nlu.pfnHttpGatewayUnwrapRecv, socket(), connect(),
 // 						  MS_NETLIB_SENDHTTPREQUEST
 
-#define MS_NETLIB_RECV	   "Netlib/Recv"
-
-__inline INT_PTR Netlib_Recv(HANDLE hConn, char *buf, int len, int flags)
-{
-	NETLIBBUFFER nlb = {buf, len, flags};
-	return CallService(MS_NETLIB_RECV, (WPARAM)hConn, (LPARAM)&nlb);
-}
+EXTERN_C MIR_APP_DLL(int) Netlib_Recv(HANDLE hConn, char *buf, int len, int flags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Determine the status of one or more connections
@@ -924,7 +899,9 @@ static __inline char* Netlib_NtlmCreateResponse2(HANDLE hProvider, char* szChall
 
 struct NETLIBNOTIFY
 {
-	NETLIBBUFFER* nlb;   // pointer to the request buffer
+	const char *buf;
+	int len;
+	int flags;
 	int result;          // amount of bytes really sent/received
 };
 

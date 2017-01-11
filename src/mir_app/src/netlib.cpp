@@ -244,15 +244,15 @@ void NetlibDoClose(NetlibConnection *nlc, bool noShutdown)
 	nlc->s = INVALID_SOCKET;
 }
 
-INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
+MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 {
-	if (wParam == NULL)
+	if (hNetlib == NULL)
 		return 0;
 
-	switch(GetNetlibHandleType((void*)wParam)) {
+	switch (GetNetlibHandleType(hNetlib)) {
 	case NLH_USER:
 		{
-			NetlibUser *nlu = (NetlibUser*)wParam;
+			NetlibUser *nlu = (NetlibUser*)hNetlib;
 			{
 				mir_cslock lck(csNetlibUser);
 				int i = netlibUser.getIndex(nlu);
@@ -272,7 +272,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 	case NLH_CONNECTION:
 		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 		{
-			NetlibConnection *nlc = (NetlibConnection*)wParam;
+			NetlibConnection *nlc = (NetlibConnection*)hNetlib;
 			if (GetNetlibHandleType(nlc) == NLH_CONNECTION) {
 				if (nlc->usingHttpGateway)
 					HttpGatewayRemovePacket(nlc, -1);
@@ -301,11 +301,11 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 		return 1;
 
 	case NLH_BOUNDPORT:
-		return NetlibFreeBoundPort((struct NetlibBoundPort*)wParam);
+		return NetlibFreeBoundPort((NetlibBoundPort*)hNetlib);
 
 	case NLH_PACKETRECVER:
 		{
-			struct NetlibPacketRecver *nlpr = (struct NetlibPacketRecver*)wParam;
+			struct NetlibPacketRecver *nlpr = (NetlibPacketRecver*)hNetlib;
 			mir_free(nlpr->packetRecver.buffer);
 		}
 		break;
@@ -314,7 +314,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
-	mir_free((void*)wParam);
+	mir_free(hNetlib);
 	return 1;
 }
 
@@ -411,7 +411,7 @@ void UnloadNetlibModule(void)
 	DestroyHookableEvent(hSendEvent); hSendEvent = NULL;
 
 	for (int i = netlibUser.getCount(); i > 0; i--)
-		NetlibCloseHandle((WPARAM)netlibUser[i-1], 0);
+		Netlib_CloseHandle(netlibUser[i-1]);
 
 	CloseHandle(hConnectionHeaderMutex);
 	if (hConnectionOpenMutex)
@@ -482,7 +482,6 @@ int LoadNetlibModule(void)
 	CreateServiceFunction(MS_NETLIB_REGISTERUSER, NetlibRegisterUser);
 	CreateServiceFunction(MS_NETLIB_GETUSERSETTINGS, NetlibGetUserSettings);
 	CreateServiceFunction(MS_NETLIB_SETUSERSETTINGS, NetlibSetUserSettings);
-	CreateServiceFunction(MS_NETLIB_CLOSEHANDLE, NetlibCloseHandle);
 	CreateServiceFunction(MS_NETLIB_BINDPORT, NetlibBindPort);
 	CreateServiceFunction(MS_NETLIB_OPENCONNECTION, NetlibOpenConnection);
 	CreateServiceFunction(MS_NETLIB_SETHTTPPROXYINFO, NetlibHttpGatewaySetInfo);
@@ -492,8 +491,6 @@ int LoadNetlibModule(void)
 	CreateServiceFunction(MS_NETLIB_RECVHTTPHEADERS, NetlibHttpRecvHeaders);
 	CreateServiceFunction(MS_NETLIB_FREEHTTPREQUESTSTRUCT, NetlibHttpFreeRequestStruct);
 	CreateServiceFunction(MS_NETLIB_HTTPTRANSACTION, NetlibHttpTransaction);
-	CreateServiceFunction(MS_NETLIB_SEND, NetlibSend);
-	CreateServiceFunction(MS_NETLIB_RECV, NetlibRecv);
 	CreateServiceFunction(MS_NETLIB_SELECT, NetlibSelect);
 	CreateServiceFunction(MS_NETLIB_SELECTEX, NetlibSelectEx);
 	CreateServiceFunction(MS_NETLIB_SHUTDOWN, NetlibShutdown);

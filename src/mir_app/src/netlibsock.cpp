@@ -27,76 +27,63 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hConnectionHeaderMutex, hSendEvent, hRecvEvent;
 
-INT_PTR NetlibSend(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Netlib_Send(HANDLE hConn, const char *buf, int len, int flags)
 {
-	NetlibConnection *nlc = (NetlibConnection*)wParam;
-	NETLIBBUFFER *nlb = (NETLIBBUFFER*)lParam;
-	if (nlb == NULL) {
-		SetLastError(ERROR_INVALID_PARAMETER);
-		return SOCKET_ERROR;
-	}
-
+	NetlibConnection *nlc = (NetlibConnection*)hConn;
 	if (!NetlibEnterNestedCS(nlc, NLNCS_SEND))
 		return SOCKET_ERROR;
 
 	int result;
-	if (nlc->usingHttpGateway && !(nlb->flags & MSG_RAW)) {
-		if (!(nlb->flags & MSG_NOHTTPGATEWAYWRAP) && nlc->nlu->user.pfnHttpGatewayWrapSend) {
-			NetlibDumpData(nlc, (PBYTE)nlb->buf, nlb->len, 1, nlb->flags);
-			result = nlc->nlu->user.pfnHttpGatewayWrapSend((HANDLE)nlc, (PBYTE)nlb->buf, nlb->len, nlb->flags | MSG_NOHTTPGATEWAYWRAP, NetlibSend);
+	if (nlc->usingHttpGateway && !(flags & MSG_RAW)) {
+		if (!(flags & MSG_NOHTTPGATEWAYWRAP) && nlc->nlu->user.pfnHttpGatewayWrapSend) {
+			NetlibDumpData(nlc, (PBYTE)buf, len, 1, flags);
+			result = nlc->nlu->user.pfnHttpGatewayWrapSend((HANDLE)nlc, (PBYTE)buf, len, flags | MSG_NOHTTPGATEWAYWRAP);
 		}
-		else result = NetlibHttpGatewayPost(nlc, nlb->buf, nlb->len, nlb->flags);
+		else result = NetlibHttpGatewayPost(nlc, buf, len, flags);
 	}
 	else {
-		NetlibDumpData(nlc, (PBYTE)nlb->buf, nlb->len, 1, nlb->flags);
+		NetlibDumpData(nlc, (PBYTE)buf, len, 1, flags);
 		if (nlc->hSsl)
-			result = sslApi.write(nlc->hSsl, nlb->buf, nlb->len);
+			result = sslApi.write(nlc->hSsl, buf, len);
 		else
-			result = send(nlc->s, nlb->buf, nlb->len, nlb->flags & 0xFFFF);
+			result = send(nlc->s, buf, len, flags & 0xFFFF);
 	}
 	NetlibLeaveNestedCS(&nlc->ncsSend);
 
-	NETLIBNOTIFY nln = { nlb, result };
+	NETLIBNOTIFY nln = { buf, len, flags, result };
 	NotifyFastHook(hSendEvent, (WPARAM)&nln, (LPARAM)&nlc->nlu->user);
 
 	return result;
 }
 
-INT_PTR NetlibRecv(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Netlib_Recv(HANDLE hConn, char *buf, int len, int flags)
 {
-	NetlibConnection *nlc = (NetlibConnection*)wParam;
-	NETLIBBUFFER* nlb = (NETLIBBUFFER*)lParam;
-	int recvResult;
-
-	if (nlb == NULL) {
-		SetLastError(ERROR_INVALID_PARAMETER);
-		return SOCKET_ERROR;
-	}
-
+	NetlibConnection *nlc = (NetlibConnection*)hConn;
 	if (!NetlibEnterNestedCS(nlc, NLNCS_RECV))
 		return SOCKET_ERROR;
 
-	if (nlc->usingHttpGateway && !(nlb->flags & MSG_RAW))
-		recvResult = NetlibHttpGatewayRecv(nlc, nlb->buf, nlb->len, nlb->flags);
+	int recvResult;
+	if (nlc->usingHttpGateway && !(flags & MSG_RAW))
+		recvResult = NetlibHttpGatewayRecv(nlc, buf, len, flags);
 	else {
 		if (!nlc->foreBuf.isEmpty()) {
-			recvResult = min(nlb->len, nlc->foreBuf.length());
-			memcpy(nlb->buf, nlc->foreBuf.data(), recvResult);
+			recvResult = min(len, nlc->foreBuf.length());
+			memcpy(buf, nlc->foreBuf.data(), recvResult);
 			nlc->foreBuf.remove(recvResult);
 		}
 		else if (nlc->hSsl)
-			recvResult = sslApi.read(nlc->hSsl, nlb->buf, nlb->len, (nlb->flags & MSG_PEEK) != 0);
+			recvResult = sslApi.read(nlc->hSsl, buf, len, (flags & MSG_PEEK) != 0);
 		else
-			recvResult = recv(nlc->s, nlb->buf, nlb->len, nlb->flags & 0xFFFF);
+			recvResult = recv(nlc->s, buf, len, flags & 0xFFFF);
 	}
 	NetlibLeaveNestedCS(&nlc->ncsRecv);
 	if (recvResult <= 0)
 		return recvResult;
 
-	NetlibDumpData(nlc, (PBYTE)nlb->buf, recvResult, 0, nlb->flags);
+	NetlibDumpData(nlc, (PBYTE)buf, recvResult, 0, flags);
 
-	if ((nlb->flags & MSG_PEEK) == 0) {
-		NETLIBNOTIFY nln = { nlb, recvResult };
+	if ((flags & MSG_PEEK) == 0) {
+		NETLIBNOTIFY nln = { buf, len, flags, recvResult };
 		NotifyFastHook(hRecvEvent, (WPARAM)&nln, (LPARAM)&nlc->nlu->user);
 	}
 	return recvResult;

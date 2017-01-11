@@ -38,7 +38,7 @@ struct NetlibUser
 	int handleType;
 	NETLIBUSER user;
 	NETLIBUSERSETTINGS settings;
-	char * szStickyHeaders;
+	char *szStickyHeaders;
 	int toLog;
 	int inportnum;
 	int outportnum;
@@ -188,7 +188,6 @@ struct NetlibPacketRecver {
 //netlib.c
 void NetlibFreeUserSettingsStruct(NETLIBUSERSETTINGS *settings);
 void NetlibDoClose(NetlibConnection *nlc, bool noShutdown = false);
-INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM lParam);
 void NetlibInitializeNestedCS(NetlibNestedCriticalSection *nlncs);
 void NetlibDeleteNestedCS(NetlibNestedCriticalSection *nlncs);
 #define NLNCS_SEND  0
@@ -261,8 +260,6 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam);
 #define NL_SELECT_WRITE 0x0002
 #define NL_SELECT_ALL   (NL_SELECT_READ+NL_SELECT_WRITE)
 
-INT_PTR NetlibSend(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibRecv(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibSelect(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibSelectEx(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibShutdown(WPARAM wParam, LPARAM lParam);
@@ -287,13 +284,3 @@ HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPr
 HANDLE NetlibInitSecurityProvider(const char* szProvider, const char* szPrincipal);
 char*  NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const wchar_t* login, const wchar_t* psw,
 									   bool http, unsigned& complete);
-
-static __inline INT_PTR NLSend(NetlibConnection *nlc, const char *buf, int len, int flags) {
-	NETLIBBUFFER nlb = {(char*)buf, len, flags};
-	return NetlibSend((WPARAM)nlc, (LPARAM)&nlb);
-}
-
-static __inline INT_PTR NLRecv(NetlibConnection *nlc, char *buf, int len, int flags) {
-	NETLIBBUFFER nlb = {buf, len, flags};
-	return NetlibRecv((WPARAM)nlc, (LPARAM)&nlb);
-}

@@ -52,7 +52,7 @@ int msn_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST*)
 // function generates the initial URL depending on a thread type
 //=======================================================================================
 
-int msn_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend)
+int msn_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags)
 {
 	ThreadData *T = FindThreadConn(hConn);
 	if (T != NULL) {
@@ -62,8 +62,7 @@ int msn_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDA
 		T->applyGatewayData(hConn, len == 0);
 	}
 
-	NETLIBBUFFER tBuf = { (char*)buf, len, flags };
-	return pfnNetlibSend((LPARAM)hConn, WPARAM(&tBuf));
+	return Netlib_Send(hConn, (char*)buf, len, flags);
 }
 
 //=======================================================================================

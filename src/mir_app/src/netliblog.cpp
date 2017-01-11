@@ -278,15 +278,13 @@ static INT_PTR ShowOptions(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
+int NetlibLog_Worker(NetlibUser *nlu, const char *pszMsg, int flags)
 {
 	if (!bIsActive)
 		return 0;
 
 	DWORD dwOriginalLastError = GetLastError();
 
-	NetlibUser *nlu = (NetlibUser*)wParam;
-	const char *pszMsg = (const char*)lParam;
 	if ((nlu != NULL && GetNetlibHandleType(nlu) != NLH_USER) || pszMsg == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
@@ -323,11 +321,15 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	char *szUser = (logOptions.showUser) ? (nlu == NULL ? NULL : nlu->user.szSettingsModule) : NULL;
-	if (szUser)
-		mir_snprintf(szHead, "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
-	else
-		mir_snprintf(szHead, "[%s%04X] ", szTime, GetCurrentThreadId());
+	if (flags & MSG_NOTITLE) 
+		szHead[0] = 0; 
+	else {
+		char *szUser = (logOptions.showUser) ? (nlu == NULL ? NULL : nlu->user.szSettingsModule) : NULL;
+		if (szUser)
+			mir_snprintf(szHead, "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
+		else
+			mir_snprintf(szHead, "[%s%04X] ", szTime, GetCurrentThreadId());
+	}
 
 	if (logOptions.toOutputDebugString) {
 		if (szHead[0])
@@ -348,13 +350,18 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
+static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
+{
+	NetlibUser *nlu = (NetlibUser*)wParam;
+	const char *pszMsg = (const char*)lParam;
+	return NetlibLog_Worker(nlu, pszMsg, 0);
+}
+
 static INT_PTR NetlibLogW(WPARAM wParam, LPARAM lParam)
 {
-	const wchar_t *pszMsg = (const wchar_t*)lParam;
-	char* szMsg = Utf8EncodeW(pszMsg);
-	INT_PTR res = NetlibLog(wParam, (LPARAM)szMsg);
-	mir_free(szMsg);
-	return res;
+	NetlibUser *nlu = (NetlibUser*)wParam;
+	const wchar_t *pwszMsg = (const wchar_t*)lParam;
+	return NetlibLog_Worker(nlu, ptrA(Utf8EncodeW(pwszMsg)), 0);
 }
 
 void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
@@ -373,7 +380,7 @@ void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
 	mir_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
 
-	NetlibLog((WPARAM)nlu, (LPARAM)szText);
+	NetlibLog_Worker(nlu, szText, 0);
 }
 
 void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags)
@@ -401,8 +408,11 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 	NetlibUser *nlu = nlc ? nlc->nlu : NULL;
-	int titleLineLen = mir_snprintf(szTitleLine, "(%p:%u) Data %s%s\r\n",
-		nlc, nlc ? nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
+	int titleLineLen;
+	if (flags & MSG_NOTITLE)
+		titleLineLen = 0;
+	else
+		titleLineLen = mir_snprintf(szTitleLine, "(%p:%u) Data %s%s\r\n", nlc, nlc ? nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
 	ReleaseMutex(hConnectionHeaderMutex);
 
 	// check filter settings
@@ -480,7 +490,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 		*pszBuf = '\0';
 	}
 
-	NetlibLog((WPARAM)nlu, (LPARAM)szBuf);
+	NetlibLog_Worker(nlu, szBuf, flags);
 	if (!useStack)
 		mir_free(szBuf);
 }

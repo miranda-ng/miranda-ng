@@ -272,7 +272,7 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 
 			nlc->lastPost = GetTickCount();
 			if (nlc->pHttpProxyPacketQueue == NULL && nlu->user.pfnHttpGatewayWrapSend != NULL)
-				if (nlu->user.pfnHttpGatewayWrapSend(nlc, (PBYTE)"", 0, MSG_NOHTTPGATEWAYWRAP, NetlibSend) == SOCKET_ERROR)
+				if (nlu->user.pfnHttpGatewayWrapSend(nlc, (PBYTE)"", 0, MSG_NOHTTPGATEWAYWRAP) == SOCKET_ERROR)
 					return SOCKET_ERROR;
 		}
 

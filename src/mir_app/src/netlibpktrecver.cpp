@@ -81,7 +81,7 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	
-	INT_PTR recvResult = NLRecv(nlpr->nlc, (char*)nlpr->packetRecver.buffer + nlpr->packetRecver.bytesAvailable, nlpr->packetRecver.bufferSize - nlpr->packetRecver.bytesAvailable, 0);
+	INT_PTR recvResult = Netlib_Recv(nlpr->nlc, (char*)nlpr->packetRecver.buffer + nlpr->packetRecver.bytesAvailable, nlpr->packetRecver.bufferSize - nlpr->packetRecver.bytesAvailable, 0);
 	if (recvResult > 0)
 		nlpr->packetRecver.bytesAvailable += recvResult;
 	*nlprParam = nlpr->packetRecver;

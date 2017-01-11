@@ -458,7 +458,7 @@ begin
   end;
 
   if (hNetLib=0) and (nlu.cbSize<>0) then
-    CallService(MS_NETLIB_CLOSEHANDLE,hTmpNetLib,0);
+    Netlib_CloseHandle(hTmpNetLib);
 end;
 
 (*
@@ -537,7 +537,7 @@ begin
     CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
 
     if nlu.cbSize<>0 then
-      CallService(MS_NETLIB_CLOSEHANDLE,hNetLib,0);
+      Netlib_CloseHandle(hNetLib);
   end;
 end;
 
@@ -640,7 +640,7 @@ begin
     end;
     CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
   end;
-  CallService(MS_NETLIB_CLOSEHANDLE,hNetLib,0);
+  Netlib_CloseHandle(hNetLib);
 end;
 
 function RegisterSingleIcon(resname,ilname,descr,group:PAnsiChar):int;

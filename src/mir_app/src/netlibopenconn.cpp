@@ -99,7 +99,7 @@ bool RecvUntilTimeout(NetlibConnection *nlc, char *buf, int len, int flags, DWOR
 
 	while ((dwTimeNow = GetTickCount()) < dwCompleteTime) {
 		if (WaitUntilReadable(nlc->s, dwCompleteTime - dwTimeNow) <= 0) return false;
-		nReceived = NLRecv(nlc, buf, len, flags);
+		nReceived = Netlib_Recv(nlc, buf, len, flags);
 		if (nReceived <= 0) return false;
 
 		buf += nReceived;
@@ -135,8 +135,8 @@ static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		len += nHostLen;
 	}
 
-	if (NLSend(nlc, pInit, (int)len, MSG_DUMPPROXY) == SOCKET_ERROR) {
-		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "NLSend", GetLastError());
+	if (Netlib_Send(nlc, pInit, (int)len, MSG_DUMPPROXY) == SOCKET_ERROR) {
+		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "Netlib_Send", GetLastError());
 		return 0;
 	}
 
@@ -165,8 +165,8 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	buf[0] = 5;  //yep, socks5
 	buf[1] = 1;  //one auth method
 	buf[2] = nlu->settings.useProxyAuth?2:0;
-	if (NLSend(nlc, (char*)buf, 3, MSG_DUMPPROXY) == SOCKET_ERROR) {
-		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "NLSend", GetLastError());
+	if (Netlib_Send(nlc, (char*)buf, 3, MSG_DUMPPROXY) == SOCKET_ERROR) {
+		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "Netlib_Send", GetLastError());
 		return 0;
 	}
 
@@ -177,7 +177,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	}
 	if ((buf[1] != 0 && buf[1] != 2)) {
 		SetLastError(ERROR_INVALID_ID_AUTHORITY);
-		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "NLRecv", GetLastError());
+		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "Netlib_Recv", GetLastError());
 		return 0;
 	}
 
@@ -190,8 +190,8 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		memcpy(pAuthBuf + 2, nlu->settings.szProxyAuthUser, nUserLen);
 		pAuthBuf[2 + nUserLen] = (BYTE)nPassLen;
 		memcpy(pAuthBuf + 3 + nUserLen, nlu->settings.szProxyAuthPassword, nPassLen);
-		if (NLSend(nlc, (char*)pAuthBuf, int(3 + nUserLen + nPassLen), MSG_DUMPPROXY) == SOCKET_ERROR) {
-			NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "NLSend", GetLastError());
+		if (Netlib_Send(nlc, (char*)pAuthBuf, int(3 + nUserLen + nPassLen), MSG_DUMPPROXY) == SOCKET_ERROR) {
+			NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "Netlib_Send", GetLastError());
 			mir_free(pAuthBuf);
 			return 0;
 		}
@@ -235,8 +235,8 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		*(PDWORD)(pInit + 4) = hostIP;
 	}
 	*(PWORD)(pInit + 4 + nHostLen) = htons(nloc->wPort);
-	if (NLSend(nlc, (char*)pInit, int(6 + nHostLen), MSG_DUMPPROXY) == SOCKET_ERROR) {
-		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "NLSend", GetLastError());
+	if (Netlib_Send(nlc, (char*)pInit, int(6 + nHostLen), MSG_DUMPPROXY) == SOCKET_ERROR) {
+		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "Netlib_Send", GetLastError());
 		mir_free(pInit);
 		return 0;
 	}
