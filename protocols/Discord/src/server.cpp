@@ -274,8 +274,9 @@ void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequ
 	CMStringW wszToken(root["token"].as_mstring());
 	if (!wszToken.IsEmpty()) {
 		JSONNode props; props.set_name("properties");
-		root << CHAR_PARAM("event", "ack_messages") << props;
-		Push(new AsyncHttpRequest(this, REQUEST_POST, "/track", NULL, &root));
+		JSONNode reply; reply << props;
+		reply << CHAR_PARAM("event", "ack_messages") << WCHAR_PARAM("token", root["token"].as_mstring());
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/track", NULL, &reply));
 	}
 }
 

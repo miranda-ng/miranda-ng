@@ -43,10 +43,14 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 
 	if (*_url == '/') {	// relative url leads to a site
-		m_szUrl = "https://discordapp.com/api";
+		m_szUrl = "https://discordapp.com/api/v6";
 		m_szUrl += _url;
+		m_bMainSite = true;
 	}
-	else m_szUrl = _url;
+	else {
+		m_szUrl = _url;
+		m_bMainSite = false;
+	}
 
 	flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_SSL;
 	if (ppro->m_szAccessToken != NULL) {

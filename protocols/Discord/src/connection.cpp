@@ -33,8 +33,10 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		}
 	}
 
-	pReq->flags |= NLHRF_PERSISTENT;
-	pReq->nlc = m_hAPIConnection;
+	if (pReq->m_bMainSite) {
+		pReq->flags |= NLHRF_PERSISTENT;
+		pReq->nlc = m_hAPIConnection;
+	}
 
 	debugLogA("Executing request #%d:\n%s", pReq->m_iReqNum, pReq->szUrl);
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
@@ -49,11 +51,11 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	else {
 		debugLogA("Request %d failed", pReq->m_iReqNum);
 
-		if (IsStatusConnecting(m_iStatus))
-			ConnectionFailed(LOGINERR_NONETWORK);
-		else
-			ShutdownSession();
-		m_hAPIConnection = NULL;
+		if (pReq->m_bMainSite) {
+			if (IsStatusConnecting(m_iStatus))
+				ConnectionFailed(LOGINERR_NONETWORK);
+			m_hAPIConnection = NULL;
+		}
 	}
 	delete pReq;
 }

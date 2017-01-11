@@ -17,6 +17,7 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	CMStringA m_szParam;
 	HttpCallback m_pCallback;
 	int m_iErrorCode, m_iReqNum;
+	bool m_bMainSite;
 	void *pUserInfo;
 };
 
