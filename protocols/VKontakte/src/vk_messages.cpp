@@ -142,8 +142,8 @@ int CVkProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 	MCONTACT hContact = db_event_getContact(hDbEvent);
 	if (!hContact)
 		return 0;
-
-	CMStringA szProto(ptrA(db_get_sa(hContact, "Protocol", "p")));
+	
+	CMStringA szProto(GetContactProto(hContact));
 	if (szProto.IsEmpty() || szProto != m_szModuleName)
 		return 0;
 
