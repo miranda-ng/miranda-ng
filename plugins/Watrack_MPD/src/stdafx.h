@@ -34,7 +34,7 @@
 #define szModuleName "Watrack_MPD"
 
 extern HINSTANCE hInst;
-extern HANDLE ghNetlibUser;
+extern HNETLIBUSER ghNetlibUser;
 extern BOOL bWatrackService;
 extern wchar_t *gbHost, *gbPassword;
 extern WORD gbPort;

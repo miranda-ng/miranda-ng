@@ -442,7 +442,7 @@ void gg_debughandler(int level, const char *format, va_list ap)
    memcpy(szText, prefix, PREFIXLEN);
 
    mir_vsnprintf(szText + mir_strlen(szText), sizeof(szText) - mir_strlen(szText), szFormat, ap);
-   CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
+   Netlib_Log(NULL, szText);
    free(szFormat);
 }
 #endif

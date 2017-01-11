@@ -21,7 +21,7 @@ BOOL bWatrackService = FALSE;
 int hLangpack = 0;
 wchar_t *gbHost, *gbPassword;
 WORD gbPort;
-HANDLE ghNetlibUser;
+HNETLIBUSER ghNetlibUser;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -57,12 +57,11 @@ void InitVars()
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	NETLIBUSER nlu = {0};
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.ptszDescriptiveName = TranslateT("Watrack MPD connection");
 	nlu.szSettingsModule = __PLUGIN_NAME;
-	ghNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	ghNetlibUser = Netlib_RegisterUser(&nlu);
 	InitVars();
 	if (ServiceExists(MS_WAT_PLAYER))
 		bWatrackService = TRUE;

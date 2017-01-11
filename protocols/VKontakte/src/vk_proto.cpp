@@ -64,11 +64,11 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	wchar_t descr[512];
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 
-	NETLIBUSER nlu = {sizeof(nlu)};
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = descr;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	Clist_GroupCreate(NULL, m_vkOptions.pwszDefaultGroup);
 

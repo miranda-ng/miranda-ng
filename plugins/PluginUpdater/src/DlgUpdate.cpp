@@ -641,7 +641,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
-	Netlib_LogfT(hNetlibUser,L"Scanning folder %s", tszFolder);
+	Netlib_LogfW(hNetlibUser,L"Scanning folder %s", tszFolder);
 
 	int count = 0;
 	do {
@@ -656,7 +656,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 			// calculate the current file's relative name and store it into tszNewName
 			wchar_t tszNewName[MAX_PATH];
 			if (CheckFileRename(ffd.cFileName, tszNewName)) {
-				Netlib_LogfT(hNetlibUser, L"File %s will be renamed to %s.", ffd.cFileName, tszNewName);
+				Netlib_LogfW(hNetlibUser, L"File %s will be renamed to %s.", ffd.cFileName, tszNewName);
 				// Yes, we need the old file name, because this will be hashed later
 				mir_snwprintf(tszBuf, L"%s\\%s", tszFolder, ffd.cFileName);
 			}
@@ -684,7 +684,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 				if (item == NULL) {
 					wchar_t *p = wcsrchr(tszNewName, '.');
 					if (p[-1] != 'w' && p[-1] != 'W') {
-						Netlib_LogfT(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
+						Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
 						continue;
 					}
 
@@ -692,7 +692,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 					int iPos = int(p - tszNewName) - 1;
 					strdelw(p - 1, 1);
 					if ((item = hashes.find((ServListEntry*)&pName)) == NULL) {
-						Netlib_LogfT(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
+						Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
 						continue;
 					}
 
@@ -708,11 +708,11 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 						CalculateModuleHash(tszBuf, szMyHash);
 						// hashes are the same, skipping
 						if (strcmp(szMyHash, item->m_szHash) == 0) {
-							Netlib_LogfT(hNetlibUser, L"File %s: Already up-to-date, skipping", ffd.cFileName);
+							Netlib_LogfW(hNetlibUser, L"File %s: Already up-to-date, skipping", ffd.cFileName);
 							continue;
 						}
 						else
-							Netlib_LogfT(hNetlibUser, L"File %s: Update available", ffd.cFileName);
+							Netlib_LogfW(hNetlibUser, L"File %s: Update available", ffd.cFileName);
 					}
 					__except (EXCEPTION_EXECUTE_HANDLER)
 					{
@@ -720,7 +720,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 					}
 				}
 				else
-					Netlib_LogfT(hNetlibUser, L"File %s: Forcing redownload", ffd.cFileName);
+					Netlib_LogfW(hNetlibUser, L"File %s: Forcing redownload", ffd.cFileName);
 #endif
 
 				ptszUrl = item->m_name;
@@ -728,7 +728,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 			}
 			else {
 				// file was marked for deletion, add it to the list anyway
-				Netlib_LogfT(hNetlibUser, L"File %s: Marked for deletion", ffd.cFileName);
+				Netlib_LogfW(hNetlibUser, L"File %s: Marked for deletion", ffd.cFileName);
 				ptszUrl = L"";
 				MyCRC = 0;
 			}
@@ -778,7 +778,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 // Thread checks for updates
 static void CheckUpdates(void *)
 {
-	Netlib_LogfT(hNetlibUser, L"Checking for updates");
+	Netlib_LogfW(hNetlibUser, L"Checking for updates");
 	Thread_SetName("PluginUpdater: CheckUpdates");
 
 	wchar_t tszTempPath[MAX_PATH];
@@ -841,7 +841,7 @@ void UninitCheck()
 // menu item command
 static INT_PTR MenuCommand(WPARAM, LPARAM)
 {
-	Netlib_LogfT(hNetlibUser, L"Update started manually!");
+	Netlib_LogfW(hNetlibUser, L"Update started manually!");
 	DoCheck(false);
 	return 0;
 }
@@ -867,7 +867,7 @@ void CheckUpdateOnStartup()
 			if ((now - was) < 86400)
 				return;
 		}
-		Netlib_LogfT(hNetlibUser, L"Update on startup started!");
+		Netlib_LogfW(hNetlibUser, L"Update on startup started!");
 		DoCheck();
 	}
 }

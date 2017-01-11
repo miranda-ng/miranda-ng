@@ -183,7 +183,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	clock_t		mStatusMsgTS;
 
 	HANDLE		msnSearchId;
-	HANDLE		hNetlibUserHttps;
+	HNETLIBUSER	hNetlibUserHttps;
 	HANDLE		hHttpsConnection;
 	HANDLE		hMSNNudge;
 	HANDLE      hPopupError, hPopupHotmail, hPopupNotify;

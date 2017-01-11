@@ -57,7 +57,7 @@ Boston, MA 02111-1307, USA.
 extern HINSTANCE hInst;
 extern HWND hAddFeedDlg;
 extern MWindowList hChangeFeedDlgList;
-extern HANDLE hNetlibUser;
+extern HNETLIBUSER hNetlibUser;
 extern UINT_PTR timerId;
 // check if Feeds is currently updating
 extern bool ThreadRunning;

@@ -19,7 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HANDLE hNetlibUser = NULL, hNetlibHttp;
+HNETLIBUSER hNetlibUser = NULL;
+HANDLE hNetlibHttp;
 bool UpdateListFlag = FALSE;
 
 bool IsMyContact(MCONTACT hContact)
@@ -30,11 +31,11 @@ bool IsMyContact(MCONTACT hContact)
 
 void NetlibInit()
 {
-	NETLIBUSER nlu = { sizeof(nlu) };
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
 	nlu.ptszDescriptiveName = TranslateT("NewsAggregator HTTP connection");
 	nlu.szSettingsModule = MODULE;
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 }
 
 void NetlibUnInit()
@@ -45,7 +46,7 @@ void NetlibUnInit()
 
 void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 {
-	Netlib_LogfT(hNetlibUser, L"Getting feed data %s.", tszUrl);
+	Netlib_LogfW(hNetlibUser, L"Getting feed data %s.", tszUrl);
 	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
@@ -84,26 +85,25 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg
 	if (nlhrReply) {
 		// if the recieved code is 200 OK
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength > 0) {
-			Netlib_LogfT(hNetlibUser, L"Code 200: Succeeded getting feed data %s.", tszUrl);
+			Netlib_LogfW(hNetlibUser, L"Code 200: Succeeded getting feed data %s.", tszUrl);
 			// allocate memory and save the retrieved data
 			*szData = (char *)mir_alloc((size_t)(nlhrReply->dataLength + 2));
 			memcpy(*szData, nlhrReply->pData, (size_t)nlhrReply->dataLength);
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
 		else if (nlhrReply->resultCode == 401) {
-			Netlib_LogfT(hNetlibUser, L"Code 401: feed %s needs auth data.", tszUrl);
+			Netlib_LogfW(hNetlibUser, L"Code 401: feed %s needs auth data.", tszUrl);
 			ItemInfo SelItem = { 0 };
 			SelItem.hwndList = hwndDlg;
 			SelItem.hContact = hContact;
 			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
 				GetNewsData(tszUrl, szData, hContact, hwndDlg);
 		}
-		else
-			Netlib_LogfT(hNetlibUser, L"Code %d: Failed getting feed data %s.", nlhrReply->resultCode, tszUrl);
+		else Netlib_LogfW(hNetlibUser, L"Code %d: Failed getting feed data %s.", nlhrReply->resultCode, tszUrl);
+		
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
-	else
-		Netlib_LogfT(hNetlibUser, L"Failed getting feed data %s, no response.", tszUrl);
+	else Netlib_LogfW(hNetlibUser, L"Failed getting feed data %s, no response.", tszUrl);
 
 	mir_free(szUrl);
 }

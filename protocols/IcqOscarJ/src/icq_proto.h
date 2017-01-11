@@ -140,7 +140,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int  __cdecl OnPreBuildStatusMenu(WPARAM, LPARAM);
 
 	//====| Data |========================================================================
-	HANDLE m_hDirectNetlibUser;
+	HNETLIBUSER m_hDirectNetlibUser;
 
 	BYTE m_bGatewayMode;
 	BYTE m_bSecureLogin;

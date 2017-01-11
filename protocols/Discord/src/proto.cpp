@@ -68,20 +68,20 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	// Network initialization
 	CMStringW descr;
-	NETLIBUSER nlu = { sizeof(nlu) };
+	NETLIBUSER nlu = {};
 
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	descr.Format(TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr.GetBuffer();
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	CMStringA module(FORMAT, "%s.Gateway", m_szModuleName);
 	nlu.szSettingsModule = module.GetBuffer();
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_UNICODE;
 	descr.Format(TranslateT("%s gateway connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr.GetBuffer();
-	m_hGatewayNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hGatewayNetlibUser = Netlib_RegisterUser(&nlu);
 }
 
 CDiscordProto::~CDiscordProto()

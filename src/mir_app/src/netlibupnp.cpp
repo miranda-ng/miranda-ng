@@ -192,7 +192,7 @@ void parseURL(char* szUrl, char* szHost, unsigned short* sPort, char* szPath)
 
 static void LongLog(char* szData)
 {
-	CallService(MS_NETLIB_LOG, 0, (LPARAM)szData);
+	Netlib_Logf(0, szData);
 }
 
 static void closeRouterConnection(void)
@@ -297,7 +297,7 @@ retrycon:
 						enetaddr.sin_addr.s_addr = *(unsigned*)he->h_addr_list[0];
 				}
 
-				NetlibLogf(NULL, "UPnP HTTP connection Host: %s Port: %u", szHost, sPort);
+				Netlib_Logf(NULL, "UPnP HTTP connection Host: %s Port: %u", szHost, sPort);
 
 				FD_ZERO(&rfd); FD_ZERO(&wfd); FD_ZERO(&efd);
 				FD_SET(sock, &rfd); FD_SET(sock, &wfd); FD_SET(sock, &efd);
@@ -315,18 +315,18 @@ retrycon:
 					// Socket connection failed
 					if (err != WSAEWOULDBLOCK) {
 						closeRouterConnection();
-						NetlibLogf(NULL, "UPnP connect failed %d", err);
+						Netlib_Logf(NULL, "UPnP connect failed %d", err);
 						break;
 					}
 					// Wait for socket to connect
 					else if (select(1, &rfd, &wfd, &efd, &tv) != 1) {
 						closeRouterConnection();
-						NetlibLogf(NULL, "UPnP connect timeout");
+						Netlib_Logf(NULL, "UPnP connect timeout");
 						break;
 					}
 					else if (!FD_ISSET(sock, &wfd)) {
 						closeRouterConnection();
-						NetlibLogf(NULL, "UPnP connect failed");
+						Netlib_Logf(NULL, "UPnP connect failed");
 						break;
 					}
 				}
@@ -362,7 +362,7 @@ retrycon:
 					// Wait for the next packet
 					if (select(1, &rfd, NULL, NULL, &tv) != 1) {
 						closeRouterConnection();
-						NetlibLogf(NULL, "UPnP recieve timeout");
+						Netlib_Logf(NULL, "UPnP recieve timeout");
 						break;
 					}
 
@@ -458,7 +458,7 @@ retry:
 					goto retrycon;
 				}
 				else
-					NetlibLogf(NULL, "UPnP send failed %d", WSAGetLastError());
+					Netlib_Logf(NULL, "UPnP send failed %d", WSAGetLastError());
 			}
 		}
 		txtParseParam(szResult, "HTTP", " ", " ", szRes, sizeof(szRes));
@@ -655,7 +655,7 @@ static bool findUPnPGateway(void)
 			discoverUPnP();
 			lastDiscTime = curTime;
 
-			NetlibLogf(NULL, "UPnP Gateway detected %d, Control URL: %s", gatewayFound, szCtlUrl);
+			Netlib_Logf(NULL, "UPnP Gateway detected %d, Control URL: %s", gatewayFound, szCtlUrl);
 		}
 
 		ReleaseMutex(portListMutex);

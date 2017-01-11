@@ -4,7 +4,7 @@ CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack = 0;
 
-HANDLE hNetlibUser = 0;
+HNETLIBUSER hNetlibUser = 0;
 HANDLE hFillListEvent = 0;
 
 bool use_raw_ping = true;
@@ -83,8 +83,7 @@ int OnShutdown(WPARAM, LPARAM) {
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	NETLIBUSER nl_user = { 0 };
-	nl_user.cbSize = sizeof(nl_user);
+	NETLIBUSER nl_user = {};
 	nl_user.szSettingsModule = PLUG;
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nl_user.ptszDescriptiveName = TranslateT("Ping Plugin");
@@ -94,7 +93,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	nl_user.pfnHttpGatewayWrapSend = 0;
 	nl_user.pfnHttpGatewayUnwrapRecv = 0;
 
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nl_user);
+	hNetlibUser = Netlib_RegisterUser(&nl_user);
 
 	InitUtils();
 

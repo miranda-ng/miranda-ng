@@ -520,7 +520,7 @@ bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW
 					static const wchar_t errmsg[] = LPGENW("Smiley #%u in file %s for smiley pack %s not found.");
 					wchar_t msgtxt[1024];
 					mir_snwprintf(msgtxt, TranslateW(errmsg), smnum, resname.c_str(), modpath.c_str());
-					CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, _T2A(msgtxt));
+					Netlib_LogW(hNetlibUser, msgtxt);
 					errorFound = true;
 				}
 				smnum++;
@@ -1078,7 +1078,7 @@ SmileyLookup::SmileyLookup(const CMStringW &str, const bool regexs, const int in
 		}
 
 		if (!m_valid)
-			CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, _T2A(msgtxt));
+			Netlib_LogW(hNetlibUser, msgtxt);
 	}
 	else {
 		m_text = str;

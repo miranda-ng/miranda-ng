@@ -92,7 +92,7 @@ typedef WCMatcher _TMatcher;
 
 extern FI_INTERFACE *fei;
 extern HINSTANCE g_hInst;
-extern HANDLE hNetlibUser;
+extern HNETLIBUSER hNetlibUser;
 extern HANDLE hEvent1;
 extern HGENMENU hContactMenuItem;
 extern SmileyCategoryListType g_SmileyCategories;

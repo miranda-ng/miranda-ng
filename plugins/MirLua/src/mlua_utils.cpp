@@ -4,7 +4,7 @@ void Log(const char *format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)(CMStringA().FormatV(format, args)));
+	Netlib_Log(hNetlib, CMStringA().FormatV(format, args));
 	va_end(args);
 }
 
@@ -12,7 +12,7 @@ void Log(const wchar_t *format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	CallService(MS_NETLIB_LOGW, (WPARAM)hNetlib, (LPARAM)(CMStringW().FormatV(format, args)));
+	Netlib_LogW(hNetlib, CMStringW().FormatV(format, args));
 	va_end(args);
 }
 

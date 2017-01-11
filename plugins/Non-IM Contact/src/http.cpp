@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 char *szInfo;
 char *szData;
-HANDLE hNetlibUser;
+HNETLIBUSER hNetlibUser;
 
 // function to download webpage from the internet
 // szUrl = URL of the webpage to be retrieved
@@ -73,7 +73,7 @@ int InternetDownloadFile(char *szUrl)
 				}
 			}
 			// log the new url into netlib log
-			CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)szData);
+			Netlib_Log(hNetlibUser, szData);
 		}
 	}
 	// if the data does not downloaded successfully (ie. disconnected), then return 1 as error code
@@ -92,10 +92,9 @@ int InternetDownloadFile(char *szUrl)
 
 void NetlibInit()
 {
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODNAME;
 	nlu.ptszDescriptiveName = TranslateT("Non-IM Contacts");
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 }

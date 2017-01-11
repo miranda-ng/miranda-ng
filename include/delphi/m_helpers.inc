@@ -16,8 +16,6 @@ function CreateVersionStringPlugin(pluginInfo:PPluginInfoEx;buf:PAnsiChar):PAnsi
 function PLUGIN_MAKE_VERSION(a,b,c,d: Cardinal): int;
 function PLUGIN_CMP_VERSION(verA: LongInt; verB: LongInt): int;
 
-procedure Netlib_Log(hNetLib: THANDLE; const sz: PAnsiChar);
-
 function mir_hashstr (const key:PAnsiChar):uint; {inline;}
 function mir_hashstrW(const key:PWideChar):uint; {inline;}
 function lrtrim (str:PAnsiChar):PAnsiChar; {inline}
@@ -172,13 +170,6 @@ begin
   Inc(Result, (verA and $FF0000  ) - (verB and $FF0000));
   Inc(Result, (verA and $FF000000) - (verB and $FF000000));
 end;
-
-procedure Netlib_Log(hNetLib: THANDLE; const sz: PAnsiChar);
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  CallService(MS_NETLIB_LOG, hNetLib, lParam(sz));
-end;
-
 
 function mir_hashstr(const key:PAnsiChar):uint; {inline;}
 var

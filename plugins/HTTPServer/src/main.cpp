@@ -45,7 +45,7 @@ const char* pszDefaultShares[] = {
 void ConnectionOpen(HANDLE hNewConnection, DWORD dwRemoteIP);
 int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/);
 
-HANDLE hNetlibUser;
+HNETLIBUSER hNetlibUser;
 HANDLE hDirectBoundPort;
 
 HINSTANCE hInstance = NULL;
@@ -740,12 +740,11 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 		bWriteConfigurationFile();
 	}
 
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING;
 	nlu.szSettingsModule = MODULE;
 	nlu.szDescriptiveName = Translate("HTTP Server");
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)& nlu);
+	hNetlibUser = Netlib_RegisterUser(& nlu);
 	if (!hNetlibUser) {
 		MessageBox(NULL, "Failed to register NetLib user", MSG_BOX_TITEL, MB_OK);
 		return 0;

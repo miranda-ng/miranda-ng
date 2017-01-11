@@ -246,7 +246,7 @@ struct HttpSecurityContext
 				PHOSTENT host = (ip == INADDR_NONE) ? gethostbyname(szHost) : gethostbyaddr((char*)&ip, 4, AF_INET);
 				szSpnStr.Format("HTTP/%s", host && host->h_name ? host->h_name : szHost);
 				_strlwr(szSpnStr.GetBuffer() + 5);
-				NetlibLogf(nlu, "Host SPN: %s", szSpnStr);
+				Netlib_Logf(nlu, "Host SPN: %s", szSpnStr);
 			}
 			m_hNtlmSecurity = NetlibInitSecurityProvider(szProvider, szSpnStr.IsEmpty() ? NULL : szSpnStr.c_str());
 			if (m_hNtlmSecurity) {
@@ -267,7 +267,7 @@ struct HttpSecurityContext
 
 			szAuthHdr = NtlmCreateResponseFromChallenge(m_hNtlmSecurity, szChallenge, szLogin, szPassw, true, complete);
 			if (!szAuthHdr)
-				NetlibLogf(NULL, "Security login %s failed, user: %S pssw: %S", szProvider, szLogin ? szLogin.get() : L"(no user)", szPassw ? L"(exist)" : L"(no psw)");
+				Netlib_Logf(NULL, "Security login %s failed, user: %S pssw: %S", szProvider, szLogin ? szLogin.get() : L"(no user)", szPassw ? L"(exist)" : L"(no psw)");
 			else if (justCreated)
 				proxyAuthList.add(m_szHost, m_szProvider);
 		}
@@ -522,7 +522,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 		DWORD dwTimeOutTime = hdrTimeout < 0 ? -1 : GetTickCount() + hdrTimeout;
 		if (!HttpPeekFirstResponseLine(nlc, dwTimeOutTime, fflags, &nlhr->resultCode, NULL, NULL)) {
 			DWORD err = GetLastError();
-			NetlibLogf(nlu, "%s %d: %s Failed (%u %u)", __FILE__, __LINE__, "HttpPeekFirstResponseLine", err, count);
+			Netlib_Logf(nlu, "%s %d: %s Failed (%u %u)", __FILE__, __LINE__, "HttpPeekFirstResponseLine", err, count);
 
 			// connection died while we were waiting
 			if (GetNetlibHandleType(nlc) != NLH_CONNECTION) {

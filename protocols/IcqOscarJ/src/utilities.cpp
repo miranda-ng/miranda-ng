@@ -1361,7 +1361,7 @@ DWORD ICQWaitForSingleObject(HANDLE hObject, DWORD dwMilliseconds, int bWaitAlwa
 }
 
 
-HANDLE NetLib_OpenConnection(HANDLE hUser, const char* szIdent, NETLIBOPENCONNECTION* nloc)
+HANDLE NetLib_OpenConnection(HNETLIBUSER hUser, const char* szIdent, NETLIBOPENCONNECTION* nloc)
 {
 	Netlib_Logf(hUser, "%sConnecting to %s:%u", szIdent ? szIdent : "", nloc->szHost, nloc->wPort);
 
@@ -1417,7 +1417,7 @@ int CIcqProto::NetLog_Direct(const char *fmt, ...)
 	va_start(va, fmt);
 	mir_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
-	return CallService(MS_NETLIB_LOG, (WPARAM)m_hDirectNetlibUser, (LPARAM)szText);
+	return Netlib_Log(m_hDirectNetlibUser, szText);
 }
 
 int CIcqProto::NetLog_Uni(BOOL bDC, const char *fmt, ...)
@@ -1428,8 +1428,8 @@ int CIcqProto::NetLog_Uni(BOOL bDC, const char *fmt, ...)
 	mir_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
 
-	HANDLE hNetlib = (bDC) ? m_hDirectNetlibUser : m_hNetlibUser;
-	return CallService(MS_NETLIB_LOG, (WPARAM)hNetlib, (LPARAM)szText);
+	HNETLIBUSER hNetlib = (bDC) ? m_hDirectNetlibUser : m_hNetlibUser;
+	return Netlib_Log(hNetlib, szText);
 }
 
 char* __fastcall ICQTranslateUtf(const char *src)

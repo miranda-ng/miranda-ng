@@ -23,11 +23,11 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 	HookEventObj(ME_MSG_WINDOWEVENT, GlobalEvent<&CDropbox::OnSrmmWindowOpened>, this);
 	HookEventObj(ME_FILEDLG_CANCELED, GlobalEvent<&CDropbox::OnFileDialogCancelled>, this);
 
-	NETLIBUSER nlu = { sizeof(nlu) };
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = MODULE;
 	nlu.ptszDescriptiveName = L"Dropbox";
-	hNetlibConnection = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibConnection = Netlib_RegisterUser(&nlu);
 
 	GetDefaultContact();
 

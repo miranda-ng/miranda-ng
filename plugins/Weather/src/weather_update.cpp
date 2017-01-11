@@ -44,10 +44,10 @@ int UpdateWeather(MCONTACT hContact)
 	dbv.pszVal = "";
 
 	// log to netlib log for debug purpose
-	Netlib_LogfT(hNetlibUser, L"************************************************************************");
+	Netlib_LogfW(hNetlibUser, L"************************************************************************");
 	int dbres = db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv);
 
-	Netlib_LogfT(hNetlibUser, L"<-- Start update for station -->");
+	Netlib_LogfW(hNetlibUser, L"<-- Start update for station -->");
 
 	// download the info and parse it
 	// result are stored in database
@@ -65,8 +65,8 @@ int UpdateWeather(MCONTACT hContact)
 			mir_free(tszError);
 		}
 		// log to netlib
-		Netlib_LogfT(hNetlibUser, L"Error! Update cannot continue... Start to free memory");
-		Netlib_LogfT(hNetlibUser, L"<-- Error occurs while updating station: %s -->", dbv.ptszVal);
+		Netlib_LogfW(hNetlibUser, L"Error! Update cannot continue... Start to free memory");
+		Netlib_LogfW(hNetlibUser, L"<-- Error occurs while updating station: %s -->", dbv.ptszVal);
 		if (!dbres) db_free(&dbv);
 		return 1;
 	}
@@ -203,8 +203,8 @@ int UpdateWeather(MCONTACT hContact)
 		NotifyEventHooks(hHookWeatherUpdated, hContact, (LPARAM)Ch);
 	}
 
-	Netlib_LogfT(hNetlibUser, L"Update Completed - Start to free memory");
-	Netlib_LogfT(hNetlibUser, L"<-- Update successful for station -->");
+	Netlib_LogfW(hNetlibUser, L"Update Completed - Start to free memory");
+	Netlib_LogfW(hNetlibUser, L"<-- Update successful for station -->");
 
 	// Update frame data
 	UpdateMwinData(hContact);

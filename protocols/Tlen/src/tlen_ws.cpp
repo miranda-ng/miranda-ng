@@ -25,22 +25,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 BOOL TlenWsInit(TlenProtocol *proto)
 {
-	NETLIBUSER nlu = {0};
-	NETLIBUSERSETTINGS nlus = {0};
 	wchar_t name[128];
 
-
-	nlu.cbSize = sizeof(nlu);
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
-	mir_snwprintf(name, TranslateT("%s connection"), proto->m_tszUserName);
+	NETLIBUSER nlu = {};
 	nlu.ptszDescriptiveName = name;
 	nlu.szSettingsModule = proto->m_szModuleName;
-	proto->m_hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) &nlu);
+
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
+	mir_snwprintf(name, TranslateT("%s connection"), proto->m_tszUserName);
+	proto->m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_NOOPTIONS | NUF_UNICODE;
 	mir_snwprintf(name, TranslateT("%s SOCKS connection"), proto->m_tszUserName);
-	nlu.ptszDescriptiveName = name;
-	proto->hFileNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) &nlu);
+	proto->hFileNetlibUser = Netlib_RegisterUser(&nlu);
+	
+	NETLIBUSERSETTINGS nlus = {0};
 	nlus.cbSize = sizeof(nlus);
 	nlus.useProxy = 0;
 	CallService(MS_NETLIB_SETUSERSETTINGS, (WPARAM) proto->hFileNetlibUser, (LPARAM) &nlus);

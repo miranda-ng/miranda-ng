@@ -9,7 +9,7 @@ CMLua *g_mLua;
 HANDLE g_hCLibsFolder;
 HANDLE g_hScriptsFolder;
 
-HANDLE hNetlib = NULL;
+HNETLIBUSER hNetlib = NULL;
 
 PLUGININFOEX pluginInfo =
 {
@@ -60,12 +60,11 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_NOOPTIONS;
 	nlu.szDescriptiveName = MODULE;
 	nlu.szSettingsModule = MODULE;
-	hNetlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlib = Netlib_RegisterUser(&nlu);
 
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);

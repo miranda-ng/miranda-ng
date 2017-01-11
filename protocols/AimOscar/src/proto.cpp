@@ -48,13 +48,12 @@ CAimProto::CAimProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	wchar_t descr[MAX_PATH];
 
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	char szP2P[128];
 	mir_snprintf(szP2P, "%sP2P", m_szModuleName);
@@ -62,7 +61,7 @@ CAimProto::CAimProto(const char* aProtoName, const wchar_t* aUserName) :
 	mir_snwprintf(descr, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.szSettingsModule = szP2P;
 	nlu.minIncomingPorts = 1;
-	m_hNetlibPeer = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibPeer = Netlib_RegisterUser(&nlu);
 }
 
 CAimProto::~CAimProto()

@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
 {
-	Netlib_LogfT(hNetlibUser, L"Started validating feed %s.", tszURL);
+	Netlib_LogfW(hNetlibUser, L"Started validating feed %s.", tszURL);
 	char *szData = NULL;
 	GetNewsData(tszURL, &szData, NULL, hwndDlg);
 	if (szData) {
@@ -91,7 +91,7 @@ LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
 		}
 		xmlDestroyNode(hXml);
 	}
-	Netlib_LogfT(hNetlibUser, L"%s is not a valid feed's address.", tszURL);
+	Netlib_LogfW(hNetlibUser, L"%s is not a valid feed's address.", tszURL);
 	wchar_t mes[MAX_PATH];
 	mir_snwprintf(mes, TranslateT("%s\nis not a valid feed's address."), tszURL);
 	MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONERROR);
@@ -187,7 +187,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 	if (szURL == NULL)
 		return;
 
-	Netlib_LogfT(hNetlibUser, L"Started checking feed %s.", szURL);
+	Netlib_LogfW(hNetlibUser, L"Started checking feed %s.", szURL);
 
 	char *szData = NULL;
 	GetNewsData(szURL, &szData, hContact, NULL);

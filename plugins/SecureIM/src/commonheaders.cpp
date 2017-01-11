@@ -93,16 +93,16 @@ void CopyToClipboard(HWND hwnd, LPSTR msg)
 	}
 }
 
-HANDLE hNetlibUser;
+HNETLIBUSER hNetlibUser;
 
 void InitNetlib()
 {
-	NETLIBUSER nl_user = { sizeof(nl_user) };
+	NETLIBUSER nl_user = {};
 	nl_user.szSettingsModule = (LPSTR)MODULENAME;
 	nl_user.szDescriptiveName = (LPSTR)MODULENAME;
 	nl_user.flags = NUF_NOOPTIONS;
 
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nl_user);
+	hNetlibUser = Netlib_RegisterUser(&nl_user);
 }
 
 void DeinitNetlib()
@@ -118,5 +118,5 @@ int Sent_NetLog(const char *fmt, ...)
 	va_start(va, fmt);
 	mir_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
-	return CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)szText);
+	return Netlib_Log(hNetlibUser, szText);
 }

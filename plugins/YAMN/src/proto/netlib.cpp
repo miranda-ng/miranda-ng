@@ -10,7 +10,7 @@
  //--------------------------------------------------------------------------------------------------
 
 BOOL SSLLoaded = FALSE;
-HANDLE hNetlibUser = NULL;
+HNETLIBUSER hNetlibUser = NULL;
 
 void __stdcall	SSL_DebugLog(const char *fmt, ...)
 {
@@ -27,13 +27,12 @@ void __stdcall	SSL_DebugLog(const char *fmt, ...)
 	else
 		str[sizeof(str) - 1] = 0;
 
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)str);
+	Netlib_Log(hNetlibUser, str);
 	va_end(vararg);
 }
 
 HANDLE RegisterNLClient(const char *name)
 {
-	static NETLIBUSER nlu = { 0 };
 	char desc[128];
 
 	mir_snprintf(desc, Translate("%s connection"), name);
@@ -41,11 +40,12 @@ HANDLE RegisterNLClient(const char *name)
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "<Register PROXY support>");
 	#endif
-	nlu.cbSize = sizeof(nlu);
+
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szDescriptiveName = desc;
 	nlu.szSettingsModule = (char *)name;
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	#ifdef DEBUG_COMM
 	if (NULL == hNetlibUser)
@@ -227,7 +227,7 @@ char* CNLClient::Recv(char *buf, int buflen) throw(DWORD)
 void CNLClient::Disconnect()
 {
 	Netlib_CloseHandle(hConnection);
-	hConnection = (HANDLE)NULL;
+	hConnection = NULL;
 }
 
 //Uninitializes netlib library
@@ -238,7 +238,7 @@ void UnregisterNLClient()
 	#endif
 
 	Netlib_CloseHandle(hNetlibUser);
-	hNetlibUser = (HANDLE)NULL;
+	hNetlibUser = NULL;
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "</Unregister PROXY support>\n");
 	#endif

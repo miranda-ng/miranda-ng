@@ -46,9 +46,7 @@ struct NETLIBOPENCONNECTION;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Initialises the netlib for a set of connections
-// wParam = 0
-// lParam = (LPARAM)(NETLIBUSER*)&nu
-// Returns a HANDLE to be used for future netlib calls, NULL on failure
+// Returns a HNETLIBUSER to be used for future netlib calls, NULL on failure
 // NOTE: Netlib is loaded after any plugins, so you need to wait until
 //      ME_SYSTEM_MODULESLOADED before calling this function
 // Netlib settings are stored under the module szSettingsModule
@@ -66,7 +64,6 @@ typedef PBYTE (*NETLIBHTTPGATEWAYUNWRAPRECVPROC)(NETLIBHTTPREQUEST *nlhr, PBYTE 
 
 struct NETLIBUSER
 {
-	int cbSize;
 	char *szSettingsModule;         // used for db settings and log
 	union {
 		char *szDescriptiveName;          // used in options dialog, already translated
@@ -88,8 +85,9 @@ struct NETLIBUSER
 #define NUF_NOOPTIONS     0x08  // don't create an options page for this. szDescriptiveName is never used.
 #define NUF_HTTPCONNS     0x10  // at least some connections are made for HTTP communication. Enables the HTTP proxy option in options.
 #define NUF_NOHTTPSOPTION 0x20  // disable the HTTPS proxy option in options. Use this if all communication is HTTP.
-#define NUF_UNICODE 0x40  // if set ptszDescriptiveName points to Unicode, otherwise it points to ANSI string
-#define MS_NETLIB_REGISTERUSER   "Netlib/RegisterUser"
+#define NUF_UNICODE       0x40  // if set ptszDescriptiveName points to Unicode, otherwise it points to ANSI string
+
+EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *pDescr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Assign a Netlib user handle a set of dynamic HTTP headers to be used with all
@@ -735,17 +733,6 @@ struct NETLIBPACKETRECVER
 #define MS_NETLIB_GETMOREPACKETS    "Netlib/GetMorePackets"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Add a message to the log (if it's running)
-// wParam = (WPARAM)(HANDLE)hUser
-// lParam = (LPARAM)(const char *)szMessage
-// Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
-// Do not include a final line ending in szMessage.
-// Errors: ERROR_INVALID_PARAMETER
-
-#define MS_NETLIB_LOG       "Netlib/Log"
-#define MS_NETLIB_LOGW      "Netlib/LogW"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Sets a gateway polling timeout interval
 // wParam = (WPARAM)(HANDLE)hConn
 // lParam = (LPARAM)timeout
@@ -770,35 +757,13 @@ struct NETLIBSSL
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// here's a handy piece of code to let you log using printf-style specifiers:
-// #include <stdarg.h> and <stdio.h> before including this header in order to
-// use it.
+// netlib log funcitons
 
-#if defined va_start && (defined _STDIO_DEFINED || defined _STDIO_H_ || defined _INC_STDIO) && (!defined NETLIB_NOLOGGING)
-#pragma warning(disable:4505)
+EXTERN_C MIR_APP_DLL(int) Netlib_Log(HNETLIBUSER hUser, const char *pszStr);
+EXTERN_C MIR_APP_DLL(int) Netlib_LogW(HNETLIBUSER hUser, const wchar_t *pwszStr);
 
-__inline INT_PTR Netlib_Logf(HANDLE hUser, const char *fmt, ...)
-{
-	va_list va;
-	va_start(va, fmt);
-	char szText[1024];
-	mir_vsnprintf(szText, _countof(szText), fmt, va);
-	va_end(va);
-	return CallService(MS_NETLIB_LOG, (WPARAM)hUser, (LPARAM)szText);
-}
-
-__inline INT_PTR Netlib_LogfW(HANDLE hUser, const wchar_t *fmt, ...)
-{
-	va_list va;
-	va_start(va, fmt);
-	wchar_t szText[1024];
-	mir_vsnwprintf(szText, _countof(szText), fmt, va);
-	va_end(va);
-	return CallService(MS_NETLIB_LOGW, (WPARAM)hUser, (LPARAM)szText);
-}
-
-#define Netlib_LogfT Netlib_LogfW
-#endif // defined va_start
+EXTERN_C MIR_APP_DLL(int) Netlib_Logf(HNETLIBUSER hUser, const char *fmt, ...);
+EXTERN_C MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, const wchar_t *fmt, ...);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Security providers (0.6+)

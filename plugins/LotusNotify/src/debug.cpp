@@ -1,16 +1,15 @@
 #include "stdafx.h"
 #include "debug.h"
 
-HANDLE netlibHandle;
+HNETLIBUSER netlibHandle;
 
 void logRegister(){
 	// Register netlib user for logging function
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_NOOPTIONS;
 	nlu.szSettingsModule = PLUGINNAME;
 	nlu.ptszDescriptiveName = mir_a2u(PLUGINNAME);
-	netlibHandle = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	netlibHandle = Netlib_RegisterUser(&nlu);
 }
 
 void logUnregister(){
@@ -21,7 +20,7 @@ void logUnregister(){
 void log(const wchar_t* szText){
 
 	if (netlibHandle) {
-		CallService(MS_NETLIB_LOGW, (WPARAM)netlibHandle, (LPARAM)szText);
+		Netlib_LogW(netlibHandle, szText);
 	}
 
 	#ifdef _DEBUG

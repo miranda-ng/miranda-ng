@@ -242,7 +242,7 @@ EXTERN_C void LMDB_Log(const char *fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	CallService(MS_NETLIB_LOG, 0, (LPARAM)(CMStringA().FormatV(fmt, args)));
+	Netlib_Log(0, CMStringA().FormatV(fmt, args));
 	va_end(args);
 }
 

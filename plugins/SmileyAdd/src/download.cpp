@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE hNetlibUser;
+HNETLIBUSER hNetlibUser;
 static HANDLE hFolder;
 
 struct QueueElem
@@ -218,11 +218,11 @@ void GetSmileyCacheFolder(void)
 
 void DownloadInit(void)
 {
-	NETLIBUSER nlu = { sizeof(nlu) };
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODULENAME;
 	nlu.ptszDescriptiveName = TranslateT("SmileyAdd HTTP connections");
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	GetSmileyCacheFolder();
 	g_hDlMutex = CreateMutex(NULL, FALSE, NULL);

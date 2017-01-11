@@ -88,4 +88,4 @@ Copyright © 2013-14 Uli Hecht
 extern HINSTANCE g_hInstance;
 extern std::string g_strUserAgent;
 extern DWORD g_mirandaVersion;
-extern HANDLE g_hNetlibUser;
+extern HNETLIBUSER g_hNetlibUser;

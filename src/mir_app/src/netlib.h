@@ -234,7 +234,6 @@ INT_PTR NetlibHttpSetSticky(WPARAM wParam, LPARAM lParam);
 //netliblog.c
 void NetlibLogShowOptions(void);
 void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags);
-void NetlibLogf(NetlibUser* nlu, const char *fmt, ...);
 void NetlibLogInit(void);
 void NetlibLogShutdown(void);
 

@@ -115,17 +115,15 @@ size_t rtrim(LPCSTR str)
 
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
-HANDLE hNetlibUser;
+HNETLIBUSER hNetlibUser;
 
 void InitNetlib()
 {
-	NETLIBUSER nl_user;
-	memset(&nl_user, 0, sizeof(nl_user));
-	nl_user.cbSize = sizeof(nl_user);
+	NETLIBUSER nl_user = {};
 	nl_user.szSettingsModule = (LPSTR)szModuleName;
 	nl_user.szDescriptiveName = (LPSTR)szModuleName;
 	nl_user.flags = NUF_NOOPTIONS;
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nl_user);
+	hNetlibUser = Netlib_RegisterUser(&nl_user);
 }
 
 void DeinitNetlib()
@@ -142,7 +140,7 @@ int Sent_NetLog(const char *fmt, ...)
 	mir_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
 	if (hNetlibUser)
-		return CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)szText);
+		return Netlib_Log(hNetlibUser, szText);
 	return 0;
 }
 #endif

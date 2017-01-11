@@ -434,10 +434,9 @@ begin
   if hNetLib=0 then
   begin
     FillChar(nlu,SizeOf(nlu),0);
-    nlu.cbSize          :=SizeOf(nlu);
-    nlu.flags           :=NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING or NUF_NOOPTIONS;
+    nlu.flags :=NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING or NUF_NOOPTIONS;
     nlu.szSettingsModule:='dummy';
-    hTmpNetLib:=CallService(MS_NETLIB_REGISTERUSER,0,lparam(@nlu));
+    hTmpNetLib:=Netlib_RegisterUser(@nlu);
   end
   else
     hTmpNetLib:=hNetLib;
@@ -457,7 +456,7 @@ begin
     CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
   end;
 
-  if (hNetLib=0) and (nlu.cbSize<>0) then
+  if (hNetLib=0) and (nlu.flags<>0) then
     Netlib_CloseHandle(hTmpNetLib);
 end;
 
@@ -466,8 +465,7 @@ static int __inline NLog(AnsiChar *msg) {
   return CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)msg);
 }
 *)
-function GetFile(url:PAnsiChar;save_file:PAnsiChar;
-                 hNetLib:THANDLE=0;recurse_count:integer=0):bool;
+function GetFile(url:PAnsiChar; save_file:PAnsiChar; hNetLib:THANDLE=0; recurse_count:integer=0):bool;
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
@@ -491,10 +489,9 @@ begin
   FillChar(nlu,SizeOf(nlu),0);
   if hNetLib=0 then
   begin
-    nlu.cbSize          :=SizeOf(nlu);
-    nlu.flags           :=NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING or NUF_NOOPTIONS;
+    nlu.flags := NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING or NUF_NOOPTIONS;
     nlu.szSettingsModule:='dummy';
-    hNetLib:=CallService(MS_NETLIB_REGISTERUSER,0,lparam(@nlu));
+    hNetLib:=Netlib_RegisterUser(@nlu);
   end;
 
   resp:=pointer(CallService(MS_NETLIB_HTTPTRANSACTION,hNetLib,lparam(@req)));
@@ -536,7 +533,7 @@ begin
     end;
     CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
 
-    if nlu.cbSize<>0 then
+    if nlu.flags<>0 then
       Netlib_CloseHandle(hNetLib);
   end;
 end;
@@ -619,10 +616,9 @@ begin
   req.flags      :=NLHRF_NODUMP;
 
   FillChar(nlu,SizeOf(nlu),0);
-  nlu.cbSize          :=SizeOf(nlu);
-  nlu.flags           :=NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING or NUF_NOOPTIONS;
+  nlu.flags := NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING or NUF_NOOPTIONS;
   nlu.szSettingsModule:='dummy';
-  hNetLib:=CallService(MS_NETLIB_REGISTERUSER,0,lparam(@nlu));
+  hNetLib:=Netlib_RegisterUser(@nlu);
 
   resp:=pointer(CallService(MS_NETLIB_HTTPTRANSACTION,hNetLib,lparam(@req)));
 

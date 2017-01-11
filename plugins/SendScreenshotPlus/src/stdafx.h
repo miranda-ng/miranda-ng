@@ -117,10 +117,9 @@ typedef struct _MGLOBAL {
 #define SZ_SENDSS		"SendSS"
 
 extern ATOM g_clsTargetHighlighter;
-extern HINSTANCE		g_hSendSS;
-extern MGLOBAL			g_myGlobals;
-extern HANDLE			g_hNetlibUser;
-
+extern HINSTANCE g_hSendSS;
+extern MGLOBAL g_myGlobals;
+extern HNETLIBUSER g_hNetlibUser;
 
 enum{
 	ICO_MAIN=0,

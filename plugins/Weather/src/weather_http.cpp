@@ -25,7 +25,8 @@ from the web using netlib
 
 #include "stdafx.h"
 
-HANDLE hNetlibUser, hNetlibHttp;
+HNETLIBUSER hNetlibUser;
+HANDLE hNetlibHttp;
 
 static int findHeader(const NETLIBHTTPREQUEST *nlhrReply, const char *hdr)
 {
@@ -152,12 +153,11 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 // initialize netlib support for weather protocol
 void NetlibInit(void)
 {
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = WEATHERPROTONAME;
 	nlu.ptszDescriptiveName = TranslateT("Weather HTTP connections");
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 }
 
 void NetlibHttpDisconnect(void)

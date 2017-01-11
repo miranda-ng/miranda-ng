@@ -350,38 +350,57 @@ int NetlibLog_Worker(NetlibUser *nlu, const char *pszMsg, int flags)
 	return 1;
 }
 
-static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) ProtoLogA(PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args)
 {
-	NetlibUser *nlu = (NetlibUser*)wParam;
-	const char *pszMsg = (const char*)lParam;
-	return NetlibLog_Worker(nlu, pszMsg, 0);
+	char buf[4096];
+	int res = _vsnprintf(buf, _countof(buf), szFormat, args);
+	NetlibLog_Worker(pThis ? pThis->m_hNetlibUser : NULL, (res != -1) ? buf : CMStringA().FormatV(szFormat, args), 0);
 }
 
-static INT_PTR NetlibLogW(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(void) ProtoLogW(PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args)
 {
-	NetlibUser *nlu = (NetlibUser*)wParam;
-	const wchar_t *pwszMsg = (const wchar_t*)lParam;
-	return NetlibLog_Worker(nlu, ptrA(Utf8EncodeW(pwszMsg)), 0);
+	WCHAR buf[4096];
+	int res = _vsnwprintf(buf, _countof(buf), wszFormat, args);
+	NetlibLog_Worker(pThis ? pThis->m_hNetlibUser : NULL, ptrA(Utf8EncodeW((res != -1) ? buf : CMStringW().FormatV(wszFormat, args))), 0);
 }
 
-void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
-{
-	if (nlu == NULL) {
-		if (!logOptions.toLog)
-			return;
-	}
-	else if (!nlu->toLog)
-		return;
+/////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(int) Netlib_Logf(HNETLIBUSER hUser, const char *fmt, ...)
+{
 	va_list va;
-	char szText[1024];
-
 	va_start(va, fmt);
-	mir_vsnprintf(szText, sizeof(szText), fmt, va);
+	char szText[8000];
+	mir_vsnprintf(szText, _countof(szText), fmt, va);
 	va_end(va);
-
-	NetlibLog_Worker(nlu, szText, 0);
+	return NetlibLog_Worker(hUser, szText, 0);
 }
+
+MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, const wchar_t *fmt, ...)
+{
+	va_list va;
+	va_start(va, fmt);
+	wchar_t szText[8000];
+	mir_vsnwprintf(szText, _countof(szText), fmt, va);
+	va_end(va);
+	return NetlibLog_Worker(hUser, ptrA(Utf8EncodeW(szText)), 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Netlib_Log(HNETLIBUSER hUser, const char *pszStr)
+{
+	return NetlibLog_Worker(hUser, pszStr, 0);
+}
+
+MIR_APP_DLL(int) Netlib_LogW(HNETLIBUSER hUser, const wchar_t *pwszStr)
+{
+	return NetlibLog_Worker(hUser, ptrA(Utf8EncodeW(pwszStr)), 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags)
 {
@@ -504,8 +523,6 @@ void NetlibLogInit(void)
 	mirandaStartTime = li.QuadPart;
 
 	CreateServiceFunction(MS_NETLIB_LOGWIN, ShowOptions);
-	CreateServiceFunction(MS_NETLIB_LOG, NetlibLog);
-	CreateServiceFunction(MS_NETLIB_LOGW, NetlibLogW);
 	hLogEvent = CreateHookableEvent(ME_NETLIB_FASTDUMP);
 
 	logOptions.dumpRecv = db_get_b(NULL, "Netlib", "DumpRecv", 1);

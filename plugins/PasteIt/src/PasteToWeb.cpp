@@ -498,7 +498,7 @@ void PasteToWeb::FromFile(std::wstring file)
 	}
 }
 
-extern HANDLE g_hNetlibUser;
+extern HNETLIBUSER g_hNetlibUser;
 
 wchar_t* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& headers, std::wstring content)
 {

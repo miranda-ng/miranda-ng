@@ -48,12 +48,11 @@ void IcoLibInit()
 
 BOOL NetlibInit()
 {
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
 	nlu.ptszDescriptiveName = TranslateT("Pack Updater HTTP connection");
 	nlu.szSettingsModule = MODNAME;
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	return hNetlibUser != NULL;
 }

@@ -28,7 +28,7 @@ public:
 	
 	virtual void log(const char *prefix, const char *str);
 
-	static void initNetwork(HANDLE hNetlibUser) throw (WAException);
+	static void initNetwork(HNETLIBUSER hNetlibUser) throw (WAException);
 	static void quitNetwork();
 };
 

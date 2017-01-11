@@ -32,11 +32,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 CHAT_MANAGER    *pci;
 CLIST_INTERFACE *pcli;
-HINSTANCE		g_hSendSS;
-MGLOBAL			g_myGlobals;
-HANDLE			g_hNetlibUser=0;//!< Netlib Register User
-FI_INTERFACE*	FIP=NULL;
-int				hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
+HINSTANCE g_hSendSS;
+MGLOBAL g_myGlobals;
+HNETLIBUSER g_hNetlibUser=0;//!< Netlib Register User
+FI_INTERFACE *FIP=NULL;
+int hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
 
 IconItem ICONS[ICO_END_] =
 {
@@ -232,11 +232,11 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	g_myGlobals.PluginFTPExist = ServiceExists(MS_FTPFILE_UPLOAD);
 	g_myGlobals.PluginDropboxExist = ServiceExists(MS_DROPBOX_UPLOAD);
 	// Netlib register
-	NETLIBUSER nlu = { sizeof(nlu) };
+	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	nlu.ptszDescriptiveName = TranslateT("SendSS HTTP connections");
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;			//|NUF_NOHTTPSOPTION;
-	g_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	g_hNetlibUser = Netlib_RegisterUser(&nlu);
 	// load my button class / or use UInfoEx
 	CtrlButtonLoadModule();
 	// Folders plugin support

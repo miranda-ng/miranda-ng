@@ -173,17 +173,16 @@ static int sttCheckPerform(const char *szSetting, LPARAM lParam)
 
 int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	NETLIBUSER nlu = { 0 };
 	wchar_t name[128];
+	mir_snwprintf(name, TranslateT("%s server connection"), m_tszUserName);
 
 	db_unset(NULL, m_szModuleName, "JTemp");
 
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_snwprintf(name, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	char szTemp2[256];
@@ -191,7 +190,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.szSettingsModule = szTemp2;
 	mir_snwprintf(name, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;
-	hNetlibDCC = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibDCC = Netlib_RegisterUser(&nlu);
 
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;

@@ -321,7 +321,7 @@ static __inline int LogMessage(const char *Format, ...)
 	va_start(va, Format);
 	mir_vsnprintf(szText + (_countof(LOG_PREFIX) - 1), sizeof(szText) - (_countof(LOG_PREFIX) - 1), Format, va);
 	va_end(va);
-	return CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
+	return Netlib_Log(NULL, szText);
 }
 
 __inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const wchar_t *szMsg)

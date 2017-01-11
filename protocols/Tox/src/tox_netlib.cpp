@@ -5,12 +5,11 @@ void CToxProto::InitNetlib()
 	wchar_t name[128];
 	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
 
-	NETLIBUSER nlu = {0};
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.ptszDescriptiveName = name;
 	nlu.szSettingsModule = m_szModuleName;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	debugLogA(__FUNCTION__":Setting protocol / module name to '%s'", m_szModuleName);
 }

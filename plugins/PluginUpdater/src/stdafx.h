@@ -160,7 +160,8 @@ extern HINSTANCE hInst;
 extern DWORD g_mirandaVersion;
 extern wchar_t g_tszRoot[MAX_PATH], g_tszTempPath[MAX_PATH];
 extern aPopups PopupsList[POPUPS];
-extern HANDLE hPipe, hNetlibUser;
+extern HANDLE hPipe;
+extern HNETLIBUSER hNetlibUser;
 #if MIRANDA_VER >= 0x0A00
 extern IconItemT iconList[];
 #endif

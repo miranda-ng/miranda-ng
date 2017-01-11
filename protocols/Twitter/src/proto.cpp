@@ -301,14 +301,14 @@ INT_PTR TwitterProto::OnTweet(WPARAM, LPARAM)
 int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	wchar_t descr[512];
-	NETLIBUSER nlu = { sizeof(nlu) };
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 
 	// Create standard network connection
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 	if (m_hNetlibUser == NULL) {
 		wchar_t error[200];
 		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
@@ -321,7 +321,7 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.szSettingsModule = module;
 	mir_snwprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
-	hAvatarNetlib_ = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hAvatarNetlib_ = Netlib_RegisterUser(&nlu);
 	if (hAvatarNetlib_ == NULL) {
 		wchar_t error[200];
 		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));

@@ -62,13 +62,11 @@ begin
   end;
 
   FillChar(nlu,SizeOf(nlu),0);
-  nlu.cbSize          :=SizeOf(nlu);
-  nlu.flags           :=NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING or NUF_NOOPTIONS;
+  nlu.flags := NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING or NUF_NOOPTIONS;
   nlu.szSettingsModule:='dummy';
-  hTmpNetLib:=CallService(MS_NETLIB_REGISTERUSER,0,lparam(@nlu));
+  hTmpNetLib:=Netlib_RegisterUser(@nlu);
 
   resp:=pointer(CallService(MS_NETLIB_HTTPTRANSACTION,hTmpNetLib,lparam(@req)));
-
   if resp<>nil then
   begin
     if resp^.resultCode=200 then

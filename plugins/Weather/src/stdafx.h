@@ -357,7 +357,8 @@ extern unsigned status, old_status;
 
 extern MWindowList hDataWindowList, hWindowList;
 
-extern HANDLE hNetlibUser, hNetlibHttp, hHookWeatherUpdated, hHookWeatherError, hTBButton, hUpdateMutex;
+extern HNETLIBUSER hNetlibUser;
+extern HANDLE hNetlibHttp, hHookWeatherUpdated, hHookWeatherError, hTBButton, hUpdateMutex;
 extern UINT_PTR timerId;
 
 extern HGENMENU hMwinMenu;

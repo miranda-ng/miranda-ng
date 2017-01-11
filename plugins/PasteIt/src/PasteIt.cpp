@@ -22,8 +22,8 @@ PasteToWeb* pasteToWebs[PasteToWeb::pages];
 std::map<MCONTACT, HWND>* contactWindows;
 DWORD gMirandaVersion;
 
+HNETLIBUSER g_hNetlibUser;
 HANDLE hModulesLoaded, hTabsrmmButtonPressed;
-HANDLE g_hNetlibUser;
 HANDLE hPrebuildContactMenu;
 HANDLE hServiceContactMenu;
 HGENMENU hContactMenu;
@@ -392,12 +392,11 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	Icon_Register(hInst, LPGEN("Paste It"), &icon, 1);
 
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULE;
 	nlu.ptszDescriptiveName = TranslateT("Paste It HTTP connections");
-	g_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	g_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	pasteToWebs[0] = new PasteToWeb1();
 	pasteToWebs[0]->pageIndex = 0;

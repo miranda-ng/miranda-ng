@@ -42,13 +42,12 @@ GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
 	wchar_t name[128];
 	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
 
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = name;
 
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	// Register services
 	CreateProtoService(PS_GETAVATARCAPS, &GGPROTO::getavatarcaps);

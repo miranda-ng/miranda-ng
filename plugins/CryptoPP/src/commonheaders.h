@@ -74,7 +74,7 @@ std::string base64decode(const std::string&);
 std::string base64decode(const char *);
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
-extern HANDLE hNetlibUser;
+extern HNETLIBUSER hNetlibUser;
 void InitNetlib();
 void DeinitNetlib();
 int Sent_NetLog(const char *,...);

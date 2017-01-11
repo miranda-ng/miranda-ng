@@ -91,7 +91,7 @@ private:
 	static void ForceForegroundWindow(HWND hWnd);
 
 
-	HANDLE netlibHandle;
+	HNETLIBUSER netlibHandle;
 
 	std::wstring profileName;
 	std::wstring displayName;

@@ -156,10 +156,10 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CIcqProto::OnPreBuildStatusMenu);
 
 	// Register netlib users
-	NETLIBUSER nlu = { 0 };
 	wchar_t szBuffer[MAX_PATH + 64];
 	mir_snwprintf(szBuffer, TranslateT("%s server connection"), m_tszUserName);
-	nlu.cbSize = sizeof(nlu);
+
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.ptszDescriptiveName = szBuffer;
 	nlu.szSettingsModule = m_szModuleName;
@@ -169,7 +169,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	nlu.pfnHttpGatewayBegin = icq_httpGatewayBegin;
 	nlu.pfnHttpGatewayWrapSend = icq_httpGatewayWrapSend;
 	nlu.pfnHttpGatewayUnwrapRecv = icq_httpGatewayUnwrapRecv;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	char szP2PModuleName[MAX_PATH];
 	mir_snprintf(szP2PModuleName, "%sP2P", m_szModuleName);
@@ -178,7 +178,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	nlu.ptszDescriptiveName = szBuffer;
 	nlu.szSettingsModule = szP2PModuleName;
 	nlu.minIncomingPorts = 1;
-	m_hDirectNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hDirectNetlibUser = Netlib_RegisterUser(&nlu);
 
 	// Register custom database events
 	DBEVENTTYPEDESCR eventType = { sizeof(eventType) };
@@ -211,8 +211,8 @@ CIcqProto::~CIcqProto()
 		delete m_arAvatars[i];
 
 	// NetLib clean-up
-	NetLib_SafeCloseHandle(&m_hDirectNetlibUser);
-	NetLib_SafeCloseHandle(&m_hNetlibUser);
+	Netlib_CloseHandle(m_hDirectNetlibUser);
+	Netlib_CloseHandle(m_hNetlibUser);
 
 	// Destroy hookable events
 	if (m_modeMsgsEvent)

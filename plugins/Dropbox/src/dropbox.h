@@ -26,7 +26,7 @@ public:
 	virtual ~CDropbox();
 
 private:
-	HANDLE hNetlibConnection;
+	HNETLIBUSER hNetlibConnection;
 	ULONG  hMessageProcess;
 
 	HANDLE hUploadedEventHook;

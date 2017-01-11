@@ -116,7 +116,7 @@ void NetlibInit();
 int InternetDownloadFile (CHAR *szUrl);
 extern char *szInfo;
 extern char *szData;
-extern HANDLE hNetlibUser;
+extern HNETLIBUSER hNetlibUser;
 
 #endif
 

@@ -89,7 +89,7 @@ __forceinline int SendBroadcast(MCONTACT hContact, int type, int result, HANDLE 
 	return ProtoBroadcastAck( GetContactProto(hContact), hContact, type, result, hProcess, lParam);
 }
 
-extern HANDLE hNetlibUser;
+extern HNETLIBUSER hNetlibUser;
 void InitNetlib();
 void DeinitNetlib();
 int Sent_NetLog(const char *,...);

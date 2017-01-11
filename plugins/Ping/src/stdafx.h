@@ -107,7 +107,7 @@ typedef std::list<PINGADDRESS> PINGLIST;
 typedef std::list<PINGADDRESS>::iterator pinglist_it;
 
 
-extern HANDLE hNetlibUser;
+extern HNETLIBUSER hNetlibUser;
 extern HINSTANCE hInst;
 
 extern bool use_raw_ping;

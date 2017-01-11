@@ -282,12 +282,12 @@ static void NetlibIeProxyThread(void *arg)
 	BOOL res;
 	char *loc = strstr(szAutoUrlStr, "file://");
 	if (loc || strstr(szAutoUrlStr, "://") == NULL) {
-		NetlibLogf(NULL, "Autoproxy Init file: %s", loc);
+		Netlib_Logf(NULL, "Autoproxy Init file: %s", loc);
 		loc = loc ? loc + 7 : szAutoUrlStr;
 		res = pInternetInitializeAutoProxyDll(0, loc, NULL, NULL /*&HelperFunctions*/, NULL);
 	}
 	else {
-		NetlibLogf(NULL, "Autoproxy Init %d", abuf.dwScriptBufferSize);
+		Netlib_Logf(NULL, "Autoproxy Init %d", abuf.dwScriptBufferSize);
 		if (abuf.dwScriptBufferSize)
 			res = pInternetInitializeAutoProxyDll(0, NULL, NULL, NULL /*&HelperFunctions*/, &abuf);
 		else
@@ -303,10 +303,10 @@ static void NetlibIeProxyThread(void *arg)
 			param->szHost, (DWORD)mir_strlen(param->szHost), &proxy, &dwProxyLen))
 			param->szProxy = mir_strdup(lrtrim(proxy));
 
-		NetlibLogf(NULL, "Autoproxy got response %s, Param: %s %s", param->szProxy, param->szUrl, param->szHost);
+		Netlib_Logf(NULL, "Autoproxy got response %s, Param: %s %s", param->szProxy, param->szUrl, param->szHost);
 		pInternetDeInitializeAutoProxyDll(NULL, 0);
 	}
-	else NetlibLogf(NULL, "Autoproxy init failed");
+	else Netlib_Logf(NULL, "Autoproxy init failed");
 }
 
 char* NetlibGetIeProxy(char *szUrl)

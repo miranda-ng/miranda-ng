@@ -32,12 +32,11 @@ public:
 	{
 		assert(NULL == g_hNetLib);
 
-		NETLIBUSER nlu = { 0 };
-		nlu.cbSize = sizeof(nlu);
+		NETLIBUSER nlu = {};
 		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 		nlu.szSettingsModule = QUOTES_PROTOCOL_NAME;
 		nlu.ptszDescriptiveName = TranslateT("Quotes HTTP connections");
-		g_hNetLib = reinterpret_cast<HANDLE>(CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu));
+		g_hNetLib = reinterpret_cast<HANDLE>(Netlib_RegisterUser(&nlu));
 		return (NULL != g_hNetLib);
 	}
 

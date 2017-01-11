@@ -24,7 +24,7 @@
 #include "webview.h"
 
 MWindowList hWindowList;
-HANDLE hNetlibUser;
+HNETLIBUSER hNetlibUser;
 HANDLE hHookDisplayDataAlert, hHookAlertPopup, hHookAlertWPopup, hHookErrorPopup, hHookAlertOSD;
 
 int    hLangpack = 0;
@@ -147,11 +147,11 @@ extern "C" int __declspec(dllexport) Load()
    char tempNdesc[50];
 	mir_snprintf(tempNdesc, "%s connection settings", MODULENAME);
 
-	NETLIBUSER nlu = { sizeof(nlu) };
-   nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
-   nlu.szSettingsModule = MODULENAME;
-   nlu.szDescriptiveName = tempNdesc;
-   hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu);
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
+	nlu.szSettingsModule = MODULENAME;
+	nlu.szDescriptiveName = tempNdesc;
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	// register webview protocol
 	PROTOCOLDESCRIPTOR pd = { 0 };

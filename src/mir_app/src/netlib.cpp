@@ -133,18 +133,16 @@ static char *GetNetlibUserSettingString(const char *szUserModule, const char *sz
 	return szRet;
 }
 
-static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 {
-	NETLIBUSER *nlu = (NETLIBUSER*)lParam;
-	if (nlu == NULL || nlu->cbSize != sizeof(NETLIBUSER) || nlu->szSettingsModule == NULL ||
-		 (!(nlu->flags & NUF_NOOPTIONS) && nlu->szDescriptiveName == NULL) ||
-		 (nlu->flags & NUF_HTTPGATEWAY && (nlu->pfnHttpGatewayInit == NULL)))
-	{
+	if (nlu == NULL || nlu->szSettingsModule == NULL || (!(nlu->flags & NUF_NOOPTIONS) && nlu->szDescriptiveName == NULL) || (nlu->flags & NUF_HTTPGATEWAY && (nlu->pfnHttpGatewayInit == NULL))) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
 
-	NetlibUser *thisUser = (NetlibUser*)mir_calloc(sizeof(NetlibUser));
+	HNETLIBUSER thisUser = (HNETLIBUSER)mir_calloc(sizeof(NetlibUser));
 	thisUser->handleType = NLH_USER;
 	thisUser->user = *nlu;
 
@@ -201,8 +199,10 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 
 	mir_cslock lck(csNetlibUser);
 	netlibUser.insert(thisUser);
-	return (INT_PTR)thisUser;
+	return thisUser;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR NetlibGetUserSettings(WPARAM wParam, LPARAM lParam)
 {
@@ -234,7 +234,7 @@ void NetlibDoClose(NetlibConnection *nlc, bool noShutdown)
 {
 	if (nlc->s == INVALID_SOCKET) return;
 
-	NetlibLogf(nlc->nlu, "(%p:%u) Connection closed internal", nlc, nlc->s);
+	Netlib_Logf(nlc->nlu, "(%p:%u) Connection closed internal", nlc, nlc->s);
 	if (nlc->hSsl) {
 		if (!noShutdown) sslApi.shutdown(nlc->hSsl);
 		sslApi.sfree(nlc->hSsl);
@@ -293,7 +293,7 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 					return 0;
 				}
 
-				NetlibLogf(nlc->nlu, "(%p:%u) Connection closed", nlc, nlc->s);
+				Netlib_Logf(nlc->nlu, "(%p:%u) Connection closed", nlc, nlc->s);
 				delete nlc;
 			}
 		}
@@ -479,7 +479,6 @@ int LoadNetlibModule(void)
 	hConnectionOpenMutex = connectionTimeout ? CreateMutex(NULL, FALSE, NULL) : NULL;
 	g_LastConnectionTick = GetTickCount();
 
-	CreateServiceFunction(MS_NETLIB_REGISTERUSER, NetlibRegisterUser);
 	CreateServiceFunction(MS_NETLIB_GETUSERSETTINGS, NetlibGetUserSettings);
 	CreateServiceFunction(MS_NETLIB_SETUSERSETTINGS, NetlibSetUserSettings);
 	CreateServiceFunction(MS_NETLIB_BINDPORT, NetlibBindPort);

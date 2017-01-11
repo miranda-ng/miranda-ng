@@ -60,7 +60,7 @@ using namespace std;
 
 extern HINSTANCE hInstance;
 
-extern HANDLE hNetlibUser;
+extern HNETLIBUSER hNetlibUser;
 
 extern bool bShutdownInProgress;
 bool bWriteConfigurationFile();

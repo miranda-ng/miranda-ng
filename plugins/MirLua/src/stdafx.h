@@ -98,7 +98,7 @@ LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 
 /* utils */
 
-extern HANDLE hNetlib;
+extern HNETLIBUSER hNetlib;
 void Log(const char *format, ...);
 void Log(const wchar_t *format, ...);
 

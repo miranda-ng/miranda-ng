@@ -58,11 +58,11 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 	wchar_t szBuffer[MAX_PATH];
 	mir_snwprintf(szBuffer, L"%s %s", m_tszUserName, TranslateT("Avatars' plugin connections"));
 
-	NETLIBUSER nlu = { sizeof(nlu) };
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = MRA_AVT_SECT_NAME;
 	nlu.ptszDescriptiveName = szBuffer;
-	pmraaqAvatarsQueue->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	pmraaqAvatarsQueue->hNetlibUser = Netlib_RegisterUser(&nlu);
 	if (pmraaqAvatarsQueue->hNetlibUser) {
 		pmraaqAvatarsQueue->iThreadsCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
 		if (pmraaqAvatarsQueue->iThreadsCount == 0)

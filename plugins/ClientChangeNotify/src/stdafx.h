@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 #include <shellapi.h>
+#include <WinSock.h>
 #include <commdlg.h>
 
 #include "newpluginapi.h"
@@ -47,6 +48,7 @@
 #include "m_genmenu.h"
 #include "win2k.h"
 #include "m_metacontacts.h"
+#include "m_netlib.h"
 
 #include "m_fingerprint.h"
 
@@ -118,7 +120,7 @@ static __inline CString LogMessage(const char *Format, ...)
 	va_start(va, Format);
 	mir_vsnprintf(szText + _countof(LOG_PREFIX)-1, _countof(szText) - (_countof(LOG_PREFIX)-1), Format, va);
 	va_end(va);
-	CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
+	Netlib_Log(NULL, szText);
 	return CString(szText);
 }
 

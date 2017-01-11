@@ -66,7 +66,7 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 	if (nlprParam->bytesUsed == 0) {
 		if (nlpr->packetRecver.bytesAvailable == nlpr->packetRecver.bufferSize) {
 			nlpr->packetRecver.bytesAvailable = 0;
-			NetlibLogf(nlpr->nlc->nlu, "Packet recver: packet overflowed buffer, ditching");
+			Netlib_Logf(nlpr->nlc->nlu, "Packet recver: packet overflowed buffer, ditching");
 		}
 	}
 	else {

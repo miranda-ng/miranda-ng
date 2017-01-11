@@ -19,7 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HANDLE hNetlibUser = NULL, hPipe = NULL;
+HNETLIBUSER hNetlibUser = NULL;
+HANDLE hPipe = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////
 void LoadOptions()
@@ -56,12 +57,11 @@ void InitIcoLib()
 
 void InitNetlib()
 {
-	NETLIBUSER nlu = {0};
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;	// | NUF_HTTPGATEWAY;
 	nlu.ptszDescriptiveName = TranslateT("Plugin Updater HTTP connections");
 	nlu.szSettingsModule = MODNAME;
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	hNetlibUser = Netlib_RegisterUser(&nlu);
 }
 
 void UnloadNetlib()
@@ -161,14 +161,14 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	Netlib_CloseHandle(nlc);
 
 	if (!ret) {
-		Netlib_LogfT(hNetlibUser,L"Downloading list of available updates from %s failed",baseUrl);
+		Netlib_LogfW(hNetlibUser,L"Downloading list of available updates from %s failed",baseUrl);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		SkinPlaySound("updatefailed");
 		return false;
 	}
 
 	if(!unzip(pFileUrl.tszDiskPath, g_tszTempPath, NULL,true)) {
-		Netlib_LogfT(hNetlibUser,L"Unzipping list of available updates from %s failed",baseUrl);
+		Netlib_LogfW(hNetlibUser,L"Unzipping list of available updates from %s failed",baseUrl);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		SkinPlaySound("updatefailed");
 		return false;
@@ -180,7 +180,7 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	mir_snwprintf(tszTmpIni, L"%s\\hashes.txt", g_tszTempPath);
 	FILE *fp = _wfopen(tszTmpIni, L"r");
 	if (!fp) {
-		Netlib_LogfT(hNetlibUser,L"Opening %s failed", g_tszTempPath);
+		Netlib_LogfW(hNetlibUser,L"Opening %s failed", g_tszTempPath);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		return false;
 	}
@@ -258,7 +258,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 
 	bool ret = false;
 	for (int i = 0; !ret && i < MAX_RETRIES; i++) {
-		Netlib_LogfT(hNetlibUser,L"Downloading file %s to %s (attempt %d)",pFileURL->tszDownloadURL,pFileURL->tszDiskPath, i+1);
+		Netlib_LogfW(hNetlibUser,L"Downloading file %s to %s (attempt %d)",pFileURL->tszDownloadURL,pFileURL->tszDiskPath, i+1);
 		NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 		if (pReply) {
 			nlc = pReply->nlc;
@@ -269,7 +269,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 					int crc = Get_CRC((unsigned char*)pReply->pData, pReply->dataLength);
 					if (crc != pFileURL->CRCsum) {
 						// crc check failed, try again
-						Netlib_LogfT(hNetlibUser,L"crc check failed for file %s",pFileURL->tszDiskPath);
+						Netlib_LogfW(hNetlibUser,L"crc check failed for file %s",pFileURL->tszDiskPath);
 						CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 						continue;
 					}
@@ -297,16 +297,16 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 				ret = true;
 			}
 			else
-				Netlib_LogfT(hNetlibUser,L"Downloading file %s failed with error %d",pFileURL->tszDownloadURL,pReply->resultCode);
+				Netlib_LogfW(hNetlibUser,L"Downloading file %s failed with error %d",pFileURL->tszDownloadURL,pReply->resultCode);
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 		}
 		else {
-			Netlib_LogfT(hNetlibUser,L"Downloading file %s failed, host is propably temporary down.",pFileURL->tszDownloadURL);
+			Netlib_LogfW(hNetlibUser,L"Downloading file %s failed, host is propably temporary down.",pFileURL->tszDownloadURL);
 			nlc = NULL;
 		}
 	}
 	if(!ret)
-		Netlib_LogfT(hNetlibUser,L"Downloading file %s failed, giving up",pFileURL->tszDownloadURL);
+		Netlib_LogfW(hNetlibUser,L"Downloading file %s failed, giving up",pFileURL->tszDownloadURL);
 
 	mir_free(szUrl);
 	mir_free(nlhr.headers);

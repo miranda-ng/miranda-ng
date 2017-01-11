@@ -187,7 +187,6 @@ type
 
   PNETLIBUSER = ^TNETLIBUSER;
   TNETLIBUSER = record
-    cbSize: int;
     szSettingsModule: PAnsiChar;  // used for DB settings and log, 'NL' stuff
     szDescriptiveName: TChar; // shows a descriptive name for which different proxy settings can be defined
     flags: dword;             // see NUF_* constants above
@@ -293,10 +292,7 @@ type
     buffer        : PByte; // contains the read data
   end;
 
-const
   {
-    wParam : 0
-    lParam : Pointer to an initalised TNETLIBUSER structure
     Affects: Initialises the netlib for a set of connections, see notes
     Returns: Returns a handle for future netlib calls, NULL on failure.
     Notes  : Netlib is loaded AFTER all plugins, thus a call to this service
@@ -311,8 +307,8 @@ const
     Version: v0.1.2.2+
     Errors : ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY, ERROR_DUP_NAME
   }
-  MS_NETLIB_REGISTERUSER:PAnsiChar = 'Netlib/RegisterUser';
 
+function Netlib_RegisterUser(pInfo:PNETLIBUSER) : THANDLE; stdcall; external AppDll;
 
   {
     wParam : HANDLE
@@ -326,10 +322,11 @@ const
     Version: v0.1.2.2+
     Errors : ERROR_INVALID_PARAMETER
   }
+
+const
   MS_NETLIB_GETUSERSETTINGS:PAnsiChar = 'Netlib/GetUserSettings';
+
   {
-    wParam : HANDLE / SOCKET
-    lParam : 0
     Affects: Closes a handle, see notes
     Returns: Returns [non zero] on success, NULL(0) on failure
     Notes  : All netlib handles should be closed once they're finished with,
@@ -681,8 +678,6 @@ const
   MS_NETLIB_GETMOREPACKETS:PAnsiChar = 'Netlib/GetMorePackets';
 
   {
-    wParam : HANDLE
-    lParam : Pointer to null terminated string to uh, log.
     Affect : Add a message to the log (if it's running) see notes
     Returns: non zeror on success, NULL(0) on failure
     Notes  : Don't include \r\n or #13#10 it's not needed,
@@ -692,17 +687,9 @@ const
              if you want that.
     Errors : ERROR_INVALID_PARAMETER
   }
-  MS_NETLIB_LOG:PAnsiChar = 'Netlib/Log';
-  MS_NETLIB_LOGW:PAnsiChar = 'Netlib/LogW';
 
-  {
-    Sets a gateway polling timeout interval
-    wParam=(WPARAM)(HANDLE)hConn
-    lParam=(LPARAM)timeout
-    Returns previous timeout value
-    Errors: -1
-  }
-  MS_NETLIB_SETPOLLINGTIMEOUT:PAnsiChar = 'Netlib/SetPollingTimeout';
+function Netlib_Log(nlu:THANDLE; str:PAnsiChar) : int; stdcall; external AppDll;
+function Netlib_LogW(nlu:THANDLE; str:PWideChar) : int; stdcall; external AppDll;
 
 {
   Makes connection SSL
@@ -710,6 +697,8 @@ const
   lParam=0
   Returns 0 on failure 1 on success
 }
+
+const
   MS_NETLIB_STARTSSL:PAnsiChar = 'Netlib/StartSsl';
 
 type
@@ -719,7 +708,7 @@ type
     flags :int;       // Reserved
   end;
 
-  const
+const
 /////////////////////////////////////////////////////////////////////////////////////////
 // Security providers (0.6+)
 

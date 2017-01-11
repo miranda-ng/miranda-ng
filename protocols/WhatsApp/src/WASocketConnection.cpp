@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "WASocketConnection.h"
 
-HANDLE g_hNetlibUser = NULL;
+HNETLIBUSER g_hNetlibUser = NULL;
 
-void WASocketConnection::initNetwork(HANDLE hNetlibUser) throw (WAException)
+void WASocketConnection::initNetwork(HNETLIBUSER hNetlibUser) throw (WAException)
 {
 	g_hNetlibUser = hNetlibUser;
 }

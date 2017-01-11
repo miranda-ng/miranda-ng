@@ -63,16 +63,7 @@ wchar_t *Hlp_GetWindowText(HWND hwndDlg)
 // Logging
 static int WriteToDebugLogA(const char *szMsg)
 {
-
-	int res = 0;
-	if (ServiceExists(MS_NETLIB_LOG))
-		res = CallService(MS_NETLIB_LOG, 0, (LPARAM)szMsg);
-	else {
-		OutputDebugStringA(szMsg);
-		OutputDebugStringA("\r\n");
-	}
-
-	return res;
+	return Netlib_Log(0, szMsg);
 }
 
 int AddDebugLogMessageA(const char* fmt, ...)

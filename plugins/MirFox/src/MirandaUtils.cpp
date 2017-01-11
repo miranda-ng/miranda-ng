@@ -20,7 +20,7 @@ void MirandaUtils::netlibLog(const wchar_t* szText){
 
 void MirandaUtils::netlibLog_int(const wchar_t* szText){
 	if (netlibHandle) {
-		CallService(MS_NETLIB_LOGW, (WPARAM)netlibHandle, (LPARAM)szText);
+		Netlib_LogfW(netlibHandle, szText);
 	}
 #ifdef _DEBUG
 	OutputDebugString(szText);
@@ -29,13 +29,12 @@ void MirandaUtils::netlibLog_int(const wchar_t* szText){
 
 void MirandaUtils::netlibRegister(){
 	// Register netlib user for logging function
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_NOOPTIONS;
 	nlu.szSettingsModule = PLUGIN_DB_ID;
 	nlu.ptszDescriptiveName = TranslateT("MirFox log");
 
-	netlibHandle = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	netlibHandle = Netlib_RegisterUser(&nlu);
 }
 
 void MirandaUtils::netlibUnregister(){

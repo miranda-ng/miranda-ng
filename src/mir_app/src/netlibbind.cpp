@@ -115,7 +115,7 @@ int NetlibFreeBoundPort(struct NetlibBoundPort *nlbp)
 	closesocket(nlbp->s6);
 	if (nlbp->hThread)
 		WaitForSingleObject(nlbp->hThread, INFINITE);
-	NetlibLogf(nlbp->nlu, "(%u) Port %u closed for incoming connections", nlbp->s, nlbp->wPort);
+	Netlib_Logf(nlbp->nlu, "(%u) Port %u closed for incoming connections", nlbp->s, nlbp->wPort);
 	mir_free(nlbp);
 	return 1;
 }
@@ -123,7 +123,7 @@ int NetlibFreeBoundPort(struct NetlibBoundPort *nlbp)
 static void NetlibBindAcceptThread(void* param)
 {
 	NetlibBoundPort *nlbp = (NetlibBoundPort*)param;
-	NetlibLogf(nlbp->nlu, "(%u) Port %u opened for incoming connections", nlbp->s, nlbp->wPort);
+	Netlib_Logf(nlbp->nlu, "(%u) Port %u opened for incoming connections", nlbp->s, nlbp->wPort);
 
 	while (true) {
 		fd_set r;
@@ -133,7 +133,7 @@ static void NetlibBindAcceptThread(void* param)
 		if (nlbp->s6 != INVALID_SOCKET)
 			FD_SET(nlbp->s6, &r);
 		if (select(0, &r, NULL, NULL, NULL) == SOCKET_ERROR) {
-			NetlibLogf(nlbp->nlu, "NetlibBindAcceptThread (%p): select failed (%d)", nlbp->s, GetLastError());
+			Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): select failed (%d)", nlbp->s, GetLastError());
 			break;
 		}
 
@@ -145,20 +145,20 @@ static void NetlibBindAcceptThread(void* param)
 		if (FD_ISSET(nlbp->s, &r)) {
 			s = accept(nlbp->s, (sockaddr*)&sin, &sinLen);
 			if (s == INVALID_SOCKET) {
-				NetlibLogf(nlbp->nlu, "NetlibBindAcceptThread (%p): accept V4 failed (%d)", nlbp->s, GetLastError());
+				Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): accept V4 failed (%d)", nlbp->s, GetLastError());
 				break;
 			}
 		}
 		else if (FD_ISSET(nlbp->s6, &r)) {
 			s = accept(nlbp->s6, (sockaddr*)&sin, &sinLen);
 			if (s == INVALID_SOCKET) {
-				NetlibLogf(nlbp->nlu, "NetlibBindAcceptThread (%p): accept V6 failed (%d)", nlbp->s, GetLastError());
+				Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread (%p): accept V6 failed (%d)", nlbp->s, GetLastError());
 				break;
 			}
 		}
 		else s = NULL;
 
-		NetlibLogf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(NetlibAddressToString(&sin)), s);
+		Netlib_Logf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(NetlibAddressToString(&sin)), s);
 		
 		NetlibConnection *nlc = new NetlibConnection();
 		nlc->nlu = nlbp->nlu;
@@ -171,7 +171,7 @@ static void NetlibBindAcceptThread(void* param)
 	NetlibUPnPDeletePortMapping(nlbp->wExPort, "TCP");
 	nlbp->hThread = 0;
 
-	NetlibLogf(nlbp->nlu, "NetlibBindAcceptThread: (%p) thread for port %u closed", nlbp->s, nlbp->wPort);
+	Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread: (%p) thread for port %u closed", nlbp->s, nlbp->wPort);
 }
 
 INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
@@ -200,7 +200,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	nlbp->s6 = socket(PF_INET6, SOCK_STREAM, 0);
 	nlbp->pExtra = nlb->pExtra;
 	if (nlbp->s == INVALID_SOCKET && nlbp->s6 == INVALID_SOCKET) {
-		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "socket", WSAGetLastError());
+		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "socket", WSAGetLastError());
 		mir_free(nlbp);
 		return 0;
 	}
@@ -211,7 +211,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	they better have given wPort == 0, let's hope so */
 	if (nlu->settings.specifyIncomingPorts && nlu->settings.szIncomingPorts && nlb->wPort == 0) {
 		if (!BindSocketToPort(nlu->settings.szIncomingPorts, nlbp->s, nlbp->s6, &nlu->outportnum)) {
-			NetlibLogf(nlu, "Netlib bind: Not enough ports for incoming connections specified");
+			Netlib_Logf(nlu, "Netlib bind: Not enough ports for incoming connections specified");
 			SetLastError(WSAEADDRINUSE);
 		}
 		else foundPort = 1;
@@ -220,7 +220,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		/* if ->wPort == 0 then they'll get any free port, otherwise they'll
 		be asking for whatever was in nlb->wPort*/
 		if (nlb->wPort != 0) {
-			NetlibLogf(nlu, "%s %d: trying to bind port %d, this 'feature' can be abused, please be sure you want to allow it.", __FILE__, __LINE__, nlb->wPort);
+			Netlib_Logf(nlu, "%s %d: trying to bind port %d, this 'feature' can be abused, please be sure you want to allow it.", __FILE__, __LINE__, nlb->wPort);
 			sin.sin_port = htons(nlb->wPort);
 			sin6.sin6_port = htons(nlb->wPort);
 		}
@@ -239,7 +239,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 				foundPort = 1;
 	}
 	if (!foundPort) {
-		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "bind", WSAGetLastError());
+		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "bind", WSAGetLastError());
 LBL_Error:
 		closesocket(nlbp->s);
 		closesocket(nlbp->s6);
@@ -248,12 +248,12 @@ LBL_Error:
 	}
 
 	if (nlbp->s != INVALID_SOCKET && listen(nlbp->s, 5)) {
-		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
+		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
 		goto LBL_Error;
 	}
 
 	if (nlbp->s6 != INVALID_SOCKET && listen(nlbp->s6, 5)) {
-		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
+		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
 		goto LBL_Error;
 	}
 
@@ -266,7 +266,7 @@ LBL_Error:
 	else if (!getsockname(nlbp->s6, (PSOCKADDR)&sinm, &len))
 		nlb->wPort = ntohs(sinm.Ipv6.sin6_port);
 	else {
-		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "getsockname", WSAGetLastError());
+		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "getsockname", WSAGetLastError());
 		goto LBL_Error;
 	}
 	nlbp->wPort = nlb->wPort;
@@ -282,15 +282,15 @@ LBL_Error:
 
 	DWORD extIP;
 	if (nlu->settings.enableUPnP && NetlibUPnPAddPortMapping(nlb->wPort, "TCP", &nlbp->wExPort, &extIP, true)) {
-		NetlibLogf(NULL, "UPnP port mapping succeeded. Internal Port: %u External Port: %u\n", nlb->wPort, nlbp->wExPort);
+		Netlib_Logf(NULL, "UPnP port mapping succeeded. Internal Port: %u External Port: %u\n", nlb->wPort, nlbp->wExPort);
 		nlb->wExPort = nlbp->wExPort;
 		nlb->dwExternalIP = extIP;
 	}
 	else {
 		if (nlu->settings.enableUPnP)
-			NetlibLogf(NULL, "UPnP port mapping failed. Internal Port: %u\n", nlb->wPort);
+			Netlib_Logf(NULL, "UPnP port mapping failed. Internal Port: %u\n", nlb->wPort);
 		else
-			NetlibLogf(NULL, "UPnP disabled. Internal Port: %u\n", nlb->wPort);
+			Netlib_Logf(NULL, "UPnP disabled. Internal Port: %u\n", nlb->wPort);
 
 		nlbp->wExPort = 0;
 		nlb->wExPort = nlb->wPort;

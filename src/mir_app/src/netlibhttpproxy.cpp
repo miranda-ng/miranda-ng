@@ -307,11 +307,11 @@ int NetlibHttpGatewayRecv(NetlibConnection *nlc, char *buf, int len, int flags)
 			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
 
 			if (nlc->nlhpi.szHttpGetUrl && resultCode != 404) {
-				NetlibLogf(nlu, "Error received from proxy, retrying");
+				Netlib_Logf(nlu, "Error received from proxy, retrying");
 				continue;
 			}
 			else {
-				NetlibLogf(nlu, "Error received from proxy, retry attempts exceeded (%u)", retryCount);
+				Netlib_Logf(nlu, "Error received from proxy, retry attempts exceeded (%u)", retryCount);
 				SetLastError(ERROR_GEN_FAILURE);
 				return SOCKET_ERROR;
 			}

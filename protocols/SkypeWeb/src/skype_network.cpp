@@ -21,12 +21,11 @@ void CSkypeProto::InitNetwork()
 {
 	CMStringW name(FORMAT, TranslateT("%s connection"), m_tszUserName);
 
-	NETLIBUSER nlu = { 0 };
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.ptszDescriptiveName = name.GetBuffer();
 	nlu.szSettingsModule = m_szModuleName;
-	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 }
 
 void CSkypeProto::UnInitNetwork()

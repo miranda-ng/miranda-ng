@@ -95,7 +95,7 @@ __inline static void SAFE_FREE(WCHAR** str) { SAFE_FREE((void**)str); }
 
 DWORD  ICQWaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds, int bWaitAlways = FALSE);
 
-HANDLE NetLib_OpenConnection(HANDLE hUser, const char* szIdent, NETLIBOPENCONNECTION* nloc);
+HANDLE NetLib_OpenConnection(HNETLIBUSER hUser, const char* szIdent, NETLIBOPENCONNECTION* nloc);
 void   NetLib_CloseConnection(HANDLE *hConnection, int bServerConn);
 void   NetLib_SafeCloseHandle(HANDLE *hConnection);
 

@@ -89,10 +89,10 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	            m_iDesiredStatus,  // status to be set after logging in
 	            m_iXStatus,        // extanded status
 	            m_iVersion;        // version 2 or higher designate support of Unicode services
-	wchar_t*      m_tszUserName;     // human readable protocol's name
+	wchar_t*    m_tszUserName;     // human readable protocol's name
 	char*       m_szModuleName;    // internal protocol name, also its database module name
 	HANDLE      m_hProtoIcon;      // icon to be displayed in the account manager
-	HANDLE      m_hNetlibUser;     // network agent
+	HNETLIBUSER m_hNetlibUser;     // network agent
 	MWindowList m_hWindowList;     // list of all windows which belong to this protocol's instance
 	HGENMENU    m_hMainMenuItem;	 // if protocol menus are displayed in the main menu, this is the root
 

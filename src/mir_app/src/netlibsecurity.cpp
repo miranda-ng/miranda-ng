@@ -70,7 +70,7 @@ static void ReportSecError(SECURITY_STATUS scRet, int line)
 
 	char *p = strchr(szMsgBuf, 13); if (p) *p = 0;
 
-	NetlibLogf(NULL, "Security error 0x%x on line %u (%s)", scRet, line, szMsgBuf);
+	Netlib_Logf(NULL, "Security error 0x%x on line %u (%s)", scRet, line, szMsgBuf);
 }
 
 HANDLE NetlibInitSecurityProvider(const wchar_t* szProvider, const wchar_t* szPrincipal)
@@ -275,7 +275,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			if (login != NULL && login[0] != '\0') {
 				memset(&auth, 0, sizeof(auth));
 
-				NetlibLogf(NULL, "Security login requested, user: %S pssw: %s", login, psw ? "(exist)" : "(no psw)");
+				Netlib_Logf(NULL, "Security login requested, user: %S pssw: %s", login, psw ? "(exist)" : "(no psw)");
 
 				const wchar_t* loginName = login;
 				const wchar_t* domainName = wcschr(login, '\\');
