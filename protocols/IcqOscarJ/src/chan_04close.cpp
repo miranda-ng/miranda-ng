@@ -142,7 +142,7 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 
 		if (hServerConn) {
 			/* Time to recreate the packet receiver */
-			info->hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 0x2400);
+			info->hPacketRecver = Netlib_CreatePacketReceiver(hServerConn, 0x2400);
 			if (!info->hPacketRecver)
 				debugLogA("Error: Failed to create packet receiver.");
 			else { // we need to reset receiving structs

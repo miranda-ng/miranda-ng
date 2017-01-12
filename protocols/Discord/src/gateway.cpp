@@ -102,7 +102,7 @@ void CDiscordProto::GatewayThreadWorker()
 	}
 	else conn.wPort = 443;
 
-	m_hGatewayConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hGatewayNetlibUser, (LPARAM)&conn);
+	m_hGatewayConnection = Netlib_OpenConnection(m_hGatewayNetlibUser, &conn);
 	if (m_hGatewayConnection == NULL) {
 		debugLogA("Gateway connection failed to connect to %s:%d, exiting", m_szGateway.c_str(), conn.wPort);
 		return;

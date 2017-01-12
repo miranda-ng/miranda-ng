@@ -145,9 +145,8 @@ class CDiscordProto : public PROTO<CDiscordProto>
 		m_szGateway,           // gateway url
 		m_szGatewaySessionId;  // current session id
 	
-	HANDLE 
-		m_hGatewayNetlibUser,  // the separate netlib user handle for gateways
-		m_hGatewayConnection;  // gateway connection
+	HNETLIBUSER m_hGatewayNetlibUser; // the separate netlib user handle for gateways
+	HANDLE m_hGatewayConnection;      // gateway connection
 	
 	void __cdecl GatewayThread(void*);
 	void CDiscordProto::GatewayThreadWorker(void);

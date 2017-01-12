@@ -93,7 +93,7 @@ static void AddProxyTypeItem(HWND hwndDlg, int type, int selectType)
 		SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_SETCURSEL, i, 0);
 }
 
-static void CopySettingsStruct(NETLIBUSERSETTINGS *dest, NETLIBUSERSETTINGS *source)
+static void CopySettingsStruct(NETLIBUSERSETTINGS *dest, const NETLIBUSERSETTINGS *source)
 {
 	*dest = *source;
 	if (dest->szIncomingPorts) dest->szIncomingPorts = mir_strdup(dest->szIncomingPorts);
@@ -110,8 +110,8 @@ static void CombineSettingsStrings(char **dest, char **source)
 
 static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest, DWORD *destFlags, NETLIBUSERSETTINGS *source, DWORD sourceFlags)
 {
-	if (sourceFlags&NUF_OUTGOING) {
-		if (*destFlags&NUF_OUTGOING) {
+	if (sourceFlags & NUF_OUTGOING) {
+		if (*destFlags & NUF_OUTGOING) {
 			if (dest->validateSSL != source->validateSSL) dest->validateSSL = 2;
 			if (dest->useProxy != source->useProxy) dest->useProxy = 2;
 			if (dest->proxyType != source->proxyType) dest->proxyType = 0;
@@ -142,8 +142,8 @@ static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest, DWORD *destFlags, N
 			if (dest->szOutgoingPorts) dest->szOutgoingPorts = mir_strdup(dest->szOutgoingPorts);
 		}
 	}
-	if (sourceFlags&NUF_INCOMING) {
-		if (*destFlags&NUF_INCOMING) {
+	if (sourceFlags & NUF_INCOMING) {
+		if (*destFlags & NUF_INCOMING) {
 			if (dest->enableUPnP != source->enableUPnP) dest->enableUPnP = 2;
 			if (dest->specifyIncomingPorts != source->specifyIncomingPorts) dest->specifyIncomingPorts = 2;
 			CombineSettingsStrings(&dest->szIncomingPorts, &source->szIncomingPorts);
@@ -155,8 +155,8 @@ static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest, DWORD *destFlags, N
 			if (dest->szIncomingPorts) dest->szIncomingPorts = mir_strdup(dest->szIncomingPorts);
 		}
 	}
-	if ((*destFlags&NUF_NOHTTPSOPTION) != (sourceFlags&NUF_NOHTTPSOPTION))
-		*destFlags = (*destFlags | sourceFlags)&~NUF_NOHTTPSOPTION;
+	if ((*destFlags & NUF_NOHTTPSOPTION) != (sourceFlags & NUF_NOHTTPSOPTION))
+		*destFlags = (*destFlags | sourceFlags) & ~NUF_NOHTTPSOPTION;
 	else *destFlags |= sourceFlags;
 }
 
@@ -220,7 +220,7 @@ static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETT
 	}
 }
 
-void NetlibSaveUserSettingsStruct(const char *szSettingsModule, NETLIBUSERSETTINGS *settings)
+void NetlibSaveUserSettingsStruct(const char *szSettingsModule, const NETLIBUSERSETTINGS *settings)
 {
 	mir_cslock lck(csNetlibUser);
 

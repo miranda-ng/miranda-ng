@@ -305,7 +305,7 @@ public:
 	unsigned short LocalPort;// our port
 	
 	//Peer connection stuff
-	HANDLE m_hNetlibPeer;//handle to the peer netlib
+	HNETLIBUSER m_hNetlibPeer;//handle to the peer netlib
 	HANDLE hDirectBoundPort;//direct connection listening port
 	HANDLE current_rendezvous_accept_user;//hack
 

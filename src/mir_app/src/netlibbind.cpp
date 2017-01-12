@@ -137,7 +137,7 @@ static void NetlibBindAcceptThread(void* param)
 			break;
 		}
 
-		SOCKADDR_INET_M sin;
+		sockaddr_in sin;
 		int sinLen = sizeof(sin);
 		memset(&sin, 0, sizeof(sin));
 
@@ -158,14 +158,14 @@ static void NetlibBindAcceptThread(void* param)
 		}
 		else s = NULL;
 
-		Netlib_Logf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(NetlibAddressToString(&sin)), s);
+		Netlib_Logf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, ptrA(Netlib_AddressToString(&sin)), s);
 		
 		NetlibConnection *nlc = new NetlibConnection();
 		nlc->nlu = nlbp->nlu;
 		nlc->s = s;
 
 		if (nlbp->pfnNewConnectionV2)
-			nlbp->pfnNewConnectionV2(nlc, ntohl(sin.Ipv4.sin_addr.S_un.S_addr), nlbp->pExtra);
+			nlbp->pfnNewConnectionV2(nlc, ntohl(sin.sin_addr.S_un.S_addr), nlbp->pExtra);
 	}
 
 	NetlibUPnPDeletePortMapping(nlbp->wExPort, "TCP");
@@ -174,15 +174,8 @@ static void NetlibBindAcceptThread(void* param)
 	Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread: (%p) thread for port %u closed", nlbp->s, nlbp->wPort);
 }
 
-INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(HANDLE) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb)
 {
-	NETLIBBIND *nlb = (NETLIBBIND*)lParam;
-	NetlibUser *nlu = (NetlibUser*)wParam;
-	struct NetlibBoundPort *nlbp;
-	SOCKADDR_IN sin = { 0 };
-	SOCKADDR_IN6 sin6 = { 0 };
-	int foundPort = 0;
-
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) ||
 		nlb == NULL || nlb->pfnNewConnection == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -191,7 +184,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	if (nlb->cbSize != sizeof(NETLIBBIND))
 		return 0;
 
-	nlbp = (NetlibBoundPort*)mir_calloc(sizeof(NetlibBoundPort));
+	NetlibBoundPort *nlbp = (NetlibBoundPort*)mir_calloc(sizeof(NetlibBoundPort));
 	nlbp->handleType = NLH_BOUNDPORT;
 	nlbp->nlu = nlu;
 	nlbp->pfnNewConnectionV2 = nlb->pfnNewConnectionV2;
@@ -204,11 +197,16 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		mir_free(nlbp);
 		return 0;
 	}
+
+	SOCKADDR_IN sin = { 0 };
 	sin.sin_family = AF_INET;
+
+	SOCKADDR_IN6 sin6 = { 0 };
 	sin6.sin6_family = AF_INET6;
 
 	/* if the netlib user wanted a free port given in the range, then
 	they better have given wPort == 0, let's hope so */
+	int foundPort = 0;
 	if (nlu->settings.specifyIncomingPorts && nlu->settings.szIncomingPorts && nlb->wPort == 0) {
 		if (!BindSocketToPort(nlu->settings.szIncomingPorts, nlbp->s, nlbp->s6, &nlu->outportnum)) {
 			Netlib_Logf(nlu, "Netlib bind: Not enough ports for incoming connections specified");
@@ -298,5 +296,5 @@ LBL_Error:
 	}
 
 	nlbp->hThread = mir_forkthread(NetlibBindAcceptThread, nlbp);
-	return (INT_PTR)nlbp;
+	return nlbp;
 }

@@ -40,7 +40,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 	nloc.cbSize = sizeof(nloc);
 	nloc.szHost = ft->httpHostName;
 	nloc.wPort = ft->httpPort;
-	info.s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+	info.s = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 	if (info.s == NULL) {
 		debugLogA("Connection failed (%d), thread ended", WSAGetLastError());
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
@@ -240,12 +240,13 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	ThreadData info(this, NULL);
 	ft->type = FT_OOB;
 
-	NETLIBBIND nlb = { 0 };
+	NETLIBBIND nlb = {};
 	nlb.cbSize = sizeof(NETLIBBIND);
 	nlb.pfnNewConnectionV2 = JabberFileServerConnection;
 	nlb.pExtra = this;
 	nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
-	info.s = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nlb);
+	
+	info.s = Netlib_BindPort(m_hNetlibUser, &nlb);
 	if (info.s == NULL) {
 		debugLogA("Cannot allocate port to bind for file server thread, thread ended.");
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
@@ -286,8 +287,12 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				ptrA myAddr;
 				if (m_options.BsDirect && m_options.BsDirectManual)
 					myAddr = getStringA("BsDirectAddr");
-				if (myAddr == NULL)
-					myAddr = (char*)CallService(MS_NETLIB_ADDRESSTOSTRING, 1, nlb.dwExternalIP);
+				if (myAddr == NULL) {
+					sockaddr_in sin = {};
+					sin.sin_family = AF_INET;
+					sin.sin_addr.S_un.S_addr = nlb.dwExternalIP;
+					myAddr = Netlib_AddressToString(&sin);
+				}
 
 				char szAddr[256];
 				mir_snprintf(szAddr, "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);

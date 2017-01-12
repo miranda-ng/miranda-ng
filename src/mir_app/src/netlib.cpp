@@ -204,11 +204,8 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR NetlibGetUserSettings(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Netlib_GetUserSettings(HNETLIBUSER nlu, NETLIBUSERSETTINGS *nlus)
 {
-	NETLIBUSERSETTINGS *nlus = (NETLIBUSERSETTINGS*)lParam;
-	NetlibUser *nlu = (NetlibUser*)wParam;
-
 	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == NULL || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
@@ -217,11 +214,8 @@ static INT_PTR NetlibGetUserSettings(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-static INT_PTR NetlibSetUserSettings(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Netlib_SetUserSettings(HNETLIBUSER nlu, const NETLIBUSERSETTINGS *nlus)
 {
-	NETLIBUSERSETTINGS *nlus = (NETLIBUSERSETTINGS*)lParam;
-	NetlibUser *nlu = (NetlibUser*)wParam;
-
 	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == NULL || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
@@ -350,22 +344,6 @@ static INT_PTR NetlibGetSocket(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR NetlibStringToAddressSrv(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)!NetlibStringToAddress((char*)wParam, (SOCKADDR_INET_M*)lParam);
-}
-
-INT_PTR NetlibAddressToStringSrv(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam) {
-		SOCKADDR_INET_M iaddr = {0};
-		iaddr.Ipv4.sin_family = AF_INET;
-		iaddr.Ipv4.sin_addr.s_addr = htonl((unsigned)lParam);
-		return (INT_PTR)NetlibAddressToString(&iaddr);
-	}
-	return (INT_PTR)NetlibAddressToString((SOCKADDR_INET_M*)lParam);
-}
-
 INT_PTR NetlibGetConnectionInfoSrv(WPARAM wParam, LPARAM lParam)
 {
 	NetlibGetConnectionInfo((NetlibConnection*)wParam, (NETLIBCONNINFO*)lParam);
@@ -387,14 +365,14 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR NetlibShutdown(WPARAM wParam, LPARAM)
+MIR_APP_DLL(void) Netlib_Shutdown(HANDLE h)
 {
-	if (wParam) {
+	if (h) {
 		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-		switch(GetNetlibHandleType((void*)wParam)) {
+		switch (GetNetlibHandleType(h)) {
 		case NLH_CONNECTION:
 			{
-				NetlibConnection *nlc = (NetlibConnection*)wParam;
+				NetlibConnection *nlc = (NetlibConnection*)h;
 				if (!nlc->termRequested) {
 					if (nlc->hSsl) sslApi.shutdown(nlc->hSsl);
 					if (nlc->s != INVALID_SOCKET) shutdown(nlc->s, 2);
@@ -405,14 +383,13 @@ INT_PTR NetlibShutdown(WPARAM wParam, LPARAM)
 			break;
 
 		case NLH_BOUNDPORT:
-			struct NetlibBoundPort* nlb = (struct NetlibBoundPort*)wParam;
+			struct NetlibBoundPort *nlb = (NetlibBoundPort*)h;
 			if (nlb->s != INVALID_SOCKET)
 				shutdown(nlb->s, 2);
 			break;
 		}
 		ReleaseMutex(hConnectionHeaderMutex);
 	}
-	return 0;
 }
 
 void UnloadNetlibModule(void)
@@ -495,23 +472,13 @@ int LoadNetlibModule(void)
 	hConnectionOpenMutex = connectionTimeout ? CreateMutex(NULL, FALSE, NULL) : NULL;
 	g_LastConnectionTick = GetTickCount();
 
-	CreateServiceFunction(MS_NETLIB_GETUSERSETTINGS, NetlibGetUserSettings);
-	CreateServiceFunction(MS_NETLIB_SETUSERSETTINGS, NetlibSetUserSettings);
-	CreateServiceFunction(MS_NETLIB_BINDPORT, NetlibBindPort);
-	CreateServiceFunction(MS_NETLIB_OPENCONNECTION, NetlibOpenConnection);
 	CreateServiceFunction(MS_NETLIB_SETHTTPPROXYINFO, NetlibHttpGatewaySetInfo);
 	CreateServiceFunction(MS_NETLIB_SETSTICKYHEADERS, NetlibHttpSetSticky);
 	CreateServiceFunction(MS_NETLIB_GETSOCKET, NetlibGetSocket);
-	CreateServiceFunction(MS_NETLIB_SENDHTTPREQUEST, NetlibHttpSendRequest);
 	CreateServiceFunction(MS_NETLIB_SELECT, NetlibSelect);
 	CreateServiceFunction(MS_NETLIB_SELECTEX, NetlibSelectEx);
-	CreateServiceFunction(MS_NETLIB_SHUTDOWN, NetlibShutdown);
-	CreateServiceFunction(MS_NETLIB_CREATEPACKETRECVER, NetlibPacketRecverCreate);
-	CreateServiceFunction(MS_NETLIB_GETMOREPACKETS, NetlibPacketRecverGetMore);
 	CreateServiceFunction(MS_NETLIB_SETPOLLINGTIMEOUT, NetlibHttpSetPollingTimeout);
 	CreateServiceFunction(MS_NETLIB_STARTSSL, NetlibStartSsl);
-	CreateServiceFunction(MS_NETLIB_STRINGTOADDRESS, NetlibStringToAddressSrv);
-	CreateServiceFunction(MS_NETLIB_ADDRESSTOSTRING, NetlibAddressToStringSrv);
 	CreateServiceFunction(MS_NETLIB_GETCONNECTIONINFO, NetlibGetConnectionInfoSrv);
 	CreateServiceFunction(MS_NETLIB_GETMYIP, NetlibGetMyIp);
 

@@ -191,7 +191,7 @@ static NetlibConnection* NetlibHttpProcessUrl(NETLIBHTTPREQUEST *nlhr, NetlibUse
 			return NetlibDoConnect(nlc) ? nlc : NULL;
 		}
 	}
-	else nlc = (NetlibConnection*)NetlibOpenConnection((WPARAM)nlu, (LPARAM)&nloc);
+	else nlc = (NetlibConnection*)Netlib_OpenConnection(nlu, &nloc);
 
 	mir_free((char*)nloc.szHost);
 
@@ -367,10 +367,9 @@ static int SendHttpRequestAndData(NetlibConnection *nlc, CMStringA &httpRequest,
 	return bytesSent;
 }
 
-INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Netlib_SendHttpRequest(HANDLE hConnection, NETLIBHTTPREQUEST *nlhr)
 {
-	NetlibConnection *nlc = (NetlibConnection*)wParam;
-	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)lParam;
+	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 	HttpSecurityContext httpSecurity;
 
@@ -486,7 +485,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 
 		// HTTP headers
 		doneHostHeader = doneContentLengthHeader = doneProxyAuthHeader = doneAuthHeader = 0;
-		for (i=0; i < nlhr->headersCount; i++) {
+		for (i = 0; i < nlhr->headersCount; i++) {
 			NETLIBHTTPHEADER &p = nlhr->headers[i];
 			if (!mir_strcmpi(p.szName, "Host")) doneHostHeader = 1;
 			else if (!mir_strcmpi(p.szName, "Content-Length")) doneContentLengthHeader = 1;
@@ -867,7 +866,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER nlu, NETLIBHT
 		nlhrSend.headers[nlhrSend.headersCount].szValue = "deflate, gzip";
 		++nlhrSend.headersCount;
 	}
-	if (NetlibHttpSendRequest((WPARAM)nlc, (LPARAM)&nlhrSend) == SOCKET_ERROR) {
+	if (Netlib_SendHttpRequest(nlc, &nlhrSend) == SOCKET_ERROR) {
 		if (!doneUserAgentHeader || !doneAcceptEncoding) mir_free(nlhrSend.headers);
 		nlhr->resultCode = nlhrSend.resultCode;
 		Netlib_CloseHandle(nlc);

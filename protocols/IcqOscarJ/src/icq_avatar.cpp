@@ -879,14 +879,14 @@ void avatars_server_connection::checkRequestQueue()
 void avatars_server_connection::connectionThread()
 {
 	// This is the "infinite" loop that receives the packets from the ICQ avatar server
-	NETLIBPACKETRECVER packetRecv = { 0 };
 	DWORD dwLastKeepAlive = time(0) + KEEPALIVE_INTERVAL;
 
-	hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hConnection, 65536);
-	packetRecv.cbSize = sizeof(packetRecv);
+	hPacketRecver = Netlib_CreatePacketReceiver(hConnection, 65536);
+
+	NETLIBPACKETRECVER packetRecv = {};
 	packetRecv.dwTimeout = 1000; // timeout - for stopThread to work
 	while (!stopThread) {
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hPacketRecver, (LPARAM)&packetRecv);
+		int recvResult = Netlib_GetMorePackets(hPacketRecver, &packetRecv);
 		if (recvResult == 0) {
 			ppro->debugLogA("Clean closure of avatar socket");
 			break;

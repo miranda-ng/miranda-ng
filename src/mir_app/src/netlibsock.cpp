@@ -190,7 +190,7 @@ INT_PTR NetlibSelectEx(WPARAM, LPARAM lParam)
 	return rc;
 }
 
-bool NetlibStringToAddress(const char* str, SOCKADDR_INET_M* addr)
+MIR_APP_DLL(bool) Netlib_StringToAddress(const char *str, SOCKADDR_INET_M *addr)
 {
 	if (!str) return false;
 
@@ -198,17 +198,17 @@ bool NetlibStringToAddress(const char* str, SOCKADDR_INET_M* addr)
 	return !WSAStringToAddressA((char*)str, AF_INET6, NULL, (PSOCKADDR)addr, &len);
 }
 
-char* NetlibAddressToString(SOCKADDR_INET_M* addr)
+MIR_APP_DLL(char*) Netlib_AddressToString(sockaddr_in *addr)
 {
 	char saddr[128];
 	DWORD len = sizeof(saddr);
 	if (!WSAAddressToStringA((PSOCKADDR)addr, sizeof(*addr), NULL, saddr, &len))
 		return mir_strdup(saddr);
 
-	if (addr->si_family == AF_INET) {
-		char *szIp = inet_ntoa(addr->Ipv4.sin_addr);
-		if (addr->Ipv4.sin_port != 0) {
-			mir_snprintf(saddr, "%s:%d", szIp, htons(addr->Ipv4.sin_port));
+	if (addr->sin_family == AF_INET) {
+		char *szIp = inet_ntoa(addr->sin_addr);
+		if (addr->sin_port != 0) {
+			mir_snprintf(saddr, "%s:%d", szIp, htons(addr->sin_port));
 			return mir_strdup(saddr);
 		}
 		return mir_strdup(szIp);
@@ -220,12 +220,12 @@ void NetlibGetConnectionInfo(NetlibConnection *nlc, NETLIBCONNINFO *connInfo)
 {
 	if (!nlc || !connInfo || connInfo->cbSize < sizeof(NETLIBCONNINFO)) return;
 
-	SOCKADDR_INET_M sin = { 0 };
+	sockaddr_in sin = { 0 };
 	int len = sizeof(sin);
 	if (!getsockname(nlc->s, (PSOCKADDR)&sin, &len)) {
-		connInfo->wPort = ntohs(sin.Ipv4.sin_port);
-		connInfo->dwIpv4 = sin.si_family == AF_INET ? htonl(sin.Ipv4.sin_addr.s_addr) : 0;
-		strncpy_s(connInfo->szIpPort, ptrA(NetlibAddressToString(&sin)), _TRUNCATE);
+		connInfo->wPort = ntohs(sin.sin_port);
+		connInfo->dwIpv4 = sin.sin_family == AF_INET ? htonl(sin.sin_addr.s_addr) : 0;
+		strncpy_s(connInfo->szIpPort, ptrA(Netlib_AddressToString(&sin)), _TRUNCATE);
 	}
 }
 
@@ -258,12 +258,9 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 
 	unsigned i = 0;
 	for (ai = air; ai; ai = ai->ai_next) {
-		SOCKADDR_INET_M *iaddr = (SOCKADDR_INET_M*)ai->ai_addr;
-		if (ai->ai_family == AF_INET ||
-			(ai->ai_family == AF_INET6 &&
-			(!(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
-		{
-			char *szIp = NetlibAddressToString(iaddr);
+		sockaddr_in6 *iaddr = (sockaddr_in6*)ai->ai_addr;
+		if (ai->ai_family == AF_INET || (ai->ai_family == AF_INET6 && (!(flags & 1) || IsAddrGlobal(&iaddr->sin6_addr)))) {
+			char *szIp = Netlib_AddressToString((sockaddr_in*)iaddr);
 			if (szIp)
 				strncpy_s(addr->szIp[i++], szIp, _TRUNCATE);
 			mir_free(szIp);

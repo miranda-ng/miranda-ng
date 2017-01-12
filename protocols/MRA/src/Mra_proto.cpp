@@ -59,7 +59,7 @@ void CMraProto::MraThreadProc(LPVOID)
 		dwCurConnectReTryCount = dwConnectReTryCount;
 		do {
 			InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
-			m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+			m_hConnection = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 		}
 		while (--dwCurConnectReTryCount && m_hConnection == NULL);
 
@@ -82,7 +82,7 @@ void CMraProto::MraThreadProc(LPVOID)
 			dwCurConnectReTryCount = dwConnectReTryCount;
 			do {
 				InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
-				m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+				m_hConnection = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 			}
 				while (--dwCurConnectReTryCount && m_hConnection == NULL);
 
@@ -143,7 +143,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 	dwCurConnectReTryCount = dwConnectReTryCount;
 	do {
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
-		nls.hReadConns[0] = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+		nls.hReadConns[0] = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 	}
 		while (--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
 

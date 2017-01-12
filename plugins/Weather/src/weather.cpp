@@ -92,7 +92,7 @@ int WeatherShutdown(WPARAM, LPARAM)
 	SaveOptions();					// save options once more
 	status = ID_STATUS_OFFLINE;		// set status to offline
 
-	CallService(MS_NETLIB_SHUTDOWN, (WPARAM)hNetlibHttp, 0);
+	Netlib_Shutdown(hNetlibHttp);
 
 	WindowList_Broadcast(hWindowList, WM_CLOSE, 0, 0);
 	WindowList_Broadcast(hDataWindowList, WM_CLOSE, 0, 0);

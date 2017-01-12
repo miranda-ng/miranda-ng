@@ -93,7 +93,7 @@ INT_PTR PluginPing(WPARAM, LPARAM lParam)
 		conn.wPort = pa->port;
 		conn.timeout = options.ping_timeout;
 
-		HANDLE s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&conn);
+		HANDLE s = Netlib_OpenConnection(hNetlibUser, &conn);
 		mir_free((void*)conn.szHost);
 
 		clock_t end_tcp = clock();

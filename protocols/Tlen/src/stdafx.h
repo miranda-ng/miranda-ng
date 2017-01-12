@@ -281,7 +281,7 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	int __cdecl MUCHandleEvent(WPARAM wParam, LPARAM lParam);
 
 	//====================================================================================
-	HANDLE hFileNetlibUser;
+	HNETLIBUSER hFileNetlibUser;
 
 	TLEN_MODEMSGS modeMsgs;
 

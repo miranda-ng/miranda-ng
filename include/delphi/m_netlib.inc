@@ -219,24 +219,6 @@ type
     validateSSL         :int;
   end;
 
-  TNetlibNewConnectionProc    = procedure(hNewConnection:THANDLE; dwRemoveIP:dword); cdecl;
-  TNetlibNewConnectionProc_V2 = procedure(hNewConnection:THANDLE; dwRemoveIP:dword; pExtra:pointer); cdecl;
-
-  PNETLIBBIND = ^TNETLIBBIND;
-  TNETLIBBIND = record
-    cbSize:int;
-    // new code should use V2
-    pfnNewConnection:TNETLIBNEWCONNECTIONPROC;
-    // or pfnNewConnectionV2:NETLIBNEWCONNECTIONPROC_V2;
-    //function to call when there's a new connection. Params are: the
-    //new connection, IP of remote machine (host byte order)
-    dwInternalIP:dword;    //set on return, host byte order
-    wPort       :word;     //set on return, host byte order
-    pExtra      :^pointer; //argument is sent to callback, added during 0.3.4+
-    dwExternalIP:dword;    //set on return, host byte order
-    wExPort     :word;     //set on return, host byte order
-  end;
-
 type
   PNETLIBHTTPPROXYINFO = ^TNETLIBHTTPPROXYINFO;
   TNETLIBHTTPPROXYINFO = record
@@ -247,49 +229,6 @@ type
     firstGetSequence : int;
     firstPostSequence: int;
     combinePackets   : int; // MIRANDA_VER >= 0x0900
-  end;
-
-type
-  PNETLIBBUFFER = ^TNETLIBBUFFER;
-  TNETLIBBUFFER = record
-    buf  : PAnsiChar;
-    len  : int;
-    flags: int; // see MSG_* constants above
-  end;
-
-  PNETLIBSELECT = ^TNETLIBSELECT;
-  TNETLIBSELECT = record
-    cbSize      : int;
-    dwTimeout   : dword; // in milliseconds, INFINITE is acceptable
-    hReadConns  : array [0..FD_SETSIZE] of THANDLE;
-    hWriteConns : array [0..FD_SETSIZE] of THANDLE;
-    hExceptConns: array [0..FD_SETSIZE] of THANDLE;
-  end;
-
-  PNETLIBSELECTEX = ^TNETLIBSELECTEX;
-  TNETLIBSELECTEX = record
-    cbSize      : int;
-    dwTimeout   : dword; // in milliseconds, INFINITE is acceptable
-    hReadConns  : array [0..FD_SETSIZE] of THANDLE;
-    hWriteConns : array [0..FD_SETSIZE] of THANDLE;
-    hExceptConns: array [0..FD_SETSIZE] of THANDLE;
-    // Added in v0.3.3+
-    hReadStatus  : array [0..FD_SETSIZE] of bool; // out, [in, expected to be FALSE]
-    hWriteStatus : array [0..FD_SETSIZE] of bool; // out, [in, expected to be FALSE]
-    hExceptStatus: array [0..FD_SETSIZE] of bool; // out, [in, expected to be FALSE]
-  end;
-
-  PNETLIBPACKETRECVER = ^TNETLIBPACKETRECVER;
-  TNETLIBPACKETRECVER = record
-    cbSize        : int;
-    dwTimeout     : dword; // infinite is allowed -- initialise before use
-    bytesUsed     : int;   // this many bytes are removed from the start of the
-                           // buffer, set to 0 on return -- initialise before use
-    bytesAvailable: int;   // equal the returnd value by service, unless the
-                           // return value is 0 (connection closed)
-    bufferSize    : int;   // same as the parameter given to
-                           // MS_NETLIB_CREATEPACKETRECVER: wParam
-    buffer        : PByte; // contains the read data
   end;
 
   {
@@ -323,8 +262,7 @@ function Netlib_RegisterUser(pInfo:PNETLIBUSER) : THANDLE; stdcall; external App
     Errors : ERROR_INVALID_PARAMETER
   }
 
-const
-  MS_NETLIB_GETUSERSETTINGS:PAnsiChar = 'Netlib/GetUserSettings';
+function Netlib_GetUserSettings(nlu:THANDLE; nlus:PNETLIBUSERSETTINGS) : int; stdcall; external AppDll;
 
   {
     Affects: Closes a handle, see notes
@@ -335,136 +273,6 @@ const
   }
 
 function Netlib_CloseHandle(pHandle:THANDLE) : int; stdcall; external AppDll;
-
-  {
-    wParam : HANDLE
-    lParam : Pointer to a initialised TNETLIBBIND
-    Affects: Open a port and wait for connections on it -- see notes
-    Returns: Returns a handle on success, NULL(0) on failure
-    Notes  : this function does the equivalent of socket(), bind(), getsockname(),
-             listen(), accept() -- internally this function creates a new thread
-             which waits around in accept() for new connections.
-             When one is received, TNETLIBBIND.pfnNewConnection is called,
-             from the context of the NEW thread and then it
-             returns to waiting for connections.
-             -
-             Close the returned handle to end the thread and close the port.
-             -
-    Errors : ERROR_INVALID_PARAMETER, any returned by socket(), bind(), listen()
-             getsockname()
-  }
-
-const
-  MS_NETLIB_BINDPORT:PAnsiChar = 'Netlib/BindPort';
-
-  {
-    wParam : HANDLE
-    lParam : Pointer to an initalised TNETLIBOPENCONNECTION structure
-    Affects: Opens a connection -- see notes
-    Returns: Returns a Handle to a new connection on success, NULL(0) on failure
-    Notes  : internally this service is the equivalent of socket(), gethostbyname(),
-             connect()
-             -
-             If NLOCF_HTTP is set and HANDLE is configured for HTTP(S) proxy
-             then this function will connect() to that proxy server ONLY,
-             without performing any initialisation conversation.
-             -
-             If HANDLE is configured for an HTTP proxy and does not support
-             HTTP gateways and you try to open a connection without NLOCF_HTTP
-             then this service will first attempt to open an HTTPS connection,
-             if that fails, it will try a direct connection, if *that* fails
-             then it will return failure with the error
-             from connect() during the connection attempt
-    Errors : ERROR_INVALID_PARAMETER, any returned by socket(), gethostbyname(),
-             connect(), MS_NETLIB_SEND, MS_NETLIB_RECV, select()
-             -
-             ERROR_TIMEOUT (during proxy communication)
-             ERROR_BAD_FORMAT (very invalid proxy reply)
-             ERROR_ACCESS_DENIED (by proxy)
-             ERROR_CONNECTION_UNAVAIL (socks proxy can't connect to identd)
-             ERROR_INVALID_ACCESS (proxy refused identd auth)
-             ERROR_INVALID_DATA (proxy returned invalid code)
-             ERROR_INVALID_ID_AUTHORITY (proxy requires use of auth method that's not supported)
-             ERROR_GEN_FAILURE (socks5/https general failure)
-             ERROR_CALL_NOT_IMPLEMENTED (socks5 command not supported)
-             ERROR_INVALID_ADDRESS (socks5 address type not supported)
-             -
-             HTTP: anything from TNETLIBUSER.pfnHttpGatewayInit, TNETLIBUSER.pfnHttpGatewayBegin,
-                   MS_NETLIB_SENDHTTPREQUEST or MS_NETLIB_RECVHTTPHEADERS
-  }
-  MS_NETLIB_OPENCONNECTION:PAnsiChar = 'Netlib/OpenConnection';
-
-  {
-    wParam : HANDLE
-    lParam : Pointer to an initialised NETLIBHTTPPROXYINFO structure
-    Affects: Sets the required information for an HTTP proxy connection -- see notes
-    Returns: [non zero] on success, NULL(0) on failure
-    Notes  : This service is designed to be called from
-             within TNETLIBUSER.pfnHttpGatewayInit (see notes in C header under
-             MS_NETLIB_REGISTERUSER)
-    Errors : ERROR_INVALID_PARAMETER
-  }
-  MS_NETLIB_SETHTTPPROXYINFO:PAnsiChar = 'Netlib/SetHttpProxyInfo';
-
-  {
-    wParam : HANDLE
-    lParam : 0
-    Affects: Get's the SOCKET associated with a handle -- see notes
-    Returns: the SOCKET on success, INVALID_SOCKET on failure
-    Notes  : The Netlib handle passed to this service should only be passed
-             if they were returned with MS_NETLIB_OPENCONNECTION or MS_NETLIB_BINDPORT
-             -
-             Be careful how you use this socket because you might be connected via an
-             HTTP proxy, in which case calling send/recv() will break things
-             -
-    Errors : ERROR_INVALID_PARAMETER
-  }
-  MS_NETLIB_GETSOCKET:PAnsiChar = 'Netlib/GetSocket';
-
-{
-  Converts string representation of IP and port into numerical SOCKADDR_INET
-  IPv4 could supplied in formats address:port or address
-  IPv6 could supplied in formats [address]:port or [address]
-  wParam=(WPARAM)(char*) string to convert
-  lParam=(LPARAM)(SOCKADDR_INET*) numeric IP address structure
-  Returns 0 on success
-}
-  MS_NETLIB_STRINGTOADDRESS:PAnsiChar = 'Netlib/StringToAddress';
-
-{
-  Converts numerical representation of IP in SOCKADDR_INET into string representation with IP and port
-  IPv4 will be supplied in formats address:port or address
-  IPv6 will be supplied in formats [address]:port or [address]
-  wParam=(WPARAM)(int) 0 - lParam - (SOCKADDR_INET*); 1 - lParam - (unsigned) in host byte order
-  lParam=(LPARAM)(SOCKADDR_INET*) or (unsigned) numeric IP address structure
-  Returns pointer to the string or NULL if not successful
-}
-  MS_NETLIB_ADDRESSTOSTRING:PAnsiChar = 'Netlib/AddressToString';
-
-type
-  TNETLIBCONNINFO = record
-	  cbSize  :int;
-	  szIpPort:array [0..63] of AnsiChar;
-	  dwIpv4  :uint;
-	  wPort   :word;
-  end;
-
-const
-{
-  Get connection Information
-  IPv4 will be supplied in formats address:port or address
-  IPv6 will be supplied in formats [address]:port or [address]
-  wParam=(WPARAM)(HANDLE)hConnection
-  lParam=(LPARAM)(NETLIBCONNINFO*) pointer to the connection information structure to fill
-  Returns 0 if successful
-}
-  MS_NETLIB_GETCONNECTIONINFO:PAnsiChar = 'Netlib/GetConnectionInfo';
-
-type
-  TNETLIBIPLIST = record
-	  cbNum:uint;
-	  szIp :array[0..0,0..63] of AnsiChar;
-  end;
 
   {
     Affect : Free the memory used by a TNETLIBHTTPREQUEST structure, see notes
@@ -562,72 +370,6 @@ function Netlib_Send(hConn:THANDLE; pBuf:Pointer; len,flags:int) : int; stdcall;
 function Netlib_Recv(hConn:THANDLE; pBuf:Pointer; len,flags:int) : int; stdcall; external AppDll;
 
   {
-    wParam : 0
-    lParam : Pointer to an initialised TNETLIBSELECT structure
-    Affect : Determine the status of one or more connections, see notes
-    Returns: The numbe of ready connections, SOCKET_ERROR on failure
-    Notes  : All handles passed to this service must have been returned
-             either by MS_NETLIB_OPENCONNECTION or MS_NETLIB_BINDPORT,
-             the last handle in each list must be followed by either NULL
-             or INVALID_HANDLE_VALUE.
-    Errors : ERROR_INVALID_HANDLE, ERROR_INVALID_DATA, anything from select()
-  }
-const
-  MS_NETLIB_SELECT  :PAnsiChar = 'Netlib/Select';
-  MS_NETLIB_SELECTEX:PAnsiChar = 'Netlib/SelectEx'; // added in v0.3.3
-
-{
-  Shutdown connection
-  wParam=(WPARAM)(HANDLE)hConnection
-  lParam=(LPARAM)0
-  Returns 0
-}
-  MS_NETLIB_SHUTDOWN:PAnsiChar = 'Netlib/Shutdown';
-
-  {
-    wParam : HANDLE
-    lParam : maxPacketSize
-    Affect : Create a packet receiver, see notes
-    Returns: A handle on success, NULL(0) on failure
-    Notes  : The packet receiver implements the common situation where
-             you have a variable length of packets coming thru over a connection
-             and you want them split up in order to handle them.
-             -
-             The major limiation is, that the buffer is created in memory,
-             so you can't have arbitrarily large packets
-    Errors : ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
-  }
-  MS_NETLIB_CREATEPACKETRECVER:PAnsiChar = 'Netlib/CreatePacketRecver';
-
-  {
-    wParam : Handle returned by MS_NETLIB_CREATEPACKETRECVER
-    lParam : Pointer to an initialised TNETLIBPACKETRECVER
-    Returns: The total number of bytes available in the buffer, NULL(0)
-             if the connection was closed or SOCKET_ERROR.
-             -
-             If TNETLIBPACKETRECVER.bytesUsed is set to zero and the
-             buffer is already full up to the maxPacketSize, it is assumed
-             that a too large packet has been received, All data in
-             the buffer is discarded and receiving has started anew.
-             -
-             This will probably cause alignment problem so if you think
-             that tis iss likely to happen, then you should deal with it
-             yourself.
-             -
-             Closing the packet receiver will not close the associated
-             connection but will discard any bytes still in the buffer,
-             so if you intend to carry on reading from that connection,
-             make sure you have processed the buffer first.
-             -
-             This service is equivalent of memmove() to remove
-             the first bytesUsed from the buffer, select(), if dwTimeOut
-             is not INFINITE, then MS_NETLIB_RECV
-    Errors : ERROR_INVALID_PARAMETER, ERROR_TIMEOUT, anything from select(),
-             MS_NETLIB_RECV
-  }
-  MS_NETLIB_GETMOREPACKETS:PAnsiChar = 'Netlib/GetMorePackets';
-
-  {
     Affect : Add a message to the log (if it's running) see notes
     Returns: non zeror on success, NULL(0) on failure
     Notes  : Don't include \r\n or #13#10 it's not needed,
@@ -640,93 +382,5 @@ const
 
 function Netlib_Log(nlu:THANDLE; str:PAnsiChar) : int; stdcall; external AppDll;
 function Netlib_LogW(nlu:THANDLE; str:PWideChar) : int; stdcall; external AppDll;
-
-{
-  Makes connection SSL
-  wParam=(WPARAM)(HANDLE)hConn
-  lParam=0
-  Returns 0 on failure 1 on success
-}
-
-const
-  MS_NETLIB_STARTSSL:PAnsiChar = 'Netlib/StartSsl';
-
-type
-  TNETLIBSSL = record
-    cbSize:int;
-    host  :PAnsiChar; // Expected host name
-    flags :int;       // Reserved
-  end;
-
-const
-/////////////////////////////////////////////////////////////////////////////////////////
-// Security providers (0.6+)
-
-  NNR_UNICODE = 1;
-// Inits a required security provider. Right now only NTLM is supported
-// Returns HANDLE = NULL on error or non-null value on success
-// Known providers: Basic, NTLM, Negotiate, Kerberos, GSSAPI - (Kerberos SASL)
-  MS_NETLIB_INITSECURITYPROVIDER:PAnsiChar = 'Netlib/InitSecurityProvider';
-
-type
-  TNETLIBNTLMINIT2 = record
-    cbSize        :size_t;
-    szProviderName:TChar;
-    szPrincipal   :TChar;
-    flags         :uint;
-  end;
-
-const
-  MS_NETLIB_INITSECURITYPROVIDER2:PAnsiChar = 'Netlib/InitSecurityProvider2';
-
-// Destroys a security provider's handle, provided by Netlib_InitSecurityProvider.
-// Right now only NTLM is supported
-  MS_NETLIB_DESTROYSECURITYPROVIDER:PAnsiChar = 'Netlib/DestroySecurityProvider';
-
-// Returns the NTLM response string. The result value should be freed using mir_free
-  MS_NETLIB_NTLMCREATERESPONSE:PAnsiChar = 'Netlib/NtlmCreateResponse';
-
-type
-  TNETLIBNTLMREQUEST = record
-    szChallenge:PAnsiChar;
-    userName   :PAnsiChar;
-    password   :PAnsiChar;
-//    complete   :int; // not present in last versions
-  end;
-
-type
-  TNETLIBNTLMREQUEST2 = record
-    cbSize     :size_t;
-    szChallenge:PAnsiChar;
-    szUserName :TChar;
-    szPassword :TChar;
-    complete   :uint;
-    flags      :uint;
-  end;
-
-const
-  MS_NETLIB_NTLMCREATERESPONSE2 = 'Netlib/NtlmCreateResponse2';
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Netlib hooks (0.8+)
-
-// WARNING: these hooks are being called in the context of the calling thread, without switching
-// to the first thread, like all another events do. The hook procedure should be ready for the
-// multithreaded mode
-//
-// Parameters:
-//    wParam: NETLIBNOTIFY* - points to the data being sent/received
-//    lParam: NETLIBUSER*   - points to the protocol definition
-
-type
-  TNETLIBNOTIFY = record
-    nlb   :PNETLIBBUFFER; // pointer to the request buffer
-    result:int;           // amount of bytes really sent/received
-  end;
-
-const
-  ME_NETLIB_FASTRECV :PAnsiChar = 'Netlib/OnRecv';  // being called on every receive
-  ME_NETLIB_FASTSEND :PAnsiChar = 'Netlib/OnSend';  // being called on every send
-  ME_NETLIB_FASTDUMP :PAnsiChar = 'Netlib/OnDump';  // being called on every dump
 
 {$ENDIF}

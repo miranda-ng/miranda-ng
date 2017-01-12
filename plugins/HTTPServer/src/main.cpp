@@ -634,12 +634,11 @@ static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam)
 INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 {
 	if (!hDirectBoundPort) {
-		NETLIBUSERSETTINGS nus = { 0 };
+		NETLIBUSERSETTINGS nus = {};
 		nus.cbSize = sizeof(nus);
-		if (!CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)hNetlibUser, (LPARAM)&nus))
-			Netlib_Logf(hNetlibUser, "Failed to get NETLIBUSERSETTINGS using MS_NETLIB_GETUSERSETTINGS");
+		Netlib_GetUserSettings(hNetlibUser, &nus);
 
-		NETLIBBIND nlb = { 0 };
+		NETLIBBIND nlb = {};
 		nlb.cbSize = sizeof(NETLIBBIND);
 		nlb.pfnNewConnection = ConnectionOpen;
 		if (nus.specifyIncomingPorts && nus.szIncomingPorts && nus.szIncomingPorts[0])
@@ -647,7 +646,7 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 		else
 			nlb.wPort = 80;
 
-		hDirectBoundPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlibUser, (LPARAM)& nlb);
+		hDirectBoundPort = Netlib_BindPort(hNetlibUser, &nlb);
 		if (!hDirectBoundPort) {
 			char szTemp[200];
 			mir_snprintf(szTemp, Translate("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port"),

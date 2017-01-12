@@ -160,7 +160,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 
 	debugLogA("Thread started: server='%s:%d', type=%d", tConn.szHost, tConn.wPort, info->mType);
 
-	info->s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&tConn);
+	info->s = Netlib_OpenConnection(m_hNetlibUser, &tConn);
 	if (info->s == NULL) {
 		debugLogA("Connection Failed (%d) server='%s:%d'", WSAGetLastError(), tConn.szHost, tConn.wPort);
 
@@ -336,7 +336,7 @@ void CMsnProto::MSN_CloseConnections(void)
 			break;
 
 		case SERVER_P2P_DIRECT:
-			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)T.s, 0);
+			Netlib_Shutdown(T.s);
 			break;
 		}
 	}
@@ -344,7 +344,7 @@ void CMsnProto::MSN_CloseConnections(void)
 	lck.unlock();
 
 	if (hHttpsConnection)
-		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)hHttpsConnection, 0);
+		Netlib_Shutdown(hHttpsConnection);
 }
 
 void CMsnProto::Threads_Uninit(void)

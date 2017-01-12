@@ -34,14 +34,13 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 	}
 
 	//start listen for packets stuff
-	NETLIBPACKETRECVER packetRecv = {0};
-	packetRecv.cbSize = sizeof(packetRecv);
+	NETLIBPACKETRECVER packetRecv = {};
 	packetRecv.dwTimeout = INFINITE;
 
-	HANDLE hServerPacketRecver = (HANDLE) CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)ft->hConn, 2048 * 4);
+	HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(ft->hConn, 2048 * 4);
 	for (;;)
 	{
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
+		int recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 		if (recvResult == 0) 
 		{
 			ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);

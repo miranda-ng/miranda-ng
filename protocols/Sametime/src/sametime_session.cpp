@@ -379,12 +379,13 @@ int waitcallback(unsigned int* timeout)
 void __cdecl SessionThread(LPVOID param)
 {
 	CSametimeProto* proto = (CSametimeProto*)param;
-	HANDLE hNetlibUser = proto->m_hNetlibUser;
 	proto->debugLogW(L"SessionThread() start");
 
 	continue_connect = true;
 
-	//setup
+	proto->BroadcastNewStatus(ID_STATUS_CONNECTING);
+
+	// setup
 	NETLIBOPENCONNECTION conn_data = { 0 };
 	conn_data.cbSize = sizeof(NETLIBOPENCONNECTION);
 	conn_data.flags = NLOCF_V2;
@@ -392,10 +393,7 @@ void __cdecl SessionThread(LPVOID param)
 	conn_data.wPort = proto->options.port;
 	conn_data.timeout = 20;
 	conn_data.waitcallback = waitcallback;
-
-	proto->BroadcastNewStatus(ID_STATUS_CONNECTING);
-
-	proto->server_connection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&conn_data);
+	proto->server_connection = Netlib_OpenConnection(proto->m_hNetlibUser, &conn_data);
 
 	if (!proto->server_connection) {
 

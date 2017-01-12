@@ -18,7 +18,7 @@ WASocketConnection::WASocketConnection(const std::string &dir, int port) throw (
 	noc.szHost = dir.c_str();
 	noc.wPort = port;
 	noc.flags = NLOCF_V2; // | NLOCF_SSL;
-	this->hConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, WPARAM(g_hNetlibUser), LPARAM(&noc));
+	this->hConn = Netlib_OpenConnection(g_hNetlibUser, &noc);
 	if (this->hConn == NULL)
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_OPEN);
 

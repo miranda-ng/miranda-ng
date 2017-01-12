@@ -18,7 +18,7 @@ const LPSTR lpcszContentType[9] =
 
 struct MRA_AVATARS_QUEUE : public FIFO_MT
 {
-	HANDLE hNetlibUser;
+	HNETLIBUSER hNetlibUser;
 	HANDLE hThreadEvents[64];
 	int    iThreadsCount, iThreadsRunning;
 };
@@ -37,7 +37,7 @@ struct MRA_AVATARS_QUEUE_ITEM : public FIFO_MT_ITEM
 char szAvtSectName[MAX_PATH];
 #define MRA_AVT_SECT_NAME	szAvtSectName
 
-HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPCSTR lpszHost, DWORD dwPort);
+HANDLE MraAvatarsHttpConnect(HNETLIBUSER hNetlibUser, LPCSTR lpszHost, DWORD dwPort);
 
 #define MAHTRO_AVT		0
 #define MAHTRO_AVTMRIM		1
@@ -333,7 +333,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 	CloseHandle(hThreadEvent);
 }
 
-HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPCSTR lpszHost, DWORD dwPort)
+HANDLE MraAvatarsHttpConnect(HNETLIBUSER hNetlibUser, LPCSTR lpszHost, DWORD dwPort)
 {
 	NETLIBOPENCONNECTION nloc = { 0 };
 	nloc.cbSize = sizeof(nloc);
@@ -348,7 +348,7 @@ HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPCSTR lpszHost, DWORD dwPort)
 	DWORD dwCurConnectReTryCount = dwConnectReTryCount;
 	HANDLE hConnection;
 	do {
-		hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
+		hConnection = Netlib_OpenConnection(hNetlibUser, &nloc);
 	}
 		while (--dwCurConnectReTryCount && hConnection == NULL);
 
@@ -393,7 +393,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPCSTR 
 	nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
 	nlhr.headersCount = 4;
 
-	DWORD dwSent = CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)hConnection, (LPARAM)&nlhr);
+	DWORD dwSent = Netlib_SendHttpRequest(hConnection, &nlhr);
 	if (dwSent == SOCKET_ERROR || !dwSent)
 		return GetLastError();
 

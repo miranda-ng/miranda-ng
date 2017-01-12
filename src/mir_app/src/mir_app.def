@@ -356,3 +356,14 @@ Netlib_LogfW @356
 Netlib_GetConnNlu @357
 Netlib_RecvHttpHeaders @358
 Netlib_HttpTransaction @359
+Netlib_SendHttpRequest @360
+Netlib_GetUserSettings @361
+Netlib_SetUserSettings @362
+Netlib_OpenConnection @363
+Netlib_BindPort @364
+Netlib_Shutdown @365
+Netlib_CreatePacketReceiver @366
+Netlib_GetMorePackets @367
+Netlib_FreeHttpRequest @368
+Netlib_AddressToString @369
+Netlib_StringToAddress @370

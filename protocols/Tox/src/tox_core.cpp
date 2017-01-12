@@ -15,8 +15,8 @@ Tox_Options* CToxProto::GetToxOptions()
 
 	if (m_hNetlibUser != NULL)
 	{
-		NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
-		CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hNetlibUser, (LPARAM)&nlus);
+		NETLIBUSERSETTINGS nlus = { sizeof(nlus) };
+		Netlib_GetUserSettings(m_hNetlibUser, &nlus);
 
 		if (nlus.useProxy)
 		{

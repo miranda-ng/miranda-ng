@@ -170,16 +170,6 @@ When you call MS_NETLIB_SEND or MS_NETLIB_RECV from any of these functions, you
 should use the MSG_DUMPPROXY flag so that the logging is neat.
 */
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Gets the user-configured settings for a netlib user
-// wParam = (WPARAM)(HANDLE)hUser
-// lParam = (LPARAM)(NETLIBUSERSETTINGS*)&nlus
-// Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
-// The pointers referred to in the returned struct will remain valid until
-// the hUser handle is closed, or until the user changes the settings in the
-// options page, so it's best not to rely on them for too long.
-// Errors: ERROR_INVALID_PARAMETER
-
 #define PROXYTYPE_SOCKS4   1
 #define PROXYTYPE_SOCKS5   2
 #define PROXYTYPE_HTTP     3
@@ -206,11 +196,20 @@ struct NETLIBUSERSETTINGS
 	int validateSSL;
 };
 
-#define MS_NETLIB_GETUSERSETTINGS  "Netlib/GetUserSettings"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Gets the user-configured settings for a netlib user
+//
+// Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+// The pointers referred to in the returned struct will remain valid until
+// the hUser handle is closed, or until the user changes the settings in the
+// options page, so it's best not to rely on them for too long.
+// Errors: ERROR_INVALID_PARAMETER
 
+EXTERN_C MIR_APP_DLL(int) Netlib_GetUserSettings(HNETLIBUSER nlu, NETLIBUSERSETTINGS *result);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Changes the user-configurable settings for a netlib user
-// wParam = (WPARAM)(HANDLE)hUser
-// lParam = (LPARAM)(NETLIBUSERSETTINGS*)&nlus
+//
 // Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 // This function is only really useful for people that specify NUF_NOOPTIONS
 // and want to create their own options.
@@ -218,9 +217,11 @@ struct NETLIBUSERSETTINGS
 // zero) that settings is still set for use in the options dialog.
 // Errors: ERROR_INVALID_PARAMETER
 
-#define MS_NETLIB_SETUSERSETTINGS  "Netlib/SetUserSettings"
+EXTERN_C MIR_APP_DLL(int) Netlib_SetUserSettings(HNETLIBUSER nlu, const NETLIBUSERSETTINGS *result);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Closes a netlib handle
+//
 // Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
 // This function should be called on all handles returned by netlib functions
 // once you are done with them. If it's called on a socket-type handle, the
@@ -231,8 +232,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE h);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Open a port and wait for connections on it
-// wParam = (WPARAM)(HANDLE)hUser
-// lParam = (LPARAM)(NETLIBBIND*)&nlb
+//
 // Returns a HANDLE on success, NULL on failure
 // hUser should have been returned by MS_NETLIB_REGISTERUSER
 // This function does the equivalent of socket(), bind(), getsockname(),
@@ -261,7 +261,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE h);
 /* pExtra was added during 0.3.4+, prior its just two args, since we use the cdecl convention
 it shouldnt matter */
 
-typedef void (*NETLIBNEWCONNECTIONPROC_V2)(HANDLE hNewConnection, DWORD dwRemoteIP, void * pExtra);
+typedef void (*NETLIBNEWCONNECTIONPROC_V2)(HANDLE hNewConnection, DWORD dwRemoteIP, void *pExtra);
 typedef void (*NETLIBNEWCONNECTIONPROC)(HANDLE hNewConnection, DWORD dwRemoteIP);
 
 struct NETLIBBIND
@@ -271,21 +271,21 @@ struct NETLIBBIND
 		NETLIBNEWCONNECTIONPROC pfnNewConnection;
 		NETLIBNEWCONNECTIONPROC_V2 pfnNewConnectionV2;
 	};
-	     // function to call when there's a new connection. Params are: the
-		 // new connection, IP of remote machine (host byte order)
+	     
+	// function to call when there's a new connection. Params are: the
+	// new connection, IP of remote machine (host byte order)
 	DWORD dwInternalIP;   // set on return, host byte order
-	WORD wPort;			  // set on return, host byte order
-	void * pExtra;		  // argument is sent to callback, added during 0.3.4+
+	WORD  wPort;          // set on return, host byte order
+	void *pExtra;         // argument is sent to callback
 	DWORD dwExternalIP;   // set on return, host byte order
-	WORD wExPort;		  // set on return, host byte order
+	WORD  wExPort;        // set on return, host byte order
 };
 
-#define MS_NETLIB_BINDPORT     "Netlib/BindPort"
+EXTERN_C MIR_APP_DLL(HANDLE) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *nlb);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Open a connection
-// wParam = (WPARAM)(HANDLE)hUser
-// lParam = (LPARAM)(NETLIBOPENCONNECTION*)&nloc
+//
 // Returns a HANDLE to the new connection on success, NULL on failure
 // hUser must have been returned by MS_NETLIB_REGISTERUSER
 // Internally this function is the equivalent of socket(), gethostbyname(),
@@ -320,12 +320,6 @@ struct NETLIBBIND
 #define NLOCF_SSL           0x0010 // this connection is SSL
 #define NLOCF_HTTPGATEWAY   0x0020 // this connection is HTTP Gateway
 
-/* Added during 0.4.0+ development!! (2004/11/29) prior to this, connect() blocks til a connection is made or
-a hard timeout is reached, this can be anywhere between 30-60 seconds, and it stops Miranda from unloading whilst
-this is attempted, clearing sucking - so now you can set a timeout of any value, there is still a hard limit which is
-always reached by Windows, If a timeout occurs, or Miranda is exiting then you will get ERROR_TIMEOUT as soon as possible.
-*/
-
 struct NETLIBOPENCONNECTION
 {
 	int cbSize;
@@ -338,7 +332,7 @@ struct NETLIBOPENCONNECTION
 	int (*waitcallback) (unsigned int * timeout);
 };
 
-#define MS_NETLIB_OPENCONNECTION	"Netlib/OpenConnection"
+EXTERN_C MIR_APP_DLL(HANDLE) Netlib_OpenConnection(HNETLIBUSER nlu, const NETLIBOPENCONNECTION *nloc);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Sets the required information for an HTTP proxy connection
@@ -387,32 +381,14 @@ struct NETLIBHTTPPROXYINFO
 EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_GetConnNlu(HANDLE hConn);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Converts string representation of IP and port into numerical SOCKADDR_INET
-// IPv4 could supplied in formats address:port or address
-// IPv6 could supplied in formats [address]:port or [address]
-// wParam = (WPARAM)(char*) string to convert
-// lParam = (LPARAM)(SOCKADDR_INET*) numeric IP address structure
-// Returns 0 on success
-
-#define MS_NETLIB_STRINGTOADDRESS "Netlib/StringToAddress"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Converts numerical representation of IP in SOCKADDR_INET into string representation with IP and port
 // IPv4 will be supplied in formats address:port or address
 // IPv6 will be supplied in formats [address]:port or [address]
-// wParam = (WPARAM)(int)0 - lParam - (sockaddr_gen*); 1 - lParam - (unsigned) in host byte order
-// lParam = (LPARAM)(sockaddr_gen*) or (unsigned) numeric IP address structure
 // Returns pointer to the string or NULL if not successful
 
-#define MS_NETLIB_ADDRESSTOSTRING  "Netlib/AddressToString"
-
-struct NETLIBCONNINFO
-{
-	int cbSize;
-	char szIpPort[64];
-	unsigned dwIpv4;
-	WORD wPort;
-};
+struct sockaddr_in;
+EXTERN_C MIR_APP_DLL(char*) Netlib_AddressToString(sockaddr_in *addr);
+EXTERN_C MIR_APP_DLL(bool)  Netlib_StringToAddress(const char *str, sockaddr_in *addr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get connection Information
@@ -422,13 +398,15 @@ struct NETLIBCONNINFO
 // lParam = (LPARAM)(NETLIBCONNINFO*) pointer to the connection information structure to fill
 // Returns 0 if successful
 
-#define MS_NETLIB_GETCONNECTIONINFO  "Netlib/GetConnectionInfo"
-
-struct NETLIBIPLIST
+struct NETLIBCONNINFO
 {
-	unsigned cbNum;
-	char szIp[1][64];
+	int cbSize;
+	char szIpPort[64];
+	unsigned dwIpv4;
+	WORD wPort;
 };
+
+#define MS_NETLIB_GETCONNECTIONINFO  "Netlib/GetConnectionInfo"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get connection Information
@@ -436,12 +414,17 @@ struct NETLIBIPLIST
 // Returns (INT_PTR)(NETLIBIPLIST*) numeric IP address address array
 // the last element of the array is all 0s, 0 if not successful
 
+struct NETLIBIPLIST
+{
+	unsigned cbNum;
+	char szIp[1][64];
+};
+
 #define MS_NETLIB_GETMYIP  "Netlib/GetMyIP"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Send an HTTP request over a connection
-// wParam = (WPARAM)(HANDLE)hConnection
-// lParam = (LPARAM)(NETLIBHTTPREQUEST*)&nlhr
+//
 // Returns number of bytes sent on success, SOCKET_ERROR on failure
 // hConnection must have been returned by MS_NETLIB_OPENCONNECTION
 // Note that if you use NLHRF_SMARTAUTHHEADER and NTLM authentication is in use
@@ -495,7 +478,7 @@ struct NETLIBHTTPREQUEST
 	int timeout;
 };
 
-#define MS_NETLIB_SENDHTTPREQUEST   "Netlib/SendHttpRequest"
+EXTERN_C MIR_APP_DLL(int) Netlib_SendHttpRequest(HANDLE hConnection, NETLIBHTTPREQUEST *pRec);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Receives HTTP headers
@@ -675,21 +658,12 @@ struct NETLIBSELECTEX
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Shutdown connection
-// wParam = (WPARAM)(HANDLE)hConnection
-// lParam = 0
-// Returns 0
 
-#define MS_NETLIB_SHUTDOWN	   "Netlib/Shutdown"
-
-__forceinline void Netlib_Shutdown(HANDLE h)
-{
-	CallService(MS_NETLIB_SHUTDOWN, (WPARAM)h, 0);
-}
+EXTERN_C MIR_APP_DLL(void) Netlib_Shutdown(HANDLE h);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Create a packet receiver
-// wParam = (WPARAM)(HANDLE)hConnection
-// lParam = (LPARAM)(int)maxPacketSize
+//
 // Returns a HANDLE on success, NULL on failure
 // The packet receiver implements the common situation where you have variable
 // length packets coming in over a connection and you want to split them up
@@ -698,12 +672,11 @@ __forceinline void Netlib_Shutdown(HANDLE h)
 // have arbitrarily large packets.
 // Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
 
-#define MS_NETLIB_CREATEPACKETRECVER     "Netlib/CreatePacketRecver"
+EXTERN_C MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HANDLE hConnection, int iMaxSize);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Get the next set of packets from a packet receiver
-// wParam = (WPARAM)(HANDLE)hPacketRecver
-// lParam = (LPARAM)(NETLIBPACKETRECVER*)&nlpr
+//
 // Returns the total number of bytes available in the buffer, 0 if the
 // connection was closed, SOCKET_ERROR on error.
 // hPacketRecver must have been returned by MS_NETLIB_CREATEPACKETRECVER
@@ -722,15 +695,14 @@ __forceinline void Netlib_Shutdown(HANDLE h)
 
 struct NETLIBPACKETRECVER
 {
-	int cbSize;
-	DWORD dwTimeout;	  // fill before calling. In milliseconds. INFINITE is valid
-	int bytesUsed;		  // fill before calling. This many bytes are removed from the start of the buffer. Set to 0 on return
-	int bytesAvailable;	  // equal to the return value, unless the return value is 0
-	int bufferSize;		  // same as parameter to MS_NETLIB_CREATEPACKETRECVER
-	BYTE *buffer;		  // contains the recved data
+	DWORD dwTimeout;    // fill before calling. In milliseconds. INFINITE is valid
+	int bytesUsed;      // fill before calling. This many bytes are removed from the start of the buffer. Set to 0 on return
+	int bytesAvailable; // equal to the return value, unless the return value is 0
+	int bufferSize;     // same as parameter to MS_NETLIB_CREATEPACKETRECVER
+	BYTE *buffer;       // contains the recved data
 };
 
-#define MS_NETLIB_GETMOREPACKETS    "Netlib/GetMorePackets"
+EXTERN_C MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRECVER *nlprParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Sets a gateway polling timeout interval

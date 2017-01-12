@@ -543,7 +543,7 @@ var
 begin
   result:=nil;
   nlus.cbSize:=SizeOf(nlus);
-  if CallService(MS_NETLIB_GETUSERSETTINGS,hNetLib,lparam(@nlus))<>0 then
+  if Netlib_GetUserSettings(hNetLib,@nlus)<>0 then
   begin
     if nlus.useProxy<>0 then
     begin

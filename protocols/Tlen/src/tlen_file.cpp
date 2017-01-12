@@ -182,7 +182,7 @@ static void __cdecl TlenFileReceiveThread(void *arg)
 	nloc.szHost = ft->hostName;
 	nloc.wPort = ft->wPort;
 	ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
-	HANDLE s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)ft->proto->m_hNetlibUser, (LPARAM)&nloc);
+	HANDLE s = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
 	if (s != NULL) {
 		ft->s = s;
 		ft->proto->debugLogA("Entering file receive loop");
@@ -481,7 +481,7 @@ static void __cdecl TlenFileSendingThread(void *arg)
 			NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 			nloc.szHost = ft->hostName;
 			nloc.wPort = ft->wPort;
-			HANDLE hConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)ft->proto->m_hNetlibUser, (LPARAM)&nloc);
+			HANDLE hConn = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
 			if (hConn != NULL) {
 				ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 				ft->s = hConn;

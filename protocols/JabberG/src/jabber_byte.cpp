@@ -192,20 +192,25 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			if (m_options.BsDirectManual)
 				localAddr = getStringA("BsDirectAddr");
 
-			NETLIBBIND nlb = {0};
+			NETLIBBIND nlb = {};
 			nlb.cbSize = sizeof(NETLIBBIND);
 			nlb.pfnNewConnectionV2 = JabberByteSendConnection;
 			nlb.pExtra = this;
 			nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
-			jbt->hConn = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nlb);
+			
+			jbt->hConn = Netlib_BindPort(m_hNetlibUser, &nlb);
 			if (jbt->hConn == NULL) {
 				debugLogA("Cannot allocate port for bytestream_send thread, thread ended.");
 				delete jbt;
 				return;
 			}
 
-			if (localAddr == NULL)
-				localAddr = (char*)CallService(MS_NETLIB_ADDRESSTOSTRING, 1, nlb.dwExternalIP);
+			if (localAddr == NULL) {
+				sockaddr_in sin = {};
+				sin.sin_family = AF_INET;
+				sin.sin_addr.S_un.S_addr = nlb.dwExternalIP;
+				localAddr = Netlib_AddressToString(&sin);
+			}
 
 			mir_snwprintf(szPort, L"%d", nlb.wPort);
 			JABBER_LIST_ITEM *item = ListAdd(LIST_BYTE, szPort);
@@ -449,7 +454,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	nloc.cbSize = sizeof(nloc);
 	nloc.szHost = mir_u2a(szHost);
 	nloc.wPort = port;
-	hConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+	hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 	mir_free((void*)nloc.szHost);
 
 	if (hConn != NULL) {
@@ -629,7 +634,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 					nloc.cbSize = sizeof(nloc);
 					nloc.szHost = mir_u2a(szHost);
 					nloc.wPort = port;
-					hConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+					hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 					mir_free((void*)nloc.szHost);
 
 					if (hConn == NULL) {

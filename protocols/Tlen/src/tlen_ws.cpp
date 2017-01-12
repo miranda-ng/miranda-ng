@@ -42,7 +42,7 @@ BOOL TlenWsInit(TlenProtocol *proto)
 	NETLIBUSERSETTINGS nlus = {0};
 	nlus.cbSize = sizeof(nlus);
 	nlus.useProxy = 0;
-	CallService(MS_NETLIB_SETUSERSETTINGS, (WPARAM) proto->hFileNetlibUser, (LPARAM) &nlus);
+	Netlib_SetUserSettings(proto->hFileNetlibUser, &nlus);
 
 	return (proto->m_hNetlibUser != NULL)?TRUE:FALSE;
 }
@@ -57,16 +57,14 @@ void TlenWsUninit(TlenProtocol *proto)
 
 HANDLE TlenWsConnect(TlenProtocol *proto, char *host, WORD port)
 {
-	NETLIBOPENCONNECTION nloc = {0};
-
+	NETLIBOPENCONNECTION nloc = {};
 	nloc.cbSize = sizeof(NETLIBOPENCONNECTION); //NETLIBOPENCONNECTION_V1_SIZE;
 	nloc.szHost = host;
 	nloc.wPort = port;
 	nloc.flags = 0;
 	nloc.timeout = 6;
-	return (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) proto->m_hNetlibUser, (LPARAM) &nloc);
+	return Netlib_OpenConnection(proto->m_hNetlibUser, &nloc);
 }
-
 
 int TlenWsSend(TlenProtocol *proto, HANDLE s, char *data, int datalen)
 {

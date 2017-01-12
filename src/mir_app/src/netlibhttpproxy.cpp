@@ -131,7 +131,7 @@ static bool NetlibHttpGatewaySend(NetlibConnection *nlc, RequestType reqType, co
 	nlhrSend.headers[1].szValue = "no-cache, no-store ";
 	nlhrSend.headers[2].szName = "Pragma";
 	nlhrSend.headers[2].szValue = "no-cache";
-	return NetlibHttpSendRequest((WPARAM)nlc, (LPARAM)&nlhrSend) != SOCKET_ERROR;
+	return Netlib_SendHttpRequest(nlc, &nlhrSend) != SOCKET_ERROR;
 }
 
 static bool NetlibHttpGatewayStdPost(NetlibConnection *nlc, int &numPackets)

@@ -1367,20 +1367,19 @@ HANDLE NetLib_OpenConnection(HNETLIBUSER hUser, const char* szIdent, NETLIBOPENC
 
 	nloc->cbSize = sizeof(NETLIBOPENCONNECTION);
 	nloc->flags |= NLOCF_V2;
-
-	return (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hUser, (LPARAM)nloc);
+	return Netlib_OpenConnection(hUser, nloc);
 }
 
 
 HANDLE CIcqProto::NetLib_BindPort(NETLIBNEWCONNECTIONPROC_V2 pFunc, void* lParam, WORD* pwPort, DWORD* pdwIntIP)
 {
-	NETLIBBIND nlb = { 0 };
+	NETLIBBIND nlb = {};
 	nlb.cbSize = sizeof(NETLIBBIND);
 	nlb.pfnNewConnectionV2 = pFunc;
 	nlb.pExtra = lParam;
 	SetLastError(ERROR_INVALID_PARAMETER); // this must be here - NetLib does not set any error :((
-
-	HANDLE hBoundPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hDirectNetlibUser, (LPARAM)&nlb);
+	
+	HANDLE hBoundPort = Netlib_BindPort(m_hDirectNetlibUser, &nlb);
 
 	if (pwPort) *pwPort = nlb.wPort;
 	if (pdwIntIP) *pdwIntIP = nlb.dwInternalIP;

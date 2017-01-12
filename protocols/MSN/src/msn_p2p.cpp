@@ -682,7 +682,7 @@ bool CMsnProto::p2p_connectTo(ThreadData* info, directconnection *dc)
 
 	debugLogA("Connecting to %s:%d", tConn.szHost, tConn.wPort);
 
-	info->s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&tConn);
+	info->s = (HANDLE)Netlib_OpenConnection(m_hNetlibUser, (LPARAM)&tConn);
 	if (info->s == NULL) {
 		TWinErrorCode err;
 		debugLogA("Connection Failed (%d): %s", err.mErrorCode, err.getText());

@@ -471,7 +471,7 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 
 					dwCurConnectReTryCount = dwConnectReTryCount;
 					do {
-						dat->hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+						dat->hConnection = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 					}
 						while (--dwCurConnectReTryCount && dat->hConnection == NULL);
 
@@ -521,14 +521,13 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 
 		// копируем адреса в соответствии с правилами и начинаем слушать порт
 		if (getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN)) {
-			NETLIBBIND nlbBind = { 0 };
-
+			NETLIBBIND nlbBind = {};
 			nlbBind.cbSize = sizeof(nlbBind);
 			nlbBind.pfnNewConnectionV2 = MraFilesQueueConnectionReceived;
 			nlbBind.wPort = 0;
 			nlbBind.pExtra = (LPVOID)dat;
 
-			dat->hListen = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nlbBind);
+			dat->hListen = Netlib_BindPort(m_hNetlibUser, &nlbBind);
 			if (dat->hListen) {
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, (HANDLE)dat->dwIDRequest, 0);
 				dwAddrListSize = MraFilesQueueGetLocalAddressesList(szAddrList, sizeof(szAddrList), nlbBind.wPort);

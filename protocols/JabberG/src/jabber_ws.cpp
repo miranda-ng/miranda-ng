@@ -47,12 +47,12 @@ void CJabberProto::WsUninit(void)
 
 JABBER_SOCKET CJabberProto::WsConnect(char* host, WORD port)
 {
-	NETLIBOPENCONNECTION nloc = { 0 };
+	NETLIBOPENCONNECTION nloc = {};
 	nloc.cbSize = sizeof(nloc);
 	nloc.szHost = host;
 	nloc.wPort = port;
 	nloc.timeout = 6;
-	return (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+	return Netlib_OpenConnection(m_hNetlibUser, &nloc);
 }
 
 int CJabberProto::WsSend(JABBER_SOCKET hConn, char* data, int datalen, int flags)

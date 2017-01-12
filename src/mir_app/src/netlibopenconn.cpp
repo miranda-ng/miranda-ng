@@ -312,7 +312,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 	nlc->usingHttpGateway = true;
 
-	if (NetlibHttpSendRequest((WPARAM)nlc, (LPARAM)&nlhrSend) == SOCKET_ERROR) {
+	if (Netlib_SendHttpRequest(nlc, &nlhrSend) == SOCKET_ERROR) {
 		nlc->usingHttpGateway = false;
 		return false;
 	}
@@ -371,7 +371,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 	}
 
 	PHOSTENT he;
-	SOCKADDR_IN sin = { 0 };
+	sockaddr_in sin = { 0 };
 	sin.sin_family = AF_INET;
 
 	if (nlc->proxyType) {
@@ -396,7 +396,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 	for (char** har = he->h_addr_list; *har && !Miranda_IsTerminated(); ++har) {
 		sin.sin_addr.s_addr = *(u_long*)*har;
 
-		char* szIp = NetlibAddressToString((SOCKADDR_INET_M*)&sin);
+		char *szIp = Netlib_AddressToString(&sin);
 		Netlib_Logf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, szIp);
 		mir_free(szIp);
 
@@ -554,7 +554,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 	}
 
 	for (ai = air; ai && !Miranda_IsTerminated(); ai = ai->ai_next) {
-		Netlib_Logf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, ptrA(NetlibAddressToString((SOCKADDR_INET_M*)ai->ai_addr)));
+		Netlib_Logf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, ptrA(Netlib_AddressToString((sockaddr_in*)ai->ai_addr)));
 retry:
 		nlc->s = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
 		if (nlc->s == INVALID_SOCKET) {
@@ -816,17 +816,16 @@ bool NetlibReconnect(NetlibConnection *nlc)
 	return true;
 }
 
-INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(HANDLE) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPENCONNECTION *nloc)
 {
-	NETLIBOPENCONNECTION *nloc = (NETLIBOPENCONNECTION*)lParam;
 	if (nloc == NULL || nloc->cbSize != sizeof(NETLIBOPENCONNECTION) || nloc->szHost == NULL || nloc->wPort == 0) {
+
 		SetLastError(ERROR_INVALID_PARAMETER);
-		return 0;
+		return NULL;
 	}
 
-	NetlibUser *nlu = (NetlibUser*)wParam;
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING))
-		return 0;
+		return NULL;
 
 	Netlib_Logf(nlu, "Connection request to %s:%d (Flags %x)....", nloc->szHost, nloc->wPort, nloc->flags);
 
@@ -849,7 +848,7 @@ INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	return (INT_PTR)nlc;
+	return nlc;
 }
 
 INT_PTR NetlibStartSsl(WPARAM wParam, LPARAM lParam)

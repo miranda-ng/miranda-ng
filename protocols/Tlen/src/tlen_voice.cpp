@@ -292,11 +292,12 @@ static void __cdecl TlenVoiceReceiveThread(void  *arg)
 	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)arg;
 	ft->proto->debugLogA("Thread started: type=file_receive server='%s' port='%d'", ft->hostName, ft->wPort);
 
+	SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Connecting..."));
+
 	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = ft->hostName;
 	nloc.wPort = ft->wPort;
-	SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Connecting..."));
-	HANDLE s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)ft->proto->m_hNetlibUser, (LPARAM)&nloc);
+	HANDLE s = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
 	if (s != NULL) {
 		ft->s = s;
 		ft->proto->debugLogA("Entering file receive loop");
@@ -548,7 +549,7 @@ static void __cdecl TlenVoiceSendingThread(void *arg)
 			NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 			nloc.szHost = ft->hostName;
 			nloc.wPort = ft->wPort;
-			HANDLE sock = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)ft->proto->m_hNetlibUser, (LPARAM)&nloc);
+			HANDLE sock = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
 			if (sock != NULL) {
 				SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Connecting..."));
 				//ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);

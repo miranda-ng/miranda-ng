@@ -194,9 +194,8 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 {
 	Thread_SetName("ICQ: directThread");
 
+	NETLIBPACKETRECVER packetRecv = {};
 	directconnect dc = { 0 };
-	NETLIBPACKETRECVER packetRecv = { 0 };
-	HANDLE hPacketRecver;
 	BOOL bFirstPacket = TRUE;
 	size_t nSkipPacketBytes = 0;
 	DWORD dwReqMsgID1 = 0, dwReqMsgID2 = 0;
@@ -333,16 +332,14 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 		}
 	}
 
-	hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)dc.hConnection, 8192);
-	packetRecv.cbSize = sizeof(packetRecv);
-	packetRecv.bytesUsed = 0;
+	HANDLE hPacketRecver = Netlib_CreatePacketReceiver(dc.hConnection, 8192);
 
 	// Packet receiving loop
 
 	while (dc.hConnection) {
 		packetRecv.dwTimeout = dc.wantIdleTime ? 0 : 600000;
 
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hPacketRecver, (LPARAM)&packetRecv);
+		int recvResult = Netlib_GetMorePackets(hPacketRecver, &packetRecv);
 		if (recvResult == 0) {
 			NetLog_Direct("Clean closure of direct socket (%p)", dc.hConnection);
 			break;

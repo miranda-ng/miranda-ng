@@ -199,7 +199,7 @@ CMStringA CopyNumber(const CMStringA&);
 CMStringW DecodeXML(const CMStringW &lptszMessage);
 CMStringW EncodeXML(const CMStringW &lptszMessage);
 
-bool      IsHTTPSProxyUsed(HANDLE hConnection);
+bool      IsHTTPSProxyUsed(HNETLIBUSER hConnection);
 bool      IsContactMraProto(MCONTACT hContact);
 bool      IsEMailMR(const CMStringA& szEmail);
 bool      GetEMailFromString(const CMStringA& szBuff, CMStringA& szEmail);

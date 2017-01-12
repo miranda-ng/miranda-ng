@@ -107,17 +107,16 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 
 	// This is the "infinite" loop that receives the packets from the ICQ server
 	NETLIBPACKETRECVER packetRecv;
-	info.hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 0x2400);
+	info.hPacketRecver = Netlib_CreatePacketReceiver(hServerConn, 0x2400);
 
 	while (serverThreadHandle) {
 		if (info.bReinitRecver) { // we reconnected, reinit struct
 			info.bReinitRecver = false;
 			memset(&packetRecv, 0, sizeof(packetRecv));
-			packetRecv.cbSize = sizeof(packetRecv);
 			packetRecv.dwTimeout = 1000;
 		}
 
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)info.hPacketRecver, (LPARAM)&packetRecv);
+		int recvResult = Netlib_GetMorePackets(info.hPacketRecver, &packetRecv);
 		if (recvResult == 0) {
 			debugLogA("Clean closure of server socket");
 			break;

@@ -28,7 +28,7 @@ HANDLE CAimProto::aim_connect(const char* server, unsigned short port, bool use_
 	ncon.timeout = 6;
 	ncon.flags = NLOCF_V2;
 	debugLogA("%s:%u", server, port);
-	HANDLE con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&ncon);
+	HANDLE con = Netlib_OpenConnection(m_hNetlibUser, &ncon);
 	if (con && use_ssl) {
 		NETLIBSSL ssl = { 0 };
 		ssl.cbSize = sizeof(ssl);
@@ -49,7 +49,7 @@ HANDLE CAimProto::aim_peer_connect(const char* ip, unsigned short port)
 	ncon.szHost = ip;
 	ncon.wPort = port;
 	ncon.timeout = 3;
-	return (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibPeer, (LPARAM)&ncon);
+	return Netlib_OpenConnection(m_hNetlibPeer, &ncon);
 }
 
 HANDLE CAimProto::aim_peer_connect(unsigned long ip, unsigned short port)
@@ -68,12 +68,12 @@ void CAimProto::aim_connection_authorization(void)
 			mir_free(m_username);
 			m_username = getStringA(AIM_KEY_SN);
 			if (m_username != NULL) {
-				HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)m_hServerConn, 2048 * 4);
-				NETLIBPACKETRECVER packetRecv = { 0 };
-				packetRecv.cbSize = sizeof(packetRecv);
+				HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(m_hServerConn, 2048 * 4);
+
+				NETLIBPACKETRECVER packetRecv = {};
 				packetRecv.dwTimeout = 5000;
 				for (;;) {
-					int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)& packetRecv);
+					int recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 					if (recvResult == 0) {
 						debugLogA("Connection Closed: No Error? during Connection Authorization");
 						break;
@@ -347,15 +347,12 @@ void CAimProto::aim_connection_clientlogin(void)
 
 void __cdecl CAimProto::aim_protocol_negotiation(void*)
 {
-	HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)m_hServerConn, 2048 * 8);
+	HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(m_hServerConn, 2048 * 8);
 
-
-
-	NETLIBPACKETRECVER packetRecv = { 0 };
-	packetRecv.cbSize = sizeof(packetRecv);
+	NETLIBPACKETRECVER packetRecv = {};
 	packetRecv.dwTimeout = DEFAULT_KEEPALIVE_TIMER * 1000;
 	for (;;) {
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
+		int recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 		if (recvResult == 0) {
 			debugLogA("Connection Closed: No Error during Connection Negotiation?");
 			break;
@@ -477,13 +474,13 @@ exit:
 
 void __cdecl CAimProto::aim_mail_negotiation(void*)
 {
-	HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)m_hMailConn, 2048 * 8);
+	HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(m_hMailConn, 2048 * 8);
 
 	NETLIBPACKETRECVER packetRecv = { 0 };
-	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = DEFAULT_KEEPALIVE_TIMER * 1000;
+
 	while (m_iStatus != ID_STATUS_OFFLINE) {
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
+		int recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 		if (recvResult == 0)
 			break;
 
@@ -539,13 +536,13 @@ exit:
 
 void __cdecl CAimProto::aim_avatar_negotiation(void*)
 {
-	HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)m_hAvatarConn, 2048 * 8);
+	HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(m_hAvatarConn, 2048 * 8);
 
 	NETLIBPACKETRECVER packetRecv = { 0 };
-	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = 300000;//5 minutes connected
+
 	for (;;) {
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)& packetRecv);
+		int recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 		if (recvResult == 0)
 			break;
 
@@ -599,13 +596,13 @@ exit:
 void __cdecl CAimProto::aim_chatnav_negotiation(void*)
 {
 	unsigned idle_chat = 0;
-	HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)m_hChatNavConn, 2048 * 8);
+	HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(m_hChatNavConn, 2048 * 8);
 
 	NETLIBPACKETRECVER packetRecv = { 0 };
-	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = DEFAULT_KEEPALIVE_TIMER * 1000;
+
 	for (;;) {
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
+		int recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 		if (recvResult == 0)
 			break;
 
@@ -668,13 +665,13 @@ exit:
 void __cdecl CAimProto::aim_chat_negotiation(void* param)
 {
 	chat_list_item *item = (chat_list_item*)param;
-	HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)item->hconn, 2048 * 8);
+	HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(item->hconn, 2048 * 8);
 
 	NETLIBPACKETRECVER packetRecv = { 0 };
-	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = DEFAULT_KEEPALIVE_TIMER * 1000;
+
 	for (;;) {
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
+		int recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 		if (recvResult == 0)
 			break;
 
@@ -733,13 +730,13 @@ exit:
 
 void __cdecl CAimProto::aim_admin_negotiation(void*)
 {
-	HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)m_hAdminConn, 2048 * 8);
+	HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(m_hAdminConn, 2048 * 8);
 
-	NETLIBPACKETRECVER packetRecv = { 0 };
-	packetRecv.cbSize = sizeof(packetRecv);
-	packetRecv.dwTimeout = 300000;//5 minutes connected
+	NETLIBPACKETRECVER packetRecv = {};
+	packetRecv.dwTimeout = 300000; // 5 minutes connected
+
 	for (;;) {
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)& packetRecv);
+		int recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 		if (recvResult == 0)
 			break;
 

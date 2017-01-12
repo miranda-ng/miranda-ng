@@ -898,7 +898,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 		nlhr.szUrl = avs[i].Url;
 		nlhr.nlc = hHttpCon;
 
-		NETLIBHTTPREQUEST * res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+		NETLIBHTTPREQUEST *res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
 		if (res) {
 			hHttpCon = res->nlc;
 			if (res->resultCode == 200 && res->dataLength) {

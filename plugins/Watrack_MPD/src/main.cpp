@@ -31,9 +31,9 @@ void Start(void*)
 	nloc.flags = NLOCF_V2;
 	nloc.wPort = gbPort;
 	Connected = FALSE;
-	ghConnection =  (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)ghNetlibUser, (LPARAM)&nloc);
-	if(ghConnection)
-		ghPacketReciever = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER,(WPARAM)ghConnection,2048);
+	ghConnection = Netlib_OpenConnection(ghNetlibUser, &nloc);
+	if (ghConnection)
+		ghPacketReciever = Netlib_CreatePacketReceiver(ghConnection, 2048);
 }
 
 void ReStart(void*)
@@ -48,12 +48,11 @@ void ReStart(void*)
 
 int Parser()
 {
-	static NETLIBPACKETRECVER nlpr = {0};
+	static NETLIBPACKETRECVER nlpr = {};
 	char *ptr;
 	int i;
 	char *buf;
 	static char ver[16];
-	nlpr.cbSize = sizeof(nlpr);
 	nlpr.dwTimeout = 5;
 	if(!ghConnection)
 	{
@@ -62,21 +61,11 @@ int Parser()
 	if(ghConnection)
 	{	
 		int recvResult;
-/*		do
-		{
-			recvResult = CallService(MS_NETLIB_GETMOREPACKETS,(WPARAM)ghPacketReciever, (LPARAM)&nlpr);
-			if(recvResult == SOCKET_ERROR)
-			{
-				ReStart();
-				return 1;
-			}
-		}
-		while(recvResult > 0);*/
 		if(!Connected)
 		{
 			char tmp[128];
 			char *tmp2 = mir_u2a(gbPassword);
-			recvResult = CallService(MS_NETLIB_GETMOREPACKETS,(WPARAM)ghPacketReciever, (LPARAM)&nlpr);
+			recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 			if(recvResult == SOCKET_ERROR)
 			{
 				mir_forkthread(&ReStart, 0);
@@ -89,7 +78,7 @@ int Parser()
 				mir_strcat(tmp, tmp2);
 				mir_strcat(tmp, "\n");
 				Netlib_Send(ghConnection, tmp, (int)mir_strlen(tmp), 0);
-				recvResult = CallService(MS_NETLIB_GETMOREPACKETS,(WPARAM)ghPacketReciever, (LPARAM)&nlpr);
+				recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 				if(recvResult == SOCKET_ERROR)
 				{
 					mir_forkthread(&ReStart, 0);
@@ -99,14 +88,14 @@ int Parser()
 			mir_free(tmp2);
 		}
 		Netlib_Send(ghConnection, "status\n", (int)mir_strlen("status\n"), 0);
-		recvResult = CallService(MS_NETLIB_GETMOREPACKETS,(WPARAM)ghPacketReciever, (LPARAM)&nlpr);
+		recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 		if(recvResult == SOCKET_ERROR)
 		{
 			mir_forkthread(&ReStart, 0);
 			return 1;
 		}
 		Netlib_Send(ghConnection, "currentsong\n", (int)mir_strlen("currentsong\n"), 0);
-		recvResult = CallService(MS_NETLIB_GETMOREPACKETS,(WPARAM)ghPacketReciever, (LPARAM)&nlpr);
+		recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 		if(recvResult == SOCKET_ERROR)
 		{
 			mir_forkthread(&ReStart, 0);
@@ -274,7 +263,7 @@ void Stop()
 	if(ghConnection)
 		Netlib_CloseHandle(ghConnection);
 	if(ghNetlibUser && (ghNetlibUser != INVALID_HANDLE_VALUE))
-		CallService(MS_NETLIB_SHUTDOWN,(WPARAM)ghNetlibUser,0);
+		Netlib_Shutdown(ghNetlibUser);
 }
 
 int Init()

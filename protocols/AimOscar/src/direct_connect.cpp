@@ -25,11 +25,10 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 
 	ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
 
-	NETLIBPACKETRECVER packetRecv = { 0 };
-	packetRecv.cbSize = sizeof(packetRecv);
+	NETLIBPACKETRECVER packetRecv = {};
 	packetRecv.dwTimeout = 350000;
 
-	HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)ft->hConn, 2048 * 4);
+	HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(ft->hConn, 2048 * 4);
 
 	int result;
 	if (ft->sending)//we are sending

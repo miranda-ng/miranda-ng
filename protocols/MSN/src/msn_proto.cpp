@@ -538,10 +538,11 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 			NETLIBOPENCONNECTION nloc = { 0 };
 			MyNetlibConnFromUrl(nlhr.szUrl, nloc);
 			nloc.flags |= NLOCF_HTTP;
-			if (nloc.flags & NLOCF_SSL) nlhr.flags |= NLHRF_SSL;
-			HANDLE nlc = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
-
-			if (nlc && CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)nlc, (LPARAM)&nlhr) != SOCKET_ERROR && (nlhrReply = Netlib_RecvHttpHeaders(nlc))) {
+			if (nloc.flags & NLOCF_SSL)
+				nlhr.flags |= NLHRF_SSL;
+			
+			HANDLE nlc = Netlib_OpenConnection(m_hNetlibUser, &nloc);
+			if (nlc && Netlib_SendHttpRequest(nlc, &nlhr) != SOCKET_ERROR && (nlhrReply = Netlib_RecvHttpHeaders(nlc))) {
 				if (nlhrReply->resultCode == 200 || nlhrReply->resultCode == 206) {
 					INT_PTR dw;
 					char buf[1024];
@@ -562,7 +563,8 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 			}
 			Netlib_CloseHandle(nlc);
 			mir_free((char*)nloc.szHost);
-			if (ft->std.currentFileNumber >= ft->std.totalFiles) ft->complete();
+			if (ft->std.currentFileNumber >= ft->std.totalFiles)
+				ft->complete();
 		}
 		delete ft;
 	}

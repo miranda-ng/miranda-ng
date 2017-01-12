@@ -121,7 +121,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 
 					dwCurConnectReTryCount = dwConnectReTryCount;
 					do {
-						pmmpd->hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+						pmmpd->hConnection = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 					}
 						while (--dwCurConnectReTryCount && pmmpd->hConnection == NULL);
 

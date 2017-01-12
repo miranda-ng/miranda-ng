@@ -300,7 +300,7 @@ static HANDLE TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = sb->szHost;
 	nloc.wPort = sb->wPort;
-	HANDLE s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hFileNetlibUser, (LPARAM) &nloc);
+	HANDLE s = Netlib_OpenConnection(ft->proto->hFileNetlibUser, &nloc);
 	if (s == NULL) {
 //		TlenLog("Connection failed (%d), thread ended", WSAGetLastError());
 		return NULL;
@@ -352,7 +352,7 @@ static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	NETLIBOPENCONNECTION nloc = { sizeof(nloc) };
 	nloc.szHost = sb->szHost;
 	nloc.wPort = sb->wPort;
-	HANDLE s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hFileNetlibUser, (LPARAM) &nloc);
+	HANDLE s = Netlib_OpenConnection(ft->proto->hFileNetlibUser, &nloc);
 	if (s == NULL) {
 		ft->proto->debugLogA("Connection failed (%d), thread ended", WSAGetLastError());
 		return NULL;
@@ -443,7 +443,6 @@ static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 
 HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 {
-	NETLIBBIND nlb = {0};
 	HANDLE s = NULL;
 	int	  useProxy;
 	DBVARIANT dbv;
@@ -491,13 +490,15 @@ HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 			ft->wLocalPort = sb.wPort;
 		}
 	}
+
+	NETLIBBIND nlb = {};
 	if (useProxy<2) {
 		nlb.cbSize = sizeof(NETLIBBIND);
 		nlb.pfnNewConnectionV2 = ft->pfnNewConnectionV2;
 		nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 		nlb.pExtra = proto;
 		ft->proto->debugLogA("Calling MS_NETLIB_BINDPORT");
-		s = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) ft->proto->m_hNetlibUser, (LPARAM) &nlb);
+		s = Netlib_BindPort(ft->proto->m_hNetlibUser, &nlb);
 		ft->proto->debugLogA("listening on %d",s);
 	}
 	if (useProxy == 0) {

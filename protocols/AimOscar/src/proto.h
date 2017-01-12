@@ -129,7 +129,7 @@ struct CAimProto : public PROTO<CAimProto>
 	unsigned short m_local_port;  // our port
 
 	//Peer connection stuff
-	HANDLE m_hNetlibPeer;//handle to the peer netlib
+	HNETLIBUSER m_hNetlibPeer;//handle to the peer netlib
 	HANDLE m_hDirectBoundPort;//direct connection listening port
 
 	//Handles for the context menu items

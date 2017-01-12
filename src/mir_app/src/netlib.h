@@ -58,11 +58,12 @@ struct NetlibHTTPProxyPacketQueue
 	int dataBufferLen;
 };
 
-typedef union _SOCKADDR_INET_M {
+union SOCKADDR_INET_M
+{
 	SOCKADDR_IN Ipv4;
 	SOCKADDR_IN6 Ipv6;
 	USHORT si_family;
-} SOCKADDR_INET_M, *PSOCKADDR_INET_M;
+};
 
 class NetlibBinBuffer
 {
@@ -167,7 +168,8 @@ struct NetlibConnection : public MZeroedObject
 	unsigned lastPost;
 };
 
-struct NetlibBoundPort {
+struct NetlibBoundPort
+{
 	int handleType;
 	SOCKET s;
 	SOCKET s6;
@@ -179,7 +181,8 @@ struct NetlibBoundPort {
 	void *pExtra;
 };
 
-struct NetlibPacketRecver {
+struct NetlibPacketRecver
+{
 	int handleType;
 	NetlibConnection *nlc;
 	NETLIBPACKETRECVER packetRecver;
@@ -209,11 +212,9 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps);
 
 // netlibbind.c
 int NetlibFreeBoundPort(NetlibBoundPort *nlbp);
-INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam);
 bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 
 // netlibhttp.c
-INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam);
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
 NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, DWORD hflags, DWORD dflags, bool isConnect = false);
 void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc);
@@ -240,16 +241,11 @@ int WaitUntilReadable(SOCKET s, DWORD dwTimeout, bool check = false);
 int WaitUntilWritable(SOCKET s, DWORD dwTimeout);
 bool NetlibDoConnect(NetlibConnection *nlc);
 bool NetlibReconnect(NetlibConnection *nlc);
-INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibStartSsl(WPARAM wParam, LPARAM lParam);
 
 // netlibopts.c
 int NetlibOptInitialise(WPARAM wParam, LPARAM lParam);
-void NetlibSaveUserSettingsStruct(const char *szSettingsModule, NETLIBUSERSETTINGS *settings);
-
-// netlibpktrecver.c
-INT_PTR NetlibPacketRecverCreate(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam);
+void NetlibSaveUserSettingsStruct(const char *szSettingsModule, const NETLIBUSERSETTINGS *settings);
 
 // netlibsock.c
 #define NL_SELECT_READ  0x0001
@@ -258,10 +254,7 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam);
 
 INT_PTR NetlibSelect(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibSelectEx(WPARAM wParam, LPARAM lParam);
-INT_PTR NetlibShutdown(WPARAM wParam, LPARAM lParam);
 
-bool NetlibStringToAddress(const char* str, SOCKADDR_INET_M* addr);
-char* NetlibAddressToString(SOCKADDR_INET_M* addr);
 void NetlibGetConnectionInfo(NetlibConnection* nlc, NETLIBCONNINFO *connInfo);
 NETLIBIPLIST* GetMyIp(unsigned flags);
 

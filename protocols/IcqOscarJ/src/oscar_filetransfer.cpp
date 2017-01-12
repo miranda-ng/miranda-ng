@@ -1101,8 +1101,6 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 {
 	oscar_connection oc = { 0 };
 	oscar_listener *source;
-	NETLIBPACKETRECVER packetRecv = { 0 };
-	HANDLE hPacketRecver;
 
 	Thread_SetName("ICQ: oft_connectionThread");
 
@@ -1299,15 +1297,16 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 			oft_sendPeerInit(&oc);
 		}
 	}
-	hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)oc.hConnection, 8192);
-	packetRecv.cbSize = sizeof(packetRecv);
+
+	HANDLE hPacketRecver = Netlib_CreatePacketReceiver(oc.hConnection, 8192);
+	NETLIBPACKETRECVER packetRecv = {};
 
 	// Packet receiving loop
 
 	while (oc.hConnection) {
 		packetRecv.dwTimeout = oc.wantIdleTime ? 0 : 120000;
 
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hPacketRecver, (LPARAM)&packetRecv);
+		int recvResult = Netlib_GetMorePackets(hPacketRecver, &packetRecv);
 		if (!recvResult) {
 			NetLog_Direct("Clean closure of oscar socket (%p)", oc.hConnection);
 			break;

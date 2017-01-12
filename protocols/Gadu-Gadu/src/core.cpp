@@ -284,7 +284,7 @@ void __cdecl GGPROTO::mainthread(void *)
 
 	// Setup proxy
 	nlus.cbSize = sizeof(nlus);
-	if (CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hNetlibUser, (LPARAM)&nlus)) {
+	if (Netlib_GetUserSettings(m_hNetlibUser, &nlus)) {
 		if (nlus.useProxy)
 			debugLogA("mainthread() (%x): Using proxy %s:%d.", this, nlus.szProxyServer, nlus.wProxyPort);
 		gg_proxy_enabled = nlus.useProxy;

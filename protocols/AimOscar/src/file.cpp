@@ -154,7 +154,7 @@ int CAimProto::sending_file(file_transfer *ft, HANDLE hServerPacketRecver, NETLI
 	for (;;) {
 		int recvResult = packetRecv.bytesAvailable - packetRecv.bytesUsed;
 		if (recvResult <= 0)
-			recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
+			recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 		if (recvResult == 0) {
 			debugLogA("P2P: File transfer connection Error: 0");
 			break;
@@ -272,7 +272,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 	for (;;) {
 		int recvResult = packetRecv.bytesAvailable - packetRecv.bytesUsed;
 		if (recvResult <= 0)
-			recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
+			recvResult = Netlib_GetMorePackets(hServerPacketRecver, &packetRecv);
 		if (recvResult == 0) {
 			debugLogA("P2P: File transfer connection Error: 0");
 			break;
@@ -529,11 +529,11 @@ void file_transfer::listen(CAimProto* ppro)
 {
 	if (hDirectBoundPort) return;
 
-	NETLIBBIND nlb = { 0 };
+	NETLIBBIND nlb = {};
 	nlb.cbSize = sizeof(nlb);
 	nlb.pfnNewConnectionV2 = aim_direct_connection_initiated;
 	nlb.pExtra = ppro;
-	hDirectBoundPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)ppro->m_hNetlibPeer, (LPARAM)&nlb);
+	hDirectBoundPort = Netlib_BindPort(ppro->m_hNetlibPeer, &nlb);
 	local_port = hDirectBoundPort ? nlb.wPort : 0;
 }
 

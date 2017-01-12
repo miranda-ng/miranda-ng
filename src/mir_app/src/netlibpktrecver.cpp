@@ -25,36 +25,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "netlib.h"
 
-INT_PTR NetlibPacketRecverCreate(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HANDLE hConnection, int iMaxSize)
 {
-	NetlibConnection *nlc = (NetlibConnection*)wParam;
-	struct NetlibPacketRecver *nlpr;
-
-	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || lParam == 0) {
+	NetlibConnection *nlc = (NetlibConnection*)hConnection;
+	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || iMaxSize == 0) {
 		SetLastError(ERROR_INVALID_PARAMETER);
-		return (INT_PTR)(struct NetlibPacketRecver*)NULL;
+		return NULL;
 	}
-	nlpr = (struct NetlibPacketRecver*)mir_calloc(sizeof(struct NetlibPacketRecver));
-	if (nlpr == NULL) {
-		SetLastError(ERROR_OUTOFMEMORY);
-		return (INT_PTR)(struct NetlibPacketRecver*)NULL;
-	}
+	
+	NetlibPacketRecver *nlpr = (struct NetlibPacketRecver*)mir_calloc(sizeof(struct NetlibPacketRecver));
 	nlpr->handleType = NLH_PACKETRECVER;
 	nlpr->nlc = nlc;
-	nlpr->packetRecver.cbSize = sizeof(nlpr->packetRecver);
-	nlpr->packetRecver.bufferSize = lParam;
+	nlpr->packetRecver.bufferSize = iMaxSize;
 	nlpr->packetRecver.buffer = (PBYTE)mir_alloc(nlpr->packetRecver.bufferSize);
 	nlpr->packetRecver.bytesUsed = 0;
 	nlpr->packetRecver.bytesAvailable = 0;
-	return (INT_PTR)nlpr;
+	return nlpr;
 }
 
-INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRECVER *nlprParam)
 {
-	struct NetlibPacketRecver *nlpr = (struct NetlibPacketRecver*)wParam;
-	NETLIBPACKETRECVER *nlprParam = (NETLIBPACKETRECVER*)lParam;
-
-	if (GetNetlibHandleType(nlpr) != NLH_PACKETRECVER || nlprParam == NULL || nlprParam->cbSize != sizeof(NETLIBPACKETRECVER) || nlprParam->bytesUsed > nlpr->packetRecver.bytesAvailable) {
+	NetlibPacketRecver *nlpr = (NetlibPacketRecver*)hReceiver;
+	if (GetNetlibHandleType(nlpr) != NLH_PACKETRECVER || nlprParam == NULL || nlprParam->bytesUsed > nlpr->packetRecver.bytesAvailable) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}

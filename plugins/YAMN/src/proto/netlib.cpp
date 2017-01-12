@@ -85,8 +85,6 @@ void CNLClient::SSLify() throw(DWORD)
 //if not success, exception is throwed
 void CNLClient::Connect(const char* servername, const int port) throw(DWORD)
 {
-	NETLIBOPENCONNECTION nloc;
-
 	NetworkError = SystemError = 0;
 	isTLSed = false;
 
@@ -94,11 +92,12 @@ void CNLClient::Connect(const char* servername, const int port) throw(DWORD)
 	DebugLog(CommFile, "<connect>\n");
 	#endif
 	try {
+		NETLIBOPENCONNECTION nloc;
 		nloc.cbSize = sizeof(NETLIBOPENCONNECTION);
 		nloc.szHost = servername;
 		nloc.wPort = port;
 		nloc.flags = 0;
-		if (NULL == (hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc))) {
+		if (NULL == (hConnection = Netlib_OpenConnection(hNetlibUser, &nloc))) {
 			SystemError = WSAGetLastError();
 			throw NetworkError = (DWORD)ENL_CONNECT;
 		}
