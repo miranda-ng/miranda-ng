@@ -32,9 +32,8 @@ struct RequestQueueItem
 
 class RequestQueue
 {
-private:
 	bool isTerminated;
-	HANDLE hConnection;
+	HNETLIBUSER hConnection;
 	mir_cs requestQueueLock;
 	LIST<RequestQueueItem> requests;
 	HANDLE hRequestQueueEvent, hRequestQueueThread;
@@ -45,7 +44,7 @@ private:
 	static unsigned int __cdecl WorkerThread(void*);
 
 public:
-	RequestQueue(HANDLE hConnection);
+	RequestQueue(HNETLIBUSER hConnection);
 	~RequestQueue();
 
 	void Start();
